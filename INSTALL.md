@@ -1,4 +1,4 @@
-This doc details the steps necessary to build a copy of Sonic Rush Adventure (EN-UK) from the sources contained in this repository.
+This doc details the steps necessary to build a copy of Sonic Rush Adventure from the sources contained in this repository.
 
 ### 0. Clone the repository
 

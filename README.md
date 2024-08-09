@@ -26,8 +26,8 @@ This repository builds the following ROM:
 
 ### What's left to do
 - research any functions and modules that are using `_XXXXXX` suffixes and give them proper names
-- properly split asm files into respective `.c` files. This includes proper `.text`, `.bss`, `.data` & `.rodata` sections
-- replace as many hardcoded addresses with proper labels to allow the game to be more shiftable
+- properly split asm files into respective `.s` files. This includes proper `.text`, `.bss`, `.data` & `.rodata` sections. This is mostly complete, however some sections need further research.
+- replace as many hardcoded addresses as possible with proper labels to allow the game to be more shiftable
 - split the library files from the game logic, with the eventual goal to have them as compiled `.a` static libraries
 - decompile all functions into proper `.c` & `.h` files
 - match all existing non-matching game logic functions
@@ -37,14 +37,15 @@ This repository builds the following ROM:
 
 **Provide assets**
 
-You must have a copy of the Sonic Rush Adventure ROM named `baserom.nds` in the repository root directory. Any Sonic Rush Adventure ROM should be fine, as the game shares most assets between versions.
+You must have a copy of the Sonic Rush Adventure ROM named `baserom.nds` in the repository root directory. Any Sonic Rush Adventure ROM should be fine, as the game shares most assets between versions, Though the EU revision 00 rom is recommended, as it is the default build configuration.
 
 ### Community
 
 Join us on [discord](https://discord.gg/EnYXZGrk6V) to get started in helping out, to discuss the decompilation, or just to hang out!
 
-### Credits
+### Credits & Special Thanks
 
 - [Pokemon Reverse Engineering Team](https://github.com/pret) for tooling for NDS decompilations
 - [The Sonic 4 - Episode 1 Decompilation](https://github.com/WanKerr/Sonic4Episode1) which was used as a reference for various modules that both games share
 - [Sonic Advance Trilogy Research Team](https://discord.gg/vZTvVH3gA9) for their Sonic Advance 2 Decompilation, which was the inspiration this project
+- [Velocitas](https://gitlab.com/RPatry/Velocitas) for building an awesome tool to view & edit sprites, backgrounds & levels.
