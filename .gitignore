@@ -1,0 +1,110 @@
+# Object files
+*.nds
+
+# Compilers
+tools/mwccarm/**
+
+# SDK
+tools/bin/**
+
+# Build folder
+build/**
+sub/build/**
+
+# CLion folders
+.idea/
+cmake-build-debug/
+
+# VSCode folder
+.vscode/
+
+# "cmake.buildDirectory": "${workspaceFolder}/build-cmake-${buildType}"
+build-cmake-*
+
+# ROM
+*.srl
+
+# Tool executables
+*.exe
+
+# Generated files
+*.4bpp
+*.lz
+*.gbapal
+
+# For asmdiff
+*/baserom.*
+*.dump
+
+# For decomp.me
+ctx.c
+
+*.lcf.template
+*.lcf
+*.response.template
+*.response
+
+# Working files
+ndsdisasm_files/*
+
+*.sbin
+*.bnr
+*.nbfp
+*.nbfc
+
+# Dism scripts
+dism.sh
+asmdiff.sh
+
+# Symbols CSV
+symbols.csv
+
+# NARCs
+*.narc
+*.arc
+*.o
+*.naix
+*.a
+
+# Utilities
+ntruncompbw
+*.elf
+cmake-build-*
+*.sbin_LZ
+*.diff
+
+*.dSYM
+
+# MacOS garbage
+.DS_Store
+
+# Depfiles
+*.d
+
+diff.txt
+
+.vscode/
+
+# Save files
+*.dsv
+*.sav
+
+# Savestate files
+*.ds[0-9]
+*.dst
+*.ml[0-9]
+*.mln
+
+# clangd
+.cache
+compile_commands.json
+
+# Rom Assets
+!rush2.eu/rom_header_template.sbin
+!rush2.eu.rev01/rom_header_template.sbin
+!rush2.us/rom_header_template.sbin
+!rush2.jp/rom_header_template.sbin
+!rush2.contest/rom_header_template.sbin
+
+# Filesystem stuff
+resources/*

@@ -1,0 +1,6 @@
+- changed header
+- changed arm9.bin
+- changed overlay 0, 3, 4, 5, 6, 7, 8 & 9
+- changed extra/sound_data.sdat
+- changed sound_data.sdat in all "snd" subfolders except "sb5" (likely voice clips for jp)
+- changed mb/contest.srl

@@ -1,0 +1,82 @@
+############################################################
+### Linker spec file for Sonic Rush Adventure            ###
+###      Pass this to the SDK's makelcf.exe utility      ###
+###           along with the ARM7-TS template.           ###
+###                        WIP                           ###
+############################################################
+
+Static arm7
+{
+	Address 0x02380000
+	StackSize 1024 1024
+}
+
+Autoload WRAM
+{
+	Address 0x037F8000
+	Object lib/NitroSDK/asm/ARM7/arm7_unk_37F8000.o
+	Object lib/NitroSDK/asm/ARM7/main.o
+	Object lib/NitroSDK/asm/ARM7/arm7_unk_37F8538.o
+	Object lib/NitroSDK/asm/ARM7/os_irqHandler.o
+	Object lib/NitroSDK/asm/ARM7/os_irqTable.o
+	Object lib/NitroSDK/asm/ARM7/os_interrupt.o
+	Object lib/NitroSDK/asm/ARM7/os_spinLock.o
+	Object lib/NitroSDK/asm/ARM7/os_thread.o
+	Object lib/NitroSDK/asm/ARM7/os_context.o
+	Object lib/NitroSDK/asm/ARM7/os_message.o
+	Object lib/NitroSDK/asm/ARM7/os_mutex.o
+	Object lib/NitroSDK/src/os/os_init.o
+	Object lib/NitroSDK/asm/ARM7/os_arena.o # lib/NitroSDK/src/os/os_arena.o
+	Object lib/NitroSDK/asm/ARM7/os_alloc.o
+	Object lib/NitroSDK/asm/ARM7/os_timer.o
+	Object lib/NitroSDK/asm/ARM7/os_tick.o
+	Object lib/NitroSDK/asm/ARM7/os_alarm.o
+	Object lib/NitroSDK/asm/ARM7/os_valarm.o
+	Object lib/NitroSDK/asm/ARM7/os_system.o
+	Object lib/NitroSDK/asm/ARM7/os_reset.o
+	Object lib/NitroSDK/asm/ARM7/os_terminate_proc.o
+	Object lib/NitroSDK/src/mi/mi_dma.o
+	Object lib/NitroSDK/src/mi/mi_memory.o
+	Object lib/NitroSDK/src/mi/mi_swap.o
+	Object lib/NitroSDK/asm/ARM7/pxi_init.o
+	Object lib/NitroSDK/asm/ARM7/pxi_fifo.o
+	Object lib/NitroSDK/asm/ARM7/exi_genport.o
+	Object lib/NitroSDK/asm/ARM7/pad_xyButton.o
+	Object lib/NitroSDK/asm/ARM7/snd.o # TODO: split module
+	# Object lib/NitroSDK/asm/ARM7/SND_global.o
+	# Object lib/NitroSDK/asm/ARM7/SND_channel.o
+	# Object lib/NitroSDK/asm/ARM7/SND_util.o
+	# Object lib/NitroSDK/asm/ARM7/SND_main.o
+	# Object lib/NitroSDK/asm/ARM7/SND_capture.o
+	# Object lib/NitroSDK/asm/ARM7/SND_exChannel.o
+	# Object lib/NitroSDK/asm/ARM7/SND_seq.o
+	# Object lib/NitroSDK/asm/ARM7/SND_bank.o
+	# Object lib/NitroSDK/asm/ARM7/SND_work.o
+	# Object lib/NitroSDK/asm/ARM7/SND_alarm.o
+	# Object lib/NitroSDK/asm/ARM7/SND_command.o
+	Object lib/NitroSDK/asm/ARM7/fs_file.o
+	Object lib/NitroSDK/asm/ARM7/CARD.o # TODO: split module
+	# Object lib/NitroSDK/asm/ARM7/CARD_common.o
+	# Object lib/NitroSDK/asm/ARM7/CARD_spi.o
+	# Object lib/NitroSDK/asm/ARM7/CARD_rom.o
+	# Object lib/NitroSDK/asm/ARM7/CARD_thread.o
+	# Object lib/NitroSDK/asm/ARM7/CARD_fifo.o
+	# Object lib/NitroSDK/asm/ARM7/CARD_pullOut.o
+	Object lib/NitroSDK/asm/ARM7/libsyscall.o
+	Object lib/NitroSDK/src/math/math.o
+	Object lib/NitroSDK/asm/ARM7/spi_main.o
+	Object lib/NitroSDK/asm/ARM7/spi_tp.o
+	Object lib/NitroSDK/asm/ARM7/spi_pm.o
+	Object lib/NitroSDK/asm/ARM7/wvr.o
+	Object lib/NitroSDK/asm/ARM7/spi_mic.o
+	Object lib/NitroSDK/asm/ARM7/ctrdg.o
+	Object lib/NitroSDK/asm/ARM7/msl.o
+}
+
+Autoload MAIN
+{
+	Address 0x027E0000
+	Object lib/NitroSDK/asm/ARM7/arm7_unk_27E0000.o
+	Object lib/NitroSDK/asm/ARM7/nvram.o # TODO: split module
+	Object lib/NitroSDK/asm/ARM7/rtc.o # TODO: split module
+}

@@ -1,0 +1,11816 @@
+#include <cutscene/cutsceneSeq.h>
+#include <game/system/sysEvent.h>
+#include <game/input/padInput.h>
+#include <game/input/touchInput.h>
+#include <game/input/touchField.h>
+#include <game/graphics/vramSystem.h>
+#include <game/graphics/renderCore.h>
+#include <game/graphics/screenShake.h>
+#include <game/graphics/sprite.h>
+#include <game/graphics/background.h>
+#include <game/graphics/drawState.h>
+#include <game/graphics/drawReqTask.h>
+#include <game/audio/audioSystem.h>
+#include <game/file/archiveFile.h>
+#include <game/text/fontAnimator.h>
+#include <game/text/fontWindow.h>
+#include <game/game/gameState.h>
+
+// --------------------
+// TEMP
+// --------------------
+
+NOT_DECOMPILED void _s32_div_f(void);
+NOT_DECOMPILED void _u32_div_f(void);
+
+NOT_DECOMPILED void BankUnknown__GetBankID(void);
+NOT_DECOMPILED void BackgroundUnknown__Func_204CA00(void);
+NOT_DECOMPILED void Task__Unknown204BE48__Func_204C104(void);
+NOT_DECOMPILED void SpriteUnknown__GetSpriteSize(void);
+
+// --------------------
+// VARIABLES
+// --------------------
+
+static Task *CutsceneAssetSystem__Singleton;
+
+NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable1[];
+NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable2[];
+NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable3[];
+NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable4[];
+NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable6[];
+NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable7[];
+NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable8[];
+NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__SndCommands[];
+NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable9[];
+
+NOT_DECOMPILED void *aNodeCamera2_ovl07;
+NOT_DECOMPILED void *aNodeTarget_ovl07;
+NOT_DECOMPILED void *aNodeCamera_ovl07;
+NOT_DECOMPILED void *aNodeTarget_0_ovl07;
+NOT_DECOMPILED void *aNodeCamera_0_ovl07;
+NOT_DECOMPILED void *aNodeTarget2_ovl07;
+
+NOT_DECOMPILED void *_0215B3A0;
+NOT_DECOMPILED void *CutsceneSeq__FuncTable10;
+NOT_DECOMPILED void *_0215B410;
+
+NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTableList1[];
+NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable11[];
+NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable12[];
+NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable13[];
+NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable14[];
+NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable15[];
+NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable16[];
+NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable16[];
+NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable18[];
+NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable19[];
+NOT_DECOMPILED CutsceneSeqCommandFunc2 *CutsceneSeq__FuncTableList2[];
+NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable20[];
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+void CutsceneSeq__Create(CutsceneAssetSystem *parent, u32 priority)
+{
+    Task *task              = TaskCreate(CutsceneSeq__Main, CutsceneSeq__Destructor, TASK_FLAG_NONE, 0, priority, TASK_SCOPE_0, CutsceneSeq);
+    parent->cutsceneSeqTask = task;
+
+    parent->cutsceneSeqWork = TaskGetWork(task, CutsceneSeq);
+    TaskInitWork16(parent->cutsceneSeqWork);
+
+    CutsceneSeq__InitUnknown2156918(&parent->cutsceneSeqWork->unknown2156918);
+    parent->cutsceneSeqWork->status = 0;
+
+    StartSamplingTouchInput(1);
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Destroy(CutsceneAssetSystem *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r0
+	bl StopSamplingTouchInput
+	ldr r2, [r4, #4]
+	add r0, r2, #0x4c
+	add r1, r2, #0x50
+	add r6, r0, #0x1000
+	add r0, r1, #0x1000
+	cmp r6, r0
+	beq _02152A44
+	mov r5, #0
+_02152A10:
+	ldr r0, [r6]
+	cmp r0, #0
+	beq _02152A2C
+	bl GetTaskWork_
+	str r5, [r0]
+	ldr r0, [r6]
+	bl DestroyTask
+_02152A2C:
+	ldr r2, [r4, #4]
+	add r6, r6, #4
+	add r0, r2, #0x50
+	add r0, r0, #0x1000
+	cmp r6, r0
+	bne _02152A10
+_02152A44:
+	add r0, r2, #0x30
+	add r0, r0, #0x1000
+	bl CutsceneAssetSystem__Func_215693C
+	mov r0, #0
+	bl ShakeScreen
+	ldr r0, [r4, #4]
+	bl CutsceneAssetSystem__Release
+	ldr r0, [r4]
+	bl DestroyTask
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+CutsceneSeq *CutsceneAssetSystem__GetCutsceneSeq(CutsceneAssetSystem *work)
+{
+    return work->cutsceneSeqWork;
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2152A74(CutsceneAssetSystem *work, s32 count){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #4]
+	ldr ip, =ovl07_215697C
+	add r0, r0, #0x30
+	add r0, r0, #0x1000
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2152A8C(CutsceneAssetSystem *work, s32 count){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #4]
+	ldr ip, =CutsceneSeq__AllocTouchField
+	add r0, r0, #0x30
+	add r0, r0, #0x1000
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2152AA4(CutsceneAssetSystem *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #4]
+	ldr ip, =ovl07_2157150
+	add r0, r0, #0x30
+	add r0, r0, #0x1000
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2152ABC(CutsceneAssetSystem *work, s32 count){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	ldr r0, [r0, #4]
+	add r0, r0, #0x30
+	add r0, r0, #0x1000
+	bl sub_2157454
+	ldr r1, =0x04000304
+	ldrh r0, [r1]
+	orr r0, r0, #0xc
+	strh r0, [r1]
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2152AE8(CutsceneAssetSystem *work, s32 count){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #4]
+	ldr ip, =ovl07_2157A34
+	add r0, r0, #0x30
+	add r0, r0, #0x1000
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2152B00(CutsceneAssetSystem *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, lr}
+	sub sp, sp, #4
+	mov r1, #0x19c
+	mov r4, r0
+	str r1, [sp]
+	ldr r0, [r4, #4]
+	ldr r1, =CutsceneAssetSystem__Func_21598A4
+	add r0, r0, #0x30
+	ldr r2, =CutsceneAssetSystem__Func_2159750
+	ldr r3, =CutsceneAssetSystem__Func_215984C
+	add r0, r0, #0x1000
+	bl CutsceneAssetSystem__Func_2157A40
+	mov r0, r4
+	bl CutsceneAssetSystem__Func_2152B68
+	mov r4, r0
+	mov r1, r4
+	mov r0, #0
+	mov r2, #0x19c
+	bl MIi_CpuClear16
+	mov r0, r4
+	bl CutsceneAssetSystem__Func_2159718
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2152B68(CutsceneAssetSystem *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #4]
+	ldr ip, =ovl07_2157B70
+	add r0, r0, #0x30
+	add r0, r0, #0x1000
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__StartLoadingAYK(CutsceneAssetSystem *work, AYKHeader *ayk)
+{
+#ifdef NON_MATCHING
+    CutsceneSeq *cutscene = work->cutsceneSeqWork;
+
+    CutsceneSeq__InitAYK(cutscene, ayk, CutsceneSeq__FuncTableList1);
+    cutscene->status = 2;
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	ldr r0, [r4, #4]
+	ldr r2, =CutsceneSeq__FuncTableList1
+	mov r3, #0
+	bl CutsceneSeq__InitAYK
+	ldr r0, [r4, #4]
+	mov r1, #2
+	add r0, r0, #0x1000
+	str r1, [r0, #0x2c]
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+void CutsceneAssetSystem__FinishLoadingAYK(CutsceneAssetSystem *work, s32 aykUnknown2, CutsceneSeqOnFinish onFinish)
+{
+    CutsceneSeq__InitAYKBlock(work->cutsceneSeqWork, onFinish);
+    *(s32 *)CutsceneSeq__GetAYKCommand_String(work->cutsceneSeqWork, NULL, 0) = aykUnknown2;
+
+    work->cutsceneSeqWork->status = 1;
+}
+
+void CutsceneSeq__Destructor(Task *task)
+{
+    CutsceneSeq *work = TaskGetWork(task, CutsceneSeq);
+    CutsceneAssetSystem__Release(work);
+}
+
+NONMATCH_FUNC void Task__Unknown21531C4__Destructor(Task *task){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	bl GetTaskWork_
+	ldr r1, [r0]
+	cmp r1, #0
+	movne r0, #0
+	strne r0, [r1]
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152C1C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r0
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r4
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r1, r0
+	cmp r5, #4
+	addls pc, pc, r5, lsl #2
+	b _02152C98
+_02152C4C: // jump table
+	b _02152C60 // case 0
+	b _02152C6C // case 1
+	b _02152C78 // case 2
+	b _02152C84 // case 3
+	b _02152C90 // case 4
+_02152C60:
+	ldr r0, =padInput
+	ldrh r6, [r0]
+	b _02152C98
+_02152C6C:
+	ldr r0, =padInput
+	ldrh r6, [r0, #2]
+	b _02152C98
+_02152C78:
+	ldr r0, =padInput
+	ldrh r6, [r0, #4]
+	b _02152C98
+_02152C84:
+	ldr r0, =padInput
+	ldrh r6, [r0, #6]
+	b _02152C98
+_02152C90:
+	ldr r0, =padInput
+	ldrh r6, [r0, #8]
+_02152C98:
+	cmp r1, #0
+	ldreq r1, =0x00000FFF
+	mov r0, r4
+	and r2, r6, r1
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152CC0(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r0, r4
+	mov r1, #2
+	bl AYKCommand__GetValue
+	ldr r0, =touchInput
+	ldrh r1, [r0, #0x12]
+	tst r1, #1
+	mov r1, #0
+	beq _02152D14
+	ldrh r2, [r0, #0x14]
+	mov r0, r4
+	bl AYKCommand__SetValue
+	ldr r1, =touchInput
+	mov r0, r4
+	ldrh r2, [r1, #0x16]
+	mov r1, #1
+	bl AYKCommand__SetValue
+	b _02152D30
+_02152D14:
+	mov r0, r4
+	sub r2, r1, #1
+	bl AYKCommand__SetValue
+	mov r1, #1
+	mov r0, r4
+	sub r2, r1, #2
+	bl AYKCommand__SetValue
+_02152D30:
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152D3C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	bl RenderCore_GetLanguagePtr
+	ldrb r0, [r0]
+	cmp r0, #5
+	addls pc, pc, r0, lsl #2
+	b _02152D7C
+_02152D58: // jump table
+	b _02152D70 // case 0
+	b _02152D70 // case 1
+	b _02152D70 // case 2
+	b _02152D70 // case 3
+	b _02152D70 // case 4
+	b _02152D70 // case 5
+_02152D70:
+	bl RenderCore_GetLanguagePtr
+	ldrb r2, [r0]
+	b _02152D80
+_02152D7C:
+	mov r2, #1
+_02152D80:
+	mov r0, r4
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152D94(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	ldr r1, =0x04000006
+	ldrh r2, [r1]
+	cmp r2, #0xc0
+	ble _02152DC4
+	ldr r1, =0xFFFFFEAA
+	adds r2, r2, r1
+	movmi r2, #0
+	bmi _02152DD8
+	cmp r2, #0x64
+	movgt r2, #0x64
+	b _02152DD8
+_02152DC4:
+	subs r2, r2, #0x4f
+	movmi r2, #0
+	bmi _02152DD8
+	cmp r2, #0x64
+	movgt r2, #0x64
+_02152DD8:
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152DF0(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r5, r1
+	mov r6, r0
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r6
+	mov r1, #2
+	bl AYKCommand__GetValue
+	cmp r0, #0
+	ldrne r0, =VRAMSystem__GFXControl
+	ldrne r0, [r0, r4, lsl #2]
+	ldrnesh r2, [r0, #0x58]
+	bne _02152E3C
+	add r0, r5, #0x30
+	add r0, r0, #0x1000
+	bl CutsceneSeq__GetUnknown2157E58
+	add r0, r0, r4, lsl #3
+	ldrsb r2, [r0, #8]
+_02152E3C:
+	mov r0, r6
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152E54(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r1, #0
+	bl AYKCommand__GetValue
+	add r1, r0, #1
+	cmp r1, #3
+	addls pc, pc, r1, lsl #2
+	b _02152E8C
+_02152E70: // jump table
+	b _02152E80 // case 0
+	b _02152E88 // case 1
+	b _02152E88 // case 2
+	b _02152E88 // case 3
+_02152E80:
+	bl VRAMSystem__Reset
+	b _02152E8C
+_02152E88:
+	bl VRAMSystem__Init
+_02152E8C:
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152E94(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r1, #0
+	mov r4, r0
+	bl AYKCommand__GetValue
+	cmp r0, #1
+	mov r0, r4
+	mov r1, #1
+	beq _02152EC0
+	bl AYKCommand__GetValue
+	bl VRAMSystem__SetupBGBank
+	b _02152EC8
+_02152EC0:
+	bl AYKCommand__GetValue
+	bl VRAMSystem__SetupSubBGBank
+_02152EC8:
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152ED0(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r1, #0
+	mov r4, r0
+	bl AYKCommand__GetValue
+	cmp r0, #1
+	mov r0, r4
+	mov r1, #1
+	beq _02152F00
+	bl AYKCommand__GetValue
+	mov r1, #0
+	bl sub_215902C
+	b _02152F0C
+_02152F00:
+	bl AYKCommand__GetValue
+	mov r1, #0
+	bl sub_2159188
+_02152F0C:
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152F14(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r1, #0
+	mov r4, r0
+	bl AYKCommand__GetValue
+	cmp r0, #1
+	mov r0, r4
+	mov r1, #1
+	beq _02152F40
+	bl AYKCommand__GetValue
+	bl VRAMSystem__SetupBGExtPalBank
+	b _02152F48
+_02152F40:
+	bl AYKCommand__GetValue
+	bl VRAMSystem__SetupSubBGExtPalBank
+_02152F48:
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152F50(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r1, #0
+	mov r4, r0
+	bl AYKCommand__GetValue
+	cmp r0, #1
+	mov r0, r4
+	mov r1, #1
+	beq _02152F7C
+	bl AYKCommand__GetValue
+	bl VRAMSystem__SetupOBJExtPalBank
+	b _02152F84
+_02152F7C:
+	bl AYKCommand__GetValue
+	bl VRAMSystem__SetupSubOBJExtPalBank
+_02152F84:
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152F8C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r1, #0
+	bl AYKCommand__GetValue
+	bl VRAMSystem__SetupTextureBank
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152FA4(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r1, #0
+	bl AYKCommand__GetValue
+	bl VRAMSystem__SetupTexturePalBank
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152FBC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r6
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mvn r1, #0
+	mov r6, r0
+	cmp r5, r1
+	beq _02153014
+	cmp r4, #0
+	movne r2, #1
+	moveq r2, #0
+	mov r1, r5
+	mov r0, #1
+	bl GX_SetGraphicsMode
+_02153014:
+	mvn r0, #0
+	cmp r6, r0
+	beq _02153028
+	mov r0, r6
+	bl GXS_SetGraphicsMode
+_02153028:
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153030(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	sub sp, sp, #8
+	mov r9, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r9
+	mov r1, #1
+	bl AYKCommand__GetValue
+	and r8, r0, #0xff
+	mov r0, r9
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r9
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r9
+	mov r1, #4
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r9
+	mov r1, #5
+	bl AYKCommand__GetValue
+	str r4, [sp]
+	mov r1, r8
+	mov r2, r6
+	mov r3, r5
+	str r0, [sp, #4]
+	mov r0, r7
+	bl sub_2158A6C
+	mov r0, #1
+	add sp, sp, #8
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21530BC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
+	sub sp, sp, #0xc
+	mov r10, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r8, r0
+	mov r0, r10
+	mov r1, #1
+	bl AYKCommand__GetValue
+	and r9, r0, #0xff
+	mov r0, r10
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r10
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r10
+	mov r1, #4
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r10
+	mov r1, #5
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r10
+	mov r1, #6
+	bl AYKCommand__GetValue
+	str r5, [sp]
+	str r4, [sp, #4]
+	mov r1, r9
+	mov r2, r7
+	mov r3, r6
+	str r0, [sp, #8]
+	mov r0, r8
+	bl sub_2158D3C
+	mov r0, #1
+	add sp, sp, #0xc
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_215315C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r1, #0
+	bl AYKCommand__GetValue
+	ldr r1, =renderCurrentDisplay
+	str r0, [r1]
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_215317C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r1, r4, #0x30
+	mov r4, r0
+	add r0, r1, #0x1000
+	bl CutsceneSeq__GetUnknown2157E58
+	mov r1, r5
+	mov r2, r4
+	bl CutsceneSeq__ProcessUnknown2157E58
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 Task__Unknown21531C4__Create(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #0xc
+	mov r8, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #2
+	bl AYKCommand__GetValue
+	add r1, r8, #0x1000
+	mov r6, r0
+	ldr r0, [r1, #0x4c]
+	cmp r0, #0
+	beq _02153214
+	bl DestroyTask
+_02153214:
+	bl GetCurrentTask
+	ldrh r1, [r0, #0x18]
+	mov r2, #0
+	ldr r0, =Task__Unknown21531C4__Main
+	str r1, [sp]
+	ldr r1, =Task__Unknown21531C4__Destructor
+	mov r3, r2
+	str r2, [sp, #4]
+	mov r7, #0x18
+	str r7, [sp, #8]
+	bl TaskCreate_
+	add r1, r8, #0x1000
+	str r0, [r1, #0x4c]
+	bl GetTaskWork_
+	mov r7, r0
+	mov r0, #0
+	mov r1, r7
+	mov r2, #0x18
+	bl MIi_CpuClear16
+	add r0, r8, #0x4c
+	add r0, r0, #0x1000
+	str r0, [r7]
+	add r0, r8, #0x30
+	add r0, r0, #0x1000
+	bl CutsceneSeq__GetUnknown2157E58
+	str r0, [r7, #8]
+	mvn r0, #0
+	cmp r5, r0
+	bne _021532BC
+	cmp r4, #3
+	beq _021532A8
+	ldr r0, =renderCoreGFXControlA
+	ldrsh r0, [r0, #0x58]
+	cmp r0, #0
+	movgt r5, #0x11
+	movle r5, #0x10
+	b _021532BC
+_021532A8:
+	ldr r0, =renderCoreGFXControlB
+	ldrsh r0, [r0, #0x58]
+	cmp r0, #0
+	movgt r5, #0x11
+	movle r5, #0x10
+_021532BC:
+	mov r1, r6
+	mov r0, #0x10000
+	bl _s32_div_f
+	str r0, [r7, #0xc]
+	str r5, [r7, #0x10]
+	str r4, [r7, #0x14]
+	mov r0, #1
+	add sp, sp, #0xc
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21532F0(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r9
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r9
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r9
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r9
+	mov r1, #4
+	bl AYKCommand__GetValue
+	mov r8, r0
+	mov r0, r9
+	mov r1, #5
+	bl AYKCommand__GetValue
+	cmp r6, #1
+	moveq r1, #2
+	movne r1, #0
+	cmp r5, #1
+	moveq r2, #1
+	movne r2, #0
+	cmp r7, #1
+	moveq r3, #4
+	movne r3, #0
+	cmp r8, #1
+	moveq ip, #8
+	movne ip, #0
+	cmp r0, #1
+	moveq lr, #0x10
+	movne lr, #0
+	orr r1, r2, r1
+	cmp r6, #0
+	moveq r2, #2
+	orr r1, r3, r1
+	movne r2, #0
+	cmp r5, #0
+	moveq r3, #1
+	movne r3, #0
+	cmp r7, #0
+	moveq r5, #4
+	movne r5, #0
+	cmp r8, #0
+	moveq r6, #8
+	movne r6, #0
+	cmp r0, #0
+	orr r0, r3, r2
+	moveq r7, #0x10
+	orr r0, r5, r0
+	orr r1, ip, r1
+	movne r7, #0
+	orr r0, r6, r0
+	orr r1, lr, r1
+	cmp r4, #0
+	orr r5, r7, r0
+	bne _0215341C
+	mov r3, #0x4000000
+	ldr r0, [r3]
+	ldr r2, [r3]
+	and r4, r0, #0x1f00
+	mvn r0, r5
+	and r0, r0, r4, lsr #8
+	bic r2, r2, #0x1f00
+	orr r0, r1, r0
+	orr r0, r2, r0, lsl #8
+	str r0, [r3]
+	b _02153444
+_0215341C:
+	ldr r4, =0x04001000
+	mvn r0, r5
+	ldr r3, [r4]
+	ldr r2, [r4]
+	and r3, r3, #0x1f00
+	and r0, r0, r3, lsr #8
+	bic r2, r2, #0x1f00
+	orr r0, r1, r0
+	orr r0, r2, r0, lsl #8
+	str r0, [r4]
+_02153444:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153450(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r8, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r8
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r8
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r8
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r8
+	mov r1, #4
+	bl AYKCommand__GetValue
+	cmp r7, #0
+	mvn r1, #0
+	bne _0215352C
+	cmp r4, r1
+	beq _021534C8
+	ldr r2, =0x04000008
+	ldrh r1, [r2]
+	bic r1, r1, #3
+	orr r1, r1, r4
+	strh r1, [r2]
+_021534C8:
+	mvn r1, #0
+	cmp r5, r1
+	beq _021534E8
+	ldr r2, =0x0400000A
+	ldrh r1, [r2]
+	bic r1, r1, #3
+	orr r1, r1, r5
+	strh r1, [r2]
+_021534E8:
+	mvn r1, #0
+	cmp r6, r1
+	beq _02153508
+	ldr r2, =0x0400000C
+	ldrh r1, [r2]
+	bic r1, r1, #3
+	orr r1, r1, r6
+	strh r1, [r2]
+_02153508:
+	mvn r1, #0
+	cmp r0, r1
+	beq _021535A8
+	ldr r2, =0x0400000E
+	ldrh r1, [r2]
+	bic r1, r1, #3
+	orr r0, r1, r0
+	strh r0, [r2]
+	b _021535A8
+_0215352C:
+	cmp r4, r1
+	beq _02153548
+	ldr r2, =0x04001008
+	ldrh r1, [r2]
+	bic r1, r1, #3
+	orr r1, r1, r4
+	strh r1, [r2]
+_02153548:
+	mvn r1, #0
+	cmp r5, r1
+	beq _02153568
+	ldr r2, =0x0400100A
+	ldrh r1, [r2]
+	bic r1, r1, #3
+	orr r1, r1, r5
+	strh r1, [r2]
+_02153568:
+	mvn r1, #0
+	cmp r6, r1
+	beq _02153588
+	ldr r2, =0x0400100C
+	ldrh r1, [r2]
+	bic r1, r1, #3
+	orr r1, r1, r6
+	strh r1, [r2]
+_02153588:
+	mvn r1, #0
+	cmp r0, r1
+	beq _021535A8
+	ldr r2, =0x0400100E
+	ldrh r1, [r2]
+	bic r1, r1, #3
+	orr r0, r1, r0
+	strh r0, [r2]
+_021535A8:
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21535D0(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r10, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r10
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r10
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r10
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mov r11, r0
+	mov r0, r10
+	mov r1, #4
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r10
+	mov r1, #5
+	bl AYKCommand__GetValue
+	mov r8, r0
+	mov r0, r10
+	mov r1, #6
+	bl AYKCommand__GetValue
+	mov r9, r0
+	mov r0, r10
+	mov r1, #7
+	bl AYKCommand__GetValue
+	cmp r11, #0
+	movne r1, #2
+	moveq r1, #0
+	cmp r6, #0
+	movne r2, #1
+	moveq r2, #0
+	cmp r7, #0
+	movne r3, #4
+	moveq r3, #0
+	cmp r8, #0
+	movne r6, #8
+	moveq r6, #0
+	cmp r9, #0
+	movne r7, #0x10
+	moveq r7, #0
+	cmp r0, #0
+	orr r0, r2, r1
+	orr r0, r3, r0
+	movne r8, #0x20
+	orr r0, r6, r0
+	ldr r1, =VRAMSystem__GFXControl
+	moveq r8, #0
+	orr r0, r7, r0
+	orr r0, r8, r0
+	mov r0, r0, lsl #0x10
+	ldr r1, [r1, r4, lsl #2]
+	mov r2, r0, lsr #0x10
+	ldrh r0, [r1, #0x20]
+	cmp r5, #0
+	biceq r0, r0, #0x3f
+	orreq r0, r2, r0
+	bicne r0, r0, #0x3f00
+	orrne r0, r0, r2, lsl #8
+	strh r0, [r1, #0x20]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21536E4(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r5
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r0, r0, lsl #0x10
+	ldr r1, =VRAMSystem__GFXControl
+	mov r0, r0, lsr #0x10
+	ldr r3, [r1, r4, lsl #2]
+	mov r1, r0, lsl #0x1e
+	ldrh r2, [r3, #0x20]
+	mov r0, #1
+	bic r2, r2, #0xc0
+	orr r1, r2, r1, lsr #24
+	strh r1, [r3, #0x20]
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153734(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r6
+	mov r1, #2
+	bl AYKCommand__GetValue
+	ldr r1, =VRAMSystem__GFXControl
+	orr r2, r4, r0, lsl #8
+	ldr r1, [r1, r5, lsl #2]
+	mov r0, #1
+	strh r2, [r1, #0x22]
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153780(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r5
+	mov r1, #1
+	bl AYKCommand__GetValue
+	ldr r1, =VRAMSystem__GFXControl
+	ldr r1, [r1, r4, lsl #2]
+	strh r0, [r1, #0x24]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21537B8(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r7, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r7
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r7
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r7
+	mov r1, #3
+	bl AYKCommand__GetValue
+	cmp r4, #0
+	movne r1, #2
+	moveq r1, #0
+	cmp r6, #0
+	movne r2, #1
+	moveq r2, #0
+	cmp r0, #0
+	ldr r0, =VRAMSystem__GFXControl
+	movne r3, #4
+	moveq r3, #0
+	orr r1, r2, r1
+	ldr r0, [r0, r5, lsl #2]
+	orr r1, r3, r1
+	str r1, [r0, #0x1c]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_215383C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r9, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r9
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r9
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r10, r0
+	mov r0, r9
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mov r11, r0
+	mov r0, r9
+	mov r1, #4
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r9
+	mov r1, #5
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r9
+	mov r1, #6
+	bl AYKCommand__GetValue
+	mov r8, r0
+	mov r0, r9
+	mov r1, #7
+	bl AYKCommand__GetValue
+	cmp r11, #0
+	movne r1, #2
+	moveq r1, #0
+	cmp r10, #0
+	movne r2, #1
+	moveq r2, #0
+	cmp r6, #0
+	movne r3, #4
+	moveq r3, #0
+	cmp r7, #0
+	movne r6, #8
+	moveq r6, #0
+	cmp r8, #0
+	movne r7, #0x10
+	moveq r7, #0
+	cmp r0, #0
+	orr r0, r2, r1
+	orr r0, r3, r0
+	movne r8, #0x20
+	orr r0, r6, r0
+	moveq r8, #0
+	orr r0, r7, r0
+	orr r0, r8, r0
+	cmp r5, #3
+	and r1, r0, #0xff
+	addls pc, pc, r5, lsl #2
+	b _02153974
+_02153928: // jump table
+	b _02153938 // case 0
+	b _02153948 // case 1
+	b _02153958 // case 2
+	b _02153968 // case 3
+_02153938:
+	ldr r0, =VRAMSystem__GFXControl
+	ldr r0, [r0, r4, lsl #2]
+	strb r1, [r0, #0x18]
+	b _02153974
+_02153948:
+	ldr r0, =VRAMSystem__GFXControl
+	ldr r0, [r0, r4, lsl #2]
+	strb r1, [r0, #0x19]
+	b _02153974
+_02153958:
+	ldr r0, =VRAMSystem__GFXControl
+	ldr r0, [r0, r4, lsl #2]
+	strb r1, [r0, #0x1a]
+	b _02153974
+_02153968:
+	ldr r0, =VRAMSystem__GFXControl
+	ldr r0, [r0, r4, lsl #2]
+	strb r1, [r0, #0x1b]
+_02153974:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153980(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r8, r0
+	mov r0, r9
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r9
+	mov r1, #2
+	bl AYKCommand__GetValue
+	and r4, r0, #0xff
+	mov r0, r9
+	mov r1, #3
+	bl AYKCommand__GetValue
+	and r5, r0, #0xff
+	mov r0, r9
+	mov r1, #4
+	bl AYKCommand__GetValue
+	and r6, r0, #0xff
+	mov r0, r9
+	mov r1, #5
+	bl AYKCommand__GetValue
+	and r1, r0, #0xff
+	cmp r7, #0
+	ldr r0, =VRAMSystem__GFXControl
+	ldr r0, [r0, r8, lsl #2]
+	beq _02153A00
+	cmp r7, #1
+	beq _02153A14
+	b _02153A24
+_02153A00:
+	strb r6, [r0, #0x10]
+	strb r4, [r0, #0x11]
+	strb r1, [r0, #0x14]
+	strb r5, [r0, #0x15]
+	b _02153A24
+_02153A14:
+	strb r6, [r0, #0x12]
+	strb r4, [r0, #0x13]
+	strb r1, [r0, #0x16]
+	strb r5, [r0, #0x17]
+_02153A24:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153A30(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r0, r4
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153A54(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r7, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r7
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r7
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r7
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mvn r1, #7
+	mov r7, r0
+	cmp r6, r1
+	beq _02153AB0
+	cmp r6, #8
+	beq _02153AB8
+	b _02153AC0
+_02153AB0:
+	mov r8, #0
+	b _02153AC4
+_02153AB8:
+	mov r8, #1
+	b _02153AC4
+_02153AC0:
+	mov r8, #2
+_02153AC4:
+	and r0, r7, #3
+	cmp r0, #3
+	addls pc, pc, r0, lsl #2
+	b _02153B00
+_02153AD4: // jump table
+	b _02153AE4 // case 0
+	b _02153AEC // case 1
+	b _02153AF4 // case 2
+	b _02153AFC // case 3
+_02153AE4:
+	mov r9, #1
+	b _02153B00
+_02153AEC:
+	mov r9, #2
+	b _02153B00
+_02153AF4:
+	mov r9, #4
+	b _02153B00
+_02153AFC:
+	mov r9, #8
+_02153B00:
+	mov r0, r9
+	bl sub_2159204
+	cmp r0, #9
+	addls pc, pc, r0, lsl #2
+	b _02153BD4
+_02153B14: // jump table
+	b _02153B3C // case 0
+	b _02153B48 // case 1
+	b _02153B64 // case 2
+	b _02153B70 // case 3
+	b _02153B7C // case 4
+	b _02153B88 // case 5
+	b _02153BA4 // case 6
+	b _02153BB0 // case 7
+	b _02153BBC // case 8
+	b _02153BC8 // case 9
+_02153B3C:
+	mov r0, #0
+	bl VRAMSystem__SetupBGBank
+	b _02153BDC
+_02153B48:
+	mov r0, #0
+	ldr r1, =0x00200010
+	mov r3, r0
+	mov r2, #0x40
+	str r0, [sp]
+	bl VRAMSystem__SetupOBJBank
+	b _02153BDC
+_02153B64:
+	mov r0, #0
+	bl VRAMSystem__SetupBGExtPalBank
+	b _02153BDC
+_02153B70:
+	mov r0, #0
+	bl VRAMSystem__SetupOBJExtPalBank
+	b _02153BDC
+_02153B7C:
+	mov r0, #0
+	bl VRAMSystem__SetupSubBGBank
+	b _02153BDC
+_02153B88:
+	mov r0, #0
+	ldr r1, =0x00200010
+	mov r3, r0
+	mov r2, #0x40
+	str r0, [sp]
+	bl VRAMSystem__SetupSubOBJBank
+	b _02153BDC
+_02153BA4:
+	mov r0, #0
+	bl VRAMSystem__SetupSubBGExtPalBank
+	b _02153BDC
+_02153BB0:
+	mov r0, #0
+	bl VRAMSystem__SetupSubOBJExtPalBank
+	b _02153BDC
+_02153BBC:
+	mov r0, #0
+	bl VRAMSystem__SetupTextureBank
+	b _02153BDC
+_02153BC8:
+	mov r0, #0
+	bl VRAMSystem__SetupTexturePalBank
+	b _02153BDC
+_02153BD4:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+_02153BDC:
+	mov r0, #1
+	bl GX_SetBankForLCDC
+	mov r0, r8, lsl #0x1d
+	orr r0, r0, #0x80000000
+	orr r0, r0, r5, lsl #25
+	orr r0, r0, r4, lsl #24
+	orr r0, r0, #0x300000
+	add r1, r6, #8
+	orr r0, r0, r7, lsl #16
+	rsb r2, r6, #8
+	orr r1, r0, r1, lsl #8
+	ldr r0, =0x04000064
+	orr r1, r2, r1
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153C24(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r1, #0
+	bl AYKCommand__GetValue
+	ldr r1, =0x00004CCC
+	mov r2, #0
+	bl ShakeScreenEx
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153C48(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, #0x11
+	bl ShakeScreen
+	cmp r0, #0
+	beq _02153C84
+	ldr r0, [r0]
+	mov r1, r4
+	bl _u32_div_f
+	mov r2, r0
+	ldr r1, =0x00004CCC
+	mov r0, #0
+	bl ShakeScreenEx
+_02153C84:
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153C90(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r2, #1
+	mov r5, r1
+	bl AYKCommand__GetPath
+	mov r4, r0
+	mov r0, r6
+	mov r1, #2
+	bl AYKCommand__GetValue
+	add r3, r5, #0x30
+	mov r2, r0
+	mov r1, r4
+	add r0, r3, #0x1000
+	bl sub_2156B08
+	movs r2, r0
+	moveq r0, #5
+	ldmeqia sp!, {r4, r5, r6, pc}
+	mov r0, r6
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153CE8(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r1, #0
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r1, r0
+	add r0, r2, #0x1000
+	bl sub_2156BEC
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153D10(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r0
+	mov r4, r1
+	bl CutsceneSeq__FuncTable8__Func_2153EDC
+	mov r0, r5
+	mov r1, r4
+	bl CutsceneSeq__FuncTable3__Func_21544BC
+	mov r0, r5
+	mov r1, r4
+	bl CutsceneSeq__FuncTable7__Func_21546AC
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__MountArchive(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r5, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r6
+	mov r1, r5
+	mov r2, #1
+	bl AYKCommand__GetPath
+	add r3, r5, #0x30
+	mov r2, r0
+	mov r1, r4
+	add r0, r3, #0x1000
+	bl CutsceneSeq__MountArchive
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__UnmountArchive(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r1, #0
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r1, r0
+	add r0, r2, #0x1000
+	bl Unknown__ReleaseArchive
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153DAC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r1, #0
+	bl AYKCommand__GetValue
+	cmp r0, #0
+	movne r1, #1
+	add r0, r4, #0x30
+	moveq r1, #0
+	add r0, r0, #0x1000
+	bl sub_21569CC
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153DDC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r1, #0
+	bl AYKCommand__GetValue
+	cmp r0, #0
+	movne r1, #1
+	add r0, r4, #0x30
+	moveq r1, #0
+	add r0, r0, #0x1000
+	bl sub_21569FC
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__LoadSprite(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	sub sp, sp, #8
+	mov r4, r1
+	mov r5, r0
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r5
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r1, r0, lsl #0x10
+	mov r8, r1, lsr #0x10
+	mov r0, r5
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mov r0, r0, lsl #0x10
+	mov r9, r0, lsr #0x10
+	mov r0, r5
+	mov r1, r4
+	mov r2, #4
+	bl AYKCommand__GetPath
+	mov r6, r0
+	mov r0, r5
+	mov r1, #5
+	bl AYKCommand__GetValue
+	add r4, r4, #0x30
+	mov r2, r0
+	mov r1, r6
+	mov r3, r7
+	add r0, r4, #0x1000
+	stmia sp, {r8, r9}
+	bl CutsceneSeq__LoadSpriteFromAYK2
+	movs r2, r0
+	addeq sp, sp, #8
+	moveq r0, #5
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+	mov r0, r5
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	add sp, sp, #8
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2153EB4(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r1, #0
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r1, r0
+	add r0, r2, #0x1000
+	bl sub_2157128
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2153EDC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	add r0, r4, #0x30
+	add r0, r0, #0x1000
+	bl sub_2156E2C
+	add r5, r0, #1
+	cmp r5, #1
+	mov r6, #1
+	bls _02153F1C
+	add r4, r4, #0x30
+_02153F04:
+	mov r1, r6
+	add r0, r4, #0x1000
+	bl sub_2157128
+	add r6, r6, #1
+	cmp r6, r5
+	blo _02153F04
+_02153F1C:
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__LoadSprite2(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
+	sub sp, sp, #0xc
+	mov r5, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r8, r0
+	mov r0, r6
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r0, r0, lsl #0x10
+	mov r9, r0, lsr #0x10
+	mov r0, r6
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mov r0, r0, lsl #0x10
+	mov r10, r0, lsr #0x10
+	mov r0, r6
+	mov r1, r5
+	mov r2, #4
+	bl AYKCommand__GetPath
+	mov r7, r0
+	mov r0, r6
+	mov r1, #5
+	bl AYKCommand__GetValue
+	add r5, r5, #0x30
+	mov r3, r0
+	mov r1, r4
+	mov r2, r7
+	add r0, r5, #0x1000
+	stmia sp, {r8, r9, r10}
+	bl CutsceneSeq__LoadSpriteFromAYK
+	cmp r0, #0
+	moveq r0, #5
+	movne r0, #1
+	add sp, sp, #0xc
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__SetAnimation(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl AnimatorManager__GetAnimator
+	mov r1, r4, lsl #0x10
+	mov r1, r1, lsr #0x10
+	bl AnimatorSprite__SetAnimation
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154014(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r4, r1
+	mov r7, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r7
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r7
+	mov r1, #2
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r6
+	add r0, r2, #0x1000
+	bl AnimatorManager__GetAnimator
+	strh r5, [r0, #8]
+	strh r4, [r0, #0xa]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_215406C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl AnimatorManager__GetAnimator
+	ldr r1, [r0, #0x3c]
+	cmp r4, #0
+	bicne r1, r1, #1
+	orreq r1, r1, #1
+	str r1, [r0, #0x3c]
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21540C0(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl AnimatorManager__GetAnimator
+	ldr r1, [r0, #0x3c]
+	cmp r4, #0
+	bicne r1, r1, #2
+	orreq r1, r1, #2
+	str r1, [r0, #0x3c]
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154114(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r4, r1
+	mov r7, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r7
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r7
+	mov r1, #2
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r6
+	add r0, r2, #0x1000
+	bl AnimatorManager__GetAnimator
+	ldr r1, [r0, #0x3c]
+	cmp r5, #0
+	orrne r1, r1, #0x80
+	biceq r1, r1, #0x80
+	str r1, [r0, #0x3c]
+	ldr r1, [r0, #0x3c]
+	cmp r4, #0
+	orrne r1, r1, #0x100
+	biceq r1, r1, #0x100
+	str r1, [r0, #0x3c]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_215418C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r1
+	mov r5, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r5
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r2, r0, lsl #0x10
+	mov r0, r5
+	mov r1, #2
+	mov r5, r2, asr #0x10
+	bl AYKCommand__GetValue
+	mov r2, r0, lsl #0x10
+	add r0, r6, #0x30
+	mov r1, r4
+	add r0, r0, #0x1000
+	mov r4, r2, asr #0x10
+	bl AnimatorManager__GetAnimator
+	mvn r1, #0
+	cmp r5, r1
+	strneb r5, [r0, #0x56]
+	mvn r1, #0
+	cmp r4, r1
+	strneb r4, [r0, #0x57]
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21541FC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl AnimatorManager__GetAnimator
+	str r4, [r0, #0x58]
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154240(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl sub_2156E70
+	ldr r1, [r0]
+	cmp r4, #0
+	bicne r1, r1, #1
+	orreq r1, r1, #1
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154294(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r4, r1
+	mov r1, #0
+	mov r5, r0
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r1, r0
+	add r0, r2, #0x1000
+	bl AnimatorManager__GetAnimator
+	ldrsh r4, [r0, #0xa]
+	ldrsh r2, [r0, #8]
+	mov r0, r5
+	mov r1, #1
+	bl AYKCommand__SetValue
+	mov r0, r5
+	mov r2, r4
+	mov r1, #2
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21542E4(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r4, r1
+	mov r1, #0
+	mov r5, r0
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r1, r0
+	add r0, r2, #0x1000
+	bl AnimatorManager__GetAnimator
+	ldrh r2, [r0, #0x50]
+	mov r0, r5
+	mov r1, #1
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154320(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r6, r1
+	mov r5, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r5
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r2, r0, lsl #0x10
+	mov r0, r5
+	mov r1, #2
+	mov r5, r2, lsr #0x10
+	bl AYKCommand__GetValue
+	mov r1, r4
+	mov r2, r5
+	str r6, [sp]
+	add ip, r6, #0x30
+	mov r3, r0
+	add r0, ip, #0x1000
+	bl sub_215707C
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154384(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r1, #0
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r1, r0
+	add r0, r2, #0x1000
+	bl sub_21570F4
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21543AC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl sub_2156E54
+	ldr r2, [r0, #0x14]
+	cmp r4, #0
+	andne r2, r2, r4
+	mov r0, r6
+	mov r1, #2
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__LoadBBG(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #4
+	mov r7, r1
+	mov r8, r0
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r8
+	mov r1, #2
+	bl AYKCommand__GetValue
+	and r6, r0, #0xff
+	mov r0, r8
+	mov r1, r7
+	mov r2, #3
+	bl AYKCommand__GetPath
+	mov r4, r0
+	mov r0, r8
+	mov r1, #4
+	bl AYKCommand__GetValue
+	add ip, r7, #0x30
+	mov r2, r0
+	mov r1, r4
+	mov r3, r5
+	add r0, ip, #0x1000
+	str r6, [sp]
+	bl CutsceneSeq__LoadBBGFromAYK
+	movs r2, r0
+	addeq sp, sp, #4
+	moveq r0, #5
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
+	mov r0, r8
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_2154494(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r1, #0
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r1, r0
+	add r0, r2, #0x1000
+	bl sub_2157430
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_21544BC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	add r0, r4, #0x30
+	add r0, r0, #0x1000
+	bl sub_21571A4
+	add r5, r0, #1
+	cmp r5, #1
+	mov r6, #1
+	bls _021544FC
+	add r4, r4, #0x30
+_021544E4:
+	mov r1, r6
+	add r0, r4, #0x1000
+	bl sub_2157430
+	add r6, r6, #1
+	cmp r6, r5
+	blo _021544E4
+_021544FC:
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_2154504(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r4, r1
+	mov r7, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r7
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r7
+	mov r1, #2
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r6
+	add r0, r2, #0x1000
+	bl sub_215715C
+	str r5, [r0, #8]
+	str r4, [r0, #0xc]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_215455C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl sub_2157174
+	ldr r1, [r0]
+	cmp r4, #0
+	bicne r1, r1, #1
+	orreq r1, r1, #1
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_21545B0(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r4, r1
+	mov r7, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r7
+	mov r1, #1
+	bl AYKCommand__GetValue
+	and r6, r0, #0xff
+	mov r0, r7
+	mov r1, #2
+	bl AYKCommand__GetValue
+	add r1, r4, #0x30
+	mov r4, r0
+	add r0, r1, #0x1000
+	mov r1, r5
+	mov r2, r6
+	bl sub_215718C
+	ldr r1, [r0]
+	cmp r4, #0
+	bicne r1, r1, #1
+	orreq r1, r1, #1
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadMDL(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r7, r0
+	mov r2, #1
+	mov r6, r1
+	bl AYKCommand__GetPath
+	mov r5, r0
+	mov r0, r7
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r7
+	mov r1, #3
+	bl AYKCommand__GetValue
+	add ip, r6, #0x30
+	mov r3, r0
+	mov r1, r5
+	mov r2, r4
+	add r0, ip, #0x1000
+	bl CutsceneSeq__FuncTable3__LoadMDL
+	movs r2, r0
+	moveq r0, #5
+	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
+	mov r0, r7
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154684(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r1, #0
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r1, r0
+	add r0, r2, #0x1000
+	bl sub_2157A0C
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21546AC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r7, r1
+	add r0, r7, #0x30
+	add r0, r0, #0x1000
+	bl sub_2157460
+	add r1, r7, #0x30
+	mov r4, r0
+	add r0, r1, #0x1000
+	bl sub_215793C
+	add r5, r4, #1
+	cmp r5, #1
+	mov r6, #1
+	bls _021546FC
+	add r4, r7, #0x30
+_021546E4:
+	mov r1, r6
+	add r0, r4, #0x1000
+	bl sub_2157A0C
+	add r6, r6, #1
+	cmp r6, r5
+	blo _021546E4
+_021546FC:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadMDL2(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #4
+	mov r7, r1
+	mov r8, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r8
+	mov r1, r7
+	mov r2, #1
+	bl AYKCommand__GetPath
+	mov r5, r0
+	mov r0, r8
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r8
+	mov r1, #3
+	bl AYKCommand__GetValue
+	add ip, r7, #0x30
+	str r0, [sp]
+	mov r1, r6
+	mov r2, r5
+	mov r3, r4
+	add r0, ip, #0x1000
+	bl CutsceneSeq__LoadMDLFromAYK
+	cmp r0, #0
+	moveq r0, #5
+	movne r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadAniMDL(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	sub sp, sp, #0x10
+	mov r9, r1
+	mov r10, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r8, r0
+	mov r0, r10
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r10
+	mov r1, r9
+	mov r2, #2
+	bl AYKCommand__GetPath
+	mov r11, r0
+	mov r0, r10
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r10
+	mov r1, #4
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r10
+	mov r1, r9
+	mov r2, #5
+	bl AYKCommand__GetPath
+	mov r4, r0
+	mov r0, r10
+	mov r1, #6
+	bl AYKCommand__GetValue
+	str r6, [sp]
+	str r5, [sp, #4]
+	str r4, [sp, #8]
+	add r4, r9, #0x30
+	str r0, [sp, #0xc]
+	mov r1, r8
+	mov r2, r7
+	mov r3, r11
+	add r0, r4, #0x1000
+	bl CutsceneSeq__FuncTable7__LoadAniMDLFromAYK
+	cmp r0, #0
+	moveq r0, #5
+	movne r0, #1
+	add sp, sp, #0x10
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_215483C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r4, r1
+	mov r8, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r8
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r8
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r8
+	mov r1, #3
+	bl AYKCommand__GetValue
+	add r1, r4, #0x30
+	mov r4, r0
+	add r0, r1, #0x1000
+	mov r1, r7
+	bl sub_215746C
+	str r6, [r0, #0x18]
+	str r5, [r0, #0x1c]
+	str r4, [r0, #0x20]
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21548A8(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #0x48
+	mov r6, r1
+	mov r8, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r8
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r2, r0, lsl #0x10
+	mov r0, r8
+	mov r1, #2
+	mov r5, r2, lsr #0x10
+	bl AYKCommand__GetValue
+	mov r0, r0, lsl #0x10
+	mov r7, r0, lsr #0x10
+	mov r0, r8
+	mov r1, #3
+	bl AYKCommand__GetValue
+	add r2, r6, #0x30
+	mov r0, r0, lsl #0x10
+	mov r6, r0, lsr #0x10
+	mov r1, r4
+	add r0, r2, #0x1000
+	bl sub_215746C
+	mov r1, r7, lsl #0x10
+	mov r1, r1, lsr #0x10
+	mov r1, r1, asr #4
+	mov r1, r1, lsl #1
+	mov ip, r1, lsl #1
+	add r1, r1, #1
+	mov r4, r0
+	ldr r3, =FX_SinCosTable_
+	mov r2, r1, lsl #1
+	ldrsh r1, [r3, ip]
+	ldrsh r2, [r3, r2]
+	add r0, sp, #0x24
+	bl MTX_RotY33_
+	mov r0, r5, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r0, r0, asr #4
+	mov r1, r0, lsl #1
+	mov r5, r1, lsl #1
+	add r1, r1, #1
+	ldr r3, =FX_SinCosTable_
+	mov r2, r1, lsl #1
+	ldrsh r1, [r3, r5]
+	ldrsh r2, [r3, r2]
+	add r0, sp, #0
+	bl MTX_RotX33_
+	add r0, sp, #0x24
+	add r1, sp, #0
+	mov r2, r0
+	bl MTX_Concat33
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r0, r0, asr #4
+	mov r1, r0, lsl #1
+	mov r5, r1, lsl #1
+	add r1, r1, #1
+	ldr r3, =FX_SinCosTable_
+	mov r2, r1, lsl #1
+	ldrsh r1, [r3, r5]
+	ldrsh r2, [r3, r2]
+	add r0, sp, #0
+	bl MTX_RotZ33_
+	add r0, sp, #0x24
+	add r1, sp, #0
+	mov r2, r0
+	bl MTX_Concat33
+	add r0, sp, #0x24
+	add r1, r4, #0x24
+	mov r2, #0x24
+	bl MIi_CpuCopy32
+	mov r0, #1
+	add sp, sp, #0x48
+	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21549E4(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r4, r1
+	mov r8, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r8
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r8
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r8
+	mov r1, #3
+	bl AYKCommand__GetValue
+	add r1, r4, #0x30
+	mov r4, r0
+	add r0, r1, #0x1000
+	mov r1, r7
+	bl sub_215746C
+	str r6, [r0, #0x48]
+	str r5, [r0, #0x4c]
+	str r4, [r0, #0x50]
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154A50(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r4, r1
+	mov r8, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r8
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r8
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r8
+	mov r1, #3
+	bl AYKCommand__GetValue
+	add r1, r4, #0x30
+	mov r4, r0
+	add r0, r1, #0x1000
+	mov r1, r7
+	bl sub_215746C
+	str r6, [r0, #0x54]
+	str r5, [r0, #0x58]
+	str r4, [r0, #0x5c]
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154ABC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl sub_215746C
+	ldr r1, [r0, #4]
+	cmp r4, #0
+	bicne r1, r1, #1
+	orreq r1, r1, #1
+	str r1, [r0, #4]
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154B10(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl sub_215746C
+	ldr r1, [r0, #4]
+	cmp r4, #0
+	bicne r1, r1, #2
+	orreq r1, r1, #2
+	str r1, [r0, #4]
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154B64(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl sub_215746C
+	cmp r4, #0
+	add r1, r0, #0x16
+	add r2, r0, #0x10c
+	beq _02154BD0
+	add r1, r1, #0x100
+	cmp r2, r1
+	beq _02154BF0
+_02154BB8:
+	ldrh r0, [r2]
+	orr r0, r0, #2
+	strh r0, [r2], #2
+	cmp r2, r1
+	bne _02154BB8
+	b _02154BF0
+_02154BD0:
+	add r1, r1, #0x100
+	cmp r2, r1
+	beq _02154BF0
+_02154BDC:
+	ldrh r0, [r2]
+	bic r0, r0, #2
+	strh r0, [r2], #2
+	cmp r2, r1
+	bne _02154BDC
+_02154BF0:
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154BF8(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r6, r1
+	mov r7, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r7
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r7
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r3, r0
+	cmp r4, #0
+	add r0, r6, #0x30
+	blt _02154C50
+	mov r1, r5
+	mov r2, r4
+	add r0, r0, #0x1000
+	bl sub_2157738
+	b _02154C58
+_02154C50:
+	add r0, r0, #0x1000
+	bl sub_215793C
+_02154C58:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadDrawState(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r6, r0
+	mov r2, #0
+	mov r5, r1
+	bl AYKCommand__GetPath
+	mov r4, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	movs r1, r0
+	mov r2, #0
+	mvnmi r1, #0
+	mov r0, r4
+	mov r3, r2
+	str r2, [sp]
+	bl ArchiveFile__Load
+	mov r4, r0
+	add r0, r5, #0x30
+	mov r1, r4
+	add r0, r0, #0x1000
+	bl CutsceneSeq__LoadBSD
+	mov r0, r4
+	bl _FreeHEAP_USER
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154CCC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r5, r1
+	mov r4, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r4
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r5, #0x30
+	mov r5, r0
+	mov r1, r6
+	add r0, r2, #0x1000
+	bl sub_215746C
+	add r0, r0, r5, lsl #1
+	add r0, r0, #0x100
+	ldrh r0, [r0, #0xc]
+	mov r1, #2
+	tst r0, #0x8000
+	movne r2, #1
+	moveq r2, #0
+	mov r0, r4
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+s32 CutsceneSeq__SndCommand__LoadSndArc(void *a1, CutsceneSeq *work)
+{
+    const char *path = AYKCommand__GetPath(a1, work, 0);
+
+    sub_2157B08(&work->unknown2156918);
+    LoadAudioSndArc(path);
+    return 1;
+}
+
+s32 CutsceneSeq__SndCommand__SetVolume(void *a1, CutsceneSeq *work)
+{
+    s32 musicVolume = AYKCommand__GetValue(a1, 0);
+    s32 sfxVolume   = AYKCommand__GetValue(a1, 1);
+    s32 voiceVolume = AYKCommand__GetValue(a1, 2);
+
+    if (musicVolume != -1)
+        SetMusicVolume(musicVolume);
+
+    if (sfxVolume != -1)
+        SetSfxVolume(sfxVolume);
+
+    if (voiceVolume != -1)
+        SetVoiceVolume(voiceVolume);
+
+    return 1;
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__Func_2154DD8(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r4, r1
+	mov r7, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r7
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r7
+	mov r1, #2
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r6
+	add r0, r2, #0x1000
+	bl Unknown__GetSndHandle
+	mvn r1, #0
+	cmp r4, r1
+	mov r1, r5
+	bne _02154E38
+	bl NNS_SndPlayerSetVolume
+	b _02154E40
+_02154E38:
+	mov r2, r4
+	bl NNS_SndPlayerMoveVolume
+_02154E40:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__LoadSndArcGroup(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r1, #0
+	bl AYKCommand__GetValue
+	ldr r1, =audioManagerSndHeap
+	ldr r1, [r1]
+	bl NNS_SndArcLoadGroup
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__LoadSndArcSeq(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r1, #0
+	bl AYKCommand__GetValue
+	ldr r1, =audioManagerSndHeap
+	ldr r1, [r1]
+	bl NNS_SndArcLoadSeq
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__LoadSndArcWaveArc(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r1, #0
+	bl AYKCommand__GetValue
+	ldr r1, =audioManagerSndHeap
+	ldr r1, [r1]
+	bl NNS_SndArcLoadWaveArc
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__LoadSndArcSeqArc(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r1, #0
+	bl AYKCommand__GetValue
+	ldr r1, =audioManagerSndHeap
+	ldr r1, [r1]
+	bl NNS_SndArcLoadSeqArc
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__PlayTrack(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r6, r1
+	mov r4, r0
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r4
+	mov r1, #2
+	bl AYKCommand__GetValue
+	add r1, r6, #0x30
+	mov r7, r0
+	add r0, r1, #0x1000
+	bl Unknown__GetAvailSoundHandle
+	add r1, r6, #0x30
+	mov r6, r0
+	add r0, r1, #0x1000
+	mov r1, r6
+	bl Unknown__GetSndHandle
+	str r5, [sp]
+	mov r5, r0
+	mvn r1, #0
+	mov r2, r1
+	mov r3, r1
+	bl PlayTrack
+	mov r0, r5
+	mov r2, r7
+	mov r1, #0x7f
+	bl NNS_SndPlayerMoveVolume
+	mov r0, r4
+	mov r2, r6
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__PlayTrackEx(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #8
+	mov r6, r1
+	mov r4, r0
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r8, r0
+	mov r0, r4
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r4
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mov r7, r0
+	add r0, r6, #0x30
+	add r0, r0, #0x1000
+	bl Unknown__GetAvailSoundHandle
+	add r1, r6, #0x30
+	mov r6, r0
+	add r0, r1, #0x1000
+	mov r1, r6
+	bl Unknown__GetSndHandle
+	str r8, [sp]
+	str r5, [sp, #4]
+	mov r5, r0
+	mvn r1, #0
+	mov r2, r1
+	mov r3, r1
+	bl PlayTrackEx
+	mov r0, r5
+	mov r2, r7
+	mov r1, #0x7f
+	bl NNS_SndPlayerMoveVolume
+	mov r0, r4
+	mov r2, r6
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	add sp, sp, #8
+	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__PlaySequence(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r6, r1
+	mov r1, #1
+	mov r7, r0
+	bl AYKCommand__GetValue
+	add r1, r6, #0x30
+	mov r5, r0
+	add r0, r1, #0x1000
+	bl Unknown__GetAvailSoundHandle
+	mov r4, r0
+	add r0, r6, #0x30
+	mov r1, r4
+	add r0, r0, #0x1000
+	bl Unknown__GetSndHandle
+	str r5, [sp]
+	mvn r1, #0
+	mov r2, r1
+	mov r3, r1
+	bl PlaySfx
+	mov r0, r7
+	mov r2, r4
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__PlaySequenceEx(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	sub sp, sp, #8
+	mov r4, r1
+	mov r7, r0
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r7
+	mov r1, #2
+	bl AYKCommand__GetValue
+	add r1, r4, #0x30
+	mov r5, r0
+	add r0, r1, #0x1000
+	bl Unknown__GetAvailSoundHandle
+	add r1, r4, #0x30
+	mov r4, r0
+	add r0, r1, #0x1000
+	mov r1, r4
+	bl Unknown__GetSndHandle
+	str r6, [sp]
+	str r5, [sp, #4]
+	mvn r1, #0
+	mov r2, r1
+	mov r3, r1
+	bl PlaySfxEx
+	mov r0, r7
+	mov r2, r4
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	add sp, sp, #8
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+s32 CutsceneSeq__SndCommand__PlayVoiceClip(void *a1, CutsceneSeq *work)
+{
+    s32 id       = AYKCommand__GetValue(a1, 1);
+    s32 handleID = Unknown__GetAvailSoundHandle(&work->unknown2156918);
+
+    PlayVoiceClip(Unknown__GetSndHandle(&work->unknown2156918, handleID), AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, id);
+    AYKCommand__SetValue(a1, 0, handleID);
+    return 1;
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__PlayVoiceClipEx(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	sub sp, sp, #8
+	mov r4, r1
+	mov r7, r0
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r7
+	mov r1, #2
+	bl AYKCommand__GetValue
+	add r1, r4, #0x30
+	mov r5, r0
+	add r0, r1, #0x1000
+	bl Unknown__GetAvailSoundHandle
+	add r1, r4, #0x30
+	mov r4, r0
+	add r0, r1, #0x1000
+	mov r1, r4
+	bl Unknown__GetSndHandle
+	str r6, [sp]
+	str r5, [sp, #4]
+	mvn r1, #0
+	mov r2, r1
+	mov r3, r1
+	bl PlayVoiceClipEx
+	mov r0, r7
+	mov r2, r4
+	mov r1, #0
+	bl AYKCommand__SetValue
+	mov r0, #1
+	add sp, sp, #8
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__Func_21551CC(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl Unknown__GetSndHandle
+	mov r1, r4
+	bl NNS_SndPlayerStopSeq
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__Func_2155214(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r1, #0
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r1, r0
+	add r0, r2, #0x1000
+	bl sub_2157B2C
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__Func_215523C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl Unknown__GetSndHandle
+	ldr r1, =0x0000FFFF
+	mov r2, r4
+	bl NNS_SndPlayerSetTrackPan
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__SndCommand__Func_215528C(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r1
+	mov r6, r0
+	mov r1, #0
+	bl AYKCommand__GetValue
+	mov r5, r0
+	mov r0, r6
+	mov r1, #1
+	bl AYKCommand__GetValue
+	add r2, r4, #0x30
+	mov r4, r0
+	mov r1, r5
+	add r0, r2, #0x1000
+	bl Unknown__GetSndHandle
+	mov r1, r4
+	bl NNS_SndPlayerSetPlayerPriority
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable2__Func_21552D4(void *a1, CutsceneSeq *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r2, r1
+	add r1, r2, #0x1000
+	ldr r3, [r1, #0x48]
+	mov r1, r0
+	ldr r0, [r3, #0xc]
+	ldr r3, [r3]
+	blx r3
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+void CutsceneSeq__Main(void)
+{
+    CutsceneSeq *work = TaskGetWorkCurrent(CutsceneSeq);
+
+    if (work->status == 1)
+    {
+        if (CutsceneSeq__ProcessSequences(work))
+            work->status = 0;
+        else
+            CutsceneSeq__Func_2157A70(&work->unknown2156918);
+    }
+}
+
+NONMATCH_FUNC void Task__Unknown21531C4__Main(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	bl GetCurrentTaskWork_
+	mov r4, r0
+	ldr r1, [r4, #4]
+	ldr r0, [r4, #0xc]
+	add r2, r1, r0
+	str r2, [r4, #4]
+	cmp r2, #0x10000
+	ldr r0, [r4, #0x10]
+	movge r2, #0x10000
+	tst r0, #0x10
+	rsbne r2, r2, #0x10000
+	tst r0, #1
+	rsbeq r2, r2, #0
+	ldr r0, [r4, #8]
+	ldr r1, [r4, #0x14]
+	mov r2, r2, asr #0xc
+	bl CutsceneSeq__ProcessUnknown2157E58
+	ldr r0, [r4, #4]
+	cmp r0, #0x10000
+	ldmltia sp!, {r4, pc}
+	bl DestroyCurrentTask
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+void CutsceneSeq__InitAYK(CutsceneSeq *cutsceneSeq, AYKHeader *ayk, CutsceneSeqCommandFunc1 **funcTable)
+{
+    MI_CpuClear32(&cutsceneSeq->ayk, sizeof(cutsceneSeq->ayk));
+    cutsceneSeq->ayk.header = ayk;
+
+    if (ayk->block5Offset < (size_t)ayk)
+    {
+        ayk->block5Offset += (size_t)ayk;
+        cutsceneSeq->ayk.header->blockUserPtr = (u32 *)((u8 *)cutsceneSeq->ayk.header->blockUserPtr + (size_t)ayk);
+    }
+
+    cutsceneSeq->ayk.funcTable = funcTable;
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Release(CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r6
+	movs r0, #0x20
+	beq _0215542C
+	add r4, r6, #0x20
+_02155410:
+	ldr r0, [r5]
+	cmp r0, #0
+	beq _02155420
+	bl _FreeHEAP_SYSTEM
+_02155420:
+	add r5, r5, #4
+	cmp r5, r4
+	bne _02155410
+_0215542C:
+	ldr r2, =0x0000102C
+	mov r1, r6
+	mov r0, #0
+	bl MIi_CpuClear32
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC BOOL CutsceneSeq__ProcessSequences(CutsceneSeq *work)
+{
+    // https://decomp.me/scratch/4h70y -> 88.64%
+#ifdef NON_MATCHING
+    s32 activeCount   = 0;
+    BOOL needsDestroy = FALSE;
+
+    for (s32 i = 0; i < 8; i++)
+    {
+        AYKSequence *seq = work->ayk.sequences[i];
+
+        if (seq != NULL)
+        {
+            s32 result = CutsceneSeq__CallFuncTable2(work, seq);
+            switch (result)
+            {
+                case 2:
+                    HeapFree(HEAP_SYSTEM, seq);
+                    work->ayk.sequences[i] = NULL;
+                    break;
+
+                case 3:
+                    needsDestroy   = TRUE;
+                    seq->keepAlive = TRUE;
+                    break;
+
+                case 4:
+                    activeCount++;
+                    break;
+            }
+        }
+    }
+
+    if (needsDestroy)
+    {
+        activeCount = 0;
+        for (s32 i = 0; i < 8; i++)
+        {
+            AYKSequence *seq = work->ayk.sequences[i];
+
+            if (seq != NULL)
+            {
+                if (seq->keepAlive == TRUE)
+                {
+                    seq->keepAlive = FALSE;
+                    activeCount++;
+                }
+                else
+                {
+                    HeapFree(HEAP_SYSTEM, seq);
+                    work->ayk.sequences[i] = NULL;
+                }
+            }
+        }
+    }
+
+    if (activeCount == 0)
+    {
+        if (work->ayk.onFinish != NULL)
+            work->ayk.onFinish(work);
+
+        return TRUE;
+    }
+
+    return FALSE;
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
+	mov r9, r0
+	mov r7, #0
+	mov r8, r7
+	mov r6, r9
+	movs r0, #0x20
+	beq _021554C4
+	add r10, r9, #0x20
+	mov r4, #1
+	mov r5, r7
+_0215546C:
+	ldr r1, [r6]
+	cmp r1, #0
+	beq _021554B8
+	mov r0, r9
+	bl CutsceneSeq__CallFuncTable2
+	cmp r0, #2
+	beq _0215549C
+	cmp r0, #3
+	beq _021554AC
+	cmp r0, #4
+	addeq r7, r7, #1
+	b _021554B8
+_0215549C:
+	ldr r0, [r6]
+	bl _FreeHEAP_SYSTEM
+	str r5, [r6]
+	b _021554B8
+_021554AC:
+	ldr r0, [r6]
+	mov r8, r4
+	str r4, [r0, #0x440]
+_021554B8:
+	add r6, r6, #4
+	cmp r6, r10
+	bne _0215546C
+_021554C4:
+	cmp r8, #0
+	beq _0215551C
+	mov r4, r9
+	mov r7, #0
+	movs r0, #0x20
+	beq _0215551C
+	add r5, r9, #0x20
+	mov r6, r7
+	mov r8, r7
+_021554E8:
+	ldr r0, [r4]
+	cmp r0, #0
+	beq _02155510
+	ldr r1, [r0, #0x440]
+	cmp r1, #1
+	streq r6, [r0, #0x440]
+	addeq r7, r7, #1
+	beq _02155510
+	bl _FreeHEAP_SYSTEM
+	str r8, [r4]
+_02155510:
+	add r4, r4, #4
+	cmp r4, r5
+	bne _021554E8
+_0215551C:
+	cmp r7, #0
+	bne _02155544
+	add r0, r9, #0x1000
+	ldr r1, [r0, #0x28]
+	cmp r1, #0
+	beq _0215553C
+	mov r0, r9
+	blx r1
+_0215553C:
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+_02155544:
+	mov r0, #0
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void *CutsceneSeq__InitAYKBlock(CutsceneSeq *work, CutsceneSeqOnFinish onFinish){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r5, r0
+	mov r4, r1
+	mov r8, r5
+	movs r0, #0x20
+	beq _0215558C
+	add r6, r5, #0x20
+	mov r7, #0
+_0215556C:
+	ldr r0, [r8]
+	cmp r0, #0
+	beq _02155580
+	bl _FreeHEAP_USER
+	str r7, [r8]
+_02155580:
+	add r8, r8, #4
+	cmp r8, r6
+	bne _0215556C
+_0215558C:
+	add r0, r5, #0x1000
+	ldr r0, [r0, #0x20]
+	ldr r2, [r0, #0x18]
+	cmp r2, #0
+	beq _021555AC
+	ldr r0, [r0, #0x1c]
+	add r1, r5, #0x20
+	bl MIi_CpuCopy32
+_021555AC:
+	add r0, r5, #0x1000
+	ldr r0, [r0, #0x20]
+	ldr r2, [r0, #0x20]
+	cmp r2, #0
+	beq _021555D4
+	ldr r0, [r0, #0x18]
+	add r1, r5, #0x20
+	add r1, r1, r0, lsl #2
+	mov r0, #0
+	bl MIi_CpuClear32
+_021555D4:
+	add r0, r5, #0x1000
+	str r4, [r0, #0x28]
+	ldr r1, [r0, #0x20]
+	mov r0, r5
+	ldr r1, [r1, #0xc]
+	add r1, r1, #0x80000000
+	bl CutsceneSeq__InitAYKSequence
+	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+AYKSequence *CutsceneSeq__InitAYKSequence(CutsceneSeq *work, u32 offset)
+{
+    return work->ayk.sequences[CutsceneSeq__AllocAYKSequence(work, offset)];
+}
+
+s32 CutsceneSeq__GetAYKCommandLocation(u32 addr)
+{
+    return ovl07_2155770(addr);
+}
+
+void *CutsceneSeq__GetAYKCommand_String(CutsceneSeq *work, AYKSequence *seq, u32 addr)
+{
+    return CutsceneSeq__GetAYKCommand(work, seq, addr);
+}
+
+s32 AYKCommand__GetValue(void *command, s32 id)
+{
+    // TODO: figure out the struct for 'command'
+    return *((s32 *)command + id);
+}
+
+const char *AYKCommand__GetPath_Internal(void *work, CutsceneSeq *seq, s32 id)
+{
+    u32 addr = AYKCommand__GetValue(work, id);
+    if (addr == 0)
+        return NULL;
+
+    return CutsceneSeq__GetAYKCommand_String(seq, 0, addr);
+}
+
+const char *AYKCommand__GetPath(void *work, CutsceneSeq *seq, s32 id)
+{
+    return (const char *)AYKCommand__GetPath_Internal(work, seq, id);
+}
+
+void AYKCommand__SetValue(AYKSequence *work, u32 id, s32 value)
+{
+    work->values[id] = value;
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__CallFuncTable2(CutsceneSeq *work, AYKSequence *aykSeq)
+{
+    // https://decomp.me/scratch/RgFfq -> 91.64%
+#ifdef NON_MATCHING
+    s32 result;
+
+    do
+    {
+        s32 offset = *AYKSequence__GetCtrlValue(aykSeq, 15);
+
+        // TODO: figure out the struct for 'command'
+        void *command = CutsceneSeq__GetAYKCommand(work, aykSeq, offset);
+        if (*((u8 *)command + 2))
+        {
+            s32 *nextOffset = AYKSequence__GetCtrlValue(aykSeq, 15);
+            *nextOffset += 3; // 3 * sizeof(s32)
+        }
+        else if (*((u8 *)command + 1))
+        {
+            s32 *nextOffset = AYKSequence__GetCtrlValue(aykSeq, 15);
+            *nextOffset += 2; // 2 * sizeof(s32)
+        }
+        else
+        {
+            s32 *nextOffset = AYKSequence__GetCtrlValue(aykSeq, 15);
+            *nextOffset += 1; // 1 * sizeof(s32)
+        }
+
+        result = CutsceneSeq__FuncTableList2[((int)*(u8 *)command >> 4) & 0xF][*(u8 *)command & 0xF](work, aykSeq, command);
+
+        if (result == 5)
+        {
+            *AYKSequence__GetCtrlValue(aykSeq, 15) = offset;
+            result                                 = 4;
+        }
+
+    } while (result == 1);
+
+    return result;
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r11, #0xf
+	ldr r4, =CutsceneSeq__FuncTableList2
+	mov r10, r0
+	mov r9, r1
+	mov r5, r11
+	mov r6, r11
+	mov r7, r11
+_02155688:
+	mov r0, r9
+	mov r1, r7
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r0]
+	mov r0, r10
+	str r2, [sp]
+	mov r1, r9
+	bl CutsceneSeq__GetAYKCommand
+	mov r8, r0
+	ldrb r0, [r8, #2]
+	cmp r0, #0
+	beq _021556D4
+	mov r0, r9
+	mov r1, r6
+	bl AYKSequence__GetCtrlValue
+	ldr r1, [r0]
+	add r1, r1, #3
+	str r1, [r0]
+	b _02155710
+_021556D4:
+	ldrb r0, [r8, #1]
+	cmp r0, #0
+	mov r0, r9
+	beq _021556FC
+	mov r1, r5
+	bl AYKSequence__GetCtrlValue
+	ldr r1, [r0]
+	add r1, r1, #2
+	str r1, [r0]
+	b _02155710
+_021556FC:
+	mov r1, r11
+	bl AYKSequence__GetCtrlValue
+	ldr r1, [r0]
+	add r1, r1, #1
+	str r1, [r0]
+_02155710:
+	ldrb r3, [r8]
+	mov r0, r10
+	mov r1, r9
+	mov ip, r3, asr #4
+	mov r2, r8
+	and r8, ip, #0xf
+	ldr r8, [r4, r8, lsl #2]
+	and r3, r3, #0xf
+	ldr r3, [r8, r3, lsl #2]
+	blx r3
+	cmp r0, #5
+	bne _02155758
+	mov r0, r9
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	ldr r1, [sp]
+	str r1, [r0]
+	mov r0, #4
+_02155758:
+	cmp r0, #1
+	beq _02155688
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+s32 *AYKSequence__GetCtrlValue(AYKSequence *work, u32 id)
+{
+    return &work->values[id];
+}
+
+s32 ovl07_2155770(u32 addr)
+{
+    if (addr < 0x70000000)
+        return 0;
+
+    if (addr < 0x80000000)
+        return 1;
+
+    return 2;
+}
+
+void *CutsceneSeq__GetAYKCommand(CutsceneSeq *work, AYKSequence *seq, u32 addr)
+{
+    u32 location = CutsceneSeq__GetAYKCommandLocation(addr);
+
+    switch (location)
+    {
+        case 0:
+            return &work->ayk.data[addr];
+
+        case 1:
+            return &seq->data[addr - 0x70000000];
+
+        case 2:
+            return &work->ayk.header->data[addr + 0x80000000];
+    }
+
+    return NULL;
+}
+
+void AYKSequence__Func_21557FC(void *a1, s32 value)
+{
+    s32 *unknownPtr = AYKSequence__GetCtrlValue(a1, 14);
+    (*unknownPtr)--;
+
+    *(s32 *)CutsceneSeq__GetAYKCommand(NULL, a1, *unknownPtr) = value;
+}
+
+NONMATCH_FUNC s32 AYKSequence__Func_2155834(void *a1)
+{
+#ifdef NON_MATCHING
+    s32 *unknownPtr = AYKSequence__GetCtrlValue(a1, 14);
+    (*unknownPtr)++;
+
+    return *(s32 *)CutsceneSeq__GetAYKCommand(NULL, a1, *unknownPtr);
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r1, #0xe
+	mov r4, r0
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r0]
+	mov r1, r4
+	add r3, r2, #1
+	str r3, [r0]
+	mov r0, #0
+	bl CutsceneSeq__GetAYKCommand
+	ldr r0, [r0]
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void *CutsceneSeq__GetAYKCommand_2155864(s32 a1, s32 *a2, s32 a3, CutsceneSeq *work, AYKSequence *a5){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r7, r0
+	and r0, r7, #3
+	ldr r4, [sp, #0x18]
+	mov r6, r1
+	mov r5, r3
+	cmp r0, #3
+	addls pc, pc, r0, lsl #2
+	b _021558CC
+_02155888: // jump table
+	b _021558C4 // case 0
+	b _02155898 // case 1
+	b _021558AC // case 2
+	b _021558C0 // case 3
+_02155898:
+	ldr r1, [r6]
+	mov r0, r4
+	bl AYKSequence__GetCtrlValue
+	mov r6, r0
+	b _021558D0
+_021558AC:
+	ldr r2, [r6]
+	mov r0, r5
+	mov r1, r4
+	bl CutsceneSeq__GetAYKCommand
+	mov r6, r0
+_021558C0:
+	b _021558D0
+_021558C4:
+	mov r6, #0
+	b _021558D0
+_021558CC:
+	mov r6, #0
+_021558D0:
+	mov r0, r7, asr #2
+	and r0, r0, #3
+	cmp r0, #1
+	beq _021558EC
+	cmp r0, #2
+	beq _02155904
+	b _0215592C
+_021558EC:
+	ldr r2, [r6]
+	mov r0, r5
+	mov r1, r4
+	bl CutsceneSeq__GetAYKCommand
+	mov r6, r0
+	b _0215592C
+_02155904:
+	mov r0, r4
+	mov r1, r7, asr #4
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r0]
+	ldr r3, [r6]
+	mov r0, r5
+	mov r1, r4
+	add r2, r3, r2
+	bl CutsceneSeq__GetAYKCommand
+	mov r6, r0
+_0215592C:
+	mov r0, r6
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__AllocAYKSequence(CutsceneSeq *work, u32 offset){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r1
+	mov r4, #0
+_02155940:
+	ldr r1, [r0]
+	mov r5, r0
+	cmp r1, #0
+	beq _02155960
+	add r4, r4, #1
+	cmp r4, #8
+	add r0, r0, #4
+	blt _02155940
+_02155960:
+	cmp r4, #8
+	mvnge r0, #0
+	ldmgeia sp!, {r4, r5, r6, pc}
+	ldr r0, =0x00000444
+	bl _AllocHeadHEAP_SYSTEM
+	ldr r2, =0x00000444
+	str r0, [r5]
+	mov r1, r0
+	mov r0, #0
+	bl MIi_CpuClear32
+	ldr r0, [r5]
+	mov r1, #0xe
+	bl AYKSequence__GetCtrlValue
+	ldr r2, =0x70000100
+	mov r1, #0xf
+	str r2, [r0]
+	ldr r0, [r5]
+	bl AYKSequence__GetCtrlValue
+	str r6, [r0]
+	mov r0, r4
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable13__Func_21559BC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	mov r0, #3
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable13__Func_21559C4(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	mov r0, #1
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable13__Func_21559CC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	mov r0, #4
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_21559D4(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	mov r0, #1
+	str r1, [r4]
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155A30(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	ldr r2, [r4]
+	mov r0, #1
+	add r1, r2, r1
+	str r1, [r4]
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155A94(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	ldr r2, [r4]
+	mov r0, #1
+	sub r1, r2, r1
+	str r1, [r4]
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155AF8(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	ldr r2, [r4]
+	mov r0, #1
+	mul r1, r2, r1
+	str r1, [r4]
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155B5C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r7, r1
+	mov r4, r2
+	mov r5, r0
+	str r7, [sp]
+	ldrb r0, [r4, #1]
+	mov r3, r5
+	add r1, r4, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r7, [sp]
+	mov r6, r0
+	ldrb r0, [r4, #2]
+	mov r3, r5
+	add r1, r4, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r5, r0
+	mov r0, r7
+	mov r1, #0xd
+	bl AYKSequence__GetCtrlValue
+	mov r4, r0
+	ldr r0, [r6]
+	ldr r1, [r5]
+	bl _s32_div_f
+	str r1, [r4]
+	ldr r1, [r5]
+	ldr r0, [r6]
+	bl _s32_div_f
+	str r0, [r6]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155BDC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	str r1, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	rsb r1, r1, #0
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155C0C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	str r1, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	add r1, r1, #1
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155C3C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	str r1, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	sub r1, r1, #1
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155C6C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	ldr r2, [r4]
+	mov r0, #1
+	mov r1, r2, asr r1
+	str r1, [r4]
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155CD0(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	ldr r2, [r4]
+	mov r0, #1
+	and r1, r2, r1
+	str r1, [r4]
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155D34(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r4]
+	cmp r1, #0
+	ldrne r0, [r0]
+	cmpne r0, #0
+	movne r0, #1
+	moveq r0, #0
+	str r0, [r4]
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155DA4(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	ldr r2, [r4]
+	mov r0, #1
+	orr r1, r2, r1
+	str r1, [r4]
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155E08(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r4]
+	cmp r1, #0
+	ldreq r0, [r0]
+	cmpeq r0, #0
+	movne r0, #1
+	moveq r0, #0
+	str r0, [r4]
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155E78(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	ldr r2, [r4]
+	mov r0, #1
+	eor r1, r2, r1
+	str r1, [r4]
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155EDC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	str r1, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	mvn r1, r1
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155F0C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	str r1, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	cmp r1, #0
+	moveq r1, #1
+	movne r1, #0
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155F44(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	ldr r2, [r4]
+	mov r0, #1
+	mov r1, r2, lsl r1
+	str r1, [r4]
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155FA8(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	ldr r2, [r4]
+	mov r0, #1
+	mov r1, r2, lsr r1
+	str r1, [r4]
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_215600C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r2, [r0]
+	ldr r1, [r4]
+	rsb r0, r2, #0x20
+	mov r0, r1, lsr r0
+	orr r0, r0, r1, lsl r2
+	str r0, [r4]
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2156078(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r2, [r0]
+	ldr r1, [r4]
+	rsb r0, r2, #0x20
+	mov r0, r1, lsl r0
+	orr r0, r0, r1, lsr r2
+	str r0, [r4]
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_21560E4(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r4]
+	ldr r0, [r0]
+	cmp r1, r0
+	moveq r0, #1
+	movne r0, #0
+	str r0, [r4]
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_2156150(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r4]
+	ldr r0, [r0]
+	cmp r1, r0
+	movne r0, #1
+	moveq r0, #0
+	str r0, [r4]
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_21561BC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r4]
+	ldr r0, [r0]
+	cmp r1, r0
+	movlt r0, #1
+	movge r0, #0
+	str r0, [r4]
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_2156228(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r4]
+	ldr r0, [r0]
+	cmp r1, r0
+	movle r0, #1
+	movgt r0, #0
+	str r0, [r4]
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_2156294(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r4]
+	ldr r0, [r0]
+	cmp r1, r0
+	movgt r0, #1
+	movle r0, #0
+	str r0, [r4]
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_2156300(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	mov r5, r2
+	mov r6, r0
+	str r4, [sp]
+	ldrb r0, [r5, #1]
+	mov r3, r6
+	add r1, r5, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r4, [sp]
+	mov r4, r0
+	ldrb r0, [r5, #2]
+	mov r3, r6
+	add r1, r5, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r4]
+	ldr r0, [r0]
+	cmp r1, r0
+	movge r0, #1
+	movlt r0, #0
+	str r0, [r4]
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable12__Func_215636C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r6, r1
+	mov r4, r2
+	mov r7, r0
+	str r6, [sp]
+	ldrb r0, [r4, #1]
+	mov r3, r7
+	add r1, r4, #4
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r6, [sp]
+	mov r5, r0
+	ldrb r0, [r4, #2]
+	mov r3, r7
+	add r1, r4, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r6
+	mov r1, #0xd
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r5]
+	ldr r1, [r4]
+	sub r1, r2, r1
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable12__Func_21563D8(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r6, r1
+	mov r4, r2
+	mov r7, r0
+	str r6, [sp]
+	ldrb r0, [r4, #1]
+	mov r3, r7
+	add r1, r4, #4
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	str r6, [sp]
+	mov r5, r0
+	ldrb r0, [r4, #2]
+	mov r3, r7
+	add r1, r4, #8
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r6
+	mov r1, #0xd
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r5]
+	ldr r1, [r4]
+	and r1, r2, r1
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_2156444(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r1
+	str r5, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #8
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r5
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r0]
+	ldr r1, [r4]
+	add r1, r2, r1
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_215648C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r1
+	str r5, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #8
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r5
+	mov r1, #0xd
+	bl AYKSequence__GetCtrlValue
+	ldr r0, [r0]
+	cmp r0, #0
+	bne _021564E4
+	mov r0, r5
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r0]
+	ldr r1, [r4]
+	add r1, r2, r1
+	str r1, [r0]
+_021564E4:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_21564EC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r1
+	str r5, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #8
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r5
+	mov r1, #0xd
+	bl AYKSequence__GetCtrlValue
+	ldr r0, [r0]
+	cmp r0, #0
+	beq _02156544
+	mov r0, r5
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r0]
+	ldr r1, [r4]
+	add r1, r2, r1
+	str r1, [r0]
+_02156544:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_215654C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r1
+	str r5, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #8
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r5
+	mov r1, #0xd
+	bl AYKSequence__GetCtrlValue
+	ldr r0, [r0]
+	cmp r0, #0
+	bge _021565A4
+	mov r0, r5
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r0]
+	ldr r1, [r4]
+	add r1, r2, r1
+	str r1, [r0]
+_021565A4:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_21565AC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r1
+	str r5, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #8
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r5
+	mov r1, #0xd
+	bl AYKSequence__GetCtrlValue
+	ldr r0, [r0]
+	cmp r0, #0
+	bgt _02156604
+	mov r0, r5
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r0]
+	ldr r1, [r4]
+	add r1, r2, r1
+	str r1, [r0]
+_02156604:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_215660C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r1
+	str r5, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #8
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r5
+	mov r1, #0xd
+	bl AYKSequence__GetCtrlValue
+	ldr r0, [r0]
+	cmp r0, #0
+	ble _02156664
+	mov r0, r5
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r0]
+	ldr r1, [r4]
+	add r1, r2, r1
+	str r1, [r0]
+_02156664:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_215666C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r1
+	str r5, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #8
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r5
+	mov r1, #0xd
+	bl AYKSequence__GetCtrlValue
+	ldr r0, [r0]
+	cmp r0, #0
+	blt _021566C4
+	mov r0, r5
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r0]
+	ldr r1, [r4]
+	add r1, r2, r1
+	str r1, [r0]
+_021566C4:
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable15__Func_21566CC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r1
+	str r5, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #8
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r5
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	ldr r1, [r0]
+	mov r0, r5
+	bl AYKSequence__Func_21557FC
+	mov r0, r5
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	ldr r2, [r0]
+	ldr r1, [r4]
+	add r1, r2, r1
+	str r1, [r0]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable15__Func_215672C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r4, r1
+	str r4, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r5, r0
+	mov r0, r4
+	mov r1, #0xe
+	bl AYKSequence__GetCtrlValue
+	ldr r3, [r0]
+	ldr r2, [r5]
+	mov r1, #0xe
+	add r2, r3, r2
+	str r2, [r0]
+	mov r0, r4
+	bl AYKSequence__GetCtrlValue
+	ldr r1, [r0]
+	ldr r0, =0x70000100
+	cmp r1, r0
+	movge r0, #2
+	ldmgeia sp!, {r3, r4, r5, pc}
+	mov r0, r4
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	mov r5, r0
+	mov r0, r4
+	bl AYKSequence__Func_2155834
+	str r0, [r5]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable15__Func_21567B4(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	sub sp, sp, #8
+	mov r5, r1
+	str r5, [sp]
+	mov r6, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r3, r6
+	mov r2, #8
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r5
+	mov r1, #0xf
+	bl AYKSequence__GetCtrlValue
+	ldr r1, [r0]
+	ldr r2, [r4]
+	mov r0, r6
+	add r1, r2, r1
+	str r1, [sp, #4]
+	bl CutsceneSeq__AllocAYKSequence
+	mov r4, r0
+	mov r0, r5
+	mov r1, #0xd
+	bl AYKSequence__GetCtrlValue
+	str r4, [r0]
+	mov r0, #1
+	add sp, sp, #8
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+s32 CutsceneSeq__FuncTable15__Func_2156824(CutsceneSeq *work, AYKSequence *aykSeq, void *command)
+{
+    return 2;
+}
+
+s32 CutsceneSeq__CallFuncTable(CutsceneSeq *work, AYKSequence *aykSeq, void *command)
+{
+    void *unknown    = CutsceneSeq__GetAYKCommand_2155864(*((u8 *)command + 1), (s32 *)command + 1, 15, work, aykSeq);
+    s32 *unknownPtr  = AYKSequence__GetCtrlValue(aykSeq, 14);
+    void *commandPtr = CutsceneSeq__GetAYKCommand(work, aykSeq, *unknownPtr);
+
+    return work->ayk.funcTable[*((s16 *)unknown + 1)][*(s16 *)unknown](commandPtr, work);
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable14__Func_215689C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	str r4, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #0xf
+	bl CutsceneSeq__GetAYKCommand_2155864
+	ldr r1, [r0]
+	mov r0, r4
+	bl AYKSequence__Func_21557FC
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable14__Func_21568D8(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r1
+	str r5, [sp]
+	mov r3, r0
+	ldrb r0, [r2, #1]
+	add r1, r2, #4
+	mov r2, #3
+	bl CutsceneSeq__GetAYKCommand_2155864
+	mov r4, r0
+	mov r0, r5
+	bl AYKSequence__Func_2155834
+	str r0, [r4]
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__GetUnknown2157E58(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__InitUnknown2156918(Unknown2156918 *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r1, r4
+	mov r0, #0
+	mov r2, #0x1c
+	bl MIi_CpuClear16
+	mov r0, r4
+	bl CutsceneSeq__CreateUnknown2157E58
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215693C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	bl CutsceneAssetSystem__Func_21589F8
+	mov r0, r4
+	bl CutsceneAssetSystem__Func_21588DC
+	mov r0, r4
+	bl CutsceneAssetSystem__Func_215867C
+	mov r0, r4
+	bl CutsceneAssetSystem__Func_2158328
+	mov r0, r4
+	bl CutsceneAssetSystem__Func_2158138
+	mov r0, r4
+	bl CutsceneAssetSystem__Func_2157F84
+	mov r0, r4
+	bl CutsceneAssetSystem__Func_2157E74
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ovl07_215697C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =sub_2157EAC
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Unknown__GetArchive(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #4]
+	sub r1, r1, #1
+	ldr r2, [r0, #4]
+	mov r0, #0x18
+	mla r0, r1, r0, r2
+	ldr r0, [r0, #0xc]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_21569A4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	sub r2, r1, #1
+	mov r1, #0x18
+	mul r1, r2, r1
+	ldr r0, [r0, #4]
+	ldr r0, [r0, #4]
+	ldr r0, [r0, r1]
+	cmp r0, #1
+	moveq r0, #1
+	movne r0, #0
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_21569CC(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	cmp r1, #0
+	movne r1, #1
+	ldr r0, [r0, #4]
+	moveq r1, #0
+	str r1, [r0, #8]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_21569E4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #4]
+	ldr r0, [r0, #8]
+	cmp r0, #0
+	movne r0, #1
+	moveq r0, #0
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_21569FC(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	cmp r1, #0
+	movne r1, #1
+	ldr r0, [r0, #4]
+	moveq r1, #0
+	str r1, [r0, #0xc]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__MountArchive(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	sub r1, r1, #1
+	mov r3, #0x18
+	mov r6, r0
+	ldr r5, [r6, #4]
+	mul r4, r1, r3
+	ldr r3, [r5, #4]
+	mov r5, r2
+	add r2, r3, r4
+	ldr r2, [r2, #0x14]
+	cmp r2, #0
+	beq _02156A48
+	bl Unknown__ReleaseArchive
+_02156A48:
+	mov r0, #0x6c
+	bl _AllocHeadHEAP_SYSTEM
+	ldr r1, [r6, #4]
+	mov r2, #0x6c
+	ldr r1, [r1, #4]
+	add r1, r1, r4
+	str r0, [r1, #0x14]
+	ldr r1, [r6, #4]
+	mov r0, #0
+	ldr r1, [r1, #4]
+	add r1, r1, r4
+	ldr r1, [r1, #0x14]
+	bl MIi_CpuClear16
+	ldr r0, [r6, #4]
+	mov r1, r5
+	ldr r0, [r0, #4]
+	add r2, r0, r4
+	ldr r0, [r2, #0x14]
+	ldr r2, [r2, #0xc]
+	bl NNS_FndMountArchive
+	ldr r0, [r6, #4]
+	ldr r1, [r5]
+	ldr r0, [r0, #4]
+	add r0, r0, r4
+	ldr r0, [r0, #0x14]
+	str r1, [r0, #0x68]
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Unknown__ReleaseArchive(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	sub r2, r1, #1
+	mov r1, #0x18
+	mov r5, r0
+	ldr r0, [r5, #4]
+	mul r4, r2, r1
+	ldr r0, [r0, #4]
+	add r0, r0, r4
+	ldr r0, [r0, #0x14]
+	bl NNS_FndUnmountArchive
+	ldr r0, [r5, #4]
+	ldr r0, [r0, #4]
+	add r0, r0, r4
+	ldr r0, [r0, #0x14]
+	bl _FreeHEAP_SYSTEM
+	ldr r0, [r5, #4]
+	mov r1, #0
+	ldr r0, [r0, #4]
+	add r0, r0, r4
+	str r1, [r0, #0x14]
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2156B08(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	ldr r5, [r0, #4]
+	mov r3, r2
+	ldr r4, [r5, #0x10]
+	cmp r4, #0
+	movne r0, #0
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+	ldr ip, [r5]
+	mov r2, #0
+	cmp ip, #0
+	bls _02156BB0
+	ldr r6, [r5, #4]
+	mov r4, r2
+	mov lr, r6
+	mvn r7, #0
+_02156B44:
+	ldr r8, [lr]
+	cmp r8, #0
+	bne _02156B5C
+	ldr r8, [r6, r4]
+	cmp r8, r7
+	bne _02156B9C
+_02156B5C:
+	add r9, r6, r4
+	ldr r8, [r9, #4]
+	cmp r1, r8
+	ldreq r8, [r9, #8]
+	cmpeq r3, r8
+	bne _02156B9C
+	mov r0, #0x18
+	mul r3, r2, r0
+	ldr r1, [r6, r3]
+	sub r0, r0, #0x19
+	cmp r1, r0
+	moveq r0, #1
+	addne r0, r1, #1
+	str r0, [r6, r3]
+	add r0, r2, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+_02156B9C:
+	add r2, r2, #1
+	cmp r2, ip
+	add lr, lr, #0x18
+	add r4, r4, #0x18
+	blo _02156B44
+_02156BB0:
+	cmp ip, #0
+	mov r6, #0
+	bls _02156BDC
+	ldr r4, [r5, #4]
+_02156BC0:
+	ldr r2, [r4]
+	cmp r2, #0
+	beq _02156BDC
+	add r6, r6, #1
+	cmp r6, ip
+	add r4, r4, #0x18
+	blo _02156BC0
+_02156BDC:
+	mov r2, r1
+	add r1, r6, #1
+	bl sub_2156C88
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2156BEC(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r2, #0x18
+	sub r3, r1, #1
+	mov r6, r0
+	ldr r0, [r6, #4]
+	mul r4, r3, r2
+	ldr r5, [r0, #4]
+	sub r0, r2, #0x19
+	ldr r2, [r5, r4]
+	sub r2, r2, #1
+	str r2, [r5, r4]
+	cmp r2, r0
+	bne _02156C70
+	ldr r2, [r6, #4]
+	ldr r0, [r2, #0x10]
+	cmp r0, r1
+	bne _02156C68
+	add r0, r2, #0x14
+	bl ArchiveFile__JoinThread
+	cmp r0, #0
+	beq _02156C44
+	bl _FreeHEAP_SYSTEM
+_02156C44:
+	ldr r0, [r6, #4]
+	add r0, r0, #0x14
+	bl ArchiveFile__Release
+	ldr r0, [r6, #4]
+	mov r1, #0
+	str r1, [r0, #0x10]
+	ldr r0, [r6, #4]
+	add r0, r0, #0x14
+	bl ArchiveFile__Init
+_02156C68:
+	mov r0, #0
+	str r0, [r5, r4]
+_02156C70:
+	ldr r0, [r5, r4]
+	cmp r0, #0
+	ldmneia sp!, {r4, r5, r6, pc}
+	add r0, r5, r4
+	bl sub_2157F0C
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2156C88(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
+	sub sp, sp, #8
+	mov r10, r0
+	ldr r4, [r10, #4]
+	mov r9, r1
+	ldr r0, [r4, #0x10]
+	mov r8, r2
+	cmp r0, #0
+	mov r5, #0
+	mov r7, r3
+	addne sp, sp, #8
+	movne r0, r5
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+	ldr r2, [r4, #4]
+	sub r1, r9, #1
+	mov r0, #0x18
+	mla r4, r1, r0, r2
+	mov r0, r4
+	bl sub_2157F0C
+	cmp r7, #0
+	bge _02156D8C
+	ldrsb r0, [r8, #3]
+	mvn r7, #0
+	cmp r0, #0x3a
+	bne _02156D8C
+	ldr r2, [r10, #4]
+	ldr r0, [r8]
+	ldr r1, [r2]
+	str r0, [sp, #4]
+	mov r0, r5
+	strb r0, [sp, #7]
+	cmp r1, #0
+	bls _02156D8C
+	ldr ip, [r2, #4]
+	ldr r6, [sp, #4]
+	mov r2, ip
+	mov r3, r0
+_02156D1C:
+	ldr lr, [r2]
+	cmp lr, #0
+	addne lr, ip, r3
+	ldrne lr, [lr, #0x14]
+	cmpne lr, #0
+	beq _02156D78
+	ldr lr, [lr, #0x68]
+	cmp r6, lr
+	bne _02156D78
+	mov r1, #0x18
+	mul r6, r0, r1
+	add r1, ip, r6
+	mov r0, r8
+	str r1, [r4, #0x10]
+	bl NNS_FndGetArchiveFileByName
+	str r0, [r4, #0xc]
+	ldr r0, [r10, #4]
+	mov r5, #1
+	ldr r1, [r0, #4]
+	ldr r0, [r1, r6]
+	add r0, r0, #1
+	str r0, [r1, r6]
+	b _02156D8C
+_02156D78:
+	add r0, r0, #1
+	cmp r0, r1
+	add r2, r2, #0x18
+	add r3, r3, #0x18
+	blo _02156D1C
+_02156D8C:
+	mov r0, #1
+	stmia r4, {r0, r8}
+	str r7, [r4, #8]
+	cmp r5, #0
+	bne _02156E04
+	ldr r1, [r10, #4]
+	ldr r0, [r1, #0xc]
+	cmp r0, #0
+	addne r2, r1, #0x14
+	ldr r0, [r1, #8]
+	moveq r2, #0
+	cmp r0, #0
+	movne r3, #1
+	str r2, [sp]
+	moveq r3, #0
+	mov r0, r8
+	mov r1, r7
+	mov r2, #0
+	bl ArchiveFile__Load
+	str r0, [r4, #0xc]
+	ldr r1, [r10, #4]
+	ldr r0, [r1, #0xc]
+	cmp r0, #0
+	beq _02156E04
+	str r9, [r1, #0x10]
+	mvn r0, #0
+	str r0, [r4]
+	add sp, sp, #8
+	mov r0, #0
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+_02156E04:
+	mov r0, r9
+	add sp, sp, #8
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__AllocTouchField(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	bl sub_2158088
+	ldr r0, [r4, #8]
+	add r0, r0, #8
+	bl TouchField__Init
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2156E2C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #8]
+	ldr r0, [r0]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void AnimatorManager__GetAnimator(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #8]
+	sub r1, r1, #1
+	ldr r2, [r0, #4]
+	mov r0, #0x70
+	mla r0, r1, r0, r2
+	add r0, r0, #4
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2156E54(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #8]
+	sub r1, r1, #1
+	ldr r2, [r0, #4]
+	mov r0, #0x70
+	mla r0, r1, r0, r2
+	ldr r0, [r0, #0x68]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2156E70(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #8]
+	sub r1, r1, #1
+	ldr r2, [r0, #4]
+	mov r0, #0x70
+	mla r0, r1, r0, r2
+	add r0, r0, #0x6c
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__LoadSpriteFromAYK2(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #0xc
+	ldr ip, [r0, #4]
+	mov r5, r2
+	ldr ip, [ip, #0x10]
+	cmp ip, #0
+	addne sp, sp, #0xc
+	movne r0, #0
+	ldmneia sp!, {r4, r5, pc}
+	ldr r2, [r0, #8]
+	mov lr, #0
+	ldr ip, [r2]
+	cmp ip, #0
+	bls _02156EE4
+	ldr r4, [r2, #4]
+_02156EC8:
+	ldr r2, [r4]
+	cmp r2, #0
+	beq _02156EE4
+	add lr, lr, #1
+	cmp lr, ip
+	add r4, r4, #0x70
+	blo _02156EC8
+_02156EE4:
+	ldrh r2, [sp, #0x18]
+	ldrh ip, [sp, #0x1c]
+	str r3, [sp]
+	str r2, [sp, #4]
+	mov r2, r1
+	mov r3, r5
+	add r1, lr, #1
+	str ip, [sp, #8]
+	bl CutsceneSeq__LoadSpriteFromAYK
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__LoadSpriteFromAYK(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	sub sp, sp, #0x1c
+	mov r10, r0
+	ldr r0, [r10, #4]
+	ldr r7, [sp, #0x40]
+	ldr r0, [r0, #0x10]
+	mov r9, r1
+	cmp r0, #0
+	mov r8, r2
+	mov r11, r3
+	addne sp, sp, #0x1c
+	movne r0, #0
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	sub r1, r9, #1
+	mov r0, #0x70
+	mul r4, r1, r0
+	ldr r0, [r10, #8]
+	mov r1, r10
+	ldr r5, [r0, #4]
+	add r6, r5, r4
+	mov r0, r6
+	bl sub_21580E0
+	mov r0, r10
+	mov r1, r8
+	mov r2, r11
+	bl sub_2156B08
+	movs r1, r0
+	str r0, [r5, r4]
+	addeq sp, sp, #0x1c
+	moveq r0, #0
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	mov r0, r10
+	bl Unknown__GetArchive
+	mov r1, #0
+	mov r4, r0
+	bl Sprite__GetFormatFromAnim
+	cmp r0, #1
+	beq _02157004
+	cmp r7, #1
+	ldrne r5, =0x05000200
+	mov r0, r4
+	mov r1, r7
+	ldreq r5, =0x05000600
+	bl SpriteUnknown__GetSpriteSize
+	mov r1, r0
+	mov r0, r7
+	bl VRAMSystem__AllocSpriteVram
+	str r7, [sp]
+	mov r1, #0
+	str r1, [sp, #4]
+	str r0, [sp, #8]
+	str r1, [sp, #0xc]
+	str r5, [sp, #0x10]
+	str r1, [sp, #0x14]
+	str r1, [sp, #0x18]
+	ldrh r2, [sp, #0x44]
+	ldr r3, =0x00000804
+	mov r1, r4
+	add r0, r6, #4
+	bl AnimatorSprite__Init
+	b _0215705C
+_02157004:
+	cmp r7, #1
+	movne r5, #2
+	mov r0, r4
+	mov r1, r7
+	moveq r5, #4
+	bl SpriteUnknown__GetSpriteSize
+	mov r1, r0
+	mov r0, r7
+	bl VRAMSystem__AllocSpriteVram
+	str r7, [sp]
+	mov r1, #0
+	str r1, [sp, #4]
+	str r0, [sp, #8]
+	str r5, [sp, #0xc]
+	str r1, [sp, #0x10]
+	str r1, [sp, #0x14]
+	str r1, [sp, #0x18]
+	ldrh r2, [sp, #0x44]
+	ldr r3, =0x00000804
+	mov r1, r4
+	add r0, r6, #4
+	bl AnimatorSprite__Init
+_0215705C:
+	ldrh r1, [sp, #0x48]
+	mov r0, r9
+	strh r1, [r6, #0x54]
+	add sp, sp, #0x1c
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_215707C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	sub sp, sp, #8
+	mov r4, r0
+	ldr r0, [r4, #8]
+	sub r1, r1, #1
+	ldr ip, [r0, #4]
+	mov r0, #0x70
+	mla r5, r1, r0, ip
+	ldr r0, [r5, #0x68]
+	mov r7, r2
+	mov r6, r3
+	cmp r0, #0
+	bne _021570CC
+	mov r0, #0x54
+	bl _AllocHeadHEAP_SYSTEM
+	str r0, [r5, #0x68]
+	mov r1, r0
+	mov r0, #0
+	mov r2, #0x54
+	bl MIi_CpuClear16
+_021570CC:
+	ldr r0, [sp, #0x20]
+	mov r3, r7
+	stmia sp, {r0, r6}
+	ldr r1, [r4, #8]
+	ldr r0, [r5, #0x68]
+	add r1, r1, #8
+	add r2, r5, #4
+	bl sub_21595C4
+	add sp, sp, #8
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_21570F4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	ldr r0, [r0, #8]
+	sub r1, r1, #1
+	ldr r2, [r0, #4]
+	mov r0, #0x70
+	mla r4, r1, r0, r2
+	ldr r0, [r4, #0x68]
+	bl sub_215965C
+	ldr r0, [r4, #0x68]
+	bl _FreeHEAP_SYSTEM
+	mov r0, #0
+	str r0, [r4, #0x68]
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157128(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	mov r3, r0
+	ldr r0, [r3, #8]
+	sub r1, r1, #1
+	ldr r2, [r0, #4]
+	mov r0, #0x70
+	mla r0, r1, r0, r2
+	ldr ip, =sub_21580E0
+	mov r1, r3
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ovl07_2157150(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =Unknown__AllocBackgroundManager
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_215715C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r2, [r0, #0xc]
+	sub r1, r1, #1
+	mov r0, #0x50
+	mla r0, r1, r0, r2
+	add r0, r0, #4
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157174(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r2, [r0, #0xc]
+	sub r1, r1, #1
+	mov r0, #0x50
+	mla r0, r1, r0, r2
+	add r0, r0, #0x4c
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_215718C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r3, [r0, #0xc]
+	orr r1, r2, r1, lsl #2
+	mov r0, #0x50
+	mla r0, r1, r0, r3
+	add r0, r0, #0x4c
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_21571A4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	mov r0, #8
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__LoadBBGFromAYK(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	sub sp, sp, #0x20
+	mov r8, r0
+	ldr r0, [r8, #4]
+	ldr r4, [sp, #0x48]
+	ldr r0, [r0, #0x10]
+	mov r5, r3
+	cmp r0, #0
+	str r2, [sp, #0xc]
+	mov r10, r1
+	orr r11, r4, r5, lsl #2
+	addne sp, sp, #0x20
+	movne r0, #0
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	mov r0, #0x50
+	mul r9, r11, r0
+	ldr r7, [r8, #0xc]
+	mov r1, r8
+	add r6, r7, r9
+	mov r0, r6
+	bl sub_21582F4
+	ldr r2, [sp, #0xc]
+	mov r0, r8
+	mov r1, r10
+	bl sub_2156B08
+	movs r1, r0
+	str r0, [r7, r9]
+	addeq sp, sp, #0x20
+	moveq r0, #0
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	mov r0, r8
+	bl Unknown__GetArchive
+	str r0, [sp, #0x14]
+	bl CheckBackgroundIsValid
+	cmp r0, #0
+	beq _021573B4
+	ldr r0, [sp, #0x14]
+	mov r7, #0x338
+	bl GetBackgroundWidth
+	mov r8, r0
+	ldr r0, [sp, #0x14]
+	bl GetBackgroundHeight
+	mov r9, r0
+	mov r1, #0
+	ldr r0, [sp, #0x14]
+	str r1, [sp, #0x10]
+	bl GetBackgroundFormat
+	cmp r0, #6
+	addls pc, pc, r0, lsl #2
+	b _02157348
+_02157274: // jump table
+	b _021572C0 // case 0
+	b _021572C0 // case 1
+	b _02157290 // case 2
+	b _021572F8 // case 3
+	b _021572F8 // case 4
+	b _021572F8 // case 5
+	b _021572F8 // case 6
+_02157290:
+	ldr r0, =VRAMSystem__GFXControl
+	cmp r4, #2
+	ldr r0, [r0, r5, lsl #2]
+	addeq r10, r0, #0x28
+	addne r10, r0, #0x40
+	mov r0, r10
+	bl MTX_Identity22_
+	mov r0, #0
+	strh r0, [r10, #0x12]
+	strh r0, [r10, #0x10]
+	strh r0, [r10, #0x16]
+	strh r0, [r10, #0x14]
+_021572C0:
+	ldr r0, =VRAMSystem__GFXControl
+	cmp r8, #0x20
+	ldr r2, [r0, r5, lsl #2]
+	mov r1, #0
+	add r0, r2, r4, lsl #2
+	strh r1, [r0, #2]
+	mov r0, r4, lsl #2
+	orrhi r7, r7, #0x40
+	movhi r8, #0x20
+	cmp r9, #0x18
+	orrhi r7, r7, #0x80
+	movhi r9, #0x18
+	strh r1, [r2, r0]
+	b _02157348
+_021572F8:
+	ldr r0, =VRAMSystem__GFXControl
+	cmp r8, #0x100
+	ldr r0, [r0, r5, lsl #2]
+	orrhi r7, r7, #0x40
+	movhi r8, #0x100
+	cmp r9, #0xc0
+	orrhi r7, r7, #0x80
+	movhi r9, #0xc0
+	cmp r4, #2
+	addeq r10, r0, #0x28
+	addne r10, r0, #0x40
+	mov r0, r10
+	bl MTX_Identity22_
+	mov r0, #0
+	strh r0, [r10, #0x12]
+	strh r0, [r10, #0x10]
+	strh r0, [r10, #0x16]
+	strh r0, [r10, #0x14]
+	mov r0, #1
+	str r0, [sp, #0x10]
+_02157348:
+	ldr r1, [sp, #0x14]
+	stmia sp, {r4, r8, r9}
+	mov r2, r7
+	mov r3, r5
+	add r0, r6, #4
+	bl InitBackground
+	add r0, r6, #4
+	bl DrawBackground
+	ldr r0, [sp, #0x10]
+	ldr r1, [r6, #4]
+	cmp r0, #0
+	orr r0, r1, #1
+	str r0, [r6, #4]
+	ldreq r0, [r6, #4]
+	mov r1, #0
+	orreq r0, r0, #2
+	streq r0, [r6, #4]
+	tst r7, #0xc0
+	ldreq r0, [r6, #4]
+	orreq r0, r0, #4
+	streq r0, [r6, #4]
+	cmp r5, #0
+	moveq r0, #0x5000000
+	streqh r1, [r0]
+	ldrne r0, =0x05000400
+	strneh r1, [r0]
+	b _02157418
+_021573B4:
+	add r2, sp, #0x1c
+	add r3, sp, #0x18
+	mov r0, r5
+	mov r1, r4
+	bl GetVRAMPixelConfig
+	ldr r0, =VRAMSystem__VRAM_BG
+	ldrh r1, [sp, #0x18]
+	ldr r2, [r0, r5, lsl #2]
+	ldr r0, [sp, #0x14]
+	add r1, r2, r1, lsl #14
+	mov r2, #0x100
+	mov r3, #0xc0
+	bl CutsceneAssetSystem__Func_215A124
+	ldr r0, =VRAMSystem__GFXControl
+	cmp r4, #2
+	ldr r0, [r0, r5, lsl #2]
+	addeq r4, r0, #0x28
+	addne r4, r0, #0x40
+	mov r0, r4
+	bl MTX_Identity22_
+	mov r0, #0
+	strh r0, [r4, #0x12]
+	strh r0, [r4, #0x10]
+	strh r0, [r4, #0x16]
+	strh r0, [r4, #0x14]
+_02157418:
+	add r0, r11, #1
+	add sp, sp, #0x20
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157430(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	mov r3, r0
+	ldr r2, [r3, #0xc]
+	sub r1, r1, #1
+	mov r0, #0x50
+	mla r0, r1, r0, r2
+	ldr ip, =sub_21582F4
+	mov r1, r3
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157454(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =Unknown__AllocModelManager
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157460(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #0x10]
+	ldr r0, [r0]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_215746C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #0x10]
+	sub r1, r1, #1
+	ldr r2, [r0, #4]
+	mov r0, #0x164
+	mla r0, r1, r0, r2
+	add r0, r0, #0x1c
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__LoadMDL(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	ldr ip, [r0, #4]
+	mov r5, r2
+	ldr ip, [ip, #0x10]
+	cmp ip, #0
+	movne r0, #0
+	ldmneia sp!, {r3, r4, r5, pc}
+	ldr r2, [r0, #0x10]
+	mov ip, #0
+	ldr lr, [r2]
+	cmp lr, #0
+	bls _021574D8
+	ldr r4, [r2, #4]
+_021574BC:
+	ldr r2, [r4]
+	cmp r2, #0
+	beq _021574D8
+	add ip, ip, #1
+	cmp ip, lr
+	add r4, r4, #0x164
+	blo _021574BC
+_021574D8:
+	str r3, [sp]
+	mov r2, r1
+	mov r3, r5
+	add r1, ip, #1
+	bl CutsceneSeq__LoadMDLFromAYK
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__LoadMDLFromAYK(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	ldr r0, [r7, #4]
+	mov r6, r1
+	ldr r0, [r0, #0x10]
+	mov r5, r2
+	cmp r0, #0
+	mov r4, r3
+	addne sp, sp, #4
+	movne r0, #0
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+	sub r1, r6, #1
+	mov r0, #0x164
+	mul r8, r1, r0
+	ldr r0, [r7, #0x10]
+	mov r1, r7
+	ldr r9, [r0, #4]
+	add r10, r9, r8
+	mov r0, r10
+	bl sub_215858C
+	mov r0, r7
+	mov r1, r5
+	mov r2, r4
+	bl sub_2156B08
+	movs r1, r0
+	str r0, [r9, r8]
+	addeq sp, sp, #4
+	moveq r0, #0
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+	mov r0, r7
+	bl Unknown__GetArchive
+	mov r4, r0
+	ldr r1, [r10]
+	mov r0, r7
+	bl sub_21569A4
+	cmp r0, #0
+	beq _02157590
+	mov r0, r4
+	bl NNS_G3dResDefaultSetup
+_02157590:
+	add r0, r10, #0x1c
+	mov r1, #0
+	bl AnimatorMDL__Init
+	mov r3, #0
+	ldr r2, [sp, #0x28]
+	mov r1, r4
+	add r0, r10, #0x1c
+	str r3, [sp]
+	bl AnimatorMDL__SetResource
+	mov r0, r6
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadAniMDLFromAYK(void *a1, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #4
+	mov r8, r0
+	ldr r4, [r8, #4]
+	mov r7, r2
+	ldr r2, [r4, #0x10]
+	mov r6, r3
+	cmp r2, #0
+	add r5, r7, #1
+	addne sp, sp, #4
+	movne r0, #0
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, pc}
+	ldr r3, [r8, #0x10]
+	sub r2, r1, #1
+	ldr r3, [r3, #4]
+	mov r1, #0x164
+	mla r4, r2, r1, r3
+	ldr r1, [r4, r5, lsl #2]
+	cmp r1, #0
+	beq _02157614
+	bl sub_2156BEC
+_02157614:
+	ldr r2, [sp, #0x20]
+	mov r0, r8
+	mov r1, r6
+	bl sub_2156B08
+	movs r1, r0
+	str r0, [r4, r5, lsl #2]
+	addeq sp, sp, #4
+	moveq r0, #0
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
+	mov r0, r8
+	bl Unknown__GetArchive
+	mov r6, r0
+	cmp r7, #2
+	beq _0215766C
+	ldr r3, [sp, #0x24]
+	mov r5, #0
+	mov r1, r7
+	mov r2, r6
+	add r0, r4, #0x1c
+	str r5, [sp]
+	bl AnimatorMDL__SetAnimation
+	b _0215772C
+_0215766C:
+	ldr r1, [r4, #0x18]
+	cmp r1, #0
+	beq _02157688
+	mov r0, r8
+	bl sub_2156BEC
+	mov r0, #0
+	str r0, [r4, #0x18]
+_02157688:
+	ldr r1, [sp, #0x28]
+	cmp r1, #0
+	beq _02157700
+	ldr r2, [sp, #0x2c]
+	mov r0, r8
+	bl sub_2156B08
+	cmp r0, #0
+	str r0, [r4, #0x18]
+	addeq sp, sp, #4
+	moveq r0, #0
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
+	mov r0, r8
+	bl sub_21569E4
+	cmp r0, #0
+	beq _021576D0
+	ldr r1, [r4, r5, lsl #2]
+	mov r0, r8
+	bl sub_2156BEC
+_021576D0:
+	ldr r1, [r4, #0x18]
+	mov r0, r8
+	bl Unknown__GetArchive
+	mov r5, r0
+	ldr r1, [r4, #0x18]
+	mov r0, r8
+	bl sub_21569A4
+	cmp r0, #0
+	beq _02157714
+	mov r0, r5
+	bl NNS_G3dResDefaultSetup
+	b _02157714
+_02157700:
+	ldr r1, [r4]
+	mov r0, r8
+	bl Unknown__GetArchive
+	bl NNS_G3dGetTex
+	mov r5, r0
+_02157714:
+	ldr r3, [sp, #0x24]
+	mov r1, r7
+	mov r2, r6
+	add r0, r4, #0x1c
+	str r5, [sp]
+	bl AnimatorMDL__SetAnimation
+_0215772C:
+	mov r0, #1
+	add sp, sp, #4
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157738(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #0x44
+	mov r7, r0
+	mov r6, r1
+	mov r5, r2
+	mov r4, r3
+	bl sub_215793C
+	ldr r1, [r7, #0x10]
+	sub r0, r5, #1
+	str r6, [r1, #8]
+	str r0, [r1, #0xc]
+	str r4, [r1, #0x60]
+	ldr r0, [r1, #0x20]
+	cmp r0, #0
+	beq _021577A0
+	ldr ip, =0x2AAAAAAB
+	mov r2, r4, lsr #0x1f
+	smull r3, r4, ip, r4
+	add r4, r2, r4, asr #5
+	smull r3, r2, r0, r4
+	adds r3, r3, #0x800
+	adc r2, r2, #0
+	mov r3, r3, lsr #0xc
+	orr r3, r3, r2, lsl #20
+	add r0, r0, r3
+	b _021577B4
+_021577A0:
+	ldr r3, =0x2AAAAAAB
+	mov r0, r4, lsr #0x1f
+	smull r2, r4, r3, r4
+	add r4, r0, r4, asr #5
+	add r0, r4, #0x1000
+_021577B4:
+	str r0, [r1, #0x64]
+	mov r0, r7
+	mov r1, r5
+	bl sub_215746C
+	mov r1, #4
+	strb r1, [r0, #0xa]
+	cmp r6, #1
+	beq _021577E8
+	cmp r6, #2
+	beq _02157818
+	cmp r6, #3
+	beq _02157848
+	b _02157874
+_021577E8:
+	ldr r1, =G3dRenderObjCallback_2157B7C
+	mov r4, #3
+	add r0, r0, #0x90
+	mov r2, #0
+	mov r3, #6
+	str r4, [sp]
+	bl NNS_G3dRenderObjSetCallBack
+	bl Camera3D__GetTask
+	cmp r0, #0
+	beq _02157874
+	bl Camera3D__Destroy
+	b _02157874
+_02157818:
+	ldr r1, =G3dRenderObjCallback_2157B7C
+	mov r4, #3
+	add r0, r0, #0x90
+	mov r2, #0
+	mov r3, #6
+	str r4, [sp]
+	bl NNS_G3dRenderObjSetCallBack
+	bl Camera3D__GetTask
+	cmp r0, #0
+	bne _02157874
+	bl Camera3D__Create
+	b _02157874
+_02157848:
+	ldr r1, =G3dRenderObjCallback_2157C28
+	mov r4, #3
+	add r0, r0, #0x90
+	mov r2, #0
+	mov r3, #6
+	str r4, [sp]
+	bl NNS_G3dRenderObjSetCallBack
+	bl Camera3D__GetTask
+	cmp r0, #0
+	bne _02157874
+	bl Camera3D__Create
+_02157874:
+	add r1, sp, #0x14
+	mov r0, #0
+	mov r2, #0x30
+	bl MIi_CpuClear16
+	mov r1, #0
+	mov r2, r1
+	mov r0, #0x11
+	bl NNS_G3dGeBufferOP_N
+	add r1, sp, #0x14
+	mov r0, #0x17
+	mov r2, #0xc
+	bl NNS_G3dGeBufferOP_N
+	mov r3, #0x1e
+	add r1, sp, #0x10
+	mov r0, #0x13
+	mov r2, #1
+	str r3, [sp, #0x10]
+	bl NNS_G3dGeBufferOP_N
+	mov r2, #1
+	add r1, sp, #0xc
+	mov r0, #0x12
+	str r2, [sp, #0xc]
+	bl NNS_G3dGeBufferOP_N
+	mov r1, #0
+	mov r0, #0x11
+	mov r2, r1
+	bl NNS_G3dGeBufferOP_N
+	mov r0, #0x1000
+	rsb r0, r0, #0
+	str r0, [sp, #0x40]
+	mov r0, #0x17
+	add r1, sp, #0x14
+	mov r2, #0xc
+	bl NNS_G3dGeBufferOP_N
+	mov r0, #0x1d
+	str r0, [sp, #8]
+	mov r0, #0x13
+	add r1, sp, #8
+	mov r2, #1
+	bl NNS_G3dGeBufferOP_N
+	mov r2, #1
+	mov r0, #0x12
+	add r1, sp, #4
+	str r2, [sp, #4]
+	bl NNS_G3dGeBufferOP_N
+	add sp, sp, #0x44
+	ldmia sp!, {r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_215793C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	ldr r4, [r0, #0x10]
+	ldr r1, [r4, #8]
+	cmp r1, #0
+	ldmeqia sp!, {r4, pc}
+	ldr r1, [r4, #0xc]
+	add r1, r1, #1
+	bl sub_215746C
+	mov r1, #0
+	strb r1, [r0, #0xa]
+	add r0, r0, #0x90
+	bl NNS_G3dRenderObjResetCallBack
+	ldr r0, [r4, #8]
+	cmp r0, #2
+	cmpne r0, #3
+	bne _02157980
+	bl Camera3D__Destroy
+_02157980:
+	mov r0, #0
+	str r0, [r4, #8]
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__LoadBSD(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r1
+	mov r4, r0
+	ldr r1, =0x001FFFFE
+	mov r0, r5
+	bl LoadDrawState
+	ldr r4, [r4, #0x10]
+	mov r0, r5
+	add r1, r4, #0x10
+	bl GetDrawStateCameraProjection
+	mov r0, #0x1000
+	str r0, [r4, #0x4c]
+	ldr r1, [r4, #0x60]
+	cmp r1, #0
+	ldreq r0, [r4, #0x20]
+	streq r0, [r4, #0x64]
+	ldmeqia sp!, {r3, r4, r5, pc}
+	ldr r2, =0x2AAAAAAB
+	mov r0, r1, lsr #0x1f
+	smull r1, r3, r2, r1
+	ldr r2, [r4, #0x20]
+	add r3, r0, r3, asr #5
+	smull r1, r0, r2, r3
+	adds r1, r1, #0x800
+	adc r0, r0, #0
+	mov r1, r1, lsr #0xc
+	orr r1, r1, r0, lsl #20
+	add r0, r2, r1
+	str r0, [r4, #0x64]
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157A0C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	mov r3, r0
+	ldr r0, [r3, #0x10]
+	sub r1, r1, #1
+	ldr r2, [r0, #4]
+	mov r0, #0x164
+	mla r0, r1, r0, r2
+	ldr ip, =sub_215858C
+	mov r1, r3
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ovl07_2157A34(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =sub_2158828
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2157A40(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r6, r1
+	ldr r1, [sp, #0x18]
+	mov r7, r0
+	mov r5, r2
+	mov r4, r3
+	bl CutsceneAssetSystem__Func_21589AC
+	ldr r0, [r7, #0x18]
+	str r6, [r0]
+	str r5, [r0, #4]
+	str r4, [r0, #8]
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+void CutsceneSeq__Func_2157A70(Unknown2156918 *work)
+{
+    CutsceneSeq__Func_2157E90(work);
+    CutsceneSeq__Func_2158014(work);
+    CutsceneSeq__Func_21581B0(work);
+    CutsceneSeq__Func_2158378(work);
+    CutsceneSeq__Func_2158714(work);
+    CutsceneSeq__Func_2158950(work);
+    CutsceneSeq__Func_2158A4C(work);
+}
+
+NONMATCH_FUNC NNSSndHandle *Unknown__GetSndHandle(Unknown2156918 *work, s32 id){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r2, [r0, #0x14]
+	sub r0, r1, #1
+	ldr r1, [r2, #4]
+	add r0, r1, r0, lsl #3
+	ldr r0, [r0, #4]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 Unknown__GetAvailSoundHandle(Unknown2156918 *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #0x14]
+	mov r1, #0
+	ldr r2, [r0]
+	cmp r2, #0
+	bls _02157B00
+	ldr r3, [r0, #4]
+_02157AE0:
+	ldr r0, [r3, r1, lsl #3]
+	cmp r0, #0
+	moveq r0, #1
+	streq r0, [r3, r1, lsl #3]
+	beq _02157B00
+	add r1, r1, #1
+	cmp r1, r2
+	blo _02157AE0
+_02157B00:
+	add r0, r1, #1
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157B08(Unknown2156918 *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r0
+	ldr r1, [r5, #0x14]
+	ldr r4, [r1]
+	bl CutsceneAssetSystem__Func_21588DC
+	mov r0, r5
+	mov r1, r4
+	bl sub_2158828
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157B2C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	ldr r0, [r0, #0x14]
+	mov r6, r1
+	ldr r4, [r0, #4]
+	ldr r0, [r0]
+	add r5, r4, r0, lsl #3
+	cmp r4, r5
+	ldmeqia sp!, {r4, r5, r6, pc}
+_02157B4C:
+	ldr r0, [r4, #4]
+	cmp r0, #0
+	beq _02157B60
+	mov r1, r6
+	bl NNS_SndPlayerStopSeq
+_02157B60:
+	add r4, r4, #8
+	cmp r4, r5
+	bne _02157B4C
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void ovl07_2157B70(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, [r0, #0x18]
+	ldr r0, [r0, #0xc]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void G3dRenderObjCallback_2157B7C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	sub sp, sp, #8
+	mov r5, r0
+	ldr r0, [r5, #8]
+	ldr r1, =aNodeCamera_0_ovl07
+	tst r0, #0x10
+	ldr r0, [r5, #4]
+	ldrneb r4, [r5, #0xae]
+	ldr r0, [r0, #4]
+	add r0, r0, #0x40
+	mvneq r4, #0
+	bl NNS_G3dGetResDictIdxByName
+	cmp r0, #0
+	blt _02157BD4
+	cmp r4, r0
+	bne _02157BD4
+	mov r3, #0x1e
+	add r1, sp, #4
+	mov r0, #0x13
+	mov r2, #1
+	str r3, [sp, #4]
+	bl NNS_G3dGeBufferOP_N
+_02157BD4:
+	ldr r0, [r5, #4]
+	ldr r1, =aNodeTarget_0_ovl07
+	ldr r0, [r0, #4]
+	add r0, r0, #0x40
+	bl NNS_G3dGetResDictIdxByName
+	cmp r0, #0
+	addlt sp, sp, #8
+	ldmltia sp!, {r3, r4, r5, pc}
+	cmp r4, r0
+	addne sp, sp, #8
+	ldmneia sp!, {r3, r4, r5, pc}
+	mov r3, #0x1d
+	add r1, sp, #0
+	mov r0, #0x13
+	mov r2, #1
+	str r3, [sp]
+	bl NNS_G3dGeBufferOP_N
+	add sp, sp, #8
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void G3dRenderObjCallback_2157C28(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	sub sp, sp, #0x10
+	mov r5, r0
+	ldr r0, [r5, #8]
+	tst r0, #0x10
+	ldrneb r4, [r5, #0xae]
+	mvneq r4, #0
+	bl Camera3D__UseEngineA
+	cmp r0, #0
+	ldr r0, [r5, #4]
+	beq _02157CD8
+	ldr r0, [r0, #4]
+	ldr r1, =aNodeCamera_ovl07
+	add r0, r0, #0x40
+	bl NNS_G3dGetResDictIdxByName
+	cmp r0, #0
+	blt _02157C8C
+	cmp r4, r0
+	bne _02157C8C
+	mov r3, #0x1e
+	add r1, sp, #0xc
+	mov r0, #0x13
+	mov r2, #1
+	str r3, [sp, #0xc]
+	bl NNS_G3dGeBufferOP_N
+_02157C8C:
+	ldr r0, [r5, #4]
+	ldr r1, =aNodeTarget_ovl07
+	ldr r0, [r0, #4]
+	add r0, r0, #0x40
+	bl NNS_G3dGetResDictIdxByName
+	cmp r0, #0
+	addlt sp, sp, #0x10
+	ldmltia sp!, {r3, r4, r5, pc}
+	cmp r4, r0
+	addne sp, sp, #0x10
+	ldmneia sp!, {r3, r4, r5, pc}
+	mov r3, #0x1d
+	add r1, sp, #8
+	mov r0, #0x13
+	mov r2, #1
+	str r3, [sp, #8]
+	bl NNS_G3dGeBufferOP_N
+	add sp, sp, #0x10
+	ldmia sp!, {r3, r4, r5, pc}
+_02157CD8:
+	ldr r0, [r0, #4]
+	ldr r1, =aNodeCamera2_ovl07
+	add r0, r0, #0x40
+	bl NNS_G3dGetResDictIdxByName
+	cmp r0, #0
+	blt _02157D10
+	cmp r4, r0
+	bne _02157D10
+	mov r3, #0x1e
+	add r1, sp, #4
+	mov r0, #0x13
+	mov r2, #1
+	str r3, [sp, #4]
+	bl NNS_G3dGeBufferOP_N
+_02157D10:
+	ldr r0, [r5, #4]
+	ldr r1, =aNodeTarget2_ovl07
+	ldr r0, [r0, #4]
+	add r0, r0, #0x40
+	bl NNS_G3dGetResDictIdxByName
+	cmp r0, #0
+	addlt sp, sp, #0x10
+	ldmltia sp!, {r3, r4, r5, pc}
+	cmp r4, r0
+	addne sp, sp, #0x10
+	ldmneia sp!, {r3, r4, r5, pc}
+	mov r3, #0x1d
+	add r1, sp, #0
+	mov r0, #0x13
+	mov r2, #1
+	str r3, [sp]
+	bl NNS_G3dGeBufferOP_N
+	add sp, sp, #0x10
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157D6C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #0x40
+	mov r4, r0
+	mov r3, #2
+	add r1, sp, #0xc
+	mov r0, #0x10
+	mov r2, #1
+	str r3, [sp, #0xc]
+	bl NNS_G3dGeBufferOP_N
+	mov r3, #0x1e
+	add r1, sp, #8
+	mov r0, #0x14
+	mov r2, #1
+	str r3, [sp, #8]
+	bl NNS_G3dGeBufferOP_N
+	add r0, sp, #0x10
+	mov r1, #0
+	bl NNS_G3dGetCurrentMtx
+	ldr r0, [sp, #0x34]
+	mov r2, #2
+	str r0, [r4, #0x28]
+	ldr r0, [sp, #0x38]
+	add r1, sp, #4
+	str r0, [r4, #0x2c]
+	ldr r3, [sp, #0x3c]
+	mov r0, #0x10
+	str r3, [r4, #0x30]
+	str r2, [sp, #4]
+	mov r2, #1
+	bl NNS_G3dGeBufferOP_N
+	mov r0, #0x1d
+	str r0, [sp]
+	mov r0, #0x14
+	add r1, sp, #0
+	mov r2, #1
+	bl NNS_G3dGeBufferOP_N
+	add r0, sp, #0x10
+	mov r1, #0
+	bl NNS_G3dGetCurrentMtx
+	ldr r0, [sp, #0x34]
+	str r0, [r4, #0x34]
+	ldr r0, [sp, #0x38]
+	str r0, [r4, #0x38]
+	ldr r0, [sp, #0x3c]
+	str r0, [r4, #0x3c]
+	ldr r0, [r4]
+	cmp r0, #2
+	bne _02157E40
+	bl Camera3D__UseEngineA
+	cmp r0, #0
+	ldr r0, [r4, #0x5c]
+	rsbne r0, r0, #0
+	b _02157E44
+_02157E40:
+	mov r0, #0
+_02157E44:
+	str r0, [r4, #0x20]
+	add r0, r4, #8
+	bl Camera3D__LoadState
+	add sp, sp, #0x40
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__CreateUnknown2157E58(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, #0x14
+	bl _AllocHeadHEAP_SYSTEM
+	str r0, [r4]
+	bl CutsceneSeq__InitUnknown2157E58
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2157E74(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	ldr r0, [r4]
+	bl _FreeHEAP_SYSTEM
+	mov r0, #0
+	str r0, [r4]
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__Func_2157E90(Unknown2156918 *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	ldr r4, [r0]
+	mov r0, r4
+	bl sub_21593A4
+	mov r0, r4
+	bl CutsceneSeq__InitUnknown2157E58
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157EAC(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r5, r0
+	mov r0, #0x138
+	mov r6, r1
+	bl _AllocHeadHEAP_SYSTEM
+	mov r4, r0
+	str r0, [r5, #4]
+	mov r1, r4
+	mov r0, #0
+	mov r2, #0x138
+	bl MIi_CpuClear32
+	mov r0, #0x18
+	mul r5, r6, r0
+	mov r0, r5
+	str r6, [r4]
+	bl _AllocHeadHEAP_SYSTEM
+	str r0, [r4, #4]
+	mov r1, r0
+	mov r2, r5
+	mov r0, #0
+	bl MIi_CpuClear32
+	add r0, r4, #0x14
+	bl ArchiveFile__Init
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2157F0C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	ldr r0, [r4, #0xc]
+	cmp r0, #0
+	ldmeqia sp!, {r4, pc}
+	ldr r0, [r4, #0x14]
+	cmp r0, #0
+	beq _02157F38
+	bl NNS_FndUnmountArchive
+	ldr r0, [r4, #0x14]
+	bl _FreeHEAP_SYSTEM
+_02157F38:
+	ldr r1, [r4, #0x10]
+	cmp r1, #0
+	bne _02157F50
+	ldr r0, [r4, #0xc]
+	bl _FreeHEAP_USER
+	b _02157F70
+_02157F50:
+	ldr r0, [r1]
+	sub r0, r0, #1
+	str r0, [r1]
+	ldr r0, [r4, #0x10]
+	ldr r1, [r0]
+	cmp r1, #0
+	bne _02157F70
+	bl sub_2157F0C
+_02157F70:
+	mov r1, r4
+	mov r0, #0
+	mov r2, #0x18
+	bl MIi_CpuClear32
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2157F84(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r5, r0
+	ldr r4, [r5, #4]
+	cmp r4, #0
+	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
+	add r0, r4, #0x14
+	bl ArchiveFile__JoinThread
+	cmp r0, #0
+	beq _02157FAC
+	bl _FreeHEAP_USER
+_02157FAC:
+	add r0, r4, #0x14
+	bl ArchiveFile__Release
+	ldr r0, [r4, #4]
+	ldr r2, [r4]
+	mov r1, #0x18
+	muls r1, r2, r1
+	mov r7, r0
+	beq _02157FFC
+	mov r6, #0x18
+_02157FD0:
+	ldr r0, [r7]
+	cmp r0, #0
+	beq _02157FE4
+	mov r0, r7
+	bl sub_2157F0C
+_02157FE4:
+	ldr r0, [r4, #4]
+	ldr r1, [r4]
+	add r7, r7, #0x18
+	mla r2, r1, r6, r0
+	cmp r7, r2
+	bne _02157FD0
+_02157FFC:
+	bl _FreeHEAP_SYSTEM
+	mov r0, r4
+	bl _FreeHEAP_SYSTEM
+	mov r0, #0
+	str r0, [r5, #4]
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__Func_2158014(Unknown2156918 *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r4, r0
+	ldr r1, [r4, #4]
+	ldr r0, [r1, #0x10]
+	cmp r0, #0
+	ldmeqia sp!, {r3, r4, r5, pc}
+	add r0, r1, #0x14
+	bl ArchiveFile__CheckThreadInactive
+	cmp r0, #0
+	ldmeqia sp!, {r3, r4, r5, pc}
+	ldr r3, [r4, #4]
+	mov r0, #0x18
+	ldr r1, [r3, #0x10]
+	ldr r2, [r3, #4]
+	sub r1, r1, #1
+	mla r5, r1, r0, r2
+	add r0, r3, #0x14
+	bl ArchiveFile__JoinThread
+	str r0, [r5, #0xc]
+	ldr r0, [r4, #4]
+	add r0, r0, #0x14
+	bl ArchiveFile__Release
+	ldr r0, [r4, #4]
+	mov r1, #0
+	str r1, [r0, #0x10]
+	ldr r0, [r4, #4]
+	add r0, r0, #0x14
+	bl ArchiveFile__Init
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2158088(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r5, r0
+	mov r0, #0x20
+	mov r6, r1
+	bl _AllocHeadHEAP_SYSTEM
+	mov r4, r0
+	str r0, [r5, #8]
+	mov r1, r4
+	mov r0, #0
+	mov r2, #0x20
+	bl MIi_CpuClear32
+	mov r0, #0x70
+	mul r5, r6, r0
+	mov r0, r5
+	str r6, [r4]
+	bl _AllocHeadHEAP_SYSTEM
+	str r0, [r4, #4]
+	mov r1, r0
+	mov r2, r5
+	mov r0, #0
+	bl MIi_CpuClear32
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_21580E0(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r0
+	ldr r0, [r5]
+	mov r4, r1
+	cmp r0, #0
+	ldmeqia sp!, {r3, r4, r5, pc}
+	add r0, r5, #4
+	bl AnimatorSprite__Release
+	ldr r1, [r5]
+	mov r0, r4
+	bl sub_2156BEC
+	ldr r0, [r5, #0x68]
+	cmp r0, #0
+	beq _02158124
+	bl sub_215965C
+	ldr r0, [r5, #0x68]
+	bl _FreeHEAP_SYSTEM
+_02158124:
+	mov r1, r5
+	mov r0, #0
+	mov r2, #0x70
+	bl MIi_CpuClear32
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2158138(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r5, r0
+	ldr r4, [r5, #8]
+	cmp r4, #0
+	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
+	ldr r1, [r4]
+	mov r0, #0x70
+	muls r0, r1, r0
+	ldr r0, [r4, #4]
+	mov r7, r0
+	beq _02158198
+	mov r6, #0x70
+_02158168:
+	ldr r0, [r7]
+	cmp r0, #0
+	beq _02158180
+	mov r0, r7
+	mov r1, r5
+	bl sub_21580E0
+_02158180:
+	ldr r0, [r4, #4]
+	ldr r1, [r4]
+	add r7, r7, #0x70
+	mla r2, r1, r6, r0
+	cmp r7, r2
+	bne _02158168
+_02158198:
+	bl _FreeHEAP_SYSTEM
+	mov r0, r4
+	bl _FreeHEAP_SYSTEM
+	mov r0, #0
+	str r0, [r5, #8]
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__Func_21581B0(Unknown2156918 *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r11, r0
+	ldr r6, [r11, #8]
+	cmp r6, #0
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	mov r0, #0x11
+	bl ShakeScreen
+	cmp r0, #0
+	moveq r9, #0
+	moveq r10, r9
+	moveq r8, r9
+	beq _02158218
+	bl GetScreenShakeOffsetY
+	mov r9, r0, asr #0xc
+	bl Task__Unknown204BE48__Func_204C104
+	mov r4, r0, asr #0x13
+	mov r0, #0x11
+	bl ShakeScreen
+	ldr r2, [r0]
+	mov r8, #1
+	smull r1, r0, r2, r4
+	adds r1, r1, #0x800
+	adc r0, r0, #0
+	mov r1, r1, lsr #0xc
+	orr r1, r1, r0, lsl #20
+	mov r10, r1, asr #0xc
+_02158218:
+	ldr r1, [r6]
+	mov r0, #0x70
+	muls r0, r1, r0
+	ldr r7, [r6, #4]
+	beq _021582BC
+	mov r5, #0
+	mov r4, #0x70
+_02158234:
+	ldr r0, [r7]
+	cmp r0, #0
+	beq _021582A8
+	mov r1, r5
+	mov r2, r5
+	add r0, r7, #4
+	bl AnimatorSprite__ProcessAnimation
+	cmp r8, #0
+	beq _02158264
+	ldr r0, [r7, #0x6c]
+	tst r0, #1
+	beq _02158270
+_02158264:
+	add r0, r7, #4
+	bl AnimatorSprite__DrawFrame
+	b _021582A8
+_02158270:
+	ldrsh r1, [r7, #0xc]
+	add r0, r7, #4
+	add r1, r1, r9
+	strh r1, [r7, #0xc]
+	ldrsh r1, [r7, #0xe]
+	add r1, r1, r10
+	strh r1, [r7, #0xe]
+	bl AnimatorSprite__DrawFrame
+	ldrsh r0, [r7, #0xc]
+	sub r0, r0, r9
+	strh r0, [r7, #0xc]
+	ldrsh r0, [r7, #0xe]
+	sub r0, r0, r10
+	strh r0, [r7, #0xe]
+_021582A8:
+	ldmia r6, {r0, r1}
+	mla r1, r0, r4, r1
+	add r7, r7, #0x70
+	cmp r7, r1
+	bne _02158234
+_021582BC:
+	ldr r0, [r11, #8]
+	add r0, r0, #8
+	bl TouchField__Process
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Unknown__AllocBackgroundManager(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, #0x280
+	bl _AllocHeadHEAP_SYSTEM
+	str r0, [r4, #0xc]
+	mov r1, r0
+	mov r0, #0
+	mov r2, #0x280
+	bl MIi_CpuClear32
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_21582F4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	ldr r2, [r4]
+	cmp r2, #0
+	beq _02158314
+	mov r0, r1
+	mov r1, r2
+	bl sub_2156BEC
+_02158314:
+	mov r1, r4
+	mov r0, #0
+	mov r2, #0x50
+	bl MIi_CpuClear32
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2158328(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r7, r0
+	ldr r5, [r7, #0xc]
+	cmp r5, #0
+	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
+	mov r6, r5
+	movs r0, #0x280
+	beq _02158364
+	add r4, r5, #0x280
+_0215834C:
+	mov r0, r6
+	mov r1, r7
+	bl sub_21582F4
+	add r6, r6, #0x50
+	cmp r6, r4
+	bne _0215834C
+_02158364:
+	mov r0, r5
+	bl _FreeHEAP_SYSTEM
+	mov r0, #0
+	str r0, [r7, #0xc]
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__Func_2158378(Unknown2156918 *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	sub sp, sp, #0xc
+	str r0, [sp]
+	ldr r0, [r0, #0xc]
+	cmp r0, #0
+	addeq sp, sp, #0xc
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	mov r0, #0x11
+	bl ShakeScreen
+	cmp r0, #0
+	moveq r8, #0
+	moveq r9, r8
+	moveq r11, r8
+	beq _021583E8
+	bl GetScreenShakeOffsetY
+	mov r8, r0, asr #0xc
+	bl Task__Unknown204BE48__Func_204C104
+	mov r4, r0, asr #0x13
+	mov r0, #0x11
+	bl ShakeScreen
+	ldr r2, [r0]
+	mov r11, #1
+	smull r1, r0, r2, r4
+	adds r1, r1, #0x800
+	adc r0, r0, #0
+	mov r1, r1, lsr #0xc
+	orr r1, r1, r0, lsl #20
+	mov r9, r1, asr #0xc
+_021583E8:
+	rsb r0, r8, #0
+	rsb r1, r9, #0
+	mov r0, r0, lsl #0x10
+	mov r1, r1, lsl #0x10
+	mov r5, r0, lsr #0x10
+	mov r0, r0, asr #0x10
+	mov r6, #0
+	str r0, [sp, #4]
+	mov r0, r1, asr #0x10
+	mov r10, r6
+	mov r4, r1, lsr #0x10
+	str r0, [sp, #8]
+_02158418:
+	ldr r0, [sp]
+	ldr r1, [r0, #0xc]
+	ldr r0, [r1, r10]
+	add r7, r1, r10
+	cmp r0, #0
+	beq _021584BC
+	cmp r11, #0
+	beq _02158444
+	ldr r0, [r7, #0x4c]
+	tst r0, #1
+	beq _02158450
+_02158444:
+	add r0, r7, #4
+	bl DrawBackground
+	b _02158518
+_02158450:
+	ldr r0, [r7, #4]
+	tst r0, #0xc0
+	beq _02158498
+	ldr r1, [r7, #0xc]
+	add r0, r7, #4
+	sub r1, r1, r8
+	str r1, [r7, #0xc]
+	ldr r1, [r7, #0x10]
+	sub r1, r1, r9
+	str r1, [r7, #0x10]
+	bl DrawBackground
+	ldr r0, [r7, #0xc]
+	add r0, r0, r8
+	str r0, [r7, #0xc]
+	ldr r0, [r7, #0x10]
+	add r0, r0, r9
+	str r0, [r7, #0x10]
+	b _02158518
+_02158498:
+	ldr r0, =VRAMSystem__GFXControl
+	and r2, r6, #4
+	mov r1, r6, lsl #0x1e
+	ldr r2, [r0, r2]
+	mov r0, r1, lsr #0x1c
+	strh r5, [r2, r0]
+	add r0, r2, r1, lsr #28
+	strh r4, [r0, #2]
+	b _02158518
+_021584BC:
+	ldr r0, [r7, #0x4c]
+	tst r0, #1
+	bne _02158518
+	ldr r0, =VRAMSystem__GFXControl
+	and r1, r6, #4
+	and r2, r6, #3
+	ldr r1, [r0, r1]
+	mov r0, r2, lsl #2
+	strh r5, [r1, r0]
+	add r0, r1, r2, lsl #2
+	strh r4, [r0, #2]
+	cmp r2, #2
+	beq _021584FC
+	cmp r2, #3
+	beq _02158504
+	b _02158518
+_021584FC:
+	add r1, r1, #0x3c
+	b _02158508
+_02158504:
+	add r1, r1, #0x54
+_02158508:
+	ldr r0, [sp, #4]
+	strh r0, [r1]
+	ldr r0, [sp, #8]
+	strh r0, [r1, #2]
+_02158518:
+	add r6, r6, #1
+	cmp r6, #8
+	add r10, r10, #0x50
+	blo _02158418
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Unknown__AllocModelManager(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r5, r0
+	mov r0, #0x68
+	mov r6, r1
+	bl _AllocHeadHEAP_SYSTEM
+	mov r4, r0
+	str r0, [r5, #0x10]
+	mov r1, r4
+	mov r0, #0
+	mov r2, #0x68
+	bl MIi_CpuClear32
+	mov r0, #0x164
+	mul r5, r6, r0
+	mov r0, r5
+	str r6, [r4]
+	bl _AllocHeadHEAP_SYSTEM
+	str r0, [r4, #4]
+	mov r1, r0
+	mov r2, r5
+	mov r0, #0
+	bl MIi_CpuClear32
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_215858C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r7, r0
+	ldr r0, [r7]
+	mov r6, r1
+	cmp r0, #0
+	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
+	add r5, r7, #4
+	add r4, r7, #0x18
+	cmp r5, r4
+	beq _021585F8
+_021585B4:
+	ldr r1, [r5]
+	cmp r1, #0
+	beq _021585EC
+	mov r0, r6
+	bl sub_21569A4
+	cmp r0, #0
+	beq _021585E0
+	ldr r1, [r5]
+	mov r0, r6
+	bl Unknown__GetArchive
+	bl NNS_G3dResDefaultRelease
+_021585E0:
+	ldr r1, [r5]
+	mov r0, r6
+	bl sub_2156BEC
+_021585EC:
+	add r5, r5, #4
+	cmp r5, r4
+	bne _021585B4
+_021585F8:
+	ldr r1, [r7, #0x18]
+	cmp r1, #0
+	beq _02158630
+	mov r0, r6
+	bl sub_21569A4
+	cmp r0, #0
+	beq _02158624
+	ldr r1, [r7, #0x18]
+	mov r0, r6
+	bl Unknown__GetArchive
+	bl NNS_G3dResDefaultRelease
+_02158624:
+	ldr r1, [r7, #0x18]
+	mov r0, r6
+	bl sub_2156BEC
+_02158630:
+	ldr r1, [r7]
+	mov r0, r6
+	bl sub_21569A4
+	cmp r0, #0
+	beq _02158654
+	ldr r1, [r7]
+	mov r0, r6
+	bl Unknown__GetArchive
+	bl NNS_G3dResDefaultRelease
+_02158654:
+	ldr r1, [r7]
+	mov r0, r6
+	bl sub_2156BEC
+	add r0, r7, #0x1c
+	bl AnimatorMDL__Release
+	mov r1, r7
+	mov r0, #0
+	mov r2, #0x164
+	bl MIi_CpuClear32
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215867C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r6, r0
+	ldr r4, [r6, #0x10]
+	cmp r4, #0
+	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
+	ldr r1, [r4]
+	mov r0, #0x164
+	muls r0, r1, r0
+	ldr r5, [r4, #4]
+	beq _021586D4
+	mov r7, #0x164
+_021586A8:
+	ldr r0, [r5]
+	cmp r0, #0
+	beq _021586C0
+	mov r0, r5
+	mov r1, r6
+	bl sub_215858C
+_021586C0:
+	ldmia r4, {r0, r1}
+	mla r1, r0, r7, r1
+	add r5, r5, #0x164
+	cmp r5, r1
+	bne _021586A8
+_021586D4:
+	ldr r0, [r6, #0x10]
+	ldr r0, [r0, #8]
+	cmp r0, #2
+	cmpne r0, #3
+	bne _021586F8
+	bl Camera3D__Destroy
+	ldr r0, [r6, #0x10]
+	mov r1, #0
+	str r1, [r0, #8]
+_021586F8:
+	ldr r0, [r4, #4]
+	bl _FreeHEAP_SYSTEM
+	mov r0, r4
+	bl _FreeHEAP_SYSTEM
+	mov r0, #0
+	str r0, [r6, #0x10]
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__Func_2158714(Unknown2156918 *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	ldr r4, [r0, #0x10]
+	cmp r4, #0
+	ldmeqia sp!, {r4, r5, r6, pc}
+	ldr r0, [r4, #8]
+	cmp r0, #0
+	mov r0, #0x164
+	bne _0215877C
+	ldr r1, [r4]
+	ldr r6, [r4, #4]
+	muls r0, r1, r0
+	ldmeqia sp!, {r4, r5, r6, pc}
+	mov r5, #0x164
+_02158748:
+	ldr r0, [r6]
+	cmp r0, #0
+	beq _02158764
+	add r0, r6, #0x1c
+	bl AnimatorMDL__ProcessAnimation
+	add r0, r6, #0x1c
+	bl AnimatorMDL__Draw
+_02158764:
+	ldmia r4, {r0, r1}
+	mla r1, r0, r5, r1
+	add r6, r6, #0x164
+	cmp r6, r1
+	bne _02158748
+	ldmia sp!, {r4, r5, r6, pc}
+_0215877C:
+	ldr r2, [r4, #4]
+	ldr r1, [r4, #0xc]
+	mla r5, r1, r0, r2
+	add r0, r5, #0x1c
+	bl AnimatorMDL__ProcessAnimation
+	add r0, r5, #0x1c
+	bl AnimatorMDL__Draw
+	add r0, r4, #8
+	bl sub_2157D6C
+	ldr r6, [r4, #4]
+	cmp r6, r5
+	beq _021587D4
+_021587AC:
+	ldr r0, [r6]
+	cmp r0, #0
+	beq _021587C8
+	add r0, r6, #0x1c
+	bl AnimatorMDL__ProcessAnimation
+	add r0, r6, #0x1c
+	bl AnimatorMDL__Draw
+_021587C8:
+	add r6, r6, #0x164
+	cmp r6, r5
+	bne _021587AC
+_021587D4:
+	mov r0, #0x164
+	ldmia r4, {r1, r2}
+	mla r0, r1, r0, r2
+	cmp r5, r0
+	addne r5, r5, #0x164
+	cmpne r5, r0
+	ldmeqia sp!, {r4, r5, r6, pc}
+	mov r6, #0x164
+_021587F4:
+	ldr r0, [r5]
+	cmp r0, #0
+	beq _02158810
+	add r0, r5, #0x1c
+	bl AnimatorMDL__ProcessAnimation
+	add r0, r5, #0x1c
+	bl AnimatorMDL__Draw
+_02158810:
+	ldmia r4, {r0, r1}
+	mla r1, r0, r6, r1
+	add r5, r5, #0x164
+	cmp r5, r1
+	bne _021587F4
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2158828(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	bl ReleaseAudioSystem
+	mov r0, #8
+	bl _AllocHeadHEAP_SYSTEM
+	mov r4, r0
+	str r0, [r6, #0x14]
+	mov r1, r4
+	mov r0, #0
+	mov r2, #8
+	bl MIi_CpuClear32
+	mov r6, r5, lsl #3
+	str r5, [r4]
+	mov r0, r6
+	bl _AllocHeadHEAP_SYSTEM
+	str r0, [r4, #4]
+	ldr r1, [r4, #4]
+	mov r0, #0
+	mov r2, r6
+	bl MIi_CpuClear32
+	ldr r5, [r4, #4]
+	cmp r6, #0
+	ldmeqia sp!, {r4, r5, r6, pc}
+_02158888:
+	bl AllocSndHandle
+	str r0, [r5, #4]
+	ldr r0, [r4, #4]
+	add r5, r5, #8
+	add r0, r0, r6
+	cmp r5, r0
+	bne _02158888
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_21588A8(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	ldr r0, [r4]
+	cmp r0, #0
+	ldmeqia sp!, {r4, pc}
+	ldr r0, [r4, #4]
+	mov r1, #0
+	bl NNS_SndPlayerStopSeq
+	ldr r0, [r4, #4]
+	bl NNS_SndHandleReleaseSeq
+	mov r0, #0
+	str r0, [r4]
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_21588DC(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	ldr r4, [r6, #0x14]
+	cmp r4, #0
+	ldmeqia sp!, {r4, r5, r6, pc}
+	ldmia r4, {r0, r5}
+	movs r0, r0, lsl #3
+	beq _02158930
+_021588FC:
+	ldr r0, [r5, #4]
+	cmp r0, #0
+	beq _02158914
+	mov r0, r5
+	mov r1, r6
+	bl sub_21588A8
+_02158914:
+	ldr r0, [r5, #4]
+	bl FreeSndHandle
+	ldmia r4, {r0, r1}
+	add r5, r5, #8
+	add r0, r1, r0, lsl #3
+	cmp r5, r0
+	bne _021588FC
+_02158930:
+	bl ReleaseAudioSystem
+	ldr r0, [r4, #4]
+	bl _FreeHEAP_SYSTEM
+	mov r0, r4
+	bl _FreeHEAP_SYSTEM
+	mov r0, #0
+	str r0, [r6, #0x14]
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__Func_2158950(Unknown2156918 *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	ldr r5, [r6, #0x14]
+	cmp r5, #0
+	ldmeqia sp!, {r4, r5, r6, pc}
+	ldmia r5, {r0, r4}
+	movs r0, r0, lsl #3
+	ldmeqia sp!, {r4, r5, r6, pc}
+_02158970:
+	ldr r0, [r4, #4]
+	cmp r0, #0
+	beq _02158994
+	ldr r0, [r0]
+	cmp r0, #0
+	bne _02158994
+	mov r0, r4
+	mov r1, r6
+	bl sub_21588A8
+_02158994:
+	ldmia r5, {r0, r1}
+	add r4, r4, #8
+	add r0, r1, r0, lsl #3
+	cmp r4, r0
+	bne _02158970
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_21589AC(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r0, #0x10
+	mov r5, r1
+	bl _AllocHeadHEAP_SYSTEM
+	mov r4, r0
+	str r0, [r6, #0x18]
+	mov r1, r4
+	mov r0, #0
+	mov r2, #0x10
+	bl MIi_CpuClear32
+	mov r0, r5
+	bl _AllocHeadHEAP_SYSTEM
+	str r0, [r4, #0xc]
+	mov r1, r0
+	mov r2, r5
+	mov r0, #0
+	bl MIi_CpuClear32
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_21589F8(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r0
+	ldr r4, [r5, #0x18]
+	cmp r4, #0
+	ldmeqia sp!, {r3, r4, r5, pc}
+	ldr r1, [r4, #8]
+	cmp r1, #0
+	beq _02158A20
+	ldr r0, [r4, #0xc]
+	blx r1
+_02158A20:
+	ldr r0, [r4, #0xc]
+	cmp r0, #0
+	beq _02158A38
+	bl _FreeHEAP_SYSTEM
+	mov r0, #0
+	str r0, [r4, #0xc]
+_02158A38:
+	mov r0, r4
+	bl _FreeHEAP_SYSTEM
+	mov r0, #0
+	str r0, [r5, #0x18]
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__Func_2158A4C(Unknown2156918 *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	ldr r0, [r0, #0x18]
+	ldr r1, [r0, #4]
+	cmp r1, #0
+	ldmeqia sp!, {r3, pc}
+	ldr r0, [r0, #0xc]
+	blx r1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2158A6C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	orr lr, r1, r0, lsl #4
+	cmp lr, #0x11
+	ldr ip, [sp, #8]
+	ldr r1, [sp, #0xc]
+	bgt _02158ABC
+	cmp lr, #0x11
+	bge _02158C1C
+	cmp lr, #3
+	bgt _02158AB0
+	cmp lr, #0
+	addge pc, pc, lr, lsl #2
+	ldmia sp!, {r3, pc}
+_02158AA0: // jump table
+	b _02158AD8 // case 0
+	b _02158AFC // case 1
+	b _02158B20 // case 2
+	b _02158B90 // case 3
+_02158AB0:
+	cmp lr, #0x10
+	beq _02158BF8
+	ldmia sp!, {r3, pc}
+_02158ABC:
+	cmp lr, #0x12
+	bgt _02158ACC
+	beq _02158C40
+	ldmia sp!, {r3, pc}
+_02158ACC:
+	cmp lr, #0x13
+	beq _02158CB0
+	ldmia sp!, {r3, pc}
+_02158AD8:
+	ldr lr, =0x04000008
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, r3, lsl #7
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+_02158AFC:
+	ldr lr, =0x0400000A
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, r3, lsl #7
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+_02158B20:
+	ldr lr, =VRAMSystem__DisplayControllers
+	ldr r0, [lr, r0, lsl #2]
+	ldr r0, [r0]
+	and r0, r0, #7
+	cmp r0, #1
+	ble _02158B40
+	cmp r0, #3
+	bne _02158B64
+_02158B40:
+	ldr lr, =0x0400000C
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, r3, lsl #7
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+_02158B64:
+	cmp r0, #5
+	ldmgtia sp!, {r3, pc}
+	ldr lr, =0x0400000C
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	orr r0, r0, r3, lsl #13
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+_02158B90:
+	ldr lr, =VRAMSystem__DisplayControllers
+	ldr r0, [lr, r0, lsl #2]
+	ldr r0, [r0]
+	and r0, r0, #7
+	cmp r0, #0
+	bgt _02158BCC
+	ldr lr, =0x0400000E
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, r3, lsl #7
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+_02158BCC:
+	cmp r0, #5
+	ldmgtia sp!, {r3, pc}
+	ldr lr, =0x0400000E
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	orr r0, r0, r3, lsl #13
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+_02158BF8:
+	ldr lr, =0x04001008
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, r3, lsl #7
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+_02158C1C:
+	ldr lr, =0x0400100A
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, r3, lsl #7
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+_02158C40:
+	ldr lr, =VRAMSystem__DisplayControllers
+	ldr r0, [lr, r0, lsl #2]
+	ldr r0, [r0]
+	and r0, r0, #7
+	cmp r0, #1
+	ble _02158C60
+	cmp r0, #3
+	bne _02158C84
+_02158C60:
+	ldr lr, =0x0400100C
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, r3, lsl #7
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+_02158C84:
+	cmp r0, #5
+	ldmgtia sp!, {r3, pc}
+	ldr lr, =0x0400100C
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	orr r0, r0, r3, lsl #13
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+_02158CB0:
+	ldr lr, =VRAMSystem__DisplayControllers
+	ldr r0, [lr, r0, lsl #2]
+	ldr r0, [r0]
+	and r0, r0, #7
+	cmp r0, #0
+	bgt _02158CEC
+	ldr lr, =0x0400100E
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, r3, lsl #7
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+_02158CEC:
+	cmp r0, #5
+	ldmgtia sp!, {r3, pc}
+	ldr lr, =0x0400100E
+	ldrh r0, [lr]
+	and r0, r0, #0x43
+	orr r0, r0, r2, lsl #14
+	orr r0, r0, ip, lsl #8
+	orr r0, r0, r1, lsl #2
+	orr r0, r0, r3, lsl #13
+	strh r0, [lr]
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2158D3C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	ldr r5, =VRAMSystem__DisplayControllers
+	mov r4, r1, lsl #4
+	orr r4, r4, r0, lsl #8
+	ldr r6, [r5, r0, lsl #2]
+	orr r5, r2, r4
+	cmp r5, #0x120
+	ldr lr, [sp, #0x10]
+	ldr ip, [sp, #0x14]
+	ldr r2, [sp, #0x18]
+	ldr r4, [r6]
+	bgt _02158DBC
+	cmp r5, #0x120
+	bge _02158F04
+	cmp r5, #0x30
+	bgt _02158DA0
+	bge _02158E98
+	sub r4, r5, #0x20
+	cmp r4, #3
+	addls pc, pc, r4, lsl #2
+	b _02158FD8
+_02158D90: // jump table
+	b _02158E10 // case 0
+	b _02158E34 // case 1
+	b _02158E58 // case 2
+	b _02158E7C // case 3
+_02158DA0:
+	cmp r5, #0x31
+	bgt _02158DB0
+	beq _02158EBC
+	b _02158FD8
+_02158DB0:
+	cmp r5, #0x32
+	beq _02158EE0
+	b _02158FD8
+_02158DBC:
+	cmp r5, #0x130
+	bgt _02158DEC
+	bge _02158F70
+	ldr r2, =0x00000121
+	cmp r5, r2
+	bgt _02158DDC
+	beq _02158F28
+	b _02158FD8
+_02158DDC:
+	add r2, r2, #1
+	cmp r5, r2
+	beq _02158F4C
+	b _02158FD8
+_02158DEC:
+	ldr r2, =0x00000131
+	cmp r5, r2
+	bgt _02158E00
+	beq _02158F94
+	b _02158FD8
+_02158E00:
+	add r2, r2, #1
+	cmp r5, r2
+	beq _02158FB8
+	b _02158FD8
+_02158E10:
+	ldr r5, =0x0400000C
+	ldrh r4, [r5]
+	and r4, r4, #0x43
+	orr r3, r4, r3, lsl #14
+	orr r2, r3, r2, lsl #2
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r5]
+	b _02158FD8
+_02158E34:
+	ldr r4, =0x0400000C
+	ldrh r2, [r4]
+	and r2, r2, #0x43
+	orr r2, r2, r3, lsl #14
+	orr r2, r2, #0x80
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r4]
+	b _02158FD8
+_02158E58:
+	ldr r4, =0x0400000C
+	ldrh r2, [r4]
+	and r2, r2, #0x43
+	orr r2, r2, r3, lsl #14
+	orr r2, r2, #0x84
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r4]
+	b _02158FD8
+_02158E7C:
+	ldr r4, =0x0400000C
+	ldrh r2, [r4]
+	and r2, r2, #0x43
+	orr r2, r2, r3, lsl #14
+	orr r2, r2, lr, lsl #13
+	strh r2, [r4]
+	b _02158FD8
+_02158E98:
+	ldr r5, =0x0400000E
+	ldrh r4, [r5]
+	and r4, r4, #0x43
+	orr r3, r4, r3, lsl #14
+	orr r2, r3, r2, lsl #2
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r5]
+	b _02158FD8
+_02158EBC:
+	ldr r4, =0x0400000E
+	ldrh r2, [r4]
+	and r2, r2, #0x43
+	orr r2, r2, r3, lsl #14
+	orr r2, r2, #0x80
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r4]
+	b _02158FD8
+_02158EE0:
+	ldr r4, =0x0400000E
+	ldrh r2, [r4]
+	and r2, r2, #0x43
+	orr r2, r2, r3, lsl #14
+	orr r2, r2, #0x84
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r4]
+	b _02158FD8
+_02158F04:
+	ldr r5, =0x0400100C
+	ldrh r4, [r5]
+	and r4, r4, #0x43
+	orr r3, r4, r3, lsl #14
+	orr r2, r3, r2, lsl #2
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r5]
+	b _02158FD8
+_02158F28:
+	ldr r4, =0x0400100C
+	ldrh r2, [r4]
+	and r2, r2, #0x43
+	orr r2, r2, r3, lsl #14
+	orr r2, r2, #0x80
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r4]
+	b _02158FD8
+_02158F4C:
+	ldr r4, =0x0400100C
+	ldrh r2, [r4]
+	and r2, r2, #0x43
+	orr r2, r2, r3, lsl #14
+	orr r2, r2, #0x84
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r4]
+	b _02158FD8
+_02158F70:
+	ldr r5, =0x0400100E
+	ldrh r4, [r5]
+	and r4, r4, #0x43
+	orr r3, r4, r3, lsl #14
+	orr r2, r3, r2, lsl #2
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r5]
+	b _02158FD8
+_02158F94:
+	ldr r4, =0x0400100E
+	ldrh r2, [r4]
+	and r2, r2, #0x43
+	orr r2, r2, r3, lsl #14
+	orr r2, r2, #0x80
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r4]
+	b _02158FD8
+_02158FB8:
+	ldr r4, =0x0400100E
+	ldrh r2, [r4]
+	and r2, r2, #0x43
+	orr r2, r2, r3, lsl #14
+	orr r2, r2, #0x84
+	orr r2, r2, ip, lsl #8
+	orr r2, r2, lr, lsl #13
+	strh r2, [r4]
+_02158FD8:
+	ldr r2, =VRAMSystem__GFXControl
+	cmp r1, #2
+	ldr r0, [r2, r0, lsl #2]
+	addeq r4, r0, #0x28
+	addne r4, r0, #0x40
+	mov r0, r4
+	bl MTX_Identity22_
+	mov r0, #0
+	strh r0, [r4, #0x12]
+	strh r0, [r4, #0x10]
+	strh r0, [r4, #0x16]
+	strh r0, [r4, #0x14]
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_215902C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r3, r1
+	cmp r0, #0x30
+	bgt _02159074
+	bge _02159110
+	cmp r0, #0x10
+	bgt _02159068
+	bge _021590DC
+	cmp r0, #3
+	addls pc, pc, r0, lsl #2
+	ldmia sp!, {r3, pc}
+_02159058: // jump table
+	b _02159160 // case 0
+	b _021590A8 // case 1
+	b _021590A8 // case 2
+	b _021590C0 // case 3
+_02159068:
+	cmp r0, #0x20
+	beq _021590F8
+	ldmia sp!, {r3, pc}
+_02159074:
+	cmp r0, #0x50
+	bgt _0215908C
+	bge _02159110
+	cmp r0, #0x40
+	beq _021590F8
+	ldmia sp!, {r3, pc}
+_0215908C:
+	cmp r0, #0x60
+	bgt _0215909C
+	beq _02159128
+	ldmia sp!, {r3, pc}
+_0215909C:
+	cmp r0, #0x70
+	beq _02159144
+	ldmia sp!, {r3, pc}
+_021590A8:
+	mov ip, #0x400
+	ldr r1, =0x00200010
+	mov r2, #0x40
+	str ip, [sp]
+	bl VRAMSystem__SetupOBJBank
+	ldmia sp!, {r3, pc}
+_021590C0:
+	mov ip, #0x400
+	ldr r1, =0x00300010
+	ldr r2, =0x00400040
+	mov r0, #3
+	str ip, [sp]
+	bl VRAMSystem__SetupOBJBank
+	ldmia sp!, {r3, pc}
+_021590DC:
+	mov r0, #0x10
+	mov ip, #0x400
+	add r1, r0, #0x100000
+	mov r2, #0x40
+	str ip, [sp]
+	bl VRAMSystem__SetupOBJBank
+	ldmia sp!, {r3, pc}
+_021590F8:
+	mov ip, #0x200
+	mov r1, #0x10
+	mov r2, #0x40
+	str ip, [sp]
+	bl VRAMSystem__SetupOBJBank
+	ldmia sp!, {r3, pc}
+_02159110:
+	mov ip, #0x280
+	ldr r1, =0x00200010
+	mov r2, #0x40
+	str ip, [sp]
+	bl VRAMSystem__SetupOBJBank
+	ldmia sp!, {r3, pc}
+_02159128:
+	mov ip, #0x400
+	mov r0, #0x60
+	mov r1, #0x10
+	mov r2, #0x40
+	str ip, [sp]
+	bl VRAMSystem__SetupOBJBank
+	ldmia sp!, {r3, pc}
+_02159144:
+	mov ip, #0x300
+	ldr r1, =0x00200010
+	mov r0, #0x70
+	mov r2, #0x40
+	str ip, [sp]
+	bl VRAMSystem__SetupOBJBank
+	ldmia sp!, {r3, pc}
+_02159160:
+	mov r0, #0
+	ldr r1, =0x00200010
+	mov r3, r0
+	mov r2, #0x40
+	str r0, [sp]
+	bl VRAMSystem__SetupOBJBank
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_2159188(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	mov r3, r1
+	cmp r0, #0
+	beq _021591E4
+	cmp r0, #8
+	beq _021591AC
+	cmp r0, #0x100
+	beq _021591C8
+	ldmia sp!, {r3, pc}
+_021591AC:
+	mov ip, #0x400
+	ldr r1, =0x00200010
+	mov r0, #8
+	mov r2, #0x40
+	str ip, [sp]
+	bl VRAMSystem__SetupSubOBJBank
+	ldmia sp!, {r3, pc}
+_021591C8:
+	mov ip, #0x200
+	mov r0, #0x100
+	mov r1, #0x10
+	mov r2, #0x40
+	str ip, [sp]
+	bl VRAMSystem__SetupSubOBJBank
+	ldmia sp!, {r3, pc}
+_021591E4:
+	mov r0, #0
+	ldr r1, =0x00200010
+	mov r3, r0
+	mov r2, #0x40
+	str r0, [sp]
+	bl VRAMSystem__SetupSubOBJBank
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u32 sub_2159204(s32 a1)
+{
+    // should match when _0215B3A0 is decompiled
+#ifdef NON_MATCHING
+    u32 array[] = { 0, 1, 2, 3, 8, 9, 11, 4, 5, 6, 7, 11, 11 };
+    return array[BankUnknown__GetBankID(a1)];
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, lr}
+	sub sp, sp, #0x34
+	ldr lr, =_0215B3A0
+	mov r4, r0
+	ldmia lr!, {r0, r1, r2, r3}
+	add ip, sp, #0
+	stmia ip!, {r0, r1, r2, r3}
+	ldmia lr!, {r0, r1, r2, r3}
+	stmia ip!, {r0, r1, r2, r3}
+	ldmia lr!, {r0, r1, r2, r3}
+	stmia ip!, {r0, r1, r2, r3}
+	ldr r1, [lr]
+	mov r0, r4
+	str r1, [ip]
+	bl BankUnknown__GetBankID
+	add r1, sp, #0
+	ldr r0, [r1, r0, lsl #2]
+	add sp, sp, #0x34
+	ldmia sp!, {r3, r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__InitUnknown2157E58(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr ip, =MIi_CpuClear16
+	mov r1, r0
+	mov r0, #0
+	mov r2, #0x14
+	bx ip
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneSeq__ProcessUnknown2157E58(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	cmp r1, #0xf
+	addls pc, pc, r1, lsl #2
+	bx lr
+_02159278: // jump table
+	bx lr // case 0
+	b _021592B8 // case 1
+	b _021592B8 // case 2
+	b _021592B8 // case 3
+	b _0215938C // case 4
+	b _0215938C // case 5
+	b _0215938C // case 6
+	b _0215938C // case 7
+	b _0215938C // case 8
+	b _0215938C // case 9
+	b _02159398 // case 10
+	b _02159398 // case 11
+	b _02159398 // case 12
+	b _02159398 // case 13
+	b _02159398 // case 14
+	b _02159398 // case 15
+_021592B8:
+	sub r3, r1, #1
+	cmp r3, #1
+	bhi _02159320
+	ldr r3, [r0]
+	tst r3, #1
+	beq _02159314
+	ldrsb r3, [r0, #8]
+	cmp r3, #0
+	bge _021592E4
+	cmp r2, #0
+	bge _02159320
+_021592E4:
+	cmp r3, #0
+	ble _021592F4
+	cmp r2, #0
+	ble _02159320
+_021592F4:
+	cmp r3, #0
+	rsblt r3, r3, #0
+	cmp r2, #0
+	rsblt ip, r2, #0
+	movge ip, r2
+	cmp ip, r3
+	ble _02159320
+	b _0215931C
+_02159314:
+	orr r3, r3, #1
+	str r3, [r0]
+_0215931C:
+	strb r2, [r0, #8]
+_02159320:
+	cmp r1, #1
+	cmpne r1, #3
+	bxne lr
+	ldr r1, [r0]
+	tst r1, #2
+	beq _0215937C
+	ldrsb r1, [r0, #0x10]
+	cmp r1, #0
+	bge _0215934C
+	cmp r2, #0
+	bxge lr
+_0215934C:
+	cmp r1, #0
+	ble _0215935C
+	cmp r2, #0
+	bxle lr
+_0215935C:
+	cmp r1, #0
+	rsblt r1, r1, #0
+	cmp r2, #0
+	rsblt r3, r2, #0
+	movge r3, r2
+	cmp r3, r1
+	bxle lr
+	b _02159384
+_0215937C:
+	orr r1, r1, #2
+	str r1, [r0]
+_02159384:
+	strb r2, [r0, #0x10]
+	bx lr
+_0215938C:
+	str r1, [r0, #4]
+	strb r2, [r0, #9]
+	bx lr
+_02159398:
+	str r1, [r0, #0xc]
+	strb r2, [r0, #0x11]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_21593A4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r1, [r0]
+	tst r1, #1
+	ldrnesb r2, [r0, #8]
+	ldrne r1, =renderCoreGFXControlA
+	strneh r2, [r1, #0x58]
+	ldr r1, [r0]
+	tst r1, #2
+	ldrnesb r2, [r0, #0x10]
+	ldrne r1, =renderCoreGFXControlB
+	strneh r2, [r1, #0x58]
+	ldr r1, [r0, #4]
+	cmp r1, #9
+	addls pc, pc, r1, lsl #2
+	b _021594C8
+_021593DC: // jump table
+	b _021594C8 // case 0
+	b _021594C8 // case 1
+	b _021594C8 // case 2
+	b _021594C8 // case 3
+	b _02159404 // case 4
+	b _0215941C // case 5
+	b _02159430 // case 6
+	b _02159444 // case 7
+	b _02159458 // case 8
+	b _0215946C // case 9
+_02159404:
+	mov r3, #0
+	bic r2, r3, #1
+	ldr r1, =renderCoreGFXControlA
+	orr r2, r2, #1
+	strh r2, [r1, #0x20]
+	b _0215947C
+_0215941C:
+	mov r2, #0
+	ldr r1, =renderCoreGFXControlA
+	orr r2, r2, #2
+	strh r2, [r1, #0x20]
+	b _0215947C
+_02159430:
+	mov r2, #0
+	ldr r1, =renderCoreGFXControlA
+	orr r2, r2, #4
+	strh r2, [r1, #0x20]
+	b _0215947C
+_02159444:
+	mov r2, #0
+	ldr r1, =renderCoreGFXControlA
+	orr r2, r2, #8
+	strh r2, [r1, #0x20]
+	b _0215947C
+_02159458:
+	mov r2, #0
+	ldr r1, =renderCoreGFXControlA
+	orr r2, r2, #0x10
+	strh r2, [r1, #0x20]
+	b _0215947C
+_0215946C:
+	mov r2, #0
+	ldr r1, =renderCoreGFXControlA
+	orr r2, r2, #0x20
+	strh r2, [r1, #0x20]
+_0215947C:
+	ldrsb r1, [r0, #9]
+	cmp r1, #0
+	blt _021594A8
+	ldr r1, =renderCoreGFXControlA
+	ldrh r2, [r1, #0x20]
+	bic r2, r2, #0xc0
+	orr r2, r2, #0x80
+	strh r2, [r1, #0x20]
+	ldrsb r2, [r0, #9]
+	strh r2, [r1, #0x24]
+	b _021594C8
+_021594A8:
+	ldr r1, =renderCoreGFXControlA
+	ldrh r2, [r1, #0x20]
+	bic r2, r2, #0xc0
+	orr r2, r2, #0xc0
+	strh r2, [r1, #0x20]
+	ldrsb r2, [r0, #9]
+	rsb r2, r2, #0
+	strh r2, [r1, #0x24]
+_021594C8:
+	ldr r1, [r0, #0xc]
+	sub r1, r1, #0xa
+	cmp r1, #5
+	addls pc, pc, r1, lsl #2
+	bx lr
+_021594DC: // jump table
+	b _021594F4 // case 0
+	b _0215950C // case 1
+	b _02159520 // case 2
+	b _02159534 // case 3
+	b _02159548 // case 4
+	b _0215955C // case 5
+_021594F4:
+	mov r3, #0
+	bic r2, r3, #1
+	ldr r1, =renderCoreGFXControlB
+	orr r2, r2, #1
+	strh r2, [r1, #0x20]
+	b _0215956C
+_0215950C:
+	mov r2, #0
+	ldr r1, =renderCoreGFXControlB
+	orr r2, r2, #2
+	strh r2, [r1, #0x20]
+	b _0215956C
+_02159520:
+	mov r2, #0
+	ldr r1, =renderCoreGFXControlB
+	orr r2, r2, #4
+	strh r2, [r1, #0x20]
+	b _0215956C
+_02159534:
+	mov r2, #0
+	ldr r1, =renderCoreGFXControlB
+	orr r2, r2, #8
+	strh r2, [r1, #0x20]
+	b _0215956C
+_02159548:
+	mov r2, #0
+	ldr r1, =renderCoreGFXControlB
+	orr r2, r2, #0x10
+	strh r2, [r1, #0x20]
+	b _0215956C
+_0215955C:
+	mov r2, #0
+	ldr r1, =renderCoreGFXControlB
+	orr r2, r2, #0x20
+	strh r2, [r1, #0x20]
+_0215956C:
+	ldrsb r1, [r0, #0x11]
+	cmp r1, #0
+	blt _02159598
+	ldr r1, =renderCoreGFXControlB
+	ldrh r2, [r1, #0x20]
+	bic r2, r2, #0xc0
+	orr r2, r2, #0x80
+	strh r2, [r1, #0x20]
+	ldrsb r0, [r0, #0x11]
+	strh r0, [r1, #0x24]
+	bx lr
+_02159598:
+	ldr r1, =renderCoreGFXControlB
+	ldrh r2, [r1, #0x20]
+	bic r2, r2, #0xc0
+	orr r2, r2, #0xc0
+	strh r2, [r1, #0x20]
+	ldrsb r0, [r0, #0x11]
+	rsb r0, r0, #0
+	strh r0, [r1, #0x24]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_21595C4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	sub sp, sp, #8
+	mov r6, r0
+	ldr r4, [r6, #0x38]
+	mov r5, r1
+	cmp r4, #0
+	addne sp, sp, #8
+	ldmneia sp!, {r4, r5, r6, pc}
+	str r2, [r6, #0x3c]
+	mov r4, #0
+	ldr lr, [sp, #0x1c]
+	ldr r1, [sp, #0x18]
+	str r4, [r6, #0x40]
+	str r1, [r6, #0x4c]
+	str lr, [r6, #0x50]
+	cmp lr, #0
+	beq _02159624
+	ldr ip, =sub_215967C
+	mov r1, r2
+	mov r2, r3
+	mov r3, r4
+	stmia sp, {ip, lr}
+	bl TouchField__InitAreaSprite
+	b _0215963C
+_02159624:
+	mov r1, r2
+	mov r2, r3
+	str r4, [sp]
+	mov r3, r4
+	str r4, [sp, #4]
+	bl TouchField__InitAreaSprite
+_0215963C:
+	mov r0, r5
+	mov r1, r6
+	mov r2, #0
+	str r5, [r6, #0x38]
+	bl TouchField__AddArea
+	add sp, sp, #8
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_215965C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	ldr r0, [r4, #0x38]
+	mov r1, r4
+	bl TouchField__RemoveArea
+	mov r0, #0
+	str r0, [r4, #0x38]
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void sub_215967C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	ldr r3, [r0]
+	ldr ip, [r1, #0x14]
+	cmp r3, #0x10000
+	ldr r0, [r1, #0x3c]
+	beq _021596A8
+	cmp r3, #0x20000
+	beq _021596D0
+	cmp r3, #0x1000000
+	beq _021596F8
+	ldmia sp!, {r3, pc}
+_021596A8:
+	ldr r2, [r1, #0x40]
+	cmp r2, #0
+	ldmeqia sp!, {r3, pc}
+	tst ip, #0x800
+	ldmneia sp!, {r3, pc}
+	ldrh r2, [r1, #0x4a]
+	strh r2, [r0, #0x50]
+	ldrh r1, [r1, #0x46]
+	bl AnimatorSprite__SetAnimation
+	ldmia sp!, {r3, pc}
+_021596D0:
+	ldr r2, [r1, #0x40]
+	cmp r2, #0
+	ldmeqia sp!, {r3, pc}
+	tst ip, #0x800
+	ldmneia sp!, {r3, pc}
+	ldrh r2, [r1, #0x48]
+	strh r2, [r0, #0x50]
+	ldrh r1, [r1, #0x44]
+	bl AnimatorSprite__SetAnimation
+	ldmia sp!, {r3, pc}
+_021596F8:
+	tst ip, #0x20
+	ldmeqia sp!, {r3, pc}
+	tst ip, #0x800
+	ldmneia sp!, {r3, pc}
+	ldr r0, [r1, #0x4c]
+	mov r1, r2
+	bl CutsceneSeq__InitAYKSequence
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2159718(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	bl FontWindow__Init
+	add r0, r4, #0xb0
+	bl FontAnimator__Init
+	mov r1, #0
+	str r1, [r4, #0x17c]
+	mov r0, #0x1000
+	str r0, [r4, #0x180]
+	str r0, [r4, #0x184]
+	str r1, [r4, #0x188]
+	str r1, [r4, #0x18c]
+	str r1, [r4, #0x190]
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_2159750(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r0
+	ldr r0, [r4, #0x18c]
+	cmp r0, #0
+	beq _0215982C
+	ldr r0, [r4, #0x190]
+	cmp r0, #0
+	movne r0, #0
+	strne r0, [r4, #0x190]
+	bne _0215982C
+	ldr r3, [r4, #0x180]
+	cmp r3, #0
+	bne _0215979C
+	add r0, r4, #0xb0
+	mov r1, #0
+	bl FontAnimator__LoadCharacters
+	mov r0, #0
+	str r0, [r4, #0x188]
+	b _0215982C
+_0215979C:
+	ldr r0, [r4, #0x188]
+	cmp r3, r0
+	subls r0, r0, r3
+	strls r0, [r4, #0x188]
+	bls _0215982C
+	cmp r0, #0
+	bne _021597CC
+	ldr r1, [r4, #0x17c]
+	ldr r0, [r4, #0x184]
+	add r0, r1, r0
+	str r0, [r4, #0x17c]
+	b _021597F0
+_021597CC:
+	ldr r2, [r4, #0x184]
+	sub r1, r3, r0
+	mul r0, r2, r3
+	bl _u32_div_f
+	ldr r2, [r4, #0x17c]
+	mov r1, #0
+	add r0, r2, r0
+	str r0, [r4, #0x17c]
+	str r1, [r4, #0x188]
+_021597F0:
+	ldr r5, [r4, #0x17c]
+	ldr r6, [r4, #0x180]
+	cmp r6, r5
+	bhi _0215982C
+	mov r0, r5
+	mov r1, r6
+	bl _u32_div_f
+	str r1, [r4, #0x17c]
+	mov r0, r5
+	mov r1, r6
+	bl _u32_div_f
+	mov r1, r0, lsl #0x10
+	add r0, r4, #0xb0
+	mov r1, r1, lsr #0x10
+	bl FontAnimator__LoadCharacters
+_0215982C:
+	ldr r0, [r4, #0x178]
+	cmp r0, #0
+	ldmeqia sp!, {r4, r5, r6, pc}
+	mov r0, r4
+	bl FontWindow__PrepareSwapBuffer
+	add r0, r4, #0xb0
+	bl FontAnimator__Draw
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215984C(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r0
+	add r0, r4, #0xb0
+	bl FontAnimator__Release
+	mov r0, r4
+	bl FontWindow__Clear
+	mov r0, r4
+	bl FontWindow__Release
+	add r6, r4, #0x174
+	add r5, r4, #0x17c
+	cmp r6, r5
+	ldmeqia sp!, {r4, r5, r6, pc}
+	mov r4, #0
+_02159880:
+	ldr r0, [r6]
+	cmp r0, #0
+	beq _02159894
+	bl _FreeHEAP_USER
+	str r4, [r6]
+_02159894:
+	add r6, r6, #4
+	cmp r6, r5
+	bne _02159880
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_21598A4(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r5, r1
+	mov r6, r0
+	mov r0, r5
+	mov r1, #0
+	mov r4, r2
+	bl AYKCommand__GetValue
+	mov r2, r0
+	ldr r1, =CutsceneSeq__FuncTable10
+	mov r0, r6
+	ldr r3, [r1, r2, lsl #2]
+	mov r1, r5
+	mov r2, r4
+	blx r3
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__LoadFontFile(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	sub sp, sp, #0x2c
+	mov r9, r1
+	mov r10, r0
+	mov r0, r9
+	mov r1, #1
+	mov r6, r2
+	bl AYKCommand__GetValue
+	mov r4, r0
+	mov r0, r9
+	mov r1, #2
+	bl AYKCommand__GetValue
+	and r5, r0, #0xff
+	mov r0, r9
+	mov r1, #3
+	bl AYKCommand__GetValue
+	mov r11, r0
+	mov r0, r9
+	mov r1, #4
+	bl AYKCommand__GetValue
+	str r0, [sp, #0x28]
+	mov r1, r6
+	mov r0, r9
+	mov r2, #5
+	bl AYKCommand__GetPath
+	str r0, [sp, #0x24]
+	mov r0, r9
+	mov r1, #6
+	bl AYKCommand__GetValue
+	mov r8, r0
+	mov r0, r9
+	mov r1, #7
+	bl AYKCommand__GetValue
+	mov r6, r0
+	mov r0, r9
+	mov r1, #8
+	bl AYKCommand__GetValue
+	mov r7, r0
+	mov r0, r9
+	mov r1, #9
+	bl AYKCommand__GetValue
+	str r0, [sp, #0x20]
+	mov r0, r9
+	mov r1, #0xa
+	bl AYKCommand__GetValue
+	str r0, [sp, #0x1c]
+	mov r0, r9
+	mov r1, #0xb
+	bl AYKCommand__GetValue
+	mov r2, #0
+	and r9, r0, #0xff
+	ldr r1, [sp, #0x28]
+	str r11, [sp]
+	str r1, [sp, #4]
+	mov r0, r4
+	mov r1, r5
+	mov r3, r2
+	bl sub_2158A6C
+	mov r0, r4
+	mov r1, r5
+	bl BackgroundUnknown__Func_204CA00
+	ldr r0, =VRAMSystem__GFXControl
+	mov r1, #0
+	ldr r2, [r0, r4, lsl #2]
+	add r0, r2, r5, lsl #2
+	strh r1, [r0, #2]
+	mov r0, r5, lsl #2
+	strh r1, [r2, r0]
+	ldr r0, [r10, #0x174]
+	cmp r0, #0
+	beq _02159A04
+	bl _FreeHEAP_USER
+_02159A04:
+	mov r2, #0
+	cmp r8, #0
+	mvnlt r8, #0
+	ldr r0, [sp, #0x24]
+	mov r1, r8
+	mov r3, r2
+	str r2, [sp]
+	bl ArchiveFile__Load
+	str r0, [r10, #0x174]
+	mov r1, r0
+	mov r0, r10
+	mov r2, #0
+	bl FontWindow__LoadFromMemory
+	mov r3, r6, lsr #0x1f
+	rsb r2, r3, r6, lsl #29
+	add r2, r3, r2, ror #29
+	ldr r0, [sp, #0x20]
+	mov r3, r7, lsr #0x1f
+	strb r2, [r10, #0x194]
+	rsb r2, r3, r7, lsl #29
+	add r2, r3, r2, ror #29
+	add r1, r0, #7
+	strb r2, [r10, #0x195]
+	mov r2, r6, asr #2
+	add r2, r6, r2, lsr #29
+	mov r6, r1, asr #2
+	mov r3, r2, asr #3
+	add r1, r1, r6, lsr #29
+	ldr r0, [sp, #0x1c]
+	rsb r1, r3, r1, asr #3
+	mov r1, r1, lsl #0x10
+	mov r2, r7, asr #2
+	mov r6, r1, lsr #0x10
+	mov r1, r3, lsl #0x10
+	add r2, r7, r2, lsr #29
+	add r0, r0, #7
+	mov r3, r1, lsr #0x10
+	mov r1, r0, asr #2
+	mov r2, r2, asr #3
+	add r0, r0, r1, lsr #29
+	rsb r1, r2, r0, asr #3
+	mov r0, r2, lsl #0x10
+	mov r0, r0, lsr #0x10
+	stmia sp, {r0, r6}
+	mov r0, r1, lsl #0x10
+	mov r0, r0, lsr #0x10
+	str r0, [sp, #8]
+	str r4, [sp, #0xc]
+	str r5, [sp, #0x10]
+	mov r1, r10
+	str r9, [sp, #0x14]
+	mov r4, #0x20
+	add r0, r10, #0xb0
+	mov r2, #0
+	str r4, [sp, #0x18]
+	bl FontAnimator__LoadFont1
+	add r0, r10, #0xb0
+	bl FontAnimator__LoadMappingsFunc
+	add r0, r10, #0xb0
+	bl FontAnimator__LoadPaletteFunc
+	add r0, r10, #0xb0
+	bl FontAnimator__ClearPixels
+	add r0, r10, #0xb0
+	bl FontAnimator__Draw
+	mov r0, #1
+	add sp, sp, #0x2c
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159B14(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r0
+	ldr r0, [r4, #0x18c]
+	cmp r0, #0
+	movne r0, #0
+	strne r0, [r4, #0x18c]
+	add r0, r4, #0xb0
+	bl FontAnimator__Release
+	mov r0, r4
+	bl FontWindow__Clear
+	mov r0, r4
+	bl FontWindow__Release
+	add r6, r4, #0x174
+	add r5, r4, #0x17c
+	cmp r6, r5
+	beq _02159B78
+	mov r4, #0
+_02159B58:
+	ldr r0, [r6]
+	cmp r0, #0
+	beq _02159B6C
+	bl _FreeHEAP_USER
+	str r4, [r6]
+_02159B6C:
+	add r6, r6, #4
+	cmp r6, r5
+	bne _02159B58
+_02159B78:
+	mov r0, #1
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__LoadMPCFile(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, lr}
+	mov r6, r2
+	mov r5, r1
+	mov r7, r0
+	mov r0, r5
+	mov r1, r6
+	mov r2, #1
+	bl AYKCommand__GetPath
+	mov r4, r0
+	mov r0, r5
+	mov r1, #2
+	bl AYKCommand__GetValue
+	mov r5, r0
+	ldr r0, [r7, #0x178]
+	cmp r0, #0
+	beq _02159BC4
+	bl _FreeHEAP_USER
+_02159BC4:
+	add r0, r6, #0x30
+	add r0, r0, #0x1000
+	bl sub_21569E4
+	cmp r0, #0
+	movne r3, #1
+	moveq r3, #0
+	cmp r5, #0
+	mvnlt r5, #0
+	mov r2, #0
+	mov r0, r4
+	mov r1, r5
+	str r2, [sp]
+	bl ArchiveFile__Load
+	str r0, [r7, #0x178]
+	mov r1, r0
+	add r0, r7, #0xb0
+	bl FontAnimator__LoadMPCFile
+	mov r0, #1
+	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__SetMsgSeq(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, r1
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r0, r0, lsl #0x10
+	mov r1, r0, lsr #0x10
+	add r0, r4, #0xb0
+	bl FontAnimator__SetMsgSequence
+	ldrb r2, [r4, #0x194]
+	add r0, r4, #0xb0
+	mov r1, #0
+	bl FontAnimator__InitStartPos
+	ldrb r1, [r4, #0x195]
+	add r0, r4, #0xb0
+	bl FontAnimator__AdvanceLine
+	mov r0, #0
+	str r0, [r4, #0x188]
+	str r0, [r4, #0x18c]
+	str r0, [r4, #0x190]
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159C68(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, r1
+	mov r1, #1
+	bl AYKCommand__GetValue
+	str r0, [r4, #0x180]
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159C88(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, r1
+	mov r1, #1
+	bl AYKCommand__GetValue
+	str r0, [r4, #0x184]
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CA8(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, r1
+	mov r1, #1
+	bl AYKCommand__GetValue
+	str r0, [r4, #0x188]
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CC8(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	mov r1, #1
+	str r1, [r0, #0x18c]
+	mov r0, r1
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CD8(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	mov r1, #0
+	str r1, [r0, #0x18c]
+	mov r0, #1
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CE8(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	add r0, r4, #0xb0
+	mov r1, #0
+	bl FontAnimator__LoadCharacters
+	mov r0, #1
+	str r0, [r4, #0x190]
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D08(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, r1
+	mov r1, #1
+	bl AYKCommand__GetValue
+	mov r0, r0, lsl #0x10
+	movs r1, r0, lsr #0x10
+	beq _02159D38
+	add r0, r4, #0xb0
+	bl FontAnimator__LoadCharacters
+	mov r0, #1
+	str r0, [r4, #0x190]
+_02159D38:
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D40(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	add r0, r0, #0xb0
+	mov r4, r1
+	bl FontAnimator__IsEndOfLine
+	cmp r0, #0
+	movne r2, #1
+	moveq r2, #0
+	mov r0, r4
+	mov r1, #1
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D70(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	add r0, r0, #0xb0
+	bl FontAnimator__AdvanceDialog
+	mov r0, #1
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D84(void *a1, void *a2, CutsceneSeq *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	add r0, r0, #0xb0
+	mov r4, r1
+	bl FontAnimator__IsLastDialog
+	cmp r0, #0
+	movne r2, #1
+	moveq r2, #0
+	mov r0, r4
+	mov r1, #1
+	bl AYKCommand__SetValue
+	mov r0, #1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159DB4(void *a1, void *a2, CutsceneSeq *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	add r0, r4, #0xb0
+	bl FontAnimator__ClearPixels
+	add r0, r4, #0xb0
+	bl FontAnimator__Draw
+	mov r0, #1
+	str r0, [r4, #0x190]
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+void CutsceneAssetSystem__Create(void)
+{
+    CutsceneAssetSystem__Singleton =
+        TaskCreate(CutsceneAssetSystem__Main, CutsceneAssetSystem__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_SCOPE_0, CutsceneAssetSystem);
+
+    CutsceneAssetSystem__Func_2159E28(CutsceneAssetSystem__Singleton);
+}
+
+void CutsceneAssetSystem__Func_2159E28(Task *task)
+{
+    CutsceneAssetSystem *work = TaskGetWork(task, CutsceneAssetSystem);
+
+    VRAMSystem__Reset();
+    GX_SetBankForLCDC(GX_VRAM_LCDC_ALL);
+
+    MI_DmaFill32(1, (void *)HW_LCDC_VRAM, 0, HW_LCDC_VRAM_SIZE);
+    MI_DmaFill32(1, VRAM_BG_PLTT, 0, 2 * (0x100 * sizeof(GXRgb)));
+    MI_DmaFill32(1, VRAM_DB_BG_PLTT, 0, 2 * (0x100 * sizeof(GXRgb)));
+
+    DC_InvalidateRange((void *)HW_LCDC_VRAM, HW_LCDC_VRAM_SIZE);
+    DC_InvalidateRange(VRAM_BG_PLTT, 2 * (0x100 * sizeof(GXRgb)));
+    DC_InvalidateRange(VRAM_DB_BG_PLTT, 2 * (0x100 * sizeof(GXRgb)));
+
+    VRAMSystem__Reset();
+
+    renderCoreGFXControlB.windowManager.visible = renderCoreGFXControlA.windowManager.visible = GX_WND_PLANEMASK_NONE;
+    renderCoreGFXControlB.blendManager.brightness = renderCoreGFXControlA.blendManager.brightness = RENDERCORE_BRIGHTNESS_DEFAULT;
+    renderCoreGFXControlB.blendManager.blendControl.value = renderCoreGFXControlA.blendManager.blendControl.value = 0x00;
+    renderCoreGFXControlB.blendManager.blendAlpha.value = renderCoreGFXControlA.blendManager.blendAlpha.value = 0x00;
+
+    u32 e;
+    RenderCoreGFXControl *const *gfxControlList = VRAMSystem__GFXControl;
+    while (gfxControlList != &VRAMSystem__GFXControl[2])
+    {
+        for (e = 0; e < 2; e++)
+        {
+            RenderCoreGFXControl *gfxControl = *gfxControlList;
+            RenderAffineControl *affineControl;
+
+            if (e == GRAPHICS_ENGINE_A)
+                affineControl = &gfxControl->affineA;
+            else
+                affineControl = &gfxControl->affineB;
+
+            MTX_Identity22(&affineControl->matrix);
+            affineControl->centerX = affineControl->centerY = affineControl->x = affineControl->y = 0;
+        }
+
+        gfxControlList++;
+    }
+
+    s32 id    = CutsceneAssetSystem__GetCutsceneID();
+    work->ayk = LoadAYK(id);
+    CutsceneSeq__Create(work, 16);
+    CutsceneAssetSystem__Func_2152A74(work, 32);
+    CutsceneAssetSystem__Func_2152A8C(work, 16);
+    CutsceneAssetSystem__Func_2152AA4(work);
+    CutsceneAssetSystem__Func_2152ABC(work, 32);
+    CutsceneAssetSystem__Func_2152B00(work);
+    CutsceneAssetSystem__Func_2152AE8(work, 8);
+    CutsceneAssetSystem__StartLoadingAYK(work, work->ayk);
+    CutsceneAssetSystem__FinishLoadingAYK(work, GetAYKUnknown(id), CutsceneAssetSystem__OnCutsceneFinish);
+    CutsceneAssetSystem__Func_215A080(CutsceneAssetSystem__GetCutsceneSeq(work));
+}
+
+void CutsceneAssetSystem__Destructor(Task *task)
+{
+    CutsceneAssetSystem *work = TaskGetWork(task, CutsceneAssetSystem);
+    HeapFree(HEAP_USER, work->ayk);
+
+    CutsceneAssetSystem__Singleton = NULL;
+}
+
+void CutsceneAssetSystem__OnCutsceneFinish(CutsceneSeq *work)
+{
+    SetTaskMainEvent(CutsceneAssetSystem__Singleton, CutsceneAssetSystem__NextSysEvent);
+
+    renderCoreGFXControlA.windowManager.visible = GX_WND_PLANEMASK_NONE;
+    renderCoreGFXControlB.windowManager.visible = GX_WND_PLANEMASK_NONE;
+
+    renderCoreGFXControlA.blendManager.blendAlpha.value = 0x00;
+    renderCoreGFXControlB.blendManager.blendAlpha.value = 0x00;
+
+    renderCoreGFXControlA.blendManager.blendControl.value = 0x00;
+    renderCoreGFXControlB.blendManager.blendControl.value = 0x00;
+
+    renderCoreGFXControlA.blendManager.brightness = RENDERCORE_BRIGHTNESS_DEFAULT;
+    renderCoreGFXControlB.blendManager.brightness = RENDERCORE_BRIGHTNESS_DEFAULT;
+
+    CutsceneAssetSystem__Func_215A0B0(work);
+}
+
+s32 CutsceneAssetSystem__GetCutsceneID(void)
+{
+    return gameState.cutscene.cutsceneID;
+}
+
+s32 CutsceneAssetSystem__GetNextSysEvent(void)
+{
+    return gameState.cutscene.nextSysEvent;
+}
+
+void CutsceneAssetSystem__Func_215A080(CutsceneSeq *work)
+{
+    *(s32 *)CutsceneSeq__GetAYKCommand_String(work, NULL, GetAYKUnknown2()) = gameState.cutscene.stringValue;
+}
+
+void CutsceneAssetSystem__Func_215A0B0(CutsceneSeq *work)
+{
+    gameState.cutscene.stringValue = *(s32 *)CutsceneSeq__GetAYKCommand_String(work, NULL, GetAYKUnknown3());
+}
+
+void CutsceneAssetSystem__Main(void)
+{
+    CutsceneAssetSystem *work = TaskGetWork(CutsceneAssetSystem__Singleton, CutsceneAssetSystem);
+    UNUSED(work);
+}
+
+void CutsceneAssetSystem__NextSysEvent(void)
+{
+    CutsceneAssetSystem *work = TaskGetWork(CutsceneAssetSystem__Singleton, CutsceneAssetSystem);
+    CutsceneAssetSystem__Destroy(work);
+    DestroyCurrentTask();
+
+    RequestNewSysEventChange(CutsceneAssetSystem__GetNextSysEvent());
+    NextSysEvent();
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215A124(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #0x24
+	mov r4, r0
+	str r4, [sp]
+	mov r6, r1
+	ldrh r0, [r4]
+	ldrb r1, [r4, #6]
+	mov r5, r2
+	mov r4, r3
+	bl _s32_div_f
+	ldr r1, [sp]
+	strh r0, [sp, #0x1c]
+	ldrh r0, [r1, #2]
+	ldrb r1, [r1, #6]
+	bl _s32_div_f
+	ldr r1, [sp]
+	strh r0, [sp, #0x1e]
+	ldrh r0, [r1]
+	ldrb r1, [r1, #7]
+	bl _s32_div_f
+	strh r0, [sp, #0x20]
+	ldr r1, [sp]
+	ldrh r0, [r1, #2]
+	ldrb r1, [r1, #7]
+	bl _s32_div_f
+	strh r0, [sp, #0x22]
+	ldrh r3, [sp, #0x1c]
+	ldrh r2, [sp, #0x1e]
+	ldrh r1, [sp, #0x20]
+	ldrh r0, [sp, #0x22]
+	mul r2, r3, r2
+	mul r0, r1, r0
+	add r0, r2, r0, lsl #1
+	mov r7, r0, lsl #1
+	mov r0, r7, lsl #1
+	bl _AllocHeadHEAP_USER
+	mov r2, r7
+	mov r1, r0
+	str r1, [sp, #4]
+	ldrh lr, [sp, #0x1c]
+	ldrh ip, [sp, #0x1e]
+	ldrh r3, [sp, #0x20]
+	ldrh r0, [sp, #0x22]
+	mul r7, lr, ip
+	mul ip, r3, r0
+	add r0, r1, r7, lsl #1
+	str r0, [sp, #8]
+	add r0, r0, ip, lsl #1
+	str r0, [sp, #0xc]
+	add r0, r0, ip, lsl #1
+	add r3, r0, r7, lsl #1
+	str r0, [sp, #0x10]
+	add r0, r3, ip, lsl #1
+	str r3, [sp, #0x14]
+	str r0, [sp, #0x18]
+	ldr r0, [sp]
+	add r0, r0, #0x10
+	bl CutsceneAssetSystem__Func_215AE54
+	add r0, sp, #0
+	bl CutsceneAssetSystem__Func_215A248
+	add r0, sp, #0
+	bl CutsceneAssetSystem__Func_215A374
+	add r0, sp, #0
+	bl CutsceneAssetSystem__Func_215A788
+	mov r1, r6
+	mov r2, r5
+	mov r3, r4
+	add r0, sp, #0
+	bl CutsceneAssetSystem__Func_215A9A8
+	ldr r0, [sp, #4]
+	bl _FreeHEAP_USER
+	add sp, sp, #0x24
+	ldmia sp!, {r4, r5, r6, r7, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215A248(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	ldrh r1, [r6, #0x1c]
+	ldrh r0, [r6, #0x1e]
+	mov r4, #0
+	mul r0, r1, r0
+	mov r0, r0, lsl #0x10
+	movs r5, r0, lsr #0x10
+	beq _0215A294
+_0215A26C:
+	ldr r0, [r6, #4]
+	ldr r1, [r6, #0x10]
+	add r0, r0, r4, lsl #1
+	add r1, r1, r4, lsl #1
+	bl CutsceneAssetSystem__Func_215A2F0
+	add r0, r4, #0x10
+	mov r0, r0, lsl #0x10
+	cmp r5, r0, lsr #16
+	mov r4, r0, lsr #0x10
+	bhi _0215A26C
+_0215A294:
+	ldrh r1, [r6, #0x20]
+	ldrh r0, [r6, #0x22]
+	mov r5, #0
+	mul r0, r1, r0
+	mov r0, r0, lsl #0x10
+	movs r4, r0, lsr #0x10
+	ldmeqia sp!, {r4, r5, r6, pc}
+_0215A2B0:
+	ldr r0, [r6, #8]
+	ldr r1, [r6, #0x14]
+	add r0, r0, r5, lsl #1
+	add r1, r1, r5, lsl #1
+	bl CutsceneAssetSystem__Func_215A2F0
+	ldr r0, [r6, #0xc]
+	ldr r1, [r6, #0x18]
+	add r0, r0, r5, lsl #1
+	add r1, r1, r5, lsl #1
+	bl CutsceneAssetSystem__Func_215A2F0
+	add r0, r5, #0x10
+	mov r0, r0, lsl #0x10
+	cmp r4, r0, lsr #16
+	mov r5, r0, lsr #0x10
+	bhi _0215A2B0
+	ldmia sp!, {r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215A2F0(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldrsh r2, [r0]
+	strh r2, [r1]
+	ldrsh r2, [r0, #4]
+	strh r2, [r1, #2]
+	ldrsh r2, [r0, #6]
+	strh r2, [r1, #4]
+	ldrsh r2, [r0, #0x12]
+	strh r2, [r1, #6]
+	ldrsh r2, [r0, #2]
+	strh r2, [r1, #8]
+	ldrsh r2, [r0, #8]
+	strh r2, [r1, #0xa]
+	ldrsh r2, [r0, #0x10]
+	strh r2, [r1, #0xc]
+	ldrsh r2, [r0, #0x14]
+	strh r2, [r1, #0xe]
+	ldrsh r2, [r0, #0xa]
+	strh r2, [r1, #0x10]
+	ldrsh r2, [r0, #0xe]
+	strh r2, [r1, #0x12]
+	ldrsh r2, [r0, #0x16]
+	strh r2, [r1, #0x14]
+	ldrsh r2, [r0, #0x1c]
+	strh r2, [r1, #0x16]
+	ldrsh r2, [r0, #0xc]
+	strh r2, [r1, #0x18]
+	ldrsh r2, [r0, #0x18]
+	strh r2, [r1, #0x1a]
+	ldrsh r2, [r0, #0x1a]
+	strh r2, [r1, #0x1c]
+	ldrsh r0, [r0, #0x1e]
+	strh r0, [r1, #0x1e]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215A374(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r10, r0
+	ldrh r0, [r10, #0x1e]
+	ldrh r2, [r10, #0x1c]
+	mov r7, #0
+	mov r1, r0, lsr #2
+	mov r0, r2, lsl #0x12
+	mov r1, r1, lsl #0x10
+	mov r8, r0, lsr #0x10
+	movs r5, r1, lsr #0x10
+	beq _0215A3F8
+	mov r4, r7
+_0215A3A4:
+	mov r6, r4
+	cmp r8, #0
+	bls _0215A3E4
+	mul r9, r7, r8
+_0215A3B4:
+	add r0, r6, r9
+	mov r2, r0, lsl #0x10
+	ldr r0, [r10, #0x10]
+	ldr r1, [r10, #4]
+	mov r3, r8
+	mov r2, r2, lsr #0x10
+	bl CutsceneAssetSystem__Func_215A490
+	add r0, r6, #0x40
+	mov r0, r0, lsl #0x10
+	cmp r8, r0, lsr #16
+	mov r6, r0, lsr #0x10
+	bhi _0215A3B4
+_0215A3E4:
+	add r0, r7, #4
+	mov r0, r0, lsl #0x10
+	cmp r5, r0, lsr #16
+	mov r7, r0, lsr #0x10
+	bhi _0215A3A4
+_0215A3F8:
+	ldrh r0, [r10, #0x22]
+	ldrh r2, [r10, #0x20]
+	mov r8, #0
+	mov r1, r0, lsr #2
+	mov r0, r2, lsl #0x12
+	mov r1, r1, lsl #0x10
+	mov r6, r0, lsr #0x10
+	movs r7, r1, lsr #0x10
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	mov r11, r8
+_0215A420:
+	mov r9, r11
+	cmp r6, #0
+	bls _0215A478
+	mul r4, r8, r6
+_0215A430:
+	add r5, r9, r4
+	mov r2, r5, lsl #0x10
+	ldr r0, [r10, #0x14]
+	ldr r1, [r10, #8]
+	mov r3, r6
+	mov r2, r2, lsr #0x10
+	bl CutsceneAssetSystem__Func_215A490
+	mov r2, r5, lsl #0x10
+	ldr r0, [r10, #0x18]
+	ldr r1, [r10, #0xc]
+	mov r2, r2, lsr #0x10
+	mov r3, r6
+	bl CutsceneAssetSystem__Func_215A490
+	add r0, r9, #0x40
+	mov r0, r0, lsl #0x10
+	cmp r6, r0, lsr #16
+	mov r9, r0, lsr #0x10
+	bhi _0215A430
+_0215A478:
+	add r0, r8, #4
+	mov r0, r0, lsl #0x10
+	cmp r7, r0, lsr #16
+	mov r8, r0, lsr #0x10
+	bhi _0215A420
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215A490(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
+	sub sp, sp, #0x20
+	mov r7, r2
+	mov r9, r0
+	mov r10, r7, lsl #1
+	ldrsh r0, [r9, r10]
+	add r5, r9, r7, lsl #1
+	mov r6, r3
+	strh r0, [sp]
+	ldrsh r0, [r5, #0x20]
+	add ip, r5, r6, lsl #1
+	add r3, ip, r6, lsl #1
+	strh r0, [sp, #2]
+	ldrsh r0, [r5, #0x40]
+	mov r4, r6, lsl #1
+	add r2, r3, r6, lsl #1
+	strh r0, [sp, #4]
+	ldrsh lr, [r5, #0x60]
+	add r0, sp, #0
+	mov r8, r1
+	strh lr, [sp, #6]
+	ldrsh lr, [r5, r4]
+	mov r1, r0
+	strh lr, [sp, #8]
+	ldrsh lr, [ip, #0x20]
+	strh lr, [sp, #0xa]
+	ldrsh lr, [ip, #0x40]
+	strh lr, [sp, #0xc]
+	ldrsh lr, [ip, #0x60]
+	strh lr, [sp, #0xe]
+	ldrsh ip, [ip, r4]
+	strh ip, [sp, #0x10]
+	ldrsh ip, [r3, #0x20]
+	strh ip, [sp, #0x12]
+	ldrsh ip, [r3, #0x40]
+	strh ip, [sp, #0x14]
+	ldrsh ip, [r3, #0x60]
+	strh ip, [sp, #0x16]
+	ldrsh r3, [r3, r4]
+	strh r3, [sp, #0x18]
+	ldrsh r3, [r2, #0x20]
+	strh r3, [sp, #0x1a]
+	ldrsh r3, [r2, #0x40]
+	strh r3, [sp, #0x1c]
+	ldrsh r2, [r2, #0x60]
+	strh r2, [sp, #0x1e]
+	bl CutsceneAssetSystem__Func_215A640
+	ldrsh r0, [sp]
+	add r2, r5, r6, lsl #1
+	add r1, r2, r6, lsl #1
+	strh r0, [r9, r10]
+	ldrsh r3, [sp, #2]
+	add r0, r1, r6, lsl #1
+	mov r10, #0
+	strh r3, [r5, #0x20]
+	ldrsh r3, [sp, #4]
+	strh r3, [r5, #0x40]
+	ldrsh r3, [sp, #6]
+	strh r3, [r5, #0x60]
+	ldrsh r3, [sp, #8]
+	strh r3, [r5, r4]
+	ldrsh r3, [sp, #0xa]
+	strh r3, [r2, #0x20]
+	ldrsh r3, [sp, #0xc]
+	strh r3, [r2, #0x40]
+	ldrsh r3, [sp, #0xe]
+	strh r3, [r2, #0x60]
+	ldrsh r3, [sp, #0x10]
+	strh r3, [r2, r4]
+	ldrsh r2, [sp, #0x12]
+	strh r2, [r1, #0x20]
+	ldrsh r2, [sp, #0x14]
+	strh r2, [r1, #0x40]
+	ldrsh r2, [sp, #0x16]
+	strh r2, [r1, #0x60]
+	ldrsh r2, [sp, #0x18]
+	strh r2, [r1, r4]
+	ldrsh r1, [sp, #0x1a]
+	strh r1, [r0, #0x20]
+	ldrsh r1, [sp, #0x1c]
+	strh r1, [r0, #0x40]
+	ldrsh r1, [sp, #0x1e]
+	strh r1, [r0, #0x60]
+_0215A5DC:
+	mla r0, r6, r10, r7
+	mov r0, r0, lsl #0x10
+	mov r4, r0, lsr #0x10
+	add r0, r9, r4, lsl #1
+	add r1, r8, r4, lsl #1
+	bl CutsceneAssetSystem__Func_215A640
+	add r1, r4, #0x10
+	add r0, r9, r1, lsl #1
+	add r1, r8, r1, lsl #1
+	bl CutsceneAssetSystem__Func_215A640
+	add r1, r4, #0x20
+	add r0, r9, r1, lsl #1
+	add r1, r8, r1, lsl #1
+	bl CutsceneAssetSystem__Func_215A640
+	add r1, r4, #0x30
+	add r0, r9, r1, lsl #1
+	add r1, r8, r1, lsl #1
+	bl CutsceneAssetSystem__Func_215A640
+	add r0, r10, #1
+	mov r0, r0, lsl #0x10
+	mov r10, r0, lsr #0x10
+	cmp r10, #4
+	blo _0215A5DC
+	add sp, sp, #0x20
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215A640(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r5, r0
+	mov r4, r1
+	bl CutsceneAssetSystem__Func_215A738
+	add r0, r5, #8
+	add r1, r4, #8
+	bl CutsceneAssetSystem__Func_215A738
+	add r0, r5, #0x10
+	add r1, r4, #0x10
+	bl CutsceneAssetSystem__Func_215A738
+	add r0, r5, #0x18
+	add r1, r4, #0x18
+	bl CutsceneAssetSystem__Func_215A738
+	mov r6, #0
+	mov r8, r6
+	mov r5, r6
+_0215A680:
+	mov r7, r5
+	cmp r6, #0
+	ble _0215A6C0
+	mov r9, r5
+	add ip, r4, r8, lsl #1
+	add r1, r4, r6, lsl #1
+_0215A698:
+	mov lr, r7, lsl #1
+	mov r2, r9, lsl #1
+	ldrsh r3, [lr, ip]
+	ldrsh r0, [r2, r1]
+	add r7, r7, #1
+	cmp r7, r6
+	strh r0, [lr, ip]
+	strh r3, [r2, r1]
+	add r9, r9, #4
+	blt _0215A698
+_0215A6C0:
+	add r6, r6, #1
+	cmp r6, #4
+	add r8, r8, #4
+	blt _0215A680
+	mov r0, r4
+	mov r1, r4
+	bl CutsceneAssetSystem__Func_215A738
+	add r0, r4, #8
+	mov r1, r0
+	bl CutsceneAssetSystem__Func_215A738
+	add r0, r4, #0x10
+	mov r1, r0
+	bl CutsceneAssetSystem__Func_215A738
+	add r0, r4, #0x18
+	mov r1, r0
+	bl CutsceneAssetSystem__Func_215A738
+	mov r3, #0
+_0215A704:
+	mov r2, r3, lsl #1
+	ldrsh r0, [r4, r2]
+	add r3, r3, #1
+	cmp r0, #0
+	addge r1, r0, #2
+	sublt r1, r0, #2
+	mov r0, r1, asr #1
+	add r0, r1, r0, lsr #30
+	mov r0, r0, asr #2
+	strh r0, [r4, r2]
+	cmp r3, #0x10
+	blt _0215A704
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215A738(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	ldrsh ip, [r0, #2]
+	ldrsh r2, [r0]
+	ldrsh r4, [r0, #4]
+	ldrsh lr, [r0, #6]
+	add r3, r2, ip
+	sub r0, r2, ip
+	add r2, r4, r3
+	add ip, lr, r2
+	sub r3, r3, r4
+	sub r2, r0, r4
+	add r0, r4, r0
+	strh ip, [r1]
+	sub r3, r3, lr
+	strh r3, [r1, #2]
+	add r2, lr, r2
+	strh r2, [r1, #4]
+	sub r0, r0, lr
+	strh r0, [r1, #6]
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215A788(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r10, r0
+	ldrh r0, [r10, #0x1e]
+	mov r8, #0
+	mov r7, r8
+	cmp r0, #0
+	ble _0215A86C
+_0215A7A4:
+	ldrh r0, [r10, #0x1c]
+	mov r6, #0
+	cmp r0, #0
+	ble _0215A85C
+	mov r5, #8
+	mov r4, r5
+	mov r11, r5
+_0215A7C0:
+	mla r9, r7, r0, r6
+	ldr r0, [r10, #4]
+	ldr r1, [r10, #0x10]
+	mov r2, r5
+	add r0, r0, r8, lsl #1
+	add r1, r1, r9, lsl #1
+	bl MIi_CpuCopy32
+	ldrh r2, [r10, #0x1c]
+	ldr r1, [r10, #4]
+	add r0, r8, #4
+	add r0, r1, r0, lsl #1
+	add r9, r9, r2
+	ldr r1, [r10, #0x10]
+	mov r2, r4
+	add r1, r1, r9, lsl #1
+	bl MIi_CpuCopy32
+	ldrh r2, [r10, #0x1c]
+	ldr r1, [r10, #4]
+	add r0, r8, #8
+	add r0, r1, r0, lsl #1
+	add r9, r9, r2
+	ldr r1, [r10, #0x10]
+	mov r2, r11
+	add r1, r1, r9, lsl #1
+	bl MIi_CpuCopy32
+	ldrh r2, [r10, #0x1c]
+	ldr r1, [r10, #4]
+	add r0, r8, #0xc
+	add r0, r1, r0, lsl #1
+	add r3, r9, r2
+	ldr r1, [r10, #0x10]
+	mov r2, #8
+	add r1, r1, r3, lsl #1
+	bl MIi_CpuCopy32
+	ldrh r0, [r10, #0x1c]
+	add r6, r6, #4
+	add r8, r8, #0x10
+	cmp r6, r0
+	blt _0215A7C0
+_0215A85C:
+	ldrh r0, [r10, #0x1e]
+	add r7, r7, #4
+	cmp r7, r0
+	blt _0215A7A4
+_0215A86C:
+	ldrh r0, [r10, #0x22]
+	mov r5, #0
+	mov r6, r5
+	cmp r0, #0
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+_0215A880:
+	ldrh r0, [r10, #0x20]
+	mov r7, #0
+	cmp r0, #0
+	ble _0215A994
+	mov r4, #8
+	mov r11, r4
+_0215A898:
+	mla r8, r6, r0, r7
+	ldr r0, [r10, #8]
+	ldr r1, [r10, #0x14]
+	add r0, r0, r5, lsl #1
+	add r1, r1, r8, lsl #1
+	mov r2, r4
+	bl MIi_CpuCopy32
+	ldr r0, [r10, #0xc]
+	ldr r1, [r10, #0x18]
+	add r0, r0, r5, lsl #1
+	add r1, r1, r8, lsl #1
+	mov r2, r11
+	bl MIi_CpuCopy32
+	ldrh r1, [r10, #0x20]
+	ldr r0, [r10, #8]
+	add r9, r5, #4
+	add r8, r8, r1
+	ldr r1, [r10, #0x14]
+	add r0, r0, r9, lsl #1
+	mov r2, #8
+	add r1, r1, r8, lsl #1
+	bl MIi_CpuCopy32
+	ldr r0, [r10, #0xc]
+	ldr r1, [r10, #0x18]
+	add r0, r0, r9, lsl #1
+	add r1, r1, r8, lsl #1
+	mov r2, #8
+	bl MIi_CpuCopy32
+	ldrh r1, [r10, #0x20]
+	ldr r0, [r10, #8]
+	add r9, r5, #8
+	add r8, r8, r1
+	ldr r1, [r10, #0x14]
+	add r0, r0, r9, lsl #1
+	mov r2, #8
+	add r1, r1, r8, lsl #1
+	bl MIi_CpuCopy32
+	ldr r0, [r10, #0xc]
+	ldr r1, [r10, #0x18]
+	add r0, r0, r9, lsl #1
+	add r1, r1, r8, lsl #1
+	mov r2, #8
+	bl MIi_CpuCopy32
+	ldrh r1, [r10, #0x20]
+	ldr r0, [r10, #8]
+	add r9, r5, #0xc
+	add r8, r8, r1
+	ldr r1, [r10, #0x14]
+	add r0, r0, r9, lsl #1
+	mov r2, #8
+	add r1, r1, r8, lsl #1
+	bl MIi_CpuCopy32
+	ldr r0, [r10, #0xc]
+	ldr r1, [r10, #0x18]
+	add r0, r0, r9, lsl #1
+	add r1, r1, r8, lsl #1
+	mov r2, #8
+	bl MIi_CpuCopy32
+	ldrh r0, [r10, #0x20]
+	add r7, r7, #4
+	add r5, r5, #0x10
+	cmp r7, r0
+	blt _0215A898
+_0215A994:
+	ldrh r0, [r10, #0x22]
+	add r6, r6, #4
+	cmp r6, r0
+	blt _0215A880
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215A9A8(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	sub sp, sp, #0x10
+	mov r4, r2
+	str r3, [sp]
+	mov r2, r4, lsl #1
+	mov r6, r0
+	mov r3, r3
+	mul r2, r3, r2
+	ldr r3, [r6, #0x10]
+	mov r0, #0
+	str r3, [sp, #8]
+	ldr r3, [r6, #0x14]
+	mov r5, r1
+	str r3, [sp, #4]
+	ldr r11, [r6, #0x18]
+	bl MIi_CpuClear16
+	ldr r0, [r6]
+	ldrh r3, [r6, #0x1c]
+	ldrh r1, [r6, #0x1e]
+	ldrb r2, [r0, #4]
+	ldr r0, [sp, #8]
+	mul r1, r3, r1
+	bl CutsceneAssetSystem__Func_215AB20
+	ldr r2, [r6]
+	ldrh r3, [r6, #0x20]
+	ldrh r1, [r6, #0x22]
+	ldrb r2, [r2, #5]
+	ldr r0, [sp, #4]
+	mul r1, r3, r1
+	bl CutsceneAssetSystem__Func_215AB20
+	ldr r2, [r6]
+	ldrh r3, [r6, #0x20]
+	ldrh r1, [r6, #0x22]
+	ldrb r2, [r2, #5]
+	mov r0, r11
+	mul r1, r3, r1
+	bl CutsceneAssetSystem__Func_215AB20
+	ldr r1, [r6]
+	ldrh r0, [r1]
+	ldrh r1, [r1, #2]
+	cmp r4, r0
+	movhi r4, r0
+	ldr r0, [sp]
+	cmp r0, r1
+	strhi r1, [sp]
+	ldr r0, [sp]
+	cmp r0, #0
+	mov r0, #0
+	str r0, [sp, #0xc]
+	addls sp, sp, #0x10
+	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+_0215AA74:
+	ldr r7, [r6]
+	ldr r0, [sp, #0xc]
+	ldrb r1, [r7, #6]
+	bl _u32_div_f
+	mov r8, r0
+	ldrb r1, [r7, #7]
+	ldr r0, [sp, #0xc]
+	bl _u32_div_f
+	mov r9, r0
+	mov r7, #0
+	cmp r4, #0
+	bls _0215AB00
+_0215AAA4:
+	ldr r10, [r6]
+	mov r0, r7
+	ldrb r1, [r10, #7]
+	bl _u32_div_f
+	ldrh r2, [r6, #0x20]
+	ldrb r1, [r10, #6]
+	mla r10, r9, r2, r0
+	mov r0, r7
+	bl _u32_div_f
+	ldrh r3, [r6, #0x1c]
+	ldr r1, [sp, #4]
+	mov r2, r10, lsl #1
+	mla r0, r8, r3, r0
+	mov r3, r0, lsl #1
+	ldr r0, [sp, #8]
+	ldrsh r1, [r1, r2]
+	ldrsh r2, [r11, r2]
+	ldrsh r0, [r0, r3]
+	bl CutsceneAssetSystem__Func_215ADA0
+	add r7, r7, #1
+	strh r0, [r5], #2
+	cmp r7, r4
+	blo _0215AAA4
+_0215AB00:
+	ldr r0, [sp, #0xc]
+	add r1, r0, #1
+	ldr r0, [sp]
+	str r1, [sp, #0xc]
+	cmp r1, r0
+	blo _0215AA74
+	add sp, sp, #0x10
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215AB20(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	cmp r2, #8
+	addls pc, pc, r2, lsl #2
+	ldmia sp!, {r3, r4, r5, pc}
+_0215AB30: // jump table
+	ldmia sp!, {r3, r4, r5, pc} // case 0
+	b _0215AB54 // case 1
+	b _0215AB8C // case 2
+	b _0215ABE0 // case 3
+	b _0215AC30 // case 4
+	b _0215AC78 // case 5
+	b _0215ACC4 // case 6
+	b _0215AD10 // case 7
+	b _0215AD5C // case 8
+_0215AB54:
+	mov r4, #0
+	cmp r1, #0
+	ldmlsia sp!, {r3, r4, r5, pc}
+	mov r2, r4
+	mov r3, #0xff
+_0215AB68:
+	mov lr, r4, lsl #1
+	ldrsh ip, [r0, lr]
+	add r4, r4, #1
+	cmp ip, #1
+	strgeh r3, [r0, lr]
+	strlth r2, [r0, lr]
+	cmp r4, r1
+	blo _0215AB68
+	ldmia sp!, {r3, r4, r5, pc}
+_0215AB8C:
+	mov r5, #0
+	cmp r1, #0
+	ldmlsia sp!, {r3, r4, r5, pc}
+	mov lr, r5
+	mov ip, #3
+_0215ABA0:
+	mov r2, r5, lsl #1
+	ldrsh r4, [r0, r2]
+	cmp r4, #0
+	movlt r4, lr
+	cmp r4, #3
+	movgt r4, ip
+	mov r2, r4, lsl #4
+	orr r2, r2, r4, lsl #6
+	orr r3, r2, r4, lsl #2
+	mov r2, r5, lsl #1
+	orr r3, r4, r3
+	add r5, r5, #1
+	strh r3, [r0, r2]
+	cmp r5, r1
+	blo _0215ABA0
+	ldmia sp!, {r3, r4, r5, pc}
+_0215ABE0:
+	mov r4, #0
+	cmp r1, #0
+	ldmlsia sp!, {r3, r4, r5, pc}
+	mov lr, r4
+	mov ip, #7
+_0215ABF4:
+	mov r2, r4, lsl #1
+	ldrsh r5, [r0, r2]
+	cmp r5, #0
+	movlt r5, lr
+	cmp r5, #7
+	movgt r5, ip
+	mov r2, r5, lsl #2
+	orr r3, r2, r5, lsl #5
+	mov r2, r4, lsl #1
+	orr r3, r3, r5, asr #1
+	add r4, r4, #1
+	strh r3, [r0, r2]
+	cmp r4, r1
+	blo _0215ABF4
+	ldmia sp!, {r3, r4, r5, pc}
+_0215AC30:
+	mov r4, #0
+	cmp r1, #0
+	ldmlsia sp!, {r3, r4, r5, pc}
+	mov lr, r4
+	mov ip, #0xf
+_0215AC44:
+	mov r2, r4, lsl #1
+	ldrsh r3, [r0, r2]
+	mov r2, r4, lsl #1
+	add r4, r4, #1
+	cmp r3, #0
+	movlt r3, lr
+	cmp r3, #0xf
+	movgt r3, ip
+	orr r3, r3, r3, lsl #4
+	strh r3, [r0, r2]
+	cmp r4, r1
+	blo _0215AC44
+	ldmia sp!, {r3, r4, r5, pc}
+_0215AC78:
+	mov r4, #0
+	cmp r1, #0
+	ldmlsia sp!, {r3, r4, r5, pc}
+	mov lr, r4
+	mov ip, #0x1f
+_0215AC8C:
+	mov r2, r4, lsl #1
+	ldrsh r5, [r0, r2]
+	mov r2, r4, lsl #1
+	add r4, r4, #1
+	cmp r5, #0
+	movlt r5, lr
+	cmp r5, #0x1f
+	movgt r5, ip
+	mov r3, r5, asr #2
+	orr r3, r3, r5, lsl #3
+	strh r3, [r0, r2]
+	cmp r4, r1
+	blo _0215AC8C
+	ldmia sp!, {r3, r4, r5, pc}
+_0215ACC4:
+	mov r4, #0
+	cmp r1, #0
+	ldmlsia sp!, {r3, r4, r5, pc}
+	mov lr, r4
+	mov ip, #0x3f
+_0215ACD8:
+	mov r2, r4, lsl #1
+	ldrsh r5, [r0, r2]
+	mov r2, r4, lsl #1
+	add r4, r4, #1
+	cmp r5, #0
+	movlt r5, lr
+	cmp r5, #0x3f
+	movgt r5, ip
+	mov r3, r5, asr #4
+	orr r3, r3, r5, lsl #2
+	strh r3, [r0, r2]
+	cmp r4, r1
+	blo _0215ACD8
+	ldmia sp!, {r3, r4, r5, pc}
+_0215AD10:
+	mov r4, #0
+	cmp r1, #0
+	ldmlsia sp!, {r3, r4, r5, pc}
+	mov lr, r4
+	mov ip, #0x7f
+_0215AD24:
+	mov r2, r4, lsl #1
+	ldrsh r5, [r0, r2]
+	mov r2, r4, lsl #1
+	add r4, r4, #1
+	cmp r5, #0
+	movlt r5, lr
+	cmp r5, #0x7f
+	movgt r5, ip
+	mov r3, r5, asr #6
+	orr r3, r3, r5, lsl #1
+	strh r3, [r0, r2]
+	cmp r4, r1
+	blo _0215AD24
+	ldmia sp!, {r3, r4, r5, pc}
+_0215AD5C:
+	mov r4, #0
+	cmp r1, #0
+	ldmlsia sp!, {r3, r4, r5, pc}
+	mov lr, r4
+	mov r2, #0xff
+_0215AD70:
+	mov ip, r4, lsl #1
+	ldrsh r3, [r0, ip]
+	cmp r3, #0
+	strlth lr, [r0, ip]
+	mov ip, r4, lsl #1
+	ldrsh r3, [r0, ip]
+	add r4, r4, #1
+	cmp r3, #0xff
+	strgth r2, [r0, ip]
+	cmp r4, r1
+	blo _0215AD70
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215ADA0(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	sub lr, r1, #0x80
+	ldr r1, =0x00001C5A
+	ldr r3, =0x00000581
+	mul r1, lr, r1
+	add r1, r1, r0, lsl #12
+	mov r1, r1, asr #0xc
+	mul ip, lr, r3
+	add r3, r1, #4
+	sub r4, r2, #0x80
+	ldr r1, =0x0000166E
+	ldr r2, =0x00000B6C
+	mul r1, r4, r1
+	add r1, r1, r0, lsl #12
+	mov r1, r1, asr #0xc
+	add lr, r1, #4
+	mul r1, r4, r2
+	rsb r0, ip, r0, lsl #12
+	sub r0, r0, r1
+	mov r0, r0, asr #0xc
+	add r0, r0, #4
+	movs r2, lr, asr #3
+	movmi r2, #0
+	cmp r2, #0x1f
+	mov r0, r0, asr #3
+	movgt r2, #0x1f
+	cmp r0, #0
+	movlt r0, #0
+	cmp r0, #0x1f
+	movgt r0, #0x1f
+	mov r1, r3, asr #3
+	cmp r1, #0
+	movlt r1, #0
+	cmp r1, #0x1f
+	movgt r1, #0x1f
+	orr r0, r2, r0, lsl #5
+	orr r0, r0, r1, lsl #10
+	orr r0, r0, #0x8000
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215AE54(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
+	sub sp, sp, #0xc
+	mov r9, r0
+	ldr r0, [r9, #4]
+	mov r6, #0
+	cmp r0, #0
+	mov r8, r1
+	mov r5, r6
+	addls sp, sp, #0xc
+	ldmlsia sp!, {r4, r5, r6, r7, r8, r9, pc}
+_0215AE7C:
+	add r2, sp, #8
+	mov r1, r5
+	add r0, r9, #0x20
+	bl CutsceneAssetSystem__Func_215AF60
+	ldr r1, [sp, #8]
+	mov r5, r0
+	add r0, r9, r1
+	ldrb r2, [r0, #8]
+	cmp r2, #0
+	moveq r0, #1
+	streq r0, [sp]
+	beq _0215AECC
+	add r3, sp, #0
+	mov r1, r5
+	add r0, r9, #0x20
+	bl CutsceneAssetSystem__Func_215B094
+	ldr r1, [sp]
+	mov r5, r0
+	add r0, r1, #1
+	str r0, [sp]
+_0215AECC:
+	ldr r0, [sp, #8]
+	cmp r0, #0
+	beq _0215AF30
+	ldr r0, [sp]
+	mov r7, #0
+	cmp r0, #0
+	bls _0215AF4C
+	add r4, sp, #4
+_0215AEEC:
+	ldr r2, [sp, #8]
+	mov r1, r5
+	mov r3, r4
+	add r0, r9, #0x20
+	bl CutsceneAssetSystem__Func_215B094
+	mov r5, r0
+	ldr r0, [sp, #4]
+	ldr r1, [sp, #8]
+	bl CutsceneAssetSystem__Func_215B108
+	mov r1, r6, lsl #1
+	strh r0, [r8, r1]
+	ldr r0, [sp]
+	add r7, r7, #1
+	cmp r7, r0
+	add r6, r6, #1
+	blo _0215AEEC
+	b _0215AF4C
+_0215AF30:
+	ldr r0, [sp]
+	add r1, r8, r6, lsl #1
+	mov r2, r0, lsl #1
+	mov r0, #0
+	bl MIi_CpuClear16
+	ldr r0, [sp]
+	add r6, r6, r0
+_0215AF4C:
+	ldr r0, [r9, #4]
+	cmp r0, r6, lsl #1
+	bhi _0215AE7C
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215AF60(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, lr}
+	sub sp, sp, #0xc
+	mov r5, r0
+	mov r3, r1
+	mov r4, r2
+	add r0, sp, #0
+	mov r1, r5
+	mov r2, r3
+	bl CutsceneAssetSystem__Func_215B158
+	add r0, sp, #0
+	mov r6, #0
+	bl CutsceneAssetSystem__Func_215B180
+	cmp r0, #0
+	bne _0215AFB0
+	add r5, sp, #0
+_0215AF9C:
+	mov r0, r5
+	add r6, r6, #1
+	bl CutsceneAssetSystem__Func_215B180
+	cmp r0, #0
+	beq _0215AF9C
+_0215AFB0:
+	cmp r6, #5
+	addls pc, pc, r6, lsl #2
+	b _0215B084
+_0215AFBC: // jump table
+	b _0215AFD4 // case 0
+	b _0215AFE0 // case 1
+	b _0215AFEC // case 2
+	b _0215AFF8 // case 3
+	b _0215B018 // case 4
+	b _0215B048 // case 5
+_0215AFD4:
+	mov r0, #0
+	str r0, [r4]
+	b _0215B084
+_0215AFE0:
+	mov r0, #1
+	str r0, [r4]
+	b _0215B084
+_0215AFEC:
+	mov r0, #2
+	str r0, [r4]
+	b _0215B084
+_0215AFF8:
+	add r0, sp, #0
+	bl CutsceneAssetSystem__Func_215B180
+	cmp r0, #0
+	moveq r0, #3
+	streq r0, [r4]
+	movne r0, #4
+	strne r0, [r4]
+	b _0215B084
+_0215B018:
+	add r0, sp, #0
+	mov r5, #0
+	bl CutsceneAssetSystem__Func_215B180
+	cmp r0, #0
+	orrne r5, r5, #2
+	add r0, sp, #0
+	bl CutsceneAssetSystem__Func_215B180
+	cmp r0, #0
+	orrne r5, r5, #1
+	add r0, r5, #5
+	str r0, [r4]
+	b _0215B084
+_0215B048:
+	add r0, sp, #0
+	mov r5, #0
+	bl CutsceneAssetSystem__Func_215B180
+	cmp r0, #0
+	orrne r5, r5, #4
+	add r0, sp, #0
+	bl CutsceneAssetSystem__Func_215B180
+	cmp r0, #0
+	orrne r5, r5, #2
+	add r0, sp, #0
+	bl CutsceneAssetSystem__Func_215B180
+	cmp r0, #0
+	orrne r5, r5, #1
+	add r0, r5, #9
+	str r0, [r4]
+_0215B084:
+	add r0, sp, #0
+	bl CutsceneAssetSystem__Func_215B170
+	add sp, sp, #0xc
+	ldmia sp!, {r3, r4, r5, r6, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215B094(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
+	sub sp, sp, #0xc
+	mov r4, r0
+	mov r9, r1
+	mov r8, r2
+	add r0, sp, #0
+	mov r1, r4
+	mov r2, r9
+	mov r7, r3
+	bl CutsceneAssetSystem__Func_215B158
+	mov r6, #0
+	str r6, [r7]
+	cmp r8, #0
+	mov r5, #1
+	bls _0215B0FC
+	add r4, sp, #0
+_0215B0D4:
+	mov r0, r4
+	bl CutsceneAssetSystem__Func_215B180
+	cmp r0, #0
+	ldrne r0, [r7]
+	add r6, r6, #1
+	orrne r0, r0, r5
+	strne r0, [r7]
+	cmp r6, r8
+	mov r5, r5, lsl #1
+	blo _0215B0D4
+_0215B0FC:
+	add r0, r9, r8
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215B108(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	cmp r1, #0
+	moveq r0, #0
+	bxeq lr
+	ldr r3, =_0215B410
+	mov r2, #1
+	ldr r3, [r3, r1, lsl #2]
+	and r1, r1, r3
+	sub r1, r1, #1
+	tst r0, r2, lsl r1
+	movne r0, r0, lsl #0x10
+	movne r0, r0, asr #0x10
+	bxne lr
+	orr r0, r0, r2, lsl r1
+	mov r0, r0, lsl #0x10
+	mov r0, r0, asr #0x10
+	rsb r0, r0, #0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, asr #0x10
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215B158(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	str r1, [r0]
+	mov r1, r2, lsr #5
+	str r1, [r0, #4]
+	and r1, r2, #0x1f
+	str r1, [r0, #8]
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215B170(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r1, [r0, #4]
+	ldr r0, [r0, #8]
+	add r0, r0, r1, lsl #5
+	bx lr
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CutsceneAssetSystem__Func_215B180(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r2, [r0]
+	ldmib r0, {r1, r3}
+	ldr r1, [r2, r1, lsl #2]
+	mov r2, #1
+	cmp r3, #0x1f
+	and r2, r1, r2, lsl r3
+	addlo r1, r3, #1
+	strlo r1, [r0, #8]
+	blo _0215B1B8
+	mov r1, #0
+	str r1, [r0, #8]
+	ldr r1, [r0, #4]
+	add r1, r1, #1
+	str r1, [r0, #4]
+_0215B1B8:
+	mov r0, r2
+	bx lr
+
+// clang-format on
+#endif
+}

@@ -1,0 +1,27 @@
+############################################################
+### Linker spec file for Sonic Rush Adventure (EU)       ###
+###      Pass this to the SDK's makelcf.exe utility      ###
+###           along with the ARM9-TS template.           ###
+###                        WIP                           ###
+############################################################
+
+Static arm9
+{
+	Address 0x02000000
+	StackSize 0 2048
+	Object asm/middleware.o
+	Object asm/main.o
+}
+
+Autoload ITCM
+{
+	Address 0x01FF8000
+	Object asm/sdk.o (.itcm)
+}
+
+Autoload DTCM
+{
+	Address 0x027E0000
+	Object asm/sdk.o (.dtcm)
+	Object asm/sdk.o (.bss)
+}

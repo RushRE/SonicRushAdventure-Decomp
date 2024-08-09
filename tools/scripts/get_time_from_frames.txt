@@ -1,0 +1,55 @@
+#include <stdio.h>
+
+// --------------------
+// MACROS
+// --------------------
+
+#define AKUTIL_TIME_TO_FRAMES(min, sec, msec) (unsigned int)(((min) * (60 * 60)) + ((sec) * 60) + ((msec) * (60.0f / 100.0f)))
+
+// --------------------
+// CONSTANTS
+// --------------------
+
+#define AKUTIL_MAX_FRAME_TIME AKUTIL_TIME_TO_FRAMES(59, 59, 99)
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+void AkUtilFrameToTime(unsigned int frame, unsigned short *min, unsigned short *sec, unsigned short *msec)
+{
+    if (frame > AKUTIL_MAX_FRAME_TIME)
+        frame = AKUTIL_MAX_FRAME_TIME;
+
+    unsigned short minutes = (frame / (60 * 60));
+    frame -= (minutes * 60 * 60);
+
+    unsigned short seconds = (frame / 60);
+    frame -= seconds * 60;
+
+    // (frame * 433 >> 8) is roughly the same as (unsigned int)(frame / (99.0 / 59.0)) aka converting from 0-59 -> 0-99
+    unsigned short milliseconds = (frame * 433 >> 8);
+    if (milliseconds >= 100)
+        milliseconds = 99;
+
+    if (min)
+        *min = minutes;
+
+    if (sec)
+        *sec = seconds;
+
+    if (msec)
+        *msec = milliseconds;
+}
+
+int main() 
+{
+    const unsigned int TIME = 34799;
+    
+    unsigned short mins, secs, cs;
+    AkUtilFrameToTime(TIME, &mins, &secs, &cs);
+    
+    printf("%d => AKUTIL_TIME_TO_FRAMES(%d, %02d, %02d)\n", TIME, mins, secs, cs);
+
+    return 0;
+}

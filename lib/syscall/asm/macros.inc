@@ -1,0 +1,1 @@
+	.include "macros/function.inc"

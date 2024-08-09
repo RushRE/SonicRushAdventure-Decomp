@@ -1,0 +1,6 @@
+- changed header
+- changed mb/contest.srl
+- changed narc/dmpz_lz7.narc
+- changed bb/dmta_menu.bb
+- changed bb/dmwf_lang.bb
+- changed bb/tkdm_msg_eng.bb

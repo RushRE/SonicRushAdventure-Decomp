@@ -1,0 +1,33 @@
+Arm9
+{
+	Static $(BUILD_DIR)/arm9.sbin
+	OverlayDefs $(BUILD_DIR)/arm9_defs.sbin
+	OverlayTable $(BUILD_DIR)/arm9_table.sbin
+	Elf $(BUILD_DIR)/arm9.elf
+}
+
+Arm7
+{
+	Static sub/build/arm7.sbin
+	OverlayDefs sub/build/arm7_defs.sbin
+	Elf sub/build/arm7.elf
+}
+
+Property
+{
+	RomHeaderTemplate "$(HEADER_TEMPLATE)"
+	TitleName "$(TITLE_NAME)"
+	MakerCode "8P"
+	RemasterVersion $(REMASTER_VERSION)
+	RomSpeedType MROM
+	RomSize 512M
+	RomFootPadding $(ROM_PADDING)
+	BannerFile $(BNR)
+}
+
+RomSpec
+{
+	Segment All
+	HostRoot resources/
+	File $(NITROFS_FILES)
+}

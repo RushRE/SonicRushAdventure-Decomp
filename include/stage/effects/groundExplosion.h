@@ -1,0 +1,23 @@
+#ifndef RUSH2_EFFECT_GROUND_EXPLOSION_H
+#define RUSH2_EFFECT_GROUND_EXPLOSION_H
+
+#include <stage/effectTask.h>
+
+// --------------------
+// STRUCTS
+// --------------------
+
+typedef struct EffectGroundExplosion_
+{
+    EffectTask objWork;
+    
+    OBS_ACTION2D_BAC_WORK ani;
+} EffectGroundExplosion;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+EffectGroundExplosion *CreateEffectGroundExplosion(StageTask *parent, fx32 velX, fx32 velY);
+
+#endif // RUSH2_EFFECT_GROUND_EXPLOSION_H

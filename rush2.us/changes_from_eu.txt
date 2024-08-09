@@ -1,0 +1,5 @@
+- changed header
+- changed arm9.bin
+- changed overlay 3, 5 & 8
+- changed bb/dmta_menu.bb
+- changed bb/dmwf_lang.bb

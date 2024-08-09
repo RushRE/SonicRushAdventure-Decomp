@@ -1,0 +1,24 @@
+#ifndef RUSH2_EFFECT_SNOW_SLIDE_H
+#define RUSH2_EFFECT_SNOW_SLIDE_H
+
+#include <stage/effectTask.h>
+
+// --------------------
+// STRUCTS
+// --------------------
+
+typedef struct EffectSnowSlide_
+{
+    EffectTask objWork;
+    
+    OBS_ACTION2D_BAC_WORK ani;
+} EffectSnowSlide;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+EffectSnowSlide *EffectSnowslide__Create(fx32 x, fx32 y, fx32 velX, fx32 velY);
+EffectSnowSlide *EffectSnowslideDebris__Create(s32 type, fx32 x, fx32 y, fx32 velX, fx32 velY);
+
+#endif // RUSH2_EFFECT_SNOW_SLIDE_H

@@ -1,0 +1,26182 @@
+	.include "asm/macros.inc"
+	.include "global.inc"
+	
+	.text
+
+	arm_func_start sub_27E0000
+sub_27E0000: // 0x027E0000
+	ldr r1, _027E002C // =0x027F9454
+	ldr r2, [r1, #0x550]
+	strh r0, [r2, #0x32]
+	add r1, r2, #0x100
+	ldrh r1, [r1, #0x88]
+	cmp r1, #0
+	addeq r0, r0, #2
+	streqh r0, [r2, #0x3a]
+	addne r0, r0, #2
+	strneh r0, [r2, #0x38]
+	bx lr
+	.align 2, 0
+_027E002C: .word 0x027F9454
+	arm_func_end sub_27E0000
+
+	arm_func_start sub_27E0030
+sub_27E0030: // 0x027E0030
+	ldr r1, _027E005C // =0x027F9454
+	ldr r2, [r1, #0x550]
+	strh r0, [r2, #0x30]
+	add r1, r2, #0x100
+	ldrh r1, [r1, #0x88]
+	cmp r1, #0
+	addeq r0, r0, #4
+	streqh r0, [r2, #0x38]
+	addne r0, r0, #4
+	strneh r0, [r2, #0x3a]
+	bx lr
+	.align 2, 0
+_027E005C: .word 0x027F9454
+	arm_func_end sub_27E0030
+
+	arm_func_start sub_27E0060
+sub_27E0060: // 0x027E0060
+	ldr r1, _027E00AC // =0x027F9454
+	ldr r2, [r1, #0x550]
+	strh r0, [r2, #0x36]
+	strh r0, [r2, #0x32]
+	add r1, r2, #0x100
+	ldrh r1, [r1, #0x88]
+	cmp r1, #0
+	addne r0, r0, #2
+	movne r0, r0, lsl #0x10
+	movne r0, r0, lsr #0x10
+	strneh r0, [r2, #0x3c]
+	strneh r0, [r2, #0x38]
+	bxne lr
+	add r0, r0, #2
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	strh r0, [r2, #0x3e]
+	strh r0, [r2, #0x3a]
+	bx lr
+	.align 2, 0
+_027E00AC: .word 0x027F9454
+	arm_func_end sub_27E0060
+
+	arm_func_start sub_27E00B0
+sub_27E00B0: // 0x027E00B0
+	ldr r1, _027E00FC // =0x027F9454
+	ldr r2, [r1, #0x550]
+	strh r0, [r2, #0x30]
+	strh r0, [r2, #0x34]
+	add r1, r2, #0x100
+	ldrh r1, [r1, #0x88]
+	cmp r1, #0
+	addne r0, r0, #4
+	movne r0, r0, lsl #0x10
+	movne r0, r0, lsr #0x10
+	strneh r0, [r2, #0x3e]
+	strneh r0, [r2, #0x3a]
+	bxne lr
+	add r0, r0, #4
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	strh r0, [r2, #0x3c]
+	strh r0, [r2, #0x38]
+	bx lr
+	.align 2, 0
+_027E00FC: .word 0x027F9454
+	arm_func_end sub_27E00B0
+
+	arm_func_start sub_27E0100
+sub_27E0100: // 0x027E0100
+	ldr r0, _027E0130 // =0x027F9454
+	ldr r1, [r0, #0x550]
+	mov r0, #0
+	strh r0, [r1, #0x38]
+	strh r0, [r1, #0x3a]
+	strh r0, [r1, #0x30]
+	strh r0, [r1, #0x32]
+	strh r0, [r1, #0x3c]
+	strh r0, [r1, #0x3e]
+	strh r0, [r1, #0x34]
+	strh r0, [r1, #0x36]
+	bx lr
+	.align 2, 0
+_027E0130: .word 0x027F9454
+	arm_func_end sub_27E0100
+
+	arm_func_start sub_27E0134
+sub_27E0134: // 0x027E0134
+	stmdb sp!, {r4, lr}
+	mov r4, #0
+	bl OS_DisableInterrupts
+	ldr r1, _027E01A0 // =0x027F9454
+	ldr r2, [r1, #0x54c]
+	cmp r2, #0
+	beq _027E0190
+	mov ip, r4
+	b _027E0188
+_027E0158:
+	mov r3, ip, lsl #4
+	add r1, r2, ip, lsl #4
+	ldr r1, [r1, #0xd0]
+	ands r1, r1, #0x8000
+	beq _027E0184
+	add r2, r2, #0xd0
+	add r4, r2, r3
+	ldr r1, [r2, r3]
+	bic r1, r1, #0x8000
+	str r1, [r2, r3]
+	b _027E0190
+_027E0184:
+	add ip, ip, #1
+_027E0188:
+	cmp ip, #0x20
+	blt _027E0158
+_027E0190:
+	bl OS_RestoreInterrupts
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E01A0: .word 0x027F9454
+	arm_func_end sub_27E0134
+
+	arm_func_start sub_27E01A4
+sub_27E01A4: // 0x027E01A4
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	mov r4, r2
+	bl WMSP_GetBuffer4Callback2Wm9
+	strh r6, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	arm_func_end sub_27E01A4
+
+	arm_func_start sub_27E01D8
+sub_27E01D8: // 0x027E01D8
+	stmdb sp!, {r4, lr}
+	bl OS_DisableInterrupts
+	mov r4, r0
+	bl OS_DisableScheduler
+	ldr r0, _027E022C // =0x0380BCCC
+	ldr r1, _027E0230 // =0x027F9454
+	ldr r1, [r1, #0x578]
+	bl OS_YieldThread
+	bl sub_27E8B40
+	ldr r1, _027E0230 // =0x027F9454
+	ldr r1, [r1, #0x57c]
+	bl OS_YieldThread
+	ldr r0, _027E0234 // =0x0380BC28
+	ldr r1, _027E0230 // =0x027F9454
+	ldr r1, [r1, #0x580]
+	bl OS_YieldThread
+	bl OS_EnableScheduler
+	mov r0, r4
+	bl OS_RestoreInterrupts
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E022C: .word 0x0380BCCC
+_027E0230: .word 0x027F9454
+_027E0234: .word 0x0380BC28
+	arm_func_end sub_27E01D8
+
+	arm_func_start sub_27E0238
+sub_27E0238: // 0x027E0238
+	stmdb sp!, {r4, lr}
+	bl OS_DisableInterrupts
+	mov r4, r0
+	bl OS_DisableScheduler
+	ldr r0, _027E028C // =0x0380BC28
+	ldr r1, _027E0290 // =0x027F9454
+	ldr r1, [r1, #0x58c]
+	bl OS_YieldThread
+	bl sub_27E8B40
+	ldr r1, _027E0290 // =0x027F9454
+	ldr r1, [r1, #0x588]
+	bl OS_YieldThread
+	ldr r0, _027E0294 // =0x0380BCCC
+	ldr r1, _027E0290 // =0x027F9454
+	ldr r1, [r1, #0x584]
+	bl OS_YieldThread
+	bl OS_EnableScheduler
+	mov r0, r4
+	bl OS_RestoreInterrupts
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E028C: .word 0x0380BC28
+_027E0290: .word 0x027F9454
+_027E0294: .word 0x0380BCCC
+	arm_func_end sub_27E0238
+
+	arm_func_start sub_27E0298
+sub_27E0298: // 0x027E0298
+	ldr r1, _027E02FC // =0x027F9454
+	ldr r1, [r1, #0x54c]
+	ldrb r1, [r1, #0x53]
+	cmp r1, #8
+	bne _027E02D4
+	cmp r0, #0x16
+	movlo r0, #0
+	bxlo lr
+	cmp r0, #0x1c
+	movlo r0, #1
+	bxlo lr
+	cmp r0, #0x22
+	movlo r0, #2
+	movhs r0, #3
+	bx lr
+_027E02D4:
+	cmp r0, #8
+	movlo r0, #0
+	bxlo lr
+	cmp r0, #0xe
+	movlo r0, #1
+	bxlo lr
+	cmp r0, #0x14
+	movlo r0, #2
+	movhs r0, #3
+	bx lr
+	.align 2, 0
+_027E02FC: .word 0x027F9454
+	arm_func_end sub_27E0298
+
+	arm_func_start sub_27E0300
+sub_27E0300: // 0x027E0300
+	mov r2, #0
+	mov r3, r2
+	ldr r1, _027E0334 // =_027F8454
+_027E030C:
+	add r0, r1, r3
+	add r0, r0, #0x1000
+	ldrb r0, [r0, #0x554]
+	add r2, r2, r0
+	add r3, r3, #1
+	cmp r3, #0x20
+	blt _027E030C
+	mov r0, r2, lsr #5
+	ldr ip, _027E0338 // =sub_27E0298
+	bx ip
+	.align 2, 0
+_027E0334: .word _027F8454
+_027E0338: .word sub_27E0298
+	arm_func_end sub_27E0300
+
+	arm_func_start sub_27E033C
+sub_27E033C: // 0x027E033C
+	mov r3, #0
+	ldr r2, _027E036C // =_027F8454
+_027E0344:
+	add r1, r2, r3
+	add r1, r1, #0x1000
+	strb r0, [r1, #0x554]
+	add r3, r3, #1
+	cmp r3, #0x20
+	blt _027E0344
+	mov r1, #0
+	ldr r0, _027E0370 // =0x027F9454
+	str r1, [r0, #0x574]
+	bx lr
+	.align 2, 0
+_027E036C: .word _027F8454
+_027E0370: .word 0x027F9454
+	arm_func_end sub_27E033C
+
+	arm_func_start sub_27E0374
+sub_27E0374: // 0x027E0374
+	ldr r1, _027E03AC // =0x027F9454
+	ldr r3, [r1, #0x574]
+	ldr r2, _027E03B0 // =0x027F99A8
+	strb r0, [r2, r3]
+	ldr r2, [r1, #0x574]
+	add r2, r2, #1
+	and r2, r2, #0x1f
+	str r2, [r1, #0x574]
+	ldr r2, _027E03B4 // =0x027FFF98
+	ldrh r1, [r2]
+	eor r0, r0, r1, lsl #1
+	eor r0, r0, r0, lsr #16
+	strh r0, [r2]
+	bx lr
+	.align 2, 0
+_027E03AC: .word 0x027F9454
+_027E03B0: .word 0x027F99A8
+_027E03B4: .word 0x027FFF98
+	arm_func_end sub_27E0374
+
+	arm_func_start sub_27E03B8
+sub_27E03B8: // 0x027E03B8
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r0, _027E04FC // =0x027F9454
+	ldr r4, [r0, #0x550]
+	add r0, r4, #0xe0
+	add r1, r5, #0x10
+	mov r2, #6
+	bl MI_CpuCopy8
+	mov r0, #7
+	strh r0, [r5, #0x16]
+	add r0, r4, #0x100
+	ldrh r1, [r0, #0xf4]
+	strh r1, [r5, #0x18]
+	ldrh r1, [r0, #0xec]
+	strh r1, [r5, #0x1e]
+	ldrh r1, [r4, #0xe6]
+	strh r1, [r5, #0x1c]
+	ldr r1, [r4, #0x198]
+	cmp r1, #0
+	bne _027E0430
+	mov r0, #0
+	strh r0, [r5, #0x20]
+	strh r0, [r5, #0x22]
+	add r1, r5, #0x24
+	mov r2, #0x50
+	bl MIi_CpuClear16
+	mov r0, #0
+	strh r0, [r5, #0x9e]
+	b _027E0458
+_027E0430:
+	ldrh r0, [r0, #0x96]
+	strh r0, [r5, #0x20]
+	ldrh r0, [r4, #0xc4]
+	strh r0, [r5, #0x22]
+	add r0, r4, #0x19c
+	add r1, r5, #0x24
+	mov r2, #0x50
+	bl MI_CpuCopy8
+	mov r0, #1
+	strh r0, [r5, #0x9e]
+_027E0458:
+	mov r0, #1
+	strh r0, [r5, #0x74]
+	strh r0, [r5, #0x76]
+	ldrh r0, [r4, #0xe6]
+	cmp r0, #1
+	moveq r0, #0
+	streqh r0, [r5, #0x78]
+	movne r0, #0x10
+	strneh r0, [r5, #0x78]
+	mov r0, #0xa
+	strh r0, [r5, #0x7a]
+	cmp r6, #0x26
+	bne _027E04A0
+	mov r0, #0
+	add r1, r5, #0x7c
+	mov r2, #0x20
+	bl MIi_CpuClear16
+	b _027E04C0
+_027E04A0:
+	mov r0, #0
+	add r1, r5, #0x7c
+	mov r2, #8
+	bl MIi_CpuClear16
+	ldr r0, _027E0500 // =0x0000FFFF
+	add r1, r5, #0x84
+	mov r2, #0x18
+	bl MIi_CpuClear16
+_027E04C0:
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0xee]
+	strh r0, [r5, #0x9c]
+	mov r0, r5
+	bl sub_27E26D4
+	ldrh r2, [r0, #4]
+	cmp r2, #0
+	moveq r0, #1
+	beq _027E04F4
+	mov r0, r6
+	mov r1, #0x200
+	bl sub_27E01A4
+	mov r0, #0
+_027E04F4:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027E04FC: .word 0x027F9454
+_027E0500: .word 0x0000FFFF
+	arm_func_end sub_27E03B8
+
+	arm_func_start sub_27E0504
+sub_27E0504: // 0x027E0504
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r2, r0
+	ldr r0, [r1, #8]
+	str r0, [r2, #4]
+	ldrh r0, [r1, #0xc]
+	strh r0, [r2, #8]
+	ldrh r0, [r1, #0x12]
+	cmp r0, #0
+	movne r3, #2
+	moveq r3, #0
+	ldrh r0, [r1, #0xe]
+	cmp r0, #0
+	movne ip, #1
+	moveq ip, #0
+	ldrh r0, [r1, #0x14]
+	cmp r0, #0
+	movne lr, #4
+	moveq lr, #0
+	orr r0, ip, r3
+	orr r0, lr, r0
+	strb r0, [r2, #0xb]
+	ldrh r0, [r1, #4]
+	strb r0, [r2, #0xa]
+	mov r0, #1
+	strh r0, [r2]
+	strb r0, [r2, #2]
+	mov r0, #0
+	strb r0, [r2, #3]
+	ldrh r0, [r1, #0x34]
+	strh r0, [r2, #0xc]
+	ldrh r0, [r1, #0x36]
+	strh r0, [r2, #0xe]
+	ldrb r3, [r2, #0xa]
+	cmp r3, #0
+	beq _027E05A8
+	ldr r0, [r1]
+	add r1, r2, #0x10
+	add r2, r3, #1
+	bic r2, r2, #1
+	bl MI_CpuCopy8
+_027E05A8:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27E0504
+
+	arm_func_start sub_27E05B4
+sub_27E05B4: // 0x027E05B4
+	ldr r1, _027E062C // =0x027F9454
+	ldr r1, [r1, #0x550]
+	add r3, r1, #0xe0
+	ldrb r2, [r0]
+	ldrb r1, [r1, #0xe0]
+	cmp r2, r1
+	bne _027E0624
+	ldrb r2, [r0, #1]
+	ldrb r1, [r3, #1]
+	cmp r2, r1
+	bne _027E0624
+	ldrb r2, [r0, #2]
+	ldrb r1, [r3, #2]
+	cmp r2, r1
+	bne _027E0624
+	ldrb r2, [r0, #3]
+	ldrb r1, [r3, #3]
+	cmp r2, r1
+	bne _027E0624
+	ldrb r2, [r0, #4]
+	ldrb r1, [r3, #4]
+	cmp r2, r1
+	bne _027E0624
+	ldrb r1, [r0, #5]
+	ldrb r0, [r3, #5]
+	cmp r1, r0
+	moveq r0, #1
+	bxeq lr
+_027E0624:
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027E062C: .word 0x027F9454
+	arm_func_end sub_27E05B4
+
+	arm_func_start sub_27E0630
+sub_27E0630: // 0x027E0630
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	cmp r2, #0
+	bne _027E0688
+	ldr r0, _027E0690 // =0x027F84DC
+	mov r2, #0
+	bl OS_SendMessage
+	cmp r0, #0
+	bne _027E0688
+	ldr r0, _027E0694 // =0x027F9454
+	ldr r0, [r0, #0x54c]
+	cmp r0, #0
+	beq _027E0688
+	bl WMSP_GetBuffer4Callback2Wm9
+	ldrh r1, [r4]
+	strh r1, [r0]
+	mov r1, #8
+	strh r1, [r0, #2]
+	mov r1, #0
+	strh r1, [r0, #4]
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+_027E0688:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E0690: .word 0x027F84DC
+_027E0694: .word 0x027F9454
+	arm_func_end sub_27E0630
+
+	arm_func_start sub_27E0698
+sub_27E0698: // 0x027E0698
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r1, r0
+	ldr r0, _027E0710 // =_027F8454
+	mov r2, #1
+	bl OS_SendMessage
+	ldr r0, _027E0714 // =0x027F84AC
+	add r1, sp, #0
+	mov r2, #1
+	bl OS_ReceiveMessage
+	ldr r1, [sp]
+	ldrh r0, [r1, #0xe]
+	add r0, r1, r0, lsl #1
+	ldrh r0, [r0, #0x14]
+	cmp r0, #0xe
+	bne _027E0700
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #0x13
+	strh r1, [r0, #2]
+	mov r1, #0x18
+	strh r1, [r0, #4]
+	bl WMSP_ReturnResult2Wm9
+	bl SND_BeginSleep
+	bl OS_Terminate
+_027E0700:
+	ldr r0, [sp]
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E0710: .word _027F8454
+_027E0714: .word 0x027F84AC
+	arm_func_end sub_27E0698
+
+	arm_func_start sub_27E0718
+sub_27E0718: // 0x027E0718
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #0xc
+	mov r5, r0
+	mov r4, r1
+	ldr r1, [r4]
+	ldr r0, _027E08A4 // =0x027F9454
+	str r1, [r0, #0x540]
+	ldr r1, [r5, #0x24]
+	str r1, [r0, #0x544]
+	ldr r1, [r5, #0x28]
+	str r1, [r0, #0x548]
+	mov r1, #0
+	str r1, [r0, #0x54c]
+	str r1, [r0, #0x550]
+	ldr r0, _027E08A8 // =_027F8454
+	ldr r1, _027E08AC // =0x027F8474
+	mov r2, #2
+	bl OS_InitMessageQueue
+	ldr r0, _027E08B0 // =0x027F847C
+	ldr r1, _027E08B4 // =0x027F849C
+	mov r2, #4
+	bl OS_InitMessageQueue
+	ldr r0, _027E08B8 // =0x027F84AC
+	ldr r1, _027E08BC // =0x027F84CC
+	mov r2, #4
+	bl OS_InitMessageQueue
+	ldr r0, _027E08C0 // =0x027F84DC
+	ldr r1, _027E08C4 // =0x027F84FC
+	mov r2, #0x20
+	bl OS_InitMessageQueue
+	ldr r0, _027E08A8 // =_027F8454
+	str r0, [r5, #0x10]
+	ldr r0, _027E08B0 // =0x027F847C
+	str r0, [r5, #0x14]
+	ldr r1, [r4, #8]
+	ldr r0, _027E08A4 // =0x027F9454
+	str r1, [r0, #0x578]
+	ldr r1, [r4, #0x18]
+	str r1, [r0, #0x57c]
+	ldr r1, [r4, #0x10]
+	str r1, [r0, #0x580]
+	ldr r1, [r4, #4]
+	str r1, [r0, #0x584]
+	ldr r1, [r4, #0x14]
+	str r1, [r0, #0x588]
+	ldr r1, [r4, #0xc]
+	str r1, [r0, #0x58c]
+	ldr r0, _027E08C8 // =0x027F997C
+	bl OS_InitMutex
+	mov r0, #0x400
+	str r0, [sp]
+	ldr r0, [r4, #4]
+	str r0, [sp, #4]
+	ldr r0, _027E08CC // =0x0380BCCC
+	ldr r1, _027E08D0 // =sub_27E1FAC
+	mov r2, #0
+	ldr r3, _027E08C8 // =0x027F997C
+	bl OS_CreateThread
+	ldr r0, _027E08CC // =0x0380BCCC
+	bl OS_WakeupThreadDirect
+	mov r0, #0x1000
+	str r0, [sp]
+	ldr r0, [r4, #0xc]
+	str r0, [sp, #4]
+	ldr r0, _027E08D4 // =0x0380BC28
+	ldr r1, _027E08D8 // =sub_27E204C
+	mov r2, #0
+	ldr r3, _027E08DC // =0x027F957C
+	bl OS_CreateThread
+	ldr r0, _027E08D4 // =0x0380BC28
+	bl OS_WakeupThreadDirect
+	mov r3, #0
+	mov r2, r3
+	ldr r1, _027E08A8 // =_027F8454
+_027E0840:
+	add r0, r1, r3
+	add r0, r0, #0x1000
+	strb r2, [r0, #0x554]
+	add r3, r3, #1
+	cmp r3, #0x20
+	blt _027E0840
+	ldr r0, _027E08A4 // =0x027F9454
+	str r2, [r0, #0x574]
+	bl OS_IsVAlarmAvailable
+	cmp r0, #0
+	bne _027E0870
+	bl OS_InitVAlarm
+_027E0870:
+	bl PXI_Init
+	mov r0, #0xa
+	ldr r1, _027E08E0 // =sub_27E0630
+	bl PXI_SetFifoRecvCallback
+	mov r0, #2
+	str r0, [r5, #0x18]
+	ldr r0, [r4, #0x14]
+	str r0, [r5, #0xc]
+	mov r0, r5
+	bl sub_27E8B54
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E08A4: .word 0x027F9454
+_027E08A8: .word _027F8454
+_027E08AC: .word 0x027F8474
+_027E08B0: .word 0x027F847C
+_027E08B4: .word 0x027F849C
+_027E08B8: .word 0x027F84AC
+_027E08BC: .word 0x027F84CC
+_027E08C0: .word 0x027F84DC
+_027E08C4: .word 0x027F84FC
+_027E08C8: .word 0x027F997C
+_027E08CC: .word 0x0380BCCC
+_027E08D0: .word sub_27E1FAC
+_027E08D4: .word 0x0380BC28
+_027E08D8: .word sub_27E204C
+_027E08DC: .word 0x027F957C
+_027E08E0: .word sub_27E0630
+	arm_func_end sub_27E0718
+
+	arm_func_start sub_27E08E4
+sub_27E08E4: // 0x027E08E4
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027E0908 // =0x0380BD9C
+	bl OS_CreateAlarm
+	ldr r0, _027E090C // =0x0380BD70
+	bl OS_CreateAlarm
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E0908: .word 0x0380BD9C
+_027E090C: .word 0x0380BD70
+	arm_func_end sub_27E08E4
+
+	arm_func_start sub_27E0910
+sub_27E0910: // 0x027E0910
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #0x13
+	strh r1, [r0, #4]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27E0910
+
+	arm_func_start sub_27E0944
+sub_27E0944: // 0x027E0944
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0xc
+	mov r8, r0
+	ldr r0, _027E0C04 // =0x027F9454
+	ldr r6, [r0, #0x550]
+	ldrh r0, [r6]
+	cmp r0, #7
+	beq _027E096C
+	cmp r0, #9
+	bne _027E0AF8
+_027E096C:
+	add r0, r8, #0x10
+	add r1, sp, #0
+	mov r2, #6
+	bl MI_CpuCopy8
+	mov r5, #0
+	mov r7, r5
+	mov r4, #1
+	mov sb, #6
+	b _027E0A70
+_027E0990:
+	bl OS_DisableInterrupts
+	mov fp, r0
+	add ip, r6, #0x100
+	ldrh r3, [ip, #0x82]
+	add r1, r7, #1
+	mov r0, r4, lsl r1
+	ands r0, r3, r0
+	beq _027E0A64
+	mul r2, r7, sb
+	add r0, r6, r2
+	ldrb lr, [sp]
+	ldrb sl, [r0, #0x128]
+	cmp lr, sl
+	bne _027E0A64
+	ldrb lr, [sp, #1]
+	ldrb sl, [r0, #0x129]
+	cmp lr, sl
+	bne _027E0A64
+	ldrb lr, [sp, #2]
+	ldrb sl, [r0, #0x12a]
+	cmp lr, sl
+	bne _027E0A64
+	ldrb lr, [sp, #3]
+	ldrb sl, [r0, #0x12b]
+	cmp lr, sl
+	bne _027E0A64
+	ldrb sl, [sp, #4]
+	ldrb lr, [r0, #0x12c]
+	cmp sl, lr
+	bne _027E0A64
+	ldrb sl, [sp, #5]
+	ldrb r0, [r0, #0x12d]
+	cmp sl, r0
+	bne _027E0A64
+	mov r0, r1, lsl #0x10
+	mov r5, r0, lsr #0x10
+	mvn r1, r4, lsl r5
+	and r0, r3, r1
+	strh r0, [ip, #0x82]
+	ldrh r0, [r6, #0x86]
+	and r0, r0, r1
+	strh r0, [r6, #0x86]
+	mov r1, #0
+	add r0, r6, r5, lsl #3
+	str r1, [r0, #0x738]
+	str r1, [r0, #0x73c]
+	add r0, r6, #0x128
+	add r0, r0, r2
+	mov r2, #6
+	bl MI_CpuFill8
+	mov r0, fp
+	bl OS_RestoreInterrupts
+	b _027E0A78
+_027E0A64:
+	mov r0, fp
+	bl OS_RestoreInterrupts
+	add r7, r7, #1
+_027E0A70:
+	cmp r7, #0xf
+	blt _027E0990
+_027E0A78:
+	cmp r5, #0
+	beq _027E0BF8
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r4, r0
+	mov r0, #8
+	strh r0, [r4]
+	mov r0, #0
+	strh r0, [r4, #2]
+	mov r0, #9
+	strh r0, [r4, #8]
+	ldrh r0, [r8, #0x16]
+	strh r0, [r4, #0x12]
+	strh r5, [r4, #0x10]
+	add r0, r8, #0x10
+	add r1, r4, #0xa
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldrh r0, [r6, #0x30]
+	strh r0, [r4, #0x2c]
+	ldrh r0, [r6, #0x32]
+	strh r0, [r4, #0x2e]
+	mov r0, r4
+	bl WMSP_ReturnResult2Wm9
+	ldr r0, [r6, #0xc]
+	cmp r0, #1
+	bne _027E0BF8
+	mov r0, #1
+	mov r0, r0, lsl r5
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27E6DE4
+	b _027E0BF8
+_027E0AF8:
+	mov r5, #0
+	bl OS_DisableInterrupts
+	mov r4, r0
+	add r1, r6, #0x100
+	ldrh r1, [r1, #0x82]
+	cmp r1, #0
+	bne _027E0B1C
+	bl OS_RestoreInterrupts
+	b _027E0BF8
+_027E0B1C:
+	ldr r0, [r6, #0xc]
+	cmp r0, #1
+	bne _027E0B3C
+	mov r0, r5
+	str r0, [r6, #0xc]
+	mov r5, #1
+	bl sub_27E681C
+	bl sub_27E0238
+_027E0B3C:
+	mov r1, #0
+	add r0, r6, #0x100
+	strh r1, [r0, #0x82]
+	strh r1, [r6, #0x86]
+	str r1, [r6, #0x14]
+	str r1, [r6, #0x10]
+	str r1, [r6, #0x1c]
+	str r1, [r6, #0x198]
+	strh r1, [r0, #0x96]
+	add r0, r6, #0x19c
+	mov r2, #0x50
+	bl MI_CpuFill8
+	bl sub_27E0100
+	mov r0, #0
+	strh r0, [r6, #0xc2]
+	mov r0, #3
+	strh r0, [r6]
+	mov r0, r4
+	bl OS_RestoreInterrupts
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r4, r0
+	mov r0, #0xc
+	strh r0, [r4]
+	mov r0, #0
+	strh r0, [r4, #2]
+	mov r0, #9
+	strh r0, [r4, #8]
+	ldrh r0, [r8, #0x16]
+	strh r0, [r4, #0xc]
+	add r0, r6, #0x100
+	ldrh r0, [r0, #0x88]
+	strh r0, [r4, #0xa]
+	ldr r0, _027E0C08 // =0x0000018A
+	add r0, r6, r0
+	add r1, r4, #0x10
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldrh r0, [r6, #0x30]
+	strh r0, [r4, #0x16]
+	ldrh r0, [r6, #0x32]
+	strh r0, [r4, #0x18]
+	mov r0, r4
+	bl WMSP_ReturnResult2Wm9
+	cmp r5, #0
+	beq _027E0BF8
+	mov r0, #1
+	bl sub_27E6DE4
+_027E0BF8:
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027E0C04: .word 0x027F9454
+_027E0C08: .word 0x0000018A
+	arm_func_end sub_27E0944
+
+	arm_func_start sub_27E0C0C
+sub_27E0C0C: // 0x027E0C0C
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	ldr r0, _027E0D8C // =0x027F9454
+	ldr r5, [r0, #0x550]
+	ldrh r6, [r7, #0x16]
+	cmp r6, #0
+	beq _027E0D80
+	cmp r6, #0x10
+	bhs _027E0D80
+	ldrh r0, [r5, #0xf6]
+	cmp r0, #0
+	bne _027E0CAC
+	bl sub_27E0134
+	movs r4, r0
+	moveq r0, #0
+	beq _027E0C78
+	mov r0, #0x22
+	str r0, [r4]
+	add r0, r7, #0x10
+	add r1, r4, #4
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldr r0, _027E0D90 // =0x027F84DC
+	mov r1, r4
+	mov r2, #0
+	bl OS_SendMessage
+_027E0C78:
+	cmp r0, #0
+	bne _027E0D80
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #8
+	strh r1, [r0, #2]
+	mov r1, #0x16
+	strh r1, [r0, #4]
+	mov r1, #0x22
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	b _027E0D80
+_027E0CAC:
+	bl OS_DisableInterrupts
+	mov r4, r0
+	mov r2, #1
+	add r0, r5, #0x100
+	ldrh r1, [r0, #0x82]
+	orr r1, r1, r2, lsl r6
+	strh r1, [r0, #0x82]
+	ldrh r1, [r5, #0x86]
+	mvn r0, r2, lsl r6
+	and r0, r1, r0
+	strh r0, [r5, #0x86]
+	bl OS_GetTick
+	orr r1, r1, #0
+	orr r2, r0, #1
+	add r0, r5, r6, lsl #3
+	str r2, [r0, #0x738]
+	str r1, [r0, #0x73c]
+	add r0, r7, #0x10
+	add r1, r5, #0x128
+	sub r3, r6, #1
+	mov r2, #6
+	mla r1, r3, r2, r1
+	bl MI_CpuCopy8
+	mov r0, r4
+	bl OS_RestoreInterrupts
+	mov r0, #1
+	add r1, r5, #0x1f8
+	add r1, r1, r6, lsl #4
+	mov r2, #0x10
+	bl MIi_CpuClear16
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r4, r0
+	mov r0, #8
+	strh r0, [r4]
+	mov r0, #0
+	strh r0, [r4, #2]
+	mov r0, #7
+	strh r0, [r4, #8]
+	add r0, r7, #0x10
+	add r1, r4, #0xa
+	mov r2, #6
+	bl MI_CpuCopy8
+	strh r6, [r4, #0x10]
+	add r0, r7, #0x22
+	add r1, r4, #0x14
+	mov r2, #0x18
+	bl MIi_CpuCopy16
+	ldrh r0, [r5, #0x30]
+	strh r0, [r4, #0x2c]
+	ldrh r0, [r5, #0x32]
+	strh r0, [r4, #0x2e]
+	mov r0, r4
+	bl WMSP_ReturnResult2Wm9
+_027E0D80:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027E0D8C: .word 0x027F9454
+_027E0D90: .word 0x027F84DC
+	arm_func_end sub_27E0C0C
+
+	arm_func_start sub_27E0D94
+sub_27E0D94: // 0x027E0D94
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #0x12
+	strh r1, [r0, #4]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27E0D94
+
+	arm_func_start sub_27E0DC8
+sub_27E0DC8: // 0x027E0DC8
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #0x11
+	strh r1, [r0, #4]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27E0DC8
+
+	arm_func_start sub_27E0DFC
+sub_27E0DFC: // 0x027E0DFC
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r1, _027E0F20 // =0x027F9454
+	ldr r5, [r1, #0x550]
+	ldrh r1, [r5, #0x9a]
+	cmp r1, #1
+	bne _027E0E80
+	ldrh r0, [r0, #0x10]
+	cmp r0, #0x20
+	bne _027E0E80
+	bl OS_DisableInterrupts
+	mov r4, r0
+	ldr r0, _027E0F24 // =0x0380BD70
+	bl OS_CancelAlarm
+	mov r0, #0
+	strh r0, [r5, #0x84]
+	mov r0, r4
+	bl OS_RestoreInterrupts
+	mov r1, #0
+	strh r1, [r5, #0x8a]
+	mov r0, #1
+	bl sub_27E6FF4
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #0x17
+	strh r1, [r0, #4]
+	mov r1, #1
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	b _027E0F14
+_027E0E80:
+	bl sub_27E0134
+	movs r1, r0
+	moveq r0, #0
+	beq _027E0EE4
+	mov r0, #0x25
+	str r0, [r1]
+	ldr r0, _027E0F28 // =0x00008003
+	str r0, [r1, #8]
+	ldrh r0, [r5]
+	cmp r0, #9
+	beq _027E0EB4
+	cmp r0, #7
+	bne _027E0EC0
+_027E0EB4:
+	ldr r0, _027E0F2C // =0x00007FFE
+	str r0, [r1, #4]
+	b _027E0ED8
+_027E0EC0:
+	cmp r0, #0xa
+	beq _027E0ED0
+	cmp r0, #8
+	bne _027E0ED8
+_027E0ED0:
+	mov r0, #1
+	str r0, [r1, #4]
+_027E0ED8:
+	ldr r0, _027E0F30 // =0x027F84DC
+	mov r2, #0
+	bl OS_SendMessage
+_027E0EE4:
+	cmp r0, #0
+	bne _027E0F14
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #8
+	strh r1, [r0, #2]
+	mov r1, #0x16
+	strh r1, [r0, #4]
+	mov r1, #0x25
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+_027E0F14:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E0F20: .word 0x027F9454
+_027E0F24: .word 0x0380BD70
+_027E0F28: .word 0x00008003
+_027E0F2C: .word 0x00007FFE
+_027E0F30: .word 0x027F84DC
+	arm_func_end sub_27E0DFC
+
+	arm_func_start sub_27E0F34
+sub_27E0F34: // 0x027E0F34
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	ldr r0, _027E1024 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldr r0, [r4, #0x10]
+	cmp r0, #0
+	beq _027E1018
+	ldrb r1, [r5, #0x1f]
+	ands r0, r1, #2
+	movne r0, r1, asr #2
+	andne r0, r0, #0xff
+	moveq r0, r1, asr #2
+	addeq r0, r0, #0x19
+	andeq r0, r0, #0xff
+	bl sub_27E0374
+	bl sub_27E0300
+	strh r0, [r4, #0xbc]
+	add r5, r5, #0x10
+	add r0, r5, #0x1e
+	bl sub_27E05B4
+	cmp r0, #1
+	beq _027E1018
+	ldrh r1, [r5, #6]
+	ldr r0, _027E1028 // =0x000005E4
+	cmp r1, r0
+	bhi _027E1018
+	ldrh r0, [r4, #0xae]
+	eor r0, r0, #1
+	strh r0, [r4, #0xae]
+	ldrh r0, [r4, #0xae]
+	add r0, r4, r0, lsl #2
+	ldr r4, [r0, #0xb0]
+	mov r0, r5
+	mov r1, r4
+	ldrh r2, [r5, #6]
+	add r2, r2, #0x2c
+	add r2, r2, #1
+	bic r2, r2, #1
+	bl MI_CpuCopy8
+	add r0, r5, #0x18
+	add r1, r4, #0x18
+	mov r2, #6
+	bl MI_CpuCopy8
+	add r0, r5, #0x1e
+	add r1, r4, #0x1e
+	mov r2, #6
+	bl MI_CpuCopy8
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x11
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #0xf
+	strh r1, [r0, #4]
+	str r4, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+_027E1018:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E1024: .word 0x027F9454
+_027E1028: .word 0x000005E4
+	arm_func_end sub_27E0F34
+
+	arm_func_start sub_27E102C
+sub_27E102C: // 0x027E102C
+	stmdb sp!, {r4, lr}
+	bl sub_27E0134
+	movs r1, r0
+	ldr r4, _027E10B4 // =_027F8454
+	ldr r0, _027E10B8 // =0x027F9454
+	ldr r0, [r0, #0x550]
+	mov r2, #0
+	strh r2, [r0, #0x5e]
+	strh r2, [r0, #0x60]
+	strh r2, [r0, #0x88]
+	beq _027E106C
+	mov r0, #0x2c
+	str r0, [r1]
+	add r0, r4, #0x88
+	bl OS_SendMessage
+	mov r2, r0
+_027E106C:
+	cmp r2, #0
+	bne _027E10AC
+	add r0, r4, #0x1000
+	ldr r0, [r0, #0x54c]
+	cmp r0, #0
+	beq _027E10AC
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #8
+	strh r1, [r0, #2]
+	mov r1, #0x16
+	strh r1, [r0, #4]
+	mov r1, #0x2c
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+_027E10AC:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E10B4: .word _027F8454
+_027E10B8: .word 0x027F9454
+	arm_func_end sub_27E102C
+
+	arm_func_start sub_27E10BC
+sub_27E10BC: // 0x027E10BC
+	ldr ip, _027E10C4 // =sub_27E102C
+	bx ip
+	.align 2, 0
+_027E10C4: .word sub_27E102C
+	arm_func_end sub_27E10BC
+
+	arm_func_start sub_27E10C8
+sub_27E10C8: // 0x027E10C8
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	sub sp, sp, #4
+	add sb, r0, #0x10
+	ldr r1, _027E1320 // =0x027F9454
+	ldr r5, [r1, #0x550]
+	mov r7, #0
+	ldr r1, [r5, #0xc]
+	cmp r1, #0
+	beq _027E1314
+	ldrh r0, [r0, #0xe]
+	cmp r0, #0
+	bne _027E1144
+	mov r8, #1
+	ldr r2, _027E1324 // =0x048080F8
+	ldrh r1, [r2]
+	ldr r0, _027E1328 // =0x048080FA
+	ldrh r3, [r0]
+	ldrh r2, [r2]
+	cmp r1, r2
+	ldrhih r3, [r0]
+	mov r0, r3, lsl #0xc
+	orr r0, r0, r2, asr #4
+	mov r0, r0, lsl #0x10
+	mov r1, r0, lsr #0x10
+	ldrh r0, [r5, #0x82]
+	sub r0, r1, r0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, asr #0x10
+	cmp r0, #0
+	bgt _027E1148
+	b _027E1314
+_027E1144:
+	mov r8, r7
+_027E1148:
+	bl OS_DisableInterrupts
+	mov r4, r0
+	ldrh r1, [r5, #0x84]
+	cmp r1, #0
+	bne _027E1164
+	bl OS_RestoreInterrupts
+	b _027E1314
+_027E1164:
+	mov r0, #0
+	strh r0, [r5, #0x84]
+	ldrh r6, [r5, #0x90]
+	ldr r0, _027E132C // =0x0380BD70
+	bl OS_CancelAlarm
+	mov r0, r4
+	bl OS_RestoreInterrupts
+	mov r0, #1
+	ldrh r3, [r5, #0x8c]
+	cmp r3, #0
+	beq _027E11B4
+	cmp r8, #0
+	bne _027E11B0
+	ldrh r2, [sb, #0x2e]
+	add r1, r5, #0x100
+	ldrh r1, [r1, #0x88]
+	mov r1, r0, lsl r1
+	ands r1, r2, r1
+	bne _027E11B4
+_027E11B0:
+	mov r0, #0
+_027E11B4:
+	cmp r3, #0
+	movne r1, #0
+	strneh r1, [r5, #0x8c]
+	ldrh r1, [r5, #0x8e]
+	cmp r1, #0
+	beq _027E11F0
+	mov r1, #0
+	strh r1, [r5, #0x8e]
+	cmp r0, #0
+	movne r1, #1
+	mov r0, r8
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	bl sub_27E6FF4
+	mov r7, r0
+_027E11F0:
+	cmp r6, #0
+	beq _027E1314
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r4, r0
+	mov r0, #0xe
+	strh r0, [r4]
+	cmp r8, #0
+	movne r0, #9
+	strneh r0, [r4, #2]
+	bne _027E1240
+	ldrh r2, [sb, #0x2e]
+	mov r1, #1
+	add r0, r5, #0x100
+	ldrh r0, [r0, #0x88]
+	mov r0, r1, lsl r0
+	ands r0, r2, r0
+	movne r0, #0xf
+	strneh r0, [r4, #2]
+	moveq r0, #0
+	streqh r0, [r4, #2]
+_027E1240:
+	mov r0, #0xd
+	strh r0, [r4, #4]
+	mov r0, #0
+	str r0, [r4, #8]
+	cmp r8, #0
+	bne _027E12A0
+	ldrh r0, [sb, #0xc]
+	strh r0, [r4, #0xc]
+	ldrh r0, [sb, #0xe]
+	strh r0, [r4, #0xe]
+	add r0, sb, #0x18
+	add r1, r4, #0x10
+	mov r2, #6
+	bl MI_CpuCopy8
+	add r0, sb, #0x1e
+	add r1, r4, #0x16
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldrh r0, [sb, #0x2a]
+	strh r0, [r4, #0x1c]
+	ldrh r0, [sb, #0x2c]
+	strh r0, [r4, #0x1e]
+	ldrh r0, [sb, #0x2e]
+	strh r0, [r4, #0x20]
+_027E12A0:
+	mov r0, r4
+	bl WMSP_ReturnResult2Wm9
+	cmp r6, #0
+	beq _027E1314
+	cmp r7, #1
+	beq _027E12C4
+	ldrh r0, [r5, #0x5e]
+	cmp r0, #0
+	bne _027E1300
+_027E12C4:
+	ldrh r0, [r5, #0x46]
+	cmp r0, #0
+	beq _027E12F8
+	ldr r0, _027E1330 // =0x0380BD9C
+	bl OS_CancelAlarm
+	mov r0, #0
+	str r0, [sp]
+	ldr r0, _027E1330 // =0x0380BD9C
+	ldr r1, [r5, #0x50]
+	ldr r2, [r5, #0x54]
+	ldr r3, _027E1334 // =sub_27E10BC
+	bl OS_SetAlarm
+	b _027E1314
+_027E12F8:
+	bl sub_27E102C
+	b _027E1314
+_027E1300:
+	mov r1, #0
+	strh r1, [r5, #0x5e]
+	mov r0, #1
+	strh r0, [r5, #0x60]
+	strh r1, [r5, #0x88]
+_027E1314:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+	.align 2, 0
+_027E1320: .word 0x027F9454
+_027E1324: .word 0x048080F8
+_027E1328: .word 0x048080FA
+_027E132C: .word 0x0380BD70
+_027E1330: .word 0x0380BD9C
+_027E1334: .word sub_27E10BC
+	arm_func_end sub_27E10C8
+
+	arm_func_start sub_27E1338
+sub_27E1338: // 0x027E1338
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r5, _027E13C8 // =_027F8454
+	ldr r1, _027E13CC // =0x027F9454
+	ldr r0, [r1, #0x544]
+	ldr r1, [r1, #0x548]
+	mov r2, #0x40
+	bl OS_AllocFromHeap
+	mov r4, r0
+	ldr r0, _027E13D0 // =0x00000185
+	strh r0, [r4, #0xc]
+	mov r2, #0
+	strh r2, [r4, #0xe]
+	ldr r0, _027E13D4 // =0x027F847C
+	mov r1, r4
+	bl OS_SendMessage
+	cmp r0, #0
+	bne _027E13BC
+	mov r0, r4
+	bl sub_27E1E20
+	add r0, r5, #0x1000
+	ldr r0, [r0, #0x54c]
+	cmp r0, #0
+	beq _027E13BC
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r2, #0x80
+	strh r2, [r0]
+	mov r1, #8
+	strh r1, [r0, #2]
+	mov r1, #0x16
+	strh r1, [r0, #4]
+	strh r2, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+_027E13BC:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E13C8: .word _027F8454
+_027E13CC: .word 0x027F9454
+_027E13D0: .word 0x00000185
+_027E13D4: .word 0x027F847C
+	arm_func_end sub_27E1338
+
+	arm_func_start sub_27E13D8
+sub_27E13D8: // 0x027E13D8
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #4
+	mov sl, r0
+	ldr r0, _027E170C // =0x027F9454
+	ldr r5, [r0, #0x550]
+	ldrb r1, [sl, #0x1f]
+	ands r0, r1, #2
+	movne r0, r1, asr #2
+	andne r1, r0, #0xff
+	moveq r0, r1, asr #2
+	addeq r0, r0, #0x19
+	andeq r1, r0, #0xff
+	ldrh r0, [r5, #0xbe]
+	cmp r0, r1
+	strhih r1, [r5, #0xbe]
+	ldr r0, [r5, #0xc]
+	cmp r0, #0
+	beq _027E1700
+	ldrh r0, [r5, #0x60]
+	cmp r0, #1
+	moveq r0, #0
+	streqh r0, [r5, #0x60]
+	ldrh r6, [r5, #0x8e]
+	ldrh r0, [r5, #0x70]
+	eor r0, r0, #1
+	strh r0, [r5, #0x70]
+	ldrh r0, [r5, #0x70]
+	add r0, r5, r0, lsl #2
+	ldr r8, [r0, #0x74]
+	ldrh r0, [sl, #0x16]
+	add r2, r0, #0x30
+	ldrh r0, [r5, #0x72]
+	cmp r0, r2
+	movlo r2, r0
+	add r0, sl, #0x10
+	mov r1, r8
+	bl MI_CpuCopy8
+	bl OS_DisableInterrupts
+	mov fp, r0
+	mov r7, #0
+	ldrh r0, [r5, #0x84]
+	cmp r0, #1
+	bne _027E1490
+	mov r7, #1
+	ldr r0, _027E1710 // =0x0380BD70
+	bl OS_CancelAlarm
+_027E1490:
+	mov sb, #1
+	strh sb, [r5, #0x84]
+	ldrh r0, [r8, #0xa]
+	strh r0, [r5, #0x82]
+	ldrh r4, [sl, #0x18]
+	ands r0, r4, #0x2000
+	moveq sb, #0
+	strh sb, [r5, #0x90]
+	mov lr, #0
+	str lr, [sp]
+	ldr r0, _027E1710 // =0x0380BD70
+	ldrh r2, [r8, #0xa]
+	ldrh r1, [r8, #0xc]
+	sub r1, r2, r1
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	add r1, r1, #0x80
+	mov r2, r1, lsl #4
+	mov r1, r2, asr #0x1f
+	ldr r3, _027E1714 // =0x000082EA
+	umull ip, r3, r2, r3
+	mla r3, r2, lr, r3
+	ldr r2, _027E1714 // =0x000082EA
+	mla r3, r1, r2, r3
+	mov lr, r3, lsr #6
+	mov r1, ip, lsr #6
+	orr r1, r1, r3, lsl #26
+	mov r2, lr, lsr #0xa
+	mov r1, r1, lsr #0xa
+	orr r1, r1, lr, lsl #22
+	ldr r3, _027E1718 // =sub_27E1338
+	bl OS_SetAlarm
+	and r0, r4, #0x2800
+	cmp r0, #0x2800
+	moveq r1, #1
+	movne r1, #0
+	and r0, r4, #0x6000
+	cmp r0, #0x6000
+	moveq r2, #1
+	movne r2, #0
+	cmp r2, #0
+	movne r0, #0
+	strneh r0, [r5, #0x8a]
+	cmp r1, #0
+	movne r0, #1
+	moveq r0, #0
+	strh r0, [r5, #0x8e]
+	cmp r2, #0
+	movne r0, #1
+	moveq r0, #0
+	strh r0, [r5, #0x8c]
+	cmp sb, #0
+	beq _027E15A0
+	ldrh r0, [r8, #0x2c]
+	sub r0, r0, #0x66
+	mov r1, #4
+	bl _s32_div_f
+	subs r1, r0, #0x20
+	bmi _027E15A0
+	ldrh r0, [r5, #0x36]
+	cmp r1, r0
+	movgt r1, r0
+	ldrh r0, [r5, #0x32]
+	cmp r1, r0
+	beq _027E15A0
+	mov r0, r1, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27E0000
+_027E15A0:
+	mov r0, fp
+	bl OS_RestoreInterrupts
+	cmp r7, #0
+	beq _027E15EC
+	cmp r6, #1
+	bne _027E15C4
+	mov r0, r7
+	mov r1, #0
+	bl sub_27E6FF4
+_027E15C4:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xe
+	strh r1, [r0]
+	mov r1, #9
+	strh r1, [r0, #2]
+	mov r1, #0xd
+	strh r1, [r0, #4]
+	mov r1, #0
+	str r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+_027E15EC:
+	cmp sb, #0
+	bne _027E1618
+	ldrh r0, [r8, #6]
+	cmp r0, #2
+	blo _027E1700
+	ldrh r0, [r8, #0x30]
+	ands r0, r0, #0x8000
+	movne r0, #1
+	moveq r0, #0
+	strh r0, [r5, #0x5e]
+	b _027E1700
+_027E1618:
+	add r0, sl, #0x28
+	add r1, r8, #0x18
+	mov r2, #6
+	bl MI_CpuCopy8
+	add r0, sl, #0x2e
+	add r1, r8, #0x1e
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldrh r0, [r8, #6]
+	cmp r0, #2
+	blo _027E16A8
+	sub r0, r0, #2
+	strh r0, [r8, #6]
+	ldrh r0, [r8, #0x30]
+	ands r0, r0, #0x8000
+	movne r0, #1
+	moveq r0, #0
+	strh r0, [r5, #0x5e]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xe
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #0xc
+	strh r1, [r0, #4]
+	str r8, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	ldrh r3, [r8, #6]
+	cmp r3, #0
+	beq _027E16D4
+	str r8, [sp]
+	mov r0, #0
+	ldrh r1, [r8, #0x30]
+	add r2, r8, #0x32
+	bl sub_27E6B48
+	b _027E16D4
+_027E16A8:
+	mov r0, #0
+	strh r0, [r8, #6]
+	strh r0, [r5, #0x5e]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xe
+	strh r1, [r0]
+	strh r1, [r0, #2]
+	mov r1, #0xc
+	strh r1, [r0, #4]
+	str r8, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+_027E16D4:
+	ldr r2, [r5, #0x7b8]
+	ldr r1, [r5, #0x7bc]
+	mov r0, #0
+	cmp r1, r0
+	cmpeq r2, r0
+	beq _027E1700
+	bl OS_GetTick
+	orr r1, r1, #0
+	orr r0, r0, #1
+	str r0, [r5, #0x738]
+	str r1, [r5, #0x73c]
+_027E1700:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027E170C: .word 0x027F9454
+_027E1710: .word 0x0380BD70
+_027E1714: .word 0x000082EA
+_027E1718: .word sub_27E1338
+	arm_func_end sub_27E13D8
+
+	arm_func_start sub_27E171C
+sub_27E171C: // 0x027E171C
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r2, _027E1798 // =0x027F9454
+	ldr lr, [r2, #0x550]
+	ldrh r4, [lr, #0xbe]
+	cmp r1, #0
+	bne _027E178C
+	ldrh r3, [r0, #0x14]
+	cmp r3, #1
+	blo _027E178C
+	mov r5, #0
+	add ip, r0, #0x1a
+	b _027E1780
+_027E1750:
+	ldrh r2, [r0, #0x16]
+	mla r1, r2, r5, ip
+	ldrb r2, [r1, #3]
+	ands r1, r2, #2
+	movne r1, r2, asr #2
+	andne r1, r1, #0xff
+	moveq r1, r2, asr #2
+	addeq r1, r1, #0x19
+	andeq r1, r1, #0xff
+	cmp r1, r4
+	movlo r4, r1
+	add r5, r5, #1
+_027E1780:
+	cmp r5, r3
+	blt _027E1750
+	strh r4, [lr, #0xbe]
+_027E178C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E1798: .word 0x027F9454
+	arm_func_end sub_27E171C
+
+	arm_func_start sub_27E179C
+sub_27E179C: // 0x027E179C
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	bl sub_27E0134
+	movs r1, r0
+	ldr r4, _027E1820 // =_027F8454
+	moveq r0, #0
+	beq _027E17D4
+	mov r0, #0x2b
+	str r0, [r1]
+	str r5, [r1, #4]
+	add r0, r4, #0x88
+	mov r2, #0
+	bl OS_SendMessage
+_027E17D4:
+	cmp r0, #0
+	bne _027E1814
+	add r0, r4, #0x1000
+	ldr r0, [r0, #0x54c]
+	cmp r0, #0
+	beq _027E1814
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #8
+	strh r1, [r0, #2]
+	mov r1, #0x16
+	strh r1, [r0, #4]
+	mov r1, #0x2b
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+_027E1814:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E1820: .word _027F8454
+	arm_func_end sub_27E179C
+
+	arm_func_start sub_27E1824
+sub_27E1824: // 0x027E1824
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	ldr ip, _027E1834 // =sub_27E179C
+	bx ip
+	.align 2, 0
+_027E1834: .word sub_27E179C
+	arm_func_end sub_27E1824
+
+	arm_func_start sub_27E1838
+sub_27E1838: // 0x027E1838
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E18B0 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	bl sub_27E0134
+	movs r1, r0
+	moveq r0, #0
+	beq _027E1870
+	mov r0, #0x2d
+	str r0, [r1]
+	ldrh r0, [r4, #0x68]
+	str r0, [r1, #4]
+	ldr r0, _027E18B4 // =0x027F84DC
+	mov r2, #0
+	bl OS_SendMessage
+_027E1870:
+	cmp r0, #0
+	movne r0, #1
+	strneh r0, [r4, #0x66]
+	bne _027E18A8
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #8
+	strh r1, [r0, #2]
+	mov r1, #0x16
+	strh r1, [r0, #4]
+	mov r1, #0x2d
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+_027E18A8:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E18B0: .word 0x027F9454
+_027E18B4: .word 0x027F84DC
+	arm_func_end sub_27E1838
+
+	arm_func_start sub_27E18B8
+sub_27E18B8: // 0x027E18B8
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x2c
+	mov sl, r0
+	ldr r0, _027E1C08 // =0x027F9454
+	ldr r8, [r0, #0x550]
+	mov r5, #0
+	ldr r0, [r8, #0xc]
+	cmp r0, #0
+	beq _027E1BFC
+	ldrh r0, [sl, #0x12]
+	cmp r0, #0
+	bne _027E1900
+	ldrh r1, [r8, #0x66]
+	cmp r1, #1
+	bne _027E1908
+	ldrh r0, [sl, #0x10]
+	cmp r0, #0
+	beq _027E1908
+_027E1900:
+	bl sub_27E1838
+	b _027E1BFC
+_027E1908:
+	cmp r1, #0
+	movne r0, #0
+	strneh r0, [r8, #0x66]
+	ldrh r0, [r8, #0x70]
+	add r0, r8, r0, lsl #2
+	ldr r7, [r0, #0x74]
+	ldrh r1, [sl, #0x16]
+	ldrh r0, [sl, #0x14]
+	mul r0, r1, r0
+	add r2, r0, #0xa
+	ldrh r0, [r8, #0x72]
+	cmp r0, r2
+	movlo r2, r0
+	add r0, sl, #0x10
+	mov r1, r7
+	bl MI_CpuCopy8
+	mov r0, sl
+	ldrh r1, [r7]
+	ldrh r2, [r8, #0x92]
+	bl sub_27E171C
+	bl OS_GetTick
+	mov sb, #0
+	mov r2, #1
+	str r2, [sp, #0x10]
+	orr r1, r1, #0
+	str r1, [sp, #8]
+	orr r0, r0, #1
+	str r0, [sp, #4]
+	add r6, r7, #0xa
+	ldrh fp, [r7]
+	str sb, [sp, #0x14]
+	mov r0, #0x25
+	str r0, [sp, #0x18]
+	mov r0, #0x80
+	str r0, [sp, #0x1c]
+	mov r0, #8
+	str r0, [sp, #0x20]
+	mov r0, #0x16
+	str r0, [sp, #0x24]
+	b _027E1B10
+_027E19A8:
+	ldrh r4, [r6, #4]
+	ldrh r1, [r6]
+	cmp r4, #1
+	blo _027E1AFC
+	cmp r4, #0xf
+	bhi _027E1AFC
+	cmp r1, #2
+	blo _027E1A24
+	ldr r0, _027E1C0C // =0x0000FFFF
+	cmp r1, r0
+	beq _027E1A24
+	sub r0, r1, #2
+	strh r0, [r6]
+	ldrh r2, [r8, #0x86]
+	ldr r1, [sp, #0x10]
+	orr r1, r2, r1, lsl r4
+	strh r1, [r8, #0x86]
+	add r2, r8, r4, lsl #3
+	ldr r1, [sp, #4]
+	str r1, [r2, #0x738]
+	ldr r1, [sp, #8]
+	str r1, [r2, #0x73c]
+	mov r0, r0, lsl #0x10
+	movs r3, r0, lsr #0x10
+	beq _027E1AFC
+	str r7, [sp]
+	mov r0, r4
+	ldrh r1, [r6, #8]
+	add r2, r6, #0xa
+	bl sub_27E6B48
+	b _027E1AFC
+_027E1A24:
+	cmp r1, #0
+	bne _027E1AFC
+	add r1, r8, r4, lsl #3
+	ldr r0, [r1, #0x738]
+	ldr r3, [r1, #0x73c]
+	ldr r1, [sp, #0x10]
+	mov r1, r1, lsl r4
+	str r1, [sp, #0xc]
+	ldr r1, [sp, #0x10]
+	orr fp, fp, r1, lsl r4
+	ldr r2, [r8, #0x7b8]
+	ldr r1, [r8, #0x7bc]
+	mov ip, #0
+	cmp r1, ip
+	cmpeq r2, ip
+	beq _027E1AFC
+	cmp r3, ip
+	cmpeq r0, ip
+	beq _027E1AFC
+	ldr ip, [sp, #4]
+	subs r0, ip, r0
+	ldr ip, [sp, #8]
+	sbc r3, ip, r3
+	cmp r3, r1
+	cmpeq r0, r2
+	bls _027E1AFC
+	bl sub_27E0134
+	movs r1, r0
+	add r2, r8, r4, lsl #3
+	ldr r0, [sp, #0x14]
+	str r0, [r2, #0x738]
+	str r0, [r2, #0x73c]
+	beq _027E1ACC
+	ldr r0, [sp, #0x18]
+	str r0, [r1]
+	ldr r0, [sp, #0xc]
+	str r0, [r1, #4]
+	ldr r0, _027E1C10 // =0x00008001
+	str r0, [r1, #8]
+	ldr r0, _027E1C14 // =0x027F84DC
+	ldr r2, [sp, #0x14]
+	bl OS_SendMessage
+_027E1ACC:
+	cmp r0, #0
+	bne _027E1AFC
+	bl WMSP_GetBuffer4Callback2Wm9
+	ldr r1, [sp, #0x1c]
+	strh r1, [r0]
+	ldr r1, [sp, #0x20]
+	strh r1, [r0, #2]
+	ldr r1, [sp, #0x24]
+	strh r1, [r0, #4]
+	ldr r1, [sp, #0x18]
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+_027E1AFC:
+	add r0, sb, #1
+	mov r0, r0, lsl #0x10
+	mov sb, r0, lsr #0x10
+	ldrh r0, [r7, #6]
+	add r6, r6, r0
+_027E1B10:
+	ldrh r0, [r7, #4]
+	cmp sb, r0
+	blo _027E19A8
+	mov r0, #0
+	mov r1, fp, lsl #0x10
+	mov r1, r1, lsr #0x10
+	bl sub_27E6FF4
+	ldrh r0, [r7]
+	cmp r0, #0
+	movne r5, #1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xe
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #0xb
+	strh r1, [r0, #4]
+	str r7, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	ldrh r0, [r8, #0x70]
+	eor r0, r0, #1
+	strh r0, [r8, #0x70]
+	bl OS_DisableInterrupts
+	cmp r5, #0
+	ldreqsh r1, [r8, #0x62]
+	subeq r1, r1, #1
+	streqh r1, [r8, #0x62]
+	ldrsh r1, [r8, #0x64]
+	cmp r1, #0
+	subgt r1, r1, #1
+	strgth r1, [r8, #0x64]
+	ldrsh r1, [r8, #0x62]
+	cmp r1, #0
+	ble _027E1BA8
+	ldrsh r1, [r8, #0x64]
+	cmp r1, #0
+	movgt r4, #1
+	bgt _027E1BAC
+_027E1BA8:
+	mov r4, #0
+_027E1BAC:
+	bl OS_RestoreInterrupts
+	cmp r4, #0
+	beq _027E1BFC
+	cmp r5, #1
+	ldreqh r4, [sl, #0x10]
+	ldrne r4, _027E1C0C // =0x0000FFFF
+	ldrh r0, [r8, #0x44]
+	cmp r0, #0
+	beq _027E1BF4
+	ldr r0, _027E1C18 // =0x0380BD9C
+	bl OS_CancelAlarm
+	str r4, [sp]
+	ldr r0, _027E1C18 // =0x0380BD9C
+	ldr r1, [r8, #0x48]
+	ldr r2, [r8, #0x4c]
+	ldr r3, _027E1C1C // =sub_27E1824
+	bl OS_SetAlarm
+	b _027E1BFC
+_027E1BF4:
+	mov r0, r4
+	bl sub_27E179C
+_027E1BFC:
+	add sp, sp, #0x2c
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027E1C08: .word 0x027F9454
+_027E1C0C: .word 0x0000FFFF
+_027E1C10: .word 0x00008001
+_027E1C14: .word 0x027F84DC
+_027E1C18: .word 0x0380BD9C
+_027E1C1C: .word sub_27E1824
+	arm_func_end sub_27E18B8
+
+	arm_func_start sub_27E1C20
+sub_27E1C20: // 0x027E1C20
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027E1C68 // =0x027F9454
+	ldr r0, [r0, #0x550]
+	ldrh r0, [r0, #0xc2]
+	cmp r0, #0
+	beq _027E1C5C
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xc
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #8
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+_027E1C5C:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E1C68: .word 0x027F9454
+	arm_func_end sub_27E1C20
+
+	arm_func_start sub_27E1C6C
+sub_27E1C6C: // 0x027E1C6C
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	ldr r0, _027E1DC0 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	add r6, r7, #0x3c
+	ldrb r1, [r7, #0x1f]
+	ands r0, r1, #2
+	movne r0, r1, asr #2
+	andne r2, r0, #0xff
+	moveq r0, r1, asr #2
+	addeq r0, r0, #0x19
+	andeq r2, r0, #0xff
+	ldr r1, _027E1DC4 // =0x027FFF98
+	ldrh r0, [r1]
+	eor r0, r2, r0, lsl #1
+	eor r0, r0, r0, lsr #16
+	strh r0, [r1]
+	ldrh r0, [r4]
+	cmp r0, #8
+	beq _027E1CC8
+	cmp r0, #0xa
+	bne _027E1DB4
+_027E1CC8:
+	ldrh r1, [r4, #0xba]
+	ldrh r0, [r6, #8]
+	cmp r1, r0
+	beq _027E1D40
+	bl sub_27E0134
+	movs r1, r0
+	moveq r0, #0
+	beq _027E1D0C
+	mov r0, #0x25
+	str r0, [r1]
+	mov r0, #1
+	str r0, [r1, #4]
+	ldr r0, _027E1DC8 // =0x00008002
+	str r0, [r1, #8]
+	ldr r0, _027E1DCC // =0x027F84DC
+	mov r2, #0
+	bl OS_SendMessage
+_027E1D0C:
+	cmp r0, #0
+	bne _027E1DB4
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #8
+	strh r1, [r0, #2]
+	mov r1, #0x16
+	strh r1, [r0, #4]
+	mov r1, #0x25
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	b _027E1DB4
+_027E1D40:
+	ldr r0, _027E1DC0 // =0x027F9454
+	ldr r0, [r0, #0x550]
+	ldrh r0, [r0, #0xc2]
+	cmp r0, #0
+	beq _027E1DB4
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r5, r0
+	mov r0, #0x80
+	strh r0, [r5]
+	mov r0, #0
+	strh r0, [r5, #2]
+	mov r0, #0x10
+	strh r0, [r5, #4]
+	ldrh r0, [r6, #8]
+	strh r0, [r5, #6]
+	ldrh r0, [r4]
+	strh r0, [r5, #8]
+	ldrh r0, [r7, #0x16]
+	strh r0, [r5, #0xa]
+	ldrh r2, [r5, #0xa]
+	cmp r2, #0x80
+	bhi _027E1DAC
+	mov r0, r6
+	add r1, r5, #0xc
+	add r2, r2, #1
+	bic r2, r2, #1
+	bl MIi_CpuCopy16
+_027E1DAC:
+	mov r0, r5
+	bl WMSP_ReturnResult2Wm9
+_027E1DB4:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027E1DC0: .word 0x027F9454
+_027E1DC4: .word 0x027FFF98
+_027E1DC8: .word 0x00008002
+_027E1DCC: .word 0x027F84DC
+	arm_func_end sub_27E1C6C
+
+	arm_func_start sub_27E1DD0
+sub_27E1DD0: // 0x027E1DD0
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027E1E18 // =0x027F9454
+	ldr r0, [r0, #0x550]
+	ldrh r0, [r0, #0xc2]
+	cmp r0, #0
+	beq _027E1E0C
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #8
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #2
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+_027E1E0C:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E1E18: .word 0x027F9454
+	arm_func_end sub_27E1DD0
+
+	arm_func_start sub_27E1E1C
+sub_27E1E1C: // 0x027E1E1C
+	bx lr
+	arm_func_end sub_27E1E1C
+
+	arm_func_start sub_27E1E20
+sub_27E1E20: // 0x027E1E20
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	bl OS_DisableInterrupts
+	mov r4, r0
+	ldr r1, _027E1E5C // =0x027F9454
+	ldr r0, [r1, #0x544]
+	ldr r1, [r1, #0x548]
+	mov r2, r5
+	bl OS_FreeToHeap
+	mov r0, r4
+	bl OS_RestoreInterrupts
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E1E5C: .word 0x027F9454
+	arm_func_end sub_27E1E20
+
+	arm_func_start sub_27E1E60
+sub_27E1E60: // 0x027E1E60
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	ldr r1, _027E1F9C // =0x027F9454
+	ldr r2, [r1, #0x54c]
+	cmp r2, #0
+	beq _027E1F94
+	ldr r1, [r1, #0x550]
+	ldrh r1, [r1]
+	cmp r1, #1
+	beq _027E1F94
+	ldrh r2, [r4, #0xc]
+	ldr r1, _027E1FA0 // =0x00000182
+	cmp r2, r1
+	bgt _027E1EE8
+	cmp r2, r1
+	bge _027E1F64
+	cmp r2, #0x8d
+	bgt _027E1EDC
+	subs r1, r2, #0x84
+	addpl pc, pc, r1, lsl #2
+	b _027E1F84
+_027E1EB4: // jump table
+	b _027E1F18 // case 0
+	b _027E1F20 // case 1
+	b _027E1F28 // case 2
+	b _027E1F30 // case 3
+	b _027E1F38 // case 4
+	b _027E1F84 // case 5
+	b _027E1F84 // case 6
+	b _027E1F40 // case 7
+	b _027E1F48 // case 8
+	b _027E1F50 // case 9
+_027E1EDC:
+	cmp r2, #0x180
+	beq _027E1F58
+	b _027E1F84
+_027E1EE8:
+	ldr r1, _027E1FA4 // =0x00000185
+	cmp r2, r1
+	bgt _027E1F08
+	cmp r2, r1
+	bge _027E1F74
+	cmp r2, #0x184
+	beq _027E1F6C
+	b _027E1F84
+_027E1F08:
+	ldr r1, _027E1FA8 // =0x00000186
+	cmp r2, r1
+	beq _027E1F7C
+	b _027E1F84
+_027E1F18:
+	bl sub_27E0910
+	b _027E1F8C
+_027E1F20:
+	bl sub_27E0944
+	b _027E1F8C
+_027E1F28:
+	bl sub_27E0C0C
+	b _027E1F8C
+_027E1F30:
+	bl sub_27E0D94
+	b _027E1F8C
+_027E1F38:
+	bl sub_27E0DC8
+	b _027E1F8C
+_027E1F40:
+	bl sub_27E1C20
+	b _027E1F8C
+_027E1F48:
+	bl sub_27E1DD0
+	b _027E1F8C
+_027E1F50:
+	bl sub_27E1C6C
+	b _027E1F8C
+_027E1F58:
+	mov r0, r4
+	bl sub_27E0F34
+	b _027E1F8C
+_027E1F64:
+	bl sub_27E13D8
+	b _027E1F8C
+_027E1F6C:
+	bl sub_27E18B8
+	b _027E1F8C
+_027E1F74:
+	bl sub_27E10C8
+	b _027E1F8C
+_027E1F7C:
+	bl sub_27E0DFC
+	b _027E1F8C
+_027E1F84:
+	mov r0, r4
+	bl sub_27E1E1C
+_027E1F8C:
+	mov r0, r4
+	bl sub_27E1E20
+_027E1F94:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E1F9C: .word 0x027F9454
+_027E1FA0: .word 0x00000182
+_027E1FA4: .word 0x00000185
+_027E1FA8: .word 0x00000186
+	arm_func_end sub_27E1E60
+
+	arm_func_start sub_27E1FAC
+sub_27E1FAC: // 0x027E1FAC
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	ldr r0, _027E2044 // =_027F8454
+	add r7, r0, #0x58
+	mov r4, #1
+	add r6, r0, #0x28
+	add r5, sp, #0
+_027E1FC8:
+	mov r0, r6
+	mov r1, r5
+	mov r2, r4
+	bl OS_ReceiveMessage
+	ldr r1, [sp]
+	cmp r1, #0
+	bne _027E1FEC
+	bl OS_ExitThread
+	b _027E2038
+_027E1FEC:
+	ldrh r2, [r1, #0xc]
+	and r0, r2, #0xff
+	mov r0, r0, lsl #0x10
+	mov r3, r0, lsr #0x10
+	and r0, r2, #0xff00
+	mov r0, r0, lsl #0x10
+	movs r0, r0, lsr #0x10
+	beq _027E2014
+	cmp r0, #0x100
+	bne _027E2028
+_027E2014:
+	ands r0, r3, #0x80
+	beq _027E2028
+	mov r0, r1
+	bl sub_27E1E60
+	b _027E1FC8
+_027E2028:
+	mov r0, r7
+	mov r2, r4
+	bl OS_SendMessage
+	b _027E1FC8
+_027E2038:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027E2044: .word _027F8454
+	arm_func_end sub_27E1FAC
+
+	arm_func_start sub_27E2048
+sub_27E2048: // 0x027E2048
+	bx lr
+	arm_func_end sub_27E2048
+
+	arm_func_start sub_27E204C
+sub_27E204C: // 0x027E204C
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	sub sp, sp, #8
+	ldr r1, _027E20EC // =_027F8454
+	ldr r0, _027E20F0 // =0x027F9454
+	ldr sl, [r0, #0x550]
+	mov r6, #1
+	ldr r5, _027E20F4 // =0x027F7D5C
+	mov r4, #0
+	add r8, r1, #0x88
+	add r7, sp, #0
+_027E2074:
+	mov r0, r8
+	mov r1, r7
+	mov r2, r6
+	bl OS_ReceiveMessage
+	ldr r0, [sp]
+	cmp r0, #0
+	bne _027E2098
+	bl OS_ExitThread
+	b _027E20E0
+_027E2098:
+	ldrh sb, [r0]
+	ands r0, sb, #0x8000
+	bicne r0, sb, #0x8000
+	movne r0, r0, lsl #0x10
+	movne sb, r0, lsr #0x10
+	cmp sb, #0x2e
+	bhs _027E20D0
+	str r6, [sl, #4]
+	strh sb, [sl, #2]
+	ldr r0, [sp]
+	ldr r1, [r5, sb, lsl #2]
+	mov lr, pc
+	bx r1
+	arm_func_end sub_27E204C
+
+	arm_func_start sub_27E20CC
+sub_27E20CC: // 0x027E20CC
+	str r4, [sl, #4]
+_027E20D0:
+	orr r1, sb, #0x8000
+	ldr r0, [sp]
+	strh r1, [r0]
+	b _027E2074
+_027E20E0:
+	add sp, sp, #8
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	bx lr
+	.align 2, 0
+_027E20EC: .word _027F8454
+_027E20F0: .word 0x027F9454
+_027E20F4: .word 0x027F7D5C
+	arm_func_end sub_27E20CC
+
+	arm_func_start sub_27E20F8
+sub_27E20F8: // 0x027E20F8
+	stmdb sp!, {r4, lr}
+	mov r3, #0
+	strh r3, [r0]
+	strh r3, [r0, #2]
+	strh r3, [r0, #4]
+	strh r3, [r0, #6]
+	strh r3, [r0, #8]
+	strh r3, [r0, #0xa]
+	strh r1, [r0, #0xc]
+	strh r3, [r0, #0xe]
+	ldrh r1, [r0, #0xe]
+	add r3, r0, r1, lsl #1
+	add r4, r3, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r3, #0x10]
+	strh r2, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27E20F8
+
+	arm_func_start sub_27E2148
+sub_27E2148: // 0x027E2148
+	stmdb sp!, {r4, lr}
+	mov ip, #0
+	strh ip, [r0]
+	strh ip, [r0, #2]
+	strh ip, [r0, #4]
+	strh ip, [r0, #6]
+	strh ip, [r0, #8]
+	strh ip, [r0, #0xa]
+	ldr ip, _027E21B8 // =0x00000309
+	strh ip, [r0, #0xc]
+	mov ip, #4
+	strh ip, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	strh r2, [r0, #0x12]
+	strh r3, [r0, #0x14]
+	ldrh r1, [sp, #8]
+	strh r1, [r0, #0x16]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	mov r1, #1
+	strh r1, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E21B8: .word 0x00000309
+	arm_func_end sub_27E2148
+
+	arm_func_start sub_27E21BC
+sub_27E21BC: // 0x027E21BC
+	mov r1, #0x308
+	mov r2, #2
+	ldr ip, _027E21CC // =sub_27E20F8
+	bx ip
+	.align 2, 0
+_027E21CC: .word sub_27E20F8
+	arm_func_end sub_27E21BC
+
+	arm_func_start sub_27E21D0
+sub_27E21D0: // 0x027E21D0
+	ldr r1, _027E21E0 // =0x00000307
+	mov r2, #0x5c
+	ldr ip, _027E21E4 // =sub_27E20F8
+	bx ip
+	.align 2, 0
+_027E21E0: .word 0x00000307
+_027E21E4: .word sub_27E20F8
+	arm_func_end sub_27E21D0
+
+	arm_func_start sub_27E21E8
+sub_27E21E8: // 0x027E21E8
+	ldr r1, _027E21F8 // =0x00000306
+	mov r2, #9
+	ldr ip, _027E21FC // =sub_27E20F8
+	bx ip
+	.align 2, 0
+_027E21F8: .word 0x00000306
+_027E21FC: .word sub_27E20F8
+	arm_func_end sub_27E21E8
+
+	arm_func_start sub_27E2200
+sub_27E2200: // 0x027E2200
+	ldr r1, _027E2210 // =0x00000305
+	mov r2, #1
+	ldr ip, _027E2214 // =sub_27E20F8
+	bx ip
+	.align 2, 0
+_027E2210: .word 0x00000305
+_027E2214: .word sub_27E20F8
+	arm_func_end sub_27E2200
+
+	arm_func_start sub_27E2218
+sub_27E2218: // 0x027E2218
+	mov r1, #0x304
+	mov r2, #1
+	ldr ip, _027E2228 // =sub_27E20F8
+	bx ip
+	.align 2, 0
+_027E2228: .word sub_27E20F8
+	arm_func_end sub_27E2218
+
+	arm_func_start sub_27E222C
+sub_27E222C: // 0x027E222C
+	ldr r1, _027E223C // =0x00000303
+	mov r2, #1
+	ldr ip, _027E2240 // =sub_27E20F8
+	bx ip
+	.align 2, 0
+_027E223C: .word 0x00000303
+_027E2240: .word sub_27E20F8
+	arm_func_end sub_27E222C
+
+	arm_func_start sub_27E2244
+sub_27E2244: // 0x027E2244
+	ldr r1, _027E2254 // =0x00000302
+	mov r2, #1
+	ldr ip, _027E2258 // =sub_27E20F8
+	bx ip
+	.align 2, 0
+_027E2254: .word 0x00000302
+_027E2258: .word sub_27E20F8
+	arm_func_end sub_27E2244
+
+	arm_func_start sub_27E225C
+sub_27E225C: // 0x027E225C
+	ldr r1, _027E226C // =0x00000301
+	mov r2, #1
+	ldr ip, _027E2270 // =sub_27E20F8
+	bx ip
+	.align 2, 0
+_027E226C: .word 0x00000301
+_027E2270: .word sub_27E20F8
+	arm_func_end sub_27E225C
+
+	arm_func_start sub_27E2274
+sub_27E2274: // 0x027E2274
+	mov r1, #0x284
+	mov r2, #2
+	ldr ip, _027E2284 // =sub_27E20F8
+	bx ip
+	.align 2, 0
+_027E2284: .word sub_27E20F8
+	arm_func_end sub_27E2274
+
+	arm_func_start sub_27E2288
+sub_27E2288: // 0x027E2288
+	ldr r1, _027E2298 // =0x00000283
+	mov r2, #3
+	ldr ip, _027E229C // =sub_27E20F8
+	bx ip
+	.align 2, 0
+_027E2298: .word 0x00000283
+_027E229C: .word sub_27E20F8
+	arm_func_end sub_27E2288
+
+	arm_func_start sub_27E22A0
+sub_27E22A0: // 0x027E22A0
+	ldr r1, _027E22B0 // =0x00000281
+	mov r2, #4
+	ldr ip, _027E22B4 // =sub_27E20F8
+	bx ip
+	.align 2, 0
+_027E22B0: .word 0x00000281
+_027E22B4: .word sub_27E20F8
+	arm_func_end sub_27E22A0
+
+	arm_func_start sub_27E22B8
+sub_27E22B8: // 0x027E22B8
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r0
+	mov r6, r1
+	mov r5, r2
+	mov r0, #0
+	strh r0, [r4]
+	strh r0, [r4, #2]
+	strh r0, [r4, #4]
+	strh r0, [r4, #6]
+	strh r0, [r4, #8]
+	strh r0, [r4, #0xa]
+	ldr r0, _027E2344 // =0x00000245
+	strh r0, [r4, #0xc]
+	add r0, r6, #1
+	mov r1, #2
+	bl _s32_div_f
+	add r0, r0, #1
+	strh r0, [r4, #0xe]
+	strh r6, [r4, #0x10]
+	mov r0, r5
+	add r1, r4, #0x12
+	mov r2, r6
+	bl MIi_CpuCopy16
+	ldrh r0, [r4, #0xe]
+	add r1, r4, r0, lsl #1
+	add r5, r1, #0x10
+	ldrh r0, [r4, #0xc]
+	strh r0, [r1, #0x10]
+	mov r0, #1
+	strh r0, [r5, #2]
+	mov r0, r4
+	bl sub_27E0698
+	mov r0, r5
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027E2344: .word 0x00000245
+	arm_func_end sub_27E22B8
+
+	arm_func_start sub_27E2348
+sub_27E2348: // 0x027E2348
+	stmdb sp!, {r4, lr}
+	mov r2, #0
+	strh r2, [r0]
+	strh r2, [r0, #2]
+	strh r2, [r0, #4]
+	strh r2, [r0, #6]
+	strh r2, [r0, #8]
+	strh r2, [r0, #0xa]
+	ldr r2, _027E23A4 // =0x00000242
+	strh r2, [r0, #0xc]
+	mov r3, #1
+	strh r3, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	strh r3, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E23A4: .word 0x00000242
+	arm_func_end sub_27E2348
+
+	arm_func_start sub_27E23A8
+sub_27E23A8: // 0x027E23A8
+	stmdb sp!, {r4, lr}
+	mov r2, #0
+	strh r2, [r0]
+	strh r2, [r0, #2]
+	strh r2, [r0, #4]
+	strh r2, [r0, #6]
+	strh r2, [r0, #8]
+	strh r2, [r0, #0xa]
+	ldr r2, _027E2404 // =0x00000216
+	strh r2, [r0, #0xc]
+	mov r3, #1
+	strh r3, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	strh r3, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E2404: .word 0x00000216
+	arm_func_end sub_27E23A8
+
+	arm_func_start sub_27E2408
+sub_27E2408: // 0x027E2408
+	stmdb sp!, {r4, lr}
+	mov r2, #0
+	strh r2, [r0]
+	strh r2, [r0, #2]
+	strh r2, [r0, #4]
+	strh r2, [r0, #6]
+	strh r2, [r0, #8]
+	strh r2, [r0, #0xa]
+	ldr r2, _027E2464 // =0x00000215
+	strh r2, [r0, #0xc]
+	mov r3, #1
+	strh r3, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	strh r3, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E2464: .word 0x00000215
+	arm_func_end sub_27E2408
+
+	arm_func_start sub_27E2468
+sub_27E2468: // 0x027E2468
+	stmdb sp!, {r4, lr}
+	mov r2, #0
+	strh r2, [r0]
+	strh r2, [r0, #2]
+	strh r2, [r0, #4]
+	strh r2, [r0, #6]
+	strh r2, [r0, #8]
+	strh r2, [r0, #0xa]
+	ldr r2, _027E24C4 // =0x00000212
+	strh r2, [r0, #0xc]
+	mov r3, #1
+	strh r3, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	strh r3, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E24C4: .word 0x00000212
+	arm_func_end sub_27E2468
+
+	arm_func_start sub_27E24C8
+sub_27E24C8: // 0x027E24C8
+	stmdb sp!, {r4, lr}
+	mov ip, #0
+	strh ip, [r0]
+	strh ip, [r0, #2]
+	strh ip, [r0, #4]
+	strh ip, [r0, #6]
+	strh ip, [r0, #8]
+	strh ip, [r0, #0xa]
+	ldr ip, _027E2530 // =0x00000211
+	strh ip, [r0, #0xc]
+	mov ip, #3
+	strh ip, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	strh r2, [r0, #0x12]
+	strh r3, [r0, #0x14]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	mov r1, #1
+	strh r1, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E2530: .word 0x00000211
+	arm_func_end sub_27E24C8
+
+	arm_func_start sub_27E2534
+sub_27E2534: // 0x027E2534
+	stmdb sp!, {r4, lr}
+	mov r2, #0
+	strh r2, [r0]
+	strh r2, [r0, #2]
+	strh r2, [r0, #4]
+	strh r2, [r0, #6]
+	strh r2, [r0, #8]
+	strh r2, [r0, #0xa]
+	ldr r2, _027E2590 // =0x0000020E
+	strh r2, [r0, #0xc]
+	mov r3, #1
+	strh r3, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	strh r3, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E2590: .word 0x0000020E
+	arm_func_end sub_27E2534
+
+	arm_func_start sub_27E2594
+sub_27E2594: // 0x027E2594
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r4, r0
+	mov r0, #0
+	strh r0, [r4]
+	strh r0, [r4, #2]
+	strh r0, [r4, #4]
+	strh r0, [r4, #6]
+	strh r0, [r4, #8]
+	strh r0, [r4, #0xa]
+	ldr r0, _027E2610 // =0x0000020D
+	strh r0, [r4, #0xc]
+	mov r0, #0x10
+	strh r0, [r4, #0xe]
+	mov r0, r1
+	add r1, r4, #0x10
+	mov r2, #0x20
+	bl MIi_CpuCopy16
+	ldrh r0, [r4, #0xe]
+	add r1, r4, r0, lsl #1
+	add r5, r1, #0x10
+	ldrh r0, [r4, #0xc]
+	strh r0, [r1, #0x10]
+	mov r0, #1
+	strh r0, [r5, #2]
+	mov r0, r4
+	bl sub_27E0698
+	mov r0, r5
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E2610: .word 0x0000020D
+	arm_func_end sub_27E2594
+
+	arm_func_start sub_27E2614
+sub_27E2614: // 0x027E2614
+	stmdb sp!, {r4, lr}
+	mov r2, #0
+	strh r2, [r0]
+	strh r2, [r0, #2]
+	strh r2, [r0, #4]
+	strh r2, [r0, #6]
+	strh r2, [r0, #8]
+	strh r2, [r0, #0xa]
+	ldr r2, _027E2670 // =0x0000020B
+	strh r2, [r0, #0xc]
+	mov r3, #1
+	strh r3, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	strh r3, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E2670: .word 0x0000020B
+	arm_func_end sub_27E2614
+
+	arm_func_start sub_27E2674
+sub_27E2674: // 0x027E2674
+	stmdb sp!, {r4, lr}
+	mov r2, #0
+	strh r2, [r0]
+	strh r2, [r0, #2]
+	strh r2, [r0, #4]
+	strh r2, [r0, #6]
+	strh r2, [r0, #8]
+	strh r2, [r0, #0xa]
+	ldr r2, _027E26D0 // =0x00000207
+	strh r2, [r0, #0xc]
+	mov r3, #1
+	strh r3, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	strh r3, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E26D0: .word 0x00000207
+	arm_func_end sub_27E2674
+
+	arm_func_start sub_27E26D4
+sub_27E26D4: // 0x027E26D4
+	stmdb sp!, {r4, lr}
+	mov r1, #0
+	strh r1, [r0]
+	strh r1, [r0, #2]
+	strh r1, [r0, #4]
+	strh r1, [r0, #6]
+	strh r1, [r0, #8]
+	strh r1, [r0, #0xa]
+	mov r1, #0x200
+	strh r1, [r0, #0xc]
+	mov r1, #0x48
+	strh r1, [r0, #0xe]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	mov r1, #1
+	strh r1, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27E26D4
+
+	arm_func_start sub_27E2730
+sub_27E2730: // 0x027E2730
+	stmdb sp!, {r4, lr}
+	mov r2, #0
+	strh r2, [r0]
+	strh r2, [r0, #2]
+	strh r2, [r0, #4]
+	strh r2, [r0, #6]
+	strh r2, [r0, #8]
+	strh r2, [r0, #0xa]
+	mov r2, #0x104
+	strh r2, [r0, #0xc]
+	mov r3, #1
+	strh r3, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	strh r3, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27E2730
+
+	arm_func_start sub_27E278C
+sub_27E278C: // 0x027E278C
+	stmdb sp!, {r4, lr}
+	mov ip, #0
+	strh ip, [r0]
+	strh ip, [r0, #2]
+	strh ip, [r0, #4]
+	strh ip, [r0, #6]
+	strh ip, [r0, #8]
+	strh ip, [r0, #0xa]
+	ldr ip, _027E2824 // =0x00000102
+	strh ip, [r0, #0xc]
+	mov ip, #0xa
+	strh ip, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	strh r2, [r0, #0x12]
+	strh r3, [r0, #0x14]
+	ldrh r1, [sp, #8]
+	strh r1, [r0, #0x16]
+	ldrh r1, [sp, #0xc]
+	strh r1, [r0, #0x18]
+	ldrh r1, [sp, #0x10]
+	strh r1, [r0, #0x1a]
+	ldrh r1, [sp, #0x14]
+	strh r1, [r0, #0x1c]
+	ldrh r1, [sp, #0x18]
+	strh r1, [r0, #0x1e]
+	ldr r1, [sp, #0x1c]
+	str r1, [r0, #0x20]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	mov r1, #1
+	strh r1, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E2824: .word 0x00000102
+	arm_func_end sub_27E278C
+
+	arm_func_start sub_27E2828
+sub_27E2828: // 0x027E2828
+	stmdb sp!, {r4, lr}
+	mov ip, #0
+	strh ip, [r0]
+	strh ip, [r0, #2]
+	strh ip, [r0, #4]
+	strh ip, [r0, #6]
+	strh ip, [r0, #8]
+	strh ip, [r0, #0xa]
+	ldr ip, _027E2890 // =0x00000101
+	strh ip, [r0, #0xc]
+	mov ip, #4
+	strh ip, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	strh r2, [r0, #0x12]
+	str r3, [r0, #0x14]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	mov r1, #1
+	strh r1, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E2890: .word 0x00000101
+	arm_func_end sub_27E2828
+
+	arm_func_start sub_27E2894
+sub_27E2894: // 0x027E2894
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r4, r0
+	mov r5, r1
+	mov r0, #0
+	strh r0, [r4]
+	strh r0, [r4, #2]
+	strh r0, [r4, #4]
+	strh r0, [r4, #6]
+	strh r0, [r4, #8]
+	strh r0, [r4, #0xa]
+	mov r0, #0x100
+	strh r0, [r4, #0xc]
+	mov r0, #0x18
+	strh r0, [r4, #0xe]
+	mov r0, r5
+	add r1, r4, #0x10
+	mov r2, #0x30
+	bl MIi_CpuCopy16
+	mov r0, #0
+	strh r0, [r5, #2]
+	strh r0, [r5, #4]
+	strh r0, [r5, #8]
+	strh r0, [r5, #0xa]
+	strh r0, [r5, #0xc]
+	strh r0, [r5, #0x10]
+	strh r0, [r5, #0x12]
+	strh r0, [r5, #0x14]
+	strh r0, [r5, #0x16]
+	strh r0, [r5, #0x24]
+	strh r0, [r5, #0x26]
+	strh r0, [r5, #0x28]
+	strh r0, [r5, #0x2a]
+	ldrh r0, [r4, #0xe]
+	add r1, r4, r0, lsl #1
+	add r5, r1, #0x10
+	ldrh r0, [r4, #0xc]
+	strh r0, [r1, #0x10]
+	mov r0, #2
+	strh r0, [r5, #2]
+	mov r0, r4
+	bl sub_27E0698
+	mov r0, r5
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E2894
+
+	arm_func_start sub_27E294C
+sub_27E294C: // 0x027E294C
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r4, r0
+	mov ip, #0
+	strh ip, [r4]
+	strh ip, [r4, #2]
+	strh ip, [r4, #4]
+	strh ip, [r4, #6]
+	strh ip, [r4, #8]
+	strh ip, [r4, #0xa]
+	mov r0, #0xa
+	strh r0, [r4, #0xc]
+	mov r0, #0xc
+	strh r0, [r4, #0xe]
+	strh ip, [r4, #0x10]
+	strh r1, [r4, #0x12]
+	strh r2, [r4, #0x14]
+	strh r3, [r4, #0x16]
+	ldr r0, [sp, #0x10]
+	add r1, r4, #0x18
+	mov r2, #0x10
+	bl MIi_CpuCopy16
+	ldrh r0, [r4, #0xe]
+	add r1, r4, r0, lsl #1
+	add r5, r1, #0x10
+	ldrh r0, [r4, #0xc]
+	strh r0, [r1, #0x10]
+	mov r0, #0x12
+	strh r0, [r5, #2]
+	mov r0, r4
+	bl sub_27E0698
+	mov r0, r5
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E294C
+
+	arm_func_start sub_27E29D8
+sub_27E29D8: // 0x027E29D8
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	mov r6, r1
+	mov r5, r2
+	mov r4, r3
+	mov r0, #0
+	strh r0, [r7]
+	strh r0, [r7, #2]
+	strh r0, [r7, #4]
+	strh r0, [r7, #6]
+	strh r0, [r7, #8]
+	strh r0, [r7, #0xa]
+	mov r0, #9
+	strh r0, [r7, #0xc]
+	ldrh r0, [sp, #0x28]
+	add r0, r0, #1
+	mov r1, #2
+	bl _s32_div_f
+	add r0, r0, #0x17
+	strh r0, [r7, #0xe]
+	strh r6, [r7, #0x10]
+	mov r0, r5
+	add r1, r7, #0x12
+	mov r2, #0x20
+	bl MIi_CpuCopy16
+	strh r4, [r7, #0x32]
+	ldrh r0, [sp, #0x18]
+	strh r0, [r7, #0x34]
+	ldrh r0, [sp, #0x1c]
+	strh r0, [r7, #0x36]
+	ldrh r0, [sp, #0x20]
+	strh r0, [r7, #0x38]
+	ldrh r0, [sp, #0x24]
+	strh r0, [r7, #0x3a]
+	ldrh r2, [sp, #0x28]
+	strh r2, [r7, #0x3c]
+	ldr r0, [sp, #0x2c]
+	add r1, r7, #0x3e
+	bl MIi_CpuCopy16
+	ldrh r0, [r7, #0xe]
+	add r1, r7, r0, lsl #1
+	add r4, r1, #0x10
+	ldrh r0, [r7, #0xc]
+	strh r0, [r1, #0x10]
+	mov r0, #1
+	strh r0, [r4, #2]
+	mov r0, r7
+	bl sub_27E0698
+	mov r0, r4
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	arm_func_end sub_27E29D8
+
+	arm_func_start sub_27E2AAC
+sub_27E2AAC: // 0x027E2AAC
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r0
+	mov r6, r2
+	mov r5, r3
+	mov r0, #0
+	strh r0, [r4]
+	strh r0, [r4, #2]
+	strh r0, [r4, #4]
+	strh r0, [r4, #6]
+	strh r0, [r4, #8]
+	strh r0, [r4, #0xa]
+	mov r2, #6
+	strh r2, [r4, #0xc]
+	mov r0, #5
+	strh r0, [r4, #0xe]
+	mov r0, r1
+	add r1, r4, #0x10
+	bl MIi_CpuCopy16
+	strh r6, [r4, #0x16]
+	strh r5, [r4, #0x18]
+	ldrh r0, [r4, #0xe]
+	add r1, r4, r0, lsl #1
+	add r5, r1, #0x10
+	ldrh r0, [r4, #0xc]
+	strh r0, [r1, #0x10]
+	mov r0, #3
+	strh r0, [r5, #2]
+	mov r0, r4
+	bl sub_27E0698
+	mov r0, r5
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	arm_func_end sub_27E2AAC
+
+	arm_func_start sub_27E2B2C
+sub_27E2B2C: // 0x027E2B2C
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r4, r0
+	mov r5, r2
+	mov r0, #0
+	strh r0, [r4]
+	strh r0, [r4, #2]
+	strh r0, [r4, #4]
+	strh r0, [r4, #6]
+	strh r0, [r4, #8]
+	strh r0, [r4, #0xa]
+	mov r0, #5
+	strh r0, [r4, #0xc]
+	mov r0, #4
+	strh r0, [r4, #0xe]
+	mov r0, r1
+	add r1, r4, #0x10
+	mov r2, #6
+	bl MIi_CpuCopy16
+	strh r5, [r4, #0x16]
+	ldrh r0, [r4, #0xe]
+	add r1, r4, r0, lsl #1
+	add r5, r1, #0x10
+	ldrh r0, [r4, #0xc]
+	strh r0, [r1, #0x10]
+	mov r0, #4
+	strh r0, [r5, #2]
+	mov r0, r4
+	bl sub_27E0698
+	mov r0, r5
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E2B2C
+
+	arm_func_start sub_27E2BB0
+sub_27E2BB0: // 0x027E2BB0
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r4, r0
+	mov r6, r2
+	mov r5, r3
+	mov r0, #0
+	strh r0, [r4]
+	strh r0, [r4, #2]
+	strh r0, [r4, #4]
+	strh r0, [r4, #6]
+	strh r0, [r4, #8]
+	strh r0, [r4, #0xa]
+	mov r0, #4
+	strh r0, [r4, #0xc]
+	mov r0, #5
+	strh r0, [r4, #0xe]
+	mov r0, r1
+	add r1, r4, #0x10
+	mov r2, #6
+	bl MIi_CpuCopy16
+	strh r6, [r4, #0x16]
+	strh r5, [r4, #0x18]
+	ldrh r0, [r4, #0xe]
+	add r1, r4, r0, lsl #1
+	add r5, r1, #0x10
+	ldrh r0, [r4, #0xc]
+	strh r0, [r1, #0x10]
+	mov r0, #6
+	strh r0, [r5, #2]
+	mov r0, r4
+	bl sub_27E0698
+	mov r0, r5
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	arm_func_end sub_27E2BB0
+
+	arm_func_start sub_27E2C34
+sub_27E2C34: // 0x027E2C34
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r4, r0
+	mov r3, #0
+	strh r3, [r4]
+	strh r3, [r4, #2]
+	strh r3, [r4, #4]
+	strh r3, [r4, #6]
+	strh r3, [r4, #8]
+	strh r3, [r4, #0xa]
+	mov r0, #3
+	strh r0, [r4, #0xc]
+	mov r0, #0x22
+	strh r0, [r4, #0xe]
+	strh r1, [r4, #0x10]
+	strh r3, [r4, #0x12]
+	mov r0, r2
+	add r1, r4, #0x14
+	mov r2, #0x44
+	bl MIi_CpuCopy16
+	ldrh r0, [r4, #0xe]
+	add r1, r4, r0, lsl #1
+	add r5, r1, #0x10
+	ldrh r0, [r4, #0xc]
+	strh r0, [r1, #0x10]
+	mov r0, #5
+	strh r0, [r5, #2]
+	mov r0, r4
+	bl sub_27E0698
+	mov r0, r5
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E2C34
+
+	arm_func_start sub_27E2CB8
+sub_27E2CB8: // 0x027E2CB8
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r5, r0
+	mov r4, r1
+	mov r6, r3
+	mov r0, #0
+	strh r0, [r5]
+	strh r0, [r5, #2]
+	strh r0, [r5, #4]
+	strh r0, [r5, #6]
+	strh r0, [r5, #8]
+	strh r0, [r5, #0xa]
+	mov r0, #2
+	strh r0, [r5, #0xc]
+	mov r0, #0x1f
+	strh r0, [r5, #0xe]
+	mov r0, r2
+	add r1, r5, #0x10
+	mov r2, #6
+	bl MIi_CpuCopy16
+	strh r6, [r5, #0x16]
+	ldr r0, [sp, #0x10]
+	add r1, r5, #0x18
+	mov r2, #0x20
+	bl MIi_CpuCopy16
+	ldrh r0, [sp, #0x14]
+	strh r0, [r5, #0x38]
+	ldr r0, [sp, #0x18]
+	add r1, r5, #0x3a
+	mov r2, #0x10
+	bl MIi_CpuCopy16
+	ldrh r0, [sp, #0x1c]
+	strh r0, [r5, #0x4a]
+	mov r0, #0
+	strh r0, [r5, #0x4c]
+	ldrh r0, [r5, #0xe]
+	add r1, r5, r0, lsl #1
+	add r6, r1, #0x10
+	ldrh r0, [r5, #0xc]
+	strh r0, [r1, #0x10]
+	mov r0, r4, lsr #1
+	sub r0, r0, #0x2c
+	strh r0, [r6, #2]
+	mov r0, r5
+	bl sub_27E0698
+	mov r0, r6
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	arm_func_end sub_27E2CB8
+
+	arm_func_start sub_27E2D74
+sub_27E2D74: // 0x027E2D74
+	stmdb sp!, {r4, lr}
+	mov ip, #0
+	strh ip, [r0]
+	strh ip, [r0, #2]
+	strh ip, [r0, #4]
+	strh ip, [r0, #6]
+	strh ip, [r0, #8]
+	strh ip, [r0, #0xa]
+	mov lr, #1
+	strh lr, [r0, #0xc]
+	mov ip, #3
+	strh ip, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	strh r2, [r0, #0x12]
+	strh r3, [r0, #0x14]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	strh lr, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27E2D74
+
+	arm_func_start sub_27E2DD8
+sub_27E2DD8: // 0x027E2DD8
+	stmdb sp!, {r4, lr}
+	mov r2, #0
+	strh r2, [r0]
+	strh r2, [r0, #2]
+	strh r2, [r0, #4]
+	strh r2, [r0, #6]
+	strh r2, [r0, #8]
+	strh r2, [r0, #0xa]
+	strh r2, [r0, #0xc]
+	mov r3, #1
+	strh r3, [r0, #0xe]
+	strh r1, [r0, #0x10]
+	ldrh r1, [r0, #0xe]
+	add r2, r0, r1, lsl #1
+	add r4, r2, #0x10
+	ldrh r1, [r0, #0xc]
+	strh r1, [r2, #0x10]
+	strh r3, [r4, #2]
+	bl sub_27E0698
+	mov r0, r4
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27E2DD8
+
+	arm_func_start sub_27E2E30
+sub_27E2E30: // 0x027E2E30
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #8
+	ldr r4, [r0, #4]
+	ldr r1, _027E2EDC // =0x027F9454
+	str r4, [r1, #0x54c]
+	ldr r2, [r0, #8]
+	str r2, [r1, #0x550]
+	str r2, [r4]
+	ldr r0, [r0, #0xc]
+	str r0, [r4, #8]
+	bl sub_27E7FA8
+	mov r0, #0xf
+	bl PM_SetLEDPattern
+	mov r1, #1
+	ldr r0, [r4]
+	strh r1, [r0]
+	add r0, sp, #0
+	add r1, sp, #2
+	bl sub_27E8204
+	cmp r0, #0
+	bne _027E2EB0
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	ldrh r1, [sp]
+	strh r1, [r0, #4]
+	ldrh r1, [sp, #2]
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	b _027E2ED0
+_027E2EB0:
+	mov r1, #2
+	ldr r0, [r4]
+	strh r1, [r0]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0
+	strh r1, [r0]
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E2ED0:
+	add sp, sp, #8
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E2EDC: .word 0x027F9454
+	arm_func_end sub_27E2E30
+
+	arm_func_start sub_27E2EE0
+sub_27E2EE0: // 0x027E2EE0
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #1
+	strh r1, [r0]
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E2EE0
+
+	arm_func_start sub_27E2F18
+sub_27E2F18: // 0x027E2F18
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x214
+	ldr r0, _027E3304 // =0x027F9454
+	ldr r7, [r0, #0x550]
+	mov r5, #0
+	bl OS_DisableInterrupts
+	mov r4, r0
+	ldr r0, [r7, #0xc]
+	cmp r0, #1
+	bne _027E2F74
+	mov r0, r5
+	str r0, [r7, #0xc]
+	mov r5, #1
+	bl sub_27E681C
+	bl sub_27E0238
+	ldrh r0, [r7]
+	cmp r0, #0xa
+	moveq r0, #8
+	streqh r0, [r7]
+	beq _027E2F74
+	cmp r0, #9
+	moveq r0, #7
+	streqh r0, [r7]
+_027E2F74:
+	ldrh r1, [r7]
+	ldr r0, _027E3308 // =0x0000FFF9
+	add r0, r1, r0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	cmp r0, #1
+	bhi _027E2FA8
+	add r0, r7, #0x100
+	ldrh sb, [r0, #0x82]
+	cmp r1, #7
+	moveq sl, #1
+	movne sl, #0
+	b _027E2FAC
+_027E2FA8:
+	mov sb, #0
+_027E2FAC:
+	mov r1, #0
+	add r0, r7, #0x100
+	strh r1, [r0, #0x82]
+	strh r1, [r7, #0x86]
+	str r1, [r7, #0x14]
+	str r1, [r7, #0x10]
+	str r1, [r7, #0x1c]
+	strh r1, [r7, #0xc2]
+	mov r0, r4
+	bl OS_RestoreInterrupts
+	cmp r5, #0
+	beq _027E2FE4
+	ldr r0, _027E330C // =0x0000FFFF
+	bl sub_27E6DE4
+_027E2FE4:
+	cmp sl, #0
+	movne r0, #0
+	strneh r0, [r7, #0xf6]
+	cmp sb, #0
+	beq _027E3048
+	mov r8, #0
+	add r5, r7, #0x128
+	ldr r0, _027E3310 // =0x0000018A
+	add fp, r7, r0
+	mov r6, #1
+	mov r4, #6
+_027E3010:
+	mov r0, r6, lsl r8
+	ands r0, sb, r0
+	beq _027E303C
+	cmp r8, #0
+	moveq r2, fp
+	subne r0, r8, #1
+	mlane r2, r0, r4, r5
+	mov r0, sl
+	mov r1, r8, lsl #0x10
+	mov r1, r1, lsr #0x10
+	bl sub_27E4B10
+_027E303C:
+	add r8, r8, #1
+	cmp r8, #0x10
+	blt _027E3010
+_027E3048:
+	add r0, r7, #0x128
+	mov r1, #0
+	mov r2, #0x5a
+	bl MI_CpuFill8
+	add r0, sp, #0x10
+	bl sub_27E21BC
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3078
+	mov r0, #0x308
+	bl sub_27E2EE0
+	b _027E32F8
+_027E3078:
+	ldrh r4, [r0, #6]
+	add r0, sp, #0x10
+	bl sub_27E2274
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E309C
+	mov r0, #0x284
+	bl sub_27E2EE0
+	b _027E32F8
+_027E309C:
+	ldrh r1, [r0, #6]
+	cmp r4, #0x20
+	bgt _027E30F0
+	cmp r4, #0x20
+	bge _027E31CC
+	cmp r4, #0
+	bgt _027E30C4
+	cmp r4, #0
+	beq _027E31F0
+	b _027E32D0
+_027E30C4:
+	cmp r4, #0x12
+	bgt _027E32D0
+	cmp r4, #0x10
+	blt _027E32D0
+	cmp r4, #0x10
+	beq _027E3210
+	cmp r4, #0x11
+	beq _027E3268
+	cmp r4, #0x12
+	beq _027E3268
+	b _027E32D0
+_027E30F0:
+	cmp r4, #0x30
+	bgt _027E3104
+	cmp r4, #0x30
+	beq _027E310C
+	b _027E32D0
+_027E3104:
+	cmp r4, #0x40
+	bne _027E32D0
+_027E310C:
+	ldr r0, _027E3314 // =0x0000FFFE
+	add r0, r1, r0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	cmp r0, #1
+	bhi _027E3194
+	ldr r0, _027E3310 // =0x0000018A
+	add r0, r7, r0
+	add r1, sp, #4
+	mov r2, #6
+	bl MI_CpuCopy8
+	mov r6, #0
+	add r5, sp, #4
+	mov r4, #3
+	b _027E3188
+_027E3148:
+	add r0, sp, #0x10
+	mov r1, r5
+	mov r2, r4
+	bl sub_27E2B2C
+	ldrh r0, [r0, #4]
+	cmp r0, #0
+	beq _027E3178
+	cmp r0, #7
+	beq _027E3184
+	cmp r0, #0xc
+	beq _027E3184
+	b _027E31CC
+_027E3178:
+	mov r0, #3
+	strh r0, [r7]
+	b _027E31CC
+_027E3184:
+	add r6, r6, #1
+_027E3188:
+	cmp r6, #2
+	blt _027E3148
+	b _027E31CC
+_027E3194:
+	cmp r1, #1
+	bne _027E31CC
+	add r0, sp, #0xa
+	mov r1, #0xff
+	mov r2, #6
+	bl MI_CpuFill8
+	add r0, sp, #0x10
+	add r1, sp, #0xa
+	mov r2, #3
+	bl sub_27E2B2C
+	ldrh r0, [r0, #4]
+	cmp r0, #0
+	moveq r0, #3
+	streqh r0, [r7]
+_027E31CC:
+	add r0, sp, #0x10
+	mov r1, #1
+	bl sub_27E2DD8
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E31F0
+	mov r0, #0
+	bl sub_27E2EE0
+	b _027E32F8
+_027E31F0:
+	add r0, sp, #0x10
+	bl sub_27E2244
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3210
+	ldr r0, _027E3318 // =0x00000302
+	bl sub_27E2EE0
+	b _027E32F8
+_027E3210:
+	add r0, r7, #0x100
+	ldrh r0, [r0, #0xee]
+	cmp r0, #0
+	bne _027E3250
+	add r0, sp, #0x10
+	mov r1, #1
+	bl sub_27E2534
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3244
+	ldr r0, _027E331C // =0x0000020E
+	bl sub_27E2EE0
+	b _027E32F8
+_027E3244:
+	mov r1, #1
+	add r0, r7, #0x100
+	strh r1, [r0, #0xee]
+_027E3250:
+	mov r0, #2
+	strh r0, [r7]
+	mov r0, #0
+	str r0, [r7, #0x198]
+	bl sub_27E0100
+	b _027E32E0
+_027E3268:
+	cmp r1, #0
+	bne _027E32A4
+	mov r0, #1
+	str r0, [sp]
+	add r0, sp, #0x10
+	mov r1, #0
+	mov r2, r1
+	mov r3, #0x14
+	bl sub_27E2148
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E32A4
+	ldr r0, _027E3320 // =0x00000309
+	bl sub_27E2EE0
+	b _027E32F8
+_027E32A4:
+	add r0, sp, #0x10
+	bl sub_27E2244
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E32C4
+	ldr r0, _027E3318 // =0x00000302
+	bl sub_27E2EE0
+	b _027E32F8
+_027E32C4:
+	mov r0, #2
+	strh r0, [r7]
+	b _027E32E0
+_027E32D0:
+	mov r0, #0x308
+	mov r1, #0
+	bl sub_27E2EE0
+	b _027E32F8
+_027E32E0:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #1
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E32F8:
+	add sp, sp, #0x214
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027E3304: .word 0x027F9454
+_027E3308: .word 0x0000FFF9
+_027E330C: .word 0x0000FFFF
+_027E3310: .word 0x0000018A
+_027E3314: .word 0x0000FFFE
+_027E3318: .word 0x00000302
+_027E331C: .word 0x0000020E
+_027E3320: .word 0x00000309
+	arm_func_end sub_27E2F18
+
+	arm_func_start sub_27E3324
+sub_27E3324: // 0x027E3324
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #2
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E3324
+
+	arm_func_start sub_27E3360
+sub_27E3360: // 0x027E3360
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #0x200
+	ldr r0, _027E33F0 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldrh r0, [r4]
+	cmp r0, #2
+	beq _027E3398
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #2
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	b _027E33E4
+_027E3398:
+	add r0, sp, #0
+	bl sub_27E225C
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E33B8
+	ldr r0, _027E33F4 // =0x00000301
+	bl sub_27E3324
+	b _027E33E4
+_027E33B8:
+	mov r0, #1
+	strh r0, [r4]
+	bl PM_SetLEDPattern
+	mov r0, #0
+	strh r0, [r4]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #2
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E33E4:
+	add sp, sp, #0x200
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E33F0: .word 0x027F9454
+_027E33F4: .word 0x00000301
+	arm_func_end sub_27E3360
+
+	arm_func_start sub_27E33F8
+sub_27E33F8: // 0x027E33F8
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #7
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E33F8
+
+	arm_func_start sub_27E3434
+sub_27E3434: // 0x027E3434
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #0x200
+	ldr r1, _027E34D4 // =0x027F9454
+	ldr r4, [r1, #0x550]
+	ldr r0, [r0, #4]
+	add r1, r4, #0xe8
+	mov r2, #0x40
+	bl MI_CpuCopy8
+	mov r2, #1
+	add r0, r4, #0x100
+	ldrh r1, [r0, #0x1a]
+	mov r1, r2, lsl r1
+	ldrh r0, [r0, #0xf4]
+	ands r0, r1, r0
+	bne _027E348C
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #7
+	strh r1, [r0]
+	mov r1, #6
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	b _027E34C8
+_027E348C:
+	add r0, sp, #0
+	ldrh r1, [r4, #0xf8]
+	bl sub_27E2468
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E34B0
+	ldr r0, _027E34D8 // =0x00000212
+	bl sub_27E33F8
+	b _027E34C8
+_027E34B0:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #7
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E34C8:
+	add sp, sp, #0x200
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E34D4: .word 0x027F9454
+_027E34D8: .word 0x00000212
+	arm_func_end sub_27E3434
+
+	arm_func_start sub_27E34DC
+sub_27E34DC: // 0x027E34DC
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #8
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	mov r1, #0
+	strh r1, [r0, #8]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E34DC
+
+	arm_func_start sub_27E3520
+sub_27E3520: // 0x027E3520
+	stmdb sp!, {r4, r5, r6, lr}
+	sub sp, sp, #0x2b8
+	ldr r1, _027E379C // =0x027F9454
+	ldr r4, [r1, #0x550]
+	add r6, sp, #0x38
+	ldrh r1, [r4]
+	cmp r1, #2
+	beq _027E3564
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #8
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	mov r1, #0
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E3790
+_027E3564:
+	ldr r5, [r0, #4]
+	add r0, r4, #0x100
+	ldrh r3, [r0, #0xf6]
+	mov r2, #1
+	ldrh r1, [r0, #0x1a]
+	mov r1, r2, lsl r1
+	mov r1, r1, asr #1
+	ands r1, r3, r1
+	bne _027E35AC
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #8
+	strh r1, [r0]
+	mov r1, #6
+	strh r1, [r0, #2]
+	mov r1, #0
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E3790
+_027E35AC:
+	strh r2, [r4, #0xe6]
+	mov r1, #0
+	strh r1, [r0, #0x88]
+	bl OS_DisableInterrupts
+	mov r2, #0
+	add r1, r4, #0x100
+	strh r2, [r1, #0x82]
+	strh r2, [r4, #0x86]
+	bl OS_RestoreInterrupts
+	mov r1, #1
+	add r0, r4, #0x100
+	strh r1, [r0, #0xee]
+	mov r0, #8
+	mov r1, r6
+	bl sub_27E03B8
+	cmp r0, #0
+	beq _027E3790
+	mov r0, r6
+	bl sub_27E222C
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3610
+	ldr r0, _027E37A0 // =0x00000303
+	bl sub_27E34DC
+	b _027E3790
+_027E3610:
+	cmp r5, #0
+	movne r0, #1
+	moveq r0, #0
+	mov r0, r0, lsl #0x10
+	mov r5, r0, lsr #0x10
+	mov r0, r6
+	mov r1, r5
+	mov r2, #0
+	mov r3, #1
+	bl sub_27E2D74
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3650
+	mov r0, #1
+	bl sub_27E34DC
+	b _027E3790
+_027E3650:
+	strh r5, [r4, #0xc6]
+	add r5, r4, #0xe8
+	mov r0, #0
+	add r1, sp, #0x238
+	mov r2, #0x80
+	bl MIi_CpuClear16
+	add r0, sp, #0x238
+	mov r1, r5
+	bl sub_27E0504
+	mov r0, #0
+	add r1, sp, #0x18
+	mov r2, #0x20
+	bl MIi_CpuClear16
+	ldr r0, [r5, #8]
+	strh r0, [sp, #0x18]
+	ldr r0, [r5, #8]
+	mov r0, r0, lsr #0x10
+	strh r0, [sp, #0x1a]
+	ldrh r0, [r5, #0xc]
+	strh r0, [sp, #0x1c]
+	mov r0, #0
+	strh r0, [sp, #0x1e]
+	mov r0, #2
+	str r0, [sp]
+	ldrh r0, [r5, #0x32]
+	str r0, [sp, #4]
+	mov r0, #3
+	str r0, [sp, #8]
+	str r0, [sp, #0xc]
+	ldrh r0, [r5, #4]
+	add r0, r0, #0x10
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	str r0, [sp, #0x10]
+	add r0, sp, #0x238
+	str r0, [sp, #0x14]
+	mov r0, r6
+	mov r1, #0x20
+	add r2, sp, #0x18
+	ldrh r3, [r5, #0x18]
+	bl sub_27E29D8
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E370C
+	mov r0, #9
+	bl sub_27E34DC
+	b _027E3790
+_027E370C:
+	ldrh r0, [r5, #0x14]
+	cmp r0, #0
+	movne r1, #0x2a
+	moveq r1, #0
+	ldrh r0, [r5, #0x34]
+	add r0, r0, r1
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27E00B0
+	ldrh r0, [r5, #0x14]
+	cmp r0, #0
+	movne r1, #6
+	moveq r1, #0
+	ldrh r0, [r5, #0x36]
+	add r0, r0, r1
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27E0060
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #7
+	strh r1, [r4]
+	mov r1, #8
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	strh r1, [r0, #8]
+	ldrh r1, [r4, #0x30]
+	strh r1, [r0, #0x2c]
+	ldrh r1, [r4, #0x32]
+	strh r1, [r0, #0x2e]
+	bl WMSP_ReturnResult2Wm9
+	mov r0, #1
+	strh r0, [r4, #0xc2]
+_027E3790:
+	add sp, sp, #0x2b8
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027E379C: .word 0x027F9454
+_027E37A0: .word 0x00000303
+	arm_func_end sub_27E3520
+
+	arm_func_start sub_27E37A4
+sub_27E37A4: // 0x027E37A4
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #9
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E37A4
+
+	arm_func_start sub_27E37E0
+sub_27E37E0: // 0x027E37E0
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x214
+	ldr r0, _027E39AC // =0x027F9454
+	ldr r8, [r0, #0x550]
+	ldrh r0, [r8]
+	cmp r0, #7
+	beq _027E3818
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #9
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	b _027E39A0
+_027E3818:
+	mov r6, #0
+	strh r6, [r8, #0xf6]
+	mov sl, #1
+	add r4, r8, #0x128
+	mov fp, #6
+	mov r0, #3
+	str r0, [sp]
+	str sl, [sp, #4]
+	mov r5, sl
+_027E383C:
+	mov r7, r5, lsl sl
+	add r0, r8, #0x100
+	ldrh r0, [r0, #0x82]
+	ands r0, r0, r7
+	beq _027E3900
+	sub r1, sl, #1
+	mov r0, #6
+	mla r0, r1, r0, r4
+	add r1, sp, #8
+	mov r2, fp
+	bl MI_CpuCopy8
+	mov sb, r6
+	b _027E38A0
+_027E3870:
+	add r0, sp, #0x10
+	add r1, sp, #8
+	ldr r2, [sp]
+	bl sub_27E2B2C
+	ldrh r0, [r0, #4]
+	cmp r0, #0
+	beq _027E38A8
+	cmp r0, #7
+	beq _027E389C
+	cmp r0, #0xc
+	bne _027E38A8
+_027E389C:
+	add sb, sb, #1
+_027E38A0:
+	cmp sb, #2
+	blt _027E3870
+_027E38A8:
+	bl OS_DisableInterrupts
+	add r1, r8, #0x100
+	ldrh r2, [r1, #0x82]
+	ands r3, r2, r7
+	beq _027E38FC
+	mvn r3, r7
+	and r2, r2, r3
+	strh r2, [r1, #0x82]
+	ldrh r1, [r8, #0x86]
+	and r1, r1, r3
+	strh r1, [r8, #0x86]
+	add r1, r8, sl, lsl #3
+	str r6, [r1, #0x738]
+	str r6, [r1, #0x73c]
+	bl OS_RestoreInterrupts
+	ldr r0, [sp, #4]
+	mov r1, sl, lsl #0x10
+	mov r1, r1, lsr #0x10
+	add r2, sp, #8
+	bl sub_27E4B10
+	b _027E3900
+_027E38FC:
+	bl OS_RestoreInterrupts
+_027E3900:
+	add sl, sl, #1
+	cmp sl, #0x10
+	blt _027E383C
+	add r0, sp, #0x10
+	mov r1, #1
+	bl sub_27E2DD8
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3930
+	mov r0, #0
+	bl sub_27E37A4
+	b _027E39A0
+_027E3930:
+	mov r0, #0
+	strh r0, [r8, #0xc2]
+	mov r0, #3
+	strh r0, [r8]
+	add r0, sp, #0x10
+	bl sub_27E2244
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3960
+	ldr r0, _027E39B0 // =0x00000302
+	bl sub_27E37A4
+	b _027E39A0
+_027E3960:
+	mov r0, #2
+	strh r0, [r8]
+	mov r1, #0
+	str r1, [r8, #0x198]
+	add r0, r8, #0x100
+	strh r1, [r0, #0x96]
+	add r0, r8, #0x19c
+	mov r2, #0x50
+	bl MI_CpuFill8
+	bl sub_27E0100
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #9
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E39A0:
+	add sp, sp, #0x214
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027E39AC: .word 0x027F9454
+_027E39B0: .word 0x00000302
+	arm_func_end sub_27E37E0
+
+	arm_func_start sub_27E39B4
+sub_27E39B4: // 0x027E39B4
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	mov r4, r2
+	bl WMSP_GetBuffer4Callback2Wm9
+	cmp r4, #0
+	movne r1, #0x26
+	strneh r1, [r0]
+	moveq r1, #0xa
+	streqh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	mov r1, #4
+	strh r1, [r0, #8]
+	strh r6, [r0, #4]
+	strh r5, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	arm_func_end sub_27E39B4
+
+	arm_func_start sub_27E3A00
+sub_27E3A00: // 0x027E3A00
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	sub r0, r4, #0x40
+	mov r1, #0x42
+	bl _u32_div_f
+	sub r0, r4, r0, lsl #1
+	add r0, r0, #0x5e
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27E3A00
+
+	arm_func_start sub_27E3A24
+sub_27E3A24: // 0x027E3A24
+	ldrh r2, [r0, #0xa]
+	cmp r2, #0
+	moveq r0, #0
+	bxeq lr
+	cmp r2, #0x20
+	movhi r0, #0
+	bxhi lr
+	mov r3, #0
+	b _027E3A60
+_027E3A48:
+	add r1, r0, r3
+	ldrb r1, [r1, #0xc]
+	cmp r1, #0
+	movne r0, #1
+	bxne lr
+	add r3, r3, #1
+_027E3A60:
+	cmp r3, r2
+	blt _027E3A48
+	mov r0, #0
+	bx lr
+	arm_func_end sub_27E3A24
+
+	arm_func_start sub_27E3A70
+sub_27E3A70: // 0x027E3A70
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldr ip, _027E3F8C // =0x000004CC
+	sub sp, sp, ip
+	mov r8, r0
+	ldr r0, _027E3F90 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldrh r0, [r4]
+	cmp r0, #2
+	beq _027E3AC8
+	cmp r0, #3
+	beq _027E3AC8
+	cmp r0, #5
+	beq _027E3AC8
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x26
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	mov r1, #4
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E3F7C
+_027E3AC8:
+	ldr r0, [r8, #4]
+	str r0, [r4, #0x184]
+	ldrh sl, [r8, #2]
+	add r0, r4, #0x100
+	strh sl, [r0, #0x90]
+	ldrh fp, [r8, #0xa]
+	add r0, r8, #0xc
+	add r1, sp, #0x1c
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldrh r6, [r8, #0x36]
+	ldrh r7, [r8, #0x12]
+	cmp r7, #2
+	beq _027E3B0C
+	cmp r7, #3
+	beq _027E3B18
+	b _027E3B24
+_027E3B0C:
+	mov r5, #1
+	mov r7, #0
+	b _027E3B28
+_027E3B18:
+	mov r5, #1
+	mov r7, r5
+	b _027E3B28
+_027E3B24:
+	mov r5, #0
+_027E3B28:
+	ldrh sb, [r8, #0x14]
+	add r0, r8, #0x16
+	add r1, sp, #0x22
+	mov r2, #0x20
+	bl MI_CpuCopy8
+	ldrh r0, [r8, #8]
+	str r0, [sp, #0x10]
+	ldrh r1, [sp, #0x1c]
+	ldr r0, _027E3F94 // =0x0000FFFF
+	cmp r1, r0
+	beq _027E3B60
+	ands r0, r1, #1
+	bicne r0, r1, #1
+	strneh r0, [sp, #0x1c]
+_027E3B60:
+	mov r0, sl, lsl #0x11
+	mov r1, r0, lsr #0x10
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0xf4]
+	ands sl, r1, r0
+	bne _027E3B9C
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x26
+	strh r1, [r0]
+	mov r1, #6
+	strh r1, [r0, #2]
+	mov r1, #4
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E3F7C
+_027E3B9C:
+	ldr r0, [r8, #4]
+	cmp r0, #0
+	beq _027E3BBC
+	ands r0, r0, #3
+	bne _027E3BBC
+	ldrh r0, [r8, #8]
+	cmp r0, #0x40
+	bhs _027E3BE0
+_027E3BBC:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x26
+	strh r1, [r0]
+	mov r1, #6
+	strh r1, [r0, #2]
+	mov r1, #4
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E3F7C
+_027E3BE0:
+	mov r0, #2
+	strh r0, [r4, #0xe6]
+	add r0, sp, #0x74
+	bl sub_27E21BC
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3C0C
+	mov r0, #0x308
+	mov r2, #1
+	bl sub_27E39B4
+	b _027E3F7C
+_027E3C0C:
+	ldrh r0, [r0, #6]
+	cmp r0, #0x10
+	bne _027E3C90
+	mov r0, #0x26
+	add r1, sp, #0x74
+	bl sub_27E03B8
+	cmp r0, #0
+	beq _027E3F7C
+	add r0, sp, #0x74
+	bl sub_27E222C
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3C50
+	ldr r0, _027E3F98 // =0x00000303
+	mov r2, #1
+	bl sub_27E39B4
+	b _027E3F7C
+_027E3C50:
+	mov r0, #3
+	strh r0, [r4]
+	add r0, sp, #0x74
+	mov r1, #1
+	mov r2, #0
+	mov r3, r1
+	bl sub_27E2D74
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3C88
+	mov r0, #1
+	mov r2, r0
+	bl sub_27E39B4
+	b _027E3F7C
+_027E3C88:
+	mov r0, #1
+	strh r0, [r4, #0xc6]
+_027E3C90:
+	cmp r7, #0
+	bne _027E3CE0
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0xee]
+	cmp r0, #1
+	bne _027E3D24
+	add r0, sp, #0x74
+	mov r1, #0
+	bl sub_27E2534
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3CD0
+	ldr r0, _027E3F9C // =0x0000020E
+	mov r2, #1
+	bl sub_27E39B4
+	b _027E3F7C
+_027E3CD0:
+	mov r1, #0
+	add r0, r4, #0x100
+	strh r1, [r0, #0xee]
+	b _027E3D24
+_027E3CE0:
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0xee]
+	cmp r0, #0
+	bne _027E3D24
+	add r0, sp, #0x74
+	mov r1, #1
+	bl sub_27E2534
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3D18
+	ldr r0, _027E3F9C // =0x0000020E
+	mov r2, #1
+	bl sub_27E39B4
+	b _027E3F7C
+_027E3D18:
+	mov r1, #1
+	add r0, r4, #0x100
+	strh r1, [r0, #0xee]
+_027E3D24:
+	cmp r5, #1
+	bne _027E3D7C
+	add r0, sp, #0x42
+	mov r1, #0xff
+	mov r2, #0x20
+	bl MI_CpuFill8
+	cmp r6, #0x20
+	bhi _027E3D54
+	add r0, sp, #0x42
+	mov r1, #0
+	mov r2, r6
+	bl MI_CpuFill8
+_027E3D54:
+	add r0, sp, #0x74
+	add r1, sp, #0x42
+	bl sub_27E2594
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E3D7C
+	ldr r0, _027E3FA0 // =0x0000020D
+	mov r2, #1
+	bl sub_27E39B4
+	b _027E3F7C
+_027E3D7C:
+	mov r0, #5
+	strh r0, [r4]
+	mov r5, #0
+	add r0, sp, #0x62
+	mov r1, r5
+	mov r2, #0x10
+	bl MI_CpuFill8
+	mov r3, #1
+	add r1, sp, #0x62
+	mov r2, r3
+_027E3DA4:
+	mov r0, r2, lsl r3
+	ands r0, sl, r0
+	strneb r3, [r1, r5]
+	addne r0, r5, #1
+	movne r0, r0, lsl #0x10
+	movne r5, r0, lsr #0x10
+	add r0, r3, #1
+	mov r0, r0, lsl #0x10
+	mov r3, r0, lsr #0x10
+	cmp r3, #0xf
+	blo _027E3DA4
+	ldr r0, [sp, #0x10]
+	bl sub_27E3A00
+	mov r1, r0
+	add r0, sp, #0x22
+	str r0, [sp]
+	str r7, [sp, #4]
+	add r0, sp, #0x62
+	str r0, [sp, #8]
+	str fp, [sp, #0xc]
+	add r0, sp, #0x74
+	add r2, sp, #0x1c
+	mov r3, sb
+	bl sub_27E2CB8
+	mov r8, r0
+	ldrh r1, [r8, #4]
+	cmp r1, #0
+	beq _027E3E24
+	mov r0, #2
+	mov r2, #1
+	bl sub_27E39B4
+	b _027E3F7C
+_027E3E24:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r7, r0
+	ldrh r0, [r8, #8]
+	cmp r0, #0
+	bne _027E3E60
+	mov r0, #0x26
+	strh r0, [r7]
+	mov r1, #0
+	strh r1, [r7, #2]
+	mov r0, #4
+	strh r0, [r7, #8]
+	strh r1, [r7, #0xe]
+	mov r0, sl, asr #1
+	strh r0, [r7, #0xa]
+	b _027E3F74
+_027E3E60:
+	add r5, r8, #0xa
+	ldr r4, [r4, #0x184]
+	mov r0, #0
+	mov r1, r4
+	ldr r2, [sp, #0x10]
+	bl MIi_CpuClear16
+	mov r6, #0
+	mov r0, #0x20
+	str r0, [sp, #0x18]
+	b _027E3F40
+_027E3E88:
+	ldrh r0, [r5]
+	mov r0, r0, lsl #0x11
+	mov r0, r0, lsr #0x10
+	str r0, [sp, #0x14]
+	mov r0, r5
+	mov r1, r4
+	ldr r2, [sp, #0x14]
+	bl MI_CpuCopy8
+	cmp sb, #0
+	beq _027E3ED4
+	mov r0, r4
+	bl sub_27E3A24
+	cmp r0, #0
+	bne _027E3ED4
+	strh sb, [r4, #0xa]
+	add r0, sp, #0x22
+	add r1, r4, #0xc
+	ldr r2, [sp, #0x18]
+	bl MI_CpuCopy8
+_027E3ED4:
+	add r0, r7, r6, lsl #2
+	str r4, [r0, #0x10]
+	ldrh r0, [r5, #2]
+	and r1, r0, #0xff
+	ands r0, r1, #2
+	movne r0, r1, asr #2
+	andne fp, r0, #0xff
+	moveq r0, r1, asr #2
+	addeq r0, r0, #0x19
+	andeq fp, r0, #0xff
+	mov r0, fp
+	bl sub_27E0298
+	add r1, r7, r6, lsl #1
+	strh r0, [r1, #0x50]
+	ldr r0, _027E3FA4 // =0x027FFF98
+	ldrh r0, [r0]
+	eor r0, fp, r0, lsl #1
+	eor r1, r0, r0, lsr #16
+	ldr r0, _027E3FA4 // =0x027FFF98
+	strh r1, [r0]
+	ldr r0, [sp, #0x14]
+	add r5, r5, r0
+	add r4, r4, r0
+	ands r0, r4, #2
+	addne r0, r4, #2
+	bicne r4, r0, #3
+	add r6, r6, #1
+_027E3F40:
+	ldrh r0, [r8, #8]
+	cmp r6, r0
+	blt _027E3E88
+	mov r0, #0x26
+	strh r0, [r7]
+	mov r0, #0
+	strh r0, [r7, #2]
+	mov r0, #5
+	strh r0, [r7, #8]
+	ldrh r0, [r8, #8]
+	strh r0, [r7, #0xe]
+	mov r0, sl, asr #1
+	strh r0, [r7, #0xa]
+_027E3F74:
+	mov r0, r7
+	bl WMSP_ReturnResult2Wm9
+_027E3F7C:
+	ldr ip, _027E3F8C // =0x000004CC
+	add sp, sp, ip
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027E3F8C: .word 0x000004CC
+_027E3F90: .word 0x027F9454
+_027E3F94: .word 0x0000FFFF
+_027E3F98: .word 0x00000303
+_027E3F9C: .word 0x0000020E
+_027E3FA0: .word 0x0000020D
+_027E3FA4: .word 0x027FFF98
+	arm_func_end sub_27E3A70
+
+	arm_func_start sub_27E3FA8
+sub_27E3FA8: // 0x027E3FA8
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #0x24c
+	add r6, sp, #0x48
+	ldr r1, _027E4330 // =0x027F9454
+	ldr r4, [r1, #0x550]
+	ldrh r1, [r4]
+	cmp r1, #2
+	beq _027E3FFC
+	cmp r1, #3
+	beq _027E3FFC
+	cmp r1, #5
+	beq _027E3FFC
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xa
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	mov r1, #4
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E4324
+_027E3FFC:
+	ldr r1, [r0, #4]
+	str r1, [r4, #0x184]
+	ldrh r7, [r0, #2]
+	add r1, r4, #0x100
+	strh r7, [r1, #0x90]
+	ldrh r5, [r0, #8]
+	add r0, r0, #0xa
+	add r1, sp, #0x10
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldrh r1, [sp, #0x10]
+	ldr r0, _027E4334 // =0x0000FFFF
+	cmp r1, r0
+	beq _027E4040
+	ands r0, r1, #1
+	bicne r0, r1, #1
+	strneh r0, [sp, #0x10]
+_027E4040:
+	cmp r7, #0
+	bne _027E406C
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xa
+	strh r1, [r0]
+	mov r1, #6
+	strh r1, [r0, #2]
+	mov r1, #4
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E4324
+_027E406C:
+	mov r0, #1
+	mov r1, r0, lsl r7
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0xf4]
+	ands r0, r1, r0
+	bne _027E40A8
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xa
+	strh r1, [r0]
+	mov r1, #6
+	strh r1, [r0, #2]
+	mov r1, #4
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E4324
+_027E40A8:
+	mov r0, #2
+	strh r0, [r4, #0xe6]
+	mov r0, r6
+	bl sub_27E21BC
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E40D4
+	mov r0, #0x308
+	mov r2, #0
+	bl sub_27E39B4
+	b _027E4324
+_027E40D4:
+	ldrh r0, [r0, #6]
+	cmp r0, #0x10
+	bne _027E4158
+	mov r0, #0xa
+	mov r1, r6
+	bl sub_27E03B8
+	cmp r0, #0
+	beq _027E4324
+	mov r0, r6
+	bl sub_27E222C
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E4118
+	ldr r0, _027E4338 // =0x00000303
+	mov r2, #0
+	bl sub_27E39B4
+	b _027E4324
+_027E4118:
+	mov r0, #3
+	strh r0, [r4]
+	mov r0, r6
+	mov r1, #1
+	mov r2, #0
+	mov r3, r1
+	bl sub_27E2D74
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E4150
+	mov r0, #1
+	mov r2, #0
+	bl sub_27E39B4
+	b _027E4324
+_027E4150:
+	mov r0, #1
+	strh r0, [r4, #0xc6]
+_027E4158:
+	mov r0, #5
+	strh r0, [r4]
+	ldr r0, _027E4334 // =0x0000FFFF
+	add r1, sp, #0x16
+	mov r2, #0x20
+	bl MIi_CpuClear16
+	strb r7, [sp, #0x36]
+	add r0, sp, #0x37
+	mov r1, #0
+	mov r2, #0xf
+	bl MI_CpuFill8
+	add r0, sp, #0x16
+	str r0, [sp]
+	mov r0, #1
+	str r0, [sp, #4]
+	add r0, sp, #0x36
+	str r0, [sp, #8]
+	str r5, [sp, #0xc]
+	mov r0, r6
+	ldr r1, _027E433C // =0x0000011E
+	add r2, sp, #0x10
+	mov r3, #0
+	bl sub_27E2CB8
+	mov r6, r0
+	ldrh r1, [r6, #4]
+	cmp r1, #0
+	beq _027E41D4
+	mov r0, #2
+	mov r2, #0
+	bl sub_27E39B4
+	b _027E4324
+_027E41D4:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r5, r0
+	ldrh r0, [r6, #8]
+	cmp r0, #0
+	bne _027E420C
+	mov r0, #0xa
+	strh r0, [r5]
+	mov r1, #0
+	strh r1, [r5, #2]
+	mov r0, #4
+	strh r0, [r5, #8]
+	strh r7, [r5, #0x10]
+	strh r1, [r5, #0x12]
+	b _027E431C
+_027E420C:
+	mov r0, #0
+	ldr r1, [r4, #0x184]
+	add r1, r1, #0x40
+	mov r2, #0x80
+	bl MIi_CpuClear16
+	add r0, r6, #0xa
+	ldr r1, [r4, #0x184]
+	ldrh r2, [r6, #0xa]
+	mov r2, r2, lsl #1
+	bl MI_CpuCopy8
+	mov r0, #0xa
+	strh r0, [r5]
+	mov r0, #0
+	strh r0, [r5, #2]
+	mov r0, #5
+	strh r0, [r5, #8]
+	ldrh r0, [r6, #0x40]
+	strh r0, [r5, #0x10]
+	ldrh r0, [r6, #0xc]
+	and r1, r0, #0xff
+	ands r0, r1, #2
+	movne r0, r1, asr #2
+	andne r4, r0, #0xff
+	moveq r0, r1, asr #2
+	addeq r0, r0, #0x19
+	andeq r4, r0, #0xff
+	mov r0, r4
+	bl sub_27E0298
+	strh r0, [r5, #0x12]
+	ldr r1, _027E4340 // =0x027FFF98
+	ldrh r0, [r1]
+	eor r0, r4, r0, lsl #1
+	eor r0, r0, r0, lsr #16
+	strh r0, [r1]
+	ldrh r0, [r6, #0x14]
+	strh r0, [r5, #0x14]
+	add r0, r6, #0xe
+	add r1, r5, #0xa
+	mov r2, #6
+	bl MI_CpuCopy8
+	add r0, r6, #0x16
+	add r1, r5, #0x16
+	mov r2, #0x20
+	bl MIi_CpuCopy16
+	ldrh r0, [r6, #0x46]
+	strh r0, [r5, #0x36]
+	ldrh r0, [r5, #0x36]
+	cmp r0, #0x80
+	bls _027E42F4
+	mov r0, #0xa
+	strh r0, [r5]
+	mov r1, #0
+	strh r1, [r5, #2]
+	mov r0, #4
+	strh r0, [r5, #8]
+	strh r7, [r5, #0x10]
+	strh r1, [r5, #0x12]
+	b _027E431C
+_027E42F4:
+	mov r0, #0
+	add r1, r5, #0x38
+	mov r2, #0x80
+	bl MIi_CpuClear16
+	add r0, r6, #0x4a
+	add r1, r5, #0x38
+	ldrh r2, [r5, #0x36]
+	add r2, r2, #1
+	bic r2, r2, #1
+	bl MIi_CpuCopy16
+_027E431C:
+	mov r0, r5
+	bl WMSP_ReturnResult2Wm9
+_027E4324:
+	add sp, sp, #0x24c
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027E4330: .word 0x027F9454
+_027E4334: .word 0x0000FFFF
+_027E4338: .word 0x00000303
+_027E433C: .word 0x0000011E
+_027E4340: .word 0x027FFF98
+	arm_func_end sub_27E3FA8
+
+	arm_func_start sub_27E4344
+sub_27E4344: // 0x027E4344
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xb
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E4344
+
+	arm_func_start sub_27E4380
+sub_27E4380: // 0x027E4380
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #0x204
+	add r5, sp, #0
+	ldr r0, _027E4448 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldrh r0, [r4]
+	cmp r0, #5
+	beq _027E43BC
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xb
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	b _027E443C
+_027E43BC:
+	mov r0, r5
+	bl sub_27E2244
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E43DC
+	ldr r0, _027E444C // =0x00000302
+	bl sub_27E4344
+	b _027E443C
+_027E43DC:
+	mov r0, #2
+	strh r0, [r4]
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0xee]
+	cmp r0, #0
+	bne _027E4424
+	mov r0, r5
+	mov r1, #1
+	bl sub_27E2534
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E4418
+	ldr r0, _027E4450 // =0x0000020E
+	bl sub_27E4344
+	b _027E443C
+_027E4418:
+	mov r1, #1
+	add r0, r4, #0x100
+	strh r1, [r0, #0xee]
+_027E4424:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xb
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E443C:
+	add sp, sp, #0x204
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E4448: .word 0x027F9454
+_027E444C: .word 0x00000302
+_027E4450: .word 0x0000020E
+	arm_func_end sub_27E4380
+
+	arm_func_start sub_27E4454
+sub_27E4454: // 0x027E4454
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	mov r4, r2
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xc
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r6, [r0, #4]
+	strh r5, [r0, #6]
+	strh r4, [r0, #0xe]
+	bl WMSP_ReturnResult2Wm9
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	arm_func_end sub_27E4454
+
+	arm_func_start sub_27E4490
+sub_27E4490: // 0x027E4490
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #0x250
+	mov r6, r0
+	add r4, sp, #0xc
+	ldr r0, _027E4A5C // =0x027F9454
+	ldr r7, [r0, #0x54c]
+	ldr r5, [r0, #0x550]
+	ldrh r0, [r5]
+	cmp r0, #2
+	beq _027E44DC
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xc
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	mov r1, #6
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E4A50
+_027E44DC:
+	ldr r0, [r6, #4]
+	add r1, r7, #0x10
+	mov r2, #0xc0
+	bl MI_CpuCopy8
+	ldrh r0, [r7, #0x4c]
+	cmp r0, #0x10
+	blo _027E4528
+	ldrb r0, [r7, #0x5b]
+	ands r0, r0, #1
+	bne _027E4528
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xc
+	strh r1, [r0]
+	mov r1, #0xb
+	strh r1, [r0, #2]
+	mov r1, #6
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E4A50
+_027E4528:
+	mov r1, #1
+	ldrh r0, [r7, #0x46]
+	mov r1, r1, lsl r0
+	add r0, r5, #0x100
+	ldrh r0, [r0, #0xf4]
+	ands r0, r1, r0
+	beq _027E4554
+	mov r1, r1, asr #1
+	ldr r0, _027E4A60 // =0x00001FFF
+	ands r0, r1, r0
+	bne _027E4574
+_027E4554:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xc
+	strh r1, [r0]
+	mov r1, #6
+	strh r1, [r0, #2]
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E4A50
+_027E4574:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xc
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #6
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	add r0, r5, #0x100
+	ldrh r1, [r0, #0xec]
+	cmp r1, #1
+	bne _027E45C0
+	ldrh r1, [r7, #0x3e]
+	ands r1, r1, #1
+	movne r1, #1
+	strneh r1, [r0, #0xec]
+	moveq r1, #2
+	streqh r1, [r0, #0xec]
+	b _027E45D8
+_027E45C0:
+	ldrh r1, [r7, #0x3e]
+	ands r1, r1, #2
+	movne r1, #2
+	strneh r1, [r0, #0xec]
+	moveq r1, #1
+	streqh r1, [r0, #0xec]
+_027E45D8:
+	ldrh r0, [r7, #0x3c]
+	ands r0, r0, #0x20
+	movne r1, #1
+	addne r0, r5, #0x100
+	strneh r1, [r0, #0xee]
+	moveq r1, #0
+	addeq r0, r5, #0x100
+	streqh r1, [r0, #0xee]
+	ldrh r0, [r7, #0x4c]
+	cmp r0, #0
+	moveq r0, #3
+	streqh r0, [r5, #0xe6]
+	movne r0, #2
+	strneh r0, [r5, #0xe6]
+	mov r0, #0xc
+	mov r1, r4
+	bl sub_27E03B8
+	cmp r0, #0
+	beq _027E4A50
+	mov r0, r4
+	mov r1, #0
+	bl sub_27E23A8
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E464C
+	ldr r0, _027E4A64 // =0x00000216
+	mov r2, #0
+	bl sub_27E4454
+	b _027E4A50
+_027E464C:
+	ldrh r0, [r7, #0x4c]
+	cmp r0, #0x10
+	bhs _027E46A8
+	ldrh r1, [r7, #0x42]
+	cmp r1, #0
+	moveq r0, #1
+	beq _027E4674
+	ldr r0, _027E4A68 // =0x00002710
+	bl _s32_div_f
+	add r0, r0, #1
+_027E4674:
+	mov r0, r0, lsl #0x10
+	mov r1, r0, lsr #0x10
+	cmp r1, #0xff
+	movhi r1, #0xff
+	mov r0, r4
+	bl sub_27E2614
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E46A8
+	ldr r0, _027E4A6C // =0x0000020B
+	mov r2, #0
+	bl sub_27E4454
+	b _027E4A50
+_027E46A8:
+	mov r0, r4
+	bl sub_27E222C
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E46CC
+	ldr r0, _027E4A70 // =0x00000303
+	mov r2, #0
+	bl sub_27E4454
+	b _027E4A50
+_027E46CC:
+	mov r0, #3
+	strh r0, [r5]
+	ldr r0, [r6, #0x20]
+	cmp r0, #0
+	movne r0, #1
+	moveq r0, #0
+	mov r0, r0, lsl #0x10
+	mov r8, r0, lsr #0x10
+	mov r0, r4
+	mov r1, r8
+	mov r2, #0
+	mov r3, #1
+	bl sub_27E2D74
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E471C
+	mov r0, #1
+	mov r2, #0
+	bl sub_27E4454
+	b _027E4A50
+_027E471C:
+	strh r8, [r5, #0xc6]
+	add r0, r7, #0x10
+	add r1, sp, #0x20c
+	mov r2, #0x40
+	bl MI_CpuCopy8
+	ldrh r0, [r5, #0xe6]
+	cmp r0, #2
+	bne _027E477C
+	mov r1, #0x20
+	add r0, sp, #0x200
+	strh r1, [r0, #0x16]
+	ldr r1, [r7, #0x54]
+	strh r1, [r0, #0x18]
+	ldr r1, [r7, #0x54]
+	mov r1, r1, lsr #0x10
+	strh r1, [r0, #0x1a]
+	ldrh r1, [r7, #0x58]
+	strh r1, [r0, #0x1c]
+	mov r1, #0
+	strh r1, [r0, #0x1e]
+	add r0, r6, #8
+	add r1, sp, #0x220
+	mov r2, #0x18
+	bl MI_CpuCopy8
+_027E477C:
+	mov r0, r4
+	mov r1, #0x7d0
+	add r2, sp, #0x20c
+	bl sub_27E2C34
+	mov r2, r0
+	ldrh r1, [r2, #4]
+	cmp r1, #0
+	bne _027E47A8
+	ldrh r0, [r2, #6]
+	cmp r0, #0
+	beq _027E47B8
+_027E47A8:
+	mov r0, #3
+	ldrh r2, [r2, #6]
+	bl sub_27E4454
+	b _027E4A50
+_027E47B8:
+	add r0, r2, #8
+	ldr r1, _027E4A74 // =0x0000018A
+	add r1, r5, r1
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldr r0, _027E4A74 // =0x0000018A
+	add r0, r5, r0
+	add r1, sp, #0
+	mov r2, #6
+	bl MI_CpuCopy8
+	mov r0, r4
+	add r1, sp, #0
+	ldrh r2, [r6, #0x26]
+	mov r3, #0x7d0
+	bl sub_27E2BB0
+	mov r2, r0
+	ldrh r1, [r2, #4]
+	cmp r1, #0xc
+	bne _027E4830
+	ldrh r0, [r2, #6]
+	cmp r0, #0x13
+	bne _027E4830
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xc
+	strh r1, [r0]
+	strh r1, [r0, #2]
+	mov r1, #6
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E4A50
+_027E4830:
+	cmp r1, #0
+	bne _027E4844
+	ldrh r0, [r2, #6]
+	cmp r0, #0
+	beq _027E4854
+_027E4844:
+	mov r0, #4
+	ldrh r2, [r2, #6]
+	bl sub_27E4454
+	b _027E4A50
+_027E4854:
+	ldr r0, _027E4A74 // =0x0000018A
+	add r0, r5, r0
+	add r1, sp, #6
+	mov r2, #6
+	bl MI_CpuCopy8
+	mov r0, r4
+	add r1, sp, #6
+	mov r2, #1
+	mov r3, #0x7d0
+	bl sub_27E2AAC
+	mov r4, r0
+	bl OS_DisableInterrupts
+	mov r6, r0
+	ldrh r2, [r4, #4]
+	cmp r2, #0xc
+	bne _027E48C4
+	ldrh r1, [r4, #6]
+	cmp r1, #0x13
+	bne _027E48C4
+	bl OS_RestoreInterrupts
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xc
+	strh r1, [r0]
+	strh r1, [r0, #2]
+	mov r1, #6
+	strh r1, [r0, #8]
+	bl WMSP_ReturnResult2Wm9
+	b _027E4A50
+_027E48C4:
+	cmp r2, #0
+	bne _027E48D8
+	ldrh r0, [r4, #6]
+	cmp r0, #0
+	beq _027E48F4
+_027E48D8:
+	mov r0, r6
+	bl OS_RestoreInterrupts
+	mov r0, #6
+	ldrh r1, [r4, #4]
+	ldrh r2, [r4, #6]
+	bl sub_27E4454
+	b _027E4A50
+_027E48F4:
+	ldrh r1, [r4, #8]
+	add r0, r5, #0x100
+	strh r1, [r0, #0x88]
+	ldrh r0, [r7, #0x58]
+	strh r0, [r5, #0xba]
+	mov r0, #1
+	add r1, r5, #0x1f8
+	mov r2, #0x10
+	bl MIi_CpuClear16
+	ldrh r0, [r7, #0x12]
+	and r1, r0, #0xff
+	ands r0, r1, #2
+	movne r0, r1, asr #2
+	andne r4, r0, #0xff
+	moveq r0, r1, asr #2
+	addeq r0, r0, #0x19
+	andeq r4, r0, #0xff
+	mov r0, r4
+	bl sub_27E0298
+	strh r0, [r5, #0xbc]
+	mov r0, r4
+	bl sub_27E033C
+	bl OS_DisableInterrupts
+	mov r4, r0
+	mov r1, #1
+	add r0, r5, #0x100
+	strh r1, [r0, #0x82]
+	strh r1, [r5, #0x86]
+	ldr r2, [r5, #0x7b8]
+	ldr r1, [r5, #0x7bc]
+	mov r0, #0
+	cmp r1, r0
+	cmpeq r2, r0
+	beq _027E4990
+	bl OS_GetTick
+	orr r1, r1, #0
+	orr r0, r0, #1
+	str r0, [r5, #0x738]
+	str r1, [r5, #0x73c]
+_027E4990:
+	mov r0, #8
+	strh r0, [r5]
+	ldrb r0, [r7, #0x5b]
+	ands r0, r0, #4
+	movne r1, #0x2a
+	moveq r1, #0
+	ldrh r0, [r7, #0x5c]
+	add r0, r0, r1
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27E00B0
+	ldrb r0, [r7, #0x5b]
+	ands r0, r0, #4
+	movne r1, #6
+	moveq r1, #0
+	ldrh r0, [r7, #0x5e]
+	add r0, r0, r1
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27E0060
+	mov r0, r4
+	bl OS_RestoreInterrupts
+	mov r0, #1
+	strh r0, [r5, #0xc2]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r4, r0
+	mov r0, #0xc
+	strh r0, [r4]
+	mov r0, #0
+	strh r0, [r4, #2]
+	mov r0, #7
+	strh r0, [r4, #8]
+	add r0, r5, #0x100
+	ldrh r0, [r0, #0x88]
+	strh r0, [r4, #0xa]
+	ldr r0, _027E4A74 // =0x0000018A
+	add r0, r5, r0
+	add r1, r4, #0x10
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldrh r0, [r5, #0x30]
+	strh r0, [r4, #0x16]
+	ldrh r0, [r5, #0x32]
+	strh r0, [r4, #0x18]
+	mov r0, r4
+	bl WMSP_ReturnResult2Wm9
+	mov r0, r6
+	bl OS_RestoreInterrupts
+_027E4A50:
+	add sp, sp, #0x250
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027E4A5C: .word 0x027F9454
+_027E4A60: .word 0x00001FFF
+_027E4A64: .word 0x00000216
+_027E4A68: .word 0x00002710
+_027E4A6C: .word 0x0000020B
+_027E4A70: .word 0x00000303
+_027E4A74: .word 0x0000018A
+	arm_func_end sub_27E4490
+
+	arm_func_start sub_27E4A78
+sub_27E4A78: // 0x027E4A78
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	mov r6, r1
+	mov r5, r2
+	mov r4, r3
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x25
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r7, [r0, #4]
+	strh r6, [r0, #6]
+	strh r5, [r0, #8]
+	strh r4, [r0, #0xa]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	arm_func_end sub_27E4A78
+
+	arm_func_start sub_27E4AC4
+sub_27E4AC4: // 0x027E4AC4
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	mov r6, r1
+	mov r5, r2
+	mov r4, r3
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xd
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r7, [r0, #4]
+	strh r6, [r0, #6]
+	strh r5, [r0, #8]
+	strh r4, [r0, #0xa]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	arm_func_end sub_27E4AC4
+
+	arm_func_start sub_27E4B10
+sub_27E4B10: // 0x027E4B10
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r8, r0
+	mov r7, r1
+	mov r6, r2
+	ldr r0, _027E4BD4 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r5, r0
+	mov r0, #0
+	strh r0, [r5, #2]
+	cmp r8, #0
+	beq _027E4B80
+	mov r0, #8
+	strh r0, [r5]
+	mov r0, #0x1a
+	strh r0, [r5, #8]
+	ldr r0, _027E4BD8 // =0x0000F001
+	strh r0, [r5, #0x12]
+	strh r7, [r5, #0x10]
+	mov r0, r6
+	add r1, r5, #0xa
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldrh r0, [r4, #0x30]
+	strh r0, [r5, #0x2c]
+	ldrh r0, [r4, #0x32]
+	strh r0, [r5, #0x2e]
+	b _027E4BC4
+_027E4B80:
+	mov r0, #0xc
+	strh r0, [r5]
+	mov r0, #0x1a
+	strh r0, [r5, #8]
+	ldr r0, _027E4BD8 // =0x0000F001
+	strh r0, [r5, #0xc]
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0x88]
+	strh r0, [r5, #0xa]
+	mov r0, r6
+	add r1, r5, #0x10
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldrh r0, [r4, #0x30]
+	strh r0, [r5, #0x16]
+	ldrh r0, [r4, #0x32]
+	strh r0, [r5, #0x18]
+_027E4BC4:
+	mov r0, r5
+	bl WMSP_ReturnResult2Wm9
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027E4BD4: .word 0x027F9454
+_027E4BD8: .word 0x0000F001
+	arm_func_end sub_27E4B10
+
+	arm_func_start sub_27E4BDC
+sub_27E4BDC: // 0x027E4BDC
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x244
+	movs sl, r1
+	str r2, [sp]
+	ldr r1, _027E51D0 // =0x027F9454
+	ldr r5, [r1, #0x550]
+	ldr r1, [r0, #4]
+	mov r1, r1, lsl #0x10
+	mov sb, r1, lsr #0x10
+	ldrne r0, [r0, #8]
+	moveq r0, #0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	str r0, [sp, #4]
+	mov r8, #0
+	mov r7, r8
+	ldrh r0, [r5]
+	cmp r0, #9
+	beq _027E4C30
+	cmp r0, #7
+	bne _027E4C40
+_027E4C30:
+	ldr r0, [r5, #0xc]
+	cmp r0, #1
+	moveq r7, #1
+	b _027E4D3C
+_027E4C40:
+	cmp r0, #0xa
+	beq _027E4C50
+	cmp r0, #8
+	bne _027E4D00
+_027E4C50:
+	bl OS_DisableInterrupts
+	mov r4, r0
+	add r1, r5, #0x100
+	ldrh r1, [r1, #0x82]
+	cmp r1, #0
+	bne _027E4CA8
+	bl OS_RestoreInterrupts
+	cmp sl, #0
+	bne _027E4CA0
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xd
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	mov r1, #0
+	strh r1, [r0, #4]
+	strh r1, [r0, #6]
+	strh sb, [r0, #8]
+	strh r1, [r0, #0xa]
+	bl WMSP_ReturnResult2Wm9
+_027E4CA0:
+	mov r0, #0
+	b _027E51C4
+_027E4CA8:
+	ldr r0, [r5, #0xc]
+	cmp r0, #1
+	bne _027E4CD8
+	mov r0, #0
+	str r0, [r5, #0xc]
+	mov r7, #1
+	bl sub_27E681C
+	bl sub_27E0238
+	ldrh r0, [r5]
+	cmp r0, #0xa
+	moveq r0, #8
+	streqh r0, [r5]
+_027E4CD8:
+	mov r1, #0
+	add r0, r5, #0x100
+	strh r1, [r0, #0x82]
+	strh r1, [r5, #0x86]
+	str r1, [r5, #0x14]
+	str r1, [r5, #0x10]
+	str r1, [r5, #0x1c]
+	mov r0, r4
+	bl OS_RestoreInterrupts
+	b _027E4D3C
+_027E4D00:
+	cmp sl, #0
+	bne _027E4D34
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xd
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	mov r1, r8
+	strh r1, [r0, #4]
+	strh r1, [r0, #6]
+	strh sb, [r0, #8]
+	strh r1, [r0, #0xa]
+	bl WMSP_ReturnResult2Wm9
+_027E4D34:
+	mov r0, #0
+	b _027E51C4
+_027E4D3C:
+	ldrh r0, [r5]
+	cmp r0, #0xa
+	beq _027E4D50
+	cmp r0, #8
+	bne _027E4F94
+_027E4D50:
+	ldr r0, _027E51D4 // =0x0000018A
+	add r0, r5, r0
+	add r1, sp, #0x38
+	mov r2, #6
+	bl MI_CpuCopy8
+	mov r8, #0
+	add r6, sp, #0x38
+	mov r4, #3
+	b _027E4E10
+_027E4D74:
+	add r0, sp, #0x44
+	mov r1, r6
+	mov r2, r4
+	bl sub_27E2B2C
+	ldrh r1, [r0, #4]
+	cmp r1, #7
+	bgt _027E4DBC
+	cmp r1, #7
+	bge _027E4DC4
+	cmp r1, #1
+	bgt _027E4DCC
+	cmp r1, #0
+	blt _027E4DCC
+	cmp r1, #0
+	beq _027E4E18
+	cmp r1, #1
+	beq _027E4E18
+	b _027E4DCC
+_027E4DBC:
+	cmp r1, #0xc
+	bne _027E4DCC
+_027E4DC4:
+	add r8, r8, #1
+	b _027E4E10
+_027E4DCC:
+	cmp sl, #0
+	beq _027E4DE8
+	mov r0, #5
+	mov r2, sb
+	mov r3, #0
+	bl sub_27E4A78
+	b _027E4DF8
+_027E4DE8:
+	mov r0, #5
+	mov r2, sb
+	mov r3, #0
+	bl sub_27E4AC4
+_027E4DF8:
+	cmp r7, #0
+	beq _027E4E08
+	mov r0, #1
+	bl sub_27E6DE4
+_027E4E08:
+	mov r0, #0
+	b _027E51C4
+_027E4E10:
+	cmp r8, #2
+	blt _027E4D74
+_027E4E18:
+	mov r8, #1
+	mov r0, #0
+	strh r0, [r5, #0xc2]
+	mov r0, #3
+	strh r0, [r5]
+	add r0, sp, #0x44
+	mov r1, r8
+	bl sub_27E2DD8
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E4E88
+	cmp sl, #0
+	beq _027E4E60
+	mov r0, #0
+	mov r2, sb
+	mov r3, r8
+	bl sub_27E4A78
+	b _027E4E70
+_027E4E60:
+	mov r0, #0
+	mov r2, sb
+	mov r3, r8
+	bl sub_27E4AC4
+_027E4E70:
+	cmp r7, #0
+	beq _027E4E80
+	mov r0, #1
+	bl sub_27E6DE4
+_027E4E80:
+	mov r0, #0
+	b _027E51C4
+_027E4E88:
+	add r0, sp, #0x44
+	bl sub_27E2244
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E4EE0
+	cmp sl, #0
+	beq _027E4EB8
+	ldr r0, _027E51D8 // =0x00000302
+	mov r2, sb
+	mov r3, r8
+	bl sub_27E4A78
+	b _027E4EC8
+_027E4EB8:
+	ldr r0, _027E51D8 // =0x00000302
+	mov r2, sb
+	mov r3, r8
+	bl sub_27E4AC4
+_027E4EC8:
+	cmp r7, #0
+	beq _027E4ED8
+	mov r0, #1
+	bl sub_27E6DE4
+_027E4ED8:
+	mov r0, #0
+	b _027E51C4
+_027E4EE0:
+	mov r0, #2
+	strh r0, [r5]
+	mov r1, #0
+	str r1, [r5, #0x198]
+	add r0, r5, #0x100
+	strh r1, [r0, #0x96]
+	add r0, r5, #0x19c
+	mov r2, #0x50
+	bl MI_CpuFill8
+	bl sub_27E0100
+	cmp sl, #1
+	bne _027E4F70
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r4, r0
+	mov r0, #0xc
+	strh r0, [r4]
+	mov r0, #0
+	strh r0, [r4, #2]
+	mov r0, #9
+	strh r0, [r4, #8]
+	ldr r0, [sp, #4]
+	strh r0, [r4, #0xc]
+	add r0, r5, #0x100
+	ldrh r0, [r0, #0x88]
+	strh r0, [r4, #0xa]
+	add r0, sp, #0x38
+	add r1, r4, #0x10
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldrh r0, [r5, #0x30]
+	strh r0, [r4, #0x16]
+	ldrh r0, [r5, #0x32]
+	strh r0, [r4, #0x18]
+	mov r0, r4
+	bl WMSP_ReturnResult2Wm9
+	b _027E4F80
+_027E4F70:
+	mov r0, #0
+	mov r1, r0
+	add r2, sp, #0x38
+	bl sub_27E4B10
+_027E4F80:
+	cmp r7, #0
+	beq _027E51B4
+	mov r0, #1
+	bl sub_27E6DE4
+	b _027E51B4
+_027E4F94:
+	mov r6, #1
+	str r6, [sp, #0x24]
+	mov r0, #0
+	str r0, [sp, #0x18]
+	mov r0, #6
+	str r0, [sp, #0x14]
+	str r6, [sp, #0x34]
+	mov r0, #8
+	str r0, [sp, #0x2c]
+	mov r0, #9
+	str r0, [sp, #0x30]
+	mov r0, #3
+	str r0, [sp, #0x1c]
+	str r6, [sp, #0x10]
+	b _027E51AC
+_027E4FD0:
+	ldr r0, [sp, #0x10]
+	mov r4, r0, lsl r6
+	add r0, r5, #0x100
+	ldrh r0, [r0, #0x82]
+	and r0, r0, sb
+	ands r0, r4, r0
+	beq _027E51A8
+	mov r0, r6, lsl #0x10
+	mov fp, r0, lsr #0x10
+	add r2, r5, #0x128
+	sub r1, r6, #1
+	mov r0, #6
+	mla r0, r1, r0, r2
+	str r0, [sp, #0xc]
+	add r1, sp, #0x3e
+	ldr r2, [sp, #0x14]
+	bl MI_CpuCopy8
+	ldr r0, [sp, #0x18]
+	str r0, [sp, #8]
+	b _027E50A0
+_027E5020:
+	add r0, sp, #0x44
+	add r1, sp, #0x3e
+	ldr r2, [sp, #0x1c]
+	bl sub_27E2B2C
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E50AC
+	cmp r1, #7
+	beq _027E504C
+	cmp r1, #0xc
+	bne _027E505C
+_027E504C:
+	ldr r0, [sp, #8]
+	add r0, r0, #1
+	str r0, [sp, #8]
+	b _027E50A0
+_027E505C:
+	cmp sl, #0
+	beq _027E5078
+	mov r0, #5
+	mov r2, sb
+	mov r3, r8
+	bl sub_27E4A78
+	b _027E5088
+_027E5078:
+	mov r0, #5
+	mov r2, sb
+	mov r3, r8
+	bl sub_27E4AC4
+_027E5088:
+	cmp r7, #0
+	beq _027E5098
+	mov r0, #1
+	bl sub_27E6DE4
+_027E5098:
+	mov r0, #0
+	b _027E51C4
+_027E50A0:
+	ldr r0, [sp, #8]
+	cmp r0, #2
+	blt _027E5020
+_027E50AC:
+	bl OS_DisableInterrupts
+	str r0, [sp, #0x20]
+	add r2, r5, #0x100
+	ldrh r1, [r2, #0x82]
+	ands r3, r1, r4
+	beq _027E51A4
+	ldr r0, [sp, #0x24]
+	orr r0, r8, r0, lsl fp
+	mov r0, r0, lsl #0x10
+	mov r8, r0, lsr #0x10
+	mvn r3, r4
+	and r0, r1, r3
+	strh r0, [r2, #0x82]
+	ldrh r0, [r5, #0x86]
+	and r0, r0, r3
+	strh r0, [r5, #0x86]
+	add r1, r5, fp, lsl #3
+	ldr r0, [sp, #0x18]
+	str r0, [r1, #0x738]
+	str r0, [r1, #0x73c]
+	ldr r0, [sp, #0xc]
+	ldr r1, [sp, #0x18]
+	ldr r2, [sp, #0x14]
+	bl MI_CpuFill8
+	ldr r0, [sp, #0x20]
+	bl OS_RestoreInterrupts
+	cmp sl, #1
+	bne _027E5178
+	bl WMSP_GetBuffer4Callback2Wm9
+	str r0, [sp, #0x28]
+	ldr r1, [sp, #0x2c]
+	strh r1, [r0]
+	ldr r1, [sp, #0x18]
+	strh r1, [r0, #2]
+	ldr r1, [sp, #0x30]
+	strh r1, [r0, #8]
+	ldr r1, [sp, #4]
+	strh r1, [r0, #0x12]
+	strh fp, [r0, #0x10]
+	add r0, sp, #0x3e
+	ldr r1, [sp, #0x28]
+	add r1, r1, #0xa
+	ldr r2, [sp, #0x14]
+	bl MI_CpuCopy8
+	ldrh r1, [r5, #0x30]
+	ldr r0, [sp, #0x28]
+	strh r1, [r0, #0x2c]
+	ldrh r1, [r5, #0x32]
+	strh r1, [r0, #0x2e]
+	bl WMSP_ReturnResult2Wm9
+	b _027E518C
+_027E5178:
+	ldr r0, [sp, #0x34]
+	mov r1, r6, lsl #0x10
+	mov r1, r1, lsr #0x10
+	add r2, sp, #0x3e
+	bl sub_27E4B10
+_027E518C:
+	cmp r7, #0
+	beq _027E51A8
+	mov r0, r4, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27E6DE4
+	b _027E51A8
+_027E51A4:
+	bl OS_RestoreInterrupts
+_027E51A8:
+	add r6, r6, #1
+_027E51AC:
+	cmp r6, #0x10
+	blt _027E4FD0
+_027E51B4:
+	ldr r0, [sp]
+	cmp r0, #0
+	strneh r8, [r0]
+	mov r0, #1
+_027E51C4:
+	add sp, sp, #0x244
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027E51D0: .word 0x027F9454
+_027E51D4: .word 0x0000018A
+_027E51D8: .word 0x00000302
+	arm_func_end sub_27E4BDC
+
+	arm_func_start sub_27E51DC
+sub_27E51DC: // 0x027E51DC
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #8
+	ldr r1, [r0, #4]
+	mov r1, r1, lsl #0x10
+	mov r4, r1, lsr #0x10
+	mov r1, #0
+	add r2, sp, #0
+	bl sub_27E4BDC
+	cmp r0, #1
+	bne _027E5228
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xd
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	strh r4, [r0, #8]
+	ldrh r1, [sp]
+	strh r1, [r0, #0xa]
+	bl WMSP_ReturnResult2Wm9
+_027E5228:
+	add sp, sp, #8
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27E51DC
+
+	arm_func_start sub_27E5234
+sub_27E5234: // 0x027E5234
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	sub sp, sp, #0x200
+	ldr r1, _027E54E4 // =_027F8454
+	ldr r2, _027E54E8 // =0x027F9454
+	ldr r4, [r2, #0x550]
+	mov sl, #0
+	ldr sb, [r0, #4]
+	ldr r8, [r0, #8]
+	ldr r7, [r0, #0xc]
+	ldr r6, [r0, #0x10]
+	add r5, r0, #0x14
+	ldrh r0, [r4, #0x9c]
+	cmp r0, #0
+	bne _027E52BC
+	ldrh r0, [r4, #0x3c]
+	add r0, r0, #0x1f
+	bic r0, r0, #0x1f
+	cmp r6, r0
+	movlo sl, #6
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0x88]
+	cmp r0, #0
+	ldrneh r0, [r4, #0x3e]
+	addne r0, r0, #0x51
+	bicne r0, r0, #0x1f
+	bne _027E52B4
+	ldrh r0, [r4, #0x3e]
+	add r2, r0, #0xc
+	ldrh r0, [r4, #0xf8]
+	mul r0, r2, r0
+	add r0, r0, #0x29
+	bic r0, r0, #0x1f
+_027E52B4:
+	cmp r8, r0
+	movlo sl, #6
+_027E52BC:
+	ldrh r0, [r4, #0xe6]
+	cmp r0, #2
+	bne _027E52F0
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0xf6]
+	mov r2, #1
+	add r1, r1, #0x1000
+	ldr r1, [r1, #0x54c]
+	ldrh r1, [r1, #0x46]
+	mov r1, r2, lsl r1
+	mov r1, r1, asr #1
+	ands r0, r0, r1
+	moveq sl, #6
+_027E52F0:
+	cmp sl, #0
+	beq _027E5318
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xe
+	strh r1, [r0]
+	strh sl, [r0, #2]
+	mov r1, #0xa
+	strh r1, [r0, #4]
+	bl WMSP_ReturnResult2Wm9
+	b _027E54D8
+_027E5318:
+	mov r1, #0
+	ldr r0, [r4, #0xc]
+	cmp r0, #0
+	strne r1, [r4, #0xc]
+	movne r1, #1
+	cmp r1, #0
+	beq _027E533C
+	ldr r0, _027E54EC // =0x0000FFFF
+	bl sub_27E6DE4
+_027E533C:
+	bl sub_27E7DA4
+	mov r0, r5
+	mov r1, #0
+	bl sub_27E854C
+	bl OS_DisableInterrupts
+	mov r5, r0
+	ldrh r2, [r4]
+	ldr r1, _027E54F0 // =0x0000FFF9
+	add r1, r2, r1
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	cmp r1, #1
+	bhi _027E54B4
+	mov r2, #0
+	strh r2, [r4, #0x84]
+	strh r2, [r4, #0x5e]
+	mov r1, #1
+	strh r1, [r4, #0x60]
+	strh r2, [r4, #0x88]
+	strh r2, [r4, #0x9e]
+	mov r0, #0x3c
+	strh r0, [r4, #0xa0]
+	str r2, [r4, #0x734]
+	strh r2, [r4, #0x8a]
+	strh r2, [r4, #0x8c]
+	strh r2, [r4, #0x8e]
+	strh r2, [r4, #0x90]
+	strh r2, [r4, #0x66]
+	str sb, [r4, #0x74]
+	strh r8, [r4, #0x72]
+	add r0, sb, r8
+	str r0, [r4, #0x78]
+	strh r2, [r4, #0x70]
+	str r7, [r4, #0x7c]
+	strh r6, [r4, #0x80]
+	strh r2, [r4, #0x62]
+	strh r2, [r4, #0x64]
+	strh r2, [r4, #0x68]
+	strh r2, [r4, #0x6a]
+	ldr r0, _027E54EC // =0x0000FFFF
+	strh r0, [r4, #0xbe]
+	strh r1, [r4, #0xc0]
+	bl OS_GetTick
+	mov r2, #0
+	orr r1, r1, #0
+	orr r3, r0, #1
+_027E53F4:
+	add r0, r4, r2, lsl #3
+	str r3, [r0, #0x738]
+	str r1, [r0, #0x73c]
+	add r2, r2, #1
+	cmp r2, #0x10
+	blt _027E53F4
+	bl sub_27E01D8
+	mov r0, #0
+	strh r0, [r4, #0xce]
+	bl sub_27E678C
+	ldrh r0, [r4]
+	cmp r0, #8
+	moveq r0, #0xa
+	streqh r0, [r4]
+	beq _027E543C
+	cmp r0, #7
+	moveq r0, #9
+	streqh r0, [r4]
+_027E543C:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xe
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #0xa
+	strh r1, [r0, #4]
+	bl WMSP_ReturnResult2Wm9
+	mov r0, #1
+	str r0, [r4, #0xc]
+	mov r0, r5
+	bl OS_RestoreInterrupts
+	add r0, sp, #0
+	mov r1, #1
+	bl sub_27E23A8
+	mov r4, r0
+	ldrh r0, [r4, #4]
+	cmp r0, #0
+	beq _027E54D8
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xe
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	ldr r1, _027E54F4 // =0x00000216
+	strh r1, [r0, #4]
+	ldrh r1, [r4, #4]
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	b _027E54D8
+_027E54B4:
+	bl OS_RestoreInterrupts
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0xe
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	mov r1, #0xa
+	strh r1, [r0, #4]
+	bl WMSP_ReturnResult2Wm9
+_027E54D8:
+	add sp, sp, #0x200
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	bx lr
+	.align 2, 0
+_027E54E4: .word _027F8454
+_027E54E8: .word 0x027F9454
+_027E54EC: .word 0x0000FFFF
+_027E54F0: .word 0x0000FFF9
+_027E54F4: .word 0x00000216
+	arm_func_end sub_27E5234
+
+	arm_func_start sub_27E54F8
+sub_27E54F8: // 0x027E54F8
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x14
+	ldr r1, _027E5638 // =0x027F9454
+	ldr r4, [r1, #0x550]
+	add r2, r4, #0x100
+	ldrh r5, [r2, #0x82]
+	ldr sl, [r0, #4]
+	ldr r1, [r0, #8]
+	mov r1, r1, lsl #0x10
+	mov sb, r1, lsr #0x10
+	ldr r8, [r0, #0xc]
+	ldr r1, [r0, #0x10]
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	str r1, [sp, #0x10]
+	ldr r1, [r0, #0x14]
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	ldr r7, [r0, #0x18]
+	ldr fp, [r0, #0x1c]
+	ldrh r0, [r2, #0x88]
+	cmp r0, #0
+	movne r8, #1
+	ldr r0, [r4, #0xc]
+	cmp r0, #0
+	moveq r6, #3
+	beq _027E5594
+	ands r0, r8, r5
+	moveq r6, #0
+	beq _027E5594
+	str sl, [sp]
+	str sb, [sp, #4]
+	str r7, [sp, #8]
+	str fp, [sp, #0xc]
+	mov r0, r5
+	ldr r2, [sp, #0x10]
+	mov r3, r8
+	bl sub_27E7338
+	mov r6, r0
+_027E5594:
+	cmp r6, #2
+	beq _027E562C
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x81
+	strh r1, [r0]
+	strh r6, [r0, #2]
+	mov r1, #0x14
+	strh r1, [r0, #8]
+	ldr r1, [sp, #0x10]
+	strh r1, [r0, #0xa]
+	strh r8, [r0, #0xc]
+	cmp r6, #0xa
+	andeq r1, r8, r5
+	streqh r1, [r0, #0xe]
+	movne r1, #0
+	strneh r1, [r0, #0xe]
+	mov r1, #0
+	strh r1, [r0, #0x10]
+	strh sb, [r0, #0x18]
+	str sl, [r0, #0x14]
+	str r7, [r0, #0x1c]
+	str fp, [r0, #0x20]
+	ldr r1, _027E563C // =0x0000FFFF
+	strh r1, [r0, #0x1a]
+	ldrh r2, [r4, #0x30]
+	ldrh r3, [r4, #0x32]
+	add r1, r4, #0x100
+	ldrh r1, [r1, #0x88]
+	cmp r1, #0
+	moveq r1, r2
+	movne r1, r3
+	strh r1, [r0, #0x24]
+	add r1, r4, #0x100
+	ldrh r1, [r1, #0x88]
+	cmp r1, #0
+	movne r3, r2
+	strh r3, [r0, #0x26]
+	bl WMSP_ReturnResult2Wm9
+_027E562C:
+	add sp, sp, #0x14
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027E5638: .word 0x027F9454
+_027E563C: .word 0x0000FFFF
+	arm_func_end sub_27E54F8
+
+	arm_func_start sub_27E5640
+sub_27E5640: // 0x027E5640
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x10
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E5640
+
+	arm_func_start sub_27E567C
+sub_27E567C: // 0x027E567C
+	stmdb sp!, {r4, r5, r6, lr}
+	sub sp, sp, #0x200
+	ldr r0, _027E5790 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	mov r6, #0
+	ldrh r0, [r4]
+	cmp r0, #9
+	beq _027E56C0
+	cmp r0, #0xa
+	beq _027E56C0
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x10
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	b _027E5784
+_027E56C0:
+	bl OS_DisableInterrupts
+	mov r5, r0
+	ldr r0, [r4, #0xc]
+	cmp r0, #1
+	moveq r6, #1
+	mov r0, #0
+	str r0, [r4, #0xc]
+	bl sub_27E681C
+	bl sub_27E0238
+	ldrh r0, [r4]
+	cmp r0, #0xa
+	moveq r0, #8
+	streqh r0, [r4]
+	beq _027E5704
+	cmp r0, #9
+	moveq r0, #7
+	streqh r0, [r4]
+_027E5704:
+	mov r0, r5
+	bl OS_RestoreInterrupts
+	add r0, sp, #0
+	mov r1, #0
+	bl sub_27E23A8
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E5730
+	ldr r0, _027E5794 // =0x00000216
+	bl sub_27E5640
+	b _027E5784
+_027E5730:
+	add r0, sp, #0
+	mov r1, #7
+	bl sub_27E2730
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E5754
+	mov r0, #0x104
+	bl sub_27E5640
+	b _027E5784
+_027E5754:
+	mov r0, #0
+	strh r0, [r4, #0x8a]
+	cmp r6, #0
+	beq _027E576C
+	ldr r0, _027E5798 // =0x0000FFFF
+	bl sub_27E6DE4
+_027E576C:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x10
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E5784:
+	add sp, sp, #0x200
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027E5790: .word 0x027F9454
+_027E5794: .word 0x00000216
+_027E5798: .word 0x0000FFFF
+	arm_func_end sub_27E567C
+
+	arm_func_start sub_27E579C
+sub_27E579C: // 0x027E579C
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	ldr r1, _027E5824 // =0x027F9454
+	ldr r5, [r1, #0x550]
+	ldr r8, [r0, #4]
+	ldr r0, [r0, #8]
+	mov r6, r0, lsl #0x10
+	mov r7, r6, lsr #0x10
+	bl OS_DisableInterrupts
+	mov r4, r0
+	str r8, [r5, #0xb0]
+	strh r7, [r5, #0xb8]
+	add r0, r8, r6, lsr #16
+	str r0, [r5, #0xb4]
+	mov r0, #0
+	strh r0, [r5, #0xae]
+	str r0, [r5, #0xa8]
+	strh r0, [r5, #0xac]
+	str r0, [r5, #0x18]
+	mov r0, #0xb
+	strh r0, [r5]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x11
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	mov r1, #0xe
+	strh r1, [r0, #4]
+	bl WMSP_ReturnResult2Wm9
+	mov r0, #1
+	str r0, [r5, #0x10]
+	mov r0, r4
+	bl OS_RestoreInterrupts
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027E5824: .word 0x027F9454
+	arm_func_end sub_27E579C
+
+	arm_func_start sub_27E5828
+sub_27E5828: // 0x027E5828
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #0x234
+	mov r5, r0
+	ldr r0, _027E591C // =0x027F9454
+	ldr r4, [r0, #0x550]
+	add r0, r5, #4
+	add r1, r4, #0xa2
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldr r0, [r5, #0xc]
+	str r0, [r4, #0xa8]
+	ldr r0, [r5, #0x10]
+	strh r0, [r4, #0xac]
+	mov r0, #1
+	str r0, [r4, #0x18]
+	mov r0, #0
+	add r1, sp, #0
+	mov r2, #0x30
+	bl MIi_CpuClear16
+	mov r0, #0
+	strh r0, [sp]
+	ldr r0, [r5, #0x10]
+	strh r0, [sp, #6]
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0xec]
+	cmp r0, #2
+	moveq r0, #0x14
+	movne r0, #0xa
+	strb r0, [sp, #0xe]
+	add r0, r5, #4
+	add r1, sp, #0x18
+	mov r2, #6
+	bl MI_CpuCopy8
+	add r0, r4, #0xe0
+	add r1, sp, #0x1e
+	mov r2, #6
+	bl MI_CpuCopy8
+	ldr r0, [r5, #0xc]
+	str r0, [sp, #0x2c]
+	add r0, sp, #0x30
+	add r1, sp, #0
+	bl sub_27E2894
+	mov r4, r0
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x12
+	strh r1, [r0]
+	ldrh r1, [r4, #4]
+	cmp r1, #0
+	moveq r1, #0
+	movne r1, #1
+	strh r1, [r0, #2]
+	ldrh r1, [r4, #4]
+	cmp r1, #0
+	movne r1, #0x100
+	strneh r1, [r0, #4]
+	ldrneh r1, [r4, #4]
+	strneh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #0x234
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E591C: .word 0x027F9454
+	arm_func_end sub_27E5828
+
+	arm_func_start sub_27E5920
+sub_27E5920: // 0x027E5920
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x13
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E5920
+
+	arm_func_start sub_27E595C
+sub_27E595C: // 0x027E595C
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #0x200
+	ldr r0, _027E59F8 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	bl OS_DisableInterrupts
+	ldrh r1, [r4]
+	cmp r1, #0xb
+	beq _027E599C
+	bl OS_RestoreInterrupts
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x13
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	b _027E59EC
+_027E599C:
+	mov r1, #0
+	str r1, [r4, #0x10]
+	mov r1, #8
+	strh r1, [r4]
+	bl OS_RestoreInterrupts
+	add r0, sp, #0
+	mov r1, #7
+	bl sub_27E2730
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E59D4
+	mov r0, #0x104
+	bl sub_27E5920
+	b _027E59EC
+_027E59D4:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x13
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E59EC:
+	add sp, sp, #0x200
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E59F8: .word 0x027F9454
+	arm_func_end sub_27E595C
+
+	arm_func_start sub_27E59FC
+sub_27E59FC: // 0x027E59FC
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x14
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E59FC
+
+	arm_func_start sub_27E5A38
+sub_27E5A38: // 0x027E5A38
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #0x204
+	mov r5, r0
+	ldr r0, _027E5B14 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldr r1, [r5, #4]
+	add r0, r4, #0x100
+	strh r1, [r0, #0x96]
+	ldrh r0, [r0, #0x96]
+	cmp r0, #3
+	addls pc, pc, r0, lsl #2
+	b _027E5A90
+_027E5A68: // jump table
+	b _027E5A78 // case 0
+	b _027E5A84 // case 1
+	b _027E5A84 // case 2
+	b _027E5A84 // case 3
+_027E5A78:
+	mov r0, #0
+	str r0, [r4, #0x198]
+	b _027E5A98
+_027E5A84:
+	mov r0, #1
+	str r0, [r4, #0x198]
+	b _027E5A98
+_027E5A90:
+	mov r0, #0
+	str r0, [r4, #0x198]
+_027E5A98:
+	ldr r0, [r4, #0x198]
+	cmp r0, #1
+	bne _027E5AB8
+	ldr r0, [r5, #8]
+	add r1, r4, #0x19c
+	mov r2, #0x50
+	bl MI_CpuCopy8
+	b _027E5AC8
+_027E5AB8:
+	add r0, r4, #0x19c
+	mov r1, #0
+	mov r2, #0x50
+	bl MI_CpuFill8
+_027E5AC8:
+	ldr r0, [r5, #0xc]
+	strh r0, [r4, #0xc4]
+	add r0, sp, #0
+	ldrh r1, [r4, #0xc4]
+	bl sub_27E2674
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E5AF0
+	ldr r0, _027E5B18 // =0x00000207
+	bl sub_27E59FC
+_027E5AF0:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x27
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #0x204
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E5B14: .word 0x027F9454
+_027E5B18: .word 0x00000207
+	arm_func_end sub_27E5A38
+
+	arm_func_start sub_27E5B1C
+sub_27E5B1C: // 0x027E5B1C
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r1, _027E5BCC // =0x027F9454
+	ldr r3, [r1, #0x550]
+	ldr r2, [r0, #4]
+	add r1, r3, #0x100
+	strh r2, [r1, #0x96]
+	ldrh r1, [r1, #0x96]
+	cmp r1, #3
+	addls pc, pc, r1, lsl #2
+	b _027E5B70
+_027E5B48: // jump table
+	b _027E5B58 // case 0
+	b _027E5B64 // case 1
+	b _027E5B64 // case 2
+	b _027E5B64 // case 3
+_027E5B58:
+	mov r1, #0
+	str r1, [r3, #0x198]
+	b _027E5B78
+_027E5B64:
+	mov r1, #1
+	str r1, [r3, #0x198]
+	b _027E5B78
+_027E5B70:
+	mov r1, #0
+	str r1, [r3, #0x198]
+_027E5B78:
+	ldr r1, [r3, #0x198]
+	cmp r1, #1
+	bne _027E5B98
+	ldr r0, [r0, #8]
+	add r1, r3, #0x19c
+	mov r2, #0x50
+	bl MI_CpuCopy8
+	b _027E5BA8
+_027E5B98:
+	add r0, r3, #0x19c
+	mov r1, #0
+	mov r2, #0x50
+	bl MI_CpuFill8
+_027E5BA8:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x14
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E5BCC: .word 0x027F9454
+	arm_func_end sub_27E5B1C
+
+	arm_func_start sub_27E5BD0
+sub_27E5BD0: // 0x027E5BD0
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #0x280
+	ldr r1, _027E5CBC // =0x027F9454
+	ldr r4, [r1, #0x550]
+	ldr r1, [r0, #4]
+	str r1, [r4, #0xe8]
+	ldr r1, [r0, #8]
+	strh r1, [r4, #0xec]
+	ldr r1, [r0, #0xc]
+	str r1, [r4, #0xf0]
+	ldr r1, [r0, #0x10]
+	strh r1, [r4, #0xf4]
+	ldr r0, [r0, #0x14]
+	and r1, r0, #0xff
+	ands r0, r1, #1
+	movne r0, #1
+	moveq r0, #0
+	strh r0, [r4, #0xf6]
+	ands r0, r1, #2
+	movne r0, #1
+	moveq r0, #0
+	strh r0, [r4, #0xfa]
+	ands r0, r1, #4
+	movne r0, #1
+	moveq r0, #0
+	strh r0, [r4, #0xfc]
+	ands r0, r1, #8
+	movne r0, #1
+	moveq r0, #0
+	strh r0, [r4, #0xfe]
+	add r0, sp, #0x200
+	add r1, r4, #0xe8
+	bl sub_27E0504
+	add r0, sp, #0
+	ldrh r1, [r4, #0xec]
+	add r1, r1, #0x10
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	add r2, sp, #0x200
+	bl sub_27E22B8
+	mov r4, r0
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x18
+	strh r1, [r0]
+	ldrh r1, [r4, #4]
+	cmp r1, #0
+	moveq r1, #0
+	movne r1, #1
+	strh r1, [r0, #2]
+	ldrh r1, [r4, #4]
+	cmp r1, #0
+	ldrne r1, _027E5CC0 // =0x00000245
+	strneh r1, [r0, #4]
+	ldrneh r1, [r4, #4]
+	strneh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #0x280
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E5CBC: .word 0x027F9454
+_027E5CC0: .word 0x00000245
+	arm_func_end sub_27E5BD0
+
+	arm_func_start sub_27E5CC4
+sub_27E5CC4: // 0x027E5CC4
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x19
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E5CC4
+
+	arm_func_start sub_27E5D00
+sub_27E5D00: // 0x027E5D00
+	stmdb sp!, {lr}
+	sub sp, sp, #0x204
+	mov r1, r0
+	add r0, sp, #0
+	ldr r1, [r1, #4]
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	bl sub_27E2408
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E5D38
+	ldr r0, _027E5D5C // =0x00000215
+	bl sub_27E5CC4
+	b _027E5D50
+_027E5D38:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x19
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E5D50:
+	add sp, sp, #0x204
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E5D5C: .word 0x00000215
+	arm_func_end sub_27E5D00
+
+	arm_func_start sub_27E5D60
+sub_27E5D60: // 0x027E5D60
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x1a
+	strh r1, [r0]
+	mov r1, #4
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27E5D60
+
+	arm_func_start sub_27E5D8C
+sub_27E5D8C: // 0x027E5D8C
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x1b
+	strh r1, [r0]
+	mov r1, #4
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27E5D8C
+
+	arm_func_start sub_27E5DB8
+sub_27E5DB8: // 0x027E5DB8
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x1d
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E5DB8
+
+	arm_func_start sub_27E5DF4
+sub_27E5DF4: // 0x027E5DF4
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #0x204
+	mov r3, r0
+	ldr r0, _027E5F04 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldr r0, [r3, #0x10]
+	mov r0, r0, lsl #0x10
+	mov r5, r0, lsr #0x10
+	add r0, sp, #0
+	ldr r1, [r3, #4]
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	ldr r2, [r3, #8]
+	mov r2, r2, lsl #0x10
+	mov r2, r2, lsr #0x10
+	ldr r3, [r3, #0xc]
+	mov r3, r3, lsl #0x10
+	mov r3, r3, lsr #0x10
+	bl sub_27E24C8
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E5E58
+	ldr r0, _027E5F08 // =0x00000211
+	bl sub_27E5DB8
+	b _027E5EF8
+_027E5E58:
+	ldr r0, _027E5F0C // =0x0000FFFF
+	cmp r5, r0
+	beq _027E5EAC
+	cmp r5, #0
+	moveq r1, #1
+	moveq r0, #0
+	beq _027E5EA0
+	mov r0, #0x64
+	mul r3, r5, r0
+	mov r2, r3, asr #0x1f
+	mov r1, #0
+	ldr r0, _027E5F10 // =0x000082EA
+	umull ip, r5, r3, r0
+	mla r5, r3, r1, r5
+	mla r5, r2, r0, r5
+	mov r0, r5, lsr #6
+	mov r1, ip, lsr #6
+	orr r1, r1, r5, lsl #26
+_027E5EA0:
+	str r1, [r4, #0x7b8]
+	str r0, [r4, #0x7bc]
+	b _027E5EB8
+_027E5EAC:
+	mov r0, #0
+	str r0, [r4, #0x7b8]
+	str r0, [r4, #0x7bc]
+_027E5EB8:
+	bl OS_GetTick
+	mov r2, #0
+	orr r1, r1, #0
+	orr r3, r0, #1
+_027E5EC8:
+	add r0, r4, r2, lsl #3
+	str r3, [r0, #0x738]
+	str r1, [r0, #0x73c]
+	add r2, r2, #1
+	cmp r2, #0x10
+	blt _027E5EC8
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x1d
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E5EF8:
+	add sp, sp, #0x204
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E5F04: .word 0x027F9454
+_027E5F08: .word 0x00000211
+_027E5F0C: .word 0x0000FFFF
+_027E5F10: .word 0x000082EA
+	arm_func_end sub_27E5DF4
+
+	arm_func_start sub_27E5F14
+sub_27E5F14: // 0x027E5F14
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x1e
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E5F14
+
+	arm_func_start sub_27E5F50
+sub_27E5F50: // 0x027E5F50
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	sub sp, sp, #0x214
+	mov r8, r0
+	ldr r0, _027E60F8 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	add r7, sp, #0x14
+	ldrh r0, [r4]
+	cmp r0, #2
+	beq _027E5F90
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x1e
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	b _027E60EC
+_027E5F90:
+	mov r0, r7
+	bl sub_27E21BC
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E5FB0
+	mov r0, #0x308
+	bl sub_27E5F14
+	b _027E60EC
+_027E5FB0:
+	ldrh r1, [r0, #6]
+	mov r0, #2
+	strh r0, [r4, #0xe6]
+	cmp r1, #0x10
+	bne _027E6034
+	mov r0, #0xa
+	mov r1, r7
+	bl sub_27E03B8
+	cmp r0, #0
+	beq _027E60EC
+	mov r0, r7
+	bl sub_27E222C
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E5FF8
+	ldr r0, _027E60FC // =0x00000303
+	bl sub_27E5F14
+	b _027E60EC
+_027E5FF8:
+	mov r0, #3
+	strh r0, [r4]
+	mov r0, r7
+	mov r1, #1
+	mov r2, #0
+	mov r3, r1
+	bl sub_27E2D74
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E602C
+	mov r0, #1
+	bl sub_27E5F14
+	b _027E60EC
+_027E602C:
+	mov r0, #1
+	strh r0, [r4, #0xc6]
+_027E6034:
+	ldrh r6, [r8, #2]
+	ldrh r5, [r8, #4]
+	ldrh sb, [r8, #6]
+	ldrh r8, [r8, #8]
+	add r0, sp, #4
+	mov r1, #0
+	mov r2, #0x10
+	bl MI_CpuFill8
+	strb sb, [sp, #4]
+	add r0, sp, #4
+	str r0, [sp]
+	mov r0, r7
+	mov r1, r6
+	mov r2, r5
+	mov r3, r8
+	bl sub_27E294C
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E608C
+	mov r0, #0xa
+	bl sub_27E5F14
+	b _027E60EC
+_027E608C:
+	ldrh r1, [r0, #8]
+	and r0, r1, #0xff
+	mov r0, r0, lsl #0x10
+	mov r5, r0, lsr #0x10
+	mov r0, r1, lsl #8
+	mov r6, r0, lsr #0x10
+	mov r0, r7
+	bl sub_27E2244
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E60C4
+	ldr r0, _027E6100 // =0x00000302
+	bl sub_27E5F14
+	b _027E60EC
+_027E60C4:
+	mov r0, #2
+	strh r0, [r4]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x1e
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	strh r5, [r0, #8]
+	strh r6, [r0, #0xa]
+	bl WMSP_ReturnResult2Wm9
+_027E60EC:
+	add sp, sp, #0x214
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+	.align 2, 0
+_027E60F8: .word 0x027F9454
+_027E60FC: .word 0x00000303
+_027E6100: .word 0x00000302
+	arm_func_end sub_27E5F50
+
+	arm_func_start sub_27E6104
+sub_27E6104: // 0x027E6104
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x1f
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E6104
+
+	arm_func_start sub_27E6140
+sub_27E6140: // 0x027E6140
+	stmdb sp!, {lr}
+	sub sp, sp, #0x204
+	add r0, sp, #0
+	bl sub_27E2200
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E6168
+	ldr r0, _027E618C // =0x00000305
+	bl sub_27E6104
+	b _027E6180
+_027E6168:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x1f
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E6180:
+	add sp, sp, #0x204
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E618C: .word 0x00000305
+	arm_func_end sub_27E6140
+
+	arm_func_start sub_27E6190
+sub_27E6190: // 0x027E6190
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x20
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E6190
+
+	arm_func_start sub_27E61CC
+sub_27E61CC: // 0x027E61CC
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #0x204
+	add r0, sp, #0
+	bl sub_27E21D0
+	mov r5, r0
+	ldrh r1, [r5, #4]
+	cmp r1, #0
+	beq _027E61F8
+	ldr r0, _027E6234 // =0x00000307
+	bl sub_27E6190
+	b _027E6228
+_027E61F8:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r4, r0
+	mov r0, #0x20
+	strh r0, [r4]
+	mov r0, #0
+	strh r0, [r4, #2]
+	add r0, r5, #8
+	add r1, r4, #8
+	mov r2, #0xb4
+	bl MIi_CpuCopy16
+	mov r0, r4
+	bl WMSP_ReturnResult2Wm9
+_027E6228:
+	add sp, sp, #0x204
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E6234: .word 0x00000307
+	arm_func_end sub_27E61CC
+
+	arm_func_start sub_27E6238
+sub_27E6238: // 0x027E6238
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r5, _027E62E8 // =_027F8454
+	ldr r0, _027E62EC // =0x027F9454
+	ldr r4, [r0, #0x550]
+	bl OS_DisableInterrupts
+	ldrh r1, [r4, #0xce]
+	cmp r1, #1
+	bne _027E6264
+	bl OS_RestoreInterrupts
+	b _027E62DC
+_027E6264:
+	mov r1, #1
+	strh r1, [r4, #0xce]
+	bl OS_RestoreInterrupts
+	bl sub_27E0134
+	movs r1, r0
+	moveq r0, #0
+	beq _027E6294
+	mov r0, #0x1c
+	str r0, [r1]
+	add r0, r5, #0x88
+	mov r2, #0
+	bl OS_SendMessage
+_027E6294:
+	cmp r0, #0
+	bne _027E62DC
+	mov r0, #0
+	strh r0, [r4, #0xce]
+	add r0, r5, #0x1000
+	ldr r0, [r0, #0x54c]
+	cmp r0, #0
+	beq _027E62DC
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #8
+	strh r1, [r0, #2]
+	mov r1, #0x16
+	strh r1, [r0, #4]
+	mov r1, #0x1c
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+_027E62DC:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E62E8: .word _027F8454
+_027E62EC: .word 0x027F9454
+	arm_func_end sub_27E6238
+
+	arm_func_start sub_27E62F0
+sub_27E62F0: // 0x027E62F0
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027E632C // =0x027F9454
+	ldr r0, [r0, #0x550]
+	ldr r0, [r0, #0xc]
+	cmp r0, #1
+	bne _027E6320
+	mov r0, #0xd1
+	ldr r1, _027E6330 // =sub_27E6334
+	mov r2, #3
+	bl sub_27E6754
+	bl sub_27E6238
+_027E6320:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E632C: .word 0x027F9454
+_027E6330: .word sub_27E6334
+	arm_func_end sub_27E62F0
+
+	arm_func_start sub_27E6334
+sub_27E6334: // 0x027E6334
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E6394 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldrh r0, [r4, #0xdc]
+	cmp r0, #0x3c
+	blo _027E6370
+	ldr r1, _027E6398 // =0x04000006
+	ldrh r0, [r1]
+	cmp r0, #0xd1
+	blt _027E6378
+	cmp r0, #0xd4
+	strlth r0, [r1]
+	movlt r0, #0
+	strlth r0, [r4, #0xdc]
+	b _027E6378
+_027E6370:
+	add r0, r0, #1
+	strh r0, [r4, #0xdc]
+_027E6378:
+	bl sub_27E66FC
+	ldrsh r0, [r4, #0x40]
+	ldr r1, _027E639C // =sub_27E62F0
+	mov r2, #5
+	bl sub_27E6754
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E6394: .word 0x027F9454
+_027E6398: .word 0x04000006
+_027E639C: .word sub_27E62F0
+	arm_func_end sub_27E6334
+
+	arm_func_start sub_27E63A0
+sub_27E63A0: // 0x027E63A0
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E6498 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldr r0, [r4, #0xc]
+	cmp r0, #1
+	bne _027E6490
+	mov r0, #0xc8
+	ldr r1, _027E649C // =sub_27E64E8
+	mov r2, #1
+	bl sub_27E6754
+	ldr r2, [r4, #0x7b8]
+	ldr r1, [r4, #0x7bc]
+	mov r0, #0
+	cmp r1, r0
+	cmpeq r2, r0
+	beq _027E648C
+	bl OS_GetTick
+	mov r2, #0
+	orr r3, r1, #0
+	orr ip, r0, #1
+	ldr r1, [r4, #0x738]
+	ldr r0, [r4, #0x73c]
+	cmp r0, r2
+	cmpeq r1, r2
+	beq _027E648C
+	subs ip, ip, r1
+	sbc r3, r3, r0
+	ldr r1, [r4, #0x7b8]
+	ldr r0, [r4, #0x7bc]
+	cmp r3, r0
+	cmpeq ip, r1
+	bls _027E648C
+	str r2, [r4, #0x738]
+	str r2, [r4, #0x73c]
+	bl sub_27E0134
+	movs r1, r0
+	moveq r0, #0
+	beq _027E6458
+	mov r0, #0x25
+	str r0, [r1]
+	mov r2, #0
+	str r2, [r1, #4]
+	ldr r0, _027E64A0 // =0x00008001
+	str r0, [r1, #8]
+	ldr r0, _027E64A4 // =0x027F84DC
+	bl OS_SendMessage
+_027E6458:
+	cmp r0, #0
+	bne _027E6490
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x80
+	strh r1, [r0]
+	mov r1, #8
+	strh r1, [r0, #2]
+	mov r1, #0x16
+	strh r1, [r0, #4]
+	mov r1, #0x25
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	b _027E6490
+_027E648C:
+	bl sub_27E6238
+_027E6490:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E6498: .word 0x027F9454
+_027E649C: .word sub_27E64E8
+_027E64A0: .word 0x00008001
+_027E64A4: .word 0x027F84DC
+	arm_func_end sub_27E63A0
+
+	arm_func_start sub_27E64A8
+sub_27E64A8: // 0x027E64A8
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E64E0 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	bl sub_27E6568
+	ldr r0, [r4, #0xd8]
+	cmp r0, #0x7f
+	movhs r0, #0
+	strhs r0, [r4, #0x1c]
+	ldrsh r0, [r4, #0x42]
+	ldr r1, _027E64E4 // =sub_27E63A0
+	mov r2, #4
+	bl sub_27E6754
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E64E0: .word 0x027F9454
+_027E64E4: .word sub_27E63A0
+	arm_func_end sub_27E64A8
+
+	arm_func_start sub_27E64E8
+sub_27E64E8: // 0x027E64E8
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E6558 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldr r0, _027E655C // =0x0380FFF0
+	ldrh r0, [r0]
+	str r0, [r4, #0xd0]
+	ldr r1, [r4, #0xd0]
+	ldr r0, [r4, #0xd4]
+	cmp r0, r1
+	beq _027E6518
+	str r1, [r4, #0xd4]
+	bl sub_27E65FC
+_027E6518:
+	ldr r0, [r4, #0xd8]
+	cmp r0, #0x7f
+	bls _027E6538
+	mov r0, #0xd0
+	ldr r1, _027E6560 // =sub_27E64A8
+	mov r2, #2
+	bl sub_27E6754
+	b _027E6550
+_027E6538:
+	mov r0, #1
+	str r0, [r4, #0x1c]
+	ldrsh r0, [r4, #0x42]
+	ldr r1, _027E6564 // =sub_27E63A0
+	mov r2, #4
+	bl sub_27E6754
+_027E6550:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E6558: .word 0x027F9454
+_027E655C: .word 0x0380FFF0
+_027E6560: .word sub_27E64A8
+_027E6564: .word sub_27E63A0
+	arm_func_end sub_27E64E8
+
+	arm_func_start sub_27E6568
+sub_27E6568: // 0x027E6568
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027E65F4 // =0x027F9454
+	ldr ip, [r0, #0x550]
+	ldr r0, _027E65F8 // =0x04000006
+	ldrh r3, [r0]
+	cmp r3, #0xd0
+	blt _027E65E8
+	cmp r3, #0xd4
+	bge _027E65E8
+	ldr r2, [ip, #0xd8]
+	cmp r2, #0x7f
+	blo _027E65E8
+	mov lr, #1
+	mov r0, #0x3f
+	b _027E65BC
+_027E65A8:
+	mul r1, lr, r0
+	add r1, r1, #0x7f
+	cmp r2, r1
+	blo _027E65C4
+	add lr, lr, #1
+_027E65BC:
+	cmp lr, #7
+	blt _027E65A8
+_027E65C4:
+	rsb r0, lr, #1
+	add r1, r3, r0
+	ldr r0, _027E65F8 // =0x04000006
+	strh r1, [r0]
+	ldr r1, [ip, #0xd8]
+	mov r0, #0x3f
+	mul r0, lr, r0
+	sub r0, r1, r0
+	str r0, [ip, #0xd8]
+_027E65E8:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E65F4: .word 0x027F9454
+_027E65F8: .word 0x04000006
+	arm_func_end sub_27E6568
+
+	arm_func_start sub_27E65FC
+sub_27E65FC: // 0x027E65FC
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027E66DC // =0x027F9454
+	ldr r0, [r0, #0x550]
+	ldr r1, [r0, #0xd0]
+	mov r1, r1, lsl #6
+	str r1, [r0, #0xd0]
+	ldr r3, _027E66E0 // =0x048080F8
+	ldrh r2, [r3]
+	ldr r1, _027E66E4 // =0x048080FA
+	ldrh ip, [r1]
+	ldrh r3, [r3]
+	cmp r2, r3
+	ldrhih ip, [r1]
+	orr ip, r3, ip, lsl #16
+	ldr r1, _027E66E8 // =0x04000006
+	ldrh r3, [r1]
+	ldr r2, _027E66EC // =0x003FFFC0
+	and ip, ip, r2
+	ldr r1, _027E66F0 // =0x00000107
+	sub r3, r1, r3
+	mov r1, #0x7f
+	mul r1, r3, r1
+	add r1, r1, ip, lsl #1
+	and ip, r2, r1, lsr #1
+	ldr r1, [r0, #0xd0]
+	cmp r1, ip
+	movhi r1, #0
+	strhi r1, [r0, #0xd8]
+	bhi _027E66D0
+	mov lr, #1
+	add r3, r0, #0xd0
+	ldr r1, _027E66F4 // =0x0000414B
+	b _027E66C0
+_027E6684:
+	ldr r2, [r3]
+	add r2, r2, r1
+	str r2, [r3]
+	ldr r2, [r0, #0xd0]
+	cmp r2, ip
+	bls _027E66BC
+	sub r1, r2, ip
+	str r1, [r0, #0xd8]
+	ldr r2, [r0, #0xd8]
+	ldr r1, _027E66F8 // =0x0000400E
+	cmp r2, r1
+	movhi r1, #0
+	strhi r1, [r0, #0xd8]
+	b _027E66D0
+_027E66BC:
+	add lr, lr, #1
+_027E66C0:
+	cmp lr, #0x1e
+	blt _027E6684
+	mov r1, #0
+	str r1, [r0, #0xd8]
+_027E66D0:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E66DC: .word 0x027F9454
+_027E66E0: .word 0x048080F8
+_027E66E4: .word 0x048080FA
+_027E66E8: .word 0x04000006
+_027E66EC: .word 0x003FFFC0
+_027E66F0: .word 0x00000107
+_027E66F4: .word 0x0000414B
+_027E66F8: .word 0x0000400E
+	arm_func_end sub_27E65FC
+
+	arm_func_start sub_27E66FC
+sub_27E66FC: // 0x027E66FC
+	ldr r0, _027E6744 // =0x04000006
+	ldrh ip, [r0]
+	ldr r2, _027E6748 // =0x048080F8
+	ldrh r1, [r2]
+	ldr r0, _027E674C // =0x048080FA
+	ldrh r3, [r0]
+	ldrh r2, [r2]
+	cmp r1, r2
+	ldrhih r3, [r0]
+	orr r0, r2, r3, lsl #16
+	mov r1, r0, lsl #1
+	mov r0, #0x7f
+	mul r0, ip, r0
+	sub r0, r1, r0
+	mov r1, r0, lsr #7
+	ldr r0, _027E6750 // =0x0380FFF0
+	strh r1, [r0]
+	bx lr
+	.align 2, 0
+_027E6744: .word 0x04000006
+_027E6748: .word 0x048080F8
+_027E674C: .word 0x048080FA
+_027E6750: .word 0x0380FFF0
+	arm_func_end sub_27E66FC
+
+	arm_func_start sub_27E6754
+sub_27E6754: // 0x027E6754
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov ip, r0
+	mov r3, r1
+	str r2, [sp]
+	ldr r0, _027E6784 // =0x0380BDC8
+	mov r1, ip
+	ldr r2, _027E6788 // =0x00000107
+	bl OS_SetVAlarm
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E6784: .word 0x0380BDC8
+_027E6788: .word 0x00000107
+	arm_func_end sub_27E6754
+
+	arm_func_start sub_27E678C
+sub_27E678C: // 0x027E678C
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E680C // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldr r0, _027E6810 // =0x0380BDC8
+	ldrh r1, [r4, #0xe6]
+	cmp r1, #1
+	bne _027E67CC
+	ldr r1, [r0]
+	cmp r1, #0
+	beq _027E67B8
+	bl OS_CancelVAlarm
+_027E67B8:
+	mov r0, #0xd1
+	ldr r1, _027E6814 // =sub_27E6334
+	mov r2, #3
+	bl sub_27E6754
+	b _027E6804
+_027E67CC:
+	cmp r1, #2
+	bne _027E6804
+	mov r1, #0
+	str r1, [r4, #0x1c]
+	ldr r1, [r0]
+	cmp r1, #0
+	beq _027E67EC
+	bl OS_CancelVAlarm
+_027E67EC:
+	mov r0, #0xc8
+	ldr r1, _027E6818 // =sub_27E64E8
+	mov r2, #1
+	bl sub_27E6754
+	mov r0, #0
+	str r0, [r4, #0xd8]
+_027E6804:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E680C: .word 0x027F9454
+_027E6810: .word 0x0380BDC8
+_027E6814: .word sub_27E6334
+_027E6818: .word sub_27E64E8
+	arm_func_end sub_27E678C
+
+	arm_func_start sub_27E681C
+sub_27E681C: // 0x027E681C
+	ldr r0, _027E6828 // =0x0380BDC8
+	ldr ip, _027E682C // =OS_CancelVAlarm
+	bx ip
+	.align 2, 0
+_027E6828: .word 0x0380BDC8
+_027E682C: .word OS_CancelVAlarm
+	arm_func_end sub_27E681C
+
+	arm_func_start sub_27E6830
+sub_27E6830: // 0x027E6830
+	ldr r0, _027E683C // =0x0380BDC8
+	ldr ip, _027E6840 // =OS_CreateVAlarm
+	bx ip
+	.align 2, 0
+_027E683C: .word 0x0380BDC8
+_027E6840: .word OS_CreateVAlarm
+	arm_func_end sub_27E6830
+
+	arm_func_start sub_27E6844
+sub_27E6844: // 0x027E6844
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r1, _027E687C // =0x027F9454
+	ldr r1, [r1, #0x550]
+	ldrh r1, [r1]
+	cmp r1, #9
+	bne _027E6870
+	ldr r0, [r0, #4]
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27E79D0
+_027E6870:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E687C: .word 0x027F9454
+	arm_func_end sub_27E6844
+
+	arm_func_start sub_27E6880
+sub_27E6880: // 0x027E6880
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027E68AC // =0x027F9454
+	ldr r0, [r0, #0x550]
+	ldrh r0, [r0]
+	cmp r0, #0xa
+	bne _027E68A0
+	bl sub_27E7CD4
+_027E68A0:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E68AC: .word 0x027F9454
+	arm_func_end sub_27E6880
+
+	arm_func_start sub_27E68B0
+sub_27E68B0: // 0x027E68B0
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r1, _027E68E8 // =0x027F9454
+	ldr r1, [r1, #0x550]
+	ldrh r1, [r1]
+	cmp r1, #9
+	bne _027E68DC
+	ldr r0, [r0, #4]
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27E7AD4
+_027E68DC:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E68E8: .word 0x027F9454
+	arm_func_end sub_27E68B0
+
+	arm_func_start sub_27E68EC
+sub_27E68EC: // 0x027E68EC
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r0, _027E6A8C // =0x027F9454
+	ldr r4, [r0, #0x550]
+	mov r0, #0
+	strh r0, [r4, #0xce]
+	mov r0, #1
+	strh r0, [r4, #0x88]
+	ldrh r0, [r4, #0xc0]
+	sub r0, r0, #1
+	strh r0, [r4, #0xc0]
+	ldrh r0, [r4, #0xc0]
+	cmp r0, #0
+	bne _027E695C
+	ldrh r1, [r4, #0xbe]
+	ldr r0, _027E6A90 // =0x0000FFFF
+	cmp r1, r0
+	moveq r0, #4
+	streqh r0, [r4, #0xbe]
+	ldrh r0, [r4, #0xbe]
+	and r0, r0, #0xff
+	bl sub_27E0374
+	bl sub_27E0300
+	strh r0, [r4, #0xbc]
+	ldr r0, _027E6A90 // =0x0000FFFF
+	strh r0, [r4, #0xbe]
+	mov r0, #1
+	strh r0, [r4, #0xc0]
+_027E695C:
+	ldrh r0, [r4]
+	cmp r0, #9
+	bne _027E6A4C
+	bl OS_DisableInterrupts
+	add r1, r4, #0x100
+	ldrh r1, [r1, #0x82]
+	cmp r1, #0
+	bne _027E698C
+	mov r1, #0
+	strh r1, [r4, #0x62]
+	bl OS_RestoreInterrupts
+	b _027E6A80
+_027E698C:
+	mov r3, #1
+	ldrsh r2, [r4, #0x62]
+	cmp r2, #0
+	ble _027E69A8
+	ldrsh r1, [r4, #0x64]
+	cmp r1, #0
+	movgt r3, #0
+_027E69A8:
+	cmp r2, #0
+	movlt r1, #0
+	strlth r1, [r4, #0x62]
+	ldrsh r2, [r4, #0x62]
+	ldrsh r1, [r4, #0x5a]
+	add r1, r2, r1
+	strh r1, [r4, #0x62]
+	ldrsh r1, [r4, #0x62]
+	cmp r1, #0x100
+	movgt r1, #0x100
+	strgth r1, [r4, #0x62]
+	ldrh r1, [r4, #0x5c]
+	strh r1, [r4, #0x64]
+	cmp r3, #0
+	beq _027E6A00
+	ldrsh r1, [r4, #0x62]
+	cmp r1, #0
+	ble _027E6A00
+	ldrsh r1, [r4, #0x64]
+	cmp r1, #0
+	movgt r5, #1
+	bgt _027E6A04
+_027E6A00:
+	mov r5, #0
+_027E6A04:
+	bl OS_RestoreInterrupts
+	cmp r5, #0
+	beq _027E6A18
+	ldr r0, _027E6A90 // =0x0000FFFF
+	bl sub_27E7AD4
+_027E6A18:
+	ldrh r0, [r4, #0x92]
+	cmp r0, #1
+	bne _027E6A80
+	ldrh r0, [r4, #0xa0]
+	sub r0, r0, #1
+	strh r0, [r4, #0xa0]
+	ldrh r0, [r4, #0xa0]
+	cmp r0, #0
+	moveq r0, #1
+	streqh r0, [r4, #0x9e]
+	moveq r0, #0x3c
+	streqh r0, [r4, #0xa0]
+	b _027E6A80
+_027E6A4C:
+	cmp r0, #0xa
+	bne _027E6A80
+	mov r5, #0
+	bl OS_DisableInterrupts
+	ldr r1, [r4, #0x734]
+	cmp r1, #1
+	movne r5, #1
+	movne r1, #0
+	strneh r1, [r4, #0x60]
+	bl OS_RestoreInterrupts
+	cmp r5, #1
+	bne _027E6A80
+	bl sub_27E7CD4
+_027E6A80:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E6A8C: .word 0x027F9454
+_027E6A90: .word 0x0000FFFF
+	arm_func_end sub_27E68EC
+
+	arm_func_start sub_27E6A94
+sub_27E6A94: // 0x027E6A94
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	mov r4, r3
+	ands r0, r5, #0x8000
+	ldrne r0, _027E6B38 // =0x00007FFF
+	andne r5, r5, r0
+	addeq r0, r5, #0x1c
+	moveq r0, r0, lsl #2
+	addeq r5, r0, #0x66
+	mov r0, r2
+	bl MATH_CountPopulation
+	add r1, r6, #0x22
+	mov r1, r1, lsl #2
+	add r1, r1, #0x60
+	mul r0, r5, r0
+	add r0, r0, #0x388
+	add r3, r1, r0
+	ldr r0, _027E6B3C // =0x04000006
+	ldrh r1, [r0]
+	sub r0, r4, #2
+	subs r4, r0, r1
+	bpl _027E6AFC
+	ldr r0, _027E6B40 // =0x00000107
+_027E6AF4:
+	adds r4, r4, r0
+	bmi _027E6AF4
+_027E6AFC:
+	mov r0, #0x7f
+	mul r2, r4, r0
+	ldr r1, _027E6B44 // =0x66666667
+	smull r0, r4, r1, r2
+	mov r4, r4, asr #3
+	mov r0, r2, lsr #0x1f
+	add r4, r0, r4
+	mov r0, #0xa
+	mul r0, r4, r0
+	cmp r0, r3
+	movlo r4, #0
+	mov r0, r4, lsl #0x10
+	mov r0, r0, lsr #0x10
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027E6B38: .word 0x00007FFF
+_027E6B3C: .word 0x04000006
+_027E6B40: .word 0x00000107
+_027E6B44: .word 0x66666667
+	arm_func_end sub_27E6A94
+
+	arm_func_start sub_27E6B48
+sub_27E6B48: // 0x027E6B48
+	stmdb sp!, {r0, r1, r2, r3}
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x2c
+	str r0, [sp]
+	mov sl, r2
+	movs sb, r3
+	ldr r0, [sp, #0x60]
+	str r0, [sp, #0x60]
+	ldr r0, _027E6DDC // =0x027F9454
+	ldr r8, [r0, #0x550]
+	addeq sp, sp, #0x2c
+	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	addeq sp, sp, #0x10
+	bxeq lr
+	ldrh r0, [r8, #0x3e]
+	cmp sb, r0
+	addhi sp, sp, #0x2c
+	ldmhiia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	addhi sp, sp, #0x10
+	bxhi lr
+	add r0, r8, #0x100
+	ldrh r1, [r0, #0x88]
+	ldr r0, [sp]
+	cmp r0, r1
+	addeq sp, sp, #0x2c
+	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	addeq sp, sp, #0x10
+	bxeq lr
+	cmp r0, #0x10
+	addhs sp, sp, #0x2c
+	ldmhsia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	addhs sp, sp, #0x10
+	bxhs lr
+	ands r0, sb, #1
+	addne sp, sp, #0x2c
+	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	addne sp, sp, #0x10
+	bxne lr
+	mov r0, #1
+	str r0, [sp, #4]
+	cmp sb, #0
+	addle sp, sp, #0x2c
+	ldmleia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	addle sp, sp, #0x10
+	bxle lr
+	add r1, r8, #0x1f8
+	ldr r0, [sp]
+	add fp, r1, r0, lsl #4
+	mov r4, #0
+	mov r0, #0x200
+	str r0, [sp, #0xc]
+	ldr r0, [sp, #4]
+	str r0, [sp, #0x10]
+	str r0, [sp, #0x14]
+	mov r0, #2
+	str r0, [sp, #0x18]
+	mov r0, #0x82
+	str r0, [sp, #0x20]
+	mov r0, #0x15
+	str r0, [sp, #0x24]
+	ldr r0, [sp, #4]
+	str r0, [sp, #0x1c]
+_027E6C40:
+	ldr r5, _027E6DE0 // =0x0000FFFF
+	ldr r0, [sp, #4]
+	cmp r0, #1
+	streq r4, [sp, #4]
+	addeq r0, sp, #0x54
+	movne r0, sl
+	addne sl, sl, #2
+	subne sb, sb, #2
+	ldrh r1, [r0]
+	and r0, r1, #0xff
+	movs r7, r0, lsl #1
+	ldreq r7, [sp, #0xc]
+	ands r0, r1, #0x1000
+	ldrne r2, [sp, #0x10]
+	moveq r2, r4
+	ands r0, r1, #0x800
+	ldrne r3, [sp, #0x14]
+	moveq r3, r4
+	cmp r2, #0
+	ldrne r6, [sp, #0x18]
+	moveq r6, r4
+	cmp r3, #0
+	ldrne r0, [sp, #0x18]
+	moveq r0, r4
+	add r0, r7, r0
+	add r0, r0, r6
+	subs sb, sb, r0
+	addmi sp, sp, #0x2c
+	ldmmiia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	addmi sp, sp, #0x10
+	bxmi lr
+	and r1, r1, #0xf00
+	mov r1, r1, lsl #8
+	mov r6, r1, lsr #0x10
+	str sl, [sp, #8]
+	add r1, sl, r7
+	add sl, sl, r0
+	cmp r3, #1
+	bne _027E6D1C
+	and r0, r6, #7
+	mov r3, r0, lsl #1
+	add r0, fp, r0, lsl #1
+	ldrh ip, [fp, r3]
+	ldrh r5, [r1], #2
+	ands r3, ip, #1
+	movne r3, r5, lsl #1
+	strneh r3, [r0]
+	bne _027E6D1C
+	mov r5, r5, lsl #1
+	sub r3, ip, r5
+	mov r3, r3, lsl #0x10
+	mov r3, r3, lsr #0x10
+	cmp r3, #0x100
+	blo _027E6DC4
+	strh r5, [r0]
+_027E6D1C:
+	cmp r2, #1
+	bne _027E6D40
+	ldrh r2, [r1]
+	add r0, r8, #0x100
+	ldrh r1, [r0, #0x88]
+	ldr r0, [sp, #0x1c]
+	mov r0, r0, lsl r1
+	ands r0, r2, r0
+	beq _027E6DC4
+_027E6D40:
+	cmp r7, #0
+	ble _027E6DC4
+	bl WMSP_GetBuffer4Callback2Wm9
+	ldr r1, [sp, #0x20]
+	strh r1, [r0]
+	strh r4, [r0, #2]
+	ldr r1, [sp, #0x24]
+	strh r1, [r0, #4]
+	strh r6, [r0, #6]
+	ldr r1, [sp, #0x60]
+	str r1, [r0, #8]
+	ldr r1, [sp, #8]
+	str r1, [r0, #0xc]
+	strh r7, [r0, #0x10]
+	ldr r1, [sp]
+	strh r1, [r0, #0x12]
+	add r1, r8, #0x100
+	ldrh r2, [r1, #0x88]
+	strh r2, [r0, #0x20]
+	strh r5, [r0, #0x1a]
+	ldrh r2, [r8, #0x30]
+	ldrh r3, [r8, #0x32]
+	ldrh r1, [r1, #0x88]
+	cmp r1, #0
+	moveq r1, r2
+	movne r1, r3
+	strh r1, [r0, #0x40]
+	add r1, r8, #0x100
+	ldrh r1, [r1, #0x88]
+	cmp r1, #0
+	movne r3, r2
+	strh r3, [r0, #0x42]
+	bl WMSP_ReturnResult2Wm9
+_027E6DC4:
+	cmp sb, #0
+	bgt _027E6C40
+	add sp, sp, #0x2c
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	add sp, sp, #0x10
+	bx lr
+	.align 2, 0
+_027E6DDC: .word 0x027F9454
+_027E6DE0: .word 0x0000FFFF
+	arm_func_end sub_27E6B48
+
+	arm_func_start sub_27E6DE4
+sub_27E6DE4: // 0x027E6DE4
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x24
+	ldr r1, _027E6FE4 // =0x027F9454
+	ldr r6, [r1, #0x550]
+	add sb, r6, #0x2f8
+	mvn r1, r0
+	add r0, r6, #0x100
+	ldrh r0, [r0, #0x82]
+	and r0, r1, r0
+	str r0, [sp, #8]
+	ldr r0, _027E6FE8 // =0x0000071C
+	add r0, r6, r0
+	bl OS_LockMutex
+	mov r0, #0
+	str r0, [sp]
+	ldr r0, _027E6FEC // =0x0000070C
+	add r0, r6, r0
+	str r0, [sp, #0xc]
+	mov r0, #0x81
+	str r0, [sp, #0x14]
+	ldr r0, [sp]
+	str r0, [sp, #0x18]
+	mov r0, #0x14
+	str r0, [sp, #0x1c]
+	ldr r4, _027E6FF0 // =0x0000FFFF
+	ldr r0, [sp]
+	str r0, [sp, #0x10]
+_027E6E50:
+	ldr r0, [sp, #0x10]
+	str r0, [sp, #4]
+	ldr r5, [sp, #0xc]
+_027E6E5C:
+	mov fp, r5
+	mov r8, r4
+	ldrh sl, [r5]
+	cmp sl, r4
+	beq _027E6FA0
+_027E6E70:
+	add r7, sb, sl, lsl #5
+	ldrh r1, [r7, #6]
+	ldr r0, [sp, #8]
+	and r0, r1, r0
+	strh r0, [r7, #6]
+	ldrh r1, [r7, #0xa]
+	ldr r0, [sp, #8]
+	and r0, r1, r0
+	strh r0, [r7, #0xa]
+	ldrh r0, [r7, #6]
+	cmp r0, #0
+	bne _027E6F78
+	bl WMSP_GetBuffer4Callback2Wm9
+	ldr r1, [sp, #0x14]
+	strh r1, [r0]
+	ldr r1, [sp, #0x18]
+	strh r1, [r0, #2]
+	ldr r1, [sp, #0x1c]
+	strh r1, [r0, #8]
+	ldrh r1, [r7, #2]
+	strh r1, [r0, #0xa]
+	ldrh r1, [r7, #4]
+	strh r1, [r0, #0xc]
+	ldrh r1, [r7, #6]
+	strh r1, [r0, #0xe]
+	ldrh r1, [r7, #8]
+	strh r1, [r0, #0x10]
+	ldrh r1, [r7, #0xe]
+	strh r1, [r0, #0x18]
+	ldr r1, [r7, #0x14]
+	str r1, [r0, #0x14]
+	ldr r1, [r7, #0x18]
+	str r1, [r0, #0x1c]
+	ldr r1, [r7, #0x1c]
+	str r1, [r0, #0x20]
+	ldrh r1, [r7, #0x10]
+	strh r1, [r0, #0x1a]
+	ldrh r1, [r6, #0x30]
+	ldrh r2, [r6, #0x32]
+	add r3, r6, #0x100
+	ldrh r3, [r3, #0x88]
+	cmp r3, #0
+	moveq r3, r1
+	movne r3, r2
+	strh r3, [r0, #0x24]
+	add r3, r6, #0x100
+	ldrh r3, [r3, #0x88]
+	cmp r3, #0
+	movne r2, r1
+	strh r2, [r0, #0x26]
+	bl WMSP_ReturnResult2Wm9
+	ldrh r0, [r7]
+	cmp r0, r4
+	streqh r8, [r5, #2]
+	ldrh r0, [r7]
+	strh r0, [fp]
+	strh r4, [r7]
+	add r0, r6, #0x600
+	ldrh r1, [r0, #0xfa]
+	cmp r1, r4
+	streqh sl, [r0, #0xf8]
+	movne r0, r1, lsl #5
+	strneh sl, [sb, r0]
+	add r0, r6, #0x600
+	strh sl, [r0, #0xfa]
+	mov sl, r8
+_027E6F78:
+	cmp sl, r4
+	addne fp, sb, sl, lsl #5
+	moveq fp, r5
+	mov r8, sl
+	cmp sl, r4
+	movne r0, sl, lsl #5
+	ldrneh sl, [sb, r0]
+	ldreqh sl, [r5]
+	cmp sl, r4
+	bne _027E6E70
+_027E6FA0:
+	add r5, r5, #4
+	ldr r0, [sp, #4]
+	add r0, r0, #1
+	str r0, [sp, #4]
+	cmp r0, #4
+	blt _027E6E5C
+	ldr r0, [sp]
+	add r0, r0, #1
+	str r0, [sp]
+	cmp r0, #2
+	blt _027E6E50
+	ldr r0, _027E6FE8 // =0x0000071C
+	add r0, r6, r0
+	bl OS_UnlockMutex
+	add sp, sp, #0x24
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027E6FE4: .word 0x027F9454
+_027E6FE8: .word 0x0000071C
+_027E6FEC: .word 0x0000070C
+_027E6FF0: .word 0x0000FFFF
+	arm_func_end sub_27E6DE4
+
+	arm_func_start sub_27E6FF4
+sub_27E6FF4: // 0x027E6FF4
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x2c
+	str r0, [sp]
+	mov r4, r1
+	ldr r0, _027E7328 // =0x027F9454
+	ldr r6, [r0, #0x550]
+	add sl, r6, #0x2f8
+	mov r0, #0
+	str r0, [sp, #8]
+	ldrh r0, [r6]
+	cmp r0, #9
+	moveq r5, #1
+	beq _027E7044
+	cmp r0, #0xa
+	ldreq r5, [sp, #8]
+	beq _027E7044
+	ldr r0, [sp, #8]
+	add sp, sp, #0x2c
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+_027E7044:
+	ldr r0, _027E732C // =0x0000071C
+	add r0, r6, r0
+	bl OS_LockMutex
+	ldr r0, [r6, #0x734]
+	cmp r0, #0
+	bne _027E7078
+	ldr r0, _027E732C // =0x0000071C
+	add r0, r6, r0
+	bl OS_UnlockMutex
+	mov r0, #0
+	add sp, sp, #0x2c
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+_027E7078:
+	cmp r5, #0
+	moveq fp, #1
+	beq _027E7094
+	bl OS_DisableInterrupts
+	add r1, r6, #0x100
+	ldrh fp, [r1, #0x82]
+	bl OS_RestoreInterrupts
+_027E7094:
+	mov r0, #0
+	str r0, [sp, #4]
+	ldr r0, _027E7330 // =0x000006FC
+	add r8, r6, r0
+	mvn r0, r4
+	str r0, [sp, #0x10]
+	mov r0, #1
+	str r0, [sp, #0x18]
+	ldr r4, _027E7334 // =0x0000FFFF
+	ldr r0, [sp, #4]
+	str r0, [sp, #0x14]
+	mov r0, #0x81
+	str r0, [sp, #0x1c]
+	mov r0, #0xf
+	str r0, [sp, #0x24]
+	ldr r0, [sp, #4]
+	str r0, [sp, #0x20]
+	mov r0, #0x14
+	str r0, [sp, #0x28]
+_027E70E0:
+	mov r5, r4
+	str r4, [sp, #0xc]
+	ldrh sb, [r8]
+	cmp sb, r4
+	beq _027E72AC
+_027E70F4:
+	add r7, sl, sb, lsl #5
+	ldr r0, [sp]
+	cmp r0, #0
+	bne _027E7130
+	ldrh r2, [r7, #8]
+	ldrh r1, [r7, #0xa]
+	ldr r0, [sp, #0x10]
+	and r0, r1, r0
+	orr r0, r2, r0
+	strh r0, [r7, #8]
+	ldrh r1, [r7, #6]
+	ldrh r0, [r7, #8]
+	mvn r0, r0
+	and r0, r1, r0
+	strh r0, [r7, #6]
+_027E7130:
+	ldrh r0, [r7, #6]
+	and r0, r0, fp
+	strh r0, [r7, #6]
+	ldr r0, [sp, #0x14]
+	strh r0, [r7, #0xa]
+	ldrh r0, [r7, #6]
+	cmp r0, #0
+	beq _027E71BC
+	ldrh r0, [r7, #2]
+	ands r0, r0, #8
+	bne _027E7168
+	ldrh r0, [r7, #0x12]
+	cmp r0, #0
+	beq _027E71BC
+_027E7168:
+	ldr r0, [sp, #0x18]
+	str r0, [sp, #8]
+	ldrh r0, [r7, #0x12]
+	cmp r0, #0
+	subne r0, r0, #1
+	strneh r0, [r7, #0x12]
+	ldrh r0, [r7]
+	cmp r0, r4
+	streqh r4, [r8, #2]
+	ldrh r0, [r7]
+	strh r0, [r8]
+	strh r4, [r7]
+	cmp r5, r4
+	moveq r0, sb, lsl #0x10
+	moveq r0, r0, lsr #0x10
+	streq r0, [sp, #0xc]
+	movne r0, r5, lsl #5
+	strneh sb, [sl, r0]
+	mov r0, sb, lsl #0x10
+	mov r5, r0, lsr #0x10
+	b _027E72A0
+_027E71BC:
+	bl WMSP_GetBuffer4Callback2Wm9
+	ldr r1, [sp, #0x1c]
+	strh r1, [r0]
+	ldrh r1, [r7, #6]
+	cmp r1, #0
+	ldreq r1, [sp, #0x20]
+	streqh r1, [r0, #2]
+	ldrne r1, [sp, #0x24]
+	strneh r1, [r0, #2]
+	ldr r1, [sp, #0x28]
+	strh r1, [r0, #8]
+	ldrh r1, [r7, #2]
+	strh r1, [r0, #0xa]
+	ldrh r1, [r7, #4]
+	strh r1, [r0, #0xc]
+	ldrh r1, [r7, #6]
+	strh r1, [r0, #0xe]
+	ldrh r1, [r7, #8]
+	strh r1, [r0, #0x10]
+	ldrh r1, [r7, #0xe]
+	strh r1, [r0, #0x18]
+	ldr r1, [r7, #0x14]
+	str r1, [r0, #0x14]
+	ldr r1, [r7, #0x18]
+	str r1, [r0, #0x1c]
+	ldr r1, [r7, #0x1c]
+	str r1, [r0, #0x20]
+	ldrh r1, [r7, #0x10]
+	strh r1, [r0, #0x1a]
+	ldrh r1, [r6, #0x30]
+	ldrh r2, [r6, #0x32]
+	add r3, r6, #0x100
+	ldrh r3, [r3, #0x88]
+	cmp r3, #0
+	moveq r3, r1
+	movne r3, r2
+	strh r3, [r0, #0x24]
+	add r3, r6, #0x100
+	ldrh r3, [r3, #0x88]
+	cmp r3, #0
+	movne r2, r1
+	strh r2, [r0, #0x26]
+	bl WMSP_ReturnResult2Wm9
+	ldrh r0, [r7]
+	cmp r0, r4
+	streqh r4, [r8, #2]
+	ldrh r0, [r7]
+	strh r0, [r8]
+	strh r4, [r7]
+	add r0, r6, #0x600
+	ldrh r1, [r0, #0xfa]
+	cmp r1, r4
+	streqh sb, [r0, #0xf8]
+	movne r0, r1, lsl #5
+	strneh sb, [sl, r0]
+	add r0, r6, #0x600
+	strh sb, [r0, #0xfa]
+_027E72A0:
+	ldrh sb, [r8]
+	cmp sb, r4
+	bne _027E70F4
+_027E72AC:
+	cmp r5, r4
+	beq _027E72EC
+	ldr r0, [sp, #4]
+	add r0, r6, r0, lsl #2
+	add r0, r0, #0x700
+	ldrh r2, [r0, #0xc]
+	mov r1, r5, lsl #5
+	strh r2, [sl, r1]
+	ldrh r1, [r0, #0xe]
+	cmp r1, r4
+	streqh r5, [r0, #0xe]
+	ldr r0, [sp, #4]
+	add r0, r6, r0, lsl #2
+	add r1, r0, #0x700
+	ldr r0, [sp, #0xc]
+	strh r0, [r1, #0xc]
+_027E72EC:
+	add r8, r8, #4
+	ldr r0, [sp, #4]
+	add r0, r0, #1
+	str r0, [sp, #4]
+	cmp r0, #4
+	blt _027E70E0
+	mov r0, #0
+	str r0, [r6, #0x734]
+	ldr r0, _027E732C // =0x0000071C
+	add r0, r6, r0
+	bl OS_UnlockMutex
+	ldr r0, [sp, #8]
+	add sp, sp, #0x2c
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027E7328: .word 0x027F9454
+_027E732C: .word 0x0000071C
+_027E7330: .word 0x000006FC
+_027E7334: .word 0x0000FFFF
+	arm_func_end sub_27E6FF4
+
+	arm_func_start sub_27E7338
+sub_27E7338: // 0x027E7338
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	sub sp, sp, #4
+	mov r8, r0
+	mov r7, r2
+	mov r6, r3
+	ldr r0, _027E7484 // =0x027F9454
+	ldr sb, [r0, #0x550]
+	add r5, sb, #0x2f8
+	ldr r0, _027E7488 // =0x0000070C
+	add r0, sb, r0
+	add r4, r0, r1, lsl #2
+	ldrh r0, [sp, #0x24]
+	cmp r0, #0
+	moveq r0, #6
+	addeq sp, sp, #4
+	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bxeq lr
+	ands r0, r7, #8
+	movne r1, #2
+	moveq r1, #0
+	ldrh r0, [sp, #0x24]
+	add r1, r0, r1
+	ldrh r0, [sb, #0x3c]
+	cmp r1, r0
+	movgt r0, #6
+	addgt sp, sp, #4
+	ldmgtia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bxgt lr
+	ldr r0, _027E748C // =0x0000071C
+	add r0, sb, r0
+	bl OS_LockMutex
+	add r2, sb, #0x600
+	ldrh r0, [r2, #0xf8]
+	ldr r3, _027E7490 // =0x0000FFFF
+	cmp r0, r3
+	bne _027E73E4
+	ldr r0, _027E748C // =0x0000071C
+	add r0, sb, r0
+	bl OS_UnlockMutex
+	mov r0, #0xa
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+_027E73E4:
+	mov ip, r0, lsl #5
+	add r1, r5, r0, lsl #5
+	ldrh ip, [r5, ip]
+	strh ip, [r2, #0xf8]
+	ldrh ip, [r2, #0xfa]
+	cmp ip, r0
+	streqh r3, [r2, #0xfa]
+	strh r7, [r1, #2]
+	strh r6, [r1, #4]
+	and r2, r6, r8
+	strh r2, [r1, #6]
+	mov r2, #0
+	strh r2, [r1, #8]
+	strh r2, [r1, #0xa]
+	ldr r2, [sp, #0x20]
+	str r2, [r1, #0x14]
+	ldrh r2, [sp, #0x24]
+	strh r2, [r1, #0xe]
+	ldr r2, [sp, #0x28]
+	str r2, [r1, #0x18]
+	ldr r2, [sp, #0x2c]
+	str r2, [r1, #0x1c]
+	ldr r3, _027E7490 // =0x0000FFFF
+	strh r3, [r1]
+	strh r3, [r1, #0x10]
+	ldrh r2, [sb, #0x98]
+	strh r2, [r1, #0x12]
+	ldrh r1, [r4, #2]
+	cmp r1, r3
+	streqh r0, [r4]
+	movne r1, r1, lsl #5
+	strneh r0, [r5, r1]
+	strh r0, [r4, #2]
+	ldr r0, _027E748C // =0x0000071C
+	add r0, sb, r0
+	bl OS_UnlockMutex
+	mov r0, #2
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+	.align 2, 0
+_027E7484: .word 0x027F9454
+_027E7488: .word 0x0000070C
+_027E748C: .word 0x0000071C
+_027E7490: .word 0x0000FFFF
+	arm_func_end sub_27E7338
+
+	arm_func_start sub_27E7494
+sub_27E7494: // 0x027E7494
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x64
+	mov sl, r3
+	ldr r3, [sp, #0x88]
+	str r3, [sp, #0x88]
+	ldr r3, [sp, #0x8c]
+	str r3, [sp, #0x8c]
+	ldr r3, _027E79B8 // =0x027F9454
+	ldr r3, [r3, #0x550]
+	str r3, [sp, #0x38]
+	ldrh r8, [r3, #0x38]
+	ldr r7, [r3, #0x7c]
+	ldrh r4, [r3, #0x80]
+	add r3, r8, #0x1f
+	bic r3, r3, #0x1f
+	cmp r4, r3
+	movlt r0, #1
+	addlt sp, sp, #0x64
+	ldmltia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bxlt lr
+	ldr r3, [sp, #0x38]
+	add r3, r3, #0x100
+	ldrh r3, [r3, #0x88]
+	cmp r3, #0x10
+	movhs r0, #1
+	addhs sp, sp, #0x64
+	ldmhsia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bxhs lr
+	ldr r3, [sp, #0x38]
+	ldrh r3, [r3]
+	cmp r3, #9
+	moveq r3, #1
+	streq r3, [sp, #0x10]
+	beq _027E753C
+	cmp r3, #0xa
+	moveq r3, #0
+	streq r3, [sp, #0x10]
+	beq _027E753C
+	mov r0, #1
+	add sp, sp, #0x64
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+_027E753C:
+	mov r3, #0
+	str r3, [sp, #0x14]
+	strh r3, [sl]
+	mov r4, r3
+	ldr r3, [sp, #0x88]
+	str r4, [r3]
+	ldr r4, [sp, #0x14]
+	ldr r3, [sp, #0x8c]
+	str r4, [r3]
+	mov r6, r4
+	cmp r8, #0
+	movlt r0, #1
+	addlt sp, sp, #0x64
+	ldmltia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bxlt lr
+	str r2, [sp, #0x1c]
+	mov r3, #1
+	str r3, [sp, #0x18]
+	ldr r3, [sp, #0x10]
+	cmp r3, #0
+	beq _027E75AC
+	ldr r3, [sp, #0x38]
+	ldrh r3, [r3, #0x92]
+	cmp r3, #0
+	strne r1, [sp, #0x1c]
+	movne r1, r4
+	strne r1, [sp, #0x18]
+	b _027E75B4
+_027E75AC:
+	mov r1, r4
+	str r1, [sp, #0x18]
+_027E75B4:
+	and r4, r2, r0
+	mov r0, #0
+	str r0, [sp, #8]
+	mov r0, #1
+	str r0, [sp, #0xc]
+	ldr r1, _027E79BC // =0x0000071C
+	ldr r0, [sp, #0x38]
+	add r0, r0, r1
+	bl OS_LockMutex
+	ldr r0, [sp, #0x38]
+	ldr r0, [r0, #0x734]
+	cmp r0, #1
+	bne _027E7608
+	ldr r1, _027E79BC // =0x0000071C
+	ldr r0, [sp, #0x38]
+	add r0, r0, r1
+	bl OS_UnlockMutex
+	mov r0, #1
+	add sp, sp, #0x64
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+_027E7608:
+	mov r1, #1
+	str r1, [sp, #0x40]
+	ldr r0, [sp, #0x38]
+	str r1, [r0, #0x734]
+	add r0, r0, #0x2f8
+	str r0, [sp, #0x20]
+	mov r0, #0
+	str r0, [sp, #0x24]
+	ldr r1, _027E79C0 // =0x0000070C
+	ldr r0, [sp, #0x38]
+	add fp, r0, r1
+	ldr r1, _027E79C4 // =0x000006FC
+	add r0, r0, r1
+	str r0, [sp, #0x28]
+	mvn r0, r4
+	str r0, [sp, #0x3c]
+	ldr r0, [sp, #0x24]
+	str r0, [sp, #0x44]
+	str r0, [sp, #0x48]
+	str r0, [sp, #0x50]
+	mov r0, #2
+	str r0, [sp, #0x4c]
+	ldr r0, [sp, #0x24]
+	str r0, [sp, #0x54]
+	str r0, [sp, #0x58]
+	str r0, [sp, #0x5c]
+	str r0, [sp, #0x60]
+	b _027E7970
+_027E7678:
+	str fp, [sp, #0x2c]
+	ldr r0, _027E79C8 // =0x0000FFFF
+	str r0, [sp, #0x30]
+	ldrh sb, [fp]
+	b _027E7940
+_027E768C:
+	ldr r0, [sp, #0x20]
+	add r5, r0, sb, lsl #5
+	ldrh r0, [r5, #2]
+	ldr r1, [sp, #0x40]
+	mov r1, r1, lsl r0
+	str r1, [sp, #0x34]
+	ldr r2, [sp, #8]
+	ands r1, r2, r1
+	bne _027E790C
+	ldr r1, [sp, #0x34]
+	orr r1, r2, r1
+	str r1, [sp, #8]
+	ldrh r2, [r5, #6]
+	ldr r1, [sp, #0x1c]
+	and r4, r2, r1
+	ldr r1, [sp, #0x18]
+	cmp r1, #0
+	beq _027E76E0
+	ldr r1, [sp, #0x3c]
+	ands r1, r4, r1
+	bne _027E790C
+_027E76E0:
+	ands r0, r0, #8
+	ldrne r0, [sp, #0x40]
+	strne r0, [sp, #4]
+	ldreq r0, [sp, #0x44]
+	streq r0, [sp, #4]
+	ldr r0, [sp, #0x10]
+	cmp r0, #0
+	beq _027E7718
+	orr r1, r4, #1
+	ldr r0, _027E79C8 // =0x0000FFFF
+	cmp r1, r0
+	ldrne r0, [sp, #0x40]
+	strne r0, [sp]
+	bne _027E7720
+_027E7718:
+	ldr r0, [sp, #0x48]
+	str r0, [sp]
+_027E7720:
+	ldrh r0, [r5, #0xe]
+	and r1, r0, #1
+	cmp r1, #1
+	addeq r0, r0, #1
+	streqh r0, [r5, #0xe]
+	ldr r0, [sp, #4]
+	cmp r0, #0
+	ldrne r0, [sp, #0x4c]
+	ldreq r0, [sp, #0x50]
+	ldr r1, [sp, #0xc]
+	cmp r1, #0
+	ldrne r3, [sp, #0x54]
+	ldreq r3, [sp, #0x4c]
+	ldr r1, [sp]
+	cmp r1, #0
+	ldrne r1, [sp, #0x4c]
+	ldreq r1, [sp, #0x58]
+	ldrh r2, [r5, #0xe]
+	add r2, r2, r3
+	add r0, r2, r0
+	add r0, r1, r0
+	cmp r0, r8
+	bgt _027E790C
+	ldr r0, [sp, #0xc]
+	cmp r0, #0
+	moveq sl, r7
+	ldreq r0, [sp, #0x5c]
+	streqh r0, [r7], #2
+	addeq r6, r6, #2
+	subeq r8, r8, #2
+	ldrh r0, [sl]
+	ldrh r1, [r5, #2]
+	mov r1, r1, lsl #8
+	and r2, r1, #0xf00
+	ldrh r1, [r5, #0xe]
+	mov r1, r1, lsr #1
+	and r1, r1, #0xff
+	orr r1, r2, r1
+	orr r0, r0, r1
+	strh r0, [sl]
+	ldr r0, [r5, #0x14]
+	mov r1, r7
+	ldrh r2, [r5, #0xe]
+	bl MIi_CpuCopy16
+	ldrh r1, [r5, #0xe]
+	bic r0, r1, #1
+	add r7, r7, r0
+	add r6, r6, r1
+	sub r8, r8, r1
+	ldr r0, [sp, #4]
+	cmp r0, #1
+	bne _027E784C
+	ldrh r1, [r5, #0x10]
+	ands r0, r1, #1
+	moveq r2, r1, asr #1
+	beq _027E7838
+	ldr r0, [sp, #0x38]
+	add r0, r0, #0x100
+	ldrh r2, [r0, #0x88]
+	ldrh r0, [r5, #2]
+	and r1, r0, #7
+	ldr r0, [sp, #0x38]
+	add r0, r0, r2, lsl #4
+	add r0, r0, r1, lsl #1
+	add r0, r0, #0x100
+	ldrh r2, [r0, #0xf8]
+	add r1, r2, #1
+	strh r1, [r0, #0xf8]
+	mov r0, r2, lsl #1
+	strh r0, [r5, #0x10]
+_027E7838:
+	ldr r0, _027E79CC // =0x00007FFF
+	and r0, r2, r0
+	strh r0, [r7], #2
+	add r6, r6, #2
+	sub r8, r8, #2
+_027E784C:
+	ldr r0, [sp]
+	cmp r0, #1
+	bne _027E7870
+	ldrh r0, [sl]
+	orr r0, r0, #0x1000
+	strh r0, [sl]
+	strh r4, [r7], #2
+	add r6, r6, #2
+	sub r8, r8, #2
+_027E7870:
+	ldr r0, [sp, #0xc]
+	cmp r0, #1
+	ldreq r0, [sp, #0x60]
+	streq r0, [sp, #0xc]
+	ldrh r0, [fp, #2]
+	cmp r0, sb
+	ldreq r0, [sp, #0x30]
+	streqh r0, [fp, #2]
+	ldrh r1, [r5]
+	ldr r0, [sp, #0x2c]
+	strh r1, [r0]
+	ldr r0, _027E79C8 // =0x0000FFFF
+	strh r0, [r5]
+	ldr r0, [sp, #0x28]
+	ldrh r1, [r0, #2]
+	ldr r0, _027E79C8 // =0x0000FFFF
+	cmp r1, r0
+	ldreq r0, [sp, #0x28]
+	streqh sb, [r0]
+	movne r1, r1, lsl #5
+	ldrne r0, [sp, #0x20]
+	strneh sb, [r0, r1]
+	ldr r0, [sp, #0x28]
+	strh sb, [r0, #2]
+	strh r4, [r5, #0xa]
+	ldr r0, [sp, #0x34]
+	mvn r1, r0
+	ldr r0, [sp, #8]
+	and r0, r0, r1
+	str r0, [sp, #8]
+	ldrh r1, [r5, #4]
+	ldr r0, [sp, #0x14]
+	orr r0, r0, r1
+	str r0, [sp, #0x14]
+	ldr sb, [sp, #0x30]
+	ldr r0, [sp, #0x38]
+	ldrh r0, [r0, #0x94]
+	cmp r0, #1
+	beq _027E7984
+_027E790C:
+	ldr r0, _027E79C8 // =0x0000FFFF
+	cmp sb, r0
+	ldrne r0, [sp, #0x20]
+	addne r0, r0, sb, lsl #5
+	strne r0, [sp, #0x2c]
+	streq fp, [sp, #0x2c]
+	str sb, [sp, #0x30]
+	ldr r0, _027E79C8 // =0x0000FFFF
+	cmp sb, r0
+	movne r1, sb, lsl #5
+	ldrne r0, [sp, #0x20]
+	ldrneh sb, [r0, r1]
+	ldreqh sb, [fp]
+_027E7940:
+	ldr r0, _027E79C8 // =0x0000FFFF
+	cmp sb, r0
+	beq _027E7954
+	cmp r8, #2
+	bgt _027E768C
+_027E7954:
+	add fp, fp, #4
+	ldr r0, [sp, #0x28]
+	add r0, r0, #4
+	str r0, [sp, #0x28]
+	ldr r0, [sp, #0x24]
+	add r0, r0, #1
+	str r0, [sp, #0x24]
+_027E7970:
+	ldr r0, [sp, #0x24]
+	cmp r0, #4
+	bhs _027E7984
+	cmp r8, #2
+	bgt _027E7678
+_027E7984:
+	ldr r1, [sp, #0x14]
+	ldr r0, [sp, #0x88]
+	str r1, [r0]
+	ldr r0, [sp, #0x8c]
+	str r6, [r0]
+	ldr r1, _027E79BC // =0x0000071C
+	ldr r0, [sp, #0x38]
+	add r0, r0, r1
+	bl OS_UnlockMutex
+	mov r0, #0
+	add sp, sp, #0x64
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027E79B8: .word 0x027F9454
+_027E79BC: .word 0x0000071C
+_027E79C0: .word 0x0000070C
+_027E79C4: .word 0x000006FC
+_027E79C8: .word 0x0000FFFF
+_027E79CC: .word 0x00007FFF
+	arm_func_end sub_27E7494
+
+	arm_func_start sub_27E79D0
+sub_27E79D0: // 0x027E79D0
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #0x218
+	mov r7, r0
+	ldr r0, _027E7AC8 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	bl OS_DisableInterrupts
+	bl OS_RestoreInterrupts
+	ldr r0, _027E7ACC // =0x048080F8
+	ldrh r6, [r0]
+	ldrh r5, [r4, #0x6a]
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0x82]
+	and r7, r7, r0
+	ldrh r8, [r4, #0x3a]
+	mov r0, r7
+	bl MATH_CountPopulation
+	ldrh r2, [r4, #0x72]
+	add r1, r8, #0xc
+	mul r0, r1, r0
+	add r0, r0, #0x29
+	bic r0, r0, #0x1f
+	cmp r2, r0
+	bge _027E7A44
+	mov r0, #2
+	bl OS_Sleep
+	bl sub_27E1838
+	add sp, sp, #0x218
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+_027E7A44:
+	ldrsh r0, [r4, #0x62]
+	cmp r0, #1
+	beq _027E7A5C
+	ldrsh r0, [r4, #0x64]
+	cmp r0, #1
+	bne _027E7A78
+_027E7A5C:
+	ldrh r0, [r4, #0x6e]
+	ldrh r1, [r4, #0x6c]
+	mov r2, r7
+	ldrh r3, [r4, #0x40]
+	bl sub_27E6A94
+	orr r5, r5, #0x8000
+	b _027E7A80
+_027E7A78:
+	mov r0, #0
+	bic r5, r5, #0x8000
+_027E7A80:
+	mov r1, r7, lsl #0x10
+	mov r1, r1, lsr #0x10
+	str r1, [sp]
+	str r0, [sp, #4]
+	str r6, [sp, #8]
+	mov r2, #0
+	str r2, [sp, #0xc]
+	mov r0, r5, lsl #0x10
+	mov r0, r0, lsr #0x10
+	str r0, [sp, #0x10]
+	str r2, [sp, #0x14]
+	add r0, sp, #0x18
+	ldr r1, _027E7AD0 // =0x0000800C
+	mov r3, r2
+	bl sub_27E278C
+	add sp, sp, #0x218
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027E7AC8: .word 0x027F9454
+_027E7ACC: .word 0x048080F8
+_027E7AD0: .word 0x0000800C
+	arm_func_end sub_27E79D0
+
+	arm_func_start sub_27E7AD4
+sub_27E7AD4: // 0x027E7AD4
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #0x228
+	mov r8, r0
+	ldr r0, _027E7CC4 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	bl OS_DisableInterrupts
+	add r1, r4, #0x100
+	ldrh r7, [r1, #0x82]
+	ldrh r6, [r4, #0x86]
+	bl OS_RestoreInterrupts
+	mov r1, #0
+	strh r1, [sp, #0x18]
+	ldrh r0, [r4, #0x88]
+	cmp r0, #1
+	ldreq r8, _027E7CC8 // =0x0000FFFF
+	streqh r1, [r4, #0x88]
+	ldrh r0, [r4, #0x9e]
+	cmp r0, #0
+	bne _027E7C0C
+	ldrh r5, [r4, #0x3a]
+	add r0, sp, #0x1c
+	str r0, [sp]
+	add r0, sp, #0x20
+	str r0, [sp, #4]
+	mov r0, r8
+	mov r1, r7
+	mov r2, r6
+	add r3, sp, #0x18
+	bl sub_27E7494
+	cmp r0, #1
+	moveq r0, #0
+	streqh r0, [r4, #0x62]
+	streqh r0, [r4, #0x64]
+	addeq sp, sp, #0x228
+	ldmeqia sp!, {r4, r5, r6, r7, r8, lr}
+	bxeq lr
+	add r6, r5, #2
+	ldrh r0, [r4, #0x92]
+	cmp r0, #1
+	ldreq r8, [sp, #0x1c]
+	and r8, r8, r7
+	mov r0, r8
+	bl MATH_CountPopulation
+	ldrh r2, [r4, #0x72]
+	add r1, r5, #0xc
+	mul r0, r1, r0
+	add r0, r0, #0x29
+	bic r0, r0, #0x1f
+	cmp r2, r0
+	bge _027E7BC4
+	mov r0, #0
+	mov r1, r8, lsl #0x10
+	mov r1, r1, lsr #0x10
+	bl sub_27E6FF4
+	mov r0, #0
+	strh r0, [r4, #0x62]
+	strh r0, [r4, #0x64]
+	add sp, sp, #0x228
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+_027E7BC4:
+	ldrsh r0, [r4, #0x62]
+	cmp r0, #1
+	beq _027E7BDC
+	ldrsh r0, [r4, #0x64]
+	cmp r0, #1
+	bne _027E7C04
+_027E7BDC:
+	ldr r0, [sp, #0x20]
+	mov r1, r6
+	mov r2, r8
+	ldrh r3, [r4, #0x40]
+	bl sub_27E6A94
+	mov r5, r0
+	ldrh r0, [sp, #0x18]
+	orr r0, r0, #0x8000
+	strh r0, [sp, #0x18]
+	b _027E7C4C
+_027E7C04:
+	mov r5, #0
+	b _027E7C4C
+_027E7C0C:
+	mov r5, #0
+	strh r5, [r4, #0x9e]
+	mov r8, r7
+	ldr r6, _027E7CCC // =0x000080D6
+	str r5, [sp, #0x20]
+	ldrh r0, [sp, #0x18]
+	bic r0, r0, #0x8000
+	strh r0, [sp, #0x18]
+	bl OS_DisableInterrupts
+	ldrsh r1, [r4, #0x62]
+	add r1, r1, #1
+	strh r1, [r4, #0x62]
+	ldrsh r1, [r4, #0x64]
+	add r1, r1, #1
+	strh r1, [r4, #0x64]
+	bl OS_RestoreInterrupts
+_027E7C4C:
+	mov r0, r8, lsl #0x10
+	mov r0, r0, lsr #0x10
+	str r0, [sp]
+	str r5, [sp, #4]
+	ldr r0, _027E7CD0 // =0x048080F8
+	ldrh r0, [r0]
+	str r0, [sp, #8]
+	ldr r0, [sp, #0x20]
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	str r0, [sp, #0xc]
+	ldrh r0, [sp, #0x18]
+	str r0, [sp, #0x10]
+	ldr r0, [r4, #0x7c]
+	str r0, [sp, #0x14]
+	add r0, sp, #0x24
+	mov r1, #0
+	mov r2, r1
+	mov r3, r6, lsl #0x10
+	mov r3, r3, lsr #0x10
+	bl sub_27E278C
+	strh r8, [r4, #0x68]
+	ldrh r0, [sp, #0x18]
+	strh r0, [r4, #0x6a]
+	strh r6, [r4, #0x6c]
+	ldr r0, [sp, #0x20]
+	strh r0, [r4, #0x6e]
+	add sp, sp, #0x228
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027E7CC4: .word 0x027F9454
+_027E7CC8: .word 0x0000FFFF
+_027E7CCC: .word 0x000080D6
+_027E7CD0: .word 0x048080F8
+	arm_func_end sub_27E7AD4
+
+	arm_func_start sub_27E7CD4
+sub_27E7CD4: // 0x027E7CD4
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #0x218
+	ldr r0, _027E7DA0 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0x82]
+	cmp r0, #0
+	addeq sp, sp, #0x218
+	ldmeqia sp!, {r4, lr}
+	bxeq lr
+	mov r0, #1
+	strh r0, [r4, #0x8a]
+	mov r1, #0
+	strh r1, [sp, #8]
+	add r1, sp, #0xc
+	str r1, [sp]
+	add r1, sp, #0x10
+	str r1, [sp, #4]
+	mov r1, r0
+	mov r2, r0
+	add r3, sp, #8
+	bl sub_27E7494
+	cmp r0, #1
+	moveq r0, #0
+	streqh r0, [r4, #0x8a]
+	addeq sp, sp, #0x218
+	ldmeqia sp!, {r4, lr}
+	bxeq lr
+	ldr r0, [r4, #0x1c]
+	cmp r0, #1
+	ldreqh r0, [sp, #8]
+	orreq r0, r0, #0x8000
+	streqh r0, [sp, #8]
+	add r0, sp, #0x14
+	ldr r1, [sp, #0x10]
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	ldrh r2, [sp, #8]
+	ldr r3, [r4, #0x7c]
+	bl sub_27E2828
+	ldrh r0, [r0, #4]
+	cmp r0, #0
+	addeq sp, sp, #0x218
+	ldmeqia sp!, {r4, lr}
+	bxeq lr
+	cmp r0, #8
+	movne r0, #0
+	strneh r0, [r4, #0x8a]
+	add sp, sp, #0x218
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E7DA0: .word 0x027F9454
+	arm_func_end sub_27E7CD4
+
+	arm_func_start sub_27E7DA4
+sub_27E7DA4: // 0x027E7DA4
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E7E58 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldr r0, _027E7E5C // =0x0000071C
+	add r0, r4, r0
+	bl OS_LockMutex
+	mov r0, #0
+	add r1, r4, #0x2f8
+	mov r2, #0x400
+	bl MIi_CpuClear16
+	mov r2, #0
+_027E7DD0:
+	add r0, r2, #1
+	mov r0, r0, lsl #0x10
+	mov r1, r0, lsr #0x10
+	add r0, r4, r2, lsl #5
+	add r0, r0, #0x200
+	strh r1, [r0, #0xf8]
+	mov r2, r1
+	cmp r1, #0x1f
+	blo _027E7DD0
+	ldr r2, _027E7E60 // =0x0000FFFF
+	add r0, r4, r1, lsl #5
+	add r0, r0, #0x200
+	strh r2, [r0, #0xf8]
+	mov r3, #0
+	add r0, r4, #0x600
+	strh r3, [r0, #0xf8]
+	strh r1, [r0, #0xfa]
+_027E7E14:
+	add r1, r4, r3, lsl #2
+	add r0, r1, #0x700
+	strh r2, [r0, #0xc]
+	strh r2, [r0, #0xe]
+	add r0, r1, #0x600
+	strh r2, [r0, #0xfc]
+	strh r2, [r0, #0xfe]
+	add r0, r3, #1
+	mov r0, r0, lsl #0x10
+	mov r3, r0, lsr #0x10
+	cmp r3, #4
+	blo _027E7E14
+	ldr r0, _027E7E5C // =0x0000071C
+	add r0, r4, r0
+	bl OS_UnlockMutex
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E7E58: .word 0x027F9454
+_027E7E5C: .word 0x0000071C
+_027E7E60: .word 0x0000FFFF
+	arm_func_end sub_27E7DA4
+
+	arm_func_start sub_27E7E64
+sub_27E7E64: // 0x027E7E64
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #0x280
+	ldr r1, _027E7EF0 // =0x027F9454
+	ldr r4, [r1, #0x550]
+	ldr r0, [r0, #4]
+	strh r0, [r4, #0xf6]
+	add r0, sp, #0x200
+	add r1, r4, #0xe8
+	bl sub_27E0504
+	add r0, sp, #0
+	ldrh r1, [r4, #0xec]
+	add r1, r1, #0x10
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	add r2, sp, #0x200
+	bl sub_27E22B8
+	mov r4, r0
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x21
+	strh r1, [r0]
+	ldrh r1, [r4, #4]
+	cmp r1, #0
+	moveq r1, #0
+	streqh r1, [r0, #2]
+	beq _027E7EE0
+	mov r1, #1
+	strh r1, [r0, #2]
+	ldr r1, _027E7EF4 // =0x00000245
+	strh r1, [r0, #4]
+	ldrh r1, [r4, #4]
+	strh r1, [r0, #6]
+_027E7EE0:
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #0x280
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E7EF0: .word 0x027F9454
+_027E7EF4: .word 0x00000245
+	arm_func_end sub_27E7E64
+
+	arm_func_start sub_27E7EF8
+sub_27E7EF8: // 0x027E7EF8
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #0x208
+	add r0, r0, #4
+	add r1, sp, #0
+	mov r2, #6
+	bl MI_CpuCopy8
+	mov r8, #0
+	add r7, sp, #8
+	add r6, sp, #0
+	mov r5, #0x13
+	b _027E7F58
+_027E7F24:
+	mov r0, r7
+	mov r1, r6
+	mov r2, r5
+	bl sub_27E2B2C
+	mov r4, r0
+	ldrh r0, [r4, #4]
+	cmp r0, #0
+	beq _027E7F60
+	cmp r0, #7
+	beq _027E7F54
+	cmp r0, #0xc
+	bne _027E7F60
+_027E7F54:
+	add r8, r8, #1
+_027E7F58:
+	cmp r8, #2
+	blt _027E7F24
+_027E7F60:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x22
+	strh r1, [r0]
+	ldrh r1, [r4, #4]
+	cmp r1, #0
+	moveq r1, #0
+	streqh r1, [r0, #2]
+	beq _027E7F98
+	mov r1, #1
+	strh r1, [r0, #2]
+	mov r1, #5
+	strh r1, [r0, #4]
+	ldrh r1, [r4, #4]
+	strh r1, [r0, #6]
+_027E7F98:
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #0x208
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	arm_func_end sub_27E7EF8
+
+	arm_func_start sub_27E7FA8
+sub_27E7FA8: // 0x027E7FA8
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	ldr r0, _027E80F4 // =0x027F9454
+	ldr r7, [r0, #0x54c]
+	ldr r4, [r0, #0x550]
+	mov r6, #0
+	bl OS_DisableInterrupts
+	mov r5, r0
+	ldr r0, [r4, #0xc]
+	cmp r0, #1
+	bne _027E7FE8
+	mov r0, r6
+	str r0, [r4, #0xc]
+	mov r6, #1
+	bl sub_27E681C
+	bl sub_27E0238
+_027E7FE8:
+	mov r1, #0
+	add r0, r4, #0x100
+	strh r1, [r0, #0x82]
+	strh r1, [r4, #0x86]
+	str r1, [r4, #0x14]
+	str r1, [r4, #0x10]
+	str r1, [r4, #0x1c]
+	strh r1, [r4, #0xce]
+	strh r1, [r4, #0xc2]
+	mov r2, #1
+	strh r2, [r4, #0x58]
+	strh r2, [r4, #0x5a]
+	mov r2, #6
+	strh r2, [r4, #0x5c]
+	strh r1, [r4, #0x98]
+	strh r1, [r4, #0x92]
+	strh r1, [r4, #0x94]
+	strh r1, [r4, #0x9a]
+	strh r1, [r4, #0x9c]
+	str r1, [r4, #0x198]
+	strh r1, [r0, #0x96]
+	add r0, r4, #0x19c
+	mov r2, #0x50
+	bl MI_CpuFill8
+	bl sub_27E0100
+	mov r0, #0x104
+	strh r0, [r4, #0x40]
+	mov r0, #0xf0
+	strh r0, [r4, #0x42]
+	mov r0, #0x3e8
+	strh r0, [r4, #0x44]
+	mov r1, #0
+	strh r1, [r4, #0x46]
+	ldr r0, _027E80F8 // =0x0000020B
+	str r0, [r4, #0x48]
+	str r1, [r4, #0x4c]
+	str r1, [r4, #0x50]
+	str r1, [r4, #0x54]
+	strh r1, [r4, #0xc6]
+	mov r1, #1
+	add r0, r4, #0x100
+	strh r1, [r0, #0xee]
+	mov r0, r5
+	bl OS_RestoreInterrupts
+	cmp r6, #0
+	beq _027E80A8
+	ldr r0, _027E80FC // =0x0000FFFF
+	bl sub_27E6DE4
+_027E80A8:
+	mov r2, #0
+	mov r1, #0x8000
+_027E80B0:
+	add r0, r7, r2, lsl #4
+	str r1, [r0, #0xd0]
+	add r2, r2, #1
+	cmp r2, #0x20
+	blt _027E80B0
+	mov r0, #1
+	add r1, r4, #0x1f8
+	mov r2, #0x100
+	bl MIi_CpuClear16
+	bl sub_27E08E4
+	ldr r0, _027E8100 // =0x0000071C
+	add r0, r4, r0
+	bl OS_InitMutex
+	bl sub_27E6830
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027E80F4: .word 0x027F9454
+_027E80F8: .word 0x0000020B
+_027E80FC: .word 0x0000FFFF
+_027E8100: .word 0x0000071C
+	arm_func_end sub_27E7FA8
+
+	arm_func_start sub_27E8104
+sub_27E8104: // 0x027E8104
+	stmdb sp!, {r4, lr}
+	ldr r4, [r0, #4]
+	ldr r1, _027E8160 // =0x027F9454
+	str r4, [r1, #0x54c]
+	ldr r2, [r0, #8]
+	str r2, [r1, #0x550]
+	str r2, [r4]
+	ldr r0, [r0, #0xc]
+	str r0, [r4, #8]
+	bl sub_27E7FA8
+	mov r0, #0xf
+	bl PM_SetLEDPattern
+	mov r1, #1
+	ldr r0, [r4]
+	strh r1, [r0]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #3
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E8160: .word 0x027F9454
+	arm_func_end sub_27E8104
+
+	arm_func_start sub_27E8164
+sub_27E8164: // 0x027E8164
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E81C8 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldrh r0, [r4]
+	cmp r0, #1
+	beq _027E8198
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #4
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	b _027E81C0
+_027E8198:
+	mov r0, #1
+	bl PM_SetLEDPattern
+	mov r0, #0
+	strh r0, [r4]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #4
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E81C0:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E81C8: .word 0x027F9454
+	arm_func_end sub_27E8164
+
+	arm_func_start sub_27E81CC
+sub_27E81CC: // 0x027E81CC
+	mov r1, #0xc8
+	ldr r0, _027E81F4 // =0x04808124
+	strh r1, [r0]
+	mov r1, #0x7d0
+	ldr r0, _027E81F8 // =0x04808128
+	strh r1, [r0]
+	ldr r1, _027E81FC // =0x00000202
+	ldr r0, _027E8200 // =0x04808150
+	strh r1, [r0]
+	bx lr
+	.align 2, 0
+_027E81F4: .word 0x04808124
+_027E81F8: .word 0x04808128
+_027E81FC: .word 0x00000202
+_027E8200: .word 0x04808150
+	arm_func_end sub_27E81CC
+
+	arm_func_start sub_27E8204
+sub_27E8204: // 0x027E8204
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #0x204
+	mov r7, r0
+	mov r6, r1
+	ldr r0, _027E83D4 // =0x027F9454
+	ldr r5, [r0, #0x550]
+	add r0, sp, #0
+	bl sub_27E2218
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E8248
+	mov r1, #0x304
+	strh r1, [r7]
+	ldrh r0, [r0, #4]
+	strh r0, [r6]
+	mov r0, #0
+	b _027E83C8
+_027E8248:
+	add r0, sp, #0
+	bl sub_27E2244
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E8274
+	ldr r1, _027E83D8 // =0x00000302
+	strh r1, [r7]
+	ldrh r0, [r0, #4]
+	strh r0, [r6]
+	mov r0, #0
+	b _027E83C8
+_027E8274:
+	bl sub_27E81CC
+	add r0, sp, #0
+	bl sub_27E2288
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E82A4
+	ldr r1, _027E83DC // =0x00000283
+	strh r1, [r7]
+	ldrh r0, [r0, #4]
+	strh r0, [r6]
+	mov r0, #0
+	b _027E83C8
+_027E82A4:
+	ldrh r1, [r0, #6]
+	add r0, r5, #0x100
+	strh r1, [r0, #0xf4]
+	mov r0, r1, lsl #0xf
+	mov r0, r0, lsr #0x10
+	bl WMSP_GetAllowedChannel
+	add r1, r5, #0x100
+	strh r0, [r1, #0xf6]
+	add r0, sp, #0
+	ldr r1, _027E83E0 // =0x0000FFFF
+	mov r2, #0x28
+	mov r3, #5
+	bl sub_27E24C8
+	ldr r1, _027E83E4 // =0x001FF621
+	mov r0, #0
+	str r1, [r5, #0x7b8]
+	str r0, [r5, #0x7bc]
+	mov r1, #2
+	add r0, r5, #0x100
+	strh r1, [r0, #0xec]
+	mov r1, #1
+	strh r1, [r0, #0xee]
+	add r0, sp, #0
+	bl sub_27E21E8
+	mov r4, r0
+	ldrh r0, [r4, #4]
+	cmp r0, #0
+	beq _027E832C
+	ldr r0, _027E83E8 // =0x00000306
+	strh r0, [r7]
+	ldrh r0, [r4, #4]
+	strh r0, [r6]
+	mov r0, #0
+	b _027E83C8
+_027E832C:
+	add r0, r4, #6
+	add r1, r5, #0x20
+	mov r2, #8
+	bl MIi_CpuCopy16
+	ldrh r0, [r4, #0xe]
+	strh r0, [r5, #0x28]
+	ldrh r0, [r4, #0x10]
+	strh r0, [r5, #0x2c]
+	ldrh r0, [r4, #0x12]
+	strh r0, [r5, #0x2e]
+	ldrh r0, [r4, #0x14]
+	strh r0, [r5, #0x2a]
+	add r0, sp, #0
+	bl sub_27E22A0
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E8388
+	ldr r1, _027E83EC // =0x00000281
+	strh r1, [r7]
+	ldrh r0, [r0, #4]
+	strh r0, [r6]
+	mov r0, #0
+	b _027E83C8
+_027E8388:
+	add r0, r0, #6
+	add r1, r5, #0xe0
+	mov r2, #6
+	bl MI_CpuCopy8
+	add r0, sp, #0
+	mov r1, #1
+	bl sub_27E2408
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	moveq r0, #1
+	beq _027E83C8
+	ldr r1, _027E83F0 // =0x00000215
+	strh r1, [r7]
+	ldrh r0, [r0, #4]
+	strh r0, [r6]
+	mov r0, #0
+_027E83C8:
+	add sp, sp, #0x204
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027E83D4: .word 0x027F9454
+_027E83D8: .word 0x00000302
+_027E83DC: .word 0x00000283
+_027E83E0: .word 0x0000FFFF
+_027E83E4: .word 0x001FF621
+_027E83E8: .word 0x00000306
+_027E83EC: .word 0x00000281
+_027E83F0: .word 0x00000215
+	arm_func_end sub_27E8204
+
+	arm_func_start sub_27E83F4
+sub_27E83F4: // 0x027E83F4
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #8
+	ldr r0, _027E8498 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldrh r0, [r4]
+	cmp r0, #1
+	beq _027E842C
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #5
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	b _027E848C
+_027E842C:
+	add r0, sp, #0
+	add r1, sp, #2
+	bl sub_27E8204
+	cmp r0, #0
+	bne _027E846C
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #5
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	ldrh r1, [sp]
+	strh r1, [r0, #4]
+	ldrh r1, [sp, #2]
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	b _027E848C
+_027E846C:
+	mov r0, #2
+	strh r0, [r4]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #5
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E848C:
+	add sp, sp, #8
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E8498: .word 0x027F9454
+	arm_func_end sub_27E83F4
+
+	arm_func_start sub_27E849C
+sub_27E849C: // 0x027E849C
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #0x204
+	ldr r0, _027E8544 // =0x027F9454
+	ldr r5, [r0, #0x550]
+	ldrh r0, [r5]
+	cmp r0, #2
+	beq _027E84D4
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #6
+	strh r1, [r0]
+	mov r1, #3
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	b _027E8538
+_027E84D4:
+	add r0, sp, #0
+	bl sub_27E225C
+	mov r4, r0
+	ldrh r0, [r4, #4]
+	cmp r0, #0
+	beq _027E8518
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #6
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	ldr r1, _027E8548 // =0x00000301
+	strh r1, [r0, #4]
+	ldrh r1, [r4, #4]
+	strh r1, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	b _027E8538
+_027E8518:
+	mov r0, #1
+	strh r0, [r5]
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #6
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E8538:
+	add sp, sp, #0x204
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E8544: .word 0x027F9454
+_027E8548: .word 0x00000301
+	arm_func_end sub_27E849C
+
+	arm_func_start sub_27E854C
+sub_27E854C: // 0x027E854C
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	sub sp, sp, #4
+	mov sb, r0
+	mov r8, r1
+	ldr r0, _027E8840 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	mov r6, #0
+	ldr r5, [sb]
+	ldrh r1, [r4]
+	ldr r0, _027E8844 // =0x0000FFF7
+	add r0, r1, r0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	cmp r0, #1
+	bhi _027E8594
+	ands r0, r5, #0x2c00
+	movne r6, #3
+	bicne r5, r5, #0x2c00
+_027E8594:
+	bl OS_DisableInterrupts
+	mov r7, r0
+	cmp r8, #0
+	beq _027E861C
+	ldr r0, _027E8848 // =0x00003FFF
+	str r0, [r8]
+	ldrh r0, [r4, #0x5a]
+	strh r0, [r8, #4]
+	ldrh r0, [r4, #0x5a]
+	strh r0, [r8, #6]
+	ldrh r0, [r4, #0x5a]
+	strh r0, [r8, #8]
+	ldrh r0, [r4, #0x30]
+	strh r0, [r8, #0xa]
+	ldrh r0, [r4, #0x32]
+	strh r0, [r8, #0xc]
+	ldrh r0, [r4, #0x44]
+	strh r0, [r8, #0xe]
+	ldrh r0, [r4, #0x46]
+	strh r0, [r8, #0x10]
+	ldrh r0, [r4, #0x40]
+	strh r0, [r8, #0x12]
+	ldrh r0, [r4, #0x42]
+	strh r0, [r8, #0x14]
+	ldrh r0, [r4, #0x98]
+	strh r0, [r8, #0x16]
+	ldrh r0, [r4, #0x92]
+	strb r0, [r8, #0x18]
+	ldrh r0, [r4, #0x94]
+	strb r0, [r8, #0x19]
+	ldrh r0, [r4, #0x9a]
+	strb r0, [r8, #0x1a]
+	ldrh r0, [r4, #0x9c]
+	strb r0, [r8, #0x1b]
+_027E861C:
+	ands r0, r5, #1
+	beq _027E8634
+	ldrh r0, [sb, #4]
+	cmp r0, #0
+	moveq r0, #0x10
+	strh r0, [r4, #0x58]
+_027E8634:
+	ands r0, r5, #2
+	beq _027E8658
+	ldrh r1, [sb, #6]
+	cmp r1, #0
+	moveq r1, #0x10
+	strh r1, [r4, #0x5a]
+	ldrsh r0, [r4, #0x62]
+	cmp r0, r1
+	strgth r1, [r4, #0x62]
+_027E8658:
+	ands r0, r5, #4
+	beq _027E867C
+	ldrh r1, [sb, #8]
+	cmp r1, #0
+	moveq r1, #0x10
+	strh r1, [r4, #0x5c]
+	ldrsh r0, [r4, #0x62]
+	cmp r0, r1
+	strgth r1, [r4, #0x62]
+_027E867C:
+	ands r0, r5, #8
+	beq _027E86AC
+	ldrh r0, [sb, #0xa]
+	add r1, r0, #1
+	bic r1, r1, #1
+	mov r1, r1, lsl #0x10
+	mov r2, r1, lsr #0x10
+	ldrh r1, [r4, #0x34]
+	cmp r2, r1
+	movhi r6, #6
+	bhi _027E86AC
+	bl sub_27E0030
+_027E86AC:
+	ands r0, r5, #0x10
+	beq _027E86DC
+	ldrh r0, [sb, #0xc]
+	add r1, r0, #1
+	bic r1, r1, #1
+	mov r1, r1, lsl #0x10
+	mov r2, r1, lsr #0x10
+	ldrh r1, [r4, #0x36]
+	cmp r2, r1
+	movhi r6, #6
+	bhi _027E86DC
+	bl sub_27E0000
+_027E86DC:
+	ands r0, r5, #0x20
+	beq _027E8730
+	ldrh r8, [sb, #0xe]
+	ldr r0, _027E884C // =0x00002710
+	cmp r8, r0
+	movhi r6, #6
+	bhi _027E8730
+	strh r8, [r4, #0x44]
+	mov r1, #0
+	ldr r0, _027E8850 // =0x000082EA
+	umull r3, r2, r8, r0
+	mla r2, r8, r1, r2
+	mla r2, r1, r0, r2
+	mov r0, r2, lsr #6
+	mov r1, r3, lsr #6
+	orr r1, r1, r2, lsl #26
+	mov r2, r0, lsr #0xa
+	mov r1, r1, lsr #0xa
+	orr r1, r1, r0, lsl #22
+	str r1, [r4, #0x48]
+	str r2, [r4, #0x4c]
+_027E8730:
+	ands r0, r5, #0x40
+	beq _027E8784
+	ldrh r8, [sb, #0x10]
+	ldr r0, _027E884C // =0x00002710
+	cmp r8, r0
+	movhi r6, #6
+	bhi _027E8784
+	strh r8, [r4, #0x46]
+	mov r1, #0
+	ldr r0, _027E8850 // =0x000082EA
+	umull r3, r2, r8, r0
+	mla r2, r8, r1, r2
+	mla r2, r1, r0, r2
+	mov r0, r2, lsr #6
+	mov r1, r3, lsr #6
+	orr r1, r1, r2, lsl #26
+	mov r2, r0, lsr #0xa
+	mov r1, r1, lsr #0xa
+	orr r1, r1, r0, lsl #22
+	str r1, [r4, #0x50]
+	str r2, [r4, #0x54]
+_027E8784:
+	ands r0, r5, #0x80
+	beq _027E87B8
+	ldrh r1, [sb, #0x12]
+	cmp r1, #0xbe
+	bls _027E87AC
+	cmp r1, #0xdc
+	blo _027E87B4
+	ldr r0, _027E8854 // =0x00000106
+	cmp r1, r0
+	bhi _027E87B4
+_027E87AC:
+	strh r1, [r4, #0x40]
+	b _027E87B8
+_027E87B4:
+	mov r6, #6
+_027E87B8:
+	ands r0, r5, #0x100
+	beq _027E87EC
+	ldrh r1, [sb, #0x14]
+	cmp r1, #0xbe
+	bls _027E87E0
+	cmp r1, #0xdc
+	blo _027E87E8
+	ldr r0, _027E8854 // =0x00000106
+	cmp r1, r0
+	bhi _027E87E8
+_027E87E0:
+	strh r1, [r4, #0x42]
+	b _027E87EC
+_027E87E8:
+	mov r6, #6
+_027E87EC:
+	ands r0, r5, #0x200
+	ldrneh r0, [sb, #0x16]
+	strneh r0, [r4, #0x98]
+	ands r0, r5, #0x400
+	ldrneb r0, [sb, #0x18]
+	strneh r0, [r4, #0x92]
+	ands r0, r5, #0x800
+	ldrneb r0, [sb, #0x19]
+	strneh r0, [r4, #0x94]
+	ands r0, r5, #0x1000
+	ldrneb r0, [sb, #0x1a]
+	strneh r0, [r4, #0x9a]
+	ands r0, r5, #0x2000
+	ldrneb r0, [sb, #0x1b]
+	strneh r0, [r4, #0x9c]
+	mov r0, r7
+	bl OS_RestoreInterrupts
+	mov r0, r6
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+	.align 2, 0
+_027E8840: .word 0x027F9454
+_027E8844: .word 0x0000FFF7
+_027E8848: .word 0x00003FFF
+_027E884C: .word 0x00002710
+_027E8850: .word 0x000082EA
+_027E8854: .word 0x00000106
+	arm_func_end sub_27E854C
+
+	arm_func_start sub_27E8858
+sub_27E8858: // 0x027E8858
+	stmdb sp!, {r4, r5, r6, lr}
+	sub sp, sp, #0x20
+	mov r6, r0
+	add r0, r6, #4
+	add r1, sp, #0
+	bl sub_27E854C
+	mov r5, r0
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r4, r0
+	mov r0, #0x23
+	strh r0, [r4]
+	strh r5, [r4, #2]
+	ldr r0, [r6, #4]
+	str r0, [r4, #4]
+	add r0, sp, #0
+	add r1, r4, #8
+	mov r2, #0x1c
+	bl MI_CpuCopy8
+	mov r0, r4
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #0x20
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	arm_func_end sub_27E8858
+
+	arm_func_start sub_27E88B4
+sub_27E88B4: // 0x027E88B4
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x24
+	strh r1, [r0]
+	mov r1, #1
+	strh r1, [r0, #2]
+	strh r5, [r0, #4]
+	strh r4, [r0, #6]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27E88B4
+
+	arm_func_start sub_27E88F0
+sub_27E88F0: // 0x027E88F0
+	stmdb sp!, {lr}
+	sub sp, sp, #0x204
+	mov r1, r0
+	add r0, sp, #0
+	ldr r1, [r1, #4]
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	bl sub_27E2348
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E8928
+	ldr r0, _027E894C // =0x00000242
+	bl sub_27E88B4
+	b _027E8940
+_027E8928:
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x24
+	strh r1, [r0]
+	mov r1, #0
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+_027E8940:
+	add sp, sp, #0x204
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E894C: .word 0x00000242
+	arm_func_end sub_27E88F0
+
+	arm_func_start sub_27E8950
+sub_27E8950: // 0x027E8950
+	mov r1, #1
+	mov r2, #0
+	ldr ip, _027E8960 // =sub_27E4BDC
+	bx ip
+	.align 2, 0
+_027E8960: .word sub_27E4BDC
+	arm_func_end sub_27E8950
+
+	arm_func_start sub_27E8964
+sub_27E8964: // 0x027E8964
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #0x234
+	mov r7, r0
+	ldr r0, _027E8AE0 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	add r6, sp, #0x30
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r5, r0
+	mov r1, #0x28
+	strh r1, [r5]
+	ldrh r1, [r4]
+	cmp r1, #0xb
+	beq _027E89A8
+	mov r1, #3
+	strh r1, [r5, #2]
+	bl WMSP_ReturnResult2Wm9
+	b _027E8AD4
+_027E89A8:
+	ldr r0, [r7, #4]
+	cmp r0, #1
+	moveq r1, #1
+	movne r1, #0
+	mov r0, r6
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	mov r2, #0
+	mov r3, #1
+	bl sub_27E2D74
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E89FC
+	mov r1, #1
+	strh r1, [r5, #2]
+	strh r1, [r5, #4]
+	ldrh r0, [r0, #4]
+	strh r0, [r5, #6]
+	mov r0, r5
+	bl WMSP_ReturnResult2Wm9
+	b _027E8AD4
+_027E89FC:
+	ldr r0, _027E8AE0 // =0x027F9454
+	ldr r4, [r0, #0x550]
+	ldr r0, _027E8AE4 // =0x0000018A
+	add r0, r4, r0
+	add r1, r4, #0xa2
+	mov r2, #6
+	bl MI_CpuCopy8
+	add r0, sp, #0x30
+	str r0, [r4, #0xa8]
+	mov r0, #0
+	strh r0, [r4, #0xac]
+	mov r1, #1
+	str r1, [r4, #0x18]
+	add r1, sp, #0
+	mov r2, #0x30
+	bl MIi_CpuClear16
+	mov r0, #0
+	strh r0, [sp]
+	strh r0, [sp, #6]
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0xec]
+	cmp r0, #2
+	moveq r0, #0x14
+	movne r0, #0xa
+	strb r0, [sp, #0xe]
+	ldr r0, _027E8AE4 // =0x0000018A
+	add r0, r4, r0
+	add r1, sp, #0x18
+	mov r2, #6
+	bl MI_CpuCopy8
+	add r0, r4, #0xe0
+	add r1, sp, #0x1e
+	mov r2, #6
+	bl MI_CpuCopy8
+	add r0, sp, #0x30
+	str r0, [sp, #0x2c]
+	add r1, sp, #0
+	bl sub_27E2894
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E8AC4
+	mov r1, #1
+	strh r1, [r5, #2]
+	mov r1, #0x100
+	strh r1, [r5, #4]
+	ldrh r0, [r0, #4]
+	strh r0, [r5, #6]
+	mov r0, r5
+	bl WMSP_ReturnResult2Wm9
+	b _027E8AD4
+_027E8AC4:
+	mov r0, #0
+	strh r0, [r5, #2]
+	mov r0, r5
+	bl WMSP_ReturnResult2Wm9
+_027E8AD4:
+	add sp, sp, #0x234
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027E8AE0: .word 0x027F9454
+_027E8AE4: .word 0x0000018A
+	arm_func_end sub_27E8964
+
+	arm_func_start sub_27E8AE8
+sub_27E8AE8: // 0x027E8AE8
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x29
+	strh r1, [r0]
+	mov r1, #4
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27E8AE8
+
+	arm_func_start sub_27E8B14
+sub_27E8B14: // 0x027E8B14
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl WMSP_GetBuffer4Callback2Wm9
+	mov r1, #0x2a
+	strh r1, [r0]
+	mov r1, #4
+	strh r1, [r0, #2]
+	bl WMSP_ReturnResult2Wm9
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27E8B14
+
+	arm_func_start sub_27E8B40
+sub_27E8B40: // 0x027E8B40
+	ldr r0, _027E8B50 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x18
+	bx lr
+	.align 2, 0
+_027E8B50: .word 0x0380FFF4
+	arm_func_end sub_27E8B40
+
+	arm_func_start sub_27E8B54
+sub_27E8B54: // 0x027E8B54
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #0x10
+	mov r4, r0
+	ldr r1, [r4]
+	ldr r0, _027E8D18 // =0x0380FFF4
+	str r1, [r0]
+	mov r0, #0
+	ldr r2, _027E8D1C // =0x00000694
+	bl MIi_CpuClearFast
+	bl OS_GetLockID
+	ldr r2, _027E8D18 // =0x0380FFF4
+	ldr r1, [r2]
+	str r0, [r1, #0x314]
+	ldr r1, [r4, #0x18]
+	ldr r0, [r2]
+	str r1, [r0, #0x30c]
+	ldr r0, [r4, #0x1c]
+	mov r1, r0, lsr #1
+	ldr r0, [r2]
+	str r1, [r0, #0x310]
+	ldr r1, [r2]
+	ldr r0, [r1, #0x310]
+	cmp r0, #0
+	mvneq r0, #0
+	streq r0, [r1, #0x310]
+	add r0, r4, #0x20
+	bl sub_27E8EC0
+	bl sub_27F58E4
+	ldr r1, _027E8D20 // =0x04000304
+	ldrh r0, [r1]
+	orr r0, r0, #2
+	strh r0, [r1]
+	mov r1, #0x30
+	ldr r0, _027E8D24 // =0x04000206
+	strh r1, [r0]
+	mov r1, #3
+	ldr r2, _027E8D18 // =0x0380FFF4
+	ldr r0, [r2]
+	str r1, [r0, #0x68c]
+	mov r0, #0x3c
+	mov r1, #2
+	ldr r3, [r2]
+	ldr r2, _027E8D28 // =0x00000692
+	add r2, r3, r2
+	bl sub_27F5A28
+	mov r0, #0x3e
+	mov r1, #2
+	ldr r2, _027E8D18 // =0x0380FFF4
+	ldr r2, [r2]
+	add r2, r2, #0x690
+	bl sub_27F5A28
+	ldr r1, [r4, #0x10]
+	ldr r2, _027E8D18 // =0x0380FFF4
+	ldr r0, [r2]
+	str r1, [r0, #0x308]
+	ldr r1, [r4, #0x14]
+	ldr r0, [r2]
+	str r1, [r0, #0x304]
+	ldr r0, [r4, #0x30]
+	mov r1, #0x1c
+	bl _u32_div_f
+	mov r1, r0
+	ldr r0, [r4, #0x2c]
+	bl sub_27EB50C
+	bl sub_27E8D84
+	bl sub_27ECA64
+	bl sub_27ECAF0
+	bl sub_27EBE50
+	bl sub_27E98B4
+	add r0, sp, #8
+	bl sub_27F5AC8
+	cmp r0, #0
+	beq _027E8C94
+	ldr r0, _027E8D18 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r1, [r0, #0x3e]
+	orr r1, r1, #0x80
+	strh r1, [r0, #0x3e]
+	b _027E8CBC
+_027E8C94:
+	bl sub_27E9B48
+	bl sub_27EBA08
+	bl sub_27EA4AC
+	bl sub_27E9B10
+	bl sub_27E9910
+	bl sub_27EB884
+	bl sub_27EB58C
+	bl sub_27E9AA0
+	bl sub_27EA9E0
+	bl sub_27EA540
+_027E8CBC:
+	ldr r0, [r4, #8]
+	str r0, [sp]
+	ldr r0, [r4, #0xc]
+	str r0, [sp, #4]
+	ldr r0, _027E8D18 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x18
+	ldr r1, _027E8D2C // =sub_37F8538
+	mov r2, #0
+	ldr r3, [r4, #4]
+	bl OS_CreateThread
+	ldr r0, _027E8D18 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x18
+	bl OS_WakeupThreadDirect
+	bl sub_27EBBDC
+	ldr r0, _027E8D18 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x3e]
+	add sp, sp, #0x10
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E8D18: .word 0x0380FFF4
+_027E8D1C: .word 0x00000694
+_027E8D20: .word 0x04000304
+_027E8D24: .word 0x04000206
+_027E8D28: .word 0x00000692
+_027E8D2C: .word sub_37F8538
+	arm_func_end sub_27E8B54
+
+	arm_func_start sub_27E8D30
+sub_27E8D30: // 0x027E8D30
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl sub_27E961C
+	bl sub_27EA540
+	bl sub_27E9B10
+	bl sub_27E8E64
+	bl sub_27E8D84
+	ldr r0, _027E8D80 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, [r1, #0x31c]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x20]
+	bl sub_27EB50C
+	bl sub_27ECA64
+	bl sub_27ECAF0
+	bl sub_27EBE50
+	bl sub_27EA9E0
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E8D80: .word 0x0380FFF4
+	arm_func_end sub_27E8D30
+
+	arm_func_start sub_27E8D84
+sub_27E8D84: // 0x027E8D84
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E8E04 // =0x0380FFF4
+	ldr r4, [r0]
+	mov r3, #0
+	strh r3, [r4, #0x10]
+	strh r3, [r4, #0x12]
+	ldr r2, _027E8E08 // =0x0000FFFF
+_027E8DA0:
+	mov r1, r3, lsl #1
+	add r0, r4, r3, lsl #1
+	strh r2, [r0, #8]
+	ldrh r0, [r0, #8]
+	strh r0, [r4, r1]
+	add r3, r3, #1
+	cmp r3, #4
+	blo _027E8DA0
+	mov lr, #0
+	ldr ip, _027E8E08 // =0x0000FFFF
+	mov r2, lr
+	ldr r1, _027E8E0C // =0x027F7E14
+_027E8DD0:
+	add r3, r4, lr, lsl #3
+	strh ip, [r3, #0xbc]
+	strh r2, [r3, #0xbe]
+	ldr r0, [r1, lr, lsl #2]
+	str r0, [r3, #0xc0]
+	add lr, lr, #1
+	cmp lr, #0x18
+	blo _027E8DD0
+	mov r0, #3
+	mov r1, #0xc
+	bl sub_37F85F8
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E8E04: .word 0x0380FFF4
+_027E8E08: .word 0x0000FFFF
+_027E8E0C: .word 0x027F7E14
+	arm_func_end sub_27E8D84
+
+	arm_func_start sub_27E8E10
+sub_27E8E10: // 0x027E8E10
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	ldr r6, [r7]
+	ldrh r0, [r7, #8]
+	cmp r0, #0
+	beq _027E8E58
+	mvn r4, #0
+	b _027E8E50
+_027E8E34:
+	mov r0, r6
+	bl sub_37F8B44
+	mov r5, r0
+	mov r0, r7
+	mov r1, r6
+	bl sub_37F89B8
+	mov r6, r5
+_027E8E50:
+	cmp r6, r4
+	bne _027E8E34
+_027E8E58:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	arm_func_end sub_27E8E10
+
+	arm_func_start sub_27E8E64
+sub_27E8E64: // 0x027E8E64
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E8EBC // =0x0380FFF4
+	ldr r0, [r0]
+	add r4, r0, #0x17c
+	add r0, r4, #0x18
+	bl sub_27E8E10
+	add r0, r4, #0x24
+	bl sub_27E8E10
+	add r0, r4, #0x30
+	bl sub_27E8E10
+	add r0, r4, #0x3c
+	bl sub_27E8E10
+	add r0, r4, #0x48
+	bl sub_27E8E10
+	add r0, r4, #0x54
+	bl sub_27E8E10
+	add r0, r4, #0x60
+	bl sub_27E8E10
+	add r0, r4, #0x6c
+	bl sub_27E8E10
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E8EBC: .word 0x0380FFF4
+	arm_func_end sub_27E8E64
+
+	arm_func_start sub_27E8EC0
+sub_27E8EC0: // 0x027E8EC0
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r1, _027E8FA0 // =0x0380FFF4
+	ldr r2, [r1]
+	add r5, r2, #0x17c
+	add r4, r2, #0x344
+	ldr r1, [r0]
+	str r1, [r2, #0x17c]
+	ldr r1, [r0, #4]
+	str r1, [r5, #4]
+	ldr r0, [r0, #8]
+	str r0, [r5, #8]
+	add r0, r5, #0xc
+	mov r1, #2
+	bl sub_27E8FA4
+	add r0, r5, #0x18
+	mov r1, #3
+	bl sub_27E8FA4
+	add r0, r5, #0x24
+	mov r1, #4
+	bl sub_27E8FA4
+	add r0, r5, #0x30
+	mov r1, #5
+	bl sub_27E8FA4
+	add r0, r5, #0x3c
+	mov r1, #6
+	bl sub_27E8FA4
+	add r0, r5, #0x48
+	mov r1, #7
+	bl sub_27E8FA4
+	add r0, r5, #0x54
+	mov r1, #8
+	bl sub_27E8FA4
+	add r0, r5, #0x60
+	mov r1, #9
+	bl sub_27E8FA4
+	add r0, r5, #0x6c
+	mov r1, #0xa
+	bl sub_27E8FA4
+	add r0, r5, #0x78
+	mov r1, #0xb
+	bl sub_27E8FA4
+	add r0, r5, #0x84
+	mov r1, #0xc
+	bl sub_27E8FA4
+	add r0, r5, #0xc
+	mov r1, #0x81
+	bl sub_37F8910
+	add r0, r0, #0xc
+	str r0, [r4, #0x9c]
+	mov r0, #0
+	strh r0, [r4, #0xa0]
+	strh r0, [r4, #0xa4]
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E8FA0: .word 0x0380FFF4
+	arm_func_end sub_27E8EC0
+
+	arm_func_start sub_27E8FA4
+sub_27E8FA4: // 0x027E8FA4
+	mvn r2, #0
+	str r2, [r0]
+	str r2, [r0, #4]
+	mov r2, #0
+	strh r2, [r0, #8]
+	strh r1, [r0, #0xa]
+	bx lr
+	arm_func_end sub_27E8FA4
+
+	arm_func_start sub_27E8FC0
+sub_27E8FC0: // 0x027E8FC0
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E9010 // =0x0380FFF4
+	ldr r0, [r0]
+	add r4, r0, #0x17c
+	bl sub_27EBBB4
+	add r0, r4, #0xc
+	ldr r1, _027E9010 // =0x0380FFF4
+	ldr r1, [r1]
+	ldr r1, [r1, #0x318]
+	sub r1, r1, #0xc
+	bl sub_37F89B8
+	add r0, r4, #0xc
+	ldr r1, _027E9010 // =0x0380FFF4
+	ldr r1, [r1]
+	ldr r1, [r1, #0x3e0]
+	sub r1, r1, #0xc
+	bl sub_37F89B8
+	bl OS_ExitThread
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E9010: .word 0x0380FFF4
+	arm_func_end sub_27E8FC0
+
+	arm_func_start sub_27E9014
+sub_27E9014: // 0x027E9014
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r2, _027E90B0 // =0x0380FFF4
+	ldr r0, [r2]
+	add r0, r0, #0x300
+	ldrh r1, [r0, #0x3e]
+	orr r1, r1, #0x8000
+	strh r1, [r0, #0x3e]
+	ldr r0, [r2]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x4c]
+	cmp r0, #0
+	beq _027E9084
+	bl sub_37F93A0
+	ldr r2, _027E90B0 // =0x0380FFF4
+	ldr r0, [r2]
+	add r0, r0, #0x400
+	ldrh r1, [r0, #4]
+	cmp r1, #0
+	beq _027E9080
+	mov r1, #0
+	strh r1, [r0, #4]
+	mov r1, #6
+	ldr r0, [r2]
+	ldr r0, [r0, #0x420]
+	strh r1, [r0, #4]
+	bl sub_27ED08C
+_027E9080:
+	bl sub_27EA540
+_027E9084:
+	mov r0, #3
+	bl sub_37F86B8
+	ldr r1, _027E90B4 // =0x0000FFFF
+	cmp r0, r1
+	bne _027E9084
+	mov r0, #3
+	mov r1, #0x17
+	bl sub_37F85F8
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E90B0: .word 0x0380FFF4
+_027E90B4: .word 0x0000FFFF
+	arm_func_end sub_27E9014
+
+	arm_func_start sub_27E90B8
+sub_27E90B8: // 0x027E90B8
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r0, _027E9138 // =0x0380FFF4
+	ldr r1, [r0]
+	add r5, r1, #0x344
+	ldrh r0, [r5, #0xb0]
+	cmp r0, #0
+	beq _027E912C
+	add r0, r1, #0x188
+	mov r1, #0x12
+	bl sub_37F8910
+	movs r4, r0
+	beq _027E912C
+	ldr r0, _027E913C // =0x00000186
+	strh r0, [r4, #0xc]
+	mov r0, #1
+	strh r0, [r4, #0xe]
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	ldrh r1, [r5, #0xb0]
+	strh r1, [r4, #0x10]
+	mov r1, #0
+	strh r1, [r5, #0xb0]
+	bl OS_EnableIrqMask
+	ldr r0, _027E9138 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, r4
+	bl sub_37F8E64
+_027E912C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E9138: .word 0x0380FFF4
+_027E913C: .word 0x00000186
+	arm_func_end sub_27E90B8
+
+	arm_func_start sub_27E9140
+sub_27E9140: // 0x027E9140
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	ldr r1, _027E9180 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r2, [r1, #0xf4]
+	orr r2, r2, r4
+	strh r2, [r1, #0xf4]
+	bl OS_EnableIrqMask
+	mov r0, #2
+	mov r1, #0x15
+	bl sub_37F85F8
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E9180: .word 0x0380FFF4
+	arm_func_end sub_27E9140
+
+	arm_func_start sub_27E9184
+sub_27E9184: // 0x027E9184
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r0, _027E9280 // =0x0380FFF4
+	ldr r1, [r0]
+	add r5, r1, #0x344
+	ldr r0, _027E9284 // =0x0000042C
+	add r4, r1, r0
+	add r0, r1, #0x300
+	ldrh r0, [r0, #0x50]
+	cmp r0, #1
+	beq _027E91C0
+	cmp r0, #2
+	beq _027E91F4
+	cmp r0, #3
+	b _027E9230
+_027E91C0:
+	add r0, r4, #0x78
+	bl sub_27E931C
+	cmp r0, #0
+	beq _027E91D8
+	bl sub_27E92D8
+	bl sub_27F122C
+_027E91D8:
+	add r0, r4, #0x28
+	bl sub_27E931C
+	cmp r0, #0
+	beq _027E9230
+	add r0, r4, #0x28
+	bl sub_27E928C
+	b _027E9230
+_027E91F4:
+	add r0, r4, #0x64
+	bl sub_27E931C
+	add r0, r4, #0x28
+	bl sub_27E931C
+	cmp r0, #0
+	beq _027E9230
+	ldrh r0, [r4, #0x28]
+	cmp r0, #0
+	beq _027E921C
+	bl sub_27E92D8
+_027E921C:
+	ldrh r0, [r5, #0x6a]
+	bl sub_27F08F8
+	ldrh r0, [r5, #0xb8]
+	add r0, r0, #1
+	strh r0, [r5, #0xb8]
+_027E9230:
+	add r0, r4, #0x14
+	bl sub_27E931C
+	cmp r0, #0
+	beq _027E9248
+	add r0, r4, #0x14
+	bl sub_27E928C
+_027E9248:
+	mov r0, r4
+	bl sub_27E931C
+	cmp r0, #0
+	beq _027E9260
+	mov r0, r4
+	bl sub_27E928C
+_027E9260:
+	ldr r1, _027E9288 // =0x04808004
+	ldrh r0, [r1]
+	cmp r0, #0
+	moveq r0, #1
+	streqh r0, [r1]
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E9280: .word 0x0380FFF4
+_027E9284: .word 0x0000042C
+_027E9288: .word 0x04808004
+	arm_func_end sub_27E9184
+
+	arm_func_start sub_27E928C
+sub_27E928C: // 0x027E928C
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	ldrh r0, [r4]
+	cmp r0, #0
+	beq _027E92CC
+	bl sub_27E92D8
+	ldr r0, [r4, #8]
+	ldr r1, [r4, #0xc]
+	sub r1, r1, #0x10
+	bl sub_27F25BC
+	ldr r0, _027E92D4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r1, [r0, #0xfc]
+	add r1, r1, #1
+	strh r1, [r0, #0xfc]
+_027E92CC:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E92D4: .word 0x0380FFF4
+	arm_func_end sub_27E928C
+
+	arm_func_start sub_27E92D8
+sub_27E92D8: // 0x027E92D8
+	mov r1, #0
+	ldr r0, _027E9314 // =0x04808004
+	strh r1, [r0]
+	mov r2, #0x10
+	ldr r1, _027E9318 // =0x04808214
+	b _027E9308
+_027E92F0:
+	ldrh r0, [r1]
+	cmp r0, #0
+	bxeq lr
+	cmp r0, #9
+	bxeq lr
+	sub r2, r2, #1
+_027E9308:
+	cmp r2, #0
+	bne _027E92F0
+	bx lr
+	.align 2, 0
+_027E9314: .word 0x04808004
+_027E9318: .word 0x04808214
+	arm_func_end sub_27E92D8
+
+	arm_func_start sub_27E931C
+sub_27E931C: // 0x027E931C
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r3, [r0, #8]
+	sub lr, r3, #4
+	ldrh r2, [r3, #-4]
+	ldr r1, _027E93A4 // =0x0000B6B8
+	cmp r2, r1
+	bne _027E934C
+	ldrh r2, [lr, #2]
+	ldr r1, _027E93A8 // =0x00001D46
+	cmp r2, r1
+	beq _027E9394
+_027E934C:
+	mov ip, #1
+	strh ip, [r3, #0xa]
+	ldr r3, _027E93A4 // =0x0000B6B8
+	strh r3, [lr]
+	ldr r2, _027E93A8 // =0x00001D46
+	strh r2, [lr, #2]
+	ldr r0, [r0, #8]
+	add r1, r0, #0xc
+	strh r3, [r0, #0xc]
+	strh r2, [r1, #2]
+	ldr r0, _027E93AC // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r1, [r0, #0xfa]
+	add r1, r1, #1
+	strh r1, [r0, #0xfa]
+	mov r0, ip
+	b _027E9398
+_027E9394:
+	mov r0, #0
+_027E9398:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E93A4: .word 0x0000B6B8
+_027E93A8: .word 0x00001D46
+_027E93AC: .word 0x0380FFF4
+	arm_func_end sub_27E931C
+
+	arm_func_start sub_27E93B0
+sub_27E93B0: // 0x027E93B0
+	and r2, r1, #0xf
+	mov r3, r2, lsl #1
+	ldr r2, _027E9420 // =0x027F7ED8
+	ldrh ip, [r2, r3]
+	ldr r3, _027E9424 // =0x00000FFF
+	and r1, r3, r1, asr #4
+	mov r1, r1, lsl #0x10
+	eor ip, ip, r1, lsr #16
+	and r1, r0, #0xf
+	mov r1, r1, lsl #1
+	ldrh r1, [r2, r1]
+	eor r1, ip, r1
+	mov r1, r1, lsl #0x10
+	mov ip, r1, lsr #0x10
+	and r1, r3, ip, asr #4
+	mov r1, r1, lsl #0x10
+	and r3, ip, #0xf
+	mov r3, r3, lsl #1
+	ldrh r3, [r2, r3]
+	eor r1, r3, r1, lsr #16
+	mov r0, r0, asr #4
+	and r0, r0, #0xf
+	mov r0, r0, lsl #1
+	ldrh r0, [r2, r0]
+	eor r0, r1, r0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bx lr
+	.align 2, 0
+_027E9420: .word 0x027F7ED8
+_027E9424: .word 0x00000FFF
+	arm_func_end sub_27E93B0
+
+	arm_func_start sub_27E9428
+sub_27E9428: // 0x027E9428
+	ldr r0, _027E9454 // =0x0380FFF4
+	ldr r0, [r0]
+	add r3, r0, #0x5f0
+	ldrh r2, [r3, #2]
+	ldrh r1, [r3, #4]
+	add r0, r0, #0x500
+	ldrh r0, [r0, #0xf0]
+	mla r0, r1, r0, r2
+	strh r0, [r3, #4]
+	ldrh r0, [r3, #4]
+	bx lr
+	.align 2, 0
+_027E9454: .word 0x0380FFF4
+	arm_func_end sub_27E9428
+
+	arm_func_start sub_27E9458
+sub_27E9458: // 0x027E9458
+	ldr r1, _027E946C // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x500
+	strh r0, [r1, #0xf4]
+	bx lr
+	.align 2, 0
+_027E946C: .word 0x0380FFF4
+	arm_func_end sub_27E9458
+
+	arm_func_start sub_27E9470
+sub_27E9470: // 0x027E9470
+	ldr r2, _027E949C // =0x0380FFF4
+	ldr r3, [r2]
+	add ip, r3, #0x5f0
+	ldr r2, _027E94A0 // =0x0000FFF8
+	and r0, r0, r2
+	add r2, r0, #5
+	add r0, r3, #0x500
+	strh r2, [r0, #0xf0]
+	orr r0, r1, #1
+	strh r0, [ip, #2]
+	bx lr
+	.align 2, 0
+_027E949C: .word 0x0380FFF4
+_027E94A0: .word 0x0000FFF8
+	arm_func_end sub_27E9470
+
+	arm_func_start sub_27E94A4
+sub_27E94A4: // 0x027E94A4
+	ands r1, r0, #1
+	ldrneh r0, [r0, #-1]
+	movne r0, r0, asr #8
+	andne r0, r0, #0xff
+	ldreqh r0, [r0]
+	andeq r0, r0, #0xff
+	and r0, r0, #0xff
+	bx lr
+	arm_func_end sub_27E94A4
+
+	arm_func_start sub_27E94C4
+sub_27E94C4: // 0x027E94C4
+	ands r2, r0, #1
+	ldrneh r2, [r0, #-1]
+	andne r2, r2, #0xff
+	orrne r1, r2, r1, lsl #8
+	strneh r1, [r0, #-1]
+	ldreqh r2, [r0]
+	andeq r2, r2, #0xff00
+	andeq r1, r1, #0xff
+	orreq r1, r2, r1
+	streqh r1, [r0]
+	bx lr
+	arm_func_end sub_27E94C4
+
+	arm_func_start sub_27E94F0
+sub_27E94F0: // 0x027E94F0
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r2
+	mov r4, r3
+	mov r2, #0x12
+	bl sub_27E957C
+	cmp r4, #0
+	beq _027E9524
+	add r0, r6, #0x28
+	mov r1, r5
+	add r2, r4, #1
+	mov r2, r2, lsr #1
+	bl sub_27E957C
+_027E9524:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	arm_func_end sub_27E94F0
+
+	arm_func_start sub_27E952C
+sub_27E952C: // 0x027E952C
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r2
+	mov r4, r3
+	mov r2, #0x12
+	bl sub_27E957C
+	cmp r4, #0
+	beq _027E9560
+	add r0, r6, #0x24
+	mov r1, r5
+	add r2, r4, #1
+	mov r2, r2, lsr #1
+	bl sub_27E957C
+_027E9560:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	arm_func_end sub_27E952C
+
+	arm_func_start sub_27E9568
+sub_27E9568: // 0x027E9568
+	add r2, r2, #1
+	mov r2, r2, lsr #1
+	ldr ip, _027E9578 // =sub_27E957C
+	bx ip
+	.align 2, 0
+_027E9578: .word sub_27E957C
+	arm_func_end sub_27E9568
+
+	arm_func_start sub_27E957C
+sub_27E957C: // 0x027E957C
+	mov r3, r0
+	mov r0, r1
+	mov r1, r3
+	mov r2, r2, lsl #1
+	ldr ip, _027E9594 // =MIi_CpuCopy16
+	bx ip
+	.align 2, 0
+_027E9594: .word MIi_CpuCopy16
+	arm_func_end sub_27E957C
+
+	arm_func_start sub_27E9598
+sub_27E9598: // 0x027E9598
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	mov r6, r1
+	add r0, r2, #1
+	bic r2, r0, #1
+	add r1, r6, r2
+	ldr r0, _027E9614 // =0x04805F60
+	cmp r1, r0
+	subhi r5, r0, r6
+	subhi r4, r2, r5
+	movls r5, r2
+	movls r4, #0
+	mov r0, r6
+	mov r1, r7
+	mov r2, r5
+	bl MIi_CpuCopy16
+	cmp r4, #0
+	beq _027E9608
+	add r1, r6, r5
+	ldr r0, _027E9618 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0xde]
+	sub r0, r1, r0
+	add r1, r7, r5
+	mov r2, r4
+	bl MIi_CpuCopy16
+_027E9608:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027E9614: .word 0x04805F60
+_027E9618: .word 0x0380FFF4
+	arm_func_end sub_27E9598
+
+	arm_func_start sub_27E961C
+sub_27E961C: // 0x027E961C
+	ldr r0, _027E9634 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027E9638 // =0x00000634
+	add r0, r1, r0
+	ldr ip, _027E963C // =OS_CancelAlarm
+	bx ip
+	.align 2, 0
+_027E9634: .word 0x0380FFF4
+_027E9638: .word 0x00000634
+_027E963C: .word OS_CancelAlarm
+	arm_func_end sub_27E961C
+
+	arm_func_start sub_27E9640
+sub_27E9640: // 0x027E9640
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	ldr r0, _027E96C4 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027E96C8 // =0x00000634
+	add r0, r1, r0
+	bl OS_CancelAlarm
+	mov r3, #0
+	ldr r0, _027E96CC // =0x000082EA
+	umull ip, r2, r5, r0
+	mla r2, r5, r3, r2
+	mla r2, r3, r0, r2
+	mov r1, r2, lsr #6
+	mov r0, ip, lsr #6
+	orr r0, r0, r2, lsl #26
+	mov r2, #0x3e8
+	bl _ll_udiv
+	mov r3, r0
+	mov r2, r1
+	mov r0, #0
+	str r0, [sp]
+	ldr r0, _027E96C4 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027E96C8 // =0x00000634
+	add r0, r1, r0
+	mov r1, r3
+	mov r3, r4
+	bl OS_SetAlarm
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E96C4: .word 0x0380FFF4
+_027E96C8: .word 0x00000634
+_027E96CC: .word 0x000082EA
+	arm_func_end sub_27E9640
+
+	arm_func_start sub_27E96D0
+sub_27E96D0: // 0x027E96D0
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	ldr r0, _027E973C // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027E9740 // =0x00000634
+	add r0, r1, r0
+	bl OS_CancelAlarm
+	mov r2, #0
+	str r2, [sp]
+	ldr r0, _027E973C // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027E9740 // =0x00000634
+	add r0, r1, r0
+	ldr r1, _027E9744 // =0x000082EA
+	umull ip, r3, r5, r1
+	mla r3, r5, r2, r3
+	mla r3, r2, r1, r3
+	mov r2, r3, lsr #6
+	mov r1, ip, lsr #6
+	orr r1, r1, r3, lsl #26
+	mov r3, r4
+	bl OS_SetAlarm
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027E973C: .word 0x0380FFF4
+_027E9740: .word 0x00000634
+_027E9744: .word 0x000082EA
+	arm_func_end sub_27E96D0
+
+	arm_func_start sub_27E9748
+sub_27E9748: // 0x027E9748
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E97C4 // =0x0380FFF4
+	ldr r4, [r0]
+	ldr r0, [r4, #0x3ec]
+	add r0, r0, #1
+	str r0, [r4, #0x3ec]
+	mov r0, #1
+	mov r1, #0xa
+	bl sub_37F85F8
+	mov r0, #2
+	mov r1, #0x12
+	bl sub_37F85F8
+	mov r0, #1
+	mov r1, #0x11
+	bl sub_37F85F8
+	add r0, r4, #0x100
+	ldrh r0, [r0, #0xfc]
+	cmp r0, #0
+	beq _027E97A0
+	mov r0, #2
+	mov r1, #0x13
+	bl sub_37F85F8
+_027E97A0:
+	add r0, r4, #0x300
+	ldrh r0, [r0, #0xf4]
+	cmp r0, #0
+	beq _027E97BC
+	mov r0, #2
+	mov r1, #0x15
+	bl sub_37F85F8
+_027E97BC:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E97C4: .word 0x0380FFF4
+	arm_func_end sub_27E9748
+
+	arm_func_start sub_27E97C8
+sub_27E97C8: // 0x027E97C8
+	ldr r0, _027E97E0 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027E97E4 // =0x00000608
+	add r0, r1, r0
+	ldr ip, _027E97E8 // =OS_CancelAlarm
+	bx ip
+	.align 2, 0
+_027E97E0: .word 0x0380FFF4
+_027E97E4: .word 0x00000608
+_027E97E8: .word OS_CancelAlarm
+	arm_func_end sub_27E97C8
+
+	arm_func_start sub_27E97EC
+sub_27E97EC: // 0x027E97EC
+	stmdb sp!, {r4, r5, r6, lr}
+	sub sp, sp, #0x10
+	mov r5, r0
+	mov r4, r1
+	ldr r0, _027E9870 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027E9874 // =0x00000608
+	add r0, r1, r0
+	bl OS_CancelAlarm
+	mov r1, #0
+	ldr r0, _027E9878 // =0x000082EA
+	umull r3, r2, r5, r0
+	mla r2, r5, r1, r2
+	mla r2, r1, r0, r2
+	mov r6, r3, lsr #6
+	orr r6, r6, r2, lsl #26
+	bl OS_GetTick
+	mov r5, #0
+	adds ip, r6, r0
+	adc r2, r1, #0
+	str r4, [sp, #4]
+	str r5, [sp, #8]
+	mov r3, r6
+	str r5, [sp]
+	ldr r0, _027E9870 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027E9874 // =0x00000608
+	add r0, r1, r0
+	mov r1, ip
+	bl OS_SetPeriodicAlarm
+	add sp, sp, #0x10
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027E9870: .word 0x0380FFF4
+_027E9874: .word 0x00000608
+_027E9878: .word 0x000082EA
+	arm_func_end sub_27E97EC
+
+	arm_func_start sub_27E987C
+sub_27E987C: // 0x027E987C
+	ldr r1, _027E9888 // =sub_27E98A8
+	ldr ip, _027E988C // =sub_37FB858
+	bx ip
+	.align 2, 0
+_027E9888: .word sub_27E98A8
+_027E988C: .word sub_37FB858
+	arm_func_end sub_27E987C
+
+	arm_func_start sub_27E9890
+sub_27E9890: // 0x027E9890
+	mov r1, #0x3e8
+	mul r1, r0, r1
+	mov r0, r1
+	ldr ip, _027E98A4 // =sub_27E987C
+	bx ip
+	.align 2, 0
+_027E98A4: .word sub_27E987C
+	arm_func_end sub_27E9890
+
+	arm_func_start sub_27E98A8
+sub_27E98A8: // 0x027E98A8
+	mov r1, #0
+	str r1, [r0]
+	bx lr
+	arm_func_end sub_27E98A8
+
+	arm_func_start sub_27E98B4
+sub_27E98B4: // 0x027E98B4
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E9904 // =0x0380FFF4
+	ldr r4, [r0]
+	bl OS_IsAlarmAvailable
+	cmp r0, #0
+	addeq r0, r4, #0x300
+	ldreqh r1, [r0, #0x3e]
+	orreq r1, r1, #0x40
+	streqh r1, [r0, #0x3e]
+	beq _027E98FC
+	ldr r0, _027E9908 // =0x00000608
+	add r0, r4, r0
+	bl OS_CreateAlarm
+	ldr r0, _027E990C // =0x00000634
+	add r0, r4, r0
+	bl OS_CreateAlarm
+	add r0, r4, #0x660
+	bl OS_CreateAlarm
+_027E98FC:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E9904: .word 0x0380FFF4
+_027E9908: .word 0x00000608
+_027E990C: .word 0x00000634
+	arm_func_end sub_27E98B4
+
+	arm_func_start sub_27E9910
+sub_27E9910: // 0x027E9910
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	sub sp, sp, #0xc
+	ldr r0, _027E9A90 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027E9A94 // =0x000005F8
+	add r7, r1, r0
+	mov r8, #0
+	str r8, [sp, #4]
+	mov r6, #2
+	add r5, sp, #4
+	ldr r4, _027E9A98 // =0x027F7EF8
+_027E993C:
+	mov r0, r8, lsl #1
+	add r0, r0, #0x44
+	mov r1, r6
+	mov r2, r5
+	bl sub_27F5A28
+	ldr r1, [sp, #4]
+	mov r0, r8, lsl #1
+	ldrh r0, [r4, r0]
+	add r0, r0, #0x4800000
+	add r0, r0, #0x8000
+	strh r1, [r0]
+	add r8, r8, #1
+	cmp r8, #0x10
+	blo _027E993C
+	ldrh r0, [r7, #2]
+	mov r1, r0, lsr #7
+	mov r0, r1, lsl #8
+	str r0, [sp]
+	ldrh r0, [r7, #2]
+	and r0, r0, #0x7f
+	orr r1, r0, r1, lsl #8
+	str r1, [sp]
+	ldr r0, _027E9A9C // =0x04808184
+	strh r1, [r0]
+	mov r5, #0xce
+	ldrh r0, [r7, #2]
+	and r0, r0, #0x7f
+	add r0, r0, #7
+	mov r1, #8
+	bl _s32_div_f
+	mov r8, r0
+	ldrh r4, [r7, #4]
+	ldrh r0, [r7]
+	cmp r0, #3
+	bne _027E9A2C
+	add r0, r4, #0xce
+	mov r1, #1
+	add r2, r7, #8
+	bl sub_27F5A28
+	mov sb, #0
+	mov r8, sb
+	mov r7, #1
+	add r6, sp, #0
+	b _027E9A20
+_027E99EC:
+	str r8, [sp]
+	mov r0, r5
+	mov r1, r7
+	mov r2, r6
+	bl sub_27F5A28
+	ldr r1, [sp]
+	mov r0, sb, lsl #8
+	add r0, r0, #0x50000
+	orr r0, r1, r0
+	str r0, [sp]
+	bl sub_27E9C2C
+	add sb, sb, #1
+	add r5, r5, #1
+_027E9A20:
+	cmp sb, r4
+	blo _027E99EC
+	b _027E9A84
+_027E9A2C:
+	mov r0, #0
+	str r0, [sp]
+	add r6, sp, #0
+	b _027E9A7C
+_027E9A3C:
+	mov r0, r5
+	mov r1, r8
+	mov r2, r6
+	bl sub_27F5A28
+	ldr r0, [sp]
+	bl sub_27E9C2C
+	ldrh r0, [r7]
+	cmp r0, #2
+	bne _027E9A74
+	ldr r1, [sp]
+	mov r0, r1, lsr #0x12
+	cmp r0, #9
+	biceq r0, r1, #0x7c00
+	streq r0, [r7, #0xc]
+_027E9A74:
+	sub r4, r4, #1
+	add r5, r5, r8
+_027E9A7C:
+	cmp r4, #0
+	bne _027E9A3C
+_027E9A84:
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+	.align 2, 0
+_027E9A90: .word 0x0380FFF4
+_027E9A94: .word 0x000005F8
+_027E9A98: .word 0x027F7EF8
+_027E9A9C: .word 0x04808184
+	arm_func_end sub_27E9910
+
+	arm_func_start sub_27E9AA0
+sub_27E9AA0: // 0x027E9AA0
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r1, #0x100
+	ldr r0, _027E9B0C // =0x04808160
+	strh r1, [r0]
+	mov r6, #0x64
+	mov r7, #0
+	str r7, [sp]
+	mov r5, #1
+	add r4, sp, #0
+_027E9AC8:
+	mov r0, r6
+	mov r1, r5
+	mov r2, r4
+	bl sub_27F5A28
+	mov r0, r7
+	ldr r1, [sp]
+	bl sub_27E9C54
+	add r6, r6, #1
+	add r7, r7, #1
+	cmp r7, #0x69
+	blo _027E9AC8
+	mov r0, #0x5a
+	mov r1, #2
+	bl sub_27E9C54
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027E9B0C: .word 0x04808160
+	arm_func_end sub_27E9AA0
+
+	arm_func_start sub_27E9B10
+sub_27E9B10: // 0x027E9B10
+	mov ip, #0
+	ldr r2, _027E9B44 // =0x027F7F68
+_027E9B18:
+	mov r3, ip, lsl #2
+	add r0, r2, ip, lsl #2
+	ldrh r1, [r0, #2]
+	ldrh r0, [r2, r3]
+	add r0, r0, #0x4800000
+	add r0, r0, #0x8000
+	strh r1, [r0]
+	add ip, ip, #1
+	cmp ip, #0x19
+	blo _027E9B18
+	bx lr
+	.align 2, 0
+_027E9B44: .word 0x027F7F68
+	arm_func_end sub_27E9B10
+
+	arm_func_start sub_27E9B48
+sub_27E9B48: // 0x027E9B48
+	stmdb sp!, {r4, lr}
+	ldr r0, _027E9BB4 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027E9BB8 // =0x000005F8
+	add r4, r1, r0
+	mov r0, #0
+	mov r1, r4
+	mov r2, #0x10
+	bl MIi_CpuClear16
+	mov r0, #0x40
+	mov r1, #1
+	mov r2, r4
+	bl sub_27F5A28
+	mov r0, #0x41
+	mov r1, #1
+	add r2, r4, #2
+	bl sub_27F5A28
+	mov r0, #0x42
+	mov r1, #1
+	add r2, r4, #4
+	bl sub_27F5A28
+	mov r0, #0x43
+	mov r1, #1
+	add r2, r4, #6
+	bl sub_27F5A28
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027E9BB4: .word 0x0380FFF4
+_027E9BB8: .word 0x000005F8
+	arm_func_end sub_27E9B48
+
+	arm_func_start sub_27E9BBC
+sub_27E9BBC: // 0x027E9BBC
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #8
+	mov r8, #0x64
+	mov r6, #0
+	str r6, [sp]
+	mov r7, r6
+	mov r5, #1
+	add r4, sp, #0
+_027E9BDC:
+	mov r0, r8
+	mov r1, r5
+	mov r2, r4
+	bl sub_27F5A28
+	cmp r7, #1
+	ldreq r0, [sp]
+	andeq r0, r0, #0x80
+	streq r0, [sp]
+	ldr r0, [sp]
+	and r0, r0, #0xff
+	mov r1, r6
+	bl sub_27E93B0
+	mov r6, r0
+	add r8, r8, #1
+	add r7, r7, #1
+	cmp r7, #0x69
+	blo _027E9BDC
+	add sp, sp, #8
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	arm_func_end sub_27E9BBC
+
+	arm_func_start sub_27E9C2C
+sub_27E9C2C: // 0x027E9C2C
+	ldr r1, _027E9C48 // =0x0480817E
+	strh r0, [r1]
+	mov r1, r0, lsr #0x10
+	ldr r0, _027E9C4C // =0x0480817C
+	strh r1, [r0]
+	ldr ip, _027E9C50 // =sub_37FB9A0
+	bx ip
+	.align 2, 0
+_027E9C48: .word 0x0480817E
+_027E9C4C: .word 0x0480817C
+_027E9C50: .word sub_37FB9A0
+	arm_func_end sub_27E9C2C
+
+	arm_func_start sub_27E9C54
+sub_27E9C54: // 0x027E9C54
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r2, _027E9C8C // =0x0480815A
+	strh r1, [r2]
+	orr r1, r0, #0x5000
+	ldr r0, _027E9C90 // =0x04808158
+	strh r1, [r0]
+	bl sub_37FB96C
+	cmp r0, #0
+	mvnne r0, #0
+	moveq r0, #0
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E9C8C: .word 0x0480815A
+_027E9C90: .word 0x04808158
+	arm_func_end sub_27E9C54
+
+	arm_func_start sub_27E9C94
+sub_27E9C94: // 0x027E9C94
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	orr r1, r0, #0x6000
+	ldr r0, _027E9CC0 // =0x04808158
+	strh r1, [r0]
+	bl sub_37FB96C
+	ldr r0, _027E9CC4 // =0x0480815C
+	ldrh r0, [r0]
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027E9CC0: .word 0x04808158
+_027E9CC4: .word 0x0480815C
+	arm_func_end sub_27E9C94
+
+	arm_func_start sub_27E9CC8
+sub_27E9CC8: // 0x027E9CC8
+	ldr r0, _027E9D10 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r1, [r0, #0x30]
+	cmp r1, #0
+	beq _027E9CEC
+	cmp r1, #1
+	beq _027E9D00
+	b _027E9D08
+_027E9CEC:
+	ldrh r0, [r0, #0xa4]
+	ands r0, r0, #1
+	beq _027E9D08
+	mov r0, #0xa
+	bx lr
+_027E9D00:
+	mov r0, #0xa
+	bx lr
+_027E9D08:
+	mov r0, #0x14
+	bx lr
+	.align 2, 0
+_027E9D10: .word 0x0380FFF4
+	arm_func_end sub_27E9CC8
+
+	arm_func_start sub_27E9D14
+sub_27E9D14: // 0x027E9D14
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	mov r4, r0
+	mov sl, r1
+	mov r0, #0
+	strh r0, [sl]
+	strh r0, [sl, #2]
+	add r0, r4, #1
+	bl sub_27E94A4
+	mov r8, r0
+	mov sb, #0
+	ldr r6, _027E9DCC // =0x027F7FCC
+	add r7, r4, #2
+	add r4, sl, #2
+	mov r5, #1
+	b _027E9DBC
+_027E9D50:
+	add r0, r7, sb
+	bl sub_27E94A4
+	and r1, r0, #0x7f
+	sub r1, r1, #1
+	cmp r1, #0x78
+	bhs _027E9D9C
+	mov r1, r1, lsl #1
+	ldrh r3, [r6, r1]
+	cmp r3, #0xff
+	beq _027E9D9C
+	mov r2, r5, lsl r3
+	ldrh r1, [r4]
+	orr r1, r1, r5, lsl r3
+	strh r1, [r4]
+	ands r0, r0, #0x80
+	ldrneh r0, [sl]
+	orrne r0, r0, r2
+	strneh r0, [sl]
+	b _027E9DB8
+_027E9D9C:
+	ldrh r1, [r4]
+	orr r1, r1, #0x8000
+	strh r1, [r4]
+	ands r0, r0, #0x80
+	ldrneh r0, [sl]
+	orrne r0, r0, #0x8000
+	strneh r0, [sl]
+_027E9DB8:
+	add sb, sb, #1
+_027E9DBC:
+	cmp sb, r8
+	blo _027E9D50
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	bx lr
+	.align 2, 0
+_027E9DCC: .word 0x027F7FCC
+	arm_func_end sub_27E9D14
+
+	arm_func_start sub_27E9DD0
+sub_27E9DD0: // 0x027E9DD0
+	mov r2, #1
+	ldr r1, _027E9DEC // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x2c]
+	and r0, r1, r2, lsl r0
+	bx lr
+	.align 2, 0
+_027E9DEC: .word 0x0380FFF4
+	arm_func_end sub_27E9DD0
+
+	arm_func_start sub_27E9DF0
+sub_27E9DF0: // 0x027E9DF0
+	ldrh r3, [r0, #4]
+	ldrh r2, [r1, #4]
+	cmp r3, r2
+	bne _027E9E24
+	ldrh r3, [r0, #2]
+	ldrh r2, [r1, #2]
+	cmp r3, r2
+	bne _027E9E24
+	ldrh r2, [r0]
+	ldrh r0, [r1]
+	cmp r2, r0
+	moveq r0, #1
+	bxeq lr
+_027E9E24:
+	mov r0, #0
+	bx lr
+	arm_func_end sub_27E9DF0
+
+	arm_func_start sub_27E9E2C
+sub_27E9E2C: // 0x027E9E2C
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	mov sb, r0
+	mov r8, r1
+	ldr r0, _027E9EF8 // =0x0380FFF4
+	ldr r0, [r0]
+	add r2, r0, #0x344
+	cmp sb, #0x20
+	movhi r0, #0
+	bhi _027E9EF0
+	ldrh r1, [r2, #0x1e]
+	cmp r1, #0
+	moveq r0, #1
+	beq _027E9EF0
+	add r0, r0, #0x400
+	ldrh r0, [r0, #4]
+	cmp r0, #0x13
+	bne _027E9E84
+	cmp sb, r1
+	movlo r0, #0
+	blo _027E9EF0
+	mov sb, r1
+	b _027E9E90
+_027E9E84:
+	cmp sb, r1
+	movne r0, #0
+	bne _027E9EF0
+_027E9E90:
+	add r7, r2, #0x20
+	add r6, r2, #0x40
+	mov r5, #0
+	b _027E9EE4
+_027E9EA0:
+	mov r0, r6
+	bl sub_27E94A4
+	mov r4, r0
+	add r6, r6, #1
+	mov r0, r8
+	bl sub_27E94A4
+	mov sl, r0
+	add r8, r8, #1
+	mov r0, r7
+	bl sub_27E94A4
+	add r7, r7, #1
+	orr r1, sl, r4
+	orr r0, r0, r4
+	cmp r1, r0
+	movne r0, #0
+	bne _027E9EF0
+	add r5, r5, #1
+_027E9EE4:
+	cmp r5, sb
+	blo _027E9EA0
+	mov r0, #1
+_027E9EF0:
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	bx lr
+	.align 2, 0
+_027E9EF8: .word 0x0380FFF4
+	arm_func_end sub_27E9E2C
+
+	arm_func_start sub_27E9EFC
+sub_27E9EFC: // 0x027E9EFC
+	ldr r0, _027EA0F4 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027EA0F8 // =0x0000053C
+	add r1, r1, r0
+	ldr r0, _027EA0FC // =0x048081B0
+	ldrh r2, [r0]
+	ldr r3, [r1, #0x50]
+	and r2, r2, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x50]
+	ldrh ip, [r0, #2]
+	ldr r2, [r1, #0x4c]
+	add r2, r2, ip, asr #8
+	str r2, [r1, #0x4c]
+	ldr r3, [r1, #0x5c]
+	and r2, ip, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x5c]
+	ldrh ip, [r0, #4]
+	ldr r2, [r1, #0x58]
+	add r2, r2, ip, asr #8
+	str r2, [r1, #0x58]
+	ldr r3, [r1, #0x54]
+	and r2, ip, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x54]
+	ldrh ip, [r0, #6]
+	ldr r2, [r1, #0x60]
+	add r2, r2, ip, asr #8
+	str r2, [r1, #0x60]
+	ldr r3, [r1, #0x38]
+	and r2, ip, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x38]
+	ldrh r2, [r0, #8]
+	ldr r3, [r1, #0x48]
+	and r2, r2, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x48]
+	ldrh r2, [r0, #0xa]
+	ldr r3, [r1, #0x20]
+	and r2, r2, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x20]
+	ldrh ip, [r0, #0xc]
+	ldr r2, [r1, #0x30]
+	add r2, r2, ip, asr #8
+	str r2, [r1, #0x30]
+	ldr r3, [r1, #0x44]
+	and r2, ip, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x44]
+	ldrh ip, [r0, #0xe]
+	ldr r3, [r1, #0x3c]
+	and r2, ip, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x3c]
+	ldr r2, [r1, #0x40]
+	add r2, r2, ip, asr #8
+	str r2, [r1, #0x40]
+	ldrh r2, [r0, #0x10]
+	ldr r3, [r1, #0xc]
+	and r2, r2, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0xc]
+	ldrh r3, [r0, #0x20]
+	ldr r2, [r1, #0x78]
+	add r2, r2, r3, asr #8
+	str r2, [r1, #0x78]
+	ldrh ip, [r0, #0x22]
+	ldr r3, [r1, #0x7c]
+	and r2, ip, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x7c]
+	ldr r2, [r1, #0x80]
+	add r2, r2, ip, asr #8
+	str r2, [r1, #0x80]
+	ldrh ip, [r0, #0x24]
+	ldr r3, [r1, #0x84]
+	and r2, ip, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x84]
+	ldr r2, [r1, #0x88]
+	add r2, r2, ip, asr #8
+	str r2, [r1, #0x88]
+	ldrh ip, [r0, #0x26]
+	ldr r3, [r1, #0x8c]
+	and r2, ip, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x8c]
+	ldr r2, [r1, #0x90]
+	add r2, r2, ip, asr #8
+	str r2, [r1, #0x90]
+	ldrh ip, [r0, #0x28]
+	ldr r3, [r1, #0x94]
+	and r2, ip, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x94]
+	ldr r2, [r1, #0x98]
+	add r2, r2, ip, asr #8
+	str r2, [r1, #0x98]
+	ldrh ip, [r0, #0x2a]
+	ldr r3, [r1, #0x9c]
+	and r2, ip, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0x9c]
+	ldr r2, [r1, #0xa0]
+	add r2, r2, ip, asr #8
+	str r2, [r1, #0xa0]
+	ldrh ip, [r0, #0x2c]
+	ldr r3, [r1, #0xa4]
+	and r2, ip, #0xff
+	add r2, r3, r2
+	str r2, [r1, #0xa4]
+	ldr r2, [r1, #0xa8]
+	add r2, r2, ip, asr #8
+	str r2, [r1, #0xa8]
+	ldrh r3, [r0, #0x2e]
+	ldr r2, [r1, #0xac]
+	and r0, r3, #0xff
+	add r0, r2, r0
+	str r0, [r1, #0xac]
+	ldr r0, [r1, #0xb0]
+	add r0, r0, r3, asr #8
+	str r0, [r1, #0xb0]
+	bx lr
+	.align 2, 0
+_027EA0F4: .word 0x0380FFF4
+_027EA0F8: .word 0x0000053C
+_027EA0FC: .word 0x048081B0
+	arm_func_end sub_27E9EFC
+
+	arm_func_start sub_27EA100
+sub_27EA100: // 0x027EA100
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl sub_27E9EFC
+	mov r0, #0
+	ldr r1, _027EA134 // =0x0380FFF4
+	ldr r2, [r1]
+	ldr r1, _027EA138 // =0x0000053C
+	add r1, r2, r1
+	mov r2, #0xb4
+	bl MIi_CpuClear32
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EA134: .word 0x0380FFF4
+_027EA138: .word 0x0000053C
+	arm_func_end sub_27EA100
+
+	arm_func_start sub_27EA13C
+sub_27EA13C: // 0x027EA13C
+	ldrh ip, [r1]
+	strh ip, [r0]
+	ldrh ip, [r1, #2]
+	strh ip, [r0, #2]
+	ldrh r1, [r1, #4]
+	strh r1, [r0, #4]
+	ldrh r1, [r2]
+	strh r1, [r0, #6]
+	ldrh r1, [r2, #2]
+	strh r1, [r0, #8]
+	ldrh r1, [r2, #4]
+	strh r1, [r0, #0xa]
+	ldrh r1, [r3]
+	strh r1, [r0, #0xc]
+	ldrh r1, [r3, #2]
+	strh r1, [r0, #0xe]
+	ldrh r1, [r3, #4]
+	strh r1, [r0, #0x10]
+	bx lr
+	arm_func_end sub_27EA13C
+
+	arm_func_start sub_27EA188
+sub_27EA188: // 0x027EA188
+	ldrh r3, [r1]
+	strh r3, [r0]
+	ldrh r3, [r1, #2]
+	strh r3, [r0, #2]
+	ldrh r1, [r1, #4]
+	strh r1, [r0, #4]
+	ldrh r1, [r2]
+	strh r1, [r0, #6]
+	ldrh r1, [r2, #2]
+	strh r1, [r0, #8]
+	ldrh r1, [r2, #4]
+	strh r1, [r0, #0xa]
+	bx lr
+	arm_func_end sub_27EA188
+
+	arm_func_start sub_27EA1BC
+sub_27EA1BC: // 0x027EA1BC
+	ldrh r2, [r1]
+	strh r2, [r0]
+	ldrh r2, [r1, #2]
+	strh r2, [r0, #2]
+	ldrh r1, [r1, #4]
+	strh r1, [r0, #4]
+	bx lr
+	arm_func_end sub_27EA1BC
+
+	arm_func_start sub_27EA1D8
+sub_27EA1D8: // 0x027EA1D8
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027EA200 // =0x04808094
+	ldrh r0, [r0]
+	ands r0, r0, #0x8000
+	bne _027EA1F4
+	bl sub_37FB8E4
+_027EA1F4:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EA200: .word 0x04808094
+	arm_func_end sub_27EA1D8
+
+	arm_func_start sub_27EA204
+sub_27EA204: // 0x027EA204
+	ldr r0, _027EA220 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r1, [r0, #0xae]
+	ldr r0, _027EA224 // =0x04808028
+	strh r1, [r0]
+	bx lr
+	.align 2, 0
+_027EA220: .word 0x0380FFF4
+_027EA224: .word 0x04808028
+	arm_func_end sub_27EA204
+
+	arm_func_start sub_27EA228
+sub_27EA228: // 0x027EA228
+	stmdb sp!, {r4, lr}
+	ldr r0, _027EA27C // =0x0380FFF4
+	ldr r0, [r0]
+	add r4, r0, #0x344
+	mov r0, #0
+	strh r0, [r4, #0x6a]
+	bl sub_37FB8E4
+	mov r1, #0
+	ldr r0, _027EA280 // =0x0480802A
+	strh r1, [r0]
+	ldrh r0, [r4, #0x88]
+	cmp r0, #0
+	beq _027EA274
+	bl sub_27F1968
+	ldrh r0, [r4, #0x88]
+	mov r1, #0x20
+	bl sub_27EC648
+	mov r0, #0
+	strh r0, [r4, #0x88]
+_027EA274:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EA27C: .word 0x0380FFF4
+_027EA280: .word 0x0480802A
+	arm_func_end sub_27EA228
+
+	arm_func_start sub_27EA284
+sub_27EA284: // 0x027EA284
+	ldr r2, _027EA2BC // =0x0380FFF4
+	ldr r1, [r2]
+	add r1, r1, #0x300
+	strh r0, [r1, #0xae]
+	ldr r1, _027EA2C0 // =0x0480802A
+	strh r0, [r1]
+	ldr r1, [r2]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x3a]
+	mov r1, r1, lsl #0x18
+	movs r1, r1, lsr #0x1f
+	ldrne r1, _027EA2C4 // =0x04808028
+	strneh r0, [r1]
+	bx lr
+	.align 2, 0
+_027EA2BC: .word 0x0380FFF4
+_027EA2C0: .word 0x0480802A
+_027EA2C4: .word 0x04808028
+	arm_func_end sub_27EA284
+
+	arm_func_start sub_27EA2C8
+sub_27EA2C8: // 0x027EA2C8
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r0, _027EA370 // =0x0380FFF4
+	ldr r0, [r0]
+	add r4, r0, #0x344
+	cmp r6, #0x80
+	movhi r0, #4
+	bhi _027EA368
+	cmp r6, #0
+	beq _027EA358
+	ldrh r0, [r4, #0xa2]
+	ands r0, r0, #1
+	beq _027EA348
+	ldr r8, [r4, #0x9c]
+	mov r0, r8
+	mov r1, #0xff
+	bl sub_27E94C4
+	add r8, r8, #1
+	mov r7, #0
+	b _027EA33C
+_027EA31C:
+	mov r0, r5
+	bl sub_27E94A4
+	mov r1, r0
+	mov r0, r8
+	bl sub_27E94C4
+	add r8, r8, #1
+	add r5, r5, #1
+	add r7, r7, #1
+_027EA33C:
+	cmp r7, r6
+	blo _027EA31C
+	b _027EA358
+_027EA348:
+	mov r0, r5
+	ldr r1, [r4, #0x9c]
+	add r2, r6, #1
+	bl MIi_CpuCopy16
+_027EA358:
+	strh r6, [r4, #0xa0]
+	mov r0, #1
+	strh r0, [r4, #0xa4]
+	mov r0, #0
+_027EA368:
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027EA370: .word 0x0380FFF4
+	arm_func_end sub_27EA2C8
+
+	arm_func_start sub_27EA374
+sub_27EA374: // 0x027EA374
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	ldr r0, _027EA3BC // =0x0380FFF4
+	ldr r0, [r0]
+	add r4, r0, #0x344
+	cmp r5, #0x80
+	movhi r0, #4
+	bhi _027EA3B0
+	mov r0, r1
+	ldr r1, [r4, #0x9c]
+	add r2, r5, #1
+	bl MIi_CpuCopy16
+	strh r5, [r4, #0xa0]
+	mov r0, #0
+_027EA3B0:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027EA3BC: .word 0x0380FFF4
+	arm_func_end sub_27EA374
+
+	arm_func_start sub_27EA3C0
+sub_27EA3C0: // 0x027EA3C0
+	mov r1, #0
+	ldr r0, _027EA3E8 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	strh r1, [r0, #0xea]
+	ldr r1, _027EA3EC // =0x04808038
+	ldrh r0, [r1]
+	orr r0, r0, #2
+	strh r0, [r1]
+	bx lr
+	.align 2, 0
+_027EA3E8: .word 0x0380FFF4
+_027EA3EC: .word 0x04808038
+	arm_func_end sub_27EA3C0
+
+	arm_func_start sub_27EA3F0
+sub_27EA3F0: // 0x027EA3F0
+	mov r2, #1
+	ldr r1, _027EA438 // =0x0380FFF4
+	ldr r0, [r1]
+	add r0, r0, #0x300
+	strh r2, [r0, #0xea]
+	ldr r0, [r1]
+	add r0, r0, #0x400
+	ldrh r0, [r0, #0x68]
+	cmp r0, #0
+	bxne lr
+	ldr r1, _027EA43C // =0x04808038
+	ldrh r0, [r1]
+	bic r0, r0, #2
+	strh r0, [r1]
+	mov r1, #0
+	ldr r0, _027EA440 // =0x04808048
+	strh r1, [r0]
+	bx lr
+	.align 2, 0
+_027EA438: .word 0x0380FFF4
+_027EA43C: .word 0x04808038
+_027EA440: .word 0x04808048
+	arm_func_end sub_27EA3F0
+
+	arm_func_start sub_27EA444
+sub_27EA444: // 0x027EA444
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	ldr r0, _027EA4A4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r5, r0, #0x344
+	add r4, r0, #0x31c
+	ldr r0, _027EA4A8 // =0x0000FFFF
+	cmp r6, r0
+	moveq r1, #0xff
+	streqh r1, [r4, #0x1c]
+	streqh r0, [r5, #0x8c]
+	beq _027EA498
+	ldrh r0, [r5, #0x6e]
+	mul r0, r6, r0
+	mov r1, #0x64
+	bl _u32_div_f
+	cmp r0, #0x10000
+	movhi r0, #5
+	bhi _027EA49C
+	strh r6, [r4, #0x1c]
+	strh r0, [r5, #0x8c]
+_027EA498:
+	mov r0, #0
+_027EA49C:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EA4A4: .word 0x0380FFF4
+_027EA4A8: .word 0x0000FFFF
+	arm_func_end sub_27EA444
+
+	arm_func_start sub_27EA4AC
+sub_27EA4AC: // 0x027EA4AC
+	stmdb sp!, {r4, lr}
+	mov r1, #0
+	ldr r0, _027EA534 // =0x04808036
+	strh r1, [r0]
+	mov r0, #8
+	bl sub_27E9890
+	mov r1, #0
+	ldr r0, _027EA538 // =0x04808168
+	strh r1, [r0]
+	ldr r0, _027EA53C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r0, [r0, #0xf8]
+	cmp r0, #2
+	beq _027EA4F4
+	cmp r0, #3
+	beq _027EA528
+	b _027EA52C
+_027EA4F4:
+	mov r0, #1
+	bl sub_27E9C94
+	mov r4, r0
+	mov r0, #1
+	and r1, r4, #0x7f
+	bl sub_27E9C54
+	mov r0, #1
+	mov r1, r4
+	bl sub_27E9C54
+	mov r0, #0x28
+	bl sub_27E9890
+	bl sub_27E9910
+	b _027EA52C
+_027EA528:
+	bl sub_27E9910
+_027EA52C:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EA534: .word 0x04808036
+_027EA538: .word 0x04808168
+_027EA53C: .word 0x0380FFF4
+	arm_func_end sub_27EA4AC
+
+	arm_func_start sub_27EA540
+sub_27EA540: // 0x027EA540
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027EA5A0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r0, [r0, #0xf8]
+	cmp r0, #2
+	bne _027EA568
+	ldr r0, _027EA5A4 // =0x0000C008
+	bl sub_27E9C2C
+_027EA568:
+	mov r0, #0x1e
+	bl sub_27E9C94
+	orr r1, r0, #0x3f
+	mov r0, #0x1e
+	bl sub_27E9C54
+	ldr r1, _027EA5A8 // =0x0000800D
+	ldr r0, _027EA5AC // =0x04808168
+	strh r1, [r0]
+	mov r1, #1
+	ldr r0, _027EA5B0 // =0x04808036
+	strh r1, [r0]
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EA5A0: .word 0x0380FFF4
+_027EA5A4: .word 0x0000C008
+_027EA5A8: .word 0x0000800D
+_027EA5AC: .word 0x04808168
+_027EA5B0: .word 0x04808036
+	arm_func_end sub_27EA540
+
+	arm_func_start sub_27EA5B4
+sub_27EA5B4: // 0x027EA5B4
+	ldr r1, _027EA5C4 // =0x04808040
+	strh r0, [r1]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EA5C4: .word 0x04808040
+	arm_func_end sub_27EA5B4
+
+	arm_func_start sub_27EA5C8
+sub_27EA5C8: // 0x027EA5C8
+	mov r2, r0, lsr #1
+	ldr r1, _027EA5EC // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	strh r2, [r1, #0x54]
+	ldr r1, _027EA5F0 // =0x0480803C
+	strh r0, [r1]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EA5EC: .word 0x0380FFF4
+_027EA5F0: .word 0x0480803C
+	arm_func_end sub_27EA5C8
+
+	arm_func_start sub_27EA5F4
+sub_27EA5F4: // 0x027EA5F4
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r1, _027EA660 // =0x0380FFF4
+	ldr r1, [r1]
+	add r2, r1, #0x31c
+	add r1, r1, #0x300
+	strh r0, [r1, #0x52]
+	cmp r0, #0
+	beq _027EA634
+	ldrh r0, [r2, #0x12]
+	cmp r0, #1
+	ldrne r1, _027EA664 // =0x04808006
+	ldrneh r0, [r1]
+	orrne r0, r0, #0x40
+	strneh r0, [r1]
+	bne _027EA650
+_027EA634:
+	ldr r1, _027EA664 // =0x04808006
+	ldrh r0, [r1]
+	bic r0, r0, #0x40
+	strh r0, [r1]
+	ldrh r0, [r2, #0x20]
+	mov r1, #0
+	bl sub_27EB0D0
+_027EA650:
+	mov r0, #0
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EA660: .word 0x0380FFF4
+_027EA664: .word 0x04808006
+	arm_func_end sub_27EA5F4
+
+	arm_func_start sub_27EA668
+sub_27EA668: // 0x027EA668
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027EA6E4 // =0x0000E2E2
+	str r0, [sp]
+	mov r0, #0x58
+	mov r1, #2
+	add r2, sp, #0
+	bl sub_27F5A28
+	ldr r1, [sp]
+	ldr r0, _027EA6E8 // =0x00000202
+	add r0, r1, r0
+	str r0, [sp]
+	bl sub_27E9CC8
+	cmp r0, #0x14
+	bne _027EA6CC
+	ldr r1, [sp]
+	ldr r0, _027EA6EC // =0x00006161
+	sub r1, r1, r0
+	str r1, [sp]
+	ldr r0, _027EA6F0 // =0x048080BC
+	ldrh r0, [r0]
+	ands r0, r0, #2
+	ldrne r0, _027EA6F4 // =0x00006060
+	subne r0, r1, r0
+	strne r0, [sp]
+_027EA6CC:
+	ldr r1, [sp]
+	ldr r0, _027EA6F8 // =0x04808140
+	strh r1, [r0]
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EA6E4: .word 0x0000E2E2
+_027EA6E8: .word 0x00000202
+_027EA6EC: .word 0x00006161
+_027EA6F0: .word 0x048080BC
+_027EA6F4: .word 0x00006060
+_027EA6F8: .word 0x04808140
+	arm_func_end sub_27EA668
+
+	arm_func_start sub_27EA6FC
+sub_27EA6FC: // 0x027EA6FC
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r1, _027EA740 // =0x0380FFF4
+	ldr r1, [r1]
+	add r3, r1, #0x3a4
+	ldrh r2, [r0]
+	add r1, r1, #0x300
+	strh r2, [r1, #0xa4]
+	ldrh r1, [r0, #2]
+	ldrh r0, [r0]
+	orr r0, r1, r0
+	strh r0, [r3, #2]
+	bl sub_27EA668
+	mov r0, #0
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EA740: .word 0x0380FFF4
+	arm_func_end sub_27EA6FC
+
+	arm_func_start sub_27EA744
+sub_27EA744: // 0x027EA744
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0xc
+	mov sl, r0
+	cmp r1, #0
+	ldrne sb, _027EA9BC // =sub_27F59D8
+	ldreq sb, _027EA9C0 // =sub_27F5A28
+	mov r0, sl
+	bl sub_27E9DD0
+	cmp r0, #0
+	moveq r0, #5
+	beq _027EA9B0
+	ldr r1, _027EA9C4 // =0x04808040
+	ldrh r8, [r1]
+	ldr r0, _027EA9C8 // =0x00008001
+	strh r0, [r1]
+	ldr r2, _027EA9CC // =0x0480803C
+	ldr r1, _027EA9D0 // =0x04808214
+_027EA788:
+	ldrh r0, [r2]
+	mov r3, r0, asr #8
+	ldrh r0, [r1]
+	cmp r3, #2
+	bne _027EA788
+	cmp r0, #0
+	beq _027EA7AC
+	cmp r0, #9
+	bne _027EA788
+_027EA7AC:
+	ldr fp, _027EA9D4 // =0x0380FFF4
+	ldr r0, [fp]
+	add r0, r0, #0x300
+	strh sl, [r0, #0xbe]
+	ldr r0, [fp]
+	add r0, r0, #0x500
+	ldrh r1, [r0, #0xf8]
+	cmp r1, #2
+	beq _027EA7E0
+	cmp r1, #3
+	beq _027EA8B0
+	cmp r1, #5
+	bne _027EA998
+_027EA7E0:
+	mov r0, #0
+	str r0, [sp]
+	sub r4, sl, #1
+	mov r0, #6
+	mul r5, r4, r0
+	add r0, r5, #0xf2
+	mov r1, #3
+	add r2, sp, #0
+	mov lr, pc
+	bx sb
+	arm_func_end sub_27EA744
+
+	arm_func_start sub_27EA808
+sub_27EA808: // 0x027EA808
+	ldr r0, [sp]
+	bl sub_27E9C2C
+	add r0, r5, #0xf5
+	mov r1, #3
+	add r2, sp, #0
+	mov lr, pc
+	bx sb
+	arm_func_end sub_27EA808
+
+	arm_func_start sub_27EA824
+sub_27EA824: // 0x027EA824
+	ldr r0, [sp]
+	bl sub_27E9C2C
+	mov r0, #0
+	str r0, [sp]
+	ldr r0, _027EA9D4 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r1, [r0, #0x604]
+	ands r0, r1, #0x10000
+	beq _027EA888
+	ands r0, r1, #0x8000
+	bne _027EA998
+	add r0, r4, #0x154
+	mov r1, #1
+	add r2, sp, #0
+	mov lr, pc
+	bx sb
+	arm_func_end sub_27EA824
+
+	arm_func_start sub_27EA864
+sub_27EA864: // 0x027EA864
+	ldr r0, _027EA9D4 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r1, [r0, #0x604]
+	ldr r0, [sp]
+	and r0, r0, #0x1f
+	orr r0, r1, r0, lsl #10
+	str r0, [sp]
+	bl sub_27E9C2C
+	b _027EA998
+_027EA888:
+	ldr r0, _027EA9D8 // =0x00000146
+	add r0, r4, r0
+	mov r1, #1
+	add r2, sp, #0
+	mov lr, pc
+	bx sb
+	arm_func_end sub_27EA864
+
+	arm_func_start sub_27EA8A0
+sub_27EA8A0: // 0x027EA8A0
+	mov r0, #0x1e
+	ldr r1, [sp]
+	bl sub_27E9C54
+	b _027EA998
+_027EA8B0:
+	ldrh r0, [r0, #0xfc]
+	add r7, r0, #0xcf
+	mov r6, #0
+	mov r5, r6
+	mov r4, #1
+	b _027EA90C
+_027EA8C8:
+	str r5, [sp]
+	str r5, [sp, #4]
+	mov r0, r7
+	mov r1, r4
+	add r2, sp, #4
+	mov lr, pc
+	bx sb
+	arm_func_end sub_27EA8A0
+
+	arm_func_start sub_27EA8E4
+sub_27EA8E4: // 0x027EA8E4
+	add r0, r7, sl
+	mov r1, r4
+	add r2, sp, #0
+	mov lr, pc
+	bx sb
+	arm_func_end sub_27EA8E4
+
+	arm_func_start sub_27EA8F8
+sub_27EA8F8: // 0x027EA8F8
+	ldr r0, [sp, #4]
+	ldr r1, [sp]
+	bl sub_27E9C54
+	add r7, r7, #0xf
+	add r6, r6, #1
+_027EA90C:
+	ldr r0, [fp]
+	add r0, r0, #0x600
+	ldrh r0, [r0]
+	cmp r6, r0
+	blo _027EA8C8
+	mov r6, #0
+	mov r5, r6
+	mov r4, #1
+	ldr fp, _027EA9D4 // =0x0380FFF4
+	b _027EA984
+_027EA934:
+	str r5, [sp]
+	mov r0, r7
+	mov r1, r4
+	add r2, sp, #0
+	mov lr, pc
+	bx sb
+	arm_func_end sub_27EA8F8
+
+	arm_func_start sub_27EA94C
+sub_27EA94C: // 0x027EA94C
+	ldr r0, [sp]
+	mov r0, r0, lsl #8
+	str r0, [sp]
+	add r0, r7, sl
+	mov r1, r4
+	add r2, sp, #0
+	mov lr, pc
+	bx sb
+	arm_func_end sub_27EA94C
+
+	arm_func_start sub_27EA96C
+sub_27EA96C: // 0x027EA96C
+	ldr r0, [sp]
+	orr r0, r0, #0x50000
+	str r0, [sp]
+	bl sub_27E9C2C
+	add r7, r7, #0xf
+	add r6, r6, #1
+_027EA984:
+	ldr r0, [fp]
+	add r0, r0, #0x500
+	ldrh r0, [r0, #0xfe]
+	cmp r6, r0
+	blo _027EA934
+_027EA998:
+	ldr r0, _027EA9C4 // =0x04808040
+	strh r8, [r0]
+	mov r1, #3
+	ldr r0, _027EA9DC // =0x04808048
+	strh r1, [r0]
+	mov r0, #0
+_027EA9B0:
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027EA9BC: .word sub_27F59D8
+_027EA9C0: .word sub_27F5A28
+_027EA9C4: .word 0x04808040
+_027EA9C8: .word 0x00008001
+_027EA9CC: .word 0x0480803C
+_027EA9D0: .word 0x04808214
+_027EA9D4: .word 0x0380FFF4
+	arm_func_end sub_27EA96C
+_027EA9D8: .word 0x00000146
+_027EA9DC: .word 0x04808048
+
+	arm_func_start sub_27EA9E0
+sub_27EA9E0: // 0x027EA9E0
+	stmdb sp!, {lr}
+	sub sp, sp, #0xc
+	mov r0, #0x36
+	mov r1, #6
+	add r2, sp, #2
+	bl sub_27F5A28
+	mov r0, #0x3c
+	mov r1, #2
+	add r2, sp, #0
+	bl sub_27F5A28
+	add r0, sp, #2
+	bl sub_27EB4AC
+	mov r0, #7
+	bl sub_27EB478
+	ldrh r1, [sp]
+	ldr r0, _027EAB14 // =0x00007FFE
+	and r0, r1, r0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27EB438
+	mov r0, #2
+	bl sub_27EB3B0
+	mov r0, #0
+	bl sub_27EB374
+	mov r0, #0
+	bl sub_27EB2C0
+	mov r0, #0
+	bl sub_27EB29C
+	ldr r0, _027EAB18 // =0x027F7F18
+	bl sub_27EB238
+	mov r0, #0x1f4
+	bl sub_27EABB0
+	mov r0, #0
+	bl sub_27EB200
+	mov r0, #0
+	bl sub_27EB1C8
+	mov r0, #0x10
+	bl sub_27EB190
+	ldr r0, _027EAB1C // =0x0000FFFF
+	mov r1, #0
+	bl sub_27EB0D0
+	ldr r0, _027EAB20 // =0x027F7EB8
+	bl sub_27EB0A0
+	mov r0, #1
+	bl sub_27EAFE0
+	mov r0, #0
+	bl sub_27EAFBC
+	ldr r0, _027EAB24 // =_027F7E74
+	bl sub_27EA6FC
+	mov r0, #0
+	mov r1, #0x1f
+	bl sub_27EAF74
+	mov r0, #5
+	bl sub_27EA444
+	mov r0, #0
+	mov r1, r0
+	bl sub_27EAE30
+	mov r0, #0
+	bl sub_27EAF0C
+	mov r0, #0
+	bl sub_27EADF0
+	mov r0, #0
+	bl sub_27EAD94
+	ldr r2, _027EAB28 // =0x04808044
+	ldrh r1, [r2]
+	ldrh r0, [r2]
+	add r0, r1, r0, lsl #8
+	ldrh r1, [r2]
+	bl sub_27E9470
+	mov r1, #1
+	ldr r0, _027EAB2C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	strh r1, [r0, #0x58]
+	add sp, sp, #0xc
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EAB14: .word 0x00007FFE
+_027EAB18: .word 0x027F7F18
+_027EAB1C: .word 0x0000FFFF
+_027EAB20: .word 0x027F7EB8
+_027EAB24: .word _027F7E74
+_027EAB28: .word 0x04808044
+_027EAB2C: .word 0x0380FFF4
+	arm_func_end sub_27EA9E0
+
+	arm_func_start sub_27EAB30
+sub_27EAB30: // 0x027EAB30
+	cmp r0, #1
+	blo _027EAB40
+	cmp r0, #0xff
+	bls _027EAB48
+_027EAB40:
+	mov r0, #5
+	bx lr
+_027EAB48:
+	ldr r1, _027EAB60 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	strh r0, [r1, #0xb4]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EAB60: .word 0x0380FFF4
+	arm_func_end sub_27EAB30
+
+	arm_func_start sub_27EAB64
+sub_27EAB64: // 0x027EAB64
+	cmp r0, #1
+	blo _027EAB74
+	cmp r0, #0xff
+	bls _027EAB7C
+_027EAB74:
+	mov r0, #5
+	bx lr
+_027EAB7C:
+	ldr r1, _027EABA4 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	strh r0, [r1, #0xb8]
+	ldr r1, _027EABA8 // =0x0480808E
+	strh r0, [r1]
+	mov r0, #0
+	ldr r1, _027EABAC // =0x04808088
+	strh r0, [r1]
+	bx lr
+	.align 2, 0
+_027EABA4: .word 0x0380FFF4
+_027EABA8: .word 0x0480808E
+_027EABAC: .word 0x04808088
+	arm_func_end sub_27EAB64
+
+	arm_func_start sub_27EABB0
+sub_27EABB0: // 0x027EABB0
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	cmp r0, #0xa
+	blo _027EABC8
+	cmp r0, #0x3e8
+	bls _027EABD0
+_027EABC8:
+	mov r0, #5
+	b _027EABFC
+_027EABD0:
+	ldr r2, _027EAC08 // =0x0380FFF4
+	ldr r1, [r2]
+	add r1, r1, #0x300
+	strh r0, [r1, #0xb2]
+	ldr r1, _027EAC0C // =0x0480808C
+	strh r0, [r1]
+	ldr r0, [r2]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x38]
+	bl sub_27EA444
+	mov r0, #0
+_027EABFC:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EAC08: .word 0x0380FFF4
+_027EAC0C: .word 0x0480808C
+	arm_func_end sub_27EABB0
+
+	arm_func_start sub_27EAC10
+sub_27EAC10: // 0x027EAC10
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	sub sp, sp, #4
+	mov r8, r0
+	mov r7, r1
+	ldr r0, _027EAD28 // =0x0380FFF4
+	ldr r1, [r0]
+	add r6, r1, #0x344
+	mov r4, #0
+	cmp r8, #0x20
+	movhi r0, #5
+	bhi _027EAD1C
+	ldrh r0, [r6, #8]
+	cmp r0, #0x40
+	bne _027EAC74
+	add r0, r1, #0x300
+	ldrh r0, [r0, #0x2e]
+	cmp r0, #1
+	bne _027EAC74
+	ldrh r0, [r6, #0x1e]
+	cmp r0, r8
+	movne r0, #6
+	bne _027EAD1C
+	ldrh r0, [r6, #0x92]
+	cmp r0, #0
+	movne r4, #1
+_027EAC74:
+	mov r5, #0
+	add sb, r6, #0x20
+	b _027EAC9C
+_027EAC80:
+	mov r0, r7
+	bl sub_27E94A4
+	mov r1, r0
+	add r0, sb, r5
+	bl sub_27E94C4
+	add r7, r7, #1
+	add r5, r5, #1
+_027EAC9C:
+	cmp r5, r8
+	blo _027EAC80
+	add sb, r6, #0x20
+	mov r7, #0
+	b _027EACC0
+_027EACB0:
+	add r0, sb, r5
+	mov r1, r7
+	bl sub_27E94C4
+	add r5, r5, #1
+_027EACC0:
+	cmp r5, #0x20
+	blo _027EACB0
+	strh r8, [r6, #0x1e]
+	cmp r4, #0
+	beq _027EAD18
+	ldr r0, _027EAD28 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x4ac]
+	add r1, r0, #0x26
+	ldrh r0, [r6, #0x92]
+	add r7, r1, r0
+	mov r5, #0
+	add r4, r6, #0x20
+	b _027EAD10
+_027EACF8:
+	add r0, r4, r5
+	bl sub_27E94A4
+	mov r1, r0
+	add r0, r7, r5
+	bl sub_27E94C4
+	add r5, r5, #1
+_027EAD10:
+	cmp r5, r8
+	blo _027EACF8
+_027EAD18:
+	mov r0, #0
+_027EAD1C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+	.align 2, 0
+_027EAD28: .word 0x0380FFF4
+	arm_func_end sub_27EAC10
+
+	arm_func_start sub_27EAD2C
+sub_27EAD2C: // 0x027EAD2C
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	ldr r0, _027EAD88 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x3a8
+	mov r1, r4
+	bl sub_27EA1BC
+	ldr r0, _027EAD8C // =0x04808020
+	mov r1, r4
+	bl sub_27EA1BC
+	ldrh r0, [r4]
+	ands r0, r0, #1
+	ldrne r1, _027EAD90 // =0x048080D0
+	ldrneh r0, [r1]
+	bicne r0, r0, #0x400
+	strneh r0, [r1]
+	ldreq r1, _027EAD90 // =0x048080D0
+	ldreqh r0, [r1]
+	orreq r0, r0, #0x400
+	streqh r0, [r1]
+	mov r0, #0
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EAD88: .word 0x0380FFF4
+_027EAD8C: .word 0x04808020
+_027EAD90: .word 0x048080D0
+	arm_func_end sub_27EAD2C
+
+	arm_func_start sub_27EAD94
+sub_27EAD94: // 0x027EAD94
+	cmp r0, #1
+	movhi r0, #5
+	bxhi lr
+	ldr r1, _027EADE4 // =0x0380FFF4
+	ldr r1, [r1]
+	add r2, r1, #0x300
+	ldrh r1, [r2, #0x3a]
+	bic r3, r1, #0x80
+	mov r1, r0, lsl #0x10
+	mov r1, r1, lsr #0x10
+	and r1, r1, #1
+	orr r1, r3, r1, lsl #7
+	strh r1, [r2, #0x3a]
+	cmp r0, #1
+	ldreq r0, _027EADE8 // =0x0480802A
+	ldreqh r1, [r0]
+	ldreq r0, _027EADEC // =0x04808028
+	streqh r1, [r0]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EADE4: .word 0x0380FFF4
+_027EADE8: .word 0x0480802A
+_027EADEC: .word 0x04808028
+	arm_func_end sub_27EAD94
+
+	arm_func_start sub_27EADF0
+sub_27EADF0: // 0x027EADF0
+	cmp r0, #1
+	movhi r0, #5
+	bxhi lr
+	ldr r1, _027EAE2C // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r2, [r1, #0x3a]
+	bic r2, r2, #0x40
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	and r0, r0, #1
+	orr r0, r2, r0, lsl #6
+	strh r0, [r1, #0x3a]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EAE2C: .word 0x0380FFF4
+	arm_func_end sub_27EADF0
+
+	arm_func_start sub_27EAE30
+sub_27EAE30: // 0x027EAE30
+	cmp r0, #1
+	bhi _027EAE40
+	cmp r1, #1
+	bls _027EAE48
+_027EAE40:
+	mov r0, #5
+	bx lr
+_027EAE48:
+	cmp r0, #0
+	beq _027EAE5C
+	cmp r0, #1
+	beq _027EAE88
+	b _027EAEB0
+_027EAE5C:
+	ldr r2, _027EAF04 // =0x0380FFF4
+	ldr r2, [r2]
+	add r2, r2, #0x300
+	ldrh r3, [r2, #0x3a]
+	bic r3, r3, #0x20
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	and r1, r1, #1
+	orr r1, r3, r1, lsl #5
+	strh r1, [r2, #0x3a]
+	b _027EAEB0
+_027EAE88:
+	ldr r1, _027EAF04 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r2, [r1, #0x2e]
+	cmp r2, #1
+	movne r0, #0xb
+	bxne lr
+	ldrh r2, [r1, #0x3a]
+	bic r2, r2, #0x20
+	strh r2, [r1, #0x3a]
+_027EAEB0:
+	ldr r3, _027EAF04 // =0x0380FFF4
+	ldr r1, [r3]
+	add r1, r1, #0x300
+	ldrh r2, [r1, #0x3a]
+	bic r2, r2, #0x10
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	and r0, r0, #1
+	orr r0, r2, r0, lsl #4
+	strh r0, [r1, #0x3a]
+	ldr r0, [r3]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x3a]
+	mov r1, r0, lsl #0x1a
+	mov r1, r1, lsr #0x1f
+	mov r0, r0, lsl #0x1c
+	eor r1, r1, r0, lsr #31
+	ldr r0, _027EAF08 // =0x04808290
+	strh r1, [r0]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EAF04: .word 0x0380FFF4
+_027EAF08: .word 0x04808290
+	arm_func_end sub_27EAE30
+
+	arm_func_start sub_27EAF0C
+sub_27EAF0C: // 0x027EAF0C
+	cmp r0, #1
+	movhi r0, #5
+	bxhi lr
+	ldr r3, _027EAF6C // =0x0380FFF4
+	ldr r1, [r3]
+	add r1, r1, #0x300
+	ldrh r2, [r1, #0x3a]
+	bic r2, r2, #8
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	and r0, r0, #1
+	orr r0, r2, r0, lsl #3
+	strh r0, [r1, #0x3a]
+	ldr r0, [r3]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x3a]
+	mov r1, r0, lsl #0x1a
+	mov r1, r1, lsr #0x1f
+	mov r0, r0, lsl #0x1c
+	eor r1, r1, r0, lsr #31
+	ldr r0, _027EAF70 // =0x04808290
+	strh r1, [r0]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EAF6C: .word 0x0380FFF4
+_027EAF70: .word 0x04808290
+	arm_func_end sub_27EAF0C
+
+	arm_func_start sub_27EAF74
+sub_27EAF74: // 0x027EAF74
+	stmdb sp!, {r4, lr}
+	mov r2, r0
+	mov r4, r1
+	cmp r2, #3
+	movhi r0, #5
+	bhi _027EAFB4
+	cmp r4, #0x3f
+	movhi r0, #5
+	bhi _027EAFB4
+	mov r0, #0x13
+	mov r1, r2
+	bl sub_27E9C54
+	mov r0, #0x35
+	mov r1, r4
+	bl sub_27E9C54
+	mov r0, #0
+_027EAFB4:
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27EAF74
+
+	arm_func_start sub_27EAFBC
+sub_27EAFBC: // 0x027EAFBC
+	cmp r0, #1
+	movhi r0, #5
+	ldrls r1, _027EAFDC // =0x0380FFF4
+	ldrls r1, [r1]
+	addls r1, r1, #0x300
+	strlsh r0, [r1, #0x32]
+	movls r0, #0
+	bx lr
+	.align 2, 0
+_027EAFDC: .word 0x0380FFF4
+	arm_func_end sub_27EAFBC
+
+	arm_func_start sub_27EAFE0
+sub_27EAFE0: // 0x027EAFE0
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r1, _027EB098 // =0x0380FFF4
+	ldr r2, [r1]
+	add r1, r2, #0x344
+	cmp r0, #1
+	movhi r0, #5
+	bhi _027EB08C
+	add r2, r2, #0x300
+	ldrh r3, [r2, #0x3a]
+	bic ip, r3, #4
+	and r3, r0, #1
+	orr r3, ip, r3, lsl #2
+	strh r3, [r2, #0x3a]
+	cmp r0, #0
+	ldreqh r2, [r1, #0x7c]
+	biceq r2, r2, #0x20
+	streqh r2, [r1, #0x7c]
+	ldrneh r2, [r1, #0x7c]
+	orrne r2, r2, #0x20
+	strneh r2, [r1, #0x7c]
+	ldrh r2, [r1, #8]
+	cmp r2, #0x40
+	bne _027EB060
+	ldr r2, _027EB098 // =0x0380FFF4
+	ldr r3, [r2]
+	add r2, r3, #0x300
+	ldrh r2, [r2, #0x2e]
+	cmp r2, #1
+	ldreqh r2, [r1, #0x7c]
+	ldreq r1, [r3, #0x4ac]
+	streqh r2, [r1, #0x2e]
+_027EB060:
+	cmp r0, #0
+	ldreq r1, _027EB09C // =0x048080BC
+	ldreqh r0, [r1]
+	biceq r0, r0, #6
+	streqh r0, [r1]
+	ldrne r1, _027EB09C // =0x048080BC
+	ldrneh r0, [r1]
+	orrne r0, r0, #6
+	strneh r0, [r1]
+	bl sub_27EA668
+	mov r0, #0
+_027EB08C:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EB098: .word 0x0380FFF4
+_027EB09C: .word 0x048080BC
+	arm_func_end sub_27EAFE0
+
+	arm_func_start sub_27EB0A0
+sub_27EB0A0: // 0x027EB0A0
+	ldr r1, _027EB0CC // =0x0380FFF4
+	ldr r1, [r1]
+	add r2, r1, #0x384
+	mov r3, #0
+_027EB0B0:
+	ldrh r1, [r0], #2
+	strh r1, [r2], #2
+	add r3, r3, #1
+	cmp r3, #0x10
+	blo _027EB0B0
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EB0CC: .word 0x0380FFF4
+	arm_func_end sub_27EB0A0
+
+	arm_func_start sub_27EB0D0
+sub_27EB0D0: // 0x027EB0D0
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r4, r0
+	cmp r4, #0xa
+	movlo r0, #5
+	blo _027EB17C
+	ldr r0, _027EB188 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	strh r4, [r0, #0x3c]
+	cmp r1, #0
+	ldrne r0, _027EB18C // =0x04808134
+	strneh r4, [r0]
+	ldr r0, _027EB188 // =0x0380FFF4
+	ldr r1, [r0]
+	add r0, r1, #0x400
+	ldrh r0, [r0, #0xa4]
+	cmp r0, #0
+	beq _027EB178
+	ldr r0, [r1, #0x4ac]
+	add r2, r0, #0x24
+	add r0, r1, #0x300
+	ldrh r1, [r0, #0xda]
+	add r1, r2, r1
+	add r5, r1, #6
+	ldrh r0, [r0, #0x52]
+	cmp r0, #1
+	bne _027EB160
+	mov r0, r5
+	and r1, r4, #0xff
+	bl sub_27E94C4
+	add r0, r5, #1
+	mov r1, r4, asr #8
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	b _027EB178
+_027EB160:
+	mov r0, r5
+	mov r1, #0xff
+	bl sub_27E94C4
+	add r0, r5, #1
+	mov r1, #0xff
+	bl sub_27E94C4
+_027EB178:
+	mov r0, #0
+_027EB17C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027EB188: .word 0x0380FFF4
+_027EB18C: .word 0x04808134
+	arm_func_end sub_27EB0D0
+
+	arm_func_start sub_27EB190
+sub_27EB190: // 0x027EB190
+	cmp r0, #0xff
+	movhi r0, #5
+	bxhi lr
+	mov r3, #0
+	ldr r2, _027EB1C4 // =0x0380FFF4
+	ldr r1, [r2]
+	add r1, r1, #0x300
+	strh r3, [r1, #0xc4]
+	ldr r1, [r2]
+	add r1, r1, #0x300
+	strh r0, [r1, #0xc2]
+	mov r0, r3
+	bx lr
+	.align 2, 0
+_027EB1C4: .word 0x0380FFF4
+	arm_func_end sub_27EB190
+
+	arm_func_start sub_27EB1C8
+sub_27EB1C8: // 0x027EB1C8
+	cmp r0, #1
+	movhi r0, #5
+	bxhi lr
+	ldr r1, _027EB1FC // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r2, [r1, #0x3a]
+	bic r2, r2, #2
+	and r0, r0, #1
+	orr r0, r2, r0, lsl #1
+	strh r0, [r1, #0x3a]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EB1FC: .word 0x0380FFF4
+	arm_func_end sub_27EB1C8
+
+	arm_func_start sub_27EB200
+sub_27EB200: // 0x027EB200
+	cmp r0, #1
+	movhi r0, #5
+	bxhi lr
+	ldr r1, _027EB234 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r2, [r1, #0x3a]
+	bic r2, r2, #1
+	and r0, r0, #1
+	orr r0, r2, r0
+	strh r0, [r1, #0x3a]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EB234: .word 0x0380FFF4
+	arm_func_end sub_27EB200
+
+	arm_func_start sub_27EB238
+sub_27EB238: // 0x027EB238
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	ldr r0, _027EB28C // =0x04805F80
+	mov r1, r4
+	mov r2, #0x14
+	bl sub_27E9568
+	ldr r0, _027EB290 // =0x04805FA0
+	add r1, r4, #0x14
+	mov r2, #0x14
+	bl sub_27E9568
+	ldr r0, _027EB294 // =0x04805FC0
+	add r1, r4, #0x28
+	mov r2, #0x14
+	bl sub_27E9568
+	ldr r0, _027EB298 // =0x04805FE0
+	add r1, r4, #0x3c
+	mov r2, #0x14
+	bl sub_27E9568
+	mov r0, #0
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EB28C: .word 0x04805F80
+_027EB290: .word 0x04805FA0
+_027EB294: .word 0x04805FC0
+_027EB298: .word 0x04805FE0
+	arm_func_end sub_27EB238
+
+	arm_func_start sub_27EB29C
+sub_27EB29C: // 0x027EB29C
+	cmp r0, #3
+	movhi r0, #5
+	ldrls r1, _027EB2BC // =0x0380FFF4
+	ldrls r1, [r1]
+	addls r1, r1, #0x300
+	strlsh r0, [r1, #0x36]
+	movls r0, #0
+	bx lr
+	.align 2, 0
+_027EB2BC: .word 0x0380FFF4
+	arm_func_end sub_27EB29C
+
+	arm_func_start sub_27EB2C0
+sub_27EB2C0: // 0x027EB2C0
+	ldr r1, _027EB368 // =0x0380FFF4
+	ldr r1, [r1]
+	add r2, r1, #0x344
+	cmp r0, #3
+	movhi r0, #5
+	bxhi lr
+	add r1, r1, #0x300
+	strh r0, [r1, #0x34]
+	cmp r0, #0
+	bne _027EB304
+	ldrh r1, [r2, #0x7c]
+	bic r1, r1, #0x10
+	strh r1, [r2, #0x7c]
+	ldrh r1, [r2, #0x8a]
+	bic r1, r1, #0x4000
+	strh r1, [r2, #0x8a]
+	b _027EB31C
+_027EB304:
+	ldrh r1, [r2, #0x7c]
+	orr r1, r1, #0x10
+	strh r1, [r2, #0x7c]
+	ldrh r1, [r2, #0x8a]
+	orr r1, r1, #0x4000
+	strh r1, [r2, #0x8a]
+_027EB31C:
+	ldrh r1, [r2, #8]
+	cmp r1, #0x40
+	bne _027EB340
+	cmp r0, #1
+	ldreqh r2, [r2, #0x7c]
+	ldreq r1, _027EB368 // =0x0380FFF4
+	ldreq r1, [r1]
+	ldreq r1, [r1, #0x4ac]
+	streqh r2, [r1, #0x2e]
+_027EB340:
+	cmp r0, #0
+	moveq r0, #1
+	ldr r3, _027EB36C // =0x04808006
+	ldrh r2, [r3]
+	ldr r1, _027EB370 // =0x0000FFC7
+	and r1, r2, r1
+	orr r0, r1, r0, lsl #3
+	strh r0, [r3]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EB368: .word 0x0380FFF4
+_027EB36C: .word 0x04808006
+_027EB370: .word 0x0000FFC7
+	arm_func_end sub_27EB2C0
+
+	arm_func_start sub_27EB374
+sub_27EB374: // 0x027EB374
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	cmp r0, #2
+	movhi r0, #5
+	bhi _027EB3A0
+	ldr r1, _027EB3AC // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	strh r0, [r1, #0x30]
+	bl sub_27EA668
+	mov r0, #0
+_027EB3A0:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EB3AC: .word 0x0380FFF4
+	arm_func_end sub_27EB374
+
+	arm_func_start sub_27EB3B0
+sub_27EB3B0: // 0x027EB3B0
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	cmp r0, #3
+	movhi r0, #5
+	bhi _027EB420
+	ldr ip, _027EB42C // =0x0380FFF4
+	ldr r1, [ip]
+	add r1, r1, #0x300
+	strh r0, [r1, #0x2e]
+	ldr r1, [ip]
+	add r1, r1, #0x300
+	strh r0, [r1, #0x50]
+	ldr r3, _027EB430 // =0x04808006
+	ldrh r2, [r3]
+	ldr r1, _027EB434 // =0x0000FFF8
+	and r1, r2, r1
+	orr r0, r1, r0
+	strh r0, [r3]
+	ldr r0, [ip]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x52]
+	bl sub_27EA5F4
+	ldr r0, _027EB42C // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, [r1, #0x340]
+	orr r0, r0, #8
+	str r0, [r1, #0x340]
+	mov r0, #0
+_027EB420:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EB42C: .word 0x0380FFF4
+_027EB430: .word 0x04808006
+_027EB434: .word 0x0000FFF8
+	arm_func_end sub_27EB3B0
+
+	arm_func_start sub_27EB438
+sub_27EB438: // 0x027EB438
+	ldr r1, _027EB470 // =0x00007FFE
+	ands r1, r0, r1
+	moveq r0, #5
+	bxeq lr
+	ldr r2, _027EB474 // =0x0380FFF4
+	ldr r1, [r2]
+	add r1, r1, #0x300
+	strh r0, [r1, #0x2c]
+	ldr r1, [r2]
+	ldr r0, [r1, #0x340]
+	orr r0, r0, #4
+	str r0, [r1, #0x340]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EB470: .word 0x00007FFE
+_027EB474: .word 0x0380FFF4
+	arm_func_end sub_27EB438
+
+	arm_func_start sub_27EB478
+sub_27EB478: // 0x027EB478
+	cmp r0, #0xff
+	movhi r0, #5
+	bxhi lr
+	ldr r1, _027EB4A4 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	strh r0, [r1, #0x2a]
+	ldr r1, _027EB4A8 // =0x0480802C
+	strh r0, [r1]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EB4A4: .word 0x0380FFF4
+_027EB4A8: .word 0x0480802C
+	arm_func_end sub_27EB478
+
+	arm_func_start sub_27EB4AC
+sub_27EB4AC: // 0x027EB4AC
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	ldrh r0, [r4]
+	ands r0, r0, #1
+	movne r0, #5
+	bne _027EB4FC
+	ldr r0, _027EB504 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x324
+	mov r1, r4
+	bl sub_27EA1BC
+	ldr r0, _027EB508 // =0x04808018
+	mov r1, r4
+	bl sub_27EA1BC
+	ldr r0, _027EB504 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, [r1, #0x340]
+	orr r0, r0, #2
+	str r0, [r1, #0x340]
+	mov r0, #0
+_027EB4FC:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EB504: .word 0x0380FFF4
+_027EB508: .word 0x04808018
+	arm_func_end sub_27EB4AC
+
+	arm_func_start sub_27EB50C
+sub_27EB50C: // 0x027EB50C
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r0, _027EB588 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r4, [r1, #0x3e0]
+	mov r0, #0
+	add r1, r1, #0x31c
+	mov r2, #0x28
+	bl MIi_CpuClear16
+	mov r0, #0
+	ldr r1, _027EB588 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x344
+	mov r2, #0xc0
+	bl MIi_CpuClear16
+	ldr r2, _027EB588 // =0x0380FFF4
+	ldr r0, [r2]
+	str r6, [r0, #0x31c]
+	mov r0, r5, lsl #0x10
+	mov r1, r0, lsr #0x10
+	ldr r0, [r2]
+	add r0, r0, #0x300
+	strh r1, [r0, #0x20]
+	ldr r0, [r2]
+	add r0, r0, #0x300
+	strh r1, [r0, #0x22]
+	ldr r0, [r2]
+	str r4, [r0, #0x3e0]
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EB588: .word 0x0380FFF4
+	arm_func_end sub_27EB50C
+
+	arm_func_start sub_27EB58C
+sub_27EB58C: // 0x027EB58C
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #4
+	mov sb, #0
+	ldr r0, _027EB878 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r0, [r0, #0xf8]
+	cmp r0, #5
+	ldreq sl, _027EB87C // =0x027F80C4
+	ldrne sl, _027EB880 // =0x027F80F8
+	mov r6, #0
+	mov r5, #0xff
+	mvn r4, #0
+	b _027EB5E0
+_027EB5C4:
+	mov r0, r6
+	mov r1, r5
+	bl sub_27E9C54
+	cmp r0, r4
+	moveq sb, #1
+	beq _027EB84C
+	add r6, r6, #1
+_027EB5E0:
+	cmp r6, #0x69
+	blo _027EB5C4
+	mov r4, #0
+	mov r5, r4
+	b _027EB630
+_027EB5F4:
+	mov r0, r5, lsl #1
+	ldrh r0, [sl, r0]
+	cmp r4, r0
+	addeq r5, r5, #1
+	beq _027EB62C
+	mov r0, r4
+	bl sub_27E9C94
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	cmp r0, #0xff
+	beq _027EB62C
+	cmp sb, #0x20
+	add sb, sb, #1
+	bhi _027EB84C
+_027EB62C:
+	add r4, r4, #1
+_027EB630:
+	cmp r4, #0x69
+	blo _027EB5F4
+	mov r5, #0
+	mov r4, r5
+_027EB640:
+	mov r0, r5
+	mov r1, r4
+	bl sub_27E9C54
+	add r5, r5, #1
+	cmp r5, #0x69
+	blo _027EB640
+	mov r5, #0
+	mov r4, r5
+	b _027EB69C
+_027EB664:
+	mov r0, r4, lsl #1
+	ldrh r0, [sl, r0]
+	cmp r5, r0
+	addeq r4, r4, #1
+	beq _027EB698
+	mov r0, r5
+	bl sub_27E9C94
+	mov r0, r0, lsl #0x10
+	movs r0, r0, lsr #0x10
+	beq _027EB698
+	cmp sb, #0x20
+	add sb, sb, #1
+	bhi _027EB84C
+_027EB698:
+	add r5, r5, #1
+_027EB69C:
+	cmp r5, #0x69
+	blo _027EB664
+	mov r5, #0x55
+	mov r4, #0
+_027EB6AC:
+	mov r0, r4
+	mov r1, r5
+	bl sub_27E9C54
+	add r4, r4, #1
+	mvn r0, r5
+	mov r0, r0, lsl #0x10
+	mov r5, r0, lsr #0x10
+	cmp r4, #0x69
+	blo _027EB6AC
+	mov r5, #0x55
+	mov r6, #0
+	mov r4, r6
+	b _027EB72C
+_027EB6E0:
+	mov r0, r4, lsl #1
+	ldrh r0, [sl, r0]
+	cmp r6, r0
+	addeq r4, r4, #1
+	beq _027EB718
+	mov r0, r6
+	bl sub_27E9C94
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	cmp r0, r5
+	beq _027EB718
+	cmp sb, #0x20
+	add sb, sb, #1
+	bhi _027EB84C
+_027EB718:
+	add r6, r6, #1
+	mvn r0, r5
+	and r0, r0, #0xff
+	mov r0, r0, lsl #0x10
+	mov r5, r0, lsr #0x10
+_027EB72C:
+	cmp r6, #0x69
+	blo _027EB6E0
+	mov r4, #0xff
+	mov r5, #0
+_027EB73C:
+	mov r0, r5
+	mov r1, r4
+	bl sub_27E9C54
+	add r5, r5, #1
+	sub r0, r4, #1
+	mov r0, r0, lsl #0x10
+	mov r4, r0, lsr #0x10
+	cmp r5, #0x69
+	blo _027EB73C
+	mov r5, #0xff
+	mov r6, #0
+	mov r4, r6
+	b _027EB7B8
+_027EB770:
+	mov r0, r4, lsl #1
+	ldrh r0, [sl, r0]
+	cmp r6, r0
+	addeq r4, r4, #1
+	beq _027EB7A8
+	mov r0, r6
+	bl sub_27E9C94
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	cmp r0, r5
+	beq _027EB7A8
+	cmp sb, #0x20
+	add sb, sb, #1
+	bhi _027EB84C
+_027EB7A8:
+	add r6, r6, #1
+	sub r0, r5, #1
+	mov r0, r0, lsl #0x10
+	mov r5, r0, lsr #0x10
+_027EB7B8:
+	cmp r6, #0x69
+	blo _027EB770
+	mov r6, #0
+	mov r5, r6
+	mov r4, #1
+	mov fp, r6
+	b _027EB844
+_027EB7D4:
+	mov r0, r5, lsl #1
+	ldrh r0, [sl, r0]
+	cmp r6, r0
+	addeq r5, r5, #1
+	beq _027EB840
+	mov r7, r4
+	mov r8, fp
+	b _027EB838
+_027EB7F4:
+	mov r0, r6
+	mov r1, r7
+	bl sub_27E9C54
+	mov r0, r6
+	bl sub_27E9C94
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	cmp r0, r7
+	beq _027EB824
+	cmp sb, #0x20
+	add sb, sb, #1
+	bhi _027EB84C
+_027EB824:
+	mov r0, r7, lsl #1
+	and r0, r0, #0xff
+	mov r0, r0, lsl #0x10
+	mov r7, r0, lsr #0x10
+	add r8, r8, #1
+_027EB838:
+	cmp r8, #9
+	blo _027EB7F4
+_027EB840:
+	add r6, r6, #1
+_027EB844:
+	cmp r6, #0x69
+	blo _027EB7D4
+_027EB84C:
+	cmp sb, #0
+	beq _027EB86C
+	ldr r0, _027EB878 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r1, [r0, #0x3e]
+	orr r1, r1, #8
+	strh r1, [r0, #0x3e]
+_027EB86C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027EB878: .word 0x0380FFF4
+_027EB87C: .word 0x027F80C4
+_027EB880: .word 0x027F80F8
+	arm_func_end sub_27EB58C
+
+	arm_func_start sub_27EB884
+sub_27EB884: // 0x027EB884
+	mov r0, #0
+	ldr r3, _027EB9F4 // =0x04804000
+	ldr r1, _027EB9F8 // =0x0000FFFF
+	mov ip, r0
+_027EB894:
+	mov r2, r1
+	sub r1, r1, #1
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	strh r2, [r3], #2
+	add ip, ip, #2
+	cmp ip, #0x2000
+	blo _027EB894
+	ldr ip, _027EB9F4 // =0x04804000
+	ldr r3, _027EB9F8 // =0x0000FFFF
+	mov r2, #0
+	b _027EB8F0
+_027EB8C4:
+	ldrh r1, [ip]
+	cmp r1, r3
+	beq _027EB8DC
+	cmp r0, #0x20
+	add r0, r0, #1
+	bhi _027EB9D0
+_027EB8DC:
+	add r2, r2, #2
+	add ip, ip, #2
+	sub r1, r3, #1
+	mov r1, r1, lsl #0x10
+	mov r3, r1, lsr #0x10
+_027EB8F0:
+	cmp r2, #0x2000
+	blo _027EB8C4
+	ldr r3, _027EB9F4 // =0x04804000
+	ldr r1, _027EB9FC // =0x00005A5A
+	mov r2, #0
+_027EB904:
+	strh r1, [r3], #2
+	add r2, r2, #2
+	mvn r1, r1
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	cmp r2, #0x2000
+	blo _027EB904
+	ldr ip, _027EB9F4 // =0x04804000
+	ldr r3, _027EB9FC // =0x00005A5A
+	mov r2, #0
+	b _027EB95C
+_027EB930:
+	ldrh r1, [ip]
+	cmp r1, r3
+	beq _027EB948
+	cmp r0, #0x20
+	add r0, r0, #1
+	bhi _027EB9D0
+_027EB948:
+	add r2, r2, #2
+	add ip, ip, #2
+	mvn r1, r3
+	mov r1, r1, lsl #0x10
+	mov r3, r1, lsr #0x10
+_027EB95C:
+	cmp r2, #0x2000
+	blo _027EB930
+	ldr r3, _027EB9F4 // =0x04804000
+	ldr r1, _027EBA00 // =0x0000A5A5
+	mov r2, #0
+_027EB970:
+	strh r1, [r3], #2
+	add r2, r2, #2
+	mvn r1, r1
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	cmp r2, #0x2000
+	blo _027EB970
+	ldr ip, _027EB9F4 // =0x04804000
+	ldr r3, _027EBA00 // =0x0000A5A5
+	mov r2, #0
+	b _027EB9C8
+_027EB99C:
+	ldrh r1, [ip]
+	cmp r1, r3
+	beq _027EB9B4
+	cmp r0, #0x20
+	add r0, r0, #1
+	bhi _027EB9D0
+_027EB9B4:
+	add r2, r2, #2
+	add ip, ip, #2
+	mvn r1, r3
+	mov r1, r1, lsl #0x10
+	mov r3, r1, lsr #0x10
+_027EB9C8:
+	cmp r2, #0x2000
+	blo _027EB99C
+_027EB9D0:
+	cmp r0, #0
+	bxeq lr
+	ldr r0, _027EBA04 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r1, [r0, #0x3e]
+	orr r1, r1, #2
+	strh r1, [r0, #0x3e]
+	bx lr
+	.align 2, 0
+_027EB9F4: .word 0x04804000
+_027EB9F8: .word 0x0000FFFF
+_027EB9FC: .word 0x00005A5A
+_027EBA00: .word 0x0000A5A5
+_027EBA04: .word 0x0380FFF4
+	arm_func_end sub_27EB884
+
+	arm_func_start sub_27EBA08
+sub_27EBA08: // 0x027EBA08
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r3, #0
+	mov r2, r3
+	mov r1, r3
+	ldr r0, _027EBBA4 // =_027F8130
+	ldr r5, _027EBBA8 // =0x027F80BC
+	b _027EBA80
+_027EBA28:
+	mov ip, r1
+	mov r6, r2, lsl #1
+	b _027EBA74
+_027EBA34:
+	mov r4, ip, lsl #2
+	ldrh r7, [r0, r4]
+	ldrh r4, [r5, r6]
+	add lr, r0, ip, lsl #2
+	ldrh lr, [lr, #2]
+	and r4, r4, lr
+	add lr, r7, #0x4800000
+	add lr, lr, #0x8000
+	strh r4, [lr]
+	ldrh lr, [lr]
+	cmp lr, r4
+	beq _027EBA70
+	cmp r3, #0x20
+	add r3, r3, #1
+	bhi _027EBB78
+_027EBA70:
+	add ip, ip, #1
+_027EBA74:
+	cmp ip, #0x1b
+	blo _027EBA34
+	add r2, r2, #1
+_027EBA80:
+	cmp r2, #3
+	blo _027EBA28
+	mov r4, #0
+	ldr r5, _027EBBAC // =0x00001234
+	ldr r2, _027EBBA4 // =_027F8130
+	mov r1, r5
+_027EBA98:
+	mov ip, r4, lsl #2
+	add r0, r2, r4, lsl #2
+	ldrh r0, [r0, #2]
+	and lr, r5, r0
+	ldrh r0, [r2, ip]
+	add r0, r0, #0x4800000
+	add r0, r0, #0x8000
+	strh lr, [r0]
+	add r0, r5, r1
+	mov r0, r0, lsl #0x10
+	mov r5, r0, lsr #0x10
+	add r4, r4, #1
+	cmp r4, #0x1b
+	blo _027EBA98
+	mov r0, #0
+	ldr r4, _027EBBAC // =0x00001234
+	ldr lr, _027EBBA4 // =_027F8130
+	mov r1, r4
+	b _027EBB28
+_027EBAE4:
+	mov r2, r0, lsl #2
+	ldrh r2, [lr, r2]
+	add r2, r2, #0x4800000
+	add r2, r2, #0x8000
+	ldrh ip, [r2]
+	add r2, lr, r0, lsl #2
+	ldrh r2, [r2, #2]
+	and r2, r4, r2
+	cmp ip, r2
+	beq _027EBB18
+	cmp r3, #0x20
+	add r3, r3, #1
+	bhi _027EBB78
+_027EBB18:
+	add r2, r4, r1
+	mov r2, r2, lsl #0x10
+	mov r4, r2, lsr #0x10
+	add r0, r0, #1
+_027EBB28:
+	cmp r0, #0x1b
+	blo _027EBAE4
+	mov r4, #0
+	ldr r2, _027EBBA4 // =_027F8130
+	mov r1, r4
+	b _027EBB70
+_027EBB40:
+	mov r0, r4, lsl #2
+	ldrh r0, [r2, r0]
+	add r0, r0, #0x4800000
+	add r0, r0, #0x8000
+	strh r1, [r0]
+	ldrh r0, [r0]
+	cmp r0, #0
+	beq _027EBB6C
+	cmp r3, #0x20
+	add r3, r3, #1
+	bhi _027EBB78
+_027EBB6C:
+	add r4, r4, #1
+_027EBB70:
+	cmp r4, #0x1b
+	blo _027EBB40
+_027EBB78:
+	cmp r3, #0
+	beq _027EBB98
+	ldr r0, _027EBBB0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r1, [r0, #0x3e]
+	orr r1, r1, #1
+	strh r1, [r0, #0x3e]
+_027EBB98:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027EBBA4: .word _027F8130
+_027EBBA8: .word 0x027F80BC
+_027EBBAC: .word 0x00001234
+_027EBBB0: .word 0x0380FFF4
+	arm_func_end sub_27EBA08
+
+	arm_func_start sub_27EBBB4
+sub_27EBBB4: // 0x027EBBB4
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r0, #0x1000000
+	mov r1, #0
+	bl OS_SetIrqFunction
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27EBBB4
+
+	arm_func_start sub_27EBBDC
+sub_27EBBDC: // 0x027EBBDC
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r0, #0x1000000
+	ldr r1, _027EBC04 // =sub_37F94F4
+	bl OS_SetIrqFunction
+	mov r0, #0x1000000
+	bl OS_EnableIrqMask
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EBC04: .word sub_37F94F4
+	arm_func_end sub_27EBBDC
+
+	arm_func_start sub_27EBC08
+sub_27EBC08: // 0x027EBC08
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldrh r1, [r0]
+	cmp r1, #0
+	beq _027EBC58
+	ldr r2, [r0, #8]
+	ldrh r1, [r2]
+	ands r1, r1, #1
+	beq _027EBC58
+	ldr r1, _027EBC68 // =0x00003FFF
+	and r1, r2, r1
+	mov r1, r1, lsr #1
+	orr r2, r1, #0x8000
+	ldr r1, _027EBC6C // =0x04808098
+	ldrh r1, [r1]
+	cmp r2, r1
+	beq _027EBC58
+	bl sub_27F1D20
+	mov r0, #1
+	b _027EBC5C
+_027EBC58:
+	mov r0, #0
+_027EBC5C:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EBC68: .word 0x00003FFF
+_027EBC6C: .word 0x04808098
+	arm_func_end sub_27EBC08
+
+	arm_func_start sub_27EBC70
+sub_27EBC70: // 0x027EBC70
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027EBCC8 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027EBCCC // =0x0000042C
+	add lr, r1, r0
+	ldrh r1, [lr, #0xa4]
+	ldr r0, _027EBCD0 // =0x0000FFFF
+	cmp r1, r0
+	beq _027EBCBC
+	ldr ip, _027EBCD4 // =0x04808094
+	ldrh r3, [ip]
+	strh r1, [ip]
+	ldr r2, _027EBCD8 // =0x04808030
+	ldrh r1, [r2]
+	orr r1, r1, #0x80
+	strh r1, [r2]
+	strh r3, [ip]
+	strh r0, [lr, #0xa4]
+_027EBCBC:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EBCC8: .word 0x0380FFF4
+_027EBCCC: .word 0x0000042C
+_027EBCD0: .word 0x0000FFFF
+_027EBCD4: .word 0x04808094
+_027EBCD8: .word 0x04808030
+	arm_func_end sub_27EBC70
+
+	arm_func_start sub_27EBCDC
+sub_27EBCDC: // 0x027EBCDC
+	mov r1, #0x800
+	ldr r0, _027EBCEC // =0x04808010
+	strh r1, [r0]
+	bx lr
+	.align 2, 0
+_027EBCEC: .word 0x04808010
+	arm_func_end sub_27EBCDC
+
+	arm_func_start sub_27EBCF0
+sub_27EBCF0: // 0x027EBCF0
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r0, _027EBDBC // =0x0380FFF4
+	ldr r2, [r0]
+	ldr r1, [r2, #0x31c]
+	mov r0, #0x1c
+	mul r0, r6, r0
+	add r4, r1, r0
+	ldrh r0, [r1, r0]
+	cmp r0, #0
+	addeq r0, r2, #0x500
+	ldreqh r1, [r0, #0x2c]
+	addeq r1, r1, #1
+	streqh r1, [r0, #0x2c]
+	mov r0, #0
+	mov r1, r4
+	mov r2, #0x1a
+	bl MIi_CpuClear16
+	ldr r0, _027EBDBC // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r2, [r0, #0x34]
+	mov r1, #1
+	mvn r1, r1, lsl r6
+	and r1, r2, r1
+	strh r1, [r0, #0x34]
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0
+	bl sub_27EC5CC
+	mov r0, r6
+	bl sub_27EC568
+	add r0, r4, #4
+	mov r1, r5
+	bl sub_27EA1BC
+	ldr r0, _027EBDC0 // =0x0000FFFF
+	strh r0, [r4, #0x14]
+	ldr r0, _027EBDBC // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0xa6]
+	strh r0, [r4, #0x10]
+	ldrh r0, [r4, #0x1a]
+	strh r0, [r4, #0x18]
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0x20
+	bl sub_27EC648
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EBDBC: .word 0x0380FFF4
+_027EBDC0: .word 0x0000FFFF
+	arm_func_end sub_27EBCF0
+
+	arm_func_start sub_27EBDC4
+sub_27EBDC4: // 0x027EBDC4
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	ldr r0, _027EBE44 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r5, [r1, #0x31c]
+	ldr r0, _027EBE48 // =0x0000052C
+	add r4, r1, r0
+	add r0, r1, #0x300
+	ldrh sb, [r0, #0x22]
+	mov sl, #1
+	mov r8, #0
+	mov r7, #0x1a
+	mov r6, #0x1c
+	b _027EBE0C
+_027EBDF8:
+	mov r0, r8
+	mla r1, sl, r6, r5
+	mov r2, r7
+	bl MIi_CpuClear16
+	add sl, sl, #1
+_027EBE0C:
+	cmp sl, sb
+	blo _027EBDF8
+	mov r2, #1
+	strh r2, [r4]
+	mov r1, #0
+	strh r1, [r4, #2]
+	strh r2, [r4, #4]
+	ldr r0, _027EBE4C // =0x0000FFFE
+	strh r0, [r4, #6]
+	strh r1, [r4, #0xc]
+	strh r1, [r4, #8]
+	strh r2, [r4, #0xe]
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	bx lr
+	.align 2, 0
+_027EBE44: .word 0x0380FFF4
+_027EBE48: .word 0x0000052C
+_027EBE4C: .word 0x0000FFFE
+	arm_func_end sub_27EBDC4
+
+	arm_func_start sub_27EBE50
+sub_27EBE50: // 0x027EBE50
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r0, _027EBEE8 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r5, [r0, #0x31c]
+	add r0, r0, #0x300
+	ldrh r4, [r0, #0x22]
+	mov r0, #0
+	mov r1, r5
+	mov r2, #0x1c
+	mul r2, r4, r2
+	bl MIi_CpuClear16
+	mov r0, #0
+	ldr r1, _027EBEE8 // =0x0380FFF4
+	ldr r2, [r1]
+	ldr r1, _027EBEEC // =0x0000052C
+	add r1, r2, r1
+	mov r2, #0x10
+	bl MIi_CpuClear16
+	ldr r2, _027EBEF0 // =0x0000FFFF
+	strh r2, [r5, #0x1a]
+	mov r3, #1
+	mov r0, #0x1c
+	b _027EBEBC
+_027EBEB0:
+	mla r1, r3, r0, r5
+	strh r2, [r1, #0x1a]
+	add r3, r3, #1
+_027EBEBC:
+	cmp r3, r4
+	blo _027EBEB0
+	mov r0, #0
+	ldr r1, _027EBEF4 // =_027F7E78
+	bl sub_27EBCF0
+	mov r0, #0
+	mov r1, #0x40
+	bl sub_27EC648
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027EBEE8: .word 0x0380FFF4
+_027EBEEC: .word 0x0000052C
+_027EBEF0: .word 0x0000FFFF
+_027EBEF4: .word _027F7E78
+	arm_func_end sub_27EBE50
+
+	arm_func_start sub_27EBEF8
+sub_27EBEF8: // 0x027EBEF8
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	bl sub_27F1968
+	mov r3, #0
+	ldr r2, _027EBF3C // =0x0380FFF4
+	ldr r0, [r2]
+	ldr r1, [r0, #0x31c]
+	mov r0, #0x1c
+	mul r0, r4, r0
+	strh r3, [r1, r0]
+	ldr r0, [r2]
+	add r0, r0, #0x500
+	ldrh r1, [r0, #0x2c]
+	sub r1, r1, #1
+	strh r1, [r0, #0x2c]
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EBF3C: .word 0x0380FFF4
+	arm_func_end sub_27EBEF8
+
+	arm_func_start sub_27EBF40
+sub_27EBF40: // 0x027EBF40
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x2c
+	ldr r0, _027EC120 // =0x0380FFF4
+	ldr sl, [r0]
+	ldr r0, [sl, #0x31c]
+	add sb, r0, #0x1c
+	add r0, sl, #0x500
+	ldrh r6, [r0, #0x2c]
+	mov r7, #0
+	mov r8, #1
+	mov fp, r8
+	str r7, [sp]
+	str r8, [sp, #4]
+	str r7, [sp, #8]
+	mov r4, #0x20
+	str r8, [sp, #0x14]
+	str r7, [sp, #0x18]
+	str r8, [sp, #0x20]
+	str r8, [sp, #0x10]
+	str r7, [sp, #0x24]
+	str r8, [sp, #0x1c]
+	str r8, [sp, #0xc]
+	b _027EC104
+_027EBF9C:
+	ldrh r0, [sb]
+	cmp r0, #0
+	beq _027EC0F4
+	ldrh r1, [sb, #0x18]
+	cmp r1, #0
+	beq _027EC0F0
+	ldr r0, _027EC124 // =0x0000FFFF
+	cmp r1, r0
+	beq _027EC0F0
+	sub r0, r1, #1
+	strh r0, [sb, #0x18]
+	ldrh r0, [sb, #0x18]
+	cmp r0, #0
+	bne _027EC0F0
+	ldrh r0, [sb]
+	cmp r0, #0x20
+	blo _027EC0D8
+	mov r0, r8
+	bl sub_27EC3A4
+	mov r5, r0
+	mov r0, r8, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, r4
+	bl sub_27EC648
+	mov r0, r8
+	bl sub_27F1968
+	add r0, sl, #0x300
+	ldrh r1, [r0, #0x50]
+	cmp r1, #1
+	bne _027EC088
+	cmp r5, #0x20
+	bls _027EC0D8
+	ldr r0, _027EC120 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r1, [r0, #0x34]
+	orr r1, r1, fp, lsl r8
+	strh r1, [r0, #0x34]
+	mov r0, r8, lsl #0x10
+	mov r0, r0, lsr #0x10
+	ldr r1, [sp]
+	bl sub_27EC5CC
+	mov r0, r8
+	bl sub_27EC568
+	add r0, sb, #4
+	ldr r1, [sp, #4]
+	ldr r2, [sp, #8]
+	bl sub_27F094C
+	cmp r0, #0
+	beq _027EC078
+	ldr r1, [sp, #0xc]
+	strh r1, [r0]
+	bl sub_27F171C
+	add r7, r7, #1
+	b _027EC0FC
+_027EC078:
+	add r0, sb, #4
+	ldr r1, [sp, #0x10]
+	bl sub_27ECF94
+	b _027EC0D8
+_027EC088:
+	ldrh r0, [r0, #0xcc]
+	cmp r8, r0
+	bne _027EC0D8
+	add r0, sb, #4
+	ldr r1, [sp, #0x14]
+	ldr r2, [sp, #0x18]
+	bl sub_27F094C
+	cmp r0, #0
+	beq _027EC0C0
+	ldr r1, [sp, #0x1c]
+	strh r1, [r0]
+	bl sub_27F171C
+	add r7, r7, #1
+	b _027EC0FC
+_027EC0C0:
+	mov r0, r4
+	bl sub_37F9458
+	bl sub_27EA228
+	add r0, sb, #4
+	ldr r1, [sp, #0x20]
+	bl sub_27ECF94
+_027EC0D8:
+	ldr r0, [sp, #0x24]
+	strh r0, [sb]
+	add r0, sl, #0x500
+	ldrh r1, [r0, #0x2c]
+	sub r1, r1, #1
+	strh r1, [r0, #0x2c]
+_027EC0F0:
+	add r7, r7, #1
+_027EC0F4:
+	cmp r7, r6
+	bhs _027EC114
+_027EC0FC:
+	add r8, r8, #1
+	add sb, sb, #0x1c
+_027EC104:
+	add r0, sl, #0x300
+	ldrh r0, [r0, #0x22]
+	cmp r8, r0
+	blo _027EBF9C
+_027EC114:
+	add sp, sp, #0x2c
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027EC120: .word 0x0380FFF4
+_027EC124: .word 0x0000FFFF
+	arm_func_end sub_27EBF40
+
+	arm_func_start sub_27EC128
+sub_27EC128: // 0x027EC128
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r5, r0
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	bne _027EC1C4
+	ldr r0, _027EC1CC // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r1, [r0, #0xd8]
+	ldr r0, _027EC1D0 // =0x0480425C
+	add r6, r1, r0
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r4, r0
+	cmp r5, #0
+	bne _027EC184
+	add r0, r6, #4
+	bl sub_27E94A4
+	and r1, r0, #0xfe
+	add r0, r6, #4
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	b _027EC1BC
+_027EC184:
+	mov r0, r5
+	bl sub_27EC2CC
+	mov r5, r0
+	add r0, r6, #5
+	add r6, r0, r5, lsr #3
+	mov r0, r6
+	bl sub_27E94A4
+	mov r2, #1
+	and r1, r5, #7
+	mvn r1, r2, lsl r1
+	and r1, r1, r0
+	mov r0, r6
+	and r1, r1, #0xff
+	bl sub_27E94C4
+_027EC1BC:
+	mov r0, r4
+	bl OS_EnableIrqMask
+_027EC1C4:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EC1CC: .word 0x0380FFF4
+_027EC1D0: .word 0x0480425C
+	arm_func_end sub_27EC128
+
+	arm_func_start sub_27EC1D4
+sub_27EC1D4: // 0x027EC1D4
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r5, r0
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	bne _027EC284
+	ldr r0, _027EC28C // =0x0380FFF4
+	ldr r2, [r0]
+	add r0, r2, #0x500
+	ldrh r1, [r0, #0x34]
+	mov r0, #1
+	mov r0, r0, lsl r5
+	ands r0, r1, r0
+	bne _027EC284
+	add r0, r2, #0x300
+	ldrh r1, [r0, #0xd8]
+	ldr r0, _027EC290 // =0x0480425C
+	add r6, r1, r0
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r4, r0
+	cmp r5, #0
+	bne _027EC248
+	add r0, r6, #4
+	bl sub_27E94A4
+	orr r1, r0, #1
+	add r0, r6, #4
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	b _027EC27C
+_027EC248:
+	mov r0, r5
+	bl sub_27EC2CC
+	mov r5, r0
+	add r0, r6, #5
+	add r6, r0, r5, lsr #3
+	mov r0, r6
+	bl sub_27E94A4
+	mov r2, #1
+	and r1, r5, #7
+	orr r1, r0, r2, lsl r1
+	mov r0, r6
+	and r1, r1, #0xff
+	bl sub_27E94C4
+_027EC27C:
+	mov r0, r4
+	bl OS_EnableIrqMask
+_027EC284:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EC28C: .word 0x0380FFF4
+_027EC290: .word 0x0480425C
+	arm_func_end sub_27EC1D4
+
+	arm_func_start sub_27EC294
+sub_27EC294: // 0x027EC294
+	ldr r1, _027EC2AC // =0x0380FFF4
+	ldr r1, [r1]
+	ldr r2, [r1, #0x31c]
+	mov r1, #0x1c
+	mla r0, r1, r0, r2
+	bx lr
+	.align 2, 0
+_027EC2AC: .word 0x0380FFF4
+	arm_func_end sub_27EC294
+
+	arm_func_start sub_27EC2B0
+sub_27EC2B0: // 0x027EC2B0
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl sub_27EC294
+	ldrh r0, [r0, #0x16]
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27EC2B0
+
+	arm_func_start sub_27EC2CC
+sub_27EC2CC: // 0x027EC2CC
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl sub_27EC294
+	ldrh r0, [r0, #2]
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27EC2CC
+
+	arm_func_start sub_27EC2E8
+sub_27EC2E8: // 0x027EC2E8
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl sub_27EC294
+	ldrh r0, [r0, #0x10]
+	ands r0, r0, #2
+	movne r0, #0x14
+	moveq r0, #0xa
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27EC2E8
+
+	arm_func_start sub_27EC310
+sub_27EC310: // 0x027EC310
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl sub_27EC294
+	ldrh r0, [r0, #0x14]
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27EC310
+
+	arm_func_start sub_27EC32C
+sub_27EC32C: // 0x027EC32C
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl sub_27EC294
+	ldrh r0, [r0, #0xe]
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27EC32C
+
+	arm_func_start sub_27EC348
+sub_27EC348: // 0x027EC348
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl sub_27EC294
+	add r0, r0, #4
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27EC348
+
+	arm_func_start sub_27EC364
+sub_27EC364: // 0x027EC364
+	ldr r1, _027EC380 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x500
+	ldrh r1, [r1, #0x2e]
+	mov r0, r1, asr r0
+	and r0, r0, #1
+	bx lr
+	.align 2, 0
+_027EC380: .word 0x0380FFF4
+	arm_func_end sub_27EC364
+
+	arm_func_start sub_27EC384
+sub_27EC384: // 0x027EC384
+	ldr r1, _027EC3A0 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x500
+	ldrh r1, [r1, #0x30]
+	mov r0, r1, asr r0
+	and r0, r0, #1
+	bx lr
+	.align 2, 0
+_027EC3A0: .word 0x0380FFF4
+	arm_func_end sub_27EC384
+
+	arm_func_start sub_27EC3A4
+sub_27EC3A4: // 0x027EC3A4
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl sub_27EC294
+	ldrh r0, [r0]
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27EC3A4
+
+	arm_func_start sub_27EC3C0
+sub_27EC3C0: // 0x027EC3C0
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	ldr r1, _027EC430 // =0x0380FFF4
+	ldr r5, [r1]
+	bl sub_27EC128
+	mov r0, r6
+	bl sub_27EC2CC
+	movs r4, r0
+	beq _027EC428
+	mov r0, r6
+	bl sub_27EC294
+	mov r1, #0
+	strh r1, [r0, #2]
+	add r0, r5, #0x500
+	ldrh r2, [r0, #0x3a]
+	mov r1, #1
+	mvn r1, r1, lsl r4
+	and r1, r2, r1
+	strh r1, [r0, #0x3a]
+	ldrh r1, [r0, #0x38]
+	sub r1, r1, #1
+	strh r1, [r0, #0x38]
+	ldrh r0, [r0, #0x38]
+	cmp r0, #0
+	bne _027EC428
+	bl sub_27EA3F0
+_027EC428:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EC430: .word 0x0380FFF4
+	arm_func_end sub_27EC3C0
+
+	arm_func_start sub_27EC434
+sub_27EC434: // 0x027EC434
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	ldr r0, _027EC4DC // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027EC4E0 // =0x0000052C
+	add r6, r1, r0
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r4, r0
+	mov r5, #1
+	mov r2, #2
+	b _027EC4BC
+_027EC468:
+	ldrh r0, [r6, #0xe]
+	ands r1, r0, r2
+	bne _027EC4B4
+	orr r0, r0, r2
+	strh r0, [r6, #0xe]
+	ldrh r0, [r6, #0xc]
+	add r0, r0, #1
+	strh r0, [r6, #0xc]
+	ldrh r0, [r6, #0xc]
+	cmp r0, #1
+	bne _027EC498
+	bl sub_27EA3C0
+_027EC498:
+	mov r0, r7
+	bl sub_27EC294
+	strh r5, [r0, #2]
+	mov r0, r4
+	bl OS_EnableIrqMask
+	mov r0, r5
+	b _027EC4D0
+_027EC4B4:
+	add r5, r5, #1
+	mov r2, r2, lsl #1
+_027EC4BC:
+	cmp r5, #0x10
+	blo _027EC468
+	mov r0, r4
+	bl OS_EnableIrqMask
+	mov r0, #0
+_027EC4D0:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027EC4DC: .word 0x0380FFF4
+_027EC4E0: .word 0x0000052C
+	arm_func_end sub_27EC434
+
+	arm_func_start sub_27EC4E4
+sub_27EC4E4: // 0x027EC4E4
+	mov r1, #0x1c
+	ldr r2, _027EC504 // =0x0380FFF4
+	ldr r2, [r2]
+	ldr r2, [r2, #0x31c]
+	mla r1, r0, r1, r2
+	ldrh r0, [r1, #0x1a]
+	strh r0, [r1, #0x18]
+	bx lr
+	.align 2, 0
+_027EC504: .word 0x0380FFF4
+	arm_func_end sub_27EC4E4
+
+	arm_func_start sub_27EC508
+sub_27EC508: // 0x027EC508
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	bl sub_27EC294
+	strh r4, [r0, #0xe]
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27EC508
+
+	arm_func_start sub_27EC520
+sub_27EC520: // 0x027EC520
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	bl sub_27EC294
+	strh r4, [r0, #0x14]
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27EC520
+
+	arm_func_start sub_27EC538
+sub_27EC538: // 0x027EC538
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	bl sub_27EC294
+	strh r4, [r0, #0x10]
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27EC538
+
+	arm_func_start sub_27EC550
+sub_27EC550: // 0x027EC550
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	bl sub_27EC294
+	strh r4, [r0, #0xc]
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27EC550
+
+	arm_func_start sub_27EC568
+sub_27EC568: // 0x027EC568
+	ldr r1, _027EC588 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x500
+	ldrh r3, [r1, #0x30]
+	mov r2, #1
+	orr r0, r3, r2, lsl r0
+	strh r0, [r1, #0x30]
+	bx lr
+	.align 2, 0
+_027EC588: .word 0x0380FFF4
+	arm_func_end sub_27EC568
+
+	arm_func_start sub_27EC58C
+sub_27EC58C: // 0x027EC58C
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	bne _027EC5C0
+	ldr r0, _027EC5C8 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r2, [r0, #0x30]
+	mov r1, #1
+	mvn r1, r1, lsl r4
+	and r1, r2, r1
+	strh r1, [r0, #0x30]
+_027EC5C0:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EC5C8: .word 0x0380FFF4
+	arm_func_end sub_27EC58C
+
+	arm_func_start sub_27EC5CC
+sub_27EC5CC: // 0x027EC5CC
+	ldr r2, _027EC620 // =0x0380FFF4
+	ldr r3, [r2]
+	ldr r2, _027EC624 // =0x0000052C
+	add ip, r3, r2
+	ldrh r3, [ip, #2]
+	mov r2, #1
+	mvn r2, r2, lsl r0
+	and r2, r3, r2
+	orr r0, r2, r1, lsl r0
+	strh r0, [ip, #2]
+	ldrh r1, [ip, #2]
+	ldrh r0, [ip, #6]
+	mvn r0, r0
+	ands r0, r1, r0
+	movne r1, #8
+	ldrne r0, _027EC628 // =0x048080AC
+	strneh r1, [r0]
+	moveq r1, #8
+	ldreq r0, _027EC62C // =0x048080AE
+	streqh r1, [r0]
+	bx lr
+	.align 2, 0
+_027EC620: .word 0x0380FFF4
+_027EC624: .word 0x0000052C
+_027EC628: .word 0x048080AC
+_027EC62C: .word 0x048080AE
+	arm_func_end sub_27EC5CC
+
+	arm_func_start sub_27EC630
+sub_27EC630: // 0x027EC630
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	bl sub_27EC294
+	strh r4, [r0, #0xa]
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27EC630
+
+	arm_func_start sub_27EC648
+sub_27EC648: // 0x027EC648
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r4, r0
+	cmp r5, #0x40
+	bhs _027EC6BC
+	mov r0, r6
+	bl sub_27EC568
+	ldr r3, _027EC710 // =0x0380FFF4
+	ldr r0, [r3]
+	add r0, r0, #0x500
+	ldrh r2, [r0, #0x32]
+	mov r1, #1
+	orr r1, r2, r1, lsl r6
+	strh r1, [r0, #0x32]
+	ldr r0, [r3]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x50]
+	cmp r0, #1
+	bne _027EC6F4
+	mov r0, r6
+	bl sub_27EC2CC
+	cmp r0, #0
+	beq _027EC6F4
+	mov r0, r6
+	bl sub_27EC3C0
+	b _027EC6F4
+_027EC6BC:
+	ldr r0, _027EC710 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r2, [r0, #0x32]
+	mov r1, #1
+	mvn r1, r1, lsl r6
+	and r1, r2, r1
+	strh r1, [r0, #0x32]
+	mov r0, r6
+	bl sub_27EC364
+	cmp r0, #0
+	beq _027EC6F4
+	mov r0, r6
+	bl sub_27EC58C
+_027EC6F4:
+	mov r0, r6
+	bl sub_27EC294
+	strh r5, [r0]
+	mov r0, r4
+	bl OS_EnableIrqMask
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EC710: .word 0x0380FFF4
+	arm_func_end sub_27EC648
+
+	arm_func_start sub_27EC714
+sub_27EC714: // 0x027EC714
+	stmdb sp!, {r4, r5, r6, lr}
+	ldrh r4, [r0, #2]
+	mov r0, r4
+	bl sub_27EC294
+	mov r6, r0
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r5, r0
+	ldr r0, _027EC77C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x50]
+	cmp r0, #1
+	bne _027EC760
+	ldrh r0, [r6, #0x16]
+	cmp r0, #1
+	bne _027EC760
+	mov r0, r4
+	bl sub_27EC128
+_027EC760:
+	ldrh r0, [r6, #0x16]
+	sub r0, r0, #1
+	strh r0, [r6, #0x16]
+	mov r0, r5
+	bl OS_EnableIrqMask
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EC77C: .word 0x0380FFF4
+	arm_func_end sub_27EC714
+
+	arm_func_start sub_27EC780
+sub_27EC780: // 0x027EC780
+	stmdb sp!, {r4, r5, r6, lr}
+	ldrh r4, [r0, #2]
+	mov r0, r4
+	bl sub_27EC294
+	mov r6, r0
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r5, r0
+	ldr r0, _027EC80C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x50]
+	cmp r0, #1
+	bne _027EC7CC
+	ldrh r0, [r6, #0x16]
+	cmp r0, #0
+	bne _027EC7CC
+	mov r0, r4
+	bl sub_27EC1D4
+_027EC7CC:
+	ldrh r0, [r6, #0x16]
+	add r0, r0, #1
+	strh r0, [r6, #0x16]
+	mov r0, r5
+	bl OS_EnableIrqMask
+	ldr r0, _027EC80C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r1, [r0, #0x34]
+	mov r0, #1
+	mov r0, r0, lsl r4
+	ands r0, r1, r0
+	ldreqh r0, [r6, #0x1a]
+	streqh r0, [r6, #0x18]
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EC80C: .word 0x0380FFF4
+	arm_func_end sub_27EC780
+
+	arm_func_start sub_27EC810
+sub_27EC810: // 0x027EC810
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	mov r6, r1
+	ldr r0, _027EC870 // =0x0380FFF4
+	ldr r0, [r0]
+	add r5, r0, #0x1ac
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r4, r0
+	ldrh r0, [r5, #8]
+	cmp r0, #0
+	bne _027EC84C
+	mov r0, #0
+	bl sub_27EC1D4
+_027EC84C:
+	mov r0, r7
+	mov r1, r5
+	mov r2, r6
+	bl sub_37F8A3C
+	mov r0, r4
+	bl OS_EnableIrqMask
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027EC870: .word 0x0380FFF4
+	arm_func_end sub_27EC810
+
+	arm_func_start sub_27EC874
+sub_27EC874: // 0x027EC874
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	mov sb, r0
+	ldr sl, _027EC9B8 // =0x0380FFF4
+	ldr r0, [sl]
+	add r8, r0, #0x31c
+	ldrh r1, [sb]
+	ands r1, r1, #1
+	movne r0, #0
+	bne _027EC9B0
+	add r1, r0, #0x500
+	ldrh r1, [r1, #0x2c]
+	cmp r1, #1
+	bls _027EC928
+	ldr r1, [r8]
+	add r7, r1, #0x1c
+	mov r4, #0
+	mov r5, r4
+	mov r6, #1
+	b _027EC910
+_027EC8C0:
+	ldrh r1, [r7]
+	cmp r1, #0
+	beq _027EC900
+	add r0, r7, #4
+	mov r1, sb
+	bl sub_27E9DF0
+	cmp r0, #0
+	movne r0, r6
+	bne _027EC9B0
+	add r5, r5, #1
+	ldr r0, [sl]
+	add r1, r0, #0x500
+	ldrh r1, [r1, #0x2c]
+	cmp r5, r1
+	blo _027EC908
+	b _027EC91C
+_027EC900:
+	cmp r4, #0
+	moveq r4, r6
+_027EC908:
+	add r6, r6, #1
+	add r7, r7, #0x1c
+_027EC910:
+	ldrh r1, [r8, #6]
+	cmp r6, r1
+	blo _027EC8C0
+_027EC91C:
+	cmp r4, #0
+	movne r6, r4
+	b _027EC92C
+_027EC928:
+	mov r6, #1
+_027EC92C:
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x22]
+	cmp r6, r0
+	blo _027EC9A0
+	ldr r4, [r8]
+	mov r7, #0x10000
+	mov r3, #1
+	mov r6, #0
+	ldrh r5, [r8, #6]
+	mov r0, #0x1c
+	b _027EC98C
+_027EC958:
+	mul r1, r3, r0
+	add r2, r4, r1
+	ldrh r1, [r4, r1]
+	cmp r1, #0x30
+	bhs _027EC988
+	ldrh r1, [r2, #0x16]
+	cmp r1, #0
+	bne _027EC988
+	ldrh r1, [r2, #0x18]
+	cmp r7, r1
+	movhi r7, r1
+	movhi r6, r3
+_027EC988:
+	add r3, r3, #1
+_027EC98C:
+	cmp r3, r5
+	blo _027EC958
+	cmp r6, #0
+	moveq r0, #0xff
+	beq _027EC9B0
+_027EC9A0:
+	mov r0, r6
+	mov r1, sb
+	bl sub_27EBCF0
+	mov r0, r6
+_027EC9B0:
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	bx lr
+	.align 2, 0
+_027EC9B8: .word 0x0380FFF4
+	arm_func_end sub_27EC874
+
+	arm_func_start sub_27EC9BC
+sub_27EC9BC: // 0x027EC9BC
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r8, r0
+	ldrh r0, [r8]
+	ands r0, r0, #1
+	movne r0, #0
+	bne _027ECA58
+	ldr r4, _027ECA60 // =0x0380FFF4
+	ldr r0, [r4]
+	add r1, r0, #0x500
+	ldrh r1, [r1, #0x2c]
+	cmp r1, #1
+	bls _027ECA54
+	ldr r1, [r0, #0x31c]
+	add r7, r1, #0x1c
+	mov r5, #0
+	mov r6, #1
+	b _027ECA44
+_027ECA00:
+	ldrh r1, [r7]
+	cmp r1, #0
+	beq _027ECA3C
+	add r0, r7, #4
+	mov r1, r8
+	bl sub_27E9DF0
+	cmp r0, #0
+	movne r0, r6
+	bne _027ECA58
+	add r5, r5, #1
+	ldr r0, [r4]
+	add r1, r0, #0x500
+	ldrh r1, [r1, #0x2c]
+	cmp r5, r1
+	bhs _027ECA54
+_027ECA3C:
+	add r6, r6, #1
+	add r7, r7, #0x1c
+_027ECA44:
+	add r1, r0, #0x300
+	ldrh r1, [r1, #0x22]
+	cmp r6, r1
+	blo _027ECA00
+_027ECA54:
+	mov r0, #0xff
+_027ECA58:
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027ECA60: .word 0x0380FFF4
+	arm_func_end sub_27EC9BC
+
+	arm_func_start sub_27ECA64
+sub_27ECA64: // 0x027ECA64
+	mov r1, #0
+	ldr r0, _027ECA7C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x400
+	strh r1, [r0, #0x28]
+	bx lr
+	.align 2, 0
+_027ECA7C: .word 0x0380FFF4
+	arm_func_end sub_27ECA64
+
+	arm_func_start sub_27ECA80
+sub_27ECA80: // 0x027ECA80
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	ldr r6, _027ECAE4 // =0x0380FFF4
+	ldr r0, [r6]
+	ldr r7, [r0, #0x1f4]
+	mov r5, #0
+	mvn r4, #0
+	b _027ECAD0
+_027ECAA0:
+	ldr r0, [r0, #0x304]
+	mov r1, r7
+	mov r2, r5
+	bl OS_SendMessage
+	cmp r0, #0
+	beq _027ECAD8
+	ldr r0, [r6]
+	add r0, r0, #0x1f4
+	mov r1, r7
+	bl sub_37F882C
+	ldr r0, [r6]
+	ldr r7, [r0, #0x1f4]
+_027ECAD0:
+	cmp r7, r4
+	bne _027ECAA0
+_027ECAD8:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027ECAE4: .word 0x0380FFF4
+	arm_func_end sub_27ECA80
+
+	arm_func_start sub_27ECAE8
+sub_27ECAE8: // 0x027ECAE8
+	mov r0, #3
+	bx lr
+	arm_func_end sub_27ECAE8
+
+	arm_func_start sub_27ECAF0
+sub_27ECAF0: // 0x027ECAF0
+	mov r0, #0
+	ldr r1, _027ECB10 // =0x0380FFF4
+	ldr r2, [r1]
+	ldr r1, _027ECB14 // =0x00000404
+	add r1, r2, r1
+	mov r2, #0x20
+	ldr ip, _027ECB18 // =MIi_CpuClear16
+	bx ip
+	.align 2, 0
+_027ECB10: .word 0x0380FFF4
+_027ECB14: .word 0x00000404
+_027ECB18: .word MIi_CpuClear16
+	arm_func_end sub_27ECAF0
+
+	arm_func_start sub_27ECB1C
+sub_27ECB1C: // 0x027ECB1C
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r6, r0
+	ldr r0, _027ECC44 // =0x0380FFF4
+	ldr r1, [r0]
+	add r5, r1, #0x344
+	add r0, r1, #0x188
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0xe4]
+	add r1, r1, #0x3e
+	bl sub_37F8910
+	movs r4, r0
+	bne _027ECB60
+	mov r0, #1
+	bl sub_27E9140
+	mov r0, #0
+	b _027ECC38
+_027ECB60:
+	mov r0, #0x8d
+	strh r0, [r4, #0xc]
+	ldrh r0, [r5, #0xa0]
+	add r0, r0, #1
+	mov r1, #2
+	bl _s32_div_f
+	add r0, r0, #0x16
+	strh r0, [r4, #0xe]
+	add r0, r4, #0x1f
+	ldrh r1, [r6, #0x12]
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	add r0, r4, #0x1e
+	ldrh r1, [r6, #0xe]
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	add r0, r4, #0x2e
+	add r1, r6, #0x1e
+	bl sub_27EA1BC
+	ldrh r0, [r5, #0xa0]
+	strh r0, [r4, #0x16]
+	ldrh r2, [r4, #0x16]
+	cmp r2, #0
+	beq _027ECC20
+	ldrh r0, [r5, #0xa2]
+	ands r0, r0, #1
+	beq _027ECC10
+	ldr r0, [r5, #0x9c]
+	add r6, r0, #1
+	add r5, r4, #0x3c
+	mov r7, #0
+	b _027ECC00
+_027ECBE0:
+	mov r0, r6
+	bl sub_27E94A4
+	mov r1, r0
+	mov r0, r5
+	bl sub_27E94C4
+	add r6, r6, #1
+	add r5, r5, #1
+	add r7, r7, #1
+_027ECC00:
+	ldrh r0, [r4, #0x16]
+	cmp r7, r0
+	blo _027ECBE0
+	b _027ECC20
+_027ECC10:
+	ldr r0, [r5, #0x9c]
+	add r1, r4, #0x3c
+	add r2, r2, #1
+	bl MIi_CpuCopy16
+_027ECC20:
+	ldr r0, _027ECC44 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, r4
+	bl sub_37F8E64
+	mov r0, #1
+_027ECC38:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027ECC44: .word 0x0380FFF4
+	arm_func_end sub_27ECB1C
+
+	arm_func_start sub_27ECC48
+sub_27ECC48: // 0x027ECC48
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027ECCAC // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x10
+	bl sub_37F8910
+	movs r1, r0
+	bne _027ECC7C
+	mov r0, #1
+	bl sub_27E9140
+	mov r0, #0
+	b _027ECCA0
+_027ECC7C:
+	mov r0, #0x8c
+	strh r0, [r1, #0xc]
+	mov r0, #0
+	strh r0, [r1, #0xe]
+	ldr r0, _027ECCAC // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	bl sub_37F8E64
+	mov r0, #1
+_027ECCA0:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027ECCAC: .word 0x0380FFF4
+	arm_func_end sub_27ECC48
+
+	arm_func_start sub_27ECCB0
+sub_27ECCB0: // 0x027ECCB0
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	ldr r0, _027ECD28 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x16
+	bl sub_37F8910
+	movs r4, r0
+	bne _027ECCE8
+	mov r0, #1
+	bl sub_27E9140
+	mov r0, #0
+	b _027ECD1C
+_027ECCE8:
+	mov r0, #0x8b
+	strh r0, [r4, #0xc]
+	mov r0, #3
+	strh r0, [r4, #0xe]
+	add r0, r4, #0x10
+	mov r1, r5
+	bl sub_27EA1BC
+	ldr r0, _027ECD28 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, r4
+	bl sub_37F8E64
+	mov r0, #1
+_027ECD1C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027ECD28: .word 0x0380FFF4
+	arm_func_end sub_27ECCB0
+
+	arm_func_start sub_27ECD2C
+sub_27ECD2C: // 0x027ECD2C
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r0, _027ECDA4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x18
+	bl sub_37F8910
+	movs r4, r0
+	bne _027ECD64
+	mov r0, #1
+	bl sub_27E9140
+	mov r0, #0
+	b _027ECD9C
+_027ECD64:
+	mov r0, #0x88
+	strh r0, [r4, #0xc]
+	mov r0, #4
+	strh r0, [r4, #0xe]
+	add r0, r4, #0x10
+	mov r1, r6
+	bl sub_27EA1BC
+	strh r5, [r4, #0x16]
+	ldr r0, _027ECDA4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, r4
+	bl sub_37F8E64
+	mov r0, #1
+_027ECD9C:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027ECDA4: .word 0x0380FFF4
+	arm_func_end sub_27ECD2C
+
+	arm_func_start sub_27ECDA8
+sub_27ECDA8: // 0x027ECDA8
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	mov r6, r1
+	mov r5, r2
+	ldr r0, _027ECE94 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x3a
+	bl sub_37F8910
+	movs r4, r0
+	bne _027ECDE8
+	mov r0, #1
+	bl sub_27E9140
+	mov r0, #0
+	b _027ECE88
+_027ECDE8:
+	mov r0, #0x87
+	strh r0, [r4, #0xc]
+	mov r0, #0x15
+	strh r0, [r4, #0xe]
+	add r0, r4, #0x10
+	mov r1, r7
+	bl sub_27EA1BC
+	strh r6, [r4, #0x16]
+	add r0, r5, #1
+	bl sub_27E94A4
+	strh r0, [r4, #0x18]
+	mov r7, #0
+	add r6, r5, #2
+	add r5, r4, #0x1a
+	b _027ECE44
+_027ECE24:
+	cmp r7, #0x20
+	bhs _027ECE68
+	add r0, r6, r7
+	bl sub_27E94A4
+	mov r1, r0
+	add r0, r5, r7
+	bl sub_27E94C4
+	add r7, r7, #1
+_027ECE44:
+	ldrh r0, [r4, #0x18]
+	cmp r7, r0
+	blo _027ECE24
+	b _027ECE68
+_027ECE54:
+	add r0, r4, #0x1a
+	add r0, r0, r7
+	mov r1, #0
+	bl sub_27E94C4
+	add r7, r7, #1
+_027ECE68:
+	cmp r7, #0x20
+	blo _027ECE54
+	ldr r0, _027ECE94 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, r4
+	bl sub_37F8E64
+	mov r0, #1
+_027ECE88:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027ECE94: .word 0x0380FFF4
+	arm_func_end sub_27ECDA8
+
+	arm_func_start sub_27ECE98
+sub_27ECE98: // 0x027ECE98
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	mov r6, r1
+	mov r5, r2
+	ldr r0, _027ECF8C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x3a
+	bl sub_37F8910
+	movs r4, r0
+	bne _027ECED8
+	mov r0, #1
+	bl sub_27E9140
+	mov r0, #0
+	b _027ECF80
+_027ECED8:
+	mov r0, #0x86
+	strh r0, [r4, #0xc]
+	mov r0, #0x15
+	strh r0, [r4, #0xe]
+	add r0, r4, #0x10
+	mov r1, r7
+	bl sub_27EA1BC
+	ldr r0, _027ECF90 // =0x00000FFF
+	and r0, r6, r0
+	strh r0, [r4, #0x16]
+	add r0, r5, #1
+	bl sub_27E94A4
+	strh r0, [r4, #0x18]
+	mov r7, #0
+	add r6, r5, #2
+	add r5, r4, #0x1a
+	b _027ECF3C
+_027ECF1C:
+	cmp r7, #0x20
+	bhs _027ECF60
+	add r0, r6, r7
+	bl sub_27E94A4
+	mov r1, r0
+	add r0, r5, r7
+	bl sub_27E94C4
+	add r7, r7, #1
+_027ECF3C:
+	ldrh r0, [r4, #0x18]
+	cmp r7, r0
+	blo _027ECF1C
+	b _027ECF60
+_027ECF4C:
+	add r0, r4, #0x1a
+	add r0, r0, r7
+	mov r1, #0
+	bl sub_27E94C4
+	add r7, r7, #1
+_027ECF60:
+	cmp r7, #0x20
+	blo _027ECF4C
+	ldr r0, _027ECF8C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, r4
+	bl sub_37F8E64
+	mov r0, #1
+_027ECF80:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027ECF8C: .word 0x0380FFF4
+_027ECF90: .word 0x00000FFF
+	arm_func_end sub_27ECE98
+
+	arm_func_start sub_27ECF94
+sub_27ECF94: // 0x027ECF94
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r0, _027ED00C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x18
+	bl sub_37F8910
+	movs r4, r0
+	bne _027ECFCC
+	mov r0, #1
+	bl sub_27E9140
+	mov r0, #0
+	b _027ED004
+_027ECFCC:
+	mov r0, #0x85
+	strh r0, [r4, #0xc]
+	mov r0, #4
+	strh r0, [r4, #0xe]
+	add r0, r4, #0x10
+	mov r1, r6
+	bl sub_27EA1BC
+	strh r5, [r4, #0x16]
+	ldr r0, _027ED00C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, r4
+	bl sub_37F8E64
+	mov r0, #1
+_027ED004:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027ED00C: .word 0x0380FFF4
+	arm_func_end sub_27ECF94
+
+	arm_func_start sub_27ED010
+sub_27ED010: // 0x027ED010
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r0, _027ED088 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x18
+	bl sub_37F8910
+	movs r4, r0
+	bne _027ED048
+	mov r0, #1
+	bl sub_27E9140
+	mov r0, #0
+	b _027ED080
+_027ED048:
+	mov r0, #0x84
+	strh r0, [r4, #0xc]
+	mov r0, #4
+	strh r0, [r4, #0xe]
+	add r0, r4, #0x10
+	mov r1, r6
+	bl sub_27EA1BC
+	strh r5, [r4, #0x16]
+	ldr r0, _027ED088 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, r4
+	bl sub_37F8E64
+	mov r0, #1
+_027ED080:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027ED088: .word 0x0380FFF4
+	arm_func_end sub_27ED010
+
+	arm_func_start sub_27ED08C
+sub_27ED08C: // 0x027ED08C
+	stmdb sp!, {r4, lr}
+	ldr r0, _027ED0DC // =0x0380FFF4
+	ldr r2, [r0]
+	add r4, r2, #0x17c
+	ldr r0, _027ED0E0 // =0x00000424
+	add r1, r2, r0
+	ldrh r0, [r1, #4]
+	bic r0, r0, #1
+	strh r0, [r1, #4]
+	add r0, r4, #0x84
+	ldr r1, [r2, #0x424]
+	bl sub_37F8E64
+	ldrh r0, [r4, #0x8c]
+	cmp r0, #0
+	beq _027ED0D4
+	mov r0, #2
+	mov r1, #0xb
+	bl sub_37F85F8
+_027ED0D4:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027ED0DC: .word 0x0380FFF4
+_027ED0E0: .word 0x00000424
+	arm_func_end sub_27ED08C
+
+	arm_func_start sub_27ED0E4
+sub_27ED0E4: // 0x027ED0E4
+	ldr r0, _027ED0FC // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027ED100 // =0x000003C6
+	add r0, r1, r0
+	ldr ip, _027ED104 // =sub_27ECCB0
+	bx ip
+	.align 2, 0
+_027ED0FC: .word 0x0380FFF4
+_027ED100: .word 0x000003C6
+_027ED104: .word sub_27ECCB0
+	arm_func_end sub_27ED0E4
+
+	arm_func_start sub_27ED108
+sub_27ED108: // 0x027ED108
+	mov r1, #0x83
+	ldr r0, _027ED12C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x400
+	strh r1, [r0, #4]
+	mov r0, #2
+	mov r1, #5
+	ldr ip, _027ED130 // =sub_37F85F8
+	bx ip
+	.align 2, 0
+_027ED12C: .word 0x0380FFF4
+_027ED130: .word sub_37F85F8
+	arm_func_end sub_27ED108
+
+	arm_func_start sub_27ED134
+sub_27ED134: // 0x027ED134
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r0, _027ED3A8 // =0x0380FFF4
+	ldr r1, [r0]
+	add r5, r1, #0x344
+	ldr r0, _027ED3AC // =0x00000404
+	add r4, r1, r0
+	add r0, r1, #0x400
+	ldrh r0, [r0, #4]
+	sub r0, r0, #0x80
+	cmp r0, #4
+	addls pc, pc, r0, lsl #2
+	b _027ED384
+_027ED168: // jump table
+	b _027ED17C // case 0
+	b _027ED1BC // case 1
+	b _027ED27C // case 2
+	b _027ED2A4 // case 3
+	b _027ED314 // case 4
+_027ED17C:
+	mov r0, #0
+	strh r0, [r4, #0x14]
+	mov r0, #0x13
+	bl sub_27E9C94
+	strh r0, [r4, #0xe]
+	mov r0, #0x35
+	bl sub_27E9C94
+	strh r0, [r4, #0x10]
+	ldr r1, [r4, #0x18]
+	ldrh r0, [r1, #0x12]
+	ldrh r1, [r1, #0x14]
+	bl sub_27EAF74
+	mov r0, #4
+	strh r0, [r5, #0xc]
+	mov r0, #0
+	strh r0, [r4, #0x16]
+_027ED1BC:
+	mov r0, #0
+	str r0, [r4, #4]
+	str r0, [r4, #8]
+	ldr r0, [r4, #0x18]
+	add r1, r0, #0x18
+	ldrh r0, [r4, #0x14]
+	add r0, r1, r0
+	bl sub_27E94A4
+	movs r5, r0
+	beq _027ED1F0
+	ldrh r0, [r4, #0x14]
+	cmp r0, #0x10
+	blo _027ED1FC
+_027ED1F0:
+	mov r0, #0x84
+	strh r0, [r4]
+	b _027ED384
+_027ED1FC:
+	mov r0, #0
+	bl sub_27F5AC8
+	cmp r0, #0
+	movne r0, #0xe
+	strneh r0, [r4, #0x16]
+	movne r0, #0x84
+	strneh r0, [r4]
+	bne _027ED384
+	ldrh r0, [r4]
+	cmp r0, #0x80
+	bne _027ED254
+	mov r0, r5, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0
+	bl sub_27EA744
+	bl sub_37F8EF4
+	ldr r0, _027ED3B0 // =0x04808040
+	ldrh r0, [r0]
+	strh r0, [r4, #0xc]
+	mov r0, #0x8000
+	bl sub_27EA5B4
+	b _027ED264
+_027ED254:
+	mov r0, r5, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0
+	bl sub_27EA744
+_027ED264:
+	mov r0, #0x82
+	strh r0, [r4]
+	ldr r0, [r4, #0x18]
+	ldrh r0, [r0, #0x16]
+	ldr r1, _027ED3B4 // =sub_27ED108
+	bl sub_27E96D0
+_027ED27C:
+	ldr r0, [r4, #4]
+	add r0, r0, #1
+	str r0, [r4, #4]
+	ldr r0, _027ED3B8 // =0x0480819C
+	ldrh r0, [r0]
+	ands r0, r0, #1
+	ldrne r0, [r4, #8]
+	addne r0, r0, #0x64
+	strne r0, [r4, #8]
+	b _027ED384
+_027ED2A4:
+	ldr r0, [r4, #0x18]
+	add r1, r0, #0x18
+	ldrh r0, [r4, #0x14]
+	add r0, r1, r0
+	bl sub_27E94A4
+	mov r5, r0
+	mov r2, #0
+	ldr r1, [r4, #4]
+	cmp r1, #0
+	beq _027ED2E8
+	ldr r0, [r4, #8]
+	cmp r0, #0
+	beq _027ED2E8
+	bl _u32_div_f
+	add r2, r0, #1
+	cmp r2, #0x64
+	movhi r2, #0x64
+_027ED2E8:
+	orr r2, r5, r2, lsl #8
+	ldr r1, [r4, #0x1c]
+	ldrh r0, [r4, #0x14]
+	add r0, r1, r0, lsl #1
+	strh r2, [r0, #8]
+	ldrh r0, [r4, #0x14]
+	add r0, r0, #1
+	strh r0, [r4, #0x14]
+	mov r0, #0x81
+	strh r0, [r4]
+	b _027ED384
+_027ED314:
+	bl sub_37F93A0
+	ldr r0, _027ED3A8 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x2e]
+	strh r0, [r5, #0xc]
+	mov r0, #0x13
+	ldrh r1, [r4, #0xe]
+	bl sub_27E9C54
+	mov r0, #0x35
+	ldrh r1, [r4, #0x10]
+	bl sub_27E9C54
+	ldrh r0, [r4, #0xc]
+	bl sub_27EA5B4
+	ldrh r1, [r4, #0x16]
+	ldr r0, [r4, #0x1c]
+	strh r1, [r0, #4]
+	mov r1, #0
+	strh r1, [r4]
+	ldrh r2, [r4, #0x14]
+	b _027ED378
+_027ED368:
+	ldr r0, [r4, #0x1c]
+	add r0, r0, r2, lsl #1
+	strh r1, [r0, #8]
+	add r2, r2, #1
+_027ED378:
+	cmp r2, #0x10
+	blo _027ED368
+	bl sub_27ED08C
+_027ED384:
+	ldrh r0, [r4]
+	cmp r0, #0
+	beq _027ED39C
+	mov r0, #2
+	mov r1, #5
+	bl sub_37F85F8
+_027ED39C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027ED3A8: .word 0x0380FFF4
+_027ED3AC: .word 0x00000404
+_027ED3B0: .word 0x04808040
+_027ED3B4: .word sub_27ED108
+_027ED3B8: .word 0x0480819C
+	arm_func_end sub_27ED134
+
+	arm_func_start sub_27ED3BC
+sub_27ED3BC: // 0x027ED3BC
+	ldr r0, _027ED3F4 // =0x0380FFF4
+	ldr r2, [r0]
+	ldr r0, _027ED3F8 // =0x00000404
+	add r0, r2, r0
+	mov r1, #7
+	ldr r0, [r0, #0x1c]
+	strh r1, [r0, #4]
+	mov r1, #0x63
+	add r0, r2, #0x400
+	strh r1, [r0, #4]
+	mov r0, #2
+	mov r1, #4
+	ldr ip, _027ED3FC // =sub_37F85F8
+	bx ip
+	.align 2, 0
+_027ED3F4: .word 0x0380FFF4
+_027ED3F8: .word 0x00000404
+_027ED3FC: .word sub_37F85F8
+	arm_func_end sub_27ED3BC
+
+	arm_func_start sub_27ED400
+sub_27ED400: // 0x027ED400
+	stmdb sp!, {r4, lr}
+	ldr r0, _027ED4B0 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027ED4B4 // =0x00000404
+	add r4, r1, r0
+	add r0, r1, #0x400
+	ldrh r0, [r0, #4]
+	cmp r0, #0x60
+	beq _027ED430
+	cmp r0, #0x63
+	beq _027ED488
+	b _027ED4A8
+_027ED430:
+	ldr r0, [r4, #0x18]
+	add r0, r0, #0x10
+	bl sub_27F0F08
+	cmp r0, #0
+	bne _027ED468
+	mov r1, #8
+	ldr r0, [r4, #0x1c]
+	strh r1, [r0, #4]
+	mov r0, #0x63
+	strh r0, [r4]
+	mov r0, #2
+	mov r1, #4
+	bl sub_37F85F8
+	b _027ED4A8
+_027ED468:
+	mov r1, #0x61
+	strh r1, [r4]
+	bl sub_27F171C
+	ldr r0, [r4, #0x18]
+	ldrh r0, [r0, #0x18]
+	ldr r1, _027ED4B8 // =sub_27ED3BC
+	bl sub_27E96D0
+	b _027ED4A8
+_027ED488:
+	mov r0, #1
+	bl sub_27F1B10
+	mov r0, #1
+	mov r1, #0
+	bl sub_27F173C
+	mov r0, #0
+	strh r0, [r4]
+	bl sub_27ED08C
+_027ED4A8:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027ED4B0: .word 0x0380FFF4
+_027ED4B4: .word 0x00000404
+_027ED4B8: .word sub_27ED3BC
+	arm_func_end sub_27ED400
+
+	arm_func_start sub_27ED4BC
+sub_27ED4BC: // 0x027ED4BC
+	ldr r0, _027ED4F4 // =0x0380FFF4
+	ldr r2, [r0]
+	ldr r0, _027ED4F8 // =0x00000404
+	add r0, r2, r0
+	mov r1, #7
+	ldr r0, [r0, #0x1c]
+	strh r1, [r0, #4]
+	mov r1, #0x53
+	add r0, r2, #0x400
+	strh r1, [r0, #4]
+	mov r0, #2
+	mov r1, #3
+	ldr ip, _027ED4FC // =sub_37F85F8
+	bx ip
+	.align 2, 0
+_027ED4F4: .word 0x0380FFF4
+_027ED4F8: .word 0x00000404
+_027ED4FC: .word sub_37F85F8
+	arm_func_end sub_27ED4BC
+
+	arm_func_start sub_27ED500
+sub_27ED500: // 0x027ED500
+	stmdb sp!, {r4, lr}
+	ldr r0, _027ED5B8 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027ED5BC // =0x00000404
+	add r4, r1, r0
+	add r0, r1, #0x400
+	ldrh r0, [r0, #4]
+	cmp r0, #0x50
+	beq _027ED530
+	cmp r0, #0x53
+	beq _027ED588
+	b _027ED5B0
+_027ED530:
+	ldr r0, [r4, #0x18]
+	add r0, r0, #0x10
+	bl sub_27F0FC0
+	cmp r0, #0
+	bne _027ED568
+	mov r1, #8
+	ldr r0, [r4, #0x1c]
+	strh r1, [r0, #4]
+	mov r0, #0x53
+	strh r0, [r4]
+	mov r0, #2
+	mov r1, #3
+	bl sub_37F85F8
+	b _027ED5B0
+_027ED568:
+	mov r1, #0x51
+	strh r1, [r4]
+	bl sub_27F171C
+	ldr r0, [r4, #0x18]
+	ldrh r0, [r0, #0x18]
+	ldr r1, _027ED5C0 // =sub_27ED4BC
+	bl sub_27E96D0
+	b _027ED5B0
+_027ED588:
+	mov r0, #1
+	bl sub_27F1A78
+	mov r0, #1
+	bl sub_27F1B10
+	mov r0, #1
+	mov r1, #0
+	bl sub_27F173C
+	mov r0, #0
+	strh r0, [r4]
+	bl sub_27ED08C
+_027ED5B0:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027ED5B8: .word 0x0380FFF4
+_027ED5BC: .word 0x00000404
+_027ED5C0: .word sub_27ED4BC
+	arm_func_end sub_27ED500
+
+	arm_func_start sub_27ED5C4
+sub_27ED5C4: // 0x027ED5C4
+	ldr r0, _027ED5FC // =0x0380FFF4
+	ldr r2, [r0]
+	ldr r0, _027ED600 // =0x00000404
+	add r0, r2, r0
+	mov r1, #7
+	ldr r0, [r0, #0x1c]
+	strh r1, [r0, #4]
+	mov r1, #0x35
+	add r0, r2, #0x400
+	strh r1, [r0, #4]
+	mov r0, #2
+	mov r1, r0
+	ldr ip, _027ED604 // =sub_37F85F8
+	bx ip
+	.align 2, 0
+_027ED5FC: .word 0x0380FFF4
+_027ED600: .word 0x00000404
+_027ED604: .word sub_37F85F8
+	arm_func_end sub_27ED5C4
+
+	arm_func_start sub_27ED608
+sub_27ED608: // 0x027ED608
+	stmdb sp!, {r4, lr}
+	ldr r0, _027ED6E4 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027ED6E8 // =0x00000404
+	add r4, r1, r0
+	add r0, r1, #0x400
+	ldrh r0, [r0, #4]
+	cmp r0, #0x30
+	beq _027ED638
+	cmp r0, #0x35
+	beq _027ED6B4
+	b _027ED6DC
+_027ED638:
+	ldr r0, [r4, #0x18]
+	add r0, r0, #0x10
+	mov r1, #0
+	mov r2, r1
+	bl sub_27F09E8
+	cmp r0, #0
+	bne _027ED678
+	mov r1, #8
+	ldr r0, [r4, #0x1c]
+	strh r1, [r0, #4]
+	mov r0, #0x35
+	strh r0, [r4]
+	mov r0, #2
+	mov r1, r0
+	bl sub_37F85F8
+	b _027ED6DC
+_027ED678:
+	ldr r1, [r4, #0x18]
+	ldrh r1, [r1, #0x16]
+	strh r1, [r0, #0x2c]
+	mov r1, #1
+	strh r1, [r0, #0x2e]
+	mov r1, #0
+	strh r1, [r0, #0x30]
+	mov r1, #0x31
+	strh r1, [r4]
+	bl sub_27F171C
+	ldr r0, [r4, #0x18]
+	ldrh r0, [r0, #0x18]
+	ldr r1, _027ED6EC // =sub_27ED5C4
+	bl sub_27E96D0
+	b _027ED6DC
+_027ED6B4:
+	mov r0, #1
+	bl sub_27F1A78
+	mov r0, #1
+	bl sub_27F1B10
+	mov r0, #1
+	mov r1, #0
+	bl sub_27F173C
+	mov r0, #0
+	strh r0, [r4]
+	bl sub_27ED08C
+_027ED6DC:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027ED6E4: .word 0x0380FFF4
+_027ED6E8: .word 0x00000404
+_027ED6EC: .word sub_27ED5C4
+	arm_func_end sub_27ED608
+
+	arm_func_start sub_27ED6F0
+sub_27ED6F0: // 0x027ED6F0
+	ldr r0, _027ED724 // =0x0380FFF4
+	ldr r2, [r0]
+	ldr r0, _027ED728 // =0x00000404
+	add r1, r2, r0
+	mov r0, #7
+	strh r0, [r1, #4]
+	mov r1, #0x25
+	add r0, r2, #0x400
+	strh r1, [r0, #4]
+	mov r0, #2
+	mov r1, #1
+	ldr ip, _027ED72C // =sub_37F85F8
+	bx ip
+	.align 2, 0
+_027ED724: .word 0x0380FFF4
+_027ED728: .word 0x00000404
+_027ED72C: .word sub_37F85F8
+	arm_func_end sub_27ED6F0
+
+	arm_func_start sub_27ED730
+sub_27ED730: // 0x027ED730
+	stmdb sp!, {r4, lr}
+	ldr r0, _027ED7C8 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027ED7CC // =0x00000404
+	add r4, r1, r0
+	add r0, r1, #0x400
+	ldrh r0, [r0, #4]
+	cmp r0, #0x20
+	beq _027ED760
+	cmp r0, #0x25
+	beq _027ED78C
+	b _027ED7C0
+_027ED760:
+	bl sub_37F8EF4
+	mov r0, #0
+	strh r0, [r4, #4]
+	strh r0, [r4, #6]
+	mov r0, #0x21
+	strh r0, [r4]
+	ldr r0, [r4, #0x18]
+	ldrh r0, [r0, #0x10]
+	ldr r1, _027ED7D0 // =sub_27ED6F0
+	bl sub_27E96D0
+	b _027ED7C0
+_027ED78C:
+	ldrh r1, [r4, #4]
+	ldr r0, [r4, #0x1c]
+	strh r1, [r0, #4]
+	ldrh r1, [r4, #6]
+	ldr r0, [r4, #0x1c]
+	strh r1, [r0, #6]
+	ldrh r0, [r4, #4]
+	cmp r0, #0
+	beq _027ED7B4
+	bl sub_37F93A0
+_027ED7B4:
+	mov r0, #0
+	strh r0, [r4]
+	bl sub_27ED08C
+_027ED7C0:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027ED7C8: .word 0x0380FFF4
+_027ED7CC: .word 0x00000404
+_027ED7D0: .word sub_27ED6F0
+	arm_func_end sub_27ED730
+
+	arm_func_start sub_27ED7D4
+sub_27ED7D4: // 0x027ED7D4
+	ldr r0, _027ED830 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027ED834 // =0x00000404
+	add r2, r1, r0
+	ldrh r1, [r2, #0xa]
+	ldrh r0, [r2, #0xc]
+	add r0, r1, r0
+	strh r0, [r2, #0xa]
+	ldrh r1, [r2, #0xa]
+	ldr r0, [r2, #0x18]
+	ldrh r0, [r0, #0x4a]
+	cmp r1, r0
+	blo _027ED820
+	ldrh r0, [r2, #6]
+	cmp r0, #0x10
+	movlo r0, #0x11
+	strloh r0, [r2]
+	movhs r0, #0x15
+	strhsh r0, [r2]
+_027ED820:
+	mov r0, #2
+	mov r1, #0
+	ldr ip, _027ED838 // =sub_37F85F8
+	bx ip
+	.align 2, 0
+_027ED830: .word 0x0380FFF4
+_027ED834: .word 0x00000404
+_027ED838: .word sub_37F85F8
+	arm_func_end sub_27ED7D4
+
+	arm_func_start sub_27ED83C
+sub_27ED83C: // 0x027ED83C
+	stmdb sp!, {r4, r5, r6, lr}
+	ldr r0, _027EDA2C // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027EDA30 // =0x00000404
+	add r6, r1, r0
+	add r5, r1, #0x344
+	mov r4, #0
+	add r0, r1, #0x400
+	ldrh r0, [r0, #4]
+	sub r0, r0, #0x10
+	cmp r0, #5
+	addls pc, pc, r0, lsl #2
+	b _027EDA10
+_027ED870: // jump table
+	b _027ED888 // case 0
+	b _027ED900 // case 1
+	b _027ED998 // case 2
+	b _027ED998 // case 3
+	b _027EDA10 // case 4
+	b _027ED9F0 // case 5
+_027ED888:
+	mov r0, #0x20
+	bl sub_37F9458
+	mov r0, #2
+	strh r0, [r5, #0xc]
+	mov r1, r4
+	ldr r0, [r6, #0x1c]
+	strh r1, [r0, #8]
+	ldr r0, [r6, #0x1c]
+	strh r1, [r0, #6]
+	strh r1, [r6, #6]
+	strh r1, [r6, #8]
+	ldr r1, [r6, #0x18]
+	ldrh r0, [r1, #0x38]
+	cmp r0, #0
+	bne _027ED8EC
+	ldrh r0, [r1, #0x4a]
+	add r0, r0, #3
+	mov r1, #4
+	bl _s32_div_f
+	strh r0, [r6, #0xc]
+	ldrh r0, [r6, #0xc]
+	cmp r0, #0xa
+	movlo r0, #0xa
+	strloh r0, [r6, #0xc]
+	b _027ED8F4
+_027ED8EC:
+	ldrh r0, [r1, #0x4a]
+	strh r0, [r6, #0xc]
+_027ED8F4:
+	mov r1, #0
+	ldr r0, [r6, #0x1c]
+	strh r1, [r0, #4]
+_027ED900:
+	ldr r0, [r6, #0x18]
+	add r1, r0, #0x3a
+	ldrh r0, [r6, #6]
+	add r0, r1, r0
+	bl sub_27E94A4
+	movs r5, r0
+	moveq r0, #0x15
+	streqh r0, [r6]
+	moveq r4, #1
+	beq _027EDA10
+	ldrh r0, [r6, #6]
+	add r0, r0, #1
+	strh r0, [r6, #6]
+	mov r0, #0
+	strh r0, [r6, #0xa]
+	bl sub_27F5AC8
+	cmp r0, #0
+	beq _027ED964
+	mov r1, #0xe
+	ldr r0, [r6, #0x1c]
+	strh r1, [r0, #4]
+	mov r0, #0x15
+	strh r0, [r6]
+	mov r4, #1
+	b _027EDA10
+_027ED964:
+	ldrh r0, [r6]
+	cmp r0, #0x10
+	bne _027ED984
+	mov r0, r5
+	mov r1, #0
+	bl sub_27EA744
+	bl sub_37F8EF4
+	b _027ED990
+_027ED984:
+	mov r0, r5
+	mov r1, #0
+	bl sub_27EA744
+_027ED990:
+	mov r0, #0x12
+	strh r0, [r6]
+_027ED998:
+	mov r0, #0x13
+	strh r0, [r6]
+	ldr r1, [r6, #0x18]
+	ldrh r0, [r1, #0x38]
+	cmp r0, #0
+	bne _027ED9E0
+	add r0, r1, #0x10
+	bl sub_27F0B94
+	cmp r0, #0
+	bne _027ED9DC
+	mov r1, #8
+	ldr r0, [r6, #0x1c]
+	strh r1, [r0, #4]
+	mov r0, #0x15
+	strh r0, [r6]
+	mov r4, #1
+	b _027EDA10
+_027ED9DC:
+	bl sub_27F171C
+_027ED9E0:
+	ldrh r0, [r6, #0xc]
+	ldr r1, _027EDA34 // =sub_27ED7D4
+	bl sub_27E96D0
+	b _027EDA10
+_027ED9F0:
+	strh r4, [r6]
+	bl sub_37F93A0
+	ldr r0, _027EDA2C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x2e]
+	strh r0, [r5, #0xc]
+	bl sub_27ED08C
+_027EDA10:
+	cmp r4, #0
+	beq _027EDA24
+	mov r0, #2
+	mov r1, #0
+	bl sub_37F85F8
+_027EDA24:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EDA2C: .word 0x0380FFF4
+_027EDA30: .word 0x00000404
+_027EDA34: .word sub_27ED7D4
+	arm_func_end sub_27ED83C
+
+	arm_func_start sub_27EDA38
+sub_27EDA38: // 0x027EDA38
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r2, _027EDB18 // =0x0380FFF4
+	ldr r1, [r2]
+	ldr r0, _027EDB1C // =0x00000404
+	add r4, r1, r0
+	mov r0, #0x12
+	strh r0, [r5, #2]
+	ldr r0, [r2]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x4c]
+	cmp r0, #0x20
+	movne r0, #1
+	bne _027EDB10
+	ldrh r0, [r6, #0x12]
+	cmp r0, #3
+	movhi r0, #5
+	bhi _027EDB10
+	ldrh r0, [r6, #0x14]
+	cmp r0, #0x3f
+	movhi r0, #5
+	bhi _027EDB10
+	ldrh r0, [r6, #0x16]
+	cmp r0, #0
+	moveq r0, #5
+	beq _027EDB10
+	cmp r0, #0x3e8
+	movhi r0, #5
+	bhi _027EDB10
+	mov r8, #0
+	add r7, r6, #0x18
+	b _027EDAE0
+_027EDABC:
+	add r0, r7, r8
+	bl sub_27E94A4
+	cmp r0, #0
+	beq _027EDAE8
+	bl sub_27E9DD0
+	cmp r0, #0
+	moveq r0, #5
+	beq _027EDB10
+	add r8, r8, #1
+_027EDAE0:
+	cmp r8, #0x10
+	blo _027EDABC
+_027EDAE8:
+	cmp r8, #0
+	moveq r0, #5
+	beq _027EDB10
+	str r6, [r4, #0x18]
+	str r5, [r4, #0x1c]
+	mov r0, #0x80
+	strh r0, [r4]
+	strh r0, [r5, #4]
+	bl sub_27ED134
+	mov r0, #0x80
+_027EDB10:
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027EDB18: .word 0x0380FFF4
+_027EDB1C: .word 0x00000404
+	arm_func_end sub_27EDA38
+
+	arm_func_start sub_27EDB20
+sub_27EDB20: // 0x027EDB20
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	ldr r0, _027E.byte8 // =0x0380FFF4
+	ldr r0, [r0]
+	add r5, r0, #0x344
+	add r4, r0, #0x31c
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldrh r0, [r4, #0x12]
+	cmp r0, #1
+	beq _027EDB58
+	cmp r0, #0
+	movne r0, #0xb
+	bne _027E.byte0
+_027EDB58:
+	ldrh r0, [r5, #8]
+	cmp r0, #0x20
+	movne r0, #1
+	bne _027E.byte0
+	ldrh r0, [r6, #0x10]
+	cmp r0, #0x20
+	movhi r0, #5
+	bhi _027E.byte0
+	cmp r0, #0
+	moveq r0, #5
+	beq _027E.byte0
+	ldrh r0, [r6, #0x32]
+	cmp r0, #0xa
+	movlo r0, #5
+	blo _027E.byte0
+	cmp r0, #0x3e8
+	movhi r0, #5
+	bhi _027E.byte0
+	ldrh r0, [r6, #0x34]
+	cmp r0, #0
+	moveq r0, #5
+	beq _027E.byte0
+	cmp r0, #0xff
+	movhi r0, #5
+	bhi _027E.byte0
+	ldrh r0, [r6, #0x36]
+	ldr r1, _027E.byteC // =0x0000FFF0
+	ands r1, r0, r1
+	movne r0, #5
+	bne _027E.byte0
+	bl sub_27E9DD0
+	cmp r0, #0
+	moveq r0, #5
+	beq _027E.byte0
+	ldrh r1, [r6, #0x38]
+	cmp r1, #0
+	moveq r0, #5
+	beq _027E.byte0
+	mov r0, #0x1000
+	rsb r0, r0, #0
+	ands r1, r1, r0
+	movne r0, #5
+	bne _027E.byte0
+	ldrh r1, [r6, #0x3a]
+	cmp r1, #0
+	moveq r0, #5
+	beq _027E.byte0
+	ands r0, r1, r0
+	movne r0, #5
+	bne _027E.byte0
+	ldrh r0, [r6, #0x3c]
+	cmp r0, #0x80
+	movhi r0, #5
+	bhi _027E.byte0
+	mov r0, #0
+	bl sub_27F5AC8
+	cmp r0, #0
+	movne r0, #0xe
+	bne _027E.byte0
+	ldrh r0, [r4, #0x12]
+	cmp r0, #0
+	bne _027EDC5C
+	ldr r0, _027EDCC0 // =_027F7E78
+	bl sub_27EAD2C
+	b _027EDC64
+_027EDC5C:
+	add r0, r4, #8
+	bl sub_27EAD2C
+_027EDC64:
+	ldrh r0, [r6, #0x10]
+	add r1, r6, #0x12
+	bl sub_27EAC10
+	ldrh r0, [r6, #0x32]
+	bl sub_27EABB0
+	ldrh r0, [r6, #0x34]
+	bl sub_27EAB64
+	ldrh r0, [r6, #0x36]
+	mov r1, #0
+	bl sub_27EA744
+	add r0, r6, #0x38
+	bl sub_27EA6FC
+	ldrh r0, [r6, #0x3c]
+	add r1, r6, #0x3e
+	bl sub_27EA374
+	mov r0, #0
+	strh r0, [r5, #0xa4]
+	bl sub_37F8EF4
+	mov r0, #0
+_027E.byte0:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027E.byte8: .word 0x0380FFF4
+_027E.byteC: .word 0x0000FFF0
+_027EDCC0: .word _027F7E78
+	arm_func_end sub_27EDB20
+
+	arm_func_start sub_27EDCC4
+sub_27EDCC4: // 0x027EDCC4
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	mov r6, r1
+	ldr r2, _027EDDD4 // =0x0380FFF4
+	ldr r1, [r2]
+	ldr r0, _027EDDD8 // =0x00000404
+	add r5, r1, r0
+	mov r0, #1
+	strh r0, [r6, #2]
+	ldr r1, [r2]
+	add r0, r1, #0x300
+	ldrh r0, [r0, #0x2e]
+	cmp r0, #0
+	moveq r0, #0xb
+	beq _027EDDC8
+	cmp r0, #1
+	beq _027EDD1C
+	ldrh r0, [r7, #0x10]
+	ands r0, r0, #1
+	movne r0, #5
+	bne _027EDDC8
+_027EDD1C:
+	add r0, r1, #0x300
+	ldrh r0, [r0, #0x4c]
+	cmp r0, #0x40
+	movne r0, #1
+	bne _027EDDC8
+	add r0, r7, #0x10
+	ldrh r1, [r7, #0x16]
+	bl sub_27F106C
+	movs r4, r0
+	moveq r0, #8
+	beq _027EDDC8
+	str r7, [r5, #0x18]
+	str r6, [r5, #0x1c]
+	str r4, [r5, #4]
+	mov r0, #0x71
+	strh r0, [r5]
+	ldrh r0, [r7, #0x10]
+	ands r0, r0, #1
+	beq _027EDDB4
+	ldr r1, _027EDDD4 // =0x0380FFF4
+	ldr r0, [r1]
+	ldr r0, [r0, #0x3ec]
+	strh r0, [r4, #4]
+	ldr r0, [r1]
+	add r0, r0, #0x188
+	sub r1, r4, #0x10
+	bl sub_27EC810
+	ldr r0, _027EDDD4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r1, [r0, #0x2e]
+	ldrh r0, [r0, #0x32]
+	mvn r0, r0
+	ands r0, r1, r0
+	bne _027EDDC4
+	mov r0, #2
+	bl sub_27F2728
+	b _027EDDC4
+_027EDDB4:
+	add r0, r7, #0x10
+	bl sub_27F18C4
+	mov r0, r4
+	bl sub_27F171C
+_027EDDC4:
+	mov r0, #0x80
+_027EDDC8:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027EDDD4: .word 0x0380FFF4
+_027EDDD8: .word 0x00000404
+	arm_func_end sub_27EDCC4
+
+	arm_func_start sub_27EDDDC
+sub_27EDDDC: // 0x027EDDDC
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r2, _027EDEA4 // =0x0380FFF4
+	ldr lr, [r2]
+	add r3, lr, #0x344
+	ldr r2, _027EDEA8 // =0x00000404
+	add r2, lr, r2
+	mov ip, #3
+	strh ip, [r1, #2]
+	add ip, lr, #0x300
+	ldrh ip, [ip, #0x2e]
+	cmp ip, #3
+	beq _027EDE1C
+	cmp ip, #2
+	movne r0, #0xb
+	bne _027EDE98
+_027EDE1C:
+	ldrh ip, [r3, #8]
+	cmp ip, #0x30
+	movlo r0, #1
+	blo _027EDE98
+	ldrh ip, [r0, #0x10]
+	ands ip, ip, #1
+	movne r0, #5
+	bne _027EDE98
+	ldrh lr, [r0, #0x16]
+	cmp lr, #1
+	movlo r0, #5
+	blo _027EDE98
+	cmp lr, #0xff
+	movhi r0, #5
+	bhi _027EDE98
+	ldrh ip, [r0, #0x18]
+	cmp ip, #0x7d0
+	movhi r0, #5
+	bhi _027EDE98
+	cmp ip, #0xa
+	movlo r0, #5
+	blo _027EDE98
+	strh lr, [r3, #0x70]
+	ldrh ip, [r0, #0x16]
+	strh ip, [r3, #0x72]
+	str r0, [r2, #0x18]
+	str r1, [r2, #0x1c]
+	mov r0, #0x60
+	strh r0, [r2]
+	bl sub_27ED400
+	mov r0, #0x80
+_027EDE98:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EDEA4: .word 0x0380FFF4
+_027EDEA8: .word 0x00000404
+	arm_func_end sub_27EDDDC
+
+	arm_func_start sub_27EDEAC
+sub_27EDEAC: // 0x027EDEAC
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	mov r6, r1
+	ldr r0, _027EDF8C // =0x0380FFF4
+	ldr r1, [r0]
+	add r5, r1, #0x344
+	ldr r0, _027EDF90 // =0x00000404
+	add r4, r1, r0
+	mov r0, #3
+	strh r0, [r6, #2]
+	add r0, r1, #0x300
+	ldrh r0, [r0, #0x2e]
+	cmp r0, #3
+	beq _027EDEF4
+	cmp r0, #2
+	movne r0, #0xb
+	bne _027EDF80
+_027EDEF4:
+	ldrh r0, [r5, #8]
+	cmp r0, #0x30
+	movlo r0, #1
+	blo _027EDF80
+	ldrh r0, [r7, #0x10]
+	ands r0, r0, #1
+	movne r0, #5
+	bne _027EDF80
+	ldrh r0, [r7, #0x16]
+	cmp r0, #0
+	moveq r0, #5
+	beq _027EDF80
+	cmp r0, #0xff
+	movhi r0, #5
+	bhi _027EDF80
+	ldrh r0, [r7, #0x18]
+	cmp r0, #0x7d0
+	movhi r0, #5
+	bhi _027EDF80
+	cmp r0, #0xa
+	movlo r0, #5
+	blo _027EDF80
+	mov r0, #0x30
+	bl sub_37F9458
+	bl sub_27EA228
+	ldrh r0, [r7, #0x16]
+	strh r0, [r5, #0x70]
+	ldrh r0, [r7, #0x16]
+	strh r0, [r5, #0x72]
+	str r7, [r4, #0x18]
+	str r6, [r4, #0x1c]
+	mov r0, #0x50
+	strh r0, [r4]
+	bl sub_27ED500
+	mov r0, #0x80
+_027EDF80:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027EDF8C: .word 0x0380FFF4
+_027EDF90: .word 0x00000404
+	arm_func_end sub_27EDEAC
+
+	arm_func_start sub_27EDF94
+sub_27EDF94: // 0x027EDF94
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	mov r6, r1
+	ldr r2, _027EE0D4 // =0x0380FFF4
+	ldr r1, [r2]
+	ldr r0, _027EE0D8 // =0x00000404
+	add r5, r1, r0
+	mov r0, #4
+	strh r0, [r6, #2]
+	ldr r2, [r2]
+	add r0, r2, #0x300
+	ldrh r1, [r0, #0x2e]
+	cmp r1, #3
+	beq _027EDFE4
+	cmp r1, #2
+	beq _027EDFE4
+	cmp r1, #1
+	movne r0, #0xb
+	bne _027EE0C8
+_027EDFE4:
+	add r0, r2, #0x300
+	ldrh r0, [r0, #0x4c]
+	cmp r0, #0x30
+	movlo r0, #1
+	blo _027EE0C8
+	ldr r0, _027EE0DC // =0x0000FFFE
+	add r0, r1, r0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	cmp r0, #1
+	bhi _027EE020
+	ldrh r0, [r7, #0x10]
+	ands r0, r0, #1
+	movne r0, #5
+	bne _027EE0C8
+_027EE020:
+	add r0, r6, #6
+	add r1, r7, #0x10
+	bl sub_27EA1BC
+	add r0, r6, #6
+	ldrh r1, [r7, #0x16]
+	mov r2, #0
+	bl sub_27F094C
+	movs r4, r0
+	moveq r0, #8
+	beq _027EE0C8
+	str r7, [r5, #0x18]
+	str r6, [r5, #0x1c]
+	str r4, [r5, #4]
+	mov r0, #0x41
+	strh r0, [r5]
+	ldrh r0, [r7, #0x10]
+	ands r0, r0, #1
+	beq _027EE0B4
+	ldr r1, _027EE0D4 // =0x0380FFF4
+	ldr r0, [r1]
+	ldr r0, [r0, #0x3ec]
+	strh r0, [r4, #4]
+	ldr r0, [r1]
+	add r0, r0, #0x188
+	sub r1, r4, #0x10
+	bl sub_27EC810
+	ldr r0, _027EE0D4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r1, [r0, #0x2e]
+	ldrh r0, [r0, #0x32]
+	mvn r0, r0
+	ands r0, r1, r0
+	bne _027EE0C4
+	mov r0, #2
+	bl sub_27F2728
+	b _027EE0C4
+_027EE0B4:
+	add r0, r7, #0x10
+	bl sub_27F18C4
+	mov r0, r4
+	bl sub_27F171C
+_027EE0C4:
+	mov r0, #0x80
+_027EE0C8:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027EE0D4: .word 0x0380FFF4
+_027EE0D8: .word 0x00000404
+_027EE0DC: .word 0x0000FFFE
+	arm_func_end sub_27EDF94
+
+	arm_func_start sub_27EE0E0
+sub_27EE0E0: // 0x027EE0E0
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r0, _027EE1B4 // =0x0380FFF4
+	ldr r1, [r0]
+	add r2, r1, #0x344
+	ldr r0, _027EE1B8 // =0x00000404
+	add r4, r1, r0
+	mov r0, #6
+	strh r0, [r5, #2]
+	add r0, r1, #0x300
+	ldrh r0, [r0, #0x2e]
+	cmp r0, #3
+	beq _027EE124
+	cmp r0, #2
+	movne r0, #0xb
+	bne _027EE1AC
+_027EE124:
+	ldrh r0, [r2, #8]
+	cmp r0, #0x20
+	movlo r0, #1
+	blo _027EE1AC
+	ldrh r0, [r6, #0x10]
+	ands r0, r0, #1
+	movne r0, #5
+	bne _027EE1AC
+	ldrh r0, [r6, #0x16]
+	cmp r0, #1
+	movhi r0, #5
+	bhi _027EE1AC
+	ldrh r0, [r6, #0x18]
+	cmp r0, #0x7d0
+	movhi r0, #5
+	bhi _027EE1AC
+	cmp r0, #0xa
+	movlo r0, #5
+	blo _027EE1AC
+	mov r0, #0x20
+	bl sub_37F9458
+	str r6, [r4, #0x18]
+	str r5, [r4, #0x1c]
+	mov r0, #0x30
+	strh r0, [r4]
+	ldr r0, [r4, #0x18]
+	ldrh r0, [r0, #0x16]
+	strh r0, [r5, #0xe]
+	add r0, r5, #8
+	ldr r1, [r4, #0x18]
+	add r1, r1, #0x10
+	bl sub_27EA1BC
+	bl sub_27ED608
+	mov r0, #0x80
+_027EE1AC:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EE1B4: .word 0x0380FFF4
+_027EE1B8: .word 0x00000404
+	arm_func_end sub_27EE0E0
+
+	arm_func_start sub_27EE1BC
+sub_27EE1BC: // 0x027EE1BC
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r0, _027EE370 // =0x0380FFF4
+	ldr r1, [r0]
+	add r2, r1, #0x344
+	ldr r0, _027EE374 // =0x00000404
+	add r4, r1, r0
+	mov r0, #5
+	strh r0, [r5, #2]
+	add r0, r1, #0x300
+	ldrh r0, [r0, #0x2e]
+	cmp r0, #3
+	beq _027EE200
+	cmp r0, #2
+	movne r0, #0xb
+	bne _027EE368
+_027EE200:
+	ldrh r0, [r2, #8]
+	cmp r0, #0x20
+	movlo r0, #1
+	blo _027EE368
+	mov r0, #0x20
+	bl sub_37F9458
+	ldrh r0, [r6, #0x18]
+	ands r0, r0, #1
+	movne r0, #5
+	bne _027EE368
+	ldrh r0, [r6, #0x1e]
+	cmp r0, #0
+	moveq r0, #5
+	beq _027EE368
+	cmp r0, #0x20
+	movhi r0, #5
+	bhi _027EE368
+	ldrh r0, [r6, #0x46]
+	cmp r0, #0xa
+	movlo r0, #5
+	blo _027EE368
+	cmp r0, #0x3e8
+	movhi r0, #5
+	bhi _027EE368
+	ldrh r0, [r6, #0x48]
+	cmp r0, #0xff
+	movhi r0, #5
+	bhi _027EE368
+	ldrh r0, [r6, #0x4a]
+	ldr r1, _027EE378 // =0x0000FFF0
+	ands r1, r0, r1
+	movne r0, #5
+	bne _027EE368
+	bl sub_27E9DD0
+	cmp r0, #0
+	moveq r0, #5
+	beq _027EE368
+	ldrh r2, [r6, #0x42]
+	mov r0, #0x1000
+	rsb r0, r0, #0
+	ands r1, r2, r0
+	movne r0, #5
+	bne _027EE368
+	ldrh r1, [r6, #0x44]
+	ands r0, r1, r0
+	movne r0, #5
+	bne _027EE368
+	cmp r2, #0
+	moveq r0, #5
+	beq _027EE368
+	orrs r0, r1, r2
+	moveq r0, #5
+	beq _027EE368
+	ldrh r0, [r6, #0x10]
+	cmp r0, #0x7d0
+	movhi r0, #5
+	bhi _027EE368
+	mov r0, #0
+	bl sub_27F5AC8
+	cmp r0, #0
+	movne r0, #0xe
+	bne _027EE368
+	ldrh r0, [r6, #0x40]
+	ands r0, r0, #0x20
+	beq _027EE310
+	mov r0, #1
+	bl sub_27EAFE0
+	b _027EE318
+_027EE310:
+	mov r0, #0
+	bl sub_27EAFE0
+_027EE318:
+	add r0, r6, #0x18
+	bl sub_27EAD2C
+	ldrh r0, [r6, #0x1e]
+	add r1, r6, #0x20
+	bl sub_27EAC10
+	ldrh r0, [r6, #0x46]
+	bl sub_27EABB0
+	ldrh r0, [r6, #0x4a]
+	mov r1, #0
+	bl sub_27EA744
+	add r0, r6, #0x42
+	bl sub_27EA6FC
+	str r6, [r4, #0x18]
+	str r5, [r4, #0x1c]
+	mov r0, #0x20
+	strh r0, [r4]
+	mov r0, #2
+	mov r1, #1
+	bl sub_37F85F8
+	mov r0, #0x80
+_027EE368:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EE370: .word 0x0380FFF4
+_027EE374: .word 0x00000404
+_027EE378: .word 0x0000FFF0
+	arm_func_end sub_27EE1BC
+
+	arm_func_start sub_27EE37C
+sub_27EE37C: // 0x027EE37C
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r0, _027EE4C0 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027EE4C4 // =0x00000404
+	add r4, r1, r0
+	ldrh r0, [r5, #2]
+	sub r0, r0, #3
+	strh r0, [r4, #4]
+	mov r0, #3
+	strh r0, [r5, #2]
+	add r0, r1, #0x300
+	ldrh r0, [r0, #0x2e]
+	cmp r0, #1
+	beq _027EE3D0
+	cmp r0, #3
+	beq _027EE3D0
+	cmp r0, #2
+	movne r0, #0xb
+	bne _027EE4B8
+_027EE3D0:
+	ldr r0, _027EE4C0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x4c]
+	cmp r0, #0x20
+	movlo r0, #1
+	blo _027EE4B8
+	ldrh r0, [r6, #0x16]
+	cmp r0, #0x20
+	movhi r0, #5
+	bhi _027EE4B8
+	ldrh r0, [r6, #0x38]
+	cmp r0, #1
+	movhi r0, #5
+	bhi _027EE4B8
+	add r0, r6, #0x3a
+	bl sub_27E94A4
+	cmp r0, #0
+	moveq r0, #5
+	beq _027EE4B8
+	ldrh r0, [r6, #0x4a]
+	cmp r0, #0x3e8
+	movhi r0, #5
+	bhi _027EE4B8
+	cmp r0, #0xa
+	movlo r0, #5
+	blo _027EE4B8
+	ldrh r0, [r6, #0x4c]
+	cmp r0, #0x10
+	movhi r0, #5
+	bhi _027EE4B8
+	mov r8, #0
+	add r7, r6, #0x3a
+	b _027EE47C
+_027EE458:
+	add r0, r7, r8
+	bl sub_27E94A4
+	cmp r0, #0
+	beq _027EE484
+	bl sub_27E9DD0
+	cmp r0, #0
+	moveq r0, #5
+	beq _027EE4B8
+	add r8, r8, #1
+_027EE47C:
+	cmp r8, #0x10
+	blo _027EE458
+_027EE484:
+	add r0, r6, #0x10
+	bl sub_27EAD2C
+	ldrh r0, [r6, #0x16]
+	add r1, r6, #0x18
+	bl sub_27EAC10
+	str r6, [r4, #0x18]
+	str r5, [r4, #0x1c]
+	mov r0, #0x10
+	strh r0, [r4]
+	mov r0, #2
+	mov r1, #0
+	bl sub_37F85F8
+	mov r0, #0x80
+_027EE4B8:
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027EE4C0: .word 0x0380FFF4
+_027EE4C4: .word 0x00000404
+	arm_func_end sub_27EE37C
+
+	arm_func_start sub_27EE4C8
+sub_27EE4C8: // 0x027EE4C8
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, #9
+	strh r0, [r1, #2]
+	ldrh r0, [r4, #0x10]
+	cmp r0, #1
+	movhi r0, #5
+	bhi _027EE564
+	ldrh r1, [r4, #0x12]
+	cmp r1, #1
+	movhi r0, #5
+	bhi _027EE564
+	ldrh r1, [r4, #0x14]
+	cmp r1, #1
+	movhi r0, #5
+	bhi _027EE564
+	bl sub_27EA5F4
+	ldrh r0, [r4, #0x10]
+	cmp r0, #1
+	bne _027EE550
+	ldrh r0, [r4, #0x12]
+	cmp r0, #1
+	bne _027EE530
+	ldr r0, _027EE56C // =0x00008001
+	bl sub_27EA5B4
+	b _027EE538
+_027EE530:
+	mov r0, #0
+	bl sub_27EA5B4
+_027EE538:
+	ldrh r1, [r4, #0x14]
+	ldr r0, _027EE570 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	strh r1, [r0, #0x58]
+	b _027EE560
+_027EE550:
+	mov r0, #0x8000
+	bl sub_27EA5B4
+	mov r0, #2
+	bl sub_27EA5C8
+_027EE560:
+	mov r0, #0
+_027EE564:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EE56C: .word 0x00008001
+_027EE570: .word 0x0380FFF4
+	arm_func_end sub_27EE4C8
+
+	arm_func_start sub_27EE574
+sub_27EE574: // 0x027EE574
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldrh r0, [r4, #0x10]
+	cmp r0, #1
+	movhi r0, #5
+	bhi _027EE5AC
+	bl sub_37F93A0
+	ldrh r0, [r4, #0x10]
+	cmp r0, #1
+	bne _027EE5A8
+	bl sub_27EA100
+_027EE5A8:
+	mov r0, #0
+_027EE5AC:
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27EE574
+
+	arm_func_start sub_27EE5B4
+sub_27EE5B4: // 0x027EE5B4
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r4, r1
+	ldrh r0, [r4, #2]
+	cmp r0, #1
+	ldrhi r0, _027EE694 // =0x0380FFF4
+	ldrhi r0, [r0]
+	addhi r0, r0, #0x300
+	ldrhih r0, [r0, #0xe4]
+	strhih r0, [r4, #6]
+	ldr r0, _027EE694 // =0x0380FFF4
+	ldr r3, [r0]
+	add r0, r3, #0x300
+	ldrh r2, [r0, #0xe4]
+	ldrh r1, [r4, #2]
+	sub r1, r1, #2
+	cmp r2, r1, lsl #1
+	movgt r0, #4
+	bgt _027EE688
+	ldrh r2, [r4, #6]
+	cmp r2, #0
+	beq _027EE66C
+	ldrh r0, [r0, #0xe6]
+	ands r0, r0, #1
+	beq _027EE65C
+	ldr r0, [r3, #0x3e0]
+	add r7, r0, #1
+	add r6, r4, #8
+	mov r5, #0
+	b _027EE64C
+_027EE62C:
+	mov r0, r7
+	bl sub_27E94A4
+	mov r1, r0
+	mov r0, r6
+	bl sub_27E94C4
+	add r6, r6, #1
+	add r7, r7, #1
+	add r5, r5, #1
+_027EE64C:
+	ldrh r0, [r4, #6]
+	cmp r5, r0
+	blo _027EE62C
+	b _027EE66C
+_027EE65C:
+	ldr r0, [r3, #0x3e0]
+	add r1, r4, #8
+	add r2, r2, #1
+	bl MIi_CpuCopy16
+_027EE66C:
+	ldrh r0, [r4, #6]
+	add r0, r0, #1
+	mov r1, #2
+	bl _s32_div_f
+	add r0, r0, #2
+	strh r0, [r4, #2]
+	mov r0, #0
+_027EE688:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027EE694: .word 0x0380FFF4
+	arm_func_end sub_27EE5B4
+
+	arm_func_start sub_27EE698
+sub_27EE698: // 0x027EE698
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EE6BC // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0xb4]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EE6BC: .word 0x0380FFF4
+	arm_func_end sub_27EE698
+
+	arm_func_start sub_27EE6C0
+sub_27EE6C0: // 0x027EE6C0
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EE6E4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0xb8]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EE6E4: .word 0x0380FFF4
+	arm_func_end sub_27EE6C0
+
+	arm_func_start sub_27EE6E8
+sub_27EE6E8: // 0x027EE6E8
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EE70C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0xb2]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EE70C: .word 0x0380FFF4
+	arm_func_end sub_27EE6E8
+
+	arm_func_start sub_27EE710
+sub_27EE710: // 0x027EE710
+	mov r0, #0x12
+	strh r0, [r1, #2]
+	ldr r2, _027EE758 // =0x0380FFF4
+	ldr r0, [r2]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x62]
+	strh r0, [r1, #6]
+	add r3, r1, #8
+	ldr r0, [r2]
+	add r1, r0, #0x364
+	mov r2, #0
+_027EE73C:
+	ldrh r0, [r1], #2
+	strh r0, [r3], #2
+	add r2, r2, #2
+	cmp r2, #0x20
+	blo _027EE73C
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EE758: .word 0x0380FFF4
+	arm_func_end sub_27EE710
+
+	arm_func_start sub_27EE75C
+sub_27EE75C: // 0x027EE75C
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r0, #4
+	strh r0, [r1, #2]
+	add r0, r1, #6
+	ldr r1, _027EE790 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x3a8
+	bl sub_27EA1BC
+	mov r0, #0
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EE790: .word 0x0380FFF4
+	arm_func_end sub_27EE75C
+
+	arm_func_start sub_27EE794
+sub_27EE794: // 0x027EE794
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EE7CC // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r2, [r0, #0x4c]
+	cmp r2, #0x10
+	movlo r0, #1
+	ldrhsh r0, [r0, #0x3a]
+	movhs r0, r0, lsl #0x18
+	movhs r0, r0, lsr #0x1f
+	strhsh r0, [r1, #6]
+	movhs r0, #0
+	bx lr
+	.align 2, 0
+_027EE7CC: .word 0x0380FFF4
+	arm_func_end sub_27EE794
+
+	arm_func_start sub_27EE7D0
+sub_27EE7D0: // 0x027EE7D0
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EE808 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r2, [r0, #0x4c]
+	cmp r2, #0x10
+	movlo r0, #1
+	ldrhsh r0, [r0, #0x3a]
+	movhs r0, r0, lsl #0x19
+	movhs r0, r0, lsr #0x1f
+	strhsh r0, [r1, #6]
+	movhs r0, #0
+	bx lr
+	.align 2, 0
+_027EE808: .word 0x0380FFF4
+	arm_func_end sub_27EE7D0
+
+	arm_func_start sub_27EE80C
+sub_27EE80C: // 0x027EE80C
+	mov r0, #3
+	strh r0, [r1, #2]
+	ldr r3, _027EE868 // =0x0380FFF4
+	ldr r0, [r3]
+	add r0, r0, #0x300
+	ldrh r2, [r0, #0x4c]
+	cmp r2, #0x10
+	movlo r0, #1
+	bxlo lr
+	ldrh r0, [r0, #0x3a]
+	mov r0, r0, lsl #0x1b
+	mov r0, r0, lsr #0x1f
+	strh r0, [r1, #6]
+	ldr r0, [r3]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x3a]
+	mov r2, r0, lsl #0x1a
+	mov r2, r2, lsr #0x1f
+	mov r0, r0, lsl #0x1c
+	eor r0, r2, r0, lsr #31
+	strh r0, [r1, #8]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EE868: .word 0x0380FFF4
+	arm_func_end sub_27EE80C
+
+	arm_func_start sub_27EE86C
+sub_27EE86C: // 0x027EE86C
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EE8A4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r2, [r0, #0x4c]
+	cmp r2, #0x10
+	movlo r0, #1
+	ldrhsh r0, [r0, #0x3a]
+	movhs r0, r0, lsl #0x1c
+	movhs r0, r0, lsr #0x1f
+	strhsh r0, [r1, #6]
+	movhs r0, #0
+	bx lr
+	.align 2, 0
+_027EE8A4: .word 0x0380FFF4
+	arm_func_end sub_27EE86C
+
+	arm_func_start sub_27EE8A8
+sub_27EE8A8: // 0x027EE8A8
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EE8D0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x22]
+	sub r0, r0, #1
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EE8D0: .word 0x0380FFF4
+	arm_func_end sub_27EE8A8
+
+	arm_func_start sub_27EE8D4
+sub_27EE8D4: // 0x027EE8D4
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r0, #4
+	strh r0, [r4, #2]
+	mov r0, #0x13
+	bl sub_27E9C94
+	strh r0, [r4, #6]
+	mov r0, #0x35
+	bl sub_27E9C94
+	strh r0, [r4, #8]
+	mov r0, #0x2e
+	bl sub_27E9C94
+	strh r0, [r4, #0xa]
+	mov r0, #0
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27EE8D4
+
+	arm_func_start sub_27EE914
+sub_27EE914: // 0x027EE914
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EE938 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x32]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EE938: .word 0x0380FFF4
+	arm_func_end sub_27EE914
+
+	arm_func_start sub_27EE93C
+sub_27EE93C: // 0x027EE93C
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EE968 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x3a]
+	mov r0, r0, lsl #0x1d
+	mov r0, r0, lsr #0x1f
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EE968: .word 0x0380FFF4
+	arm_func_end sub_27EE93C
+
+	arm_func_start sub_27EE96C
+sub_27EE96C: // 0x027EE96C
+	mov r0, #0x11
+	strh r0, [r1, #2]
+	add r2, r1, #6
+	ldr r0, _027EE9A4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r1, r0, #0x384
+	mov r3, #0
+_027EE988:
+	ldrh r0, [r1], #2
+	strh r0, [r2], #2
+	add r3, r3, #1
+	cmp r3, #0x10
+	blo _027EE988
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EE9A4: .word 0x0380FFF4
+	arm_func_end sub_27EE96C
+
+	arm_func_start sub_27EE9A8
+sub_27EE9A8: // 0x027EE9A8
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EE9CC // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x3c]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EE9CC: .word 0x0380FFF4
+	arm_func_end sub_27EE9A8
+
+	arm_func_start sub_27EE9D0
+sub_27EE9D0: // 0x027EE9D0
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EE9F4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0xc2]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EE9F4: .word 0x0380FFF4
+	arm_func_end sub_27EE9D0
+
+	arm_func_start sub_27EE9F8
+sub_27EE9F8: // 0x027EE9F8
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EEA24 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x3a]
+	mov r0, r0, lsl #0x1e
+	mov r0, r0, lsr #0x1f
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EEA24: .word 0x0380FFF4
+	arm_func_end sub_27EE9F8
+
+	arm_func_start sub_27EEA28
+sub_27EEA28: // 0x027EEA28
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EEA54 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x3a]
+	mov r0, r0, lsl #0x1f
+	mov r0, r0, lsr #0x1f
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EEA54: .word 0x0380FFF4
+	arm_func_end sub_27EEA28
+
+	arm_func_start sub_27EEA58
+sub_27EEA58: // 0x027EEA58
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EEA7C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x36]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EEA7C: .word 0x0380FFF4
+	arm_func_end sub_27EEA58
+
+	arm_func_start sub_27EEA80
+sub_27EEA80: // 0x027EEA80
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EEAA4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x34]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EEAA4: .word 0x0380FFF4
+	arm_func_end sub_27EEA80
+
+	arm_func_start sub_27EEAA8
+sub_27EEAA8: // 0x027EEAA8
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EEACC // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x30]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EEACC: .word 0x0380FFF4
+	arm_func_end sub_27EEAA8
+
+	arm_func_start sub_27EEAD0
+sub_27EEAD0: // 0x027EEAD0
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EEAF4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x2e]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EEAF4: .word 0x0380FFF4
+	arm_func_end sub_27EEAD0
+
+	arm_func_start sub_27EEAF8
+sub_27EEAF8: // 0x027EEAF8
+	mov r0, #3
+	strh r0, [r1, #2]
+	ldr r2, _027EEB2C // =0x0380FFF4
+	ldr r0, [r2]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x2c]
+	strh r0, [r1, #6]
+	ldr r0, [r2]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0xbe]
+	strh r0, [r1, #8]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EEB2C: .word 0x0380FFF4
+	arm_func_end sub_27EEAF8
+
+	arm_func_start sub_27EEB30
+sub_27EEB30: // 0x027EEB30
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EEB54 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x2a]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EEB54: .word 0x0380FFF4
+	arm_func_end sub_27EEB30
+
+	arm_func_start sub_27EEB58
+sub_27EEB58: // 0x027EEB58
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r0, #4
+	strh r0, [r1, #2]
+	add r0, r1, #6
+	ldr r1, _027EEB8C // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x324
+	bl sub_27EA1BC
+	mov r0, #0
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EEB8C: .word 0x0380FFF4
+	arm_func_end sub_27EEB58
+
+	arm_func_start sub_27EEB90
+sub_27EEB90: // 0x027EEB90
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r0, #0x21
+	strh r0, [r4, #2]
+	add r0, r4, #6
+	ldr r1, _027EECC4 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x324
+	bl sub_27EA1BC
+	ldr r0, _027EECC4 // =0x0380FFF4
+	ldr r1, [r0]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x2a]
+	strh r1, [r4, #0xc]
+	ldr r1, [r0]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x2c]
+	strh r1, [r4, #0xe]
+	ldr r1, [r0]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0xbe]
+	strh r1, [r4, #0x10]
+	ldr r1, [r0]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x2e]
+	strh r1, [r4, #0x12]
+	ldr r1, [r0]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x30]
+	strh r1, [r4, #0x14]
+	ldr r1, [r0]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x34]
+	strh r1, [r4, #0x16]
+	ldr r1, [r0]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x36]
+	strh r1, [r4, #0x18]
+	ldr r1, [r0]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x3a]
+	mov r1, r1, lsl #0x1f
+	mov r1, r1, lsr #0x1f
+	strh r1, [r4, #0x1a]
+	ldr r1, [r0]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x3a]
+	mov r1, r1, lsl #0x1e
+	mov r1, r1, lsr #0x1f
+	strh r1, [r4, #0x1c]
+	ldr r1, [r0]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0xc2]
+	strh r1, [r4, #0x1e]
+	ldr r1, [r0]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x3c]
+	strh r1, [r4, #0x20]
+	ldr r0, [r0]
+	add r0, r0, #0x384
+	add r1, r4, #0x22
+	mov r2, #0x20
+	bl MIi_CpuCopy16
+	ldr r1, _027EECC4 // =0x0380FFF4
+	ldr r0, [r1]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x3a]
+	mov r0, r0, lsl #0x1d
+	mov r0, r0, lsr #0x1f
+	strh r0, [r4, #0x42]
+	ldr r0, [r1]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x32]
+	strh r0, [r4, #0x44]
+	mov r0, #0
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EECC4: .word 0x0380FFF4
+	arm_func_end sub_27EEB90
+
+	arm_func_start sub_27EECC8
+sub_27EECC8: // 0x027EECC8
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r4, r0
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldr r0, _027EED34 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x2e]
+	cmp r0, #1
+	movne r0, #0xb
+	bne _027EED28
+	ldrh r5, [r4, #0x10]
+	add r0, r5, #1
+	mov r1, #2
+	bl _s32_div_f
+	ldrh r1, [r4, #0xe]
+	add r0, r0, #1
+	cmp r1, r0
+	movlt r0, #4
+	blt _027EED28
+	mov r0, r5
+	add r1, r4, #0x12
+	bl sub_27EA2C8
+_027EED28:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027EED34: .word 0x0380FFF4
+	arm_func_end sub_27EECC8
+
+	arm_func_start sub_27EED38
+sub_27EED38: // 0x027EED38
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldr r1, _027EED80 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x2e]
+	cmp r1, #2
+	beq _027EED6C
+	cmp r1, #3
+	movne r0, #0xb
+	bne _027EED74
+_027EED6C:
+	ldrh r0, [r0, #0x10]
+	bl sub_27EAB30
+_027EED74:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EED80: .word 0x0380FFF4
+	arm_func_end sub_27EED38
+
+	arm_func_start sub_27EED84
+sub_27EED84: // 0x027EED84
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldr r1, _027EEDC4 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x2e]
+	cmp r1, #1
+	movne r0, #0xb
+	bne _027EEDB8
+	ldrh r0, [r0, #0x10]
+	bl sub_27EAB64
+_027EEDB8:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EEDC4: .word 0x0380FFF4
+	arm_func_end sub_27EED84
+
+	arm_func_start sub_27EEDC8
+sub_27EEDC8: // 0x027EEDC8
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldr r1, _027EEE08 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x2e]
+	cmp r1, #1
+	movne r0, #0xb
+	bne _027EEDFC
+	ldrh r0, [r0, #0x10]
+	bl sub_27EABB0
+_027EEDFC:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EEE08: .word 0x0380FFF4
+	arm_func_end sub_27EEDC8
+
+	arm_func_start sub_27EEE0C
+sub_27EEE0C: // 0x027EEE0C
+	mov r2, r0
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldrh r0, [r2, #0x10]
+	add r1, r2, #0x12
+	ldr ip, _027EEE28 // =sub_27EAC10
+	bx ip
+	.align 2, 0
+_027EEE28: .word sub_27EAC10
+	arm_func_end sub_27EEE0C
+
+	arm_func_start sub_27EEE2C
+sub_27EEE2C: // 0x027EEE2C
+	mov r2, #1
+	strh r2, [r1, #2]
+	add r0, r0, #0x10
+	ldr ip, _027EEE40 // =sub_27EAD2C
+	bx ip
+	.align 2, 0
+_027EEE40: .word sub_27EAD2C
+	arm_func_end sub_27EEE2C
+
+	arm_func_start sub_27EEE44
+sub_27EEE44: // 0x027EEE44
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldr r1, _027EEE88 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x4c]
+	cmp r1, #0x10
+	blo _027EEE78
+	ldrh r0, [r0, #0x10]
+	bl sub_27EAD94
+	mov r2, r0
+_027EEE78:
+	mov r0, r2
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EEE88: .word 0x0380FFF4
+	arm_func_end sub_27EEE44
+
+	arm_func_start sub_27EEE8C
+sub_27EEE8C: // 0x027EEE8C
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldr r1, _027EEED0 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x4c]
+	cmp r1, #0x10
+	blo _027EEEC0
+	ldrh r0, [r0, #0x10]
+	bl sub_27EADF0
+	mov r2, r0
+_027EEEC0:
+	mov r0, r2
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EEED0: .word 0x0380FFF4
+	arm_func_end sub_27EEE8C
+
+	arm_func_start sub_27EEED4
+sub_27EEED4: // 0x027EEED4
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r2, r0
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldr r1, _027EEF18 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x4c]
+	cmp r1, #0x10
+	blo _027EEF0C
+	ldrh r0, [r2, #0x10]
+	ldrh r1, [r2, #0x12]
+	bl sub_27EAE30
+_027EEF0C:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EEF18: .word 0x0380FFF4
+	arm_func_end sub_27EEED4
+
+	arm_func_start sub_27EEF1C
+sub_27EEF1C: // 0x027EEF1C
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldr r1, _027EEF60 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x4c]
+	cmp r1, #0x10
+	blo _027EEF50
+	ldrh r0, [r0, #0x10]
+	bl sub_27EAF0C
+	mov r2, r0
+_027EEF50:
+	mov r0, r2
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EEF60: .word 0x0380FFF4
+	arm_func_end sub_27EEF1C
+
+	arm_func_start sub_27EEF64
+sub_27EEF64: // 0x027EEF64
+	mov r3, #1
+	strh r3, [r1, #2]
+	ldr r2, _027EEFB8 // =0x0380FFF4
+	ldr r1, [r2]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x4c]
+	cmp r1, #0x20
+	movhi r0, r3
+	bxhi lr
+	ldrh r1, [r0, #0x10]
+	add r1, r1, #1
+	strh r1, [r0, #0x10]
+	ldr r1, [r2]
+	ldrh r2, [r0, #0x10]
+	add r0, r1, #0x300
+	ldrh r1, [r0, #0x20]
+	cmp r2, r1
+	movhi r0, #5
+	strlsh r2, [r0, #0x22]
+	movls r0, #0
+	bx lr
+	.align 2, 0
+_027EEFB8: .word 0x0380FFF4
+	arm_func_end sub_27EEF64
+
+	arm_func_start sub_27EEFBC
+sub_27EEFBC: // 0x027EEFBC
+	stmdb sp!, {r4, lr}
+	ldr ip, _027EF0C0 // =0x0380FFF4
+	ldr r2, [ip]
+	ldr r2, [r2, #0x31c]
+	mov r3, #1
+	strh r3, [r1, #2]
+	ldrh r1, [r0, #0x10]
+	ldr r3, [ip]
+	add r3, r3, #0x300
+	ldrh r3, [r3, #0x22]
+	cmp r1, r3
+	blo _027EEFFC
+	ldr r3, _027EF0C4 // =0x0000FFFF
+	cmp r1, r3
+	movne r0, #5
+	bne _027EF0B8
+_027EEFFC:
+	ldrh ip, [r0, #0x14]
+	cmp ip, #0x3f
+	bls _027EF018
+	ldr r3, _027EF0C4 // =0x0000FFFF
+	cmp ip, r3
+	movne r0, #5
+	bne _027EF0B8
+_027EF018:
+	ldr r3, _027EF0C4 // =0x0000FFFF
+	cmp r1, r3
+	bne _027EF06C
+	mov r4, #1
+	ldr ip, _027EF0C0 // =0x0380FFF4
+	mov r3, #0x1c
+	b _027EF054
+_027EF034:
+	mla lr, r4, r3, r2
+	ldrh r1, [r0, #0x12]
+	strh r1, [lr, #0x1a]
+	ldrh r1, [lr, #0x18]
+	cmp r1, #0
+	ldrneh r1, [r0, #0x12]
+	strneh r1, [lr, #0x18]
+	add r4, r4, #1
+_027EF054:
+	ldr r1, [ip]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x22]
+	cmp r4, r1
+	blo _027EF034
+	b _027EF0A4
+_027EF06C:
+	cmp r1, #0
+	beq _027EF0A4
+	ldrh lr, [r0, #0x12]
+	mov r3, #0x1c
+	mla ip, r1, r3, r2
+	strh lr, [ip, #0x1a]
+	add ip, r2, #0x18
+	ldrh r1, [r0, #0x10]
+	mul r2, r1, r3
+	add r3, ip, r2
+	ldrh r1, [ip, r2]
+	cmp r1, #0
+	ldrneh r1, [r0, #0x12]
+	strneh r1, [r3]
+_027EF0A4:
+	ldrh r0, [r0, #0x14]
+	cmp r0, #0
+	beq _027EF0B4
+	bl sub_27EA444
+_027EF0B4:
+	mov r0, #0
+_027EF0B8:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EF0C0: .word 0x0380FFF4
+_027EF0C4: .word 0x0000FFFF
+	arm_func_end sub_27EEFBC
+
+	arm_func_start sub_27EF0C8
+sub_27EF0C8: // 0x027EF0C8
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldrh r0, [r5, #0x14]
+	cmp r0, #0x3f
+	movhi r0, #5
+	bhi _027EF110
+	ldrh r0, [r5, #0x10]
+	ldrh r1, [r5, #0x12]
+	bl sub_27EAF74
+	movs r4, r0
+	bne _027EF10C
+	mov r0, #0x2e
+	ldrh r1, [r5, #0x14]
+	bl sub_27E9C54
+_027EF10C:
+	mov r0, r4
+_027EF110:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	arm_func_end sub_27EF0C8
+
+	arm_func_start sub_27EF11C
+sub_27EF11C: // 0x027EF11C
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldrh r0, [r0, #0x10]
+	ldr ip, _027EF130 // =sub_27EAFBC
+	bx ip
+	.align 2, 0
+_027EF130: .word sub_27EAFBC
+	arm_func_end sub_27EF11C
+
+	arm_func_start sub_27EF134
+sub_27EF134: // 0x027EF134
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldrh r0, [r0, #0x10]
+	ldr ip, _027EF148 // =sub_27EAFE0
+	bx ip
+	.align 2, 0
+_027EF148: .word sub_27EAFE0
+	arm_func_end sub_27EF134
+
+	arm_func_start sub_27EF14C
+sub_27EF14C: // 0x027EF14C
+	mov r2, #1
+	strh r2, [r1, #2]
+	add r0, r0, #0x10
+	ldr ip, _027EF160 // =sub_27EB0A0
+	bx ip
+	.align 2, 0
+_027EF160: .word sub_27EB0A0
+	arm_func_end sub_27EF14C
+
+	arm_func_start sub_27EF164
+sub_27EF164: // 0x027EF164
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldrh r0, [r0, #0x10]
+	mov r1, #0
+	ldr ip, _027EF17C // =sub_27EB0D0
+	bx ip
+	.align 2, 0
+_027EF17C: .word sub_27EB0D0
+	arm_func_end sub_27EF164
+
+	arm_func_start sub_27EF180
+sub_27EF180: // 0x027EF180
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldrh r0, [r0, #0x10]
+	ldr ip, _027EF194 // =sub_27EB190
+	bx ip
+	.align 2, 0
+_027EF194: .word sub_27EB190
+	arm_func_end sub_27EF180
+
+	arm_func_start sub_27EF198
+sub_27EF198: // 0x027EF198
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldrh r0, [r0, #0x10]
+	ldr ip, _027EF1AC // =sub_27EB1C8
+	bx ip
+	.align 2, 0
+_027EF1AC: .word sub_27EB1C8
+	arm_func_end sub_27EF198
+
+	arm_func_start sub_27EF1B0
+sub_27EF1B0: // 0x027EF1B0
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldr r1, _027EF1F4 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x4c]
+	cmp r1, #0x20
+	bhi _027EF1E4
+	ldrh r0, [r0, #0x10]
+	bl sub_27EB200
+	mov r2, r0
+_027EF1E4:
+	mov r0, r2
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EF1F4: .word 0x0380FFF4
+	arm_func_end sub_27EF1B0
+
+	arm_func_start sub_27EF1F8
+sub_27EF1F8: // 0x027EF1F8
+	mov r2, #1
+	strh r2, [r1, #2]
+	add r0, r0, #0x10
+	ldr ip, _027EF20C // =sub_27EB238
+	bx ip
+	.align 2, 0
+_027EF20C: .word sub_27EB238
+	arm_func_end sub_27EF1F8
+
+	arm_func_start sub_27EF210
+sub_27EF210: // 0x027EF210
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldrh r0, [r0, #0x10]
+	ldr ip, _027EF224 // =sub_27EB29C
+	bx ip
+	.align 2, 0
+_027EF224: .word sub_27EB29C
+	arm_func_end sub_27EF210
+
+	arm_func_start sub_27EF228
+sub_27EF228: // 0x027EF228
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldrh r0, [r0, #0x10]
+	ldr ip, _027EF23C // =sub_27EB2C0
+	bx ip
+	.align 2, 0
+_027EF23C: .word sub_27EB2C0
+	arm_func_end sub_27EF228
+
+	arm_func_start sub_27EF240
+sub_27EF240: // 0x027EF240
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldrh r0, [r0, #0x10]
+	ldr ip, _027EF254 // =sub_27EB374
+	bx ip
+	.align 2, 0
+_027EF254: .word sub_27EB374
+	arm_func_end sub_27EF240
+
+	arm_func_start sub_27EF258
+sub_27EF258: // 0x027EF258
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r3, #1
+	strh r3, [r1, #2]
+	ldr r1, _027EF2B0 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r2, [r1, #0x4c]
+	cmp r2, #0x20
+	movhi r0, r3
+	bhi _027EF2A4
+	cmp r2, #0x20
+	bne _027EF29C
+	ldrh r1, [r1, #0x56]
+	cmp r1, #0
+	movne r0, r3
+	bne _027EF2A4
+_027EF29C:
+	ldrh r0, [r0, #0x10]
+	bl sub_27EB3B0
+_027EF2A4:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EF2B0: .word 0x0380FFF4
+	arm_func_end sub_27EF258
+
+	arm_func_start sub_27EF2B4
+sub_27EF2B4: // 0x027EF2B4
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldr r1, _027EF2F8 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x4c]
+	cmp r1, #0x10
+	bne _027EF2E8
+	ldrh r0, [r0, #0x10]
+	bl sub_27EB438
+	mov r2, r0
+_027EF2E8:
+	mov r0, r2
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EF2F8: .word 0x0380FFF4
+	arm_func_end sub_27EF2B4
+
+	arm_func_start sub_27EF2FC
+sub_27EF2FC: // 0x027EF2FC
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldrh r0, [r0, #0x10]
+	ldr ip, _027EF310 // =sub_27EB478
+	bx ip
+	.align 2, 0
+_027EF310: .word sub_27EB478
+	arm_func_end sub_27EF2FC
+
+	arm_func_start sub_27EF314
+sub_27EF314: // 0x027EF314
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r2, #1
+	strh r2, [r1, #2]
+	ldr r1, _027EF358 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x4c]
+	cmp r1, #0x10
+	bne _027EF348
+	add r0, r0, #0x10
+	bl sub_27EB4AC
+	mov r2, r0
+_027EF348:
+	mov r0, r2
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EF358: .word 0x0380FFF4
+	arm_func_end sub_27EF314
+
+	arm_func_start sub_27EF35C
+sub_27EF35C: // 0x027EF35C
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldr r1, _027EF44C // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x4c]
+	cmp r1, #0x10
+	bne _027EF440
+	add r0, r5, #0x10
+	bl sub_27EB4AC
+	mov r4, r0
+	ldrh r0, [r5, #0x16]
+	bl sub_27EB478
+	orr r4, r4, r0
+	ldrh r0, [r5, #0x18]
+	bl sub_27EB438
+	orr r4, r4, r0
+	ldrh r0, [r5, #0x1c]
+	bl sub_27EB3B0
+	orr r4, r4, r0
+	ldrh r0, [r5, #0x1e]
+	bl sub_27EB374
+	orr r4, r4, r0
+	ldrh r0, [r5, #0x20]
+	bl sub_27EB2C0
+	orr r4, r4, r0
+	ldrh r0, [r5, #0x22]
+	bl sub_27EB29C
+	orr r4, r4, r0
+	add r0, r5, #0x24
+	bl sub_27EB238
+	orr r4, r4, r0
+	ldrh r0, [r5, #0x74]
+	bl sub_27EB200
+	orr r4, r4, r0
+	ldrh r0, [r5, #0x76]
+	bl sub_27EB1C8
+	orr r4, r4, r0
+	ldrh r0, [r5, #0x78]
+	bl sub_27EB190
+	orr r4, r4, r0
+	ldrh r0, [r5, #0x7a]
+	mov r1, #0
+	bl sub_27EB0D0
+	orr r4, r4, r0
+	add r0, r5, #0x7c
+	bl sub_27EB0A0
+	orr r4, r4, r0
+	ldrh r0, [r5, #0x9c]
+	bl sub_27EAFE0
+	orr r4, r4, r0
+	ldrh r0, [r5, #0x9e]
+	bl sub_27EAFBC
+	orr r0, r4, r0
+_027EF440:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027EF44C: .word 0x0380FFF4
+	arm_func_end sub_27EF35C
+
+	arm_func_start sub_27EF450
+sub_27EF450: // 0x027EF450
+	stmdb sp!, {r4, lr}
+	ldr r2, _027EF4FC // =0x0380FFF4
+	ldr r2, [r2]
+	add r4, r2, #0x344
+	mov r3, #1
+	strh r3, [r1, #2]
+	ldrh r2, [r4, #8]
+	and r1, r2, #0xf0
+	cmp r1, #0x10
+	movne r0, r3
+	bne _027EF4F4
+	ldrh r1, [r0, #0x10]
+	cmp r1, #0
+	beq _027EF4C8
+	cmp r1, #1
+	bne _027EF4F0
+	cmp r2, #0x10
+	movne r0, r3
+	bne _027EF4F4
+	ldrh r0, [r0, #0x12]
+	mov r1, r3
+	bl sub_27EA744
+	mov r0, #0
+	strh r0, [r4, #0xc]
+	bl sub_37F8EF4
+	mov r0, #0x8000
+	bl sub_27EA5B4
+	mov r0, #0x11
+	strh r0, [r4, #8]
+	b _027EF4F0
+_027EF4C8:
+	cmp r2, #0x11
+	bne _027EF4E0
+	mov r0, #0
+	bl sub_27EA5B4
+	bl sub_37F93A0
+	b _027EF4E8
+_027EF4E0:
+	mov r0, r3
+	b _027EF4F4
+_027EF4E8:
+	mov r0, #0x10
+	strh r0, [r4, #8]
+_027EF4F0:
+	mov r0, #0
+_027EF4F4:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EF4FC: .word 0x0380FFF4
+	arm_func_end sub_27EF450
+
+	arm_func_start sub_27EF500
+sub_27EF500: // 0x027EF500
+	ldr r0, _027EF580 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x5c]
+	cmp r0, #0
+	beq _027EF53C
+	mov r1, #0
+	ldr r0, _027EF584 // =0x04804000
+	strh r1, [r0]
+	strh r1, [r0, #4]
+	ldr r1, _027EF588 // =0x048080A0
+	ldrh r0, [r1]
+	orr r0, r0, #0x8000
+	strh r0, [r1]
+	bx lr
+_027EF53C:
+	mov r1, #1
+	ldr r0, _027EF58C // =0x048080AC
+	strh r1, [r0]
+	mov r2, #0
+	ldr r0, _027EF590 // =0x04808004
+	strh r2, [r0]
+	mov r1, #2
+	ldr r0, _027EF594 // =0x04808012
+	strh r1, [r0]
+	ldr r1, _027EF598 // =0x0000FFFF
+	ldr r0, _027EF59C // =0x04808010
+	strh r1, [r0]
+	ldr r0, _027EF5A0 // =0x04808194
+	strh r2, [r0]
+	ldr r0, _027EF5A4 // =0x04808040
+	strh r2, [r0]
+	bx lr
+	.align 2, 0
+_027EF580: .word 0x0380FFF4
+_027EF584: .word 0x04804000
+_027EF588: .word 0x048080A0
+_027EF58C: .word 0x048080AC
+_027EF590: .word 0x04808004
+_027EF594: .word 0x04808012
+_027EF598: .word 0x0000FFFF
+_027EF59C: .word 0x04808010
+_027EF5A0: .word 0x04808194
+_027EF5A4: .word 0x04808040
+	arm_func_end sub_27EF500
+
+	arm_func_start sub_27EF5A8
+sub_27EF5A8: // 0x027EF5A8
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	ldr r0, _027EF6C0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r4, r0, #0x344
+	bl sub_37F8EF4
+	bl sub_37F93A0
+	mov r0, #6
+	bl sub_27E9C94
+	strh r0, [r4, #0xac]
+	ldrh r0, [r5, #0x12]
+	cmp r0, #4
+	bne _027EF5EC
+	mov r0, #6
+	mov r1, #0
+	bl sub_27E9C54
+_027EF5EC:
+	mov r0, #0
+	ldr r1, _027EF6C4 // =0x04804000
+	mov r2, #0xc
+	bl MIi_CpuClear16
+	mov r0, #0x14
+	ldr r1, _027EF6C4 // =0x04804000
+	strh r0, [r1, #8]
+	mov r0, #0x7d0
+	strh r0, [r1, #0xa]
+	add r2, r1, #0xc
+	mov r3, #0
+	ldr r1, _027EF6C8 // =0x00005555
+	ldr r0, _027EF6CC // =0x000007EC
+_027EF620:
+	strh r1, [r2], #2
+	add r3, r3, #2
+	cmp r3, r0
+	blo _027EF620
+	mov r1, #8
+	ldr r0, _027EF6C4 // =0x04804000
+	strh r1, [r0, #0xc]
+	mov r1, #6
+	ldr r0, _027EF6D0 // =0x04808194
+	strh r1, [r0]
+	mov r0, #0x12
+	strh r0, [r4, #8]
+	mov r1, #1
+	strh r1, [r4, #0x18]
+	ldrh r0, [r5, #0x16]
+	bl sub_27EA744
+	mov r1, #0x8000
+	ldr r0, _027EF6D4 // =0x04808040
+	strh r1, [r0]
+	ldr r0, _027EF6D8 // =0x000005DC
+	bl sub_27E987C
+	mov r1, #2
+	ldr r0, _027EF6DC // =0x04808012
+	strh r1, [r0]
+	mov r1, #1
+	ldr r0, _027EF6E0 // =0x04808004
+	strh r1, [r0]
+	ldr r0, _027EF6E4 // =0x048080AE
+	strh r1, [r0]
+	ldr r1, _027EF6C4 // =0x04804000
+	ldr r0, _027EF6E8 // =0x00003FFF
+	and r0, r1, r0
+	mov r0, r0, lsl #0xf
+	mov r0, r0, lsr #0x10
+	orr r1, r0, #0x8000
+	ldr r0, _027EF6EC // =0x048080A0
+	strh r1, [r0]
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027EF6C0: .word 0x0380FFF4
+_027EF6C4: .word 0x04804000
+_027EF6C8: .word 0x00005555
+_027EF6CC: .word 0x000007EC
+_027EF6D0: .word 0x04808194
+_027EF6D4: .word 0x04808040
+_027EF6D8: .word 0x000005DC
+_027EF6DC: .word 0x04808012
+_027EF6E0: .word 0x04808004
+_027EF6E4: .word 0x048080AE
+_027EF6E8: .word 0x00003FFF
+_027EF6EC: .word 0x048080A0
+	arm_func_end sub_27EF5A8
+
+	arm_func_start sub_27EF6F0
+sub_27EF6F0: // 0x027EF6F0
+	stmdb sp!, {r4, r5, r6, lr}
+	sub sp, sp, #8
+	mov r5, r0
+	ldr r0, _027EF940 // =0x0380FFF4
+	ldr r0, [r0]
+	add r4, r0, #0x344
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldrh r1, [r4, #8]
+	and r1, r1, #0xf0
+	cmp r1, #0x10
+	bne _027EF934
+	ldrh r0, [r5, #0x10]
+	cmp r0, #1
+	movhi r0, #5
+	bhi _027EF934
+	ldrh r0, [r5, #0x14]
+	cmp r0, #0xa
+	beq _027EF748
+	cmp r0, #0x14
+	movne r0, #5
+	bne _027EF934
+_027EF748:
+	ldrh r0, [r5, #0x12]
+	cmp r0, #4
+	movhi r0, #5
+	bhi _027EF934
+	mov r0, #0
+	bl sub_27F5AC8
+	cmp r0, #0
+	movne r0, #0xe
+	bne _027EF934
+	ldrh r0, [r5, #0x10]
+	cmp r0, #0
+	beq _027EF8A0
+	cmp r0, #1
+	bne _027EF930
+	ldrh r0, [r4, #8]
+	cmp r0, #0x10
+	movne r0, #1
+	bne _027EF934
+	mov r0, #0
+	str r0, [sp]
+	mov r0, #0x65
+	mov r1, #1
+	add r2, sp, #0
+	bl sub_27F59D8
+	ldr r6, [sp]
+	mov r0, #1
+	bl sub_27E9C94
+	cmp r6, r0
+	beq _027EF7D0
+	mov r0, #1
+	mov r1, r6
+	bl sub_27E9C54
+	ldr r0, _027EF944 // =0x00001388
+	bl sub_27E987C
+_027EF7D0:
+	ldrh r0, [r5, #0x12]
+	cmp r0, #4
+	addls pc, pc, r0, lsl #2
+	b _027EF930
+_027EF7E0: // jump table
+	b _027EF7F4 // case 0
+	b _027EF7F4 // case 1
+	b _027EF7F4 // case 2
+	b _027EF894 // case 3
+	b _027EF894 // case 4
+_027EF7F4:
+	mov r0, #0x11
+	strh r0, [r4, #8]
+	ldrh r0, [r5, #0x16]
+	mov r1, #1
+	bl sub_27EA744
+	mov r1, #0x8000
+	ldr r0, _027EF948 // =0x04808040
+	strh r1, [r0]
+	ldr r0, _027EF94C // =0x000005DC
+	bl sub_27E987C
+	ldrh r0, [r5, #0x14]
+	strh r0, [r4, #0x16]
+	mov r0, #2
+	bl sub_27E9C94
+	str r0, [sp]
+	ldrh r1, [r5, #0x12]
+	cmp r1, #1
+	orrls r0, r0, #0x10
+	strls r0, [sp]
+	ldrh r1, [r5, #0x14]
+	ldr r0, _027EF950 // =0x048081A4
+	strh r1, [r0]
+	ldrh r1, [r5, #0x12]
+	cmp r1, #1
+	ldrne r0, _027EF954 // =0x048081A2
+	strneh r1, [r0]
+	bne _027EF878
+	ldr r0, [sp]
+	orr r0, r0, #0x20
+	str r0, [sp]
+	mov r1, #3
+	ldr r0, _027EF954 // =0x048081A2
+	strh r1, [r0]
+_027EF878:
+	mov r0, #2
+	ldr r1, [sp]
+	bl sub_27E9C54
+	ldr r1, _027EF958 // =0x00000823
+	ldr r0, _027EF95C // =0x048081A0
+	strh r1, [r0]
+	b _027EF930
+_027EF894:
+	mov r0, r5
+	bl sub_27EF5A8
+	b _027EF930
+_027EF8A0:
+	ldrh r0, [r4, #8]
+	cmp r0, #0x11
+	bne _027EF8F0
+	bl sub_27E97C8
+	mov r2, #0
+	ldr r0, _027EF95C // =0x048081A0
+	strh r2, [r0]
+	mov r1, #1
+	ldr r0, _027EF954 // =0x048081A2
+	strh r1, [r0]
+	ldr r0, _027EF948 // =0x04808040
+	strh r2, [r0]
+	mov r0, #2
+	bl sub_27E9C94
+	str r0, [sp]
+	bic r1, r0, #0x30
+	str r1, [sp]
+	mov r0, #2
+	bl sub_27E9C54
+	b _027EF928
+_027EF8F0:
+	cmp r0, #0x12
+	bne _027EF920
+	mov r0, #0
+	strh r0, [r4, #0x18]
+	ldr r1, _027EF960 // =0x04808004
+_027EF904:
+	ldrh r0, [r1]
+	cmp r0, #0
+	bne _027EF904
+	mov r0, #6
+	ldrh r1, [r4, #0xac]
+	bl sub_27E9C54
+	b _027EF928
+_027EF920:
+	mov r0, #1
+	b _027EF934
+_027EF928:
+	mov r0, #0x10
+	strh r0, [r4, #8]
+_027EF930:
+	mov r0, #0
+_027EF934:
+	add sp, sp, #8
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027EF940: .word 0x0380FFF4
+_027EF944: .word 0x00001388
+_027EF948: .word 0x04808040
+_027EF94C: .word 0x000005DC
+_027EF950: .word 0x048081A4
+_027EF954: .word 0x048081A2
+_027EF958: .word 0x00000823
+_027EF95C: .word 0x048081A0
+_027EF960: .word 0x04808004
+	arm_func_end sub_27EF6F0
+
+	arm_func_start sub_27EF964
+sub_27EF964: // 0x027EF964
+	mov r0, #2
+	strh r0, [r1, #2]
+	ldr r0, _027EF988 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x4c]
+	strh r0, [r1, #6]
+	mov r0, #0
+	bx lr
+	.align 2, 0
+_027EF988: .word 0x0380FFF4
+	arm_func_end sub_27EF964
+
+	arm_func_start sub_27EF98C
+sub_27EF98C: // 0x027EF98C
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	ldr r0, _027EF9E4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x4c]
+	cmp r0, #0
+	moveq r0, #1
+	beq _027EF9DC
+	mov r0, #0x5c
+	strh r0, [r4, #2]
+	bl sub_27E9EFC
+	ldr r0, _027EF9E4 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027EF9E8 // =0x0000053C
+	add r0, r1, r0
+	add r1, r4, #8
+	mov r2, #0xb4
+	bl MIi_CpuCopy32
+	mov r0, #0
+_027EF9DC:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EF9E4: .word 0x0380FFF4
+_027EF9E8: .word 0x0000053C
+	arm_func_end sub_27EF98C
+
+	arm_func_start sub_27EF9EC
+sub_27EF9EC: // 0x027EF9EC
+	stmdb sp!, {r4, lr}
+	mov r4, r1
+	mov r0, #9
+	strh r0, [r4, #2]
+	ldr r0, _027EFA88 // =a27800
+	add r1, r4, #6
+	mov r2, #8
+	bl MIi_CpuCopy16
+	ldr r0, _027EFA8C // =0x04808000
+	ldrh r0, [r0]
+	strh r0, [r4, #0xe]
+	ldr r0, _027EFA90 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x600
+	ldrh r0, [r0, #0x90]
+	ands r0, r0, #0x8000
+	moveq r0, #0x6d
+	streqh r0, [r4, #0x10]
+	ldreq r0, _027EFA94 // =0x0000933D
+	streqh r0, [r4, #0x12]
+	beq _027EFA54
+	mov r0, #0
+	bl sub_27E9C94
+	strh r0, [r4, #0x10]
+	bl sub_27E9BBC
+	strh r0, [r4, #0x12]
+_027EFA54:
+	ldr r0, _027EFA90 // =0x0380FFF4
+	ldr r1, [r0]
+	add r0, r1, #0x600
+	ldrh r0, [r0, #0x90]
+	ands r0, r0, #0x4000
+	addne r0, r1, #0x500
+	ldrneh r0, [r0, #0xf8]
+	strneh r0, [r4, #0x14]
+	moveq r0, #2
+	streqh r0, [r4, #0x14]
+	mov r0, #0
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EFA88: .word a27800
+_027EFA8C: .word 0x04808000
+_027EFA90: .word 0x0380FFF4
+_027EFA94: .word 0x0000933D
+	arm_func_end sub_27EF9EC
+
+	arm_func_start sub_27EFA98
+sub_27EFA98: // 0x027EFA98
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027EFAD8 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x4c]
+	cmp r0, #0
+	moveq r0, #1
+	beq _027EFACC
+	mov r0, #1
+	strh r0, [r1, #2]
+	bl sub_27EA100
+	mov r0, #0
+_027EFACC:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EFAD8: .word 0x0380FFF4
+	arm_func_end sub_27EFA98
+
+	arm_func_start sub_27EFADC
+sub_27EFADC: // 0x027EFADC
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldr r0, _027EFB1C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x4c]
+	cmp r0, #0x20
+	blo _027EFB08
+	bl sub_37F93A0
+_027EFB08:
+	bl sub_27E8D30
+	mov r0, #0
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EFB1C: .word 0x0380FFF4
+	arm_func_end sub_27EFADC
+
+	arm_func_start sub_27EFB20
+sub_27EFB20: // 0x027EFB20
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldr r0, _027EFB7C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r1, [r0, #0x4c]
+	cmp r1, #0x10
+	beq _027EFB5C
+	cmp r1, #0x20
+	bne _027EFB6C
+	ldrh r0, [r0, #0x56]
+	cmp r0, #0
+	bne _027EFB6C
+_027EFB5C:
+	mov r0, #0x20
+	bl sub_37F9458
+	mov r0, #0
+	b _027EFB70
+_027EFB6C:
+	mov r0, #1
+_027EFB70:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EFB7C: .word 0x0380FFF4
+	arm_func_end sub_27EFB20
+
+	arm_func_start sub_27EFB80
+sub_27EFB80: // 0x027EFB80
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldr r1, _027EFBE0 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r2, [r1, #0x4c]
+	cmp r2, #0x20
+	bhi _027EFBD4
+	ldrh r1, [r1, #0x56]
+	cmp r1, #0
+	bne _027EFBD4
+	mov r0, #0
+	bl sub_27F5AC8
+	cmp r0, #0
+	movne r0, #0xe
+	bne _027EFBD4
+	mov r0, #0x10
+	bl sub_37F9458
+	mov r0, #0
+_027EFBD4:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EFBE0: .word 0x0380FFF4
+	arm_func_end sub_27EFB80
+
+	arm_func_start sub_27EFBE4
+sub_27EFBE4: // 0x027EFBE4
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldr r1, _027EFC2C // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0x4c]
+	cmp r1, #0
+	beq _027EFC14
+	cmp r1, #0x10
+	bne _027EFC20
+_027EFC14:
+	mov r0, #0
+	bl sub_37F9458
+	mov r0, #0
+_027EFC20:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027EFC2C: .word 0x0380FFF4
+	arm_func_end sub_27EFBE4
+
+	arm_func_start sub_27EFC30
+sub_27EFC30: // 0x027EFC30
+	ldrh r2, [r1, #0xe]
+	add r2, r1, r2, lsl #1
+	add r3, r2, #0x10
+	ldrh r2, [r2, #0x10]
+	strh r2, [r1, #0xc]
+	mov r2, #2
+	strh r2, [r3, #2]
+	mov r2, #0
+	strh r2, [r3, #4]
+	ldrh r2, [r1, #0x18]
+	strh r2, [r3, #6]
+	ldr ip, _027EFC64 // =sub_37F8E64
+	bx ip
+	.align 2, 0
+_027EFC64: .word sub_37F8E64
+	arm_func_end sub_27EFC30
+
+	arm_func_start sub_27EFC68
+sub_27EFC68: // 0x027EFC68
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldrh r0, [r4, #0x10]
+	ands r0, r0, #1
+	beq _027EFC88
+	bl sub_27F1CA0
+_027EFC88:
+	ldrh r0, [r4, #0x10]
+	ands r0, r0, #2
+	beq _027EFC98
+	bl sub_27F1C40
+_027EFC98:
+	ldrh r0, [r4, #0x10]
+	ands r0, r0, #4
+	beq _027EFCA8
+	bl sub_27F1B88
+_027EFCA8:
+	mov r0, #0
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27EFC68
+
+	arm_func_start sub_27EFCB4
+sub_27EFCB4: // 0x027EFCB4
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r0, #1
+	strh r0, [r1, #2]
+	ldr r0, _027EFD10 // =0x0000FFFF
+	strh r0, [r4, #0xc]
+	add r0, r4, #0x10
+	mov r1, #0
+	strh r1, [r0, #2]
+	ldrh r1, [r0, #6]
+	strh r1, [r0, #0x12]
+	bl sub_27EC780
+	ldr r0, _027EFD14 // =0x0380FFF4
+	ldr r1, [r0]
+	add r0, r1, #0x200
+	add r1, r1, #0x194
+	mov r2, r4
+	bl sub_37F8A3C
+	mov r0, #0
+	bl sub_27F2728
+	mov r0, #0
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027EFD10: .word 0x0000FFFF
+_027EFD14: .word 0x0380FFF4
+	arm_func_end sub_27EFCB4
+
+	arm_func_start sub_27EFD18
+sub_27EFD18: // 0x027EFD18
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0xc
+	mov r5, r0
+	ldr r0, _027F01D4 // =0x0380FFF4
+	ldr r2, [r0]
+	add r0, r2, #0x344
+	str r0, [sp]
+	add r7, r2, #0x31c
+	add sl, r2, #0x17c
+	ldr r0, _027F01D8 // =0x0000042C
+	add sb, r2, r0
+	add r0, r2, #0x600
+	ldrh r8, [r0, #0x90]
+	mov r0, #1
+	str r0, [sp, #4]
+	strh r0, [r1, #2]
+	ldrh r0, [r7, #0x12]
+	cmp r0, #1
+	movne r0, #0xb
+	bne _027F01C8
+	ldrh r0, [sb, #0x3c]
+	cmp r0, #0
+	movne r0, #8
+	bne _027F01C8
+	ldr r4, [sb, #0x44]
+	ldrh r1, [r5, #0x10]
+	ands r0, r1, #0x8000
+	beq _027EFDCC
+	ands r0, r1, #2
+	ldreqh r0, [sb, #0x94]
+	streqh r0, [r5, #0x14]
+	ldrh r0, [r5, #0x10]
+	ands r0, r0, #4
+	ldreqh r0, [sb, #0xa0]
+	streqh r0, [r5, #0x16]
+	ldrh r0, [r5, #0x10]
+	ands r0, r0, #8
+	ldreqh r0, [sb, #0x96]
+	streqh r0, [r5, #0x18]
+	ldrh r0, [r5, #0x10]
+	ands r0, r0, #0x10
+	ldreqh r0, [sb, #0x9c]
+	streqh r0, [r5, #0x1c]
+	moveq r0, #0
+	streq r0, [sp, #4]
+_027EFDCC:
+	ldrh r0, [r5, #0x1c]
+	cmp r0, #0x204
+	movhi r0, #5
+	bhi _027F01C8
+	mov r1, #2
+	mov r6, #0
+	b _027EFDFC
+_027EFDE8:
+	ldrh r0, [r5, #0x16]
+	ands r0, r0, r1
+	addne r6, r6, #1
+	mov r0, r1, lsl #0x11
+	mov r1, r0, lsr #0x10
+_027EFDFC:
+	cmp r1, #0
+	bne _027EFDE8
+	ldrh r0, [r5, #0x14]
+	strh r0, [sb, #0x94]
+	ldrh r2, [r5, #0x14]
+	ands r0, r2, #0x8000
+	beq _027EFE48
+	ldr r0, _027F01DC // =0x00007FFF
+	and r0, r2, r0
+	strh r0, [r5, #0x14]
+	ldrh r0, [r5, #0x14]
+	sub r0, r0, #0xd0
+	mov r2, r0, lsr #2
+	mov r0, #0xea
+	strh r0, [r4, #0xe]
+	cmp r2, #0x10000
+	bls _027EFE94
+	mov r0, #5
+	b _027F01C8
+_027EFE48:
+	ands r0, r8, #2
+	movne fp, #1
+	movne r1, #2
+	movne r0, #6
+	moveq fp, #0
+	moveq r1, fp
+	moveq r0, fp
+	add r2, r2, fp
+	ldr r3, _027F01E0 // =0x00000206
+	add r3, fp, r3
+	cmp r2, r3
+	movhi r0, #5
+	bhi _027F01C8
+	mov r3, r2, lsl #2
+	add r3, r3, #0xd0
+	add r1, r1, r3
+	strh r1, [r5, #0x14]
+	add r0, r0, #0xea
+	strh r0, [r4, #0xe]
+_027EFE94:
+	add r0, r2, #9
+	bic fp, r0, #1
+	mul r0, fp, r6
+	str r0, [sp, #8]
+	add r0, sl, #0xc
+	ldr r1, [sp, #8]
+	add r1, r1, #0x1a
+	bl sub_37F8910
+	str r0, [sb, #0x90]
+	ldr r0, [sb, #0x90]
+	cmp r0, #0
+	moveq r0, #8
+	beq _027F01C8
+	mov r0, #1
+	strh r0, [sb, #0x3c]
+	ldrh r0, [sb, #0x3e]
+	add r0, r0, #1
+	strh r0, [sb, #0x3e]
+	ldrh r0, [r5, #0x18]
+	strh r0, [sb, #0x96]
+	ldrh r0, [r5, #0x16]
+	strh r0, [sb, #0x98]
+	mov r1, #0
+	strh r1, [sb, #0x9a]
+	ldrh r0, [r5, #0x1c]
+	strh r0, [sb, #0x9c]
+	ldrh r0, [r5, #0x12]
+	strh r0, [sb, #0x9e]
+	strh r1, [r4]
+	ldrh r0, [r5, #0x16]
+	strh r0, [r4, #2]
+	strh r1, [r4, #4]
+	mov r0, #0x14
+	strh r0, [r4, #8]
+	ldrh r0, [r5, #0x1c]
+	add r0, r0, #0x22
+	strh r0, [r4, #0xa]
+	mov r0, #0x228
+	strh r0, [r4, #0xc]
+	ldrh r1, [r4, #0xe]
+	ldrh r0, [r5, #0x14]
+	add r0, r0, #0xa
+	mla r1, r0, r6, r1
+	strh r1, [r4, #0xe]
+	add r0, r4, #0x10
+	ldr r1, _027F01E4 // =0x027F7E90
+	ldr r2, [sp]
+	add r2, r2, #0x64
+	add r3, r7, #8
+	bl sub_27EA13C
+	ldrh r0, [r5, #0x10]
+	ands r0, r0, #0x8000
+	beq _027EFF7C
+	ldrh r1, [r4, #0x22]
+	ldr r0, _027F01E8 // =0x0000FFFF
+	cmp r1, r0
+	movne r7, #0x4000
+	bne _027EFF88
+_027EFF7C:
+	mov r7, #0
+	ldr r0, _027F01E8 // =0x0000FFFF
+	strh r0, [r4, #0x22]
+_027EFF88:
+	ldrh r0, [r5, #0x14]
+	strh r0, [r4, #0x24]
+	ldrh r0, [r5, #0x16]
+	strh r0, [r4, #0x26]
+	ldrh r0, [r5, #0x1e]
+	strh r0, [r4, #0x28]
+	ldr r0, [sp, #4]
+	cmp r0, #0
+	beq _027EFFCC
+	ldrh r0, [r5, #0x1c]
+	cmp r0, #0
+	beq _027EFFCC
+	bl sub_27E9EFC
+	add r0, r4, #0x2a
+	ldr r1, [r5, #0x20]
+	ldrh r2, [r5, #0x1c]
+	bl sub_27E9568
+_027EFFCC:
+	ands r0, r8, #4
+	beq _027EFFFC
+	add r1, r4, #0x28
+	ldrh r0, [r5, #0x1c]
+	add r0, r0, #2
+	add r0, r1, r0
+	add r0, r0, #3
+	bic r1, r0, #3
+	ldr r0, _027F01EC // =0x0000B6B8
+	strh r0, [r1]
+	ldr r0, _027F01F0 // =0x00001D46
+	strh r0, [r1, #2]
+_027EFFFC:
+	mov r1, #0x184
+	ldr r0, [sb, #0x90]
+	strh r1, [r0, #0xc]
+	ldr r0, [sp, #8]
+	add r0, r0, #0xb
+	mov r1, r0, lsr #1
+	ldr r0, [sb, #0x90]
+	strh r1, [r0, #0xe]
+	ldrh r1, [r5, #0x16]
+	ldr r0, [sb, #0x90]
+	strh r1, [r0, #0x10]
+	ldr r0, [sb, #0x90]
+	strh r6, [r0, #0x14]
+	ldr r0, [sb, #0x90]
+	strh fp, [r0, #0x16]
+	mov r0, #0
+	ldr r1, [sb, #0x90]
+	strh r0, [r1, #0x18]
+	ldr r1, [sb, #0x90]
+	add r3, r1, #0x1a
+	mov r2, #1
+	mov r1, #2
+	ldr r8, _027F01E8 // =0x0000FFFF
+	b _027F0084
+_027F005C:
+	ldrh ip, [r5, #0x16]
+	ands ip, ip, r1
+	strneh r8, [r3]
+	strneh r0, [r3, #2]
+	strneh r0, [r3, #6]
+	strneh r2, [r3, #4]
+	addne r3, r3, fp
+	mov r1, r1, lsl #0x11
+	mov r1, r1, lsr #0x10
+	add r2, r2, #1
+_027F0084:
+	cmp r1, #0
+	bne _027F005C
+	ldrh r1, [r5, #0x14]
+	ldr r0, _027F01F4 // =0x048080C4
+	strh r1, [r0]
+	ldrh r1, [r4, #0xe]
+	ldr r0, _027F01F8 // =0x048080C0
+	strh r1, [r0]
+	ldrh r0, [r5, #0x1a]
+	rsb r8, r0, #0x10000
+	ldrh r0, [r5, #0x18]
+	cmp r0, #0
+	bne _027F0128
+	ldrh r0, [r5, #0x1c]
+	add r0, r0, #0x22
+	mov r0, r0, lsl #2
+	add r2, r0, #0x60
+	ldr r0, _027F01FC // =0x04808000
+	ldrh r0, [r0]
+	cmp r0, #0x1440
+	addne r2, r2, #0x3e8
+	ldrh r0, [r5, #0x14]
+	mul r1, r0, r6
+	add r0, r1, #0x388
+	add r0, r2, r0
+	add r0, r0, #0x32
+	mov r1, #0xa
+	bl _u32_div_f
+	mov r5, r0
+	bl OS_DisableInterrupts
+	ldr r1, _027F0200 // =0x04808118
+	strh r5, [r1]
+	ldr r1, _027F0204 // =0x00003FFF
+	and r1, r4, r1
+	mov r1, r1, lsr #1
+	orr r1, r1, #0x8000
+	orr r2, r1, r7
+	ldr r1, _027F0208 // =0x04808090
+	strh r2, [r1]
+	bl OS_RestoreInterrupts
+	b _027F01C4
+_027F0128:
+	bl OS_DisableInterrupts
+	mov r6, r0
+	ldr r0, _027F020C // =0x048080F8
+	ldrh r0, [r0]
+	add r1, r8, r0
+	ldr r0, _027F01E8 // =0x0000FFFF
+	and r0, r1, r0
+	mov r1, #0xa
+	bl _u32_div_f
+	ldrh r2, [r5, #0x18]
+	add r1, r0, #3
+	cmp r1, r2
+	bhs _027F0194
+	sub r0, r2, r0
+	sub r1, r0, #1
+	ldr r0, _027F0200 // =0x04808118
+	strh r1, [r0]
+	ldr r0, _027F0204 // =0x00003FFF
+	and r0, r4, r0
+	mov r0, r0, lsr #1
+	orr r0, r0, #0x8000
+	orr r1, r0, r7
+	ldr r0, _027F0208 // =0x04808090
+	strh r1, [r0]
+	mov r0, r6
+	bl OS_RestoreInterrupts
+	b _027F01C4
+_027F0194:
+	mov r0, r6
+	bl OS_RestoreInterrupts
+	add r0, sl, #0xc
+	ldr r1, [sb, #0x90]
+	bl sub_37F89B8
+	mov r0, #0
+	strh r0, [sb, #0x3c]
+	ldrh r0, [sb, #0x3e]
+	sub r0, r0, #1
+	strh r0, [sb, #0x3e]
+	mov r0, #5
+	b _027F01C8
+_027F01C4:
+	mov r0, #0
+_027F01C8:
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F01D4: .word 0x0380FFF4
+_027F01D8: .word 0x0000042C
+_027F01DC: .word 0x00007FFF
+_027F01E0: .word 0x00000206
+_027F01E4: .word 0x027F7E90
+_027F01E8: .word 0x0000FFFF
+_027F01EC: .word 0x0000B6B8
+_027F01F0: .word 0x00001D46
+_027F01F4: .word 0x048080C4
+_027F01F8: .word 0x048080C0
+_027F01FC: .word 0x04808000
+_027F0200: .word 0x04808118
+_027F0204: .word 0x00003FFF
+_027F0208: .word 0x04808090
+_027F020C: .word 0x048080F8
+	arm_func_end sub_27EFD18
+
+	arm_func_start sub_27F0210
+sub_27F0210: // 0x027F0210
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #4
+	mov sl, r0
+	ldr r0, _027F0398 // =0x0380FFF4
+	ldr r3, [r0]
+	add r2, r3, #0x344
+	add r8, r3, #0x31c
+	ldr r0, _027F039C // =0x0000042C
+	add r7, r3, r0
+	add r0, r3, #0x600
+	ldrh r6, [r0, #0x90]
+	mov sb, #1
+	strh sb, [r1, #2]
+	ldrh r0, [r8, #0x12]
+	cmp r0, #2
+	movne r0, #0xb
+	bne _027F038C
+	ldrh r0, [sl, #0x10]
+	cmp r0, #0x204
+	movhi r0, #5
+	bhi _027F038C
+	ldrh r0, [r7, #0x50]
+	cmp r0, #0
+	moveq sb, #0
+	mov r0, #0x14
+	mul r4, sb, r0
+	add r1, r7, #0x50
+	add fp, r1, r4
+	ldrh r1, [r1, r4]
+	cmp r1, #0
+	movne r0, #8
+	bne _027F038C
+	ldr r1, _027F03A0 // =0x04808094
+	ldrh r1, [r1]
+	ands r1, r1, #0x8000
+	movne r0, #8
+	bne _027F038C
+	add r1, r7, r4
+	ldr r5, [r1, #0x58]
+	mov r1, #0
+	strh r1, [r5]
+	strh r1, [r5, #4]
+	strh r0, [r5, #8]
+	ldrh r0, [sl, #0x10]
+	add r0, r0, #0x1e
+	strh r0, [r5, #0xa]
+	mov r0, #0x118
+	strh r0, [r5, #0xc]
+	add r0, r5, #0x10
+	add r1, r2, #0x64
+	add r2, r8, #8
+	ldr r3, _027F03A4 // =_027F7E80
+	bl sub_27EA13C
+	ldrh r0, [sl, #0x12]
+	strh r0, [r5, #0x24]
+	ldrh r0, [sl, #0x10]
+	cmp r0, #0
+	beq _027F0314
+	cmp sb, #0
+	bne _027F0304
+	bl sub_27E9EFC
+_027F0304:
+	add r0, r5, #0x26
+	ldr r1, [sl, #0x14]
+	ldrh r2, [sl, #0x10]
+	bl sub_27E9568
+_027F0314:
+	ands r0, r6, #4
+	beq _027F0344
+	add r1, r5, #0x24
+	ldrh r0, [sl, #0x10]
+	add r0, r0, #2
+	add r0, r1, r0
+	add r0, r0, #3
+	bic r1, r0, #3
+	ldr r0, _027F03A8 // =0x0000B6B8
+	strh r0, [r1]
+	ldr r0, _027F03AC // =0x00001D46
+	strh r0, [r1, #2]
+_027F0344:
+	mov r0, #1
+	strh r0, [fp]
+	add r1, r7, #0x52
+	ldrh r0, [r1, r4]
+	add r0, r0, #1
+	strh r0, [r1, r4]
+	ldr r0, _027F03B0 // =0x00003FFF
+	and r0, r5, r0
+	mov r0, r0, lsr #1
+	orr r1, r0, #0x8000
+	ldr r0, _027F03A0 // =0x04808094
+	strh r1, [r0]
+	ldrh r0, [r8, #0x1e]
+	mov r0, r0, lsl #0x18
+	movs r0, r0, lsr #0x1f
+	bne _027F0388
+	bl sub_27EA204
+_027F0388:
+	mov r0, #0
+_027F038C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F0398: .word 0x0380FFF4
+_027F039C: .word 0x0000042C
+_027F03A0: .word 0x04808094
+_027F03A4: .word _027F7E80
+_027F03A8: .word 0x0000B6B8
+_027F03AC: .word 0x00001D46
+_027F03B0: .word 0x00003FFF
+	arm_func_end sub_27F0210
+
+	arm_func_start sub_27F03B4
+sub_27F03B4: // 0x027F03B4
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	sub sp, sp, #4
+	mov sb, r0
+	ldr r0, _027F0590 // =0x0380FFF4
+	ldr r0, [r0]
+	add r8, r0, #0x344
+	add r7, r0, #0x31c
+	add r6, r0, #0x17c
+	add r5, sb, #0x10
+	ldrh r1, [sb, #0x16]
+	ldr r0, _027F0594 // =0x000005E4
+	cmp r1, r0
+	movhi r0, #5
+	bhi _027F0584
+	ldrh r0, [r7, #0x12]
+	cmp r0, #1
+	bne _027F0420
+	add r0, r5, #0x18
+	bl sub_27EC9BC
+	mov r4, r0
+	cmp r4, #0xff
+	beq _027F0418
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	beq _027F0424
+_027F0418:
+	mov r0, #0xa
+	b _027F0584
+_027F0420:
+	ldrh r4, [r8, #0x88]
+_027F0424:
+	strh r4, [r5, #2]
+	ldr r0, _027F0590 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x3ec]
+	strh r0, [r5, #4]
+	ldrh r1, [r5, #0xe]
+	ands r0, r1, #0xff
+	strneh r1, [r5, #0x10]
+	movne r0, #0
+	strneh r0, [r5, #0xe]
+	bne _027F045C
+	mov r0, r4
+	bl sub_27EC2E8
+	strh r0, [r5, #0x10]
+_027F045C:
+	ldrh r0, [r5, #6]
+	cmp r0, #0
+	bne _027F0484
+	ldrh r0, [r8, #0x8a]
+	orr r0, r0, #0x40
+	bic r0, r0, #0x4000
+	strh r0, [r5, #0x14]
+	mov r0, #0x1c
+	strh r0, [r5, #0x12]
+	b _027F04AC
+_027F0484:
+	ldrh r0, [r8, #0x8a]
+	strh r0, [r5, #0x14]
+	ldrh r0, [r7, #0x18]
+	cmp r0, #0
+	ldreqh r0, [r5, #6]
+	addeq r0, r0, #0x1c
+	streqh r0, [r5, #0x12]
+	ldrneh r0, [r5, #6]
+	addne r0, r0, #0x24
+	strneh r0, [r5, #0x12]
+_027F04AC:
+	ldrh r0, [r7, #0x12]
+	cmp r0, #1
+	beq _027F04CC
+	cmp r0, #2
+	beq _027F0548
+	cmp r0, #3
+	beq _027F0548
+	b _027F0580
+_027F04CC:
+	add r0, r5, #0x24
+	add r1, r5, #0x1e
+	bl sub_27EA1BC
+	add r0, r5, #0x1e
+	add r1, r8, #0x64
+	bl sub_27EA1BC
+	cmp r4, #0
+	bne _027F0524
+	add r0, r6, #0x84
+	mov r1, sb
+	bl sub_27EC810
+	ldr r0, _027F0590 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r1, [r0, #0x2e]
+	ldrh r0, [r0, #0x32]
+	mvn r0, r0
+	ands r0, r1, r0
+	bne _027F0580
+	mov r0, #2
+	bl sub_27F2728
+	b _027F0580
+_027F0524:
+	mov r0, r5
+	bl sub_27EC780
+	add r0, r6, #0x84
+	add r1, r6, #0x18
+	mov r2, sb
+	bl sub_37F8A3C
+	mov r0, #0
+	bl sub_27F2728
+	b _027F0580
+_027F0548:
+	add r0, r5, #0x24
+	add r1, r5, #0x18
+	bl sub_27EA1BC
+	add r0, r5, #0x18
+	add r1, r8, #0x64
+	bl sub_27EA1BC
+	mov r0, r5
+	bl sub_27EC780
+	add r0, r6, #0x84
+	add r1, r6, #0x18
+	mov r2, sb
+	bl sub_37F8A3C
+	mov r0, #0
+	bl sub_27F2728
+_027F0580:
+	mov r0, #0x81
+_027F0584:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+	.align 2, 0
+_027F0590: .word 0x0380FFF4
+_027F0594: .word 0x000005E4
+	arm_func_end sub_27F03B4
+
+	arm_func_start sub_27F0598
+sub_27F0598: // 0x027F0598
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r7, r0
+	ldr r1, _027F06B4 // =0x0380FFF4
+	ldr r1, [r1]
+	add r6, r1, #0x344
+	add r5, r1, #0x31c
+	mov r4, #0
+	mov r1, #0xdd
+	bl sub_27E94C4
+	add r0, r7, #1
+	ldr r1, _027F06B4 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0xe4]
+	add r1, r1, #8
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	add r0, r7, #2
+	mov r1, r4
+	bl sub_27E94C4
+	add r0, r7, #3
+	mov r1, #9
+	bl sub_27E94C4
+	add r0, r7, #4
+	mov r1, #0xbf
+	bl sub_27E94C4
+	add r0, r7, #5
+	mov r1, r4
+	bl sub_27E94C4
+	add r0, r7, #6
+	ldrh r1, [r5, #0x20]
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	add r0, r7, #7
+	ldrh r1, [r5, #0x20]
+	mov r1, r1, asr #8
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	ldr r0, _027F06B8 // =0x0380FFF0
+	ldrh r5, [r0]
+	add r0, r7, #8
+	and r1, r5, #0xff
+	bl sub_27E94C4
+	add r0, r7, #9
+	mov r1, r5, lsr #8
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	add r4, r4, #0xa
+	ldrh r0, [r6, #0xa0]
+	cmp r0, #0
+	beq _027F06A8
+	ldr r5, [r6, #0x9c]
+	ldrh r0, [r6, #0xa2]
+	ands r0, r0, #1
+	addne r5, r5, #1
+	mov r8, #0
+	b _027F069C
+_027F067C:
+	mov r0, r5
+	bl sub_27E94A4
+	mov r1, r0
+	add r0, r7, r4
+	bl sub_27E94C4
+	add r4, r4, #1
+	add r5, r5, #1
+	add r8, r8, #1
+_027F069C:
+	ldrh r0, [r6, #0xa0]
+	cmp r8, r0
+	blo _027F067C
+_027F06A8:
+	mov r0, r4
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027F06B4: .word 0x0380FFF4
+_027F06B8: .word 0x0380FFF0
+	arm_func_end sub_27F0598
+
+	arm_func_start sub_27F06BC
+sub_27F06BC: // 0x027F06BC
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	mov r1, #3
+	bl sub_27E94C4
+	add r0, r4, #1
+	mov r1, #1
+	bl sub_27E94C4
+	add r0, r4, #2
+	ldr r1, _027F0700 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x300
+	ldrh r1, [r1, #0xbe]
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	mov r0, #3
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027F0700: .word 0x0380FFF4
+	arm_func_end sub_27F06BC
+
+	arm_func_start sub_27F0704
+sub_27F0704: // 0x027F0704
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	sub sp, sp, #4
+	mov sb, r0
+	ldr r1, _027F07B4 // =0x0380FFF4
+	ldr r1, [r1]
+	add r8, r1, #0x344
+	mov r7, #0
+	mov r1, #1
+	bl sub_27E94C4
+	add r7, r7, #2
+	mov r6, #0
+	ldr r4, _027F07B8 // =0x027F7E98
+	mov r5, #1
+_027F0738:
+	mov r1, r5, lsl r6
+	ldrh r0, [r8, #0x62]
+	ands r0, r0, r1
+	beq _027F0788
+	ldrh r0, [r8, #0x60]
+	ands r0, r0, r1
+	beq _027F0770
+	add r0, sb, r7
+	mov r1, r6, lsl #1
+	ldrh r1, [r4, r1]
+	orr r1, r1, #0x80
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	b _027F0784
+_027F0770:
+	add r0, sb, r7
+	mov r1, r6, lsl #1
+	ldrh r1, [r4, r1]
+	and r1, r1, #0xff
+	bl sub_27E94C4
+_027F0784:
+	add r7, r7, #1
+_027F0788:
+	add r6, r6, #1
+	cmp r6, #0x10
+	blo _027F0738
+	add r0, sb, #1
+	sub r1, r7, #2
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	mov r0, r7
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+	.align 2, 0
+_027F07B4: .word 0x0380FFF4
+_027F07B8: .word 0x027F7E98
+	arm_func_end sub_27F0704
+
+	arm_func_start sub_27F07BC
+sub_27F07BC: // 0x027F07BC
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	mov r4, r0
+	ldr r1, _027F082C // =0x0380FFF4
+	ldr r1, [r1]
+	add r5, r1, #0x344
+	mov r8, #0
+	ldrh r7, [r5, #0x1e]
+	mov r1, r8
+	bl sub_27E94C4
+	add r0, r4, #1
+	and r1, r7, #0xff
+	bl sub_27E94C4
+	add r8, r8, #2
+	mov r6, #0
+	add r5, r5, #0x20
+	b _027F0818
+_027F07FC:
+	add r0, r5, r6
+	bl sub_27E94A4
+	mov r1, r0
+	add r0, r4, r8
+	bl sub_27E94C4
+	add r8, r8, #1
+	add r6, r6, #1
+_027F0818:
+	cmp r6, r7
+	blo _027F07FC
+	mov r0, r8
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027F082C: .word 0x0380FFF4
+	arm_func_end sub_27F07BC
+
+	arm_func_start sub_27F0830
+sub_27F0830: // 0x027F0830
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	ldr r0, _027F08A0 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r7, [r0, #0x1a0]
+	mvn r6, #0
+	b _027F0888
+_027F0854:
+	add r1, r7, #0x10
+	ldrh r0, [r1, #0x14]
+	cmp r0, r4
+	bne _027F087C
+	add r0, r1, #0x18
+	mov r1, r5
+	bl sub_27E9DF0
+	cmp r0, #0
+	movne r0, #1
+	bne _027F0894
+_027F087C:
+	mov r0, r7
+	bl sub_37F8B44
+	mov r7, r0
+_027F0888:
+	cmp r7, r6
+	bne _027F0854
+	mov r0, #0
+_027F0894:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027F08A0: .word 0x0380FFF4
+	arm_func_end sub_27F0830
+
+	arm_func_start sub_27F08A4
+sub_27F08A4: // 0x027F08A4
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	mov r4, r1
+	mov r0, #0
+	mov r1, r5
+	mov r2, #0x2c
+	bl MIi_CpuClear16
+	bl sub_27E9CC8
+	strh r0, [r5, #0x10]
+	ldr r0, _027F08F4 // =0x0380FFF4
+	ldr r3, [r0]
+	add r0, r5, #0x18
+	mov r1, r4
+	add r2, r3, #0x324
+	add r3, r3, #0x3a8
+	bl sub_27EA13C
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027F08F4: .word 0x0380FFF4
+	arm_func_end sub_27F08A4
+
+	arm_func_start sub_27F08F8
+sub_27F08F8: // 0x027F08F8
+	ldr r2, _027F0944 // =0x0380FFF4
+	ldr r1, [r2]
+	ldr r3, [r1, #0x45c]
+	mov r1, #0
+	strh r1, [r3]
+	strh r1, [r3, #2]
+	strh r1, [r3, #4]
+	mov r1, #0x14
+	strh r1, [r3, #0xa]
+	mov r1, #0xa4
+	strh r1, [r3, #0xc]
+	orr r0, r0, #0xc000
+	strh r0, [r3, #0xe]
+	ldr r2, [r2]
+	add r0, r3, #0x10
+	add r1, r2, #0x3a8
+	add r2, r2, #0x324
+	ldr ip, _027F0948 // =sub_27EA188
+	bx ip
+	.align 2, 0
+_027F0944: .word 0x0380FFF4
+_027F0948: .word sub_27EA188
+	arm_func_end sub_27F08F8
+
+	arm_func_start sub_27F094C
+sub_27F094C: // 0x027F094C
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	cmp r2, #0
+	bne _027F0970
+	bl sub_27F10F0
+	cmp r0, #0
+	moveq r0, #0
+	beq _027F09D8
+_027F0970:
+	ldr r0, _027F09E0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x36
+	bl sub_37F8910
+	movs r4, r0
+	bne _027F099C
+	mov r0, #2
+	bl sub_27E9140
+	mov r0, r4
+	b _027F09D8
+_027F099C:
+	ldr r0, _027F09E4 // =0x0000FFFF
+	strh r0, [r4, #0xc]
+	add r4, r4, #0x10
+	mov r0, r4
+	mov r1, r6
+	bl sub_27F08A4
+	strh r5, [r4, #0x2c]
+	mov r0, #2
+	strh r0, [r4, #6]
+	ldrh r0, [r4, #6]
+	add r0, r0, #0x1c
+	strh r0, [r4, #0x12]
+	mov r0, #0xc0
+	strh r0, [r4, #0x14]
+	mov r0, r4
+_027F09D8:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F09E0: .word 0x0380FFF4
+_027F09E4: .word 0x0000FFFF
+	arm_func_end sub_27F094C
+
+	arm_func_start sub_27F09E8
+sub_27F09E8: // 0x027F09E8
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	cmp r2, #0
+	beq _027F0A0C
+	bl sub_27F10F0
+	cmp r0, #0
+	moveq r0, #0
+	beq _027F0A9C
+_027F0A0C:
+	ldr r0, _027F0AA4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	add r1, r5, #0x3d
+	bl sub_37F8910
+	movs r4, r0
+	bne _027F0A38
+	mov r0, #2
+	bl sub_27E9140
+	mov r0, r4
+	b _027F0A9C
+_027F0A38:
+	ldr r0, _027F0AA8 // =0x0000FFFF
+	strh r0, [r4, #0xc]
+	add r4, r4, #0x10
+	mov r0, r4
+	mov r1, r6
+	bl sub_27F08A4
+	cmp r5, #0
+	beq _027F0A7C
+	add r0, r4, #0x32
+	mov r1, #0x10
+	bl sub_27E94C4
+	add r0, r4, #0x33
+	and r1, r5, #0xff
+	bl sub_27E94C4
+	add r0, r5, #2
+	mov r0, r0, lsl #0x10
+	mov r5, r0, lsr #0x10
+_027F0A7C:
+	add r0, r5, #6
+	strh r0, [r4, #6]
+	ldrh r0, [r4, #6]
+	add r0, r0, #0x1c
+	strh r0, [r4, #0x12]
+	mov r0, #0xb0
+	strh r0, [r4, #0x14]
+	mov r0, r4
+_027F0A9C:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F0AA4: .word 0x0380FFF4
+_027F0AA8: .word 0x0000FFFF
+	arm_func_end sub_27F09E8
+
+	arm_func_start sub_27F0AAC
+sub_27F0AAC: // 0x027F0AAC
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	ldr r0, _027F0B8C // =0x0380FFF4
+	ldr r0, [r0]
+	add r5, r0, #0x344
+	bl sub_27F10F0
+	cmp r0, #0
+	moveq r0, #0
+	beq _027F0B84
+	ldr r0, _027F0B8C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	ldrh r1, [r5, #0xa0]
+	add r1, r1, #0x78
+	bl sub_37F8910
+	movs r4, r0
+	bne _027F0B00
+	mov r0, #2
+	bl sub_27E9140
+	mov r0, r4
+	b _027F0B84
+_027F0B00:
+	ldr r0, _027F0B90 // =0x0000FFFF
+	strh r0, [r4, #0xc]
+	add r4, r4, #0x10
+	mov r0, r4
+	mov r1, r6
+	bl sub_27F08A4
+	ldrh r0, [r5, #0x6e]
+	strh r0, [r4, #0x34]
+	ldrh r0, [r5, #0x7c]
+	strh r0, [r4, #0x36]
+	add r0, r4, #0x38
+	bl sub_27F07BC
+	mov r5, r0
+	add r0, r4, #0x38
+	add r0, r0, r5
+	bl sub_27F0704
+	add r5, r5, r0
+	add r0, r4, #0x38
+	add r0, r0, r5
+	bl sub_27F06BC
+	add r5, r5, r0
+	add r0, r4, #0x38
+	add r0, r0, r5
+	bl sub_27F0598
+	add r0, r5, r0
+	add r0, r0, #0xc
+	strh r0, [r4, #6]
+	ldrh r0, [r4, #6]
+	add r0, r0, #0x1c
+	strh r0, [r4, #0x12]
+	mov r0, #0x50
+	strh r0, [r4, #0x14]
+	mov r0, r4
+_027F0B84:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F0B8C: .word 0x0380FFF4
+_027F0B90: .word 0x0000FFFF
+	arm_func_end sub_27F0AAC
+
+	arm_func_start sub_27F0B94
+sub_27F0B94: // 0x027F0B94
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	ldr r0, _027F0C1C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x5a
+	bl sub_37F8910
+	movs r4, r0
+	bne _027F0BC8
+	mov r0, #2
+	bl sub_27E9140
+	mov r0, r4
+	b _027F0C14
+_027F0BC8:
+	ldr r0, _027F0C20 // =0x0000FFFF
+	strh r0, [r4, #0xc]
+	add r5, r4, #0x10
+	mov r0, r5
+	mov r1, r6
+	bl sub_27F08A4
+	add r0, r5, #0x2c
+	bl sub_27F07BC
+	mov r4, r0
+	add r0, r5, #0x2c
+	add r0, r0, r4
+	bl sub_27F0704
+	add r0, r4, r0
+	strh r0, [r5, #6]
+	add r0, r0, #0x1c
+	strh r0, [r5, #0x12]
+	mov r0, #0x40
+	strh r0, [r5, #0x14]
+	mov r0, r5
+_027F0C14:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F0C1C: .word 0x0380FFF4
+_027F0C20: .word 0x0000FFFF
+	arm_func_end sub_27F0B94
+
+	arm_func_start sub_27F0C24
+sub_27F0C24: // 0x027F0C24
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	sub sp, sp, #4
+	mov r8, r0
+	mov r7, r1
+	mov r6, r2
+	ldr r0, _027F0D88 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x60
+	bl sub_37F8910
+	movs r4, r0
+	bne _027F0C64
+	mov r0, #2
+	bl sub_27E9140
+	mov r0, r4
+	b _027F0D7C
+_027F0C64:
+	ldr r0, _027F0D8C // =0x0000FFFF
+	strh r0, [r4, #0xc]
+	add r5, r4, #0x10
+	cmp r7, #0
+	bne _027F0C8C
+	mov r0, r8
+	bl sub_27EC434
+	movs r4, r0
+	moveq r7, #0x13
+	b _027F0C90
+_027F0C8C:
+	mov r4, #0
+_027F0C90:
+	mov r0, r8
+	bl sub_27EC348
+	mov r1, r0
+	mov r0, r5
+	bl sub_27F08A4
+	ldr r0, _027F0D88 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0xc0]
+	strh r0, [r5, #0x2c]
+	strh r7, [r5, #0x2e]
+	orr r0, r4, #0xc000
+	strh r0, [r5, #0x30]
+	add r0, r5, #0x32
+	bl sub_27F0704
+	add r0, r0, #6
+	strh r0, [r5, #6]
+	ldrh r0, [r5, #6]
+	add r0, r0, #0x1c
+	strh r0, [r5, #0x12]
+	mov r0, #0x30
+	strh r0, [r5, #0x14]
+	add r1, r5, #0x14
+	ldrh r0, [r5, #0x12]
+	add r8, r1, r0
+	cmp r6, #0
+	beq _027F0D60
+	add r0, r6, #1
+	bl sub_27E94A4
+	mov r7, r0
+	mov r0, r6
+	bl sub_27E94A4
+	mov r1, r0
+	mov r0, r8
+	bl sub_27E94C4
+	add r0, r8, #1
+	and r1, r7, #0xff
+	bl sub_27E94C4
+	add r8, r8, #2
+	mov sb, #0
+	add r4, r6, #2
+	b _027F0D54
+_027F0D38:
+	add r0, r4, sb
+	bl sub_27E94A4
+	mov r1, r0
+	mov r0, r8
+	bl sub_27E94C4
+	add r8, r8, #1
+	add sb, sb, #1
+_027F0D54:
+	cmp sb, r7
+	blo _027F0D38
+	b _027F0D78
+_027F0D60:
+	mov r0, r8
+	mov r1, #0
+	bl sub_27E94C4
+	add r0, r8, #1
+	mov r1, #0
+	bl sub_27E94C4
+_027F0D78:
+	mov r0, r5
+_027F0D7C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+	.align 2, 0
+_027F0D88: .word 0x0380FFF4
+_027F0D8C: .word 0x0000FFFF
+	arm_func_end sub_27F0C24
+
+	arm_func_start sub_27F0D90
+sub_27F0D90: // 0x027F0D90
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	sub sp, sp, #4
+	mov r8, r0
+	mov r7, r1
+	mov r6, r2
+	ldr r0, _027F0F00 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x60
+	bl sub_37F8910
+	movs r4, r0
+	bne _027F0DD0
+	mov r0, #2
+	bl sub_27E9140
+	mov r0, r4
+	b _027F0EF4
+_027F0DD0:
+	ldr r0, _027F0F04 // =0x0000FFFF
+	strh r0, [r4, #0xc]
+	add r5, r4, #0x10
+	cmp r7, #0
+	bne _027F0DF8
+	mov r0, r8
+	bl sub_27EC434
+	movs r4, r0
+	moveq r7, #0x13
+	b _027F0DFC
+_027F0DF8:
+	mov r4, #0
+_027F0DFC:
+	mov r0, r8
+	bl sub_27EC348
+	mov r1, r0
+	mov r0, r5
+	bl sub_27F08A4
+	ldr r0, _027F0F00 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0xc0]
+	strh r0, [r5, #0x2c]
+	strh r7, [r5, #0x2e]
+	strh r4, [r5, #0x30]
+	cmp r4, #0
+	ldrneh r0, [r5, #0x30]
+	orrne r0, r0, #0xc000
+	strneh r0, [r5, #0x30]
+	add r0, r5, #0x32
+	bl sub_27F0704
+	add r0, r0, #6
+	strh r0, [r5, #6]
+	ldrh r0, [r5, #6]
+	add r0, r0, #0x1c
+	strh r0, [r5, #0x12]
+	mov r0, #0x10
+	strh r0, [r5, #0x14]
+	add r1, r5, #0x14
+	ldrh r0, [r5, #0x12]
+	add r8, r1, r0
+	cmp r6, #0
+	beq _027F0ED8
+	add r0, r6, #1
+	bl sub_27E94A4
+	mov r7, r0
+	mov r0, r6
+	bl sub_27E94A4
+	mov r1, r0
+	mov r0, r8
+	bl sub_27E94C4
+	add r0, r8, #1
+	add r8, r8, #2
+	and r1, r7, #0xff
+	bl sub_27E94C4
+	mov sb, #0
+	add r4, r6, #2
+	b _027F0ECC
+_027F0EB0:
+	add r0, r4, sb
+	bl sub_27E94A4
+	mov r1, r0
+	mov r0, r8
+	bl sub_27E94C4
+	add sb, sb, #1
+	add r8, r8, #1
+_027F0ECC:
+	cmp sb, r7
+	blo _027F0EB0
+	b _027F0EF0
+_027F0ED8:
+	mov r0, r8
+	mov r1, #0
+	bl sub_27E94C4
+	add r0, r8, #1
+	mov r1, #0
+	bl sub_27E94C4
+_027F0EF0:
+	mov r0, r5
+_027F0EF4:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+	.align 2, 0
+_027F0F00: .word 0x0380FFF4
+_027F0F04: .word 0x0000FFFF
+	arm_func_end sub_27F0D90
+
+	arm_func_start sub_27F0F08
+sub_27F0F08: // 0x027F0F08
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	ldr r0, _027F0FB8 // =0x0380FFF4
+	ldr r0, [r0]
+	add r5, r0, #0x344
+	add r0, r0, #0x188
+	mov r1, #0x64
+	bl sub_37F8910
+	movs r4, r0
+	bne _027F0F40
+	mov r0, #2
+	bl sub_27E9140
+	mov r0, r4
+	b _027F0FB0
+_027F0F40:
+	ldr r0, _027F0FBC // =0x0000FFFF
+	strh r0, [r4, #0xc]
+	add r4, r4, #0x10
+	mov r0, r4
+	mov r1, r6
+	bl sub_27F08A4
+	ldrh r0, [r5, #0x7c]
+	strh r0, [r4, #0x2c]
+	ldrh r0, [r5, #0x70]
+	strh r0, [r4, #0x2e]
+	add r0, r4, #0x30
+	add r1, r5, #0x82
+	bl sub_27EA1BC
+	add r0, r4, #0x36
+	bl sub_27F07BC
+	mov r5, r0
+	add r0, r4, #0x36
+	add r0, r0, r5
+	bl sub_27F0704
+	add r0, r5, r0
+	add r0, r0, #0xa
+	strh r0, [r4, #6]
+	ldrh r0, [r4, #6]
+	add r0, r0, #0x1c
+	strh r0, [r4, #0x12]
+	mov r0, #0x20
+	strh r0, [r4, #0x14]
+	mov r0, r4
+_027F0FB0:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F0FB8: .word 0x0380FFF4
+_027F0FBC: .word 0x0000FFFF
+	arm_func_end sub_27F0F08
+
+	arm_func_start sub_27F0FC0
+sub_27F0FC0: // 0x027F0FC0
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	ldr r0, _027F1064 // =0x0380FFF4
+	ldr r0, [r0]
+	add r5, r0, #0x344
+	add r0, r0, #0x188
+	mov r1, #0x5e
+	bl sub_37F8910
+	movs r4, r0
+	bne _027F0FF8
+	mov r0, #2
+	bl sub_27E9140
+	mov r0, r4
+	b _027F105C
+_027F0FF8:
+	ldr r0, _027F1068 // =0x0000FFFF
+	strh r0, [r4, #0xc]
+	add r4, r4, #0x10
+	mov r0, r4
+	mov r1, r6
+	bl sub_27F08A4
+	ldrh r0, [r5, #0x7c]
+	strh r0, [r4, #0x2c]
+	ldrh r0, [r5, #0x70]
+	strh r0, [r4, #0x2e]
+	add r0, r4, #0x30
+	bl sub_27F07BC
+	mov r5, r0
+	add r0, r4, #0x30
+	add r0, r0, r5
+	bl sub_27F0704
+	add r0, r5, r0
+	add r0, r0, #4
+	strh r0, [r4, #6]
+	ldrh r0, [r4, #6]
+	add r0, r0, #0x1c
+	strh r0, [r4, #0x12]
+	mov r0, #0
+	strh r0, [r4, #0x14]
+	mov r0, r4
+_027F105C:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F1064: .word 0x0380FFF4
+_027F1068: .word 0x0000FFFF
+	arm_func_end sub_27F0FC0
+
+	arm_func_start sub_27F106C
+sub_27F106C: // 0x027F106C
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	ldr r0, _027F10E8 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	mov r1, #0x36
+	bl sub_37F8910
+	movs r4, r0
+	bne _027F10A4
+	mov r0, #2
+	bl sub_27E9140
+	mov r0, r4
+	b _027F10E0
+_027F10A4:
+	ldr r0, _027F10EC // =0x0000FFFF
+	strh r0, [r4, #0xc]
+	add r4, r4, #0x10
+	mov r0, r4
+	mov r1, r6
+	bl sub_27F08A4
+	strh r5, [r4, #0x2c]
+	mov r0, #2
+	strh r0, [r4, #6]
+	ldrh r0, [r4, #6]
+	add r0, r0, #0x1c
+	strh r0, [r4, #0x12]
+	mov r0, #0xa0
+	strh r0, [r4, #0x14]
+	mov r0, r4
+_027F10E0:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F10E8: .word 0x0380FFF4
+_027F10EC: .word 0x0000FFFF
+	arm_func_end sub_27F106C
+
+	arm_func_start sub_27F10F0
+sub_27F10F0: // 0x027F10F0
+	ldr r0, _027F111C // =0x0380FFF4
+	ldr r2, [r0]
+	add r0, r2, #0x100
+	ldrh r1, [r0, #0xa8]
+	add r0, r2, #0x500
+	ldrh r0, [r0, #0x38]
+	rsb r0, r0, #0x18
+	cmp r1, r0
+	movlt r0, #1
+	movge r0, #0
+	bx lr
+	.align 2, 0
+_027F111C: .word 0x0380FFF4
+	arm_func_end sub_27F10F0
+
+	arm_func_start sub_27F1120
+sub_27F1120: // 0x027F1120
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r0, _027F121C // =0x0380FFF4
+	ldr r0, [r0]
+	add r5, r0, #0x344
+	ldr r0, [r0, #0x4ac]
+	add r1, r0, #0x24
+	ldrh r0, [r5, #0x96]
+	add r4, r1, r0
+	ldrh r2, [r5, #0xa0]
+	cmp r2, #0
+	beq _027F119C
+	ldrh r0, [r5, #0xa2]
+	ands r0, r0, #1
+	beq _027F118C
+	add r0, r4, #0xa
+	sub r0, r0, #1
+	ldr r1, [r5, #0x9c]
+	add r2, r2, #2
+	bl sub_27E9568
+	add r0, r4, #9
+	ldr r1, _027F1220 // =0x0380FFF0
+	ldrh r1, [r1]
+	mov r1, r1, asr #8
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	b _027F119C
+_027F118C:
+	add r0, r4, #0xa
+	ldr r1, [r5, #0x9c]
+	add r2, r2, #1
+	bl sub_27E9568
+_027F119C:
+	ldrh r0, [r5, #0x96]
+	add r1, r0, #0x26
+	ldrh r0, [r5, #0xa0]
+	add r1, r1, r0
+	ldr r0, _027F121C // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x4ac]
+	strh r1, [r0, #0xa]
+	add r0, r4, #1
+	ldrh r1, [r5, #0xa0]
+	add r1, r1, #8
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	ldr r0, _027F121C // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x600
+	ldrh r0, [r0, #0x90]
+	ands r0, r0, #4
+	beq _027F1208
+	add r1, r4, #0xd
+	ldrh r0, [r5, #0xa0]
+	add r0, r1, r0
+	bic r1, r0, #3
+	ldr r0, _027F1224 // =0x0000B6B8
+	strh r0, [r1]
+	ldr r0, _027F1228 // =0x00001D46
+	strh r0, [r1, #2]
+_027F1208:
+	mov r0, #0
+	strh r0, [r5, #0xa4]
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027F121C: .word 0x0380FFF4
+_027F1220: .word 0x0380FFF0
+_027F1224: .word 0x0000B6B8
+_027F1228: .word 0x00001D46
+	arm_func_end sub_27F1120
+
+	arm_func_start sub_27F122C
+sub_27F122C: // 0x027F122C
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	ldr r0, _027F1580 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr sl, [r0, #0x4ac]
+	add sb, r0, #0x31c
+	add r8, r0, #0x344
+	mov r0, #0
+	strh r0, [sl]
+	strh r0, [sl, #2]
+	strh r0, [sl, #4]
+	strh r0, [sl, #6]
+	bl sub_27E9CC8
+	strh r0, [sl, #8]
+	mov r0, #0x80
+	strh r0, [sl, #0xc]
+	mov r0, #0
+	strh r0, [sl, #0xe]
+	add r0, sl, #0x10
+	ldr r1, _027F1584 // =_027F7E78
+	add r2, sb, #8
+	mov r3, r2
+	bl sub_27EA13C
+	mov r1, #0
+	strh r1, [sl, #0x22]
+	add r7, sl, #0x24
+	str r1, [sl, #0x24]
+	str r1, [r7, #4]
+	ldrh r0, [r8, #0x6e]
+	strh r0, [r7, #8]
+	ldrh r0, [r8, #0x7c]
+	strh r0, [r7, #0xa]
+	add r6, r7, #0xc
+	ldrh r0, [sb, #0x1e]
+	mov r0, r0, lsl #0x1f
+	movs r0, r0, lsr #0x1f
+	bne _027F132C
+	sub r0, r6, r7
+	strh r0, [r8, #0x92]
+	mov r0, r6
+	bl sub_27E94C4
+	add r0, r6, #1
+	add r6, r6, #2
+	ldrh r1, [r8, #0x1e]
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	mov r5, #0
+	add r4, r8, #0x20
+	b _027F1308
+_027F12EC:
+	add r0, r4, r5
+	bl sub_27E94A4
+	mov r1, r0
+	mov r0, r6
+	bl sub_27E94C4
+	add r6, r6, #1
+	add r5, r5, #1
+_027F1308:
+	ldrh r0, [r8, #0x1e]
+	cmp r5, r0
+	blo _027F12EC
+	mvn r0, #0
+	sub r0, r0, r5
+	add r0, r6, r0
+	and r1, r5, #0xff
+	bl sub_27E94C4
+	b _027F1330
+_027F132C:
+	strh r1, [r8, #0x92]
+_027F1330:
+	mov r0, r6
+	bl sub_27F0704
+	add r6, r6, r0
+	mov r0, r6
+	mov r1, #3
+	bl sub_27E94C4
+	add r0, r6, #1
+	mov r1, #1
+	bl sub_27E94C4
+	add r0, r6, #2
+	ldrh r1, [r8, #0x7a]
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	add r0, r6, #3
+	sub r1, r0, r7
+	strh r1, [r8, #0x94]
+	ldrh r1, [r8, #0x94]
+	add r2, r1, #2
+	ldr r1, _027F1588 // =0x04808084
+	strh r2, [r1]
+	mov r1, #5
+	bl sub_27E94C4
+	add r0, r6, #4
+	mov r1, #5
+	bl sub_27E94C4
+	add r0, r6, #5
+	mov r1, #0
+	bl sub_27E94C4
+	add r0, r6, #6
+	ldrh r1, [r8, #0x74]
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	add r0, r6, #7
+	mov r1, #0
+	bl sub_27E94C4
+	add r0, r6, #8
+	mov r1, #0
+	bl sub_27E94C4
+	add r0, r6, #9
+	mov r1, #0
+	bl sub_27E94C4
+	add r0, r6, #0xa
+	sub r1, r0, r7
+	strh r1, [r8, #0x96]
+	ldrh r1, [r8, #0x96]
+	and r1, r1, #1
+	strh r1, [r8, #0xa2]
+	mov r1, #0xdd
+	bl sub_27E94C4
+	add r0, r6, #0xb
+	ldrh r1, [r8, #0xa0]
+	add r1, r1, #8
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	add r0, r6, #0xc
+	mov r1, #0
+	bl sub_27E94C4
+	add r0, r6, #0xd
+	mov r1, #9
+	bl sub_27E94C4
+	add r0, r6, #0xe
+	mov r1, #0xbf
+	bl sub_27E94C4
+	add r0, r6, #0xf
+	mov r1, #0
+	bl sub_27E94C4
+	ldrh r0, [r8, #0xe]
+	cmp r0, #1
+	bne _027F1470
+	add r0, r6, #0x10
+	ldrh r1, [sb, #0x20]
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	add r0, r6, #0x11
+	add r6, r6, #0x12
+	ldrh r1, [sb, #0x20]
+	mov r1, r1, asr #8
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	b _027F148C
+_027F1470:
+	add r0, r6, #0x10
+	mov r1, #0xff
+	bl sub_27E94C4
+	add r0, r6, #0x11
+	add r6, r6, #0x12
+	mov r1, #0xff
+	bl sub_27E94C4
+_027F148C:
+	ldr r0, _027F158C // =0x0380FFF0
+	ldrh r4, [r0]
+	mov r0, r6
+	and r1, r4, #0xff
+	bl sub_27E94C4
+	add r0, r6, #1
+	add r6, r6, #2
+	mov r1, r4, lsr #8
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	ldr r5, [r8, #0x9c]
+	mov r4, #0
+	b _027F14E0
+_027F14C0:
+	mov r0, r5
+	bl sub_27E94A4
+	mov r1, r0
+	mov r0, r6
+	bl sub_27E94C4
+	add r6, r6, #1
+	add r5, r5, #1
+	add r4, r4, #1
+_027F14E0:
+	ldrh r1, [r8, #0xa0]
+	cmp r4, r1
+	blo _027F14C0
+	ldrh r0, [r8, #0xa2]
+	cmp r0, #0
+	beq _027F1534
+	ldr r0, [r8, #0x9c]
+	add r0, r0, r1
+	sub r4, r0, #1
+	mov r5, #0
+	b _027F1528
+_027F150C:
+	mov r0, r4
+	bl sub_27E94A4
+	mov r1, r0
+	add r0, r4, #1
+	bl sub_27E94C4
+	add r5, r5, #1
+	sub r4, r4, #1
+_027F1528:
+	ldrh r0, [r8, #0xa0]
+	cmp r5, r0
+	blo _027F150C
+_027F1534:
+	ldr r0, _027F1580 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x600
+	ldrh r0, [r0, #0x90]
+	ands r0, r0, #4
+	beq _027F1564
+	add r0, r6, #3
+	bic r1, r0, #3
+	ldr r0, _027F1590 // =0x0000B6B8
+	strh r0, [r1]
+	ldr r0, _027F1594 // =0x00001D46
+	strh r0, [r1, #2]
+_027F1564:
+	mov r0, #0
+	strh r0, [r8, #0xa4]
+	add r0, r6, #0x1c
+	sub r0, r0, r7
+	strh r0, [sl, #0xa]
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	bx lr
+	.align 2, 0
+_027F1580: .word 0x0380FFF4
+_027F1584: .word _027F7E78
+_027F1588: .word 0x04808084
+_027F158C: .word 0x0380FFF0
+_027F1590: .word 0x0000B6B8
+_027F1594: .word 0x00001D46
+	arm_func_end sub_27F122C
+
+	arm_func_start sub_27F1598
+sub_27F1598: // 0x027F1598
+	ldr r0, _027F15B8 // =0x0380FFF4
+	ldr r2, [r0]
+	mov r1, #0
+	ldr r0, _027F15BC // =0x04808080
+	strh r1, [r0]
+	add r0, r2, #0x400
+	strh r1, [r0, #0xa4]
+	bx lr
+	.align 2, 0
+_027F15B8: .word 0x0380FFF4
+_027F15BC: .word 0x04808080
+	arm_func_end sub_27F1598
+
+	arm_func_start sub_27F15C0
+sub_27F15C0: // 0x027F15C0
+	ldr r0, _027F15FC // =0x0380FFF4
+	ldr r2, [r0]
+	ldr r0, _027F1600 // =0x000004A4
+	add r3, r2, r0
+	mov r1, #1
+	add r0, r2, #0x400
+	strh r1, [r0, #0xa4]
+	ldr r1, [r3, #8]
+	ldr r0, _027F1604 // =0x00003FFF
+	and r0, r1, r0
+	mov r0, r0, lsr #1
+	orr r1, r0, #0x8000
+	ldr r0, _027F1608 // =0x04808080
+	strh r1, [r0]
+	bx lr
+	.align 2, 0
+_027F15FC: .word 0x0380FFF4
+_027F1600: .word 0x000004A4
+_027F1604: .word 0x00003FFF
+_027F1608: .word 0x04808080
+	arm_func_end sub_27F15C0
+
+	arm_func_start sub_27F160C
+sub_27F160C: // 0x027F160C
+	stmdb sp!, {r4, lr}
+	ldr r0, _027F1698 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027F169C // =0x00000454
+	add r4, r1, r0
+	ldrh r0, [r4, #2]
+	add r0, r0, #1
+	strh r0, [r4, #2]
+	add r0, r1, #0x400
+	ldrh r0, [r0, #0x54]
+	cmp r0, #0
+	movne r1, #0
+	ldrne r0, [r4, #8]
+	strneh r1, [r0, #4]
+	bne _027F1690
+	mov r0, #1
+	strh r0, [r4]
+	mov r1, #0
+	ldr r0, [r4, #8]
+	strh r1, [r0]
+	ldr r0, [r4, #8]
+	strh r1, [r0, #4]
+	bl sub_27E9CC8
+	ldr r1, [r4, #8]
+	strh r0, [r1, #8]
+	ldr r1, [r4, #8]
+	ldr r0, _027F16A0 // =0x00003FFF
+	and r0, r1, r0
+	mov r0, r0, lsl #0xf
+	mov r0, r0, lsr #0x10
+	orr r1, r0, #0x8000
+	ldr r0, _027F16A4 // =0x048080A8
+	strh r1, [r0]
+_027F1690:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027F1698: .word 0x0380FFF4
+_027F169C: .word 0x00000454
+_027F16A0: .word 0x00003FFF
+_027F16A4: .word 0x048080A8
+	arm_func_end sub_27F160C
+
+	arm_func_start sub_27F16A8
+sub_27F16A8: // 0x027F16A8
+	stmdb sp!, {r4, lr}
+	mov r4, r0
+	add r0, r4, #0x18
+	bl sub_27EC9BC
+	strh r0, [r4, #2]
+	ldrh r0, [r4, #2]
+	cmp r0, #0xff
+	moveq r0, #0
+	streqh r0, [r4, #2]
+	ldr r0, _027F1718 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x3ec]
+	strh r0, [r4, #4]
+	ldrh r0, [r4, #0x14]
+	ands r0, r0, #0x4000
+	ldrneh r0, [r4, #0x12]
+	addne r0, r0, #8
+	strneh r0, [r4, #0x12]
+	mov r0, r4
+	bl sub_27EC780
+	ldr r0, _027F1718 // =0x0380FFF4
+	ldr r1, [r0]
+	add r0, r1, #0x188
+	add r1, r1, #0x1a0
+	sub r2, r4, #0x10
+	bl sub_37F8A3C
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027F1718: .word 0x0380FFF4
+	arm_func_end sub_27F16A8
+
+	arm_func_start sub_27F171C
+sub_27F171C: // 0x027F171C
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	bl sub_27F16A8
+	mov r0, #1
+	bl sub_27F2728
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	arm_func_end sub_27F171C
+
+	arm_func_start sub_27F173C
+sub_27F173C: // 0x027F173C
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #4
+	mov sl, r0
+	mov sb, r1
+	mov r0, #0xc
+	mul r6, sl, r0
+	ldr r0, _027F17D0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, r6
+	ldr r8, [r0, #0x194]
+	mvn r4, #0
+	cmp r8, r4
+	beq _027F17C4
+	mov r5, #2
+_027F1774:
+	mov r0, r8
+	bl sub_37F8B44
+	mov fp, r0
+	add r7, r8, #0x10
+	cmp sl, #2
+	beq _027F1794
+	mov r0, r7
+	bl sub_27EC714
+_027F1794:
+	strh r5, [r7, #8]
+	cmp sb, #0
+	beq _027F17B8
+	ldr r0, _027F17D0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x194
+	add r0, r0, r6
+	mov r1, r8
+	bl sub_27EFC30
+_027F17B8:
+	mov r8, fp
+	cmp fp, r4
+	bne _027F1774
+_027F17C4:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F17D0: .word 0x0380FFF4
+	arm_func_end sub_27F173C
+
+	arm_func_start sub_27F17D4
+sub_27F17D4: // 0x027F17D4
+	stmdb sp!, {r4, lr}
+	ldr r0, _027F18BC // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027F18C0 // =0x0000042C
+	add r4, r1, r0
+	add r0, r1, #0x300
+	ldrh r0, [r0, #0x50]
+	cmp r0, #1
+	beq _027F180C
+	cmp r0, #2
+	beq _027F1868
+	cmp r0, #3
+	beq _027F1868
+	b _027F1890
+_027F180C:
+	mov r0, #0
+	mov r1, #1
+	bl sub_27F173C
+	mov r0, #1
+	mov r1, #0
+	bl sub_27F173C
+	mov r0, #2
+	mov r1, #1
+	bl sub_27F173C
+	ldrh r0, [r4, #0x3c]
+	cmp r0, #0
+	beq _027F18B4
+	mov r0, #0
+	strh r0, [r4, #0x3c]
+	ldrh r0, [r4, #0x3e]
+	sub r0, r0, #1
+	strh r0, [r4, #0x3e]
+	ldr r0, _027F18BC // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	ldr r1, [r4, #0x90]
+	bl sub_37F89B8
+	b _027F18B4
+_027F1868:
+	mov r0, #0
+	mov r1, #1
+	bl sub_27F173C
+	mov r0, #1
+	mov r1, #0
+	bl sub_27F173C
+	mov r0, #2
+	mov r1, #0
+	bl sub_27F173C
+	b _027F18B4
+_027F1890:
+	mov r0, #0
+	mov r1, r0
+	bl sub_27F173C
+	mov r0, #1
+	mov r1, #0
+	bl sub_27F173C
+	mov r0, #2
+	mov r1, #0
+	bl sub_27F173C
+_027F18B4:
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027F18BC: .word 0x0380FFF4
+_027F18C0: .word 0x0000042C
+	arm_func_end sub_27F17D4
+
+	arm_func_start sub_27F18C4
+sub_27F18C4: // 0x027F18C4
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldrh r1, [r0]
+	ands r1, r1, #1
+	beq _027F1908
+	mov r5, #1
+	ldr r4, _027F1964 // =0x0380FFF4
+	b _027F18F0
+_027F18E4:
+	mov r0, r5
+	bl sub_27F1968
+	add r5, r5, #1
+_027F18F0:
+	ldr r0, [r4]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x22]
+	cmp r5, r0
+	blo _027F18E4
+	b _027F1958
+_027F1908:
+	bl sub_27EC9BC
+	mov r4, r0
+	cmp r4, #0xff
+	beq _027F191C
+	bl sub_27F1968
+_027F191C:
+	ldr r0, _027F1964 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x2e]
+	cmp r0, #1
+	bne _027F1958
+	mov r0, r4
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	bne _027F1958
+	mov r0, r4, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0x20
+	bl sub_27EC648
+	bl sub_27F1CA0
+_027F1958:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027F1964: .word 0x0380FFF4
+	arm_func_end sub_27F18C4
+
+	arm_func_start sub_27F1968
+sub_27F1968: // 0x027F1968
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0xc
+	mov fp, r0
+	mov r8, #0
+	bl sub_27EC2B0
+	cmp r0, #0
+	beq _027F1A68
+	mov r7, r8
+	mov r0, #1
+	str r0, [sp, #8]
+	mov r4, #2
+	str r7, [sp, #4]
+_027F1998:
+	mov r0, #0xc
+	mul r5, r7, r0
+	ldr r0, _027F1A74 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, r5
+	ldr sl, [r0, #0x194]
+	mvn r0, #0
+	cmp sl, r0
+	beq _027F1A5C
+	mov r0, #0x14
+	mul r6, r7, r0
+_027F19C4:
+	mov r0, sl
+	bl sub_37F8B44
+	str r0, [sp]
+	add sb, sl, #0x10
+	ldrh r0, [sb, #2]
+	cmp r0, fp
+	bne _027F1A48
+	cmp r7, #1
+	beq _027F1A00
+	ldr r0, _027F1A74 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r6, r0
+	ldr r0, [r0, #0x438]
+	cmp sb, r0
+	bne _027F1A1C
+_027F1A00:
+	mov r0, sb
+	bl sub_27EC714
+	ldr r0, [sp, #4]
+	strh r0, [sb, #2]
+	mov r0, sb
+	bl sub_27EC780
+	b _027F1A48
+_027F1A1C:
+	strh r4, [sb, #8]
+	mov r0, sb
+	bl sub_27EC714
+	ldr r0, _027F1A74 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x194
+	add r0, r0, r5
+	mov r1, sl
+	bl sub_27EFC30
+	cmp r8, #0
+	ldreq r8, [sp, #8]
+_027F1A48:
+	ldr sl, [sp]
+	mvn r1, #0
+	mov r0, sl
+	cmp r0, r1
+	bne _027F19C4
+_027F1A5C:
+	add r7, r7, #1
+	cmp r7, #3
+	blo _027F1998
+_027F1A68:
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F1A74: .word 0x0380FFF4
+	arm_func_end sub_27F1968
+
+	arm_func_start sub_27F1A78
+sub_27F1A78: // 0x027F1A78
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	ldr r0, _027F1B00 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027F1B04 // =0x0000042C
+	add r5, r1, r0
+	mov r0, #0x14
+	mul r4, r7, r0
+	add r6, r5, r4
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r2, r7, lsl #1
+	ldr r1, _027F1B08 // =_027F844C
+	ldrh r2, [r1, r2]
+	ldr r1, _027F1B0C // =0x048080B4
+	strh r2, [r1]
+	ldrh r1, [r5, r4]
+	cmp r1, #0
+	beq _027F1AF0
+	ldr r2, [r6, #0xc]
+	ldrh r1, [r2, #0x14]
+	ands r1, r1, #0x4000
+	ldreq r1, [r6, #8]
+	ldreqh r1, [r1, #4]
+	streqh r1, [r2, #0xc]
+	ldr r1, [r6, #8]
+	ldrh r2, [r1, #0x22]
+	ldr r1, [r6, #0xc]
+	strh r2, [r1, #0x2a]
+_027F1AF0:
+	bl OS_EnableIrqMask
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027F1B00: .word 0x0380FFF4
+_027F1B04: .word 0x0000042C
+_027F1B08: .word _027F844C
+_027F1B0C: .word 0x048080B4
+	arm_func_end sub_27F1A78
+
+	arm_func_start sub_27F1B10
+sub_27F1B10: // 0x027F1B10
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r1, _027F1B80 // =0x0380FFF4
+	ldr r2, [r1]
+	ldr r1, _027F1B84 // =0x0000042C
+	add r2, r2, r1
+	mov r1, #0x14
+	mul r1, r0, r1
+	add r3, r2, r1
+	ldrh r0, [r2, r1]
+	cmp r0, #0
+	beq _027F1B74
+	ldr r0, [r3, #8]
+	ldrh r1, [r0]
+	cmp r1, #0
+	moveq r1, #2
+	ldreq r0, [r3, #0xc]
+	streqh r1, [r0, #8]
+	ldrne r0, [r3, #0xc]
+	strneh r1, [r0, #8]
+	ldr r0, [r3, #0xc]
+	mov r1, #0
+	ldr r2, [r3, #0x10]
+	mov lr, pc
+	bx r2
+_027F1B74:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027F1B80: .word 0x0380FFF4
+_027F1B84: .word 0x0000042C
+	arm_func_end sub_27F1B10
+
+	arm_func_start sub_27F1B88
+sub_27F1B88: // 0x027F1B88
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r0, _027F1C34 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027F1C38 // =0x0000042C
+	add r5, r1, r0
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r4, r0
+	ldr r0, _027F1C34 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x50]
+	cmp r0, #1
+	bne _027F1BF4
+	mov r1, #9
+	ldr r0, _027F1C3C // =0x048080B4
+	strh r1, [r0]
+	ldrh r0, [r5, #0x28]
+	cmp r0, #0
+	beq _027F1BE4
+	mov r0, #2
+	bl sub_27F1B10
+_027F1BE4:
+	mov r0, #2
+	mov r1, #1
+	bl sub_27F173C
+	b _027F1C00
+_027F1BF4:
+	mov r1, #1
+	ldr r0, _027F1C3C // =0x048080B4
+	strh r1, [r0]
+_027F1C00:
+	ldrh r0, [r5]
+	cmp r0, #0
+	beq _027F1C14
+	mov r0, #0
+	bl sub_27F1B10
+_027F1C14:
+	mov r0, #0
+	mov r1, #1
+	bl sub_27F173C
+	mov r0, r4
+	bl OS_EnableIrqMask
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027F1C34: .word 0x0380FFF4
+_027F1C38: .word 0x0000042C
+_027F1C3C: .word 0x048080B4
+	arm_func_end sub_27F1B88
+
+	arm_func_start sub_27F1C40
+sub_27F1C40: // 0x027F1C40
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r0, _027F1C94 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027F1C98 // =0x0000042C
+	add r5, r1, r0
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r4, r0
+	mov r1, #2
+	ldr r0, _027F1C9C // =0x048080B4
+	strh r1, [r0]
+	ldrh r0, [r5, #0x3c]
+	cmp r0, #0
+	beq _027F1C80
+	bl sub_37FB0E8
+_027F1C80:
+	mov r0, r4
+	bl OS_EnableIrqMask
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027F1C94: .word 0x0380FFF4
+_027F1C98: .word 0x0000042C
+_027F1C9C: .word 0x048080B4
+	arm_func_end sub_27F1C40
+
+	arm_func_start sub_27F1CA0
+sub_27F1CA0: // 0x027F1CA0
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r0, _027F1D14 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027F1D18 // =0x0000042C
+	add r5, r1, r0
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	mov r4, r0
+	ldr r0, _027F1D14 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x3a]
+	mov r0, r0, lsl #0x18
+	movs r0, r0, lsr #0x1f
+	bne _027F1CE8
+	mov r0, #0
+	bl sub_27EA1D8
+_027F1CE8:
+	mov r1, #0xc0
+	ldr r0, _027F1D1C // =0x048080B4
+	strh r1, [r0]
+	mov r0, #0
+	strh r0, [r5, #0x50]
+	strh r0, [r5, #0x64]
+	mov r0, r4
+	bl OS_EnableIrqMask
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027F1D14: .word 0x0380FFF4
+_027F1D18: .word 0x0000042C
+_027F1D1C: .word 0x048080B4
+	arm_func_end sub_27F1CA0
+
+	arm_func_start sub_27F1D20
+sub_27F1D20: // 0x027F1D20
+	ldr r1, [r0, #8]
+	ldrh r1, [r1, #4]
+	ands r3, r1, #0xff
+	ldr r1, _027F1D6C // =0x0380FFF4
+	ldr r2, [r1]
+	ldr r1, _027F1D70 // =0x0000053C
+	add r2, r2, r1
+	ldreq r1, [r2, #0x6c]
+	addeq r1, r1, #1
+	streq r1, [r2, #0x6c]
+	ldrne r1, [r2, #0x68]
+	addne r1, r1, r3
+	strne r1, [r2, #0x68]
+	ldrh r1, [r0, #4]
+	add r1, r1, #1
+	strh r1, [r0, #4]
+	mov r1, #0
+	strh r1, [r0]
+	bx lr
+	.align 2, 0
+_027F1D6C: .word 0x0380FFF4
+_027F1D70: .word 0x0000053C
+	arm_func_end sub_27F1D20
+
+	arm_func_start sub_27F1D74
+sub_27F1D74: // 0x027F1D74
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	mov r6, r1
+	ldr r1, _027F1E88 // =0x0380FFF4
+	ldr r2, [r1]
+	add r5, r2, #0x17c
+	add r4, r5, #0x30
+	ldr r1, [r2, #0x550]
+	add r1, r1, #1
+	str r1, [r2, #0x550]
+	ldrh r1, [r7, #0x14]
+	mov r1, r1, lsl #0x1c
+	movs r1, r1, lsr #0x1e
+	bne _027F1DD4
+	bl sub_27EC780
+	mov r0, r4
+	add r1, r5, #0x24
+	sub r2, r7, #0x10
+	bl sub_37F8A3C
+	mov r0, r7
+	mov r1, #0
+	bl sub_27F1F08
+	b _027F1DE0
+_027F1DD4:
+	mov r0, r4
+	sub r1, r7, #0x10
+	bl sub_27EFC30
+_027F1DE0:
+	mov r2, #0
+	ldr r1, _027F1E88 // =0x0380FFF4
+	ldr r0, [r1]
+	add r0, r0, #0x400
+	strh r2, [r0, #0x54]
+	ldr r0, [r1]
+	ldr r0, [r0, #0x45c]
+	ldrh r0, [r0, #0xc]
+	mov r0, r0, lsl #0x12
+	movs r0, r0, lsr #0x1f
+	bne _027F1E54
+	mov r1, #8
+	ldr r0, _027F1E8C // =0x048080AC
+	strh r1, [r0]
+	mov r1, #5
+	ldr r0, _027F1E90 // =0x048080AE
+	strh r1, [r0]
+	cmp r6, #0
+	beq _027F1E54
+	ldrh r0, [r5, #0x2c]
+	cmp r0, #0
+	beq _027F1E40
+	mov r0, #1
+	bl sub_27F2728
+_027F1E40:
+	ldrh r0, [r5, #0x20]
+	cmp r0, #0
+	beq _027F1E54
+	mov r0, #0
+	bl sub_27F2728
+_027F1E54:
+	ldrh r0, [r4, #8]
+	cmp r0, #0
+	beq _027F1E74
+	cmp r6, #0
+	beq _027F1E7C
+	mov r0, #2
+	bl sub_27F2728
+	b _027F1E7C
+_027F1E74:
+	mov r0, #0
+	bl sub_27EC128
+_027F1E7C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027F1E88: .word 0x0380FFF4
+_027F1E8C: .word 0x048080AC
+_027F1E90: .word 0x048080AE
+	arm_func_end sub_27F1D74
+
+	arm_func_start sub_27F1E94
+sub_27F1E94: // 0x027F1E94
+	ldr r1, _027F1F00 // =0x0380FFF4
+	ldr r2, [r1]
+	ldr r1, _027F1F04 // =0x0000053C
+	add r3, r2, r1
+	ldr r2, [r3, #8]
+	ldrh r1, [r0, #4]
+	and r1, r1, #0xff
+	add r1, r2, r1
+	str r1, [r3, #8]
+	ldrh r0, [r0]
+	ands r0, r0, #2
+	ldrne r0, [r3, #4]
+	addne r0, r0, #1
+	strne r0, [r3, #4]
+	bne _027F1EE8
+	ldr r0, [r3]
+	add r0, r0, #1
+	str r0, [r3]
+	ldr r0, [r3, #0x10]
+	add r0, r0, #1
+	str r0, [r3, #0x10]
+_027F1EE8:
+	mov r1, #0
+	ldr r0, _027F1F00 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x400
+	strh r1, [r0, #0x54]
+	bx lr
+	.align 2, 0
+_027F1F00: .word 0x0380FFF4
+_027F1F04: .word 0x0000053C
+	arm_func_end sub_27F1E94
+
+	arm_func_start sub_27F1F08
+sub_27F1F08: // 0x027F1F08
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #4
+	mov sl, r0
+	mov sb, r1
+	ldr r0, _027F2418 // =0x0380FFF4
+	ldr r1, [r0]
+	add r4, r1, #0x344
+	ldr r0, _027F241C // =0x00000404
+	add r8, r1, r0
+	ldr r0, _027F2420 // =0x0000053C
+	add r5, r1, r0
+	add r7, r1, #0x1a0
+	ldrh r6, [sl, #2]
+	ldrh r0, [sl, #8]
+	ands r0, r0, #2
+	bne _027F1F9C
+	ldr r0, [r5]
+	add r0, r0, #1
+	str r0, [r5]
+	ldrh r0, [sl, #0x18]
+	ands r0, r0, #1
+	ldrne r0, [r5, #0x14]
+	addne r0, r0, #1
+	strne r0, [r5, #0x14]
+	ldreq r0, [r5, #0x10]
+	addeq r0, r0, #1
+	streq r0, [r5, #0x10]
+	mov r0, r6
+	bl sub_27EC364
+	cmp r0, #0
+	beq _027F1FA8
+	ldrh r0, [sl, #0x14]
+	ands r0, r0, #0x2000
+	bne _027F1FA8
+	mov r0, r6
+	bl sub_27EC58C
+	b _027F1FA8
+_027F1F9C:
+	ldr r0, [r5, #4]
+	add r0, r0, #1
+	str r0, [r5, #4]
+_027F1FA8:
+	ldrh r0, [sl, #0x14]
+	mov r0, r0, lsl #0x11
+	movs r0, r0, lsr #0x1f
+	ldrne r0, [r5, #0x18]
+	addne r0, r0, #1
+	strne r0, [r5, #0x18]
+	ldr r1, [r5, #8]
+	ldrh r0, [sl, #0xc]
+	and r0, r0, #0xff
+	add r0, r1, r0
+	str r0, [r5, #8]
+	ldrh r0, [sl, #0x14]
+	and r5, r0, #0xfc
+	cmp r5, #0xa0
+	bhi _027F200C
+	cmp r5, #0xa0
+	bhs _027F2188
+	cmp r5, #0x10
+	bhi _027F2000
+	cmp r5, #0x10
+	beq _027F20C4
+	b _027F23C8
+_027F2000:
+	cmp r5, #0x30
+	beq _027F20C4
+	b _027F23C8
+_027F200C:
+	cmp r5, #0xb0
+	bhi _027F2020
+	cmp r5, #0xb0
+	beq _027F202C
+	b _027F23C8
+_027F2020:
+	cmp r5, #0xc0
+	beq _027F2278
+	b _027F23C8
+_027F202C:
+	cmp r6, #0
+	beq _027F23C8
+	ldrh r0, [sl, #8]
+	ands r0, r0, #2
+	bne _027F23C8
+	ldrh r1, [sl, #0x2c]
+	cmp r1, #0
+	bne _027F2084
+	ldrh r0, [sl, #0x2e]
+	cmp r0, #2
+	bne _027F2084
+	ldrh r0, [sl, #0x30]
+	cmp r0, #0
+	bne _027F2084
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0x30
+	bl sub_27EC648
+	add r0, sl, #0x18
+	ldrh r1, [sl, #0x2c]
+	bl sub_27ED010
+	b _027F23C8
+_027F2084:
+	cmp r1, #1
+	bne _027F23C8
+	ldrh r0, [sl, #0x2e]
+	cmp r0, #4
+	bne _027F23C8
+	ldrh r0, [sl, #0x30]
+	cmp r0, #0
+	bne _027F23C8
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0x30
+	bl sub_27EC648
+	add r0, sl, #0x18
+	ldrh r1, [sl, #0x2c]
+	bl sub_27ED010
+	b _027F23C8
+_027F20C4:
+	cmp r6, #0
+	beq _027F23C8
+	ldrh r0, [sl, #8]
+	ands r0, r0, #2
+	bne _027F2144
+	ldrh r0, [sl, #0x2e]
+	cmp r0, #0
+	bne _027F23C8
+	mov r0, r6
+	bl sub_27EC3A4
+	cmp r0, #0x30
+	bne _027F23C8
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0x40
+	bl sub_27EC648
+	cmp r5, #0x10
+	bne _027F2128
+	add r0, sl, #0x18
+	ldrh r1, [sl, #0x30]
+	add r3, sl, #0x14
+	ldrh r2, [sl, #0x12]
+	add r2, r3, r2
+	bl sub_27ECE98
+	b _027F23C8
+_027F2128:
+	add r0, sl, #0x18
+	ldrh r1, [sl, #0x30]
+	add r3, sl, #0x14
+	ldrh r2, [sl, #0x12]
+	add r2, r3, r2
+	bl sub_27ECDA8
+	b _027F23C8
+_027F2144:
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27EC3C0
+	add r0, sl, #0x18
+	mov r1, #1
+	mov r2, #0
+	bl sub_27F094C
+	cmp r0, #0
+	beq _027F23C8
+	mov r1, #2
+	strh r1, [r0]
+	cmp sb, #0
+	beq _027F2180
+	bl sub_27F171C
+	b _027F23C8
+_027F2180:
+	bl sub_27F16A8
+	b _027F23C8
+_027F2188:
+	ldrh r0, [r4, #0xc]
+	cmp r0, #1
+	bne _027F2218
+	cmp r6, #0
+	beq _027F21C0
+	mov r0, r6
+	bl sub_27EC3A4
+	cmp r0, #0x30
+	bls _027F2230
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0x30
+	bl sub_27EC648
+	b _027F2230
+_027F21C0:
+	ldrh r0, [sl, #0x18]
+	ands r0, r0, #1
+	beq _027F2230
+	mov r6, #1
+	mov r5, #0x30
+	ldr r4, _027F2418 // =0x0380FFF4
+	b _027F2200
+_027F21DC:
+	mov r0, r6
+	bl sub_27EC3A4
+	cmp r0, #0x30
+	bls _027F21FC
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, r5
+	bl sub_27EC648
+_027F21FC:
+	add r6, r6, #1
+_027F2200:
+	ldr r0, [r4]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x22]
+	cmp r6, r0
+	blo _027F21DC
+	b _027F2230
+_027F2218:
+	ldrh r0, [r4, #8]
+	cmp r0, #0x30
+	bls _027F2230
+	mov r0, #0x30
+	bl sub_37F9458
+	bl sub_27EA228
+_027F2230:
+	ldrh r0, [r8]
+	cmp r0, #0x71
+	bne _027F23C8
+	ldr r0, [r8, #4]
+	cmp sl, r0
+	bne _027F23C8
+	ldrh r0, [sl, #8]
+	ands r0, r0, #2
+	moveq r1, #0
+	ldreq r0, [r8, #0x1c]
+	streqh r1, [r0, #4]
+	movne r1, #0xc
+	ldrne r0, [r8, #0x1c]
+	strneh r1, [r0, #4]
+	mov r0, #0
+	strh r0, [r8]
+	bl sub_27ED08C
+	b _027F23C8
+_027F2278:
+	ldrh r0, [r4, #0xc]
+	cmp r0, #1
+	bne _027F2308
+	cmp r6, #0
+	beq _027F22B0
+	mov r0, r6
+	bl sub_27EC3A4
+	cmp r0, #0x20
+	bls _027F2320
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0x20
+	bl sub_27EC648
+	b _027F2320
+_027F22B0:
+	ldrh r0, [sl, #0x18]
+	ands r0, r0, #1
+	beq _027F2320
+	mov r5, #1
+	mov r4, #0x20
+	ldr fp, _027F2418 // =0x0380FFF4
+	b _027F22F0
+_027F22CC:
+	mov r0, r5
+	bl sub_27EC3A4
+	cmp r0, #0x20
+	bls _027F22EC
+	mov r0, r5, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, r4
+	bl sub_27EC648
+_027F22EC:
+	add r5, r5, #1
+_027F22F0:
+	ldr r0, [fp]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x22]
+	cmp r5, r0
+	blo _027F22CC
+	b _027F2320
+_027F2308:
+	ldrh r0, [r4, #8]
+	cmp r0, #0x20
+	bls _027F2320
+	mov r0, #0x20
+	bl sub_37F9458
+	bl sub_27EA228
+_027F2320:
+	ldrh r0, [r8]
+	cmp r0, #0x41
+	bne _027F2364
+	ldr r0, [r8, #4]
+	cmp sl, r0
+	bne _027F2364
+	ldrh r0, [sl, #8]
+	ands r0, r0, #2
+	moveq r1, #0
+	ldreq r0, [r8, #0x1c]
+	streqh r1, [r0, #4]
+	movne r1, #0xc
+	ldrne r0, [r8, #0x1c]
+	strneh r1, [r0, #4]
+	mov r0, #0
+	strh r0, [r8]
+	bl sub_27ED08C
+_027F2364:
+	ldrh r0, [sl]
+	cmp r0, #1
+	bne _027F23B4
+	cmp r6, #0
+	beq _027F23A4
+	ldr r0, _027F2418 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x500
+	ldrh r2, [r0, #0x34]
+	mov r1, #1
+	mvn r1, r1, lsl r6
+	and r1, r2, r1
+	strh r1, [r0, #0x34]
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27EBEF8
+_027F23A4:
+	add r0, sl, #0x18
+	mov r1, #1
+	bl sub_27ECF94
+	b _027F23C8
+_027F23B4:
+	cmp r0, #2
+	bne _027F23C8
+	add r0, sl, #0x18
+	ldrh r1, [sl, #0x2c]
+	bl sub_27ECF94
+_027F23C8:
+	mov r0, sl
+	bl sub_27EC714
+	mov r0, r7
+	sub r1, sl, #0x10
+	bl sub_37F89B8
+	mov r1, #0
+	ldr r0, _027F2418 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x400
+	strh r1, [r0, #0x40]
+	cmp sb, #0
+	beq _027F240C
+	ldrh r0, [r7, #8]
+	cmp r0, #0
+	beq _027F240C
+	mov r0, #1
+	bl sub_27F2728
+_027F240C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F2418: .word 0x0380FFF4
+_027F241C: .word 0x00000404
+_027F2420: .word 0x0000053C
+	arm_func_end sub_27F1F08
+
+	arm_func_start sub_27F2424
+sub_27F2424: // 0x027F2424
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	sub sp, sp, #4
+	mov sb, r0
+	mov r8, r1
+	ldr r1, _027F25B0 // =0x0380FFF4
+	ldr r2, [r1]
+	add r7, r2, #0x194
+	add r6, r2, #0x344
+	ldr r1, _027F25B4 // =0x0000053C
+	add r5, r2, r1
+	sub r4, sb, #0x10
+	bl sub_27EC714
+	ldrh r0, [sb, #8]
+	ands r0, r0, #2
+	bne _027F24C4
+	ldr r0, [r5]
+	add r0, r0, #1
+	str r0, [r5]
+	ldrh r0, [sb, #0x14]
+	mov r0, r0, lsl #0x17
+	movs r0, r0, lsr #0x1f
+	beq _027F24A0
+	ldrh r0, [sb, #0x24]
+	ands r0, r0, #1
+	ldrne r0, [r5, #0x14]
+	addne r0, r0, #1
+	strne r0, [r5, #0x14]
+	ldreq r0, [r5, #0x10]
+	addeq r0, r0, #1
+	streq r0, [r5, #0x10]
+	b _027F24D0
+_027F24A0:
+	ldrh r0, [sb, #0x18]
+	ands r0, r0, #1
+	ldrne r0, [r5, #0x14]
+	addne r0, r0, #1
+	strne r0, [r5, #0x14]
+	ldreq r0, [r5, #0x10]
+	addeq r0, r0, #1
+	streq r0, [r5, #0x10]
+	b _027F24D0
+_027F24C4:
+	ldr r0, [r5, #4]
+	add r0, r0, #1
+	str r0, [r5, #4]
+_027F24D0:
+	ldrh r0, [sb, #0x14]
+	mov r0, r0, lsl #0x11
+	movs r0, r0, lsr #0x1f
+	ldrne r0, [r5, #0x18]
+	addne r0, r0, #1
+	strne r0, [r5, #0x18]
+	mov r0, r7
+	mov r1, r4
+	bl sub_27EFC30
+	mov r1, #0
+	ldr r0, _027F25B0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x400
+	strh r1, [r0, #0x2c]
+	ldrh r0, [sb, #2]
+	bl sub_27EC364
+	cmp r0, #0
+	beq _027F252C
+	ldrh r0, [sb, #0x14]
+	ands r0, r0, #0x2000
+	bne _027F252C
+	ldrh r0, [sb, #2]
+	bl sub_27EC58C
+_027F252C:
+	cmp r8, #0
+	beq _027F25A4
+	ldrh r0, [r7, #8]
+	cmp r0, #0
+	beq _027F254C
+	mov r0, #0
+	bl sub_27F2728
+	b _027F25A4
+_027F254C:
+	ldrh r1, [r6, #0xc]
+	ldr r0, _027F25B8 // =0x0000FFFE
+	add r0, r1, r0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	cmp r0, #1
+	bhi _027F25A4
+	ldrh r0, [r6, #8]
+	cmp r0, #0x40
+	bne _027F25A4
+	ldrh r0, [r6, #0xe]
+	cmp r0, #0
+	beq _027F25A4
+	ldrh r0, [r6, #0x88]
+	bl sub_27EC2B0
+	cmp r0, #0
+	bne _027F25A4
+	ldrh r0, [r6, #0x8e]
+	cmp r0, #0
+	bne _027F25A4
+	mov r0, #1
+	bl sub_27EA5C8
+_027F25A4:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	bx lr
+	.align 2, 0
+_027F25B0: .word 0x0380FFF4
+_027F25B4: .word 0x0000053C
+_027F25B8: .word 0x0000FFFE
+	arm_func_end sub_27F2424
+
+	arm_func_start sub_27F25BC
+sub_27F25BC: // 0x027F25BC
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	add r4, r5, #0x10
+	ldrh r1, [r4, #0x14]
+	ands r1, r1, #0x4000
+	beq _027F269C
+	ldr r0, _027F2714 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x50]
+	cmp r0, #3
+	bne _027F25F4
+	bl sub_27E9EFC
+_027F25F4:
+	ldrh r1, [r5, #0xc]
+	ldr r0, _027F2718 // =0x0000FFFF
+	cmp r1, r0
+	bne _027F261C
+	mov r0, r6
+	add r1, r4, #8
+	add r2, r4, #0x2c
+	ldrh r3, [r4, #6]
+	bl sub_27E94F0
+	b _027F2630
+_027F261C:
+	mov r0, r6
+	add r1, r4, #8
+	ldr r2, [r4, #0x2c]
+	ldrh r3, [r4, #6]
+	bl sub_27E94F0
+_027F2630:
+	ldr r2, _027F271C // =0x04808044
+	ldrh r1, [r2]
+	ldrh r0, [r2]
+	add r0, r1, r0, lsl #8
+	strh r0, [r6, #0x24]
+	ldrh r0, [r2]
+	and r2, r0, #0xff
+	ldr r1, _027F2714 // =0x0380FFF4
+	ldr r0, [r1]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x36]
+	orr r0, r2, r0, lsl #14
+	strh r0, [r6, #0x26]
+	ldr r0, [r1]
+	add r0, r0, #0x600
+	ldrh r0, [r0, #0x90]
+	ands r0, r0, #8
+	beq _027F26D0
+	add r1, r6, #0xc
+	ldrh r0, [r4, #0x12]
+	add r0, r1, r0
+	sub r0, r0, #7
+	bic r1, r0, #1
+	mov r0, #0
+	strh r0, [r1]
+	strh r0, [r1, #2]
+	b _027F26D0
+_027F269C:
+	ldrh r2, [r5, #0xc]
+	ldr r1, _027F2718 // =0x0000FFFF
+	cmp r2, r1
+	bne _027F26C0
+	add r1, r4, #8
+	ldrh r2, [r4, #6]
+	add r2, r2, #0x24
+	bl sub_27E9568
+	b _027F26D0
+_027F26C0:
+	add r1, r4, #8
+	ldr r2, [r4, #0x2c]
+	ldrh r3, [r4, #6]
+	bl sub_27E952C
+_027F26D0:
+	ldr r0, _027F2714 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x600
+	ldrh r0, [r0, #0x90]
+	ands r0, r0, #4
+	beq _027F270C
+	add r1, r6, #0xc
+	ldrh r0, [r4, #0x12]
+	add r0, r1, r0
+	sub r0, r0, #1
+	bic r1, r0, #3
+	ldr r0, _027F2720 // =0x0000B6B8
+	strh r0, [r1]
+	ldr r0, _027F2724 // =0x00001D46
+	strh r0, [r1, #2]
+_027F270C:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F2714: .word 0x0380FFF4
+_027F2718: .word 0x0000FFFF
+_027F271C: .word 0x04808044
+_027F2720: .word 0x0000B6B8
+_027F2724: .word 0x00001D46
+	arm_func_end sub_27F25BC
+
+	arm_func_start sub_27F2728
+sub_27F2728: // 0x027F2728
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x14
+	mov sl, r0
+	ldr r0, _027F2968 // =0x0380FFF4
+	ldr r1, [r0]
+	add sb, r1, #0x344
+	ldr r0, _027F296C // =0x0000042C
+	add r8, r1, r0
+	mov r0, #0x14
+	mla r7, sl, r0, r8
+	add r1, r1, #0x194
+	mov r0, #0xc
+	mla fp, sl, r0, r1
+	ldrh r0, [fp, #8]
+	cmp r0, #0
+	beq _027F295C
+	mov r0, #0x1000000
+	bl OS_DisableIrqMask
+	str r0, [sp, #8]
+	ldrh r1, [r7]
+	cmp r1, #0
+	beq _027F2788
+	bl OS_EnableIrqMask
+	b _027F295C
+_027F2788:
+	ldr r0, [fp]
+	str r0, [sp, #4]
+	mov r4, #2
+	mov r0, #0
+	str r0, [sp, #0xc]
+_027F279C:
+	mvn r1, #0
+	ldr r0, [sp, #4]
+	cmp r0, r1
+	bne _027F27B8
+	ldr r0, [sp, #8]
+	bl OS_EnableIrqMask
+	b _027F295C
+_027F27B8:
+	str r0, [sp]
+	bl sub_37F8B44
+	str r0, [sp, #4]
+	ldr r0, [sp]
+	add r6, r0, #0x10
+	ldrh r5, [r6, #2]
+	ldr r1, [sb, #0xa8]
+	ldrh r0, [r6, #4]
+	sub r0, r1, r0
+	mov r0, r0, lsl #0x10
+	mov r2, r0, lsr #0x10
+	ldrh r1, [sb, #0x8c]
+	cmp r2, r1
+	bls _027F2800
+	ldrh r0, [r6, #0x14]
+	mov r0, r0, lsl #0x1c
+	movs r0, r0, lsr #0x1e
+	bne _027F2808
+_027F2800:
+	cmp r2, r1, lsl #3
+	bls _027F283C
+_027F2808:
+	ldrh r0, [r8, #0xae]
+	add r0, r0, #1
+	strh r0, [r8, #0xae]
+	strh r4, [r6, #8]
+	ldrh r0, [r7, #4]
+	add r0, r0, #1
+	strh r0, [r7, #4]
+	mov r0, r6
+	ldr r1, [sp, #0xc]
+	ldr r2, [r7, #0x10]
+	mov lr, pc
+	bx r2
+	arm_func_end sub_27F2728
+
+	arm_func_start sub_27F2838
+sub_27F2838: // 0x027F2838
+	b _027F279C
+_027F283C:
+	cmp sl, #0
+	beq _027F285C
+	cmp sl, #1
+	bne _027F2898
+	mov r0, r5
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	bne _027F2898
+_027F285C:
+	mov r0, r5
+	bl sub_27EC384
+	cmp r0, #0
+	beq _027F279C
+	mov r0, r5
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	beq _027F2898
+	strh r4, [r6, #8]
+	mov r0, fp
+	sub r1, r6, #0x10
+	bl sub_27EFC30
+	mov r0, r6
+	bl sub_27EC714
+	b _027F279C
+_027F2898:
+	mov r0, #1
+	strh r0, [r7]
+	ldrh r0, [r7, #2]
+	add r0, r0, #1
+	strh r0, [r7, #2]
+	str r6, [r7, #0xc]
+	ldr r4, [r7, #8]
+	ldrh r0, [sb, #0x10]
+	cmp r0, #0
+	bne _027F28C8
+	mov r0, #2
+	bl sub_27EA5C8
+_027F28C8:
+	mov r0, r4
+	ldr r1, [sp]
+	bl sub_27F25BC
+	ldrh r0, [sb, #0xc]
+	cmp r0, #1
+	bne _027F28F8
+	mov r0, r5
+	bl sub_27EC2B0
+	cmp r0, #1
+	ldrhih r0, [r4, #0xc]
+	orrhi r0, r0, #0x2000
+	strhih r0, [r4, #0xc]
+_027F28F8:
+	ldrh r3, [r6, #0x14]
+	ldr r0, _027F2970 // =0x048080A0
+	add r0, r0, sl, lsl #2
+	ldr r1, _027F2974 // =0x00003FFF
+	and r1, r4, r1
+	mov r2, r1, lsr #1
+	and r1, r3, #0xc
+	cmp r1, #4
+	moveq r1, r2, lsl #0x10
+	moveq r1, r1, lsr #0x10
+	orreq r1, r1, #0xa000
+	streqh r1, [r0]
+	beq _027F2954
+	and r1, r3, #0xfc
+	cmp r1, #0x50
+	moveq r1, r2, lsl #0x10
+	moveq r1, r1, lsr #0x10
+	orreq r1, r1, #0x9000
+	streqh r1, [r0]
+	movne r1, r2, lsl #0x10
+	movne r1, r1, lsr #0x10
+	orrne r1, r1, #0x8000
+	strneh r1, [r0]
+_027F2954:
+	ldr r0, [sp, #8]
+	bl OS_EnableIrqMask
+_027F295C:
+	add sp, sp, #0x14
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F2968: .word 0x0380FFF4
+_027F296C: .word 0x0000042C
+_027F2970: .word 0x048080A0
+_027F2974: .word 0x00003FFF
+	arm_func_end sub_27F2838
+
+	arm_func_start sub_27F2978
+sub_27F2978: // 0x027F2978
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	ldr r4, _027F29E8 // =0x0380FFF4
+	ldr r1, [r4]
+	ldr r0, _027F29EC // =0x000004E4
+	add r6, r1, r0
+	mov r5, #0
+	mov r7, #0x18
+_027F2998:
+	mul r0, r5, r7
+	add r1, r6, r0
+	ldrh r0, [r6, r0]
+	cmp r0, #0
+	beq _027F29D0
+	sub r0, r0, #1
+	strh r0, [r1]
+	ldrh r0, [r1]
+	cmp r0, #0
+	bne _027F29D0
+	ldr r0, [r4]
+	add r0, r0, #0x188
+	ldr r1, [r1, #0x14]
+	bl sub_37F89B8
+_027F29D0:
+	add r5, r5, #1
+	cmp r5, #3
+	blo _027F2998
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027F29E8: .word 0x0380FFF4
+_027F29EC: .word 0x000004E4
+	arm_func_end sub_27F2978
+
+	arm_func_start sub_27F29F0
+sub_27F29F0: // 0x027F29F0
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0xc
+	mov sl, r0
+	mov sb, r1
+	ldr r0, _027F2C24 // =0x0380FFF4
+	ldr r1, [r0]
+	add r8, r1, #0x17c
+	ldr r0, _027F2C28 // =0x000004E4
+	add r7, r1, r0
+	ldrh r0, [sl, #8]
+	sub r0, r0, #0x18
+	strh r0, [sl, #8]
+	mov r6, #0
+	b _027F2AC8
+_027F2A28:
+	mov r0, #0x18
+	mul r0, r6, r0
+	str r0, [sp, #4]
+	add r4, r7, r0
+	ldrh r0, [r7, r0]
+	cmp r0, #0
+	beq _027F2AC4
+	add r0, r4, #4
+	mov r1, sb
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F2AC4
+	add r0, r4, #0xa
+	add r1, sb, #6
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F2AC4
+	ldrh r0, [sb, #0xc]
+	mov r1, r0, lsl #0x10
+	mov r2, r1, lsr #0x14
+	ldrh r1, [r4, #0x10]
+	mov r1, r1, lsl #0x10
+	cmp r2, r1, lsr #20
+	bne _027F2AC4
+	ldr r1, [sp, #4]
+	add r2, r7, r1
+	ldrh r1, [r2, #0x10]
+	sub fp, r1, r0
+	ands r0, fp, #0x80000000
+	bne _027F2C18
+	ldrh r0, [r2, #2]
+	mul r0, fp, r0
+	str r0, [sp]
+	ldrh r1, [sl, #8]
+	subs r5, r1, r0
+	beq _027F2C18
+	ands r0, r5, #0x80000000
+	beq _027F2AD0
+	b _027F2C18
+_027F2AC4:
+	add r6, r6, #1
+_027F2AC8:
+	cmp r6, #3
+	blo _027F2A28
+_027F2AD0:
+	cmp r6, #3
+	beq _027F2C18
+	mov r0, #0x18
+	mul r4, r6, r0
+	add r0, r7, r4
+	ldr r0, [r0, #0x14]
+	add r6, r0, #0x10
+	ldrh r1, [r6, #0x10]
+	add sb, r1, r5
+	ldr r0, _027F2C2C // =0x000005E4
+	cmp sb, r0
+	bls _027F2B18
+	add r0, r8, #0xc
+	sub r1, r6, #0x10
+	bl sub_37F89B8
+	mov r0, #0
+	strh r0, [r7, r4]
+	b _027F2C18
+_027F2B18:
+	add r2, sl, #0x24
+	ldr r0, [sp]
+	add r0, r2, r0
+	add r2, r6, #0x2c
+	add r1, r2, r1
+	add r2, r5, #1
+	bl MIi_CpuCopy16
+	strh sb, [r6, #0x10]
+	ldrh r0, [sl]
+	and r0, r0, #0xf0
+	mov r1, #0x10
+	bl _s32_div_f
+	add r2, r7, r4
+	ldrh r3, [r2, #0x10]
+	bic r1, r3, #0xf
+	mov r4, r3, lsl #0x1c
+	sub r3, r0, fp
+	add r3, r3, r4, lsr #28
+	mov r3, r3, lsl #0x10
+	mov r3, r3, lsr #0x10
+	and r3, r3, #0xf
+	orr r1, r1, r3
+	strh r1, [r2, #0x10]
+	ldr r1, _027F2C24 // =0x0380FFF4
+	ldr r3, [r1]
+	ldr r1, [r3, #0x560]
+	add r0, r1, r0
+	str r0, [r3, #0x560]
+	ldrh r0, [sl]
+	ands r0, r0, #0x100
+	bne _027F2C18
+	mov r0, #0
+	strh r0, [r2]
+	ldrh r0, [r6, #8]
+	bic r0, r0, #0xf0
+	add r0, r0, #0x10
+	strh r0, [r6, #8]
+	ldrh r0, [r6, #0x10]
+	add r0, r0, #0x18
+	strh r0, [r6, #0x10]
+	ldrh r0, [r6, #8]
+	ands r0, r0, #0xf
+	beq _027F2BEC
+	cmp r0, #8
+	bne _027F2C0C
+	add r0, r8, #0xc
+	add r1, r8, #0x48
+	sub r2, r6, #0x10
+	bl sub_37F8A3C
+	mov r0, #2
+	mov r1, #6
+	bl sub_37F85F8
+	b _027F2C18
+_027F2BEC:
+	add r0, r8, #0xc
+	add r1, r8, #0x60
+	sub r2, r6, #0x10
+	bl sub_37F8A3C
+	mov r0, #1
+	mov r1, #7
+	bl sub_37F85F8
+	b _027F2C18
+_027F2C0C:
+	add r0, r8, #0xc
+	sub r1, r6, #0x10
+	bl sub_37F89B8
+_027F2C18:
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F2C24: .word 0x0380FFF4
+_027F2C28: .word 0x000004E4
+_027F2C2C: .word 0x000005E4
+	arm_func_end sub_27F29F0
+
+	arm_func_start sub_27F2C30
+sub_27F2C30: // 0x027F2C30
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #4
+	mov sl, r0
+	mov sb, r1
+	ldr r0, _027F2E74 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027F2E78 // =0x000004E4
+	add r8, r1, r0
+	mvn r6, #0
+	mov r7, #0
+	add r0, sb, #6
+	str r0, [sp]
+	mov fp, #0x18
+	b _027F2D78
+_027F2C68:
+	mul r5, r7, fp
+	add r4, r8, r5
+	ldrh r0, [r8, r5]
+	cmp r0, #0
+	beq _027F2D70
+	add r0, r4, #4
+	mov r1, sb
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F2D74
+	add r0, r4, #0xa
+	ldr r1, [sp]
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F2D74
+	ldrh r0, [sb, #0xc]
+	mov r0, r0, lsl #0x10
+	mov r1, r0, lsr #0x14
+	ldrh r0, [r4, #0x10]
+	mov r0, r0, lsl #0x10
+	cmp r1, r0, lsr #20
+	bne _027F2D74
+	ldrh r0, [sl]
+	and r0, r0, #0xf0
+	mov r1, #0x10
+	bl _s32_div_f
+	mov r6, r0
+	ldrh r0, [r4, #0x10]
+	mov r0, r0, lsl #0x1c
+	mov r0, r0, lsr #0x1c
+	subs r0, r6, r0
+	beq _027F2E68
+	ands r0, r0, #0x80000000
+	bne _027F2E68
+	mov r0, r4
+	ldr r0, [r0, #0x14]
+	add r7, r0, #0x10
+	ldrh r2, [r7, #0x10]
+	ldrh r0, [sl, #8]
+	sub r0, r0, r2
+	subs r5, r0, #0x18
+	beq _027F2E68
+	ands r0, r5, #0x80000000
+	bne _027F2E68
+	add r0, sl, #0x24
+	add r0, r0, r2
+	add r1, r7, #0x2c
+	add r1, r1, r2
+	mov r2, r5
+	bl MIi_CpuCopy16
+	ldrh r0, [r7, #0x10]
+	add r0, r0, r5
+	strh r0, [r7, #0x10]
+	ldrh r0, [r4, #0x10]
+	bic r1, r0, #0xf
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	and r0, r0, #0xf
+	orr r0, r1, r0
+	strh r0, [r4, #0x10]
+	ldr r0, _027F2E74 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, [r1, #0x560]
+	add r0, r0, r6
+	str r0, [r1, #0x560]
+	b _027F2E68
+_027F2D70:
+	mov r6, r7
+_027F2D74:
+	add r7, r7, #1
+_027F2D78:
+	cmp r7, #3
+	blo _027F2C68
+	mvn r0, #0
+	cmp r6, r0
+	beq _027F2E68
+	ldr r0, _027F2E74 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	ldr r1, _027F2E7C // =0x00000622
+	bl sub_37F8910
+	movs r5, r0
+	beq _027F2E60
+	mov r0, #0x18
+	mul r4, r6, r0
+	add r6, r8, r4
+	mov r0, sb
+	add r1, r6, #4
+	mov r2, #0x10
+	bl MIi_CpuCopy16
+	mov r0, #5
+	strh r0, [r8, r4]
+	mov r0, r6
+	str r5, [r0, #0x14]
+	add r5, r5, #0x10
+	mov r0, sl
+	add r1, r5, #8
+	ldrh r2, [sl, #8]
+	add r2, r2, #0xc
+	bl MIi_CpuCopy16
+	ldr r0, _027F2E74 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x30c]
+	bl MI_WaitDma
+	ldrh r0, [r5, #8]
+	and r0, r0, #0xf0
+	mov r1, #0x10
+	bl _s32_div_f
+	mov r1, r0
+	ldrh r0, [r6, #0x10]
+	bic r2, r0, #0xf
+	mov r0, r1, lsl #0x10
+	mov r0, r0, lsr #0x10
+	and r0, r0, #0xf
+	orr r0, r2, r0
+	strh r0, [r6, #0x10]
+	ldr r0, _027F2E74 // =0x0380FFF4
+	ldr r2, [r0]
+	ldr r0, [r2, #0x560]
+	add r0, r0, r1
+	str r0, [r2, #0x560]
+	ldrh r0, [sl, #8]
+	sub r0, r0, #0x18
+	strh r0, [r5, #0x10]
+	ldrh r0, [r5, #0x10]
+	bl _u32_div_f
+	mov r1, r6
+	strh r0, [r1, #2]
+	b _027F2E68
+_027F2E60:
+	mov r0, #4
+	bl sub_27E9140
+_027F2E68:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F2E74: .word 0x0380FFF4
+_027F2E78: .word 0x000004E4
+_027F2E7C: .word 0x00000622
+	arm_func_end sub_27F2C30
+
+	arm_func_start sub_27F2E80
+sub_27F2E80: // 0x027F2E80
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #0x14
+	ldr r0, _027F2F94 // =0x0380FFF4
+	ldr r1, [r0]
+	add r7, r1, #0x17c
+	ldr r6, [r7, #0x6c]
+	mvn r0, #0
+	cmp r6, r0
+	beq _027F2F88
+	add r5, r6, #0x10
+	add r0, r1, #0x300
+	ldrh r0, [r0, #0x4c]
+	cmp r0, #0x40
+	bne _027F2F64
+	ldrh r1, [r5, #0x10]
+	ldr r0, _027F2F98 // =0x000005FC
+	cmp r1, r0
+	bhi _027F2F64
+	ldrh r4, [r5, #0x14]
+	ands r0, r4, #0x100
+	beq _027F2EF8
+	add r0, sp, #0
+	add r1, r5, #0x24
+	bl sub_27EA1BC
+	ands r0, r4, #0x200
+	bne _027F2F64
+	add r0, sp, #6
+	add r1, r5, #0x1e
+	bl sub_27EA1BC
+	b _027F2F28
+_027F2EF8:
+	add r0, sp, #0
+	add r1, r5, #0x18
+	bl sub_27EA1BC
+	ands r0, r4, #0x200
+	beq _027F2F1C
+	add r0, sp, #6
+	add r1, r5, #0x24
+	bl sub_27EA1BC
+	b _027F2F28
+_027F2F1C:
+	add r0, sp, #6
+	add r1, r5, #0x1e
+	bl sub_27EA1BC
+_027F2F28:
+	ldrh r0, [r5, #0x2a]
+	strh r0, [sp, #0xc]
+	ands r0, r4, #0x400
+	beq _027F2F58
+	ldrh r0, [r5, #0x2a]
+	mov r0, r0, lsl #0x1c
+	movs r0, r0, lsr #0x1c
+	bne _027F2F58
+	add r0, r5, #8
+	add r1, sp, #0
+	bl sub_27F2C30
+	b _027F2F64
+_027F2F58:
+	add r0, r5, #8
+	add r1, sp, #0
+	bl sub_27F29F0
+_027F2F64:
+	add r0, r7, #0x6c
+	mov r1, r6
+	bl sub_37F89B8
+	ldrh r0, [r7, #0x74]
+	cmp r0, #0
+	beq _027F2F88
+	mov r0, #2
+	mov r1, #9
+	bl sub_37F85F8
+_027F2F88:
+	add sp, sp, #0x14
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027F2F94: .word 0x0380FFF4
+_027F2F98: .word 0x000005FC
+	arm_func_end sub_27F2E80
+
+	arm_func_start sub_27F2F9C
+sub_27F2F9C: // 0x027F2F9C
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r4, r0
+	ldrh r0, [r4, #2]
+	bl sub_27EC32C
+	bl sub_27E9458
+	add r5, r4, #0x34
+	add r0, r4, #0x33
+	bl sub_27E94A4
+	mov r6, r0
+	mov r7, #0
+	mov r4, r6, lsr #1
+	b _027F2FE8
+_027F2FD0:
+	bl sub_27E9428
+	ldrh r1, [r5], #2
+	cmp r1, r0
+	movne r0, #0
+	bne _027F3018
+	add r7, r7, #1
+_027F2FE8:
+	cmp r7, r4
+	blo _027F2FD0
+	ands r0, r6, #1
+	beq _027F3014
+	bl sub_27E9428
+	ldrh r1, [r5]
+	and r1, r1, #0xff
+	and r0, r0, #0xff
+	cmp r1, r0
+	movne r0, #0
+	bne _027F3018
+_027F3014:
+	mov r0, #1
+_027F3018:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	arm_func_end sub_27F2F9C
+
+	arm_func_start sub_27F3024
+sub_27F3024: // 0x027F3024
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r5, r0
+	mov r4, r1
+	ldr r0, _027F3094 // =0x04808044
+	ldrh r1, [r0]
+	ldrh r0, [r0]
+	add r0, r1, r0, lsl #8
+	mov r0, r0, lsl #0x10
+	movs r6, r0, lsr #0x10
+	moveq r6, #1
+	mov r0, r6
+	bl sub_27E9458
+	mov r0, r5
+	mov r1, r6
+	bl sub_27EC508
+	add r5, r4, #0x34
+	add r0, r4, #0x33
+	bl sub_27E94A4
+	mov r4, r0
+	mov r6, #0
+	b _027F3084
+_027F3078:
+	bl sub_27E9428
+	strh r0, [r5], #2
+	add r6, r6, #2
+_027F3084:
+	cmp r6, r4
+	blo _027F3078
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F3094: .word 0x04808044
+	arm_func_end sub_27F3024
+
+	arm_func_start sub_27F3098
+sub_27F3098: // 0x027F3098
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0xc
+	ldr r0, _027F33DC // =0x0380FFF4
+	ldr r1, [r0]
+	add sb, r1, #0x17c
+	ldr r0, _027F33E0 // =0x0000053C
+	add r8, r1, r0
+	add r0, r1, #0x300
+	ldrh r7, [r0, #0x50]
+	ldr r0, [sb, #0x60]
+	str r0, [sp]
+	mvn r1, #0
+	cmp r0, r1
+	beq _027F33D0
+	add r6, r0, #0x10
+	add sl, r6, #0x14
+	ldrh r0, [r6, #0x18]
+	ands r0, r0, #1
+	ldrne r0, [r8, #0x2c]
+	addne r0, r0, #1
+	strne r0, [r8, #0x2c]
+	ldreq r0, [r8, #0x28]
+	addeq r0, r0, #1
+	streq r0, [r8, #0x28]
+	ldrh r0, [r6, #8]
+	and r0, r0, #0xf0
+	mov r1, #0x10
+	bl _s32_div_f
+	ldr r1, [r8, #0x24]
+	sub r0, r0, #1
+	add r0, r1, r0
+	str r0, [r8, #0x24]
+	ldrh r0, [sl]
+	mov r1, r0, lsl #0x1c
+	mov r5, r1, lsr #0x1e
+	mov r0, r0, lsl #0x18
+	mov r4, r0, lsr #0x1c
+	add r0, sl, #0xa
+	bl sub_27EC874
+	mov fp, r0
+	strh fp, [r6, #2]
+	cmp fp, #0xff
+	bne _027F3198
+	mov r0, #0
+	strh r0, [r6, #2]
+	cmp r7, #1
+	bne _027F33AC
+	cmp r5, #0
+	bne _027F33AC
+	cmp r4, #0
+	beq _027F318C
+	cmp r4, #4
+	beq _027F3180
+	cmp r4, #0xb
+	bne _027F33AC
+	mov r0, r6
+	bl sub_27F384C
+	b _027F33AC
+_027F3180:
+	mov r0, r6
+	bl sub_27F4180
+	b _027F33AC
+_027F318C:
+	mov r0, r6
+	bl sub_27F4640
+	b _027F33AC
+_027F3198:
+	bl sub_27EC4E4
+	mov r0, fp, lsl #0x10
+	mov r0, r0, lsr #0x10
+	ldrh r1, [r6, #0x12]
+	and r1, r1, #0xff
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	bl sub_27EC630
+	cmp r5, #0
+	bne _027F31F0
+	ldrh r0, [r6, #0x2a]
+	str r0, [sp, #4]
+	mov r0, fp
+	bl sub_27EC310
+	ldr r1, [sp, #4]
+	cmp r1, r0
+	ldreq r0, [r8, #0x3c]
+	addeq r0, r0, #1
+	streq r0, [r8, #0x3c]
+	beq _027F33AC
+	mov r0, fp
+	bl sub_27EC520
+_027F31F0:
+	cmp r7, #1
+	beq _027F320C
+	cmp r7, #2
+	beq _027F32EC
+	cmp r7, #3
+	beq _027F32EC
+	b _027F33AC
+_027F320C:
+	mov r0, fp, lsl #0x10
+	mov r0, r0, lsr #0x10
+	ldrh r1, [sl]
+	mov r1, r1, lsl #0x13
+	mov r1, r1, lsr #0x1f
+	bl sub_27EC5CC
+	cmp r5, #0
+	bne _027F32D0
+	cmp r4, #0xc
+	addls pc, pc, r4, lsl #2
+	b _027F33AC
+_027F3238: // jump table
+	b _027F3278 // case 0
+	b _027F33AC // case 1
+	b _027F3284 // case 2
+	b _027F33AC // case 3
+	b _027F3290 // case 4
+	b _027F329C // case 5
+	b _027F33AC // case 6
+	b _027F33AC // case 7
+	b _027F326C // case 8
+	b _027F33AC // case 9
+	b _027F32AC // case 10
+	b _027F32B8 // case 11
+	b _027F32C4 // case 12
+_027F326C:
+	mov r0, r6
+	bl sub_27F4910
+	b _027F33AC
+_027F3278:
+	mov r0, r6
+	bl sub_27F4640
+	b _027F33AC
+_027F3284:
+	mov r0, r6
+	bl sub_27F4368
+	b _027F33AC
+_027F3290:
+	mov r0, r6
+	bl sub_27F4180
+	b _027F33AC
+_027F329C:
+	mov r0, r6
+	mov r1, #0
+	bl sub_27F3D90
+	b _027F33AC
+_027F32AC:
+	mov r0, r6
+	bl sub_27F481C
+	b _027F33AC
+_027F32B8:
+	mov r0, r6
+	bl sub_27F384C
+	b _027F33AC
+_027F32C4:
+	mov r0, r6
+	bl sub_27F3790
+	b _027F33AC
+_027F32D0:
+	cmp r5, #1
+	bne _027F33AC
+	cmp r4, #0xa
+	bne _027F33AC
+	mov r0, r6
+	bl sub_27F3728
+	b _027F33AC
+_027F32EC:
+	cmp r5, #0
+	bne _027F338C
+	cmp r4, #0xc
+	addls pc, pc, r4, lsl #2
+	b _027F33AC
+_027F3300: // jump table
+	b _027F33AC // case 0
+	b _027F3340 // case 1
+	b _027F33AC // case 2
+	b _027F334C // case 3
+	b _027F33AC // case 4
+	b _027F3358 // case 5
+	b _027F33AC // case 6
+	b _027F33AC // case 7
+	b _027F3334 // case 8
+	b _027F33AC // case 9
+	b _027F3368 // case 10
+	b _027F3374 // case 11
+	b _027F3380 // case 12
+_027F3334:
+	mov r0, r6
+	bl sub_27F4910
+	b _027F33AC
+_027F3340:
+	mov r0, r6
+	bl sub_27F4514
+	b _027F33AC
+_027F334C:
+	mov r0, r6
+	bl sub_27F4234
+	b _027F33AC
+_027F3358:
+	mov r0, r6
+	mov r1, #0
+	bl sub_27F3D90
+	b _027F33AC
+_027F3368:
+	mov r0, r6
+	bl sub_27F481C
+	b _027F33AC
+_027F3374:
+	mov r0, r6
+	bl sub_27F384C
+	b _027F33AC
+_027F3380:
+	mov r0, r6
+	bl sub_27F3790
+	b _027F33AC
+_027F338C:
+	cmp r5, #1
+	bne _027F33AC
+	cmp r4, #0xe
+	beq _027F33A4
+	cmp r4, #0xf
+	bne _027F33AC
+_027F33A4:
+	mov r0, r6
+	bl sub_27F3724
+_027F33AC:
+	add r0, sb, #0x60
+	ldr r1, [sp]
+	bl sub_37F89B8
+	ldrh r0, [sb, #0x68]
+	cmp r0, #0
+	beq _027F33D0
+	mov r0, #1
+	mov r1, #7
+	bl sub_37F85F8
+_027F33D0:
+	add sp, sp, #0xc
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F33DC: .word 0x0380FFF4
+_027F33E0: .word 0x0000053C
+	arm_func_end sub_27F3098
+
+	arm_func_start sub_27F33E4
+sub_27F33E4: // 0x027F33E4
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #4
+	mov sb, r0
+	ldr r0, _027F3720 // =0x0380FFF4
+	ldr r0, [r0]
+	add r8, r0, #0x344
+	ldr r7, [sb]
+	ldrh r0, [r8, #0x7a]
+	strh r0, [sb, #0x12]
+	ldrh r0, [sb, #0xc]
+	ands r0, r0, #0x800
+	ldrneh r0, [sb, #0xa]
+	orrne r0, r0, #1
+	strneh r0, [sb, #0xa]
+	ldrh r6, [sb, #8]
+	add r4, sb, #0xc
+	add fp, sb, #0x14
+	b _027F3690
+_027F342C:
+	mov r0, r7
+	bl sub_27E94A4
+	mov sl, r0
+	add r0, r7, #1
+	add r7, r7, #2
+	bl sub_27E94A4
+	mov r5, r0
+	cmp sl, #6
+	addls pc, pc, sl, lsl #2
+	b _027F3470
+_027F3454: // jump table
+	b _027F347C // case 0
+	b _027F34E8 // case 1
+	b _027F3684 // case 2
+	b _027F3554 // case 3
+	b _027F35C8 // case 4
+	b _027F35A8 // case 5
+	b _027F3684 // case 6
+_027F3470:
+	cmp sl, #0xdd
+	beq _027F35E8
+	b _027F3668
+_027F347C:
+	cmp r5, #0x20
+	bhi _027F3684
+	ldrh r0, [r4]
+	orr r0, r0, #1
+	strh r0, [r4]
+	sub r0, r7, #2
+	str r0, [sb, #0x1c]
+	cmp r5, #0
+	bne _027F34B8
+	ldrh r0, [sb, #0xc]
+	ands r0, r0, #0x800
+	ldrneh r0, [sb, #0xa]
+	orrne r0, r0, #1
+	strneh r0, [sb, #0xa]
+	bne _027F3684
+_027F34B8:
+	ldrh r0, [sb, #0xa]
+	bic r0, r0, #1
+	strh r0, [sb, #0xa]
+	mov r0, r5, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, r7
+	bl sub_27E9E2C
+	cmp r0, #0
+	ldrneh r0, [sb, #0xa]
+	orrne r0, r0, #1
+	strneh r0, [sb, #0xa]
+	b _027F3684
+_027F34E8:
+	cmp r5, #1
+	blo _027F3684
+	ldrh r0, [r4]
+	orr r0, r0, #4
+	strh r0, [r4]
+	sub r0, r7, #2
+	mov r1, fp
+	bl sub_27E9D14
+	ldrh r1, [sb, #0x14]
+	ldrh r0, [r8, #0x60]
+	ldrh r2, [r8, #0x62]
+	orr r2, r0, r2
+	mvn r2, r2
+	ands r2, r1, r2
+	bne _027F3544
+	ldrh r2, [sb, #0x16]
+	orr r1, r1, r2
+	and r1, r0, r1
+	cmp r0, r1
+	ldreqh r0, [sb, #0xa]
+	orreq r0, r0, #4
+	streqh r0, [sb, #0xa]
+	beq _027F3684
+_027F3544:
+	ldrh r0, [sb, #0xa]
+	bic r0, r0, #4
+	strh r0, [sb, #0xa]
+	b _027F3684
+_027F3554:
+	cmp r5, #1
+	blo _027F3684
+	ldrh r0, [r4]
+	orr r0, r0, #2
+	strh r0, [r4]
+	mov r0, r7
+	bl sub_27E94A4
+	strh r0, [sb, #0x12]
+	ldrh r1, [sb, #0x12]
+	ldr r0, _027F3720 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x41c]
+	ldrh r0, [r0, #0x4a]
+	cmp r1, r0
+	ldreqh r0, [sb, #0xa]
+	orreq r0, r0, #2
+	streqh r0, [sb, #0xa]
+	ldrneh r0, [sb, #0xa]
+	bicne r0, r0, #2
+	strneh r0, [sb, #0xa]
+	b _027F3684
+_027F35A8:
+	cmp r5, #3
+	blo _027F3684
+	ldrh r0, [sb, #0xc]
+	orr r0, r0, #0x100
+	strh r0, [sb, #0xc]
+	sub r0, r7, #2
+	str r0, [sb, #0x24]
+	b _027F3684
+_027F35C8:
+	cmp r5, #6
+	blo _027F3684
+	ldrh r0, [sb, #0xc]
+	orr r0, r0, #0x200
+	strh r0, [sb, #0xc]
+	sub r0, r7, #2
+	str r0, [sb, #0x20]
+	b _027F3684
+_027F35E8:
+	cmp r5, #8
+	blo _027F3630
+	mov r0, r7
+	bl sub_27E94A4
+	cmp r0, #0
+	bne _027F3630
+	add r0, r7, #1
+	bl sub_27E94A4
+	cmp r0, #9
+	bne _027F3630
+	add r0, r7, #2
+	bl sub_27E94A4
+	cmp r0, #0xbf
+	bne _027F3630
+	add r0, r7, #3
+	bl sub_27E94A4
+	cmp r0, #0
+	beq _027F3650
+_027F3630:
+	ldrh r0, [sb, #0x18]
+	add r0, r0, #1
+	strh r0, [sb, #0x18]
+	ldrh r1, [sb, #0x1a]
+	add r0, r5, #2
+	add r0, r1, r0
+	strh r0, [sb, #0x1a]
+	b _027F3684
+_027F3650:
+	ldrh r0, [sb, #0xc]
+	orr r0, r0, #0x400
+	strh r0, [sb, #0xc]
+	sub r0, r7, #2
+	str r0, [sb, #0x28]
+	b _027F3684
+_027F3668:
+	ldrh r0, [sb, #0x18]
+	add r0, r0, #1
+	strh r0, [sb, #0x18]
+	ldrh r1, [sb, #0x1a]
+	add r0, r5, #2
+	add r0, r1, r0
+	strh r0, [sb, #0x1a]
+_027F3684:
+	add r7, r7, r5
+	add r0, r5, #2
+	sub r6, r6, r0
+_027F3690:
+	cmp r6, #0
+	bgt _027F342C
+	ldrh r0, [sb, #0xc]
+	ands r0, r0, #8
+	beq _027F36C8
+	ldrh r0, [r8, #0x64]
+	ands r0, r0, #1
+	bne _027F36BC
+	ldrh r0, [sb, #4]
+	ands r0, r0, #0x8000
+	beq _027F36C8
+_027F36BC:
+	ldrh r0, [sb, #0xa]
+	orr r0, r0, #8
+	strh r0, [sb, #0xa]
+_027F36C8:
+	ldrh r0, [sb, #0xc]
+	ands r0, r0, #0x30
+	beq _027F3714
+	ldrh r0, [sb, #6]
+	and r1, r0, #3
+	ldrh r0, [r8, #0x7c]
+	and r0, r0, #3
+	cmp r1, r0
+	ldreqh r0, [sb, #0xa]
+	orreq r0, r0, #0x10
+	streqh r0, [sb, #0xa]
+	ldrh r0, [sb, #6]
+	and r1, r0, #0x10
+	ldrh r0, [r8, #0x7c]
+	and r0, r0, #0x10
+	cmp r1, r0
+	ldreqh r0, [sb, #0xa]
+	orreq r0, r0, #0x20
+	streqh r0, [sb, #0xa]
+_027F3714:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F3720: .word 0x0380FFF4
+	arm_func_end sub_27F33E4
+
+	arm_func_start sub_27F3724
+sub_27F3724: // 0x027F3724
+	bx lr
+	arm_func_end sub_27F3724
+
+	arm_func_start sub_27F3728
+sub_27F3728: // 0x027F3728
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	ldr r1, _027F378C // =0x0380FFF4
+	ldr r1, [r1]
+	add r5, r1, #0x17c
+	ldrh r4, [r0, #2]
+	mov r0, r4
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	bne _027F3780
+	mov r0, r4
+	bl sub_27EC568
+	ldrh r0, [r5, #0x2c]
+	cmp r0, #0
+	beq _027F376C
+	mov r0, #1
+	bl sub_27F2728
+_027F376C:
+	ldrh r0, [r5, #0x20]
+	cmp r0, #0
+	beq _027F3780
+	mov r0, #0
+	bl sub_27F2728
+_027F3780:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027F378C: .word 0x0380FFF4
+	arm_func_end sub_27F3728
+
+	arm_func_start sub_27F3790
+sub_27F3790: // 0x027F3790
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r4, r0
+	ldr r0, _027F3848 // =0x0380FFF4
+	ldr r0, [r0]
+	add r1, r0, #0x344
+	ldrh r5, [r4, #2]
+	ldrh r0, [r1, #0xc]
+	cmp r0, #1
+	beq _027F37CC
+	cmp r0, #2
+	beq _027F3804
+	cmp r0, #3
+	beq _027F3804
+	b _027F383C
+_027F37CC:
+	mov r0, r5
+	bl sub_27EC3A4
+	cmp r0, #0x20
+	bls _027F383C
+	mov r0, r5, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0x20
+	bl sub_27EC648
+	add r0, r4, #0x1e
+	ldrh r1, [r4, #0x2c]
+	bl sub_27ECF94
+	mov r0, r5
+	bl sub_27F1968
+	b _027F383C
+_027F3804:
+	ldrh r0, [r1, #8]
+	cmp r0, #0x20
+	bls _027F383C
+	add r0, r4, #0x1e
+	add r1, r1, #0x82
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F383C
+	mov r0, #0x20
+	bl sub_37F9458
+	bl sub_27EA228
+	add r0, r4, #0x1e
+	ldrh r1, [r4, #0x2c]
+	bl sub_27ECF94
+_027F383C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027F3848: .word 0x0380FFF4
+	arm_func_end sub_27F3790
+
+	arm_func_start sub_27F384C
+sub_27F384C: // 0x027F384C
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #4
+	mov sl, r0
+	ldr r0, _027F3D78 // =0x0380FFF4
+	ldr r1, [r0]
+	add sb, r1, #0x344
+	ldr r0, _027F3D7C // =0x00000404
+	add r8, r1, r0
+	add r7, sl, #0x2c
+	add r0, r1, #0x600
+	ldrh r0, [r0, #0x90]
+	ands r0, r0, #8
+	beq _027F3900
+	ldr r0, _027F3D80 // =0x0000042C
+	add r2, r1, r0
+	ldr r0, _027F3D84 // =0x048080B0
+	ldrh r1, [r0]
+	ands r0, r1, #1
+	beq _027F38A4
+	ldrh r0, [r2]
+	cmp r0, #0
+	bne _027F3900
+_027F38A4:
+	ands r0, r1, #4
+	beq _027F38B8
+	ldrh r0, [r2, #0x14]
+	cmp r0, #0
+	bne _027F3900
+_027F38B8:
+	ands r0, r1, #8
+	beq _027F38CC
+	ldrh r0, [r2, #0x28]
+	cmp r0, #0
+	bne _027F3900
+_027F38CC:
+	ldr r0, _027F3D88 // =0x0480819C
+	ldrh r0, [r0]
+	ands r0, r0, #1
+	bne _027F3900
+	mov r2, #0
+	ldr r1, _027F3D8C // =0x04808032
+	strh r2, [r1]
+	mov r0, #0x8000
+	strh r0, [r1]
+	ldr r0, _027F3D78 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x400
+	strh r2, [r0, #0xde]
+_027F3900:
+	add r0, sl, #0x1e
+	mov r1, #0xb0
+	bl sub_27F0830
+	cmp r0, #0
+	bne _027F3D6C
+	mov r5, #0
+	ldrh r0, [r7, #2]
+	add r0, r0, #1
+	mov r0, r0, lsl #0x10
+	mov fp, r0, lsr #0x10
+	ldrh r6, [sl, #2]
+	cmp r6, #0
+	moveq r4, #0x13
+	moveq r5, #1
+	beq _027F3D30
+	ldrh r0, [sb, #0xc]
+	cmp r0, #1
+	bne _027F39B0
+	mov r0, r6
+	bl sub_27EC3A4
+	cmp r0, #0x20
+	bls _027F3974
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0x20
+	bl sub_27EC648
+	add r0, sl, #0x1e
+	mov r1, #1
+	bl sub_27ECF94
+_027F3974:
+	ldrh r0, [sl, #8]
+	ands r0, r0, #0x400
+	beq _027F39B0
+	mov r0, r6
+	bl sub_27EC32C
+	cmp r0, #0
+	beq _027F39B0
+	mov r5, #1
+	strh r5, [r7]
+	mov r4, #0xf
+	mov fp, #4
+	mov r0, r6
+	mov r1, #0
+	bl sub_27EC508
+	b _027F3D30
+_027F39B0:
+	ldrh r0, [r7]
+	cmp r0, #0
+	beq _027F39C8
+	cmp r0, #1
+	beq _027F3AC0
+	b _027F3D20
+_027F39C8:
+	ldrh r1, [sb, #0xc]
+	cmp r1, #1
+	bne _027F39F4
+	ldr r0, _027F3D78 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x32]
+	cmp r0, #1
+	moveq r4, #0xd
+	moveq r5, #1
+	beq _027F3D30
+_027F39F4:
+	cmp r1, #1
+	bne _027F3A1C
+	ldrh r0, [r7, #2]
+	cmp r0, #1
+	moveq r4, #0
+	moveq r5, #1
+	movne r4, #0xe
+	movne fp, #2
+	movne r5, #1
+	b _027F3D30
+_027F3A1C:
+	cmp r1, #1
+	beq _027F3D30
+	ldrh r0, [r7, #2]
+	cmp r0, #2
+	bne _027F3D30
+	ldr r1, [r8, #0x18]
+	ldrh r0, [r1, #0x16]
+	cmp r0, #0
+	bne _027F3D30
+	add r0, r1, #0x10
+	add r1, sl, #0x1e
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F3D30
+	ldrh r0, [r8]
+	cmp r0, #0x31
+	bne _027F3D30
+	bl sub_27E961C
+	ldrh r0, [r7, #4]
+	cmp r0, #0
+	bne _027F3A90
+	mov r0, #0x30
+	bl sub_37F9458
+	mov r1, #0
+	ldr r0, [r8, #0x1c]
+	strh r1, [r0, #4]
+	ldr r0, [r8, #0x1c]
+	strh r1, [r0, #6]
+	b _027F3AA8
+_027F3A90:
+	mov r1, #0xc
+	ldr r0, [r8, #0x1c]
+	strh r1, [r0, #4]
+	ldrh r1, [r7, #4]
+	ldr r0, [r8, #0x1c]
+	strh r1, [r0, #6]
+_027F3AA8:
+	mov r0, #0x35
+	strh r0, [r8]
+	mov r0, #2
+	mov r1, r0
+	bl sub_37F85F8
+	b _027F3D30
+_027F3AC0:
+	ldrh r0, [sb, #0xc]
+	cmp r0, #1
+	bne _027F3BBC
+	mov r0, r6, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0x20
+	bl sub_27EC648
+	ldrh r0, [r7, #2]
+	cmp r0, #1
+	bne _027F3B2C
+	add r0, sl, #0x1e
+	mov r1, #0x80
+	mov r2, #1
+	bl sub_27F09E8
+	movs r8, r0
+	beq _027F3D30
+	ldrh r0, [r7]
+	strh r0, [r8, #0x2c]
+	strh fp, [r8, #0x2e]
+	mov r0, #0
+	strh r0, [r8, #0x30]
+	mov r0, r6
+	mov r1, r8
+	bl sub_27F3024
+	mov r0, r8
+	bl sub_27F171C
+	b _027F3D30
+_027F3B2C:
+	cmp r0, #3
+	bne _027F3BA0
+	mov r0, r6
+	bl sub_27EC3A4
+	cmp r0, #0x20
+	bne _027F3B54
+	mov r0, r6
+	bl sub_27EC32C
+	cmp r0, #0
+	bne _027F3B60
+_027F3B54:
+	mov r4, #1
+	mov r5, r4
+	b _027F3D30
+_027F3B60:
+	mov r0, sl
+	bl sub_27F2F9C
+	cmp r0, #0
+	bne _027F3B88
+	mov r4, #0xf
+	mov r5, #1
+	mov r0, r6
+	mov r1, #0
+	bl sub_27EC508
+	b _027F3D30
+_027F3B88:
+	mov r0, r6
+	mov r1, #0
+	bl sub_27EC508
+	mov r4, #0
+	mov r5, #1
+	b _027F3D30
+_027F3BA0:
+	mov r0, r6
+	mov r1, #0
+	bl sub_27EC508
+	mov r4, #0xe
+	mov fp, #2
+	mov r5, #1
+	b _027F3D30
+_027F3BBC:
+	ldr r1, [r8, #0x18]
+	ldrh r0, [r1, #0x16]
+	cmp r0, #1
+	bne _027F3D30
+	add r0, r1, #0x10
+	add r1, sl, #0x1e
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F3D30
+	ldrh r0, [r7, #2]
+	cmp r0, #2
+	bne _027F3CAC
+	ldrh r0, [r8]
+	cmp r0, #0x31
+	bne _027F3D30
+	ldrh r0, [r7, #4]
+	cmp r0, #0
+	beq _027F3C40
+	bl sub_27E961C
+	mov r0, #0x35
+	strh r0, [r8]
+	mov r1, #0xc
+	ldr r0, [r8, #0x1c]
+	strh r1, [r0, #4]
+	ldrh r1, [r7, #4]
+	ldr r0, [r8, #0x1c]
+	strh r1, [r0, #6]
+	mov r0, #2
+	mov r1, r0
+	bl sub_37F85F8
+	mov r0, #0x20
+	bl sub_37F9458
+	b _027F3D30
+_027F3C40:
+	mov r0, #0x33
+	strh r0, [r8]
+	add r0, sl, #0x33
+	bl sub_27E94A4
+	mov r1, r0
+	add r0, sl, #0x1e
+	mov r2, #1
+	bl sub_27F09E8
+	movs r6, r0
+	beq _027F3D30
+	ldrh r0, [r6, #0x14]
+	orr r0, r0, #0x4000
+	strh r0, [r6, #0x14]
+	add r0, sl, #0x2c
+	add r1, r6, #0x2c
+	ldrh r2, [sl, #6]
+	add r2, r2, #1
+	bl MIi_CpuCopy16
+	ldrh r0, [r7]
+	strh r0, [r6, #0x2c]
+	mov r0, #3
+	strh r0, [r6, #0x2e]
+	mov r0, #0
+	strh r0, [r6, #0x30]
+	mov r0, r6
+	bl sub_27F171C
+	b _027F3D30
+_027F3CAC:
+	cmp r0, #4
+	bne _027F3D30
+	ldrh r0, [r8]
+	cmp r0, #0x33
+	bne _027F3D30
+	bl sub_27E961C
+	ldrh r0, [r7, #4]
+	cmp r0, #0
+	bne _027F3CF0
+	mov r0, #0x30
+	bl sub_37F9458
+	mov r1, #0
+	ldr r0, [r8, #0x1c]
+	strh r1, [r0, #4]
+	ldr r0, [r8, #0x1c]
+	strh r1, [r0, #6]
+	b _027F3D08
+_027F3CF0:
+	mov r1, #0xc
+	ldr r0, [r8, #0x1c]
+	strh r1, [r0, #4]
+	ldrh r1, [r7, #4]
+	ldr r0, [r8, #0x1c]
+	strh r1, [r0, #6]
+_027F3D08:
+	mov r0, #0x35
+	strh r0, [r8]
+	mov r0, #2
+	mov r1, r0
+	bl sub_37F85F8
+	b _027F3D30
+_027F3D20:
+	ldrh r0, [sb, #0xc]
+	cmp r0, #1
+	moveq r4, #0xd
+	moveq r5, #1
+_027F3D30:
+	cmp r5, #0
+	beq _027F3D6C
+	cmp r4, #0
+	movne r2, #1
+	moveq r2, #0
+	add r0, sl, #0x1e
+	mov r1, #0
+	bl sub_27F09E8
+	cmp r0, #0
+	beq _027F3D6C
+	ldrh r1, [r7]
+	strh r1, [r0, #0x2c]
+	strh fp, [r0, #0x2e]
+	strh r4, [r0, #0x30]
+	bl sub_27F171C
+_027F3D6C:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F3D78: .word 0x0380FFF4
+_027F3D7C: .word 0x00000404
+_027F3D80: .word 0x0000042C
+_027F3D84: .word 0x048080B0
+_027F3D88: .word 0x0480819C
+_027F3D8C: .word 0x04808032
+	arm_func_end sub_27F384C
+
+	arm_func_start sub_27F3D90
+sub_27F3D90: // 0x027F3D90
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x34
+	mov r5, r0
+	mov sl, r1
+	ldr r0, _027F4174 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027F4178 // =0x00000404
+	add sb, r1, r0
+	add r0, r1, #0x400
+	ldrh r0, [r0, #4]
+	cmp r0, #0x13
+	bne _027F4168
+	ldr r8, [sb, #0x1c]
+	add r4, r5, #0x2c
+	ldr r0, [sb, #0x18]
+	add r6, r0, #0x4e
+	mov r7, #0
+	add fp, r5, #0x24
+	b _027F3E08
+_027F3DDC:
+	mov r0, r6
+	mov r1, fp
+	bl sub_27E9DF0
+	cmp r0, #0
+	ldrneh r1, [r8, #6]
+	movne r0, #1
+	orrne r0, r1, r0, lsl r7
+	strneh r0, [r8, #6]
+	bne _027F4168
+	add r6, r6, #6
+	add r7, r7, #1
+_027F3E08:
+	ldr r0, [sb, #0x18]
+	ldrh r0, [r0, #0x4c]
+	cmp r7, r0
+	blo _027F3DDC
+	add r7, r8, #0xa
+	mov r6, #0
+	add fp, r5, #0x24
+	b _027F3E48
+_027F3E28:
+	mov r0, fp
+	add r1, r7, #4
+	bl sub_27E9DF0
+	cmp r0, #0
+	bne _027F4168
+	ldrh r0, [r7]
+	add r7, r7, r0, lsl #1
+	add r6, r6, #1
+_027F3E48:
+	ldrh r0, [r8, #8]
+	cmp r6, r0
+	blo _027F3E28
+	mov r0, #0
+	mov r1, r7
+	mov r2, #0x40
+	bl MIi_CpuClear16
+	ldrh r6, [r5, #6]
+	cmp r6, #0xc
+	bls _027F4168
+	cmp sl, #0
+	bne _027F3EC4
+	mov r0, #0
+	add r1, sp, #8
+	mov r2, #0x2c
+	bl MIi_CpuClear32
+	add r0, r4, #0xc
+	str r0, [sp, #8]
+	sub r0, r6, #0xc
+	strh r0, [sp, #0x10]
+	mov r0, #3
+	strh r0, [sp, #0x12]
+	mov r0, #0x38
+	strh r0, [sp, #0x14]
+	ldrh r0, [r5, #8]
+	strh r0, [sp, #0xc]
+	ldrh r0, [r4, #0xa]
+	strh r0, [sp, #0xe]
+	add r0, sp, #8
+	bl sub_27F33E4
+	add sl, sp, #8
+_027F3EC4:
+	ldr r0, [sl, #0x28]
+	cmp r0, #0
+	ldreqh r0, [sl, #0x1a]
+	addeq r0, r0, #0x41
+	moveq r0, r0, lsr #1
+	streqh r0, [r7]
+	beq _027F3F00
+	add r0, r0, #1
+	bl sub_27E94A4
+	sub r0, r0, #8
+	strh r0, [r7, #0x3c]
+	ldrh r0, [r7, #0x3c]
+	add r0, r0, #0x41
+	mov r0, r0, lsr #1
+	strh r0, [r7]
+_027F3F00:
+	ldrh r0, [sl, #0xa]
+	and r0, r0, #1
+	cmp r0, #1
+	bne _027F415C
+	ldr r0, _027F4174 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x400
+	ldrh r1, [r0, #8]
+	ldrh r0, [r7]
+	cmp r1, r0
+	blo _027F415C
+	ldrh r0, [r4, #0xa]
+	strh r0, [r7, #0x2c]
+	add r0, r7, #4
+	add r1, r5, #0x24
+	bl sub_27EA1BC
+	ldrh r0, [r4, #8]
+	strh r0, [r7, #0x32]
+	ldrh r0, [r5, #0x12]
+	and r0, r0, #0xff
+	strh r0, [r7, #2]
+	ldr r0, [sl, #0x28]
+	cmp r0, #0
+	beq _027F3F9C
+	mov r4, #0
+	add r5, r7, #0x40
+	b _027F3F8C
+_027F3F6C:
+	ldr r0, [sl, #0x28]
+	add r0, r0, #0xa
+	add r0, r0, r4
+	bl sub_27E94A4
+	mov r1, r0
+	add r0, r5, r4
+	bl sub_27E94C4
+	add r4, r4, #1
+_027F3F8C:
+	ldrh r0, [r7, #0x3c]
+	cmp r4, r0
+	blo _027F3F6C
+	b _027F4044
+_027F3F9C:
+	ldrh r0, [sl, #0x18]
+	strh r0, [r7, #0x3e]
+	ldrh r0, [sl, #0x18]
+	cmp r0, #0
+	beq _027F4044
+	add r6, r4, #0xc
+	add fp, r7, #0x40
+	mov r5, #0
+	str r5, [sp]
+	b _027F4038
+_027F3FC4:
+	mov r0, r6
+	bl sub_27E94A4
+	mov r4, r0
+	add r0, r6, #1
+	bl sub_27E94A4
+	cmp r4, #6
+	bls _027F4030
+	ldr r1, [sl, #0x28]
+	cmp r6, r1
+	beq _027F4030
+	ldr r4, [sp]
+	add r0, r0, #2
+	str r0, [sp, #4]
+	b _027F401C
+_027F3FFC:
+	mov r0, r6
+	bl sub_27E94A4
+	mov r1, r0
+	mov r0, fp
+	bl sub_27E94C4
+	add fp, fp, #1
+	add r6, r6, #1
+	add r4, r4, #1
+_027F401C:
+	ldr r0, [sp, #4]
+	cmp r4, r0
+	blo _027F3FFC
+	add r5, r5, #1
+	b _027F4038
+_027F4030:
+	add r0, r0, #2
+	add r6, r6, r0
+_027F4038:
+	ldrh r0, [sl, #0x18]
+	cmp r5, r0
+	blo _027F3FC4
+_027F4044:
+	ldr r0, [sl, #0x1c]
+	cmp r0, #0
+	beq _027F4098
+	add r0, r0, #1
+	bl sub_27E94A4
+	strh r0, [r7, #0xa]
+	mov r4, #0
+	add r5, r7, #0xc
+	b _027F4088
+_027F4068:
+	ldr r0, [sl, #0x1c]
+	add r0, r0, #2
+	add r0, r0, r4
+	bl sub_27E94A4
+	mov r1, r0
+	add r0, r5, r4
+	bl sub_27E94C4
+	add r4, r4, #1
+_027F4088:
+	ldrh r0, [r7, #0xa]
+	cmp r4, r0
+	blo _027F4068
+	b _027F40C0
+_027F4098:
+	mov r6, #0
+	strh r6, [r7, #0xa]
+	add r5, r7, #0xc
+	mov r4, r6
+_027F40A8:
+	add r0, r5, r6
+	mov r1, r4
+	bl sub_27E94C4
+	add r6, r6, #1
+	cmp r6, #0x20
+	blo _027F40A8
+_027F40C0:
+	ldrh r0, [sl, #0x14]
+	strh r0, [r7, #0x2e]
+	ldrh r0, [sl, #0x16]
+	strh r0, [r7, #0x30]
+	ldrh r0, [sl, #0x12]
+	strh r0, [r7, #0x36]
+	ldr r0, [sl, #0x20]
+	cmp r0, #0
+	beq _027F40F0
+	add r0, r0, #3
+	bl sub_27E94A4
+	strh r0, [r7, #0x38]
+_027F40F0:
+	ldr r0, [sl, #0x24]
+	cmp r0, #0
+	beq _027F4108
+	add r0, r0, #3
+	bl sub_27E94A4
+	strh r0, [r7, #0x34]
+_027F4108:
+	ldrh r1, [r8, #2]
+	ldrh r0, [r7]
+	add r0, r1, r0
+	strh r0, [r8, #2]
+	ldrh r0, [r8, #8]
+	add r0, r0, #1
+	strh r0, [r8, #8]
+	ldrh r1, [sb, #4]
+	ldrh r0, [r7]
+	sub r0, r1, r0
+	strh r0, [sb, #4]
+	ldrh r0, [sb, #4]
+	cmp r0, #0x20
+	bhs _027F4168
+	bl sub_27E961C
+	mov r0, #0x15
+	strh r0, [sb]
+	mov r0, #2
+	mov r1, #0
+	bl sub_37F85F8
+	b _027F4168
+_027F415C:
+	add r0, r7, #4
+	ldr r1, _027F417C // =_027F7E88
+	bl sub_27EA1BC
+_027F4168:
+	add sp, sp, #0x34
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F4174: .word 0x0380FFF4
+_027F4178: .word 0x00000404
+_027F417C: .word _027F7E88
+	arm_func_end sub_27F3D90
+
+	arm_func_start sub_27F4180
+sub_27F4180: // 0x027F4180
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #0x30
+	mov r4, r0
+	add r0, r4, #0x1e
+	mov r1, #0x50
+	bl sub_27F0830
+	cmp r0, #0
+	bne _027F4224
+	ldrh r0, [r4, #0x24]
+	ands r0, r0, #1
+	bne _027F41B8
+	ldrh r0, [r4, #8]
+	ands r0, r0, #0x8000
+	beq _027F4224
+_027F41B8:
+	mov r0, #0
+	add r1, sp, #0
+	mov r2, #0x2c
+	bl MIi_CpuClear32
+	add r0, r4, #0x2c
+	str r0, [sp]
+	ldrh r0, [r4, #6]
+	strh r0, [sp, #8]
+	ldr r0, _027F4230 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x3a]
+	mov r0, r0, lsl #0x1e
+	movs r0, r0, lsr #0x1f
+	moveq r0, #0x800
+	streqh r0, [sp, #0xc]
+	add r0, sp, #0
+	bl sub_27F33E4
+	ldrh r0, [sp, #0xa]
+	and r0, r0, #1
+	cmp r0, #1
+	bne _027F4224
+	add r0, r4, #0x1e
+	bl sub_27F0AAC
+	cmp r0, #0
+	beq _027F4224
+	bl sub_27F171C
+_027F4224:
+	add sp, sp, #0x30
+	ldmia sp!, {r4, lr}
+	bx lr
+	.align 2, 0
+_027F4230: .word 0x0380FFF4
+	arm_func_end sub_27F4180
+
+	arm_func_start sub_27F4234
+sub_27F4234: // 0x027F4234
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	ldr r0, _027F435C // =0x0380FFF4
+	ldr r1, [r0]
+	add r6, r1, #0x344
+	ldr r0, _027F4360 // =0x00000404
+	add r5, r1, r0
+	add r4, r7, #0x2c
+	ldrh r0, [r6, #0xc]
+	cmp r0, #2
+	beq _027F426C
+	cmp r0, #3
+	bne _027F4350
+_027F426C:
+	ldrh r0, [r5]
+	cmp r0, #0x61
+	bne _027F4350
+	ldr r0, [r5, #0x18]
+	add r0, r0, #0x10
+	add r1, r7, #0x1e
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F4350
+	bl sub_27E961C
+	ldrh r0, [r4, #2]
+	cmp r0, #0
+	bne _027F42EC
+	ldrh r1, [r4, #4]
+	ldr r0, _027F4364 // =0x00000FFF
+	and r0, r1, r0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27EA284
+	ldrh r0, [r6, #0x6a]
+	bl sub_27F08F8
+	add r0, r6, #0x82
+	add r1, r7, #0x1e
+	bl sub_27EA1BC
+	add r0, r7, #0x1e
+	bl sub_27EC9BC
+	strh r0, [r6, #0x88]
+	ldrh r0, [r6, #0x88]
+	mov r1, #0x40
+	bl sub_27EC648
+	mov r0, #0x40
+	bl sub_37F9458
+_027F42EC:
+	ldrh r0, [r4, #2]
+	cmp r0, #0
+	bne _027F4318
+	mov r1, #0
+	ldr r0, [r5, #0x1c]
+	strh r1, [r0, #4]
+	ldr r0, [r5, #0x1c]
+	strh r1, [r0, #6]
+	mov r0, #0x40
+	bl sub_37F9458
+	b _027F4330
+_027F4318:
+	mov r1, #0xc
+	ldr r0, [r5, #0x1c]
+	strh r1, [r0, #4]
+	ldrh r1, [r4, #2]
+	ldr r0, [r5, #0x1c]
+	strh r1, [r0, #6]
+_027F4330:
+	ldrh r1, [r6, #0x6a]
+	ldr r0, [r5, #0x1c]
+	strh r1, [r0, #8]
+	mov r0, #0x63
+	strh r0, [r5]
+	mov r0, #2
+	mov r1, #4
+	bl sub_37F85F8
+_027F4350:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027F435C: .word 0x0380FFF4
+_027F4360: .word 0x00000404
+_027F4364: .word 0x00000FFF
+	arm_func_end sub_27F4234
+
+	arm_func_start sub_27F4368
+sub_27F4368: // 0x027F4368
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #0x30
+	mov r8, r0
+	ldr r0, _027F450C // =0x0380FFF4
+	ldr r7, [r0]
+	ldrh r5, [r8, #6]
+	add r6, r8, #0x2c
+	cmp r5, #0xa
+	bls _027F4500
+	add r0, r7, #0x300
+	ldrh r0, [r0, #0x50]
+	cmp r0, #1
+	bne _027F4500
+	add r0, r8, #0x1e
+	mov r1, #0x30
+	bl sub_27F0830
+	cmp r0, #0
+	bne _027F4500
+	ldrh r4, [r8, #2]
+	mov r0, r4
+	bl sub_27EC3A4
+	cmp r0, #0x30
+	bhs _027F43F8
+	add r0, r8, #0x1e
+	mov r1, #0xc0
+	bl sub_27F0830
+	cmp r0, #0
+	bne _027F4500
+	add r0, r8, #0x1e
+	mov r1, #6
+	mov r2, #1
+	bl sub_27F094C
+	cmp r0, #0
+	beq _027F4500
+	bl sub_27F171C
+	b _027F4500
+_027F43F8:
+	mov r0, r4
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	bne _027F4424
+	mov r0, r4
+	mov r1, #0x30
+	bl sub_27EC648
+	add r0, r8, #0x1e
+	mov r1, #1
+	bl sub_27ECD2C
+	b _027F4434
+_027F4424:
+	mov r0, r4
+	bl sub_27EC2CC
+	cmp r0, #0
+	bne _027F4500
+_027F4434:
+	mov r0, #0
+	add r1, sp, #0
+	mov r2, #0x2c
+	bl MIi_CpuClear32
+	add r0, r6, #0xa
+	str r0, [sp]
+	sub r0, r5, #0xa
+	strh r0, [sp, #8]
+	mov r0, #0x800
+	strh r0, [sp, #0xc]
+	add r0, sp, #0
+	bl sub_27F33E4
+	ldrh r1, [r6]
+	ldr r0, _027F4510 // =0x0000FFC2
+	ands r0, r1, r0
+	bne _027F44AC
+	add r0, r7, #0x300
+	ldrh r2, [r0, #0x34]
+	cmp r2, #0
+	bne _027F4494
+	mov r0, r1, lsl #0x1b
+	mov r0, r0, lsr #0x1f
+	cmp r0, #1
+	beq _027F44AC
+_027F4494:
+	cmp r2, #0
+	beq _027F44B4
+	ldrh r0, [r6]
+	mov r0, r0, lsl #0x1b
+	movs r0, r0, lsr #0x1f
+	bne _027F44B4
+_027F44AC:
+	mov r1, #0xa
+	b _027F44E8
+_027F44B4:
+	mov r0, r4
+	bl sub_27EC550
+	ldrh r1, [sp, #0xa]
+	ands r0, r1, #1
+	moveq r1, #1
+	beq _027F44E8
+	ands r0, r1, #4
+	moveq r1, #0x12
+	beq _027F44E8
+	mov r0, r4
+	ldrh r1, [sp, #0x16]
+	bl sub_27EC538
+	mov r1, #0
+_027F44E8:
+	mov r0, r4
+	ldr r2, [sp, #0x1c]
+	bl sub_27F0C24
+	cmp r0, #0
+	beq _027F4500
+	bl sub_27F171C
+_027F4500:
+	add sp, sp, #0x30
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027F450C: .word 0x0380FFF4
+_027F4510: .word 0x0000FFC2
+	arm_func_end sub_27F4368
+
+	arm_func_start sub_27F4514
+sub_27F4514: // 0x027F4514
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	ldr r0, _027F4634 // =0x0380FFF4
+	ldr r1, [r0]
+	add r6, r1, #0x344
+	ldr r0, _027F4638 // =0x00000404
+	add r5, r1, r0
+	add r4, r7, #0x2c
+	ldrh r0, [r6, #0xc]
+	cmp r0, #2
+	beq _027F454C
+	cmp r0, #3
+	bne _027F4628
+_027F454C:
+	ldrh r0, [r5]
+	cmp r0, #0x51
+	bne _027F4628
+	ldr r0, [r5, #0x18]
+	add r0, r0, #0x10
+	add r1, r7, #0x1e
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F4628
+	bl sub_27E961C
+	ldrh r0, [r4, #2]
+	cmp r0, #0
+	bne _027F45C4
+	ldrh r1, [r4, #4]
+	ldr r0, _027F463C // =0x00000FFF
+	and r0, r1, r0
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	bl sub_27EA284
+	ldrh r0, [r6, #0x6a]
+	bl sub_27F08F8
+	add r0, r6, #0x82
+	add r1, r7, #0x1e
+	bl sub_27EA1BC
+	add r0, r7, #0x1e
+	bl sub_27EC9BC
+	strh r0, [r6, #0x88]
+	ldrh r0, [r6, #0x88]
+	mov r1, #0x40
+	bl sub_27EC648
+_027F45C4:
+	ldrh r0, [r4, #2]
+	cmp r0, #0
+	bne _027F45F0
+	mov r1, #0
+	ldr r0, [r5, #0x1c]
+	strh r1, [r0, #4]
+	ldr r0, [r5, #0x1c]
+	strh r1, [r0, #6]
+	mov r0, #0x40
+	bl sub_37F9458
+	b _027F4608
+_027F45F0:
+	mov r1, #0xc
+	ldr r0, [r5, #0x1c]
+	strh r1, [r0, #4]
+	ldrh r1, [r4, #2]
+	ldr r0, [r5, #0x1c]
+	strh r1, [r0, #6]
+_027F4608:
+	ldrh r1, [r6, #0x6a]
+	ldr r0, [r5, #0x1c]
+	strh r1, [r0, #8]
+	mov r0, #0x53
+	strh r0, [r5]
+	mov r0, #2
+	mov r1, #3
+	bl sub_37F85F8
+_027F4628:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027F4634: .word 0x0380FFF4
+_027F4638: .word 0x00000404
+_027F463C: .word 0x00000FFF
+	arm_func_end sub_27F4514
+
+	arm_func_start sub_27F4640
+sub_27F4640: // 0x027F4640
+	stmdb sp!, {r4, r5, r6, r7, r8, lr}
+	sub sp, sp, #0x30
+	mov r8, r0
+	ldr r0, _027F4814 // =0x0380FFF4
+	ldr r0, [r0]
+	add r7, r0, #0x31c
+	ldrh r5, [r8, #6]
+	add r6, r8, #0x2c
+	cmp r5, #4
+	bls _027F4808
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x50]
+	cmp r0, #1
+	bne _027F4808
+	add r0, r8, #0x1e
+	mov r1, #0x10
+	bl sub_27F0830
+	cmp r0, #0
+	bne _027F4808
+	ldrh r4, [r8, #2]
+	cmp r4, #0
+	beq _027F46A8
+	mov r0, r4
+	bl sub_27EC3A4
+	cmp r0, #0x30
+	bhs _027F46DC
+_027F46A8:
+	add r0, r8, #0x1e
+	mov r1, #0xc0
+	bl sub_27F0830
+	cmp r0, #0
+	bne _027F4808
+	add r0, r8, #0x1e
+	mov r1, #6
+	mov r2, #1
+	bl sub_27F094C
+	cmp r0, #0
+	beq _027F4808
+	bl sub_27F171C
+	b _027F4808
+_027F46DC:
+	mov r0, r4
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	bne _027F4708
+	mov r0, r4
+	mov r1, #0x30
+	bl sub_27EC648
+	add r0, r8, #0x1e
+	mov r1, #1
+	bl sub_27ECD2C
+	b _027F4718
+_027F4708:
+	mov r0, r4
+	bl sub_27EC2CC
+	cmp r0, #0
+	bne _027F4808
+_027F4718:
+	mov r0, #0
+	add r1, sp, #0
+	mov r2, #0x2c
+	bl MIi_CpuClear32
+	add r0, r6, #4
+	str r0, [sp]
+	sub r0, r5, #4
+	strh r0, [sp, #8]
+	add r0, sp, #0
+	bl sub_27F33E4
+	ldrh r1, [r6]
+	ldr r0, _027F4818 // =0x0000FFC2
+	ands r0, r1, r0
+	bne _027F47B4
+	mov r0, r1, lsl #0x1f
+	movs r0, r0, lsr #0x1f
+	beq _027F47B4
+	ldrh r2, [r7, #0x18]
+	cmp r2, #0
+	bne _027F4778
+	mov r0, r1, lsl #0x1b
+	mov r0, r0, lsr #0x1f
+	cmp r0, #1
+	beq _027F47B4
+_027F4778:
+	cmp r2, #0
+	beq _027F4790
+	ldrh r0, [r6]
+	mov r0, r0, lsl #0x1b
+	movs r0, r0, lsr #0x1f
+	beq _027F47B4
+_027F4790:
+	ldrh r0, [r7, #0x1e]
+	mov r0, r0, lsl #0x1d
+	mov r0, r0, lsr #0x1f
+	cmp r0, #1
+	bne _027F47BC
+	ldrh r0, [r6]
+	mov r0, r0, lsl #0x1a
+	movs r0, r0, lsr #0x1f
+	bne _027F47BC
+_027F47B4:
+	mov r1, #0xa
+	b _027F47F0
+_027F47BC:
+	mov r0, r4
+	bl sub_27EC550
+	ldrh r1, [sp, #0xa]
+	ands r0, r1, #1
+	moveq r1, #1
+	beq _027F47F0
+	ands r0, r1, #4
+	moveq r1, #0x12
+	beq _027F47F0
+	mov r0, r4
+	ldrh r1, [sp, #0x16]
+	bl sub_27EC538
+	mov r1, #0
+_027F47F0:
+	mov r0, r4
+	ldr r2, [sp, #0x1c]
+	bl sub_27F0D90
+	cmp r0, #0
+	beq _027F4808
+	bl sub_27F171C
+_027F4808:
+	add sp, sp, #0x30
+	ldmia sp!, {r4, r5, r6, r7, r8, lr}
+	bx lr
+	.align 2, 0
+_027F4814: .word 0x0380FFF4
+_027F4818: .word 0x0000FFC2
+	arm_func_end sub_27F4640
+
+	arm_func_start sub_27F481C
+sub_27F481C: // 0x027F481C
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r4, r0
+	ldr r0, _027F490C // =0x0380FFF4
+	ldr r0, [r0]
+	add r1, r0, #0x344
+	ldrh r5, [r4, #2]
+	ldrh r0, [r1, #0xc]
+	cmp r0, #1
+	beq _027F4858
+	cmp r0, #2
+	beq _027F48C8
+	cmp r0, #3
+	beq _027F48C8
+	b _027F4900
+_027F4858:
+	mov r0, r5
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	bne _027F4890
+	mov r0, r5, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0x30
+	bl sub_27EC648
+	add r0, r4, #0x1e
+	ldrh r1, [r4, #0x2c]
+	bl sub_27ECD2C
+	mov r0, r5
+	bl sub_27F1968
+	b _027F4900
+_027F4890:
+	cmp r0, #0x30
+	bne _027F48A8
+	add r0, r4, #0x1e
+	mov r1, #7
+	bl sub_27F106C
+	b _027F48B8
+_027F48A8:
+	add r0, r4, #0x1e
+	mov r1, #7
+	mov r2, #1
+	bl sub_27F094C
+_027F48B8:
+	cmp r0, #0
+	beq _027F4900
+	bl sub_27F171C
+	b _027F4900
+_027F48C8:
+	ldrh r0, [r1, #8]
+	cmp r0, #0x40
+	bne _027F4900
+	add r0, r4, #0x1e
+	add r1, r1, #0x82
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F4900
+	mov r0, #0x30
+	bl sub_37F9458
+	bl sub_27EA228
+	add r0, r4, #0x1e
+	ldrh r1, [r4, #0x2c]
+	bl sub_27ECD2C
+_027F4900:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027F490C: .word 0x0380FFF4
+	arm_func_end sub_27F481C
+
+	arm_func_start sub_27F4910
+sub_27F4910: // 0x027F4910
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #0x44
+	mov sl, r0
+	ldr r0, _027F4F90 // =0x0380FFF4
+	ldr r1, [r0]
+	add r8, r1, #0x344
+	ldr r0, _027F4F94 // =0x00000404
+	add r7, r1, r0
+	add r6, r1, #0x31c
+	add r5, r1, #0x17c
+	ldr r0, [r1, #0x570]
+	add r0, r0, #1
+	str r0, [r1, #0x570]
+	add r0, sl, #0x1e
+	bl sub_27EC874
+	mov r4, r0
+	mov r0, r4, lsl #0x10
+	mov r0, r0, lsr #0x10
+	strh r0, [sl, #2]
+	cmp r4, #0xff
+	beq _027F4F84
+	ldrh r1, [sl, #0x12]
+	bl sub_27EC630
+	add sb, sl, #0x2c
+	ldrh fp, [sl, #6]
+	cmp fp, #0xc
+	bls _027F4F84
+	mov r0, #0
+	add r1, sp, #0x18
+	mov r2, #0x2c
+	bl MIi_CpuClear32
+	add r0, sb, #0xc
+	str r0, [sp, #0x18]
+	sub r0, fp, #0xc
+	strh r0, [sp, #0x20]
+	mov r0, #2
+	strh r0, [sp, #0x22]
+	ldrh r0, [r8, #0x1e]
+	cmp r0, #0
+	ldreqh r0, [sp, #0x22]
+	orreq r0, r0, #1
+	streqh r0, [sp, #0x22]
+	mov r0, #0x38
+	strh r0, [sp, #0x24]
+	ldrh r0, [sl, #8]
+	strh r0, [sp, #0x1c]
+	ldrh r0, [sb, #0xa]
+	strh r0, [sp, #0x1e]
+	add r0, sp, #0x18
+	bl sub_27F33E4
+	ldr sb, [sp, #0x38]
+	cmp sb, #0
+	beq _027F4A10
+	ldrh r0, [sl, #0x16]
+	ands r0, r0, #0x8000
+	beq _027F4A10
+	add r0, sb, #6
+	bl sub_27E94A4
+	mov fp, r0
+	add r0, sb, #7
+	bl sub_27E94A4
+	add r1, fp, r0, lsl #8
+	ldr r0, _027F4F98 // =0x0480810C
+	strh r1, [r0]
+_027F4A10:
+	ldrh r1, [r7]
+	cmp r1, #0x13
+	bne _027F4A4C
+	ldr r0, [r7, #0x18]
+	ldrh r0, [r0, #0x38]
+	cmp r0, #1
+	bne _027F4A4C
+	ldrh r0, [sp, #0x22]
+	and r0, r0, #9
+	cmp r0, #9
+	bne _027F4F6C
+	mov r0, sl
+	add r1, sp, #0x18
+	bl sub_27F3D90
+	b _027F4F6C
+_027F4A4C:
+	ldrh r0, [sp, #0x22]
+	ands r0, r0, #8
+	beq _027F4F6C
+	cmp r1, #0x21
+	bne _027F4BD4
+	bl sub_27E961C
+	ldrh r0, [sp, #0x22]
+	and r0, r0, #0x30
+	cmp r0, #0x30
+	movne r0, #0xc
+	strneh r0, [r7, #4]
+	movne r0, #0xa
+	strneh r0, [r7, #6]
+	bne _027F4BB0
+	ldrh r0, [sl, #0x34]
+	cmp r0, #0x3e8
+	movhi r0, #0xc
+	strhih r0, [r7, #4]
+	movhi r0, #1
+	strhih r0, [r7, #6]
+	bhi _027F4BB0
+	mov r1, #0
+	strh r1, [r7, #4]
+	ldrh r0, [sp, #0x24]
+	ands r0, r0, #2
+	beq _027F4AC8
+	ldrh r0, [sp, #0x22]
+	ands r0, r0, #2
+	bne _027F4AC8
+	ldrh r0, [sp, #0x2a]
+	bl sub_27EA744
+_027F4AC8:
+	mov r0, r4
+	ldrh r1, [sp, #0x2e]
+	bl sub_27EC538
+	ldrh r0, [r8, #0xc]
+	cmp r0, #2
+	bne _027F4B58
+	ldr sb, [sp, #0x40]
+	cmp sb, #0
+	beq _027F4B40
+	add r0, sb, #6
+	bl sub_27E94A4
+	mov fp, r0
+	add r0, sb, #7
+	bl sub_27E94A4
+	add r0, fp, r0, lsl #8
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #1
+	bl sub_27EB0D0
+	ldr r0, [sp, #0x40]
+	add r0, r0, #8
+	bl sub_27E94A4
+	mov sb, r0
+	ldr r0, [sp, #0x40]
+	add r0, r0, #9
+	bl sub_27E94A4
+	add r1, sb, r0, lsl #8
+	ldr r0, _027F4F9C // =0x0380FFF0
+	strh r1, [r0]
+	b _027F4B58
+_027F4B40:
+	ldr r0, _027F4FA0 // =0x0000FFFF
+	mov r1, #1
+	bl sub_27EB0D0
+	mov r1, #0
+	ldr r0, _027F4F9C // =0x0380FFF0
+	strh r1, [r0]
+_027F4B58:
+	ldr r0, [sp, #0x3c]
+	add r0, r0, #3
+	bl sub_27E94A4
+	bl sub_27EAB64
+	ldr r0, [sp, #0x3c]
+	add r0, r0, #2
+	bl sub_27E94A4
+	strh r0, [r8, #0x76]
+	ldrh r0, [sl, #0x34]
+	bl sub_27EABB0
+	mov r0, #1
+	strh r0, [r8, #0x12]
+	strh r0, [r8, #0x1a]
+	ldrh r0, [r8, #0xc]
+	cmp r0, #2
+	moveq r1, #3
+	ldreq r0, _027F4FA4 // =0x04808048
+	streqh r1, [r0]
+	ldr r1, _027F4FA8 // =0x04808038
+	ldrh r0, [r1]
+	orr r0, r0, #1
+	strh r0, [r1]
+_027F4BB0:
+	ldr r0, [r7, #0x1c]
+	add r0, r0, #8
+	add r1, sl, #0x1e
+	bl sub_27EA1BC
+	mov r0, #0x25
+	strh r0, [r7]
+	mov r0, #2
+	mov r1, #1
+	bl sub_37F85F8
+_027F4BD4:
+	ldrh r0, [r8, #0xc]
+	cmp r0, #2
+	beq _027F4BEC
+	cmp r0, #3
+	beq _027F4CA8
+	b _027F4F54
+_027F4BEC:
+	ldr sb, [sp, #0x40]
+	cmp sb, #0
+	beq _027F4CA8
+	add r0, sb, #6
+	bl sub_27E94A4
+	mov r7, r0
+	add r0, sb, #7
+	bl sub_27E94A4
+	add r0, r7, r0, lsl #8
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, #0
+	bl sub_27EB0D0
+	ldr r0, [sp, #0x40]
+	add r0, r0, #8
+	bl sub_27E94A4
+	mov r7, r0
+	ldr r0, [sp, #0x40]
+	add r0, r0, #9
+	bl sub_27E94A4
+	add r1, r7, r0, lsl #8
+	ldr r0, _027F4F9C // =0x0380FFF0
+	strh r1, [r0]
+	ldr r0, [sp, #0x40]
+	add r0, r0, #1
+	bl sub_27E94A4
+	sub r0, r0, #8
+	strh r0, [r8, #0xa0]
+	ldrh r2, [r8, #0xa0]
+	cmp r2, #0
+	beq _027F4CA8
+	ldr r1, [sp, #0x40]
+	ands r0, r1, #1
+	beq _027F4C90
+	add r0, r1, #9
+	ldr r1, [r8, #0x9c]
+	add r2, r2, #2
+	bl MIi_CpuCopy16
+	mov r0, #1
+	strh r0, [r8, #0xa2]
+	b _027F4CA8
+_027F4C90:
+	add r0, r1, #0xa
+	ldr r1, [r8, #0x9c]
+	add r2, r2, #1
+	bl MIi_CpuCopy16
+	mov r0, #0
+	strh r0, [r8, #0xa2]
+_027F4CA8:
+	mov r0, #0
+	strh r0, [r8, #0x80]
+	mov r0, r4
+	bl sub_27EC4E4
+	add r0, sl, #0x2c
+	ldmia r0, {r2, r3}
+	add r0, sp, #0
+	stmia r0, {r2, r3}
+	ldrh r0, [r8, #0x6e]
+	mov r7, r0, lsl #0xa
+	mov r4, #0
+	ldr r0, [sp]
+	ldr r1, [sp, #4]
+	mov r2, r7
+	mov r3, r4
+	bl _ll_udiv
+	str r0, [sp]
+	str r1, [sp, #4]
+	mov r2, #1
+	adds r3, r0, r2
+	adc r2, r1, #0
+	str r3, [sp]
+	str r2, [sp, #4]
+	umull r1, r0, r3, r7
+	mla r0, r3, r4, r0
+	mla r0, r2, r7, r0
+	str r1, [sp]
+	str r0, [sp, #4]
+	add r2, sp, #0
+	ldrh r1, [r2, #6]
+	ldr r0, _027F4FAC // =0x048080F6
+	strh r1, [r0]
+	ldrh r1, [r2, #4]
+	ldr r0, _027F4FB0 // =0x048080F4
+	strh r1, [r0]
+	ldrh r1, [r2, #2]
+	ldr r0, _027F4FB4 // =0x048080F2
+	strh r1, [r0]
+	ldrh r0, [r2]
+	orr r1, r0, #1
+	ldr r0, _027F4FB8 // =0x048080F0
+	strh r1, [r0]
+	ldrh r0, [r8, #0xc]
+	cmp r0, #2
+	bne _027F4E4C
+	ldrh r0, [r8, #0x1a]
+	cmp r0, #0
+	beq _027F4E4C
+	ldr r1, [sp]
+	ldr r0, [sp, #4]
+	subs r1, r1, r7
+	sbc r0, r0, r4
+	str r1, [sp]
+	str r0, [sp, #4]
+	bl OS_DisableInterrupts
+	ldr r7, _027F4FBC // =0x048080F8
+	ldrh r1, [r7]
+	strh r1, [sp, #8]
+	ldr r4, _027F4FC0 // =0x048080FA
+	ldrh r1, [r4]
+	strh r1, [sp, #0xa]
+	ldr r3, _027F4FC4 // =0x048080FC
+	ldrh r1, [r3]
+	strh r1, [sp, #0xc]
+	ldr r2, _027F4FC8 // =0x048080FE
+	ldrh r1, [r2]
+	strh r1, [sp, #0xe]
+	ldrh r1, [r7]
+	strh r1, [sp, #0x10]
+	ldrh r1, [r4]
+	strh r1, [sp, #0x12]
+	ldrh r1, [r3]
+	strh r1, [sp, #0x14]
+	ldrh r1, [r2]
+	strh r1, [sp, #0x16]
+	bl OS_RestoreInterrupts
+	ldrh r1, [sp, #8]
+	ldrh r0, [sp, #0x10]
+	cmp r1, r0
+	bhs _027F4E0C
+	ldr r3, [sp, #8]
+	ldr r2, [sp, #0xc]
+	ldr r1, [sp]
+	ldr r0, [sp, #4]
+	subs r1, r3, r1
+	sbc r0, r2, r0
+	mov r1, r1, lsr #0xa
+	orr r1, r1, r0, lsl #22
+	b _027F4E2C
+_027F4E0C:
+	ldr r3, [sp, #0x10]
+	ldr r2, [sp, #0x14]
+	ldr r1, [sp]
+	ldr r0, [sp, #4]
+	subs r1, r3, r1
+	sbc r0, r2, r0
+	mov r1, r1, lsr #0xa
+	orr r1, r1, r0, lsl #22
+_027F4E2C:
+	ldrh r0, [r6, #0x20]
+	cmp r1, r0
+	sublo r1, r0, r1
+	ldrlo r0, _027F4FCC // =0x04808134
+	strloh r1, [r0]
+	movhs r1, #0
+	ldrhs r0, _027F4FCC // =0x04808134
+	strhsh r1, [r0]
+_027F4E4C:
+	ldrh r0, [r8, #8]
+	cmp r0, #0x40
+	bne _027F4F54
+	ldr r1, [sp, #0x3c]
+	cmp r1, #0
+	beq _027F4F54
+	ldrh r0, [r8, #0xe]
+	cmp r0, #1
+	bne _027F4F54
+	add r0, r1, #2
+	bl sub_27E94A4
+	ldrh r1, [r8, #0x76]
+	cmp r1, r0
+	strneh r0, [r8, #0x76]
+	mov r1, #0
+	strh r1, [r8, #0x8e]
+	cmp r0, #0
+	bne _027F4EB0
+	ldr r0, [sp, #0x3c]
+	add r0, r0, #4
+	bl sub_27E94A4
+	ands r0, r0, #1
+	ldrneh r0, [r8, #0x8e]
+	orrne r0, r0, #1
+	strneh r0, [r8, #0x8e]
+_027F4EB0:
+	ldr r0, [sp, #0x3c]
+	add r0, r0, #4
+	bl sub_27E94A4
+	and r7, r0, #0xfe
+	mov r4, r7, lsl #3
+	ldr r0, [sp, #0x3c]
+	add r0, r0, #1
+	bl sub_27E94A4
+	add r0, r7, r0
+	sub r0, r0, #3
+	mov r1, r0, lsl #3
+	ldrh r0, [r8, #0x6a]
+	cmp r4, r0
+	bhi _027F4F28
+	cmp r0, r1
+	bhi _027F4F28
+	sub r4, r0, r4
+	ldr r0, [sp, #0x3c]
+	add r0, r0, #5
+	add r0, r0, r4, lsr #3
+	bl sub_27E94A4
+	mov r2, #1
+	and r1, r4, #7
+	mov r1, r2, lsl r1
+	ands r0, r1, r0
+	beq _027F4F28
+	ldrh r0, [r8, #0x8e]
+	orr r0, r0, #2
+	strh r0, [r8, #0x8e]
+	bl sub_27F160C
+_027F4F28:
+	ldrh r0, [r5, #0x20]
+	cmp r0, #0
+	bne _027F4F54
+	ldrh r0, [r5, #0x2c]
+	cmp r0, #0
+	bne _027F4F54
+	ldrh r0, [r8, #0x8e]
+	cmp r0, #0
+	bne _027F4F54
+	mov r0, #1
+	bl sub_27EA5C8
+_027F4F54:
+	ldrh r0, [r6, #0x1e]
+	mov r0, r0, lsl #0x19
+	movs r0, r0, lsr #0x1f
+	beq _027F4F6C
+	mov r0, sl
+	bl sub_27ECB1C
+_027F4F6C:
+	ldr r2, [sp, #0x34]
+	cmp r2, #0
+	beq _027F4F84
+	ldrh r0, [sp, #0x2a]
+	mov r1, sl
+	bl sub_27F5790
+_027F4F84:
+	add sp, sp, #0x44
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F4F90: .word 0x0380FFF4
+_027F4F94: .word 0x00000404
+_027F4F98: .word 0x0480810C
+_027F4F9C: .word 0x0380FFF0
+_027F4FA0: .word 0x0000FFFF
+_027F4FA4: .word 0x04808048
+_027F4FA8: .word 0x04808038
+_027F4FAC: .word 0x048080F6
+_027F4FB0: .word 0x048080F4
+_027F4FB4: .word 0x048080F2
+_027F4FB8: .word 0x048080F0
+_027F4FBC: .word 0x048080F8
+_027F4FC0: .word 0x048080FA
+_027F4FC4: .word 0x048080FC
+_027F4FC8: .word 0x048080FE
+_027F4FCC: .word 0x04808134
+	arm_func_end sub_27F4910
+
+	arm_func_start sub_27F4FD0
+sub_27F4FD0: // 0x027F4FD0
+	stmdb sp!, {r4, r5, lr}
+	sub sp, sp, #4
+	mov r4, r0
+	ldr r0, _027F50A4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r5, r0, #0x344
+	add r0, r0, #0x300
+	ldrh r0, [r0, #0x4c]
+	cmp r0, #0x40
+	movne r0, #1
+	bne _027F5098
+	add r0, r4, #0x1e
+	add r1, r5, #0x64
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F5024
+	add r0, r4, #0x24
+	add r1, r5, #0x82
+	bl sub_27E9DF0
+	cmp r0, #0
+	bne _027F502C
+_027F5024:
+	mov r0, #1
+	b _027F5098
+_027F502C:
+	ldrh r0, [r4, #0x10]
+	sub r0, r0, #0x1c
+	strh r0, [r4, #6]
+	sub r1, r4, #0x10
+	ldr r0, _027F50A8 // =0x00000185
+	strh r0, [r1, #0xc]
+	mov r0, #0x18
+	strh r0, [r1, #0xe]
+	ldrh r0, [r1, #0x18]
+	ldr r2, _027F50AC // =0x04808094
+	ldrh r2, [r2]
+	and ip, r2, #0x8000
+	ldr r4, _027F50A4 // =0x0380FFF4
+	ldr r2, [r4]
+	add r2, r2, #0x400
+	ldrh r3, [r2, #0xe2]
+	ldr r2, _027F50B0 // =0x04808098
+	ldrh r2, [r2]
+	and r2, r2, #0x8000
+	orr r2, r3, r2, asr #4
+	orr r2, r2, ip, asr #3
+	orr r0, r0, r2
+	strh r0, [r1, #0x18]
+	ldr r0, [r4]
+	add r0, r0, #0x188
+	bl sub_37F8E64
+	mov r0, #0
+_027F5098:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, lr}
+	bx lr
+	.align 2, 0
+_027F50A4: .word 0x0380FFF4
+_027F50A8: .word 0x00000185
+_027F50AC: .word 0x04808094
+_027F50B0: .word 0x04808098
+	arm_func_end sub_27F4FD0
+
+	arm_func_start sub_27F50B4
+sub_27F50B4: // 0x027F50B4
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r7, r0
+	ldr r0, _027F5270 // =0x0380FFF4
+	ldr r1, [r0]
+	ldr r0, _027F5274 // =0x0000042C
+	add r6, r1, r0
+	ldr r0, [r6, #0x90]
+	add r5, r0, #0x10
+	ldrh r0, [r6, #0x3c]
+	cmp r0, #0
+	beq _027F5264
+	add r0, r7, #0x18
+	add r1, r1, #0x3a8
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F5264
+	ldrh r0, [r7, #0x10]
+	sub r1, r0, #0x18
+	ldrh r0, [r5, #6]
+	sub r0, r0, #8
+	cmp r1, r0
+	bgt _027F5264
+	add r0, r7, #0x1e
+	bl sub_27EC9BC
+	mov r4, r0
+	cmp r4, #0xff
+	beq _027F5138
+	cmp r4, #0
+	beq _027F5174
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	beq _027F5174
+_027F5138:
+	add r0, r7, #0x1e
+	mov r1, #0xc0
+	bl sub_27F0830
+	cmp r0, #0
+	bne _027F5264
+	add r0, r7, #0x1e
+	mov r1, #7
+	mov r2, #0
+	bl sub_27F094C
+	cmp r0, #0
+	beq _027F5264
+	mov r1, #2
+	strh r1, [r0]
+	bl sub_27F171C
+	b _027F5264
+_027F5174:
+	cmp r4, #0
+	beq _027F5264
+	mov r0, r4, lsl #0x10
+	mov r0, r0, lsr #0x10
+	ldrh r1, [r7, #0x14]
+	mov r1, r1, lsl #0x13
+	mov r1, r1, lsr #0x1f
+	bl sub_27EC5CC
+	mov r0, r4
+	bl sub_27EC4E4
+	mov r0, r4
+	bl sub_27EC2CC
+	mov r1, #1
+	mov r0, r1, lsl r0
+	mov r0, r0, lsl #0x10
+	mov r2, r0, lsr #0x10
+	ldrh r1, [r6, #0x9a]
+	ands r0, r2, r1
+	bne _027F5264
+	ldrh r0, [r6, #0x98]
+	ands r0, r2, r0
+	beq _027F5264
+	orr r0, r1, r2
+	strh r0, [r6, #0x9a]
+	ldrh r1, [r5]
+	mvn r0, r2
+	and r0, r1, r0
+	strh r0, [r5]
+	add r4, r5, #0xa
+	mov r0, r2, lsl #0xf
+	mov r1, r0, lsr #0x10
+	b _027F520C
+_027F51F4:
+	ldrh r0, [r6, #0x98]
+	ands r0, r1, r0
+	ldrneh r0, [r5, #6]
+	addne r4, r4, r0
+	mov r0, r1, lsl #0xf
+	mov r1, r0, lsr #0x10
+_027F520C:
+	cmp r1, #1
+	bne _027F51F4
+	ldrh r0, [r7, #0x10]
+	sub r0, r0, #0x18
+	strh r0, [r4]
+	add r0, r4, #3
+	ldrh r1, [r7, #0x12]
+	and r1, r1, #0xff
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	add r0, r4, #2
+	ldrh r1, [r7, #0xe]
+	and r1, r1, #0xff
+	and r1, r1, #0xff
+	bl sub_27E94C4
+	ldrh r2, [r4]
+	cmp r2, #0
+	beq _027F5264
+	add r0, r7, #0x2c
+	add r1, r4, #8
+	add r2, r2, #1
+	bl MIi_CpuCopy16
+_027F5264:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027F5270: .word 0x0380FFF4
+_027F5274: .word 0x0000042C
+	arm_func_end sub_27F50B4
+
+	arm_func_start sub_27F5278
+sub_27F5278: // 0x027F5278
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	ldr r0, _027F53F4 // =0x0380FFF4
+	ldr r1, [r0]
+	add r5, r1, #0x344
+	ldr r0, _027F53F8 // =0x000004DC
+	add r4, r1, r0
+	ldrh r0, [r5, #8]
+	cmp r0, #0x40
+	movne r0, #1
+	bne _027F53EC
+	add r0, r6, #0x1e
+	add r1, r5, #0x64
+	bl sub_27E9DF0
+	cmp r0, #0
+	beq _027F52CC
+	add r0, r6, #0x24
+	add r1, r5, #0x82
+	bl sub_27E9DF0
+	cmp r0, #0
+	bne _027F52D4
+_027F52CC:
+	mov r0, #1
+	b _027F53EC
+_027F52D4:
+	mov r1, #1
+	ldrh r0, [r5, #0x6a]
+	mov r0, r1, lsl r0
+	mov r0, r0, lsl #0x10
+	mov r1, r0, lsr #0x10
+	ldrh r0, [r6, #0x2e]
+	ands r0, r1, r0
+	moveq r0, #0
+	streqh r0, [r4, #6]
+	movne r0, #0x2000
+	strneh r0, [r4, #6]
+	ldr r0, _027F53FC // =0x04808098
+	ldrh r1, [r0]
+	ands r0, r1, #0x8000
+	beq _027F5338
+	ldr r0, _027F5400 // =0x00007FFF
+	and r0, r1, r0
+	mov r0, r0, lsl #1
+	add r0, r0, #0x4800000
+	add r0, r0, #0x4000
+	ldrh r0, [r0, #4]
+	cmp r0, #0
+	ldrneh r0, [r4, #6]
+	orrne r0, r0, #0x4000
+	strneh r0, [r4, #6]
+_027F5338:
+	ldrh r0, [r5, #0x88]
+	bl sub_27EC4E4
+	ldrh r0, [r6, #0x10]
+	sub r0, r0, #0x1c
+	strh r0, [r6, #6]
+	sub r1, r6, #0x10
+	ldr r0, _027F5404 // =0x00000182
+	strh r0, [r1, #0xc]
+	ldrh r0, [r6, #6]
+	add r0, r0, #0x31
+	mov r0, r0, lsr #1
+	strh r0, [r1, #0xe]
+	ldrh r3, [r1, #0x3e]
+	mov r0, #0
+	b _027F5384
+_027F5374:
+	ands r2, r3, #1
+	addne r0, r0, #1
+	mov r2, r3, lsl #0xf
+	mov r3, r2, lsr #0x10
+_027F5384:
+	cmp r3, #0
+	bne _027F5374
+	ldrh r6, [r1, #0x18]
+	ldr r2, _027F5408 // =0x04808094
+	ldrh r2, [r2]
+	and r5, r2, #0x8000
+	ldrh r3, [r4, #6]
+	ldr r2, _027F53FC // =0x04808098
+	ldrh r2, [r2]
+	and r2, r2, #0x8000
+	orr r2, r3, r2, asr #4
+	orr r2, r2, r5, asr #3
+	orr r2, r6, r2
+	strh r2, [r1, #0x18]
+	ldrh r3, [r1, #0x1c]
+	ldrh r2, [r1, #0x3c]
+	add r2, r2, #0xa
+	mul r2, r0, r2
+	add r0, r2, #0xfc
+	add r0, r3, r0, lsr #4
+	strh r0, [r1, #0x1a]
+	ldr r0, _027F53F4 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	bl sub_37F8E64
+	mov r0, #0
+_027F53EC:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F53F4: .word 0x0380FFF4
+_027F53F8: .word 0x000004DC
+_027F53FC: .word 0x04808098
+_027F5400: .word 0x00007FFF
+_027F5404: .word 0x00000182
+_027F5408: .word 0x04808094
+	arm_func_end sub_27F5278
+
+	arm_func_start sub_27F540C
+sub_27F540C: // 0x027F540C
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	ldr r0, _027F5714 // =0x0380FFF4
+	ldr r1, [r0]
+	add r8, r1, #0x344
+	add r7, r1, #0x17c
+	ldr r0, _027F5718 // =0x0000053C
+	add r6, r1, r0
+	ldr sl, [r7, #0x48]
+	mvn r0, #0
+	cmp sl, r0
+	beq _027F570C
+	ldrh r0, [r8, #8]
+	cmp r0, #0x40
+	beq _027F5454
+	add r0, r7, #0x48
+	mov r1, sl
+	bl sub_37F89B8
+	b _027F570C
+_027F5454:
+	add sb, sl, #0x10
+	ldrh r0, [sb, #0x14]
+	mov r0, r0, lsl #0x17
+	movs r0, r0, lsr #0x1f
+	beq _027F548C
+	ldrh r0, [sb, #0x24]
+	ands r0, r0, #1
+	ldrne r0, [r6, #0x2c]
+	addne r0, r0, #1
+	strne r0, [r6, #0x2c]
+	ldreq r0, [r6, #0x28]
+	addeq r0, r0, #1
+	streq r0, [r6, #0x28]
+	b _027F54AC
+_027F548C:
+	ldrh r0, [sb, #0x18]
+	ands r0, r0, #1
+	ldrne r0, [r6, #0x2c]
+	addne r0, r0, #1
+	strne r0, [r6, #0x2c]
+	ldreq r0, [r6, #0x28]
+	addeq r0, r0, #1
+	streq r0, [r6, #0x28]
+_027F54AC:
+	ldrh r0, [sb, #8]
+	and r0, r0, #0xf0
+	mov r1, #0x10
+	bl _s32_div_f
+	ldr r1, [r6, #0x24]
+	sub r0, r0, #1
+	add r0, r1, r0
+	str r0, [r6, #0x24]
+	mov r4, #1
+	ldrh r0, [r8, #0xc]
+	cmp r0, #1
+	beq _027F54F0
+	cmp r0, #2
+	beq _027F55D0
+	cmp r0, #3
+	beq _027F55D0
+	b _027F5678
+_027F54F0:
+	ldrh r0, [sb, #0x14]
+	ands r0, r0, #1
+	bne _027F5678
+	add r0, sb, #0x1e
+	bl sub_27EC9BC
+	mov r5, r0
+	cmp r5, #0xff
+	beq _027F551C
+	bl sub_27EC3A4
+	cmp r0, #0x40
+	beq _027F5584
+_027F551C:
+	mov r0, r5
+	bl sub_27EC3A4
+	cmp r0, #0x30
+	bne _027F5550
+	add r0, sb, #0x1e
+	mov r1, #0xa0
+	bl sub_27F0830
+	cmp r0, #0
+	bne _027F5678
+	add r0, sb, #0x1e
+	mov r1, #7
+	bl sub_27F106C
+	b _027F5574
+_027F5550:
+	add r0, sb, #0x1e
+	mov r1, #0xc0
+	bl sub_27F0830
+	cmp r0, #0
+	bne _027F5678
+	add r0, sb, #0x1e
+	mov r1, #7
+	mov r2, #1
+	bl sub_27F094C
+_027F5574:
+	cmp r0, #0
+	beq _027F5678
+	bl sub_27F171C
+	b _027F5678
+_027F5584:
+	mov r0, r5, lsl #0x10
+	mov r0, r0, lsr #0x10
+	ldrh r1, [sb, #0x14]
+	mov r1, r1, lsl #0x13
+	mov r1, r1, lsr #0x1f
+	bl sub_27EC5CC
+	mov r0, r5
+	bl sub_27EC310
+	ldrh r1, [sb, #0x2a]
+	cmp r1, r0
+	ldreq r0, [r6, #0x3c]
+	addeq r0, r0, #1
+	streq r0, [r6, #0x3c]
+	beq _027F5678
+	add r0, sb, #0x18
+	add r1, sb, #0x24
+	bl sub_27EA1BC
+	mov r4, #0
+	b _027F5678
+_027F55D0:
+	ldrh r2, [sb, #0x14]
+	ands r1, r2, #1
+	bne _027F5678
+	ldrh r1, [r8, #0xe]
+	cmp r1, #0
+	beq _027F5644
+	ands r1, r2, #0x2000
+	bne _027F5644
+	ldrh r1, [sb, #0x18]
+	ands r1, r1, #1
+	ldrneh r0, [r8, #0x8e]
+	bicne r0, r0, #1
+	strneh r0, [r8, #0x8e]
+	bne _027F5618
+	cmp r0, #3
+	ldrneh r0, [r8, #0x8e]
+	bicne r0, r0, #2
+	strneh r0, [r8, #0x8e]
+_027F5618:
+	ldrh r0, [r8, #0x8e]
+	cmp r0, #0
+	bne _027F5644
+	ldrh r0, [r7, #0x20]
+	cmp r0, #0
+	bne _027F5644
+	ldrh r0, [r7, #0x2c]
+	cmp r0, #0
+	bne _027F5644
+	mov r0, #1
+	bl sub_27EA5C8
+_027F5644:
+	ldrh r5, [r8, #0x88]
+	mov r0, r5
+	bl sub_27EC310
+	ldrh r1, [sb, #0x2a]
+	cmp r1, r0
+	ldreq r0, [r6, #0x3c]
+	addeq r0, r0, #1
+	streq r0, [r6, #0x3c]
+	beq _027F5678
+	add r0, sb, #0x1e
+	add r1, sb, #0x24
+	bl sub_27EA1BC
+	mov r4, #0
+_027F5678:
+	cmp r4, #0
+	bne _027F56E8
+	mov r0, r5, lsl #0x10
+	mov r0, r0, lsr #0x10
+	strh r0, [sb, #2]
+	ldrh r1, [sb, #0x12]
+	and r1, r1, #0xff
+	mov r1, r1, lsl #0x10
+	mov r1, r1, lsr #0x10
+	bl sub_27EC630
+	mov r0, r5
+	ldrh r1, [sb, #0x2a]
+	bl sub_27EC520
+	mov r0, r5
+	bl sub_27EC4E4
+	ldrh r0, [sb, #0x10]
+	sub r0, r0, #0x18
+	strh r0, [sb, #6]
+	mov r0, #0x180
+	strh r0, [sl, #0xc]
+	ldrh r0, [sb, #6]
+	add r0, r0, #0x2d
+	mov r0, r0, lsr #1
+	strh r0, [sl, #0xe]
+	add r0, r7, #0x48
+	mov r1, sl
+	bl sub_37F8E64
+	b _027F56F4
+_027F56E8:
+	add r0, r7, #0x48
+	mov r1, sl
+	bl sub_37F89B8
+_027F56F4:
+	ldrh r0, [r7, #0x50]
+	cmp r0, #0
+	beq _027F570C
+	mov r0, #2
+	mov r1, #6
+	bl sub_37F85F8
+_027F570C:
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	bx lr
+	.align 2, 0
+_027F5714: .word 0x0380FFF4
+_027F5718: .word 0x0000053C
+	arm_func_end sub_27F540C
+
+	arm_func_start sub_27F571C
+sub_27F571C: // 0x027F571C
+	ldr r0, _027F5768 // =0x0380FFF4
+	ldr r0, [r0]
+	add ip, r0, #0x23c
+	mov r3, #0
+	mov r0, r3
+	add r2, ip, #0x30
+_027F5734:
+	ldrh r1, [ip, #0x30]
+	cmp r1, #0
+	beq _027F5758
+	ldrh r1, [r2]
+	sub r1, r1, #1
+	strh r1, [r2]
+	ldrh r1, [ip, #0x30]
+	cmp r1, #0
+	streqh r0, [ip]
+_027F5758:
+	add r3, r3, #1
+	cmp r3, #4
+	blo _027F5734
+	bx lr
+	.align 2, 0
+_027F5768: .word 0x0380FFF4
+	arm_func_end sub_27F571C
+
+	arm_func_start sub_27F576C
+sub_27F576C: // 0x027F576C
+	mov r0, #0
+	ldr r1, _027F5788 // =0x0380FFF4
+	ldr r1, [r1]
+	add r1, r1, #0x23c
+	mov r2, #0xc8
+	ldr ip, _027F578C // =MIi_CpuClear16
+	bx ip
+	.align 2, 0
+_027F5788: .word 0x0380FFF4
+_027F578C: .word MIi_CpuClear16
+	arm_func_end sub_27F576C
+
+	arm_func_start sub_27F5790
+sub_27F5790: // 0x027F5790
+	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	sub sp, sp, #4
+	mov fp, r0
+	mov sl, r1
+	mov sb, r2
+	ldr r0, _027F58E0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r8, r0, #0x23c
+	add r0, sb, #1
+	bl sub_27E94A4
+	cmp r0, #0x20
+	bhi _027F58D4
+	mov r6, #4
+	mov r5, r6
+	mov r4, #0x400
+	mov r7, #0
+	add r0, sl, #0x24
+	str r0, [sp]
+	b _027F581C
+_027F57DC:
+	ldrh r0, [r8]
+	cmp r0, #0
+	beq _027F5810
+	add r0, r8, #6
+	ldr r1, [sp]
+	bl sub_27E9DF0
+	cmp r0, #0
+	bne _027F583C
+	ldrh r0, [r8, #0x30]
+	cmp r0, r4
+	movlo r4, r0
+	movlo r5, r7
+	b _027F5814
+_027F5810:
+	mov r6, r7
+_027F5814:
+	add r7, r7, #1
+	add r8, r8, #0x32
+_027F581C:
+	cmp r7, #4
+	blo _027F57DC
+	cmp r6, #4
+	movne r7, r6
+	bne _027F583C
+	cmp r5, #4
+	movne r7, r5
+	beq _027F58D4
+_027F583C:
+	ldr r0, _027F58E0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r5, r0, #0x23c
+	mov r2, #0x32
+	mul r4, r7, r2
+	add r6, r5, r4
+	mov r0, #0
+	mov r1, r6
+	bl MIi_CpuClear16
+	mov r0, #0x400
+	strh r0, [r6, #0x30]
+	ldrh r0, [sl, #0x12]
+	and r0, r0, #0xff
+	strh r0, [r5, r4]
+	strh fp, [r6, #2]
+	add r0, r6, #6
+	add r1, sl, #0x24
+	bl sub_27EA1BC
+	add r0, sb, #1
+	bl sub_27E94A4
+	strh r0, [r6, #0xc]
+	mov r7, #0
+	add r5, sb, #2
+	add r4, r6, #0xe
+	b _027F58B8
+_027F58A0:
+	add r0, r5, r7
+	bl sub_27E94A4
+	mov r1, r0
+	add r0, r4, r7
+	bl sub_27E94C4
+	add r7, r7, #1
+_027F58B8:
+	ldrh r0, [r6, #0xc]
+	cmp r7, r0
+	blo _027F58A0
+	ldrh r0, [sl, #0x34]
+	strh r0, [r6, #0x2e]
+	ldrh r0, [sl, #0x36]
+	strh r0, [r6, #4]
+_027F58D4:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	bx lr
+	.align 2, 0
+_027F58E0: .word 0x0380FFF4
+	arm_func_end sub_27F5790
+
+	arm_func_start sub_27F58E4
+sub_27F58E4: // 0x027F58E4
+	stmdb sp!, {lr}
+	sub sp, sp, #4
+	ldr r0, _027F59D0 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x314]
+	bl SPI_Lock
+	bl sub_27F5A88
+	mov r0, #0
+	str r0, [sp]
+	mov r0, #0x2c
+	mov r1, #2
+	add r2, sp, #0
+	bl NVRAM_ReadDataBytes
+	ldr r0, _027F59D0 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x314]
+	bl SPI_Unlock
+	ldr r1, [sp]
+	cmp r1, #0xa4
+	blo _027F5940
+	ldr r0, _027F59D4 // =0x000001D6
+	cmp r1, r0
+	bls _027F5948
+_027F5940:
+	mov r0, #0
+	b _027F59C4
+_027F5948:
+	add r1, r1, #2
+	str r1, [sp]
+	ldr r0, _027F59D0 // =0x0380FFF4
+	ldr r0, [r0]
+	add r0, r0, #0x188
+	bl sub_37F8910
+	ldr r2, _027F59D0 // =0x0380FFF4
+	ldr r1, [r2]
+	str r0, [r1, #0x318]
+	ldr r1, [r2]
+	ldr r0, [r1, #0x318]
+	cmp r0, #0
+	moveq r0, #0
+	beq _027F59C4
+	add r0, r0, #0xc
+	str r0, [r1, #0x318]
+	ldr r0, [r2]
+	ldr r0, [r0, #0x314]
+	bl SPI_Lock
+	bl sub_27F5A88
+	mov r0, #0x2a
+	ldr r1, [sp]
+	ldr r2, _027F59D0 // =0x0380FFF4
+	ldr r2, [r2]
+	ldr r2, [r2, #0x318]
+	bl NVRAM_ReadDataBytes
+	ldr r0, _027F59D0 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x314]
+	bl SPI_Unlock
+	mov r0, #1
+_027F59C4:
+	add sp, sp, #4
+	ldmia sp!, {lr}
+	bx lr
+	.align 2, 0
+_027F59D0: .word 0x0380FFF4
+_027F59D4: .word 0x000001D6
+	arm_func_end sub_27F58E4
+
+	arm_func_start sub_27F59D8
+sub_27F59D8: // 0x027F59D8
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r0
+	mov r5, r1
+	mov r4, r2
+	ldr r0, _027F5A24 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x314]
+	bl SPI_Lock
+	bl sub_27F5A88
+	mov r0, r6
+	mov r1, r5
+	mov r2, r4
+	bl NVRAM_ReadDataBytes
+	ldr r0, _027F5A24 // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x314]
+	bl SPI_Unlock
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F5A24: .word 0x0380FFF4
+	arm_func_end sub_27F59D8
+
+	arm_func_start sub_27F5A28
+sub_27F5A28: // 0x027F5A28
+	stmdb sp!, {r4, r5, r6, lr}
+	mov r6, r1
+	mov r5, r2
+	ldr r1, _027F5A84 // =0x0380FFF4
+	ldr r1, [r1]
+	ldr r1, [r1, #0x318]
+	cmp r1, #0
+	beq _027F5A7C
+	add r0, r1, r0
+	sub r4, r0, #0x2a
+	b _027F5A74
+_027F5A54:
+	mov r0, r4
+	bl sub_27E94A4
+	add r4, r4, #1
+	mov r1, r0
+	mov r0, r5
+	bl sub_27E94C4
+	add r5, r5, #1
+	sub r6, r6, #1
+_027F5A74:
+	cmp r6, #0
+	bne _027F5A54
+_027F5A7C:
+	ldmia sp!, {r4, r5, r6, lr}
+	bx lr
+	.align 2, 0
+_027F5A84: .word 0x0380FFF4
+	arm_func_end sub_27F5A28
+
+	arm_func_start sub_27F5A88
+sub_27F5A88: // 0x027F5A88
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #8
+	add r4, sp, #0
+_027F5A94:
+	mov r0, r4
+	bl NVRAM_ReadStatusRegister
+	ldr r0, [sp]
+	ands r0, r0, #0x20
+	beq _027F5AB0
+	bl NVRAM_SoftwareReset
+	b _027F5A94
+_027F5AB0:
+	ldr r0, [sp]
+	ands r0, r0, #1
+	bne _027F5A94
+	add sp, sp, #8
+	ldmia sp!, {r4, lr}
+	bx lr
+	arm_func_end sub_27F5A88
+
+	arm_func_start sub_27F5AC8
+sub_27F5AC8: // 0x027F5AC8
+	stmdb sp!, {r4, r5, r6, r7, lr}
+	sub sp, sp, #4
+	mov r5, r0
+	ldr r0, _027F5B6C // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r1, [r0, #0x318]
+	ldrh r6, [r1, #2]
+	cmp r6, #0xa4
+	blo _027F5AF8
+	ldr r0, _027F5B70 // =0x000001D6
+	cmp r6, r0
+	bls _027F5B00
+_027F5AF8:
+	mov r0, #2
+	b _027F5B60
+_027F5B00:
+	add r7, r1, #2
+	mov r4, #0
+	b _027F5B30
+_027F5B0C:
+	mov r0, r7
+	bl sub_27E94A4
+	add r7, r7, #1
+	and r0, r0, #0xff
+	mov r1, r4, lsl #0x10
+	mov r1, r1, lsr #0x10
+	bl sub_27E93B0
+	mov r4, r0
+	sub r6, r6, #1
+_027F5B30:
+	cmp r6, #0
+	bne _027F5B0C
+	ldr r0, _027F5B6C // =0x0380FFF4
+	ldr r0, [r0]
+	ldr r0, [r0, #0x318]
+	ldrh r1, [r0]
+	cmp r5, #0
+	orrne r0, r1, r4, lsl #16
+	strne r0, [r5]
+	cmp r4, r1
+	movne r0, #1
+	moveq r0, #0
+_027F5B60:
+	add sp, sp, #4
+	ldmia sp!, {r4, r5, r6, r7, lr}
+	bx lr
+	.align 2, 0
+_027F5B6C: .word 0x0380FFF4
+_027F5B70: .word 0x000001D6
+	arm_func_end sub_27F5AC8
+
+	.rodata
+
+_027F7D5C:
+    .word sub_27E2E30, sub_27E2F18, sub_27E3360, sub_27E8104
+	.word sub_27E8164, sub_27E83F4, sub_27E849C, sub_27E3434
+	.word sub_27E3520, sub_27E37E0, sub_27E3FA8, sub_27E4380
+	.word sub_27E4490, sub_27E51DC, sub_27E5234, sub_27E54F8
+	.word sub_27E567C, sub_27E579C, sub_27E5828, sub_27E595C
+	.word sub_27E5B1C, sub_27E2048, sub_27E2048, sub_27E2048
+	.word sub_27E5BD0, sub_27E5D00, sub_27E5D60, sub_27E5D8C
+	.word sub_27E68EC, sub_27E5DF4, sub_27E5F50, sub_27E6140
+	.word sub_27E61CC, sub_27E7E64, sub_27E7EF8, sub_27E8858
+	.word sub_27E88F0, sub_27E8950, sub_27E3A70, sub_27E5A38
+	.word sub_27E8964, sub_27E8AE8, sub_27E8B14, sub_27E68B0
+	.word sub_27E6880, sub_27E6844
+
+_027F7E14:
+    .word sub_27ED83C, sub_27ED730, sub_27ED608, sub_27ED500
+	.word sub_27ED400, sub_27ED134, sub_27F540C, sub_27F3098
+	.word sub_37FAAB4, sub_27F2E80, sub_27EBF40, sub_37F8B4C
+	.word sub_37F8730, sub_27ED0E4, sub_37FAB08, sub_37FAD10
+	.word sub_37FB0E8, sub_27F2978, sub_27F571C, sub_27ECA80
+	.word sub_37FB1D4, sub_27E90B8, sub_27E9014, sub_27E8FC0
+
+_027F7E74:
+    .hword 3, 3
+
+_027F7E78:
+    .byte 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0
+
+_027F7E80:
+    .byte 3, 9, 0xBF, 0, 0, 0x10, 0, 0
+
+_027F7E88:
+    .byte 0, 0, 0, 0, 0, 0, 0, 0
+
+_027F7E90:
+    .byte 3, 9, 0xBF, 0, 0, 0, 0, 0
+
+_027F7E98:
+    .hword 2, 4, 0xB, 0xC, 0x12, 0x16, 0x18, 0x24, 0x30, 0x48, 0x60, 0x6C, 0, 0, 0, 0
+
+_027F7EB8:
+    .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+_027F7ED8:
+    .hword 0, 0xCC01, 0xD801, 0x1400, 0xF001, 0x3C00, 0x2800, 0xE401, 0xA001, 0x6C00, 0x7800, 0xB401, 0x5000, 0x9C01, 0x8801, 0x4400
+
+_027F7EF8:
+    .hword 0x146, 0x148, 0x14A, 0x14C, 0x120, 0x122, 0x154, 0x144, 0x132, 0x132, 0x140, 0x142, 0x38, 0x124, 0x128, 0x150
+
+_027F7F18:
+    .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+_027F7F68:
+    .word 4, 8, 0xA, 0x12, 0xFFFF0010, 0x254, 0xFFFF00B4, 0x80
+	.word 0x1008E, 0x88, 0x2A, 0x28, 0xE8, 0xEA, 0x100EE, 0x3F0300EC
+	.word 0x101A2, 0x1A0, 0x8000110, 0x100BC, 0x300D4, 0x400D8
+	.word 0x60200DA, 0x76, 0x1460130
+
+_027F7FCC:
+    .word 0xFF, 0x100FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0x30002
+	.word 0xFF00FF, 0xFF00FF, 0x400FF, 0xFF00FF, 0x500FF, 0x600FF
+	.word 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0x700FF
+	.word 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0x800FF
+	.word 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF
+	.word 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0x900FF
+	.word 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF
+	.word 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xA00FF
+	.word 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xB00FF
+	.word 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF
+
+_027F80BC:
+    .byte 0xFF, 0xFF, 0x5A, 0x5A, 0xA5, 0xA5, 0, 0
+
+_027F80C4:
+    .hword 2, 4, 5, 6, 7, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x26, 0x29, 0x2C, 0x2D, 0x2E, 0x2F, 0x30, 0x33, 0x34
+	.hword 0x35, 0x36, 0x37, 0x65, 0, 0
+
+_027F80F8:
+    .hword 0, 9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF, 0x10, 0x11, 0x12, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x27, 0x4D
+	.hword 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x64, 0x66, 0
+
+_027F8130:
+    .hword 6, 0x3F, 0x18, 0xFFFF, 0x1A, 0xFFFF, 0x1C, 0xFFFF
+	.hword 0x20, 0xFFFF, 0x22, 0xFFFF, 0x24, 0xFFFF, 0x2A, 0x7FF
+	.hword 0x50, 0xFFFF, 0x52, 0xFFFF, 0x56, 0xFFE, 0x58, 0x1FFE
+	.hword 0x5A, 0xFFE, 0x5C, 0xFFF, 0x62, 0x1FFE, 0x64, 0xFFF
+	.hword 0x68, 0x1FFE, 0x6C, 0xFFF, 0x74, 0x1FFE, 0x122, 0xFFFF
+	.hword 0x124, 0xFFFF, 0x128, 0xFFFF, 0x130, 0xFFF, 0x132
+	.hword 0x8FFF, 0x134, 0xFFFF, 0x140, 0xFFFF, 0x142, 0xFFFF
+
+_027F819C:
+    .hword 0x18, 2, 0x3B4, 0x27F, 4
+
+_027F81A6:
+    .hword 1
+
+_027F81A8:
+    .word sub_27F0210, 0x1000A, sub_27EFD18, 0x1000C, sub_27EFCB4, 0x10001, sub_27EFC68
+
+_027F81C4:
+    .hword 0, 4, 0xE75C, 0x27E, 0
+
+_027F81CE:
+    .hword 0x12
+
+_027F81D0:
+    .word sub_27EE710, 0x20000, sub_27EE6E8, 0x20000, sub_27EE6C0, 0x20000, sub_27EE698, 0x10000, sub_27EE5B4
+
+_027F81F4:
+    .hword 3, 1, 0xEE2C, 0x27E, 0x11
+
+_027F81FE:
+    .hword 1
+
+_027F8200:
+    .word sub_27EEE0C, 0x10001, sub_27EEDC8, 0x10001, sub_27EED84, 0x10001, sub_27EED38, 0x10000, sub_27EECC8
+
+_027F8224:
+    .hword 1, 1, 0xE574, 0x27E, 3
+
+_027F822E:
+    .hword 1
+
+_027F8230:
+    .word sub_27EE4C8, 0x23001F, sub_27EE37C, 0x50022, sub_27EE1BC
+	.word 0x60005, sub_27EE0E0, 0x40004, sub_27EDF94, 0x30005
+	.word sub_27EDEAC, 0x30005, sub_27EDDDC, 0x10004, sub_27EDCC4
+	.word 0x10017, sub_27EDB20, 0x12000C, sub_27EDA38
+
+_027F827C:
+    .hword 0, 1, 0xCAE8, 0x27E, 0
+
+_027F8286:
+    .hword 1
+
+_027F8288:
+    .word sub_27EFBE4, 0x10000, sub_27EFB80, 0x10000, sub_27EFB20
+	.word 0x10000, sub_27EFADC, 0x10000, sub_27EFA98, 0x90000
+	.word sub_27EF9EC, 0x5C0000, sub_27EF98C, 0x20000, sub_27EF964
+	.word 0x10004, sub_27EF6F0, 0x10002, sub_27EF450
+
+_027F82D4:
+    .hword 0, 0x21, 0xEB90, 0x27E, 0
+
+_027F82DE:
+    .hword 4
+
+_027F82E0:
+    .word sub_27EEB58, 0x20000, sub_27EEB30, 0x30000, sub_27EEAF8
+	.word 0x20000, sub_27EEAD0, 0x20000, sub_27EEAA8, 0x20000
+	.word sub_27EEA80, 0x20000, sub_27EEA58, 0x10000, sub_27ECAE8
+	.word 0x20000, sub_27EEA28, 0x20000, sub_27EE9F8, 0x20000
+	.word sub_27EE9D0, 0x20000, sub_27EE9A8, 0x110000, sub_27EE96C
+	.word 0x20000, sub_27EE93C, 0x20000, sub_27EE914, 0x40000
+	.word sub_27EE8D4, 0x10000, sub_27ECAE8, 0x20000, sub_27EE8A8
+	.word 0x20000, sub_27EE86C, 0x30000, sub_27EE80C, 0x20000
+	.word sub_27EE7D0, 0x20000, sub_27EE794
+
+_027F838C:
+    .byte 0x48, 0, 1, 0, 0x5C, 0xF3, 0x7E, 2, 3, 0
+
+_027F8396:
+    .hword 1
+
+_027F8398:
+    .word sub_27EF314, 0x10001, sub_27EF2FC, 0x10001, sub_27EF2B4
+	.word 0x10001, sub_27EF258, 0x10001, sub_27EF240, 0x10001
+	.word sub_27EF228, 0x10001, sub_27EF210, 0x10028, sub_27EF1F8
+	.word 0x10001, sub_27EF1B0, 0x10001, sub_27EF198, 0x10001
+	.word sub_27EF180, 0x10001, sub_27EF164, 0x10010, sub_27EF14C
+	.word 0x10001, sub_27EF134, 0x10001, sub_27EF11C, 0x10003
+	.word sub_27EF0C8, 0x10003, sub_27EEFBC, 0x10001, sub_27EEF64
+	.word 0x10001, sub_27EEF1C, 0x10002, sub_27EEED4, 0x10001
+	.word sub_27EEE8C, 0x10001, sub_27EEE44
+
+a27800: // 0x027F8444
+	.asciz "2.78.00"
+
+_027F844C:
+    .hword 1, 4, 8, 0
+
+	.bss
+
+_027F8454:
+	.space 0x1968

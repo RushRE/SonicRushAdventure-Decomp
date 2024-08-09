@@ -1,0 +1,16 @@
+dword_ => RAM_bss:([0-9A-F]*)[\s]*(dword_)([A-Za-z_0-9]*)[\s]*([DCBW]*)[\s]([A-Za-z_0-9]*)
+word_ => RAM_bss:([0-9A-F]*)[\s]*(word_)([A-Za-z_0-9]*)[\s]*([DCBW]*)[\s]([A-Za-z_0-9]*)
+byte_ => RAM_bss:([0-9A-F]*)[\s]*(byte_)([A-Za-z_0-9]*)[\s]*([DCBW]*)[\s]([A-Za-z_0-9]*)
+off_ => RAM_bss:([0-9A-F]*)[\s]*(off_)([A-Za-z_0-9]*)[\s]*([DCBW]*)[\s]([A-Za-z_0-9]*)
+stru_ => RAM_bss:([0-9A-F]*)[\s]*(stru_)([A-Za-z_0-9]*)[\s]*([^\s]*)[\s]([A-Za-z_0-9]*)
+replace => _0$3: // 0x$1\n    .$4 $5
+
+
+string => RAM_bss:([0-9A-F]*)[\s]*(a)([A-Za-z_0-9]*)[\s]*([DCBW]*)[\s]([A-Za-z_0-9]*)
+replace => a$3: // 0x$1\n    .$4 $5
+
+// [^\n]*
+_0[0-9A-Fa-f]* // =
+
+trim end line => ([ \t]*)[\n]
+relace => \n

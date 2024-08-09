@@ -1,0 +1,31 @@
+#ifndef NITRO_IO_REG_H
+#define NITRO_IO_REG_H
+
+#include <nitro/hw/common/io_reg.h>
+
+#ifdef SDK_ARM9
+#include <nitro/hw/ARM9/io_reg.h>
+#else
+#include <nitro/hw/ARM7/io_reg.h>
+#endif
+
+#define REG_G3_SWAP_BUFFERS_DP_SHIFT 1
+#define REG_G3_SWAP_BUFFERS_DP_SIZE  1
+#define REG_G3_SWAP_BUFFERS_DP_MASK  0x00000002
+
+#define REG_G3_SWAP_BUFFERS_XS_SHIFT 0
+#define REG_G3_SWAP_BUFFERS_XS_SIZE  1
+#define REG_G3_SWAP_BUFFERS_XS_MASK  0x00000001
+#define REG_G3_SWAP_BUFFERS_DP_SHIFT 1
+#define REG_G3_SWAP_BUFFERS_DP_SIZE  1
+#define REG_G3_SWAP_BUFFERS_DP_MASK  0x00000002
+
+#define REG_G3_SWAP_BUFFERS_XS_SHIFT 0
+#define REG_G3_SWAP_BUFFERS_XS_SIZE  1
+#define REG_G3_SWAP_BUFFERS_XS_MASK  0x00000001
+
+#ifndef SDK_ASM
+#define REG_G3_SWAP_BUFFERS_FIELD(dp, xs) (u32)(((u32)(dp) << REG_G3_SWAP_BUFFERS_DP_SHIFT) | ((u32)(xs) << REG_G3_SWAP_BUFFERS_XS_SHIFT))
+#endif
+
+#endif // NITRO_IO_REG_H

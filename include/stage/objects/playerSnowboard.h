@@ -1,0 +1,66 @@
+#ifndef RUSH2_PLAYERSNOWBOARD_H
+#define RUSH2_PLAYERSNOWBOARD_H
+
+#include <stage/gameObject.h>
+
+enum PlayerSnowboardAction_
+{
+    PLAYERSNOWBOARD_ACTION_START,
+    PLAYERSNOWBOARD_ACTION_1,
+    PLAYERSNOWBOARD_ACTION_IDLE,
+    PLAYERSNOWBOARD_ACTION_WALK,
+    PLAYERSNOWBOARD_ACTION_JUMP_01,
+    PLAYERSNOWBOARD_ACTION_JUMP_02,
+    PLAYERSNOWBOARD_ACTION_JUMPFALL,
+    PLAYERSNOWBOARD_ACTION_AIRRISE,
+    PLAYERSNOWBOARD_ACTION_AIRFALL_01,
+    PLAYERSNOWBOARD_ACTION_AIRFALL_02,
+    PLAYERSNOWBOARD_ACTION_10,
+    PLAYERSNOWBOARD_ACTION_RAINBOWDASHRING,
+    PLAYERSNOWBOARD_ACTION_TRICK_FINISH_V_01,
+    PLAYERSNOWBOARD_ACTION_TRICK_FINISH_V_02,
+    PLAYERSNOWBOARD_ACTION_TRICK_FINISH_H_01,
+    PLAYERSNOWBOARD_ACTION_TRICK_FINISH_H_02,
+    PLAYERSNOWBOARD_ACTION_TRICK_SUCCESS1,
+    PLAYERSNOWBOARD_ACTION_TRICK_SUCCESS2,
+    PLAYERSNOWBOARD_ACTION_TRICK_FINISH,
+    PLAYERSNOWBOARD_ACTION_GRIND,
+    PLAYERSNOWBOARD_ACTION_GRINDTRICK_1,
+    PLAYERSNOWBOARD_ACTION_GRINDTRICK_2,
+    PLAYERSNOWBOARD_ACTION_GRINDTRICK_3_01,
+    PLAYERSNOWBOARD_ACTION_GRINDTRICK_3_02,
+    PLAYERSNOWBOARD_ACTION_GRINDTRICK_3_03,
+    PLAYERSNOWBOARD_ACTION_HURT,
+    PLAYERSNOWBOARD_ACTION_DIVING_BOARD,
+
+    PLAYERSNOWBOARD_ACTION_COUNT,
+};
+typedef u32 PlayerSnowboardAction;
+
+// --------------------
+// STRUCTS
+// --------------------
+
+typedef struct PlayerSnowboard_
+{
+    GameObjectTask gameWork;
+    OBS_ACTION3D_NN_WORK aniSnowboard;
+} PlayerSnowboard;
+
+typedef struct LoseSnowboardTrigger_
+{
+    GameObjectTask gameWork;
+} LoseSnowboardTrigger;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+PlayerSnowboard *CreatePlayerSnowboard(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+LoseSnowboardTrigger *CreateLoseSnowboardTrigger(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+
+PlayerSnowboard *SpawnLostPlayerSnowboard(fx32 type);
+void DestroyPlayerSnowboard(void);
+void ChangePlayerSnowboardAction(Player *player, PlayerSnowboardAction action);
+
+#endif // RUSH2_PLAYERSNOWBOARD_H

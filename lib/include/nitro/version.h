@@ -1,0 +1,14 @@
+#ifndef NITROSDK_VERSION_H
+#define NITROSDK_VERSION_H
+
+#define SDK_VERSION_MAJOR   3
+#define SDK_VERSION_MINOR   2
+#define SDK_VERSION_RELSTEP 30001
+
+#ifndef SDK_VERSION_NUMBER
+#define SDK_VERSION_NUMBER(major, minor, relstep) (((major) << 24) | ((minor) << 16) | ((relstep) << 0))
+
+#define SDK_CURRENT_VERSION_NUMBER SDK_VERSION_NUMBER(SDK_VERSION_MAJOR, SDK_VERSION_MINOR, SDK_VERSION_RELSTEP)
+#endif
+
+#endif // NITROSDK_VERSION_H

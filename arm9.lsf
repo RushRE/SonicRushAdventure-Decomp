@@ -1,0 +1,717 @@
+############################################################
+### Linker spec file for Sonic Rush Adventure (EU)       ###
+###      Pass this to the SDK's makelcf.exe utility      ###
+###           along with the ARM9-TS template.           ###
+###                        WIP                           ###
+############################################################
+
+Static arm9
+{
+	Address 0x02000000
+	StackSize 0 1024
+    
+    ## MAIN ##
+    Object src/main.o
+    
+    ## NETWORK COMMON ##
+    Object src/network/networkHandler.o
+    
+    ## GAME CORE ##
+    Object src/game/util/spriteButtonAssets.o
+    Object src/game/util/spriteButton.o
+    Object src/game/util/akUtil.o
+    Object asm/game/math/akMath.o
+    Object src/game/stage/gameSystem.o
+    Object asm/game/stage/gmGameData_vars.o
+    Object asm/game/stage/stageAssets_vars.o
+    Object src/game/stage/stageAssets.o
+    Object src/stage/core/bgmManager.o
+    Object asm/stage/core/titleCard_vars.o
+    Object src/stage/core/titleCard.o
+    Object src/stage/core/stageStart.o
+    Object asm/game/stage/mapSys.o
+    Object asm/game/stage/mapFarSys.o
+    Object asm/stage/core/waterSurface_vars.o
+    Object src/stage/core/waterSurface.o
+    Object asm/stage/core/waterSurface_vars2.o
+    Object src/stage/player/player.o # Player core functions
+    Object src/stage/player/playerAction.o # Player actions & physics variables
+    Object src/stage/player/playerSequence.o # Player State/Sequence handlers
+    Object src/stage/core/ringManager.o
+    Object src/stage/gameObject.o
+
+    ## GAME EFFECTS ##
+    Object asm/stage/effects/stageEffect_vars_bss.o
+    Object asm/stage/effectTask_vars.o
+    Object src/stage/effects/effectCommon.o
+
+    ## STAGE EFFECTS ##
+    Object asm/stage/effects/coral_vars.o
+    Object asm/stage/effects/saku_vars.o
+    Object asm/stage/effects/startDash_vars.o
+    Object asm/stage/effects/breakObj_vars.o
+    Object asm/stage/effects/goalJewel_vars.o
+    Object asm/stage/effects/flipMush_vars.o
+    Object asm/stage/effects/pipeFlw_vars.o
+    Object asm/stage/effects/steamDust_vars.o
+    Object asm/stage/effects/steamEffect_vars.o
+    Object asm/stage/effects/steamFan_vars.o
+    Object asm/stage/effects/piston_vars.o
+    Object asm/stage/effects/iceBlock_vars.o
+    Object asm/stage/effects/truck_vars.o
+    Object asm/stage/effects/snowSlide_vars.o
+    Object asm/stage/effects/truckJewel_vars.o
+    Object asm/stage/effects/pirateShip_vars.o
+    Object asm/stage/effects/slingDust_vars.o
+    Object asm/stage/effects/sailboatBazooka_vars.o
+    Object asm/stage/effects/airEffect_vars.o
+    Object asm/stage/effects/medal_vars.o
+    Object asm/stage/effects/ringSparkle_vars.o
+    Object asm/stage/effects/buttonPrompt_vars.o
+    
+    ## PLAYER EFFECTS ##
+    Object src/stage/effects/effectStage.o
+    Object asm/stage/effects/stageEffects_vars.o
+    Object src/stage/effects/stageEffects.o
+    
+    ## PLAYER/UI ##
+    Object src/stage/player/starCombo.o
+    Object asm/stage/player/starCombo_vars.o
+    Object asm/stage/core/hud_varsS1.o
+    Object src/stage/core/hud.o
+    Object asm/stage/core/hud_vars2.o
+    Object asm/game/stage/eventManager_data.o
+    Object src/game/stage/eventManager.o
+    Object asm/game/stage/eventManager_vars.o
+    Object src/game/stage/eventBounds.o
+    Object src/stage/player/playerSpawn.o
+    Object asm/stage/boss/bossHelpers.o
+    Object asm/stage/boss/bossArena.o
+    Object src/stage/core/pauseMenu.o
+    Object src/stage/core/demoPlayer.o
+    Object src/game/graphics/drawFadeTask.o
+    Object src/game/graphics/screenEffect.o
+    Object src/game/graphics/screenUnknown.o
+    Object src/game/graphics/screenShake.o
+    
+    ## SEA MAP ##
+    Object src/seaMap/navTails.o
+    Object asm/seaMap/navTails_vars.o
+    Object asm/seaMap/seaMapView.o
+    Object asm/menu/seaMapMenu.o
+    Object asm/menu/seaMapChartCourseView.o
+    Object asm/seaMap/seaMapPenPalette.o
+    Object asm/seaMap/seaMapManager.o
+    Object asm/seaMap/seaMapManagerNodeList.o
+    Object asm/seaMap/seaMapEventManager.o
+    Object asm/seaMap/seaMapIslandDrawIcon.o
+    Object asm/seaMap/seaMapIslandIcon.o
+    Object asm/seaMap/seaMapJohnnyIcon.o
+    Object asm/seaMap/seaMapUnknown5.o
+    Object asm/seaMap/seaMapTargetFlagIcon.o
+    Object asm/seaMap/seaMapBoatIcon.o
+    Object asm/seaMap/seaMapStylusIcon.o
+    Object asm/seaMap/seaMapDSPopup.o
+    Object asm/seaMap/seaMapCoralCaveIcon.o
+    Object asm/seaMap/seaMapSkyBabylonIcon.o
+    Object asm/seaMap/seaMapSparkles.o
+    Object asm/seaMap/seaMapCollision.o
+    Object asm/seaMap/seaMapUnknown204A9E4.o
+    Object asm/seaMap/seaMapUnknown204AB60.o
+    Object asm/menu/seaMapCourseChangeView.o
+    
+    ## GAME CORE ##
+    Object src/game/file/archiveFile.o
+    Object asm/unknown/unknown204BE48.o
+    Object asm/game/graphics/spriteUnknown.o
+    Object asm/game/graphics/backgroundUnknown.o
+    Object asm/game/file/bundleFileUnknown.o
+    Object asm/unknown/unknown2051334.o
+    Object asm/game/file/archiveFileUnknown.o
+    Object asm/game/graphics/bankUnknown.o
+    Object asm/game/text/fontDMAControl.o
+    Object asm/game/text/fontFile.o
+    Object asm/game/text/MPC.o
+    Object asm/game/text/messageController.o
+    Object asm/game/text/fontWindowAnimatorUnknown.o
+    Object asm/game/unknown/unknown2056570.o
+    Object asm/game/unknown/unknown2056C5C.o
+    Object src/game/system/threadWorker.o
+    Object asm/game/text/fontWindow.o
+    Object asm/game/text/fontAnimatorCore.o
+    Object asm/game/text/fontAnimator.o
+    Object asm/game/text/fontField9C.o
+    Object asm/game/text/fontWindowAnimator.o
+    Object asm/game/text/fontWindowMWControl.o
+    Object src/game/cutscene/ayk.o
+    Object asm/game/file/compressedFile.o
+    Object src/game/save/saveGame.o
+    Object asm/game/save/saveGame_1.o // SaveGame_LoadData2 has to be in an asm file since inline asm functions can't compile it matching
+    Object asm/game/save/saveGame_vars_arm.o
+    Object asm/game/save/saveGame_vars_thumb.o
+    Object src/game/save/saveGame_2.o
+    Object src/game/audio/sysSound.o
+    Object asm/network/multibootManager.o
+    Object asm/sail/vikingCupManager.o
+    Object src/game/save/corruptSaveWarning.o
+    Object asm/game/save/saveSpriteButton.o
+    Object src/game/save/saveManager.o
+    Object src/game/save/saveInitManager.o
+    Object src/game/save/saveInitMessage.o
+    Object asm/game/unknown/unknown2066510.o
+    Object asm/network/wirelessManager.o
+    
+    ## GAME ENGINE ##
+    Object asm/game/input/touchField.o
+    Object src/game/game/gameState.o
+    Object src/game/system/sysEvent.o
+    Object src/game/system/system.o
+    Object src/game/object/objBlock.o
+    Object src/game/input/replayRecorder.o
+    Object src/stage/stageTask.o
+    Object src/game/object/objData.o
+    Object src/game/object/objAction.o
+    Object src/game/object/objCollision.o (.text)
+    Object src/game/object/objPacket.o
+    Object asm/game/object/objPacket_vars.o
+    Object src/game/object/objDraw.o
+    Object asm/game/object/objDraw_vars.o
+    Object src/game/object/objRect.o
+    Object asm/game/object/objRect_vars.o
+    Object asm/game/object/objExWork.o
+    Object src/game/object/obj.o
+    Object asm/game/object/objExWorkHelpers.o
+    Object src/game/graphics/vramSystem.o
+    Object src/game/graphics/renderCore.o
+    Object src/game/graphics/renderCoreVRAMAddr.o
+    Object src/game/graphics/renderCoreVRAMPalette.o
+    Object src/game/graphics/renderCoreVRAMDisplay.o
+    Object asm/game/graphics/renderCore_vars.o
+    Object src/game/file/cardBackup.o
+    Object src/game/graphics/pixelsQueue.o
+    Object src/game/file/fsRequest.o
+    Object src/game/math/mtMath.o
+    Object src/game/system/allocator.o
+    Object src/game/input/micInput.o
+    Object src/game/input/padInput.o
+    Object src/game/graphics/paletteQueue.o
+    Object src/game/graphics/mappingsQueue.o
+    Object src/game/audio/audioSystem.o
+    Object src/game/graphics/oamSystem.o
+    Object src/game/system/task.o
+    Object src/game/input/touchInput.o
+    Object src/game/system/queue.o
+    Object src/game/graphics/drawReqTask.o
+    Object src/game/graphics/sprite.o
+    Object src/game/file/binaryBundle.o
+    Object src/game/graphics/drawState.o
+    Object src/game/util/fontConversion.o
+    Object src/game/graphics/background.o
+    Object src/game/unknown/unknown2085404.o
+    Object src/game/audio/spatialAudio.o
+    Object src/game/graphics/paletteAnimation.o
+    Object asm/game/util/cppHelpers.o
+    
+    ### NitroDWC ###
+    Object lib/NitroDWC/asm/ARM9/dwc.o
+    
+    ### NitroWiFi ###
+    Object lib/NitroWiFi/asm/ARM9/wifi.o
+    
+    ### NitroSystem ###
+    Object lib/NitroSystem/asm/ARM9/NNS_fnd.o
+    Object lib/NitroSystem/asm/ARM9/NNS_gfd.o
+    Object lib/NitroSystem/asm/ARM9/NNS_g3d.o
+    Object lib/NitroSystem/asm/ARM9/NNS_snd.o
+
+    ### NitroSDK ###
+    Object lib/NitroSDK/src/fx/fx_sincos.o
+    Object lib/NitroSDK/src/fx/fx_mtx22.o
+    Object lib/NitroSDK/src/fx/fx_mtx33.o
+    Object lib/NitroSDK/src/fx/fx_mtx43.o
+    Object lib/NitroSDK/src/fx/fx_mtx44.o
+    Object lib/NitroSDK/src/fx/fx_cp.o
+    Object lib/NitroSDK/src/fx/fx_vec.o
+    Object lib/NitroSDK/src/fx/fx_trig.o
+    Object lib/NitroSDK/src/fx/fx_atan.o
+    Object lib/NitroSDK/src/fx/fx_atanidx.o
+    Object lib/NitroSDK/src/fx/fx.o
+    Object lib/NitroSDK/src/gx/gx.o
+    Object lib/NitroSDK/src/gx/gxstate.o
+    Object lib/NitroSDK/src/gx/gx_vramctrl.o
+    Object lib/NitroSDK/src/gx/gx_bgctrl.o
+    Object lib/NitroSDK/src/gx/g2.o
+    Object lib/NitroSDK/src/gx/g3b.o
+    Object lib/NitroSDK/src/gx/g3c.o
+    Object lib/NitroSDK/src/gx/g3imm.o
+    Object lib/NitroSDK/src/gx/g3x.o
+    Object lib/NitroSDK/src/gx/g3_util.o
+    Object lib/NitroSDK/src/gx/gx_load2d.o
+    Object lib/NitroSDK/src/gx/gx_load3d.o
+    Object lib/NitroSDK/src/gx/g3.o
+    Object lib/NitroSDK/src/gx/gxasm.o
+    Object lib/NitroSDK/src/os/os_irqHandler.o
+    Object lib/NitroSDK/src/os/os_irqTable.o
+    Object lib/NitroSDK/src/os/os_interrupt.o
+    Object lib/NitroSDK/src/os/os_spinLock.o
+    Object lib/NitroSDK/src/os/os_printf.o
+    Object lib/NitroSDK/src/os/os_thread.o
+    Object lib/NitroSDK/src/os/os_context.o
+    Object lib/NitroSDK/src/os/os_emulator.o
+    Object lib/NitroSDK/src/os/os_message.o
+    Object lib/NitroSDK/src/os/os_mutex.o
+    Object lib/NitroSDK/src/os/ARM9/os_cache.o
+    Object lib/NitroSDK/src/os/os_init.o
+    Object lib/NitroSDK/src/os/os_arena.o
+    Object lib/NitroSDK/src/os/os_alloc.o
+    Object lib/NitroSDK/src/os/ARM9/os_tcm.o
+    Object lib/NitroSDK/src/os/ARM9/os_protectionUnit.o
+    Object lib/NitroSDK/src/os/ARM9/os_protectionRegion.o
+    Object lib/NitroSDK/src/os/os_exception.o
+    Object lib/NitroSDK/src/os/os_timer.o
+    Object lib/NitroSDK/src/os/os_tick.o
+    Object lib/NitroSDK/src/os/os_alarm.o
+    Object lib/NitroSDK/src/os/os_valarm.o
+    Object lib/NitroSDK/src/os/os_system.o
+    Object lib/NitroSDK/src/os/os_reset.o
+    Object lib/NitroSDK/src/os/os_ownerInfo.o
+    Object lib/NitroSDK/src/os/ARM9/os_vramExclusive.o
+    Object lib/NitroSDK/src/os/ARM9/os_china.o
+    Object lib/NitroSDK/src/os/ARM9/os_argument.o
+    Object lib/NitroSDK/src/os/os_entropy.o
+    Object lib/NitroSDK/src/os/ARM9/os_terminate_proc.o
+    Object lib/NitroSDK/src/mi/mi_wram.o
+    Object lib/NitroSDK/src/mi/mi_dma.o
+    Object lib/NitroSDK/src/mi/mi_dma_hblank.o
+    Object lib/NitroSDK/src/mi/mi_dma_vblank.o
+    Object lib/NitroSDK/src/mi/mi_dma_mainmem.o
+    Object lib/NitroSDK/src/mi/mi_dma_gxcommand.o
+    Object lib/NitroSDK/src/mi/mi_memory.o
+    Object lib/NitroSDK/src/mi/mi_swap.o
+    Object lib/NitroSDK/src/mi/mi_uncompress.o
+    Object lib/NitroSDK/src/mi/mi_byteAccess.o
+    Object lib/NitroSDK/src/mi/mi_stream.o
+    Object lib/NitroSDK/src/mi/mi_card.o
+    Object lib/NitroSDK/src/mi/mi_dma_card.o
+    Object lib/NitroSDK/src/mi/mi_uncomp_stream.o
+    Object lib/NitroSDK/src/mi/mi_compress.o
+    Object lib/NitroSDK/src/mi/mi_exMemory.o
+    Object lib/NitroSDK/src/mi/mi_init.o
+    Object lib/NitroSDK/asm/ARM9/snd_20E7FD0.o
+    Object lib/NitroSDK/src/snd/snd_main.o
+    Object lib/NitroSDK/asm/ARM9/snd_20E8658.o
+    Object lib/NitroSDK/src/pxi/pxi_init.o
+    Object lib/NitroSDK/src/pxi/pxi_fifo.o
+    Object lib/NitroSDK/asm/ARM9/fs_command.o
+    Object lib/NitroSDK/asm/ARM9/fs_command_default.o
+    Object lib/NitroSDK/asm/ARM9/fs_archive.o
+    Object lib/NitroSDK/asm/ARM9/fs_file.o
+    Object lib/NitroSDK/asm/ARM9/fs_rom.o
+    Object lib/NitroSDK/src/fs/fs_mem.o
+    Object lib/NitroSDK/asm/ARM9/fs_overlay.o
+    Object lib/NitroSDK/asm/ARM9/dgt_hash1.o
+    Object lib/NitroSDK/asm/ARM9/dgt_hash2.o
+    Object lib/NitroSDK/src/cp/cp_context.o
+    Object lib/NitroSDK/src/spi/ARM9/tp.o
+    Object lib/NitroSDK/src/spi/ARM9/mic.o
+    Object lib/NitroSDK/asm/ARM9/pm.o
+    Object lib/NitroSDK/asm/ARM9/rtc.o
+    Object lib/NitroSDK/asm/ARM9/card.o
+    Object lib/NitroSDK/asm/ARM9/wm.o
+    Object lib/NitroSDK/asm/ARM9/mb.o
+    Object lib/NitroSDK/asm/ARM9/ctrdg.o
+    Object lib/NitroSDK/asm/ARM9/math.o
+    Object lib/NitroSDK/asm/ARM9/std.o
+
+    ## MSL ##
+    Object lib/asm/ARM9/msl.o
+    # TODO(?): use these libraries instead of asm if we can! should just about work, they just need a few link errors fixed!
+    # Library ../../../tools/cw/lib/MSL_C_NITRO_Ai_LE.a
+    # Library ../../../tools/cw/lib/MSL_Extras_NITRO_Ai_LE.a
+    # Library ../../../tools/cw/lib/MSL_CPP_NITRO_Ai_LE.a
+    # Library ../../../tools/cw/lib/FP_fastI_v5t_LE.a
+    # Library ../../../tools/cw/lib/NITRO_Runtime_Ai_LE.a
+}
+
+Autoload ITCM
+{
+    Address 0x01FF8000
+
+    Object src/game/object/objCollision.o (.itcm)
+    Object src/game/graphics/renderCore.o (.itcm)
+    Object lib/NitroSDK/src/os/os_irqHandler.o (.itcm)
+    Object lib/NitroSDK/src/os/os_reset.o (.itcm)
+    Object lib/NitroSDK/src/mi/mi_dma.o (.itcm)
+}
+
+Autoload DTCM
+{
+    Address 0x027E0000
+
+    Object src/game/object/objCollision.o (.dtcm)
+    Object src/game/object/objCollision.o (.bss)
+    Object lib/NitroSDK/src/os/os_irqHandler.o (.dtcm)
+    Object lib/NitroSDK/src/os/os_irqTable.o (.dtcm)
+    Object lib/NitroSDK/src/os/os_irqHandler.o (.bss)
+    Object lib/NitroSDK/src/os/os_irqTable.o (.bss)
+}
+
+# Overlay00/ZoneAct => Zone Acts (Objects, Decor, Etc)
+Overlay ZoneAct
+{
+    After arm9
+    
+    ## STAGE DECORATIONS ##
+    Object asm/stage/decoration/decorationSys_vars.o
+    Object src/stage/core/decorationSys.o
+    Object asm/stage/decoration/decorationSys_vars_bss.o
+    
+    ## STAGE OBJECTS ##
+    Object asm/stage/objects/object1.o
+    Object asm/stage/objects/object2.o
+    Object asm/stage/objects/object3.o
+    Object asm/stage/objects/object4.o
+    Object asm/stage/objects/object5.o
+    Object asm/stage/objects/object6.o
+    Object asm/stage/objects/object7.o
+    Object asm/stage/objects/object8.o
+    Object asm/stage/objects/enemyParts.o
+    Object asm/stage/objects/object92.o
+    Object asm/stage/objects/object10.o
+    Object asm/stage/objects/object11.o
+    Object asm/stage/objects/EnemySkymoon.o
+    Object src/stage/objects/flagChange.o
+    Object src/stage/objects/spring.o
+    Object src/stage/objects/dashPanel.o
+    Object src/stage/objects/dashRing.o
+    Object asm/stage/objects/springboard_vars.o
+    Object src/stage/objects/springboard.o
+    Object asm/stage/objects/spikes_vars.o
+    Object src/stage/objects/spikes.o
+    Object asm/stage/objects/Breakable.o
+    Object asm/stage/objects/BreakableWall.o
+    Object asm/stage/objects/object23.o
+    Object asm/stage/objects/object30.o
+    Object asm/stage/objects/object27.o
+    Object asm/stage/objects/object31.o
+    Object asm/stage/objects/object17.o
+    Object asm/stage/objects/grind3Line.o
+    Object src/stage/objects/waterLevelTrigger.o
+    Object src/stage/objects/waterRunTrigger.o
+    Object asm/stage/objects/goalChest_vars.o
+    Object src/stage/objects/goalChest.o
+    Object asm/stage/objects/object39.o
+    Object asm/stage/objects/object18.o
+    Object asm/stage/objects/DreamWing.o
+    Object asm/stage/objects/object19.o
+    Object asm/stage/objects/object42.o
+    Object asm/stage/objects/object43.o
+    Object src/stage/objects/PlayerSnowboard.o
+    Object asm/stage/objects/object44.o
+    Object asm/stage/objects/object46.o
+    Object asm/stage/objects/object47.o
+    Object asm/stage/objects/object48.o
+    Object asm/stage/objects/object49.o
+    Object asm/stage/objects/object50.o
+    Object asm/stage/objects/object51.o
+    Object asm/stage/objects/object52.o
+    Object asm/stage/objects/object53.o
+    Object asm/stage/objects/object54.o
+    Object asm/stage/objects/object55.o
+    Object asm/stage/objects/object56.o
+    Object asm/stage/objects/object58.o
+    Object asm/stage/objects/object97.o
+    Object asm/stage/objects/ItemBox3D.o
+    Object asm/stage/objects/object99.o
+    Object asm/stage/objects/object100.o
+    Object asm/stage/objects/object101.o
+    Object src/stage/objects/stageRing.o
+    Object src/stage/objects/itemBox.o
+    Object src/stage/objects/checkpoint.o
+    Object asm/stage/objects/Platform.o
+    Object asm/stage/objects/object60.o
+    Object asm/stage/objects/object62.o
+    Object asm/stage/objects/object63.o
+    Object src/stage/objects/startPlatform.o
+    Object asm/stage/objects/object64.o
+    Object asm/stage/objects/object65.o
+    Object asm/stage/objects/object66.o
+    Object asm/stage/objects/object68.o
+    Object src/stage/objects/tutorial.o
+    Object asm/stage/objects/jumpbox_vars.o
+    Object src/stage/objects/jumpbox.o
+    Object asm/stage/objects/object73.o
+    Object asm/stage/objects/object72.o
+    Object asm/stage/objects/object76.o
+    Object asm/stage/objects/object74.o
+    Object asm/stage/objects/object75.o
+    Object asm/stage/objects/object78.o
+    Object asm/stage/objects/object79.o
+    Object asm/stage/objects/object80.o
+    Object asm/stage/objects/object81.o
+    Object asm/stage/objects/object82.o
+    Object src/stage/objects/missionFlag.o
+    Object src/stage/objects/missionRing.o
+    Object asm/stage/objects/object87.o
+    Object asm/stage/objects/object88.o
+    Object asm/stage/objects/object106.o
+    Object asm/stage/objects/object107.o
+    Object src/stage/objects/ringButton.o
+    Object src/stage/objects/ringButtonSfxManager.o
+    Object src/stage/core/ringBattleManager.o
+}
+
+# Overlay01/Boss1 => Bosses (Z1, Z2, Z3, Z4, Z5)
+Overlay Boss1
+{
+    After arm9
+    
+    ## COMMON ##
+    Object src/stage/boss/bossPlayerHelpers1.o
+    Object src/stage/boss/bossFX1.o
+    
+    ## BOSSES ##
+    Object asm/stage/boss/boss1_vars.o
+    Object src/stage/boss/boss1.o
+    Object asm/stage/boss/boss2.o
+    Object asm/stage/boss/boss3.o
+    Object asm/stage/boss/boss4.o
+    Object asm/stage/boss/boss5.o
+}
+
+# Overlay02/Boss2 => Bosses (Z6, Z7, Final)
+Overlay Boss2
+{
+    After arm9
+    
+    ## COMMON ##
+    Object src/stage/boss/bossPlayerHelpers2.o
+    Object src/stage/boss/bossFX2.o
+    
+    ## BOSSES ##
+    Object asm/stage/boss/boss6.o
+    Object asm/stage/boss/boss7.o
+    Object asm/stage/boss/bossF.o
+}
+
+# Overlay03/Menus1 => Menus and UI (common)
+Overlay Menus1
+{
+    After arm9
+    Object asm/menu/mainMenu_thumb.o
+    Object asm/menu/mainMenu_arm.o
+    Object asm/menu/stageClear.o
+    Object asm/menu/vsStageClear.o
+    Object asm/menu/stageSelectMenu.o
+    Object asm/menu/characterSelectMenu.o
+    Object asm/menu/vsStageSelectMenu.o
+    Object asm/menu/vsCharacterSelectMenu.o
+    Object asm/menu/vsState.o
+    Object asm/menu/vsLobbyMenu.o
+    Object asm/menu/friendCodeMenu.o
+    Object asm/menu/vsMenu_thumb_0.o
+    Object asm/menu/vsMenu_arm.o
+    Object asm/menu/vsMenu_thumb_1.o
+    Object asm/menu/stageSelectUnknown.o
+    Object asm/menu/vsConnectionMenuUnknown.o
+    Object asm/menu/vsConnectionMenu.o
+    Object asm/menu/timeAttackMenu.o
+    Object asm/menu/timeAttackRankList.o
+    Object asm/seaMap/seaMapUnknownMenu.o
+    Object asm/seaMap/seaMapCutscene.o
+    Object asm/seaMap/seaMapTraining.o
+    Object asm/menu/vsFriendsListMenu.o
+    Object asm/menu/vsRegisterFriendCodeMenu.o
+    Object asm/menu/vsRecordsMenu.o
+    Object asm/menu/networkErrorMenu.o
+    Object asm/menu/leaderboardWorker.o
+    Object asm/menu/timeAttackLeaderboardsMenu.o
+    Object asm/menu/timeAttackRecordsMenu.o
+    Object asm/menu/vikingCupMenu.o
+    Object src/menu/connectionStatusIcon.o
+    Object asm/menu/menuHelpers.o
+}
+
+# Overlay04/Menus2 => Menus and UI (specifics)
+Overlay Menus2
+{
+    After arm9
+    Object src/game/stage/demoSystem.o
+    Object asm/menu/deleteSaveDataMenu.o
+    Object asm/menu/stageClearEx.o
+    Object asm/menu/emeraldCollectedScreen.o
+    Object asm/menu/titleScreen.o
+    Object asm/menu/doorPuzzle.o
+    Object src/cutscene/opening.o
+    Object asm/cutscene/opening_vars.o
+    Object src/menu/splashScreen.o
+    Object asm/menu/soundTest.o
+    Object asm/menu/nameMenu.o
+    Object asm/menu/playerNameMenu.o
+    Object asm/menu/autoSavePopup.o
+}
+
+# Overlay05/Hub => Credits/Hub/Southern Island
+Overlay Hub
+{
+    After arm9
+
+    ## UNKNOWN ##
+    Object asm/ov05_unk_2152960.o
+
+    ## CREDITS ##
+    Object asm/credits/creditsCommon.o
+    Object asm/credits/credits.o
+    Object asm/credits/creditsEx.o
+    Object asm/credits/fakeCredits.o
+    Object asm/credits/exStageCreditsNotification.o
+    Object asm/credits/postGameMissionCreditsNotification.o
+    Object asm/credits/wandRoom.o
+    Object asm/credits/creditsNotification.o
+    
+    ## HUB/SOUTHERN ISLAND ##
+    Object asm/hub/hubControl.o
+    Object asm/hub/viHubAreaPreview.o
+    Object asm/hub/viMap.o
+    Object asm/hub/viDock.o
+    Object asm/hub/hubHUD.o
+    Object asm/hub/viMapVmiFile.o
+    Object asm/hub/viMapVmpFile.o
+    Object asm/hub/viMapVmcFile.o
+    Object asm/hub/viMapBack.o
+    Object asm/hub/viMapIcon.o
+    Object asm/hub/viDockBack.o
+    Object asm/hub/viDockPlayer.o
+    Object asm/hub/viDockNpc.o
+    Object asm/hub/vi3dObject.o
+    Object asm/hub/viShadow.o
+    Object asm/hub/vi3dArrow.o
+    Object asm/hub/viDockNpcGroup.o
+    Object asm/hub/unknown216897C.o
+    Object asm/hub/unknown2168C48.o
+    Object asm/hub/viTalkPurchase.o
+    Object asm/hub/viTalkList.o
+    Object asm/hub/viTalkAnnounce.o
+    Object asm/hub/viEvtCmn.o
+    Object asm/hub/npcOptions.o
+    Object asm/hub/npcViking.o
+    Object asm/hub/npcMission.o
+}
+
+# Overlay06/Sail => Sailing
+Overlay Sail
+{
+    After arm9
+    Object src/sail/sailManager.o
+    Object asm/sail/sailAssetLoader.o
+    Object asm/sail/sailGraphics.o
+    Object src/sail/sailAudio.o
+    Object asm/sail/sailEventManager.o
+    Object asm/sail/sailRingManager.o
+    Object asm/sail/sailVoyageManager.o
+    Object src/sail/sailPlayer.o
+    Object asm/sail/sailPlayer_vars_rodata.o
+    Object asm/sail/sailCamera.o
+    Object asm/sail/sailSea.o
+    Object asm/sail/sailEffects.o
+    Object asm/sail/sailCommonObjects.o
+    Object asm/sail/sailJetObjects.o
+    Object asm/sail/sailHUD.o
+    Object asm/sail/sailRampTrick.o
+    Object asm/sail/unknown2179284.o
+    Object asm/sail/sailSailerObjects.o
+    Object asm/sail/sailSubObjects.o
+    Object asm/sail/sailHoverObjects.o
+    Object asm/sail/sailRival.o
+    Object asm/sail/sailJetRaceHUD.o
+    Object asm/sail/sailTraining.o
+    Object asm/sail/sailButtonPrompt.o
+    Object asm/sail/sailStylusPrompt.o
+    Object asm/sail/sailStylusPrompt2.o
+    Object asm/sail/sailDemoPlayer.o
+    Object asm/sail/sailExitEvent.o
+    Object asm/sail/sailSeaMapView.o
+}
+
+# Overlay07/Cutscene => Cutscenes
+Overlay Cutscene
+{
+    After arm9
+    Object asm/cutscene/cutsceneSeq_vars.o
+    Object src/cutscene/cutsceneSeq.o
+}
+
+# Overlay08/DWCUtility => Nitro WiFi config menu
+Overlay DWCUtility
+{
+    After arm9
+
+    # libdwcutil library's logic
+    Object lib/NitroDWC/asm/ARM9/dwcUtility_thumb.o
+    Object lib/NitroDWC/asm/ARM9/dwcUtility_arm.o
+
+    # rush's logic
+    Object src/game/system/netConfig.o
+}
+
+# Overlay09/ExBoss => True Final Boss (Deep Core)
+Overlay ExBoss
+{
+    After arm9
+    Object asm/ex/exPlayerHelpers.o
+    Object asm/ex/exBlzDushEffect.o
+    Object asm/ex/exBossHelpers.o
+    Object asm/ex/exBossFireDora.o
+    Object asm/ex/exBossEffectHit.o
+    Object asm/ex/exBossEffectFireballShot.o
+    Object asm/ex/exBossEffectFireball.o
+    Object asm/ex/exBossEffectHoming.o
+    Object asm/ex/exBossEffectShot.o
+    Object asm/ex/exBossEffectFire.o
+    Object asm/ex/exBossFireBlue.o
+    Object asm/ex/exBossFireRed.o
+    Object asm/ex/exBossHomingLaser.o
+    Object asm/ex/exBossLineMissile.o
+    Object asm/ex/exBossMeteBomb.o
+    Object asm/ex/exBossMeteLockOn.o
+    Object asm/ex/exBossMeteMeteo.o
+    Object asm/ex/exBossMeteAdmin.o
+    Object asm/ex/exBossSysAdmin.o
+    Object asm/ex/exBossSysAdminBifor.o
+    Object asm/ex/exBossMagmaAttack.o
+    Object asm/ex/exBossMagmeWave.o
+    Object asm/ex/exDrawFade.o
+    Object asm/ex/exDrawReq.o
+    Object asm/ex/exEffectBigBomb.o
+    Object asm/ex/exEffectBiriBiri.o
+    Object asm/ex/exEffectBarrierHit.o
+    Object asm/ex/exEffectBarrier.o
+    Object asm/ex/exEffectSonicBarrierTaMe.o
+    Object asm/ex/exEffectBlzFire.o
+    Object asm/ex/exEffectBlzFireShot.o
+    Object asm/ex/exEffectMeteo.o
+    Object asm/ex/exEffectMeteoAdmin.o
+    Object asm/ex/exEffectLoopRing.o
+    Object asm/ex/exEffectRing.o
+    Object asm/ex/exEffectRingAdmin.o
+    Object asm/ex/exFixCommon.o
+    Object asm/ex/exFixTime.o
+    Object asm/ex/exFixRing.o
+    Object asm/ex/exFixRemainder.o
+    Object asm/ex/exFixBossLifeGauge.o
+    Object asm/ex/exFixAdmin.o
+    Object asm/ex/exGameSystem.o
+    Object asm/ex/exHitCheck.o
+    Object src/ex/ex.o
+    Object asm/ex/exMsgTutorial.o
+    Object asm/ex/exMsgTitle.o
+    Object asm/ex/exPause.o
+    Object asm/ex/exPlayerScreenMove.o
+    Object asm/ex/exPlayerAdmin.o
+    Object asm/ex/exSonDushEffect.o
+    Object asm/ex/exStage.o
+    Object asm/ex/exSys.o
+    Object src/ex/exTask.o
+    Object asm/ex/exTimeGameplay.o
+    Object asm/game/ex/exSave.o
+}
