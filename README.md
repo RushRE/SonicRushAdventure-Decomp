@@ -4,9 +4,6 @@
 [ci-status-link]: https://github.com/RushRE/SonicRushAdventure-Decomp/actions/workflows/build.yml
 [ci-badge]: https://github.com/RushRE/SonicRushAdventure-Decomp/actions/workflows/build.yml/badge.svg
 
-[progress-link]: https://github.com/RushRE/SonicRushAdventure-Decomp
-[progress-badge]: https://img.shields.io/endpoint?url=https://rushret.github.io/rushRE/reports/progress-rush2-shield.json
-
 [contributors-link]: https://github.com/RushRE/SonicRushAdventure-Decomp/graphs/contributors
 [contributors-badge]: https://img.shields.io/github/contributors/RushRE/SonicRushAdventure-Decomp
 
