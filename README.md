@@ -1,5 +1,5 @@
 # Sonic Rush Adventure
-[![CI status][ci-badge]][ci-status-link] [![Decompilation Progress][progress-badge]][progress-link] [![Contributors][contributors-badge]][contributors-link] [![Discord][discord-badge]][discord-link]
+[![CI status][ci-badge]][ci-status-link] [![Contributors][contributors-badge]][contributors-link] [![Discord][discord-badge]][discord-link]
 
 [ci-status-link]: https://github.com/RushRE/SonicRushAdventure-Decomp/actions/workflows/build.yml
 [ci-badge]: https://github.com/RushRE/SonicRushAdventure-Decomp/actions/workflows/build.yml/badge.svg
