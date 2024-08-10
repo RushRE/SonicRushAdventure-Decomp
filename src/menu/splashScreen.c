@@ -8,6 +8,9 @@
 #include <game/graphics/drawFadeTask.h>
 #include <game/graphics/renderCore.h>
 
+// files
+#include <resources/narc/dmlg_lz7.h>
+
 // --------------------
 // FUNCTION DECLS
 // --------------------
@@ -104,11 +107,11 @@ void FreeSplashScreenArchive(SplashScreen *work)
 
 void LoadSplashScreenBackgrounds(SplashScreen *work)
 {
-    InitBackground(&work->bgSega, FileUnknown__GetAOUFile(work->archiveLogos, ARC_DMLG_FILE_CORP_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, FALSE,
+    InitBackground(&work->bgSega, FileUnknown__GetAOUFile(work->archiveLogos, ARCHIVE_DMLG_LZ7_FILE_CORP_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, FALSE,
                    BACKGROUND_0, 32, 24);
     DrawBackground(&work->bgSega);
 
-    InitBackground(&work->bgSonicTeam, FileUnknown__GetAOUFile(work->archiveLogos, ARC_DMLG_FILE_TEAM_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, TRUE,
+    InitBackground(&work->bgSonicTeam, FileUnknown__GetAOUFile(work->archiveLogos, ARCHIVE_DMLG_LZ7_FILE_TEAM_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, TRUE,
                    BACKGROUND_0, 32, 24);
     DrawBackground(&work->bgSonicTeam);
 }

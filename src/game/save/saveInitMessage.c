@@ -9,6 +9,11 @@
 #include <game/game/gameState.h>
 #include <game/input/padInput.h>
 
+// files
+#include <resources/bb/dmwf_lang.h>
+#include <resources/bb/dmwf_lang/File_6.h>
+#include <resources/narc/dmbl_lz7.h>
+
 // --------------------
 // FUNCTION DECLS
 // --------------------
@@ -36,7 +41,7 @@ void CreateSaveInitMessage(SaveInitManager *parent, GameInitMessageTypes type)
 
     FSRequestArchive("/narc/dmbl_lz7.narc", &work->dmblArchive, FALSE);
     work->fontPtr = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
-    GetArchiveFromBundle("/bb/dmwf_lang.bb", BUNDLE_DMWF_LANG_FILE_FILE_6_NARC, &work->dmwfLangArchive, FALSE);
+    GetArchiveFromBundle("/bb/dmwf_lang.bb", BUNDLE_DMWF_LANG_FILE_RESOURCES_BB_DMWF_LANG_FILE_6_NARC, &work->dmwfLangArchive, FALSE);
 
     FontWindow__Init(&work->fontWindow);
     FontWindow__LoadFromMemory(&work->fontWindow, work->fontPtr, 1);
@@ -45,7 +50,7 @@ void CreateSaveInitMessage(SaveInitManager *parent, GameInitMessageTypes type)
     FontAnimator__Init(&work->fontAnimator);
     FontAnimator__LoadFont1(&work->fontAnimator, &work->fontWindow, 0, 1, 9, 30, 4, 0, 1, 0, 1);
 
-    FontAnimator__LoadMPCFile(&work->fontAnimator, FileUnknown__GetAOUFile(work->dmblArchive, ARC_DMBL_FILE_MSG_JPN_MPC + GetGameLanguage()));
+    FontAnimator__LoadMPCFile(&work->fontAnimator, FileUnknown__GetAOUFile(work->dmblArchive, ARCHIVE_DMBL_LZ7_FILE_MSG_JPN_MPC + GetGameLanguage()));
 
     switch (type)
     {
@@ -67,7 +72,7 @@ void CreateSaveInitMessage(SaveInitManager *parent, GameInitMessageTypes type)
     FontAnimator__LoadMappingsFunc(&work->fontAnimator);
     FontAnimator__LoadPaletteFunc(&work->fontAnimator);
 
-    void *spriteFile = FileUnknown__GetAOUFile(work->dmwfLangArchive, ARC_FILE_6_FILE_DMWF_CMN_BAC);
+    void *spriteFile = FileUnknown__GetAOUFile(work->dmwfLangArchive, ARCHIVE_FILE_6_FILE_DMWF_CMN_BAC);
 
     AnimatorSprite__Init(&work->aniSprite, spriteFile, 0, ANIMATOR_FLAG_DISABLE_LOOPING, 0, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2(spriteFile)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);

@@ -70,7 +70,7 @@ jobs:
       - name: Post error archive
         if: failure()
         continue-on-error: true
-        run: find . -maxdepth 2 -type d \( -name build -or -name files \) -exec tar -czvhf failure.tar.gz {} +
+        run: find . -maxdepth 2 -type d \( -name build -or -name resources \) -exec tar -czvhf failure.tar.gz {} +
 
       - name: Post error upload
         if: failure()

@@ -6,7 +6,7 @@ CFLAGS := -O3 -Wno-unused-result
 all: romextract
 	@:
 
-romextract: romextract.c
+romextract: romextract.c rom.c archiveExtract.c fileNameTable.c compression.c stringUtils.c
 	$(CC) $(CFLAGS) -o $@ $^
 
 clean:

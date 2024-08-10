@@ -29,24 +29,6 @@ enum SpriteButtonState_
 };
 typedef u16 SpriteButtonState;
 
-enum FileList_BundleNL
-{
-    BUNDLE_NL_FILE_FILE_0_BAC,
-    BUNDLE_NL_FILE_FILE_1_BAC,
-    BUNDLE_NL_FILE_FILE_2_BAC,
-    BUNDLE_NL_FILE_FILE_3_BAC,
-    BUNDLE_NL_FILE_FILE_4_BAC,
-    BUNDLE_NL_FILE_FILE_5_BAC,
-    BUNDLE_NL_FILE_FILE_6_BAC,
-    BUNDLE_NL_FILE_FILE_7_BAC,
-    BUNDLE_NL_FILE_FILE_8_BAC,
-    BUNDLE_NL_FILE_FILE_9_BAC,
-    BUNDLE_NL_FILE_FILE_10_BAC,
-    BUNDLE_NL_FILE_FILE_11_BAC,
-    BUNDLE_NL_FILE_FILE_12_BAC,
-    BUNDLE_NL_FILE_FILE_13_BAC
-};
-
 // --------------------
 // STRUCTS
 // --------------------

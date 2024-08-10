@@ -1,4 +1,4 @@
-#include "global.h"
+#include "archivepack.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,14 +6,14 @@
 #include <stdint.h>
 #include "cJSON.h"
 
-#if defined (_WIN32)
+#if defined(_WIN32)
 #include <windows.h>
 #else
 #include <unistd.h>
 #include <spawn.h>
 #include <sys/wait.h>
 
-extern char** environ;
+extern char **environ;
 #endif
 
 // --------------------
@@ -25,14 +25,14 @@ extern char** environ;
 #define HUFF_TAG 0x20
 #define RLE_TAG  0x30
 
-#define ALIGN_DWORD(stream)\
-if ((ftell(stream) % 4) != 0)\
-{\
-	for (int i = 4 - (ftell(stream) % 4); i-- > 0; )\
-	{\
-		fputc(0xFF, stream);\
-	}\
-}
+#define ALIGN_DWORD(stream)                                                                                                                                                        \
+    if ((ftell(stream) % 4) != 0)                                                                                                                                                  \
+    {                                                                                                                                                                              \
+        for (int i = 4 - (ftell(stream) % 4); i-- > 0;)                                                                                                                            \
+        {                                                                                                                                                                          \
+            fputc(0xFF, stream);                                                                                                                                                   \
+        }                                                                                                                                                                          \
+    }
 
 // --------------------
 // STRUCTS
@@ -40,1185 +40,1375 @@ if ((ftell(stream) % 4) != 0)\
 
 typedef struct File_
 {
-	// common
-	const char* name;
-	void* data;
-	unsigned int size;
-	unsigned int offset;
+    // common
+    const char *name;
+    const char *path;
+    void *data;
+    unsigned int size;
+    unsigned int offset;
+    bool freeName;
 
-	// archives
-	unsigned int dataStartPos;
-	unsigned int dataEndPos;
-	unsigned char dirID;
+    // archives
+    bool isDir;
+    unsigned int dataStartPos;
+    unsigned int dataEndPos;
+    unsigned char dirID;
+    unsigned char parentDir;
 } File;
 
 // --------------------
 // VARIABLES
 // --------------------
 
-static char* toolNtrComp = "../bin/ntrcomp.exe";
+static char *toolNtrComp = "tools/bin/ntrcomp.exe";
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-static inline cJSON* GetJSONObject(cJSON* in, const char* name)
+static inline cJSON *GetJSONObject(cJSON *in, const char *name)
 {
-	return cJSON_GetObjectItemCaseSensitive(in, name);
+    return cJSON_GetObjectItemCaseSensitive(in, name);
 }
 
-static inline bool GetJSONBool(cJSON* in)
+static inline bool GetJSONBool(cJSON *in)
 {
-	if (!cJSON_IsBool(in))
-		return false;
+    if (!cJSON_IsBool(in))
+        return false;
 
-	return cJSON_IsTrue(in);
+    return cJSON_IsTrue(in);
 }
 
-static inline int GetJSONInt(cJSON* in)
+static inline int GetJSONInt(cJSON *in)
 {
-	if (!cJSON_IsNumber(in))
-		return 0;
+    if (!cJSON_IsNumber(in))
+        return 0;
 
-	return in->valueint;
+    return in->valueint;
 }
 
-static inline char* GetJSONString(cJSON* in)
+static inline char *GetJSONString(cJSON *in)
 {
-	if (!cJSON_IsString(in))
-		return NULL;
+    if (!cJSON_IsString(in))
+        return NULL;
 
-	return in->valuestring;
+    return in->valuestring;
 }
 
-char* GetFileExtension(char* path)
+char *GetFileExtension(char *path)
 {
-	char* extension = path;
+    char *extension = path;
 
-	while (*extension != 0)
-		extension++;
+    while (*extension != 0)
+        extension++;
 
-	while (extension > path && *extension != '.')
-		extension--;
+    while (extension > path && *extension != '.')
+        extension--;
 
-	if (extension == path)
-		return NULL;
+    if (extension == path)
+        return NULL;
 
-	extension++;
+    extension++;
 
-	if (*extension == 0)
-		return NULL;
+    if (*extension == 0)
+        return NULL;
 
-	return extension;
+    return extension;
 }
 
-const char* GetFileName(const char* path)
+const char *GetFileName(const char *path)
 {
-	const char* name = path;
+    const char *name = path;
 
-	while (*name != 0)
-		name++;
+    while (*name != 0)
+        name++;
 
-	while (name > path && (*name != '/' && *name != '\\'))
-		name--;
+    while (name > path && (*name != '/' && *name != '\\'))
+        name--;
 
-	if (name == path)
-		return path;
+    if (name == path)
+        return path;
 
-	name++;
+    name++;
 
-	if (*name == 0)
-		return NULL;
+    if (*name == 0)
+        return NULL;
 
-	return name;
+    return name;
 }
 
-char* GetFileDirectory(char* path)
+char *GetFileDirectory(char *path)
 {
-	char* pathPtr = path;
+    char *pathPtr = path;
 
-	while (*pathPtr != 0)
-		pathPtr++;
+    while (*pathPtr != 0)
+        pathPtr++;
 
-	while (pathPtr > path && (*pathPtr != '/' && *pathPtr != '\\'))
-		pathPtr--;
+    while (pathPtr > path && (*pathPtr != '/' && *pathPtr != '\\'))
+        pathPtr--;
 
-	if (pathPtr == path)
-		return NULL;
+    if (pathPtr == path)
+        return NULL;
 
-	pathPtr++;
+    pathPtr++;
 
-	if (*pathPtr == 0)
-		return NULL;
+    if (*pathPtr == 0)
+        return NULL;
 
-	size_t len = (size_t)pathPtr - (size_t)path;
+    size_t len = (size_t)pathPtr - (size_t)path;
 
-	char* filePath = malloc(len + 1);
-	memcpy(filePath, path, len);
-	filePath[len] = 0;
+    char *filePath = (char *)malloc(len + 1);
+    memcpy(filePath, path, len);
+    filePath[len] = 0;
 
-	return filePath;
+    return filePath;
 }
 
-static int GetDirectoryCount(const char* path)
+static int GetDirectoryCount(const char *path)
 {
-	int count = 0;
+    int count = 0;
 
-	const char* pathPtr = path;
-	while (*pathPtr != 0)
-	{
-		if (*pathPtr == '/' || *pathPtr == '\\')
-			count++;
+    const char *pathPtr = path;
+    while (*pathPtr != 0)
+    {
+        if (*pathPtr == '/' || *pathPtr == '\\')
+            count++;
 
-		pathPtr++;
-	}
+        pathPtr++;
+    }
 
-	return count;
+    return count;
 }
 
-static char *GetDirectoryName(const char* path, int dirID)
+static char *GetDirectoryName(const char *path, int dirID)
 {
-	int count = 0;
+    int count = 0;
 
-	const char* pathPtr = path;
-	int dirStartPos = 0;
-	while (*pathPtr != 0)
-	{
-		if (*pathPtr == '/' || *pathPtr == '\\')
-		{
-			if (dirID == count)
-			{
-				size_t len = (size_t)pathPtr - (size_t)path;
-				len -= dirStartPos;
+    const char *pathPtr = path;
+    int dirStartPos     = 0;
+    while (*pathPtr != 0)
+    {
+        if (*pathPtr == '/' || *pathPtr == '\\')
+        {
+            if (dirID == count)
+            {
+                size_t len = (size_t)pathPtr - (size_t)path;
+                len -= dirStartPos;
 
-				char* name = malloc(len + 1);
-				memcpy(name, &path[dirStartPos], len);
-				name[len] = 0;
-				return name;
-			}
+                char *name = (char *)malloc(len + 1);
+                memcpy(name, &path[dirStartPos], len);
+                name[len] = 0;
+                return name;
+            }
 
-			count++;
+            count++;
 
-			dirStartPos = (int)((size_t)pathPtr - (size_t)path) + 1;
-		}
+            dirStartPos = (int)((size_t)pathPtr - (size_t)path) + 1;
+        }
 
-		pathPtr++;
-	}
+        pathPtr++;
+    }
 
-	return NULL;
+    return NULL;
 }
 
-unsigned char* ReadWholeFile(char* path, int* size)
+unsigned char *ReadWholeFile(char *path, unsigned int *size)
 {
-	FILE* fp = fopen(path, "rb");
+    FILE *fp = fopen(path, "rb");
 
-	if (fp == NULL)
-		FATAL_ERROR("Failed to open \"%s\" for reading.\n", path);
+    if (fp == NULL)
+    {
+        printf("Unable to read file '%s'\n", path);
+        return NULL;
+    }
 
-	fseek(fp, 0, SEEK_END);
+    fseek(fp, 0, SEEK_END);
 
-	*size = ftell(fp);
+    *size = ftell(fp);
 
-	unsigned char* buffer = malloc(*size);
+    unsigned char *buffer = (unsigned char *)malloc(*size);
 
-	if (buffer == NULL)
-		FATAL_ERROR("Failed to allocate memory for reading \"%s\".\n", path);
+    if (buffer == NULL)
+        FATAL_ERROR("Failed to allocate memory for reading \"%s\".\n", path);
 
-	rewind(fp);
+    rewind(fp);
 
-	if (fread(buffer, *size, 1, fp) != 1)
-		FATAL_ERROR("Failed to read \"%s\".\n", path);
+    if (fread(buffer, *size, 1, fp) != 1)
+        FATAL_ERROR("Failed to read \"%s\".\n", path);
 
-	fclose(fp);
+    fclose(fp);
 
-	return buffer;
+    return buffer;
 }
 
 // stupid simple copy file func
-static inline int copy_file(const char* src, const char* dst)
+static inline int copy_file(const char *src, const char *dst)
 {
-	const int bufsz = 0x10000;
+    const int bufsz = 0x10000;
 
-	char* buf = malloc(bufsz);
-	if (!buf)
-		return -1;
+    char *buf = (char *)malloc(bufsz);
+    if (!buf)
+        return -1;
 
-	FILE* hin = fopen(src, "rb");
-	if (!hin)
-	{
-		free(buf);
-		return -1;
-	}
+    FILE *hin = fopen(src, "rb");
+    if (!hin)
+    {
+        free(buf);
+        return -1;
+    }
 
-	FILE* hout = fopen(dst, "wb");
-	if (!hout)
-	{
-		free(buf);
-		fclose(hin);
-		return -1;
-	}
+    FILE *hout = fopen(dst, "wb");
+    if (!hout)
+    {
+        free(buf);
+        fclose(hin);
+        return -1;
+    }
 
-	size_t buflen;
-	while ((buflen = fread(buf, 1, bufsz, hin)) > 0)
-	{
-		if (buflen != fwrite(buf, 1, buflen, hout))
-		{
-			fclose(hout);
-			fclose(hin);
-			free(buf);
-			return -1;
-		}
-	}
-	free(buf);
+    size_t buflen;
+    while ((buflen = fread(buf, 1, bufsz, hin)) > 0)
+    {
+        if (buflen != fwrite(buf, 1, buflen, hout))
+        {
+            fclose(hout);
+            fclose(hin);
+            free(buf);
+            return -1;
+        }
+    }
+    free(buf);
 
-	int r = ferror(hin) ? -1 : 0;
-	fclose(hin);
-	return r | (fclose(hout) ? -1 : 0);
+    int r = ferror(hin) ? -1 : 0;
+    fclose(hin);
+    return r | (fclose(hout) ? -1 : 0);
 }
 
 // handle running ntrcomp in the archive list directory so all paths are local (and work on all filesystems!)
-#if defined (_WIN32)
-static inline void HandleCreateProcess(char* executable, char* processDir, char* args)
+#if defined(_WIN32)
+static inline void HandleCreateProcess(char *executable, char *processDir, char *args)
 #else
-static inline void HandleCreateProcess(char* executable, char* processDir, char* argv[])
+static inline void HandleCreateProcess(char *executable, char *processDir, char *argv[])
 #endif
 {
-#if defined (_WIN32)
-	// on win32 systems we can just pass processDir as an argument!
-	STARTUPINFOA si;
-	PROCESS_INFORMATION pi;
+#if defined(_WIN32)
+    // on win32 systems we can just pass processDir as an argument!
+    STARTUPINFOA si;
+    PROCESS_INFORMATION pi;
 
-	ZeroMemory(&si, sizeof(si));
-	si.cb = sizeof(si);
-	ZeroMemory(&pi, sizeof(pi));
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si);
+    ZeroMemory(&pi, sizeof(pi));
 
-	// Start the child process. 
-	if (!CreateProcessA(executable, args, NULL, NULL, FALSE, 0, NULL, processDir, &si, &pi))
-	{
-		printf("WARNING: HandleCreateProcess failed (%d).\n", GetLastError());
-		return;
-	}
+    // Start the child process.
+    if (!CreateProcessA(executable, args, NULL, NULL, FALSE, 0, NULL, processDir, &si, &pi))
+    {
+        printf("WARNING: HandleCreateProcess failed (%d).\n", GetLastError());
+        return;
+    }
 
-	// Wait until child process exits.
-	WaitForSingleObject(pi.hProcess, INFINITE);
+    // Wait until child process exits.
+    WaitForSingleObject(pi.hProcess, INFINITE);
 
-	// Close process and thread handles. 
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
+    // Close process and thread handles.
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
 #else
-	// on non-win32 systems, we have to copy the ntrcomp executable since there's no easy way to use 'posix_spawn' with an initial cwd
-	char cwd[0x100];
-	char dest[0x100];
-	getcwd(cwd, sizeof(cwd));
+    // on non-win32 systems, we have to copy the ntrcomp executable since there's no easy way to use 'posix_spawn' with an initial cwd
+    char cwd[0x100];
+    char dest[0x100];
+    getcwd(cwd, sizeof(cwd));
 
-	size_t bufferSize = snprintf(NULL, 0, "%sntrcomp.exe", processDir);
-	char* processPath = malloc(bufferSize + 1);
-	snprintf(processPath, bufferSize + 1, "%sntrcomp.exe", processDir);
+    size_t bufferSize = snprintf(NULL, 0, "%sntrcomp.exe", processDir);
+    char *processPath = (char *)malloc(bufferSize + 1);
+    snprintf(processPath, bufferSize + 1, "%sntrcomp.exe", processDir);
 
-	pid_t pid;
+    pid_t pid;
 
-	copy_file(executable, processPath);
-	chdir(processDir);
+    copy_file(executable, processPath);
+    chdir(processDir);
 
-	int status = posix_spawn(&pid, "ntrcomp.exe", NULL, NULL, argv, environ);
-	if (status != 0)
-	{
-		free(processPath);
-		remove("ntrcomp.exe");
-		chdir(cwd);
-		printf("WARNING: HandleCreateProcess failed (%s).\n", strerror(status));
-		return;
-	}
+    int status = posix_spawn(&pid, "ntrcomp.exe", NULL, NULL, argv, environ);
+    if (status != 0)
+    {
+        free(processPath);
+        remove("ntrcomp.exe");
+        chdir(cwd);
+        printf("WARNING: HandleCreateProcess failed (%s).\n", strerror(status));
+        return;
+    }
 
-	if (waitpid(pid, &status, 0) == -1)
-	{
-		free(processPath);
-		remove("ntrcomp.exe");
-		chdir(cwd);
-		printf("WARNING: HandleCreateProcess failed (%s).\n", strerror(status));
-		return;
-	}
+    if (waitpid(pid, &status, 0) == -1)
+    {
+        free(processPath);
+        remove("ntrcomp.exe");
+        chdir(cwd);
+        printf("WARNING: HandleCreateProcess failed (%s).\n", strerror(status));
+        return;
+    }
 
-	free(processPath);
-	remove("ntrcomp.exe");
-	chdir(cwd);
+    free(processPath);
+    remove("ntrcomp.exe");
+    chdir(cwd);
 #endif
 }
 
-static inline char* GetCompressionArg(int compression)
+static inline char *GetCompressionArg(int compression)
 {
-	switch (compression & 0xF0)
-	{
-	case LZ77_TAG:
-	{
-		int config = compression & 0xF;
+    switch (compression & 0xF0)
+    {
+        case LZ77_TAG: {
+            int config = compression & 0xF;
 
-		if (config != 0)
-		{
-			printf("WARNING: Unknown LZ77 config '%d'\n", config);
-		}
+            if (config != 0)
+            {
+                printf("WARNING: Unknown LZ77 config '%d'\n", config);
+            }
 
-		return "-h -l2";
-	}
+            return "-l2";
+        }
 
-	case HUFF_TAG:
-	{
-		int depth = compression & 0xF;
-		if (depth == 4)
-		{
-			return "-h -h4";
-		}
-		else if (depth == 8)
-		{
-			return "-h -h8";
-		}
-		else
-		{
-			printf("WARNING: Unknown huffman depth '%d'\n", depth);
-			return "-h";
-		}
-	}
+        case HUFF_TAG: {
+            int depth = compression & 0xF;
+            if (depth == 4)
+            {
+                return "-h4";
+            }
+            else if (depth == 8)
+            {
+                return "-h8";
+            }
+            else
+            {
+                printf("WARNING: Unknown huffman depth '%d'\n", depth);
+                return NULL;
+            }
+        }
 
-	case RLE_TAG:
-		return "-h -r";
+        case RLE_TAG:
+            return "-r";
 
-	case NONE_TAG:
-	default:
-		return "-h";
-	}
+        case NONE_TAG:
+        default:
+            return NULL;
+    }
 }
 
-void WriteBundleFile(const char* name, char* inputDir, unsigned int fileCount, File* fileList)
+void WriteBundleFile(const char *name, char *inputDir, unsigned int fileCount, File *fileList)
 {
-	size_t bufferSize = snprintf(NULL, 0, "%s%s.bb", inputDir, name);
-	char* path = malloc(bufferSize + 1);
-	snprintf(path, bufferSize + 1, "%s%s.bb", inputDir, name);
+    size_t bufferSize = snprintf(NULL, 0, "%s%s.bb", inputDir, name);
+    char *path        = (char *)malloc(bufferSize + 1);
+    snprintf(path, bufferSize + 1, "%s%s.bb", inputDir, name);
 
-	FILE* bundle = fopen(path, "wb");
-	if (bundle != NULL)
-	{
-		// write signature
-		fputc('B', bundle);
-		fputc('B', bundle);
-		fputc(0x00, bundle);
-		fputc(0x00, bundle);
+    FILE *bundle = fopen(path, "wb");
+    if (bundle != NULL)
+    {
+        // write signature
+        fputc('B', bundle);
+        fputc('B', bundle);
+        fputc(0x00, bundle);
+        fputc(0x00, bundle);
 
-		// fileCount
-		fwrite(&fileCount, 1, sizeof(unsigned int), bundle);
+        // fileCount
+        fwrite(&fileCount, 1, sizeof(unsigned int), bundle);
 
-		// write (temp) offsets
-		for (unsigned int f = 0; f < fileCount; f++)
-		{
-			fwrite(&fileList[f].offset, 1, sizeof(unsigned int), bundle);
-			fwrite(&fileList[f].size, 1, sizeof(unsigned int), bundle);
-		}
+        // write (temp) offsets
+        for (unsigned int f = 0; f < fileCount; f++)
+        {
+            fwrite(&fileList[f].offset, 1, sizeof(unsigned int), bundle);
+            fwrite(&fileList[f].size, 1, sizeof(unsigned int), bundle);
+        }
 
-		// write file data
-		for (unsigned int f = 0; f < fileCount; f++)
-		{
-			fileList[f].offset = ftell(bundle);
-			fwrite(fileList[f].data, 1, fileList[f].size, bundle);
-		}
+        // write file data
+        for (unsigned int f = 0; f < fileCount; f++)
+        {
+            fileList[f].offset = ftell(bundle);
+            fwrite(fileList[f].data, 1, fileList[f].size, bundle);
+        }
 
-		// write (proper) offsets
-		fseek(bundle, 8, SEEK_SET);
-		for (unsigned int f = 0; f < fileCount; f++)
-		{
-			fwrite(&fileList[f].offset, 1, sizeof(unsigned int), bundle);
-			fwrite(&fileList[f].size, 1, sizeof(unsigned int), bundle);
-		}
+        // write (proper) offsets
+        fseek(bundle, 8, SEEK_SET);
+        for (unsigned int f = 0; f < fileCount; f++)
+        {
+            fwrite(&fileList[f].offset, 1, sizeof(unsigned int), bundle);
+            fwrite(&fileList[f].size, 1, sizeof(unsigned int), bundle);
+        }
 
-		fclose(bundle);
-	}
+        fclose(bundle);
+    }
 
-	free(path);
+    free(path);
 }
 
-void WriteBundleEnum(const char* name, char* inputDir, unsigned int fileCount, File* fileList)
+void WriteBundleEnum(const char *name, char *inputDir, unsigned int fileCount, File *fileList)
 {
-	size_t bufferSize = snprintf(NULL, 0, "%s%s.h", inputDir, name);
-	char* path = malloc(bufferSize + 1);
-	snprintf(path, bufferSize + 1, "%s%s.h", inputDir, name);
+    size_t bufferSize = snprintf(NULL, 0, "%s%s.h", inputDir, name);
+    char *path        = (char *)malloc(bufferSize + 1);
+    snprintf(path, bufferSize + 1, "%s%s.h", inputDir, name);
 
-	FILE* bundle = fopen(path, "w");
-	if (bundle != NULL)
-	{
-		char nameBuffer[0x80];
-		char buffer[0x200];
+    FILE *bundle = fopen(path, "w");
+    if (bundle != NULL)
+    {
+        char nameBuffer[0x80];
+        char buffer[0x200];
 
-		snprintf(nameBuffer, sizeof(nameBuffer), "%s", name);
-		char* nameBufferPtr = nameBuffer;
-		while (*nameBufferPtr != 0)
-		{
-			*nameBufferPtr = toupper(*nameBufferPtr);
+        snprintf(nameBuffer, sizeof(nameBuffer), "%s", name);
+        char *nameBufferPtr = nameBuffer;
+        while (*nameBufferPtr != 0)
+        {
+            *nameBufferPtr = toupper(*nameBufferPtr);
 
-			if (*nameBufferPtr == ' ')
-				*nameBufferPtr = '_';
+            if (*nameBufferPtr == ' ')
+                *nameBufferPtr = '_';
 
-			nameBufferPtr++;
-		}
+            nameBufferPtr++;
+        }
 
-		snprintf(buffer, sizeof(buffer), "#ifndef RUSH2_BUNDLE_%s_H\n", nameBuffer);
-		fputs(buffer, bundle);
+        snprintf(buffer, sizeof(buffer), "#ifndef RUSH2_BUNDLE_%s_H\n", nameBuffer);
+        fputs(buffer, bundle);
 
-		snprintf(buffer, sizeof(buffer), "#define RUSH2_BUNDLE_%s_H\n\n", nameBuffer);
-		fputs(buffer, bundle);
+        snprintf(buffer, sizeof(buffer), "#define RUSH2_BUNDLE_%s_H\n\n", nameBuffer);
+        fputs(buffer, bundle);
 
-		snprintf(buffer, sizeof(buffer), "enum FileList_Bundle%s\n", nameBuffer);
-		fputs(buffer, bundle);
-		snprintf(buffer, sizeof(buffer), "{\n");
-		fputs(buffer, bundle);
+        snprintf(buffer, sizeof(buffer), "enum FileList_Bundle%s\n", nameBuffer);
+        fputs(buffer, bundle);
+        snprintf(buffer, sizeof(buffer), "{\n");
+        fputs(buffer, bundle);
 
-		for (unsigned int f = 0; f < fileCount; f++)
-		{
-			snprintf(buffer, sizeof(buffer), "\tBUNDLE_%s_FILE_%s,\n", nameBuffer, fileList[f].name);
+        for (unsigned int f = 0; f < fileCount; f++)
+        {
+            if (fileList[f].isDir)
+                continue;
 
-			char* bufferPtr = buffer;
-			while (*bufferPtr != 0)
-			{
-				*bufferPtr = toupper(*bufferPtr);
+            snprintf(buffer, sizeof(buffer), "\tBUNDLE_%s_FILE_%s,\n", nameBuffer, fileList[f].name);
 
-				if (*bufferPtr == ' ' || *bufferPtr == '.')
-					*bufferPtr = '_';
+            char *bufferPtr = buffer;
+            while (*bufferPtr != 0)
+            {
+                *bufferPtr = toupper(*bufferPtr);
 
-				bufferPtr++;
-			}
+                if (*bufferPtr == ' ' || *bufferPtr == '.' || *bufferPtr == '/' || *bufferPtr == '\\')
+                    *bufferPtr = '_';
 
-			fputs(buffer, bundle);
-		}
+                bufferPtr++;
+            }
 
-		snprintf(buffer, sizeof(buffer), "};\n\n");
-		fputs(buffer, bundle);
+            fputs(buffer, bundle);
+        }
 
-		snprintf(buffer, sizeof(buffer), "#endif // RUSH2_BUNDLE_%s_H\n", nameBuffer);
-		fputs(buffer, bundle);
+        snprintf(buffer, sizeof(buffer), "};\n\n");
+        fputs(buffer, bundle);
 
-		fclose(bundle);
-	}
+        snprintf(buffer, sizeof(buffer), "#endif // RUSH2_BUNDLE_%s_H\n", nameBuffer);
+        fputs(buffer, bundle);
 
-	free(path);
+        fclose(bundle);
+    }
+
+    free(path);
 }
 
-void WriteArchiveFile(const char* name, char* inputDir, unsigned int fileCount, File* fileList, unsigned char compression)
+void WriteArchiveFile(const char *name, char *inputDir, unsigned int fileCount, File *fileList, unsigned char compression)
 {
-	const bool NO_FNT = false;
-
-	struct Header
-	{
-		uint32_t signature;
-		uint16_t byteOrderMark;
-		uint16_t version;
-		uint32_t fileSize;
-		uint16_t chunkSize;
-		uint16_t chunkCount;
-	};
-
-	struct FileAllocationTable
-	{
-		uint32_t id;
-		uint32_t chunkSize;
-		uint16_t fileCount;
-		uint16_t reserved;
-	};
-
-	struct FileAllocationTableEntry
-	{
-		uint32_t start;
-		uint32_t end;
-	};
-
-	struct FileNameTable
-	{
-		uint32_t id;
-		uint32_t chunkSize;
-	};
-
-	struct FileNameTableEntry
-	{
-		uint32_t offset;
-		uint16_t firstFileId;
-		uint16_t utility;
-	};
-
-	struct FileImages
-	{
-		uint32_t id;
-		uint32_t chunkSize;
-	};
-
-	struct Directory
-	{
-		char* name;
-		unsigned char parent;
-	};
-
-	size_t bufferSize = snprintf(NULL, 0, "%s.tempnarc", name);
-	char* tempName = malloc(bufferSize + 1);
-	snprintf(tempName, bufferSize + 1, "%s.tempnarc", name);
-
-	bufferSize = snprintf(NULL, 0, "%s%s", inputDir, tempName);
-	char* tempPath = malloc(bufferSize + 1);
-	snprintf(tempPath, bufferSize + 1, "%s%s", inputDir, tempName);
-
-	FILE* archive = fopen(tempPath, "wb");
-	if (archive != NULL)
-	{
-		// file access table setup
-		for (unsigned int f = 0; f < fileCount; f++)
-		{
-			File* file = &fileList[f];
-
-			file->dataStartPos = 0;
-			file->dataEndPos = file->size;
-
-			if (f > 0)
-			{
-				file->dataStartPos += fileList[f - 1].dataEndPos;
-			}
-
-			if ((file->dataStartPos % 4) != 0)
-			{
-				file->dataStartPos += 4 - (file->dataStartPos % 4);
-			}
-
-			file->dataEndPos += file->dataStartPos;
-		}
-
-		struct FileAllocationTable fat =
-		{
-			.id = 0x46415442, // BTAF
-			.chunkSize = sizeof(struct FileAllocationTable) + (fileCount * sizeof(struct FileAllocationTableEntry)),
-			.fileCount = fileCount,
-			.reserved = 0x0
-		};
-
-		struct FileNameTable fnt =
-		{
-			.id = 0x464E5442, // BTNF
-			.chunkSize = sizeof(struct FileNameTable),
-		};
-
-		struct FileImages fi =
-		{
-			.id = 0x46494D47, // GMIF
-			.chunkSize = sizeof(struct FileImages) + (fileList[fileCount - 1].dataEndPos)
-		};
-
-		// .chunkSize = (sizeof(struct FileNameTable) + (dirCount + fileCount * sizeof(struct FileNameTableEntry)))
-		struct Directory* dirList = malloc(sizeof(struct Directory) * 0x80);
-		memset(dirList, 0, sizeof(struct Directory) * 0x80);
-		dirList[0].name = NULL;
-
-		unsigned char dirCount = 1;
-		if (NO_FNT)
-		{
-			fnt.chunkSize += sizeof(struct FileNameTableEntry);
-			fnt.chunkSize++; // end of table byte
-		}
-		else
-		{
-			fnt.chunkSize += sizeof(struct FileNameTableEntry);
-			fnt.chunkSize++; // end of table byte
-
-			for (unsigned int f = 0; f < fileCount; f++)
-			{
-				File* file = &fileList[f];
-
-				int count = GetDirectoryCount(file->name);
-
-				if (count == 0)
-				{
-					file->dirID = 0;
-
-					fnt.chunkSize += sizeof(unsigned char);
-					fnt.chunkSize += (uint32_t)strlen(GetFileName(file->name));
-				}
-				else
-				{
-					int prevDir = 0;
-					for (int d = 0; d < count; d++)
-					{
-						char* name = GetDirectoryName(file->name, d);
-
-						bool exists = false;
-						for (int i = 1; i < dirCount; i++)
-						{
-							if (strcmp(name, dirList[i].name) == 0)
-							{
-								exists = true;
-								file->dirID = i;
-								prevDir = i;
-								free(name);
-
-								fnt.chunkSize += sizeof(unsigned char);
-								fnt.chunkSize += (uint32_t)strlen(GetFileName(file->name));
-
-								break;
-							}
-						}
-
-						if (exists == false)
-						{
-							dirList[dirCount].name = name;
-							dirList[dirCount].parent = prevDir;
-							file->dirID = dirCount;
-							prevDir = dirCount;
-							dirCount++;
-
-							fnt.chunkSize += sizeof(unsigned char);
-							fnt.chunkSize += (uint32_t)strlen(name);
-							fnt.chunkSize += sizeof(unsigned short);
-
-							fnt.chunkSize += sizeof(unsigned char);
-							fnt.chunkSize += (uint32_t)strlen(GetFileName(file->name));
-
-							fnt.chunkSize += sizeof(struct FileNameTableEntry);
-							fnt.chunkSize++; // end of table byte
-						}
-					}
-				}
-			}
-		}
-
-		if ((fnt.chunkSize % 4) != 0)
-			fnt.chunkSize += 4 - (fnt.chunkSize % 4);
-
-		struct Header header =
-		{
-			.signature = 0x4352414E, // NARC
-			.byteOrderMark = 0xFFFE,
-			.version = 0x100,
-			.fileSize = (sizeof(struct Header) + fat.chunkSize + fnt.chunkSize + fi.chunkSize),
-			.chunkSize = sizeof(struct Header),
-			.chunkCount = 3
-		};
-
-
-		// header
-		fwrite(&header, 1, sizeof(header), archive);
-
-		// file allocation table
-		fwrite(&fat, 1, sizeof(fat), archive);
-		for (unsigned int f = 0; f < fileCount; f++)
-		{
-			File* file = &fileList[f];
-
-			struct FileAllocationTableEntry entry = { 0 };
-
-			entry.start = file->dataStartPos;
-			entry.end = file->dataEndPos;
-
-			fwrite(&entry, 1, sizeof(entry), archive);
-		}
-
-		// file name table
-		fwrite(&fnt, 1, sizeof(fnt), archive);
-		if (NO_FNT)
-		{
-			struct FileNameTableEntry entry;
-
-			// empty root dir
-			entry.offset = sizeof(struct FileNameTable) - 0x4;
-			entry.firstFileId = 0x0;
-			entry.utility = 0x1;
-
-			fwrite(&entry, 1, sizeof(entry), archive);
-		}
-		else
-		{
-			// write directory list
-			size_t startPos = ftell(archive);
-			int dirOffset = (dirCount) * sizeof(struct FileNameTableEntry);
-			for (unsigned int d = 0; d < dirCount; d++)
-			{
-				struct FileNameTableEntry entry;
-
-				// directory info
-				entry.offset = dirOffset;
-
-				if (d == 0)
-				{
-					entry.utility = dirCount;
-				}
-				else
-				{
-					entry.utility = 0xF000 + dirList[d].parent;
-				}
-
-				entry.firstFileId = 0x0;
-				for (unsigned int f = 0; f < fileCount; f++)
-				{
-					File* file = &fileList[f];
-
-					if (file->dirID != d)
-						continue;
-
-					entry.firstFileId = f;
-					break;
-				}
-
-				fwrite(&entry, 1, sizeof(entry), archive);
-
-				for (unsigned int f = 0; f < fileCount; f++)
-				{
-					File* file = &fileList[f];
-
-					if (file->dirID != d)
-						continue;
-
-					const char* name = GetFileName(file->name);
-					unsigned char len = strlen(name) & 0x7F;
-					dirOffset += sizeof(unsigned char);
-					dirOffset += len;
-				}
-
-				for (unsigned int c = 1; c < dirCount; c++)
-				{
-					struct Directory* dir = &dirList[c];
-
-					if (dir->parent != d)
-						continue;
-
-					const char* name = GetFileName(dir->name);
-					unsigned char len = strlen(name) & 0x7F;
-					dirOffset += sizeof(unsigned char);
-					dirOffset += len;
-					dirOffset += sizeof(unsigned short);
-				}
-
-				// end of table
-				dirOffset += sizeof(unsigned char);
-			}
-
-			// write file contents
-			for (unsigned int d = 0; d < dirCount; d++)
-			{
-				for (unsigned int f = 0; f < fileCount; f++)
-				{
-					File* file = &fileList[f];
-
-					if (file->dirID != d)
-						continue;
-
-					const char* name = GetFileName(file->name);
-					unsigned char len = strlen(name) & 0x7F;
-					fwrite(&len, 1, sizeof(len), archive);
-					fwrite(name, 1, len, archive);
-				}
-
-				for (unsigned int c = 1; c < dirCount; c++)
-				{
-					struct Directory* dir = &dirList[c];
-
-					if (dir->parent != d)
-						continue;
-
-					const char* name = GetFileName(dir->name);
-					unsigned char len = 0x80 | (strlen(name) & 0x7F);
-					fwrite(&len, 1, sizeof(len), archive);
-					fwrite(name, 1, (len & 0x7F), archive);
-
-					unsigned short id = 0xF000 + c;
-					fwrite(&id, 1, sizeof(id), archive);
-				}
-
-				// end of table
-				fputc(0x00, archive);
-			}
-		}
-		ALIGN_DWORD(archive);
-
-		fwrite(&fi, 1, sizeof(fi), archive);
-		size_t offset = ftell(archive);
-		for (unsigned int f = 0; f < fileCount; f++)
-		{
-			File* file = &fileList[f];
-
-			if ((ftell(archive) - offset) != file->dataStartPos)
-			{
-				continue;
-			}
-
-			fwrite(file->data, 1, file->size, archive);
-			ALIGN_DWORD(archive);
-		}
-
-		fclose(archive);
-
-		for (int i = 0; i < dirCount; i++)
-		{
-			if (dirList[i].name != NULL)
-			{
-				free(dirList[i].name);
-			}
-		}
-		free(dirList);
-	}
-
-	if (compression != 0xFF)
-	{
-		// compression is applied, compress source file and read the result
-		size_t bufferSize = snprintf(NULL, 0, "%s.narc", name);
-		char* outName = malloc(bufferSize + 1);
-		snprintf(outName, bufferSize + 1, "%s.narc", name);
-
-#if defined (_WIN32)
-		bufferSize = snprintf(NULL, 0, "%s -o \"%s\" \"%s\"", GetCompressionArg(compression), outName, tempName);
-		char* args = malloc(bufferSize + 1);
-		snprintf(args, bufferSize + 1, "%s -o \"%s\" \"%s\"", GetCompressionArg(compression), outName, tempName);
-		HandleCreateProcess(toolNtrComp, inputDir, args);
-		free(args);
+    const bool NO_FNT = false;
+
+    struct Header
+    {
+        uint32_t signature;
+        uint16_t byteOrderMark;
+        uint16_t version;
+        uint32_t fileSize;
+        uint16_t chunkSize;
+        uint16_t chunkCount;
+    };
+
+    struct FileAllocationTable
+    {
+        uint32_t id;
+        uint32_t chunkSize;
+        uint16_t fileCount;
+        uint16_t reserved;
+    };
+
+    struct FileAllocationTableEntry
+    {
+        uint32_t start;
+        uint32_t end;
+    };
+
+    struct FileNameTable
+    {
+        uint32_t id;
+        uint32_t chunkSize;
+    };
+
+    struct FileNameTableEntry
+    {
+        uint32_t offset;
+        uint16_t firstFileId;
+        uint16_t utility;
+    };
+
+    struct FileImages
+    {
+        uint32_t id;
+        uint32_t chunkSize;
+    };
+
+    size_t bufferSize = snprintf(NULL, 0, "%s.tempnarc", name);
+    char *tempName    = (char *)malloc(bufferSize + 1);
+    snprintf(tempName, bufferSize + 1, "%s.tempnarc", name);
+
+    bufferSize     = snprintf(NULL, 0, "%s%s", inputDir, tempName);
+    char *tempPath = (char *)malloc(bufferSize + 1);
+    snprintf(tempPath, bufferSize + 1, "%s%s", inputDir, tempName);
+
+    FILE *archive = fopen(tempPath, "wb");
+    if (archive != NULL)
+    {
+        // file access table setup
+        int lastFile      = 0;
+        int btafFileCount = 0;
+        for (unsigned int f = 0; f < fileCount; f++)
+        {
+            File *file = &fileList[f];
+
+            if (file->isDir)
+                continue;
+
+            file->dataStartPos = 0;
+            file->dataEndPos   = file->size;
+
+            if (f > 0)
+            {
+                file->dataStartPos += fileList[lastFile].dataEndPos;
+            }
+
+            if ((file->dataStartPos % 4) != 0)
+            {
+                file->dataStartPos += 4 - (file->dataStartPos % 4);
+            }
+
+            file->dataEndPos += file->dataStartPos;
+
+            lastFile = f;
+            btafFileCount++;
+        }
+
+        struct FileAllocationTable fat = { .id        = 0x46415442, // BTAF
+                                           .chunkSize = sizeof(struct FileAllocationTable) + (btafFileCount * sizeof(struct FileAllocationTableEntry)),
+                                           .fileCount = btafFileCount,
+                                           .reserved  = 0x0 };
+
+        struct FileNameTable fnt = {
+            .id        = 0x464E5442, // BTNF
+            .chunkSize = sizeof(struct FileNameTable),
+        };
+
+        struct FileImages fi = { .id        = 0x46494D47, // GMIF
+                                 .chunkSize = sizeof(struct FileImages) + (fileList[fileCount - 1].dataEndPos) };
+
+        // align to 4-bytes
+        if ((fi.chunkSize % 4) != 0)
+            fi.chunkSize += 4 - (fi.chunkSize % 4);
+
+        // .chunkSize = (sizeof(struct FileNameTable) + (dirCount + fileCount * sizeof(struct FileNameTableEntry)))
+
+        unsigned char dirCount = 1;
+
+        if (true)
+        {
+            if (NO_FNT)
+            {
+                fnt.chunkSize += sizeof(struct FileNameTableEntry);
+                fnt.chunkSize++; // end of table byte
+            }
+            else
+            {
+                fnt.chunkSize += sizeof(struct FileNameTableEntry);
+                fnt.chunkSize++; // end of table byte
+
+                for (uint32_t f = 0; f < fileCount; f++)
+                {
+                    if (fileList[f].isDir)
+                    {
+                        fileList[f].dirID = dirCount;
+                        dirCount++;
+                    }
+                }
+
+                for (unsigned int f = 0; f < fileCount; f++)
+                {
+                    File *file = &fileList[f];
+
+                    if (file->isDir)
+                    {
+                        fnt.chunkSize += sizeof(unsigned char);
+                        fnt.chunkSize += (uint32_t)strlen(GetFileName(file->name));
+                        fnt.chunkSize += sizeof(unsigned short);
+
+                        fnt.chunkSize += sizeof(struct FileNameTableEntry);
+                        fnt.chunkSize++; // end of table byte
+                    }
+                    else
+                    {
+                        int count = GetDirectoryCount(file->name);
+
+                        if (count == 0)
+                        {
+                            file->dirID = 0;
+
+                            fnt.chunkSize += sizeof(unsigned char);
+                            fnt.chunkSize += (uint32_t)strlen(GetFileName(file->name));
+                        }
+                        else
+                        {
+                            int prevDir = 0;
+                            for (int d = 0; d < count; d++)
+                            {
+                                char *name = GetDirectoryName(file->name, d);
+
+                                bool exists = false;
+                                for (uint32_t i = 0; i < fileCount; i++)
+                                {
+                                    if (!fileList[i].isDir)
+                                        continue;
+
+                                    if (strcmp(name, fileList[i].name) == 0)
+                                    {
+                                        exists      = true;
+                                        file->dirID = fileList[i].dirID;
+                                        prevDir     = fileList[i].dirID;
+                                        free(name);
+
+                                        fnt.chunkSize += sizeof(unsigned char);
+                                        fnt.chunkSize += (uint32_t)strlen(GetFileName(file->name));
+
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // align to 4-bytes
+        if ((fnt.chunkSize % 4) != 0)
+            fnt.chunkSize += 4 - (fnt.chunkSize % 4);
+
+        struct Header header = { .signature     = 0x4352414E, // NARC
+                                 .byteOrderMark = 0xFFFE,
+                                 .version       = 0x100,
+                                 .fileSize      = (sizeof(struct Header) + fat.chunkSize + fnt.chunkSize + fi.chunkSize),
+                                 .chunkSize     = sizeof(struct Header),
+                                 .chunkCount    = 3 };
+
+        // header
+        fwrite(&header, 1, sizeof(header), archive);
+
+        // file allocation table
+        fwrite(&fat, 1, sizeof(fat), archive);
+        for (unsigned int f = 0; f < fileCount; f++)
+        {
+            File *file = &fileList[f];
+
+            if (file->isDir)
+                continue;
+
+            struct FileAllocationTableEntry entry = { 0 };
+
+            entry.start = file->dataStartPos;
+            entry.end   = file->dataEndPos;
+
+            fwrite(&entry, 1, sizeof(entry), archive);
+        }
+
+        // file name table
+        fwrite(&fnt, 1, sizeof(fnt), archive);
+        if (NO_FNT)
+        {
+            struct FileNameTableEntry entry;
+
+            // empty root dir
+            entry.offset      = sizeof(struct FileNameTable) - 0x4;
+            entry.firstFileId = 0x0;
+            entry.utility     = 0x1;
+
+            fwrite(&entry, 1, sizeof(entry), archive);
+        }
+        else
+        {
+            // write directory list
+            size_t startPos = ftell(archive);
+            int dirOffset   = (dirCount) * sizeof(struct FileNameTableEntry);
+            for (unsigned int d = 0; d < dirCount; d++)
+            {
+                struct FileNameTableEntry entry;
+
+                // directory info
+                entry.offset = dirOffset;
+
+                if (d == 0)
+                {
+                    entry.utility = dirCount;
+                }
+                else
+                {
+                    for (unsigned int f = 0; f < fileCount; f++)
+                    {
+                        File *file = &fileList[f];
+
+                        if (!file->isDir)
+                            continue;
+
+                        if (file->dirID != d)
+                            continue;
+
+                        entry.utility = 0xF000 + file->parentDir;
+                        break;
+                    }
+                }
+
+                entry.firstFileId = 0x0;
+                lastFile          = 0;
+                for (unsigned int f = 0; f < fileCount; f++)
+                {
+                    File *file = &fileList[f];
+
+                    if (file->isDir)
+                        continue;
+
+                    lastFile++;
+                    if (file->dirID != d)
+                        continue;
+
+                    entry.firstFileId = lastFile - 1;
+                    break;
+                }
+
+                fwrite(&entry, 1, sizeof(entry), archive);
+
+                for (unsigned int f = 0; f < fileCount; f++)
+                {
+                    File *file = &fileList[f];
+
+                    if (file->isDir)
+                        continue;
+
+                    if (file->dirID != d)
+                        continue;
+
+                    const char *name  = GetFileName(file->name);
+                    unsigned char len = strlen(name) & 0x7F;
+                    dirOffset += sizeof(unsigned char);
+                    dirOffset += len;
+                }
+
+                for (unsigned int f = 0; f < fileCount; f++)
+                {
+                    File *file = &fileList[f];
+
+                    if (!file->isDir)
+                        continue;
+
+                    if (file->parentDir != d)
+                        continue;
+
+                    const char *name  = GetFileName(file->name);
+                    unsigned char len = strlen(name) & 0x7F;
+                    dirOffset += sizeof(unsigned char);
+                    dirOffset += len;
+                    dirOffset += sizeof(unsigned short);
+                }
+
+                // end of table
+                dirOffset += sizeof(unsigned char);
+            }
+
+            // write file contents
+            for (unsigned int d = 0; d < dirCount; d++)
+            {
+                for (unsigned int f = 0; f < fileCount; f++)
+                {
+                    File *file = &fileList[f];
+
+                    if (file->isDir)
+                    {
+                        if (file->parentDir != d)
+                            continue;
+
+                        const char *name  = GetFileName(file->name);
+                        unsigned char len = 0x80 | (strlen(name) & 0x7F);
+                        fwrite(&len, 1, sizeof(len), archive);
+                        fwrite(name, 1, (len & 0x7F), archive);
+
+                        unsigned short id = 0xF000 + file->dirID;
+                        fwrite(&id, 1, sizeof(id), archive);
+                    }
+                    else
+                    {
+                        if (file->dirID != d)
+                            continue;
+
+                        const char *name  = GetFileName(file->name);
+                        unsigned char len = strlen(name) & 0x7F;
+                        fwrite(&len, 1, sizeof(len), archive);
+                        fwrite(name, 1, len, archive);
+                    }
+                }
+
+                // end of table
+                fputc(0x00, archive);
+            }
+        }
+        ALIGN_DWORD(archive);
+
+        fwrite(&fi, 1, sizeof(fi), archive);
+        size_t offset = ftell(archive);
+        for (unsigned int f = 0; f < fileCount; f++)
+        {
+            File *file = &fileList[f];
+
+            if (file->isDir)
+                continue;
+
+            if ((ftell(archive) - offset) != file->dataStartPos)
+            {
+                continue;
+            }
+
+            fwrite(file->data, 1, file->size, archive);
+            ALIGN_DWORD(archive);
+        }
+
+        fclose(archive);
+    }
+
+    char *compressionArg = GetCompressionArg(compression);
+    if (compression != 0xFF && compressionArg != NULL)
+    {
+        // compression is applied, compress source file and read the result
+        size_t bufferSize = snprintf(NULL, 0, "%s.narc", name);
+        char *outName     = (char *)malloc(bufferSize + 1);
+        snprintf(outName, bufferSize + 1, "%s.narc", name);
+
+#if defined(_WIN32)
+        bufferSize = snprintf(NULL, 0, "-h %s -o \"%s\" \"%s\"", compressionArg, outName, tempName);
+        char *args = (char *)malloc(bufferSize + 1);
+        snprintf(args, bufferSize + 1, "-h %s -o \"%s\" \"%s\"", compressionArg, outName, tempName);
+        HandleCreateProcess(toolNtrComp, inputDir, args);
+        free(args);
 #else
-		char* argv[] = { GetCompressionArg(compression), "-o", outName, tempName, NULL };
-		HandleCreateProcess(toolNtrComp, inputDir, argv);
+        char *argv[] = { "-h", compressionArg, "-o", outName, tempName, NULL };
+        HandleCreateProcess(toolNtrComp, inputDir, argv);
 #endif
 
-		if (remove(tempPath) != 0)
-		{
-			// couldn't remove the temp file...
-		}
+        if (remove(tempPath) != 0)
+        {
+            // couldn't remove the temp file...
+            printf("WARNING: unable to remove temp archive.\n");
+        }
 
-		free(outName);
-	}
-	else
-	{
-		size_t bufferSize = snprintf(NULL, 0, "%s%s.narc", inputDir, name);
-		char* path = malloc(bufferSize + 1);
-		snprintf(path, bufferSize + 1, "%s%s.narc", inputDir, name);
+        free(outName);
+    }
+    else
+    {
+        size_t bufferSize = snprintf(NULL, 0, "%s%s.narc", inputDir, name);
+        char *path        = (char *)malloc(bufferSize + 1);
+        snprintf(path, bufferSize + 1, "%s%s.narc", inputDir, name);
 
-		// no compression at all, copy file to destination
-		copy_file(tempPath, path);
+        // no compression at all, copy file to destination
+        copy_file(tempPath, path);
 
-		free(path);
-	}
+        if (remove(tempPath) != 0)
+        {
+            // couldn't remove the temp file...
+            printf("WARNING: unable to remove temp archive.\n");
+        }
 
-	free(tempName);
-	free(tempPath);
+        free(path);
+    }
+
+    free(tempName);
+    free(tempPath);
 }
 
-void WriteArchiveEnum(const char* name, char* inputDir, unsigned int fileCount, File* fileList)
+void WriteArchiveEnum(const char *name, char *inputDir, unsigned int fileCount, File *fileList)
 {
-	size_t bufferSize = snprintf(NULL, 0, "%s%s.h", inputDir, name);
-	char* path = malloc(bufferSize + 1);
-	snprintf(path, bufferSize + 1, "%s%s.h", inputDir, name);
+    size_t bufferSize = snprintf(NULL, 0, "%s%s.h", inputDir, name);
+    char *path        = (char *)malloc(bufferSize + 1);
+    snprintf(path, bufferSize + 1, "%s%s.h", inputDir, name);
 
-	FILE* bundle = fopen(path, "w");
-	if (bundle != NULL)
-	{
-		char nameBuffer[0x80];
-		char buffer[0x200];
+    FILE *bundle = fopen(path, "w");
+    if (bundle != NULL)
+    {
+        char nameBuffer[0x80];
+        char buffer[0x200];
 
-		snprintf(nameBuffer, sizeof(nameBuffer), "%s", name);
-		char* nameBufferPtr = nameBuffer;
-		while (*nameBufferPtr != 0)
-		{
-			*nameBufferPtr = toupper(*nameBufferPtr);
+        snprintf(nameBuffer, sizeof(nameBuffer), "%s", name);
+        char *nameBufferPtr = nameBuffer;
+        while (*nameBufferPtr != 0)
+        {
+            *nameBufferPtr = toupper(*nameBufferPtr);
 
-			if (*nameBufferPtr == ' ')
-				*nameBufferPtr = '_';
+            if (*nameBufferPtr == ' ')
+                *nameBufferPtr = '_';
 
-			nameBufferPtr++;
-		}
+            nameBufferPtr++;
+        }
 
-		snprintf(buffer, sizeof(buffer), "#ifndef RUSH2_ARCHIVE_%s_H\n", nameBuffer);
-		fputs(buffer, bundle);
+        snprintf(buffer, sizeof(buffer), "#ifndef RUSH2_ARCHIVE_%s_H\n", nameBuffer);
+        fputs(buffer, bundle);
 
-		snprintf(buffer, sizeof(buffer), "#define RUSH2_ARCHIVE_%s_H\n\n", nameBuffer);
-		fputs(buffer, bundle);
+        snprintf(buffer, sizeof(buffer), "#define RUSH2_ARCHIVE_%s_H\n\n", nameBuffer);
+        fputs(buffer, bundle);
 
-		snprintf(buffer, sizeof(buffer), "enum FileList_Archive%s\n", nameBuffer);
-		fputs(buffer, bundle);
-		snprintf(buffer, sizeof(buffer), "{\n");
-		fputs(buffer, bundle);
+        snprintf(buffer, sizeof(buffer), "enum FileList_Archive%s\n", nameBuffer);
+        fputs(buffer, bundle);
+        snprintf(buffer, sizeof(buffer), "{\n");
+        fputs(buffer, bundle);
 
-		for (unsigned int f = 0; f < fileCount; f++)
-		{
-			snprintf(buffer, sizeof(buffer), "\tARCHIVE_%s_FILE_%s,\n", nameBuffer, fileList[f].name);
+        for (unsigned int f = 0; f < fileCount; f++)
+        {
+            if (fileList[f].isDir)
+                continue;
+                
+            snprintf(buffer, sizeof(buffer), "\tARCHIVE_%s_FILE_%s,\n", nameBuffer, fileList[f].name);
 
-			char* bufferPtr = buffer;
-			while (*bufferPtr != 0)
-			{
-				*bufferPtr = toupper(*bufferPtr);
+            char *bufferPtr = buffer;
+            while (*bufferPtr != 0)
+            {
+                *bufferPtr = toupper(*bufferPtr);
 
-				if (*bufferPtr == ' ' || *bufferPtr == '.')
-					*bufferPtr = '_';
+                if (*bufferPtr == ' ' || *bufferPtr == '.' || *bufferPtr == '/' || *bufferPtr == '\\')
+                    *bufferPtr = '_';
 
-				bufferPtr++;
-			}
+                bufferPtr++;
+            }
 
-			fputs(buffer, bundle);
-		}
+            fputs(buffer, bundle);
+        }
 
-		snprintf(buffer, sizeof(buffer), "};\n\n");
-		fputs(buffer, bundle);
+        snprintf(buffer, sizeof(buffer), "};\n\n");
+        fputs(buffer, bundle);
 
-		snprintf(buffer, sizeof(buffer), "#endif // RUSH2_ARCHIVE_%s_H\n", nameBuffer);
-		fputs(buffer, bundle);
+        snprintf(buffer, sizeof(buffer), "#endif // RUSH2_ARCHIVE_%s_H\n", nameBuffer);
+        fputs(buffer, bundle);
 
-		fclose(bundle);
-	}
+        fclose(bundle);
+    }
 
-	free(path);
+    free(path);
 }
 
-void PackBundle(char* inputPath, char* inputDir)
+void PackBundle(char *inputPath, char *inputDir, char *archiveDir)
 {
-	int fileLength;
-	unsigned char* jsonString = ReadWholeFile(inputPath, &fileLength);
+    unsigned int fileLength;
+    unsigned char *jsonString = ReadWholeFile(inputPath, &fileLength);
 
-	cJSON* json = cJSON_Parse((const char*)jsonString);
+    cJSON *json = cJSON_Parse((const char *)jsonString);
 
-	if (json == NULL)
-	{
-		const char* errorPtr = cJSON_GetErrorPtr();
-		FATAL_ERROR("Error in line \"%s\"\n", errorPtr);
-	}
+    if (json == NULL)
+    {
+        const char *errorPtr = cJSON_GetErrorPtr();
+        FATAL_ERROR("Error in line \"%s\"\n", errorPtr);
+    }
 
-	const char* name = GetJSONString(GetJSONObject(json, "name"));
+    const char *name = GetJSONString(GetJSONObject(json, "name"));
 
-	cJSON* files = GetJSONObject(json, "files");
-	unsigned int fileCount = cJSON_GetArraySize(files);
+    printf("Packing bundle '%s'...\n", inputPath);
 
-	File* fileList = malloc(sizeof(File) * fileCount);
-	memset(fileList, 0, sizeof(File) * fileCount);
+    cJSON *files           = GetJSONObject(json, "files");
+    unsigned int fileCount = cJSON_GetArraySize(files);
 
-	cJSON* file = NULL;
-	File* bundleFile = fileList;
-	cJSON_ArrayForEach(file, files)
-	{
-		if (cJSON_IsObject(file) == false)
-		{
-			bundleFile++;
-			continue;
-		}
+    File *fileList = (File *)malloc(sizeof(File) * fileCount);
+    memset(fileList, 0, sizeof(File) * fileCount);
 
-		const char* fileName = GetJSONString(GetJSONObject(file, "path"));
-		unsigned char compression = GetJSONInt(GetJSONObject(file, "compression"));
+    cJSON *file      = NULL;
+    File *bundleFile = fileList;
+    cJSON_ArrayForEach(file, files)
+    {
+        if (cJSON_IsObject(file) == false)
+        {
+            bundleFile++;
+            continue;
+        }
 
-		size_t bufferSize = snprintf(NULL, 0, "%s%s", inputDir, fileName);
-		char* path = malloc(bufferSize + 1);
-		snprintf(path, bufferSize + 1, "%s%s", inputDir, fileName);
+        const char *fileName      = GetJSONString(GetJSONObject(file, "sourcePath"));
+        unsigned char compression = GetJSONInt(GetJSONObject(file, "compression"));
 
-		if (compression != 0xFF)
-		{
-			// compression is applied, compress source file and read the result
+        printf("Packing bundle file '%s'...\n", fileName);
 
-			bufferSize = snprintf(NULL, 0, "%s.comp.bin", fileName);
-			char* tempName = malloc(bufferSize + 1);
-			snprintf(tempName, bufferSize + 1, "%s.comp.bin", fileName);
+        size_t bufferSize = snprintf(NULL, 0, "%s%s", inputDir, fileName);
+        char *path        = (char *)malloc(bufferSize + 1);
+        snprintf(path, bufferSize + 1, "%s%s", inputDir, fileName);
 
-			bufferSize = snprintf(NULL, 0, "%s%s", inputDir, tempName);
-			char* tempPath = malloc(bufferSize + 1);
-			snprintf(tempPath, bufferSize + 1, "%s%s", inputDir, tempName);
+        char *compressionArg = GetCompressionArg(compression);
+        if (compression != 0xFF && compressionArg != NULL)
+        {
+            // compression is applied, compress source file and read the result
 
-#if defined (_WIN32)
-			bufferSize = snprintf(NULL, 0, "%s -o \"%s\" \"%s\"", GetCompressionArg(compression), tempName, fileName);
-			char* args = malloc(bufferSize + 1);
-			snprintf(args, bufferSize + 1, "%s -o \"%s\" \"%s\"", GetCompressionArg(compression), tempName, fileName);
-			HandleCreateProcess(toolNtrComp, inputDir, args);
-			free(args);
+            bufferSize     = snprintf(NULL, 0, "%s.comp.bin", fileName);
+            char *tempName = (char *)malloc(bufferSize + 1);
+            snprintf(tempName, bufferSize + 1, "%s.comp.bin", fileName);
+
+            bufferSize     = snprintf(NULL, 0, "%s%s", inputDir, tempName);
+            char *tempPath = (char *)malloc(bufferSize + 1);
+            snprintf(tempPath, bufferSize + 1, "%s%s", inputDir, tempName);
+
+#if defined(_WIN32)
+            bufferSize = snprintf(NULL, 0, "-h %s -o \"%s\" \"%s\"", compressionArg, tempName, fileName);
+            char *args = (char *)malloc(bufferSize + 1);
+            snprintf(args, bufferSize + 1, "-h %s -o \"%s\" \"%s\"", compressionArg, tempName, fileName);
+            HandleCreateProcess(toolNtrComp, inputDir, args);
+            free(args);
 #else
-			char* argv[] = { GetCompressionArg(compression), "-o", tempName, (char*)fileName, NULL };
-			HandleCreateProcess(toolNtrComp, inputDir, argv);
+            char *argv[] = { "-h", compressionArg, "-o", tempName, (char *)fileName, NULL };
+            HandleCreateProcess(toolNtrComp, inputDir, argv);
 #endif
 
-			bundleFile->offset = 0;
-			bundleFile->data = ReadWholeFile(tempPath, &bundleFile->size);
+            bundleFile->offset = 0;
+            bundleFile->data   = ReadWholeFile(tempPath, &bundleFile->size);
 
-			// LZ77 files are padded to 0x4 bytes & padded with 0xFF (ntrComp pads with 0x00)
-			if ((compression & 0xF0) == LZ77_TAG)
-			{
-				int padding = 4 - (bundleFile->size & 3);
+            // compressed files are padded to 0x4 bytes & padded with 0xFF (ntrComp pads with 0x00)
+            if ((compression & 0xF0) != 0x00)
+            {
+                int padding = 4 - (bundleFile->size & 3);
 
-				if (padding < 4)
-				{
-					void* paddedData = malloc(bundleFile->size + padding);
+                if (padding < 4)
+                {
+                    void *paddedData = malloc(bundleFile->size + padding);
 
-					memcpy(paddedData, bundleFile->data, bundleFile->size);
-					for (int b = 0; b < padding; b++)
-					{
-						((unsigned char*)paddedData)[bundleFile->size + b] = 0xFF;
-					}
+                    memcpy(paddedData, bundleFile->data, bundleFile->size);
 
-					bundleFile->size += padding;
-					free(bundleFile->data);
-					bundleFile->data = paddedData;
-				}
-			}
+                    if (strcmp(name, "vi_map_back") == 0)
+                    {
+						// this archive's a bit strange, will need to come back and re-investigate it later to see if we can come up with a more elegrant fix!
+                        for (int b = 0; b < padding; b++)
+                        {
+                            ((unsigned char *)paddedData)[bundleFile->size + b] = 0x00;
+                        }
+                    }
+                    else
+                    {
+                        for (int b = 0; b < padding; b++)
+                        {
+                            ((unsigned char *)paddedData)[bundleFile->size + b] = 0xFF;
+                        }
+                    }
 
-			if (remove(tempPath) != 0)
-			{
-				// couldn't remove the temp file...
-			}
+                    bundleFile->size += padding;
+                    free(bundleFile->data);
+                    bundleFile->data = paddedData;
+                }
+            }
 
-			free(tempName);
-			free(tempPath);
-		}
-		else
-		{
-			// no compression at all, read source file
-			bundleFile->offset = 0;
-			bundleFile->data = ReadWholeFile(path, &bundleFile->size);
-		}
+            if (remove(tempPath) != 0)
+            {
+                // couldn't remove the temp file...
+            }
 
-		bundleFile->name = fileName;
+            free(tempName);
+            free(tempPath);
+        }
+        else
+        {
+            // no compression at all, read source file
+            bundleFile->offset = 0;
+            bundleFile->data   = ReadWholeFile(path, &bundleFile->size);
+        }
 
-		free(path);
+        bundleFile->name = fileName;
 
-		bundleFile++;
-	}
+        free(path);
 
-	WriteBundleFile(name, inputDir, fileCount, fileList);
-	WriteBundleEnum(name, inputDir, fileCount, fileList);
+        bundleFile++;
+    }
 
-	if (fileList != NULL)
-	{
-		for (unsigned int f = 0; f < fileCount; f++)
-		{
-			if (fileList[f].data != NULL)
-			{
-				free(fileList[f].data);
-			}
-		}
-		free(fileList);
-	}
+    printf("Writing bundle '%s%s.bb'...\n", archiveDir, name);
 
-	cJSON_Delete(json);
-	free(jsonString);
+    WriteBundleFile(name, archiveDir, fileCount, fileList);
+    WriteBundleEnum(name, archiveDir, fileCount, fileList);
+
+    if (fileList != NULL)
+    {
+        for (unsigned int f = 0; f < fileCount; f++)
+        {
+            if (fileList[f].data != NULL)
+            {
+                free(fileList[f].data);
+            }
+        }
+        free(fileList);
+    }
+
+    cJSON_Delete(json);
+    free(jsonString);
 }
 
-void PackArchive(char* inputPath, char* inputDir)
+void PackArchive(char *inputPath, char *inputDir, char *archiveDir)
 {
-	int fileLength;
-	unsigned char* jsonString = ReadWholeFile(inputPath, &fileLength);
+    unsigned int fileLength;
+    unsigned char *jsonString = ReadWholeFile(inputPath, &fileLength);
 
-	cJSON* json = cJSON_Parse((const char*)jsonString);
+    cJSON *json = cJSON_Parse((const char *)jsonString);
 
-	if (json == NULL)
-	{
-		const char* errorPtr = cJSON_GetErrorPtr();
-		FATAL_ERROR("Error in line \"%s\"\n", errorPtr);
-	}
+    if (json == NULL)
+    {
+        const char *errorPtr = cJSON_GetErrorPtr();
+        FATAL_ERROR("Error in line \"%s\"\n", errorPtr);
+    }
 
-	const char* name = GetJSONString(GetJSONObject(json, "name"));
-	unsigned char arcCompression = GetJSONInt(GetJSONObject(json, "compression"));
+    const char *name             = GetJSONString(GetJSONObject(json, "name"));
+    unsigned char arcCompression = GetJSONInt(GetJSONObject(json, "compression"));
 
-	cJSON* files = GetJSONObject(json, "files");
-	unsigned int fileCount = cJSON_GetArraySize(files);
-	File* fileList = malloc(sizeof(File) * fileCount);
-	memset(fileList, 0, sizeof(File) * fileCount);
+    printf("Building archive '%s'...\n", inputPath);
 
-	cJSON* file = NULL;
-	File* bundleFile = fileList;
-	cJSON_ArrayForEach(file, files)
-	{
-		if (cJSON_IsObject(file) == false)
-		{
-			bundleFile++;
-			continue;
-		}
+    cJSON *files           = GetJSONObject(json, "files");
+    unsigned int fileCount = cJSON_GetArraySize(files);
+    File *fileList         = (File *)malloc(sizeof(File) * fileCount);
+    memset(fileList, 0, sizeof(File) * fileCount);
 
-		const char* fileName = GetJSONString(GetJSONObject(file, "path"));
-		unsigned char compression = GetJSONInt(GetJSONObject(file, "compression"));
+    cJSON *file      = NULL;
+    File *bundleFile = fileList;
+    cJSON_ArrayForEach(file, files)
+    {
+        if (cJSON_IsObject(file) == false)
+        {
+            bundleFile++;
+            continue;
+        }
 
-		size_t bufferSize = snprintf(NULL, 0, "%s%s", inputDir, fileName);
-		char* path = malloc(bufferSize + 1);
-		snprintf(path, bufferSize + 1, "%s%s", inputDir, fileName);
+        const char *fileName        = GetJSONString(GetJSONObject(file, "sourcePath"));
+        const char *fileArchiveName = GetJSONString(GetJSONObject(file, "outputPath"));
+        unsigned char compression   = GetJSONInt(GetJSONObject(file, "compression"));
+        bool isDir                  = GetJSONBool(GetJSONObject(file, "isDirectory"));
 
+        if (isDir)
+        {
+            printf("Packing archive dir '%s'...\n", fileArchiveName);
 
-		if (compression != 0xFF)
-		{
-			// compression is applied, compress source file and read the result
+            bundleFile->isDir = true;
+            bundleFile->path  = fileName;
+            bundleFile->name  = fileArchiveName;
+        }
+        else
+        {
+            printf("Packing archive file '%s'...\n", fileName);
 
-			bufferSize = snprintf(NULL, 0, "%s.comp.bin", fileName);
-			char* tempName = malloc(bufferSize + 1);
-			snprintf(tempName, bufferSize + 1, "%s.comp.bin", fileName);
+            size_t bufferSize = snprintf(NULL, 0, "%s%s", inputDir, fileName);
+            char *path        = (char *)malloc(bufferSize + 1);
+            snprintf(path, bufferSize + 1, "%s%s", inputDir, fileName);
 
-			bufferSize = snprintf(NULL, 0, "%s%s", inputDir, tempName);
-			char* tempPath = malloc(bufferSize + 1);
-			snprintf(tempPath, bufferSize + 1, "%s%s", inputDir, tempName);
+            char *compressionArg = GetCompressionArg(compression);
+            if (compression != 0xFF && compressionArg != NULL)
+            {
+                // compression is applied, compress source file and read the result
 
-#if defined (_WIN32)
-			bufferSize = snprintf(NULL, 0, "%s -o \"%s\" \"%s\"", GetCompressionArg(compression), tempName, fileName);
-			char* args = malloc(bufferSize + 1);
-			snprintf(args, bufferSize + 1, "%s -o \"%s\" \"%s\"", GetCompressionArg(compression), tempName, fileName);
-			HandleCreateProcess(toolNtrComp, inputDir, args);
-			free(args);
+                bufferSize     = snprintf(NULL, 0, "%s.comp.bin", fileName);
+                char *tempName = (char *)malloc(bufferSize + 1);
+                snprintf(tempName, bufferSize + 1, "%s.comp.bin", fileName);
+
+                bufferSize     = snprintf(NULL, 0, "%s%s", inputDir, tempName);
+                char *tempPath = (char *)malloc(bufferSize + 1);
+                snprintf(tempPath, bufferSize + 1, "%s%s", inputDir, tempName);
+
+#if defined(_WIN32)
+                bufferSize = snprintf(NULL, 0, "-h %s -o \"%s\" \"%s\"", compressionArg, tempName, fileName);
+                char *args = (char *)malloc(bufferSize + 1);
+                snprintf(args, bufferSize + 1, "-h %s -o \"%s\" \"%s\"", compressionArg, tempName, fileName);
+                HandleCreateProcess(toolNtrComp, inputDir, args);
+                free(args);
 #else
-			char* argv[] = { GetCompressionArg(compression), "-o", tempName, (char*)fileName, NULL };
-			HandleCreateProcess(toolNtrComp, inputDir, argv);
+                char *argv[] = { "-h", compressionArg, "-o", tempName, (char *)fileName, NULL };
+                HandleCreateProcess(toolNtrComp, inputDir, argv);
 #endif
 
-			bundleFile->offset = 0;
-			bundleFile->data = ReadWholeFile(tempPath, &bundleFile->size);
+                bundleFile->offset = 0;
+                bundleFile->data   = ReadWholeFile(tempPath, &bundleFile->size);
 
-			if (remove(tempPath) != 0)
-			{
-				// couldn't remove the temp file...
-			}
+                if (remove(tempPath) != 0)
+                {
+                    // couldn't remove the temp file...
+                }
 
-			free(tempName);
-			free(tempPath);
-		}
-		else
-		{
-			// no compression at all, read source file
-			bundleFile->offset = 0;
-			bundleFile->data = ReadWholeFile(path, &bundleFile->size);
-		}
+                free(tempName);
+                free(tempPath);
+            }
+            else
+            {
+                // no compression at all, read source file
+                bundleFile->offset = 0;
+                bundleFile->data   = ReadWholeFile(path, &bundleFile->size);
+            }
 
-		bundleFile->name = fileName;
+            bundleFile->name = fileArchiveName;
+            bundleFile->path = fileName;
 
-		free(path);
+            free(path);
+        }
 
-		bundleFile++;
-	}
+        bundleFile++;
+    }
 
-	WriteArchiveFile(name, inputDir, fileCount, fileList, arcCompression);
-	WriteArchiveEnum(name, inputDir, fileCount, fileList);
+    printf("Writing archive '%s%s.narc'...\n", archiveDir, name);
 
-	if (fileList != NULL)
-	{
-		for (unsigned int f = 0; f < fileCount; f++)
-		{
-			if (fileList[f].data != NULL)
-			{
-				free(fileList[f].data);
-			}
-		}
-		free(fileList);
-	}
+    WriteArchiveFile(name, archiveDir, fileCount, fileList, arcCompression);
+    WriteArchiveEnum(name, archiveDir, fileCount, fileList);
 
-	cJSON_Delete(json);
-	free(jsonString);
+    if (fileList != NULL)
+    {
+        for (unsigned int f = 0; f < fileCount; f++)
+        {
+            if (fileList[f].data != NULL)
+            {
+                free(fileList[f].data);
+            }
+        }
+        free(fileList);
+    }
+
+    cJSON_Delete(json);
+    free(jsonString);
 }
 
-int main(int argc, char** argv)
+void PackFile(char* inputPath, char* inputDir, char* archiveDir)
 {
-	if (argc < 2)
-		FATAL_ERROR("Usage: archivepack INPUT_PATH\n");
+    unsigned int fileLength;
+    unsigned char* jsonString = ReadWholeFile(inputPath, &fileLength);
 
-	char* inputPath = argv[1];
-	char* fileExtension = GetFileExtension(inputPath);
-	char* fileDir = GetFileDirectory(inputPath);
+    cJSON* json = cJSON_Parse((const char*)jsonString);
 
-	if (fileExtension == NULL)
-		FATAL_ERROR("Input file \"%s\" has no extension.\n", inputPath);
+    if (json == NULL)
+    {
+        const char* errorPtr = cJSON_GetErrorPtr();
+        FATAL_ERROR("Error in line \"%s\"\n", errorPtr);
+    }
 
-	if (strcmp(fileExtension, "bblst") == 0)
-	{
-		PackBundle(inputPath, fileDir);
-	}
-	else if (strcmp(fileExtension, "arclst") == 0)
-	{
-		PackArchive(inputPath, fileDir);
-	}
-	else
-	{
-		FATAL_ERROR("Unknown archive format for: %s.\n", inputPath);
-	}
+    const char* fileName = GetJSONString(GetJSONObject(json, "sourcePath"));
+    const char* outputName = GetJSONString(GetJSONObject(json, "outputPath"));
+    unsigned char compression = GetJSONInt(GetJSONObject(json, "compression"));
 
-	free(fileDir);
+    printf("Packing file '%s'...\n", fileName);
 
-	return 0;
+    size_t bufferSize = snprintf(NULL, 0, "%s%s", inputDir, fileName);
+    char* path = (char*)malloc(bufferSize + 1);
+    snprintf(path, bufferSize + 1, "%s%s", inputDir, fileName);
+
+    char* compressionArg = GetCompressionArg(compression);
+
+    File file;
+    memset(&file, 0, sizeof(file));
+
+    if (compression != 0xFF && compressionArg != NULL)
+    {
+        // compression is applied, compress source file and read the result
+
+        bufferSize = snprintf(NULL, 0, "%s.comp.bin", fileName);
+        char* tempName = (char*)malloc(bufferSize + 1);
+        snprintf(tempName, bufferSize + 1, "%s.comp.bin", fileName);
+
+        bufferSize = snprintf(NULL, 0, "%s%s", inputDir, tempName);
+        char* tempPath = (char*)malloc(bufferSize + 1);
+        snprintf(tempPath, bufferSize + 1, "%s%s", inputDir, tempName);
+
+#if defined(_WIN32)
+        bufferSize = snprintf(NULL, 0, "-h %s -o \"%s\" \"%s\"", compressionArg, tempName, fileName);
+        char* args = (char*)malloc(bufferSize + 1);
+        snprintf(args, bufferSize + 1, "-h %s -o \"%s\" \"%s\"", compressionArg, tempName, fileName);
+        HandleCreateProcess(toolNtrComp, inputDir, args);
+        free(args);
+#else
+        char* argv[] = { "-h", compressionArg, "-o", tempName, (char*)fileName, NULL };
+        HandleCreateProcess(toolNtrComp, inputDir, argv);
+#endif
+
+        file.data = ReadWholeFile(tempPath, &file.size);
+
+        if (remove(tempPath) != 0)
+        {
+            // couldn't remove the temp file...
+        }
+
+        free(tempName);
+        free(tempPath);
+    }
+    else
+    {
+        // no compression at all, read source file
+        file.data = ReadWholeFile(path, &file.size);
+    }
+
+    if (file.data != NULL)
+    {
+        FILE* outFile = fopen(outputName, "wb");
+        if (outFile != NULL)
+        {
+            fwrite(file.data, 1, file.size, outFile);
+
+            fclose(outFile);
+        }
+
+        free(file.data);
+    }
+
+    cJSON_Delete(json);
+    free(jsonString);
 }
+
+#ifndef ARCHIVEPACK_EX
+int main(int argc, char **argv)
+{
+    if (argc < 2)
+        FATAL_ERROR("Usage: archivepack INPUT_PATH\n");
+
+    char *inputPath        = argv[1];
+    char *fileExtension    = GetFileExtension(inputPath);
+    char *archiveDirectory = GetFileDirectory(inputPath);
+
+    char rootDir[0x100];
+#if defined(_WIN32)
+    GetCurrentDirectoryA(sizeof(rootDir), rootDir);
+
+    // "normalize" slashes to be the same across systems
+    for (int c = 0; c < strlen(rootDir); c++)
+    {
+        if (rootDir[c] == '\\')
+            rootDir[c] = '/';
+    }
+#else
+    if (getcwd(rootDir, sizeof(rootDir)) == NULL)
+    {
+        // failed...
+    }
+#endif
+    rootDir[strlen(rootDir) + 1] = 0;
+    rootDir[strlen(rootDir)]     = '/';
+
+    if (fileExtension == NULL)
+        FATAL_ERROR("Input file \"%s\" has no extension.\n", inputPath);
+
+    if (strcmp(fileExtension, "bblst") == 0)
+    {
+        PackBundle(inputPath, rootDir, archiveDirectory);
+    }
+    else if (strcmp(fileExtension, "arclst") == 0)
+    {
+        PackArchive(inputPath, rootDir, archiveDirectory);
+    }
+    else if (strcmp(fileExtension, "pckf") == 0)
+    {
+        PackFile(inputPath, rootDir, archiveDirectory);
+    }
+    else
+    {
+        FATAL_ERROR("Unknown archive format for: %s.\n", inputPath);
+    }
+
+    if (archiveDirectory != NULL)
+        free(archiveDirectory);
+
+    return 0;
+}
+#endif // ARCHIVEPACK_EX

@@ -11,6 +11,27 @@ tools/bin/**
 build/**
 sub/build/**
 
+# Rom Assets
+!rush2.eu/rom_header_template.sbin
+!rush2.eu.rev01/rom_header_template.sbin
+!rush2.us/rom_header_template.sbin
+!rush2.jp/rom_header_template.sbin
+!rush2.contest/rom_header_template.sbin
+
+# ROM
+resources/*
+*.srl
+
+# Save files
+*.dsv
+*.sav
+
+# Tool executables
+*.exe
+
+# Tool states
+*.archivepack
+
 # CLion folders
 .idea/
 cmake-build-debug/
@@ -20,12 +41,6 @@ cmake-build-debug/
 
 # "cmake.buildDirectory": "${workspaceFolder}/build-cmake-${buildType}"
 build-cmake-*
-
-# ROM
-*.srl
-
-# Tool executables
-*.exe
 
 # Generated files
 *.4bpp
@@ -85,10 +100,6 @@ diff.txt
 
 .vscode/
 
-# Save files
-*.dsv
-*.sav
-
 # Savestate files
 *.ds[0-9]
 *.dst
@@ -98,13 +109,3 @@ diff.txt
 # clangd
 .cache
 compile_commands.json
-
-# Rom Assets
-!rush2.eu/rom_header_template.sbin
-!rush2.eu.rev01/rom_header_template.sbin
-!rush2.us/rom_header_template.sbin
-!rush2.jp/rom_header_template.sbin
-!rush2.contest/rom_header_template.sbin
-
-# Filesystem stuff
-resources/*

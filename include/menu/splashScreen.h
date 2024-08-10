@@ -8,16 +8,6 @@
 #include <game/graphics/drawReqTask.h>
 
 // --------------------
-// ENUMS
-// --------------------
-
-enum FileList_ArchiveDMLG
-{
-    ARC_DMLG_FILE_CORP_BBG,
-    ARC_DMLG_FILE_TEAM_BBG
-};
-
-// --------------------
 // STRUCTS
 // --------------------
 

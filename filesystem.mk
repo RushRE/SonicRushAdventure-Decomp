@@ -1,6 +1,7 @@
-SOURCE_FILES := \
-	resources/** 
+# files on disk
+SOURCE_FILES = $(shell find resources -name "*")
 
+# files to be packed into the rom
 NITROFS_FILES := \
 	resources/act/ac_gmk_medal00.bac \
 	resources/act/ac_gmk_medal01.bac \
@@ -422,36 +423,37 @@ endif
 
 FILES_NEEDED_FOR_COMPILE = $(NITROFS_FILES)
 
-$(DIFF_ARCS):
-	cp $< $@
-
-# ARCHIVES := $(filter %.narc,$(SOURCE_FILES) $(SRC_ARCS))
-# BUNDLES := $(filter %.bb,$(SOURCE_FILES) $(SRC_ARCS))
-# ARCHIVE_HEADERS := $(ARCHIVES:%.narc=%.h)
-# BUNDLE_HEADERS := $(BUNDLES:%.bb=%.h)
-
-$(filter-out $(DIFF_ARCS) $(FS_RULE_OVERRIDES),$(NITROFS_FILES)): ;
-
 # This must come after the above includes
 include graphics_files_rules.mk
 
-NTR_FILE_EXT := bin NCGR NCLR NCER NSCR NSBMD NSBCA NSBTA
+ARCHIVE_INSTRUCTIONS := $(filter %.arclst,$(SOURCE_FILES))
+BUNDLE_INSTRUCTIONS := $(filter %.bblst,$(SOURCE_FILES))
 
-%.narc: NARC_DEPS = $(foreach ext,$(NTR_FILE_EXT),$(wildcard $*/*.$ext))
-%.narc: $(NARC_DEPS)
-	$(KNARC) -d $* -p $@ -i
+ARCHIVES := $(filter %.narc,$(SOURCE_FILES))
+BUNDLES := $(filter %.bb,$(SOURCE_FILES))
+ARCHIVE_HEADERS := $(ARCHIVES:%.narc=%.h)
+BUNDLE_HEADERS := $(BUNDLES:%.bb=%.h)
 
-%.naix: %.narc ;
+TOOL_FILES := .archivepack
 
 .PHONY: filesystem clean-filesystem clean-fs
-files_for_compile: $(FILES_NEEDED_FOR_COMPILE)
-filesystem: $(NITROFS_FILES)
-	$(ROMEXTRACT) $@ --rom baserom.nds
+
+filesystem_extract:
+	$(ROMEXTRACT) --rom baserom.nds --fileTable FileTable.txt
+
+filesystem_pack: $(SOURCE_FILES)
+	$(ARCHIVEPACK) resources
+ifeq ($(COMPARE),1)
+	$(SHA1SUM) --quiet -c $(WORK_DIR)/$(buildname)/filesystem.sha1
+endif
+
+filesystem: $(SOURCE_FILES)
+	$(ROMEXTRACT) --rom baserom.nds --fileTable FileTable.txt
+	$(ARCHIVEPACK) resources
 ifeq ($(COMPARE),1)
 	$(SHA1SUM) --quiet -c $(WORK_DIR)/$(buildname)/filesystem.sha1
 endif
 
 clean-fs: clean-filesystem
 clean-filesystem:
-	$(RM) $(ARCHIVES) $(ARCHIVE_HEADERS) $(BUNDLES) $(BUNDLE_HEADERS)
-	$(RM) -r $(FS_CLEAN_TARGETS)
+	$(RM) $(ARCHIVES) $(ARCHIVE_HEADERS) $(BUNDLES) $(BUNDLE_HEADERS) $(TOOL_FILES)

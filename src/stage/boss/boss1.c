@@ -14,6 +14,9 @@
 #include <game/graphics/background.h>
 #include <game/object/objectManager.h>
 
+// files
+#include <resources/narc/z1boss_act_lz7.h>
+
 // --------------------
 // TEMP
 // --------------------
@@ -824,7 +827,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
     for (s32 i = 0; i < 24; i++)
     {
-        InitPaletteAnimator(&work->aniPalette[i], NNS_FndGetArchiveFileByIndex(&arc, i + 9), 0, ANIMATORBPA_FLAG_NONE, PALETTE_MODE_TEXTURE,
+        InitPaletteAnimator(&work->aniPalette[i], NNS_FndGetArchiveFileByIndex(&arc, i + ARCHIVE_Z1BOSS_ACT_LZ7_FILE_BOSS1_Z1_AGO_BPA), 0, ANIMATORBPA_FLAG_NONE, PALETTE_MODE_TEXTURE,
                             VRAMKEY_TO_ADDR(Asset3DSetup__PaletteFromName(NNS_G3dGetTex(bossAssetFiles[0].fileData), Boss1__paletteNameTable[i])));
     }
     BossHelpers__Palette__Func_2038BAC(work->aniPalette, 24, 0, 0);

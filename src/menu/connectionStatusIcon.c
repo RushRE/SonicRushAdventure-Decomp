@@ -5,6 +5,9 @@
 #include <network/wirelessManager.h>
 #include <network/networkHandler.h>
 
+// files
+#include <resources/narc/dmcmn_antenna_lz7.h>
+
 // --------------------
 // TEMP
 // --------------------
@@ -116,9 +119,9 @@ void CreateConnectionStatusIcon(ConnectionMode desiredConnectionMode, BOOL useEn
     }
 
     if (connectionMode == CONNECTION_MODE_WIRELESS)
-        StageClear__LoadFiles(sVars->archive, &sVars->sprIcon, ARC_DMCMN_ANTENNA_LZ7_FILE_NL_ICON_WIRELESS_BAC, NULL);
+        StageClear__LoadFiles(sVars->archive, &sVars->sprIcon, ARCHIVE_DMCMN_ANTENNA_LZ7_FILE_NL_ICON_WIRELESS_BAC, NULL);
     else
-        StageClear__LoadFiles(sVars->archive, &sVars->sprIcon, ARC_DMCMN_ANTENNA_LZ7_FILE_NL_ICON_WIFI_BAC, NULL);
+        StageClear__LoadFiles(sVars->archive, &sVars->sprIcon, ARCHIVE_DMCMN_ANTENNA_LZ7_FILE_NL_ICON_WIFI_BAC, NULL);
 
     if (sVars->task == NULL)
     {

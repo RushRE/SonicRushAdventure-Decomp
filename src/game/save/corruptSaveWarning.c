@@ -9,6 +9,9 @@
 #include <game/game/gameState.h>
 #include <game/input/padInput.h>
 
+// files
+#include <resources/narc/dm_save_error_lz7.h>
+
 // --------------------
 // FUNCTION DECLS
 // --------------------
@@ -54,7 +57,7 @@ void CreateCorruptSaveWarning(void)
     FontAnimator__LoadFont2(&work->fontAnimator, &work->fontWindow, 8, 1, 9, 30, 6, 1, 0, 1, 0);
 
     // Init font resources
-    FontAnimator__LoadMPCFile(&work->fontAnimator, FileUnknown__GetAOUFile(work->archive, ARC_DM_SAVE_ERROR_FILE_DM_SAVE_ERROR_JPN_MPC + GetGameLanguage()));
+    FontAnimator__LoadMPCFile(&work->fontAnimator, FileUnknown__GetAOUFile(work->archive, ARCHIVE_DM_SAVE_ERROR_LZ7_FILE_DM_SAVE_ERROR_JPN_MPC + GetGameLanguage()));
     FontAnimator__SetCallbackType(&work->fontAnimator, 1);
     FontAnimator__LoadPaletteFunc2(&work->fontAnimator);
     FontWindowAnimator__Init(&work->fontWindowAnimator);
@@ -67,7 +70,7 @@ void CreateCorruptSaveWarning(void)
     FontWindow__PrepareSwapBuffer(&work->fontWindow);
 
     // Init sprites
-    AnimatorSprite__Init(&work->aniButtonPrompt, FileUnknown__GetAOUFile(work->archive, ARC_DM_SAVE_ERROR_FILE_DMCMN_FIX_NEXT_BAC), 2, ANIMATOR_FLAG_DISABLE_LOOPING, 1, PIXEL_MODE_SPRITE,
+    AnimatorSprite__Init(&work->aniButtonPrompt, FileUnknown__GetAOUFile(work->archive, ARCHIVE_DM_SAVE_ERROR_LZ7_FILE_DMCMN_FIX_NEXT_BAC), 2, ANIMATOR_FLAG_DISABLE_LOOPING, 1, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(TRUE, 4), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
     work->aniButtonPrompt.palette = 1;
     work->aniButtonPrompt.pos.x   = 216;

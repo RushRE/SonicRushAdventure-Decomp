@@ -217,7 +217,7 @@ void ArchiveFile__InitAsync(ArchiveFile *file, const char *path, u32 id, void *o
 {
     STD_CopyString(file->path, path);
     file->id              = id;
-    file->compressedBytes = 0;
+    file->compressedBytes = NULL;
     file->memory          = outputPtr;
     file->flags           = flags;
 }
@@ -233,7 +233,7 @@ void ArchiveFile__LoadFiles(void *archive, va_list args)
         void **resource   = va_arg(args, void **);
         size_t identifier = va_arg(args, size_t);
 
-        if (identifier <= 0xFFFF)
+        if (identifier <= ((u16)ARCHIVEFILE_ID_NONE))
         {
             *resource = NNS_FndGetArchiveFileByIndex(&arc, (u16)identifier);
         }

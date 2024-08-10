@@ -8,6 +8,10 @@
 #include <game/system/sysEvent.h>
 #include <game/math/mtMath.h>
 
+// files
+#include <resources/narc/dmop_lz7.h>
+#include <resources/narc/dmop_pldm_lz7.h>
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -370,17 +374,17 @@ void LoadOpeningAssets(Opening *work)
     FSRequestArchive("/narc/dmop_lz7.narc", &work->archiveSprites, FALSE);
     FSRequestArchive("/narc/dmop_pldm_lz7.narc", &work->archiveCutscene, FALSE);
 
-    work->worldControl.mdlCutscene[0]       = FileUnknown__GetAOUFile(work->archiveCutscene, ARC_DMOP_PLDM_FILE_00_1_01_NSBMD);
-    work->worldControl.mdlCutscene[1]       = FileUnknown__GetAOUFile(work->archiveCutscene, ARC_DMOP_PLDM_FILE_00_1_02_NSBMD);
-    work->worldControl.jntAniCutscene       = FileUnknown__GetAOUFile(work->archiveCutscene, ARC_DMOP_PLDM_FILE_00_1_01_NSBCA);
-    work->worldControl.matAniCutscene       = FileUnknown__GetAOUFile(work->archiveCutscene, ARC_DMOP_PLDM_FILE_00_1_01_NSBMA);
-    work->worldControl.texAniCutscene       = FileUnknown__GetAOUFile(work->archiveCutscene, ARC_DMOP_PLDM_FILE_00_1_01_NSBTA);
-    work->worldControl.visAniCutscene       = FileUnknown__GetAOUFile(work->archiveCutscene, ARC_DMOP_PLDM_FILE_00_1_01_NSBVA);
-    work->worldControl.drawStateCutscene[0] = FileUnknown__GetAOUFile(work->archiveCutscene, ARC_DMOP_PLDM_FILE_00_1_01_BSD);
-    work->worldControl.drawStateCutscene[1] = FileUnknown__GetAOUFile(work->archiveCutscene, ARC_DMOP_PLDM_FILE_00_1_02_BSD);
-    work->worldControl.drawStateCutscene[2] = FileUnknown__GetAOUFile(work->archiveCutscene, ARC_DMOP_PLDM_FILE_00_1_03_BSD);
-    work->worldControl.drawStateCutscene[3] = FileUnknown__GetAOUFile(work->archiveCutscene, ARC_DMOP_PLDM_FILE_00_1_04_BSD);
-    work->worldControl.drawStateCutscene[4] = FileUnknown__GetAOUFile(work->archiveCutscene, ARC_DMOP_PLDM_FILE_00_1_06_BSD);
+    work->worldControl.mdlCutscene[0]       = FileUnknown__GetAOUFile(work->archiveCutscene, ARCHIVE_DMOP_PLDM_LZ7_FILE_00_1_01_NSBMD);
+    work->worldControl.mdlCutscene[1]       = FileUnknown__GetAOUFile(work->archiveCutscene, ARCHIVE_DMOP_PLDM_LZ7_FILE_00_1_02_NSBMD);
+    work->worldControl.jntAniCutscene       = FileUnknown__GetAOUFile(work->archiveCutscene, ARCHIVE_DMOP_PLDM_LZ7_FILE_00_1_01_NSBCA);
+    work->worldControl.matAniCutscene       = FileUnknown__GetAOUFile(work->archiveCutscene, ARCHIVE_DMOP_PLDM_LZ7_FILE_00_1_01_NSBMA);
+    work->worldControl.texAniCutscene       = FileUnknown__GetAOUFile(work->archiveCutscene, ARCHIVE_DMOP_PLDM_LZ7_FILE_00_1_01_NSBTA);
+    work->worldControl.visAniCutscene       = FileUnknown__GetAOUFile(work->archiveCutscene, ARCHIVE_DMOP_PLDM_LZ7_FILE_00_1_01_NSBVA);
+    work->worldControl.drawStateCutscene[0] = FileUnknown__GetAOUFile(work->archiveCutscene, ARCHIVE_DMOP_PLDM_LZ7_FILE_00_1_01_BSD);
+    work->worldControl.drawStateCutscene[1] = FileUnknown__GetAOUFile(work->archiveCutscene, ARCHIVE_DMOP_PLDM_LZ7_FILE_00_1_02_BSD);
+    work->worldControl.drawStateCutscene[2] = FileUnknown__GetAOUFile(work->archiveCutscene, ARCHIVE_DMOP_PLDM_LZ7_FILE_00_1_03_BSD);
+    work->worldControl.drawStateCutscene[3] = FileUnknown__GetAOUFile(work->archiveCutscene, ARCHIVE_DMOP_PLDM_LZ7_FILE_00_1_04_BSD);
+    work->worldControl.drawStateCutscene[4] = FileUnknown__GetAOUFile(work->archiveCutscene, ARCHIVE_DMOP_PLDM_LZ7_FILE_00_1_06_BSD);
 }
 
 void ReleaseOpeningArchives(Opening *work)
@@ -453,17 +457,17 @@ void ReleaseOpeningAnimators(Opening *work)
 
 void LoadOpeningBackgrounds(Opening *work)
 {
-    InitBackground(&work->worldControl.bgBase, FileUnknown__GetAOUFile(work->archiveSprites, ARC_DMOP_FILE_BASE_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, FALSE,
+    InitBackground(&work->worldControl.bgBase, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BASE_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, FALSE,
               BACKGROUND_1, 32, 64);
     DrawBackground(&work->worldControl.bgBase);
 
-    InitPaletteAnimator(&work->worldControl.aniPalette, FileUnknown__GetAOUFile(work->archiveSprites, ARC_DMOP_FILE_BASE_BPA), 0, ANIMATORBPA_FLAG_CAN_LOOP, 0, VRAM_BG_PLTT);
+    InitPaletteAnimator(&work->worldControl.aniPalette, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BASE_BPA), 0, ANIMATORBPA_FLAG_CAN_LOOP, 0, VRAM_BG_PLTT);
 
-    InitBackground(&work->worldControl.bgSonic, FileUnknown__GetAOUFile(work->archiveSprites, ARC_DMOP_FILE_SON_BBG), BACKGROUND_FLAG_DISABLE_PALETTE, FALSE, BACKGROUND_2, 32, 64);
+    InitBackground(&work->worldControl.bgSonic, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_SON_BBG), BACKGROUND_FLAG_DISABLE_PALETTE, FALSE, BACKGROUND_2, 32, 64);
     DrawBackground(&work->worldControl.bgSonic);
     work->worldControl.bgSonic.flags |= BACKGROUND_FLAG_DISABLE_PIXELS;
 
-    InitBackground(&work->worldControl.bgBlaze, FileUnknown__GetAOUFile(work->archiveSprites, ARC_DMOP_FILE_BLZ_BBG), BACKGROUND_FLAG_DISABLE_PALETTE, FALSE, BACKGROUND_3, 32, 64);
+    InitBackground(&work->worldControl.bgBlaze, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BLZ_BBG), BACKGROUND_FLAG_DISABLE_PALETTE, FALSE, BACKGROUND_3, 32, 64);
     DrawBackground(&work->worldControl.bgBlaze);
     work->worldControl.bgBlaze.flags |= BACKGROUND_FLAG_DISABLE_PIXELS;
 }
@@ -1346,7 +1350,7 @@ void CreateOpeningBorderSprite(Opening *parent)
 
     work->parent = parent;
 
-    void *spriteFile = FileUnknown__GetAOUFile(parent->archiveSprites, ARC_DMOP_FILE_BDPLUS_BAC);
+    void *spriteFile = FileUnknown__GetAOUFile(parent->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BDPLUS_BAC);
     for (s32 i = 0; i < 2; i++)
     {
         AnimatorSprite__Init(&work->aniBorder[i], spriteFile, 0, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, FALSE, PIXEL_MODE_SPRITE,
@@ -1514,7 +1518,7 @@ NONMATCH_FUNC void CreateOpeningSonicNameSprite(Opening *parent)
     work->backgroundPosition.y = -FLOAT_TO_FX32(464.0);
     SetOpeningBackgroundPos(BACKGROUND_2, work->backgroundPosition.x, work->backgroundPosition.y);
 
-    void *spriteFile = FileUnknown__GetAOUFile(parent->archiveSprites, ARC_DMOP_FILE_NAME_BAC);
+    void *spriteFile = FileUnknown__GetAOUFile(parent->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_NAME_BAC);
     for (s32 i = 0; i < 16; i++)
     {
         u16 anim = OpeningSonicNameSprite__LetterAniList[i];
@@ -1787,7 +1791,7 @@ NONMATCH_FUNC void CreateOpeningBlazeNameSprite(Opening *parent)
     work->backgroundPosition.y = FLOAT_TO_FX32(256.0);
     SetOpeningBackgroundPos(BACKGROUND_3, work->backgroundPosition.x, work->backgroundPosition.y);
 
-    void *spriteFile = FileUnknown__GetAOUFile(parent->archiveSprites, ARC_DMOP_FILE_NAME_BAC);
+    void *spriteFile = FileUnknown__GetAOUFile(parent->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_NAME_BAC);
     for (s32 i = 0; i < 11; i++)
     {
         u16 anim = OpeningBlazeNameSprite__LetterAniList[i];

@@ -32,9 +32,28 @@
 #include <stage/gameObject.h>
 #include <network/wirelessManager.h>
 
-// Assets
-#include <stage/assets/common.h>
-#include <stage/assets/z1.h>
+// files
+#include <resources/narc/act_com_lz7.h>
+
+// acts
+#include <resources/narc/z11_act_lz7.h>
+#include <resources/narc/z21_act_lz7.h>
+#include <resources/narc/z31_act_lz7.h>
+#include <resources/narc/z41_act_lz7.h>
+#include <resources/narc/z51_act_lz7.h>
+#include <resources/narc/z61_act_lz7.h>
+#include <resources/narc/z71_act_lz7.h>
+#include <resources/narc/z91_act_lz7.h>
+
+// bosses
+#include <resources/narc/z1boss_act_lz7.h>
+#include <resources/narc/z2boss_act_lz7.h>
+#include <resources/narc/z3boss_act_lz7.h>
+#include <resources/narc/z4boss_act_lz7.h>
+#include <resources/narc/z5boss_act_lz7.h>
+#include <resources/narc/z6boss_act_lz7.h>
+#include <resources/narc/z7boss_act_lz7.h>
+#include <resources/narc/z8boss_act_lz7.h>
 
 // --------------------
 // TYPES
@@ -819,10 +838,10 @@ void BuildStageCommonAssets(void)
     NNS_FndMountArchive(&arc, "com", gameArchiveCommon);
     if (!IsBossStage())
     {
-        NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARC_ACT_COM_FILE_GMK_GOAL_CHEST_NSBMD));
-        NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARC_ACT_COM_FILE_GMK_CHEST_EFECT_NSBMD));
-        NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARC_ACT_COM_FILE_EFF_BARRIER_NSBMD));
-        NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARC_ACT_COM_FILE_EFF_MAGNET_NSBMD));
+        NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_ACT_COM_LZ7_FILE_GMK_GOAL_CHEST_NSBMD));
+        NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_ACT_COM_LZ7_FILE_GMK_CHEST_EFECT_NSBMD));
+        NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_ACT_COM_LZ7_FILE_EFF_BARRIER_NSBMD));
+        NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_ACT_COM_LZ7_FILE_EFF_MAGNET_NSBMD));
     }
     NNS_FndUnmountArchive(&arc);
 
@@ -850,10 +869,10 @@ void ReleaseStageCommonAssets(void)
     NNS_FndMountArchive(&arc, "com", gameArchiveCommon);
     if (!IsBossStage())
     {
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARC_ACT_COM_FILE_GMK_GOAL_CHEST_NSBMD));
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARC_ACT_COM_FILE_GMK_CHEST_EFECT_NSBMD));
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARC_ACT_COM_FILE_EFF_BARRIER_NSBMD));
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARC_ACT_COM_FILE_EFF_MAGNET_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_ACT_COM_LZ7_FILE_GMK_GOAL_CHEST_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_ACT_COM_LZ7_FILE_GMK_CHEST_EFECT_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_ACT_COM_LZ7_FILE_EFF_BARRIER_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_ACT_COM_LZ7_FILE_EFF_MAGNET_NSBMD));
     }
     NNS_FndUnmountArchive(&arc);
 }
@@ -1322,8 +1341,8 @@ void gmGameData__BuildZ11(void)
     NNSFndArchive arc;
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARC_Z11_ACT_FILE_GMK_GRD_3LINE_NSBMD));
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARC_Z11_ACT_FILE_GMK_GST_TREE_NSBMD));
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GRD_3LINE_NSBMD));
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GST_TREE_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
 }
@@ -1333,8 +1352,8 @@ void gmGameData__BuildZ12(void)
     NNSFndArchive arc;
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARC_Z11_ACT_FILE_GMK_GRD_3LINE_NSBMD));
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARC_Z11_ACT_FILE_GMK_GST_TREE_NSBMD));
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GRD_3LINE_NSBMD));
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GST_TREE_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
 }
@@ -1359,8 +1378,8 @@ void gmGameData__BuildZ21(void)
     NNSFndArchive arc;
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 22)); // ???
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 23)); // ???
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_L_PISTON_NSBMD));
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_PISTON_EF_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
 }
@@ -1370,8 +1389,8 @@ void gmGameData__BuildZ22(void)
     NNSFndArchive arc;
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 22)); // ???
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 23)); // ???
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_L_PISTON_NSBMD));
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_PISTON_EF_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
 }
@@ -1386,8 +1405,8 @@ void gmGameData__BuildZ31(void)
     NNSFndArchive arc;
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 28)); // ???
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 29)); // ???
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_VROT_CRANE_NSBMD));
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_TRUCK_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
 }
@@ -1397,8 +1416,8 @@ void gmGameData__BuildZ32(void)
     NNSFndArchive arc;
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 28)); // ???
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 29)); // ???
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_VROT_CRANE_NSBMD)); 
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_TRUCK_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
 }
@@ -1413,9 +1432,9 @@ void gmGameData__BuildZ41(void)
     NNSFndArchive arc;
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 26)); // ???
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 27)); // ???
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 28)); // ???
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_ANCHOR_ROPE_NSBMD));
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_CANNON_NSBMD));
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_SB_BAZOOKA_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
 }
@@ -1425,9 +1444,9 @@ void gmGameData__BuildZ42(void)
     NNSFndArchive arc;
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 26)); // ???
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 27)); // ???
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 28)); // ???
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_ANCHOR_ROPE_NSBMD));
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_CANNON_NSBMD));
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_SB_BAZOOKA_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
 }
@@ -1492,7 +1511,7 @@ void gmGameData__BuildZ71(void)
     NNSFndArchive arc;
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 23)); // ???
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z71_ACT_LZ7_FILE_MOD_GMK_DOLPHIN_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
 }
@@ -1502,7 +1521,7 @@ void gmGameData__BuildZ72(void)
     NNSFndArchive arc;
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 23)); // ???
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z71_ACT_LZ7_FILE_MOD_GMK_DOLPHIN_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
 }
@@ -1522,7 +1541,7 @@ void gmGameData__BuildZ91(void)
     NNSFndArchive arc;
     NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, 21)); // ???
+    NNS_G3dResDefaultSetup(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z91_ACT_LZ7_FILE_MOD_GMK_ROPE_C_NSBMD));
 
     NNS_FndUnmountArchive(&arc);
 }
@@ -1534,8 +1553,8 @@ void gmGameData__ReleaseZ11(void)
         NNSFndArchive arc;
         NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARC_Z11_ACT_FILE_GMK_GRD_3LINE_NSBMD));
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARC_Z11_ACT_FILE_GMK_GST_TREE_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GRD_3LINE_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GST_TREE_NSBMD));
 
         NNS_FndUnmountArchive(&arc);
     }
@@ -1548,8 +1567,8 @@ void gmGameData__ReleaseZ12(void)
         NNSFndArchive arc;
         NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARC_Z11_ACT_FILE_GMK_GRD_3LINE_NSBMD));
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARC_Z11_ACT_FILE_GMK_GST_TREE_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GRD_3LINE_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z11_ACT_LZ7_FILE_MOD_GMK_GST_TREE_NSBMD));
 
         NNS_FndUnmountArchive(&arc);
     }
@@ -1580,8 +1599,8 @@ void gmGameData__ReleaseZ21(void)
         NNSFndArchive arc;
         NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 22)); // ???
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 23)); // ???
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_L_PISTON_NSBMD)); 
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_PISTON_EF_NSBMD)); 
 
         NNS_FndUnmountArchive(&arc);
     }
@@ -1594,8 +1613,8 @@ void gmGameData__ReleaseZ22(void)
         NNSFndArchive arc;
         NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 22)); // ???
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 23)); // ???
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_L_PISTON_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z21_ACT_LZ7_FILE_MOD_GMK_PISTON_EF_NSBMD));
 
         NNS_FndUnmountArchive(&arc);
     }
@@ -1613,8 +1632,8 @@ void gmGameData__ReleaseZ31(void)
         NNSFndArchive arc;
         NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 28)); // ???
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 29)); // ???
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_VROT_CRANE_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_TRUCK_NSBMD));
 
         NNS_FndUnmountArchive(&arc);
     }
@@ -1627,8 +1646,8 @@ void gmGameData__ReleaseZ32(void)
         NNSFndArchive arc;
         NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 28)); // ???
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 29)); // ???
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_VROT_CRANE_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z31_ACT_LZ7_FILE_MOD_GMK_TRUCK_NSBMD));
 
         NNS_FndUnmountArchive(&arc);
     }
@@ -1646,9 +1665,9 @@ void gmGameData__ReleaseZ41(void)
         NNSFndArchive arc;
         NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 26)); // ???
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 27)); // ???
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 28)); // ???
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_ANCHOR_ROPE_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_CANNON_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_SB_BAZOOKA_NSBMD));
 
         NNS_FndUnmountArchive(&arc);
     }
@@ -1661,9 +1680,9 @@ void gmGameData__ReleaseZ42(void)
         NNSFndArchive arc;
         NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 26)); // ???
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 27)); // ???
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 28)); // ???
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_ANCHOR_ROPE_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_GMK_CANNON_NSBMD));
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z41_ACT_LZ7_FILE_MOD_SB_BAZOOKA_NSBMD));
 
         NNS_FndUnmountArchive(&arc);
     }
@@ -1743,7 +1762,7 @@ void gmGameData__ReleaseZ71(void)
         NNSFndArchive arc;
         NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 23)); // ???
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z71_ACT_LZ7_FILE_MOD_GMK_DOLPHIN_NSBMD));
 
         NNS_FndUnmountArchive(&arc);
     }
@@ -1756,7 +1775,7 @@ void gmGameData__ReleaseZ72(void)
         NNSFndArchive arc;
         NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 23)); // ???
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z71_ACT_LZ7_FILE_MOD_GMK_DOLPHIN_NSBMD));
 
         NNS_FndUnmountArchive(&arc);
     }
@@ -1779,7 +1798,7 @@ void gmGameData__ReleaseZ91(void)
         NNSFndArchive arc;
         NNS_FndMountArchive(&arc, "exc", gameArchiveStage);
 
-        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, 21)); // ???
+        NNS_G3dResDefaultRelease(NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_Z91_ACT_LZ7_FILE_MOD_GMK_ROPE_C_NSBMD));
 
         NNS_FndUnmountArchive(&arc);
     }

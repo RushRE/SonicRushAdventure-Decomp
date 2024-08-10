@@ -19,6 +19,7 @@ include config.mk
 
 ALL_BUILDDIRS  := $(BUILD_DIR)/lib
 include common.mk
+
 include filesystem.mk
 
 $(ASM_OBJS): MWASFLAGS += -DPM_ASM

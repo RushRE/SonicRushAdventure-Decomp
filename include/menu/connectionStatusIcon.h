@@ -17,12 +17,6 @@ enum ConnectionMode
 };
 typedef u32 ConnectionMode;
 
-enum FileList_ArchiveDMCMN_ANTENNA_LZ7
-{
-	ARC_DMCMN_ANTENNA_LZ7_FILE_NL_ICON_WIRELESS_BAC,
-	ARC_DMCMN_ANTENNA_LZ7_FILE_NL_ICON_WIFI_BAC
-};
-
 
 // --------------------
 // STRUCTS

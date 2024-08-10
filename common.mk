@@ -48,7 +48,7 @@ export LM_LICENSE_FILE := $(TOOLSDIR)/mwccarm/license.dat
 
 # Native tools
 ROMEXTRACT   := $(TOOLSDIR)/romextract/romextract$(EXE)
-ARCHIVEPACK  := $(TOOLSDIR)/archivepack/archivepack$(EXE)
+ARCHIVEPACK  := $(TOOLSDIR)/archivepackex/archivepackex$(EXE)
 GFX          := $(TOOLSDIR)/nitrogfx/nitrogfx$(EXE)
 FIXROM       := $(TOOLSDIR)/fixrom/fixrom$(EXE)
 ASPATCH      := $(TOOLSDIR)/mwasmarm_patcher/mwasmarm_patcher$(EXE)
@@ -145,7 +145,7 @@ IPA_FLAG 		  := -ipa file
 
 $(BUILD_DIR)/lib/NitroSDK/%.o: IPA_FLAG := 
 
-MWCFLAGS           = $(DEFINES) $(OPTFLAGS) $(DEBUGFLAGS) -sym on -enum int -lang c99 $(EXCCFLAGS) -gccext,on -proc $(PROC) -msgstyle gcc -gccinc -i ./include -i ./include/library -I$(WORK_DIR)/tools/cw/include/MSL_C -I$(WORK_DIR)/tools/cw/include/MSL_Extras -I$(WORK_DIR)/lib/include -I$(WORK_DIR)/lib/include/dwc/gs $(IPA_FLAG) -interworking -inline on,noauto -char signed -W all -W pedantic -W noimpl_signedunsigned -W noimplicitconv -W nounusedarg -W nomissingreturn -W error
+MWCFLAGS           = $(DEFINES) $(OPTFLAGS) $(DEBUGFLAGS) -sym on -enum int -lang c99 $(EXCCFLAGS) -gccext,on -proc $(PROC) -msgstyle gcc -gccinc -i ./include -i ./include/library -I$(WORK_DIR) -I$(WORK_DIR)/tools/cw/include/MSL_C -I$(WORK_DIR)/tools/cw/include/MSL_Extras -I$(WORK_DIR)/lib/include -I$(WORK_DIR)/lib/include/dwc/gs $(IPA_FLAG) -interworking -inline on,noauto -char signed -W all -W pedantic -W noimpl_signedunsigned -W noimplicitconv -W nounusedarg -W nomissingreturn -W error
 
 MWASFLAGS          = $(DEFINES) -proc $(PROC_S) -g -gccinc -i . -i ./include -i $(WORK_DIR)/asm/include -i $(WORK_DIR)/lib/asm/$(BUILD_MODE)/include -i $(WORK_DIR)/lib/NitroDWC/asm/$(BUILD_MODE)/include -i $(WORK_DIR)/lib/NitroSDK/asm/$(BUILD_MODE)/include -i $(WORK_DIR)/lib/syscall/asm/include -I$(WORK_DIR)/lib/include -DSDK_ASM
 MWLDFLAGS         := -proc $(PROC) -sym on -nopic -nopid -interworking -map closure,unused -symtab sort -m _start -msgstyle gcc

@@ -8,6 +8,10 @@
 #include <game/graphics/drawReqTask.h>
 #include <game/save/saveGame.h>
 
+// files
+#include <resources/bb/nv.h>
+#include <resources/bb/nv/nav_assets.h>
+
 // --------------------
 // TEMP
 // --------------------
@@ -841,41 +845,41 @@ void LoadNavTailsAssets(NavTailsAssets *assets)
 
     MI_CpuClear16(assets, sizeof(*assets));
 
-    GetArchiveFromBundle("bb/nv.bb", 0, &assets->archiveNv, TRUE);
+    GetArchiveFromBundle("bb/nv.bb", BUNDLE_NV_FILE_RESOURCES_BB_NV_NAV_ASSETS_NARC, &assets->archiveNv, TRUE);
     NNS_FndMountArchive(&arc, "nv", assets->archiveNv);
 
-    assets->sprNav = NNS_FndGetArchiveFileByIndex(&arc, 0);
-    assets->bgNav  = NNS_FndGetArchiveFileByIndex(&arc, 1);
+    assets->sprNav = NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_NAV_ASSETS_FILE_NV_BAC);
+    assets->bgNav  = NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_NAV_ASSETS_FILE_NV_BG_BBG);
     for (s32 i = 0; i < 4; i++)
     {
-        assets->bgMsgWindow[i] = NNS_FndGetArchiveFileByIndex(&arc, i + 2);
+        assets->bgMsgWindow[i] = NNS_FndGetArchiveFileByIndex(&arc, i + ARCHIVE_NAV_ASSETS_FILE_NV_MSG_WIN_3_BBG);
     }
 
     s32 textFileID;
     switch (GetGameLanguage())
     {
         case OS_LANGUAGE_JAPANESE:
-            textFileID = 6;
+            textFileID = ARCHIVE_NAV_ASSETS_FILE_NV_MSG_MAIN_JPN_MPC;
             break;
 
         case OS_LANGUAGE_ENGLISH:
-            textFileID = 7;
+            textFileID = ARCHIVE_NAV_ASSETS_FILE_NV_MSG_MAIN_ENG_MPC;
             break;
 
         case OS_LANGUAGE_FRENCH:
-            textFileID = 8;
+            textFileID = ARCHIVE_NAV_ASSETS_FILE_NV_MSG_MAIN_FRA_MPC;
             break;
 
         case OS_LANGUAGE_GERMAN:
-            textFileID = 9;
+            textFileID = ARCHIVE_NAV_ASSETS_FILE_NV_MSG_MAIN_DEU_MPC;
             break;
 
         case OS_LANGUAGE_ITALIAN:
-            textFileID = 10;
+            textFileID = ARCHIVE_NAV_ASSETS_FILE_NV_MSG_MAIN_ITA_MPC;
             break;
 
         case OS_LANGUAGE_SPANISH:
-            textFileID = 11;
+            textFileID = ARCHIVE_NAV_ASSETS_FILE_NV_MSG_MAIN_SPA_MPC;
             break;
 
         default:
@@ -901,7 +905,10 @@ void ReleaseNavTailsAssets(NavTailsAssets *assets)
 
 void LoadNavTailsTailsSprite(NavTailsAssets *assets, u32 id)
 {
-    static u16 const tailsBackgroundFileID[7] = { 1, 2, 3, 4, 5, 6, 7 };
+    static u16 const tailsBackgroundFileID[7] = { BUNDLE_NV_FILE_RESOURCES_BB_NV_BG_NAV_1_BBG, BUNDLE_NV_FILE_RESOURCES_BB_NV_BG_NAV_2_BBG,
+                                                  BUNDLE_NV_FILE_RESOURCES_BB_NV_BG_NAV_3_BBG, BUNDLE_NV_FILE_RESOURCES_BB_NV_BG_NAV_4_BBG,
+                                                  BUNDLE_NV_FILE_RESOURCES_BB_NV_BG_NAV_5_BBG, BUNDLE_NV_FILE_RESOURCES_BB_NV_BG_NAV_6_BBG,
+                                                  BUNDLE_NV_FILE_RESOURCES_BB_NV_BG_NAV_7_BBG };
 
     if (assets->tailsSpriteID != id)
     {

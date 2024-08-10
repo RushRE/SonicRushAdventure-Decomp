@@ -30,6 +30,3 @@ LZ_FLAGS                     := -l2 -s
 
 %.lz: %
 	$(NTRCOMP) $(LZ_FLAGS) -o $@ $<
-
-%.bblst: %
-	$(ARCHIVEPACK) $<
