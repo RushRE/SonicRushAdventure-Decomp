@@ -190,23 +190,6 @@ typedef struct SeaMapManagerNodeList_
 
 struct GameSaveInfo
 {
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    u16 field_28;
-    u16 field_2A;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
     s32 field_40;
     s32 field_44;
     s32 field_48;
@@ -223,8 +206,33 @@ struct GameCutsceneState
 {
     u32 cutsceneID;
     s16 nextSysEvent;
-    u32 stringValue;
+    BOOL canSkip;
     u32 field_C;
+};
+
+struct GameTalkUnknown1
+{
+    VecFx32 translation;
+    u16 rotationY;
+    s16 field_E;
+};
+
+struct GameTalkUnknown2
+{
+    VecFx32 translation;
+    u16 field_C;
+    u16 flags;
+    int field_10;
+};
+
+struct GameTalkState
+{
+    u8 field_DC;
+    u8 field_DD;
+    u8 field_DE;
+    u8 field_DF;
+    struct GameTalkUnknown1 field_E0[1];
+    struct GameTalkUnknown2 field_14[4];
 };
 
 typedef struct GameState_
@@ -280,42 +288,7 @@ typedef struct GameState_
     u32 vikingCupID;
     u32 sailRandSeed;
     struct GameCutsceneState cutscene;
-    u8 field_DC;
-    u8 field_DD;
-    u8 field_DE;
-    u8 field_DF;
-    u8 field_E0;
-    u8 field_E1;
-    u8 field_E2;
-    u8 field_E3;
-    u8 field_E4;
-    u8 field_E5;
-    u8 field_E6;
-    u8 field_E7;
-    u8 field_E8;
-    u8 field_E9;
-    u8 field_EA;
-    u8 field_EB;
-    u8 field_EC;
-    u8 field_ED;
-    u8 field_EE;
-    u8 field_EF;
-    u8 field_F0;
-    u8 field_F1;
-    u8 field_F2;
-    u8 field_F3;
-    u8 field_F4;
-    u8 field_F5;
-    u8 field_F6;
-    u8 field_F7;
-    u8 field_F8;
-    u8 field_F9;
-    u8 field_FA;
-    u8 field_FB;
-    u8 field_FC;
-    u8 field_FD;
-    u8 field_FE;
-    u8 field_FF;
+    struct GameTalkState talk;
     struct GameSaveInfo saveFile;
     u32 doorPuzzleState;
     u32 creditsMode;

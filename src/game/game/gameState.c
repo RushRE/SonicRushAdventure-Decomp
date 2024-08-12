@@ -90,8 +90,8 @@ void ChangeEventForStageFinish(BOOL flag)
             {
                 if (flag == FALSE)
                 {
-                    nextEvent          = 3; // SYSEVENT_UPDATE_PROGRESS
-                    gameState.field_DC = 7;
+                    nextEvent               = 3; // SYSEVENT_UPDATE_PROGRESS
+                    gameState.talk.field_DC = 7;
                     SaveGame__Func_205B9F0(0);
                 }
             }
@@ -102,7 +102,8 @@ void ChangeEventForStageFinish(BOOL flag)
             break;
 
         case GAMEMODE_TIMEATTACK:
-            if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_PLAYER_DIED) != 0 || (gameState.gameFlag & (GAME_FLAG_REPLAY_FINISHED | GAME_FLAG_REPLAY_STARTED)) == (GAME_FLAG_REPLAY_FINISHED | GAME_FLAG_REPLAY_STARTED))
+            if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_PLAYER_DIED) != 0
+                || (gameState.gameFlag & (GAME_FLAG_REPLAY_FINISHED | GAME_FLAG_REPLAY_STARTED)) == (GAME_FLAG_REPLAY_FINISHED | GAME_FLAG_REPLAY_STARTED))
             {
                 nextEvent = 5; // SYSEVENT_21
             }
@@ -126,8 +127,8 @@ void ChangeEventForStageFinish(BOOL flag)
         case GAMEMODE_MISSION:
             if (!state->missionFlag)
             {
-                nextEvent          = 5; // SYSEVENT_21
-                gameState.field_DC = 5;
+                nextEvent               = 5; // SYSEVENT_21
+                gameState.talk.field_DC = 5;
                 SaveGame__Func_205B9F0(0);
             }
             else
@@ -160,8 +161,8 @@ void ChangeEventForPauseMenuAction(BOOL isRestart)
                 break;
 
             case GAMEMODE_MISSION:
-                gameState.field_DC = 5;
-                nextEvent          = 3; // SYSEVENT_UPDATE_PROGRESS
+                gameState.talk.field_DC = 5;
+                nextEvent               = 3; // SYSEVENT_UPDATE_PROGRESS
                 SaveGame__Func_205B9F0(0);
                 break;
 

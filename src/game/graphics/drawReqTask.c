@@ -37,25 +37,28 @@ void InitDrawReqSystem(void)
 
 NONMATCH_FUNC void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *paletteMode, void **palettePtr)
 {
-    // https://decomp.me/scratch/xzfLI -> 93.63%
+    // https://decomp.me/scratch/xzfLI -> 99.58%
 #ifdef NON_MATCHING
-    u32 mode           = 0;
     u32 displayControl = *(u32 *)VRAMSystem__DisplayControllers[useEngineB];
+    u32 mode           = 0;
+
     switch (displayControl & REG_GX_DISPCNT_BGMODE_MASK)
     {
         case GX_BGMODE_0:
+            mode = 0;
             break;
 
         case GX_BGMODE_1:
             switch (bgID)
             {
-                case BACKGROUND_3:
-                    mode = 2;
-                    break;
-
                 case BACKGROUND_0:
                 case BACKGROUND_1:
                 case BACKGROUND_2:
+                    mode = 0;
+                    break;
+
+                case BACKGROUND_3:
+                    mode = 2;
                     break;
             }
             break;
@@ -63,13 +66,14 @@ NONMATCH_FUNC void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *p
         case GX_BGMODE_2:
             switch (bgID)
             {
+                case BACKGROUND_0:
+                case BACKGROUND_1:
+                    mode = 0;
+                    break;
+
                 case BACKGROUND_2:
                 case BACKGROUND_3:
                     mode = 2;
-                    break;
-
-                case BACKGROUND_0:
-                case BACKGROUND_1:
                     break;
             }
             break;
@@ -77,13 +81,14 @@ NONMATCH_FUNC void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *p
         case GX_BGMODE_3:
             switch (bgID)
             {
-                case BACKGROUND_3:
-                    mode = 1;
-                    break;
-
                 case BACKGROUND_0:
                 case BACKGROUND_1:
                 case BACKGROUND_2:
+                    mode = 0;
+                    break;
+
+                case BACKGROUND_3:
+                    mode = 1;
                     break;
             }
             break;
@@ -91,6 +96,11 @@ NONMATCH_FUNC void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *p
         case GX_BGMODE_4:
             switch (bgID)
             {
+                case BACKGROUND_0:
+                case BACKGROUND_1:
+                    mode = 0;
+                    break;
+
                 case BACKGROUND_2:
                     mode = 2;
                     break;
@@ -98,23 +108,20 @@ NONMATCH_FUNC void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *p
                 case BACKGROUND_3:
                     mode = 1;
                     break;
-
-                case BACKGROUND_0:
-                case BACKGROUND_1:
-                    break;
             }
             break;
 
         case GX_BGMODE_5:
             switch (bgID)
             {
+                case BACKGROUND_0:
+                case BACKGROUND_1:
+                    mode = 0;
+                    break;
+
                 case BACKGROUND_2:
                 case BACKGROUND_3:
                     mode = 1;
-                    break;
-
-                case BACKGROUND_0:
-                case BACKGROUND_1:
                     break;
             }
             break;
@@ -165,8 +172,10 @@ NONMATCH_FUNC void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *p
     }
     else
     {
-        *palettePtr  = VRAMSystem__VRAM_PALETTE_BG[useEngineB];
+        void *vramPalette = VRAMSystem__VRAM_PALETTE_BG[useEngineB];
+
         *paletteMode = PALETTE_MODE_SPRITE;
+        *palettePtr  = vramPalette;
     }
 #else
     // clang-format off
@@ -656,10 +665,10 @@ NONMATCH_FUNC void GetVRAMPixelConfig(BOOL useEngineB, u8 bgID, PixelMode *pixel
 #define bg3_256ColorChar04000 ((GX_BG_COLORMODE_256 << REG_G2_BG3CNT_COLORMODE_SHIFT) | (GX_BG_CHARBASE_0x04000 << REG_G2_BG3CNT_CHARBASE_SHIFT))
 
     s32 bgControl = *(u16 *)VRAMSystem__BGControllers[useEngineB][bgID];
-    u32 *disp = (u32 *)VRAMSystem__DisplayControllers[useEngineB];
-    
+    u32 *disp     = (u32 *)VRAMSystem__DisplayControllers[useEngineB];
+
     *screenBaseBlock = (bgControl & REG_G2_BG0CNT_SCREENBASE_MASK) >> REG_G2_BG0CNT_SCREENBASE_SHIFT; // G2_GetBG0ScrPtr
-    
+
     switch (*disp & REG_GX_DISPCNT_BGMODE_MASK)
     {
         case GX_BGMODE_3:

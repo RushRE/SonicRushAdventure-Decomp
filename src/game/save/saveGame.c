@@ -3,7 +3,7 @@
 #include <game/system/sysEvent.h>
 #include <game/file/cardBackup.h>
 #include <game/graphics/renderCore.h>
-#include <game/cutscene/ayk.h>
+#include <game/cutscene/script.h>
 
 // --------------------
 // TEMP
@@ -648,23 +648,23 @@ void SaveGame__UnknownTable2Func_205C2A8(void)
         switch (gameState.sailShipType)
         {
             case SHIP_JET:
-                cutscene = CUTSCENE_8;
+                cutscene = CUTSCENE_WAVE_CYCLONE_LAUNCH;
                 break;
 
             case SHIP_BOAT:
-                cutscene = CUTSCENE_16;
+                cutscene = CUTSCENE_OCEAN_TORNADO_LAUNCH;
                 break;
 
             case SHIP_HOVER:
-                cutscene = CUTSCENE_37;
+                cutscene = CUTSCENE_AQUA_BLAST_LAUNCH;
                 break;
 
             case SHIP_SUBMARINE:
-                cutscene = CUTSCENE_49;
+                cutscene = CUTSCENE_DEEP_TYPHOON_LAUNCH;
                 break;
 
             default:
-                cutscene = CUTSCENE_0;
+                cutscene = CUTSCENE_NONE;
                 break;
         }
 
@@ -761,7 +761,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
         }
         else if (stageID == STAGE_BOSS_FINAL)
         {
-            static const u16 cutsceneIDList[] = { CUTSCENE_66, CUTSCENE_67, CUTSCENE_INVALID };
+            static const u16 cutsceneIDList[] = { CUTSCENE_GHOST_TITANS_IMPACT, CUTSCENE_ENDING, CUTSCENE_INVALID };
 
             u16 cutsceneID = cutsceneIDList[SaveGame__Func_205BB18()];
             SaveGame__Func_205BBBC();
@@ -774,11 +774,11 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
 
             if (cutsceneID != CUTSCENE_INVALID)
             {
-                u32 value                       = SaveGame__GetGameProgress() >= SAVE_PROGRESS_36 ? 1 : 0;
+                BOOL canSkip                    = SaveGame__GetGameProgress() >= SAVE_PROGRESS_36 ? TRUE : FALSE;
                 struct GameCutsceneState *state = &gameState.cutscene;
 
                 state->nextSysEvent = SYSEVENT_UPDATE_PROGRESS;
-                state->stringValue  = value;
+                state->canSkip      = canSkip;
                 state->cutsceneID   = cutsceneID;
                 SaveGame__ChangeEvent(SYSEVENT_CUTSCENE);
             }
@@ -797,7 +797,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
                     SaveGame__Func_205B9F0(0);
-                    SaveGame__StartCutscene(CUTSCENE_51, SYSEVENT_UPDATE_PROGRESS, TRUE);
+                    SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
                 else
@@ -806,7 +806,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
                     {
                         SaveGame__GetPuzzlePiece(0);
                         SaveGame__Func_205B9F0(0);
-                        SaveGame__StartCutscene(CUTSCENE_53, SYSEVENT_UPDATE_PROGRESS, TRUE);
+                        SaveGame__StartCutscene(CUTSCENE_CLUE_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                         return;
                     }
                 }
@@ -816,7 +816,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
                     SaveGame__Func_205B9F0(0);
-                    SaveGame__StartCutscene(CUTSCENE_52, SYSEVENT_UPDATE_PROGRESS, TRUE);
+                    SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_2, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
 
@@ -824,7 +824,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
                 {
                     SaveGame__GetPuzzlePiece(1);
                     SaveGame__Func_205B9F0(0);
-                    SaveGame__StartCutscene(CUTSCENE_54, SYSEVENT_UPDATE_PROGRESS, TRUE);
+                    SaveGame__StartCutscene(CUTSCENE_CLUE_NO_2, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
             }
@@ -833,7 +833,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
                     SaveGame__Func_205B9F0(0);
-                    SaveGame__StartCutscene(CUTSCENE_51, SYSEVENT_UPDATE_PROGRESS, TRUE);
+                    SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
                 else
@@ -842,7 +842,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
                     {
                         SaveGame__GetPuzzlePiece(2);
                         SaveGame__Func_205B9F0(0);
-                        SaveGame__StartCutscene(CUTSCENE_55, SYSEVENT_UPDATE_PROGRESS, TRUE);
+                        SaveGame__StartCutscene(CUTSCENE_CLUE_NO_3, SYSEVENT_UPDATE_PROGRESS, TRUE);
                         return;
                     }
                 }
@@ -1269,7 +1269,7 @@ void SaveGame__RestartEvent(void)
 
 void SaveGame__StartCutscene(u16 cutsceneID, s32 nextEvent, BOOL flag)
 {
-    u16 cutsceneIDList[] = { CUTSCENE_16, CUTSCENE_37, CUTSCENE_49 };
+    u16 cutsceneIDList[] = { CUTSCENE_OCEAN_TORNADO_LAUNCH, CUTSCENE_AQUA_BLAST_LAUNCH, CUTSCENE_DEEP_TYPHOON_LAUNCH };
 
     if (nextEvent == SYSEVENT_NONE)
         nextEvent = (u16)GetSysEventList()->currentEventID;
@@ -1277,7 +1277,7 @@ void SaveGame__StartCutscene(u16 cutsceneID, s32 nextEvent, BOOL flag)
     struct GameCutsceneState *state = &gameState.cutscene;
     state->nextSysEvent             = nextEvent;
     state->cutsceneID               = cutsceneID;
-    state->stringValue              = 1;
+    state->canSkip                  = TRUE;
 
     for (u32 i = 0; i < 3; i++)
     {

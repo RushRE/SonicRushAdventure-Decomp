@@ -12,7 +12,7 @@
 #include <cutscene/opening.h>
 #include <ex/ex.h>
 #include <sail/sailManager.h>
-#include <cutscene/cutsceneSeq.h>
+#include <cutscene/cutsceneScript.h>
 
 // --------------------
 // TEMP

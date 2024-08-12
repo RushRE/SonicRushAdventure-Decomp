@@ -1,4 +1,4 @@
-#include <cutscene/cutsceneSeq.h>
+#include <cutscene/cutsceneScript.h>
 #include <game/system/sysEvent.h>
 #include <game/input/padInput.h>
 #include <game/input/touchInput.h>
@@ -11,6 +11,7 @@
 #include <game/graphics/drawState.h>
 #include <game/graphics/drawReqTask.h>
 #include <game/audio/audioSystem.h>
+#include <game/file/fsRequest.h>
 #include <game/file/archiveFile.h>
 #include <game/text/fontAnimator.h>
 #include <game/text/fontWindow.h>
@@ -29,20 +30,152 @@ NOT_DECOMPILED void Task__Unknown204BE48__Func_204C104(void);
 NOT_DECOMPILED void SpriteUnknown__GetSpriteSize(void);
 
 // --------------------
+// CONSTANTS
+// --------------------
+
+#define CUTSCENESCRIPT_LOCATION_DATA  0x00000000
+#define CUTSCENESCRIPT_LOCATION_STACK 0x70000000
+#define CUTSCENESCRIPT_LOCATION_ROM   0x80000000
+
+// --------------------
+// STRUCTS
+// --------------------
+
+struct CutsceneFader_
+{
+    u32 mode;
+    s8 brightness1;
+    s8 brightness2;
+    u8 timer3;
+};
+
+struct CutsceneArchive_
+{
+    s32 refCount;
+    s32 field_4;
+    s32 field_8;
+    NNSiFndArchiveHeader *archive;
+    CutsceneArchive *next;
+    NNSFndArchive *fndArchive;
+};
+
+struct CutsceneTouchArea_
+{
+    TouchArea area;
+    TouchField *touchField;
+    AnimatorSprite *animator;
+    u32 dword40;
+    u16 anim1;
+    u16 anim2;
+    u16 field_48;
+    u16 palette;
+    CutsceneScript *cutscene;
+    u32 dword50;
+};
+
+struct CutsceneSpriteButton_
+{
+    u32 field_0;
+    AnimatorSprite ani;
+    CutsceneTouchArea *touchArea;
+    u32 field_6C;
+};
+
+struct CutsceneBackground_
+{
+    u32 field_0;
+    Background ani;
+    u32 field_4C;
+};
+
+struct CutsceneCamera3D_
+{
+    BOOL active;
+    s32 field_4;
+    Camera3D config;
+    s32 field_58;
+    u32 dword5C;
+};
+
+struct CutsceneModel_
+{
+    u32 field_0[5];
+    u32 field_14;
+    u32 field_18;
+    AnimatorMDL ani;
+    u32 field_160;
+};
+
+struct CutsceneAudioHandle_
+{
+    BOOL isActive;
+    NNSSndHandle *handle;
+};
+
+struct CutsceneFadeManager_
+{
+    u32 flags;
+    CutsceneFader control[2];
+};
+
+struct CutsceneFileSystemManager_
+{
+    s32 count;
+    CutsceneArchive *archiveList;
+    u32 field_8;
+    u32 field_C;
+    u32 field_10;
+    AsyncFileWork file;
+};
+
+struct CutsceneSpriteButtonManager_
+{
+    s32 count;
+    CutsceneSpriteButton *list;
+    TouchField touchField;
+};
+
+struct CutsceneBackgroundManager_
+{
+    CutsceneBackground renderers[8];
+};
+
+struct CutsceneModelManager_
+{
+    s32 count;
+    CutsceneModel *list;
+    CutsceneCamera3D camera;
+};
+
+struct CutsceneAudioManager_
+{
+    int handleCount;
+    CutsceneAudioHandle *handleList;
+};
+
+struct CutsceneTextManager_
+{
+    CutsceneScriptTextCommand commandFunc;
+    void (*processFunc)(CutsceneTextWorker *worker);
+    void (*releaseFunc)(CutsceneTextWorker *worker);
+    CutsceneTextWorker *worker;
+};
+
+// --------------------
 // VARIABLES
 // --------------------
 
-static Task *CutsceneAssetSystem__Singleton;
+static Task *cutsceneAssetSystemTask;
 
-NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable1[];
-NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable2[];
-NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable3[];
-NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable4[];
-NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable6[];
-NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable7[];
-NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable8[];
-NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__SndCommands[];
-NOT_DECOMPILED CutsceneSeqCommandFunc1 CutsceneSeq__FuncTable9[];
+NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__UnknownEngineCommands[];
+NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__EngineTextCommands[];
+NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__BackgroundCommands[];
+NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__SystemCommands[];
+NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__FileSystemCommands[];
+NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__ModelCommands[];
+NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__SpriteCommands[];
+NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__SoundCommands[];
+NOT_DECOMPILED CutsceneScriptEngineCommand CutsceneScript__ScreenCommands[];
 
 NOT_DECOMPILED void *aNodeCamera2_ovl07;
 NOT_DECOMPILED void *aNodeTarget_ovl07;
@@ -52,260 +185,132 @@ NOT_DECOMPILED void *aNodeCamera_0_ovl07;
 NOT_DECOMPILED void *aNodeTarget2_ovl07;
 
 NOT_DECOMPILED void *_0215B3A0;
-NOT_DECOMPILED void *CutsceneSeq__FuncTable10;
+NOT_DECOMPILED CutsceneScriptTextCommand CutsceneScript__TextCommands[];
 NOT_DECOMPILED void *_0215B410;
 
-NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTableList1[];
-NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable11[];
-NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable12[];
-NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable13[];
-NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable14[];
-NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable15[];
-NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable16[];
-NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable16[];
-NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable18[];
-NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable19[];
-NOT_DECOMPILED CutsceneSeqCommandFunc2 *CutsceneSeq__FuncTableList2[];
-NOT_DECOMPILED CutsceneSeqCommandFunc2 CutsceneSeq__FuncTable20[];
+NOT_DECOMPILED CutsceneScriptEngineCommand *CutsceneScript__EngineCommandTable[];
+NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__EngineInstructionTable[];
+NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__UnknownCommands[];
+NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__EndCommands[];
+NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__StackCommands[];
+NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__FunctionCommands[];
+NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__ComparisonCommands[];
+NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__ComparisonCommands[];
+NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__IfCommands[];
+NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__ArithmeticCommands[];
+NOT_DECOMPILED CutsceneScriptControlCommand *CutsceneScript__InstructionTable[];
+NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__BitwiseCommands[];
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-void CutsceneSeq__Create(CutsceneAssetSystem *parent, u32 priority)
+void CutsceneScript__Create(CutsceneAssetSystem *parent, u32 priority)
 {
-    Task *task              = TaskCreate(CutsceneSeq__Main, CutsceneSeq__Destructor, TASK_FLAG_NONE, 0, priority, TASK_SCOPE_0, CutsceneSeq);
-    parent->cutsceneSeqTask = task;
+    Task *task           = TaskCreate(CutsceneScript__Main, CutsceneScript__Destructor, TASK_FLAG_NONE, 0, priority, TASK_SCOPE_0, CutsceneScript);
+    parent->cutsceneTask = task;
 
-    parent->cutsceneSeqWork = TaskGetWork(task, CutsceneSeq);
-    TaskInitWork16(parent->cutsceneSeqWork);
+    parent->cutscene = TaskGetWork(task, CutsceneScript);
+    TaskInitWork16(parent->cutscene);
 
-    CutsceneSeq__InitUnknown2156918(&parent->cutsceneSeqWork->unknown2156918);
-    parent->cutsceneSeqWork->status = 0;
+    CutsceneScript__InitFadeManager(&parent->cutscene->systemManager);
+    parent->cutscene->status = CUTSCENESCRIPT_STATUS_IDLE;
 
     StartSamplingTouchInput(1);
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Destroy(CutsceneAssetSystem *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r0
-	bl StopSamplingTouchInput
-	ldr r2, [r4, #4]
-	add r0, r2, #0x4c
-	add r1, r2, #0x50
-	add r6, r0, #0x1000
-	add r0, r1, #0x1000
-	cmp r6, r0
-	beq _02152A44
-	mov r5, #0
-_02152A10:
-	ldr r0, [r6]
-	cmp r0, #0
-	beq _02152A2C
-	bl GetTaskWork_
-	str r5, [r0]
-	ldr r0, [r6]
-	bl DestroyTask
-_02152A2C:
-	ldr r2, [r4, #4]
-	add r6, r6, #4
-	add r0, r2, #0x50
-	add r0, r0, #0x1000
-	cmp r6, r0
-	bne _02152A10
-_02152A44:
-	add r0, r2, #0x30
-	add r0, r0, #0x1000
-	bl CutsceneAssetSystem__Func_215693C
-	mov r0, #0
-	bl ShakeScreen
-	ldr r0, [r4, #4]
-	bl CutsceneAssetSystem__Release
-	ldr r0, [r4]
-	bl DestroyTask
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-CutsceneSeq *CutsceneAssetSystem__GetCutsceneSeq(CutsceneAssetSystem *work)
+void CutsceneAssetSystem__Destroy(CutsceneAssetSystem *work)
 {
-    return work->cutsceneSeqWork;
+    StopSamplingTouchInput();
+
+    for (Task **taskPtr = work->cutscene->taskFade; taskPtr != &work->cutscene->taskFade[1]; taskPtr++)
+    {
+        if ((*taskPtr) != NULL)
+        {
+            // TODO: figure out this struct
+            s32 *taskWork = TaskGetWork((*taskPtr), s32);
+            *taskWork     = 0;
+
+            DestroyTask((*taskPtr));
+        }
+    }
+
+    CutsceneSystemManager__Release(&work->cutscene->systemManager);
+    ShakeScreen(SCREENSHAKE_STOP);
+    CutsceneAssetSystem__Release(work->cutscene);
+    DestroyTask(work->cutsceneTask);
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2152A74(CutsceneAssetSystem *work, s32 count){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #4]
-	ldr ip, =ovl07_215697C
-	add r0, r0, #0x30
-	add r0, r0, #0x1000
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2152A8C(CutsceneAssetSystem *work, s32 count){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #4]
-	ldr ip, =CutsceneSeq__AllocTouchField
-	add r0, r0, #0x30
-	add r0, r0, #0x1000
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2152AA4(CutsceneAssetSystem *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #4]
-	ldr ip, =ovl07_2157150
-	add r0, r0, #0x30
-	add r0, r0, #0x1000
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2152ABC(CutsceneAssetSystem *work, s32 count){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, [r0, #4]
-	add r0, r0, #0x30
-	add r0, r0, #0x1000
-	bl sub_2157454
-	ldr r1, =0x04000304
-	ldrh r0, [r1]
-	orr r0, r0, #0xc
-	strh r0, [r1]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2152AE8(CutsceneAssetSystem *work, s32 count){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #4]
-	ldr ip, =ovl07_2157A34
-	add r0, r0, #0x30
-	add r0, r0, #0x1000
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2152B00(CutsceneAssetSystem *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #4
-	mov r1, #0x19c
-	mov r4, r0
-	str r1, [sp]
-	ldr r0, [r4, #4]
-	ldr r1, =CutsceneAssetSystem__Func_21598A4
-	add r0, r0, #0x30
-	ldr r2, =CutsceneAssetSystem__Func_2159750
-	ldr r3, =CutsceneAssetSystem__Func_215984C
-	add r0, r0, #0x1000
-	bl CutsceneAssetSystem__Func_2157A40
-	mov r0, r4
-	bl CutsceneAssetSystem__Func_2152B68
-	mov r4, r0
-	mov r1, r4
-	mov r0, #0
-	mov r2, #0x19c
-	bl MIi_CpuClear16
-	mov r0, r4
-	bl CutsceneAssetSystem__Func_2159718
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2152B68(CutsceneAssetSystem *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #4]
-	ldr ip, =ovl07_2157B70
-	add r0, r0, #0x30
-	add r0, r0, #0x1000
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void CutsceneAssetSystem__StartLoadingAYK(CutsceneAssetSystem *work, AYKHeader *ayk)
+CutsceneScript *CutsceneAssetSystem__GetCutsceneScript(CutsceneAssetSystem *work)
 {
-#ifdef NON_MATCHING
-    CutsceneSeq *cutscene = work->cutsceneSeqWork;
-
-    CutsceneSeq__InitAYK(cutscene, ayk, CutsceneSeq__FuncTableList1);
-    cutscene->status = 2;
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #4]
-	ldr r2, =CutsceneSeq__FuncTableList1
-	mov r3, #0
-	bl CutsceneSeq__InitAYK
-	ldr r0, [r4, #4]
-	mov r1, #2
-	add r0, r0, #0x1000
-	str r1, [r0, #0x2c]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    return work->cutscene;
 }
 
-void CutsceneAssetSystem__FinishLoadingAYK(CutsceneAssetSystem *work, s32 aykUnknown2, CutsceneSeqOnFinish onFinish)
+void CutsceneScript__InitFileSystemManager(CutsceneAssetSystem *work, u32 count)
 {
-    CutsceneSeq__InitAYKBlock(work->cutsceneSeqWork, onFinish);
-    *(s32 *)CutsceneSeq__GetAYKCommand_String(work->cutsceneSeqWork, NULL, 0) = aykUnknown2;
-
-    work->cutsceneSeqWork->status = 1;
+    CutsceneFileSystemManager__Init(&work->cutscene->systemManager, count);
 }
 
-void CutsceneSeq__Destructor(Task *task)
+void CutsceneScript__InitSpriteButtonManager(CutsceneAssetSystem *work, u32 count)
 {
-    CutsceneSeq *work = TaskGetWork(task, CutsceneSeq);
+    CutsceneSpriteButtonManager__Init(&work->cutscene->systemManager, count);
+}
+
+void CutsceneScript__InitBackgroundManager(CutsceneAssetSystem *work)
+{
+    CutsceneBackgroundManager__Init(&work->cutscene->systemManager);
+}
+
+void CutsceneScript__InitModelManager(CutsceneAssetSystem *work, u32 count)
+{
+    CutsceneModelManager__Init(&work->cutscene->systemManager, count);
+
+    // it'd be cleaner to do something like 'GX_SetPower(GX_GetPower() | GX_POWER_3D);', but that's not what they did unfortunately
+    reg_GX_POWCNT |= GX_POWER_3D;
+}
+
+void CutsceneScript__InitAudioManager(CutsceneAssetSystem *work, u32 count)
+{
+    CutsceneAudioManager__Init(&work->cutscene->systemManager, count);
+}
+
+void CutsceneScript__InitTextManager(CutsceneAssetSystem *work)
+{
+    CutsceneTextManager__Init(&work->cutscene->systemManager, CutsceneTextWorker__Process, CutsceneTextWorker__Draw, CutsceneTextWorker__Release, sizeof(CutsceneTextWorker));
+
+    CutsceneTextWorker *worker = CutsceneScript__GetTextWorker(work);
+    MI_CpuClear16(worker, sizeof(*worker));
+    CutsceneTextWorker__Init(worker);
+}
+
+CutsceneTextWorker *CutsceneScript__GetTextWorker(CutsceneAssetSystem *work)
+{
+    return CutsceneTextManager__GetWorker(&work->cutscene->systemManager);
+}
+
+void CutsceneScript__LoadScript(CutsceneAssetSystem *work, CutsceneScriptHeader *script)
+{
+    CutsceneScript__LoadScriptFile(work->cutscene, script, CutsceneScript__EngineCommandTable, 0);
+    work->cutscene->status = CUTSCENESCRIPT_STATUS_LOADING;
+}
+
+void CutsceneScript__StartScript(CutsceneAssetSystem *work, s32 startParam, CutsceneScriptOnFinish onFinish)
+{
+    CutsceneScript__InitScriptWorker(work->cutscene, onFinish);
+
+    s32 *data = CutsceneScript__GetFunctionParamConstant(work->cutscene, NULL, CUTSCENESCRIPT_LOCATION_DATA + 0x00);
+    *data     = startParam;
+
+    work->cutscene->status = CUTSCENESCRIPT_STATUS_READY;
+}
+
+void CutsceneScript__Destructor(Task *task)
+{
+    CutsceneScript *work = TaskGetWork(task, CutsceneScript);
     CutsceneAssetSystem__Release(work);
 }
 
-NONMATCH_FUNC void Task__Unknown21531C4__Destructor(Task *task){
+NONMATCH_FUNC void CutsceneFadeTask__Destructor(Task *task){
 #ifdef NON_MATCHING
 
 #else
@@ -322,7 +327,7 @@ NONMATCH_FUNC void Task__Unknown21531C4__Destructor(Task *task){
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152C1C(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152C1C(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -330,11 +335,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152C1C(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r4
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r1, r0
 	cmp r5, #4
 	addls pc, pc, r5, lsl #2
@@ -370,7 +375,7 @@ _02152C98:
 	mov r0, r4
 	and r2, r6, r1
 	mov r1, #0
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
 
@@ -378,7 +383,7 @@ _02152C98:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152CC0(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152CC0(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -386,10 +391,10 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152CC0(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r0, r4
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	ldr r0, =touchInput
 	ldrh r1, [r0, #0x12]
 	tst r1, #1
@@ -397,21 +402,21 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152CC0(void *a1, CutsceneSeq *w
 	beq _02152D14
 	ldrh r2, [r0, #0x14]
 	mov r0, r4
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	ldr r1, =touchInput
 	mov r0, r4
 	ldrh r2, [r1, #0x16]
 	mov r1, #1
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	b _02152D30
 _02152D14:
 	mov r0, r4
 	sub r2, r1, #1
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r1, #1
 	mov r0, r4
 	sub r2, r1, #2
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 _02152D30:
 	mov r0, #1
 	ldmia sp!, {r4, pc}
@@ -420,7 +425,7 @@ _02152D30:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152D3C(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152D3C(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -448,7 +453,7 @@ _02152D7C:
 _02152D80:
 	mov r0, r4
 	mov r1, #0
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -456,7 +461,7 @@ _02152D80:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152D94(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152D94(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -481,7 +486,7 @@ _02152DC4:
 	movgt r2, #0x64
 _02152DD8:
 	mov r1, #0
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r3, pc}
 
@@ -489,7 +494,7 @@ _02152DD8:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152DF0(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152DF0(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -498,11 +503,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152DF0(void *a1, CutsceneSeq *w
 	mov r5, r1
 	mov r6, r0
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r6
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r0, #0
 	ldrne r0, =VRAMSystem__GFXControl
 	ldrne r0, [r0, r4, lsl #2]
@@ -510,13 +515,13 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable4__Func_2152DF0(void *a1, CutsceneSeq *w
 	bne _02152E3C
 	add r0, r5, #0x30
 	add r0, r0, #0x1000
-	bl CutsceneSeq__GetUnknown2157E58
+	bl CutsceneScript__GetFadeManager
 	add r0, r0, r4, lsl #3
 	ldrsb r2, [r0, #8]
 _02152E3C:
 	mov r0, r6
 	mov r1, #0
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
 
@@ -524,14 +529,14 @@ _02152E3C:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152E54(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152E54(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
     // clang-format off
 	stmdb sp!, {r3, lr}
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r1, r0, #1
 	cmp r1, #3
 	addls pc, pc, r1, lsl #2
@@ -554,7 +559,7 @@ _02152E8C:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152E94(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152E94(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -562,16 +567,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152E94(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	mov r4, r0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r0, #1
 	mov r0, r4
 	mov r1, #1
 	beq _02152EC0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	bl VRAMSystem__SetupBGBank
 	b _02152EC8
 _02152EC0:
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	bl VRAMSystem__SetupSubBGBank
 _02152EC8:
 	mov r0, #1
@@ -581,7 +586,7 @@ _02152EC8:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152ED0(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152ED0(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -589,19 +594,19 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152ED0(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	mov r4, r0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r0, #1
 	mov r0, r4
 	mov r1, #1
 	beq _02152F00
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r1, #0
-	bl sub_215902C
+	bl CutsceneUnknown__Func_215902C
 	b _02152F0C
 _02152F00:
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r1, #0
-	bl sub_2159188
+	bl CutsceneUnknown__Func_2159188
 _02152F0C:
 	mov r0, #1
 	ldmia sp!, {r4, pc}
@@ -610,7 +615,7 @@ _02152F0C:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152F14(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152F14(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -618,16 +623,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152F14(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	mov r4, r0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r0, #1
 	mov r0, r4
 	mov r1, #1
 	beq _02152F40
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	bl VRAMSystem__SetupBGExtPalBank
 	b _02152F48
 _02152F40:
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	bl VRAMSystem__SetupSubBGExtPalBank
 _02152F48:
 	mov r0, #1
@@ -637,7 +642,7 @@ _02152F48:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152F50(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152F50(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -645,16 +650,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152F50(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	mov r4, r0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r0, #1
 	mov r0, r4
 	mov r1, #1
 	beq _02152F7C
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	bl VRAMSystem__SetupOBJExtPalBank
 	b _02152F84
 _02152F7C:
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	bl VRAMSystem__SetupSubOBJExtPalBank
 _02152F84:
 	mov r0, #1
@@ -664,14 +669,14 @@ _02152F84:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152F8C(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152F8C(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
     // clang-format off
 	stmdb sp!, {r3, lr}
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	bl VRAMSystem__SetupTextureBank
 	mov r0, #1
 	ldmia sp!, {r3, pc}
@@ -680,14 +685,14 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152F8C(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152FA4(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152FA4(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
     // clang-format off
 	stmdb sp!, {r3, lr}
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	bl VRAMSystem__SetupTexturePalBank
 	mov r0, #1
 	ldmia sp!, {r3, pc}
@@ -696,7 +701,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152FA4(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152FBC(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2152FBC(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -704,15 +709,15 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2152FBC(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r6
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mvn r1, #0
 	mov r6, r0
 	cmp r5, r1
@@ -737,7 +742,7 @@ _02153028:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153030(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153030(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -746,34 +751,34 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153030(void *a1, CutsceneSeq *w
 	sub sp, sp, #8
 	mov r9, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r9
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	and r8, r0, #0xff
 	mov r0, r9
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r9
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r9
 	mov r1, #4
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r9
 	mov r1, #5
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	str r4, [sp]
 	mov r1, r8
 	mov r2, r6
 	mov r3, r5
 	str r0, [sp, #4]
 	mov r0, r7
-	bl sub_2158A6C
+	bl CutsceneUnknown__Func_2158A6C
 	mov r0, #1
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
@@ -782,7 +787,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153030(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21530BC(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21530BC(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -791,31 +796,31 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21530BC(void *a1, CutsceneSeq *w
 	sub sp, sp, #0xc
 	mov r10, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r8, r0
 	mov r0, r10
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	and r9, r0, #0xff
 	mov r0, r10
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r10
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r10
 	mov r1, #4
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r10
 	mov r1, #5
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r10
 	mov r1, #6
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	str r5, [sp]
 	str r4, [sp, #4]
 	mov r1, r9
@@ -823,7 +828,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21530BC(void *a1, CutsceneSeq *w
 	mov r3, r6
 	str r0, [sp, #8]
 	mov r0, r8
-	bl sub_2158D3C
+	bl CutsceneUnknown__Func_2158D3C
 	mov r0, #1
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
@@ -832,14 +837,14 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21530BC(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_215315C(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_215315C(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
     // clang-format off
 	stmdb sp!, {r3, lr}
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	ldr r1, =renderCurrentDisplay
 	str r0, [r1]
 	mov r0, #1
@@ -849,7 +854,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_215315C(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_215317C(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_215317C(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -858,18 +863,18 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_215317C(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r1, r4, #0x30
 	mov r4, r0
 	add r0, r1, #0x1000
-	bl CutsceneSeq__GetUnknown2157E58
+	bl CutsceneScript__GetFadeManager
 	mov r1, r5
 	mov r2, r4
-	bl CutsceneSeq__ProcessUnknown2157E58
+	bl CutsceneFadeTask__Process
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
 
@@ -877,7 +882,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_215317C(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 Task__Unknown21531C4__Create(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__CreateFadeTask(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -887,15 +892,15 @@ NONMATCH_FUNC s32 Task__Unknown21531C4__Create(void *a1, CutsceneSeq *work){
 	mov r8, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r1, r8, #0x1000
 	mov r6, r0
 	ldr r0, [r1, #0x4c]
@@ -906,9 +911,9 @@ _02153214:
 	bl GetCurrentTask
 	ldrh r1, [r0, #0x18]
 	mov r2, #0
-	ldr r0, =Task__Unknown21531C4__Main
+	ldr r0, =CutsceneFadeTask__Main
 	str r1, [sp]
-	ldr r1, =Task__Unknown21531C4__Destructor
+	ldr r1, =CutsceneFadeTask__Destructor
 	mov r3, r2
 	str r2, [sp, #4]
 	mov r7, #0x18
@@ -927,7 +932,7 @@ _02153214:
 	str r0, [r7]
 	add r0, r8, #0x30
 	add r0, r0, #0x1000
-	bl CutsceneSeq__GetUnknown2157E58
+	bl CutsceneScript__GetFadeManager
 	str r0, [r7, #8]
 	mvn r0, #0
 	cmp r5, r0
@@ -961,7 +966,7 @@ _021532BC:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21532F0(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21532F0(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -969,27 +974,27 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21532F0(void *a1, CutsceneSeq *w
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r9, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r9
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r9
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r9
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r9
 	mov r1, #4
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r8, r0
 	mov r0, r9
 	mov r1, #5
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r6, #1
 	moveq r1, #2
 	movne r1, #0
@@ -1060,7 +1065,7 @@ _02153444:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153450(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153450(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1068,23 +1073,23 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153450(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r8
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r8
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r8
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r8
 	mov r1, #4
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r7, #0
 	mvn r1, #0
 	bne _0215352C
@@ -1166,7 +1171,7 @@ _021535A8:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21535D0(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21535D0(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1174,35 +1179,35 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21535D0(void *a1, CutsceneSeq *w
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r10, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r10
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r10
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r10
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r11, r0
 	mov r0, r10
 	mov r1, #4
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r10
 	mov r1, #5
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r8, r0
 	mov r0, r10
 	mov r1, #6
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r9, r0
 	mov r0, r10
 	mov r1, #7
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r11, #0
 	movne r1, #2
 	moveq r1, #0
@@ -1244,7 +1249,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21535D0(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21536E4(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21536E4(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1252,11 +1257,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21536E4(void *a1, CutsceneSeq *w
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r5
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r0, r0, lsl #0x10
 	ldr r1, =VRAMSystem__GFXControl
 	mov r0, r0, lsr #0x10
@@ -1273,7 +1278,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21536E4(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153734(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153734(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1281,15 +1286,15 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153734(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r6
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	ldr r1, =VRAMSystem__GFXControl
 	orr r2, r4, r0, lsl #8
 	ldr r1, [r1, r5, lsl #2]
@@ -1301,7 +1306,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153734(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153780(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153780(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1309,11 +1314,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153780(void *a1, CutsceneSeq *w
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r5
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	ldr r1, =VRAMSystem__GFXControl
 	ldr r1, [r1, r4, lsl #2]
 	strh r0, [r1, #0x24]
@@ -1324,7 +1329,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153780(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21537B8(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21537B8(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1332,19 +1337,19 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21537B8(void *a1, CutsceneSeq *w
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r7
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r7
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r7
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r4, #0
 	movne r1, #2
 	moveq r1, #0
@@ -1366,7 +1371,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_21537B8(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_215383C(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_215383C(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1374,35 +1379,35 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_215383C(void *a1, CutsceneSeq *w
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r9, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r9
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r9
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r10, r0
 	mov r0, r9
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r11, r0
 	mov r0, r9
 	mov r1, #4
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r9
 	mov r1, #5
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r9
 	mov r1, #6
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r8, r0
 	mov r0, r9
 	mov r1, #7
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r11, #0
 	movne r1, #2
 	moveq r1, #0
@@ -1462,7 +1467,7 @@ _02153974:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153980(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153980(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1470,27 +1475,27 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153980(void *a1, CutsceneSeq *w
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r9, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r8, r0
 	mov r0, r9
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r9
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	and r4, r0, #0xff
 	mov r0, r9
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	and r5, r0, #0xff
 	mov r0, r9
 	mov r1, #4
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	and r6, r0, #0xff
 	mov r0, r9
 	mov r1, #5
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	and r1, r0, #0xff
 	cmp r7, #0
 	ldr r0, =VRAMSystem__GFXControl
@@ -1518,7 +1523,7 @@ _02153A24:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153A30(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153A30(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1526,10 +1531,10 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153A30(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r0, r4
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -1537,7 +1542,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153A30(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153A54(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153A54(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1545,19 +1550,19 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153A54(void *a1, CutsceneSeq *w
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r7, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r7
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r7
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r7
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mvn r1, #7
 	mov r7, r0
 	cmp r6, r1
@@ -1596,7 +1601,7 @@ _02153AFC:
 	mov r9, #8
 _02153B00:
 	mov r0, r9
-	bl sub_2159204
+	bl CutsceneUnknown__GetBankID
 	cmp r0, #9
 	addls pc, pc, r0, lsl #2
 	b _02153BD4
@@ -1684,14 +1689,14 @@ _02153BDC:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153C24(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153C24(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
     // clang-format off
 	stmdb sp!, {r3, lr}
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	ldr r1, =0x00004CCC
 	mov r2, #0
 	bl ShakeScreenEx
@@ -1702,14 +1707,14 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153C24(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable9__Func_2153C48(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153C48(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, #0x11
 	bl ShakeScreen
@@ -1730,7 +1735,7 @@ _02153C84:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153C90(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__FileSystemCommand__Func_2153C90(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1739,22 +1744,22 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153C90(void *a1, CutsceneSeq *w
 	mov r6, r0
 	mov r2, #1
 	mov r5, r1
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	mov r4, r0
 	mov r0, r6
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r3, r5, #0x30
 	mov r2, r0
 	mov r1, r4
 	add r0, r3, #0x1000
-	bl sub_2156B08
+	bl CutsceneFileSystemManager__Func_2156B08
 	movs r2, r0
 	moveq r0, #5
 	ldmeqia sp!, {r4, r5, r6, pc}
 	mov r0, r6
 	mov r1, #0
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
 
@@ -1762,7 +1767,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153C90(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153CE8(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__FileSystemCommand__Func_2153CE8(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1770,11 +1775,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153CE8(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl sub_2156BEC
+	bl CutsceneFileSystemManager__Func_2156BEC
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -1782,7 +1787,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153CE8(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153D10(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__FileSystemCommand__Func_2153D10(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1790,13 +1795,13 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153D10(void *a1, CutsceneSeq *w
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
-	bl CutsceneSeq__FuncTable8__Func_2153EDC
+	bl CutsceneScript__SpriteCommand__Func_2153EDC
 	mov r0, r5
 	mov r1, r4
-	bl CutsceneSeq__FuncTable3__Func_21544BC
+	bl CutsceneScript__BackgroundCommand__Func_21544BC
 	mov r0, r5
 	mov r1, r4
-	bl CutsceneSeq__FuncTable7__Func_21546AC
+	bl CutsceneScript__ModelCommand__Func_21546AC
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
 
@@ -1804,7 +1809,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153D10(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__MountArchive(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__FileSystemCommand__MountArchive(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1813,17 +1818,17 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__MountArchive(void *a1, CutsceneSeq *w
 	mov r5, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r6
 	mov r1, r5
 	mov r2, #1
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	add r3, r5, #0x30
 	mov r2, r0
 	mov r1, r4
 	add r0, r3, #0x1000
-	bl CutsceneSeq__MountArchive
+	bl CutsceneFileSystemManager__LoadArchive
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
 
@@ -1831,7 +1836,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__MountArchive(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__UnmountArchive(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__FileSystemCommand__UnmountArchive(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1839,11 +1844,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__UnmountArchive(void *a1, CutsceneSeq 
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl Unknown__ReleaseArchive
+	bl CutsceneFileSystemManager__ReleaseArchive
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -1851,7 +1856,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__UnmountArchive(void *a1, CutsceneSeq 
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153DAC(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__FileSystemCommand__Func_2153DAC(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1859,13 +1864,13 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153DAC(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r0, #0
 	movne r1, #1
 	add r0, r4, #0x30
 	moveq r1, #0
 	add r0, r0, #0x1000
-	bl sub_21569CC
+	bl CutsceneFileSystemManager__Func_21569CC
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -1873,7 +1878,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153DAC(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153DDC(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__FileSystemCommand__Func_2153DDC(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1881,13 +1886,13 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153DDC(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	cmp r0, #0
 	movne r1, #1
 	add r0, r4, #0x30
 	moveq r1, #0
 	add r0, r0, #0x1000
-	bl sub_21569FC
+	bl CutsceneFileSystemManager__Func_21569FC
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -1895,7 +1900,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable6__Func_2153DDC(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__LoadSprite(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__LoadSprite(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1905,40 +1910,40 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__LoadSprite(void *a1, CutsceneSeq *wor
 	mov r4, r1
 	mov r5, r0
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r5
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r1, r0, lsl #0x10
 	mov r8, r1, lsr #0x10
 	mov r0, r5
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r0, r0, lsl #0x10
 	mov r9, r0, lsr #0x10
 	mov r0, r5
 	mov r1, r4
 	mov r2, #4
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	mov r6, r0
 	mov r0, r5
 	mov r1, #5
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r4, r4, #0x30
 	mov r2, r0
 	mov r1, r6
 	mov r3, r7
 	add r0, r4, #0x1000
 	stmia sp, {r8, r9}
-	bl CutsceneSeq__LoadSpriteFromAYK2
+	bl CutsceneSpriteButtonManager__LoadSprite2
 	movs r2, r0
 	addeq sp, sp, #8
 	moveq r0, #5
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r0, r5
 	mov r1, #0
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
@@ -1947,7 +1952,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__LoadSprite(void *a1, CutsceneSeq *wor
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2153EB4(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2153EB4(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1955,11 +1960,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2153EB4(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl sub_2157128
+	bl CutsceneSpriteButtonManager__Func_2157128
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -1967,7 +1972,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2153EB4(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2153EDC(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2153EDC(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1976,7 +1981,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2153EDC(void *a1, CutsceneSeq *w
 	mov r4, r1
 	add r0, r4, #0x30
 	add r0, r0, #0x1000
-	bl sub_2156E2C
+	bl CutsceneSpriteButtonManager__Func_2156E2C
 	add r5, r0, #1
 	cmp r5, #1
 	mov r6, #1
@@ -1985,7 +1990,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2153EDC(void *a1, CutsceneSeq *w
 _02153F04:
 	mov r1, r6
 	add r0, r4, #0x1000
-	bl sub_2157128
+	bl CutsceneSpriteButtonManager__Func_2157128
 	add r6, r6, #1
 	cmp r6, r5
 	blo _02153F04
@@ -1997,7 +2002,7 @@ _02153F1C:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__LoadSprite2(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__LoadSprite2(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2007,37 +2012,37 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__LoadSprite2(void *a1, CutsceneSeq *wo
 	mov r5, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r8, r0
 	mov r0, r6
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r0, r0, lsl #0x10
 	mov r9, r0, lsr #0x10
 	mov r0, r6
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r0, r0, lsl #0x10
 	mov r10, r0, lsr #0x10
 	mov r0, r6
 	mov r1, r5
 	mov r2, #4
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	mov r7, r0
 	mov r0, r6
 	mov r1, #5
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r5, r5, #0x30
 	mov r3, r0
 	mov r1, r4
 	mov r2, r7
 	add r0, r5, #0x1000
 	stmia sp, {r8, r9, r10}
-	bl CutsceneSeq__LoadSpriteFromAYK
+	bl CutsceneSpriteButtonManager__LoadSprite
 	cmp r0, #0
 	moveq r0, #5
 	movne r0, #1
@@ -2048,7 +2053,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__LoadSprite2(void *a1, CutsceneSeq *wo
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__SetAnimation(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetAnimation(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2057,16 +2062,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__SetAnimation(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r5
 	add r0, r2, #0x1000
-	bl AnimatorManager__GetAnimator
+	bl CutsceneSpriteButtonManager__GetAnimator
 	mov r1, r4, lsl #0x10
 	mov r1, r1, lsr #0x10
 	bl AnimatorSprite__SetAnimation
@@ -2077,7 +2082,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__SetAnimation(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154014(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpritePosition(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2086,20 +2091,20 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154014(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r7, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r7
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r7
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r6
 	add r0, r2, #0x1000
-	bl AnimatorManager__GetAnimator
+	bl CutsceneSpriteButtonManager__GetAnimator
 	strh r5, [r0, #8]
 	strh r4, [r0, #0xa]
 	mov r0, #1
@@ -2109,7 +2114,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154014(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_215406C(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteVisible(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2118,16 +2123,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_215406C(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r5
 	add r0, r2, #0x1000
-	bl AnimatorManager__GetAnimator
+	bl CutsceneSpriteButtonManager__GetAnimator
 	ldr r1, [r0, #0x3c]
 	cmp r4, #0
 	bicne r1, r1, #1
@@ -2140,7 +2145,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_215406C(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21540C0(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteLoopFlag(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2149,16 +2154,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21540C0(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r5
 	add r0, r2, #0x1000
-	bl AnimatorManager__GetAnimator
+	bl CutsceneSpriteButtonManager__GetAnimator
 	ldr r1, [r0, #0x3c]
 	cmp r4, #0
 	bicne r1, r1, #2
@@ -2171,7 +2176,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21540C0(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154114(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteFlip(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2180,20 +2185,20 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154114(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r7, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r7
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r7
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r6
 	add r0, r2, #0x1000
-	bl AnimatorManager__GetAnimator
+	bl CutsceneSpriteButtonManager__GetAnimator
 	ldr r1, [r0, #0x3c]
 	cmp r5, #0
 	orrne r1, r1, #0x80
@@ -2211,7 +2216,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154114(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_215418C(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpritePriority(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2220,22 +2225,22 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_215418C(void *a1, CutsceneSeq *w
 	mov r6, r1
 	mov r5, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r5
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r2, r0, lsl #0x10
 	mov r0, r5
 	mov r1, #2
 	mov r5, r2, asr #0x10
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r2, r0, lsl #0x10
 	add r0, r6, #0x30
 	mov r1, r4
 	add r0, r0, #0x1000
 	mov r4, r2, asr #0x10
-	bl AnimatorManager__GetAnimator
+	bl CutsceneSpriteButtonManager__GetAnimator
 	mvn r1, #0
 	cmp r5, r1
 	strneb r5, [r0, #0x56]
@@ -2249,7 +2254,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_215418C(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21541FC(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__SetSpriteType(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2258,16 +2263,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21541FC(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r5
 	add r0, r2, #0x1000
-	bl AnimatorManager__GetAnimator
+	bl CutsceneSpriteButtonManager__GetAnimator
 	str r4, [r0, #0x58]
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
@@ -2276,7 +2281,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21541FC(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154240(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2154240(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2285,16 +2290,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154240(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r5
 	add r0, r2, #0x1000
-	bl sub_2156E70
+	bl CutsceneSpriteButtonManager__Func_2156E70
 	ldr r1, [r0]
 	cmp r4, #0
 	bicne r1, r1, #1
@@ -2307,7 +2312,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154240(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154294(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__GetSpritePosition(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2316,20 +2321,20 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154294(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r1, #0
 	mov r5, r0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl AnimatorManager__GetAnimator
+	bl CutsceneSpriteButtonManager__GetAnimator
 	ldrsh r4, [r0, #0xa]
 	ldrsh r2, [r0, #8]
 	mov r0, r5
 	mov r1, #1
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, r5
 	mov r2, r4
 	mov r1, #2
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
 
@@ -2337,7 +2342,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154294(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21542E4(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__GetSpritePalette(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2346,15 +2351,15 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21542E4(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r1, #0
 	mov r5, r0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl AnimatorManager__GetAnimator
+	bl CutsceneSpriteButtonManager__GetAnimator
 	ldrh r2, [r0, #0x50]
 	mov r0, r5
 	mov r1, #1
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, pc}
 
@@ -2362,7 +2367,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21542E4(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154320(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2154320(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2372,23 +2377,23 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154320(void *a1, CutsceneSeq *w
 	mov r6, r1
 	mov r5, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r5
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r2, r0, lsl #0x10
 	mov r0, r5
 	mov r1, #2
 	mov r5, r2, lsr #0x10
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r1, r4
 	mov r2, r5
 	str r6, [sp]
 	add ip, r6, #0x30
 	mov r3, r0
 	add r0, ip, #0x1000
-	bl sub_215707C
+	bl CutsceneSpriteButtonManager__Func_215707C
 	mov r0, #1
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
@@ -2397,7 +2402,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154320(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154384(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2154384(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2405,11 +2410,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154384(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl sub_21570F4
+	bl CutsceneSpriteButtonManager__Func_21570F4
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -2417,7 +2422,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_2154384(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21543AC(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_21543AC(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2426,22 +2431,22 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21543AC(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r5
 	add r0, r2, #0x1000
-	bl sub_2156E54
+	bl CutsceneSpriteButtonManager__Func_2156E54
 	ldr r2, [r0, #0x14]
 	cmp r4, #0
 	andne r2, r2, r4
 	mov r0, r6
 	mov r1, #2
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
 
@@ -2449,7 +2454,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable8__Func_21543AC(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__LoadBBG(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BackgroundCommand__LoadBBG(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2459,34 +2464,34 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__LoadBBG(void *a1, CutsceneSeq *work){
 	mov r7, r1
 	mov r8, r0
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r8
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	and r6, r0, #0xff
 	mov r0, r8
 	mov r1, r7
 	mov r2, #3
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	mov r4, r0
 	mov r0, r8
 	mov r1, #4
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add ip, r7, #0x30
 	mov r2, r0
 	mov r1, r4
 	mov r3, r5
 	add r0, ip, #0x1000
 	str r6, [sp]
-	bl CutsceneSeq__LoadBBGFromAYK
+	bl CutsceneBackgroundManager__LoadBackground
 	movs r2, r0
 	addeq sp, sp, #4
 	moveq r0, #5
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	mov r0, r8
 	mov r1, #0
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
@@ -2495,7 +2500,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__LoadBBG(void *a1, CutsceneSeq *work){
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_2154494(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BackgroundCommand__Func_2154494(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2503,11 +2508,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_2154494(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl sub_2157430
+	bl CutsceneBackgroundManager__Func_2157430
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -2515,7 +2520,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_2154494(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_21544BC(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BackgroundCommand__Func_21544BC(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2524,7 +2529,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_21544BC(void *a1, CutsceneSeq *w
 	mov r4, r1
 	add r0, r4, #0x30
 	add r0, r0, #0x1000
-	bl sub_21571A4
+	bl CutsceneBackgroundManager__Func_21571A4
 	add r5, r0, #1
 	cmp r5, #1
 	mov r6, #1
@@ -2533,7 +2538,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_21544BC(void *a1, CutsceneSeq *w
 _021544E4:
 	mov r1, r6
 	add r0, r4, #0x1000
-	bl sub_2157430
+	bl CutsceneBackgroundManager__Func_2157430
 	add r6, r6, #1
 	cmp r6, r5
 	blo _021544E4
@@ -2545,7 +2550,7 @@ _021544FC:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_2154504(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BackgroundCommand__Func_2154504(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2554,20 +2559,20 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_2154504(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r7, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r7
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r7
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r6
 	add r0, r2, #0x1000
-	bl sub_215715C
+	bl CutsceneBackgroundManager__GetBackground
 	str r5, [r0, #8]
 	str r4, [r0, #0xc]
 	mov r0, #1
@@ -2577,7 +2582,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_2154504(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_215455C(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BackgroundCommand__Func_215455C(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2586,16 +2591,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_215455C(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r5
 	add r0, r2, #0x1000
-	bl sub_2157174
+	bl CutsceneBackgroundManager__Func_2157174
 	ldr r1, [r0]
 	cmp r4, #0
 	bicne r1, r1, #1
@@ -2608,7 +2613,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_215455C(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_21545B0(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BackgroundCommand__Func_21545B0(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2617,21 +2622,21 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_21545B0(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r7, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r7
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	and r6, r0, #0xff
 	mov r0, r7
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r1, r4, #0x30
 	mov r4, r0
 	add r0, r1, #0x1000
 	mov r1, r5
 	mov r2, r6
-	bl sub_215718C
+	bl CutsceneBackgroundManager__Func_215718C
 	ldr r1, [r0]
 	cmp r4, #0
 	bicne r1, r1, #1
@@ -2644,7 +2649,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__Func_21545B0(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadMDL(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__LoadMDL(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2653,27 +2658,27 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadMDL(void *a1, CutsceneSeq *work){
 	mov r7, r0
 	mov r2, #1
 	mov r6, r1
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	mov r5, r0
 	mov r0, r7
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r7
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add ip, r6, #0x30
 	mov r3, r0
 	mov r1, r5
 	mov r2, r4
 	add r0, ip, #0x1000
-	bl CutsceneSeq__FuncTable3__LoadMDL
+	bl CutsceneModelManager__TryLoadModel
 	movs r2, r0
 	moveq r0, #5
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r0, r7
 	mov r1, #0
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
@@ -2681,7 +2686,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadMDL(void *a1, CutsceneSeq *work){
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154684(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154684(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2689,11 +2694,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154684(void *a1, CutsceneSeq *w
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl sub_2157A0C
+	bl CutsceneModelManager__Func_2157A0C
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -2701,7 +2706,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154684(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21546AC(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_21546AC(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2710,11 +2715,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21546AC(void *a1, CutsceneSeq *w
 	mov r7, r1
 	add r0, r7, #0x30
 	add r0, r0, #0x1000
-	bl sub_2157460
+	bl CutsceneModelManager__Func_2157460
 	add r1, r7, #0x30
 	mov r4, r0
 	add r0, r1, #0x1000
-	bl sub_215793C
+	bl CutsceneModelManager__Func_215793C
 	add r5, r4, #1
 	cmp r5, #1
 	mov r6, #1
@@ -2723,7 +2728,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21546AC(void *a1, CutsceneSeq *w
 _021546E4:
 	mov r1, r6
 	add r0, r4, #0x1000
-	bl sub_2157A0C
+	bl CutsceneModelManager__Func_2157A0C
 	add r6, r6, #1
 	cmp r6, r5
 	blo _021546E4
@@ -2735,7 +2740,7 @@ _021546FC:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadMDL2(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__LoadMDL2(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2745,27 +2750,27 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadMDL2(void *a1, CutsceneSeq *work)
 	mov r7, r1
 	mov r8, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r8
 	mov r1, r7
 	mov r2, #1
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	mov r5, r0
 	mov r0, r8
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r8
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add ip, r7, #0x30
 	str r0, [sp]
 	mov r1, r6
 	mov r2, r5
 	mov r3, r4
 	add r0, ip, #0x1000
-	bl CutsceneSeq__LoadMDLFromAYK
+	bl CutsceneModelManager__LoadModel
 	cmp r0, #0
 	moveq r0, #5
 	movne r0, #1
@@ -2776,7 +2781,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadMDL2(void *a1, CutsceneSeq *work)
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadAniMDL(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__LoadAniMDL(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2786,33 +2791,33 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadAniMDL(void *a1, CutsceneSeq *wor
 	mov r9, r1
 	mov r10, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r8, r0
 	mov r0, r10
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r10
 	mov r1, r9
 	mov r2, #2
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	mov r11, r0
 	mov r0, r10
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r10
 	mov r1, #4
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r10
 	mov r1, r9
 	mov r2, #5
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	mov r4, r0
 	mov r0, r10
 	mov r1, #6
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	str r6, [sp]
 	str r5, [sp, #4]
 	str r4, [sp, #8]
@@ -2822,7 +2827,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadAniMDL(void *a1, CutsceneSeq *wor
 	mov r2, r7
 	mov r3, r11
 	add r0, r4, #0x1000
-	bl CutsceneSeq__FuncTable7__LoadAniMDLFromAYK
+	bl CutsceneModelManager__LoadModelAnimation
 	cmp r0, #0
 	moveq r0, #5
 	movne r0, #1
@@ -2833,7 +2838,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadAniMDL(void *a1, CutsceneSeq *wor
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_215483C(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_215483C(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2842,24 +2847,24 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_215483C(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r8, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r8
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r8
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r8
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r1, r4, #0x30
 	mov r4, r0
 	add r0, r1, #0x1000
 	mov r1, r7
-	bl sub_215746C
+	bl CutsceneModelManager__GetModel
 	str r6, [r0, #0x18]
 	str r5, [r0, #0x1c]
 	str r4, [r0, #0x20]
@@ -2870,7 +2875,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_215483C(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21548A8(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_21548A8(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2880,27 +2885,27 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21548A8(void *a1, CutsceneSeq *w
 	mov r6, r1
 	mov r8, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r8
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r2, r0, lsl #0x10
 	mov r0, r8
 	mov r1, #2
 	mov r5, r2, lsr #0x10
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
 	mov r0, r8
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r6, #0x30
 	mov r0, r0, lsl #0x10
 	mov r6, r0, lsr #0x10
 	mov r1, r4
 	add r0, r2, #0x1000
-	bl sub_215746C
+	bl CutsceneModelManager__GetModel
 	mov r1, r7, lsl #0x10
 	mov r1, r1, lsr #0x10
 	mov r1, r1, asr #4
@@ -2958,7 +2963,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21548A8(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21549E4(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_21549E4(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2967,24 +2972,24 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21549E4(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r8, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r8
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r8
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r8
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r1, r4, #0x30
 	mov r4, r0
 	add r0, r1, #0x1000
 	mov r1, r7
-	bl sub_215746C
+	bl CutsceneModelManager__GetModel
 	str r6, [r0, #0x48]
 	str r5, [r0, #0x4c]
 	str r4, [r0, #0x50]
@@ -2995,7 +3000,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_21549E4(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154A50(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154A50(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -3004,24 +3009,24 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154A50(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r8, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r8
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r8
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r8
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r1, r4, #0x30
 	mov r4, r0
 	add r0, r1, #0x1000
 	mov r1, r7
-	bl sub_215746C
+	bl CutsceneModelManager__GetModel
 	str r6, [r0, #0x54]
 	str r5, [r0, #0x58]
 	str r4, [r0, #0x5c]
@@ -3032,7 +3037,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154A50(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154ABC(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154ABC(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -3041,16 +3046,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154ABC(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r5
 	add r0, r2, #0x1000
-	bl sub_215746C
+	bl CutsceneModelManager__GetModel
 	ldr r1, [r0, #4]
 	cmp r4, #0
 	bicne r1, r1, #1
@@ -3063,7 +3068,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154ABC(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154B10(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154B10(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -3072,16 +3077,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154B10(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r5
 	add r0, r2, #0x1000
-	bl sub_215746C
+	bl CutsceneModelManager__GetModel
 	ldr r1, [r0, #4]
 	cmp r4, #0
 	bicne r1, r1, #2
@@ -3094,7 +3099,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154B10(void *a1, CutsceneSeq *w
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154B64(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154B64(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -3103,16 +3108,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154B64(void *a1, CutsceneSeq *w
 	mov r4, r1
 	mov r6, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r4, #0x30
 	mov r4, r0
 	mov r1, r5
 	add r0, r2, #0x1000
-	bl sub_215746C
+	bl CutsceneModelManager__GetModel
 	cmp r4, #0
 	add r1, r0, #0x16
 	add r2, r0, #0x10c
@@ -3145,7 +3150,7 @@ _02154BF0:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154BF8(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154BF8(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -3154,15 +3159,15 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154BF8(void *a1, CutsceneSeq *w
 	mov r6, r1
 	mov r7, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	mov r0, r7
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r7
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r3, r0
 	cmp r4, #0
 	add r0, r6, #0x30
@@ -3170,11 +3175,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154BF8(void *a1, CutsceneSeq *w
 	mov r1, r5
 	mov r2, r4
 	add r0, r0, #0x1000
-	bl sub_2157738
+	bl CutsceneModelManager__Func_2157738
 	b _02154C58
 _02154C50:
 	add r0, r0, #0x1000
-	bl sub_215793C
+	bl CutsceneModelManager__Func_215793C
 _02154C58:
 	mov r0, #1
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -3183,7 +3188,7 @@ _02154C58:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadDrawState(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__LoadDrawState(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -3193,11 +3198,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadDrawState(void *a1, CutsceneSeq *
 	mov r6, r0
 	mov r2, #0
 	mov r5, r1
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	mov r4, r0
 	mov r0, r6
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	movs r1, r0
 	mov r2, #0
 	mvnmi r1, #0
@@ -3209,7 +3214,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadDrawState(void *a1, CutsceneSeq *
 	add r0, r5, #0x30
 	mov r1, r4
 	add r0, r0, #0x1000
-	bl CutsceneSeq__LoadBSD
+	bl CutsceneModelManager__LoadDrawState
 	mov r0, r4
 	bl _FreeHEAP_USER
 	mov r0, #1
@@ -3220,7 +3225,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadDrawState(void *a1, CutsceneSeq *
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154CCC(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154CCC(ScriptThread *thread, CutsceneScript *work){
 #ifdef NON_MATCHING
 
 #else
@@ -3229,16 +3234,16 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154CCC(void *a1, CutsceneSeq *w
 	mov r5, r1
 	mov r4, r0
 	mov r1, #0
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r4
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	add r2, r5, #0x30
 	mov r5, r0
 	mov r1, r6
 	add r0, r2, #0x1000
-	bl sub_215746C
+	bl CutsceneModelManager__GetModel
 	add r0, r0, r5, lsl #1
 	add r0, r0, #0x100
 	ldrh r0, [r0, #0xc]
@@ -3247,7 +3252,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154CCC(void *a1, CutsceneSeq *w
 	movne r2, #1
 	moveq r2, #0
 	mov r0, r4
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
 
@@ -3255,20 +3260,21 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__Func_2154CCC(void *a1, CutsceneSeq *w
 #endif
 }
 
-s32 CutsceneSeq__SndCommand__LoadSndArc(void *a1, CutsceneSeq *work)
+CutsceneScriptResult CutsceneScript__SoundCommand_LoadSndArc(ScriptThread *thread, CutsceneScript *work)
 {
-    const char *path = AYKCommand__GetPath(a1, work, 0);
+    const char *path = CutsceneScript__GetFunctionParamString(thread, work, 0);
 
-    sub_2157B08(&work->unknown2156918);
+    CutsceneAudioManager__Func_2157B08(&work->systemManager);
     LoadAudioSndArc(path);
-    return 1;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-s32 CutsceneSeq__SndCommand__SetVolume(void *a1, CutsceneSeq *work)
+CutsceneScriptResult CutsceneScript__SoundCommand_SetVolume(ScriptThread *thread, CutsceneScript *work)
 {
-    s32 musicVolume = AYKCommand__GetValue(a1, 0);
-    s32 sfxVolume   = AYKCommand__GetValue(a1, 1);
-    s32 voiceVolume = AYKCommand__GetValue(a1, 2);
+    s32 musicVolume = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 sfxVolume   = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 voiceVolume = CutsceneScript__GetFunctionParamRegister(thread, 2);
 
     if (musicVolume != -1)
         SetMusicVolume(musicVolume);
@@ -3279,484 +3285,211 @@ s32 CutsceneSeq__SndCommand__SetVolume(void *a1, CutsceneSeq *work)
     if (voiceVolume != -1)
         SetVoiceVolume(voiceVolume);
 
-    return 1;
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__Func_2154DD8(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r4, r1
-	mov r7, r0
-	mov r1, #0
-	bl AYKCommand__GetValue
-	mov r6, r0
-	mov r0, r7
-	mov r1, #1
-	bl AYKCommand__GetValue
-	mov r5, r0
-	mov r0, r7
-	mov r1, #2
-	bl AYKCommand__GetValue
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r6
-	add r0, r2, #0x1000
-	bl Unknown__GetSndHandle
-	mvn r1, #0
-	cmp r4, r1
-	mov r1, r5
-	bne _02154E38
-	bl NNS_SndPlayerSetVolume
-	b _02154E40
-_02154E38:
-	mov r2, r4
-	bl NNS_SndPlayerMoveVolume
-_02154E40:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__LoadSndArcGroup(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r1, #0
-	bl AYKCommand__GetValue
-	ldr r1, =audioManagerSndHeap
-	ldr r1, [r1]
-	bl NNS_SndArcLoadGroup
-	mov r0, #1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__LoadSndArcSeq(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r1, #0
-	bl AYKCommand__GetValue
-	ldr r1, =audioManagerSndHeap
-	ldr r1, [r1]
-	bl NNS_SndArcLoadSeq
-	mov r0, #1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__LoadSndArcWaveArc(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r1, #0
-	bl AYKCommand__GetValue
-	ldr r1, =audioManagerSndHeap
-	ldr r1, [r1]
-	bl NNS_SndArcLoadWaveArc
-	mov r0, #1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__LoadSndArcSeqArc(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r1, #0
-	bl AYKCommand__GetValue
-	ldr r1, =audioManagerSndHeap
-	ldr r1, [r1]
-	bl NNS_SndArcLoadSeqArc
-	mov r0, #1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__PlayTrack(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r6, r1
-	mov r4, r0
-	mov r1, #1
-	bl AYKCommand__GetValue
-	mov r5, r0
-	mov r0, r4
-	mov r1, #2
-	bl AYKCommand__GetValue
-	add r1, r6, #0x30
-	mov r7, r0
-	add r0, r1, #0x1000
-	bl Unknown__GetAvailSoundHandle
-	add r1, r6, #0x30
-	mov r6, r0
-	add r0, r1, #0x1000
-	mov r1, r6
-	bl Unknown__GetSndHandle
-	str r5, [sp]
-	mov r5, r0
-	mvn r1, #0
-	mov r2, r1
-	mov r3, r1
-	bl PlayTrack
-	mov r0, r5
-	mov r2, r7
-	mov r1, #0x7f
-	bl NNS_SndPlayerMoveVolume
-	mov r0, r4
-	mov r2, r6
-	mov r1, #0
-	bl AYKCommand__SetValue
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__PlayTrackEx(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #8
-	mov r6, r1
-	mov r4, r0
-	mov r1, #1
-	bl AYKCommand__GetValue
-	mov r8, r0
-	mov r0, r4
-	mov r1, #2
-	bl AYKCommand__GetValue
-	mov r5, r0
-	mov r0, r4
-	mov r1, #3
-	bl AYKCommand__GetValue
-	mov r7, r0
-	add r0, r6, #0x30
-	add r0, r0, #0x1000
-	bl Unknown__GetAvailSoundHandle
-	add r1, r6, #0x30
-	mov r6, r0
-	add r0, r1, #0x1000
-	mov r1, r6
-	bl Unknown__GetSndHandle
-	str r8, [sp]
-	str r5, [sp, #4]
-	mov r5, r0
-	mvn r1, #0
-	mov r2, r1
-	mov r3, r1
-	bl PlayTrackEx
-	mov r0, r5
-	mov r2, r7
-	mov r1, #0x7f
-	bl NNS_SndPlayerMoveVolume
-	mov r0, r4
-	mov r2, r6
-	mov r1, #0
-	bl AYKCommand__SetValue
-	mov r0, #1
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__PlaySequence(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r6, r1
-	mov r1, #1
-	mov r7, r0
-	bl AYKCommand__GetValue
-	add r1, r6, #0x30
-	mov r5, r0
-	add r0, r1, #0x1000
-	bl Unknown__GetAvailSoundHandle
-	mov r4, r0
-	add r0, r6, #0x30
-	mov r1, r4
-	add r0, r0, #0x1000
-	bl Unknown__GetSndHandle
-	str r5, [sp]
-	mvn r1, #0
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfx
-	mov r0, r7
-	mov r2, r4
-	mov r1, #0
-	bl AYKCommand__SetValue
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__PlaySequenceEx(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	sub sp, sp, #8
-	mov r4, r1
-	mov r7, r0
-	mov r1, #1
-	bl AYKCommand__GetValue
-	mov r6, r0
-	mov r0, r7
-	mov r1, #2
-	bl AYKCommand__GetValue
-	add r1, r4, #0x30
-	mov r5, r0
-	add r0, r1, #0x1000
-	bl Unknown__GetAvailSoundHandle
-	add r1, r4, #0x30
-	mov r4, r0
-	add r0, r1, #0x1000
-	mov r1, r4
-	bl Unknown__GetSndHandle
-	str r6, [sp]
-	str r5, [sp, #4]
-	mvn r1, #0
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	mov r0, r7
-	mov r2, r4
-	mov r1, #0
-	bl AYKCommand__SetValue
-	mov r0, #1
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
-}
-
-s32 CutsceneSeq__SndCommand__PlayVoiceClip(void *a1, CutsceneSeq *work)
+CutsceneScriptResult CutsceneScript__SoundCommand_MoveVolume(ScriptThread *thread, CutsceneScript *work)
 {
-    s32 id       = AYKCommand__GetValue(a1, 1);
-    s32 handleID = Unknown__GetAvailSoundHandle(&work->unknown2156918);
+    s32 id     = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 volume = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 frames = CutsceneScript__GetFunctionParamRegister(thread, 2);
 
-    PlayVoiceClip(Unknown__GetSndHandle(&work->unknown2156918, handleID), AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, id);
-    AYKCommand__SetValue(a1, 0, handleID);
-    return 1;
+    NNSSndHandle *handle = CutsceneAudioManager__GetSoundHandle(&work->systemManager, id);
+    if (frames == -1)
+        NNS_SndPlayerSetVolume(handle, volume);
+    else
+        NNS_SndPlayerMoveVolume(handle, volume, frames);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__PlayVoiceClipEx(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	sub sp, sp, #8
-	mov r4, r1
-	mov r7, r0
-	mov r1, #1
-	bl AYKCommand__GetValue
-	mov r6, r0
-	mov r0, r7
-	mov r1, #2
-	bl AYKCommand__GetValue
-	add r1, r4, #0x30
-	mov r5, r0
-	add r0, r1, #0x1000
-	bl Unknown__GetAvailSoundHandle
-	add r1, r4, #0x30
-	mov r4, r0
-	add r0, r1, #0x1000
-	mov r1, r4
-	bl Unknown__GetSndHandle
-	str r6, [sp]
-	str r5, [sp, #4]
-	mvn r1, #0
-	mov r2, r1
-	mov r3, r1
-	bl PlayVoiceClipEx
-	mov r0, r7
-	mov r2, r4
-	mov r1, #0
-	bl AYKCommand__SetValue
-	mov r0, #1
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__Func_21551CC(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	mov r6, r0
-	mov r1, #0
-	bl AYKCommand__GetValue
-	mov r5, r0
-	mov r0, r6
-	mov r1, #1
-	bl AYKCommand__GetValue
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r5
-	add r0, r2, #0x1000
-	bl Unknown__GetSndHandle
-	mov r1, r4
-	bl NNS_SndPlayerStopSeq
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__Func_2155214(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r1
-	mov r1, #0
-	bl AYKCommand__GetValue
-	add r2, r4, #0x30
-	mov r1, r0
-	add r0, r2, #0x1000
-	bl sub_2157B2C
-	mov r0, #1
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__Func_215523C(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	mov r6, r0
-	mov r1, #0
-	bl AYKCommand__GetValue
-	mov r5, r0
-	mov r0, r6
-	mov r1, #1
-	bl AYKCommand__GetValue
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r5
-	add r0, r2, #0x1000
-	bl Unknown__GetSndHandle
-	ldr r1, =0x0000FFFF
-	mov r2, r4
-	bl NNS_SndPlayerSetTrackPan
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__SndCommand__Func_215528C(void *a1, CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r4, r1
-	mov r6, r0
-	mov r1, #0
-	bl AYKCommand__GetValue
-	mov r5, r0
-	mov r0, r6
-	mov r1, #1
-	bl AYKCommand__GetValue
-	add r2, r4, #0x30
-	mov r4, r0
-	mov r1, r5
-	add r0, r2, #0x1000
-	bl Unknown__GetSndHandle
-	mov r1, r4
-	bl NNS_SndPlayerSetPlayerPriority
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable2__Func_21552D4(void *a1, CutsceneSeq *work)
+CutsceneScriptResult CutsceneScript__SoundCommand_LoadSndArcGroup(ScriptThread *thread, CutsceneScript *work)
 {
-#ifdef NON_MATCHING
+    s32 groupNo = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r2, r1
-	add r1, r2, #0x1000
-	ldr r3, [r1, #0x48]
-	mov r1, r0
-	ldr r0, [r3, #0xc]
-	ldr r3, [r3]
-	blx r3
-	ldmia sp!, {r3, pc}
+    NNS_SndArcLoadGroup(groupNo, audioManagerSndHeap);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-void CutsceneSeq__Main(void)
+CutsceneScriptResult CutsceneScript__SoundCommand_LoadSndArcSeq(ScriptThread *thread, CutsceneScript *work)
 {
-    CutsceneSeq *work = TaskGetWorkCurrent(CutsceneSeq);
+    s32 seqNo = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-    if (work->status == 1)
+    NNS_SndArcLoadSeq(seqNo, audioManagerSndHeap);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_LoadSndArcWaveArc(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 waveArcNo = CutsceneScript__GetFunctionParamRegister(thread, 0);
+
+    NNS_SndArcLoadWaveArc(waveArcNo, audioManagerSndHeap);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_LoadSndArcSeqArc(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 seqArcNo = CutsceneScript__GetFunctionParamRegister(thread, 0);
+
+    NNS_SndArcLoadSeqArc(seqArcNo, audioManagerSndHeap);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_PlayTrack(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 id     = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 frames = CutsceneScript__GetFunctionParamRegister(thread, 2);
+
+    u32 handleID         = CutsceneAudioManager__AllocSoundHandle(&work->systemManager);
+    NNSSndHandle *handle = CutsceneAudioManager__GetSoundHandle(&work->systemManager, handleID);
+
+    PlayTrack(handle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, id);
+    NNS_SndPlayerMoveVolume(handle, AUDIOMANAGER_VOLUME_MAX, frames);
+    AYKCommand__SetRegister(thread, 0, handleID);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_PlayTrackEx(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 seqArcNo = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 id       = CutsceneScript__GetFunctionParamRegister(thread, 2);
+    s32 frames   = CutsceneScript__GetFunctionParamRegister(thread, 3);
+
+    u32 handleID         = CutsceneAudioManager__AllocSoundHandle(&work->systemManager);
+    NNSSndHandle *handle = CutsceneAudioManager__GetSoundHandle(&work->systemManager, handleID);
+
+    PlayTrackEx(handle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, seqArcNo, id);
+    NNS_SndPlayerMoveVolume(handle, AUDIOMANAGER_VOLUME_MAX, frames);
+    AYKCommand__SetRegister(thread, 0, handleID);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_PlaySequence(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 id = CutsceneScript__GetFunctionParamRegister(thread, 1);
+
+    u32 handleID         = CutsceneAudioManager__AllocSoundHandle(&work->systemManager);
+    NNSSndHandle *handle = CutsceneAudioManager__GetSoundHandle(&work->systemManager, handleID);
+
+    PlaySfx(handle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, id);
+    AYKCommand__SetRegister(thread, 0, handleID);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_PlaySequenceEx(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 seqArcNo = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 id       = CutsceneScript__GetFunctionParamRegister(thread, 2);
+
+    u32 handleID         = CutsceneAudioManager__AllocSoundHandle(&work->systemManager);
+    NNSSndHandle *handle = CutsceneAudioManager__GetSoundHandle(&work->systemManager, handleID);
+
+    PlaySfxEx(handle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, seqArcNo, id);
+    AYKCommand__SetRegister(thread, 0, handleID);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_PlayVoiceClip(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 id = CutsceneScript__GetFunctionParamRegister(thread, 1);
+
+    u32 handleID         = CutsceneAudioManager__AllocSoundHandle(&work->systemManager);
+    NNSSndHandle *handle = CutsceneAudioManager__GetSoundHandle(&work->systemManager, handleID);
+
+    PlayVoiceClip(handle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, id);
+    AYKCommand__SetRegister(thread, 0, handleID);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_PlayVoiceClipEx(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 seqArcNo = CutsceneScript__GetFunctionParamRegister(thread, 1);
+    s32 id       = CutsceneScript__GetFunctionParamRegister(thread, 2);
+
+    u32 handleID         = CutsceneAudioManager__AllocSoundHandle(&work->systemManager);
+    NNSSndHandle *handle = CutsceneAudioManager__GetSoundHandle(&work->systemManager, handleID);
+
+    PlayVoiceClipEx(handle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, seqArcNo, id);
+    AYKCommand__SetRegister(thread, 0, handleID);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_FadeSeq(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 id        = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 fadeFrame = CutsceneScript__GetFunctionParamRegister(thread, 1);
+
+    NNSSndHandle *handle = CutsceneAudioManager__GetSoundHandle(&work->systemManager, id);
+
+    NNS_SndPlayerStopSeq(handle, fadeFrame);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_FadeAllSeq(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 fadeFrame = CutsceneScript__GetFunctionParamRegister(thread, 0);
+
+    CutsceneAudioManager__StopAllSeq(&work->systemManager, fadeFrame);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_SetTrackPan(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 id  = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 pan = CutsceneScript__GetFunctionParamRegister(thread, 1);
+
+    NNSSndHandle *handle = CutsceneAudioManager__GetSoundHandle(&work->systemManager, id);
+
+    NNS_SndPlayerSetTrackPan(handle, 0xFFFF, pan);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__SoundCommand_SetPlayerPriority(ScriptThread *thread, CutsceneScript *work)
+{
+    s32 id       = CutsceneScript__GetFunctionParamRegister(thread, 0);
+    s32 priority = CutsceneScript__GetFunctionParamRegister(thread, 1);
+
+    NNSSndHandle *handle = CutsceneAudioManager__GetSoundHandle(&work->systemManager, id);
+
+    NNS_SndPlayerSetPlayerPriority(handle, priority);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__TextFunc__Execute(ScriptThread *thread, CutsceneScript *work)
+{
+    CutsceneTextManager *textManager = work->systemManager.textManager;
+
+    return textManager->commandFunc(textManager->worker, thread, work);
+}
+
+void CutsceneScript__Main(void)
+{
+    CutsceneScript *work = TaskGetWorkCurrent(CutsceneScript);
+
+    if (work->status == CUTSCENESCRIPT_STATUS_READY)
     {
-        if (CutsceneSeq__ProcessSequences(work))
-            work->status = 0;
+        if (CutsceneScript__RunThreads(work))
+            work->status = CUTSCENESCRIPT_STATUS_IDLE;
         else
-            CutsceneSeq__Func_2157A70(&work->unknown2156918);
+            CutsceneSystemManager__Process(&work->systemManager);
     }
 }
 
-NONMATCH_FUNC void Task__Unknown21531C4__Main(void)
+NONMATCH_FUNC void CutsceneFadeTask__Main(void)
 {
 #ifdef NON_MATCHING
 
@@ -3779,7 +3512,7 @@ NONMATCH_FUNC void Task__Unknown21531C4__Main(void)
 	ldr r0, [r4, #8]
 	ldr r1, [r4, #0x14]
 	mov r2, r2, asr #0xc
-	bl CutsceneSeq__ProcessUnknown2157E58
+	bl CutsceneFadeTask__Process
 	ldr r0, [r4, #4]
 	cmp r0, #0x10000
 	ldmltia sp!, {r4, pc}
@@ -3790,78 +3523,59 @@ NONMATCH_FUNC void Task__Unknown21531C4__Main(void)
 #endif
 }
 
-void CutsceneSeq__InitAYK(CutsceneSeq *cutsceneSeq, AYKHeader *ayk, CutsceneSeqCommandFunc1 **funcTable)
+void CutsceneScript__LoadScriptFile(CutsceneScript *work, CutsceneScriptHeader *script, CutsceneScriptEngineCommand **funcTable, s32 unknown)
 {
-    MI_CpuClear32(&cutsceneSeq->ayk, sizeof(cutsceneSeq->ayk));
-    cutsceneSeq->ayk.header = ayk;
+    MI_CpuClear32(&work->runner, sizeof(work->runner));
+    work->runner.script = script;
 
-    if (ayk->block5Offset < (size_t)ayk)
+    // NOTE: this will 100% not work if ported to other architectures where sizeof(s32) != sizeof(void*)
+    if (work->runner.script->rodataAddr < (size_t)script)
     {
-        ayk->block5Offset += (size_t)ayk;
-        cutsceneSeq->ayk.header->blockUserPtr = (u32 *)((u8 *)cutsceneSeq->ayk.header->blockUserPtr + (size_t)ayk);
+        work->runner.script->rodataAddr += (size_t)script;
+        work->runner.script->dataAddr += (size_t)script;
     }
 
-    cutsceneSeq->ayk.funcTable = funcTable;
+    work->runner.funcTable = funcTable;
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Release(CutsceneSeq *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	mov r5, r6
-	movs r0, #0x20
-	beq _0215542C
-	add r4, r6, #0x20
-_02155410:
-	ldr r0, [r5]
-	cmp r0, #0
-	beq _02155420
-	bl _FreeHEAP_SYSTEM
-_02155420:
-	add r5, r5, #4
-	cmp r5, r4
-	bne _02155410
-_0215542C:
-	ldr r2, =0x0000102C
-	mov r1, r6
-	mov r0, #0
-	bl MIi_CpuClear32
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC BOOL CutsceneSeq__ProcessSequences(CutsceneSeq *work)
+void CutsceneAssetSystem__Release(CutsceneScript *work)
 {
-    // https://decomp.me/scratch/4h70y -> 88.64%
-#ifdef NON_MATCHING
+    for (ScriptThread **thread = work->runner.threads; thread != &work->runner.threads[8]; thread++)
+    {
+        if ((*thread) != NULL)
+        {
+            HeapFree(HEAP_SYSTEM, (*thread));
+        }
+    }
+
+    MI_CpuClear32(&work->runner, sizeof(work->runner));
+}
+
+BOOL CutsceneScript__RunThreads(CutsceneScript *work)
+{
+    ScriptThread **thread;
+
     s32 activeCount   = 0;
     BOOL needsDestroy = FALSE;
 
-    for (s32 i = 0; i < 8; i++)
+    for (thread = work->runner.threads; thread != &work->runner.threads[8]; thread++)
     {
-        AYKSequence *seq = work->ayk.sequences[i];
-
-        if (seq != NULL)
+        if ((*thread) != NULL)
         {
-            s32 result = CutsceneSeq__CallFuncTable2(work, seq);
+            CutsceneScriptResult result = CutsceneScript__ExecuteCommand(work, (*thread));
             switch (result)
             {
-                case 2:
-                    HeapFree(HEAP_SYSTEM, seq);
-                    work->ayk.sequences[i] = NULL;
+                case CUTSCENESCRIPT_RESULT_FINISH:
+                    HeapFree(HEAP_SYSTEM, (*thread));
+                    (*thread) = NULL;
                     break;
 
-                case 3:
-                    needsDestroy   = TRUE;
-                    seq->keepAlive = TRUE;
+                case CUTSCENESCRIPT_RESULT_STOP_THREADS:
+                    needsDestroy         = TRUE;
+                    (*thread)->keepAlive = TRUE;
                     break;
 
-                case 4:
+                case CUTSCENESCRIPT_RESULT_SUSPEND:
                     activeCount++;
                     break;
             }
@@ -3871,21 +3585,19 @@ NONMATCH_FUNC BOOL CutsceneSeq__ProcessSequences(CutsceneSeq *work)
     if (needsDestroy)
     {
         activeCount = 0;
-        for (s32 i = 0; i < 8; i++)
+        for (thread = work->runner.threads; thread != &work->runner.threads[8]; thread++)
         {
-            AYKSequence *seq = work->ayk.sequences[i];
-
-            if (seq != NULL)
+            if ((*thread) != NULL)
             {
-                if (seq->keepAlive == TRUE)
+                if ((*thread)->keepAlive != TRUE)
                 {
-                    seq->keepAlive = FALSE;
-                    activeCount++;
+                    HeapFree(HEAP_SYSTEM, (*thread));
+                    (*thread) = NULL;
                 }
                 else
                 {
-                    HeapFree(HEAP_SYSTEM, seq);
-                    work->ayk.sequences[i] = NULL;
+                    (*thread)->keepAlive = FALSE;
+                    activeCount++;
                 }
             }
         }
@@ -3893,237 +3605,126 @@ NONMATCH_FUNC BOOL CutsceneSeq__ProcessSequences(CutsceneSeq *work)
 
     if (activeCount == 0)
     {
-        if (work->ayk.onFinish != NULL)
-            work->ayk.onFinish(work);
+        if (work->runner.onFinish != NULL)
+            work->runner.onFinish(work);
 
         return TRUE;
     }
 
     return FALSE;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	mov r9, r0
-	mov r7, #0
-	mov r8, r7
-	mov r6, r9
-	movs r0, #0x20
-	beq _021554C4
-	add r10, r9, #0x20
-	mov r4, #1
-	mov r5, r7
-_0215546C:
-	ldr r1, [r6]
-	cmp r1, #0
-	beq _021554B8
-	mov r0, r9
-	bl CutsceneSeq__CallFuncTable2
-	cmp r0, #2
-	beq _0215549C
-	cmp r0, #3
-	beq _021554AC
-	cmp r0, #4
-	addeq r7, r7, #1
-	b _021554B8
-_0215549C:
-	ldr r0, [r6]
-	bl _FreeHEAP_SYSTEM
-	str r5, [r6]
-	b _021554B8
-_021554AC:
-	ldr r0, [r6]
-	mov r8, r4
-	str r4, [r0, #0x440]
-_021554B8:
-	add r6, r6, #4
-	cmp r6, r10
-	bne _0215546C
-_021554C4:
-	cmp r8, #0
-	beq _0215551C
-	mov r4, r9
-	mov r7, #0
-	movs r0, #0x20
-	beq _0215551C
-	add r5, r9, #0x20
-	mov r6, r7
-	mov r8, r7
-_021554E8:
-	ldr r0, [r4]
-	cmp r0, #0
-	beq _02155510
-	ldr r1, [r0, #0x440]
-	cmp r1, #1
-	streq r6, [r0, #0x440]
-	addeq r7, r7, #1
-	beq _02155510
-	bl _FreeHEAP_SYSTEM
-	str r8, [r4]
-_02155510:
-	add r4, r4, #4
-	cmp r4, r5
-	bne _021554E8
-_0215551C:
-	cmp r7, #0
-	bne _02155544
-	add r0, r9, #0x1000
-	ldr r1, [r0, #0x28]
-	cmp r1, #0
-	beq _0215553C
-	mov r0, r9
-	blx r1
-_0215553C:
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-_02155544:
-	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC void *CutsceneSeq__InitAYKBlock(CutsceneSeq *work, CutsceneSeqOnFinish onFinish){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	mov r5, r0
-	mov r4, r1
-	mov r8, r5
-	movs r0, #0x20
-	beq _0215558C
-	add r6, r5, #0x20
-	mov r7, #0
-_0215556C:
-	ldr r0, [r8]
-	cmp r0, #0
-	beq _02155580
-	bl _FreeHEAP_USER
-	str r7, [r8]
-_02155580:
-	add r8, r8, #4
-	cmp r8, r6
-	bne _0215556C
-_0215558C:
-	add r0, r5, #0x1000
-	ldr r0, [r0, #0x20]
-	ldr r2, [r0, #0x18]
-	cmp r2, #0
-	beq _021555AC
-	ldr r0, [r0, #0x1c]
-	add r1, r5, #0x20
-	bl MIi_CpuCopy32
-_021555AC:
-	add r0, r5, #0x1000
-	ldr r0, [r0, #0x20]
-	ldr r2, [r0, #0x20]
-	cmp r2, #0
-	beq _021555D4
-	ldr r0, [r0, #0x18]
-	add r1, r5, #0x20
-	add r1, r1, r0, lsl #2
-	mov r0, #0
-	bl MIi_CpuClear32
-_021555D4:
-	add r0, r5, #0x1000
-	str r4, [r0, #0x28]
-	ldr r1, [r0, #0x20]
-	mov r0, r5
-	ldr r1, [r1, #0xc]
-	add r1, r1, #0x80000000
-	bl CutsceneSeq__InitAYKSequence
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-
-// clang-format on
-#endif
-}
-
-AYKSequence *CutsceneSeq__InitAYKSequence(CutsceneSeq *work, u32 offset)
+ScriptThread *CutsceneScript__InitScriptWorker(CutsceneScript *work, CutsceneScriptOnFinish onFinish)
 {
-    return work->ayk.sequences[CutsceneSeq__AllocAYKSequence(work, offset)];
+    for (ScriptThread **thread = work->runner.threads; thread != &work->runner.threads[8]; thread++)
+    {
+        if ((*thread) != NULL)
+        {
+            HeapFree(HEAP_USER, (*thread));
+            (*thread) = NULL;
+        }
+    }
+
+    // init .data section
+    if (work->runner.script->dataSize != 0)
+        MI_CpuCopy32((void *)work->runner.script->dataAddr, work->runner.data, work->runner.script->dataSize);
+
+    // init .bss section
+    if (work->runner.script->bssSize != 0)
+        MI_CpuClear32(&work->runner.data[work->runner.script->dataSize], work->runner.script->bssSize);
+
+    work->runner.onFinish = onFinish;
+
+    return CutsceneScript__InitScriptThread(work, work->runner.script->startAddr + CUTSCENESCRIPT_LOCATION_ROM);
 }
 
-s32 CutsceneSeq__GetAYKCommandLocation(u32 addr)
+ScriptThread *CutsceneScript__InitScriptThread(CutsceneScript *work, u32 pc)
+{
+    return work->runner.threads[CutsceneScript__AllocScriptThread(work, pc)];
+}
+
+CutsceneScriptSection CutsceneScript__GetAYKCommandLocation(u32 addr)
 {
     return ovl07_2155770(addr);
 }
 
-void *CutsceneSeq__GetAYKCommand_String(CutsceneSeq *work, AYKSequence *seq, u32 addr)
+void *CutsceneScript__GetFunctionParamConstant(CutsceneScript *work, ScriptThread *thread, u32 addr)
 {
-    return CutsceneSeq__GetAYKCommand(work, seq, addr);
+    return CutsceneScript__GetScriptPtr(work, thread, addr);
 }
 
-s32 AYKCommand__GetValue(void *command, s32 id)
+s32 CutsceneScript__GetFunctionParamRegister(ScriptThread *thread, s32 id)
 {
-    // TODO: figure out the struct for 'command'
-    return *((s32 *)command + id);
+    return thread->registers[id];
 }
 
-const char *AYKCommand__GetPath_Internal(void *work, CutsceneSeq *seq, s32 id)
+const char *CutsceneScript__GetFunctionParamString_(ScriptThread *thread, CutsceneScript *cutscene, s32 id)
 {
-    u32 addr = AYKCommand__GetValue(work, id);
+    u32 addr = CutsceneScript__GetFunctionParamRegister(thread, id);
     if (addr == 0)
         return NULL;
 
-    return CutsceneSeq__GetAYKCommand_String(seq, 0, addr);
+    return CutsceneScript__GetFunctionParamConstant(cutscene, NULL, addr);
 }
 
-const char *AYKCommand__GetPath(void *work, CutsceneSeq *seq, s32 id)
+const char *CutsceneScript__GetFunctionParamString(ScriptThread *thread, CutsceneScript *cutscene, s32 id)
 {
-    return (const char *)AYKCommand__GetPath_Internal(work, seq, id);
+    return (const char *)CutsceneScript__GetFunctionParamString_(thread, cutscene, id);
 }
 
-void AYKCommand__SetValue(AYKSequence *work, u32 id, s32 value)
+void AYKCommand__SetRegister(ScriptThread *work, u32 id, s32 value)
 {
-    work->values[id] = value;
+    work->registers[id] = value;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__CallFuncTable2(CutsceneSeq *work, AYKSequence *aykSeq)
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ExecuteCommand(CutsceneScript *work, ScriptThread *thread)
 {
     // https://decomp.me/scratch/RgFfq -> 91.64%
 #ifdef NON_MATCHING
-    s32 result;
+    CutsceneScriptResult result;
+
+    s32 pc;
+    s32 *nextPC;
+
+    ScriptCommand *command;
 
     do
     {
-        s32 offset = *AYKSequence__GetCtrlValue(aykSeq, 15);
+        pc = *CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
 
-        // TODO: figure out the struct for 'command'
-        void *command = CutsceneSeq__GetAYKCommand(work, aykSeq, offset);
-        if (*((u8 *)command + 2))
+        command = CutsceneScript__GetScriptPtr(work, thread, pc);
+        if (command->param2 != 0)
         {
-            s32 *nextOffset = AYKSequence__GetCtrlValue(aykSeq, 15);
-            *nextOffset += 3; // 3 * sizeof(s32)
+            nextPC = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+            *nextPC += 3; // 3 * sizeof(s32)
         }
-        else if (*((u8 *)command + 1))
+        else if (command->param1 != 0)
         {
-            s32 *nextOffset = AYKSequence__GetCtrlValue(aykSeq, 15);
-            *nextOffset += 2; // 2 * sizeof(s32)
+            nextPC = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+            *nextPC += 2; // 2 * sizeof(s32)
         }
         else
         {
-            s32 *nextOffset = AYKSequence__GetCtrlValue(aykSeq, 15);
-            *nextOffset += 1; // 1 * sizeof(s32)
+            nextPC = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+            *nextPC += 1; // 1 * sizeof(s32)
         }
 
-        result = CutsceneSeq__FuncTableList2[((int)*(u8 *)command >> 4) & 0xF][*(u8 *)command & 0xF](work, aykSeq, command);
+        result = CutsceneScript__InstructionTable[(command->type >> 4) & 0xF][command->type & 0xF](work, thread, command);
 
-        if (result == 5)
+        if (result == CUTSCENESCRIPT_RESULT_SUSPEND_RETURN)
         {
-            *AYKSequence__GetCtrlValue(aykSeq, 15) = offset;
-            result                                 = 4;
+            *CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC) = pc;
+            result                                                           = CUTSCENESCRIPT_RESULT_SUSPEND;
         }
 
-    } while (result == 1);
+    } while (result == CUTSCENESCRIPT_RESULT_CONTINUE);
 
     return result;
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r11, #0xf
-	ldr r4, =CutsceneSeq__FuncTableList2
+	ldr r4, =CutsceneScript__InstructionTable
 	mov r10, r0
 	mov r9, r1
 	mov r5, r11
@@ -4132,19 +3733,19 @@ NONMATCH_FUNC s32 CutsceneSeq__CallFuncTable2(CutsceneSeq *work, AYKSequence *ay
 _02155688:
 	mov r0, r9
 	mov r1, r7
-	bl AYKSequence__GetCtrlValue
+	bl CutsceneScript__GetRegister
 	ldr r2, [r0]
 	mov r0, r10
 	str r2, [sp]
 	mov r1, r9
-	bl CutsceneSeq__GetAYKCommand
+	bl CutsceneScript__GetScriptPtr
 	mov r8, r0
 	ldrb r0, [r8, #2]
 	cmp r0, #0
 	beq _021556D4
 	mov r0, r9
 	mov r1, r6
-	bl AYKSequence__GetCtrlValue
+	bl CutsceneScript__GetRegister
 	ldr r1, [r0]
 	add r1, r1, #3
 	str r1, [r0]
@@ -4155,14 +3756,14 @@ _021556D4:
 	mov r0, r9
 	beq _021556FC
 	mov r1, r5
-	bl AYKSequence__GetCtrlValue
+	bl CutsceneScript__GetRegister
 	ldr r1, [r0]
 	add r1, r1, #2
 	str r1, [r0]
 	b _02155710
 _021556FC:
 	mov r1, r11
-	bl AYKSequence__GetCtrlValue
+	bl CutsceneScript__GetRegister
 	ldr r1, [r0]
 	add r1, r1, #1
 	str r1, [r0]
@@ -4181,7 +3782,7 @@ _02155710:
 	bne _02155758
 	mov r0, r9
 	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
+	bl CutsceneScript__GetRegister
 	ldr r1, [sp]
 	str r1, [r0]
 	mov r0, #4
@@ -4194,368 +3795,192 @@ _02155758:
 #endif
 }
 
-s32 *AYKSequence__GetCtrlValue(AYKSequence *work, u32 id)
+s32 *CutsceneScript__GetRegister(ScriptThread *work, u32 id)
 {
-    return &work->values[id];
+    return &work->registers[id];
 }
 
-s32 ovl07_2155770(u32 addr)
+CutsceneScriptSection ovl07_2155770(u32 addr)
 {
-    if (addr < 0x70000000)
-        return 0;
+    if (addr < CUTSCENESCRIPT_LOCATION_STACK)
+        return CUTSCENESCRIPT_SECTION_DATA;
 
-    if (addr < 0x80000000)
-        return 1;
+    if (addr < CUTSCENESCRIPT_LOCATION_ROM)
+        return CUTSCENESCRIPT_SECTION_STACK;
 
-    return 2;
+    return CUTSCENESCRIPT_SECTION_ROM;
 }
 
-void *CutsceneSeq__GetAYKCommand(CutsceneSeq *work, AYKSequence *seq, u32 addr)
+void *CutsceneScript__GetScriptPtr(CutsceneScript *work, ScriptThread *thread, u32 addr)
 {
-    u32 location = CutsceneSeq__GetAYKCommandLocation(addr);
+    u32 section = CutsceneScript__GetAYKCommandLocation(addr);
 
-    switch (location)
+    switch (section)
     {
-        case 0:
-            return &work->ayk.data[addr];
+        case CUTSCENESCRIPT_SECTION_DATA:
+            return &work->runner.data[addr];
 
-        case 1:
-            return &seq->data[addr - 0x70000000];
+        case CUTSCENESCRIPT_SECTION_STACK:
+            return &thread->data[addr - CUTSCENESCRIPT_LOCATION_STACK];
 
-        case 2:
-            return &work->ayk.header->data[addr + 0x80000000];
+        case CUTSCENESCRIPT_SECTION_ROM:
+            return &work->runner.script->data[addr + CUTSCENESCRIPT_LOCATION_ROM];
     }
 
     return NULL;
 }
 
-void AYKSequence__Func_21557FC(void *a1, s32 value)
+void ScriptThread__PushStack(ScriptThread *work, s32 value)
 {
-    s32 *unknownPtr = AYKSequence__GetCtrlValue(a1, 14);
-    (*unknownPtr)--;
+    s32 *sp = CutsceneScript__GetRegister(work, CUTSCENESCRIPT_REGISTER_SP);
+    (*sp)--;
 
-    *(s32 *)CutsceneSeq__GetAYKCommand(NULL, a1, *unknownPtr) = value;
+    *(s32 *)CutsceneScript__GetScriptPtr(NULL, work, *sp) = value;
 }
 
-NONMATCH_FUNC s32 AYKSequence__Func_2155834(void *a1)
+s32 ScriptThread__PopStack(ScriptThread *work)
 {
-#ifdef NON_MATCHING
-    s32 *unknownPtr = AYKSequence__GetCtrlValue(a1, 14);
-    (*unknownPtr)++;
+    s32 *sp = CutsceneScript__GetRegister(work, CUTSCENESCRIPT_REGISTER_SP);
 
-    return *(s32 *)CutsceneSeq__GetAYKCommand(NULL, a1, *unknownPtr);
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r1, #0xe
-	mov r4, r0
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r0]
-	mov r1, r4
-	add r3, r2, #1
-	str r3, [r0]
-	mov r0, #0
-	bl CutsceneSeq__GetAYKCommand
-	ldr r0, [r0]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    return *(s32 *)CutsceneScript__GetScriptPtr(NULL, work, (*sp)++);
 }
 
-NONMATCH_FUNC void *CutsceneSeq__GetAYKCommand_2155864(s32 a1, s32 *a2, s32 a3, CutsceneSeq *work, AYKSequence *a5){
-#ifdef NON_MATCHING
+void *CutsceneScript__GetScriptParam(s32 type, s32 *param, s32 unknown, CutsceneScript *work, ScriptThread *thread)
+{
+    s32 *paramPtr = param;
+    switch (type & 3)
+    {
+        case 1:
+            // param is a register (index)
+            paramPtr = CutsceneScript__GetRegister(thread, *param);
+            break;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r0
-	and r0, r7, #3
-	ldr r4, [sp, #0x18]
-	mov r6, r1
-	mov r5, r3
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	b _021558CC
-_02155888: // jump table
-	b _021558C4 // case 0
-	b _02155898 // case 1
-	b _021558AC // case 2
-	b _021558C0 // case 3
-_02155898:
-	ldr r1, [r6]
-	mov r0, r4
-	bl AYKSequence__GetCtrlValue
-	mov r6, r0
-	b _021558D0
-_021558AC:
-	ldr r2, [r6]
-	mov r0, r5
-	mov r1, r4
-	bl CutsceneSeq__GetAYKCommand
-	mov r6, r0
-_021558C0:
-	b _021558D0
-_021558C4:
-	mov r6, #0
-	b _021558D0
-_021558CC:
-	mov r6, #0
-_021558D0:
-	mov r0, r7, asr #2
-	and r0, r0, #3
-	cmp r0, #1
-	beq _021558EC
-	cmp r0, #2
-	beq _02155904
-	b _0215592C
-_021558EC:
-	ldr r2, [r6]
-	mov r0, r5
-	mov r1, r4
-	bl CutsceneSeq__GetAYKCommand
-	mov r6, r0
-	b _0215592C
-_02155904:
-	mov r0, r4
-	mov r1, r7, asr #4
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r0]
-	ldr r3, [r6]
-	mov r0, r5
-	mov r1, r4
-	add r2, r3, r2
-	bl CutsceneSeq__GetAYKCommand
-	mov r6, r0
-_0215592C:
-	mov r0, r6
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+        case 2:
+            // param is a constant (script address)
+            paramPtr = CutsceneScript__GetScriptPtr(work, thread, *param);
+            break;
 
-// clang-format on
-#endif
+        case 3:
+            // param is a constant value
+            paramPtr = param;
+            break;
+
+        case 0:
+            paramPtr = NULL;
+            break;
+
+        default:
+            paramPtr = NULL;
+            break;
+    }
+
+    switch ((type >> 2) & 3)
+    {
+        case 1:
+            paramPtr = CutsceneScript__GetScriptPtr(work, thread, *paramPtr);
+            break;
+
+        case 2:
+            s32 *reg = CutsceneScript__GetRegister(thread, (type >> 4));
+            paramPtr = CutsceneScript__GetScriptPtr(work, thread, *paramPtr + *reg);
+            break;
+    }
+
+    return paramPtr;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__AllocAYKSequence(CutsceneSeq *work, u32 offset){
-#ifdef NON_MATCHING
+s32 CutsceneScript__AllocScriptThread(CutsceneScript *work, u32 pc)
+{
+    s32 i = 0;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r1
-	mov r4, #0
-_02155940:
-	ldr r1, [r0]
-	mov r5, r0
-	cmp r1, #0
-	beq _02155960
-	add r4, r4, #1
-	cmp r4, #8
-	add r0, r0, #4
-	blt _02155940
-_02155960:
-	cmp r4, #8
-	mvnge r0, #0
-	ldmgeia sp!, {r4, r5, r6, pc}
-	ldr r0, =0x00000444
-	bl _AllocHeadHEAP_SYSTEM
-	ldr r2, =0x00000444
-	str r0, [r5]
-	mov r1, r0
-	mov r0, #0
-	bl MIi_CpuClear32
-	ldr r0, [r5]
-	mov r1, #0xe
-	bl AYKSequence__GetCtrlValue
-	ldr r2, =0x70000100
-	mov r1, #0xf
-	str r2, [r0]
-	ldr r0, [r5]
-	bl AYKSequence__GetCtrlValue
-	str r6, [r0]
-	mov r0, r4
-	ldmia sp!, {r4, r5, r6, pc}
+    ScriptThread **thread;
+    for (i = 0; i < 8; i++)
+    {
+        thread = &work->runner.threads[i];
 
-// clang-format on
-#endif
+        if (*thread == NULL)
+            break;
+    }
+
+    if (i >= 8)
+        return -1;
+
+    *thread = HeapAllocHead(HEAP_SYSTEM, sizeof(ScriptThread));
+    MI_CpuClear32(*thread, sizeof(ScriptThread));
+
+    *CutsceneScript__GetRegister(*thread, CUTSCENESCRIPT_REGISTER_SP) = CUTSCENESCRIPT_LOCATION_STACK + 0x100;
+    *CutsceneScript__GetRegister(*thread, CUTSCENESCRIPT_REGISTER_PC) = pc;
+
+    return i;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable13__Func_21559BC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r0, #3
-	bx lr
-
-// clang-format on
-#endif
+CutsceneScriptResult CutsceneScript__EndCommand_StopThreads(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    return CUTSCENESCRIPT_RESULT_STOP_THREADS;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable13__Func_21559C4(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r0, #1
-	bx lr
-
-// clang-format on
-#endif
+CutsceneScriptResult CutsceneScript__EndCommand_Continue(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable13__Func_21559CC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r0, #4
-	bx lr
-
-// clang-format on
-#endif
+CutsceneScriptResult CutsceneScript__EndCommand_Suspend(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    return CUTSCENESCRIPT_RESULT_SUSPEND;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_21559D4(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ArithmeticCommand_Assign(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	mov r0, #1
-	str r1, [r4]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    (*value1) = (*value2);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155A30(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ArithmeticCommand_Add(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	ldr r2, [r4]
-	mov r0, #1
-	add r1, r2, r1
-	str r1, [r4]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    (*value1) += (*value2);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155A94(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ArithmeticCommand_Subtract(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	ldr r2, [r4]
-	mov r0, #1
-	sub r1, r2, r1
-	str r1, [r4]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    (*value1) -= (*value2);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155AF8(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ArithmeticCommand_Multiply(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	ldr r2, [r4]
-	mov r0, #1
-	mul r1, r2, r1
-	str r1, [r4]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    (*value1) *= (*value2);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155B5C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ArithmeticCommand_Divide(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    // https://decomp.me/scratch/8nmw4 -> 99.84%
 #ifdef NON_MATCHING
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
+    s32 *reg    = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT);
 
+    (*reg) = (*value1) / (*value2);
+    (*value1) /= (*value2);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
@@ -4567,18 +3992,18 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155B5C(CutsceneSeq *work, AYKS
 	mov r3, r5
 	add r1, r4, #4
 	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
+	bl CutsceneScript__GetScriptParam
 	str r7, [sp]
 	mov r6, r0
 	ldrb r0, [r4, #2]
 	mov r3, r5
 	add r1, r4, #8
 	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
+	bl CutsceneScript__GetScriptParam
 	mov r5, r0
 	mov r0, r7
 	mov r1, #0xd
-	bl AYKSequence__GetCtrlValue
+	bl CutsceneScript__GetRegister
 	mov r4, r0
 	ldr r0, [r6]
 	ldr r1, [r5]
@@ -4595,75 +4020,141 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155B5C(CutsceneSeq *work, AYKS
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155BDC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ArithmeticCommand_Negate(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	str r1, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	rsb r1, r1, #0
-	str r1, [r0]
-	mov r0, #1
-	ldmia sp!, {r3, pc}
+    (*value1) = -(*value1);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155C0C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ArithmeticCommand_Increment(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	str r1, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	add r1, r1, #1
-	str r1, [r0]
-	mov r0, #1
-	ldmia sp!, {r3, pc}
+    (*value1)++;
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155C3C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ArithmeticCommand_Decrement(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	str r1, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	sub r1, r1, #1
-	str r1, [r0]
-	mov r0, #1
-	ldmia sp!, {r3, pc}
+    (*value1)--;
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155C6C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ArithmeticCommand_ShiftR(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
+    (*value1) >>= (*value2);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__BitwiseCommand_BitwiseAND(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
+
+    (*value1) &= (*value2);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__BitwiseCommand_LogicalAND(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
+
+    (*value1) = (*value1) != 0 && (*value2) != 0;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__BitwiseCommand_BitwiseOR(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
+
+    (*value1) |= (*value2);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__BitwiseCommand_LogicalOR(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
+
+    (*value1) = (*value1) != 0 || (*value2) != 0;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__BitwiseCommand_XOR(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
+
+    (*value1) ^= (*value2);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__BitwiseCommand_BitwiseNot(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+
+    (*value1) = ~(*value1);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__BitwiseCommand_LogicalNot(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+
+    (*value1) = !(*value1);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__BitwiseCommand_ShiftL(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
+
+    (*value1) <<= (*value2);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+CutsceneScriptResult CutsceneScript__BitwiseCommand_ShiftR(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    u32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    u32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
+
+    (*value1) >>= (*value2);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
+}
+
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BitwiseCommand_Func_215600C(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    // https://decomp.me/scratch/seQOv -> 98.89%
+#ifdef NON_MATCHING
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
+
+    (*value1) %= (*value2);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
@@ -4676,346 +4167,14 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable19__Func_2155C6C(CutsceneSeq *work, AYKS
 	mov r3, r6
 	add r1, r5, #4
 	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
+	bl CutsceneScript__GetScriptParam
 	str r4, [sp]
 	mov r4, r0
 	ldrb r0, [r5, #2]
 	mov r3, r6
 	add r1, r5, #8
 	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	ldr r2, [r4]
-	mov r0, #1
-	mov r1, r2, asr r1
-	str r1, [r4]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155CD0(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	ldr r2, [r4]
-	mov r0, #1
-	and r1, r2, r1
-	str r1, [r4]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155D34(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r4]
-	cmp r1, #0
-	ldrne r0, [r0]
-	cmpne r0, #0
-	movne r0, #1
-	moveq r0, #0
-	str r0, [r4]
-	mov r0, #1
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155DA4(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	ldr r2, [r4]
-	mov r0, #1
-	orr r1, r2, r1
-	str r1, [r4]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155E08(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r4]
-	cmp r1, #0
-	ldreq r0, [r0]
-	cmpeq r0, #0
-	movne r0, #1
-	moveq r0, #0
-	str r0, [r4]
-	mov r0, #1
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155E78(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	ldr r2, [r4]
-	mov r0, #1
-	eor r1, r2, r1
-	str r1, [r4]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155EDC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	str r1, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	mvn r1, r1
-	str r1, [r0]
-	mov r0, #1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155F0C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	str r1, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	cmp r1, #0
-	moveq r1, #1
-	movne r1, #0
-	str r1, [r0]
-	mov r0, #1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155F44(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	ldr r2, [r4]
-	mov r0, #1
-	mov r1, r2, lsl r1
-	str r1, [r4]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2155FA8(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	ldr r2, [r4]
-	mov r0, #1
-	mov r1, r2, lsr r1
-	str r1, [r4]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_215600C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
+	bl CutsceneScript__GetScriptParam
 	ldr r2, [r0]
 	ldr r1, [r4]
 	rsb r0, r2, #0x20
@@ -5030,9 +4189,15 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_215600C(CutsceneSeq *work, AYKS
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2156078(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BitwiseCommand_Func_2156078(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
 #ifdef NON_MATCHING
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
+    (*value1) %= (*value2);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, lr}
@@ -5045,14 +4210,14 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2156078(CutsceneSeq *work, AYKS
 	mov r3, r6
 	add r1, r5, #4
 	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
+	bl CutsceneScript__GetScriptParam
 	str r4, [sp]
 	mov r4, r0
 	ldrb r0, [r5, #2]
 	mov r3, r6
 	add r1, r5, #8
 	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
+	bl CutsceneScript__GetScriptParam
 	ldr r2, [r0]
 	ldr r1, [r4]
 	rsb r0, r2, #0x20
@@ -5067,620 +4232,218 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable20__Func_2156078(CutsceneSeq *work, AYKS
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_21560E4(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ComparisonCommand_Equal(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r4]
-	ldr r0, [r0]
-	cmp r1, r0
-	moveq r0, #1
-	movne r0, #0
-	str r0, [r4]
-	mov r0, #1
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    (*value1) = (*value1) == (*value2);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_2156150(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ComparisonCommand_NotEqual(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r4]
-	ldr r0, [r0]
-	cmp r1, r0
-	movne r0, #1
-	moveq r0, #0
-	str r0, [r4]
-	mov r0, #1
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    (*value1) = (*value1) != (*value2);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_21561BC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ComparisonCommand_Less(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r4]
-	ldr r0, [r0]
-	cmp r1, r0
-	movlt r0, #1
-	movge r0, #0
-	str r0, [r4]
-	mov r0, #1
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    (*value1) = (*value1) < (*value2);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_2156228(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ComparisonCommand_LessEqual(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r4]
-	ldr r0, [r0]
-	cmp r1, r0
-	movle r0, #1
-	movgt r0, #0
-	str r0, [r4]
-	mov r0, #1
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    (*value1) = (*value1) <= (*value2);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_2156294(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ComparisonCommand_Greater(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r4]
-	ldr r0, [r0]
-	cmp r1, r0
-	movgt r0, #1
-	movle r0, #0
-	str r0, [r4]
-	mov r0, #1
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    (*value1) = (*value1) > (*value2);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable16__Func_2156300(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__ComparisonCommand_GreaterEqual(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	mov r5, r2
-	mov r6, r0
-	str r4, [sp]
-	ldrb r0, [r5, #1]
-	mov r3, r6
-	add r1, r5, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r4, [sp]
-	mov r4, r0
-	ldrb r0, [r5, #2]
-	mov r3, r6
-	add r1, r5, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r4]
-	ldr r0, [r0]
-	cmp r1, r0
-	movge r0, #1
-	movlt r0, #0
-	str r0, [r4]
-	mov r0, #1
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    (*value1) = (*value1) >= (*value2);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable12__Func_215636C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__UnknownCommand_215636C(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 15, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r6, r1
-	mov r4, r2
-	mov r7, r0
-	str r6, [sp]
-	ldrb r0, [r4, #1]
-	mov r3, r7
-	add r1, r4, #4
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r6, [sp]
-	mov r5, r0
-	ldrb r0, [r4, #2]
-	mov r3, r7
-	add r1, r4, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r4, r0
-	mov r0, r6
-	mov r1, #0xd
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r5]
-	ldr r1, [r4]
-	sub r1, r2, r1
-	str r1, [r0]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    s32 *reg = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT);
 
-// clang-format on
-#endif
+    (*reg) = (*value1) - (*value2);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable12__Func_21563D8(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__UnknownCommand_21563D8(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 15, work, thread);
+    s32 *value2 = CutsceneScript__GetScriptParam(command->param2, GetScriptParam2(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r6, r1
-	mov r4, r2
-	mov r7, r0
-	str r6, [sp]
-	ldrb r0, [r4, #1]
-	mov r3, r7
-	add r1, r4, #4
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	str r6, [sp]
-	mov r5, r0
-	ldrb r0, [r4, #2]
-	mov r3, r7
-	add r1, r4, #8
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r4, r0
-	mov r0, r6
-	mov r1, #0xd
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r5]
-	ldr r1, [r4]
-	and r1, r2, r1
-	str r1, [r0]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    s32 *reg = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT);
 
-// clang-format on
-#endif
+    (*reg) = (*value1) & (*value2);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_2156444(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__IfCommand_Branch(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 8, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r1
-	str r5, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #8
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r4, r0
-	mov r0, r5
-	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r0]
-	ldr r1, [r4]
-	add r1, r2, r1
-	str r1, [r0]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    s32 *reg = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+    *reg += *value1;
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_215648C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__IfCommand_IfEqual(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 8, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r1
-	str r5, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #8
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r4, r0
-	mov r0, r5
-	mov r1, #0xd
-	bl AYKSequence__GetCtrlValue
-	ldr r0, [r0]
-	cmp r0, #0
-	bne _021564E4
-	mov r0, r5
-	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r0]
-	ldr r1, [r4]
-	add r1, r2, r1
-	str r1, [r0]
-_021564E4:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    if ((*CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT)) == 0)
+    {
+        s32 *reg = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+        *reg += *value1;
+    }
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_21564EC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__IfCommand_IfNotEqual(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 8, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r1
-	str r5, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #8
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r4, r0
-	mov r0, r5
-	mov r1, #0xd
-	bl AYKSequence__GetCtrlValue
-	ldr r0, [r0]
-	cmp r0, #0
-	beq _02156544
-	mov r0, r5
-	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r0]
-	ldr r1, [r4]
-	add r1, r2, r1
-	str r1, [r0]
-_02156544:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    if ((*CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT)) != 0)
+    {
+        s32 *reg = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+        *reg += *value1;
+    }
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_215654C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__IfCommand_IfGreaterEqual(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 8, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r1
-	str r5, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #8
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r4, r0
-	mov r0, r5
-	mov r1, #0xd
-	bl AYKSequence__GetCtrlValue
-	ldr r0, [r0]
-	cmp r0, #0
-	bge _021565A4
-	mov r0, r5
-	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r0]
-	ldr r1, [r4]
-	add r1, r2, r1
-	str r1, [r0]
-_021565A4:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    if ((*CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT)) < 0)
+    {
+        s32 *reg = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+        *reg += *value1;
+    }
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_21565AC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__IfCommand_IfGreater(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 8, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r1
-	str r5, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #8
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r4, r0
-	mov r0, r5
-	mov r1, #0xd
-	bl AYKSequence__GetCtrlValue
-	ldr r0, [r0]
-	cmp r0, #0
-	bgt _02156604
-	mov r0, r5
-	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r0]
-	ldr r1, [r4]
-	add r1, r2, r1
-	str r1, [r0]
-_02156604:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    if ((*CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT)) <= 0)
+    {
+        s32 *reg = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+        *reg += *value1;
+    }
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_215660C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__IfCommand_IfLessEqual(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 8, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r1
-	str r5, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #8
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r4, r0
-	mov r0, r5
-	mov r1, #0xd
-	bl AYKSequence__GetCtrlValue
-	ldr r0, [r0]
-	cmp r0, #0
-	ble _02156664
-	mov r0, r5
-	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r0]
-	ldr r1, [r4]
-	add r1, r2, r1
-	str r1, [r0]
-_02156664:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    if ((*CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT)) > 0)
+    {
+        s32 *reg = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+        *reg += *value1;
+    }
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable18__Func_215666C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__IfCommand_IfLess(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 8, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r1
-	str r5, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #8
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r4, r0
-	mov r0, r5
-	mov r1, #0xd
-	bl AYKSequence__GetCtrlValue
-	ldr r0, [r0]
-	cmp r0, #0
-	blt _021566C4
-	mov r0, r5
-	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r0]
-	ldr r1, [r4]
-	add r1, r2, r1
-	str r1, [r0]
-_021566C4:
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    if ((*CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT)) >= 0)
+    {
+        s32 *reg = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+        *reg += *value1;
+    }
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable15__Func_21566CC(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__FunctionCommand_CallFunction(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 8, work, thread);
+    s32 *reg    = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r1
-	str r5, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #8
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r4, r0
-	mov r0, r5
-	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
-	ldr r1, [r0]
-	mov r0, r5
-	bl AYKSequence__Func_21557FC
-	mov r0, r5
-	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
-	ldr r2, [r0]
-	ldr r1, [r4]
-	add r1, r2, r1
-	str r1, [r0]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    ScriptThread__PushStack(thread, *reg);
 
-// clang-format on
-#endif
+    reg = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+    *reg += *value1;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable15__Func_215672C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__FunctionCommand_EndFunction(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r1
-	str r4, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r5, r0
-	mov r0, r4
-	mov r1, #0xe
-	bl AYKSequence__GetCtrlValue
-	ldr r3, [r0]
-	ldr r2, [r5]
-	mov r1, #0xe
-	add r2, r3, r2
-	str r2, [r0]
-	mov r0, r4
-	bl AYKSequence__GetCtrlValue
-	ldr r1, [r0]
-	ldr r0, =0x70000100
-	cmp r1, r0
-	movge r0, #2
-	ldmgeia sp!, {r3, r4, r5, pc}
-	mov r0, r4
-	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
-	mov r5, r0
-	mov r0, r4
-	bl AYKSequence__Func_2155834
-	str r0, [r5]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    s32 *reg1 = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_SP);
+    *reg1 += *value1;
 
-// clang-format on
-#endif
+    if (*CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_SP) >= CUTSCENESCRIPT_LOCATION_STACK + 0x100)
+        return CUTSCENESCRIPT_RESULT_FINISH;
+
+    s32 *reg2 = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
+    *reg2     = ScriptThread__PopStack(thread);
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable15__Func_21567B4(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__FunctionCommand_CallFunctionASync(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    // https://decomp.me/scratch/HmRGr -> 94.36%
 #ifdef NON_MATCHING
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 8, work, thread);
+    s32 *reg    = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_PC);
 
+    s32 id                                                               = CutsceneScript__AllocScriptThread(work, *value1 + *reg);
+    *CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_RESULT) = id;
+
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
@@ -5692,21 +4455,21 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable15__Func_21567B4(CutsceneSeq *work, AYKS
 	add r1, r2, #4
 	mov r3, r6
 	mov r2, #8
-	bl CutsceneSeq__GetAYKCommand_2155864
+	bl CutsceneScript__GetScriptParam
 	mov r4, r0
 	mov r0, r5
 	mov r1, #0xf
-	bl AYKSequence__GetCtrlValue
+	bl CutsceneScript__GetRegister
 	ldr r1, [r0]
 	ldr r2, [r4]
 	mov r0, r6
 	add r1, r2, r1
 	str r1, [sp, #4]
-	bl CutsceneSeq__AllocAYKSequence
+	bl CutsceneScript__AllocScriptThread
 	mov r4, r0
 	mov r0, r5
 	mov r1, #0xd
-	bl AYKSequence__GetCtrlValue
+	bl CutsceneScript__GetRegister
 	str r4, [r0]
 	mov r0, #1
 	add sp, sp, #8
@@ -5716,176 +4479,78 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable15__Func_21567B4(CutsceneSeq *work, AYKS
 #endif
 }
 
-s32 CutsceneSeq__FuncTable15__Func_2156824(CutsceneSeq *work, AYKSequence *aykSeq, void *command)
+CutsceneScriptResult CutsceneScript__FunctionCommand_End(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
 {
-    return 2;
+    return CUTSCENESCRIPT_RESULT_FINISH;
 }
 
-s32 CutsceneSeq__CallFuncTable(CutsceneSeq *work, AYKSequence *aykSeq, void *command)
+CutsceneScriptResult CutsceneScript__EngineCommand_Execute(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
 {
-    void *unknown    = CutsceneSeq__GetAYKCommand_2155864(*((u8 *)command + 1), (s32 *)command + 1, 15, work, aykSeq);
-    s32 *unknownPtr  = AYKSequence__GetCtrlValue(aykSeq, 14);
-    void *commandPtr = CutsceneSeq__GetAYKCommand(work, aykSeq, *unknownPtr);
+    s16 *value1      = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 15, work, thread);
+    s32 *reg         = CutsceneScript__GetRegister(thread, CUTSCENESCRIPT_REGISTER_SP);
+    void *commandPtr = CutsceneScript__GetScriptPtr(work, thread, *reg);
 
-    return work->ayk.funcTable[*((s16 *)unknown + 1)][*(s16 *)unknown](commandPtr, work);
+    return work->runner.funcTable[value1[1]][value1[0]](commandPtr, work);
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable14__Func_215689C(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__StackCommand_Load(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 15, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #4
-	mov r4, r1
-	str r4, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #0xf
-	bl CutsceneSeq__GetAYKCommand_2155864
-	ldr r1, [r0]
-	mov r0, r4
-	bl AYKSequence__Func_21557FC
-	mov r0, #1
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, pc}
+    ScriptThread__PushStack(thread, *value1);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable14__Func_21568D8(CutsceneSeq *work, AYKSequence *aykSeq, void *command){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneScript__StackCommand_Store(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command)
+{
+    s32 *value1 = CutsceneScript__GetScriptParam(command->param1, GetScriptParam1(command), 3, work, thread);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r1
-	str r5, [sp]
-	mov r3, r0
-	ldrb r0, [r2, #1]
-	add r1, r2, #4
-	mov r2, #3
-	bl CutsceneSeq__GetAYKCommand_2155864
-	mov r4, r0
-	mov r0, r5
-	bl AYKSequence__Func_2155834
-	str r0, [r4]
-	mov r0, #1
-	ldmia sp!, {r3, r4, r5, pc}
+    *value1 = ScriptThread__PopStack(thread);
 
-// clang-format on
-#endif
+    return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-NONMATCH_FUNC void CutsceneSeq__GetUnknown2157E58(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0]
-	bx lr
-
-// clang-format on
-#endif
+void *CutsceneScript__GetFadeManager(CutsceneSystemManager *work)
+{
+    return work->fadeManager;
 }
 
-NONMATCH_FUNC void CutsceneSeq__InitUnknown2156918(Unknown2156918 *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r1, r4
-	mov r0, #0
-	mov r2, #0x1c
-	bl MIi_CpuClear16
-	mov r0, r4
-	bl CutsceneSeq__CreateUnknown2157E58
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+void CutsceneScript__InitFadeManager(CutsceneSystemManager *work)
+{
+    MI_CpuClear16(work, sizeof(*work));
+    CutsceneFadeManager__Alloc(work);
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_215693C(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl CutsceneAssetSystem__Func_21589F8
-	mov r0, r4
-	bl CutsceneAssetSystem__Func_21588DC
-	mov r0, r4
-	bl CutsceneAssetSystem__Func_215867C
-	mov r0, r4
-	bl CutsceneAssetSystem__Func_2158328
-	mov r0, r4
-	bl CutsceneAssetSystem__Func_2158138
-	mov r0, r4
-	bl CutsceneAssetSystem__Func_2157F84
-	mov r0, r4
-	bl CutsceneAssetSystem__Func_2157E74
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+void CutsceneSystemManager__Release(CutsceneSystemManager *work)
+{
+    CutsceneTextManager__Release(work);
+    CutsceneAudioManager__Release(work);
+    CutsceneModelManager__Release(work);
+    CutsceneBackgroundManager__Release(work);
+    CutsceneSpriteButtonManager__Release(work);
+    CutsceneFileSystemManager__Release(work);
+    CutsceneFadeManager__Release(work);
 }
 
-NONMATCH_FUNC void ovl07_215697C(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =sub_2157EAC
-	bx ip
-
-// clang-format on
-#endif
+void CutsceneFileSystemManager__Init(CutsceneSystemManager *work, u32 count)
+{
+    CutsceneFileSystemManager__Alloc(work, count);
 }
 
-NONMATCH_FUNC void Unknown__GetArchive(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #4]
-	sub r1, r1, #1
-	ldr r2, [r0, #4]
-	mov r0, #0x18
-	mla r0, r1, r0, r2
-	ldr r0, [r0, #0xc]
-	bx lr
-
-// clang-format on
-#endif
+void *CutsceneFileSystemManager__GetArchive(CutsceneSystemManager *work, s32 id)
+{
+    id--;
+    return work->fileSystemManager->archiveList[id].archive;
 }
 
-NONMATCH_FUNC void sub_21569A4(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	sub r2, r1, #1
-	mov r1, #0x18
-	mul r1, r2, r1
-	ldr r0, [r0, #4]
-	ldr r0, [r0, #4]
-	ldr r0, [r0, r1]
-	cmp r0, #1
-	moveq r0, #1
-	movne r0, #0
-	bx lr
-
-// clang-format on
-#endif
+BOOL CutsceneFileSystemManager__Func_21569A4(CutsceneSystemManager *work, s32 id)
+{
+    id--;
+    return work->fileSystemManager->archiveList[id].refCount == 1;
 }
 
-NONMATCH_FUNC void sub_21569CC(void){
+NONMATCH_FUNC void CutsceneFileSystemManager__Func_21569CC(void){
 #ifdef NON_MATCHING
 
 #else
@@ -5901,7 +4566,7 @@ NONMATCH_FUNC void sub_21569CC(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_21569E4(void){
+NONMATCH_FUNC void CutsceneFileSystemManager__Func_21569E4(void){
 #ifdef NON_MATCHING
 
 #else
@@ -5917,7 +4582,7 @@ NONMATCH_FUNC void sub_21569E4(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_21569FC(void){
+NONMATCH_FUNC void CutsceneFileSystemManager__Func_21569FC(void){
 #ifdef NON_MATCHING
 
 #else
@@ -5933,7 +4598,7 @@ NONMATCH_FUNC void sub_21569FC(void){
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__MountArchive(void){
+NONMATCH_FUNC void CutsceneFileSystemManager__LoadArchive(void){
 #ifdef NON_MATCHING
 
 #else
@@ -5950,7 +4615,7 @@ NONMATCH_FUNC void CutsceneSeq__MountArchive(void){
 	ldr r2, [r2, #0x14]
 	cmp r2, #0
 	beq _02156A48
-	bl Unknown__ReleaseArchive
+	bl CutsceneFileSystemManager__ReleaseArchive
 _02156A48:
 	mov r0, #0x6c
 	bl _AllocHeadHEAP_SYSTEM
@@ -5984,7 +4649,7 @@ _02156A48:
 #endif
 }
 
-NONMATCH_FUNC void Unknown__ReleaseArchive(void){
+NONMATCH_FUNC void CutsceneFileSystemManager__ReleaseArchive(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6015,7 +4680,7 @@ NONMATCH_FUNC void Unknown__ReleaseArchive(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_2156B08(void){
+NONMATCH_FUNC void CutsceneFileSystemManager__Func_2156B08(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6081,14 +4746,14 @@ _02156BC0:
 _02156BDC:
 	mov r2, r1
 	add r1, r6, #1
-	bl sub_2156C88
+	bl CutsceneFileSystemManager__Func_2156C88
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 
 // clang-format on
 #endif
 }
 
-NONMATCH_FUNC void sub_2156BEC(void){
+NONMATCH_FUNC void CutsceneFileSystemManager__Func_2156BEC(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6133,14 +4798,15 @@ _02156C70:
 	cmp r0, #0
 	ldmneia sp!, {r4, r5, r6, pc}
 	add r0, r5, r4
-	bl sub_2157F0C
+	bl CutsceneFileSystemManager__ReleaseArchive2
 	ldmia sp!, {r4, r5, r6, pc}
 
 // clang-format on
 #endif
 }
 
-NONMATCH_FUNC void sub_2156C88(void){
+NONMATCH_FUNC void CutsceneFileSystemManager__Func_2156C88(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -6163,7 +4829,7 @@ NONMATCH_FUNC void sub_2156C88(void){
 	mov r0, #0x18
 	mla r4, r1, r0, r2
 	mov r0, r4
-	bl sub_2157F0C
+	bl CutsceneFileSystemManager__ReleaseArchive2
 	cmp r7, #0
 	bge _02156D8C
 	ldrsb r0, [r8, #3]
@@ -6252,24 +4918,13 @@ _02156E04:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__AllocTouchField(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl sub_2158088
-	ldr r0, [r4, #8]
-	add r0, r0, #8
-	bl TouchField__Init
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+void CutsceneSpriteButtonManager__Init(CutsceneSystemManager *work, u32 count)
+{
+    CutsceneSpriteButtonManager__Alloc(work, count);
+    TouchField__Init(&work->spriteButtonManager->touchField);
 }
 
-NONMATCH_FUNC void sub_2156E2C(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2156E2C(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6282,24 +4937,13 @@ NONMATCH_FUNC void sub_2156E2C(void){
 #endif
 }
 
-NONMATCH_FUNC void AnimatorManager__GetAnimator(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #8]
-	sub r1, r1, #1
-	ldr r2, [r0, #4]
-	mov r0, #0x70
-	mla r0, r1, r0, r2
-	add r0, r0, #4
-	bx lr
-
-// clang-format on
-#endif
+AnimatorSprite *CutsceneSpriteButtonManager__GetAnimator(CutsceneSystemManager *work, s32 id)
+{
+    id--;
+    return &work->spriteButtonManager->list[id].ani;
 }
 
-NONMATCH_FUNC void sub_2156E54(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2156E54(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6316,7 +4960,7 @@ NONMATCH_FUNC void sub_2156E54(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_2156E70(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2156E70(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6333,7 +4977,7 @@ NONMATCH_FUNC void sub_2156E70(void){
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__LoadSpriteFromAYK2(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__LoadSprite2(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6370,7 +5014,7 @@ _02156EE4:
 	mov r3, r5
 	add r1, lr, #1
 	str ip, [sp, #8]
-	bl CutsceneSeq__LoadSpriteFromAYK
+	bl CutsceneSpriteButtonManager__LoadSprite
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
 
@@ -6378,7 +5022,7 @@ _02156EE4:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__LoadSpriteFromAYK(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__LoadSprite(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6404,18 +5048,18 @@ NONMATCH_FUNC void CutsceneSeq__LoadSpriteFromAYK(void){
 	ldr r5, [r0, #4]
 	add r6, r5, r4
 	mov r0, r6
-	bl sub_21580E0
+	bl CutsceneSpriteButtonManager__Func_21580E0
 	mov r0, r10
 	mov r1, r8
 	mov r2, r11
-	bl sub_2156B08
+	bl CutsceneFileSystemManager__Func_2156B08
 	movs r1, r0
 	str r0, [r5, r4]
 	addeq sp, sp, #0x1c
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r10
-	bl Unknown__GetArchive
+	bl CutsceneFileSystemManager__GetArchive
 	mov r1, #0
 	mov r4, r0
 	bl Sprite__GetFormatFromAnim
@@ -6478,7 +5122,7 @@ _0215705C:
 #endif
 }
 
-NONMATCH_FUNC void sub_215707C(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_215707C(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6511,7 +5155,7 @@ _021570CC:
 	ldr r0, [r5, #0x68]
 	add r1, r1, #8
 	add r2, r5, #4
-	bl sub_21595C4
+	bl CutsceneSpriteButtonManager__AddTouchArea
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 
@@ -6519,7 +5163,7 @@ _021570CC:
 #endif
 }
 
-NONMATCH_FUNC void sub_21570F4(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_21570F4(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6531,7 +5175,7 @@ NONMATCH_FUNC void sub_21570F4(void){
 	mov r0, #0x70
 	mla r4, r1, r0, r2
 	ldr r0, [r4, #0x68]
-	bl sub_215965C
+	bl CutsceneSpriteButtonManager__RemoveTouchArea
 	ldr r0, [r4, #0x68]
 	bl _FreeHEAP_SYSTEM
 	mov r0, #0
@@ -6542,7 +5186,8 @@ NONMATCH_FUNC void sub_21570F4(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_2157128(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2157128(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -6553,7 +5198,7 @@ NONMATCH_FUNC void sub_2157128(void){
 	ldr r2, [r0, #4]
 	mov r0, #0x70
 	mla r0, r1, r0, r2
-	ldr ip, =sub_21580E0
+	ldr ip, =CutsceneSpriteButtonManager__Func_21580E0
 	mov r1, r3
 	bx ip
 
@@ -6561,35 +5206,18 @@ NONMATCH_FUNC void sub_2157128(void){
 #endif
 }
 
-NONMATCH_FUNC void ovl07_2157150(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =Unknown__AllocBackgroundManager
-	bx ip
-
-// clang-format on
-#endif
+void CutsceneBackgroundManager__Init(CutsceneSystemManager *work)
+{
+    CutsceneBackgroundManager__Alloc(work);
 }
 
-NONMATCH_FUNC void sub_215715C(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r2, [r0, #0xc]
-	sub r1, r1, #1
-	mov r0, #0x50
-	mla r0, r1, r0, r2
-	add r0, r0, #4
-	bx lr
-
-// clang-format on
-#endif
+Background *CutsceneBackgroundManager__GetBackground(CutsceneSystemManager *work, s32 id)
+{
+    id--;
+    return &work->backgroundManager->renderers[id].ani;
 }
 
-NONMATCH_FUNC void sub_2157174(void){
+NONMATCH_FUNC void CutsceneBackgroundManager__Func_2157174(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6605,7 +5233,7 @@ NONMATCH_FUNC void sub_2157174(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_215718C(void){
+NONMATCH_FUNC void CutsceneBackgroundManager__Func_215718C(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6621,7 +5249,7 @@ NONMATCH_FUNC void sub_215718C(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_21571A4(void){
+NONMATCH_FUNC void CutsceneBackgroundManager__Func_21571A4(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6633,7 +5261,7 @@ NONMATCH_FUNC void sub_21571A4(void){
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__LoadBBGFromAYK(void){
+NONMATCH_FUNC void CutsceneBackgroundManager__LoadBackground(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6658,18 +5286,18 @@ NONMATCH_FUNC void CutsceneSeq__LoadBBGFromAYK(void){
 	mov r1, r8
 	add r6, r7, r9
 	mov r0, r6
-	bl sub_21582F4
+	bl CutsceneBackgroundManager__Func_21582F4
 	ldr r2, [sp, #0xc]
 	mov r0, r8
 	mov r1, r10
-	bl sub_2156B08
+	bl CutsceneFileSystemManager__Func_2156B08
 	movs r1, r0
 	str r0, [r7, r9]
 	addeq sp, sp, #0x20
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r8
-	bl Unknown__GetArchive
+	bl CutsceneFileSystemManager__GetArchive
 	str r0, [sp, #0x14]
 	bl CheckBackgroundIsValid
 	cmp r0, #0
@@ -6808,7 +5436,8 @@ _02157418:
 #endif
 }
 
-NONMATCH_FUNC void sub_2157430(void){
+NONMATCH_FUNC void CutsceneBackgroundManager__Func_2157430(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -6818,7 +5447,7 @@ NONMATCH_FUNC void sub_2157430(void){
 	sub r1, r1, #1
 	mov r0, #0x50
 	mla r0, r1, r0, r2
-	ldr ip, =sub_21582F4
+	ldr ip, =CutsceneBackgroundManager__Func_21582F4
 	mov r1, r3
 	bx ip
 
@@ -6826,19 +5455,12 @@ NONMATCH_FUNC void sub_2157430(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_2157454(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =Unknown__AllocModelManager
-	bx ip
-
-// clang-format on
-#endif
+void CutsceneModelManager__Init(CutsceneSystemManager *work, u32 count)
+{
+    CutsceneModelManager__Alloc(work, count);
 }
 
-NONMATCH_FUNC void sub_2157460(void){
+NONMATCH_FUNC void CutsceneModelManager__Func_2157460(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6851,24 +5473,13 @@ NONMATCH_FUNC void sub_2157460(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_215746C(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #0x10]
-	sub r1, r1, #1
-	ldr r2, [r0, #4]
-	mov r0, #0x164
-	mla r0, r1, r0, r2
-	add r0, r0, #0x1c
-	bx lr
-
-// clang-format on
-#endif
+AnimatorMDL *CutsceneModelManager__GetModel(CutsceneSystemManager *work, s32 id)
+{
+    id--;
+    return &work->modelManager->list[id].ani;
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable3__LoadMDL(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC s32 CutsceneModelManager__TryLoadModel(CutsceneSystemManager *work, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -6899,14 +5510,14 @@ _021574D8:
 	mov r2, r1
 	mov r3, r5
 	add r1, ip, #1
-	bl CutsceneSeq__LoadMDLFromAYK
+	bl CutsceneModelManager__LoadModel
 	ldmia sp!, {r3, r4, r5, pc}
 
 // clang-format on
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__LoadMDLFromAYK(void){
+NONMATCH_FUNC void CutsceneModelManager__LoadModel(void){
 #ifdef NON_MATCHING
 
 #else
@@ -6931,22 +5542,22 @@ NONMATCH_FUNC void CutsceneSeq__LoadMDLFromAYK(void){
 	ldr r9, [r0, #4]
 	add r10, r9, r8
 	mov r0, r10
-	bl sub_215858C
+	bl CutsceneModelManager__Func_215858C
 	mov r0, r7
 	mov r1, r5
 	mov r2, r4
-	bl sub_2156B08
+	bl CutsceneFileSystemManager__Func_2156B08
 	movs r1, r0
 	str r0, [r9, r8]
 	addeq sp, sp, #4
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r0, r7
-	bl Unknown__GetArchive
+	bl CutsceneFileSystemManager__GetArchive
 	mov r4, r0
 	ldr r1, [r10]
 	mov r0, r7
-	bl sub_21569A4
+	bl CutsceneFileSystemManager__Func_21569A4
 	cmp r0, #0
 	beq _02157590
 	mov r0, r4
@@ -6969,7 +5580,7 @@ _02157590:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadAniMDLFromAYK(void *a1, CutsceneSeq *work){
+NONMATCH_FUNC s32 CutsceneModelManager__LoadModelAnimation(CutsceneSystemManager *work, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -6994,19 +5605,19 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable7__LoadAniMDLFromAYK(void *a1, CutsceneS
 	ldr r1, [r4, r5, lsl #2]
 	cmp r1, #0
 	beq _02157614
-	bl sub_2156BEC
+	bl CutsceneFileSystemManager__Func_2156BEC
 _02157614:
 	ldr r2, [sp, #0x20]
 	mov r0, r8
 	mov r1, r6
-	bl sub_2156B08
+	bl CutsceneFileSystemManager__Func_2156B08
 	movs r1, r0
 	str r0, [r4, r5, lsl #2]
 	addeq sp, sp, #4
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	mov r0, r8
-	bl Unknown__GetArchive
+	bl CutsceneFileSystemManager__GetArchive
 	mov r6, r0
 	cmp r7, #2
 	beq _0215766C
@@ -7023,7 +5634,7 @@ _0215766C:
 	cmp r1, #0
 	beq _02157688
 	mov r0, r8
-	bl sub_2156BEC
+	bl CutsceneFileSystemManager__Func_2156BEC
 	mov r0, #0
 	str r0, [r4, #0x18]
 _02157688:
@@ -7032,27 +5643,27 @@ _02157688:
 	beq _02157700
 	ldr r2, [sp, #0x2c]
 	mov r0, r8
-	bl sub_2156B08
+	bl CutsceneFileSystemManager__Func_2156B08
 	cmp r0, #0
 	str r0, [r4, #0x18]
 	addeq sp, sp, #4
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	mov r0, r8
-	bl sub_21569E4
+	bl CutsceneFileSystemManager__Func_21569E4
 	cmp r0, #0
 	beq _021576D0
 	ldr r1, [r4, r5, lsl #2]
 	mov r0, r8
-	bl sub_2156BEC
+	bl CutsceneFileSystemManager__Func_2156BEC
 _021576D0:
 	ldr r1, [r4, #0x18]
 	mov r0, r8
-	bl Unknown__GetArchive
+	bl CutsceneFileSystemManager__GetArchive
 	mov r5, r0
 	ldr r1, [r4, #0x18]
 	mov r0, r8
-	bl sub_21569A4
+	bl CutsceneFileSystemManager__Func_21569A4
 	cmp r0, #0
 	beq _02157714
 	mov r0, r5
@@ -7061,7 +5672,7 @@ _021576D0:
 _02157700:
 	ldr r1, [r4]
 	mov r0, r8
-	bl Unknown__GetArchive
+	bl CutsceneFileSystemManager__GetArchive
 	bl NNS_G3dGetTex
 	mov r5, r0
 _02157714:
@@ -7080,7 +5691,7 @@ _0215772C:
 #endif
 }
 
-NONMATCH_FUNC void sub_2157738(void){
+NONMATCH_FUNC void CutsceneModelManager__Func_2157738(void){
 #ifdef NON_MATCHING
 
 #else
@@ -7091,7 +5702,7 @@ NONMATCH_FUNC void sub_2157738(void){
 	mov r6, r1
 	mov r5, r2
 	mov r4, r3
-	bl sub_215793C
+	bl CutsceneModelManager__Func_215793C
 	ldr r1, [r7, #0x10]
 	sub r0, r5, #1
 	str r6, [r1, #8]
@@ -7121,7 +5732,7 @@ _021577B4:
 	str r0, [r1, #0x64]
 	mov r0, r7
 	mov r1, r5
-	bl sub_215746C
+	bl CutsceneModelManager__GetModel
 	mov r1, #4
 	strb r1, [r0, #0xa]
 	cmp r6, #1
@@ -7132,7 +5743,7 @@ _021577B4:
 	beq _02157848
 	b _02157874
 _021577E8:
-	ldr r1, =G3dRenderObjCallback_2157B7C
+	ldr r1, =CutsceneModelManager__RenderCallback_Single
 	mov r4, #3
 	add r0, r0, #0x90
 	mov r2, #0
@@ -7145,7 +5756,7 @@ _021577E8:
 	bl Camera3D__Destroy
 	b _02157874
 _02157818:
-	ldr r1, =G3dRenderObjCallback_2157B7C
+	ldr r1, =CutsceneModelManager__RenderCallback_Single
 	mov r4, #3
 	add r0, r0, #0x90
 	mov r2, #0
@@ -7158,7 +5769,7 @@ _02157818:
 	bl Camera3D__Create
 	b _02157874
 _02157848:
-	ldr r1, =G3dRenderObjCallback_2157C28
+	ldr r1, =CutsceneModelManager__RenderCallback_Double
 	mov r4, #3
 	add r0, r0, #0x90
 	mov r2, #0
@@ -7222,7 +5833,7 @@ _02157874:
 #endif
 }
 
-NONMATCH_FUNC void sub_215793C(void){
+NONMATCH_FUNC void CutsceneModelManager__Func_215793C(void){
 #ifdef NON_MATCHING
 
 #else
@@ -7234,7 +5845,7 @@ NONMATCH_FUNC void sub_215793C(void){
 	ldmeqia sp!, {r4, pc}
 	ldr r1, [r4, #0xc]
 	add r1, r1, #1
-	bl sub_215746C
+	bl CutsceneModelManager__GetModel
 	mov r1, #0
 	strb r1, [r0, #0xa]
 	add r0, r0, #0x90
@@ -7253,7 +5864,7 @@ _02157980:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__LoadBSD(void){
+NONMATCH_FUNC void CutsceneModelManager__LoadDrawState(void){
 #ifdef NON_MATCHING
 
 #else
@@ -7293,7 +5904,8 @@ NONMATCH_FUNC void CutsceneSeq__LoadBSD(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_2157A0C(void){
+NONMATCH_FUNC void CutsceneModelManager__Func_2157A0C(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -7304,7 +5916,7 @@ NONMATCH_FUNC void sub_2157A0C(void){
 	ldr r2, [r0, #4]
 	mov r0, #0x164
 	mla r0, r1, r0, r2
-	ldr ip, =sub_215858C
+	ldr ip, =CutsceneModelManager__Func_215858C
 	mov r1, r3
 	bx ip
 
@@ -7312,53 +5924,34 @@ NONMATCH_FUNC void sub_2157A0C(void){
 #endif
 }
 
-NONMATCH_FUNC void ovl07_2157A34(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =sub_2158828
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2157A40(void)
+void CutsceneAudioManager__Init(CutsceneSystemManager *work, u32 count)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r6, r1
-	ldr r1, [sp, #0x18]
-	mov r7, r0
-	mov r5, r2
-	mov r4, r3
-	bl CutsceneAssetSystem__Func_21589AC
-	ldr r0, [r7, #0x18]
-	str r6, [r0]
-	str r5, [r0, #4]
-	str r4, [r0, #8]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
+    CutsceneAudioManager__Alloc(work, count);
 }
 
-void CutsceneSeq__Func_2157A70(Unknown2156918 *work)
+void CutsceneTextManager__Init(CutsceneSystemManager *work, CutsceneScriptTextCommand commandFunc, void (*processFunc)(CutsceneTextWorker *worker),
+                               void (*releaseFunc)(CutsceneTextWorker *worker), size_t size)
 {
-    CutsceneSeq__Func_2157E90(work);
-    CutsceneSeq__Func_2158014(work);
-    CutsceneSeq__Func_21581B0(work);
-    CutsceneSeq__Func_2158378(work);
-    CutsceneSeq__Func_2158714(work);
-    CutsceneSeq__Func_2158950(work);
-    CutsceneSeq__Func_2158A4C(work);
+    CutsceneTextManager__Alloc(work, size);
+
+    CutsceneTextManager *manager = work->textManager;
+    manager->commandFunc         = commandFunc;
+    manager->processFunc         = processFunc;
+    manager->releaseFunc         = releaseFunc;
 }
 
-NONMATCH_FUNC NNSSndHandle *Unknown__GetSndHandle(Unknown2156918 *work, s32 id){
+void CutsceneSystemManager__Process(CutsceneSystemManager *work)
+{
+    CutsceneFadeManager__Process(work);
+    CutsceneFileSystemManager__Process(work);
+    CutsceneSpriteButtonManager__Process(work);
+    CutsceneBackgroundManager__Process(work);
+    CutsceneModelManager__Process(work);
+    CutsceneAudioManager__Process(work);
+    CutsceneTextManager__Process(work);
+}
+
+NONMATCH_FUNC NNSSndHandle *CutsceneAudioManager__GetSoundHandle(CutsceneSystemManager *work, s32 id){
 #ifdef NON_MATCHING
 
 #else
@@ -7374,7 +5967,7 @@ NONMATCH_FUNC NNSSndHandle *Unknown__GetSndHandle(Unknown2156918 *work, s32 id){
 #endif
 }
 
-NONMATCH_FUNC s32 Unknown__GetAvailSoundHandle(Unknown2156918 *work){
+NONMATCH_FUNC s32 CutsceneAudioManager__AllocSoundHandle(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -7402,7 +5995,7 @@ _02157B00:
 #endif
 }
 
-NONMATCH_FUNC void sub_2157B08(Unknown2156918 *work){
+NONMATCH_FUNC void CutsceneAudioManager__Func_2157B08(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -7411,17 +6004,17 @@ NONMATCH_FUNC void sub_2157B08(Unknown2156918 *work){
 	mov r5, r0
 	ldr r1, [r5, #0x14]
 	ldr r4, [r1]
-	bl CutsceneAssetSystem__Func_21588DC
+	bl CutsceneAudioManager__Release
 	mov r0, r5
 	mov r1, r4
-	bl sub_2158828
+	bl CutsceneAudioManager__Alloc
 	ldmia sp!, {r3, r4, r5, pc}
 
 // clang-format on
 #endif
 }
 
-NONMATCH_FUNC void sub_2157B2C(void){
+NONMATCH_FUNC void CutsceneAudioManager__StopAllSeq(CutsceneSystemManager *work, s32 fadeFrame){
 #ifdef NON_MATCHING
 
 #else
@@ -7450,20 +6043,12 @@ _02157B60:
 #endif
 }
 
-NONMATCH_FUNC void ovl07_2157B70(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, [r0, #0x18]
-	ldr r0, [r0, #0xc]
-	bx lr
-
-// clang-format on
-#endif
+CutsceneTextWorker *CutsceneTextManager__GetWorker(CutsceneSystemManager *work)
+{
+    return work->textManager->worker;
 }
 
-NONMATCH_FUNC void G3dRenderObjCallback_2157B7C(void){
+NONMATCH_FUNC void CutsceneModelManager__RenderCallback_Single(NNSG3dRS *rs){
 #ifdef NON_MATCHING
 
 #else
@@ -7515,7 +6100,7 @@ _02157BD4:
 #endif
 }
 
-NONMATCH_FUNC void G3dRenderObjCallback_2157C28(void){
+NONMATCH_FUNC void CutsceneModelManager__RenderCallback_Double(NNSG3dRS *rs){
 #ifdef NON_MATCHING
 
 #else
@@ -7605,7 +6190,8 @@ _02157D10:
 #endif
 }
 
-NONMATCH_FUNC void sub_2157D6C(void){
+NONMATCH_FUNC void CutsceneModelManager__Func_2157D6C(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -7676,24 +6262,13 @@ _02157E44:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__CreateUnknown2157E58(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r0, #0x14
-	bl _AllocHeadHEAP_SYSTEM
-	str r0, [r4]
-	bl CutsceneSeq__InitUnknown2157E58
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+void CutsceneFadeManager__Alloc(CutsceneSystemManager *work)
+{
+    work->fadeManager = HeapAllocHead(HEAP_SYSTEM, sizeof(CutsceneFadeManager));
+    CutsceneFadeManager__Init(work->fadeManager);
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2157E74(void){
+NONMATCH_FUNC void CutsceneFadeManager__Release(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -7710,7 +6285,7 @@ NONMATCH_FUNC void CutsceneAssetSystem__Func_2157E74(void){
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__Func_2157E90(Unknown2156918 *work){
+NONMATCH_FUNC void CutsceneFadeManager__Process(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -7718,16 +6293,16 @@ NONMATCH_FUNC void CutsceneSeq__Func_2157E90(Unknown2156918 *work){
 	stmdb sp!, {r4, lr}
 	ldr r4, [r0]
 	mov r0, r4
-	bl sub_21593A4
+	bl CutsceneFadeManager__Draw
 	mov r0, r4
-	bl CutsceneSeq__InitUnknown2157E58
+	bl CutsceneFadeManager__Init
 	ldmia sp!, {r4, pc}
 
 // clang-format on
 #endif
 }
 
-NONMATCH_FUNC void sub_2157EAC(void){
+NONMATCH_FUNC void CutsceneFileSystemManager__Alloc(CutsceneSystemManager *work, u32 count){
 #ifdef NON_MATCHING
 
 #else
@@ -7761,7 +6336,7 @@ NONMATCH_FUNC void sub_2157EAC(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_2157F0C(void){
+NONMATCH_FUNC void CutsceneFileSystemManager__ReleaseArchive2(void){
 #ifdef NON_MATCHING
 
 #else
@@ -7792,7 +6367,7 @@ _02157F50:
 	ldr r1, [r0]
 	cmp r1, #0
 	bne _02157F70
-	bl sub_2157F0C
+	bl CutsceneFileSystemManager__ReleaseArchive2
 _02157F70:
 	mov r1, r4
 	mov r0, #0
@@ -7804,7 +6379,7 @@ _02157F70:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2157F84(void){
+NONMATCH_FUNC void CutsceneFileSystemManager__Release(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -7834,7 +6409,7 @@ _02157FD0:
 	cmp r0, #0
 	beq _02157FE4
 	mov r0, r7
-	bl sub_2157F0C
+	bl CutsceneFileSystemManager__ReleaseArchive2
 _02157FE4:
 	ldr r0, [r4, #4]
 	ldr r1, [r4]
@@ -7854,7 +6429,7 @@ _02157FFC:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__Func_2158014(Unknown2156918 *work){
+NONMATCH_FUNC void CutsceneFileSystemManager__Process(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -7893,7 +6468,7 @@ NONMATCH_FUNC void CutsceneSeq__Func_2158014(Unknown2156918 *work){
 #endif
 }
 
-NONMATCH_FUNC void sub_2158088(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Alloc(CutsceneSystemManager *work, u32 count){
 #ifdef NON_MATCHING
 
 #else
@@ -7925,7 +6500,7 @@ NONMATCH_FUNC void sub_2158088(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_21580E0(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_21580E0(void){
 #ifdef NON_MATCHING
 
 #else
@@ -7940,11 +6515,11 @@ NONMATCH_FUNC void sub_21580E0(void){
 	bl AnimatorSprite__Release
 	ldr r1, [r5]
 	mov r0, r4
-	bl sub_2156BEC
+	bl CutsceneFileSystemManager__Func_2156BEC
 	ldr r0, [r5, #0x68]
 	cmp r0, #0
 	beq _02158124
-	bl sub_215965C
+	bl CutsceneSpriteButtonManager__RemoveTouchArea
 	ldr r0, [r5, #0x68]
 	bl _FreeHEAP_SYSTEM
 _02158124:
@@ -7958,7 +6533,7 @@ _02158124:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2158138(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Release(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -7981,7 +6556,7 @@ _02158168:
 	beq _02158180
 	mov r0, r7
 	mov r1, r5
-	bl sub_21580E0
+	bl CutsceneSpriteButtonManager__Func_21580E0
 _02158180:
 	ldr r0, [r4, #4]
 	ldr r1, [r4]
@@ -8001,7 +6576,7 @@ _02158198:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__Func_21581B0(Unknown2156918 *work){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__Process(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -8088,7 +6663,7 @@ _021582BC:
 #endif
 }
 
-NONMATCH_FUNC void Unknown__AllocBackgroundManager(void){
+NONMATCH_FUNC void CutsceneBackgroundManager__Alloc(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -8108,7 +6683,7 @@ NONMATCH_FUNC void Unknown__AllocBackgroundManager(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_21582F4(void){
+NONMATCH_FUNC void CutsceneBackgroundManager__Func_21582F4(void){
 #ifdef NON_MATCHING
 
 #else
@@ -8120,7 +6695,7 @@ NONMATCH_FUNC void sub_21582F4(void){
 	beq _02158314
 	mov r0, r1
 	mov r1, r2
-	bl sub_2156BEC
+	bl CutsceneFileSystemManager__Func_2156BEC
 _02158314:
 	mov r1, r4
 	mov r0, #0
@@ -8132,7 +6707,7 @@ _02158314:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2158328(void){
+NONMATCH_FUNC void CutsceneBackgroundManager__Release(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -8149,7 +6724,7 @@ NONMATCH_FUNC void CutsceneAssetSystem__Func_2158328(void){
 _0215834C:
 	mov r0, r6
 	mov r1, r7
-	bl sub_21582F4
+	bl CutsceneBackgroundManager__Func_21582F4
 	add r6, r6, #0x50
 	cmp r6, r4
 	bne _0215834C
@@ -8164,7 +6739,7 @@ _02158364:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__Func_2158378(Unknown2156918 *work){
+NONMATCH_FUNC void CutsceneBackgroundManager__Process(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -8294,7 +6869,7 @@ _02158518:
 #endif
 }
 
-NONMATCH_FUNC void Unknown__AllocModelManager(void){
+NONMATCH_FUNC void CutsceneModelManager__Alloc(CutsceneSystemManager *work, u32 count){
 #ifdef NON_MATCHING
 
 #else
@@ -8326,7 +6901,7 @@ NONMATCH_FUNC void Unknown__AllocModelManager(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_215858C(void){
+NONMATCH_FUNC void CutsceneModelManager__Func_215858C(void){
 #ifdef NON_MATCHING
 
 #else
@@ -8346,17 +6921,17 @@ _021585B4:
 	cmp r1, #0
 	beq _021585EC
 	mov r0, r6
-	bl sub_21569A4
+	bl CutsceneFileSystemManager__Func_21569A4
 	cmp r0, #0
 	beq _021585E0
 	ldr r1, [r5]
 	mov r0, r6
-	bl Unknown__GetArchive
+	bl CutsceneFileSystemManager__GetArchive
 	bl NNS_G3dResDefaultRelease
 _021585E0:
 	ldr r1, [r5]
 	mov r0, r6
-	bl sub_2156BEC
+	bl CutsceneFileSystemManager__Func_2156BEC
 _021585EC:
 	add r5, r5, #4
 	cmp r5, r4
@@ -8366,31 +6941,31 @@ _021585F8:
 	cmp r1, #0
 	beq _02158630
 	mov r0, r6
-	bl sub_21569A4
+	bl CutsceneFileSystemManager__Func_21569A4
 	cmp r0, #0
 	beq _02158624
 	ldr r1, [r7, #0x18]
 	mov r0, r6
-	bl Unknown__GetArchive
+	bl CutsceneFileSystemManager__GetArchive
 	bl NNS_G3dResDefaultRelease
 _02158624:
 	ldr r1, [r7, #0x18]
 	mov r0, r6
-	bl sub_2156BEC
+	bl CutsceneFileSystemManager__Func_2156BEC
 _02158630:
 	ldr r1, [r7]
 	mov r0, r6
-	bl sub_21569A4
+	bl CutsceneFileSystemManager__Func_21569A4
 	cmp r0, #0
 	beq _02158654
 	ldr r1, [r7]
 	mov r0, r6
-	bl Unknown__GetArchive
+	bl CutsceneFileSystemManager__GetArchive
 	bl NNS_G3dResDefaultRelease
 _02158654:
 	ldr r1, [r7]
 	mov r0, r6
-	bl sub_2156BEC
+	bl CutsceneFileSystemManager__Func_2156BEC
 	add r0, r7, #0x1c
 	bl AnimatorMDL__Release
 	mov r1, r7
@@ -8403,7 +6978,7 @@ _02158654:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_215867C(void){
+NONMATCH_FUNC void CutsceneModelManager__Release(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -8425,7 +7000,7 @@ _021586A8:
 	beq _021586C0
 	mov r0, r5
 	mov r1, r6
-	bl sub_215858C
+	bl CutsceneModelManager__Func_215858C
 _021586C0:
 	ldmia r4, {r0, r1}
 	mla r1, r0, r7, r1
@@ -8455,7 +7030,7 @@ _021586F8:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__Func_2158714(Unknown2156918 *work){
+NONMATCH_FUNC void CutsceneModelManager__Process(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -8497,7 +7072,7 @@ _0215877C:
 	add r0, r5, #0x1c
 	bl AnimatorMDL__Draw
 	add r0, r4, #8
-	bl sub_2157D6C
+	bl CutsceneModelManager__Func_2157D6C
 	ldr r6, [r4, #4]
 	cmp r6, r5
 	beq _021587D4
@@ -8542,7 +7117,7 @@ _02158810:
 #endif
 }
 
-NONMATCH_FUNC void sub_2158828(void){
+NONMATCH_FUNC void CutsceneAudioManager__Alloc(CutsceneSystemManager *work, u32 count){
 #ifdef NON_MATCHING
 
 #else
@@ -8585,7 +7160,7 @@ _02158888:
 #endif
 }
 
-NONMATCH_FUNC void sub_21588A8(void){
+NONMATCH_FUNC void CutsceneAudioManager__Func_21588A8(void){
 #ifdef NON_MATCHING
 
 #else
@@ -8608,7 +7183,7 @@ NONMATCH_FUNC void sub_21588A8(void){
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_21588DC(void){
+NONMATCH_FUNC void CutsceneAudioManager__Release(CutsceneSystemManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -8627,7 +7202,7 @@ _021588FC:
 	beq _02158914
 	mov r0, r5
 	mov r1, r6
-	bl sub_21588A8
+	bl CutsceneAudioManager__Func_21588A8
 _02158914:
 	ldr r0, [r5, #4]
 	bl FreeSndHandle
@@ -8650,7 +7225,8 @@ _02158930:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__Func_2158950(Unknown2156918 *work){
+NONMATCH_FUNC void CutsceneAudioManager__Process(CutsceneSystemManager *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -8672,7 +7248,7 @@ _02158970:
 	bne _02158994
 	mov r0, r4
 	mov r1, r6
-	bl sub_21588A8
+	bl CutsceneAudioManager__Func_21588A8
 _02158994:
 	ldmia r5, {r0, r1}
 	add r4, r4, #8
@@ -8685,87 +7261,44 @@ _02158994:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_21589AC(void){
-#ifdef NON_MATCHING
+void CutsceneTextManager__Alloc(CutsceneSystemManager *work, size_t size)
+{
+    work->textManager = HeapAllocHead(HEAP_SYSTEM, sizeof(CutsceneTextManager));
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	mov r0, #0x10
-	mov r5, r1
-	bl _AllocHeadHEAP_SYSTEM
-	mov r4, r0
-	str r0, [r6, #0x18]
-	mov r1, r4
-	mov r0, #0
-	mov r2, #0x10
-	bl MIi_CpuClear32
-	mov r0, r5
-	bl _AllocHeadHEAP_SYSTEM
-	str r0, [r4, #0xc]
-	mov r1, r0
-	mov r2, r5
-	mov r0, #0
-	bl MIi_CpuClear32
-	ldmia sp!, {r4, r5, r6, pc}
+    CutsceneTextManager *manager = work->textManager;
+    MI_CpuClear32(work->textManager, sizeof(*work->textManager));
 
-// clang-format on
-#endif
+    manager->worker = HeapAllocHead(HEAP_SYSTEM, size);
+    MI_CpuClear32(manager->worker, size);
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_21589F8(void){
-#ifdef NON_MATCHING
+void CutsceneTextManager__Release(CutsceneSystemManager *work)
+{
+    CutsceneTextManager *manager = work->textManager;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r4, [r5, #0x18]
-	cmp r4, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r1, [r4, #8]
-	cmp r1, #0
-	beq _02158A20
-	ldr r0, [r4, #0xc]
-	blx r1
-_02158A20:
-	ldr r0, [r4, #0xc]
-	cmp r0, #0
-	beq _02158A38
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r4, #0xc]
-_02158A38:
-	mov r0, r4
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0
-	str r0, [r5, #0x18]
-	ldmia sp!, {r3, r4, r5, pc}
+    if (manager != NULL)
+    {
+        if (manager->releaseFunc != NULL)
+            manager->releaseFunc(manager->worker);
 
-// clang-format on
-#endif
+        if (manager->worker != NULL)
+        {
+            HeapFree(HEAP_SYSTEM, manager->worker);
+            manager->worker = NULL;
+        }
+
+        HeapFree(HEAP_SYSTEM, manager);
+        work->textManager = NULL;
+    }
 }
 
-NONMATCH_FUNC void CutsceneSeq__Func_2158A4C(Unknown2156918 *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, [r0, #0x18]
-	ldr r1, [r0, #4]
-	cmp r1, #0
-	ldmeqia sp!, {r3, pc}
-	ldr r0, [r0, #0xc]
-	blx r1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+void CutsceneTextManager__Process(CutsceneSystemManager *work)
+{
+    if (work->textManager->processFunc != NULL)
+        work->textManager->processFunc(work->textManager->worker);
 }
 
-NONMATCH_FUNC void sub_2158A6C(void){
+NONMATCH_FUNC void CutsceneUnknown__Func_2158A6C(void){
 #ifdef NON_MATCHING
 
 #else
@@ -8964,7 +7497,7 @@ _02158CEC:
 #endif
 }
 
-NONMATCH_FUNC void sub_2158D3C(void){
+NONMATCH_FUNC void CutsceneUnknown__Func_2158D3C(void){
 #ifdef NON_MATCHING
 
 #else
@@ -9175,7 +7708,7 @@ _02158FD8:
 #endif
 }
 
-NONMATCH_FUNC void sub_215902C(void){
+NONMATCH_FUNC void CutsceneUnknown__Func_215902C(void){
 #ifdef NON_MATCHING
 
 #else
@@ -9282,7 +7815,7 @@ _02159160:
 #endif
 }
 
-NONMATCH_FUNC void sub_2159188(void){
+NONMATCH_FUNC void CutsceneUnknown__Func_2159188(void){
 #ifdef NON_MATCHING
 
 #else
@@ -9325,7 +7858,7 @@ _021591E4:
 #endif
 }
 
-NONMATCH_FUNC u32 sub_2159204(s32 a1)
+NONMATCH_FUNC u32 CutsceneUnknown__GetBankID(s32 a1)
 {
     // should match when _0215B3A0 is decompiled
 #ifdef NON_MATCHING
@@ -9357,22 +7890,12 @@ NONMATCH_FUNC u32 sub_2159204(s32 a1)
 #endif
 }
 
-NONMATCH_FUNC void CutsceneSeq__InitUnknown2157E58(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =MIi_CpuClear16
-	mov r1, r0
-	mov r0, #0
-	mov r2, #0x14
-	bx ip
-
-// clang-format on
-#endif
+void CutsceneFadeManager__Init(CutsceneFadeManager *work)
+{
+    MI_CpuClear16(work, sizeof(*work));
 }
 
-NONMATCH_FUNC void CutsceneSeq__ProcessUnknown2157E58(void){
+NONMATCH_FUNC void CutsceneFadeTask__Process(CutsceneFadeManager *work){
 #ifdef NON_MATCHING
 
 #else
@@ -9473,7 +7996,7 @@ _02159398:
 #endif
 }
 
-NONMATCH_FUNC void sub_21593A4(void){
+NONMATCH_FUNC void CutsceneFadeManager__Draw(CutsceneFadeManager *work, s32 mode, s32 timer){
 #ifdef NON_MATCHING
 
 #else
@@ -9636,7 +8159,7 @@ _02159598:
 #endif
 }
 
-NONMATCH_FUNC void sub_21595C4(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__AddTouchArea(void){
 #ifdef NON_MATCHING
 
 #else
@@ -9658,7 +8181,7 @@ NONMATCH_FUNC void sub_21595C4(void){
 	str lr, [r6, #0x50]
 	cmp lr, #0
 	beq _02159624
-	ldr ip, =sub_215967C
+	ldr ip, =CutsceneSpriteButtonManager__TouchAreaCallback
 	mov r1, r2
 	mov r2, r3
 	mov r3, r4
@@ -9685,7 +8208,7 @@ _0215963C:
 #endif
 }
 
-NONMATCH_FUNC void sub_215965C(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__RemoveTouchArea(void){
 #ifdef NON_MATCHING
 
 #else
@@ -9703,7 +8226,7 @@ NONMATCH_FUNC void sub_215965C(void){
 #endif
 }
 
-NONMATCH_FUNC void sub_215967C(void){
+NONMATCH_FUNC void CutsceneSpriteButtonManager__TouchAreaCallback(void){
 #ifdef NON_MATCHING
 
 #else
@@ -9748,14 +8271,14 @@ _021596F8:
 	ldmneia sp!, {r3, pc}
 	ldr r0, [r1, #0x4c]
 	mov r1, r2
-	bl CutsceneSeq__InitAYKSequence
+	bl CutsceneScript__InitScriptThread
 	ldmia sp!, {r3, pc}
 
 // clang-format on
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2159718(void){
+NONMATCH_FUNC void CutsceneTextWorker__Init(CutsceneTextWorker *work){
 #ifdef NON_MATCHING
 
 #else
@@ -9779,7 +8302,7 @@ NONMATCH_FUNC void CutsceneAssetSystem__Func_2159718(void){
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_2159750(void){
+NONMATCH_FUNC void CutsceneTextWorker__Draw(CutsceneTextWorker *work){
 #ifdef NON_MATCHING
 
 #else
@@ -9856,7 +8379,7 @@ _0215982C:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_215984C(void){
+NONMATCH_FUNC void CutsceneTextWorker__Release(CutsceneTextWorker *work){
 #ifdef NON_MATCHING
 
 #else
@@ -9890,32 +8413,14 @@ _02159894:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_21598A4(void){
-#ifdef NON_MATCHING
+CutsceneScriptResult CutsceneTextWorker__Process(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *work)
+{
+    s32 id = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r5, r1
-	mov r6, r0
-	mov r0, r5
-	mov r1, #0
-	mov r4, r2
-	bl AYKCommand__GetValue
-	mov r2, r0
-	ldr r1, =CutsceneSeq__FuncTable10
-	mov r0, r6
-	ldr r3, [r1, r2, lsl #2]
-	mov r1, r5
-	mov r2, r4
-	blx r3
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    return CutsceneScript__TextCommands[id](text, thread, work);
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__LoadFontFile(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__LoadFontFile(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -9927,48 +8432,48 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__LoadFontFile(void *a1, void *a2, Cut
 	mov r0, r9
 	mov r1, #1
 	mov r6, r2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r4, r0
 	mov r0, r9
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	and r5, r0, #0xff
 	mov r0, r9
 	mov r1, #3
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r11, r0
 	mov r0, r9
 	mov r1, #4
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	str r0, [sp, #0x28]
 	mov r1, r6
 	mov r0, r9
 	mov r2, #5
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	str r0, [sp, #0x24]
 	mov r0, r9
 	mov r1, #6
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r8, r0
 	mov r0, r9
 	mov r1, #7
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r6, r0
 	mov r0, r9
 	mov r1, #8
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r7, r0
 	mov r0, r9
 	mov r1, #9
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	str r0, [sp, #0x20]
 	mov r0, r9
 	mov r1, #0xa
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	str r0, [sp, #0x1c]
 	mov r0, r9
 	mov r1, #0xb
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r2, #0
 	and r9, r0, #0xff
 	ldr r1, [sp, #0x28]
@@ -9977,7 +8482,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__LoadFontFile(void *a1, void *a2, Cut
 	mov r0, r4
 	mov r1, r5
 	mov r3, r2
-	bl sub_2158A6C
+	bl CutsceneUnknown__Func_2158A6C
 	mov r0, r4
 	mov r1, r5
 	bl BackgroundUnknown__Func_204CA00
@@ -10065,7 +8570,7 @@ _02159A04:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159B14(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__Func_2159B14(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10105,7 +8610,7 @@ _02159B78:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__LoadMPCFile(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__LoadMPCFile(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10117,11 +8622,11 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__LoadMPCFile(void *a1, void *a2, Cuts
 	mov r0, r5
 	mov r1, r6
 	mov r2, #1
-	bl AYKCommand__GetPath
+	bl CutsceneScript__GetFunctionParamString
 	mov r4, r0
 	mov r0, r5
 	mov r1, #2
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r5, r0
 	ldr r0, [r7, #0x178]
 	cmp r0, #0
@@ -10130,7 +8635,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__LoadMPCFile(void *a1, void *a2, Cuts
 _02159BC4:
 	add r0, r6, #0x30
 	add r0, r0, #0x1000
-	bl sub_21569E4
+	bl CutsceneFileSystemManager__Func_21569E4
 	cmp r0, #0
 	movne r3, #1
 	moveq r3, #0
@@ -10152,7 +8657,7 @@ _02159BC4:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__SetMsgSeq(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__SetMsgSeq(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10161,7 +8666,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__SetMsgSeq(void *a1, void *a2, Cutsce
 	mov r4, r0
 	mov r0, r1
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r0, r0, lsl #0x10
 	mov r1, r0, lsr #0x10
 	add r0, r4, #0xb0
@@ -10184,7 +8689,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__SetMsgSeq(void *a1, void *a2, Cutsce
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159C68(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__Func_2159C68(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10193,7 +8698,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159C68(void *a1, void *a2, Cut
 	mov r4, r0
 	mov r0, r1
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	str r0, [r4, #0x180]
 	mov r0, #1
 	ldmia sp!, {r4, pc}
@@ -10202,7 +8707,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159C68(void *a1, void *a2, Cut
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159C88(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__Func_2159C88(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10211,7 +8716,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159C88(void *a1, void *a2, Cut
 	mov r4, r0
 	mov r0, r1
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	str r0, [r4, #0x184]
 	mov r0, #1
 	ldmia sp!, {r4, pc}
@@ -10220,7 +8725,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159C88(void *a1, void *a2, Cut
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CA8(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__Func_2159CA8(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10229,7 +8734,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CA8(void *a1, void *a2, Cut
 	mov r4, r0
 	mov r0, r1
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	str r0, [r4, #0x188]
 	mov r0, #1
 	ldmia sp!, {r4, pc}
@@ -10238,7 +8743,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CA8(void *a1, void *a2, Cut
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CC8(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__Func_2159CC8(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10252,7 +8757,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CC8(void *a1, void *a2, Cut
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CD8(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__Func_2159CD8(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10266,7 +8771,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CD8(void *a1, void *a2, Cut
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CE8(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__LoadCharacters(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10284,7 +8789,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159CE8(void *a1, void *a2, Cut
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D08(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__LoadCharactersConditional(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10293,7 +8798,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D08(void *a1, void *a2, Cut
 	mov r4, r0
 	mov r0, r1
 	mov r1, #1
-	bl AYKCommand__GetValue
+	bl CutsceneScript__GetFunctionParamRegister
 	mov r0, r0, lsl #0x10
 	movs r1, r0, lsr #0x10
 	beq _02159D38
@@ -10309,7 +8814,7 @@ _02159D38:
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D40(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__IsEndOfLine(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10323,7 +8828,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D40(void *a1, void *a2, Cut
 	moveq r2, #0
 	mov r0, r4
 	mov r1, #1
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -10331,7 +8836,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D40(void *a1, void *a2, Cut
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D70(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__AdvanceDialog(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10346,7 +8851,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D70(void *a1, void *a2, Cut
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D84(void *a1, void *a2, CutsceneSeq *work){
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__IsLastDialog(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene){
 #ifdef NON_MATCHING
 
 #else
@@ -10360,7 +8865,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D84(void *a1, void *a2, Cut
 	moveq r2, #0
 	mov r0, r4
 	mov r1, #1
-	bl AYKCommand__SetValue
+	bl AYKCommand__SetRegister
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 
@@ -10368,7 +8873,7 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159D84(void *a1, void *a2, Cut
 #endif
 }
 
-NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159DB4(void *a1, void *a2, CutsceneSeq *work)
+NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__Draw(CutsceneTextWorker *text, ScriptThread *thread, CutsceneScript *cutscene)
 {
 #ifdef NON_MATCHING
 
@@ -10390,10 +8895,10 @@ NONMATCH_FUNC s32 CutsceneSeq__FuncTable10__Func_2159DB4(void *a1, void *a2, Cut
 
 void CutsceneAssetSystem__Create(void)
 {
-    CutsceneAssetSystem__Singleton =
+    cutsceneAssetSystemTask =
         TaskCreate(CutsceneAssetSystem__Main, CutsceneAssetSystem__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_SCOPE_0, CutsceneAssetSystem);
 
-    CutsceneAssetSystem__Func_2159E28(CutsceneAssetSystem__Singleton);
+    CutsceneAssetSystem__Func_2159E28(cutsceneAssetSystemTask);
 }
 
 void CutsceneAssetSystem__Func_2159E28(Task *task)
@@ -10439,31 +8944,31 @@ void CutsceneAssetSystem__Func_2159E28(Task *task)
         gfxControlList++;
     }
 
-    s32 id    = CutsceneAssetSystem__GetCutsceneID();
-    work->ayk = LoadAYK(id);
-    CutsceneSeq__Create(work, 16);
-    CutsceneAssetSystem__Func_2152A74(work, 32);
-    CutsceneAssetSystem__Func_2152A8C(work, 16);
-    CutsceneAssetSystem__Func_2152AA4(work);
-    CutsceneAssetSystem__Func_2152ABC(work, 32);
-    CutsceneAssetSystem__Func_2152B00(work);
-    CutsceneAssetSystem__Func_2152AE8(work, 8);
-    CutsceneAssetSystem__StartLoadingAYK(work, work->ayk);
-    CutsceneAssetSystem__FinishLoadingAYK(work, GetAYKUnknown(id), CutsceneAssetSystem__OnCutsceneFinish);
-    CutsceneAssetSystem__Func_215A080(CutsceneAssetSystem__GetCutsceneSeq(work));
+    s32 id       = CutsceneAssetSystem__GetCutsceneID();
+    work->script = LoadCutsceneScript(id);
+    CutsceneScript__Create(work, 16);
+    CutsceneScript__InitFileSystemManager(work, 32);
+    CutsceneScript__InitSpriteButtonManager(work, 16);
+    CutsceneScript__InitBackgroundManager(work);
+    CutsceneScript__InitModelManager(work, 32);
+    CutsceneScript__InitTextManager(work);
+    CutsceneScript__InitAudioManager(work, 8);
+    CutsceneScript__LoadScript(work, work->script);
+    CutsceneScript__StartScript(work, GetScriptStartParam(id), CutsceneAssetSystem__OnCutsceneFinish);
+    CutsceneAssetSystem__LoadCanSkipFlag(CutsceneAssetSystem__GetCutsceneScript(work));
 }
 
 void CutsceneAssetSystem__Destructor(Task *task)
 {
     CutsceneAssetSystem *work = TaskGetWork(task, CutsceneAssetSystem);
-    HeapFree(HEAP_USER, work->ayk);
+    HeapFree(HEAP_USER, work->script);
 
-    CutsceneAssetSystem__Singleton = NULL;
+    cutsceneAssetSystemTask = NULL;
 }
 
-void CutsceneAssetSystem__OnCutsceneFinish(CutsceneSeq *work)
+void CutsceneAssetSystem__OnCutsceneFinish(CutsceneScript *work)
 {
-    SetTaskMainEvent(CutsceneAssetSystem__Singleton, CutsceneAssetSystem__NextSysEvent);
+    SetTaskMainEvent(cutsceneAssetSystemTask, CutsceneAssetSystem__NextSysEvent);
 
     renderCoreGFXControlA.windowManager.visible = GX_WND_PLANEMASK_NONE;
     renderCoreGFXControlB.windowManager.visible = GX_WND_PLANEMASK_NONE;
@@ -10477,7 +8982,7 @@ void CutsceneAssetSystem__OnCutsceneFinish(CutsceneSeq *work)
     renderCoreGFXControlA.blendManager.brightness = RENDERCORE_BRIGHTNESS_DEFAULT;
     renderCoreGFXControlB.blendManager.brightness = RENDERCORE_BRIGHTNESS_DEFAULT;
 
-    CutsceneAssetSystem__Func_215A0B0(work);
+    CutsceneAssetSystem__StoreCanSkipFlag(work);
 }
 
 s32 CutsceneAssetSystem__GetCutsceneID(void)
@@ -10490,25 +8995,29 @@ s32 CutsceneAssetSystem__GetNextSysEvent(void)
     return gameState.cutscene.nextSysEvent;
 }
 
-void CutsceneAssetSystem__Func_215A080(CutsceneSeq *work)
+void CutsceneAssetSystem__LoadCanSkipFlag(CutsceneScript *work)
 {
-    *(s32 *)CutsceneSeq__GetAYKCommand_String(work, NULL, GetAYKUnknown2()) = gameState.cutscene.stringValue;
+    s32 *data = CutsceneScript__GetFunctionParamConstant(work, NULL, GetScriptCanSkipFlagIn());
+
+    *data = gameState.cutscene.canSkip;
 }
 
-void CutsceneAssetSystem__Func_215A0B0(CutsceneSeq *work)
+void CutsceneAssetSystem__StoreCanSkipFlag(CutsceneScript *work)
 {
-    gameState.cutscene.stringValue = *(s32 *)CutsceneSeq__GetAYKCommand_String(work, NULL, GetAYKUnknown3());
+    s32 *data = CutsceneScript__GetFunctionParamConstant(work, NULL, GetScriptCanSkipFlagOut());
+
+    gameState.cutscene.canSkip = *data;
 }
 
 void CutsceneAssetSystem__Main(void)
 {
-    CutsceneAssetSystem *work = TaskGetWork(CutsceneAssetSystem__Singleton, CutsceneAssetSystem);
+    CutsceneAssetSystem *work = TaskGetWork(cutsceneAssetSystemTask, CutsceneAssetSystem);
     UNUSED(work);
 }
 
 void CutsceneAssetSystem__NextSysEvent(void)
 {
-    CutsceneAssetSystem *work = TaskGetWork(CutsceneAssetSystem__Singleton, CutsceneAssetSystem);
+    CutsceneAssetSystem *work = TaskGetWork(cutsceneAssetSystemTask, CutsceneAssetSystem);
     CutsceneAssetSystem__Destroy(work);
     DestroyCurrentTask();
 
@@ -11728,9 +10237,20 @@ _0215B0FC:
 #endif
 }
 
-NONMATCH_FUNC void CutsceneAssetSystem__Func_215B108(void){
+NONMATCH_FUNC s16 CutsceneAssetSystem__Func_215B108(s32 value, s32 id)
+{
+    // https://decomp.me/scratch/5BQxd -> 98%
 #ifdef NON_MATCHING
+    static const u32 maskTable[] = { 0, 1, 3, 7, 0xF, 0x1F, 0x3F, 0x7F, 0xFF, 0x1FF, 0x3FF, 0x7FF, 0xFFF, 0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF };
 
+    if (id == 0)
+        return 0;
+
+    u32 mask = 1 << ((id & maskTable[id]) - 1);
+    if ((value & mask) != 0)
+        return value;
+
+    return -(s16)(value | mask);
 #else
     // clang-format off
 	cmp r1, #0
