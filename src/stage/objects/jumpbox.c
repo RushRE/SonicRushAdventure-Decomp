@@ -82,8 +82,8 @@ NONMATCH_FUNC JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     id = mapObject->flags & JUMPBOX_OBJFLAG_FOR_BLAZE;
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_jumpbox.bac", GetObjectFileWork(89), gameArchiveStage, OBJ_DATA_GFX_NONE);
-    ObjObjectActionAllocSprite(&work->gameWork.objWork, 5, GetObjectFileWork(90 + 2 * id));
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_jumpbox.bac", GetObjectFileWork(OBJDATAWORK_89), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectActionAllocSprite(&work->gameWork.objWork, 5, GetObjectFileWork(OBJDATAWORK_90 + 2 * id));
 
     anim = JUMPBOX_ANI_TOP_SONIC + id;
     ObjActionAllocSpritePalette(&work->gameWork.objWork, anim, 8);
@@ -92,7 +92,7 @@ NONMATCH_FUNC JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 
     StageTask__SetAnimation(&work->gameWork.objWork, anim);
 
     ani = &work->aniJumpBox;
-    ObjAction2dBACLoad(ani, "/act/ac_gmk_jumpbox.bac", 16, GetObjectFileWork(89), gameArchiveStage);
+    ObjAction2dBACLoad(ani, "/act/ac_gmk_jumpbox.bac", 16, GetObjectFileWork(OBJDATAWORK_89), gameArchiveStage);
     ani->work.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 0, 3);
     ani->cParam[0].palette = ani->cParam[1].palette = ani->work.palette;
     ani->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -117,7 +117,7 @@ NONMATCH_FUNC JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], JumpBox_OnDefend);
     work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
 
-    ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_jumpbox.df", GetObjectFileWork(94), gameArchiveStage);
+    ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_jumpbox.df", GetObjectFileWork(OBJDATAWORK_94), gameArchiveStage);
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.width  = 64;
     work->gameWork.collisionObject.work.height = 64;
@@ -330,14 +330,14 @@ PlaneSwitchSpring *CreatePlaneSwitchSpring(MapObject *mapObject, fx32 x, fx32 y,
         priority = SPRITE_PRIORITY_2;
     }
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_spring_st6.bac", GetObjectFileWork(177), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_spring_st6.bac", GetObjectFileWork(OBJDATAWORK_177), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 2);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, order1);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, priority);
     StageTask__SetAnimation(&work->gameWork.objWork, anim1);
 
     AnimatorSpriteDS *ani = &work->aniSpring;
-    ObjAction2dBACLoad(ani, "/act/ac_gmk_spring_st6.bac", OBJ_DATA_GFX_AUTO, GetObjectFileWork(177), gameArchiveStage);
+    ObjAction2dBACLoad(ani, "/act/ac_gmk_spring_st6.bac", OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_177), gameArchiveStage);
     ani->cParam[0].palette = ani->cParam[1].palette = ani->work.palette = work->gameWork.objWork.obj_2d->ani.work.palette;
 
     ani->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -359,7 +359,7 @@ void JumpBox_Destructor(Task *task)
     JumpBox *work = TaskGetWork(task, JumpBox);
 
     ObjDrawReleaseSpritePalette(work->aniJumpBox.work.palette);
-    ObjAction2dBACRelease(GetObjectFileWork(89), &work->aniJumpBox);
+    ObjAction2dBACRelease(GetObjectFileWork(OBJDATAWORK_89), &work->aniJumpBox);
     GameObject__Destructor(task);
 }
 
@@ -451,7 +451,7 @@ void PlaneSwitchSpring_Destructor(Task *task)
 {
     PlaneSwitchSpring *work = TaskGetWork(task, PlaneSwitchSpring);
 
-    ObjAction2dBACRelease(GetObjectFileWork(177), &work->aniSpring);
+    ObjAction2dBACRelease(GetObjectFileWork(OBJDATAWORK_177), &work->aniSpring);
     GameObject__Destructor(task);
 }
 

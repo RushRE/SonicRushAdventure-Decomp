@@ -798,7 +798,7 @@ void Player__Action_Blank(Player *player)
     SetTaskState(&player->objWork, Player__State_Blank);
 }
 
-void Player__State_Blank(Player *player)
+void Player__State_Blank(Player *work)
 {
     // Empty
 }
@@ -816,7 +816,7 @@ void Player__RemoveCollideEvent(Player *player)
     SetTaskCollideFunc(&player->objWork, NULL);
 }
 
-void Player__State_Intangible(Player *player)
+void Player__State_Intangible(Player *work)
 {
     // Empty
 }
@@ -1924,7 +1924,7 @@ void Player__Action_FinishMission(Player *player, GameObjectTask *other)
             }
             else
             {
-                SendPacketForTimeUnknownEvent();
+                SendPacketForStageScoreEvent();
             }
         }
     }
@@ -4221,36 +4221,36 @@ void Player__Action_Roll(Player *player)
     }
 }
 
-void Player__State_Roll(Player *player)
+void Player__State_Roll(Player *work)
 {
-    if (Player__HandleFallOffSurface(player))
+    if (Player__HandleFallOffSurface(work))
     {
-        Player__InitPhysics(player);
-        Player__Action_Launch(player);
+        Player__InitPhysics(work);
+        Player__Action_Launch(work);
     }
     else
     {
-        if ((player->inputKeyPress & PLAYER_INPUT_JUMP) != 0 && player->actionJump != NULL)
+        if ((work->inputKeyPress & PLAYER_INPUT_JUMP) != 0 && work->actionJump != NULL)
         {
-            if (player->overSpeedLimitTimer >= 20)
-                player->overSpeedLimitTimer = 20;
+            if (work->overSpeedLimitTimer >= 20)
+                work->overSpeedLimitTimer = 20;
 
-            Player__InitPhysics(player);
-            player->actionJump(player);
+            Player__InitPhysics(work);
+            work->actionJump(work);
         }
         else
         {
-            Player__HandleRollingForces(player);
+            Player__HandleRollingForces(work);
 
-            if (player->objWork.groundVel < FLOAT_TO_FX32(0.5) && player->objWork.groundVel > -FLOAT_TO_FX32(0.5))
+            if (work->objWork.groundVel < FLOAT_TO_FX32(0.5) && work->objWork.groundVel > -FLOAT_TO_FX32(0.5))
             {
-                player->objWork.groundVel = 0;
-                Player__InitPhysics(player);
-                player->onLandGround(player);
+                work->objWork.groundVel = 0;
+                Player__InitPhysics(work);
+                work->onLandGround(work);
             }
             else
             {
-                Player__SetAnimSpeedFromVelocity(player, player->objWork.groundVel);
+                Player__SetAnimSpeedFromVelocity(work, work->objWork.groundVel);
             }
         }
     }
@@ -5138,37 +5138,37 @@ void Player__State_Warp(Player *work)
     }
 }
 
-void Player__State_Hurt(Player *player)
+void Player__State_Hurt(Player *work)
 {
-    Player__HandleAirDrag(player);
+    Player__HandleAirDrag(work);
 
-    if ((player->objWork.flag & STAGE_TASK_FLAG_2) == 0 && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+    if ((work->objWork.flag & STAGE_TASK_FLAG_2) == 0 && (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
     {
-        player->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_100;
-        Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
-        player->onLandGround(player);
+        work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_100;
+        Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
+        work->onLandGround(work);
     }
 }
 
-void Player__State_HurtSnowboard(Player *player)
+void Player__State_HurtSnowboard(Player *work)
 {
-    player->objWork.dir.z += FLOAT_DEG_TO_IDX(22.5);
+    work->objWork.dir.z += FLOAT_DEG_TO_IDX(22.5);
 
-    player->objWork.userTimer--;
-    if (player->objWork.userTimer <= 0)
+    work->objWork.userTimer--;
+    if (work->objWork.userTimer <= 0)
     {
-        player->objWork.dir.z = 0;
-        if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+        work->objWork.dir.z = 0;
+        if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
         {
-            Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
-            player->onLandGround(player);
-            PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
+            Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
+            work->onLandGround(work);
+            PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
         }
         else
         {
-            fx32 velX = player->objWork.velocity.x;
-            Player__Action_Launch(player);
-            player->objWork.velocity.x = velX;
+            fx32 velX = work->objWork.velocity.x;
+            Player__Action_Launch(work);
+            work->objWork.velocity.x = velX;
         }
     }
 }
@@ -5764,59 +5764,59 @@ void Player__Action_HomingAttack_Sonic(Player *player)
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_HOMING);
 }
 
-void Player__State_HomingAttack(Player *player)
+void Player__State_HomingAttack(Player *work)
 {
-    if (player->objWork.userTimer == 0)
+    if (work->objWork.userTimer == 0)
     {
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
-        player->playerFlag &= ~PLAYER_GIMMICK_40;
-        Player__Action_Launch(player);
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+        work->playerFlag &= ~PLAYER_GIMMICK_40;
+        Player__Action_Launch(work);
         return;
     }
 
-    player->objWork.userTimer--;
+    work->objWork.userTimer--;
 
-    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+    if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
     {
-        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
-        player->playerFlag &= ~PLAYER_GIMMICK_40;
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+        work->playerFlag &= ~PLAYER_GIMMICK_40;
 
-        Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
-        player->onLandGround(player);
-        if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
-            PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
+        Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
+        work->onLandGround(work);
+        if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
+            PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
 
         return;
     }
 
-    GameObjectTask *target = player->homingTarget;
+    GameObjectTask *target = work->homingTarget;
     if (target)
     {
-        u32 targetAngle = FX_Atan2Idx(target->objWork.position.y - player->objWork.position.y, target->objWork.position.x - player->objWork.position.x);
-        targetAngle += player->objWork.fallDir;
+        u32 targetAngle = FX_Atan2Idx(target->objWork.position.y - work->objWork.position.y, target->objWork.position.x - work->objWork.position.x);
+        targetAngle += work->objWork.fallDir;
         targetAngle = (u16)targetAngle;
 
         // move towards target at 8 units/frame
-        player->objWork.velocity.x = PLAYER_HOMINGATTACK_SPEED * FX_CosIdx((u16)targetAngle);
-        player->objWork.velocity.y = PLAYER_HOMINGATTACK_SPEED * FX_SinIdx((u16)targetAngle);
+        work->objWork.velocity.x = PLAYER_HOMINGATTACK_SPEED * FX_CosIdx((u16)targetAngle);
+        work->objWork.velocity.y = PLAYER_HOMINGATTACK_SPEED * FX_SinIdx((u16)targetAngle);
 
-        if (player->objWork.velocity.x < 0)
+        if (work->objWork.velocity.x < 0)
         {
-            player->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+            work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
         }
-        else if (player->objWork.velocity.x > 0)
+        else if (work->objWork.velocity.x > 0)
         {
-            player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+            work->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
         }
 
-        if (MATH_ABS(player->objWork.velocity.x) > FLOAT_TO_FX32(0.0625))
+        if (MATH_ABS(work->objWork.velocity.x) > FLOAT_TO_FX32(0.0625))
         {
-            if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) != 0)
+            if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) != 0)
             {
-                player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
-                player->playerFlag &= ~PLAYER_FLAG_DISABLE_HOMING_ATTACK;
-                Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
-                player->onLandGround(player);
+                work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+                work->playerFlag &= ~PLAYER_FLAG_DISABLE_HOMING_ATTACK;
+                Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
+                work->onLandGround(work);
             }
         }
     }
@@ -5858,34 +5858,34 @@ void Player__Action_FlameHover(Player *player)
     }
 }
 
-void Player__State_FlameHover(Player *player)
+void Player__State_FlameHover(Player *work)
 {
-    if ((player->gimmickFlag & PLAYER_GIMMICK_1000) == 0 && (playerGameStatus.stageTimer & 7) == 0 && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0)
+    if ((work->gimmickFlag & PLAYER_GIMMICK_1000) == 0 && (playerGameStatus.stageTimer & 7) == 0 && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0)
     {
-        CreateEffectFlameJetForPlayer(player);
+        CreateEffectFlameJetForPlayer(work);
     }
 
-    if (player->blazeHoverTimer)
-        player->blazeHoverTimer--;
+    if (work->blazeHoverTimer != 0)
+        work->blazeHoverTimer--;
 
-    Player__HandleAirDrag(player);
-    Player__HandleAirMovement(player);
+    Player__HandleAirDrag(work);
+    Player__HandleAirMovement(work);
 
-    if ((player->inputKeyDown & PAD_BUTTON_R) == 0 || player->blazeHoverTimer == 0)
+    if ((work->inputKeyDown & PAD_BUTTON_R) == 0 || work->blazeHoverTimer == 0)
     {
-        Player__InitPhysics(player);
-        player->objWork.groundVel = player->objWork.velocity.x;
-        player->objWork.displayFlag |= DISPLAY_FLAG_400;
-        Player__Action_Launch(player);
+        Player__InitPhysics(work);
+        work->objWork.groundVel = work->objWork.velocity.x;
+        work->objWork.displayFlag |= DISPLAY_FLAG_400;
+        Player__Action_Launch(work);
     }
-    else if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+    else if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
     {
-        Player__InitPhysics(player);
-        Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
-        player->onLandGround(player);
+        Player__InitPhysics(work);
+        Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
+        work->onLandGround(work);
 
-        if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
-            PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
+        if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
+            PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
     }
 }
 

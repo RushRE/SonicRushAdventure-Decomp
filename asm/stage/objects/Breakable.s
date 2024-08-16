@@ -83,7 +83,7 @@ Breakable__Create: // 0x0215FC64
 	mov r1, #1
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0215FEA0 // =Breakable__ppDef_215FEB8
+	ldr r0, _0215FEA0 // =Breakable__OnDefend_215FEB8
 	mov r1, #0
 	str r0, [r5, #0x23c]
 	ldr r2, [r5, #0x1c]
@@ -161,7 +161,7 @@ _0215FE90: .word GameObject__Destructor
 _0215FE94: .word gameArchiveStage
 _0215FE98: .word aActAcGmkBreakO_0
 _0215FE9C: .word 0x0000FFFF
-_0215FEA0: .word Breakable__ppDef_215FEB8
+_0215FEA0: .word Breakable__OnDefend_215FEB8
 _0215FEA4: .word StageTask__DefaultDiffData
 _0215FEA8: .word gameState
 _0215FEAC: .word Breakable__activeCount
@@ -169,8 +169,8 @@ _0215FEB0: .word Breakable__Destructor
 _0215FEB4: .word Breakable__State_Tutorial
 	arm_func_end Breakable__Create
 
-	arm_func_start Breakable__ppDef_215FEB8
-Breakable__ppDef_215FEB8: // 0x0215FEB8
+	arm_func_start Breakable__OnDefend_215FEB8
+Breakable__OnDefend_215FEB8: // 0x0215FEB8
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -279,7 +279,7 @@ _0215FF54:
 	.align 2, 0
 _02160054: .word gameState
 _02160058: .word Breakable__activeCount
-	arm_func_end Breakable__ppDef_215FEB8
+	arm_func_end Breakable__OnDefend_215FEB8
 
 	arm_func_start Breakable__Destructor
 Breakable__Destructor: // 0x0216005C

@@ -195,7 +195,7 @@ static u16 const initialAnimList[CHARACTER_COUNT][2] = {
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
 
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniSnowboard, boardModelPath[player->characterID], 0, GetObjectFileWork(165 + player->characterID), gameArchiveStage);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniSnowboard, boardModelPath[player->characterID], 0, GetObjectFileWork(OBJDATAWORK_165 + player->characterID), gameArchiveStage);
     NNS_G3dResDefaultSetup(work->gameWork.objWork.obj_3d->file[0]->fileData);
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, work->gameWork.objWork.obj_3d, "/mod/ply_board.nsbca", 0, gameArchiveStage);
 

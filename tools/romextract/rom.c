@@ -225,6 +225,19 @@ void ExtractFile(char *path, uint8_t *fileData, size_t size, uint8_t compression
                 pathBuffer = path;
             }
 
+            if (true)
+            {
+                char *dirPath = GetFileDirectory(pathBuffer);
+
+                if (dirPath != NULL)
+                {
+                    // try to create the directory if it doesn't already exist!
+                    MakeDirectory(dirPath);
+
+                    free(dirPath);
+                }
+            }
+
             file = fopen(pathBuffer, "wb");
             if (file == NULL)
                 return;

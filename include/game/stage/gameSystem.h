@@ -30,11 +30,11 @@ enum PlayerGameStatusFlags_
     PLAYERGAMESTATUS_FLAG_NEEDS_DATATRANSFER_CONFIG_INIT = 0x08,
     PLAYERGAMESTATUS_FLAG_NO_MORE_STAGEFINISHEVENTS      = 0x10,
     PLAYERGAMESTATUS_FLAG_FADE_IS_ACTIVE                 = 0x20,
-    PLAYERGAMESTATUS_FLAG_TIMEUNKNOWNEVENT_ACTIVE        = 0x40,
+    PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_ACTIVE        = 0x40,
     PLAYERGAMESTATUS_FLAG_DISABLE_PLAYER_INPUTS          = 0x80,
     PLAYERGAMESTATUS_FLAG_NETWORK_ERROR                  = 0x100,
     PLAYERGAMESTATUS_FLAG_STAGEFINISHEVENT_SENT          = 0x200,
-    PLAYERGAMESTATUS_FLAG_TIMEUNKNOWNEVENT_SENT          = 0x400,
+    PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_SENT          = 0x400,
 };
 typedef u32 PlayerGameStatusFlags;
 
@@ -62,7 +62,7 @@ enum GamePacketType_
     GAMEPACKET_INTERACTABLE,
     GAMEPACKET_UNKNOWN,
     GAMEPACKET_RINGCOUNT,
-    GAMEPACKET_TIMEUNKNOWN,
+    GAMEPACKET_STAGESCORE,
     GAMEPACKET_STAGEFINISH,
 };
 typedef u32 GamePacketType;
@@ -106,21 +106,15 @@ typedef struct PlayerGameStatus_
     u16 recallWaterLevel;
     PadInputState input;
     u16 field_88[2];
-    u16 field_8C;
-    u16 field_8E;
+    u16 field_8C[2];
     u16 networkErrorTimer;
-    u16 timeUnknownEventTimer;
+    u16 stageScoreEventTimer;
     u16 stageFinishEventTimer;
     union
     {
-        s16 s16;
-        s32 s32;
-    } stagePacketValue;
-    union
-    {
-        s16 s16;
-        u32 s32;
-    } stagePacketValue2;
+        s16 rings;
+        u32 time;
+    } vsStageScore[2];
     GameObjectSendPacket *sendPacketList;
     u32 sendPacketCount;
     s32 playerLapCounter[PLAYER_COUNT];
@@ -169,7 +163,7 @@ StageStartType GetStageStartType(void);
 BOOL IsSnowboardStage(void);
 BOOL IsSnowboardActive(void);
 s32 GetVSBattlePosition(Player *player);
-void SendPacketForTimeUnknownEvent(void);
+void SendPacketForStageScoreEvent(void);
 void SendPacketForStageFinishEvent(void);
 GameObjectSendPacket *RequestNextSendPacket(void);
 

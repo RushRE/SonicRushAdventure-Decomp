@@ -66,7 +66,7 @@ DashRing *CreateDashRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     TaskInitWork8(work);
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_c.bac", GetObjectFileWork(35), gameArchiveStage, 0);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_c.bac", GetObjectFileWork(OBJDATAWORK_35), gameArchiveStage, 0);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 2);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_0);
@@ -78,22 +78,22 @@ DashRing *CreateDashRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     {
         default:
         case MAPOBJECT_106:
-            spriteID    = 40;
+            spriteID    = OBJDATAWORK_40;
             gfxSize     = 16;
-            spriteRefID = 42;
+            spriteRefID = OBJDATAWORK_42;
             break;
 
         case MAPOBJECT_107:
-            spriteID    = 36;
+            spriteID    = OBJDATAWORK_36;
             gfxSize     = 16;
-            spriteRefID = 38;
+            spriteRefID = OBJDATAWORK_38;
             break;
 
         case MAPOBJECT_108:
         case MAPOBJECT_109:
-            spriteID    = 44;
+            spriteID    = OBJDATAWORK_44;
             gfxSize     = 32;
-            spriteRefID = 46;
+            spriteRefID = OBJDATAWORK_46;
             break;
     }
 
@@ -214,7 +214,7 @@ DashRing *CreateDashRingRainbow(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             break;
     }
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_ct.bac", GetObjectFileWork(48), gameArchiveStage, gfxSize);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_ct.bac", GetObjectFileWork(OBJDATAWORK_48), gameArchiveStage, gfxSize);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 8);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_0);

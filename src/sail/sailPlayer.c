@@ -195,15 +195,15 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
 
     if (isRival)
     {
-        ObjAction3dNNModelLoad(work, NULL, sailPlayerModelList[SHIP_COUNT], 0, GetObjectFileWork(100), SailManager__GetArchive());
-        ObjAction3dNNMotionLoad(work, NULL, sailPlayerAnimList[SHIP_COUNT], GetObjectFileWork(101), SailManager__GetArchive());
+        ObjAction3dNNModelLoad(work, NULL, sailPlayerModelList[SHIP_COUNT], 0, GetObjectFileWork(OBJDATAWORK_100), SailManager__GetArchive());
+        ObjAction3dNNMotionLoad(work, NULL, sailPlayerAnimList[SHIP_COUNT], GetObjectFileWork(OBJDATAWORK_101), SailManager__GetArchive());
         SailJetRaceProgressMarkerHUD__Create(isRival, isRival);
         worker->rivalVoiceClipTimer = 120;
     }
     else
     {
-        ObjAction3dNNModelLoad(work, NULL, sailPlayerModelList[shipType], 0, GetObjectFileWork(0), SailManager__GetArchive());
-        ObjAction3dNNMotionLoad(work, NULL, sailPlayerAnimList[shipType], GetObjectFileWork(1), SailManager__GetArchive());
+        ObjAction3dNNModelLoad(work, NULL, sailPlayerModelList[shipType], 0, GetObjectFileWork(OBJDATAWORK_0), SailManager__GetArchive());
+        ObjAction3dNNMotionLoad(work, NULL, sailPlayerAnimList[shipType], GetObjectFileWork(OBJDATAWORK_1), SailManager__GetArchive());
 
         if (manager->isRivalRace || (manager->flags & SAILMANAGER_FLAG_400) != 0)
             SailJetRaceProgressMarkerHUD__Create(isRival, isRival);
@@ -212,7 +212,7 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
     SailPlayer__ChangeAction(work, SAILPLAYER_ACTION_0);
     work->displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-    ObjDraw__PaletteTex__Init(((OBS_DATA_WORK *)GetObjectFileWork(0))->fileData, &worker->paletteTex);
+    ObjDraw__PaletteTex__Init(((OBS_DATA_WORK *)GetObjectFileWork(OBJDATAWORK_0))->fileData, &worker->paletteTex);
 
     worker->isRival  = isRival;
     worker->action   = SAILPLAYER_ACTION_INVALID;

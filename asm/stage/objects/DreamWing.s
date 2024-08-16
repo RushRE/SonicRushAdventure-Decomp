@@ -103,8 +103,8 @@ _02166FF4: .word 0x0000FFFE
 _02166FF8: .word ovl00_21673F0
 	arm_func_end DreamWing__Create
 
-	arm_func_start Object41__Create
-Object41__Create: // 0x02166FFC
+	arm_func_start DreamWingPart__Create
+DreamWingPart__Create: // 0x02166FFC
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -222,7 +222,7 @@ _021671BC: .word gameArchiveStage
 _021671C0: .word aActAcGmkDreamW
 _021671C4: .word StageTask__DefaultDiffData
 _021671C8: .word ovl00_21675B4
-	arm_func_end Object41__Create
+	arm_func_end DreamWingPart__Create
 
 	arm_func_start ovl00_21671CC
 ovl00_21671CC: // 0x021671CC

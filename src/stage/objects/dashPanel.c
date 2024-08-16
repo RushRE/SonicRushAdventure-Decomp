@@ -49,11 +49,11 @@ DashPanel *CreateDashPanel(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     if (mapObject->id == MAPOBJECT_333 || mapObject->id == MAPOBJECT_334)
     {
-        ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_p_60.bac", GetObjectFileWork(34), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+        ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_p_60.bac", GetObjectFileWork(OBJDATAWORK_34), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     }
     else
     {
-        ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_p.bac", GetObjectFileWork(33), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+        ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dash_p.bac", GetObjectFileWork(OBJDATAWORK_33), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     }
 
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 2);

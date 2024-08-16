@@ -2268,7 +2268,7 @@ NONMATCH_FUNC EffectButtonPrompt *EffectButtonPrompt__Create(StageTask *parent, 
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_fix_key_little.bac", GetObjectFileWork(152), gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_fix_key_little.bac", GetObjectFileWork(OBJDATAWORK_152), gameArchiveCommon, OBJ_DATA_GFX_AUTO);
     work->objWork.obj_2d->ani.cParam[1].palette = 1;
     work->objWork.obj_2d->ani.cParam[0].palette = work->objWork.obj_2d->ani.cParam[1].palette;
     work->objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;

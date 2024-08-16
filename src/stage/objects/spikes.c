@@ -65,7 +65,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     TaskInitWork8(work);
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_needle.bac", GetObjectFileWork(28), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_needle.bac", GetObjectFileWork(OBJDATAWORK_28), gameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 3);
 
     OBS_ACTION2D_BAC_WORK *aniWork = work->gameWork.objWork.obj_2d;
@@ -73,7 +73,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     {
         case MAPOBJECT_79:
         case MAPOBJECT_80:
-            spriteRef = (OBS_SPRITE_REF *)GetObjectFileWork(31);
+            spriteRef = (OBS_SPRITE_REF *)GetObjectFileWork(OBJDATAWORK_31);
             ObjObjectActionAllocSprite(&work->gameWork.objWork, 40, spriteRef);
             if ((spriteRef->engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
             {
@@ -84,7 +84,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
             break;
 
         default:
-            spriteRef = (OBS_SPRITE_REF *)GetObjectFileWork(29);
+            spriteRef = (OBS_SPRITE_REF *)GetObjectFileWork(OBJDATAWORK_29);
             ObjObjectActionAllocSprite(&work->gameWork.objWork, 74, spriteRef);
             if ((spriteRef->engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
             {

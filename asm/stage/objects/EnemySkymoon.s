@@ -117,7 +117,7 @@ _0215D104:
 	add r0, r4, #0x300
 	strh r1, [r0, #0x98]
 	ldr r1, [r4, #0x37c]
-	ldr r0, _0215D228 // =EnemySkymoon__ppDef_215D6A4
+	ldr r0, _0215D228 // =EnemySkymoon__OnDefend_215D6A4
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x388]
@@ -159,7 +159,7 @@ _0215D218: .word gameArchiveStage
 _0215D21C: .word aActAcEneSkymoo
 _0215D220: .word aActAcEneLaserS
 _0215D224: .word 0x00000102
-_0215D228: .word EnemySkymoon__ppDef_215D6A4
+_0215D228: .word EnemySkymoon__OnDefend_215D6A4
 	arm_func_end EnemySkymoon__Create
 
 	arm_func_start LaserEnemySkymoon__Create
@@ -500,8 +500,8 @@ _0215D678:
 _0215D6A0: .word 0x0000015D
 	arm_func_end EnemySkymoon__State_215D590
 
-	arm_func_start EnemySkymoon__ppDef_215D6A4
-EnemySkymoon__ppDef_215D6A4: // 0x0215D6A4
+	arm_func_start EnemySkymoon__OnDefend_215D6A4
+EnemySkymoon__OnDefend_215D6A4: // 0x0215D6A4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r1
 	ldr r4, [r5, #0x1c]
@@ -547,7 +547,7 @@ _0215D738:
 	.align 2, 0
 _0215D748: .word 0x00001555
 _0215D74C: .word 0x00006AAA
-	arm_func_end EnemySkymoon__ppDef_215D6A4
+	arm_func_end EnemySkymoon__OnDefend_215D6A4
 
 	arm_func_start LaserEnemySkymoon__State_215D750
 LaserEnemySkymoon__State_215D750: // 0x0215D750

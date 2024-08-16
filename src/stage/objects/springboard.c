@@ -67,7 +67,7 @@ Springboard *CreateSpringboard(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_jump_stand.bac", GetObjectFileWork(50), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_jump_stand.bac", GetObjectFileWork(OBJDATAWORK_50), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 2);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -79,7 +79,7 @@ Springboard *CreateSpringboard(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
 
     u32 springboardType = mapObject->flags & SPRING_OBJFLAG_TYPE_MASK;
-    ObjObjectCollisionDifSet(&work->gameWork.objWork, heightMaskPaths[springboardType], GetObjectFileWork(springboardType + 51), gameArchiveStage);
+    ObjObjectCollisionDifSet(&work->gameWork.objWork, heightMaskPaths[springboardType], GetObjectFileWork(springboardType + OBJDATAWORK_51), gameArchiveStage);
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.width  = 48;
     work->gameWork.collisionObject.work.height = 32;

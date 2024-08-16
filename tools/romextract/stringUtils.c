@@ -25,6 +25,33 @@ char* GetFileExtension(char* path)
 	return extension;
 }
 
+char *GetFileDirectory(char *path)
+{
+    char *pathPtr = path;
+
+    while (*pathPtr != 0)
+        pathPtr++;
+
+    while (pathPtr > path && (*pathPtr != '/' && *pathPtr != '\\'))
+        pathPtr--;
+
+    if (pathPtr == path)
+        return NULL;
+
+    pathPtr++;
+
+    if (*pathPtr == 0)
+        return NULL;
+
+    size_t len = (size_t)pathPtr - (size_t)path;
+
+    char *filePath = (char *)malloc(len + 1);
+    memcpy(filePath, path, len);
+    filePath[len] = 0;
+
+    return filePath;
+}
+
 char* GetPathWithoutExtension(char* path)
 {
 	char* buffer = path;

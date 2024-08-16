@@ -776,7 +776,7 @@ EffectWaterExplosion *CreateEffectWaterExplosion(StageTask *parent, fx32 velX, f
     if (type >= WATEREXPLOSION_COUNT)
         type = WATEREXPLOSION_BOMB;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_bomb_water.bac", GetObjectFileWork(4), gameArchiveCommon, gfxSizes[type]);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_bomb_water.bac", GetObjectFileWork(OBJDATAWORK_4), gameArchiveCommon, gfxSizes[type]);
     ObjActionAllocSpritePalette(&work->objWork, 0, 0x21);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -825,7 +825,7 @@ EffectGroundExplosion *CreateEffectGroundExplosion(StageTask *parent, fx32 velX,
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_bomb_ground.bac", GetObjectFileWork(151), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_bomb_ground.bac", GetObjectFileWork(OBJDATAWORK_151), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 0x53);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -896,7 +896,7 @@ EffectSteamBlasterSmoke *EffectSteamBlasterSmoke__Create(StageTask *parent)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_ene_prot_damp.bac", GetObjectFileWork(7), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_ene_prot_damp.bac", GetObjectFileWork(OBJDATAWORK_7), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 9, 36);
     StageTask__SetAnimation(&work->objWork, 9);
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -937,7 +937,7 @@ EffectSteamBlasterSteam *EffectSteamBlasterSteam__Create(StageTask *parent, fx32
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_ene_prot_damp.bac", GetObjectFileWork(7), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_ene_prot_damp.bac", GetObjectFileWork(OBJDATAWORK_7), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 6, 34);
     StageTask__SetAnimation(&work->objWork, 6);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
@@ -1125,9 +1125,9 @@ EffectWaterBubble *EffectWaterBubble__Create(fx32 x, fx32 y, s32 anim, u16 durat
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_awa.bac", GetObjectFileWork(122), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_awa.bac", GetObjectFileWork(OBJDATAWORK_122), gameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, 0, 22);
-    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, anim), GetObjectFileWork(2 * anim + 123));
+    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, anim), GetObjectFileWork(2 * anim + OBJDATAWORK_123));
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
     StageTask__SetAnimation(&work->objWork, anim);
@@ -1190,12 +1190,12 @@ NONMATCH_FUNC EffectCoralDebris *EffectCoralDebris__Create(fx32 x, fx32 y, fx32 
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_dec_coral.bac", GetObjectFileWork(193), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_dec_coral.bac", GetObjectFileWork(OBJDATAWORK_193), gameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjActionAllocSpritePalette(&work->objWork, debrisType + 20, 67);
 
     u16 debrisAnim = debrisType + 20;
     ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, debrisType + 20),
-                               (OBS_SPRITE_REF *)GetObjectFileWork(2 * debrisType + 194));
+                               (OBS_SPRITE_REF *)GetObjectFileWork(2 * debrisType + OBJDATAWORK_194));
     StageTask__SetAnimation(&work->objWork, debrisAnim);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_2);

@@ -2222,7 +2222,7 @@ EffectShield *CreateEffectRegularShield(Player *parent)
 
     // no 'if (work == NULL)' check here...?
 
-    OBS_DATA_WORK *fileWork = GetObjectFileWork(0x95);
+    OBS_DATA_WORK *fileWork = GetObjectFileWork(OBJDATAWORK_149);
     for (i = 0; i < 6; i++)
     {
         ObjAction3dESEffectLoad(&work->objWork, &work->esWork[i], "/eff_barrier.nsbmd", 0, RegularShield__shpList[i], RegularShield__matList[i], fileWork, gameArchiveCommon);
@@ -2422,7 +2422,7 @@ EffectShield *CreateEffectMagnetShield(Player *parent)
 
     // no 'if (work == NULL)' check here...?
 
-    OBS_DATA_WORK *fileWork = GetObjectFileWork(0x96);
+    OBS_DATA_WORK *fileWork = GetObjectFileWork(OBJDATAWORK_150);
     for (i = 0; i < 9; i++)
     {
         ObjAction3dESEffectLoad(&work->objWork, &work->esWork[i], "/eff_magnet.nsbmd", 0, MagnetShield__shpList[i], MagnetShield__matList[i], fileWork, gameArchiveCommon);
@@ -2855,7 +2855,7 @@ void CreateEffectInvincibleSparkle(fx32 x, fx32 y, u16 timer)
         return;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_eff_trick.bac", &EffectTask__sVars.effectTrickSparkleFile, gameArchiveCommon, 0);
-    ObjObjectActionAllocSprite(&work->objWork, 12, GetObjectFileWork(120));
+    ObjObjectActionAllocSprite(&work->objWork, 12, GetObjectFileWork(OBJDATAWORK_120));
 
     work->animator.ani.cParam[0].palette = 1;
     work->animator.ani.cParam[1].palette = 1;
@@ -3038,7 +3038,7 @@ EffectPlayerIcon *CreateEffectPlayerIcon(Player *parent)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_fix_cont.bac", GetObjectFileWork(1), gameArchiveCommon, 0);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->animator, "/ac_fix_cont.bac", GetObjectFileWork(OBJDATAWORK_1), gameArchiveCommon, 0);
 
     work->objWork.obj_2d->ani.vramPixels[1] = VRAMSystem__AllocSpriteVram(TRUE, 8);
     work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_A;

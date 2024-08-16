@@ -75,17 +75,17 @@ RingButton *CreateRingButton(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     s32 buttonType = mapObject->id - MAPOBJECT_256;
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_switch.bac", GetObjectFileWork(106), gameArchiveCommon, OBJ_DATA_GFX_NONE);
-    ObjObjectActionAllocSprite(&work->gameWork.objWork, 2, GetObjectFileWork(2 * buttonType + 113));
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_switch.bac", GetObjectFileWork(OBJDATAWORK_106), gameArchiveCommon, OBJ_DATA_GFX_NONE);
+    ObjObjectActionAllocSprite(&work->gameWork.objWork, 2, GetObjectFileWork(2 * buttonType + OBJDATAWORK_113));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 107);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 
     AnimatorSpriteDS *aniBase = &work->aniBase;
-    ObjAction2dBACLoad(aniBase, "/act/ac_gmk_switch.bac", 0, GetObjectFileWork(106), gameArchiveCommon);
+    ObjAction2dBACLoad(aniBase, "/act/ac_gmk_switch.bac", 0, GetObjectFileWork(OBJDATAWORK_106), gameArchiveCommon);
 
-    aniBase->vramPixels[0]     = (void *)ObjActionAllocSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + 109), FALSE, 2);
-    aniBase->vramPixels[1]     = (void *)ObjActionAllocSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + 110), TRUE, 2);
+    aniBase->vramPixels[0]     = (void *)ObjActionAllocSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + OBJDATAWORK_109), FALSE, 2);
+    aniBase->vramPixels[1]     = (void *)ObjActionAllocSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + OBJDATAWORK_110), TRUE, 2);
     aniBase->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
     aniBase->cParam[0].palette = aniBase->cParam[1].palette = aniBase->work.palette;
 
@@ -100,7 +100,7 @@ RingButton *CreateRingButton(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         if ((mapObject->flags & RINGBUTTON_OBJFLAG_FLIPPED) != 0)
             work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
 
-        ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_switch.df", GetObjectFileWork(107), gameArchiveCommon);
+        ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_switch.df", GetObjectFileWork(OBJDATAWORK_107), gameArchiveCommon);
         work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
         work->gameWork.collisionObject.work.width  = 32;
         work->gameWork.collisionObject.work.height = 16;
@@ -115,7 +115,7 @@ RingButton *CreateRingButton(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         if ((mapObject->flags & RINGBUTTON_OBJFLAG_FLIPPED) != 0)
             work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
 
-        ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_switch_tate.df", GetObjectFileWork(108), gameArchiveCommon);
+        ObjObjectCollisionDifSet(&work->gameWork.objWork, "/df/gmk_switch_tate.df", GetObjectFileWork(OBJDATAWORK_108), gameArchiveCommon);
         work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
         work->gameWork.collisionObject.work.width  = 16;
         work->gameWork.collisionObject.work.height = 32;
@@ -143,12 +143,12 @@ void RingButton_Destructor(Task *task)
     RingButton *work = TaskGetWork(task, RingButton);
 
     s32 buttonType = work->gameWork.mapObject->id - MAPOBJECT_256;
-    ObjActionReleaseSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + 109), FALSE);
-    ObjActionReleaseSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + 110), TRUE);
+    ObjActionReleaseSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + OBJDATAWORK_109), FALSE);
+    ObjActionReleaseSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + OBJDATAWORK_110), TRUE);
     work->aniBase.vramPixels[0] = NULL;
     work->aniBase.vramPixels[1] = NULL;
 
-    ObjAction2dBACRelease(GetObjectFileWork(106), &work->aniBase);
+    ObjAction2dBACRelease(GetObjectFileWork(OBJDATAWORK_106), &work->aniBase);
 
     if (gmCheckRingBattle())
         RingButtonSfxManager__timerTable[work->gameWork.RingButton_mapObjectParam_id] = 0;

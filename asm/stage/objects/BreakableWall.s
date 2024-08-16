@@ -92,7 +92,7 @@ BreakableWall__Create: // 0x02160284
 	ldr r1, _02160500 // =0x0000FFFE
 	add r0, r4, #0x218
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02160504 // =BreakableWall__ppDef_2160518
+	ldr r0, _02160504 // =BreakableWall__OnDefend_2160518
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
 	orr r0, r0, #0x400
@@ -102,7 +102,7 @@ _021603F8:
 	ldr r1, _02160508 // =0x0000FFFD
 	add r0, r4, #0x218
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216050C // =BreakableWall__ppDef_21608E0
+	ldr r0, _0216050C // =BreakableWall__OnDefend_21608E0
 	mov r1, #0
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
@@ -115,7 +115,7 @@ _021603F8:
 	add r0, r4, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02160510 // =BreakableWall__ppDef_2160A88
+	ldr r0, _02160510 // =BreakableWall__OnDefend_2160A88
 	str r0, [r4, #0x27c]
 	ldr r0, [r4, #0x270]
 	orr r0, r0, #0x400
@@ -172,15 +172,15 @@ _021604F4: .word GameObject__Destructor
 _021604F8: .word gameArchiveStage
 _021604FC: .word aActAcGmkWallBr
 _02160500: .word 0x0000FFFE
-_02160504: .word BreakableWall__ppDef_2160518
+_02160504: .word BreakableWall__OnDefend_2160518
 _02160508: .word 0x0000FFFD
-_0216050C: .word BreakableWall__ppDef_21608E0
-_02160510: .word BreakableWall__ppDef_2160A88
+_0216050C: .word BreakableWall__OnDefend_21608E0
+_02160510: .word BreakableWall__OnDefend_2160A88
 _02160514: .word StageTask__DefaultDiffData
 	arm_func_end BreakableWall__Create
 
-	arm_func_start BreakableWall__ppDef_2160518
-BreakableWall__ppDef_2160518: // 0x02160518
+	arm_func_start BreakableWall__OnDefend_2160518
+BreakableWall__OnDefend_2160518: // 0x02160518
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #8
 	ldr r5, [r0, #0x1c]
@@ -440,10 +440,10 @@ _021608B0:
 _021608D4: .word 0x0000014A
 _021608D8: .word BreakableWall__State_2160C30
 _021608DC: .word BreakableWall__Draw_2160D20
-	arm_func_end BreakableWall__ppDef_2160518
+	arm_func_end BreakableWall__OnDefend_2160518
 
-	arm_func_start BreakableWall__ppDef_21608E0
-BreakableWall__ppDef_21608E0: // 0x021608E0
+	arm_func_start BreakableWall__OnDefend_21608E0
+BreakableWall__OnDefend_21608E0: // 0x021608E0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #8
 	ldr r3, [r0, #0x1c]
@@ -557,10 +557,10 @@ _02160A74:
 	.align 2, 0
 _02160A80: .word BreakableWall__State_2160C30
 _02160A84: .word BreakableWall__Draw_2160D20
-	arm_func_end BreakableWall__ppDef_21608E0
+	arm_func_end BreakableWall__OnDefend_21608E0
 
-	arm_func_start BreakableWall__ppDef_2160A88
-BreakableWall__ppDef_2160A88: // 0x02160A88
+	arm_func_start BreakableWall__OnDefend_2160A88
+BreakableWall__OnDefend_2160A88: // 0x02160A88
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #8
 	ldr r3, [r0, #0x1c]
@@ -674,7 +674,7 @@ _02160C1C:
 	.align 2, 0
 _02160C28: .word BreakableWall__State_2160C30
 _02160C2C: .word BreakableWall__Draw_2160D20
-	arm_func_end BreakableWall__ppDef_2160A88
+	arm_func_end BreakableWall__OnDefend_2160A88
 
 	arm_func_start BreakableWall__State_2160C30
 BreakableWall__State_2160C30: // 0x02160C30

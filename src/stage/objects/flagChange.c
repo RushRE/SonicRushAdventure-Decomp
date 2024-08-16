@@ -6,8 +6,8 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void ovl00_216F57C(GameObjectTask *work);
-NOT_DECOMPILED void ovl00_216F2FC(Player *player, GameObjectTask *a2);
+NOT_DECOMPILED void Truck3D__Func_216F57C(GameObjectTask *work);
+NOT_DECOMPILED void Truck3D__Func_216F2FC(Player *player, GameObjectTask *a2);
 
 // --------------------
 // FUNCTION DECLS
@@ -194,8 +194,8 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                 GameObjectTask *gimmickObj = (GameObjectTask *)player->objWork.touchObj;
                 if (gimmickObj->objWork.objType == STAGE_OBJ_TYPE_3 && gimmickObj->mapObject->id == MAPOBJECT_173)
                 {
-                    ovl00_216F2FC(player, gimmickObj);
-                    Player__Gimmick_2021394(player, player->objWork.touchObj);
+                    Truck3D__Func_216F2FC(player, gimmickObj);
+                    Player__Gimmick_2021394(player, (GameObjectTask *)player->objWork.touchObj);
                 }
             }
             break;
@@ -205,7 +205,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             {
                 GameObjectTask *gimmickObj = player->gimmickObj;
                 if (gimmickObj->objWork.objType == STAGE_OBJ_TYPE_3 && gimmickObj->mapObject->id == MAPOBJECT_173)
-                    ovl00_216F57C(gimmickObj);
+                    Truck3D__Func_216F57C(gimmickObj);
             }
             break;
 

@@ -55,7 +55,7 @@
 
 // TODO: SOME OF THESE FUNC SIGNATURES AREN'T RIGHT... decompile them
 NOT_DECOMPILED void DiveStand__Func_2169F6C(void);
-NOT_DECOMPILED void Object103__GetOffsetZ(void);
+NOT_DECOMPILED void CannonPath__GetOffsetZ(void);
 NOT_DECOMPILED void Grind3LineRingLoss__Create(Player *player);
 
 NOT_DECOMPILED void _s32_div_f(void);
@@ -81,7 +81,7 @@ void Player__Action_StageStartSnowboard(Player *player)
     SetTaskState(&player->objWork, Player__State_StageStartSnowboard);
 }
 
-void Player__State_StageStartSnowboard(Player *player)
+void Player__State_StageStartSnowboard(Player *work)
 {
     // Empty
 }
@@ -246,7 +246,7 @@ void Player__Gimmick_201B500(Player *player, GameObjectTask *other, s32 value1, 
     }
 }
 
-NONMATCH_FUNC void Player__State_201B5A0(Player *player)
+NONMATCH_FUNC void Player__State_201B5A0(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -773,7 +773,7 @@ void Player__Action_SpringboardLaunch(Player *player, fx32 velX, fx32 velY)
 
 u16 Player__Func_201BD9C(Player *player)
 {
-    if (StageTaskStateMatches(&player->objWork, Player__Func_201BF3C))
+    if (StageTaskStateMatches(&player->objWork, Player__State_201BF3C))
         return TRUE;
     else
         return FALSE;
@@ -877,7 +877,7 @@ _0201BF10:
 	orr r0, r0, #2
 	str r0, [r8, #0x28]
 _0201BF1C:
-	ldr r1, =Player__Func_201BF3C
+	ldr r1, =Player__State_201BF3C
 	add r0, r8, #0x500
 	str r1, [r8, #0xf4]
 	mov r1, #0x10
@@ -888,7 +888,7 @@ _0201BF1C:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_201BF3C(Player *player){
+NONMATCH_FUNC void Player__State_201BF3C(Player *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1561,7 +1561,9 @@ _0201C794:
 
 void Player__Gimmick_201C80C(Player *player, GameObjectTask *other, s32 value1, s32 timer)
 {
-    static const enum SND_ZONE_SEQARC_GAME_SE sfxJump[CHARACTER_COUNT] = { [CHARACTER_SONIC] = SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPIN, [CHARACTER_BLAZE] = SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BURST };
+    static const enum SND_ZONE_SEQARC_GAME_SE sfxJump[CHARACTER_COUNT] = {
+        [CHARACTER_SONIC] = SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPIN, [CHARACTER_BLAZE] = SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BURST
+    };
 
     if (player->gimmickObj != other)
     {
@@ -1597,7 +1599,7 @@ void Player__Gimmick_201C80C(Player *player, GameObjectTask *other, s32 value1, 
     }
 }
 
-NONMATCH_FUNC void Player__State_201C938(Player *player)
+NONMATCH_FUNC void Player__State_201C938(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -2262,7 +2264,7 @@ void Player__Gimmick_201D314(Player *player, GameObjectTask *other, s32 value1, 
     }
 }
 
-NONMATCH_FUNC void Player__State_201D3E0(Player *player){
+NONMATCH_FUNC void Player__State_201D3E0(Player *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2391,9 +2393,19 @@ _0201D598:
 #endif
 }
 
-NONMATCH_FUNC void Player__Action_MushroomBounce(Player *player, s32 a2, s32 a3, s32 a4){
+NONMATCH_FUNC void Player__Action_MushroomBounce(Player *player, fx32 velX, fx32 velY, s32 timer)
+{
 #ifdef NON_MATCHING
+    player->objWork.groundVel  = MTM_MATH_CLIP(player->objWork.groundVel, -player->spdThresholdDash, player->spdThresholdDash);
+    player->objWork.velocity.x = MTM_MATH_CLIP(player->objWork.groundVel, -player->spdThresholdDash, player->spdThresholdDash);
 
+    Player__Gimmick_Jump(player, velX, velY);
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    player->objWork.userTimer = 3 * timer + 1;
+
+    Player__ChangeAction(player, PLAYER_ACTION_MUSHROOM_BOUNCE);
+    StopPlayerSfx(player, PLAYER_SEQPLAYER_COMMON);
+    PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_MUSHROOM);
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
@@ -2514,7 +2526,7 @@ NONMATCH_FUNC void Player__Func_201D684(Player *player, s32 a2, s32 a3, s32 a4){
 #endif
 }
 
-NONMATCH_FUNC void Player__State_201D748(Player *player){
+NONMATCH_FUNC void Player__State_201D748(Player *work){
 #ifdef NON_MATCHING
 
 #else
@@ -2606,7 +2618,7 @@ NONMATCH_FUNC void Player__Func_201D7BC(Player *player, s32 a2){
 #endif
 }
 
-NONMATCH_FUNC void Player__State_201D874(Player *player)
+NONMATCH_FUNC void Player__State_201D874(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -2667,9 +2679,9 @@ void Player__Gimmick_Grind3Line(Player *player)
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_GRIND, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GRIND);
 }
 
-void Player__State_Grind3Line(Player *player)
+void Player__State_Grind3Line(Player *work)
 {
-    Player__HandleRideGrind3Line(player);
+    Player__HandleRideGrind3Line(work);
 }
 
 void Player__HandleRideGrind3Line(Player *player)
@@ -2883,7 +2895,7 @@ _0201DDB4:
 #endif
 }
 
-NONMATCH_FUNC void Player__State_201DE24(Player *player)
+NONMATCH_FUNC void Player__State_201DE24(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -3148,7 +3160,7 @@ void Player__Gimmick_WaterRun(Player *player)
     }
 }
 
-NONMATCH_FUNC void Player__State_WaterRun(Player *player){
+NONMATCH_FUNC void Player__State_WaterRun(Player *work){
 #ifdef NON_MATCHING
 
 #else
@@ -3740,7 +3752,7 @@ void Player__Gimmick_DreamWing(Player *player, GameObjectTask *other, fx32 velX,
     }
 }
 
-NONMATCH_FUNC void Player__State_DreamWing(Player *player){
+NONMATCH_FUNC void Player__State_DreamWing(Player *work){
 #ifdef NON_MATCHING
 
 #else
@@ -3886,7 +3898,7 @@ _0201ED20:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_201ED44(Player *player, StageTask *other, s32 a3, s32 a4, s32 a5, s32 a6){
+NONMATCH_FUNC void Player__Gimmick_201ED44(Player *player, GameObjectTask *other, s32 a3, s32 a4, s32 a5, s32 a6){
 #ifdef NON_MATCHING
 
 #else
@@ -3990,7 +4002,7 @@ _0201EE18:
 	add r0, r7, #0x500
 	strh r2, [r0, #0xd6]
 	ldr r1, [r7, #0x5d8]
-	ldr r0, =Player__Func_201EEE0
+	ldr r0, =Player__State_201EEE0
 	bic r1, r1, #4
 	str r1, [r7, #0x5d8]
 	str r0, [r7, #0xf4]
@@ -4000,7 +4012,7 @@ _0201EE18:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_201EEE0(Player *player, s32 a2, s32 a3, s32 a4){
+NONMATCH_FUNC void Player__State_201EEE0(Player *work){
 #ifdef NON_MATCHING
 
 #else
@@ -4121,7 +4133,7 @@ NONMATCH_FUNC void Player__Func_201F05C(Player *player, StageTaskState a2, s32 a
 	mov r5, r2
 	tst r0, #0x400
 	ldreq r1, [r6, #0xf4]
-	ldreq r0, =Player__Func_201EEE0
+	ldreq r0, =Player__State_201EEE0
 	mov r4, r3
 	cmpeq r1, r0
 	ldmneia sp!, {r4, r5, r6, pc}
@@ -4202,7 +4214,7 @@ _0201F174:
 	mov r1, #0
 	strh r1, [r0, #0xd6]
 	ldr r1, [r6, #0x5d8]
-	ldr r0, =Player__Func_201F1C4
+	ldr r0, =Player__State_201F1C4
 	bic r1, r1, #4
 	str r1, [r6, #0x5d8]
 	str r0, [r6, #0xf4]
@@ -4212,7 +4224,7 @@ _0201F174:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_201F1C4(Player *player, s32 a2, s32 a3, s32 a4){
+NONMATCH_FUNC void Player__State_201F1C4(Player *work){
 #ifdef NON_MATCHING
 
 #else
@@ -4427,7 +4439,7 @@ _0201F4B0:
 	str r3, [r6, #0x9c]
 	mov r4, #0x52
 	add r0, r6, #0x254
-	ldr r2, =Player__Func_201F4FC
+	ldr r2, =Player__State_201F4FC
 	str r3, [r6, #0x98]
 	str r2, [r6, #0xf4]
 	sub r1, r4, #0x53
@@ -4444,7 +4456,7 @@ _0201F4B0:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_201F4FC(Player *player){
+NONMATCH_FUNC void Player__State_201F4FC(Player *work){
 #ifdef NON_MATCHING
 
 #else
@@ -4622,7 +4634,8 @@ _0201F684:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_IcicleLand(Player *player, s32 a2){
+NONMATCH_FUNC void Player__Gimmick_IcicleLand(Player *player, s32 a2)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -4767,8 +4780,8 @@ void Player__Func_201F940(Player *player)
         player->gimmickValue1 = FLOAT_TO_FX32(0.625);
         Player__ChangeAction(player, PLAYER_ACTION_JUMPFALL);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        SetTaskState(&player->objWork, Player__Func_201FA84);
-		StopPlayerSfx(player, PLAYER_SEQPLAYER_COMMON);
+        SetTaskState(&player->objWork, Player__State_201FA84);
+        StopPlayerSfx(player, PLAYER_SEQPLAYER_COMMON);
     }
 
     if ((player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
@@ -4777,7 +4790,7 @@ void Player__Func_201F940(Player *player)
         player->objWork.groundVel = ObjSpdUpSet(player->objWork.groundVel, FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(8.0));
 }
 
-NONMATCH_FUNC void Player__Func_201FA84(Player *player)
+NONMATCH_FUNC void Player__State_201FA84(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -5429,7 +5442,7 @@ _0202029C:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_20202E4(Player *player, StageTask *other){
+NONMATCH_FUNC void Player__Func_20202E4(Player *player, GameObjectTask *other){
 #ifdef NON_MATCHING
 
 #else
@@ -5530,7 +5543,7 @@ _020203D8:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_2020420(Player *player, StageTask *other, fx32 velX, fx32 velY){
+NONMATCH_FUNC void Player__Func_2020420(Player *player, GameObjectTask *other, fx32 velX, fx32 velY){
 #ifdef NON_MATCHING
 
 #else
@@ -6506,7 +6519,8 @@ _02021178:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_2021188(Player *player, u32 a2){
+NONMATCH_FUNC void Player__Func_2021188(Player *player, u32 a2)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -6547,206 +6561,95 @@ NONMATCH_FUNC void Player__Func_2021188(Player *player, u32 a2){
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_2021204(Player *player){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =Player__Gimmick_Jump
-	bx ip
-
-// clang-format on
-#endif
+void Player__Func_2021204(Player *player, fx32 velX, fx32 velY)
+{
+    Player__Gimmick_Jump(player, velX, velY);
 }
 
-NONMATCH_FUNC void Player__Action_CraneGrab(Player *player, u32 a2){
-#ifdef NON_MATCHING
+void Player__Action_CraneGrab(Player *player, GameObjectTask *other)
+{
+    fx32 v4;
+    if ((other->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
+        v4 = -FLOAT_TO_FX32(46.0);
+    else
+        v4 = FLOAT_TO_FX32(46.0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r1
-	ldr r1, [r4, #0x20]
-	mov r5, r0
-	mov r3, #0
-	tst r1, #1
-	mov r2, #0x2e000
-	str r3, [sp]
-	rsbeq r2, r2, #0
-	mov r0, r5
-	mov r1, r4
-	mov r3, #0x80000
-	bl Player__Gimmick_201B500
-	ldr r1, [r5, #0x5d8]
-	mov r0, r5
-	orr r1, r1, #7
-	str r1, [r5, #0x5d8]
-	ldr r2, [r5, #0x1c]
-	mov r1, #0x32
-	orr r2, r2, #0x100
-	str r2, [r5, #0x1c]
-	ldr r2, [r5, #0x5dc]
-	orr r2, r2, #0x20000
-	str r2, [r5, #0x5dc]
-	bl Player__ChangeAction
-	ldr r0, [r5, #0x20]
-	mov ip, #0x66
-	orr r0, r0, #4
-	bic r3, r0, #1
-	str r3, [r5, #0x20]
-	ldr r2, [r4, #0x20]
-	add r0, r5, #0x254
-	and r2, r2, #1
-	orr r2, r3, r2
-	sub r1, ip, #0x67
-	str r2, [r5, #0x20]
-	mov r2, #0
-	str r2, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	str ip, [sp, #4]
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    Player__Gimmick_201B500(player, other, v4, FLOAT_TO_FX32(128.0), 0);
 
-// clang-format on
-#endif
+    player->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED;
+
+    Player__ChangeAction(player, PLAYER_ACTION_32);
+
+    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+    player->objWork.displayFlag |= other->objWork.displayFlag & DISPLAY_FLAG_FLIP_X;
+
+    PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_CRANE_TURN);
 }
 
-NONMATCH_FUNC void Player__Func_20212C8(Player *player, s32 a2, s32 a3){
-#ifdef NON_MATCHING
+void Player__Func_20212C8(Player *player, GameObjectTask *other, u32 displayFlag)
+{
+    Player__Gimmick_201B500(player, other, 0, FLOAT_TO_FX32(15.0), 0);
+    SetTaskState(&player->objWork, Player__State_202135C);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r2
-	mov r2, #0
-	mov r3, #0xf000
-	mov r5, r0
-	str r2, [sp]
-	bl Player__Gimmick_201B500
-	ldr r1, =Player__Func_202135C
-	mov r0, r5
-	str r1, [r5, #0xf4]
-	ldr r2, [r5, #0x24]
-	mov r1, #0x32
-	orr r2, r2, #0x4b
-	str r2, [r5, #0x24]
-	ldr r2, [r5, #0x1c]
-	orr r2, r2, #0x100
-	str r2, [r5, #0x1c]
-	ldr r2, [r5, #0x20]
-	bic r2, r2, #1
-	str r2, [r5, #0x20]
-	bl Player__ChangeAction
-	ldr r1, [r5, #0x20]
-	orr r0, r4, #4
-	orr r0, r1, r0
-	str r0, [r5, #0x20]
-	ldr r1, [r5, #0x1c]
-	mov r0, #0
-	bic r1, r1, #1
-	str r1, [r5, #0x1c]
-	ldr r1, [r5, #0xe4]
-	bic r1, r1, #4
-	str r1, [r5, #0xe4]
-	strh r0, [r5, #0x34]
-	strh r0, [r5, #0x32]
-	strh r0, [r5, #0x30]
-	ldmia sp!, {r3, r4, r5, pc}
+    player->objWork.userFlag |= 1 | 2 | 8 | 64;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
-// clang-format on
-#endif
+    Player__ChangeAction(player, PLAYER_ACTION_32);
+
+    player->objWork.displayFlag |= displayFlag | DISPLAY_FLAG_DISABLE_LOOPING;
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
+    player->objWork.collisionFlag &= ~STAGE_TASK_COLLISION_FLAG_GRIND_RAIL;
+
+    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
 }
 
-NONMATCH_FUNC void Player__Func_202135C(Player *player, s32 a2, s32 a3, s32 a4){
-#ifdef NON_MATCHING
+void Player__State_202135C(Player *work)
+{
+    GameObjectTask *gimmick = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r4, [r5, #0x6d8]
-	bl Player__State_201B5A0
-	ldr r1, [r5, #0xf4]
-	ldr r0, =Player__Func_202135C
-	cmp r1, r0
-	cmpne r4, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	mov r0, r5
-	mov r1, r4
-	bl Player__Action_AllowTrickCombos
-	ldmia sp!, {r3, r4, r5, pc}
+    Player__State_201B5A0(work);
 
-// clang-format on
-#endif
+    if (!StageTaskStateMatches(&work->objWork, Player__State_202135C) && gimmick != NULL)
+        Player__Action_AllowTrickCombos(work, gimmick);
 }
 
-NONMATCH_FUNC void Player__Gimmick_2021394(Player *player, StageTask *other){
-#ifdef NON_MATCHING
+void Player__Gimmick_2021394(Player *player, GameObjectTask *other)
+{
+    if (player->gimmickObj != other)
+    {
+        Player__InitPhysics(player);
+        Player__InitGimmick(player, FALSE);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r2, [r5, #0x6d8]
-	mov r4, r1
-	cmp r2, r4
-	ldmeqia sp!, {r3, r4, r5, pc}
-	bl Player__InitPhysics
-	mov r0, r5
-	mov r1, #0
-	bl Player__InitGimmick
-	str r4, [r5, #0x6d8]
-	ldr r1, [r5, #0x1c]
-	mov r0, r5
-	orr r1, r1, #0x2100
-	bic r1, r1, #0xf
-	str r1, [r5, #0x1c]
-	bl Player__Action_StopBoost
-	mov r0, r5
-	bl Player__Action_StopSuperBoost
-	ldr r1, [r5, #0x5d8]
-	mov r0, r5
-	orr r1, r1, #0x100000
-	str r1, [r5, #0x5d8]
-	mov r1, #0x25
-	bl Player__ChangeAction
-	ldr r1, [r5, #0x20]
-	mov r0, r5
-	orr r1, r1, #0x10
-	str r1, [r5, #0x20]
-	mov r1, #0x28000
-	bl Player__SetAnimFrame
-	mov r0, #0x28000
-	str r0, [r5, #0x2c]
-	ldr r0, [r5, #0x20]
-	mov r2, #0
-	bic r0, r0, #1
-	str r0, [r5, #0x20]
-	ldr r0, [r4, #0x44]
-	ldr r1, =Player__Func_202146C
-	sub r0, r0, #0x21000
-	str r0, [r5, #0x44]
-	ldr r3, [r4, #0x48]
-	ldr r0, =Player__OnDefend_Unknown
-	sub r3, r3, #0xf000
-	str r3, [r5, #0x48]
-	str r2, [r5, #0xc8]
-	str r2, [r5, #0x98]
-	str r2, [r5, #0x9c]
-	str r1, [r5, #0xf4]
-	str r0, [r5, #0x534]
-	str r2, [r5, #0x28]
-	ldmia sp!, {r3, r4, r5, pc}
+        player->gimmickObj = other;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+        player->objWork.moveFlag &=
+            ~(STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR);
 
-// clang-format on
-#endif
+        Player__Action_StopBoost(player);
+        Player__Action_StopSuperBoost(player);
+        player->playerFlag |= PLAYER_GIMMICK_BUNGEE;
+        Player__ChangeAction(player, PLAYER_ACTION_HANG_ROT);
+        player->objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
+        Player__SetAnimFrame(player, FLOAT_TO_FX32(40.0));
+        player->objWork.userTimer = FLOAT_TO_FX32(40.0);
+        player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+        player->objWork.position.x = other->objWork.position.x - FLOAT_TO_FX32(33.0);
+        player->objWork.position.y = other->objWork.position.y - FLOAT_TO_FX32(15.0);
+        player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
+        player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
+        player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
+        SetTaskState(&player->objWork, Player__State_202146C);
+        ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_Unknown);
+        player->objWork.userWork = 0;
+    }
 }
 
-NONMATCH_FUNC void Player__Func_202146C(Player *player){
+NONMATCH_FUNC void Player__State_202146C(Player *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -6892,7 +6795,7 @@ _02021648:
 	sub r3, r2, #0x23000
 	str ip, [sp]
 	bl Player__Gimmick_201B500
-	ldr r1, =Player__Func_2021848
+	ldr r1, =Player__State_2021848
 	ldr r0, =Player__OnDefend_Unknown
 	str r1, [r5, #0xf4]
 	str r0, [r5, #0x534]
@@ -6966,80 +6869,51 @@ _020216E4:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_202178C(Player *player, StageTask *other, s32 a3)
+void Player__Func_202178C(Player *player, GameObjectTask *other, s32 a3)
 {
-#ifdef NON_MATCHING
+    if (player->gimmickObj == other)
+    {
+        ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_Regular);
+        player->gimmickObj = NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	ldr r3, [r6, #0x6d8]
-	mov r5, r1
-	mov r4, r2
-	cmp r3, r5
-	ldmneia sp!, {r4, r5, r6, pc}
-	ldr r1, =Player__OnDefend_Regular
-	mov r2, #0
-	str r1, [r6, #0x534]
-	str r2, [r6, #0x6d8]
-	ldr r1, [r6, #0x1c]
-	bic r1, r1, #0xa100
-	orr r1, r1, #0xc0
-	str r1, [r6, #0x1c]
-	ldr r3, [r6, #0x20]
-	ldr r1, =0xFFEFDFFF
-	orr r3, r3, #0x200
-	bic r3, r3, #0x30
-	str r3, [r6, #0x20]
-	ldr ip, [r6, #0x5d8]
-	ldr r3, =0xFFFDFFCF
-	and r1, ip, r1
-	str r1, [r6, #0x5d8]
-	ldr ip, [r6, #0x5dc]
-	add r1, r6, #0x600
-	and r3, ip, r3
-	str r3, [r6, #0x5dc]
-	strh r2, [r1, #0xde]
-	strh r2, [r1, #0xdc]
-	strh r2, [r6, #0x34]
-	strh r2, [r6, #0x32]
-	strh r2, [r6, #0x30]
-	ldr r1, [r6, #0xbc]
-	sub r2, r2, #0x8000
-	bl Player__Gimmick_Jump
-	cmp r4, #0
-	ldreq r0, [r6, #0x5d8]
-	mov r1, r5
-	orreq r0, r0, #8
-	streq r0, [r6, #0x5d8]
-	mov r0, r6
-	bl Player__Action_AllowTrickCombos
-	ldmia sp!, {r4, r5, r6, pc}
+        player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
+        player->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        player->objWork.displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED);
+        player->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+        player->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_GRABBED);
 
-// clang-format on
-#endif
+        player->gimmickCamOffsetX = player->gimmickCamOffsetY = 0;
+        player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
+
+        Player__Gimmick_Jump(player, player->objWork.move.x, -FLOAT_TO_FX32(8.0));
+
+        if (!a3)
+            player->playerFlag |= PLAYER_FLAG_DISABLE_TRICK_FINISHER;
+
+        Player__Action_AllowTrickCombos(player, other);
+    }
 }
 
-void Player__Func_2021848(Player *player)
+void Player__State_2021848(Player *work)
 {
-    if (player->actionState != PLAYER_ACTION_2D)
+    if (work->actionState != PLAYER_ACTION_2D)
     {
-        if ((player->inputKeyDown & PAD_KEY_DOWN) != 0)
+        if ((work->inputKeyDown & PAD_KEY_DOWN) != 0)
         {
-            Player__ChangeAction(player, PLAYER_ACTION_2D);
+            Player__ChangeAction(work, PLAYER_ACTION_2D);
         }
     }
     else
     {
-        if ((player->inputKeyDown & PAD_KEY_DOWN) == 0)
+        if ((work->inputKeyDown & PAD_KEY_DOWN) == 0)
         {
-            Player__ChangeAction(player, PLAYER_ACTION_IDLE);
-            player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+            Player__ChangeAction(work, PLAYER_ACTION_IDLE);
+            work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         }
     }
 
-    Player__State_201B5A0(player);
+    Player__State_201B5A0(work);
 }
 
 void Player__OnDefend_Unknown(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
@@ -7101,151 +6975,86 @@ void Player__OnDefend_Unknown(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     }
 }
 
-NONMATCH_FUNC void Player__Func_2021A84(Player *player, StageTask *other){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r2, [r4, #0x6d8]
-	cmp r2, r1
-	ldmneia sp!, {r4, pc}
-	ldr r2, [r4, #0x18]
-	add r1, r4, #0x600
-	bic r2, r2, #1
-	str r2, [r4, #0x18]
-	ldr r3, [r4, #0x5dc]
-	mov r2, #0
-	orr r3, r3, #0x10
-	str r3, [r4, #0x5dc]
-	strh r2, [r1, #0xdc]
-	mov r1, #0xd
-	bl Player__ChangeAction
-	ldr r1, [r4, #0x20]
-	ldr r0, =Player__State_201B5A0
-	orr r2, r1, #4
-	bic r1, r2, #0x10
-	bic r1, r1, #0x200
-	str r1, [r4, #0x20]
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+void Player__Func_2021A84(Player *player, GameObjectTask *other)
+{
+    if (player->gimmickObj == other)
+    {
+        player->objWork.flag &= ~STAGE_TASK_FLAG_ON_PLANE_B;
+        player->gimmickFlag |= PLAYER_GIMMICK_10;
+        player->gimmickCamOffsetX = 0;
+        Player__ChangeAction(player, PLAYER_ACTION_BALANCE_BACKWARD);
+        player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+        player->objWork.displayFlag &= ~DISPLAY_FLAG_PAUSED;
+        player->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        SetTaskState(&player->objWork, Player__State_201B5A0);
+    }
 }
 
-NONMATCH_FUNC void Player__Func_2021AE8(Player *player, StageTask *other){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r2, [r4, #0x6d8]
-	cmp r2, r1
-	ldmneia sp!, {r4, pc}
-	ldr r2, [r4, #0x18]
-	add r1, r4, #0x600
-	bic r2, r2, #1
-	str r2, [r4, #0x18]
-	ldr r3, [r4, #0x5dc]
-	mov r2, #0x40
-	orr r3, r3, #0x20
-	str r3, [r4, #0x5dc]
-	strh r2, [r1, #0xde]
-	mov r1, #1
-	bl Player__ChangeAction
-	ldr r1, [r4, #0x20]
-	ldr r0, =Player__Func_2021848
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+void Player__Func_2021AE8(Player *player, GameObjectTask *other)
+{
+    if (player->gimmickObj == other)
+    {
+        player->objWork.flag &= ~STAGE_TASK_FLAG_ON_PLANE_B;
+        player->gimmickFlag |= PLAYER_GIMMICK_20;
+        player->gimmickCamOffsetY = 64;
+        Player__ChangeAction(player, PLAYER_ACTION_IDLE);
+        player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+        SetTaskState(&player->objWork, Player__State_2021848);
+    }
 }
 
-NONMATCH_FUNC void Player__Func_2021B44(Player *player, StageTask *other){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r2, [r0, #0x6d8]
-	cmp r2, r1
-	bxne lr
-	ldr r2, [r0, #0x18]
-	add r1, r0, #0x600
-	orr r2, r2, #1
-	str r2, [r0, #0x18]
-	ldr r3, [r0, #0x20]
-	mov r2, #0
-	orr r3, r3, #0x200
-	str r3, [r0, #0x20]
-	ldr r3, [r0, #0x5dc]
-	bic r3, r3, #0x20
-	str r3, [r0, #0x5dc]
-	strh r2, [r1, #0xde]
-	bx lr
-
-// clang-format on
-#endif
+void Player__Func_2021B44(Player *player, GameObjectTask *other)
+{
+    if (player->gimmickObj == other)
+    {
+        player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
+        player->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        player->gimmickFlag &= ~PLAYER_GIMMICK_20;
+        player->gimmickCamOffsetY = 0;
+    }
 }
 
-NONMATCH_FUNC void Player__Func_2021B84(Player *player, StageTask *other){
-#ifdef NON_MATCHING
+void Player__Func_2021B84(Player *player, GameObjectTask *other)
+{
+    Player__Gimmick_201B500(player, other, 0, 0, 0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #4
-	mov r2, #0
-	mov r3, r2
-	mov r4, r0
-	str r2, [sp]
-	bl Player__Gimmick_201B500
-	ldr r0, =Player__Action_AnchorRope
-	add r2, r4, #0x600
-	str r0, [r4, #0xf4]
-	ldr r0, [r4, #0x5d8]
-	mov r3, #0
-	orr r0, r0, #3
-	str r0, [r4, #0x5d8]
-	ldr r1, [r4, #0x24]
-	mov r0, r4
-	orr r1, r1, #0xb
-	str r1, [r4, #0x24]
-	ldr ip, [r4, #0x1c]
-	mov r1, #0x33
-	orr ip, ip, #0x100
-	str ip, [r4, #0x1c]
-	ldr ip, [r4, #0x5dc]
-	orr ip, ip, #0x10
-	orr ip, ip, #0x20000
-	str ip, [r4, #0x5dc]
-	ldr ip, [r4, #0x5d8]
-	orr ip, ip, #0x100000
-	str ip, [r4, #0x5d8]
-	strh r3, [r2, #0xdc]
-	bl Player__ChangeAction
-	ldr r1, [r4, #0x20]
-	mov r0, #0
-	orr r1, r1, #5
-	str r1, [r4, #0x20]
-	strh r0, [r4, #0x34]
-	strh r0, [r4, #0x32]
-	strh r0, [r4, #0x30]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, pc}
+    SetTaskState(&player->objWork, Player__State_AnchorRope);
 
-// clang-format on
-#endif
+    player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
+    player->objWork.userFlag |= 1 | 2 | 8;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_10;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+
+    player->gimmickCamOffsetX = 0;
+    Player__ChangeAction(player, PLAYER_ACTION_33);
+    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_FLIP_X;
+
+    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
 }
 
-NONMATCH_FUNC void Player__Action_AnchorRope(Player *player){
+NONMATCH_FUNC void Player__State_AnchorRope(Player *work)
+{
 #ifdef NON_MATCHING
+    Player__State_201B5A0(work);
 
+    if (StageTaskStateMatches(&work->objWork, Player__State_AnchorRope))
+    {
+        GameObjectTask *gimmick = work->gimmickObj;
+        if (gimmick != NULL)
+        {
+            if ((gimmick->objWork.position.x - work->objWork.position.x <= 0 && gimmick->objWork.position.x - work->objWork.prevPosition.x > 0)
+                || (gimmick->objWork.position.x - work->objWork.position.x >= 0 && gimmick->objWork.position.x - work->objWork.prevPosition.x < 0))
+            {
+                if (work->objWork.position.z > 0)
+                    PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ANCHOR_ROPE);
+            }
+        }
+    }
+    else
+    {
+        work->objWork.position.z = 0;
+    }
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -7253,7 +7062,7 @@ NONMATCH_FUNC void Player__Action_AnchorRope(Player *player){
 	mov r4, r0
 	bl Player__State_201B5A0
 	ldr r1, [r4, #0xf4]
-	ldr r0, =Player__Action_AnchorRope
+	ldr r0, =Player__State_AnchorRope
 	cmp r1, r0
 	bne _02021CD4
 	ldr r0, [r4, #0x6d8]
@@ -7303,212 +7112,108 @@ _02021CD4:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_2021CE8(Player *player, StageTask *other){
-#ifdef NON_MATCHING
+void Player__Func_2021CE8(Player *player, GameObjectTask *other)
+{
+    fx32 v3;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #4
-	mov r4, r0
-	ldrb r0, [r4, #0x5d0]
-	mov r2, #0
-	cmp r0, #0
-	moveq r3, #0x28000
-	movne r3, #0x2a000
-	mov r0, r4
-	str r2, [sp]
-	bl Player__Gimmick_201B500
-	ldr r0, =Player__Func_2021DD4
-	add r2, r4, #0x600
-	str r0, [r4, #0xf4]
-	ldr r0, [r4, #0x5d8]
-	mov r3, #0
-	orr r0, r0, #4
-	str r0, [r4, #0x5d8]
-	ldr r1, [r4, #0x24]
-	mov r0, r4
-	orr r1, r1, #6
-	str r1, [r4, #0x24]
-	ldr ip, [r4, #0x1c]
-	mov r1, #0x12
-	orr ip, ip, #0x100
-	str ip, [r4, #0x1c]
-	ldr ip, [r4, #0x5dc]
-	orr ip, ip, #0x10
-	orr ip, ip, #0x20000
-	str ip, [r4, #0x5dc]
-	ldr ip, [r4, #0x5d8]
-	orr ip, ip, #0x100000
-	str ip, [r4, #0x5d8]
-	strh r3, [r2, #0xdc]
-	str r3, [r4, #0x28]
-	str r3, [r4, #0x2c]
-	bl Player__ChangeAction
-	ldr r0, [r4, #0x20]
-	mov r1, #0
-	orr r3, r0, #4
-	mov r2, r1
-	add r0, r4, #0x550
-	str r3, [r4, #0x20]
-	bl ObjRect__SetAttackStat
-	add r0, r4, #0x500
-	mov r2, #0xff
-	strh r2, [r0, #0x3e]
-	mov r1, #0
-	add r0, r4, #0x600
-	strh r1, [r0, #0x82]
-	ldr r0, [r4, #0x20]
-	bic r0, r0, #0x20
-	str r0, [r4, #0x20]
-	strh r1, [r4, #0x34]
-	strh r1, [r4, #0x32]
-	strh r1, [r4, #0x30]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, pc}
+    if (player->characterID == CHARACTER_SONIC)
+        v3 = FLOAT_TO_FX32(40.0);
+    else
+        v3 = FLOAT_TO_FX32(42.0);
+    Player__Gimmick_201B500(player, other, 0, v3, 0);
 
-// clang-format on
-#endif
+    SetTaskState(&player->objWork, Player__State_2021DD4);
+
+    player->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO;
+    player->objWork.userFlag |= 2 | 4;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_10;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+
+    player->gimmickCamOffsetX = 0;
+    player->objWork.userWork  = 0;
+    player->objWork.userTimer = 0;
+    Player__ChangeAction(player, PLAYER_ACTION_HOMING_ATTACK);
+    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+
+    ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+    player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
+    player->blinkTimer            = 0;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+
+    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
 }
 
-NONMATCH_FUNC void Player__Func_2021DD4(Player *player){
-#ifdef NON_MATCHING
+void Player__State_2021DD4(Player *work)
+{
+    if (work->gimmickObj != NULL && (work->gimmickObj->flags & 2) != 0)
+        work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x6d8]
-	cmp r0, #0
-	beq _02021DFC
-	ldr r0, [r0, #0x354]
-	tst r0, #2
-	ldrne r0, [r4, #0x20]
-	orrne r0, r0, #0x20
-	strne r0, [r4, #0x20]
-_02021DFC:
-	ldr r1, [r4, #0x28]
-	add r0, r4, #0x700
-	bic r1, r1, #1
-	str r1, [r4, #0x28]
-	ldrh r0, [r0, #0x22]
-	tst r0, #3
-	beq _02021E30
-	ldr r0, [r4, #0x28]
-	orr r0, r0, #1
-	str r0, [r4, #0x28]
-	ldr r0, [r4, #0x2c]
-	add r0, r0, #1
-	str r0, [r4, #0x2c]
-_02021E30:
-	ldr r0, [r4, #0x2c]
-	cmp r0, #5
-	ldrge r0, [r4, #0x28]
-	orrge r0, r0, #2
-	strge r0, [r4, #0x28]
-	mov r0, r4
-	bl Player__State_201B5A0
-	ldr r1, [r4, #0xf4]
-	ldr r0, =Player__Func_2021DD4
-	cmp r1, r0
-	ldmeqia sp!, {r4, pc}
-	add r0, r4, #0x500
-	mov r1, #0x3f
-	strh r1, [r0, #0x3e]
-	ldr r0, [r4, #0x5d8]
-	orr r0, r0, #1
-	str r0, [r4, #0x5d8]
-	ldr r0, [r4, #0x20]
-	bic r0, r0, #0x20
-	str r0, [r4, #0x20]
-	ldrb r0, [r4, #0x5d0]
-	cmp r0, #0
-	ldreq r0, [r4, #0x48]
-	addeq r0, r0, #0x2000
-	streq r0, [r4, #0x48]
-	ldmia sp!, {r4, pc}
+    work->objWork.userWork &= ~1;
 
-// clang-format on
-#endif
+    if ((work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
+    {
+        work->objWork.userWork |= 1;
+        work->objWork.userTimer++;
+    }
+
+    if (work->objWork.userTimer >= 5)
+        work->objWork.userWork |= 2;
+
+    Player__State_201B5A0(work);
+
+    if (!StageTaskStateMatches(&work->objWork, Player__State_2021DD4))
+    {
+        work->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
+        work->playerFlag |= PLAYER_FLAG_USER_FLAG;
+        work->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+
+        if (work->characterID == CHARACTER_SONIC)
+            work->objWork.position.y += FLOAT_TO_FX32(2.0);
+    }
 }
 
-NONMATCH_FUNC void Player__Gimmick_2021E9C(Player *player, StageTask *other){
-#ifdef NON_MATCHING
+void Player__Gimmick_2021E9C(Player *player, GameObjectTask *other)
+{
+    fx32 velX;
+    fx32 velY;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r0
-	ldr r0, [r7, #0x1c]
-	mov r6, r1
-	tst r0, #0x8000
-	ldrne r4, [r7, #0x98]
-	ldrne r5, [r7, #0x9c]
-	bne _02021F0C
-	ldrh r1, [r7, #0x34]
-	ldr r3, =FX_SinCosTable_
-	ldr r0, [r7, #0xc8]
-	mov r1, r1, asr #4
-	mov r4, r1, lsl #1
-	add r1, r4, #1
-	mov r2, r1, lsl #1
-	mov r1, r4, lsl #1
-	ldrsh r2, [r3, r2]
-	ldrsh r1, [r3, r1]
-	smull r2, r3, r0, r2
-	adds r4, r2, #0x800
-	smull r2, r1, r0, r1
-	adc r3, r3, #0
-	adds r2, r2, #0x800
-	mov r4, r4, lsr #0xc
-	adc r0, r1, #0
-	mov r5, r2, lsr #0xc
-	orr r4, r4, r3, lsl #20
-	orr r5, r5, r0, lsl #20
-_02021F0C:
-	cmp r5, #0
-	ldmltia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r0, [r7, #0x5d8]
-	tst r0, #0x400
-	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	mov r0, r7
-	mov r1, #1
-	bl Player__InitGimmick
-	str r6, [r7, #0x6d8]
-	cmp r5, #0x6000
-	movlt r5, #0x6000
-	str r4, [r7, #0x6f0]
-	rsb r0, r5, #0
-	str r0, [r7, #0x6f4]
-	mov r0, #0
-	str r0, [r7, #0x98]
-	str r5, [r7, #0x9c]
-	ldr r1, [r7, #0x1c]
-	mov r0, r7
-	orr r1, r1, #0x10
-	orr r1, r1, #0x8000
-	bic r1, r1, #0x80
-	str r1, [r7, #0x1c]
-	mov r1, #0x13
-	bl Player__ChangeAction
-	ldr r0, [r7, #0x20]
-	mov r1, #0
-	orr r3, r0, #4
-	mov r2, r1
-	add r0, r7, #0x550
-	str r3, [r7, #0x20]
-	bl ObjRect__SetAttackStat
-	mov r1, #0
-	ldr r0, =Player__Func_2021FA8
-	str r1, [r7, #0x28]
-	str r0, [r7, #0xf4]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES) != 0)
+    {
+        velX = player->objWork.velocity.x;
+        velY = player->objWork.velocity.y;
+    }
+    else
+    {
+        velX = MultiplyFX(player->objWork.groundVel, CosFX(player->objWork.dir.z));
+        velY = MultiplyFX(player->objWork.groundVel, SinFX(player->objWork.dir.z));
+    }
 
-// clang-format on
-#endif
+    if (velY >= 0 && (player->playerFlag & PLAYER_FLAG_DEATH) == 0)
+    {
+        Player__InitGimmick(player, TRUE);
+        player->gimmickObj = other;
+
+        if (velY < FLOAT_TO_FX32(6.0))
+            velY = FLOAT_TO_FX32(6.0);
+
+        player->gimmickValue1      = velX;
+        player->gimmickValue2      = -velY;
+        player->objWork.velocity.x = 0;
+        player->objWork.velocity.y = velY;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+
+        Player__ChangeAction(player, PLAYER_ACTION_JUMPFALL);
+        player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+        ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+        player->objWork.userWork = 0;
+        SetTaskState(&player->objWork, Player__State_2021FA8);
+    }
 }
 
-NONMATCH_FUNC void Player__Func_2021FA8(Player *player){
+NONMATCH_FUNC void Player__State_2021FA8(Player *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -7580,48 +7285,21 @@ _02022054:
 #endif
 }
 
-NONMATCH_FUNC void Player__Action_Trampoline(Player *player, fx32 velX, fx32 velY){
-#ifdef NON_MATCHING
+void Player__Action_Trampoline(Player *player, fx32 velX, fx32 velY)
+{
+    Player__Gimmick_Jump(player, velX, velY);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	bl Player__Gimmick_Jump
-	ldr r1, [r4, #0x1c]
-	mov r0, #1
-	bic r1, r1, #0x80
-	str r1, [r4, #0x1c]
-	str r0, [r4, #0x2c]
-	ldr r1, [r4, #0x20]
-	mov r0, r4
-	orr r2, r1, #0x400
-	mov r1, #0x37
-	str r2, [r4, #0x20]
-	bl Player__ChangeAction
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0x550
-	bl ObjRect__SetAttackStat
-	mov r1, #0x6d
-	add r0, r4, #0x254
-	add r0, r0, #0x400
-	mov r2, #0
-	str r2, [sp]
-	str r1, [sp, #4]
-	sub r1, r1, #0x6e
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    player->objWork.userTimer = 1;
+    player->objWork.displayFlag |= DISPLAY_FLAG_400;
 
-// clang-format on
-#endif
+    Player__ChangeAction(player, PLAYER_ACTION_TRAMPOLINE);
+    ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+
+    PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TRAMPOLINE);
 }
 
-NONMATCH_FUNC void Player__Gimmick_2022108(Player *player, StageTask *other, s32 a3){
+NONMATCH_FUNC void Player__Gimmick_2022108(Player *player, GameObjectTask *other, s32 a3){
 #ifdef NON_MATCHING
 
 #else
@@ -7646,7 +7324,7 @@ _02022144:
 	mov r1, #0x13
 	bl Player__ChangeAction
 	ldr r1, [r5, #0x20]
-	ldr r0, =Player__Func_20222E4
+	ldr r0, =Player__State_20222E4
 	orr r1, r1, #4
 	str r1, [r5, #0x20]
 	str r0, [r5, #0xf4]
@@ -7753,7 +7431,7 @@ _02022244:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_20222E4(Player *player){
+NONMATCH_FUNC void Player__State_20222E4(Player *work){
 #ifdef NON_MATCHING
 
 #else
@@ -7833,9 +7511,33 @@ _020223C4:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_20223F8(Player *player){
+NONMATCH_FUNC void Player__Func_20223F8(Player *player)
+{
 #ifdef NON_MATCHING
+    GameObjectTask *gimmick = player->gimmickObj;
+    if (gimmick != NULL)
+    {
+        player->objWork.position.x = ObjDiffSet(player->objWork.position.x, gimmick->objWork.position.x, player->gimmickValue1, 1, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(0.5));
+        if (player->objWork.position.x == gimmick->objWork.position.x)
+        {
+            SetTaskState(&player->objWork, Player__State_20222E4);
+            Player__ChangeAction(player, PLAYER_ACTION_JUMPFALL);
 
+            player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+            player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_IN_AIR;
+            player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT);
+        }
+    }
+    else
+    {
+        player->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
+
+        if (player->onLandGround != NULL)
+        {
+            Player__InitState(player);
+            player->onLandGround(player);
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
@@ -7858,7 +7560,7 @@ NONMATCH_FUNC void Player__Func_20223F8(Player *player){
 	cmp r0, r1
 	addne sp, sp, #8
 	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r1, =Player__Func_20222E4
+	ldr r1, =Player__State_20222E4
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	mov r1, #0x13
@@ -8024,9 +7726,24 @@ _02022660:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_2022694(Player *player){
+NONMATCH_FUNC void Player__Func_2022694(Player *player)
+{
 #ifdef NON_MATCHING
+    if (player->gimmickObj != NULL)
+    {
+        player->objWork.dir.y    = FLOAT_DEG_TO_IDX(90.0);
+        player->objWork.offset.z = -FLOAT_TO_FX32(16.0);
+    }
+    else
+    {
+        player->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
 
+        if (player->onLandGround != NULL)
+        {
+            Player__InitState(player);
+            player->onLandGround(player);
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
@@ -8055,69 +7772,32 @@ _020226BC:
 #endif
 }
 
-NONMATCH_FUNC void Player__Action_PRCannon(Player *player, StageTask *other){
-#ifdef NON_MATCHING
+void Player__Action_PRCannon(Player *player, GameObjectTask *other)
+{
+    if (StageTaskStateMatches(&player->objWork, Player__Func_2022694))
+    {
+        player->gimmickObj = other;
+        Player__ChangeAction(player, PLAYER_ACTION_AIRRISE);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	mov r5, r0
-	ldr r3, [r5, #0xf4]
-	ldr r2, =Player__Func_2022694
-	mov r4, r1
-	cmp r3, r2
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, pc}
-	str r4, [r5, #0x6d8]
-	mov r1, #0x14
-	bl Player__ChangeAction
-	ldr r1, [r5, #0x20]
-	mov r0, #0
-	orr r1, r1, #4
-	str r1, [r5, #0x20]
-	str r0, [r5, #0x9c]
-	ldr r2, [r5, #0x20]
-	ldr r1, =0xFFFFFDFE
-	mov lr, #0x6e
-	and r1, r2, r1
-	str r1, [r5, #0x20]
-	ldrh r3, [r4, #0x30]
-	ldrh r2, [r4, #0x32]
-	sub r1, lr, #0x6f
-	add ip, r5, #0x254
-	strh r3, [r5, #0x30]
-	strh r2, [r5, #0x32]
-	ldrh r3, [r4, #0x34]
-	add r2, r5, #0x600
-	mov r4, #0x19
-	strh r3, [r5, #0x34]
-	ldr r6, [r5, #0x1c]
-	ldr r3, =Player__State_CannonLanched
-	orr r6, r6, #0x110
-	orr r6, r6, #0xa000
-	str r6, [r5, #0x1c]
-	strh r4, [r2, #0xde]
-	ldr r4, [r5, #0x5d8]
-	mov r2, r1
-	orr r4, r4, #0x2000
-	str r4, [r5, #0x5d8]
-	str r0, [r5, #0x28]
-	str r0, [r5, #0x24]
-	str r3, [r5, #0xf4]
-	str r0, [sp]
-	mov r3, r1
-	add r0, ip, #0x400
-	str lr, [sp, #4]
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
+        player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+        player->objWork.velocity.y = 0;
+        player->objWork.displayFlag &= ~(DISPLAY_FLAG_FLIP_X | DISPLAY_FLAG_APPLY_CAMERA_CONFIG);
 
-// clang-format on
-#endif
+        player->objWork.dir = other->objWork.dir;
+
+        player->objWork.moveFlag |=
+            STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->gimmickCamOffsetY = 25;
+        player->playerFlag |= PLAYER_FLAG_2000;
+        player->objWork.userWork = 0;
+        player->objWork.userFlag = 0;
+        SetTaskState(&player->objWork, Player__State_CannonLanched);
+        PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_PL_CANNON);
+    }
 }
 
-NONMATCH_FUNC void Player__State_CannonLanched(Player *player){
+NONMATCH_FUNC void Player__State_CannonLanched(Player *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -8138,7 +7818,7 @@ NONMATCH_FUNC void Player__State_CannonLanched(Player *player){
 	add r0, r4, #0x44
 	ldmia r0, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
-	bl Object103__GetOffsetZ
+	bl CannonPath__GetOffsetZ
 	str r0, [r5, #0x58]
 	b _0202281C
 _0202280C:
@@ -8339,13 +8019,13 @@ _02022AA0:
 	str r0, [r5, #0x20]
 	b _02022BD4
 _02022AE0:
-	bl Object103__GetOffsetZ
+	bl CannonPath__GetOffsetZ
 	ldr r1, [r4, #0x4c]
 	add r0, r1, r0
 	str r0, [r5, #0x4c]
 	b _02022BD4
 _02022AF4:
-	bl Object103__GetOffsetZ
+	bl CannonPath__GetOffsetZ
 	mov r1, #0xc8000
 	rsb r1, r1, #0
 	cmp r0, r1
@@ -8366,7 +8046,7 @@ _02022AF4:
 	bl ObjRoopMove16
 	strh r0, [r5, #0x34]
 _02022B44:
-	bl Object103__GetOffsetZ
+	bl CannonPath__GetOffsetZ
 	mov r1, #0x12c000
 	rsb r1, r1, #0
 	cmp r0, r1
@@ -8436,99 +8116,47 @@ _02022C0C:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_2022C40(Player *player){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r2, [r4, #0xf4]
-	ldr r1, =Player__State_CannonLanched
-	cmp r2, r1
-	ldmneia sp!, {r4, pc}
-	ldr r3, [r4, #0x1c]
-	ldr r1, =0xFFFF5EEF
-	add r2, r4, #0x600
-	and r1, r3, r1
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x20]
-	mov ip, #0
-	orr r1, r1, #0x200
-	str r1, [r4, #0x20]
-	ldr r3, [r4, #0x5dc]
-	ldr r1, =0xFFEFDFFF
-	bic r3, r3, #0xf0
-	str r3, [r4, #0x5dc]
-	strh ip, [r2, #0xdc]
-	strh ip, [r2, #0xde]
-	ldr r3, [r4, #0x5d8]
-	add r2, r4, #0x500
-	and r1, r3, r1
-	str r1, [r4, #0x5d8]
-	mov r1, #0x3f
-	strh r1, [r2, #0x3e]
-	strh ip, [r4, #0x32]
-	bl Player__Action_Launch
-	ldr r0, [r4, #0xbc]
-	str r0, [r4, #0x98]
-	ldr r0, [r4, #0xc0]
-	str r0, [r4, #0x9c]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Player__Func_2022CD4(Player *player){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r3, [r0, #0xf4]
-	ldr r2, =Player__State_CannonLanched
-	bic lr, r1, #0x80000000
-	cmp r3, r2
-	ldmneia sp!, {r3, pc}
-	cmp lr, #3
-	movhs lr, #0
-	ldr ip, [r0, #0x24]
-	add r2, lr, #1
-	mov r3, #1
-	orr r2, ip, r3, lsl r2
-	bic r2, r2, #0x20
-	str r2, [r0, #0x24]
-	tst r1, #0x80000000
-	ldrne r1, [r0, #0x24]
-	orrne r1, r1, #0x20
-	strne r1, [r0, #0x24]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Player__Func_2022D24(Player *player, u8 a2)
+void Player__Func_2022C40(Player *player)
 {
-#ifdef NON_MATCHING
+    if (StageTaskStateMatches(&player->objWork, Player__State_CannonLanched))
+    {
+        player->objWork.moveFlag &=
+            ~(STAGE_TASK_MOVE_FLAG_IN_AIR | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES);
+        player->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        player->gimmickFlag &= ~(PLAYER_GIMMICK_80 | PLAYER_GIMMICK_40 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10);
 
-#else
-    // clang-format off
-	ldr r3, [r0, #0xf4]
-	ldr r2, =Player__State_CannonLanched
-	cmp r3, r2
-	bxne lr
-	add r1, r1, #1
-	mov r2, #1
-	mvn r1, r2, lsl r1
-	ldr r2, [r0, #0x24]
-	and r1, r2, r1
-	str r1, [r0, #0x24]
-	bx lr
+        player->gimmickCamOffsetX = 0;
+        player->gimmickCamOffsetY = 0;
+        player->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+        player->colliders[0].defPower = PLAYER_DEFPOWER_NORMAL;
 
-// clang-format on
-#endif
+        player->objWork.dir.y = 0;
+        Player__Action_Launch(player);
+
+        player->objWork.velocity.x = player->objWork.move.x;
+        player->objWork.velocity.y = player->objWork.move.y;
+    }
+}
+
+void Player__Func_2022CD4(Player *player, u32 flags)
+{
+    u32 id = flags & ~0x80000000;
+    if (StageTaskStateMatches(&player->objWork, Player__State_CannonLanched))
+    {
+        if (id >= 3)
+            id = 0;
+
+        player->objWork.userFlag = (player->objWork.userFlag | (1 << (id + 1))) & ~0x20;
+
+        if (flags & 0x80000000)
+            player->objWork.userFlag |= 0x20;
+    }
+}
+
+void Player__Func_2022D24(Player *player, u8 flag)
+{
+    if (StageTaskStateMatches(&player->objWork, Player__State_CannonLanched))
+        player->objWork.userFlag &= ~(1 << (flag + 1));
 }
 
 void Player__Gimmick_JumpBox(Player *player, GameObjectTask *other, CharacterID characterID)
@@ -9330,91 +8958,41 @@ void Player__State_PlaneSwitchSpring(Player *work)
     }
 }
 
-NONMATCH_FUNC void Player__Func_202374C(Player *player){
-#ifdef NON_MATCHING
+void Player__Func_202374C(Player *player)
+{
+    if (!StageTaskStateMatches(&player->objWork, Player__State_PlaneSwitchSpring) && !StageTaskStateMatches(&player->objWork, Player__State_JumpBoxPlaneSwitchLaunch))
+    {
+        player->gimmickFlag &= ~PLAYER_GIMMICK_20000000;
+        player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
 
-#else
-    // clang-format off
-	ldr r2, [r0, #0xf4]
-	ldr r1, =Player__State_PlaneSwitchSpring
-	cmp r2, r1
-	ldrne r1, =Player__State_JumpBoxPlaneSwitchLaunch
-	cmpne r2, r1
-	bxeq lr
-	ldr r1, [r0, #0x5dc]
-	bic r1, r1, #0x20000000
-	str r1, [r0, #0x5dc]
-	ldr r1, [r0, #0x18]
-	orr r1, r1, #1
-	str r1, [r0, #0x18]
-	ldr r1, [r0, #0x4c]
-	cmp r1, #0
-	addne r0, r0, #0x600
-	movne r1, #0
-	strneh r1, [r0, #0xd0]
-	bx lr
-
-// clang-format on
-#endif
+        if (player->objWork.position.z != 0)
+            player->blazeHoverTimer = 0;
+    }
 }
 
-NONMATCH_FUNC void Player__Func_202379C(Player *player, StageTask *other){
-#ifdef NON_MATCHING
+void Player__Func_202379C(Player *player, GameObjectTask *other)
+{
+    Player__Gimmick_201B500(player, other, 0, 0, 0);
+    SetTaskState(&player->objWork, Player__State_2023858);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r2, #0
-	mov r3, r2
-	mov r5, r0
-	mov r4, r1
-	str r2, [sp]
-	bl Player__Gimmick_201B500
-	ldr r0, =Player__Func_2023858
-	add r2, r5, #0x600
-	str r0, [r5, #0xf4]
-	ldr r0, [r5, #0x5d8]
-	mov ip, #0
-	orr r0, r0, #4
-	str r0, [r5, #0x5d8]
-	ldr r0, [r5, #0x24]
-	mov r3, #0xa0
-	orr r0, r0, #0xb
-	str r0, [r5, #0x24]
-	ldr r1, [r5, #0x1c]
-	mov r0, r5
-	orr r1, r1, #0x100
-	str r1, [r5, #0x1c]
-	ldr lr, [r5, #0x5dc]
-	mov r1, #0x32
-	orr lr, lr, #0x30
-	orr lr, lr, #0x20000
-	str lr, [r5, #0x5dc]
-	ldr lr, [r5, #0x5d8]
-	orr lr, lr, #0x100000
-	str lr, [r5, #0x5d8]
-	strh ip, [r2, #0xdc]
-	strh r3, [r2, #0xde]
-	bl Player__ChangeAction
-	ldr r1, [r5, #0x20]
-	mov r0, #0
-	orr r1, r1, #4
-	bic r2, r1, #1
-	str r2, [r5, #0x20]
-	ldr r1, [r4, #0x20]
-	and r1, r1, #1
-	orr r1, r2, r1
-	str r1, [r5, #0x20]
-	strh r0, [r5, #0x34]
-	strh r0, [r5, #0x32]
-	strh r0, [r5, #0x30]
-	ldmia sp!, {r3, r4, r5, pc}
+    player->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO;
+    player->objWork.userFlag |= (1 | 2 | 8);
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
-// clang-format on
-#endif
+    player->gimmickCamOffsetX = 0;
+    player->gimmickCamOffsetY = 160;
+    Player__ChangeAction(player, PLAYER_ACTION_32);
+
+    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+    player->objWork.displayFlag |= other->objWork.displayFlag & DISPLAY_FLAG_FLIP_X;
+
+    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
 }
 
-NONMATCH_FUNC void Player__Func_2023858(Player *player){
+NONMATCH_FUNC void Player__State_2023858(Player *work){
 #ifdef NON_MATCHING
 
 #else
@@ -9470,7 +9048,7 @@ _020238E4:
 	str r0, [r7, #0x5d8]
 _02023918:
 	ldr r1, [r7, #0xf4]
-	ldr r0, =Player__Func_2023858
+	ldr r0, =Player__State_2023858
 	cmp r1, r0
 	cmpne r4, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
@@ -9483,7 +9061,7 @@ _02023918:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_2023944(Player *player, StageTask *other){
+NONMATCH_FUNC void Player__Gimmick_2023944(Player *player, GameObjectTask *other){
 #ifdef NON_MATCHING
 
 #else
@@ -9495,7 +9073,7 @@ NONMATCH_FUNC void Player__Gimmick_2023944(Player *player, StageTask *other){
 	bl Player__InitGimmick
 	mov r0, r5
 	bl Player__InitState
-	ldr r1, =Player__Func_2023A4C
+	ldr r1, =Player__State_2023A4C
 	str r4, [r5, #0x6d8]
 	ldr r0, =Player__OnDefend_Regular4
 	str r1, [r5, #0xf4]
@@ -9556,7 +9134,8 @@ NONMATCH_FUNC void Player__Gimmick_2023944(Player *player, StageTask *other){
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_2023A4C(Player *player){
+NONMATCH_FUNC void Player__State_2023A4C(Player *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -9866,23 +9445,14 @@ _02023E68:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_2023EB4(Player *player){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r2, [r0, #0xf4]
-	ldr r1, =Player__Func_2023A4C
-	cmp r2, r1
-	ldreq r1, =Player__Func_2023ED4
-	streq r1, [r0, #0xf4]
-	bx lr
-
-// clang-format on
-#endif
+void Player__Func_2023EB4(Player *player)
+{
+    if (StageTaskStateMatches(&player->objWork, Player__State_2023A4C))
+        SetTaskState(&player->objWork, Player__State_2023ED4);
 }
 
-NONMATCH_FUNC void Player__Func_2023ED4(Player *player){
+NONMATCH_FUNC void Player__State_2023ED4(Player *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -9957,60 +9527,30 @@ _02023FA0:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_2023FC8(Player *player){
-#ifdef NON_MATCHING
+void Player__Func_2023FC8(Player *player)
+{
+    player->gimmickObj = NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov lr, #0
-	str lr, [r0, #0x6d8]
-	ldr r2, [r0, #0x20]
-	ldr r1, =0xFFEFDFFF
-	orr r2, r2, #0x200
-	str r2, [r0, #0x20]
-	ldr r3, [r0, #0x1c]
-	add r2, r0, #0x600
-	orr r3, r3, #0x80
-	orr r3, r3, #0x8000
-	bic r3, r3, #0x100
-	str r3, [r0, #0x1c]
-	ldr ip, [r0, #0x5dc]
-	ldr r3, =Player__OnDefend_Regular
-	bic ip, ip, #0x50
-	str ip, [r0, #0x5dc]
-	ldr ip, [r0, #0x5d8]
-	and r1, ip, r1
-	str r1, [r0, #0x5d8]
-	strh lr, [r2, #0xdc]
-	strh lr, [r2, #0xde]
-	str r3, [r0, #0x534]
-	ldmia sp!, {r3, pc}
+    player->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    player->gimmickFlag &= ~(PLAYER_GIMMICK_40 | PLAYER_GIMMICK_10);
+    player->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+    player->gimmickCamOffsetX = 0;
+    player->gimmickCamOffsetY = 0;
 
-// clang-format on
-#endif
+    ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_Regular);
 }
 
-NONMATCH_FUNC void Player__OnDefend_Regular4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2){
-#ifdef NON_MATCHING
+void Player__OnDefend_Regular4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+    Player *player = (Player *)rect2->parent;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r1
-	mov r5, r0
-	ldr r0, [r4, #0x1c]
-	bl Player__Func_2023FC8
-	mov r0, r5
-	mov r1, r4
-	bl Player__OnDefend_Regular
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+    Player__Func_2023FC8(player);
+    Player__OnDefend_Regular(rect1, rect2);
 }
 
-NONMATCH_FUNC void Player__Func_2024054(Player *player, StageTask *other){
+NONMATCH_FUNC void Player__Func_2024054(Player *player, GameObjectTask *other){
 #ifdef NON_MATCHING
 
 #else
@@ -10019,7 +9559,7 @@ NONMATCH_FUNC void Player__Func_2024054(Player *player, StageTask *other){
 	mov r7, r0
 	mov r6, r1
 	ldr r3, [r7, #0xf4]
-	ldr r2, =Player__Func_2023A4C
+	ldr r2, =Player__State_2023A4C
 	ldr r4, [r6, #0x340]
 	cmp r3, r2
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
@@ -10109,7 +9649,7 @@ _02024184:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_AirSwitch(Player *player, StageTask *other, s32 a3, s32 a4, s32 a5){
+NONMATCH_FUNC void Player__Gimmick_AirSwitch(Player *player, GameObjectTask *other, s32 a3, s32 a4, s32 a5){
 #ifdef NON_MATCHING
 
 #else
@@ -10219,7 +9759,8 @@ _02024294:
 #endif
 }
 
-NONMATCH_FUNC void Player__State_AirSwitch(Player *player){
+NONMATCH_FUNC void Player__State_AirSwitch(Player *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -10326,92 +9867,41 @@ _02024428:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_202447C(Player *player, StageTask *other, s32 a3){
-#ifdef NON_MATCHING
+void Player__Gimmick_202447C(Player *player, GameObjectTask *other, s32 a3)
+{
+    Player__InitPhysics(player);
+    Player__InitGimmick(player, FALSE);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	mov r6, r0
-	mov r5, r1
-	mov r4, r2
-	bl Player__InitPhysics
-	mov r0, r6
-	mov r1, #0
-	bl Player__InitGimmick
-	add r0, r6, #0x660
-	mov r1, #0x20
-	bl NNS_SndPlayerStopSeq
-	add r0, r6, #0x660
-	bl NNS_SndHandleReleaseSeq
-	mov r0, r6
-	mov r1, #0x3a
-	bl Player__ChangeAction
-	ldr r1, [r6, #0x20]
-	mov r0, #0
-	orr r1, r1, #4
-	str r1, [r6, #0x20]
-	ldr r1, [r6, #0x98]
-	mov r3, #0x40
-	mov r1, r1, asr #1
-	str r1, [r6, #0x98]
-	ldr r2, [r6, #0x9c]
-	add r1, r6, #0x600
-	mov r2, r2, asr #2
-	str r2, [r6, #0x9c]
-	ldr ip, [r6, #0xc8]
-	ldr r2, =Player__Func_20245AC
-	mov ip, ip, asr #1
-	str ip, [r6, #0xc8]
-	strh r0, [r6, #0x34]
-	ldr ip, [r5, #0x44]
-	mov r0, r6
-	str ip, [r6, #0x44]
-	ldr ip, [r5, #0x48]
-	add ip, ip, #0x10000
-	str ip, [r6, #0x48]
-	ldr ip, [r5, #0x4c]
-	str ip, [r6, #0x4c]
-	ldr ip, [r6, #0x1c]
-	orr ip, ip, #0x10
-	orr ip, ip, #0x8000
-	bic ip, ip, #0x80
-	str ip, [r6, #0x1c]
-	ldr ip, [r6, #0x20]
-	bic ip, ip, #1
-	str ip, [r6, #0x20]
-	str r5, [r6, #0x6d8]
-	ldr r5, [r6, #0x5dc]
-	orr r5, r5, #0x4000000
-	str r5, [r6, #0x5dc]
-	strh r3, [r1, #0xe6]
-	ldr r1, [r6, #0x5d8]
-	orr r1, r1, #0x100000
-	str r1, [r6, #0x5d8]
-	str r4, [r6, #0x6f0]
-	str r2, [r6, #0xf4]
-	bl Player__Action_StopBoost
-	mov r0, r6
-	bl Player__Action_StopSuperBoost
-	mov r1, #0
-	str r1, [sp]
-	mov r1, #0x49
-	add r0, r6, #0x254
-	str r1, [sp, #4]
-	sub r1, r1, #0x4a
-	add r0, r0, #0x400
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
+    FadeOutPlayerSfx(player, PLAYER_SEQPLAYER_GRINDTRICKSUCCES, 32);
+    ReleasePlayerSfx(player, PLAYER_SEQPLAYER_GRINDTRICKSUCCES);
+    Player__ChangeAction(player, PLAYER_ACTION_3A);
 
-// clang-format on
-#endif
+    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+    player->objWork.velocity.x >>= 1;
+    player->objWork.velocity.y >>= 2;
+    player->objWork.groundVel >>= 1;
+    player->objWork.dir.z      = 0;
+    player->objWork.position.x = other->objWork.position.x;
+    player->objWork.position.y = other->objWork.position.y + FLOAT_TO_FX32(16.0);
+    player->objWork.position.z = other->objWork.position.z;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+
+    player->gimmickObj = other;
+    player->gimmickFlag |= PLAYER_GIMMICK_4000000;
+    player->gimmickCamGimmickCenterOffsetY = 64;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+    player->gimmickValue1 = a3;
+
+    SetTaskState(&player->objWork, Player__State_20245AC);
+    Player__Action_StopBoost(player);
+    Player__Action_StopSuperBoost(player);
+    PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GIMMICK);
 }
 
-NONMATCH_FUNC void Player__Func_20245AC(Player *player){
+NONMATCH_FUNC void Player__State_20245AC(Player *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -10510,86 +10000,42 @@ _020246D4:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_20246FC(Player *player, StageTask *other){
-#ifdef NON_MATCHING
+void Player__Gimmick_20246FC(Player *player, GameObjectTask *other)
+{
+    Player__InitGimmick(player, FALSE);
+    player->gimmickObj = other;
+    Player__ChangeAction(player, PLAYER_ACTION_3C);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r4, r1
-	mov r5, r0
-	mov r1, #0
-	bl Player__InitGimmick
-	mov r0, r5
-	mov r1, #0x3c
-	str r4, [r5, #0x6d8]
-	bl Player__ChangeAction
-	mov r0, #0
-	str r0, [r5, #0xc8]
-	str r0, [r5, #0x9c]
-	str r0, [r5, #0x98]
-	strh r0, [r5, #0x34]
-	ldr r0, [r4, #0x44]
-	mov ip, #0
-	str r0, [r5, #0x44]
-	ldr r0, [r4, #0x4c]
-	str r0, [r5, #0x4c]
-	ldr r0, [r4, #0x20]
-	tst r0, #1
-	ldr r0, [r5, #0x44]
-	addne r0, r0, #0x1e000
-	subeq r0, r0, #0x1e000
-	str r0, [r5, #0x44]
-	ldr r1, [r5, #0x20]
-	add r0, r5, #0x600
-	bic r2, r1, #1
-	str r2, [r5, #0x20]
-	ldr r1, [r4, #0x20]
-	mov r4, #0x49
-	and r1, r1, #1
-	orr r1, r2, r1
-	str r1, [r5, #0x20]
-	ldr r1, [r5, #0x5dc]
-	mov r2, #0x20
-	orr r1, r1, #0x30
-	orr r1, r1, #0x20000
-	str r1, [r5, #0x5dc]
-	ldr r1, [r5, #0x5d8]
-	orr r1, r1, #0x100000
-	str r1, [r5, #0x5d8]
-	strh r2, [r0, #0xde]
-	ldr r1, [r5, #0x20]
-	tst r1, #1
-	movne r1, #0x3c
-	subeq r1, r2, #0x5c
-	strh r1, [r0, #0xdc]
-	add r0, r5, #0x500
-	mov r1, #0xff
-	strh r1, [r0, #0x3e]
-	add r0, r5, #0x600
-	strh ip, [r0, #0x82]
-	ldr r0, [r5, #0x20]
-	ldr r2, =Player__Func_2024814
-	bic r3, r0, #0x20
-	str r3, [r5, #0x20]
-	sub r1, r4, #0x4a
-	str r2, [r5, #0xf4]
-	add r0, r5, #0x254
-	str ip, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	str r4, [sp, #4]
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    player->objWork.groundVel  = 0;
+    player->objWork.velocity.x = player->objWork.velocity.y = 0;
+    player->objWork.dir.z                                   = FLOAT_DEG_TO_IDX(0.0);
+    player->objWork.position.x                              = other->objWork.position.x;
+    player->objWork.position.z                              = other->objWork.position.z;
 
-// clang-format on
-#endif
+    if ((other->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+        player->objWork.position.x += FLOAT_TO_FX32(30.0);
+    else
+        player->objWork.position.x -= FLOAT_TO_FX32(30.0);
+
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+    player->objWork.displayFlag |= other->objWork.displayFlag & DISPLAY_FLAG_FLIP_X;
+    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+    player->gimmickCamOffsetY = 32;
+
+    if ((player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+        player->gimmickCamOffsetX = 60;
+    else
+        player->gimmickCamOffsetX = -60;
+
+    player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
+    player->blinkTimer            = 0;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
+    SetTaskState(&player->objWork, Player__State_2024814);
+    PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GIMMICK);
 }
 
-NONMATCH_FUNC void Player__Func_2024814(Player *player){
+NONMATCH_FUNC void Player__State_2024814(Player *work){
 #ifdef NON_MATCHING
 
 #else
@@ -10652,7 +10098,7 @@ _020248C0:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_Bungee(Player *player, StageTask *other, u32 a3, u32 a4){
+NONMATCH_FUNC void Player__Gimmick_Bungee(Player *player, GameObjectTask *other, u32 a3, u32 a4){
 #ifdef NON_MATCHING
 
 #else
@@ -10780,7 +10226,7 @@ _02024A58:
 #endif
 }
 
-NONMATCH_FUNC void Player__State_Bungee(Player *player)
+NONMATCH_FUNC void Player__State_Bungee(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -10956,7 +10402,7 @@ void Player__Action_SpringRope(Player *player, GameObjectTask *other, s32 timer)
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPRING);
 }
 
-NONMATCH_FUNC void Player__State_SpringRope(Player *player)
+NONMATCH_FUNC void Player__State_SpringRope(Player *work)
 {
 #ifdef NON_MATCHING
 

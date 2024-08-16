@@ -92,7 +92,7 @@ MissionFlag *CreateMissionFlag(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flag.bac", GetObjectFileWork(104), gameArchiveMission, 32);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flag.bac", GetObjectFileWork(OBJDATAWORK_104), gameArchiveMission, 32);
     if (mapObjectParam_flagID == playerGameStatus.missionStatus.quota)
         ObjActionAllocSpritePalette(&work->gameWork.objWork, 11, 103);
     else
@@ -107,7 +107,7 @@ MissionFlag *CreateMissionFlag(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     AnimatorSpriteDS *aniDigit = work->aniDigit;
     for (d = 0; d < 2; d++)
     {
-        ObjAction2dBACLoad(aniDigit, "/act/ac_gmk_flag.bac", 4, GetObjectFileWork(104), gameArchiveMission);
+        ObjAction2dBACLoad(aniDigit, "/act/ac_gmk_flag.bac", 4, GetObjectFileWork(OBJDATAWORK_104), gameArchiveMission);
         aniDigit->cParam[0].palette = aniDigit->cParam[1].palette = aniDigit->work.palette = work->gameWork.objWork.obj_2d->ani.work.palette;
 
         aniDigit->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
@@ -158,7 +158,7 @@ void MissionFlag_Destructor(Task *task)
 
     for (s32 i = 0; i < 2; i++)
     {
-        ObjAction2dBACRelease(GetObjectFileWork(104), &work->aniDigit[i]);
+        ObjAction2dBACRelease(GetObjectFileWork(OBJDATAWORK_104), &work->aniDigit[i]);
     }
 
     GameObject__Destructor(task);

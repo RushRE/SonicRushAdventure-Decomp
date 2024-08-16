@@ -3035,7 +3035,7 @@ void CreatePassFlagMissionHUD(void)
     TaskInitWork16(work);
 
     s32 i;
-    void *spriteFile = ObjDataLoad(GetObjectFileWork(2), "/ac_fix_msn.bac", gameArchiveCommon);
+    void *spriteFile = ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon);
     for (i = 0; i < PASSFLAGSHUD_ANIMATOR_COUNT; i++)
     {
         AnimatorSpriteDS *animator = &work->animators[i];
@@ -3061,7 +3061,7 @@ void PassFlagMissionHUD_Destructor(Task *task)
     AnimatorSpriteDS__Release(&work->animators[PASSFLAGSHUD_ANIMATOR_SLASH]);
     AnimatorSpriteDS__Release(&work->animators[PASSFLAGSHUD_ANIMATOR_FLAG]);
 
-    ObjDataRelease(GetObjectFileWork(2));
+    ObjDataRelease(GetObjectFileWork(OBJDATAWORK_2));
 }
 
 void PassFlagMissionHUD_Main(void)
@@ -3125,7 +3125,7 @@ void CreateCollectRingsMissionHUD(void)
     CollectRingsMissionHUD *work = TaskGetWork(task, CollectRingsMissionHUD);
     TaskInitWork16(work);
 
-    AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_RING_ICON, SCREEN_DRAW_B,
+    AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_RING_ICON, SCREEN_DRAW_B,
                            ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 2), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0,
                            PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
     work->animator.work.palette      = 2;
@@ -3142,7 +3142,7 @@ void CollectRingsMissionHUD_Destructor(Task *task)
 
     AnimatorSpriteDS__Release(&work->animator);
 
-    ObjDataRelease(GetObjectFileWork(2));
+    ObjDataRelease(GetObjectFileWork(OBJDATAWORK_2));
 }
 
 void CollectRingsMissionHUD_Main(void)
@@ -3185,7 +3185,7 @@ void CreateGenericQuotaMissionHUD(void)
     GenericQuotaMissionHUD *work = TaskGetWork(task, GenericQuotaMissionHUD);
     TaskInitWork16(work);
 
-    AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_SLASH, SCREEN_DRAW_B,
+    AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_SLASH, SCREEN_DRAW_B,
                            ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 1), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0,
                            PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
     work->animator.work.palette      = 0;
@@ -3210,7 +3210,7 @@ void GenericQuotaMissionHUD_Destructor(Task *task)
 
     AnimatorSpriteDS__Release(&work->animator);
 
-    ObjDataRelease(GetObjectFileWork(2));
+    ObjDataRelease(GetObjectFileWork(OBJDATAWORK_2));
 }
 
 void GenericQuotaMissionHUD_Main(void)

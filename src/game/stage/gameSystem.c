@@ -115,8 +115,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 20, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 20, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 20, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 20, 00), .quota = 0 },
         },
     },
 
@@ -125,8 +125,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 100 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 100 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 100 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 100 },
         },
     },
 
@@ -135,8 +135,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 },
         },
     },
 
@@ -145,8 +145,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_PERFORM_TRICKS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 30 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 30 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 30 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 30 },
         },
     },
 
@@ -155,8 +155,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_PERFORM_COMBOS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 12 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 12 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 12 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 12 },
         },
     },
 
@@ -165,8 +165,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 20, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 20, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 20, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 20, 00), .quota = 0 },
         },
     },
 
@@ -175,8 +175,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 100 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 100 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 100 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 100 },
         },
     },
 
@@ -185,8 +185,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 },
         },
     },
 
@@ -195,8 +195,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 8 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 8 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 8 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 8 },
         },
     },
 
@@ -205,8 +205,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_BOSS_REMATCH,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -215,8 +215,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
         },
     },
 
@@ -225,8 +225,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 40, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 40, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 40, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 40, 00), .quota = 0 },
         },
     },
 
@@ -235,8 +235,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 },
         },
     },
 
@@ -245,8 +245,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 },
         },
     },
 
@@ -255,8 +255,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_PERFORM_TRICKS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 30 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 30 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 30 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 30 },
         },
     },
 
@@ -265,8 +265,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 40, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 40, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 40, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 40, 00), .quota = 0 },
         },
     },
 
@@ -275,8 +275,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 },
         },
     },
 
@@ -285,8 +285,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 },
         },
     },
 
@@ -295,8 +295,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 6 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 6 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 6 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 6 },
         },
     },
 
@@ -305,8 +305,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_BOSS_REMATCH,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -315,8 +315,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
         },
     },
 
@@ -325,8 +325,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 50, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 50, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 50, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 50, 00), .quota = 0 },
         },
     },
 
@@ -335,8 +335,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 },
         },
     },
 
@@ -345,8 +345,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
         },
     },
 
@@ -355,8 +355,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
         },
     },
 
@@ -365,8 +365,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 0 },
         },
     },
 
@@ -375,8 +375,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 },
         },
     },
 
@@ -385,8 +385,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
         },
     },
 
@@ -395,8 +395,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -405,8 +405,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_BOSS_REMATCH,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -415,8 +415,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
         },
     },
 
@@ -425,8 +425,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 },
         },
     },
 
@@ -435,8 +435,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 50 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 50 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 50 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 50 },
         },
     },
 
@@ -445,8 +445,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
         },
     },
 
@@ -455,8 +455,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 10 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 10 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 10 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 10 },
         },
     },
 
@@ -465,8 +465,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 },
         },
     },
 
@@ -475,8 +475,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 },
         },
     },
 
@@ -485,8 +485,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
         },
     },
 
@@ -495,8 +495,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
         },
     },
 
@@ -505,8 +505,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_BOSS_REMATCH,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -515,8 +515,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
         },
     },
 
@@ -525,8 +525,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 0 },
         },
     },
 
@@ -535,8 +535,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 50 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 50 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 50 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 30, 00), .quota = 50 },
         },
     },
 
@@ -545,8 +545,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 },
         },
     },
 
@@ -555,8 +555,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_PASS_FLAGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 },
         },
     },
 
@@ -565,8 +565,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_PERFORM_TRICKS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 20 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 20 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 20 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 20 },
         },
     },
 
@@ -575,8 +575,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 50, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 50, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 50, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 50, 00), .quota = 0 },
         },
     },
 
@@ -585,8 +585,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 },
         },
     },
 
@@ -595,8 +595,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 0 },
         },
     },
 
@@ -605,8 +605,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_BOSS_REMATCH,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -615,8 +615,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
         },
     },
 
@@ -625,8 +625,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 40, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 40, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 40, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 40, 00), .quota = 0 },
         },
     },
 
@@ -635,8 +635,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 100 },
         },
     },
 
@@ -645,8 +645,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 },
         },
     },
 
@@ -655,8 +655,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
         },
     },
 
@@ -665,8 +665,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 },
         },
     },
 
@@ -675,8 +675,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 00, 00), .quota = 50 },
         },
     },
 
@@ -685,8 +685,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 },
         },
     },
 
@@ -695,8 +695,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 10 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 10 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 10 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 10 },
         },
     },
 
@@ -705,8 +705,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_BOSS_REMATCH,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -715,8 +715,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
         },
     },
 
@@ -725,8 +725,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 0 },
         },
     },
 
@@ -735,8 +735,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 100 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 100 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 100 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 20, 00), .quota = 100 },
         },
     },
 
@@ -745,8 +745,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
         },
     },
 
@@ -755,8 +755,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
         },
     },
 
@@ -765,8 +765,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 0 },
         },
     },
 
@@ -775,8 +775,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 200 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 200 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 200 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(2, 30, 00), .quota = 200 },
         },
     },
 
@@ -785,8 +785,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_FIND_MEDAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 0 },
         },
     },
 
@@ -795,8 +795,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_PERFORM_TRICKS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 30 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 30 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 30 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(3, 00, 00), .quota = 30 },
         },
     },
 
@@ -805,8 +805,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_BOSS_REMATCH,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -815,8 +815,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_DEFEAT_RIVAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -825,8 +825,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_BOSS_REMATCH,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -835,8 +835,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_PERFORM_TRICKS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 20 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 20 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 20 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 20 },
         },
     },
 
@@ -845,8 +845,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 0 },
         },
     },
 
@@ -855,8 +855,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 50 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 50 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 50 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 50 },
         },
     },
 
@@ -865,8 +865,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 50, 00), .quota = 16 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 50, 00), .quota = 16 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 50, 00), .quota = 16 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 50, 00), .quota = 16 },
         },
     },
 
@@ -875,8 +875,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_PERFORM_COMBOS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 11 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 11 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 11 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 40, 00), .quota = 11 },
         },
     },
 
@@ -885,8 +885,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -895,8 +895,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_DEFEAT_BOSS_1RING,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 1 },
         },
     },
 
@@ -905,8 +905,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -915,8 +915,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_PERFORM_COMBOS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 20 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 20 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 20 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 20 },
         },
     },
 
@@ -925,8 +925,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -935,8 +935,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_PASS_FLAGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 },
         },
     },
 
@@ -945,8 +945,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -955,8 +955,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -965,8 +965,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -975,8 +975,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -985,8 +985,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_PASS_FLAGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 },
         },
     },
 
@@ -995,8 +995,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -1005,8 +1005,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -1015,8 +1015,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_COLLECT_RINGS,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 50, 00), .quota = 50 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 50, 00), .quota = 50 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 50, 00), .quota = 50 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 50, 00), .quota = 50 },
         },
     },
 
@@ -1025,8 +1025,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -1035,8 +1035,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_DEFEAT_ENEMIES,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 15 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 15 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 15 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 30, 00), .quota = 15 },
         },
     },
 
@@ -1045,8 +1045,8 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(0, 00, 00), .quota = 0 },
         },
     },
 
@@ -1055,108 +1055,108 @@ const struct MissionEntry missionList[] = {
         .type = MISSION_TYPE_REACH_GOAL_TIME_LIMIT,
         .config =
         {
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 }, // Easy difficulty
-            { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 }, // Normal difficulty
+            [DIFFICULTY_EASY] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 },
+            [DIFFICULTY_NORMAL] = { .timeLimit = AKUTIL_TIME_TO_FRAMES(1, 00, 00), .quota = 0 },
         },
     },
 
 };
 
-const u32 objDataSizeForZone[ZONE_COUNT] = { 183, 192, 202, 173, 205, 178, 195, 159, 164 };
+static const u32 objDataSizeForZone[ZONE_COUNT] = { 183, 192, 202, 173, 205, 178, 195, 159, 164 };
 
-BOOL bossStageTable[STAGE_COUNT] = { [STAGE_Z11]               = FALSE,
-                                     [STAGE_Z12]               = FALSE,
-                                     [STAGE_TUTORIAL]          = FALSE,
-                                     [STAGE_Z1B]               = TRUE,
-                                     [STAGE_Z21]               = FALSE,
-                                     [STAGE_Z22]               = FALSE,
-                                     [STAGE_Z2B]               = TRUE,
-                                     [STAGE_Z31]               = FALSE,
-                                     [STAGE_Z32]               = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_1]   = FALSE,
-                                     [STAGE_Z3B]               = TRUE,
-                                     [STAGE_Z41]               = FALSE,
-                                     [STAGE_Z42]               = FALSE,
-                                     [STAGE_Z4B]               = TRUE,
-                                     [STAGE_Z51]               = FALSE,
-                                     [STAGE_Z52]               = FALSE,
-                                     [STAGE_Z5B]               = TRUE,
-                                     [STAGE_Z61]               = FALSE,
-                                     [STAGE_Z62]               = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_2]   = FALSE,
-                                     [STAGE_Z6B]               = TRUE,
-                                     [STAGE_Z71]               = FALSE,
-                                     [STAGE_Z72]               = FALSE,
-                                     [STAGE_Z7B]               = TRUE,
-                                     [STAGE_BOSS_FINAL]        = TRUE,
-                                     [STAGE_HIDDEN_ISLAND_3]   = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_4]   = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_5]   = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_6]   = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_7]   = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_8]   = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_9]   = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_10]  = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_11]  = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_12]  = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_13]  = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_14]  = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_15]  = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_16]  = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_VS1] = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_VS2] = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_VS3] = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_VS4] = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_R1]  = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_R2]  = FALSE,
-                                     [STAGE_HIDDEN_ISLAND_R3]  = FALSE };
+static BOOL bossStageTable[STAGE_COUNT] = { [STAGE_Z11]               = FALSE,
+                                            [STAGE_Z12]               = FALSE,
+                                            [STAGE_TUTORIAL]          = FALSE,
+                                            [STAGE_Z1B]               = TRUE,
+                                            [STAGE_Z21]               = FALSE,
+                                            [STAGE_Z22]               = FALSE,
+                                            [STAGE_Z2B]               = TRUE,
+                                            [STAGE_Z31]               = FALSE,
+                                            [STAGE_Z32]               = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_1]   = FALSE,
+                                            [STAGE_Z3B]               = TRUE,
+                                            [STAGE_Z41]               = FALSE,
+                                            [STAGE_Z42]               = FALSE,
+                                            [STAGE_Z4B]               = TRUE,
+                                            [STAGE_Z51]               = FALSE,
+                                            [STAGE_Z52]               = FALSE,
+                                            [STAGE_Z5B]               = TRUE,
+                                            [STAGE_Z61]               = FALSE,
+                                            [STAGE_Z62]               = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_2]   = FALSE,
+                                            [STAGE_Z6B]               = TRUE,
+                                            [STAGE_Z71]               = FALSE,
+                                            [STAGE_Z72]               = FALSE,
+                                            [STAGE_Z7B]               = TRUE,
+                                            [STAGE_BOSS_FINAL]        = TRUE,
+                                            [STAGE_HIDDEN_ISLAND_3]   = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_4]   = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_5]   = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_6]   = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_7]   = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_8]   = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_9]   = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_10]  = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_11]  = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_12]  = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_13]  = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_14]  = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_15]  = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_16]  = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_VS1] = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_VS2] = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_VS3] = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_VS4] = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_R1]  = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_R2]  = FALSE,
+                                            [STAGE_HIDDEN_ISLAND_R3]  = FALSE };
 
-u32 zoneIDForStageID[STAGE_COUNT] = { [STAGE_Z11]               = ZONE_PLANT_KINGDOM,
-                                      [STAGE_Z12]               = ZONE_PLANT_KINGDOM,
-                                      [STAGE_TUTORIAL]          = ZONE_PLANT_KINGDOM,
-                                      [STAGE_Z1B]               = ZONE_PLANT_KINGDOM,
-                                      [STAGE_Z21]               = ZONE_MACHINE_LABYRINTH,
-                                      [STAGE_Z22]               = ZONE_MACHINE_LABYRINTH,
-                                      [STAGE_Z2B]               = ZONE_MACHINE_LABYRINTH,
-                                      [STAGE_Z31]               = ZONE_CORAL_CAVE,
-                                      [STAGE_Z32]               = ZONE_CORAL_CAVE,
-                                      [STAGE_HIDDEN_ISLAND_1]   = ZONE_HIDDEN_ISLAND,
-                                      [STAGE_Z3B]               = ZONE_CORAL_CAVE,
-                                      [STAGE_Z41]               = ZONE_HAUNTED_SHIP,
-                                      [STAGE_Z42]               = ZONE_HAUNTED_SHIP,
-                                      [STAGE_Z4B]               = ZONE_HAUNTED_SHIP,
-                                      [STAGE_Z51]               = ZONE_BLIZZARD_PEAKS,
-                                      [STAGE_Z52]               = ZONE_BLIZZARD_PEAKS,
-                                      [STAGE_Z5B]               = ZONE_BLIZZARD_PEAKS,
-                                      [STAGE_Z61]               = ZONE_SKY_BABYLON,
-                                      [STAGE_Z62]               = ZONE_SKY_BABYLON,
-                                      [STAGE_HIDDEN_ISLAND_2]   = ZONE_HIDDEN_ISLAND,
-                                      [STAGE_Z6B]               = ZONE_SKY_BABYLON,
-                                      [STAGE_Z71]               = ZONE_PIRATES_ISLAND,
-                                      [STAGE_Z72]               = ZONE_PIRATES_ISLAND,
-                                      [STAGE_Z7B]               = ZONE_PIRATES_ISLAND,
-                                      [STAGE_BOSS_FINAL]        = ZONE_BIG_SWELL,
-                                      [STAGE_HIDDEN_ISLAND_3]   = ZONE_HIDDEN_ISLAND,
-                                      [STAGE_HIDDEN_ISLAND_4]   = ZONE_CORAL_CAVE,
-                                      [STAGE_HIDDEN_ISLAND_5]   = ZONE_HIDDEN_ISLAND,
-                                      [STAGE_HIDDEN_ISLAND_6]   = ZONE_PLANT_KINGDOM,
-                                      [STAGE_HIDDEN_ISLAND_7]   = ZONE_PLANT_KINGDOM,
-                                      [STAGE_HIDDEN_ISLAND_8]   = ZONE_CORAL_CAVE,
-                                      [STAGE_HIDDEN_ISLAND_9]   = ZONE_MACHINE_LABYRINTH,
-                                      [STAGE_HIDDEN_ISLAND_10]  = ZONE_MACHINE_LABYRINTH,
-                                      [STAGE_HIDDEN_ISLAND_11]  = ZONE_CORAL_CAVE,
-                                      [STAGE_HIDDEN_ISLAND_12]  = ZONE_BLIZZARD_PEAKS,
-                                      [STAGE_HIDDEN_ISLAND_13]  = ZONE_BLIZZARD_PEAKS,
-                                      [STAGE_HIDDEN_ISLAND_14]  = ZONE_HIDDEN_ISLAND,
-                                      [STAGE_HIDDEN_ISLAND_15]  = ZONE_HAUNTED_SHIP,
-                                      [STAGE_HIDDEN_ISLAND_16]  = ZONE_HIDDEN_ISLAND,
-                                      [STAGE_HIDDEN_ISLAND_VS1] = ZONE_PLANT_KINGDOM,
-                                      [STAGE_HIDDEN_ISLAND_VS2] = ZONE_MACHINE_LABYRINTH,
-                                      [STAGE_HIDDEN_ISLAND_VS3] = ZONE_CORAL_CAVE,
-                                      [STAGE_HIDDEN_ISLAND_VS4] = ZONE_HAUNTED_SHIP,
-                                      [STAGE_HIDDEN_ISLAND_R1]  = ZONE_HIDDEN_ISLAND,
-                                      [STAGE_HIDDEN_ISLAND_R2]  = ZONE_HIDDEN_ISLAND,
-                                      [STAGE_HIDDEN_ISLAND_R3]  = ZONE_HIDDEN_ISLAND };
+static u32 zoneIDForStageID[STAGE_COUNT] = { [STAGE_Z11]               = ZONE_PLANT_KINGDOM,
+                                             [STAGE_Z12]               = ZONE_PLANT_KINGDOM,
+                                             [STAGE_TUTORIAL]          = ZONE_PLANT_KINGDOM,
+                                             [STAGE_Z1B]               = ZONE_PLANT_KINGDOM,
+                                             [STAGE_Z21]               = ZONE_MACHINE_LABYRINTH,
+                                             [STAGE_Z22]               = ZONE_MACHINE_LABYRINTH,
+                                             [STAGE_Z2B]               = ZONE_MACHINE_LABYRINTH,
+                                             [STAGE_Z31]               = ZONE_CORAL_CAVE,
+                                             [STAGE_Z32]               = ZONE_CORAL_CAVE,
+                                             [STAGE_HIDDEN_ISLAND_1]   = ZONE_HIDDEN_ISLAND,
+                                             [STAGE_Z3B]               = ZONE_CORAL_CAVE,
+                                             [STAGE_Z41]               = ZONE_HAUNTED_SHIP,
+                                             [STAGE_Z42]               = ZONE_HAUNTED_SHIP,
+                                             [STAGE_Z4B]               = ZONE_HAUNTED_SHIP,
+                                             [STAGE_Z51]               = ZONE_BLIZZARD_PEAKS,
+                                             [STAGE_Z52]               = ZONE_BLIZZARD_PEAKS,
+                                             [STAGE_Z5B]               = ZONE_BLIZZARD_PEAKS,
+                                             [STAGE_Z61]               = ZONE_SKY_BABYLON,
+                                             [STAGE_Z62]               = ZONE_SKY_BABYLON,
+                                             [STAGE_HIDDEN_ISLAND_2]   = ZONE_HIDDEN_ISLAND,
+                                             [STAGE_Z6B]               = ZONE_SKY_BABYLON,
+                                             [STAGE_Z71]               = ZONE_PIRATES_ISLAND,
+                                             [STAGE_Z72]               = ZONE_PIRATES_ISLAND,
+                                             [STAGE_Z7B]               = ZONE_PIRATES_ISLAND,
+                                             [STAGE_BOSS_FINAL]        = ZONE_BIG_SWELL,
+                                             [STAGE_HIDDEN_ISLAND_3]   = ZONE_HIDDEN_ISLAND,
+                                             [STAGE_HIDDEN_ISLAND_4]   = ZONE_CORAL_CAVE,
+                                             [STAGE_HIDDEN_ISLAND_5]   = ZONE_HIDDEN_ISLAND,
+                                             [STAGE_HIDDEN_ISLAND_6]   = ZONE_PLANT_KINGDOM,
+                                             [STAGE_HIDDEN_ISLAND_7]   = ZONE_PLANT_KINGDOM,
+                                             [STAGE_HIDDEN_ISLAND_8]   = ZONE_CORAL_CAVE,
+                                             [STAGE_HIDDEN_ISLAND_9]   = ZONE_MACHINE_LABYRINTH,
+                                             [STAGE_HIDDEN_ISLAND_10]  = ZONE_MACHINE_LABYRINTH,
+                                             [STAGE_HIDDEN_ISLAND_11]  = ZONE_CORAL_CAVE,
+                                             [STAGE_HIDDEN_ISLAND_12]  = ZONE_BLIZZARD_PEAKS,
+                                             [STAGE_HIDDEN_ISLAND_13]  = ZONE_BLIZZARD_PEAKS,
+                                             [STAGE_HIDDEN_ISLAND_14]  = ZONE_HIDDEN_ISLAND,
+                                             [STAGE_HIDDEN_ISLAND_15]  = ZONE_HAUNTED_SHIP,
+                                             [STAGE_HIDDEN_ISLAND_16]  = ZONE_HIDDEN_ISLAND,
+                                             [STAGE_HIDDEN_ISLAND_VS1] = ZONE_PLANT_KINGDOM,
+                                             [STAGE_HIDDEN_ISLAND_VS2] = ZONE_MACHINE_LABYRINTH,
+                                             [STAGE_HIDDEN_ISLAND_VS3] = ZONE_CORAL_CAVE,
+                                             [STAGE_HIDDEN_ISLAND_VS4] = ZONE_HAUNTED_SHIP,
+                                             [STAGE_HIDDEN_ISLAND_R1]  = ZONE_HIDDEN_ISLAND,
+                                             [STAGE_HIDDEN_ISLAND_R2]  = ZONE_HIDDEN_ISLAND,
+                                             [STAGE_HIDDEN_ISLAND_R3]  = ZONE_HIDDEN_ISLAND };
 
 // --------------------
 // FUNCTIONS
@@ -1189,7 +1189,7 @@ void InitZoneSysEvent(void)
             break;
 
         default:
-            gameState.difficulty = 1;
+            gameState.difficulty = DIFFICULTY_NORMAL;
             break;
     }
 }
@@ -1208,10 +1208,8 @@ void InitLoadStageEvent(void)
     NextSysEvent();
 }
 
-NONMATCH_FUNC void InitZoneEvent(void)
+void InitZoneEvent(void)
 {
-    // will match when all funcs are decompiled
-#ifdef NON_MATCHING
     GameState *state = GetGameState();
 
     state->gameFlag &= ~(GAME_FLAG_ONLINE_ACTIVE | GAME_FLAG_IS_VS_BATTLE | GAME_FLAG_10);
@@ -1271,122 +1269,6 @@ NONMATCH_FUNC void InitZoneEvent(void)
     }
 
     CreateGameDataRequest(GAMEDATA_LOADPROC_ALL);
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r4, =gameState
-	ldr r0, [r4, #0x10]
-	bic r0, r0, #0x430
-	str r0, [r4, #0x10]
-	bl InitPlayerStatus
-	mov r0, #0x154000
-	bl SetSpatialAudioDropoffRate
-	mov r0, #0x28000
-	bl SetSpatialAudioDistanceThreshold
-	mov r0, r4
-	ldr r0, [r0, #0x14]
-	cmp r0, #2
-	bne _02003064
-	ldr r0, [r4, #0x50]
-	cmp r0, #0
-	bne _02003008
-	ldr r0, =0x00003138
-	bl _AllocHeadHEAP_USER
-	mov r1, r0
-	ldr r2, =0x00003138
-	mov r0, #0
-	str r1, [r4, #0x50]
-	bl MIi_CpuClear16
-_02003008:
-	ldr r0, [r4, #0x54]
-	cmp r0, #0
-	bne _02003030
-	ldr r0, =0x00003138
-	bl _AllocHeadHEAP_USER
-	mov r1, r0
-	ldr r2, =0x00003138
-	mov r0, #0
-	str r1, [r4, #0x54]
-	bl MIi_CpuClear16
-_02003030:
-	ldr r0, [r4, #0x60]
-	cmp r0, #0
-	bne _02003134
-	mov r0, #0x2800
-	bl _AllocHeadHEAP_USER
-	mov r1, r0
-	mov r0, #0
-	mov r2, #0x2800
-	str r1, [r4, #0x60]
-	bl MIi_CpuClear16
-	mvn r0, #0
-	strh r0, [r4, #0x5a]
-	b _02003134
-_02003064:
-	ldr r0, [r4, #0x14]
-	cmp r0, #3
-	bne _02003120
-	ldr r0, [r4, #0x74]
-	ldr r3, =mainMemProcessor
-	ldr r2, =_mt_math_rand
-	str r0, [r3, #0x100]
-	ldr ip, [r2]
-	ldr r0, =0x00196225
-	ldr r1, =0x3C6EF35F
-	mla r1, ip, r0, r1
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	str r1, [r2]
-	mov r0, r0, lsr #0x10
-	str r0, [r3, #0x104]
-	ldr r0, [r4, #0x70]
-	cmp r0, #0xc
-	bgt _020030D4
-	bge _020030F0
-	cmp r0, #5
-	bgt _02003134
-	cmp r0, #4
-	blt _02003134
-	beq _020030E0
-	cmp r0, #5
-	beq _02003100
-	b _02003134
-_020030D4:
-	cmp r0, #0xd
-	beq _02003110
-	b _02003134
-_020030E0:
-	ldr r1, [r4, #0x78]
-	ldr r0, =0x02133978
-	strh r1, [r0, #8]
-	b _02003134
-_020030F0:
-	ldr r1, [r4, #0x78]
-	ldr r0, =0x02133978
-	strh r1, [r0, #8]
-	b _02003134
-_02003100:
-	ldr r1, [r4, #0x78]
-	ldr r0, =0x02133978
-	strh r1, [r0, #8]
-	b _02003134
-_02003110:
-	ldr r1, [r4, #0x78]
-	ldr r0, =0x02133978
-	strh r1, [r0, #8]
-	b _02003134
-_02003120:
-	cmp r0, #4
-	bne _02003134
-	ldr r0, =0x021338E8
-	ldr r1, =0x021338EC
-	bl GetDemoSpawnPosition
-_02003134:
-	mov r0, #3
-	bl CreateGameDataRequest
-	ldmia sp!, {r4, pc}
-// clang-format on
-#endif
 }
 
 void InitVSBattleEvent(void)
@@ -1420,10 +1302,8 @@ void CreateGameDataRequest(GameDataLoadProc load_proc)
     TaskGetWork(gameDataTask, GameDataRequest)->load_proc = load_proc;
 }
 
-NONMATCH_FUNC void ReleaseGameSystem(void)
+void ReleaseGameSystem(void)
 {
-    // will match when all funcs are decompiled
-#ifdef NON_MATCHING
     ClearPixelsQueue();
     Mappings__ClearQueue();
     ClearPaletteQueue();
@@ -1448,44 +1328,6 @@ NONMATCH_FUNC void ReleaseGameSystem(void)
         HeapFree(HEAP_USER, playerGameStatus.sendPacketList);
         playerGameStatus.sendPacketList = NULL;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl ClearPixelsQueue
-	bl Mappings__ClearQueue
-	bl ClearPaletteQueue
-	bl ReleaseStageBGM
-	bl ShutdownGameSystemTasks
-	mov r0, #5
-	bl SetPadReplayState
-	bl StarCombo__Destroy
-	bl BossArena__Destroy
-	bl Camera3D__GetTask
-	cmp r0, #0
-	beq _020032EC
-	bl Camera3D__Destroy
-	ldr r1, =gameState
-	ldr r0, =0x00000802
-	ldr r1, [r1, #0x10]
-	tst r1, r0
-	bne _020032EC
-	mov r0, #0
-	bl SetupDisplayForZone
-_020032EC:
-	bl ReleaseStageArea
-	bl ReleaseStageCommonAssets
-	ldr r0, =mainMemProcessor
-	ldr r0, [r0, #0xe4]
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	bl _FreeHEAP_USER
-	ldr r0, =mainMemProcessor
-	mov r1, #0
-	str r1, [r0, #0xe4]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
 }
 
 void FlushGameSystem(u8 flags)
@@ -1537,10 +1379,8 @@ void ReleaseGameState(void)
     state->replayStageTimer  = 0;
 }
 
-NONMATCH_FUNC void InitGameSystemForStage(void)
+void InitGameSystemForStage(void)
 {
-    // will match when all funcs are decompiled
-#ifdef NON_MATCHING
     GameState *state = GetGameState();
 
     InitPadInput(&playerGameStatus.input, NULL, NULL);
@@ -1548,7 +1388,7 @@ NONMATCH_FUNC void InitGameSystemForStage(void)
     {
         CreateReplayRecorderPadEx(REPLAYRECORDER_TYPE_PLAY_FILE, &playerGameStatus.input, GetCurrentDemoPath(), 0, 0, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10FF);
         CreateDemoPlayer();
-        CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS | DRAW_FADE_TASK_FLAG_FADE_TO_BLACK, FLOAT_TO_FX32(2.0));
+        CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS | DRAW_FADE_TASK_FLAG_FADE_TO_BLACK, FLOAT_TO_FX32(0.5));
     }
     else if (state->gameMode == GAMEMODE_TIMEATTACK)
     {
@@ -1574,69 +1414,6 @@ NONMATCH_FUNC void InitGameSystemForStage(void)
         CreateGameSystemEx();
     else
         CreateGameSystem();
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0xc
-	mov r1, #0
-	ldr r0, =0x021338F2
-	ldr r4, =gameState
-	mov r2, r1
-	bl InitPadInput
-	mov r0, r4
-	ldr r0, [r0, #0x14]
-	cmp r0, #4
-	bne _0200344C
-	bl GetCurrentDemoPath
-	mov r3, #0
-	mov r2, r0
-	ldr ip, =0x000010FF
-	str r3, [sp]
-	ldr r1, =0x021338F2
-	mov r0, #2
-	stmib sp, {r3, ip}
-	bl CreateReplayRecorderPadEx
-	bl CreateDemoPlayer
-	mov r0, #3
-	mov r1, #0x800
-	bl CreateDrawFadeTask
-	b _02003498
-_0200344C:
-	ldr r0, [r4, #0x14]
-	cmp r0, #2
-	bne _02003498
-	ldr r0, [r4, #0x10]
-	tst r0, #0x1000
-	movne r0, #1
-	rsbne r3, r0, #0x1100
-	bne _0200347C
-	mov r0, #0
-	sub r1, r0, #1
-	ldr r3, =0x00001101
-	strh r1, [r4, #0x5a]
-_0200347C:
-	mov r1, #0x2800
-	str r1, [sp]
-	mov r2, #0
-	stmib sp, {r2, r3}
-	ldr r3, [r4, #0x60]
-	ldr r1, =0x021338F2
-	bl CreateReplayRecorderPadEx
-_02003498:
-	ldr r1, [r4, #0x10]
-	ldr r0, =0x00000802
-	tst r1, r0
-	beq _020034B4
-	bl CreateGameSystemEx
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-_020034B4:
-	bl CreateGameSystem
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-
-// clang-format on
-#endif
 }
 
 void SetupDisplayForZone(BOOL resetTexPaletteBuffers)
@@ -1802,10 +1579,8 @@ void InitStageBlendControl(void)
     }
 }
 
-NONMATCH_FUNC void InitPlayerStatus(void)
+void InitPlayerStatus(void)
 {
-    // will match when all funcs are decompiled
-#ifdef NON_MATCHING
     GameState *state = GetGameState();
 
     if ((state->gameFlag & GAME_FLAG_40) == 0)
@@ -1821,7 +1596,7 @@ NONMATCH_FUNC void InitPlayerStatus(void)
 
         if ((state->gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
         {
-            ObjPacketWork *packetWork = ObjPacket__SendPacket(NULL, GAMEPACKET_UNKNOWN, 3, 0);
+            ObjSendPacket *packetWork = ObjPacket__SendPacket(NULL, GAMEPACKET_UNKNOWN, 3, 0);
             if (packetWork != NULL)
                 packetWork->header.param = playerGameStatus.field_88[0];
         }
@@ -1844,96 +1619,6 @@ NONMATCH_FUNC void InitPlayerStatus(void)
     MapSys__Init();
     EventManager__Init();
     ResetTouchInput();
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r4, =gameState
-	ldr r0, [r4, #0x10]
-	tst r0, #0x40
-	bne _02003C2C
-	ldr r1, =playerGameStatus
-	mov r0, #0
-	mov r2, #0xcc
-	bl MIi_CpuClear16
-	mov r1, #0
-	ldr ip, =0x0000FFFF
-	ldr r3, =mainMemProcessor
-	ldr r0, =0x021338F2
-	strh ip, [r3, #0xce]
-	mov r2, r1
-	strh ip, [r3, #0xd2]
-	bl InitPadInput
-	ldr r0, [r4, #0x14]
-	cmp r0, #4
-	beq _02003BA0
-	mov r0, r4
-	ldr r1, [r0, #0x14]
-	cmp r1, #2
-	bne _02003BB0
-	ldr r0, [r0, #0x10]
-	tst r0, #0x1000
-	beq _02003BB0
-_02003BA0:
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	orr r1, r1, #0x80
-	str r1, [r0, #0x44]
-_02003BB0:
-	ldr r0, [r4, #0x10]
-	tst r0, #0x400
-	beq _02003BE0
-	mov r0, #0
-	mov r1, #3
-	mov r2, r1
-	mov r3, r0
-	bl ObjPacket__SendPacket
-	cmp r0, #0
-	ldrne r1, =mainMemProcessor
-	ldrneh r1, [r1, #0xcc]
-	strneh r1, [r0, #2]
-_02003BE0:
-	ldr r2, [r4, #0x10]
-	ldr r0, =0xFFFFF47D
-	ldr r1, [r4, #0x14]
-	and r2, r2, r0
-	mov r0, #0
-	str r2, [r4, #0x10]
-	str r0, [r4, #0x1c]
-	cmp r1, #4
-	bne _02003C14
-	ldr r0, =mainMemProcessor
-	mov r1, #2
-	strb r1, [r0, #0x68]
-	b _02003C2C
-_02003C14:
-	ldr r1, =saveGame
-	ldr r0, =mainMemProcessor
-	ldr r1, [r1, #0x1c0]
-	mov r1, r1, lsl #0x16
-	mov r1, r1, lsr #0x19
-	strb r1, [r0, #0x68]
-_02003C2C:
-	ldr r0, [r4, #0x10]
-	tst r0, #0x10
-	movne r4, #1
-	moveq r4, #0
-	bl IsBossStage
-	cmp r0, #0
-	mov r0, r4
-	bne _02003C54
-	bl SetupDisplayForZone
-	b _02003C58
-_02003C54:
-	bl SetupDisplayForBoss
-_02003C58:
-	bl InitSpatialAudioConfig
-	bl MapSys__Init
-	bl EventManager__Init
-	bl ResetTouchInput
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void GameDataRequest_Main_TryLoadCommonAssets(void)
@@ -1986,10 +1671,8 @@ void GameDataRequest_Main_BuildArea(void)
     NextSysEvent();
 }
 
-NONMATCH_FUNC void InitStageCollision(void)
+void InitStageCollision(void)
 {
-    // should match when variables are decompiled
-#ifdef NON_MATCHING
     stageCollision.diffCollision = MapSys__files.collisionHeightMasks;
     stageCollision.dirCollision  = MapSys__files.collisionAngles;
     stageCollision.mapBlockset   = MapSys__files.blockset;
@@ -1998,50 +1681,13 @@ NONMATCH_FUNC void InitStageCollision(void)
     stageCollision.attrCollision = MapSys__files.collisionAttributes;
     stageCollision.blockWidth    = MapSys__files.mapLayout[0]->width;
     stageCollision.blockHeight   = MapSys__files.mapLayout[0]->height;
-    stageCollision.left          = 0;
-    stageCollision.top           = 0;
-    stageCollision.right         = stageCollision.blockWidth << 6;
-    stageCollision.bottom        = stageCollision.blockHeight << 6;
+
+    stageCollision.left   = 0;
+    stageCollision.top    = 0;
+    stageCollision.right  = stageCollision.blockWidth << 6;
+    stageCollision.bottom = stageCollision.blockHeight << 6;
 
     ObjSetDiffCollision(&stageCollision);
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =MapSys__files
-	ldr r1, =mainMemProcessor
-	ldr r2, [r0]
-	ldr r3, [r0, #8]
-	str r2, [r1, #0x18]
-	ldr r2, [r0, #0xc]
-	str r3, [r1, #0x1c]
-	str r2, [r1, #0x20]
-	ldr ip, [r0, #0x10]
-	ldr r3, [r0, #4]
-	add r2, ip, #4
-	str r2, [r1, #0x24]
-	ldr r0, [r0, #0x14]
-	mov r2, #0
-	add r0, r0, #4
-	str r0, [r1, #0x28]
-	str r3, [r1, #0x2c]
-	ldrh r3, [ip]
-	ldr r0, =stageCollision
-	strh r3, [r1, #0x30]
-	ldrh r3, [ip, #2]
-	strh r3, [r1, #0x32]
-	str r2, [r1, #0x34]
-	str r2, [r1, #0x38]
-	ldrh r2, [r1, #0x30]
-	mov r2, r2, lsl #6
-	str r2, [r1, #0x3c]
-	ldrh r2, [r1, #0x32]
-	mov r2, r2, lsl #6
-	str r2, [r1, #0x40]
-	bl ObjSetDiffCollision
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
 }
 
 void LoadGameMissionArchive(void)
@@ -2628,11 +2274,8 @@ void ShutdownGameSystemTasks(void)
     }
 }
 
-NONMATCH_FUNC void GameOnlineSystem_Main(void)
+void GameOnlineSystem_Main(void)
 {
-    // https://decomp.me/scratch/l0dC6 -> 99.98%
-    // should match when other funcs are decompiled
-#ifdef NON_MATCHING
     GameState *state = GetGameState();
 
     NNS_SndCaptureStopReverb(0);
@@ -2668,9 +2311,9 @@ NONMATCH_FUNC void GameOnlineSystem_Main(void)
                 ObjRecievePacket *packet = ObjPacket__GetRecievedPacket(GAMEPACKET_UNKNOWN, gPlayerList[1]->aidIndex);
                 if (packet != NULL)
                 {
-                    if (playerGameStatus.field_8E < packet->header.param || (playerGameStatus.field_8E > 32168 && packet->header.param < 600))
+                    if (playerGameStatus.field_8C[1] < packet->header.param || (playerGameStatus.field_8C[1] > 32168 && packet->header.param < 600))
                     {
-                        playerGameStatus.field_8E    = packet->header.param;
+                        playerGameStatus.field_8C[1] = packet->header.param;
                         playerGameStatus.field_88[1] = packet->header.param;
                     }
                     else
@@ -2693,10 +2336,10 @@ NONMATCH_FUNC void GameOnlineSystem_Main(void)
 
         if ((gPlayer->playerFlag & PLAYER_FLAG_FINISHED_STAGE) != 0)
         {
-            if ((playerGameStatus.timeUnknownEventTimer & 0x3F) == 0)
-                SendPacketForTimeUnknownEvent();
+            if ((playerGameStatus.stageScoreEventTimer & 0x3F) == 0)
+                SendPacketForStageScoreEvent();
 
-            playerGameStatus.timeUnknownEventTimer++;
+            playerGameStatus.stageScoreEventTimer++;
         }
 
         if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_STAGEFINISHEVENT_SENT) != 0)
@@ -2707,21 +2350,21 @@ NONMATCH_FUNC void GameOnlineSystem_Main(void)
             playerGameStatus.stageFinishEventTimer++;
         }
 
-        if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_TIMEUNKNOWNEVENT_ACTIVE) == 0)
+        if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_ACTIVE) == 0)
         {
             ObjPacket__Func_2074DB4();
 
-            s32 *unknownPacket = ObjPacket__GetRecievedPacketData(GAMEPACKET_TIMEUNKNOWN, gPlayerList[1]->aidIndex);
-            if (unknownPacket != NULL)
+            s32 *opponentStageScore = ObjPacket__GetRecievedPacketData(GAMEPACKET_STAGESCORE, gPlayerList[1]->aidIndex);
+            if (opponentStageScore != NULL)
             {
-                playerGameStatus.stagePacketValue2.s32 = unknownPacket[0];
-                playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_TIMEUNKNOWNEVENT_ACTIVE;
+                playerGameStatus.vsStageScore[1].time = opponentStageScore[0];
+                playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_ACTIVE;
 
                 if ((gPlayer->playerFlag & PLAYER_FLAG_FINISHED_STAGE) == 0)
                 {
                     if (state->vsBattleType == VSBATTLE_RACE)
                     {
-                        if (playerGameStatus.field_9C >= AKUTIL_TIME_TO_FRAMES(10, 00, 00))
+                        if (playerGameStatus.vsStageScore[1].time >= AKUTIL_TIME_TO_FRAMES(10, 00, 00))
                         {
                             if (playerGameStatus.stageTimer < AKUTIL_TIME_TO_FRAMES(9, 47, 49))
                             {
@@ -2746,7 +2389,7 @@ NONMATCH_FUNC void GameOnlineSystem_Main(void)
                             playerGameStatus.stageTimer = AKUTIL_TIME_TO_FRAMES(2, 00, 00);
                             Player__Action_FinishMission(gPlayer, NULL);
                             playerGameStatus.flags &= ~PLAYERGAMESTATUS_FLAG_FREEZE_TIME;
-                            CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_DESTROY_ON_FINISHED | DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS, 2048);
+                            CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_DESTROY_ON_FINISHED | DRAW_FADE_TASK_FLAG_REVERSE_BRIGHTNESS, FLOAT_TO_FX32(0.5));
                             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_FADE_IS_ACTIVE;
                             FadeOutStageBGM(32);
                         }
@@ -2779,267 +2422,6 @@ NONMATCH_FUNC void GameOnlineSystem_Main(void)
         if (IsDrawFadeTaskFinished())
             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_CAN_CHANGE_EVENT;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r4, =gameState
-	mov r0, #0
-	bl NNS_SndCaptureStopReverb
-	bl NNS_SndCaptureStopEffect
-	bl NNS_SndCaptureStopSampling
-	bl NNS_SndCaptureStopOutputEffect
-	bl NNS_SndUpdateDriverInfo
-	mov r0, r4
-	ldr r0, [r0, #0x10]
-	tst r0, #0x20
-	beq _020047F4
-	tst r0, #0x400
-	beq _020044E0
-	bl DWC_UpdateConnection
-	cmp r0, #0
-	bne _020044CC
-	bl DWC_GetNumConnectionHost
-	cmp r0, #2
-	bne _020044CC
-	mov r0, #0
-	bl DWC_GetLastError
-	cmp r0, #0
-	beq _020044FC
-_020044CC:
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	orr r1, r1, #0x100
-	str r1, [r0, #0x44]
-	b _020044FC
-_020044E0:
-	bl WirelessManager__GetField8
-	cmp r0, #7
-	bne _020044FC
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	orr r1, r1, #0x100
-	str r1, [r0, #0x44]
-_020044FC:
-	ldr r0, =mainMemProcessor
-	ldr r0, [r0, #0x44]
-	tst r0, #0x100
-	beq _02004514
-	bl HandleNetworkError
-	ldmia sp!, {r4, pc}
-_02004514:
-	ldr r0, [r4, #0x10]
-	tst r0, #0x400
-	beq _020045A4
-	bl ObjPacket__Func_2074DB4
-	ldr r0, =mainMemProcessor
-	ldr r0, [r0, #0x14]
-	cmp r0, #0
-	beq _020045A4
-	ldrb r1, [r0, #0x5d2]
-	mov r0, #3
-	bl ObjPacket__GetRecievedPacket
-	cmp r0, #0
-	beq _02004598
-	ldr r1, =mainMemProcessor
-	ldrh r3, [r0, #2]
-	ldrh r2, [r1, #0xd2]
-	cmp r2, r3
-	blo _02004570
-	ldr r1, =0x00007DA8
-	cmp r2, r1
-	bls _02004584
-	cmp r3, #0x258
-	bhs _02004584
-_02004570:
-	ldr r1, =mainMemProcessor
-	strh r3, [r1, #0xd2]
-	ldrh r0, [r0, #2]
-	strh r0, [r1, #0xce]
-	b _020045A4
-_02004584:
-	ldr r0, =mainMemProcessor
-	ldrh r1, [r0, #0xce]
-	add r1, r1, #1
-	strh r1, [r0, #0xce]
-	b _020045A4
-_02004598:
-	ldr r1, =0x0000FFFF
-	ldr r0, =mainMemProcessor
-	strh r1, [r0, #0xce]
-_020045A4:
-	bl ObjPacket__Func_2074DB4
-	ldr r1, =mainMemProcessor
-	mov r0, #4
-	ldr r1, [r1, #0x14]
-	ldrb r1, [r1, #0x5d2]
-	bl ObjPacket__GetRecievedPacket
-	cmp r0, #0
-	beq _020045D8
-	ldr r1, =mainMemProcessor
-	ldrh r2, [r0, #2]
-	ldr r0, [r1, #0x14]
-	add r0, r0, #0x600
-	strh r2, [r0, #0x7e]
-_020045D8:
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0xc]
-	ldr r1, [r1, #0x5d8]
-	tst r1, #0x1000000
-	beq _0200460C
-	ldrh r0, [r0, #0xd6]
-	tst r0, #0x3f
-	bne _020045FC
-	bl SendPacketForTimeUnknownEvent
-_020045FC:
-	ldr r0, =mainMemProcessor
-	ldrh r1, [r0, #0xd6]
-	add r1, r1, #1
-	strh r1, [r0, #0xd6]
-_0200460C:
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	tst r1, #0x200
-	beq _0200463C
-	ldrh r0, [r0, #0xd8]
-	tst r0, #0x3f
-	bne _0200462C
-	bl SendPacketForStageFinishEvent
-_0200462C:
-	ldr r0, =mainMemProcessor
-	ldrh r1, [r0, #0xd8]
-	add r1, r1, #1
-	strh r1, [r0, #0xd8]
-_0200463C:
-	ldr r0, =mainMemProcessor
-	ldr r0, [r0, #0x44]
-	tst r0, #0x40
-	bne _02004770
-	bl ObjPacket__Func_2074DB4
-	ldr r1, =mainMemProcessor
-	mov r0, #5
-	ldr r1, [r1, #0x14]
-	ldrb r1, [r1, #0x5d2]
-	bl ObjPacket__GetRecievedPacketData
-	cmp r0, #0
-	beq _02004770
-	ldr ip, [r0]
-	ldr r2, =mainMemProcessor
-	str ip, [r2, #0xe0]
-	ldr r0, [r2, #0x44]
-	orr r0, r0, #0x40
-	str r0, [r2, #0x44]
-	ldr r0, [r2, #0xc]
-	ldr r1, [r0, #0x5d8]
-	tst r1, #0x1000000
-	bne _02004770
-	ldr r1, [r4, #0x20]
-	cmp r1, #0
-	bne _0200471C
-	ldr r3, =0x00008CA0
-	cmp ip, r3
-	blo _02004700
-	ldr r4, [r2, #0x50]
-	ldr r1, =0x000089B1
-	cmp r4, r1
-	bhs _02004770
-	mov r1, #0
-	str r3, [r2, #0x50]
-	bl Player__Action_FinishMission
-	ldr r2, =mainMemProcessor
-	mov r0, #4
-	ldr r3, [r2, #0x44]
-	mov r1, #0x800
-	bic r3, r3, #1
-	str r3, [r2, #0x44]
-	bl CreateDrawFadeTask
-	ldr r1, =mainMemProcessor
-	mov r0, #0x20
-	ldr r2, [r1, #0x44]
-	orr r2, r2, #0x20
-	str r2, [r1, #0x44]
-	bl FadeOutStageBGM
-	b _02004770
-_02004700:
-	mov r1, #0
-	bl Player__Action_FinishMission
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	bic r1, r1, #1
-	str r1, [r0, #0x44]
-	b _02004770
-_0200471C:
-	ldr r3, [r2, #0x50]
-	ldr r1, =0x00001932
-	cmp r3, r1
-	bhs _02004770
-	ldr r3, =0x00001C20
-	mov r1, #0
-	str r3, [r2, #0x50]
-	bl Player__Action_FinishMission
-	ldr r2, =mainMemProcessor
-	mov r0, #5
-	ldr r3, [r2, #0x44]
-	mov r1, #0x800
-	bic r3, r3, #1
-	str r3, [r2, #0x44]
-	bl CreateDrawFadeTask
-	ldr r1, =mainMemProcessor
-	mov r0, #0x20
-	ldr r2, [r1, #0x44]
-	orr r2, r2, #0x20
-	str r2, [r1, #0x44]
-	bl FadeOutStageBGM
-_02004770:
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0xc]
-	ldr r1, [r1, #0x5d8]
-	tst r1, #0x1000000
-	beq _020047F0
-	ldr r0, [r0, #0x44]
-	tst r0, #0x10
-	bne _020047F0
-	bl ObjPacket__Func_2074DB4
-	ldr r1, =mainMemProcessor
-	mov r0, #6
-	ldr r1, [r1, #0x14]
-	ldrb r1, [r1, #0x5d2]
-	bl ObjPacket__GetRecievedPacket
-	cmp r0, #0
-	beq _020047F0
-	ldrh r0, [r0, #2]
-	cmp r0, #0
-	bne _020047F0
-	ldr r0, =mainMemProcessor
-	ldr r0, [r0, #0x44]
-	tst r0, #0x20
-	bne _020047F0
-	mov r0, #5
-	mov r1, #0x1000
-	bl CreateDrawFadeTask
-	ldr r1, =mainMemProcessor
-	mov r0, #0x10
-	ldr r2, [r1, #0x44]
-	orr r2, r2, #0x20
-	str r2, [r1, #0x44]
-	bl FadeOutStageBGM
-_020047F0:
-	bl GameObject__ProcessRecievedPackets_ItemBox
-_020047F4:
-	ldr r0, =mainMemProcessor
-	ldr r0, [r0, #0x44]
-	tst r0, #0x20
-	ldmeqia sp!, {r4, pc}
-	bl IsDrawFadeTaskFinished
-	cmp r0, #0
-	ldmeqia sp!, {r4, pc}
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	orr r1, r1, #4
-	str r1, [r0, #0x44]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC void GameOfflineSystem_Main(void)
@@ -3110,7 +2492,7 @@ NONMATCH_FUNC void GameOfflineSystem_Main(void)
 
     if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_CAN_CHANGE_EVENT) != 0)
     {
-        if (state->gameMode == GAMEMODE_VS_BATTLE && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_TIMEUNKNOWNEVENT_ACTIVE) == 0)
+        if (state->gameMode == GAMEMODE_VS_BATTLE && (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_ACTIVE) == 0)
         {
             playerGameStatus.networkErrorTimer++;
             if (playerGameStatus.networkErrorTimer >= GAMEONLINESYS_NETWORK_TIMEOUT_TIME)
@@ -3124,11 +2506,11 @@ NONMATCH_FUNC void GameOfflineSystem_Main(void)
         {
             if (state->vsBattleType == VSBATTLE_RINGS)
             {
-                if (playerGameStatus.stagePacketValue.s16 > playerGameStatus.stagePacketValue2.s16)
+                if (playerGameStatus.vsStageScore[0].rings > playerGameStatus.vsStageScore[1].rings)
                 {
                     state->vsBattleResult = 1;
                 }
-                else if (playerGameStatus.stagePacketValue.s16 < playerGameStatus.stagePacketValue2.s16)
+                else if (playerGameStatus.vsStageScore[0].rings < playerGameStatus.vsStageScore[1].rings)
                 {
                     state->vsBattleResult = 2;
                 }
@@ -3139,11 +2521,11 @@ NONMATCH_FUNC void GameOfflineSystem_Main(void)
             }
             else
             {
-                if (playerGameStatus.stagePacketValue.s32 < playerGameStatus.stagePacketValue2.s32)
+                if (playerGameStatus.vsStageScore[0].time < playerGameStatus.vsStageScore[1].time)
                 {
                     state->vsBattleResult = 1;
                 }
-                else if (playerGameStatus.stagePacketValue.s32 > playerGameStatus.stagePacketValue2.s32)
+                else if (playerGameStatus.vsStageScore[0].time > playerGameStatus.vsStageScore[1].time)
                 {
                     state->vsBattleResult = 2;
                 }
@@ -3758,10 +3140,8 @@ BOOL IsSnowboardActive(void)
     return FALSE;
 }
 
-NONMATCH_FUNC s32 GetVSBattlePosition(Player *player)
+s32 GetVSBattlePosition(Player *player)
 {
-    // will match when other funcs are decompiled
-#ifdef NON_MATCHING
     s32 rank = -1;
 
     if (gameState.gameMode == GAMEMODE_VS_BATTLE)
@@ -3823,196 +3203,48 @@ NONMATCH_FUNC s32 GetVSBattlePosition(Player *player)
     }
 
     return rank;
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r3, =gameState
-	mvn r1, #0
-	ldr r2, [r3, #0x14]
-	cmp r2, #1
-	bne _02005140
-	ldrb r0, [r0, #0x5d1]
-	ldr ip, [r3, #0x20]
-	eor r2, r0, #1
-	mov r2, r2, lsl #0x10
-	cmp ip, #0
-	mov lr, r2, asr #0x10
-	bne _02005114
-	ldrh ip, [r3, #0x28]
-	mov r2, #0
-	cmp ip, #0x2b
-	blo _02005064
-	cmp ip, #0x2d
-	movls r2, #1
-_02005064:
-	cmp r2, #0
-	beq _020050EC
-	ldr r2, =0x02133964
-	ldr r3, [r2, lr, lsl #2]
-	ldr r2, [r2, r0, lsl #2]
-	cmp r2, r3
-	movgt r1, #0
-	bgt _02005140
-	movlt r1, #1
-	blt _02005140
-	cmp ip, #0x2c
-	beq _02005140
-	ldr ip, =gPlayerList
-	ldr r2, =mainMemProcessor
-	ldr r3, [ip, r0, lsl #2]
-	ldr r0, [ip, lr, lsl #2]
-	ldr r3, [r3, #0x44]
-	ldr r2, [r2, #0xfc]
-	ldr r0, [r0, #0x44]
-	cmp r3, r2
-	bge _020050C4
-	cmp r0, r2
-	movge r1, #0
-	bge _02005140
-_020050C4:
-	cmp r3, r2
-	blt _020050D8
-	cmp r0, r2
-	movlt r1, #1
-	blt _02005140
-_020050D8:
-	cmp r3, r0
-	movgt r1, #0
-	bgt _02005140
-	movlt r1, #1
-	b _02005140
-_020050EC:
-	ldr r3, =gPlayerList
-	ldr r2, [r3, lr, lsl #2]
-	ldr r0, [r3, r0, lsl #2]
-	ldr r2, [r2, #0x44]
-	ldr r0, [r0, #0x44]
-	cmp r0, r2
-	movgt r1, #0
-	bgt _02005140
-	movlt r1, #1
-	b _02005140
-_02005114:
-	ldr r2, =gPlayerList
-	ldr r3, [r2, lr, lsl #2]
-	ldr r2, [r2, r0, lsl #2]
-	add r0, r3, #0x600
-	add r2, r2, #0x600
-	ldrsh r3, [r0, #0x7e]
-	ldrsh r0, [r2, #0x7e]
-	cmp r0, r3
-	movgt r1, #0
-	bgt _02005140
-	movlt r1, #1
-_02005140:
-	mov r0, r1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC void SendPacketForTimeUnknownEvent(void)
+void SendPacketForStageScoreEvent(void)
 {
-    // should match when other funcs are decompiled
-#ifdef NON_MATCHING
     if (gmCheckVsBattleFlag())
     {
-        if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_TIMEUNKNOWNEVENT_SENT) == 0)
+        if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_SENT) == 0)
         {
             if (gameState.vsBattleType == VSBATTLE_RINGS)
             {
-                playerGameStatus.stagePacketValue.s16 = gPlayer->rings;
+                playerGameStatus.vsStageScore[0].rings = gPlayer->rings;
             }
             else
             {
-                playerGameStatus.stagePacketValue.s32 = playerGameStatus.stageTimer;
+                playerGameStatus.vsStageScore[0].time = playerGameStatus.stageTimer;
 
-                if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_TIMEUNKNOWNEVENT_ACTIVE) != 0 && playerGameStatus.stageTimer <= AKUTIL_TIME_TO_FRAMES(9, 59, 99))
+                if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_ACTIVE) != 0 && playerGameStatus.stageTimer <= AKUTIL_TIME_TO_FRAMES(9, 59, 99))
                 {
-                    playerGameStatus.stagePacketValue.s32 = AKUTIL_TIME_TO_FRAMES(9, 59, 99);
+                    playerGameStatus.vsStageScore[0].time = AKUTIL_TIME_TO_FRAMES(9, 59, 99);
                 }
-                else if (playerGameStatus.stagePacketValue.s32 > AKUTIL_TIME_TO_FRAMES(10, 00, 00))
+                else if (playerGameStatus.vsStageScore[0].time > AKUTIL_TIME_TO_FRAMES(10, 00, 00))
                 {
-                    playerGameStatus.stagePacketValue.s32 = AKUTIL_TIME_TO_FRAMES(10, 00, 00);
+                    playerGameStatus.vsStageScore[0].time = AKUTIL_TIME_TO_FRAMES(10, 00, 00);
                 }
             }
 
-            playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_TIMEUNKNOWNEVENT_SENT;
+            playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_STAGESCOREEVENT_SENT;
         }
 
-        ObjPacket__SendPacket(&playerGameStatus.stagePacketValue, GAMEPACKET_TIMEUNKNOWN, 3, (u16)sizeof(playerGameStatus.stagePacketValue));
+        ObjPacket__SendPacket(&playerGameStatus.vsStageScore[0], GAMEPACKET_STAGESCORE, 3, (u16)sizeof(playerGameStatus.vsStageScore[0]));
 
         if ((gameState.gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
             playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_NEEDS_DATATRANSFER_CONFIG_INIT;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =gameState
-	ldr r1, [r0, #0x10]
-	tst r1, #0x20
-	ldmeqia sp!, {r3, pc}
-	ldr r1, =mainMemProcessor
-	ldr r3, [r1, #0x44]
-	tst r3, #0x400
-	bne _020051E0
-	ldr r0, [r0, #0x20]
-	cmp r0, #1
-	bne _0200519C
-	ldr r0, [r1, #0xc]
-	add r0, r0, #0x600
-	ldrsh r0, [r0, #0x7e]
-	strh r0, [r1, #0xdc]
-	b _020051D0
-_0200519C:
-	ldr r2, [r1, #0x50]
-	tst r3, #0x40
-	str r2, [r1, #0xdc]
-	beq _020051BC
-	ldr r0, =0x00008C9F
-	cmp r2, r0
-	strls r0, [r1, #0xdc]
-	bls _020051D0
-_020051BC:
-	ldr r0, =mainMemProcessor
-	ldr r1, =0x00008CA0
-	ldr r2, [r0, #0xdc]
-	cmp r2, r1
-	strhi r1, [r0, #0xdc]
-_020051D0:
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	orr r1, r1, #0x400
-	str r1, [r0, #0x44]
-_020051E0:
-	ldr r0, =0x02133954
-	mov r1, #5
-	mov r2, #3
-	mov r3, #4
-	bl ObjPacket__SendPacket
-	ldr r0, =gameState
-	ldr r0, [r0, #0x10]
-	tst r0, #0x400
-	ldmeqia sp!, {r3, pc}
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	orr r1, r1, #8
-	str r1, [r0, #0x44]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC void SendPacketForStageFinishEvent(void)
+void SendPacketForStageFinishEvent(void)
 {
-    // will match when other funcs are decompiled
-#ifdef NON_MATCHING
     if (gmCheckVsBattleFlag() == FALSE)
         return;
 
-    ObjPacketWork *packetWork = ObjPacket__SendPacket(NULL, GAMEPACKET_STAGEFINISH, 3, 0);
+    ObjSendPacket *packetWork = ObjPacket__SendPacket(NULL, GAMEPACKET_STAGEFINISH, 3, 0);
     if (packetWork != NULL)
     {
         packetWork->header.param = 0;
@@ -4021,45 +3253,10 @@ NONMATCH_FUNC void SendPacketForStageFinishEvent(void)
     }
 
     playerGameStatus.flags |= PLAYERGAMESTATUS_FLAG_STAGEFINISHEVENT_SENT;
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =gameState
-	ldr r0, [r0, #0x10]
-	tst r0, #0x20
-	ldmeqia sp!, {r3, pc}
-	mov r0, #0
-	mov r3, r0
-	mov r1, #6
-	mov r2, #3
-	bl ObjPacket__SendPacket
-	cmp r0, #0
-	beq _02005284
-	mov r2, #0
-	ldr r1, =gameState
-	strh r2, [r0, #2]
-	ldr r0, [r1, #0x10]
-	tst r0, #0x400
-	beq _02005284
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	orr r1, r1, #8
-	str r1, [r0, #0x44]
-_02005284:
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	orr r1, r1, #0x200
-	str r1, [r0, #0x44]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC GameObjectSendPacket *RequestNextSendPacket(void)
+GameObjectSendPacket *RequestNextSendPacket(void)
 {
-#ifdef NON_MATCHING
-    // will match when other funcs are decompiled
     GameObjectSendPacket *packet = NULL;
 
     if (playerGameStatus.sendPacketList != NULL)
@@ -4071,22 +3268,6 @@ NONMATCH_FUNC GameObjectSendPacket *RequestNextSendPacket(void)
     }
 
     return packet;
-#else
-    // clang-format off
-	ldr r1, =mainMemProcessor
-	mov r0, #0
-	ldr r3, [r1, #0xe4]
-	cmp r3, #0
-	bxeq lr
-	ldr r2, [r1, #0xe8]
-	cmp r2, #0x10
-	addlo r0, r2, #1
-	strlo r0, [r1, #0xe8]
-	addlo r0, r3, r2, lsl #2
-	bx lr
-
-// clang-format on
-#endif
 }
 
 void HandleNetworkError(void)
@@ -4139,10 +3320,8 @@ void CreateReplayViewer(void)
     gameState.gameFlag &= ~GAME_FLAG_REPLAY_FINISHED;
 }
 
-NONMATCH_FUNC void ReplayViewer_Main(void)
+void ReplayViewer_Main(void)
 {
-    // needs more functions decompiled so the var order matches
-#ifdef NON_MATCHING
     if ((gPlayer->playerFlag & PLAYER_FLAG_FINISHED_STAGE) == 0 && IsDrawFadeTaskFinished() && GetSysEventList()->currentEventID != SYSEVENT_TITLECARD
         && (GetPadReplayState() == REPLAY_MODE_FINISHED || (padInput.btnPress & (PAD_BUTTON_A | PAD_BUTTON_B | PAD_BUTTON_START | PAD_BUTTON_X | PAD_BUTTON_Y)) != 0))
     {
@@ -4151,42 +3330,4 @@ NONMATCH_FUNC void ReplayViewer_Main(void)
         FadeOutStageBGM(8);
         DestroyCurrentTask();
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =mainMemProcessor
-	ldr r0, [r0, #0xc]
-	ldr r0, [r0, #0x5d8]
-	tst r0, #0x1000000
-	ldmneia sp!, {r3, pc}
-	bl IsDrawFadeTaskFinished
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	bl GetSysEventList
-	ldrsh r0, [r0, #0xc]
-	cmp r0, #0xd
-	ldmeqia sp!, {r3, pc}
-	bl GetPadReplayState
-	cmp r0, #1
-	beq _02005470
-	ldr r1, =padInput
-	ldr r0, =0x00000C0B
-	ldrh r1, [r1, #4]
-	tst r1, r0
-	ldmeqia sp!, {r3, pc}
-_02005470:
-	mov r0, #5
-	mov r1, #0x2000
-	bl CreateDrawFadeTask
-	ldr r1, =mainMemProcessor
-	mov r0, #8
-	ldr r2, [r1, #0x44]
-	orr r2, r2, #0x20
-	str r2, [r1, #0x44]
-	bl FadeOutStageBGM
-	bl DestroyCurrentTask
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
 }
