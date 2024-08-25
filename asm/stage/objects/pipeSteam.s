@@ -83,7 +83,7 @@ PipeFlow__Create: // 0x021610CC
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x2b0]
-	ldr r0, _0216140C // =ovl00_216188C
+	ldr r0, _0216140C // =PipeFlow__OnDefend_216188C
 	orr r1, r1, #0x400
 	str r1, [r4, #0x2b0]
 	str r0, [r4, #0x2bc]
@@ -96,7 +96,7 @@ PipeFlow__Create: // 0x021610CC
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x270]
-	ldr r0, _02161410 // =ovl00_2161854
+	ldr r0, _02161410 // =PipeFlow__OnDefend_2161854
 	orr r1, r1, #0x400
 	str r1, [r4, #0x270]
 	str r0, [r4, #0x27c]
@@ -108,7 +108,7 @@ PipeFlow__Create: // 0x021610CC
 	cmp r0, #0x75
 	beq _02161330
 _02161264:
-	ldr r0, _02161414 // =ovl00_216174C
+	ldr r0, _02161414 // =PipeFlow__OnDefend_216174C
 	mov r2, #0x58
 	str r0, [r4, #0x23c]
 	mov r5, #0
@@ -130,7 +130,7 @@ _02161264:
 	mov r6, #9
 	b _021613B0
 _021612B8:
-	ldr r0, _0216141C // =ovl00_21617B0
+	ldr r0, _0216141C // =PipeSteam__OnDefend_21617B0
 	mov r2, #0x18
 	str r0, [r4, #0x23c]
 	mov r3, #0
@@ -161,7 +161,7 @@ _021612B8:
 	str r4, [r4, #0x2b4]
 	b _021613B0
 _02161330:
-	ldr r0, _0216141C // =ovl00_21617B0
+	ldr r0, _0216141C // =PipeSteam__OnDefend_21617B0
 	mov r3, #0x58
 	str r0, [r4, #0x23c]
 	mov r0, #0
@@ -206,7 +206,7 @@ _021613B0:
 	mov r0, r4
 	mov r1, r5
 	bl StageTask__SetAnimation
-	ldr r1, _02161420 // =ovl00_2161728
+	ldr r1, _02161420 // =PipeSteam__State_2161728
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
@@ -218,12 +218,12 @@ _021613FC: .word gameArchiveStage
 _02161400: .word 0x0000FFFF
 _02161404: .word aActAcGmkPipeFl_0
 _02161408: .word 0x0000FFFE
-_0216140C: .word ovl00_216188C
-_02161410: .word ovl00_2161854
-_02161414: .word ovl00_216174C
+_0216140C: .word PipeFlow__OnDefend_216188C
+_02161410: .word PipeFlow__OnDefend_2161854
+_02161414: .word PipeFlow__OnDefend_216174C
 _02161418: .word StageTask__DefaultDiffData
-_0216141C: .word ovl00_21617B0
-_02161420: .word ovl00_2161728
+_0216141C: .word PipeSteam__OnDefend_21617B0
+_02161420: .word PipeSteam__State_2161728
 	arm_func_end PipeFlow__Create
 
 	arm_func_start PipeSteam__Create
@@ -298,7 +298,7 @@ PipeSteam__Create: // 0x02161424
 	blo _021615A8
 	cmp r0, #0x82
 	bhi _021615A8
-	ldr r0, _02161710 // =ovl00_2161DA0
+	ldr r0, _02161710 // =PipeSteam__OnDefend_2161DA0
 	str r0, [r4, #0x23c]
 	ldrh r0, [r8, #2]
 	sub r0, r0, #0x7f
@@ -328,7 +328,7 @@ _0216158C:
 _02161598:
 	mov r5, #1
 _0216159C:
-	ldr r0, _02161714 // =ovl00_2161728
+	ldr r0, _02161714 // =PipeSteam__State_2161728
 	str r0, [r4, #0xf4]
 	b _0216166C
 _021615A8:
@@ -337,7 +337,7 @@ _021615A8:
 	blo _0216166C
 	cmp r0, #0x86
 	bhi _0216166C
-	ldr r0, _02161718 // =ovl00_21617B0
+	ldr r0, _02161718 // =PipeSteam__OnDefend_21617B0
 	mov r3, #2
 	str r0, [r4, #0x23c]
 	sub r1, r3, #4
@@ -355,7 +355,7 @@ _021615A8:
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x270]
-	ldr r0, _0216171C // =ovl00_2161DE0
+	ldr r0, _0216171C // =PipeSteam__OnDefend_2161DE0
 	orr r1, r1, #0x400
 	str r1, [r4, #0x270]
 	str r0, [r4, #0x27c]
@@ -429,16 +429,16 @@ _02161700: .word gameArchiveStage
 _02161704: .word 0x0000FFFF
 _02161708: .word aActAcGmkPipeSt
 _0216170C: .word 0x0000FFFE
-_02161710: .word ovl00_2161DA0
-_02161714: .word ovl00_2161728
-_02161718: .word ovl00_21617B0
-_0216171C: .word ovl00_2161DE0
+_02161710: .word PipeSteam__OnDefend_2161DA0
+_02161714: .word PipeSteam__State_2161728
+_02161718: .word PipeSteam__OnDefend_21617B0
+_0216171C: .word PipeSteam__OnDefend_2161DE0
 _02161720: .word StageTask__DefaultDiffData
 _02161724: .word 0x021883B0
 	arm_func_end PipeSteam__Create
 
-	arm_func_start ovl00_2161728
-ovl00_2161728: // 0x02161728
+	arm_func_start PipeSteam__State_2161728
+PipeSteam__State_2161728: // 0x02161728
 	ldr r1, [r0, #0x2c]
 	cmp r1, #0
 	bxeq lr
@@ -448,10 +448,10 @@ ovl00_2161728: // 0x02161728
 	biceq r1, r1, #2
 	streq r1, [r0, #0x18]
 	bx lr
-	arm_func_end ovl00_2161728
+	arm_func_end PipeSteam__State_2161728
 
-	arm_func_start ovl00_216174C
-ovl00_216174C: // 0x0216174C
+	arm_func_start PipeFlow__OnDefend_216174C
+PipeFlow__OnDefend_216174C: // 0x0216174C
 	stmdb sp!, {r3, lr}
 	ldr r1, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -478,10 +478,10 @@ ovl00_216174C: // 0x0216174C
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021617AC: .word 0x021883A0
-	arm_func_end ovl00_216174C
+	arm_func_end PipeFlow__OnDefend_216174C
 
-	arm_func_start ovl00_21617B0
-ovl00_21617B0: // 0x021617B0
+	arm_func_start PipeSteam__OnDefend_21617B0
+PipeSteam__OnDefend_21617B0: // 0x021617B0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -525,10 +525,10 @@ _02161834:
 	.align 2, 0
 _0216184C: .word _02188390
 _02161850: .word 0x02188398
-	arm_func_end ovl00_21617B0
+	arm_func_end PipeSteam__OnDefend_21617B0
 
-	arm_func_start ovl00_2161854
-ovl00_2161854: // 0x02161854
+	arm_func_start PipeFlow__OnDefend_2161854
+PipeFlow__OnDefend_2161854: // 0x02161854
 	ldr r1, [r1, #0x1c]
 	ldr r2, [r0, #0x1c]
 	cmp r1, #0
@@ -544,10 +544,10 @@ ovl00_2161854: // 0x02161854
 	bx lr
 	.align 2, 0
 _02161888: .word 0x021883A8
-	arm_func_end ovl00_2161854
+	arm_func_end PipeFlow__OnDefend_2161854
 
-	arm_func_start ovl00_216188C
-ovl00_216188C: // 0x0216188C
+	arm_func_start PipeFlow__OnDefend_216188C
+PipeFlow__OnDefend_216188C: // 0x0216188C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	ldr r2, [r1, #0x1c]
 	ldr r1, [r0, #0x1c]
@@ -736,10 +736,10 @@ _02161B54: .word 0x00196225
 _02161B58: .word 0x3C6EF35F
 _02161B5C: .word 0x02188F40
 _02161B60: .word 0x02188F68
-	arm_func_end ovl00_216188C
+	arm_func_end PipeFlow__OnDefend_216188C
 
-	arm_func_start ovl00_2161B64
-ovl00_2161B64: // 0x02161B64
+	arm_func_start PipeSteam___2161B64
+PipeSteam___2161B64: // 0x02161B64
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -761,10 +761,10 @@ _02161BA4:
 	mov r0, #0
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_2161B64
+	arm_func_end PipeSteam___2161B64
 
-	arm_func_start ovl00_2161BB0
-ovl00_2161BB0: // 0x02161BB0
+	arm_func_start PipeSteam__State_2161BB0
+PipeSteam__State_2161BB0: // 0x02161BB0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x2c]
@@ -793,7 +793,7 @@ _02161BF4:
 	mov r1, #6
 	mov r2, #0x22
 	bl ObjActionAllocSpritePalette
-	ldr r0, _02161D1C // =ovl00_2161D20
+	ldr r0, _02161D1C // =PipeSteam__State_2161D20
 	str r0, [r5, #0xf4]
 	ldr r0, [r5, #0x340]
 	ldr r4, [r5, #0x44]
@@ -865,11 +865,11 @@ _02161C90:
 	bl EffectSteamDust__Create
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_02161D1C: .word ovl00_2161D20
-	arm_func_end ovl00_2161BB0
+_02161D1C: .word PipeSteam__State_2161D20
+	arm_func_end PipeSteam__State_2161BB0
 
-	arm_func_start ovl00_2161D20
-ovl00_2161D20: // 0x02161D20
+	arm_func_start PipeSteam__State_2161D20
+PipeSteam__State_2161D20: // 0x02161D20
 	ldr r1, [r0, #0x20]
 	tst r1, #8
 	bxeq lr
@@ -905,10 +905,10 @@ _02161D8C:
 	sub r1, r1, #7
 	strh r1, [r0, #0xf2]
 	bx lr
-	arm_func_end ovl00_2161D20
+	arm_func_end PipeSteam__State_2161D20
 
-	arm_func_start ovl00_2161DA0
-ovl00_2161DA0: // 0x02161DA0
+	arm_func_start PipeSteam__OnDefend_2161DA0
+PipeSteam__OnDefend_2161DA0: // 0x02161DA0
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r2, [r0, #0x1c]
@@ -918,18 +918,18 @@ ovl00_2161DA0: // 0x02161DA0
 	ldrh r2, [r2]
 	cmp r2, #1
 	ldmneia sp!, {r4, pc}
-	bl ovl00_216174C
+	bl PipeFlow__OnDefend_216174C
 	mov r1, #8
-	ldr r0, _02161DDC // =ovl00_2161B64
+	ldr r0, _02161DDC // =PipeSteam___2161B64
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02161DDC: .word ovl00_2161B64
-	arm_func_end ovl00_2161DA0
+_02161DDC: .word PipeSteam___2161B64
+	arm_func_end PipeSteam__OnDefend_2161DA0
 
-	arm_func_start ovl00_2161DE0
-ovl00_2161DE0: // 0x02161DE0
+	arm_func_start PipeSteam__OnDefend_2161DE0
+PipeSteam__OnDefend_2161DE0: // 0x02161DE0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -956,7 +956,7 @@ _02161E34:
 	bl StageTask__SetAnimation
 _02161E3C:
 	ldr r1, [r4, #0x20]
-	ldr r0, _02161E60 // =ovl00_2161BB0
+	ldr r0, _02161E60 // =PipeSteam__State_2161BB0
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	ldr r1, [r5, #8]
@@ -965,8 +965,8 @@ _02161E3C:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02161E5C: .word 0x021883A8
-_02161E60: .word ovl00_2161BB0
-	arm_func_end ovl00_2161DE0
+_02161E60: .word PipeSteam__State_2161BB0
+	arm_func_end PipeSteam__OnDefend_2161DE0
 	
 	.rodata
 

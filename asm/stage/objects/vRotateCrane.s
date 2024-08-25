@@ -166,7 +166,7 @@ _0216D800:
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216D908 // =ovl00_216DFE4
+	ldr r0, _0216D908 // =VRotateCrane__OnDefend
 	mov r1, #0
 	str r0, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
@@ -209,8 +209,8 @@ _0216D800:
 	moveq r0, #0x8000
 	streqh r0, [r4, #0x30]
 _0216D8C8:
-	ldr r0, _0216D910 // =ovl00_216DED8
-	ldr r1, _0216D914 // =ovl00_216DF60
+	ldr r0, _0216D910 // =VRotateCrane__Draw
+	ldr r1, _0216D914 // =VRotateCrane__Collide
 	str r0, [r4, #0xfc]
 	mov r0, r4
 	str r1, [r4, #0x108]
@@ -226,10 +226,10 @@ _0216D8F8: .word aActAcGmkVrotCr
 _0216D8FC: .word aModGmkVrotCran
 _0216D900: .word 0x000034CC
 _0216D904: .word 0x0000FFFE
-_0216D908: .word ovl00_216DFE4
+_0216D908: .word VRotateCrane__OnDefend
 _0216D90C: .word StageTask__DefaultDiffData
-_0216D910: .word ovl00_216DED8
-_0216D914: .word ovl00_216DF60
+_0216D910: .word VRotateCrane__Draw
+_0216D914: .word VRotateCrane__Collide
 	arm_func_end VRotateCrane__Create
 
 	arm_func_start VRotateCrane__Destructor
@@ -258,8 +258,8 @@ VRotateCrane__Destructor: // 0x0216D918
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end VRotateCrane__Destructor
 
-	arm_func_start ovl00_216D970
-ovl00_216D970: // 0x0216D970
+	arm_func_start VRotateCrane__State_216D970
+VRotateCrane__State_216D970: // 0x0216D970
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x340]
@@ -290,7 +290,7 @@ ovl00_216D970: // 0x0216D970
 	strneh r2, [r5, #0x34]
 	cmp r2, r4
 	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r1, _0216DA04 // =ovl00_216DA08
+	ldr r1, _0216DA04 // =VRotateCrane__State_216DA08
 	mov r0, #0
 	str r1, [r5, #0xf4]
 	str r0, [r5, #0x2c]
@@ -298,18 +298,18 @@ ovl00_216D970: // 0x0216D970
 	str r0, [r5, #0x28]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0216DA04: .word ovl00_216DA08
-	arm_func_end ovl00_216D970
+_0216DA04: .word VRotateCrane__State_216DA08
+	arm_func_end VRotateCrane__State_216D970
 
-	arm_func_start ovl00_216DA08
-ovl00_216DA08: // 0x0216DA08
+	arm_func_start VRotateCrane__State_216DA08
+VRotateCrane__State_216DA08: // 0x0216DA08
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	ldr r1, [r0, #0x2c]
 	add r1, r1, #0x44
 	str r1, [r0, #0x2c]
 	cmp r1, #0x1000
 	ble _0216DA68
-	ldr r1, _0216DD48 // =ovl00_216DD4C
+	ldr r1, _0216DD48 // =VRotateCrane__State_216DD4C
 	mov r4, #0
 	str r1, [r0, #0xf4]
 	str r4, [r0, #0x2c]
@@ -529,11 +529,11 @@ _0216DD38:
 	strh r1, [r0, #0x34]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
 	.align 2, 0
-_0216DD48: .word ovl00_216DD4C
-	arm_func_end ovl00_216DA08
+_0216DD48: .word VRotateCrane__State_216DD4C
+	arm_func_end VRotateCrane__State_216DA08
 
-	arm_func_start ovl00_216DD4C
-ovl00_216DD4C: // 0x0216DD4C
+	arm_func_start VRotateCrane__State_216DD4C
+VRotateCrane__State_216DD4C: // 0x0216DD4C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -634,10 +634,10 @@ _0216DEA4:
 	strh r1, [r4, #0x34]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_216DD4C
+	arm_func_end VRotateCrane__State_216DD4C
 
-	arm_func_start ovl00_216DED8
-ovl00_216DED8: // 0x0216DED8
+	arm_func_start VRotateCrane__Draw
+VRotateCrane__Draw: // 0x0216DED8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	bl GetCurrentTaskWork_
@@ -673,10 +673,10 @@ _0216DF38:
 	bl StageTask__Draw2DEx
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end ovl00_216DED8
+	arm_func_end VRotateCrane__Draw
 
-	arm_func_start ovl00_216DF60
-ovl00_216DF60: // 0x0216DF60
+	arm_func_start VRotateCrane__Collide
+VRotateCrane__Collide: // 0x0216DF60
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -713,10 +713,10 @@ _0216DFC8:
 	add r0, r0, #0x400
 	bl ObjCollisionObjectRegist
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_216DF60
+	arm_func_end VRotateCrane__Collide
 
-	arm_func_start ovl00_216DFE4
-ovl00_216DFE4: // 0x0216DFE4
+	arm_func_start VRotateCrane__OnDefend
+VRotateCrane__OnDefend: // 0x0216DFE4
 	stmdb sp!, {r3, lr}
 	ldr r1, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -735,7 +735,7 @@ ovl00_216DFE4: // 0x0216DFE4
 	str ip, [r1, #0x24]
 	str ip, [r1, #0x2c]
 	ldr r3, [r1, #0x20]
-	ldr r2, _0216E0C4 // =ovl00_216D970
+	ldr r2, _0216E0C4 // =VRotateCrane__State_216D970
 	bic r3, r3, #0x200
 	str r3, [r1, #0x20]
 	str ip, [r1, #0x2d8]
@@ -777,8 +777,8 @@ _0216E0B8:
 	bl Player__Action_CraneGrab
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216E0C4: .word ovl00_216D970
-	arm_func_end ovl00_216DFE4
+_0216E0C4: .word VRotateCrane__State_216D970
+	arm_func_end VRotateCrane__OnDefend
 
 	.data
 	

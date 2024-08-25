@@ -106,7 +106,7 @@ _02156F28:
 	mov r2, #0x2b
 	bl ObjActionAllocSpritePalette
 	mov r0, r4
-	bl ovl00_2157094
+	bl EnemyCrab__Action_Init
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
 	mov r0, r4
@@ -121,8 +121,8 @@ _0215708C: .word 0x0000FFFF
 _02157090: .word _02188C24
 	arm_func_end EnemyCrab__Create
 
-	arm_func_start ovl00_2157094
-ovl00_2157094: // 0x02157094
+	arm_func_start EnemyCrab__Action_Init
+EnemyCrab__Action_Init: // 0x02157094
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r1, #0
@@ -139,18 +139,18 @@ ovl00_2157094: // 0x02157094
 	mov r1, #0
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _021570EC // =ovl00_21570F0
+	ldr r0, _021570EC // =EnemyCrab__State_21570F0
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021570EC: .word ovl00_21570F0
-	arm_func_end ovl00_2157094
+_021570EC: .word EnemyCrab__State_21570F0
+	arm_func_end EnemyCrab__Action_Init
 
-	arm_func_start ovl00_21570F0
-ovl00_21570F0: // 0x021570F0
+	arm_func_start EnemyCrab__State_21570F0
+EnemyCrab__State_21570F0: // 0x021570F0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x138]
@@ -240,17 +240,17 @@ _02157214:
 	cmp r0, #0x78
 	ldmltia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl00_215725C
+	bl EnemyCrab__Action_Unknown
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215724C: .word _mt_math_rand
 _02157250: .word 0x00196225
 _02157254: .word 0x3C6EF35F
 _02157258: .word 0x000007FF
-	arm_func_end ovl00_21570F0
+	arm_func_end EnemyCrab__State_21570F0
 
-	arm_func_start ovl00_215725C
-ovl00_215725C: // 0x0215725C
+	arm_func_start EnemyCrab__Action_Unknown
+EnemyCrab__Action_Unknown: // 0x0215725C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #1
@@ -258,16 +258,16 @@ ovl00_215725C: // 0x0215725C
 	ldr r0, [r4, #0x98]
 	mov r1, #0
 	str r0, [r4, #0x380]
-	ldr r0, _02157288 // =ovl00_215728C
+	ldr r0, _02157288 // =EnemyCrab__State_215728C
 	str r1, [r4, #0x98]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02157288: .word ovl00_215728C
-	arm_func_end ovl00_215725C
+_02157288: .word EnemyCrab__State_215728C
+	arm_func_end EnemyCrab__Action_Unknown
 
-	arm_func_start ovl00_215728C
-ovl00_215728C: // 0x0215728C
+	arm_func_start EnemyCrab__State_215728C
+EnemyCrab__State_215728C: // 0x0215728C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -324,10 +324,10 @@ _02157344:
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl00_2157094
+	bl EnemyCrab__Action_Init
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_215728C
+	arm_func_end EnemyCrab__State_215728C
 
 	.data
 	

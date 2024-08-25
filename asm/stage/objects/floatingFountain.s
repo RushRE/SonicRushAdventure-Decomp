@@ -103,7 +103,7 @@ FloatingFountain__Create: // 0x021809C8
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02180C04 // =ovl00_2180CF8
+	ldr r0, _02180C04 // =FloatingFountain__OnDefend
 	mov r1, #0
 	str r0, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
@@ -134,10 +134,10 @@ FloatingFountain__Create: // 0x021809C8
 	orr r0, r0, #0x10
 	str r0, [r4, #0x18]
 _02180BC8:
-	ldr r1, _02180C08 // =ovl00_2180D98
+	ldr r1, _02180C08 // =FloatingFountain__Draw
 	mov r0, r4
 	str r1, [r4, #0xfc]
-	bl ovl00_2180C38
+	bl FloatingFountain__Func_2180C38
 	mov r0, r4
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, pc}
@@ -150,8 +150,8 @@ _02180BF4: .word gameArchiveStage
 _02180BF8: .word 0x0000FFFF
 _02180BFC: .word aActAcGmkFloatF
 _02180C00: .word 0x0000FFFE
-_02180C04: .word ovl00_2180CF8
-_02180C08: .word ovl00_2180D98
+_02180C04: .word FloatingFountain__OnDefend
+_02180C08: .word FloatingFountain__Draw
 	arm_func_end FloatingFountain__Create
 
 	arm_func_start FloatingFountain__Destructor
@@ -169,24 +169,24 @@ FloatingFountain__Destructor: // 0x02180C0C
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end FloatingFountain__Destructor
 
-	arm_func_start ovl00_2180C38
-ovl00_2180C38: // 0x02180C38
+	arm_func_start FloatingFountain__Func_2180C38
+FloatingFountain__Func_2180C38: // 0x02180C38
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
 	bl StageTask__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02180C60 // =ovl00_2180C64
+	ldr r0, _02180C60 // =FloatingFountain__State_2180C64
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02180C60: .word ovl00_2180C64
-	arm_func_end ovl00_2180C38
+_02180C60: .word FloatingFountain__State_2180C64
+	arm_func_end FloatingFountain__Func_2180C38
 
-	arm_func_start ovl00_2180C64
-ovl00_2180C64: // 0x02180C64
+	arm_func_start FloatingFountain__State_2180C64
+FloatingFountain__State_2180C64: // 0x02180C64
 	ldr r1, [r0, #0x11c]
 	cmp r1, #0
 	bxeq lr
@@ -195,26 +195,26 @@ ovl00_2180C64: // 0x02180C64
 	ldmia r1, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	bx lr
-	arm_func_end ovl00_2180C64
+	arm_func_end FloatingFountain__State_2180C64
 
-	arm_func_start ovl00_2180C84
-ovl00_2180C84: // 0x02180C84
+	arm_func_start FloatingFountain__Func_2180C84
+FloatingFountain__Func_2180C84: // 0x02180C84
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #1
 	bl StageTask__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02180CAC // =ovl00_2180CB0
+	ldr r0, _02180CAC // =FloatingFountain__State_2180CB0
 	bic r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02180CAC: .word ovl00_2180CB0
-	arm_func_end ovl00_2180C84
+_02180CAC: .word FloatingFountain__State_2180CB0
+	arm_func_end FloatingFountain__Func_2180C84
 
-	arm_func_start ovl00_2180CB0
-ovl00_2180CB0: // 0x02180CB0
+	arm_func_start FloatingFountain__State_2180CB0
+FloatingFountain__State_2180CB0: // 0x02180CB0
 	stmdb sp!, {r3, lr}
 	mov ip, r0
 	ldr r0, [ip, #0x11c]
@@ -232,12 +232,12 @@ _02180CD4:
 	mov r0, ip
 	bic r1, r1, #0x100
 	str r1, [ip, #0x230]
-	bl ovl00_2180C38
+	bl FloatingFountain__Func_2180C38
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_2180CB0
+	arm_func_end FloatingFountain__State_2180CB0
 
-	arm_func_start ovl00_2180CF8
-ovl00_2180CF8: // 0x02180CF8
+	arm_func_start FloatingFountain__OnDefend
+FloatingFountain__OnDefend: // 0x02180CF8
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -251,7 +251,7 @@ ovl00_2180CF8: // 0x02180CF8
 	addne sp, sp, #8
 	ldmneia sp!, {r3, r4, r5, pc}
 	mov r0, r4
-	bl ovl00_2180C84
+	bl FloatingFountain__Func_2180C84
 	ldr r0, [r4, #0x340]
 	mov r1, #0
 	ldrh r3, [r0, #4]
@@ -279,10 +279,10 @@ ovl00_2180CF8: // 0x02180CF8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02180D94: .word 0x0000011D
-	arm_func_end ovl00_2180CF8
+	arm_func_end FloatingFountain__OnDefend
 
-	arm_func_start ovl00_2180D98
-ovl00_2180D98: // 0x02180D98
+	arm_func_start FloatingFountain__Draw
+FloatingFountain__Draw: // 0x02180D98
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x10
 	bl GetCurrentTaskWork_
@@ -303,7 +303,7 @@ ovl00_2180D98: // 0x02180D98
 	bl StageTask__Draw2DEx
 	add sp, sp, #0x10
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_2180D98
+	arm_func_end FloatingFountain__Draw
 
 	.data
 	

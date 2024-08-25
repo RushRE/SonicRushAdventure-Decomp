@@ -171,7 +171,7 @@ _02166454:
 	mov r1, #1
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216689C // =ovl00_2166C34
+	ldr r0, _0216689C // =PopSteam__OnDefend_2166C34
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x354]
 	orr r0, r0, #1
@@ -232,7 +232,7 @@ _021666D8:
 	add r0, r4, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _021668A4 // =ovl00_2166B6C
+	ldr r1, _021668A4 // =PopSteam__OnDefend_2166B6C
 	mov r0, #0x30000
 	str r1, [r4, #0x27c]
 	ldr r1, [r4, #0x270]
@@ -330,8 +330,8 @@ _02166810:
 _02166858:
 	cmp r5, #0
 	bgt _02166810
-	ldr r0, _021668A8 // =ovl00_2166E40
-	ldr r1, _021668AC // =ovl00_21668F8
+	ldr r0, _021668A8 // =PopSteam__Draw
+	ldr r1, _021668AC // =PopSteam__State_21668F8
 	str r0, [r4, #0xfc]
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -346,11 +346,11 @@ _0216688C: .word aActAcGmkPopSte
 _02166890: .word 0x0000FFFF
 _02166894: .word StageTask__DefaultDiffData
 _02166898: .word _021884FC
-_0216689C: .word ovl00_2166C34
+_0216689C: .word PopSteam__OnDefend_2166C34
 _021668A0: .word 0x0000FFFE
-_021668A4: .word ovl00_2166B6C
-_021668A8: .word ovl00_2166E40
-_021668AC: .word ovl00_21668F8
+_021668A4: .word PopSteam__OnDefend_2166B6C
+_021668A8: .word PopSteam__Draw
+_021668AC: .word PopSteam__State_21668F8
 	arm_func_end PopSteam__Create
 
 	arm_func_start PopSteam__Destructor
@@ -376,8 +376,8 @@ _021668E0:
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end PopSteam__Destructor
 
-	arm_func_start ovl00_21668F8
-ovl00_21668F8: // 0x021668F8
+	arm_func_start PopSteam__State_21668F8
+PopSteam__State_21668F8: // 0x021668F8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #8
 	mov sb, r0
@@ -549,10 +549,10 @@ _02166B5C: .word 0x0000FFFF
 _02166B60: .word _mt_math_rand
 _02166B64: .word 0x00196225
 _02166B68: .word 0x3C6EF35F
-	arm_func_end ovl00_21668F8
+	arm_func_end PopSteam__State_21668F8
 
-	arm_func_start ovl00_2166B6C
-ovl00_2166B6C: // 0x02166B6C
+	arm_func_start PopSteam__OnDefend_2166B6C
+PopSteam__OnDefend_2166B6C: // 0x02166B6C
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -609,10 +609,10 @@ _02166BF4:
 	str r0, [r4, #0x2c]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_2166B6C
+	arm_func_end PopSteam__OnDefend_2166B6C
 
-	arm_func_start ovl00_2166C34
-ovl00_2166C34: // 0x02166C34
+	arm_func_start PopSteam__OnDefend_2166C34
+PopSteam__OnDefend_2166C34: // 0x02166C34
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -752,10 +752,10 @@ _02166D60:
 	bl ProcessSpatialSfx
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end ovl00_2166C34
+	arm_func_end PopSteam__OnDefend_2166C34
 
-	arm_func_start ovl00_2166E40
-ovl00_2166E40: // 0x02166E40
+	arm_func_start PopSteam__Draw
+PopSteam__Draw: // 0x02166E40
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -772,7 +772,7 @@ ovl00_2166E40: // 0x02166E40
 	bl StageTask__Draw2D
 	str r5, [r4, #0x20]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_2166E40
+	arm_func_end PopSteam__Draw
 
 	.rodata
 

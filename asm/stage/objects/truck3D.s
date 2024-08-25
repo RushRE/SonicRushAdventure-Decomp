@@ -455,7 +455,7 @@ _0216F0E4:
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [fp, #0x270]
-	ldr r0, _0216F2E4 // =ovl00_21712A4
+	ldr r0, _0216F2E4 // =Truck3D__OnDefend_21712A4
 	orr r1, r1, #0x400
 	str r1, [fp, #0x270]
 	str r0, [fp, #0x27c]
@@ -485,7 +485,7 @@ _0216F0E4:
 	mov r2, #0x200
 	str r2, [fp, #0xd0]
 	mov r1, #0xb000
-	ldr r0, _0216F2EC // =ovl00_2170D44
+	ldr r0, _0216F2EC // =Truck3D__State_2170D44
 	str r1, [fp, #0xd4]
 	str r0, [fp, #0xf4]
 	sub r0, r2, #0x280
@@ -536,9 +536,9 @@ _0216F2D4: .word 0x0218866C
 _0216F2D8: .word 0x00000201
 _0216F2DC: .word 0x0000FFFF
 _0216F2E0: .word 0x0000FFEF
-_0216F2E4: .word ovl00_21712A4
+_0216F2E4: .word Truck3D__OnDefend_21712A4
 _0216F2E8: .word StageTask__DefaultDiffData
-_0216F2EC: .word ovl00_2170D44
+_0216F2EC: .word Truck3D__State_2170D44
 _0216F2F0: .word 0x021886FC
 _0216F2F4: .word 0x02188704
 _0216F2F8: .word 0x0218860C
@@ -568,7 +568,7 @@ Truck3D__Func_216F2FC: // 0x0216F2FC
 	orr r0, r0, #0x100
 	str r0, [r4, #0x2f4]
 	ldr r2, [r4, #0xbc]
-	ldr r0, _0216F3C0 // =ovl00_2170E10
+	ldr r0, _0216F3C0 // =Truck3D__State_2170E10
 	str r2, [r4, #0x98]
 	str r2, [r4, #0xc8]
 	str r0, [r4, #0xf4]
@@ -596,7 +596,7 @@ Truck3D__Func_216F2FC: // 0x0216F2FC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216F3C0: .word ovl00_2170E10
+_0216F3C0: .word Truck3D__State_2170E10
 	arm_func_end Truck3D__Func_216F2FC
 
 	.data

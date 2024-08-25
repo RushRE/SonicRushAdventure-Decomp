@@ -132,7 +132,7 @@ _021677E0:
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02167C80 // =ovl00_2168194
+	ldr r1, _02167C80 // =LargePiston__OnDefend_2168194
 	add r0, r4, #0x258
 	str r1, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
@@ -146,7 +146,7 @@ _021677E0:
 	ldr r1, _02167C7C // =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02167C84 // =ovl00_2168300
+	ldr r1, _02167C84 // =LargePiston__OnDefend_2168300
 	add r0, r4, #0x298
 	str r1, [r4, #0x27c]
 	ldr r2, [r4, #0x270]
@@ -160,7 +160,7 @@ _021677E0:
 	ldr r1, _02167C7C // =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02167C88 // =ovl00_21683F0
+	ldr r0, _02167C88 // =LargePiston__OnDefend_21683F0
 	str r0, [r4, #0x2bc]
 	ldr r0, [r4, #0x2b0]
 	orr r0, r0, #0x400
@@ -273,10 +273,10 @@ _021679BC:
 _02167A40:
 	mov r0, #0x60
 	mul r0, r5, r0
-	ldr r1, _02167C8C // =ovl00_216846C
+	ldr r1, _02167C8C // =LargePiston__Draw
 	ldr r3, _02167C90 // =0x021891E4
 	str r1, [r4, #0xfc]
-	ldr sb, _02167C94 // =ovl00_2167CBC
+	ldr sb, _02167C94 // =LargePiston__State_2167CBC
 	add r1, r4, #0x11c
 	str sb, [r4, #0xf4]
 	add fp, r3, r0
@@ -418,12 +418,12 @@ _02167C70: .word gameArchiveStage
 _02167C74: .word aModGmkLPistonN
 _02167C78: .word aActAcGmkLPisto
 _02167C7C: .word 0x0000FFFE
-_02167C80: .word ovl00_2168194
-_02167C84: .word ovl00_2168300
-_02167C88: .word ovl00_21683F0
-_02167C8C: .word ovl00_216846C
+_02167C80: .word LargePiston__OnDefend_2168194
+_02167C84: .word LargePiston__OnDefend_2168300
+_02167C88: .word LargePiston__OnDefend_21683F0
+_02167C8C: .word LargePiston__Draw
 _02167C90: .word 0x021891E4
-_02167C94: .word ovl00_2167CBC
+_02167C94: .word LargePiston__State_2167CBC
 _02167C98: .word 0x021891F0
 _02167C9C: .word 0x02189214
 _02167CA0: .word 0x021891FC
@@ -435,8 +435,8 @@ _02167CB4: .word _021891C0
 _02167CB8: .word 0x021891C6
 	arm_func_end LargePiston__Create
 
-	arm_func_start ovl00_2167CBC
-ovl00_2167CBC: // 0x02167CBC
+	arm_func_start LargePiston__State_2167CBC
+LargePiston__State_2167CBC: // 0x02167CBC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x510]
@@ -450,10 +450,10 @@ _02167CD4:
 	mov r0, r4
 	blx r1
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_2167CBC
+	arm_func_end LargePiston__State_2167CBC
 
-	arm_func_start ovl00_2167CEC
-ovl00_2167CEC: // 0x02167CEC
+	arm_func_start LargePiston__State1_2167CEC
+LargePiston__State1_2167CEC: // 0x02167CEC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x500
@@ -605,10 +605,10 @@ _02167F18: .word playerGameStatus
 _02167F1C: .word _mt_math_rand
 _02167F20: .word 0x00196225
 _02167F24: .word 0x3C6EF35F
-	arm_func_end ovl00_2167CEC
+	arm_func_end LargePiston__State1_2167CEC
 
-	arm_func_start ovl00_2167F28
-ovl00_2167F28: // 0x02167F28
+	arm_func_start LargePiston__State2_2167F28
+LargePiston__State2_2167F28: // 0x02167F28
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	mov r2, r0
@@ -773,10 +773,10 @@ _02168184: .word playerGameStatus
 _02168188: .word _mt_math_rand
 _0216818C: .word 0x00196225
 _02168190: .word 0x3C6EF35F
-	arm_func_end ovl00_2167F28
+	arm_func_end LargePiston__State2_2167F28
 
-	arm_func_start ovl00_2168194
-ovl00_2168194: // 0x02168194
+	arm_func_start LargePiston__OnDefend_2168194
+LargePiston__OnDefend_2168194: // 0x02168194
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x14
 	ldr r4, [r1, #0x1c]
@@ -833,7 +833,7 @@ _0216822C:
 	add r3, r4, #0x4e0
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	ldr r0, _021682FC // =ovl00_2167CEC
+	ldr r0, _021682FC // =LargePiston__State1_2167CEC
 	add r1, r4, #0x82
 	str r0, [r4, #0x510]
 	ldr r2, [r4, #0x44]
@@ -871,11 +871,11 @@ _0216822C:
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
-_021682FC: .word ovl00_2167CEC
-	arm_func_end ovl00_2168194
+_021682FC: .word LargePiston__State1_2167CEC
+	arm_func_end LargePiston__OnDefend_2168194
 
-	arm_func_start ovl00_2168300
-ovl00_2168300: // 0x02168300
+	arm_func_start LargePiston__OnDefend_2168300
+LargePiston__OnDefend_2168300: // 0x02168300
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
 	ldr r1, [r1, #0x1c]
@@ -940,10 +940,10 @@ _021683BC:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021683EC: .word Player__State_201EEE0
-	arm_func_end ovl00_2168300
+	arm_func_end LargePiston__OnDefend_2168300
 
-	arm_func_start ovl00_21683F0
-ovl00_21683F0: // 0x021683F0
+	arm_func_start LargePiston__OnDefend_21683F0
+LargePiston__OnDefend_21683F0: // 0x021683F0
 	ldr r3, [r1, #0x1c]
 	ldr r1, [r0, #0x1c]
 	cmp r3, #0
@@ -970,16 +970,16 @@ ovl00_21683F0: // 0x021683F0
 	add ip, r2, #0x400
 	ldmia r0, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
-	ldr r0, _02168468 // =ovl00_2167F28
+	ldr r0, _02168468 // =LargePiston__State2_2167F28
 	str r0, [r3, #0x514]
 	bx lr
 	.align 2, 0
 _02168464: .word Player__State_201EEE0
-_02168468: .word ovl00_2167F28
-	arm_func_end ovl00_21683F0
+_02168468: .word LargePiston__State2_2167F28
+	arm_func_end LargePiston__OnDefend_21683F0
 
-	arm_func_start ovl00_216846C
-ovl00_216846C: // 0x0216846C
+	arm_func_start LargePiston__Draw
+LargePiston__Draw: // 0x0216846C
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x20
 	bl GetCurrentTaskWork_
@@ -1101,7 +1101,7 @@ _0216858C:
 	.align 2, 0
 _0216863C: .word 0x00003A13
 _02168640: .word 0x00002A3C
-	arm_func_end ovl00_216846C
+	arm_func_end LargePiston__Draw
 
 	.data
 	

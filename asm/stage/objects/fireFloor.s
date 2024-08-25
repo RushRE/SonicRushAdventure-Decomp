@@ -91,10 +91,10 @@ _021823EC:
 	streq r0, [r4, #0x20]
 _02182408:
 	ldr r1, [r4, #0x20]
-	ldr r0, _02182444 // =ovl00_218263C
+	ldr r0, _02182444 // =FireFloor__OnHit
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
-	ldr r1, _02182448 // =ovl00_218244C
+	ldr r1, _02182448 // =FireFloor__State_218244C
 	str r0, [r4, #0x278]
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -106,12 +106,12 @@ _02182434: .word GameObject__Destructor
 _02182438: .word gameArchiveStage
 _0218243C: .word 0x0000FFFF
 _02182440: .word aActAcGmkFirefl
-_02182444: .word ovl00_218263C
-_02182448: .word ovl00_218244C
+_02182444: .word FireFloor__OnHit
+_02182448: .word FireFloor__State_218244C
 	arm_func_end FireFloor__Create
 
-	arm_func_start ovl00_218244C
-ovl00_218244C: // 0x0218244C
+	arm_func_start FireFloor__State_218244C
+FireFloor__State_218244C: // 0x0218244C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x20]
@@ -199,7 +199,7 @@ _02182568:
 	add r0, r4, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0218262C // =ovl00_2182690
+	ldr r0, _0218262C // =FireFloor__OnDefend
 	str r0, [r4, #0x27c]
 	ldr r0, [r4, #0x270]
 	orr r0, r0, #0x400
@@ -223,7 +223,7 @@ _021825C0:
 	strh r2, [r0, #0x84]
 	strh r1, [r0, #0x8a]
 	mov r2, #0xff
-	ldr r1, _02182634 // =ovl00_218263C
+	ldr r1, _02182634 // =FireFloor__OnHit
 	strh r2, [r0, #0x86]
 	str r1, [r4, #0x27c]
 	ldr r0, [r4, #0x270]
@@ -244,14 +244,14 @@ _021825F8:
 	.align 2, 0
 _02182624: .word gPlayer
 _02182628: .word 0x0000FFFE
-_0218262C: .word ovl00_2182690
+_0218262C: .word FireFloor__OnDefend
 _02182630: .word 0x0000FFFF
-_02182634: .word ovl00_218263C
+_02182634: .word FireFloor__OnHit
 _02182638: .word 0xFFFBFCFF
-	arm_func_end ovl00_218244C
+	arm_func_end FireFloor__State_218244C
 
-	arm_func_start ovl00_218263C
-ovl00_218263C: // 0x0218263C
+	arm_func_start FireFloor__OnHit
+FireFloor__OnHit: // 0x0218263C
 	stmdb sp!, {r3, lr}
 	ldr r0, [r0, #0x1c]
 	ldr r1, [r1, #0x1c]
@@ -274,10 +274,10 @@ _0218267C:
 	mov r1, #4
 	bl StageTask__SetAnimation
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_218263C
+	arm_func_end FireFloor__OnHit
 
-	arm_func_start ovl00_2182690
-ovl00_2182690: // 0x02182690
+	arm_func_start FireFloor__OnDefend
+FireFloor__OnDefend: // 0x02182690
 	stmdb sp!, {r3, lr}
 	ldr ip, [r1, #0x1c]
 	ldr r3, [r0, #0x1c]
@@ -296,7 +296,7 @@ ovl00_2182690: // 0x02182690
 	ldmneia sp!, {r3, pc}
 	bl ObjRect__FuncNoHit
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_2182690
+	arm_func_end FireFloor__OnDefend
 
 	.data
 	

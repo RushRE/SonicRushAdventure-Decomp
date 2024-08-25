@@ -131,7 +131,7 @@ _02177534:
 	mov r0, r5
 	mov r1, #1
 	bl StageTask__SetOAMPriority
-	ldr r0, _02177798 // =ovl00_2177FF4
+	ldr r0, _02177798 // =Barrel__Draw
 	mvn r1, #0x3f
 	str r0, [r4, #0xfc]
 	ldr r2, [r4, #0x4b0]
@@ -153,7 +153,7 @@ _02177534:
 	ldr r1, _0217779C // =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _021777A0 // =ovl00_2178178
+	ldr r0, _021777A0 // =Barrel__OnDefend_2178178
 	mov r1, #0x38
 	str r0, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
@@ -173,7 +173,7 @@ _02177534:
 	ldr r1, _0217779C // =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _021777A4 // =ovl00_21781A8
+	ldr r1, _021777A4 // =Barrel__OnDefend_21781A8
 	mov r0, r4
 	str r1, [r4, #0x27c]
 	ldr r1, [r4, #0x270]
@@ -189,7 +189,7 @@ _02177534:
 	ldr r1, [r4, #0x4c]
 	mov r1, r1, asr #0xc
 	str r1, [r4, #0x26c]
-	bl ovl00_21777F4
+	bl Barrel__Func_21777F4
 	bl AllocSndHandle
 	str r0, [r4, #0x138]
 	mov r0, r4
@@ -203,10 +203,10 @@ _02177788: .word Barrel__Destructor
 _0217778C: .word gameArchiveStage
 _02177790: .word 0x0000FFFF
 _02177794: .word aActAcGmkBarrel
-_02177798: .word ovl00_2177FF4
+_02177798: .word Barrel__Draw
 _0217779C: .word 0x0000FFFE
-_021777A0: .word ovl00_2178178
-_021777A4: .word ovl00_21781A8
+_021777A0: .word Barrel__OnDefend_2178178
+_021777A4: .word Barrel__OnDefend_21781A8
 	arm_func_end Barrel__Create
 
 	arm_func_start Barrel__Destructor
@@ -232,8 +232,8 @@ Barrel__Destructor: // 0x021777A8
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end Barrel__Destructor
 
-	arm_func_start ovl00_21777F4
-ovl00_21777F4: // 0x021777F4
+	arm_func_start Barrel__Func_21777F4
+Barrel__Func_21777F4: // 0x021777F4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #8
@@ -261,7 +261,7 @@ ovl00_21777F4: // 0x021777F4
 	str r0, [r4, #0x2c]
 	str r4, [r4, #0x234]
 	ldr r1, [r4, #0x230]
-	ldr r0, _02177890 // =ovl00_2177894
+	ldr r0, _02177890 // =Barrel__State_2177894
 	bic r1, r1, #0x800
 	str r1, [r4, #0x230]
 	str r3, [r4, #0x274]
@@ -274,11 +274,11 @@ ovl00_21777F4: // 0x021777F4
 _02177884: .word _mt_math_rand
 _02177888: .word 0x00196225
 _0217788C: .word 0x3C6EF35F
-_02177890: .word ovl00_2177894
-	arm_func_end ovl00_21777F4
+_02177890: .word Barrel__State_2177894
+	arm_func_end Barrel__Func_21777F4
 
-	arm_func_start ovl00_2177894
-ovl00_2177894: // 0x02177894
+	arm_func_start Barrel__State_2177894
+Barrel__State_2177894: // 0x02177894
 	stmdb sp!, {r3, lr}
 	add r1, r0, #0x400
 	ldrh r1, [r1, #0x14]
@@ -340,7 +340,7 @@ _02177974:
 	ldr r1, [r0, #0x444]
 	tst r1, #0x40000000
 	ldmeqia sp!, {r3, pc}
-	bl ovl00_21777F4
+	bl Barrel__Func_21777F4
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02177988: .word _mt_math_rand
@@ -349,10 +349,10 @@ _02177990: .word 0x3C6EF35F
 _02177994: .word playerGameStatus
 _02177998: .word _02188730
 _0217799C: .word 0x02188731
-	arm_func_end ovl00_2177894
+	arm_func_end Barrel__State_2177894
 
-	arm_func_start ovl00_21779A0
-ovl00_21779A0: // 0x021779A0
+	arm_func_start Barrel__Func_21779A0
+Barrel__Func_21779A0: // 0x021779A0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -368,16 +368,16 @@ ovl00_21779A0: // 0x021779A0
 	mov r1, #0
 	str r1, [r4, #0x28]
 	str r1, [r4, #0x4b4]
-	ldr r0, _021779EC // =ovl00_21779F0
+	ldr r0, _021779EC // =Barrel__State_21779F0
 	str r1, [r4, #0x24]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021779EC: .word ovl00_21779F0
-	arm_func_end ovl00_21779A0
+_021779EC: .word Barrel__State_21779F0
+	arm_func_end Barrel__Func_21779A0
 
-	arm_func_start ovl00_21779F0
-ovl00_21779F0: // 0x021779F0
+	arm_func_start Barrel__State_21779F0
+Barrel__State_21779F0: // 0x021779F0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -429,7 +429,7 @@ _02177A70:
 	blt _02177AB8
 	mov r0, r4
 	str r1, [r4, #0x4ac]
-	bl ovl00_2177B14
+	bl Barrel__Func_2177B14
 _02177AB8:
 	ldr r0, [r4, #0x44]
 	mov r0, r0, asr #0xc
@@ -454,10 +454,10 @@ _02177AB8:
 	str r0, [r4, #0x94]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_21779F0
+	arm_func_end Barrel__State_21779F0
 
-	arm_func_start ovl00_2177B14
-ovl00_2177B14: // 0x02177B14
+	arm_func_start Barrel__Func_2177B14
+Barrel__Func_2177B14: // 0x02177B14
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -467,7 +467,7 @@ ovl00_2177B14: // 0x02177B14
 	orr r2, r2, #0x800
 	str r2, [r4, #0x270]
 	bl StageTask__SetAnimation
-	ldr r0, _02177B60 // =ovl00_2177B64
+	ldr r0, _02177B60 // =Barrel__State_2177B64
 	mov r1, #0
 	str r0, [r4, #0xf4]
 	str r1, [r4, #0x28]
@@ -478,11 +478,11 @@ ovl00_2177B14: // 0x02177B14
 	bl NNS_SndPlayerStopSeq
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02177B60: .word ovl00_2177B64
-	arm_func_end ovl00_2177B14
+_02177B60: .word Barrel__State_2177B64
+	arm_func_end Barrel__Func_2177B14
 
-	arm_func_start ovl00_2177B64
-ovl00_2177B64: // 0x02177B64
+	arm_func_start Barrel__State_2177B64
+Barrel__State_2177B64: // 0x02177B64
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -587,7 +587,7 @@ _02177CA8:
 	b _02177D64
 _02177CE4:
 	mov r0, r4
-	bl ovl00_21777F4
+	bl Barrel__Func_21777F4
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02177CF4:
@@ -612,7 +612,7 @@ _02177D34:
 	cmp r0, #0
 	bne _02177D64
 	mov r0, r4
-	bl ovl00_21777F4
+	bl Barrel__Func_21777F4
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02177D50:
@@ -620,7 +620,7 @@ _02177D50:
 	tst r0, #8
 	beq _02177D64
 	mov r0, r4
-	bl ovl00_2177B14
+	bl Barrel__Func_2177B14
 _02177D64:
 	ldr r1, [r4, #0x35c]
 	cmp r1, #0
@@ -795,10 +795,10 @@ _02177FE4: .word 0x02188731
 _02177FE8: .word _mt_math_rand
 _02177FEC: .word 0x00196225
 _02177FF0: .word 0x3C6EF35F
-	arm_func_end ovl00_2177B64
+	arm_func_end Barrel__State_2177B64
 
-	arm_func_start ovl00_2177FF4
-ovl00_2177FF4: // 0x02177FF4
+	arm_func_start Barrel__Draw
+Barrel__Draw: // 0x02177FF4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
@@ -901,10 +901,10 @@ _0217813C:
 	bne _0217813C
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	arm_func_end ovl00_2177FF4
+	arm_func_end Barrel__Draw
 
-	arm_func_start ovl00_2178178
-ovl00_2178178: // 0x02178178
+	arm_func_start Barrel__OnDefend_2178178
+Barrel__OnDefend_2178178: // 0x02178178
 	stmdb sp!, {r3, lr}
 	ldr r1, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -915,12 +915,12 @@ ovl00_2178178: // 0x02178178
 	cmp r0, #1
 	ldmneia sp!, {r3, pc}
 	mov r0, r1
-	bl ovl00_21779A0
+	bl Barrel__Func_21779A0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_2178178
+	arm_func_end Barrel__OnDefend_2178178
 
-	arm_func_start ovl00_21781A8
-ovl00_21781A8: // 0x021781A8
+	arm_func_start Barrel__OnDefend_21781A8
+Barrel__OnDefend_21781A8: // 0x021781A8
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -935,7 +935,7 @@ ovl00_21781A8: // 0x021781A8
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r4
 	str r5, [r4, #0x35c]
-	bl ovl00_2177B14
+	bl Barrel__Func_2177B14
 	ldr r1, [r4, #0x354]
 	mov r0, r5
 	bic r2, r1, #2
@@ -943,7 +943,7 @@ ovl00_21781A8: // 0x021781A8
 	str r2, [r4, #0x354]
 	bl Player__Func_2021CE8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_21781A8
+	arm_func_end Barrel__OnDefend_21781A8
 
 	.rodata
 

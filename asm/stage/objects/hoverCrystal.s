@@ -95,7 +95,7 @@ HoverCrystal__Create: // 0x021826D8
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02182898 // =ovl00_21829B8
+	ldr r0, _02182898 // =HoverCrystal__OnDefend
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
 	orr r0, r0, #0xc0
@@ -105,7 +105,7 @@ HoverCrystal__Create: // 0x021826D8
 	bl Player__UseUpsideDownGravity
 	cmp r0, #0
 	ldrne r0, [r4, #0x20]
-	ldr r1, _0218289C // =ovl00_21828A0
+	ldr r1, _0218289C // =HoverCrystal__State_21828A0
 	orrne r0, r0, #2
 	strne r0, [r4, #0x20]
 	mov r0, r4
@@ -118,12 +118,12 @@ _02182888: .word GameObject__Destructor
 _0218288C: .word gameArchiveStage
 _02182890: .word aActAcGmkAirBac
 _02182894: .word 0x0000FFFE
-_02182898: .word ovl00_21829B8
-_0218289C: .word ovl00_21828A0
+_02182898: .word HoverCrystal__OnDefend
+_0218289C: .word HoverCrystal__State_21828A0
 	arm_func_end HoverCrystal__Create
 
-	arm_func_start ovl00_21828A0
-ovl00_21828A0: // 0x021828A0
+	arm_func_start HoverCrystal__State_21828A0
+HoverCrystal__State_21828A0: // 0x021828A0
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -195,10 +195,10 @@ ovl00_21828A0: // 0x021828A0
 _021829AC: .word _mt_math_rand
 _021829B0: .word 0x00196225
 _021829B4: .word 0x3C6EF35F
-	arm_func_end ovl00_21828A0
+	arm_func_end HoverCrystal__State_21828A0
 
-	arm_func_start ovl00_21829B8
-ovl00_21829B8: // 0x021829B8
+	arm_func_start HoverCrystal__OnDefend
+HoverCrystal__OnDefend: // 0x021829B8
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x34
 	mov r6, r1
@@ -271,7 +271,7 @@ ovl00_21829B8: // 0x021829B8
 	bl Player__Gimmick_AirSwitch
 	add sp, sp, #0x34
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	arm_func_end ovl00_21829B8
+	arm_func_end HoverCrystal__OnDefend
 
 	.data
 	

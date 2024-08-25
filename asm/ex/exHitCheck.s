@@ -431,15 +431,15 @@ _0216B33C:
 	ldmia sp!, {r4, pc}
 	arm_func_end ovl09_216B264
 
-	arm_func_start nullovl09_140
-nullovl09_140: // 0x0216B36C
+	arm_func_start ovl09_216B36C
+ovl09_216B36C: // 0x0216B36C
 	bx lr
-	arm_func_end nullovl09_140
+	arm_func_end ovl09_216B36C
 
-	arm_func_start nullovl09_141
-nullovl09_141: // 0x0216B370
+	arm_func_start ovl09_216B370
+ovl09_216B370: // 0x0216B370
 	bx lr
-	arm_func_end nullovl09_141
+	arm_func_end ovl09_216B370
 
 	arm_func_start ovl09_216B374
 ovl09_216B374: // 0x0216B374
@@ -466,7 +466,7 @@ ovl09_216B3B0: // 0x0216B3B0
 	stmdb sp!, {r3, lr}
 	cmp r1, #2
 	bne _0216B3C4
-	bl nullovl09_140
+	bl ovl09_216B36C
 	ldmia sp!, {r3, pc}
 _0216B3C4:
 	cmp r1, #1
@@ -476,7 +476,7 @@ _0216B3C4:
 _0216B3D4:
 	cmp r1, #3
 	ldmneia sp!, {r3, pc}
-	bl nullovl09_141
+	bl ovl09_216B370
 	ldmia sp!, {r3, pc}
 	arm_func_end ovl09_216B3B0
 

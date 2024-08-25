@@ -88,7 +88,7 @@ WaterGun__Create: // 0x02183A44
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02183C54 // =ovl00_21846C4
+	ldr r0, _02183C54 // =WaterGun__OnDefend
 	mov r3, #8
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
@@ -146,7 +146,7 @@ _02183C44: .word WaterGun__Destructor
 _02183C48: .word gameArchiveStage
 _02183C4C: .word aActAcGmkWaterG
 _02183C50: .word 0x0000FFFE
-_02183C54: .word ovl00_21846C4
+_02183C54: .word WaterGun__OnDefend
 _02183C58: .word 0x00000201
 _02183C5C: .word 0x0000FFFF
 _02183C60: .word aDfGmkWaterGrai
@@ -232,7 +232,7 @@ _02183D68:
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02183DF0 // =ovl00_21849B8
+	ldr r0, _02183DF0 // =WaterGrindTrigger__OnDefend
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
 	orr r0, r0, #0xc0
@@ -240,10 +240,10 @@ _02183D68:
 	str r0, [r4, #0x230]
 _02183DB0:
 	ldr r0, [r4, #0x18]
-	ldr r1, _02183DF4 // =ovl00_218477C
+	ldr r1, _02183DF4 // =WaterGrindTrigger__State_218477C
 	orr r0, r0, #2
 	str r0, [r4, #0x18]
-	ldr r0, _02183DF8 // =ovl00_2184880
+	ldr r0, _02183DF8 // =WaterGrindTrigger__Draw
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	ldrsb r0, [r7, #6]
@@ -256,9 +256,9 @@ _02183DE0: .word 0x00001801
 _02183DE4: .word StageTask_Main
 _02183DE8: .word WaterGun__Destructor
 _02183DEC: .word 0x0000FFFE
-_02183DF0: .word ovl00_21849B8
-_02183DF4: .word ovl00_218477C
-_02183DF8: .word ovl00_2184880
+_02183DF0: .word WaterGrindTrigger__OnDefend
+_02183DF4: .word WaterGrindTrigger__State_218477C
+_02183DF8: .word WaterGrindTrigger__Draw
 	arm_func_end WaterGrindTrigger__Create
 
 	arm_func_start WaterGun__Destructor
@@ -269,7 +269,7 @@ WaterGun__Destructor: // 0x02183DFC
 	mov r4, r0
 	ldr r0, [r4, #0x340]
 	ldrsb r0, [r0, #6]
-	bl ovl00_2184D34
+	bl WaterGrindRail__Func_2184D34
 	ldr r0, [r4, #0x340]
 	ldrh r0, [r0, #2]
 	add r0, r0, #0x16
@@ -282,9 +282,9 @@ WaterGun__Destructor: // 0x02183DFC
 	mov r1, #0
 	bl NNS_SndPlayerStopSeq
 	ldr r1, [r4, #0xf4]
-	ldr r0, _02183EB8 // =ovl00_2184248
+	ldr r0, _02183EB8 // =WaterGun__State_2184248
 	cmp r1, r0
-	ldrne r0, _02183EBC // =ovl00_21842A8
+	ldrne r0, _02183EBC // =WaterGun__State_21842A8
 	cmpne r1, r0
 	bne _02183EAC
 	ldr r1, [r4, #0x340]
@@ -312,13 +312,13 @@ _02183EAC:
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02183EB8: .word ovl00_2184248
-_02183EBC: .word ovl00_21842A8
+_02183EB8: .word WaterGun__State_2184248
+_02183EBC: .word WaterGun__State_21842A8
 _02183EC0: .word _0218A3CC
 	arm_func_end WaterGun__Destructor
 
-	arm_func_start ovl00_2183EC4
-ovl00_2183EC4: // 0x02183EC4
+	arm_func_start WaterGun__State_2183EC4
+WaterGun__State_2183EC4: // 0x02183EC4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -346,10 +346,10 @@ _02183F18:
 	tst r1, #3
 	beq _02183F9C
 	mov ip, #0
-	ldr r1, _0218409C // =ovl00_21840B4
+	ldr r1, _0218409C // =WaterGun__State_21840B4
 	str ip, [r4, #0x2c]
 	str r1, [r4, #0xf4]
-	ldr r0, _021840A0 // =ovl00_21844E8
+	ldr r0, _021840A0 // =WaterGun__Draw
 	sub r1, ip, #1
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x20]
@@ -443,16 +443,16 @@ _02184010:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0218409C: .word ovl00_21840B4
-_021840A0: .word ovl00_21844E8
+_0218409C: .word WaterGun__State_21840B4
+_021840A0: .word WaterGun__Draw
 _021840A4: .word 0x0000011B
 _021840A8: .word _mt_math_rand
 _021840AC: .word 0x00196225
 _021840B0: .word 0x3C6EF35F
-	arm_func_end ovl00_2183EC4
+	arm_func_end WaterGun__State_2183EC4
 
-	arm_func_start ovl00_21840B4
-ovl00_21840B4: // 0x021840B4
+	arm_func_start WaterGun__State_21840B4
+WaterGun__State_21840B4: // 0x021840B4
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x2c]
@@ -538,7 +538,7 @@ _021841F0:
 	mov r2, #0
 	str r2, [r4, #0x274]
 	ldr r1, [r4, #0x270]
-	ldr r0, _02184244 // =ovl00_2184248
+	ldr r0, _02184244 // =WaterGun__State_2184248
 	orr r1, r1, #0x800
 	str r1, [r4, #0x270]
 	str r0, [r4, #0xf4]
@@ -551,27 +551,27 @@ _021841F0:
 	str r0, [r4, #0x24]
 _02184228:
 	mov r0, r4
-	bl ovl00_218448C
+	bl WaterGun__Func_218448C
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02184234: .word _0218A3CC
 _02184238: .word gameArchiveStage
 _0218423C: .word aDfGmkWaterGrai
 _02184240: .word aDfGmkWaterGrai_0
-_02184244: .word ovl00_2184248
-	arm_func_end ovl00_21840B4
+_02184244: .word WaterGun__State_2184248
+	arm_func_end WaterGun__State_21840B4
 
-	arm_func_start ovl00_2184248
-ovl00_2184248: // 0x02184248
+	arm_func_start WaterGun__State_2184248
+WaterGun__State_2184248: // 0x02184248
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ovl00_218448C
+	bl WaterGun__Func_218448C
 	ldr r0, [r4, #0x2c]
 	subs r0, r0, #1
 	str r0, [r4, #0x2c]
 	bne _0218427C
 	mov r0, r4
-	bl ovl00_21842A8
+	bl WaterGun__State_21842A8
 	ldr r0, [r4, #0x138]
 	mov r1, #0xf
 	bl NNS_SndPlayerStopSeq
@@ -589,16 +589,16 @@ _0218427C:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021842A4: .word _0218A3CC
-	arm_func_end ovl00_2184248
+	arm_func_end WaterGun__State_2184248
 
-	arm_func_start ovl00_21842A8
-ovl00_21842A8: // 0x021842A8
+	arm_func_start WaterGun__State_21842A8
+WaterGun__State_21842A8: // 0x021842A8
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
 	ldr r0, [r4, #0x340]
 	ldrsb r0, [r0, #6]
-	bl ovl00_2184E44
+	bl WaterGrindRail__GetAnimator
 	ldr r1, [r4, #0x340]
 	ldr r0, _021843CC // =_0218A3CC
 	ldrsb r1, [r1, #6]
@@ -648,7 +648,7 @@ ovl00_21842A8: // 0x021842A8
 	ldr r0, _021843DC // =defaultSfxPlayer
 	add r1, r4, #0x44
 	bl ProcessSpatialSfx
-	ldr r1, _021843E0 // =ovl00_21843E4
+	ldr r1, _021843E0 // =WaterGun__State_21843E4
 	mov r0, #4
 	str r1, [r4, #0xf4]
 	add sp, sp, #8
@@ -673,11 +673,11 @@ _021843D0: .word gameArchiveStage
 _021843D4: .word aDfGmkWaterGrai
 _021843D8: .word 0x0000011B
 _021843DC: .word defaultSfxPlayer
-_021843E0: .word ovl00_21843E4
-	arm_func_end ovl00_21842A8
+_021843E0: .word WaterGun__State_21843E4
+	arm_func_end WaterGun__State_21842A8
 
-	arm_func_start ovl00_21843E4
-ovl00_21843E4: // 0x021843E4
+	arm_func_start WaterGun__State_21843E4
+WaterGun__State_21843E4: // 0x021843E4
 	stmdb sp!, {r3, lr}
 	ldr ip, _02184480 // =_mt_math_rand
 	ldr r2, _02184484 // =0x00196225
@@ -721,10 +721,10 @@ ovl00_21843E4: // 0x021843E4
 _02184480: .word _mt_math_rand
 _02184484: .word 0x00196225
 _02184488: .word 0x3C6EF35F
-	arm_func_end ovl00_21843E4
+	arm_func_end WaterGun__State_21843E4
 
-	arm_func_start ovl00_218448C
-ovl00_218448C: // 0x0218448C
+	arm_func_start WaterGun__Func_218448C
+WaterGun__Func_218448C: // 0x0218448C
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	mov lr, r0
@@ -750,10 +750,10 @@ _021844D0:
 	ldmia sp!, {pc}
 	.align 2, 0
 _021844E4: .word gPlayer
-	arm_func_end ovl00_218448C
+	arm_func_end WaterGun__Func_218448C
 
-	arm_func_start ovl00_21844E8
-ovl00_21844E8: // 0x021844E8
+	arm_func_start WaterGun__Draw
+WaterGun__Draw: // 0x021844E8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x28
 	mov r0, #0
@@ -780,7 +780,7 @@ _02184534:
 	rsb fp, fp, #0
 	mov sb, #0
 	mov r6, #0x20000
-	bl ovl00_2184E44
+	bl WaterGrindRail__GetAnimator
 	mov r5, r0
 	b _02184598
 _02184558:
@@ -799,7 +799,7 @@ _02184578:
 	rsb fp, fp, #0
 	add sb, fp, #0x29000
 	mov r6, #0x30000
-	bl ovl00_2184E44
+	bl WaterGrindRail__GetAnimator
 	add r5, r0, #0xa4
 _02184598:
 	ldr r0, [r4, #0x2c]
@@ -880,10 +880,10 @@ _0218468C:
 	str r0, [r4, #0x268]
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	arm_func_end ovl00_21844E8
+	arm_func_end WaterGun__Draw
 
-	arm_func_start ovl00_21846C4
-ovl00_21846C4: // 0x021846C4
+	arm_func_start WaterGun__OnDefend
+WaterGun__OnDefend: // 0x021846C4
 	stmdb sp!, {r3, lr}
 	ldr r2, [r1, #0x1c]
 	ldr r3, [r0, #0x1c]
@@ -922,7 +922,7 @@ _02184734:
 	str r0, [r2, #0x18]
 	str r1, [r2, #0x234]
 	ldr r0, [r2, #0x230]
-	ldr ip, _02184778 // =ovl00_2183EC4
+	ldr ip, _02184778 // =WaterGun__State_2183EC4
 	orr r0, r0, #0x800
 	str r0, [r2, #0x230]
 	str r1, [r2, #0x2c]
@@ -933,11 +933,11 @@ _02184734:
 	bl Player__Gimmick_20246FC
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02184778: .word ovl00_2183EC4
-	arm_func_end ovl00_21846C4
+_02184778: .word WaterGun__State_2183EC4
+	arm_func_end WaterGun__OnDefend
 
-	arm_func_start ovl00_218477C
-ovl00_218477C: // 0x0218477C
+	arm_func_start WaterGrindTrigger__State_218477C
+WaterGrindTrigger__State_218477C: // 0x0218477C
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x340]
 	ldr r2, _0218487C // =_0218A3CC
@@ -1007,10 +1007,10 @@ _02184864:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0218487C: .word _0218A3CC
-	arm_func_end ovl00_218477C
+	arm_func_end WaterGrindTrigger__State_218477C
 
-	arm_func_start ovl00_2184880
-ovl00_2184880: // 0x02184880
+	arm_func_start WaterGrindTrigger__Draw
+WaterGrindTrigger__Draw: // 0x02184880
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	bl GetCurrentTaskWork_
@@ -1025,7 +1025,7 @@ ovl00_2184880: // 0x02184880
 	mov r0, #0
 	str r0, [r4, #0x234]
 	ldr r1, [r4, #0x230]
-	ldr r0, _021849B4 // =ovl00_218477C
+	ldr r0, _021849B4 // =WaterGrindTrigger__State_218477C
 	bic r1, r1, #4
 	str r1, [r4, #0x230]
 	ldr r1, [r4, #0x18]
@@ -1044,7 +1044,7 @@ _021848E8:
 	ldmeqia sp!, {r3, r4, r5, r6, pc}
 	mov r0, r3, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl00_2184E44
+	bl WaterGrindRail__GetAnimator
 	ldr r1, [r4, #0x340]
 	mov r5, r0
 	ldrh r0, [r1, #2]
@@ -1096,11 +1096,11 @@ _0218497C:
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
 _021849B0: .word _0218A3CC
-_021849B4: .word ovl00_218477C
-	arm_func_end ovl00_2184880
+_021849B4: .word WaterGrindTrigger__State_218477C
+	arm_func_end WaterGrindTrigger__Draw
 
-	arm_func_start ovl00_21849B8
-ovl00_21849B8: // 0x021849B8
+	arm_func_start WaterGrindTrigger__OnDefend
+WaterGrindTrigger__OnDefend: // 0x021849B8
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -1203,7 +1203,7 @@ _02184B04:
 	orr r0, r0, #1
 	str r0, [r5, #0x20]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_21849B8
+	arm_func_end WaterGrindTrigger__OnDefend
 
 	arm_func_start WaterGrindRail__Create
 WaterGrindRail__Create: // 0x02184B2C
@@ -1342,8 +1342,8 @@ _02184D2C: .word aActAcGmkWaterG
 _02184D30: .word WaterGrindRail__Draw
 	arm_func_end WaterGrindRail__Create
 
-	arm_func_start ovl00_2184D34
-ovl00_2184D34: // 0x02184D34
+	arm_func_start WaterGrindRail__Func_2184D34
+WaterGrindRail__Func_2184D34: // 0x02184D34
 	stmdb sp!, {r3, lr}
 	ldr r1, _02184D7C // =Task__Unknown2184B2C__Singleton
 	ldr r0, [r1, r0, lsl #2]
@@ -1360,11 +1360,11 @@ ovl00_2184D34: // 0x02184D34
 	ldr r1, [r0, #0x18]
 	orr r1, r1, #8
 	str r1, [r0, #0x18]
-	bl ovl00_2184DB8
+	bl WaterGrindRail__Func_2184DB8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02184D7C: .word Task__Unknown2184B2C__Singleton
-	arm_func_end ovl00_2184D34
+	arm_func_end WaterGrindRail__Func_2184D34
 
 	arm_func_start WaterGrindRail__Destructor
 WaterGrindRail__Destructor: // 0x02184D80
@@ -1377,7 +1377,7 @@ WaterGrindRail__Destructor: // 0x02184D80
 	ldr r1, [r1, r2, lsl #2]
 	cmp r1, r4
 	bne _02184DA8
-	bl ovl00_2184DB8
+	bl WaterGrindRail__Func_2184DB8
 _02184DA8:
 	mov r0, r4
 	bl StageTask_Destructor
@@ -1386,8 +1386,8 @@ _02184DA8:
 _02184DB4: .word Task__Unknown2184B2C__Singleton
 	arm_func_end WaterGrindRail__Destructor
 
-	arm_func_start ovl00_2184DB8
-ovl00_2184DB8: // 0x02184DB8
+	arm_func_start WaterGrindRail__Func_2184DB8
+WaterGrindRail__Func_2184DB8: // 0x02184DB8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	mov r5, r0
 	add r0, r5, #0x400
@@ -1425,10 +1425,10 @@ _02184DE4:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	.align 2, 0
 _02184E40: .word Task__Unknown2184B2C__Singleton
-	arm_func_end ovl00_2184DB8
+	arm_func_end WaterGrindRail__Func_2184DB8
 
-	arm_func_start ovl00_2184E44
-ovl00_2184E44: // 0x02184E44
+	arm_func_start WaterGrindRail__GetAnimator
+WaterGrindRail__GetAnimator: // 0x02184E44
 	stmdb sp!, {r3, lr}
 	ldr r1, _02184E6C // =Task__Unknown2184B2C__Singleton
 	mov r2, #0
@@ -1442,7 +1442,7 @@ _02184E64:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02184E6C: .word Task__Unknown2184B2C__Singleton
-	arm_func_end ovl00_2184E44
+	arm_func_end WaterGrindRail__GetAnimator
 
 	arm_func_start WaterGrindRail__Draw
 WaterGrindRail__Draw: // 0x02184E70

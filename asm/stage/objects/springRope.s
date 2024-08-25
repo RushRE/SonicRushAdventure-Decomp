@@ -106,7 +106,7 @@ _02185CB4:
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x230]
-	ldr r0, _02185D30 // =ovl00_2185F1C
+	ldr r0, _02185D30 // =SpringRope__OnDefend
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x230]
 	str r0, [r4, #0x23c]
@@ -114,8 +114,8 @@ _02185CB4:
 	mov r0, r4
 	orr r1, r1, #0x2100
 	str r1, [r4, #0x1c]
-	bl ovl00_2185F90
-	ldr r1, _02185D34 // =ovl00_2185D38
+	bl SpringRope__CreateChildren
+	ldr r1, _02185D34 // =SpringRope__State_2185D38
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
@@ -129,12 +129,12 @@ _02185D20: .word aActAcGmkRopeCB
 _02185D24: .word aModGmkRopeCNsb
 _02185D28: .word 0x000034CC
 _02185D2C: .word 0x0000FFFE
-_02185D30: .word ovl00_2185F1C
-_02185D34: .word ovl00_2185D38
+_02185D30: .word SpringRope__OnDefend
+_02185D34: .word SpringRope__State_2185D38
 	arm_func_end SpringRope__Create
 
-	arm_func_start ovl00_2185D38
-ovl00_2185D38: // 0x02185D38
+	arm_func_start SpringRope__State_2185D38
+SpringRope__State_2185D38: // 0x02185D38
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x4c
 	mov r6, r0
@@ -259,10 +259,10 @@ _02185F0C: .word FX_SinCosTable_
 _02185F10: .word 0x000034CC
 _02185F14: .word 0x02116550
 _02185F18: .word 0x02113950
-	arm_func_end ovl00_2185D38
+	arm_func_end SpringRope__State_2185D38
 
-	arm_func_start ovl00_2185F1C
-ovl00_2185F1C: // 0x02185F1C
+	arm_func_start SpringRope__OnDefend
+SpringRope__OnDefend: // 0x02185F1C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -292,10 +292,10 @@ ovl00_2185F1C: // 0x02185F1C
 	str r3, [r4, #0x20]
 	bl Player__Action_SpringRope
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_2185F1C
+	arm_func_end SpringRope__OnDefend
 
-	arm_func_start ovl00_2185F90
-ovl00_2185F90: // 0x02185F90
+	arm_func_start SpringRope__CreateChildren
+SpringRope__CreateChildren: // 0x02185F90
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -344,7 +344,7 @@ ovl00_2185F90: // 0x02185F90
 	.align 2, 0
 _02186044: .word 0x0000014F
 _02186048: .word 0x00000151
-	arm_func_end ovl00_2185F90
+	arm_func_end SpringRope__CreateChildren
 
 	.data
 	

@@ -1224,7 +1224,7 @@ NameMenu__Func_215F6FC: // 0x0215F6FC
 	mov r0, r5
 	bl NameMenu__Func_215F840
 	mov r0, r5
-	bl nullovl04_143
+	bl SoundTest__Func_215F83C
 	mov r0, r5
 	bl NameMenu__Func_215F73C
 	mov r0, r5
@@ -1370,11 +1370,11 @@ _0215F834: .word 0x000006A4
 _0215F838: .word 0x00000A8C
 	thumb_func_end NameMenu__Func_215F73C
 
-	thumb_func_start nullovl04_143
-nullovl04_143: // 0x0215F83C
+	thumb_func_start SoundTest__Func_215F83C
+SoundTest__Func_215F83C: // 0x0215F83C
 	bx lr
 	.align 2, 0
-	thumb_func_end nullovl04_143
+	thumb_func_end SoundTest__Func_215F83C
 
 	thumb_func_start NameMenu__Func_215F840
 NameMenu__Func_215F840: // 0x0215F840

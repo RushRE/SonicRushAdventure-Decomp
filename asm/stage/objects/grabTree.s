@@ -93,7 +93,7 @@ GrabTree__Create: // 0x0216B308
 	str r0, [r4, #0x37c]
 	str r0, [r4, #0x380]
 	str r0, [r4, #0x384]
-	ldr r1, _0216B5A0 // =ovl00_216B5B4
+	ldr r1, _0216B5A0 // =GrabTree__RenderCallback_216B5B4
 	mov r5, #3
 	add r0, r4, #0x3f4
 	mov r2, #0
@@ -114,7 +114,7 @@ GrabTree__Create: // 0x0216B308
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216B5A8 // =ovl00_216BAB4
+	ldr r0, _0216B5A8 // =GrabTree__OnDefend_216BAB4
 	mov r5, #0x80
 	str r0, [r4, #0x23c]
 	ldr r1, [r4, #0x230]
@@ -144,8 +144,8 @@ GrabTree__Create: // 0x0216B308
 	ldr r1, _0216B5A4 // =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216B5AC // =ovl00_216BA1C
-	ldr r1, _0216B5B0 // =ovl00_216B904
+	ldr r0, _0216B5AC // =GrabTree__OnDefend_216BA1C
+	ldr r1, _0216B5B0 // =GrabTree__Draw
 	str r0, [r4, #0x27c]
 	ldr r2, [r4, #0x270]
 	mov r0, r4
@@ -172,15 +172,15 @@ _0216B590: .word aModGmkGstTreeN
 _0216B594: .word aModGmkGstTreeN_0
 _0216B598: .word aModGmkGstTreeN_1
 _0216B59C: .word 0x000034CC
-_0216B5A0: .word ovl00_216B5B4
+_0216B5A0: .word GrabTree__RenderCallback_216B5B4
 _0216B5A4: .word 0x0000FFFE
-_0216B5A8: .word ovl00_216BAB4
-_0216B5AC: .word ovl00_216BA1C
-_0216B5B0: .word ovl00_216B904
+_0216B5A8: .word GrabTree__OnDefend_216BAB4
+_0216B5AC: .word GrabTree__OnDefend_216BA1C
+_0216B5B0: .word GrabTree__Draw
 	arm_func_end GrabTree__Create
 
-	arm_func_start ovl00_216B5B4
-ovl00_216B5B4: // 0x0216B5B4
+	arm_func_start GrabTree__RenderCallback_216B5B4
+GrabTree__RenderCallback_216B5B4: // 0x0216B5B4
 	stmdb sp!, {r4, lr}
 	ldr r2, _0216B5DC // =aTree03
 	mov r1, #0x1e
@@ -193,10 +193,10 @@ ovl00_216B5B4: // 0x0216B5B4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216B5DC: .word aTree03
-	arm_func_end ovl00_216B5B4
+	arm_func_end GrabTree__RenderCallback_216B5B4
 
-	arm_func_start ovl00_216B5E0
-ovl00_216B5E0: // 0x0216B5E0
+	arm_func_start GrabTree__State_216B5E0
+GrabTree__State_216B5E0: // 0x0216B5E0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x8c]
@@ -276,18 +276,18 @@ _0216B688:
 	mov r2, #0
 	str r2, [r5, #0x234]
 	ldr r1, [r5, #0x230]
-	ldr r0, _0216B72C // =ovl00_216B730
+	ldr r0, _0216B72C // =GrabTree__State_216B730
 	orr r1, r1, #0x800
 	str r1, [r5, #0x230]
 	str r2, [r5, #0x2c]
 	str r0, [r5, #0xf4]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0216B72C: .word ovl00_216B730
-	arm_func_end ovl00_216B5E0
+_0216B72C: .word GrabTree__State_216B730
+	arm_func_end GrabTree__State_216B5E0
 
-	arm_func_start ovl00_216B730
-ovl00_216B730: // 0x0216B730
+	arm_func_start GrabTree__State_216B730
+GrabTree__State_216B730: // 0x0216B730
 	ldr r1, [r0, #0x2c]
 	add r1, r1, #1
 	str r1, [r0, #0x2c]
@@ -300,10 +300,10 @@ ovl00_216B730: // 0x0216B730
 	str r2, [r0, #0x270]
 	str r1, [r0, #0xf4]
 	bx lr
-	arm_func_end ovl00_216B730
+	arm_func_end GrabTree__State_216B730
 
-	arm_func_start ovl00_216B760
-ovl00_216B760: // 0x0216B760
+	arm_func_start GrabTree__State_216B760
+GrabTree__State_216B760: // 0x0216B760
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -351,17 +351,17 @@ _0216B7B8:
 	mov r1, #4
 	bl AnimatorMDL__SetAnimation
 	mov r1, #0
-	ldr r0, _0216B82C // =ovl00_216B830
+	ldr r0, _0216B82C // =GrabTree__State_216B830
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0xf4]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_0216B82C: .word ovl00_216B830
-	arm_func_end ovl00_216B760
+_0216B82C: .word GrabTree__State_216B830
+	arm_func_end GrabTree__State_216B760
 
-	arm_func_start ovl00_216B830
-ovl00_216B830: // 0x0216B830
+	arm_func_start GrabTree__State_216B830
+GrabTree__State_216B830: // 0x0216B830
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x2c]
@@ -399,7 +399,7 @@ ovl00_216B830: // 0x0216B830
 	orr r1, r1, #0x10
 	str r1, [r5, #0x20]
 	ldr r2, [r5, #0x24]
-	ldr r1, _0216B900 // =ovl00_216B5B4
+	ldr r1, _0216B900 // =GrabTree__RenderCallback_216B5B4
 	bic r2, r2, #1
 	str r2, [r5, #0x24]
 	str r0, [sp]
@@ -415,11 +415,11 @@ ovl00_216B830: // 0x0216B830
 	str r0, [r5, #0xf4]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0216B900: .word ovl00_216B5B4
-	arm_func_end ovl00_216B830
+_0216B900: .word GrabTree__RenderCallback_216B5B4
+	arm_func_end GrabTree__State_216B830
 
-	arm_func_start ovl00_216B904
-ovl00_216B904: // 0x0216B904
+	arm_func_start GrabTree__Draw
+GrabTree__Draw: // 0x0216B904
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x70
 	bl GetCurrentTaskWork_
@@ -493,10 +493,10 @@ _0216B984:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0216BA18: .word g_obj
-	arm_func_end ovl00_216B904
+	arm_func_end GrabTree__Draw
 
-	arm_func_start ovl00_216BA1C
-ovl00_216BA1C: // 0x0216BA1C
+	arm_func_start GrabTree__OnDefend_216BA1C
+GrabTree__OnDefend_216BA1C: // 0x0216BA1C
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
 	ldr r2, [r1, #0x1c]
@@ -523,7 +523,7 @@ ovl00_216BA1C: // 0x0216BA1C
 	str r3, [r2, #0x20]
 	str r2, [r2, #0x234]
 	ldr lr, [r2, #0x230]
-	ldr r3, _0216BAB0 // =ovl00_216B5E0
+	ldr r3, _0216BAB0 // =GrabTree__State_216B5E0
 	bic lr, lr, #0x800
 	str lr, [r2, #0x230]
 	str r3, [r2, #0xf4]
@@ -535,11 +535,11 @@ ovl00_216BA1C: // 0x0216BA1C
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216BAB0: .word ovl00_216B5E0
-	arm_func_end ovl00_216BA1C
+_0216BAB0: .word GrabTree__State_216B5E0
+	arm_func_end GrabTree__OnDefend_216BA1C
 
-	arm_func_start ovl00_216BAB4
-ovl00_216BAB4: // 0x0216BAB4
+	arm_func_start GrabTree__OnDefend_216BAB4
+GrabTree__OnDefend_216BAB4: // 0x0216BAB4
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -561,15 +561,15 @@ ovl00_216BAB4: // 0x0216BAB4
 	mov r2, #0
 	str r2, [r4, #0x234]
 	ldr r1, [r4, #0x230]
-	ldr r0, _0216BB20 // =ovl00_216B760
+	ldr r0, _0216BB20 // =GrabTree__State_216B760
 	orr r1, r1, #0x800
 	str r1, [r4, #0x230]
 	str r0, [r4, #0xf4]
 	str r2, [r4, #0x2c]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0216BB20: .word ovl00_216B760
-	arm_func_end ovl00_216BAB4
+_0216BB20: .word GrabTree__State_216B760
+	arm_func_end GrabTree__OnDefend_216BAB4
 
 	.rodata
 	

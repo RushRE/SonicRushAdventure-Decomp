@@ -162,11 +162,11 @@ _02168E30:
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02168F34 // =ovl00_21690EC
-	ldr r0, _02168F38 // =ovl00_216908C
+	ldr r1, _02168F34 // =Icicle__OnDefend
+	ldr r0, _02168F38 // =Icicle__Draw
 	str r1, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
-	ldr r1, _02168F3C // =ovl00_2168F40
+	ldr r1, _02168F3C // =Icicle__State_Active
 	orr r2, r2, #0x400
 	str r2, [r4, #0x230]
 	str r0, [r4, #0xfc]
@@ -182,13 +182,13 @@ _02168F24: .word gameArchiveStage
 _02168F28: .word aActAcGmkIcicle
 _02168F2C: .word aActAcGmkIcicle_0
 _02168F30: .word 0x0000FFFE
-_02168F34: .word ovl00_21690EC
-_02168F38: .word ovl00_216908C
-_02168F3C: .word ovl00_2168F40
+_02168F34: .word Icicle__OnDefend
+_02168F38: .word Icicle__Draw
+_02168F3C: .word Icicle__State_Active
 	arm_func_end Icicle__Create
 
-	arm_func_start ovl00_2168F40
-ovl00_2168F40: // 0x02168F40
+	arm_func_start Icicle__State_Active
+Icicle__State_Active: // 0x02168F40
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x35c]
@@ -276,10 +276,10 @@ _02169070:
 _02169080: .word _mt_math_rand
 _02169084: .word 0x00196225
 _02169088: .word 0x3C6EF35F
-	arm_func_end ovl00_2168F40
+	arm_func_end Icicle__State_Active
 
-	arm_func_start ovl00_216908C
-ovl00_216908C: // 0x0216908C
+	arm_func_start Icicle__Draw
+Icicle__Draw: // 0x0216908C
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r1, #0x100000
@@ -304,10 +304,10 @@ ovl00_216908C: // 0x0216908C
 	ldr r1, [r4, #0x128]
 	bl StageTask__Draw2D
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_216908C
+	arm_func_end Icicle__Draw
 
-	arm_func_start ovl00_21690EC
-ovl00_21690EC: // 0x021690EC
+	arm_func_start Icicle__OnDefend
+Icicle__OnDefend: // 0x021690EC
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r7, r1
 	mov r8, r0
@@ -359,7 +359,7 @@ _0216918C:
 	str r3, [r4, #0x18]
 	bl Player__Gimmick_IcicleGrab
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end ovl00_21690EC
+	arm_func_end Icicle__OnDefend
 
 	.data
 	

@@ -79,8 +79,8 @@ _021591DC:
 	orr r1, r1, #0x80
 	orr r1, r1, #0xc000
 	str r1, [r4, #0x1c]
-	bl ovl00_215A000
-	ldr r1, _021596B8 // =ovl00_215A36C
+	bl EnemyParts__Func_215A000
+	ldr r1, _021596B8 // =EnemyParts__OnInit_215A36C
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r2, r5
@@ -94,10 +94,10 @@ _021591DC:
 	strh r2, [r0, #0xd8]
 	mov r2, #0xc00
 	str r2, [r4, #0x3e0]
-	ldr r1, _021596BC // =ovl00_215A714
+	ldr r1, _021596BC // =EnemyParts__OnDetect_215A714
 	mov r2, #3
 	str r1, [r4, #0x3b0]
-	ldr r1, _021596C0 // =ovl00_215A7D0
+	ldr r1, _021596C0 // =EnemyParts__State_215A7D0
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -111,8 +111,8 @@ _02159258:
 	orr r1, r1, #0x80
 	orr r1, r1, #0x8000
 	str r1, [r4, #0x1c]
-	bl ovl00_215A000
-	ldr r1, _021596B8 // =ovl00_215A36C
+	bl EnemyParts__Func_215A000
+	ldr r1, _021596B8 // =EnemyParts__OnInit_215A36C
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r2, #0
@@ -126,10 +126,10 @@ _02159258:
 	strh r2, [r0, #0xd8]
 	mov r2, #0xf00
 	str r2, [r4, #0x3e0]
-	ldr r1, _021596BC // =ovl00_215A714
+	ldr r1, _021596BC // =EnemyParts__OnDetect_215A714
 	mov r2, r5
 	str r1, [r4, #0x3b0]
-	ldr r1, _021596C4 // =ovl00_215A828
+	ldr r1, _021596C4 // =EnemyParts__State_215A828
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -148,8 +148,8 @@ _021592D4:
 	ldrb r1, [r1, #0xb]
 	rsb r1, r1, #2
 	strb r1, [r4, #0x345]
-	bl ovl00_215A000
-	ldr r0, _021596C8 // =ovl00_215A618
+	bl EnemyParts__Func_215A000
+	ldr r0, _021596C8 // =EnemyParts__OnInit_215A618
 	mov r2, #0
 	str r0, [r4, #0x3ac]
 	add r0, r4, #0x300
@@ -160,12 +160,12 @@ _021592D4:
 	strh r1, [r0, #0xd4]
 	mov r2, #0x800
 	str r2, [r4, #0x3e0]
-	ldr r1, _021596BC // =ovl00_215A714
+	ldr r1, _021596BC // =EnemyParts__OnDetect_215A714
 	mov r2, #3
 	str r1, [r4, #0x3b0]
 	mov r1, #0xf
 	strh r1, [r0, #0xe6]
-	ldr r1, _021596CC // =ovl00_215A8CC
+	ldr r1, _021596CC // =EnemyParts__State_215A8CC
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -179,8 +179,8 @@ _02159360:
 	orr r1, r1, #0x80
 	orr r1, r1, #0x8000
 	str r1, [r4, #0x1c]
-	bl ovl00_215A000
-	ldr r1, _021596B8 // =ovl00_215A36C
+	bl EnemyParts__Func_215A000
+	ldr r1, _021596B8 // =EnemyParts__OnInit_215A36C
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r1, #0
@@ -190,11 +190,11 @@ _02159360:
 	strh r2, [r0, #0xd2]
 	strh r1, [r0, #0xd4]
 	mov r2, #0xc00
-	ldr r1, _021596BC // =ovl00_215A714
+	ldr r1, _021596BC // =EnemyParts__OnDetect_215A714
 	str r2, [r4, #0x3e0]
 	str r1, [r4, #0x3b0]
 	mov r2, #1
-	ldr r1, _021596C4 // =ovl00_215A828
+	ldr r1, _021596C4 // =EnemyParts__State_215A828
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -208,8 +208,8 @@ _021593D0:
 	orr r1, r1, #0x80
 	orr r1, r1, #0x8000
 	str r1, [r4, #0x1c]
-	bl ovl00_215A000
-	ldr r0, _021596D4 // =ovl00_215A674
+	bl EnemyParts__Func_215A000
+	ldr r0, _021596D4 // =EnemyParts__OnInit_215A674
 	mov r1, #1
 	str r0, [r4, #0x3ac]
 	add r0, r4, #0x300
@@ -224,11 +224,11 @@ _021593D0:
 	mov r1, #0x4000
 	strh r1, [r0, #0xda]
 	mov r2, #0xc00
-	ldr r1, _021596BC // =ovl00_215A714
+	ldr r1, _021596BC // =EnemyParts__OnDetect_215A714
 	str r2, [r4, #0x3e0]
 	str r1, [r4, #0x3b0]
 	mov r2, #2
-	ldr r1, _021596C4 // =ovl00_215A828
+	ldr r1, _021596C4 // =EnemyParts__State_215A828
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -241,8 +241,8 @@ _02159454:
 	mov r5, #5
 	orr r1, r1, #0xf00
 	str r1, [r4, #0x1c]
-	bl ovl00_215A000
-	ldr r1, _021596D4 // =ovl00_215A674
+	bl EnemyParts__Func_215A000
+	ldr r1, _021596D4 // =EnemyParts__OnInit_215A674
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r2, #0
@@ -257,11 +257,11 @@ _02159454:
 	mov r1, #0x4000
 	strh r1, [r0, #0xda]
 	mov r2, #0xc00
-	ldr r1, _021596BC // =ovl00_215A714
+	ldr r1, _021596BC // =EnemyParts__OnDetect_215A714
 	str r2, [r4, #0x3e0]
 	str r1, [r4, #0x3b0]
 	mov r2, #3
-	ldr r1, _021596C4 // =ovl00_215A828
+	ldr r1, _021596C4 // =EnemyParts__State_215A828
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -274,8 +274,8 @@ _021594D4:
 	mov r5, #6
 	orr r1, r1, #0xf00
 	str r1, [r4, #0x1c]
-	bl ovl00_215A000
-	ldr r1, _021596D4 // =ovl00_215A674
+	bl EnemyParts__Func_215A000
+	ldr r1, _021596D4 // =EnemyParts__OnInit_215A674
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r2, #0
@@ -290,11 +290,11 @@ _021594D4:
 	mov r1, #0x4000
 	strh r1, [r0, #0xda]
 	mov r2, #0xc00
-	ldr r1, _021596BC // =ovl00_215A714
+	ldr r1, _021596BC // =EnemyParts__OnDetect_215A714
 	str r2, [r4, #0x3e0]
 	str r1, [r4, #0x3b0]
 	mov r2, #3
-	ldr r1, _021596C4 // =ovl00_215A828
+	ldr r1, _021596C4 // =EnemyParts__State_215A828
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 _02159550:
@@ -364,10 +364,10 @@ _021595E8:
 	cmp r5, #6
 	orr r0, r0, #0x4c0
 	str r0, [r4, #0x37c]
-	ldrne r0, _02159700 // =ovl00_215B83C
+	ldrne r0, _02159700 // =EnemyParts__OnDefend_215B83C
 	strne r0, [r4, #0x388]
 	bne _02159674
-	ldr r0, _02159704 // =ovl00_215B8C4
+	ldr r0, _02159704 // =EnemyParts__OnDefend_215B8C4
 	str r0, [r4, #0x388]
 	ldr r0, [r4, #0x37c]
 	bic r0, r0, #0x400
@@ -391,14 +391,14 @@ _02159674:
 _021596AC: .word gameState
 _021596B0: .word StageTask_Main
 _021596B4: .word GameObject__Destructor
-_021596B8: .word ovl00_215A36C
-_021596BC: .word ovl00_215A714
-_021596C0: .word ovl00_215A7D0
-_021596C4: .word ovl00_215A828
-_021596C8: .word ovl00_215A618
-_021596CC: .word ovl00_215A8CC
+_021596B8: .word EnemyParts__OnInit_215A36C
+_021596BC: .word EnemyParts__OnDetect_215A714
+_021596C0: .word EnemyParts__State_215A7D0
+_021596C4: .word EnemyParts__State_215A828
+_021596C8: .word EnemyParts__OnInit_215A618
+_021596CC: .word EnemyParts__State_215A8CC
 _021596D0: .word 0x0000FFFF
-_021596D4: .word ovl00_215A674
+_021596D4: .word EnemyParts__OnInit_215A674
 _021596D8: .word _02188218
 _021596DC: .word gameArchiveStage
 _021596E0: .word _02188D4C
@@ -409,8 +409,8 @@ _021596F0: .word 0x02188256
 _021596F4: .word 0x02188258
 _021596F8: .word 0x0000FFFE
 _021596FC: .word 0x00000102
-_02159700: .word ovl00_215B83C
-_02159704: .word ovl00_215B8C4
+_02159700: .word EnemyParts__OnDefend_215B83C
+_02159704: .word EnemyParts__OnDefend_215B8C4
 	arm_func_end EnemyParts__Create
 
 	arm_func_start EnemyBazookaParts__Create
@@ -453,7 +453,7 @@ EnemyBazookaParts__Create: // 0x02159708
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02159870 // =ovl00_215B684
+	ldr r0, _02159870 // =EnemyBazookaParts__OnHit
 	mov r3, #7
 	str r0, [r4, #0x278]
 	ldr r1, [r4, #0x20]
@@ -506,7 +506,7 @@ EnemyBazookaParts__Create: // 0x02159708
 	.align 2, 0
 _02159868: .word StageTask_Main
 _0215986C: .word GameObject__Destructor
-_02159870: .word ovl00_215B684
+_02159870: .word EnemyBazookaParts__OnHit
 _02159874: .word gameArchiveStage
 _02159878: .word 0x0000FFFF
 _0215987C: .word _02188D4C
@@ -600,7 +600,7 @@ EnemyHogunParts__Create: // 0x02159884
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xfc]
 	ldr r1, _02159A08 // =EnemyHogunParts__State_215A198
-	ldr r0, _02159A0C // =ovl00_215AC34
+	ldr r0, _02159A0C // =EnemyHogunParts__Unknown_215AC34
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0x6c8]
 	mov r0, r4
@@ -614,7 +614,7 @@ _021599FC: .word 0x0000FFFF
 _02159A00: .word _02188D4C
 _02159A04: .word EnemyHogunParts__Draw_215A224
 _02159A08: .word EnemyHogunParts__State_215A198
-_02159A0C: .word ovl00_215AC34
+_02159A0C: .word EnemyHogunParts__Unknown_215AC34
 	arm_func_end EnemyHogunParts__Create
 
 	arm_func_start EnemyBombParts__Create
@@ -657,7 +657,7 @@ EnemyBombParts__Create: // 0x02159A10
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02159B78 // =ovl00_215B710
+	ldr r0, _02159B78 // =EnemyBombParts__OnHit
 	mov r3, #6
 	str r0, [r4, #0x278]
 	ldr r1, [r4, #0x20]
@@ -698,7 +698,7 @@ EnemyBombParts__Create: // 0x02159A10
 	mov r1, #3
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02159B88 // =ovl00_215B218
+	ldr r0, _02159B88 // =EnemyBombParts__State_215B218
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -710,11 +710,11 @@ EnemyBombParts__Create: // 0x02159A10
 	.align 2, 0
 _02159B70: .word StageTask_Main
 _02159B74: .word GameObject__Destructor
-_02159B78: .word ovl00_215B710
+_02159B78: .word EnemyBombParts__OnHit
 _02159B7C: .word gameArchiveStage
 _02159B80: .word 0x0000FFFF
 _02159B84: .word _02188D4C
-_02159B88: .word ovl00_215B218
+_02159B88: .word EnemyBombParts__State_215B218
 	arm_func_end EnemyBombParts__Create
 
 	arm_func_start EnemySkeletonParts__Create
@@ -757,7 +757,7 @@ EnemySkeletonParts__Create: // 0x02159B8C
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02159CF4 // =ovl00_215B79C
+	ldr r0, _02159CF4 // =EnemySkeletonParts__OnHit
 	mov r3, #3
 	str r0, [r4, #0x278]
 	ldr r1, [r4, #0x20]
@@ -798,7 +798,7 @@ EnemySkeletonParts__Create: // 0x02159B8C
 	mov r1, #3
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02159D04 // =ovl00_215B434
+	ldr r0, _02159D04 // =EnemySkeletonParts__State_215B434
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -810,11 +810,11 @@ EnemySkeletonParts__Create: // 0x02159B8C
 	.align 2, 0
 _02159CEC: .word StageTask_Main
 _02159CF0: .word GameObject__Destructor
-_02159CF4: .word ovl00_215B79C
+_02159CF4: .word EnemySkeletonParts__OnHit
 _02159CF8: .word gameArchiveStage
 _02159CFC: .word 0x0000FFFF
 _02159D00: .word _02188D4C
-_02159D04: .word ovl00_215B434
+_02159D04: .word EnemySkeletonParts__State_215B434
 	arm_func_end EnemySkeletonParts__Create
 
 	arm_func_start EnemyHoverBomb__Create
@@ -857,7 +857,7 @@ EnemyHoverBomb__Create: // 0x02159D08
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02159E70 // =ovl00_215B7B0
+	ldr r0, _02159E70 // =EnemyHoverBomb__OnHit
 	mov r3, #8
 	str r0, [r4, #0x278]
 	ldr r1, [r4, #0x20]
@@ -898,7 +898,7 @@ EnemyHoverBomb__Create: // 0x02159D08
 	mov r1, #4
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02159E80 // =ovl00_215B4F4
+	ldr r0, _02159E80 // =EnemyHoverBomb__State_215B4F4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -910,11 +910,11 @@ EnemyHoverBomb__Create: // 0x02159D08
 	.align 2, 0
 _02159E68: .word StageTask_Main
 _02159E6C: .word GameObject__Destructor
-_02159E70: .word ovl00_215B7B0
+_02159E70: .word EnemyHoverBomb__OnHit
 _02159E74: .word gameArchiveStage
 _02159E78: .word 0x0000FFFF
 _02159E7C: .word _02188D4C
-_02159E80: .word ovl00_215B4F4
+_02159E80: .word EnemyHoverBomb__State_215B4F4
 	arm_func_end EnemyHoverBomb__Create
 
 	arm_func_start EnemyHoverGun__Create
@@ -957,7 +957,7 @@ EnemyHoverGun__Create: // 0x02159E84
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02159FEC // =ovl00_215B684
+	ldr r0, _02159FEC // =EnemyBazookaParts__OnHit
 	mov r3, #4
 	str r0, [r4, #0x278]
 	ldr r1, [r4, #0x20]
@@ -998,7 +998,7 @@ EnemyHoverGun__Create: // 0x02159E84
 	mov r1, #4
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02159FFC // =ovl00_215B5C0
+	ldr r0, _02159FFC // =EnemyHoverGun__State_215B5C0
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -1010,15 +1010,15 @@ EnemyHoverGun__Create: // 0x02159E84
 	.align 2, 0
 _02159FE4: .word StageTask_Main
 _02159FE8: .word GameObject__Destructor
-_02159FEC: .word ovl00_215B684
+_02159FEC: .word EnemyBazookaParts__OnHit
 _02159FF0: .word gameArchiveStage
 _02159FF4: .word 0x0000FFFF
 _02159FF8: .word _02188D4C
-_02159FFC: .word ovl00_215B5C0
+_02159FFC: .word EnemyHoverGun__State_215B5C0
 	arm_func_end EnemyHoverGun__Create
 
-	arm_func_start ovl00_215A000
-ovl00_215A000: // 0x0215A000
+	arm_func_start EnemyParts__Func_215A000
+EnemyParts__Func_215A000: // 0x0215A000
 	ldr r1, [r0, #0x340]
 	ldr r2, [r0, #0x44]
 	ldrsb r1, [r1, #6]
@@ -1029,10 +1029,10 @@ ovl00_215A000: // 0x0215A000
 	add r1, r2, r1, lsl #12
 	str r1, [r0, #0x3bc]
 	bx lr
-	arm_func_end ovl00_215A000
+	arm_func_end EnemyParts__Func_215A000
 
-	arm_func_start ovl00_215A028
-ovl00_215A028: // 0x0215A028
+	arm_func_start EnemyParts__Func_215A028
+EnemyParts__Func_215A028: // 0x0215A028
 	add r1, r0, #0x300
 	ldrsh r2, [r1, #0xc4]
 	cmp r2, #0
@@ -1045,7 +1045,7 @@ ovl00_215A028: // 0x0215A028
 	orreq r1, r1, #4
 	streq r1, [r0, #0x37c]
 	bx lr
-	arm_func_end ovl00_215A028
+	arm_func_end EnemyParts__Func_215A028
 
 	arm_func_start EnemyHogunParts__Destructor
 EnemyHogunParts__Destructor: // 0x0215A058
@@ -1084,8 +1084,8 @@ _0215A0C4:
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end EnemyHogunParts__Destructor
 
-	arm_func_start ovl00_215A0D0
-ovl00_215A0D0: // 0x0215A0D0
+	arm_func_start EnemyParts__Func_215A0D0
+EnemyParts__Func_215A0D0: // 0x0215A0D0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r3, r0
@@ -1137,7 +1137,7 @@ ovl00_215A0D0: // 0x0215A0D0
 _0215A18C: .word gameArchiveStage
 _0215A190: .word 0x0000FFFF
 _0215A194: .word _02188D4C
-	arm_func_end ovl00_215A0D0
+	arm_func_end EnemyParts__Func_215A0D0
 
 	arm_func_start EnemyHogunParts__State_215A198
 EnemyHogunParts__State_215A198: // 0x0215A198
@@ -1270,15 +1270,15 @@ _0215A2EC:
 _0215A368: .word FX_SinCosTable_
 	arm_func_end EnemyHogunParts__Draw_215A224
 
-	arm_func_start ovl00_215A36C
-ovl00_215A36C: // 0x0215A36C
+	arm_func_start EnemyParts__OnInit_215A36C
+EnemyParts__OnInit_215A36C: // 0x0215A36C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x300
 	ldrh r1, [r1, #0xd0]
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215A3A0 // =ovl00_215A3A4
+	ldr r0, _0215A3A0 // =EnemyParts__State_215A3A4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -1286,11 +1286,11 @@ ovl00_215A36C: // 0x0215A36C
 	str r0, [r4, #0x2c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215A3A0: .word ovl00_215A3A4
-	arm_func_end ovl00_215A36C
+_0215A3A0: .word EnemyParts__State_215A3A4
+	arm_func_end EnemyParts__OnInit_215A36C
 
-	arm_func_start ovl00_215A3A4
-ovl00_215A3A4: // 0x0215A3A4
+	arm_func_start EnemyParts__State_215A3A4
+EnemyParts__State_215A3A4: // 0x0215A3A4
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -1341,7 +1341,7 @@ _0215A458:
 	str r5, [r6, #0x3cc]
 _0215A45C:
 	mov r0, r6
-	bl ovl00_215A028
+	bl EnemyParts__Func_215A028
 	mov r0, r6
 	add r1, r6, #0x364
 	bl StageTask__HandleCollider
@@ -1458,20 +1458,20 @@ _0215A5FC:
 	.align 2, 0
 _0215A610: .word 0x00000116
 _0215A614: .word 0x0000FFFF
-	arm_func_end ovl00_215A3A4
+	arm_func_end EnemyParts__State_215A3A4
 
-	arm_func_start ovl00_215A618
-ovl00_215A618: // 0x0215A618
+	arm_func_start EnemyParts__OnInit_215A618
+EnemyParts__OnInit_215A618: // 0x0215A618
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
-	bl ovl00_215A36C
+	bl EnemyParts__OnInit_215A36C
 	ldr r1, [r5, #0x3f0]
 	cmp r1, #0
-	ldrne r0, _0215A670 // =ovl00_215AC34
+	ldrne r0, _0215A670 // =EnemyHogunParts__Unknown_215AC34
 	strne r0, [r1, #0x6c8]
 	ldmneia sp!, {r3, r4, r5, pc}
 	mov r0, r5
-	bl ovl00_215AA2C
+	bl EnemyParts__Func_215AA2C
 	mov r4, r0
 	mov r1, r5
 	mov r2, #0x400
@@ -1482,21 +1482,21 @@ ovl00_215A618: // 0x0215A618
 	sub r1, r1, #0x4d000
 	mov r0, r4
 	str r1, [r4, #0x6c]
-	bl ovl00_215A0D0
+	bl EnemyParts__Func_215A0D0
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215A670: .word ovl00_215AC34
-	arm_func_end ovl00_215A618
+_0215A670: .word EnemyHogunParts__Unknown_215AC34
+	arm_func_end EnemyParts__OnInit_215A618
 
-	arm_func_start ovl00_215A674
-ovl00_215A674: // 0x0215A674
+	arm_func_start EnemyParts__OnInit_215A674
+EnemyParts__OnInit_215A674: // 0x0215A674
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x300
 	ldrh r1, [r1, #0xd0]
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215A6A8 // =ovl00_215A6AC
+	ldr r0, _0215A6A8 // =EnemyParts__State_215A6AC
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -1504,14 +1504,14 @@ ovl00_215A674: // 0x0215A674
 	str r0, [r4, #0x2c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215A6A8: .word ovl00_215A6AC
-	arm_func_end ovl00_215A674
+_0215A6A8: .word EnemyParts__State_215A6AC
+	arm_func_end EnemyParts__OnInit_215A674
 
-	arm_func_start ovl00_215A6AC
-ovl00_215A6AC: // 0x0215A6AC
+	arm_func_start EnemyParts__State_215A6AC
+EnemyParts__State_215A6AC: // 0x0215A6AC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
-	bl ovl00_215A3A4
+	bl EnemyParts__State_215A3A4
 	add r1, r4, #0x300
 	ldrh r2, [r1, #0xdc]
 	ldr r0, _0215A710 // =FX_SinCosTable_
@@ -1536,10 +1536,10 @@ ovl00_215A6AC: // 0x0215A6AC
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0215A710: .word FX_SinCosTable_
-	arm_func_end ovl00_215A6AC
+	arm_func_end EnemyParts__State_215A6AC
 
-	arm_func_start ovl00_215A714
-ovl00_215A714: // 0x0215A714
+	arm_func_start EnemyParts__OnDetect_215A714
+EnemyParts__OnDetect_215A714: // 0x0215A714
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	mov r1, #0
@@ -1550,7 +1550,7 @@ ovl00_215A714: // 0x0215A714
 	beq _0215A750
 	str r1, [r4, #0x2c]
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215A764 // =ovl00_215A768
+	ldr r0, _0215A764 // =EnemyParts__State_215A768
 	orr r1, r1, #0x10
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -1562,11 +1562,11 @@ _0215A750:
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215A764: .word ovl00_215A768
-	arm_func_end ovl00_215A714
+_0215A764: .word EnemyParts__State_215A768
+	arm_func_end EnemyParts__OnDetect_215A714
 
-	arm_func_start ovl00_215A768
-ovl00_215A768: // 0x0215A768
+	arm_func_start EnemyParts__State_215A768
+EnemyParts__State_215A768: // 0x0215A768
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -1582,10 +1582,10 @@ ovl00_215A768: // 0x0215A768
 	ldr r0, [r4, #0x3ec]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_215A768
+	arm_func_end EnemyParts__State_215A768
 
-	arm_func_start ovl00_215A7A4
-ovl00_215A7A4: // 0x0215A7A4
+	arm_func_start EnemyParts__State_215A7A4
+EnemyParts__State_215A7A4: // 0x0215A7A4
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x2c]
 	subs r1, r1, #1
@@ -1597,10 +1597,10 @@ ovl00_215A7A4: // 0x0215A7A4
 	ldr r1, [r0, #0x3ac]
 	blx r1
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_215A7A4
+	arm_func_end EnemyParts__State_215A7A4
 
-	arm_func_start ovl00_215A7D0
-ovl00_215A7D0: // 0x0215A7D0
+	arm_func_start EnemyParts__State_215A7D0
+EnemyParts__State_215A7D0: // 0x0215A7D0
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x20]
 	add r2, r0, #0x3e4
@@ -1615,7 +1615,7 @@ ovl00_215A7D0: // 0x0215A7D0
 	mov r1, #0
 	str r1, [r0, #0x98]
 	ldrsh r2, [r2, #4]
-	ldr r1, _0215A824 // =ovl00_215A7A4
+	ldr r1, _0215A824 // =EnemyParts__State_215A7A4
 	str r2, [r0, #0x2c]
 	str r1, [r0, #0xf4]
 	ldmia sp!, {r3, pc}
@@ -1624,11 +1624,11 @@ _0215A818:
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215A824: .word ovl00_215A7A4
-	arm_func_end ovl00_215A7D0
+_0215A824: .word EnemyParts__State_215A7A4
+	arm_func_end EnemyParts__State_215A7D0
 
-	arm_func_start ovl00_215A828
-ovl00_215A828: // 0x0215A828
+	arm_func_start EnemyParts__State_215A828
+EnemyParts__State_215A828: // 0x0215A828
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	add r1, r6, #0x300
@@ -1644,7 +1644,7 @@ ovl00_215A828: // 0x0215A828
 	ldreq r1, [r6, #0x3c8]
 	cmpeq r1, #0
 	bne _0215A870
-	bl ovl00_215AA2C
+	bl EnemyParts__Func_215AA2C
 	mov r0, #1
 	str r0, [r6, #0x3c8]
 _0215A870:
@@ -1661,7 +1661,7 @@ _0215A870:
 	mov r0, #0
 	str r0, [r6, #0x98]
 	ldrsh r1, [r4, #4]
-	ldr r0, _0215A8C8 // =ovl00_215A7A4
+	ldr r0, _0215A8C8 // =EnemyParts__State_215A7A4
 	str r1, [r6, #0x2c]
 	str r0, [r6, #0xf4]
 	ldmia sp!, {r4, r5, r6, pc}
@@ -1672,11 +1672,11 @@ _0215A8B4:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0215A8C4: .word 0x021881EA
-_0215A8C8: .word ovl00_215A7A4
-	arm_func_end ovl00_215A828
+_0215A8C8: .word EnemyParts__State_215A7A4
+	arm_func_end EnemyParts__State_215A828
 
-	arm_func_start ovl00_215A8CC
-ovl00_215A8CC: // 0x0215A8CC
+	arm_func_start EnemyParts__State_215A8CC
+EnemyParts__State_215A8CC: // 0x0215A8CC
 	stmdb sp!, {r4, lr}
 	ldr r4, [r0, #0x128]
 	add r1, r0, #0x3e4
@@ -1738,7 +1738,7 @@ _0215A96C:
 	cmpeq r3, #0
 	bne _0215A9AC
 	ldr ip, [r1, #0xc]
-	ldr lr, _0215AA20 // =ovl00_215AEE0
+	ldr lr, _0215AA20 // =EnemyHogunParts__Unknown_215AEE0
 	mov r3, #1
 	str lr, [ip, #0x6c8]
 	str r3, [r0, #0x3c8]
@@ -1747,7 +1747,7 @@ _0215A9AC:
 	ldrh r3, [r3, #0xe]
 	cmp r3, #6
 	ldreq r3, [r1, #0xc]
-	ldreq ip, _0215AA24 // =ovl00_215B18C
+	ldreq ip, _0215AA24 // =EnemyHogunParts__Unknown_215B18C
 	streq ip, [r3, #0x6c8]
 	ldr r3, [r0, #0x20]
 	tst r3, #8
@@ -1762,7 +1762,7 @@ _0215A9AC:
 	mov r2, #0
 	str r2, [r0, #0x98]
 	ldrsh r2, [r1, #4]
-	ldr r1, _0215AA28 // =ovl00_215A7A4
+	ldr r1, _0215AA28 // =EnemyParts__State_215A7A4
 	str r2, [r0, #0x2c]
 	str r1, [r0, #0xf4]
 	ldmia sp!, {r4, pc}
@@ -1774,13 +1774,13 @@ _0215AA08:
 _0215AA14: .word _02188234
 _0215AA18: .word _02188238
 _0215AA1C: .word 0x021881EA
-_0215AA20: .word ovl00_215AEE0
-_0215AA24: .word ovl00_215B18C
-_0215AA28: .word ovl00_215A7A4
-	arm_func_end ovl00_215A8CC
+_0215AA20: .word EnemyHogunParts__Unknown_215AEE0
+_0215AA24: .word EnemyHogunParts__Unknown_215B18C
+_0215AA28: .word EnemyParts__State_215A7A4
+	arm_func_end EnemyParts__State_215A8CC
 
-	arm_func_start ovl00_215AA2C
-ovl00_215AA2C: // 0x0215AA2C
+	arm_func_start EnemyParts__Func_215AA2C
+EnemyParts__Func_215AA2C: // 0x0215AA2C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x14
 	mov r7, r0
@@ -1873,7 +1873,7 @@ _0215AB60: .word 0x00000157
 _0215AB64: .word 0x00000159
 _0215AB68: .word 0x0000015A
 _0215AB6C: .word 0x0000015B
-	arm_func_end ovl00_215AA2C
+	arm_func_end EnemyParts__Func_215AA2C
 
 	arm_func_start EnemyBazookaParts__State_215AB70
 EnemyBazookaParts__State_215AB70: // 0x0215AB70
@@ -1884,15 +1884,15 @@ EnemyBazookaParts__State_215AB70: // 0x0215AB70
 	movne r1, #0
 	moveq r1, #0x8000
 	strh r1, [r0, #0x34]
-	ldr r1, _0215AB98 // =ovl00_215AB9C
+	ldr r1, _0215AB98 // =EnemyBazookaParts__State_215AB9C
 	str r1, [r0, #0xf4]
 	bx lr
 	.align 2, 0
-_0215AB98: .word ovl00_215AB9C
+_0215AB98: .word EnemyBazookaParts__State_215AB9C
 	arm_func_end EnemyBazookaParts__State_215AB70
 
-	arm_func_start ovl00_215AB9C
-ovl00_215AB9C: // 0x0215AB9C
+	arm_func_start EnemyBazookaParts__State_215AB9C
+EnemyBazookaParts__State_215AB9C: // 0x0215AB9C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -1931,12 +1931,12 @@ ovl00_215AB9C: // 0x0215AB9C
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl00_215AB9C
+	arm_func_end EnemyBazookaParts__State_215AB9C
 
-	arm_func_start ovl00_215AC34
-ovl00_215AC34: // 0x0215AC34
+	arm_func_start EnemyHogunParts__Unknown_215AC34
+EnemyHogunParts__Unknown_215AC34: // 0x0215AC34
 	stmdb sp!, {r4, lr}
-	ldr r3, _0215ACB4 // =ovl00_215ACBC
+	ldr r3, _0215ACB4 // =EnemyHogunParts__Unknown_215ACBC
 	mov r4, r0
 	str r3, [r4, #0x6c8]
 	ldr r1, [r4, #0x1c]
@@ -1953,7 +1953,7 @@ ovl00_215AC34: // 0x0215AC34
 	ldr r1, [r1, #0x48]
 	sub r1, r1, #0x4d000
 	cmp r2, r1
-	ldrgt r0, _0215ACB8 // =ovl00_215AE0C
+	ldrgt r0, _0215ACB8 // =EnemyHogunParts__Unknown_215AE0C
 	strgt r0, [r4, #0x6c8]
 	bgt _0215ACA0
 	str r3, [r4, #0x6c8]
@@ -1969,12 +1969,12 @@ _0215ACA0:
 	str r0, [r4, #0x6d8]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215ACB4: .word ovl00_215ACBC
-_0215ACB8: .word ovl00_215AE0C
-	arm_func_end ovl00_215AC34
+_0215ACB4: .word EnemyHogunParts__Unknown_215ACBC
+_0215ACB8: .word EnemyHogunParts__Unknown_215AE0C
+	arm_func_end EnemyHogunParts__Unknown_215AC34
 
-	arm_func_start ovl00_215ACBC
-ovl00_215ACBC: // 0x0215ACBC
+	arm_func_start EnemyHogunParts__Unknown_215ACBC
+EnemyHogunParts__Unknown_215ACBC: // 0x0215ACBC
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -2065,10 +2065,10 @@ _0215ADF0:
 	.align 2, 0
 _0215AE04: .word 0x0000071C
 _0215AE08: .word FX_SinCosTable_
-	arm_func_end ovl00_215ACBC
+	arm_func_end EnemyHogunParts__Unknown_215ACBC
 
-	arm_func_start ovl00_215AE0C
-ovl00_215AE0C: // 0x0215AE0C
+	arm_func_start EnemyHogunParts__Unknown_215AE0C
+EnemyHogunParts__Unknown_215AE0C: // 0x0215AE0C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r0, #0x11c]
 	ldr r1, [r0, #0x20]
@@ -2117,16 +2117,16 @@ ovl00_215AE0C: // 0x0215AE0C
 	add r1, r0, #0x600
 	moveq r2, #0xc000
 	strh r2, [r1, #0xd0]
-	ldr r1, _0215AEDC // =ovl00_215ACBC
+	ldr r1, _0215AEDC // =EnemyHogunParts__Unknown_215ACBC
 	str r1, [r0, #0x6c8]
 	blx r1
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215AEDC: .word ovl00_215ACBC
-	arm_func_end ovl00_215AE0C
+_0215AEDC: .word EnemyHogunParts__Unknown_215ACBC
+	arm_func_end EnemyHogunParts__Unknown_215AE0C
 
-	arm_func_start ovl00_215AEE0
-ovl00_215AEE0: // 0x0215AEE0
+	arm_func_start EnemyHogunParts__Unknown_215AEE0
+EnemyHogunParts__Unknown_215AEE0: // 0x0215AEE0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2180,18 +2180,18 @@ ovl00_215AEE0: // 0x0215AEE0
 	ldr r0, [r4, #0x138]
 	add r1, r4, #0x44
 	bl ProcessSpatialSfx
-	ldr r0, _0215AFCC // =ovl00_215AFD0
+	ldr r0, _0215AFCC // =EnemyHogunParts__Unknown_215AFD0
 	str r0, [r4, #0x6c8]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215AFC4: .word 0x00000AAA
 _0215AFC8: .word 0x00007555
-_0215AFCC: .word ovl00_215AFD0
-	arm_func_end ovl00_215AEE0
+_0215AFCC: .word EnemyHogunParts__Unknown_215AFD0
+	arm_func_end EnemyHogunParts__Unknown_215AEE0
 
-	arm_func_start ovl00_215AFD0
-ovl00_215AFD0: // 0x0215AFD0
+	arm_func_start EnemyHogunParts__Unknown_215AFD0
+EnemyHogunParts__Unknown_215AFD0: // 0x0215AFD0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2257,7 +2257,7 @@ _0215B070:
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	ldr r0, _0215B164 // =ovl00_215B170
+	ldr r0, _0215B164 // =EnemyHogunParts__Unknown_215B170
 	str r0, [r4, #0x6c8]
 	b _0215B14C
 _0215B0D8:
@@ -2298,13 +2298,13 @@ _0215B14C:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215B160: .word 0x00000119
-_0215B164: .word ovl00_215B170
+_0215B164: .word EnemyHogunParts__Unknown_215B170
 _0215B168: .word 0x00008E38
 _0215B16C: .word 0x0000F1C7
-	arm_func_end ovl00_215AFD0
+	arm_func_end EnemyHogunParts__Unknown_215AFD0
 
-	arm_func_start ovl00_215B170
-ovl00_215B170: // 0x0215B170
+	arm_func_start EnemyHogunParts__Unknown_215B170
+EnemyHogunParts__Unknown_215B170: // 0x0215B170
 	ldr r1, [r0, #0x11c]
 	ldr r1, [r1, #0x354]
 	tst r1, #0x10000
@@ -2312,26 +2312,26 @@ ovl00_215B170: // 0x0215B170
 	orrne r1, r1, #0x400
 	strne r1, [r0, #0x18]
 	bx lr
-	arm_func_end ovl00_215B170
+	arm_func_end EnemyHogunParts__Unknown_215B170
 
-	arm_func_start ovl00_215B18C
-ovl00_215B18C: // 0x0215B18C
+	arm_func_start EnemyHogunParts__Unknown_215B18C
+EnemyHogunParts__Unknown_215B18C: // 0x0215B18C
 	ldr r1, [r0, #0x1c]
 	mov r2, #0
 	bic r1, r1, #0x80
 	str r1, [r0, #0x1c]
 	str r2, [r0, #0xa0]
 	str r2, [r0, #0x9c]
-	ldr r1, _0215B1B4 // =ovl00_215B1B8
+	ldr r1, _0215B1B4 // =EnemyHogunParts__Unknown_215B1B8
 	str r2, [r0, #0x98]
 	str r1, [r0, #0x6c8]
 	bx lr
 	.align 2, 0
-_0215B1B4: .word ovl00_215B1B8
-	arm_func_end ovl00_215B18C
+_0215B1B4: .word EnemyHogunParts__Unknown_215B1B8
+	arm_func_end EnemyHogunParts__Unknown_215B18C
 
-	arm_func_start ovl00_215B1B8
-ovl00_215B1B8: // 0x0215B1B8
+	arm_func_start EnemyHogunParts__Unknown_215B1B8
+EnemyHogunParts__Unknown_215B1B8: // 0x0215B1B8
 	ldr ip, [r0, #0x11c]
 	ldr r1, [r0, #0x20]
 	ldr r2, [ip, #0x44]
@@ -2356,10 +2356,10 @@ ovl00_215B1B8: // 0x0215B1B8
 	mov r1, r1, asr #3
 	str r1, [r0, #0x48]
 	bx lr
-	arm_func_end ovl00_215B1B8
+	arm_func_end EnemyHogunParts__Unknown_215B1B8
 
-	arm_func_start ovl00_215B218
-ovl00_215B218: // 0x0215B218
+	arm_func_start EnemyBombParts__State_215B218
+EnemyBombParts__State_215B218: // 0x0215B218
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2391,7 +2391,7 @@ ovl00_215B218: // 0x0215B218
 	ldr r0, [r4, #0x138]
 	add r1, r4, #0x44
 	bl ProcessSpatialSfx
-	ldr r0, _0215B2B0 // =ovl00_215B2B4
+	ldr r0, _0215B2B0 // =EnemyBombParts__State_215B2B4
 	str r0, [r4, #0xf4]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
@@ -2399,11 +2399,11 @@ ovl00_215B218: // 0x0215B218
 _0215B2A4: .word 0x00000117
 _0215B2A8: .word 0x0000D555
 _0215B2AC: .word 0x0000AAAA
-_0215B2B0: .word ovl00_215B2B4
-	arm_func_end ovl00_215B218
+_0215B2B0: .word EnemyBombParts__State_215B2B4
+	arm_func_end EnemyBombParts__State_215B218
 
-	arm_func_start ovl00_215B2B4
-ovl00_215B2B4: // 0x0215B2B4
+	arm_func_start EnemyBombParts__State_215B2B4
+EnemyBombParts__State_215B2B4: // 0x0215B2B4
 	stmdb sp!, {r3, lr}
 	mov r1, r0
 	add r0, r1, #0x300
@@ -2428,7 +2428,7 @@ ovl00_215B2B4: // 0x0215B2B4
 	cmp r0, #0
 	rsblt r0, r0, #0
 	str r0, [r1, #0xc8]
-	ldr r0, _0215B384 // =ovl00_215B388
+	ldr r0, _0215B384 // =EnemyBombParts__State_215B388
 	str r2, [r1, #0x2c]
 	str r0, [r1, #0xf4]
 	b _0215B374
@@ -2459,11 +2459,11 @@ _0215B374:
 	bl ProcessSpatialSfx
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215B384: .word ovl00_215B388
-	arm_func_end ovl00_215B2B4
+_0215B384: .word EnemyBombParts__State_215B388
+	arm_func_end EnemyBombParts__State_215B2B4
 
-	arm_func_start ovl00_215B388
-ovl00_215B388: // 0x0215B388
+	arm_func_start EnemyBombParts__State_215B388
+EnemyBombParts__State_215B388: // 0x0215B388
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -2507,10 +2507,10 @@ ovl00_215B388: // 0x0215B388
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl00_215B388
+	arm_func_end EnemyBombParts__State_215B388
 
-	arm_func_start ovl00_215B434
-ovl00_215B434: // 0x0215B434
+	arm_func_start EnemySkeletonParts__State_215B434
+EnemySkeletonParts__State_215B434: // 0x0215B434
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2541,18 +2541,18 @@ ovl00_215B434: // 0x0215B434
 	ldr r0, [r4, #0x138]
 	add r1, r4, #0x44
 	bl ProcessSpatialSfx
-	ldr r0, _0215B4C4 // =ovl00__215B4C8
+	ldr r0, _0215B4C4 // =EnemySkeletonParts__State_215B4C8
 	str r0, [r4, #0xf4]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215B4BC: .word 0x0000CE38
 _0215B4C0: .word 0x0000B1C7
-_0215B4C4: .word ovl00__215B4C8
-	arm_func_end ovl00_215B434
+_0215B4C4: .word EnemySkeletonParts__State_215B4C8
+	arm_func_end EnemySkeletonParts__State_215B434
 
-	arm_func_start ovl00__215B4C8
-ovl00__215B4C8: // 0x0215B4C8
+	arm_func_start EnemySkeletonParts__State_215B4C8
+EnemySkeletonParts__State_215B4C8: // 0x0215B4C8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x138]
@@ -2564,10 +2564,10 @@ ovl00__215B4C8: // 0x0215B4C8
 	orrne r0, r0, #4
 	strne r0, [r4, #0x18]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00__215B4C8
+	arm_func_end EnemySkeletonParts__State_215B4C8
 
-	arm_func_start ovl00_215B4F4
-ovl00_215B4F4: // 0x0215B4F4
+	arm_func_start EnemyHoverBomb__State_215B4F4
+EnemyHoverBomb__State_215B4F4: // 0x0215B4F4
 	stmdb sp!, {r4, lr}
 	mov r1, #0x150
 	mov r2, #0xf000
@@ -2576,16 +2576,16 @@ ovl00_215B4F4: // 0x0215B4F4
 	mov r0, #0x4000
 	strh r0, [r4, #0x34]
 	mov r1, #0x3000
-	ldr r0, _0215B524 // =ovl00_215B528
+	ldr r0, _0215B524 // =EnemyHoverBomb__State_215B528
 	str r1, [r4, #0xc8]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215B524: .word ovl00_215B528
-	arm_func_end ovl00_215B4F4
+_0215B524: .word EnemyHoverBomb__State_215B528
+	arm_func_end EnemyHoverBomb__State_215B4F4
 
-	arm_func_start ovl00_215B528
-ovl00_215B528: // 0x0215B528
+	arm_func_start EnemyHoverBomb__State_215B528
+EnemyHoverBomb__State_215B528: // 0x0215B528
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -2624,10 +2624,10 @@ ovl00_215B528: // 0x0215B528
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl00_215B528
+	arm_func_end EnemyHoverBomb__State_215B528
 
-	arm_func_start ovl00_215B5C0
-ovl00_215B5C0: // 0x0215B5C0
+	arm_func_start EnemyHoverGun__State_215B5C0
+EnemyHoverGun__State_215B5C0: // 0x0215B5C0
 	mov r1, #0x3000
 	str r1, [r0, #0xc8]
 	ldr r1, [r0, #0x20]
@@ -2635,15 +2635,15 @@ ovl00_215B5C0: // 0x0215B5C0
 	movne r1, #0x2000
 	moveq r1, #0x6000
 	strh r1, [r0, #0x34]
-	ldr r1, _0215B5E8 // =ovl00_215B5EC
+	ldr r1, _0215B5E8 // =EnemyHoverGun__State_215B5EC
 	str r1, [r0, #0xf4]
 	bx lr
 	.align 2, 0
-_0215B5E8: .word ovl00_215B5EC
-	arm_func_end ovl00_215B5C0
+_0215B5E8: .word EnemyHoverGun__State_215B5EC
+	arm_func_end EnemyHoverGun__State_215B5C0
 
-	arm_func_start ovl00_215B5EC
-ovl00_215B5EC: // 0x0215B5EC
+	arm_func_start EnemyHoverGun__State_215B5EC
+EnemyHoverGun__State_215B5EC: // 0x0215B5EC
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -2682,10 +2682,10 @@ ovl00_215B5EC: // 0x0215B5EC
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl00_215B5EC
+	arm_func_end EnemyHoverGun__State_215B5EC
 
-	arm_func_start ovl00_215B684
-ovl00_215B684: // 0x0215B684
+	arm_func_start EnemyBazookaParts__OnHit
+EnemyBazookaParts__OnHit: // 0x0215B684
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	ldr r4, [r0, #0x1c]
@@ -2721,10 +2721,10 @@ ovl00_215B684: // 0x0215B684
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl00_215B684
+	arm_func_end EnemyBazookaParts__OnHit
 
-	arm_func_start ovl00_215B710
-ovl00_215B710: // 0x0215B710
+	arm_func_start EnemyBombParts__OnHit
+EnemyBombParts__OnHit: // 0x0215B710
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	ldr r4, [r0, #0x1c]
@@ -2760,19 +2760,19 @@ ovl00_215B710: // 0x0215B710
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl00_215B710
+	arm_func_end EnemyBombParts__OnHit
 
-	arm_func_start ovl00_215B79C
-ovl00_215B79C: // 0x0215B79C
+	arm_func_start EnemySkeletonParts__OnHit
+EnemySkeletonParts__OnHit: // 0x0215B79C
 	ldr r1, [r0, #0x1c]
 	ldr r0, [r1, #0x18]
 	orr r0, r0, #4
 	str r0, [r1, #0x18]
 	bx lr
-	arm_func_end ovl00_215B79C
+	arm_func_end EnemySkeletonParts__OnHit
 
-	arm_func_start ovl00_215B7B0
-ovl00_215B7B0: // 0x0215B7B0
+	arm_func_start EnemyHoverBomb__OnHit
+EnemyHoverBomb__OnHit: // 0x0215B7B0
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	ldr r4, [r0, #0x1c]
@@ -2808,10 +2808,10 @@ ovl00_215B7B0: // 0x0215B7B0
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl00_215B7B0
+	arm_func_end EnemyHoverBomb__OnHit
 
-	arm_func_start ovl00_215B83C
-ovl00_215B83C: // 0x0215B83C
+	arm_func_start EnemyParts__OnDefend_215B83C
+EnemyParts__OnDefend_215B83C: // 0x0215B83C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r5, [r1, #0x1c]
 	ldr r4, [r0, #0x1c]
@@ -2847,10 +2847,10 @@ ovl00_215B83C: // 0x0215B83C
 _0215B8B8: .word 0x0218828C
 _0215B8BC: .word 0x02188290
 _0215B8C0: .word 0x021881F8
-	arm_func_end ovl00_215B83C
+	arm_func_end EnemyParts__OnDefend_215B83C
 
-	arm_func_start ovl00_215B8C4
-ovl00_215B8C4: // 0x0215B8C4
+	arm_func_start EnemyParts__OnDefend_215B8C4
+EnemyParts__OnDefend_215B8C4: // 0x0215B8C4
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r5, [r1, #0x1c]
 	ldr r4, [r0, #0x1c]
@@ -2913,7 +2913,7 @@ _0215B9A0: .word 0x00006AAA
 _0215B9A4: .word 0x0218828C
 _0215B9A8: .word 0x02188290
 _0215B9AC: .word 0x021881F8
-	arm_func_end ovl00_215B8C4
+	arm_func_end EnemyParts__OnDefend_215B8C4
 
 	.rodata
 

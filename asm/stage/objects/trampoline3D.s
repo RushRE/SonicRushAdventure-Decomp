@@ -16,7 +16,7 @@ Trampoline3D__Create: // 0x02179028
 	ldrb r0, [r7, #9]
 	mov r6, r1
 	mov r5, r2
-	bl ovl00_2179FD0
+	bl Trampoline3D__Func_2179FD0
 	cmp r0, #0
 	addeq sp, sp, #0x4c
 	moveq r0, #0
@@ -286,7 +286,7 @@ _02179414:
 	sub r1, r1, r2
 	str r1, [r4, #0x598]
 	str r3, [r4, #0x59c]
-	bl ovl00_217991C
+	bl Trampoline3D__Func_217991C
 	ldrh r2, [r7, #4]
 	ldr r3, [r4, #0x5b8]
 	ldr r0, [r4, #0x44]
@@ -342,7 +342,7 @@ _021794DC:
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _021795B4 // =ovl00_2179D5C
+	ldr r0, _021795B4 // =Trampoline3D__OnDefend
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
 	orr r0, r0, #0x80
@@ -355,8 +355,8 @@ _021794DC:
 	cmp r1, r0, asr #16
 	mov r0, r0, asr #0x10
 	strlth r0, [r4, #0xc]
-	ldr r0, _021795B8 // =ovl00_2179A80
-	ldr r1, _021795BC // =ovl00_2179664
+	ldr r0, _021795B8 // =Trampoline3D__Draw
+	ldr r1, _021795BC // =Trampoline3D__State_2179664
 	str r0, [r4, #0xfc]
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -373,9 +373,9 @@ _021795A4: .word gameArchiveStage
 _021795A8: .word aActAcGmkTrampo
 _021795AC: .word 0x0001FFFF
 _021795B0: .word 0x0000FFFE
-_021795B4: .word ovl00_2179D5C
-_021795B8: .word ovl00_2179A80
-_021795BC: .word ovl00_2179664
+_021795B4: .word Trampoline3D__OnDefend
+_021795B8: .word Trampoline3D__Draw
+_021795BC: .word Trampoline3D__State_2179664
 	arm_func_end Trampoline3D__Create
 
 	arm_func_start Trampoline3D__Destructor
@@ -386,7 +386,7 @@ Trampoline3D__Destructor: // 0x021795C0
 	mov r5, r0
 	ldr r0, [r5, #0x340]
 	ldrb r0, [r0, #9]
-	bl ovl00_2179FF8
+	bl Trampoline3D__Func_2179FF8
 	ldr r0, [r5, #0x47c]
 	bl _FreeHEAP_SYSTEM
 	mov r0, #0x61
@@ -425,8 +425,8 @@ _0217964C:
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end Trampoline3D__Destructor
 
-	arm_func_start ovl00_2179664
-ovl00_2179664: // 0x02179664
+	arm_func_start Trampoline3D__State_2179664
+Trampoline3D__State_2179664: // 0x02179664
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0xc
 	mov r3, r0
@@ -601,17 +601,17 @@ _021798F8:
 	cmp r0, #0
 	mov r0, r3
 	beq _02179910
-	bl ovl00_2179998
+	bl Trampoline3D__Func_2179998
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
 _02179910:
-	bl ovl00_217991C
+	bl Trampoline3D__Func_217991C
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
-	arm_func_end ovl00_2179664
+	arm_func_end Trampoline3D__State_2179664
 
-	arm_func_start ovl00_217991C
-ovl00_217991C: // 0x0217991C
+	arm_func_start Trampoline3D__Func_217991C
+Trampoline3D__Func_217991C: // 0x0217991C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x5c4]
@@ -644,10 +644,10 @@ _02179954:
 	add r3, r3, #0x18
 	blt _02179954
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_217991C
+	arm_func_end Trampoline3D__Func_217991C
 
-	arm_func_start ovl00_2179998
-ovl00_2179998: // 0x02179998
+	arm_func_start Trampoline3D__Func_2179998
+Trampoline3D__Func_2179998: // 0x02179998
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	ldr r2, [r0, #0x5c8]
 	ldr r1, [r0, #0x5d4]
@@ -707,10 +707,10 @@ _021799E0:
 	cmp r5, #5
 	blt _021799E0
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	arm_func_end ovl00_2179998
+	arm_func_end Trampoline3D__Func_2179998
 
-	arm_func_start ovl00_2179A80
-ovl00_2179A80: // 0x02179A80
+	arm_func_start Trampoline3D__Draw
+Trampoline3D__Draw: // 0x02179A80
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0xac
 	bl GetCurrentTaskWork_
@@ -899,10 +899,10 @@ _02179D4C: .word 0x021472FC
 _02179D50: .word NNS_G3dGlb
 _02179D54: .word 0x00007FFF
 _02179D58: .word _021898E0
-	arm_func_end ovl00_2179A80
+	arm_func_end Trampoline3D__Draw
 
-	arm_func_start ovl00_2179D5C
-ovl00_2179D5C: // 0x02179D5C
+	arm_func_start Trampoline3D__OnDefend
+Trampoline3D__OnDefend: // 0x02179D5C
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x24
 	ldr r5, [r1, #0x1c]
@@ -1067,10 +1067,10 @@ _02179FC4:
 	bl ObjRect__FuncNoHit
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	arm_func_end ovl00_2179D5C
+	arm_func_end Trampoline3D__OnDefend
 
-	arm_func_start ovl00_2179FD0
-ovl00_2179FD0: // 0x02179FD0
+	arm_func_start Trampoline3D__Func_2179FD0
+Trampoline3D__Func_2179FD0: // 0x02179FD0
 	ldr r1, _02179FF4 // =_0218A390
 	mov r3, #1
 	ldr r2, [r1]
@@ -1082,10 +1082,10 @@ ovl00_2179FD0: // 0x02179FD0
 	bx lr
 	.align 2, 0
 _02179FF4: .word _0218A390
-	arm_func_end ovl00_2179FD0
+	arm_func_end Trampoline3D__Func_2179FD0
 
-	arm_func_start ovl00_2179FF8
-ovl00_2179FF8: // 0x02179FF8
+	arm_func_start Trampoline3D__Func_2179FF8
+Trampoline3D__Func_2179FF8: // 0x02179FF8
 	ldr r1, _0217A014 // =_0218A390
 	mov r2, #1
 	mvn r0, r2, lsl r0
@@ -1095,7 +1095,7 @@ ovl00_2179FF8: // 0x02179FF8
 	bx lr
 	.align 2, 0
 _0217A014: .word _0218A390
-	arm_func_end ovl00_2179FF8
+	arm_func_end Trampoline3D__Func_2179FF8
 
 	.rodata
 

@@ -63,7 +63,7 @@ _021561E0:
 	ldr r1, [r4, #0x1c]
 	orr r1, r1, #0x100
 	str r1, [r4, #0x1c]
-	bl ovl00_215638C
+	bl EnemyProtJet__InitFlyRange
 	ldrh r0, [r7, #4]
 	ands r0, r0, #3
 	beq _021562B0
@@ -71,7 +71,7 @@ _021561E0:
 	bne _021562F0
 	add r0, r4, #0x300
 	mov r2, #0
-	ldr r1, _02156378 // =ovl00_21563B4
+	ldr r1, _02156378 // =EnemyProtJet__OnInit_21563B4
 	strh r2, [r0, #0x78]
 	str r1, [r4, #0x364]
 	strh r2, [r0, #0x7c]
@@ -82,7 +82,7 @@ _021561E0:
 _021562B0:
 	add r0, r4, #0x300
 	mov r2, #1
-	ldr r1, _0215637C // =ovl00_21563E4
+	ldr r1, _0215637C // =EnemyProtJet__OnInit_21563E4
 	strh r2, [r0, #0x78]
 	str r1, [r4, #0x364]
 	strh r2, [r0, #0x7c]
@@ -132,15 +132,15 @@ _021562F0:
 _0215636C: .word gameState
 _02156370: .word StageTask_Main
 _02156374: .word GameObject__Destructor
-_02156378: .word ovl00_21563B4
-_0215637C: .word ovl00_21563E4
+_02156378: .word EnemyProtJet__OnInit_21563B4
+_0215637C: .word EnemyProtJet__OnInit_21563E4
 _02156380: .word gameArchiveStage
 _02156384: .word 0x0000FFFF
 _02156388: .word _02188BE8
 	arm_func_end EnemyProtJet__Create
 
-	arm_func_start ovl00_215638C
-ovl00_215638C: // 0x0215638C
+	arm_func_start EnemyProtJet__InitFlyRange
+EnemyProtJet__InitFlyRange: // 0x0215638C
 	ldr r1, [r0, #0x340]
 	ldr r2, [r0, #0x48]
 	ldrsb r1, [r1, #7]
@@ -151,27 +151,27 @@ ovl00_215638C: // 0x0215638C
 	add r1, r2, r1, lsl #12
 	str r1, [r0, #0x374]
 	bx lr
-	arm_func_end ovl00_215638C
+	arm_func_end EnemyProtJet__InitFlyRange
 
-	arm_func_start ovl00_21563B4
-ovl00_21563B4: // 0x021563B4
+	arm_func_start EnemyProtJet__OnInit_21563B4
+EnemyProtJet__OnInit_21563B4: // 0x021563B4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x300
 	ldrh r1, [r1, #0x7c]
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _021563E0 // =ovl00_2156428
+	ldr r0, _021563E0 // =EnemyProtJet__State_2156428
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021563E0: .word ovl00_2156428
-	arm_func_end ovl00_21563B4
+_021563E0: .word EnemyProtJet__State_2156428
+	arm_func_end EnemyProtJet__OnInit_21563B4
 
-	arm_func_start ovl00_21563E4
-ovl00_21563E4: // 0x021563E4
+	arm_func_start EnemyProtJet__OnInit_21563E4
+EnemyProtJet__OnInit_21563E4: // 0x021563E4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x300
@@ -182,18 +182,18 @@ ovl00_21563E4: // 0x021563E4
 	orr r0, r0, #4
 	str r0, [r4, #0x20]
 	ldr r2, [r4, #0x384]
-	ldr r0, _02156424 // =ovl00_2156468
+	ldr r0, _02156424 // =EnemyProtJet__State_2156468
 	rsb r2, r2, #0
 	str r2, [r4, #0x9c]
 	str r1, [r4, #0x28]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02156424: .word ovl00_2156468
-	arm_func_end ovl00_21563E4
+_02156424: .word EnemyProtJet__State_2156468
+	arm_func_end EnemyProtJet__OnInit_21563E4
 
-	arm_func_start ovl00_2156428
-ovl00_2156428: // 0x02156428
+	arm_func_start EnemyProtJet__State_2156428
+EnemyProtJet__State_2156428: // 0x02156428
 	add r1, r0, #0x300
 	ldrh r3, [r1, #0x7e]
 	ldr r2, _02156464 // =FX_SinCosTable_
@@ -211,10 +211,10 @@ ovl00_2156428: // 0x02156428
 	bx lr
 	.align 2, 0
 _02156464: .word FX_SinCosTable_
-	arm_func_end ovl00_2156428
+	arm_func_end EnemyProtJet__State_2156428
 
-	arm_func_start ovl00_2156468
-ovl00_2156468: // 0x02156468
+	arm_func_start EnemyProtJet__State_2156468
+EnemyProtJet__State_2156468: // 0x02156468
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -311,7 +311,7 @@ _021565BC:
 	bl ProcessSpatialSfx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_2156468
+	arm_func_end EnemyProtJet__State_2156468
 
 	.data
 	

@@ -95,7 +95,7 @@ FlipBoard__Create: // 0x0216977C
 	mov r0, r5
 	mov r1, #2
 	bl StageTask__SetOAMPriority
-	ldr r1, _02169984 // =ovl00_21699FC
+	ldr r1, _02169984 // =FlipBoard__Draw
 	add r0, r4, #0x218
 	str r1, [r4, #0xfc]
 	mov r1, #0
@@ -105,7 +105,7 @@ FlipBoard__Create: // 0x0216977C
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216998C // =ovl00_2169A58
+	ldr r0, _0216998C // =FlipBoard__OnDefend
 	mov r1, #0x18
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
@@ -123,7 +123,7 @@ FlipBoard__Create: // 0x0216977C
 	sub r1, r1, #0x54
 	add r0, r4, #0x200
 	strh r1, [r0, #0xf0]
-	ldr r1, _02169994 // =ovl00_21699C4
+	ldr r1, _02169994 // =FlipBoard__State_21699C4
 	strh r3, [r0, #0xf2]
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -136,11 +136,11 @@ _02169974: .word FlipBoard__Destructor
 _02169978: .word gameArchiveStage
 _0216997C: .word 0x0000FFFF
 _02169980: .word aActAcGmkFlipBo
-_02169984: .word ovl00_21699FC
+_02169984: .word FlipBoard__Draw
 _02169988: .word 0x0000FFFE
-_0216998C: .word ovl00_2169A58
+_0216998C: .word FlipBoard__OnDefend
 _02169990: .word StageTask__DefaultDiffData
-_02169994: .word ovl00_21699C4
+_02169994: .word FlipBoard__State_21699C4
 	arm_func_end FlipBoard__Create
 
 	arm_func_start FlipBoard__Destructor
@@ -158,8 +158,8 @@ FlipBoard__Destructor: // 0x02169998
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end FlipBoard__Destructor
 
-	arm_func_start ovl00_21699C4
-ovl00_21699C4: // 0x021699C4
+	arm_func_start FlipBoard__State_21699C4
+FlipBoard__State_21699C4: // 0x021699C4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x20]
@@ -174,10 +174,10 @@ ovl00_21699C4: // 0x021699C4
 	orr r0, r0, #0x10
 	str r0, [r4, #0x20]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_21699C4
+	arm_func_end FlipBoard__State_21699C4
 
-	arm_func_start ovl00_21699FC
-ovl00_21699FC: // 0x021699FC
+	arm_func_start FlipBoard__Draw
+FlipBoard__Draw: // 0x021699FC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x10
 	bl GetCurrentTaskWork_
@@ -201,10 +201,10 @@ ovl00_21699FC: // 0x021699FC
 	strne r0, [r4, #0xfc]
 	add sp, sp, #0x10
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_21699FC
+	arm_func_end FlipBoard__Draw
 
-	arm_func_start ovl00_2169A58
-ovl00_2169A58: // 0x02169A58
+	arm_func_start FlipBoard__OnDefend
+FlipBoard__OnDefend: // 0x02169A58
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -247,7 +247,7 @@ ovl00_2169A58: // 0x02169A58
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_2169A58
+	arm_func_end FlipBoard__OnDefend
 
 	.data
 	

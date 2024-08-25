@@ -85,7 +85,7 @@ PirateShip__Create: // 0x0217A018
 	ldr r1, _0217A1B4 // =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _0217A1B8 // =ovl00_217A7E0
+	ldr r1, _0217A1B8 // =PirateShip__OnDefend_217A7E0
 	mov r0, #0x64
 	str r1, [r4, #0x23c]
 	ldr r1, [r4, #0x230]
@@ -110,7 +110,7 @@ _0217A1A8: .word GameObject__Destructor
 _0217A1AC: .word gameArchiveStage
 _0217A1B0: .word aActAcGmkPirate_0
 _0217A1B4: .word 0x0000FFFE
-_0217A1B8: .word ovl00_217A7E0
+_0217A1B8: .word PirateShip__OnDefend_217A7E0
 	arm_func_end PirateShip__Create
 
 	arm_func_start PirateShipCannonBall__Create
@@ -187,7 +187,7 @@ PirateShipCannonBall__Create: // 0x0217A1BC
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0217A350 // =ovl00_217A9C8
+	ldr r0, _0217A350 // =PirateShipCannonBall__OnHit
 	mov r1, #0xd
 	str r0, [r4, #0x278]
 	ldr r2, [r4, #0x270]
@@ -207,7 +207,7 @@ PirateShipCannonBall__Create: // 0x0217A1BC
 	mov r0, #0x200
 	str r0, [r4, #0x38]
 	str r0, [r4, #0x3c]
-	ldr r1, _0217A354 // =ovl00_217A90C
+	ldr r1, _0217A354 // =PirateShipCannonBall__State_217A90C
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
@@ -217,17 +217,17 @@ _0217A340: .word StageTask_Main
 _0217A344: .word GameObject__Destructor
 _0217A348: .word gameArchiveStage
 _0217A34C: .word aActAcGmkPirate_0
-_0217A350: .word ovl00_217A9C8
-_0217A354: .word ovl00_217A90C
+_0217A350: .word PirateShipCannonBall__OnHit
+_0217A354: .word PirateShipCannonBall__State_217A90C
 	arm_func_end PirateShipCannonBall__Create
 
-	arm_func_start ovl00_217A358
-ovl00_217A358: // 0x0217A358
+	arm_func_start PirateShip__State_217A358
+PirateShip__State_217A358: // 0x0217A358
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r4, [r6, #0x35c]
 	mov r0, r4
-	bl ovl00_217A8C0
+	bl PirateShip__GetPlayerVelocity
 	movs r5, r0
 	ldr r1, [r4, #0x44]
 	ldr r0, [r6, #0x368]
@@ -239,7 +239,7 @@ ovl00_217A358: // 0x0217A358
 	ble _0217A3A8
 _0217A390:
 	ldr r1, [r6, #0x370]
-	ldr r0, _0217A434 // =ovl00_217A714
+	ldr r0, _0217A434 // =PirateShip__State_217A714
 	add r1, r1, r5
 	str r1, [r6, #0x370]
 	str r0, [r6, #0xf4]
@@ -256,7 +256,7 @@ _0217A3A8:
 	cmp r1, r0
 	blt _0217A408
 	mov r0, r4
-	bl ovl00_217A8C0
+	bl PirateShip__GetPlayerVelocity
 	ldr r2, [r6, #0x370]
 	mov r1, #0
 	add r0, r2, r0
@@ -264,7 +264,7 @@ _0217A3A8:
 	ldr r0, _0217A43C // =playerGameStatus
 	str r1, [r6, #0x2c]
 	ldr r1, [r0, #0xc]
-	ldr r0, _0217A440 // =ovl00_217A444
+	ldr r0, _0217A440 // =PirateShip__State_217A444
 	and r1, r1, #0xf
 	str r1, [r6, #0x28]
 	str r0, [r6, #0xf4]
@@ -282,20 +282,20 @@ _0217A408:
 	str r0, [r6, #0x98]
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0217A434: .word ovl00_217A714
+_0217A434: .word PirateShip__State_217A714
 _0217A438: .word 0x02133ACC
 _0217A43C: .word playerGameStatus
-_0217A440: .word ovl00_217A444
-	arm_func_end ovl00_217A358
+_0217A440: .word PirateShip__State_217A444
+	arm_func_end PirateShip__State_217A358
 
-	arm_func_start ovl00_217A444
-ovl00_217A444: // 0x0217A444
+	arm_func_start PirateShip__State_217A444
+PirateShip__State_217A444: // 0x0217A444
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #0x14
 	mov sb, r0
 	ldr r4, [sb, #0x35c]
 	mov r0, r4
-	bl ovl00_217A8C0
+	bl PirateShip__GetPlayerVelocity
 	ldr r2, [r4, #0x44]
 	ldr r1, [sb, #0x368]
 	mov r5, r0
@@ -306,7 +306,7 @@ ovl00_217A444: // 0x0217A444
 	ble _0217A498
 _0217A47C:
 	ldr r1, [sb, #0x370]
-	ldr r0, _0217A6F8 // =ovl00_217A714
+	ldr r0, _0217A6F8 // =PirateShip__State_217A714
 	add r1, r1, r5
 	str r1, [sb, #0x370]
 	add sp, sp, #0x14
@@ -475,17 +475,17 @@ _0217A6A0:
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
 	.align 2, 0
-_0217A6F8: .word ovl00_217A714
+_0217A6F8: .word PirateShip__State_217A714
 _0217A6FC: .word 0x02133ACC
 _0217A700: .word _02189904
 _0217A704: .word 0x02189906
 _0217A708: .word 0x00000147
 _0217A70C: .word 0x02189944
 _0217A710: .word 0x02189924
-	arm_func_end ovl00_217A444
+	arm_func_end PirateShip__State_217A444
 
-	arm_func_start ovl00_217A714
-ovl00_217A714: // 0x0217A714
+	arm_func_start PirateShip__State_217A714
+PirateShip__State_217A714: // 0x0217A714
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r5, [r4, #0x35c]
@@ -496,9 +496,9 @@ ovl00_217A714: // 0x0217A714
 	ldr r1, [r4, #0x36c]
 	cmp r2, r1
 	bgt _0217A74C
-	ldr r1, _0217A7D8 // =ovl00_217A358
+	ldr r1, _0217A7D8 // =PirateShip__State_217A358
 	str r1, [r4, #0xf4]
-	bl ovl00_217A358
+	bl PirateShip__State_217A358
 	ldmia sp!, {r3, r4, r5, pc}
 _0217A74C:
 	ldr r0, [r4, #0x370]
@@ -537,12 +537,12 @@ _0217A74C:
 	str r1, [r4, #0xf4]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0217A7D8: .word ovl00_217A358
+_0217A7D8: .word PirateShip__State_217A358
 _0217A7DC: .word 0x02133ACC
-	arm_func_end ovl00_217A714
+	arm_func_end PirateShip__State_217A714
 
-	arm_func_start ovl00_217A7E0
-ovl00_217A7E0: // 0x0217A7E0
+	arm_func_start PirateShip__OnDefend_217A7E0
+PirateShip__OnDefend_217A7E0: // 0x0217A7E0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	mov r7, r0
@@ -555,7 +555,7 @@ ovl00_217A7E0: // 0x0217A7E0
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r0, r5
-	bl ovl00_217A8C0
+	bl PirateShip__GetPlayerVelocity
 	cmp r0, #0
 	bge _0217A82C
 	mov r0, r7
@@ -588,7 +588,7 @@ _0217A82C:
 	str r3, [r4, #0x98]
 	str r1, [r4, #0x370]
 	ldr r3, [r4, #0x44]
-	ldr r1, _0217A8BC // =ovl00_217A358
+	ldr r1, _0217A8BC // =PirateShip__State_217A358
 	str r3, [r4, #0x364]
 	ldrb r3, [r5, #0x5d3]
 	smulbb r0, r3, r0
@@ -600,11 +600,11 @@ _0217A82C:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0217A8B8: .word 0x02133ACC
-_0217A8BC: .word ovl00_217A358
-	arm_func_end ovl00_217A7E0
+_0217A8BC: .word PirateShip__State_217A358
+	arm_func_end PirateShip__OnDefend_217A7E0
 
-	arm_func_start ovl00_217A8C0
-ovl00_217A8C0: // 0x0217A8C0
+	arm_func_start PirateShip__GetPlayerVelocity
+PirateShip__GetPlayerVelocity: // 0x0217A8C0
 	ldr r1, [r0, #0x1c]
 	tst r1, #0x8000
 	ldrne r0, [r0, #0x98]
@@ -625,10 +625,10 @@ ovl00_217A8C0: // 0x0217A8C0
 	bx lr
 	.align 2, 0
 _0217A908: .word FX_SinCosTable_
-	arm_func_end ovl00_217A8C0
+	arm_func_end PirateShip__GetPlayerVelocity
 
-	arm_func_start ovl00_217A90C
-ovl00_217A90C: // 0x0217A90C
+	arm_func_start PirateShipCannonBall__State_217A90C
+PirateShipCannonBall__State_217A90C: // 0x0217A90C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -676,10 +676,10 @@ ovl00_217A90C: // 0x0217A90C
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_217A90C
+	arm_func_end PirateShipCannonBall__State_217A90C
 
-	arm_func_start ovl00_217A9C8
-ovl00_217A9C8: // 0x0217A9C8
+	arm_func_start PirateShipCannonBall__OnHit
+PirateShipCannonBall__OnHit: // 0x0217A9C8
 	stmdb sp!, {r4, lr}
 	ldr r4, [r0, #0x1c]
 	ldr r0, [r1, #0x1c]
@@ -698,7 +698,7 @@ ovl00_217A9C8: // 0x0217A9C8
 	orr r0, r0, #8
 	str r0, [r4, #0x18]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_217A9C8
+	arm_func_end PirateShipCannonBall__OnHit
 
 	.data
 	

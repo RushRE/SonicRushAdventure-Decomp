@@ -93,7 +93,7 @@ Dolphin__Create: // 0x021817E0
 	ldr r1, _0218198C // =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02181990 // =ovl00_2181F9C
+	ldr r0, _02181990 // =Dolphin__OnDefend
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
 	orr r0, r0, #0x400
@@ -114,7 +114,7 @@ _02181980: .word aModGmkDolphinN
 _02181984: .word aModGmkDolphinN_0
 _02181988: .word 0x000034CC
 _0218198C: .word 0x0000FFFE
-_02181990: .word ovl00_2181F9C
+_02181990: .word Dolphin__OnDefend
 	arm_func_end Dolphin__Create
 
 	arm_func_start DolphinHoop__Create
@@ -267,7 +267,7 @@ _02181B94:
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02181C9C // =ovl00_2182184
+	ldr r1, _02181C9C // =DolphinHoop__OnDefend
 	add r0, r4, #0x400
 	str r1, [r4, #0x23c]
 	ldr r1, [r4, #0x230]
@@ -296,12 +296,12 @@ _02181C34:
 	str r0, [r4, #0x4c]
 _02181C40:
 	ldrh r0, [r7, #4]
-	ldr r1, _02181CA0 // =ovl00_218206C
+	ldr r1, _02181CA0 // =DolphinHoop__State_218206C
 	tst r0, #1
 	ldrne r0, [r4, #0x20]
 	orrne r0, r0, #1
 	strne r0, [r4, #0x20]
-	ldr r0, _02181CA4 // =ovl00_2182230
+	ldr r0, _02181CA4 // =DolphinHoop__Draw
 	str r0, [r4, #0xfc]
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -319,13 +319,13 @@ _02181C8C: .word _02189BE0
 _02181C90: .word 0x02189BF2
 _02181C94: .word 0x02189BE1
 _02181C98: .word 0x0000FFFE
-_02181C9C: .word ovl00_2182184
-_02181CA0: .word ovl00_218206C
-_02181CA4: .word ovl00_2182230
+_02181C9C: .word DolphinHoop__OnDefend
+_02181CA0: .word DolphinHoop__State_218206C
+_02181CA4: .word DolphinHoop__Draw
 	arm_func_end DolphinHoop__Create
 
-	arm_func_start ovl00_2181CA8
-ovl00_2181CA8: // 0x02181CA8
+	arm_func_start Dolphin__Func_2181CA8
+Dolphin__Func_2181CA8: // 0x02181CA8
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -345,7 +345,7 @@ ovl00_2181CA8: // 0x02181CA8
 	mov r3, #1
 	bl AnimatorMDL__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02181D18 // =ovl00_2181D1C
+	ldr r0, _02181D18 // =Dolphin__State_2181D1C
 	bic r1, r1, #0x204
 	str r1, [r4, #0x20]
 	ldr r1, [r4, #0x354]
@@ -355,11 +355,11 @@ ovl00_2181CA8: // 0x02181CA8
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_02181D18: .word ovl00_2181D1C
-	arm_func_end ovl00_2181CA8
+_02181D18: .word Dolphin__State_2181D1C
+	arm_func_end Dolphin__Func_2181CA8
 
-	arm_func_start ovl00_2181D1C
-ovl00_2181D1C: // 0x02181D1C
+	arm_func_start Dolphin__State_2181D1C
+Dolphin__State_2181D1C: // 0x02181D1C
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x58
 	mov r5, r0
@@ -374,12 +374,12 @@ ovl00_2181D1C: // 0x02181D1C
 	beq _02181D70
 _02181D4C:
 	ldr r0, [r5, #0x1c]
-	ldr r1, _02181EF0 // =ovl00_2181EF8
+	ldr r1, _02181EF0 // =Dolphin__State_2181EF8
 	orr r0, r0, #0x100
 	str r0, [r5, #0x1c]
 	mov r0, r5
 	str r1, [r5, #0xf4]
-	bl ovl00_2181EF8
+	bl Dolphin__State_2181EF8
 	add sp, sp, #0x58
 	ldmia sp!, {r3, r4, r5, pc}
 _02181D70:
@@ -481,12 +481,12 @@ _02181DB8:
 	add sp, sp, #0x58
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02181EF0: .word ovl00_2181EF8
+_02181EF0: .word Dolphin__State_2181EF8
 _02181EF4: .word FX_SinCosTable_
-	arm_func_end ovl00_2181D1C
+	arm_func_end Dolphin__State_2181D1C
 
-	arm_func_start ovl00_2181EF8
-ovl00_2181EF8: // 0x02181EF8
+	arm_func_start Dolphin__State_2181EF8
+Dolphin__State_2181EF8: // 0x02181EF8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x20]
@@ -531,10 +531,10 @@ _02181F80:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02181F98: .word mapCamera
-	arm_func_end ovl00_2181EF8
+	arm_func_end Dolphin__State_2181EF8
 
-	arm_func_start ovl00_2181F9C
-ovl00_2181F9C: // 0x02181F9C
+	arm_func_start Dolphin__OnDefend
+Dolphin__OnDefend: // 0x02181F9C
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -555,7 +555,7 @@ ovl00_2181F9C: // 0x02181F9C
 	bl Player__Gimmick_2023944
 	mov r0, r4
 	str r5, [r4, #0x35c]
-	bl ovl00_2181CA8
+	bl Dolphin__Func_2181CA8
 	ldr ip, _02182014 // =0x00000121
 	mov r0, #0
 	rsb r1, ip, #0x120
@@ -567,7 +567,7 @@ ovl00_2181F9C: // 0x02181F9C
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02182014: .word 0x00000121
-	arm_func_end ovl00_2181F9C
+	arm_func_end Dolphin__OnDefend
 
 	arm_func_start DolphinHoop__Destructor
 DolphinHoop__Destructor: // 0x02182018
@@ -596,8 +596,8 @@ _02182064: .word 0x02189BF2
 _02182068: .word 0x0000FFFF
 	arm_func_end DolphinHoop__Destructor
 
-	arm_func_start ovl00_218206C
-ovl00_218206C: // 0x0218206C
+	arm_func_start DolphinHoop__State_218206C
+DolphinHoop__State_218206C: // 0x0218206C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r2, [r4, #0x340]
@@ -679,10 +679,10 @@ _02182174:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02182180: .word gPlayer
-	arm_func_end ovl00_218206C
+	arm_func_end DolphinHoop__State_218206C
 
-	arm_func_start ovl00_2182184
-ovl00_2182184: // 0x02182184
+	arm_func_start DolphinHoop__OnDefend
+DolphinHoop__OnDefend: // 0x02182184
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -728,10 +728,10 @@ _0218220C:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0218222C: .word Player__State_2023A4C
-	arm_func_end ovl00_2182184
+	arm_func_end DolphinHoop__OnDefend
 
-	arm_func_start ovl00_2182230
-ovl00_2182230: // 0x02182230
+	arm_func_start DolphinHoop__Draw
+DolphinHoop__Draw: // 0x02182230
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	bl GetCurrentTaskWork_
@@ -768,7 +768,7 @@ ovl00_2182230: // 0x02182230
 	.align 2, 0
 _021822B4: .word 0x02189BF2
 _021822B8: .word 0x0000FFFF
-	arm_func_end ovl00_2182230
+	arm_func_end DolphinHoop__Draw
 
 	.data
 	

@@ -179,7 +179,7 @@ _021709DC:
 	ldr r0, [r5, #0x3ac]
 	mov r1, #0x100
 	bl DC_FlushRange
-	ldr r1, _02170AE0 // =ovl00_2170B24
+	ldr r1, _02170AE0 // =TruckLava3D__Draw_2170B24
 	mov r0, #0x18
 	str r1, [r5, #0xfc]
 	str r5, [r5, #0x274]
@@ -221,7 +221,7 @@ _02170AD0: .word 0x0001FFFF
 _02170AD4: .word 0x00007FFF
 _02170AD8: .word 0x021885DC
 _02170ADC: .word 0x021885BC
-_02170AE0: .word ovl00_2170B24
+_02170AE0: .word TruckLava3D__Draw_2170B24
 _02170AE4: .word 0x0000FFFF
 	arm_func_end TruckLava3D__Create
 
@@ -244,8 +244,8 @@ TruckLava3D__Destructor: // 0x02170AE8
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end TruckLava3D__Destructor
 
-	arm_func_start ovl00_2170B24
-ovl00_2170B24: // 0x02170B24
+	arm_func_start TruckLava3D__Draw_2170B24
+TruckLava3D__Draw_2170B24: // 0x02170B24
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x48
 	bl GetCurrentTaskWork_
@@ -344,7 +344,7 @@ _02170C8C: .word g_obj
 _02170C90: .word FX_SinCosTable_
 _02170C94: .word 0x021472FC
 _02170C98: .word NNS_G3dGlb
-	arm_func_end ovl00_2170B24
+	arm_func_end TruckLava3D__Draw_2170B24
 
 	arm_func_start Truck3D__Destructor
 Truck3D__Destructor: // 0x02170C9C
@@ -393,8 +393,8 @@ _02170CCC:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	arm_func_end Truck3D__Destructor
 
-	arm_func_start ovl00_2170D44
-ovl00_2170D44: // 0x02170D44
+	arm_func_start Truck3D__State_2170D44
+Truck3D__State_2170D44: // 0x02170D44
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -448,21 +448,21 @@ _02170DD8:
 	strlt r0, [r4, #0xb0]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_2170D44
+	arm_func_end Truck3D__State_2170D44
 
-	arm_func_start ovl00_2170E10
-ovl00_2170E10: // 0x02170E10
+	arm_func_start Truck3D__State_2170E10
+Truck3D__State_2170E10: // 0x02170E10
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #8
 	mov r4, r0
-	bl ovl00_21711D8
+	bl Truck3D__Func_21711D8
 	ldr r2, [r4, #0x1c]
 	tst r2, #1
 	bne _02170EC4
 	orr r1, r2, #0x10
 	orr r1, r1, #0x8000
 	str r1, [r4, #0x1c]
-	ldr r0, _0217105C // =ovl00_2171064
+	ldr r0, _0217105C // =Truck3D__State_2171064
 	ldr r3, _02171060 // =FX_SinCosTable_
 	str r0, [r4, #0xf4]
 	ldrh r0, [r4, #0x34]
@@ -517,7 +517,7 @@ _02170EC4:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	orr r1, r2, #0x10
 	orr r1, r1, #0x8000
-	ldr r0, _0217105C // =ovl00_2171064
+	ldr r0, _0217105C // =Truck3D__State_2171064
 	str r1, [r4, #0x1c]
 	str r0, [r4, #0xf4]
 	ldrh r1, [r4, #0x34]
@@ -601,16 +601,16 @@ _02170EC4:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	.align 2, 0
-_0217105C: .word ovl00_2171064
+_0217105C: .word Truck3D__State_2171064
 _02171060: .word FX_SinCosTable_
-	arm_func_end ovl00_2170E10
+	arm_func_end Truck3D__State_2170E10
 
-	arm_func_start ovl00_2171064
-ovl00_2171064: // 0x02171064
+	arm_func_start Truck3D__State_2171064
+Truck3D__State_2171064: // 0x02171064
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
-	bl ovl00_21711D8
+	bl Truck3D__Func_21711D8
 	ldrh r0, [r4, #0x34]
 	mov r1, #0
 	mov r2, #0x200
@@ -649,7 +649,7 @@ _021710E0:
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	ldr r0, _021711CC // =0xFFFF7FEF
-	ldr r1, _021711D0 // =ovl00_2170E10
+	ldr r1, _021711D0 // =Truck3D__State_2170E10
 	and r0, r2, r0
 	str r0, [r4, #0x1c]
 	str r1, [r4, #0xf4]
@@ -700,12 +700,12 @@ _021710E0:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021711CC: .word 0xFFFF7FEF
-_021711D0: .word ovl00_2170E10
+_021711D0: .word Truck3D__State_2170E10
 _021711D4: .word FX_SinCosTable_
-	arm_func_end ovl00_2171064
+	arm_func_end Truck3D__State_2171064
 
-	arm_func_start ovl00_21711D8
-ovl00_21711D8: // 0x021711D8
+	arm_func_start Truck3D__Func_21711D8
+Truck3D__Func_21711D8: // 0x021711D8
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r6, [r4, #0xc8]
@@ -751,10 +751,10 @@ _02171264:
 	movlt r0, #0x6000
 	strlt r0, [r4, #0x98]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl00_21711D8
+	arm_func_end Truck3D__Func_21711D8
 
-	arm_func_start ovl00_2171280
-ovl00_2171280: // 0x02171280
+	arm_func_start Truck3D__State_2171280
+Truck3D__State_2171280: // 0x02171280
 	ldrh r1, [r0, #0x34]
 	add r1, r1, #0x800
 	strh r1, [r0, #0x34]
@@ -764,10 +764,10 @@ ovl00_2171280: // 0x02171280
 	orrhs r1, r1, #4
 	strhs r1, [r0, #0x18]
 	bx lr
-	arm_func_end ovl00_2171280
+	arm_func_end Truck3D__State_2171280
 
-	arm_func_start ovl00_21712A4
-ovl00_21712A4: // 0x021712A4
+	arm_func_start Truck3D__OnDefend_21712A4
+Truck3D__OnDefend_21712A4: // 0x021712A4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -803,7 +803,7 @@ ovl00_21712A4: // 0x021712A4
 	mov r1, r4
 	bl Player__Func_202178C
 _0217132C:
-	ldr r0, _02171364 // =ovl00_2171280
+	ldr r0, _02171364 // =Truck3D__State_2171280
 	mov r1, #0
 	str r0, [r4, #0xf4]
 	ldr r0, [r4, #0x138]
@@ -818,11 +818,11 @@ _0217132C:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02171364: .word ovl00_2171280
-	arm_func_end ovl00_21712A4
+_02171364: .word Truck3D__State_2171280
+	arm_func_end Truck3D__OnDefend_21712A4
 
-	arm_func_start ovl00_2171368
-ovl00_2171368: // 0x02171368
+	arm_func_start Truck3D__State_2171368
+Truck3D__State_2171368: // 0x02171368
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x28
 	mov r4, r0
@@ -1000,7 +1000,7 @@ _021715D8:
 	ldr r0, [r4, #0x20]
 	mov r2, #0
 	orr r1, r0, #0x40
-	ldr r0, _0217171C // =ovl00_21724F4
+	ldr r0, _0217171C // =Truck3D__Draw_21724F4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xfc]
 	ldr r1, [r4, #0xe80]
@@ -1059,7 +1059,7 @@ _021716CC:
 	addgt sp, sp, #0x28
 	str r0, [r4, #0x2c]
 	ldmgtia sp!, {r3, r4, r5, pc}
-	ldr r1, _02171720 // =ovl00_2171724
+	ldr r1, _02171720 // =Truck3D__State_2171724
 	mov r0, #0x64
 	str r1, [r4, #0xf4]
 	mov r1, #0
@@ -1075,12 +1075,12 @@ _02171710:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02171718: .word 0x04000358
-_0217171C: .word ovl00_21724F4
-_02171720: .word ovl00_2171724
-	arm_func_end ovl00_2171368
+_0217171C: .word Truck3D__Draw_21724F4
+_02171720: .word Truck3D__State_2171724
+	arm_func_end Truck3D__State_2171368
 
-	arm_func_start ovl00_2171724
-ovl00_2171724: // 0x02171724
+	arm_func_start Truck3D__State_2171724
+Truck3D__State_2171724: // 0x02171724
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -1220,7 +1220,7 @@ _02171878:
 	smlabb r4, r2, r0, r1
 	mov r0, r4
 	strb r3, [r4, #0xae]
-	bl ovl00_216FB6C
+	bl Truck3D__Func_216FB6C
 	add r1, r5, #0x3d00
 	ldrsh r3, [r1, #4]
 	add r0, r5, #0x284
@@ -1291,13 +1291,13 @@ _021719D8:
 	and r1, r1, #0xff
 	and r1, r3, r1
 	strb r1, [r6, #0xae]
-	bl ovl00_216FB6C
+	bl Truck3D__Func_216FB6C
 	add r0, r5, #0x3d00
 	ldrsh r1, [r0, #0x36]
 	ldrsh r0, [r0, #4]
 	cmp r1, r0
 	bne _02171AC8
-	ldr r1, _02171F88 // =ovl00_2171F98
+	ldr r1, _02171F88 // =Truck3D__State_2171F98
 	add r0, r5, #0x3000
 	str r1, [r5, #0xf4]
 	mov r1, #0
@@ -1501,7 +1501,7 @@ _02171D2C:
 	add r6, r0, #0xc00
 	mov r1, r7
 	add r0, r6, sb
-	bl ovl00_2173304
+	bl Truck3D__Func_2173304
 	add r0, r5, #0x3d00
 	ldrsh r1, [r0, #0x36]
 	mvn r0, #0
@@ -1528,7 +1528,7 @@ _02171D2C:
 _02171DCC:
 	mov r0, r5
 	add r1, r6, sb
-	bl ovl00_216F760
+	bl Truck3D__Func_216F760
 _02171DD8:
 	ldrsb r1, [r7, #0xb0]
 	mvn r0, #0
@@ -1648,14 +1648,14 @@ _02171F70:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	.align 2, 0
 _02171F84: .word g_obj
-_02171F88: .word ovl00_2171F98
+_02171F88: .word Truck3D__State_2171F98
 _02171F8C: .word 0xFFF40EAD
 _02171F90: .word 0x000BF153
 _02171F94: .word FX_SinCosTable_
-	arm_func_end ovl00_2171724
+	arm_func_end Truck3D__State_2171724
 
-	arm_func_start ovl00_2171F98
-ovl00_2171F98: // 0x02171F98
+	arm_func_start Truck3D__State_2171F98
+Truck3D__State_2171F98: // 0x02171F98
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -1968,7 +1968,7 @@ _02172420:
 	orr r1, r1, #1
 	str r1, [r4, #0x18]
 	ldr r1, [r4, #0x354]
-	ldr r2, _021724F0 // =ovl00_2170E10
+	ldr r2, _021724F0 // =Truck3D__State_2170E10
 	bic r1, r1, #2
 	str r1, [r4, #0x354]
 	ldr ip, [r4, #0x1c]
@@ -2011,11 +2011,11 @@ _021724E0: .word 0x00005DC0
 _021724E4: .word FX_SinCosTable_
 _021724E8: .word 0x000BF153
 _021724EC: .word 0x00003FFF
-_021724F0: .word ovl00_2170E10
-	arm_func_end ovl00_2171F98
+_021724F0: .word Truck3D__State_2170E10
+	arm_func_end Truck3D__State_2171F98
 
-	arm_func_start ovl00_21724F4
-ovl00_21724F4: // 0x021724F4
+	arm_func_start Truck3D__Draw_21724F4
+Truck3D__Draw_21724F4: // 0x021724F4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x150
 	bl GetCurrentTaskWork_
@@ -2058,7 +2058,7 @@ _02172550:
 	bne _021725A0
 	ldr r0, [sp, #0x5c]
 	ldr r1, [r0, #0xf4]
-	ldr r0, _02173018 // =ovl00_2171F98
+	ldr r0, _02173018 // =Truck3D__State_2171F98
 	cmp r1, r0
 	bne _0217263C
 _021725A0:
@@ -2750,16 +2750,16 @@ _02172F0C:
 _0217300C: .word 0x00012100
 _02173010: .word g_obj
 _02173014: .word 0x00003FFF
-_02173018: .word ovl00_2171F98
+_02173018: .word Truck3D__State_2171F98
 _0217301C: .word FX_SinCosTable_
 _02173020: .word 0x000BF153
 _02173024: .word 0xFFF40EAD
 _02173028: .word 0x021472FC
 _0217302C: .word NNS_G3dGlb
-	arm_func_end ovl00_21724F4
+	arm_func_end Truck3D__Draw_21724F4
 
-	arm_func_start ovl00_2173030
-ovl00_2173030: // 0x02173030
+	arm_func_start Object58__OnDefend_2173030
+Object58__OnDefend_2173030: // 0x02173030
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	ldr r4, [r1, #0x1c]
@@ -2799,19 +2799,19 @@ _021730A8:
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp]
-	bl ovl00_217322C
+	bl Truck3D__Func_217322C
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp]
-	bl ovl00_217322C
+	bl Truck3D__Func_217322C
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1
 	str r1, [sp]
 	mov r3, r1
-	bl ovl00_217322C
+	bl Truck3D__Func_217322C
 	mov r0, #1
 	strb r0, [r6, #0xf33]
 	ldr r0, [r6, #0xe80]
@@ -2826,7 +2826,7 @@ _021730A8:
 	strb r1, [r6, #0xf32]
 	add r1, r6, #0x284
 	add r1, r1, #0xc00
-	bl ovl00_2173304
+	bl Truck3D__Func_2173304
 	mov r1, #1
 	strb r1, [r6, #0xf34]
 	add r0, r6, #0x1000
@@ -2835,7 +2835,7 @@ _021730A8:
 	add r0, r0, #0x1800
 	add r1, r6, #0x54
 	add r1, r1, #0x1400
-	bl ovl00_2173304
+	bl Truck3D__Func_2173304
 	mov r2, #1
 	add r0, r6, #0x1000
 	add r1, r6, #0x3000
@@ -2855,13 +2855,13 @@ _02173184:
 	mov r3, r2
 	mov r1, #1
 	str r2, [sp]
-	bl ovl00_217322C
+	bl Truck3D__Func_217322C
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp]
-	bl ovl00_217322C
+	bl Truck3D__Func_217322C
 	b _021731F0
 _021731C4:
 	cmp r0, #0xb7
@@ -2871,21 +2871,21 @@ _021731C4:
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp]
-	bl ovl00_217322C
+	bl Truck3D__Func_217322C
 _021731E4:
 	ldr r1, [r4, #0x340]
 	mov r0, r6
-	bl ovl00_2173204
+	bl Truck3D__Func_2173204
 _021731F0:
 	ldr r0, [r4, #0x18]
 	orr r0, r0, #2
 	str r0, [r4, #0x18]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	arm_func_end ovl00_2173030
+	arm_func_end Object58__OnDefend_2173030
 
-	arm_func_start ovl00_2173204
-ovl00_2173204: // 0x02173204
+	arm_func_start Truck3D__Func_2173204
+Truck3D__Func_2173204: // 0x02173204
 	stmdb sp!, {r3, lr}
 	ldrb r2, [r1, #8]
 	str r2, [sp]
@@ -2894,12 +2894,12 @@ ovl00_2173204: // 0x02173204
 	ldrb r3, [r1, #7]
 	sub r1, ip, #0xb4
 	and r1, r1, #0xff
-	bl ovl00_217322C
+	bl Truck3D__Func_217322C
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_2173204
+	arm_func_end Truck3D__Func_2173204
 
-	arm_func_start ovl00_217322C
-ovl00_217322C: // 0x0217322C
+	arm_func_start Truck3D__Func_217322C
+Truck3D__Func_217322C: // 0x0217322C
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	add r4, r0, #0x3d00
 	ldrsh sb, [r4, #6]
@@ -2955,10 +2955,10 @@ _021732E4:
 	cmp r4, #3
 	blt _021732E4
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
-	arm_func_end ovl00_217322C
+	arm_func_end Truck3D__Func_217322C
 
-	arm_func_start ovl00_2173304
-ovl00_2173304: // 0x02173304
+	arm_func_start Truck3D__Func_2173304
+Truck3D__Func_2173304: // 0x02173304
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x88
 	ldr r2, _02173E74 // =0x021885A4
@@ -3729,7 +3729,7 @@ _02173E88: .word 0x3C6EF35F
 _02173E8C: .word 0xFFFFFAAB
 _02173E90: .word 0x00003556
 _02173E94: .word 0x000EF153
-	arm_func_end ovl00_2173304
+	arm_func_end Truck3D__Func_2173304
 
 	.data
 	

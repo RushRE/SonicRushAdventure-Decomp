@@ -202,7 +202,7 @@ NOT_DECOMPILED GameObjectTask *EnemyBombParts__Create(MapObject *mapObject, fx32
 NOT_DECOMPILED GameObjectTask *EnemySkeletonParts__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *EnemyHoverBomb__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *EnemyHoverGun__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *LaserEnemySkymoon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
+NOT_DECOMPILED GameObjectTask *EnemySkymoonLaser__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 
 NOT_DECOMPILED EventManagerStaticVars EventManager__sVars;
 
@@ -899,7 +899,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_346] = (CreateObjectFunc)EnemyHoverBomb__Create,
     [MAPOBJECT_347] = (CreateObjectFunc)EnemyHoverGun__Create,
     [MAPOBJECT_348] = (CreateObjectFunc)EnemyDiveBat__Create,
-    [MAPOBJECT_349] = (CreateObjectFunc)LaserEnemySkymoon__Create,
+    [MAPOBJECT_349] = (CreateObjectFunc)EnemySkymoonLaser__Create,
 };
 
 static const u8 EventManager__StageAllocFlags[STAGE_COUNT] = {

@@ -61,7 +61,7 @@ Bungee__Create: // 0x02185768
 	mov r0, r4
 	mov r1, #2
 	bl StageTask__SetAnimatorPriority
-	ldr r1, _021858EC // =ovl00_21859C0
+	ldr r1, _021858EC // =Bungee__Draw
 	add r0, r4, #0x218
 	str r1, [r4, #0xfc]
 	str r4, [r4, #0x234]
@@ -86,12 +86,12 @@ Bungee__Create: // 0x02185768
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x230]
-	ldr r0, _021858F4 // =ovl00_2185934
+	ldr r0, _021858F4 // =Bungee__OnDefend
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x230]
 	str r0, [r4, #0x23c]
 	ldr r1, [r4, #0x1c]
-	ldr r0, _021858F8 // =ovl00_21858FC
+	ldr r0, _021858F8 // =Bungee__State_21858FC
 	orr r1, r1, #0x2100
 	str r1, [r4, #0x1c]
 	str r0, [r4, #0xf4]
@@ -103,14 +103,14 @@ _021858DC: .word StageTask_Main
 _021858E0: .word GameObject__Destructor
 _021858E4: .word gameArchiveStage
 _021858E8: .word aActAcGmkBungee
-_021858EC: .word ovl00_21859C0
+_021858EC: .word Bungee__Draw
 _021858F0: .word 0x0000FFFE
-_021858F4: .word ovl00_2185934
-_021858F8: .word ovl00_21858FC
+_021858F4: .word Bungee__OnDefend
+_021858F8: .word Bungee__State_21858FC
 	arm_func_end Bungee__Create
 
-	arm_func_start ovl00_21858FC
-ovl00_21858FC: // 0x021858FC
+	arm_func_start Bungee__State_21858FC
+Bungee__State_21858FC: // 0x021858FC
 	ldr r2, [r0, #0x35c]
 	cmp r2, #0
 	bxeq lr
@@ -125,10 +125,10 @@ ovl00_21858FC: // 0x021858FC
 	str r2, [r0, #0x18]
 	str r1, [r0, #0x35c]
 	bx lr
-	arm_func_end ovl00_21858FC
+	arm_func_end Bungee__State_21858FC
 
-	arm_func_start ovl00_2185934
-ovl00_2185934: // 0x02185934
+	arm_func_start Bungee__OnDefend
+Bungee__OnDefend: // 0x02185934
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -164,10 +164,10 @@ ovl00_2185934: // 0x02185934
 	mov r2, r6
 	bl Player__Gimmick_Bungee
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl00_2185934
+	arm_func_end Bungee__OnDefend
 
-	arm_func_start ovl00_21859C0
-ovl00_21859C0: // 0x021859C0
+	arm_func_start Bungee__Draw
+Bungee__Draw: // 0x021859C0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x60
 	bl GetCurrentTaskWork_
@@ -273,7 +273,7 @@ _02185B00:
 	blo _02185B00
 	add sp, sp, #0x60
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	arm_func_end ovl00_21859C0
+	arm_func_end Bungee__Draw
 
 	.data
 	

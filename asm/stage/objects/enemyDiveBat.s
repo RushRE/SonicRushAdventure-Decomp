@@ -109,7 +109,7 @@ _0215C444:
 	add r0, r4, #0x300
 	strh r1, [r0, #0x98]
 	ldr r1, [r4, #0x37c]
-	ldr r0, _0215C698 // =ovl00_215CF8C
+	ldr r0, _0215C698 // =EnemyDiveBat__OnDefend
 	orr r1, r1, #0x4c0
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x388]
@@ -155,13 +155,13 @@ _0215C618:
 	tst r0, #3
 	beq _0215C650
 	mov r0, r8
-	bl ovl00_215C704
+	bl EnemyDiveBat__CreateChild
 	cmp r0, #0
 	beq _0215C650
 	ldrb r1, [r0, #0x3c6]
 	mov r0, r4
 	strb r1, [r4, #0x3c6]
-	bl ovl00_215C804
+	bl EnemyDiveBat__Action_215C804
 	add sp, sp, #0xc
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
@@ -172,7 +172,7 @@ _0215C658:
 	bl AllocSndHandle
 	str r0, [r4, #0x138]
 	mov r0, r4
-	bl ovl00_215C98C
+	bl EnemyDiveBat__Action_Init
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
@@ -186,7 +186,7 @@ _0215C688: .word 0x0000FFFF
 _0215C68C: .word aActAcEneDiveba
 _0215C690: .word 0x0000FFFE
 _0215C694: .word 0x00000102
-_0215C698: .word ovl00_215CF8C
+_0215C698: .word EnemyDiveBat__OnDefend
 	arm_func_end EnemyDiveBat__Create
 
 	arm_func_start EnemyDiveBat__Destructor
@@ -222,8 +222,8 @@ _0215C6FC: .word _0218A35C
 _0215C700: .word 0x0218A360
 	arm_func_end EnemyDiveBat__Destructor
 
-	arm_func_start ovl00_215C704
-ovl00_215C704: // 0x0215C704
+	arm_func_start EnemyDiveBat__CreateChild
+EnemyDiveBat__CreateChild: // 0x0215C704
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	ldrh r3, [r0, #4]
@@ -292,22 +292,22 @@ _0215C7F4: .word _02188DA0
 _0215C7F8: .word 0x02188DA2
 _0215C7FC: .word 0x0218A362
 _0215C800: .word 0x0218A361
-	arm_func_end ovl00_215C704
+	arm_func_end EnemyDiveBat__CreateChild
 
-	arm_func_start ovl00_215C804
-ovl00_215C804: // 0x0215C804
-	ldr r2, _0215C818 // =ovl00_215C968
-	ldr r1, _0215C81C // =ovl00_215C820
+	arm_func_start EnemyDiveBat__Action_215C804
+EnemyDiveBat__Action_215C804: // 0x0215C804
+	ldr r2, _0215C818 // =EnemyDiveBat__Draw
+	ldr r1, _0215C81C // =EnemyDiveBat__State_215C820
 	str r2, [r0, #0xfc]
 	str r1, [r0, #0xf4]
 	bx lr
 	.align 2, 0
-_0215C818: .word ovl00_215C968
-_0215C81C: .word ovl00_215C820
-	arm_func_end ovl00_215C804
+_0215C818: .word EnemyDiveBat__Draw
+_0215C81C: .word EnemyDiveBat__State_215C820
+	arm_func_end EnemyDiveBat__Action_215C804
 
-	arm_func_start ovl00_215C820
-ovl00_215C820: // 0x0215C820
+	arm_func_start EnemyDiveBat__State_215C820
+EnemyDiveBat__State_215C820: // 0x0215C820
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -321,7 +321,7 @@ ovl00_215C820: // 0x0215C820
 	ldrb r1, [r1, r2, lsl #3]
 	tst r1, #1
 	beq _0215C860
-	bl ovl00_215CC38
+	bl EnemyDiveBat__Action_215CC38
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 _0215C860:
@@ -361,7 +361,7 @@ _0215C860:
 	stmia lr!, {r0, r1, r2, r3}
 	ldmia r6, {r0, r1, r2, r3}
 	stmia lr, {r0, r1, r2, r3}
-	ldr ip, _0215C964 // =ovl00_215C9D8
+	ldr ip, _0215C964 // =EnemyDiveBat__State_215C9D8
 	ldr r0, [r4, #0xf4]
 	cmp r0, ip
 	ldreq r0, [r4, #0x28]
@@ -392,11 +392,11 @@ _0215C914:
 	.align 2, 0
 _0215C95C: .word _0218A35C
 _0215C960: .word 0x0218A361
-_0215C964: .word ovl00_215C9D8
-	arm_func_end ovl00_215C820
+_0215C964: .word EnemyDiveBat__State_215C9D8
+	arm_func_end EnemyDiveBat__State_215C820
 
-	arm_func_start ovl00_215C968
-ovl00_215C968: // 0x0215C968
+	arm_func_start EnemyDiveBat__Draw
+EnemyDiveBat__Draw: // 0x0215C968
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldrb r2, [r0, #0x3c6]
@@ -407,10 +407,10 @@ ovl00_215C968: // 0x0215C968
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215C988: .word _0218A35C
-	arm_func_end ovl00_215C968
+	arm_func_end EnemyDiveBat__Draw
 
-	arm_func_start ovl00_215C98C
-ovl00_215C98C: // 0x0215C98C
+	arm_func_start EnemyDiveBat__Action_Init
+EnemyDiveBat__Action_Init: // 0x0215C98C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -425,16 +425,16 @@ ovl00_215C98C: // 0x0215C98C
 	str r0, [r4, #0x98]
 	str r1, [r4, #0x9c]
 	str r1, [r4, #0xc8]
-	ldr r0, _0215C9D4 // =ovl00_215C9D8
+	ldr r0, _0215C9D4 // =EnemyDiveBat__State_215C9D8
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215C9D4: .word ovl00_215C9D8
-	arm_func_end ovl00_215C98C
+_0215C9D4: .word EnemyDiveBat__State_215C9D8
+	arm_func_end EnemyDiveBat__Action_Init
 
-	arm_func_start ovl00_215C9D8
-ovl00_215C9D8: // 0x0215C9D8
+	arm_func_start EnemyDiveBat__State_215C9D8
+EnemyDiveBat__State_215C9D8: // 0x0215C9D8
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -565,7 +565,7 @@ _0215CBB0:
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
-	bl ovl00_215CBEC
+	bl EnemyDiveBat__Action_215CBEC
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
@@ -577,38 +577,38 @@ _0215CBDC: .word 0x00196225
 _0215CBE0: .word 0x3C6EF35F
 _0215CBE4: .word 0x00001FFF
 _0215CBE8: .word 0xFFFFE001
-	arm_func_end ovl00_215C9D8
+	arm_func_end EnemyDiveBat__State_215C9D8
 
-	arm_func_start ovl00_215CBEC
-ovl00_215CBEC: // 0x0215CBEC
+	arm_func_start EnemyDiveBat__Action_215CBEC
+EnemyDiveBat__Action_215CBEC: // 0x0215CBEC
 	stmdb sp!, {r4, lr}
 	mov r1, #2
 	mov r4, r0
 	bl GameObject__SetAnimation
 	mov r1, #0
 	str r1, [r4, #0x9c]
-	ldr r0, _0215CC14 // =ovl00_215CC18
+	ldr r0, _0215CC14 // =EnemyDiveBat__State_215CC18
 	str r1, [r4, #0x98]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215CC14: .word ovl00_215CC18
-	arm_func_end ovl00_215CBEC
+_0215CC14: .word EnemyDiveBat__State_215CC18
+	arm_func_end EnemyDiveBat__Action_215CBEC
 
-	arm_func_start ovl00_215CC18
-ovl00_215CC18: // 0x0215CC18
+	arm_func_start EnemyDiveBat__State_215CC18
+EnemyDiveBat__State_215CC18: // 0x0215CC18
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x20]
 	tst r1, #8
 	ldmeqia sp!, {r3, pc}
 	eor r1, r1, #1
 	str r1, [r0, #0x20]
-	bl ovl00_215C98C
+	bl EnemyDiveBat__Action_Init
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_215CC18
+	arm_func_end EnemyDiveBat__State_215CC18
 
-	arm_func_start ovl00_215CC38
-ovl00_215CC38: // 0x0215CC38
+	arm_func_start EnemyDiveBat__Action_215CC38
+EnemyDiveBat__Action_215CC38: // 0x0215CC38
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -622,7 +622,7 @@ ovl00_215CC38: // 0x0215CC38
 	mov r2, #0x4000
 	str r1, [r4, #0x3b4]
 	ldr r3, [r4, #0x48]
-	ldr r1, _0215CD2C // =ovl00_215CD40
+	ldr r1, _0215CD2C // =EnemyDiveBat__State_215CD40
 	str r3, [r4, #0x3b8]
 	strh r2, [r0, #0xc4]
 	str r1, [r4, #0xf4]
@@ -672,15 +672,15 @@ _0215CCF4:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215CD2C: .word ovl00_215CD40
+_0215CD2C: .word EnemyDiveBat__State_215CD40
 _0215CD30: .word 0x0218A361
 _0215CD34: .word 0x0218A362
 _0215CD38: .word 0xFFFFEFDF
 _0215CD3C: .word 0x0218A360
-	arm_func_end ovl00_215CC38
+	arm_func_end EnemyDiveBat__Action_215CC38
 
-	arm_func_start ovl00_215CD40
-ovl00_215CD40: // 0x0215CD40
+	arm_func_start EnemyDiveBat__State_215CD40
+EnemyDiveBat__State_215CD40: // 0x0215CD40
 	stmdb sp!, {r3, r4, r5, lr}
 	add r3, r0, #0x300
 	ldrh r1, [r3, #0xc4]
@@ -690,7 +690,7 @@ ovl00_215CD40: // 0x0215CD40
 	ldrh r1, [r3, #0xc4]
 	cmp r1, #0x8000
 	bls _0215CD6C
-	bl ovl00_215CE0C
+	bl EnemyDiveBat__Action_215CE0C
 	ldmia sp!, {r3, r4, r5, pc}
 _0215CD6C:
 	mov r1, r1, lsl #0x10
@@ -734,10 +734,10 @@ _0215CD6C:
 	.align 2, 0
 _0215CE04: .word FX_SinCosTable_
 _0215CE08: .word 0x000038E3
-	arm_func_end ovl00_215CD40
+	arm_func_end EnemyDiveBat__State_215CD40
 
-	arm_func_start ovl00_215CE0C
-ovl00_215CE0C: // 0x0215CE0C
+	arm_func_start EnemyDiveBat__Action_215CE0C
+EnemyDiveBat__Action_215CE0C: // 0x0215CE0C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -749,16 +749,16 @@ ovl00_215CE0C: // 0x0215CE0C
 	str r1, [r4, #0x2c]
 	str r1, [r4, #0x3bc]
 	str r1, [r4, #0x9c]
-	ldr r0, _0215CE48 // =ovl00_215CE4C
+	ldr r0, _0215CE48 // =EnemyDiveBat__State_215CE4C
 	str r1, [r4, #0x98]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215CE48: .word ovl00_215CE4C
-	arm_func_end ovl00_215CE0C
+_0215CE48: .word EnemyDiveBat__State_215CE4C
+	arm_func_end EnemyDiveBat__Action_215CE0C
 
-	arm_func_start ovl00_215CE4C
-ovl00_215CE4C: // 0x0215CE4C
+	arm_func_start EnemyDiveBat__State_215CE4C
+EnemyDiveBat__State_215CE4C: // 0x0215CE4C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -770,7 +770,7 @@ ovl00_215CE4C: // 0x0215CE4C
 	add r1, r2, #0x8000
 	cmp r3, r1
 	bgt _0215CE84
-	bl ovl00_215C98C
+	bl EnemyDiveBat__Action_Init
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 _0215CE84:
@@ -842,10 +842,10 @@ _0215CF7C: .word playerGameStatus
 _0215CF80: .word 0x00196225
 _0215CF84: .word 0x3C6EF35F
 _0215CF88: .word 0x00001FFF
-	arm_func_end ovl00_215CE4C
+	arm_func_end EnemyDiveBat__State_215CE4C
 
-	arm_func_start ovl00_215CF8C
-ovl00_215CF8C: // 0x0215CF8C
+	arm_func_start EnemyDiveBat__OnDefend
+EnemyDiveBat__OnDefend: // 0x0215CF8C
 	stmdb sp!, {r3, lr}
 	ldr r2, [r1, #0x1c]
 	ldr r1, [r0, #0x1c]
@@ -863,9 +863,9 @@ ovl00_215CF8C: // 0x0215CF8C
 	mov r0, r2
 	bic r1, r1, #4
 	str r1, [r2, #0x37c]
-	bl ovl00_215CC38
+	bl EnemyDiveBat__Action_215CC38
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_215CF8C
+	arm_func_end EnemyDiveBat__OnDefend
 
 	.data
 	

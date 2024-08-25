@@ -19,7 +19,7 @@ void NitroMain(void)
 {
     InitSystems();
     InitGameState();
-    
+
     while (TRUE)
     {
         systemFrameCounter++;

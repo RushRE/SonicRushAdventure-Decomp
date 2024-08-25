@@ -66,7 +66,7 @@ SpringRopeSpring__Create: // 0x0218604C
 	mov r1, #2
 	bl StageTask__SetAnimatorPriority
 	ldr r0, [r4, #0x18]
-	ldr r1, _02186178 // =ovl00_218617C
+	ldr r1, _02186178 // =SpringRopeSpring__State_218617C
 	orr r0, r0, #0x12
 	str r0, [r4, #0x18]
 	ldr r2, [r4, #0x1c]
@@ -81,11 +81,11 @@ _02186168: .word StageTask_Main
 _0218616C: .word GameObject__Destructor
 _02186170: .word gameArchiveStage
 _02186174: .word aActAcGmkRopeCS
-_02186178: .word ovl00_218617C
+_02186178: .word SpringRopeSpring__State_218617C
 	arm_func_end SpringRopeSpring__Create
 
-	arm_func_start ovl00_218617C
-ovl00_218617C: // 0x0218617C
+	arm_func_start SpringRopeSpring__State_218617C
+SpringRopeSpring__State_218617C: // 0x0218617C
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x11c]
 	cmp r1, #0
@@ -93,13 +93,13 @@ ovl00_218617C: // 0x0218617C
 	ldr r1, [r1, #0x18]
 	tst r1, #2
 	ldmeqia sp!, {r3, pc}
-	bl ovl00_21861A0
+	bl SpringRopeSpring__Func_21861A0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_218617C
+	arm_func_end SpringRopeSpring__State_218617C
 
-	arm_func_start ovl00_21861A0
-ovl00_21861A0: // 0x021861A0
-	ldr r2, _021861C0 // =ovl00_21861C4
+	arm_func_start SpringRopeSpring__Func_21861A0
+SpringRopeSpring__Func_21861A0: // 0x021861A0
+	ldr r2, _021861C0 // =SpringRopeSpring__State_21861C4
 	mov r1, #0x1400
 	str r2, [r0, #0xf4]
 	mov r2, #0x8000
@@ -108,11 +108,11 @@ ovl00_21861A0: // 0x021861A0
 	str r1, [r0, #0x38]
 	bx lr
 	.align 2, 0
-_021861C0: .word ovl00_21861C4
-	arm_func_end ovl00_21861A0
+_021861C0: .word SpringRopeSpring__State_21861C4
+	arm_func_end SpringRopeSpring__Func_21861A0
 
-	arm_func_start ovl00_21861C4
-ovl00_21861C4: // 0x021861C4
+	arm_func_start SpringRopeSpring__State_21861C4
+SpringRopeSpring__State_21861C4: // 0x021861C4
 	ldr r1, [r0, #0x38]
 	cmp r1, #0x1000
 	subgt r1, r1, #0x200
@@ -126,13 +126,13 @@ ovl00_21861C4: // 0x021861C4
 	bxne lr
 	mov r2, #0x1000
 	str r2, [r0, #0x3c]
-	ldr r1, _02186208 // =ovl00_218617C
+	ldr r1, _02186208 // =SpringRopeSpring__State_218617C
 	str r2, [r0, #0x38]
 	str r1, [r0, #0xf4]
 	bx lr
 	.align 2, 0
-_02186208: .word ovl00_218617C
-	arm_func_end ovl00_21861C4
+_02186208: .word SpringRopeSpring__State_218617C
+	arm_func_end SpringRopeSpring__State_21861C4
 
 	.data
 	

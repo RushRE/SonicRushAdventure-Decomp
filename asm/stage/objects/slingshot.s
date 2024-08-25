@@ -143,7 +143,7 @@ Sling__Create: // 0x0217F45C
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0217F774 // =ovl00_217FB60
+	ldr r0, _0217F774 // =Sling__OnDefend
 	mov r2, #0xf400
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
@@ -173,7 +173,7 @@ _0217F6E0:
 	sub r1, r0, #0x4000
 	mov r0, r4
 	str r1, [r4, #0x9c]
-	bl ovl00_217FA38
+	bl Sling__Func_217FA38
 	mov r3, #0
 	str r3, [sp]
 	str r3, [sp, #4]
@@ -192,8 +192,8 @@ _0217F6E0:
 	ldr r1, [r4, #0x28]
 	str r1, [r0, #0x48]
 _0217F73C:
-	ldr r0, _0217F77C // =ovl00_217FBF0
-	ldr r1, _0217F780 // =ovl00_217F98C
+	ldr r0, _0217F77C // =Sling__Draw
+	ldr r1, _0217F780 // =Sling__State_217F98C
 	str r0, [r4, #0xfc]
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -207,10 +207,10 @@ _0217F764: .word Sling__Destructor
 _0217F768: .word gameArchiveStage
 _0217F76C: .word aActAcGmkSlingB
 _0217F770: .word 0x0000FFFE
-_0217F774: .word ovl00_217FB60
+_0217F774: .word Sling__OnDefend
 _0217F778: .word 0x0000014A
-_0217F77C: .word ovl00_217FBF0
-_0217F780: .word ovl00_217F98C
+_0217F77C: .word Sling__Draw
+_0217F780: .word Sling__State_217F98C
 	arm_func_end Sling__Create
 
 	arm_func_start SlingRock__Create
@@ -312,7 +312,7 @@ SlingRock__Create: // 0x0217F784
 	mov r2, r1
 	bl ObjRect__SetBox2D
 	ldr r0, [r4, #0x270]
-	ldr r1, _0217F948 // =ovl00_217FD20
+	ldr r1, _0217F948 // =SlingRock__State_217FD20
 	orr r0, r0, #0x820
 	str r0, [r4, #0x270]
 	ldr r2, [r4, #0x18]
@@ -329,7 +329,7 @@ _0217F938: .word gameArchiveStage
 _0217F93C: .word aActAcGmkSlingB
 _0217F940: .word 0x00000201
 _0217F944: .word 0x0000FFFF
-_0217F948: .word ovl00_217FD20
+_0217F948: .word SlingRock__State_217FD20
 	arm_func_end SlingRock__Create
 
 	arm_func_start Sling__Destructor
@@ -352,10 +352,10 @@ Sling__Destructor: // 0x0217F94C
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end Sling__Destructor
 
-	arm_func_start ovl00_217F98C
-ovl00_217F98C: // 0x0217F98C
+	arm_func_start Sling__State_217F98C
+Sling__State_217F98C: // 0x0217F98C
 	ldr r1, [r0, #0x35c]
-	ldr ip, _0217F9AC // =ovl00_217FA38
+	ldr ip, _0217F9AC // =Sling__Func_217FA38
 	cmp r1, #0
 	ldrne r1, [r1, #0x6d8]
 	cmpne r1, r0
@@ -363,11 +363,11 @@ ovl00_217F98C: // 0x0217F98C
 	strne r1, [r0, #0x35c]
 	bx ip
 	.align 2, 0
-_0217F9AC: .word ovl00_217FA38
-	arm_func_end ovl00_217F98C
+_0217F9AC: .word Sling__Func_217FA38
+	arm_func_end Sling__State_217F98C
 
-	arm_func_start ovl00_217F9B0
-ovl00_217F9B0: // 0x0217F9B0
+	arm_func_start Sling__State_217F9B0
+Sling__State_217F9B0: // 0x0217F9B0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x35c]
@@ -391,22 +391,22 @@ ovl00_217F9B0: // 0x0217F9B0
 	bl AkMath__Func_2002D28
 	strh r0, [r4, #0x34]
 	mov r0, r4
-	bl ovl00_217FA38
+	bl Sling__Func_217FA38
 	ldrh r0, [r4, #0x34]
 	cmp r0, #0x4000
 	ldmneia sp!, {r4, pc}
 	ldr r1, [r4, #0x24]
-	ldr r0, _0217FA34 // =ovl00_217F98C
+	ldr r0, _0217FA34 // =Sling__State_217F98C
 	orr r1, r1, #1
 	str r1, [r4, #0x24]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0217FA34: .word ovl00_217F98C
-	arm_func_end ovl00_217F9B0
+_0217FA34: .word Sling__State_217F98C
+	arm_func_end Sling__State_217F9B0
 
-	arm_func_start ovl00_217FA38
-ovl00_217FA38: // 0x0217FA38
+	arm_func_start Sling__Func_217FA38
+Sling__Func_217FA38: // 0x0217FA38
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x1c
 	mov r5, r0
@@ -483,10 +483,10 @@ _0217FA9C:
 	str r0, [r5, #0x90]
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end ovl00_217FA38
+	arm_func_end Sling__Func_217FA38
 
-	arm_func_start ovl00_217FB60
-ovl00_217FB60: // 0x0217FB60
+	arm_func_start Sling__OnDefend
+Sling__OnDefend: // 0x0217FB60
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -510,7 +510,7 @@ ovl00_217FB60: // 0x0217FB60
 	mov r0, #0
 	add r2, r4, #0x400
 	mov ip, #0x500
-	ldr r3, _0217FBE8 // =ovl00_217F9B0
+	ldr r3, _0217FBE8 // =Sling__State_217F9B0
 	strh ip, [r2, #0xb4]
 	sub r1, r0, #1
 	str r3, [r4, #0xf4]
@@ -522,12 +522,12 @@ ovl00_217FB60: // 0x0217FB60
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0217FBE8: .word ovl00_217F9B0
+_0217FBE8: .word Sling__State_217F9B0
 _0217FBEC: .word 0x0000011A
-	arm_func_end ovl00_217FB60
+	arm_func_end Sling__OnDefend
 
-	arm_func_start ovl00_217FBF0
-ovl00_217FBF0: // 0x0217FBF0
+	arm_func_start Sling__Draw
+Sling__Draw: // 0x0217FBF0
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x24
 	bl GetCurrentTaskWork_
@@ -604,10 +604,10 @@ ovl00_217FBF0: // 0x0217FBF0
 	bl StageTask__Draw2DEx
 	add sp, sp, #0x24
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl00_217FBF0
+	arm_func_end Sling__Draw
 
-	arm_func_start ovl00_217FD20
-ovl00_217FD20: // 0x0217FD20
+	arm_func_start SlingRock__State_217FD20
+SlingRock__State_217FD20: // 0x0217FD20
 	ldr r1, [r0, #0x11c]
 	cmp r1, #0
 	bxeq lr
@@ -630,7 +630,7 @@ ovl00_217FD20: // 0x0217FD20
 	ldr r2, [r1, #0x24]
 	tst r2, #1
 	bxeq lr
-	ldr r3, _0217FE60 // =ovl00_217FE64
+	ldr r3, _0217FE60 // =SlingRock__State_217FE64
 	mov r2, #0
 	str r3, [r0, #0xf4]
 	str r2, [r0, #0x11c]
@@ -691,11 +691,11 @@ _0217FE2C:
 	str r1, [r0, #0x2d8]
 	bx lr
 	.align 2, 0
-_0217FE60: .word ovl00_217FE64
-	arm_func_end ovl00_217FD20
+_0217FE60: .word SlingRock__State_217FE64
+	arm_func_end SlingRock__State_217FD20
 
-	arm_func_start ovl00_217FE64
-ovl00_217FE64: // 0x0217FE64
+	arm_func_start SlingRock__State_217FE64
+SlingRock__State_217FE64: // 0x0217FE64
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -801,7 +801,7 @@ ovl00_217FE64: // 0x0217FE64
 _0217FFF8: .word _mt_math_rand
 _0217FFFC: .word 0x00196225
 _02180000: .word 0x3C6EF35F
-	arm_func_end ovl00_217FE64
+	arm_func_end SlingRock__State_217FE64
 
 	.data
 	

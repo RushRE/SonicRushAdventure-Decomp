@@ -144,7 +144,7 @@ _02163000:
 	ldr fp, _0216312C // =0x0000FFFE
 	add r7, r0, r5, lsl #5
 	ldr r6, _02163130 // =0x00000102
-	ldr r5, _02163134 // =ovl00_216335C
+	ldr r5, _02163134 // =FlipMushroom__OnDefend
 	add sl, sb, #0x364
 _02163044:
 	mov r1, #0
@@ -186,11 +186,11 @@ _021630BC:
 	orr r0, r0, #0x10
 	orr r0, r2, r0
 	str r0, [sb, #0x20]
-	ldr r1, _02163138 // =nullovl00_105
-	ldr r0, _0216313C // =ovl00_2163284
+	ldr r1, _02163138 // =FlipMushroom__State_Idle
+	ldr r0, _0216313C // =FlipMushroom__Draw
 	str r1, [sb, #0xf4]
 	str r0, [sb, #0xfc]
-	ldr r1, _02163140 // =ovl00_2163298
+	ldr r1, _02163140 // =FlipMushroom__Collide
 	mov r0, sb
 	str r1, [sb, #0x108]
 	add sp, sp, #0x10
@@ -209,20 +209,20 @@ _02163124: .word aActAcGmkFlipmu_0
 _02163128: .word 0x02188408
 _0216312C: .word 0x0000FFFE
 _02163130: .word 0x00000102
-_02163134: .word ovl00_216335C
-_02163138: .word nullovl00_105
-_0216313C: .word ovl00_2163284
-_02163140: .word ovl00_2163298
+_02163134: .word FlipMushroom__OnDefend
+_02163138: .word FlipMushroom__State_Idle
+_0216313C: .word FlipMushroom__Draw
+_02163140: .word FlipMushroom__Collide
 	arm_func_end FlipMushroom__Create
 
-	arm_func_start nullovl00_105
-nullovl00_105: // 0x02163144
+	arm_func_start FlipMushroom__State_Idle
+FlipMushroom__State_Idle: // 0x02163144
 	bx lr
-	arm_func_end nullovl00_105
+	arm_func_end FlipMushroom__State_Idle
 
-	arm_func_start ovl00_2163148
-ovl00_2163148: // 0x02163148
-	ldr r1, _0216316C // =ovl00_2163174
+	arm_func_start FlipMushroom__Action_Use
+FlipMushroom__Action_Use: // 0x02163148
+	ldr r1, _0216316C // =FlipMushroom__State_Activated
 	mov r2, #0
 	str r1, [r0, #0xf4]
 	ldr r1, _02163170 // =0x00000333
@@ -232,12 +232,12 @@ ovl00_2163148: // 0x02163148
 	str r1, [r0, #0x470]
 	bx lr
 	.align 2, 0
-_0216316C: .word ovl00_2163174
+_0216316C: .word FlipMushroom__State_Activated
 _02163170: .word 0x00000333
-	arm_func_end ovl00_2163148
+	arm_func_end FlipMushroom__Action_Use
 
-	arm_func_start ovl00_2163174
-ovl00_2163174: // 0x02163174
+	arm_func_start FlipMushroom__State_Activated
+FlipMushroom__State_Activated: // 0x02163174
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	ldr r2, [r0, #0x468]
 	ldr r1, [r0, #0x46c]
@@ -268,7 +268,7 @@ _021631B8:
 	str r1, [r0, #0x470]
 	cmp r1, #0x1000
 	bge _02163200
-	ldr r1, _02163280 // =nullovl00_105
+	ldr r1, _02163280 // =FlipMushroom__State_Idle
 	str r1, [r0, #0xf4]
 	ldr r1, [r0, #0x18]
 	bic r1, r1, #2
@@ -309,20 +309,20 @@ _02163224:
 	streq r1, [r0, #0x50]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
-_02163280: .word nullovl00_105
-	arm_func_end ovl00_2163174
+_02163280: .word FlipMushroom__State_Idle
+	arm_func_end FlipMushroom__State_Activated
 
-	arm_func_start ovl00_2163284
-ovl00_2163284: // 0x02163284
+	arm_func_start FlipMushroom__Draw
+FlipMushroom__Draw: // 0x02163284
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x128]
 	bl StageTask__Draw2D
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_2163284
+	arm_func_end FlipMushroom__Draw
 
-	arm_func_start ovl00_2163298
-ovl00_2163298: // 0x02163298
+	arm_func_start FlipMushroom__Collide
+FlipMushroom__Collide: // 0x02163298
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	bl GetCurrentTaskWork_
@@ -375,10 +375,10 @@ _02163334:
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
 _02163358: .word g_obj
-	arm_func_end ovl00_2163298
+	arm_func_end FlipMushroom__Collide
 
-	arm_func_start ovl00_216335C
-ovl00_216335C: // 0x0216335C
+	arm_func_start FlipMushroom__OnDefend
+FlipMushroom__OnDefend: // 0x0216335C
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0xc
 	ldr r6, [r1, #0x1c]
@@ -396,7 +396,7 @@ ovl00_216335C: // 0x0216335C
 	orr r1, r0, #2
 	mov r0, r6
 	str r1, [r6, #0x18]
-	bl ovl00_2163148
+	bl FlipMushroom__Action_Use
 	ldrh r0, [r5, #2]
 	mov r1, #0x5800
 	cmp r0, #0x51
@@ -491,7 +491,7 @@ _021634FC: .word 0x0218847C
 _02163500: .word _mt_math_rand
 _02163504: .word 0x00196225
 _02163508: .word 0x3C6EF35F
-	arm_func_end ovl00_216335C
+	arm_func_end FlipMushroom__OnDefend
 
 	.data
 	

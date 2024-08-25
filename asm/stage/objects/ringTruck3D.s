@@ -41,7 +41,7 @@ RingTruck3D__Create: // 0x0216FBDC
 	bl GameObject__InitFromObject
 	mov r3, #4
 	ldr r0, [r4, #0x1c]
-	ldr r1, _0216FD00 // =ovl00_216FD0C
+	ldr r1, _0216FD00 // =RingTruck3D__Draw_216FD0C
 	orr r0, r0, #0x2100
 	str r0, [r4, #0x1c]
 	ldr r2, [r4, #0x18]
@@ -68,7 +68,7 @@ RingTruck3D__Create: // 0x0216FBDC
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x230]
-	ldr r0, _0216FD08 // =ovl00_216FDE8
+	ldr r0, _0216FD08 // =RingTruck3D__OnDefend_216FDE8
 	orr r1, r1, #0x400
 	str r1, [r4, #0x230]
 	str r0, [r4, #0x23c]
@@ -79,13 +79,13 @@ RingTruck3D__Create: // 0x0216FBDC
 _0216FCF4: .word 0x00000474
 _0216FCF8: .word StageTask_Main
 _0216FCFC: .word GameObject__Destructor
-_0216FD00: .word ovl00_216FD0C
+_0216FD00: .word RingTruck3D__Draw_216FD0C
 _0216FD04: .word 0x0000FFFE
-_0216FD08: .word ovl00_216FDE8
+_0216FD08: .word RingTruck3D__OnDefend_216FDE8
 	arm_func_end RingTruck3D__Create
 
-	arm_func_start ovl00_216FD0C
-ovl00_216FD0C: // 0x0216FD0C
+	arm_func_start RingTruck3D__Draw_216FD0C
+RingTruck3D__Draw_216FD0C: // 0x0216FD0C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	bl GetCurrentTaskWork_
@@ -143,10 +143,10 @@ _0216FD9C:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _0216FDE4: .word 0x00001104
-	arm_func_end ovl00_216FD0C
+	arm_func_end RingTruck3D__Draw_216FD0C
 
-	arm_func_start ovl00_216FDE8
-ovl00_216FDE8: // 0x0216FDE8
+	arm_func_start RingTruck3D__OnDefend_216FDE8
+RingTruck3D__OnDefend_216FDE8: // 0x0216FDE8
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -167,4 +167,4 @@ ovl00_216FDE8: // 0x0216FDE8
 	str r1, [r4, #0x354]
 	str r0, [r4, #0x234]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_216FDE8
+	arm_func_end RingTruck3D__OnDefend_216FDE8

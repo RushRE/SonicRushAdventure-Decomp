@@ -89,13 +89,13 @@ _0215BA00:
 	ldr r1, _0215BB40 // =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _0215BB44 // =ovl00_215C33C
+	ldr r1, _0215BB44 // =EnemyFireSkull__OnDefend
 	mov r0, r4
 	str r1, [r4, #0x27c]
 	ldr r1, [r4, #0x270]
 	orr r1, r1, #0x400
 	str r1, [r4, #0x270]
-	bl ovl00_215BB48
+	bl EnemyFireSkull__Action_Init
 	bl AllocSndHandle
 	str r0, [r4, #0x138]
 	mov r0, r4
@@ -109,11 +109,11 @@ _0215BB34: .word gameArchiveStage
 _0215BB38: .word 0x0000FFFF
 _0215BB3C: .word aActAcEneSkullF
 _0215BB40: .word 0x0000FFFE
-_0215BB44: .word ovl00_215C33C
+_0215BB44: .word EnemyFireSkull__OnDefend
 	arm_func_end EnemyFireSkull__Create
 
-	arm_func_start ovl00_215BB48
-ovl00_215BB48: // 0x0215BB48
+	arm_func_start EnemyFireSkull__Action_Init
+EnemyFireSkull__Action_Init: // 0x0215BB48
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215BBF8 // =gPlayer
 	mov r4, r0
@@ -121,7 +121,7 @@ ovl00_215BB48: // 0x0215BB48
 	ldr r1, [r1, #0x5d8]
 	tst r1, #0x400
 	beq _0215BB74
-	bl ovl00_215BE2C
+	bl EnemyFireSkull__Action_215BE2C
 	mvn r0, #0x80000000
 	str r0, [r4, #0x2c]
 	ldmia sp!, {r4, pc}
@@ -134,7 +134,7 @@ _0215BB74:
 	bl GameObject__SetAnimation
 _0215BB8C:
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215BBFC // =ovl00_215BC00
+	ldr r0, _0215BBFC // =EnemyFireSkull__State_215BC00
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -158,15 +158,15 @@ _0215BB8C:
 	mov r0, r4
 	sub r1, r1, #1
 	str r1, [r4, #0x24]
-	bl ovl00_215BC00
+	bl EnemyFireSkull__State_215BC00
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215BBF8: .word gPlayer
-_0215BBFC: .word ovl00_215BC00
-	arm_func_end ovl00_215BB48
+_0215BBFC: .word EnemyFireSkull__State_215BC00
+	arm_func_end EnemyFireSkull__Action_Init
 
-	arm_func_start ovl00_215BC00
-ovl00_215BC00: // 0x0215BC00
+	arm_func_start EnemyFireSkull__State_215BC00
+EnemyFireSkull__State_215BC00: // 0x0215BC00
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r2, [r5, #0x24]
@@ -177,7 +177,7 @@ ovl00_215BC00: // 0x0215BC00
 	ldr r1, [r1, #0x5d8]
 	tst r1, #0x400
 	beq _0215BC38
-	bl ovl00_215BE2C
+	bl EnemyFireSkull__Action_215BE2C
 	mvn r0, #0x80000000
 	str r0, [r5, #0x2c]
 	ldmia sp!, {r4, r5, r6, pc}
@@ -307,15 +307,15 @@ _0215BE0C:
 	cmp r0, #0
 	ldmgtia sp!, {r4, r5, r6, pc}
 	mov r0, r5
-	bl ovl00_215BE2C
+	bl EnemyFireSkull__Action_215BE2C
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0215BE24: .word gPlayer
 _0215BE28: .word FX_SinCosTable_
-	arm_func_end ovl00_215BC00
+	arm_func_end EnemyFireSkull__State_215BC00
 
-	arm_func_start ovl00_215BE2C
-ovl00_215BE2C: // 0x0215BE2C
+	arm_func_start EnemyFireSkull__Action_215BE2C
+EnemyFireSkull__Action_215BE2C: // 0x0215BE2C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x100
@@ -326,7 +326,7 @@ ovl00_215BE2C: // 0x0215BE2C
 	bl GameObject__SetAnimation
 _0215BE4C:
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215BE6C // =ovl00_215BE70
+	ldr r0, _0215BE6C // =EnemyFireSkull__State_215BE70
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -334,11 +334,11 @@ _0215BE4C:
 	str r0, [r4, #0x2c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215BE6C: .word ovl00_215BE70
-	arm_func_end ovl00_215BE2C
+_0215BE6C: .word EnemyFireSkull__State_215BE70
+	arm_func_end EnemyFireSkull__Action_215BE2C
 
-	arm_func_start ovl00_215BE70
-ovl00_215BE70: // 0x0215BE70
+	arm_func_start EnemyFireSkull__State_215BE70
+EnemyFireSkull__State_215BE70: // 0x0215BE70
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x24]
@@ -382,14 +382,14 @@ ovl00_215BE70: // 0x0215BE70
 	cmp r0, #0
 	ldmgtia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl00_215BB48
+	bl EnemyFireSkull__Action_Init
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215BF24: .word FX_SinCosTable_
-	arm_func_end ovl00_215BE70
+	arm_func_end EnemyFireSkull__State_215BE70
 
-	arm_func_start ovl00_215BF28
-ovl00_215BF28: // 0x0215BF28
+	arm_func_start EnemyFireSkull__Func_215BF28
+EnemyFireSkull__Func_215BF28: // 0x0215BF28
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #2
@@ -400,7 +400,7 @@ ovl00_215BF28: // 0x0215BF28
 	mov r1, #1
 	str r2, [r4, #0x20]
 	bl StageTask__SetAnimatorPriority
-	ldr r1, _0215BFBC // =ovl00_215BFC4
+	ldr r1, _0215BFBC // =EnemyFireSkull__State_215BFC4
 	ldr r0, _0215BFC0 // =gPlayer
 	str r1, [r4, #0xf4]
 	ldr r1, [r4, #0x1c]
@@ -428,12 +428,12 @@ ovl00_215BF28: // 0x0215BF28
 	str r0, [r4, #0x28]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215BFBC: .word ovl00_215BFC4
+_0215BFBC: .word EnemyFireSkull__State_215BFC4
 _0215BFC0: .word gPlayer
-	arm_func_end ovl00_215BF28
+	arm_func_end EnemyFireSkull__Func_215BF28
 
-	arm_func_start ovl00_215BFC4
-ovl00_215BFC4: // 0x0215BFC4
+	arm_func_start EnemyFireSkull__State_215BFC4
+EnemyFireSkull__State_215BFC4: // 0x0215BFC4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r2, [r4, #0x24]
@@ -447,7 +447,7 @@ ovl00_215BFC4: // 0x0215BFC4
 	ldr r1, [r4, #0x1c]
 	bic r1, r1, #0x2000
 	str r1, [r4, #0x1c]
-	bl ovl00_215BE2C
+	bl EnemyFireSkull__Action_215BE2C
 	mvn r0, #0x80000000
 	str r0, [r4, #0x2c]
 	ldr r0, [r4, #0x138]
@@ -481,7 +481,7 @@ _0215C014:
 	mov r0, r4
 	bic r1, r1, #0x2000
 	str r1, [r4, #0x1c]
-	bl ovl00_215C148
+	bl EnemyFireSkull__Action_215C148
 	ldr r0, [r4, #0x138]
 	mov r1, #0
 	bl NNS_SndPlayerStopSeq
@@ -518,7 +518,7 @@ _0215C0EC:
 	mov r0, r4
 	bic r1, r1, #0x2000
 	str r1, [r4, #0x1c]
-	bl ovl00_215C2E8
+	bl EnemyFireSkull__Action_215C2E8
 _0215C100:
 	ldr r0, _0215C144 // =gPlayer
 	ldr r0, [r0]
@@ -539,10 +539,10 @@ _0215C100:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215C144: .word gPlayer
-	arm_func_end ovl00_215BFC4
+	arm_func_end EnemyFireSkull__State_215BFC4
 
-	arm_func_start ovl00_215C148
-ovl00_215C148: // 0x0215C148
+	arm_func_start EnemyFireSkull__Action_215C148
+EnemyFireSkull__Action_215C148: // 0x0215C148
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x100
@@ -553,7 +553,7 @@ ovl00_215C148: // 0x0215C148
 	bl GameObject__SetAnimation
 _0215C168:
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215C1D8 // =ovl00_215C1E0
+	ldr r0, _0215C1D8 // =EnemyFireSkull__State_215C1E0
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -582,12 +582,12 @@ _0215C1C4:
 	str r0, [r4, #0xc8]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215C1D8: .word ovl00_215C1E0
+_0215C1D8: .word EnemyFireSkull__State_215C1E0
 _0215C1DC: .word playerGameStatus
-	arm_func_end ovl00_215C148
+	arm_func_end EnemyFireSkull__Action_215C148
 
-	arm_func_start ovl00_215C1E0
-ovl00_215C1E0: // 0x0215C1E0
+	arm_func_start EnemyFireSkull__State_215C1E0
+EnemyFireSkull__State_215C1E0: // 0x0215C1E0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x24]
@@ -655,15 +655,15 @@ ovl00_215C1E0: // 0x0215C1E0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215C2E4: .word FX_SinCosTable_
-	arm_func_end ovl00_215C1E0
+	arm_func_end EnemyFireSkull__State_215C1E0
 
-	arm_func_start ovl00_215C2E8
-ovl00_215C2E8: // 0x0215C2E8
+	arm_func_start EnemyFireSkull__Action_215C2E8
+EnemyFireSkull__Action_215C2E8: // 0x0215C2E8
 	stmdb sp!, {r4, lr}
 	mov r1, #3
 	mov r4, r0
 	bl GameObject__SetAnimation
-	ldr r1, _0215C320 // =ovl00_215C324
+	ldr r1, _0215C320 // =EnemyFireSkull__State_215C324
 	mov r0, #0
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0x98]
@@ -674,21 +674,21 @@ ovl00_215C2E8: // 0x0215C2E8
 	str r0, [r4, #0x354]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215C320: .word ovl00_215C324
-	arm_func_end ovl00_215C2E8
+_0215C320: .word EnemyFireSkull__State_215C324
+	arm_func_end EnemyFireSkull__Action_215C2E8
 
-	arm_func_start ovl00_215C324
-ovl00_215C324: // 0x0215C324
+	arm_func_start EnemyFireSkull__State_215C324
+EnemyFireSkull__State_215C324: // 0x0215C324
 	ldr r1, [r0, #0x20]
 	tst r1, #8
 	ldrne r1, [r0, #0x18]
 	orrne r1, r1, #4
 	strne r1, [r0, #0x18]
 	bx lr
-	arm_func_end ovl00_215C324
+	arm_func_end EnemyFireSkull__State_215C324
 
-	arm_func_start ovl00_215C33C
-ovl00_215C33C: // 0x0215C33C
+	arm_func_start EnemyFireSkull__OnDefend
+EnemyFireSkull__OnDefend: // 0x0215C33C
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -721,7 +721,7 @@ _0215C390:
 	orr r1, r1, #0x800
 	str r1, [r4, #0x270]
 	str r2, [r4, #0x274]
-	bl ovl00_215BF28
+	bl EnemyFireSkull__Func_215BF28
 	mov r0, r5
 	bl Player__ApplyVelocityShift
 	mov r2, #0
@@ -735,7 +735,7 @@ _0215C390:
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_215C33C
+	arm_func_end EnemyFireSkull__OnDefend
 
 	.data
 

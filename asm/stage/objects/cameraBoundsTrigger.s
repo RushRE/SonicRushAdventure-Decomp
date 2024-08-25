@@ -58,7 +58,7 @@ _02168704:
 	mov r1, #0
 	ble _0216879C
 	ldr r3, _021687B8 // =mapCamera
-	ldr r0, _021687BC // =ovl00_21687FC
+	ldr r0, _021687BC // =CameraBoundsTrigger__CameraState_ApplyBounds
 	add ip, r5, #0x364
 _0216871C:
 	ldrsb r6, [r3, #0x46]
@@ -94,7 +94,7 @@ _0216871C:
 	add ip, ip, #0x1c
 	blt _0216871C
 _0216879C:
-	ldr r1, _021687C0 // =ovl00_21687C4
+	ldr r1, _021687C0 // =CameraBoundsTrigger__State_Active
 	mov r0, r5
 	str r1, [r5, #0xf4]
 	add sp, sp, #0xc
@@ -103,12 +103,12 @@ _0216879C:
 _021687B0: .word StageTask_Main
 _021687B4: .word GameObject__Destructor
 _021687B8: .word mapCamera
-_021687BC: .word ovl00_21687FC
-_021687C0: .word ovl00_21687C4
+_021687BC: .word CameraBoundsTrigger__CameraState_ApplyBounds
+_021687C0: .word CameraBoundsTrigger__State_Active
 	arm_func_end CameraBoundsTrigger__Create
 
-	arm_func_start ovl00_21687C4
-ovl00_21687C4: // 0x021687C4
+	arm_func_start CameraBoundsTrigger__State_Active
+CameraBoundsTrigger__State_Active: // 0x021687C4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r2, [r4, #0x378]
@@ -124,10 +124,10 @@ _021687E0:
 	mov r1, #1
 	blx r2
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_21687C4
+	arm_func_end CameraBoundsTrigger__State_Active
 
-	arm_func_start ovl00_21687FC
-ovl00_21687FC: // 0x021687FC
+	arm_func_start CameraBoundsTrigger__CameraState_ApplyBounds
+CameraBoundsTrigger__CameraState_ApplyBounds: // 0x021687FC
 	stmdb sp!, {r4, lr}
 	mov r2, #0x1c
 	mul lr, r1, r2
@@ -211,30 +211,30 @@ _021688F0:
 	bic r1, r1, #8
 	str r1, [r0]
 _02168938:
-	ldr r1, _02168948 // =ovl00_216894C
+	ldr r1, _02168948 // =CameraBoundsTrigger__CameraState_Idle
 	str r1, [r0, #0x14]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02168944: .word mapCamera
-_02168948: .word ovl00_216894C
-	arm_func_end ovl00_21687FC
+_02168948: .word CameraBoundsTrigger__CameraState_Idle
+	arm_func_end CameraBoundsTrigger__CameraState_ApplyBounds
 
-	arm_func_start ovl00_216894C
-ovl00_216894C: // 0x0216894C
+	arm_func_start CameraBoundsTrigger__CameraState_Idle
+CameraBoundsTrigger__CameraState_Idle: // 0x0216894C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
-	bl ovl00_2168BC0
+	bl CameraBoundsTrigger__Func_2168BC0
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
 	mov r1, r4
-	bl ovl00_2168974
+	bl CameraBoundsTrigger__Func_2168974
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_216894C
+	arm_func_end CameraBoundsTrigger__CameraState_Idle
 
-	arm_func_start ovl00_2168974
-ovl00_2168974: // 0x02168974
+	arm_func_start CameraBoundsTrigger__Func_2168974
+CameraBoundsTrigger__Func_2168974: // 0x02168974
 	stmdb sp!, {r4, lr}
 	ldr r3, [r0, #0x340]
 	ldr lr, _02168B90 // =mapCamera
@@ -379,30 +379,30 @@ _02168B58:
 	orr r1, r1, #8
 	str r1, [r0]
 _02168B84:
-	ldr r1, _02168B94 // =ovl00_2168B98
+	ldr r1, _02168B94 // =CameraBoundsTrigger__UnknownState_2168B98
 	str r1, [r0, #0x14]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02168B90: .word mapCamera
-_02168B94: .word ovl00_2168B98
-	arm_func_end ovl00_2168974
+_02168B94: .word CameraBoundsTrigger__UnknownState_2168B98
+	arm_func_end CameraBoundsTrigger__Func_2168974
 
-	arm_func_start ovl00_2168B98
-ovl00_2168B98: // 0x02168B98
+	arm_func_start CameraBoundsTrigger__UnknownState_2168B98
+CameraBoundsTrigger__UnknownState_2168B98: // 0x02168B98
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
-	bl ovl00_2168BC0
+	bl CameraBoundsTrigger__Func_2168BC0
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
 	mov r0, r5
 	mov r1, r4
-	bl ovl00_21687FC
+	bl CameraBoundsTrigger__CameraState_ApplyBounds
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_2168B98
+	arm_func_end CameraBoundsTrigger__UnknownState_2168B98
 
-	arm_func_start ovl00_2168BC0
-ovl00_2168BC0: // 0x02168BC0
+	arm_func_start CameraBoundsTrigger__Func_2168BC0
+CameraBoundsTrigger__Func_2168BC0: // 0x02168BC0
 	stmdb sp!, {r4, lr}
 	mov r2, #0x1c
 	mla r3, r1, r2, r0
@@ -454,4 +454,4 @@ _02168C70:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02168C78: .word gPlayerList
-	arm_func_end ovl00_2168BC0
+	arm_func_end CameraBoundsTrigger__Func_2168BC0

@@ -166,7 +166,7 @@ _0216D120:
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216D1D4 // =ovl00_216D27C
+	ldr r0, _0216D1D4 // =SpringCrystal__OnDefend_216D27C
 	mov r1, #0
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
@@ -180,8 +180,8 @@ _0216D120:
 	add r0, r4, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216D1D8 // =ovl00_216D28C
-	ldr r1, _0216D1DC // =ovl00_216D21C
+	ldr r0, _0216D1D8 // =SpringCrystal__OnDefend_216D28C
+	ldr r1, _0216D1DC // =SpringCrystal__Draw
 	str r0, [r4, #0x27c]
 	ldr r2, [r4, #0x270]
 	mov r0, r4
@@ -200,13 +200,13 @@ _0216D1C4: .word aActAcGmkSprgCr
 _0216D1C8: .word aDfGmkSprgCryst
 _0216D1CC: .word aDfGmkSprgCryst_0
 _0216D1D0: .word 0x0000FFFE
-_0216D1D4: .word ovl00_216D27C
-_0216D1D8: .word ovl00_216D28C
-_0216D1DC: .word ovl00_216D21C
+_0216D1D4: .word SpringCrystal__OnDefend_216D27C
+_0216D1D8: .word SpringCrystal__OnDefend_216D28C
+_0216D1DC: .word SpringCrystal__Draw
 	arm_func_end SpringCrystal__Create
 
-	arm_func_start ovl00_216D1E0
-ovl00_216D1E0: // 0x0216D1E0
+	arm_func_start SpringCrystal__State_216D1E0
+SpringCrystal__State_216D1E0: // 0x0216D1E0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x20]
@@ -222,10 +222,10 @@ ovl00_216D1E0: // 0x0216D1E0
 	str r1, [r4, #0x230]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_216D1E0
+	arm_func_end SpringCrystal__State_216D1E0
 
-	arm_func_start ovl00_216D21C
-ovl00_216D21C: // 0x0216D21C
+	arm_func_start SpringCrystal__Draw
+SpringCrystal__Draw: // 0x0216D21C
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -250,28 +250,28 @@ ovl00_216D21C: // 0x0216D21C
 	bl StageTask__Draw2D
 	str r6, [r4, #0x20]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl00_216D21C
+	arm_func_end SpringCrystal__Draw
 
-	arm_func_start ovl00_216D27C
-ovl00_216D27C: // 0x0216D27C
-	ldr ip, _0216D288 // =ovl00_0216d29c
+	arm_func_start SpringCrystal__OnDefend_216D27C
+SpringCrystal__OnDefend_216D27C: // 0x0216D27C
+	ldr ip, _0216D288 // =SpringCrystal__OnDefend_216D29C
 	mov r2, #0
 	bx ip
 	.align 2, 0
-_0216D288: .word ovl00_0216d29c
-	arm_func_end ovl00_216D27C
+_0216D288: .word SpringCrystal__OnDefend_216D29C
+	arm_func_end SpringCrystal__OnDefend_216D27C
 
-	arm_func_start ovl00_216D28C
-ovl00_216D28C: // 0x0216D28C
-	ldr ip, _0216D298 // =ovl00_0216d29c
+	arm_func_start SpringCrystal__OnDefend_216D28C
+SpringCrystal__OnDefend_216D28C: // 0x0216D28C
+	ldr ip, _0216D298 // =SpringCrystal__OnDefend_216D29C
 	mov r2, #1
 	bx ip
 	.align 2, 0
-_0216D298: .word ovl00_0216d29c
-	arm_func_end ovl00_216D28C
+_0216D298: .word SpringCrystal__OnDefend_216D29C
+	arm_func_end SpringCrystal__OnDefend_216D28C
 
-	arm_func_start ovl00_0216d29c
-ovl00_0216d29c: // 0x0216D29C
+	arm_func_start SpringCrystal__OnDefend_216D29C
+SpringCrystal__OnDefend_216D29C: // 0x0216D29C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x50
 	ldr r4, [r1, #0x1c]
@@ -455,7 +455,7 @@ _0216D4A8:
 	mov r2, #2
 	str r7, [sp, #4]
 	bl EffectTruckSparkles__Create
-	ldr r1, _0216D5A0 // =ovl00_216D1E0
+	ldr r1, _0216D5A0 // =SpringCrystal__State_216D1E0
 	mov r0, #0
 	str r1, [r4, #0xf4]
 	mov r1, #0x5d
@@ -475,8 +475,8 @@ _0216D4A8:
 _0216D594: .word FX_SinCosTable_
 _0216D598: .word _021894D8
 _0216D59C: .word 0x021894DC
-_0216D5A0: .word ovl00_216D1E0
-	arm_func_end ovl00_0216d29c
+_0216D5A0: .word SpringCrystal__State_216D1E0
+	arm_func_end SpringCrystal__OnDefend_216D29C
 
 	.data
 	

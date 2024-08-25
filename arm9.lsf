@@ -143,7 +143,7 @@ Static arm9
     Object asm/game/text/fontField9C.o
     Object asm/game/text/fontWindowAnimator.o
     Object asm/game/text/fontWindowMWControl.o
-    Object src/game/cutscene/ayk.o
+    Object src/game/cutscene/script.o
     Object asm/game/file/compressedFile.o
     Object src/game/save/saveGame.o
     Object asm/game/save/saveGame_1.o // SaveGame_LoadData2 has to be in an asm file since inline asm functions can't compile it matching
@@ -367,19 +367,18 @@ Overlay ZoneAct
     Object asm/stage/decoration/decorationSys_vars_bss.o
     
     ## STAGE OBJECTS ##
-    Object asm/stage/objects/object1.o
-    Object asm/stage/objects/object2.o
-    Object asm/stage/objects/object3.o
-    Object asm/stage/objects/object4.o
-    Object asm/stage/objects/object5.o
-    Object asm/stage/objects/object6.o
-    Object asm/stage/objects/object7.o
-    Object asm/stage/objects/object8.o
+    Object asm/stage/objects/enemyPirate.o
+    Object asm/stage/objects/enemyProtJet.o
+    Object asm/stage/objects/enemyAngler.o
+    Object asm/stage/objects/enemyCrab.o
+    Object asm/stage/objects/enemyGhost.o
+    Object asm/stage/objects/enemySnowflakeHead.o
+    Object asm/stage/objects/enemySnowball.o
+    Object asm/stage/objects/enemyGlider.o
     Object asm/stage/objects/enemyParts.o
-    Object asm/stage/objects/object92.o
-    Object asm/stage/objects/object10.o
-    Object asm/stage/objects/object11.o
-    Object asm/stage/objects/EnemySkymoon.o
+    Object asm/stage/objects/enemyFireSkull.o
+    Object asm/stage/objects/enemyDiveBat.o
+    Object asm/stage/objects/enemySkymoon.o
     Object src/stage/objects/flagChange.o
     Object src/stage/objects/spring.o
     Object src/stage/objects/dashPanel.o
@@ -388,74 +387,74 @@ Overlay ZoneAct
     Object src/stage/objects/springboard.o
     Object asm/stage/objects/spikes_vars.o
     Object src/stage/objects/spikes.o
-    Object asm/stage/objects/Breakable.o
-    Object asm/stage/objects/BreakableWall.o
-    Object asm/stage/objects/object23.o
-    Object asm/stage/objects/object30.o
-    Object asm/stage/objects/object27.o
-    Object asm/stage/objects/object31.o
-    Object asm/stage/objects/object17.o
+    Object asm/stage/objects/breakable.o
+    Object asm/stage/objects/breakableWall.o
+    Object asm/stage/objects/grindTrigger.o
+    Object asm/stage/objects/pipeSteam.o
+    Object asm/stage/objects/rotatingHanger.o
+    Object asm/stage/objects/ropeTar.o
+    Object asm/stage/objects/flipMushroom.o
     Object asm/stage/objects/grind3Line.o
     Object src/stage/objects/waterLevelTrigger.o
     Object src/stage/objects/waterRunTrigger.o
     Object asm/stage/objects/goalChest_vars.o
     Object src/stage/objects/goalChest.o
-    Object asm/stage/objects/object39.o
-    Object asm/stage/objects/object18.o
-    Object asm/stage/objects/DreamWing.o
-    Object asm/stage/objects/object19.o
-    Object asm/stage/objects/object42.o
-    Object asm/stage/objects/object43.o
-    Object src/stage/objects/PlayerSnowboard.o
-    Object asm/stage/objects/object44.o
-    Object asm/stage/objects/object46.o
-    Object asm/stage/objects/object47.o
-    Object asm/stage/objects/object48.o
-    Object asm/stage/objects/object49.o
-    Object asm/stage/objects/object50.o
-    Object asm/stage/objects/object51.o
-    Object asm/stage/objects/object52.o
-    Object asm/stage/objects/object53.o
-    Object asm/stage/objects/object54.o
-    Object asm/stage/objects/object55.o
-    Object asm/stage/objects/object56.o
-    Object asm/stage/objects/object58.o
-    Object asm/stage/objects/object97.o
-    Object asm/stage/objects/ItemBox3D.o
-    Object asm/stage/objects/object99.o
-    Object asm/stage/objects/object100.o
-    Object asm/stage/objects/object101.o
+    Object asm/stage/objects/steamFan.o
+    Object asm/stage/objects/popSteam.o
+    Object asm/stage/objects/dreamWing.o
+    Object asm/stage/objects/largePiston.o
+    Object asm/stage/objects/cameraBoundsTrigger.o
+    Object asm/stage/objects/icicle.o
+    Object src/stage/objects/playerSnowboard.o
+    Object asm/stage/objects/flipBoard.o
+    Object asm/stage/objects/diveStand.o
+    Object asm/stage/objects/iceBlock.o
+    Object asm/stage/objects/halfpipe.o
+    Object asm/stage/objects/grabTree.o
+    Object asm/stage/objects/objectUnknown1.o
+    Object asm/stage/objects/stalactite.o
+    Object asm/stage/objects/springCrystal.o
+    Object asm/stage/objects/vRotateCrane.o
+    Object asm/stage/objects/winch.o
+    Object asm/stage/objects/truck3D.o
+    Object asm/stage/objects/truck.o
+    Object asm/stage/objects/truck3DTrigger.o
+    Object asm/stage/objects/ringTruck3D.o
+    Object asm/stage/objects/itemBoxTruck3D.o
+    Object asm/stage/objects/truckBomb3D.o
+    Object asm/stage/objects/truckSpike3D.o
+    Object asm/stage/objects/truckLava3D.o
     Object src/stage/objects/stageRing.o
     Object src/stage/objects/itemBox.o
     Object src/stage/objects/checkpoint.o
-    Object asm/stage/objects/Platform.o
-    Object asm/stage/objects/object60.o
-    Object asm/stage/objects/object62.o
-    Object asm/stage/objects/object63.o
+    Object asm/stage/objects/platform.o
+    Object asm/stage/objects/snowslide.o
+    Object asm/stage/objects/anchorRope.o
+    Object asm/stage/objects/barrel.o
     Object src/stage/objects/startPlatform.o
-    Object asm/stage/objects/object64.o
-    Object asm/stage/objects/object65.o
-    Object asm/stage/objects/object66.o
-    Object asm/stage/objects/object68.o
+    Object asm/stage/objects/trampoline3D.o
+    Object asm/stage/objects/pirateShip.o
+    Object asm/stage/objects/cannon.o
+    Object asm/stage/objects/cannonRing.o
     Object src/stage/objects/tutorial.o
     Object asm/stage/objects/jumpbox_vars.o
     Object src/stage/objects/jumpbox.o
-    Object asm/stage/objects/object73.o
-    Object asm/stage/objects/object72.o
-    Object asm/stage/objects/object76.o
-    Object asm/stage/objects/object74.o
-    Object asm/stage/objects/object75.o
-    Object asm/stage/objects/object78.o
-    Object asm/stage/objects/object79.o
-    Object asm/stage/objects/object80.o
-    Object asm/stage/objects/object81.o
-    Object asm/stage/objects/object82.o
+    Object asm/stage/objects/slingshot.o
+    Object asm/stage/objects/timerShutter.o
+    Object asm/stage/objects/floatingFountain.o
+    Object asm/stage/objects/fallingAnchor.o
+    Object asm/stage/objects/dolphin.o
+    Object asm/stage/objects/fireFloor.o
+    Object asm/stage/objects/hoverCrystal.o
+    Object asm/stage/objects/balloon.o
+    Object asm/stage/objects/crumblingFloor.o
+    Object asm/stage/objects/waterGun.o
     Object src/stage/objects/missionFlag.o
-    Object src/stage/objects/missionRing.o
-    Object asm/stage/objects/object87.o
-    Object asm/stage/objects/object88.o
-    Object asm/stage/objects/object106.o
-    Object asm/stage/objects/object107.o
+    Object src/stage/objects/medal.o
+    Object asm/stage/objects/bungee.o
+    Object asm/stage/objects/springRope.o
+    Object asm/stage/objects/springRopeSpring.o
+    Object asm/stage/objects/springRopeBase.o
     Object src/stage/objects/ringButton.o
     Object src/stage/objects/ringButtonSfxManager.o
     Object src/stage/core/ringBattleManager.o
@@ -637,8 +636,8 @@ Overlay Sail
 Overlay Cutscene
 {
     After arm9
-    Object asm/cutscene/cutsceneSeq_vars.o
-    Object src/cutscene/cutsceneSeq.o
+    Object asm/cutscene/cutsceneScript_vars.o
+    Object src/cutscene/cutsceneScript.o
 }
 
 # Overlay08/DWCUtility => Nitro WiFi config menu

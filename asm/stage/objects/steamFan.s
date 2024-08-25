@@ -94,11 +94,11 @@ SteamFan__Create: // 0x02165F28
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02166108 // =ovl00_2166288
-	ldr r1, _0216610C // =ovl00_2166308
+	ldr r0, _02166108 // =SteamFan__OnDefend
+	ldr r1, _0216610C // =SteamFan__Draw
 	str r0, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
-	ldr r0, _02166110 // =ovl00_2166138
+	ldr r0, _02166110 // =SteamFan__State_2166138
 	orr r2, r2, #0x400
 	str r2, [r4, #0x230]
 	str r1, [r4, #0xfc]
@@ -126,9 +126,9 @@ _021660F8: .word SteamFan__Destructor
 _021660FC: .word gameArchiveStage
 _02166100: .word aActAcGmkSteamF_0
 _02166104: .word 0x0000FFFE
-_02166108: .word ovl00_2166288
-_0216610C: .word ovl00_2166308
-_02166110: .word ovl00_2166138
+_02166108: .word SteamFan__OnDefend
+_0216610C: .word SteamFan__Draw
+_02166110: .word SteamFan__State_2166138
 	arm_func_end SteamFan__Create
 
 	arm_func_start SteamFan__Destructor
@@ -144,8 +144,8 @@ SteamFan__Destructor: // 0x02166114
 	ldmia sp!, {r4, pc}
 	arm_func_end SteamFan__Destructor
 
-	arm_func_start ovl00_2166138
-ovl00_2166138: // 0x02166138
+	arm_func_start SteamFan__State_2166138
+SteamFan__State_2166138: // 0x02166138
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x340]
@@ -237,10 +237,10 @@ _02166274:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02166284: .word playerGameStatus
-	arm_func_end ovl00_2166138
+	arm_func_end SteamFan__State_2166138
 
-	arm_func_start ovl00_2166288
-ovl00_2166288: // 0x02166288
+	arm_func_start SteamFan__OnDefend
+SteamFan__OnDefend: // 0x02166288
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -273,10 +273,10 @@ ovl00_2166288: // 0x02166288
 	add r2, r2, #0x6000
 	bl Player__Gimmick_201E3F8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_2166288
+	arm_func_end SteamFan__OnDefend
 
-	arm_func_start ovl00_2166308
-ovl00_2166308: // 0x02166308
+	arm_func_start SteamFan__Draw
+SteamFan__Draw: // 0x02166308
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #0x14
 	bl GetCurrentTaskWork_
@@ -308,7 +308,7 @@ _02166340:
 	blt _02166340
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
-	arm_func_end ovl00_2166308
+	arm_func_end SteamFan__Draw
 
 	.data
 	

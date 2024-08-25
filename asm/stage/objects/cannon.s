@@ -102,7 +102,7 @@ _0217AB14:
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	mov r2, #0x50
-	ldr r0, _0217ABF0 // =ovl00_217B684
+	ldr r0, _0217ABF0 // =CannonField__OnDefend
 	mov r1, #0
 	str r0, [r7, #0x23c]
 	ldr r3, [r7, #0x230]
@@ -120,7 +120,7 @@ _0217AB14:
 	add r0, r7, #0x200
 	strh r1, [r0, #0xf0]
 	sub r2, r2, #0x9a
-	ldr r1, _0217ABF8 // =ovl00_217B488
+	ldr r1, _0217ABF8 // =CannonField__Draw
 	strh r2, [r0, #0xf2]
 	mov r0, r7
 	str r1, [r7, #0xfc]
@@ -134,9 +134,9 @@ _0217ABE0: .word gameArchiveStage
 _0217ABE4: .word aModGmkCannonNs
 _0217ABE8: .word 0x000034CC
 _0217ABEC: .word 0x0000FFFE
-_0217ABF0: .word ovl00_217B684
+_0217ABF0: .word CannonField__OnDefend
 _0217ABF4: .word StageTask__DefaultDiffData
-_0217ABF8: .word ovl00_217B488
+_0217ABF8: .word CannonField__Draw
 	arm_func_end CannonField__Create
 
 	arm_func_start Cannon__Create
@@ -227,8 +227,8 @@ Cannon__Create: // 0x0217ABFC
 	mov r1, #0xb0
 	strh r1, [r2, #0x18]
 	strh r6, [r2, #0x1a]
-	ldr r2, _0217AD84 // =ovl00_217B7A8
-	ldr r1, _0217AD88 // =ovl00_217B7DC
+	ldr r2, _0217AD84 // =Cannon__State_217B7A8
+	ldr r1, _0217AD88 // =Cannon__Collide
 	str r2, [r4, #0xf4]
 	str r1, [r4, #0x108]
 	add sp, sp, #0xc
@@ -240,8 +240,8 @@ _0217AD74: .word gameArchiveStage
 _0217AD78: .word aModGmkCannonNs
 _0217AD7C: .word 0x000025A3
 _0217AD80: .word StageTask__DefaultDiffData
-_0217AD84: .word ovl00_217B7A8
-_0217AD88: .word ovl00_217B7DC
+_0217AD84: .word Cannon__State_217B7A8
+_0217AD88: .word Cannon__Collide
 	arm_func_end Cannon__Create
 
 	arm_func_start CannonPath__Create

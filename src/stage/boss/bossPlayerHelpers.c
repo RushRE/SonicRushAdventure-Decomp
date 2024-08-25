@@ -316,9 +316,9 @@ void BossPlayerHelpers_OnLandGround_Boss6(Player *player)
     }
     else
     {
-        Player__ChangeAction(player, PLAYER_ACTION_79);
+        Player__ChangeAction(player, PLAYER_ACTION_BOSS6_RUN);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-        MTX_RotY33(&player->obj_3dWork.ani.work.matrix33, SinFX(0x8000), CosFX(0x8000));
+        MTX_RotY33(&player->obj_3dWork.ani.work.matrix33, SinFX(FLOAT_DEG_TO_IDX(180.0)), CosFX(FLOAT_DEG_TO_IDX(180.0)));
 
         if ((player->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
         {

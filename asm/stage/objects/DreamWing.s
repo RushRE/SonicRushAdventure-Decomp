@@ -83,7 +83,7 @@ DreamWing__Create: // 0x02166E80
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02166FF8 // =ovl00_21673F0
+	ldr r0, _02166FF8 // =DreamWing__OnDefend
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
 	orr r0, r0, #0x400
@@ -100,7 +100,7 @@ _02166FE8: .word gameArchiveStage
 _02166FEC: .word 0x0000FFFF
 _02166FF0: .word aActAcGmkDreamW
 _02166FF4: .word 0x0000FFFE
-_02166FF8: .word ovl00_21673F0
+_02166FF8: .word DreamWing__OnDefend
 	arm_func_end DreamWing__Create
 
 	arm_func_start DreamWingPart__Create
@@ -210,7 +210,7 @@ DreamWingPart__Create: // 0x02166FFC
 	ldrnesh r0, [r1, #0xf0]
 	subne r0, r0, #8
 	strneh r0, [r1, #0xf0]
-	ldr r1, _021671C8 // =ovl00_21675B4
+	ldr r1, _021671C8 // =DreamWingPart__Draw
 	mov r0, r4
 	str r1, [r4, #0xfc]
 	add sp, sp, #0xc
@@ -221,11 +221,11 @@ _021671B8: .word GameObject__Destructor
 _021671BC: .word gameArchiveStage
 _021671C0: .word aActAcGmkDreamW
 _021671C4: .word StageTask__DefaultDiffData
-_021671C8: .word ovl00_21675B4
+_021671C8: .word DreamWingPart__Draw
 	arm_func_end DreamWingPart__Create
 
-	arm_func_start ovl00_21671CC
-ovl00_21671CC: // 0x021671CC
+	arm_func_start DreamWing__State_21671CC
+DreamWing__State_21671CC: // 0x021671CC
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -368,10 +368,10 @@ _021673D4:
 	streq r0, [r5, #0xf4]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_21671CC
+	arm_func_end DreamWing__State_21671CC
 
-	arm_func_start ovl00_21673F0
-ovl00_21673F0: // 0x021673F0
+	arm_func_start DreamWing__OnDefend
+DreamWing__OnDefend: // 0x021673F0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -479,7 +479,7 @@ _02167514:
 	mov r1, #1
 	str r2, [r4, #0x9c]
 	bl StageTask__SetAnimation
-	ldr r1, _021675B0 // =ovl00_21671CC
+	ldr r1, _021675B0 // =DreamWing__State_21671CC
 	mov r0, r5
 	str r1, [r4, #0xf4]
 	ldr r2, [r4, #0x340]
@@ -494,11 +494,11 @@ _02167514:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _021675AC: .word FX_SinCosTable_
-_021675B0: .word ovl00_21671CC
-	arm_func_end ovl00_21673F0
+_021675B0: .word DreamWing__State_21671CC
+	arm_func_end DreamWing__OnDefend
 
-	arm_func_start ovl00_21675B4
-ovl00_21675B4: // 0x021675B4
+	arm_func_start DreamWingPart__Draw
+DreamWingPart__Draw: // 0x021675B4
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x18
 	bl GetCurrentTaskWork_
@@ -531,7 +531,7 @@ _021675F0:
 	bgt _021675F0
 	add sp, sp, #0x18
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end ovl00_21675B4
+	arm_func_end DreamWingPart__Draw
 	
 	.data
 

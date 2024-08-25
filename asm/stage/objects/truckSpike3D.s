@@ -96,7 +96,7 @@ TruckSpike3D__Create: // 0x0217056C
 	mov r2, #0xff
 	bl ObjRect__SetDefenceStat
 	ldr r0, [r4, #0x270]
-	ldr r1, _02170710 // =ovl00_2170714
+	ldr r1, _02170710 // =TruckSpike3D__State_2170714
 	orr r0, r0, #4
 	orr r0, r0, #0x400
 	str r0, [r4, #0x270]
@@ -111,11 +111,11 @@ _02170700: .word GameObject__Destructor
 _02170704: .word gameArchiveStage
 _02170708: .word aActAcGmkTruckS
 _0217070C: .word 0x0000FFFF
-_02170710: .word ovl00_2170714
+_02170710: .word TruckSpike3D__State_2170714
 	arm_func_end TruckSpike3D__Create
 
-	arm_func_start ovl00_2170714
-ovl00_2170714: // 0x02170714
+	arm_func_start TruckSpike3D__State_2170714
+TruckSpike3D__State_2170714: // 0x02170714
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x11c]
 	cmp r1, #0
@@ -147,7 +147,7 @@ ovl00_2170714: // 0x02170714
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02170788: .word g_obj
-	arm_func_end ovl00_2170714
+	arm_func_end TruckSpike3D__State_2170714
 
 	.data
 	

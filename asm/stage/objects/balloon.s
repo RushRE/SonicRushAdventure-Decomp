@@ -40,7 +40,7 @@ BalloonSpawner__Create: // 0x02182AD8
 	mov r3, r5
 	bl GameObject__InitFromObject
 	ldr r3, [r4, #0x1c]
-	ldr r0, _02182BD0 // =ovl00_2182F58
+	ldr r0, _02182BD0 // =BalloonSpawner__State_2182F58
 	orr r3, r3, #0x2100
 	str r3, [r4, #0x1c]
 	str r0, [r4, #0xf4]
@@ -68,7 +68,7 @@ BalloonSpawner__Create: // 0x02182AD8
 	.align 2, 0
 _02182BC8: .word StageTask_Main
 _02182BCC: .word GameObject__Destructor
-_02182BD0: .word ovl00_2182F58
+_02182BD0: .word BalloonSpawner__State_2182F58
 _02182BD4: .word 0x00000152
 	arm_func_end BalloonSpawner__Create
 
@@ -225,13 +225,13 @@ Balloon__Create: // 0x02182BD8
 	add r0, r5, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02182F44 // =ovl00_21834D4
+	ldr r0, _02182F44 // =Balloon__OnDefend
 	str r0, [r5, #0x23c]
 	ldr r0, [r5, #0x230]
 	orr r0, r0, #0x400
 	str r0, [r5, #0x230]
 	bl AllocSndHandle
-	ldr r1, _02182F48 // =ovl00_21835D0
+	ldr r1, _02182F48 // =Balloon__Draw
 	str r0, [r5, #0x138]
 	str r1, [r5, #0xfc]
 	cmp r6, #0
@@ -239,7 +239,7 @@ Balloon__Create: // 0x02182BD8
 	mov r6, #0
 	str r6, [r5, #0x234]
 	str r6, [r5, #0x3c]
-	ldr r0, _02182F4C // =ovl00_2183094
+	ldr r0, _02182F4C // =Balloon__State_2183094
 	str r6, [r5, #0x38]
 	str r0, [r5, #0xf4]
 	ldr r0, [r5, #0x48]
@@ -296,15 +296,15 @@ _02182F34: .word Balloon__Destructor
 _02182F38: .word gameArchiveStage
 _02182F3C: .word aActAcGmkBalloo
 _02182F40: .word 0x0000FFFE
-_02182F44: .word ovl00_21834D4
-_02182F48: .word ovl00_21835D0
-_02182F4C: .word ovl00_2183094
+_02182F44: .word Balloon__OnDefend
+_02182F48: .word Balloon__Draw
+_02182F4C: .word Balloon__State_2183094
 _02182F50: .word FX_SinCosTable_
 _02182F54: .word defaultSfxPlayer
 	arm_func_end Balloon__Create
 
-	arm_func_start ovl00_2182F58
-ovl00_2182F58: // 0x02182F58
+	arm_func_start BalloonSpawner__State_2182F58
+BalloonSpawner__State_2182F58: // 0x02182F58
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -360,7 +360,7 @@ _02182FA4:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _02183024: .word 0x00000152
-	arm_func_end ovl00_2182F58
+	arm_func_end BalloonSpawner__State_2182F58
 
 	arm_func_start Balloon__Destructor
 Balloon__Destructor: // 0x02183028
@@ -394,8 +394,8 @@ _02183048:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	arm_func_end Balloon__Destructor
 
-	arm_func_start ovl00_2183094
-ovl00_2183094: // 0x02183094
+	arm_func_start Balloon__State_2183094
+Balloon__State_2183094: // 0x02183094
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r1, [r0, #0x2c]
 	add r1, r1, #0x99
@@ -435,10 +435,10 @@ _021830E8:
 	str r4, [r0, #0x3c]
 	str r4, [r0, #0x38]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ovl00_2183094
+	arm_func_end Balloon__State_2183094
 
-	arm_func_start ovl00_2183128
-ovl00_2183128: // 0x02183128
+	arm_func_start Balloon__State_2183128
+Balloon__State_2183128: // 0x02183128
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x10
 	mov r5, r0
@@ -446,7 +446,7 @@ ovl00_2183128: // 0x02183128
 	ldr r4, [r5, #0x35c]
 	tst r1, #0xf
 	beq _02183150
-	bl ovl00_2183434
+	bl Balloon__Func_2183434
 	add sp, sp, #0x10
 	ldmia sp!, {r4, r5, r6, pc}
 _02183150:
@@ -463,7 +463,7 @@ _02183150:
 	blt _021831B0
 _0218317C:
 	ldr r0, [r5, #0x1c]
-	ldr r1, _0218335C // =ovl00_2183370
+	ldr r1, _0218335C // =Balloon__State_2183370
 	bic r0, r0, #0x2000
 	str r0, [r5, #0x1c]
 	ldr r2, [r5, #0xbc]
@@ -472,7 +472,7 @@ _0218317C:
 	ldr r2, [r5, #0xc0]
 	str r2, [r5, #0x9c]
 	str r1, [r5, #0xf4]
-	bl ovl00_2183370
+	bl Balloon__State_2183370
 	add sp, sp, #0x10
 	ldmia sp!, {r4, r5, r6, pc}
 _021831B0:
@@ -585,22 +585,22 @@ _02183348:
 	add sp, sp, #0x10
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0218335C: .word ovl00_2183370
+_0218335C: .word Balloon__State_2183370
 _02183360: .word playerGameStatus
 _02183364: .word _mt_math_rand
 _02183368: .word 0x00196225
 _0218336C: .word 0x3C6EF35F
-	arm_func_end ovl00_2183128
+	arm_func_end Balloon__State_2183128
 
-	arm_func_start ovl00_2183370
-ovl00_2183370: // 0x02183370
+	arm_func_start Balloon__State_2183370
+Balloon__State_2183370: // 0x02183370
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
 	ldr r1, [r4, #0x1c]
 	tst r1, #0xf
 	beq _02183394
-	bl ovl00_2183434
+	bl Balloon__Func_2183434
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
 _02183394:
@@ -644,10 +644,10 @@ _02183394:
 	bl StageTask__SetHitbox
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl00_2183370
+	arm_func_end Balloon__State_2183370
 
-	arm_func_start ovl00_2183434
-ovl00_2183434: // 0x02183434
+	arm_func_start Balloon__Func_2183434
+Balloon__Func_2183434: // 0x02183434
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r1, #0
@@ -688,10 +688,10 @@ ovl00_2183434: // 0x02183434
 	str r0, [r4, #0x18]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_2183434
+	arm_func_end Balloon__Func_2183434
 
-	arm_func_start ovl00_21834D4
-ovl00_21834D4: // 0x021834D4
+	arm_func_start Balloon__OnDefend
+Balloon__OnDefend: // 0x021834D4
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -739,7 +739,7 @@ _02183534:
 	ldr r2, [r4, #0x1c]
 	mov r0, #0x68
 	orr r3, r2, #0x10
-	ldr r2, _021835CC // =ovl00_2183128
+	ldr r2, _021835CC // =Balloon__State_2183128
 	str r3, [r4, #0x1c]
 	str r2, [r4, #0xf4]
 	mov r2, #0
@@ -756,11 +756,11 @@ _02183534:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_021835CC: .word ovl00_2183128
-	arm_func_end ovl00_21834D4
+_021835CC: .word Balloon__State_2183128
+	arm_func_end Balloon__OnDefend
 
-	arm_func_start ovl00_21835D0
-ovl00_21835D0: // 0x021835D0
+	arm_func_start Balloon__Draw
+Balloon__Draw: // 0x021835D0
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -778,7 +778,7 @@ ovl00_21835D0: // 0x021835D0
 	bl StageTask__Draw2D
 	str r5, [r4, #0x20]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_21835D0
+	arm_func_end Balloon__Draw
 
 	.data
 	

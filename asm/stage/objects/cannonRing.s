@@ -114,7 +114,7 @@ CannonRing__Create: // 0x0217AECC
 	mov r3, #0x80
 	orr r1, r1, #0x10
 	str r1, [r6, #0x4cc]
-	ldr r0, _0217B128 // =ovl00_217BC38
+	ldr r0, _0217B128 // =CannonRing__Draw_217BC38
 	sub r1, r3, #0x88
 	str r0, [r5, #0xfc]
 	str r5, [r5, #0x234]
@@ -131,7 +131,7 @@ CannonRing__Create: // 0x0217AECC
 	add r0, r5, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _0217B130 // =ovl00_217BD90
+	ldr r1, _0217B130 // =CannonRing__OnDefend_217BD90
 	mov r0, #0x80
 	str r1, [r5, #0x23c]
 	str r5, [r5, #0x274]
@@ -149,7 +149,7 @@ CannonRing__Create: // 0x0217AECC
 	add r0, r5, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _0217B134 // =ovl00_217BE24
+	ldr r1, _0217B134 // =CannonRing__OnDefend_217BE24
 	mov r0, r5
 	str r1, [r5, #0x27c]
 	add sp, sp, #0xc
@@ -159,10 +159,10 @@ _0217B118: .word StageTask_Main
 _0217B11C: .word CannonRing__Destructor
 _0217B120: .word gameArchiveStage
 _0217B124: .word aActAcGmkDashCt_0
-_0217B128: .word ovl00_217BC38
+_0217B128: .word CannonRing__Draw_217BC38
 _0217B12C: .word 0x0000FFFE
-_0217B130: .word ovl00_217BD90
-_0217B134: .word ovl00_217BE24
+_0217B130: .word CannonRing__OnDefend_217BD90
+_0217B134: .word CannonRing__OnDefend_217BE24
 	arm_func_end CannonRing__Create
 
 	arm_func_start CannonField__Destructor
@@ -187,8 +187,8 @@ _0217B14C:
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end CannonField__Destructor
 
-	arm_func_start ovl00_217B17C
-ovl00_217B17C: // 0x0217B17C
+	arm_func_start CannonField__State_217B17C
+CannonField__State_217B17C: // 0x0217B17C
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x5c
 	mov r6, r0
@@ -375,7 +375,7 @@ _0217B2E0:
 	mov r1, r4
 	bl Player__Action_PRCannon
 	mov r1, #0
-	ldr r4, _0217B470 // =ovl00_217B474
+	ldr r4, _0217B470 // =CannonField__State_217B474
 	str r1, [r6, #0x35c]
 	mov r0, r6
 	sub r2, r1, #0x28000
@@ -387,21 +387,21 @@ _0217B464:
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
 _0217B46C: .word FX_SinCosTable_
-_0217B470: .word ovl00_217B474
-	arm_func_end ovl00_217B17C
+_0217B470: .word CannonField__State_217B474
+	arm_func_end CannonField__State_217B17C
 
-	arm_func_start ovl00_217B474
-ovl00_217B474: // 0x0217B474
+	arm_func_start CannonField__State_217B474
+CannonField__State_217B474: // 0x0217B474
 	ldr r1, _0217B484 // =CannonPath__dword_218A394
 	ldr r1, [r1, #4]
 	str r1, [r0, #0x58]
 	bx lr
 	.align 2, 0
 _0217B484: .word CannonPath__dword_218A394
-	arm_func_end ovl00_217B474
+	arm_func_end CannonField__State_217B474
 
-	arm_func_start ovl00_217B488
-ovl00_217B488: // 0x0217B488
+	arm_func_start CannonField__Draw
+CannonField__Draw: // 0x0217B488
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x44
 	bl GetCurrentTaskWork_
@@ -530,10 +530,10 @@ ovl00_217B488: // 0x0217B488
 	.align 2, 0
 _0217B67C: .word CannonPath__dword_218A394
 _0217B680: .word FX_SinCosTable_
-	arm_func_end ovl00_217B488
+	arm_func_end CannonField__Draw
 
-	arm_func_start ovl00_217B684
-ovl00_217B684: // 0x0217B684
+	arm_func_start CannonField__OnDefend
+CannonField__OnDefend: // 0x0217B684
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -606,7 +606,7 @@ _0217B77C:
 	mov r2, #0
 	str r2, [r4, #0x234]
 	ldr r1, [r4, #0x230]
-	ldr r0, _0217B7A4 // =ovl00_217B17C
+	ldr r0, _0217B7A4 // =CannonField__State_217B17C
 	orr r1, r1, #0x800
 	str r1, [r4, #0x230]
 	str r5, [r4, #0x35c]
@@ -614,11 +614,11 @@ _0217B77C:
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_0217B7A4: .word ovl00_217B17C
-	arm_func_end ovl00_217B684
+_0217B7A4: .word CannonField__State_217B17C
+	arm_func_end CannonField__OnDefend
 
-	arm_func_start ovl00_217B7A8
-ovl00_217B7A8: // 0x0217B7A8
+	arm_func_start Cannon__State_217B7A8
+Cannon__State_217B7A8: // 0x0217B7A8
 	ldr r1, _0217B7D8 // =CannonPath__dword_218A394
 	ldr r1, [r1]
 	cmp r1, #0x1f4000
@@ -633,10 +633,10 @@ ovl00_217B7A8: // 0x0217B7A8
 	bx lr
 	.align 2, 0
 _0217B7D8: .word CannonPath__dword_218A394
-	arm_func_end ovl00_217B7A8
+	arm_func_end Cannon__State_217B7A8
 
-	arm_func_start ovl00_217B7DC
-ovl00_217B7DC: // 0x0217B7DC
+	arm_func_start Cannon__Collide
+Cannon__Collide: // 0x0217B7DC
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -665,7 +665,7 @@ _0217B828:
 	add r0, r0, #0x400
 	bl ObjCollisionObjectRegist
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_217B7DC
+	arm_func_end Cannon__Collide
 
 	arm_func_start CannonPath__Destructor
 CannonPath__Destructor: // 0x0217B844
@@ -945,8 +945,8 @@ CannonRing__Destructor: // 0x0217BBFC
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end CannonRing__Destructor
 
-	arm_func_start ovl00_217BC38
-ovl00_217BC38: // 0x0217BC38
+	arm_func_start CannonRing__Draw_217BC38
+CannonRing__Draw_217BC38: // 0x0217BC38
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0x20
 	ldr r5, _0217BD88 // =mapCamera
@@ -1034,10 +1034,10 @@ ovl00_217BC38: // 0x0217BC38
 	.align 2, 0
 _0217BD88: .word mapCamera
 _0217BD8C: .word CannonPath__dword_218A394
-	arm_func_end ovl00_217BC38
+	arm_func_end CannonRing__Draw_217BC38
 
-	arm_func_start ovl00_217BD90
-ovl00_217BD90: // 0x0217BD90
+	arm_func_start CannonRing__OnDefend_217BD90
+CannonRing__OnDefend_217BD90: // 0x0217BD90
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -1075,10 +1075,10 @@ ovl00_217BD90: // 0x0217BD90
 	mov r1, r1, lsr #0x10
 	bl AnimatorSprite__SetAnimation
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_217BD90
+	arm_func_end CannonRing__OnDefend_217BD90
 
-	arm_func_start ovl00_217BE24
-ovl00_217BE24: // 0x0217BE24
+	arm_func_start CannonRing__OnDefend_217BE24
+CannonRing__OnDefend_217BE24: // 0x0217BE24
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -1100,7 +1100,7 @@ ovl00_217BE24: // 0x0217BE24
 	orr r0, r0, #2
 	str r0, [r4, #0x24]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_217BE24
+	arm_func_end CannonRing__OnDefend_217BE24
 
 	.data
 	

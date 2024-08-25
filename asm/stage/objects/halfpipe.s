@@ -94,7 +94,7 @@ Halfpipe__Create: // 0x0216AFB0
 	ldr r1, _0216B1FC // =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _0216B200 // =ovl00_216B208
+	ldr r1, _0216B200 // =Halfpipe__OnDefend_216B208
 	add r0, r4, #0x258
 	str r1, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
@@ -107,7 +107,7 @@ Halfpipe__Create: // 0x0216AFB0
 	add r0, r4, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216B204 // =ovl00_216B2A0
+	ldr r0, _0216B204 // =Halfpipe__OnDefend_216B2A0
 	mov r1, #0
 	str r0, [r4, #0x27c]
 	ldrh r0, [r8, #2]
@@ -156,12 +156,12 @@ _0216B1F0: .word GameObject__Destructor
 _0216B1F4: .word gameArchiveStage
 _0216B1F8: .word aActAcGmkHalfPi
 _0216B1FC: .word 0x0000FFFE
-_0216B200: .word ovl00_216B208
-_0216B204: .word ovl00_216B2A0
+_0216B200: .word Halfpipe__OnDefend_216B208
+_0216B204: .word Halfpipe__OnDefend_216B2A0
 	arm_func_end Halfpipe__Create
 
-	arm_func_start ovl00_216B208
-ovl00_216B208: // 0x0216B208
+	arm_func_start Halfpipe__OnDefend_216B208
+Halfpipe__OnDefend_216B208: // 0x0216B208
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -204,10 +204,10 @@ _0216B284:
 	mov r1, r4
 	bl Player__Action_AllowTrickCombos
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_216B208
+	arm_func_end Halfpipe__OnDefend_216B208
 
-	arm_func_start ovl00_216B2A0
-ovl00_216B2A0: // 0x0216B2A0
+	arm_func_start Halfpipe__OnDefend_216B2A0
+Halfpipe__OnDefend_216B2A0: // 0x0216B2A0
 	stmdb sp!, {r3, lr}
 	ldr r3, [r1, #0x1c]
 	ldr ip, [r0, #0x1c]
@@ -237,7 +237,7 @@ _0216B2FC:
 	mov r0, ip
 	bl Player__Func_20210D0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_216B2A0
+	arm_func_end Halfpipe__OnDefend_216B2A0
 
 	.data
 	

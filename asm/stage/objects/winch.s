@@ -158,7 +158,7 @@ Winch__Create: // 0x0216E0C8
 	add r0, r5, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _0216E3A8 // =ovl00_216E964
+	ldr r1, _0216E3A8 // =Winch__OnDefend
 	mov r0, #0x3c000
 	str r1, [r5, #0x23c]
 	ldr r1, [r5, #0x230]
@@ -174,7 +174,7 @@ Winch__Create: // 0x0216E0C8
 	ldrne r0, [r5, #0x4ac]
 	rsbne r0, r0, #0
 	strne r0, [r5, #0x4ac]
-	ldr r0, _0216E3AC // =ovl00_216E710
+	ldr r0, _0216E3AC // =Winch__Draw
 	str r1, [r5, #0x4c0]
 	str r0, [r5, #0xfc]
 	bl AllocSndHandle
@@ -190,8 +190,8 @@ _0216E398: .word Winch__Destructor
 _0216E39C: .word gameArchiveStage
 _0216E3A0: .word aActAcGmkWinchB
 _0216E3A4: .word 0x0000FFFE
-_0216E3A8: .word ovl00_216E964
-_0216E3AC: .word ovl00_216E710
+_0216E3A8: .word Winch__OnDefend
+_0216E3AC: .word Winch__Draw
 	arm_func_end Winch__Create
 
 	arm_func_start Winch__Destructor
@@ -218,8 +218,8 @@ Winch__Destructor: // 0x0216E3B0
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end Winch__Destructor
 
-	arm_func_start ovl00_216E400
-ovl00_216E400: // 0x0216E400
+	arm_func_start Winch__State_216E400
+Winch__State_216E400: // 0x0216E400
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -303,7 +303,7 @@ _0216E4E8:
 	cmp r0, #0
 	bgt _0216E5C0
 	mov r1, #0
-	ldr r0, _0216E5F4 // =ovl00_216E5F8
+	ldr r0, _0216E5F4 // =Winch__State_216E5F8
 	str r1, [r4, #0x4c0]
 	str r0, [r4, #0xf4]
 	str r1, [r4, #0x2c]
@@ -351,11 +351,11 @@ _0216E5C0:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216E5F4: .word ovl00_216E5F8
-	arm_func_end ovl00_216E400
+_0216E5F4: .word Winch__State_216E5F8
+	arm_func_end Winch__State_216E400
 
-	arm_func_start ovl00_216E5F8
-ovl00_216E5F8: // 0x0216E5F8
+	arm_func_start Winch__State_216E5F8
+Winch__State_216E5F8: // 0x0216E5F8
 	ldr r1, [r0, #0x28]
 	cmp r1, #0
 	beq _0216E618
@@ -429,10 +429,10 @@ _0216E6A4:
 	bic r1, r1, #2
 	str r1, [r0, #0x18]
 	bx lr
-	arm_func_end ovl00_216E5F8
+	arm_func_end Winch__State_216E5F8
 
-	arm_func_start ovl00_216E710
-ovl00_216E710: // 0x0216E710
+	arm_func_start Winch__Draw
+Winch__Draw: // 0x0216E710
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #0x2c
 	bl GetCurrentTaskWork_
@@ -587,10 +587,10 @@ _0216E924:
 	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
 	.align 2, 0
 _0216E960: .word _0218859C
-	arm_func_end ovl00_216E710
+	arm_func_end Winch__Draw
 
-	arm_func_start ovl00_216E964
-ovl00_216E964: // 0x0216E964
+	arm_func_start Winch__OnDefend
+Winch__OnDefend: // 0x0216E964
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r5, [r1, #0x1c]
@@ -654,7 +654,7 @@ _0216EA28:
 	str r2, [r5, #0x24]
 	str r2, [r5, #0x2c]
 	ldr r1, [r5, #0x354]
-	ldr r0, _0216EAC0 // =ovl00_216E400
+	ldr r0, _0216EAC0 // =Winch__State_216E400
 	bic r1, r1, #1
 	str r1, [r5, #0x354]
 	str r0, [r5, #0xf4]
@@ -683,8 +683,8 @@ _0216EA28:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0216EAC0: .word ovl00_216E400
-	arm_func_end ovl00_216E964
+_0216EAC0: .word Winch__State_216E400
+	arm_func_end Winch__OnDefend
 
 	.rodata
 	

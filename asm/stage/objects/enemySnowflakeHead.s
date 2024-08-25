@@ -145,7 +145,7 @@ _021582A4:
 	mov r2, #0x35
 	bl ObjActionAllocSpritePalette
 	mov r0, r4
-	bl ovl00_2158330
+	bl EnemySnowflakeHead__Action_Init
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
 	mov r0, r4
@@ -160,8 +160,8 @@ _02158328: .word 0x0000FFFF
 _0215832C: .word aActAcEneQHeadB
 	arm_func_end EnemySnowflakeHead__Create
 
-	arm_func_start ovl00_2158330
-ovl00_2158330: // 0x02158330
+	arm_func_start EnemySnowflakeHead__Action_Init
+EnemySnowflakeHead__Action_Init: // 0x02158330
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -180,25 +180,25 @@ _0215835C: // jump table
 	b _02158388 // case 3
 	b _02158388 // case 4
 _02158370:
-	ldr r0, _02158394 // =ovl00_2158494
+	ldr r0, _02158394 // =EnemySnowflakeHead__State_2158494
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 _0215837C:
-	ldr r0, _02158398 // =ovl00_21583A0
+	ldr r0, _02158398 // =EnemySnowflakeHead__State_21583A0
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 _02158388:
-	ldr r0, _0215839C // =ovl00_215841C
+	ldr r0, _0215839C // =EnemySnowflakeHead__State_215841C
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02158394: .word ovl00_2158494
-_02158398: .word ovl00_21583A0
-_0215839C: .word ovl00_215841C
-	arm_func_end ovl00_2158330
+_02158394: .word EnemySnowflakeHead__State_2158494
+_02158398: .word EnemySnowflakeHead__State_21583A0
+_0215839C: .word EnemySnowflakeHead__State_215841C
+	arm_func_end EnemySnowflakeHead__Action_Init
 
-	arm_func_start ovl00_21583A0
-ovl00_21583A0: // 0x021583A0
+	arm_func_start EnemySnowflakeHead__State_21583A0
+EnemySnowflakeHead__State_21583A0: // 0x021583A0
 	ldr r1, [r0, #0x364]
 	ldr r2, [r0, #0x44]
 	cmp r2, r1
@@ -231,14 +231,14 @@ _021583F4:
 	mov r1, #0
 	str r1, [r0, #0x9c]
 _02158410:
-	ldr ip, _02158418 // =ovl00_21584AC
+	ldr ip, _02158418 // =EnemySnowflakeHead__Func_21584AC
 	bx ip
 	.align 2, 0
-_02158418: .word ovl00_21584AC
-	arm_func_end ovl00_21583A0
+_02158418: .word EnemySnowflakeHead__Func_21584AC
+	arm_func_end EnemySnowflakeHead__State_21583A0
 
-	arm_func_start ovl00_215841C
-ovl00_215841C: // 0x0215841C
+	arm_func_start EnemySnowflakeHead__State_215841C
+EnemySnowflakeHead__State_215841C: // 0x0215841C
 	ldr r1, [r0, #0x368]
 	ldr r2, [r0, #0x48]
 	cmp r2, r1
@@ -270,25 +270,25 @@ _02158470:
 	mov r1, #0xc00
 	str r1, [r0, #0x9c]
 _02158488:
-	ldr ip, _02158490 // =ovl00_21584AC
+	ldr ip, _02158490 // =EnemySnowflakeHead__Func_21584AC
 	bx ip
 	.align 2, 0
-_02158490: .word ovl00_21584AC
-	arm_func_end ovl00_215841C
+_02158490: .word EnemySnowflakeHead__Func_21584AC
+	arm_func_end EnemySnowflakeHead__State_215841C
 
-	arm_func_start ovl00_2158494
-ovl00_2158494: // 0x02158494
+	arm_func_start EnemySnowflakeHead__State_2158494
+EnemySnowflakeHead__State_2158494: // 0x02158494
 	mov r1, #0
 	str r1, [r0, #0x98]
-	ldr ip, _021584A8 // =ovl00_21584AC
+	ldr ip, _021584A8 // =EnemySnowflakeHead__Func_21584AC
 	str r1, [r0, #0x9c]
 	bx ip
 	.align 2, 0
-_021584A8: .word ovl00_21584AC
-	arm_func_end ovl00_2158494
+_021584A8: .word EnemySnowflakeHead__Func_21584AC
+	arm_func_end EnemySnowflakeHead__State_2158494
 
-	arm_func_start ovl00_21584AC
-ovl00_21584AC: // 0x021584AC
+	arm_func_start EnemySnowflakeHead__Func_21584AC
+EnemySnowflakeHead__Func_21584AC: // 0x021584AC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -313,7 +313,7 @@ ovl00_21584AC: // 0x021584AC
 	bl ProcessSpatialSfx
 	mov r0, #0
 	str r0, [r4, #0x98]
-	ldr r2, _0215853C // =ovl00_2158540
+	ldr r2, _0215853C // =EnemySnowflakeHead__State_2158540
 	str r0, [r4, #0x9c]
 	mov r0, r4
 	mov r1, #1
@@ -326,11 +326,11 @@ ovl00_21584AC: // 0x021584AC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215853C: .word ovl00_2158540
-	arm_func_end ovl00_21584AC
+_0215853C: .word EnemySnowflakeHead__State_2158540
+	arm_func_end EnemySnowflakeHead__Func_21584AC
 
-	arm_func_start ovl00_2158540
-ovl00_2158540: // 0x02158540
+	arm_func_start EnemySnowflakeHead__State_2158540
+EnemySnowflakeHead__State_2158540: // 0x02158540
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x100
@@ -346,9 +346,9 @@ _02158568:
 	tst r0, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl00_2158330
+	bl EnemySnowflakeHead__Action_Init
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_2158540
+	arm_func_end EnemySnowflakeHead__State_2158540
 
 	.data
 	

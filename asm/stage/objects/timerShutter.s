@@ -230,10 +230,10 @@ _021802C4:
 	bl AnimatorSpriteDS__SetAnimation
 	b _0218037C
 _02180374:
-	ldr r0, _021803B0 // =ovl00_2180640
+	ldr r0, _021803B0 // =TimerShutter__State_2180640
 	str r0, [r8, #0xf4]
 _0218037C:
-	ldr r1, _021803B4 // =ovl00_21806F4
+	ldr r1, _021803B4 // =TimerShutter__Draw
 	mov r0, r8
 	str r1, [r8, #0xfc]
 	add sp, sp, #0x24
@@ -247,8 +247,8 @@ _021803A0: .word aActAcGmkTimerS
 _021803A4: .word StageTask__DefaultDiffData
 _021803A8: .word playerGameStatus
 _021803AC: .word 0x0000014B
-_021803B0: .word ovl00_2180640
-_021803B4: .word ovl00_21806F4
+_021803B0: .word TimerShutter__State_2180640
+_021803B4: .word TimerShutter__Draw
 	arm_func_end TimerShutter__Create
 
 	arm_func_start TimerShutterWater__Create
@@ -364,7 +364,7 @@ TimerShutterWater__Create: // 0x021803B8
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _021805CC // =ovl00_2180944
+	ldr r1, _021805CC // =TimerShutterWater__OnDefend
 	mov r0, #0x40000
 	str r1, [r4, #0x23c]
 	ldr r1, [r4, #0x230]
@@ -372,8 +372,8 @@ TimerShutterWater__Create: // 0x021803B8
 	orr r1, r1, #0x400
 	str r1, [r4, #0x230]
 	str r0, [r4, #0x2c]
-	ldr r1, _021805D0 // =ovl00_218082C
-	ldr r0, _021805D4 // =ovl00_218085C
+	ldr r1, _021805D0 // =TimerShutterWater__State_218082C
+	ldr r0, _021805D4 // =TimerShutterWater__Draw
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0xfc]
 	mov r0, r4
@@ -387,9 +387,9 @@ _021805BC: .word TimerShutter2__Destructor
 _021805C0: .word gameArchiveStage
 _021805C4: .word aActAcGmkTimerS
 _021805C8: .word 0x0000FFFE
-_021805CC: .word ovl00_2180944
-_021805D0: .word ovl00_218082C
-_021805D4: .word ovl00_218085C
+_021805CC: .word TimerShutterWater__OnDefend
+_021805D0: .word TimerShutterWater__State_218082C
+_021805D4: .word TimerShutterWater__Draw
 	arm_func_end TimerShutterWater__Create
 
 	arm_func_start TimerShutter__Destructor
@@ -423,8 +423,8 @@ _02180608:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	arm_func_end TimerShutter__Destructor
 
-	arm_func_start ovl00_2180640
-ovl00_2180640: // 0x02180640
+	arm_func_start TimerShutter__State_2180640
+TimerShutter__State_2180640: // 0x02180640
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	ldr r1, _021806EC // =playerGameStatus
@@ -473,10 +473,10 @@ _021806C8:
 	.align 2, 0
 _021806EC: .word playerGameStatus
 _021806F0: .word 0x0000014B
-	arm_func_end ovl00_2180640
+	arm_func_end TimerShutter__State_2180640
 
-	arm_func_start ovl00_21806F4
-ovl00_21806F4: // 0x021806F4
+	arm_func_start TimerShutter__Draw
+TimerShutter__Draw: // 0x021806F4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
@@ -546,7 +546,7 @@ _0218072C:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
 	.align 2, 0
 _021807FC: .word _02188768
-	arm_func_end ovl00_21806F4
+	arm_func_end TimerShutter__Draw
 
 	arm_func_start TimerShutter2__Destructor
 TimerShutter2__Destructor: // 0x02180800
@@ -563,8 +563,8 @@ TimerShutter2__Destructor: // 0x02180800
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end TimerShutter2__Destructor
 
-	arm_func_start ovl00_218082C
-ovl00_218082C: // 0x0218082C
+	arm_func_start TimerShutterWater__State_218082C
+TimerShutterWater__State_218082C: // 0x0218082C
 	ldr r1, [r0, #0x2c]
 	adds r1, r1, #0x6000
 	str r1, [r0, #0x2c]
@@ -577,10 +577,10 @@ ovl00_218082C: // 0x0218082C
 	mov r1, r1, asr #0xc
 	strh r1, [r0, #0x20]
 	bx lr
-	arm_func_end ovl00_218082C
+	arm_func_end TimerShutterWater__State_218082C
 
-	arm_func_start ovl00_218085C
-ovl00_218085C: // 0x0218085C
+	arm_func_start TimerShutterWater__Draw
+TimerShutterWater__Draw: // 0x0218085C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
@@ -642,10 +642,10 @@ _02180930:
 	blt _021808E8
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
-	arm_func_end ovl00_218085C
+	arm_func_end TimerShutterWater__Draw
 
-	arm_func_start ovl00_2180944
-ovl00_2180944: // 0x02180944
+	arm_func_start TimerShutterWater__OnDefend
+TimerShutterWater__OnDefend: // 0x02180944
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, [r1, #0x1c]
 	ldr r4, [r0, #0x1c]
@@ -679,7 +679,7 @@ ovl00_2180944: // 0x02180944
 	mov r3, #0
 	bl EffectWaterGush__Create
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_2180944
+	arm_func_end TimerShutterWater__OnDefend
 
 	.rodata
 	

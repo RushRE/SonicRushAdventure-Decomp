@@ -62,7 +62,7 @@ SpringRopeBase__Create: // 0x0218620C
 	mov r1, #2
 	bl StageTask__SetAnimatorPriority
 	ldr r0, [r4, #0x18]
-	ldr r1, _02186328 // =ovl00_218632C
+	ldr r1, _02186328 // =SpringRopeBase__State_218632C
 	orr r0, r0, #2
 	str r0, [r4, #0x18]
 	ldr r2, [r4, #0x1c]
@@ -77,11 +77,11 @@ _02186318: .word StageTask_Main
 _0218631C: .word GameObject__Destructor
 _02186320: .word gameArchiveStage
 _02186324: .word aActAcGmkRopeCL
-_02186328: .word ovl00_218632C
+_02186328: .word SpringRopeBase__State_218632C
 	arm_func_end SpringRopeBase__Create
 
-	arm_func_start ovl00_218632C
-ovl00_218632C: // 0x0218632C
+	arm_func_start SpringRopeBase__State_218632C
+SpringRopeBase__State_218632C: // 0x0218632C
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x11c]
 	cmp r1, #0
@@ -96,7 +96,7 @@ _02186354:
 	mov r1, #2
 	bl StageTask__SetAnimatorPriority
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_218632C
+	arm_func_end SpringRopeBase__State_218632C
 
 	.data
 	

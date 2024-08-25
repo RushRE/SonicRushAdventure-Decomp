@@ -115,11 +115,11 @@ void Player__Gimmick_Jump(Player *player, fx32 velX, fx32 velY)
         {
             if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
             {
-                Player__ChangeAction(player, PLAYER_ACTION_17);
+                Player__ChangeAction(player, PLAYER_ACTION_AIRFORWARD_01);
             }
             else
             {
-                Player__ChangeAction(player, PLAYER_ACTION_50);
+                Player__ChangeAction(player, PLAYER_ACTION_AIRFORWARD_SNOWBOARD_01);
                 ChangePlayerSnowboardAction(player, PLAYERSNOWBOARD_ACTION_10);
             }
 
@@ -10004,7 +10004,7 @@ void Player__Gimmick_20246FC(Player *player, GameObjectTask *other)
 {
     Player__InitGimmick(player, FALSE);
     player->gimmickObj = other;
-    Player__ChangeAction(player, PLAYER_ACTION_3C);
+    Player__ChangeAction(player, PLAYER_ACTION_WATERGUN_02);
 
     player->objWork.groundVel  = 0;
     player->objWork.velocity.x = player->objWork.velocity.y = 0;

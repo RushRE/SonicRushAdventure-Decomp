@@ -231,7 +231,7 @@ _0216C194:
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 _0216C1D0:
-	ldr r0, _0216C2D0 // =ovl00_216CB44
+	ldr r0, _0216C2D0 // =Stalactite__OnDefend
 	str r5, [r5, #0x234]
 	str r0, [r5, #0x23c]
 	ldr r1, [r5, #0x230]
@@ -262,10 +262,10 @@ _0216C1D0:
 	strh r4, [r1, #0x32]
 	strh r3, [r1, #0x18]
 	strh r2, [r1, #0x1a]
-	ldr r0, _0216C2D8 // =ovl00_216C9F4
-	ldr r1, _0216C2DC // =ovl00_216CAC4
+	ldr r0, _0216C2D8 // =Stalactite__Draw
+	ldr r1, _0216C2DC // =Stalactite__Collide
 	str r0, [r5, #0xfc]
-	ldr r0, _0216C2E0 // =ovl00_216C5D8
+	ldr r0, _0216C2E0 // =Stalactite__State_216C5D8
 	str r1, [r5, #0x108]
 	str r0, [r5, #0xf4]
 	mov r3, #0
@@ -296,11 +296,11 @@ _0216C2C0: .word gameArchiveStage
 _0216C2C4: .word aActAcGmkStalac
 _0216C2C8: .word 0x0000FFFD
 _0216C2CC: .word 0x0000FFFE
-_0216C2D0: .word ovl00_216CB44
+_0216C2D0: .word Stalactite__OnDefend
 _0216C2D4: .word aDfGmkStalactit
-_0216C2D8: .word ovl00_216C9F4
-_0216C2DC: .word ovl00_216CAC4
-_0216C2E0: .word ovl00_216C5D8
+_0216C2D8: .word Stalactite__Draw
+_0216C2DC: .word Stalactite__Collide
+_0216C2E0: .word Stalactite__State_216C5D8
 	arm_func_end Stalactite__Create
 
 	arm_func_start FallingStalactite__Create
@@ -445,10 +445,10 @@ _0216C3EC:
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x230]
-	ldr r0, _0216C554 // =ovl00_216CE68
+	ldr r0, _0216C554 // =FallingStalactite__Collide
 	orr r1, r1, #0x20
 	str r1, [r4, #0x230]
-	ldr r1, _0216C558 // =ovl00_216CCDC
+	ldr r1, _0216C558 // =FallingStalactite__State_216CCDC
 	str r0, [r4, #0x108]
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -464,8 +464,8 @@ _0216C544: .word aDfGmkStalactit_0
 _0216C548: .word StageTask__DefaultDiffData
 _0216C54C: .word 0x00000201
 _0216C550: .word 0x0000FFFF
-_0216C554: .word ovl00_216CE68
-_0216C558: .word ovl00_216CCDC
+_0216C554: .word FallingStalactite__Collide
+_0216C558: .word FallingStalactite__State_216CCDC
 	arm_func_end FallingStalactite__Create
 
 	arm_func_start Stalactite__Destructor
@@ -504,8 +504,8 @@ _0216C594:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	arm_func_end Stalactite__Destructor
 
-	arm_func_start ovl00_216C5D8
-ovl00_216C5D8: // 0x0216C5D8
+	arm_func_start Stalactite__State_216C5D8
+Stalactite__State_216C5D8: // 0x0216C5D8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0xc
 	mov sl, r0
@@ -573,10 +573,10 @@ _0216C6C0:
 	bne _0216C618
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
-	arm_func_end ovl00_216C5D8
+	arm_func_end Stalactite__State_216C5D8
 
-	arm_func_start ovl00_216C6D0
-ovl00_216C6D0: // 0x0216C6D0
+	arm_func_start Stalactite__State2_216C6D0
+Stalactite__State2_216C6D0: // 0x0216C6D0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -599,7 +599,7 @@ _0216C70C:
 	orr r0, r0, #2
 	str r0, [r6, #0x24]
 	ldr r1, [r6, #0x354]
-	ldr r0, _0216C8FC // =ovl00_216C910
+	ldr r0, _0216C8FC // =Stalactite__State2_216C910
 	orr r1, r1, #1
 	str r1, [r6, #0x354]
 	str r5, [r6, #0x2d8]
@@ -649,7 +649,7 @@ _0216C760:
 	add r1, r1, r3, lsl #12
 	add r2, r2, lr, lsr #14
 	mov r3, ip, asr #4
-	bl ovl00_216CC3C
+	bl Stalactite__Func_216CC3C
 	add r5, r5, #1
 	cmp r5, #0x10
 	blt _0216C760
@@ -711,7 +711,7 @@ _0216C834:
 	mov r0, r6
 	add r1, r5, r1, lsl #12
 	add r2, r4, r2, lsr #14
-	bl ovl00_216CC3C
+	bl Stalactite__Func_216CC3C
 	ldr r0, [r6, #0x28]
 	mov r0, r0, lsr #0x10
 	sub r0, r0, #1
@@ -722,15 +722,15 @@ _0216C834:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	.align 2, 0
-_0216C8FC: .word ovl00_216C910
+_0216C8FC: .word Stalactite__State2_216C910
 _0216C900: .word _02189478
 _0216C904: .word _mt_math_rand
 _0216C908: .word 0x00196225
 _0216C90C: .word 0x3C6EF35F
-	arm_func_end ovl00_216C6D0
+	arm_func_end Stalactite__State2_216C6D0
 
-	arm_func_start ovl00_216C910
-ovl00_216C910: // 0x0216C910
+	arm_func_start Stalactite__State2_216C910
+Stalactite__State2_216C910: // 0x0216C910
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -779,7 +779,7 @@ _0216C948:
 	add r1, r1, lr, lsl #12
 	add r2, ip, r2, lsr #16
 	mov r3, r3, asr #4
-	bl ovl00_216CC3C
+	bl Stalactite__Func_216CC3C
 	add r4, r4, #1
 	cmp r4, #0xa
 	blt _0216C948
@@ -790,10 +790,10 @@ _0216C9E4: .word _02189478
 _0216C9E8: .word _mt_math_rand
 _0216C9EC: .word 0x00196225
 _0216C9F0: .word 0x3C6EF35F
-	arm_func_end ovl00_216C910
+	arm_func_end Stalactite__State2_216C910
 
-	arm_func_start ovl00_216C9F4
-ovl00_216C9F4: // 0x0216C9F4
+	arm_func_start Stalactite__Draw
+Stalactite__Draw: // 0x0216C9F4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
 	sub sp, sp, #0x10
 	bl GetCurrentTaskWork_
@@ -849,10 +849,10 @@ _0216CA7C:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	.align 2, 0
 _0216CAC0: .word 0x00010100
-	arm_func_end ovl00_216C9F4
+	arm_func_end Stalactite__Draw
 
-	arm_func_start ovl00_216CAC4
-ovl00_216CAC4: // 0x0216CAC4
+	arm_func_start Stalactite__Collide
+Stalactite__Collide: // 0x0216CAC4
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -887,10 +887,10 @@ _0216CB14:
 	bic r0, r0, #1
 	str r0, [r4, #0x20]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_216CAC4
+	arm_func_end Stalactite__Collide
 
-	arm_func_start ovl00_216CB44
-ovl00_216CB44: // 0x0216CB44
+	arm_func_start Stalactite__OnDefend
+Stalactite__OnDefend: // 0x0216CB44
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -918,7 +918,7 @@ _0216CB94:
 	mov r1, #2
 	str r2, [r4, #0x18]
 	bl AnimatorSpriteDS__SetAnimation
-	ldr r0, _0216CC34 // =ovl00_216C6D0
+	ldr r0, _0216CC34 // =Stalactite__State2_216C6D0
 	mov r1, #0
 	str r0, [r4, #0x364]
 	ldr r0, _0216CC38 // =0x00100010
@@ -954,12 +954,12 @@ _0216CC10:
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0216CC34: .word ovl00_216C6D0
+_0216CC34: .word Stalactite__State2_216C6D0
 _0216CC38: .word 0x00100010
-	arm_func_end ovl00_216CB44
+	arm_func_end Stalactite__OnDefend
 
-	arm_func_start ovl00_216CC3C
-ovl00_216CC3C: // 0x0216CC3C
+	arm_func_start Stalactite__Func_216CC3C
+Stalactite__Func_216CC3C: // 0x0216CC3C
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r4, [r0, #0xad8]
 	cmp r4, #0
@@ -1001,10 +1001,10 @@ ovl00_216CC3C: // 0x0216CC3C
 _0216CCD0: .word _mt_math_rand
 _0216CCD4: .word 0x00196225
 _0216CCD8: .word 0x3C6EF35F
-	arm_func_end ovl00_216CC3C
+	arm_func_end Stalactite__Func_216CC3C
 
-	arm_func_start ovl00_216CCDC
-ovl00_216CCDC: // 0x0216CCDC
+	arm_func_start FallingStalactite__State_216CCDC
+FallingStalactite__State_216CCDC: // 0x0216CCDC
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -1029,7 +1029,7 @@ ovl00_216CCDC: // 0x0216CCDC
 	bl StageTask__SetHitbox
 	str r4, [r4, #0x234]
 	ldr r1, [r4, #0x1c]
-	ldr r0, _0216CDDC // =ovl00_216CDEC
+	ldr r0, _0216CDDC // =FallingStalactite__State_216CDEC
 	orr r1, r1, #0x80
 	str r1, [r4, #0x1c]
 	add sp, sp, #4
@@ -1072,14 +1072,14 @@ _0216CDC0:
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_0216CDDC: .word ovl00_216CDEC
+_0216CDDC: .word FallingStalactite__State_216CDEC
 _0216CDE0: .word _mt_math_rand
 _0216CDE4: .word 0x00196225
 _0216CDE8: .word 0x3C6EF35F
-	arm_func_end ovl00_216CCDC
+	arm_func_end FallingStalactite__State_216CCDC
 
-	arm_func_start ovl00_216CDEC
-ovl00_216CDEC: // 0x0216CDEC
+	arm_func_start FallingStalactite__State_216CDEC
+FallingStalactite__State_216CDEC: // 0x0216CDEC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -1111,10 +1111,10 @@ ovl00_216CDEC: // 0x0216CDEC
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_216CDEC
+	arm_func_end FallingStalactite__State_216CDEC
 
-	arm_func_start ovl00_216CE68
-ovl00_216CE68: // 0x0216CE68
+	arm_func_start FallingStalactite__Collide
+FallingStalactite__Collide: // 0x0216CE68
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -1147,7 +1147,7 @@ _0216CE94:
 	add r0, r0, #0x400
 	bl ObjCollisionObjectRegist
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_216CE68
+	arm_func_end FallingStalactite__Collide
 
 	.data
 	

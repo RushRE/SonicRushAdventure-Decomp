@@ -759,7 +759,7 @@ SoundTest__Func_215D21C: // 0x0215D21C
 	mov r0, r4
 	bl SoundTest__Func_215D2A4
 	mov r0, r4
-	bl nullovl04_142
+	bl SoundTest__Func_215D2A0
 	ldr r0, [r4, #0x48]
 	cmp r0, #0
 	beq _0215D268
@@ -784,10 +784,10 @@ _0215D268:
 _0215D29C: .word 0x04000204
 	arm_func_end SoundTest__Func_215D21C
 
-	arm_func_start nullovl04_142
-nullovl04_142: // 0x0215D2A0
+	arm_func_start SoundTest__Func_215D2A0
+SoundTest__Func_215D2A0: // 0x0215D2A0
 	bx lr
-	arm_func_end nullovl04_142
+	arm_func_end SoundTest__Func_215D2A0
 
 	arm_func_start SoundTest__Func_215D2A4
 SoundTest__Func_215D2A4: // 0x0215D2A4

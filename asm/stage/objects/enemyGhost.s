@@ -76,7 +76,7 @@ _021573C0:
 	orr r1, r1, #1
 	str r1, [r0, #0x400]
 _02157480:
-	ldr r0, _02157618 // =ovl00_2157FB8
+	ldr r0, _02157618 // =EnemyGhost__Draw
 	mov r2, #0
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x340]
@@ -106,7 +106,7 @@ _02157480:
 	add r0, r4, #0x300
 	strh r1, [r0, #0x98]
 	ldr r1, [r4, #0x37c]
-	ldr r0, _02157624 // =ovl00_2157BDC
+	ldr r0, _02157624 // =EnemyGhost__OnDefend
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x388]
@@ -165,7 +165,7 @@ _02157480:
 	ldr r1, [r4, #0x404]
 	orr r1, r1, #0x10
 	str r1, [r4, #0x404]
-	bl ovl00_215799C
+	bl EnemyGhost__Func_215799C
 	mov r1, #0
 	strb r1, [r4, #0x3c2]
 	mov r0, r4
@@ -179,10 +179,10 @@ _02157608: .word gameState
 _0215760C: .word 0x0000047C
 _02157610: .word StageTask_Main
 _02157614: .word EnemyGhost__Destructor
-_02157618: .word ovl00_2157FB8
+_02157618: .word EnemyGhost__Draw
 _0215761C: .word 0x0000FFFE
 _02157620: .word 0x00000102
-_02157624: .word ovl00_2157BDC
+_02157624: .word EnemyGhost__OnDefend
 _02157628: .word gameArchiveStage
 _0215762C: .word 0x0000FFFF
 _02157630: .word aActAcEneBGhost
@@ -228,7 +228,7 @@ EnemyGhostBomb__Create: // 0x02157634
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r1, _021577DC // =ovl00_2157F2C
+	ldr r1, _021577DC // =EnemyGhostBomb__OnDefend
 	mov r0, r4
 	str r1, [r4, #0x278]
 	ldr r2, [r4, #0x20]
@@ -273,7 +273,7 @@ EnemyGhostBomb__Create: // 0x02157634
 	mov r1, #5
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _021577EC // =ovl00_2157E1C
+	ldr r0, _021577EC // =EnemyGhostBomb__State_2157E1C
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -297,15 +297,15 @@ EnemyGhostBomb__Create: // 0x02157634
 	.align 2, 0
 _021577D4: .word StageTask_Main
 _021577D8: .word GameObject__Destructor
-_021577DC: .word ovl00_2157F2C
+_021577DC: .word EnemyGhostBomb__OnDefend
 _021577E0: .word gameArchiveStage
 _021577E4: .word 0x0000FFFF
 _021577E8: .word aActAcEneBGhost
-_021577EC: .word ovl00_2157E1C
+_021577EC: .word EnemyGhostBomb__State_2157E1C
 	arm_func_end EnemyGhostBomb__Create
 
-	arm_func_start ovl00_21577F0
-ovl00_21577F0: // 0x021577F0
+	arm_func_start EnemyGhost__Func_21577F0
+EnemyGhost__Func_21577F0: // 0x021577F0
 	ldr r2, [r0, #0x3c4]
 	ldr r1, [r0, #0x128]
 	cmp r2, #0xf0
@@ -422,10 +422,10 @@ _0215795C:
 	orr r1, r1, #0x800
 	str r1, [r0, #0x37c]
 	bx lr
-	arm_func_end ovl00_21577F0
+	arm_func_end EnemyGhost__Func_21577F0
 
-	arm_func_start ovl00_215799C
-ovl00_215799C: // 0x0215799C
+	arm_func_start EnemyGhost__Func_215799C
+EnemyGhost__Func_215799C: // 0x0215799C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r1, #0
@@ -456,7 +456,7 @@ _02157A00:
 	mov r1, #0
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x478]
-	ldr r0, _02157A40 // =ovl00_2157A44
+	ldr r0, _02157A40 // =EnemyGhost__State_2157A44
 	orr r1, r1, #4
 	str r1, [r4, #0x478]
 	ldr r1, [r4, #0x20]
@@ -469,11 +469,11 @@ _02157A00:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02157A40: .word ovl00_2157A44
-	arm_func_end ovl00_215799C
+_02157A40: .word EnemyGhost__State_2157A44
+	arm_func_end EnemyGhost__Func_215799C
 
-	arm_func_start ovl00_2157A44
-ovl00_2157A44: // 0x02157A44
+	arm_func_start EnemyGhost__State_2157A44
+EnemyGhost__State_2157A44: // 0x02157A44
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x138]
@@ -484,7 +484,7 @@ ovl00_2157A44: // 0x02157A44
 	mov r0, r5
 	add r1, r1, #1
 	str r1, [r5, #0x3c4]
-	bl ovl00_21577F0
+	bl EnemyGhost__Func_21577F0
 	add r0, r5, #0x300
 	ldrh r2, [r0, #0xc0]
 	ldr r1, _02157BD8 // =FX_SinCosTable_
@@ -513,7 +513,7 @@ ovl00_2157A44: // 0x02157A44
 	ldr r1, [r5, #0x478]
 	eor r1, r1, #1
 	str r1, [r5, #0x478]
-	bl ovl00_215799C
+	bl EnemyGhost__Func_215799C
 	ldr r0, [r5, #0x37c]
 	orr r0, r0, #4
 	str r0, [r5, #0x37c]
@@ -582,10 +582,10 @@ _02157BA8:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02157BD8: .word FX_SinCosTable_
-	arm_func_end ovl00_2157A44
+	arm_func_end EnemyGhost__State_2157A44
 
-	arm_func_start ovl00_2157BDC
-ovl00_2157BDC: // 0x02157BDC
+	arm_func_start EnemyGhost__OnDefend
+EnemyGhost__OnDefend: // 0x02157BDC
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	mov r5, r0
@@ -596,7 +596,7 @@ ovl00_2157BDC: // 0x02157BDC
 	mov r1, #1
 	str r2, [r4, #0x98]
 	bl GameObject__SetAnimation
-	ldr r0, _02157C28 // =ovl00_2157C2C
+	ldr r0, _02157C28 // =EnemyGhost__State_2157C2C
 	str r0, [r4, #0xf4]
 	ldr r0, [r5, #0x1c]
 	ldr r0, [r0, #0x44]
@@ -606,15 +606,15 @@ ovl00_2157BDC: // 0x02157BDC
 	str r0, [r4, #0x3a8]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02157C28: .word ovl00_2157C2C
-	arm_func_end ovl00_2157BDC
+_02157C28: .word EnemyGhost__State_2157C2C
+	arm_func_end EnemyGhost__OnDefend
 
-	arm_func_start ovl00_2157C2C
-ovl00_2157C2C: // 0x02157C2C
+	arm_func_start EnemyGhost__State_2157C2C
+EnemyGhost__State_2157C2C: // 0x02157C2C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
-	bl ovl00_21577F0
+	bl EnemyGhost__Func_21577F0
 	add r0, r4, #0x300
 	ldrh r2, [r0, #0xc0]
 	ldr r1, _02157D68 // =FX_SinCosTable_
@@ -678,7 +678,7 @@ _02157D20:
 	tst r0, #8
 	addeq sp, sp, #0x14
 	ldmeqia sp!, {r3, r4, pc}
-	ldr r0, _02157D6C // =ovl00_2157D70
+	ldr r0, _02157D6C // =EnemyGhost__State_2157D70
 	mov r1, #0
 	str r0, [r4, #0xf4]
 	mov r0, r4
@@ -694,17 +694,17 @@ _02157D20:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _02157D68: .word FX_SinCosTable_
-_02157D6C: .word ovl00_2157D70
-	arm_func_end ovl00_2157C2C
+_02157D6C: .word EnemyGhost__State_2157D70
+	arm_func_end EnemyGhost__State_2157C2C
 
-	arm_func_start ovl00_2157D70
-ovl00_2157D70: // 0x02157D70
+	arm_func_start EnemyGhost__State_2157D70
+EnemyGhost__State_2157D70: // 0x02157D70
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x3c4]
 	add r1, r1, #1
 	str r1, [r4, #0x3c4]
-	bl ovl00_21577F0
+	bl EnemyGhost__Func_21577F0
 	add r0, r4, #0x300
 	ldrh r2, [r0, #0xc0]
 	ldr r1, _02157E18 // =FX_SinCosTable_
@@ -723,7 +723,7 @@ ovl00_2157D70: // 0x02157D70
 	str r0, [r4, #0x2c]
 	bmi _02157DDC
 	mov r0, r4
-	bl ovl00_215799C
+	bl EnemyGhost__Func_215799C
 	mov r0, #0
 	str r0, [r4, #0x2c]
 _02157DDC:
@@ -744,10 +744,10 @@ _02157DDC:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02157E18: .word FX_SinCosTable_
-	arm_func_end ovl00_2157D70
+	arm_func_end EnemyGhost__State_2157D70
 
-	arm_func_start ovl00_2157E1C
-ovl00_2157E1C: // 0x02157E1C
+	arm_func_start EnemyGhostBomb__State_2157E1C
+EnemyGhostBomb__State_2157E1C: // 0x02157E1C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x138]
@@ -762,7 +762,7 @@ ovl00_2157E1C: // 0x02157E1C
 	mov r1, #0
 	str r1, [r4, #0x98]
 	str r1, [r4, #0x9c]
-	ldr r0, _02157E88 // =ovl00_2157E8C
+	ldr r0, _02157E88 // =EnemyGhostBomb__Sttae_2157E8C
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
@@ -777,11 +777,11 @@ _02157E64:
 	str r0, [r4, #0x9c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02157E88: .word ovl00_2157E8C
-	arm_func_end ovl00_2157E1C
+_02157E88: .word EnemyGhostBomb__Sttae_2157E8C
+	arm_func_end EnemyGhostBomb__State_2157E1C
 
-	arm_func_start ovl00_2157E8C
-ovl00_2157E8C: // 0x02157E8C
+	arm_func_start EnemyGhostBomb__Sttae_2157E8C
+EnemyGhostBomb__Sttae_2157E8C: // 0x02157E8C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -822,10 +822,10 @@ ovl00_2157E8C: // 0x02157E8C
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl00_2157E8C
+	arm_func_end EnemyGhostBomb__Sttae_2157E8C
 
-	arm_func_start ovl00_2157F2C
-ovl00_2157F2C: // 0x02157F2C
+	arm_func_start EnemyGhostBomb__OnDefend
+EnemyGhostBomb__OnDefend: // 0x02157F2C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	ldr r4, [r0, #0x1c]
@@ -861,10 +861,10 @@ ovl00_2157F2C: // 0x02157F2C
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl00_2157F2C
+	arm_func_end EnemyGhostBomb__OnDefend
 
-	arm_func_start ovl00_2157FB8
-ovl00_2157FB8: // 0x02157FB8
+	arm_func_start EnemyGhost__Draw
+EnemyGhost__Draw: // 0x02157FB8
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -902,7 +902,7 @@ ovl00_2157FB8: // 0x02157FB8
 	bic r0, r0, #0x20
 	str r0, [r4, #0x478]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_2157FB8
+	arm_func_end EnemyGhost__Draw
 
 	arm_func_start EnemyGhost__Destructor
 EnemyGhost__Destructor: // 0x0215804C

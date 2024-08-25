@@ -96,14 +96,14 @@ TruckBomb3D__Create: // 0x02170290
 	mov r2, #0xff
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x270]
-	ldr r0, _02170444 // =ovl00_217050C
+	ldr r0, _02170444 // =TruckBomb3D__OnHit_217050C
 	orr r1, r1, #4
 	orr r1, r1, #0x400
 	str r1, [r4, #0x270]
 	str r0, [r4, #0x278]
 	ldrsb r0, [r7, #6]
 	cmp r0, #0
-	ldrne r0, _02170448 // =ovl00_217044C
+	ldrne r0, _02170448 // =TruckBomb3D__State_217044C
 	strne r0, [r4, #0xf4]
 	mov r0, r4
 	add sp, sp, #0xc
@@ -115,12 +115,12 @@ _02170434: .word GameObject__Destructor
 _02170438: .word gameArchiveStage
 _0217043C: .word aActAcGmkTruckB_1
 _02170440: .word 0x0000FFFF
-_02170444: .word ovl00_217050C
-_02170448: .word ovl00_217044C
+_02170444: .word TruckBomb3D__OnHit_217050C
+_02170448: .word TruckBomb3D__State_217044C
 	arm_func_end TruckBomb3D__Create
 
-	arm_func_start ovl00_217044C
-ovl00_217044C: // 0x0217044C
+	arm_func_start TruckBomb3D__State_217044C
+TruckBomb3D__State_217044C: // 0x0217044C
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x11c]
 	cmp r1, #0
@@ -171,10 +171,10 @@ _021704D0:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02170508: .word g_obj
-	arm_func_end ovl00_217044C
+	arm_func_end TruckBomb3D__State_217044C
 
-	arm_func_start ovl00_217050C
-ovl00_217050C: // 0x0217050C
+	arm_func_start TruckBomb3D__OnHit_217050C
+TruckBomb3D__OnHit_217050C: // 0x0217050C
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r0, #0x1c]
@@ -199,7 +199,7 @@ ovl00_217050C: // 0x0217050C
 	str r0, [r4, #0x18]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_217050C
+	arm_func_end TruckBomb3D__OnHit_217050C
 
 	.data
 	

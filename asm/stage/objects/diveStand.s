@@ -220,7 +220,7 @@ _02169E2C:
 	add r0, r6, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02169F58 // =ovl00_216AB68
+	ldr r1, _02169F58 // =DiveStand__OnDefend_216AB68
 	mov r2, #0x10
 	str r1, [r6, #0x23c]
 	str r6, [r6, #0x274]
@@ -247,7 +247,7 @@ _02169E2C:
 	add r0, r6, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02169F5C // =ovl00_216AC14
+	ldr r0, _02169F5C // =DiveStand__OnDefend_216AC14
 	mov r2, #0
 	str r0, [r6, #0x27c]
 	ldr r1, [r6, #0x270]
@@ -271,8 +271,8 @@ _02169E2C:
 	add r0, r6, #0x200
 	mov r1, #0
 	strh r1, [r0, #0xf2]
-	ldr r2, _02169F64 // =ovl00_216A894
-	ldr r1, _02169F68 // =ovl00_216A020
+	ldr r2, _02169F64 // =DiveStand__Draw
+	ldr r1, _02169F68 // =DiveStand__State_216A020
 	str r2, [r6, #0xfc]
 	mov r0, r6
 	str r1, [r6, #0xf4]
@@ -288,11 +288,11 @@ _02169F48: .word aActAcGmkDiveSt
 _02169F4C: .word 0x0001FFFF
 _02169F50: .word 0x0007FFFF
 _02169F54: .word 0x0000FFFE
-_02169F58: .word ovl00_216AB68
-_02169F5C: .word ovl00_216AC14
+_02169F58: .word DiveStand__OnDefend_216AB68
+_02169F5C: .word DiveStand__OnDefend_216AC14
 _02169F60: .word StageTask__DefaultDiffData
-_02169F64: .word ovl00_216A894
-_02169F68: .word ovl00_216A020
+_02169F64: .word DiveStand__Draw
+_02169F68: .word DiveStand__State_216A020
 	arm_func_end DiveStand__Create
 
 	arm_func_start DiveStand__Func_2169F6C
@@ -351,8 +351,8 @@ _02169FFC:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	arm_func_end DiveStand__Destructor
 
-	arm_func_start ovl00_216A020
-ovl00_216A020: // 0x0216A020
+	arm_func_start DiveStand__State_216A020
+DiveStand__State_216A020: // 0x0216A020
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x114
 	ldr r1, _0216A880 // =gPlayer
@@ -926,10 +926,10 @@ _0216A884: .word 0x0000FD60
 _0216A888: .word 0x0000FEAB
 _0216A88C: .word _02188580
 _0216A890: .word FX_SinCosTable_
-	arm_func_end ovl00_216A020
+	arm_func_end DiveStand__State_216A020
 
-	arm_func_start ovl00_216A894
-ovl00_216A894: // 0x0216A894
+	arm_func_start DiveStand__Draw
+DiveStand__Draw: // 0x0216A894
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
 	sub sp, sp, #0xac
 	bl GetCurrentTaskWork_
@@ -1118,10 +1118,10 @@ _0216AB58: .word g_obj
 _0216AB5C: .word 0x021472FC
 _0216AB60: .word NNS_G3dGlb
 _0216AB64: .word 0x00007FFF
-	arm_func_end ovl00_216A894
+	arm_func_end DiveStand__Draw
 
-	arm_func_start ovl00_216AB68
-ovl00_216AB68: // 0x0216AB68
+	arm_func_start DiveStand__OnDefend_216AB68
+DiveStand__OnDefend_216AB68: // 0x0216AB68
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r2, [r0, #0x1c]
@@ -1168,10 +1168,10 @@ _0216ABEC:
 	str r1, [r4, #0x354]
 	str r0, [r4, #0x2d8]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_216AB68
+	arm_func_end DiveStand__OnDefend_216AB68
 
-	arm_func_start ovl00_216AC14
-ovl00_216AC14: // 0x0216AC14
+	arm_func_start DiveStand__OnDefend_216AC14
+DiveStand__OnDefend_216AC14: // 0x0216AC14
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -1199,7 +1199,7 @@ _0216AC54:
 	str r2, [r4, #0x354]
 	bl Player__Action_AllowTrickCombos
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_216AC14
+	arm_func_end DiveStand__OnDefend_216AC14
 
 	.rodata
 

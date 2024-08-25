@@ -94,7 +94,7 @@ _0216ACC0:
 	ldr r1, _0216AE48 // =0x0000FFFD
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216AE4C // =ovl00_216AE54
+	ldr r0, _0216AE4C // =IceBlock__OnDefend
 	mov r1, #0
 	str r0, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
@@ -123,12 +123,12 @@ _0216AE3C: .word GameObject__Destructor
 _0216AE40: .word gameArchiveStage
 _0216AE44: .word aActAcGmkIceBlo_0
 _0216AE48: .word 0x0000FFFD
-_0216AE4C: .word ovl00_216AE54
+_0216AE4C: .word IceBlock__OnDefend
 _0216AE50: .word StageTask__DefaultDiffData
 	arm_func_end IceBlock__Create
 
-	arm_func_start ovl00_216AE54
-ovl00_216AE54: // 0x0216AE54
+	arm_func_start IceBlock__OnDefend
+IceBlock__OnDefend: // 0x0216AE54
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -218,7 +218,7 @@ _0216AEDC:
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl00_216AE54
+	arm_func_end IceBlock__OnDefend
 
 	.data
 	

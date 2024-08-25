@@ -179,7 +179,7 @@ _02183874:
 	orr r1, r1, #0x10
 	str r1, [r0, #0x18]
 _021838B0:
-	ldr r1, _021838EC // =ovl00_21838F0
+	ldr r1, _021838EC // =CrumblingFloor__State_21838F0
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0x14
@@ -195,11 +195,11 @@ _021838DC: .word _02189CA8
 _021838E0: .word aDfGmkBFallFloo
 _021838E4: .word 0x0000014D
 _021838E8: .word 0x0000014E
-_021838EC: .word ovl00_21838F0
+_021838EC: .word CrumblingFloor__State_21838F0
 	arm_func_end CrumblingFloor__Create
 
-	arm_func_start ovl00_21838F0
-ovl00_21838F0: // 0x021838F0
+	arm_func_start CrumblingFloor__State_21838F0
+CrumblingFloor__State_21838F0: // 0x021838F0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -290,7 +290,7 @@ _021839C8:
 	str r0, [r4, #0x2c]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_21838F0
+	arm_func_end CrumblingFloor__State_21838F0
 
 	.data
 	

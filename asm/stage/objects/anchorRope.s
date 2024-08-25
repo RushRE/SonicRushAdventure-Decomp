@@ -124,7 +124,7 @@ _021769E4:
 	add r0, r7, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02176C00 // =ovl00_21771C8
+	ldr r0, _02176C00 // =AnchorRope__OnDefend
 	mov r4, #0x48
 	str r0, [r7, #0x23c]
 	ldr r0, [r7, #0x230]
@@ -177,8 +177,8 @@ _02176B58:
 	moveq r0, #0x28000
 	str r0, [r7, #0x768]
 	mov r0, r7
-	bl ovl00_2177274
-	ldr r0, _02176C04 // =ovl00_2176F6C
+	bl AnchorRope__Func_2177274
+	ldr r0, _02176C04 // =AnchorRope__Draw
 	str r0, [r7, #0xfc]
 	bl AllocSndHandle
 	str r0, [r7, #0x138]
@@ -198,8 +198,8 @@ _02176BF0: .word _021897E4
 _02176BF4: .word aActAcGmkAnchor
 _02176BF8: .word 0x021897EC
 _02176BFC: .word 0x0000FFFE
-_02176C00: .word ovl00_21771C8
-_02176C04: .word ovl00_2176F6C
+_02176C00: .word AnchorRope__OnDefend
+_02176C04: .word AnchorRope__Draw
 	arm_func_end AnchorRope__Create
 
 	arm_func_start AnchorRope__Destructor
@@ -237,8 +237,8 @@ _02176C28:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	arm_func_end AnchorRope__Destructor
 
-	arm_func_start ovl00_2176C80
-ovl00_2176C80: // 0x02176C80
+	arm_func_start AnchorRope__State_2176C80
+AnchorRope__State_2176C80: // 0x02176C80
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x35c]
@@ -250,10 +250,10 @@ ovl00_2176C80: // 0x02176C80
 _02176CA0:
 	mov r0, #0
 	str r0, [r4, #0x35c]
-	ldr r1, _02176E14 // =ovl00_2176E1C
+	ldr r1, _02176E14 // =AnchorRope__State_2176E1C
 	mov r0, r4
 	str r1, [r4, #0xf4]
-	bl ovl00_2176E1C
+	bl AnchorRope__State_2176E1C
 	ldmia sp!, {r4, pc}
 _02176CBC:
 	add r0, r4, #0x700
@@ -322,12 +322,12 @@ _02176CBC:
 	ldrne r0, [r4, #0x98]
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x98]
-	ldr r0, _02176E14 // =ovl00_2176E1C
+	ldr r0, _02176E14 // =AnchorRope__State_2176E1C
 	str r1, [r4, #0x9c]
 	str r0, [r4, #0xf4]
 _02176DD0:
 	mov r0, r4
-	bl ovl00_2177274
+	bl AnchorRope__Func_2177274
 	ldr r0, [r4, #0x750]
 	mov r1, #0x90000
 	bl FX_Div
@@ -344,12 +344,12 @@ _02176DD0:
 	str r1, [r4, #0x4cc]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02176E14: .word ovl00_2176E1C
+_02176E14: .word AnchorRope__State_2176E1C
 _02176E18: .word 0x000034CC
-	arm_func_end ovl00_2176C80
+	arm_func_end AnchorRope__State_2176C80
 
-	arm_func_start ovl00_2176E1C
-ovl00_2176E1C: // 0x02176E1C
+	arm_func_start AnchorRope__State_2176E1C
+AnchorRope__State_2176E1C: // 0x02176E1C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -431,15 +431,15 @@ ovl00_2176E1C: // 0x02176E1C
 	str r0, [r4, #0x4cc]
 _02176F58:
 	mov r0, r4
-	bl ovl00_2177274
+	bl AnchorRope__Func_2177274
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _02176F68: .word 0x000034CC
-	arm_func_end ovl00_2176E1C
+	arm_func_end AnchorRope__State_2176E1C
 
-	arm_func_start ovl00_2176F6C
-ovl00_2176F6C: // 0x02176F6C
+	arm_func_start AnchorRope__Draw
+AnchorRope__Draw: // 0x02176F6C
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x48
 	bl GetCurrentTaskWork_
@@ -592,10 +592,10 @@ ovl00_2176F6C: // 0x02176F6C
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _021771C4: .word FX_SinCosTable_
-	arm_func_end ovl00_2176F6C
+	arm_func_end AnchorRope__Draw
 
-	arm_func_start ovl00_21771C8
-ovl00_21771C8: // 0x021771C8
+	arm_func_start AnchorRope__OnDefend
+AnchorRope__OnDefend: // 0x021771C8
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -631,19 +631,19 @@ ovl00_21771C8: // 0x021771C8
 	mov r0, r4
 	bic r1, r1, #0x200
 	str r1, [r4, #0x20]
-	bl ovl00_2177274
-	ldr r2, _02177270 // =ovl00_2176C80
+	bl AnchorRope__Func_2177274
+	ldr r2, _02177270 // =AnchorRope__State_2176C80
 	mov r0, r5
 	mov r1, r4
 	str r2, [r4, #0xf4]
 	bl Player__Func_2021B84
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02177270: .word ovl00_2176C80
-	arm_func_end ovl00_21771C8
+_02177270: .word AnchorRope__State_2176C80
+	arm_func_end AnchorRope__OnDefend
 
-	arm_func_start ovl00_2177274
-ovl00_2177274: // 0x02177274
+	arm_func_start AnchorRope__Func_2177274
+AnchorRope__Func_2177274: // 0x02177274
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x54
 	mov r4, r0
@@ -778,7 +778,7 @@ ovl00_2177274: // 0x02177274
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _02177484: .word FX_SinCosTable_
-	arm_func_end ovl00_2177274
+	arm_func_end AnchorRope__Func_2177274
 
 	.data
 	

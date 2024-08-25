@@ -97,7 +97,7 @@ _021566AC:
 	add r0, r4, #0x300
 	strh r1, [r0, #0x98]
 	ldr r1, [r4, #0x37c]
-	ldr r0, _02156854 // =ovl00_2156C3C
+	ldr r0, _02156854 // =EnemyAngler__OnDefend
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x388]
@@ -163,7 +163,7 @@ _02156810:
 	orrne r0, r0, #1
 	strne r0, [r4, #0x20]
 	mov r0, r4
-	bl ovl00_21569A4
+	bl EnemyAngler__Action_Init
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
 	mov r0, r4
@@ -175,7 +175,7 @@ _02156844: .word StageTask_Main
 _02156848: .word GameObject__Destructor
 _0215684C: .word 0x0000FFFE
 _02156850: .word 0x00000102
-_02156854: .word ovl00_2156C3C
+_02156854: .word EnemyAngler__OnDefend
 _02156858: .word gameArchiveStage
 _0215685C: .word 0x0000FFFF
 _02156860: .word _02188C08
@@ -250,7 +250,7 @@ EnemyAnglerShot__Create: // 0x02156864
 	mov r1, #3
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _021569A0 // =ovl00_2156E48
+	ldr r0, _021569A0 // =EnemyAnglerShot__State_2156E48
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -263,27 +263,27 @@ _02156990: .word GameObject__Destructor
 _02156994: .word gameArchiveStage
 _02156998: .word 0x0000FFFF
 _0215699C: .word _02188C08
-_021569A0: .word ovl00_2156E48
+_021569A0: .word EnemyAnglerShot__State_2156E48
 	arm_func_end EnemyAnglerShot__Create
 
-	arm_func_start ovl00_21569A4
-ovl00_21569A4: // 0x021569A4
+	arm_func_start EnemyAngler__Action_Init
+EnemyAngler__Action_Init: // 0x021569A4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _021569CC // =ovl00_21569D0
+	ldr r0, _021569CC // =EnemyAngler__State_21569D0
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021569CC: .word ovl00_21569D0
-	arm_func_end ovl00_21569A4
+_021569CC: .word EnemyAngler__State_21569D0
+	arm_func_end EnemyAngler__Action_Init
 
-	arm_func_start ovl00_21569D0
-ovl00_21569D0: // 0x021569D0
+	arm_func_start EnemyAngler__State_21569D0
+EnemyAngler__State_21569D0: // 0x021569D0
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -448,10 +448,10 @@ _02156C08:
 	str r0, [r5, #0x354]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl00_21569D0
+	arm_func_end EnemyAngler__State_21569D0
 
-	arm_func_start ovl00_2156C3C
-ovl00_2156C3C: // 0x02156C3C
+	arm_func_start EnemyAngler__OnDefend
+EnemyAngler__OnDefend: // 0x02156C3C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	mov r5, r0
@@ -463,7 +463,7 @@ ovl00_2156C3C: // 0x02156C3C
 	mov r1, #2
 	strb r1, [r4, #0x3b0]
 	bl GameObject__SetAnimation
-	ldr r0, _02156C8C // =ovl00_2156C90
+	ldr r0, _02156C8C // =EnemyAngler__State_2156C90
 	str r0, [r4, #0xf4]
 	ldr r0, [r5, #0x1c]
 	ldr r0, [r0, #0x44]
@@ -473,11 +473,11 @@ ovl00_2156C3C: // 0x02156C3C
 	str r0, [r4, #0x3a8]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02156C8C: .word ovl00_2156C90
-	arm_func_end ovl00_2156C3C
+_02156C8C: .word EnemyAngler__State_2156C90
+	arm_func_end EnemyAngler__OnDefend
 
-	arm_func_start ovl00_2156C90
-ovl00_2156C90: // 0x02156C90
+	arm_func_start EnemyAngler__State_2156C90
+EnemyAngler__State_2156C90: // 0x02156C90
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x14
 	mov r5, r0
@@ -575,7 +575,7 @@ _02156DEC:
 	tst r0, #8
 	addeq sp, sp, #0x14
 	ldmeqia sp!, {r4, r5, pc}
-	ldr r0, _02156E44 // =ovl00_2156E78
+	ldr r0, _02156E44 // =EnemyAngler__State_2156E78
 	mov r1, #0
 	str r0, [r5, #0xf4]
 	mov r0, r5
@@ -594,11 +594,11 @@ _02156E34: .word 0x00000153
 _02156E38: .word 0x0000D555
 _02156E3C: .word 0x00002AAA
 _02156E40: .word 0x0000AAAA
-_02156E44: .word ovl00_2156E78
-	arm_func_end ovl00_2156C90
+_02156E44: .word EnemyAngler__State_2156E78
+	arm_func_end EnemyAngler__State_2156C90
 
-	arm_func_start ovl00_2156E48
-ovl00_2156E48: // 0x02156E48
+	arm_func_start EnemyAnglerShot__State_2156E48
+EnemyAnglerShot__State_2156E48: // 0x02156E48
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x1c]
 	tst r1, #0xf
@@ -611,10 +611,10 @@ ovl00_2156E48: // 0x02156E48
 	str ip, [r0, #0x18]
 	bl CreateEffectExplosion
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl00_2156E48
+	arm_func_end EnemyAnglerShot__State_2156E48
 
-	arm_func_start ovl00_2156E78
-ovl00_2156E78: // 0x02156E78
+	arm_func_start EnemyAngler__State_2156E78
+EnemyAngler__State_2156E78: // 0x02156E78
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -622,7 +622,7 @@ ovl00_2156E78: // 0x02156E78
 	str r1, [r4, #0x2c]
 	cmp r1, #0x1e
 	blt _02156EA8
-	bl ovl00_21569A4
+	bl EnemyAngler__Action_Init
 	mov r0, #2
 	strb r0, [r4, #0x3b0]
 	mov r0, #0
@@ -640,7 +640,7 @@ _02156EA8:
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x28]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl00_2156E78
+	arm_func_end EnemyAngler__State_2156E78
 
 	.data
 	

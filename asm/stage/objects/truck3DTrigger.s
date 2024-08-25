@@ -78,7 +78,7 @@ _0216F6E4:
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _0216F75C // =ovl00_2173030
+	ldr r1, _0216F75C // =Object58__OnDefend_2173030
 	mov r0, r4
 	str r1, [r4, #0x23c]
 	ldr r1, [r4, #0x230]
@@ -90,11 +90,11 @@ _0216F6E4:
 _0216F750: .word StageTask_Main
 _0216F754: .word GameObject__Destructor
 _0216F758: .word 0x0000FFFE
-_0216F75C: .word ovl00_2173030
+_0216F75C: .word Object58__OnDefend_2173030
 	arm_func_end Truck3DTrigger__Create
 
-	arm_func_start ovl00_216F760
-ovl00_216F760: // 0x0216F760
+	arm_func_start Truck3D__Func_216F760
+Truck3D__Func_216F760: // 0x0216F760
 	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	sub sp, sp, #0x3c
 	mov sl, r0
@@ -371,10 +371,10 @@ _0216FB28:
 _0216FB60: .word gameState
 _0216FB64: .word _021895C0
 _0216FB68: .word 0x00000142
-	arm_func_end ovl00_216F760
+	arm_func_end Truck3D__Func_216F760
 
-	arm_func_start ovl00_216FB6C
-ovl00_216FB6C: // 0x0216FB6C
+	arm_func_start Truck3D__Func_216FB6C
+Truck3D__Func_216FB6C: // 0x0216FB6C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, #0
 	add r7, r0, #0xc
@@ -407,4 +407,4 @@ _0216FBC8:
 	add r7, r7, #0x24
 	blt _0216FB84
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ovl00_216FB6C
+	arm_func_end Truck3D__Func_216FB6C

@@ -162,8 +162,8 @@ _0215D224: .word 0x00000102
 _0215D228: .word EnemySkymoon__OnDefend_215D6A4
 	arm_func_end EnemySkymoon__Create
 
-	arm_func_start LaserEnemySkymoon__Create
-LaserEnemySkymoon__Create: // 0x0215D22C
+	arm_func_start EnemySkymoonLaser__Create
+EnemySkymoonLaser__Create: // 0x0215D22C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1500
@@ -230,7 +230,7 @@ LaserEnemySkymoon__Create: // 0x0215D22C
 	mov r1, #3
 	bl GameObject__SetAnimation
 	ldrh r0, [r7, #4]
-	ldr r1, _0215D368 // =LaserEnemySkymoon__State_215D750
+	ldr r1, _0215D368 // =EnemySkymoonLaser__State_215D750
 	tst r0, #1
 	ldrne r0, [r4, #0x20]
 	orrne r0, r0, #1
@@ -244,8 +244,8 @@ _0215D358: .word StageTask_Main
 _0215D35C: .word GameObject__Destructor
 _0215D360: .word gameArchiveStage
 _0215D364: .word aActAcEneLaserS
-_0215D368: .word LaserEnemySkymoon__State_215D750
-	arm_func_end LaserEnemySkymoon__Create
+_0215D368: .word EnemySkymoonLaser__State_215D750
+	arm_func_end EnemySkymoonLaser__Create
 
 	arm_func_start EnemySkymoon__Func_215D36C
 EnemySkymoon__Func_215D36C: // 0x0215D36C
@@ -549,8 +549,8 @@ _0215D748: .word 0x00001555
 _0215D74C: .word 0x00006AAA
 	arm_func_end EnemySkymoon__OnDefend_215D6A4
 
-	arm_func_start LaserEnemySkymoon__State_215D750
-LaserEnemySkymoon__State_215D750: // 0x0215D750
+	arm_func_start EnemySkymoonLaser__State_215D750
+EnemySkymoonLaser__State_215D750: // 0x0215D750
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x20]
@@ -571,7 +571,7 @@ LaserEnemySkymoon__State_215D750: // 0x0215D750
 	str r1, [r4, #0x1c]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	arm_func_end LaserEnemySkymoon__State_215D750
+	arm_func_end EnemySkymoonLaser__State_215D750
 
 	.data
 	

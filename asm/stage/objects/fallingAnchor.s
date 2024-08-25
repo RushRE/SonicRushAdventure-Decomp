@@ -167,12 +167,12 @@ FallingAnchor__Create: // 0x02180DE8
 	str r1, [r4, #0x20]
 	strh r0, [r4, #0x14]
 	ldr r0, [r4, #0x48]
-	ldr r1, _021810C0 // =ovl00_21810F4
+	ldr r1, _021810C0 // =FallingAnchor__State_21810F4
 	str r0, [r4, #0x408]
 	ldrsb r0, [r7, #6]
 	cmp r0, #0
 	strgt r0, [r4, #0x2c]
-	ldr r0, _021810C4 // =ovl00_218169C
+	ldr r0, _021810C4 // =FallingAnchor__Draw
 	str r0, [r4, #0xfc]
 	mov r0, r4
 	str r1, [r4, #0xf4]
@@ -188,8 +188,8 @@ _021810B0: .word aActAcGmkAnchor_0
 _021810B4: .word 0x00000201
 _021810B8: .word 0x0000FFFF
 _021810BC: .word StageTask__DefaultDiffData
-_021810C0: .word ovl00_21810F4
-_021810C4: .word ovl00_218169C
+_021810C0: .word FallingAnchor__State_21810F4
+_021810C4: .word FallingAnchor__Draw
 	arm_func_end FallingAnchor__Create
 
 	arm_func_start FallingAnchor__Destructor
@@ -207,8 +207,8 @@ FallingAnchor__Destructor: // 0x021810C8
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end FallingAnchor__Destructor
 
-	arm_func_start ovl00_21810F4
-ovl00_21810F4: // 0x021810F4
+	arm_func_start FallingAnchor__State_21810F4
+FallingAnchor__State_21810F4: // 0x021810F4
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -584,10 +584,10 @@ _0218168C: .word 0x3C6EF35F
 _02181690: .word mapCamera
 _02181694: .word gPlayer
 _02181698: .word 0x0000011F
-	arm_func_end ovl00_21810F4
+	arm_func_end FallingAnchor__State_21810F4
 
-	arm_func_start ovl00_218169C
-ovl00_218169C: // 0x0218169C
+	arm_func_start FallingAnchor__Draw
+FallingAnchor__Draw: // 0x0218169C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
@@ -672,7 +672,7 @@ _02181754:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _021817DC: .word 0x00027FFF
-	arm_func_end ovl00_218169C
+	arm_func_end FallingAnchor__Draw
 
 	.data
 	

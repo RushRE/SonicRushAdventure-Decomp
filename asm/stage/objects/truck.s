@@ -127,7 +127,7 @@ Truck3D__Func_216F57C: // 0x0216F57C
 	cmp r0, #0xad
 	ldmneia sp!, {r4, pc}
 	ldr r1, [r4, #0xf4]
-	ldr r0, _0216F610 // =ovl00_2171064
+	ldr r0, _0216F610 // =Truck3D__State_2171064
 	cmp r1, r0
 	ldmeqia sp!, {r4, pc}
 	ldr r0, [r4, #0x354]
@@ -137,7 +137,7 @@ Truck3D__Func_216F57C: // 0x0216F57C
 	bic r0, r0, #8
 	str r0, [r4, #0x354]
 	ldr r1, [r4, #0x18]
-	ldr r0, _0216F614 // =ovl00_2171368
+	ldr r0, _0216F614 // =Truck3D__State_2171368
 	bic r2, r1, #1
 	str r2, [r4, #0x18]
 	mov r1, #0
@@ -158,7 +158,7 @@ Truck3D__Func_216F57C: // 0x0216F57C
 	strh r1, [r0, #0x1e]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216F610: .word ovl00_2171064
-_0216F614: .word ovl00_2171368
+_0216F610: .word Truck3D__State_2171064
+_0216F614: .word Truck3D__State_2171368
 _0216F618: .word 0x00002EA4
 	arm_func_end Truck3D__Func_216F57C

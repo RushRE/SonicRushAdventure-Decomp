@@ -1438,7 +1438,7 @@ void Player__OnLandGround(Player *player)
         if (player->actionState != PLAYER_ACTION_TURNING)
         {
             if ((player->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0
-                || ((player->actionState != PLAYER_ACTION_17 && player->actionState != PLAYER_ACTION_TRICK_SUCCESS1)
+                || ((player->actionState != PLAYER_ACTION_AIRFORWARD_01 && player->actionState != PLAYER_ACTION_TRICK_SUCCESS1)
                     && (player->actionState != PLAYER_ACTION_TRICK_SUCCESS2 && player->actionState != PLAYER_ACTION_TRICK_FINISH)))
             {
                 player->objWork.displayFlag |= DISPLAY_FLAG_400;
@@ -3814,7 +3814,7 @@ void Player__DrawAfterImages(void)
 // States & Actions
 void Player__State_GroundIdle(Player *work)
 {
-    if (work->actionState == PLAYER_ACTION_3 && (work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+    if (work->actionState == PLAYER_ACTION_CROUCH_EXIT && (work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
     {
         Player__ChangeAction(work, PLAYER_ACTION_IDLE);
         work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -4556,12 +4556,12 @@ void Player__State_Air(Player *work)
                 }
                 break;
 
-            case PLAYER_ACTION_17:
+            case PLAYER_ACTION_AIRFORWARD_01:
             case PLAYER_ACTION_MUSHROOM_BOUNCE:
                 if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
                 {
                     work->objWork.displayFlag |= DISPLAY_FLAG_400;
-                    Player__ChangeAction(work, PLAYER_ACTION_18);
+                    Player__ChangeAction(work, PLAYER_ACTION_AIRFORWARD_02);
                     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
                 }
                 break;
@@ -4742,11 +4742,11 @@ void Player__State_Air(Player *work)
                 }
                 break;
 
-            case PLAYER_ACTION_50:
+            case PLAYER_ACTION_AIRFORWARD_SNOWBOARD_01:
                 if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
                 {
                     work->objWork.displayFlag |= DISPLAY_FLAG_400;
-                    Player__ChangeAction(work, PLAYER_ACTION_51);
+                    Player__ChangeAction(work, PLAYER_ACTION_AIRFORWARD_SNOWBOARD_02);
 
                     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
                     ChangePlayerSnowboardAction(work, PLAYERSNOWBOARD_ACTION_AIRFALL_02);
@@ -4951,7 +4951,7 @@ void Player__State_Air(Player *work)
         }
         else
         {
-            if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0 && work->actionState <= PLAYER_ACTION_18 || work->actionState == PLAYER_ACTION_HOMING_ATTACK)
+            if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0 && work->actionState <= PLAYER_ACTION_AIRFORWARD_02 || work->actionState == PLAYER_ACTION_HOMING_ATTACK)
             {
                 if ((work->inputKeyPress & PAD_BUTTON_R) && work->actionRButtonAir != NULL)
                 {
@@ -6439,7 +6439,7 @@ void Player__HandleSuperBoost(Player *player)
         if ((!player->gimmickObj || (player->gimmickFlag & PLAYER_GIMMICK_8) != 0) && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0
                 && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT) == 0 && (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES) == 0
                 && (player->actionState <= PLAYER_ACTION_HANG_ROT || player->actionState >= PLAYER_ACTION_3D)
-            || !player->tension)
+            || player->tension == 0)
         {
             if (player->minBoostVelocity > MATH_ABS(player->objWork.move.x) + MATH_ABS(player->objWork.move.y))
             {
@@ -7321,7 +7321,7 @@ void Player__ReadGhostFrame(Player *player)
 
             if (player->actionState < PLAYER_ACTION_RAINBOWDASHRING || player->actionState > PLAYER_ACTION_TRICK_FINISH)
             {
-                if ((player->actionState != PLAYER_ACTION_CROUCH && player->actionState != PLAYER_ACTION_3)
+                if ((player->actionState != PLAYER_ACTION_CROUCH && player->actionState != PLAYER_ACTION_CROUCH_EXIT)
                     && (player->actionState < PLAYER_ACTION_HURT_KNOCKBACK || player->actionState > PLAYER_ACTION_HURT_TUMBLE))
                 {
                     if (player->actionState != PLAYER_ACTION_MUSHROOM_BOUNCE && player->actionState != PLAYER_ACTION_TRAMPOLINE)
