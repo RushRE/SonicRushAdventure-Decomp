@@ -195,7 +195,8 @@ static u16 const initialAnimList[CHARACTER_COUNT][2] = {
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
 
-    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniSnowboard, boardModelPath[player->characterID], 0, GetObjectFileWork(OBJDATAWORK_165 + player->characterID), gameArchiveStage);
+    ObjAction3dNNModelLoad(&work->gameWork.objWork, &work->aniSnowboard, boardModelPath[player->characterID], 0, GetObjectFileWork(OBJDATAWORK_165 + player->characterID),
+                           gameArchiveStage);
     NNS_G3dResDefaultSetup(work->gameWork.objWork.obj_3d->file[0]->fileData);
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, work->gameWork.objWork.obj_3d, "/mod/ply_board.nsbca", 0, gameArchiveStage);
 
@@ -282,8 +283,9 @@ void PlayerSnowboard_State_Active(PlayerSnowboard *work)
         work->gameWork.objWork.position = player->objWork.position;
         work->gameWork.objWork.dir      = player->objWork.dir;
 
-        work->gameWork.objWork.displayFlag = (work->gameWork.objWork.displayFlag & ~(DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X))
-                                             | (player->objWork.displayFlag & (DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X));
+        work->gameWork.objWork.displayFlag =
+            (work->gameWork.objWork.displayFlag & ~(DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X))
+            | (player->objWork.displayFlag & (DISPLAY_FLAG_APPLY_CAMERA_CONFIG | DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X));
         work->gameWork.objWork.obj_3d->ani.speedMultiplier = player->objWork.obj_3d->ani.speedMultiplier;
     }
 }
@@ -298,13 +300,13 @@ void LoseSnowboardTrigger_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     LoseSnowboardTrigger *trigger = (LoseSnowboardTrigger *)rect2->parent;
     Player *player                = (Player *)rect1->parent;
 
-    if (trigger != NULL && player != NULL)
+    if (trigger == NULL || player == NULL)
+        return;
+
+    if (CheckIsPlayer1(player) && player->objWork.objType == STAGE_OBJ_TYPE_PLAYER && (player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
     {
-        if (CheckIsPlayer1(player) && player->objWork.objType == STAGE_OBJ_TYPE_PLAYER && (player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
-        {
-            trigger->gameWork.objWork.flag |= 2;
-            LosePlayerSnowboard(player, FLOAT_TO_FX32(3.0));
-            Player__Func_201FCFC(player);
-        }
+        trigger->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+        LosePlayerSnowboard(player, FLOAT_TO_FX32(3.0));
+        Player__Func_201FCFC(player);
     }
 }

@@ -82,8 +82,8 @@ NOT_DECOMPILED GameObjectTask *SteamFan__Create(MapObject *mapObject, fx32 x, fx
 NOT_DECOMPILED GameObjectTask *DreamWing__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DreamWingPart__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CameraBoundsTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Icicle__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *FlipBoard__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
+NOT_DECOMPILED GameObjectTask *CreateIcicle(MapObject *mapObject, fx32 x, fx32 y, s32 type);
+NOT_DECOMPILED GameObjectTask *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CreateIceBlock(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CreateHalfpipe(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -153,7 +153,7 @@ NOT_DECOMPILED GameObjectTask *Boss4FireBall__Create(MapObject *mapObject, fx32 
 NOT_DECOMPILED GameObjectTask *Boss5__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss5Sea__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss5Missile__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5Icicle__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
+NOT_DECOMPILED GameObjectTask *CreateBoss5Icicle(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss5PlayerFreezeEffect__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss5EnemyFish2__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss6__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -689,9 +689,9 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_136] = (CreateObjectFunc)DreamWing__Create,
     [MAPOBJECT_137] = (CreateObjectFunc)DreamWingPart__Create,
     [MAPOBJECT_138] = (CreateObjectFunc)CameraBoundsTrigger__Create,
-    [MAPOBJECT_139] = (CreateObjectFunc)Icicle__Create,
+    [MAPOBJECT_139] = (CreateObjectFunc)CreateIcicle,
     [MAPOBJECT_140] = (CreateObjectFunc)CreateFlagChange,
-    [MAPOBJECT_141] = (CreateObjectFunc)FlipBoard__Create,
+    [MAPOBJECT_141] = (CreateObjectFunc)CreateFlipboard,
     [MAPOBJECT_142] = (CreateObjectFunc)CreateLoseSnowboardTrigger,
     [MAPOBJECT_143] = (CreateObjectFunc)DiveStand__Create,
     [MAPOBJECT_144] = (CreateObjectFunc)CreateIceBlock,
@@ -843,7 +843,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_290] = (CreateObjectFunc)Boss5__Create,
     [MAPOBJECT_291] = (CreateObjectFunc)Boss5Sea__Create,
     [MAPOBJECT_292] = (CreateObjectFunc)Boss5Missile__Create,
-    [MAPOBJECT_293] = (CreateObjectFunc)Boss5Icicle__Create,
+    [MAPOBJECT_293] = (CreateObjectFunc)CreateBoss5Icicle,
     [MAPOBJECT_294] = (CreateObjectFunc)Boss5PlayerFreezeEffect__Create,
     [MAPOBJECT_295] = (CreateObjectFunc)Boss5EnemyFish2__Create,
     [MAPOBJECT_296] = (CreateObjectFunc)Boss6__Create,

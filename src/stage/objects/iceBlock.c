@@ -43,7 +43,7 @@ IceBlock *CreateIceBlock(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_ice_block.bac", GetObjectFileWork(OBJDATAWORK_175), gameArchiveStage, OBJ_DATA_GFX_NONE);
-    ObjObjectActionAllocSprite(&work->gameWork.objWork, 8, (OBS_SPRITE_REF *)GetObjectFileWork(OBJDATAWORK_176));
+    ObjObjectActionAllocSprite(&work->gameWork.objWork, 8, GetObjectSpriteRef(OBJDATAWORK_176));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 35);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_22);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);

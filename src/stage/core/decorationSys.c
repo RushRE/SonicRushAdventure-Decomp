@@ -742,7 +742,7 @@ void DecorationSys__Decor_Main(StageDecoration *work)
 
     if ((work->objWork.flag & STAGE_TASK_FLAG_DESTROYED) == 0)
     {
-        if (!work->objWork.ppOut || (work->objWork.displayFlag & DISPLAY_FLAG_NO_DRAW_EVENT) != 0)
+        if (work->objWork.ppOut == NULL || (work->objWork.displayFlag & DISPLAY_FLAG_NO_DRAW_EVENT) != 0)
             DecorationSys__Draw(work);
 
         if (work->objWork.ppOut != NULL)

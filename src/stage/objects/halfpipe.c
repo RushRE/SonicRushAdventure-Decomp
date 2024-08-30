@@ -42,10 +42,9 @@ Halfpipe *CreateHalfpipe(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    OBS_DATA_WORK *sprWork = GetObjectFileWork(OBJDATAWORK_186);
+    OBS_DATA_WORK *sprWork = GetObjectDataWork(OBJDATAWORK_186);
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_half_pipe.bac", sprWork, gameArchiveStage, OBJ_DATA_GFX_NONE);
-    ObjObjectActionAllocSprite(&work->gameWork.objWork, Sprite__GetSpriteSize2FromAnim(sprWork->fileData, halfpipeType),
-                               (OBS_SPRITE_REF *)GetObjectFileWork(2 * halfpipeType + OBJDATAWORK_187));
+    ObjObjectActionAllocSprite(&work->gameWork.objWork, Sprite__GetSpriteSize2FromAnim(sprWork->fileData, halfpipeType), GetObjectSpriteRef(2 * halfpipeType + OBJDATAWORK_187));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 60);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_1);

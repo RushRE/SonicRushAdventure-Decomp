@@ -1480,8 +1480,8 @@ _02174660: .word ovl01_2175D7C
 _02174664: .word ovl01_21758A0
 	thumb_func_end Boss5Unknown2174578__Create
 
-	thumb_func_start Boss5Icicle__Create
-Boss5Icicle__Create: // _02174668
+	thumb_func_start CreateBoss5Icicle
+CreateBoss5Icicle: // _02174668
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	mov r5, r0
@@ -1600,7 +1600,7 @@ _02174768: .word 0x0000FFFF
 _0217476C: .word 0x02133A10
 _02174770: .word _0217AEF4
 _02174774: .word 0x000034CC
-	thumb_func_end Boss5Icicle__Create
+	thumb_func_end CreateBoss5Icicle
 
 	thumb_func_start Boss5Icicle2__Create
 Boss5Icicle2__Create: // _02174778

@@ -762,14 +762,14 @@ void Player__Gimmick_201ED44(Player *player, GameObjectTask *other, s32 a3, s32 
 void Player__State_201EEE0(Player *work);
 void Player__Func_201F05C(Player *player, StageTaskState a2, s32 a3, s32 a4, s32 a5, u32 a6);
 void Player__State_201F1C4(Player *work);
-void Player__Gimmick_IcicleGrab(Player *player, u32 a2, s32 a3);
-void Player__State_201F4FC(Player *work);
+void Player__Action_IcicleGrab(Player *player, GameObjectTask *other, s32 width);
+void Player__State_IcicleGrab(Player *work);
 void Player__Action_IceSlide(Player *player, s32 _unused);
 void Player__State_IceSlide(Player *player);
 void Player__State_IceSlideLaunch(Player *work);
 void Player__Action_EnableSnowboard(Player *player, s32 a2);
 void Player__Func_201FCFC(Player *player);
-void Player__Func_201FD6C(Player *player, s32 a2, s32 a3);
+void Player__Action_Flipboard(Player *player, fx32 velX, fx32 velY);
 void Player__Gimmick_201FD7C(Player *player, s32 a2);
 void Player__Func_201FE28(Player *player);
 void Player__Func_201FEE0(Player *player);
@@ -847,6 +847,8 @@ void Player__State_SpringRope(Player *work);
 // --------------------
 // INLINE FUNCTIONS
 // --------------------
+
+#define CheckPlayerGimmickObj(player, gimmickWork) (player)->gimmickObj != &(gimmickWork)->gameWork
 
 RUSH_INLINE BOOL CheckIsPlayer1(Player *player)
 {

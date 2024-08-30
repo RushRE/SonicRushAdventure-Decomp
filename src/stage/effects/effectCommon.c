@@ -187,7 +187,7 @@ EffectTask *CreateEffectTask(size_t size, EffectTask *parent)
 
 EffectTask *InitEffectTaskViewCheck(EffectTask *work, s16 offset, s16 left, s16 top, s16 right, s16 bottom)
 {
-	SetTaskViewCheckFunc(work, StageTask__ViewCheck_Default);
+    SetTaskViewCheckFunc(work, StageTask__ViewCheck_Default);
 
     work->viewOutOffset             = offset;
     work->viewOutOffsetBoundsLeft   = left;
@@ -1194,8 +1194,7 @@ NONMATCH_FUNC EffectCoralDebris *EffectCoralDebris__Create(fx32 x, fx32 y, fx32 
     ObjActionAllocSpritePalette(&work->objWork, debrisType + 20, 67);
 
     u16 debrisAnim = debrisType + 20;
-    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, debrisType + 20),
-                               (OBS_SPRITE_REF *)GetObjectFileWork(2 * debrisType + OBJDATAWORK_194));
+    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, debrisType + 20), GetObjectSpriteRef(2 * debrisType + OBJDATAWORK_194));
     StageTask__SetAnimation(&work->objWork, debrisAnim);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_2);
@@ -1331,7 +1330,8 @@ NONMATCH_FUNC EffectCoralDebris *EffectCoralDebris__Create(fx32 x, fx32 y, fx32 
 }
 
 // EffectBridgeDebris
-NONMATCH_FUNC EffectBridgeDebris *EffectBridgeDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type){
+NONMATCH_FUNC EffectBridgeDebris *EffectBridgeDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1446,7 +1446,8 @@ NONMATCH_FUNC EffectBridgeDebris *EffectBridgeDebris__Create(fx32 x, fx32 y, fx3
 }
 
 // EffectIceSparkles
-NONMATCH_FUNC EffectIceSparkles *EffectIceSparkles__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type){
+NONMATCH_FUNC EffectIceSparkles *EffectIceSparkles__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1580,7 +1581,8 @@ NONMATCH_FUNC EffectStartDash *EffectStartDash__Create(StageTask *parent)
 }
 
 // EffectBreakableObjDebris
-NONMATCH_FUNC EffectBreakableObjDebris *EffectBreakableObjDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type){
+NONMATCH_FUNC EffectBreakableObjDebris *EffectBreakableObjDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1668,7 +1670,8 @@ NONMATCH_FUNC EffectBreakableObjDebris *EffectBreakableObjDebris__Create(fx32 x,
 }
 
 // EffectGoalJewel
-NONMATCH_FUNC EffectGoalJewel *EffectGoalJewel__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY){
+NONMATCH_FUNC EffectGoalJewel *EffectGoalJewel__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1768,7 +1771,8 @@ _0202A9AC:
 }
 
 // EffectFlipMush
-NONMATCH_FUNC EffectFlipMushPuff *EffectFlipMushPuff__Create(fx32 x, fx32 y, fx32 velX, fx32 velY){
+NONMATCH_FUNC EffectFlipMushPuff *EffectFlipMushPuff__Create(fx32 x, fx32 y, fx32 velX, fx32 velY)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2060,7 +2064,8 @@ void EffectPipeFlowSeed__State_202ADFC(EffectPipeFlowSeed *work)
 }
 
 // EffectSteam
-NONMATCH_FUNC EffectSteam *EffectSteamDust__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY){
+NONMATCH_FUNC EffectSteam *EffectSteamDust__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2144,7 +2149,8 @@ NONMATCH_FUNC EffectSteam *EffectSteamDust__Create(u32 type, fx32 x, fx32 y, fx3
 #endif
 }
 
-NONMATCH_FUNC EffectSteam *EffectSteamEffect__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY, s32 timer){
+NONMATCH_FUNC EffectSteam *EffectSteamEffect__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY, s32 timer)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2391,7 +2397,8 @@ void EffectSteamFan__State_202B324(EffectSteamFan *work)
 }
 
 // EffectPiston
-NONMATCH_FUNC EffectPiston *EffectPiston__Create(VecFx32 *position, VecU16 *dir){
+NONMATCH_FUNC EffectPiston *EffectPiston__Create(VecFx32 *position, VecU16 *dir)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2449,7 +2456,8 @@ NONMATCH_FUNC EffectPiston *EffectPiston__Create(VecFx32 *position, VecU16 *dir)
 }
 
 // EffectIceBlock
-NONMATCH_FUNC EffectIceBlockDebris *EffectIceBlockDebris__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY){
+NONMATCH_FUNC EffectIceBlockDebris *EffectIceBlockDebris__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2537,7 +2545,8 @@ NONMATCH_FUNC EffectIceBlockDebris *EffectIceBlockDebris__Create(u32 type, fx32 
 }
 
 // EffectTruckSparkles
-NONMATCH_FUNC EffectTruckSparkles *EffectTruckSparkles__Create(StageTask *parent, u16 duration, s32 userWork, fx32 offsetX, fx32 offsetY, u16 flags){
+NONMATCH_FUNC EffectTruckSparkles *EffectTruckSparkles__Create(StageTask *parent, u16 duration, s32 userWork, fx32 offsetX, fx32 offsetY, u16 flags)
+{
 #ifdef NON_MATCHING
 
 #else

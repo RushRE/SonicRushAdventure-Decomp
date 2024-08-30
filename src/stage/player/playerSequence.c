@@ -4377,10 +4377,53 @@ _0201F2FC:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_IcicleGrab(Player *player, u32 a2, s32 a3)
+NONMATCH_FUNC void Player__Action_IcicleGrab(Player *player, GameObjectTask *other, s32 width)
 {
+    // https://decomp.me/scratch/ZvACC -> 99.76%
 #ifdef NON_MATCHING
+    if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0)
+    {
+        Player__InitPhysics(player);
+        Player__InitGimmick(player, FALSE);
+        Player__ChangeAction(player, PLAYER_ACTION_ICICLE);
 
+        player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+        player->gimmickObj = other;
+        player->objWork.moveFlag |= PLAYER_GIMMICK_2000 | PLAYER_GIMMICK_200 | PLAYER_GIMMICK_100 | PLAYER_GIMMICK_10;
+        player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_10;
+        player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+        player->gimmickCamOffsetX = 0;
+        player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
+        player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+
+        ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+
+        player->gimmickValue1 = width;
+        fx32 icicleY          = other->objWork.position.y - FLOAT_TO_FX32(256.0);
+
+        fx32 size;
+        if (player->objWork.position.y > icicleY)
+            size = FX_Div(68 * (player->gimmickValue1 - (player->objWork.position.y - icicleY)), player->gimmickValue1);
+        else
+            size = FLOAT_TO_FX32(68.0);
+
+        if (player->objWork.position.x <= other->objWork.position.x)
+        {
+            player->objWork.position.x -= (size >> 1);
+            player->gimmickValue2 = FLOAT_DEG_TO_IDX(0.0);
+        }
+        else
+        {
+            player->objWork.position.x += (size >> 1);
+            player->gimmickValue2 = FLOAT_DEG_TO_IDX(180.0);
+        }
+
+        player->objWork.position.z = 0;
+        player->objWork.velocity.x = player->objWork.velocity.y = 0;
+
+        SetTaskState(&player->objWork, Player__State_IcicleGrab);
+        PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ICICLE_TURNING);
+    }
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
@@ -4457,7 +4500,7 @@ _0201F4B0:
 	str r3, [r6, #0x9c]
 	mov r4, #0x52
 	add r0, r6, #0x254
-	ldr r2, =Player__State_201F4FC
+	ldr r2, =Player__State_IcicleGrab
 	str r3, [r6, #0x98]
 	str r2, [r6, #0xf4]
 	sub r1, r4, #0x53
@@ -4474,183 +4517,73 @@ _0201F4B0:
 #endif
 }
 
-NONMATCH_FUNC void Player__State_201F4FC(Player *work)
+void Player__State_IcicleGrab(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *icicle = work->gimmickObj;
+    if (icicle == NULL || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
+    {
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_GRABBED);
+        work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+        work->objWork.dir.y     = FLOAT_DEG_TO_IDX(0.0);
+        work->objWork.groundVel = FLOAT_TO_FX32(0.0);
+        work->actionJump(work);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r4, [r5, #0x6d8]
-	cmp r4, #0
-	beq _0201F520
-	add r0, r5, #0x700
-	ldrh r0, [r0, #0x22]
-	tst r0, #3
-	beq _0201F5CC
-_0201F520:
-	ldr r2, [r5, #0x5dc]
-	ldr r0, =0xFFFDFFEF
-	mov r1, #0
-	and r0, r2, r0
-	str r0, [r5, #0x5dc]
-	ldr r2, [r5, #0x5d8]
-	mov r0, r5
-	bic r2, r2, #0x100000
-	str r2, [r5, #0x5d8]
-	ldr r2, [r5, #0x1c]
-	bic r2, r2, #0x2300
-	str r2, [r5, #0x1c]
-	strh r1, [r5, #0x32]
-	str r1, [r5, #0xc8]
-	ldr r1, [r5, #0x5f0]
-	blx r1
-	ldr r0, [r5, #0x5d8]
-	mov r1, #0x3000
-	orr r0, r0, #1
-	str r0, [r5, #0x5d8]
-	ldr r2, [r5, #0x9c]
-	add r0, r5, #0x700
-	mov r2, r2, asr #2
-	str r2, [r5, #0x9c]
-	str r1, [r5, #0x98]
-	ldrh r0, [r0, #0x20]
-	tst r0, #0x20
-	beq _0201F5A8
-	ldr r0, [r5, #0x98]
-	rsb r0, r0, #0
-	str r0, [r5, #0x98]
-	ldr r0, [r5, #0x20]
-	orr r0, r0, #1
-	str r0, [r5, #0x20]
-_0201F5A8:
-	add r2, r5, #0x254
-	add r0, r5, #0x500
-	mov r1, #0x1e
-	strh r1, [r0, #0xfa]
-	mov r1, #0
-	add r0, r2, #0x400
-	str r1, [r5, #0x6d8]
-	bl NNS_SndPlayerStopSeq
-	ldmia sp!, {r3, r4, r5, pc}
-_0201F5CC:
-	ldr r0, [r5, #0x44]
-	mov r1, #0x800
-	str r0, [r5, #0x8c]
-	ldr r0, [r5, #0x48]
-	mov r2, #0x4000
-	str r0, [r5, #0x90]
-	ldr r0, [r5, #0x9c]
-	bl ObjSpdUpSet
-	str r0, [r5, #0x9c]
-	ldr r1, [r5, #0x48]
-	add r2, r1, r0
-	str r2, [r5, #0x48]
-	ldr r0, [r4, #0x48]
-	sub r0, r0, #0x100000
-	cmp r2, r0
-	movle r0, #0x44000
-	ble _0201F628
-	ldr r1, [r5, #0x6f0]
-	sub r0, r2, r0
-	sub r2, r1, r0
-	mov r0, #0x44
-	mul r0, r2, r0
-	bl FX_Div
-_0201F628:
-	cmp r0, #0x2000
-	bgt _0201F684
-	ldr r2, [r5, #0x5dc]
-	ldr r0, =0xFFFDFFEF
-	mov r1, #0
-	and r0, r2, r0
-	str r0, [r5, #0x5dc]
-	ldr r2, [r5, #0x5d8]
-	add r0, r5, #0x254
-	bic r2, r2, #0x100000
-	str r2, [r5, #0x5d8]
-	ldr r2, [r5, #0x1c]
-	add r0, r0, #0x400
-	bic r2, r2, #0x2300
-	str r2, [r5, #0x1c]
-	strh r1, [r5, #0x32]
-	str r1, [r5, #0xc8]
-	str r1, [r5, #0x98]
-	str r1, [r5, #0x6d8]
-	bl NNS_SndPlayerStopSeq
-	mov r0, r5
-	bl Player__Action_Launch
-	ldmia sp!, {r3, r4, r5, pc}
-_0201F684:
-	mvn r2, #0
-	rsb r3, r0, #0x44000
-	sub r1, r2, #0x3f
-	umull lr, ip, r3, r1
-	mla ip, r3, r2, ip
-	mov r2, r3, asr #0x1f
-	mla ip, r2, r1, ip
-	adds r3, lr, #0x800
-	mov r2, r3, lsr #0xc
-	adc r1, ip, #0
-	orr r2, r2, r1, lsl #20
-	ldr r3, [r5, #0x6f4]
-	sub r1, r2, #0x80
-	add r1, r3, r1
-	str r1, [r5, #0x6f4]
-	strh r1, [r5, #0x32]
-	ldrh r2, [r5, #0x32]
-	ldr r1, =FX_SinCosTable_
-	mov r0, r0, asr #1
-	add r2, r2, #0x8000
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, asr #4
-	mov r2, r2, lsl #1
-	add r2, r2, #1
-	mov r2, r2, lsl #1
-	ldrsh r2, [r1, r2]
-	ldr r4, [r4, #0x44]
-	smull r3, r2, r0, r2
-	adds r3, r3, #0x800
-	adc r2, r2, #0
-	mov r3, r3, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	add r2, r4, r3
-	str r2, [r5, #0x44]
-	ldrh r2, [r5, #0x32]
-	add r2, r2, #0x8000
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-	mov r2, r2, asr #4
-	mov r2, r2, lsl #2
-	ldrsh r1, [r1, r2]
-	smull r2, r1, r0, r1
-	adds r2, r2, #0x800
-	adc r0, r1, #0
-	mov r1, r2, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [r5, #0x4c]
-	ldr r1, [r5, #0x44]
-	ldr r0, [r5, #0x8c]
-	sub r0, r1, r0
-	str r0, [r5, #0xbc]
-	ldr r1, [r5, #0x48]
-	ldr r0, [r5, #0x90]
-	sub r0, r1, r0
-	str r0, [r5, #0xc0]
-	ldr r1, [r5, #0x4c]
-	ldr r0, [r5, #0x94]
-	sub r0, r1, r0
-	str r0, [r5, #0xc4]
-	ldmia sp!, {r3, r4, r5, pc}
+        work->playerFlag |= PLAYER_FLAG_USER_FLAG;
+        work->objWork.velocity.y >>= 2;
+        work->objWork.velocity.x = FLOAT_TO_FX32(3.0);
 
-// clang-format on
-#endif
+        if ((work->inputKeyDown & PAD_KEY_LEFT) != 0)
+        {
+            work->objWork.velocity.x = -work->objWork.velocity.x;
+            work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+        }
+        work->overSpeedLimitTimer = 30;
+        work->gimmickObj          = NULL;
+
+        StopPlayerSfx(work, PLAYER_SEQPLAYER_COMMON);
+        return;
+    }
+
+    work->objWork.prevPosition.x = work->objWork.position.x;
+    work->objWork.prevPosition.y = work->objWork.position.y;
+
+    work->objWork.velocity.y = ObjSpdUpSet(work->objWork.velocity.y, FLOAT_TO_FX32(0.5), FLOAT_TO_FX32(4.0));
+    work->objWork.position.y += work->objWork.velocity.y;
+
+    fx32 icicleY = icicle->objWork.position.y - FLOAT_TO_FX32(256.0);
+
+    fx32 size;
+    if (work->objWork.position.y > icicleY)
+        size = FX_Div(68 * (work->gimmickValue1 - (work->objWork.position.y - icicleY)), work->gimmickValue1);
+    else
+        size = FLOAT_TO_FX32(68.0);
+
+    if (size <= FLOAT_TO_FX32(2.0))
+    {
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_GRABBED);
+        work->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+        work->objWork.dir.y      = FLOAT_DEG_TO_IDX(0.0);
+        work->objWork.velocity.x = work->objWork.groundVel = FLOAT_TO_FX32(0.0);
+        work->gimmickObj                                   = NULL;
+
+        StopPlayerSfx(work, PLAYER_SEQPLAYER_COMMON);
+        Player__Action_Launch(work);
+    }
+    else
+    {
+        work->gimmickValue2 += MultiplyFX(-64, (FLOAT_TO_FX32(68.0) - size)) - 128;
+        work->objWork.dir.y = work->gimmickValue2;
+
+        fx32 radius              = size >> 1;
+        work->objWork.position.x = icicle->objWork.position.x + MultiplyFX(radius, CosFX((s32)(u16)(s32)(work->objWork.dir.y + FLOAT_DEG_TO_IDX(180.0))));
+        work->objWork.position.z = MultiplyFX(radius, SinFX((s32)(u16)(s32)(work->objWork.dir.y + FLOAT_DEG_TO_IDX(180.0))));
+
+        work->objWork.move.x = work->objWork.position.x - work->objWork.prevPosition.x;
+        work->objWork.move.y = work->objWork.position.y - work->objWork.prevPosition.y;
+        work->objWork.move.z = work->objWork.position.z - work->objWork.prevPosition.z;
+    }
 }
 
 void Player__Action_IceSlide(Player *player, s32 _unused)
@@ -4906,17 +4839,9 @@ _0201FD60:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_201FD6C(Player *player, s32 a2, s32 a3){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =Player__Gimmick_201B418
-	mov r3, #1
-	bx ip
-
-// clang-format on
-#endif
+void Player__Action_Flipboard(Player *player, fx32 velX, fx32 velY)
+{
+    Player__Gimmick_201B418(player, velX, velY, TRUE);
 }
 
 NONMATCH_FUNC void Player__Gimmick_201FD7C(Player *player, s32 a2)

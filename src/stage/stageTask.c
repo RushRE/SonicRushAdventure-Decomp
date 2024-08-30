@@ -329,7 +329,7 @@ void StageTask_Main(void)
 
         if ((work->flag & STAGE_TASK_FLAG_DESTROYED) == 0)
         {
-            if (!work->ppOut || (work->displayFlag & DISPLAY_FLAG_NO_DRAW_EVENT) != 0)
+            if (work->ppOut == NULL || (work->displayFlag & DISPLAY_FLAG_NO_DRAW_EVENT) != 0)
                 StageTask__Draw(work);
 
             if (work->ppOut != NULL)

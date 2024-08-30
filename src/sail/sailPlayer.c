@@ -212,7 +212,7 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
     SailPlayer__ChangeAction(work, SAILPLAYER_ACTION_0);
     work->displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-    ObjDraw__PaletteTex__Init(((OBS_DATA_WORK *)GetObjectFileWork(OBJDATAWORK_0))->fileData, &worker->paletteTex);
+    ObjDraw__PaletteTex__Init(GetObjectDataWork(OBJDATAWORK_0)->fileData, &worker->paletteTex);
 
     worker->isRival  = isRival;
     worker->action   = SAILPLAYER_ACTION_INVALID;

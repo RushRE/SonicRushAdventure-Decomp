@@ -73,7 +73,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     {
         case MAPOBJECT_79:
         case MAPOBJECT_80:
-            spriteRef = (OBS_SPRITE_REF *)GetObjectFileWork(OBJDATAWORK_31);
+            spriteRef = GetObjectSpriteRef(OBJDATAWORK_31);
             ObjObjectActionAllocSprite(&work->gameWork.objWork, 40, spriteRef);
             if ((spriteRef->engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
             {
@@ -84,7 +84,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
             break;
 
         default:
-            spriteRef = (OBS_SPRITE_REF *)GetObjectFileWork(OBJDATAWORK_29);
+            spriteRef = GetObjectSpriteRef(OBJDATAWORK_29);
             ObjObjectActionAllocSprite(&work->gameWork.objWork, 74, spriteRef);
             if ((spriteRef->engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
             {
@@ -119,7 +119,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
             work->gameWork.collisionObject.work.height = 32;
             work->gameWork.collisionObject.work.ofst_x = -16;
             work->gameWork.collisionObject.work.ofst_y = -16;
-            work->gameWork.field_358              = SPIKES_ANI_HORIZONTAL;
+            work->gameWork.field_358                   = SPIKES_ANI_HORIZONTAL;
             break;
 
         default:
@@ -395,7 +395,7 @@ Spikes *CreateSpikes2(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
     ObjRect__SetAttackStat(work->gameWork.colliders, 2, 64);
     ObjRect__SetDefenceStat(work->gameWork.colliders, ~0, 0xFF);
-    work->gameWork.objWork.collisionObj      = 0;
+    work->gameWork.objWork.collisionObj           = 0;
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
     work->gameWork.collisionObject.work.flag |= 8;
@@ -448,7 +448,7 @@ NONMATCH_FUNC void SetSpikesAnimation(Spikes *work, u16 anim)
     static u32 vramOffset[] = { 0x0000, 0x0A00, 0x0F00, 0x1200, 0x0000 };
 
     StageTask__SetAnimation(&work->gameWork.objWork, anim);
-    
+
     work->gameWork.objWork.obj_2d->ani.vramPixels[0] = work->gameWork.objWork.obj_2d->spriteRef->engineRef[0].vramPixels + vramOffset[anim];
     work->gameWork.objWork.obj_2d->ani.vramPixels[1] = work->gameWork.objWork.obj_2d->spriteRef->engineRef[1].vramPixels + vramOffset[anim];
 #else

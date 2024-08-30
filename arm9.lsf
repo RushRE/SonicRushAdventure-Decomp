@@ -404,9 +404,10 @@ Overlay ZoneAct
     Object asm/stage/objects/dreamWing.o
     Object asm/stage/objects/largePiston.o
     Object asm/stage/objects/cameraBoundsTrigger.o
-    Object asm/stage/objects/icicle.o
+    Object src/stage/objects/icicle.o
     Object src/stage/objects/playerSnowboard.o
-    Object asm/stage/objects/flipBoard.o
+    Object asm/stage/objects/flipBoard_vars.o
+    Object src/stage/objects/flipBoard.o
     Object asm/stage/objects/diveStand.o
     Object src/stage/objects/iceBlock.o
     Object src/stage/objects/halfpipe.o
