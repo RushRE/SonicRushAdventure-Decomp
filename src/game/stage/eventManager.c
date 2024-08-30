@@ -85,8 +85,8 @@ NOT_DECOMPILED GameObjectTask *CameraBoundsTrigger__Create(MapObject *mapObject,
 NOT_DECOMPILED GameObjectTask *Icicle__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *FlipBoard__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *IceBlock__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Halfpipe__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
+NOT_DECOMPILED GameObjectTask *CreateIceBlock(MapObject *mapObject, fx32 x, fx32 y, s32 type);
+NOT_DECOMPILED GameObjectTask *CreateHalfpipe(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *GrabTree__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *ObjectUnknown1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -100,7 +100,7 @@ NOT_DECOMPILED GameObjectTask *Truck3D__Create(MapObject *mapObject, fx32 x, fx3
 NOT_DECOMPILED GameObjectTask *Truck__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Truck3DTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Platform__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Snowslide__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
+NOT_DECOMPILED GameObjectTask *Avalanche__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *IceTree__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *AnchorRope__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Barrel__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -694,10 +694,10 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_141] = (CreateObjectFunc)FlipBoard__Create,
     [MAPOBJECT_142] = (CreateObjectFunc)CreateLoseSnowboardTrigger,
     [MAPOBJECT_143] = (CreateObjectFunc)DiveStand__Create,
-    [MAPOBJECT_144] = (CreateObjectFunc)IceBlock__Create,
-    [MAPOBJECT_145] = (CreateObjectFunc)Halfpipe__Create,
-    [MAPOBJECT_146] = (CreateObjectFunc)Halfpipe__Create,
-    [MAPOBJECT_147] = (CreateObjectFunc)Halfpipe__Create,
+    [MAPOBJECT_144] = (CreateObjectFunc)CreateIceBlock,
+    [MAPOBJECT_145] = (CreateObjectFunc)CreateHalfpipe,
+    [MAPOBJECT_146] = (CreateObjectFunc)CreateHalfpipe,
+    [MAPOBJECT_147] = (CreateObjectFunc)CreateHalfpipe,
     [MAPOBJECT_148] = (CreateObjectFunc)GrabTree__Create,
     [MAPOBJECT_149] = (CreateObjectFunc)DiveStand__Create,
     [MAPOBJECT_150] = (CreateObjectFunc)ObjectUnknown1__Create,
@@ -744,8 +744,8 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_191] = (CreateObjectFunc)NULL,
     [MAPOBJECT_192] = (CreateObjectFunc)NULL,
     [MAPOBJECT_193] = (CreateObjectFunc)NULL,
-    [MAPOBJECT_194] = (CreateObjectFunc)Snowslide__Create,
-    [MAPOBJECT_195] = (CreateObjectFunc)Snowslide__Create,
+    [MAPOBJECT_194] = (CreateObjectFunc)Avalanche__Create,
+    [MAPOBJECT_195] = (CreateObjectFunc)Avalanche__Create,
     [MAPOBJECT_196] = (CreateObjectFunc)IceTree__Create,
     [MAPOBJECT_197] = (CreateObjectFunc)AnchorRope__Create,
     [MAPOBJECT_198] = (CreateObjectFunc)Barrel__Create,

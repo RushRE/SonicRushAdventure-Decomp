@@ -147,7 +147,7 @@ _0216BD24:
 	blt _0216BCBC
 	b _0216BD40
 _0216BD38:
-	ldr r0, _0216BD60 // =Object50__State_216BD64
+	ldr r0, _0216BD60 // =ObjectUnknown1__State_216BD64
 	str r0, [r6, #0xf4]
 _0216BD40:
 	mov r0, r6
@@ -159,11 +159,11 @@ _0216BD50: .word mapCamera
 _0216BD54: .word StageTask_Main
 _0216BD58: .word GameObject__Destructor
 _0216BD5C: .word gPlayerList
-_0216BD60: .word Object50__State_216BD64
+_0216BD60: .word ObjectUnknown1__State_216BD64
 	arm_func_end ObjectUnknown1__Create
 
-	arm_func_start Object50__State_216BD64
-Object50__State_216BD64: // 0x0216BD64
+	arm_func_start ObjectUnknown1__State_216BD64
+ObjectUnknown1__State_216BD64: // 0x0216BD64
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r5, _0216BDF8 // =mapCamera
 	mov r6, r0
@@ -173,7 +173,7 @@ Object50__State_216BD64: // 0x0216BD64
 	bl MapSys__GetCameraA
 	mov r1, r0
 	mov r0, r6
-	bl Object50__Func_216BDFC
+	bl ObjectUnknown1__Func_216BDFC
 	cmp r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r1, [r6, #0x340]
@@ -188,7 +188,7 @@ _0216BDB0:
 _0216BDB4:
 	mov r0, r6
 	mov r1, r5
-	bl Object50__Func_216BDFC
+	bl ObjectUnknown1__Func_216BDFC
 	cmp r0, #0
 	beq _0216BDE4
 	ldr r0, [r6, #0x340]
@@ -206,10 +206,10 @@ _0216BDE4:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0216BDF8: .word mapCamera
-	arm_func_end Object50__State_216BD64
+	arm_func_end ObjectUnknown1__State_216BD64
 
-	arm_func_start Object50__Func_216BDFC
-Object50__Func_216BDFC: // 0x0216BDFC
+	arm_func_start ObjectUnknown1__Func_216BDFC
+ObjectUnknown1__Func_216BDFC: // 0x0216BDFC
 	ldr r2, [r0, #0x340]
 	mov r3, #0
 	ldrh r2, [r2, #4]
@@ -240,4 +240,4 @@ _0216BE54:
 _0216BE5C:
 	mov r0, r3
 	bx lr
-	arm_func_end Object50__Func_216BDFC
+	arm_func_end ObjectUnknown1__Func_216BDFC

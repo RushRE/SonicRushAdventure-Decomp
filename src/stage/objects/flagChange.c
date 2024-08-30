@@ -165,7 +165,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             }
             else
             {
-                Player__Gimmick_IcicleLand(player, 0);
+                Player__Action_IceSlide(player, 0);
                 Player__Action_AllowTrickCombos(player, &flagChange->gameWork);
             }
             break;

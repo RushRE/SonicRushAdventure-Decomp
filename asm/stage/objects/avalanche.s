@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start Snowslide__Create
-Snowslide__Create: // 0x02175D8C
+	arm_func_start Avalanche__Create
+Avalanche__Create: // 0x02175D8C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -70,7 +70,7 @@ Snowslide__Create: // 0x02175D8C
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02175FC0 // =Snowslide__OnDefend_217673C
+	ldr r1, _02175FC0 // =Avalanche__OnDefend_217673C
 	add r0, r4, #0x258
 	str r1, [r4, #0x23c]
 	str r4, [r4, #0x274]
@@ -96,7 +96,7 @@ Snowslide__Create: // 0x02175D8C
 	add r0, r4, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02175FC4 // =Snowslide__OnDefend_21766F0
+	ldr r0, _02175FC4 // =Avalanche__OnDefend_21766F0
 	b _02175F90
 _02175F00:
 	ldr r5, _02175FC8 // =0x00000201
@@ -134,7 +134,7 @@ _02175F00:
 	add r0, r4, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02175FD0 // =Snowslide__OnDefend_21767FC
+	ldr r0, _02175FD0 // =Avalanche__OnDefend_21767FC
 _02175F90:
 	str r0, [r4, #0x27c]
 	ldr r0, [r4, #0x230]
@@ -149,12 +149,12 @@ _02175F90:
 _02175FB4: .word StageTask_Main
 _02175FB8: .word GameObject__Destructor
 _02175FBC: .word 0x0000FFFE
-_02175FC0: .word Snowslide__OnDefend_217673C
-_02175FC4: .word Snowslide__OnDefend_21766F0
+_02175FC0: .word Avalanche__OnDefend_217673C
+_02175FC4: .word Avalanche__OnDefend_21766F0
 _02175FC8: .word 0x00000201
 _02175FCC: .word 0x0000FFFF
-_02175FD0: .word Snowslide__OnDefend_21767FC
-	arm_func_end Snowslide__Create
+_02175FD0: .word Avalanche__OnDefend_21767FC
+	arm_func_end Avalanche__Create
 
 	arm_func_start IceTree__Create
 IceTree__Create: // 0x02175FD4
@@ -273,8 +273,8 @@ _02176184: .word 0x00000201
 _02176188: .word IceTree__OnDefend
 	arm_func_end IceTree__Create
 
-	arm_func_start Snowslide__State_217618C
-Snowslide__State_217618C: // 0x0217618C
+	arm_func_start Avalanche__State_217618C
+Avalanche__State_217618C: // 0x0217618C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r1, _02176350 // =gPlayer
@@ -348,7 +348,7 @@ _021761DC:
 	add r0, r4, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0217635C // =Snowslide__OnDefend_2176788
+	ldr r0, _0217635C // =Avalanche__OnDefend_2176788
 	mov r3, #6
 	str r0, [r4, #0x27c]
 	ldr r1, [r4, #0x270]
@@ -361,7 +361,7 @@ _021761DC:
 	mov r2, r1
 	bl StageTask__SetHitbox
 	ldr r0, [r4, #0x18]
-	ldr r1, _02176360 // =Snowslide__State_2176364
+	ldr r1, _02176360 // =Avalanche__State_2176364
 	orr r0, r0, #0x10
 	str r0, [r4, #0x18]
 	ldr r0, [r4, #0x1c]
@@ -394,12 +394,12 @@ _021761DC:
 _02176350: .word gPlayer
 _02176354: .word 0x0000FFFF
 _02176358: .word 0x0000FFEF
-_0217635C: .word Snowslide__OnDefend_2176788
-_02176360: .word Snowslide__State_2176364
-	arm_func_end Snowslide__State_217618C
+_0217635C: .word Avalanche__OnDefend_2176788
+_02176360: .word Avalanche__State_2176364
+	arm_func_end Avalanche__State_217618C
 
-	arm_func_start Snowslide__State_2176364
-Snowslide__State_2176364: // 0x02176364
+	arm_func_start Avalanche__State_2176364
+Avalanche__State_2176364: // 0x02176364
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r1, _021766BC // =gPlayer
 	mov r5, r0
@@ -587,7 +587,7 @@ _02176598:
 	add r1, lr, r1, lsl #12
 	mov r2, ip, asr #4
 	sub r3, r3, r4
-	bl EffectSnowslide__Create
+	bl EffectAvalanche__Create
 _02176628:
 	ldr r0, _021766C0 // =playerGameStatus
 	ldr r0, [r0, #0xc]
@@ -621,7 +621,7 @@ _02176628:
 	ldr r1, [r5, #0x44]
 	ldr r2, [r5, #0x48]
 	add r3, r3, #0x8000
-	bl EffectSnowslideDebris__Create
+	bl EffectAvalancheDebris__Create
 _021766AC:
 	ldr r0, [r5, #0x138]
 	add r1, r5, #0x44
@@ -641,10 +641,10 @@ _021766E0: .word 0x3C6EF35F
 _021766E4: .word 0x000003FF
 _021766E8: .word 0x00000FFF
 _021766EC: .word 0x021897C0
-	arm_func_end Snowslide__State_2176364
+	arm_func_end Avalanche__State_2176364
 
-	arm_func_start Snowslide__OnDefend_21766F0
-Snowslide__OnDefend_21766F0: // 0x021766F0
+	arm_func_start Avalanche__OnDefend_21766F0
+Avalanche__OnDefend_21766F0: // 0x021766F0
 	ldr r2, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
 	cmp r2, #0
@@ -654,21 +654,21 @@ Snowslide__OnDefend_21766F0: // 0x021766F0
 	cmp r0, #1
 	bxne lr
 	ldr r1, [r2, #0xf4]
-	ldr r0, _02176734 // =Snowslide__State_217618C
+	ldr r0, _02176734 // =Avalanche__State_217618C
 	cmp r1, r0
-	ldrne r0, _02176738 // =Snowslide__State_2176364
+	ldrne r0, _02176738 // =Avalanche__State_2176364
 	cmpne r1, r0
 	ldrne r0, [r2, #0x354]
 	orrne r0, r0, #2
 	strne r0, [r2, #0x354]
 	bx lr
 	.align 2, 0
-_02176734: .word Snowslide__State_217618C
-_02176738: .word Snowslide__State_2176364
-	arm_func_end Snowslide__OnDefend_21766F0
+_02176734: .word Avalanche__State_217618C
+_02176738: .word Avalanche__State_2176364
+	arm_func_end Avalanche__OnDefend_21766F0
 
-	arm_func_start Snowslide__OnDefend_217673C
-Snowslide__OnDefend_217673C: // 0x0217673C
+	arm_func_start Avalanche__OnDefend_217673C
+Avalanche__OnDefend_217673C: // 0x0217673C
 	ldr r2, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
 	cmp r2, #0
@@ -681,18 +681,18 @@ Snowslide__OnDefend_217673C: // 0x0217673C
 	tst r0, #2
 	bxeq lr
 	bic r1, r0, #2
-	ldr r0, _02176784 // =Snowslide__State_217618C
+	ldr r0, _02176784 // =Avalanche__State_217618C
 	str r1, [r2, #0x354]
 	str r0, [r2, #0xf4]
 	mov r0, #0
 	str r0, [r2, #0x23c]
 	bx lr
 	.align 2, 0
-_02176784: .word Snowslide__State_217618C
-	arm_func_end Snowslide__OnDefend_217673C
+_02176784: .word Avalanche__State_217618C
+	arm_func_end Avalanche__OnDefend_217673C
 
-	arm_func_start Snowslide__OnDefend_2176788
-Snowslide__OnDefend_2176788: // 0x02176788
+	arm_func_start Avalanche__OnDefend_2176788
+Avalanche__OnDefend_2176788: // 0x02176788
 	stmdb sp!, {r3, lr}
 	ldr r2, [r1, #0x1c]
 	ldr r1, [r0, #0x1c]
@@ -723,10 +723,10 @@ Snowslide__OnDefend_2176788: // 0x02176788
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021767F8: .word gPlayer
-	arm_func_end Snowslide__OnDefend_2176788
+	arm_func_end Avalanche__OnDefend_2176788
 
-	arm_func_start Snowslide__OnDefend_21767FC
-Snowslide__OnDefend_21767FC: // 0x021767FC
+	arm_func_start Avalanche__OnDefend_21767FC
+Avalanche__OnDefend_21767FC: // 0x021767FC
 	ldr r2, [r1, #0x1c]
 	ldr r1, [r0, #0x1c]
 	cmp r2, #0
@@ -741,7 +741,7 @@ Snowslide__OnDefend_21767FC: // 0x021767FC
 	strh r1, [r0, #0xe2]
 	str r1, [r2, #0x27c]
 	bx lr
-	arm_func_end Snowslide__OnDefend_21767FC
+	arm_func_end Avalanche__OnDefend_21767FC
 
 	arm_func_start IceTree__State_2176834
 IceTree__State_2176834: // 0x02176834
@@ -796,7 +796,7 @@ IceTree__OnDefend: // 0x02176854
 	sub r1, r1, #0x30000
 	and r2, r3, r2, lsr #16
 	rsb r3, ip, #0
-	bl EffectSnowslide__Create
+	bl EffectAvalanche__Create
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021768F8: .word IceTree__State_2176834

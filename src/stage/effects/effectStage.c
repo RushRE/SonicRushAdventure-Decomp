@@ -151,8 +151,8 @@ static void HandleEffectZScale(fx32 z, fx32 *a2, fx32 *scale);
 // FUNCTIONS
 // --------------------
 
-// EffectSnowslide
-NONMATCH_FUNC EffectSnowSlide *EffectSnowslide__Create(fx32 x, fx32 y, fx32 velX, fx32 velY){
+// EffectAvalanche
+NONMATCH_FUNC EffectSnowSlide *EffectAvalanche__Create(fx32 x, fx32 y, fx32 velX, fx32 velY){
 #ifdef NON_MATCHING
 
 #else
@@ -248,7 +248,7 @@ _0202BC6C:
 #endif
 }
 
-NONMATCH_FUNC EffectSnowSlide *EffectSnowslideDebris__Create(s32 type, fx32 x, fx32 y, fx32 velX, fx32 velY){
+NONMATCH_FUNC EffectSnowSlide *EffectAvalancheDebris__Create(s32 type, fx32 x, fx32 y, fx32 velX, fx32 velY){
 #ifdef NON_MATCHING
 
 #else

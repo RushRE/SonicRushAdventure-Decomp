@@ -57,7 +57,7 @@ Static arm9
     Object asm/stage/effects/steamEffect_vars.o
     Object asm/stage/effects/steamFan_vars.o
     Object asm/stage/effects/piston_vars.o
-    Object asm/stage/effects/iceBlock_vars.o
+    Object asm/stage/effects/iceBlockDebris_vars.o
     Object asm/stage/effects/truck_vars.o
     Object asm/stage/effects/snowSlide_vars.o
     Object asm/stage/effects/truckJewel_vars.o
@@ -408,8 +408,8 @@ Overlay ZoneAct
     Object src/stage/objects/playerSnowboard.o
     Object asm/stage/objects/flipBoard.o
     Object asm/stage/objects/diveStand.o
-    Object asm/stage/objects/iceBlock.o
-    Object asm/stage/objects/halfpipe.o
+    Object src/stage/objects/iceBlock.o
+    Object src/stage/objects/halfpipe.o
     Object asm/stage/objects/grabTree.o
     Object asm/stage/objects/objectUnknown1.o
     Object asm/stage/objects/stalactite.o
@@ -428,7 +428,7 @@ Overlay ZoneAct
     Object src/stage/objects/itemBox.o
     Object src/stage/objects/checkpoint.o
     Object asm/stage/objects/platform.o
-    Object asm/stage/objects/snowslide.o
+    Object asm/stage/objects/avalanche.o
     Object asm/stage/objects/anchorRope.o
     Object asm/stage/objects/barrel.o
     Object src/stage/objects/startPlatform.o
