@@ -822,7 +822,7 @@ _0216822C:
 	mov r0, r5
 	mov r1, r4
 	str ip, [sp, #4]
-	bl Player__Gimmick_201ED44
+	bl Player__Action_LargePiston1
 	mov r0, #0x8000
 	str r0, [r4, #0x28]
 	add r1, r4, #0x14c
@@ -899,7 +899,7 @@ _0216832C:
 	addne sp, sp, #8
 	ldmneia sp!, {r3, pc}
 	ldr r3, [r0, #0xf4]
-	ldr r2, _021683EC // =Player__State_201EEE0
+	ldr r2, _021683EC // =Player__State_LargePiston1
 	cmp r3, r2
 	addne sp, sp, #8
 	ldmneia sp!, {r3, pc}
@@ -928,7 +928,7 @@ _02168390:
 _021683BC:
 	str lr, [sp]
 	str ip, [sp, #4]
-	bl Player__Func_201F05C
+	bl Player__Action_LargePiston2
 	mov ip, #0x56
 	sub r1, ip, #0x57
 	mov r0, #0
@@ -939,7 +939,7 @@ _021683BC:
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_021683EC: .word Player__State_201EEE0
+_021683EC: .word Player__State_LargePiston1
 	arm_func_end LargePiston__OnDefend_2168300
 
 	arm_func_start LargePiston__OnDefend_21683F0
@@ -955,7 +955,7 @@ LargePiston__OnDefend_21683F0: // 0x021683F0
 	cmpeq r0, #0
 	bxne lr
 	ldr r1, [r1, #0xf4]
-	ldr r0, _02168464 // =Player__State_201EEE0
+	ldr r0, _02168464 // =Player__State_LargePiston1
 	cmp r1, r0
 	ldreq r0, [r3, #0x514]
 	cmpeq r0, #0
@@ -974,7 +974,7 @@ LargePiston__OnDefend_21683F0: // 0x021683F0
 	str r0, [r3, #0x514]
 	bx lr
 	.align 2, 0
-_02168464: .word Player__State_201EEE0
+_02168464: .word Player__State_LargePiston1
 _02168468: .word LargePiston__State2_2167F28
 	arm_func_end LargePiston__OnDefend_21683F0
 

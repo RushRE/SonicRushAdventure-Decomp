@@ -271,7 +271,7 @@ SteamFan__OnDefend: // 0x02166288
 	mov r1, r4
 	mov r2, r2, lsl #0xb
 	add r2, r2, #0x6000
-	bl Player__Gimmick_201E3F8
+	bl Player__Action_SteamFan
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end SteamFan__OnDefend
 

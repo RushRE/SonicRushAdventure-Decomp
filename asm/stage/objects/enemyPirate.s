@@ -1290,7 +1290,7 @@ _02156038:
 	mov r1, r4
 	sub r3, ip, #0x1000
 	str ip, [sp, #4]
-	bl Player__Gimmick_201E7DC
+	bl Player__Action_PopSteam
 	str r5, [r4, #0x48]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}

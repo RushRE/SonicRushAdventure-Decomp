@@ -307,6 +307,6 @@ void LoseSnowboardTrigger_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     {
         trigger->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
         LosePlayerSnowboard(player, FLOAT_TO_FX32(3.0));
-        Player__Func_201FCFC(player);
+        Player__Action_LoseSnowboard(player);
     }
 }

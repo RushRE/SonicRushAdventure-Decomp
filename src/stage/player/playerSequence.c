@@ -3266,7 +3266,7 @@ _0201E3BC:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_201E3F8(Player *player, s32 a2, s32 a3)
+NONMATCH_FUNC void Player__Action_SteamFan(Player *player, GameObjectTask *other, s32 a3)
 {
 #ifdef NON_MATCHING
 
@@ -3315,7 +3315,7 @@ _0201E44C:
 	orr r0, r0, #4
 	str r0, [r6, #0x20]
 _0201E498:
-	ldr r1, =Player__Func_201E540
+	ldr r1, =Player__State_SteamFan
 	mov r0, #0
 	str r1, [r6, #0xf4]
 	ldr r1, [r6, #0x1c]
@@ -3361,7 +3361,7 @@ _0201E498:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_201E540(Player *player)
+NONMATCH_FUNC void Player__State_SteamFan(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -3546,7 +3546,7 @@ _0201E724:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_201E7DC(Player *player, s32 a2, s32 a3, s32 a4, s32 a5, u32 a6)
+NONMATCH_FUNC void Player__Action_PopSteam(Player *player, GameObjectTask *other, s32 a3, s32 a4, s32 a5, u32 a6)
 {
 #ifdef NON_MATCHING
 
@@ -3629,7 +3629,7 @@ _0201E8BC:
 	str r0, [r7, #0x6fc]
 	cmp r5, r4
 	movge r5, r4
-	ldr r0, =Player__Func_201E918
+	ldr r0, =Player__State_PopSteam
 	str r5, [r7, #0x2c]
 	str r0, [r7, #0xf4]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -3638,7 +3638,7 @@ _0201E8BC:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_201E918(Player *player)
+NONMATCH_FUNC void Player__State_PopSteam(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -3725,7 +3725,7 @@ _0201EA30:
 #endif
 }
 
-void Player__Gimmick_DreamWing(Player *player, GameObjectTask *other, fx32 velX, fx32 velY, s32 a5)
+void Player__Action_DreamWing(Player *player, GameObjectTask *other, fx32 velX, fx32 velY, s32 a5)
 {
     if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0)
     {
@@ -3911,7 +3911,7 @@ _0201ED20:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_201ED44(Player *player, GameObjectTask *other, s32 a3, s32 a4, s32 a5, s32 a6)
+NONMATCH_FUNC void Player__Action_LargePiston1(Player *player, GameObjectTask *other, s32 a3, s32 a4, s32 a5, s32 a6)
 {
 #ifdef NON_MATCHING
 
@@ -4016,7 +4016,7 @@ _0201EE18:
 	add r0, r7, #0x500
 	strh r2, [r0, #0xd6]
 	ldr r1, [r7, #0x5d8]
-	ldr r0, =Player__State_201EEE0
+	ldr r0, =Player__State_LargePiston1
 	bic r1, r1, #4
 	str r1, [r7, #0x5d8]
 	str r0, [r7, #0xf4]
@@ -4026,7 +4026,7 @@ _0201EE18:
 #endif
 }
 
-NONMATCH_FUNC void Player__State_201EEE0(Player *work)
+NONMATCH_FUNC void Player__State_LargePiston1(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -4137,7 +4137,7 @@ _0201F000:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_201F05C(Player *player, StageTaskState a2, s32 a3, s32 a4, s32 a5, u32 a6)
+NONMATCH_FUNC void Player__Action_LargePiston2(Player *player, GameObjectTask *other, s32 a3, s32 a4, s32 a5, u32 a6)
 {
 #ifdef NON_MATCHING
 
@@ -4149,7 +4149,7 @@ NONMATCH_FUNC void Player__Func_201F05C(Player *player, StageTaskState a2, s32 a
 	mov r5, r2
 	tst r0, #0x400
 	ldreq r1, [r6, #0xf4]
-	ldreq r0, =Player__State_201EEE0
+	ldreq r0, =Player__State_LargePiston1
 	mov r4, r3
 	cmpeq r1, r0
 	ldmneia sp!, {r4, r5, r6, pc}
@@ -4230,7 +4230,7 @@ _0201F174:
 	mov r1, #0
 	strh r1, [r0, #0xd6]
 	ldr r1, [r6, #0x5d8]
-	ldr r0, =Player__State_201F1C4
+	ldr r0, =Player__State_LargePiston2
 	bic r1, r1, #4
 	str r1, [r6, #0x5d8]
 	str r0, [r6, #0xf4]
@@ -4240,7 +4240,7 @@ _0201F174:
 #endif
 }
 
-NONMATCH_FUNC void Player__State_201F1C4(Player *work)
+NONMATCH_FUNC void Player__State_LargePiston2(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -4798,7 +4798,7 @@ void Player__Action_EnableSnowboard(Player *player, s32 a2)
     }
 }
 
-NONMATCH_FUNC void Player__Func_201FCFC(Player *player)
+NONMATCH_FUNC void Player__Action_LoseSnowboard(Player *player)
 {
 #ifdef NON_MATCHING
 

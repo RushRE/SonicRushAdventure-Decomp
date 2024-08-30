@@ -490,7 +490,7 @@ _02167514:
 	str r2, [sp]
 	ldr r2, [r4, #0x98]
 	ldr r3, [r4, #0x9c]
-	bl Player__Gimmick_DreamWing
+	bl Player__Action_DreamWing
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _021675AC: .word FX_SinCosTable_

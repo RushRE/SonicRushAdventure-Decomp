@@ -601,7 +601,7 @@ _02166BF4:
 	str ip, [sp]
 	mov ip, #1
 	str ip, [sp, #4]
-	bl Player__Gimmick_201E7DC
+	bl Player__Action_PopSteam
 	mov r0, r5
 	mov r1, r4
 	bl Player__Action_AllowTrickCombos
