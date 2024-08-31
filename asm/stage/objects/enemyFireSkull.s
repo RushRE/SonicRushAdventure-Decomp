@@ -456,7 +456,7 @@ EnemyFireSkull__State_215BFC4: // 0x0215BFC4
 	ldmia sp!, {r4, pc}
 _0215C014:
 	mov r0, r2
-	bl Player__ApplyVelocityShift
+	bl Player__ApplyClingWeight
 	add r0, r4, #0x44
 	add r3, r4, #0x8c
 	ldmia r0, {r0, r1, r2}
@@ -723,7 +723,7 @@ _0215C390:
 	str r2, [r4, #0x274]
 	bl EnemyFireSkull__Func_215BF28
 	mov r0, r5
-	bl Player__ApplyVelocityShift
+	bl Player__ApplyClingWeight
 	mov r2, #0
 	mov r0, #0x8b
 	sub r1, r0, #0x8c

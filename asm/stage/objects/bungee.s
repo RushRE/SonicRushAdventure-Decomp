@@ -162,7 +162,7 @@ Bungee__OnDefend: // 0x02185934
 	mov r0, r5
 	mov r1, r4
 	mov r2, r6
-	bl Player__Gimmick_Bungee
+	bl Player__Action_Bungee
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end Bungee__OnDefend
 

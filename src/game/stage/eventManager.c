@@ -27,6 +27,13 @@
 #include <stage/objects/goalChest.h>
 #include <stage/objects/playerSnowboard.h>
 #include <stage/objects/tutorial.h>
+#include <stage/objects/icicle.h>
+#include <stage/objects/flipboard.h>
+#include <stage/objects/iceBlock.h>
+#include <stage/objects/halfpipe.h>
+#include <stage/objects/fireFloor.h>
+#include <stage/objects/hoverCrystal.h>
+#include <stage/objects/crumblingFloor.h>
 #include <stage/boss/boss1.h>
 
 // --------------------
@@ -82,11 +89,7 @@ NOT_DECOMPILED GameObjectTask *SteamFan__Create(MapObject *mapObject, fx32 x, fx
 NOT_DECOMPILED GameObjectTask *DreamWing__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DreamWingPart__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CameraBoundsTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *CreateIcicle(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *CreateIceBlock(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *CreateHalfpipe(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *GrabTree__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *ObjectUnknown1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -105,7 +108,6 @@ NOT_DECOMPILED GameObjectTask *IceTree__Create(MapObject *mapObject, fx32 x, fx3
 NOT_DECOMPILED GameObjectTask *AnchorRope__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Barrel__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Trampoline3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Trampoline3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *PirateShip__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CannonField__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Cannon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -118,12 +120,8 @@ NOT_DECOMPILED GameObjectTask *FallingAnchor__Create(MapObject *mapObject, fx32 
 NOT_DECOMPILED GameObjectTask *Dolphin__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *FloatingFountain__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DolphinHoop__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *FireFloor__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *HoverCrystal__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *BalloonSpawner__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *CrumblingFloor__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *WaterGun__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *WaterGrindTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *WaterGrindTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Bungee__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *SpringRope__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -550,6 +548,7 @@ const CreateDecorationFunc stageDecorationSpawnList[MAPDECOR_COUNT] = {
 };
 
 const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
+    // Stage Enemies
     [MAPOBJECT_0]   = (CreateObjectFunc)EnemyPirate__Create,
     [MAPOBJECT_1]   = (CreateObjectFunc)EnemyPirate__Create,
     [MAPOBJECT_2]   = (CreateObjectFunc)EnemyPirate__Create,
@@ -614,6 +613,8 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_61]  = (CreateObjectFunc)Boss3Stage__Create,
     [MAPOBJECT_62]  = (CreateObjectFunc)Boss2Stage__Create,
     [MAPOBJECT_63]  = (CreateObjectFunc)Boss1Stage__Create,
+    
+    // Stage Interactables
     [MAPOBJECT_64]  = (CreateObjectFunc)CreateFlagChange,
     [MAPOBJECT_65]  = (CreateObjectFunc)CreateFlagChange,
     [MAPOBJECT_66]  = (CreateObjectFunc)CreateFlagChange,
@@ -774,16 +775,16 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_221] = (CreateObjectFunc)DolphinHoop__Create,
     [MAPOBJECT_222] = (CreateObjectFunc)DolphinHoop__Create,
     [MAPOBJECT_223] = (CreateObjectFunc)DolphinHoop__Create,
-    [MAPOBJECT_224] = (CreateObjectFunc)FireFloor__Create,
-    [MAPOBJECT_225] = (CreateObjectFunc)FireFloor__Create,
-    [MAPOBJECT_226] = (CreateObjectFunc)FireFloor__Create,
-    [MAPOBJECT_227] = (CreateObjectFunc)FireFloor__Create,
-    [MAPOBJECT_228] = (CreateObjectFunc)HoverCrystal__Create,
+    [MAPOBJECT_224] = (CreateObjectFunc)CreateFireFloor,
+    [MAPOBJECT_225] = (CreateObjectFunc)CreateFireFloor,
+    [MAPOBJECT_226] = (CreateObjectFunc)CreateFireFloor,
+    [MAPOBJECT_227] = (CreateObjectFunc)CreateFireFloor,
+    [MAPOBJECT_228] = (CreateObjectFunc)CreateHoverCrystal,
     [MAPOBJECT_229] = (CreateObjectFunc)BalloonSpawner__Create,
     [MAPOBJECT_230] = (CreateObjectFunc)CreateFlagChange,
-    [MAPOBJECT_231] = (CreateObjectFunc)CrumblingFloor__Create,
-    [MAPOBJECT_232] = (CreateObjectFunc)CrumblingFloor__Create,
-    [MAPOBJECT_233] = (CreateObjectFunc)CrumblingFloor__Create,
+    [MAPOBJECT_231] = (CreateObjectFunc)CreateCrumblingFloor,
+    [MAPOBJECT_232] = (CreateObjectFunc)CreateCrumblingFloor,
+    [MAPOBJECT_233] = (CreateObjectFunc)CreateCrumblingFloor,
     [MAPOBJECT_234] = (CreateObjectFunc)WaterGun__Create,
     [MAPOBJECT_235] = (CreateObjectFunc)WaterGun__Create,
     [MAPOBJECT_236] = (CreateObjectFunc)WaterGrindTrigger__Create,
@@ -810,6 +811,8 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_257] = (CreateObjectFunc)CreateRingButton,
     [MAPOBJECT_258] = (CreateObjectFunc)CreateRingBattleManagerObject,
     [MAPOBJECT_259] = (CreateObjectFunc)CreateFlagChange,
+
+    // "Internal" Objects
     [MAPOBJECT_260] = (CreateObjectFunc)Boss5MapChunk__Create,
     [MAPOBJECT_261] = (CreateObjectFunc)Boss5Icicle2__Create,
     [MAPOBJECT_262] = (CreateObjectFunc)Boss5FreezeArea__Create,

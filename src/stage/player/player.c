@@ -776,18 +776,18 @@ void Player__InitPhysics(Player *player)
             player->objWork.gravityStrength >>= 1;
     }
 
-    if (player->velocityShift)
+    if (player->clingWeight != 0)
     {
-        player->acceleration >>= player->velocityShift;
-        player->topSpeed >>= player->velocityShift;
-        player->initialSpindashPower >>= player->velocityShift;
-        player->spindashChargePower >>= player->velocityShift;
-        player->spindashTopSpeed >>= player->velocityShift;
-        player->slopeTopSpeedAccel >>= player->velocityShift;
-        player->jumpForce >>= player->velocityShift;
-        player->objWork.slopeAcceleration >>= player->velocityShift;
-        player->objWork.maxSlopeSpeed >>= player->velocityShift;
-        player->objWork.pushCap >>= player->velocityShift;
+        player->acceleration >>= player->clingWeight;
+        player->topSpeed >>= player->clingWeight;
+        player->initialSpindashPower >>= player->clingWeight;
+        player->spindashChargePower >>= player->clingWeight;
+        player->spindashTopSpeed >>= player->clingWeight;
+        player->slopeTopSpeedAccel >>= player->clingWeight;
+        player->jumpForce >>= player->clingWeight;
+        player->objWork.slopeAcceleration >>= player->clingWeight;
+        player->objWork.maxSlopeSpeed >>= player->clingWeight;
+        player->objWork.pushCap >>= player->clingWeight;
     }
 }
 
@@ -3664,11 +3664,11 @@ void Player__Last_Default(void)
         EventManager__CreateEventsUnknown(left, top, right, bottom);
     }
 
-    if (work->prevVelocityShift != 0 && work->velocityShift == 0)
+    if (work->prevClingWeight != 0 && work->clingWeight == 0)
         Player__InitPhysics(work);
 
-    work->prevVelocityShift = work->velocityShift;
-    work->velocityShift     = 0;
+    work->prevClingWeight = work->clingWeight;
+    work->clingWeight     = 0;
 
     Player__SendPacket(work);
     work->playerFlag &= ~(PLAYER_FLAG_DO_LOSE_RING_EFFECT | PLAYER_FLAG_DO_ATTACK_RECOIL);
@@ -6342,13 +6342,13 @@ void Player__GiveScore(Player *player, u32 score)
     player->starComboCount++;
 }
 
-void Player__ApplyVelocityShift(Player *player)
+void Player__ApplyClingWeight(Player *player)
 {
-    player->velocityShift++;
-    if (player->velocityShift > 3)
-        player->velocityShift = 3;
+    player->clingWeight++;
+    if (player->clingWeight > PLAYER_CLINGWEIGHT_MAX)
+        player->clingWeight = PLAYER_CLINGWEIGHT_MAX;
 
-    if (player->prevVelocityShift != player->velocityShift)
+    if (player->prevClingWeight != player->clingWeight)
         Player__InitPhysics(player);
 }
 
@@ -6541,7 +6541,7 @@ void Player__HandleHomingTarget(Player *player)
                 GameObjectTask *target = (GameObjectTask *)rect->parent;
                 if (target != NULL)
                 {
-                    if (target->objWork.objType == STAGE_OBJ_TYPE_2)
+                    if (target->objWork.objType == STAGE_OBJ_TYPE_ENEMY)
                     {
                         fx32 distX = FX32_TO_WHOLE(target->objWork.position.x - player->objWork.position.x);
                         fx32 distY = FX32_TO_WHOLE(target->objWork.position.y - player->objWork.position.y);

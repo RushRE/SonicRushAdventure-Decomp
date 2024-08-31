@@ -96,6 +96,8 @@ typedef struct ScoreBonus_ ScoreBonus;
 #define PLAYER_GRIND_NONE   (0x00)
 #define PLAYER_GRIND_ACTIVE (0x80)
 
+#define PLAYER_CLINGWEIGHT_MAX (3)
+
 #define PLAYER_REPLAY_MAX_TIME (AKUTIL_TIME_TO_FRAMES(3, 30, 00) >> 2)
 
 // --------------------
@@ -548,8 +550,8 @@ typedef struct Player_
     s32 gimmickValue4;
 
     NNSG3dResFileHeader *snowboardAnims;
-    s16 velocityShift;
-    s16 prevVelocityShift;
+    s16 clingWeight;
+    s16 prevClingWeight;
     Vec2Fx32 warpDestPos;
     u8 grindID;
     u8 grindPrevRide;
@@ -694,7 +696,7 @@ void Player__HandleMaxPush(Player *player);
 void Player__HandleGroundCollisions(Player *player);
 void Player__HandleTensionDrain(Player *player);
 void Player__GiveScore(Player *player, u32 score);
-void Player__ApplyVelocityShift(Player *player);
+void Player__ApplyClingWeight(Player *player);
 BOOL Player__IsBalancing(Player *player, BOOL updateAction);
 void Player__FinishTurningSkidding(Player *player);
 void Player__HandleSuperBoost(Player *player);
@@ -833,13 +835,13 @@ void Player__State_2023ED4(Player *work);
 void Player__Func_2023FC8(Player *player);
 void Player__OnDefend_Regular4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void Player__Func_2024054(Player *player, GameObjectTask *other);
-void Player__Gimmick_AirSwitch(Player *player, GameObjectTask *other, s32 a3, s32 a4, s32 a5);
-void Player__State_AirSwitch(Player *work);
-void Player__Gimmick_202447C(Player *player, GameObjectTask *other, s32 a3);
-void Player__State_20245AC(Player *work);
-void Player__Gimmick_20246FC(Player *player, GameObjectTask *other);
-void Player__State_2024814(Player *work);
-void Player__Gimmick_Bungee(Player *player, GameObjectTask *other, u32 a3, u32 a4);
+void Player__Action_HoverCrystal(Player *player, GameObjectTask *other, fx32 left, fx32 y, fx32 right);
+void Player__State_HoverCrystal(Player *work);
+void Player__Action_BalloonRide(Player *player, GameObjectTask *other, s32 a3);
+void Player__State_BalloonRide(Player *work);
+void Player__Action_WaterGun(Player *player, GameObjectTask *other);
+void Player__State_WaterGun(Player *work);
+void Player__Action_Bungee(Player *player, GameObjectTask *other, u32 a3, u32 a4);
 void Player__State_Bungee(Player *work);
 void Player__Action_SpringRope(Player *player, GameObjectTask *other, s32 timer);
 void Player__State_SpringRope(Player *work);

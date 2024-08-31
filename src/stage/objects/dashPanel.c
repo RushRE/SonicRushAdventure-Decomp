@@ -14,13 +14,6 @@ static void DashPanel_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 // ENUMS
 // --------------------
 
-enum DashPanelObjectFlags
-{
-    DASHPANEL_OBJFLAG_NONE,
-
-    DASHPANEL_OBJFLAG_FLIPPED = 1 << 0,
-};
-
 enum DashPanelAnimID
 {
     DASHPANEL_ANI_HORIZONTAL,

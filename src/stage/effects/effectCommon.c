@@ -38,7 +38,7 @@
 #include <stage/effects/unknown202C414.h>
 #include <stage/effects/slingDust.h>
 #include <stage/effects/sailboatBazookaSmoke.h>
-#include <stage/effects/airEffect.h>
+#include <stage/effects/hoverCrystalSparkle.h>
 #include <stage/effects/iceSparklesSpawner.h>
 #include <stage/effects/medal.h>
 #include <stage/effects/ringSparkle.h>

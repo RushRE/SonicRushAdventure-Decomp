@@ -192,7 +192,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_2000000) != 0 && player->objWork.touchObj != NULL)
             {
                 GameObjectTask *gimmickObj = (GameObjectTask *)player->objWork.touchObj;
-                if (gimmickObj->objWork.objType == STAGE_OBJ_TYPE_3 && gimmickObj->mapObject->id == MAPOBJECT_173)
+                if (gimmickObj->objWork.objType == STAGE_OBJ_TYPE_OBJECT && gimmickObj->mapObject->id == MAPOBJECT_173)
                 {
                     Truck3D__Func_216F2FC(player, gimmickObj);
                     Player__Gimmick_2021394(player, (GameObjectTask *)player->objWork.touchObj);
@@ -204,7 +204,7 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             if (player->gimmickObj != NULL)
             {
                 GameObjectTask *gimmickObj = player->gimmickObj;
-                if (gimmickObj->objWork.objType == STAGE_OBJ_TYPE_3 && gimmickObj->mapObject->id == MAPOBJECT_173)
+                if (gimmickObj->objWork.objType == STAGE_OBJ_TYPE_OBJECT && gimmickObj->mapObject->id == MAPOBJECT_173)
                     Truck3D__Func_216F57C(gimmickObj);
             }
             break;

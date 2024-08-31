@@ -7,6 +7,13 @@
 // ENUMS
 // --------------------
 
+enum DashPanelObjectFlags
+{
+    DASHPANEL_OBJFLAG_NONE,
+
+    DASHPANEL_OBJFLAG_FLIPPED = 1 << 0,
+};
+
 // --------------------
 // STRUCTS
 // --------------------

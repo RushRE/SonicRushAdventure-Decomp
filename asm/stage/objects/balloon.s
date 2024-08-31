@@ -268,7 +268,7 @@ _02182E8C:
 	str lr, [sp]
 	mov ip, ip, asr #8
 	str ip, [sp, #4]
-	bl EffectAirEffect__Create
+	bl EffectHoverCrystalSparkle__Create
 	add r0, sb, #0x2000
 	add r6, r6, #1
 	mov r0, r0, lsl #0x10
@@ -577,7 +577,7 @@ _021831B0:
 	add r1, r1, ip, lsl #12
 	mov r2, r2, asr #4
 	mov r3, r3, asr #3
-	bl EffectAirEffect__Create
+	bl EffectHoverCrystalSparkle__Create
 _02183348:
 	ldr r0, [r5, #0x138]
 	add r1, r5, #0x44
@@ -722,7 +722,7 @@ _02183534:
 	mov r0, r5
 	mov r1, r4
 	str r2, [r4, #0x2c]
-	bl Player__Gimmick_202447C
+	bl Player__Action_BalloonRide
 	mov r2, #0
 	str r5, [r4, #0x35c]
 	str r2, [r4, #0x11c]

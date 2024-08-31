@@ -445,10 +445,10 @@ Overlay ZoneAct
     Object asm/stage/objects/floatingFountain.o
     Object asm/stage/objects/fallingAnchor.o
     Object asm/stage/objects/dolphin.o
-    Object asm/stage/objects/fireFloor.o
-    Object asm/stage/objects/hoverCrystal.o
+    Object src/stage/objects/fireFloor.o
+    Object src/stage/objects/hoverCrystal.o
     Object asm/stage/objects/balloon.o
-    Object asm/stage/objects/crumblingFloor.o
+    Object src/stage/objects/crumblingFloor.o
     Object asm/stage/objects/waterGun.o
     Object src/stage/objects/missionFlag.o
     Object src/stage/objects/medal.o

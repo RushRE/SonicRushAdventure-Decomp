@@ -58,7 +58,7 @@ typedef struct GameObjectTask_ GameObjectTask;
 
 enum StageTaskFlags_
 {
-    STAGE_TASK_FLAG_NONE = 0x0,
+    STAGE_TASK_FLAG_NONE = 0x00,
 
     STAGE_TASK_FLAG_ON_PLANE_B               = 0x1, // use alternate collision plane (for loops and etc)
     STAGE_TASK_FLAG_2                        = 0x2,
@@ -97,7 +97,7 @@ typedef u32 StageTaskFlags;
 
 enum StageTaskMoveFlags_
 {
-    STAGE_TASK_MOVE_FLAG_NONE = 0x0,
+    STAGE_TASK_MOVE_FLAG_NONE = 0x00,
 
     STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR                  = 0x1, // object is colliding with the floor
     STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING                = 0x2, // object is colliding with the ceiling
@@ -133,6 +133,8 @@ typedef u32 StageTaskMoveFlags;
 
 enum StageCollisionFlags_
 {
+    STAGE_TASK_COLLISION_FLAG_NONE = 0x00,
+
     STAGE_TASK_COLLISION_FLAG_1          = 1 << 0,
     STAGE_TASK_COLLISION_FLAG_2          = 1 << 1,
     STAGE_TASK_COLLISION_FLAG_GRIND_RAIL = 1 << 2,
@@ -141,6 +143,8 @@ typedef u32 StageCollisionFlags;
 
 enum StageDisplayFlags_
 {
+    DISPLAY_FLAG_NONE = 0x00,
+
     DISPLAY_FLAG_FLIP_X                    = 1 << 0,
     DISPLAY_FLAG_FLIP_Y                    = 1 << 1,
     DISPLAY_FLAG_DISABLE_LOOPING           = 1 << 2,
@@ -166,8 +170,8 @@ enum StageObjTypes_
 {
     STAGE_OBJ_TYPE_INVALID,
     STAGE_OBJ_TYPE_PLAYER,
-    STAGE_OBJ_TYPE_2,
-    STAGE_OBJ_TYPE_3,
+    STAGE_OBJ_TYPE_ENEMY,
+    STAGE_OBJ_TYPE_OBJECT,
     STAGE_OBJ_TYPE_DECORATION,
     STAGE_OBJ_TYPE_EFFECT,
 };

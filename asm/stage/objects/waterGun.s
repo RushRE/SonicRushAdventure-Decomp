@@ -930,7 +930,7 @@ _02184734:
 	mov r0, r3
 	mov r1, r2
 	str ip, [r2, #0xf4]
-	bl Player__Gimmick_20246FC
+	bl Player__Action_WaterGun
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02184778: .word WaterGun__State_2183EC4

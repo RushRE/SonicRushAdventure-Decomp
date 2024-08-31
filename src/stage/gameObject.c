@@ -165,15 +165,15 @@ void GameObject__InitFromObject(GameObjectTask *work, MapObject *mapObject, fx32
         work->mapObject->x = MAPOBJECT_DESTROYED;
 
         if (mapObject->id < MAPOBJECT_64)
-            work->objWork.objType = STAGE_OBJ_TYPE_2;
+            work->objWork.objType = STAGE_OBJ_TYPE_ENEMY;
         else
-            work->objWork.objType = STAGE_OBJ_TYPE_3;
+            work->objWork.objType = STAGE_OBJ_TYPE_OBJECT;
 
         work->objWork.viewOutOffset = 264 - GameObject__ViewOffsetTable[mapObject->id];
     }
     else
     {
-        work->objWork.objType = STAGE_OBJ_TYPE_2;
+        work->objWork.objType = STAGE_OBJ_TYPE_ENEMY;
     }
 
     work->objWork.collisionObj = &work->collisionObject;

@@ -39,7 +39,7 @@
 #include <stage/effects/unknown202C414.h>
 #include <stage/effects/slingDust.h>
 #include <stage/effects/sailboatBazookaSmoke.h>
-#include <stage/effects/airEffect.h>
+#include <stage/effects/hoverCrystalSparkle.h>
 #include <stage/effects/iceSparklesSpawner.h>
 #include <stage/effects/medal.h>
 #include <stage/effects/ringSparkle.h>
@@ -1390,8 +1390,8 @@ NONMATCH_FUNC EffectSailboatBazookaSmoke *EffectSailboatBazookaSmoke__Create(Sta
 #endif
 }
 
-// EffectAirEffect
-NONMATCH_FUNC EffectAirEffect *EffectAirEffect__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, fx32 accX, fx32 accY){
+// EffectHoverCrystalSparkle
+NONMATCH_FUNC EffectHoverCrystalSparkle *EffectHoverCrystalSparkle__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, fx32 accX, fx32 accY){
 #ifdef NON_MATCHING
 
 #else
@@ -1419,7 +1419,7 @@ _0202CE0C:
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
 	ldr r0, =EffectTask__sVars
-	ldr r1, =EffectAirEffect__Destructor
+	ldr r1, =EffectHoverCrystalSparkle__Destructor
 	ldr r0, [r0]
 	bl SetTaskDestructorEvent
 	ldr r0, [r4, #0x1c]
@@ -1467,9 +1467,9 @@ _0202CE0C:
 	ldr r0, [r4, #0x128]
 	bl AnimatorSpriteDS__ProcessAnimation
 	ldr r3, [r4, #0x128]
-	ldr r1, =EffectAirEffect__State_202CFB8
+	ldr r1, =EffectHoverCrystalSparkle__State_202CFB8
 	ldr r2, [r3, #0x3c]
-	ldr r0, =EffectAirEffect__Draw
+	ldr r0, =EffectHoverCrystalSparkle__Draw
 	orr r2, r2, #8
 	str r2, [r3, #0x3c]
 	str r1, [r4, #0xf4]
@@ -1504,7 +1504,7 @@ _0202CF08:
 #endif
 }
 
-NONMATCH_FUNC void EffectAirEffect__Destructor(Task *task){
+NONMATCH_FUNC void EffectHoverCrystalSparkle__Destructor(Task *task){
 #ifdef NON_MATCHING
 
 #else
@@ -1524,7 +1524,7 @@ NONMATCH_FUNC void EffectAirEffect__Destructor(Task *task){
 #endif
 }
 
-NONMATCH_FUNC void EffectAirEffect__State_202CFB8(EffectAirEffect *work){
+NONMATCH_FUNC void EffectHoverCrystalSparkle__State_202CFB8(EffectHoverCrystalSparkle *work){
 #ifdef NON_MATCHING
 
 #else
@@ -1598,7 +1598,7 @@ _0202D06C:
 #endif
 }
 
-NONMATCH_FUNC void EffectAirEffect__Draw(void){
+NONMATCH_FUNC void EffectHoverCrystalSparkle__Draw(void){
 #ifdef NON_MATCHING
 
 #else
