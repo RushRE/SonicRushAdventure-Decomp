@@ -34,6 +34,7 @@
 #include <stage/objects/fireFloor.h>
 #include <stage/objects/hoverCrystal.h>
 #include <stage/objects/crumblingFloor.h>
+#include <stage/enemies/enemyGlider.h>
 #include <stage/boss/boss1.h>
 
 // --------------------
@@ -48,7 +49,6 @@ NOT_DECOMPILED GameObjectTask *EnemyCrab__Create(MapObject *mapObject, fx32 x, f
 NOT_DECOMPILED GameObjectTask *EnemyGhost__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *EnemySnowflakeHead__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *EnemySnowball__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyGlider__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *EnemyParts__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *EnemyFireSkull__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *EnemyDiveBat__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -561,7 +561,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_9]   = (CreateObjectFunc)EnemyGhost__Create,
     [MAPOBJECT_10]  = (CreateObjectFunc)EnemySnowflakeHead__Create,
     [MAPOBJECT_11]  = (CreateObjectFunc)EnemySnowball__Create,
-    [MAPOBJECT_12]  = (CreateObjectFunc)EnemyGlider__Create,
+    [MAPOBJECT_12]  = (CreateObjectFunc)CreateEnemyGlider,
     [MAPOBJECT_13]  = (CreateObjectFunc)EnemyParts__Create,
     [MAPOBJECT_14]  = (CreateObjectFunc)EnemyParts__Create,
     [MAPOBJECT_15]  = (CreateObjectFunc)EnemyParts__Create,

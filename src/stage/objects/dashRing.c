@@ -3,7 +3,6 @@
 #include <game/audio/audioSystem.h>
 #include <game/graphics/vramSystem.h>
 #include <game/stage/gameSystem.h>
-#include <stage/player/player.h>
 
 // --------------------
 // VARIABLES

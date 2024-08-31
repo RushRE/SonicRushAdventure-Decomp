@@ -8087,11 +8087,11 @@
 .public EnemySnowball__Func_2158B60
 .public EnemySnowball__Func_2158B94
 .public EnemySnowballShot__State_2158D24
-.public EnemyGlider__Create
-.public EnemyGlider__Func_2158FCC
-.public EnemyGlider__State_215901C
-.public EnemyGlider__Func_215902C
-.public EnemyGlider__State_21590C8
+.public CreateEnemyGlider
+.public EnemyGlider_Action_Init
+.public EnemyGlider_State_Idle
+.public EnemyGlider_OnDefend
+.public EnemyGlider_State_Gliding
 .public EnemyParts__Create
 .public EnemyBazookaParts__Create
 .public EnemyHogunParts__Create

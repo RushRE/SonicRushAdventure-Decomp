@@ -374,7 +374,7 @@ Overlay ZoneAct
     Object asm/stage/objects/enemyGhost.o
     Object asm/stage/objects/enemySnowflakeHead.o
     Object asm/stage/objects/enemySnowball.o
-    Object asm/stage/objects/enemyGlider.o
+    Object src/stage/enemies/enemyGlider.o
     Object asm/stage/objects/enemyParts.o
     Object asm/stage/objects/enemyFireSkull.o
     Object asm/stage/objects/enemyDiveBat.o
