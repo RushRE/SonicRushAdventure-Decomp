@@ -31,6 +31,8 @@ enum GraphicsEngine_
 {
     GRAPHICS_ENGINE_A,
     GRAPHICS_ENGINE_B,
+
+    GRAPHICS_ENGINE_COUNT,
 };
 typedef u32 GraphicsEngine;
 

@@ -1398,13 +1398,13 @@ void InitGameSystemForStage(void)
         if ((state->gameFlag & GAME_FLAG_REPLAY_STARTED) != 0)
         {
             type     = REPLAYRECORDER_TYPE_PLAY_MEMORY;
-            priority = 0x10FF;
+            priority = TASK_PRIORITY_UPDATE_LIST_START + 0x10FF;
         }
         else
         {
             type                       = REPLAYRECORDER_TYPE_RECORD;
             state->replayRecordStageID = STAGE_NONE;
-            priority                   = 0x1101;
+            priority                   = TASK_PRIORITY_UPDATE_LIST_START + 0x1101;
         }
 
         CreateReplayRecorderPadEx(type, &playerGameStatus.input, 0, state->replayKeyBuffer, sizeof(KeyDataHeader) + (2559 * sizeof(KeyDataPadFrame)), 0, priority);

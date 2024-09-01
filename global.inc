@@ -8213,7 +8213,7 @@
 .public Spikes_State_Retract
 .public Spikes2_State_Idle
 .public Breakable__Create
-.public Breakable__OnDefend_215FEB8
+.public Breakable__OnDefend
 .public Breakable__Destructor
 .public Breakable__State_Tutorial
 .public BreakableWall__Create
@@ -8221,7 +8221,7 @@
 .public BreakableWall__OnDefend_21608E0
 .public BreakableWall__OnDefend_2160A88
 .public BreakableWall__State_2160C30
-.public BreakableWall__Draw_2160D20
+.public BreakableWall__Draw_Broken
 .public GrindTrigger__Create
 .public GrindTrigger__OnDefend_2160FB8
 .public PipeFlow__Create
@@ -8455,12 +8455,12 @@
 .public CheckPlayerPassedLapCheckpoint
 .public Platform__Create
 .public Platform__Destructor
-.public Platform__State_217568C
-.public Platform__Func_2175768
-.public Platform__Func_2175860
-.public Platform__Func_217599C
-.public Platform__State_2175A08
-.public Platform__Draw_2175C08
+.public Platform__State_Move
+.public Platform__Action_Init
+.public Platform__HandleMovement
+.public Platform__Action_Collapse
+.public Platform__State_Collapse
+.public Platform__Draw_Collapse
 .public Avalanche__Create
 .public IceTree__Create
 .public Avalanche__State_217618C

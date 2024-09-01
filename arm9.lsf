@@ -387,8 +387,8 @@ Overlay ZoneAct
     Object src/stage/objects/springboard.o
     Object asm/stage/objects/spikes_vars.o
     Object src/stage/objects/spikes.o
-    Object asm/stage/objects/breakable.o
-    Object asm/stage/objects/breakableWall.o
+    Object src/stage/objects/breakable.o
+    Object src/stage/objects/breakableWall.o
     Object asm/stage/objects/grindTrigger.o
     Object asm/stage/objects/pipeSteam.o
     Object asm/stage/objects/rotatingHanger.o
@@ -428,7 +428,8 @@ Overlay ZoneAct
     Object src/stage/objects/stageRing.o
     Object src/stage/objects/itemBox.o
     Object src/stage/objects/checkpoint.o
-    Object asm/stage/objects/platform.o
+    Object asm/stage/objects/platform_vars.o
+    Object src/stage/objects/platform.o
     Object asm/stage/objects/avalanche.o
     Object asm/stage/objects/anchorRope.o
     Object asm/stage/objects/barrel.o
