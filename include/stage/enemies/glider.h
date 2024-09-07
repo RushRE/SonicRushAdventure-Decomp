@@ -1,5 +1,5 @@
-#ifndef RUSH2_ENEMYGLIDER_H
-#define RUSH2_ENEMYGLIDER_H
+#ifndef RUSH2_GLIDER_H
+#define RUSH2_GLIDER_H
 
 #include <stage/gameObject.h>
 
@@ -20,4 +20,4 @@ typedef struct EnemyGlider_
 
 EnemyGlider *CreateEnemyGlider(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_ENEMYGLIDER_H
+#endif // RUSH2_GLIDER_H

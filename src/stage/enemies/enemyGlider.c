@@ -1,5 +1,5 @@
 
-#include <stage/enemies/enemyGlider.h>
+#include <stage/enemies/glider.h>
 #include <game/game/gameState.h>
 #include <game/stage/gameSystem.h>
 #include <game/object/objectManager.h>
@@ -24,7 +24,6 @@ enum EnemyGliderObjectFlags
     ENEMYGLIDER_OBJFLAG_WEIGHT_MASK = (1 << 0) | (1 << 1) | (1 << 2),
 
     ENEMYGLIDER_OBJFLAG_FROM_LEFT        = 1 << 4,
-    ENEMYGLIDER_OBJFLAG_DISABLED_ON_EASY = 1 << 7,
 };
 
 // --------------------
@@ -44,7 +43,7 @@ EnemyGlider *CreateEnemyGlider(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
     if (mapObject == NULL || (mapObject->x != MAPOBJECT_DESTROYED || mapObject->y != MAPOBJECT_DESTROYED))
     {
-        if (gameState.difficulty == DIFFICULTY_EASY && (mapObject->flags & ENEMYGLIDER_OBJFLAG_DISABLED_ON_EASY) != 0)
+        if (gameState.difficulty == DIFFICULTY_EASY && (mapObject->flags & ENEMYCOMMON_OBJFLAG_DISABLED_ON_EASY) != 0)
             return NULL;
     }
 

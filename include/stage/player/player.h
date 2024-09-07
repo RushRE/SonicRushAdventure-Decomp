@@ -53,6 +53,7 @@ typedef struct ScoreBonus_ ScoreBonus;
 #define PLAYER_TENSION_TRICKFINISH (320)
 
 #define PLAYER_TENSION_CHECKPOINT (800)
+#define PLAYER_TENSION_ENEMY (400)
 
 #define PLAYER_TRICK_COOLDOWN       (24)
 #define PLAYER_TRICK_COOLDOWN_HYPER (12)

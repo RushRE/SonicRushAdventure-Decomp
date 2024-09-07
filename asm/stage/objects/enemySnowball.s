@@ -249,7 +249,7 @@ EnemySnowball__Func_215886C: // 0x0215886C
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x388]
-	ldr r0, _02158930 // =EnemySnowballShot__DefFunc_2158AC4
+	ldr r0, _02158930 // =EnemySnowballShot__OnDefend_2158AC4
 	str r4, [r4, #0x380]
 	str r0, [r4, #0x23c]
 	add sp, sp, #4
@@ -258,7 +258,7 @@ EnemySnowball__Func_215886C: // 0x0215886C
 _02158924: .word 0x0000FFFE
 _02158928: .word 0x00000102
 _0215892C: .word EnemySnowball__Func_2158B60
-_02158930: .word EnemySnowballShot__DefFunc_2158AC4
+_02158930: .word EnemySnowballShot__OnDefend_2158AC4
 	arm_func_end EnemySnowball__Func_215886C
 
 	arm_func_start EnemySnowballShot__Func_2158934
@@ -384,8 +384,8 @@ _02158A98:
 	bx lr
 	arm_func_end EnemySnowballShot__State_2158A14
 
-	arm_func_start EnemySnowballShot__DefFunc_2158AC4
-EnemySnowballShot__DefFunc_2158AC4: // 0x02158AC4
+	arm_func_start EnemySnowballShot__OnDefend_2158AC4
+EnemySnowballShot__OnDefend_2158AC4: // 0x02158AC4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r2, #3
@@ -414,7 +414,7 @@ EnemySnowballShot__DefFunc_2158AC4: // 0x02158AC4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02158B2C: .word EnemySnowballShot__State_2158B30
-	arm_func_end EnemySnowballShot__DefFunc_2158AC4
+	arm_func_end EnemySnowballShot__OnDefend_2158AC4
 
 	arm_func_start EnemySnowballShot__State_2158B30
 EnemySnowballShot__State_2158B30: // 0x02158B30

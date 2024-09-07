@@ -1864,7 +1864,7 @@ NONMATCH_FUNC void CreateGameSystem(void)
     if ((state->gameFlag & GAME_FLAG_IS_VS_BATTLE) != 0 && !playerGameStatus.sendPacketList)
     {
         playerGameStatus.sendPacketList = HeapAllocHead(HEAP_USER, GAMESYSTEM_SENDPACKET_LIST_SIZE * sizeof(GameObjectSendPacket));
-        MI_CpuClear8(playerGameStatus.sendPacketList, sizeof(playerGameStatus.sendPacketList));
+        MI_CpuClear8(playerGameStatus.sendPacketList, GAMESYSTEM_SENDPACKET_LIST_SIZE * sizeof(GameObjectSendPacket));
         playerGameStatus.sendPacketCount = 0;
     }
 #else

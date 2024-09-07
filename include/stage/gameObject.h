@@ -30,6 +30,19 @@ enum GameObjectPacketType_
 };
 typedef u8 GameObjectPacketType;
 
+enum EnemyCommonObjectFlags
+{
+    ENEMYCOMMON_OBJFLAG_DISABLED_ON_EASY = 1 << 7,
+};
+
+enum GameObjectCommonFlags_
+{
+    GAMEOBJECT_FLAG_ALLOW_RESPAWN = 1 << 16,
+    GAMEOBJECT_FLAG_20000         = 1 << 17,
+    GAMEOBJECT_FLAG_40000         = 1 << 18,
+};
+typedef u32 GameObjectCommonFlags;
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -50,7 +63,7 @@ struct GameObjectTask_
     Vec2Fx32 originPos;
     s16 blinkTimer;
     s16 field_352;
-    u32 flags;
+    GameObjectCommonFlags flags;
     u16 field_358;
     u16 field_35A;
     StageTask *parent;
@@ -75,13 +88,13 @@ void GameObject__ProcessRecievedPackets_ItemBox(void);
 void GameObject__ProcessRecievedPackets_Unknown(void);
 void GameObject__SendPacket(GameObjectTask *work, Player *player, GameObjectPacketType type);
 void GameObject__SpawnExplosion(GameObjectTask *work);
-void GameObject__Func_20277C8(GameObjectTask *work);
+void GameObject__OnDestroyEnemy(GameObjectTask *work);
 void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void GameObject__In_Default(void);
 void GameObject__SpriteCallback_Default(BACFrameGroupBlock_Hitbox *block, AnimatorSprite *animator, GameObjectTask *work);
 void GameObject__Collide_Default(void);
-void GameObject__BadnikBounce(GameObjectTask *work, Player *player);
-void GameObject__State_2027F5C(GameObjectTask *work);
+void GameObject__BoostImpactEnemy(GameObjectTask *work, Player *player);
+void GameObject__State_BoostImpactSpin(GameObjectTask *work);
 s16 GameObject__GetNextTempObjID(void);
 void GameObject__ReleaseTempObj(MapObject *obj);
 void GameObject__ProcessRecievedPackets(GameObjectTask *work);

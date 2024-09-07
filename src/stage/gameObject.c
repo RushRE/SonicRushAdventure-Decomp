@@ -196,7 +196,7 @@ void GameObject__Destructor(Task *task)
     }
     else
     {
-        if ((work->flags & 0x10000) == 0 && mapObject != NULL)
+        if ((work->flags & GAMEOBJECT_FLAG_ALLOW_RESPAWN) == 0 && mapObject != NULL)
             mapObject->x = work->mapObjectX;
     }
 
@@ -495,7 +495,7 @@ NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
 
     u32 debrisType = mtMathRand() & 3;
 
-    if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS) != 0 || (work->flags & STAGE_TASK_FLAG_40000) != 0)
+    if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS) != 0 || (work->flags & GAMEOBJECT_FLAG_40000) != 0)
         moveFlag = STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     for (s16 d = 0; d < 2; d++)
@@ -659,14 +659,14 @@ _02027768:
 #endif
 }
 
-void GameObject__Func_20277C8(GameObjectTask *work)
+void GameObject__OnDestroyEnemy(GameObjectTask *work)
 {
     fx32 velY = 0;
 
     // ???
     GetCurrentZoneID();
 
-    if ((work->flags & 0x20000) == 0)
+    if ((work->flags & GAMEOBJECT_FLAG_20000) == 0)
     {
         // ???
         mtMathRand();
@@ -689,7 +689,7 @@ NONMATCH_FUNC void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WOR
     if (enemy->health == 0)
     {
         if ((enemy->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS) == 0)
-            enemy->flags |= 0x10000;
+            enemy->flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
 
         enemy->objWork.flag |= STAGE_TASK_FLAG_2;
         enemy->colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
@@ -703,7 +703,7 @@ NONMATCH_FUNC void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WOR
         {
             if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
             {
-                Player__GiveComboTension(player, 400);
+                Player__GiveComboTension(player, PLAYER_TENSION_ENEMY);
                 if (gmCheckMissionType(MISSION_TYPE_DEFEAT_ENEMIES) && enemy->mapObject->id < MAPOBJECT_276)
                     playerGameStatus.missionStatus.enemyDefeatCount++;
             }
@@ -712,8 +712,8 @@ NONMATCH_FUNC void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WOR
                 Player *parent = (Player *)player->objWork.parentObj;
                 if (parent != NULL && (player = (Player *)player->objWork.parentObj, parent->objWork.objType == STAGE_OBJ_TYPE_PLAYER))
                 {
-                    Player__GiveComboTension(parent, 400);
-                    GameObject__BadnikBounce(enemy, player);
+                    Player__GiveComboTension(parent, PLAYER_TENSION_ENEMY);
+                    GameObject__BoostImpactEnemy(enemy, player);
 
                     if ((player->playerFlag & PLAYER_FLAG_SUPERBOOST) != 0)
                     {
@@ -734,7 +734,7 @@ NONMATCH_FUNC void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WOR
         }
 
         GameObject__SpawnExplosion(enemy);
-        GameObject__Func_20277C8(enemy);
+        GameObject__OnDestroyEnemy(enemy);
         enemy->objWork.flag |= 8;
         GameObject__SendPacket(enemy, player, GAMEOBJECT_PACKET_DESTROYED);
     }
@@ -838,7 +838,7 @@ _02027918:
 	bl Player__GiveComboTension
 	mov r0, r5
 	mov r1, r6
-	bl GameObject__BadnikBounce
+	bl GameObject__BoostImpactEnemy
 	ldr r0, [r6, #0x5d8]
 	tst r0, #0x80
 	beq _02027968
@@ -874,7 +874,7 @@ _020279C0:
 	mov r0, r5
 	bl GameObject__SpawnExplosion
 	mov r0, r5
-	bl GameObject__Func_20277C8
+	bl GameObject__OnDestroyEnemy
 	ldr r1, [r5, #0x18]
 	mov r0, r5
 	orr r3, r1, #8
@@ -1076,7 +1076,7 @@ void GameObject__Collide_Default(void)
     }
 }
 
-void GameObject__BadnikBounce(GameObjectTask *work, Player *player)
+void GameObject__BoostImpactEnemy(GameObjectTask *work, Player *player)
 {
     switch (work->mapObject->id)
     {
@@ -1101,7 +1101,7 @@ void GameObject__BadnikBounce(GameObjectTask *work, Player *player)
     work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
     work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
-    SetTaskState(&work->objWork, GameObject__State_2027F5C);
+    SetTaskState(&work->objWork, GameObject__State_BoostImpactSpin);
     work->objWork.groundVel = 0;
     work->objWork.userTimer = 32;
     work->objWork.userWork  = 0;
@@ -1121,14 +1121,14 @@ void GameObject__BadnikBounce(GameObjectTask *work, Player *player)
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ZAKO_DOWN);
 }
 
-void GameObject__State_2027F5C(GameObjectTask *work)
+void GameObject__State_BoostImpactSpin(GameObjectTask *work)
 {
     work->objWork.dir.z += FLOAT_DEG_TO_IDX(22.5);
 
     if (work->objWork.userTimer == 0)
     {
         GameObject__SpawnExplosion(work);
-        GameObject__Func_20277C8(work);
+        GameObject__OnDestroyEnemy(work);
         DestroyStageTask(&work->objWork);
     }
 
@@ -1276,7 +1276,7 @@ s32 GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObje
     {
         if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
         {
-            Player__GiveComboTension(player, 400);
+            Player__GiveComboTension(player, PLAYER_TENSION_ENEMY);
             GameObject__SendPacket(badnik, player, type);
             Player__Action_DestroyAttackRecoil(player);
             return 1;
@@ -1293,8 +1293,8 @@ s32 GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObje
             badnik->colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
             badnik->colliders[2].flag |= OBS_RECT_WORK_FLAG_800;
 
-            Player__GiveComboTension(player, 400);
-            GameObject__BadnikBounce(badnik, player);
+            Player__GiveComboTension(player, PLAYER_TENSION_ENEMY);
+            GameObject__BoostImpactEnemy(badnik, player);
 
             if ((player->playerFlag & PLAYER_FLAG_SUPERBOOST) != 0)
             {

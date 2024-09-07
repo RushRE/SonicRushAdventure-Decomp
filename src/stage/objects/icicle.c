@@ -60,7 +60,7 @@ Icicle *CreateIcicle(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.userFlag = FX_Div(4096, FX32_FROM_WHOLE((work->gameWork.mapObjectParam_size << 7) + 256));
 
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
-    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_1000;
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET;
     ObjRect__SetBox3D(&work->gameWork.colliders[0].rect, -32, -240, -32, 32, size << 7, 32);
     work->gameWork.colliders[0].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
     work->gameWork.colliders[0].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);

@@ -762,7 +762,7 @@ EnemyGhostBomb__State_2157E1C: // 0x02157E1C
 	mov r1, #0
 	str r1, [r4, #0x98]
 	str r1, [r4, #0x9c]
-	ldr r0, _02157E88 // =EnemyGhostBomb__Sttae_2157E8C
+	ldr r0, _02157E88 // =EnemyGhostBomb__State_2157E8C
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
@@ -777,11 +777,11 @@ _02157E64:
 	str r0, [r4, #0x9c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02157E88: .word EnemyGhostBomb__Sttae_2157E8C
+_02157E88: .word EnemyGhostBomb__State_2157E8C
 	arm_func_end EnemyGhostBomb__State_2157E1C
 
-	arm_func_start EnemyGhostBomb__Sttae_2157E8C
-EnemyGhostBomb__Sttae_2157E8C: // 0x02157E8C
+	arm_func_start EnemyGhostBomb__State_2157E8C
+EnemyGhostBomb__State_2157E8C: // 0x02157E8C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -822,7 +822,7 @@ EnemyGhostBomb__Sttae_2157E8C: // 0x02157E8C
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end EnemyGhostBomb__Sttae_2157E8C
+	arm_func_end EnemyGhostBomb__State_2157E8C
 
 	arm_func_start EnemyGhostBomb__OnDefend
 EnemyGhostBomb__OnDefend: // 0x02157F2C

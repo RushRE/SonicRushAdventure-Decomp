@@ -86,4 +86,19 @@ RUSH_INLINE void PlayHandleStageSfx(NNSSndHandle *handle, enum SND_ZONE_SEQARC_G
     PlaySfxEx(handle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_ZONE_SEQARC_GAME_SE, sfxID);
 }
 
+RUSH_INLINE void StopStageSfx(NNSSndHandle *handle)
+{
+    NNS_SndPlayerStopSeq(handle, 0);
+}
+
+RUSH_INLINE void FadeOutStageSfx(NNSSndHandle *handle, u32 frames)
+{
+    NNS_SndPlayerStopSeq(handle, frames);
+}
+
+RUSH_INLINE void ReleaseStageSfx(NNSSndHandle *handle)
+{
+    NNS_SndHandleReleaseSeq(handle);
+}
+
 #endif // RUSH2_AUDIOSYSTEM_H

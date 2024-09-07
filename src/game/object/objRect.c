@@ -147,7 +147,7 @@ void ObjRect__CheckInit(void)
     _obj_user_rect_man.resist_all_num_nx = 0;
     _obj_user_rect_man.ulFlagBackA       = 0;
     _obj_user_rect_man.ulFlagBackD       = 0;
-    _obj_user_rect_man.ucNoHit           = 0;
+    _obj_user_rect_man.ucNoHit           = FALSE;
 }
 
 void ObjRect__CheckOut(void)
@@ -210,7 +210,7 @@ void ObjRect__CheckAllGroup(void)
 
     _obj_user_rect_man.ulFlagBackA = 0;
     _obj_user_rect_man.ulFlagBackD = 0;
-    _obj_user_rect_man.ucNoHit     = 0;
+    _obj_user_rect_man.ucNoHit     = FALSE;
 
     u16 count = _obj_user_rect_man.resist_all_num;
     for (i = 0; i < count; i++)
@@ -555,7 +555,7 @@ void ObjRect__LTBSet(OBS_RECT_WORK *work, fx32 *left, fx32 *top, fx32 *back)
 {
     fx32 offset;
 
-    if (work->parent != NULL && (work->flag & OBS_RECT_WORK_FLAG_1000) == 0)
+    if (work->parent != NULL && (work->flag & OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET) == 0)
     {
         if (left != NULL)
         {
@@ -611,7 +611,7 @@ void ObjRect__LTBSet(OBS_RECT_WORK *work, fx32 *left, fx32 *top, fx32 *back)
 
 void ObjRect__WHDSet(OBS_RECT_WORK *work, u16 *width, u16 *height, u16 *depth)
 {
-    if (work->parent != NULL && (work->flag & OBS_RECT_WORK_FLAG_1000) == 0)
+    if (work->parent != NULL && (work->flag & OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET) == 0)
     {
         if (width != NULL)
         {
@@ -685,9 +685,9 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
                 attacker->onAttack(attacker, defender);
         }
 
-        if (_obj_user_rect_man.ucNoHit != 0)
+        if (_obj_user_rect_man.ucNoHit != FALSE)
         {
-            _obj_user_rect_man.ucNoHit = 0;
+            _obj_user_rect_man.ucNoHit = FALSE;
             return result;
         }
 
@@ -703,9 +703,9 @@ u16 ObjRect__CheckFuncCall(OBS_RECT_WORK *attacker, OBS_RECT_WORK *defender)
                 defender->onDefend(attacker, defender);
         }
 
-        if (_obj_user_rect_man.ucNoHit != 0)
+        if (_obj_user_rect_man.ucNoHit != FALSE)
         {
-            _obj_user_rect_man.ucNoHit = 0;
+            _obj_user_rect_man.ucNoHit = FALSE;
             return result;
         }
 

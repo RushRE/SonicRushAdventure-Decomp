@@ -258,11 +258,11 @@ struct StageTask_
     VecFx32 parentOffset;
     VecFx32 lockOffset;
     VecFx32 prevTempOffset;
-    VecFx32 prevPosition;
-    VecFx32 velocity;
-    VecFx32 acceleration;
-    VecFx32 flow;
-    VecFx32 move;
+    VecFx32 prevPosition; // previous frame's position
+    VecFx32 velocity; // how much to move the object's position
+    VecFx32 acceleration; // how much to change the object's velocity
+    VecFx32 flow;  // how much to move the object at the end of the frame
+    VecFx32 move; // how much the object moved in the previous frame
     fx32 groundVel;
     u16 slopeDirection;
     u16 fallDir;

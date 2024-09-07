@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start EnemyPirate__Create
-EnemyPirate__Create: // 0x02154E94
+	arm_func_start EnemyRobot__Create
+EnemyRobot__Create: // 0x02154E94
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	movs r8, r0
@@ -75,8 +75,8 @@ _02154F7C:
 	mov r5, #0
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x1c]
-	bl EnemyPirate__Func_2155378
-	ldr r0, _02155324 // =EnemyPirate__OnInit_21553D0
+	bl EnemyRobot__Func_2155378
+	ldr r0, _02155324 // =EnemyRobot__OnInit_21553D0
 	mov r2, r5
 	str r0, [r4, #0x3ac]
 	add r0, r4, #0x300
@@ -86,7 +86,7 @@ _02154F7C:
 	rsb r1, r1, #0x10000
 	strh r1, [r0, #0xcc]
 	mov r2, #0xc00
-	ldr r1, _02155328 // =EnemyPirate__OnDetect_2155820
+	ldr r1, _02155328 // =EnemyRobot__OnDetect_2155820
 	str r2, [r4, #0x3d4]
 	str r1, [r4, #0x3b0]
 	mov r1, #0x200
@@ -101,7 +101,7 @@ _02154F7C:
 	ldrh r0, [r8, #4]
 	tst r0, #0x40
 	beq _021551EC
-	ldr r0, _0215532C // =EnemyPirate__OnDefend_TutorialEnemy
+	ldr r0, _0215532C // =EnemyRobot__OnDefend_TutorialEnemy
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x1c]
 	bic r0, r0, #0x80
@@ -110,7 +110,7 @@ _02154F7C:
 	b _021551EC
 _02155020:
 	ldr r0, [r4, #0x20]
-	ldr r1, _02155330 // =EnemyPirate__OnInit_21557D8
+	ldr r1, _02155330 // =EnemyRobot__OnInit_21557D8
 	orr r0, r0, #0x100
 	str r0, [r4, #0x20]
 	ldr r0, [r4, #0x1c]
@@ -122,7 +122,7 @@ _02155020:
 	ldrne r0, [r4, #0x20]
 	orrne r0, r0, #1
 	strne r0, [r4, #0x20]
-	ldr r0, _02155334 // =EnemyPirate__OnDetect_2155C5C
+	ldr r0, _02155334 // =EnemyRobot__OnDetect_2155C5C
 	str r1, [r4, #0x3ac]
 	str r0, [r4, #0x3b0]
 	b _021551EC
@@ -135,8 +135,8 @@ _02155064:
 	mov r5, #2
 	orr r1, r1, #0x140
 	str r1, [r4, #0x1c]
-	bl EnemyPirate__Func_2155378
-	ldr r1, _02155338 // =EnemyPirate__OnInit_2155620
+	bl EnemyRobot__Func_2155378
+	ldr r1, _02155338 // =EnemyRobot__OnInit_2155620
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r1, #0
@@ -148,7 +148,7 @@ _02155064:
 	mov r1, #0x1800
 	str r1, [r4, #0x3d0]
 	mov r2, #0x300
-	ldr r1, _0215533C // =EnemyPirate__OnDetect_21559D8
+	ldr r1, _0215533C // =EnemyRobot__OnDetect_21559D8
 	strh r2, [r0, #0xd4]
 	str r1, [r4, #0x3b0]
 	b _021551EC
@@ -161,8 +161,8 @@ _021550C8:
 	mov r5, #3
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x1c]
-	bl EnemyPirate__Func_2155378
-	ldr r1, _02155324 // =EnemyPirate__OnInit_21553D0
+	bl EnemyRobot__Func_2155378
+	ldr r1, _02155324 // =EnemyRobot__OnInit_21553D0
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r2, #0
@@ -175,7 +175,7 @@ _021550C8:
 	strh r1, [r0, #0xce]
 	strh r2, [r0, #0xd0]
 	mov r2, #0xc00
-	ldr r1, _02155328 // =EnemyPirate__OnDetect_2155820
+	ldr r1, _02155328 // =EnemyRobot__OnDetect_2155820
 	str r2, [r4, #0x3d4]
 	str r1, [r4, #0x3b0]
 	ldr r2, [r4, #0x354]
@@ -193,8 +193,8 @@ _02155144:
 	mov r5, #4
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x1c]
-	bl EnemyPirate__Func_2155378
-	ldr r0, _02155324 // =EnemyPirate__OnInit_21553D0
+	bl EnemyRobot__Func_2155378
+	ldr r0, _02155324 // =EnemyRobot__OnInit_21553D0
 	mov r1, #0
 	str r0, [r4, #0x3ac]
 	add r0, r4, #0x300
@@ -207,7 +207,7 @@ _02155144:
 	strh r2, [r0, #0xce]
 	strh r1, [r0, #0xd0]
 	mov r0, #0xc00
-	ldr r3, _02155340 // =EnemyPirate__OnDetect_FoundFX
+	ldr r3, _02155340 // =EnemyRobot__OnDetect_FoundFX
 	str r0, [r4, #0x3d4]
 	mov r2, r1
 	add r0, r4, #0x298
@@ -221,7 +221,7 @@ _02155144:
 	add r0, r4, #0x200
 	strh r1, [r0, #0xcc]
 	ldr r0, [r4, #0x2b0]
-	ldr r1, _0215534C // =EnemyPirate__OnDefend_Hurtbox
+	ldr r1, _0215534C // =EnemyRobot__OnDefend_Hurtbox
 	orr r0, r0, #0x400
 	str r0, [r4, #0x2b0]
 	mov r0, r4
@@ -291,7 +291,7 @@ _02155284:
 	add r0, r4, #0x300
 	strh r1, [r0, #0x98]
 	ldr r1, [r4, #0x37c]
-	ldr r0, _02155374 // =EnemyPirate__OnDefend_Detector
+	ldr r0, _02155374 // =EnemyRobot__OnDefend_Detector
 	orr r1, r1, #0x4c0
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x388]
@@ -308,17 +308,17 @@ _02155284:
 _02155318: .word gameState
 _0215531C: .word StageTask_Main
 _02155320: .word GameObject__Destructor
-_02155324: .word EnemyPirate__OnInit_21553D0
-_02155328: .word EnemyPirate__OnDetect_2155820
-_0215532C: .word EnemyPirate__OnDefend_TutorialEnemy
-_02155330: .word EnemyPirate__OnInit_21557D8
-_02155334: .word EnemyPirate__OnDetect_2155C5C
-_02155338: .word EnemyPirate__OnInit_2155620
-_0215533C: .word EnemyPirate__OnDetect_21559D8
-_02155340: .word EnemyPirate__OnDetect_FoundFX
+_02155324: .word EnemyRobot__OnInit_21553D0
+_02155328: .word EnemyRobot__OnDetect_2155820
+_0215532C: .word EnemyRobot__OnDefend_TutorialEnemy
+_02155330: .word EnemyRobot__OnInit_21557D8
+_02155334: .word EnemyRobot__OnDetect_2155C5C
+_02155338: .word EnemyRobot__OnInit_2155620
+_0215533C: .word EnemyRobot__OnDetect_21559D8
+_02155340: .word EnemyRobot__OnDetect_FoundFX
 _02155344: .word 0x0000FFFE
 _02155348: .word 0x00000102
-_0215534C: .word EnemyPirate__OnDefend_Hurtbox
+_0215534C: .word EnemyRobot__OnDefend_Hurtbox
 _02155350: .word _021881A0
 _02155354: .word gameArchiveStage
 _02155358: .word 0x0000FFFF
@@ -328,11 +328,11 @@ _02155364: .word 0x021881BA
 _02155368: .word _021881B4
 _0215536C: .word 0x021881B6
 _02155370: .word 0x021881B8
-_02155374: .word EnemyPirate__OnDefend_Detector
-	arm_func_end EnemyPirate__Create
+_02155374: .word EnemyRobot__OnDefend_Detector
+	arm_func_end EnemyRobot__Create
 
-	arm_func_start EnemyPirate__Func_2155378
-EnemyPirate__Func_2155378: // 0x02155378
+	arm_func_start EnemyRobot__Func_2155378
+EnemyRobot__Func_2155378: // 0x02155378
 	ldr r1, [r0, #0x340]
 	ldr r2, [r0, #0x44]
 	ldrsb r1, [r1, #6]
@@ -343,10 +343,10 @@ EnemyPirate__Func_2155378: // 0x02155378
 	add r1, r2, r1, lsl #12
 	str r1, [r0, #0x3bc]
 	bx lr
-	arm_func_end EnemyPirate__Func_2155378
+	arm_func_end EnemyRobot__Func_2155378
 
-	arm_func_start EnemyPirate__Func_21553A0
-EnemyPirate__Func_21553A0: // 0x021553A0
+	arm_func_start EnemyRobot__Func_21553A0
+EnemyRobot__Func_21553A0: // 0x021553A0
 	add r1, r0, #0x300
 	ldrsh r2, [r1, #0xc4]
 	cmp r2, #0
@@ -359,10 +359,10 @@ EnemyPirate__Func_21553A0: // 0x021553A0
 	orreq r1, r1, #4
 	streq r1, [r0, #0x37c]
 	bx lr
-	arm_func_end EnemyPirate__Func_21553A0
+	arm_func_end EnemyRobot__Func_21553A0
 
-	arm_func_start EnemyPirate__OnInit_21553D0
-EnemyPirate__OnInit_21553D0: // 0x021553D0
+	arm_func_start EnemyRobot__OnInit_21553D0
+EnemyRobot__OnInit_21553D0: // 0x021553D0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -370,7 +370,7 @@ EnemyPirate__OnInit_21553D0: // 0x021553D0
 	ldrh r1, [r1, #0xc8]
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215544C // =EnemyPirate__State_2155450
+	ldr r0, _0215544C // =EnemyRobot__State_2155450
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -395,11 +395,11 @@ EnemyPirate__OnInit_21553D0: // 0x021553D0
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215544C: .word EnemyPirate__State_2155450
-	arm_func_end EnemyPirate__OnInit_21553D0
+_0215544C: .word EnemyRobot__State_2155450
+	arm_func_end EnemyRobot__OnInit_21553D0
 
-	arm_func_start EnemyPirate__State_2155450
-EnemyPirate__State_2155450: // 0x02155450
+	arm_func_start EnemyRobot__State_2155450
+EnemyRobot__State_2155450: // 0x02155450
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r2, [r6, #0x354]
@@ -422,7 +422,7 @@ EnemyPirate__State_2155450: // 0x02155450
 	str r0, [r6, #0x20]
 _021554A0:
 	mov r0, r6
-	bl EnemyPirate__Func_21553A0
+	bl EnemyRobot__Func_21553A0
 	mov r0, r6
 	add r1, r6, #0x364
 	bl StageTask__HandleCollider
@@ -522,27 +522,27 @@ _021555D8:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0215561C: .word 0x0000FFFF
-	arm_func_end EnemyPirate__State_2155450
+	arm_func_end EnemyRobot__State_2155450
 
-	arm_func_start EnemyPirate__OnInit_2155620
-EnemyPirate__OnInit_2155620: // 0x02155620
+	arm_func_start EnemyRobot__OnInit_2155620
+EnemyRobot__OnInit_2155620: // 0x02155620
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x300
 	ldrh r1, [r1, #0xc8]
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215564C // =EnemyPirate__State_2155650
+	ldr r0, _0215564C // =EnemyRobot__State_2155650
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215564C: .word EnemyPirate__State_2155650
-	arm_func_end EnemyPirate__OnInit_2155620
+_0215564C: .word EnemyRobot__State_2155650
+	arm_func_end EnemyRobot__OnInit_2155620
 
-	arm_func_start EnemyPirate__State_2155650
-EnemyPirate__State_2155650: // 0x02155650
+	arm_func_start EnemyRobot__State_2155650
+EnemyRobot__State_2155650: // 0x02155650
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -620,7 +620,7 @@ _02155730:
 	str r0, [r6, #0x354]
 _02155774:
 	mov r0, r6
-	bl EnemyPirate__Func_21553A0
+	bl EnemyRobot__Func_21553A0
 	mov r0, r6
 	add r1, r6, #0x364
 	bl StageTask__HandleCollider
@@ -645,37 +645,37 @@ _02155774:
 	.align 2, 0
 _021557D0: .word FX_SinCosTable_
 _021557D4: .word 0x0000FFFF
-	arm_func_end EnemyPirate__State_2155650
+	arm_func_end EnemyRobot__State_2155650
 
-	arm_func_start EnemyPirate__OnInit_21557D8
-EnemyPirate__OnInit_21557D8: // 0x021557D8
+	arm_func_start EnemyRobot__OnInit_21557D8
+EnemyRobot__OnInit_21557D8: // 0x021557D8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02155800 // =EnemyPirate__State_2155804
+	ldr r0, _02155800 // =EnemyRobot__State_2155804
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155800: .word EnemyPirate__State_2155804
-	arm_func_end EnemyPirate__OnInit_21557D8
+_02155800: .word EnemyRobot__State_2155804
+	arm_func_end EnemyRobot__OnInit_21557D8
 
-	arm_func_start EnemyPirate__State_2155804
-EnemyPirate__State_2155804: // 0x02155804
+	arm_func_start EnemyRobot__State_2155804
+EnemyRobot__State_2155804: // 0x02155804
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl EnemyPirate__Func_21553A0
+	bl EnemyRobot__Func_21553A0
 	mov r0, r4
 	add r1, r4, #0x364
 	bl StageTask__HandleCollider
 	ldmia sp!, {r4, pc}
-	arm_func_end EnemyPirate__State_2155804
+	arm_func_end EnemyRobot__State_2155804
 
-	arm_func_start EnemyPirate__OnDetect_2155820
-EnemyPirate__OnDetect_2155820: // 0x02155820
+	arm_func_start EnemyRobot__OnDetect_2155820
+EnemyRobot__OnDetect_2155820: // 0x02155820
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -686,7 +686,7 @@ EnemyPirate__OnDetect_2155820: // 0x02155820
 	beq _0215585C
 	str r1, [r4, #0x2c]
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215588C // =EnemyPirate__State_2155894
+	ldr r0, _0215588C // =EnemyRobot__State_2155894
 	orr r1, r1, #0x10
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -695,22 +695,22 @@ _0215585C:
 	ldrh r1, [r2]
 	bl GameObject__SetAnimation
 	ldr r0, [r4, #0x354]
-	ldr r1, _02155890 // =EnemyPirate__State_21558F0
+	ldr r1, _02155890 // =EnemyRobot__State_21558F0
 	tst r0, #0x8000
 	ldreq r0, [r4, #0x20]
 	orreq r0, r0, #4
 	streq r0, [r4, #0x20]
 	mov r0, r4
 	str r1, [r4, #0xf4]
-	bl EnemyPirate__Func_2156100
+	bl EnemyRobot__Func_2156100
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215588C: .word EnemyPirate__State_2155894
-_02155890: .word EnemyPirate__State_21558F0
-	arm_func_end EnemyPirate__OnDetect_2155820
+_0215588C: .word EnemyRobot__State_2155894
+_02155890: .word EnemyRobot__State_21558F0
+	arm_func_end EnemyRobot__OnDetect_2155820
 
-	arm_func_start EnemyPirate__State_2155894
-EnemyPirate__State_2155894: // 0x02155894
+	arm_func_start EnemyRobot__State_2155894
+EnemyRobot__State_2155894: // 0x02155894
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -724,21 +724,21 @@ EnemyPirate__State_2155894: // 0x02155894
 	ldrh r1, [r1, #0xd8]
 	bl GameObject__SetAnimation
 	ldr r0, [r4, #0x354]
-	ldr r1, _021558EC // =EnemyPirate__State_21558F0
+	ldr r1, _021558EC // =EnemyRobot__State_21558F0
 	tst r0, #0x8000
 	ldreq r0, [r4, #0x20]
 	orreq r0, r0, #4
 	streq r0, [r4, #0x20]
 	mov r0, r4
 	str r1, [r4, #0xf4]
-	bl EnemyPirate__Func_2156100
+	bl EnemyRobot__Func_2156100
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021558EC: .word EnemyPirate__State_21558F0
-	arm_func_end EnemyPirate__State_2155894
+_021558EC: .word EnemyRobot__State_21558F0
+	arm_func_end EnemyRobot__State_2155894
 
-	arm_func_start EnemyPirate__State_21558F0
-EnemyPirate__State_21558F0: // 0x021558F0
+	arm_func_start EnemyRobot__State_21558F0
+EnemyRobot__State_21558F0: // 0x021558F0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x354]
@@ -781,7 +781,7 @@ _02155968:
 	mov r0, #0
 	str r0, [r6, #0xc8]
 	ldrsh r1, [r4, #0xe]
-	ldr r0, _021559A8 // =EnemyPirate__State_21559AC
+	ldr r0, _021559A8 // =EnemyRobot__State_21559AC
 	str r1, [r6, #0x2c]
 	str r0, [r6, #0xf4]
 	ldmia sp!, {r4, r5, r6, pc}
@@ -791,11 +791,11 @@ _02155998:
 	blx r1
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_021559A8: .word EnemyPirate__State_21559AC
-	arm_func_end EnemyPirate__State_21558F0
+_021559A8: .word EnemyRobot__State_21559AC
+	arm_func_end EnemyRobot__State_21558F0
 
-	arm_func_start EnemyPirate__State_21559AC
-EnemyPirate__State_21559AC: // 0x021559AC
+	arm_func_start EnemyRobot__State_21559AC
+EnemyRobot__State_21559AC: // 0x021559AC
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x2c]
 	subs r1, r1, #1
@@ -807,10 +807,10 @@ EnemyPirate__State_21559AC: // 0x021559AC
 	ldr r1, [r0, #0x3ac]
 	blx r1
 	ldmia sp!, {r3, pc}
-	arm_func_end EnemyPirate__State_21559AC
+	arm_func_end EnemyRobot__State_21559AC
 
-	arm_func_start EnemyPirate__OnDetect_21559D8
-EnemyPirate__OnDetect_21559D8: // 0x021559D8
+	arm_func_start EnemyRobot__OnDetect_21559D8
+EnemyRobot__OnDetect_21559D8: // 0x021559D8
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	mov r4, r0
@@ -838,15 +838,15 @@ EnemyPirate__OnDetect_21559D8: // 0x021559D8
 	mov r1, #1
 	str r2, [r4, #0xc8]
 	bl GameObject__SetAnimation
-	ldr r0, _02155A50 // =EnemyPirate__State_2155A54
+	ldr r0, _02155A50 // =EnemyRobot__State_2155A54
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155A50: .word EnemyPirate__State_2155A54
-	arm_func_end EnemyPirate__OnDetect_21559D8
+_02155A50: .word EnemyRobot__State_2155A54
+	arm_func_end EnemyRobot__OnDetect_21559D8
 
-	arm_func_start EnemyPirate__State_2155A54
-EnemyPirate__State_2155A54: // 0x02155A54
+	arm_func_start EnemyRobot__State_2155A54
+EnemyRobot__State_2155A54: // 0x02155A54
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -861,7 +861,7 @@ EnemyPirate__State_2155A54: // 0x02155A54
 	mov r0, r4
 	mov r1, #2
 	bl GameObject__SetAnimation
-	ldr r2, _02155AC0 // =EnemyPirate__State_2155AC4
+	ldr r2, _02155AC0 // =EnemyRobot__State_2155AC4
 	mov r0, #0x76
 	sub r1, r0, #0x77
 	str r2, [r4, #0xf4]
@@ -875,11 +875,11 @@ EnemyPirate__State_2155A54: // 0x02155A54
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155AC0: .word EnemyPirate__State_2155AC4
-	arm_func_end EnemyPirate__State_2155A54
+_02155AC0: .word EnemyRobot__State_2155AC4
+	arm_func_end EnemyRobot__State_2155A54
 
-	arm_func_start EnemyPirate__State_2155AC4
-EnemyPirate__State_2155AC4: // 0x02155AC4
+	arm_func_start EnemyRobot__State_2155AC4
+EnemyRobot__State_2155AC4: // 0x02155AC4
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x354]
@@ -966,7 +966,7 @@ _02155BB8:
 	str r2, [r5, #0x2c]
 	bl GameObject__SetAnimation
 	ldr r1, [r5, #0x20]
-	ldr r0, _02155C58 // =EnemyPirate__State_21559AC
+	ldr r0, _02155C58 // =EnemyRobot__State_21559AC
 	orr r1, r1, #0x10
 	str r1, [r5, #0x20]
 	str r0, [r5, #0xf4]
@@ -991,25 +991,25 @@ _02155C10:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02155C54: .word 0x00000199
-_02155C58: .word EnemyPirate__State_21559AC
-	arm_func_end EnemyPirate__State_2155AC4
+_02155C58: .word EnemyRobot__State_21559AC
+	arm_func_end EnemyRobot__State_2155AC4
 
-	arm_func_start EnemyPirate__OnDetect_2155C5C
-EnemyPirate__OnDetect_2155C5C: // 0x02155C5C
+	arm_func_start EnemyRobot__OnDetect_2155C5C
+EnemyRobot__OnDetect_2155C5C: // 0x02155C5C
 	mov r1, #0
 	str r1, [r0, #0xc8]
 	str r1, [r0, #0x28]
 	mov r2, #3
-	ldr r1, _02155C7C // =EnemyPirate__State_2155C80
+	ldr r1, _02155C7C // =EnemyRobot__State_2155C80
 	str r2, [r0, #0x2c]
 	str r1, [r0, #0xf4]
 	bx lr
 	.align 2, 0
-_02155C7C: .word EnemyPirate__State_2155C80
-	arm_func_end EnemyPirate__OnDetect_2155C5C
+_02155C7C: .word EnemyRobot__State_2155C80
+	arm_func_end EnemyRobot__OnDetect_2155C5C
 
-	arm_func_start EnemyPirate__State_2155C80
-EnemyPirate__State_2155C80: // 0x02155C80
+	arm_func_start EnemyRobot__State_2155C80
+EnemyRobot__State_2155C80: // 0x02155C80
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r2, [r4, #0x28]
@@ -1111,10 +1111,10 @@ _02155DD0:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02155DFC: .word mapCamera
-	arm_func_end EnemyPirate__State_2155C80
+	arm_func_end EnemyRobot__State_2155C80
 
-	arm_func_start EnemyPirate__OnDetect_FoundFX
-EnemyPirate__OnDetect_FoundFX: // 0x02155E00
+	arm_func_start EnemyRobot__OnDetect_FoundFX
+EnemyRobot__OnDetect_FoundFX: // 0x02155E00
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	mov r4, r0
@@ -1127,16 +1127,16 @@ EnemyPirate__OnDetect_FoundFX: // 0x02155E00
 	str r3, [r4, #0x20]
 	bl CreateEffectFound
 	mov r1, #0xc
-	ldr r0, _02155E40 // =EnemyPirate__State_2155E44
+	ldr r0, _02155E40 // =EnemyRobot__State_2155E44
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155E40: .word EnemyPirate__State_2155E44
-	arm_func_end EnemyPirate__OnDetect_FoundFX
+_02155E40: .word EnemyRobot__State_2155E44
+	arm_func_end EnemyRobot__OnDetect_FoundFX
 
-	arm_func_start EnemyPirate__State_2155E44
-EnemyPirate__State_2155E44: // 0x02155E44
+	arm_func_start EnemyRobot__State_2155E44
+EnemyRobot__State_2155E44: // 0x02155E44
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -1148,15 +1148,15 @@ EnemyPirate__State_2155E44: // 0x02155E44
 	bic r2, r2, #0x10
 	str r2, [r4, #0x20]
 	bl GameObject__SetAnimation
-	ldr r0, _02155E7C // =EnemyPirate__State_2155E80
+	ldr r0, _02155E7C // =EnemyRobot__State_2155E80
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155E7C: .word EnemyPirate__State_2155E80
-	arm_func_end EnemyPirate__State_2155E44
+_02155E7C: .word EnemyRobot__State_2155E80
+	arm_func_end EnemyRobot__State_2155E44
 
-	arm_func_start EnemyPirate__State_2155E80
-EnemyPirate__State_2155E80: // 0x02155E80
+	arm_func_start EnemyRobot__State_2155E80
+EnemyRobot__State_2155E80: // 0x02155E80
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -1253,10 +1253,10 @@ _02155FD0:
 	blx r1
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end EnemyPirate__State_2155E80
+	arm_func_end EnemyRobot__State_2155E80
 
-	arm_func_start EnemyPirate__OnDefend_Hurtbox
-EnemyPirate__OnDefend_Hurtbox: // 0x02155FF0
+	arm_func_start EnemyRobot__OnDefend_Hurtbox
+EnemyRobot__OnDefend_Hurtbox: // 0x02155FF0
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -1294,10 +1294,10 @@ _02156038:
 	str r5, [r4, #0x48]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end EnemyPirate__OnDefend_Hurtbox
+	arm_func_end EnemyRobot__OnDefend_Hurtbox
 
-	arm_func_start EnemyPirate__OnDefend_Detector
-EnemyPirate__OnDefend_Detector: // 0x02156080
+	arm_func_start EnemyRobot__OnDefend_Detector
+EnemyRobot__OnDefend_Detector: // 0x02156080
 	stmdb sp!, {r3, lr}
 	ldr ip, [r1, #0x1c]
 	ldr r2, [r0, #0x1c]
@@ -1323,10 +1323,10 @@ EnemyPirate__OnDefend_Detector: // 0x02156080
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021560DC: .word _02188B48
-	arm_func_end EnemyPirate__OnDefend_Detector
+	arm_func_end EnemyRobot__OnDefend_Detector
 
-	arm_func_start EnemyPirate__OnDefend_TutorialEnemy
-EnemyPirate__OnDefend_TutorialEnemy: // 0x021560E0
+	arm_func_start EnemyRobot__OnDefend_TutorialEnemy
+EnemyRobot__OnDefend_TutorialEnemy: // 0x021560E0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -1335,10 +1335,10 @@ EnemyPirate__OnDefend_TutorialEnemy: // 0x021560E0
 	mov r1, r4
 	bl GameObject__OnDefend_Enemy
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end EnemyPirate__OnDefend_TutorialEnemy
+	arm_func_end EnemyRobot__OnDefend_TutorialEnemy
 
-	arm_func_start EnemyPirate__Func_2156100
-EnemyPirate__Func_2156100: // 0x02156100
+	arm_func_start EnemyRobot__Func_2156100
+EnemyRobot__Func_2156100: // 0x02156100
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -1377,7 +1377,7 @@ _02156164:
 	bl CreateManagedSfx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end EnemyPirate__Func_2156100
+	arm_func_end EnemyRobot__Func_2156100
 
 	.rodata
 

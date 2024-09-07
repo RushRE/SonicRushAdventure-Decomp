@@ -8,6 +8,8 @@
 
 // Object Includes
 #include <stage/player/playerSpawn.h>
+
+// Gimmicks
 #include <stage/objects/startPlatform.h>
 #include <stage/objects/itembox.h>
 #include <stage/objects/checkpoint.h>
@@ -37,7 +39,22 @@
 #include <stage/objects/breakable.h>
 #include <stage/objects/breakableWall.h>
 #include <stage/objects/platform.h>
-#include <stage/enemies/enemyGlider.h>
+
+// Enemies
+#include <stage/enemies/robot.h>
+#include <stage/enemies/protJet.h>
+#include <stage/enemies/angler.h>
+#include <stage/enemies/crab.h>
+#include <stage/enemies/ghost.h>
+#include <stage/enemies/snowflakeHead.h>
+#include <stage/enemies/snowball.h>
+#include <stage/enemies/glider.h>
+#include <stage/enemies/pirate.h>
+#include <stage/enemies/fireSkull.h>
+#include <stage/enemies/divebat.h>
+#include <stage/enemies/skymoon.h>
+
+// Bosses
 #include <stage/boss/boss1.h>
 
 // --------------------
@@ -45,17 +62,6 @@
 // --------------------
 
 // Objects that aren't decompiled yet
-NOT_DECOMPILED GameObjectTask *EnemyPirate__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyProtJet__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyAngler__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyCrab__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyGhost__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemySnowflakeHead__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemySnowball__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyParts__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyFireSkull__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyDiveBat__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemySkymoon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *BossFStage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss7Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss6Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -188,16 +194,6 @@ NOT_DECOMPILED GameObjectTask *TimerShutterWater__Create(MapObject *mapObject, f
 NOT_DECOMPILED GameObjectTask *SpringRopeSpring__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *SpringRopeBase__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Balloon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyAnglerShot__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyGhostBomb__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemySnowballShot__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyBazookaParts__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyHogunParts__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyBombParts__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemySkeletonParts__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyHoverBomb__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemyHoverGun__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *EnemySkymoonLaser__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 
 NOT_DECOMPILED EventManagerStaticVars EventManager__sVars;
 
@@ -546,11 +542,11 @@ const CreateDecorationFunc stageDecorationSpawnList[MAPDECOR_COUNT] = {
 
 const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     // Stage Enemies
-    [MAPOBJECT_0]   = (CreateObjectFunc)EnemyPirate__Create,
-    [MAPOBJECT_1]   = (CreateObjectFunc)EnemyPirate__Create,
-    [MAPOBJECT_2]   = (CreateObjectFunc)EnemyPirate__Create,
-    [MAPOBJECT_3]   = (CreateObjectFunc)EnemyPirate__Create,
-    [MAPOBJECT_4]   = (CreateObjectFunc)EnemyPirate__Create,
+    [MAPOBJECT_0]   = (CreateObjectFunc)EnemyRobot__Create,
+    [MAPOBJECT_1]   = (CreateObjectFunc)EnemyRobot__Create,
+    [MAPOBJECT_2]   = (CreateObjectFunc)EnemyRobot__Create,
+    [MAPOBJECT_3]   = (CreateObjectFunc)EnemyRobot__Create,
+    [MAPOBJECT_4]   = (CreateObjectFunc)EnemyRobot__Create,
     [MAPOBJECT_5]   = (CreateObjectFunc)EnemyProtJet__Create,
     [MAPOBJECT_6]   = (CreateObjectFunc)EnemyAngler__Create,
     [MAPOBJECT_7]   = (CreateObjectFunc)EnemyAngler__Create,
@@ -559,14 +555,14 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_10]  = (CreateObjectFunc)EnemySnowflakeHead__Create,
     [MAPOBJECT_11]  = (CreateObjectFunc)EnemySnowball__Create,
     [MAPOBJECT_12]  = (CreateObjectFunc)CreateEnemyGlider,
-    [MAPOBJECT_13]  = (CreateObjectFunc)EnemyParts__Create,
-    [MAPOBJECT_14]  = (CreateObjectFunc)EnemyParts__Create,
-    [MAPOBJECT_15]  = (CreateObjectFunc)EnemyParts__Create,
-    [MAPOBJECT_16]  = (CreateObjectFunc)EnemyParts__Create,
-    [MAPOBJECT_17]  = (CreateObjectFunc)EnemyParts__Create,
-    [MAPOBJECT_18]  = (CreateObjectFunc)EnemyParts__Create,
-    [MAPOBJECT_19]  = (CreateObjectFunc)EnemyParts__Create,
-    [MAPOBJECT_20]  = (CreateObjectFunc)EnemyFireSkull__Create,
+    [MAPOBJECT_13]  = (CreateObjectFunc)EnemyPirate__Create,
+    [MAPOBJECT_14]  = (CreateObjectFunc)EnemyPirate__Create,
+    [MAPOBJECT_15]  = (CreateObjectFunc)EnemyPirate__Create,
+    [MAPOBJECT_16]  = (CreateObjectFunc)EnemyPirate__Create,
+    [MAPOBJECT_17]  = (CreateObjectFunc)EnemyPirate__Create,
+    [MAPOBJECT_18]  = (CreateObjectFunc)EnemyPirate__Create,
+    [MAPOBJECT_19]  = (CreateObjectFunc)EnemyPirate__Create,
+    [MAPOBJECT_20]  = (CreateObjectFunc)CreateEnemyFireSkull,
     [MAPOBJECT_21]  = (CreateObjectFunc)EnemyDiveBat__Create,
     [MAPOBJECT_22]  = (CreateObjectFunc)NULL,
     [MAPOBJECT_23]  = (CreateObjectFunc)EnemySkymoon__Create,
@@ -892,12 +888,12 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_339] = (CreateObjectFunc)EnemyAnglerShot__Create,
     [MAPOBJECT_340] = (CreateObjectFunc)EnemyGhostBomb__Create,
     [MAPOBJECT_341] = (CreateObjectFunc)EnemySnowballShot__Create,
-    [MAPOBJECT_342] = (CreateObjectFunc)EnemyBazookaParts__Create,
-    [MAPOBJECT_343] = (CreateObjectFunc)EnemyHogunParts__Create,
-    [MAPOBJECT_344] = (CreateObjectFunc)EnemyBombParts__Create,
-    [MAPOBJECT_345] = (CreateObjectFunc)EnemySkeletonParts__Create,
-    [MAPOBJECT_346] = (CreateObjectFunc)EnemyHoverBomb__Create,
-    [MAPOBJECT_347] = (CreateObjectFunc)EnemyHoverGun__Create,
+    [MAPOBJECT_342] = (CreateObjectFunc)EnemyBazookaPirateShot__Create,
+    [MAPOBJECT_343] = (CreateObjectFunc)EnemyBallChainPirateBall__Create,
+    [MAPOBJECT_344] = (CreateObjectFunc)EnemyBombPirateBomb__Create,
+    [MAPOBJECT_345] = (CreateObjectFunc)EnemySkeletonPirateBone__Create,
+    [MAPOBJECT_346] = (CreateObjectFunc)EnemyHoverBomberPirateBomb__Create,
+    [MAPOBJECT_347] = (CreateObjectFunc)EnemyHoverGunnerPirateShot__Create,
     [MAPOBJECT_348] = (CreateObjectFunc)EnemyDiveBat__Create,
     [MAPOBJECT_349] = (CreateObjectFunc)EnemySkymoonLaser__Create,
 };
