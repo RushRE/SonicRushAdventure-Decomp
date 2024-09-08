@@ -478,8 +478,8 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     FontAnimator__LoadPaletteFunc2(&work->fontAnimator);
     FontUnknown2058D78__LoadPalette2(&work->fontUnknown);
 
-    MI_CpuCopy8(((16 * sizeof(GXRgb)) * palette1) + VRAM_OBJ_PLTT, &ObjDraw__Palette2[16 * palette1], 16 * sizeof(GXRgb));
-    MI_CpuCopy8(((16 * sizeof(GXRgb)) * palette1) + VRAM_OBJ_PLTT, &ObjDraw__Palette1[16 * palette1], 16 * sizeof(GXRgb));
+    MI_CpuCopy8(((16 * sizeof(GXRgb)) * palette1) + VRAM_OBJ_PLTT, &objDrawPalette2[16 * palette1], 16 * sizeof(GXRgb));
+    MI_CpuCopy8(((16 * sizeof(GXRgb)) * palette1) + VRAM_OBJ_PLTT, &objDrawPalette1[16 * palette1], 16 * sizeof(GXRgb));
     FontAnimator__SetCallback(&work->fontAnimator, TutorialFontCallback, work);
     FontAnimator__SetMsgSequence(&work->fontAnimator, TUTORIAL_MSGSEQ_INTRO);
 
@@ -562,12 +562,12 @@ void Tutorial_Destructor(Task *task)
         aniIcon++;
     }
 
-    ObjDrawFunc_2075028(127);
+    ObjDrawReleaseSprite(127);
     ObjAction2dBACRelease(&sVars.nextPromptFile, &work->aniNextPrompt);
 
     for (i = 0; i < 3; ++i)
     {
-        ObjDrawFunc_2075028(90);
+        ObjDrawReleaseSprite(90);
         ObjAction2dBACRelease(&sVars.buttonPromptFile, &work->aniKeys[i]);
     }
 
@@ -577,8 +577,8 @@ void Tutorial_Destructor(Task *task)
     FontWindowAnimator__Release(&work->fontWindowAnimator[0]);
     FontWindowAnimator__Release(&work->fontWindowAnimator[1]);
 
-    ObjDrawFunc_2075028(122);
-    ObjDrawFunc_2075028(123);
+    ObjDrawReleaseSprite(122);
+    ObjDrawReleaseSprite(123);
     FontWindow__Release(&work->fontWindow);
 
     if (sVars.fontFile != NULL)
@@ -882,7 +882,7 @@ void Tutorial_StateTalk_ShowWindowForIntro(Tutorial *work)
         else
         {
             work->sectionID = TUTORIAL_SECTION_INTRO_RETRY;
-            ObjDrawFunc_2075028(124);
+            ObjDrawReleaseSprite(124);
 
             Tutorial_Action_ActivateCheckpoint(work, 0, FX32_FROM_WHOLE(work->gameWork.mapObjectParam_nextSectionWidth << 6),
                                                FX32_FROM_WHOLE(work->gameWork.mapObjectParam_promptPosX << 3),
@@ -1000,7 +1000,7 @@ void Tutorial_StateTalk_PracticeSelection(Tutorial *work)
         work->field_D08--;
         if (work->field_D08 == 0)
         {
-            ObjDrawFunc_2075028(124);
+            ObjDrawReleaseSprite(124);
             work->flags &= ~TUTORIAL_FLAG_HAS_DIALOG_CHOICE;
 
             switch (work->selection)
@@ -1242,7 +1242,7 @@ void Tutorial_StateTalk_FinishedSection_ShowCharacter(Tutorial *work)
 NONMATCH_FUNC void Tutorial_StateTalk_Talking(Tutorial *work)
 {
     // https://decomp.me/scratch/IFETd -> 98.08%
-    // 't'ouchInput.pull' is being loaded before 'work->aniNextPrompt.position[0]' in 'CheckAdvancePress'
+    // 'touchInput.pull' is being loaded before 'work->aniNextPrompt.position[0]' in 'CheckAdvancePress'
 #ifdef NON_MATCHING
     if (FontAnimator__IsEndOfLine(&work->fontAnimator))
     {
@@ -2203,12 +2203,12 @@ void TutorialFontCallback(u32 id, FontAnimator *animator, void *userData)
 
         if (work->gameWork.objWork.obj_2d->ani.work.animID == TUTORIALCHARACTER_ANI_SONIC && anim != TUTORIALCHARACTER_ANI_SONIC)
         {
-            ObjDrawFunc_2075028(126);
+            ObjDrawReleaseSprite(126);
             ObjActionAllocSpritePalette(&work->gameWork.objWork, anim, 125);
         }
         else if (work->gameWork.animator.ani.work.animID != TUTORIALCHARACTER_ANI_SONIC && anim == TUTORIALCHARACTER_ANI_SONIC)
         {
-            ObjDrawFunc_2075028(125);
+            ObjDrawReleaseSprite(125);
             ObjActionAllocSpritePalette(&work->gameWork.objWork, anim, 126);
         }
 

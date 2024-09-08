@@ -229,10 +229,10 @@ void ObjAction2dBACLoad(AnimatorSpriteDS *work, const char *path, u16 gfxSize, O
         if (gfxSize == OBJ_DATA_GFX_AUTO)
             gfxSize = getSpriteGfxSize[g_obj.spriteMode](fileData);
 
-        if ((work->screensToDraw & 1) == 0)
+        if ((work->screensToDraw & SCREEN_DRAW_A) == 0)
             vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, gfxSize);
 
-        if ((work->screensToDraw & 2) == 0)
+        if ((work->screensToDraw & SCREEN_DRAW_B) == 0)
             vramPixelsB = VRAMSystem__AllocSpriteVram(TRUE, gfxSize);
     }
 
@@ -271,7 +271,7 @@ void ObjActionAllocSpritePalette(StageTask *work, u16 animID, s16 flags)
     work->obj_2d->ani.cParam[1].palette = paletteRow;
     work->obj_2d->ani.work.palette      = paletteRow;
 
-    if ((flags & 0x800) != 0)
+    if ((flags & OBJDRAW_SPRITE_FLAG_USE_ENGINE_B) != 0)
         work->flag |= STAGE_TASK_FLAG_ALLOCATED_SPRITE_PALETTE;
 
     work->obj_2d->ani.work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;

@@ -2624,7 +2624,7 @@ void BossGaugeHUD_Destructor(BossGaugeHUD *work)
 {
     if (work->loaded && work->visible)
     {
-        ObjDrawFunc_2075028(0x75);
+        ObjDrawReleaseSprite(117);
         for (s32 i = 0; i < 13; i++)
         {
             VRAMSystem__FreeSpriteVram(FALSE, work->vramPixels[i]);

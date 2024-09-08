@@ -516,13 +516,13 @@ SailJetRaceCheckpointIconHUD__Create: // 0x02188740
 	mov r1, #2
 	bl StageTask__SetAnimation
 	ldr r0, _021888BC // =0x0000040A
-	bl ObjDrawFunc_2075704
+	bl ObjDrawGetPaletteForID
 	b _0218882C
 _0218881C:
 	mov r1, #3
 	bl StageTask__SetAnimation
 	ldr r0, _021888C0 // =0x0000040B
-	bl ObjDrawFunc_2075704
+	bl ObjDrawGetPaletteForID
 _0218882C:
 	mov r4, r0
 	mov r0, r5
@@ -1237,7 +1237,7 @@ _021891B0:
 	mov r0, #0x5e
 	strh r0, [r4, #0xa]
 	ldr r0, _02189468 // =0x00000801
-	bl ObjDrawFunc_2075704
+	bl ObjDrawGetPaletteForID
 	add r1, sl, #6
 	mov r2, #0x20
 	bl MIi_CpuCopy16
@@ -1252,7 +1252,7 @@ _021891B0:
 	mov r1, r1, lsr #0x10
 	bl ObjDraw__TintSprite
 	ldr r0, _02189468 // =0x00000801
-	bl ObjDrawFunc_2075704
+	bl ObjDrawGetPaletteForID
 	add r1, sl, #0x26
 	mov r2, #0x20
 	bl MIi_CpuCopy16
@@ -1301,7 +1301,7 @@ _021892C4:
 	strh r1, [sb, #8]
 	mov r1, #0x37
 	strh r1, [sb, #0xa]
-	bl ObjDrawFunc_2075704
+	bl ObjDrawGetPaletteForID
 	add r1, r4, r6, lsl #5
 	mov r2, #0x20
 	bl MIi_CpuCopy16
@@ -1967,11 +1967,11 @@ _02189C24:
 	mov r7, #0x2b
 	add r0, r7, #0x3e0
 	mov r6, r1, lsr #0x10
-	bl ObjDrawFunc_2075704
+	bl ObjDrawGetPaletteForID
 	b _02189C64
 _02189C5C:
 	ldr r0, _02189D28 // =0x0000040A
-	bl ObjDrawFunc_2075704
+	bl ObjDrawGetPaletteForID
 _02189C64:
 	mov r8, r0
 	cmp r8, #0

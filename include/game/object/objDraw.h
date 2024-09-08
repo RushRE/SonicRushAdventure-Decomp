@@ -4,6 +4,20 @@
 #include <global.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum ObjDrawSpriteFlags
+{
+    OBJDRAW_SPRITE_FLAG_USE_ENGINE_A = 0x400,
+    OBJDRAW_SPRITE_FLAG_USE_ENGINE_B = 0x800,
+    OBJDRAW_SPRITE_FLAG_1000         = 0x1000,
+    OBJDRAW_SPRITE_FLAG_2000         = 0x2000,
+    OBJDRAW_SPRITE_FLAG_4000         = 0x4000,
+    OBJDRAW_SPRITE_FLAG_8000         = 0x8000,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -18,18 +32,18 @@ typedef struct PaletteTexture_
 // VARIABLES
 // --------------------
 
-extern GXRgb ObjDraw__Palette1[0x100];
-extern GXRgb ObjDraw__Palette2[0x100];
+extern GXRgb objDrawPalette1[0x100];
+extern GXRgb objDrawPalette2[0x100];
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
 void ObjDrawInit(void);
-void ObjDrawFunc_2074F94(void);
-void ObjDrawFunc_2074FB0(u8 a1, u8 a2);
-void ObjDrawReleaseSpritePalette(u8 a1);
-void ObjDrawFunc_2075028(u8 a1);
+void ObjDrawInitRows(void);
+void ObjDrawSetManagedRows(u8 managedRowStart, u8 managedRowEnd);
+void ObjDrawReleaseSpritePalette(u8 row);
+u8 ObjDrawReleaseSprite(u8 a1);
 u8 ObjDrawAllocSpritePalette(void *fileData, u16 animID, s16 flags);
 void ObjDraw__TintSprite(void *fileData, u16 animID, u8 row, BOOL useEngineB);
 GXRgb ObjDraw__TintColor(GXRgb inputColor, s16 iR, s16 iG, s16 iB);
@@ -38,10 +52,10 @@ void ObjDraw__TintPaletteColors(u32 row, u32 start, u32 end, s16 iR, s16 iG, s16
 void ObjDraw__PaletteTex__Init(NNSG3dResFileHeader *fileData, PaletteTexture *paletteTex);
 void ObjDraw__PaletteTex__Release(PaletteTexture *paletteTex);
 void ObjDraw__PaletteTex__Process(PaletteTexture *paletteTex, s16 iR, s16 iG, s16 iB);
-void ObjDrawFunc_207568C(s32 a1);
-void ObjDrawFunc_2075704(s32 a1);
-void ObjDraw__GetHWPaletteRow(u32 a1);
+u8 ObjDrawGetRowForID(u8 id);
+GXRgb *ObjDrawGetPaletteForID(u8 id);
+GXRgb *ObjDraw__GetHWPaletteRow(u8 id);
 void ObjDraw__ChangeColors(GXRgb *colorDst, GXRgb *colorSrc1, GXRgb *colorSrc2, s32 count, u16 tint);
-void ObjDraw__TintColorArray(GXRgb *colorDst, GXRgb *colorSrc, s16 iR, s16 iG, s16 iB, u16 count);
+void ObjDraw__TintColorArray(GXRgb *colorDst, GXRgb *colorSrc, s16 iR, s16 iG, s16 iB, s16 count);
 
 #endif // RUSH2_OBJ_DRAW_H

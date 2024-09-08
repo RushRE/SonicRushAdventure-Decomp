@@ -76,7 +76,7 @@ void InitSailingSysEvent(void)
 
     RenderCore_SetTargetVBlankCount(1);
     CreateObjectManager();
-    ObjDrawFunc_2074FB0(2, 16);
+    ObjDrawSetManagedRows(2, 16);
 
     AllocObjectFileWork(121);
     g_obj.flag |= OBJECTMANAGER_FLAG_40 | OBJECTMANAGER_FLAG_20000;

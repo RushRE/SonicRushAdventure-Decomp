@@ -1994,7 +1994,7 @@ _0202D5D4:
 	cmp r6, #0
 	beq _0202D600
 	ldr r0, [r4, #0x128]
-	ldr r3, =ObjDraw__Palette2
+	ldr r3, =objDrawPalette2
 	ldrh r2, [r0, #0x90]
 	add r0, r4, #0x218
 	mov r1, #0

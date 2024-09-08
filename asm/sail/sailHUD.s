@@ -7479,9 +7479,9 @@ _02174C74:
 	cmp r7, #0x64
 	blo _02174C4C
 	ldr r0, _02174C9C // =0x0000040A
-	bl ObjDrawFunc_2075028
+	bl ObjDrawReleaseSprite
 	ldr r0, _02174CA0 // =0x0000040B
-	bl ObjDrawFunc_2075028
+	bl ObjDrawReleaseSprite
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
 	.align 2, 0
 _02174C9C: .word 0x0000040A
@@ -10745,7 +10745,7 @@ SailHUD__Func_2177C10: // 0x02177C10
 	str r0, [sp, #0x24]
 	beq _02177C48
 	ldr r0, _02177E08 // =0x00000406
-	bl ObjDrawFunc_207568C
+	bl ObjDrawGetRowForID
 	str r0, [sp, #0x1c]
 _02177C48:
 	ldrh r0, [sp, #0x54]
@@ -10799,7 +10799,7 @@ _02177CD0:
 	str r0, [sp, #0x24]
 	beq _02177D10
 	ldr r0, [sp, #8]
-	bl ObjDrawFunc_207568C
+	bl ObjDrawGetRowForID
 	strh r0, [r4, #0x50]
 _02177D10:
 	ldr r0, [sp, #0x14]
@@ -10823,7 +10823,7 @@ _02177D10:
 	str r0, [sp, #0x20]
 	beq _02177D6C
 	ldr r0, [sp, #8]
-	bl ObjDrawFunc_207568C
+	bl ObjDrawGetRowForID
 	strh r0, [r6, #0x50]
 _02177D6C:
 	ldr r0, [sp, #0x20]
@@ -10843,7 +10843,7 @@ _02177D94:
 	cmp sl, #0
 	beq _02177DB4
 	ldr r0, [sp, #8]
-	bl ObjDrawFunc_207568C
+	bl ObjDrawGetRowForID
 	strh r0, [r7, #0x50]
 _02177DB4:
 	add r0, r4, r8

@@ -6,410 +6,205 @@
 #include <game/system/allocator.h>
 
 // --------------------
+// STRUCTS
+// --------------------
+
+struct ObjDrawManager
+{
+    s8 managedRowStart;
+    s8 managedRowEnd;
+};
+
+typedef struct ObjDrawPaletteRow_
+{
+    s16 flags;
+    s16 refCount;
+} ObjDrawPaletteRow;
+
+// --------------------
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED void *ObjDrawValue_21399A8;
-NOT_DECOMPILED u32 ObjDrawValue_21399AA[32];
-NOT_DECOMPILED GXRgb ObjDraw__Palette1[0x100];
-NOT_DECOMPILED GXRgb ObjDraw__Palette2[0x100];
+static struct ObjDrawManager objDrawManager;
+static ObjDrawPaletteRow objDrawPaletteRow[32];
+
+GXRgb objDrawPalette1[0x100];
+GXRgb objDrawPalette2[0x100];
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC void ObjDrawInit(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r3, =ObjDrawValue_21399A8
-	mov r1, #0
-	ldr r0, =ObjDraw__Palette2
-	strb r1, [r3]
-	mov ip, #0xf
-	mov r2, #0x200
-	strb ip, [r3, #1]
-	bl MI_CpuFill8
-	ldr r0, =ObjDraw__Palette1
-	mov r1, #0
-	mov r2, #0x200
-	bl MI_CpuFill8
-	bl ObjDrawFunc_2074F94
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ObjDrawFunc_2074F94(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =MI_CpuFill8
-	ldr r0, =ObjDrawValue_21399AA
-	mov r1, #0
-	mov r2, #0x80
-	bx ip
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ObjDrawFunc_2074FB0(u8 a1, u8 a2){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r2, =ObjDrawValue_21399A8
-	strb r0, [r2]
-	strb r1, [r2, #1]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ObjDrawReleaseSpritePalette(u8 a1){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r1, =ObjDrawValue_21399A8
-	and r3, r0, #0xf
-	ldrsb r2, [r1]
-	cmp r3, r2
-	bxlt lr
-	ldrsb r1, [r1, #1]
-	cmp r3, r1
-	bxge lr
-	ldr r2, =0x021399AC
-	mov r3, r0, lsl #2
-	ldrsh r1, [r2, r3]
-	cmp r1, #0
-	subne r1, r1, #1
-	strneh r1, [r2, r3]
-	ldr r1, =0x021399AC
-	mov r2, r0, lsl #2
-	ldrsh r0, [r1, r2]
-	cmp r0, #0
-	ldreq r0, =ObjDrawValue_21399AA
-	moveq r1, #0
-	streqh r1, [r0, r2]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ObjDrawFunc_2075028(u8 a1){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	cmp r0, #0x800
-	blt _020750B0
-	ldr r1, =ObjDrawValue_21399A8
-	ldrsb r2, [r1]
-	ldrsb r1, [r1, #1]
-	add r2, r2, #0x10
-	mov r2, r2, lsl #0x18
-	add r1, r1, #0x10
-	mov r4, r2, asr #0x18
-	cmp r1, r2, asr #24
-	ldmleia sp!, {r4, pc}
-	ldr lr, =ObjDrawValue_21399AA
-	mov r3, #0
-_02075060:
-	mov ip, r4, lsl #2
-	ldrsh r2, [lr, ip]
-	cmp r0, r2
-	bne _02075098
-	add ip, lr, ip
-	ldrsh r2, [ip, #2]
-	cmp r2, #0
-	subne r2, r2, #1
-	strneh r2, [ip, #2]
-	add r2, lr, r4, lsl #2
-	ldrsh r2, [r2, #2]
-	mov ip, r4, lsl #2
-	cmp r2, #0
-	streqh r3, [lr, ip]
-_02075098:
-	add r2, r4, #1
-	mov r2, r2, lsl #0x18
-	cmp r1, r2, asr #24
-	mov r4, r2, asr #0x18
-	bgt _02075060
-	ldmia sp!, {r4, pc}
-_020750B0:
-	ldr r1, =ObjDrawValue_21399A8
-	ldrsb r4, [r1]
-	ldrsb lr, [r1, #1]
-	cmp r4, lr
-	ldmgeia sp!, {r4, pc}
-	ldr ip, =ObjDrawValue_21399AA
-	mov r2, #0
-_020750CC:
-	mov r3, r4, lsl #2
-	ldrsh r1, [ip, r3]
-	cmp r0, r1
-	bne _02075104
-	add r3, ip, r3
-	ldrsh r1, [r3, #2]
-	cmp r1, #0
-	subne r1, r1, #1
-	strneh r1, [r3, #2]
-	add r1, ip, r4, lsl #2
-	ldrsh r1, [r1, #2]
-	mov r3, r4, lsl #2
-	cmp r1, #0
-	streqh r2, [ip, r3]
-_02075104:
-	add r1, r4, #1
-	mov r1, r1, lsl #0x18
-	cmp lr, r1, asr #24
-	mov r4, r1, asr #0x18
-	bgt _020750CC
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC u8 ObjDrawAllocSpritePalette(void *fileData, u16 animID, s16 flags){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r3, =ObjDrawValue_21399A8
-	mov r5, r2
-	mov r7, r0
-	mov r6, r1
-	ands r1, r5, #0xc00
-	ldrsb r4, [r3]
-	ldrsb r0, [r3, #1]
-	beq _02075168
-	tst r5, #0x800
-	beq _02075168
-	add r3, r4, #0x10
-	add r2, r0, #0x10
-	mov r0, r3, lsl #0x18
-	mov r2, r2, lsl #0x18
-	mov r4, r0, asr #0x18
-	mov r0, r2, asr #0x18
-_02075168:
-	tst r5, #0xf000
-	bne _020751BC
-	mov lr, r4
-	cmp r4, r0
-	bge _020751BC
-	ldr r3, =ObjDrawValue_21399AA
-_02075180:
-	mov ip, lr, lsl #2
-	ldrsh r2, [r3, ip]
-	cmp r5, r2
-	bne _020751A8
-	ldr r2, =0x021399AC
-	and r0, lr, #0xf
-	ldrsh r1, [r2, ip]
-	add r1, r1, #1
-	strh r1, [r2, ip]
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_020751A8:
-	add r2, lr, #1
-	mov r2, r2, lsl #0x18
-	cmp r0, r2, asr #24
-	mov lr, r2, asr #0x18
-	bgt _02075180
-_020751BC:
-	cmp r4, r0
-	bge _02075204
-	ldr r3, =ObjDrawValue_21399AA
-_020751C8:
-	add r2, r3, r4, lsl #2
-	ldrsh r2, [r2, #2]
-	mov ip, r4, lsl #2
-	cmp r2, #0
-	bne _020751F0
-	ldr r3, =0x021399AC
-	ldrsh r2, [r3, ip]
-	add r2, r2, #1
-	strh r2, [r3, ip]
-	b _02075204
-_020751F0:
-	add r2, r4, #1
-	mov r2, r2, lsl #0x18
-	cmp r0, r2, asr #24
-	mov r4, r2, asr #0x18
-	bgt _020751C8
-_02075204:
-	cmp r4, r0
-	subge r0, r4, #1
-	andge r0, r0, #0xf
-	ldmgeia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r0, =ObjDrawValue_21399AA
-	mov r2, r4, lsl #2
-	strh r5, [r0, r2]
-	cmp r1, #0
-	beq _02075268
-	tst r5, #0x400
-	beq _02075244
-	mov r0, r7
-	mov r1, r6
-	and r2, r4, #0xff
-	mov r3, #0
-	bl ObjDraw__TintSprite
-_02075244:
-	tst r5, #0x800
-	beq _02075294
-	sub r2, r4, #0x10
-	mov r0, r7
-	mov r1, r6
-	and r2, r2, #0xff
-	mov r3, #1
-	bl ObjDraw__TintSprite
-	b _02075294
-_02075268:
-	and r5, r4, #0xff
-	mov r0, r7
-	mov r1, r6
-	mov r2, r5
-	mov r3, #0
-	bl ObjDraw__TintSprite
-	mov r0, r7
-	mov r1, r6
-	mov r2, r5
-	mov r3, #1
-	bl ObjDraw__TintSprite
-_02075294:
-	and r0, r4, #0xf
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void ObjDraw__TintSprite(void *fileData, u16 animID, u8 row, BOOL useEngineB)
+void ObjDrawInit(void)
 {
-    // https://decomp.me/scratch/mBUVT -> 85.64%
-#ifdef NON_MATCHING
-    AnimatorSprite animator;
+    objDrawManager.managedRowStart = 0;
+    objDrawManager.managedRowEnd   = 15;
 
-    if (!useEngineB)
+    MI_CpuClear8(objDrawPalette2, sizeof(objDrawPalette2));
+    MI_CpuClear8(objDrawPalette1, sizeof(objDrawPalette1));
+
+    ObjDrawInitRows();
+}
+
+void ObjDrawInitRows(void)
+{
+    MI_CpuClear8(objDrawPaletteRow, sizeof(objDrawPaletteRow));
+}
+
+void ObjDrawSetManagedRows(u8 managedRowStart, u8 managedRowEnd)
+{
+    objDrawManager.managedRowStart = managedRowStart;
+    objDrawManager.managedRowEnd   = managedRowEnd;
+}
+
+void ObjDrawReleaseSpritePalette(u8 row)
+{
+    if ((row & 0xF) >= objDrawManager.managedRowStart && (row & 0xF) < objDrawManager.managedRowEnd)
     {
-        AnimatorSprite__Init(&animator, fileData, animID, ANIMATOR_FLAG_UNCOMPRESSED_PALETTES, 0, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0,
-                             SPRITE_ORDER_0);
+        if (objDrawPaletteRow[row].refCount != 0)
+            objDrawPaletteRow[row].refCount--;
+
+        if (objDrawPaletteRow[row].refCount == 0)
+            objDrawPaletteRow[row].flags = 0;
+    }
+}
+
+u8 ObjDrawReleaseSprite(u8 id)
+{
+    if (id >= OBJDRAW_SPRITE_FLAG_USE_ENGINE_B)
+    {
+        for (s8 r = objDrawManager.managedRowStart + 16; r < objDrawManager.managedRowEnd + 16; r++)
+        {
+            if (id == objDrawPaletteRow[r].flags)
+            {
+                if (objDrawPaletteRow[r].refCount != 0)
+                    objDrawPaletteRow[r].refCount--;
+
+                if (objDrawPaletteRow[r].refCount == 0)
+                    objDrawPaletteRow[r].flags = 0;
+            }
+        }
     }
     else
     {
-        AnimatorSprite__Init(&animator, fileData, animID, ANIMATOR_FLAG_UNCOMPRESSED_PALETTES, 1, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0,
-                             SPRITE_ORDER_0);
+        for (s8 r = objDrawManager.managedRowStart; r < objDrawManager.managedRowEnd; r++)
+        {
+            if (id == objDrawPaletteRow[r].flags)
+            {
+                if (objDrawPaletteRow[r].refCount != 0)
+                    objDrawPaletteRow[r].refCount--;
+
+                if (objDrawPaletteRow[r].refCount == 0)
+                    objDrawPaletteRow[r].flags = 0;
+            }
+        }
     }
+
+    return id;
+}
+
+u8 ObjDrawAllocSpritePalette(void *fileData, u16 animID, s16 flags)
+{
+    s8 managedRowStart = objDrawManager.managedRowStart;
+    s8 managedRowEnd   = objDrawManager.managedRowEnd;
+    if ((flags & (OBJDRAW_SPRITE_FLAG_USE_ENGINE_B | OBJDRAW_SPRITE_FLAG_USE_ENGINE_A)) != 0 && (flags & OBJDRAW_SPRITE_FLAG_USE_ENGINE_B) != 0)
+    {
+        managedRowStart += 16;
+        managedRowEnd += 16;
+    }
+
+    if ((flags & (OBJDRAW_SPRITE_FLAG_4000 | OBJDRAW_SPRITE_FLAG_2000 | OBJDRAW_SPRITE_FLAG_1000 | OBJDRAW_SPRITE_FLAG_8000)) == 0)
+    {
+		// check if id has already been allocated and return that row if so
+        for (s8 i = managedRowStart; i < managedRowEnd; i++)
+        {
+            if (objDrawPaletteRow[i].flags == flags)
+            {
+                objDrawPaletteRow[i].refCount++;
+                return i & 0xF;
+            }
+        }
+    }
+
+	// try to allocate a new palette row!
+    s8 r = managedRowStart;
+    for (; r < managedRowEnd; r++)
+    {
+        if (objDrawPaletteRow[r].refCount == 0)
+        {
+            objDrawPaletteRow[r].refCount++;
+            break;
+        }
+    }
+
+    if (r >= managedRowEnd)
+    {
+		// use the last row as a failsafe if a row can't be allocated
+        return (r - 1) & 0xF;
+    }
+    else
+    {
+		// initialize palette row!
+        objDrawPaletteRow[r].flags = flags;
+
+        if ((flags & (OBJDRAW_SPRITE_FLAG_USE_ENGINE_B | OBJDRAW_SPRITE_FLAG_USE_ENGINE_A)) != 0)
+        {
+            if ((flags & OBJDRAW_SPRITE_FLAG_USE_ENGINE_A) != 0)
+                ObjDraw__TintSprite(fileData, animID, r, FALSE);
+
+            if ((flags & OBJDRAW_SPRITE_FLAG_USE_ENGINE_B) != 0)
+                ObjDraw__TintSprite(fileData, animID, r - 16, TRUE);
+        }
+        else
+        {
+            u8 row = r;
+            ObjDraw__TintSprite(fileData, animID, row, FALSE);
+            ObjDraw__TintSprite(fileData, animID, row, TRUE);
+        }
+
+        return r & 0xF;
+    }
+}
+
+void ObjDraw__TintSprite(void *fileData, u16 animID, u8 row, BOOL useEngineB)
+{
+    AnimatorSprite animator;
+
+    if (useEngineB == FALSE)
+    {
+        AnimatorSprite__Init(&animator, fileData, animID, ANIMATOR_FLAG_UNCOMPRESSED_PALETTES, FALSE, PIXEL_MODE_SPRITE, NULL, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
+                             SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+    }
+    else
+    {
+        AnimatorSprite__Init(&animator, fileData, animID, ANIMATOR_FLAG_UNCOMPRESSED_PALETTES, TRUE, PIXEL_MODE_SPRITE, NULL, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
+                             SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+    }
+
     animator.palette = row & 0xF;
     animator.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
     AnimatorSprite__ProcessAnimationFast(&animator);
 
-    MI_CpuCopy8(&((GXRgb *)animator.vramPalette)[16 * animator.palette], &ObjDraw__Palette2[16 * animator.palette], 0x10 * sizeof(GXRgb));
+    row &= 0xF;
+    s32 c = row * 16;
 
-    s32 start = (16 * (row & 0xF));
-    s32 end = start + 1;
-    for (s32 c = start; c < end; c++)
+    MI_CpuCopy8(&((GXRgb *)animator.vramPalette)[16 * animator.palette], &objDrawPalette2[c], 0x10 * sizeof(GXRgb));
+
+    for (; c < ((row + 1) * 16); c++)
     {
-        ObjDraw__Palette1[c] = ObjDraw__TintColor(ObjDraw__Palette2[c], 0xFFF6, 0xFFFF, 0x0000);
+        objDrawPalette1[c] = ObjDraw__TintColor(objDrawPalette2[c], -10, -1, 0);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #0x80
-	cmp r3, #0
-	mov r7, r0
-	mov r6, r1
-	mov r4, r2
-	mov r5, #0
-	mov r3, #0x40
-	bne _02075300
-	str r5, [sp]
-	str r5, [sp, #4]
-	str r5, [sp, #8]
-	ldr r0, =0x05000200
-	str r5, [sp, #0xc]
-	str r0, [sp, #0x10]
-	str r5, [sp, #0x14]
-	add r0, sp, #0x1c
-	mov r1, r7
-	mov r2, r6
-	str r5, [sp, #0x18]
-	bl AnimatorSprite__Init
-	b _02075334
-_02075300:
-	mov r0, #1
-	str r0, [sp]
-	str r5, [sp, #4]
-	str r5, [sp, #8]
-	ldr r0, =0x05000600
-	str r5, [sp, #0xc]
-	str r0, [sp, #0x10]
-	str r5, [sp, #0x14]
-	add r0, sp, #0x1c
-	mov r1, r7
-	mov r2, r6
-	str r5, [sp, #0x18]
-	bl AnimatorSprite__Init
-_02075334:
-	ldr r0, [sp, #0x58]
-	and r5, r4, #0xf
-	orr r3, r0, #8
-	mov r1, #0
-	add r0, sp, #0x1c
-	mov r2, r1
-	strh r5, [sp, #0x6c]
-	str r3, [sp, #0x58]
-	bl AnimatorSprite__ProcessAnimation
-	and r4, r4, #0xf
-	ldrh r0, [sp, #0x6c]
-	ldr r2, [sp, #0x68]
-	ldr r1, =ObjDraw__Palette2
-	mov r5, r4, lsl #4
-	add r0, r2, r0, lsl #5
-	add r1, r1, r5, lsl #1
-	mov r2, #0x20
-	bl MI_CpuCopy8
-	add r4, r4, #1
-	cmp r5, r4, lsl #4
-	addge sp, sp, #0x80
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	ldr r9, =ObjDraw__Palette2
-	ldr r6, =ObjDraw__Palette1
-	mvn r8, #9
-	mov r7, #0
-_0207539C:
-	mov r0, r5, lsl #1
-	ldrh r0, [r9, r0]
-	mov r1, r8
-	mov r3, r7
-	add r2, r8, #9
-	bl ObjDraw__TintColor
-	mov r1, r5, lsl #1
-	add r5, r5, #1
-	strh r0, [r6, r1]
-	cmp r5, r4, lsl #4
-	blt _0207539C
-	add sp, sp, #0x80
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC GXRgb ObjDraw__TintColor(GXRgb inputColor, s16 iR, s16 iG, s16 iB)
 {
+    // https://decomp.me/scratch/fJd4a -> 79.70%
 #ifdef NON_MATCHING
+    s16 r = iR + ((inputColor & GX_RGB_R_MASK) >> GX_RGB_R_SHIFT);
+    s16 g = iG + ((inputColor & GX_RGB_G_MASK) >> GX_RGB_G_SHIFT);
+    s16 b = iB + ((inputColor & GX_RGB_B_MASK) >> GX_RGB_B_SHIFT);
 
+    return GX_RGB(MATH_CLAMP(r, 0, 31), MATH_CLAMP(g, 0, 31), MATH_CLAMP(b, 0, 31));
 #else
     // clang-format off
 	stmdb sp!, {r3, lr}
@@ -460,11 +255,11 @@ void ObjDraw__TintPaletteRow(u32 row, s16 iR, s16 iG, s16 iB)
 
 NONMATCH_FUNC void ObjDraw__TintPaletteColors(u32 row, u32 start, u32 end, s16 iR, s16 iG, s16 iB)
 {
-    // https://decomp.me/scratch/kL4Iw -> 83.33%
+    // https://decomp.me/scratch/kL4Iw -> 83.56%
 #ifdef NON_MATCHING
     u32 palettePos     = 16 * row;
-    GXRgb *palettePtr1 = &ObjDraw__Palette2[palettePos];
-    GXRgb *palettePtr2 = &ObjDraw__Palette1[palettePos];
+    GXRgb *palettePtr2 = &objDrawPalette1[palettePos];
+    GXRgb *palettePtr1 = &objDrawPalette2[palettePos];
 
     for (u32 c = start; c <= end; c++)
     {
@@ -472,17 +267,17 @@ NONMATCH_FUNC void ObjDraw__TintPaletteColors(u32 row, u32 start, u32 end, s16 i
     }
 
     if (row < 0x10)
-        QueueUncompressedPalette(palettePtr2, 16, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_OBJ_PLTT)[palettePos]));
+        Palette__QueuePalette(palettePtr2, 16, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_OBJ_PLTT)[palettePos]));
     else
-        QueueUncompressedPalette(palettePtr2, 16, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_DB_OBJ_PLTT)[palettePos]));
+        Palette__QueuePalette(palettePtr2, 16, PALETTE_MODE_SPRITE, VRAMKEY_TO_KEY(&((GXRgb *)VRAM_DB_OBJ_PLTT)[palettePos]));
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	str r0, [sp]
 	mov r0, r0
 	mov r11, r0, lsl #4
-	ldr r4, =ObjDraw__Palette2
-	ldr r0, =ObjDraw__Palette1
+	ldr r4, =objDrawPalette2
+	ldr r0, =objDrawPalette1
 	add r5, r4, r11, lsl #1
 	mov r10, r1
 	mov r9, r2
@@ -607,56 +402,66 @@ void ObjDraw__PaletteTex__Process(PaletteTexture *paletteTex, s16 iR, s16 iG, s1
     }
 
     QueueUncompressedPalette(palettePtr1, NNS_G3dPlttGetRequiredSize(paletteTex->texture) >> 1, PALETTE_MODE_TEXTURE,
-                          VRAMKEY_TO_KEY(Asset3DSetup__GetTexPaletteLocation(paletteTex->texture, 0)));
+                             VRAMKEY_TO_KEY(Asset3DSetup__GetTexPaletteLocation(paletteTex->texture, 0)));
 }
 
-NONMATCH_FUNC void ObjDrawFunc_207568C(s32 a1){
-#ifdef NON_MATCHING
+u8 ObjDrawGetRowForID(u8 id)
+{
+    u16 managedRowStart = objDrawManager.managedRowStart;
+    u16 managedRowEnd   = objDrawManager.managedRowEnd;
+    if ((id & OBJDRAW_SPRITE_FLAG_USE_ENGINE_B) != 0)
+    {
+        managedRowStart += 16;
+        managedRowEnd += 16;
+    }
 
-#else
-    // clang-format off
-	ldr r1, =ObjDrawValue_21399A8
-	tst r0, #0x800
-	ldrsb r3, [r1]
-	ldrsb ip, [r1, #1]
-	beq _020756B8
-	add r1, r3, #0x10
-	add r2, ip, #0x10
-	mov r1, r1, lsl #0x10
-	mov r2, r2, lsl #0x10
-	mov r3, r1, lsr #0x10
-	mov ip, r2, lsr #0x10
-_020756B8:
-	mov r1, r3, lsl #0x10
-	cmp ip, r1, asr #16
-	mov r3, r1, asr #0x10
-	ble _020756F4
-	ldr r2, =ObjDrawValue_21399AA
-_020756CC:
-	mov r1, r3, lsl #2
-	ldrsh r1, [r2, r1]
-	cmp r0, r1
-	andeq r0, r3, #0xf
-	bxeq lr
-	add r1, r3, #1
-	mov r1, r1, lsl #0x10
-	cmp ip, r1, asr #16
-	mov r3, r1, asr #0x10
-	bgt _020756CC
-_020756F4:
-	mov r0, #0
-	bx lr
+    for (s16 i = managedRowStart; i < managedRowEnd; i++)
+    {
+        if (id == objDrawPaletteRow[i].flags)
+        {
+            return i & 0xF;
+        }
+    }
 
-// clang-format on
-#endif
+    return 0;
 }
 
-NONMATCH_FUNC void ObjDrawFunc_2075704(s32 a1){
+NONMATCH_FUNC GXRgb *ObjDrawGetPaletteForID(u8 id)
+{
+    // https://decomp.me/scratch/92sZN -> 58.93%
 #ifdef NON_MATCHING
+    u16 managedRowStart = objDrawManager.managedRowStart;
+    u16 managedRowEnd   = objDrawManager.managedRowEnd;
+    if ((id & OBJDRAW_SPRITE_FLAG_USE_ENGINE_B) != 0)
+    {
+        managedRowStart += 16;
+        managedRowEnd += 16;
+    }
 
+    s16 i = managedRowStart;
+    for (; i < managedRowEnd; i++)
+    {
+        if (id == objDrawPaletteRow[i].flags)
+        {
+            break;
+        }
+    }
+
+    if (i == managedRowEnd)
+        return NULL;
+
+    s8 row = (u8)(16 * i);
+    if (row < 16)
+    {
+        return &((GXRgb *)VRAM_OBJ_PLTT)[row];
+    }
+    else
+    {
+        return &((GXRgb *)VRAM_DB_OBJ_PLTT)[row];
+    }
 #else
     // clang-format off
-	ldr r1, =ObjDrawValue_21399A8
+	ldr r1, =objDrawManager
 	tst r0, #0x800
 	ldrsb r3, [r1]
 	ldrsb ip, [r1, #1]
@@ -672,7 +477,7 @@ _02075730:
 	cmp ip, r1, asr #16
 	mov r3, r1, asr #0x10
 	ble _02075768
-	ldr r2, =ObjDrawValue_21399AA
+	ldr r2, =objDrawPaletteRow
 _02075744:
 	mov r1, r3, lsl #2
 	ldrsh r1, [r2, r1]
@@ -705,9 +510,18 @@ _02075794:
 #endif
 }
 
-NONMATCH_FUNC void ObjDraw__GetHWPaletteRow(u32 a1){
+NONMATCH_FUNC GXRgb *ObjDraw__GetHWPaletteRow(u8 id)
+{
 #ifdef NON_MATCHING
-
+    u8 row = id << 4;
+    if (row >= 16)
+    {
+        return &((GXRgb *)VRAM_DB_OBJ_PLTT)[row];
+    }
+    else
+    {
+        return &((GXRgb *)VRAM_OBJ_PLTT)[row];
+    }
 #else
     // clang-format off
 	cmp r0, #0x10
@@ -727,7 +541,8 @@ NONMATCH_FUNC void ObjDraw__GetHWPaletteRow(u32 a1){
 #endif
 }
 
-NONMATCH_FUNC void ObjDraw__ChangeColors(GXRgb *colorDst, GXRgb *colorSrc1, GXRgb *colorSrc2, s32 count, u16 tint){
+NONMATCH_FUNC void ObjDraw__ChangeColors(GXRgb *colorDst, GXRgb *colorSrc1, GXRgb *colorSrc2, s32 count, u16 tint)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -798,38 +613,10 @@ _02075898:
 #endif
 }
 
-NONMATCH_FUNC void ObjDraw__TintColorArray(GXRgb *colorDst, GXRgb *colorSrc, s16 iR, s16 iG, s16 iB, u16 count)
+void ObjDraw__TintColorArray(GXRgb *colorDst, GXRgb *colorSrc, s16 iR, s16 iG, s16 iB, s16 count)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	ldrsh r5, [sp, #0x24]
-	ldr r6, [sp, #0x20]
-	mov r10, r0
-	mov r9, r1
-	mov r8, r2
-	mov r7, r3
-	mov r4, #0
-	cmp r5, #0
-	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-_020758E8:
-	mov r0, r4, lsl #1
-	ldrh r0, [r9, r0]
-	mov r1, r8
-	mov r2, r7
-	mov r3, r6
-	bl ObjDraw__TintColor
-	add r1, r4, #1
-	mov r2, r4, lsl #1
-	mov r1, r1, lsl #0x10
-	strh r0, [r10, r2]
-	cmp r5, r1, lsr #16
-	mov r4, r1, lsr #0x10
-	bgt _020758E8
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-
-// clang-format on
-#endif
+    for (u16 i = 0; i < count; i++)
+    {
+        colorDst[i] = ObjDraw__TintColor(colorSrc[i], iR, iG, iB);
+    }
 }

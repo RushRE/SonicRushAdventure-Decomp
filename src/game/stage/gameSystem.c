@@ -1762,7 +1762,7 @@ NONMATCH_FUNC void CreateGameSystem(void)
     if (IsBossStage())
         g_obj.flag |= OBJECTMANAGER_FLAG_80000;
 
-    ObjDrawFunc_2074FB0(3, 0x10);
+    ObjDrawSetManagedRows(3, 16);
     EventManager__Create();
     EventManager__CreateEventEnforce();
     MapSys__Create();
@@ -1992,7 +1992,7 @@ _02003FE8:
 _02004030:
 	mov r0, #3
 	mov r1, #0x10
-	bl ObjDrawFunc_2074FB0
+	bl ObjDrawSetManagedRows
 	bl EventManager__Create
 	bl EventManager__CreateEventEnforce
 	bl MapSys__Create

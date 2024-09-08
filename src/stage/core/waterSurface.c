@@ -1011,7 +1011,7 @@ void WaterSurface__ReleaseCommon(void)
     {
         AnimatorSprite__Release(&waterSurfaceWork->aniWaterSurface1[0]);
         AnimatorSprite__Release(&waterSurfaceWork->aniWaterSurface1[1]);
-        ObjDrawFunc_2075028(33);
+        ObjDrawReleaseSprite(33);
     }
 }
 
@@ -1302,7 +1302,7 @@ NONMATCH_FUNC void WaterSurface__CopyPalette(BOOL useEngineB){
 	mov r1, #0x400
 	add r0, r0, #0x10
 	bl DC_StoreRange
-	ldr r0, =ObjDraw__Palette2
+	ldr r0, =objDrawPalette2
 	mov r1, #0x200
 	bl DC_StoreRange
 	bl DC_WaitWriteBufferEmpty
@@ -1374,7 +1374,7 @@ _0200E4B4:
 	tst r0, #1
 	ldmeqia sp!, {r3, r4, r5, pc}
 	ldr r0, =_02118C40
-	ldr r2, =ObjDraw__Palette2
+	ldr r2, =objDrawPalette2
 	ldr r1, [r0, r5, lsl #2]
 	add r0, r2, #0x60
 	add r1, r1, #0x60
@@ -1400,7 +1400,7 @@ NONMATCH_FUNC void WaterSurface__CopyAltPalette(BOOL useEngineB)
 	add r0, r0, #0x410
 	bl DC_StoreRange
 	bl DC_WaitWriteBufferEmpty
-	ldr r0, =ObjDraw__Palette1
+	ldr r0, =objDrawPalette1
 	mov r1, #0x200
 	bl DC_StoreRange
 	ldr r0, =waterSurfaceWork
@@ -1472,7 +1472,7 @@ _0200E618:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	bl DC_WaitWriteBufferEmpty
 	ldr r0, =_02118C58
-	ldr r2, =ObjDraw__Palette1
+	ldr r2, =objDrawPalette1
 	ldr r1, [r0, r5, lsl #2]
 	add r0, r2, #0x60
 	add r1, r1, #0x60

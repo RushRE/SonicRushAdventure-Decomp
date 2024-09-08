@@ -788,7 +788,7 @@ _02161BF4:
 	mov r0, #0x20
 	bic r1, r1, #4
 	str r1, [r5, #0x20]
-	bl ObjDrawFunc_2075028
+	bl ObjDrawReleaseSprite
 	mov r0, r5
 	mov r1, #6
 	mov r2, #0x22
