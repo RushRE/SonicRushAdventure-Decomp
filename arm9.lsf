@@ -376,7 +376,6 @@ Overlay ZoneAct
     Object src/stage/enemies/crab.o
     Object asm/stage/objects/enemyGhost_vars.o
     Object src/stage/enemies/ghost.o
-    Object asm/stage/objects/enemySnowflakeHead_vars.o
     Object src/stage/enemies/snowflakeHead.o
     Object asm/stage/objects/enemySnowball_vars.o
     Object src/stage/enemies/snowball.o

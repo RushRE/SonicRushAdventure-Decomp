@@ -4,17 +4,31 @@
 #include <stage/gameObject.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum SnowflakeHeadType_
+{
+    SNOWFLAKEHEAD_TYPE_IDLE,
+    SNOWFLAKEHEAD_TYPE_MOVING_RIGHT,
+    SNOWFLAKEHEAD_TYPE_MOVING_LEFT,
+    SNOWFLAKEHEAD_TYPE_MOVING_UP,
+    SNOWFLAKEHEAD_TYPE_MOVING_DOWN,
+};
+typedef u8 SnowflakeHeadType;
+
+// --------------------
 // STRUCTS
 // --------------------
 
 typedef struct EnemySnowflakeHead_
 {
     GameObjectTask gameWork;
-    s32 dword364;
-    s32 yMin;
-    s32 dword36C;
-    s32 yMax;
-    u8 type;
+    fx32 xMin;
+    fx32 yMin;
+    fx32 xMax;
+    fx32 yMax;
+    SnowflakeHeadType type;
     s32 timer;
 } EnemySnowflakeHead;
 
@@ -22,13 +36,6 @@ typedef struct EnemySnowflakeHead_
 // FUNCTIONS
 // --------------------
 
-EnemySnowflakeHead *EnemySnowflakeHead__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-
-void EnemySnowflakeHead__Action_Init(EnemySnowflakeHead *work);
-void EnemySnowflakeHead__State_21583A0(EnemySnowflakeHead *work);
-void EnemySnowflakeHead__State_215841C(EnemySnowflakeHead *work);
-void EnemySnowflakeHead__State_2158494(EnemySnowflakeHead *work);
-void EnemySnowflakeHead__Func_21584AC(EnemySnowflakeHead *work);
-void EnemySnowflakeHead__State_2158540(EnemySnowflakeHead *work);
+EnemySnowflakeHead *CreateSnowflakeHead(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
 #endif // RUSH2_SNOWFLAKEHEAD_H

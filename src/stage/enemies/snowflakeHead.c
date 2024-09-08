@@ -4,385 +4,224 @@
 #include <game/object/objectManager.h>
 #include <game/audio/spatialAudio.h>
 
-NOT_DECOMPILED void *aActAcEneQHeadB;
+// --------------------
+// MAPOBJECT PARAMS
+// --------------------
+
+#define mapObjectParam_xMin   mapObject->left
+#define mapObjectParam_yMin   mapObject->top
+#define mapObjectParam_xRange mapObject->width
+#define mapObjectParam_yRange mapObject->height
+
+// --------------------
+// ENUMS
+// --------------------
+
+enum SnowflakeHeadObjectFlags
+{
+    SPRING_OBJFLAG_NONE,
+
+    SPRING_OBJFLAG_TYPE_MASK = 0x07,
+};
+
+enum SnowflakeHeadAnimID
+{
+    SNOWFLAKEHEAD_ANI_MOVING,
+    SNOWFLAKEHEAD_ANI_ATTACKING,
+};
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void EnemySnowflakeHead_Action_Init(EnemySnowflakeHead *work);
+static void EnemySnowflakeHead_State_Moving_H(EnemySnowflakeHead *work);
+static void EnemySnowflakeHead_State_Moving_V(EnemySnowflakeHead *work);
+static void EnemySnowflakeHead_State_Idle(EnemySnowflakeHead *work);
+static void EnemySnowflakeHead_HandleAttackTimer(EnemySnowflakeHead *work);
+static void EnemySnowflakeHead_State_Attacking(EnemySnowflakeHead *work);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC EnemySnowflakeHead *EnemySnowflakeHead__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+EnemySnowflakeHead *CreateSnowflakeHead(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    if (mapObject == NULL || (mapObject->x != MAPOBJECT_DESTROYED || mapObject->y != MAPOBJECT_DESTROYED))
+    {
+        if (gameState.difficulty == DIFFICULTY_EASY && (mapObject->flags & ENEMYCOMMON_OBJFLAG_DISABLED_ON_EASY) != 0)
+            return NULL;
+    }
 
-#else
-// clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	movs r7, r0
-	mov r6, r1
-	mov r5, r2
-	beq _02158130
-	ldrb r0, [r7]
-	cmp r0, #0xff
-	ldreqb r0, [r7, #1]
-	cmpeq r0, #0xff
-	beq _02158154
-_02158130:
-	ldr r0, =gameState
-	ldr r0, [r0, #0x18]
-	cmp r0, #0
-	bne _02158154
-	ldrh r0, [r7, #4]
-	tst r0, #0x80
-	addne sp, sp, #0xc
-	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, r7, pc}
-_02158154:
-	mov r0, #0x1500
-	mov r2, #0
-	str r0, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x37c
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x37c
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #0x100
-	str r0, [r4, #0x20]
-	ldrh r0, [r7, #4]
-	and r0, r0, #7
-	cmp r0, #4
-	addls pc, pc, r0, lsl #2
-	b _02158234
-_021581E8: // jump table
-	b _021581FC // case 0
-	b _02158208 // case 1
-	b _02158214 // case 2
-	b _02158220 // case 3
-	b _0215822C // case 4
-_021581FC:
-	mov r0, #0
-	strb r0, [r4, #0x374]
-	b _02158234
-_02158208:
-	mov r0, #1
-	strb r0, [r4, #0x374]
-	b _02158234
-_02158214:
-	mov r0, #2
-	strb r0, [r4, #0x374]
-	b _02158234
-_02158220:
-	mov r0, #3
-	strb r0, [r4, #0x374]
-	b _02158234
-_0215822C:
-	mov r0, #4
-	strb r0, [r4, #0x374]
-_02158234:
-	ldrb r0, [r4, #0x374]
-	cmp r0, #4
-	addls pc, pc, r0, lsl #2
-	b _021582A4
-_02158244: // jump table
-	b _021582A4 // case 0
-	b _02158258 // case 1
-	b _02158258 // case 2
-	b _02158280 // case 3
-	b _02158280 // case 4
-_02158258:
-	ldr r0, [r4, #0x340]
-	ldr r1, [r4, #0x44]
-	ldrsb r0, [r0, #6]
-	add r1, r1, r0, lsl #12
-	str r1, [r4, #0x364]
-	ldr r0, [r4, #0x340]
-	ldrb r0, [r0, #8]
-	add r0, r1, r0, lsl #12
-	str r0, [r4, #0x36c]
-	b _021582A4
-_02158280:
-	ldr r0, [r4, #0x340]
-	ldr r1, [r4, #0x48]
-	ldrsb r0, [r0, #7]
-	add r1, r1, r0, lsl #12
-	str r1, [r4, #0x368]
-	ldr r0, [r4, #0x340]
-	ldrb r0, [r0, #9]
-	add r0, r1, r0, lsl #12
-	str r0, [r4, #0x370]
-_021582A4:
-	mov r0, #0xc
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r0, [r1]
-	ldr r5, =0x0000FFFF
-	str r0, [sp]
-	ldr r2, =aActAcEneQHeadB
-	mov r0, r4
-	add r1, r4, #0x168
-	str r5, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x35
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	bl EnemySnowflakeHead__Action_Init
-	mov r0, r4
-	bl StageTask__InitSeqPlayer
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemySnowflakeHead);
+    if (task == HeapNull)
+        return NULL;
 
-// clang-format on
-#endif
+    EnemySnowflakeHead *work = TaskGetWork(task, EnemySnowflakeHead);
+    TaskInitWork8(work);
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+    switch (mapObject->flags & SPRING_OBJFLAG_TYPE_MASK)
+    {
+        case 0:
+            work->type = SNOWFLAKEHEAD_TYPE_IDLE;
+            break;
+
+        case 1:
+            work->type = SNOWFLAKEHEAD_TYPE_MOVING_RIGHT;
+            break;
+
+        case 2:
+            work->type = SNOWFLAKEHEAD_TYPE_MOVING_LEFT;
+            break;
+
+        case 3:
+            work->type = SNOWFLAKEHEAD_TYPE_MOVING_UP;
+            break;
+
+        case 4:
+            work->type = SNOWFLAKEHEAD_TYPE_MOVING_DOWN;
+            break;
+    }
+
+    switch (work->type)
+    {
+        case SNOWFLAKEHEAD_TYPE_MOVING_RIGHT:
+        case SNOWFLAKEHEAD_TYPE_MOVING_LEFT:
+            work->xMin = work->gameWork.objWork.position.x + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_xMin);
+            work->xMax = work->xMin + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_xRange);
+            break;
+
+        case SNOWFLAKEHEAD_TYPE_MOVING_UP:
+        case SNOWFLAKEHEAD_TYPE_MOVING_DOWN:
+            work->yMin = work->gameWork.objWork.position.y + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_yMin);
+            work->yMax = work->yMin + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_yRange);
+            break;
+    }
+	
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_q_head.bac", GetObjectDataWork(OBJDATAWORK_12), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 53);
+
+    EnemySnowflakeHead_Action_Init(work);
+
+    StageTask__InitSeqPlayer(&work->gameWork.objWork);
+
+    return work;
 }
 
-NONMATCH_FUNC void EnemySnowflakeHead__Action_Init(EnemySnowflakeHead *work)
+void EnemySnowflakeHead_Action_Init(EnemySnowflakeHead *work)
 {
-#ifdef NON_MATCHING
+    GameObject__SetAnimation(&work->gameWork, SNOWFLAKEHEAD_ANI_MOVING);
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r1, #0
-	bl GameObject__SetAnimation
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #4
-	str r0, [r4, #0x20]
-	ldrb r0, [r4, #0x374]
-	cmp r0, #4
-	addls pc, pc, r0, lsl #2
-	ldmia sp!, {r4, pc}
-_0215835C: // jump table
-	b _02158370 // case 0
-	b _0215837C // case 1
-	b _0215837C // case 2
-	b _02158388 // case 3
-	b _02158388 // case 4
-_02158370:
-	ldr r0, =EnemySnowflakeHead__State_2158494
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
-_0215837C:
-	ldr r0, =EnemySnowflakeHead__State_21583A0
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
-_02158388:
-	ldr r0, =EnemySnowflakeHead__State_215841C
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
+    switch (work->type)
+    {
+        case SNOWFLAKEHEAD_TYPE_IDLE:
+            SetTaskState(&work->gameWork.objWork, EnemySnowflakeHead_State_Idle);
+            break;
 
-// clang-format on
-#endif
+        case SNOWFLAKEHEAD_TYPE_MOVING_RIGHT:
+        case SNOWFLAKEHEAD_TYPE_MOVING_LEFT:
+            SetTaskState(&work->gameWork.objWork, EnemySnowflakeHead_State_Moving_H);
+            break;
+
+        case SNOWFLAKEHEAD_TYPE_MOVING_UP:
+        case SNOWFLAKEHEAD_TYPE_MOVING_DOWN:
+            SetTaskState(&work->gameWork.objWork, EnemySnowflakeHead_State_Moving_V);
+            break;
+    }
 }
 
-NONMATCH_FUNC void EnemySnowflakeHead__State_21583A0(EnemySnowflakeHead *work)
+void EnemySnowflakeHead_State_Moving_H(EnemySnowflakeHead *work)
 {
-#ifdef NON_MATCHING
+    if (work->gameWork.objWork.position.x < work->xMin)
+    {
+        work->gameWork.objWork.position.x = work->xMin;
+        work->type                        = SNOWFLAKEHEAD_TYPE_MOVING_RIGHT;
+    }
+    else if (work->gameWork.objWork.position.x > work->xMax)
+    {
+        work->gameWork.objWork.position.x = work->xMax;
+        work->type                        = SNOWFLAKEHEAD_TYPE_MOVING_LEFT;
+    }
 
-#else
-// clang-format off
-	ldr r1, [r0, #0x364]
-	ldr r2, [r0, #0x44]
-	cmp r2, r1
-	bge _021583C0
-	str r1, [r0, #0x44]
-	mov r1, #1
-	strb r1, [r0, #0x374]
-	b _021583D4
-_021583C0:
-	ldr r1, [r0, #0x36c]
-	cmp r2, r1
-	strgt r1, [r0, #0x44]
-	movgt r1, #2
-	strgtb r1, [r0, #0x374]
-_021583D4:
-	ldrb r1, [r0, #0x374]
-	cmp r1, #1
-	bne _021583F4
-	mov r1, #0xc00
-	str r1, [r0, #0x98]
-	mov r1, #0
-	str r1, [r0, #0x9c]
-	b _02158410
-_021583F4:
-	cmp r1, #2
-	bne _02158410
-	mov r1, #0xc00
-	rsb r1, r1, #0
-	str r1, [r0, #0x98]
-	mov r1, #0
-	str r1, [r0, #0x9c]
-_02158410:
-	ldr ip, =EnemySnowflakeHead__Func_21584AC
-	bx ip
+    if (work->type == SNOWFLAKEHEAD_TYPE_MOVING_RIGHT)
+    {
+        work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.75);
+        work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
+    }
+    else if (work->type == SNOWFLAKEHEAD_TYPE_MOVING_LEFT)
+    {
+        work->gameWork.objWork.velocity.x = -FLOAT_TO_FX32(0.75);
+        work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
+    }
 
-// clang-format on
-#endif
+    EnemySnowflakeHead_HandleAttackTimer(work);
 }
 
-NONMATCH_FUNC void EnemySnowflakeHead__State_215841C(EnemySnowflakeHead *work)
+void EnemySnowflakeHead_State_Moving_V(EnemySnowflakeHead *work)
 {
-#ifdef NON_MATCHING
+    if (work->gameWork.objWork.position.y < work->yMin)
+    {
+        work->gameWork.objWork.position.y = work->yMin;
+        work->type                        = SNOWFLAKEHEAD_TYPE_MOVING_DOWN;
+    }
+    else if (work->gameWork.objWork.position.y > work->yMax)
+    {
+        work->gameWork.objWork.position.y = work->yMax;
+        work->type                        = SNOWFLAKEHEAD_TYPE_MOVING_UP;
+    }
 
-#else
-// clang-format off
-	ldr r1, [r0, #0x368]
-	ldr r2, [r0, #0x48]
-	cmp r2, r1
-	bge _0215843C
-	str r1, [r0, #0x48]
-	mov r1, #4
-	strb r1, [r0, #0x374]
-	b _02158450
-_0215843C:
-	ldr r1, [r0, #0x370]
-	cmp r2, r1
-	strgt r1, [r0, #0x48]
-	movgt r1, #3
-	strgtb r1, [r0, #0x374]
-_02158450:
-	ldrb r1, [r0, #0x374]
-	cmp r1, #3
-	bne _02158470
-	mov r1, #0
-	str r1, [r0, #0x98]
-	sub r1, r1, #0xc00
-	str r1, [r0, #0x9c]
-	b _02158488
-_02158470:
-	cmp r1, #4
-	bne _02158488
-	mov r1, #0
-	str r1, [r0, #0x98]
-	mov r1, #0xc00
-	str r1, [r0, #0x9c]
-_02158488:
-	ldr ip, =EnemySnowflakeHead__Func_21584AC
-	bx ip
+    if (work->type == SNOWFLAKEHEAD_TYPE_MOVING_UP)
+    {
+        work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
+        work->gameWork.objWork.velocity.y = -FLOAT_TO_FX32(0.75);
+    }
+    else if (work->type == SNOWFLAKEHEAD_TYPE_MOVING_DOWN)
+    {
+        work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
+        work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.75);
+    }
 
-// clang-format on
-#endif
+    EnemySnowflakeHead_HandleAttackTimer(work);
 }
 
-NONMATCH_FUNC void EnemySnowflakeHead__State_2158494(EnemySnowflakeHead *work)
+void EnemySnowflakeHead_State_Idle(EnemySnowflakeHead *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
+    work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
 
-#else
-// clang-format off
-	mov r1, #0
-	str r1, [r0, #0x98]
-	ldr ip, =EnemySnowflakeHead__Func_21584AC
-	str r1, [r0, #0x9c]
-	bx ip
-
-// clang-format on
-#endif
+    EnemySnowflakeHead_HandleAttackTimer(work);
 }
 
-NONMATCH_FUNC void EnemySnowflakeHead__Func_21584AC(EnemySnowflakeHead *work)
+void EnemySnowflakeHead_HandleAttackTimer(EnemySnowflakeHead *work)
 {
-#ifdef NON_MATCHING
+    work->timer++;
+    if (work->timer > 120)
+    {
+        work->timer = 0;
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r0, [r4, #0x378]
-	add r0, r0, #1
-	cmp r0, #0x78
-	addle sp, sp, #8
-	str r0, [r4, #0x378]
-	ldmleia sp!, {r4, pc}
-	mov r1, #0
-	str r1, [r4, #0x378]
-	mov r0, #0x7d
-	str r1, [sp]
-	sub r1, r0, #0x7e
-	str r0, [sp, #4]
-	ldr r0, [r4, #0x138]
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	ldr r0, [r4, #0x138]
-	add r1, r4, #0x44
-	bl ProcessSpatialSfx
-	mov r0, #0
-	str r0, [r4, #0x98]
-	ldr r2, =EnemySnowflakeHead__State_2158540
-	str r0, [r4, #0x9c]
-	mov r0, r4
-	mov r1, #1
-	str r2, [r4, #0xf4]
-	bl GameObject__SetAnimation
-	add r0, r4, #0x218
-	mov r1, #1
-	mov r2, #0x41
-	bl ObjRect__SetDefenceStat
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+        PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_CRYSTAL_HEAD);
+        ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
 
-// clang-format on
-#endif
+        work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
+        work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
+
+        SetTaskState(&work->gameWork.objWork, EnemySnowflakeHead_State_Attacking);
+
+        GameObject__SetAnimation(&work->gameWork, SNOWFLAKEHEAD_ANI_ATTACKING);
+        ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x41);
+    }
 }
 
-NONMATCH_FUNC void EnemySnowflakeHead__State_2158540(EnemySnowflakeHead *work)
+void EnemySnowflakeHead_State_Attacking(EnemySnowflakeHead *work)
 {
-#ifdef NON_MATCHING
+    if (work->gameWork.animator.ani.work.animFrameIndex == 18)
+        ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0x3F);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r0, r4, #0x100
-	ldrh r0, [r0, #0x76]
-	cmp r0, #0x12
-	bne _02158568
-	add r0, r4, #0x218
-	mov r1, #1
-	mov r2, #0x3f
-	bl ObjRect__SetDefenceStat
-_02158568:
-	ldr r0, [r4, #0x20]
-	tst r0, #8
-	ldmeqia sp!, {r4, pc}
-	mov r0, r4
-	bl EnemySnowflakeHead__Action_Init
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+        EnemySnowflakeHead_Action_Init(work);
 }
