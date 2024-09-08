@@ -2,11 +2,11 @@ name: build
 
 on: workflow_dispatch
 
-# on:
-#   push:
-#     branches: [ master ]
-#   pull_request:
-#   workflow_dispatch:
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+  workflow_dispatch:
 
 env:
   LM_LICENSE_FILE: "$GITHUB_WORKSPACE/tools/mwccarm/license.dat"
