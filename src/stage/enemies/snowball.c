@@ -1,10 +1,23 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/enemies/snowball.h>
+#include <game/game/gameState.h>
+#include <game/stage/gameSystem.h>
+#include <game/object/objectManager.h>
+#include <game/audio/spatialAudio.h>
+#include <stage/effects/found.h>
+#include <stage/effects/explosion.h>
 
-	arm_func_start EnemySnowball__Create
-EnemySnowball__Create: // 0x02158580
+NOT_DECOMPILED void *aActAcEneSnowba;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC EnemySnowball *EnemySnowball__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	movs r7, r0
@@ -17,7 +30,7 @@ EnemySnowball__Create: // 0x02158580
 	cmpeq r0, #0xff
 	beq _021585D0
 _021585AC:
-	ldr r0, _021586D4 // =gameState
+	ldr r0, =gameState
 	ldr r0, [r0, #0x18]
 	cmp r0, #0
 	bne _021585D0
@@ -33,8 +46,8 @@ _021585D0:
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x3c4
-	ldr r0, _021586D8 // =StageTask_Main
-	ldr r1, _021586DC // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -66,14 +79,14 @@ _021585D0:
 	mov r0, #0xd
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _021586E0 // =gameArchiveStage
-	ldr r1, _021586E4 // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _021586E8 // =aActAcEneSnowba
+	ldr r2, =aActAcEneSnowba
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
 	mov r1, #0x17
@@ -92,17 +105,17 @@ _021585D0:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_021586D4: .word gameState
-_021586D8: .word StageTask_Main
-_021586DC: .word GameObject__Destructor
-_021586E0: .word gameArchiveStage
-_021586E4: .word 0x0000FFFF
-_021586E8: .word aActAcEneSnowba
-	arm_func_end EnemySnowball__Create
 
-	arm_func_start EnemySnowballShot__Create
-EnemySnowballShot__Create: // 0x021586EC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC EnemySnowballShot *EnemySnowballShot__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1500
@@ -114,8 +127,8 @@ EnemySnowballShot__Create: // 0x021586EC
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _0215882C // =StageTask_Main
-	ldr r1, _02158830 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -153,13 +166,13 @@ EnemySnowballShot__Create: // 0x021586EC
 	mov r0, #0xd
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02158834 // =gameArchiveStage
-	ldr r1, _02158838 // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
-	ldr r2, _0215883C // =aActAcEneSnowba
+	ldr r2, =aActAcEneSnowba
 	add r1, r4, #0x168
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
@@ -176,24 +189,24 @@ EnemySnowballShot__Create: // 0x021586EC
 	mov r1, #5
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02158840 // =EnemySnowballShot__State_2158D24
+	ldr r0, =EnemySnowballShot__State_2158D24
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_0215882C: .word StageTask_Main
-_02158830: .word GameObject__Destructor
-_02158834: .word gameArchiveStage
-_02158838: .word 0x0000FFFF
-_0215883C: .word aActAcEneSnowba
-_02158840: .word EnemySnowballShot__State_2158D24
-	arm_func_end EnemySnowballShot__Create
 
-	arm_func_start EnemySnowball__Func_2158844
-EnemySnowball__Func_2158844: // 0x02158844
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowball__Func_2158844(EnemySnowball *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r1, [r0, #0x340]
 	ldr r2, [r0, #0x44]
 	ldrsb r1, [r1, #6]
@@ -204,10 +217,17 @@ EnemySnowball__Func_2158844: // 0x02158844
 	add r1, r2, r1, lsl #12
 	str r1, [r0, #0x3b0]
 	bx lr
-	arm_func_end EnemySnowball__Func_2158844
 
-	arm_func_start EnemySnowball__Func_215886C
-EnemySnowball__Func_215886C: // 0x0215886C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowball__Func_215886C(EnemySnowball *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -237,32 +257,34 @@ EnemySnowball__Func_215886C: // 0x0215886C
 	mov r2, r1
 	add r0, r4, #0x364
 	bl ObjRect__SetAttackStat
-	ldr r1, _02158924 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x364
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02158928 // =0x00000102
+	ldr r1, =0x00000102
 	add r0, r4, #0x300
 	strh r1, [r0, #0x98]
 	ldr r1, [r4, #0x37c]
-	ldr r0, _0215892C // =EnemySnowball__Func_2158B60
+	ldr r0, =EnemySnowball__Func_2158B60
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x388]
-	ldr r0, _02158930 // =EnemySnowballShot__OnDefend_2158AC4
+	ldr r0, =EnemySnowballShot__OnDefend_2158AC4
 	str r4, [r4, #0x380]
 	str r0, [r4, #0x23c]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_02158924: .word 0x0000FFFE
-_02158928: .word 0x00000102
-_0215892C: .word EnemySnowball__Func_2158B60
-_02158930: .word EnemySnowballShot__OnDefend_2158AC4
-	arm_func_end EnemySnowball__Func_215886C
 
-	arm_func_start EnemySnowballShot__Func_2158934
-EnemySnowballShot__Func_2158934: // 0x02158934
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowballShot__Func_2158934(EnemySnowballShot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	mov r1, #1
 	strb r1, [r0, #0x3a4]
 	ldr r1, [r0, #0x20]
@@ -277,10 +299,17 @@ EnemySnowballShot__Func_2158934: // 0x02158934
 	ldr r1, [r0, #0x3c0]
 	str r1, [r0, #0x23c]
 	bx lr
-	arm_func_end EnemySnowballShot__Func_2158934
 
-	arm_func_start EnemySnowballShot__Func_215896C
-EnemySnowballShot__Func_215896C: // 0x0215896C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowballShot__Func_215896C(EnemySnowballShot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrb r1, [r4, #0x3a4]
@@ -289,7 +318,7 @@ EnemySnowballShot__Func_215896C: // 0x0215896C
 	mov r1, #0
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _021589D4 // =EnemySnowballShot__State_21589DC
+	ldr r0, =EnemySnowballShot__State_21589DC
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -300,7 +329,7 @@ _021589A0:
 	mov r1, #4
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _021589D8 // =EnemySnowballShot__State_2158A14
+	ldr r0, =EnemySnowballShot__State_2158A14
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -309,13 +338,17 @@ _021589C4:
 	bic r0, r0, #1
 	str r0, [r4, #0x354]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021589D4: .word EnemySnowballShot__State_21589DC
-_021589D8: .word EnemySnowballShot__State_2158A14
-	arm_func_end EnemySnowballShot__Func_215896C
 
-	arm_func_start EnemySnowballShot__State_21589DC
-EnemySnowballShot__State_21589DC: // 0x021589DC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowballShot__State_21589DC(EnemySnowballShot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r1, [r0, #0x28]
 	add r1, r1, #1
 	str r1, [r0, #0x28]
@@ -327,15 +360,20 @@ EnemySnowballShot__State_21589DC: // 0x021589DC
 	str r2, [r0, #0x37c]
 	str r1, [r0, #0x28]
 _02158A04:
-	ldr ip, _02158A10 // =StageTask__HandleCollider
+	ldr ip, =StageTask__HandleCollider
 	add r1, r0, #0x364
 	bx ip
-	.align 2, 0
-_02158A10: .word StageTask__HandleCollider
-	arm_func_end EnemySnowballShot__State_21589DC
 
-	arm_func_start EnemySnowballShot__State_2158A14
-EnemySnowballShot__State_2158A14: // 0x02158A14
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowballShot__State_2158A14(EnemySnowballShot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r1, [r0, #0x20]
 	tst r1, #1
 	mov r1, #0xc00
@@ -382,10 +420,17 @@ _02158A98:
 	eor r1, r1, #1
 	str r1, [r0, #0x20]
 	bx lr
-	arm_func_end EnemySnowballShot__State_2158A14
 
-	arm_func_start EnemySnowballShot__OnDefend_2158AC4
-EnemySnowballShot__OnDefend_2158AC4: // 0x02158AC4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowballShot__OnDefend_2158AC4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r2, #3
@@ -408,16 +453,21 @@ EnemySnowballShot__OnDefend_2158AC4: // 0x02158AC4
 	mov r0, r4
 	mov r1, #2
 	bl GameObject__SetAnimation
-	ldr r0, _02158B2C // =EnemySnowballShot__State_2158B30
+	ldr r0, =EnemySnowballShot__State_2158B30
 	str r0, [r4, #0xf4]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02158B2C: .word EnemySnowballShot__State_2158B30
-	arm_func_end EnemySnowballShot__OnDefend_2158AC4
 
-	arm_func_start EnemySnowballShot__State_2158B30
-EnemySnowballShot__State_2158B30: // 0x02158B30
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowballShot__State_2158B30(EnemySnowballShot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x20]
@@ -430,28 +480,40 @@ EnemySnowballShot__State_2158B30: // 0x02158B30
 	mov r0, r4
 	bl EnemySnowballShot__Func_215896C
 	ldmia sp!, {r4, pc}
-	arm_func_end EnemySnowballShot__State_2158B30
 
-	arm_func_start EnemySnowball__Func_2158B60
-EnemySnowball__Func_2158B60: // 0x02158B60
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowball__Func_2158B60(EnemySnowball *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	mov r1, #0
 	mov r0, r4
 	sub r2, r1, #0x35000
 	bl CreateEffectFound
-	ldr r1, _02158B90 // =EnemySnowball__Func_2158B94
+	ldr r1, =EnemySnowball__Func_2158B94
 	mov r0, #0
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0x28]
 	str r0, [r4, #0x2c]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02158B90: .word EnemySnowball__Func_2158B94
-	arm_func_end EnemySnowball__Func_2158B60
 
-	arm_func_start EnemySnowball__Func_2158B94
-EnemySnowball__Func_2158B94: // 0x02158B94
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowball__Func_2158B94(EnemySnowball *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -532,7 +594,7 @@ _02158C0C:
 	addne r1, r0, #0x4000
 	ldr r2, [r4, #0x48]
 	subeq r1, r0, #0x4000
-	ldr r0, _02158D20 // =0x00000155
+	ldr r0, =0x00000155
 	sub r2, r2, #0x18000
 	bl GameObject__SpawnObject
 	mov r2, #0
@@ -553,12 +615,17 @@ _02158D00:
 	bl EnemySnowballShot__Func_215896C
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_02158D20: .word 0x00000155
-	arm_func_end EnemySnowball__Func_2158B94
 
-	arm_func_start EnemySnowballShot__State_2158D24
-EnemySnowballShot__State_2158D24: // 0x02158D24
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowballShot__State_2158D24(EnemySnowballShot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x1c]
 	tst r1, #0xf
@@ -571,10 +638,7 @@ EnemySnowballShot__State_2158D24: // 0x02158D24
 	str ip, [r0, #0x18]
 	bl CreateEffectExplosion
 	ldmia sp!, {r3, pc}
-	arm_func_end EnemySnowballShot__State_2158D24
 
-	.data
-	
-aActAcEneSnowba: // 0x02188C70
-	.asciz "/act/ac_ene_snowball.bac"
-	.align 4
+// clang-format on
+#endif
+}

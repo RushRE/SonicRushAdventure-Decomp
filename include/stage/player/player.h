@@ -757,7 +757,7 @@ void Player__Gimmick_WaterRun(Player *player);
 void Player__State_WaterRun(Player *work);
 void Player__Action_SteamFan(Player *player, GameObjectTask *other, s32 a3);
 void Player__State_SteamFan(Player *work);
-void Player__Action_PopSteam(Player *player, GameObjectTask *other, s32 a3, s32 a4, s32 a5, u32 a6);
+void Player__Action_PopSteam(Player *player, GameObjectTask *other, fx32 velX, fx32 velY, s32 a5, u32 a6);
 void Player__State_PopSteam(Player *work);
 void Player__Action_DreamWing(Player *player, GameObjectTask *other, fx32 velX, fx32 velY, s32 a5);
 void Player__State_DreamWing(Player *work);

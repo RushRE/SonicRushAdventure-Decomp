@@ -18,6 +18,6 @@ typedef struct EnemyGlider_
 // FUNCTIONS
 // --------------------
 
-EnemyGlider *CreateEnemyGlider(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+EnemyGlider *CreateGlider(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
 #endif // RUSH2_GLIDER_H

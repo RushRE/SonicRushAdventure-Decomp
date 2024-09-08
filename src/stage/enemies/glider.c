@@ -39,7 +39,7 @@ static void EnemyGlider_State_Gliding(EnemyGlider *work);
 // FUNCTIONS
 // --------------------
 
-EnemyGlider *CreateEnemyGlider(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+EnemyGlider *CreateGlider(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
     if (mapObject == NULL || (mapObject->x != MAPOBJECT_DESTROYED || mapObject->y != MAPOBJECT_DESTROYED))
     {

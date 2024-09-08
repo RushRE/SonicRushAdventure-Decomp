@@ -1,10 +1,24 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/enemies/angler.h>
+#include <game/game/gameState.h>
+#include <game/stage/gameSystem.h>
+#include <game/object/objectManager.h>
+#include <game/audio/spatialAudio.h>
+#include <stage/effects/explosion.h>
 
-	arm_func_start EnemyAngler__Create
-EnemyAngler__Create: // 0x021565D0
+
+NOT_DECOMPILED void *_02188C08;
+NOT_DECOMPILED void *aActAcEneAngler;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC EnemyAngler *EnemyAngler__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	movs r7, r0
@@ -17,7 +31,7 @@ EnemyAngler__Create: // 0x021565D0
 	cmpeq r0, #0xff
 	beq _02156620
 _021565FC:
-	ldr r0, _02156840 // =gameState
+	ldr r0, =gameState
 	ldr r0, [r0, #0x18]
 	cmp r0, #0
 	bne _02156620
@@ -33,8 +47,8 @@ _02156620:
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x3c8
-	ldr r0, _02156844 // =StageTask_Main
-	ldr r1, _02156848 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -89,15 +103,15 @@ _021566AC:
 	mov r2, r1
 	add r0, r4, #0x364
 	bl ObjRect__SetAttackStat
-	ldr r1, _0215684C // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x364
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02156850 // =0x00000102
+	ldr r1, =0x00000102
 	add r0, r4, #0x300
 	strh r1, [r0, #0x98]
 	ldr r1, [r4, #0x37c]
-	ldr r0, _02156854 // =EnemyAngler__OnDefend
+	ldr r0, =EnemyAngler__OnDefend
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x388]
@@ -122,10 +136,10 @@ _0215674C:
 _02156788:
 	mov r0, #9
 	bl GetObjectFileWork
-	ldr r1, _02156858 // =gameArchiveStage
-	ldr r2, _0215685C // =0x0000FFFF
+	ldr r1, =gameArchiveStage
+	ldr r2, =0x0000FFFF
 	ldr r3, [r1]
-	ldr r1, _02156860 // =_02188C08
+	ldr r1, =_02188C08
 	str r3, [sp]
 	str r2, [sp, #4]
 	mov r3, r0
@@ -169,20 +183,17 @@ _02156810:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02156840: .word gameState
-_02156844: .word StageTask_Main
-_02156848: .word GameObject__Destructor
-_0215684C: .word 0x0000FFFE
-_02156850: .word 0x00000102
-_02156854: .word EnemyAngler__OnDefend
-_02156858: .word gameArchiveStage
-_0215685C: .word 0x0000FFFF
-_02156860: .word _02188C08
-	arm_func_end EnemyAngler__Create
 
-	arm_func_start EnemyAnglerShot__Create
-EnemyAnglerShot__Create: // 0x02156864
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC EnemyAnglerShot *EnemyAnglerShot__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1500
@@ -194,8 +205,8 @@ EnemyAnglerShot__Create: // 0x02156864
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _0215698C // =StageTask_Main
-	ldr r1, _02156990 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -226,14 +237,14 @@ EnemyAnglerShot__Create: // 0x02156864
 	str r1, [r4, #0x1c]
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02156994 // =gameArchiveStage
-	ldr r1, _02156998 // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _0215699C // =_02188C08
+	ldr r2, =_02188C08
 	ldr r2, [r2]
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
@@ -250,40 +261,46 @@ EnemyAnglerShot__Create: // 0x02156864
 	mov r1, #3
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _021569A0 // =EnemyAnglerShot__State_2156E48
+	ldr r0, =EnemyAnglerShot__State_2156E48
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_0215698C: .word StageTask_Main
-_02156990: .word GameObject__Destructor
-_02156994: .word gameArchiveStage
-_02156998: .word 0x0000FFFF
-_0215699C: .word _02188C08
-_021569A0: .word EnemyAnglerShot__State_2156E48
-	arm_func_end EnemyAnglerShot__Create
 
-	arm_func_start EnemyAngler__Action_Init
-EnemyAngler__Action_Init: // 0x021569A4
+// clang-format on
+#endif
+}
+
+
+NONMATCH_FUNC void EnemyAngler__Action_Init(EnemyAngler *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _021569CC // =EnemyAngler__State_21569D0
+	ldr r0, =EnemyAngler__State_21569D0
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021569CC: .word EnemyAngler__State_21569D0
-	arm_func_end EnemyAngler__Action_Init
 
-	arm_func_start EnemyAngler__State_21569D0
-EnemyAngler__State_21569D0: // 0x021569D0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyAngler__State_21569D0(EnemyAngler *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -448,10 +465,17 @@ _02156C08:
 	str r0, [r5, #0x354]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end EnemyAngler__State_21569D0
 
-	arm_func_start EnemyAngler__OnDefend
-EnemyAngler__OnDefend: // 0x02156C3C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyAngler__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	mov r5, r0
@@ -463,7 +487,7 @@ EnemyAngler__OnDefend: // 0x02156C3C
 	mov r1, #2
 	strb r1, [r4, #0x3b0]
 	bl GameObject__SetAnimation
-	ldr r0, _02156C8C // =EnemyAngler__State_2156C90
+	ldr r0, =EnemyAngler__State_2156C90
 	str r0, [r4, #0xf4]
 	ldr r0, [r5, #0x1c]
 	ldr r0, [r0, #0x44]
@@ -472,12 +496,17 @@ EnemyAngler__OnDefend: // 0x02156C3C
 	ldr r0, [r0, #0x48]
 	str r0, [r4, #0x3a8]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02156C8C: .word EnemyAngler__State_2156C90
-	arm_func_end EnemyAngler__OnDefend
 
-	arm_func_start EnemyAngler__State_2156C90
-EnemyAngler__State_2156C90: // 0x02156C90
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyAngler__State_2156C90(EnemyAngler *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x14
 	mov r5, r0
@@ -507,7 +536,7 @@ _02156CD0:
 	addne r1, r0, #0x11000
 	ldr r2, [r5, #0x48]
 	subeq r1, r0, #0x11000
-	ldr r0, _02156E34 // =0x00000153
+	ldr r0, =0x00000153
 	sub r2, r2, #0x14000
 	bl GameObject__SpawnObject
 	ldrb r1, [r5, #0x3b0]
@@ -546,21 +575,21 @@ _02156D4C:
 	ldrh r1, [r4, #0x34]
 	tst r0, #1
 	beq _02156DC8
-	ldr r0, _02156E38 // =0x0000D555
+	ldr r0, =0x0000D555
 	cmp r1, r0
 	bge _02156DB0
 	cmp r1, #0x8000
 	strgth r0, [r4, #0x34]
 	bgt _02156DE4
 _02156DB0:
-	ldr r0, _02156E3C // =0x00002AAA
+	ldr r0, =0x00002AAA
 	cmp r1, r0
 	ble _02156DE4
 	cmp r1, #0x8000
 	strleh r0, [r4, #0x34]
 	b _02156DE4
 _02156DC8:
-	ldr r0, _02156E40 // =0x0000AAAA
+	ldr r0, =0x0000AAAA
 	cmp r1, r0
 	strgth r0, [r4, #0x34]
 	bgt _02156DE4
@@ -575,7 +604,7 @@ _02156DEC:
 	tst r0, #8
 	addeq sp, sp, #0x14
 	ldmeqia sp!, {r4, r5, pc}
-	ldr r0, _02156E44 // =EnemyAngler__State_2156E78
+	ldr r0, =EnemyAngler__State_2156E78
 	mov r1, #0
 	str r0, [r5, #0xf4]
 	mov r0, r5
@@ -589,16 +618,17 @@ _02156DEC:
 	str r0, [r5, #0x37c]
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_02156E34: .word 0x00000153
-_02156E38: .word 0x0000D555
-_02156E3C: .word 0x00002AAA
-_02156E40: .word 0x0000AAAA
-_02156E44: .word EnemyAngler__State_2156E78
-	arm_func_end EnemyAngler__State_2156C90
 
-	arm_func_start EnemyAnglerShot__State_2156E48
-EnemyAnglerShot__State_2156E48: // 0x02156E48
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyAnglerShot__State_2156E48(EnemyAnglerShot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x1c]
 	tst r1, #0xf
@@ -611,10 +641,17 @@ EnemyAnglerShot__State_2156E48: // 0x02156E48
 	str ip, [r0, #0x18]
 	bl CreateEffectExplosion
 	ldmia sp!, {r3, pc}
-	arm_func_end EnemyAnglerShot__State_2156E48
 
-	arm_func_start EnemyAngler__State_2156E78
-EnemyAngler__State_2156E78: // 0x02156E78
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyAngler__State_2156E78(EnemyAngler *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -640,13 +677,7 @@ _02156EA8:
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x28]
 	ldmia sp!, {r4, pc}
-	arm_func_end EnemyAngler__State_2156E78
 
-	.data
-	
-_02188C08:
-	.word aActAcEneAngler
-
-aActAcEneAngler: // 0x02188C0C
-	.asciz "/act/ac_ene_angler.bac"
-	.align 4
+// clang-format on
+#endif
+}

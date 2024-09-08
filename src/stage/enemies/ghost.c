@@ -1,10 +1,22 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/enemies/ghost.h>
+#include <game/game/gameState.h>
+#include <game/stage/gameSystem.h>
+#include <game/object/objectManager.h>
+#include <game/audio/spatialAudio.h>
+#include <stage/effects/explosion.h>
 
-	arm_func_start EnemyGhost__Create
-EnemyGhost__Create: // 0x02157370
+NOT_DECOMPILED void *aActAcEneBGhost;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC EnemyGhost *EnemyGhost__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	movs r7, r0
@@ -17,7 +29,7 @@ EnemyGhost__Create: // 0x02157370
 	cmpeq r0, #0xff
 	beq _021573C0
 _0215739C:
-	ldr r0, _02157608 // =gameState
+	ldr r0, =gameState
 	ldr r0, [r0, #0x18]
 	cmp r0, #0
 	bne _021573C0
@@ -32,9 +44,9 @@ _021573C0:
 	mov r0, #2
 	mov r2, #0
 	str r0, [sp, #4]
-	ldr r4, _0215760C // =0x0000047C
-	ldr r0, _02157610 // =StageTask_Main
-	ldr r1, _02157614 // =EnemyGhost__Destructor
+	ldr r4, =0x0000047C
+	ldr r0, =StageTask_Main
+	ldr r1, =EnemyGhost__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -47,7 +59,7 @@ _021573C0:
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
 	mov r0, r4
 	bl GetTaskWork_
-	ldr r2, _0215760C // =0x0000047C
+	ldr r2, =0x0000047C
 	mov r4, r0
 	mov r1, #0
 	bl MI_CpuFill8
@@ -76,7 +88,7 @@ _021573C0:
 	orr r1, r1, #1
 	str r1, [r0, #0x400]
 _02157480:
-	ldr r0, _02157618 // =EnemyGhost__Draw
+	ldr r0, =EnemyGhost__Draw
 	mov r2, #0
 	str r0, [r4, #0xfc]
 	ldr r0, [r4, #0x340]
@@ -98,15 +110,15 @@ _02157480:
 	mov r2, r1
 	add r0, r4, #0x364
 	bl ObjRect__SetAttackStat
-	ldr r1, _0215761C // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x364
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02157620 // =0x00000102
+	ldr r1, =0x00000102
 	add r0, r4, #0x300
 	strh r1, [r0, #0x98]
 	ldr r1, [r4, #0x37c]
-	ldr r0, _02157624 // =EnemyGhost__OnDefend
+	ldr r0, =EnemyGhost__OnDefend
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x388]
@@ -114,25 +126,25 @@ _02157480:
 	str r4, [r4, #0x380]
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02157628 // =gameArchiveStage
-	ldr r1, _0215762C // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
-	ldr r2, _02157630 // =aActAcEneBGhost
+	ldr r2, =aActAcEneBGhost
 	add r1, r4, #0x3c8
 	bl ObjObjectAction2dBACLoad
 	mov r0, #0xb
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02157628 // =gameArchiveStage
-	ldr r1, _0215762C // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
-	ldr r2, _02157630 // =aActAcEneBGhost
+	ldr r2, =aActAcEneBGhost
 	add r1, r4, #0x168
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
@@ -174,22 +186,17 @@ _02157480:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02157608: .word gameState
-_0215760C: .word 0x0000047C
-_02157610: .word StageTask_Main
-_02157614: .word EnemyGhost__Destructor
-_02157618: .word EnemyGhost__Draw
-_0215761C: .word 0x0000FFFE
-_02157620: .word 0x00000102
-_02157624: .word EnemyGhost__OnDefend
-_02157628: .word gameArchiveStage
-_0215762C: .word 0x0000FFFF
-_02157630: .word aActAcEneBGhost
-	arm_func_end EnemyGhost__Create
 
-	arm_func_start EnemyGhostBomb__Create
-EnemyGhostBomb__Create: // 0x02157634
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC EnemyGhostBomb *EnemyGhostBomb__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1500
@@ -201,8 +208,8 @@ EnemyGhostBomb__Create: // 0x02157634
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _021577D4 // =StageTask_Main
-	ldr r1, _021577D8 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -228,7 +235,7 @@ EnemyGhostBomb__Create: // 0x02157634
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r1, _021577DC // =EnemyGhostBomb__OnDefend
+	ldr r1, =EnemyGhostBomb__OnDefend
 	mov r0, r4
 	str r1, [r4, #0x278]
 	ldr r2, [r4, #0x20]
@@ -250,14 +257,14 @@ EnemyGhostBomb__Create: // 0x02157634
 	mov r0, #0xb
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _021577E0 // =gameArchiveStage
-	ldr r1, _021577E4 // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _021577E8 // =aActAcEneBGhost
+	ldr r2, =aActAcEneBGhost
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
 	mov r1, #0x17
@@ -273,7 +280,7 @@ EnemyGhostBomb__Create: // 0x02157634
 	mov r1, #5
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _021577EC // =EnemyGhostBomb__State_2157E1C
+	ldr r0, =EnemyGhostBomb__State_2157E1C
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -294,18 +301,18 @@ EnemyGhostBomb__Create: // 0x02157634
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_021577D4: .word StageTask_Main
-_021577D8: .word GameObject__Destructor
-_021577DC: .word EnemyGhostBomb__OnDefend
-_021577E0: .word gameArchiveStage
-_021577E4: .word 0x0000FFFF
-_021577E8: .word aActAcEneBGhost
-_021577EC: .word EnemyGhostBomb__State_2157E1C
-	arm_func_end EnemyGhostBomb__Create
 
-	arm_func_start EnemyGhost__Func_21577F0
-EnemyGhost__Func_21577F0: // 0x021577F0
+// clang-format on
+#endif
+}
+
+
+NONMATCH_FUNC void EnemyGhost__Func_21577F0(EnemyGhost *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r2, [r0, #0x3c4]
 	ldr r1, [r0, #0x128]
 	cmp r2, #0xf0
@@ -422,10 +429,17 @@ _0215795C:
 	orr r1, r1, #0x800
 	str r1, [r0, #0x37c]
 	bx lr
-	arm_func_end EnemyGhost__Func_21577F0
 
-	arm_func_start EnemyGhost__Func_215799C
-EnemyGhost__Func_215799C: // 0x0215799C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyGhost__Func_215799C(EnemyGhost *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r1, #0
@@ -456,7 +470,7 @@ _02157A00:
 	mov r1, #0
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x478]
-	ldr r0, _02157A40 // =EnemyGhost__State_2157A44
+	ldr r0, =EnemyGhost__State_2157A44
 	orr r1, r1, #4
 	str r1, [r4, #0x478]
 	ldr r1, [r4, #0x20]
@@ -468,12 +482,17 @@ _02157A00:
 	str r0, [r4, #0xf4]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02157A40: .word EnemyGhost__State_2157A44
-	arm_func_end EnemyGhost__Func_215799C
 
-	arm_func_start EnemyGhost__State_2157A44
-EnemyGhost__State_2157A44: // 0x02157A44
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyGhost__State_2157A44(EnemyGhost *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x138]
@@ -487,7 +506,7 @@ EnemyGhost__State_2157A44: // 0x02157A44
 	bl EnemyGhost__Func_21577F0
 	add r0, r5, #0x300
 	ldrh r2, [r0, #0xc0]
-	ldr r1, _02157BD8 // =FX_SinCosTable_
+	ldr r1, =FX_SinCosTable_
 	add r2, r2, #0x200
 	strh r2, [r0, #0xc0]
 	ldrh r0, [r0, #0xc0]
@@ -580,12 +599,17 @@ _02157BA8:
 	orr r0, r0, #1
 	str r0, [r5, #0x354]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02157BD8: .word FX_SinCosTable_
-	arm_func_end EnemyGhost__State_2157A44
 
-	arm_func_start EnemyGhost__OnDefend
-EnemyGhost__OnDefend: // 0x02157BDC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyGhost__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	mov r5, r0
@@ -596,7 +620,7 @@ EnemyGhost__OnDefend: // 0x02157BDC
 	mov r1, #1
 	str r2, [r4, #0x98]
 	bl GameObject__SetAnimation
-	ldr r0, _02157C28 // =EnemyGhost__State_2157C2C
+	ldr r0, =EnemyGhost__State_2157C2C
 	str r0, [r4, #0xf4]
 	ldr r0, [r5, #0x1c]
 	ldr r0, [r0, #0x44]
@@ -605,19 +629,24 @@ EnemyGhost__OnDefend: // 0x02157BDC
 	ldr r0, [r0, #0x48]
 	str r0, [r4, #0x3a8]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02157C28: .word EnemyGhost__State_2157C2C
-	arm_func_end EnemyGhost__OnDefend
 
-	arm_func_start EnemyGhost__State_2157C2C
-EnemyGhost__State_2157C2C: // 0x02157C2C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyGhost__State_2157C2C(EnemyGhost *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
 	bl EnemyGhost__Func_21577F0
 	add r0, r4, #0x300
 	ldrh r2, [r0, #0xc0]
-	ldr r1, _02157D68 // =FX_SinCosTable_
+	ldr r1, =FX_SinCosTable_
 	add r2, r2, #0x200
 	strh r2, [r0, #0xc0]
 	ldrh r0, [r0, #0xc0]
@@ -678,7 +707,7 @@ _02157D20:
 	tst r0, #8
 	addeq sp, sp, #0x14
 	ldmeqia sp!, {r3, r4, pc}
-	ldr r0, _02157D6C // =EnemyGhost__State_2157D70
+	ldr r0, =EnemyGhost__State_2157D70
 	mov r1, #0
 	str r0, [r4, #0xf4]
 	mov r0, r4
@@ -692,13 +721,17 @@ _02157D20:
 	str r0, [r4, #0x37c]
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_02157D68: .word FX_SinCosTable_
-_02157D6C: .word EnemyGhost__State_2157D70
-	arm_func_end EnemyGhost__State_2157C2C
 
-	arm_func_start EnemyGhost__State_2157D70
-EnemyGhost__State_2157D70: // 0x02157D70
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyGhost__State_2157D70(EnemyGhost *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x3c4]
@@ -707,7 +740,7 @@ EnemyGhost__State_2157D70: // 0x02157D70
 	bl EnemyGhost__Func_21577F0
 	add r0, r4, #0x300
 	ldrh r2, [r0, #0xc0]
-	ldr r1, _02157E18 // =FX_SinCosTable_
+	ldr r1, =FX_SinCosTable_
 	add r2, r2, #0x200
 	strh r2, [r0, #0xc0]
 	ldrh r0, [r0, #0xc0]
@@ -742,12 +775,17 @@ _02157DDC:
 	bic r0, r0, #2
 	str r0, [r4, #0x354]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02157E18: .word FX_SinCosTable_
-	arm_func_end EnemyGhost__State_2157D70
 
-	arm_func_start EnemyGhostBomb__State_2157E1C
-EnemyGhostBomb__State_2157E1C: // 0x02157E1C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyGhostBomb__State_2157E1C(EnemyGhostBomb *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x138]
@@ -762,7 +800,7 @@ EnemyGhostBomb__State_2157E1C: // 0x02157E1C
 	mov r1, #0
 	str r1, [r4, #0x98]
 	str r1, [r4, #0x9c]
-	ldr r0, _02157E88 // =EnemyGhostBomb__State_2157E8C
+	ldr r0, =EnemyGhostBomb__State_2157E8C
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
@@ -776,12 +814,17 @@ _02157E64:
 	rsb r0, r0, #0
 	str r0, [r4, #0x9c]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02157E88: .word EnemyGhostBomb__State_2157E8C
-	arm_func_end EnemyGhostBomb__State_2157E1C
 
-	arm_func_start EnemyGhostBomb__State_2157E8C
-EnemyGhostBomb__State_2157E8C: // 0x02157E8C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyGhostBomb__State_2157E8C(EnemyGhostBomb *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -822,10 +865,17 @@ EnemyGhostBomb__State_2157E8C: // 0x02157E8C
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end EnemyGhostBomb__State_2157E8C
 
-	arm_func_start EnemyGhostBomb__OnDefend
-EnemyGhostBomb__OnDefend: // 0x02157F2C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyGhostBomb__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	ldr r4, [r0, #0x1c]
@@ -861,10 +911,17 @@ EnemyGhostBomb__OnDefend: // 0x02157F2C
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end EnemyGhostBomb__OnDefend
 
-	arm_func_start EnemyGhost__Draw
-EnemyGhost__Draw: // 0x02157FB8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyGhost__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -902,10 +959,17 @@ EnemyGhost__Draw: // 0x02157FB8
 	bic r0, r0, #0x20
 	str r0, [r4, #0x478]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end EnemyGhost__Draw
 
-	arm_func_start EnemyGhost__Destructor
-EnemyGhost__Destructor: // 0x0215804C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyGhost__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -958,10 +1022,7 @@ _021580F8:
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end EnemyGhost__Destructor
 
-	.data
-
-aActAcEneBGhost: // 0x02188C40
-	.asciz "/act/ac_ene_b_ghost.bac"
-	.align 4
+// clang-format on
+#endif
+}

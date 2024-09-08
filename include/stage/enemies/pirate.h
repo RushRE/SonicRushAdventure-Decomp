@@ -19,7 +19,7 @@ typedef struct EnemyPirate_
     s32 field_3B8;
     s32 xMax;
     s32 field_3C0;
-    u16 field_3C4;
+    s16 field_3C4;
     u16 type;
     s32 field_3C8;
     s32 field_3CC;

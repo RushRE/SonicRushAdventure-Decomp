@@ -16,6 +16,6 @@ typedef struct EnemyFireSkull_
 // FUNCTIONS
 // --------------------
 
-EnemyFireSkull *CreateEnemyFireSkull(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+EnemyFireSkull *CreateFireSkull(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
 #endif // RUSH2_FIRESKULL_H

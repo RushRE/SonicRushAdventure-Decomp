@@ -1,10 +1,21 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/enemies/snowflakeHead.h>
+#include <game/game/gameState.h>
+#include <game/stage/gameSystem.h>
+#include <game/object/objectManager.h>
+#include <game/audio/spatialAudio.h>
 
-	arm_func_start EnemySnowflakeHead__Create
-EnemySnowflakeHead__Create: // 0x02158104
+NOT_DECOMPILED void *aActAcEneQHeadB;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC EnemySnowflakeHead *EnemySnowflakeHead__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	movs r7, r0
@@ -17,7 +28,7 @@ EnemySnowflakeHead__Create: // 0x02158104
 	cmpeq r0, #0xff
 	beq _02158154
 _02158130:
-	ldr r0, _02158318 // =gameState
+	ldr r0, =gameState
 	ldr r0, [r0, #0x18]
 	cmp r0, #0
 	bne _02158154
@@ -33,8 +44,8 @@ _02158154:
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x37c
-	ldr r0, _0215831C // =StageTask_Main
-	ldr r1, _02158320 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -124,12 +135,12 @@ _02158280:
 _021582A4:
 	mov r0, #0xc
 	bl GetObjectFileWork
-	ldr r1, _02158324 // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r0, [r1]
-	ldr r5, _02158328 // =0x0000FFFF
+	ldr r5, =0x0000FFFF
 	str r0, [sp]
-	ldr r2, _0215832C // =aActAcEneQHeadB
+	ldr r2, =aActAcEneQHeadB
 	mov r0, r4
 	add r1, r4, #0x168
 	str r5, [sp, #4]
@@ -151,17 +162,17 @@ _021582A4:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02158318: .word gameState
-_0215831C: .word StageTask_Main
-_02158320: .word GameObject__Destructor
-_02158324: .word gameArchiveStage
-_02158328: .word 0x0000FFFF
-_0215832C: .word aActAcEneQHeadB
-	arm_func_end EnemySnowflakeHead__Create
 
-	arm_func_start EnemySnowflakeHead__Action_Init
-EnemySnowflakeHead__Action_Init: // 0x02158330
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowflakeHead__Action_Init(EnemySnowflakeHead *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -180,25 +191,28 @@ _0215835C: // jump table
 	b _02158388 // case 3
 	b _02158388 // case 4
 _02158370:
-	ldr r0, _02158394 // =EnemySnowflakeHead__State_2158494
+	ldr r0, =EnemySnowflakeHead__State_2158494
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 _0215837C:
-	ldr r0, _02158398 // =EnemySnowflakeHead__State_21583A0
+	ldr r0, =EnemySnowflakeHead__State_21583A0
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 _02158388:
-	ldr r0, _0215839C // =EnemySnowflakeHead__State_215841C
+	ldr r0, =EnemySnowflakeHead__State_215841C
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02158394: .word EnemySnowflakeHead__State_2158494
-_02158398: .word EnemySnowflakeHead__State_21583A0
-_0215839C: .word EnemySnowflakeHead__State_215841C
-	arm_func_end EnemySnowflakeHead__Action_Init
 
-	arm_func_start EnemySnowflakeHead__State_21583A0
-EnemySnowflakeHead__State_21583A0: // 0x021583A0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowflakeHead__State_21583A0(EnemySnowflakeHead *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r1, [r0, #0x364]
 	ldr r2, [r0, #0x44]
 	cmp r2, r1
@@ -231,14 +245,19 @@ _021583F4:
 	mov r1, #0
 	str r1, [r0, #0x9c]
 _02158410:
-	ldr ip, _02158418 // =EnemySnowflakeHead__Func_21584AC
+	ldr ip, =EnemySnowflakeHead__Func_21584AC
 	bx ip
-	.align 2, 0
-_02158418: .word EnemySnowflakeHead__Func_21584AC
-	arm_func_end EnemySnowflakeHead__State_21583A0
 
-	arm_func_start EnemySnowflakeHead__State_215841C
-EnemySnowflakeHead__State_215841C: // 0x0215841C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowflakeHead__State_215841C(EnemySnowflakeHead *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r1, [r0, #0x368]
 	ldr r2, [r0, #0x48]
 	cmp r2, r1
@@ -270,25 +289,35 @@ _02158470:
 	mov r1, #0xc00
 	str r1, [r0, #0x9c]
 _02158488:
-	ldr ip, _02158490 // =EnemySnowflakeHead__Func_21584AC
+	ldr ip, =EnemySnowflakeHead__Func_21584AC
 	bx ip
-	.align 2, 0
-_02158490: .word EnemySnowflakeHead__Func_21584AC
-	arm_func_end EnemySnowflakeHead__State_215841C
 
-	arm_func_start EnemySnowflakeHead__State_2158494
-EnemySnowflakeHead__State_2158494: // 0x02158494
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowflakeHead__State_2158494(EnemySnowflakeHead *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	mov r1, #0
 	str r1, [r0, #0x98]
-	ldr ip, _021584A8 // =EnemySnowflakeHead__Func_21584AC
+	ldr ip, =EnemySnowflakeHead__Func_21584AC
 	str r1, [r0, #0x9c]
 	bx ip
-	.align 2, 0
-_021584A8: .word EnemySnowflakeHead__Func_21584AC
-	arm_func_end EnemySnowflakeHead__State_2158494
 
-	arm_func_start EnemySnowflakeHead__Func_21584AC
-EnemySnowflakeHead__Func_21584AC: // 0x021584AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowflakeHead__Func_21584AC(EnemySnowflakeHead *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -313,7 +342,7 @@ EnemySnowflakeHead__Func_21584AC: // 0x021584AC
 	bl ProcessSpatialSfx
 	mov r0, #0
 	str r0, [r4, #0x98]
-	ldr r2, _0215853C // =EnemySnowflakeHead__State_2158540
+	ldr r2, =EnemySnowflakeHead__State_2158540
 	str r0, [r4, #0x9c]
 	mov r0, r4
 	mov r1, #1
@@ -325,12 +354,17 @@ EnemySnowflakeHead__Func_21584AC: // 0x021584AC
 	bl ObjRect__SetDefenceStat
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215853C: .word EnemySnowflakeHead__State_2158540
-	arm_func_end EnemySnowflakeHead__Func_21584AC
 
-	arm_func_start EnemySnowflakeHead__State_2158540
-EnemySnowflakeHead__State_2158540: // 0x02158540
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySnowflakeHead__State_2158540(EnemySnowflakeHead *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x100
@@ -348,10 +382,7 @@ _02158568:
 	mov r0, r4
 	bl EnemySnowflakeHead__Action_Init
 	ldmia sp!, {r4, pc}
-	arm_func_end EnemySnowflakeHead__State_2158540
 
-	.data
-	
-aActAcEneQHeadB: // 0x02188C58
-	.asciz "/act/ac_ene_q_head.bac"
-	.align 4
+// clang-format on
+#endif
+}

@@ -1,10 +1,39 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/enemies/robot.h>
+#include <game/game/gameState.h>
+#include <game/stage/gameSystem.h>
+#include <game/object/objectManager.h>
+#include <game/object/obj.h>
+#include <game/audio/spatialAudio.h>
+#include <stage/core/bgmManager.h>
+#include <stage/effects/explosion.h>
+#include <stage/effects/found.h>
+#include <stage/effects/steamBlasterSmoke.h>
+#include <stage/effects/steamBlasterSteam.h>
+#include <stage/effects/waterSplash.h>
+#include <stage/objects/tutorial.h>
 
-	arm_func_start EnemyRobot__Create
-EnemyRobot__Create: // 0x02154E94
+NOT_DECOMPILED const void *_02188194;
+NOT_DECOMPILED const void *_021881A0;
+NOT_DECOMPILED const void *_021881B4;
+
+NOT_DECOMPILED s16 _02188B48[5];
+NOT_DECOMPILED void *_02188B54;
+NOT_DECOMPILED void *aActAcEneTriBac;
+NOT_DECOMPILED void *aActAcEnePteraB;
+NOT_DECOMPILED void *aActAcEneFlyFis;
+NOT_DECOMPILED void *aActAcEneProtSp;
+NOT_DECOMPILED void *aActAcEneProtDa_0;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC EnemyRobot *EnemyRobot__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	movs r8, r0
@@ -17,7 +46,7 @@ EnemyRobot__Create: // 0x02154E94
 	cmpeq r0, #0xff
 	beq _02154EE4
 _02154EC0:
-	ldr r0, _02155318 // =gameState
+	ldr r0, =gameState
 	ldr r0, [r0, #0x18]
 	cmp r0, #0
 	bne _02154EE4
@@ -33,8 +62,8 @@ _02154EE4:
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x3e8
-	ldr r0, _0215531C // =StageTask_Main
-	ldr r1, _02155320 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -76,7 +105,7 @@ _02154F7C:
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x1c]
 	bl EnemyRobot__Func_2155378
-	ldr r0, _02155324 // =EnemyRobot__OnInit_21553D0
+	ldr r0, =EnemyRobot__OnInit_21553D0
 	mov r2, r5
 	str r0, [r4, #0x3ac]
 	add r0, r4, #0x300
@@ -86,7 +115,7 @@ _02154F7C:
 	rsb r1, r1, #0x10000
 	strh r1, [r0, #0xcc]
 	mov r2, #0xc00
-	ldr r1, _02155328 // =EnemyRobot__OnDetect_2155820
+	ldr r1, =EnemyRobot__OnDetect_2155820
 	str r2, [r4, #0x3d4]
 	str r1, [r4, #0x3b0]
 	mov r1, #0x200
@@ -101,7 +130,7 @@ _02154F7C:
 	ldrh r0, [r8, #4]
 	tst r0, #0x40
 	beq _021551EC
-	ldr r0, _0215532C // =EnemyRobot__OnDefend_TutorialEnemy
+	ldr r0, =EnemyRobot__OnDefend_TutorialEnemy
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x1c]
 	bic r0, r0, #0x80
@@ -110,7 +139,7 @@ _02154F7C:
 	b _021551EC
 _02155020:
 	ldr r0, [r4, #0x20]
-	ldr r1, _02155330 // =EnemyRobot__OnInit_21557D8
+	ldr r1, =EnemyRobot__OnInit_21557D8
 	orr r0, r0, #0x100
 	str r0, [r4, #0x20]
 	ldr r0, [r4, #0x1c]
@@ -122,7 +151,7 @@ _02155020:
 	ldrne r0, [r4, #0x20]
 	orrne r0, r0, #1
 	strne r0, [r4, #0x20]
-	ldr r0, _02155334 // =EnemyRobot__OnDetect_2155C5C
+	ldr r0, =EnemyRobot__OnDetect_2155C5C
 	str r1, [r4, #0x3ac]
 	str r0, [r4, #0x3b0]
 	b _021551EC
@@ -136,7 +165,7 @@ _02155064:
 	orr r1, r1, #0x140
 	str r1, [r4, #0x1c]
 	bl EnemyRobot__Func_2155378
-	ldr r1, _02155338 // =EnemyRobot__OnInit_2155620
+	ldr r1, =EnemyRobot__OnInit_2155620
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r1, #0
@@ -148,7 +177,7 @@ _02155064:
 	mov r1, #0x1800
 	str r1, [r4, #0x3d0]
 	mov r2, #0x300
-	ldr r1, _0215533C // =EnemyRobot__OnDetect_21559D8
+	ldr r1, =EnemyRobot__OnDetect_21559D8
 	strh r2, [r0, #0xd4]
 	str r1, [r4, #0x3b0]
 	b _021551EC
@@ -162,7 +191,7 @@ _021550C8:
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x1c]
 	bl EnemyRobot__Func_2155378
-	ldr r1, _02155324 // =EnemyRobot__OnInit_21553D0
+	ldr r1, =EnemyRobot__OnInit_21553D0
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r2, #0
@@ -175,7 +204,7 @@ _021550C8:
 	strh r1, [r0, #0xce]
 	strh r2, [r0, #0xd0]
 	mov r2, #0xc00
-	ldr r1, _02155328 // =EnemyRobot__OnDetect_2155820
+	ldr r1, =EnemyRobot__OnDetect_2155820
 	str r2, [r4, #0x3d4]
 	str r1, [r4, #0x3b0]
 	ldr r2, [r4, #0x354]
@@ -194,7 +223,7 @@ _02155144:
 	orr r1, r1, #0xc0
 	str r1, [r4, #0x1c]
 	bl EnemyRobot__Func_2155378
-	ldr r0, _02155324 // =EnemyRobot__OnInit_21553D0
+	ldr r0, =EnemyRobot__OnInit_21553D0
 	mov r1, #0
 	str r0, [r4, #0x3ac]
 	add r0, r4, #0x300
@@ -207,36 +236,36 @@ _02155144:
 	strh r2, [r0, #0xce]
 	strh r1, [r0, #0xd0]
 	mov r0, #0xc00
-	ldr r3, _02155340 // =EnemyRobot__OnDetect_FoundFX
+	ldr r3, =EnemyRobot__OnDetect_FoundFX
 	str r0, [r4, #0x3d4]
 	mov r2, r1
 	add r0, r4, #0x298
 	str r3, [r4, #0x3b0]
 	bl ObjRect__SetAttackStat
-	ldr r1, _02155344 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x298
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02155348 // =0x00000102
+	ldr r1, =0x00000102
 	add r0, r4, #0x200
 	strh r1, [r0, #0xcc]
 	ldr r0, [r4, #0x2b0]
-	ldr r1, _0215534C // =EnemyRobot__OnDefend_Hurtbox
+	ldr r1, =EnemyRobot__OnDefend_Hurtbox
 	orr r0, r0, #0x400
 	str r0, [r4, #0x2b0]
 	mov r0, r4
 	str r1, [r4, #0x2bc]
 	bl EffectSteamBlasterSmoke__Create
 _021551EC:
-	ldr r0, _02155350 // =_021881A0
+	ldr r0, =_021881A0
 	add r1, r4, #0x300
 	ldr r0, [r0, r5, lsl #2]
 	strh r5, [r1, #0xc6]
 	bl GetObjectFileWork
-	ldr r1, _02155354 // =gameArchiveStage
-	ldr r2, _02155358 // =0x0000FFFF
+	ldr r1, =gameArchiveStage
+	ldr r2, =0x0000FFFF
 	ldr r3, [r1]
-	ldr r1, _0215535C // =_02188B54
+	ldr r1, =_02188B54
 	str r3, [sp]
 	str r2, [sp, #4]
 	mov r3, r0
@@ -253,7 +282,7 @@ _021551EC:
 	mov r0, r4
 	mov r1, #0
 	mov r3, r5, lsl #1
-	ldr r2, _02155360 // =_02188194
+	ldr r2, =_02188194
 	ldrsh r2, [r2, r3]
 	bl ObjActionAllocSpritePalette
 	ldr r0, [r4, #0x1c]
@@ -267,11 +296,11 @@ _021551EC:
 	str r6, [sp]
 	bl StageTask__SetHitbox
 _02155284:
-	ldr r3, _02155364 // =0x021881BA
+	ldr r3, =0x021881BA
 	mov r6, r5, lsl #3
-	ldr r1, _02155368 // =_021881B4
-	ldr r2, _0215536C // =0x021881B6
-	ldr r0, _02155370 // =0x021881B8
+	ldr r1, =_021881B4
+	ldr r2, =0x021881B6
+	ldr r0, =0x021881B8
 	ldrsh r5, [r3, r6]
 	ldrsh r1, [r1, r6]
 	ldrsh r2, [r2, r6]
@@ -283,15 +312,15 @@ _02155284:
 	mov r2, r1
 	add r0, r4, #0x364
 	bl ObjRect__SetAttackStat
-	ldr r1, _02155344 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x364
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02155348 // =0x00000102
+	ldr r1, =0x00000102
 	add r0, r4, #0x300
 	strh r1, [r0, #0x98]
 	ldr r1, [r4, #0x37c]
-	ldr r0, _02155374 // =EnemyRobot__OnDefend_Detector
+	ldr r0, =EnemyRobot__OnDefend_Detector
 	orr r1, r1, #0x4c0
 	str r1, [r4, #0x37c]
 	str r0, [r4, #0x388]
@@ -304,35 +333,16 @@ _02155284:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02155318: .word gameState
-_0215531C: .word StageTask_Main
-_02155320: .word GameObject__Destructor
-_02155324: .word EnemyRobot__OnInit_21553D0
-_02155328: .word EnemyRobot__OnDetect_2155820
-_0215532C: .word EnemyRobot__OnDefend_TutorialEnemy
-_02155330: .word EnemyRobot__OnInit_21557D8
-_02155334: .word EnemyRobot__OnDetect_2155C5C
-_02155338: .word EnemyRobot__OnInit_2155620
-_0215533C: .word EnemyRobot__OnDetect_21559D8
-_02155340: .word EnemyRobot__OnDetect_FoundFX
-_02155344: .word 0x0000FFFE
-_02155348: .word 0x00000102
-_0215534C: .word EnemyRobot__OnDefend_Hurtbox
-_02155350: .word _021881A0
-_02155354: .word gameArchiveStage
-_02155358: .word 0x0000FFFF
-_0215535C: .word _02188B54
-_02155360: .word _02188194
-_02155364: .word 0x021881BA
-_02155368: .word _021881B4
-_0215536C: .word 0x021881B6
-_02155370: .word 0x021881B8
-_02155374: .word EnemyRobot__OnDefend_Detector
-	arm_func_end EnemyRobot__Create
 
-	arm_func_start EnemyRobot__Func_2155378
-EnemyRobot__Func_2155378: // 0x02155378
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__Func_2155378(EnemyRobot *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r1, [r0, #0x340]
 	ldr r2, [r0, #0x44]
 	ldrsb r1, [r1, #6]
@@ -343,10 +353,16 @@ EnemyRobot__Func_2155378: // 0x02155378
 	add r1, r2, r1, lsl #12
 	str r1, [r0, #0x3bc]
 	bx lr
-	arm_func_end EnemyRobot__Func_2155378
 
-	arm_func_start EnemyRobot__Func_21553A0
-EnemyRobot__Func_21553A0: // 0x021553A0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__Func_21553A0(EnemyRobot *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	add r1, r0, #0x300
 	ldrsh r2, [r1, #0xc4]
 	cmp r2, #0
@@ -359,10 +375,17 @@ EnemyRobot__Func_21553A0: // 0x021553A0
 	orreq r1, r1, #4
 	streq r1, [r0, #0x37c]
 	bx lr
-	arm_func_end EnemyRobot__Func_21553A0
 
-	arm_func_start EnemyRobot__OnInit_21553D0
-EnemyRobot__OnInit_21553D0: // 0x021553D0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__OnInit_21553D0(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -370,7 +393,7 @@ EnemyRobot__OnInit_21553D0: // 0x021553D0
 	ldrh r1, [r1, #0xc8]
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215544C // =EnemyRobot__State_2155450
+	ldr r0, =EnemyRobot__State_2155450
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -394,12 +417,17 @@ EnemyRobot__OnInit_21553D0: // 0x021553D0
 	bl ProcessSpatialSfx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215544C: .word EnemyRobot__State_2155450
-	arm_func_end EnemyRobot__OnInit_21553D0
 
-	arm_func_start EnemyRobot__State_2155450
-EnemyRobot__State_2155450: // 0x02155450
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__State_2155450(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r2, [r6, #0x354]
@@ -427,7 +455,7 @@ _021554A0:
 	add r1, r6, #0x364
 	bl StageTask__HandleCollider
 	ldrh r1, [r4, #4]
-	ldr r0, _0215561C // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	beq _02155590
 	ldr r0, [r6, #0x128]
@@ -506,7 +534,7 @@ _021555D8:
 	cmp r5, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldrh r1, [r4, #2]
-	ldr r0, _0215561C // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	ldreq r0, [r6, #0x20]
 	eoreq r0, r0, #1
@@ -520,29 +548,39 @@ _021555D8:
 	orr r0, r0, #1
 	str r0, [r6, #0x354]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215561C: .word 0x0000FFFF
-	arm_func_end EnemyRobot__State_2155450
 
-	arm_func_start EnemyRobot__OnInit_2155620
-EnemyRobot__OnInit_2155620: // 0x02155620
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__OnInit_2155620(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x300
 	ldrh r1, [r1, #0xc8]
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215564C // =EnemyRobot__State_2155650
+	ldr r0, =EnemyRobot__State_2155650
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215564C: .word EnemyRobot__State_2155650
-	arm_func_end EnemyRobot__OnInit_2155620
 
-	arm_func_start EnemyRobot__State_2155650
-EnemyRobot__State_2155650: // 0x02155650
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__State_2155650(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -567,7 +605,7 @@ EnemyRobot__State_2155650: // 0x02155650
 	str r0, [r6, #0x20]
 _021556A8:
 	ldr r0, [r6, #0x20]
-	ldr r1, _021557D0 // =FX_SinCosTable_
+	ldr r1, =FX_SinCosTable_
 	tst r0, #1
 	ldr r0, [r4, #4]
 	rsbeq r0, r0, #0
@@ -604,7 +642,7 @@ _02155730:
 	cmp r5, #0
 	beq _02155774
 	ldrh r1, [r4, #2]
-	ldr r0, _021557D4 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	ldreq r0, [r6, #0x20]
 	eoreq r0, r0, #1
@@ -642,29 +680,38 @@ _02155774:
 	bl ProcessSpatialSfx
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_021557D0: .word FX_SinCosTable_
-_021557D4: .word 0x0000FFFF
-	arm_func_end EnemyRobot__State_2155650
 
-	arm_func_start EnemyRobot__OnInit_21557D8
-EnemyRobot__OnInit_21557D8: // 0x021557D8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__OnInit_21557D8(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02155800 // =EnemyRobot__State_2155804
+	ldr r0, =EnemyRobot__State_2155804
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02155800: .word EnemyRobot__State_2155804
-	arm_func_end EnemyRobot__OnInit_21557D8
 
-	arm_func_start EnemyRobot__State_2155804
-EnemyRobot__State_2155804: // 0x02155804
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__State_2155804(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl EnemyRobot__Func_21553A0
@@ -672,10 +719,17 @@ EnemyRobot__State_2155804: // 0x02155804
 	add r1, r4, #0x364
 	bl StageTask__HandleCollider
 	ldmia sp!, {r4, pc}
-	arm_func_end EnemyRobot__State_2155804
 
-	arm_func_start EnemyRobot__OnDetect_2155820
-EnemyRobot__OnDetect_2155820: // 0x02155820
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__OnDetect_2155820(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -686,7 +740,7 @@ EnemyRobot__OnDetect_2155820: // 0x02155820
 	beq _0215585C
 	str r1, [r4, #0x2c]
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215588C // =EnemyRobot__State_2155894
+	ldr r0, =EnemyRobot__State_2155894
 	orr r1, r1, #0x10
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -695,7 +749,7 @@ _0215585C:
 	ldrh r1, [r2]
 	bl GameObject__SetAnimation
 	ldr r0, [r4, #0x354]
-	ldr r1, _02155890 // =EnemyRobot__State_21558F0
+	ldr r1, =EnemyRobot__State_21558F0
 	tst r0, #0x8000
 	ldreq r0, [r4, #0x20]
 	orreq r0, r0, #4
@@ -704,13 +758,17 @@ _0215585C:
 	str r1, [r4, #0xf4]
 	bl EnemyRobot__Func_2156100
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215588C: .word EnemyRobot__State_2155894
-_02155890: .word EnemyRobot__State_21558F0
-	arm_func_end EnemyRobot__OnDetect_2155820
 
-	arm_func_start EnemyRobot__State_2155894
-EnemyRobot__State_2155894: // 0x02155894
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__State_2155894(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -724,7 +782,7 @@ EnemyRobot__State_2155894: // 0x02155894
 	ldrh r1, [r1, #0xd8]
 	bl GameObject__SetAnimation
 	ldr r0, [r4, #0x354]
-	ldr r1, _021558EC // =EnemyRobot__State_21558F0
+	ldr r1, =EnemyRobot__State_21558F0
 	tst r0, #0x8000
 	ldreq r0, [r4, #0x20]
 	orreq r0, r0, #4
@@ -733,12 +791,17 @@ EnemyRobot__State_2155894: // 0x02155894
 	str r1, [r4, #0xf4]
 	bl EnemyRobot__Func_2156100
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021558EC: .word EnemyRobot__State_21558F0
-	arm_func_end EnemyRobot__State_2155894
 
-	arm_func_start EnemyRobot__State_21558F0
-EnemyRobot__State_21558F0: // 0x021558F0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__State_21558F0(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x354]
@@ -781,7 +844,7 @@ _02155968:
 	mov r0, #0
 	str r0, [r6, #0xc8]
 	ldrsh r1, [r4, #0xe]
-	ldr r0, _021559A8 // =EnemyRobot__State_21559AC
+	ldr r0, =EnemyRobot__State_21559AC
 	str r1, [r6, #0x2c]
 	str r0, [r6, #0xf4]
 	ldmia sp!, {r4, r5, r6, pc}
@@ -790,12 +853,17 @@ _02155998:
 	mov r0, r6
 	blx r1
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_021559A8: .word EnemyRobot__State_21559AC
-	arm_func_end EnemyRobot__State_21558F0
 
-	arm_func_start EnemyRobot__State_21559AC
-EnemyRobot__State_21559AC: // 0x021559AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__State_21559AC(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x2c]
 	subs r1, r1, #1
@@ -807,10 +875,17 @@ EnemyRobot__State_21559AC: // 0x021559AC
 	ldr r1, [r0, #0x3ac]
 	blx r1
 	ldmia sp!, {r3, pc}
-	arm_func_end EnemyRobot__State_21559AC
 
-	arm_func_start EnemyRobot__OnDetect_21559D8
-EnemyRobot__OnDetect_21559D8: // 0x021559D8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__OnDetect_21559D8(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	mov r4, r0
@@ -838,15 +913,20 @@ EnemyRobot__OnDetect_21559D8: // 0x021559D8
 	mov r1, #1
 	str r2, [r4, #0xc8]
 	bl GameObject__SetAnimation
-	ldr r0, _02155A50 // =EnemyRobot__State_2155A54
+	ldr r0, =EnemyRobot__State_2155A54
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02155A50: .word EnemyRobot__State_2155A54
-	arm_func_end EnemyRobot__OnDetect_21559D8
 
-	arm_func_start EnemyRobot__State_2155A54
-EnemyRobot__State_2155A54: // 0x02155A54
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__State_2155A54(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -861,7 +941,7 @@ EnemyRobot__State_2155A54: // 0x02155A54
 	mov r0, r4
 	mov r1, #2
 	bl GameObject__SetAnimation
-	ldr r2, _02155AC0 // =EnemyRobot__State_2155AC4
+	ldr r2, =EnemyRobot__State_2155AC4
 	mov r0, #0x76
 	sub r1, r0, #0x77
 	str r2, [r4, #0xf4]
@@ -874,12 +954,17 @@ EnemyRobot__State_2155A54: // 0x02155A54
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02155AC0: .word EnemyRobot__State_2155AC4
-	arm_func_end EnemyRobot__State_2155A54
 
-	arm_func_start EnemyRobot__State_2155AC4
-EnemyRobot__State_2155AC4: // 0x02155AC4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__State_2155AC4(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x354]
@@ -918,7 +1003,7 @@ _02155B38:
 	strne r0, [r5, #0xc8]
 	bne _02155BB8
 	ldr r0, [r5, #0xc8]
-	ldr r1, _02155C54 // =0x00000199
+	ldr r1, =0x00000199
 	bl ObjSpdDownSet
 	str r0, [r5, #0xc8]
 	b _02155BB8
@@ -966,7 +1051,7 @@ _02155BB8:
 	str r2, [r5, #0x2c]
 	bl GameObject__SetAnimation
 	ldr r1, [r5, #0x20]
-	ldr r0, _02155C58 // =EnemyRobot__State_21559AC
+	ldr r0, =EnemyRobot__State_21559AC
 	orr r1, r1, #0x10
 	str r1, [r5, #0x20]
 	str r0, [r5, #0xf4]
@@ -989,27 +1074,35 @@ _02155C10:
 	orr r0, r0, #4
 	str r0, [r5, #0x20]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02155C54: .word 0x00000199
-_02155C58: .word EnemyRobot__State_21559AC
-	arm_func_end EnemyRobot__State_2155AC4
 
-	arm_func_start EnemyRobot__OnDetect_2155C5C
-EnemyRobot__OnDetect_2155C5C: // 0x02155C5C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__OnDetect_2155C5C(EnemyRobot *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r1, #0
 	str r1, [r0, #0xc8]
 	str r1, [r0, #0x28]
 	mov r2, #3
-	ldr r1, _02155C7C // =EnemyRobot__State_2155C80
+	ldr r1, =EnemyRobot__State_2155C80
 	str r2, [r0, #0x2c]
 	str r1, [r0, #0xf4]
 	bx lr
-	.align 2, 0
-_02155C7C: .word EnemyRobot__State_2155C80
-	arm_func_end EnemyRobot__OnDetect_2155C5C
 
-	arm_func_start EnemyRobot__State_2155C80
-EnemyRobot__State_2155C80: // 0x02155C80
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__State_2155C80(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r2, [r4, #0x28]
@@ -1039,7 +1132,7 @@ _02155CA8:
 	orr r2, r2, #0x80
 	str r2, [r4, #0x1c]
 	bl GameObject__SetAnimation
-	ldr r0, _02155DFC // =mapCamera
+	ldr r0, =mapCamera
 	mov r1, #0
 	ldrh r3, [r0, #0x6e]
 	mov r0, r4
@@ -1084,7 +1177,7 @@ _02155D90:
 	ldr r0, [r4, #0x354]
 	tst r0, #0x8000
 	ldmeqia sp!, {r4, pc}
-	ldr r0, _02155DFC // =mapCamera
+	ldr r0, =mapCamera
 	ldr r1, [r4, #0x48]
 	ldrh r3, [r0, #0x6e]
 	cmp r1, r3, lsl #12
@@ -1109,12 +1202,17 @@ _02155DD0:
 	ldr r1, [r4, #0x3ac]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02155DFC: .word mapCamera
-	arm_func_end EnemyRobot__State_2155C80
 
-	arm_func_start EnemyRobot__OnDetect_FoundFX
-EnemyRobot__OnDetect_FoundFX: // 0x02155E00
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__OnDetect_FoundFX(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	mov r4, r0
@@ -1127,16 +1225,21 @@ EnemyRobot__OnDetect_FoundFX: // 0x02155E00
 	str r3, [r4, #0x20]
 	bl CreateEffectFound
 	mov r1, #0xc
-	ldr r0, _02155E40 // =EnemyRobot__State_2155E44
+	ldr r0, =EnemyRobot__State_2155E44
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02155E40: .word EnemyRobot__State_2155E44
-	arm_func_end EnemyRobot__OnDetect_FoundFX
 
-	arm_func_start EnemyRobot__State_2155E44
-EnemyRobot__State_2155E44: // 0x02155E44
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__State_2155E44(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -1148,15 +1251,20 @@ EnemyRobot__State_2155E44: // 0x02155E44
 	bic r2, r2, #0x10
 	str r2, [r4, #0x20]
 	bl GameObject__SetAnimation
-	ldr r0, _02155E7C // =EnemyRobot__State_2155E80
+	ldr r0, =EnemyRobot__State_2155E80
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02155E7C: .word EnemyRobot__State_2155E80
-	arm_func_end EnemyRobot__State_2155E44
 
-	arm_func_start EnemyRobot__State_2155E80
-EnemyRobot__State_2155E80: // 0x02155E80
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyRobot__State_2155E80(EnemyRobot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -1253,178 +1361,77 @@ _02155FD0:
 	blx r1
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end EnemyRobot__State_2155E80
 
-	arm_func_start EnemyRobot__OnDefend_Hurtbox
-EnemyRobot__OnDefend_Hurtbox: // 0x02155FF0
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	ldr r4, [r1, #0x1c]
-	ldr r3, [r0, #0x1c]
-	cmp r4, #0
-	cmpne r3, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r2, [r3]
-	cmp r2, #1
-	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r2, [r3, #0x5d8]
-	tst r2, #0x80
-	beq _02156038
-	bl ObjRect__FuncNoHit
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-_02156038:
-	ldr r5, [r4, #0x48]
-	ldr r0, [r3, #0x48]
-	mov r2, #0x5000
-	str r0, [r4, #0x48]
-	ldr r0, [r4, #0x20]
-	mov ip, #0
-	tst r0, #1
-	mov r0, #0x60000
-	str r0, [sp]
-	mov r0, r3
-	rsbeq r2, r2, #0
-	mov r1, r4
-	sub r3, ip, #0x1000
-	str ip, [sp, #4]
-	bl Player__Action_PopSteam
-	str r5, [r4, #0x48]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end EnemyRobot__OnDefend_Hurtbox
+// clang-format on
+#endif
+}
 
-	arm_func_start EnemyRobot__OnDefend_Detector
-EnemyRobot__OnDefend_Detector: // 0x02156080
-	stmdb sp!, {r3, lr}
-	ldr ip, [r1, #0x1c]
-	ldr r2, [r0, #0x1c]
-	ldr r0, [ip, #0x18]
-	tst r0, #2
-	ldmneia sp!, {r3, pc}
-	ldr r0, [r2, #0x44]
-	add r1, ip, #0x300
-	str r0, [ip, #0x3a4]
-	ldr r0, [r2, #0x48]
-	ldr r2, _021560DC // =_02188B48
-	str r0, [ip, #0x3a8]
-	ldr r3, [ip, #0x37c]
-	mov r0, ip
-	bic r3, r3, #4
-	str r3, [ip, #0x37c]
-	ldrh r3, [r1, #0xc6]
-	mov r3, r3, lsl #1
-	ldrsh r2, [r2, r3]
-	strh r2, [r1, #0xc4]
-	ldr r1, [ip, #0x3b0]
-	blx r1
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021560DC: .word _02188B48
-	arm_func_end EnemyRobot__OnDefend_Detector
+void EnemyRobot__OnDefend_Hurtbox(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+    EnemyRobot *robot = (EnemyRobot *)rect2->parent;
+    Player *player    = (Player *)rect1->parent;
 
-	arm_func_start EnemyRobot__OnDefend_TutorialEnemy
-EnemyRobot__OnDefend_TutorialEnemy: // 0x021560E0
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r4, r1
-	bl SetTutorialEnemyDestroy
-	mov r0, r5
-	mov r1, r4
-	bl GameObject__OnDefend_Enemy
-	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end EnemyRobot__OnDefend_TutorialEnemy
+    if (robot == NULL || player == NULL)
+        return;
 
-	arm_func_start EnemyRobot__Func_2156100
-EnemyRobot__Func_2156100: // 0x02156100
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r0, [r4, #0x340]
-	ldrh r0, [r0, #2]
-	cmp r0, #0
-	beq _0215612C
-	cmp r0, #3
-	beq _02156164
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-_0215612C:
-	mov r1, #0
-	mov r0, #0x78
-	str r1, [sp]
-	sub r1, r0, #0x79
-	str r0, [sp, #4]
-	ldr r0, [r4, #0x138]
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	ldr r0, [r4, #0x138]
-	add r1, r4, #0x44
-	bl ProcessSpatialSfx
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-_02156164:
-	mov r0, #0xf0
-	mov r3, r4
-	str r0, [sp]
-	mov ip, #0x30
-	mov r0, #0
-	mov r1, #0x84
-	mov r2, #0xf
-	str ip, [sp, #4]
-	bl CreateManagedSfx
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-	arm_func_end EnemyRobot__Func_2156100
+    if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
+        return;
 
-	.rodata
+    if ((player->playerFlag & PLAYER_FLAG_SUPERBOOST) != 0)
+    {
+        ObjRect__FuncNoHit(rect1, rect2);
+    }
+    else
+    {
+        fx32 y                             = robot->gameWork.objWork.position.y;
+        robot->gameWork.objWork.position.y = player->objWork.position.y;
 
-.public _02188194
-_02188194: // 0x02188194
-    .hword 0x14, 0x15, 0x14, 0x25, 0x24, 0
+        fx32 velX;
+        if ((robot->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
+            velX = -FLOAT_TO_FX32(5.0);
+        else
+            velX = FLOAT_TO_FX32(5.0);
 
-.public _021881A0
-_021881A0: // 0x021881A0
-    .word 3, 4, 5, 6, 7
+        Player__Action_PopSteam(player, &robot->gameWork, velX, -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(96.0), 0);
 
-.public _021881B4
-_021881B4: // 0x021881B4
-    .hword 0xFF76, 0xFFD8, 0xFFF6, 0xFFF8
-	.hword 0xFF42, 0xFFB8, 0xFFF6, 0xFFF8
-	.hword 0xFF9C, 0x1E, 0xFFEC, 0x80
-	.hword 0xFF92, 0xFFB8, 0xFFF6, 0xFFF8
-	.hword 0xFF92, 0xFFB8, 0xFFF6, 0xFFF8
+        robot->gameWork.objWork.position.y = y;
+    }
+}
 
-	.data
+void EnemyRobot__OnDefend_Detector(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+    EnemyRobot *robot = (EnemyRobot *)rect2->parent;
+    Player *player    = (Player *)rect1->parent;
 
-_02188B48:
-	.word 0x1E0078, 0xF0003C, 0x78
+    if ((robot->gameWork.objWork.flag & STAGE_TASK_FLAG_2) == 0)
+    {
+        robot->field_3A4.x = player->objWork.position.x;
+        robot->field_3A4.y = player->objWork.position.y;
+        robot->collider.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        robot->field_3C4 = _02188B48[robot->type];
+        robot->onDetect(robot);
+    }
+}
 
-_02188B54:
-	.word aActAcEneTriBac 	// "/act/ac_ene_tri.bac"
-	.word aActAcEneFlyFis  	// "/act/ac_ene_fly_fish.bac"
-	.word aActAcEnePteraB  	// "/act/ac_ene_ptera.bac"
-	.word aActAcEneProtSp  	// "/act/ac_ene_prot_span.bac"
-	.word aActAcEneProtDa_0	// "/act/ac_ene_prot_damp.bac"
+void EnemyRobot__OnDefend_TutorialEnemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+    SetTutorialEnemyDestroy();
+    GameObject__OnDefend_Enemy(rect1, rect2);
+}
 
-aActAcEneTriBac: // 0x02188B68
-	.asciz "/act/ac_ene_tri.bac"
-	.align 4
-	
-aActAcEnePteraB: // 0x02188B7C
-	.asciz "/act/ac_ene_ptera.bac"
-	.align 4
-	
-aActAcEneFlyFis: // 0x02188B94
-	.asciz "/act/ac_ene_fly_fish.bac"
-	.align 4
-	
-aActAcEneProtSp: // 0x02188BB0
-	.asciz "/act/ac_ene_prot_span.bac"
-	.align 4
-	
-aActAcEneProtDa_0: // 0x02188BCC
-	.asciz "/act/ac_ene_prot_damp.bac"
-	.align 4
+void EnemyRobot__Func_2156100(EnemyRobot *work)
+{
+    switch (work->gameWork.mapObject->id)
+    {
+        case MAPOBJECT_0:
+            PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TANK_ACCEL);
+            ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
+            break;
+
+        case MAPOBJECT_3:
+            CreateManagedSfx(SND_ZONE_SEQARC_GAME_SE, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPANNER,
+                             MANAGEDSFX_FLAG_DESTROY_WITH_PARENT | MANAGEDSFX_FLAG_HAS_PARENT | MANAGEDSFX_FLAG_HAS_DELAY | MANAGEDSFX_FLAG_HAS_DURATION, &work->gameWork.objWork,
+                             240, 48);
+            break;
+    }
+}

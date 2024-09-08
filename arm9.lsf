@@ -367,18 +367,27 @@ Overlay ZoneAct
     Object asm/stage/decoration/decorationSys_vars_bss.o
     
     ## STAGE OBJECTS ##
-    Object asm/stage/objects/enemyPirate.o
-    Object asm/stage/objects/enemyProtJet.o
-    Object asm/stage/objects/enemyAngler.o
-    Object asm/stage/objects/enemyCrab.o
-    Object asm/stage/objects/enemyGhost.o
-    Object asm/stage/objects/enemySnowflakeHead.o
-    Object asm/stage/objects/enemySnowball.o
-    Object src/stage/enemies/enemyGlider.o
-    Object asm/stage/objects/enemyParts.o
+    Object asm/stage/objects/enemyRobot_vars.o
+    Object src/stage/enemies/robot.o
+    Object asm/stage/objects/enemyProtJet_vars.o
+    Object src/stage/enemies/protJet.o
+    Object asm/stage/objects/enemyAngler_vars.o
+    Object src/stage/enemies/angler.o
+    Object src/stage/enemies/crab.o
+    Object asm/stage/objects/enemyGhost_vars.o
+    Object src/stage/enemies/ghost.o
+    Object asm/stage/objects/enemySnowflakeHead_vars.o
+    Object src/stage/enemies/snowflakeHead.o
+    Object asm/stage/objects/enemySnowball_vars.o
+    Object src/stage/enemies/snowball.o
+    Object src/stage/enemies/glider.o
+    Object asm/stage/objects/enemyPirate_vars.o
+    Object src/stage/enemies/pirate.o
     Object src/stage/enemies/fireSkull.o
-    Object asm/stage/objects/enemyDiveBat.o
-    Object asm/stage/objects/enemySkymoon.o
+    Object asm/stage/objects/enemyDiveBat_vars.o
+    Object src/stage/enemies/diveBat.o
+    Object asm/stage/objects/enemySkymoon_vars.o
+    Object src/stage/enemies/skymoon.o
     Object src/stage/objects/flagChange.o
     Object src/stage/objects/spring.o
     Object src/stage/objects/dashPanel.o

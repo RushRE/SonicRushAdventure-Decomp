@@ -1,4 +1,3 @@
-
 #include <stage/enemies/fireSkull.h>
 #include <game/game/gameState.h>
 #include <game/stage/gameSystem.h>
@@ -45,7 +44,7 @@ static void EnemyFireSkull_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 // FUNCTIONS
 // --------------------
 
-EnemyFireSkull *CreateEnemyFireSkull(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+EnemyFireSkull *CreateFireSkull(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
     if (mapObject == NULL || (mapObject->x != MAPOBJECT_DESTROYED || mapObject->y != MAPOBJECT_DESTROYED))
     {

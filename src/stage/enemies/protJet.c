@@ -1,10 +1,24 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/enemies/protJet.h>
+#include <game/game/gameState.h>
+#include <game/stage/gameSystem.h>
+#include <game/object/objectManager.h>
+#include <game/object/obj.h>
+#include <game/audio/spatialAudio.h>
+#include <stage/effects/explosion.h>
 
-	arm_func_start EnemyProtJet__Create
-EnemyProtJet__Create: // 0x02156190
+NOT_DECOMPILED void *_02188BE8;
+NOT_DECOMPILED void *aActAcEneProtJe;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC EnemyProtJet *EnemyProtJet__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	movs r7, r0
@@ -17,7 +31,7 @@ EnemyProtJet__Create: // 0x02156190
 	cmpeq r0, #0xff
 	beq _021561E0
 _021561BC:
-	ldr r0, _0215636C // =gameState
+	ldr r0, =gameState
 	ldr r0, [r0, #0x18]
 	cmp r0, #0
 	bne _021561E0
@@ -33,8 +47,8 @@ _021561E0:
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x394
-	ldr r0, _02156370 // =StageTask_Main
-	ldr r1, _02156374 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -71,7 +85,7 @@ _021561E0:
 	bne _021562F0
 	add r0, r4, #0x300
 	mov r2, #0
-	ldr r1, _02156378 // =EnemyProtJet__OnInit_21563B4
+	ldr r1, =EnemyProtJet__OnInit_21563B4
 	strh r2, [r0, #0x78]
 	str r1, [r4, #0x364]
 	strh r2, [r0, #0x7c]
@@ -82,7 +96,7 @@ _021561E0:
 _021562B0:
 	add r0, r4, #0x300
 	mov r2, #1
-	ldr r1, _0215637C // =EnemyProtJet__OnInit_21563E4
+	ldr r1, =EnemyProtJet__OnInit_21563E4
 	strh r2, [r0, #0x78]
 	str r1, [r4, #0x364]
 	strh r2, [r0, #0x7c]
@@ -99,10 +113,10 @@ _021562B0:
 _021562F0:
 	mov r0, #8
 	bl GetObjectFileWork
-	ldr r1, _02156380 // =gameArchiveStage
-	ldr r2, _02156384 // =0x0000FFFF
+	ldr r1, =gameArchiveStage
+	ldr r2, =0x0000FFFF
 	ldr r3, [r1]
-	ldr r1, _02156388 // =_02188BE8
+	ldr r1, =_02188BE8
 	str r3, [sp]
 	str r2, [sp, #4]
 	mov r3, r0
@@ -128,19 +142,18 @@ _021562F0:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_0215636C: .word gameState
-_02156370: .word StageTask_Main
-_02156374: .word GameObject__Destructor
-_02156378: .word EnemyProtJet__OnInit_21563B4
-_0215637C: .word EnemyProtJet__OnInit_21563E4
-_02156380: .word gameArchiveStage
-_02156384: .word 0x0000FFFF
-_02156388: .word _02188BE8
-	arm_func_end EnemyProtJet__Create
 
-	arm_func_start EnemyProtJet__InitFlyRange
-EnemyProtJet__InitFlyRange: // 0x0215638C
+// clang-format on
+#endif
+}
+
+
+NONMATCH_FUNC void EnemyProtJet__InitFlyRange(EnemyProtJet *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r1, [r0, #0x340]
 	ldr r2, [r0, #0x48]
 	ldrsb r1, [r1, #7]
@@ -151,27 +164,39 @@ EnemyProtJet__InitFlyRange: // 0x0215638C
 	add r1, r2, r1, lsl #12
 	str r1, [r0, #0x374]
 	bx lr
-	arm_func_end EnemyProtJet__InitFlyRange
 
-	arm_func_start EnemyProtJet__OnInit_21563B4
-EnemyProtJet__OnInit_21563B4: // 0x021563B4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyProtJet__OnInit_21563B4(EnemyProtJet *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x300
 	ldrh r1, [r1, #0x7c]
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _021563E0 // =EnemyProtJet__State_2156428
+	ldr r0, =EnemyProtJet__State_2156428
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021563E0: .word EnemyProtJet__State_2156428
-	arm_func_end EnemyProtJet__OnInit_21563B4
 
-	arm_func_start EnemyProtJet__OnInit_21563E4
-EnemyProtJet__OnInit_21563E4: // 0x021563E4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyProtJet__OnInit_21563E4(EnemyProtJet *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x300
@@ -182,21 +207,26 @@ EnemyProtJet__OnInit_21563E4: // 0x021563E4
 	orr r0, r0, #4
 	str r0, [r4, #0x20]
 	ldr r2, [r4, #0x384]
-	ldr r0, _02156424 // =EnemyProtJet__State_2156468
+	ldr r0, =EnemyProtJet__State_2156468
 	rsb r2, r2, #0
 	str r2, [r4, #0x9c]
 	str r1, [r4, #0x28]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02156424: .word EnemyProtJet__State_2156468
-	arm_func_end EnemyProtJet__OnInit_21563E4
 
-	arm_func_start EnemyProtJet__State_2156428
-EnemyProtJet__State_2156428: // 0x02156428
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyProtJet__State_2156428(EnemyProtJet *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	add r1, r0, #0x300
 	ldrh r3, [r1, #0x7e]
-	ldr r2, _02156464 // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	mov r3, r3, asr #4
 	mov r3, r3, lsl #1
 	add r3, r3, #1
@@ -209,12 +239,17 @@ EnemyProtJet__State_2156428: // 0x02156428
 	add r0, r2, r0
 	strh r0, [r1, #0x7e]
 	bx lr
-	.align 2, 0
-_02156464: .word FX_SinCosTable_
-	arm_func_end EnemyProtJet__State_2156428
 
-	arm_func_start EnemyProtJet__State_2156468
-EnemyProtJet__State_2156468: // 0x02156468
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyProtJet__State_2156468(EnemyProtJet *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -311,13 +346,7 @@ _021565BC:
 	bl ProcessSpatialSfx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end EnemyProtJet__State_2156468
 
-	.data
-	
-_02188BE8:
-	.word aActAcEneProtJe
-
-aActAcEneProtJe: // 0x02188BEC
-	.asciz "/act/ac_ene_prot_jet.bac"
-	.align 4
+// clang-format on
+#endif
+}

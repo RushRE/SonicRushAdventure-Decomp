@@ -1,10 +1,50 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/enemies/pirate.h>
+#include <game/game/gameState.h>
+#include <game/stage/gameSystem.h>
+#include <game/object/objectManager.h>
+#include <game/object/obj.h>
+#include <game/audio/spatialAudio.h>
+#include <stage/effects/explosion.h>
+#include <stage/effects/found.h>
 
-	arm_func_start EnemyPirate__Create
-EnemyPirate__Create: // 0x021590E8
+NOT_DECOMPILED const void *_021881DC;
+NOT_DECOMPILED const void *_021881F8;
+NOT_DECOMPILED const void *_02188208;
+NOT_DECOMPILED const void *_02188218;
+NOT_DECOMPILED const void *_02188234;
+NOT_DECOMPILED const void *_02188238;
+NOT_DECOMPILED const void *_02188254;
+NOT_DECOMPILED const void *_0218828C;
+NOT_DECOMPILED const void *_021882C4;
+NOT_DECOMPILED const void *_021882C8;
+NOT_DECOMPILED const void *_021882CC;
+NOT_DECOMPILED const void *_021882DC;
+
+NOT_DECOMPILED void *aActAcEnePrtBom;
+NOT_DECOMPILED void *aActAcEnePrtHog;
+NOT_DECOMPILED void *aActAcEneHobarG;
+NOT_DECOMPILED void *aActAcEnePrtKni;
+NOT_DECOMPILED void *aActAcEnePSkele;
+NOT_DECOMPILED void *aActAcEneHobarB;
+NOT_DECOMPILED void *_02188D4C;
+NOT_DECOMPILED void *_02188D50;
+NOT_DECOMPILED void *_02188D54;
+NOT_DECOMPILED void *_02188D58;
+NOT_DECOMPILED void *_02188D5C;
+NOT_DECOMPILED void *_02188D60;
+NOT_DECOMPILED void *_02188D64;
+NOT_DECOMPILED void *aActAcEnePrtBaz;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC EnemyPirate *EnemyPirate__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	movs r8, r0
@@ -17,7 +57,7 @@ EnemyPirate__Create: // 0x021590E8
 	cmpeq r0, #0xff
 	beq _02159138
 _02159114:
-	ldr r0, _021596AC // =gameState
+	ldr r0, =gameState
 	ldr r0, [r0, #0x18]
 	cmp r0, #0
 	bne _02159138
@@ -33,8 +73,8 @@ _02159138:
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x3f4
-	ldr r0, _021596B0 // =StageTask_Main
-	ldr r1, _021596B4 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -80,7 +120,7 @@ _021591DC:
 	orr r1, r1, #0xc000
 	str r1, [r4, #0x1c]
 	bl EnemyPirate__Func_215A000
-	ldr r1, _021596B8 // =EnemyPirate__OnInit_215A36C
+	ldr r1, =EnemyPirate__OnInit_215A36C
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r2, r5
@@ -94,10 +134,10 @@ _021591DC:
 	strh r2, [r0, #0xd8]
 	mov r2, #0xc00
 	str r2, [r4, #0x3e0]
-	ldr r1, _021596BC // =EnemyPirate__OnDetect_215A714
+	ldr r1, =EnemyPirate__OnDetect_215A714
 	mov r2, #3
 	str r1, [r4, #0x3b0]
-	ldr r1, _021596C0 // =EnemyPirate__State_215A7D0
+	ldr r1, =EnemyPirate__State_215A7D0
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -112,7 +152,7 @@ _02159258:
 	orr r1, r1, #0x8000
 	str r1, [r4, #0x1c]
 	bl EnemyPirate__Func_215A000
-	ldr r1, _021596B8 // =EnemyPirate__OnInit_215A36C
+	ldr r1, =EnemyPirate__OnInit_215A36C
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r2, #0
@@ -126,10 +166,10 @@ _02159258:
 	strh r2, [r0, #0xd8]
 	mov r2, #0xf00
 	str r2, [r4, #0x3e0]
-	ldr r1, _021596BC // =EnemyPirate__OnDetect_215A714
+	ldr r1, =EnemyPirate__OnDetect_215A714
 	mov r2, r5
 	str r1, [r4, #0x3b0]
-	ldr r1, _021596C4 // =EnemyPirate__State_215A828
+	ldr r1, =EnemyPirate__State_215A828
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -149,7 +189,7 @@ _021592D4:
 	rsb r1, r1, #2
 	strb r1, [r4, #0x345]
 	bl EnemyPirate__Func_215A000
-	ldr r0, _021596C8 // =EnemyPirate__OnInit_215A618
+	ldr r0, =EnemyPirate__OnInit_215A618
 	mov r2, #0
 	str r0, [r4, #0x3ac]
 	add r0, r4, #0x300
@@ -160,12 +200,12 @@ _021592D4:
 	strh r1, [r0, #0xd4]
 	mov r2, #0x800
 	str r2, [r4, #0x3e0]
-	ldr r1, _021596BC // =EnemyPirate__OnDetect_215A714
+	ldr r1, =EnemyPirate__OnDetect_215A714
 	mov r2, #3
 	str r1, [r4, #0x3b0]
 	mov r1, #0xf
 	strh r1, [r0, #0xe6]
-	ldr r1, _021596CC // =EnemyPirate__State_215A8CC
+	ldr r1, =EnemyPirate__State_215A8CC
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -180,21 +220,21 @@ _02159360:
 	orr r1, r1, #0x8000
 	str r1, [r4, #0x1c]
 	bl EnemyPirate__Func_215A000
-	ldr r1, _021596B8 // =EnemyPirate__OnInit_215A36C
+	ldr r1, =EnemyPirate__OnInit_215A36C
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r1, #0
 	strh r1, [r0, #0xd0]
 	mov r2, #2
-	ldr r1, _021596D0 // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	strh r2, [r0, #0xd2]
 	strh r1, [r0, #0xd4]
 	mov r2, #0xc00
-	ldr r1, _021596BC // =EnemyPirate__OnDetect_215A714
+	ldr r1, =EnemyPirate__OnDetect_215A714
 	str r2, [r4, #0x3e0]
 	str r1, [r4, #0x3b0]
 	mov r2, #1
-	ldr r1, _021596C4 // =EnemyPirate__State_215A828
+	ldr r1, =EnemyPirate__State_215A828
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -209,7 +249,7 @@ _021593D0:
 	orr r1, r1, #0x8000
 	str r1, [r4, #0x1c]
 	bl EnemyPirate__Func_215A000
-	ldr r0, _021596D4 // =EnemyPirate__OnInit_215A674
+	ldr r0, =EnemyPirate__OnInit_215A674
 	mov r1, #1
 	str r0, [r4, #0x3ac]
 	add r0, r4, #0x300
@@ -224,11 +264,11 @@ _021593D0:
 	mov r1, #0x4000
 	strh r1, [r0, #0xda]
 	mov r2, #0xc00
-	ldr r1, _021596BC // =EnemyPirate__OnDetect_215A714
+	ldr r1, =EnemyPirate__OnDetect_215A714
 	str r2, [r4, #0x3e0]
 	str r1, [r4, #0x3b0]
 	mov r2, #2
-	ldr r1, _021596C4 // =EnemyPirate__State_215A828
+	ldr r1, =EnemyPirate__State_215A828
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -242,7 +282,7 @@ _02159454:
 	orr r1, r1, #0xf00
 	str r1, [r4, #0x1c]
 	bl EnemyPirate__Func_215A000
-	ldr r1, _021596D4 // =EnemyPirate__OnInit_215A674
+	ldr r1, =EnemyPirate__OnInit_215A674
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r2, #0
@@ -257,11 +297,11 @@ _02159454:
 	mov r1, #0x4000
 	strh r1, [r0, #0xda]
 	mov r2, #0xc00
-	ldr r1, _021596BC // =EnemyPirate__OnDetect_215A714
+	ldr r1, =EnemyPirate__OnDetect_215A714
 	str r2, [r4, #0x3e0]
 	str r1, [r4, #0x3b0]
 	mov r2, #3
-	ldr r1, _021596C4 // =EnemyPirate__State_215A828
+	ldr r1, =EnemyPirate__State_215A828
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 	b _02159550
@@ -275,7 +315,7 @@ _021594D4:
 	orr r1, r1, #0xf00
 	str r1, [r4, #0x1c]
 	bl EnemyPirate__Func_215A000
-	ldr r1, _021596D4 // =EnemyPirate__OnInit_215A674
+	ldr r1, =EnemyPirate__OnInit_215A674
 	add r0, r4, #0x300
 	str r1, [r4, #0x3ac]
 	mov r2, #0
@@ -290,23 +330,23 @@ _021594D4:
 	mov r1, #0x4000
 	strh r1, [r0, #0xda]
 	mov r2, #0xc00
-	ldr r1, _021596BC // =EnemyPirate__OnDetect_215A714
+	ldr r1, =EnemyPirate__OnDetect_215A714
 	str r2, [r4, #0x3e0]
 	str r1, [r4, #0x3b0]
 	mov r2, #3
-	ldr r1, _021596C4 // =EnemyPirate__State_215A828
+	ldr r1, =EnemyPirate__State_215A828
 	strh r2, [r0, #0xe4]
 	str r1, [r4, #0x3ec]
 _02159550:
-	ldr r0, _021596D8 // =_02188218
+	ldr r0, =_02188218
 	add r1, r4, #0x300
 	ldr r0, [r0, r5, lsl #2]
 	strh r5, [r1, #0xc6]
 	bl GetObjectFileWork
-	ldr r1, _021596DC // =gameArchiveStage
-	ldr r2, _021596D0 // =0x0000FFFF
+	ldr r1, =gameArchiveStage
+	ldr r2, =0x0000FFFF
 	ldr r3, [r1]
-	ldr r1, _021596E0 // =_02188D4C
+	ldr r1, =_02188D4C
 	str r3, [sp]
 	str r2, [sp, #4]
 	mov r3, r0
@@ -323,7 +363,7 @@ _02159550:
 	mov r0, r4
 	mov r1, #0
 	mov r3, r5, lsl #1
-	ldr r2, _021596E4 // =_021881DC
+	ldr r2, =_021881DC
 	ldrsh r2, [r2, r3]
 	bl ObjActionAllocSpritePalette
 	ldr r0, [r4, #0x1c]
@@ -337,12 +377,12 @@ _02159550:
 	str r6, [sp]
 	bl StageTask__SetHitbox
 _021595E8:
-	ldr r3, _021596E8 // =0x0218825A
+	ldr r3, =0x0218825A
 	mov r7, r5, lsl #3
-	ldr r1, _021596EC // =_02188254
-	ldr r2, _021596F0 // =0x02188256
+	ldr r1, =_02188254
+	ldr r2, =0x02188256
 	ldrsh r6, [r3, r7]
-	ldr r0, _021596F4 // =0x02188258
+	ldr r0, =0x02188258
 	ldrsh r1, [r1, r7]
 	ldrsh r3, [r0, r7]
 	ldrsh r2, [r2, r7]
@@ -353,21 +393,21 @@ _021595E8:
 	mov r2, r1
 	add r0, r4, #0x364
 	bl ObjRect__SetAttackStat
-	ldr r1, _021596F8 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x364
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _021596FC // =0x00000102
+	ldr r1, =0x00000102
 	add r0, r4, #0x300
 	strh r1, [r0, #0x98]
 	ldr r0, [r4, #0x37c]
 	cmp r5, #6
 	orr r0, r0, #0x4c0
 	str r0, [r4, #0x37c]
-	ldrne r0, _02159700 // =EnemyPirate__OnDefend_215B83C
+	ldrne r0, =EnemyPirate__OnDefend_215B83C
 	strne r0, [r4, #0x388]
 	bne _02159674
-	ldr r0, _02159704 // =EnemyPirate__OnDefend_215B8C4
+	ldr r0, =EnemyPirate__OnDefend_215B8C4
 	str r0, [r4, #0x388]
 	ldr r0, [r4, #0x37c]
 	bic r0, r0, #0x400
@@ -387,34 +427,17 @@ _02159674:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_021596AC: .word gameState
-_021596B0: .word StageTask_Main
-_021596B4: .word GameObject__Destructor
-_021596B8: .word EnemyPirate__OnInit_215A36C
-_021596BC: .word EnemyPirate__OnDetect_215A714
-_021596C0: .word EnemyPirate__State_215A7D0
-_021596C4: .word EnemyPirate__State_215A828
-_021596C8: .word EnemyPirate__OnInit_215A618
-_021596CC: .word EnemyPirate__State_215A8CC
-_021596D0: .word 0x0000FFFF
-_021596D4: .word EnemyPirate__OnInit_215A674
-_021596D8: .word _02188218
-_021596DC: .word gameArchiveStage
-_021596E0: .word _02188D4C
-_021596E4: .word _021881DC
-_021596E8: .word 0x0218825A
-_021596EC: .word _02188254
-_021596F0: .word 0x02188256
-_021596F4: .word 0x02188258
-_021596F8: .word 0x0000FFFE
-_021596FC: .word 0x00000102
-_02159700: .word EnemyPirate__OnDefend_215B83C
-_02159704: .word EnemyPirate__OnDefend_215B8C4
-	arm_func_end EnemyPirate__Create
 
-	arm_func_start EnemyBazookaPirateShot__Create
-EnemyBazookaPirateShot__Create: // 0x02159708
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC EnemyBazookaPirateShot *EnemyBazookaPirateShot__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1500
@@ -426,8 +449,8 @@ EnemyBazookaPirateShot__Create: // 0x02159708
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _02159868 // =StageTask_Main
-	ldr r1, _0215986C // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -453,7 +476,7 @@ EnemyBazookaPirateShot__Create: // 0x02159708
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02159870 // =EnemyBazookaPirateShot__OnHit
+	ldr r0, =EnemyBazookaPirateShot__OnHit
 	mov r3, #7
 	str r0, [r4, #0x278]
 	ldr r1, [r4, #0x20]
@@ -470,14 +493,14 @@ EnemyBazookaPirateShot__Create: // 0x02159708
 	mov r0, #0x10
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02159874 // =gameArchiveStage
-	ldr r1, _02159878 // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _0215987C // =_02188D4C
+	ldr r2, =_02188D4C
 	ldr r2, [r2, #4]
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
@@ -494,7 +517,7 @@ EnemyBazookaPirateShot__Create: // 0x02159708
 	mov r1, #4
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02159880 // =EnemyBazookaPirateShot__State_215AB70
+	ldr r0, =EnemyBazookaPirateShot__State_215AB70
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -503,18 +526,17 @@ EnemyBazookaPirateShot__Create: // 0x02159708
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02159868: .word StageTask_Main
-_0215986C: .word GameObject__Destructor
-_02159870: .word EnemyBazookaPirateShot__OnHit
-_02159874: .word gameArchiveStage
-_02159878: .word 0x0000FFFF
-_0215987C: .word _02188D4C
-_02159880: .word EnemyBazookaPirateShot__State_215AB70
-	arm_func_end EnemyBazookaPirateShot__Create
 
-	arm_func_start EnemyBallChainPirateBall__Create
-EnemyBallChainPirateBall__Create: // 0x02159884
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC EnemyBallChainPirateBall *EnemyBallChainPirateBall__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1500
@@ -526,8 +548,8 @@ EnemyBallChainPirateBall__Create: // 0x02159884
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x6e0
-	ldr r0, _021599F0 // =StageTask_Main
-	ldr r1, _021599F4 // =EnemyBallChainPirateBall__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =EnemyBallChainPirateBall__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -571,14 +593,14 @@ EnemyBallChainPirateBall__Create: // 0x02159884
 	mov r0, #0x11
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _021599F8 // =gameArchiveStage
-	ldr r1, _021599FC // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _02159A00 // =_02188D4C
+	ldr r2, =_02188D4C
 	ldr r2, [r2, #8]
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
@@ -595,30 +617,28 @@ EnemyBallChainPirateBall__Create: // 0x02159884
 	mov r1, #4
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02159A04 // =EnemyBallChainPirateBall__Draw_215A224
+	ldr r0, =EnemyBallChainPirateBall__Draw_215A224
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xfc]
-	ldr r1, _02159A08 // =EnemyBallChainPirateBall__State_215A198
-	ldr r0, _02159A0C // =EnemyBallChainPirateBall__Unknown_215AC34
+	ldr r1, =EnemyBallChainPirateBall__State_215A198
+	ldr r0, =EnemyBallChainPirateBall__Unknown_215AC34
 	str r1, [r4, #0xf4]
 	str r0, [r4, #0x6c8]
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_021599F0: .word StageTask_Main
-_021599F4: .word EnemyBallChainPirateBall__Destructor
-_021599F8: .word gameArchiveStage
-_021599FC: .word 0x0000FFFF
-_02159A00: .word _02188D4C
-_02159A04: .word EnemyBallChainPirateBall__Draw_215A224
-_02159A08: .word EnemyBallChainPirateBall__State_215A198
-_02159A0C: .word EnemyBallChainPirateBall__Unknown_215AC34
-	arm_func_end EnemyBallChainPirateBall__Create
 
-	arm_func_start EnemyBombPirateBomb__Create
-EnemyBombPirateBomb__Create: // 0x02159A10
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC EnemyBombPirateBomb *EnemyBombPirateBomb__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1500
@@ -630,8 +650,8 @@ EnemyBombPirateBomb__Create: // 0x02159A10
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x368
-	ldr r0, _02159B70 // =StageTask_Main
-	ldr r1, _02159B74 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -657,7 +677,7 @@ EnemyBombPirateBomb__Create: // 0x02159A10
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02159B78 // =EnemyBombPirateBomb__OnHit
+	ldr r0, =EnemyBombPirateBomb__OnHit
 	mov r3, #6
 	str r0, [r4, #0x278]
 	ldr r1, [r4, #0x20]
@@ -674,14 +694,14 @@ EnemyBombPirateBomb__Create: // 0x02159A10
 	mov r0, #0x12
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02159B7C // =gameArchiveStage
-	ldr r1, _02159B80 // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _02159B84 // =_02188D4C
+	ldr r2, =_02188D4C
 	ldr r2, [r2, #0xc]
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
@@ -698,7 +718,7 @@ EnemyBombPirateBomb__Create: // 0x02159A10
 	mov r1, #3
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02159B88 // =EnemyBombPirateBomb__State_215B218
+	ldr r0, =EnemyBombPirateBomb__State_215B218
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -707,18 +727,17 @@ EnemyBombPirateBomb__Create: // 0x02159A10
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02159B70: .word StageTask_Main
-_02159B74: .word GameObject__Destructor
-_02159B78: .word EnemyBombPirateBomb__OnHit
-_02159B7C: .word gameArchiveStage
-_02159B80: .word 0x0000FFFF
-_02159B84: .word _02188D4C
-_02159B88: .word EnemyBombPirateBomb__State_215B218
-	arm_func_end EnemyBombPirateBomb__Create
 
-	arm_func_start EnemySkeletonPirateBone__Create
-EnemySkeletonPirateBone__Create: // 0x02159B8C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC EnemySkeletonPirateBone *EnemySkeletonPirateBone__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1500
@@ -730,8 +749,8 @@ EnemySkeletonPirateBone__Create: // 0x02159B8C
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _02159CEC // =StageTask_Main
-	ldr r1, _02159CF0 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -757,7 +776,7 @@ EnemySkeletonPirateBone__Create: // 0x02159B8C
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02159CF4 // =EnemySkeletonPirateBone__OnHit
+	ldr r0, =EnemySkeletonPirateBone__OnHit
 	mov r3, #3
 	str r0, [r4, #0x278]
 	ldr r1, [r4, #0x20]
@@ -774,14 +793,14 @@ EnemySkeletonPirateBone__Create: // 0x02159B8C
 	mov r0, #0x13
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02159CF8 // =gameArchiveStage
-	ldr r1, _02159CFC // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _02159D00 // =_02188D4C
+	ldr r2, =_02188D4C
 	ldr r2, [r2, #0x10]
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
@@ -798,7 +817,7 @@ EnemySkeletonPirateBone__Create: // 0x02159B8C
 	mov r1, #3
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02159D04 // =EnemySkeletonPirateBone__State_215B434
+	ldr r0, =EnemySkeletonPirateBone__State_215B434
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -807,18 +826,17 @@ EnemySkeletonPirateBone__Create: // 0x02159B8C
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02159CEC: .word StageTask_Main
-_02159CF0: .word GameObject__Destructor
-_02159CF4: .word EnemySkeletonPirateBone__OnHit
-_02159CF8: .word gameArchiveStage
-_02159CFC: .word 0x0000FFFF
-_02159D00: .word _02188D4C
-_02159D04: .word EnemySkeletonPirateBone__State_215B434
-	arm_func_end EnemySkeletonPirateBone__Create
 
-	arm_func_start EnemyHoverBomberPirateBomb__Create
-EnemyHoverBomberPirateBomb__Create: // 0x02159D08
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC EnemyHoverBomberPirateBomb *EnemyHoverBomberPirateBomb__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1500
@@ -830,8 +848,8 @@ EnemyHoverBomberPirateBomb__Create: // 0x02159D08
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _02159E68 // =StageTask_Main
-	ldr r1, _02159E6C // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -857,7 +875,7 @@ EnemyHoverBomberPirateBomb__Create: // 0x02159D08
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02159E70 // =EnemyHoverBomberPirateBomb__OnHit
+	ldr r0, =EnemyHoverBomberPirateBomb__OnHit
 	mov r3, #8
 	str r0, [r4, #0x278]
 	ldr r1, [r4, #0x20]
@@ -874,14 +892,14 @@ EnemyHoverBomberPirateBomb__Create: // 0x02159D08
 	mov r0, #0x14
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02159E74 // =gameArchiveStage
-	ldr r1, _02159E78 // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _02159E7C // =_02188D4C
+	ldr r2, =_02188D4C
 	ldr r2, [r2, #0x14]
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
@@ -898,7 +916,7 @@ EnemyHoverBomberPirateBomb__Create: // 0x02159D08
 	mov r1, #4
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02159E80 // =EnemyHoverBomberPirateBomb__State_215B4F4
+	ldr r0, =EnemyHoverBomberPirateBomb__State_215B4F4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -907,18 +925,17 @@ EnemyHoverBomberPirateBomb__Create: // 0x02159D08
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02159E68: .word StageTask_Main
-_02159E6C: .word GameObject__Destructor
-_02159E70: .word EnemyHoverBomberPirateBomb__OnHit
-_02159E74: .word gameArchiveStage
-_02159E78: .word 0x0000FFFF
-_02159E7C: .word _02188D4C
-_02159E80: .word EnemyHoverBomberPirateBomb__State_215B4F4
-	arm_func_end EnemyHoverBomberPirateBomb__Create
 
-	arm_func_start EnemyHoverGunnerPirateShot__Create
-EnemyHoverGunnerPirateShot__Create: // 0x02159E84
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC EnemyHoverGunnerPirateShot *EnemyHoverGunnerPirateShot__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1500
@@ -930,8 +947,8 @@ EnemyHoverGunnerPirateShot__Create: // 0x02159E84
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _02159FE4 // =StageTask_Main
-	ldr r1, _02159FE8 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -957,7 +974,7 @@ EnemyHoverGunnerPirateShot__Create: // 0x02159E84
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02159FEC // =EnemyBazookaPirateShot__OnHit
+	ldr r0, =EnemyBazookaPirateShot__OnHit
 	mov r3, #4
 	str r0, [r4, #0x278]
 	ldr r1, [r4, #0x20]
@@ -974,14 +991,14 @@ EnemyHoverGunnerPirateShot__Create: // 0x02159E84
 	mov r0, #0x15
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02159FF0 // =gameArchiveStage
-	ldr r1, _02159FF4 // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _02159FF8 // =_02188D4C
+	ldr r2, =_02188D4C
 	ldr r2, [r2, #0x18]
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
@@ -998,7 +1015,7 @@ EnemyHoverGunnerPirateShot__Create: // 0x02159E84
 	mov r1, #4
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _02159FFC // =EnemyHoverGunnerPirateShot__State_215B5C0
+	ldr r0, =EnemyHoverGunnerPirateShot__State_215B5C0
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -1007,18 +1024,18 @@ EnemyHoverGunnerPirateShot__Create: // 0x02159E84
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02159FE4: .word StageTask_Main
-_02159FE8: .word GameObject__Destructor
-_02159FEC: .word EnemyBazookaPirateShot__OnHit
-_02159FF0: .word gameArchiveStage
-_02159FF4: .word 0x0000FFFF
-_02159FF8: .word _02188D4C
-_02159FFC: .word EnemyHoverGunnerPirateShot__State_215B5C0
-	arm_func_end EnemyHoverGunnerPirateShot__Create
 
-	arm_func_start EnemyPirate__Func_215A000
-EnemyPirate__Func_215A000: // 0x0215A000
+// clang-format on
+#endif
+}
+
+
+NONMATCH_FUNC void EnemyPirate__Func_215A000(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r1, [r0, #0x340]
 	ldr r2, [r0, #0x44]
 	ldrsb r1, [r1, #6]
@@ -1029,10 +1046,17 @@ EnemyPirate__Func_215A000: // 0x0215A000
 	add r1, r2, r1, lsl #12
 	str r1, [r0, #0x3bc]
 	bx lr
-	arm_func_end EnemyPirate__Func_215A000
 
-	arm_func_start EnemyPirate__Func_215A028
-EnemyPirate__Func_215A028: // 0x0215A028
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__Func_215A028(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	add r1, r0, #0x300
 	ldrsh r2, [r1, #0xc4]
 	cmp r2, #0
@@ -1045,10 +1069,17 @@ EnemyPirate__Func_215A028: // 0x0215A028
 	orreq r1, r1, #4
 	streq r1, [r0, #0x37c]
 	bx lr
-	arm_func_end EnemyPirate__Func_215A028
 
-	arm_func_start EnemyBallChainPirateBall__Destructor
-EnemyBallChainPirateBall__Destructor: // 0x0215A058
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBallChainPirateBall__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -1082,10 +1113,17 @@ _0215A0C4:
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end EnemyBallChainPirateBall__Destructor
 
-	arm_func_start EnemyPirate__Func_215A0D0
-EnemyPirate__Func_215A0D0: // 0x0215A0D0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__Func_215A0D0(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r3, r0
@@ -1103,12 +1141,12 @@ EnemyPirate__Func_215A0D0: // 0x0215A0D0
 	bl GameObject__InitFromObject
 	mov r0, #0x11
 	bl GetObjectFileWork
-	ldr r1, _0215A18C // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r0, [r1]
-	ldr r1, _0215A190 // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	str r0, [sp]
-	ldr r0, _0215A194 // =_02188D4C
+	ldr r0, =_02188D4C
 	str r1, [sp, #4]
 	ldr r2, [r0, #8]
 	mov r0, r4
@@ -1133,14 +1171,17 @@ EnemyPirate__Func_215A0D0: // 0x0215A0D0
 	str r1, [r4, #0x20]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215A18C: .word gameArchiveStage
-_0215A190: .word 0x0000FFFF
-_0215A194: .word _02188D4C
-	arm_func_end EnemyPirate__Func_215A0D0
 
-	arm_func_start EnemyBallChainPirateBall__State_215A198
-EnemyBallChainPirateBall__State_215A198: // 0x0215A198
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBallChainPirateBall__State_215A198(EnemyBallChainPirateBall *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x20]
 	ldr ip, [r0, #0x11c]
@@ -1177,11 +1218,18 @@ _0215A20C:
 	ldmeqia sp!, {r3, pc}
 	blx r1
 	ldmia sp!, {r3, pc}
-	arm_func_end EnemyBallChainPirateBall__State_215A198
 
-	arm_func_start EnemyBallChainPirateBall__Draw_215A224
-EnemyBallChainPirateBall__Draw_215A224: // 0x0215A224
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBallChainPirateBall__Draw_215A224(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	bl GetCurrentTaskWork_
 	mov r5, r0
@@ -1208,51 +1256,51 @@ _0215A260:
 	sub r1, r8, r1
 	tst r0, #0x80
 	sub r4, r7, r2
-	mov fp, r1, asr #3
+	mov r11, r1, asr #3
 	mov r6, #0
 	bne _0215A2D4
-	mov sb, r6
-	mov sl, r6
+	mov r9, r6
+	mov r10, r6
 _0215A2A0:
-	sub r0, r7, sb
+	sub r0, r7, r9
 	str r0, [r5, #0x3a8]
-	sub r1, r8, sl
+	sub r1, r8, r10
 	add r0, r5, #0x364
 	str r1, [r5, #0x3ac]
 	bl StageTask__Draw
 	add r6, r6, #1
 	cmp r6, #8
-	add sb, sb, r4, asr #3
-	add sl, sl, fp
+	add r9, r9, r4, asr #3
+	add r10, r10, r11
 	blt _0215A2A0
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0215A2D4:
-	mov r0, fp, lsl #3
+	mov r0, r11, lsl #3
 	str r0, [sp]
 	mov r0, r0, asr #0x1f
-	mov sb, r6
-	mov sl, r6
+	mov r9, r6
+	mov r10, r6
 	str r0, [sp, #4]
 _0215A2EC:
-	mov r0, sl, lsl #0x10
+	mov r0, r10, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r0, r0, asr #4
 	mov r1, r0, lsl #2
-	ldr r0, _0215A368 // =FX_SinCosTable_
+	ldr r0, =FX_SinCosTable_
 	ldr ip, [sp]
 	ldrsh r2, [r0, r1]
-	sub r0, r7, sb
+	sub r0, r7, r9
 	str r0, [r5, #0x3a8]
 	mov r1, r2, asr #0x1f
-	umull fp, r3, ip, r2
+	umull r11, r3, ip, r2
 	mla r3, ip, r1, r3
 	ldr r1, [sp, #4]
 	add r0, r5, #0x364
 	mla r3, r1, r2, r3
-	adds r2, fp, #0x800
+	adds r2, r11, #0x800
 	adc r1, r3, #0
 	mov r2, r2, lsr #0xc
 	orr r2, r2, r1, lsl #20
@@ -1260,37 +1308,47 @@ _0215A2EC:
 	str r1, [r5, #0x3ac]
 	bl StageTask__Draw
 	add r6, r6, #1
-	add sb, sb, r4, asr #3
-	add sl, sl, #0x800
+	add r9, r9, r4, asr #3
+	add r10, r10, #0x800
 	cmp r6, #8
 	blt _0215A2EC
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	.align 2, 0
-_0215A368: .word FX_SinCosTable_
-	arm_func_end EnemyBallChainPirateBall__Draw_215A224
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 
-	arm_func_start EnemyPirate__OnInit_215A36C
-EnemyPirate__OnInit_215A36C: // 0x0215A36C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__OnInit_215A36C(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x300
 	ldrh r1, [r1, #0xd0]
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215A3A0 // =EnemyPirate__State_215A3A4
+	ldr r0, =EnemyPirate__State_215A3A4
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	mov r0, #0
 	str r0, [r4, #0x2c]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215A3A0: .word EnemyPirate__State_215A3A4
-	arm_func_end EnemyPirate__OnInit_215A36C
 
-	arm_func_start EnemyPirate__State_215A3A4
-EnemyPirate__State_215A3A4: // 0x0215A3A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__State_215A3A4(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -1326,7 +1384,7 @@ _0215A400:
 	ldr r0, [r6, #0x3cc]
 	cmp r0, #0
 	bne _0215A45C
-	ldr r0, _0215A610 // =0x00000116
+	ldr r0, =0x00000116
 	str r5, [sp]
 	str r0, [sp, #4]
 	sub r1, r5, #1
@@ -1346,7 +1404,7 @@ _0215A45C:
 	add r1, r6, #0x364
 	bl StageTask__HandleCollider
 	ldrh r1, [r4, #4]
-	ldr r0, _0215A614 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	beq _0215A55C
 	ldr r0, [r6, #0x128]
@@ -1436,7 +1494,7 @@ _0215A5BC:
 	cmp r5, #0
 	beq _0215A5FC
 	ldrh r1, [r4, #2]
-	ldr r0, _0215A614 // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r1, r0
 	ldreq r0, [r6, #0x20]
 	eoreq r0, r0, #1
@@ -1455,19 +1513,23 @@ _0215A5FC:
 	bl ProcessSpatialSfx
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215A610: .word 0x00000116
-_0215A614: .word 0x0000FFFF
-	arm_func_end EnemyPirate__State_215A3A4
 
-	arm_func_start EnemyPirate__OnInit_215A618
-EnemyPirate__OnInit_215A618: // 0x0215A618
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__OnInit_215A618(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl EnemyPirate__OnInit_215A36C
 	ldr r1, [r5, #0x3f0]
 	cmp r1, #0
-	ldrne r0, _0215A670 // =EnemyBallChainPirateBall__Unknown_215AC34
+	ldrne r0, =EnemyBallChainPirateBall__Unknown_215AC34
 	strne r0, [r1, #0x6c8]
 	ldmneia sp!, {r3, r4, r5, pc}
 	mov r0, r5
@@ -1484,37 +1546,47 @@ EnemyPirate__OnInit_215A618: // 0x0215A618
 	str r1, [r4, #0x6c]
 	bl EnemyPirate__Func_215A0D0
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215A670: .word EnemyBallChainPirateBall__Unknown_215AC34
-	arm_func_end EnemyPirate__OnInit_215A618
 
-	arm_func_start EnemyPirate__OnInit_215A674
-EnemyPirate__OnInit_215A674: // 0x0215A674
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__OnInit_215A674(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r1, r4, #0x300
 	ldrh r1, [r1, #0xd0]
 	bl GameObject__SetAnimation
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215A6A8 // =EnemyPirate__State_215A6AC
+	ldr r0, =EnemyPirate__State_215A6AC
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
 	mov r0, #0
 	str r0, [r4, #0x2c]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215A6A8: .word EnemyPirate__State_215A6AC
-	arm_func_end EnemyPirate__OnInit_215A674
 
-	arm_func_start EnemyPirate__State_215A6AC
-EnemyPirate__State_215A6AC: // 0x0215A6AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__State_215A6AC(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	bl EnemyPirate__State_215A3A4
 	add r1, r4, #0x300
 	ldrh r2, [r1, #0xdc]
-	ldr r0, _0215A710 // =FX_SinCosTable_
+	ldr r0, =FX_SinCosTable_
 	ldrh ip, [r1, #0xda]
 	mov r2, r2, asr #4
 	mov r2, r2, lsl #2
@@ -1534,12 +1606,17 @@ EnemyPirate__State_215A6AC: // 0x0215A6AC
 	add r0, r0, #0x300
 	strh r0, [r1, #0xdc]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215A710: .word FX_SinCosTable_
-	arm_func_end EnemyPirate__State_215A6AC
 
-	arm_func_start EnemyPirate__OnDetect_215A714
-EnemyPirate__OnDetect_215A714: // 0x0215A714
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__OnDetect_215A714(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	mov r1, #0
@@ -1550,7 +1627,7 @@ EnemyPirate__OnDetect_215A714: // 0x0215A714
 	beq _0215A750
 	str r1, [r4, #0x2c]
 	ldr r1, [r4, #0x20]
-	ldr r0, _0215A764 // =EnemyPirate__State_215A768
+	ldr r0, =EnemyPirate__State_215A768
 	orr r1, r1, #0x10
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xf4]
@@ -1561,12 +1638,17 @@ _0215A750:
 	ldr r0, [r5, #8]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215A764: .word EnemyPirate__State_215A768
-	arm_func_end EnemyPirate__OnDetect_215A714
 
-	arm_func_start EnemyPirate__State_215A768
-EnemyPirate__State_215A768: // 0x0215A768
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__State_215A768(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -1582,10 +1664,17 @@ EnemyPirate__State_215A768: // 0x0215A768
 	ldr r0, [r4, #0x3ec]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	arm_func_end EnemyPirate__State_215A768
 
-	arm_func_start EnemyPirate__State_215A7A4
-EnemyPirate__State_215A7A4: // 0x0215A7A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__State_215A7A4(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x2c]
 	subs r1, r1, #1
@@ -1597,10 +1686,17 @@ EnemyPirate__State_215A7A4: // 0x0215A7A4
 	ldr r1, [r0, #0x3ac]
 	blx r1
 	ldmia sp!, {r3, pc}
-	arm_func_end EnemyPirate__State_215A7A4
 
-	arm_func_start EnemyPirate__State_215A7D0
-EnemyPirate__State_215A7D0: // 0x0215A7D0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__State_215A7D0(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r0, #0x20]
 	add r2, r0, #0x3e4
@@ -1615,7 +1711,7 @@ EnemyPirate__State_215A7D0: // 0x0215A7D0
 	mov r1, #0
 	str r1, [r0, #0x98]
 	ldrsh r2, [r2, #4]
-	ldr r1, _0215A824 // =EnemyPirate__State_215A7A4
+	ldr r1, =EnemyPirate__State_215A7A4
 	str r2, [r0, #0x2c]
 	str r1, [r0, #0xf4]
 	ldmia sp!, {r3, pc}
@@ -1623,18 +1719,23 @@ _0215A818:
 	ldr r1, [r0, #0x3ac]
 	blx r1
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215A824: .word EnemyPirate__State_215A7A4
-	arm_func_end EnemyPirate__State_215A7D0
 
-	arm_func_start EnemyPirate__State_215A828
-EnemyPirate__State_215A828: // 0x0215A828
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__State_215A828(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	add r1, r6, #0x300
 	ldrh r2, [r1, #0xc6]
 	ldr r3, [r6, #0x128]
-	ldr r1, _0215A8C4 // =0x021881EA
+	ldr r1, =0x021881EA
 	mov r2, r2, lsl #1
 	ldrh r3, [r3, #0xe]
 	ldrh r1, [r1, r2]
@@ -1661,7 +1762,7 @@ _0215A870:
 	mov r0, #0
 	str r0, [r6, #0x98]
 	ldrsh r1, [r4, #4]
-	ldr r0, _0215A8C8 // =EnemyPirate__State_215A7A4
+	ldr r0, =EnemyPirate__State_215A7A4
 	str r1, [r6, #0x2c]
 	str r0, [r6, #0xf4]
 	ldmia sp!, {r4, r5, r6, pc}
@@ -1670,13 +1771,17 @@ _0215A8B4:
 	mov r0, r6
 	blx r1
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0215A8C4: .word 0x021881EA
-_0215A8C8: .word EnemyPirate__State_215A7A4
-	arm_func_end EnemyPirate__State_215A828
 
-	arm_func_start EnemyPirate__State_215A8CC
-EnemyPirate__State_215A8CC: // 0x0215A8CC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__State_215A8CC(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r4, [r0, #0x128]
 	add r1, r0, #0x3e4
@@ -1717,8 +1822,8 @@ _0215A940:
 _0215A944:
 	cmp ip, #4
 	beq _0215A96C
-	ldr r4, _0215AA14 // =_02188234
-	ldr r3, _0215AA18 // =_02188238
+	ldr r4, =_02188234
+	ldr r3, =_02188238
 	ldr r4, [r4, ip, lsl #3]
 	ldr lr, [r1, #0xc]
 	ldr ip, [r3, ip, lsl #3]
@@ -1729,7 +1834,7 @@ _0215A96C:
 	add r3, r0, #0x300
 	ldrh ip, [r3, #0xc6]
 	ldr lr, [r0, #0x128]
-	ldr r3, _0215AA1C // =0x021881EA
+	ldr r3, =0x021881EA
 	mov ip, ip, lsl #1
 	ldrh lr, [lr, #0xe]
 	ldrh r3, [r3, ip]
@@ -1738,7 +1843,7 @@ _0215A96C:
 	cmpeq r3, #0
 	bne _0215A9AC
 	ldr ip, [r1, #0xc]
-	ldr lr, _0215AA20 // =EnemyBallChainPirateBall__Unknown_215AEE0
+	ldr lr, =EnemyBallChainPirateBall__Unknown_215AEE0
 	mov r3, #1
 	str lr, [ip, #0x6c8]
 	str r3, [r0, #0x3c8]
@@ -1747,7 +1852,7 @@ _0215A9AC:
 	ldrh r3, [r3, #0xe]
 	cmp r3, #6
 	ldreq r3, [r1, #0xc]
-	ldreq ip, _0215AA24 // =EnemyBallChainPirateBall__Unknown_215B18C
+	ldreq ip, =EnemyBallChainPirateBall__Unknown_215B18C
 	streq ip, [r3, #0x6c8]
 	ldr r3, [r0, #0x20]
 	tst r3, #8
@@ -1762,7 +1867,7 @@ _0215A9AC:
 	mov r2, #0
 	str r2, [r0, #0x98]
 	ldrsh r2, [r1, #4]
-	ldr r1, _0215AA28 // =EnemyPirate__State_215A7A4
+	ldr r1, =EnemyPirate__State_215A7A4
 	str r2, [r0, #0x2c]
 	str r1, [r0, #0xf4]
 	ldmia sp!, {r4, pc}
@@ -1770,17 +1875,17 @@ _0215AA08:
 	ldr r1, [r0, #0x3ac]
 	blx r1
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215AA14: .word _02188234
-_0215AA18: .word _02188238
-_0215AA1C: .word 0x021881EA
-_0215AA20: .word EnemyBallChainPirateBall__Unknown_215AEE0
-_0215AA24: .word EnemyBallChainPirateBall__Unknown_215B18C
-_0215AA28: .word EnemyPirate__State_215A7A4
-	arm_func_end EnemyPirate__State_215A8CC
 
-	arm_func_start EnemyPirate__Func_215AA2C
-EnemyPirate__Func_215AA2C: // 0x0215AA2C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__Func_215AA2C(EnemyPirate *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x14
 	mov r7, r0
@@ -1789,18 +1894,18 @@ EnemyPirate__Func_215AA2C: // 0x0215AA2C
 	add r1, r7, #0x300
 	ldrh r1, [r1, #0xc6]
 	beq _0215AA60
-	ldr r2, _0215AB54 // =_021882C4
+	ldr r2, =_021882C4
 	ldr r3, [r7, #0x44]
 	ldr r2, [r2, r1, lsl #3]
 	sub r6, r3, r2
 	b _0215AA70
 _0215AA60:
-	ldr r2, _0215AB54 // =_021882C4
+	ldr r2, =_021882C4
 	ldr r3, [r7, #0x44]
 	ldr r2, [r2, r1, lsl #3]
 	add r6, r3, r2
 _0215AA70:
-	ldr r2, _0215AB58 // =_021882C8
+	ldr r2, =_021882C8
 	ldr r5, [r7, #0x48]
 	ldr r4, [r2, r1, lsl #3]
 	cmp r1, #6
@@ -1827,22 +1932,22 @@ _0215AAA4:
 	ldr r0, [r7, #0x138]
 	add r1, r7, #0x44
 	bl ProcessSpatialSfx
-	ldr r0, _0215AB5C // =0x00000156
+	ldr r0, =0x00000156
 	b _0215AB00
 _0215AADC:
-	ldr r0, _0215AB60 // =0x00000157
+	ldr r0, =0x00000157
 	b _0215AB00
 _0215AAE4:
 	mov r0, #0x158
 	b _0215AB00
 _0215AAEC:
-	ldr r0, _0215AB64 // =0x00000159
+	ldr r0, =0x00000159
 	b _0215AB00
 _0215AAF4:
-	ldr r0, _0215AB68 // =0x0000015A
+	ldr r0, =0x0000015A
 	b _0215AB00
 _0215AAFC:
-	ldr r0, _0215AB6C // =0x0000015B
+	ldr r0, =0x0000015B
 _0215AB00:
 	mov r3, #0
 	str r3, [sp]
@@ -1865,18 +1970,17 @@ _0215AB00:
 	str r1, [r0, #0x20]
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_0215AB54: .word _021882C4
-_0215AB58: .word _021882C8
-_0215AB5C: .word 0x00000156
-_0215AB60: .word 0x00000157
-_0215AB64: .word 0x00000159
-_0215AB68: .word 0x0000015A
-_0215AB6C: .word 0x0000015B
-	arm_func_end EnemyPirate__Func_215AA2C
 
-	arm_func_start EnemyBazookaPirateShot__State_215AB70
-EnemyBazookaPirateShot__State_215AB70: // 0x0215AB70
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBazookaPirateShot__State_215AB70(EnemyBazookaPirateShot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	mov r1, #0x3000
 	str r1, [r0, #0xc8]
 	ldr r1, [r0, #0x20]
@@ -1884,15 +1988,20 @@ EnemyBazookaPirateShot__State_215AB70: // 0x0215AB70
 	movne r1, #0
 	moveq r1, #0x8000
 	strh r1, [r0, #0x34]
-	ldr r1, _0215AB98 // =EnemyBazookaPirateShot__State_215AB9C
+	ldr r1, =EnemyBazookaPirateShot__State_215AB9C
 	str r1, [r0, #0xf4]
 	bx lr
-	.align 2, 0
-_0215AB98: .word EnemyBazookaPirateShot__State_215AB9C
-	arm_func_end EnemyBazookaPirateShot__State_215AB70
 
-	arm_func_start EnemyBazookaPirateShot__State_215AB9C
-EnemyBazookaPirateShot__State_215AB9C: // 0x0215AB9C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBazookaPirateShot__State_215AB9C(EnemyBazookaPirateShot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -1931,12 +2040,19 @@ EnemyBazookaPirateShot__State_215AB9C: // 0x0215AB9C
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end EnemyBazookaPirateShot__State_215AB9C
 
-	arm_func_start EnemyBallChainPirateBall__Unknown_215AC34
-EnemyBallChainPirateBall__Unknown_215AC34: // 0x0215AC34
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBallChainPirateBall__Unknown_215AC34(EnemyBallChainPirateBall *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r3, _0215ACB4 // =EnemyBallChainPirateBall__Unknown_215ACBC
+	ldr r3, =EnemyBallChainPirateBall__Unknown_215ACBC
 	mov r4, r0
 	str r3, [r4, #0x6c8]
 	ldr r1, [r4, #0x1c]
@@ -1953,7 +2069,7 @@ EnemyBallChainPirateBall__Unknown_215AC34: // 0x0215AC34
 	ldr r1, [r1, #0x48]
 	sub r1, r1, #0x4d000
 	cmp r2, r1
-	ldrgt r0, _0215ACB8 // =EnemyBallChainPirateBall__Unknown_215AE0C
+	ldrgt r0, =EnemyBallChainPirateBall__Unknown_215AE0C
 	strgt r0, [r4, #0x6c8]
 	bgt _0215ACA0
 	str r3, [r4, #0x6c8]
@@ -1968,20 +2084,24 @@ _0215ACA0:
 	sub r0, r0, #0x47000
 	str r0, [r4, #0x6d8]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215ACB4: .word EnemyBallChainPirateBall__Unknown_215ACBC
-_0215ACB8: .word EnemyBallChainPirateBall__Unknown_215AE0C
-	arm_func_end EnemyBallChainPirateBall__Unknown_215AC34
 
-	arm_func_start EnemyBallChainPirateBall__Unknown_215ACBC
-EnemyBallChainPirateBall__Unknown_215ACBC: // 0x0215ACBC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBallChainPirateBall__Unknown_215ACBC(EnemyBallChainPirateBall *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
 	add r1, r5, #0x600
 	ldrh r0, [r1, #0xd0]
 	ldr r4, [r5, #0x11c]
-	ldr r2, _0215AE04 // =0x0000071C
+	ldr r2, =0x0000071C
 	add r0, r0, #0x31c
 	add r0, r0, #0x400
 	strh r0, [r1, #0xd0]
@@ -2017,7 +2137,7 @@ _0215AD34:
 	ldrh r2, [r0, #0xd0]
 	beq _0215AD94
 	mov r2, r2, asr #4
-	ldr r0, _0215AE08 // =FX_SinCosTable_
+	ldr r0, =FX_SinCosTable_
 	mov r2, r2, lsl #2
 	ldrsh r2, [r0, r2]
 	mov r0, #0x3c000
@@ -2033,7 +2153,7 @@ _0215AD34:
 	b _0215ADD0
 _0215AD94:
 	mov r2, r2, asr #4
-	ldr r0, _0215AE08 // =FX_SinCosTable_
+	ldr r0, =FX_SinCosTable_
 	mov r2, r2, lsl #2
 	ldrsh r2, [r0, r2]
 	mov r0, #0x3c000
@@ -2062,13 +2182,17 @@ _0215ADF0:
 	str r0, [r5, #0x6c]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215AE04: .word 0x0000071C
-_0215AE08: .word FX_SinCosTable_
-	arm_func_end EnemyBallChainPirateBall__Unknown_215ACBC
 
-	arm_func_start EnemyBallChainPirateBall__Unknown_215AE0C
-EnemyBallChainPirateBall__Unknown_215AE0C: // 0x0215AE0C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBallChainPirateBall__Unknown_215AE0C(EnemyBallChainPirateBall *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r0, #0x11c]
 	ldr r1, [r0, #0x20]
@@ -2117,16 +2241,21 @@ EnemyBallChainPirateBall__Unknown_215AE0C: // 0x0215AE0C
 	add r1, r0, #0x600
 	moveq r2, #0xc000
 	strh r2, [r1, #0xd0]
-	ldr r1, _0215AEDC // =EnemyBallChainPirateBall__Unknown_215ACBC
+	ldr r1, =EnemyBallChainPirateBall__Unknown_215ACBC
 	str r1, [r0, #0x6c8]
 	blx r1
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215AEDC: .word EnemyBallChainPirateBall__Unknown_215ACBC
-	arm_func_end EnemyBallChainPirateBall__Unknown_215AE0C
 
-	arm_func_start EnemyBallChainPirateBall__Unknown_215AEE0
-EnemyBallChainPirateBall__Unknown_215AEE0: // 0x0215AEE0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBallChainPirateBall__Unknown_215AEE0(EnemyBallChainPirateBall *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2160,9 +2289,9 @@ EnemyBallChainPirateBall__Unknown_215AEE0: // 0x0215AEE0
 	ldr r0, [r4, #0x20]
 	sub r1, r2, #1
 	tst r0, #1
-	ldrne r0, _0215AFC4 // =0x00000AAA
+	ldrne r0, =0x00000AAA
 	mov r3, r1
-	ldreq r0, _0215AFC8 // =0x00007555
+	ldreq r0, =0x00007555
 	strh r0, [r4, #0x34]
 	str r2, [r4, #0xa0]
 	str r2, [r4, #0x9c]
@@ -2180,18 +2309,21 @@ EnemyBallChainPirateBall__Unknown_215AEE0: // 0x0215AEE0
 	ldr r0, [r4, #0x138]
 	add r1, r4, #0x44
 	bl ProcessSpatialSfx
-	ldr r0, _0215AFCC // =EnemyBallChainPirateBall__Unknown_215AFD0
+	ldr r0, =EnemyBallChainPirateBall__Unknown_215AFD0
 	str r0, [r4, #0x6c8]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215AFC4: .word 0x00000AAA
-_0215AFC8: .word 0x00007555
-_0215AFCC: .word EnemyBallChainPirateBall__Unknown_215AFD0
-	arm_func_end EnemyBallChainPirateBall__Unknown_215AEE0
 
-	arm_func_start EnemyBallChainPirateBall__Unknown_215AFD0
-EnemyBallChainPirateBall__Unknown_215AFD0: // 0x0215AFD0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBallChainPirateBall__Unknown_215AFD0(EnemyBallChainPirateBall *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2249,7 +2381,7 @@ _0215B070:
 	blo _0215B0D8
 	mov r1, #0
 	str r1, [r4, #0xc8]
-	ldr r0, _0215B160 // =0x00000119
+	ldr r0, =0x00000119
 	str r1, [sp]
 	rsb r1, r0, #0x118
 	str r0, [sp, #4]
@@ -2257,7 +2389,7 @@ _0215B070:
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	ldr r0, _0215B164 // =EnemyBallChainPirateBall__Unknown_215B170
+	ldr r0, =EnemyBallChainPirateBall__Unknown_215B170
 	str r0, [r4, #0x6c8]
 	b _0215B14C
 _0215B0D8:
@@ -2286,9 +2418,9 @@ _0215B0D8:
 	str r0, [r4, #0xc8]
 	ldr r0, [r4, #0x20]
 	tst r0, #1
-	ldrne r0, _0215B168 // =0x00008E38
+	ldrne r0, =0x00008E38
 	strneh r0, [r4, #0x34]
-	ldreq r0, _0215B16C // =0x0000F1C7
+	ldreq r0, =0x0000F1C7
 	streqh r0, [r4, #0x34]
 _0215B14C:
 	ldr r0, [r4, #0x138]
@@ -2296,15 +2428,17 @@ _0215B14C:
 	bl ProcessSpatialSfx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215B160: .word 0x00000119
-_0215B164: .word EnemyBallChainPirateBall__Unknown_215B170
-_0215B168: .word 0x00008E38
-_0215B16C: .word 0x0000F1C7
-	arm_func_end EnemyBallChainPirateBall__Unknown_215AFD0
 
-	arm_func_start EnemyBallChainPirateBall__Unknown_215B170
-EnemyBallChainPirateBall__Unknown_215B170: // 0x0215B170
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBallChainPirateBall__Unknown_215B170(EnemyBallChainPirateBall *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r1, [r0, #0x11c]
 	ldr r1, [r1, #0x354]
 	tst r1, #0x10000
@@ -2312,26 +2446,38 @@ EnemyBallChainPirateBall__Unknown_215B170: // 0x0215B170
 	orrne r1, r1, #0x400
 	strne r1, [r0, #0x18]
 	bx lr
-	arm_func_end EnemyBallChainPirateBall__Unknown_215B170
 
-	arm_func_start EnemyBallChainPirateBall__Unknown_215B18C
-EnemyBallChainPirateBall__Unknown_215B18C: // 0x0215B18C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBallChainPirateBall__Unknown_215B18C(EnemyBallChainPirateBall *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r1, [r0, #0x1c]
 	mov r2, #0
 	bic r1, r1, #0x80
 	str r1, [r0, #0x1c]
 	str r2, [r0, #0xa0]
 	str r2, [r0, #0x9c]
-	ldr r1, _0215B1B4 // =EnemyBallChainPirateBall__Unknown_215B1B8
+	ldr r1, =EnemyBallChainPirateBall__Unknown_215B1B8
 	str r2, [r0, #0x98]
 	str r1, [r0, #0x6c8]
 	bx lr
-	.align 2, 0
-_0215B1B4: .word EnemyBallChainPirateBall__Unknown_215B1B8
-	arm_func_end EnemyBallChainPirateBall__Unknown_215B18C
 
-	arm_func_start EnemyBallChainPirateBall__Unknown_215B1B8
-EnemyBallChainPirateBall__Unknown_215B1B8: // 0x0215B1B8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBallChainPirateBall__Unknown_215B1B8(EnemyBallChainPirateBall *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr ip, [r0, #0x11c]
 	ldr r1, [r0, #0x20]
 	ldr r2, [ip, #0x44]
@@ -2356,10 +2502,17 @@ EnemyBallChainPirateBall__Unknown_215B1B8: // 0x0215B1B8
 	mov r1, r1, asr #3
 	str r1, [r0, #0x48]
 	bx lr
-	arm_func_end EnemyBallChainPirateBall__Unknown_215B1B8
 
-	arm_func_start EnemyBombPirateBomb__State_215B218
-EnemyBombPirateBomb__State_215B218: // 0x0215B218
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBombPirateBomb__State_215B218(EnemyBombPirateBomb *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2367,16 +2520,16 @@ EnemyBombPirateBomb__State_215B218: // 0x0215B218
 	mov r2, #0xf000
 	bl StageTask__SetGravity
 	ldr r0, [r4, #0x1c]
-	ldr r2, _0215B2A4 // =0x00000117
+	ldr r2, =0x00000117
 	orr r0, r0, #0x4000
 	orr r0, r0, #0x20000000
 	str r0, [r4, #0x1c]
 	ldr r0, [r4, #0x20]
 	mov r3, #0
 	tst r0, #1
-	ldrne r0, _0215B2A8 // =0x0000D555
+	ldrne r0, =0x0000D555
 	sub r1, r2, #0x118
-	ldreq r0, _0215B2AC // =0x0000AAAA
+	ldreq r0, =0x0000AAAA
 	strh r0, [r4, #0x34]
 	mov r0, #0x2000
 	str r0, [r4, #0xc8]
@@ -2391,19 +2544,21 @@ EnemyBombPirateBomb__State_215B218: // 0x0215B218
 	ldr r0, [r4, #0x138]
 	add r1, r4, #0x44
 	bl ProcessSpatialSfx
-	ldr r0, _0215B2B0 // =EnemyBombPirateBomb__State_215B2B4
+	ldr r0, =EnemyBombPirateBomb__State_215B2B4
 	str r0, [r4, #0xf4]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215B2A4: .word 0x00000117
-_0215B2A8: .word 0x0000D555
-_0215B2AC: .word 0x0000AAAA
-_0215B2B0: .word EnemyBombPirateBomb__State_215B2B4
-	arm_func_end EnemyBombPirateBomb__State_215B218
 
-	arm_func_start EnemyBombPirateBomb__State_215B2B4
-EnemyBombPirateBomb__State_215B2B4: // 0x0215B2B4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBombPirateBomb__State_215B2B4(EnemyBombPirateBomb *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	mov r1, r0
 	add r0, r1, #0x300
@@ -2428,7 +2583,7 @@ EnemyBombPirateBomb__State_215B2B4: // 0x0215B2B4
 	cmp r0, #0
 	rsblt r0, r0, #0
 	str r0, [r1, #0xc8]
-	ldr r0, _0215B384 // =EnemyBombPirateBomb__State_215B388
+	ldr r0, =EnemyBombPirateBomb__State_215B388
 	str r2, [r1, #0x2c]
 	str r0, [r1, #0xf4]
 	b _0215B374
@@ -2458,12 +2613,17 @@ _0215B374:
 	add r1, r1, #0x44
 	bl ProcessSpatialSfx
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0215B384: .word EnemyBombPirateBomb__State_215B388
-	arm_func_end EnemyBombPirateBomb__State_215B2B4
 
-	arm_func_start EnemyBombPirateBomb__State_215B388
-EnemyBombPirateBomb__State_215B388: // 0x0215B388
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBombPirateBomb__State_215B388(EnemyBombPirateBomb *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -2507,10 +2667,17 @@ EnemyBombPirateBomb__State_215B388: // 0x0215B388
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end EnemyBombPirateBomb__State_215B388
 
-	arm_func_start EnemySkeletonPirateBone__State_215B434
-EnemySkeletonPirateBone__State_215B434: // 0x0215B434
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySkeletonPirateBone__State_215B434(EnemySkeletonPirateBone *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2523,8 +2690,8 @@ EnemySkeletonPirateBone__State_215B434: // 0x0215B434
 	str r0, [r4, #0x1c]
 	ldr r0, [r4, #0x20]
 	tst r0, #1
-	ldrne r0, _0215B4BC // =0x0000CE38
-	ldreq r0, _0215B4C0 // =0x0000B1C7
+	ldrne r0, =0x0000CE38
+	ldreq r0, =0x0000B1C7
 	strh r0, [r4, #0x34]
 	mov r0, #0x3000
 	str r0, [r4, #0xc8]
@@ -2541,18 +2708,21 @@ EnemySkeletonPirateBone__State_215B434: // 0x0215B434
 	ldr r0, [r4, #0x138]
 	add r1, r4, #0x44
 	bl ProcessSpatialSfx
-	ldr r0, _0215B4C4 // =EnemySkeletonPirateBone__State_215B4C8
+	ldr r0, =EnemySkeletonPirateBone__State_215B4C8
 	str r0, [r4, #0xf4]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215B4BC: .word 0x0000CE38
-_0215B4C0: .word 0x0000B1C7
-_0215B4C4: .word EnemySkeletonPirateBone__State_215B4C8
-	arm_func_end EnemySkeletonPirateBone__State_215B434
 
-	arm_func_start EnemySkeletonPirateBone__State_215B4C8
-EnemySkeletonPirateBone__State_215B4C8: // 0x0215B4C8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySkeletonPirateBone__State_215B4C8(EnemySkeletonPirateBone *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x138]
@@ -2564,10 +2734,17 @@ EnemySkeletonPirateBone__State_215B4C8: // 0x0215B4C8
 	orrne r0, r0, #4
 	strne r0, [r4, #0x18]
 	ldmia sp!, {r4, pc}
-	arm_func_end EnemySkeletonPirateBone__State_215B4C8
 
-	arm_func_start EnemyHoverBomberPirateBomb__State_215B4F4
-EnemyHoverBomberPirateBomb__State_215B4F4: // 0x0215B4F4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyHoverBomberPirateBomb__State_215B4F4(EnemyHoverBomberPirateBomb *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r1, #0x150
 	mov r2, #0xf000
@@ -2576,16 +2753,21 @@ EnemyHoverBomberPirateBomb__State_215B4F4: // 0x0215B4F4
 	mov r0, #0x4000
 	strh r0, [r4, #0x34]
 	mov r1, #0x3000
-	ldr r0, _0215B524 // =EnemyHoverBomberPirateBomb__State_215B528
+	ldr r0, =EnemyHoverBomberPirateBomb__State_215B528
 	str r1, [r4, #0xc8]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0215B524: .word EnemyHoverBomberPirateBomb__State_215B528
-	arm_func_end EnemyHoverBomberPirateBomb__State_215B4F4
 
-	arm_func_start EnemyHoverBomberPirateBomb__State_215B528
-EnemyHoverBomberPirateBomb__State_215B528: // 0x0215B528
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyHoverBomberPirateBomb__State_215B528(EnemyHoverBomberPirateBomb *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -2624,10 +2806,17 @@ EnemyHoverBomberPirateBomb__State_215B528: // 0x0215B528
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end EnemyHoverBomberPirateBomb__State_215B528
 
-	arm_func_start EnemyHoverGunnerPirateShot__State_215B5C0
-EnemyHoverGunnerPirateShot__State_215B5C0: // 0x0215B5C0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyHoverGunnerPirateShot__State_215B5C0(EnemyHoverGunnerPirateShot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	mov r1, #0x3000
 	str r1, [r0, #0xc8]
 	ldr r1, [r0, #0x20]
@@ -2635,15 +2824,20 @@ EnemyHoverGunnerPirateShot__State_215B5C0: // 0x0215B5C0
 	movne r1, #0x2000
 	moveq r1, #0x6000
 	strh r1, [r0, #0x34]
-	ldr r1, _0215B5E8 // =EnemyHoverGunnerPirateShot__State_215B5EC
+	ldr r1, =EnemyHoverGunnerPirateShot__State_215B5EC
 	str r1, [r0, #0xf4]
 	bx lr
-	.align 2, 0
-_0215B5E8: .word EnemyHoverGunnerPirateShot__State_215B5EC
-	arm_func_end EnemyHoverGunnerPirateShot__State_215B5C0
 
-	arm_func_start EnemyHoverGunnerPirateShot__State_215B5EC
-EnemyHoverGunnerPirateShot__State_215B5EC: // 0x0215B5EC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyHoverGunnerPirateShot__State_215B5EC(EnemyHoverGunnerPirateShot *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
@@ -2682,10 +2876,17 @@ EnemyHoverGunnerPirateShot__State_215B5EC: // 0x0215B5EC
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end EnemyHoverGunnerPirateShot__State_215B5EC
 
-	arm_func_start EnemyBazookaPirateShot__OnHit
-EnemyBazookaPirateShot__OnHit: // 0x0215B684
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBazookaPirateShot__OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	ldr r4, [r0, #0x1c]
@@ -2721,10 +2922,17 @@ EnemyBazookaPirateShot__OnHit: // 0x0215B684
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end EnemyBazookaPirateShot__OnHit
 
-	arm_func_start EnemyBombPirateBomb__OnHit
-EnemyBombPirateBomb__OnHit: // 0x0215B710
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyBombPirateBomb__OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	ldr r4, [r0, #0x1c]
@@ -2760,19 +2968,33 @@ EnemyBombPirateBomb__OnHit: // 0x0215B710
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end EnemyBombPirateBomb__OnHit
 
-	arm_func_start EnemySkeletonPirateBone__OnHit
-EnemySkeletonPirateBone__OnHit: // 0x0215B79C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemySkeletonPirateBone__OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r1, [r0, #0x1c]
 	ldr r0, [r1, #0x18]
 	orr r0, r0, #4
 	str r0, [r1, #0x18]
 	bx lr
-	arm_func_end EnemySkeletonPirateBone__OnHit
 
-	arm_func_start EnemyHoverBomberPirateBomb__OnHit
-EnemyHoverBomberPirateBomb__OnHit: // 0x0215B7B0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyHoverBomberPirateBomb__OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	ldr r4, [r0, #0x1c]
@@ -2808,10 +3030,17 @@ EnemyHoverBomberPirateBomb__OnHit: // 0x0215B7B0
 	bl ProcessSpatialSfx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end EnemyHoverBomberPirateBomb__OnHit
 
-	arm_func_start EnemyPirate__OnDefend_215B83C
-EnemyPirate__OnDefend_215B83C: // 0x0215B83C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__OnDefend_215B83C(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r5, [r1, #0x1c]
 	ldr r4, [r0, #0x1c]
@@ -2820,8 +3049,8 @@ EnemyPirate__OnDefend_215B83C: // 0x0215B83C
 	ldmneia sp!, {r3, r4, r5, pc}
 	add r0, r5, #0x300
 	ldrh r2, [r0, #0xc6]
-	ldr r1, _0215B8B8 // =0x0218828C
-	ldr r0, _0215B8BC // =0x02188290
+	ldr r1, =0x0218828C
+	ldr r0, =0x02188290
 	ldr r1, [r1, r2, lsl #3]
 	ldr r2, [r0, r2, lsl #3]
 	mov r0, r5
@@ -2830,7 +3059,7 @@ EnemyPirate__OnDefend_215B83C: // 0x0215B83C
 	add r1, r5, #0x300
 	str r0, [r5, #0x3a4]
 	ldr r0, [r4, #0x48]
-	ldr r2, _0215B8C0 // =0x021881F8
+	ldr r2, =0x021881F8
 	str r0, [r5, #0x3a8]
 	ldr r3, [r5, #0x37c]
 	mov r0, r5
@@ -2843,14 +3072,17 @@ EnemyPirate__OnDefend_215B83C: // 0x0215B83C
 	ldr r1, [r5, #0x3b0]
 	blx r1
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215B8B8: .word 0x0218828C
-_0215B8BC: .word 0x02188290
-_0215B8C0: .word 0x021881F8
-	arm_func_end EnemyPirate__OnDefend_215B83C
 
-	arm_func_start EnemyPirate__OnDefend_215B8C4
-EnemyPirate__OnDefend_215B8C4: // 0x0215B8C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void EnemyPirate__OnDefend_215B8C4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r5, [r1, #0x1c]
 	ldr r4, [r0, #0x1c]
@@ -2867,24 +3099,24 @@ EnemyPirate__OnDefend_215B8C4: // 0x0215B8C4
 	ldr r1, [r5, #0x20]
 	tst r1, #1
 	beq _0215B91C
-	ldr r1, _0215B998 // =0x00001555
+	ldr r1, =0x00001555
 	cmp r0, r1
 	ldmloia sp!, {r3, r4, r5, pc}
 	cmp r0, r1, lsl #1
 	bls _0215B934
 	ldmia sp!, {r3, r4, r5, pc}
 _0215B91C:
-	ldr r1, _0215B99C // =0x00005555
+	ldr r1, =0x00005555
 	cmp r0, r1
 	ldmloia sp!, {r3, r4, r5, pc}
-	ldr r1, _0215B9A0 // =0x00006AAA
+	ldr r1, =0x00006AAA
 	cmp r0, r1
 	ldmhiia sp!, {r3, r4, r5, pc}
 _0215B934:
 	add r0, r5, #0x300
 	ldrh r2, [r0, #0xc6]
-	ldr r1, _0215B9A4 // =0x0218828C
-	ldr r0, _0215B9A8 // =0x02188290
+	ldr r1, =0x0218828C
+	ldr r0, =0x02188290
 	ldr r1, [r1, r2, lsl #3]
 	ldr r2, [r0, r2, lsl #3]
 	mov r0, r5
@@ -2893,7 +3125,7 @@ _0215B934:
 	add r1, r5, #0x300
 	str r0, [r5, #0x3a4]
 	ldr r0, [r4, #0x48]
-	ldr r2, _0215B9AC // =0x021881F8
+	ldr r2, =0x021881F8
 	str r0, [r5, #0x3a8]
 	ldr r3, [r5, #0x37c]
 	mov r0, r5
@@ -2906,125 +3138,7 @@ _0215B934:
 	ldr r1, [r5, #0x3b0]
 	blx r1
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0215B998: .word 0x00001555
-_0215B99C: .word 0x00005555
-_0215B9A0: .word 0x00006AAA
-_0215B9A4: .word 0x0218828C
-_0215B9A8: .word 0x02188290
-_0215B9AC: .word 0x021881F8
-	arm_func_end EnemyPirate__OnDefend_215B8C4
 
-	.rodata
-
-.public _021881DC
-_021881DC: // 0x021881DC
-    .hword 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x52, 0, 7, 5, 6, 0xD, 5, 7
-
-.public _021881F8
-_021881F8: // 0x021881F8
-    .hword 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0x78, 0
-	
-.public _02188208
-_02188208: // 0x02188208
-    .hword 0, 0, 0x3000, 0xFFFB, 0xB000, 0xFFFC, 0x7000, 0xFFFC
-
-.public _02188218
-_02188218: // 0x02188218
-    .word 0xF, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15
-	
-.public _02188234
-_02188234: // 0x02188234
-    .word 0xA000              
-	
-.public _02188238
-_02188238: // 0x02188238
-    .word 0xFFFC3000, 0xFFFF1000, 0xFFFBD000, 0xFFFCB000, 0xFFFDA000, 0xFFFD6000, 0xFFFDB000
-	
-.public _02188254
-_02188254: // 0x02188254
-	.hword 0xFF9C, 0xFFC0, 0, 0
-	.hword 0xFF9C, 0xFFC0, 0, 0
-	.hword 0xFF80, 0xFFC0, 0, 0
-	.hword 0xFF9C, 0xFFC0, 0, 0
-	.hword 0xFF9C, 0xFFC0, 0, 0
-	.hword 0xFFB7, 0, 0x17, 0x80
-	.hword 0xFF6A, 0, 0, 0x80
-
-.public _0218828C
-_0218828C: // 0x0218828C
-    .word 0, 0xFFFC0000
-	.word 0, 0xFFFC0000
-	.word 0, 0xFFFC0000
-	.word 0, 0xFFFC0000
-	.word 0, 0xFFFC0000
-	.word 0, 0xFFFC0000
-	.word 0, 0xFFFC0000
-
-.public _021882C4
-_021882C4: // 0x021882C4
-    .word 0                   
-	
-.public _021882C8
-_021882C8: // 0x021882C8
-    .word 0                   
-	
-.public _021882CC
-_021882CC: // 0x021882CC
-	.word 0xFFFEE000, 0xFFFD9000, 0, 0
-
-.public _021882DC
-_021882DC: // 0x021882DC
-	.word 0xFFFEC000, 0xFFFCE000, 0xFFFE7000, 0xFFFC4000, 0xFFFE7000
-	.word 0x11000, 0xFFFDB000, 0x11000
-	
-	.data
-
-aActAcEnePrtBom: // 0x02188CA4
-	.asciz "/act/ac_ene_prt_bomb.bac"
-	.align 4
-	
-aActAcEnePrtHog: // 0x02188CC0
-	.asciz "/act/ac_ene_prt_hogun.bac"
-	.align 4
-	
-aActAcEneHobarG: // 0x02188CDC
-	.asciz "/act/ac_ene_hobar_gun.bac"
-	.align 4
-	
-aActAcEnePrtKni: // 0x02188CF8
-	.asciz "/act/ac_ene_prt_knife.bac"
-	.align 4
-	
-aActAcEnePSkele: // 0x02188D14
-	.asciz "/act/ac_ene_p_skeleton.bac"
-	.align 4
-	
-aActAcEneHobarB: // 0x02188D30
-	.asciz "/act/ac_ene_hobar_bomb.bac"
-	.align 4
-	
-_02188D4C:
-	.word aActAcEnePrtKni // "/act/ac_ene_prt_knife.bac"
-
-_02188D50:
-	.word aActAcEnePrtBaz // "/act/ac_ene_prt_bazooka.bac"
-
-_02188D54:
-	.word aActAcEnePrtHog // "/act/ac_ene_prt_hogun.bac"
-
-_02188D58:
-	.word aActAcEnePrtBom //  "/act/ac_ene_prt_bomb.bac"
-
-_02188D5C:
-	.word aActAcEnePSkele // "/act/ac_ene_p_skeleton.bac"
-
-_02188D60:
-	.word aActAcEneHobarB //  "/act/ac_ene_hobar_bomb.bac"
-
-_02188D64:
-	.word aActAcEneHobarG //  "/act/ac_ene_hobar_gun.bac"
-
-aActAcEnePrtBaz: // 0x02188D68
-	.asciz "/act/ac_ene_prt_bazooka.bac"
-	.align 4
+// clang-format on
+#endif
+}

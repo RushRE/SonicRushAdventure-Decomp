@@ -8049,11 +8049,11 @@
 .public EnemyAngler__State_2156C90
 .public EnemyAnglerShot__State_2156E48
 .public EnemyAngler__State_2156E78
-.public EnemyCrab__Create
-.public EnemyCrab__Action_Init
-.public EnemyCrab__State_21570F0
-.public EnemyCrab__Action_Unknown
-.public EnemyCrab__State_215728C
+.public CreateCrab
+.public EnemyCrab_Action_Move
+.public EnemyCrab_State_Moving
+.public EnemyCrab_Action_Attack
+.public EnemyCrab_State_Attacking
 .public EnemyGhost__Create
 .public EnemyGhostBomb__Create
 .public EnemyGhost__Func_21577F0
@@ -8087,7 +8087,7 @@
 .public EnemySnowball__Func_2158B60
 .public EnemySnowball__Func_2158B94
 .public EnemySnowballShot__State_2158D24
-.public CreateEnemyGlider
+.public CreateGlider
 .public EnemyGlider_Action_Init
 .public EnemyGlider_State_Idle
 .public EnemyGlider_OnDefend
@@ -8142,7 +8142,7 @@
 .public EnemyHoverBomberPirateBomb__OnHit
 .public EnemyPirate__OnDefend_215B83C
 .public EnemyPirate__OnDefend_215B8C4
-.public CreateEnemyFireSkull
+.public CreateFireSkull
 .public EnemyFireSkull_Action_Init
 .public EnemyFireSkull_State_TryFindPlayer
 .public EnemyFireSkull_Action_FailedCatch

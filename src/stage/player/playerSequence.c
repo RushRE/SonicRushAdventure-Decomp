@@ -3547,7 +3547,7 @@ _0201E724:
 #endif
 }
 
-NONMATCH_FUNC void Player__Action_PopSteam(Player *player, GameObjectTask *other, s32 a3, s32 a4, s32 a5, u32 a6)
+NONMATCH_FUNC void Player__Action_PopSteam(Player *player, GameObjectTask *other, fx32 velX, fx32 velY, s32 a5, u32 a6)
 {
 #ifdef NON_MATCHING
 

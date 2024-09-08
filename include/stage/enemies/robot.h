@@ -70,5 +70,6 @@ void EnemyRobot__State_2155E80(EnemyRobot *work);
 void EnemyRobot__OnDefend_Hurtbox(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void EnemyRobot__OnDefend_Detector(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void EnemyRobot__OnDefend_TutorialEnemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void EnemyRobot__Func_2156100(EnemyRobot *work);
 
 #endif // RUSH2_ROBOT_H
