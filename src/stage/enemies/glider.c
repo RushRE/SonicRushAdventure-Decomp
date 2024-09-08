@@ -19,11 +19,16 @@
 
 enum EnemyGliderObjectFlags
 {
-    ENEMYGLIDER_OBJFLAG_NONE,
+    GLIDER_OBJFLAG_NONE,
 
-    ENEMYGLIDER_OBJFLAG_WEIGHT_MASK = (1 << 0) | (1 << 1) | (1 << 2),
+    GLIDER_OBJFLAG_WEIGHT_MASK = (1 << 0) | (1 << 1) | (1 << 2),
 
-    ENEMYGLIDER_OBJFLAG_FROM_LEFT        = 1 << 4,
+    GLIDER_OBJFLAG_FROM_LEFT = 1 << 4,
+};
+
+enum EnemyGliderAnimID
+{
+    GLIDER_ANI_GLIDE,
 };
 
 // --------------------
@@ -67,7 +72,7 @@ EnemyGlider *CreateGlider(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     ObjRect__SetOnDefend(&work->collider, EnemyGlider_OnDefend);
     work->collider.parent = &work->gameWork.objWork;
 
-    switch (mapObject->flags & ENEMYGLIDER_OBJFLAG_WEIGHT_MASK)
+    switch (mapObject->flags & GLIDER_OBJFLAG_WEIGHT_MASK)
     {
         case 0:
             work->gravityStrength = FLOAT_TO_FX32(0.0);
@@ -105,7 +110,7 @@ EnemyGlider *CreateGlider(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_glider.bac", GetObjectFileWork(OBJDATAWORK_14), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 59);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, GLIDER_ANI_GLIDE, 59);
     EnemyGlider_Action_Init(work);
 
     return work;
@@ -113,7 +118,7 @@ EnemyGlider *CreateGlider(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
 void EnemyGlider_Action_Init(EnemyGlider *work)
 {
-    GameObject__SetAnimation(&work->gameWork, 0);
+    GameObject__SetAnimation(&work->gameWork, GLIDER_ANI_GLIDE);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_DISABLE_LOOPING;
     work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
@@ -132,7 +137,7 @@ void EnemyGlider_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     EnemyGlider *enemy = (EnemyGlider *)rect2->parent;
 
-    if ((enemy->gameWork.mapObject->flags & ENEMYGLIDER_OBJFLAG_FROM_LEFT) != 0)
+    if ((enemy->gameWork.mapObject->flags & GLIDER_OBJFLAG_FROM_LEFT) != 0)
         enemy->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
 
     if ((enemy->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)

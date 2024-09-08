@@ -42,7 +42,7 @@
 
 // Enemies
 #include <stage/enemies/robot.h>
-#include <stage/enemies/protJet.h>
+#include <stage/enemies/jetpackRobot.h>
 #include <stage/enemies/angler.h>
 #include <stage/enemies/crab.h>
 #include <stage/enemies/ghost.h>
@@ -547,13 +547,13 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_2]   = (CreateObjectFunc)EnemyRobot__Create,
     [MAPOBJECT_3]   = (CreateObjectFunc)EnemyRobot__Create,
     [MAPOBJECT_4]   = (CreateObjectFunc)EnemyRobot__Create,
-    [MAPOBJECT_5]   = (CreateObjectFunc)EnemyProtJet__Create,
-    [MAPOBJECT_6]   = (CreateObjectFunc)EnemyAngler__Create,
-    [MAPOBJECT_7]   = (CreateObjectFunc)EnemyAngler__Create,
+    [MAPOBJECT_5]   = (CreateObjectFunc)CreateJetpackRobot,
+    [MAPOBJECT_6]   = (CreateObjectFunc)CreateAngler,
+    [MAPOBJECT_7]   = (CreateObjectFunc)CreateAngler,
     [MAPOBJECT_8]   = (CreateObjectFunc)CreateCrab,
-    [MAPOBJECT_9]   = (CreateObjectFunc)EnemyGhost__Create,
+    [MAPOBJECT_9]   = (CreateObjectFunc)CreateGhost,
     [MAPOBJECT_10]  = (CreateObjectFunc)CreateSnowflakeHead,
-    [MAPOBJECT_11]  = (CreateObjectFunc)EnemySnowball__Create,
+    [MAPOBJECT_11]  = (CreateObjectFunc)CreateSnowball,
     [MAPOBJECT_12]  = (CreateObjectFunc)CreateGlider,
     [MAPOBJECT_13]  = (CreateObjectFunc)EnemyPirate__Create,
     [MAPOBJECT_14]  = (CreateObjectFunc)EnemyPirate__Create,
@@ -565,8 +565,8 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_20]  = (CreateObjectFunc)CreateFireSkull,
     [MAPOBJECT_21]  = (CreateObjectFunc)EnemyDiveBat__Create,
     [MAPOBJECT_22]  = (CreateObjectFunc)NULL,
-    [MAPOBJECT_23]  = (CreateObjectFunc)EnemySkymoon__Create,
-    [MAPOBJECT_24]  = (CreateObjectFunc)EnemySkymoon__Create,
+    [MAPOBJECT_23]  = (CreateObjectFunc)CreateSkymoon,
+    [MAPOBJECT_24]  = (CreateObjectFunc)CreateSkymoon,
     [MAPOBJECT_25]  = (CreateObjectFunc)NULL,
     [MAPOBJECT_26]  = (CreateObjectFunc)NULL,
     [MAPOBJECT_27]  = (CreateObjectFunc)NULL,
@@ -885,9 +885,9 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_336] = (CreateObjectFunc)SpringRopeSpring__Create,
     [MAPOBJECT_337] = (CreateObjectFunc)SpringRopeBase__Create,
     [MAPOBJECT_338] = (CreateObjectFunc)Balloon__Create,
-    [MAPOBJECT_339] = (CreateObjectFunc)EnemyAnglerShot__Create,
-    [MAPOBJECT_340] = (CreateObjectFunc)EnemyGhostBomb__Create,
-    [MAPOBJECT_341] = (CreateObjectFunc)EnemySnowballShot__Create,
+    [MAPOBJECT_339] = (CreateObjectFunc)CreateAnglerShot,
+    [MAPOBJECT_340] = (CreateObjectFunc)CreateGhostBomb,
+    [MAPOBJECT_341] = (CreateObjectFunc)CreateSnowballShot,
     [MAPOBJECT_342] = (CreateObjectFunc)EnemyBazookaPirateShot__Create,
     [MAPOBJECT_343] = (CreateObjectFunc)EnemyBallChainPirateBall__Create,
     [MAPOBJECT_344] = (CreateObjectFunc)EnemyBombPirateBomb__Create,
@@ -895,7 +895,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_346] = (CreateObjectFunc)EnemyHoverBomberPirateBomb__Create,
     [MAPOBJECT_347] = (CreateObjectFunc)EnemyHoverGunnerPirateShot__Create,
     [MAPOBJECT_348] = (CreateObjectFunc)EnemyDiveBat__Create,
-    [MAPOBJECT_349] = (CreateObjectFunc)EnemySkymoonLaser__Create,
+    [MAPOBJECT_349] = (CreateObjectFunc)CreateSkymoonLaser,
 };
 
 static const u8 EventManager__StageAllocFlags[STAGE_COUNT] = {

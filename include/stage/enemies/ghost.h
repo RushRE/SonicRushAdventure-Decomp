@@ -4,6 +4,19 @@
 #include <stage/gameObject.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum GhostVisibilityMode_
+{
+    GHOST_VISIBILITY_OPAQUE,
+    GHOST_VISIBILITY_TRANSPARENT,
+    GHOST_VISIBILITY_FLASHING,
+    GHOST_VISIBILITY_INVISIBLE,
+};
+typedef u8 GhostVisibilityMode;
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -12,16 +25,16 @@ typedef struct EnemyGhost_
     GameObjectTask gameWork;
     OBS_RECT_WORK collider;
     Vec2Fx32 targetPos;
-    u32 field_3AC;
-    u32 dword3B0;
-    u32 field_3B4;
-    u32 dword3B8;
-    u32 field_3BC;
+    fx32 velocityStore;
+    fx32 xMin;
+    fx32 field_3B4;
+    fx32 xMax;
+    fx32 field_3BC;
     u16 angle;
-    u8 byte3C2;
-    u32 dword3C4;
-    OBS_ACTION2D_BAC_WORK animator;
-    u32 dword478;
+    GhostVisibilityMode visibilityMode;
+    u32 visibilityTimer;
+    OBS_ACTION2D_BAC_WORK aniMachine;
+    u32 machineDisplayFlag;
 } EnemyGhost;
 
 typedef struct EnemyGhostBomb_
@@ -33,19 +46,7 @@ typedef struct EnemyGhostBomb_
 // FUNCTIONS
 // --------------------
 
-EnemyGhost *EnemyGhost__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-EnemyGhostBomb *EnemyGhostBomb__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-
-void EnemyGhost__Func_21577F0(EnemyGhost *work);
-void EnemyGhost__Func_215799C(EnemyGhost *work);
-void EnemyGhost__State_2157A44(EnemyGhost *work);
-void EnemyGhost__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void EnemyGhost__State_2157C2C(EnemyGhost *work);
-void EnemyGhost__State_2157D70(EnemyGhost *work);
-void EnemyGhostBomb__State_2157E1C(EnemyGhostBomb *work);
-void EnemyGhostBomb__State_2157E8C(EnemyGhostBomb *work);
-void EnemyGhostBomb__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void EnemyGhost__Draw(void);
-void EnemyGhost__Destructor(Task *task);
+EnemyGhost *CreateGhost(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+EnemyGhostBomb *CreateGhostBomb(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
 #endif // RUSH2_GHOST_H

@@ -407,7 +407,7 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     sVars.archive = FSRequestFileSync("/narc/z1t_tutorial.narc", FSREQ_AUTO_ALLOC_HEAD);
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/nl_tre.bac", &sVars.characterIconFile, sVars.archive, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 1, 125);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, TUTORIALCHARACTER_ANI_TAILS_1, 125);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_1);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_0);
     StageTask__SetAnimation(&work->gameWork.objWork, TUTORIALCHARACTER_ANI_TAILS_1);
@@ -506,7 +506,7 @@ TutorialCheckpoint *CreateTutorialCheckpoint(MapObject *mapObject, fx32 x, fx32 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/ac_gmk_check.bac", GetObjectFileWork(OBJDATAWORK_72), gameArchiveCommon, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 91);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, CHECKPOINT_ANI_IDLE, 91);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_2);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     StageTask__SetAnimation(&work->gameWork.objWork, CHECKPOINT_ANI_IDLE);

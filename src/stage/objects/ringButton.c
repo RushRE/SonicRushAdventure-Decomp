@@ -44,7 +44,7 @@ enum RingButtonAnimID
     RINGBUTTON_ANI_BUTTON_V,
     RINGBUTTON_ANI_BASE_H,
     RINGBUTTON_ANI_BUTTON_H,
-    RINGBUTTON_ANI_UNKNOWN,
+    RINGBUTTON_ANI_ACTIVATED_PALETTE,
 };
 
 // --------------------
@@ -77,7 +77,7 @@ RingButton *CreateRingButton(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     s32 buttonType = mapObject->id - MAPOBJECT_256;
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_switch.bac", GetObjectFileWork(OBJDATAWORK_106), gameArchiveCommon, OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 2, GetObjectFileWork(2 * buttonType + OBJDATAWORK_113));
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 107);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, RINGBUTTON_ANI_BASE_V, 107);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 
@@ -439,12 +439,12 @@ void UpdateRingButtonPalette(RingButton *work, BOOL activated)
 
         if (activated)
         {
-            ObjActionAllocSpritePalette(&work->gameWork.objWork, 4, 109);
+            ObjActionAllocSpritePalette(&work->gameWork.objWork, RINGBUTTON_ANI_ACTIVATED_PALETTE, 109);
             work->gameWork.flags |= RINGBUTTON_FLAG_ACTIVATED;
         }
         else
         {
-            ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 107);
+            ObjActionAllocSpritePalette(&work->gameWork.objWork, RINGBUTTON_ANI_BASE_V, 107);
             work->gameWork.flags &= ~RINGBUTTON_FLAG_ACTIVATED;
         }
 

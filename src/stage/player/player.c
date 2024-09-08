@@ -151,7 +151,9 @@ RUSH_INLINE void HandlePlayerTrickSuccess2(Player *player)
 
     Player__GiveTension(player, PLAYER_TENSION_TRICK >> player->tensionPenalty);
 
-    const enum SND_ZONE_SEQARC_GAME_SE voiceTrickSuccess[CHARACTER_COUNT] = { [CHARACTER_SONIC] = SND_ZONE_SEQARC_GAME_SE_SEQ_SE_YEA, [CHARACTER_BLAZE] = SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FUN };
+    const enum SND_ZONE_SEQARC_GAME_SE voiceTrickSuccess[CHARACTER_COUNT] = {
+        [CHARACTER_SONIC] = SND_ZONE_SEQARC_GAME_SE_SEQ_SE_YEA, [CHARACTER_BLAZE] = SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FUN
+    };
     PlayPlayerSfxEx(&player->seqPlayers[PLAYER_SEQPLAYER_COMMON], voiceTrickSuccess[player->characterID]);
 
     StopPlayerSfx(player, PLAYER_SEQPLAYER_GRINDTRICKSUCCES);
@@ -2837,7 +2839,8 @@ u16 Player__ReadInputFromValue(Player *player, u16 buttonMask)
     return mask;
 }
 
-NONMATCH_FUNC void Player__Func_20133B8(Player *player){
+NONMATCH_FUNC void Player__Func_20133B8(Player *player)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -3897,7 +3900,7 @@ void Player__State_GroundIdle(Player *work)
                                 && ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0 || (work->inputKeyDown & PAD_KEY_RIGHT) == 0)))
                     {
                         // and theyre not pushing on the stage boundaries.... (unless it's allowed!)
-                        if ((work->objWork.moveFlag & (STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL)) == 0
+                        if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_H) == 0
                             || (stageCollision.left + 14 < FX32_TO_WHOLE(work->objWork.position.x) || (work->inputKeyDown & PAD_KEY_LEFT) == 0)
                                    && (FX32_TO_WHOLE(work->objWork.position.x) < stageCollision.right - 14 || (work->inputKeyDown & PAD_KEY_RIGHT) == 0))
                         {
@@ -6107,9 +6110,7 @@ void Player__HandleGroundCollisions(Player *player)
 
     u16 dir = FLOAT_DEG_TO_IDX(0.0);
 
-    if ((player->objWork.moveFlag
-         & (STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR))
-        == 0)
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY) == 0)
         return;
 
     if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
@@ -7096,11 +7097,8 @@ void Player__ReceivePacket(Player *player)
         player->objWork.dir.z = playerPacket->dirZ << 8;
         player->objWork.dir.x = playerPacket->dirX << 8;
         player->objWork.dir.y = playerPacket->dirY << 8;
-        player->objWork.moveFlag &=
-            ~(STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR);
-        player->objWork.moveFlag =
-            playerPacket->moveFlag
-            & (STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR);
+        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_ANY;
+        player->objWork.moveFlag = playerPacket->moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY;
         player->playerFlag =
             (playerPacket->playerFlag | PLAYER_FLAG_DISABLE_PRESSURE_CHECK) & ~(PLAYER_FLAG_IS_ATTACKING_PLAYER | PLAYER_FLAG_DO_LOSE_RING_EFFECT | PLAYER_FLAG_DO_ATTACK_RECOIL);
         player->gimmickFlag    = playerPacket->gimmickFlag;

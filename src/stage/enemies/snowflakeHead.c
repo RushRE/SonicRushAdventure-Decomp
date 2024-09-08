@@ -19,9 +19,9 @@
 
 enum SnowflakeHeadObjectFlags
 {
-    SPRING_OBJFLAG_NONE,
+    SNOWFLAKEHEAD_OBJFLAG_NONE,
 
-    SPRING_OBJFLAG_TYPE_MASK = 0x07,
+    SNOWFLAKEHEAD_OBJFLAG_TYPE_MASK = 0x07,
 };
 
 enum SnowflakeHeadAnimID
@@ -62,7 +62,7 @@ EnemySnowflakeHead *CreateSnowflakeHead(MapObject *mapObject, fx32 x, fx32 y, fx
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    switch (mapObject->flags & SPRING_OBJFLAG_TYPE_MASK)
+    switch (mapObject->flags & SNOWFLAKEHEAD_OBJFLAG_TYPE_MASK)
     {
         case 0:
             work->type = SNOWFLAKEHEAD_TYPE_IDLE;
@@ -103,7 +103,7 @@ EnemySnowflakeHead *CreateSnowflakeHead(MapObject *mapObject, fx32 x, fx32 y, fx
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_q_head.bac", GetObjectDataWork(OBJDATAWORK_12), gameArchiveStage, OBJ_DATA_GFX_AUTO);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 53);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, SNOWFLAKEHEAD_ANI_MOVING, 53);
 
     EnemySnowflakeHead_Action_Init(work);
 

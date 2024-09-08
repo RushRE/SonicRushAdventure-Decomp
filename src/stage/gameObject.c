@@ -1264,13 +1264,13 @@ _02028174:
 #endif
 }
 
-s32 GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObjectPacketType type)
+BadnikBreakResult GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObjectPacketType type)
 {
     GameObjectTask *badnik = (GameObjectTask *)rect2->parent;
     Player *player         = (Player *)rect1->parent;
 
     if (badnik == NULL)
-        return 0;
+        return BADNIKBREAKRESULT_NONE;
 
     if (player != NULL)
     {
@@ -1279,14 +1279,14 @@ s32 GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObje
             Player__GiveComboTension(player, PLAYER_TENSION_ENEMY);
             GameObject__SendPacket(badnik, player, type);
             Player__Action_DestroyAttackRecoil(player);
-            return 1;
+            return BADNIKBREAKRESULT_DESTROYED_PLAYER;
         }
 
         player = (Player *)player->objWork.parentObj;
         if (player != NULL && player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
         {
             if ((badnik->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS) == 0)
-                badnik->flags |= 0x10000;
+                badnik->flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
 
             badnik->objWork.flag |= STAGE_TASK_FLAG_2;
             badnik->colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
@@ -1307,11 +1307,11 @@ s32 GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObje
 
             GameObject__SendPacket(badnik, player, GAMEOBJECT_PACKET_DESTROYED);
 
-            return 2;
+            return BADNIKBREAKRESULT_DESTROYED_SUPERBOOST;
         }
     }
 
-    return 0;
+    return BADNIKBREAKRESULT_NONE;
 }
 
 NONMATCH_FUNC void GameObject__Func_20282A8(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx33 *mtx, BOOL setFrustum)

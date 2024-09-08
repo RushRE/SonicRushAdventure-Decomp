@@ -113,6 +113,7 @@ void BossPlayerHelpers_Action_Boss5Freeze(Player *player)
     player->objWork.userTimer  = 300;
     player->objWork.userWork   = 0;
 
+    // Spawn a Boss5PlayerFreezeEffect
     GameObject__SpawnObject(MAPOBJECT_294, 0, 0, 0, 0, 0, 0, 0, 0);
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_P_FREEZE);
 

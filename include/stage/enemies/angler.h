@@ -4,6 +4,17 @@
 #include <stage/gameObject.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum AnglerType_
+{
+    ANGLER_TYPE_SHOOT,
+    ANGLER_TYPE_CHARGE,
+};
+typedef u16 AnglerType;
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -12,15 +23,13 @@ typedef struct EnemyAngler_
     GameObjectTask gameWork;
     OBS_RECT_WORK collider;
     Vec2Fx32 targetPos;
-    s32 field_3AC;
-    u8 field_3B0;
-    u8 field_3B1;
-    u16 field_3B2;
-    u32 dword3B4;
-    u32 field_3B8;
-    u32 dword3BC;
-    u32 field_3C0;
-    u16 word3C4;
+    fx32 velocityStore;
+    u8 shotCount;
+    fx32 xMin;
+    fx32 field_3B8;
+    fx32 xMax;
+    fx32 field_3C0;
+    u16 type;
 } EnemyAngler;
 
 typedef struct EnemyAnglerShot_
@@ -32,14 +41,7 @@ typedef struct EnemyAnglerShot_
 // FUNCTIONS
 // --------------------
 
-EnemyAngler *EnemyAngler__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-EnemyAnglerShot *EnemyAnglerShot__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-
-void EnemyAngler__Action_Init(EnemyAngler *work);
-void EnemyAngler__State_21569D0(EnemyAngler *work);
-void EnemyAngler__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void EnemyAngler__State_2156C90(EnemyAngler *work);
-void EnemyAnglerShot__State_2156E48(EnemyAnglerShot *work);
-void EnemyAngler__State_2156E78(EnemyAngler *work);
+EnemyAngler *CreateAngler(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+EnemyAnglerShot *CreateAnglerShot(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
 #endif // RUSH2_ANGLER_H

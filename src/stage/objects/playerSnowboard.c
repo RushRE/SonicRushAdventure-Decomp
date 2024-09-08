@@ -125,7 +125,7 @@ static void LoseSnowboardTrigger_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *r
 
 PlayerSnowboard *SpawnLostPlayerSnowboard(fx32 type)
 {
-    return (PlayerSnowboard *)GameObject__SpawnObject(MAPOBJECT_320, gPlayer->objWork.position.x, gPlayer->objWork.position.y, 0, 0, 0, 0, 0, type);
+    return SpawnStageObjectEx(MAPOBJECT_320, gPlayer->objWork.position.x, gPlayer->objWork.position.y, PlayerSnowboard, 0, 0, 0, 0, 0, type);
 }
 
 void DestroyPlayerSnowboard(void)

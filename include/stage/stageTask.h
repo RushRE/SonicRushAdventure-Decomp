@@ -128,6 +128,11 @@ enum StageTaskMoveFlags_
     STAGE_TASK_MOVE_FLAG_4000000                         = 0x4000000,
     STAGE_TASK_MOVE_FLAG_DISABLE_OBJECT_SCROLL           = 0x8000000,
     STAGE_TASK_MOVE_FLAG_RESET_FLOW                      = 0x10000000,
+
+    // Helpers
+    STAGE_TASK_MOVE_FLAG_TOUCHING_V                  = STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING, // object is colliding with a surface vertically
+    STAGE_TASK_MOVE_FLAG_TOUCHING_H                  = STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL, // object is colliding with a surface horizontally
+    STAGE_TASK_MOVE_FLAG_TOUCHING_ANY                = STAGE_TASK_MOVE_FLAG_TOUCHING_V | STAGE_TASK_MOVE_FLAG_TOUCHING_H, // object is colliding with any surface
 };
 typedef u32 StageTaskMoveFlags;
 

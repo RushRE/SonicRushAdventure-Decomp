@@ -6466,8 +6466,7 @@ void Player__Gimmick_2021394(Player *player, GameObjectTask *other)
 
         player->gimmickObj = other;
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-        player->objWork.moveFlag &=
-            ~(STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR);
+        player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_ANY;
 
         Player__Action_StopBoost(player);
         Player__Action_StopSuperBoost(player);

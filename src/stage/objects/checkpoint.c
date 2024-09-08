@@ -61,7 +61,7 @@ Checkpoint *CreateCheckpoint(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/ac_gmk_check.bac", GetObjectFileWork(OBJDATAWORK_72), gameArchiveCommon, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 91);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, CHECKPOINT_ANI_IDLE, 91);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     StageTask__SetAnimation(&work->gameWork.objWork, CHECKPOINT_ANI_IDLE);

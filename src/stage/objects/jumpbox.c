@@ -331,7 +331,7 @@ PlaneSwitchSpring *CreatePlaneSwitchSpring(MapObject *mapObject, fx32 x, fx32 y,
     }
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_spring_st6.bac", GetObjectFileWork(OBJDATAWORK_177), gameArchiveStage, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 2);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, PLANESWITCHSPRING_ANI_NEAR_IDLE, 2);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, order1);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, priority);
     StageTask__SetAnimation(&work->gameWork.objWork, anim1);

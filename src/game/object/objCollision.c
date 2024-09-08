@@ -181,7 +181,7 @@ void objDiffCollisionDirCheck(StageTask *work)
     if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
         work->moveFlag |= STAGE_TASK_MOVE_FLAG_400000;
 
-    work->moveFlag &= ~(STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR);
+    work->moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_ANY;
     work->collisionFlag = 0;
     fx32 sSpd           = work->move.x;
 

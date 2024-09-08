@@ -182,7 +182,7 @@ StageTask *CreateStageTaskEx_(u32 priority, TaskScope scope)
             work->flag |= STAGE_TASK_FLAG_800000;
     }
 
-	SetTaskViewCheckFunc(work, StageTask__ViewCheck_Default);
+    SetTaskViewCheckFunc(work, StageTask__ViewCheck_Default);
 
     if ((g_obj.flag & OBJECTMANAGER_FLAG_10000) != 0)
         work->flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
@@ -710,9 +710,7 @@ void StageTask__ObjectCollision(StageTask *work)
                 ObjDiffCollisionEarthCheck(work);
 
                 newCollisionFlag |= work->collisionFlag;
-                newMoveFlag |=
-                    work->moveFlag
-                    & (STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR);
+                newMoveFlag |= work->moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY;
 
                 if (storeX != work->position.x)
                     endX = work->position.x;

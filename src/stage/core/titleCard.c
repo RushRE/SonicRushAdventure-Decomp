@@ -1,6 +1,7 @@
 #include <stage/core/titleCard.h>
 #include <stage/core/hud.h>
 #include <stage/core/stageStart.h>
+#include <stage/objects/startPlatform.h>
 #include <game/graphics/renderCore.h>
 #include <game/system/sysEvent.h>
 #include <game/object/objDraw.h>
@@ -97,7 +98,8 @@ void TitleCard__Create(void)
     {
         case STAGESTART_STARTPLATFORM:
             // spawn a start platform
-            GameObject__SpawnObject(MAPOBJECT_319, playerGameStatus.spawnPosition.x, playerGameStatus.spawnPosition.y, 0, 0, 0, 0, 0, 0);
+            StartPlatform *platform = SpawnStageObject(MAPOBJECT_319, playerGameStatus.spawnPosition.x, playerGameStatus.spawnPosition.y, StartPlatform);
+            UNUSED(platform);
             break;
 
         case STAGESTART_GROUND:

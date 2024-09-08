@@ -5,679 +5,369 @@
 #include <game/audio/spatialAudio.h>
 #include <stage/effects/explosion.h>
 
+// --------------------
+// MAPOBJECT PARAMS
+// --------------------
 
-NOT_DECOMPILED void *_02188C08;
-NOT_DECOMPILED void *aActAcEneAngler;
+#define mapObjectParam_xMin   mapObject->left
+#define mapObjectParam_xRange mapObject->width
+
+// --------------------
+// CONSTANTS
+// --------------------
+
+#define ANGLER_SHOT_COUNT 2
+
+// --------------------
+// ENUMS
+// --------------------
+
+enum AnglerObjectFlags
+{
+    ANGLER_OBJFLAG_NONE,
+
+    ANGLER_OBJFLAG_FLIPPED = (1 << 0),
+};
+
+enum AnglerFlags
+{
+    ANGLER_FLAG_NONE,
+
+    ANGLER_FLAG_TURNING = (1 << 0),
+};
+
+enum AnglerAnimID
+{
+    ANGLER_ANI_MOVING,
+    ANGLER_ANI_TURNING,
+    ANGLER_ANI_SHOOTING,
+    ANGLER_ANI_SHOT,
+    ANGLER_ANI_START_CHARGE,
+    ANGLER_ANI_CHARGE_ACTIVE,
+    ANGLER_ANI_END_CHARGE,
+
+    ANGLER_ANI_CHARGE_PALETTE,
+};
+
+// --------------------
+// VARIABLES
+// --------------------
+
+static const char *spriteList[] = { "/act/ac_ene_angler.bac" };
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void EnemyAngler__Action_Init(EnemyAngler *work);
+static void EnemyAngler_State_Moving(EnemyAngler *work);
+static void EnemyAngler_OnDefend_Detect(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+static void EnemyAngler_State_Shoot(EnemyAngler *work);
+static void EnemyAnglerShot_State_Moving(EnemyAnglerShot *work);
+static void EnemyAngler_State_ShootCooldown(EnemyAngler *work);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC EnemyAngler *EnemyAngler__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+EnemyAngler *CreateAngler(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    if (mapObject == NULL || (mapObject->x != MAPOBJECT_DESTROYED || mapObject->y != MAPOBJECT_DESTROYED))
+    {
+        if (gameState.difficulty == DIFFICULTY_EASY && (mapObject->flags & ENEMYCOMMON_OBJFLAG_DISABLED_ON_EASY) != 0)
+            return NULL;
+    }
 
-#else
-// clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	movs r7, r0
-	mov r6, r1
-	mov r5, r2
-	beq _021565FC
-	ldrb r0, [r7]
-	cmp r0, #0xff
-	ldreqb r0, [r7, #1]
-	cmpeq r0, #0xff
-	beq _02156620
-_021565FC:
-	ldr r0, =gameState
-	ldr r0, [r0, #0x18]
-	cmp r0, #0
-	bne _02156620
-	ldrh r0, [r7, #4]
-	tst r0, #0x80
-	addne sp, sp, #0xc
-	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, r7, pc}
-_02156620:
-	mov r0, #0x1500
-	mov r2, #0
-	str r0, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x3c8
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x3c8
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldrh r0, [r7, #2]
-	cmp r0, #6
-	beq _021566AC
-	cmp r0, #7
-	beq _0215674C
-	b _02156788
-_021566AC:
-	add r0, r4, #0x300
-	mov r1, #0
-	strh r1, [r0, #0xc4]
-	ldr r0, [r4, #0x20]
-	mov r5, #0x34
-	orr r0, r0, #0x100
-	str r0, [r4, #0x20]
-	ldr r0, [r4, #0x340]
-	ldr r3, [r4, #0x44]
-	ldrsb r2, [r0, #6]
-	add r0, r4, #0x364
-	sub r1, r5, #0xc4
-	add ip, r3, r2, lsl #12
-	str ip, [r4, #0x3b4]
-	ldr r2, [r4, #0x340]
-	sub r3, r5, #0x44
-	ldrb r6, [r2, #8]
-	sub r2, r5, #0x80
-	add r6, ip, r6, lsl #12
-	str r6, [r4, #0x3bc]
-	str r5, [sp]
-	bl ObjRect__SetBox2D
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0x364
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r4, #0x364
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, =0x00000102
-	add r0, r4, #0x300
-	strh r1, [r0, #0x98]
-	ldr r1, [r4, #0x37c]
-	ldr r0, =EnemyAngler__OnDefend
-	orr r1, r1, #0xc0
-	str r1, [r4, #0x37c]
-	str r0, [r4, #0x388]
-	str r4, [r4, #0x380]
-	b _02156788
-_0215674C:
-	add r0, r4, #0x300
-	mov r1, #1
-	strh r1, [r0, #0xc4]
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #0x100
-	str r0, [r4, #0x20]
-	ldr r0, [r4, #0x340]
-	ldr r1, [r4, #0x44]
-	ldrsb r0, [r0, #6]
-	add r1, r1, r0, lsl #12
-	str r1, [r4, #0x3b4]
-	ldr r0, [r4, #0x340]
-	ldrb r0, [r0, #8]
-	add r0, r1, r0, lsl #12
-	str r0, [r4, #0x3bc]
-_02156788:
-	mov r0, #9
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	ldr r2, =0x0000FFFF
-	ldr r3, [r1]
-	ldr r1, =_02188C08
-	str r3, [sp]
-	str r2, [sp, #4]
-	mov r3, r0
-	ldr r2, [r1]
-	mov r0, r4
-	add r1, r4, #0x168
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	ldrh r0, [r7, #2]
-	cmp r0, #6
-	beq _021567EC
-	cmp r0, #7
-	beq _02156800
-	b _02156810
-_021567EC:
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x29
-	bl ObjActionAllocSpritePalette
-	b _02156810
-_02156800:
-	mov r0, r4
-	mov r1, #7
-	mov r2, #0x2a
-	bl ObjActionAllocSpritePalette
-_02156810:
-	ldrh r0, [r7, #4]
-	tst r0, #1
-	ldrne r0, [r4, #0x20]
-	orrne r0, r0, #1
-	strne r0, [r4, #0x20]
-	mov r0, r4
-	bl EnemyAngler__Action_Init
-	mov r0, r4
-	bl StageTask__InitSeqPlayer
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyAngler);
+    if (task == HeapNull)
+        return NULL;
 
-// clang-format on
-#endif
+    EnemyAngler *work = TaskGetWork(task, EnemyAngler);
+    TaskInitWork8(work);
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    switch (mapObject->id)
+    {
+        case MAPOBJECT_6:
+            work->type = ANGLER_TYPE_SHOOT;
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+
+            work->xMin = work->gameWork.objWork.position.x + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_xMin);
+            work->xMax = work->xMin + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_xRange);
+
+            ObjRect__SetBox2D(&work->collider.rect, -144, -76, -16, 52);
+            ObjRect__SetAttackStat(&work->collider, 0, 0);
+            ObjRect__SetDefenceStat(&work->collider, ~1, 0);
+            ObjRect__SetGroupFlags(&work->collider, 2, 1);
+            work->collider.flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+            ObjRect__SetOnDefend(&work->collider, EnemyAngler_OnDefend_Detect);
+            work->collider.parent = &work->gameWork.objWork;
+            break;
+
+        case MAPOBJECT_7:
+            work->type = ANGLER_TYPE_CHARGE;
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+
+            work->xMin = work->gameWork.objWork.position.x + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_xMin);
+            work->xMax = work->xMin + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_xRange);
+            break;
+    }
+
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[0], GetObjectDataWork(OBJDATAWORK_9), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+
+    switch (mapObject->id)
+    {
+        case MAPOBJECT_6:
+            ObjActionAllocSpritePalette(&work->gameWork.objWork, ANGLER_ANI_MOVING, 41);
+            break;
+
+        case MAPOBJECT_7:
+            ObjActionAllocSpritePalette(&work->gameWork.objWork, ANGLER_ANI_CHARGE_PALETTE, 42);
+            break;
+    }
+
+    if ((mapObject->flags & ANGLER_OBJFLAG_FLIPPED) != 0)
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+
+    EnemyAngler__Action_Init(work);
+
+    StageTask__InitSeqPlayer(&work->gameWork.objWork);
+
+    return work;
 }
 
-NONMATCH_FUNC EnemyAnglerShot *EnemyAnglerShot__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+EnemyAnglerShot *CreateAnglerShot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyAnglerShot);
+    if (task == HeapNull)
+        return NULL;
 
-#else
-// clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r3, #0x1500
-	mov r7, r0
-	mov r6, r1
-	mov r5, r2
-	mov r2, #0
-	str r3, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x364
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x364
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldr r1, [r4, #0x20]
-	mov r0, #9
-	orr r1, r1, #0x100
-	str r1, [r4, #0x20]
-	ldr r1, [r4, #0x1c]
-	orr r1, r1, #0x50
-	str r1, [r4, #0x1c]
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	ldr r1, =0x0000FFFF
-	ldr r2, [r0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	add r1, r4, #0x168
-	ldr r2, =_02188C08
-	ldr r2, [r2]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x29
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #3
-	bl GameObject__SetAnimation
-	ldr r1, [r4, #0x20]
-	ldr r0, =EnemyAnglerShot__State_2156E48
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	str r0, [r4, #0xf4]
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    EnemyAnglerShot *work = TaskGetWork(task, EnemyAnglerShot);
+    TaskInitWork8(work);
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-// clang-format on
-#endif
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR;
+
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[0], GetObjectDataWork(OBJDATAWORK_9), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, ANGLER_ANI_MOVING, 41);
+    GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_SHOT);
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+
+    SetTaskState(&work->gameWork.objWork, EnemyAnglerShot_State_Moving);
+
+    return work;
 }
 
-
-NONMATCH_FUNC void EnemyAngler__Action_Init(EnemyAngler *work)
+void EnemyAngler__Action_Init(EnemyAngler *work)
 {
-#ifdef NON_MATCHING
+    GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_MOVING);
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r1, #0
-	bl GameObject__SetAnimation
-	ldr r1, [r4, #0x20]
-	ldr r0, =EnemyAngler__State_21569D0
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    SetTaskState(&work->gameWork.objWork, EnemyAngler_State_Moving);
 }
 
-NONMATCH_FUNC void EnemyAngler__State_21569D0(EnemyAngler *work)
+void EnemyAngler_State_Moving(EnemyAngler *work)
 {
-#ifdef NON_MATCHING
+    BOOL shouldTurn = FALSE;
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r5, r0
-	ldr r0, [r5, #0x138]
-	add r1, r5, #0x44
-	mov r4, #0
-	bl ProcessSpatialSfx
-	ldr r1, [r5, #0x354]
-	tst r1, #1
-	beq _02156A40
-	ldr r0, [r5, #0x20]
-	tst r0, #8
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-	bic r0, r1, #1
-	str r0, [r5, #0x354]
-	ldr r1, [r5, #0x20]
-	mov r0, r5
-	eor r1, r1, #1
-	str r1, [r5, #0x20]
-	mov r1, r4
-	bl GameObject__SetAnimation
-	ldr r0, [r5, #0x20]
-	orr r0, r0, #4
-	str r0, [r5, #0x20]
-	ldr r0, [r5, #0x37c]
-	orr r0, r0, #4
-	str r0, [r5, #0x37c]
-_02156A40:
-	ldr r0, [r5, #0x28]
-	add r0, r0, #1
-	str r0, [r5, #0x28]
-	cmp r0, #0x78
-	blo _02156A68
-	ldr r1, [r5, #0x37c]
-	mov r0, #0
-	orr r1, r1, #4
-	str r1, [r5, #0x37c]
-	str r0, [r5, #0x28]
-_02156A68:
-	mov r0, r5
-	add r1, r5, #0x364
-	bl StageTask__HandleCollider
-	add r0, r5, #0x300
-	ldrh r0, [r0, #0xc4]
-	cmp r0, #1
-	bne _02156B7C
-	ldr r0, [r5, #0x128]
-	ldrh r1, [r0, #0xc]
-	cmp r1, #4
-	cmpne r1, #5
-	cmpne r1, #6
-	beq _02156AC0
-	ldr r0, [r5, #0x2c]
-	add r0, r0, #1
-	str r0, [r5, #0x2c]
-	cmp r0, #0x78
-	blt _02156B7C
-	mov r0, r5
-	mov r1, #4
-	bl GameObject__SetAnimation
-	b _02156B7C
-_02156AC0:
-	cmp r1, #4
-	bne _02156B1C
-	ldr r0, [r5, #0x20]
-	tst r0, #8
-	beq _02156B1C
-	mov r0, r5
-	mov r1, #5
-	bl GameObject__SetAnimation
-	ldr r1, [r5, #0x20]
-	mov r0, #0x85
-	orr r2, r1, #4
-	sub r1, r0, #0x86
-	str r2, [r5, #0x20]
-	mov r2, #0xb4
-	str r2, [r5, #0x2c]
-	mov r2, #0
-	str r2, [sp]
-	str r0, [sp, #4]
-	ldr r0, [r5, #0x138]
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	b _02156B7C
-_02156B1C:
-	cmp r1, #5
-	bne _02156B50
-	ldr r0, [r5, #0x2c]
-	sub r0, r0, #1
-	str r0, [r5, #0x2c]
-	cmp r0, #0
-	bgt _02156B7C
-	mov r2, #0
-	mov r0, r5
-	mov r1, #6
-	str r2, [r5, #0x2c]
-	bl GameObject__SetAnimation
-	b _02156B7C
-_02156B50:
-	cmp r1, #6
-	bne _02156B7C
-	ldr r0, [r5, #0x20]
-	tst r0, #8
-	beq _02156B7C
-	mov r0, r5
-	mov r1, #0
-	bl GameObject__SetAnimation
-	ldr r0, [r5, #0x20]
-	orr r0, r0, #4
-	str r0, [r5, #0x20]
-_02156B7C:
-	ldr r0, [r5, #0x20]
-	tst r0, #1
-	mov r0, #0xc00
-	rsbeq r0, r0, #0
-	str r0, [r5, #0x98]
-	ldr r0, [r5, #0x3b4]
-	ldr r1, [r5, #0x44]
-	cmp r1, r0
-	strlt r0, [r5, #0x44]
-	movlt r4, #1
-	blt _02156BB8
-	ldr r0, [r5, #0x3bc]
-	cmp r1, r0
-	strgt r0, [r5, #0x44]
-	movgt r4, #1
-_02156BB8:
-	cmp r4, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r0, [r5, #0x128]
-	ldrh r0, [r0, #0xc]
-	cmp r0, #5
-	bne _02156BF0
-	mov r0, r5
-	mov r1, #6
-	bl GameObject__SetAnimation
-	mov r0, #0
-	add sp, sp, #8
-	str r0, [r5, #0x98]
-	ldmia sp!, {r3, r4, r5, pc}
-_02156BF0:
-	cmp r0, #6
-	bne _02156C08
-	ldr r0, [r5, #0x20]
-	tst r0, #8
-	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, pc}
-_02156C08:
-	mov r0, r5
-	mov r1, #1
-	bl GameObject__SetAnimation
-	ldr r1, [r5, #0x37c]
-	mov r0, #0
-	bic r1, r1, #4
-	str r1, [r5, #0x37c]
-	str r0, [r5, #0x98]
-	ldr r0, [r5, #0x354]
-	orr r0, r0, #1
-	str r0, [r5, #0x354]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
+    ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
 
-// clang-format on
-#endif
+    if ((work->gameWork.flags & ANGLER_FLAG_TURNING) != 0)
+    {
+        if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) == 0)
+            return;
+
+        work->gameWork.flags &= ~ANGLER_FLAG_TURNING;
+        work->gameWork.objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
+        GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_MOVING);
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+        work->collider.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    }
+
+    work->gameWork.objWork.userWork++;
+    if (work->gameWork.objWork.userWork >= 120)
+    {
+        work->collider.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        work->gameWork.objWork.userWork = 0;
+    }
+
+    StageTask__HandleCollider(&work->gameWork.objWork, &work->collider);
+
+    if (work->type == ANGLER_TYPE_CHARGE)
+    {
+        if (work->gameWork.objWork.obj_2d->ani.work.animID != ANGLER_ANI_START_CHARGE && work->gameWork.objWork.obj_2d->ani.work.animID != ANGLER_ANI_CHARGE_ACTIVE
+            && work->gameWork.objWork.obj_2d->ani.work.animID != ANGLER_ANI_END_CHARGE)
+        {
+            work->gameWork.objWork.userTimer++;
+            if (work->gameWork.objWork.userTimer >= 120)
+                GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_START_CHARGE);
+        }
+        else
+        {
+            if (work->gameWork.objWork.obj_2d->ani.work.animID == ANGLER_ANI_START_CHARGE && (work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+            {
+                GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_CHARGE_ACTIVE);
+                work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+                work->gameWork.objWork.userTimer = 180;
+                PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BARRIER_ANGLER);
+            }
+            else if (work->gameWork.objWork.obj_2d->ani.work.animID == ANGLER_ANI_CHARGE_ACTIVE)
+            {
+                work->gameWork.objWork.userTimer--;
+                if (work->gameWork.objWork.userTimer <= 0)
+                {
+                    work->gameWork.objWork.userTimer = 0;
+                    GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_END_CHARGE);
+                }
+            }
+            else if (work->gameWork.objWork.obj_2d->ani.work.animID == ANGLER_ANI_END_CHARGE && (work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+            {
+                GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_MOVING);
+                work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+            }
+        }
+    }
+
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
+        work->gameWork.objWork.velocity.x = -FLOAT_TO_FX32(0.75);
+    else
+        work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.75);
+
+    if (work->gameWork.objWork.position.x < work->xMin)
+    {
+        work->gameWork.objWork.position.x = work->xMin;
+        shouldTurn                        = TRUE;
+    }
+    else if (work->gameWork.objWork.position.x > work->xMax)
+    {
+        work->gameWork.objWork.position.x = work->xMax;
+        shouldTurn                        = TRUE;
+    }
+
+    if (shouldTurn)
+    {
+        if (work->gameWork.objWork.obj_2d->ani.work.animID == ANGLER_ANI_CHARGE_ACTIVE)
+        {
+            GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_END_CHARGE);
+            work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
+        }
+        else if (work->gameWork.objWork.obj_2d->ani.work.animID != ANGLER_ANI_END_CHARGE || (work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+        {
+            GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_TURNING);
+            work->collider.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
+            work->gameWork.flags |= ANGLER_FLAG_TURNING;
+        }
+    }
 }
 
-NONMATCH_FUNC void EnemyAngler__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void EnemyAngler_OnDefend_Detect(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    EnemyAngler *enemy = (EnemyAngler *)rect2->parent;
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r4, [r1, #0x1c]
-	mov r5, r0
-	ldr r0, [r4, #0x98]
-	mov r1, #0
-	str r0, [r4, #0x3ac]
-	mov r0, r4
-	str r1, [r4, #0x98]
-	mov r1, #2
-	strb r1, [r4, #0x3b0]
-	bl GameObject__SetAnimation
-	ldr r0, =EnemyAngler__State_2156C90
-	str r0, [r4, #0xf4]
-	ldr r0, [r5, #0x1c]
-	ldr r0, [r0, #0x44]
-	str r0, [r4, #0x3a4]
-	ldr r0, [r5, #0x1c]
-	ldr r0, [r0, #0x48]
-	str r0, [r4, #0x3a8]
-	ldmia sp!, {r3, r4, r5, pc}
+    enemy->velocityStore               = enemy->gameWork.objWork.velocity.x;
+    enemy->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
 
-// clang-format on
-#endif
+    enemy->shotCount = ANGLER_SHOT_COUNT;
+    GameObject__SetAnimation(&enemy->gameWork, ANGLER_ANI_SHOOTING);
+
+    SetTaskState(&enemy->gameWork.objWork, EnemyAngler_State_Shoot);
+
+    enemy->targetPos.x = rect1->parent->position.x;
+    enemy->targetPos.y = rect1->parent->position.y;
 }
 
-NONMATCH_FUNC void EnemyAngler__State_2156C90(EnemyAngler *work)
+void EnemyAngler_State_Shoot(EnemyAngler *work)
 {
-#ifdef NON_MATCHING
+    if (work->gameWork.objWork.obj_2d->ani.work.animID == ANGLER_ANI_SHOOTING)
+    {
+        if ((work->gameWork.objWork.obj_2d->ani.work.animFrameIndex == 10 && work->shotCount == ANGLER_SHOT_COUNT) || (work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+        {
+            fx32 shotX;
+            if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+                shotX = work->gameWork.objWork.position.x + FLOAT_TO_FX32(17.0);
+            else
+                shotX = work->gameWork.objWork.position.x - FLOAT_TO_FX32(17.0);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0x14
-	mov r5, r0
-	ldr r1, [r5, #0x128]
-	ldrh r0, [r1, #0xc]
-	cmp r0, #2
-	addne sp, sp, #0x14
-	ldmneia sp!, {r4, r5, pc}
-	ldrh r0, [r1, #0xe]
-	cmp r0, #0xa
-	ldreqb r0, [r5, #0x3b0]
-	cmpeq r0, #2
-	beq _02156CD0
-	ldr r0, [r5, #0x20]
-	tst r0, #8
-	beq _02156DEC
-_02156CD0:
-	ldr r0, [r5, #0x20]
-	mov r3, #0
-	tst r0, #1
-	ldr r0, [r5, #0x44]
-	str r3, [sp]
-	str r3, [sp, #4]
-	str r3, [sp, #8]
-	str r3, [sp, #0xc]
-	str r3, [sp, #0x10]
-	addne r1, r0, #0x11000
-	ldr r2, [r5, #0x48]
-	subeq r1, r0, #0x11000
-	ldr r0, =0x00000153
-	sub r2, r2, #0x14000
-	bl GameObject__SpawnObject
-	ldrb r1, [r5, #0x3b0]
-	mov r4, r0
-	cmp r1, #2
-	bne _02156D4C
-	mov r1, #0
-	mov r0, #0x86
-	str r1, [sp]
-	sub r1, r0, #0x87
-	str r0, [sp, #4]
-	ldr r0, [r5, #0x138]
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	ldr r0, [r5, #0x138]
-	add r1, r5, #0x44
-	bl ProcessSpatialSfx
-_02156D4C:
-	ldrb r1, [r5, #0x3b0]
-	mov r0, #0
-	sub r1, r1, #1
-	strb r1, [r5, #0x3b0]
-	str r0, [r4, #0x9c]
-	str r0, [r4, #0x98]
-	str r0, [r4, #0xc8]
-	ldr r3, [r5, #0x3a8]
-	ldr r0, [r4, #0x48]
-	ldr r2, [r5, #0x3a4]
-	ldr r1, [r4, #0x44]
-	sub r0, r3, r0
-	sub r1, r2, r1
-	bl FX_Atan2Idx
-	strh r0, [r4, #0x34]
-	ldr r0, [r5, #0x20]
-	ldrh r1, [r4, #0x34]
-	tst r0, #1
-	beq _02156DC8
-	ldr r0, =0x0000D555
-	cmp r1, r0
-	bge _02156DB0
-	cmp r1, #0x8000
-	strgth r0, [r4, #0x34]
-	bgt _02156DE4
-_02156DB0:
-	ldr r0, =0x00002AAA
-	cmp r1, r0
-	ble _02156DE4
-	cmp r1, #0x8000
-	strleh r0, [r4, #0x34]
-	b _02156DE4
-_02156DC8:
-	ldr r0, =0x0000AAAA
-	cmp r1, r0
-	strgth r0, [r4, #0x34]
-	bgt _02156DE4
-	cmp r1, r0, lsr #1
-	movlt r0, r0, lsr #1
-	strlth r0, [r4, #0x34]
-_02156DE4:
-	mov r0, #0x3000
-	str r0, [r4, #0xc8]
-_02156DEC:
-	ldr r0, [r5, #0x20]
-	tst r0, #8
-	addeq sp, sp, #0x14
-	ldmeqia sp!, {r4, r5, pc}
-	ldr r0, =EnemyAngler__State_2156E78
-	mov r1, #0
-	str r0, [r5, #0xf4]
-	mov r0, r5
-	str r1, [r5, #0x28]
-	bl GameObject__SetAnimation
-	ldr r0, [r5, #0x20]
-	orr r0, r0, #4
-	str r0, [r5, #0x20]
-	ldr r0, [r5, #0x37c]
-	bic r0, r0, #4
-	str r0, [r5, #0x37c]
-	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, pc}
+            EnemyAnglerShot *shot = SpawnStageObject(MAPOBJECT_339, shotX, work->gameWork.objWork.position.y - FLOAT_TO_FX32(20.0), EnemyAnglerShot);
 
-// clang-format on
-#endif
+            if (work->shotCount == ANGLER_SHOT_COUNT)
+            {
+                PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ELEC_DENGEKI);
+                ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
+            }
+            work->shotCount--;
+
+            shot->gameWork.objWork.velocity.x = shot->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
+            shot->gameWork.objWork.groundVel                                      = FLOAT_TO_FX32(0.0);
+
+            shot->gameWork.objWork.dir.z = FX_Atan2Idx(work->targetPos.y - shot->gameWork.objWork.position.y, work->targetPos.x - shot->gameWork.objWork.position.x);
+
+            if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+            {
+                if ((s32)shot->gameWork.objWork.dir.z < FLOAT_DEG_TO_IDX(299.9981689453125) && (s32)shot->gameWork.objWork.dir.z > FLOAT_DEG_TO_IDX(180.0))
+                {
+                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(299.9981689453125);
+                }
+                else if ((s32)shot->gameWork.objWork.dir.z > FLOAT_DEG_TO_IDX(59.996337890625) && (s32)shot->gameWork.objWork.dir.z <= FLOAT_DEG_TO_IDX(180.0))
+                {
+                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(59.996337890625);
+                }
+            }
+            else
+            {
+                if ((s32)shot->gameWork.objWork.dir.z > FLOAT_DEG_TO_IDX(239.996337890625))
+                {
+                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(239.996337890625);
+                }
+                else if ((s32)shot->gameWork.objWork.dir.z < FLOAT_DEG_TO_IDX(119.9981689453125))
+                {
+                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(119.9981689453125);
+                }
+            }
+
+            shot->gameWork.objWork.groundVel = FLOAT_TO_FX32(3.0);
+        }
+
+        if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+        {
+            SetTaskState(&work->gameWork.objWork, EnemyAngler_State_ShootCooldown);
+            work->gameWork.objWork.userWork = 0;
+            GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_MOVING);
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+            work->collider.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        }
+    }
 }
 
-NONMATCH_FUNC void EnemyAnglerShot__State_2156E48(EnemyAnglerShot *work)
+void EnemyAnglerShot_State_Moving(EnemyAnglerShot *work)
 {
-#ifdef NON_MATCHING
-
-#else
-// clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r1, [r0, #0x1c]
-	tst r1, #0xf
-	ldmeqia sp!, {r3, pc}
-	ldr r2, [r0, #0x18]
-	mov r1, #0
-	orr ip, r2, #4
-	mov r2, r1
-	mov r3, #1
-	str ip, [r0, #0x18]
-	bl CreateEffectExplosion
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY) != 0)
+    {
+        DestroyStageTask(&work->gameWork.objWork);
+        CreateEffectExplosion(&work->gameWork.objWork, 0, 0, EXPLOSION_ITEMBOX);
+    }
 }
 
-NONMATCH_FUNC void EnemyAngler__State_2156E78(EnemyAngler *work)
+void EnemyAngler_State_ShootCooldown(EnemyAngler *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.userTimer++;
+    if (work->gameWork.objWork.userTimer >= 30)
+    {
+        EnemyAngler__Action_Init(work);
+        work->shotCount                  = ANGLER_SHOT_COUNT;
+        work->gameWork.objWork.userTimer = 0;
+    }
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x2c]
-	add r1, r1, #1
-	str r1, [r4, #0x2c]
-	cmp r1, #0x1e
-	blt _02156EA8
-	bl EnemyAngler__Action_Init
-	mov r0, #2
-	strb r0, [r4, #0x3b0]
-	mov r0, #0
-	str r0, [r4, #0x2c]
-_02156EA8:
-	ldr r0, [r4, #0x28]
-	add r0, r0, #1
-	str r0, [r4, #0x28]
-	ldr r0, [r4, #0x2c]
-	cmp r0, #0x78
-	ldmltia sp!, {r4, pc}
-	ldr r1, [r4, #0x37c]
-	mov r0, #0
-	orr r1, r1, #4
-	str r1, [r4, #0x37c]
-	str r0, [r4, #0x28]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->gameWork.objWork.userWork++;
+    if (work->gameWork.objWork.userTimer >= 120)
+    {
+        work->collider.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        work->gameWork.objWork.userWork = 0;
+    }
 }

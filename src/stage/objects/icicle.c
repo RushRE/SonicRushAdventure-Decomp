@@ -11,6 +11,15 @@
 #define mapObjectParam_size mapObject->left
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum IcicleAnimID
+{
+    ICICLE_ANI_ICICLE,
+};
+
+// --------------------
 // FUNCTION DECLS
 // --------------------
 
@@ -36,7 +45,7 @@ Icicle *CreateIcicle(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_icicle.bac", GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 64, GetObjectSpriteRef(OBJDATAWORK_160));
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 35);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, ICICLE_ANI_ICICLE, 35);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     ObjObjectAction3dBACLoad(&work->gameWork.objWork, &work->animator, "/act/ac_gmk_icicle3d.bac", OBJ_DATA_GFX_NONE, OBJ_DATA_GFX_NONE, GetObjectFileWork(OBJDATAWORK_162),
@@ -50,7 +59,7 @@ Icicle *CreateIcicle(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         work->animator.ani.animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
     }
 
-    StageTask__SetAnimation(&work->gameWork.objWork, 0);
+    StageTask__SetAnimation(&work->gameWork.objWork, ICICLE_ANI_ICICLE);
     s32 size = MTM_MATH_CLIP(mapObjectParam_size, 0, 3);
 
     if (size != 0)

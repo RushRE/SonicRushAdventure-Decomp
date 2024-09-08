@@ -43,6 +43,14 @@ enum GameObjectCommonFlags_
 };
 typedef u32 GameObjectCommonFlags;
 
+enum BadnikBreakResult_
+{
+    BADNIKBREAKRESULT_NONE,
+    BADNIKBREAKRESULT_DESTROYED_PLAYER,
+    BADNIKBREAKRESULT_DESTROYED_SUPERBOOST,
+};
+typedef u32 BadnikBreakResult;
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -98,7 +106,15 @@ void GameObject__State_BoostImpactSpin(GameObjectTask *work);
 s16 GameObject__GetNextTempObjID(void);
 void GameObject__ReleaseTempObj(MapObject *obj);
 void GameObject__ProcessRecievedPackets(GameObjectTask *work);
-s32 GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObjectPacketType type);
+BadnikBreakResult GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObjectPacketType type);
 void GameObject__Func_20282A8(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx33 *mtx, BOOL setFrustum);
+
+// --------------------
+// INLINE FUNCTIONS
+// --------------------
+
+#define SpawnStageObject(id, x, y, type)                                           (type *)GameObject__SpawnObject(id, x, y, 0, 0, 0, 0, 0, 0)
+#define SpawnStageObjectFlags(id, x, y, type, flags) (type *)GameObject__SpawnObject(id, x, y, flags, 0, 0, 0, 0, 0)
+#define SpawnStageObjectEx(id, x, y, type, flags, left, top, width, height, param) (type *)GameObject__SpawnObject(id, x, y, flags, left, top, width, height, param)
 
 #endif // RUSH2_GAMEOBJECT_H

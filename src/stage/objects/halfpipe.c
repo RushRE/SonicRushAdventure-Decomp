@@ -14,6 +14,13 @@ enum HalfPipeObjectFlags
     HALFPIPE_OBJFLAG_UNKNOWN_FLAG = 1 << 0,
 };
 
+enum HalfpipeAnimID
+{
+    HALFPIPE_ANI_LEFT,
+    HALFPIPE_ANI_MIDDLE,
+    HALFPIPE_ANI_RIGHT,
+};
+
 // --------------------
 // FUNCTION DECLS
 // --------------------
@@ -45,7 +52,7 @@ Halfpipe *CreateHalfpipe(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     OBS_DATA_WORK *sprWork = GetObjectDataWork(OBJDATAWORK_186);
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_half_pipe.bac", sprWork, gameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, Sprite__GetSpriteSize2FromAnim(sprWork->fileData, halfpipeType), GetObjectSpriteRef(2 * halfpipeType + OBJDATAWORK_187));
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 60);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, HALFPIPE_ANI_LEFT, 60);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_1);
     StageTask__SetAnimation(&work->gameWork.objWork, halfpipeType);

@@ -15,6 +15,15 @@ enum IceBlockObjectFlags
     ICEBLOCK_OBJFLAG_REMOVE_IN_VS_BATTLE = 1 << 0,
 };
 
+enum IceBlockAnimID
+{
+	ICEBLOCK_ANI_BLOCK,
+	ICEBLOCK_ANI_DEBRIS_1,
+	ICEBLOCK_ANI_DEBRIS_2,
+	ICEBLOCK_ANI_DEBRIS_3,
+	ICEBLOCK_ANI_DEBRIS_4,
+};
+
 // --------------------
 // FUNCTION DECLS
 // --------------------
@@ -44,10 +53,10 @@ IceBlock *CreateIceBlock(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_ice_block.bac", GetObjectFileWork(OBJDATAWORK_175), gameArchiveStage, OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 8, GetObjectSpriteRef(OBJDATAWORK_176));
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 35);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, ICEBLOCK_ANI_BLOCK, 35);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_22);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
-    StageTask__SetAnimation(&work->gameWork.objWork, 0);
+    StageTask__SetAnimation(&work->gameWork.objWork, ICEBLOCK_ANI_BLOCK);
 
     ObjRect__SetAttackStat(work->gameWork.colliders, 0, 0);
     ObjRect__SetDefenceStat(work->gameWork.colliders, ~2, 0);

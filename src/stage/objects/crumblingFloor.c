@@ -78,7 +78,7 @@ CrumblingFloor *CreateCrumblingFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_b_fall_floor.bac", GetObjectDataWork(OBJDATAWORK_162), gameArchiveStage, 0);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, spriteSizeTable[objType], GetObjectSpriteRef(2 * objType + OBJDATAWORK_163));
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 6);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, CRUMBLINGFLOOR_ANI_FLAT, 6);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     StageTask__SetAnimation(&work->gameWork.objWork, objType);
@@ -140,8 +140,7 @@ CrumblingFloor *CreateCrumblingFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 
                 dashPanelFlags = DASHPANEL_OBJFLAG_FLIPPED;
         }
 
-        DashPanel *dashPanel =
-            (DashPanel *)GameObject__SpawnObject(dashPanelType, work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, dashPanelFlags, 0, 0, 0, 0, 0);
+        DashPanel *dashPanel = SpawnStageObjectFlags(dashPanelType, work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, DashPanel, dashPanelFlags);
 
         if (dashPanel != NULL)
         {

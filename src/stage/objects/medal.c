@@ -72,7 +72,7 @@ void Medal_State_Active(Medal *work)
     if (work->gameWork.objWork.userWork == FX_ModS32(playerGameStatus.missionStatus.quotaTarget, playerGameStatus.missionStatus.quota))
     {
         // spawn goal chest and indicator
-        GoalChest *goal = (GoalChest *)GameObject__SpawnObject(MAPOBJECT_113, work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, 0, 0, 0, 0, 0, 1);
+        GoalChest *goal = SpawnStageObjectEx(MAPOBJECT_113, work->gameWork.objWork.position.x, work->gameWork.objWork.position.y, GoalChest, 0, 0, 0, 0, 0, 1);
         if (goal != NULL)
             CreateTargetIndicatorHUD(&goal->gameWork.objWork);
 

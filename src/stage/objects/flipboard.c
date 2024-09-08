@@ -36,6 +36,7 @@ NOT_DECOMPILED void *aActAcGmkFlipBo;
 
 NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
+	// https://decomp.me/scratch/1zLJf -> 96.41%
 #ifdef NON_MATCHING
     Task *task = CreateStageTask(Flipboard_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, Flipboard);
     if (task == HeapNull)
@@ -50,7 +51,7 @@ NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, f
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.aniSnow, "/act/ac_gmk_flip_board.bac", GetObjectFileWork(OBJDATAWORK_167), gameArchiveStage,
                              OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 61);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, FLIPBOARD_ANI_BOARD, 61);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
     StageTask__SetAnimation(&work->gameWork.objWork, FLIPBOARD_ANI_BOARD);

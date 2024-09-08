@@ -4,634 +4,325 @@
 #include <game/object/objectManager.h>
 #include <game/object/obj.h>
 
-NOT_DECOMPILED void *aActAcEneLaserS;
-NOT_DECOMPILED void *aActAcEneSkymoo;
+// --------------------
+// MAPOBJECT PARAMS
+// --------------------
+
+#define mapObjectParam_xMin   mapObject->left
+#define mapObjectParam_xRange mapObject->width
+
+// --------------------
+// ENUMS
+// --------------------
+
+enum SkymoonObjectFlags
+{
+    SKYMOON_OBJFLAG_NONE,
+
+    SKYMOON_OBJFLAG_FLIPPED = (1 << 0),
+};
+
+enum SkymoonAnimID
+{
+    SKYMOON_ANI_IDLE,
+    SKYMOON_ANI_ATTACK_START,
+    SKYMOON_ANI_CHARGE_LASER,
+    SKYMOON_ANI_LASER_SHOOT,
+    SKYMOON_ANI_LASER_MOVE,
+};
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void EnemySkymoon_HandleColliderDelay(EnemySkymoon *work);
+static void EnemySkymoon_Action_Init(EnemySkymoon *work);
+static void EnemySkymoon_State_Idle(EnemySkymoon *work);
+static void EnemySkymoon_Action_Move(EnemySkymoon *work);
+static void EnemySkymoon_State_Moving(EnemySkymoon *work);
+static void EnemySkymoon_Oscillate(EnemySkymoon *work);
+static void EnemySkymoon_Acton_Attack(EnemySkymoon *work);
+static void EnemySkymoon_State_Attacking(EnemySkymoon *work);
+static void EnemySkymoon_OnDefend_Detect(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+static void EnemySkymoonLaser_State_Active(EnemySkymoonLaser *work);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC EnemySkymoon *EnemySkymoon__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+EnemySkymoon *CreateSkymoon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    if (mapObject == NULL || (mapObject->x != MAPOBJECT_DESTROYED || mapObject->y != MAPOBJECT_DESTROYED))
+    {
+        if (gameState.difficulty == DIFFICULTY_EASY && (mapObject->flags & ENEMYCOMMON_OBJFLAG_DISABLED_ON_EASY) != 0)
+            return NULL;
+    }
 
-#else
-// clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	movs r7, r0
-	mov r6, r1
-	mov r5, r2
-	beq _0215D004
-	ldrb r0, [r7]
-	cmp r0, #0xff
-	ldreqb r0, [r7, #1]
-	cmpeq r0, #0xff
-	beq _0215D028
-_0215D004:
-	ldr r0, =gameState
-	ldr r0, [r0, #0x18]
-	cmp r0, #0
-	bne _0215D028
-	ldrh r0, [r7, #4]
-	tst r0, #0x80
-	addne sp, sp, #0xc
-	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, r7, pc}
-_0215D028:
-	mov r0, #0x1500
-	mov r2, #0
-	str r0, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x3b4
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x3b4
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldr r0, [r4, #0x20]
-	ldr r5, =0x0000FFFF
-	orr r0, r0, #0x100
-	str r0, [r4, #0x20]
-	ldr r0, [r4, #0x1c]
-	orr r0, r0, #0x8100
-	str r0, [r4, #0x1c]
-	ldrh r0, [r7, #2]
-	cmp r0, #0x17
-	bne _0215D104
-	mov r0, #0x17
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r0, [r1]
-	ldr r2, =aActAcEneSkymoo
-	str r0, [sp]
-	mov r0, r4
-	add r1, r4, #0x168
-	str r5, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x64
-	bl ObjActionAllocSpritePalette
-	b _0215D1A0
-_0215D104:
-	mov r0, #0x18
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r0, [r1]
-	ldr r2, =aActAcEneLaserS
-	str r0, [sp]
-	mov r0, r4
-	add r1, r4, #0x168
-	str r5, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x65
-	bl ObjActionAllocSpritePalette
-	mov r0, #0x60
-	str r0, [sp]
-	sub r1, r0, #0x120
-	add r0, r4, #0x364
-	mov r2, #0
-	mov r3, #0xc0
-	bl ObjRect__SetBox2D
-	mov r1, #0
-	add r0, r4, #0x364
-	mov r2, r1
-	bl ObjRect__SetAttackStat
-	add r0, r4, #0x364
-	sub r1, r5, #1
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, =0x00000102
-	add r0, r4, #0x300
-	strh r1, [r0, #0x98]
-	ldr r1, [r4, #0x37c]
-	ldr r0, =EnemySkymoon__OnDefend_215D6A4
-	orr r1, r1, #0xc0
-	str r1, [r4, #0x37c]
-	str r0, [r4, #0x388]
-	str r4, [r4, #0x380]
-_0215D1A0:
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	ldrh r0, [r7, #4]
-	tst r0, #1
-	ldrne r0, [r4, #0x20]
-	orrne r0, r0, #1
-	strne r0, [r4, #0x20]
-	ldrb r0, [r7, #8]
-	cmp r0, #0
-	beq _0215D1F4
-	ldrsb r0, [r7, #6]
-	ldr r1, [r4, #0x44]
-	add r1, r1, r0, lsl #12
-	str r1, [r4, #0x3a4]
-	ldrb r0, [r7, #8]
-	add r0, r1, r0, lsl #12
-	str r0, [r4, #0x3a8]
-_0215D1F4:
-	mov r0, r4
-	bl EnemySkymoon__Func_215D390
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemySkymoon);
+    if (task == HeapNull)
+        return NULL;
 
-// clang-format on
-#endif
+    EnemySkymoon *work = TaskGetWork(task, EnemySkymoon);
+    TaskInitWork8(work);
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+
+    if (mapObject->id == MAPOBJECT_23)
+    {
+        // Skymoon (no laser)
+        ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_skymoon.bac", GetObjectDataWork(OBJDATAWORK_23), gameArchiveStage,
+                                 OBJ_DATA_GFX_AUTO);
+        ObjActionAllocSpritePalette(&work->gameWork.objWork, SKYMOON_ANI_IDLE, 100);
+    }
+    else
+    {
+        // Skymoon (has laser)
+        ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_laser_skymoon.bac", GetObjectDataWork(OBJDATAWORK_24), gameArchiveStage,
+                                 OBJ_DATA_GFX_AUTO);
+        ObjActionAllocSpritePalette(&work->gameWork.objWork, SKYMOON_ANI_IDLE, 101);
+
+        ObjRect__SetBox2D(&work->collider.rect, -192, 0, 192, 96);
+        ObjRect__SetAttackStat(&work->collider, 0, 0);
+        ObjRect__SetDefenceStat(&work->collider, ~1, 0);
+        ObjRect__SetGroupFlags(&work->collider, 2, 1);
+        work->collider.flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+        ObjRect__SetOnDefend(&work->collider, EnemySkymoon_OnDefend_Detect);
+        work->collider.parent = &work->gameWork.objWork;
+    }
+
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+
+    if ((mapObject->flags & SKYMOON_OBJFLAG_FLIPPED) != 0)
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+
+    if (mapObjectParam_xRange != 0)
+    {
+        work->xMin = work->gameWork.objWork.position.x + FX32_FROM_WHOLE(mapObjectParam_xMin);
+        work->xMax = work->xMin + FX32_FROM_WHOLE(mapObjectParam_xRange);
+    }
+
+    EnemySkymoon_Action_Init(work);
+
+    return work;
 }
 
-NONMATCH_FUNC EnemySkymoonLaser *EnemySkymoonLaser__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+EnemySkymoonLaser *CreateSkymoonLaser(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemySkymoonLaser);
+    if (task == HeapNull)
+        return NULL;
 
-#else
-// clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r3, #0x1500
-	mov r7, r0
-	mov r6, r1
-	mov r5, r2
-	mov r2, #0
-	str r3, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x364
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x364
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldr r1, [r4, #0x20]
-	mov r0, #0x18
-	orr r1, r1, #0x100
-	str r1, [r4, #0x20]
-	ldr r1, [r4, #0x1c]
-	orr r1, r1, #0xa100
-	str r1, [r4, #0x1c]
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	mov r1, #8
-	ldr r2, [r0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	ldr r2, =aActAcEneLaserS
-	add r1, r4, #0x168
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #3
-	mov r2, #0x1f
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	mov r0, r4
-	mov r1, #3
-	bl GameObject__SetAnimation
-	ldrh r0, [r7, #4]
-	ldr r1, =EnemySkymoonLaser__State_215D750
-	tst r0, #1
-	ldrne r0, [r4, #0x20]
-	orrne r0, r0, #1
-	strne r0, [r4, #0x20]
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
+    EnemySkymoonLaser *work = TaskGetWork(task, EnemySkymoonLaser);
+    TaskInitWork8(work);
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-// clang-format on
-#endif
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_ene_laser_skymoon.bac", GetObjectDataWork(OBJDATAWORK_24), gameArchiveStage, 8);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, SKYMOON_ANI_LASER_SHOOT, 31);
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_12);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+    GameObject__SetAnimation(&work->gameWork, SKYMOON_ANI_LASER_SHOOT);
+
+    if ((mapObject->flags & SKYMOON_OBJFLAG_FLIPPED) != 0)
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+
+    SetTaskState(&work->gameWork.objWork, EnemySkymoonLaser_State_Active);
+
+    return work;
 }
 
-NONMATCH_FUNC void EnemySkymoon__Func_215D36C(EnemySkymoon *work)
+void EnemySkymoon_HandleColliderDelay(EnemySkymoon *work)
 {
-#ifdef NON_MATCHING
-
-#else
-// clang-format off
-	ldr r1, [r0, #0x3ac]
-	cmp r1, #0
-	bxeq lr
-	subs r1, r1, #1
-	str r1, [r0, #0x3ac]
-	ldreq r1, [r0, #0x37c]
-	orreq r1, r1, #4
-	streq r1, [r0, #0x37c]
-	bx lr
-
-// clang-format on
-#endif
+    if (work->timer != 0)
+    {
+        work->timer--;
+        if (work->timer == 0)
+            work->collider.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    }
 }
 
-NONMATCH_FUNC void EnemySkymoon__Func_215D390(EnemySkymoon *work)
+void EnemySkymoon_Action_Init(EnemySkymoon *work)
 {
-#ifdef NON_MATCHING
+    if (work->xMin != 0)
+    {
+        EnemySkymoon_Action_Move(work);
+    }
+    else
+    {
+        if (work->gameWork.animator.ani.work.animID != SKYMOON_ANI_IDLE)
+            GameObject__SetAnimation(&work->gameWork, SKYMOON_ANI_IDLE);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x3a4]
-	cmp r1, #0
-	beq _0215D3AC
-	bl EnemySkymoon__Func_215D414
-	ldmia sp!, {r4, pc}
-_0215D3AC:
-	add r1, r4, #0x100
-	ldrh r1, [r1, #0x74]
-	cmp r1, #0
-	beq _0215D3C4
-	mov r1, #0
-	bl GameObject__SetAnimation
-_0215D3C4:
-	ldr r1, [r4, #0x20]
-	ldr r0, =EnemySkymoon__State_215D3E0
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-// clang-format on
-#endif
+        SetTaskState(&work->gameWork.objWork, EnemySkymoon_State_Idle);
+    }
 }
 
-NONMATCH_FUNC void EnemySkymoon__State_215D3E0(EnemySkymoon *work)
+void EnemySkymoon_State_Idle(EnemySkymoon *work)
 {
-#ifdef NON_MATCHING
+    EnemySkymoon_Oscillate(work);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl EnemySkymoon__Func_215D50C
-	ldr r0, [r4, #0x340]
-	ldrh r0, [r0, #2]
-	cmp r0, #0x18
-	ldmneia sp!, {r4, pc}
-	mov r0, r4
-	bl EnemySkymoon__Func_215D36C
-	mov r0, r4
-	add r1, r4, #0x364
-	bl StageTask__HandleCollider
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if (work->gameWork.mapObject->id == MAPOBJECT_24)
+    {
+        EnemySkymoon_HandleColliderDelay(work);
+        StageTask__HandleCollider(&work->gameWork.objWork, &work->collider);
+    }
 }
 
-NONMATCH_FUNC void EnemySkymoon__Func_215D414(EnemySkymoon *work)
+void EnemySkymoon_Action_Move(EnemySkymoon *work)
 {
-#ifdef NON_MATCHING
+    if (work->gameWork.animator.ani.work.animID != SKYMOON_ANI_IDLE)
+        GameObject__SetAnimation(&work->gameWork, SKYMOON_ANI_IDLE);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r1, r4, #0x100
-	ldrh r1, [r1, #0x74]
-	cmp r1, #0
-	beq _0215D434
-	mov r1, #0
-	bl GameObject__SetAnimation
-_0215D434:
-	ldr r1, [r4, #0x20]
-	ldr r0, =EnemySkymoon__Func_215D450
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-// clang-format on
-#endif
+    SetTaskState(&work->gameWork.objWork, EnemySkymoon_State_Moving);
 }
 
-NONMATCH_FUNC void EnemySkymoon__Func_215D450(EnemySkymoon *work)
+void EnemySkymoon_State_Moving(EnemySkymoon *work)
 {
-#ifdef NON_MATCHING
+    EnemySkymoon_Oscillate(work);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl EnemySkymoon__Func_215D50C
-	ldr r0, [r4, #0x20]
-	ldr r1, [r4, #0x44]
-	tst r0, #1
-	beq _0215D4A8
-	ldr r0, [r4, #0x3a8]
-	cmp r1, r0
-	blt _0215D490
-	mov r0, #0
-	str r0, [r4, #0x98]
-	ldr r0, [r4, #0x20]
-	eor r0, r0, #1
-	str r0, [r4, #0x20]
-	b _0215D4E4
-_0215D490:
-	ldr r0, [r4, #0x98]
-	mov r1, #0x200
-	mov r2, #0x800
-	bl ObjSpdUpSet
-	str r0, [r4, #0x98]
-	b _0215D4E4
-_0215D4A8:
-	ldr r0, [r4, #0x3a4]
-	cmp r1, r0
-	bgt _0215D4CC
-	mov r0, #0
-	str r0, [r4, #0x98]
-	ldr r0, [r4, #0x20]
-	eor r0, r0, #1
-	str r0, [r4, #0x20]
-	b _0215D4E4
-_0215D4CC:
-	mov r1, #0x200
-	ldr r0, [r4, #0x98]
-	rsb r1, r1, #0
-	mov r2, #0x800
-	bl ObjSpdUpSet
-	str r0, [r4, #0x98]
-_0215D4E4:
-	ldr r0, [r4, #0x340]
-	ldrh r0, [r0, #2]
-	cmp r0, #0x18
-	ldmneia sp!, {r4, pc}
-	mov r0, r4
-	bl EnemySkymoon__Func_215D36C
-	mov r0, r4
-	add r1, r4, #0x364
-	bl StageTask__HandleCollider
-	ldmia sp!, {r4, pc}
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+    {
+        if (work->gameWork.objWork.position.x >= work->xMax)
+        {
+            work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
+            work->gameWork.objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
+        }
+        else
+        {
+            work->gameWork.objWork.velocity.x = ObjSpdUpSet(work->gameWork.objWork.velocity.x, FLOAT_TO_FX32(0.125), FLOAT_TO_FX32(0.5));
+        }
+    }
+    else
+    {
+        if (work->gameWork.objWork.position.x <= work->xMin)
+        {
+            work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
+            work->gameWork.objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
+        }
+        else
+        {
+            work->gameWork.objWork.velocity.x = ObjSpdUpSet(work->gameWork.objWork.velocity.x, -FLOAT_TO_FX32(0.125), FLOAT_TO_FX32(0.5));
+        }
+    }
 
-// clang-format on
-#endif
+    if (work->gameWork.mapObject->id == MAPOBJECT_24)
+    {
+        EnemySkymoon_HandleColliderDelay(work);
+        StageTask__HandleCollider(&work->gameWork.objWork, &work->collider);
+    }
 }
 
-NONMATCH_FUNC void EnemySkymoon__Func_215D50C(EnemySkymoon *work)
+void EnemySkymoon_Oscillate(EnemySkymoon *work)
 {
-#ifdef NON_MATCHING
-
-#else
-// clang-format off
-	add r1, r0, #0x300
-	ldrh ip, [r1, #0xb0]
-	ldr r3, =FX_SinCosTable_
-	mov r2, #0x800
-	add ip, ip, #0x100
-	strh ip, [r1, #0xb0]
-	ldrh r1, [r1, #0xb0]
-	mov r1, r1, asr #4
-	mov r1, r1, lsl #2
-	ldrsh r3, [r3, r1]
-	mov r1, r3, asr #0x1f
-	mov r1, r1, lsl #0xa
-	adds r2, r2, r3, lsl #10
-	orr r1, r1, r3, lsr #22
-	adc r1, r1, #0
-	mov r2, r2, lsr #0xc
-	orr r2, r2, r1, lsl #20
-	str r2, [r0, #0x9c]
-	bx lr
-
-// clang-format on
-#endif
+    work->angle += FLOAT_DEG_TO_IDX(1.40625);
+    work->gameWork.objWork.velocity.y = MultiplyFX(SinFX(work->angle), FLOAT_TO_FX32(0.25));
 }
 
-NONMATCH_FUNC void EnemySkymoon__Func_215D55C(EnemySkymoon *work)
+void EnemySkymoon_Acton_Attack(EnemySkymoon *work)
 {
-#ifdef NON_MATCHING
+    GameObject__SetAnimation(&work->gameWork, SKYMOON_ANI_ATTACK_START);
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r1, #1
-	bl GameObject__SetAnimation
-	ldr r1, [r4, #0x1c]
-	ldr r0, =EnemySkymoon__State_215D590
-	orr r1, r1, #0x2000
-	str r1, [r4, #0x1c]
-	str r0, [r4, #0xf4]
-	mov r0, #0
-	str r0, [r4, #0x28]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    SetTaskState(&work->gameWork.objWork, EnemySkymoon_State_Attacking);
+    work->gameWork.objWork.userWork = 0;
 }
 
-NONMATCH_FUNC void EnemySkymoon__State_215D590(EnemySkymoon *work)
+void EnemySkymoon_State_Attacking(EnemySkymoon *work)
 {
-#ifdef NON_MATCHING
+    switch (work->gameWork.objWork.userWork)
+    {
+        case 0:
+            if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+            {
+                work->gameWork.objWork.userWork++;
+                work->gameWork.objWork.userTimer = 15;
+                GameObject__SetAnimation(&work->gameWork, SKYMOON_ANI_CHARGE_LASER);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0x14
-	mov r4, r0
-	ldr r2, [r4, #0x28]
-	cmp r2, #0
-	beq _0215D5C0
-	cmp r2, #1
-	beq _0215D644
-	cmp r2, #2
-	beq _0215D678
-	add sp, sp, #0x14
-	ldmia sp!, {r3, r4, pc}
-_0215D5C0:
-	ldr r1, [r4, #0x20]
-	tst r1, #8
-	addeq sp, sp, #0x14
-	ldmeqia sp!, {r3, r4, pc}
-	add r1, r2, #1
-	str r1, [r4, #0x28]
-	mov r1, #0xf
-	str r1, [r4, #0x2c]
-	mov r1, #2
-	bl GameObject__SetAnimation
-	ldr r0, [r4, #0x20]
-	mov ip, #0xf000
-	ands r0, r0, #1
-	movne r3, #1
-	moveq r3, #0
-	cmp r0, #0
-	mov r0, #0
-	str r0, [sp]
-	str r0, [sp, #4]
-	str r0, [sp, #8]
-	str r0, [sp, #0xc]
-	str r0, [sp, #0x10]
-	ldr r2, [r4, #0x48]
-	mov r3, r3, lsl #0x10
-	ldr r1, [r4, #0x44]
-	rsbeq ip, ip, #0
-	ldr r0, =0x0000015D
-	add r1, r1, ip
-	sub r2, r2, #0x1000
-	mov r3, r3, lsr #0x10
-	bl GameObject__SpawnObject
-	add sp, sp, #0x14
-	ldmia sp!, {r3, r4, pc}
-_0215D644:
-	ldr r1, [r4, #0x2c]
-	sub r1, r1, #1
-	cmp r1, #0
-	addgt sp, sp, #0x14
-	str r1, [r4, #0x2c]
-	ldmgtia sp!, {r3, r4, pc}
-	ldr r2, [r4, #0x28]
-	mov r1, #1
-	add r2, r2, #1
-	str r2, [r4, #0x28]
-	bl GameObject__SetAnimation
-	add sp, sp, #0x14
-	ldmia sp!, {r3, r4, pc}
-_0215D678:
-	ldr r1, [r4, #0x20]
-	tst r1, #8
-	addeq sp, sp, #0x14
-	ldmeqia sp!, {r3, r4, pc}
-	ldr r1, [r4, #0x1c]
-	bic r1, r1, #0x2000
-	str r1, [r4, #0x1c]
-	bl EnemySkymoon__Func_215D390
-	add sp, sp, #0x14
-	ldmia sp!, {r3, r4, pc}
+                u32 flags;
+                if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+                    flags = SKYMOON_OBJFLAG_FLIPPED;
+                else
+                    flags = SKYMOON_OBJFLAG_NONE;
 
-// clang-format on
-#endif
+                fx32 offsetX;
+                if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
+                    offsetX = -FLOAT_TO_FX32(15.0);
+                else
+                    offsetX = FLOAT_TO_FX32(15.0);
+
+                EnemySkymoonLaser *laser = SpawnStageObjectFlags(MAPOBJECT_349, work->gameWork.objWork.position.x + offsetX, work->gameWork.objWork.position.y - FLOAT_TO_FX32(1.0),
+                                                                 EnemySkymoonLaser, flags);
+            }
+            break;
+
+        case 1:
+            work->gameWork.objWork.userTimer--;
+            if (work->gameWork.objWork.userTimer <= 0)
+            {
+                work->gameWork.objWork.userWork++;
+                GameObject__SetAnimation(&work->gameWork, SKYMOON_ANI_ATTACK_START);
+            }
+            break;
+
+        case 2:
+            if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+            {
+                work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+                EnemySkymoon_Action_Init(work);
+            }
+            break;
+    }
 }
 
-NONMATCH_FUNC void EnemySkymoon__OnDefend_215D6A4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void EnemySkymoon_OnDefend_Detect(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    EnemySkymoon *enemy = (EnemySkymoon *)rect2->parent;
+    Player *player      = (Player *)rect1->parent;
 
-#else
-// clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r5, r1
-	ldr r4, [r5, #0x1c]
-	mov r6, r0
-	ldr r0, [r4, #0x18]
-	ldr r1, [r6, #0x1c]
-	tst r0, #2
-	ldreq r0, [r4, #0x340]
-	ldreqh r0, [r0, #2]
-	cmpeq r0, #0x18
-	ldmneia sp!, {r4, r5, r6, pc}
-	ldr r3, [r1, #0x48]
-	ldr r0, [r4, #0x48]
-	ldr r2, [r1, #0x44]
-	ldr r1, [r4, #0x44]
-	sub r0, r3, r0
-	sub r1, r2, r1
-	bl FX_Atan2Idx
-	ldr r1, =0x00001555
-	cmp r0, r1
-	blo _0215D738
-	ldr r1, =0x00006AAA
-	cmp r0, r1
-	bhi _0215D738
-	mov r1, #0x78
-	str r1, [r4, #0x3ac]
-	ldr r1, [r4, #0x37c]
-	cmp r0, #0x4000
-	bic r0, r1, #4
-	str r0, [r4, #0x37c]
-	ldr r0, [r4, #0x20]
-	orrls r0, r0, #1
-	bichi r0, r0, #1
-	str r0, [r4, #0x20]
-	mov r0, r4
-	bl EnemySkymoon__Func_215D55C
-	ldmia sp!, {r4, r5, r6, pc}
-_0215D738:
-	mov r0, r6
-	mov r1, r5
-	bl ObjRect__FuncNoHit
-	ldmia sp!, {r4, r5, r6, pc}
+    if ((enemy->gameWork.objWork.flag & STAGE_TASK_FLAG_2) == 0 && enemy->gameWork.mapObject->id == MAPOBJECT_24)
+    {
+        u16 angle = FX_Atan2Idx(player->objWork.position.y - enemy->gameWork.objWork.position.y, player->objWork.position.x - enemy->gameWork.objWork.position.x);
+        if (angle >= FLOAT_DEG_TO_IDX(29.9981689453125) && angle <= FLOAT_DEG_TO_IDX(149.996337890625))
+        {
+            enemy->timer = 120;
+            enemy->collider.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
 
-// clang-format on
-#endif
+            if (angle <= FLOAT_DEG_TO_IDX(90.0))
+                enemy->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+            else
+                enemy->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+
+            EnemySkymoon_Acton_Attack(enemy);
+        }
+        else
+        {
+            ObjRect__FuncNoHit(rect1, rect2);
+        }
+    }
 }
 
-NONMATCH_FUNC void EnemySkymoonLaser__State_215D750(EnemySkymoonLaser *work)
+void EnemySkymoonLaser_State_Active(EnemySkymoonLaser *work)
 {
-#ifdef NON_MATCHING
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+    {
+        GameObject__SetAnimation(&work->gameWork, SKYMOON_ANI_LASER_MOVE);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x20]
-	tst r1, #8
-	ldmeqia sp!, {r4, pc}
-	mov r1, #4
-	bl GameObject__SetAnimation
-	ldr r0, [r4, #0x20]
-	tst r0, #1
-	mov r0, #0x2000
-	rsbeq r0, r0, #0
-	str r0, [r4, #0x98]
-	mov r0, #0x2000
-	str r0, [r4, #0x9c]
-	ldr r1, [r4, #0x1c]
-	mov r0, #0
-	bic r1, r1, #0x2000
-	str r1, [r4, #0x1c]
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
+        if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
+            work->gameWork.objWork.velocity.x = -FLOAT_TO_FX32(2.0);
+        else
+            work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(2.0);
+        work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(2.0);
 
-// clang-format on
-#endif
+        work->gameWork.objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+
+        SetTaskState(&work->gameWork.objWork, NULL);
+    }
 }

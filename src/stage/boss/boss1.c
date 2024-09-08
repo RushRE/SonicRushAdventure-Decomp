@@ -662,7 +662,7 @@ Boss1Stage *Boss1Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
     BossHelpers__Light__Init(&work->lightConfig);
     BossHelpers__Model__InitSystem();
 
-    work->boss        = (Boss1 *)GameObject__SpawnObject(MAPOBJECT_277, x, y, 0, 0, 0, 0, 0, 0);
+    work->boss        = SpawnStageObject(MAPOBJECT_277, x, y, Boss1);
     work->boss->stage = work;
 
     InitSpatialAudioConfig();
