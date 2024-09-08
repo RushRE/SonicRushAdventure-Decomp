@@ -124,7 +124,7 @@ void EnemyFireSkull_State_TryFindPlayer(EnemyFireSkull *work)
 
         fx32 distX = gPlayer->objWork.position.x - work->gameWork.objWork.position.x;
         work->gameWork.objWork.userWork =
-            ObjRoopMove16((u16)work->gameWork.objWork.userWork, FX_Atan2Idx(gPlayer->objWork.position.y - work->gameWork.objWork.position.y, distX), FLOAT_TO_FX32(1.0));
+            ObjRoopMove16((u16)work->gameWork.objWork.userWork, FX_Atan2Idx(gPlayer->objWork.position.y - work->gameWork.objWork.position.y, distX), FLOAT_DEG_TO_IDX(22.5));
 
         work->gameWork.objWork.velocity.x = MultiplyFX(work->gameWork.objWork.groundVel, CosFX((s32)(u16)work->gameWork.objWork.userWork));
 
@@ -313,10 +313,10 @@ void EnemyFireSkull_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     }
     else
     {
-        enemy->gameWork.colliders[0].flag |= OBJECTMANAGER_FLAG_800;
+        enemy->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
         enemy->gameWork.colliders[0].parent = NULL;
 
-        enemy->gameWork.colliders[1].flag |= OBJECTMANAGER_FLAG_800;
+        enemy->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
         enemy->gameWork.colliders[1].parent = NULL;
 
         EnemyFireSkull_Action_Cling(enemy);
