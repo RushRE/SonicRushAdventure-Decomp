@@ -63,14 +63,14 @@ EnemyGlider *CreateGlider(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
-    ObjRect__SetBox2D(&work->collider.rect, work->gameWork.mapObjectParam_left, work->gameWork.mapObjectParam_top,
+    ObjRect__SetBox2D(&work->colliderDetect.rect, work->gameWork.mapObjectParam_left, work->gameWork.mapObjectParam_top,
                       work->gameWork.mapObjectParam_left + work->gameWork.mapObjectParam_width, work->gameWork.mapObjectParam_top + work->gameWork.mapObjectParam_height);
-    ObjRect__SetAttackStat(&work->collider, 0, 0);
-    ObjRect__SetDefenceStat(&work->collider, ~1, 0);
-    ObjRect__SetGroupFlags(&work->collider, 2, 1);
-    work->collider.flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
-    ObjRect__SetOnDefend(&work->collider, EnemyGlider_OnDefend);
-    work->collider.parent = &work->gameWork.objWork;
+    ObjRect__SetAttackStat(&work->colliderDetect, 0, 0);
+    ObjRect__SetDefenceStat(&work->colliderDetect, ~1, 0);
+    ObjRect__SetGroupFlags(&work->colliderDetect, 2, 1);
+    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+    ObjRect__SetOnDefend(&work->colliderDetect, EnemyGlider_OnDefend);
+    work->colliderDetect.parent = &work->gameWork.objWork;
 
     switch (mapObject->flags & GLIDER_OBJFLAG_WEIGHT_MASK)
     {
@@ -130,7 +130,7 @@ void EnemyGlider_Action_Init(EnemyGlider *work)
 
 void EnemyGlider_State_Idle(EnemyGlider *work)
 {
-    StageTask__HandleCollider(&work->gameWork.objWork, &work->collider);
+    StageTask__HandleCollider(&work->gameWork.objWork, &work->colliderDetect);
 }
 
 void EnemyGlider_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
@@ -149,7 +149,7 @@ void EnemyGlider_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     enemy->gameWork.colliders[0].flag &= ~OBS_RECT_WORK_FLAG_800;
     enemy->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_800;
     enemy->gameWork.colliders[2].flag &= ~OBS_RECT_WORK_FLAG_800;
-    enemy->collider.flag |= OBS_RECT_WORK_FLAG_800;
+    enemy->colliderDetect.flag |= OBS_RECT_WORK_FLAG_800;
 
     SetTaskState(&enemy->gameWork.objWork, EnemyGlider_State_Gliding);
 }

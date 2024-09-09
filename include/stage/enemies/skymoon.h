@@ -10,7 +10,7 @@
 typedef struct EnemySkymoon_
 {
     GameObjectTask gameWork;
-    OBS_RECT_WORK collider;
+    OBS_RECT_WORK collcolliderDetectider;
     fx32 xMin;
     fx32 xMax;
     s32 timer;

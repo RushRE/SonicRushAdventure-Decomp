@@ -83,13 +83,13 @@ EnemySkymoon *CreateSkymoon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
                                  OBJ_DATA_GFX_AUTO);
         ObjActionAllocSpritePalette(&work->gameWork.objWork, SKYMOON_ANI_IDLE, 101);
 
-        ObjRect__SetBox2D(&work->collider.rect, -192, 0, 192, 96);
-        ObjRect__SetAttackStat(&work->collider, 0, 0);
-        ObjRect__SetDefenceStat(&work->collider, ~1, 0);
-        ObjRect__SetGroupFlags(&work->collider, 2, 1);
-        work->collider.flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
-        ObjRect__SetOnDefend(&work->collider, EnemySkymoon_OnDefend_Detect);
-        work->collider.parent = &work->gameWork.objWork;
+        ObjRect__SetBox2D(&work->colliderDetect.rect, -192, 0, 192, 96);
+        ObjRect__SetAttackStat(&work->colliderDetect, 0, 0);
+        ObjRect__SetDefenceStat(&work->colliderDetect, ~1, 0);
+        ObjRect__SetGroupFlags(&work->colliderDetect, 2, 1);
+        work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+        ObjRect__SetOnDefend(&work->colliderDetect, EnemySkymoon_OnDefend_Detect);
+        work->colliderDetect.parent = &work->gameWork.objWork;
     }
 
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
@@ -142,7 +142,7 @@ void EnemySkymoon_HandleColliderDelay(EnemySkymoon *work)
     {
         work->timer--;
         if (work->timer == 0)
-            work->collider.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
     }
 }
 
@@ -170,7 +170,7 @@ void EnemySkymoon_State_Idle(EnemySkymoon *work)
     if (work->gameWork.mapObject->id == MAPOBJECT_24)
     {
         EnemySkymoon_HandleColliderDelay(work);
-        StageTask__HandleCollider(&work->gameWork.objWork, &work->collider);
+        StageTask__HandleCollider(&work->gameWork.objWork, &work->colliderDetect);
     }
 }
 
@@ -216,7 +216,7 @@ void EnemySkymoon_State_Moving(EnemySkymoon *work)
     if (work->gameWork.mapObject->id == MAPOBJECT_24)
     {
         EnemySkymoon_HandleColliderDelay(work);
-        StageTask__HandleCollider(&work->gameWork.objWork, &work->collider);
+        StageTask__HandleCollider(&work->gameWork.objWork, &work->colliderDetect);
     }
 }
 
@@ -293,7 +293,7 @@ void EnemySkymoon_OnDefend_Detect(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         if (angle >= FLOAT_DEG_TO_IDX(29.9981689453125) && angle <= FLOAT_DEG_TO_IDX(149.996337890625))
         {
             enemy->timer = 120;
-            enemy->collider.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+            enemy->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
 
             if (angle <= FLOAT_DEG_TO_IDX(90.0))
                 enemy->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;

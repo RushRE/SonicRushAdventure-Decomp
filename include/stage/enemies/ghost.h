@@ -23,7 +23,7 @@ typedef u8 GhostVisibilityMode;
 typedef struct EnemyGhost_
 {
     GameObjectTask gameWork;
-    OBS_RECT_WORK collider;
+    OBS_RECT_WORK colliderDetect;
     Vec2Fx32 targetPos;
     fx32 velocityStore;
     fx32 xMin;

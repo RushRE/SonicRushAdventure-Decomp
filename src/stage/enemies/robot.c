@@ -12,417 +12,273 @@
 #include <stage/effects/waterSplash.h>
 #include <stage/objects/tutorial.h>
 
-NOT_DECOMPILED const void *_02188194;
-NOT_DECOMPILED const void *_021881A0;
-NOT_DECOMPILED const void *_021881B4;
+// --------------------
+// MAPOBJECT PARAMS
+// --------------------
 
-NOT_DECOMPILED s16 _02188B48[5];
-NOT_DECOMPILED void *_02188B54;
-NOT_DECOMPILED void *aActAcEneTriBac;
-NOT_DECOMPILED void *aActAcEnePteraB;
-NOT_DECOMPILED void *aActAcEneFlyFis;
-NOT_DECOMPILED void *aActAcEneProtSp;
-NOT_DECOMPILED void *aActAcEneProtDa_0;
+#define mapObjectParam_xMin   mapObject->left
+#define mapObjectParam_xRange mapObject->width
+
+// --------------------
+// ENUMS
+// --------------------
+
+// --------------------
+// VARIABLES
+// --------------------
+
+static const u16 spritePaletteIDList[ROBOT_TYPE_COUNT] = {
+    [ROBOT_TYPE_TRICERATOPS] = 20, [ROBOT_TYPE_FLYING_FISH] = 21, [ROBOT_TYPE_PTERODACTYL] = 20, [ROBOT_TYPE_SPANNER_BOT] = 37, [ROBOT_TYPE_STEAM_BLASTER] = 36
+};
+
+static const u32 dataWorkList[ROBOT_TYPE_COUNT] = { [ROBOT_TYPE_TRICERATOPS]   = OBJDATAWORK_3,
+                                                    [ROBOT_TYPE_FLYING_FISH]   = OBJDATAWORK_4,
+                                                    [ROBOT_TYPE_PTERODACTYL]   = OBJDATAWORK_5,
+                                                    [ROBOT_TYPE_SPANNER_BOT]   = OBJDATAWORK_6,
+                                                    [ROBOT_TYPE_STEAM_BLASTER] = OBJDATAWORK_7 };
+
+static const HitboxRect detectRange[ROBOT_TYPE_COUNT] = {
+    [ROBOT_TYPE_TRICERATOPS] = { -138, -40, -10, -8 }, [ROBOT_TYPE_FLYING_FISH] = { -190, -72, -10, -8 },   [ROBOT_TYPE_PTERODACTYL] = { -100, 30, -20, 128 },
+    [ROBOT_TYPE_SPANNER_BOT] = { -110, -72, -10, -8 }, [ROBOT_TYPE_STEAM_BLASTER] = { -110, -72, -10, -8 },
+};
+
+static s16 colliderActivateDelay[ROBOT_TYPE_COUNT] = {
+    [ROBOT_TYPE_TRICERATOPS] = 120, [ROBOT_TYPE_FLYING_FISH] = 30, [ROBOT_TYPE_PTERODACTYL] = 60, [ROBOT_TYPE_SPANNER_BOT] = 240, [ROBOT_TYPE_STEAM_BLASTER] = 120
+};
+
+static const char *spriteList[ROBOT_TYPE_COUNT] = { [ROBOT_TYPE_TRICERATOPS]   = "/act/ac_ene_tri.bac",
+                                                    [ROBOT_TYPE_FLYING_FISH]   = "/act/ac_ene_fly_fish.bac",
+                                                    [ROBOT_TYPE_PTERODACTYL]   = "/act/ac_ene_ptera.bac",
+                                                    [ROBOT_TYPE_SPANNER_BOT]   = "/act/ac_ene_prot_span.bac",
+                                                    [ROBOT_TYPE_STEAM_BLASTER] = "/act/ac_ene_prot_damp.bac" };
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+// Helpers
+static void EnemyRobot_InitMoveRange(EnemyRobot *work);
+static void EnemyRobot_HandleColliderActivateTimer(EnemyRobot *work);
+
+// Triceratops & SpannerBot
+static void EnemyRobot_OnInit_Triceratops(EnemyRobot *work);
+static void EnemyRobot_State_TriceratopsMove(EnemyRobot *work);
+
+// Pterodactyl
+static void EnemyRobot_OnInit_Pterodactyl(EnemyRobot *work);
+static void EnemyRobot_State_PterodactylMove(EnemyRobot *work);
+
+// FlyingFish
+static void EnemyRobot_OnInit_FlyingFish(EnemyRobot *work);
+static void EnemyRobot_State_FlyingFishIdle(EnemyRobot *work);
+
+// Triceratops & SpannerBot
+static void EnemyRobot_OnDetect_Triceratops(EnemyRobot *work);
+static void EnemyRobot_State_TriceratopsChargeDelay(EnemyRobot *work);
+static void EnemyRobot_State_TriceratopsCharge(EnemyRobot *work);
+static void EnemyRobot_State_AttackCooldown(EnemyRobot *work);
+
+// Pterodactyl
+static void EnemyRobot_OnDetect_Pterodactyl(EnemyRobot *work);
+static void EnemyRobot_State_PterodactylPrepareAttack(EnemyRobot *work);
+static void EnemyRobot_State_PterodactylAttack(EnemyRobot *work);
+
+// FlyingFish
+static void EnemyRobot_OnDetect_FlyingFish(EnemyRobot *work);
+static void EnemyRobot_State_FlyingFishAttack(EnemyRobot *work);
+
+// SteamBlaster
+static void EnemyRobot_OnDetect_SteamBlaster(EnemyRobot *work);
+static void EnemyRobot_State_SteamBlasterPrepareAttack(EnemyRobot *work);
+static void EnemyRobot_State_SteamBlasterAttack(EnemyRobot *work);
+
+// Common
+static void EnemyRobot_OnDefend_Hurtbox(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+static void EnemyRobot_OnDefend_Detector(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+static void EnemyRobot_OnDefend_TutorialEnemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+static void EnemyRobot_PlayAttackSfx(EnemyRobot *work);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC EnemyRobot *EnemyRobot__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+EnemyRobot *CreateRobot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    if (mapObject == NULL || (mapObject->x != MAPOBJECT_DESTROYED || mapObject->y != MAPOBJECT_DESTROYED))
+    {
+        if (gameState.difficulty == DIFFICULTY_EASY && (mapObject->flags & ENEMYCOMMON_OBJFLAG_DISABLED_ON_EASY) != 0)
+            return NULL;
+    }
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0xc
-	movs r8, r0
-	mov r7, r1
-	mov r6, r2
-	beq _02154EC0
-	ldrb r0, [r8]
-	cmp r0, #0xff
-	ldreqb r0, [r8, #1]
-	cmpeq r0, #0xff
-	beq _02154EE4
-_02154EC0:
-	ldr r0, =gameState
-	ldr r0, [r0, #0x18]
-	cmp r0, #0
-	bne _02154EE4
-	ldrh r0, [r8, #4]
-	tst r0, #0x80
-	addne sp, sp, #0xc
-	movne r0, #0
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, pc}
-_02154EE4:
-	mov r0, #0x1500
-	mov r2, #0
-	str r0, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x3e8
-	ldr r0, =StageTask_Main
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x3e8
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r8
-	mov r2, r7
-	mov r3, r6
-	bl GameObject__InitFromObject
-	ldrh r0, [r8, #2]
-	cmp r0, #4
-	addls pc, pc, r0, lsl #2
-	b _021551EC
-_02154F68: // jump table
-	b _02154F7C // case 0
-	b _02155020 // case 1
-	b _02155064 // case 2
-	b _021550C8 // case 3
-	b _02155144 // case 4
-_02154F7C:
-	ldr r1, [r4, #0x20]
-	mov r0, r4
-	orr r1, r1, #0x100
-	str r1, [r4, #0x20]
-	ldr r1, [r4, #0x1c]
-	mov r5, #0
-	orr r1, r1, #0xc0
-	str r1, [r4, #0x1c]
-	bl EnemyRobot__Func_2155378
-	ldr r0, =EnemyRobot__OnInit_21553D0
-	mov r2, r5
-	str r0, [r4, #0x3ac]
-	add r0, r4, #0x300
-	strh r2, [r0, #0xc8]
-	mov r1, #1
-	strh r1, [r0, #0xca]
-	rsb r1, r1, #0x10000
-	strh r1, [r0, #0xcc]
-	mov r2, #0xc00
-	ldr r1, =EnemyRobot__OnDetect_2155820
-	str r2, [r4, #0x3d4]
-	str r1, [r4, #0x3b0]
-	mov r1, #0x200
-	str r1, [r4, #0x3dc]
-	mov r1, #0x4000
-	str r1, [r4, #0x3e0]
-	mov r1, #0xa
-	strh r1, [r0, #0xe4]
-	strh r1, [r0, #0xe6]
-	mov r1, #2
-	strh r1, [r0, #0xd8]
-	ldrh r0, [r8, #4]
-	tst r0, #0x40
-	beq _021551EC
-	ldr r0, =EnemyRobot__OnDefend_TutorialEnemy
-	str r0, [r4, #0x23c]
-	ldr r0, [r4, #0x1c]
-	bic r0, r0, #0x80
-	orr r0, r0, #0x100
-	str r0, [r4, #0x1c]
-	b _021551EC
-_02155020:
-	ldr r0, [r4, #0x20]
-	ldr r1, =EnemyRobot__OnInit_21557D8
-	orr r0, r0, #0x100
-	str r0, [r4, #0x20]
-	ldr r0, [r4, #0x1c]
-	mov r5, #1
-	orr r0, r0, #0x100
-	str r0, [r4, #0x1c]
-	ldrh r0, [r8, #4]
-	tst r0, #1
-	ldrne r0, [r4, #0x20]
-	orrne r0, r0, #1
-	strne r0, [r4, #0x20]
-	ldr r0, =EnemyRobot__OnDetect_2155C5C
-	str r1, [r4, #0x3ac]
-	str r0, [r4, #0x3b0]
-	b _021551EC
-_02155064:
-	ldr r1, [r4, #0x20]
-	mov r0, r4
-	orr r1, r1, #0x100
-	str r1, [r4, #0x20]
-	ldr r1, [r4, #0x1c]
-	mov r5, #2
-	orr r1, r1, #0x140
-	str r1, [r4, #0x1c]
-	bl EnemyRobot__Func_2155378
-	ldr r1, =EnemyRobot__OnInit_2155620
-	add r0, r4, #0x300
-	str r1, [r4, #0x3ac]
-	mov r1, #0
-	strh r1, [r0, #0xc8]
-	mov r1, #4
-	strh r1, [r0, #0xca]
-	mov r1, #0xc00
-	str r1, [r4, #0x3cc]
-	mov r1, #0x1800
-	str r1, [r4, #0x3d0]
-	mov r2, #0x300
-	ldr r1, =EnemyRobot__OnDetect_21559D8
-	strh r2, [r0, #0xd4]
-	str r1, [r4, #0x3b0]
-	b _021551EC
-_021550C8:
-	ldr r1, [r4, #0x20]
-	mov r0, r4
-	orr r1, r1, #0x100
-	str r1, [r4, #0x20]
-	ldr r1, [r4, #0x1c]
-	mov r5, #3
-	orr r1, r1, #0xc0
-	str r1, [r4, #0x1c]
-	bl EnemyRobot__Func_2155378
-	ldr r1, =EnemyRobot__OnInit_21553D0
-	add r0, r4, #0x300
-	str r1, [r4, #0x3ac]
-	mov r2, #0
-	strh r2, [r0, #0xc8]
-	mov r1, #1
-	strh r1, [r0, #0xca]
-	mov r1, #2
-	strh r1, [r0, #0xcc]
-	mov r1, #0x78
-	strh r1, [r0, #0xce]
-	strh r2, [r0, #0xd0]
-	mov r2, #0xc00
-	ldr r1, =EnemyRobot__OnDetect_2155820
-	str r2, [r4, #0x3d4]
-	str r1, [r4, #0x3b0]
-	ldr r2, [r4, #0x354]
-	mov r1, r5
-	orr r2, r2, #0x8000
-	str r2, [r4, #0x354]
-	strh r1, [r0, #0xd8]
-	b _021551EC
-_02155144:
-	ldr r1, [r4, #0x20]
-	mov r0, r4
-	orr r1, r1, #0x100
-	str r1, [r4, #0x20]
-	ldr r1, [r4, #0x1c]
-	mov r5, #4
-	orr r1, r1, #0xc0
-	str r1, [r4, #0x1c]
-	bl EnemyRobot__Func_2155378
-	ldr r0, =EnemyRobot__OnInit_21553D0
-	mov r1, #0
-	str r0, [r4, #0x3ac]
-	add r0, r4, #0x300
-	strh r1, [r0, #0xc8]
-	mov r2, #5
-	strh r2, [r0, #0xca]
-	mov r2, #1
-	strh r2, [r0, #0xcc]
-	mov r2, #0xf0
-	strh r2, [r0, #0xce]
-	strh r1, [r0, #0xd0]
-	mov r0, #0xc00
-	ldr r3, =EnemyRobot__OnDetect_FoundFX
-	str r0, [r4, #0x3d4]
-	mov r2, r1
-	add r0, r4, #0x298
-	str r3, [r4, #0x3b0]
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r4, #0x298
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, =0x00000102
-	add r0, r4, #0x200
-	strh r1, [r0, #0xcc]
-	ldr r0, [r4, #0x2b0]
-	ldr r1, =EnemyRobot__OnDefend_Hurtbox
-	orr r0, r0, #0x400
-	str r0, [r4, #0x2b0]
-	mov r0, r4
-	str r1, [r4, #0x2bc]
-	bl EffectSteamBlasterSmoke__Create
-_021551EC:
-	ldr r0, =_021881A0
-	add r1, r4, #0x300
-	ldr r0, [r0, r5, lsl #2]
-	strh r5, [r1, #0xc6]
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	ldr r2, =0x0000FFFF
-	ldr r3, [r1]
-	ldr r1, =_02188B54
-	str r3, [sp]
-	str r2, [sp, #4]
-	mov r3, r0
-	ldr r2, [r1, r5, lsl #2]
-	mov r0, r4
-	add r1, r4, #0x168
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	mov r0, r4
-	mov r1, #0
-	mov r3, r5, lsl #1
-	ldr r2, =_02188194
-	ldrsh r2, [r2, r3]
-	bl ObjActionAllocSpritePalette
-	ldr r0, [r4, #0x1c]
-	tst r0, #0x100
-	bne _02155284
-	mvn r6, #1
-	mov r0, r4
-	sub r1, r6, #6
-	sub r2, r6, #8
-	mov r3, #8
-	str r6, [sp]
-	bl StageTask__SetHitbox
-_02155284:
-	ldr r3, =0x021881BA
-	mov r6, r5, lsl #3
-	ldr r1, =_021881B4
-	ldr r2, =0x021881B6
-	ldr r0, =0x021881B8
-	ldrsh r5, [r3, r6]
-	ldrsh r1, [r1, r6]
-	ldrsh r2, [r2, r6]
-	ldrsh r3, [r0, r6]
-	add r0, r4, #0x364
-	str r5, [sp]
-	bl ObjRect__SetBox2D
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0x364
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r4, #0x364
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r1, =0x00000102
-	add r0, r4, #0x300
-	strh r1, [r0, #0x98]
-	ldr r1, [r4, #0x37c]
-	ldr r0, =EnemyRobot__OnDefend_Detector
-	orr r1, r1, #0x4c0
-	str r1, [r4, #0x37c]
-	str r0, [r4, #0x388]
-	str r4, [r4, #0x380]
-	ldr r1, [r4, #0x3ac]
-	mov r0, r4
-	blx r1
-	mov r0, r4
-	bl StageTask__InitSeqPlayer
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyRobot);
+    if (task == HeapNull)
+        return NULL;
 
-// clang-format on
-#endif
+    EnemyRobot *work = TaskGetWork(task, EnemyRobot);
+    TaskInitWork8(work);
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    RobotType robotType;
+    switch (mapObject->id)
+    {
+        case MAPOBJECT_0:
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+            robotType = ROBOT_TYPE_TRICERATOPS;
+            work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
+            EnemyRobot_InitMoveRange(work);
+
+            work->onInit = EnemyRobot_OnInit_Triceratops;
+
+            work->gfx.common.aniMove   = ROBOT_TYPE_TRICERATOPS;
+            work->gfx.common.aniTurn   = 1;
+            work->gfx.common.aniDetect = -1;
+            work->gfx.common.moveSpeed = FLOAT_TO_FX32(0.75);
+
+            work->onDetect = EnemyRobot_OnDetect_Triceratops;
+
+            work->unknown.common.accel          = FLOAT_TO_FX32(0.125);
+            work->unknown.common.targetSpeed    = FLOAT_TO_FX32(4.0);
+            work->unknown.common.chargeDelay    = 10;
+            work->unknown.common.chargeCooldown = 10;
+            work->unknown.common.aniAttack      = 2;
+
+            if ((mapObject->flags & 0x40) != 0)
+            {
+                work->gameWork.colliders[0].onDefend = EnemyRobot_OnDefend_TutorialEnemy;
+                work->gameWork.objWork.moveFlag =
+                    work->gameWork.objWork.moveFlag & (StageTaskMoveFlags)~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+            }
+            break;
+
+        case MAPOBJECT_1:
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+            robotType = ROBOT_TYPE_FLYING_FISH;
+            work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+
+            if ((mapObject->flags & 1) != 0)
+                work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+
+            work->onInit   = EnemyRobot_OnInit_FlyingFish;
+            work->onDetect = EnemyRobot_OnDetect_FlyingFish;
+            break;
+
+        case MAPOBJECT_2:
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+            robotType = ROBOT_TYPE_PTERODACTYL;
+            work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
+            EnemyRobot_InitMoveRange(work);
+
+            work->onInit                     = EnemyRobot_OnInit_Pterodactyl;
+            work->gfx.pterodactyl.aniMove    = 0;
+            work->gfx.pterodactyl.aniTurn    = 4;
+            work->gfx.pterodactyl.moveSpeed  = FLOAT_TO_FX32(0.75);
+            work->gfx.pterodactyl.jumpRadius = FLOAT_TO_FX32(1.5);
+            work->gfx.pterodactyl.angleSpeed = FLOAT_DEG_TO_IDX(4.21875);
+
+            work->onDetect = EnemyRobot_OnDetect_Pterodactyl;
+            break;
+
+        case MAPOBJECT_3:
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+            robotType = ROBOT_TYPE_SPANNER_BOT;
+            work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
+            EnemyRobot_InitMoveRange(work);
+
+            work->onInit                    = EnemyRobot_OnInit_Triceratops;
+            work->gfx.common.aniMove        = 0;
+            work->gfx.common.aniTurn        = 1;
+            work->gfx.common.aniDetect      = 2;
+            work->gfx.common.detectDelay    = 120;
+            work->gfx.common.detectDuration = 0;
+            work->gfx.common.moveSpeed      = FLOAT_TO_FX32(0.75);
+
+            work->onDetect = EnemyRobot_OnDetect_Triceratops;
+            work->gameWork.flags |= 0x8000;
+            work->unknown.common.aniAttack = robotType;
+            break;
+
+        case MAPOBJECT_4:
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+            robotType = ROBOT_TYPE_STEAM_BLASTER;
+            work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
+            EnemyRobot_InitMoveRange(work);
+
+            work->onInit                    = EnemyRobot_OnInit_Triceratops;
+            work->gfx.common.aniMove        = 0;
+            work->gfx.common.aniTurn        = 5;
+            work->gfx.common.aniDetect      = 1;
+            work->gfx.common.detectDelay    = 240;
+            work->gfx.common.detectDuration = 0;
+            work->gfx.common.moveSpeed      = FLOAT_TO_FX32(0.75);
+
+            work->onDetect = EnemyRobot_OnDetect_SteamBlaster;
+
+            ObjRect__SetAttackStat(&work->gameWork.colliders[2], 0, 0);
+            ObjRect__SetDefenceStat(&work->gameWork.colliders[2], ~1, 0);
+            ObjRect__SetGroupFlags(&work->gameWork.colliders[2], 2, 1);
+            work->gameWork.colliders[2].flag |= OBS_RECT_WORK_FLAG_400;
+            ObjRect__SetOnDefend(&work->gameWork.colliders[2], EnemyRobot_OnDefend_Hurtbox);
+            EffectSteamBlasterSmoke__Create(&work->gameWork.objWork);
+            break;
+    }
+
+    work->type = robotType;
+
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, spriteList[robotType], GetObjectDataWork(dataWorkList[robotType]), gameArchiveStage,
+                             OBJ_DATA_GFX_AUTO);
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, spritePaletteIDList[robotType]);
+
+    if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT) == 0)
+        StageTask__SetHitbox(&work->gameWork.objWork, -8, -10, 8, -2);
+
+    ObjRect__SetBox2D(&work->colliderDetect.rect, detectRange[robotType].left, detectRange[robotType].top, detectRange[robotType].right, detectRange[robotType].bottom);
+    ObjRect__SetAttackStat(&work->colliderDetect, 0, 0);
+    ObjRect__SetDefenceStat(&work->colliderDetect, ~1, 0);
+    ObjRect__SetGroupFlags(&work->colliderDetect, 2, 1);
+    work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_80 | OBS_RECT_WORK_FLAG_40;
+    ObjRect__SetOnDefend(&work->colliderDetect, EnemyRobot_OnDefend_Detector);
+    work->colliderDetect.parent = &work->gameWork.objWork;
+
+    work->onInit(work);
+    StageTask__InitSeqPlayer(&work->gameWork.objWork);
+
+    return work;
 }
 
-NONMATCH_FUNC void EnemyRobot__Func_2155378(EnemyRobot *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r1, [r0, #0x340]
-	ldr r2, [r0, #0x44]
-	ldrsb r1, [r1, #6]
-	add r2, r2, r1, lsl #12
-	str r2, [r0, #0x3b4]
-	ldr r1, [r0, #0x340]
-	ldrb r1, [r1, #8]
-	add r1, r2, r1, lsl #12
-	str r1, [r0, #0x3bc]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void EnemyRobot__Func_21553A0(EnemyRobot *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	add r1, r0, #0x300
-	ldrsh r2, [r1, #0xc4]
-	cmp r2, #0
-	bxeq lr
-	sub r2, r2, #1
-	strh r2, [r1, #0xc4]
-	ldrsh r1, [r1, #0xc4]
-	cmp r1, #0
-	ldreq r1, [r0, #0x37c]
-	orreq r1, r1, #4
-	streq r1, [r0, #0x37c]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void EnemyRobot__OnInit_21553D0(EnemyRobot *work)
+void EnemyRobot_InitMoveRange(EnemyRobot *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	add r1, r4, #0x300
-	ldrh r1, [r1, #0xc8]
-	bl GameObject__SetAnimation
-	ldr r1, [r4, #0x20]
-	ldr r0, =EnemyRobot__State_2155450
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	str r0, [r4, #0xf4]
-	mov r1, #0
-	str r1, [r4, #0x2c]
-	ldr r0, [r4, #0x340]
-	ldrh r0, [r0, #2]
-	cmp r0, #0
-	addne sp, sp, #8
-	ldmneia sp!, {r4, pc}
-	mov r0, #0x77
-	str r1, [sp]
-	sub r1, r0, #0x78
-	str r0, [sp, #4]
-	ldr r0, [r4, #0x138]
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	ldr r0, [r4, #0x138]
-	add r1, r4, #0x44
-	bl ProcessSpatialSfx
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    work->xMin = work->gameWork.objWork.position.x + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_xMin);
+    work->xMax = work->xMin + FX32_FROM_WHOLE(work->gameWork.mapObjectParam_xRange);
 }
 
-NONMATCH_FUNC void EnemyRobot__State_2155450(EnemyRobot *work)
+void EnemyRobot_HandleColliderActivateTimer(EnemyRobot *work)
+{
+    if (work->colliderActivateTimer != 0)
+    {
+        work->colliderActivateTimer--;
+        if (work->colliderActivateTimer == 0)
+            work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
+    }
+}
+
+void EnemyRobot_OnInit_Triceratops(EnemyRobot *work)
+{
+    GameObject__SetAnimation(&work->gameWork, work->gfx.common.aniMove);
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+
+    SetTaskState(&work->gameWork.objWork, EnemyRobot_State_TriceratopsMove);
+    work->gameWork.objWork.userTimer = 0;
+
+    if (work->gameWork.mapObject->id == MAPOBJECT_0)
+    {
+        PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TANK_MOVE);
+        ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
+    }
+}
+
+NONMATCH_FUNC void EnemyRobot_State_TriceratopsMove(EnemyRobot *work)
 {
 #ifdef NON_MATCHING
 
@@ -450,7 +306,7 @@ NONMATCH_FUNC void EnemyRobot__State_2155450(EnemyRobot *work)
 	str r0, [r6, #0x20]
 _021554A0:
 	mov r0, r6
-	bl EnemyRobot__Func_21553A0
+	bl EnemyRobot_HandleColliderActivateTimer
 	mov r0, r6
 	add r1, r6, #0x364
 	bl StageTask__HandleCollider
@@ -553,29 +409,15 @@ _021555D8:
 #endif
 }
 
-NONMATCH_FUNC void EnemyRobot__OnInit_2155620(EnemyRobot *work)
+void EnemyRobot_OnInit_Pterodactyl(EnemyRobot *work)
 {
-#ifdef NON_MATCHING
+    GameObject__SetAnimation(&work->gameWork, work->gfx.common.aniMove);
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r1, r4, #0x300
-	ldrh r1, [r1, #0xc8]
-	bl GameObject__SetAnimation
-	ldr r1, [r4, #0x20]
-	ldr r0, =EnemyRobot__State_2155650
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    SetTaskState(&work->gameWork.objWork, EnemyRobot_State_PterodactylMove);
 }
 
-NONMATCH_FUNC void EnemyRobot__State_2155650(EnemyRobot *work)
+NONMATCH_FUNC void EnemyRobot_State_PterodactylMove(EnemyRobot *work)
 {
 #ifdef NON_MATCHING
 
@@ -658,7 +500,7 @@ _02155730:
 	str r0, [r6, #0x354]
 _02155774:
 	mov r0, r6
-	bl EnemyRobot__Func_21553A0
+	bl EnemyRobot_HandleColliderActivateTimer
 	mov r0, r6
 	add r1, r6, #0x364
 	bl StageTask__HandleCollider
@@ -685,118 +527,63 @@ _02155774:
 #endif
 }
 
-NONMATCH_FUNC void EnemyRobot__OnInit_21557D8(EnemyRobot *work)
+void EnemyRobot_OnInit_FlyingFish(EnemyRobot *work)
 {
-#ifdef NON_MATCHING
+    GameObject__SetAnimation(&work->gameWork, 0);
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r1, #0
-	bl GameObject__SetAnimation
-	ldr r1, [r4, #0x20]
-	ldr r0, =EnemyRobot__State_2155804
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    SetTaskState(&work->gameWork.objWork, EnemyRobot_State_FlyingFishIdle);
 }
 
-NONMATCH_FUNC void EnemyRobot__State_2155804(EnemyRobot *work)
+void EnemyRobot_State_FlyingFishIdle(EnemyRobot *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl EnemyRobot__Func_21553A0
-	mov r0, r4
-	add r1, r4, #0x364
-	bl StageTask__HandleCollider
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    EnemyRobot_HandleColliderActivateTimer(work);
+    StageTask__HandleCollider(&work->gameWork.objWork, &work->colliderDetect);
 }
 
-NONMATCH_FUNC void EnemyRobot__OnDetect_2155820(EnemyRobot *work)
+void EnemyRobot_OnDetect_Triceratops(EnemyRobot *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.groundVel = FLOAT_TO_FX32(0.0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r1, #0
-	str r1, [r4, #0xc8]
-	add r2, r4, #0x3d8
-	ldrsh r1, [r2, #0xc]
-	cmp r1, #0
-	beq _0215585C
-	str r1, [r4, #0x2c]
-	ldr r1, [r4, #0x20]
-	ldr r0, =EnemyRobot__State_2155894
-	orr r1, r1, #0x10
-	str r1, [r4, #0x20]
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
-_0215585C:
-	ldrh r1, [r2]
-	bl GameObject__SetAnimation
-	ldr r0, [r4, #0x354]
-	ldr r1, =EnemyRobot__State_21558F0
-	tst r0, #0x8000
-	ldreq r0, [r4, #0x20]
-	orreq r0, r0, #4
-	streq r0, [r4, #0x20]
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	bl EnemyRobot__Func_2156100
-	ldmia sp!, {r4, pc}
+    struct EnemyRobotTriceratopsUnknown *config = &work->unknown.common;
 
-// clang-format on
-#endif
+    if (config->chargeDelay != 0)
+    {
+        work->gameWork.objWork.userTimer = config->chargeDelay;
+        work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
+        SetTaskState(&work->gameWork.objWork, EnemyRobot_State_TriceratopsChargeDelay);
+    }
+    else
+    {
+        GameObject__SetAnimation(&work->gameWork, config->aniAttack);
+
+        if ((work->gameWork.flags & 0x8000) == 0)
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+
+        SetTaskState(&work->gameWork.objWork, EnemyRobot_State_TriceratopsCharge);
+
+        EnemyRobot_PlayAttackSfx(work);
+    }
 }
 
-NONMATCH_FUNC void EnemyRobot__State_2155894(EnemyRobot *work)
+void EnemyRobot_State_TriceratopsChargeDelay(EnemyRobot *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.userTimer--;
+    if (work->gameWork.objWork.userTimer == 0)
+    {
+        work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_PAUSED;
+        GameObject__SetAnimation(&work->gameWork, work->unknown.common.aniAttack);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x2c]
-	subs r1, r1, #1
-	str r1, [r4, #0x2c]
-	ldmneia sp!, {r4, pc}
-	ldr r2, [r4, #0x20]
-	add r1, r4, #0x300
-	bic r2, r2, #0x10
-	str r2, [r4, #0x20]
-	ldrh r1, [r1, #0xd8]
-	bl GameObject__SetAnimation
-	ldr r0, [r4, #0x354]
-	ldr r1, =EnemyRobot__State_21558F0
-	tst r0, #0x8000
-	ldreq r0, [r4, #0x20]
-	orreq r0, r0, #4
-	streq r0, [r4, #0x20]
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	bl EnemyRobot__Func_2156100
-	ldmia sp!, {r4, pc}
+        if ((work->gameWork.flags & 0x8000) == 0)
+            work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-// clang-format on
-#endif
+        SetTaskState(&work->gameWork.objWork, EnemyRobot_State_TriceratopsCharge);
+
+        EnemyRobot_PlayAttackSfx(work);
+    }
 }
 
-NONMATCH_FUNC void EnemyRobot__State_21558F0(EnemyRobot *work)
+NONMATCH_FUNC void EnemyRobot_State_TriceratopsCharge(EnemyRobot *work)
 {
 #ifdef NON_MATCHING
 
@@ -844,7 +631,7 @@ _02155968:
 	mov r0, #0
 	str r0, [r6, #0xc8]
 	ldrsh r1, [r4, #0xe]
-	ldr r0, =EnemyRobot__State_21559AC
+	ldr r0, =EnemyRobot_State_AttackCooldown
 	str r1, [r6, #0x2c]
 	str r0, [r6, #0xf4]
 	ldmia sp!, {r4, r5, r6, pc}
@@ -858,108 +645,47 @@ _02155998:
 #endif
 }
 
-NONMATCH_FUNC void EnemyRobot__State_21559AC(EnemyRobot *work)
+void EnemyRobot_State_AttackCooldown(EnemyRobot *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r1, [r0, #0x2c]
-	subs r1, r1, #1
-	str r1, [r0, #0x2c]
-	ldmneia sp!, {r3, pc}
-	ldr r1, [r0, #0x20]
-	bic r1, r1, #0x10
-	str r1, [r0, #0x20]
-	ldr r1, [r0, #0x3ac]
-	blx r1
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    work->gameWork.objWork.userTimer--;
+    if (work->gameWork.objWork.userTimer == 0)
+    {
+        work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_PAUSED;
+        work->onInit(work);
+    }
 }
 
-NONMATCH_FUNC void EnemyRobot__OnDetect_21559D8(EnemyRobot *work)
+void EnemyRobot_OnDetect_Pterodactyl(EnemyRobot *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.velocity.x = work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
+    work->gameWork.objWork.groundVel                                      = FLOAT_TO_FX32(0.0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r1, #0
-	mov r4, r0
-	str r1, [r4, #0x9c]
-	str r1, [r4, #0x98]
-	str r1, [r4, #0xc8]
-	ldr r3, [r4, #0x3a8]
-	ldr r0, [r4, #0x48]
-	ldr r2, [r4, #0x3a4]
-	ldr r1, [r4, #0x44]
-	sub r0, r3, r0
-	sub r1, r2, r1
-	bl FX_Atan2Idx
-	strh r0, [r4, #0x34]
-	ldr r0, [r4, #0x44]
-	mov r2, #0x3000
-	str r0, [r4, #0x3d8]
-	ldr r1, [r4, #0x48]
-	mov r0, r4
-	str r1, [r4, #0x3dc]
-	ldr r1, [r4, #0x354]
-	rsb r2, r2, #0
-	bic r1, r1, #0x8000
-	str r1, [r4, #0x354]
-	mov r1, #1
-	str r2, [r4, #0xc8]
-	bl GameObject__SetAnimation
-	ldr r0, =EnemyRobot__State_2155A54
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
+    work->gameWork.objWork.dir.z = FX_Atan2Idx(work->detectPlayerPos.y - work->gameWork.objWork.position.y, work->detectPlayerPos.x - work->gameWork.objWork.position.x);
 
-// clang-format on
-#endif
+    work->unknown.pterodactyl.startPos.x = work->gameWork.objWork.position.x;
+    work->unknown.pterodactyl.startPos.y = work->gameWork.objWork.position.y;
+
+    work->gameWork.flags &= ~0x8000;
+    work->gameWork.objWork.groundVel = -FLOAT_TO_FX32(3.0);
+
+    GameObject__SetAnimation(&work->gameWork, 1);
+
+    SetTaskState(&work->gameWork.objWork, EnemyRobot_State_PterodactylPrepareAttack);
 }
 
-NONMATCH_FUNC void EnemyRobot__State_2155A54(EnemyRobot *work)
+void EnemyRobot_State_PterodactylPrepareAttack(EnemyRobot *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.groundVel = ObjSpdDownSet(work->gameWork.objWork.groundVel, FLOAT_TO_FX32(0.125));
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r0, [r4, #0xc8]
-	mov r1, #0x200
-	bl ObjSpdDownSet
-	str r0, [r4, #0xc8]
-	ldr r0, [r4, #0x20]
-	tst r0, #8
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, pc}
-	mov r0, r4
-	mov r1, #2
-	bl GameObject__SetAnimation
-	ldr r2, =EnemyRobot__State_2155AC4
-	mov r0, #0x76
-	sub r1, r0, #0x77
-	str r2, [r4, #0xf4]
-	mov r2, #0
-	str r2, [sp]
-	str r0, [sp, #4]
-	ldr r0, [r4, #0x138]
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+    {
+        GameObject__SetAnimation(&work->gameWork, 2);
+        SetTaskState(&work->gameWork.objWork, EnemyRobot_State_PterodactylAttack);
+        PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BUTERA_PECK);
+    }
 }
 
-NONMATCH_FUNC void EnemyRobot__State_2155AC4(EnemyRobot *work)
+NONMATCH_FUNC void EnemyRobot_State_PterodactylAttack(EnemyRobot *work)
 {
 #ifdef NON_MATCHING
 
@@ -1051,7 +777,7 @@ _02155BB8:
 	str r2, [r5, #0x2c]
 	bl GameObject__SetAnimation
 	ldr r1, [r5, #0x20]
-	ldr r0, =EnemyRobot__State_21559AC
+	ldr r0, =EnemyRobot_State_AttackCooldown
 	orr r1, r1, #0x10
 	str r1, [r5, #0x20]
 	str r0, [r5, #0xf4]
@@ -1079,25 +805,17 @@ _02155C10:
 #endif
 }
 
-NONMATCH_FUNC void EnemyRobot__OnDetect_2155C5C(EnemyRobot *work){
-#ifdef NON_MATCHING
+void EnemyRobot_OnDetect_FlyingFish(EnemyRobot *work)
+{
+    work->gameWork.objWork.groundVel = FLOAT_TO_FX32(0.0);
 
-#else
-    // clang-format off
-	mov r1, #0
-	str r1, [r0, #0xc8]
-	str r1, [r0, #0x28]
-	mov r2, #3
-	ldr r1, =EnemyRobot__State_2155C80
-	str r2, [r0, #0x2c]
-	str r1, [r0, #0xf4]
-	bx lr
+    work->gameWork.objWork.userWork  = 0;
+    work->gameWork.objWork.userTimer = 3;
 
-// clang-format on
-#endif
+    SetTaskState(&work->gameWork.objWork, EnemyRobot_State_FlyingFishAttack);
 }
 
-NONMATCH_FUNC void EnemyRobot__State_2155C80(EnemyRobot *work)
+NONMATCH_FUNC void EnemyRobot_State_FlyingFishAttack(EnemyRobot *work)
 {
 #ifdef NON_MATCHING
 
@@ -1207,59 +925,31 @@ _02155DD0:
 #endif
 }
 
-NONMATCH_FUNC void EnemyRobot__OnDetect_FoundFX(EnemyRobot *work)
+void EnemyRobot_OnDetect_SteamBlaster(EnemyRobot *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.velocity.x = work->gameWork.objWork.velocity.y = FLOAT_TO_FX32(0.0);
+    work->gameWork.objWork.groundVel                                      = FLOAT_TO_FX32(0.0);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r1, #0
-	mov r4, r0
-	str r1, [r4, #0x9c]
-	str r1, [r4, #0x98]
-	str r1, [r4, #0xc8]
-	ldr r3, [r4, #0x20]
-	sub r2, r1, #0x40000
-	orr r3, r3, #0x10
-	str r3, [r4, #0x20]
-	bl CreateEffectFound
-	mov r1, #0xc
-	ldr r0, =EnemyRobot__State_2155E44
-	str r1, [r4, #0x2c]
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
+    CreateEffectFound(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(64.0));
+    work->gameWork.objWork.userTimer = 12;
 
-// clang-format on
-#endif
+    SetTaskState(&work->gameWork.objWork, EnemyRobot_State_SteamBlasterPrepareAttack);
 }
 
-NONMATCH_FUNC void EnemyRobot__State_2155E44(EnemyRobot *work)
+void EnemyRobot_State_SteamBlasterPrepareAttack(EnemyRobot *work)
 {
-#ifdef NON_MATCHING
+    work->gameWork.objWork.userTimer--;
+    if (work->gameWork.objWork.userTimer == 0)
+    {
+        work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_PAUSED;
+        GameObject__SetAnimation(&work->gameWork, 2);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x2c]
-	subs r1, r1, #1
-	str r1, [r4, #0x2c]
-	ldmneia sp!, {r4, pc}
-	ldr r2, [r4, #0x20]
-	mov r1, #2
-	bic r2, r2, #0x10
-	str r2, [r4, #0x20]
-	bl GameObject__SetAnimation
-	ldr r0, =EnemyRobot__State_2155E80
-	str r0, [r4, #0xf4]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+        SetTaskState(&work->gameWork.objWork, EnemyRobot_State_SteamBlasterAttack);
+    }
 }
 
-NONMATCH_FUNC void EnemyRobot__State_2155E80(EnemyRobot *work)
+NONMATCH_FUNC void EnemyRobot_State_SteamBlasterAttack(EnemyRobot *work)
 {
 #ifdef NON_MATCHING
 
@@ -1366,7 +1056,7 @@ _02155FD0:
 #endif
 }
 
-void EnemyRobot__OnDefend_Hurtbox(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void EnemyRobot_OnDefend_Hurtbox(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     EnemyRobot *robot = (EnemyRobot *)rect2->parent;
     Player *player    = (Player *)rect1->parent;
@@ -1398,28 +1088,28 @@ void EnemyRobot__OnDefend_Hurtbox(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     }
 }
 
-void EnemyRobot__OnDefend_Detector(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void EnemyRobot_OnDefend_Detector(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     EnemyRobot *robot = (EnemyRobot *)rect2->parent;
     Player *player    = (Player *)rect1->parent;
 
     if ((robot->gameWork.objWork.flag & STAGE_TASK_FLAG_2) == 0)
     {
-        robot->field_3A4.x = player->objWork.position.x;
-        robot->field_3A4.y = player->objWork.position.y;
-        robot->collider.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
-        robot->field_3C4 = _02188B48[robot->type];
+        robot->detectPlayerPos.x = player->objWork.position.x;
+        robot->detectPlayerPos.y = player->objWork.position.y;
+        robot->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
+        robot->colliderActivateTimer = colliderActivateDelay[robot->type];
         robot->onDetect(robot);
     }
 }
 
-void EnemyRobot__OnDefend_TutorialEnemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void EnemyRobot_OnDefend_TutorialEnemy(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     SetTutorialEnemyDestroy();
     GameObject__OnDefend_Enemy(rect1, rect2);
 }
 
-void EnemyRobot__Func_2156100(EnemyRobot *work)
+void EnemyRobot_PlayAttackSfx(EnemyRobot *work)
 {
     switch (work->gameWork.mapObject->id)
     {

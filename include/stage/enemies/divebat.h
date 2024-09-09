@@ -10,7 +10,7 @@
 typedef struct EnemyDiveBat_
 {
     GameObjectTask gameWork;
-    OBS_RECT_WORK collider;
+    OBS_RECT_WORK colliderDetect;
     fx32 xMin;
     fx32 xMax;
     Vec2Fx32 originPos;

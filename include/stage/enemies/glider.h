@@ -10,7 +10,7 @@
 typedef struct EnemyGlider_
 {
     GameObjectTask gameWork;
-    OBS_RECT_WORK collider;
+    OBS_RECT_WORK colliderDetect;
     fx32 gravityStrength;
 } EnemyGlider;
 

@@ -21,7 +21,7 @@ typedef u16 AnglerType;
 typedef struct EnemyAngler_
 {
     GameObjectTask gameWork;
-    OBS_RECT_WORK collider;
+    OBS_RECT_WORK colliderDetect;
     Vec2Fx32 targetPos;
     fx32 velocityStore;
     u8 shotCount;

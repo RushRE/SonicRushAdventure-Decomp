@@ -67,7 +67,8 @@ Springboard *CreateSpringboard(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_jump_stand.bac", GetObjectFileWork(OBJDATAWORK_50), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_jump_stand.bac", GetObjectFileWork(OBJDATAWORK_50), gameArchiveStage,
+                             OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, SPRINGBOARD_ANI_MILD, 2);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
@@ -110,22 +111,16 @@ void Springboard_State_Active(Springboard *work)
 
 NONMATCH_FUNC void Springboard_LaunchPlayer(Springboard *springboard, Player *player)
 {
-    // https://decomp.me/scratch/krDV0 -> 98.01%
+    // https://decomp.me/scratch/clmfO -> 97.70%
     // register issue around 'displayFlag = springboard->gameWork.objWork.displayFlag;' (should use R2 but uses R12/IP instead)
 #ifdef NON_MATCHING
-    fx32 velocity;
-    u32 displayFlag;
-    fx32 groundVel;
-    fx32 springboardX;
-    fx32 playerX;
-    u32 type;
-
-    groundVel = player->objWork.groundVel;
+    fx32 groundVel = player->objWork.groundVel;
 
     fx32 distanceTable[] = { FLOAT_TO_FX32(24.0), FLOAT_TO_FX32(20.0), FLOAT_TO_FX32(12.0) };
 
-    displayFlag = springboard->gameWork.objWork.displayFlag;
-    velocity    = player->objWork.groundVel;
+    u32 displayFlag = springboard->gameWork.objWork.displayFlag;
+
+    fx32 velocity = groundVel;
     if ((displayFlag & DISPLAY_FLAG_FLIP_Y) != 0)
         velocity = -groundVel;
 
@@ -133,26 +128,21 @@ NONMATCH_FUNC void Springboard_LaunchPlayer(Springboard *springboard, Player *pl
     {
         if ((velocity >= player->spdThresholdRun && (displayFlag & DISPLAY_FLAG_FLIP_X) != 0) || (velocity <= -player->spdThresholdRun && (displayFlag & DISPLAY_FLAG_FLIP_X) == 0))
         {
-            springboardX = springboard->gameWork.objWork.position.x;
-            playerX      = player->objWork.position.x;
-            type         = springboard->gameWork.mapObject->flags & SPRING_OBJFLAG_TYPE_MASK;
+            u32 type = springboard->gameWork.mapObject->flags & SPRING_OBJFLAG_TYPE_MASK;
 
-            if ((springboardX + distanceTable[type] < playerX && (displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
-                && (springboardX - distanceTable[type] > playerX && (displayFlag & DISPLAY_FLAG_FLIP_X) == 0))
+            if ((springboard->gameWork.objWork.position.x + distanceTable[type] < player->objWork.position.x && (displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+                || (springboard->gameWork.objWork.position.x - distanceTable[type] > player->objWork.position.x && (displayFlag & DISPLAY_FLAG_FLIP_X) == 0))
             {
                 Player__Action_SpringboardLaunch(player, groundVel + velocityTable[3 * type].x, velocityTable[3 * type].y - player->jumpForce);
-                Player__Action_AllowTrickCombos(player, &springboard->gameWork);
+                Player__Action_AllowTricks(player, &springboard->gameWork);
             }
-            else
+            else if ((springboard->gameWork.objWork.position.x - FLOAT_TO_FX32(4.0) < player->objWork.position.x && (displayFlag & DISPLAY_FLAG_FLIP_X) != 0
+                      || springboard->gameWork.objWork.position.x + FLOAT_TO_FX32(4.0) > player->objWork.position.x && (displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
+                     && (player->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
             {
-                if ((springboardX - FLOAT_TO_FX32(4.0) < playerX && (displayFlag & DISPLAY_FLAG_FLIP_X) != 0
-                     || springboardX + FLOAT_TO_FX32(4.0) > playerX && (displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
-                    && (player->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
-                {
-                    Player__Action_SpringboardLaunch(player, groundVel + velocityTable[3 * type + 1].x, velocityTable[3 * type + 1].y - player->jumpForce);
-                    Player__Action_AllowTrickCombos(player, &springboard->gameWork);
-                    Player__Action_RainbowDashRing(player);
-                }
+                Player__Action_SpringboardLaunch(player, groundVel + velocityTable[3 * type + 1].x, velocityTable[3 * type + 1].y - player->jumpForce);
+                Player__Action_AllowTricks(player, &springboard->gameWork);
+                Player__Action_RainbowDashRing(player);
             }
         }
     }

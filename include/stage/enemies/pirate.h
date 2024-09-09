@@ -4,23 +4,40 @@
 #include <stage/gameObject.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum PirateType_
+{
+    PIRATE_TYPE_KNIFE,
+    PIRATE_TYPE_BAZOOKA,
+    PIRATE_TYPE_BALLCHAIN,
+    PIRATE_TYPE_BOMB,
+    PIRATE_TYPE_SKELETON,
+    PIRATE_TYPE_HOVERBOMBER,
+    PIRATE_TYPE_HOVERGUNNER,
+
+    PIRATE_TYPE_COUNT,
+};
+typedef u16 PirateType;
+
+// --------------------
 // STRUCTS
 // --------------------
 
 typedef struct EnemyPirate_
 {
     GameObjectTask gameWork;
-    OBS_RECT_WORK collider;
-    s32 field_3A4;
-    s32 field_3A8;
+    OBS_RECT_WORK colliderDetect;
+    Vec2Fx32 detectPlayerPos;
     void (*onInit)(struct EnemyPirate_ *work);
     void (*onDetect)(struct EnemyPirate_ *work);
     s32 xMin;
     s32 field_3B8;
     s32 xMax;
     s32 field_3C0;
-    s16 field_3C4;
-    u16 type;
+    s16 colliderActivateTimer;
+    PirateType type;
     s32 field_3C8;
     s32 field_3CC;
 

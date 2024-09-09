@@ -366,7 +366,6 @@ Overlay ZoneAct
     Object asm/stage/decoration/decorationSys_vars_bss.o
     
     ## STAGE OBJECTS ##
-    Object asm/stage/objects/enemyRobot_vars.o
     Object src/stage/enemies/robot.o
     Object src/stage/enemies/jetpackRobot.o
     Object src/stage/enemies/angler.o

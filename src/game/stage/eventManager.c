@@ -542,11 +542,11 @@ const CreateDecorationFunc stageDecorationSpawnList[MAPDECOR_COUNT] = {
 
 const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     // Stage Enemies
-    [MAPOBJECT_0]   = (CreateObjectFunc)EnemyRobot__Create,
-    [MAPOBJECT_1]   = (CreateObjectFunc)EnemyRobot__Create,
-    [MAPOBJECT_2]   = (CreateObjectFunc)EnemyRobot__Create,
-    [MAPOBJECT_3]   = (CreateObjectFunc)EnemyRobot__Create,
-    [MAPOBJECT_4]   = (CreateObjectFunc)EnemyRobot__Create,
+    [MAPOBJECT_0]   = (CreateObjectFunc)CreateRobot,
+    [MAPOBJECT_1]   = (CreateObjectFunc)CreateRobot,
+    [MAPOBJECT_2]   = (CreateObjectFunc)CreateRobot,
+    [MAPOBJECT_3]   = (CreateObjectFunc)CreateRobot,
+    [MAPOBJECT_4]   = (CreateObjectFunc)CreateRobot,
     [MAPOBJECT_5]   = (CreateObjectFunc)CreateJetpackRobot,
     [MAPOBJECT_6]   = (CreateObjectFunc)CreateAngler,
     [MAPOBJECT_7]   = (CreateObjectFunc)CreateAngler,
