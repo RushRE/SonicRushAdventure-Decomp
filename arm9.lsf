@@ -378,7 +378,6 @@ Overlay ZoneAct
     Object asm/stage/objects/enemyPirate_vars.o
     Object src/stage/enemies/pirate.o
     Object src/stage/enemies/fireSkull.o
-    Object asm/stage/objects/enemyDiveBat_vars.o
     Object src/stage/enemies/diveBat.o
     Object src/stage/enemies/skymoon.o
     Object src/stage/objects/flagChange.o

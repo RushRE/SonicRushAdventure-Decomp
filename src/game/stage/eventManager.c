@@ -563,7 +563,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_18]  = (CreateObjectFunc)EnemyPirate__Create,
     [MAPOBJECT_19]  = (CreateObjectFunc)EnemyPirate__Create,
     [MAPOBJECT_20]  = (CreateObjectFunc)CreateFireSkull,
-    [MAPOBJECT_21]  = (CreateObjectFunc)EnemyDiveBat__Create,
+    [MAPOBJECT_21]  = (CreateObjectFunc)CreateDiveBat,
     [MAPOBJECT_22]  = (CreateObjectFunc)NULL,
     [MAPOBJECT_23]  = (CreateObjectFunc)CreateSkymoon,
     [MAPOBJECT_24]  = (CreateObjectFunc)CreateSkymoon,
@@ -894,7 +894,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_345] = (CreateObjectFunc)EnemySkeletonPirateBone__Create,
     [MAPOBJECT_346] = (CreateObjectFunc)EnemyHoverBomberPirateBomb__Create,
     [MAPOBJECT_347] = (CreateObjectFunc)EnemyHoverGunnerPirateShot__Create,
-    [MAPOBJECT_348] = (CreateObjectFunc)EnemyDiveBat__Create,
+    [MAPOBJECT_348] = (CreateObjectFunc)CreateDiveBat,
     [MAPOBJECT_349] = (CreateObjectFunc)CreateSkymoonLaser,
 };
 
