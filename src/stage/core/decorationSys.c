@@ -14,6 +14,76 @@
 #include <stage/effects/waterWake.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum DecorationFlags_
+{
+    DECOR_FLAG_NONE = 0x00,
+
+    DECOR_FLAG_FLIP_X        = (1 << 0),
+    DECOR_FLAG_FLIP_Y        = (1 << 1),
+    DECOR_FLAG_4             = (1 << 2),
+    DECOR_FLAG_LOW_PRIORITY  = (1 << 3),
+    DECOR_FLAG_10            = (1 << 4),
+    DECOR_FLAG_HIGH_PRIORITY = (1 << 5),
+    DECOR_FLAG_40            = (1 << 6),
+    DECOR_FLAG_PREPEND       = (1 << 7),
+};
+typedef u8 DecorationFlags;
+
+enum DecorationDrawOrder_
+{
+    DECOR_DRAWORDER_25 = 0,
+    DECOR_DRAWORDER_26 = 1,
+
+    DECOR_DRAWORDER_NONE = 0xFF,
+};
+typedef u8 DecorationDrawOrder;
+
+enum DecorationAssets
+{
+    DECOR_ASSET_Flipmush,
+    DECOR_ASSET_Grass,
+    DECOR_ASSET_Flw,
+    DECOR_ASSET_Kinoko,
+    DECOR_ASSET_Kinoko2,
+    DECOR_ASSET_Palm,
+    DECOR_ASSET_PipeFlw,
+    DECOR_ASSET_Water,
+    DECOR_ASSET_Suimen,
+    DECOR_ASSET_BigLeaf,
+    DECOR_ASSET_FlwTubo,
+    DECOR_ASSET_Mo,
+    DECOR_ASSET_GstTree,
+    DECOR_ASSET_Cloud,
+    DECOR_ASSET_PipeSteam,
+    DECOR_ASSET_Decopipe,
+    DECOR_ASSET_Chimney,
+    DECOR_ASSET_Coral,
+    DECOR_ASSET_Boat,
+    DECOR_ASSET_Cannon,
+    DECOR_ASSET_Mast,
+    DECOR_ASSET_Rudder,
+    DECOR_ASSET_Rope,
+    DECOR_ASSET_AnchorRope3D,
+    DECOR_ASSET_Barrel,
+    DECOR_ASSET_Sail,
+    DECOR_ASSET_Trampoline,
+    DECOR_ASSET_Saku,
+    DECOR_ASSET_Icicle,
+    DECOR_ASSET_IceTree,
+    DECOR_ASSET_Thunder,
+    DECOR_ASSET_CloudSt6,
+    DECOR_ASSET_Grass6,
+    DECOR_ASSET_FallingWater,
+    DECOR_ASSET_LeafWater,
+    DECOR_ASSET_KojimaPalm,
+
+    DECOR_ASSET_COUNT,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -33,11 +103,11 @@ struct DecorAsset
 struct DecorConfig
 {
     u8 assetID;
-    u8 flags;
+    DecorationFlags flags;
     u8 animID;
     u8 animID2;
     u8 animFlags2;
-    u8 oamOrder;
+    DecorationDrawOrder oamOrder;
     u8 spriteID;
     u8 type;
 };
@@ -69,49 +139,2799 @@ NOT_DECOMPILED void (*DecorationSys__initTable[11])(StageDecoration *work);
 NOT_DECOMPILED void *_021876CC;
 NOT_DECOMPILED void *_021876D4;
 
-NOT_DECOMPILED struct DecorAsset decorAssets[36];
-NOT_DECOMPILED struct DecorConfig decorInfo[MAPDECOR_COUNT];
+NOT_DECOMPILED const struct DecorAsset decorAssets[DECOR_ASSET_COUNT];
 
-NOT_DECOMPILED void *_02188780;
-NOT_DECOMPILED void *_02188784;
+/*
+static const struct DecorAsset decorAssets[DECOR_ASSET_COUNT] = {
+    [DECOR_ASSET_Flipmush]     = { .path = "/act/ac_gmk_flipmush.bac", .fileID = 0 },
+    [DECOR_ASSET_Grass]        = { .path = "/act/ac_dec_grass.bac", .fileID = 1 },
+    [DECOR_ASSET_Flw]          = { .path = "/act/ac_dec_flw.bac", .fileID = 2 },
+    [DECOR_ASSET_Kinoko]       = { .path = "/act/ac_dec_kinoko.bac", .fileID = 3 },
+    [DECOR_ASSET_Kinoko2]      = { .path = "/act/ac_dec_kinoko2.bac", .fileID = 4 },
+    [DECOR_ASSET_Palm]         = { .path = "/act/ac_dec_palm.bac", .fileID = 5 },
+    [DECOR_ASSET_PipeFlw]      = { .path = "/act/ac_dec_pipe_flw.bac", .fileID = 6 },
+    [DECOR_ASSET_Water]        = { .path = "/act/ac_eff_water.bac", .fileID = 7 },
+    [DECOR_ASSET_Suimen]       = { .path = "/act/ac_dec_suimen.bac", .fileID = 8 },
+    [DECOR_ASSET_BigLeaf]      = { .path = "/act/ac_dec_big_leaf.bac", .fileID = 9 },
+    [DECOR_ASSET_FlwTubo]      = { .path = "/act/ac_dec_flw_tubo.bac", .fileID = 10 },
+    [DECOR_ASSET_Mo]           = { .path = "/act/ac_dec_mo.bac", .fileID = 11 },
+    [DECOR_ASSET_GstTree]      = { .path = "/act/ac_dec_gst_tree.bac", .fileID = 12 },
+    [DECOR_ASSET_Cloud]        = { .path = "/act/ac_dec_cloud.bac", .fileID = 13 },
+    [DECOR_ASSET_PipeSteam]    = { .path = "/act/ac_dec_pipe_steam.bac", .fileID = 0 },
+    [DECOR_ASSET_Decopipe]     = { .path = "/act/ac_dec_decopipe.bac", .fileID = 1 },
+    [DECOR_ASSET_Chimney]      = { .path = "/act/ac_dec_chimney.bac", .fileID = 2 },
+    [DECOR_ASSET_Coral]        = { .path = "/act/ac_dec_coral.bac", .fileID = 0 },
+    [DECOR_ASSET_Boat]         = { .path = "/act/ac_dec_boat.bac", .fileID = 0 },
+    [DECOR_ASSET_Cannon]       = { .path = "/act/ac_dec_cannon.bac", .fileID = 1 },
+    [DECOR_ASSET_Mast]         = { .path = "/act/ac_dec_mast.bac", .fileID = 2 },
+    [DECOR_ASSET_Rudder]       = { .path = "/act/ac_dec_rudder.bac", .fileID = 3 },
+    [DECOR_ASSET_Rope]         = { .path = "/act/ac_dec_rope.bac", .fileID = 4 },
+    [DECOR_ASSET_AnchorRope3D] = { .path = "/act/ac_dec_anchor_rope3d.bac", .fileID = 5 },
+    [DECOR_ASSET_Barrel]       = { .path = "/act/ac_gmk_barrel.bac", .fileID = 6 },
+    [DECOR_ASSET_Sail]         = { .path = "/act/ac_dec_sail.bac", .fileID = 7 },
+    [DECOR_ASSET_Trampoline]   = { .path = "/act/ac_dec_trampoline.bac", .fileID = 8 },
+    [DECOR_ASSET_Saku]         = { .path = "/act/ac_dec_saku.bac", .fileID = 9 },
+    [DECOR_ASSET_Icicle]       = { .path = "/act/ac_dec_icicle.bac", .fileID = 0 },
+    [DECOR_ASSET_IceTree]      = { .path = "/act/ac_dec_ice_tree.bac", .fileID = 1 },
+    [DECOR_ASSET_Thunder]      = { .path = "/act/ac_dec_thunder.bac", .fileID = 0 },
+    [DECOR_ASSET_CloudSt6]     = { .path = "/act/ac_dec_cloud_st6.bac", .fileID = 1 },
+    [DECOR_ASSET_Grass6]       = { .path = "/act/ac_dec_grass6.bac", .fileID = 2 },
+    [DECOR_ASSET_FallingWater] = { .path = "/act/ac_dec_falling_water.bac", .fileID = 0 },
+    [DECOR_ASSET_LeafWater]    = { .path = "/act/ac_dec_leaf_water.bac", .fileID = 1 },
+    [DECOR_ASSET_KojimaPalm]   = { .path = "/act/ac_dec_kojima_palm.bac", .fileID = 0 },
+};
+*/
 
-NOT_DECOMPILED const char *aActAcEffGrd3lL;
-NOT_DECOMPILED const char *aActAcDecMoBac;
-NOT_DECOMPILED const char *aActAcDecFlwBac;
-NOT_DECOMPILED const char *aActAcDecSailBa;
-NOT_DECOMPILED const char *aActAcDecSakuBa_0;
-NOT_DECOMPILED const char *aActAcDecPalmBa;
-NOT_DECOMPILED const char *aActAcDecBoatBa;
-NOT_DECOMPILED const char *aActAcDecMastBa;
-NOT_DECOMPILED const char *aActAcDecRopeBa;
-NOT_DECOMPILED const char *aActAcEffWaterB_2;
-NOT_DECOMPILED const char *aActAcDecCloudB;
-NOT_DECOMPILED const char *aActAcDecGrassB;
-NOT_DECOMPILED const char *aActAcDecCoralB_0;
-NOT_DECOMPILED const char *aActAcGmkBarrel_0;
-NOT_DECOMPILED const char *aActAcDecKinoko;
-NOT_DECOMPILED const char *aActAcDecSuimen;
-NOT_DECOMPILED const char *aActAcDecGrass6;
-NOT_DECOMPILED const char *aActAcDecIcicle;
-NOT_DECOMPILED const char *aActAcDecCannon;
-NOT_DECOMPILED const char *aActAcDecRudder;
-NOT_DECOMPILED const char *aActAcDecThunde;
-NOT_DECOMPILED const char *aActAcDecKinoko_0;
-NOT_DECOMPILED const char *aActAcDecChimne;
-NOT_DECOMPILED const char *aActAcGmkFlipmu_1;
-NOT_DECOMPILED const char *aActAcDecIceTre_0;
-NOT_DECOMPILED const char *aActAcDecPipeFl;
-NOT_DECOMPILED const char *aActAcDecBigLea;
-NOT_DECOMPILED const char *aActAcDecFlwTub;
-NOT_DECOMPILED const char *aActAcDecGstTre;
-NOT_DECOMPILED const char *aActAcDecDecopi;
-NOT_DECOMPILED const char *aActAcDecCloudS;
-NOT_DECOMPILED const char *aActAcDecTrampo;
-NOT_DECOMPILED const char *aActAcDecLeafWa;
-NOT_DECOMPILED const char *aActAcDecPipeSt;
-NOT_DECOMPILED const char *aActAcDecKojima;
-NOT_DECOMPILED const char *aActAcDecFallin;
-NOT_DECOMPILED const char *aActAcDecAnchor;
+static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
+    [MAPDECOR_0] = { .assetID    = DECOR_ASSET_Flipmush,
+                     .flags      = DECOR_FLAG_NONE,
+                     .animID     = 1,
+                     .animID2    = 1,
+                     .animFlags2 = 0x80,
+                     .oamOrder   = DECOR_DRAWORDER_25,
+                     .spriteID   = 0,
+                     .type       = 0 },
+
+    [MAPDECOR_1] = { .assetID    = DECOR_ASSET_Flipmush,
+                     .flags      = DECOR_FLAG_NONE,
+                     .animID     = 1,
+                     .animID2    = 1,
+                     .animFlags2 = 0x80,
+                     .oamOrder   = DECOR_DRAWORDER_25,
+                     .spriteID   = 0,
+                     .type       = 0 },
+
+    [MAPDECOR_2] = { .assetID    = DECOR_ASSET_Flipmush,
+                     .flags      = DECOR_FLAG_NONE,
+                     .animID     = 1,
+                     .animID2    = 1,
+                     .animFlags2 = 0x80,
+                     .oamOrder   = DECOR_DRAWORDER_25,
+                     .spriteID   = 0,
+                     .type       = 0 },
+
+    [MAPDECOR_3] = { .assetID    = DECOR_ASSET_Flipmush,
+                     .flags      = DECOR_FLAG_NONE,
+                     .animID     = 1,
+                     .animID2    = 1,
+                     .animFlags2 = 0x80,
+                     .oamOrder   = DECOR_DRAWORDER_25,
+                     .spriteID   = 0,
+                     .type       = 0 },
+
+    [MAPDECOR_4] = { .assetID    = DECOR_ASSET_Flipmush,
+                     .flags      = DECOR_FLAG_NONE,
+                     .animID     = 1,
+                     .animID2    = 1,
+                     .animFlags2 = 0x80,
+                     .oamOrder   = DECOR_DRAWORDER_25,
+                     .spriteID   = 0,
+                     .type       = 0 },
+
+    [MAPDECOR_5] = { .assetID    = DECOR_ASSET_Flipmush,
+                     .flags      = DECOR_FLAG_NONE,
+                     .animID     = 1,
+                     .animID2    = 1,
+                     .animFlags2 = 0x80,
+                     .oamOrder   = DECOR_DRAWORDER_25,
+                     .spriteID   = 0,
+                     .type       = 0 },
+
+    [MAPDECOR_6] = { .assetID    = DECOR_ASSET_Flipmush,
+                     .flags      = DECOR_FLAG_NONE,
+                     .animID     = 1,
+                     .animID2    = 1,
+                     .animFlags2 = 0x80,
+                     .oamOrder   = DECOR_DRAWORDER_25,
+                     .spriteID   = 0,
+                     .type       = 0 },
+
+    [MAPDECOR_7] = { .assetID    = DECOR_ASSET_Flipmush,
+                     .flags      = DECOR_FLAG_NONE,
+                     .animID     = 1,
+                     .animID2    = 1,
+                     .animFlags2 = 0x80,
+                     .oamOrder   = DECOR_DRAWORDER_25,
+                     .spriteID   = 0,
+                     .type       = 0 },
+
+    [MAPDECOR_8] = { .assetID    = DECOR_ASSET_Flipmush,
+                     .flags      = DECOR_FLAG_NONE,
+                     .animID     = 1,
+                     .animID2    = 1,
+                     .animFlags2 = 0x80,
+                     .oamOrder   = DECOR_DRAWORDER_25,
+                     .spriteID   = 0,
+                     .type       = 0 },
+
+    [MAPDECOR_9] = { .assetID    = DECOR_ASSET_Flipmush,
+                     .flags      = DECOR_FLAG_NONE,
+                     .animID     = 1,
+                     .animID2    = 1,
+                     .animFlags2 = 0x80,
+                     .oamOrder   = DECOR_DRAWORDER_25,
+                     .spriteID   = 0,
+                     .type       = 0 },
+
+    [MAPDECOR_10] = { .assetID    = DECOR_ASSET_Flipmush,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x80,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0,
+                      .type       = 0 },
+
+    [MAPDECOR_11] = { .assetID    = DECOR_ASSET_Flipmush,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x80,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0,
+                      .type       = 0 },
+
+    [MAPDECOR_12] = { .assetID    = DECOR_ASSET_Flipmush,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x80,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0,
+                      .type       = 0 },
+
+    [MAPDECOR_13] = { .assetID    = DECOR_ASSET_Flipmush,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x80,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0,
+                      .type       = 0 },
+
+    [MAPDECOR_14] = { .assetID    = DECOR_ASSET_Flipmush,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x80,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0,
+                      .type       = 0 },
+
+    [MAPDECOR_15] = { .assetID    = DECOR_ASSET_Flipmush,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x80,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0,
+                      .type       = 0 },
+
+    [MAPDECOR_16] = { .assetID    = DECOR_ASSET_Flipmush,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x0E,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0,
+                      .type       = 0 },
+
+    [MAPDECOR_17] = { .assetID    = DECOR_ASSET_Flipmush,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x0E,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 1,
+                      .type       = 0 },
+
+    [MAPDECOR_18] = { .assetID    = DECOR_ASSET_Flipmush,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x0E,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 1,
+                      .type       = 0 },
+
+    [MAPDECOR_19] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_NONE,
+                      .spriteID   = 2,
+                      .type       = 0 },
+
+    [MAPDECOR_20] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_NONE,
+                      .spriteID   = 2,
+                      .type       = 0 },
+
+    [MAPDECOR_21] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 3,
+                      .animID2    = 3,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_NONE,
+                      .spriteID   = 3,
+                      .type       = 0 },
+
+    [MAPDECOR_22] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 3,
+                      .animID2    = 3,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_NONE,
+                      .spriteID   = 3,
+                      .type       = 0 },
+
+    [MAPDECOR_23] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 4,
+                      .animID2    = 4,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_NONE,
+                      .spriteID   = 4,
+                      .type       = 0 },
+
+    [MAPDECOR_24] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 4,
+                      .animID2    = 4,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_NONE,
+                      .spriteID   = 4,
+                      .type       = 0 },
+
+    [MAPDECOR_25] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 5,
+                      .type       = 0 },
+
+    [MAPDECOR_26] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 5,
+                      .type       = 0 },
+
+    [MAPDECOR_27] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 6,
+                      .type       = 0 },
+
+    [MAPDECOR_28] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 6,
+                      .type       = 0 },
+
+    [MAPDECOR_29] = { .assetID    = DECOR_ASSET_Flw,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x10,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 7,
+                      .type       = 0 },
+
+    [MAPDECOR_30] = { .assetID    = DECOR_ASSET_Flw,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x10,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 7,
+                      .type       = 0 },
+
+    [MAPDECOR_31] = { .assetID    = DECOR_ASSET_Kinoko2,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x12,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 8,
+                      .type       = 0 },
+
+    [MAPDECOR_32] = { .assetID    = DECOR_ASSET_Kinoko2,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x12,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 9,
+                      .type       = 0 },
+
+    [MAPDECOR_33] = { .assetID    = DECOR_ASSET_Kinoko2,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x12,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xA,
+                      .type       = 0 },
+
+    [MAPDECOR_34] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xB,
+                      .type       = 0 },
+
+    [MAPDECOR_35] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xB,
+                      .type       = 0 },
+
+    [MAPDECOR_36] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xC,
+                      .type       = 0 },
+
+    [MAPDECOR_37] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xC,
+                      .type       = 0 },
+
+    [MAPDECOR_38] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xD,
+                      .type       = 0 },
+
+    [MAPDECOR_39] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xD,
+                      .type       = 0 },
+
+    [MAPDECOR_40] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 3,
+                      .animID2    = 3,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xE,
+                      .type       = 0 },
+
+    [MAPDECOR_41] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 3,
+                      .animID2    = 3,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xE,
+                      .type       = 0 },
+
+    [MAPDECOR_42] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 4,
+                      .animID2    = 4,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xF,
+                      .type       = 0 },
+
+    [MAPDECOR_43] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 4,
+                      .animID2    = 4,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xF,
+                      .type       = 0 },
+
+    [MAPDECOR_44] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 5,
+                      .animID2    = 5,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x10,
+                      .type       = 0 },
+
+    [MAPDECOR_45] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 5,
+                      .animID2    = 5,
+                      .animFlags2 = 0x11,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x10,
+                      .type       = 0 },
+
+    [MAPDECOR_46] = { .assetID    = DECOR_ASSET_Palm,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x13,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x11,
+                      .type       = 0 },
+
+    [MAPDECOR_47] = { .assetID    = DECOR_ASSET_Palm,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x13,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x11,
+                      .type       = 0 },
+
+    [MAPDECOR_48] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_26,
+                      .spriteID   = 0x12,
+                      .type       = 0 },
+
+    [MAPDECOR_49] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_26,
+                      .spriteID   = 0x12,
+                      .type       = 0 },
+
+    [MAPDECOR_50] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x13,
+                      .type       = 0 },
+
+    [MAPDECOR_51] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_26,
+                      .spriteID   = 0x13,
+                      .type       = 0 },
+
+    [MAPDECOR_52] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x14,
+                      .type       = 0 },
+
+    [MAPDECOR_53] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x14,
+                      .type       = 0 },
+
+    [MAPDECOR_54] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 3,
+                      .animID2    = 3,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x15,
+                      .type       = 0 },
+
+    [MAPDECOR_55] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 3,
+                      .animID2    = 3,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x15,
+                      .type       = 0 },
+
+    [MAPDECOR_56] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 4,
+                      .animID2    = 4,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x16,
+                      .type       = 0 },
+
+    [MAPDECOR_57] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 4,
+                      .animID2    = 4,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x16,
+                      .type       = 0 },
+
+    [MAPDECOR_58] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 5,
+                      .animID2    = 5,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_NONE,
+                      .spriteID   = 0x17,
+                      .type       = 0 },
+
+    [MAPDECOR_59] = { .assetID    = DECOR_ASSET_PipeFlw,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 5,
+                      .animID2    = 5,
+                      .animFlags2 = 0x09,
+                      .oamOrder   = DECOR_DRAWORDER_NONE,
+                      .spriteID   = 0x17,
+                      .type       = 0 },
+
+    [MAPDECOR_60] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 5,
+                      .animID2    = 5,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x18,
+                      .type       = 0 },
+
+    [MAPDECOR_61] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 5,
+                      .animID2    = 5,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x18,
+                      .type       = 0 },
+
+    [MAPDECOR_62] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 6,
+                      .animID2    = 6,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x19,
+                      .type       = 0 },
+
+    [MAPDECOR_63] = { .assetID    = DECOR_ASSET_Grass,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 6,
+                      .animID2    = 6,
+                      .animFlags2 = 0x0F,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x19,
+                      .type       = 0 },
+
+    [MAPDECOR_64] = { .assetID    = DECOR_ASSET_Water,
+                      .flags      = DECOR_FLAG_40,
+                      .animID     = 3,
+                      .animID2    = 3,
+                      .animFlags2 = 0x21,
+                      .oamOrder   = DECOR_DRAWORDER_NONE,
+                      .spriteID   = 0x1A,
+                      .type       = 10 },
+
+    [MAPDECOR_65] = { .assetID    = DECOR_ASSET_Suimen,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x16,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x1B,
+                      .type       = 0 },
+
+    [MAPDECOR_66] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x1C,
+                      .type       = 0 },
+
+    [MAPDECOR_67] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x1D,
+                      .type       = 0 },
+
+    [MAPDECOR_68] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x1E,
+                      .type       = 0 },
+
+    [MAPDECOR_69] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x1E,
+                      .type       = 0 },
+
+    [MAPDECOR_70] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 3,
+                      .animID2    = 3,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x1F,
+                      .type       = 0 },
+
+    [MAPDECOR_71] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 3,
+                      .animID2    = 3,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x1F,
+                      .type       = 0 },
+
+    [MAPDECOR_72] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 4,
+                      .animID2    = 4,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x20,
+                      .type       = 0 },
+
+    [MAPDECOR_73] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 4,
+                      .animID2    = 4,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x20,
+                      .type       = 0 },
+
+    [MAPDECOR_74] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 5,
+                      .animID2    = 5,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x21,
+                      .type       = 0 },
+
+    [MAPDECOR_75] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 5,
+                      .animID2    = 5,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x21,
+                      .type       = 0 },
+
+    [MAPDECOR_76] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 6,
+                      .animID2    = 6,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x22,
+                      .type       = 0 },
+
+    [MAPDECOR_77] = { .assetID    = DECOR_ASSET_BigLeaf,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 6,
+                      .animID2    = 6,
+                      .animFlags2 = 0x18,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x22,
+                      .type       = 0 },
+
+    [MAPDECOR_78] = { .assetID    = DECOR_ASSET_Palm,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x13,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x23,
+                      .type       = 0 },
+
+    [MAPDECOR_79] = { .assetID    = DECOR_ASSET_Palm,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 2,
+                      .animID2    = 2,
+                      .animFlags2 = 0x13,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x24,
+                      .type       = 0 },
+
+    [MAPDECOR_80] = { .assetID    = DECOR_ASSET_Palm,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 3,
+                      .animID2    = 3,
+                      .animFlags2 = 0x13,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x25,
+                      .type       = 0 },
+
+    [MAPDECOR_81] = { .assetID    = DECOR_ASSET_Palm,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 4,
+                      .animID2    = 4,
+                      .animFlags2 = 0x13,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x26,
+                      .type       = 0 },
+
+    [MAPDECOR_82] = { .assetID    = DECOR_ASSET_Flw,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x10,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x27,
+                      .type       = 0 },
+
+    [MAPDECOR_83] = { .assetID    = DECOR_ASSET_Flw,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 1,
+                      .animID2    = 1,
+                      .animFlags2 = 0x10,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x27,
+                      .type       = 0 },
+
+    [MAPDECOR_84] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 0,
+                      .animID2    = 6,
+                      .animFlags2 = 0x19,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xB,
+                      .type       = 0 },
+
+    [MAPDECOR_85] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 0,
+                      .animID2    = 6,
+                      .animFlags2 = 0x19,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xB,
+                      .type       = 0 },
+
+    [MAPDECOR_86] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 2,
+                      .animID2    = 6,
+                      .animFlags2 = 0x19,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xD,
+                      .type       = 0 },
+
+    [MAPDECOR_87] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 2,
+                      .animID2    = 6,
+                      .animFlags2 = 0x19,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xD,
+                      .type       = 0 },
+
+    [MAPDECOR_88] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 4,
+                      .animID2    = 6,
+                      .animFlags2 = 0x19,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xF,
+                      .type       = 0 },
+
+    [MAPDECOR_89] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 4,
+                      .animID2    = 6,
+                      .animFlags2 = 0x19,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xF,
+                      .type       = 0 },
+
+    [MAPDECOR_90] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 5,
+                      .animID2    = 6,
+                      .animFlags2 = 0x19,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x10,
+                      .type       = 0 },
+
+    [MAPDECOR_91] = { .assetID    = DECOR_ASSET_Kinoko,
+                      .flags      = DECOR_FLAG_FLIP_X,
+                      .animID     = 5,
+                      .animID2    = 6,
+                      .animFlags2 = 0x19,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x10,
+                      .type       = 0 },
+
+    [MAPDECOR_92] = { .assetID    = DECOR_ASSET_Kinoko2,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 0,
+                      .animID2    = 3,
+                      .animFlags2 = 0x1A,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 8,
+                      .type       = 0 },
+
+    [MAPDECOR_93] = { .assetID    = DECOR_ASSET_Kinoko2,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 3,
+                      .animFlags2 = 0x1A,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 9,
+                      .type       = 0 },
+
+    [MAPDECOR_94] = { .assetID    = DECOR_ASSET_Kinoko2,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 2,
+                      .animID2    = 3,
+                      .animFlags2 = 0x1A,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xA,
+                      .type       = 0 },
+
+    [MAPDECOR_95] = { .assetID    = DECOR_ASSET_Kinoko2,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 0,
+                      .animID2    = 4,
+                      .animFlags2 = 0x1B,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 8,
+                      .type       = 0 },
+
+    [MAPDECOR_96] = { .assetID    = DECOR_ASSET_Kinoko2,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 1,
+                      .animID2    = 4,
+                      .animFlags2 = 0x1B,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 9,
+                      .type       = 0 },
+
+    [MAPDECOR_97] = { .assetID    = DECOR_ASSET_Kinoko2,
+                      .flags      = DECOR_FLAG_NONE,
+                      .animID     = 2,
+                      .animID2    = 4,
+                      .animFlags2 = 0x1B,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0xA,
+                      .type       = 0 },
+
+    [MAPDECOR_98] = { .assetID    = DECOR_ASSET_FlwTubo,
+                      .flags      = DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x1C,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x28,
+                      .type       = 0 },
+
+    [MAPDECOR_99] = { .assetID    = DECOR_ASSET_FlwTubo,
+                      .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                      .animID     = 0,
+                      .animID2    = 0,
+                      .animFlags2 = 0x1C,
+                      .oamOrder   = DECOR_DRAWORDER_25,
+                      .spriteID   = 0x28,
+                      .type       = 0 },
+
+    [MAPDECOR_100] = { .assetID    = DECOR_ASSET_FlwTubo,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x1C,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x29,
+                       .type       = 0 },
+
+    [MAPDECOR_101] = { .assetID    = DECOR_ASSET_FlwTubo,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x1C,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x2A,
+                       .type       = 0 },
+
+    [MAPDECOR_102] = { .assetID    = DECOR_ASSET_Flipmush,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 1,
+                       .animID2    = 4,
+                       .animFlags2 = 0x1D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 0 },
+
+    [MAPDECOR_103] = { .assetID    = DECOR_ASSET_Flipmush,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 2,
+                       .animID2    = 4,
+                       .animFlags2 = 0x1D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 1,
+                       .type       = 0 },
+
+    [MAPDECOR_104] = { .assetID    = DECOR_ASSET_Flipmush,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 2,
+                       .animID2    = 4,
+                       .animFlags2 = 0x1D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 1,
+                       .type       = 0 },
+
+    [MAPDECOR_105] = { .assetID    = DECOR_ASSET_Mo,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_10,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x0A,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x2B,
+                       .type       = 0 },
+
+    [MAPDECOR_106] = { .assetID    = DECOR_ASSET_Mo,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_10,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x0A,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x2C,
+                       .type       = 0 },
+
+    [MAPDECOR_107] = { .assetID    = DECOR_ASSET_Mo,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_10,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x0A,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x2D,
+                       .type       = 0 },
+
+    [MAPDECOR_108] = { .assetID    = DECOR_ASSET_Mo,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_LOW_PRIORITY | DECOR_FLAG_10,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x0A,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x2B,
+                       .type       = 0 },
+
+    [MAPDECOR_109] = { .assetID    = DECOR_ASSET_Mo,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_LOW_PRIORITY | DECOR_FLAG_10,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x0A,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x2C,
+                       .type       = 0 },
+
+    [MAPDECOR_110] = { .assetID    = DECOR_ASSET_Mo,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_LOW_PRIORITY | DECOR_FLAG_10,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x0A,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x2D,
+                       .type       = 0 },
+
+    [MAPDECOR_111] = { .assetID    = DECOR_ASSET_Flipmush,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x00,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 0 },
+
+    [MAPDECOR_112] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 0 },
+
+    [MAPDECOR_113] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 1,
+                       .type       = 0 },
+
+    [MAPDECOR_114] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 0 },
+
+    [MAPDECOR_115] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 0 },
+
+    [MAPDECOR_116] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 0 },
+
+    [MAPDECOR_117] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 5,
+                       .animID2    = 5,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_118] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 6,
+                       .animID2    = 6,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 6,
+                       .type       = 0 },
+
+    [MAPDECOR_119] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 7,
+                       .animID2    = 7,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 7,
+                       .type       = 0 },
+
+    [MAPDECOR_120] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 8,
+                       .animID2    = 8,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 8,
+                       .type       = 0 },
+
+    [MAPDECOR_121] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 9,
+                       .animID2    = 9,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 9,
+                       .type       = 0 },
+
+    [MAPDECOR_122] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 10,
+                       .animID2    = 10,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xA,
+                       .type       = 0 },
+
+    [MAPDECOR_123] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 11,
+                       .animID2    = 11,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xB,
+                       .type       = 0 },
+
+    [MAPDECOR_124] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 12,
+                       .animID2    = 12,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xC,
+                       .type       = 0 },
+
+    [MAPDECOR_125] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 13,
+                       .animID2    = 13,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xD,
+                       .type       = 0 },
+
+    [MAPDECOR_126] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 14,
+                       .animID2    = 14,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xE,
+                       .type       = 0 },
+
+    [MAPDECOR_127] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 15,
+                       .animID2    = 15,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xF,
+                       .type       = 0 },
+
+    [MAPDECOR_128] = { .assetID    = DECOR_ASSET_GstTree,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x27,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x2E,
+                       .type       = 0 },
+
+    [MAPDECOR_129] = { .assetID    = DECOR_ASSET_GstTree,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x27,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x2E,
+                       .type       = 0 },
+
+    [MAPDECOR_130] = { .assetID    = DECOR_ASSET_GstTree,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x27,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x2F,
+                       .type       = 0 },
+
+    [MAPDECOR_131] = { .assetID    = DECOR_ASSET_GstTree,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x27,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x2F,
+                       .type       = 0 },
+
+    [MAPDECOR_132] = { .assetID    = DECOR_ASSET_GstTree,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x27,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x30,
+                       .type       = 0 },
+
+    [MAPDECOR_133] = { .assetID    = DECOR_ASSET_GstTree,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x27,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x30,
+                       .type       = 0 },
+
+    [MAPDECOR_134] = { .assetID    = DECOR_ASSET_GstTree,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x27,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x31,
+                       .type       = 3 },
+
+    [MAPDECOR_135] = { .assetID    = DECOR_ASSET_GstTree,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x27,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x31,
+                       .type       = 3 },
+
+    [MAPDECOR_136] = { .assetID    = DECOR_ASSET_GstTree,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x27,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x32,
+                       .type       = 0 },
+
+    [MAPDECOR_137] = { .assetID    = DECOR_ASSET_GstTree,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x27,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x32,
+                       .type       = 0 },
+
+    [MAPDECOR_138] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x10,
+                       .type       = 0 },
+
+    [MAPDECOR_139] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x11,
+                       .type       = 0 },
+
+    [MAPDECOR_140] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x12,
+                       .type       = 0 },
+
+    [MAPDECOR_141] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x13,
+                       .type       = 0 },
+
+    [MAPDECOR_142] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x14,
+                       .type       = 0 },
+
+    [MAPDECOR_143] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x14,
+                       .type       = 0 },
+
+    [MAPDECOR_144] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_FLIP_Y | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x14,
+                       .type       = 0 },
+
+    [MAPDECOR_145] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_FLIP_Y | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x14,
+                       .type       = 0 },
+
+    [MAPDECOR_146] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 5,
+                       .animID2    = 5,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x15,
+                       .type       = 0 },
+
+    [MAPDECOR_147] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 5,
+                       .animID2    = 5,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x15,
+                       .type       = 0 },
+
+    [MAPDECOR_148] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 6,
+                       .animID2    = 6,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x16,
+                       .type       = 0 },
+
+    [MAPDECOR_149] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_FLIP_Y | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 6,
+                       .animID2    = 6,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x16,
+                       .type       = 0 },
+
+    [MAPDECOR_150] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 7,
+                       .animID2    = 7,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x17,
+                       .type       = 0 },
+
+    [MAPDECOR_151] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 8,
+                       .animID2    = 8,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x18,
+                       .type       = 0 },
+
+    [MAPDECOR_152] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 11,
+                       .animID2    = 11,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x19,
+                       .type       = 0 },
+
+    [MAPDECOR_153] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 11,
+                       .animID2    = 11,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x19,
+                       .type       = 0 },
+
+    [MAPDECOR_154] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 12,
+                       .animID2    = 12,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x1A,
+                       .type       = 0 },
+
+    [MAPDECOR_155] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_FLIP_Y | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 12,
+                       .animID2    = 12,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x1A,
+                       .type       = 0 },
+
+    [MAPDECOR_156] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 9,
+                       .animID2    = 9,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x1B,
+                       .type       = 0 },
+
+    [MAPDECOR_157] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_FLIP_Y | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 9,
+                       .animID2    = 9,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x1B,
+                       .type       = 0 },
+
+    [MAPDECOR_158] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 10,
+                       .animID2    = 10,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x1C,
+                       .type       = 0 },
+
+    [MAPDECOR_159] = { .assetID    = DECOR_ASSET_Decopipe,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 10,
+                       .animID2    = 10,
+                       .animFlags2 = 0x2E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x1C,
+                       .type       = 0 },
+
+    [MAPDECOR_160] = { .assetID    = DECOR_ASSET_Chimney,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x2F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x1D,
+                       .type       = 0 },
+
+    [MAPDECOR_161] = { .assetID    = DECOR_ASSET_Chimney,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x2F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x1E,
+                       .type       = 0 },
+
+    [MAPDECOR_162] = { .assetID    = DECOR_ASSET_Chimney,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x2F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x1F,
+                       .type       = 0 },
+
+    [MAPDECOR_163] = { .assetID    = DECOR_ASSET_Chimney,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x2F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x1F,
+                       .type       = 0 },
+
+    [MAPDECOR_164] = { .assetID    = DECOR_ASSET_Chimney,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x2F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x20,
+                       .type       = 0 },
+
+    [MAPDECOR_165] = { .assetID    = DECOR_ASSET_Chimney,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x2F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x20,
+                       .type       = 0 },
+
+    [MAPDECOR_166] = { .assetID    = DECOR_ASSET_Chimney,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x2F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x21,
+                       .type       = 0 },
+
+    [MAPDECOR_167] = { .assetID    = DECOR_ASSET_Chimney,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x2F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x21,
+                       .type       = 0 },
+
+    [MAPDECOR_168] = { .assetID    = DECOR_ASSET_Chimney,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 5,
+                       .animID2    = 5,
+                       .animFlags2 = 0x2F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x22,
+                       .type       = 0 },
+
+    [MAPDECOR_169] = { .assetID    = DECOR_ASSET_Chimney,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 6,
+                       .animID2    = 6,
+                       .animFlags2 = 0x2F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x23,
+                       .type       = 0 },
+
+    [MAPDECOR_170] = { .assetID    = DECOR_ASSET_Chimney,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 7,
+                       .animID2    = 7,
+                       .animFlags2 = 0x2F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x24,
+                       .type       = 0 },
+
+    [MAPDECOR_171] = { .assetID    = DECOR_ASSET_Icicle,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x3D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 7 },
+
+    [MAPDECOR_172] = { .assetID    = DECOR_ASSET_Icicle,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x3D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 7 },
+
+    [MAPDECOR_173] = { .assetID    = DECOR_ASSET_Icicle,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x3D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 7 },
+
+    [MAPDECOR_174] = { .assetID    = DECOR_ASSET_Icicle,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x3D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 7 },
+
+    [MAPDECOR_175] = { .assetID    = DECOR_ASSET_Icicle,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x3D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 1,
+                       .type       = 7 },
+
+    [MAPDECOR_176] = { .assetID    = DECOR_ASSET_Icicle,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x3D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 7 },
+
+    [MAPDECOR_177] = { .assetID    = DECOR_ASSET_IceTree,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x3F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 8 },
+
+    [MAPDECOR_178] = { .assetID    = DECOR_ASSET_IceTree,
+                       .flags      = DECOR_FLAG_HIGH_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x3F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 8 },
+
+    [MAPDECOR_179] = { .assetID    = DECOR_ASSET_IceTree,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x3E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 8 },
+
+    [MAPDECOR_180] = { .assetID    = DECOR_ASSET_IceTree,
+                       .flags      = DECOR_FLAG_HIGH_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x3E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 8 },
+
+    [MAPDECOR_181] = { .assetID    = DECOR_ASSET_IceTree,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x40,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_182] = { .assetID    = DECOR_ASSET_IceTree,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x40,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_183] = { .assetID    = DECOR_ASSET_IceTree,
+                       .flags      = DECOR_FLAG_HIGH_PRIORITY,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x40,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_184] = { .assetID    = DECOR_ASSET_IceTree,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_HIGH_PRIORITY,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x40,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_185] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x41,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 0 },
+
+    [MAPDECOR_186] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x41,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 1,
+                       .type       = 0 },
+
+    [MAPDECOR_187] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 0 },
+
+    [MAPDECOR_188] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 0 },
+
+    [MAPDECOR_189] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 0 },
+
+    [MAPDECOR_190] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 0 },
+
+    [MAPDECOR_191] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 0 },
+
+    [MAPDECOR_192] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 0 },
+
+    [MAPDECOR_193] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 5,
+                       .animID2    = 5,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_194] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 5,
+                       .animID2    = 5,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_195] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 2,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 1 },
+
+    [MAPDECOR_196] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 2,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 1 },
+
+    [MAPDECOR_197] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 3,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 1 },
+
+    [MAPDECOR_198] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 3,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 1 },
+
+    [MAPDECOR_199] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 4,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 1 },
+
+    [MAPDECOR_200] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 4,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 1 },
+
+    [MAPDECOR_201] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 5,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 1 },
+
+    [MAPDECOR_202] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 5,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 1 },
+
+    [MAPDECOR_203] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_4,
+                       .animID     = 7,
+                       .animID2    = 7,
+                       .animFlags2 = 0x44,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 6,
+                       .type       = 0 },
+
+    [MAPDECOR_204] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
+                       .animID     = 7,
+                       .animID2    = 7,
+                       .animFlags2 = 0x44,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 6,
+                       .type       = 0 },
+
+    [MAPDECOR_205] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_4,
+                       .animID     = 8,
+                       .animID2    = 8,
+                       .animFlags2 = 0x44,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 7,
+                       .type       = 0 },
+
+    [MAPDECOR_206] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
+                       .animID     = 8,
+                       .animID2    = 8,
+                       .animFlags2 = 0x44,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 7,
+                       .type       = 0 },
+
+    [MAPDECOR_207] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 9,
+                       .animID2    = 9,
+                       .animFlags2 = 0x45,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 8,
+                       .type       = 0 },
+
+    [MAPDECOR_208] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 9,
+                       .animID2    = 9,
+                       .animFlags2 = 0x45,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 8,
+                       .type       = 0 },
+
+    [MAPDECOR_209] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 10,
+                       .animID2    = 10,
+                       .animFlags2 = 0x45,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 9,
+                       .type       = 0 },
+
+    [MAPDECOR_210] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 10,
+                       .animID2    = 10,
+                       .animFlags2 = 0x45,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 9,
+                       .type       = 0 },
+
+    [MAPDECOR_211] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 11,
+                       .animID2    = 11,
+                       .animFlags2 = 0x45,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xA,
+                       .type       = 0 },
+
+    [MAPDECOR_212] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 11,
+                       .animID2    = 11,
+                       .animFlags2 = 0x45,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xA,
+                       .type       = 0 },
+
+    [MAPDECOR_213] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 12,
+                       .animID2    = 12,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xB,
+                       .type       = 0 },
+
+    [MAPDECOR_214] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 12,
+                       .animID2    = 12,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xB,
+                       .type       = 0 },
+
+    [MAPDECOR_215] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 13,
+                       .animID2    = 13,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xC,
+                       .type       = 0 },
+
+    [MAPDECOR_216] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 13,
+                       .animID2    = 13,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xC,
+                       .type       = 0 },
+
+    [MAPDECOR_217] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 12,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xB,
+                       .type       = 1 },
+
+    [MAPDECOR_218] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 12,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xB,
+                       .type       = 1 },
+
+    [MAPDECOR_219] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 13,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xC,
+                       .type       = 1 },
+
+    [MAPDECOR_220] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 13,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xC,
+                       .type       = 1 },
+
+    [MAPDECOR_221] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 14,
+                       .animID2    = 14,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xD,
+                       .type       = 0 },
+
+    [MAPDECOR_222] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 14,
+                       .animID2    = 14,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xD,
+                       .type       = 0 },
+
+    [MAPDECOR_223] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 15,
+                       .animID2    = 15,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xE,
+                       .type       = 0 },
+
+    [MAPDECOR_224] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 15,
+                       .animID2    = 15,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xE,
+                       .type       = 0 },
+
+    [MAPDECOR_225] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 14,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xD,
+                       .type       = 1 },
+
+    [MAPDECOR_226] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 14,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xD,
+                       .type       = 1 },
+
+    [MAPDECOR_227] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 15,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xE,
+                       .type       = 1 },
+
+    [MAPDECOR_228] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 15,
+                       .animID2    = 6,
+                       .animFlags2 = 0x43,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xE,
+                       .type       = 1 },
+
+    [MAPDECOR_229] = { .assetID    = DECOR_ASSET_Boat,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x46,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 0 },
+
+    [MAPDECOR_230] = { .assetID    = DECOR_ASSET_Cannon,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x47,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 1,
+                       .type       = 0 },
+
+    [MAPDECOR_231] = { .assetID    = DECOR_ASSET_Mast,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x48,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 0 },
+
+    [MAPDECOR_232] = { .assetID    = DECOR_ASSET_Mast,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x48,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 0 },
+
+    [MAPDECOR_233] = { .assetID    = DECOR_ASSET_Mast,
+                       .flags      = DECOR_FLAG_FLIP_Y,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x48,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 0 },
+
+    [MAPDECOR_234] = { .assetID    = DECOR_ASSET_Mast,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_FLIP_Y,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x48,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 0 },
+
+    [MAPDECOR_235] = { .assetID    = DECOR_ASSET_Mast,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x48,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 0 },
+
+    [MAPDECOR_236] = { .assetID    = DECOR_ASSET_Mast,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x48,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 0 },
+
+    [MAPDECOR_237] = { .assetID    = DECOR_ASSET_Mast,
+                       .flags      = DECOR_FLAG_FLIP_Y,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x48,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 0 },
+
+    [MAPDECOR_238] = { .assetID    = DECOR_ASSET_Mast,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_FLIP_Y,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x48,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 0 },
+
+    [MAPDECOR_239] = { .assetID    = DECOR_ASSET_Rudder,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x49,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 0 },
+
+    [MAPDECOR_240] = { .assetID    = DECOR_ASSET_Rope,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x48,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_241] = { .assetID    = DECOR_ASSET_AnchorRope3D,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x00,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 6,
+                       .type       = 0 },
+
+    [MAPDECOR_242] = { .assetID    = DECOR_ASSET_AnchorRope3D,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 1,
+                       .animID2    = 0,
+                       .animFlags2 = 0x01,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 7,
+                       .type       = 0 },
+
+    [MAPDECOR_243] = { .assetID    = DECOR_ASSET_AnchorRope3D,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 2,
+                       .animID2    = 0,
+                       .animFlags2 = 0x02,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 8,
+                       .type       = 0 },
+
+    [MAPDECOR_244] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_4,
+                       .animID     = 16,
+                       .animID2    = 16,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 0 },
+
+    [MAPDECOR_245] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
+                       .animID     = 16,
+                       .animID2    = 16,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 0 },
+
+    [MAPDECOR_246] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_4,
+                       .animID     = 17,
+                       .animID2    = 17,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 0 },
+
+    [MAPDECOR_247] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
+                       .animID     = 17,
+                       .animID2    = 17,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 0 },
+
+    [MAPDECOR_248] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_4,
+                       .animID     = 18,
+                       .animID2    = 18,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_249] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
+                       .animID     = 18,
+                       .animID2    = 18,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_250] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_4,
+                       .animID     = 19,
+                       .animID2    = 19,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xB,
+                       .type       = 0 },
+
+    [MAPDECOR_251] = { .assetID    = DECOR_ASSET_Coral,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_4,
+                       .animID     = 19,
+                       .animID2    = 19,
+                       .animFlags2 = 0x42,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xB,
+                       .type       = 0 },
+
+    [MAPDECOR_252] = { .assetID    = DECOR_ASSET_Barrel,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 5,
+                       .animID2    = 5,
+                       .animFlags2 = 0x5E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xC,
+                       .type       = 0 },
+
+    [MAPDECOR_253] = { .assetID    = DECOR_ASSET_Barrel,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x54,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xD,
+                       .type       = 0 },
+
+    [MAPDECOR_254] = { .assetID    = DECOR_ASSET_Sail,
+                       .flags      = DECOR_FLAG_40,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x58,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xE,
+                       .type       = 10 },
+
+    [MAPDECOR_255] = { .assetID    = DECOR_ASSET_Trampoline,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x59,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xF,
+                       .type       = 0 },
+
+    [MAPDECOR_256] = { .assetID    = DECOR_ASSET_Trampoline,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x59,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xF,
+                       .type       = 0 },
+
+    [MAPDECOR_257] = { .assetID    = DECOR_ASSET_Trampoline,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x59,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x10,
+                       .type       = 0 },
+
+    [MAPDECOR_258] = { .assetID    = DECOR_ASSET_Trampoline,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x59,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x10,
+                       .type       = 0 },
+
+    [MAPDECOR_259] = { .assetID    = DECOR_ASSET_Trampoline,
+                       .flags      = DECOR_FLAG_FLIP_Y,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x59,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x10,
+                       .type       = 0 },
+
+    [MAPDECOR_260] = { .assetID    = DECOR_ASSET_Trampoline,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_FLIP_Y,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x59,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x10,
+                       .type       = 0 },
+
+    [MAPDECOR_261] = { .assetID    = DECOR_ASSET_Cloud,
+                       .flags      = DECOR_FLAG_HIGH_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x60,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x33,
+                       .type       = 2 },
+
+    [MAPDECOR_262] = { .assetID    = DECOR_ASSET_Cloud,
+                       .flags      = DECOR_FLAG_HIGH_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x60,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x34,
+                       .type       = 2 },
+
+    [MAPDECOR_263] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 0 },
+
+    [MAPDECOR_264] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 1,
+                       .type       = 0 },
+
+    [MAPDECOR_265] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 0 },
+
+    [MAPDECOR_266] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 0 },
+
+    [MAPDECOR_267] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 0 },
+
+    [MAPDECOR_268] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 5,
+                       .animID2    = 5,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_269] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 6,
+                       .animID2    = 6,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 6,
+                       .type       = 0 },
+
+    [MAPDECOR_270] = { .assetID    = DECOR_ASSET_PipeSteam,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 7,
+                       .animID2    = 7,
+                       .animFlags2 = 0x26,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 7,
+                       .type       = 0 },
+
+    [MAPDECOR_271] = { .assetID    = DECOR_ASSET_Thunder,
+                       .flags      = DECOR_FLAG_40,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x66,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 10 },
+
+    [MAPDECOR_272] = { .assetID    = DECOR_ASSET_CloudSt6,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x06,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 1,
+                       .type       = 5 },
+
+    [MAPDECOR_273] = { .assetID    = DECOR_ASSET_CloudSt6,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x06,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 2,
+                       .type       = 5 },
+
+    [MAPDECOR_274] = { .assetID    = DECOR_ASSET_CloudSt6,
+                       .flags      = DECOR_FLAG_HIGH_PRIORITY,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x06,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 6 },
+
+    [MAPDECOR_275] = { .assetID    = DECOR_ASSET_CloudSt6,
+                       .flags      = DECOR_FLAG_HIGH_PRIORITY,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x06,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 4,
+                       .type       = 6 },
+
+    [MAPDECOR_276] = { .assetID    = DECOR_ASSET_Flipmush,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x00,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 0 },
+
+    [MAPDECOR_277] = { .assetID    = DECOR_ASSET_FallingWater,
+                       .flags      = DECOR_FLAG_40,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x5D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 10 },
+
+    [MAPDECOR_278] = { .assetID    = DECOR_ASSET_FallingWater,
+                       .flags      = DECOR_FLAG_40,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x5D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 1,
+                       .type       = 10 },
+
+    [MAPDECOR_279] = { .assetID    = DECOR_ASSET_FallingWater,
+                       .flags      = DECOR_FLAG_40,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x5D,
+                       .oamOrder   = DECOR_DRAWORDER_NONE,
+                       .spriteID   = 2,
+                       .type       = 10 },
+
+    [MAPDECOR_280] = { .assetID    = DECOR_ASSET_LeafWater,
+                       .flags      = DECOR_FLAG_40,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x5F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 10 },
+
+    [MAPDECOR_281] = { .assetID    = DECOR_ASSET_Flipmush,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x00,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 0 },
+
+    [MAPDECOR_282] = { .assetID    = DECOR_ASSET_Flipmush,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x00,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 0 },
+
+    [MAPDECOR_283] = { .assetID    = DECOR_ASSET_Grass6,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x68,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 5,
+                       .type       = 0 },
+
+    [MAPDECOR_284] = { .assetID    = DECOR_ASSET_Grass6,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x68,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 6,
+                       .type       = 0 },
+
+    [MAPDECOR_285] = { .assetID    = DECOR_ASSET_Grass6,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x68,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 7,
+                       .type       = 0 },
+
+    [MAPDECOR_286] = { .assetID    = DECOR_ASSET_Grass6,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x68,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 7,
+                       .type       = 0 },
+
+    [MAPDECOR_287] = { .assetID    = DECOR_ASSET_Grass6,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x68,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 8,
+                       .type       = 0 },
+
+    [MAPDECOR_288] = { .assetID    = DECOR_ASSET_Grass6,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 4,
+                       .animID2    = 4,
+                       .animFlags2 = 0x68,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 9,
+                       .type       = 0 },
+
+    [MAPDECOR_289] = { .assetID    = DECOR_ASSET_Barrel,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 7,
+                       .animID2    = 7,
+                       .animFlags2 = 0x54,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x11,
+                       .type       = 0 },
+
+    [MAPDECOR_290] = { .assetID    = DECOR_ASSET_Saku,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x59,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x12,
+                       .type       = 1 },
+
+    [MAPDECOR_291] = { .assetID    = DECOR_ASSET_Saku,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x59,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x12,
+                       .type       = 1 },
+
+    [MAPDECOR_292] = { .assetID    = DECOR_ASSET_Saku,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x59,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x13,
+                       .type       = 1 },
+
+    [MAPDECOR_293] = { .assetID    = DECOR_ASSET_Saku,
+                       .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x59,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x13,
+                       .type       = 1 },
+
+    [MAPDECOR_294] = { .assetID    = DECOR_ASSET_Saku,
+                       .flags      = DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x59,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0x14,
+                       .type       = 1 },
+
+    [MAPDECOR_295] = { .assetID    = DECOR_ASSET_KojimaPalm,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x6E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 0 },
+
+    [MAPDECOR_296] = { .assetID    = DECOR_ASSET_KojimaPalm,
+                       .flags      = DECOR_FLAG_FLIP_X,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x6E,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 0 },
+
+    [MAPDECOR_297] = { .assetID    = DECOR_ASSET_GstTree,
+                       .flags      = DECOR_FLAG_NONE,
+                       .animID     = 5,
+                       .animID2    = 5,
+                       .animFlags2 = 0x27,
+                       .oamOrder   = DECOR_DRAWORDER_26,
+                       .spriteID   = 0x35,
+                       .type       = 4 },
+
+    [MAPDECOR_298] = { .assetID    = DECOR_ASSET_Thunder,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x66,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 9 },
+
+    [MAPDECOR_299] = { .assetID    = DECOR_ASSET_Sail,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x58,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0xE,
+                       .type       = 9 },
+
+    [MAPDECOR_300] = { .assetID    = DECOR_ASSET_Water,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_LOW_PRIORITY,
+                       .animID     = 3,
+                       .animID2    = 3,
+                       .animFlags2 = 0x21,
+                       .oamOrder   = DECOR_DRAWORDER_NONE,
+                       .spriteID   = 0x1A,
+                       .type       = 9 },
+
+    [MAPDECOR_301] = { .assetID    = DECOR_ASSET_FallingWater,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x5D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 0,
+                       .type       = 9 },
+
+    [MAPDECOR_302] = { .assetID    = DECOR_ASSET_FallingWater,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
+                       .animID     = 1,
+                       .animID2    = 1,
+                       .animFlags2 = 0x5D,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 1,
+                       .type       = 9 },
+
+    [MAPDECOR_303] = { .assetID    = DECOR_ASSET_FallingWater,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
+                       .animID     = 2,
+                       .animID2    = 2,
+                       .animFlags2 = 0x5D,
+                       .oamOrder   = DECOR_DRAWORDER_NONE,
+                       .spriteID   = 2,
+                       .type       = 9 },
+
+    [MAPDECOR_304] = { .assetID    = DECOR_ASSET_LeafWater,
+                       .flags      = DECOR_FLAG_4 | DECOR_FLAG_PREPEND,
+                       .animID     = 0,
+                       .animID2    = 0,
+                       .animFlags2 = 0x5F,
+                       .oamOrder   = DECOR_DRAWORDER_25,
+                       .spriteID   = 3,
+                       .type       = 9 },
+};
+
+NOT_DECOMPILED u8 _02188780[4];
+
+static s8 iceSparkleOffsetTable[16] = { 1, -52, -5, -44, 15, -32, -2, -30, 19, -23, -5, -21, 14, -6, -13, -4 };
 
 // --------------------
 // FUNCTIONS
@@ -420,7 +3240,8 @@ _02152D70:
 #endif
 }
 
-NONMATCH_FUNC StageDecoration *DecorationSys__CreateUnknown2152D9C(MapDecor *mapDecor, fx32 x, fx32 y, s32 type){
+NONMATCH_FUNC StageDecoration *DecorationSys__CreateUnknown2152D9C(MapDecor *mapDecor, fx32 x, fx32 y, s32 type)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1794,157 +4615,56 @@ void DecorationSys__InitFunc_2154510(StageDecoration *work)
     SetTaskState(&work->objWork, DecorationSys__State_2154520);
 }
 
-NONMATCH_FUNC void DecorationSys__State_2154520(StageDecoration *work){
-#ifdef NON_MATCHING
+void DecorationSys__State_2154520(StageDecoration *work)
+{
+    work->objWork.userTimer--;
+    if (work->objWork.userTimer <= 0)
+    {
+        u32 type = mtMathRand() & 0xF;
+        type     = (type << 0x1D) >> 0x1C;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x2c]
-	sub r0, r0, #1
-	str r0, [r4, #0x2c]
-	cmp r0, #0
-	ldmgtia sp!, {r3, r4, r5, pc}
-	ldr r3, =_mt_math_rand
-	mov r2, #0
-	ldr r5, [r3]
-	ldr r0, =0x00196225
-	ldr r1, =0x3C6EF35F
-	ldr ip, =_02188784
-	mla r1, r5, r0, r1
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	str r1, [r3]
-	str r2, [sp]
-	mov r0, r0, lsl #0x1d
-	mov r1, r0, lsr #0x1c
-	ldr r0, =0x02188785
-	ldrsb lr, [ip, r1]
-	ldr r5, [r4, #0x44]
-	ldrsb r1, [r0, r1]
-	ldr ip, [r4, #0x48]
-	mov r3, r2
-	add r0, r5, lr, lsl #12
-	add r1, ip, r1, lsl #12
-	bl EffectIceSparkles__Create
-	cmp r0, #0
-	beq _021545AC
-	ldr r1, [r4, #0x128]
-	ldrb r1, [r1, #0x56]
-	bl StageTask__SetAnimatorPriority
-_021545AC:
-	ldr r2, =_mt_math_rand
-	ldr r0, =0x00196225
-	ldr r3, [r2]
-	ldr r1, =0x3C6EF35F
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	and r0, r0, #0x1f
-	str r1, [r2]
-	add r0, r0, #0x3c
-	str r0, [r4, #0x2c]
-	ldmia sp!, {r3, r4, r5, pc}
+        // BUG(?)
+        // shouldn't it be "(type + 1) & 0xF" instead of "(type & 0xF) + 1"?
+        // this could potentially cause a minor buffer overflow!
+        EffectIceSparkles *sparkle = EffectIceSparkles__Create(work->objWork.position.x + FX32_FROM_WHOLE(iceSparkleOffsetTable[type]),
+                                                               work->objWork.position.y + FX32_FROM_WHOLE(iceSparkleOffsetTable[type + 1]), 0, 0, 0);
+        if (sparkle != NULL)
+            StageTask__SetAnimatorPriority(&sparkle->objWork, work->objWork.obj_2d->ani.work.oamPriority);
 
-// clang-format on
-#endif
+        work->objWork.userTimer = (mtMathRand() & 0x1F) + 60;
+    }
 }
 
-NONMATCH_FUNC void DecorationSys__CreateGrind3LineLeaf(void)
+void DecorationSys__CreateGrind3LineLeaf(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 anim)
 {
-#ifdef NON_MATCHING
+    EffectGrind3Leaf *work = CreateEffect(EffectGrind3Leaf, 0);
+    if (work == NULL)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #8
-	mov r8, r0
-	mov r7, r1
-	mov r0, #0x218
-	mov r1, #0
-	mov r6, r2
-	mov r5, r3
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	mov r0, #0x9e
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r0, [r1]
-	ldr ip, =0x0000FFFF
-	str r0, [sp]
-	ldr r2, =aActAcEffGrd3lL
-	mov r0, r4
-	add r1, r4, #0x168
-	str ip, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x13
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	ldr r1, [sp, #0x20]
-	mov r0, r4
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	bl StageTask__SetAnimation
-	ldr r2, =_mt_math_rand
-	ldr r0, =0x00196225
-	ldr r3, [r2]
-	ldr r1, =0x3C6EF35F
-	mla r0, r3, r0, r1
-	str r0, [r2]
-	mov r0, r0, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r1, r0, lsr #0x10
-	tst r1, #1
-	ldrne r0, [r4, #0x20]
-	mov r2, #0
-	orrne r0, r0, #1
-	strne r0, [r4, #0x20]
-	tst r1, #2
-	ldrne r0, [r4, #0x20]
-	mov r3, r2
-	orrne r0, r0, #2
-	strne r0, [r4, #0x20]
-	str r8, [r4, #0x44]
-	str r7, [r4, #0x48]
-	str r6, [r4, #0x98]
-	str r5, [r4, #0x9c]
-	ldr r0, [r4, #0xd8]
-	mov r0, r0, asr #2
-	str r0, [r4, #0xd8]
-	ldr r1, [r4, #0xdc]
-	mov r0, r4
-	mov r1, r1, asr #2
-	str r1, [r4, #0xdc]
-	ldr r1, [r4, #0x1c]
-	orr r1, r1, #0x180
-	str r1, [r4, #0x1c]
-	ldr r5, [r4, #0x18]
-	mov r1, #0x20
-	orr r5, r5, #2
-	str r5, [r4, #0x18]
-	str r2, [sp]
-	str r2, [sp, #4]
-	bl InitEffectTaskViewCheck
-	ldr r0, =DecorationSys__State_215475C
-	str r0, [r4, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_grd3l_leaf.bac", GetObjectDataWork(OBJDATAWORK_158), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjActionAllocSpritePalette(&work->objWork, 0, 19);
+    StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
+    StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
+    StageTask__SetAnimation(&work->objWork, anim);
 
-// clang-format on
-#endif
+    u32 dir = mtMathRand();
+    if ((dir & DISPLAY_FLAG_FLIP_X) != 0)
+        work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+
+    if ((dir & DISPLAY_FLAG_FLIP_Y) != 0)
+        work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
+
+    work->objWork.position.x = x;
+    work->objWork.position.y = y;
+    work->objWork.velocity.x = velX;
+    work->objWork.velocity.y = velY;
+    work->objWork.gravityStrength >>= 2;
+    work->objWork.terminalVelocity >>= 2;
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    work->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+    InitEffectTaskViewCheck(&work->objWork, 32, 0, 0, 0, 0);
+
+    SetTaskState(&work->objWork, DecorationSys__State_215475C);
 }
 
 void DecorationSys__State_215475C(StageDecoration *work)
@@ -2030,9 +4750,71 @@ void DecorationSys__State_21548A8(StageDecoration *work)
     }
 }
 
-NONMATCH_FUNC void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2){
+NONMATCH_FUNC void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+    // https://decomp.me/scratch/7Cnee -> 82.27%
 #ifdef NON_MATCHING
+    static u8 animTable[] = { 0, 1, 4, 5 };
 
+    DecorationCommon *decor = (DecorationCommon *)rect2->parent;
+    Player *player          = (Player *)rect1->parent;
+
+    if (decor == NULL || player == NULL)
+        return;
+
+    if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
+        return;
+
+    switch (decor->decorWork.mapDecor->id)
+    {
+        case MAPDECOR_276:
+            if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+            {
+                if (MATH_ABS(player->objWork.move.x) + MATH_ABS(player->objWork.move.y) > FLOAT_TO_FX32(1.0))
+                {
+                    decor->decorWork.objWork.userTimer = 32;
+
+                    if ((mtMathRand() & 1) != 0)
+                    {
+                        s32 count = (mtMathRand() & 1) + 3;
+
+                        fx32 moveX = player->objWork.move.x >> 1;
+                        fx32 moveY = player->objWork.move.y >> 1;
+                        fx32 leafX = player->objWork.position.x - moveX * (count >> 1);
+                        fx32 leafY = player->objWork.position.y - moveY * (count >> 1);
+
+                        fx32 velY = 0;
+                        for (s32 i = 0; i < count; i++)
+                        {
+                            DecorationSys__CreateGrind3LineLeaf(leafX + FLOAT_TO_FX32(8.0) - (mtMathRand() & 0xFFFF), leafY + FLOAT_TO_FX32(4.0) - (mtMathRand() & 0x7FFF),
+                                                                FLOAT_TO_FX32(2.0) - (mtMathRand() & 0x3FFF), FLOAT_TO_FX32(1.0) - (mtMathRand() & 0x1FFF) + velY, animTable[i]);
+
+                            leafX += moveX;
+                            velY -= FLOAT_TO_FX32(0.25);
+                            leafY += moveY;
+                        }
+                    }
+                }
+            }
+            break;
+
+        case MAPDECOR_281:
+        case MAPDECOR_282:
+            if ((player->objWork.moveFlag & (STAGE_TASK_MOVE_FLAG_400000 | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR)) != 0)
+            {
+                if (MATH_ABS(player->objWork.move.x) > FLOAT_TO_FX32(0.5) || player->objWork.move.y)
+                {
+                    decor->decorWork.objWork.userTimer = 4;
+
+                    EffectWaterWake *effect = CreateEffectWaterWakeForPlayer2(player);
+                    if (decor->decorWork.mapDecor->id == MAPDECOR_281)
+                        StageTask__SetAnimatorPriority(&effect->objWork, SPRITE_PRIORITY_1);
+                }
+            }
+            break;
+    }
+
+    decor->decorWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
