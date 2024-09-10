@@ -107,7 +107,7 @@ void Breakable__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     }
 
     ShakeScreen(SCREENSHAKE_C_SHORT);
-    breakable->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_2;
+    breakable->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     breakable->gameWork.flags |= 0x10000;
     breakable->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
     breakable->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
@@ -145,7 +145,7 @@ NONMATCH_FUNC void Breakable__State_Tutorial(Breakable *work)
     {
         ShakeScreen(SCREENSHAKE_C_SHORT);
 
-        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROYED | STAGE_TASK_FLAG_2;
+        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROYED | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         work->gameWork.flags |= 0x10000;
         work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
         work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800;

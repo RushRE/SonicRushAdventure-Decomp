@@ -18,7 +18,7 @@ typedef struct EffectSteamBlasterSmoke_
 // FUNCTIONS
 // --------------------
 
-EffectSteamBlasterSmoke *EffectSteamBlasterSmoke__Create(StageTask *parent);
-void EffectSteamBlasterSmoke__State_2029A14(EffectSteamBlasterSmoke *work);
+EffectSteamBlasterSmoke *CreateEffectSteamBlasterSmoke(StageTask *parent);
+void EffectSteamBlasterSmoke_State_Active(EffectSteamBlasterSmoke *work);
 
 #endif // RUSH2_EFFECT_STEAM_BLASTER_SMOKE_H

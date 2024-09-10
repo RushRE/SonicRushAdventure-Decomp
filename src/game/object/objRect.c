@@ -324,7 +324,7 @@ NONMATCH_FUNC void ObjRect__CheckGroup(OBS_RECT_WORK **atkGroup, OBS_RECT_WORK *
         OBS_RECT_WORK *attacker = atkGroup[atkIdx];
         if (attacker != NULL && (attacker->flag & OBS_RECT_WORK_FLAG_800) == 0
             && ((attacker->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0 && ((attacker->groupFlags >> 8) & (1 << Index)) != 0)
-            && (attacker->parent == NULL || (attacker->parent->flag & STAGE_TASK_FLAG_2) == 0))
+            && (attacker->parent == NULL || (attacker->parent->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0))
         {
             ObjRect__LTBSet(attacker, &atkLeft, &atkTop, &atkBack);
             ObjRect__WHDSet(attacker, &atkWidth, &atkHeight, &atkDepth);
@@ -336,7 +336,7 @@ NONMATCH_FUNC void ObjRect__CheckGroup(OBS_RECT_WORK **atkGroup, OBS_RECT_WORK *
                 {
                     if (defender != NULL && defender != attacker
                         && (((defender->flag | attacker->flag) & OBS_RECT_WORK_FLAG_800) == 0 && (defender->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0
-                            && (defender->parent == NULL || (defender->parent->flag & STAGE_TASK_FLAG_2) == 0)))
+                            && (defender->parent == NULL || (defender->parent->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)))
                     {
                         ObjRect__LTBSet(defender, &defLeft, &defTop, &defBack);
                         ObjRect__WHDSet(defender, &defWidth, &defHeight, &defDepth);

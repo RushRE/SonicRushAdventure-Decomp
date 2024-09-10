@@ -771,7 +771,7 @@ EffectUnknown202C414 *EffectUnknown202C414__Create(StageTask *parent)
     DC_FlushRange(work->cmdList, 0x300);
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->objWork.flag |= STAGE_TASK_FLAG_2;
+    work->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
     SetTaskState(&work->objWork, EffectUnknown202C414__State_202C5F8);
     SetTaskOutFunc(&work->objWork, EffectUnknown202C414__Draw);

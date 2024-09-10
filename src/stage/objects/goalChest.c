@@ -132,7 +132,7 @@ NONMATCH_FUNC GoalChest *CreateGoalChest(MapObject *mapObject, fx32 x, fx32 y, f
 
     if (gmCheckMissionType(MISSION_TYPE_FIND_MEDAL))
     {
-        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
         SetTaskState(&work->gameWork.objWork, GoalChest_State_MedalLocator);
     }
 
@@ -600,12 +600,12 @@ void GoalChest_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             return;
     }
 
-    if ((goalChest->gameWork.objWork.flag & STAGE_TASK_FLAG_2) == 0)
+    if ((goalChest->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
     {
         Player__Action_FinishMission(player, &goalChest->gameWork);
         AnimatorMDL__SetAnimation(&goalChest->gameWork.objWork.obj_3d->ani, B3D_ANIM_JOINT_ANIM, goalChest->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_JOINT_ANIM],
                                   GOALCHEST_ANI_SPINNING, NULL);
-        goalChest->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+        goalChest->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         goalChest->gameWork.collisionObject.work.parent = NULL;
         goalChest->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED);
         SetTaskState(&goalChest->gameWork.objWork, GoalChest_State_Opened);

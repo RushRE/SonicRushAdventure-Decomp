@@ -208,7 +208,7 @@ NONMATCH_FUNC StageDecoration *DecorationSys__CreateCommonDecor(MapDecor *mapDec
     DecorationCommon *work = (DecorationCommon *)DecorationSys__Construct(sizeof(DecorationCommon), mapDecor, x, y, ((config->flags & 0x80) != 0));
 
     work->decorWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->decorWork.objWork.flag |= STAGE_TASK_FLAG_2;
+    work->decorWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
     if ((config->flags & 4) != 0 && (config->flags & 0x10) == 0)
     {
@@ -655,7 +655,7 @@ StageDecoration *DecorationSys__CreateUnknown2153118(MapDecor *mapDecor, fx32 x,
     StageDecoration *work = DecorationSys__Construct(sizeof(StageDecoration), mapDecor, x, y, 0);
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
-    work->objWork.flag |= STAGE_TASK_FLAG_2;
+    work->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
     SetTaskState(&work->objWork, DecorationSys__CreateWaterBubble);
     return work;
@@ -697,7 +697,7 @@ void DecorationSys__Decor_Main(StageDecoration *work)
         return;
     }
 
-    if ((work->objWork.flag & STAGE_TASK_FLAG_DESTROY_ON_COLLIDE) == 0)
+    if ((work->objWork.flag & STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT) == 0)
     {
         if (work->objWork.ppViewCheck != NULL)
         {
@@ -1049,7 +1049,7 @@ NONMATCH_FUNC void DecorationSys__InitFunc_21538D0(StageDecoration *work)
     work->rect[0].parent = &work->objWork;
     ObjRect__SetOnDefend(&work->rect[0], DecorationSys__OnDefend_21539B0);
     work->rect[0].flag |= OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_IS_ACTIVE;
-    work->objWork.flag &= ~STAGE_TASK_FLAG_2;
+    work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, lr}
@@ -1549,7 +1549,7 @@ void DecorationSys__InitFunc_2154030(StageDecoration *work)
 {
     work->objWork.prevPosition.x = work->objWork.position.x - g_obj.camera[0].x;
     work->objWork.prevPosition.y = work->objWork.position.y - g_obj.camera[0].y;
-    work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
     SetTaskState(&work->objWork, DecorationSys__State_2154074);
 }
@@ -1654,7 +1654,7 @@ void DecorationSys__InitFunc_2154194(StageDecoration *work)
 {
     work->objWork.userTimer = work->objWork.position.x;
     work->objWork.userWork  = work->objWork.position.y;
-    work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
     SetTaskState(&work->objWork, DecorationSys__State_21541C0);
 }
@@ -1773,7 +1773,7 @@ void DecorationSys__InitFunc_2154478(StageDecoration *work)
     work->rect[0].parent = &work->objWork;
     ObjRect__SetOnDefend(&work->rect[0], DecorationSys__OnDefend_21544D0);
     work->rect[0].flag |= OBS_RECT_WORK_FLAG_400 | OBS_RECT_WORK_FLAG_IS_ACTIVE;
-    work->objWork.flag &= ~STAGE_TASK_FLAG_2;
+    work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 }
 
 void DecorationSys__OnDefend_21544D0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
@@ -1783,7 +1783,7 @@ void DecorationSys__OnDefend_21544D0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     if (decor != NULL && player != NULL && player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
     {
-        decor->objWork.flag |= STAGE_TASK_FLAG_2;
+        decor->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         decor->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
         decor->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     }
@@ -2022,11 +2022,11 @@ _02154894:
 
 void DecorationSys__State_21548A8(StageDecoration *work)
 {
-    if ((work->objWork.flag & STAGE_TASK_FLAG_2) != 0)
+    if ((work->objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) != 0)
     {
         work->objWork.userTimer--;
         if (work->objWork.userTimer <= 0)
-            work->objWork.flag &= ~STAGE_TASK_FLAG_2;
+            work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     }
 }
 
@@ -2283,7 +2283,7 @@ void DecorationSys__Func_2154C30(s32 id)
 void DecorationSys__InitFunc_2154C90(StageDecoration *work)
 {
     SetDecorOutFunc(&work->objWork, DecorationSys__Draw_2154D14);
-    work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     work->destructor = DecorationSys__Destructor_2154CCC;
     AnimatorSpriteDS__ProcessAnimationFast(&work->objWork.obj_2d->ani);
 }

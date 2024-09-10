@@ -305,7 +305,7 @@ void LoseSnowboardTrigger_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     if (CheckIsPlayer1(player) && player->objWork.objType == STAGE_OBJ_TYPE_PLAYER && (player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) != 0)
     {
-        trigger->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+        trigger->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         LosePlayerSnowboard(player, FLOAT_TO_FX32(3.0));
         Player__Action_LoseSnowboard(player);
     }

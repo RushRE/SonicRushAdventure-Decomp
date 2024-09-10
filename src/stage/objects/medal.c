@@ -48,7 +48,7 @@ Medal *CreateMedal(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/ac_itm_ring.bac", GetObjectFileWork(OBJDATAWORK_105), gameArchiveCommon, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->gameWork.objWork, RING_ANI_RING, 113);
@@ -80,5 +80,5 @@ void Medal_State_Active(Medal *work)
     }
     
     work->gameWork.flags |= 0x10000;
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROYED | STAGE_TASK_FLAG_2;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROYED | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 }

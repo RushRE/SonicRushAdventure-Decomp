@@ -74,7 +74,7 @@ Springboard *CreateSpringboard(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
     if ((work->gameWork.mapObject->flags & SPRING_OBJFLAG_FLIP_X) == 0)
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;

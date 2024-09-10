@@ -727,7 +727,7 @@ BossFX3D *BossFX3D__Create(size_t size, BossFX3DState state, const char *path, u
     work->objWork.scale.z     = FLOAT_TO_FX32(1.0);
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     SetTaskState(&work->objWork, BossFX3D__State_Active);
 
     work->referenceCount = referenceCount;
@@ -915,7 +915,7 @@ BossFX2D *BossFX2D__Create(size_t size, BossFX2DState state, const char *path, u
     work->objWork.scale.y    = FLOAT_TO_FX32(1.0);
     work->objWork.scale.z    = FLOAT_TO_FX32(1.0);
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     SetTaskState(&work->objWork, BossFX2D__State_Active);
 
     if (timer > 0)

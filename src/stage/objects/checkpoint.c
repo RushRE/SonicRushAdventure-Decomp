@@ -99,7 +99,7 @@ void Checkpoint_State_Active(Checkpoint *work)
     {
         StageTask__SetAnimation(&work->gameWork.objWork, CHECKPOINT_ANI_ACTIVATED);
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
-        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     }
 }
 
@@ -148,7 +148,7 @@ void Checkpoint_OnDefend_AwaitPlayer(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if (gameState.gameMode == GAMEMODE_TIMEATTACK)
         CreateCheckpointTimeHUD(status->recallTime);
 
-    checkpoint->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+    checkpoint->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
     StageTask__SetAnimation(&checkpoint->gameWork.objWork, CHECKPOINT_ANI_ACTIVATING);
 }
@@ -161,7 +161,7 @@ void Checkpoint_OnDefend_Activated(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 void InitCheckpointForLaps(Checkpoint *work)
 {
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], Checkpoint_OnDefend_Activated);
 
@@ -226,7 +226,7 @@ void Checkpoint_State_FinishedLaps(Checkpoint *work)
 void InitCheckpointForAwardRings(Checkpoint *work)
 {
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     ObjRect__SetOnDefend(&work->gameWork.colliders[0], Checkpoint_OnDefend_Activated);
     SetTaskState(&work->gameWork.objWork, Checkpoint_State_AwardRings);
 }

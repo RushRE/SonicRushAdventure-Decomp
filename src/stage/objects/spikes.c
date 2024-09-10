@@ -157,7 +157,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     if (mapObject->id >= MAPOBJECT_93)
     {
         work->gameWork.collisionObject.work.ofst_y = 4;
-        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         work->gameWork.objWork.userTimer = work->gameWork.mapObjectParam_interval;
     }
 
@@ -527,7 +527,7 @@ void Spikes_Action_Extend(Spikes *work)
     SetSpikesAnimation(work, work->gameWork.field_358);
     SetTaskState(&work->gameWork.objWork, Spikes_State_Extend);
 
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->gameWork.objWork.userTimer = 24;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
 }
@@ -546,7 +546,7 @@ void Spikes_Action_Retract(Spikes *work)
 
     work->gameWork.objWork.userTimer = 0;
     work->gameWork.objWork.userWork  = 0;
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_PAUSED;
 
     if (work->gameWork.field_358 == SPIKES_ANI_VERTICAL_EXTEND)
@@ -568,7 +568,7 @@ void Spikes_State_Retract(Spikes *work)
         }
         else if (work->gameWork.field_358 == SPIKES_ANI_VERTICAL_EXTEND)
         {
-            work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_2;
+            work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             work->gameWork.field_358 = SPIKES_ANI_VERTICAL_VISIBLE;
         }
 

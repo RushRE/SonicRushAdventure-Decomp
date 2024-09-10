@@ -191,7 +191,7 @@ ItemBox *CreateItemBox(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     if (gmCheckRingBattle())
     {
         AddItemBoxToRingBattleManager(&work->gameWork);
-        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     }
 
     return work;
@@ -316,7 +316,7 @@ NONMATCH_FUNC void CreateItemBoxReward(s32 type)
         work = TaskGetWork(itemBoxRewardTask, ItemBoxReward);
         TaskInitWork8(work);
 
-        work->objWork.flag |= STAGE_TASK_FLAG_800000 | STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+        work->objWork.flag |= STAGE_TASK_FLAG_800000 | STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
         work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_SCALE | DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_SCREEN_RELATIVE;
 
@@ -534,7 +534,7 @@ void ItemBox_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         {
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ITEM_BREAK);
             CreateEffectExplosion(&itemBox->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), EXPLOSION_ITEMBOX);
-            itemBox->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+            itemBox->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             itemBox->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
 
             return;
@@ -552,12 +552,12 @@ void ItemBox_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
         if (gmCheckRingBattle())
         {
-            itemBox->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+            itemBox->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             itemBox->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
         }
         else
         {
-            itemBox->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_2;
+            itemBox->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             itemBox->gameWork.flags |= 0x10000;
         }
 

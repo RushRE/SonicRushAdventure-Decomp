@@ -80,6 +80,8 @@
 #include <game/graphics/paletteAnimation.h>
 #include <game/audio/spatialAudio.h>
 
+#include <stage/enemies/robot.h>
+
 // --------------------
 // TEMP
 // --------------------
@@ -179,7 +181,7 @@ EffectTask *CreateEffectTask(size_t size, EffectTask *parent)
     }
 
     work->displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
-    work->flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+    work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     return work;
@@ -195,7 +197,7 @@ EffectTask *InitEffectTaskViewCheck(EffectTask *work, s16 offset, s16 left, s16 
     work->viewOutOffsetBoundsRight  = right;
     work->viewOutOffsetBoundsBottom = bottom;
 
-    work->flag &= ~STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+    work->flag &= ~STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 }
 
 // ==============
@@ -553,7 +555,7 @@ EffectExplosion2 *CreateEffectHarmfulExplosion(StageTask *parent, fx32 velX, fx3
     ObjRect__SetGroupFlags(&work->collider, 2, 1);
     ObjRect__SetAttackStat(&work->collider, 2, 0x40);
     ObjRect__SetDefenceStat(&work->collider, 0, 0x3F);
-    work->objWork.flag &= ~STAGE_TASK_FLAG_2;
+    work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     ObjRect__SetBox2D(&work->collider.rect, left, top, right, bottom);
 
     return work;
@@ -591,7 +593,7 @@ EffectFound *CreateEffectFound(StageTask *parent, fx32 velX, fx32 velY)
     work->objWork.velocity.y = velY;
     work->objWork.shakeTimer = FLOAT_TO_FX32(4.0);
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->objWork.flag |= STAGE_TASK_FLAG_2;
+    work->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
     SetTaskState(&work->objWork, EffectTask_State_TrackParent);
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_FIND);
@@ -629,7 +631,7 @@ EffectVitality *CreateEffectVitality(StageTask *parent, fx32 velX, fx32 velY, u8
     work->objWork.velocity.y = velY;
     work->objWork.shakeTimer = FLOAT_TO_FX32(8.0);
     work->objWork.moveFlag |= (STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
-    work->objWork.flag |= STAGE_TASK_FLAG_2;
+    work->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
     work->objWork.userTimer = 60;
     SetTaskState(&work->objWork, EffectTask_State_TrackParent);
@@ -890,15 +892,15 @@ EffectBattleBurst *CreateEffectBattleBurst(fx32 x, fx32 y)
 // STEAM BLASTER SMOKE
 // ===================
 
-EffectSteamBlasterSmoke *EffectSteamBlasterSmoke__Create(StageTask *parent)
+EffectSteamBlasterSmoke *CreateEffectSteamBlasterSmoke(StageTask *parent)
 {
     EffectSteamBlasterSmoke *work = CreateEffect(EffectSteamBlasterSmoke, NULL);
     if (work == NULL)
         return NULL;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_ene_prot_damp.bac", GetObjectFileWork(OBJDATAWORK_7), gameArchiveStage, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->objWork, 9, 36);
-    StageTask__SetAnimation(&work->objWork, 9);
+    ObjActionAllocSpritePalette(&work->objWork, STEAMBLASTER_ANI_SMOKE, 36);
+    StageTask__SetAnimation(&work->objWork, STEAMBLASTER_ANI_SMOKE);
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -907,14 +909,14 @@ EffectSteamBlasterSmoke *EffectSteamBlasterSmoke__Create(StageTask *parent)
     work->objWork.position.y = parent->position.y;
 
     work->objWork.parentObj = parent;
-    SetTaskState(&work->objWork, EffectSteamBlasterSmoke__State_2029A14);
+    SetTaskState(&work->objWork, EffectSteamBlasterSmoke_State_Active);
 
     return work;
 }
 
-void EffectSteamBlasterSmoke__State_2029A14(EffectSteamBlasterSmoke *work)
+void EffectSteamBlasterSmoke_State_Active(EffectSteamBlasterSmoke *work)
 {
-    if ((s32)work->objWork.parentObj->obj_2d->ani.work.animID != 0 && work->objWork.parentObj->obj_2d->ani.work.animID != 1)
+    if ((s32)work->objWork.parentObj->obj_2d->ani.work.animID != STEAMBLASTER_ANI_MOVE && work->objWork.parentObj->obj_2d->ani.work.animID != STEAMBLASTER_ANI_DETECT)
     {
         work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
     }
@@ -931,15 +933,15 @@ void EffectSteamBlasterSmoke__State_2029A14(EffectSteamBlasterSmoke *work)
 }
 
 // EffectSteamBlasterSmoke
-EffectSteamBlasterSteam *EffectSteamBlasterSteam__Create(StageTask *parent, fx32 offsetX, fx32 offsetY, u32 timer)
+EffectSteamBlasterSteam *CreateEffectSteamBlasterSteam(StageTask *parent, fx32 offsetX, fx32 offsetY, u32 timer)
 {
     EffectSteamBlasterSteam *work = CreateEffect(EffectSteamBlasterSteam, NULL);
     if (work == NULL)
         return NULL;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_ene_prot_damp.bac", GetObjectFileWork(OBJDATAWORK_7), gameArchiveStage, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->objWork, 6, 34);
-    StageTask__SetAnimation(&work->objWork, 6);
+    ObjActionAllocSpritePalette(&work->objWork, STEAMBLASTER_ANI_STEAM_START, 34);
+    StageTask__SetAnimation(&work->objWork, STEAMBLASTER_ANI_STEAM_START);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
 
@@ -957,12 +959,12 @@ EffectSteamBlasterSteam *EffectSteamBlasterSteam__Create(StageTask *parent, fx32
     work->objWork.parentObj  = parent;
     work->objWork.userTimer  = timer;
 
-    SetTaskState(&work->objWork, EffectSteamBlasterSteam__State_2029B74);
+    SetTaskState(&work->objWork, EffectSteamBlasterSteam_State_Active);
 
     return work;
 }
 
-void EffectSteamBlasterSteam__State_2029B74(EffectSteamBlasterSteam *work)
+void EffectSteamBlasterSteam_State_Active(EffectSteamBlasterSteam *work)
 {
     if (work->objWork.parentObj != NULL && (work->objWork.parentObj->displayFlag & DISPLAY_FLAG_PAUSED) != 0)
     {
@@ -972,20 +974,21 @@ void EffectSteamBlasterSteam__State_2029B74(EffectSteamBlasterSteam *work)
     {
         switch (work->objWork.obj_2d->ani.work.animID)
         {
-            case 6:
+            case STEAMBLASTER_ANI_STEAM_START:
                 if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
                 {
-                    StageTask__SetAnimation(&work->objWork, 7);
+                    StageTask__SetAnimation(&work->objWork, STEAMBLASTER_ANI_STEAM_ACTIVE);
                     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
                 }
                 break;
 
-            case 7:
+            case STEAMBLASTER_ANI_STEAM_ACTIVE:
                 work->objWork.userTimer--;
                 if (work->objWork.userTimer <= 0)
-                    StageTask__SetAnimation(&work->objWork, 8);
+                    StageTask__SetAnimation(&work->objWork, STEAMBLASTER_ANI_STEAM_END);
                 break;
 
+			// case STEAMBLASTER_ANI_STEAM_END:
             default:
                 if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
                 {

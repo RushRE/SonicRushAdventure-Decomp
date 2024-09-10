@@ -302,7 +302,7 @@ void HandleRingBattleManagerItemBoxes(RingBattleManager *work)
         if ((work->itemBoxList[itemBoxID]->gameWork.objWork.displayFlag & DISPLAY_FLAG_NO_DRAW) != 0)
         {
             work->itemBoxList[itemBoxID]->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
-            work->itemBoxList[itemBoxID]->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_2;
+            work->itemBoxList[itemBoxID]->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
             inactiveItemBoxCount++;
             id++;

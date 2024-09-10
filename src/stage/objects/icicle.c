@@ -104,7 +104,7 @@ NONMATCH_FUNC void Icicle_State_Active(Icicle *work)
         {
             work->gameWork.objWork.userTimer--;
             if (work->gameWork.objWork.userTimer == 0)
-                work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_2;
+                work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         }
     }
 
@@ -255,7 +255,7 @@ void Icicle_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     else
     {
         icicle->gameWork.parent = &player->objWork;
-        icicle->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+        icicle->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         Player__Action_IcicleGrab(player, &icicle->gameWork, width32);
     }
 }

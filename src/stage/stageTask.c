@@ -185,7 +185,7 @@ StageTask *CreateStageTaskEx_(u32 priority, TaskScope scope)
     SetTaskViewCheckFunc(work, StageTask__ViewCheck_Default);
 
     if ((g_obj.flag & OBJECTMANAGER_FLAG_10000) != 0)
-        work->flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+        work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
     return work;
 }
@@ -244,7 +244,7 @@ void StageTask_Main(void)
         return;
     }
 
-    if ((work->flag & STAGE_TASK_FLAG_DESTROY_ON_COLLIDE) == 0)
+    if ((work->flag & STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT) == 0)
     {
         if (work->ppViewCheck != NULL)
         {
@@ -2023,7 +2023,7 @@ void StageTask__HandleRide(StageTask *work)
 
 void StageTask__HandleCollider(StageTask *work, OBS_RECT_WORK *rect)
 {
-    if ((work->flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0 && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0 && (work->flag & STAGE_TASK_FLAG_2) == 0)
+    if ((work->flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0 && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0 && (work->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
     {
         rect->parent = work;
 

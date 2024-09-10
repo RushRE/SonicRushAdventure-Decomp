@@ -97,7 +97,7 @@ StartPlatform *CreateStartPlatform(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
     NNS_FndUnmountArchive(&arc);
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     StartPlatform_Action_Init(work);
 
     gPlayer->objWork.position.x = x;
@@ -185,7 +185,7 @@ void StartPlatform_State_Active(StartPlatform *work)
     ObjCollisionObjectRegist(&work->collisionObj[0].work);
     ObjCollisionObjectRegist(&work->collisionObj[1].work);
 
-    if ((work->gameWork.objWork.flag & STAGE_TASK_FLAG_DESTROY_ON_COLLIDE) != 0)
+    if ((work->gameWork.objWork.flag & STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT) != 0)
         Player__SetP2Offset(0, 0, FLOAT_TO_FX32(1000.0));
 
     work->playerDistance = FX_Div(gPlayer->objWork.position.x - work->gameWork.objWork.position.x, FLOAT_TO_FX32(264.0));
@@ -448,7 +448,7 @@ void StartPlatform_StateCamera_PlatformWalk(StartPlatform *work)
             BossArena__SetType(0);
             gPlayer->objWork.displayFlag |= DISPLAY_FLAG_800 | DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
             gPlayer->playerFlag &= ~PLAYER_FLAG_DISABLE_TENSION_DRAIN;
-            work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+            work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
             work->stateCamera = StartPlatform_StateCamera_2179024;
         }
     }

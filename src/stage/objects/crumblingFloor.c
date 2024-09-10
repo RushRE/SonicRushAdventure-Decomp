@@ -145,7 +145,7 @@ CrumblingFloor *CreateCrumblingFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 
         if (dashPanel != NULL)
         {
             dashPanel->gameWork.objWork.parentObj = &work->gameWork.objWork;
-            dashPanel->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+            dashPanel->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
         }
     }
 

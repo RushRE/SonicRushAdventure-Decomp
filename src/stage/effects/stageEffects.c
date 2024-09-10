@@ -2235,7 +2235,7 @@ EffectShield *CreateEffectRegularShield(Player *parent)
     ObjAction3dESEffectSetScale(work->objWork.obj_3des, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->objWork.displayFlag |= parent->objWork.displayFlag & DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
 
     SetTaskState(&work->objWork, EffectRegularShield_State_Active);
@@ -2437,7 +2437,7 @@ EffectShield *CreateEffectMagnetShield(Player *parent)
     ObjAction3dESEffectSetScale(work->objWork.obj_3des, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->objWork.displayFlag |= parent->objWork.displayFlag & DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
 
     SetTaskState(&work->objWork, EffectMagnetShield_State_Active);
@@ -2815,7 +2815,7 @@ void CreateEffectInvincible(Player *parent)
     work->objWork.position.x = parent->objWork.position.x;
     work->objWork.position.y = parent->objWork.position.y;
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     SetTaskState(&work->objWork, EffectInvincible_State_Active);
 }
 

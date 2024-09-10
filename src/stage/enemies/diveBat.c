@@ -159,7 +159,7 @@ EnemyDiveBat *CreateDiveBat(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     if (mapObject->id == MAPOBJECT_348)
     {
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
-        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+        work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
         work->type = type;
 
@@ -485,7 +485,7 @@ void EnemyDiveBat_OnDefend_Detect(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     EnemyDiveBat *enemy = (EnemyDiveBat *)rect2->parent;
     Player *player      = (Player *)rect1->parent;
 
-    if ((enemy->gameWork.objWork.flag & STAGE_TASK_FLAG_2) != 0)
+    if ((enemy->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) != 0)
         return;
 
     if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER || !CheckIsPlayer1(player))

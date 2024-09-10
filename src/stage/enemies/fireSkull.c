@@ -300,7 +300,7 @@ void EnemyFireSkull_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     EnemyFireSkull *enemy = (EnemyFireSkull *)rect2->parent;
     Player *player        = (Player *)rect1->parent;
 
-    if ((enemy->gameWork.objWork.flag & STAGE_TASK_FLAG_2) != 0)
+    if ((enemy->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) != 0)
         return;
 
     if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER || !CheckIsPlayer1(player))

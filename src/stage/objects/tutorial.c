@@ -402,7 +402,7 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
     sVars.archive = FSRequestFileSync("/narc/z1t_tutorial.narc", FSREQ_AUTO_ALLOC_HEAD);
 

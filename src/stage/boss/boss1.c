@@ -646,7 +646,7 @@ Boss1Stage *Boss1Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 
     SetTaskState(&work->gameWork.objWork, Boss1Stage__State_Active);
     SetTaskOutFunc(&work->gameWork.objWork, Boss1Stage__Draw);
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE | STAGE_TASK_FLAG_2;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_POSITION | DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_SCREEN_RELATIVE;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS
                                        | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
@@ -684,7 +684,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
     SetTaskState(&work->gameWork.objWork, Boss1__State_Active);
     SetTaskOutFunc(&work->gameWork.objWork, Boss1__Draw);
     SetTaskCollideFunc(&work->gameWork.objWork, Boss1__Collide);
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_SCREEN_RELATIVE;
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;

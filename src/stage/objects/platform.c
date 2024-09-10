@@ -50,7 +50,7 @@ NONMATCH_FUNC Platform *Platform__Create(MapObject *mapObject, fx32 x, fx32 y, f
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
 
     u32 platformType;
     if (mapObject->id == MAPOBJECT_329)

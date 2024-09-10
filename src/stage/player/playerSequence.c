@@ -10108,7 +10108,7 @@ void Player__Action_SpringRope(Player *player, GameObjectTask *other, s32 timer)
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     SetTaskState(&player->objWork, Player__State_SpringRope);
 
-    player->objWork.flag |= STAGE_TASK_FLAG_2;
+    player->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
     player->objWork.displayFlag &= ~(DISPLAY_FLAG_FLIP_X | DISPLAY_FLAG_APPLY_CAMERA_CONFIG);
 

@@ -106,7 +106,7 @@ NONMATCH_FUNC void IceBlock_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             break;
     }
 
-    iceBlock->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_2;
+    iceBlock->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     iceBlock->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
     iceBlock->gameWork.collisionObject.work.flag |= 0x100;
 

@@ -287,7 +287,7 @@ void EnemySkymoon_OnDefend_Detect(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     EnemySkymoon *enemy = (EnemySkymoon *)rect2->parent;
     Player *player      = (Player *)rect1->parent;
 
-    if ((enemy->gameWork.objWork.flag & STAGE_TASK_FLAG_2) == 0 && enemy->gameWork.mapObject->id == MAPOBJECT_24)
+    if ((enemy->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0 && enemy->gameWork.mapObject->id == MAPOBJECT_24)
     {
         u16 angle = FX_Atan2Idx(player->objWork.position.y - enemy->gameWork.objWork.position.y, player->objWork.position.x - enemy->gameWork.objWork.position.x);
         if (angle >= FLOAT_DEG_TO_IDX(29.9981689453125) && angle <= FLOAT_DEG_TO_IDX(149.996337890625))

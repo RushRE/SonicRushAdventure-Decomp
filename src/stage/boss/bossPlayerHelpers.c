@@ -124,7 +124,7 @@ void BossPlayerHelpers_State_Boss1ChargeKnockback(Player *work)
 {
     Player__HandleAirDrag(work);
 
-    if ((work->objWork.flag & STAGE_TASK_FLAG_2) == 0 && (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+    if ((work->objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0 && (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
     {
         work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_100;
         Player__Hurt(work);

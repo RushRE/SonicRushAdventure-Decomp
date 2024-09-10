@@ -19,6 +19,20 @@ enum RobotType_
 };
 typedef u16 RobotType;
 
+enum SteamBlasterAnimID
+{
+    STEAMBLASTER_ANI_MOVE,
+    STEAMBLASTER_ANI_DETECT,
+    STEAMBLASTER_ANI_PREPARE_ATTACK,
+    STEAMBLASTER_ANI_ATTACKING,
+    STEAMBLASTER_ANI_FINISH_ATTACK,
+    STEAMBLASTER_ANI_TURN,
+    STEAMBLASTER_ANI_STEAM_START,
+    STEAMBLASTER_ANI_STEAM_ACTIVE,
+    STEAMBLASTER_ANI_STEAM_END,
+    STEAMBLASTER_ANI_SMOKE,
+};
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -39,7 +53,7 @@ typedef struct EnemyRobot_
 
     union
     {
-        struct EnemyRobotTriceratopsGfx
+        struct EnemyRobotCommonMoveConfig
         {
             u16 aniMove;
             u16 aniTurn;
@@ -49,7 +63,7 @@ typedef struct EnemyRobot_
             fx32 moveSpeed;
         } common;
 
-        struct EnemyRobotPterodactylGfx
+        struct EnemyRobotPterodactylMoveConfig
         {
             u16 aniMove;
             u16 aniTurn;
@@ -58,11 +72,11 @@ typedef struct EnemyRobot_
             u16 angleSpeed;
             u16 angle;
         } pterodactyl;
-    } gfx;
+    } move;
 
     union
     {
-        struct EnemyRobotTriceratopsUnknown
+        struct EnemyRobotCommonAttackConfig
         {
             u16 aniAttack;
             fx32 accel;
@@ -71,11 +85,11 @@ typedef struct EnemyRobot_
             s16 chargeCooldown;
         } common;
 
-        struct EnemyRobotPterodactylUnknown
+        struct EnemyRobotPterodactylAttackConfig
         {
             Vec2Fx32 startPos;
         } pterodactyl;
-    } unknown;
+    } attack;
 
 } EnemyRobot;
 

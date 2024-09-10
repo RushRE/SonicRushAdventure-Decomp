@@ -61,10 +61,10 @@ enum StageTaskFlags_
     STAGE_TASK_FLAG_NONE = 0x00,
 
     STAGE_TASK_FLAG_ON_PLANE_B               = 0x1, // use alternate collision plane (for loops and etc)
-    STAGE_TASK_FLAG_2                        = 0x2,
+    STAGE_TASK_FLAG_NO_OBJ_COLLISION         = 0x2,
     STAGE_TASK_FLAG_DESTROYED                = 0x4,
     STAGE_TASK_FLAG_DESTROY_NEXT_FRAME       = 0x8,
-    STAGE_TASK_FLAG_DESTROY_ON_COLLIDE       = 0x10,
+    STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT  = 0x10,
     STAGE_TASK_FLAG_ACTIVE_DURING_PAUSE      = 0x20,
     STAGE_TASK_FLAG_ALWAYS_RUN_PPIN          = 0x40,
     STAGE_TASK_FLAG_DISABLE_STATE            = 0x80,
@@ -130,9 +130,9 @@ enum StageTaskMoveFlags_
     STAGE_TASK_MOVE_FLAG_RESET_FLOW                      = 0x10000000,
 
     // Helpers
-    STAGE_TASK_MOVE_FLAG_TOUCHING_V                  = STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING, // object is colliding with a surface vertically
-    STAGE_TASK_MOVE_FLAG_TOUCHING_H                  = STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL, // object is colliding with a surface horizontally
-    STAGE_TASK_MOVE_FLAG_TOUCHING_ANY                = STAGE_TASK_MOVE_FLAG_TOUCHING_V | STAGE_TASK_MOVE_FLAG_TOUCHING_H, // object is colliding with any surface
+    STAGE_TASK_MOVE_FLAG_TOUCHING_V   = STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING, // object is colliding with a surface vertically
+    STAGE_TASK_MOVE_FLAG_TOUCHING_H   = STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL,   // object is colliding with a surface horizontally
+    STAGE_TASK_MOVE_FLAG_TOUCHING_ANY = STAGE_TASK_MOVE_FLAG_TOUCHING_V | STAGE_TASK_MOVE_FLAG_TOUCHING_H,           // object is colliding with any surface
 };
 typedef u32 StageTaskMoveFlags;
 
@@ -264,10 +264,10 @@ struct StageTask_
     VecFx32 lockOffset;
     VecFx32 prevTempOffset;
     VecFx32 prevPosition; // previous frame's position
-    VecFx32 velocity; // how much to move the object's position
+    VecFx32 velocity;     // how much to move the object's position
     VecFx32 acceleration; // how much to change the object's velocity
-    VecFx32 flow;  // how much to move the object at the end of the frame
-    VecFx32 move; // how much the object moved in the previous frame
+    VecFx32 flow;         // how much to move the object at the end of the frame
+    VecFx32 move;         // how much the object moved in the previous frame
     fx32 groundVel;
     u16 slopeDirection;
     u16 fallDir;

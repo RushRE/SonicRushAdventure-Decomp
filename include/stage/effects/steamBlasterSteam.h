@@ -18,7 +18,7 @@ typedef struct EffectSteamBlasterSteam_
 // FUNCTIONS
 // --------------------
 
-EffectSteamBlasterSteam *EffectSteamBlasterSteam__Create(StageTask *parent, fx32 offsetX, fx32 offsetY, u32 timer);
-void EffectSteamBlasterSteam__State_2029B74(EffectSteamBlasterSteam *work);
+EffectSteamBlasterSteam *CreateEffectSteamBlasterSteam(StageTask *parent, fx32 offsetX, fx32 offsetY, u32 timer);
+void EffectSteamBlasterSteam_State_Active(EffectSteamBlasterSteam *work);
 
 #endif // RUSH2_EFFECT_STEAM_BLASTER_STEAM_H

@@ -691,7 +691,7 @@ NONMATCH_FUNC void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WOR
         if ((enemy->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS) == 0)
             enemy->flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
 
-        enemy->objWork.flag |= STAGE_TASK_FLAG_2;
+        enemy->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
         enemy->colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
         enemy->colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
         enemy->colliders[2].flag |= OBS_RECT_WORK_FLAG_800;
@@ -1100,7 +1100,7 @@ void GameObject__BoostImpactEnemy(GameObjectTask *work, Player *player)
     work->objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
     work->objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
-    work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     SetTaskState(&work->objWork, GameObject__State_BoostImpactSpin);
     work->objWork.groundVel = 0;
     work->objWork.userTimer = 32;
@@ -1288,7 +1288,7 @@ BadnikBreakResult GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *r
             if ((badnik->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS) == 0)
                 badnik->flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
 
-            badnik->objWork.flag |= STAGE_TASK_FLAG_2;
+            badnik->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             badnik->colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
             badnik->colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
             badnik->colliders[2].flag |= OBS_RECT_WORK_FLAG_800;

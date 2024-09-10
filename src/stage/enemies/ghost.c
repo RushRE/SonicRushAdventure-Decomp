@@ -198,7 +198,7 @@ void EnemyGhost_HandleVisibility(EnemyGhost *work)
         work->visibilityMode = GHOST_VISIBILITY_OPAQUE;
     }
 
-    work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_2;
+    work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     work->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_800;
 
     switch (work->visibilityMode)
@@ -242,7 +242,7 @@ void EnemyGhost_HandleVisibility(EnemyGhost *work)
             work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
             work->aniMachine.ani.work.spriteType = GX_OAM_MODE_NORMAL;
             work->machineDisplayFlag |= DISPLAY_FLAG_NO_DRAW;
-            work->gameWork.objWork.flag |= STAGE_TASK_FLAG_2;
+            work->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_800;
             break;
     }

@@ -297,7 +297,7 @@ Player *Player__Create(CharacterID characterID, u16 aidIndex)
 
     // stage object config
     work->objWork.objType = STAGE_OBJ_TYPE_PLAYER;
-    work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     work->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
     work->objWork.taskRef = task;
     work->objWork.scale.x = work->objWork.scale.y = work->objWork.scale.z = FLOAT_TO_FX32(1.0);
@@ -646,8 +646,8 @@ void Player__InitState(Player *player)
                             | PLAYER_FLAG_DISABLE_HOMING_ATTACK | PLAYER_FLAG_DEATH | PLAYER_FLAG_2000 | PLAYER_FLAG_TRICK_SUCCESS | PLAYER_FLAG_8000 | PLAYER_FLAG_SLOWMO
                             | PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_DISABLE_TENSION_CHANGE);
 
-    player->objWork.flag &= ~(STAGE_TASK_FLAG_2);
-    player->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+    player->objWork.flag &= ~(STAGE_TASK_FLAG_NO_OBJ_COLLISION);
+    player->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
 
     player->objWork.displayFlag &= ~(DISPLAY_FLAG_DISABLE_ROTATION | DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED);
     if (!IsBossStage())
@@ -2666,7 +2666,7 @@ PlayerBoost *CreatePlayerBoostCollider(Player *player, s16 left, s16 top, s16 ri
     TaskInitWork16(work);
 
     work->objWork.objType = STAGE_OBJ_TYPE_EFFECT;
-    work->objWork.flag |= STAGE_TASK_FLAG_DESTROY_ON_COLLIDE;
+    work->objWork.flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
     work->objWork.position.x = player->objWork.position.x;
     work->objWork.position.y = player->objWork.position.y;
     work->objWork.position.z = player->objWork.position.z;
@@ -5145,7 +5145,7 @@ void Player__State_Hurt(Player *work)
 {
     Player__HandleAirDrag(work);
 
-    if ((work->objWork.flag & STAGE_TASK_FLAG_2) == 0 && (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+    if ((work->objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0 && (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
     {
         work->colliders[0].flag &= ~OBS_RECT_WORK_FLAG_100;
         Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
@@ -7238,7 +7238,7 @@ void Player__ReadGhostFrame(Player *player)
         if ((playerGameStatus.stageTimer >> 2) >= PLAYER_REPLAY_MAX_TIME || (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) == 0)
         {
             player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-            player->objWork.flag |= STAGE_TASK_FLAG_2;
+            player->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             player->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
             return;
         }
@@ -7253,7 +7253,7 @@ void Player__ReadGhostFrame(Player *player)
                 gameState.gameFlag &= ~GAME_FLAG_REPLAY_GHOST_ACTIVE;
 
                 player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-                player->objWork.flag |= STAGE_TASK_FLAG_2;
+                player->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
                 player->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
                 return;
             }
@@ -7350,7 +7350,7 @@ void Player__ReadGhostFrame(Player *player)
         }
 
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-        player->objWork.flag |= STAGE_TASK_FLAG_2;
+        player->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     }
 }
 
