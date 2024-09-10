@@ -2,14 +2,12 @@
 #define RUSH2_EFFECT_TASK_H
 
 #include <stage/stageTask.h>
-#include <stage/player/player.h> // it's prolly common enough to warrant it?
+#include <stage/player/player.h>
 
 // --------------------
 // TYPES
 // --------------------
 
-// no differences in the struct, but we'll typedef for readability!
-typedef StageTask EffectTask;
 typedef struct EffectTask3D_ EffectTask3D;
 
 typedef void (*EffectTask3DState)(EffectTask3D *work);
@@ -27,7 +25,7 @@ typedef void (*EffectTask3DState)(EffectTask3D *work);
 struct EffectTaskStaticVars
 {
     Task *lastCreatedTask;
-    EffectTask *field_4;
+    StageTask *field_4;
     OBS_DATA_WORK field_8;
     OBS_DATA_WORK field_10;
     OBS_DATA_WORK field_18;
@@ -56,7 +54,7 @@ struct EffectTaskStaticVars
 
 struct EffectTask3D_
 {
-    EffectTask objWork;
+    StageTask objWork;
 
     AnimatorMDL animatorMDL;
     OBS_DATA_WORK *filePtr;
@@ -78,8 +76,8 @@ NOT_DECOMPILED struct EffectTaskStaticVars EffectTask__sVars;
 // --------------------
 
 // EffectTask
-EffectTask *CreateEffectTask(size_t size, EffectTask *parent);
-EffectTask *InitEffectTaskViewCheck(EffectTask *work, s16 offset, s16 left, s16 top, s16 right, s16 bottom);
+StageTask *CreateEffectTask(size_t size, StageTask *parent);
+StageTask *InitEffectTaskViewCheck(StageTask *work, s16 offset, s16 left, s16 top, s16 right, s16 bottom);
 
 // EffectTask3D
 void LoadEffectTask3DAsset(EffectTask3D *work, const char *path, OBS_DATA_WORK *fileWork, NNSiFndArchiveHeader *archive, u32 resourceFlags,
@@ -89,9 +87,9 @@ void EffectTask3D_State_Visible(EffectTask3D *work);
 void EffectTask3D_Destructor(Task *task);
 
 // EffectTask states
-void EffectTask_State_DestroyAfterAnimation(EffectTask *work);
-void EffectTask_State_DestroyAfterTime(EffectTask *work);
-void EffectTask_State_MoveTowardsZeroX(EffectTask *work);
-void EffectTask_State_TrackParent(EffectTask *work);
+void EffectTask_State_DestroyAfterAnimation(StageTask *work);
+void EffectTask_State_DestroyAfterTime(StageTask *work);
+void EffectTask_State_MoveTowardsZeroX(StageTask *work);
+void EffectTask_State_TrackParent(StageTask *work);
 
 #endif // RUSH2_EFFECT_TASK_H

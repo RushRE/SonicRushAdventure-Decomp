@@ -23,7 +23,7 @@ typedef u16 EffectBoostType;
 
 typedef struct EffectBoost_
 {
-    EffectTask objWork;
+    StageTask objWork;
 
     OBS_ACTION2D_BAC_WORK animator;
 } EffectBoost;

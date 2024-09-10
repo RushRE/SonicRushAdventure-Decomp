@@ -53,7 +53,7 @@ typedef u16 char16; // typedef u16 as char16 for readability
 // easier to read
 #define RUSH_INLINE static inline
 
-// TODO: prolly put these in a neater place
+// TODO: probably put these in a neater place
 #define ARRAY_COUNT(array) (sizeof(array) / sizeof((array)[0]))
 
 #define FLOAT_TO_FX32(n) ((fx32)((n)*0x1000))

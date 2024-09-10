@@ -9,14 +9,14 @@
 
 typedef struct EffectFlameJet_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK animator;
 } EffectFlameJet;
 
 typedef struct EffectFlameJet3D_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION3D_BAC_WORK animator;
 } EffectFlameJet3D;

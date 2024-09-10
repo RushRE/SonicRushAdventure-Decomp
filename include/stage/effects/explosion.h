@@ -23,14 +23,14 @@ typedef u32 ExplosionType;
 
 typedef struct EffectExplosion_
 {
-    EffectTask objWork;
+    StageTask objWork;
 
     OBS_ACTION2D_BAC_WORK ani;
 } EffectExplosion;
 
 typedef struct EffectExplosion2_
 {
-    EffectTask objWork;
+    StageTask objWork;
 
     OBS_ACTION2D_BAC_WORK ani;
     OBS_RECT_WORK collider;

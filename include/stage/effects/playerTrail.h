@@ -17,7 +17,7 @@ typedef struct TrailEffect_
 
 typedef struct EffectPlayerTrail_
 {
-    EffectTask objWork;
+    StageTask objWork;
 
     s32 id;
     s32 height;

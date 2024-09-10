@@ -62,7 +62,7 @@ typedef u32 SailManagerFlags;
 // STRUCTS
 // --------------------
 
-// TODO: prolly temp until we find a better spot for it
+// TODO: probably temp until we find a better spot for it
 typedef struct SailColliderWork_
 {
     u16 field_0;

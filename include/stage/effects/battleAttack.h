@@ -23,7 +23,7 @@ typedef u32 EffectBattleAttackTypes;
 
 typedef struct EffectBattleAttack_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK animator;
 } EffectBattleAttack;

@@ -9,7 +9,7 @@
 
 typedef struct EffectPlayerIcon_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK animator;
 } EffectPlayerIcon;

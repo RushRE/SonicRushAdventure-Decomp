@@ -37,7 +37,7 @@ aNsbma: // 0x02118FAC
 
 	.data
 
-// TODO: move this? prolly not supposed to be here!!
+// TODO: move this? probably not supposed to be here!!
 .public _02118FB4
 _02118FB4: // 0x02118FB4
 	.word aActAcEffIceKir, aActAcEffWaterK

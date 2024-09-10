@@ -9,7 +9,7 @@
 
 typedef struct EffectInvincible_
 {
-    EffectTask objWork;
+    StageTask objWork;
 } EffectInvincible;
 
 // --------------------

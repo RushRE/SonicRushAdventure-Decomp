@@ -15,7 +15,7 @@
 
 typedef struct EffectTruckSparkles_
 {
-    EffectTask objWork;
+    StageTask objWork;
 
     AnimatorSpriteDS aniSparkles[3];
     AnimatorSpriteDS animatorList[EFFECT_TRUCK_SPARKLES_PARTICLE_COUNT];

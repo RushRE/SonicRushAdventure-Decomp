@@ -9,7 +9,7 @@
 
 typedef struct EffectHummingTop_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK animator;
 } EffectHummingTop;

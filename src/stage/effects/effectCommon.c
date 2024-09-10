@@ -150,7 +150,7 @@ static void HandleEffectZScale(fx32 z, fx32 *a2, fx32 *scale);
 // EFFECT TASK
 // ==============
 
-EffectTask *CreateEffectTask(size_t size, EffectTask *parent)
+StageTask *CreateEffectTask(size_t size, StageTask *parent)
 {
     if (size < sizeof(StageTask))
         size = sizeof(StageTask);
@@ -187,7 +187,7 @@ EffectTask *CreateEffectTask(size_t size, EffectTask *parent)
     return work;
 }
 
-EffectTask *InitEffectTaskViewCheck(EffectTask *work, s16 offset, s16 left, s16 top, s16 right, s16 bottom)
+StageTask *InitEffectTaskViewCheck(StageTask *work, s16 offset, s16 left, s16 top, s16 right, s16 bottom)
 {
     SetTaskViewCheckFunc(work, StageTask__ViewCheck_Default);
 
@@ -398,13 +398,13 @@ void EffectTask3D_Destructor(Task *task)
 // COMMON STATES
 // ==============
 
-void EffectTask_State_DestroyAfterAnimation(EffectTask *work)
+void EffectTask_State_DestroyAfterAnimation(StageTask *work)
 {
     if ((work->displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
         work->flag |= STAGE_TASK_FLAG_DESTROYED;
 }
 
-void EffectTask_State_DestroyAfterTime(EffectTask *work)
+void EffectTask_State_DestroyAfterTime(StageTask *work)
 {
     work->userTimer -= GetObjSpeed();
 
@@ -412,12 +412,12 @@ void EffectTask_State_DestroyAfterTime(EffectTask *work)
         work->flag |= STAGE_TASK_FLAG_DESTROYED;
 }
 
-void EffectTask_State_MoveTowardsZeroX(EffectTask *work)
+void EffectTask_State_MoveTowardsZeroX(StageTask *work)
 {
     work->velocity.x = ObjSpdDownSet(work->velocity.x, work->userTimer);
 }
 
-void EffectTask_State_TrackParent(EffectTask *work)
+void EffectTask_State_TrackParent(StageTask *work)
 {
     StageTask *parent = work->parentObj;
     if (parent != NULL)

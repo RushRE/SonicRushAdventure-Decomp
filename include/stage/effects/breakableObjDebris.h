@@ -9,7 +9,7 @@
 
 typedef struct EffectBreakableObjDebris_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK ani;
 } EffectBreakableObjDebris;

@@ -9,14 +9,14 @@
 
 typedef struct EffectBrakeDust_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK animator;
 } EffectBrakeDust;
 
 typedef struct EffectBrakeDust3D_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION3D_BAC_WORK animator;
 } EffectBrakeDust3D;

@@ -21,14 +21,14 @@ typedef u16 EffectSpindashDustType;
 
 typedef struct EffectSpindashDust_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK animator;
 } EffectSpindashDust;
 
 typedef struct EffectSpindashDust3D_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION3D_BAC_WORK animator;
 } EffectSpindashDust3D;

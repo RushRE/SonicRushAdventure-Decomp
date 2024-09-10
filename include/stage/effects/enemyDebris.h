@@ -29,7 +29,7 @@ typedef s32 EnemyDebrisType;
 
 typedef struct EffectEnemyDebris_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK ani;
 } EffectEnemyDebris;

@@ -22,7 +22,7 @@ typedef u32 WaterExplosionType;
 
 typedef struct EffectWaterExplosion_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK ani;
 } EffectWaterExplosion;

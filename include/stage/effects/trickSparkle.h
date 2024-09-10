@@ -9,7 +9,7 @@
 
 typedef struct EffectTrickSparkle_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK animator;
 } EffectTrickSparkle;

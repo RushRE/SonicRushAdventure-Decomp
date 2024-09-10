@@ -295,7 +295,7 @@ typedef u8 SpriteOrder;
 // STRUCTS
 // --------------------
 
-// TODO: prolly move this to collision area?
+// TODO: probably move this to collision area?
 typedef struct HitboxRect_
 {
     s16 left;

@@ -23,7 +23,7 @@ typedef s32 EffectFlameDustType;
 
 typedef struct EffectFlameDust_
 {
-    EffectTask objWork;
+    StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK animator;
 } EffectFlameDust;

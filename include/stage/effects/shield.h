@@ -9,7 +9,7 @@
 
 typedef struct EffectShield_
 {
-    EffectTask objWork;
+    StageTask objWork;
 
     OBS_ACTION3D_ES_WORK esWork[9];
     s32 alpha;
