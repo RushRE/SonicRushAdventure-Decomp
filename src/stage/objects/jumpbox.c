@@ -36,7 +36,7 @@ enum JumpBoxObjectFlags
     JUMPBOX_OBJFLAG_NONE,
 
     JUMPBOX_OBJFLAG_FOR_BLAZE    = 1 << 0, // determines if the box favours sonic or blaze
-    JUMPBOX_OBJFLAG_FLAT_ON_LEFT = 1 << 2, // determines if left or right collision is flat
+    JUMPBOX_OBJFLAG_FLAT_ON_LEFT = 1 << 1, // determines if left or right collision is flat
 };
 
 // --------------------
@@ -58,11 +58,8 @@ static void PlaneSwitchSpring_Draw(void);
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 z)
+JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 z)
 {
-    // https://decomp.me/scratch/HZeqm -> 99.04%
-    // minor register issues near 'ani->cParam[0].palette = ani->cParam[1].palette = ani->work.palette;'
-#ifdef NON_MATCHING
     Task *task;
     JumpBox *work;
     AnimatorSpriteDS *ani;
@@ -79,7 +76,8 @@ NONMATCH_FUNC JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 
     TaskInitWork8(work);
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
-    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 
     id = mapObject->flags & JUMPBOX_OBJFLAG_FOR_BLAZE;
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_jumpbox.bac", GetObjectFileWork(OBJDATAWORK_89), gameArchiveStage, OBJ_DATA_GFX_NONE);
@@ -126,168 +124,6 @@ NONMATCH_FUNC JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 
 
     SetTaskOutFunc(&work->gameWork.objWork, JumpBox_Draw);
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	mov r3, #0x1800
-	mov r7, r0
-	mov r6, r1
-	mov r5, r2
-	str r3, [sp]
-	mov r0, #2
-	mov r2, #0
-	str r0, [sp, #4]
-	ldr r4, =0x00000408
-	ldr r0, =StageTask_Main
-	ldr r1, =JumpBox_Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	ldr r2, =0x00000408
-	mov r4, r0
-	mov r1, #0
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldr r1, [r4, #0x1c]
-	mov r0, #0x59
-	orr r1, r1, #0x2100
-	str r1, [r4, #0x1c]
-	ldrh r1, [r7, #4]
-	and r5, r1, #1
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	mov r1, #0
-	ldr r2, [r0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	ldr r2, =aActAcGmkJumpbo
-	add r1, r4, #0x168
-	bl ObjObjectAction2dBACLoad
-	mov r0, r5, lsl #1
-	add r0, r0, #0x5a
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r0, r4
-	mov r1, #5
-	bl ObjObjectActionAllocSprite
-	add r5, r5, #2
-	mov r1, r5, lsl #0x10
-	mov r0, r4
-	mov r1, r1, lsr #0x10
-	mov r2, #8
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	mov r0, r5, lsl #0x10
-	mov r1, r0, lsr #0x10
-	mov r0, r4
-	bl StageTask__SetAnimation
-	mov r0, #0x59
-	add r5, r4, #0x364
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r2, [r1]
-	ldr r1, =aActAcGmkJumpbo
-	str r2, [sp]
-	mov r0, r5
-	mov r2, #0x10
-	bl ObjAction2dBACLoad
-	ldr r0, [r4, #0x20c]
-	mov r1, #0
-	ldr r0, [r0]
-	mov r2, #3
-	bl ObjDrawAllocSpritePalette
-	strh r0, [r5, #0x50]
-	ldrh r2, [r5, #0x50]
-	mov r0, r5
-	mov r1, #0
-	strh r2, [r5, #0x92]
-	strh r2, [r5, #0x90]
-	ldr r2, [r5, #0x3c]
-	orr r2, r2, #0x10
-	str r2, [r5, #0x3c]
-	bl AnimatorSpriteDS__SetAnimation
-	mov r0, r5
-	mov r1, #0x17
-	bl StageTask__SetOAMOrder
-	mov r0, r5
-	mov r1, #2
-	bl StageTask__SetOAMPriority
-	ldrh r0, [r7, #2]
-	mvn r1, #0x23
-	mov r3, #0x24
-	cmp r0, #0xf0
-	bne _0217EE14
-	ldrh r0, [r7, #4]
-	tst r0, #2
-	movne r1, #0
-	moveq r3, #0
-_0217EE14:
-	mov r5, #0
-	str r4, [r4, #0x234]
-	add r0, r4, #0x218
-	sub r2, r5, #0x10
-	str r5, [sp]
-	bl ObjRect__SetBox2D
-	mov r1, r5
-	mov r2, r1
-	add r0, r4, #0x218
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r4, #0x218
-	mov r2, r5
-	bl ObjRect__SetDefenceStat
-	ldr r1, =JumpBox_OnDefend
-	mov r0, #0x5e
-	str r1, [r4, #0x23c]
-	ldr r1, [r4, #0x230]
-	orr r1, r1, #0x400
-	str r1, [r4, #0x230]
-	bl GetObjectFileWork
-	ldr r3, =gameArchiveStage
-	mov r2, r0
-	ldr r1, =aDfGmkJumpBoxDf
-	ldr r3, [r3]
-	mov r0, r4
-	bl ObjObjectCollisionDifSet
-	mov r1, #0x40
-	str r4, [r4, #0x2d8]
-	add r0, r4, #0x300
-	strh r1, [r0, #8]
-	strh r1, [r0, #0xa]
-	sub r2, r1, #0x60
-	add r0, r4, #0x200
-	sub r1, r1, #0x80
-	strh r2, [r0, #0xf0]
-	strh r1, [r0, #0xf2]
-	ldr r1, =JumpBox_Draw
-	mov r0, r4
-	str r1, [r4, #0xfc]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-// clang-format on
-#endif
 }
 
 PlaneSwitchSpring *CreatePlaneSwitchSpring(MapObject *mapObject, fx32 x, fx32 y, fx32 z)

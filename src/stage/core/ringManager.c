@@ -255,7 +255,7 @@ void CreateLoseRingEffect(Player *player, s32 rings)
     s32 r;
 
     s32 spillRingCount = rings;
-    fx32 ringAngle     = FLOAT_DEG_TO_IDX(6.3720703125);
+    fx32 ringAngle     = FLOAT_DEG_TO_IDX(6.375);
     u8 playerID        = player->controlID;
 
     RingFlag flag = RING_FLAG_IS_SPILLRING | ((playerID << 4) & 0x10);

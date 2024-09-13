@@ -79,7 +79,7 @@ static Vec2U16 childPositions[] = {
 // STRUCTS
 // --------------------
 
-static void EnemyDiveBat__Destructor(Task *task);
+static void EnemyDiveBat_Destructor(Task *task);
 static EnemyDiveBat *CreateDiveBatChild(MapObject *mapObject);
 static void EnemyDiveBat_Action_InitParent(EnemyDiveBat *work);
 static void EnemyDiveBat_State_Parent(EnemyDiveBat *work);
@@ -122,7 +122,7 @@ EnemyDiveBat *CreateDiveBat(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     else
         priority = 0x1500;
 
-    Task *task = CreateStageTask(EnemyDiveBat__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + priority, TASK_SCOPE_2, EnemyDiveBat);
+    Task *task = CreateStageTask(EnemyDiveBat_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + priority, TASK_SCOPE_2, EnemyDiveBat);
     if (task == HeapNull)
         return NULL;
 
@@ -188,7 +188,7 @@ EnemyDiveBat *CreateDiveBat(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     return work;
 }
 
-void EnemyDiveBat__Destructor(Task *task)
+void EnemyDiveBat_Destructor(Task *task)
 {
     EnemyDiveBat *work = TaskGetWork(task, EnemyDiveBat);
 

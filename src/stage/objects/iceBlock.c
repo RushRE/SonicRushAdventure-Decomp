@@ -74,10 +74,8 @@ IceBlock *CreateIceBlock(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     return work;
 }
 
-NONMATCH_FUNC void IceBlock_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void IceBlock_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-    // https://decomp.me/scratch/qAxGt -> 96.90%
-#ifdef NON_MATCHING
     IceBlock *iceBlock = (IceBlock *)rect2->parent;
     Player *player     = (Player *)rect1->parent;
 
@@ -106,7 +104,8 @@ NONMATCH_FUNC void IceBlock_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             break;
     }
 
-    iceBlock->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+    iceBlock->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME;
+    iceBlock->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     iceBlock->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
     iceBlock->gameWork.collisionObject.work.flag |= 0x100;
 
@@ -118,98 +117,4 @@ NONMATCH_FUNC void IceBlock_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     EffectIceBlockDebris__Create(3, x, y, FLOAT_TO_FX32(2.25), -FLOAT_TO_FX32(3.125));
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ICE_BLOCK);
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	ldr r4, [r1, #0x1c]
-	ldr r0, [r0, #0x1c]
-	cmp r4, #0
-	cmpne r0, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, r5, r6, pc}
-	ldrh r1, [r0]
-	cmp r1, #5
-	bne _0216AEB0
-	ldr r1, [r0, #0x11c]
-	cmp r1, #0
-	addeq sp, sp, #8
-	ldmeqia sp!, {r4, r5, r6, pc}
-	ldrh r0, [r1]
-	cmp r0, #1
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, pc}
-	ldr r0, [r1, #0x1c]
-	bic r0, r0, #4
-	str r0, [r1, #0x1c]
-	b _0216AEDC
-_0216AEB0:
-	cmp r1, #1
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, pc}
-	ldr r1, [r0, #0x1c]
-	cmp r1, #0
-	moveq r1, #1
-	movne r1, #0
-	tst r1, #0x10
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, pc}
-	bl Player__Action_DestroyAttackRecoil
-_0216AEDC:
-	ldr r0, [r4, #0x18]
-	mov ip, #0x2e00
-	orr r0, r0, #0xa
-	str r0, [r4, #0x18]
-	ldr r1, [r4, #0x230]
-	mov r0, #0
-	orr r1, r1, #0x800
-	str r1, [r4, #0x230]
-	ldr r1, [r4, #0x2f4]
-	rsb ip, ip, #0
-	orr r1, r1, #0x100
-	str r1, [r4, #0x2f4]
-	ldr r5, [r4, #0x44]
-	ldr r6, [r4, #0x48]
-	mov r1, r5
-	mov r2, r6
-	sub r3, r0, #0x3300
-	str ip, [sp]
-	bl EffectIceBlockDebris__Create
-	mov r4, #0x2800
-	rsb r4, r4, #0
-	mov r1, r5
-	mov r2, r6
-	add r3, r4, #0x800
-	mov r0, #1
-	str r4, [sp]
-	bl EffectIceBlockDebris__Create
-	mov r0, #0x2000
-	rsb r0, r0, #0
-	str r0, [sp]
-	mov r1, r5
-	mov r0, #2
-	mov r2, r6
-	mov r3, #0x3000
-	bl EffectIceBlockDebris__Create
-	mov r0, #0x3200
-	rsb r0, r0, #0
-	str r0, [sp]
-	mov r1, r5
-	mov r2, r6
-	mov r0, #3
-	mov r3, #0x2400
-	bl EffectIceBlockDebris__Create
-	mov r0, #0
-	str r0, [sp]
-	mov r1, #0x54
-	str r1, [sp, #4]
-	sub r1, r1, #0x55
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }

@@ -1160,7 +1160,6 @@ void Player__UseDashPanel(Player *player, fx32 velX, fx32 velY)
                     if (velY < 0)
                         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
                 }
-
                 break;
 
             case 1:
@@ -1181,9 +1180,6 @@ void Player__UseDashPanel(Player *player, fx32 velX, fx32 velY)
 
                 if (MATH_ABS(player->objWork.velocity.x) < MATH_ABS(velX))
                     player->objWork.velocity.x = velX;
-                break;
-
-            default:
                 break;
         }
     }
@@ -2673,7 +2669,7 @@ PlayerBoost *CreatePlayerBoostCollider(Player *player, s16 left, s16 top, s16 ri
     VEC_SetSingle(&work->objWork.scale, FLOAT_TO_FX32(1.0));
     work->objWork.parentObj = &player->objWork;
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    work->objWork.flag |= STAGE_TASK_FLAG_200;
+    work->objWork.flag |= STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT;
     if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
         ObjRect__SetGroupFlags(&work->collider, 1, 2);
     else

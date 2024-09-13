@@ -378,7 +378,7 @@ void EnemyRobot_State_TriceratopsMove(EnemyRobot *work)
             {
                 work->gameWork.objWork.groundVel = FLOAT_TO_FX32(0.0);
                 GameObject__SetAnimation(&work->gameWork, move->aniDetect);
-                if (move->detectDuration)
+                if (move->detectDuration != 0)
                 {
                     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
                     work->gameWork.objWork.userTimer = move->detectDuration;

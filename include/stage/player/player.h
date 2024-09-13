@@ -773,7 +773,7 @@ void Player__State_IceSlideLaunch(Player *work);
 void Player__Action_EnableSnowboard(Player *player, s32 a2);
 void Player__Action_LoseSnowboard(Player *player);
 void Player__Action_Flipboard(Player *player, fx32 velX, fx32 velY);
-void Player__Gimmick_201FD7C(Player *player, s32 a2);
+void Player__Gimmick_201FD7C(Player *player, GameObjectTask *other);
 void Player__Func_201FE28(Player *player);
 void Player__Func_201FEE0(Player *player);
 void Player__Func_201FF10(Player *player);
@@ -851,7 +851,7 @@ void Player__State_SpringRope(Player *work);
 // INLINE FUNCTIONS
 // --------------------
 
-#define CheckPlayerGimmickObj(player, gimmickWork) (player)->gimmickObj != &(gimmickWork)->gameWork
+#define CheckPlayerGimmickObj(player, gimmickWork) ((player)->gimmickObj != &(gimmickWork)->gameWork)
 
 RUSH_INLINE BOOL CheckIsPlayer1(Player *player)
 {

@@ -58,6 +58,7 @@ static void EnemyGhost_State_Moving(EnemyGhost *work);
 static void EnemyGhost_OnDefend_Detect(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 static void EnemyGhost_State_Attack(EnemyGhost *work);
 static void EnemyGhost_State_AttackCooldown(EnemyGhost *work);
+
 static void EnemyGhostBomb_State_Dropped(EnemyGhostBomb *work);
 static void EnemyGhostBomb_State_Stopped(EnemyGhostBomb *work);
 static void EnemyGhostBomb_OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
@@ -458,7 +459,7 @@ void EnemyGhostBomb_State_Stopped(EnemyGhostBomb *work)
     if (work->gameWork.objWork.userTimer >= 60)
     {
         DestroyStageTask(&work->gameWork.objWork);
-        CreateEffectHarmfulExplosion(&work->gameWork.objWork, 0, 0, -17, -20, 14, 11, 7, EXPLOSION_ITEMBOX);
+        CreateEffectHarmfulExplosion(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_ITEMBOX);
         PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOMB);
         ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
     }
@@ -471,7 +472,7 @@ void EnemyGhostBomb_OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     DestroyStageTask(&bomb->gameWork.objWork);
 
-    CreateEffectHarmfulExplosion(&bomb->gameWork.objWork, 0, 0, -17, -20, 14, 11, 7, EXPLOSION_ITEMBOX);
+    CreateEffectHarmfulExplosion(&bomb->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_ITEMBOX);
 
     PlayHandleStageSfx(bomb->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOMB);
     ProcessSpatialSfx(bomb->gameWork.objWork.sequencePlayerPtr, &bomb->gameWork.objWork.position);

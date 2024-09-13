@@ -296,8 +296,9 @@ void SetObjCameraPosition(fx32 x1, fx32 y1, fx32 x2, fx32 y2);
 // INLINE FUNCTIONS
 // --------------------
 
-#define GetObjectDataWork(id)   ((OBS_DATA_WORK *)GetObjectFileWork(id))
-#define GetObjectSpriteRef(id)  ((OBS_SPRITE_REF *)GetObjectFileWork(id))
-#define GetObjectTextureRef(id) ((OBS_TEXTURE_REF *)GetObjectFileWork(id))
+#define GetObjectDataWork(id)    ((OBS_DATA_WORK *)GetObjectFileWork(id))
+#define GetObjectSpriteRef(id)   ((OBS_SPRITE_REF *)GetObjectFileWork(id))
+#define GetObjectTextureRef(id)  ((OBS_TEXTURE_REF *)GetObjectFileWork(id))
+#define GetObjectGraphicsRef(id) ((OBS_GFX_REF *)GetObjectFileWork(id))
 
 #endif // RUSH2_OBJECT_MANAGER_H

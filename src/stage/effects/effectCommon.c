@@ -512,9 +512,9 @@ EffectExplosion *CreateEffectExplosion(StageTask *parent, fx32 velX, fx32 velY, 
 // EXPLOSION2
 // ==============
 
-EffectExplosion2 *CreateEffectHarmfulExplosion(StageTask *parent, fx32 velX, fx32 velY, s16 left, s16 top, s16 right, s16 bottom, u16 targetFrame, ExplosionType type)
+EffectHarmfulExplosion *CreateEffectHarmfulExplosion(StageTask *parent, fx32 velX, fx32 velY, s16 left, s16 top, s16 right, s16 bottom, u16 targetFrame, ExplosionType type)
 {
-    EffectExplosion2 *work = CreateEffect(EffectExplosion2, NULL);
+    EffectHarmfulExplosion *work = CreateEffect(EffectHarmfulExplosion, NULL);
     if (work == NULL)
         return NULL;
 
@@ -561,7 +561,7 @@ EffectExplosion2 *CreateEffectHarmfulExplosion(StageTask *parent, fx32 velX, fx3
     return work;
 }
 
-void EffectHarmfulExplosion_State_Active(EffectExplosion2 *work)
+void EffectHarmfulExplosion_State_Active(EffectHarmfulExplosion *work)
 {
     EffectTask_State_DestroyAfterAnimation(&work->objWork);
 

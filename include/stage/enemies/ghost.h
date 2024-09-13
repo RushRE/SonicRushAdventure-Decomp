@@ -27,9 +27,9 @@ typedef struct EnemyGhost_
     Vec2Fx32 targetPos;
     fx32 velocityStore;
     fx32 xMin;
-    fx32 field_3B4;
+    fx32 yMin;
     fx32 xMax;
-    fx32 field_3BC;
+    fx32 yMax;
     u16 angle;
     GhostVisibilityMode visibilityMode;
     u32 visibilityTimer;

@@ -27,9 +27,11 @@ enum SteamBlasterAnimID
     STEAMBLASTER_ANI_ATTACKING,
     STEAMBLASTER_ANI_FINISH_ATTACK,
     STEAMBLASTER_ANI_TURN,
+
     STEAMBLASTER_ANI_STEAM_START,
     STEAMBLASTER_ANI_STEAM_ACTIVE,
     STEAMBLASTER_ANI_STEAM_END,
+    
     STEAMBLASTER_ANI_SMOKE,
 };
 
@@ -45,9 +47,9 @@ typedef struct EnemyRobot_
     void (*onInit)(struct EnemyRobot_ *work);
     void (*onDetect)(struct EnemyRobot_ *work);
     fx32 xMin;
-    fx32 field_3B8;
+    fx32 yMin;
     fx32 xMax;
-    fx32 field_3C0;
+    fx32 yMax;
     s16 colliderActivateTimer;
     RobotType type;
 

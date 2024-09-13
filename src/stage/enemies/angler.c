@@ -59,7 +59,7 @@ static const char *spriteList[] = { "/act/ac_ene_angler.bac" };
 // FUNCTION DECLS
 // --------------------
 
-static void EnemyAngler__Action_Init(EnemyAngler *work);
+static void EnemyAngler_Action_Init(EnemyAngler *work);
 static void EnemyAngler_State_Moving(EnemyAngler *work);
 static void EnemyAngler_OnDefend_Detect(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 static void EnemyAngler_State_Shoot(EnemyAngler *work);
@@ -131,7 +131,7 @@ EnemyAngler *CreateAngler(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     if ((mapObject->flags & ANGLER_OBJFLAG_FLIPPED) != 0)
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
 
-    EnemyAngler__Action_Init(work);
+    EnemyAngler_Action_Init(work);
 
     StageTask__InitSeqPlayer(&work->gameWork.objWork);
 
@@ -163,7 +163,7 @@ EnemyAnglerShot *CreateAnglerShot(MapObject *mapObject, fx32 x, fx32 y, fx32 typ
     return work;
 }
 
-void EnemyAngler__Action_Init(EnemyAngler *work)
+void EnemyAngler_Action_Init(EnemyAngler *work)
 {
     GameObject__SetAnimation(&work->gameWork, ANGLER_ANI_MOVING);
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
@@ -286,7 +286,8 @@ void EnemyAngler_State_Shoot(EnemyAngler *work)
 {
     if (work->gameWork.objWork.obj_2d->ani.work.animID == ANGLER_ANI_SHOOTING)
     {
-        if ((work->gameWork.objWork.obj_2d->ani.work.animFrameIndex == 10 && work->shotCount == ANGLER_SHOT_COUNT) || (work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
+        if ((work->gameWork.objWork.obj_2d->ani.work.animFrameIndex == 10 && work->shotCount == ANGLER_SHOT_COUNT)
+            || (work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
         {
             fx32 shotX;
             if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
@@ -310,24 +311,24 @@ void EnemyAngler_State_Shoot(EnemyAngler *work)
 
             if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
             {
-                if ((s32)shot->gameWork.objWork.dir.z < FLOAT_DEG_TO_IDX(299.9981689453125) && (s32)shot->gameWork.objWork.dir.z > FLOAT_DEG_TO_IDX(180.0))
+                if ((s32)shot->gameWork.objWork.dir.z < FLOAT_DEG_TO_IDX(300.0) && (s32)shot->gameWork.objWork.dir.z > FLOAT_DEG_TO_IDX(180.0))
                 {
-                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(299.9981689453125);
+                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(300.0);
                 }
-                else if ((s32)shot->gameWork.objWork.dir.z > FLOAT_DEG_TO_IDX(59.996337890625) && (s32)shot->gameWork.objWork.dir.z <= FLOAT_DEG_TO_IDX(180.0))
+                else if ((s32)shot->gameWork.objWork.dir.z > FLOAT_DEG_TO_IDX(60.0) && (s32)shot->gameWork.objWork.dir.z <= FLOAT_DEG_TO_IDX(180.0))
                 {
-                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(59.996337890625);
+                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(60.0);
                 }
             }
             else
             {
-                if ((s32)shot->gameWork.objWork.dir.z > FLOAT_DEG_TO_IDX(239.996337890625))
+                if ((s32)shot->gameWork.objWork.dir.z > FLOAT_DEG_TO_IDX(240.0))
                 {
-                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(239.996337890625);
+                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(240.0);
                 }
-                else if ((s32)shot->gameWork.objWork.dir.z < FLOAT_DEG_TO_IDX(119.9981689453125))
+                else if ((s32)shot->gameWork.objWork.dir.z < FLOAT_DEG_TO_IDX(120.0))
                 {
-                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(119.9981689453125);
+                    shot->gameWork.objWork.dir.z = FLOAT_DEG_TO_IDX(120.0);
                 }
             }
 
@@ -359,7 +360,7 @@ void EnemyAngler_State_ShootCooldown(EnemyAngler *work)
     work->gameWork.objWork.userTimer++;
     if (work->gameWork.objWork.userTimer >= 30)
     {
-        EnemyAngler__Action_Init(work);
+        EnemyAngler_Action_Init(work);
         work->shotCount                  = ANGLER_SHOT_COUNT;
         work->gameWork.objWork.userTimer = 0;
     }

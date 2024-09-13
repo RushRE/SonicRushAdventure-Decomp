@@ -4845,7 +4845,7 @@ void Player__Action_Flipboard(Player *player, fx32 velX, fx32 velY)
     Player__Gimmick_201B418(player, velX, velY, TRUE);
 }
 
-NONMATCH_FUNC void Player__Gimmick_201FD7C(Player *player, s32 a2)
+NONMATCH_FUNC void Player__Gimmick_201FD7C(Player *player, GameObjectTask *other)
 {
 #ifdef NON_MATCHING
 

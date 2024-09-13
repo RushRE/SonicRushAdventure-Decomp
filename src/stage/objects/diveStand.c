@@ -1,23 +1,127 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/objects/diveStand.h>
+#include <game/game/gameState.h>
+#include <game/stage/gameSystem.h>
+#include <game/object/objectManager.h>
 
-	arm_func_start DiveStand__Create
-DiveStand__Create: // 0x02169B00
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+// --------------------
+// CONSTANTS
+// --------------------
+
+#define DIVESTAND_DLLIST_SIZE 0x400
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NOT_DECOMPILED void *_02188580;
+NOT_DECOMPILED void *aActAcGmkDiveSt;
+
+NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+    // https://decomp.me/scratch/KuNjX -> 84.77%
+#ifdef NON_MATCHING
+    Task *task = CreateStageTask(DiveStand__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_SCOPE_2, DiveStand);
+    if (task == HeapNull)
+        return NULL;
+
+    DiveStand *work = TaskGetWork(task, DiveStand);
+    TaskInitWork8(task);
+
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    work->dlList   = HeapAllocHead(HEAP_SYSTEM, DIVESTAND_DLLIST_SIZE);
+    work->dword70C = 4096;
+
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+
+    work->sprDiveStand3D = ObjDataLoad(GetObjectDataWork(OBJDATAWORK_168), "/act/ac_gmk_dive_stand3d.bac", gameArchiveStage);
+
+    VRAMPaletteKey paletteKey = ObjActionAllocPalette(GetObjectGraphicsRef(OBJDATAWORK_172), Sprite__GetPaletteSizeFromAnim(work->sprDiveStand3D, 0));
+    for (s32 i = 0; i < 1; i++)
+    {
+        VRAMPixelKey pixelKey = ObjActionAllocTexture(GetObjectGraphicsRef(i + OBJDATAWORK_169), Sprite__GetTextureSizeFromAnim(work->sprDiveStand3D, i));
+        AnimatorSprite3D__Init(&work->aniDiveStand[i], 0, work->sprDiveStand3D, i, ANIMATOR_FLAG_NONE, pixelKey, paletteKey);
+        AnimatorSprite3D__ProcessAnimationFast(&work->aniDiveStand[i]);
+    }
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_400000;
+
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_dive_stand3d.bac", GetObjectDataWork(OBJDATAWORK_168), gameArchiveStage,
+                             OBJ_DATA_GFX_AUTO);
+    ObjObjectActionAllocSprite(&work->gameWork.objWork, 1, GetObjectSpriteRef(OBJDATAWORK_173));
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, 1, 60);
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+    StageTask__SetAnimation(&work->gameWork.objWork, 1);
+    work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PIXELS | ANIMATOR_FLAG_DISABLE_PALETTES;
+    AnimatorSpriteDS__ProcessAnimation(&work->gameWork.animator.ani, 0, 0);
+    work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
+
+    G3_BeginMakeDL(&work->dlInfo, work->dlList, DIVESTAND_DLLIST_SIZE);
+    G3C_PolygonAttr(&work->dlInfo, GX_LIGHTID_0, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, GX_COLOR_FROM_888(0xFF), 0);
+    G3C_TexPlttBase(&work->dlInfo, VRAMKEY_TO_KEY(work->aniDiveStand[0].animatorSprite.vramPalette) & 0x1FFFF, GX_TEXFMT_PLTT16);
+    G3C_TexImageParam(&work->dlInfo, GX_TEXFMT_PLTT16, GX_TEXGEN_TEXCOORD, GX_TEXSIZE_S8, GX_TEXSIZE_T8, GX_TEXREPEAT_S, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS,
+                      VRAMKEY_TO_KEY(work->aniDiveStand[0].animatorSprite.vramPixels) & 0x7FFFF);
+    G3C_MtxMode(&work->dlInfo, GX_MTXMODE_TEXTURE);
+
+    MtxFx43 mtx;
+    MTX_Identity43(&mtx);
+    G3C_LoadMtx43(&work->dlInfo, &mtx);
+    G3C_MtxMode(&work->dlInfo, GX_MTXMODE_POSITION);
+
+    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
+    if (mapObject->id == MAPOBJECT_143)
+        ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, -16, -16, 208, 192);
+    else
+        ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, 16, -16, -208, 192);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[0], DiveStand__OnDefend_216AB68);
+
+    work->gameWork.colliders[1].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[1].rect, -8, -16, 8, 16);
+    work->gameWork.colliders[1].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
+    work->gameWork.colliders[1].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
+    work->gameWork.colliders[1].rect.pos.z = FX32_TO_WHOLE(work->gameWork.objWork.position.z);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[1], 0, 0);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~1, 0);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[1], DiveStand__OnDefend_216AC14);
+    work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET | OBS_RECT_WORK_FLAG_400;
+
+    work->gameWork.objWork.collisionObj           = NULL;
+    work->gameWork.collisionObject.work.diff_data = StageTask__DefaultDiffData;
+    work->gameWork.collisionObject.work.width     = 192;
+    work->gameWork.collisionObject.work.height    = 16;
+    if (mapObject->id == MAPOBJECT_143)
+        work->gameWork.collisionObject.work.ofst_x = 0;
+    else
+        work->gameWork.collisionObject.work.ofst_x = -192;
+    work->gameWork.collisionObject.work.ofst_y = 0;
+
+    SetTaskOutFunc(&work->gameWork.objWork, DiveStand__Draw);
+    SetTaskState(&work->gameWork.objWork, DiveStand__State_216A020);
+
+    return work;
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x44
-	ldr r3, _02169F34 // =0x000010F6
-	mov sl, r0
+	ldr r3, =0x000010F6
+	mov r10, r0
 	str r3, [sp]
 	mov r0, #2
 	mov r5, r1
 	mov r4, r2
 	mov r2, #0
 	str r0, [sp, #4]
-	ldr r6, _02169F38 // =0x00000714
-	ldr r0, _02169F3C // =StageTask_Main
-	ldr r1, _02169F40 // =DiveStand__Destructor
+	ldr r6, =0x00000714
+	ldr r0, =StageTask_Main
+	ldr r1, =DiveStand__Destructor
 	mov r3, r2
 	str r6, [sp, #8]
 	bl TaskCreate_
@@ -27,15 +131,15 @@ DiveStand__Create: // 0x02169B00
 	cmp r6, r0
 	addeq sp, sp, #0x44
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r6
 	bl GetTaskWork_
-	ldr r2, _02169F38 // =0x00000714
+	ldr r2, =0x00000714
 	mov r6, r0
 	mov r1, #0
 	bl MI_CpuFill8
 	mov r0, r6
-	mov r1, sl
+	mov r1, r10
 	mov r2, r5
 	mov r3, r4
 	bl GameObject__InitFromObject
@@ -50,8 +154,8 @@ DiveStand__Create: // 0x02169B00
 	str r0, [r6, #0x1c]
 	mov r0, #0xa8
 	bl GetObjectFileWork
-	ldr r2, _02169F44 // =gameArchiveStage
-	ldr r1, _02169F48 // =aActAcGmkDiveSt
+	ldr r2, =gameArchiveStage
+	ldr r1, =aActAcGmkDiveSt
 	ldr r2, [r2]
 	bl ObjDataLoad
 	str r0, [r6, #0x364]
@@ -65,9 +169,9 @@ DiveStand__Create: // 0x02169B00
 	mov r0, r4
 	bl ObjActionAllocPalette
 	mov r7, #0
-	mov sb, r0
+	mov r9, r0
 	mov r4, r7
-	mov fp, r7
+	mov r11, r7
 	b _02169C60
 _02169C00:
 	add r0, r7, #0xa9
@@ -81,7 +185,7 @@ _02169C00:
 	mov r0, r5
 	bl ObjActionAllocTexture
 	str r4, [sp]
-	stmib sp, {r0, sb}
+	stmib sp, {r0, r9}
 	mov r3, r7, lsl #0x10
 	ldr r2, [r6, #0x364]
 	mov r0, r8
@@ -89,8 +193,8 @@ _02169C00:
 	mov r3, r3, lsr #0x10
 	bl AnimatorSprite3D__Init
 	mov r0, r8
-	mov r1, fp
-	mov r2, fp
+	mov r1, r11
+	mov r2, r11
 	bl AnimatorSprite3D__ProcessAnimation
 	add r7, r7, #1
 	add r8, r8, #0x104
@@ -102,10 +206,10 @@ _02169C60:
 	orr r1, r1, #0x400000
 	str r1, [r6, #0x18]
 	bl GetObjectFileWork
-	ldr r1, _02169F44 // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r1, [r1]
-	ldr r2, _02169F48 // =aActAcGmkDiveSt
+	ldr r2, =aActAcGmkDiveSt
 	str r1, [sp]
 	mov r4, #0
 	mov r0, r6
@@ -159,7 +263,7 @@ _02169C60:
 	mov r3, #3
 	bl G3C_PolygonAttr
 	ldr r1, [r6, #0x444]
-	ldr r0, _02169F4C // =0x0001FFFF
+	ldr r0, =0x0001FFFF
 	add r2, r6, #0x6c
 	and r1, r1, r0
 	add r0, r2, #0x400
@@ -169,7 +273,7 @@ _02169C60:
 	mov r3, #0
 	str r3, [sp]
 	mov r2, #1
-	ldr r0, _02169F50 // =0x0007FFFF
+	ldr r0, =0x0007FFFF
 	stmib sp, {r2, r3}
 	add r1, r6, #0x6c
 	and r4, r4, r0
@@ -193,7 +297,7 @@ _02169C60:
 	mov r1, #1
 	bl G3C_MtxMode
 	str r6, [r6, #0x234]
-	ldrh r0, [sl, #2]
+	ldrh r0, [r10, #2]
 	mov r4, #0xc0
 	cmp r0, #0x8f
 	bne _02169E14
@@ -216,11 +320,11 @@ _02169E2C:
 	mov r2, r1
 	add r0, r6, #0x218
 	bl ObjRect__SetAttackStat
-	ldr r1, _02169F54 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r6, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02169F58 // =DiveStand__OnDefend_216AB68
+	ldr r1, =DiveStand__OnDefend_216AB68
 	mov r2, #0x10
 	str r1, [r6, #0x23c]
 	str r6, [r6, #0x274]
@@ -243,15 +347,15 @@ _02169E2C:
 	mov r3, r3, asr #0xc
 	str r3, [r6, #0x26c]
 	bl ObjRect__SetAttackStat
-	ldr r1, _02169F54 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r6, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02169F5C // =DiveStand__OnDefend_216AC14
+	ldr r0, =DiveStand__OnDefend_216AC14
 	mov r2, #0
 	str r0, [r6, #0x27c]
 	ldr r1, [r6, #0x270]
-	ldr r0, _02169F60 // =StageTask__DefaultDiffData
+	ldr r0, =StageTask__DefaultDiffData
 	orr r1, r1, #0x1400
 	str r1, [r6, #0x270]
 	str r2, [r6, #0x13c]
@@ -261,7 +365,7 @@ _02169E2C:
 	strh r1, [r0, #8]
 	mov r1, #0x10
 	strh r1, [r0, #0xa]
-	ldrh r0, [sl, #2]
+	ldrh r0, [r10, #2]
 	cmp r0, #0x8f
 	addeq r0, r6, #0x200
 	streqh r2, [r0, #0xf0]
@@ -271,91 +375,63 @@ _02169E2C:
 	add r0, r6, #0x200
 	mov r1, #0
 	strh r1, [r0, #0xf2]
-	ldr r2, _02169F64 // =DiveStand__Draw
-	ldr r1, _02169F68 // =DiveStand__State_216A020
+	ldr r2, =DiveStand__Draw
+	ldr r1, =DiveStand__State_216A020
 	str r2, [r6, #0xfc]
 	mov r0, r6
 	str r1, [r6, #0xf4]
 	add sp, sp, #0x44
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	.align 2, 0
-_02169F34: .word 0x000010F6
-_02169F38: .word 0x00000714
-_02169F3C: .word StageTask_Main
-_02169F40: .word DiveStand__Destructor
-_02169F44: .word gameArchiveStage
-_02169F48: .word aActAcGmkDiveSt
-_02169F4C: .word 0x0001FFFF
-_02169F50: .word 0x0007FFFF
-_02169F54: .word 0x0000FFFE
-_02169F58: .word DiveStand__OnDefend_216AB68
-_02169F5C: .word DiveStand__OnDefend_216AC14
-_02169F60: .word StageTask__DefaultDiffData
-_02169F64: .word DiveStand__Draw
-_02169F68: .word DiveStand__State_216A020
-	arm_func_end DiveStand__Create
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 
-	arm_func_start DiveStand__Func_2169F6C
-DiveStand__Func_2169F6C: // 0x02169F6C
-	ldr r1, [r0, #0x354]
-	bic r1, r1, #5
-	str r1, [r0, #0x354]
-	bx lr
-	arm_func_end DiveStand__Func_2169F6C
+// clang-format on
+#endif
+}
 
-	arm_func_start DiveStand__Destructor
-DiveStand__Destructor: // 0x02169F7C
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r4, r0
-	bl GetTaskWork_
-	ldr r0, [r0, #0x480]
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0xac
-	bl GetObjectFileWork
-	mov r5, r0
-	ldrh r0, [r5, #4]
-	sub r0, r0, #1
-	strh r0, [r5, #4]
-	ldrh r0, [r5, #4]
-	cmp r0, #0
-	bne _02169FC4
-	ldr r0, [r5]
-	bl VRAMSystem__FreePalette
-	mov r0, #0
-	str r0, [r5]
-_02169FC4:
-	mov r7, #0
-	mov r5, r7
-_02169FCC:
-	add r0, r7, #0xa9
-	bl GetObjectFileWork
-	mov r6, r0
-	ldrh r0, [r6, #4]
-	sub r0, r0, #1
-	strh r0, [r6, #4]
-	ldrh r0, [r6, #4]
-	cmp r0, #0
-	bne _02169FFC
-	ldr r0, [r6]
-	bl VRAMSystem__FreeTexture
-	str r5, [r6]
-_02169FFC:
-	add r7, r7, #1
-	cmp r7, #2
-	blt _02169FCC
-	mov r0, #0xa8
-	bl GetObjectFileWork
-	bl ObjDataRelease
-	mov r0, r4
-	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end DiveStand__Destructor
+void DiveStand__Func_2169F6C(DiveStand *work)
+{
+    work->gameWork.flags &= ~5;
+}
 
-	arm_func_start DiveStand__State_216A020
-DiveStand__State_216A020: // 0x0216A020
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+void DiveStand__Destructor(Task *task)
+{
+    DiveStand *work = TaskGetWork(task, DiveStand);
+
+    HeapFree(HEAP_SYSTEM, work->dlList);
+
+    OBS_TEXTURE_REF *ref = GetObjectTextureRef(OBJDATAWORK_172);
+    ref->texture.referenceCount--;
+
+    if (ref->texture.referenceCount == 0)
+    {
+        VRAMSystem__FreePalette(ref->texture.vramPixels);
+        ref->texture.vramPixels = NULL;
+    }
+
+    for (s32 i = 0; i < 2; i++)
+    {
+        ref = GetObjectTextureRef(i + OBJDATAWORK_169);
+
+        ref->texture.referenceCount--;
+        if (ref->texture.referenceCount == 0)
+        {
+            VRAMSystem__FreeTexture(ref->texture.vramPixels);
+            ref->texture.vramPixels = NULL;
+        }
+    }
+
+    ObjDataRelease(GetObjectDataWork(OBJDATAWORK_168));
+    GameObject__Destructor(task);
+}
+
+NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x114
-	ldr r1, _0216A880 // =gPlayer
+	ldr r1, =gPlayer
 	mov r8, r0
 	ldr r1, [r1]
 	ldr r2, [r8, #0x354]
@@ -370,26 +446,26 @@ DiveStand__State_216A020: // 0x0216A020
 	cmp r1, r8
 	bne _0216A1A8
 	tst r2, #4
-	ldrne r3, _0216A884 // =0x0000FD60
+	ldrne r3, =0x0000FD60
 	mvnne r4, #0xf
 	add r0, r8, #0x2b8
 	add r1, r8, #0x308
 	add r2, r0, #0x400
-	ldreq r3, _0216A888 // =0x0000FEAB
+	ldreq r3, =0x0000FEAB
 	mvneq r4, #0x7f
 	add r1, r1, #0x400
 	mov r0, #0x16
 	mov r7, #0
 _0216A08C:
 	ldr r6, [r8, #0x340]
-	ldrh sb, [r6, #2]
-	cmp sb, #0x8f
+	ldrh r9, [r6, #2]
+	cmp r9, #0x8f
 	bne _0216A0A8
 	ldr r6, [r2]
 	cmp r5, r6, lsl #3
 	ble _0216A0BC
 _0216A0A8:
-	cmp sb, #0x95
+	cmp r9, #0x95
 	bne _0216A0D8
 	ldr r6, [r2]
 	cmp r5, r6, lsl #3
@@ -427,7 +503,7 @@ _0216A118:
 	beq _0216A184
 	add r1, r8, #0x700
 	ldrh r0, [r1, #8]
-	ldr r2, _0216A884 // =0x0000FD60
+	ldr r2, =0x0000FD60
 	cmp r0, r2
 	addeq r0, r8, #0x600
 	ldreqh r0, [r0, #0xdc]
@@ -536,7 +612,7 @@ _0216A29C:
 	movlt r0, #0x1000
 	strlt r0, [r8, #0x70c]
 _0216A2BC:
-	ldr r0, _0216A88C // =_02188580
+	ldr r0, =_02188580
 	mov r4, #0
 	add r6, sp, #0xfc
 	add r3, sp, #0xf0
@@ -592,7 +668,7 @@ _0216A2BC:
 	cmp r0, #0x8f
 	bne _0216A498
 	ldr r0, [sp, #0xc]
-	mov fp, #0
+	mov r11, #0
 	mov r0, r0, asr #0x1f
 	str r0, [sp, #0x10]
 	mov r0, #0x1000
@@ -607,26 +683,26 @@ _0216A3B4:
 	add r0, sp, #0x108
 	add r1, sp, #0xb4
 	mov r3, r2, asr #4
-	ldr r2, _0216A890 // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	add r2, r2, r3, lsl #2
 	ldrsh lr, [r2, #2]
 	ldr r3, [sp, #0xc]
 	ldr r2, [sp, #0x1c]
-	umull sl, sb, lr, r3
+	umull r10, r9, lr, r3
 	ldr r3, [sp, #0x10]
 	str r2, [sp, #0xe8]
-	mla sb, lr, r3, sb
+	mla r9, lr, r3, r9
 	mov r2, #0
 	str r2, [sp, #0xec]
 	ldr r3, [sp, #0xc]
 	mov ip, lr, asr #0x1f
-	mla sb, ip, r3, sb
-	adds sl, sl, #0x800
-	adc r3, sb, #0
-	mov sb, sl, lsr #0xc
-	orr sb, sb, r3, lsl #20
+	mla r9, ip, r3, r9
+	adds r10, r10, #0x800
+	adc r3, r9, #0
+	mov r9, r10, lsr #0xc
+	orr r9, r9, r3, lsl #20
 	mov r2, r6
-	str sb, [sp, #0xe4]
+	str r9, [sp, #0xe4]
 	bl MTX_MultVec43
 	add r0, sp, #0xe4
 	add r1, sp, #0xb4
@@ -636,13 +712,13 @@ _0216A3B4:
 	mov r0, r4
 	mov r1, r1, asr #4
 	mov r3, r1, lsl #1
-	ldr r1, _0216A890 // =FX_SinCosTable_
+	ldr r1, =FX_SinCosTable_
 	mov r2, r3, lsl #1
 	ldrsh r1, [r1, r2]
-	ldr r2, _0216A890 // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	add r2, r2, r3, lsl #1
 	ldrsh r2, [r2, #2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	mov r0, r4
 	add r1, sp, #0x24
 	mov r2, r4
@@ -651,9 +727,9 @@ _0216A3B4:
 	mov r0, r4
 	mov r2, r1
 	bl MTX_Concat43
-	add fp, fp, #1
+	add r11, r11, #1
 	add r6, r6, #0x18
-	cmp fp, #0x18
+	cmp r11, #0x18
 	blt _0216A3B4
 	b _0216A5B4
 _0216A498:
@@ -671,29 +747,29 @@ _0216A4B8:
 	mov r2, #0x30
 	bl MIi_CpuCopy32
 	ldrh r2, [r7]
-	ldr sl, [sp, #0xc]
+	ldr r10, [sp, #0xc]
 	ldr ip, [sp, #0x18]
 	mov r3, r2, asr #4
-	ldr r2, _0216A890 // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	add r0, sp, #0x108
 	add r2, r2, r3, lsl #2
-	ldrsh sb, [r2, #2]
+	ldrsh r9, [r2, #2]
 	ldr r2, [sp, #0x20]
 	add r1, sp, #0xb4
-	umull fp, sl, sb, sl
+	umull r11, r10, r9, r10
 	str r2, [sp, #0xe8]
 	mov r2, #0
 	str r2, [sp, #0xec]
-	mla sl, sb, ip, sl
-	mov r3, sb, asr #0x1f
-	ldr sb, [sp, #0xc]
+	mla r10, r9, ip, r10
+	mov r3, r9, asr #0x1f
+	ldr r9, [sp, #0xc]
 	mov r2, r6
-	mla sl, r3, sb, sl
-	adds sb, fp, #0x800
-	adc r3, sl, #0
-	mov sb, sb, lsr #0xc
-	orr sb, sb, r3, lsl #20
-	str sb, [sp, #0xe4]
+	mla r10, r3, r9, r10
+	adds r9, r11, #0x800
+	adc r3, r10, #0
+	mov r9, r9, lsr #0xc
+	orr r9, r9, r3, lsl #20
+	str r9, [sp, #0xe4]
 	bl MTX_MultVec43
 	add r0, sp, #0xe4
 	add r1, sp, #0xb4
@@ -708,13 +784,13 @@ _0216A4B8:
 	mov r1, r1, lsr #0x10
 	mov r1, r1, asr #4
 	mov r3, r1, lsl #1
-	ldr r1, _0216A890 // =FX_SinCosTable_
+	ldr r1, =FX_SinCosTable_
 	mov r2, r3, lsl #1
 	ldrsh r1, [r1, r2]
-	ldr r2, _0216A890 // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	add r2, r2, r3, lsl #1
 	ldrsh r2, [r2, #2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	mov r0, r4
 	add r1, sp, #0x24
 	mov r2, r4
@@ -759,22 +835,22 @@ _0216A5B4:
 	sub r1, r3, #0x18000
 	cmp r2, r1
 	addlt sp, sp, #0x114
-	ldmltia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmltia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r1, r3, #0xd8000
 	cmp r2, r1
 	addgt sp, sp, #0x114
-	ldmgtia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgtia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r1, [sp, #8]
 	ldr r3, [r8, #0x48]
 	ldr r2, [r1, #0x48]
 	sub r1, r3, #0x18000
 	cmp r2, r1
 	addlt sp, sp, #0x114
-	ldmltia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmltia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r1, r3, #0xd8000
 	cmp r2, r1
 	addgt sp, sp, #0x114
-	ldmgtia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgtia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216A668:
 	cmp r0, #0x95
 	bne _0216A6C8
@@ -784,22 +860,22 @@ _0216A668:
 	add r1, r3, #0x18000
 	cmp r2, r1
 	addgt sp, sp, #0x114
-	ldmgtia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgtia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	sub r1, r3, #0xd8000
 	cmp r2, r1
 	addlt sp, sp, #0x114
-	ldmltia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmltia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r1, [sp, #8]
 	ldr r3, [r8, #0x48]
 	ldr r2, [r1, #0x48]
 	sub r1, r3, #0x18000
 	cmp r2, r1
 	addlt sp, sp, #0x114
-	ldmltia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmltia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r1, r3, #0xd8000
 	cmp r2, r1
 	addgt sp, sp, #0x114
-	ldmgtia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgtia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216A6C8:
 	cmp r0, #0x8f
 	bne _0216A6D8
@@ -851,15 +927,15 @@ _0216A770:
 	cmp r0, #0x18
 	subge r6, r6, #0x18
 	subge r1, r1, #0x18
-	ldr sl, [r6]
+	ldr r10, [r6]
 	ldmia r1, {r0, r3}
-	sub r1, r0, sl
+	sub r1, r0, r10
 	ldr r2, [r6, #4]
-	sub r0, r5, sl, lsl #3
-	sub sb, r3, r2
+	sub r0, r5, r10, lsl #3
+	sub r9, r3, r2
 	mov r1, r1, lsl #3
 	bl FX_Div
-	smull r2, r1, r0, sb
+	smull r2, r1, r0, r9
 	adds r2, r2, #0x800
 	adc r0, r1, #0
 	mov r1, r2, lsr #0xc
@@ -894,15 +970,15 @@ _0216A810:
 	cmp r0, #0x18
 	subge r6, r6, #0x18
 	subge r1, r1, #0x18
-	ldr sl, [r6]
+	ldr r10, [r6]
 	ldmia r1, {r0, r3}
-	sub r1, r0, sl
+	sub r1, r0, r10
 	ldr r2, [r6, #4]
-	sub r0, r5, sl, lsl #3
-	sub sb, r3, r2
+	sub r0, r5, r10, lsl #3
+	sub r9, r3, r2
 	mov r1, r1, lsl #3
 	bl FX_Div
-	smull r2, r1, r0, sb
+	smull r2, r1, r0, r9
 	adds r2, r2, #0x800
 	adc r0, r1, #0
 	mov r1, r2, lsr #0xc
@@ -919,22 +995,23 @@ _0216A868:
 	add r0, r1, r0, lsl #12
 	str r0, [r8, #0x2c]
 	add sp, sp, #0x114
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	.align 2, 0
-_0216A880: .word gPlayer
-_0216A884: .word 0x0000FD60
-_0216A888: .word 0x0000FEAB
-_0216A88C: .word _02188580
-_0216A890: .word FX_SinCosTable_
-	arm_func_end DiveStand__State_216A020
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 
-	arm_func_start DiveStand__Draw
-DiveStand__Draw: // 0x0216A894
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void DiveStand__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xac
 	bl GetCurrentTaskWork_
 	mov r4, #0x8000
-	ldr r1, _0216AB58 // =g_obj
+	ldr r1, =g_obj
 	mov r3, #0x1000
 	ldr r2, [r1]
 	mov r7, r0
@@ -950,7 +1027,7 @@ DiveStand__Draw: // 0x0216A894
 	orr r1, r1, r0, lsl #20
 	str r1, [sp, #0x4c]
 _0216A8E0:
-	ldr r0, _0216AB58 // =g_obj
+	ldr r0, =g_obj
 	ldr r2, [r0, #4]
 	cmp r2, #0x1000
 	beq _0216A90C
@@ -980,10 +1057,10 @@ _0216A90C:
 	bl GameObject__Func_20282A8
 	add r0, sp, #0x4c
 	bl NNS_G3dGlbSetBaseScale
-	ldr r1, _0216AB5C // =0x021472FC
+	ldr r1, =0x021472FC
 	add r0, sp, #0x1c
 	bl MI_Copy36B
-	ldr r1, _0216AB60 // =NNS_G3dGlb
+	ldr r1, =NNS_G3dGlb
 	add r0, sp, #0x40
 	ldr r2, [r1, #0xfc]
 	bic r2, r2, #0xa4
@@ -1007,25 +1084,25 @@ _0216A90C:
 	mov r1, #3
 	bl G3C_Begin
 	ldr r0, [r7, #0x340]
-	ldr r1, _0216AB64 // =0x00007FFF
+	ldr r1, =0x00007FFF
 	ldrh r0, [r0, #2]
 	cmp r0, #0x8f
-	moveq sb, #0
+	moveq r9, #0
 	add r0, sp, #0x98
-	movne sb, #0x7000
+	movne r9, #0x7000
 	bl G3C_Color
 	add r0, r7, #0x84
 	mov r8, #0
-	add sl, r0, #0x400
+	add r10, r0, #0x400
 	add r6, sp, #0x98
 	mov r5, r8
 	mov r4, #0x8000
 _0216A9F4:
 	mov r0, r6
-	mov r1, sb
+	mov r1, r9
 	mov r2, r5
 	bl G3C_TexCoord
-	ldmia sl, {r0, r2, r3}
+	ldmia r10, {r0, r2, r3}
 	mov r0, r0, lsl #0xb
 	mov r1, r0, asr #0x10
 	mov r0, r2, lsl #0xb
@@ -1035,12 +1112,12 @@ _0216A9F4:
 	mov r0, r6
 	bl G3C_Vtx
 	mov r0, r6
-	mov r1, sb
+	mov r1, r9
 	mov r2, r4
 	bl G3C_TexCoord
-	ldr r1, [sl, #0xc]
-	ldr r2, [sl, #0x10]
-	ldr r3, [sl, #0x14]
+	ldr r1, [r10, #0xc]
+	ldr r2, [r10, #0x10]
+	ldr r3, [r10, #0x14]
 	mov r1, r1, lsl #0xb
 	mov r2, r2, lsl #0xb
 	mov r3, r3, lsl #0xb
@@ -1050,8 +1127,8 @@ _0216A9F4:
 	mov r3, r3, asr #0x10
 	bl G3C_Vtx
 	add r8, r8, #1
-	add sl, sl, #0x18
-	add sb, sb, #0x8000
+	add r10, r10, #0x18
+	add r9, r9, #0x8000
 	cmp r8, #0x19
 	blt _0216A9F4
 	add r0, sp, #0x98
@@ -1072,13 +1149,13 @@ _0216A9F4:
 	ldr r0, [r7, #0x354]
 	tst r0, #0xf
 	addne sp, sp, #0xac
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	add r0, r7, #0x44
 	add r3, sp, #0x10
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	ldr r0, [r7, #0x340]
-	mov sb, #0x8000
+	mov r9, #0x8000
 	ldrh r0, [r0, #2]
 	cmp r0, #0x8f
 	bne _0216AAF8
@@ -1088,7 +1165,7 @@ _0216A9F4:
 	b _0216AB08
 _0216AAF8:
 	ldr r0, [sp, #0x10]
-	rsb sb, sb, #0
+	rsb r9, r9, #0
 	sub r0, r0, #0x4000
 	str r0, [sp, #0x10]
 _0216AB08:
@@ -1107,21 +1184,55 @@ _0216AB18:
 	bl StageTask__Draw2DEx
 	ldr r0, [sp, #0x10]
 	add r8, r8, #1
-	add r0, r0, sb
+	add r0, r0, r9
 	str r0, [sp, #0x10]
 	cmp r8, #0x18
 	blt _0216AB18
 	add sp, sp, #0xac
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
-	.align 2, 0
-_0216AB58: .word g_obj
-_0216AB5C: .word 0x021472FC
-_0216AB60: .word NNS_G3dGlb
-_0216AB64: .word 0x00007FFF
-	arm_func_end DiveStand__Draw
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 
-	arm_func_start DiveStand__OnDefend_216AB68
-DiveStand__OnDefend_216AB68: // 0x0216AB68
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void DiveStand__OnDefend_216AB68(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+    DiveStand *diveStand = (DiveStand *)rect2->parent;
+    Player *player       = (Player *)rect1->parent;
+
+    if (diveStand == NULL || player == NULL)
+        return;
+
+    if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER || CheckIsPlayer1(player) == FALSE)
+        return;
+
+    if ((diveStand->gameWork.flags & 2) != 0)
+    {
+        diveStand->gameWork.collisionObject.work.parent = &diveStand->gameWork.objWork;
+    }
+    else if (player->objWork.position.y + FLOAT_TO_FX32(13.0) <= diveStand->gameWork.objWork.position.y)
+    {
+        diveStand->gameWork.collisionObject.work.parent = &diveStand->gameWork.objWork;
+    }
+    else
+    {
+        diveStand->gameWork.collisionObject.work.parent = NULL;
+    }
+
+    if (!CheckStageTaskTouchObj(&player->objWork, &diveStand->gameWork.objWork) || (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0)
+    {
+        ObjRect__FuncNoHit(rect1, rect2);
+    }
+    else
+    {
+        Player__Gimmick_201FD7C(player, &diveStand->gameWork);
+        diveStand->gameWork.flags |= 3;
+        diveStand->gameWork.flags &= ~8;
+        diveStand->gameWork.collisionObject.work.parent = NULL;
+    }
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r2, [r0, #0x1c]
@@ -1168,46 +1279,30 @@ _0216ABEC:
 	str r1, [r4, #0x354]
 	str r0, [r4, #0x2d8]
 	ldmia sp!, {r4, pc}
-	arm_func_end DiveStand__OnDefend_216AB68
 
-	arm_func_start DiveStand__OnDefend_216AC14
-DiveStand__OnDefend_216AC14: // 0x0216AC14
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r4, [r1, #0x1c]
-	ldr r5, [r0, #0x1c]
-	cmp r4, #0
-	cmpne r5, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r2, [r5]
-	cmp r2, #1
-	ldreqb r2, [r5, #0x5d1]
-	cmpeq r2, #0
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r2, [r5, #0x6d8]
-	cmp r2, r4
-	beq _0216AC54
-	bl ObjRect__FuncNoHit
-	ldmia sp!, {r3, r4, r5, pc}
-_0216AC54:
-	mov r0, r5
-	mov r1, r4
-	bl Player__Func_20202E4
-	ldr r1, [r4, #0x354]
-	mov r0, r5
-	orr r2, r1, #4
-	mov r1, r4
-	str r2, [r4, #0x354]
-	bl Player__Action_AllowTrickCombos
-	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end DiveStand__OnDefend_216AC14
+// clang-format on
+#endif
+}
 
-	.rodata
+void DiveStand__OnDefend_216AC14(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+    DiveStand *diveStand = (DiveStand *)rect2->parent;
+    Player *player       = (Player *)rect1->parent;
 
-_02188580: // 0x02188580
-    .word 0, 0xFFFFF000, 0
+    if (diveStand == NULL || player == NULL)
+        return;
 
-	.data
-	
-aActAcGmkDiveSt: // 0x021893D8
-	.asciz "/act/ac_gmk_dive_stand3d.bac"
-	.align 4
+    if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER || CheckIsPlayer1(player) == FALSE)
+        return;
+
+    if (CheckPlayerGimmickObj(player, diveStand))
+    {
+        ObjRect__FuncNoHit(rect1, rect2);
+    }
+    else
+    {
+        Player__Func_20202E4(player, &diveStand->gameWork);
+        diveStand->gameWork.flags |= 4;
+        Player__Action_AllowTrickCombos(player, &diveStand->gameWork);
+    }
+}

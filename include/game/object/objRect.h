@@ -30,7 +30,7 @@ typedef BOOL (*OBS_RECT_ON_CHECK)(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 #define ObjRect__SetOnDefend(work, func)    (work)->onDefend = (func)
 #define ObjRect__SetCheckActive(work, func) (work)->checkActive = (func)
 
-#define ObjRect__SetGroupFlags(work, groupNum, targetGflag) (work)->groupFlags = ((groupNum)&0xFF) | ((targetGflag) << 8)
+#define ObjRect__SetGroupFlags(work, groupNum, targetGflag) (work)->groupFlags = ((groupNum) & 0xFF) | ((targetGflag) << 8)
 
 // --------------------
 // ENUMS
@@ -38,26 +38,26 @@ typedef BOOL (*OBS_RECT_ON_CHECK)(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 enum OBS_RECT_WORKFlags_
 {
-    OBS_RECT_WORK_FLAG_FLIP_X    = 0x1,
-    OBS_RECT_WORK_FLAG_FLIP_Y    = 0x2,
-    OBS_RECT_WORK_FLAG_IS_ACTIVE = 0x4,
-    OBS_RECT_WORK_FLAG_8         = 0x8,
-    OBS_RECT_WORK_FLAG_10        = 0x10,
-    OBS_RECT_WORK_FLAG_20        = 0x20,
-    OBS_RECT_WORK_FLAG_40        = 0x40,
-    OBS_RECT_WORK_FLAG_80        = 0x80,
-    OBS_RECT_WORK_FLAG_100       = 0x100,
-    OBS_RECT_WORK_FLAG_200       = 0x200,
-    OBS_RECT_WORK_FLAG_400       = 0x400,
-    OBS_RECT_WORK_FLAG_800       = 0x800,
-    OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET      = 0x1000,
-    OBS_RECT_WORK_FLAG_2000      = 0x2000,
-    OBS_RECT_WORK_FLAG_4000      = 0x4000,
-    OBS_RECT_WORK_FLAG_8000      = 0x8000,
-    OBS_RECT_WORK_FLAG_10000     = 0x10000,
-    OBS_RECT_WORK_FLAG_20000     = 0x20000,
-    OBS_RECT_WORK_FLAG_40000     = 0x40000,
-    OBS_RECT_WORK_FLAG_80000     = 0x80000,
+    OBS_RECT_WORK_FLAG_FLIP_X           = 0x1,
+    OBS_RECT_WORK_FLAG_FLIP_Y           = 0x2,
+    OBS_RECT_WORK_FLAG_IS_ACTIVE        = 0x4,
+    OBS_RECT_WORK_FLAG_8                = 0x8,
+    OBS_RECT_WORK_FLAG_10               = 0x10,
+    OBS_RECT_WORK_FLAG_20               = 0x20,
+    OBS_RECT_WORK_FLAG_40               = 0x40,
+    OBS_RECT_WORK_FLAG_80               = 0x80,
+    OBS_RECT_WORK_FLAG_100              = 0x100,
+    OBS_RECT_WORK_FLAG_200              = 0x200,
+    OBS_RECT_WORK_FLAG_400              = 0x400,
+    OBS_RECT_WORK_FLAG_800              = 0x800,
+    OBS_RECT_WORK_FLAG_NO_PARENT_OFFSET = 0x1000,
+    OBS_RECT_WORK_FLAG_2000             = 0x2000,
+    OBS_RECT_WORK_FLAG_4000             = 0x4000,
+    OBS_RECT_WORK_FLAG_8000             = 0x8000,
+    OBS_RECT_WORK_FLAG_10000            = 0x10000,
+    OBS_RECT_WORK_FLAG_20000            = 0x20000,
+    OBS_RECT_WORK_FLAG_40000            = 0x40000,
+    OBS_RECT_WORK_FLAG_80000            = 0x80000,
 };
 typedef u32 OBS_RECT_WORKFlags;
 

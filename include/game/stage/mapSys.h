@@ -802,6 +802,7 @@ typedef struct MapObject_
         struct
         {
             u8 tensionPenalty;
+            u8 health;
         };
 
     } param;

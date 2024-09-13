@@ -13,7 +13,7 @@ typedef struct EnemySkymoon_
     OBS_RECT_WORK colliderDetect;
     fx32 xMin;
     fx32 xMax;
-    s32 timer;
+    s32 colliderActivateTimer;
     u16 angle;
 } EnemySkymoon;
 

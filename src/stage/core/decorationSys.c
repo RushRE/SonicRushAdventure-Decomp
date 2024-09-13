@@ -3532,7 +3532,7 @@ void DecorationSys__Decor_Main(StageDecoration *work)
 
     if (work->objWork.parentObj != NULL && (work->objWork.parentObj->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
     {
-        if ((work->objWork.flag & STAGE_TASK_FLAG_200) == 0)
+        if ((work->objWork.flag & STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT) == 0)
         {
             work->objWork.flag |= STAGE_TASK_FLAG_DESTROYED;
             work->objWork.parentObj = NULL;

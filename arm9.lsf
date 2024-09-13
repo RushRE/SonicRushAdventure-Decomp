@@ -376,7 +376,6 @@ Overlay ZoneAct
     Object src/stage/enemies/snowflakeHead.o
     Object src/stage/enemies/snowball.o
     Object src/stage/enemies/glider.o
-    Object asm/stage/objects/enemyPirate_vars.o
     Object src/stage/enemies/pirate.o
     Object src/stage/enemies/fireSkull.o
     Object src/stage/enemies/diveBat.o
@@ -387,8 +386,8 @@ Overlay ZoneAct
     Object src/stage/objects/dashRing.o
     Object asm/stage/objects/springboard_vars.o
     Object src/stage/objects/springboard.o
-    Object asm/stage/objects/spikes_vars.o
     Object src/stage/objects/spikes.o
+    Object asm/stage/objects/spikes_vars.o
     Object src/stage/objects/breakable.o
     Object src/stage/objects/breakableWall.o
     Object asm/stage/objects/grindTrigger.o
@@ -410,7 +409,8 @@ Overlay ZoneAct
     Object src/stage/objects/playerSnowboard.o
     Object asm/stage/objects/flipBoard_vars.o
     Object src/stage/objects/flipBoard.o
-    Object asm/stage/objects/diveStand.o
+    Object asm/stage/objects/diveStand_vars.o
+    Object src/stage/objects/diveStand.o
     Object src/stage/objects/iceBlock.o
     Object src/stage/objects/halfpipe.o
     Object asm/stage/objects/grabTree.o

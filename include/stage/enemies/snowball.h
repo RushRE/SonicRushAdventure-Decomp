@@ -14,9 +14,9 @@ typedef struct EnemySnowball_
     u8 isExposed;
     u16 field_3A6;
     fx32 xMin;
-    fx32 field_3AC;
+    fx32 yMin;
     fx32 xMax;
-    fx32 field_3B4;
+    fx32 yMax;
     fx32 startX;
     fx32 field_3BC;
     OBS_RECT_ON_DEF exposedOnDefendFunc;

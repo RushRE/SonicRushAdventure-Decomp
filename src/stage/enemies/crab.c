@@ -102,7 +102,7 @@ void EnemyCrab_State_Moving(EnemyCrab *work)
     if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) != 0)
     {
         work->startX                      = work->gameWork.objWork.position.x;
-        work->gameWork.objWork.velocity.x = FLOAT_DEG_TO_IDX(0.0);
+        work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
 
         work->gameWork.objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
         work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_X_COLLISION_CHECK;
@@ -113,7 +113,7 @@ void EnemyCrab_State_Moving(EnemyCrab *work)
         {
             work->startX = work->gameWork.objWork.position.x = work->xMin;
 
-            work->gameWork.objWork.velocity.x = FLOAT_DEG_TO_IDX(0.0);
+            work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
             work->gameWork.objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
         }
         else
@@ -122,7 +122,7 @@ void EnemyCrab_State_Moving(EnemyCrab *work)
             {
                 work->startX = work->gameWork.objWork.position.x = work->xMax;
 
-                work->gameWork.objWork.velocity.x = FLOAT_DEG_TO_IDX(0.0);
+                work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
                 work->gameWork.objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
             }
             else
@@ -134,7 +134,7 @@ void EnemyCrab_State_Moving(EnemyCrab *work)
                     {
                         work->startX = work->gameWork.objWork.position.x;
 
-                        work->gameWork.objWork.velocity.x = FLOAT_DEG_TO_IDX(0.0);
+                        work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
                         work->gameWork.objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
                     }
                 }

@@ -69,9 +69,9 @@ enum StageTaskFlags_
     STAGE_TASK_FLAG_ALWAYS_RUN_PPIN          = 0x40,
     STAGE_TASK_FLAG_DISABLE_STATE            = 0x80,
     STAGE_TASK_FLAG_DISABLE_OBJ_2D_RELEASE   = 0x100,
-    STAGE_TASK_FLAG_200                      = 0x200,
-    STAGE_TASK_FLAG_400                      = 0x400,
-    STAGE_TASK_FLAG_800                      = 0x800,
+    STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT                      = 0x200,
+    STAGE_TASK_FLAG_IS_CHILD_OBJ                      = 0x400,
+    STAGE_TASK_FLAG_USE_PARENT_SPRITES                      = 0x800,
     STAGE_TASK_FLAG_ALLOCATED_SCREEN_UNKNOWN = 0x1000,
     STAGE_TASK_FLAG_DISABLE_HITSTOP          = 0x2000,
     STAGE_TASK_FLAG_DISABLE_SHAKE            = 0x4000,
@@ -128,6 +128,9 @@ enum StageTaskMoveFlags_
     STAGE_TASK_MOVE_FLAG_4000000                         = 0x4000000,
     STAGE_TASK_MOVE_FLAG_DISABLE_OBJECT_SCROLL           = 0x8000000,
     STAGE_TASK_MOVE_FLAG_RESET_FLOW                      = 0x10000000,
+    STAGE_TASK_MOVE_FLAG_20000000                        = 0x20000000,
+    STAGE_TASK_MOVE_FLAG_40000000                        = 0x40000000,
+    STAGE_TASK_MOVE_FLAG_80000000                        = 0x80000000,
 
     // Helpers
     STAGE_TASK_MOVE_FLAG_TOUCHING_V   = STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR | STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING, // object is colliding with a surface vertically
@@ -360,5 +363,9 @@ RUSH_INLINE BOOL CheckStageTaskType(StageTask *work, StageObjTypes type)
 {
     return work->objType == type;
 }
+
+#define CheckStageTaskTouchObj(stageTask, touchWork)   ((stageTask)->touchObj == (touchWork))
+#define CheckStageTaskRideObj(stageTask, rideWork)     ((stageTask)->rideObj == (rideWork))
+#define CheckStageTaskParentObj(stageTask, parentWork) ((stageTask)->parentObj == (parentWork))
 
 #endif // RUSH2_STAGE_TASK_H

@@ -48,6 +48,12 @@ static void Spikes_State_Retract(Spikes *work);
 static void Spikes2_State_Idle(Spikes *work);
 
 // --------------------
+// VARIABLES
+// --------------------
+
+static u32 vramOffset[] = { 0x0000, 0x0A00, 0x0F00, 0x1200, 0x0000 };
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
@@ -441,38 +447,12 @@ Spikes *CreateSpikes2(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     return work;
 }
 
-NONMATCH_FUNC void SetSpikesAnimation(Spikes *work, u16 anim)
+void SetSpikesAnimation(Spikes *work, u16 anim)
 {
-    // https://decomp.me/scratch/Lj4Zo -> 87.63%
-#ifdef NON_MATCHING
-    static u32 vramOffset[] = { 0x0000, 0x0A00, 0x0F00, 0x1200, 0x0000 };
-
     StageTask__SetAnimation(&work->gameWork.objWork, anim);
 
     work->gameWork.objWork.obj_2d->ani.vramPixels[0] = work->gameWork.objWork.obj_2d->spriteRef->engineRef[0].vramPixels + vramOffset[anim];
     work->gameWork.objWork.obj_2d->ani.vramPixels[1] = work->gameWork.objWork.obj_2d->spriteRef->engineRef[1].vramPixels + vramOffset[anim];
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	mov r4, r1
-	bl StageTask__SetAnimation
-	ldr r3, [r5, #0x128]
-	ldr r1, =Spikes__AnimVRAMOffset
-	ldr r2, [r3, #0xa8]
-	ldr r0, [r1, r4, lsl #2]
-	ldr r2, [r2]
-	add r0, r2, r0
-	str r0, [r3, #0x78]
-	ldr r2, [r5, #0x128]
-	ldr r0, [r1, r4, lsl #2]
-	ldr r1, [r2, #0xa8]
-	ldr r1, [r1, #8]
-	add r0, r1, r0
-	str r0, [r2, #0x7c]
-	ldmia sp!, {r3, r4, r5, pc}
-// clang-format on
-#endif
 }
 
 void Spikes_Action_Idle(Spikes *work)

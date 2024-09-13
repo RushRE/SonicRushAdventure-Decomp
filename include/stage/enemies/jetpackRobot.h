@@ -22,9 +22,9 @@ typedef struct EnemyJetpackRobot_
 {
     GameObjectTask gameWork;
     void (*onInit)(struct EnemyJetpackRobot_ *work);
-    fx32 field_368;
+    fx32 xMin;
     fx32 yMin;
-    fx32 field_370;
+    fx32 xMax;
     fx32 yMax;
     JetpackRobotType type;
 

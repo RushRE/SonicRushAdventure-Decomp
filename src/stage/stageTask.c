@@ -199,8 +199,8 @@ void StageTask__SetParent(StageTask *work, StageTask *parent, u16 ulFlag)
 {
     work->parentObj = parent;
 
-    work->flag &= ~(STAGE_TASK_FLAG_800 | STAGE_TASK_FLAG_400 | STAGE_TASK_FLAG_200);
-    work->flag |= ulFlag & (STAGE_TASK_FLAG_800 | STAGE_TASK_FLAG_400 | STAGE_TASK_FLAG_200);
+    work->flag &= ~(STAGE_TASK_FLAG_USE_PARENT_SPRITES | STAGE_TASK_FLAG_IS_CHILD_OBJ | STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT);
+    work->flag |= ulFlag & (STAGE_TASK_FLAG_USE_PARENT_SPRITES | STAGE_TASK_FLAG_IS_CHILD_OBJ | STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT);
 }
 
 void StageTask__Draw(StageTask *work)
@@ -565,7 +565,7 @@ BOOL StageTask__ObjectParent(StageTask *work)
     {
         if ((parent->flag & STAGE_TASK_FLAG_DESTROYED) != 0)
         {
-            if ((work->flag & STAGE_TASK_FLAG_200) == 0)
+            if ((work->flag & STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT) == 0)
             {
                 work->flag |= STAGE_TASK_FLAG_DESTROYED;
                 work->parentObj = NULL;
@@ -575,7 +575,7 @@ BOOL StageTask__ObjectParent(StageTask *work)
             work->parentObj = NULL;
         }
 
-        if ((work->flag & STAGE_TASK_FLAG_400) != 0)
+        if ((work->flag & STAGE_TASK_FLAG_IS_CHILD_OBJ) != 0)
         {
             work->displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
             work->displayFlag |= parent->displayFlag & (DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_FLIP_Y | DISPLAY_FLAG_FLIP_X);
@@ -601,7 +601,7 @@ BOOL StageTask__ObjectParent(StageTask *work)
             }
         }
 
-        if ((work->flag & STAGE_TASK_FLAG_800) != 0)
+        if ((work->flag & STAGE_TASK_FLAG_USE_PARENT_SPRITES) != 0)
         {
             BOOL changeAnim = FALSE;
 

@@ -11,9 +11,9 @@ typedef struct EnemyCrab_
 {
     GameObjectTask gameWork;
     fx32 xMin;
-    fx32 field_368;
+    fx32 yMin;
     fx32 xMax;
-    fx32 field_370;
+    fx32 yMax;
     fx32 maxDistance;
     fx32 startX;
     fx32 field_37C;

@@ -1512,7 +1512,7 @@ NONMATCH_FUNC s32 CreateEffectPlayerTrail(Player *parent, fx32 height, u32 nodeC
 
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
-    work->objWork.flag |= STAGE_TASK_FLAG_200;
+    work->objWork.flag |= STAGE_TASK_FLAG_NO_DESTROY_WITH_PARENT;
     work->id           = id;
     work->height       = height;
     work->minNodeCount = nodeCount;

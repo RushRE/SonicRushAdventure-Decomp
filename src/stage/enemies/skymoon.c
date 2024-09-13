@@ -35,7 +35,7 @@ enum SkymoonAnimID
 // FUNCTION DECLS
 // --------------------
 
-static void EnemySkymoon_HandleColliderDelay(EnemySkymoon *work);
+static void EnemySkymoon_HandleColliderActivateTimer(EnemySkymoon *work);
 static void EnemySkymoon_Action_Init(EnemySkymoon *work);
 static void EnemySkymoon_State_Idle(EnemySkymoon *work);
 static void EnemySkymoon_Action_Move(EnemySkymoon *work);
@@ -136,12 +136,12 @@ EnemySkymoonLaser *CreateSkymoonLaser(MapObject *mapObject, fx32 x, fx32 y, fx32
     return work;
 }
 
-void EnemySkymoon_HandleColliderDelay(EnemySkymoon *work)
+void EnemySkymoon_HandleColliderActivateTimer(EnemySkymoon *work)
 {
-    if (work->timer != 0)
+    if (work->colliderActivateTimer != 0)
     {
-        work->timer--;
-        if (work->timer == 0)
+        work->colliderActivateTimer--;
+        if (work->colliderActivateTimer == 0)
             work->colliderDetect.flag |= OBS_RECT_WORK_FLAG_IS_ACTIVE;
     }
 }
@@ -169,7 +169,7 @@ void EnemySkymoon_State_Idle(EnemySkymoon *work)
 
     if (work->gameWork.mapObject->id == MAPOBJECT_24)
     {
-        EnemySkymoon_HandleColliderDelay(work);
+        EnemySkymoon_HandleColliderActivateTimer(work);
         StageTask__HandleCollider(&work->gameWork.objWork, &work->colliderDetect);
     }
 }
@@ -215,7 +215,7 @@ void EnemySkymoon_State_Moving(EnemySkymoon *work)
 
     if (work->gameWork.mapObject->id == MAPOBJECT_24)
     {
-        EnemySkymoon_HandleColliderDelay(work);
+        EnemySkymoon_HandleColliderActivateTimer(work);
         StageTask__HandleCollider(&work->gameWork.objWork, &work->colliderDetect);
     }
 }
@@ -290,9 +290,9 @@ void EnemySkymoon_OnDefend_Detect(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if ((enemy->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0 && enemy->gameWork.mapObject->id == MAPOBJECT_24)
     {
         u16 angle = FX_Atan2Idx(player->objWork.position.y - enemy->gameWork.objWork.position.y, player->objWork.position.x - enemy->gameWork.objWork.position.x);
-        if (angle >= FLOAT_DEG_TO_IDX(29.9981689453125) && angle <= FLOAT_DEG_TO_IDX(149.996337890625))
+        if (angle >= FLOAT_DEG_TO_IDX(30.0) && angle <= FLOAT_DEG_TO_IDX(150.0))
         {
-            enemy->timer = 120;
+            enemy->colliderActivateTimer = 120;
             enemy->colliderDetect.flag &= ~OBS_RECT_WORK_FLAG_IS_ACTIVE;
 
             if (angle <= FLOAT_DEG_TO_IDX(90.0))

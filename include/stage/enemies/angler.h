@@ -26,9 +26,9 @@ typedef struct EnemyAngler_
     fx32 velocityStore;
     u8 shotCount;
     fx32 xMin;
-    fx32 field_3B8;
+    fx32 yMin;
     fx32 xMax;
-    fx32 field_3C0;
+    fx32 yMax;
     u16 type;
 } EnemyAngler;
 
