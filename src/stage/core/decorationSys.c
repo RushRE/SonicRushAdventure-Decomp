@@ -3474,6 +3474,7 @@ _021530E8:
 StageDecoration *DecorationSys__CreateUnknown2153118(MapDecor *mapDecor, fx32 x, fx32 y, s32 type)
 {
     StageDecoration *work = DecorationSys__Construct(sizeof(StageDecoration), mapDecor, x, y, 0);
+    
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
     work->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
@@ -3829,7 +3830,7 @@ void DecorationSys__CreateWaterBubble(StageDecoration *work)
     work->objWork.userTimer--;
     if (work->objWork.userTimer <= 0)
     {
-        EffectWaterBubble__Create(work->objWork.position.x + (((mtMathRand() & 7) - 3) << 12), work->objWork.position.y - FLOAT_TO_FX32(4.0), (u16)(mtMathRand() & 1),
+        EffectWaterBubble__Create(work->objWork.position.x + FX32_FROM_WHOLE(((mtMathRand() & 7) - 3)), work->objWork.position.y - FLOAT_TO_FX32(4.0), (u16)(mtMathRand() & 1),
                                   mapCamera.camera[0].waterLevel);
 
         work->objWork.userTimer = (mtMathRand() & 0x3F) + 8;

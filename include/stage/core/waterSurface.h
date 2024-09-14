@@ -6,50 +6,54 @@
 #include <game/graphics/paletteAnimation.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum WaterSurfaceFlags_
+{
+    WATERSURFACE_FLAG_NONE = 0x00,
+
+    WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE = 1 << 0,
+    WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1      = 1 << 1,
+    WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2      = 1 << 2,
+    WATERSURFACE_FLAG_HAS_WATER_SURFACE             = 1 << 3,
+    WATERSURFACE_FLAG_10                            = 1 << 4,
+    WATERSURFACE_FLAG_20                            = 1 << 5,
+    WATERSURFACE_FLAG_40                            = 1 << 6,
+
+    WATERSURFACE_FLAG_10000 = 1 << 16,
+    WATERSURFACE_FLAG_20000 = 1 << 17,
+};
+typedef u32 WaterSurfaceFlags;
+
+// --------------------
 // STRUCTS
 // --------------------
 
-struct WaterSurfaceStaticVars
+struct WaterSurfaceWork
 {
-    u32 flags;
+    WaterSurfaceFlags flags;
     Task *task;
     u16 paletteSize1;
     u16 paletteSize2;
     u16 vAlarmCount[2];
-    u16 palette1[256];
-    u16 palette2[256];
-    u16 altPalette1[256];
-    u16 altPalette2[256];
+    GXRgb surfacePalette1[256];
+    GXRgb surfacePalette2[256];
+    GXRgb underwaterPalette1[256];
+    GXRgb underwaterPalette2[256];
     OSVAlarm vAlarm[2];
-    s32 field_860[41];
-    AnimatorSprite aniWaterSurface1[2];
-    PaletteAnimator *aniPalette;
+    AnimatorSpriteDS aniUnknown;
+    AnimatorSprite aniWaterSurface[2];
+    void *controlConfig;
 };
-
-// --------------------
-// VARIABLES
-// --------------------
-
-NOT_DECOMPILED struct WaterSurfaceStaticVars *WaterSurface__sVars;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
 // WaterSurface Management
-void WaterSurface__Init(void);
-void WaterSurface__Release(void);
-void WaterSurface__Process(void);
-
-// WaterSurface
-void WaterSurface__Create(void);
-void WaterSurface__ReleaseCommon(void);
-void WaterSurface__Func_200DF78(void);
-void WaterSurface__Main(void);
-void WaterSurface__VAlarmCB_200E26C(void *useEngineB);
-void WaterSurface__VAlarmCB_200E2CC(void *useEngineB);
-void WaterSurface__InitPalette(u16 *palettePtr, u32 count);
-void WaterSurface__CopyPalette(BOOL useEngineB);
-void WaterSurface__CopyAltPalette(BOOL useEngineB);
+void InitWaterSurface(void);
+void ReleaseWaterSurface(void);
+void ProcessWaterSurface(void);
 
 #endif // RUSH2_WATERSURFACE_H

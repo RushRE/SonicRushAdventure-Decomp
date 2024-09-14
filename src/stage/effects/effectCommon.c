@@ -1008,14 +1008,14 @@ EffectWaterSplash *CreateEffectWaterSplash(StageTask *parent, fx32 offsetX, fx32
         return NULL;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.field_10, gameArchiveStage, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->objWork, 0, 33);
+    ObjActionAllocSpritePalette(&work->objWork, WATERBUBBLE_ANI_SPLASH, 33);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
 
     if (MATH_ABS(parent->velocity.y) > FLOAT_TO_FX32(6.0))
-        StageTask__SetAnimation(&work->objWork, 1);
+        StageTask__SetAnimation(&work->objWork, WATERBUBBLE_ANI_BIG_SPLASH);
     else
-        StageTask__SetAnimation(&work->objWork, 0);
+        StageTask__SetAnimation(&work->objWork, WATERBUBBLE_ANI_SPLASH);
 
     if (gmCheckVsBattleFlag())
         work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
@@ -1035,7 +1035,7 @@ EffectWaterWake *CreateEffectWaterWake(StageTask *parent, fx32 offsetX, fx32 pos
         return NULL;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.field_10, gameArchiveStage, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->objWork, 0, 33);
+    ObjActionAllocSpritePalette(&work->objWork, WATERBUBBLE_ANI_SPLASH, 33);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
 
@@ -1044,15 +1044,15 @@ EffectWaterWake *CreateEffectWaterWake(StageTask *parent, fx32 offsetX, fx32 pos
     {
         case 0:
         default:
-            anim = 5;
+            anim = WATERBUBBLE_ANI_SMALL_SPLASH;
             break;
 
         case 1:
-            anim = 6;
+            anim = WATERBUBBLE_ANI_SMALL_WAKE;
             break;
 
         case 2:
-            anim = 2;
+            anim = WATERBUBBLE_ANI_WATER_WAKE;
             break;
     }
     StageTask__SetAnimation(&work->objWork, anim);
@@ -1091,10 +1091,10 @@ EffectWaterGush *EffectWaterGush__Create(StageTask *parent, fx32 velX, fx32 velY
         return NULL;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.field_10, gameArchiveStage, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->objWork, 0, 33);
+    ObjActionAllocSpritePalette(&work->objWork, WATERBUBBLE_ANI_SPLASH, 33);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
-    StageTask__SetAnimation(&work->objWork, 7);
+    StageTask__SetAnimation(&work->objWork, WATERBUBBLE_ANI_GUSH_H);
 
     if (gmCheckVsBattleFlag())
         work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
@@ -1129,7 +1129,7 @@ EffectWaterBubble *EffectWaterBubble__Create(fx32 x, fx32 y, s32 anim, u16 durat
         return NULL;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_awa.bac", GetObjectFileWork(OBJDATAWORK_122), gameArchiveStage, OBJ_DATA_GFX_NONE);
-    ObjActionAllocSpritePalette(&work->objWork, 0, 22);
+    ObjActionAllocSpritePalette(&work->objWork, WATERBUBBLE_ANI_TINY_BUBBLE, 22);
     ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, anim), GetObjectFileWork(2 * anim + OBJDATAWORK_123));
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -1170,7 +1170,7 @@ void EffectWaterBubble__State_202A198(EffectWaterBubble *work)
     }
     else
     {
-        work->objWork.velocity.y = ObjSpdUpSet(work->objWork.velocity.y, -0xD0, work->objWork.userTimer);
+        work->objWork.velocity.y = ObjSpdUpSet(work->objWork.velocity.y, -FLOAT_TO_FX32(0.05078125), work->objWork.userTimer);
         work->objWork.velocity.x = work->objWork.velocity.y >> 1;
 
         if ((playerGameStatus.stageTimer & 2) != 0)

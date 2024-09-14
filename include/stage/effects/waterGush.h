@@ -2,6 +2,7 @@
 #define RUSH2_EFFECT_WATERGUSH_H
 
 #include <stage/effectTask.h>
+#include <stage/effects/waterCommon.h>
 
 // --------------------
 // STRUCTS

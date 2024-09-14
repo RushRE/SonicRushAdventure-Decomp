@@ -31,9 +31,7 @@ Static arm9
     Object src/stage/core/stageStart.o
     Object asm/game/stage/mapSys.o
     Object asm/game/stage/mapFarSys.o
-    Object asm/stage/core/waterSurface_vars.o
     Object src/stage/core/waterSurface.o
-    Object asm/stage/core/waterSurface_vars2.o
     Object src/stage/player/player.o # Player core functions
     Object src/stage/player/playerAction.o # Player actions & physics variables
     Object src/stage/player/playerSequence.o # Player State/Sequence handlers

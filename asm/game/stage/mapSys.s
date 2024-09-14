@@ -160,7 +160,7 @@ _02008688:
 	mov r0, #0
 _020086C8:
 	str r0, [r4, #0xc]
-	bl WaterSurface__Init
+	bl InitWaterSurface
 	bl MapFarSys__BuildBG
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
@@ -1711,7 +1711,7 @@ _02009AB8:
 	cmp r4, #2
 	add r5, r5, #0x70
 	blo _02009AB8
-	bl WaterSurface__Release
+	bl ReleaseWaterSurface
 	bl MapFarSys__ReleaseBG
 	ldr r0, _02009AF4 // =mapSystemTask
 	mov r1, #0
@@ -1765,7 +1765,7 @@ _02009B80:
 	mov r0, r4
 	bl MapSys__HandleCamera
 	bl MapFarSys__ProcessBG
-	bl WaterSurface__Process
+	bl ProcessWaterSurface
 	ldr r3, _02009C20 // =mapCamera
 	mov r2, #0
 _02009B9C:

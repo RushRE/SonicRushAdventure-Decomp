@@ -6649,23 +6649,23 @@ void Player__HandleWaterEntry(Player *player)
         switch (airTimer)
         {
             case 120:
-                CreateEffectDrownAlertForPlayer(player, 0);
+                CreateEffectDrownAlertForPlayer(player, COUNTDOWNBUBBLE_ANI_BUBBLE_0);
                 break;
 
             case 240:
-                CreateEffectDrownAlertForPlayer(player, 1);
+                CreateEffectDrownAlertForPlayer(player, COUNTDOWNBUBBLE_ANI_BUBBLE_1);
                 break;
 
             case 360:
-                CreateEffectDrownAlertForPlayer(player, 2);
+                CreateEffectDrownAlertForPlayer(player, COUNTDOWNBUBBLE_ANI_BUBBLE_2);
                 break;
 
             case 480:
-                CreateEffectDrownAlertForPlayer(player, 3);
+                CreateEffectDrownAlertForPlayer(player, COUNTDOWNBUBBLE_ANI_BUBBLE_3);
                 break;
 
             case 600:
-                CreateEffectDrownAlertForPlayer(player, 4);
+                CreateEffectDrownAlertForPlayer(player, COUNTDOWNBUBBLE_ANI_BUBBLE_4);
                 break;
 
             case 680:
@@ -6673,7 +6673,7 @@ void Player__HandleWaterEntry(Player *player)
                 break;
 
             case 720:
-                CreateEffectDrownAlertForPlayer(player, 5);
+                CreateEffectDrownAlertForPlayer(player, COUNTDOWNBUBBLE_ANI_BUBBLE_5);
                 CreateEffectWaterBubbleForPlayer(player, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), mapCamera.camera[player->cameraID].waterLevel);
                 break;
         }

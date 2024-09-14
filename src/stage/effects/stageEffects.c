@@ -221,23 +221,23 @@ void CreateEffectWaterBubbleForPlayer(Player *player, fx32 x, fx32 y, u16 durati
     switch (type)
     {
         case 0:
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), 0, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), WATERBUBBLE_ANI_TINY_BUBBLE, duration);
             break;
 
         case 1:
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(4.0), player->objWork.position.y + y + FLOAT_TO_FX32(8.0), 1, duration);
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(1.0), player->objWork.position.y + y - FLOAT_TO_FX32(3.0), 1, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(4.0), player->objWork.position.y + y + FLOAT_TO_FX32(8.0), WATERBUBBLE_ANI_SMALL_BUBBLE, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(1.0), player->objWork.position.y + y - FLOAT_TO_FX32(3.0), WATERBUBBLE_ANI_SMALL_BUBBLE, duration);
             break;
 
         case 2:
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), 0, duration);
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(2.0), player->objWork.position.y + y + FLOAT_TO_FX32(6.0), 1, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), WATERBUBBLE_ANI_TINY_BUBBLE, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(2.0), player->objWork.position.y + y + FLOAT_TO_FX32(6.0), WATERBUBBLE_ANI_SMALL_BUBBLE, duration);
             break;
 
         case 3:
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), 0, duration);
-            EffectWaterBubble__Create(player->objWork.position.x + x - FLOAT_TO_FX32(2.0), player->objWork.position.y + y + FLOAT_TO_FX32(6.0), 1, duration);
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(4.0), player->objWork.position.y + y + FLOAT_TO_FX32(9.0), 1, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), WATERBUBBLE_ANI_TINY_BUBBLE, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x - FLOAT_TO_FX32(2.0), player->objWork.position.y + y + FLOAT_TO_FX32(6.0), WATERBUBBLE_ANI_SMALL_BUBBLE, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(4.0), player->objWork.position.y + y + FLOAT_TO_FX32(9.0), WATERBUBBLE_ANI_SMALL_BUBBLE, duration);
             break;
     }
 }
