@@ -279,7 +279,7 @@ SailCamera__Main: // 0x0215F4F8
 	bl ObjShiftSet
 	str r0, [r7, #8]
 _0215F5D4:
-	blx SailVoyageManager__Func_2157B04
+	bl SailVoyageManager__Func_2157B04
 	mov r6, r0
 	bl SailManager__GetWork
 	ldr r0, [r0, #0x70]

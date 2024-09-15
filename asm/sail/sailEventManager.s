@@ -1065,10 +1065,10 @@ _02155A00:
 	ldr r1, [r6, #0x14]
 	str r1, [r7, #0x38]
 	ldr r1, [r7, #0x18]
-	blx SailVoyageManager__Func_2158854
+	bl SailVoyageManager__Func_2158854
 	strh r0, [r7, #0x2e]
 	mov r0, r8
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r1, [r7, #0x18]
 	smull r3, r2, r1, r0
 	mov r0, #0x800
@@ -1307,7 +1307,7 @@ SailEventManager__CreateObject: // 0x02155D7C
 	mov r3, #0
 	str r3, [r6, #0x3c]
 	add r0, r5, r4
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	mov r1, r0
 	ldr r2, [r6, #0x18]
 	ldr r0, _02155EB8 // =0x0007FFFF
@@ -1316,13 +1316,13 @@ SailEventManager__CreateObject: // 0x02155D7C
 	mov r8, r0
 	add r0, r5, r4
 	mov r1, r8
-	blx SailVoyageManager__Func_2158854
+	bl SailVoyageManager__Func_2158854
 	strh r0, [r6, #0x2e]
 	mov r1, r8
 	add r0, r5, r4
 	add r2, r6, #0x1c
 	add r3, r6, #0x24
-	blx SailVoyageManager__Func_2158888
+	bl SailVoyageManager__Func_2158888
 	ldrh r2, [r6, #0x2e]
 	mov r1, r7
 	ldr r7, _02155EBC // =FX_SinCosTable_
@@ -1464,7 +1464,7 @@ SailEventManager__Main: // 0x02155FDC
 	mov r10, #0
 	bl SailManager__GetWork
 	ldr r4, [r0, #0x70]
-	blx SailVoyageManager__Func_2157AE4
+	bl SailVoyageManager__Func_2157AE4
 	mov r8, r0
 	bl SailManager__GetShipType
 	mov r0, r0, lsl #0x10
@@ -1553,7 +1553,7 @@ _021560F8:
 	ldmia r0, {r0, r1, r2}
 	stmia r4, {r0, r1, r2}
 	mov r0, r9
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	mov r1, r0
 	ldr r0, [sp, #0x30]
 	bl FX_Div
@@ -1561,7 +1561,7 @@ _021560F8:
 	mov r0, r9
 	mov r2, r4
 	add r3, sp, #0x3c
-	blx SailVoyageManager__Func_2158888
+	bl SailVoyageManager__Func_2158888
 	ldrh r1, [r7, #0x2e]
 	ldr ip, [sp, #0x28]
 	ldr r3, [sp, #0x34]

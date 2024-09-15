@@ -13,7 +13,7 @@ StageSelectMenu__Unknown__Init: // 0x02169A80
 	mov r0, #0
 	mov r1, r5
 	mov r7, r3
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, #0x7d
 	lsl r0, r0, #4
 	mov r1, #0
@@ -68,7 +68,7 @@ StageSelectMenu__Unknown__Init: // 0x02169A80
 	add r1, #0x60
 	add r0, r5, r0
 	str r2, [r5, r1]
-	blx TouchField__Init
+	bl TouchField__Init
 	mov r1, #0x81
 	lsl r1, r1, #4
 	mov r2, #0
@@ -118,7 +118,7 @@ _02169B5A:
 	cmp r0, #0
 	beq _02169B68
 	add r0, r5, #4
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	str r6, [r5]
 _02169B68:
 	add r5, #0x6c
@@ -187,7 +187,7 @@ _02169BCA:
 	ldrh r1, [r5, r1]
 	mov r0, r6
 	sub r1, r1, #1
-	blx _s32_div_f
+	bl _s32_div_f
 	ldr r1, _02169CF8 // =0x0000081E
 	ldrh r1, [r5, r1]
 	add r1, r1, r0
@@ -298,7 +298,7 @@ _02169C70:
 	str r0, [sp, #0x20]
 	mov r0, r4
 	add r0, #0x42
-	blx Task__Unknown204BE48__Create
+	bl Task__Unknown204BE48__Create
 	mov r1, #0x63
 	lsl r1, r1, #2
 	str r0, [r4, r1]
@@ -398,7 +398,7 @@ _02169D64:
 	mov r1, #0
 	add r0, r2, #4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 _02169D86:
 	ldr r0, _0216A010 // =0x0000090C
 	add r1, r5, r0
@@ -408,7 +408,7 @@ _02169D86:
 	add r0, r1, #4
 	mov r1, #0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 _02169D9A:
 	mov r0, #0x7f
 	lsl r0, r0, #4
@@ -433,7 +433,7 @@ _02169DB2:
 	add r0, r1, #4
 	mov r1, #0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 _02169DCA:
 	mov r0, #0x12
 	lsl r0, r0, #4
@@ -444,7 +444,7 @@ _02169DCA:
 	add r0, r1, #4
 	mov r1, #0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 _02169DE0:
 	mov r0, r4
 	add r0, #0xac
@@ -462,7 +462,7 @@ _02169DF6:
 	mov r1, #0
 	add r0, #0x38
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, r4
 	add r0, #0xac
 	ldr r3, [r0]
@@ -490,7 +490,7 @@ _02169E22:
 	add r0, r1, #4
 	mov r1, #0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 _02169E38:
 	mov r2, #0x7d
 	lsl r2, r2, #4
@@ -629,7 +629,7 @@ _02169F0E:
 _02169F38:
 	ldr r0, _0216A024 // =0x00000804
 	add r0, r5, r0
-	blx TouchField__Process
+	bl TouchField__Process
 	ldr r0, _0216A014 // =0x000007F2
 	ldrh r1, [r5, r0]
 	cmp r6, r1
@@ -643,12 +643,12 @@ _02169F38:
 	add r0, r5, r4
 	ldrh r1, [r1]
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	add r0, r5, r4
 	mov r1, #0
 	add r0, #0x38
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r0, r5, r4
 	thumb_func_end StageSelectMenu__Unknown__Process
 
@@ -674,12 +674,12 @@ _02169F80:
 	add r0, r5, r4
 	ldrh r1, [r1]
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	add r0, r5, r4
 	mov r1, #0
 	add r0, #0x38
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r0, r5, r4
 	add r0, #0xac
 	ldr r3, [r0]
@@ -780,7 +780,7 @@ _0216A048:
 	cmp r0, #0
 	beq _0216A06A
 	add r0, r2, #4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _0216A06A:
 	mov r0, #0x7f
 	lsl r0, r0, #4
@@ -840,7 +840,7 @@ _0216A0BA:
 _0216A0CE:
 	mov r0, r4
 	add r0, #0x38
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	mov r0, r4
 	add r0, #0xb4
 	mov r1, r4
@@ -861,7 +861,7 @@ _0216A0CE:
 	add r0, r0, r2
 	strh r0, [r1, #0xe]
 	add r0, r1, #4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _0216A102:
 	mov r0, #0x12
 	lsl r0, r0, #4
@@ -884,7 +884,7 @@ _0216A102:
 	add r0, r0, r2
 	strh r0, [r1, #0xe]
 	add r0, r1, #4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _0216A130:
 	mov r0, #0x19
 	lsl r0, r0, #4
@@ -924,7 +924,7 @@ _0216A150:
 	add r1, r2, r1
 	strh r1, [r0, #0xe]
 	add r0, r0, #4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _0216A17C:
 	ldr r0, _0216A1B4 // =0x0000090C
 	add r1, r6, r0
@@ -949,7 +949,7 @@ _0216A17C:
 	add r0, r3, r0
 	strh r0, [r1, #0xe]
 	add r0, r1, #4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _0216A1AE:
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -1049,7 +1049,7 @@ StageSelectMenu__Unknown__Func_216A1DC: // 0x0216A1DC
 	ldr r1, [sp, #0x14]
 	ldr r2, [sp, #0x18]
 	add r0, #0x38
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, _0216A2C4 // =StageSelectMenu__Unknown__Func_216A634
 	mov r2, #0
 	str r0, [sp]
@@ -1058,7 +1058,7 @@ StageSelectMenu__Unknown__Func_216A1DC: // 0x0216A1DC
 	add r1, #0x38
 	mov r3, r2
 	str r5, [sp, #4]
-	blx TouchField__InitAreaSprite
+	bl TouchField__InitAreaSprite
 	add r0, sp, #0x28
 	mov r1, #0x18
 	ldrsh r1, [r0, r1]
@@ -1075,12 +1075,12 @@ StageSelectMenu__Unknown__Func_216A1DC: // 0x0216A1DC
 	add r1, sp, #0x1c
 	strh r0, [r2, #6]
 	add r0, r5, r4
-	blx TouchField__SetAreaHitbox
+	bl TouchField__SetAreaHitbox
 	ldr r0, _0216A2C8 // =0x00000804
 	ldr r2, _0216A2CC // =0x0000FFFF
 	add r0, r5, r0
 	add r1, r5, r4
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	mov r1, #0x7f
 	lsl r1, r1, #4
 	ldrh r0, [r5, r1]
@@ -1116,7 +1116,7 @@ StageSelectMenu__Unknown__Func_216A2D0: // 0x0216A2D0
 	ldr r1, [r5, r1]
 	mov r0, r7
 	add r4, #0xb4
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r3, _0216A344 // =0x000007D8
 	ldr r1, [r5, r3]
 	str r1, [sp]
@@ -1139,7 +1139,7 @@ StageSelectMenu__Unknown__Func_216A2D0: // 0x0216A2D0
 	ldr r2, [sp, #0x14]
 	add r0, r4, #4
 	mov r1, r7
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	add r1, sp, #0x20
 	mov r0, #0x14
 	ldrsh r2, [r1, r0]
@@ -1179,7 +1179,7 @@ StageSelectMenu__Unknown__Func_216A348: // 0x0216A348
 	ldr r2, [sp, #0x14]
 	ldr r1, [r5, r1]
 	mov r0, r7
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r3, _0216A3C0 // =0x000007D8
 	ldr r1, [r5, r3]
 	str r1, [sp]
@@ -1202,7 +1202,7 @@ StageSelectMenu__Unknown__Func_216A348: // 0x0216A348
 	ldr r2, [sp, #0x14]
 	add r0, r4, #4
 	mov r1, r7
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	add r1, sp, #0x20
 	mov r0, #0x14
 	ldrsh r2, [r1, r0]
@@ -1245,7 +1245,7 @@ _0216A3E0:
 	ldr r0, [r4, r0]
 	cmp r0, #0
 	beq _0216A3FE
-	blx DestroyTask
+	bl DestroyTask
 	mov r0, #0x63
 	mov r1, #0
 	lsl r0, r0, #2
@@ -1254,7 +1254,7 @@ _0216A3FE:
 	ldr r0, _0216A458 // =0x00000804
 	mov r1, r4
 	add r0, r6, r0
-	blx TouchField__RemoveArea
+	bl TouchField__RemoveArea
 	mov r0, r4
 	add r0, #0xb4
 	mov r5, r4
@@ -1263,7 +1263,7 @@ _0216A3FE:
 	cmp r0, #0
 	beq _0216A420
 	add r0, r5, #4
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, #0
 	str r0, [r5]
 _0216A420:
@@ -1274,13 +1274,13 @@ _0216A420:
 	cmp r0, #0
 	beq _0216A436
 	add r0, r5, #4
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, #0
 	str r0, [r5]
 _0216A436:
 	mov r0, r4
 	add r0, #0x38
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, #0x19
 	lsl r0, r0, #4
 	add r4, r4, r0
@@ -1343,7 +1343,7 @@ _0216A49C:
 	ldr r2, [sp, #0x14]
 	ldr r1, [r5, r1]
 	mov r0, r7
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r3, _0216A4EC // =0x000007D8
 	ldr r1, [r5, r3]
 	str r1, [sp]
@@ -1359,7 +1359,7 @@ _0216A49C:
 	str r6, [sp, #0x10]
 	ldr r2, [sp, #0x14]
 	add r0, r4, #4
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	add r1, sp, #0x20
 	mov r0, #0x14
 	ldrsh r2, [r1, r0]
@@ -1518,7 +1518,7 @@ _0216A5A6:
 	str r0, [sp, #0x20]
 	mov r0, r4
 	add r0, #0x42
-	blx Task__Unknown204BE48__Create
+	bl Task__Unknown204BE48__Create
 	mov r1, #0x63
 	lsl r1, r1, #2
 	str r0, [r4, r1]
@@ -1567,7 +1567,7 @@ _0216A652:
 	mov r1, #0x19
 	sub r0, r5, r4
 	lsl r1, r1, #4
-	blx _s32_div_f
+	bl _s32_div_f
 	ldr r1, _0216A664 // =0x000007F2
 	strh r0, [r4, r1]
 	pop {r3, r4, r5, pc}
@@ -1596,7 +1596,7 @@ StageSelectMenu__Unknown__Func_216A668: // 0x0216A668
 	ldrh r1, [r1]
 	add r0, r5, r4
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	add r0, r5, r4
 	add r0, #0xac
 	ldr r3, [r0]
@@ -1728,7 +1728,7 @@ StageSelectMenu__Unknown__Func_216A764: // 0x0216A764
 	add r0, r5, r4
 	ldrh r1, [r1]
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	add r0, r5, r4
 	add r0, #0xac
 	ldr r3, [r0]
@@ -1784,7 +1784,7 @@ StageSelectMenu__Unknown__Func_216A7CC: // 0x0216A7CC
 	add r0, r5, r4
 	ldrh r1, [r1]
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	add r0, r5, r4
 	add r0, #0xac
 	ldr r3, [r0]

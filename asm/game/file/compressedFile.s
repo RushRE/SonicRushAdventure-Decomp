@@ -227,7 +227,7 @@ _0205B988:
 	bl MI_UncompressRL8
 	b _0205B9C8
 _0205B998:
-	blx MI_UncompressRL16
+	bl MI_UncompressRL16
 	b _0205B9C8
 _0205B9A0:
 	tst r4, #1

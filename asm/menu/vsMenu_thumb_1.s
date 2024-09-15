@@ -10,7 +10,7 @@ VSMenuBackground__Destroy: // 0x02167164
 	push {r3, r4, r5, lr}
 	ldr r0, _02167188 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, #0x8f
 	mov r4, r0
 	lsl r5, r5, #2
@@ -18,9 +18,9 @@ VSMenuBackground__Destroy: // 0x02167164
 	cmp r0, #0
 	beq _02167186
 	mov r0, #0
-	blx RenderCore_SetVBlankCallback
+	bl RenderCore_SetVBlankCallback
 	ldr r0, [r4, r5]
-	blx DestroyTask
+	bl DestroyTask
 _02167186:
 	pop {r3, r4, r5, pc}
 	.align 2, 0
@@ -33,7 +33,7 @@ VSMenuNetworkMessage__Func_216718C: // 0x0216718C
 	sub sp, #0x14
 	ldr r0, _02167210 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r2, #0x93
 	mov r4, r0
 	lsl r2, r2, #2
@@ -41,28 +41,28 @@ VSMenuNetworkMessage__Func_216718C: // 0x0216718C
 	mov r0, #0
 	mov r1, r5
 	add r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r5
 	add r0, #0x78
-	blx FontWindow__Init
+	bl FontWindow__Init
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r5, r0
-	blx FontAnimator__Init
+	bl FontAnimator__Init
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r5, r0
-	blx FontWindowAnimator__Init
+	bl FontWindowAnimator__Init
 	mov r0, r5
 	add r0, #0x78
 	mov r1, #0
 	mov r2, #1
-	blx FontWindow__LoadFromMemory
+	bl FontWindow__LoadFromMemory
 	mov r1, #0
 	str r1, [r5, #0x10]
 	ldr r0, [r4, #0x2c]
 	add r5, #0x14
-	blx SpriteUnknown__GetSpriteSize
+	bl SpriteUnknown__GetSpriteSize
 	mov r2, #0
 	str r2, [sp]
 	str r0, [sp, #4]
@@ -74,7 +74,7 @@ VSMenuNetworkMessage__Func_216718C: // 0x0216718C
 	ldr r1, [r4, #0x2c]
 	mov r0, r5
 	mov r3, #5
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0x80
 	strh r0, [r5, #8]
 	mov r0, #0x90
@@ -82,7 +82,7 @@ VSMenuNetworkMessage__Func_216718C: // 0x0216718C
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add sp, #0x14
 	pop {r4, r5, pc}
 	nop
@@ -94,34 +94,34 @@ VSMenuNetworkMessage__Func_2167214: // 0x02167214
 	push {r4, lr}
 	ldr r0, _02167260 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
 	add r4, r0, r1
 	ldr r0, [r4]
 	cmp r0, #0
 	beq _0216722E
-	blx DestroyTask
+	bl DestroyTask
 _0216722E:
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	beq _02167238
-	blx DestroyTask
+	bl DestroyTask
 _02167238:
 	mov r0, r4
 	add r0, #0x14
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__Release
+	bl FontWindowAnimator__Release
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__Release
+	bl FontAnimator__Release
 	add r4, #0x78
 	mov r0, r4
-	blx FontWindow__Release
+	bl FontWindow__Release
 	pop {r4, pc}
 	nop
 _02167260: .word VSMenu__Singleton
@@ -134,7 +134,7 @@ VSMenuNetworkMessage__Create: // 0x02167264
 	mov r5, r0
 	ldr r0, _021672E0 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _021672E4 // =0x0400000A
 	mov r2, #0x93
 	lsl r2, r2, #2
@@ -172,7 +172,7 @@ VSMenuNetworkMessage__Create: // 0x02167264
 	str r1, [sp, #8]
 	mov r2, r1
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	mov r1, #0
 	str r0, [r4]
 	ldr r0, _021672F4 // =0x00002085
@@ -182,7 +182,7 @@ VSMenuNetworkMessage__Create: // 0x02167264
 	ldr r0, _021672F8 // =VSMenuNetworkMessage__Main2
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r4, #4]
 _021672DA:
 	add sp, #0xc
@@ -204,7 +204,7 @@ VSMenu__InitFontWindow: // 0x021672FC
 	mov r5, r0
 	ldr r0, _02167444 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	mov r0, #0x93
 	lsl r0, r0, #2
@@ -216,16 +216,16 @@ VSMenu__InitFontWindow: // 0x021672FC
 _0216731A:
 	sub r0, #0x60
 	add r0, r4, r0
-	blx FontWindowAnimator__Release
+	bl FontWindowAnimator__Release
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__Release
+	bl FontAnimator__Release
 	mov r0, r4
 	ldr r1, _02167448 // =aFntFontAllFnt_3_ovl03
 	add r0, #0x78
 	mov r2, #3
-	blx FontWindow__LoadFromFile2
+	bl FontWindow__LoadFromFile2
 	mov r0, #5
 	str r0, [sp]
 	mov r0, #0x1a
@@ -245,30 +245,30 @@ _0216731A:
 	add r0, r4, r0
 	add r1, #0x78
 	mov r3, #3
-	blx FontAnimator__LoadFont1
+	bl FontAnimator__LoadFont1
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__LoadMappingsFunc
+	bl FontAnimator__LoadMappingsFunc
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__LoadPaletteFunc
+	bl FontAnimator__LoadPaletteFunc
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__ClearPixels
+	bl FontAnimator__ClearPixels
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	ldr r1, [r6, #0xc]
 	add r0, r4, r0
-	blx FontAnimator__LoadMPCFile
+	bl FontAnimator__LoadMPCFile
 	add r3, sp, #0x28
 	mov r0, #0
 	mov r1, #1
 	add r2, sp, #0x28
 	add r3, #2
-	blx GetVRAMCharacterConfig
+	bl GetVRAMCharacterConfig
 	add r1, sp, #0x24
 	ldrh r2, [r1, #4]
 	ldrh r1, [r1, #6]
@@ -283,7 +283,7 @@ _0216731A:
 	add r1, r2, r1
 	mov r0, #0
 	mov r2, #0x20
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	add r0, sp, #0x24
 	add r0, #2
 	str r0, [sp]
@@ -291,7 +291,7 @@ _0216731A:
 	mov r1, #1
 	add r2, sp, #0x2c
 	add r3, sp, #0x24
-	blx GetVRAMTileConfig
+	bl GetVRAMTileConfig
 	add r1, sp, #0x24
 	ldrh r2, [r1]
 	ldrh r1, [r1, #2]
@@ -302,7 +302,7 @@ _0216731A:
 	mov r2, #2
 	add r1, r5, r1
 	lsl r2, r2, #0xa
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	mov r0, #3
 	str r0, [sp]
 	mov r0, #2
@@ -327,23 +327,23 @@ _0216731A:
 	add r0, r4, r0
 	add r1, #0x78
 	mov r3, r2
-	blx FontWindowAnimator__Load2
+	bl FontWindowAnimator__Load2
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	mov r1, #0
 	add r0, r4, r0
 	sub r2, r1, #4
-	blx FontWindowAnimator__Func_2059B88
+	bl FontWindowAnimator__Func_2059B88
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0x40
-	blx FontWindowAnimator__EnableFlags
+	bl FontWindowAnimator__EnableFlags
 	ldr r0, _02167450 // =0x02110460
 	ldr r3, _02167454 // =0x050000C2
 	mov r1, #4
 	mov r2, #0
-	blx QueueUncompressedPalette
+	bl QueueUncompressedPalette
 _0216743E:
 	add sp, #0x30
 	pop {r4, r5, r6, pc}
@@ -372,7 +372,7 @@ VSMenu__Func_2167464: // 0x02167464
 	sub sp, #0xc
 	ldr r0, _021674C0 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #1
 	ldr r5, _021674C4 // =0x0000091C
 	mov r4, r0
@@ -418,7 +418,7 @@ VSMenu__Func_21674C8: // 0x021674C8
 	push {r3, lr}
 	ldr r0, _021674DC // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _021674E0 // =0x0000091C
 	add r0, r0, r1
 	bl StageSelectMenu__Unknown__Release
@@ -452,7 +452,7 @@ _02167504:
 	bne _0216752E
 	mov r0, r1
 	mov r1, #1
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	pop {r3, r4, r5, pc}
 _02167514:
 	lsr r0, r4, #5
@@ -460,7 +460,7 @@ _02167514:
 	bne _0216752E
 	mov r0, r1
 	mov r1, #0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	pop {r3, r4, r5, pc}
 _02167524:
 	ldr r1, [r2, #0xc]
@@ -499,19 +499,19 @@ _02167558:
 	ldr r0, _02167598 // =VSMenu__Singleton
 	mov r1, r2
 	ldr r0, [r0]
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	b _0216757C
 _02167564:
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	b _0216757C
 _0216756C:
 	mov r0, #1
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	b _0216757C
 _02167574:
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	pop {r3, pc}
 _0216757C:
 	ldr r0, _0216759C // =0x0000FFFF
@@ -551,7 +551,7 @@ _021675C0:
 	ldr r0, _021675D0 // =VSMenu__Singleton
 	ldr r1, [r2]
 	ldr r0, [r0]
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _021675CC: .word 0x0000FFFF
@@ -584,7 +584,7 @@ VSMenu__Main: // 0x021675F0
 	sub sp, #0x20
 	ldr r0, _021676E4 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r5, _021676E8 // =0x0000091C
 	mov r0, #0
@@ -689,7 +689,7 @@ VSMenu__Main: // 0x021675F0
 	mov r2, r1
 	bl StageSelectMenu__Unknown__Func_2169B78
 	ldr r0, _02167708 // =VSMenu__Main_2167950
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r3, r4, r5, pc}
 	.align 2, 0
@@ -711,7 +711,7 @@ VSMenu__Main_216770C: // 0x0216770C
 	sub sp, #0x20
 	ldr r0, _0216783C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r4, _02167840 // =0x0000091C
 	mov r0, #4
@@ -842,7 +842,7 @@ VSMenu__Main_216770C: // 0x0216770C
 	mov r2, r1
 	bl StageSelectMenu__Unknown__Func_2169B78
 	ldr r0, _0216785C // =VSMenu__Main_2167950
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r4, r5, r6, pc}
 	nop
@@ -863,7 +863,7 @@ VSMenu__Func_2167860: // 0x02167860
 	sub sp, #0x20
 	ldr r0, _0216792C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r5, _02167930 // =0x0000091C
 	mov r0, #2
@@ -948,7 +948,7 @@ VSMenu__Func_2167860: // 0x02167860
 	mov r2, r1
 	bl StageSelectMenu__Unknown__Func_2169B78
 	ldr r0, _0216794C // =VSMenu__Main_2167950
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r3, r4, r5, pc}
 	nop
@@ -968,9 +968,9 @@ VSMenu__Main_2167950: // 0x02167950
 	push {r4, lr}
 	ldr r0, _021679BC // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0x11
 	bgt _0216796C
 	bge _021679AA
@@ -996,7 +996,7 @@ _0216797C:
 	ldr r0, _021679BC // =VSMenu__Singleton
 	ldr r1, _021679C4 // =VSMenu__Main_21692B8
 	ldr r0, [r0]
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r4, pc}
 _02167994:
 	ldr r0, _021679C0 // =0x00001148
@@ -1008,7 +1008,7 @@ _02167994:
 	ldr r0, _021679BC // =VSMenu__Singleton
 	ldr r1, _021679C8 // =VSMenu__Main_2169324
 	ldr r0, [r0]
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 _021679AA:
 	ldr r0, _021679CC // =0x0000091C
 	add r0, r4, r0
@@ -1030,11 +1030,11 @@ VSMenu__Main_GotoHubMenu: // 0x021679D0
 	push {r3, lr}
 	mov r0, #4
 	lsl r1, r0, #0xa
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r0, #3
 	bl VSMenu__Func_2166874
 	ldr r0, _021679E8 // =VSMenu__Main_GotoVSMenu
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _021679E8: .word VSMenu__Main_GotoVSMenu
@@ -1043,15 +1043,15 @@ _021679E8: .word VSMenu__Main_GotoVSMenu
 	thumb_func_start VSMenu__Main_GotoVSMenu
 VSMenu__Main_GotoVSMenu: // 0x021679EC
 	push {r3, lr}
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _02167A0A
-	blx DestroyDrawFadeTask
+	bl DestroyDrawFadeTask
 	ldr r0, _02167A0C // =VSMenu__Singleton
 	ldr r0, [r0]
 	bl VSMenu__Destroy
-	blx NextSysEvent
-	blx DestroyCurrentTask
+	bl NextSysEvent
+	bl DestroyCurrentTask
 _02167A0A:
 	pop {r3, pc}
 	.align 2, 0
@@ -1063,16 +1063,16 @@ VSMenu__Main_2167A10: // 0x02167A10
 	push {r4, lr}
 	ldr r0, _02167A34 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xa
 	bl VSMenu__Func_21667F0
 	ldr r0, _02167A38 // =0x00001874
 	mov r1, #0
 	add r0, r4, r0
-	blx VSRecordsMenu__Create
+	bl VSRecordsMenu__Create
 	ldr r0, _02167A3C // =VSMenu__Main_2167A40
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _02167A34: .word VSMenu__Singleton
@@ -1085,14 +1085,14 @@ VSMenu__Main_2167A40: // 0x02167A40
 	push {r3, lr}
 	ldr r0, _02167A60 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _02167A64 // =0x00001874
 	add r0, r0, r1
-	blx VSRecordsMenu__Func_2173204
+	bl VSRecordsMenu__Func_2173204
 	cmp r0, #0
 	beq _02167A5C
 	ldr r0, _02167A68 // =VSMenu__Main
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02167A5C:
 	pop {r3, pc}
 	nop
@@ -1107,7 +1107,7 @@ VSMenu__Main_2167A6C: // 0x02167A6C
 	sub sp, #0x20
 	ldr r0, _02167B3C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r4, _02167B40 // =0x0000091C
 	mov r0, #0xf
@@ -1194,7 +1194,7 @@ VSMenu__Main_2167A6C: // 0x02167A6C
 	mov r2, r1
 	bl StageSelectMenu__Unknown__Func_2169B78
 	ldr r0, _02167B58 // =VSMenu__Main_2167950
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r4, r5, r6, pc}
 	.align 2, 0
@@ -1214,7 +1214,7 @@ VSMenu__Main_2167B5C: // 0x02167B5C
 	sub sp, #0x20
 	ldr r0, _02167C60 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r4, _02167C64 // =0x0000091C
 	mov r0, #0xb
@@ -1324,7 +1324,7 @@ VSMenu__Main_2167B5C: // 0x02167B5C
 	mov r2, r1
 	bl StageSelectMenu__Unknown__Func_2169B78
 	ldr r0, _02167C7C // =VSMenu__Main_2167950
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r4, r5, r6, pc}
 	nop
@@ -1344,14 +1344,14 @@ VSMenu__Main_2167C80: // 0x02167C80
 	sub sp, #0xc
 	ldr r0, _02167CCC // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x11
 	bl VSMenu__Func_21667F0
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xe4
@@ -1361,14 +1361,14 @@ VSMenu__Main_2167C80: // 0x02167C80
 	mov r1, r0
 	mov r2, #0xb
 	mov r3, #1
-	blx CreateConnectionStatusIcon
+	bl CreateConnectionStatusIcon
 	ldr r0, _02167CD0 // =0x00000918
 	mov r1, #2
 	ldr r0, [r4, r0]
 	lsl r1, r1, #0xe
 	bl VSConnectionMenu__Create
 	ldr r0, _02167CD4 // =VSMenu__Main_2167D8C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {r3, r4, pc}
 	.align 2, 0
@@ -1383,14 +1383,14 @@ VSMenu__Main_2167CD8: // 0x02167CD8
 	sub sp, #0xc
 	ldr r0, _02167D24 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x12
 	bl VSMenu__Func_21667F0
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xe4
@@ -1400,13 +1400,13 @@ VSMenu__Main_2167CD8: // 0x02167CD8
 	mov r1, r0
 	mov r2, #0xb
 	mov r3, #1
-	blx CreateConnectionStatusIcon
+	bl CreateConnectionStatusIcon
 	ldr r0, _02167D28 // =0x00000918
 	ldr r1, _02167D2C // =0x00008004
 	ldr r0, [r4, r0]
 	bl VSConnectionMenu__Create
 	ldr r0, _02167D30 // =VSMenu__Main_2167D8C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {r3, r4, pc}
 	nop
@@ -1422,14 +1422,14 @@ VSMenu__Main_2167D34: // 0x02167D34
 	sub sp, #0xc
 	ldr r0, _02167D80 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xf
 	bl VSMenu__Func_21667F0
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xe4
@@ -1439,14 +1439,14 @@ VSMenu__Main_2167D34: // 0x02167D34
 	mov r1, r0
 	mov r2, #0xb
 	mov r3, #1
-	blx CreateConnectionStatusIcon
+	bl CreateConnectionStatusIcon
 	ldr r0, _02167D84 // =0x00000918
 	mov r1, #0x81
 	ldr r0, [r4, r0]
 	lsl r1, r1, #8
 	bl VSConnectionMenu__Create
 	ldr r0, _02167D88 // =VSMenu__Main_2167D8C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {r3, r4, pc}
 	.align 2, 0
@@ -1460,7 +1460,7 @@ VSMenu__Main_2167D8C: // 0x02167D8C
 	push {r4, lr}
 	ldr r0, _02167E10 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02167E14 // =0x00000918
 	ldr r0, [r4, r0]
@@ -1494,28 +1494,28 @@ _02167DCE:
 	bl VSConnectionMenu__Func_216AC44
 	mov r4, r0
 	mov r0, #0
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #0
-	blx RenderCore_SetNextFoldMode
-	blx DestroyConnectionStatusIcon
+	bl RenderCore_SetNextFoldMode
+	bl DestroyConnectionStatusIcon
 	mov r0, #1
 	lsl r0, r0, #8
 	tst r0, r4
 	bne _02167DF8
 	ldr r0, _02167E18 // =VSMenu__Main_2167B5C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02167DF8:
 	ldr r0, _02167E1C // =VSMenu__Main_2167A6C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02167E00:
 	ldr r0, _02167E20 // =VSMenu__Main_21692B8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02167E08:
 	ldr r0, _02167E24 // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02167E0E:
 	pop {r4, pc}
 	.align 2, 0
@@ -1533,7 +1533,7 @@ VSMenu__Main_2167E28: // 0x02167E28
 	sub sp, #0x20
 	ldr r0, _02167F2C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r4, _02167F30 // =0x0000091C
 	mov r0, #0xb
@@ -1643,7 +1643,7 @@ VSMenu__Main_2167E28: // 0x02167E28
 	mov r2, r1
 	bl StageSelectMenu__Unknown__Func_2169B78
 	ldr r0, _02167F48 // =VSMenu__Main_2167950
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r4, r5, r6, pc}
 	nop
@@ -1663,15 +1663,15 @@ VSMenu__Main_2167F4C: // 0x02167F4C
 	sub sp, #0xc
 	ldr r0, _02167F9C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x11
 	bl VSMenu__Func_21667F0
 	bl VSMenu__Main_2168090
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xe4
@@ -1681,13 +1681,13 @@ VSMenu__Main_2167F4C: // 0x02167F4C
 	mov r1, r0
 	mov r2, #0xb
 	mov r3, #1
-	blx CreateConnectionStatusIcon
+	bl CreateConnectionStatusIcon
 	ldr r0, _02167FA0 // =0x00000918
 	ldr r1, _02167FA4 // =0x00008001
 	ldr r0, [r4, r0]
 	bl VSConnectionMenu__Create
 	ldr r0, _02167FA8 // =VSMenu__Main_216800C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {r3, r4, pc}
 	nop
@@ -1703,15 +1703,15 @@ VSMenu__Main_2167FAC: // 0x02167FAC
 	sub sp, #0xc
 	ldr r0, _02167FFC // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x12
 	bl VSMenu__Func_21667F0
 	bl VSMenu__Main_2168090
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xe4
@@ -1721,13 +1721,13 @@ VSMenu__Main_2167FAC: // 0x02167FAC
 	mov r1, r0
 	mov r2, #0xb
 	mov r3, #1
-	blx CreateConnectionStatusIcon
+	bl CreateConnectionStatusIcon
 	ldr r0, _02168000 // =0x00000918
 	ldr r1, _02168004 // =0x00008005
 	ldr r0, [r4, r0]
 	bl VSConnectionMenu__Create
 	ldr r0, _02168008 // =VSMenu__Main_216800C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {r3, r4, pc}
 	nop
@@ -1742,7 +1742,7 @@ VSMenu__Main_216800C: // 0x0216800C
 	push {r4, lr}
 	ldr r0, _0216807C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02168080 // =0x00000918
 	ldr r0, [r4, r0]
@@ -1773,20 +1773,20 @@ _0216804A:
 	pop {r4, pc}
 _02168052:
 	ldr r0, _02168084 // =VSMenu__Main_2167E28
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	mov r0, #0
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #0
-	blx RenderCore_SetNextFoldMode
-	blx DestroyConnectionStatusIcon
+	bl RenderCore_SetNextFoldMode
+	bl DestroyConnectionStatusIcon
 	pop {r4, pc}
 _0216806A:
 	ldr r0, _02168088 // =VSMenu__Main_21692B8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02168072:
 	ldr r0, _0216808C // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168078:
 	pop {r4, pc}
 	nop
@@ -1802,20 +1802,20 @@ VSMenu__Main_2168090: // 0x02168090
 	push {r4, lr}
 	ldr r0, _021680C4 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _021680C8 // =0x00001874
 	add r0, r4, r0
-	blx VSRecordsMenu__ReleaseAssets
+	bl VSRecordsMenu__ReleaseAssets
 	ldr r0, _021680CC // =0x0000186C
 	add r0, r4, r0
-	blx VSViewFriendCodeMenu__ReleaseAssets
+	bl VSViewFriendCodeMenu__ReleaseAssets
 	ldr r0, _021680D0 // =0x00001864
 	add r0, r4, r0
-	blx VSRegisterFriendCodeMenu__Release
+	bl VSRegisterFriendCodeMenu__Release
 	ldr r0, _021680D4 // =0x00001294
 	add r0, r4, r0
-	blx VSFriendListMenu__ReleaseAssets
+	bl VSFriendListMenu__ReleaseAssets
 	bl VSMenu__Func_21674C8
 	pop {r4, pc}
 	nop
@@ -1831,21 +1831,21 @@ VSMenu__Main_21680D8: // 0x021680D8
 	push {r4, lr}
 	ldr r0, _0216810C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl VSMenu__Func_2167464
 	ldr r0, _02168110 // =0x00001294
 	add r0, r4, r0
-	blx VSFriendListMenu__LoadAssets
+	bl VSFriendListMenu__LoadAssets
 	ldr r0, _02168114 // =0x00001864
 	add r0, r4, r0
-	blx VSRegisterFriendCodeMenu__Init
+	bl VSRegisterFriendCodeMenu__Init
 	ldr r0, _02168118 // =0x0000186C
 	add r0, r4, r0
-	blx VSViewFriendCodeMenu__LoadAssets
+	bl VSViewFriendCodeMenu__LoadAssets
 	ldr r0, _0216811C // =0x00001874
 	add r0, r4, r0
-	blx VSRecordsMenu__LoadAssets
+	bl VSRecordsMenu__LoadAssets
 	pop {r4, pc}
 	nop
 _0216810C: .word VSMenu__Singleton
@@ -1861,10 +1861,10 @@ VSMenu__Main_2168120: // 0x02168120
 	sub sp, #8
 	mov r0, #4
 	bl VSMenu__Func_21667F0
-	blx MultibootManager__Func_2061638
+	bl MultibootManager__Func_2061638
 	cmp r0, #0
 	beq _02168188
-	blx MultibootManager__Func_20618F0
+	bl MultibootManager__Func_20618F0
 	cmp r0, #0
 	bne _0216815C
 	mov r0, #0x1e
@@ -1875,13 +1875,13 @@ VSMenu__Main_2168120: // 0x02168120
 	mov r1, #0
 	mov r3, #5
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _021681B8 // =VSMenu__Main_2168388
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _0216815C:
-	blx MultibootManager__Func_2061904
+	bl MultibootManager__Func_2061904
 	cmp r0, #0
 	bne _021681AC
 	mov r0, #0x20
@@ -1893,9 +1893,9 @@ _0216815C:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #5
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _021681BC // =VSMenu__Main_2168424
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _02168188:
@@ -1908,14 +1908,14 @@ _02168188:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #5
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _021681C0 // =VSMenu__Main_2168470
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _021681AC:
 	ldr r0, _021681C4 // =VSMenu__Main_21681C8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	nop
@@ -1937,9 +1937,9 @@ VSMenu__Main_21681C8: // 0x021681C8
 	mov r1, #0
 	mov r3, #5
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _021681F0 // =VSMenu__Main_21681F4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	nop
@@ -1951,13 +1951,13 @@ VSMenu__Main_21681F4: // 0x021681F4
 	push {lr}
 	sub sp, #0xc
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _02168276
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _02168220
 	cmp r0, #1
@@ -1966,9 +1966,9 @@ VSMenu__Main_21681F4: // 0x021681F4
 	pop {pc}
 _02168220:
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r1, #0
 	str r1, [sp]
 	mov r0, #0xe4
@@ -1978,18 +1978,18 @@ _02168220:
 	mov r0, #1
 	mov r2, #0xb
 	mov r3, r0
-	blx CreateConnectionStatusIcon
-	blx MultibootManager__Func_2061654
+	bl CreateConnectionStatusIcon
+	bl MultibootManager__Func_2061654
 	mov r0, #0x23
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _0216827C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _02168280 // =0x00001958
 	mov r2, #0
 	str r2, [r0, r1]
 	ldr r0, _02168284 // =VSMenu__Main_2168290
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {pc}
 _02168264:
@@ -1998,7 +1998,7 @@ _02168264:
 	ldr r0, _02168288 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _0216828C // =VSMenu__Main_216770C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168276:
 	add sp, #0xc
 	pop {pc}
@@ -2014,7 +2014,7 @@ _0216828C: .word VSMenu__Main_216770C
 VSMenu__Main_2168290: // 0x02168290
 	push {r3, lr}
 	sub sp, #8
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0x11
 	bgt _021682B6
 	cmp r0, #0xf
@@ -2037,27 +2037,27 @@ _021682B6:
 	add sp, #8
 	pop {r3, pc}
 _021682BE:
-	blx MultibootManager__Func_2061918
+	bl MultibootManager__Func_2061918
 	cmp r0, #0
 	beq _021682F6
 	ldr r0, _02168330 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168334 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _02168338 // =0x00001958
 	ldr r0, [r0, r1]
 	cmp r0, #0
 	beq _021682E6
 	ldr r0, _0216833C // =VSMenu__Main_2168618
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _021682E6:
 	ldr r0, _02168330 // =0x0000FFFF
 	bl VSMenu__Func_21667F0
 	ldr r0, _02168340 // =VSMenu__Main_21686EC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _021682F6:
@@ -2070,19 +2070,19 @@ _021682F6:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #5
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _02168344 // =VSMenu__Main_2168350
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _0216831A:
 	ldr r0, _02168348 // =VSMenu__Main_21692B8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _02168324:
 	ldr r0, _0216834C // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216832A:
 	add sp, #8
 	pop {r3, pc}
@@ -2101,19 +2101,19 @@ _0216834C: .word VSMenu__Main_2169324
 VSMenu__Main_2168350: // 0x02168350
 	push {r3, lr}
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216837E
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216837E
 	ldr r0, _02168380 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168384 // =VSMenu__Main_2168D1C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216837E:
 	pop {r3, pc}
 	.align 2, 0
@@ -2126,13 +2126,13 @@ VSMenu__Main_2168388: // 0x02168388
 	push {lr}
 	sub sp, #0xc
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216840A
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _021683B4
 	cmp r0, #1
@@ -2141,9 +2141,9 @@ VSMenu__Main_2168388: // 0x02168388
 	pop {pc}
 _021683B4:
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r1, #0
 	str r1, [sp]
 	mov r0, #0xe4
@@ -2153,18 +2153,18 @@ _021683B4:
 	mov r0, #1
 	mov r2, #0xb
 	mov r3, r0
-	blx CreateConnectionStatusIcon
-	blx MultibootManager__Func_2061654
+	bl CreateConnectionStatusIcon
+	bl MultibootManager__Func_2061654
 	mov r0, #0x23
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168410 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _02168414 // =0x00001958
 	mov r2, #1
 	str r2, [r0, r1]
 	ldr r0, _02168418 // =VSMenu__Main_2168290
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {pc}
 _021683F8:
@@ -2173,7 +2173,7 @@ _021683F8:
 	ldr r0, _0216841C // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168420 // =VSMenu__Main_216770C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216840A:
 	add sp, #0xc
 	pop {pc}
@@ -2190,13 +2190,13 @@ VSMenu__Main_2168424: // 0x02168424
 	push {r3, lr}
 	sub sp, #8
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _02168466
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _02168466
 	mov r0, #0x21
@@ -2207,9 +2207,9 @@ VSMenu__Main_2168424: // 0x02168424
 	mov r1, #0
 	mov r3, #5
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _0216846C // =VSMenu__Main_21684A8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168466:
 	add sp, #8
 	pop {r3, pc}
@@ -2221,19 +2221,19 @@ _0216846C: .word VSMenu__Main_21684A8
 VSMenu__Main_2168470: // 0x02168470
 	push {r3, lr}
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216849E
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216849E
 	ldr r0, _021684A0 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _021684A4 // =VSMenu__Main_21681C8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216849E:
 	pop {r3, pc}
 	.align 2, 0
@@ -2246,13 +2246,13 @@ VSMenu__Main_21684A8: // 0x021684A8
 	push {r3, lr}
 	sub sp, #8
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216850A
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _021684D4
 	cmp r0, #1
@@ -2269,9 +2269,9 @@ _021684D4:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #5
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _02168510 // =VSMenu__Main_216851C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _021684F8:
@@ -2280,7 +2280,7 @@ _021684F8:
 	ldr r0, _02168514 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168518 // =VSMenu__Main_216770C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216850A:
 	add sp, #8
 	pop {r3, pc}
@@ -2295,13 +2295,13 @@ VSMenu__Main_216851C: // 0x0216851C
 	push {r3, lr}
 	sub sp, #8
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216855E
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216855E
 	mov r0, #0x22
@@ -2312,9 +2312,9 @@ VSMenu__Main_216851C: // 0x0216851C
 	mov r1, #0
 	mov r3, #5
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _02168564 // =VSMenu__Main_2168568
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216855E:
 	add sp, #8
 	pop {r3, pc}
@@ -2327,13 +2327,13 @@ VSMenu__Main_2168568: // 0x02168568
 	push {lr}
 	sub sp, #0xc
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _021685FE
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _02168594
 	cmp r0, #1
@@ -2342,9 +2342,9 @@ VSMenu__Main_2168568: // 0x02168568
 	pop {pc}
 _02168594:
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r1, #0
 	str r1, [sp]
 	mov r0, #0xe4
@@ -2354,20 +2354,20 @@ _02168594:
 	mov r0, #1
 	mov r2, #0xb
 	mov r3, r0
-	blx CreateConnectionStatusIcon
+	bl CreateConnectionStatusIcon
 	ldr r0, _02168604 // =saveGame
 	bl SaveGame__DeleteOnlineProfile_KeepFriends
-	blx MultibootManager__Func_2061654
+	bl MultibootManager__Func_2061654
 	mov r0, #0x23
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168608 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216860C // =0x00001958
 	mov r2, #1
 	str r2, [r0, r1]
 	ldr r0, _02168610 // =VSMenu__Main_2168290
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {pc}
 _021685DE:
@@ -2380,9 +2380,9 @@ _021685DE:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #5
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _02168614 // =VSMenu__Main_2168424
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _021685FE:
 	add sp, #0xc
 	pop {pc}
@@ -2401,7 +2401,7 @@ VSMenu__Main_2168618: // 0x02168618
 	mov r0, #0x1f
 	bl VSMenu__SetNetworkMessageSequence
 	mov r0, #0xa
-	blx TrySaveGameData
+	bl TrySaveGameData
 	cmp r0, #0
 	beq _0216864A
 	bl VSMenu__GetYesNoButton
@@ -2411,14 +2411,14 @@ VSMenu__Main_2168618: // 0x02168618
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #5
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _02168654 // =VSMenu__Main_216865C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _0216864A:
 	ldr r0, _02168658 // =VSMenu__Main_216869C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	.align 2, 0
@@ -2430,13 +2430,13 @@ _02168658: .word VSMenu__Main_216869C
 VSMenu__Main_216865C: // 0x0216865C
 	push {r3, lr}
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _02168690
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _02168690
 	ldr r0, _02168694 // =0x0000FFFF
@@ -2444,7 +2444,7 @@ VSMenu__Main_216865C: // 0x0216865C
 	ldr r0, _02168694 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168698 // =VSMenu__Main_21686EC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168690:
 	pop {r3, pc}
 	nop
@@ -2455,9 +2455,9 @@ _02168698: .word VSMenu__Main_21686EC
 	thumb_func_start VSMenu__Main_216869C
 VSMenu__Main_216869C: // 0x0216869C
 	push {r3, lr}
-	blx MultibootManager__Func_206150C
+	bl MultibootManager__Func_206150C
 	ldr r0, _021686AC // =VSMenu__Main_21686B0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _021686AC: .word VSMenu__Main_21686B0
@@ -2466,7 +2466,7 @@ _021686AC: .word VSMenu__Main_21686B0
 	thumb_func_start VSMenu__Main_21686B0
 VSMenu__Main_21686B0: // 0x021686B0
 	push {r3, lr}
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bgt _021686BE
 	beq _021686D0
@@ -2483,12 +2483,12 @@ _021686BE:
 	bne _021686E6
 _021686D0:
 	mov r0, #0
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #0
-	blx RenderCore_SetNextFoldMode
-	blx DestroyConnectionStatusIcon
+	bl RenderCore_SetNextFoldMode
+	bl DestroyConnectionStatusIcon
 	ldr r0, _021686E8 // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _021686E6:
 	pop {r3, pc}
 	.align 2, 0
@@ -2501,7 +2501,7 @@ VSMenu__Main_21686EC: // 0x021686EC
 	sub sp, #0x20
 	ldr r0, _0216878C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r5, _02168790 // =0x0000091C
 	mov r0, #5
@@ -2565,7 +2565,7 @@ VSMenu__Main_21686EC: // 0x021686EC
 	mov r2, r1
 	bl StageSelectMenu__Unknown__Func_2169B78
 	ldr r0, _021687A8 // =VSMenu__Main_2167950
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r3, r4, r5, pc}
 	nop
@@ -2585,7 +2585,7 @@ VSMenu__Main_21687AC: // 0x021687AC
 	sub sp, #0x20
 	ldr r0, _0216884C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r5, _02168850 // =0x0000091C
 	mov r0, #0xb
@@ -2649,7 +2649,7 @@ VSMenu__Main_21687AC: // 0x021687AC
 	mov r2, r1
 	bl StageSelectMenu__Unknown__Func_2169B78
 	ldr r0, _02168868 // =VSMenu__Main_2167950
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r3, r4, r5, pc}
 	nop
@@ -2668,7 +2668,7 @@ VSMenu__Main_216886C: // 0x0216886C
 	push {r4, lr}
 	ldr r0, _02168890 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x11
 	bl VSMenu__Func_21667F0
@@ -2677,7 +2677,7 @@ VSMenu__Main_216886C: // 0x0216886C
 	ldr r0, [r4, r0]
 	bl VSConnectionMenu__Create
 	ldr r0, _0216889C // =VSMenu__Main_2168AFC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _02168890: .word VSMenu__Singleton
@@ -2691,7 +2691,7 @@ VSMenu__Main_21688A0: // 0x021688A0
 	push {r4, lr}
 	ldr r0, _021688C4 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x12
 	bl VSMenu__Func_21667F0
@@ -2700,7 +2700,7 @@ VSMenu__Main_21688A0: // 0x021688A0
 	ldr r0, [r4, r0]
 	bl VSConnectionMenu__Create
 	ldr r0, _021688D0 // =VSMenu__Main_2168AFC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _021688C4: .word VSMenu__Singleton
@@ -2715,10 +2715,10 @@ VSMenu__Main_21688D4: // 0x021688D4
 	sub sp, #0x20
 	ldr r0, _021689A4 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r5, _021689A8 // =0x0000091C
-	blx SaveGame__GetFriendCount
+	bl SaveGame__GetFriendCount
 	cmp r0, #0
 	beq _0216897A
 	mov r0, #0xb
@@ -2782,7 +2782,7 @@ VSMenu__Main_21688D4: // 0x021688D4
 	mov r2, r1
 	bl StageSelectMenu__Unknown__Func_2169B78
 	ldr r0, _021689C0 // =VSMenu__Main_2167950
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r3, r4, r5, pc}
 _0216897A:
@@ -2797,9 +2797,9 @@ _0216897A:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #5
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _021689C4 // =VSMenu__Main_2168A30
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r3, r4, r5, pc}
 	.align 2, 0
@@ -2819,7 +2819,7 @@ VSMenu__Main_21689C8: // 0x021689C8
 	push {r4, lr}
 	ldr r0, _021689EC // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x11
 	bl VSMenu__Func_21667F0
@@ -2828,7 +2828,7 @@ VSMenu__Main_21689C8: // 0x021689C8
 	ldr r0, [r4, r0]
 	bl VSConnectionMenu__Create
 	ldr r0, _021689F8 // =VSMenu__Main_2168AFC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _021689EC: .word VSMenu__Singleton
@@ -2842,7 +2842,7 @@ VSMenu__Main_21689FC: // 0x021689FC
 	push {r4, lr}
 	ldr r0, _02168A20 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x12
 	bl VSMenu__Func_21667F0
@@ -2851,7 +2851,7 @@ VSMenu__Main_21689FC: // 0x021689FC
 	ldr r0, [r4, r0]
 	bl VSConnectionMenu__Create
 	ldr r0, _02168A2C // =VSMenu__Main_2168AFC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _02168A20: .word VSMenu__Singleton
@@ -2863,7 +2863,7 @@ _02168A2C: .word VSMenu__Main_2168AFC
 	thumb_func_start VSMenu__Main_2168A30
 VSMenu__Main_2168A30: // 0x02168A30
 	push {r3, lr}
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	beq _02168A40
 	cmp r0, #0x19
@@ -2871,16 +2871,16 @@ VSMenu__Main_2168A30: // 0x02168A30
 	b _02168AB8
 _02168A40:
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064614
+	bl SaveSpriteButton__Func_2064614
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	bne _02168A68
 _02168A54:
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _02168A54
 _02168A68:
@@ -2889,20 +2889,20 @@ _02168A68:
 	ldr r0, _02168AEC // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168AF0 // =VSMenu__Main_21692B8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _02168A7C:
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064614
+	bl SaveSpriteButton__Func_2064614
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	bne _02168AA4
 _02168A90:
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _02168A90
 _02168AA4:
@@ -2911,17 +2911,17 @@ _02168AA4:
 	ldr r0, _02168AEC // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168AF4 // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _02168AB8:
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _02168AEA
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _02168AEA
 	ldr r0, _02168AEC // =0x0000FFFF
@@ -2929,7 +2929,7 @@ _02168AB8:
 	ldr r0, _02168AEC // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168AF8 // =VSMenu__Main_21686EC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168AEA:
 	pop {r3, pc}
 	.align 2, 0
@@ -2944,7 +2944,7 @@ VSMenu__Main_2168AFC: // 0x02168AFC
 	push {r4, lr}
 	ldr r0, _02168B6C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02168B70 // =0x00000918
 	ldr r0, [r4, r0]
@@ -2980,19 +2980,19 @@ _02168B3E:
 	tst r0, r1
 	bne _02168B54
 	ldr r0, _02168B74 // =VSMenu__Main_21687AC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02168B54:
 	ldr r0, _02168B78 // =VSMenu__Main_21688D4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02168B5C:
 	ldr r0, _02168B7C // =VSMenu__Main_21692B8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02168B64:
 	ldr r0, _02168B80 // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168B6A:
 	pop {r4, pc}
 	.align 2, 0
@@ -3018,9 +3018,9 @@ VSMenu__Main_2168B84: // 0x02168B84
 	mov r1, #0
 	mov r3, #5
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _02168BB0 // =VSMenu__Main_2168BB4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	.align 2, 0
@@ -3031,13 +3031,13 @@ _02168BB0: .word VSMenu__Main_2168BB4
 VSMenu__Main_2168BB4: // 0x02168BB4
 	push {r3, lr}
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _02168BFC
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _02168BDC
 	cmp r0, #1
@@ -3047,7 +3047,7 @@ _02168BDC:
 	mov r0, #0x26
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168C00 // =VSMenu__Main_2168C0C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _02168BEA:
 	ldr r0, _02168C04 // =0x0000FFFF
@@ -3055,7 +3055,7 @@ _02168BEA:
 	ldr r0, _02168C04 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168C08 // =VSMenu__Main_21686EC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168BFC:
 	pop {r3, pc}
 	nop
@@ -3070,21 +3070,21 @@ VSMenu__Main_2168C0C: // 0x02168C0C
 	bl VSMenu__CheckNetworkMessageMain
 	cmp r0, #0
 	beq _02168C3A
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	beq _02168C22
 	cmp r0, #0x19
 	bne _02168C30
 _02168C22:
-	blx MultibootManager__Func_2060C9C
-	blx MultibootManager__Func_2061C58
-	blx MultibootManager__Create
+	bl MultibootManager__Func_2060C9C
+	bl MultibootManager__Func_2061C58
+	bl MultibootManager__Create
 	b _02168C34
 _02168C30:
-	blx MultibootManager__Func_206150C
+	bl MultibootManager__Func_206150C
 _02168C34:
 	ldr r0, _02168C3C // =VSMenu__Main_2168C40
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168C3A:
 	pop {r3, pc}
 	.align 2, 0
@@ -3095,7 +3095,7 @@ _02168C3C: .word VSMenu__Main_2168C40
 VSMenu__Main_2168C40: // 0x02168C40
 	push {r3, lr}
 	sub sp, #8
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bgt _02168C52
 	beq _02168C68
@@ -3115,23 +3115,23 @@ _02168C52:
 	pop {r3, pc}
 _02168C68:
 	ldr r0, _02168CCC // =VSMenu__Main_21692B8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _02168C72:
 	ldr r0, _02168CD0 // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168C78:
 	ldr r0, _02168CD4 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	mov r0, #0
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #0
-	blx RenderCore_SetNextFoldMode
-	blx DestroyConnectionStatusIcon
-	blx SaveGame__RefreshFriendList
+	bl RenderCore_SetNextFoldMode
+	bl DestroyConnectionStatusIcon
+	bl SaveGame__RefreshFriendList
 	mov r0, #0xb
-	blx TrySaveGameData
+	bl TrySaveGameData
 	cmp r0, #0
 	beq _02168CC0
 	mov r0, #0x27
@@ -3143,14 +3143,14 @@ _02168C78:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #5
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _02168CD8 // =VSMenu__Main_2168CDC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _02168CC0:
 	ldr r0, _02168CD0 // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168CC6:
 	add sp, #8
 	pop {r3, pc}
@@ -3165,13 +3165,13 @@ _02168CD8: .word VSMenu__Main_2168CDC
 VSMenu__Main_2168CDC: // 0x02168CDC
 	push {r3, lr}
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _02168D10
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _02168D10
 	ldr r0, _02168D14 // =0x0000FFFF
@@ -3179,7 +3179,7 @@ VSMenu__Main_2168CDC: // 0x02168CDC
 	ldr r0, _02168D14 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168D18 // =VSMenu__Main_216770C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168D10:
 	pop {r3, pc}
 	nop
@@ -3193,7 +3193,7 @@ VSMenu__Main_2168D1C: // 0x02168D1C
 	mov r0, #0x26
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168D2C // =VSMenu__Main_2168C0C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _02168D2C: .word VSMenu__Main_2168C0C
@@ -3204,16 +3204,16 @@ VSMenu__Main_2168D30: // 0x02168D30
 	push {r4, lr}
 	ldr r0, _02168D54 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #7
 	bl VSMenu__Func_21667F0
 	ldr r0, _02168D58 // =0x00001294
 	mov r1, #0
 	add r0, r4, r0
-	blx VSFriendListMenu__Create
+	bl VSFriendListMenu__Create
 	ldr r0, _02168D5C // =VSMenu__Main_2168D60
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _02168D54: .word VSMenu__Singleton
@@ -3226,24 +3226,24 @@ VSMenu__Main_2168D60: // 0x02168D60
 	push {r4, lr}
 	ldr r0, _02168D94 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02168D98 // =0x00001294
 	add r0, r4, r0
-	blx VSFriendListMenu__Func_2171368
+	bl VSFriendListMenu__Func_2171368
 	cmp r0, #0
 	beq _02168D92
 	ldr r0, _02168D98 // =0x00001294
 	add r0, r4, r0
-	blx VSFriendListMenu__Func_217137C
+	bl VSFriendListMenu__Func_217137C
 	cmp r0, #0
 	beq _02168D8C
 	ldr r0, _02168D9C // =VSMenu__Main_2168DA4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02168D8C:
 	ldr r0, _02168DA0 // =VSMenu__Func_2167860
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168D92:
 	pop {r4, pc}
 	.align 2, 0
@@ -3258,17 +3258,17 @@ VSMenu__Main_2168DA4: // 0x02168DA4
 	push {r3, lr}
 	ldr r0, _02168DC8 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r0, #3
-	blx TrySaveGameData
+	bl TrySaveGameData
 	cmp r0, #0
 	beq _02168DC0
 	ldr r0, _02168DCC // =VSMenu__Func_2167860
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _02168DC0:
 	ldr r0, _02168DD0 // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _02168DC8: .word VSMenu__Singleton
@@ -3283,9 +3283,9 @@ VSMenu__Main_2168DD4: // 0x02168DD4
 	bl VSMenu__Func_21667F0
 	mov r0, #4
 	lsl r1, r0, #0xa
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	ldr r0, _02168DF0 // =VSMenu__Main_2168DF4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _02168DEC: .word 0x0000FFFF
@@ -3297,12 +3297,12 @@ VSMenu__Main_2168DF4: // 0x02168DF4
 	push {r4, lr}
 	ldr r0, _02168E2C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _02168E28
-	blx DestroyDrawFadeTask
+	bl DestroyDrawFadeTask
 	mov r0, #0
 	bl VSMenu__Func_2166874
 	mov r0, #0
@@ -3310,9 +3310,9 @@ VSMenu__Main_2168DF4: // 0x02168DF4
 	ldr r0, _02168E30 // =0x00001864
 	mov r1, #0
 	add r0, r4, r0
-	blx VSRegisterFriendCodeMenu__Create
+	bl VSRegisterFriendCodeMenu__Create
 	ldr r0, _02168E34 // =VSMenu__Main_2168E38
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168E28:
 	pop {r4, pc}
 	nop
@@ -3326,24 +3326,24 @@ VSMenu__Main_2168E38: // 0x02168E38
 	push {r4, lr}
 	ldr r0, _02168E6C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02168E70 // =0x00001864
 	add r0, r4, r0
-	blx VSRegisterFriendCodeMenu__IsActive
+	bl VSRegisterFriendCodeMenu__IsActive
 	cmp r0, #0
 	beq _02168E6A
 	ldr r0, _02168E70 // =0x00001864
 	add r0, r4, r0
-	blx VSRegisterFriendCodeMenu__Func_2172A18
+	bl VSRegisterFriendCodeMenu__Func_2172A18
 	cmp r0, #0
 	beq _02168E64
 	ldr r0, _02168E74 // =VSMenu__Main_2168E7C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02168E64:
 	ldr r0, _02168E78 // =VSMenu__Main_2168EAC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168E6A:
 	pop {r4, pc}
 	.align 2, 0
@@ -3358,17 +3358,17 @@ VSMenu__Main_2168E7C: // 0x02168E7C
 	push {r3, lr}
 	ldr r0, _02168EA0 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r0, #3
-	blx TrySaveGameData
+	bl TrySaveGameData
 	cmp r0, #0
 	beq _02168E98
 	ldr r0, _02168EA4 // =VSMenu__Main_2168EAC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _02168E98:
 	ldr r0, _02168EA8 // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _02168EA0: .word VSMenu__Singleton
@@ -3381,7 +3381,7 @@ VSMenu__Main_2168EAC: // 0x02168EAC
 	push {r3, lr}
 	ldr r0, _02168F04 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r0, #3
 	bl VSMenu__Func_2166874
 	mov r0, #3
@@ -3410,9 +3410,9 @@ VSMenu__Main_2168EAC: // 0x02168EAC
 	str r1, [r0]
 	mov r0, #2
 	lsl r1, r0, #0xb
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	ldr r0, _02168F10 // =VSMenu__Main_2168F14
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _02168F04: .word VSMenu__Singleton
@@ -3424,12 +3424,12 @@ _02168F10: .word VSMenu__Main_2168F14
 	thumb_func_start VSMenu__Main_2168F14
 VSMenu__Main_2168F14: // 0x02168F14
 	push {r3, lr}
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _02168F28
-	blx DestroyDrawFadeTask
+	bl DestroyDrawFadeTask
 	ldr r0, _02168F2C // =VSMenu__Func_2167860
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168F28:
 	pop {r3, pc}
 	nop
@@ -3441,16 +3441,16 @@ VSMenu__Main_2168F30: // 0x02168F30
 	push {r4, lr}
 	ldr r0, _02168F54 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #9
 	bl VSMenu__Func_21667F0
 	ldr r0, _02168F58 // =0x0000186C
 	mov r1, #0
 	add r0, r4, r0
-	blx VSViewFriendCodeMenu__Create
+	bl VSViewFriendCodeMenu__Create
 	ldr r0, _02168F5C // =VSMenu__Main_2168F60
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _02168F54: .word VSMenu__Singleton
@@ -3463,14 +3463,14 @@ VSMenu__Main_2168F60: // 0x02168F60
 	push {r3, lr}
 	ldr r0, _02168F80 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _02168F84 // =0x0000186C
 	add r0, r0, r1
-	blx VSViewFriendCodeMenu__IsActive
+	bl VSViewFriendCodeMenu__IsActive
 	cmp r0, #0
 	beq _02168F7C
 	ldr r0, _02168F88 // =VSMenu__Func_2167860
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168F7C:
 	pop {r3, pc}
 	nop
@@ -3482,7 +3482,7 @@ _02168F88: .word VSMenu__Func_2167860
 	thumb_func_start VSMenu__Main_2168F8C
 VSMenu__Main_2168F8C: // 0x02168F8C
 	push {r3, lr}
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0x11
 	bne _02168F9E
 	mov r0, #4
@@ -3495,7 +3495,7 @@ _02168FA4:
 	mov r0, #0x44
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168FB4 // =VSMenu__Main_2168FB8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _02168FB4: .word VSMenu__Main_2168FB8
@@ -3515,9 +3515,9 @@ VSMenu__Main_2168FB8: // 0x02168FB8
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #5
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _02168FE4 // =VSMenu__Main_2168FE8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02168FDE:
 	add sp, #8
 	pop {r3, pc}
@@ -3528,7 +3528,7 @@ _02168FE4: .word VSMenu__Main_2168FE8
 	thumb_func_start VSMenu__Main_2168FE8
 VSMenu__Main_2168FE8: // 0x02168FE8
 	push {r3, lr}
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	beq _02168FF8
 	cmp r0, #0x19
@@ -3536,66 +3536,66 @@ VSMenu__Main_2168FE8: // 0x02168FE8
 	b _02169058
 _02168FF8:
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064614
+	bl SaveSpriteButton__Func_2064614
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	bne _02169020
 _0216900C:
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216900C
 _02169020:
 	ldr r0, _021690A0 // =VSMenu__Main_21692B8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _02169028:
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064614
+	bl SaveSpriteButton__Func_2064614
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	bne _02169050
 _0216903C:
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216903C
 _02169050:
 	ldr r0, _021690A4 // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _02169058:
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216909C
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _02169096
 	ldr r0, _021690A8 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0x11
 	bne _0216908E
 	ldr r0, _021690AC // =VSMenu__Main_21686EC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _0216908E:
 	ldr r0, _021690B0 // =VSMenu__Main
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _02169096:
 	ldr r0, _021690B0 // =VSMenu__Main
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216909C:
 	pop {r3, pc}
 	nop
@@ -3612,7 +3612,7 @@ VSMenu__Main_21690B4: // 0x021690B4
 	sub sp, #8
 	ldr r0, _021690E8 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r0, #4
 	bl VSMenu__Func_21667F0
 	mov r0, #0x29
@@ -3623,9 +3623,9 @@ VSMenu__Main_21690B4: // 0x021690B4
 	mov r1, #0
 	mov r3, #5
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _021690EC // =VSMenu__Main_21690F0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	.align 2, 0
@@ -3637,13 +3637,13 @@ _021690EC: .word VSMenu__Main_21690F0
 VSMenu__Main_21690F0: // 0x021690F0
 	push {r3, lr}
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _02169132
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _02169118
 	cmp r0, #1
@@ -3653,13 +3653,13 @@ _02169118:
 	ldr r0, _02169134 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02169138 // =VSMenu__Main_2169140
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _02169126:
 	ldr r0, _02169134 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _0216913C // =VSMenu__Main_216770C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02169132:
 	pop {r3, pc}
 	.align 2, 0
@@ -3674,7 +3674,7 @@ VSMenu__Main_2169140: // 0x02169140
 	mov r0, #0
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02169150 // =VSMenu__Main_2169154
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _02169150: .word VSMenu__Main_2169154
@@ -3688,14 +3688,14 @@ VSMenu__Main_2169154: // 0x02169154
 	beq _02169178
 	ldr r0, _0216917C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _02169180 // =0x0000187C
 	mov r2, #0x18
 	add r0, r0, r1
 	mov r1, #9
-	blx CreateSaveGameWorker
+	bl CreateSaveGameWorker
 	ldr r0, _02169184 // =VSMenu__Main_2169188
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02169178:
 	pop {r3, pc}
 	nop
@@ -3709,26 +3709,26 @@ VSMenu__Main_2169188: // 0x02169188
 	push {r4, lr}
 	ldr r0, _021691C4 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _021691C8 // =0x0000187C
 	add r0, r4, r0
-	blx AwaitSaveGameCompletion
+	bl AwaitSaveGameCompletion
 	cmp r0, #0
 	beq _021691C0
 	ldr r0, _021691C8 // =0x0000187C
 	add r0, r4, r0
-	blx GetSaveGameSuccess
+	bl GetSaveGameSuccess
 	cmp r0, #0
 	beq _021691BA
 	ldr r0, _021691CC // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _021691D0 // =VSMenu__Main_21691D8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _021691BA:
 	ldr r0, _021691D4 // =VSMenu__Main_2169324
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _021691C0:
 	pop {r4, pc}
 	nop
@@ -3745,8 +3745,8 @@ VSMenu__Main_21691D8: // 0x021691D8
 	sub sp, #8
 	ldr r0, _02169230 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
-	blx MultibootManager__Func_2061638
+	bl GetTaskWork_
+	bl MultibootManager__Func_2061638
 	cmp r0, #0
 	beq _0216920C
 	ldr r0, _02169234 // =0x0000FFFF
@@ -3758,11 +3758,11 @@ VSMenu__Main_21691D8: // 0x021691D8
 
 	thumb_func_start VSMenu__Main_21691F8
 VSMenu__Main_21691F8: // 0x021691F8
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 	ldr r0, _02169238 // =VSMenu__Main_2169288
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _0216920C:
@@ -3775,9 +3775,9 @@ _0216920C:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #5
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	ldr r0, _0216923C // =VSMenu__Main_2169240
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	.align 2, 0
@@ -3791,13 +3791,13 @@ _0216923C: .word VSMenu__Main_2169240
 VSMenu__Main_2169240: // 0x02169240
 	push {r3, lr}
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216927E
 	bl VSMenu__GetYesNoButton
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216927E
 	ldr r0, _02169280 // =0x0000FFFF
@@ -3805,11 +3805,11 @@ VSMenu__Main_2169240: // 0x02169240
 	mov r1, #1
 	mov r0, #5
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 	ldr r0, _02169284 // =VSMenu__Main_2169288
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216927E:
 	pop {r3, pc}
 	.align 2, 0
@@ -3820,18 +3820,18 @@ _02169284: .word VSMenu__Main_2169288
 	thumb_func_start VSMenu__Main_2169288
 VSMenu__Main_2169288: // 0x02169288
 	push {r3, lr}
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _021692B0
 	ldr r0, _021692B4 // =VSMenu__Singleton
 	ldr r0, [r0]
 	bl VSMenu__Destroy
-	blx MultibootManager__Func_2060C9C
-	blx ReleaseSysSound
+	bl MultibootManager__Func_2060C9C
+	bl ReleaseSysSound
 	mov r0, #0x21
-	blx RequestNewSysEventChange
-	blx NextSysEvent
-	blx DestroyCurrentTask
+	bl RequestNewSysEventChange
+	bl NextSysEvent
+	bl DestroyCurrentTask
 _021692B0:
 	pop {r3, pc}
 	nop
@@ -3856,10 +3856,10 @@ VSMenu__Main_21692B8: // 0x021692B8
 _021692D2:
 	mov r0, #4
 	lsl r1, r0, #0xa
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 _021692DA:
 	ldr r0, _021692EC // =VSMenu__Main_21692F0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _021692E4: .word 0x0213D300
@@ -3870,19 +3870,19 @@ _021692EC: .word VSMenu__Main_21692F0
 	thumb_func_start VSMenu__Main_21692F0
 VSMenu__Main_21692F0: // 0x021692F0
 	push {r3, lr}
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _0216931C
-	blx DestroyDrawFadeTask
+	bl DestroyDrawFadeTask
 	ldr r0, _02169320 // =VSMenu__Singleton
 	ldr r0, [r0]
 	bl VSMenu__Destroy
-	blx MultibootManager__Func_2060C9C
-	blx ReleaseSysSound
+	bl MultibootManager__Func_2060C9C
+	bl ReleaseSysSound
 	mov r0, #0x1a
-	blx RequestNewSysEventChange
-	blx NextSysEvent
-	blx DestroyCurrentTask
+	bl RequestNewSysEventChange
+	bl NextSysEvent
+	bl DestroyCurrentTask
 _0216931C:
 	pop {r3, pc}
 	nop
@@ -3907,10 +3907,10 @@ VSMenu__Main_2169324: // 0x02169324
 _0216933E:
 	mov r0, #4
 	lsl r1, r0, #0xa
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 _02169346:
 	ldr r0, _02169358 // =VSMenu__Main_216935C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _02169350: .word 0x0213D300
@@ -3921,19 +3921,19 @@ _02169358: .word VSMenu__Main_216935C
 	thumb_func_start VSMenu__Main_216935C
 VSMenu__Main_216935C: // 0x0216935C
 	push {r3, lr}
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _02169388
-	blx DestroyDrawFadeTask
+	bl DestroyDrawFadeTask
 	ldr r0, _0216938C // =VSMenu__Singleton
 	ldr r0, [r0]
 	bl VSMenu__Destroy
-	blx MultibootManager__Func_2060C9C
-	blx ReleaseSysSound
+	bl MultibootManager__Func_2060C9C
+	bl ReleaseSysSound
 	mov r0, #0x20
-	blx RequestNewSysEventChange
-	blx NextSysEvent
-	blx DestroyCurrentTask
+	bl RequestNewSysEventChange
+	bl NextSysEvent
+	bl DestroyCurrentTask
 _02169388:
 	pop {r3, pc}
 	nop
@@ -3945,7 +3945,7 @@ VSMenuHeader__Main1: // 0x02169390
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _021693F8 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	add r6, #0x30
 	mov r0, #5
@@ -3960,7 +3960,7 @@ _021693AE:
 	mov r0, r5
 	mov r1, r7
 	mov r2, r7
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, #0x64
 	cmp r5, r4
 	bne _021693AE
@@ -3977,11 +3977,11 @@ _021693BE:
 	strh r1, [r6, #0xa]
 	ldrh r1, [r6, #0xa]
 	mov r0, r4
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 _021693E4:
 	mov r0, #4
 	strh r0, [r4, #0xa]
@@ -3990,7 +3990,7 @@ _021693E4:
 	mov r0, #0
 	strh r0, [r6, #0xc]
 	ldr r0, _02169404 // =VSMenuHeader__Main_2169408
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _021693F6:
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -4005,7 +4005,7 @@ VSMenuHeader__Main_2169408: // 0x02169408
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _02169480 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	add r6, #0x30
 	mov r0, #5
@@ -4020,7 +4020,7 @@ _02169426:
 	mov r0, r5
 	mov r1, r7
 	mov r2, r7
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, #0x64
 	cmp r5, r4
 	bne _02169426
@@ -4039,7 +4039,7 @@ _02169436:
 	mov r0, #4
 	mov r1, #6
 	mov r2, r4
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	mov r1, r6
 	add r1, #0xe6
 	strh r0, [r1]
@@ -4048,7 +4048,7 @@ _02169436:
 	ldr r3, _02169484 // =0xFFFFE000
 	lsl r1, r1, #0xc
 	mov r2, r4
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	str r0, [r6, #0x10]
 	ldrh r0, [r6, #0xc]
 	cmp r0, #0x20
@@ -4056,7 +4056,7 @@ _02169436:
 	mov r0, #0
 	strh r0, [r6, #0xc]
 	ldr r0, _0216948C // =VSMenuHeader__Main_2169490
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216947C:
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
@@ -4071,7 +4071,7 @@ VSMenuHeader__Main_2169490: // 0x02169490
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _021694D4 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	add r6, #0x30
 	mov r0, #5
@@ -4086,7 +4086,7 @@ _021694AE:
 	mov r0, r5
 	mov r1, r7
 	mov r2, r7
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, #0x64
 	cmp r5, r4
 	bne _021694AE
@@ -4098,7 +4098,7 @@ _021694BE:
 	mov r0, #0
 	strh r0, [r6, #0xc]
 	ldr r0, _021694D8 // =VSMenuHeader__Main_21694DC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _021694D0:
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
@@ -4111,7 +4111,7 @@ VSMenuHeader__Main_21694DC: // 0x021694DC
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _02169554 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	add r6, #0x30
 	mov r0, #5
@@ -4126,7 +4126,7 @@ _021694FA:
 	mov r0, r5
 	mov r1, r7
 	mov r2, r7
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, #0x64
 	cmp r5, r4
 	bne _021694FA
@@ -4146,7 +4146,7 @@ _0216950A:
 	mov r0, #6
 	mov r1, #0x1a
 	mov r2, r4
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	mov r1, r6
 	add r1, #0xe6
 	strh r0, [r1]
@@ -4155,7 +4155,7 @@ _0216950A:
 	ldr r1, _02169558 // =0x00000199
 	mov r2, r4
 	lsl r3, r0, #1
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	str r0, [r6, #0x10]
 	ldrh r0, [r6, #0xc]
 	cmp r0, #0x20
@@ -4163,7 +4163,7 @@ _0216950A:
 	mov r0, #0
 	strh r0, [r6, #0xc]
 	ldr r0, _0216955C // =VSMenuHeader__Main1
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02169552:
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -4177,7 +4177,7 @@ VSMenuHeader__Main2: // 0x02169560
 	push {r3, r4, r5, lr}
 	ldr r0, _021695C0 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #5
 	add r4, #0x30
@@ -4187,10 +4187,10 @@ VSMenuHeader__Main2: // 0x02169560
 	beq _021695BC
 	mov r0, r4
 	add r0, #0x14
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	mov r0, r4
 	add r0, #0x78
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, [r4, #0x10]
 	cmp r0, #0
 	ble _021695BC
@@ -4201,7 +4201,7 @@ VSMenuHeader__Main2: // 0x02169560
 	cmp r0, r1
 	bne _021695A2
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	pop {r3, r4, r5, pc}
 _021695A2:
 	mov r0, #8
@@ -4211,7 +4211,7 @@ _021695A2:
 	strh r0, [r5, #8]
 	ldr r2, [r4, #0x10]
 	mov r0, r5
-	blx AnimatorSprite__DrawFrameRotoZoom
+	bl AnimatorSprite__DrawFrameRotoZoom
 	mov r0, #8
 	ldrsh r0, [r5, r0]
 	sub r0, r0, #3
@@ -4227,7 +4227,7 @@ VSMenuBackButton__Main1: // 0x021695C4
 	push {r3, r4, r5, lr}
 	ldr r0, _02169634 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x5d
 	lsl r1, r1, #2
 	add r4, r0, r1
@@ -4235,7 +4235,7 @@ VSMenuBackButton__Main1: // 0x021695C4
 	mov r5, r4
 	add r0, #0x14
 	add r5, #0x64
-	blx TouchField__Process
+	bl TouchField__Process
 	ldr r0, [r4, #0xc]
 	ldr r1, [r5, #0x3c]
 	cmp r0, #0
@@ -4270,12 +4270,12 @@ _0216960A:
 	mov r3, #1
 	asr r2, r2, #0x10
 	lsl r3, r3, #0xc
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	mov r1, #0
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	pop {r3, r4, r5, pc}
 	nop
 _02169634: .word VSMenu__Singleton
@@ -4286,11 +4286,11 @@ VSMenuBackButton__Main2: // 0x02169638
 	push {r3, lr}
 	ldr r0, _02169650 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x76
 	lsl r1, r1, #2
 	add r0, r0, r1
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	pop {r3, pc}
 	nop
 _02169650: .word VSMenu__Singleton
@@ -4307,7 +4307,7 @@ VSMenuBackground__VBlankCallback: // 0x02169658
 	push {r4, lr}
 	ldr r0, _021696BC // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r3, #0x8f
 	lsl r3, r3, #2
 	add r0, r0, r3
@@ -4372,7 +4372,7 @@ VSMenuNetworkMessage__Main1: // 0x021696DC
 	sub sp, #4
 	ldr r0, _02169724 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
 	add r4, r0, r1
@@ -4386,17 +4386,17 @@ VSMenuNetworkMessage__Main1: // 0x021696DC
 	mov r1, #1
 	mov r2, #8
 	str r3, [sp]
-	blx FontWindowAnimator__InitAnimation
+	bl FontWindowAnimator__InitAnimation
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__StartAnimating
+	bl FontWindowAnimator__StartAnimating
 	ldr r0, _0216972C // =VSMenuNetworkMessage__Main_2169730
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02169716:
 	add r4, #0x78
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	add sp, #4
 	pop {r3, r4, pc}
 	nop
@@ -4410,14 +4410,14 @@ VSMenuNetworkMessage__Main_2169730: // 0x02169730
 	push {r4, lr}
 	ldr r0, _02169784 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
 	add r4, r0, r1
 	sub r1, #0x60
 	add r0, r4, r1
 	mov r1, #0x40
-	blx FontWindowAnimator__DisableFlags
+	bl FontWindowAnimator__DisableFlags
 	mov r0, #1
 	lsl r0, r0, #0x1a
 	mov r1, #0x1f
@@ -4436,12 +4436,12 @@ VSMenuNetworkMessage__Main_2169730: // 0x02169730
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__ProcessWindowAnim
+	bl FontWindowAnimator__ProcessWindowAnim
 	add r4, #0x78
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	ldr r0, _0216978C // =VSMenuNetworkMessage__Main_2169790
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	nop
 _02169784: .word VSMenu__Singleton
@@ -4455,23 +4455,23 @@ VSMenuNetworkMessage__Main_2169790: // 0x02169790
 	sub sp, #4
 	ldr r0, _02169860 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
 	add r4, r0, r1
 	sub r1, #0x60
 	add r0, r4, r1
-	blx FontWindowAnimator__ProcessWindowAnim
+	bl FontWindowAnimator__ProcessWindowAnim
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__IsFinishedAnimating
+	bl FontWindowAnimator__IsFinishedAnimating
 	cmp r0, #0
 	beq _02169852
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__SetWindowOpen
+	bl FontWindowAnimator__SetWindowOpen
 	ldrh r1, [r4, #0xc]
 	ldr r0, _02169864 // =0x0000FFFF
 	cmp r1, r0
@@ -4481,29 +4481,29 @@ VSMenuNetworkMessage__Main_2169790: // 0x02169790
 	strh r1, [r4, #0xe]
 	add r0, r4, r0
 	mov r1, #0x40
-	blx FontAnimator__EnableFlags
+	bl FontAnimator__EnableFlags
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	ldrh r1, [r4, #0xe]
 	add r0, r4, r0
-	blx FontAnimator__SetMsgSequence
+	bl FontAnimator__SetMsgSequence
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	ldr r1, _02169868 // =VSMenu__Func_2167458
 	add r0, r4, r0
 	mov r2, r4
-	blx FontAnimator__SetCallback
+	bl FontAnimator__SetCallback
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #1
 	mov r2, #0
-	blx FontAnimator__InitStartPos
+	bl FontAnimator__InitStartPos
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0
-	blx FontAnimator__GetDialogLineCount
+	bl FontAnimator__GetDialogLineCount
 	mov r1, r0
 	lsl r2, r1, #4
 	lsr r1, r2, #0x1f
@@ -4516,9 +4516,9 @@ VSMenuNetworkMessage__Main_2169790: // 0x02169790
 	lsl r1, r1, #0x10
 	add r0, r4, r0
 	asr r1, r1, #0x10
-	blx FontAnimator__AdvanceLine
+	bl FontAnimator__AdvanceLine
 	ldr r0, _0216986C // =VSMenuNetworkMessage__Main_2169874
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	b _02169852
 _02169830:
 	mov r0, #0x7b
@@ -4528,17 +4528,17 @@ _02169830:
 	mov r1, #4
 	mov r2, #8
 	str r3, [sp]
-	blx FontWindowAnimator__InitAnimation
+	bl FontWindowAnimator__InitAnimation
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__StartAnimating
+	bl FontWindowAnimator__StartAnimating
 	ldr r0, _02169870 // =VSMenuNetworkMessage__Main_21699D8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02169852:
 	add r4, #0x78
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	add sp, #4
 	pop {r3, r4, pc}
 	nop
@@ -4554,7 +4554,7 @@ VSMenuNetworkMessage__Main_2169874: // 0x02169874
 	push {r3, r4, r5, lr}
 	ldr r0, _021698EC // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
 	add r4, r0, r1
@@ -4562,18 +4562,18 @@ VSMenuNetworkMessage__Main_2169874: // 0x02169874
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0x20
-	blx FontAnimator__LoadCharacters
+	bl FontAnimator__LoadCharacters
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__IsEndOfLine
+	bl FontAnimator__IsEndOfLine
 	cmp r0, #0
 	beq _021698E2
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0x40
-	blx FontAnimator__DisableFlags
+	bl FontAnimator__DisableFlags
 	mov r5, r4
 	add r5, #0x14
 	ldr r0, [r4, #0x10]
@@ -4588,11 +4588,11 @@ VSMenuNetworkMessage__Main_2169874: // 0x02169874
 	str r1, [r5, #0x3c]
 	mov r0, r5
 	mov r1, #0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	b _021698DC
 _021698D6:
 	mov r0, #1
@@ -4600,11 +4600,11 @@ _021698D6:
 	str r0, [r5, #0x3c]
 _021698DC:
 	ldr r0, _021698F0 // =VSMenuNetworkMessage__Main_21698F4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _021698E2:
 	add r4, #0x78
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _021698EC: .word VSMenu__Singleton
@@ -4616,7 +4616,7 @@ VSMenuNetworkMessage__Main_21698F4: // 0x021698F4
 	push {r3, r4, r5, lr}
 	ldr r0, _021699C8 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
 	add r4, r0, r1
@@ -4625,7 +4625,7 @@ VSMenuNetworkMessage__Main_21698F4: // 0x021698F4
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldrh r1, [r4, #0xc]
 	ldr r0, _021699CC // =0x0000FFFF
 	cmp r1, r0
@@ -4633,7 +4633,7 @@ VSMenuNetworkMessage__Main_21698F4: // 0x021698F4
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__ClearPixels
+	bl FontAnimator__ClearPixels
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	mov r3, #0
@@ -4641,11 +4641,11 @@ VSMenuNetworkMessage__Main_21698F4: // 0x021698F4
 	mov r1, #4
 	mov r2, #8
 	str r3, [sp]
-	blx FontWindowAnimator__InitAnimation
+	bl FontWindowAnimator__InitAnimation
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__StartAnimating
+	bl FontWindowAnimator__StartAnimating
 	mov r0, #0
 	str r0, [r4, #0x10]
 	ldr r1, [r5, #0x3c]
@@ -4653,7 +4653,7 @@ VSMenuNetworkMessage__Main_21698F4: // 0x021698F4
 	orr r0, r1
 	str r0, [r5, #0x3c]
 	ldr r0, _021699D0 // =VSMenuNetworkMessage__Main_21699D8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	b _021699BE
 _02169954:
 	ldrh r0, [r4, #0xe]
@@ -4663,28 +4663,28 @@ _02169954:
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0x40
-	blx FontAnimator__EnableFlags
+	bl FontAnimator__EnableFlags
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__ClearPixels
+	bl FontAnimator__ClearPixels
 	ldrh r1, [r4, #0xc]
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
 	strh r1, [r4, #0xe]
-	blx FontAnimator__SetMsgSequence
+	bl FontAnimator__SetMsgSequence
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #1
 	mov r2, #0
-	blx FontAnimator__InitStartPos
+	bl FontAnimator__InitStartPos
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0
-	blx FontAnimator__GetDialogLineCount
+	bl FontAnimator__GetDialogLineCount
 	mov r1, r0
 	lsl r2, r1, #4
 	lsr r1, r2, #0x1f
@@ -4697,15 +4697,15 @@ _02169954:
 	lsl r1, r1, #0x10
 	add r0, r4, r0
 	asr r1, r1, #0x10
-	blx FontAnimator__AdvanceLine
+	bl FontAnimator__AdvanceLine
 	mov r0, #0
 	str r0, [r4, #0x10]
 	ldr r0, _021699D4 // =VSMenuNetworkMessage__Main_2169874
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _021699BE:
 	add r4, #0x78
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _021699C8: .word VSMenu__Singleton
@@ -4719,24 +4719,24 @@ VSMenuNetworkMessage__Main_21699D8: // 0x021699D8
 	push {r4, lr}
 	ldr r0, _02169A44 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
 	add r4, r0, r1
 	sub r1, #0x60
 	add r0, r4, r1
-	blx FontWindowAnimator__ProcessWindowAnim
+	bl FontWindowAnimator__ProcessWindowAnim
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__IsFinishedAnimating
+	bl FontWindowAnimator__IsFinishedAnimating
 	cmp r0, #0
 	beq _02169A38
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0x40
-	blx FontWindowAnimator__EnableFlags
+	bl FontWindowAnimator__EnableFlags
 	mov r0, #1
 	lsl r0, r0, #0x1a
 	mov r1, #0x1f
@@ -4755,13 +4755,13 @@ VSMenuNetworkMessage__Main_21699D8: // 0x021699D8
 	mov r0, #0x7b
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__SetWindowOpen
+	bl FontWindowAnimator__SetWindowOpen
 	ldr r0, _02169A4C // =VSMenuNetworkMessage__Main1
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02169A38:
 	add r4, #0x78
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	pop {r4, pc}
 	nop
 _02169A44: .word VSMenu__Singleton
@@ -4774,20 +4774,20 @@ VSMenuNetworkMessage__Main2: // 0x02169A50
 	push {r4, lr}
 	ldr r0, _02169A7C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
 	add r4, r0, r1
 	sub r1, #0x60
 	add r0, r4, r1
-	blx FontWindowAnimator__Draw
+	bl FontWindowAnimator__Draw
 	mov r0, #0x4a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__Draw
+	bl FontAnimator__Draw
 	add r4, #0x14
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	pop {r4, pc}
 	.align 2, 0
 _02169A7C: .word VSMenu__Singleton

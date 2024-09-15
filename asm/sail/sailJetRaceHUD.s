@@ -927,7 +927,7 @@ _02188D24:
 _02188DD8:
 	mov r0, r9
 	and r1, r10, #0xff
-	blx SaveGame__HasChaosEmerald
+	bl SaveGame__HasChaosEmerald
 	cmp r0, #0
 	beq _02188E08
 	mul r5, r10, r4

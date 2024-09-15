@@ -144,7 +144,7 @@ _02156F64:
 	and r1, r4, #0xff
 	ldr r0, _02157004 // =0x02134474
 	strb r1, [r2, #0x151]
-	blx SaveGame__SetSolEmeraldCollected
+	bl SaveGame__SetSolEmeraldCollected
 	mov r0, #0x1f
 	bl RequestNewSysEventChange
 	bl NextSysEvent

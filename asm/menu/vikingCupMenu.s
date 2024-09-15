@@ -79,7 +79,7 @@ VikingCupStageSelectMenu__Create: // 0x0217AA60
 _0217AAD4:
 	mov r0, r5
 	and r1, r7, #0xff
-	blx SaveGame__HasChaosEmerald
+	bl SaveGame__HasChaosEmerald
 	cmp r0, #0
 	beq _0217AB04
 	ldrh r0, [r8, #0x24]

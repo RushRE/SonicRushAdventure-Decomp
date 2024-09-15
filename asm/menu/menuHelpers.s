@@ -121,7 +121,7 @@ _0217CFC4:
 	sub r1, r3, #0x19
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
-	blx SaveGame__GetIslandProgress
+	bl SaveGame__GetIslandProgress
 	cmp r6, #0
 	beq _0217CFF4
 	cmp r0, #2

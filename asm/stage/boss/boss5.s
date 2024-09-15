@@ -28,20 +28,20 @@ Boss5Stage__Create: // _021739C4
 	ldr r0, _02173BE0 // =StageTask_Main
 	ldr r1, _02173BE4 // =ovl01_2176E28
 	mov r3, r2
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r1, _02173BE8 // =_0217AFB8
 	str r0, [r1]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r2, _02173BDC // =0x00001130
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r2, [sp, #0x14]
 	ldr r3, [sp, #0x18]
 	mov r0, r4
 	mov r1, r5
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _02173BEC // =ovl01_2176DDC
 	add r0, #0xf4
@@ -85,7 +85,7 @@ Boss5Stage__Create: // _021739C4
 	lsl r0, r0, #4
 	add r0, r4, r0
 	mov r1, #0x88
-	blx MI_CpuFill8
+	bl MI_CpuFill8
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r0, r4, r0
@@ -93,11 +93,11 @@ Boss5Stage__Create: // _021739C4
 	mov r0, #0xe5
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx BossHelpers__Light__Init
+	bl BossHelpers__Light__Init
 	ldr r0, _02173BFC // =0x000003C6
 	add r0, r4, r0
-	blx BossHelpers__Light__Init
-	blx BossHelpers__Model__InitSystem
+	bl BossHelpers__Light__Init
+	bl BossHelpers__Model__InitSystem
 	ldr r0, _02173C00 // =0x0000040C
 	ldr r2, _02173C04 // =_0217AEF4
 	add r5, r4, r0
@@ -107,14 +107,14 @@ Boss5Stage__Create: // _021739C4
 	mov r0, r4
 	mov r1, r5
 	str r3, [sp, #4]
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	mov r0, #0x4b
 	mov r1, #0
 	lsl r0, r0, #2
 	str r1, [r4, r0]
 	ldr r0, _02173BE8 // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x39
 	lsl r1, r1, #4
 	ldr r6, [r0, r1]
@@ -131,7 +131,7 @@ Boss5Stage__Create: // _021739C4
 	str r0, [sp]
 	mov r0, r4
 	mov r1, r5
-	blx ObjAction3dNNMotionLoad
+	bl ObjAction3dNNMotionLoad
 	mov r3, #0
 	str r3, [sp]
 	mov r2, #0x56
@@ -141,7 +141,7 @@ Boss5Stage__Create: // _021739C4
 	ldr r2, [r4, r2]
 	add r0, r4, r0
 	mov r1, #3
-	blx BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__Animation__Func_2038BF0
 	ldr r0, _02173C14 // =0x00000898
 	ldr r2, _02173C04 // =_0217AEF4
 	add r5, r4, r0
@@ -152,7 +152,7 @@ Boss5Stage__Create: // _021739C4
 	str r0, [sp, #4]
 	mov r0, r4
 	mov r3, #8
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	mov r0, #0x4b
 	mov r3, #0
 	lsl r0, r0, #2
@@ -168,7 +168,7 @@ Boss5Stage__Create: // _021739C4
 	mov r1, r5
 	str r0, [sp]
 	mov r0, r4
-	blx ObjAction3dNNMotionLoad
+	bl ObjAction3dNNMotionLoad
 	mov r0, #0
 	str r0, [sp]
 	mov r3, #1
@@ -178,7 +178,7 @@ Boss5Stage__Create: // _021739C4
 	ldr r2, [r5, r2]
 	mov r0, r5
 	mov r1, #3
-	blx BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__Animation__Func_2038BF0
 	ldr r0, _02173C18 // =0x00000588
 	mov r6, #0
 	add r7, r4, r0
@@ -192,7 +192,7 @@ _02173B3C:
 	mov r0, r4
 	mov r1, r7
 	add r3, r6, #6
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	mov r0, #0x4b
 	lsl r0, r0, #2
 	str r5, [r4, r0]
@@ -216,7 +216,7 @@ _02173B68:
 	mov r0, r6
 	lsr r2, r2, #0x10
 	mov r3, #2
-	blx InitPaletteAnimator
+	bl InitPaletteAnimator
 	add r5, r5, #1
 	add r6, #0x20
 	cmp r5, #8
@@ -230,7 +230,7 @@ _02173B68:
 	ldr r1, [sp, #0x14]
 	ldr r2, [sp, #0x18]
 	str r3, [sp, #0x10]
-	blx GameObject__SpawnObject
+	bl GameObject__SpawnObject
 	mov r1, #0xdd
 	lsl r1, r1, #2
 	str r0, [r4, r1]
@@ -246,11 +246,11 @@ _02173B68:
 	ldr r2, [sp, #0x18]
 	asr r1, r1, #1
 	str r3, [sp, #0x10]
-	blx GameObject__SpawnObject
+	bl GameObject__SpawnObject
 	mov r1, #0xde
 	lsl r1, r1, #2
 	str r0, [r4, r1]
-	blx InitSpatialAudioConfig
+	bl InitSpatialAudioConfig
 	mov r0, #0xdf
 	ldr r1, _02173C2C // =ovl01_2177018
 	lsl r0, r0, #2
@@ -301,17 +301,17 @@ Boss5__Create: // _02173C30
 	ldr r0, _02173E8C // =StageTask_Main
 	ldr r1, _02173E90 // =ovl01_2177584
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0xb3
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r0, _02173E94 // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xdd
 	lsl r1, r1, #2
 	str r0, [r4, r1]
@@ -319,7 +319,7 @@ Boss5__Create: // _02173C30
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _02173E98 // =ovl01_2177568
 	add r0, #0xf4
@@ -351,7 +351,7 @@ Boss5__Create: // _02173C30
 	str r0, [r4, #0x40]
 	ldr r0, _02173E94 // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x39
 	lsl r1, r1, #4
 	ldr r0, [r0, r1]
@@ -363,11 +363,11 @@ Boss5__Create: // _02173C30
 	str r0, [r4, #0x4c]
 	add r0, r4, r1
 	bl ovl01_2175328
-	blx AllocSndHandle
+	bl AllocSndHandle
 	mov r1, #0xb2
 	lsl r1, r1, #4
 	str r0, [r4, r1]
-	blx AllocSndHandle
+	bl AllocSndHandle
 	ldr r1, _02173EA4 // =0x00000B24
 	str r0, [r4, r1]
 	mov r0, #0x86
@@ -376,11 +376,11 @@ Boss5__Create: // _02173C30
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx ObjRect__SetAttackStat
+	bl ObjRect__SetAttackStat
 	mov r0, r5
 	mov r1, #2
 	mov r2, #0x3f
-	blx ObjRect__SetDefenceStat
+	bl ObjRect__SetDefenceStat
 	mov r3, #0x20
 	str r3, [sp]
 	str r3, [sp, #4]
@@ -391,7 +391,7 @@ Boss5__Create: // _02173C30
 	sub r1, #0x28
 	sub r2, #0x50
 	sub r3, #0x40
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	ldr r0, _02173EA8 // =ovl01_21777A8
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x24]
@@ -404,11 +404,11 @@ Boss5__Create: // _02173C30
 	mov r0, r5
 	mov r1, #3
 	mov r2, #0x40
-	blx ObjRect__SetAttackStat
+	bl ObjRect__SetAttackStat
 	mov r0, r5
 	mov r1, #3
 	mov r2, #0x3f
-	blx ObjRect__SetDefenceStat
+	bl ObjRect__SetDefenceStat
 	mov r3, #0x20
 	mov r0, #0x78
 	str r0, [sp]
@@ -420,7 +420,7 @@ Boss5__Create: // _02173C30
 	sub r1, #0x8e
 	sub r2, #0x98
 	sub r3, #0x40
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	mov r0, #1
 	mov r1, r4
 	str r4, [r5, #0x1c]
@@ -431,11 +431,11 @@ Boss5__Create: // _02173C30
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx ObjRect__SetAttackStat
+	bl ObjRect__SetAttackStat
 	mov r0, r5
 	mov r1, #2
 	mov r2, #0x3f
-	blx ObjRect__SetDefenceStat
+	bl ObjRect__SetDefenceStat
 	mov r0, #0x78
 	mov r3, #0x20
 	str r0, [sp]
@@ -446,7 +446,7 @@ Boss5__Create: // _02173C30
 	mov r0, r5
 	mov r2, r1
 	sub r3, #0x40
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	ldr r0, _02173EAC // =ovl01_2177858
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x24]
@@ -463,7 +463,7 @@ Boss5__Create: // _02173C30
 	mov r0, r4
 	mov r1, r5
 	str r3, [sp, #4]
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	mov r0, #0x4b
 	mov r3, #0
 	lsl r0, r0, #2
@@ -481,7 +481,7 @@ Boss5__Create: // _02173C30
 	mov r1, r5
 	str r0, [sp]
 	mov r0, r4
-	blx ObjAction3dNNMotionLoad
+	bl ObjAction3dNNMotionLoad
 	mov r0, #3
 	str r0, [sp]
 	mov r0, r5
@@ -489,7 +489,7 @@ Boss5__Create: // _02173C30
 	add r0, #0x90
 	mov r2, #0
 	mov r3, #6
-	blx NNS_G3dRenderObjSetCallBack
+	bl NNS_G3dRenderObjSetCallBack
 	mov r3, #0
 	mov r0, r5
 	str r3, [sp]
@@ -497,19 +497,19 @@ Boss5__Create: // _02173C30
 	ldr r0, [r0]
 	ldr r1, _02173EC8 // =aBodyWeak
 	mov r2, #0x1e
-	blx BossHelpers__Model__Init
+	bl BossHelpers__Model__Init
 	mov r3, #0
 	str r3, [sp]
 	add r5, #0x94
 	ldr r0, [r5]
 	ldr r1, _02173ECC // =aBodyCenter
 	mov r2, #0x1d
-	blx BossHelpers__Model__Init
+	bl BossHelpers__Model__Init
 	ldr r2, _02173EC0 // =gameArchiveStage
 	ldr r1, _02173ED0 // =aExc_6
 	ldr r2, [r2]
 	add r0, sp, #0x10
-	blx NNS_FndMountArchive
+	bl NNS_FndMountArchive
 	mov r0, #2
 	lsl r0, r0, #0xa
 	ldr r5, _02173ED4 // =_0217AEC0
@@ -519,13 +519,13 @@ _02173E34:
 	mov r1, r7
 	add r0, sp, #0x10
 	add r1, #0xb
-	blx NNS_FndGetArchiveFileByIndex
+	bl NNS_FndGetArchiveFileByIndex
 	str r0, [sp, #0xc]
 	ldr r0, _02173EB0 // =bossAssetFiles
 	ldr r0, [r0]
-	blx NNS_G3dGetTex
+	bl NNS_G3dGetTex
 	ldr r1, [r5]
-	blx Asset3DSetup__PaletteFromName
+	bl Asset3DSetup__PaletteFromName
 	mov r1, #5
 	str r1, [sp]
 	mov r2, #0
@@ -533,7 +533,7 @@ _02173E34:
 	ldr r1, [sp, #0xc]
 	mov r0, r6
 	mov r3, r2
-	blx InitPaletteAnimator
+	bl InitPaletteAnimator
 	add r7, r7, #1
 	add r5, r5, #4
 	add r6, #0x20
@@ -545,9 +545,9 @@ _02173E34:
 	add r0, r4, r0
 	mov r1, #0xd
 	mov r3, r2
-	blx BossHelpers__Palette__Func_2038BAC
+	bl BossHelpers__Palette__Func_2038BAC
 	add r0, sp, #0x10
-	blx NNS_FndUnmountArchive
+	bl NNS_FndUnmountArchive
 	mov r0, r4
 	bl ovl01_2177918
 	mov r0, r4
@@ -616,19 +616,19 @@ _02173F0E:
 	ldr r0, _02173FEC // =StageTask_Main
 	ldr r1, _02173FF0 // =ovl01_2176970
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0x4e
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _02173FF4 // =ovl01_217696C
 	add r0, #0xf4
@@ -657,11 +657,11 @@ _02173F0E:
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx ObjRect__SetAttackStat
+	bl ObjRect__SetAttackStat
 	mov r0, r5
 	mov r1, #2
 	mov r2, #0x3f
-	blx ObjRect__SetDefenceStat
+	bl ObjRect__SetDefenceStat
 	mov r3, #0x20
 	mov r0, #0x10
 	str r0, [sp]
@@ -674,7 +674,7 @@ _02173F0E:
 	sub r1, #0x30
 	sub r2, #0x70
 	sub r3, #0x40
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	ldr r0, _02173FFC // =ovl01_21769F0
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x24]
@@ -692,7 +692,7 @@ _02173F0E:
 	mov r0, r4
 	mov r1, r5
 	str r3, [sp, #4]
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	mov r0, #0x4b
 	mov r1, #0
 	lsl r0, r0, #2
@@ -734,16 +734,16 @@ Boss5Sea__Create: // _0217400C
 	ldr r0, _021740EC // =StageTask_Main
 	ldr r1, _021740F0 // =ovl01_2177370
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r2, _021740E8 // =0x000004F8
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r0, _021740F4 // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xdd
 	mov r3, #0x32
 	lsl r1, r1, #2
@@ -753,7 +753,7 @@ Boss5Sea__Create: // _0217400C
 	mov r1, r6
 	mov r2, r7
 	add r3, r5, r3
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _021740F8 // =ovl01_21772D8
 	add r0, #0xf4
@@ -809,7 +809,7 @@ Boss5Sea__Create: // _0217400C
 	ldr r2, _02174108 // =_0217AEF4
 	mov r0, r4
 	mov r3, #1
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	mov r0, #0x4b
 	mov r1, #0
 	lsl r0, r0, #2
@@ -875,19 +875,19 @@ _02174146:
 	ldr r0, _021741E4 // =StageTask_Main
 	ldr r1, _021741E8 // =GameObject__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0x4e
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _021741EC // =ovl01_2175BCC
 	add r0, #0xf4
@@ -926,7 +926,7 @@ _02174146:
 	ldr r2, _021741FC // =_0217AEF4
 	mov r0, r4
 	mov r1, r6
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	mov r0, #2
 	lsl r0, r0, #0xe
 	str r0, [r6, #0x18]
@@ -994,19 +994,19 @@ _02174244:
 	ldr r0, _021742DC // =StageTask_Main
 	ldr r1, _021742E0 // =GameObject__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0x37
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _021742E4 // =ovl01_2175C20
 	add r0, #0xf4
@@ -1107,18 +1107,18 @@ _02174330:
 	ldr r0, _02174400 // =StageTask_Main
 	ldr r1, _02174404 // =GameObject__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r2, _021743FC // =0x000004EC
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _02174408 // =ovl01_2175CA8
 	add r0, #0xf4
@@ -1185,7 +1185,7 @@ _021743CE:
 	mov r0, r4
 	mov r1, r5
 	mov r3, #9
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	ldr r0, _02174420 // =0x000034CC
 	str r0, [r5, #0x18]
 	str r0, [r5, #0x1c]
@@ -1226,19 +1226,19 @@ Boss5Missile__Create: // _02174424
 	ldr r0, _0217454C // =StageTask_Main
 	ldr r1, _02174550 // =ovl01_2175D28
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0x4e
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, #0x11
 	ldr r1, _02174554 // =ovl01_21758A0
 	lsl r0, r0, #4
@@ -1307,11 +1307,11 @@ _021744C0:
 	mov r0, r5
 	mov r1, #2
 	mov r2, #0x40
-	blx ObjRect__SetAttackStat
+	bl ObjRect__SetAttackStat
 	ldr r1, _02174564 // =0x0000FFFF
 	mov r0, r5
 	mov r2, #0xff
-	blx ObjRect__SetDefenceStat
+	bl ObjRect__SetDefenceStat
 	mov r0, #0x12
 	str r0, [sp]
 	mov r0, #8
@@ -1323,7 +1323,7 @@ _021744C0:
 	mov r0, r5
 	sub r1, #0x2a
 	sub r3, #0x24
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	ldr r0, _02174568 // =ovl01_2175D40
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x20]
@@ -1342,7 +1342,7 @@ _021744C0:
 	mov r0, r4
 	mov r1, r5
 	mov r3, #1
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	ldr r0, _02174574 // =0x000034CC
 	str r0, [r5, #0x18]
 	str r0, [r5, #0x1c]
@@ -1412,19 +1412,19 @@ _021745BC:
 	ldr r0, _02174658 // =StageTask_Main
 	ldr r1, _0217465C // =GameObject__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0xdb
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #2
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _02174660 // =ovl01_2175D7C
 	add r0, #0xf4
@@ -1499,19 +1499,19 @@ CreateBoss5Icicle: // _02174668
 	ldr r0, _02174750 // =StageTask_Main
 	ldr r1, _02174754 // =GameObject__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0x4e
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r1, #0x11
 	ldr r0, _02174758 // =ovl01_21758A0
 	lsl r1, r1, #4
@@ -1547,11 +1547,11 @@ CreateBoss5Icicle: // _02174668
 	add r5, r4, r0
 	mov r0, r5
 	mov r1, #2
-	blx ObjRect__SetAttackStat
+	bl ObjRect__SetAttackStat
 	ldr r1, _02174768 // =0x0000FFFF
 	mov r0, r5
 	mov r2, #0xff
-	blx ObjRect__SetDefenceStat
+	bl ObjRect__SetDefenceStat
 	mov r3, #0x20
 	mov r0, #0x14
 	str r0, [sp]
@@ -1564,7 +1564,7 @@ CreateBoss5Icicle: // _02174668
 	sub r1, #0x34
 	sub r2, #0x3e
 	sub r3, #0x40
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	str r4, [r5, #0x1c]
 	ldr r1, [r5, #0x18]
 	mov r0, #4
@@ -1581,7 +1581,7 @@ CreateBoss5Icicle: // _02174668
 	mov r0, r4
 	mov r1, r5
 	mov r3, #2
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	ldr r0, _02174774 // =0x000034CC
 	str r0, [r5, #0x18]
 	str r0, [r5, #0x1c]
@@ -1649,18 +1649,18 @@ _021747BC:
 	ldr r0, _021748A0 // =StageTask_Main
 	ldr r1, _021748A4 // =GameObject__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r2, _0217489C // =0x000004E8
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _021748A8 // =ovl01_2175DD0
 	add r0, #0xf4
@@ -1687,7 +1687,7 @@ _021747BC:
 	str r0, [r4, #0x38]
 	str r0, [r4, #0x3c]
 	str r0, [r4, #0x40]
-	blx AllocSndHandle
+	bl AllocSndHandle
 	mov r1, #0xcf
 	lsl r1, r1, #2
 	str r0, [r4, r1]
@@ -1697,11 +1697,11 @@ _021747BC:
 	mov r0, r5
 	mov r1, #2
 	mov r2, #0x40
-	blx ObjRect__SetAttackStat
+	bl ObjRect__SetAttackStat
 	ldr r1, _021748B4 // =0x0000FFFF
 	mov r0, r5
 	mov r2, #0xff
-	blx ObjRect__SetDefenceStat
+	bl ObjRect__SetDefenceStat
 	mov r3, #0x20
 	mov r0, #0x14
 	str r0, [sp]
@@ -1714,7 +1714,7 @@ _021747BC:
 	sub r1, #0x34
 	sub r2, #0x3e
 	sub r3, #0x40
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	str r4, [r5, #0x1c]
 	ldr r1, [r5, #0x18]
 	mov r0, #4
@@ -1731,7 +1731,7 @@ _021747BC:
 	mov r0, r4
 	mov r1, r5
 	mov r3, #2
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	ldr r0, _021748C0 // =0x000034CC
 	str r0, [r5, #0x18]
 	str r0, [r5, #0x1c]
@@ -1794,19 +1794,19 @@ _021748FA:
 	ldr r0, _02174960 // =StageTask_Main
 	ldr r1, _02174964 // =GameObject__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0xda
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #2
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _02174968 // =ovl01_2175F48
 	add r0, #0xf4
@@ -1883,19 +1883,19 @@ _021749B4:
 	ldr r0, _02174B00 // =StageTask_Main
 	ldr r1, _02174B04 // =GameObject__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0x4e
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r1, #0x11
 	ldr r0, _02174B08 // =ovl01_21758A0
 	lsl r1, r1, #4
@@ -1924,11 +1924,11 @@ _021749B4:
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx ObjRect__SetAttackStat
+	bl ObjRect__SetAttackStat
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx ObjRect__SetDefenceStat
+	bl ObjRect__SetDefenceStat
 	mov r0, #0x20
 	mov r2, #0
 	str r0, [sp]
@@ -1939,7 +1939,7 @@ _021749B4:
 	mov r0, r5
 	sub r2, #0x10
 	mov r3, r1
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	ldr r1, [r5, #0x18]
 	mov r0, #0xc4
 	orr r0, r1
@@ -1958,7 +1958,7 @@ _021749B4:
 	str r0, [sp, #4]
 	mov r0, r4
 	mov r3, #6
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	ldr r0, _02174B1C // =0x000034CC
 	ldr r2, _02174B20 // =aBoss5Nsbca
 	str r0, [r5, #0x18]
@@ -1970,7 +1970,7 @@ _021749B4:
 	mov r3, #0
 	str r0, [sp]
 	mov r0, r4
-	blx ObjAction3dNNMotionLoad
+	bl ObjAction3dNNMotionLoad
 	mov r1, #0
 	mov r2, #0x52
 	str r1, [sp]
@@ -1980,7 +1980,7 @@ _021749B4:
 	ldr r2, [r5, r2]
 	mov r0, r5
 	mov r3, #0x18
-	blx BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__Animation__Func_2038BF0
 	ldr r0, _02174B24 // =gameArchiveStage
 	ldr r2, _02174B28 // =aBoss5Nsbma
 	ldr r0, [r0]
@@ -1988,7 +1988,7 @@ _021749B4:
 	str r0, [sp]
 	mov r0, r4
 	mov r3, #0
-	blx ObjAction3dNNMotionLoad
+	bl ObjAction3dNNMotionLoad
 	mov r3, #0
 	mov r2, #0x53
 	str r3, [sp]
@@ -1997,7 +1997,7 @@ _021749B4:
 	lsl r2, r2, #2
 	ldr r2, [r5, r2]
 	mov r0, r5
-	blx BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__Animation__Func_2038BF0
 	ldr r0, _02174B24 // =gameArchiveStage
 	ldr r2, _02174B2C // =aBoss5Nsbta
 	ldr r0, [r0]
@@ -2005,7 +2005,7 @@ _021749B4:
 	str r0, [sp]
 	mov r0, r4
 	mov r3, #0
-	blx ObjAction3dNNMotionLoad
+	bl ObjAction3dNNMotionLoad
 	mov r0, #0
 	str r0, [sp]
 	mov r0, #1
@@ -2016,7 +2016,7 @@ _021749B4:
 	mov r0, r5
 	mov r1, #3
 	mov r3, #2
-	blx BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__Animation__Func_2038BF0
 	mov r0, r4
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
@@ -2054,18 +2054,18 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 	ldr r0, _02174C2C // =StageTask_Main
 	ldr r1, _02174C30 // =GameObject__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r2, _02174C28 // =0x000004E4
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _02174C34 // =ovl01_21766EC
 	add r0, #0xf4
@@ -2103,7 +2103,7 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 	mov r0, r4
 	mov r1, r5
 	mov r3, #8
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	ldr r0, _02174C44 // =0x000034CC
 	ldr r2, _02174C48 // =aBoss5Nsbca
 	str r0, [r5, #0x18]
@@ -2115,7 +2115,7 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 	mov r3, #0
 	str r0, [sp]
 	mov r0, r4
-	blx ObjAction3dNNMotionLoad
+	bl ObjAction3dNNMotionLoad
 	mov r1, #0
 	str r1, [sp]
 	mov r2, #0x52
@@ -2124,7 +2124,7 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 	ldr r2, [r5, r2]
 	mov r0, r5
 	mov r3, #0x19
-	blx BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__Animation__Func_2038BF0
 	ldr r0, _02174C4C // =gameArchiveStage
 	ldr r2, _02174C50 // =aBoss5Nsbva
 	ldr r0, [r0]
@@ -2132,7 +2132,7 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 	str r0, [sp]
 	mov r0, r4
 	mov r3, #0
-	blx ObjAction3dNNMotionLoad
+	bl ObjAction3dNNMotionLoad
 	mov r3, #0
 	str r3, [sp]
 	mov r2, #0x56
@@ -2141,7 +2141,7 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 	ldr r2, [r5, r2]
 	mov r0, r5
 	mov r1, #4
-	blx BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__Animation__Func_2038BF0
 	mov r0, #0x46
 	mov r1, #0
 	lsl r0, r0, #2
@@ -2213,19 +2213,19 @@ _02174C98:
 	ldr r0, _02174DB0 // =StageTask_Main
 	ldr r1, _02174DB4 // =GameObject__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0x4e
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _02174DB8 // =ovl01_21760A0
 	add r0, #0xf4
@@ -2258,18 +2258,18 @@ _02174C98:
 	sub r1, #0xc
 	sub r2, #8
 	mov r3, #8
-	blx StageTask__SetHitbox
+	bl StageTask__SetHitbox
 	mov r0, #0x86
 	lsl r0, r0, #2
 	add r5, r4, r0
 	mov r0, r5
 	mov r1, #2
 	mov r2, #0x40
-	blx ObjRect__SetAttackStat
+	bl ObjRect__SetAttackStat
 	mov r0, r5
 	mov r1, #1
 	mov r2, #0x40
-	blx ObjRect__SetDefenceStat
+	bl ObjRect__SetDefenceStat
 	mov r3, #0x20
 	mov r0, #0xc
 	str r0, [sp]
@@ -2282,7 +2282,7 @@ _02174C98:
 	sub r1, #0x2c
 	sub r2, #0x38
 	sub r3, #0x40
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	ldr r0, _02174DC8 // =ovl01_217623C
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x24]
@@ -2301,7 +2301,7 @@ _02174C98:
 	mov r0, r4
 	mov r1, r5
 	mov r3, #3
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	ldr r0, _02174DD4 // =0x000034CC
 	ldr r2, _02174DD8 // =aBoss5Nsbca
 	str r0, [r5, #0x18]
@@ -2313,7 +2313,7 @@ _02174C98:
 	mov r3, #0
 	str r0, [sp]
 	mov r0, r4
-	blx ObjAction3dNNMotionLoad
+	bl ObjAction3dNNMotionLoad
 	mov r1, #0
 	mov r2, #0x52
 	str r1, [sp]
@@ -2323,7 +2323,7 @@ _02174C98:
 	ldr r2, [r5, r2]
 	mov r0, r5
 	mov r3, #0x1a
-	blx BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__Animation__Func_2038BF0
 	mov r0, r4
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
@@ -2361,18 +2361,18 @@ Boss5EnemyFish2__Create: // _02174DE0
 	ldr r0, _02174F14 // =StageTask_Main
 	ldr r1, _02174F18 // =ovl01_2176450
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r2, _02174F10 // =0x000004E4
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r5
 	mov r2, r6
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _02174F1C // =ovl01_2176288
 	add r0, #0xf4
@@ -2405,18 +2405,18 @@ Boss5EnemyFish2__Create: // _02174DE0
 	sub r1, #0xc
 	sub r2, #8
 	mov r3, #8
-	blx StageTask__SetHitbox
+	bl StageTask__SetHitbox
 	mov r0, #0x86
 	lsl r0, r0, #2
 	add r5, r4, r0
 	mov r0, r5
 	mov r1, #2
 	mov r2, #0x40
-	blx ObjRect__SetAttackStat
+	bl ObjRect__SetAttackStat
 	mov r0, r5
 	mov r1, #1
 	mov r2, #0x40
-	blx ObjRect__SetDefenceStat
+	bl ObjRect__SetDefenceStat
 	mov r3, #0x20
 	mov r0, #0xc
 	str r0, [sp]
@@ -2429,7 +2429,7 @@ Boss5EnemyFish2__Create: // _02174DE0
 	sub r1, #0x2c
 	sub r2, #0x38
 	sub r3, #0x40
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	ldr r0, _02174F28 // =ovl01_2176460
 	str r4, [r5, #0x1c]
 	str r0, [r5, #0x24]
@@ -2448,7 +2448,7 @@ Boss5EnemyFish2__Create: // _02174DE0
 	mov r0, r4
 	mov r1, r5
 	mov r3, #3
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	ldr r0, _02174F34 // =0x000034CC
 	ldr r2, _02174F38 // =aBoss5Nsbca
 	str r0, [r5, #0x18]
@@ -2460,7 +2460,7 @@ Boss5EnemyFish2__Create: // _02174DE0
 	mov r3, #0
 	str r0, [sp]
 	mov r0, r4
-	blx ObjAction3dNNMotionLoad
+	bl ObjAction3dNNMotionLoad
 	mov r1, #0
 	mov r2, #0x52
 	str r1, [sp]
@@ -2470,7 +2470,7 @@ Boss5EnemyFish2__Create: // _02174DE0
 	ldr r2, [r5, r2]
 	mov r0, r5
 	mov r3, #0x1a
-	blx BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__Animation__Func_2038BF0
 	bl ovl01_2175A38
 	mov r0, #0x1f
 	ldr r1, [r4, #0x1c]
@@ -2556,19 +2556,19 @@ _02174F96:
 	ldr r0, _0217515C // =StageTask_Main
 	ldr r1, _02175160 // =ovl01_2176528
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0x4e
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r7
 	mov r2, r5
 	mov r3, r6
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r0, r4
 	ldr r1, _02175164 // =ovl01_2175924
 	add r0, #0xfc
@@ -2599,11 +2599,11 @@ _02174F96:
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1
-	blx ObjRect__SetAttackStat
+	bl ObjRect__SetAttackStat
 	mov r0, r6
 	mov r1, #1
 	mov r2, #0x40
-	blx ObjRect__SetDefenceStat
+	bl ObjRect__SetDefenceStat
 	ldrh r1, [r7, #4]
 	mov r0, #3
 	and r0, r1
@@ -2633,7 +2633,7 @@ _02175038:
 	sub r1, #0x2c
 	sub r2, #0x38
 	sub r3, #0x40
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	str r4, [r5]
 	bl ovl01_2175A00
 	str r0, [r5, #0x24]
@@ -2661,7 +2661,7 @@ _02175074:
 	mov r0, r6
 	sub r1, #0x2c
 	sub r3, #0x20
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	b _021750CA
 _02175090:
 	mov r0, #0
@@ -2676,7 +2676,7 @@ _02175090:
 	sub r1, #0x38
 	sub r2, #0x2c
 	sub r3, #0x40
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 	b _021750CA
 _021750AE:
 	mov r0, #0x18
@@ -2691,7 +2691,7 @@ _021750AE:
 	mov r0, r6
 	sub r2, #0xc
 	sub r3, #0x20
-	blx ObjRect__SetBox3D
+	bl ObjRect__SetBox3D
 _021750CA:
 	ldr r0, _0217516C // =ovl01_2176648
 	str r4, [r6, #0x1c]
@@ -2710,7 +2710,7 @@ _021750CA:
 	str r0, [sp, #4]
 	mov r0, r4
 	mov r1, r5
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	ldr r0, _02175178 // =0x000034CC
 	str r0, [r5, #0x18]
 	str r0, [r5, #0x1c]
@@ -2794,7 +2794,7 @@ Boss5Shutter__Create: // _02175188
 	mov r0, #0
 	pop {r4, r5, r6, r7, pc}
 _021751A0:
-	blx GetTaskWork_
+	bl GetTaskWork_
 	bl ovl01_2175A80
 	mov r1, #6
 	ldrsb r1, [r6, r1]
@@ -2816,19 +2816,19 @@ _021751B6:
 	ldr r0, _021752A4 // =StageTask_Main
 	ldr r1, _021752A8 // =ovl01_21766D4
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0x4e
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	mov r1, r6
 	mov r2, r5
 	mov r3, r7
-	blx GameObject__InitFromObject
+	bl GameObject__InitFromObject
 	mov r1, #0x11
 	ldr r0, _021752AC // =ovl01_21758A0
 	lsl r1, r1, #4
@@ -2894,7 +2894,7 @@ _02175258:
 	mov r0, r4
 	mov r1, r5
 	mov r3, #5
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	mov r0, #2
 	lsl r0, r0, #0xe
 	str r0, [r5, #0x18]
@@ -2939,7 +2939,7 @@ ovl01_21752C0: // _021752C0
 	pop {r3, r4, r5, pc}
 _021752D2:
 	mov r0, r1
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xdd
 	lsl r1, r1, #2
 	ldr r1, [r0, r1]
@@ -2963,13 +2963,13 @@ _021752E8:
 	add r0, #0x18
 	str r1, [r4, #0x1c]
 	mov r1, r0
-	blx VEC_Normalize
+	bl VEC_Normalize
 	mov r0, r4
 	mov r1, r4
 	add r0, #0xc
 	add r1, #0x18
 	mov r2, r4
-	blx VEC_CrossProduct
+	bl VEC_CrossProduct
 	mov r0, #0x46
 	ldr r1, [r4, #0x28]
 	lsl r0, r0, #0xc
@@ -2985,27 +2985,27 @@ ovl01_2175328: // _02175328
 	push {r4, lr}
 	sub sp, #0x68
 	mov r4, r0
-	blx MapFarSys__GetAsset
+	bl MapFarSys__GetAsset
 	str r0, [r4]
 	ldr r2, _02175368 // =gameArchiveStage
 	ldr r1, _0217536C // =aExc_6
 	ldr r2, [r2]
 	add r0, sp, #0
-	blx NNS_FndMountArchive
+	bl NNS_FndMountArchive
 	add r0, sp, #0
 	mov r1, #0x1a
-	blx NNS_FndGetArchiveFileByIndex
+	bl NNS_FndGetArchiveFileByIndex
 	str r0, [r4, #4]
 	add r0, sp, #0
 	mov r1, #0x18
-	blx NNS_FndGetArchiveFileByIndex
+	bl NNS_FndGetArchiveFileByIndex
 	str r0, [r4, #8]
 	add r0, sp, #0
 	mov r1, #0x19
-	blx NNS_FndGetArchiveFileByIndex
+	bl NNS_FndGetArchiveFileByIndex
 	str r0, [r4, #0xc]
 	add r0, sp, #0
-	blx NNS_FndUnmountArchive
+	bl NNS_FndUnmountArchive
 	add sp, #0x68
 	pop {r4, pc}
 	.align 2, 0
@@ -3046,10 +3046,10 @@ _021753A2:
 	lsl r0, r0, #2
 	ldr r0, [r5, r0]
 	mov r1, #0
-	blx Sprite__GetSpriteSize2FromAnim
+	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
 	mov r0, #0
-	blx VRAMSystem__AllocSpriteVram
+	bl VRAMSystem__AllocSpriteVram
 	mov r1, #0
 	str r1, [sp]
 	str r1, [sp, #4]
@@ -3065,13 +3065,13 @@ _021753A2:
 	mov r0, r4
 	mov r2, #0
 	mov r3, #0x10
-	blx AnimatorSprite__Init
+	bl AnimatorSprite__Init
 	mov r0, #0xda
 	lsl r0, r0, #2
 	ldr r0, [r5, r0]
 	mov r1, #0
 	mov r2, #0x76
-	blx ObjDrawAllocSpritePalette
+	bl ObjDrawAllocSpritePalette
 	mov r1, r4
 	add r1, #0x50
 	strh r0, [r1]
@@ -3095,10 +3095,10 @@ _021753A2:
 	lsl r0, r0, #2
 	ldr r0, [r5, r0]
 	mov r1, #0x14
-	blx Sprite__GetSpriteSize2FromAnim
+	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
 	mov r0, #0
-	blx VRAMSystem__AllocSpriteVram
+	bl VRAMSystem__AllocSpriteVram
 	mov r1, #0
 	str r1, [sp]
 	str r1, [sp, #4]
@@ -3113,13 +3113,13 @@ _021753A2:
 	mov r0, r4
 	mov r2, #0x14
 	mov r3, #0x10
-	blx AnimatorSprite__Init
+	bl AnimatorSprite__Init
 	mov r0, #0xda
 	lsl r0, r0, #2
 	ldr r0, [r5, r0]
 	mov r1, #0x14
 	mov r2, #0x76
-	blx ObjDrawAllocSpritePalette
+	bl ObjDrawAllocSpritePalette
 	mov r1, r4
 	add r1, #0x50
 	strh r0, [r1]
@@ -3130,7 +3130,7 @@ _021753A2:
 	strh r0, [r4, #0xa]
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r1, _0217551C // =_0217A138
 	mov r0, #0
 	str r0, [sp, #0x20]
@@ -3152,10 +3152,10 @@ _02175484:
 	ldr r0, [r5, r0]
 	mov r1, #0xa
 	str r4, [sp, #0x1c]
-	blx Sprite__GetSpriteSize2FromAnim
+	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
 	mov r0, #0
-	blx VRAMSystem__AllocSpriteVram
+	bl VRAMSystem__AllocSpriteVram
 	mov r1, #0
 	str r1, [sp]
 	str r1, [sp, #4]
@@ -3171,13 +3171,13 @@ _02175484:
 	mov r0, r4
 	mov r2, #0xa
 	mov r3, #0x10
-	blx AnimatorSprite__Init
+	bl AnimatorSprite__Init
 	mov r0, #0xda
 	lsl r0, r0, #2
 	ldr r0, [r5, r0]
 	mov r1, #0xa
 	mov r2, #0x76
-	blx ObjDrawAllocSpritePalette
+	bl ObjDrawAllocSpritePalette
 	mov r1, r4
 	add r1, #0x50
 	strh r0, [r1]
@@ -3209,7 +3209,7 @@ _02175484:
 	ldr r1, [r5, r1]
 	add r0, r5, r0
 	mov r3, #2
-	blx InitPaletteAnimator
+	bl InitPaletteAnimator
 	ldr r0, _02175518 // =0x00000B14
 	mov r1, #1
 	str r1, [r5, r0]
@@ -3241,9 +3241,9 @@ _0217553E:
 	ldrh r0, [r0]
 	lsl r0, r0, #0x18
 	lsr r0, r0, #0x18
-	blx ObjDrawReleaseSpritePalette
+	bl ObjDrawReleaseSpritePalette
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r4, r4, #1
 	add r5, #0x64
 	cmp r4, #2
@@ -3255,9 +3255,9 @@ _0217553E:
 	ldrh r0, [r0]
 	lsl r0, r0, #0x18
 	lsr r0, r0, #0x18
-	blx ObjDrawReleaseSpritePalette
+	bl ObjDrawReleaseSpritePalette
 	add r0, r6, r4
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, r4
 	add r0, #0x64
 	mov r5, #0
@@ -3268,16 +3268,16 @@ _0217557A:
 	ldrh r0, [r0]
 	lsl r0, r0, #0x18
 	lsr r0, r0, #0x18
-	blx ObjDrawReleaseSpritePalette
+	bl ObjDrawReleaseSpritePalette
 	mov r0, r4
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, r5, #1
 	add r4, #0x64
 	cmp r5, #2
 	blt _0217557A
 	ldr r0, _021755AC // =0x00000D0C
 	add r0, r6, r0
-	blx ReleasePaletteAnimator
+	bl ReleasePaletteAnimator
 	ldr r0, _021755A8 // =0x00000B14
 	mov r1, #0
 	str r1, [r6, r0]
@@ -3303,23 +3303,23 @@ ovl01_21755B0: // _021755B0
 	add r1, sp, #4
 	add r2, #2
 	add r3, sp, #0
-	blx AkUtilFrameToTime
+	bl AkUtilFrameToTime
 	add r0, sp, #0
 	ldrh r0, [r0, #2]
 	mov r1, #0xa
-	blx FX_DivS32
+	bl FX_DivS32
 	lsl r0, r0, #0x10
 	lsr r5, r0, #0x10
 	ldr r0, _021756C0 // =0x00000B7C
 	lsl r1, r5, #0x10
 	add r0, r4, r0
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r0, _021756C0 // =0x00000B7C
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r0, sp, #0
 	ldrh r1, [r0, #2]
 	mov r0, #0xa
@@ -3331,16 +3331,16 @@ ovl01_21755B0: // _021755B0
 	lsl r1, r1, #0x10
 	add r0, r4, r0
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r0, _021756C4 // =0x00000B18
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r0, sp, #0
 	ldrh r0, [r0]
 	mov r1, #0xa
-	blx FX_DivS32
+	bl FX_DivS32
 	lsl r0, r0, #0x10
 	lsr r5, r0, #0x10
 	mov r1, r5
@@ -3349,12 +3349,12 @@ ovl01_21755B0: // _021755B0
 	lsl r1, r1, #0x10
 	add r0, r4, r0
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r0, _021756C8 // =0x00000CA8
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r1, sp, #0
 	ldrh r2, [r1]
 	mov r1, #0xa
@@ -3367,12 +3367,12 @@ ovl01_21755B0: // _021755B0
 	lsl r1, r1, #0x10
 	add r0, r4, r0
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r0, _021756CC // =0x00000C44
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _021756BC // =0x00000404
 	ldrh r1, [r4, r0]
 	mov r0, #0x96
@@ -3387,7 +3387,7 @@ ovl01_21755B0: // _021755B0
 	sub r0, r0, #4
 	add r0, r4, r0
 	mov r1, #1
-	blx SetPaletteAnimation
+	bl SetPaletteAnimation
 	b _021756A2
 _0217568E:
 	mov r0, #0xd1
@@ -3398,14 +3398,14 @@ _0217568E:
 	sub r0, r0, #4
 	add r0, r4, r0
 	mov r1, #0
-	blx SetPaletteAnimation
+	bl SetPaletteAnimation
 _021756A2:
 	ldr r0, _021756D0 // =0x00000D0C
 	add r0, r4, r0
-	blx AnimatePalette
+	bl AnimatePalette
 	ldr r0, _021756D0 // =0x00000D0C
 	add r0, r4, r0
-	blx DrawAnimatedPalette
+	bl DrawAnimatedPalette
 _021756B2:
 	add sp, #8
 	pop {r3, r4, r5, pc}
@@ -3432,7 +3432,7 @@ ovl01_21756D4: // _021756D4
 	add r5, r6, r0
 _021756E6:
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	add r4, r4, #1
 	add r5, #0x64
 	cmp r4, #2
@@ -3440,13 +3440,13 @@ _021756E6:
 	mov r0, #0xbe
 	lsl r0, r0, #4
 	add r0, r6, r0
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, _02175718 // =0x00000C44
 	mov r4, #0
 	add r5, r6, r0
 _02175704:
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	add r4, r4, #1
 	add r5, #0x64
 	cmp r4, #2
@@ -3503,7 +3503,7 @@ _0217575A:
 	asr r1, r0, #0x1f
 	mov r2, #0xc0
 	mov r3, #0
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, r0
 	mov r0, #2
 	mov r3, #0
@@ -3691,16 +3691,16 @@ ovl01_21758CC: // _021758CC
 	push {r4, r5, r6, lr}
 	ldr r0, _0217591C // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r6, #0xd9
 	mov r5, r0
 	lsl r6, r6, #2
-	blx Camera3D__GetTask
+	bl Camera3D__GetTask
 	cmp r0, #0
 	beq _021758F2
-	blx Camera3D__UseEngineA
+	bl Camera3D__UseEngineA
 	cmp r0, #0
 	bne _021758FA
 _021758F2:
@@ -3711,13 +3711,13 @@ _021758F2:
 _021758FA:
 	ldr r0, _02175920 // =0x000003C6
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights2
+	bl BossHelpers__Light__SetLights2
 	mov r0, r5
 	add r1, r5, r6
-	blx StageTask__Draw3D
+	bl StageTask__Draw3D
 	ldr r0, _02175920 // =0x000003C6
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights1
+	bl BossHelpers__Light__SetLights1
 	ldr r1, [r5, #0x20]
 	mov r0, #0x20
 	bic r1, r0
@@ -3733,16 +3733,16 @@ ovl01_2175924: // _02175924
 	push {r4, r5, r6, lr}
 	ldr r0, _02175974 // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r6, #0xd9
 	mov r5, r0
 	lsl r6, r6, #2
-	blx Camera3D__GetTask
+	bl Camera3D__GetTask
 	cmp r0, #0
 	beq _0217594A
-	blx Camera3D__UseEngineA
+	bl Camera3D__UseEngineA
 	cmp r0, #0
 	beq _02175952
 _0217594A:
@@ -3753,13 +3753,13 @@ _0217594A:
 _02175952:
 	ldr r0, _02175978 // =0x000003C6
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights2
+	bl BossHelpers__Light__SetLights2
 	mov r0, r5
 	add r1, r5, r6
-	blx StageTask__Draw3D
+	bl StageTask__Draw3D
 	ldr r0, _02175978 // =0x000003C6
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights1
+	bl BossHelpers__Light__SetLights1
 	ldr r1, [r5, #0x20]
 	mov r0, #0x20
 	bic r1, r0
@@ -3777,7 +3777,7 @@ ovl01_217597C: // _0217597C
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _02175990
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _02175998 // =0x00000D2C
 	mov r2, #0
 	str r2, [r0, r1]
@@ -3799,7 +3799,7 @@ ovl01_217599C: // _0217599C
 	mov r0, #1
 	pop {r4, pc}
 _021759AC:
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _021759C0 // =0x00000D2C
 	ldr r1, [r0, r1]
 	mov r0, #1
@@ -3820,7 +3820,7 @@ ovl01_21759C4: // _021759C4
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _021759F4
-	blx GetTaskWork_
+	bl GetTaskWork_
 	cmp r4, #0
 	ldr r1, _021759FC // =0x00000D2C
 	beq _021759E8
@@ -3849,7 +3849,7 @@ ovl01_2175A00: // _02175A00
 	push {r3, lr}
 	ldr r0, _02175A14 // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xd3
 	lsl r1, r1, #4
 	add r0, r0, r1
@@ -3885,7 +3885,7 @@ ovl01_2175A38: // _02175A38
 	push {r4, lr}
 	ldr r0, _02175A58 // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xe
 	lsl r0, r0, #6
@@ -3908,7 +3908,7 @@ ovl01_2175A60: // _02175A60
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _02175A78
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xe
 	lsl r1, r1, #6
 	ldrh r2, [r0, r1]
@@ -4113,31 +4113,31 @@ ovl01_2175BD0: // _02175BD0
 	push {r3, r4, r5, lr}
 	ldr r0, _02175C18 // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r1, [r4, #0x20]
 	mov r0, #0x20
 	tst r0, r1
 	bne _02175C16
-	blx Camera3D__GetTask
+	bl Camera3D__GetTask
 	cmp r0, #0
 	beq _02175C16
-	blx Camera3D__UseEngineA
+	bl Camera3D__UseEngineA
 	cmp r0, #0
 	bne _02175C16
 	ldr r0, _02175C1C // =0x000003C6
 	add r0, r5, r0
-	blx BossHelpers__Light__SetLights2
+	bl BossHelpers__Light__SetLights2
 	mov r1, #0xd9
 	lsl r1, r1, #2
 	mov r0, r4
 	add r1, r4, r1
-	blx StageTask__Draw3D
+	bl StageTask__Draw3D
 	ldr r0, _02175C1C // =0x000003C6
 	add r0, r5, r0
-	blx BossHelpers__Light__SetLights1
+	bl BossHelpers__Light__SetLights1
 _02175C16:
 	pop {r3, r4, r5, pc}
 	.align 2, 0
@@ -4191,7 +4191,7 @@ _02175C62:
 	mov r0, #0x49
 	ldr r2, [r4, #0x48]
 	lsl r0, r0, #2
-	blx GameObject__SpawnObject
+	bl GameObject__SpawnObject
 	mov r1, #0xda
 	lsl r1, r1, #2
 	ldrh r2, [r4, r1]
@@ -4262,7 +4262,7 @@ _02175CE4:
 	mov r0, #0x49
 	ldr r2, [r4, #0x48]
 	lsl r0, r0, #2
-	blx GameObject__SpawnObject
+	bl GameObject__SpawnObject
 	ldr r1, _02175D24 // =0x000004E4
 	ldrh r2, [r4, r1]
 	add r0, r1, #2
@@ -4293,13 +4293,13 @@ _02175D24: .word 0x000004E4
 ovl01_2175D28: // _02175D28
 	push {r4, lr}
 	mov r4, r0
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xbf
 	mov r2, #0
 	lsl r1, r1, #2
 	str r2, [r0, r1]
 	mov r0, r4
-	blx GameObject__Destructor
+	bl GameObject__Destructor
 	pop {r4, pc}
 	thumb_func_end ovl01_2175D28
 
@@ -4321,7 +4321,7 @@ ovl01_2175D40: // _02175D40
 	ldr r3, [r3, #0x4c]
 	mov r0, #0
 	neg r2, r2
-	blx BossFX__CreateBomb
+	bl BossFX__CreateBomb
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0x99
@@ -4329,7 +4329,7 @@ ovl01_2175D40: // _02175D40
 	sub r1, #0x9a
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _02175D76:
 	add sp, #8
 	pop {r3, pc}
@@ -4362,7 +4362,7 @@ ovl01_2175D7C: // _02175D7C
 	ldr r0, _02175DCC // =0x00000125
 	ldr r1, [r4, #0x44]
 	add r2, r5, r2
-	blx GameObject__SpawnObject
+	bl GameObject__SpawnObject
 	mov r1, #0xd9
 	lsl r1, r1, #2
 	ldr r2, [r4, r1]
@@ -4543,15 +4543,15 @@ _02175EE0:
 	ldr r0, [r4, r0]
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
-	blx DisableSpatialVolume
+	bl PlaySfxEx
+	bl DisableSpatialVolume
 	mov r0, #0xcf
 	lsl r0, r0, #2
 	ldr r0, [r4, r0]
 	add r4, #0x44
 	mov r1, r4
-	blx ProcessSpatialVoiceClip
-	blx EnableSpatialVolume
+	bl ProcessSpatialVoiceClip
+	bl EnableSpatialVolume
 _02175F18:
 	add sp, #0x14
 	pop {r4, r5, pc}
@@ -4573,7 +4573,7 @@ ovl01_2175F2C: // _02175F2C
 	ldrsh r1, [r0, r1]
 	cmp r1, #0
 	bne _02175F42
-	blx BossPlayerHelpers_Action_Boss5Freeze
+	bl BossPlayerHelpers_Action_Boss5Freeze
 _02175F42:
 	pop {r3, pc}
 	.align 2, 0
@@ -4648,7 +4648,7 @@ _02175FA6:
 	ldr r0, [r0, r2]
 	ldr r2, _02176088 // =0x00000999
 	asr r1, r0, #0x1f
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	mov r3, #0
 	lsl r2, r2, #0xa
@@ -4669,7 +4669,7 @@ _02175FA6:
 	ldr r0, [r0, r2]
 	ldr r2, _02176090 // =0x00000199
 	asr r1, r0, #0x1f
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	mov r3, #0
 	lsl r2, r2, #0xa
@@ -4689,7 +4689,7 @@ _02175FA6:
 	ldr r0, [r0, r2]
 	ldr r2, _02176090 // =0x00000199
 	asr r1, r0, #0x1f
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	mov r3, #0
 	lsl r2, r2, #0xa
@@ -4994,9 +4994,9 @@ ovl01_217623C: // _0217623C
 	ldr r3, [r3, #0x4c]
 	mov r0, #0
 	neg r2, r2
-	blx BossFX__CreateBomb
+	bl BossFX__CreateBomb
 	mov r0, r4
-	blx Player__Action_DestroyAttackRecoil
+	bl Player__Action_DestroyAttackRecoil
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0x99
@@ -5004,7 +5004,7 @@ ovl01_217623C: // _0217623C
 	sub r1, #0x9a
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _02176284:
 	add sp, #8
 	pop {r4, pc}
@@ -5016,7 +5016,7 @@ ovl01_2176288: // _02176288
 	mov r4, r0
 	ldr r0, _02176428 // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xdd
 	lsl r1, r1, #2
 	ldr r1, [r0, r1]
@@ -5035,7 +5035,7 @@ ovl01_2176288: // _02176288
 	ldr r3, [r4, #0x4c]
 	mov r0, #0
 	neg r2, r2
-	blx BossFX__CreateBomb
+	bl BossFX__CreateBomb
 	pop {r3, r4, r5, pc}
 _021762BE:
 	ldr r0, [r4, #0x4c]
@@ -5258,7 +5258,7 @@ ovl01_2176450: // _02176450
 	mov r4, r0
 	bl ovl01_2175A60
 	mov r0, r4
-	blx GameObject__Destructor
+	bl GameObject__Destructor
 	pop {r4, pc}
 	thumb_func_end ovl01_2176450
 
@@ -5286,9 +5286,9 @@ ovl01_2176460: // _02176460
 	ldr r3, [r3, #0x4c]
 	mov r0, #0
 	neg r2, r2
-	blx BossFX__CreateBomb
+	bl BossFX__CreateBomb
 	mov r0, r4
-	blx Player__Action_DestroyAttackRecoil
+	bl Player__Action_DestroyAttackRecoil
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0x99
@@ -5296,7 +5296,7 @@ ovl01_2176460: // _02176460
 	sub r1, #0x9a
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _021764A8:
 	add sp, #8
 	pop {r4, pc}
@@ -5309,7 +5309,7 @@ ovl01_21764AC: // _021764AC
 	mov r5, r0
 	ldr r0, _0217651C // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r3, #0
 	str r3, [sp]
 	str r3, [sp, #4]
@@ -5326,7 +5326,7 @@ ovl01_21764AC: // _021764AC
 	lsl r2, r2, #0xe
 	mov r1, r5
 	add r2, r4, r2
-	blx GameObject__SpawnObject
+	bl GameObject__SpawnObject
 	mov r4, r0
 	mov r0, #0x96
 	lsl r0, r0, #0xc
@@ -5337,7 +5337,7 @@ ovl01_21764AC: // _021764AC
 	str r1, [r0]
 	ldr r0, _0217651C // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r2, #0x39
 	mov r3, r0
 	lsl r2, r2, #4
@@ -5351,7 +5351,7 @@ ovl01_21764AC: // _021764AC
 	mov r1, r5
 	neg r2, r2
 	lsl r3, r3, #0xc
-	blx BossFX__CreateWhaleSplashC
+	bl BossFX__CreateWhaleSplashC
 	mov r0, r4
 	add sp, #0x14
 	pop {r4, r5, pc}
@@ -5365,13 +5365,13 @@ _02176524: .word 0xFFFF9000
 ovl01_2176528: // _02176528
 	push {r4, lr}
 	mov r4, r0
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xbf
 	mov r2, #0
 	lsl r1, r1, #2
 	str r2, [r0, r1]
 	mov r0, r4
-	blx GameObject__Destructor
+	bl GameObject__Destructor
 	pop {r4, pc}
 	thumb_func_end ovl01_2176528
 
@@ -5465,7 +5465,7 @@ _021765CE:
 	mov r0, #0
 	mov r2, r5
 	mov r3, r7
-	blx BossFX__CreateBomb
+	bl BossFX__CreateBomb
 	mov r3, r0
 	lsl r0, r4, #0x1d
 	lsr r0, r0, #0x10
@@ -5533,7 +5533,7 @@ ovl01_2176648: // _02176648
 	bne _021766C8
 	ldr r0, _021766CC // =_0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r1, [r5, #0x18]
 	mov r0, #8
@@ -5570,11 +5570,11 @@ ovl01_2176648: // _02176648
 	strh r0, [r4, r1]
 _021766A4:
 	mov r0, #0
-	blx CreateScreenEffect
+	bl CreateScreenEffect
 	mov r0, r5
 	bl ovl01_2176560
 	mov r0, r6
-	blx Player__Action_DestroyAttackRecoil
+	bl Player__Action_DestroyAttackRecoil
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xd8
@@ -5582,7 +5582,7 @@ _021766A4:
 	sub r1, #0xd9
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _021766C8:
 	add sp, #8
 	pop {r4, r5, r6, pc}
@@ -5595,13 +5595,13 @@ _021766D0: .word 0x0000078C
 ovl01_21766D4: // _021766D4
 	push {r4, lr}
 	mov r4, r0
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xbf
 	mov r2, #0
 	lsl r1, r1, #2
 	str r2, [r0, r1]
 	mov r0, r4
-	blx GameObject__Destructor
+	bl GameObject__Destructor
 	pop {r4, pc}
 	thumb_func_end ovl01_21766D4
 
@@ -5642,7 +5642,7 @@ _02176716:
 	sub r1, #0xdc
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	mov r0, #0x4e
 	mov r1, #1
 	lsl r0, r0, #4
@@ -5685,14 +5685,14 @@ Boss5Unknown2176760__Create__Create: // 0x02176760
 	ldr r0, _02176804 // =StageTask_Main
 	ldr r1, _02176808 // =Boss5Unknown2176760__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r6, r0
 	mov r2, #0x5f
 	mov r0, #0
 	mov r1, r6
 	lsl r2, r2, #2
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r6
 	ldr r1, _0217680C // =Boss5Unknown2176760__State_2176810
 	add r0, #0xf4
@@ -5708,13 +5708,13 @@ Boss5Unknown2176760__Create__Create: // 0x02176760
 	lsl r1, r1, #0xe
 	lsl r0, r0, #2
 	str r1, [r6, r0]
-	blx MapSys__GetCameraA
+	bl MapSys__GetCameraA
 	mov r4, r0
 	mov r0, #0
 	mov r1, r0
 	mov r2, r0
 	mov r3, r0
-	blx BossFX__CreateWhaleTsunami1
+	bl BossFX__CreateWhaleTsunami1
 	mov r1, #0x17
 	lsl r1, r1, #4
 	str r0, [r6, r1]
@@ -5738,7 +5738,7 @@ _021767E6:
 	mov r1, r0
 	mov r2, r0
 	mov r3, r0
-	blx BossFX__CreateWhaleTsunami2
+	bl BossFX__CreateWhaleTsunami2
 	str r0, [r5, r7]
 	add r4, r4, #1
 	add r5, r5, #4
@@ -5757,7 +5757,7 @@ _0217680C: .word Boss5Unknown2176760__State_2176810
 Boss5Unknown2176760__State_2176810: // 0x02176810
 	push {r3, r4, r5, r6, r7, lr}
 	str r0, [sp]
-	blx MapSys__GetCameraA
+	bl MapSys__GetCameraA
 	mov r4, r0
 	mov r1, #0x17
 	ldr r0, [sp]
@@ -5791,13 +5791,13 @@ _02176844:
 	mov r1, r0
 	mov r2, r0
 	mov r3, r0
-	blx BossFX__CreateWhaleTsunami2
+	bl BossFX__CreateWhaleTsunami2
 	mov r2, #0x5e
 	ldr r1, [sp]
 	lsl r2, r2, #2
 	str r0, [r1, r2]
 _02176864:
-	blx RenderCore_GetDMARenderCount
+	bl RenderCore_GetDMARenderCount
 	mov r2, #0x17
 	ldr r1, [sp]
 	lsl r2, r2, #4
@@ -5811,7 +5811,7 @@ _02176864:
 	lsl r1, r1, #0xc
 	add r1, r1, r3
 	asr r1, r1, #0xc
-	blx FX_ModS32
+	bl FX_ModS32
 	lsl r2, r0, #0xc
 	mov r0, #0x17
 	ldr r1, [sp]
@@ -5916,7 +5916,7 @@ _0217693C: .word 0x00000FFF
 Boss5Unknown2176760__Destructor: // 0x02176940
 	push {r4, r5, r6, lr}
 	mov r4, r0
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, #0x17
 	mov r2, #0
 	mov r3, #8
@@ -5934,7 +5934,7 @@ _0217695C:
 	cmp r2, #3
 	blt _02176950
 	mov r0, r4
-	blx StageTask_Destructor
+	bl StageTask_Destructor
 	pop {r4, r5, r6, pc}
 	thumb_func_end Boss5Unknown2176760__Destructor
 
@@ -5948,18 +5948,18 @@ ovl01_217696C: // 0x0217696C
 ovl01_2176970: // 0x02176970
 	push {r3, r4, r5, lr}
 	mov r5, r0
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__Animation__Func_2038C58
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	mov r0, r5
-	blx GameObject__Destructor
+	bl GameObject__Destructor
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 	thumb_func_end ovl01_2176970
@@ -5969,14 +5969,14 @@ ovl01_2176998: // 0x02176998
 	push {r3, r4, r5, lr}
 	ldr r0, _021769E8 // =0x0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r5, r0
-	blx Camera3D__GetTask
+	bl Camera3D__GetTask
 	cmp r0, #0
 	beq _021769BA
-	blx Camera3D__UseEngineA
+	bl Camera3D__UseEngineA
 	cmp r0, #0
 	beq _021769C2
 _021769BA:
@@ -5987,15 +5987,15 @@ _021769BA:
 _021769C2:
 	ldr r0, _021769EC // =0x000003C6
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights2
+	bl BossHelpers__Light__SetLights2
 	mov r1, #0xd9
 	lsl r1, r1, #2
 	mov r0, r5
 	add r1, r5, r1
-	blx StageTask__Draw3D
+	bl StageTask__Draw3D
 	ldr r0, _021769EC // =0x000003C6
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights1
+	bl BossHelpers__Light__SetLights1
 	ldr r1, [r5, #0x20]
 	mov r0, #0x20
 	bic r1, r0
@@ -6020,16 +6020,16 @@ ovl01_21769F0: // 0x021769F0
 	bne _02176ACA
 	ldr r0, _02176AD0 // =0x0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r5, [r6, r0]
 	ldr r0, _02176AD4 // =gPlayer
 	ldr r0, [r0]
-	blx BossHelpers__Player__LockControl
+	bl BossHelpers__Player__LockControl
 	mov r0, r4
-	blx Player__Action_AttackRecoil
+	bl Player__Action_AttackRecoil
 	ldr r0, [sp, #0xc]
 	ldr r1, [sp, #8]
 	mov r2, #0
@@ -6067,7 +6067,7 @@ _02176A5E:
 	mov r0, #0xe3
 	lsl r0, r0, #2
 	ldrsh r0, [r6, r0]
-	blx UpdateBossHealthHUD
+	bl UpdateBossHealthHUD
 	mov r0, r6
 	bl ovl01_2175BB8
 	mov r1, r0
@@ -6091,7 +6091,7 @@ _02176A5E:
 	ldr r3, [r4, #0x4c]
 	mov r0, #0
 	neg r2, r2
-	blx BossFX__CreateHitA
+	bl BossFX__CreateHitA
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0x8c
@@ -6099,7 +6099,7 @@ _02176A5E:
 	sub r1, #0x8d
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	mov r0, r5
 	bl ovl01_21774F8
 	ldr r0, _02176AE0 // =0x0000078C
@@ -6162,27 +6162,27 @@ _02176B20: .word 0x0000078C
 ovl01_2176B24: // 0x02176B24
 	push {r3, r4, r5, lr}
 	mov r0, #1
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r5, r0
-	blx GetScreenShakeOffsetX
+	bl GetScreenShakeOffsetX
 	mov r4, r0
-	blx GetScreenShakeOffsetY
+	bl GetScreenShakeOffsetY
 	mov r2, r0
 	mov r0, r5
 	mov r1, r4
 	mov r3, #0
-	blx BossArena__SetNextPos
+	bl BossArena__SetNextPos
 	mov r0, #2
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r5, r0
-	blx GetScreenShakeOffsetX
+	bl GetScreenShakeOffsetX
 	mov r4, r0
-	blx GetScreenShakeOffsetY
+	bl GetScreenShakeOffsetY
 	mov r2, r0
 	mov r0, r5
 	mov r1, r4
 	mov r3, #0
-	blx BossArena__SetNextPos
+	bl BossArena__SetNextPos
 	pop {r3, r4, r5, pc}
 	thumb_func_end ovl01_2176B24
 
@@ -6190,12 +6190,12 @@ ovl01_2176B24: // 0x02176B24
 ovl01_2176B64: // 0x02176B64
 	push {r3, r4, r5, lr}
 	mov r0, #2
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r5, r0
-	blx MapSys__GetCameraA
+	bl MapSys__GetCameraA
 	mov r4, r0
 	mov r0, r5
-	blx BossArena__GetCameraConfig
+	bl BossArena__GetCameraConfig
 	ldrh r2, [r0]
 	ldr r1, _02176BC0 // =FX_SinCosTable_
 	asr r0, r2, #4
@@ -6206,14 +6206,14 @@ ovl01_2176B64: // 0x02176B64
 	lsl r2, r2, #1
 	ldrsh r0, [r1, r0]
 	ldrsh r1, [r1, r2]
-	blx FX_Div
+	bl FX_Div
 	mov r1, r0
 	mov r0, #6
 	lsl r0, r0, #0x10
-	blx FX_Div
+	bl FX_Div
 	mov r1, r0
 	mov r0, r5
-	blx BossArena__SetAmplitudeXZTarget
+	bl BossArena__SetAmplitudeXZTarget
 	mov r1, #2
 	ldr r2, [r4, #4]
 	lsl r1, r1, #0x12
@@ -6225,7 +6225,7 @@ ovl01_2176B64: // 0x02176B64
 	mov r0, r5
 	neg r2, r2
 	mov r3, #0
-	blx BossArena__SetTracker1TargetPos
+	bl BossArena__SetTracker1TargetPos
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _02176BC0: .word FX_SinCosTable_
@@ -6237,20 +6237,20 @@ ovl01_2176BC4: // 0x02176BC4
 	sub sp, #0x10
 	str r0, [sp]
 	mov r0, #2
-	blx BossArena__GetCamera
-	blx BossArena__GetCameraConfig2
+	bl BossArena__GetCamera
+	bl BossArena__GetCameraConfig2
 	str r0, [sp, #0xc]
-	blx MapSys__GetCameraA
+	bl MapSys__GetCameraA
 	str r0, [sp, #8]
 	ldr r0, [r0, #4]
 	ldr r1, _02176C40 // =0x0014A000
-	blx FX_ModS32
+	bl FX_ModS32
 	str r0, [sp, #4]
 	ldr r0, [sp, #8]
 	ldr r1, _02176C44 // =0x0000014A
 	ldr r0, [r0, #4]
 	asr r0, r0, #0xc
-	blx FX_DivS32
+	bl FX_DivS32
 	mov r7, #0x22
 	ldr r3, [sp]
 	mov r1, r0
@@ -6330,7 +6330,7 @@ _02176C7E:
 	mov r1, r5
 	mov r2, r4
 	mov r3, #1
-	blx Palette__UnknownFunc11
+	bl Palette__UnknownFunc11
 	ldr r0, [sp, #0x10]
 	add r4, #8
 	add r0, r0, #1
@@ -6358,7 +6358,7 @@ _02176CAC:
 	mov r3, r1
 	sub r2, #0x2f
 	sub r3, #0x2f
-	blx ObjDraw__TintColor
+	bl ObjDraw__TintColor
 	add r1, sp, #0x14
 	strh r0, [r1]
 	mov r0, #1
@@ -6367,7 +6367,7 @@ _02176CAC:
 	add r1, sp, #0x14
 	mov r2, r6
 	mov r3, #1
-	blx Palette__UnknownFunc11
+	bl Palette__UnknownFunc11
 	ldr r0, [sp, #8]
 	add r4, #8
 	add r0, r0, #1
@@ -6406,7 +6406,7 @@ _02176CE8:
 	sub r1, #0xda
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	b _02176D58
 _02176D28:
 	mov r0, r1
@@ -6431,7 +6431,7 @@ _02176D28:
 	sub r1, #0xdd
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _02176D58:
 	mov r0, #1
 	lsl r0, r0, #0xa
@@ -6470,7 +6470,7 @@ _02176D90:
 	mov r1, r5
 	mov r2, r4
 	mov r3, #1
-	blx Palette__UnknownFunc11
+	bl Palette__UnknownFunc11
 	ldr r0, [sp, #0xc]
 	add r4, #8
 	add r0, r0, #1
@@ -6532,7 +6532,7 @@ _02176DFE:
 	mov r0, #0xe5
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx BossHelpers__Light__Func_203954C
+	bl BossHelpers__Light__Func_203954C
 	mov r0, r4
 	bl ovl01_2176BC4
 	mov r0, r4
@@ -6552,20 +6552,20 @@ _02176DFE:
 ovl01_2176E28: // 0x02176E28
 	push {r3, r4, r5, r6, r7, lr}
 	str r0, [sp]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	ldr r0, _02176E98 // =0x0000040C
 	add r0, r6, r0
-	blx BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__Animation__Func_2038C58
 	ldr r0, _02176E98 // =0x0000040C
 	add r0, r6, r0
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	ldr r0, _02176E9C // =0x00000898
 	add r0, r6, r0
-	blx BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__Animation__Func_2038C58
 	ldr r0, _02176E9C // =0x00000898
 	add r0, r6, r0
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	ldr r0, _02176EA0 // =0x00000588
 	mov r7, #0x5f
 	mov r4, #0
@@ -6573,9 +6573,9 @@ ovl01_2176E28: // 0x02176E28
 	lsl r7, r7, #2
 _02176E5C:
 	mov r0, r5
-	blx BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__Animation__Func_2038C58
 	mov r0, r5
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	add r4, r4, #1
 	add r5, r5, r7
 	cmp r4, #2
@@ -6585,7 +6585,7 @@ _02176E5C:
 	add r4, r6, r0
 _02176E76:
 	mov r0, r4
-	blx ReleasePaletteAnimator
+	bl ReleasePaletteAnimator
 	add r5, r5, #1
 	add r4, #0x20
 	cmp r5, #8
@@ -6596,7 +6596,7 @@ _02176E76:
 	mov r1, #0
 	str r1, [r0]
 	ldr r0, [sp]
-	blx GameObject__Destructor
+	bl GameObject__Destructor
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02176E98: .word 0x0000040C
@@ -6609,13 +6609,13 @@ _02176EA8: .word 0x0217AFB8
 	thumb_func_start ovl01_2176EAC
 ovl01_2176EAC: // 0x02176EAC
 	push {r3, r4, r5, r6, r7, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	mov r5, #0
-	blx Camera3D__GetTask
+	bl Camera3D__GetTask
 	cmp r0, #0
 	beq _02176ED4
-	blx Camera3D__UseEngineA
+	bl Camera3D__UseEngineA
 	cmp r0, #0
 	beq _02176EC8
 	mov r5, #1
@@ -6630,24 +6630,24 @@ _02176ED4:
 	mov r0, #0xe5
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights2
+	bl BossHelpers__Light__SetLights2
 	ldr r1, _02177000 // =0x0000040C
 	mov r0, r4
 	add r1, r4, r1
-	blx StageTask__Draw3D
+	bl StageTask__Draw3D
 	mov r0, #0xe5
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights1
+	bl BossHelpers__Light__SetLights1
 	ldr r1, [r4, #0x20]
 	mov r0, #0x20
 	bic r1, r0
 	str r1, [r4, #0x20]
 	mov r5, #0
-	blx Camera3D__GetTask
+	bl Camera3D__GetTask
 	cmp r0, #0
 	beq _02176F18
-	blx Camera3D__UseEngineA
+	bl Camera3D__UseEngineA
 	cmp r0, #0
 	bne _02176F18
 	mov r0, r4
@@ -6659,11 +6659,11 @@ _02176F18:
 	mov r0, #0xe5
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights2
+	bl BossHelpers__Light__SetLights2
 	mov r0, #2
 	ldr r6, _02177004 // =0x00000898
-	blx BossArena__GetCamera
-	blx BossArena__GetCameraConfig2
+	bl BossArena__GetCamera
+	bl BossArena__GetCameraConfig2
 	mov r3, r0
 	add r3, #0x20
 	add r2, r4, r6
@@ -6673,22 +6673,22 @@ _02176F18:
 	ldr r0, [r3]
 	str r0, [r2]
 	add r0, r4, r6
-	blx AnimatorMDL__ProcessAnimation
+	bl AnimatorMDL__ProcessAnimation
 	cmp r5, #0
 	beq _02176F4E
 	add r0, r4, r6
-	blx AnimatorMDL__Draw
+	bl AnimatorMDL__Draw
 _02176F4E:
 	mov r0, #0xe5
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights1
+	bl BossHelpers__Light__SetLights1
 	mov r0, #0
 	str r0, [sp]
-	blx Camera3D__GetTask
+	bl Camera3D__GetTask
 	cmp r0, #0
 	beq _02176F88
-	blx Camera3D__UseEngineA
+	bl Camera3D__UseEngineA
 	cmp r0, #0
 	bne _02176F7A
 	mov r0, r4
@@ -6708,7 +6708,7 @@ _02176F7A:
 _02176F88:
 	ldr r0, _02177008 // =0x000003C6
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights2
+	bl BossHelpers__Light__SetLights2
 	mov r7, #0
 	mov r6, r4
 	mov r5, r7
@@ -6729,7 +6729,7 @@ _02176F96:
 	str r1, [r2, #0x50]
 	mov r0, r4
 	mov r1, r2
-	blx StageTask__Draw3D
+	bl StageTask__Draw3D
 	ldr r0, _02177010 // =0x0014A000
 	add r7, r7, #1
 	add r6, r6, #4
@@ -6738,7 +6738,7 @@ _02176F96:
 	blt _02176F96
 	ldr r0, _02177008 // =0x000003C6
 	add r0, r4, r0
-	blx BossHelpers__Light__SetLights1
+	bl BossHelpers__Light__SetLights1
 	ldr r0, [sp]
 	cmp r0, #0
 	beq _02176FDA
@@ -6754,9 +6754,9 @@ _02176FDA:
 	add r4, r4, r0
 _02176FE8:
 	mov r0, r4
-	blx AnimatePalette
+	bl AnimatePalette
 	mov r0, r4
-	blx DrawAnimatedPalette
+	bl DrawAnimatedPalette
 	add r5, r5, #1
 	add r4, #0x20
 	cmp r5, #8
@@ -6779,11 +6779,11 @@ ovl01_2177018: // 0x02177018
 	mov r6, #0xd9
 	mov r0, #4
 	lsl r6, r6, #2
-	blx BossArena__SetType
+	bl BossArena__SetType
 	mov r0, #0
 	add r1, sp, #0
 	mov r2, #0x20
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02177168 // =0x00000E38
 	add r0, sp, #0
 	strh r1, [r0]
@@ -6793,49 +6793,49 @@ ovl01_2177018: // 0x02177018
 	ldr r0, _0217716C // =0x00001555
 	str r0, [sp, #0xc]
 	mov r0, #1
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r1, #1
 	mov r5, r0
-	blx BossArena__SetCameraType
+	bl BossArena__SetCameraType
 	mov r0, r6
 	add r0, #0x10
 	ldr r0, [r4, r0]
 	bl ovl01_2177BB4
 	mov r0, r5
-	blx BossArena__UpdateTracker1TargetPos
+	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
-	blx BossArena__ApplyAmplitudeXZTarget
+	bl BossArena__ApplyAmplitudeXZTarget
 	mov r0, r5
-	blx BossArena__ApplyAmplitudeYTarget
+	bl BossArena__ApplyAmplitudeYTarget
 	mov r0, r5
-	blx BossArena__ApplyAngleTarget
-	blx BossArena__Func_20397E4
+	bl BossArena__ApplyAngleTarget
+	bl BossArena__Func_20397E4
 	mov r0, r5
-	blx BossArena__UpdateTracker1TargetPos
+	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
-	blx BossArena__UpdateTracker0TargetPos
+	bl BossArena__UpdateTracker0TargetPos
 	mov r0, #2
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r1, #1
 	mov r5, r0
-	blx BossArena__SetCameraType
+	bl BossArena__SetCameraType
 	mov r0, r6
 	add r0, #0x10
 	ldr r0, [r4, r0]
 	bl ovl01_2177C98
 	mov r0, r5
-	blx BossArena__UpdateTracker1TargetPos
+	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
-	blx BossArena__ApplyAmplitudeXZTarget
+	bl BossArena__ApplyAmplitudeXZTarget
 	mov r0, r5
-	blx BossArena__ApplyAmplitudeYTarget
+	bl BossArena__ApplyAmplitudeYTarget
 	mov r0, r5
-	blx BossArena__ApplyAngleTarget
-	blx BossArena__Func_20397E4
+	bl BossArena__ApplyAngleTarget
+	bl BossArena__Func_20397E4
 	mov r0, r5
-	blx BossArena__UpdateTracker1TargetPos
+	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r5
-	blx BossArena__UpdateTracker0TargetPos
+	bl BossArena__UpdateTracker0TargetPos
 	ldr r2, _02177170 // =0x0400000A
 	mov r0, #0x43
 	ldrh r1, [r2]
@@ -6844,8 +6844,8 @@ ovl01_2177018: // 0x02177018
 	orr r0, r1
 	strh r0, [r2]
 	mov r0, #2
-	blx BossArena__SetUnknown2Type
-	blx BossArena__GetField4A8
+	bl BossArena__SetUnknown2Type
+	bl BossArena__GetField4A8
 	mov r1, r6
 	ldr r2, [r4, r1]
 	str r2, [r0, #4]
@@ -6855,24 +6855,24 @@ ovl01_2177018: // 0x02177018
 	strh r2, [r0, #0x2c]
 	strh r2, [r0, #0x2e]
 	ldr r0, [r4, r1]
-	blx GetBackgroundPixels
+	bl GetBackgroundPixels
 	ldr r2, _02177178 // =VRAMSystem__VRAM_BG
 	mov r1, #0
 	ldr r3, [r2]
 	mov r2, #1
 	lsl r2, r2, #0xe
 	add r2, r3, r2
-	blx LoadCompressedPixels
+	bl LoadCompressedPixels
 	ldr r0, [r4, r6]
-	blx GetBackgroundPalette
+	bl GetBackgroundPalette
 	ldr r2, _0217717C // =VRAMSystem__VRAM_PALETTE_BG
 	mov r1, #0
 	ldr r2, [r2]
-	blx LoadCompressedPalette
+	bl LoadCompressedPalette
 	mov r1, #0xff
 	mov r0, #0
 	mvn r1, r1
-	blx BossArena__Func_2039A94
+	bl BossArena__Func_2039A94
 	mov r0, #1
 	lsl r0, r0, #0x1a
 	mov r1, #0x1f
@@ -6888,19 +6888,19 @@ ovl01_2177018: // 0x02177018
 	lsl r1, r1, #8
 	orr r1, r2
 	str r1, [r0]
-	blx Camera3D__Create
+	bl Camera3D__Create
 	mov r0, r6
 	add r0, #0x28
 	ldrsh r0, [r4, r0]
-	blx UpdateBossHealthHUD
+	bl UpdateBossHealthHUD
 	mov r0, #0
-	blx SetHUDActiveScreen
+	bl SetHUDActiveScreen
 	mov r0, r6
 	ldr r1, _02177184 // =ovl01_2177188
 	add r0, #0x18
 	str r1, [r4, r0]
 	mov r0, #0
-	blx BossHelpers__Blend__Func_2039488
+	bl BossHelpers__Blend__Func_2039488
 	mov r0, r6
 	mov r1, #1
 	add r0, #0x20
@@ -6922,7 +6922,7 @@ _02177184: .word ovl01_2177188
 ovl01_2177188: // 0x02177188
 	push {r4, lr}
 	mov r4, r0
-	blx TitleCard__GetProgress
+	bl TitleCard__GetProgress
 	cmp r0, #5
 	bne _021771A2
 	mov r0, #0xe2
@@ -7069,7 +7069,7 @@ _02177298:
 	sub r1, #0xd8
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _021772AA:
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
@@ -7181,22 +7181,22 @@ _0217736C: .word stageCollision
 ovl01_2177370: // 0x02177370
 	push {r3, r4, r5, lr}
 	mov r5, r0
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xdf
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__Animation__Func_2038C58
 	mov r0, #0xdf
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	mov r0, #0xbf
 	mov r1, #0
 	lsl r0, r0, #2
 	str r1, [r4, r0]
 	mov r0, r5
-	blx GameObject__Destructor
+	bl GameObject__Destructor
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 	thumb_func_end ovl01_2177370
@@ -7204,16 +7204,16 @@ ovl01_2177370: // 0x02177370
 	thumb_func_start ovl01_21773A0
 ovl01_21773A0: // 0x021773A0
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r1, [r4, #0x20]
 	mov r0, #0x20
 	tst r0, r1
 	bne _021773F8
-	blx Camera3D__GetTask
+	bl Camera3D__GetTask
 	cmp r0, #0
 	beq _021773C0
-	blx Camera3D__UseEngineA
+	bl Camera3D__UseEngineA
 	cmp r0, #0
 	bne _021773C8
 _021773C0:
@@ -7227,18 +7227,18 @@ _021773C8:
 	ldr r1, [r4, r0]
 	add r0, #0x20
 	add r0, r1, r0
-	blx BossHelpers__Light__SetLights2
+	bl BossHelpers__Light__SetLights2
 	mov r1, #0xdf
 	lsl r1, r1, #2
 	mov r0, r4
 	add r1, r4, r1
-	blx StageTask__Draw3D
+	bl StageTask__Draw3D
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r1, [r4, r0]
 	add r0, #0x20
 	add r0, r1, r0
-	blx BossHelpers__Light__SetLights1
+	bl BossHelpers__Light__SetLights1
 	ldr r1, [r4, #0x20]
 	mov r0, #0x20
 	bic r1, r0
@@ -7272,9 +7272,9 @@ _02177420:
 	add r0, r0, #4
 	add r6, r5, r0
 	mov r0, r6
-	blx BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__Animation__Func_2038C58
 	mov r0, r6
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	ldr r0, _02177460 // =0x02133A18
 	ldr r2, _02177464 // =0x0217AEF4
 	str r0, [sp]
@@ -7283,7 +7283,7 @@ _02177420:
 	mov r0, r5
 	mov r1, r6
 	add r3, r4, #1
-	blx ObjAction3dNNModelLoad
+	bl ObjAction3dNNModelLoad
 	mov r0, #0x4b
 	mov r1, #0
 	lsl r0, r0, #2
@@ -7362,7 +7362,7 @@ _021774B8:
 	ldr r2, [r5, r2]
 	add r0, r5, r0
 	mov r3, r4
-	blx BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__Animation__Func_2038BF0
 	mov r1, #1
 	ldr r0, _021774E4 // =0x00000AB8
 	lsl r1, r1, #0xc
@@ -7398,7 +7398,7 @@ ovl01_21774F8: // 0x021774F8
 	add r0, r4, r0
 	mov r1, #0xd
 	mov r3, r2
-	blx BossHelpers__Palette__Func_2038BAC
+	bl BossHelpers__Palette__Func_2038BAC
 	ldr r0, _02177514 // =0x000007FC
 	mov r1, #0x78
 	strh r1, [r4, r0]
@@ -7424,7 +7424,7 @@ ovl01_2177518: // 0x02177518
 	add r0, r0, r1
 	mov r1, #0xd
 	mov r3, r2
-	blx BossHelpers__Palette__Func_2038BAC
+	bl BossHelpers__Palette__Func_2038BAC
 _0217753A:
 	pop {r3, pc}
 	.align 2, 0
@@ -7479,23 +7479,23 @@ _02177580: .word 0x00000784
 ovl01_2177584: // 0x02177584
 	push {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	mov r0, #0x9a
 	lsl r0, r0, #4
 	add r0, r6, r0
-	blx BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__Animation__Func_2038C58
 	mov r0, #0x9a
 	lsl r0, r0, #4
 	add r0, r6, r0
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	mov r0, #2
 	lsl r0, r0, #0xa
 	mov r4, #0
 	add r5, r6, r0
 _021775AA:
 	mov r0, r5
-	blx ReleasePaletteAnimator
+	bl ReleasePaletteAnimator
 	add r4, r4, #1
 	add r5, #0x20
 	cmp r4, #0xd
@@ -7503,12 +7503,12 @@ _021775AA:
 	mov r0, #0xb2
 	lsl r0, r0, #4
 	ldr r0, [r6, r0]
-	blx FreeSndHandle
+	bl FreeSndHandle
 	ldr r0, _021775D4 // =0x00000B24
 	ldr r0, [r6, r0]
-	blx FreeSndHandle
+	bl FreeSndHandle
 	mov r0, r7
-	blx GameObject__Destructor
+	bl GameObject__Destructor
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
 _021775D4: .word 0x00000B24
@@ -7517,7 +7517,7 @@ _021775D4: .word 0x00000B24
 	thumb_func_start ovl01_21775D8
 ovl01_21775D8: // 0x021775D8
 	push {r4, r5, r6, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r6, r0
 	mov r0, #2
 	lsl r0, r0, #0xa
@@ -7525,9 +7525,9 @@ ovl01_21775D8: // 0x021775D8
 	add r5, r6, r0
 _021775E8:
 	mov r0, r5
-	blx AnimatePalette
+	bl AnimatePalette
 	mov r0, r5
-	blx DrawAnimatedPalette
+	bl DrawAnimatedPalette
 	add r4, r4, #1
 	add r5, #0x20
 	cmp r4, #0xd
@@ -7536,10 +7536,10 @@ _021775E8:
 	mov r0, #0x20
 	tst r0, r1
 	bne _02177650
-	blx Camera3D__GetTask
+	bl Camera3D__GetTask
 	cmp r0, #0
 	beq _02177614
-	blx Camera3D__UseEngineA
+	bl Camera3D__UseEngineA
 	cmp r0, #0
 	bne _0217761C
 _02177614:
@@ -7552,7 +7552,7 @@ _0217761C:
 	lsl r1, r1, #4
 	mov r0, r6
 	add r1, r6, r1
-	blx StageTask__Draw3D
+	bl StageTask__Draw3D
 	ldr r1, [r6, #0x20]
 	mov r0, #0x20
 	tst r0, r1
@@ -7561,12 +7561,12 @@ _0217761C:
 	lsl r1, r1, #4
 	mov r0, #0x1e
 	add r1, r6, r1
-	blx BossHelpers__Model__SetMatrixMode
+	bl BossHelpers__Model__SetMatrixMode
 	mov r1, #0x1f
 	lsl r1, r1, #6
 	mov r0, #0x1d
 	add r1, r6, r1
-	blx BossHelpers__Model__SetMatrixMode
+	bl BossHelpers__Model__SetMatrixMode
 _02177648:
 	ldr r1, [r6, #0x20]
 	mov r0, #0x20
@@ -7581,7 +7581,7 @@ _02177650:
 ovl01_2177654: // 0x02177654
 	push {r4, r5, r6, lr}
 	sub sp, #0x18
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r1, [r4, #0x18]
 	mov r0, #0xc
@@ -7607,7 +7607,7 @@ _0217766E:
 	add r3, #8
 	ldr r3, [r4, r3]
 	neg r2, r2
-	blx BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__Func_20390AC
 _0217768E:
 	mov r0, #0x96
 	lsl r0, r0, #2
@@ -7626,13 +7626,13 @@ _0217768E:
 	mov r1, r2
 	str r0, [r3]
 	mov r0, r2
-	blx VEC_Normalize
+	bl VEC_Normalize
 	ldr r0, [sp, #0xc]
 	mov r2, #0xe6
 	asr r1, r0, #0x1f
 	lsl r2, r2, #0xc
 	mov r3, #0
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	mov r3, #0
 	lsl r2, r2, #0xa
@@ -7646,7 +7646,7 @@ _0217768E:
 	str r1, [sp, #0xc]
 	asr r1, r0, #0x1f
 	lsl r2, r2, #0xc
-	blx _ull_mul
+	bl _ull_mul
 	mov r3, #2
 	mov r6, #0
 	lsl r3, r3, #0xa
@@ -7671,7 +7671,7 @@ _0217768E:
 	add r2, r5, r2
 	neg r2, r2
 	add r3, r3, r6
-	blx BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__Func_20390AC
 _02177714:
 	mov r0, #0xa6
 	lsl r0, r0, #2
@@ -7690,13 +7690,13 @@ _02177714:
 	mov r1, r2
 	str r0, [r3]
 	mov r0, r2
-	blx VEC_Normalize
+	bl VEC_Normalize
 	ldr r0, [sp]
 	mov r2, #0xd2
 	asr r1, r0, #0x1f
 	lsl r2, r2, #0xc
 	mov r3, #0
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	mov r3, #0
 	lsl r2, r2, #0xa
@@ -7710,7 +7710,7 @@ _02177714:
 	str r1, [sp]
 	asr r1, r0, #0x1f
 	lsl r2, r2, #0xc
-	blx _ull_mul
+	bl _ull_mul
 	mov r3, #2
 	mov r6, #0
 	lsl r3, r3, #0xa
@@ -7735,7 +7735,7 @@ _02177714:
 	add r2, r5, r2
 	neg r2, r2
 	add r3, r3, r6
-	blx BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__Func_20390AC
 _0217779A:
 	add sp, #0x18
 	pop {r4, r5, r6, pc}
@@ -7769,7 +7769,7 @@ ovl01_21777A8: // 0x021777A8
 	ldr r0, [r4, r1]
 	add r1, #0x18
 	ldrsh r0, [r0, r1]
-	blx UpdateBossHealthHUD
+	bl UpdateBossHealthHUD
 	mov r0, r4
 	bl ovl01_2177B68
 	mov r0, #0
@@ -7779,12 +7779,12 @@ ovl01_21777A8: // 0x021777A8
 	sub r1, #0xcf
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	add sp, #8
 	pop {r3, r4, r5, r6, r7, pc}
 _021777F6:
 	mov r0, r5
-	blx Player__Action_AttackRecoil
+	bl Player__Action_AttackRecoil
 	ldr r0, _02177850 // =0x000007B4
 	mov r3, #6
 	ldr r1, [r4, r0]
@@ -7808,7 +7808,7 @@ _021777F6:
 	ldr r1, [r5, #0x44]
 	ldr r3, [r5, #0x4c]
 	neg r2, r2
-	blx BossFX__CreateHitB
+	bl BossFX__CreateHitB
 	mov r0, r4
 	bl ovl01_2177A10
 	mov r0, #0
@@ -7818,7 +7818,7 @@ _021777F6:
 	sub r1, #0xd0
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _02177846:
 	add sp, #8
 	pop {r3, r4, r5, r6, r7, pc}
@@ -7894,14 +7894,14 @@ ovl01_2177890: // 0x02177890
 	ldr r0, [r4, r0]
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
-	blx DisableSpatialVolume
+	bl PlaySfxEx
+	bl DisableSpatialVolume
 	ldr r0, _021778E8 // =0x00000B24
 	mov r1, r4
 	ldr r0, [r4, r0]
 	add r1, #0x44
-	blx ProcessSpatialVoiceClip
-	blx EnableSpatialVolume
+	bl ProcessSpatialVoiceClip
+	bl EnableSpatialVolume
 	ldr r0, _021778EC // =0x00000B2C
 	mov r1, #0
 	strh r1, [r4, r0]
@@ -7966,7 +7966,7 @@ ovl01_2177930: // 0x02177930
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #2
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _0217795C // =0x0000078C
 	mov r0, #1
 	str r0, [r4, r1]
@@ -7993,7 +7993,7 @@ ovl01_2177964: // 0x02177964
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #2
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02177990 // =0x0000078C
 	mov r0, #2
 	str r0, [r4, r1]
@@ -8020,7 +8020,7 @@ ovl01_2177998: // 0x02177998
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #2
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _021779C4 // =0x0000078C
 	mov r0, #2
 	str r0, [r4, r1]
@@ -8047,7 +8047,7 @@ ovl01_21779CC: // 0x021779CC
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r5, #0
 _021779E0:
 	mov r0, r5
@@ -8082,7 +8082,7 @@ ovl01_2177A10: // 0x02177A10
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #2
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r5, #0
 _02177A24:
 	mov r0, r5
@@ -8117,7 +8117,7 @@ ovl01_2177A54: // 0x02177A54
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #2
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02177A80 // =0x0000078C
 	mov r0, #5
 	str r0, [r4, r1]
@@ -8144,7 +8144,7 @@ ovl01_2177A88: // 0x02177A88
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r5, #0
 _02177A9C:
 	mov r0, r5
@@ -8179,7 +8179,7 @@ ovl01_2177ACC: // 0x02177ACC
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #8
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02177AF8 // =0x0000078C
 	mov r0, #9
 	str r0, [r4, r1]
@@ -8206,7 +8206,7 @@ ovl01_2177B00: // 0x02177B00
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #8
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02177B2C // =0x0000078C
 	mov r0, #0xa
 	str r0, [r4, r1]
@@ -8233,7 +8233,7 @@ ovl01_2177B34: // 0x02177B34
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02177B60 // =0x0000078C
 	mov r0, #6
 	str r0, [r4, r1]
@@ -8260,7 +8260,7 @@ ovl01_2177B68: // 0x02177B68
 	add r1, r4, r2
 	mov r0, #0
 	add r2, #0x92
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r5, #0
 _02177B7C:
 	mov r0, r5
@@ -8308,7 +8308,7 @@ ovl01_2177BB4: // 0x02177BB4
 	str r0, [r2]
 	mov r0, #0
 	mov r2, #0x20
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02177C84 // =0x00000E38
 	add r0, sp, #0
 	strh r1, [r0, #0xc]
@@ -8322,15 +8322,15 @@ ovl01_2177BB4: // 0x02177BB4
 	lsr r0, r1, #1
 	str r0, [sp, #0x1c]
 	mov r0, #1
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	add r1, sp, #0xc
 	mov r5, r0
-	blx BossArena__SetCameraConfig
+	bl BossArena__SetCameraConfig
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
 	mov r3, r1
-	blx BossArena__SetTracker1TargetWork
+	bl BossArena__SetTracker1TargetWork
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r1, [r4, r0]
@@ -8340,7 +8340,7 @@ ovl01_2177BB4: // 0x02177BB4
 	mov r4, r0
 	ldr r0, _02177C8C // =0x0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r2, #0x39
 	mov r3, r0
 	lsl r2, r2, #4
@@ -8351,36 +8351,36 @@ ovl01_2177BB4: // 0x02177BB4
 	mov r0, r5
 	mov r1, r4
 	mov r3, #0
-	blx BossArena__SetTracker1TargetPos
+	bl BossArena__SetTracker1TargetPos
 	mov r1, #1
 	ldr r2, _02177C90 // =0x00000199
 	mov r0, r5
 	lsl r1, r1, #0xa
-	blx BossArena__SetTracker1Speed
+	bl BossArena__SetTracker1Speed
 	mov r0, r5
 	mov r1, #1
-	blx BossArena__SetTracker1UseObj3D
+	bl BossArena__SetTracker1UseObj3D
 	mov r1, #1
 	ldr r2, _02177C90 // =0x00000199
 	mov r0, r5
 	lsl r1, r1, #0xa
-	blx BossArena__SetTracker0Speed
+	bl BossArena__SetTracker0Speed
 	mov r1, #0xfa
 	mov r0, r5
 	lsl r1, r1, #0xe
-	blx BossArena__SetAmplitudeXZTarget
+	bl BossArena__SetAmplitudeXZTarget
 	mov r0, r5
 	mov r1, #0xcc
-	blx BossArena__SetAmplitudeXZSpeed
+	bl BossArena__SetAmplitudeXZSpeed
 	ldr r1, _02177C94 // =0xFFF9C000
 	mov r0, r5
-	blx BossArena__SetAmplitudeYTarget
+	bl BossArena__SetAmplitudeYTarget
 	mov r0, r5
 	mov r1, #0xcc
-	blx BossArena__SetAmplitudeYSpeed
+	bl BossArena__SetAmplitudeYSpeed
 	mov r0, r5
 	add r1, sp, #0
-	blx BossArena__SetUpVector
+	bl BossArena__SetUpVector
 	add sp, #0x2c
 	pop {r4, r5, pc}
 	.align 2, 0
@@ -8406,7 +8406,7 @@ ovl01_2177C98: // 0x02177C98
 	str r0, [r2]
 	mov r0, #0
 	mov r2, #0x20
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02177D6C // =0x00000E38
 	add r0, sp, #0
 	strh r1, [r0, #0xc]
@@ -8420,15 +8420,15 @@ ovl01_2177C98: // 0x02177C98
 	lsr r0, r1, #1
 	str r0, [sp, #0x1c]
 	mov r0, #2
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	add r1, sp, #0xc
 	mov r5, r0
-	blx BossArena__SetCameraConfig
+	bl BossArena__SetCameraConfig
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
 	mov r3, r1
-	blx BossArena__SetTracker1TargetWork
+	bl BossArena__SetTracker1TargetWork
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r1, [r4, r0]
@@ -8438,7 +8438,7 @@ ovl01_2177C98: // 0x02177C98
 	mov r4, r0
 	ldr r0, _02177D74 // =0x0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r2, #0x39
 	mov r3, r0
 	lsl r2, r2, #4
@@ -8449,37 +8449,37 @@ ovl01_2177C98: // 0x02177C98
 	mov r0, r5
 	mov r1, r4
 	mov r3, #0
-	blx BossArena__SetTracker1TargetPos
+	bl BossArena__SetTracker1TargetPos
 	mov r1, #1
 	ldr r2, _02177D78 // =0x00000199
 	mov r0, r5
 	lsl r1, r1, #0xa
-	blx BossArena__SetTracker1Speed
+	bl BossArena__SetTracker1Speed
 	mov r0, r5
 	mov r1, #1
-	blx BossArena__SetTracker1UseObj3D
+	bl BossArena__SetTracker1UseObj3D
 	mov r1, #1
 	ldr r2, _02177D78 // =0x00000199
 	mov r0, r5
 	lsl r1, r1, #0xa
-	blx BossArena__SetTracker0Speed
+	bl BossArena__SetTracker0Speed
 	mov r1, #0x4b
 	mov r0, r5
 	lsl r1, r1, #0xe
-	blx BossArena__SetAmplitudeXZTarget
+	bl BossArena__SetAmplitudeXZTarget
 	mov r0, r5
 	mov r1, #0xcc
-	blx BossArena__SetAmplitudeXZSpeed
+	bl BossArena__SetAmplitudeXZSpeed
 	mov r1, #0x32
 	mov r0, r5
 	lsl r1, r1, #0xc
-	blx BossArena__SetAmplitudeYTarget
+	bl BossArena__SetAmplitudeYTarget
 	mov r0, r5
 	mov r1, #0xcc
-	blx BossArena__SetAmplitudeYSpeed
+	bl BossArena__SetAmplitudeYSpeed
 	mov r0, r5
 	add r1, sp, #0
-	blx BossArena__SetUpVector
+	bl BossArena__SetUpVector
 	add sp, #0x2c
 	pop {r4, r5, pc}
 	nop
@@ -8537,10 +8537,10 @@ ovl01_2177DC4: // 0x02177DC4
 	ldr r0, [r5, r0]
 	cmp r0, #1
 	bne _02177DFE
-	blx TitleCard__GetProgress
+	bl TitleCard__GetProgress
 	cmp r0, #5
 	beq _02177DEC
-	blx TitleCard__GetProgress
+	bl TitleCard__GetProgress
 	cmp r0, #0
 	bne _02177DF2
 _02177DEC:
@@ -8584,7 +8584,7 @@ ovl01_2177E24: // 0x02177E24
 	mov r5, r0
 	bl ovl01_217749C
 	mov r0, #1
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r4, r0
 	mov r0, #0xdd
 	lsl r0, r0, #2
@@ -8595,7 +8595,7 @@ ovl01_2177E24: // 0x02177E24
 	mov r6, r0
 	ldr r0, _02177EA0 // =0x0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r3, #0x19
 	lsl r3, r3, #0xe
 	add r1, r6, r3
@@ -8607,21 +8607,21 @@ ovl01_2177E24: // 0x02177E24
 	lsl r2, r2, #0x10
 	mov r0, r4
 	add r2, r6, r2
-	blx BossArena__SetTracker1TargetPos
+	bl BossArena__SetTracker1TargetPos
 	mov r1, #0xaf
 	mov r0, r4
 	lsl r1, r1, #0xe
-	blx BossArena__SetAmplitudeXZTarget
+	bl BossArena__SetAmplitudeXZTarget
 	mov r0, r4
 	mov r1, #0
-	blx BossArena__SetAmplitudeYTarget
+	bl BossArena__SetAmplitudeYTarget
 	ldr r1, _02177EA4 // =0x0000D555
 	mov r0, r4
-	blx BossArena__SetAngleTarget
+	bl BossArena__SetAngleTarget
 	mov r0, #2
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	ldr r1, _02177EA4 // =0x0000D555
-	blx BossArena__SetAngleTarget
+	bl BossArena__SetAngleTarget
 	mov r0, r5
 	bl ovl01_21778F0
 	ldr r1, _02177EA8 // =ovl01_2177EB0
@@ -8767,7 +8767,7 @@ ovl01_2177F40: // 0x02177F40
 	ble _02177FE8
 	sub r0, r7, r6
 	add r1, r4, #1
-	blx FX_DivS32
+	bl FX_DivS32
 	mov r7, r0
 	mov r5, #0
 	cmp r4, #0
@@ -8790,7 +8790,7 @@ _02177FD6:
 	sub r1, #0xd8
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _02177FE8:
 	ldr r2, _02177FF4 // =ovl01_2177FFC
 	ldr r1, _02177FF8 // =0x00000784
@@ -8878,7 +8878,7 @@ _02178078:
 	sub r0, r0, r1
 	ldr r2, [r2, r3]
 	sub r1, r2, r1
-	blx FX_Div
+	bl FX_Div
 	lsl r0, r0, #0x10
 	asr r1, r0, #0x10
 	mov r0, #1
@@ -8887,7 +8887,7 @@ _02178078:
 	lsl r0, r0, #0x10
 	asr r4, r0, #0x10
 	mov r0, #1
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	str r0, [sp, #8]
 	mov r7, #1
 	mov r6, #0
@@ -8899,7 +8899,7 @@ _021780AE:
 	asr r1, r0, #0x1f
 	mov r2, r4
 	mov r3, r5
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	lsl r2, r2, #0xa
 	add r2, r0, r2
@@ -8925,7 +8925,7 @@ _021780E2:
 	asr r1, r0, #0x1f
 	mov r2, r4
 	mov r3, r5
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	lsl r2, r2, #0xa
 	add r2, r0, r2
@@ -8953,13 +8953,13 @@ _021780E2:
 	str r0, [sp, #0xc]
 	ldr r0, _02178218 // =0x0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r2, _0217821C // =0xFFFE2000
 	str r0, [sp, #0x10]
 	mov r0, r4
 	mov r1, r5
 	asr r3, r2, #0x11
-	blx _ull_mul
+	bl _ull_mul
 	mov r3, #0x39
 	mov ip, r0
 	str r1, [sp, #0x18]
@@ -8990,12 +8990,12 @@ _021780E2:
 	ldr r2, [sp, #0x20]
 	add r2, r2, r3
 	mov r3, r7
-	blx BossArena__SetTracker1TargetPos
+	bl BossArena__SetTracker1TargetPos
 	ldr r2, _02178220 // =0xFFF38000
 	mov r0, r4
 	mov r1, r5
 	asr r3, r2, #0x14
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	mov r6, r0
 	mov r3, #0
@@ -9009,13 +9009,13 @@ _021780E2:
 	lsl r1, r1, #0xe
 	ldr r0, [sp, #8]
 	add r1, r2, r1
-	blx BossArena__SetAmplitudeXZTarget
+	bl BossArena__SetAmplitudeXZTarget
 	mov r2, #0x1e
 	mov r0, r4
 	mov r1, r5
 	lsl r2, r2, #0xc
 	mov r3, #0
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	mov r5, r0
 	mov r3, #0
@@ -9026,24 +9026,24 @@ _021780E2:
 	lsr r1, r5, #0xc
 	ldr r0, [sp, #8]
 	orr r1, r2
-	blx BossArena__SetAmplitudeYTarget
+	bl BossArena__SetAmplitudeYTarget
 	ldr r0, _02178224 // =0x0000D555
 	ldr r1, _02178228 // =0x0000F8E3
 	mov r2, r4
-	blx Unknown2066510__LerpAngle
+	bl Unknown2066510__LerpAngle
 	mov r1, r0
 	ldr r0, [sp, #8]
-	blx BossArena__SetAngleTarget
+	bl BossArena__SetAngleTarget
 	mov r0, #2
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r5, r0
 	ldr r0, _02178224 // =0x0000D555
 	ldr r1, _02178228 // =0x0000F8E3
 	mov r2, r4
-	blx Unknown2066510__LerpAngle
+	bl Unknown2066510__LerpAngle
 	mov r1, r0
 	mov r0, r5
-	blx BossArena__SetAngleTarget
+	bl BossArena__SetAngleTarget
 	add sp, #0x24
 	pop {r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -9078,7 +9078,7 @@ ovl01_217822C: // 0x0217822C
 	str r1, [r0]
 	ldr r0, _02178394 // =0x0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x39
 	lsl r1, r1, #4
 	ldr r4, [r0, r1]
@@ -9090,7 +9090,7 @@ ovl01_217822C: // 0x0217822C
 	mov r1, r5
 	sub r2, r4, r2
 	lsl r3, r0, #0xf
-	blx BossFX__CreateWhaleBite
+	bl BossFX__CreateWhaleBite
 	mov r0, #0
 	str r0, [sp, #0x10]
 	mov r0, #1
@@ -9160,7 +9160,7 @@ _02178276:
 	mov r0, #2
 	add r1, r7, r1
 	mov r2, r4
-	blx BossFX__CreateWhaleIceA
+	bl BossFX__CreateWhaleIceA
 	b _0217830A
 _021782FA:
 	str r6, [sp, #4]
@@ -9169,7 +9169,7 @@ _021782FA:
 	mov r0, #2
 	add r1, r7, r1
 	mov r2, r4
-	blx BossFX__CreateWhaleIceB
+	bl BossFX__CreateWhaleIceB
 _0217830A:
 	ldr r1, _0217839C // =_mt_math_rand
 	ldr r2, [r1]
@@ -9215,16 +9215,16 @@ _0217830A:
 	ldr r0, [r0, r2]
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
-	blx DisableSpatialVolume
+	bl PlaySfxEx
+	bl DisableSpatialVolume
 	mov r1, #0xb2
 	ldr r0, [sp, #0xc]
 	lsl r1, r1, #4
 	ldr r0, [r0, r1]
 	ldr r1, [sp, #0xc]
 	add r1, #0x44
-	blx ProcessSpatialVoiceClip
-	blx EnableSpatialVolume
+	bl ProcessSpatialVoiceClip
+	bl EnableSpatialVolume
 	ldr r0, [sp, #0xc]
 	bl ovl01_2177908
 	ldr r2, _021783B0 // =ovl01_21783B8
@@ -9274,7 +9274,7 @@ ovl01_21783B8: // 0x021783B8
 	ldr r2, _0217840C // =0x00000199
 	lsl r0, r0, #0xe
 	lsl r1, r1, #0xc
-	blx ShakeScreenEx
+	bl ShakeScreenEx
 _021783FA:
 	mov r0, r4
 	bl ovl01_21774E8
@@ -9362,7 +9362,7 @@ ovl01_2178478: // 0x02178478
 	ldr r2, [sp, #0x30]
 	ldr r3, [sp, #0x34]
 	mov r0, #0
-	blx BossFX__CreateWhaleSplashB
+	bl BossFX__CreateWhaleSplashB
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xd4
@@ -9373,15 +9373,15 @@ ovl01_2178478: // 0x02178478
 	ldr r0, [r4, r0]
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
-	blx DisableSpatialVolume
+	bl PlaySfxEx
+	bl DisableSpatialVolume
 	mov r0, #0xb2
 	lsl r0, r0, #4
 	mov r1, r4
 	ldr r0, [r4, r0]
 	add r1, #0x44
-	blx ProcessSpatialVoiceClip
-	blx EnableSpatialVolume
+	bl ProcessSpatialVoiceClip
+	bl EnableSpatialVolume
 	ldr r1, _021784DC // =ovl01_21784E4
 	ldr r0, _021784E0 // =0x00000784
 	str r1, [r4, r0]
@@ -9426,7 +9426,7 @@ ovl01_2178500: // 0x02178500
 	ldr r0, [r3]
 	str r0, [r2]
 	mov r0, #1
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r4, r0
 	mov r0, #0xdd
 	lsl r0, r0, #2
@@ -9437,7 +9437,7 @@ ovl01_2178500: // 0x02178500
 	mov r6, r0
 	ldr r0, _02178594 // =0x0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r3, #0x19
 	lsl r3, r3, #0xe
 	add r1, r6, r3
@@ -9449,26 +9449,26 @@ ovl01_2178500: // 0x02178500
 	lsl r2, r2, #0x10
 	mov r0, r4
 	add r2, r6, r2
-	blx BossArena__SetTracker1TargetPos
+	bl BossArena__SetTracker1TargetPos
 	mov r1, #0xaf
 	mov r0, r4
 	lsl r1, r1, #0xe
-	blx BossArena__SetAmplitudeXZTarget
+	bl BossArena__SetAmplitudeXZTarget
 	mov r0, r4
 	mov r1, #0
-	blx BossArena__SetAmplitudeYTarget
+	bl BossArena__SetAmplitudeYTarget
 	ldr r1, _02178598 // =0x0000D555
 	mov r0, r4
-	blx BossArena__SetAngleTarget
+	bl BossArena__SetAngleTarget
 	mov r0, #2
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r1, #0xaf
 	lsl r1, r1, #0xe
 	mov r4, r0
-	blx BossArena__SetAmplitudeXZTarget
+	bl BossArena__SetAmplitudeXZTarget
 	ldr r1, _02178598 // =0x0000D555
 	mov r0, r4
-	blx BossArena__SetAngleTarget
+	bl BossArena__SetAngleTarget
 	ldr r1, _0217859C // =ovl01_21785A4
 	ldr r0, _021785A0 // =0x00000784
 	str r1, [r5, r0]
@@ -9550,12 +9550,12 @@ ovl01_2178600: // 0x02178600
 	bl ovl01_21773FC
 	ldr r0, _02178670 // =gPlayer
 	ldr r0, [r0]
-	blx Player__Action_Die
+	bl Player__Action_Die
 	add r0, sp, #8
 	bl ovl01_21752C0
 	ldr r0, _02178674 // =0x0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r3, r0
 	add r0, sp, #8
 	str r0, [sp]
@@ -9570,7 +9570,7 @@ ovl01_2178600: // 0x02178600
 	ldr r3, [sp, #0x34]
 	mov r0, #0
 	neg r2, r2
-	blx BossFX__CreateWhaleSplashB
+	bl BossFX__CreateWhaleSplashB
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xd6
@@ -9578,7 +9578,7 @@ ovl01_2178600: // 0x02178600
 	sub r1, #0xd7
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	ldr r1, _02178678 // =ovl01_2178680
 	ldr r0, _0217867C // =0x00000784
 	str r1, [r4, r0]
@@ -9624,15 +9624,15 @@ ovl01_2178684: // 0x02178684
 	ldr r0, [r4, r0]
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
-	blx DisableSpatialVolume
+	bl PlaySfxEx
+	bl DisableSpatialVolume
 	mov r0, #0xb2
 	lsl r0, r0, #4
 	mov r1, r4
 	ldr r0, [r4, r0]
 	add r1, #0x44
-	blx ProcessSpatialVoiceClip
-	blx EnableSpatialVolume
+	bl ProcessSpatialVoiceClip
+	bl EnableSpatialVolume
 	ldr r1, _021786DC // =ovl01_21786E4
 	ldr r0, _021786E0 // =0x00000784
 	str r1, [r4, r0]
@@ -9726,15 +9726,15 @@ ovl01_2178754: // 0x02178754
 	ldr r0, [r4, r0]
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
-	blx DisableSpatialVolume
+	bl PlaySfxEx
+	bl DisableSpatialVolume
 	mov r0, #0xb2
 	lsl r0, r0, #4
 	mov r1, r4
 	ldr r0, [r4, r0]
 	add r1, #0x44
-	blx ProcessSpatialVoiceClip
-	blx EnableSpatialVolume
+	bl ProcessSpatialVoiceClip
+	bl EnableSpatialVolume
 	ldr r1, _021787A4 // =ovl01_21787AC
 	ldr r0, _021787A8 // =0x00000784
 	str r1, [r4, r0]
@@ -9821,19 +9821,19 @@ ovl01_2178820: // 0x02178820
 	ldr r0, _02178864 // =gPlayer
 	str r2, [r1]
 	ldr r0, [r0]
-	blx BossHelpers__Player__LockControl
+	bl BossHelpers__Player__LockControl
 	mov r0, #1
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	ldr r1, _02178868 // =0xFFFE2000
 	mov r5, r0
-	blx BossArena__SetAmplitudeYTarget
+	bl BossArena__SetAmplitudeYTarget
 	ldr r1, _0217886C // =0x0000D555
 	mov r0, r5
-	blx BossArena__SetAngleTarget
+	bl BossArena__SetAngleTarget
 	mov r0, #2
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	ldr r1, _0217886C // =0x0000D555
-	blx BossArena__SetAngleTarget
+	bl BossArena__SetAngleTarget
 	ldr r1, _02178870 // =ovl01_2178878
 	ldr r0, _02178874 // =0x00000784
 	str r1, [r4, r0]
@@ -9897,16 +9897,16 @@ ovl01_21788B8: // 0x021788B8
 	strh r0, [r1]
 	mov r0, #0
 	strh r0, [r1, #2]
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	add r0, #0x20
 	mov r1, #0xf
 	mov r2, #0
-	blx RenderCore_SetBlendBrightness
-	blx Camera3D__GetWork
+	bl RenderCore_SetBlendBrightness
+	bl Camera3D__GetWork
 	add r0, #0x7c
 	mov r1, #0xf
 	mov r2, #0
-	blx RenderCore_SetBlendBrightness
+	bl RenderCore_SetBlendBrightness
 	ldr r0, _021788F4 // =ovl01_21788FC
 	ldr r1, _021788F8 // =0x00000784
 	str r0, [r4, r1]
@@ -9943,15 +9943,15 @@ _0217891E:
 	ldrsh r7, [r4, r0]
 	cmp r7, #0
 	bge _02178940
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	add r0, #0x20
 	mov r1, r7
-	blx RenderCore_ChangeBlendBrightness
-	blx Camera3D__GetWork
+	bl RenderCore_ChangeBlendBrightness
+	bl Camera3D__GetWork
 	mov r1, #0
 	ldrsh r1, [r4, r1]
 	add r0, #0x7c
-	blx RenderCore_ChangeBlendBrightness
+	bl RenderCore_ChangeBlendBrightness
 _02178940:
 	ldr r3, _02178978 // =gPlayer
 	mov r2, #0x72
@@ -10008,25 +10008,25 @@ ovl01_2178984: // 0x02178984
 	str r0, [r1]
 	ldr r0, _02178B24 // =gPlayer
 	ldr r0, [r0]
-	blx BossHelpers__Player__UnlockControl
+	bl BossHelpers__Player__UnlockControl
 	ldr r0, _02178B24 // =gPlayer
 	mov r1, #5
 	ldr r0, [r0]
 	ldr r2, _02178B28 // =0x005AA000
 	lsl r1, r1, #0x10
-	blx BossPlayerHelpers_Action_TryBoss5Warp
+	bl BossPlayerHelpers_Action_TryBoss5Warp
 	ldr r0, _02178B24 // =gPlayer
 	mov r2, #0
 	ldr r1, [r0]
 	ldr r0, _02178B2C // =0x00000682
 	strh r2, [r1, r0]
 	mov r0, #1
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r1, #0
 	mov r2, r1
 	mov r3, r1
 	mov r4, r0
-	blx BossArena__SetTracker1TargetWork
+	bl BossArena__SetTracker1TargetWork
 	mov r1, #0x32
 	ldr r2, [r5, #0x44]
 	lsl r1, r1, #0xc
@@ -10037,54 +10037,54 @@ ovl01_2178984: // 0x02178984
 	sub r2, r2, r3
 	ldr r3, [r5, #0x4c]
 	mov r0, r4
-	blx BossArena__SetTracker1TargetPos
+	bl BossArena__SetTracker1TargetPos
 	mov r1, #1
 	mov r0, r4
 	lsl r1, r1, #0xc
 	mov r2, #0
-	blx BossArena__SetTracker1Speed
+	bl BossArena__SetTracker1Speed
 	mov r0, r4
 	mov r1, #1
-	blx BossArena__SetTracker1UseObj3D
+	bl BossArena__SetTracker1UseObj3D
 	mov r0, r4
-	blx BossArena__UpdateTracker1TargetPos
+	bl BossArena__UpdateTracker1TargetPos
 	mov r1, #0x4b
 	mov r0, r4
 	lsl r1, r1, #0x10
-	blx BossArena__SetAmplitudeXZTarget
+	bl BossArena__SetAmplitudeXZTarget
 	mov r1, #1
 	mov r0, r4
 	lsl r1, r1, #0xc
-	blx BossArena__SetAmplitudeXZSpeed
+	bl BossArena__SetAmplitudeXZSpeed
 	mov r0, r4
-	blx BossArena__ApplyAmplitudeXZTarget
+	bl BossArena__ApplyAmplitudeXZTarget
 	mov r0, r4
 	mov r1, #0
-	blx BossArena__SetAmplitudeYTarget
+	bl BossArena__SetAmplitudeYTarget
 	mov r1, #1
 	mov r0, r4
 	lsl r1, r1, #0xc
-	blx BossArena__SetAmplitudeYSpeed
+	bl BossArena__SetAmplitudeYSpeed
 	mov r0, r4
-	blx BossArena__ApplyAmplitudeYTarget
+	bl BossArena__ApplyAmplitudeYTarget
 	mov r0, r4
 	mov r1, #0
-	blx BossArena__SetAngleTarget
+	bl BossArena__SetAngleTarget
 	mov r1, #1
 	mov r0, r4
 	lsl r1, r1, #0xc
-	blx BossArena__SetAngleSpeed
+	bl BossArena__SetAngleSpeed
 	mov r0, r4
-	blx BossArena__ApplyAngleTarget
-	blx BossArena__Func_20397E4
+	bl BossArena__ApplyAngleTarget
+	bl BossArena__Func_20397E4
 	mov r0, r4
-	blx BossArena__UpdateTracker1TargetPos
+	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r4
-	blx BossArena__UpdateTracker0TargetPos
+	bl BossArena__UpdateTracker0TargetPos
 	mov r0, #0
 	add r1, sp, #0
 	mov r2, #0x20
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02178B30 // =0x00000E38
 	add r0, sp, #0
 	strh r1, [r0]
@@ -10097,35 +10097,35 @@ ovl01_2178984: // 0x02178984
 	str r0, [sp, #0xc]
 	mov r0, #2
 	str r1, [sp, #0x10]
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r1, #1
 	lsl r1, r1, #0xc
 	mov r2, #0
 	mov r4, r0
-	blx BossArena__SetTracker1Speed
+	bl BossArena__SetTracker1Speed
 	mov r1, #1
 	mov r0, r4
 	lsl r1, r1, #0xc
 	mov r2, #0
-	blx BossArena__SetTracker0Speed
+	bl BossArena__SetTracker0Speed
 	mov r1, #1
 	mov r0, r4
 	lsl r1, r1, #0xc
-	blx BossArena__SetAmplitudeXZSpeed
+	bl BossArena__SetAmplitudeXZSpeed
 	mov r0, r4
 	mov r1, #0
-	blx BossArena__SetAmplitudeYTarget
+	bl BossArena__SetAmplitudeYTarget
 	mov r1, #1
 	mov r0, r4
 	lsl r1, r1, #0xc
-	blx BossArena__SetAmplitudeYSpeed
+	bl BossArena__SetAmplitudeYSpeed
 	mov r0, r4
 	mov r1, #0
-	blx BossArena__SetAngleTarget
+	bl BossArena__SetAngleTarget
 	mov r1, #1
 	mov r0, r4
 	lsl r1, r1, #0xc
-	blx BossArena__SetAngleSpeed
+	bl BossArena__SetAngleSpeed
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r1, [r5, r0]
@@ -10136,7 +10136,7 @@ ovl01_2178984: // 0x02178984
 	orr r0, r1
 	str r0, [r2, #0x20]
 	mov r0, #1
-	blx SetHUDActiveScreen
+	bl SetHUDActiveScreen
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r0, [r5, r0]
@@ -10151,7 +10151,7 @@ ovl01_2178984: // 0x02178984
 	mov r0, r6
 	bl ovl01_21755B0
 	mov r0, #1
-	blx ChangeBossBGMVariant
+	bl ChangeBossBGMVariant
 	mov r1, #0xf
 	mov r0, #0xde
 	mvn r1, r1
@@ -10188,11 +10188,11 @@ ovl01_2178B44: // 0x02178B44
 	add r0, r0, #1
 	strh r0, [r4]
 _02178B58:
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	mov r1, #0
 	ldrsh r1, [r4, r1]
 	add r0, #0x7c
-	blx RenderCore_ChangeBlendBrightness
+	bl RenderCore_ChangeBlendBrightness
 	mov r0, #0
 	ldrsh r0, [r4, r0]
 	cmp r0, #0
@@ -10215,7 +10215,7 @@ ovl01_2178B80: // 0x02178B80
 	lsl r0, r0, #2
 	add r4, r5, r0
 	mov r0, #1
-	blx BossHelpers__Blend__Func_2039488
+	bl BossHelpers__Blend__Func_2039488
 	mov r1, #0
 	mov r0, #0xde
 	strh r1, [r4, #2]
@@ -10250,16 +10250,16 @@ ovl01_2178BAC: // 0x02178BAC
 	add r0, r0, #1
 	strh r0, [r4]
 _02178BCC:
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	mov r1, #0
 	ldrsh r1, [r4, r1]
 	add r0, #0x20
-	blx RenderCore_ChangeBlendBrightness
+	bl RenderCore_ChangeBlendBrightness
 	mov r0, #0
 	ldrsh r1, [r4, r0]
 	cmp r1, #0
 	bne _02178BEC
-	blx BossHelpers__Blend__Func_2039488
+	bl BossHelpers__Blend__Func_2039488
 	mov r0, r5
 	bl ovl01_2177ACC
 _02178BEC:
@@ -10333,7 +10333,7 @@ _02178C5C:
 	ldrh r0, [r0, #4]
 	lsl r1, r1, #0xc
 	lsl r0, r0, #0xc
-	blx FX_Div
+	bl FX_Div
 	mov r2, r0
 	ldr r0, _02178CC8 // =0x00000404
 	asr r3, r2, #0x1f
@@ -10343,7 +10343,7 @@ _02178C5C:
 	sub r0, r0, r1
 	lsl r0, r0, #0xc
 	asr r1, r0, #0x1f
-	blx _ull_mul
+	bl _ull_mul
 	mov r3, #2
 	mov r2, #0
 	lsl r3, r3, #0xa
@@ -10403,7 +10403,7 @@ ovl01_2178CD4: // 0x02178CD4
 	sub r1, #0xdf
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	mov r0, #0
 	strh r0, [r4, #6]
 	ldr r0, _02178D10 // =ovl01_2178D18
@@ -10448,7 +10448,7 @@ ovl01_2178D38: // 0x02178D38
 	add r4, r5, r0
 	ldr r0, _02178D90 // =gPlayer
 	ldr r0, [r0]
-	blx BossHelpers__Player__IsDead
+	bl BossHelpers__Player__IsDead
 	cmp r0, #0
 	beq _02178D8C
 	ldr r1, _02178D94 // =playerGameStatus
@@ -10458,19 +10458,19 @@ ovl01_2178D38: // 0x02178D38
 	ldr r0, _02178D90 // =gPlayer
 	str r2, [r1]
 	ldr r0, [r0]
-	blx Player__Action_Intangible
+	bl Player__Action_Intangible
 	ldr r0, _02178D90 // =gPlayer
 	mov r1, #0xe
 	ldr r0, [r0]
-	blx Player__ChangeAction
+	bl Player__ChangeAction
 	ldr r0, _02178D90 // =gPlayer
 	ldr r0, [r0]
-	blx BossHelpers__Player__LockControl
-	blx Camera3D__GetWork
+	bl BossHelpers__Player__LockControl
+	bl Camera3D__GetWork
 	add r0, #0x7c
 	mov r1, #0x1f
 	mov r2, #0
-	blx RenderCore_SetBlendBrightness
+	bl RenderCore_SetBlendBrightness
 	mov r0, #0
 	strh r0, [r4, #6]
 	strh r0, [r4, #4]
@@ -10505,11 +10505,11 @@ ovl01_2178DA0: // 0x02178DA0
 	ble _02178DD0
 	sub r0, r1, #1
 	strh r0, [r4, #4]
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	mov r1, #4
 	ldrsh r1, [r4, r1]
 	add r0, #0x7c
-	blx RenderCore_ChangeBlendBrightness
+	bl RenderCore_ChangeBlendBrightness
 _02178DD0:
 	ldr r1, _02178DFC // =gPlayer
 	mov r0, #0x10
@@ -10546,7 +10546,7 @@ ovl01_2178E0C: // 0x02178E0C
 	push {r4, lr}
 	mov r4, r0
 	mov r0, #0
-	blx SetHUDActiveScreen
+	bl SetHUDActiveScreen
 	ldr r0, _02178E24 // =0x0000037E
 	mov r1, #0
 	strh r1, [r4, r0]
@@ -10643,7 +10643,7 @@ _02178EB8:
 	sub r2, r3, r2
 	ldr r3, [r5, #0x4c]
 	mov r0, #0
-	blx BossFX__CreateWhaleSpout
+	bl BossFX__CreateWhaleSpout
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xdf
@@ -10651,7 +10651,7 @@ _02178EB8:
 	sub r1, #0xe0
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	ldr r2, [r6]
 	mov r0, #8
 	ldr r1, [r2, #0x18]
@@ -10668,7 +10668,7 @@ _02178EB8:
 	cmp r0, #0xa
 	ble _02178F0A
 	mov r0, #0
-	blx ChangeBossBGMVariant
+	bl ChangeBossBGMVariant
 _02178F0A:
 	mov r0, #0
 	strh r0, [r6, #6]
@@ -10702,40 +10702,40 @@ ovl01_2178F30: // 0x02178F30
 	cmp r0, #0x3c
 	bne _02178FA4
 	mov r0, #1
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	ldr r1, _02179084 // =gPlayer
 	mov r6, r0
 	ldr r1, [r1]
 	mov r2, r1
 	mov r3, r1
-	blx BossArena__SetTracker1TargetWork
+	bl BossArena__SetTracker1TargetWork
 	mov r0, r6
 	mov r1, #1
-	blx BossArena__SetTracker1UseObj3D
-	mov r1, #1
-	mov r0, r6
-	lsl r1, r1, #0xa
-	mov r2, #0
-	blx BossArena__SetTracker1Speed
+	bl BossArena__SetTracker1UseObj3D
 	mov r1, #1
 	mov r0, r6
 	lsl r1, r1, #0xa
 	mov r2, #0
-	blx BossArena__SetTracker0Speed
+	bl BossArena__SetTracker1Speed
+	mov r1, #1
+	mov r0, r6
+	lsl r1, r1, #0xa
+	mov r2, #0
+	bl BossArena__SetTracker0Speed
 	mov r1, #0x4b
 	mov r0, r6
 	lsl r1, r1, #0xe
-	blx BossArena__SetAmplitudeXZTarget
+	bl BossArena__SetAmplitudeXZTarget
 	mov r0, r6
 	mov r1, #0xcc
-	blx BossArena__SetAmplitudeXZSpeed
+	bl BossArena__SetAmplitudeXZSpeed
 	mov r1, #0x1e
 	mov r0, r6
 	lsl r1, r1, #0xc
-	blx BossArena__SetAmplitudeYTarget
+	bl BossArena__SetAmplitudeYTarget
 	mov r0, r6
 	mov r1, #0xcc
-	blx BossArena__SetAmplitudeYSpeed
+	bl BossArena__SetAmplitudeYSpeed
 _02178FA4:
 	ldr r2, _02179084 // =gPlayer
 	ldr r1, _02179088 // =0xFFCE0000
@@ -10787,29 +10787,29 @@ _02178FD8:
 	mov r1, #0xb
 	str r1, [r5, r0]
 	mov r0, #2
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r6, r0
 	mov r0, r5
 	bl ovl01_2177C98
 	mov r0, r6
-	blx BossArena__UpdateTracker1TargetPos
+	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r6
-	blx BossArena__ApplyAmplitudeXZTarget
+	bl BossArena__ApplyAmplitudeXZTarget
 	mov r0, r6
-	blx BossArena__ApplyAmplitudeYTarget
+	bl BossArena__ApplyAmplitudeYTarget
 	mov r0, r6
-	blx BossArena__ApplyAngleTarget
-	blx BossArena__Func_20397E4
+	bl BossArena__ApplyAngleTarget
+	bl BossArena__Func_20397E4
 	mov r0, r6
-	blx BossArena__UpdateTracker1TargetPos
+	bl BossArena__UpdateTracker1TargetPos
 	mov r0, r6
-	blx BossArena__UpdateTracker0TargetPos
+	bl BossArena__UpdateTracker0TargetPos
 	ldr r0, _02179084 // =gPlayer
 	ldr r0, [r0]
-	blx Player__RemoveCollideEvent
+	bl Player__RemoveCollideEvent
 	ldr r0, _02179084 // =gPlayer
 	ldr r0, [r0]
-	blx Player__OnLandGround
+	bl Player__OnLandGround
 	ldr r0, _02179084 // =gPlayer
 	ldr r2, [r0]
 	mov r0, #0x80
@@ -10893,15 +10893,15 @@ ovl01_21790D0: // 0x021790D0
 	bge _021790F6
 	add r0, r0, #1
 	strh r0, [r4, #4]
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	mov r1, #4
 	ldrsh r1, [r4, r1]
 	add r0, #0x7c
-	blx RenderCore_ChangeBlendBrightness
+	bl RenderCore_ChangeBlendBrightness
 	b _021790FC
 _021790F6:
 	mov r0, #1
-	blx BossHelpers__Blend__Func_2039488
+	bl BossHelpers__Blend__Func_2039488
 _021790FC:
 	ldr r0, _02179110 // =gPlayer
 	ldr r0, [r0]
@@ -10929,7 +10929,7 @@ ovl01_217911C: // 0x0217911C
 	add r4, r5, r0
 	ldr r0, _02179190 // =gPlayer
 	ldr r0, [r0]
-	blx BossHelpers__Player__UnlockControl
+	bl BossHelpers__Player__UnlockControl
 	ldr r0, _02179190 // =gPlayer
 	ldr r2, [r0]
 	mov r0, #2
@@ -11000,7 +11000,7 @@ ovl01_21791A0: // 0x021791A0
 	bl ovl01_21752C0
 	ldr r0, _02179214 // =0x0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r3, r0
 	add r0, sp, #8
 	str r0, [sp]
@@ -11015,7 +11015,7 @@ ovl01_21791A0: // 0x021791A0
 	ldr r3, [sp, #0x34]
 	mov r0, #4
 	neg r2, r2
-	blx BossFX__CreateWhaleSplashB
+	bl BossFX__CreateWhaleSplashB
 _021791E0:
 	ldrh r0, [r4, #6]
 	cmp r0, #0x28
@@ -11027,7 +11027,7 @@ _021791E0:
 	sub r1, #0xa9
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _021791F8:
 	ldrh r0, [r4, #6]
 	add r0, r0, #1
@@ -11121,16 +11121,16 @@ ovl01_217928C: // 0x0217928C
 	bge _021792B4
 	add r0, r0, #1
 	strh r0, [r4]
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	mov r1, #0
 	ldrsh r1, [r4, r1]
 	add r0, #0x7c
-	blx RenderCore_ChangeBlendBrightness
+	bl RenderCore_ChangeBlendBrightness
 	mov r5, #0
 	b _021792BA
 _021792B4:
 	mov r0, r5
-	blx BossHelpers__Blend__Func_2039488
+	bl BossHelpers__Blend__Func_2039488
 _021792BA:
 	ldr r0, _021792D4 // =gPlayer
 	ldr r0, [r0]
@@ -11159,7 +11159,7 @@ ovl01_21792E0: // 0x021792E0
 	mov r4, r0
 	ldr r0, _0217932C // =gPlayer
 	ldr r0, [r0]
-	blx BossHelpers__Player__UnlockControl
+	bl BossHelpers__Player__UnlockControl
 	ldr r0, _0217932C // =gPlayer
 	ldr r2, [r0]
 	mov r0, #2
@@ -11176,10 +11176,10 @@ ovl01_21792E0: // 0x021792E0
 	mov r1, r4
 	bl ovl01_2177554
 	mov r0, #1
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r1, #0x96
 	lsl r1, r1, #0xe
-	blx BossArena__SetAmplitudeXZTarget
+	bl BossArena__SetAmplitudeXZTarget
 	mov r1, #0x96
 	ldr r0, _02179334 // =0x0000037A
 	lsl r1, r1, #2
@@ -11239,9 +11239,9 @@ _0217936A:
 	ldr r0, [r4, r1]
 	add r1, #0x18
 	ldrsh r0, [r0, r1]
-	blx UpdateBossHealthHUD
+	bl UpdateBossHealthHUD
 	mov r0, #0
-	blx ChangeBossBGMVariant
+	bl ChangeBossBGMVariant
 	ldr r1, _021793A4 // =ovl01_21793AC
 	ldr r0, _021793A8 // =0x00000784
 	str r1, [r4, r0]
@@ -11318,7 +11318,7 @@ ovl01_2179400: // 0x02179400
 	ldr r2, [sp, #0x30]
 	ldr r3, [sp, #0x34]
 	mov r0, #0
-	blx BossFX__CreateWhaleSplashB
+	bl BossFX__CreateWhaleSplashB
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xd4
@@ -11329,15 +11329,15 @@ ovl01_2179400: // 0x02179400
 	ldr r0, [r4, r0]
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
-	blx DisableSpatialVolume
+	bl PlaySfxEx
+	bl DisableSpatialVolume
 	mov r0, #0xb2
 	lsl r0, r0, #4
 	mov r1, r4
 	ldr r0, [r4, r0]
 	add r1, #0x44
-	blx ProcessSpatialVoiceClip
-	blx EnableSpatialVolume
+	bl ProcessSpatialVoiceClip
+	bl EnableSpatialVolume
 	ldr r1, _0217945C // =ovl01_2179464
 	ldr r0, _02179460 // =0x00000784
 	str r1, [r4, r0]
@@ -11415,7 +11415,7 @@ ovl01_21794C4: // 0x021794C4
 	bl ovl01_21752C0
 	ldr r0, _02179538 // =0x0217AFB8
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r3, r0
 	add r0, sp, #8
 	str r0, [sp]
@@ -11430,7 +11430,7 @@ ovl01_21794C4: // 0x021794C4
 	ldr r3, [sp, #0x34]
 	mov r0, #4
 	neg r2, r2
-	blx BossFX__CreateWhaleSplashB
+	bl BossFX__CreateWhaleSplashB
 _02179504:
 	ldrh r0, [r4, #2]
 	cmp r0, #0x28
@@ -11442,7 +11442,7 @@ _02179504:
 	sub r1, #0xa9
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _0217951C:
 	ldrh r0, [r4, #2]
 	add r0, r0, #1
@@ -11481,18 +11481,18 @@ _02179552:
 	mov r0, r4
 	lsr r2, r2, #1
 	lsr r3, r3, #0x18
-	blx Palette__UnknownFunc10
+	bl Palette__UnknownFunc10
 	mov r5, #2
 	lsl r5, r5, #8
 	add r0, r4, r5
 	mov r1, r5
-	blx DC_StoreRange
+	bl DC_StoreRange
 	ldr r3, _02179580 // =VRAMSystem__VRAM_PALETTE_BG
 	add r0, r4, r5
 	ldr r3, [r3]
 	lsr r1, r5, #1
 	mov r2, #0
-	blx QueueUncompressedPalette
+	bl QueueUncompressedPalette
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _02179580: .word VRAMSystem__VRAM_PALETTE_BG
@@ -11511,33 +11511,33 @@ ovl01_2179584: // 0x02179584
 	mov r0, #0
 	mov r1, r6
 	add r2, #0x96
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02179620 // =playerGameStatus
 	mov r0, #1
 	ldr r2, [r1]
 	bic r2, r0
 	str r2, [r1]
-	blx StopStageBGM
+	bl StopStageBGM
 	ldr r0, _02179624 // =gPlayer
 	ldr r0, [r0]
-	blx Player__Action_Blank
+	bl Player__Action_Blank
 	ldr r0, _02179624 // =gPlayer
 	mov r1, #0x12
 	ldr r0, [r0]
-	blx Player__ChangeAction
+	bl Player__ChangeAction
 	ldr r1, _02179624 // =gPlayer
 	ldr r0, _02179628 // =0x00000682
 	ldr r2, [r1]
 	mov r3, #0
 	strh r3, [r2, r0]
 	ldr r0, [r1]
-	blx BossHelpers__Player__LockControl
+	bl BossHelpers__Player__LockControl
 	ldr r0, _0217962C // =0x00000524
 	mov r1, #0
 	str r1, [r4, r0]
 	ldr r0, _02179630 // =0x00000AB8
 	str r1, [r5, r0]
-	blx EnableObjectManagerFlag2
+	bl EnableObjectManagerFlag2
 	ldr r1, [r5, #0x18]
 	mov r0, #0x20
 	orr r1, r0
@@ -11552,7 +11552,7 @@ ovl01_2179584: // 0x02179584
 	ldr r1, [r3, #0x44]
 	ldr r3, [r3, #0x4c]
 	neg r2, r2
-	blx BossFX__CreateWhaleExplode2
+	bl BossFX__CreateWhaleExplode2
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0xd3
@@ -11560,7 +11560,7 @@ ovl01_2179584: // 0x02179584
 	sub r1, #0xd4
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	ldr r0, _02179634 // =0x00000408
 	mov r1, #0
 	strh r1, [r6, r0]
@@ -11599,12 +11599,12 @@ ovl01_2179640: // 0x02179640
 	cmp r0, #0x5a
 	bne _021796C0
 	mov r0, #1
-	blx BossArena__GetCamera
+	bl BossArena__GetCamera
 	mov r1, #0
 	mov r2, r1
 	mov r3, r1
 	mov r4, r0
-	blx BossArena__SetTracker1TargetWork
+	bl BossArena__SetTracker1TargetWork
 	ldr r3, _021796C4 // =0x000007E4
 	mov r0, r4
 	add r2, r3, #4
@@ -11615,27 +11615,27 @@ ovl01_2179640: // 0x02179640
 	lsl r2, r2, #0xe
 	ldr r3, [r5, r3]
 	add r2, r6, r2
-	blx BossArena__SetTracker1TargetPos
+	bl BossArena__SetTracker1TargetPos
 	mov r1, #0xfa
 	mov r0, r4
 	lsl r1, r1, #0xe
-	blx BossArena__SetAmplitudeXZTarget
+	bl BossArena__SetAmplitudeXZTarget
 	mov r1, #0x19
 	mov r0, r4
 	lsl r1, r1, #0xe
-	blx BossArena__SetAmplitudeYTarget
+	bl BossArena__SetAmplitudeYTarget
 	mov r1, #1
 	lsl r1, r1, #8
 	mov r2, r1
 	mov r0, r4
 	add r2, #0x99
-	blx BossArena__SetTracker1Speed
+	bl BossArena__SetTracker1Speed
 	mov r1, #1
 	lsl r1, r1, #8
 	mov r2, r1
 	mov r0, r4
 	add r2, #0x99
-	blx BossArena__SetTracker0Speed
+	bl BossArena__SetTracker0Speed
 	ldr r1, _021796C8 // =ovl01_21796D0
 	ldr r0, _021796CC // =0x00000784
 	str r1, [r5, r0]
@@ -11654,14 +11654,14 @@ ovl01_21796D0: // 0x021796D0
 	mov r0, #0xde
 	lsl r0, r0, #2
 	add r4, r6, r0
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	mov r5, r0
 	add r5, #0x5c
 	mov r1, r5
 	mov r0, #0
 	add r1, #0x20
 	mov r2, #6
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldrh r1, [r5, #0x20]
 	mov r0, #0xc0
 	mov r2, #0x10
@@ -11694,7 +11694,7 @@ ovl01_21796D0: // 0x021796D0
 	ldr r0, _02179740 // =VRAMSystem__VRAM_PALETTE_BG
 	lsl r2, r2, #5
 	ldr r0, [r0]
-	blx MIi_CpuCopyFast
+	bl MIi_CpuCopyFast
 	ldr r0, _02179744 // =0x00000408
 	mov r1, #0
 	strh r1, [r4, r0]
@@ -11719,7 +11719,7 @@ ovl01_2179750: // 0x02179750
 	ldr r4, [r5, r0]
 	add r0, r0, #4
 	add r6, r5, r0
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	mov r1, #0xf1
 	lsl r1, r1, #2
 	mov r2, #0xf
@@ -11782,7 +11782,7 @@ _021797C4:
 	ldr r2, [r5, r2]
 	ldr r3, [r5, r3]
 	mov r0, #0
-	blx BossFX__CreateWhaleExplode0
+	bl BossFX__CreateWhaleExplode0
 	mov r0, #0
 	str r0, [sp]
 	mov r0, #0xcd
@@ -11791,16 +11791,16 @@ _021797C4:
 	sub r1, r0, #1
 	sub r2, r0, #1
 	sub r3, r0, #1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	mov r1, #2
 	ldr r0, _0217983C // =0x00000103
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r0, #3
 	lsl r0, r0, #0xc
 	mov r1, r0
 	lsr r2, r0, #3
-	blx ShakeScreenEx
+	bl ShakeScreenEx
 _0217980A:
 	add r7, r7, #1
 	add r4, r4, #4
@@ -11844,7 +11844,7 @@ ovl01_2179848: // 0x02179848
 	ldr r2, [r5, r2]
 	ldr r3, [r5, r3]
 	mov r0, #0
-	blx BossFX__CreateWhaleExplode1
+	bl BossFX__CreateWhaleExplode1
 	mov r1, #2
 	lsl r1, r1, #0xe
 	str r1, [r0, #0x38]
@@ -11867,7 +11867,7 @@ ovl01_2179848: // 0x02179848
 	lsl r0, r0, #0xc
 	lsl r1, r1, #0xc
 	mov r2, #0xe3
-	blx ShakeScreenEx
+	bl ShakeScreenEx
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0x8d
@@ -11875,7 +11875,7 @@ ovl01_2179848: // 0x02179848
 	sub r1, #0x8e
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	mov r1, #1
 	ldr r0, _021798D8 // =0x00000524
 	lsl r1, r1, #0xc
@@ -11910,7 +11910,7 @@ ovl01_21798E0: // 0x021798E0
 	ldr r7, [r6, r0]
 	add r0, r0, #4
 	add r4, r6, r0
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	mov r1, #0xf1
 	lsl r1, r1, #2
 	mov r5, #0

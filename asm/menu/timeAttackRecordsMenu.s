@@ -12,12 +12,12 @@ TimeAttackRecordsMenu__LoadAssets: // 0x02178980
 	str r1, [r4]
 	strh r0, [r4, #4]
 	ldr r0, _021789A8 // =aNarcDmMenuTaRa
-	blx ArchiveFileUnknown__LoadFile
+	bl ArchiveFileUnknown__LoadFile
 	str r0, [r4, #8]
 	mov r1, #0
 	ldr r0, _021789AC // =aBbDmasBb_0
 	mov r2, r1
-	blx ReadFileFromBundle
+	bl ReadFileFromBundle
 	str r0, [r4, #0xc]
 	pop {r4, pc}
 	nop
@@ -33,14 +33,14 @@ TimeAttackRecordsMenu__ReleaseAssets: // 0x021789B0
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
 	beq _021789C2
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	mov r0, #0
 	str r0, [r4, #0xc]
 _021789C2:
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	beq _021789D0
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	mov r0, #0
 	str r0, [r4, #8]
 _021789D0:
@@ -65,9 +65,9 @@ TimeAttackRecordsMenu__Create: // 0x021789D4
 	ldr r0, _02178A1C // =TimeAttackRecordsMenu__Main
 	ldr r1, _02178A20 // =TimeAttackRecordsMenu__Destructor
 	mov r3, r2
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r5]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	str r5, [r4]
 	bl TimeAttackRecordsMenu__Init
@@ -162,7 +162,7 @@ TimeAttackRecordsMenu__SetupDisplay: // 0x02178A8C
 	str r0, [r3]
 	mov r0, #1
 	mov r2, r1
-	blx GX_SetGraphicsMode
+	bl GX_SetGraphicsMode
 	ldr r2, _02178BB4 // =0x0400000A
 	mov r1, #0x43
 	ldrh r0, [r2]
@@ -179,24 +179,24 @@ TimeAttackRecordsMenu__SetupDisplay: // 0x02178A8C
 	ldr r1, _02178BC0 // =0x06004000
 	mov r0, #0
 	lsr r2, r2, #0xe
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	mov r2, #1
 	ldr r1, _02178BC4 // =0x06005000
 	mov r0, #0
 	lsl r2, r2, #0xc
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	ldr r1, _02178BC8 // =0x06008000
 	mov r0, #0
 	mov r2, #0x20
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	ldr r1, _02178BCC // =0x0600C000
 	mov r0, #0
 	mov r2, #0x20
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	ldr r1, _02178BD0 // =renderCoreGFXControlA
 	mov r0, #0
 	mov r2, #0xc
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r0, _02178BD4 // =0x04000008
 	mov r2, #3
 	ldrh r1, [r0]
@@ -218,7 +218,7 @@ TimeAttackRecordsMenu__SetupDisplay: // 0x02178A8C
 	orr r1, r3
 	strh r1, [r0, #6]
 	mov r0, #0
-	blx GXS_SetGraphicsMode
+	bl GXS_SetGraphicsMode
 	ldr r2, _02178BD8 // =0x0400100A
 	mov r0, #0x43
 	ldrh r1, [r2]
@@ -235,24 +235,24 @@ TimeAttackRecordsMenu__SetupDisplay: // 0x02178A8C
 	ldr r1, _02178BDC // =0x06204000
 	mov r0, #0
 	lsr r2, r2, #0xe
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	mov r2, #1
 	ldr r1, _02178BE0 // =0x06205000
 	mov r0, #0
 	lsl r2, r2, #0xc
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	ldr r1, _02178BE4 // =0x06208000
 	mov r0, #0
 	mov r2, #0x20
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	ldr r1, _02178BE8 // =0x0620C000
 	mov r0, #0
 	mov r2, #0x20
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	ldr r1, _02178BEC // =renderCoreGFXControlB
 	mov r0, #0
 	mov r2, #0xc
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r0, _02178BF0 // =0x04001008
 	mov r2, #3
 	ldrh r1, [r0]
@@ -303,9 +303,9 @@ TimeAttackRecordsMenu__InitSprites: // 0x02178BF4
 	ldr r0, [r0]
 	mov r1, #0
 	ldr r0, [r0, #8]
-	blx FileUnknown__GetAOUFile
+	bl FileUnknown__GetAOUFile
 	str r0, [sp, #0x34]
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _02178C30
@@ -323,7 +323,7 @@ _02178C1C: // jump table
 	.hword _02178C28 - _02178C1C - 2 // case 4
 	.hword _02178C28 - _02178C1C - 2 // case 5
 _02178C28:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r1, [r0]
 	b _02178C32
 _02178C30:
@@ -335,7 +335,7 @@ _02178C32:
 	lsl r1, r1, #0x10
 	ldr r0, [r0, #8]
 	lsr r1, r1, #0x10
-	blx FileUnknown__GetAOUFile
+	bl FileUnknown__GetAOUFile
 	str r0, [sp, #0x38]
 	ldr r0, [sp, #0x1c]
 	ldr r4, [sp, #0x1c]
@@ -362,10 +362,10 @@ _02178C66:
 	add r0, sp, #0x34
 	ldr r0, [r0, r1]
 	ldrb r1, [r5, #1]
-	blx Sprite__GetSpriteSize3FromAnim
+	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
 	mov r0, r6
-	blx VRAMSystem__AllocSpriteVram
+	bl VRAMSystem__AllocSpriteVram
 	str r6, [sp]
 	mov r1, #0
 	str r1, [sp, #4]
@@ -385,7 +385,7 @@ _02178C66:
 	add r1, sp, #0x34
 	ldr r1, [r1, r2]
 	ldrb r2, [r5, #1]
-	blx AnimatorSprite__Init
+	bl AnimatorSprite__Init
 	mov r0, r4
 	ldrb r1, [r5, #2]
 	add r0, #0x50
@@ -404,7 +404,7 @@ _02178C66:
 	add r2, #0xb0
 	str r3, [r0, r1]
 	add r0, r0, r2
-	blx TouchField__Init
+	bl TouchField__Init
 	ldr r2, _02178DCC // =0x000007F4
 	ldr r0, [sp, #0x1c]
 	mov r1, #0
@@ -427,7 +427,7 @@ _02178C66:
 	ldr r2, _02178DD0 // =TouchField__PointInRect
 	add r3, sp, #0x24
 	str r1, [sp, #4]
-	blx TouchField__InitAreaShape
+	bl TouchField__InitAreaShape
 	ldr r2, _02178DD4 // =0x000007E8
 	ldr r0, [sp, #0x1c]
 	ldr r1, [sp, #0x1c]
@@ -435,7 +435,7 @@ _02178C66:
 	sub r2, #0xac
 	add r1, r1, r2
 	ldr r2, _02178DD8 // =0x0000FFFF
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	mov r2, #0x75
 	ldr r0, [sp, #0x1c]
 	lsl r2, r2, #4
@@ -464,7 +464,7 @@ _02178C66:
 	ldr r2, _02178DD0 // =TouchField__PointInRect
 	add r3, sp, #0x24
 	str r1, [sp, #4]
-	blx TouchField__InitAreaShape
+	bl TouchField__InitAreaShape
 	ldr r2, _02178DD4 // =0x000007E8
 	ldr r0, [sp, #0x1c]
 	ldr r1, [sp, #0x1c]
@@ -472,7 +472,7 @@ _02178C66:
 	sub r2, #0x74
 	add r1, r1, r2
 	ldr r2, _02178DD8 // =0x0000FFFF
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	ldr r2, _02178DDC // =0x00000788
 	ldr r0, [sp, #0x1c]
 	mov r1, #0x40
@@ -500,7 +500,7 @@ _02178C66:
 	ldr r2, _02178DD0 // =TouchField__PointInRect
 	add r3, sp, #0x24
 	str r1, [sp, #4]
-	blx TouchField__InitAreaShape
+	bl TouchField__InitAreaShape
 	ldr r2, _02178DD4 // =0x000007E8
 	ldr r0, [sp, #0x1c]
 	ldr r1, [sp, #0x1c]
@@ -508,7 +508,7 @@ _02178C66:
 	sub r2, #0x38
 	add r1, r1, r2
 	ldr r2, _02178DD8 // =0x0000FFFF
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	ldr r1, _02178DE0 // =0x000007C4
 	ldr r0, [sp, #0x1c]
 	ldr r2, [r0, r1]
@@ -538,28 +538,28 @@ TimeAttackRecordsMenu__Func_2178DE4: // 0x02178DE4
 	mov r4, r0
 	mov r0, #2
 	lsl r0, r0, #0xa
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	ldr r1, _02178F8C // =0x00000B44
 	str r0, [r4, r1]
 	mov r0, #2
 	lsl r0, r0, #0xa
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	ldr r1, _02178F90 // =0x00000B48
 	str r0, [r4, r1]
 	mov r0, #2
 	lsl r0, r0, #0xa
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	ldr r1, _02178F94 // =0x00000B4C
 	str r0, [r4, r1]
 	mov r0, #2
 	lsl r0, r0, #0xa
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	mov r1, #0xb5
 	lsl r1, r1, #4
 	str r0, [r4, r1]
 	mov r0, #2
 	lsl r0, r0, #0xa
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	ldr r1, _02178F98 // =0x00000B54
 	mov r2, #6
 	str r0, [r4, r1]
@@ -567,11 +567,11 @@ TimeAttackRecordsMenu__Func_2178DE4: // 0x02178DE4
 	ldr r1, [r4, r1]
 	mov r0, #0
 	lsl r2, r2, #8
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	ldr r0, [r4]
 	mov r1, #8
 	ldr r0, [r0, #8]
-	blx FileUnknown__GetAOUFile
+	bl FileUnknown__GetAOUFile
 	mov r5, r0
 	mov r0, #2
 	str r0, [sp]
@@ -583,21 +583,21 @@ TimeAttackRecordsMenu__Func_2178DE4: // 0x02178DE4
 	mov r1, r5
 	mov r2, #4
 	mov r3, #0
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0xc
-	blx DrawBackground
+	bl DrawBackground
 	mov r0, r5
-	blx GetBackgroundMappings
+	bl GetBackgroundMappings
 	ldr r1, _02178F90 // =0x00000B48
 	ldr r1, [r4, r1]
-	blx RenderCore_CPUCopyCompressed
+	bl RenderCore_CPUCopyCompressed
 	ldr r1, _02178F90 // =0x00000B48
 	mov r2, #6
 	ldr r0, [r4, r1]
 	add r1, r1, #4
 	ldr r1, [r4, r1]
 	lsl r2, r2, #8
-	blx MIi_CpuCopyFast
+	bl MIi_CpuCopyFast
 	ldr r0, _02178F94 // =0x00000B4C
 	mov r7, #1
 	lsl r7, r7, #0xe
@@ -632,7 +632,7 @@ _02178EAA:
 	ldr r0, [r4]
 	mov r1, #7
 	ldr r0, [r0, #8]
-	blx FileUnknown__GetAOUFile
+	bl FileUnknown__GetAOUFile
 	mov r5, r0
 	mov r0, #2
 	str r0, [sp]
@@ -644,15 +644,15 @@ _02178EAA:
 	mov r1, r5
 	mov r2, #4
 	mov r3, #1
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0xc
-	blx DrawBackground
+	bl DrawBackground
 	mov r0, r5
-	blx GetBackgroundMappings
+	bl GetBackgroundMappings
 	mov r1, #0xb5
 	lsl r1, r1, #4
 	ldr r1, [r4, r1]
-	blx RenderCore_CPUCopyCompressed
+	bl RenderCore_CPUCopyCompressed
 	mov r1, #0xb5
 	lsl r1, r1, #4
 	ldr r0, [r4, r1]
@@ -660,7 +660,7 @@ _02178EAA:
 	mov r2, #6
 	ldr r1, [r4, r1]
 	lsl r2, r2, #8
-	blx MIi_CpuCopyFast
+	bl MIi_CpuCopyFast
 	ldr r0, _02178F98 // =0x00000B54
 	mov r1, #2
 	ldr r5, [r4, r0]
@@ -687,32 +687,32 @@ _02178F22:
 	mov r1, #6
 	ldr r0, [r4, r0]
 	lsl r1, r1, #8
-	blx DC_StoreRange
+	bl DC_StoreRange
 	ldr r0, _02178F90 // =0x00000B48
 	mov r1, #6
 	ldr r0, [r4, r0]
 	lsl r1, r1, #8
-	blx DC_StoreRange
+	bl DC_StoreRange
 	ldr r0, _02178F94 // =0x00000B4C
 	mov r1, #6
 	ldr r0, [r4, r0]
 	lsl r1, r1, #8
-	blx DC_StoreRange
+	bl DC_StoreRange
 	mov r0, #0xb5
 	lsl r0, r0, #4
 	mov r1, #6
 	ldr r0, [r4, r0]
 	lsl r1, r1, #8
-	blx DC_StoreRange
+	bl DC_StoreRange
 	ldr r0, _02178F98 // =0x00000B54
 	mov r1, #6
 	ldr r0, [r4, r0]
 	lsl r1, r1, #8
-	blx DC_StoreRange
+	bl DC_StoreRange
 	ldr r0, [r4]
 	mov r1, #0xd
 	ldr r0, [r0, #8]
-	blx FileUnknown__GetAOUFile
+	bl FileUnknown__GetAOUFile
 	mov r2, #0
 	mov r1, r0
 	mov r0, #5
@@ -722,7 +722,7 @@ _02178F22:
 	ldr r0, _02178FA0 // =0x00000718
 	mov r3, r2
 	add r0, r4, r0
-	blx InitPaletteAnimator
+	bl InitPaletteAnimator
 	add sp, #0x54
 	pop {r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -740,7 +740,7 @@ TimeAttackRecordsMenu__InitBackgrounds: // 0x02178FA4
 	sub sp, #0x44
 	str r0, [sp, #0x1c]
 	bl TimeAttackMenu__Func_216C5E4
-	blx FontWindow__GetFont
+	bl FontWindow__GetFont
 	mov r2, #2
 	ldr r1, [sp, #0x1c]
 	lsl r2, r2, #0xa
@@ -756,7 +756,7 @@ TimeAttackRecordsMenu__InitBackgrounds: // 0x02178FA4
 _02178FCA:
 	mov r0, #0x15
 	lsl r0, r0, #6
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	ldr r1, _021791DC // =0x00000B04
 	mov r2, #1
 	str r0, [r6, r1]
@@ -777,14 +777,14 @@ _02178FCA:
 	mov r0, r5
 	mov r3, r1
 	str r4, [sp, #0x18]
-	blx Unknown2056570__Init
+	bl Unknown2056570__Init
 	mov r0, r5
 	mov r1, #0xb
-	blx Unknown2056570__Func_2056688
+	bl Unknown2056570__Func_2056688
 	mov r0, r5
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	mov r0, r5
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	mov r0, #0x15
 	lsl r0, r0, #6
 	add r4, r4, r0
@@ -806,7 +806,7 @@ _02178FCA:
 _02179036:
 	mov r0, #0x2a
 	lsl r0, r0, #4
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	ldr r1, _021791E4 // =0x00000B0C
 	mov r2, #1
 	str r0, [r6, r1]
@@ -828,14 +828,14 @@ _02179036:
 	mov r0, r5
 	mov r3, r1
 	str r4, [sp, #0x18]
-	blx Unknown2056570__Init
+	bl Unknown2056570__Init
 	mov r0, r5
 	mov r1, #0xa
-	blx Unknown2056570__Func_2056688
+	bl Unknown2056570__Func_2056688
 	mov r0, r5
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	mov r0, r5
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	mov r0, #0x2a
 	lsl r0, r0, #4
 	add r4, r4, r0
@@ -857,7 +857,7 @@ _02179036:
 _021790A4:
 	mov r0, #0xb
 	lsl r0, r0, #6
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	ldr r1, _021791EC // =0x00000B14
 	mov r2, #1
 	str r0, [r6, r1]
@@ -879,14 +879,14 @@ _021790A4:
 	mov r0, r5
 	mov r3, r1
 	str r4, [sp, #0x18]
-	blx Unknown2056570__Init
+	bl Unknown2056570__Init
 	mov r0, r5
 	mov r1, #0xa
-	blx Unknown2056570__Func_2056688
+	bl Unknown2056570__Func_2056688
 	mov r0, r5
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	mov r0, r5
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	mov r0, #0xb
 	lsl r0, r0, #6
 	add r4, r4, r0
@@ -921,7 +921,7 @@ _02179118:
 _0217912A:
 	mov r0, #0xa
 	lsl r0, r0, #6
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	ldr r1, _021791F4 // =0x00000B1C
 	mov r3, #0
 	str r0, [r4, r1]
@@ -943,14 +943,14 @@ _0217912A:
 	mov r0, r5
 	mov r2, r1
 	str r7, [sp, #0x18]
-	blx Unknown2056570__Init
+	bl Unknown2056570__Init
 	mov r0, r5
 	mov r1, #0xb
-	blx Unknown2056570__Func_2056688
+	bl Unknown2056570__Func_2056688
 	mov r0, r5
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	mov r0, r5
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	mov r0, #0xa
 	lsl r0, r0, #6
 	add r7, r7, r0
@@ -980,21 +980,21 @@ _0217912A:
 	mov r1, #0xb
 	ldr r0, [r0]
 	ldr r0, [r0, #8]
-	blx FileUnknown__GetAOUFile
-	blx GetBackgroundPalette
+	bl FileUnknown__GetAOUFile
+	bl GetBackgroundPalette
 	ldr r2, _021791F8 // =0x05000140
 	mov r1, #0
-	blx QueueCompressedPalette
+	bl QueueCompressedPalette
 	ldr r0, _021791FC // =0x02110460
 	ldr r3, _02179200 // =0x05000162
 	mov r1, #4
 	mov r2, #0
-	blx QueueUncompressedPalette
+	bl QueueUncompressedPalette
 	ldr r0, _021791FC // =0x02110460
 	ldr r3, _02179204 // =0x05000562
 	mov r1, #4
 	mov r2, #0
-	blx QueueUncompressedPalette
+	bl QueueUncompressedPalette
 	add sp, #0x44
 	pop {r4, r5, r6, r7, pc}
 	nop
@@ -1041,7 +1041,7 @@ TimeAttackRecordsMenu__Func_217922C: // 0x0217922C
 	add r5, #0x74
 _02179236:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r4, r4, #1
 	add r5, #0x64
 	cmp r4, #0x11
@@ -1050,7 +1050,7 @@ _02179236:
 	ldr r2, _02179254 // =0x000006A4
 	mov r0, #0
 	mov r1, r6
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	pop {r4, r5, r6, pc}
 	nop
 _02179254: .word 0x000006A4
@@ -1062,23 +1062,23 @@ TimeAttackRecordsMenu__Func_2179258: // 0x02179258
 	mov r4, r0
 	ldr r0, _02179290 // =0x00000718
 	add r0, r4, r0
-	blx ReleasePaletteAnimator
+	bl ReleasePaletteAnimator
 	ldr r0, _02179294 // =0x00000B54
 	ldr r0, [r4, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	mov r0, #0xb5
 	lsl r0, r0, #4
 	ldr r0, [r4, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, _02179298 // =0x00000B4C
 	ldr r0, [r4, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, _0217929C // =0x00000B48
 	ldr r0, [r4, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, _021792A0 // =0x00000B44
 	ldr r0, [r4, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	pop {r4, pc}
 	.align 2, 0
 _02179290: .word 0x00000718
@@ -1101,16 +1101,16 @@ TimeAttackRecordsMenu__Func_21792A4: // 0x021792A4
 	add r4, r7, r0
 _021792B6:
 	mov r0, r6
-	blx Unknown2056570__Func_2056670
+	bl Unknown2056570__Func_2056670
 	mov r0, r4
-	blx Unknown2056570__Func_2056670
+	bl Unknown2056570__Func_2056670
 	mov r0, #0xb3
 	lsl r0, r0, #4
 	ldr r0, [r5, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, _0217934C // =0x00000B1C
 	ldr r0, [r5, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [sp]
 	add r6, #0x30
 	add r0, r0, #1
@@ -1121,41 +1121,41 @@ _021792B6:
 	blt _021792B6
 	ldr r0, _02179350 // =0x000008F4
 	add r0, r7, r0
-	blx Unknown2056570__Func_2056670
+	bl Unknown2056570__Func_2056670
 	ldr r0, _02179354 // =0x000008C4
 	add r0, r7, r0
-	blx Unknown2056570__Func_2056670
+	bl Unknown2056570__Func_2056670
 	ldr r0, _02179358 // =0x00000B18
 	ldr r0, [r7, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, _0217935C // =0x00000B14
 	ldr r0, [r7, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, _02179360 // =0x00000894
 	add r0, r7, r0
-	blx Unknown2056570__Func_2056670
+	bl Unknown2056570__Func_2056670
 	ldr r0, _02179364 // =0x00000864
 	add r0, r7, r0
-	blx Unknown2056570__Func_2056670
+	bl Unknown2056570__Func_2056670
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	ldr r0, [r7, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, _02179368 // =0x00000B0C
 	ldr r0, [r7, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, _0217936C // =0x00000834
 	add r0, r7, r0
-	blx Unknown2056570__Func_2056670
+	bl Unknown2056570__Func_2056670
 	ldr r0, _02179370 // =0x00000804
 	add r0, r7, r0
-	blx Unknown2056570__Func_2056670
+	bl Unknown2056570__Func_2056670
 	ldr r0, _02179374 // =0x00000B08
 	ldr r0, [r7, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, _02179378 // =0x00000B04
 	ldr r0, [r7, r0]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02179348: .word 0x00000A14
@@ -1176,7 +1176,7 @@ _02179378: .word 0x00000B04
 	thumb_func_start TimeAttackRecordsMenu__Main
 TimeAttackRecordsMenu__Main: // 0x0217937C
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r0, _021793A4 // =0x00000B58
 	ldr r0, [r4, r0]
@@ -1184,14 +1184,14 @@ TimeAttackRecordsMenu__Main: // 0x0217937C
 	beq _0217939E
 	ldr r0, _021793A8 // =0x000007E8
 	add r0, r4, r0
-	blx TouchField__Process
+	bl TouchField__Process
 	ldr r1, _021793A4 // =0x00000B58
 	mov r0, r4
 	ldr r1, [r4, r1]
 	blx r1
 	pop {r4, pc}
 _0217939E:
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	pop {r4, pc}
 	.align 2, 0
 _021793A4: .word 0x00000B58
@@ -1201,7 +1201,7 @@ _021793A8: .word 0x000007E8
 	thumb_func_start TimeAttackRecordsMenu__Destructor
 TimeAttackRecordsMenu__Destructor: // 0x021793AC
 	push {r4, lr}
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackRecordsMenu__Func_2179208
 	ldr r0, [r4]
@@ -1314,7 +1314,7 @@ _0217947E:
 	mov r0, #0
 	str r0, [sp, #0x28]
 	mov r0, #0xb
-	blx PlaySysSfx
+	bl PlaySysSfx
 	b _021795F8
 _0217948E:
 	ldrh r0, [r5, #8]
@@ -1348,7 +1348,7 @@ _021794C0:
 	str r0, [sp, #0x2c]
 	str r0, [sp, #0x28]
 	mov r0, #0xb
-	blx PlaySysSfx
+	bl PlaySysSfx
 	b _021795F8
 _021794CE:
 	ldr r0, _02179734 // =padInput
@@ -1363,7 +1363,7 @@ _021794E0:
 	mov r0, #1
 	str r0, [sp, #0x24]
 	mov r0, #2
-	blx PlaySysSfx
+	bl PlaySysSfx
 	b _021795F8
 _021794EC:
 	mov r0, r5
@@ -1418,7 +1418,7 @@ _02179530:
 	add r1, sp, #0x30
 	bl TimeAttackRecordsMenu__Func_217A25C
 	mov r0, #3
-	blx PlaySysSfx
+	bl PlaySysSfx
 	b _021795F8
 _02179560:
 	mov r0, r5
@@ -1473,7 +1473,7 @@ _021795A4:
 	add r1, sp, #0x30
 	bl TimeAttackRecordsMenu__Func_217A25C
 	mov r0, #3
-	blx PlaySysSfx
+	bl PlaySysSfx
 	b _021795F8
 _021795D4:
 	ldr r0, _02179738 // =0x000007AC
@@ -1492,7 +1492,7 @@ _021795D4:
 _021795F0:
 	mov r0, #1
 	str r0, [sp, #0x20]
-	blx PlaySysSfx
+	bl PlaySysSfx
 _021795F8:
 	mov r1, #1
 	mov r0, r5
@@ -1581,7 +1581,7 @@ _02179682:
 	mov r2, #1
 	mov r3, #8
 	str r1, [sp, #0x18]
-	blx SaveSpriteButton__Func_20651D4
+	bl SaveSpriteButton__Func_20651D4
 	mov r0, #0
 	str r0, [r5, #4]
 	ldr r1, _02179748 // =TimeAttackRecordsMenu__State_217974C
@@ -1645,17 +1645,17 @@ TimeAttackRecordsMenu__State_217974C: // 0x0217974C
 	push {r4, lr}
 	mov r4, r0
 	bl TimeAttackMenu__Func_216C670
-	blx SaveSpriteButton__RunState2
+	bl SaveSpriteButton__RunState2
 	mov r1, #1
 	mov r0, r4
 	lsl r1, r1, #0xc
 	bl TimeAttackRecordsMenu__Func_217999C
 	bl TimeAttackMenu__Func_216C670
-	blx SaveSpriteButton__CheckInvalidState2
+	bl SaveSpriteButton__CheckInvalidState2
 	cmp r0, #0
 	beq _021797C4
 	bl TimeAttackMenu__Func_216C670
-	blx SaveSpriteButton__Func_2065498
+	bl SaveSpriteButton__Func_2065498
 	cmp r0, #0
 	bne _021797BA
 	mov r0, r4
@@ -1716,7 +1716,7 @@ TimeAttackRecordsMenu__State_21797D8: // 0x021797D8
 	ldr r1, _0217984C // =0x00000333
 	mov r0, #0
 	mov r2, #4
-	blx Unknown2051334__Func_2051534
+	bl Unknown2051334__Func_2051534
 	b _0217980A
 _021797F6:
 	mov r0, #6
@@ -1727,7 +1727,7 @@ _021797F6:
 	lsl r1, r1, #0xc
 	mov r2, #0x14
 	sub r3, r3, #4
-	blx Unknown2051334__Func_2051534
+	bl Unknown2051334__Func_2051534
 _0217980A:
 	lsl r0, r0, #0x10
 	asr r1, r0, #0x10
@@ -2200,14 +2200,14 @@ _02179B78:
 	beq _02179BA8
 	mov r0, r6
 	mov r1, #0x13
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02179BA8:
 	ldrh r0, [r4, #0xc]
 	cmp r0, #0x14
 	beq _02179BB6
 	mov r0, r4
 	mov r1, #0x14
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02179BB6:
 	mov r0, r6
 	mov r1, #2
@@ -2223,14 +2223,14 @@ _02179BC8:
 	beq _02179BD4
 	mov r0, r6
 	mov r1, #0x12
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02179BD4:
 	ldrh r0, [r4, #0xc]
 	cmp r0, #0x15
 	beq _02179BE2
 	mov r0, r4
 	mov r1, #0x15
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02179BE2:
 	mov r0, r6
 	mov r1, #3
@@ -2281,12 +2281,12 @@ TimeAttackRecordsMenu__Func_2179C3C: // 0x02179C3C
 	mov r7, r3
 	mov r2, r1
 	mov r5, r0
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r0, r4, r7
 	strh r0, [r5, #8]
 	mov r0, r5
 	strh r6, [r5, #0xa]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	pop {r3, r4, r5, r6, r7, pc}
 	thumb_func_end TimeAttackRecordsMenu__Func_2179C3C
 
@@ -2299,13 +2299,13 @@ TimeAttackRecordsMenu__Func_2179C5C: // 0x02179C5C
 	mov r2, r1
 	mov r5, r0
 	mov r7, r3
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	cmp r4, #0
 	beq _02179C7E
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	b _02179C80
 _02179C7E:
 	mov r4, r5
@@ -2323,7 +2323,7 @@ _02179C80:
 	strh r0, [r5, #8]
 	mov r0, r5
 	strh r7, [r5, #0xa]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _02179C9E:
 	mov r0, #1
 	ldr r1, [sp, #0x1c]
@@ -2338,7 +2338,7 @@ _02179C9E:
 	strh r0, [r4, #8]
 	mov r0, r4
 	strh r7, [r4, #0xa]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _02179CBC:
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -2364,7 +2364,7 @@ TimeAttackRecordsMenu__Func_2179CC0: // 0x02179CC0
 	cmp r0, r1
 	beq _02179CE8
 	mov r0, r4
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02179CE8:
 	add r2, sp, #8
 	mov r1, #0x10
@@ -2389,7 +2389,7 @@ _02179CFA:
 	cmp r0, r1
 	beq _02179D1A
 	mov r0, r6
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02179D1A:
 	add r3, sp, #8
 	mov r1, #0x10
@@ -2422,21 +2422,21 @@ TimeAttackRecordsMenu__Func_2179D30: // 0x02179D30
 	ldr r1, [sp, #0x24]
 	str r0, [sp, #0x28]
 	add r0, r1, r0
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	ldr r1, [sp, #0x24]
 	ldr r0, [sp, #0x28]
 	add r0, r1, r0
-	blx Unknown2056570__Func_2056834
+	bl Unknown2056570__Func_2056834
 	str r0, [sp, #0x1c]
 	cmp r5, #0
 	bne _02179D78
 	mov r0, #0x2d
-	blx GetFontCharacterFromUTF
+	bl GetFontCharacterFromUTF
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
 	add r1, sp, #0x2c
 	mov r2, #0x10
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	b _02179D92
 _02179D78:
 	mov r7, #0
@@ -2445,7 +2445,7 @@ _02179D78:
 	add r4, sp, #0x2c
 _02179D80:
 	ldrh r0, [r5]
-	blx GetFontCharacterFromUTF
+	bl GetFontCharacterFromUTF
 	strh r0, [r4]
 	add r7, r7, #1
 	add r5, r5, #2
@@ -2474,7 +2474,7 @@ _02179D9E:
 	ldr r0, [sp, #0x20]
 	ldr r3, [sp, #0x1c]
 	mov r2, r7
-	blx FontFile__Func_2052B7C
+	bl FontFile__Func_2052B7C
 	add r5, r5, #1
 	add r4, r4, #2
 	cmp r5, r6
@@ -2483,7 +2483,7 @@ _02179DC6:
 	ldr r1, [sp, #0x24]
 	ldr r0, [sp, #0x28]
 	add r0, r1, r0
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	add sp, #0x3c
 	pop {r4, r5, r6, r7, pc}
 	thumb_func_end TimeAttackRecordsMenu__Func_2179D30
@@ -2497,9 +2497,9 @@ TimeAttackRecordsMenu__Func_2179DD4: // 0x02179DD4
 	mov r0, #0x30
 	mul r5, r0
 	add r0, r4, r5
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	add r0, r4, r5
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	pop {r3, r4, r5, pc}
 	nop
 _02179DF0: .word 0x00000804
@@ -2515,8 +2515,8 @@ TimeAttackRecordsMenu__Func_2179DF4: // 0x02179DF4
 	ldr r0, [r0, #8]
 	mov r1, #0xb
 	mov r6, r2
-	blx FileUnknown__GetAOUFile
-	blx GetBackgroundPixels
+	bl FileUnknown__GetAOUFile
+	bl GetBackgroundPixels
 	str r0, [sp, #0x1c]
 	ldr r0, _02179EEC // =0x00000864
 	add r0, r5, r0
@@ -2526,11 +2526,11 @@ TimeAttackRecordsMenu__Func_2179DF4: // 0x02179DF4
 	ldr r1, [sp, #0x20]
 	str r0, [sp, #0x24]
 	add r0, r1, r0
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	ldr r1, [sp, #0x20]
 	ldr r0, [sp, #0x24]
 	add r0, r1, r0
-	blx Unknown2056570__Func_2056834
+	bl Unknown2056570__Func_2056834
 	mov r7, r0
 	ldr r0, _02179EF0 // =0x0000FFFF
 	cmp r4, r0
@@ -2553,14 +2553,14 @@ _02179E4C:
 	add r1, sp, #0x2c
 	add r2, #2
 	add r3, sp, #0x28
-	blx AkUtilFrameToTime
+	bl AkUtilFrameToTime
 	add r0, sp, #0x28
 	ldrh r1, [r0, #4]
 	strh r1, [r0, #6]
 	mov r1, #0xa
 	strh r1, [r0, #8]
 	ldrh r0, [r0, #2]
-	blx _s32_div_f
+	bl _s32_div_f
 	add r2, sp, #0x28
 	strh r0, [r2, #0xa]
 	ldrh r0, [r2, #0xa]
@@ -2575,7 +2575,7 @@ _02179E4C:
 	mov r0, #0xb
 	strh r0, [r2, #0xe]
 	ldrh r0, [r2]
-	blx _s32_div_f
+	bl _s32_div_f
 	add r1, sp, #0x28
 	strh r0, [r1, #0x10]
 	ldrh r2, [r1, #0x10]
@@ -2611,7 +2611,7 @@ _02179EA6:
 	add r0, r0, #4
 	lsr r2, r2, #0x10
 	mov r3, #0
-	blx BackgroundUnknown__CopyPixels
+	bl BackgroundUnknown__CopyPixels
 	add r4, #8
 	lsl r0, r4, #0x10
 	add r6, r6, #1
@@ -2622,7 +2622,7 @@ _02179EA6:
 	ldr r1, [sp, #0x20]
 	ldr r0, [sp, #0x24]
 	add r0, r1, r0
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	add sp, #0x3c
 	pop {r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -2639,9 +2639,9 @@ TimeAttackRecordsMenu__Func_2179EF4: // 0x02179EF4
 	mov r0, #0x30
 	mul r5, r0
 	add r0, r4, r5
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	add r0, r4, r5
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	pop {r3, r4, r5, pc}
 	nop
 _02179F10: .word 0x00000864
@@ -2658,8 +2658,8 @@ TimeAttackRecordsMenu__Func_2179F14: // 0x02179F14
 	mov r1, #0xc
 	str r2, [sp, #4]
 	mov r5, r3
-	blx FileUnknown__GetAOUFile
-	blx GetBackgroundPixels
+	bl FileUnknown__GetAOUFile
+	bl GetBackgroundPixels
 	mov r7, r0
 	ldr r0, _0217A20C // =0x000008C4
 	add r0, r4, r0
@@ -2669,11 +2669,11 @@ TimeAttackRecordsMenu__Func_2179F14: // 0x02179F14
 	ldr r1, [sp, #0xc]
 	str r0, [sp, #0x10]
 	add r0, r1, r0
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	ldr r1, [sp, #0xc]
 	ldr r0, [sp, #0x10]
 	add r0, r1, r0
-	blx Unknown2056570__Func_2056834
+	bl Unknown2056570__Func_2056834
 	str r0, [sp, #8]
 	ldr r0, [sp]
 	mov r1, #0
@@ -2686,11 +2686,11 @@ TimeAttackRecordsMenu__Func_2179F14: // 0x02179F14
 	ldr r3, [sp, #4]
 	add r0, sp, #0x2c
 	add r1, sp, #0x20
-	blx RTC_ConvertSecondToDateTime
+	bl RTC_ConvertSecondToDateTime
 	mov r1, #0xfa
 	ldr r0, [sp, #0x2c]
 	lsl r1, r1, #2
-	blx _u32_div_f
+	bl _u32_div_f
 	add r1, sp, #0x14
 	strb r0, [r1, #8]
 	mov r0, #0xfa
@@ -2701,7 +2701,7 @@ TimeAttackRecordsMenu__Func_2179F14: // 0x02179F14
 	sub r0, r2, r0
 	mov r1, #0x64
 	str r0, [sp, #0x2c]
-	blx _u32_div_f
+	bl _u32_div_f
 	add r1, sp, #0x14
 	strb r0, [r1, #9]
 	ldrb r1, [r1, #9]
@@ -2711,7 +2711,7 @@ TimeAttackRecordsMenu__Func_2179F14: // 0x02179F14
 	sub r0, r2, r0
 	mov r1, #0xa
 	str r0, [sp, #0x2c]
-	blx _u32_div_f
+	bl _u32_div_f
 	add r2, sp, #0x14
 	strb r0, [r2, #0xa]
 	ldrb r0, [r2, #0xa]
@@ -2726,7 +2726,7 @@ TimeAttackRecordsMenu__Func_2179F14: // 0x02179F14
 	sub r0, r3, r0
 	str r0, [sp, #0x2c]
 	ldr r0, [sp, #0x30]
-	blx _u32_div_f
+	bl _u32_div_f
 	add r2, sp, #0x14
 	strb r0, [r2, #6]
 	ldrb r0, [r2, #6]
@@ -2741,7 +2741,7 @@ TimeAttackRecordsMenu__Func_2179F14: // 0x02179F14
 	sub r0, r3, r0
 	str r0, [sp, #0x30]
 	ldr r0, [sp, #0x34]
-	blx _u32_div_f
+	bl _u32_div_f
 	add r2, sp, #0x14
 	strb r0, [r2, #4]
 	ldrb r0, [r2, #4]
@@ -2756,7 +2756,7 @@ TimeAttackRecordsMenu__Func_2179F14: // 0x02179F14
 	sub r0, r3, r0
 	str r0, [sp, #0x34]
 	ldr r0, [sp, #0x20]
-	blx _u32_div_f
+	bl _u32_div_f
 	add r2, sp, #0x14
 	strb r0, [r2, #2]
 	ldrb r0, [r2, #2]
@@ -2771,7 +2771,7 @@ TimeAttackRecordsMenu__Func_2179F14: // 0x02179F14
 	sub r0, r3, r0
 	str r0, [sp, #0x20]
 	ldr r0, [sp, #0x24]
-	blx _u32_div_f
+	bl _u32_div_f
 	add r1, sp, #0x14
 	strb r0, [r1]
 	ldrb r2, [r1]
@@ -2792,27 +2792,27 @@ _0217A042:
 	add r0, sp, #0x1c
 	mov r1, #0xa
 	mov r2, #4
-	blx MI_CpuFill8
+	bl MI_CpuFill8
 	add r0, sp, #0x18
 	add r0, #2
 	mov r1, #0xa
 	mov r2, #2
-	blx MI_CpuFill8
+	bl MI_CpuFill8
 	add r0, sp, #0x18
 	mov r1, #0xa
 	mov r2, #2
-	blx MI_CpuFill8
+	bl MI_CpuFill8
 	add r0, sp, #0x14
 	add r0, #2
 	mov r1, #0xa
 	mov r2, #2
-	blx MI_CpuFill8
+	bl MI_CpuFill8
 	add r0, sp, #0x14
 	mov r1, #0xa
 	mov r2, #2
-	blx MI_CpuFill8
+	bl MI_CpuFill8
 _0217A078:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _0217A0A2
@@ -2830,7 +2830,7 @@ _0217A08E: // jump table
 	.hword _0217A09A - _0217A08E - 2 // case 4
 	.hword _0217A09A - _0217A08E - 2 // case 5
 _0217A09A:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	b _0217A0A4
 _0217A0A2:
@@ -2841,7 +2841,7 @@ _0217A0A4:
 	add r0, sp, #0x1c
 	add r1, sp, #0x3c
 	mov r2, #4
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xb
 	add r0, sp, #0x3c
 	strb r1, [r0, #4]
@@ -2850,14 +2850,14 @@ _0217A0A4:
 	add r0, #2
 	add r1, #1
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xb
 	add r0, sp, #0x3c
 	strb r1, [r0, #7]
 	add r0, sp, #0x18
 	add r1, sp, #0x44
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xff
 	add r0, sp, #0x3c
 	strb r1, [r0, #0xa]
@@ -2866,7 +2866,7 @@ _0217A0A4:
 	add r0, #2
 	add r1, #3
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xc
 	add r0, sp, #0x3c
 	strb r1, [r0, #0xd]
@@ -2874,10 +2874,10 @@ _0217A0A4:
 	add r0, sp, #0x14
 	add r1, #2
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	b _0217A1D8
 _0217A0FE:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _0217A128
@@ -2895,7 +2895,7 @@ _0217A114: // jump table
 	.hword _0217A120 - _0217A114 - 2 // case 4
 	.hword _0217A120 - _0217A114 - 2 // case 5
 _0217A120:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	b _0217A12A
 _0217A128:
@@ -2907,7 +2907,7 @@ _0217A12A:
 	bne _0217A186
 	add r0, #2
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xb
 	add r0, sp, #0x3c
 	strb r1, [r0, #2]
@@ -2915,7 +2915,7 @@ _0217A12A:
 	add r0, sp, #0x18
 	add r1, #3
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xb
 	add r0, sp, #0x3c
 	strb r1, [r0, #5]
@@ -2923,7 +2923,7 @@ _0217A12A:
 	add r0, sp, #0x1c
 	add r1, #2
 	mov r2, #4
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xff
 	add r0, sp, #0x3c
 	strb r1, [r0, #0xa]
@@ -2932,7 +2932,7 @@ _0217A12A:
 	add r0, #2
 	add r1, #3
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xc
 	add r0, sp, #0x3c
 	strb r1, [r0, #0xd]
@@ -2940,11 +2940,11 @@ _0217A12A:
 	add r0, sp, #0x14
 	add r1, #2
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	b _0217A1D8
 _0217A186:
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xb
 	add r0, sp, #0x3c
 	strb r1, [r0, #2]
@@ -2953,7 +2953,7 @@ _0217A186:
 	add r0, #2
 	add r1, #3
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xb
 	add r0, sp, #0x3c
 	strb r1, [r0, #5]
@@ -2961,7 +2961,7 @@ _0217A186:
 	add r0, sp, #0x1c
 	add r1, #2
 	mov r2, #4
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xff
 	add r0, sp, #0x3c
 	strb r1, [r0, #0xa]
@@ -2970,7 +2970,7 @@ _0217A186:
 	add r0, #2
 	add r1, #3
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	mov r1, #0xc
 	add r0, sp, #0x3c
 	strb r1, [r0, #0xd]
@@ -2978,7 +2978,7 @@ _0217A186:
 	add r0, sp, #0x14
 	add r1, #2
 	mov r2, #2
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 _0217A1D8:
 	mov r4, #0
 	mov r6, r4
@@ -3002,7 +3002,7 @@ _0217A1EE:
 	ldr r1, [sp, #0xc]
 	ldr r0, [sp, #0x10]
 	add r0, r1, r0
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	add sp, #0x4c
 	pop {r4, r5, r6, r7, pc}
 	nop
@@ -3029,7 +3029,7 @@ TimeAttackRecordsMenu__Func_217A210: // 0x0217A210
 	mov r1, #0xd
 	lsr r2, r2, #0x10
 	str r3, [sp, #0x18]
-	blx BackgroundUnknown__CopyPixels
+	bl BackgroundUnknown__CopyPixels
 	add sp, #0x1c
 	pop {r3, r4, pc}
 	thumb_func_end TimeAttackRecordsMenu__Func_217A210
@@ -3043,9 +3043,9 @@ TimeAttackRecordsMenu__Func_217A23C: // 0x0217A23C
 	mov r0, #0x30
 	mul r5, r0
 	add r0, r4, r5
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	add r0, r4, r5
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	pop {r3, r4, r5, pc}
 	nop
 _0217A258: .word 0x000008C4
@@ -3062,21 +3062,21 @@ TimeAttackRecordsMenu__Func_217A25C: // 0x0217A25C
 	mov r0, #0x30
 	str r1, [sp, #0x1c]
 	mov r5, r2
-	blx GetFontCharacterFromUTF
+	bl GetFontCharacterFromUTF
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
 	str r0, [sp, #0x28]
 	mov r0, #0x2d
-	blx GetFontCharacterFromUTF
+	bl GetFontCharacterFromUTF
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
 	str r0, [sp, #0x24]
 	mov r0, #0x27
-	blx GetFontCharacterFromUTF
+	bl GetFontCharacterFromUTF
 	add r1, sp, #0x30
 	strh r0, [r1, #8]
 	mov r0, #0x22
-	blx GetFontCharacterFromUTF
+	bl GetFontCharacterFromUTF
 	add r1, sp, #0x30
 	strh r0, [r1, #0xe]
 	mov r0, #0
@@ -3089,9 +3089,9 @@ TimeAttackRecordsMenu__Func_217A25C: // 0x0217A25C
 	str r0, [sp, #0x20]
 _0217A2A8:
 	ldr r0, [sp, #0x20]
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	ldr r0, [sp, #0x20]
-	blx Unknown2056570__Func_2056834
+	bl Unknown2056570__Func_2056834
 	mov r6, r0
 	ldr r0, [sp, #0x1c]
 	ldr r1, _0217A398 // =0x0000FFFF
@@ -3102,13 +3102,13 @@ _0217A2A8:
 	add r1, sp, #0x34
 	add r2, #2
 	add r3, sp, #0x30
-	blx AkUtilFrameToTime
+	bl AkUtilFrameToTime
 	add r0, sp, #0x30
 	ldrh r1, [r0, #4]
 	strh r1, [r0, #6]
 	ldrh r0, [r0, #2]
 	mov r1, #0xa
-	blx _s32_div_f
+	bl _s32_div_f
 	add r2, sp, #0x30
 	strh r0, [r2, #0xa]
 	ldrh r0, [r2, #0xa]
@@ -3121,7 +3121,7 @@ _0217A2A8:
 	ldrh r0, [r2, #2]
 	strh r0, [r2, #0xc]
 	ldrh r0, [r2]
-	blx _s32_div_f
+	bl _s32_div_f
 	add r1, sp, #0x30
 	strh r0, [r1, #0x10]
 	ldrh r0, [r1, #0x10]
@@ -3181,13 +3181,13 @@ _0217A34A:
 	mov r0, r7
 	mov r2, #0
 	mov r3, r6
-	blx FontFile__Func_2052B7C
+	bl FontFile__Func_2052B7C
 	add r4, r4, #1
 	add r5, r5, #2
 	cmp r4, #7
 	blt _0217A34A
 	ldr r0, [sp, #0x20]
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	ldr r0, [sp, #0x20]
 	add r0, #0x30
 	str r0, [sp, #0x20]
@@ -3217,9 +3217,9 @@ TimeAttackRecordsMenu__Func_217A39C: // 0x0217A39C
 	add r5, r2, r0
 _0217A3AA:
 	mov r0, r5
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	mov r0, r5
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	add r4, r4, #1
 	add r5, #0x30
 	cmp r4, #5
@@ -3268,7 +3268,7 @@ _0217A3E4:
 	ldr r0, _0217A4A0 // =0x00000B44
 	mov r2, r1
 	ldr r0, [r5, r0]
-	blx Mappings__LoadUnknown
+	bl Mappings__LoadUnknown
 	add sp, #0x20
 	pop {r3, r4, r5, r6, r7, pc}
 _0217A410:
@@ -3285,30 +3285,30 @@ _0217A41A:
 	add r0, r5, r0
 	mov r1, #0
 	add r2, r3, r2
-	blx SetPaletteAnimationTarget
+	bl SetPaletteAnimationTarget
 	ldr r1, _0217A4A8 // =0x0217E278
 	ldr r0, _0217A4A4 // =0x00000718
 	ldrb r1, [r1, r6]
 	add r0, r5, r0
-	blx SetPaletteAnimation
+	bl SetPaletteAnimation
 	ldr r0, _0217A4A4 // =0x00000718
 	add r0, r5, r0
-	blx AnimatePalette
+	bl AnimatePalette
 	ldr r0, _0217A4A4 // =0x00000718
 	add r0, r5, r0
-	blx DrawAnimatedPalette
+	bl DrawAnimatedPalette
 	ldr r0, _0217A4A4 // =0x00000718
 	add r7, #0xa
 	lsl r1, r7, #0x10
 	add r0, r5, r0
 	lsr r1, r1, #0x10
-	blx SetPaletteAnimation
+	bl SetPaletteAnimation
 	ldr r0, _0217A4A4 // =0x00000718
 	add r0, r5, r0
-	blx AnimatePalette
+	bl AnimatePalette
 	ldr r0, _0217A4A4 // =0x00000718
 	add r0, r5, r0
-	blx DrawAnimatedPalette
+	bl DrawAnimatedPalette
 	cmp r4, #0
 	bne _0217A46C
 	mov r2, #0
@@ -3336,7 +3336,7 @@ _0217A46E:
 	ldr r0, _0217A4AC // =0x00000B48
 	ldr r0, [r2, r0]
 	mov r2, r1
-	blx Mappings__LoadUnknown
+	bl Mappings__LoadUnknown
 	add sp, #0x20
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
@@ -3379,7 +3379,7 @@ _0217A4C6:
 	ldr r0, _0217A534 // =0x00000B44
 	mov r2, r1
 	ldr r0, [r5, r0]
-	blx Mappings__LoadUnknown
+	bl Mappings__LoadUnknown
 	add sp, #0x20
 	pop {r3, r4, r5, pc}
 _0217A4F2:
@@ -3412,7 +3412,7 @@ _0217A500:
 	lsl r0, r0, #4
 	ldr r0, [r2, r0]
 	mov r2, r1
-	blx Mappings__LoadUnknown
+	bl Mappings__LoadUnknown
 	add sp, #0x20
 	pop {r3, r4, r5, pc}
 	nop
@@ -3440,19 +3440,19 @@ _0217A54E:
 	add r0, r5, r0
 	mov r1, #0
 	add r2, r3, r2
-	blx SetPaletteAnimationTarget
+	bl SetPaletteAnimationTarget
 	ldr r0, _0217A57C // =0x00000718
 	add r4, #0xd
 	lsl r1, r4, #0x10
 	add r0, r5, r0
 	lsr r1, r1, #0x10
-	blx SetPaletteAnimation
+	bl SetPaletteAnimation
 	ldr r0, _0217A57C // =0x00000718
 	add r0, r5, r0
-	blx AnimatePalette
+	bl AnimatePalette
 	ldr r0, _0217A57C // =0x00000718
 	add r0, r5, r0
-	blx DrawAnimatedPalette
+	bl DrawAnimatedPalette
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _0217A57C: .word 0x00000718
@@ -3487,23 +3487,23 @@ TimeAttackRecordsMenu__Func_217A584: // 0x0217A584
 	add r1, #0x50
 	add r0, r4, r0
 	str r3, [r4, r1]
-	blx TouchField__ResetArea
+	bl TouchField__ResetArea
 	ldr r0, _0217A600 // =0x00000774
 	add r0, r4, r0
-	blx TouchField__ResetArea
+	bl TouchField__ResetArea
 	mov r0, #0x65
 	lsl r0, r0, #4
 	add r0, r4, r0
 	mov r1, #0x25
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	pop {r4, pc}
 _0217A5D2:
 	add r0, r0, #4
 	add r0, r4, r0
-	blx TouchField__ResetArea
+	bl TouchField__ResetArea
 	ldr r0, _0217A600 // =0x00000774
 	add r0, r4, r0
-	blx TouchField__ResetArea
+	bl TouchField__ResetArea
 	mov r2, #0x75
 	lsl r2, r2, #4
 	ldr r0, [r4, r2]
@@ -3587,7 +3587,7 @@ TimeAttackRecordsMenu__Func_217A64C: // 0x0217A64C
 	str r0, [r4, #0x3c]
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r1, [r4, #0x3c]
 	mov r0, #0x80
 	bic r1, r0
@@ -3597,7 +3597,7 @@ TimeAttackRecordsMenu__Func_217A64C: // 0x0217A64C
 	mov r0, #0x60
 	strh r0, [r4, #0xa]
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r1, [r4, #0x3c]
 	mov r0, #0x80
 	orr r0, r1
@@ -3607,7 +3607,7 @@ TimeAttackRecordsMenu__Func_217A64C: // 0x0217A64C
 	mov r0, #0x60
 	strh r0, [r4, #0xa]
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _0217A698:
 	pop {r4, pc}
 	nop
@@ -3635,12 +3635,12 @@ TimeAttackRecordsMenu__Func_217A6A0: // 0x0217A6A0
 	str r1, [r4, r0]
 	add r0, r2, #4
 	add r0, r4, r0
-	blx TouchField__ResetArea
+	bl TouchField__ResetArea
 	pop {r4, pc}
 _0217A6CC:
 	add r0, r2, #4
 	add r0, r4, r0
-	blx TouchField__ResetArea
+	bl TouchField__ResetArea
 	ldr r1, _0217A6E4 // =0x000007C4
 	mov r0, #0x40
 	ldr r2, [r4, r1]
@@ -3706,18 +3706,18 @@ _0217A736:
 	cmp r0, r1
 	beq _0217A742
 	mov r0, r4
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _0217A742:
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, #0x40
 	strh r0, [r4, #8]
 	mov r0, #0xa8
 	strh r0, [r4, #0xa]
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _0217A75A:
 	pop {r4, pc}
 	.align 2, 0
@@ -3727,7 +3727,7 @@ _0217A75C: .word 0x000007AC
 	thumb_func_start TimeAttackRecordsMenu__Func_217A760
 TimeAttackRecordsMenu__Func_217A760: // 0x0217A760
 	push {r3, lr}
-	blx IsTouchInputEnabled
+	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _0217A778
 	ldr r0, _0217A79C // =touchInput
@@ -3766,7 +3766,7 @@ _0217A79C: .word touchInput
 	thumb_func_start TimeAttackRecordsMenu__Func_217A7A0
 TimeAttackRecordsMenu__Func_217A7A0: // 0x0217A7A0
 	push {r3, lr}
-	blx IsTouchInputEnabled
+	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _0217A7B8
 	ldr r0, _0217A7DC // =touchInput
@@ -3862,10 +3862,10 @@ _0217A82A:
 	b _0217A848
 _0217A83A:
 	mov r0, r4
-	blx MenuHelpers__GetProgressFromStageID
+	bl MenuHelpers__GetProgressFromStageID
 	mov r1, #0
 	mov r2, #1
-	blx MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckProgress
 _0217A848:
 	cmp r0, #0
 	beq _0217A85A
@@ -3986,7 +3986,7 @@ _0217A904: .word 0x0000FFFF
 	thumb_func_start TimeAttackRecordsMenu__CheckProgressUnknown
 TimeAttackRecordsMenu__CheckProgressUnknown: // 0x0217A908
 	push {r3, lr}
-	blx SaveGame__GetBlock1GameProgress
+	bl SaveGame__GetBlock1GameProgress
 	cmp r0, #0x10
 	blt _0217A916
 	mov r0, #1

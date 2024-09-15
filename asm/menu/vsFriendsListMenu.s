@@ -71,7 +71,7 @@ VSFriendListMenu__Func_2171384: // 0x02171384
 	bl TaskCreate_
 	str r0, [r5, #4]
 	mov r0, #0x15
-	blx VSMenu__SetNetworkMessageSequence
+	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, [r5, #4]
 	bl GetTaskWork_
 	mov r4, r0
@@ -86,9 +86,9 @@ VSFriendListMenu__Func_2171384: // 0x02171384
 	bl SaveGame__RefreshFriendList
 	ldr r1, [r4]
 	str r0, [r1, #8]
-	blx VSMenu__GetFontWindow
+	bl VSMenu__GetFontWindow
 	str r0, [r4, #0x30]
-	blx VSMenu__GetYesNoButton
+	bl VSMenu__GetYesNoButton
 	str r0, [r4, #0x34]
 	mov r0, #0
 	strh r0, [r4, #8]
@@ -660,11 +660,11 @@ _02171B54:
 	mov r1, #0
 	bl VSFriendListMenu__Func_2171FB0
 	ldr r0, _02171BE0 // =0x0000FFFF
-	blx VSMenu__SetNetworkMessageSequence
+	bl VSMenu__SetNetworkMessageSequence
 	cmp r6, #0
 	bne _02171BC8
 	ldr r0, _02171BE0 // =0x0000FFFF
-	blx VSMenu__Func_21667F0
+	bl VSMenu__Func_21667F0
 _02171BC8:
 	ldr r0, _02171BE4 // =VSFriendListMenu__Main_2171DB4
 	mov r1, #0
@@ -714,14 +714,14 @@ _02171C5C:
 	cmp r0, #4
 	beq _02171C70
 	ldr r0, _02171C9C // =0x0000FFFF
-	blx VSMenu__SetNetworkMessageSequence
+	bl VSMenu__SetNetworkMessageSequence
 _02171C70:
 	cmp r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r4
 	bl VSFriendListMenu__Func_2172278
 	mov r0, #0x15
-	blx VSMenu__SetNetworkMessageSequence
+	bl VSMenu__SetNetworkMessageSequence
 	mov r1, #0
 	ldr r0, _02171CA0 // =VSFriendListMenu__Main
 	str r1, [r4, #4]
@@ -863,7 +863,7 @@ _02171E4C:
 	beq _02171EB4
 	mov r0, #0x16
 	str r1, [r9, #0xc]
-	blx VSMenu__SetNetworkMessageSequence
+	bl VSMenu__SetNetworkMessageSequence
 	mov r1, #0
 	str r1, [sp]
 	str r1, [sp, #4]
@@ -1419,12 +1419,12 @@ VSFriendListMenu__Func_21725C4: // 0x021725C4
 	beq _021725E0
 	ldr r0, _021725F0 // =VSFriendListMenu__Func_217260C
 	mov r1, #0
-	blx VSMenu__SetTouchCallback
+	bl VSMenu__SetTouchCallback
 	ldmia sp!, {r3, pc}
 _021725E0:
 	mov r0, #0
 	mov r1, r0
-	blx VSMenu__SetTouchCallback
+	bl VSMenu__SetTouchCallback
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021725F0: .word VSFriendListMenu__Func_217260C
@@ -1433,7 +1433,7 @@ _021725F0: .word VSFriendListMenu__Func_217260C
 	arm_func_start VSFriendListMenu__Func_21725F4
 VSFriendListMenu__Func_21725F4: // 0x021725F4
 	stmdb sp!, {r3, lr}
-	blx VSMenu__GetUnknownTouchResponseFlags
+	bl VSMenu__GetUnknownTouchResponseFlags
 	tst r0, #0x40000
 	movne r0, #1
 	moveq r0, #0

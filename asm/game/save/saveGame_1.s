@@ -18,10 +18,10 @@ SaveGame__LoadData2: // 0x0205E49C
 	str r0, [sp, #0x68]
 	mov r0, #1
 	lsl r0, r0, #0xa
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	ldr r1, _0205E7C0 // =0xEDB88320
 	str r0, [sp, #0x64]
-	blx MATHi_CRC32InitTableRev
+	bl MATHi_CRC32InitTableRev
 	mov r0, #1
 	str r0, [sp, #0x60]
 	b _0205EAC6
@@ -50,7 +50,7 @@ _0205E4D4:
 	str r0, [sp, #0x50]
 	add r0, #8
 	str r0, [sp, #0x50]
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	mov r5, r0
 	mov r0, #0x37
 	lsl r0, r0, #8
@@ -65,7 +65,7 @@ _0205E4D4:
 	ldr r0, [sp, #0x14]
 	add r0, r1, r0
 	mov r1, r5
-	blx ReadFromCardBackup
+	bl ReadFromCardBackup
 	cmp r0, #0
 	bne _0205E516
 	mov r0, #2
@@ -75,7 +75,7 @@ _0205E516:
 	ldr r0, [sp, #0x50]
 	mov r1, #2
 	sub r0, #8
-	blx FX_DivS32
+	bl FX_DivS32
 	str r0, [sp, #0x58]
 	mov r0, r5
 	mov r4, #0
@@ -95,7 +95,7 @@ _0205E52E:
 	str r0, [sp, #0xac]
 	ldr r0, [sp, #0x64]
 	mov r3, #4
-	blx MATHi_CRC32UpdateRev
+	bl MATHi_CRC32UpdateRev
 	ldr r3, [sp, #0x58]
 	ldr r0, [sp, #0x64]
 	mov r2, r3
@@ -104,7 +104,7 @@ _0205E52E:
 	add r2, r3, r2
 	ldr r3, [sp, #0x58]
 	add r1, sp, #0xac
-	blx MATHi_CRC32UpdateRev
+	bl MATHi_CRC32UpdateRev
 	ldr r0, [sp, #0xac]
 	mvn r1, r0
 	ldr r0, [sp, #0x5c]
@@ -159,7 +159,7 @@ _0205E5A2:
 	mul r1, r6
 	add r1, r2, r1
 	ldr r2, [sp, #0x54]
-	blx MIi_CpuCopy16
+	bl MIi_CpuCopy16
 _0205E5C0:
 	add r6, r6, #1
 	cmp r6, #2
@@ -171,7 +171,7 @@ _0205E5C0:
 	ldr r0, [sp, #0x14]
 	add r0, r1, r0
 	mov r1, r5
-	blx WriteToCardBackup
+	bl WriteToCardBackup
 	cmp r0, #0
 	bne _0205E5E0
 	mov r0, #4
@@ -180,7 +180,7 @@ _0205E5E0:
 	cmp r5, #0
 	beq _0205E5EA
 	mov r0, r5
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 _0205E5EA:
 	ldr r0, [sp, #0x4c]
 	cmp r0, #0
@@ -205,7 +205,7 @@ _0205E606:
 	ldr r0, [sp, #4]
 	ldr r0, [r1, r0]
 	str r0, [sp, #0xc]
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	mov r4, #0
 	str r0, [sp, #0x1c]
 	mov r7, #0x37
@@ -227,7 +227,7 @@ _0205E62E:
 	lsl r1, r5, #3
 	add r1, r6, r1
 	mov r2, #8
-	blx ReadFromCardBackup
+	bl ReadFromCardBackup
 	cmp r0, #0
 	bne _0205E64A
 	mov r0, #0
@@ -303,7 +303,7 @@ _0205E6A6:
 	str r0, [sp, #0x38]
 	add r0, #8
 	str r0, [sp, #0x38]
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	mov r4, r0
 	ldr r0, [sp, #0x38]
 	mov r5, #0
@@ -346,7 +346,7 @@ _0205E702:
 	ldr r2, [sp, #0x38]
 	mov r1, r4
 	mov r7, #0
-	blx ReadFromCardBackup
+	bl ReadFromCardBackup
 	cmp r0, #0
 	bne _0205E720
 	mov r6, #2
@@ -354,7 +354,7 @@ _0205E702:
 _0205E720:
 	ldr r0, [sp, #0x10]
 	mov r1, #2
-	blx FX_DivS32
+	bl FX_DivS32
 	str r0, [sp, #0x30]
 	mov r6, r7
 _0205E72C:
@@ -369,7 +369,7 @@ _0205E72C:
 	str r0, [sp, #0x94]
 	ldr r0, [sp, #0x64]
 	mov r3, #4
-	blx MATHi_CRC32UpdateRev
+	bl MATHi_CRC32UpdateRev
 	ldr r3, [sp, #0x30]
 	ldr r0, [sp, #0x64]
 	mov r2, r3
@@ -378,7 +378,7 @@ _0205E72C:
 	add r2, r3, r2
 	ldr r3, [sp, #0x30]
 	add r1, sp, #0x94
-	blx MATHi_CRC32UpdateRev
+	bl MATHi_CRC32UpdateRev
 	ldr r0, [sp, #0x94]
 	mvn r1, r0
 	ldr r0, [sp, #0x34]
@@ -430,7 +430,7 @@ _0205E7A2:
 	add r0, r2, r1
 	ldr r1, [sp, #0x1c]
 	ldr r2, [sp, #0xc]
-	blx MIi_CpuCopy16
+	bl MIi_CpuCopy16
 	cmp r6, #3
 	bne _0205E7E0
 	mov r0, #3
@@ -499,7 +499,7 @@ _0205E81E:
 	add r0, r0, r1
 	ldr r2, [sp, #0x38]
 	mov r1, r4
-	blx ReadFromCardBackup
+	bl ReadFromCardBackup
 	cmp r0, #0
 	bne _0205E83A
 	mov r0, #2
@@ -507,7 +507,7 @@ _0205E81E:
 _0205E83A:
 	ldr r0, [sp, #0x10]
 	mov r1, #2
-	blx FX_DivS32
+	bl FX_DivS32
 	mov r6, #0
 	str r0, [sp, #0x28]
 	mov r7, r6
@@ -523,7 +523,7 @@ _0205E848:
 	str r0, [sp, #0x8c]
 	ldr r0, [sp, #0x64]
 	mov r3, #4
-	blx MATHi_CRC32UpdateRev
+	bl MATHi_CRC32UpdateRev
 	ldr r3, [sp, #0x28]
 	ldr r0, [sp, #0x64]
 	mov r2, r3
@@ -532,7 +532,7 @@ _0205E848:
 	add r2, r3, r2
 	ldr r3, [sp, #0x28]
 	add r1, sp, #0x8c
-	blx MATHi_CRC32UpdateRev
+	bl MATHi_CRC32UpdateRev
 	ldr r0, [sp, #0x8c]
 	mvn r1, r0
 	ldr r0, [sp, #0x2c]
@@ -577,7 +577,7 @@ _0205E8B8:
 	cmp r4, #0
 	beq _0205E8C2
 	mov r0, r4
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 _0205E8C2:
 	ldr r0, [sp, #0x3c]
 	cmp r0, #2
@@ -589,7 +589,7 @@ _0205E8CE:
 	cmp r0, #4
 	bne _0205E948
 	mov r0, #4
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	mov r4, r0
 	mov r1, #1
 	ldr r0, [sp, #0x60]
@@ -603,7 +603,7 @@ _0205E8CE:
 	ldr r2, _0205EAE4 // =0x00001A68
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	b _0205E91C
 _0205E8F8:
 	mov r5, #0
@@ -620,7 +620,7 @@ _0205E8FC:
 	ldr r2, [r2, r3]
 	mov r0, #0
 	add r1, r4, r1
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 _0205E916:
 	add r5, r5, #1
 	cmp r5, #9
@@ -645,9 +645,9 @@ _0205E92E:
 	ldr r0, [r1, r0]
 	ldr r1, [sp, #0x1c]
 	add r0, r4, r0
-	blx MIi_CpuCopy16
+	bl MIi_CpuCopy16
 	mov r0, r4
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 _0205E948:
 	ldr r0, [sp, #0xc]
 	mov r5, #0
@@ -663,7 +663,7 @@ _0205E95A:
 	ldr r0, [sp, #4]
 	ldr r4, [r1, r0]
 	mov r0, r7
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	str r0, [sp, #0x48]
 	mov r0, #0
 	beq _0205E96E
@@ -678,7 +678,7 @@ _0205E96E:
 	ldr r1, [sp, #0x48]
 	add r0, r4, r0
 	mov r2, r7
-	blx ReadFromCardBackup
+	bl ReadFromCardBackup
 	cmp r0, #0
 	bne _0205E98C
 	mov r4, #2
@@ -686,7 +686,7 @@ _0205E96E:
 _0205E98C:
 	ldr r0, [sp, #0x18]
 	mov r1, #2
-	blx FX_DivS32
+	bl FX_DivS32
 	str r0, [sp, #0x40]
 	ldr r0, [sp, #0x48]
 	mov r4, #0
@@ -708,7 +708,7 @@ _0205E9A2:
 	mvn r0, r0
 	str r0, [sp, #0x9c]
 	ldr r0, [sp, #0x64]
-	blx MATHi_CRC32UpdateRev
+	bl MATHi_CRC32UpdateRev
 	ldr r3, [sp, #0x40]
 	ldr r0, [sp, #0x64]
 	mov r2, r3
@@ -717,7 +717,7 @@ _0205E9A2:
 	add r2, r3, r2
 	ldr r3, [sp, #0x40]
 	add r1, sp, #0x9c
-	blx MATHi_CRC32UpdateRev
+	bl MATHi_CRC32UpdateRev
 	ldr r0, [sp, #0x9c]
 	mvn r1, r0
 	ldr r0, [sp, #0x44]
@@ -747,7 +747,7 @@ _0205EA00:
 	mov r4, #0
 _0205EA02:
 	ldr r0, [sp, #0x48]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	cmp r4, #2
 	bne _0205EA12
 	mov r0, #2
@@ -757,12 +757,12 @@ _0205EA12:
 	cmp r4, #4
 	bne _0205EA94
 	mov r0, r7
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	mov r6, r0
 	mov r0, #0
 	mov r1, r6
 	mov r2, r7
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, #0
 	str r0, [sp, #0xa4]
 	sub r0, r0, #1
@@ -771,12 +771,12 @@ _0205EA12:
 	add r1, sp, #0xa0
 	add r2, sp, #0xa4
 	mov r3, #4
-	blx MATHi_CRC32UpdateRev
+	bl MATHi_CRC32UpdateRev
 	ldr r0, [sp, #0x64]
 	ldr r2, [sp, #0x1c]
 	ldr r3, [sp, #0xc]
 	add r1, sp, #0xa0
-	blx MATHi_CRC32UpdateRev
+	bl MATHi_CRC32UpdateRev
 	ldr r0, [sp, #0xa0]
 	mvn r0, r0
 	str r0, [r6]
@@ -795,7 +795,7 @@ _0205EA5C:
 	mul r1, r4
 	add r1, r2, r1
 	ldr r2, [sp, #0xc]
-	blx MIi_CpuCopy16
+	bl MIi_CpuCopy16
 	add r4, r4, #1
 	cmp r4, #2
 	blt _0205EA5C
@@ -806,14 +806,14 @@ _0205EA5C:
 	ldr r0, [sp, #8]
 	add r0, r1, r0
 	mov r1, r6
-	blx WriteToCardBackup
+	bl WriteToCardBackup
 	cmp r0, #0
 	beq _0205EA8E
 	mov r0, #4
 	str r0, [sp, #0x20]
 _0205EA8E:
 	mov r0, r6
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 _0205EA94:
 	add r0, r5, #1
 	lsl r0, r0, #0x10
@@ -826,7 +826,7 @@ _0205EAA0:
 	ldr r0, [sp, #0x1c]
 	cmp r0, #0
 	beq _0205EAAA
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 _0205EAAA:
 	ldr r0, [sp, #0x20]
 	cmp r0, #2
@@ -854,7 +854,7 @@ _0205EACE:
 	ldr r0, [sp, #0x64]
 	cmp r0, #0
 	beq _0205EAD8
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 _0205EAD8:
 	ldr r0, [sp, #0x68]
 	add sp, #0xe0

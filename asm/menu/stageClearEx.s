@@ -23,10 +23,10 @@ StageClearEx__Create: // 0x02153CBC
 	ldr r0, _02153CEC // =StageClearEx__Main
 	ldr r1, _02153CF0 // =StageClearEx__Destructor
 	mov r3, r2
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r1, _02153CF4 // =StageClearEx__Singleton
 	str r0, [r1]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	bl StageClearEx__Func_2153D64
 	add sp, #0xc
 	pop {pc}
@@ -69,7 +69,7 @@ Task__Unknown2153D0C__Create: // 0x02153D0C
 	ldr r0, _02153D34 // =Task__Unknown2153D0C__Main
 	mov r2, r1
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r4]
 	add sp, #0xc
 	pop {r3, r4, pc}
@@ -92,7 +92,7 @@ Task__Unknown2153D38__Create: // 0x02153D38
 	ldr r0, _02153D60 // =Task__Unknown2153D38__Main
 	mov r2, r1
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r4, #4]
 	add sp, #0xc
 	pop {r3, r4, pc}
@@ -108,7 +108,7 @@ StageClearEx__Func_2153D64: // 0x02153D64
 	ldr r2, _02153DFC // =0x00001178
 	mov r0, #0
 	mov r1, r5
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	mov r2, #1
 	lsl r2, r2, #0x1a
 	ldr r1, [r2]
@@ -122,16 +122,16 @@ StageClearEx__Func_2153D64: // 0x02153D64
 	mov r0, #1
 	mov r1, #0
 	mov r2, r0
-	blx GX_SetGraphicsMode
+	bl GX_SetGraphicsMode
 	mov r0, #0
-	blx GXS_SetGraphicsMode
-	blx VRAMSystem__Reset
+	bl GXS_SetGraphicsMode
+	bl VRAMSystem__Reset
 	mov r0, #3
-	blx VRAMSystem__SetupTextureBank
+	bl VRAMSystem__SetupTextureBank
 	mov r0, #0x40
-	blx VRAMSystem__SetupTexturePalBank
+	bl VRAMSystem__SetupTexturePalBank
 	mov r0, #0x20
-	blx VRAMSystem__SetupBGBank
+	bl VRAMSystem__SetupBGBank
 	mov r0, #1
 	lsl r0, r0, #0xa
 	str r0, [sp]
@@ -139,14 +139,14 @@ StageClearEx__Func_2153D64: // 0x02153D64
 	mov r0, #0x10
 	mov r2, #0x40
 	mov r3, #0
-	blx VRAMSystem__SetupOBJBank
+	bl VRAMSystem__SetupOBJBank
 	mov r4, r5
 	add r4, #0x14
 	mov r0, r4
 	bl StageClearEx__LoadArchives
-	blx ReleaseAudioSystem
+	bl ReleaseAudioSystem
 	mov r0, #0xf
-	blx LoadSysSound
+	bl LoadSysSound
 	mov r0, r5
 	add r0, #0x1c
 	mov r1, r4
@@ -179,27 +179,27 @@ StageClearEx__Func_2153E14: // 0x02153E14
 	ldr r0, [r4]
 	cmp r0, #0
 	beq _02153E22
-	blx DestroyTask
+	bl DestroyTask
 _02153E22:
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	beq _02153E2C
-	blx DestroyTask
+	bl DestroyTask
 _02153E2C:
 	mov r0, #0
 	str r0, [r4, #0x10]
-	blx Camera3D__Destroy
+	bl Camera3D__Destroy
 	ldr r0, _02153E58 // =0x00000958
 	add r0, r4, r0
 	bl StageClearEx__Func_21543EC
 	mov r0, r4
 	add r0, #0x1c
 	bl StageClearEx__Func_21540C4
-	blx ReleaseSysSound
+	bl ReleaseSysSound
 	add r4, #0x14
 	mov r0, r4
 	bl StageClearEx__Func_2153E90
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	pop {r4, pc}
 	nop
 _02153E58: .word 0x00000958
@@ -215,14 +215,14 @@ StageClearEx__LoadArchives: // 0x02153E5C
 	str r2, [sp]
 	sub r1, r2, #1
 	mov r3, #1
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4]
 	mov r2, #0
 	ldr r0, _02153E8C // =aNarcCldmExLz7N
 	sub r1, r2, #1
 	mov r3, #1
 	str r2, [sp]
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #4]
 	add sp, #4
 	pop {r3, r4, pc}
@@ -236,9 +236,9 @@ StageClearEx__Func_2153E90: // 0x02153E90
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #4]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	pop {r4, pc}
 	.align 2, 0
 	thumb_func_end StageClearEx__Func_2153E90
@@ -267,22 +267,22 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	bl StageClearEx__Func_21540A8
 	ldr r0, [sp, #0x1c]
 	ldr r1, _02154094 // =0x001FFFFF
-	blx LoadDrawState
+	bl LoadDrawState
 	ldr r0, _02154098 // =0x000008E8
 	add r4, r5, r0
 	ldr r0, [sp, #0x1c]
 	mov r1, r4
-	blx GetDrawStateCameraView
+	bl GetDrawStateCameraView
 	ldr r0, [sp, #0x1c]
 	mov r1, r4
-	blx GetDrawStateCameraProjection
+	bl GetDrawStateCameraProjection
 	ldr r4, [r4, #0x10]
 	mov r2, #0x41
 	asr r1, r4, #0x1f
 	mov r0, r4
 	lsl r2, r2, #2
 	mov r3, #0
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	mov r3, #0
 	lsl r2, r2, #0xa
@@ -299,24 +299,24 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	str r0, [sp, #0x18]
 	mov r0, r6
 	ldr r7, [r5, #4]
-	blx NNS_G3dResDefaultSetup
+	bl NNS_G3dResDefaultSetup
 	mov r4, r5
 	add r4, #0xc
 	mov r0, r4
 	mov r1, #0
-	blx AnimatorMDL__Init
+	bl AnimatorMDL__Init
 	mov r3, #0
 	mov r0, r4
 	mov r1, r6
 	mov r2, #1
 	str r3, [sp]
-	blx AnimatorMDL__SetResource
+	bl AnimatorMDL__SetResource
 	mov r1, #0
 	mov r0, r4
 	mov r2, r7
 	mov r3, #0x26
 	str r1, [sp]
-	blx AnimatorMDL__SetAnimation
+	bl AnimatorMDL__SetAnimation
 	mov r1, #0x43
 	lsl r1, r1, #2
 	ldrh r2, [r4, r1]
@@ -327,19 +327,19 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	add r4, r5, r1
 	mov r0, r4
 	mov r1, #0
-	blx AnimatorMDL__Init
+	bl AnimatorMDL__Init
 	mov r3, #0
 	mov r0, r4
 	mov r1, r6
 	mov r2, #2
 	str r3, [sp]
-	blx AnimatorMDL__SetResource
+	bl AnimatorMDL__SetResource
 	mov r1, #0
 	mov r0, r4
 	mov r2, r7
 	mov r3, #0x27
 	str r1, [sp]
-	blx AnimatorMDL__SetAnimation
+	bl AnimatorMDL__SetAnimation
 	mov r1, #0x43
 	lsl r1, r1, #2
 	ldrh r2, [r4, r1]
@@ -351,19 +351,19 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	add r4, r5, r0
 	mov r0, r4
 	mov r1, #0
-	blx AnimatorMDL__Init
+	bl AnimatorMDL__Init
 	mov r3, #0
 	mov r0, r4
 	mov r1, r6
 	mov r2, #0x10
 	str r3, [sp]
-	blx AnimatorMDL__SetResource
+	bl AnimatorMDL__SetResource
 	mov r1, #0
 	mov r0, r4
 	mov r2, r7
 	mov r3, #0x29
 	str r1, [sp]
-	blx AnimatorMDL__SetAnimation
+	bl AnimatorMDL__SetAnimation
 	mov r1, #0x43
 	lsl r1, r1, #2
 	ldrh r2, [r4, r1]
@@ -375,19 +375,19 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	add r4, r5, r0
 	mov r0, r4
 	mov r1, #0
-	blx AnimatorMDL__Init
+	bl AnimatorMDL__Init
 	mov r3, #0
 	mov r0, r4
 	mov r1, r6
 	mov r2, #7
 	str r3, [sp]
-	blx AnimatorMDL__SetResource
+	bl AnimatorMDL__SetResource
 	mov r1, #0
 	mov r0, r4
 	mov r2, r7
 	mov r3, #0x28
 	str r1, [sp]
-	blx AnimatorMDL__SetAnimation
+	bl AnimatorMDL__SetAnimation
 	mov r1, #0x43
 	lsl r1, r1, #2
 	ldrh r2, [r4, r1]
@@ -398,26 +398,26 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	mov r1, #0
 	add r4, r5, r0
 	mov r0, r4
-	blx AnimatorMDL__Init
+	bl AnimatorMDL__Init
 	mov r2, #0
 	mov r0, r4
 	mov r1, r6
 	mov r3, r2
 	str r2, [sp]
-	blx AnimatorMDL__SetResource
+	bl AnimatorMDL__SetResource
 	mov r1, #0
 	mov r0, r4
 	mov r2, r7
 	mov r3, #0x25
 	str r1, [sp]
-	blx AnimatorMDL__SetAnimation
+	bl AnimatorMDL__SetAnimation
 	mov r0, #0
 	str r0, [sp]
 	ldr r2, [sp, #0x18]
 	mov r0, r4
 	mov r1, #3
 	mov r3, #0xc
-	blx AnimatorMDL__SetAnimation
+	bl AnimatorMDL__SetAnimation
 	mov r0, #0x43
 	lsl r0, r0, #2
 	ldrh r1, [r4, r0]
@@ -433,35 +433,35 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	lsl r4, r4, #4
 	add r0, r5, r4
 	mov r1, #0
-	blx AnimatorMDL__Init
+	bl AnimatorMDL__Init
 	mov r3, #0
 	add r0, r5, r4
 	mov r1, r6
 	mov r2, #6
 	str r3, [sp]
-	blx AnimatorMDL__SetResource
+	bl AnimatorMDL__SetResource
 	mov r1, #0
 	add r0, r5, r4
 	mov r2, r7
 	mov r3, #0x2a
 	str r1, [sp]
-	blx AnimatorMDL__SetAnimation
+	bl AnimatorMDL__SetAnimation
 	ldr r4, _021540A4 // =0x000007A4
 	mov r1, #0
 	add r0, r5, r4
-	blx AnimatorMDL__Init
+	bl AnimatorMDL__Init
 	mov r3, #0
 	add r0, r5, r4
 	mov r1, r6
 	mov r2, #0x11
 	str r3, [sp]
-	blx AnimatorMDL__SetResource
+	bl AnimatorMDL__SetResource
 	mov r1, #0
 	add r0, r5, r4
 	mov r2, r7
 	mov r3, #0x2b
 	str r1, [sp]
-	blx AnimatorMDL__SetAnimation
+	bl AnimatorMDL__SetAnimation
 	add sp, #0x20
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
@@ -481,7 +481,7 @@ StageClearEx__Func_21540A8: // 0x021540A8
 	bic r2, r1
 	ldr r0, [sp, #8]
 	add r1, r2, #4
-	blx ArchiveFile__LoadFiles
+	bl ArchiveFile__LoadFiles
 	pop {r3}
 	pop {r3}
 	add sp, #0x10
@@ -494,31 +494,31 @@ StageClearEx__Func_21540C4: // 0x021540C4
 	push {r4, lr}
 	mov r4, r0
 	add r0, #0xc
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	mov r0, #0x15
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	mov r0, #0xa5
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	mov r0, #0xf6
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	ldr r0, _02154110 // =0x0000051C
 	add r0, r4, r0
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	mov r0, #0x66
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	ldr r0, _02154114 // =0x000007A4
 	add r0, r4, r0
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 	ldr r0, [r4]
-	blx NNS_G3dResDefaultRelease
+	bl NNS_G3dResDefaultRelease
 	pop {r4, pc}
 	nop
 _02154110: .word 0x0000051C
@@ -556,7 +556,7 @@ StageClearEx__Func_2154118: // 0x02154118
 	mov r1, #0
 	mov r2, #0xa
 	ldr r4, _021543BC // =0x00000528
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -569,12 +569,12 @@ StageClearEx__Func_2154118: // 0x02154118
 	ldr r3, _021543C0 // =0x00000804
 	add r0, r5, r4
 	mov r2, #0xa
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, [sp, #0x14]
 	mov r1, #0
 	mov r2, #0xb
 	add r4, #0x64
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -587,13 +587,13 @@ StageClearEx__Func_2154118: // 0x02154118
 	ldr r3, _021543C0 // =0x00000804
 	add r0, r5, r4
 	mov r2, #0xb
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r4, #0x3f
 	ldr r0, [sp, #0x14]
 	mov r1, #0
 	mov r2, #0x17
 	lsl r4, r4, #4
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -606,7 +606,7 @@ StageClearEx__Func_2154118: // 0x02154118
 	ldr r3, _021543C0 // =0x00000804
 	add r0, r5, r4
 	mov r2, #0x17
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r4, _021543C4 // =0x0000051C
 	mov r0, #0x9f
 	add r1, r5, r4
@@ -618,7 +618,7 @@ StageClearEx__Func_2154118: // 0x02154118
 	mov r1, #0
 	mov r2, #0x19
 	sub r4, #0xc8
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -631,7 +631,7 @@ StageClearEx__Func_2154118: // 0x02154118
 	ldr r3, _021543C0 // =0x00000804
 	add r0, r5, r4
 	mov r2, #0x19
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0x52
 	lsl r0, r0, #4
 	add r1, r5, r0
@@ -643,7 +643,7 @@ StageClearEx__Func_2154118: // 0x02154118
 	ldr r0, [sp, #0x14]
 	mov r1, #0
 	mov r2, #0x1b
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -657,7 +657,7 @@ StageClearEx__Func_2154118: // 0x02154118
 	ldr r3, _021543C0 // =0x00000804
 	add r0, r5, r0
 	mov r2, #0x1b
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, _021543CC // =0x00000524
 	mov r6, r5
 	add r1, r5, r0
@@ -677,7 +677,7 @@ _02154252:
 	ldr r0, [sp, #0x14]
 	mov r1, #0
 	mov r2, r7
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -691,7 +691,7 @@ _02154252:
 	ldr r3, _021543C0 // =0x00000804
 	mov r0, r6
 	mov r2, r7
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	add r4, r4, #1
 	add r6, #0x64
 	cmp r4, #0xa
@@ -701,7 +701,7 @@ _02154252:
 	mov r1, #0
 	mov r2, #0xc
 	lsl r4, r4, #4
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -713,12 +713,12 @@ _02154252:
 	ldr r3, _021543C0 // =0x00000804
 	add r0, r5, r4
 	mov r2, #0xc
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, [sp, #0x14]
 	mov r1, #0
 	mov r2, #0x21
 	add r4, #0x64
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -731,12 +731,12 @@ _02154252:
 	ldr r3, _021543C0 // =0x00000804
 	add r0, r5, r4
 	mov r2, #0x21
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, [sp, #0x14]
 	mov r1, #0
 	mov r2, #0x20
 	ldr r4, _021543D4 // =0x000006B8
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -749,7 +749,7 @@ _02154252:
 	ldr r3, _021543C0 // =0x00000804
 	add r0, r5, r4
 	mov r2, #0x20
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r2, r4
 	add r2, #0x68
 	mov r1, #0
@@ -761,7 +761,7 @@ _02154252:
 	add r4, r5, r2
 	ldr r0, [sp, #0x14]
 	mov r2, #0xd
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -774,7 +774,7 @@ _02154252:
 	ldr r3, _021543DC // =0x00000805
 	mov r0, r4
 	mov r2, #0xd
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0xc0
 	strh r0, [r4, #8]
 	mov r0, #0x60
@@ -808,7 +808,7 @@ _02154362:
 	ldr r0, [sp, #0x14]
 	mov r1, #0
 	mov r2, r4
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -821,12 +821,12 @@ _02154362:
 	ldr r3, _021543E8 // =0x00000A05
 	mov r0, r6
 	mov r2, r4
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0xc0
 	strh r0, [r6, #8]
 	mov r0, #0x60
 	strh r0, [r6, #0xa]
-	blx AllocSndHandle
+	bl AllocSndHandle
 	mov r1, #0x81
 	str r0, [r5, #4]
 	lsl r1, r1, #4
@@ -834,7 +834,7 @@ _02154362:
 	ldr r1, [r5, r1]
 	mov r0, #0x16
 	mov r2, r4
-	blx SaveGame__UpdateStageRecord
+	bl SaveGame__UpdateStageRecord
 	add sp, #0x18
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -860,24 +860,24 @@ StageClearEx__Func_21543EC: // 0x021543EC
 	push {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #4]
-	blx FreeSndHandle
+	bl FreeSndHandle
 	mov r0, #0x79
 	lsl r0, r0, #4
 	add r0, r6, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	ldr r0, _02154468 // =0x0000072C
 	add r0, r6, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	ldr r0, _0215446C // =0x000006B8
 	add r0, r6, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	ldr r0, _02154470 // =0x00000654
 	add r0, r6, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, #0x5f
 	lsl r0, r0, #4
 	add r0, r6, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, #0x3f
 	mov r5, r6
 	lsl r0, r0, #4
@@ -887,7 +887,7 @@ StageClearEx__Func_21543EC: // 0x021543EC
 	beq _0215443C
 _02154430:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, #0x64
 	cmp r5, r4
 	bne _02154430
@@ -901,17 +901,17 @@ _0215443C:
 	beq _02154456
 _0215444A:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, #0x64
 	cmp r5, r4
 	bne _0215444A
 _02154456:
 	ldr r0, _02154478 // =0x0000058C
 	add r0, r6, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	ldr r0, _0215447C // =0x00000528
 	add r0, r6, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	pop {r4, r5, r6, pc}
 	.align 2, 0
 _02154468: .word 0x0000072C
@@ -939,7 +939,7 @@ StageClearEx__Func_2154480: // 0x02154480
 	lsl r7, r7, #2
 _0215449A:
 	mov r0, r5
-	blx AnimatorMDL__ProcessAnimation
+	bl AnimatorMDL__ProcessAnimation
 	add r5, r5, r7
 	cmp r5, r6
 	bne _0215449A
@@ -948,18 +948,18 @@ _021544A6:
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _0215456C // =0x00000654
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, #0x5f
 	lsl r0, r0, #4
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r1, #0x72
 	lsl r1, r1, #4
 	mov r0, r1
@@ -991,7 +991,7 @@ _02154500:
 	mov r0, r5
 	mov r1, r7
 	mov r2, r7
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, #0x64
 	cmp r5, r6
 	bne _02154500
@@ -1008,7 +1008,7 @@ _02154520:
 	mov r0, r5
 	mov r1, r7
 	mov r2, r7
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, #0x64
 	cmp r5, r6
 	bne _02154520
@@ -1017,23 +1017,23 @@ _02154530:
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _02154578 // =0x00000528
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, #0x79
 	lsl r0, r0, #4
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _0215457C // =0x0000072C
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02154564: .word 0x00000958
@@ -1054,7 +1054,7 @@ StageClearEx__Func_2154580: // 0x02154580
 	ldr r0, _0215487C // =0x000008E8
 	add r4, #0x1c
 	add r5, r4, r0
-	blx Camera3D__UseEngineA
+	bl Camera3D__UseEngineA
 	cmp r0, #0
 	ldr r0, _02154880 // =0x00000938
 	beq _021545A8
@@ -1063,14 +1063,14 @@ StageClearEx__Func_2154580: // 0x02154580
 	neg r1, r1
 	add r0, r4, r0
 	str r1, [r5, #0x18]
-	blx Camera3D__LoadState
+	bl Camera3D__LoadState
 	b _021545B4
 _021545A8:
 	ldr r1, [r4, r0]
 	sub r0, #0x50
 	add r0, r4, r0
 	str r1, [r5, #0x18]
-	blx Camera3D__LoadState
+	bl Camera3D__LoadState
 _021545B4:
 	ldr r0, _0215487C // =0x000008E8
 	mov r5, r4
@@ -1082,14 +1082,14 @@ _021545B4:
 	lsl r6, r6, #2
 _021545C4:
 	mov r0, r5
-	blx AnimatorMDL__Draw
+	bl AnimatorMDL__Draw
 	add r5, r5, r6
 	cmp r5, r4
 	bne _021545C4
 _021545D0:
 	ldr r0, _02154884 // =0x00000958
 	add r4, r7, r0
-	blx Camera3D__UseEngineA
+	bl Camera3D__UseEngineA
 	cmp r0, #0
 	bne _021545DE
 	b _0215477E
@@ -1107,7 +1107,7 @@ _021545DE:
 	asr r0, r0, #0xc
 	strh r0, [r5, #0xa]
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, _02154888 // =0x000006B8
 	ldr r1, [r5, #8]
 	add r6, r4, r0
@@ -1117,7 +1117,7 @@ _021545DE:
 	cmp r0, #0
 	beq _02154612
 	mov r0, r6
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _02154612:
 	mov r0, #8
 	ldrsh r1, [r5, r0]
@@ -1125,14 +1125,14 @@ _02154612:
 	sub r0, r1, r0
 	strh r0, [r5, #8]
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	mov r0, #8
 	ldrsh r1, [r6, r0]
 	add r0, #0xf8
 	sub r0, r1, r0
 	strh r0, [r6, #8]
 	mov r0, r6
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r1, _0215488C // =0x0000051C
 	mov r0, r1
 	add r0, #0xc
@@ -1145,7 +1145,7 @@ _02154612:
 	ldrsh r0, [r6, r0]
 	strh r0, [r5, #0xa]
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r1, _0215488C // =0x0000051C
 	mov r0, #0x3f
 	lsl r0, r0, #4
@@ -1156,7 +1156,7 @@ _02154612:
 	ldrsh r1, [r6, r1]
 	sub r1, #8
 	strh r1, [r0, #0xa]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	mov r0, #6
 	str r0, [sp]
 	mov r0, #0
@@ -1188,7 +1188,7 @@ _02154612:
 	ldrsh r0, [r6, r0]
 	strh r0, [r5, #0xa]
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r1, _02154894 // =0x00000454
 	add r0, r4, r1
 	add r1, #0xcc
@@ -1198,7 +1198,7 @@ _02154612:
 	ldrsh r1, [r6, r1]
 	sub r1, #0x30
 	strh r1, [r0, #0xa]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	mov r0, #6
 	str r0, [sp]
 	mov r0, #0
@@ -1238,12 +1238,12 @@ _02154704:
 	lsl r0, r0, #4
 	ldr r0, [r4, r0]
 	mov r1, r5
-	blx _u32_div_f
+	bl _u32_div_f
 	ldr r0, _021548A0 // =0x00000814
 	mov r6, r1
 	ldr r0, [r4, r0]
 	mov r1, r5
-	blx _u32_div_f
+	bl _u32_div_f
 	mul r0, r5
 	ldr r1, _021548A4 // =0x00000524
 	add r6, r6, r0
@@ -1257,7 +1257,7 @@ _02154704:
 	mov r1, #2
 	ldrsh r1, [r5, r1]
 	strh r1, [r0, #0xa]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r1, _021548A8 // =0x000004B8
 	add r0, r4, r1
 	add r1, #0x6c
@@ -1267,7 +1267,7 @@ _02154704:
 	ldrsh r1, [r5, r1]
 	sub r1, #0x58
 	strh r1, [r0, #0xa]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	mov r0, #6
 	str r0, [sp]
 	ldr r0, _021548AC // =0x0000081C
@@ -1309,20 +1309,20 @@ _0215477E:
 	sub r0, r0, r1
 	strh r0, [r5, #0xa]
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, _021548B0 // =0x00000654
 	add r6, r4, r0
 	ldr r0, [r5, #8]
 	str r0, [r6, #8]
 	mov r0, r6
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	mov r0, #8
 	ldrsh r1, [r5, r0]
 	add r0, #0xf8
 	sub r0, r1, r0
 	strh r0, [r5, #8]
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, _021548B4 // =0x0000071C
 	ldr r0, [r4, r0]
 	cmp r0, #0
@@ -1333,7 +1333,7 @@ _0215477E:
 	sub r0, r1, r0
 	strh r0, [r6, #8]
 	mov r0, r6
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _021547DC:
 	ldr r1, _021548B8 // =0x000007F4
 	mov r0, #1
@@ -1343,14 +1343,14 @@ _021547DC:
 	beq _02154804
 	sub r1, #0xc8
 	add r0, r4, r1
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, _021548B8 // =0x000007F4
 	mov r3, #0
 	ldr r1, [r4, r0]
 	sub r0, #0x64
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__DrawFrameRotoZoom
+	bl AnimatorSprite__DrawFrameRotoZoom
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 _02154804:
@@ -1370,7 +1370,7 @@ _02154804:
 	add r0, r2, r0
 	strh r0, [r5, #0xa]
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r1, _021548BC // =0x000007F8
 	mov r0, #8
 	ldrsh r3, [r5, r0]
@@ -1396,7 +1396,7 @@ _02154804:
 	sub r0, r2, r0
 	strh r0, [r5, #0xa]
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	mov r0, #8
 	ldrsh r2, [r5, r0]
 	ldr r0, _021548BC // =0x000007F8
@@ -1435,8 +1435,8 @@ _021548BC: .word 0x000007F8
 StageClearEx__State_21548C0: // 0x021548C0
 	push {r4, lr}
 	mov r4, r0
-	blx Camera3D__Create
-	blx Camera3D__GetWork
+	bl Camera3D__Create
+	bl Camera3D__GetWork
 	ldr r1, _02154928 // =0x0213D300
 	mov r2, #0x18
 	ldrsh r3, [r1, r2]
@@ -1493,7 +1493,7 @@ _02154938: .word StageClearEx__State_215493C
 StageClearEx__State_215493C: // 0x0215493C
 	push {r3, r4, r5, r6, r7, lr}
 	mov r6, r0
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	mov r4, r0
 	ldr r0, _02154990 // =0x0213D300
 	mov r5, #0x18
@@ -1520,7 +1520,7 @@ _02154964:
 	mov r0, r5
 	asr r2, r2, #0x10
 	mov r3, r1
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	mov r1, r4
 	add r1, #0x58
 	add r4, #0x5c
@@ -1550,7 +1550,7 @@ StageClearEx__State_2154998: // 0x02154998
 	bls _021549B2
 	mov r0, #0xd
 	mov r1, #1
-	blx PlaySysTrack
+	bl PlaySysTrack
 	ldr r1, _021549B4 // =StageClearEx__State_21549B8
 	mov r0, r4
 	bl StageClearEx__SetState
@@ -1590,7 +1590,7 @@ StageClearEx__State_21549B8: // 0x021549B8
 	ldr r2, _02154A0C // =0xFFFEA000
 	mov r1, #4
 	lsl r3, r3, #0xc
-	blx Task__Unknown204BE48__Create
+	bl Task__Unknown204BE48__Create
 	ldr r1, _02154A10 // =StageClearEx__State_2154A14
 	mov r0, r4
 	bl StageClearEx__SetState
@@ -1670,7 +1670,7 @@ StageClearEx__State_2154A28: // 0x02154A28
 	ldr r0, _02154B18 // =0x0000051C
 	str r3, [sp, #0x20]
 	add r0, r4, r0
-	blx Task__Unknown204BE48__Create
+	bl Task__Unknown204BE48__Create
 	mov r0, #0x10
 	str r0, [sp]
 	str r0, [sp, #4]
@@ -1692,7 +1692,7 @@ StageClearEx__State_2154A28: // 0x02154A28
 	add r0, r4, r0
 	sub r2, #0xa2
 	str r3, [sp, #0x20]
-	blx Task__Unknown204BE48__Create
+	bl Task__Unknown204BE48__Create
 	mov r0, #0x20
 	str r0, [sp]
 	mov r0, #0x10
@@ -1714,7 +1714,7 @@ StageClearEx__State_2154A28: // 0x02154A28
 	sub r2, #0xa2
 	add r0, r4, r0
 	str r3, [sp, #0x20]
-	blx Task__Unknown204BE48__Create
+	bl Task__Unknown204BE48__Create
 	ldr r1, _02154B24 // =StageClearEx__State_2154B28
 	mov r0, r5
 	bl StageClearEx__SetState
@@ -1745,9 +1745,9 @@ StageClearEx__State_2154B28: // 0x02154B28
 	mov r0, #1
 	tst r0, r1
 	beq _02154B46
-	blx Task__Unknown204BE48__Rand
+	bl Task__Unknown204BE48__Rand
 	ldr r1, _02154B5C // =0x000F4240
-	blx _u32_div_f
+	bl _u32_div_f
 	ldr r0, _02154B60 // =0x00000814
 	str r1, [r4, r0]
 _02154B46:
@@ -1777,9 +1777,9 @@ StageClearEx__State_2154B68: // 0x02154B68
 	mov r0, #1
 	tst r0, r1
 	beq _02154B88
-	blx Task__Unknown204BE48__Rand
+	bl Task__Unknown204BE48__Rand
 	ldr r1, _02154BC8 // =0x000F4240
-	blx _u32_div_f
+	bl _u32_div_f
 	ldr r0, _02154BCC // =0x00000814
 	str r1, [r4, r0]
 _02154B88:
@@ -1798,10 +1798,10 @@ _02154B88:
 	sub r1, r0, #1
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	ldr r0, [r4, #4]
 	mov r1, #0
-	blx NNS_SndPlayerStopSeq
+	bl NNS_SndPlayerStopSeq
 	ldr r0, _02154BD4 // =0x0000081C
 	mov r1, #0
 	str r1, [r4, r0]
@@ -1882,7 +1882,7 @@ StageClearEx__State_2154C30: // 0x02154C30
 	lsl r0, r0, #0xa
 	lsl r1, r1, #0xc
 	asr r2, r2, #0x10
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	ldr r1, _02154C8C // =0x000007F4
 	str r0, [r4, r1]
 	ldr r0, [r5, #0xc]
@@ -1899,9 +1899,9 @@ StageClearEx__State_2154C30: // 0x02154C30
 	sub r1, r0, #1
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	mov r0, #6
-	blx ShakeScreen
+	bl ShakeScreen
 	ldr r1, _02154C90 // =StageClearEx__State_2154C94
 	mov r0, r5
 	bl StageClearEx__SetState
@@ -1921,16 +1921,16 @@ StageClearEx__State_2154C94: // 0x02154C94
 	mov r5, r0
 	ldr r0, _02154CC4 // =0x00000958
 	add r4, r5, r0
-	blx GetScreenShakeOffsetX
+	bl GetScreenShakeOffsetX
 	asr r1, r0, #0xc
 	ldr r0, _02154CC8 // =0x000007F8
 	strh r1, [r4, r0]
-	blx GetScreenShakeOffsetY
+	bl GetScreenShakeOffsetY
 	asr r1, r0, #0xc
 	ldr r0, _02154CCC // =0x000007FA
 	strh r1, [r4, r0]
 	mov r0, #0x11
-	blx ShakeScreen
+	bl ShakeScreen
 	cmp r0, #0
 	bne _02154CC2
 	ldr r1, _02154CD0 // =StageClearEx__State_2154CD4
@@ -1988,7 +1988,7 @@ _02154D14: .word StageClearEx__State_2154D18
 StageClearEx__State_2154D18: // 0x02154D18
 	push {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
-	blx Camera3D__GetWork
+	bl Camera3D__GetWork
 	mov r4, r0
 	mov r0, #0xb8
 	beq _02154D4A
@@ -2003,7 +2003,7 @@ _02154D2C:
 	mvn r1, r1
 	asr r2, r2, #0x10
 	mov r3, r7
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	mov r1, r4
 	add r1, #0x58
 	add r4, #0x5c
@@ -2015,10 +2015,10 @@ _02154D4A:
 	cmp r0, #0x20
 	bne _02154D66
 	mov r0, #9
-	blx SaveGame__Func_205B9F0
+	bl SaveGame__Func_205B9F0
 	mov r0, #0
-	blx RequestSysEventChange
-	blx NextSysEvent
+	bl RequestSysEventChange
+	bl NextSysEvent
 	mov r0, r5
 	bl StageClearEx__Func_2153E14
 _02154D66:
@@ -2050,7 +2050,7 @@ StageClearEx__Func_2154D68: // 0x02154D68
 _02154D90:
 	mov r0, r4
 	mov r1, #0xa
-	blx _u32_div_f
+	bl _u32_div_f
 	mov r2, r1
 	ldr r1, [sp, #8]
 	mov r0, #0x64
@@ -2063,10 +2063,10 @@ _02154D90:
 	strh r5, [r0, #8]
 	ldr r1, [sp, #4]
 	strh r1, [r0, #0xa]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	mov r0, r4
 	mov r1, #0xa
-	blx _u32_div_f
+	bl _u32_div_f
 	mov r4, r0
 	ldr r0, [sp, #0x24]
 	cmp r0, #0
@@ -2152,7 +2152,7 @@ StageClearEx__Func_2154E38: // 0x02154E38
 	mov r2, r1
 	mov r3, r1
 	str r0, [sp, #4]
-	blx PlaySfxEx
+	bl PlaySfxEx
 _02154E52:
 	add sp, #8
 	pop {r3, pc}
@@ -2173,7 +2173,7 @@ StageClearEx__Func_2154E58: // 0x02154E58
 	mov r2, r1
 	mov r3, r1
 	str r0, [sp, #4]
-	blx PlaySfxEx
+	bl PlaySfxEx
 	mov r0, #6
 	str r0, [sp]
 	mov r1, #1
@@ -2183,7 +2183,7 @@ StageClearEx__Func_2154E58: // 0x02154E58
 	mov r2, r1
 	ldr r0, [r4, r0]
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _02154E8A:
 	add sp, #8
 	pop {r4, pc}
@@ -2194,7 +2194,7 @@ _02154E90: .word 0x0000095C
 	thumb_func_start StageClearEx__Main
 StageClearEx__Main: // 0x02154E94
 	push {r3, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0xc]
 	add r1, r1, #1
 	str r1, [r0, #0xc]
@@ -2212,7 +2212,7 @@ Task__Unknown2153D0C__Main: // 0x02154EAC
 	push {r3, lr}
 	ldr r0, _02154EBC // =StageClearEx__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	bl StageClearEx__Func_2154480
 	pop {r3, pc}
 	.align 2, 0
@@ -2224,7 +2224,7 @@ Task__Unknown2153D38__Main: // 0x02154EC0
 	push {r3, lr}
 	ldr r0, _02154ED0 // =StageClearEx__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	bl StageClearEx__Func_2154580
 	pop {r3, pc}
 	.align 2, 0

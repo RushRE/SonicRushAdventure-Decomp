@@ -21,7 +21,7 @@ VSConnectionMenu__Unknown__Release: // 0x0216A848
 	ldr r0, [r4, #0x34]
 	cmp r0, #0
 	beq _0216A85A
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	mov r0, #0
 	str r0, [r4, #0x34]
 _0216A85A:
@@ -54,18 +54,18 @@ VSConnectionMenu__Unknown__Setup: // 0x0216A85C
 	ldr r0, [r5, #0x34]
 	cmp r0, #0
 	beq _0216A890
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 _0216A890:
 	mov r0, r7
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	str r0, [r5, #0x34]
 	ldr r1, [r5, #0x34]
 	mov r0, #0
 	mov r2, r7
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	ldr r0, [sp, #0x1c]
 	ldr r1, [sp, #0x20]
-	blx BackgroundUnknown__Func_204CA00
+	bl BackgroundUnknown__Func_204CA00
 	add r0, sp, #0x28
 	ldrh r1, [r0, #0x18]
 	mov r3, #0
@@ -83,15 +83,15 @@ _0216A890:
 	str r0, [sp, #0x18]
 	ldr r2, [sp, #0x20]
 	add r0, r5, #4
-	blx Unknown2056570__Init
+	bl Unknown2056570__Init
 	add r1, sp, #0x28
 	ldrh r1, [r1, #0x10]
 	add r0, r5, #4
-	blx Unknown2056570__Func_2056688
+	bl Unknown2056570__Func_2056688
 	add r0, r5, #4
-	blx Unknown2056570__Func_205683C
+	bl Unknown2056570__Func_205683C
 	add r0, r5, #4
-	blx Unknown2056570__Func_2056B8C
+	bl Unknown2056570__Func_2056B8C
 	add r3, sp, #0x28
 	ldrh r3, [r3, #0x10]
 	ldr r0, _0216A900 // =0x02110460
@@ -100,7 +100,7 @@ _0216A890:
 	ldr r3, _0216A904 // =0x05000402
 	mov r2, #0
 	add r3, r4, r3
-	blx QueueUncompressedPalette
+	bl QueueUncompressedPalette
 	add sp, #0x24
 	pop {r4, r5, r6, r7, pc}
 	nop
@@ -134,7 +134,7 @@ VSConnectionMenu__Unknown__Func_216A908: // 0x0216A908
 	str r0, [sp, #0x1c]
 	ldr r0, [r4]
 	add r3, r4, #4
-	blx FontFile__Func_20534F8
+	bl FontFile__Func_20534F8
 	add sp, #0x20
 	pop {r4}
 	pop {r3}

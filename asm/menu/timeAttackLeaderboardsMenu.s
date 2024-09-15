@@ -581,7 +581,7 @@ TimeAttackLeaderboardsMenu__Func_2175DE4: // 0x02175DE4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	mov r10, r0
-	blx TimeAttackMenu__Func_216C5E4
+	bl TimeAttackMenu__Func_216C5E4
 	bl FontWindow__GetFont
 	str r0, [r10, #0x868]
 	mov r3, #0
@@ -871,7 +871,7 @@ TimeAttackLeaderboardsMenu__Func_2176228: // 0x02176228
 	bl TimeAttackLeaderboardsMenu__Func_2176258
 	mov r0, r4
 	bl TimeAttackLeaderboardsMenu__Func_2176254
-	blx TimeAttackMenu__Func_216C688
+	bl TimeAttackMenu__Func_216C688
 	ldmia sp!, {r4, pc}
 	arm_func_end TimeAttackLeaderboardsMenu__Func_2176228
 
@@ -1233,11 +1233,11 @@ _02176704:
 	mov r0, r9
 	mov r1, #0
 	bl TimeAttackLeaderboardsMenu__Func_2178270
-	blx TimeAttackMenu__Func_216C670
+	bl TimeAttackMenu__Func_216C670
 	mov r5, r0
-	blx TimeAttackMenu__Func_216C5E4
+	bl TimeAttackMenu__Func_216C5E4
 	mov r4, r0
-	blx TimeAttackMenu__Func_216C5FC
+	bl TimeAttackMenu__Func_216C5FC
 	mov r2, #0
 	str r2, [sp]
 	stmib sp, {r2, r4}
@@ -1291,16 +1291,16 @@ _021767E8: .word TimeAttackLeaderboardsMenu__State_21767EC
 TimeAttackLeaderboardsMenu__State_21767EC: // 0x021767EC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	blx TimeAttackMenu__Func_216C670
+	bl TimeAttackMenu__Func_216C670
 	bl SaveSpriteButton__RunState2
 	mov r0, r4
 	mov r1, #0x1000
 	bl TimeAttackLeaderboardsMenu__Draw
-	blx TimeAttackMenu__Func_216C670
+	bl TimeAttackMenu__Func_216C670
 	bl SaveSpriteButton__CheckInvalidState2
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	blx TimeAttackMenu__Func_216C670
+	bl TimeAttackMenu__Func_216C670
 	bl SaveSpriteButton__Func_2065498
 	cmp r0, #0
 	bne _02176884
@@ -3258,12 +3258,12 @@ TimeAttackLeaderboardsMenu__Func_2178360: // 0x02178360
 	beq _0217837C
 	ldr r0, _0217838C // =TimeAttackLeaderboardsMenu__Func_21783A8
 	mov r1, #0
-	blx TimeAttackMenu__Func_216C610
+	bl TimeAttackMenu__Func_216C610
 	ldmia sp!, {r3, pc}
 _0217837C:
 	mov r0, #0
 	mov r1, r0
-	blx TimeAttackMenu__Func_216C610
+	bl TimeAttackMenu__Func_216C610
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0217838C: .word TimeAttackLeaderboardsMenu__Func_21783A8
@@ -3272,7 +3272,7 @@ _0217838C: .word TimeAttackLeaderboardsMenu__Func_21783A8
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2178390
 TimeAttackLeaderboardsMenu__Func_2178390: // 0x02178390
 	stmdb sp!, {r3, lr}
-	blx TimeAttackMenu__Func_216C640
+	bl TimeAttackMenu__Func_216C640
 	tst r0, #0x40000
 	movne r0, #1
 	moveq r0, #0
@@ -3387,7 +3387,7 @@ TimeAttackLeaderboardsMenu__Func_21784EC: // 0x021784EC
 	mov r5, r0
 	beq _02178508
 	ldr r0, _02178524 // =saveGame
-	blx SaveGame__GetPlayerNameLength
+	bl SaveGame__GetPlayerNameLength
 	strh r0, [r4]
 _02178508:
 	mov r0, r5
@@ -3415,7 +3415,7 @@ TimeAttackLeaderboardsMenu__Func_217852C: // 0x0217852C
 	mov r2, r4
 	and r1, r1, #0xff
 	mov r3, #1
-	blx SaveGame__GetTimeAttackRecord
+	bl SaveGame__GetTimeAttackRecord
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02178560: .word 0x0000FFFF

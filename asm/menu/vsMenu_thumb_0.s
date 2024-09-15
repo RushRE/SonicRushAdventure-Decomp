@@ -22,7 +22,7 @@ VSMenu__Create: // 0x021667B4
 	ldr r0, _021667E4 // =VSMenu__Main
 	ldr r1, _021667E8 // =VSMenu__Destructor
 	mov r3, r2
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r1, _021667EC // =VSMenu__Singleton
 	str r0, [r1]
 	bl VSMenu__LoadAssets
@@ -42,7 +42,7 @@ VSMenu__Func_21667F0: // 0x021667F0
 	mov r4, r0
 	ldr r0, _02166800 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	strh r4, [r0, #0x38]
 	pop {r4, pc}
 	.align 2, 0
@@ -55,7 +55,7 @@ VSMenu__SetNetworkMessageSequence: // 0x02166804
 	mov r4, r0
 	ldr r0, _02166818 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x96
 	lsl r1, r1, #2
 	strh r4, [r0, r1]
@@ -69,7 +69,7 @@ VSMenu__CheckNetworkMessageMain: // 0x0216681C
 	push {r3, lr}
 	ldr r0, _0216683C // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
 	ldr r0, [r0, r1]
@@ -92,7 +92,7 @@ VSMenu__GetFontWindow: // 0x02166844
 	push {r3, lr}
 	ldr r0, _02166858 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xb1
 	lsl r1, r1, #2
 	add r0, r0, r1
@@ -107,7 +107,7 @@ VSMenu__Func_216685C: // 0x0216685C
 	mov r4, r0
 	ldr r0, _02166870 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x17
 	lsl r1, r1, #4
 	str r4, [r0, r1]
@@ -122,7 +122,7 @@ VSMenu__Func_2166874: // 0x02166874
 	mov r4, r0
 	ldr r0, _02166888 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x92
 	lsl r1, r1, #2
 	str r4, [r0, r1]
@@ -136,7 +136,7 @@ VSMenu__GetUnknownTouchField: // 0x0216688C
 	push {r3, lr}
 	ldr r0, _021668A0 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x62
 	lsl r1, r1, #2
 	add r0, r0, r1
@@ -152,7 +152,7 @@ VSMenu__SetTouchCallback: // 0x021668A4
 	ldr r0, _021668D4 // =VSMenu__Singleton
 	mov r4, r1
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x5d
 	lsl r1, r1, #2
 	add r2, r0, r1
@@ -179,7 +179,7 @@ VSMenu__GetUnknownTouchResponseFlags: // 0x021668D8
 	push {r3, lr}
 	ldr r0, _021668EC // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x6d
 	lsl r1, r1, #2
 	ldr r0, [r0, r1]
@@ -193,7 +193,7 @@ VSMenu__GetYesNoButton: // 0x021668F0
 	push {r3, lr}
 	ldr r0, _02166900 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _02166904 // =0x000014E4
 	add r0, r0, r1
 	pop {r3, pc}
@@ -218,7 +218,7 @@ VSMenu__ChangeEvent: // 0x02166914
 	mov r4, r0
 	ldr r0, _02166960 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r0, #0
 	mov r1, r0
 	bl VSMenu__SetTouchCallback
@@ -232,19 +232,19 @@ _02166932:
 	mov r1, #1
 	strb r1, [r0, #0x1c]
 	mov r0, #0
-	blx RequestSysEventChange
-	blx MultibootManager__Func_2060C9C
+	bl RequestSysEventChange
+	bl MultibootManager__Func_2060C9C
 	ldr r0, _02166968 // =VSMenu__Main_GotoHubMenu
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216694A:
 	ldr r1, _02166964 // =0x02139514
 	mov r0, #1
 	strb r0, [r1, #0x1c]
-	blx RequestSysEventChange
+	bl RequestSysEventChange
 	ldr r0, _0216696C // =VSMenu__Main_GotoVSMenu
-	blx SetCurrentTaskMainEvent
-	blx ReleaseSysSound
+	bl SetCurrentTaskMainEvent
+	bl ReleaseSysSound
 	pop {r4, pc}
 	.align 2, 0
 _02166960: .word VSMenu__Singleton
@@ -258,20 +258,20 @@ VSMenu__LoadAssets: // 0x02166970
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	mov r5, r0
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r2, _02166B10 // =0x0000195C
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, #0
-	blx VRAMSystem__Init
+	bl VRAMSystem__Init
 	mov r1, #0
 	mov r0, #1
 	mov r2, r1
-	blx GX_SetGraphicsMode
+	bl GX_SetGraphicsMode
 	mov r0, #0
-	blx GXS_SetGraphicsMode
+	bl GXS_SetGraphicsMode
 	ldr r0, _02166B14 // =renderCurrentDisplay
 	mov r2, #1
 	str r2, [r0]
@@ -322,27 +322,27 @@ _021669F6:
 	mov r1, #1
 	lsr r0, r0, #0x10
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	b _02166A0C
 _02166A04:
 	mov r0, #0x42
 	lsr r1, r1, #0xe
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 _02166A0C:
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0x18
 	bne _02166A18
-	blx MultibootManager__Create
+	bl MultibootManager__Create
 _02166A18:
 	bl VSMenu__LoadMenuAssets
 	bl VSMenuHeader__Create
 	bl VSMenuBackButton__Create
 	ldr r0, _02166B24 // =0x80000003
 	bl VSMenuBackground__Create
-	blx LoadConnectionStatusIconAssets
+	bl LoadConnectionStatusIconAssets
 	ldr r0, _02166B28 // =0x000014E4
 	add r0, r4, r0
-	blx SaveSpriteButton__Func_206515C
+	bl SaveSpriteButton__Func_206515C
 	bl VSConnectionMenu__LoadAssets
 	ldr r1, _02166B2C // =0x00000918
 	str r0, [r4, r1]
@@ -352,21 +352,21 @@ _02166A18:
 	bl VSMenu__Func_2167464
 	ldr r0, _02166B30 // =0x00001294
 	add r0, r4, r0
-	blx VSFriendListMenu__LoadAssets
+	bl VSFriendListMenu__LoadAssets
 	ldr r0, _02166B34 // =0x00001864
 	add r0, r4, r0
-	blx VSRegisterFriendCodeMenu__Init
+	bl VSRegisterFriendCodeMenu__Init
 	ldr r0, _02166B38 // =0x0000186C
 	add r0, r4, r0
-	blx VSViewFriendCodeMenu__LoadAssets
+	bl VSViewFriendCodeMenu__LoadAssets
 	ldr r0, _02166B3C // =0x00001874
 	add r0, r4, r0
-	blx VSRecordsMenu__LoadAssets
-	blx LoadSysSoundVillage
+	bl VSRecordsMenu__LoadAssets
+	bl LoadSysSoundVillage
 	mov r0, #0
-	blx PlaySysVillageTrack
-	blx ResetTouchInput
-	blx MultibootManager__Func_2060CC8
+	bl PlaySysVillageTrack
+	bl ResetTouchInput
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	beq _02166AB0
 	cmp r0, #0x11
@@ -376,9 +376,9 @@ _02166A18:
 	b _02166AC8
 _02166A8C:
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r1, #0
 	str r1, [sp]
 	mov r0, #0xe4
@@ -388,22 +388,22 @@ _02166A8C:
 	mov r0, #1
 	mov r2, #0xb
 	mov r3, r0
-	blx CreateConnectionStatusIcon
+	bl CreateConnectionStatusIcon
 	b _02166AC8
 _02166AB0:
 	ldr r1, _02166B40 // =VSMenu__Main_21692B8
 	mov r0, r5
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 _02166ABC:
 	ldr r1, _02166B44 // =VSMenu__Main_2169324
 	mov r0, r5
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 _02166AC8:
-	blx GetSysEventList
+	bl GetSysEventList
 	mov r1, #0xe
 	ldrsh r0, [r0, r1]
 	cmp r0, #0x10
@@ -412,7 +412,7 @@ _02166AC8:
 	bne _02166AFA
 	ldr r1, _02166B48 // =VSMenu__Main_216770C
 	mov r0, r5
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 _02166AE4:
@@ -423,16 +423,16 @@ _02166AE4:
 	beq _02166AFA
 	ldr r1, _02166B50 // =VSMenu__Main_2168F8C
 	mov r0, r5
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 _02166AFA:
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0x11
 	bne _02166B0A
 	ldr r1, _02166B54 // =VSMenu__Main_21686EC
 	mov r0, r5
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 _02166B0A:
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
@@ -460,21 +460,21 @@ _02166B54: .word VSMenu__Main_21686EC
 	thumb_func_start VSMenu__Destroy
 VSMenu__Destroy: // 0x02166B58
 	push {r4, lr}
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx ReleaseTouchInput
+	bl ReleaseTouchInput
 	ldr r0, _02166BB8 // =0x00001874
 	add r0, r4, r0
-	blx VSRecordsMenu__ReleaseAssets
+	bl VSRecordsMenu__ReleaseAssets
 	ldr r0, _02166BBC // =0x0000186C
 	add r0, r4, r0
-	blx VSViewFriendCodeMenu__ReleaseAssets
+	bl VSViewFriendCodeMenu__ReleaseAssets
 	ldr r0, _02166BC0 // =0x00001864
 	add r0, r4, r0
-	blx VSRegisterFriendCodeMenu__Release
+	bl VSRegisterFriendCodeMenu__Release
 	ldr r0, _02166BC4 // =0x00001294
 	add r0, r4, r0
-	blx VSFriendListMenu__ReleaseAssets
+	bl VSFriendListMenu__ReleaseAssets
 	bl VSMenu__Func_21674C8
 	bl VSMenuNetworkMessage__Func_2167214
 	ldr r0, _02166BC8 // =0x00000918
@@ -485,8 +485,8 @@ VSMenu__Destroy: // 0x02166B58
 	str r1, [r4, r0]
 	ldr r0, _02166BCC // =0x000014E4
 	add r0, r4, r0
-	blx SaveSpriteButton__Func_20651A4
-	blx ReleaseConnectionStatusIconAssets
+	bl SaveSpriteButton__Func_20651A4
+	bl ReleaseConnectionStatusIconAssets
 	bl VSMenuBackground__Destroy
 	bl VSMenuBackButton__Destroy
 	bl VSMenuHeader__Destroy
@@ -507,21 +507,21 @@ VSMenu__LoadMenuAssets: // 0x02166BD0
 	sub sp, #8
 	ldr r0, _02166CB0 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0
 	ldr r0, _02166CB4 // =aBbDmwfLangBb_0
 	mov r1, #6
 	mov r3, #1
 	str r2, [sp]
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	add r1, r4, #4
 	mov r2, #0
 	str r0, [r4, #4]
 	add r1, #0x28
 	mov r3, r2
 	bl StageClear__LoadFiles
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _02166C24
@@ -539,7 +539,7 @@ _02166C10: // jump table
 	.hword _02166C1C - _02166C10 - 2 // case 4
 	.hword _02166C1C - _02166C10 - 2 // case 5
 _02166C1C:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r1, [r0]
 	b _02166C26
 _02166C24:
@@ -549,7 +549,7 @@ _02166C26:
 	ldr r0, _02166CB4 // =aBbDmwfLangBb_0
 	str r2, [sp]
 	mov r3, #1
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #8]
 	mov r0, #1
 	add r1, r4, #4
@@ -566,42 +566,42 @@ _02166C26:
 	str r2, [sp]
 	mov r1, #2
 	mov r3, r2
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #0x10]
 	mov r2, #0
 	ldr r0, _02166CBC // =aBbNlBb_3
 	str r2, [sp]
 	mov r1, #0xb
 	mov r3, r2
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #0x18]
 	mov r2, #0
 	ldr r0, _02166CBC // =aBbNlBb_3
 	str r2, [sp]
 	mov r1, #9
 	mov r3, r2
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #0x1c]
 	mov r2, #0
 	ldr r0, _02166CBC // =aBbNlBb_3
 	str r2, [sp]
 	mov r1, #0xd
 	mov r3, r2
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #0x20]
 	mov r2, #0
 	ldr r0, _02166CBC // =aBbNlBb_3
 	str r2, [sp]
 	mov r1, #0xc
 	mov r3, r2
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #0x24]
 	mov r2, #0
 	ldr r0, _02166CBC // =aBbNlBb_3
 	mov r1, #1
 	mov r3, r2
 	str r2, [sp]
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #0x28]
 	add sp, #8
 	pop {r4, pc}
@@ -617,24 +617,24 @@ VSMenu__ReleaseMenuAssets: // 0x02166CC0
 	push {r4, lr}
 	ldr r0, _02166D00 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, [r4, #4]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4, #8]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4, #0x10]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4, #0x24]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4, #0x20]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4, #0x1c]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4, #0x18]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4, #0x28]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	pop {r4, pc}
 	nop
 _02166D00: .word VSMenu__Singleton
@@ -646,7 +646,7 @@ VSMenuHeader__Create: // 0x02166D04
 	sub sp, #0x14
 	ldr r0, _02166DDC // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r5, r4
 	add r5, #0x30
@@ -655,7 +655,7 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r0, [r4, #0x10]
 	mov r2, r1
 	add r6, #0x14
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r2, #0
 	str r2, [sp]
 	str r0, [sp, #4]
@@ -666,7 +666,7 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r1, [r4, #0x10]
 	ldr r3, _02166DE0 // =0x00000804
 	mov r0, r6
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r1, #0
 	strh r1, [r6, #8]
 	strh r1, [r6, #0xa]
@@ -674,7 +674,7 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r0, [r4, #0x10]
 	mov r2, #1
 	add r6, #0x78
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -687,14 +687,14 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r3, _02166DE0 // =0x00000804
 	mov r0, r6
 	mov r2, #1
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r1, #0
 	strh r1, [r6, #8]
 	strh r1, [r6, #0xa]
 	mov r6, r5
 	ldr r0, [r4, #0x14]
 	add r6, #0xdc
-	blx SpriteUnknown__GetSpriteSize
+	bl SpriteUnknown__GetSpriteSize
 	mov r2, #0
 	str r2, [sp]
 	str r0, [sp, #4]
@@ -706,7 +706,7 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r1, [r4, #0x14]
 	ldr r3, _02166DE0 // =0x00000804
 	mov r0, r6
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0x18
 	strh r0, [r6, #8]
 	ldr r0, _02166DE4 // =0x0000FFFF
@@ -726,7 +726,7 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r0, _02166DEC // =VSMenuHeader__Main1
 	str r1, [sp, #8]
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	mov r1, #0
 	str r0, [r5]
 	ldr r0, _02166DF0 // =0x00002082
@@ -736,7 +736,7 @@ VSMenuHeader__Create: // 0x02166D04
 	ldr r0, _02166DF4 // =VSMenuHeader__Main2
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r5, #4]
 	add sp, #0x14
 	pop {r3, r4, r5, r6, pc}
@@ -755,28 +755,28 @@ VSMenuHeader__Destroy: // 0x02166DF8
 	push {r4, lr}
 	ldr r0, _02166E34 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, [r0, #0x30]
 	add r4, #0x30
 	cmp r0, #0
 	beq _02166E10
-	blx DestroyTask
+	bl DestroyTask
 _02166E10:
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	beq _02166E1A
-	blx DestroyTask
+	bl DestroyTask
 _02166E1A:
 	mov r0, r4
 	add r0, #0x14
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, r4
 	add r0, #0x78
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r4, #0xdc
 	mov r0, r4
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	pop {r4, pc}
 	.align 2, 0
 _02166E34: .word VSMenu__Singleton
@@ -788,14 +788,14 @@ VSMenuBackButton__Create: // 0x02166E38
 	sub sp, #0x14
 	ldr r0, _02166EF8 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	mov r0, #0x5d
 	lsl r0, r0, #2
 	add r4, r6, r0
 	mov r0, r4
 	add r0, #0x14
-	blx TouchField__Init
+	bl TouchField__Init
 	mov r1, #0
 	mov r0, r4
 	mov r5, r4
@@ -808,7 +808,7 @@ VSMenuBackButton__Create: // 0x02166E38
 	ldr r0, [r6, #0x28]
 	mov r1, #1
 	add r5, #0x64
-	blx SpriteUnknown__GetSpriteSize
+	bl SpriteUnknown__GetSpriteSize
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -820,7 +820,7 @@ VSMenuBackButton__Create: // 0x02166E38
 	ldr r1, [r6, #0x28]
 	ldr r3, _02166EFC // =0x00000804
 	mov r0, r5
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0x10
 	strh r0, [r5, #8]
 	mov r0, #0xb0
@@ -828,7 +828,7 @@ VSMenuBackButton__Create: // 0x02166E38
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _02166F00 // =VSMenuBackButton__TouchCallback
 	mov r1, r4
 	str r0, [sp]
@@ -838,13 +838,13 @@ VSMenuBackButton__Create: // 0x02166E38
 	add r1, #0x64
 	mov r3, r2
 	str r4, [sp, #4]
-	blx TouchField__InitAreaSprite
+	bl TouchField__InitAreaSprite
 	mov r0, r4
 	mov r1, r4
 	add r0, #0x14
 	add r1, #0x2c
 	mov r2, #0
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	mov r1, #0
 	str r1, [r4, #0xc]
 	ldr r0, _02166F04 // =0x00002043
@@ -855,7 +855,7 @@ VSMenuBackButton__Create: // 0x02166E38
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	mov r1, #0x5d
 	lsl r1, r1, #2
 	str r0, [r6, r1]
@@ -867,7 +867,7 @@ VSMenuBackButton__Create: // 0x02166E38
 	ldr r0, _02166F10 // =VSMenuBackButton__Main2
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r4, #4]
 	add sp, #0x14
 	pop {r3, r4, r5, r6, pc}
@@ -886,23 +886,23 @@ VSMenuBackButton__Destroy: // 0x02166F14
 	push {r4, lr}
 	ldr r0, _02166F44 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x5d
 	lsl r1, r1, #2
 	add r4, r0, r1
 	ldr r0, [r4]
 	cmp r0, #0
 	beq _02166F2E
-	blx DestroyTask
+	bl DestroyTask
 _02166F2E:
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	beq _02166F38
-	blx DestroyTask
+	bl DestroyTask
 _02166F38:
 	add r4, #0x64
 	mov r0, r4
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	pop {r4, pc}
 	nop
 _02166F44: .word VSMenu__Singleton
@@ -915,7 +915,7 @@ VSMenuBackground__Create: // 0x02166F48
 	mov r5, r0
 	ldr r0, _02167100 // =VSMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x8f
 	lsl r1, r1, #2
 	add r4, r0, r1
@@ -929,7 +929,7 @@ _02166F64:
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp]
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	mov r6, r0
 	mov r0, #1
 	mov r7, r5
@@ -951,9 +951,9 @@ _02166F64:
 	add r0, sp, #0x10
 	mov r1, r6
 	mov r2, #0x38
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0x10
-	blx DrawBackground
+	bl DrawBackground
 	ldr r0, _0216710C // =renderCoreGFXControlA
 	mov r1, #0
 	strh r1, [r0, #2]
@@ -986,11 +986,11 @@ _02166FBA:
 	add r0, sp, #0x10
 	mov r1, r6
 	mov r2, #0x38
-	blx InitBackground
+	bl InitBackground
 	mov r0, #0xc0
 	str r0, [sp, #0x1c]
 	add r0, sp, #0x10
-	blx DrawBackground
+	bl DrawBackground
 	ldr r0, _02167114 // =renderCoreGFXControlB
 	mov r1, #0
 	strh r1, [r0, #2]
@@ -1003,13 +1003,13 @@ _02166FBA:
 	strh r2, [r1]
 _02167006:
 	mov r0, r6
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	mov r2, #0
 	ldr r0, _02167104 // =aBbDmwfCmnBb
 	mov r1, #1
 	mov r3, r2
 	str r2, [sp]
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	mov r6, r0
 	cmp r7, #0
 	beq _02167072
@@ -1029,9 +1029,9 @@ _02167006:
 	add r0, sp, #0x10
 	mov r1, r6
 	mov r2, #0x38
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0x10
-	blx DrawBackground
+	bl DrawBackground
 	ldr r0, _0216710C // =renderCoreGFXControlA
 	mov r1, #0
 	strh r1, [r0, #0xe]
@@ -1072,9 +1072,9 @@ _02167072:
 	add r0, sp, #0x10
 	mov r1, r6
 	mov r2, #0x38
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0x10
-	blx DrawBackground
+	bl DrawBackground
 	ldr r0, _02167114 // =renderCoreGFXControlB
 	mov r1, #0
 	strh r1, [r0, #0xe]
@@ -1097,7 +1097,7 @@ _02167072:
 	str r1, [r0]
 _021670CA:
 	mov r0, r6
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 _021670D0:
 	mov r0, #2
 	lsl r0, r0, #0x1e
@@ -1114,10 +1114,10 @@ _021670D0:
 	ldr r0, _02167128 // =VSMenuBackground__Main1
 	str r1, [sp, #8]
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r4]
 	ldr r0, _0216712C // =VSMenuBackground__VBlankCallback
-	blx RenderCore_SetVBlankCallback
+	bl RenderCore_SetVBlankCallback
 _021670FA:
 	add sp, #0x58
 	pop {r3, r4, r5, r6, r7, pc}

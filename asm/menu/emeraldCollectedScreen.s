@@ -26,10 +26,10 @@ EmeraldCollectedScreen__Create: // 0x02154ED4
 	ldr r0, _02154F30 // =EmeraldCollectedScreen__Main
 	ldr r1, _02154F34 // =EmeraldCollectedScreen__Destructor
 	mov r3, r2
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r1, _02154F38 // =_02162E84
 	str r0, [r1, #4]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl EmeraldCollectedScreen__Func_21550D8
 	mov r1, #0
@@ -40,7 +40,7 @@ EmeraldCollectedScreen__Create: // 0x02154ED4
 	str r1, [sp, #8]
 	mov r2, r1
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	mov r1, #0
 	str r0, [r4]
 	mov r0, #0x81
@@ -50,7 +50,7 @@ EmeraldCollectedScreen__Create: // 0x02154ED4
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r4, #4]
 	add sp, #0xc
 	pop {r3, r4, pc}
@@ -98,19 +98,19 @@ EmeraldCollectedScreen__Func_2154F58: // 0x02154F58
 	mov r0, #1
 	mov r1, #0
 	mov r2, r0
-	blx GX_SetGraphicsMode
+	bl GX_SetGraphicsMode
 	mov r0, #0
-	blx GXS_SetGraphicsMode
+	bl GXS_SetGraphicsMode
 	ldr r0, _021550BC // =renderCurrentDisplay
 	mov r1, #0
 	str r1, [r0]
-	blx VRAMSystem__Reset
+	bl VRAMSystem__Reset
 	mov r0, #8
-	blx VRAMSystem__SetupTextureBank
+	bl VRAMSystem__SetupTextureBank
 	mov r0, #0x40
-	blx VRAMSystem__SetupTexturePalBank
+	bl VRAMSystem__SetupTexturePalBank
 	mov r0, #1
-	blx VRAMSystem__SetupBGBank
+	bl VRAMSystem__SetupBGBank
 	mov r0, #1
 	lsl r0, r0, #0xa
 	str r0, [sp]
@@ -118,13 +118,13 @@ EmeraldCollectedScreen__Func_2154F58: // 0x02154F58
 	mov r0, #2
 	mov r2, #0x40
 	mov r3, #0
-	blx VRAMSystem__SetupOBJBank
+	bl VRAMSystem__SetupOBJBank
 	mov r0, #0x10
-	blx VRAMSystem__SetupBGExtPalBank
+	bl VRAMSystem__SetupBGExtPalBank
 	mov r0, #0x20
-	blx VRAMSystem__SetupOBJExtPalBank
+	bl VRAMSystem__SetupOBJExtPalBank
 	mov r0, #4
-	blx VRAMSystem__SetupSubBGBank
+	bl VRAMSystem__SetupSubBGBank
 	mov r0, #2
 	lsl r0, r0, #8
 	str r0, [sp]
@@ -132,11 +132,11 @@ EmeraldCollectedScreen__Func_2154F58: // 0x02154F58
 	mov r1, #0x10
 	mov r2, #0x40
 	mov r3, #0
-	blx VRAMSystem__SetupSubOBJBank
+	bl VRAMSystem__SetupSubOBJBank
 	mov r0, #0x80
-	blx VRAMSystem__SetupSubBGExtPalBank
+	bl VRAMSystem__SetupSubBGExtPalBank
 	mov r0, #0
-	blx VRAMSystem__SetupSubOBJExtPalBank
+	bl VRAMSystem__SetupSubOBJExtPalBank
 	ldr r0, _021550C4 // =0x04000008
 	mov r5, #3
 	ldrh r1, [r0]
@@ -262,7 +262,7 @@ EmeraldCollectedScreen__Func_21550D8: // 0x021550D8
 	ldr r2, _02155128 // =0x00001148
 	mov r0, #0
 	mov r1, r5
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	mov r0, r5
 	add r0, #0x1c
 	bl EmeraldCollectedScreen__Func_2155C24
@@ -271,17 +271,17 @@ EmeraldCollectedScreen__Func_21550D8: // 0x021550D8
 	add r4, #0x14
 	mov r0, r4
 	bl EmeraldCollectedScreen__LoadArchives
-	blx ReleaseAudioSystem
-	blx AllocSndHandle
+	bl ReleaseAudioSystem
+	bl AllocSndHandle
 	ldr r1, _0215512C // =0x00001144
 	str r0, [r5, r1]
 	mov r0, #0x1b
-	blx LoadSysSound
+	bl LoadSysSound
 	mov r0, r5
 	add r0, #0x1c
 	mov r1, r4
 	bl EmeraldCollectedScreen__Func_21551C4
-	blx ResetTouchInput
+	bl ResetTouchInput
 	ldr r1, _02155130 // =EmeraldCollectedScreen__State_21556EC
 	mov r0, r5
 	bl EmeraldCollectedScreen__SetState
@@ -296,26 +296,26 @@ _02155130: .word EmeraldCollectedScreen__State_21556EC
 EmeraldCollectedScreen__Func_2155134: // 0x02155134
 	push {r4, lr}
 	mov r4, r0
-	blx ReleaseTouchInput
+	bl ReleaseTouchInput
 	ldr r0, [r4]
-	blx DestroyTask
+	bl DestroyTask
 	ldr r0, [r4, #4]
-	blx DestroyTask
+	bl DestroyTask
 	mov r0, r4
 	add r0, #0x1c
 	bl EmeraldCollectedScreen__Func_21554E0
 	ldr r0, _02155174 // =0x00001144
 	mov r1, #0
 	ldr r0, [r4, r0]
-	blx NNS_SndPlayerStopSeq
+	bl NNS_SndPlayerStopSeq
 	ldr r0, _02155174 // =0x00001144
 	ldr r0, [r4, r0]
-	blx NNS_SndHandleReleaseSeq
-	blx ReleaseSysSound
+	bl NNS_SndHandleReleaseSeq
+	bl ReleaseSysSound
 	add r4, #0x14
 	mov r0, r4
 	bl EmeraldCollectedScreen__Func_21551A8
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	pop {r4, pc}
 	.align 2, 0
 _02155174: .word 0x00001144
@@ -331,12 +331,12 @@ EmeraldCollectedScreen__LoadArchives: // 0x02155178
 	str r2, [sp]
 	sub r1, r2, #1
 	mov r3, #1
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4]
 	ldr r0, _021551A4 // =aNarcActComBLz7_0
 	mov r1, #9
 	mov r2, #0
-	blx ArchiveFileUnknown__LoadFileFromArchive
+	bl ArchiveFileUnknown__LoadFileFromArchive
 	str r0, [r4, #4]
 	add sp, #4
 	pop {r3, r4, pc}
@@ -350,13 +350,13 @@ EmeraldCollectedScreen__Func_21551A8: // 0x021551A8
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #4]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	mov r0, #0
 	mov r1, r4
 	mov r2, #8
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	pop {r4, pc}
 	thumb_func_end EmeraldCollectedScreen__Func_21551A8
 
@@ -431,9 +431,9 @@ _0215523E:
 	add r0, sp, #0xa4
 	mov r2, #0x38
 	mov r3, #1
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0xa4
-	blx DrawBackground
+	bl DrawBackground
 	ldr r1, [sp, #0x3c]
 	mov r0, #2
 	str r0, [sp]
@@ -444,9 +444,9 @@ _0215523E:
 	add r0, sp, #0xa4
 	mov r2, #0x38
 	mov r3, #0
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0xa4
-	blx DrawBackground
+	bl DrawBackground
 	mov r0, #3
 	str r0, [sp]
 	mov r0, #0x20
@@ -457,9 +457,9 @@ _0215523E:
 	add r0, sp, #0xa4
 	mov r2, #0x38
 	mov r3, #0
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0xa4
-	blx DrawBackground
+	bl DrawBackground
 	ldr r4, [sp, #0x28]
 	ldr r5, _021554C0 // =_0216156C
 	mov r6, #0
@@ -472,7 +472,7 @@ _021552A0:
 	ldr r7, [r0, r1]
 	ldr r1, [r5, #4]
 	mov r0, r7
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, [r5, #4]
 	mov r3, #2
 	str r1, [sp]
@@ -487,13 +487,13 @@ _021552A0:
 	str r0, [sp, #0x10]
 	ldrh r2, [r5, #2]
 	mov r0, r4
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, [r5, #8]
 	mov r1, #0
 	str r0, [r4, #8]
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r6, r6, #1
 	add r4, #0x64
 	add r5, #0x10
@@ -526,7 +526,7 @@ _02155306:
 	ldr r7, [r0, r1]
 	ldr r1, [r4, #4]
 	mov r0, r7
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, [r4, #4]
 	mov r3, #2
 	str r1, [sp]
@@ -541,13 +541,13 @@ _02155306:
 	str r0, [sp, #0x10]
 	ldrh r2, [r4, #2]
 	mov r0, r5
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, [r4, #8]
 	mov r1, #0
 	str r0, [r5, #8]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r6, r6, #1
 	add r5, #0x64
 	cmp r6, #0x10
@@ -579,17 +579,17 @@ _0215537C:
 	blo _02155366
 	ldr r0, [sp, #0x50]
 	ldr r1, _021554CC // =0x001FFFFF
-	blx LoadDrawState
+	bl LoadDrawState
 	mov r0, #0
 	add r1, sp, #0x54
 	mov r2, #0x50
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r0, [sp, #0x50]
 	add r1, sp, #0x54
-	blx GetDrawStateCameraView
+	bl GetDrawStateCameraView
 	ldr r0, [sp, #0x50]
 	add r1, sp, #0x54
-	blx GetDrawStateCameraProjection
+	bl GetDrawStateCameraProjection
 	bl EmeraldCollectedScreen__Func_2155C10
 	cmp r0, #0
 	beq _021553D2
@@ -599,7 +599,7 @@ _0215537C:
 	mov r3, r2
 	asr r1, r0, #0x1f
 	add r3, #0x69
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	mov r3, #0
 	lsl r2, r2, #0xa
@@ -617,7 +617,7 @@ _021553D2:
 	mov r3, r2
 	asr r1, r0, #0x1f
 	add r3, #0xd4
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	mov r3, #0
 	lsl r2, r2, #0xa
@@ -631,19 +631,19 @@ _021553F4:
 	mov r0, #0
 	str r0, [sp, #0x68]
 	add r0, sp, #0x54
-	blx Camera3D__LoadState
+	bl Camera3D__LoadState
 	ldr r2, [sp, #0x44]
 	ldr r1, _021554D0 // =0x0000078C
 	ldr r0, [sp, #0x28]
 	str r2, [r0, r1]
 	ldr r0, [r0, r1]
-	blx NNS_G3dResDefaultSetup
+	bl NNS_G3dResDefaultSetup
 	ldr r1, _021554D4 // =0x00000648
 	ldr r0, [sp, #0x28]
 	add r4, r0, r1
 	mov r0, r4
 	mov r1, #0
-	blx AnimatorMDL__Init
+	bl AnimatorMDL__Init
 	ldr r0, [sp, #0x28]
 	mov r1, #6
 	ldrsh r5, [r0, r1]
@@ -655,7 +655,7 @@ _021553F4:
 	ldr r1, [sp, #0x44]
 	mov r0, r4
 	mov r2, r5
-	blx AnimatorMDL__SetResource
+	bl AnimatorMDL__SetResource
 	b _02155446
 _02155438:
 	mov r3, #0
@@ -663,7 +663,7 @@ _02155438:
 	ldr r1, [sp, #0x44]
 	mov r0, r4
 	add r2, r5, #7
-	blx AnimatorMDL__SetResource
+	bl AnimatorMDL__SetResource
 _02155446:
 	mov r0, #1
 	lsl r0, r0, #0xc
@@ -675,14 +675,14 @@ _02155446:
 	ldr r2, [sp, #0x48]
 	mov r0, r4
 	mov r3, r1
-	blx AnimatorMDL__SetAnimation
+	bl AnimatorMDL__SetAnimation
 	mov r0, #0
 	str r0, [sp]
 	ldr r2, [sp, #0x4c]
 	mov r0, r4
 	mov r1, #1
 	mov r3, r5
-	blx AnimatorMDL__SetAnimation
+	bl AnimatorMDL__SetAnimation
 	mov r0, #0x43
 	lsl r0, r0, #2
 	ldrh r1, [r4, r0]
@@ -702,7 +702,7 @@ _02155446:
 	orr r0, r2
 	str r0, [r4, #4]
 	mov r0, r4
-	blx AnimatorMDL__ProcessAnimation
+	bl AnimatorMDL__ProcessAnimation
 	mov r0, #4
 	strb r0, [r4, #0xa]
 	mov r0, #3
@@ -712,7 +712,7 @@ _02155446:
 	mov r0, r4
 	mov r2, #0
 	mov r3, #6
-	blx NNS_G3dRenderObjSetCallBack
+	bl NNS_G3dRenderObjSetCallBack
 	ldr r1, _021554DC // =0x000007A8
 	ldr r0, [sp, #0x28]
 	add r0, r0, r1
@@ -746,7 +746,7 @@ EmeraldCollectedScreen__Func_21554E0: // 0x021554E0
 	beq _02155504
 _021554F8:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, #0x64
 	cmp r5, r4
 	bne _021554F8
@@ -754,18 +754,18 @@ _02155504:
 	ldr r0, _0215552C // =0x00000648
 	add r0, r6, r0
 	add r0, #0x90
-	blx NNS_G3dRenderObjResetCallBack
+	bl NNS_G3dRenderObjResetCallBack
 	ldr r0, _0215552C // =0x00000648
 	ldr r1, _02155530 // =0x0000078C
 	add r0, r6, r0
 	add r1, r6, r1
 	cmp r0, r1
 	beq _0215551E
-	blx AnimatorMDL__Release
+	bl AnimatorMDL__Release
 _0215551E:
 	ldr r0, _02155530 // =0x0000078C
 	ldr r0, [r6, r0]
-	blx NNS_G3dResDefaultRelease
+	bl NNS_G3dResDefaultRelease
 	pop {r4, r5, r6, pc}
 	.align 2, 0
 _02155528: .word 0x000007A8
@@ -797,7 +797,7 @@ _02155558:
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, #0x64
 	cmp r5, r6
 	bne _02155558
@@ -808,7 +808,7 @@ _02155568:
 	add r1, r7, r1
 	cmp r0, r1
 	beq _02155578
-	blx AnimatorMDL__ProcessAnimation
+	bl AnimatorMDL__ProcessAnimation
 _02155578:
 	ldr r1, _02155660 // =0x0000079C
 	ldr r0, [r7, r1]
@@ -864,7 +864,7 @@ _021555BC:
 _021555DC:
 	sub r0, r3, r1
 	mov r1, #0xf
-	blx _s32_div_f
+	bl _s32_div_f
 	cmp r0, #0
 	bge _021555EC
 	mov r0, #0
@@ -903,7 +903,7 @@ _021555F6:
 	mov r1, r5
 	lsl r2, r2, #0xc
 	mov r3, r7
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	mov r3, r7
 	lsl r2, r2, #0xa
@@ -946,7 +946,7 @@ EmeraldCollectedScreen__Func_2155674: // 0x02155674
 	beq _02155694
 _02155688:
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	add r5, #0x64
 	cmp r5, r6
 	bne _02155688
@@ -969,7 +969,7 @@ _021556AC:
 	ldr r1, [r5, #8]
 	add r0, r4, r0
 	str r1, [r0, #8]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	add r6, r6, #1
 	add r5, #0x10
 	cmp r6, #7
@@ -980,7 +980,7 @@ _021556AC:
 	add r1, r4, r1
 	cmp r0, r1
 	beq _021556CE
-	blx AnimatorMDL__Draw
+	bl AnimatorMDL__Draw
 _021556CE:
 	ldr r0, _021556E8 // =0x000007A8
 	add r0, r4, r0
@@ -1014,12 +1014,12 @@ _02155706:
 	mov r1, #1
 	lsr r0, r0, #0x10
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	b _0215571C
 _02155714:
 	mov r0, #2
 	lsl r1, r0, #0xb
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 _0215571C:
 	ldr r1, _0215572C // =EmeraldCollectedScreen__State_2155730
 	mov r0, r4
@@ -1035,12 +1035,12 @@ EmeraldCollectedScreen__State_2155730: // 0x02155730
 	push {r4, lr}
 	sub sp, #8
 	mov r4, r0
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _02155764
 	mov r0, #0x26
 	mov r1, #0
-	blx PlaySysTrack
+	bl PlaySysTrack
 	mov r0, #0x24
 	str r0, [sp]
 	mov r1, #0
@@ -1050,7 +1050,7 @@ EmeraldCollectedScreen__State_2155730: // 0x02155730
 	mov r2, r1
 	ldr r0, [r4, r0]
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	ldr r1, _0215576C // =EmeraldCollectedScreen__State_2155770
 	mov r0, r4
 	bl EmeraldCollectedScreen__SetState
@@ -1261,7 +1261,7 @@ EmeraldCollectedScreen__State_21558E4: // 0x021558E4
 	ldr r0, [r5, #0xc]
 	mov r1, #0xbe
 	lsl r0, r0, #0xc
-	blx _u32_div_f
+	bl _u32_div_f
 	lsl r0, r0, #0x10
 	asr r3, r0, #0x10
 	mov r0, #1
@@ -1278,7 +1278,7 @@ _02155912:
 	add r0, #0x48
 	add r1, sp, #4
 	add r2, r6, r2
-	blx Task__Unknown204BE48__LerpVec3
+	bl Task__Unknown204BE48__LerpVec3
 	ldr r0, _02155968 // =padInput
 	ldrh r1, [r0, #4]
 	mov r0, #1
@@ -1359,11 +1359,11 @@ EmeraldCollectedScreen__State_2155974: // 0x02155974
 	bl EmeraldCollectedScreen__Func_2155E78
 	mov r0, #3
 	lsl r1, r7, #0xa
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	ldr r0, _02155A00 // =0x00001144
 	mov r1, #0
 	ldr r0, [r4, r0]
-	blx NNS_SndPlayerStopSeq
+	bl NNS_SndPlayerStopSeq
 	mov r0, #0x24
 	str r0, [sp]
 	mov r0, r7
@@ -1372,7 +1372,7 @@ EmeraldCollectedScreen__State_2155974: // 0x02155974
 	sub r1, r0, #1
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	ldr r1, _02155A04 // =EmeraldCollectedScreen__State_2155A08
 	mov r0, r4
 	bl EmeraldCollectedScreen__SetState
@@ -1389,7 +1389,7 @@ _02155A04: .word EmeraldCollectedScreen__State_2155A08
 EmeraldCollectedScreen__State_2155A08: // 0x02155A08
 	push {r4, lr}
 	mov r4, r0
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _02155A1C
 	ldr r1, _02155A20 // =EmeraldCollectedScreen__State_2155A24
@@ -1434,7 +1434,7 @@ _02155A4A:
 	sub r1, r0, #1
 	mov r2, r1
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 	ldr r1, _02155A7C // =EmeraldCollectedScreen__State_2155A80
 	mov r0, r4
 	bl EmeraldCollectedScreen__SetState
@@ -1489,12 +1489,12 @@ _02155AA4:
 	add r1, #0xe
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r0, [sp, #8]
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 _02155ADC:
 	ldr r0, [sp]
 	ldr r0, [r0, #0xc]
@@ -1512,12 +1512,12 @@ _02155ADC:
 	ldr r1, [sp, #4]
 	add r1, r1, r2
 	ldrh r1, [r1, #2]
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r0, [sp, #0xc]
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 _02155B0E:
 	add r5, r5, #1
 	add r7, r7, #4
@@ -1577,9 +1577,9 @@ EmeraldCollectedScreen__State_2155B70: // 0x02155B70
 	mov r4, r0
 	mov r0, #4
 	lsl r1, r0, #0xa
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 	ldr r1, _02155B8C // =EmeraldCollectedScreen__State_2155B90
 	mov r0, r4
 	bl EmeraldCollectedScreen__SetState
@@ -1592,10 +1592,10 @@ _02155B8C: .word EmeraldCollectedScreen__State_2155B90
 EmeraldCollectedScreen__State_2155B90: // 0x02155B90
 	push {r4, lr}
 	mov r4, r0
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _02155BB0
-	blx DestroyDrawFadeTask
+	bl DestroyDrawFadeTask
 	ldr r1, [r4, #0x10]
 	mov r0, #3
 	bic r1, r0
@@ -1614,8 +1614,8 @@ EmeraldCollectedScreen__State_2155BB8: // 0x02155BB8
 	push {r4, lr}
 	mov r4, r0
 	mov r0, #0x28
-	blx RequestNewSysEventChange
-	blx NextSysEvent
+	bl RequestNewSysEventChange
+	bl NextSysEvent
 	mov r0, r4
 	bl EmeraldCollectedScreen__Func_2155134
 	pop {r4, pc}
@@ -1672,7 +1672,7 @@ EmeraldCollectedScreen__Func_2155C10: // 0x02155C10
 	push {r3, lr}
 	ldr r0, _02155C20 // =_02162E84
 	ldr r0, [r0, #4]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r0, [r0, #0x1c]
 	pop {r3, pc}
 	nop
@@ -1790,12 +1790,12 @@ EmeraldCollectedScreen__Func_2155CF0: // 0x02155CF0
 	sub sp, #0x44
 	ldr r0, _02155D34 // =_02162E84
 	ldr r0, [r0, #4]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	add r0, sp, #0x14
 	mov r1, #0
 	add r4, #0x1c
-	blx NNS_G3dGetCurrentMtx
+	bl NNS_G3dGetCurrentMtx
 	ldr r0, [sp, #0x38]
 	add r1, sp, #0
 	str r0, [sp, #8]
@@ -1805,7 +1805,7 @@ EmeraldCollectedScreen__Func_2155CF0: // 0x02155CF0
 	ldr r0, [sp, #0x40]
 	str r0, [sp, #0x10]
 	add r0, sp, #8
-	blx NNS_G3dWorldPosToScrPos
+	bl NNS_G3dWorldPosToScrPos
 	ldr r0, [sp]
 	ldr r1, _02155D38 // =0x0000079C
 	str r0, [r4, r1]
@@ -1849,7 +1849,7 @@ _02155D5E:
 	mov r0, r6
 	mov r1, #0
 	mov r2, r7
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1862,7 +1862,7 @@ _02155D5E:
 	mov r0, r5
 	mov r1, r6
 	mov r2, r7
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, _02155DC4 // =_mt_math_rand
 	ldr r1, [r0]
 	ldr r0, _02155DC8 // =0x00196225
@@ -1878,7 +1878,7 @@ _02155D5E:
 	mov r0, r5
 	lsr r1, r1, #0x10
 	mov r3, r2
-	blx AnimatorSprite__AnimateManual
+	bl AnimatorSprite__AnimateManual
 	add r4, r4, #1
 	add r5, #0x64
 	cmp r4, #0xa
@@ -1904,7 +1904,7 @@ EmeraldCollectedScreen__Func_2155DD0: // 0x02155DD0
 	add r4, r6, r0
 _02155DDE:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, #0x64
 	cmp r5, r4
 	bne _02155DDE
@@ -1938,7 +1938,7 @@ _02155E04:
 	lsr r0, r0, #0x10
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
-	blx _s32_div_f
+	bl _s32_div_f
 	strb r1, [r5, #0x14]
 	ldr r1, [r4]
 	ldr r0, _02155E74 // =0x00196225
@@ -1951,7 +1951,7 @@ _02155E04:
 	lsr r0, r0, #0x10
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
-	blx _s32_div_f
+	bl _s32_div_f
 	add r0, r1, #1
 	strb r0, [r5, #0x15]
 	ldr r1, [r4]
@@ -1963,7 +1963,7 @@ _02155E04:
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
 	mov r1, #0x30
-	blx _s32_div_f
+	bl _s32_div_f
 	strb r1, [r5, #0x16]
 	add r6, r6, #1
 	add r5, #0x1c
@@ -2048,7 +2048,7 @@ _02155ED6:
 	lsr r0, r0, #0x10
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
-	blx _s32_div_f
+	bl _s32_div_f
 	add r0, r1, #1
 	strb r0, [r4, #0x15]
 	b _02155FFE
@@ -2073,7 +2073,7 @@ _02155EF6:
 	lsr r0, r0, #0x10
 	lsl r0, r0, #0x10
 	lsr r7, r0, #0x10
-	blx Task__Unknown204BE48__Rand
+	bl Task__Unknown204BE48__Rand
 	ldr r1, [r6]
 	ldr r0, _0215602C // =0x00196225
 	mov r2, r1
@@ -2125,7 +2125,7 @@ _02155EF6:
 	ldr r2, [r5, r2]
 	asr r1, r0, #0x1f
 	asr r3, r2, #0x1f
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	lsl r2, r2, #0xa
 	add r0, r0, r2
@@ -2141,7 +2141,7 @@ _02155EF6:
 	ldr r2, [r5, r2]
 	asr r1, r0, #0x1f
 	asr r3, r2, #0x1f
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	lsl r2, r2, #0xa
 	add r2, r0, r2
@@ -2165,7 +2165,7 @@ _02155EF6:
 	lsr r0, r0, #0x10
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
-	blx _s32_div_f
+	bl _s32_div_f
 	strb r1, [r4, #0x14]
 	ldr r1, [r6]
 	ldr r0, _0215602C // =0x00196225
@@ -2178,7 +2178,7 @@ _02155EF6:
 	lsr r0, r0, #0x10
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
-	blx _s32_div_f
+	bl _s32_div_f
 	strb r1, [r4, #0x16]
 _02155FFE:
 	ldr r0, [sp]
@@ -2196,7 +2196,7 @@ _02156012:
 	mov r0, r5
 	mov r1, r6
 	mov r2, r6
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, #0x64
 	cmp r5, r4
 	bne _02156012
@@ -2241,7 +2241,7 @@ _0215605A:
 	mov r1, r4
 	tst r1, r7
 	beq _02156080
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	b _0215609C
 _02156080:
 	mov r1, #1
@@ -2249,14 +2249,14 @@ _02156080:
 	lsl r1, r1, #0xc
 	cmp r2, r1
 	bgt _02156090
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	b _0215609C
 _02156090:
 	ldr r1, _021560A8 // =0x00000974
 	mov r3, #0
 	ldr r1, [r6, r1]
 	mov r2, r1
-	blx AnimatorSprite__DrawFrameRotoZoom
+	bl AnimatorSprite__DrawFrameRotoZoom
 _0215609C:
 	add r4, r4, #1
 	add r5, #0x1c
@@ -2270,7 +2270,7 @@ _021560A8: .word 0x00000974
 	thumb_func_start EmeraldCollectedScreen__Main
 EmeraldCollectedScreen__Main: // 0x021560AC
 	push {r3, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0xc]
 	add r1, r1, #1
 	str r1, [r0, #0xc]
@@ -2288,7 +2288,7 @@ EmeraldCollectedScreen__Main2: // 0x021560C4
 	push {r3, lr}
 	ldr r0, _021560DC // =_02162E84
 	ldr r0, [r0, #4]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r2, [r0, #0x10]
 	mov r1, #1
 	tst r1, r2
@@ -2305,7 +2305,7 @@ EmeraldCollectedScreen__Main3: // 0x021560E0
 	push {r3, lr}
 	ldr r0, _021560F8 // =_02162E84
 	ldr r0, [r0, #4]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r2, [r0, #0x10]
 	mov r1, #2
 	tst r1, r2

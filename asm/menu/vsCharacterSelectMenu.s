@@ -9,7 +9,7 @@
 VSCharacterSelect__Alloc: // 0x0216229C
 	push {r3, lr}
 	ldr r0, _021622B0 // =0x00000408
-	blx _AllocHeadHEAP_SYSTEM
+	bl _AllocHeadHEAP_SYSTEM
 	ldr r1, _021622B4 // =VSLobbyMenu__sVars
 	str r0, [r1, #4]
 	bl VSCharacterSelect__Init
@@ -27,7 +27,7 @@ VSCharacterSelect__Free: // 0x021622B8
 	bl VSCharacterSelect__Release
 	ldr r0, _021622D4 // =VSLobbyMenu__sVars
 	ldr r0, [r0, #4]
-	blx _FreeHEAP_SYSTEM
+	bl _FreeHEAP_SYSTEM
 	ldr r0, _021622D4 // =VSLobbyMenu__sVars
 	mov r1, #0
 	str r1, [r0, #4]
@@ -60,7 +60,7 @@ _021622F2:
 	str r1, [sp, #8]
 	mov r2, r1
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	mov r1, #0
 	str r0, [r5]
 	ldr r0, _02162350 // =0x00003021
@@ -70,7 +70,7 @@ _021622F2:
 	ldr r0, _02162354 // =VSCharacterSelect__Main2
 	str r1, [sp, #8]
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	mov r1, #0
 	str r0, [r5, #4]
 	ldr r0, _02162358 // =0x00003081
@@ -80,7 +80,7 @@ _021622F2:
 	ldr r0, _0216235C // =VSCharacterSelect__Main3
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r5, #8]
 	ldr r1, _02162360 // =VSCharacterSelect__State_Init
 	mov r0, r5
@@ -142,7 +142,7 @@ VSCharacterSelect__Init: // 0x02162394
 	ldr r2, _021623B4 // =0x00000408
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	add r0, #0x1c
 	bl VSCharacterSelect__Unknown1__Init
@@ -166,7 +166,7 @@ VSCharacterSelect__Release: // 0x021623B8
 	ldr r2, _021623D8 // =0x00000408
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	pop {r4, pc}
 	nop
 _021623D8: .word 0x00000408
@@ -202,9 +202,9 @@ VSCharacterSelect__LoadAssets: // 0x021623F4
 	ldr r0, _02162454 // =aNarcDmcsVsNarc
 	str r3, [sp]
 	mov r2, r1
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4]
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _02162434
@@ -222,7 +222,7 @@ _02162420: // jump table
 	.hword _0216242C - _02162420 - 2 // case 4
 	.hword _0216242C - _02162420 - 2 // case 5
 _0216242C:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	b _02162436
 _02162434:
@@ -253,11 +253,11 @@ VSCharacterSelect__ReleaseAssets: // 0x02162460
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, [r4]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	mov r0, #0
 	mov r1, r4
 	mov r2, #0xc
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	pop {r4, pc}
 	.align 2, 0
 	thumb_func_end VSCharacterSelect__ReleaseAssets
@@ -287,7 +287,7 @@ _0216249C:
 	ldrh r2, [r4, #2]
 	mov r0, r7
 	mov r1, #1
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -302,13 +302,13 @@ _0216249C:
 	str r0, [sp, #0x10]
 	ldrh r2, [r4, #2]
 	mov r0, r5
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, [r4, #4]
 	mov r1, #0
 	str r0, [r5, #8]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	cmp r6, #4
 	beq _021624E0
 	cmp r6, #5
@@ -341,7 +341,7 @@ _021624F2:
 	add r1, r1, #1
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	bl VSLobbyMenu__GetTouchField
 	mov r4, r0
 	mov r1, #0x32
@@ -363,11 +363,11 @@ _021624F2:
 	mov r0, r5
 	add r3, sp, #0x1c
 	str r1, [sp, #4]
-	blx TouchField__InitAreaShape
+	bl TouchField__InitAreaShape
 	mov r0, r4
 	mov r1, r5
 	mov r2, #0
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	ldr r1, [r5, #0x14]
 	mov r0, #0x80
 	orr r0, r1
@@ -391,11 +391,11 @@ _021624F2:
 	mov r0, r5
 	add r3, sp, #0x1c
 	str r1, [sp, #4]
-	blx TouchField__InitAreaShape
+	bl TouchField__InitAreaShape
 	mov r0, r4
 	mov r1, r5
 	mov r2, #0
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	ldr r1, [r5, #0x14]
 	mov r0, #0x80
 	orr r0, r1
@@ -417,19 +417,19 @@ VSCharacterSelect__ReleaseSprites: // 0x021625A0
 	lsl r1, r1, #4
 	add r1, r5, r1
 	mov r4, r0
-	blx TouchField__RemoveArea
+	bl TouchField__RemoveArea
 	mov r1, #0xd6
 	lsl r1, r1, #2
 	mov r0, r4
 	add r1, r5, r1
-	blx TouchField__RemoveArea
+	bl TouchField__RemoveArea
 	mov r0, #0x32
 	lsl r0, r0, #4
 	beq _021625D4
 	add r4, r5, r0
 _021625C8:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, #0x64
 	cmp r5, r4
 	bne _021625C8
@@ -447,7 +447,7 @@ VSCharacterSelect__InitFonts: // 0x021625D8
 	bl VSLobbyMenu__Func_2163BDC
 	mov r4, r0
 	mov r0, r5
-	blx FontAniHeader__Func_2054CF8
+	bl FontAniHeader__Func_2054CF8
 	mov r0, #3
 	str r0, [sp]
 	mov r0, #4
@@ -467,7 +467,7 @@ VSCharacterSelect__InitFonts: // 0x021625D8
 	mov r0, r5
 	mov r2, r4
 	mov r3, r1
-	blx FontWindowAnimator__Unknown__Load2
+	bl FontWindowAnimator__Unknown__Load2
 	mov r0, #1
 	lsl r0, r0, #0xc
 	strh r0, [r5, #0x38]
@@ -512,7 +512,7 @@ _02162652:
 	mov r0, r5
 	mov r1, r6
 	mov r2, r6
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, #0x64
 	cmp r5, r4
 	bne _02162652
@@ -628,7 +628,7 @@ _0216270A:
 	add r5, r4, r0
 _0216271C:
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	add r4, #0x64
 	cmp r4, r5
 	bne _0216271C
@@ -650,9 +650,9 @@ _02162728:
 	str r0, [sp]
 	mov r0, r7
 	mov r3, #0x68
-	blx FontWindowAnimator__Unknown__Func_205509C
+	bl FontWindowAnimator__Unknown__Func_205509C
 	mov r0, r7
-	blx FontWindowAnimator__Unknown__Func_2054F64
+	bl FontWindowAnimator__Unknown__Func_2054F64
 _02162754:
 	add sp, #8
 	pop {r3, r4, r5, r6, r7, pc}
@@ -730,7 +730,7 @@ VSCharacterSelect__State_21627A4: // 0x021627A4
 _021627E8:
 	lsl r0, r3, #0xc
 	mov r1, #0xc
-	blx _u32_div_f
+	bl _u32_div_f
 	strh r0, [r4, #0x3a]
 	pop {r4, r5, r6, pc}
 	.align 2, 0
@@ -851,14 +851,14 @@ _021628AC:
 	add r1, r1, #1
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r7, _021629C4 // =0x0217DED4
 	mov r0, #0x7d
 	lsl r0, r0, #2
 	add r0, r4, r0
 	ldrh r1, [r7, #2]
 	str r0, [sp]
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r1, [r7, #4]
 	ldr r0, [sp]
 	b _0216290E
@@ -871,20 +871,20 @@ _021628E6:
 	add r1, r1, #1
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r7, _021629C0 // =0x0217DEC8
 	mov r0, #0x19
 	lsl r0, r0, #4
 	add r0, r4, r0
 	ldrh r1, [r7, #2]
 	str r0, [sp, #4]
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r1, [r7, #4]
 	ldr r0, [sp, #4]
 _0216290E:
 	str r1, [r0, #8]
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 _02162916:
 	ldr r0, [r5, #4]
 	cmp r0, #2
@@ -1035,13 +1035,13 @@ _02162A2E:
 	add r1, r1, #2
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	mov r0, r7
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	ldr r1, _02162AB8 // =VSCharacterSelect__State_2162AC0
 	mov r0, r6
 	bl VSCharacterSelect__SetState
@@ -1077,13 +1077,13 @@ _02162A82:
 	add r1, r1, #1
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	mov r0, r7
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, #4
-	blx PlaySysSfx
+	bl PlaySysSfx
 	ldr r1, _02162ABC // =VSCharacterSelect__State_21627F8
 	mov r0, r6
 	bl VSCharacterSelect__SetState
@@ -1162,7 +1162,7 @@ _02162B32:
 	mov r1, #0xc
 	sub r0, r1, r2
 	lsl r0, r0, #0xc
-	blx _u32_div_f
+	bl _u32_div_f
 	strh r0, [r4, #0x3a]
 	pop {r4, pc}
 	.align 2, 0
@@ -1196,7 +1196,7 @@ VSCharacterSelect__State_2162B48: // 0x02162B48
 	add r4, #0xc
 _02162B78:
 	ldr r0, [r5]
-	blx DestroyTask
+	bl DestroyTask
 	stmia r5!, {r7}
 	cmp r5, r4
 	bne _02162B78

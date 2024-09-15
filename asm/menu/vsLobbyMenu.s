@@ -25,20 +25,20 @@ VSLobbyMenu__Create: // 0x02163B54
 	ldr r0, _02163BCC // =VSLobbyMenu__Main1
 	ldr r1, _02163BD0 // =VSLobbyMenu__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r1, r0
 	ldr r0, _02163BD4 // =VSLobbyMenu__sVars
 	mov r2, #0xee
 	str r1, [r0, #8]
 	mov r0, #0
 	lsl r2, r2, #2
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	ldr r0, _02163BD4 // =VSLobbyMenu__sVars
 	mov r1, #0
 	ldr r0, [r0, #8]
 	str r1, [r0, #4]
-	blx GetSysEventList
+	bl GetSysEventList
 	mov r1, #0xe
 	ldrsh r0, [r0, r1]
 	cmp r0, #0x10
@@ -60,7 +60,7 @@ _02163BA6:
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r1, _02163BD4 // =VSLobbyMenu__sVars
 	ldr r1, [r1, #8]
 	str r0, [r1, #8]
@@ -163,7 +163,7 @@ VSLobbyMenu__Func_2163C6C: // 0x02163C6C
 	push {r4, lr}
 	ldr r0, _02163C9C // =VSLobbyMenu__sVars
 	ldr r4, [r0, #8]
-	blx MultibootManager__Func_2061A24
+	bl MultibootManager__Func_2061A24
 	cmp r0, #0
 	beq _02163C96
 	mov r0, #0xe2
@@ -307,7 +307,7 @@ _02163D54:
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
 	asr r0, r0, #4
-	blx _u32_div_f
+	bl _u32_div_f
 	mov r0, r7
 	ldr r2, [r6, #8]
 	lsl r0, r1
@@ -445,25 +445,25 @@ VSLobbyMenu__SetupDisplay: // 0x02163E2C
 	cmp r0, #0
 	beq _02163E3E
 	mov r0, #0
-	blx SetupDisplayForZone
+	bl SetupDisplayForZone
 	b _02163E54
 _02163E3E:
-	blx MultibootManager__Func_2060D28
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _02163E4E
 	mov r0, #1
-	blx SetupDisplayForZone
+	bl SetupDisplayForZone
 	b _02163E54
 _02163E4E:
 	mov r0, #0
-	blx SetupDisplayForZone
+	bl SetupDisplayForZone
 _02163E54:
 	mov r1, #0
 	mov r0, #1
 	mov r2, r1
-	blx GX_SetGraphicsMode
+	bl GX_SetGraphicsMode
 	mov r0, #0
-	blx GXS_SetGraphicsMode
+	bl GXS_SetGraphicsMode
 	ldr r0, _02163F3C // =renderCurrentDisplay
 	mov r5, #1
 	ldr r3, _02163F40 // =0x04000008
@@ -595,17 +595,17 @@ VSLobbyMenu__Func_2163F60: // 0x02163F60
 	mov r0, #1
 	tst r0, r1
 	beq _02163FDA
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0xc
 	beq _02163F82
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0x14
 	bne _02163FDA
 _02163F82:
-	blx MultibootManager__Func_2061A24
+	bl MultibootManager__Func_2061A24
 	cmp r0, #0
 	beq _02163FDA
-	blx MultibootManager__Func_2061BD4
+	bl MultibootManager__Func_2061BD4
 	ldrh r2, [r4, #0xe]
 	ldrh r1, [r0, #0xe]
 	orr r1, r2
@@ -650,10 +650,10 @@ _02163FDA:
 	mov r0, #2
 	tst r0, r1
 	beq _0216402C
-	blx MultibootManager__Func_2060CF0
+	bl MultibootManager__Func_2060CF0
 	cmp r0, #2
 	bne _02164010
-	blx MultibootManager__Func_2060D0C
+	bl MultibootManager__Func_2060D0C
 	cmp r0, #0
 	bne _02164010
 	ldrb r1, [r4, #7]
@@ -731,7 +731,7 @@ _02164082:
 	mov r0, r4
 	mov r1, r7
 	mov r2, r7
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r4, #0x64
 _0216408E:
 	cmp r4, r6
@@ -763,7 +763,7 @@ _021640BE:
 	mov r0, #0x3a
 	lsl r0, r0, #4
 	add r0, r5, r0
-	blx TouchField__Process
+	bl TouchField__Process
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
 _021640CC: .word 0x00000555
@@ -787,16 +787,16 @@ VSLobbyMenu__Func_21640E0: // 0x021640E0
 	ldr r0, _02164220 // =0x00000708
 	sub r0, r0, r1
 	mov r1, #0x3c
-	blx _s32_div_f
+	bl _s32_div_f
 	mov r1, #0xe7
 	lsl r1, r1, #2
 	strh r0, [r4, r1]
 	ldrsh r5, [r4, r1]
 	mov r1, #0xa
 	mov r0, r5
-	blx _s32_div_f
+	bl _s32_div_f
 	mov r1, #0xa
-	blx _s32_div_f
+	bl _s32_div_f
 	lsl r0, r1, #0x10
 	lsr r0, r0, #0x10
 	str r0, [sp]
@@ -804,24 +804,24 @@ VSLobbyMenu__Func_21640E0: // 0x021640E0
 	mov r0, r5
 	mov r1, #0xa
 	lsl r6, r6, #2
-	blx _s32_div_f
+	bl _s32_div_f
 	lsl r1, r1, #0x10
 	add r0, r4, r6
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	add r0, r4, r6
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r5, r6
 	add r5, #0x64
 	ldr r1, [sp]
 	add r0, r4, r5
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	add r0, r4, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r7, r6
 	sub r7, #0x64
 	add r2, r4, r7
@@ -924,7 +924,7 @@ _02164200:
 	beq _0216421A
 _0216420E:
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	add r5, #0x64
 	cmp r5, r4
 	bne _0216420E
@@ -948,9 +948,9 @@ VSLobbyMenu__LoadAssets: // 0x02164230
 	ldr r0, _021642CC // =aNarcDmvsCmnNar_0
 	str r3, [sp]
 	mov r2, r1
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4]
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _02164270
@@ -968,7 +968,7 @@ _0216425C: // jump table
 	.hword _02164268 - _0216425C - 2 // case 4
 	.hword _02164268 - _0216425C - 2 // case 5
 _02164268:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r1, [r0]
 	b _02164272
 _02164270:
@@ -1031,11 +1031,11 @@ VSLobbyMenu__ReleaseAssets: // 0x021642E4
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, [r4]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	mov r0, #0
 	mov r1, r4
 	mov r2, #0x28
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	pop {r4, pc}
 	.align 2, 0
 	thumb_func_end VSLobbyMenu__ReleaseAssets
@@ -1054,7 +1054,7 @@ _0216430E:
 	ldrb r0, [r5]
 	mov r1, #0
 	mov r2, #1
-	blx MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckProgress
 	cmp r0, #0
 	beq _02164322
 	mov r0, r7
@@ -1074,7 +1074,7 @@ _02164332:
 	ldrb r0, [r6]
 	mov r1, #0
 	mov r2, #1
-	blx MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckProgress
 	cmp r0, #0
 	beq _02164346
 	mov r0, r7
@@ -1136,9 +1136,9 @@ _02164390: .word gameState
 	thumb_func_start VSLobbyMenu__Main1
 VSLobbyMenu__Main1: // 0x02164394
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0xc
 	bgt _021643AC
 	bge _021643FE
@@ -1157,31 +1157,31 @@ _021643AC:
 	beq _021643C6
 	pop {r4, pc}
 _021643C0:
-	blx MultibootManager__Func_20613E4
+	bl MultibootManager__Func_20613E4
 	pop {r4, pc}
 _021643C6:
-	blx MultibootManager__Create
+	bl MultibootManager__Create
 	pop {r4, pc}
 _021643CC:
 	mov r0, #1
-	blx RequestSysEventChange
-	blx NextSysEvent
-	blx MultibootManager__Func_2060D28
+	bl RequestSysEventChange
+	bl NextSysEvent
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _021643EE
 	bl VSLobbyMenu__Func_2163D90
 	cmp r0, #0
 	bne _021643EE
-	blx ReleaseStageCommonAssets
-	blx ReleaseStageCommonArchives
+	bl ReleaseStageCommonAssets
+	bl ReleaseStageCommonArchives
 _021643EE:
-	blx MultibootManager__Func_2060C9C
+	bl MultibootManager__Func_2060C9C
 	ldr r0, [r4, #8]
-	blx DestroyTask
-	blx DestroyCurrentTask
+	bl DestroyTask
+	bl DestroyCurrentTask
 	pop {r4, pc}
 _021643FE:
-	blx MultibootManager__Func_2060D0C
+	bl MultibootManager__Func_2060D0C
 	cmp r0, #0
 	beq _0216440A
 	mov r1, #0
@@ -1192,12 +1192,12 @@ _0216440C:
 	mov r0, #0xe2
 	lsl r0, r0, #2
 	str r1, [r4, r0]
-	blx MultibootManager__Func_2060D0C
+	bl MultibootManager__Func_2060D0C
 	mov r1, #0xe
 	lsl r1, r1, #6
 	str r0, [r4, r1]
 	ldr r0, _02164424 // =VSLobbyMenu__Main_2164428
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02164422:
 	pop {r4, pc}
 	.align 2, 0
@@ -1207,41 +1207,41 @@ _02164424: .word VSLobbyMenu__Main_2164428
 	thumb_func_start VSLobbyMenu__Main_2164428
 VSLobbyMenu__Main_2164428: // 0x02164428
 	push {r4, r5, r6, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	mov r0, #0xe3
 	lsl r0, r0, #2
 	add r5, r4, r0
-	blx MultibootManager__Func_2061BD4
+	bl MultibootManager__Func_2061BD4
 	mov r6, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bne _02164476
 	mov r0, #1
-	blx RequestSysEventChange
-	blx NextSysEvent
-	blx MultibootManager__Func_2060D28
+	bl RequestSysEventChange
+	bl NextSysEvent
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _02164466
 	bl VSLobbyMenu__Func_2163D90
 	cmp r0, #0
 	bne _02164466
-	blx ReleaseStageCommonAssets
-	blx ReleaseStageCommonArchives
+	bl ReleaseStageCommonAssets
+	bl ReleaseStageCommonArchives
 _02164466:
-	blx MultibootManager__Func_2060C9C
+	bl MultibootManager__Func_2060C9C
 	ldr r0, [r4, #8]
-	blx DestroyTask
-	blx DestroyCurrentTask
+	bl DestroyTask
+	bl DestroyCurrentTask
 	pop {r4, r5, r6, pc}
 _02164476:
-	blx MultibootManager__Func_2061A24
+	bl MultibootManager__Func_2061A24
 	cmp r0, #0
 	beq _021644C0
 	mov r0, r6
 	mov r1, r5
 	mov r2, #0x10
-	blx MIi_CpuCopy32
+	bl MIi_CpuCopy32
 	mov r1, #0xe2
 	lsl r1, r1, #2
 	ldr r1, [r4, r1]
@@ -1255,16 +1255,16 @@ _02164476:
 	ldr r1, [r5, #8]
 	orr r0, r1
 	str r0, [r5, #8]
-	blx Task__Unknown204BE48__Rand
+	bl Task__Unknown204BE48__Rand
 	ldr r1, [r5]
 	eor r0, r1
 	str r0, [r5]
 	mov r0, r5
 	mov r1, #0x10
-	blx MultibootManager__Func_2061A98
-	blx MultibootManager__Func_206193C
+	bl MultibootManager__Func_2061A98
+	bl MultibootManager__Func_206193C
 	ldr r0, _021644C4 // =VSLobbyMenu__Main_21644C8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _021644C0:
 	pop {r4, r5, r6, pc}
 	nop
@@ -1274,48 +1274,48 @@ _021644C4: .word VSLobbyMenu__Main_21644C8
 	thumb_func_start VSLobbyMenu__Main_21644C8
 VSLobbyMenu__Main_21644C8: // 0x021644C8
 	push {r3, r4, r5, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bne _0216450A
 	mov r0, #1
-	blx RequestSysEventChange
-	blx NextSysEvent
-	blx MultibootManager__Func_2060D28
+	bl RequestSysEventChange
+	bl NextSysEvent
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _021644FA
 	bl VSLobbyMenu__Func_2163D90
 	cmp r0, #0
 	bne _021644FA
-	blx ReleaseStageCommonAssets
-	blx ReleaseStageCommonArchives
+	bl ReleaseStageCommonAssets
+	bl ReleaseStageCommonArchives
 _021644FA:
-	blx MultibootManager__Func_2060C9C
+	bl MultibootManager__Func_2060C9C
 	ldr r0, [r4, #8]
-	blx DestroyTask
-	blx DestroyCurrentTask
+	bl DestroyTask
+	bl DestroyCurrentTask
 	pop {r3, r4, r5, pc}
 _0216450A:
-	blx MultibootManager__Func_20619B4
+	bl MultibootManager__Func_20619B4
 	cmp r0, #0
 	beq _02164538
 	mov r0, #0xe3
 	lsl r0, r0, #2
 	add r5, r4, r0
-	blx MultibootManager__Func_2061BD4
+	bl MultibootManager__Func_2061BD4
 	ldr r1, [r5, #8]
 	ldr r0, [r0, #8]
 	orr r0, r1
 	str r0, [r5, #8]
-	blx Task__Unknown204BE48__Rand
+	bl Task__Unknown204BE48__Rand
 	mov r1, #0xe3
 	lsl r1, r1, #2
 	ldr r2, [r4, r1]
 	eor r0, r2
 	str r0, [r4, r1]
 	ldr r0, _0216453C // =VSLobbyMenu__Main_2164540
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02164538:
 	pop {r3, r4, r5, pc}
 	nop
@@ -1325,13 +1325,13 @@ _0216453C: .word VSLobbyMenu__Main_2164540
 	thumb_func_start VSLobbyMenu__Main_2164540
 VSLobbyMenu__Main_2164540: // 0x02164540
 	push {r3, r4, r5, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r5, _02164608 // =gameState
-	blx MultibootManager__Func_2060CF0
+	bl MultibootManager__Func_2060CF0
 	cmp r0, #2
 	bne _02164586
-	blx MultibootManager__Func_2060D34
+	bl MultibootManager__Func_2060D34
 	cmp r0, #0
 	beq _02164586
 	mov r0, r5
@@ -1343,15 +1343,15 @@ VSLobbyMenu__Main_2164540: // 0x02164540
 _02164566:
 	mov r0, #0
 _02164568:
-	blx SaveGame__SetLastPlayedVsMode
+	bl SaveGame__SetLastPlayedVsMode
 	cmp r0, #0
 	bne _02164586
 	mov r0, #2
-	blx RequestSysEventChange
-	blx NextSysEvent
+	bl RequestSysEventChange
+	bl NextSysEvent
 	ldr r0, [r4, #8]
-	blx DestroyTask
-	blx DestroyCurrentTask
+	bl DestroyTask
+	bl DestroyCurrentTask
 	pop {r3, r4, r5, pc}
 _02164586:
 	ldr r1, [r4]
@@ -1368,7 +1368,7 @@ _02164586:
 	beq _021645EE
 	mov r0, #1
 	str r0, [r5, #0x14]
-	blx MultibootManager__Func_2060DC4
+	bl MultibootManager__Func_2060DC4
 	cmp r0, #0
 	bne _021645B0
 	mov r0, #0
@@ -1381,7 +1381,7 @@ _021645B2:
 	ldr r0, _0216460C // =0xFFFFFBCF
 	and r0, r1
 	str r0, [r5, #0x10]
-	blx MultibootManager__Func_2060D28
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _021645CE
 	ldr r1, [r5, #0x10]
@@ -1390,7 +1390,7 @@ _021645B2:
 	str r0, [r5, #0x10]
 	b _021645E8
 _021645CE:
-	blx MultibootManager__Func_2060CF0
+	bl MultibootManager__Func_2060CF0
 	cmp r0, #2
 	ldr r1, [r5, #0x10]
 	bne _021645E2
@@ -1407,15 +1407,15 @@ _021645E8:
 	bl VSLobbyMenu__InitAssets
 	pop {r3, r4, r5, pc}
 _021645EE:
-	blx MultibootManager__Func_2060CF0
+	bl MultibootManager__Func_2060CF0
 	cmp r0, #2
 	beq _021645FC
 	bl VSLobbyMenu__InitAssets
 	pop {r3, r4, r5, pc}
 _021645FC:
-	blx MultibootManager__Func_20618A8
+	bl MultibootManager__Func_20618A8
 	ldr r0, _02164610 // =VSLobbyMenu__Main_2164614
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _02164608: .word gameState
@@ -1426,9 +1426,9 @@ _02164610: .word VSLobbyMenu__Main_2164614
 	thumb_func_start VSLobbyMenu__Main_2164614
 VSLobbyMenu__Main_2164614: // 0x02164614
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	beq _0216462A
 	cmp r0, #0x14
@@ -1436,21 +1436,21 @@ VSLobbyMenu__Main_2164614: // 0x02164614
 	pop {r4, pc}
 _0216462A:
 	mov r0, #1
-	blx RequestSysEventChange
-	blx NextSysEvent
-	blx MultibootManager__Func_2060D28
+	bl RequestSysEventChange
+	bl NextSysEvent
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _0216464C
 	bl VSLobbyMenu__Func_2163D90
 	cmp r0, #0
 	bne _0216464C
-	blx ReleaseStageCommonAssets
-	blx ReleaseStageCommonArchives
+	bl ReleaseStageCommonAssets
+	bl ReleaseStageCommonArchives
 _0216464C:
-	blx MultibootManager__Func_2060C9C
+	bl MultibootManager__Func_2060C9C
 	ldr r0, [r4, #8]
-	blx DestroyTask
-	blx DestroyCurrentTask
+	bl DestroyTask
+	bl DestroyCurrentTask
 	pop {r4, pc}
 _0216465C:
 	bl VSLobbyMenu__InitAssets
@@ -1462,11 +1462,11 @@ _0216465C:
 VSLobbyMenu__InitAssets: // 0x02164664
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x70
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	str r0, [sp, #0x24]
 	bl VSLobbyMenu__SetupDisplay
 	mov r0, #0
-	blx LoadSysSound
+	bl LoadSysSound
 	ldr r0, [sp, #0x24]
 	add r0, #0xc
 	bl VSLobbyMenu__LoadAssets
@@ -1482,9 +1482,9 @@ VSLobbyMenu__InitAssets: // 0x02164664
 	add r0, sp, #0x28
 	mov r1, r4
 	mov r3, #0
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0x28
-	blx DrawBackground
+	bl DrawBackground
 	mov r3, #1
 	str r3, [sp]
 	mov r0, #0x20
@@ -1494,11 +1494,11 @@ VSLobbyMenu__InitAssets: // 0x02164664
 	add r0, sp, #0x28
 	mov r1, r4
 	mov r2, #0x38
-	blx InitBackground
+	bl InitBackground
 	mov r0, #0xc0
 	str r0, [sp, #0x34]
 	add r0, sp, #0x28
-	blx DrawBackground
+	bl DrawBackground
 	ldr r0, [sp, #0x24]
 	mov r2, #0x38
 	ldr r4, [r0, #0x24]
@@ -1510,9 +1510,9 @@ VSLobbyMenu__InitAssets: // 0x02164664
 	add r0, sp, #0x28
 	mov r1, r4
 	mov r3, #0
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0x28
-	blx DrawBackground
+	bl DrawBackground
 	mov r0, #2
 	str r0, [sp]
 	mov r0, #0x20
@@ -1522,9 +1522,9 @@ VSLobbyMenu__InitAssets: // 0x02164664
 	mov r1, r4
 	mov r2, #0x38
 	mov r3, #1
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0x28
-	blx DrawBackground
+	bl DrawBackground
 	ldr r5, [sp, #0x24]
 	ldr r4, _02164888 // =0x0217DEF8
 	mov r6, #0
@@ -1554,7 +1554,7 @@ _02164730:
 	ldr r0, [sp, #0x14]
 	ldr r2, [sp, #0x20]
 	mov r1, r7
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 _0216473A:
 	str r7, [sp]
 	str r0, [sp, #4]
@@ -1569,7 +1569,7 @@ _0216473A:
 	str r0, [sp, #0x10]
 	ldr r2, [sp, #0x20]
 	mov r0, r5
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, [r4, #8]
 	cmp r6, #2
 	str r0, [r5, #8]
@@ -1579,12 +1579,12 @@ _0216473A:
 	beq _02164772
 	mov r0, r5
 	mov r1, #0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _0216477A
 _02164772:
 	mov r0, r5
 	mov r1, #1
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _0216477A:
 	add r6, r6, #1
 	add r4, #0x10
@@ -1598,14 +1598,14 @@ _0216477A:
 	ldr r0, [sp, #0x24]
 	lsl r7, r7, #2
 	add r0, r0, r7
-	blx FontFile__Init
+	bl FontFile__Init
 	ldr r0, [sp, #0x24]
 	ldr r1, _0216488C // =aFntFontIplFnt_2
 	add r0, r0, r7
 	mov r2, #0
-	blx FontFile__InitFromPath
+	bl FontFile__InitFromPath
 	mov r4, #6
-	blx MultibootManager__Func_2060CF0
+	bl MultibootManager__Func_2060CF0
 	cmp r0, #2
 	bne _021647B4
 	mov r5, #1
@@ -1613,7 +1613,7 @@ _0216477A:
 	orr r4, r5
 	b _021647C6
 _021647B4:
-	blx MultibootManager__Func_2060D0C
+	bl MultibootManager__Func_2060D0C
 	cmp r0, #0
 	beq _021647C2
 	mov r6, #0
@@ -1635,20 +1635,20 @@ _021647C6:
 	mov r2, #7
 	mov r3, #1
 	bl VSState__Func_2163510
-	blx MultibootManager__Func_2060CF0
+	bl MultibootManager__Func_2060CF0
 	cmp r0, #2
 	bne _021647F8
-	blx SaveGame__GetOnlineScore
+	bl SaveGame__GetOnlineScore
 	str r0, [sp, #0x1c]
-	blx MultibootManager__Func_2060D9C
+	bl MultibootManager__Func_2060D9C
 	str r0, [sp, #0x18]
 _021647F8:
 	ldr r1, [sp, #0x1c]
 	mov r0, r6
 	bl VSState__SetPlayerInfo
-	blx MultibootManager__Func_2060D4C
+	bl MultibootManager__Func_2060D4C
 	mov r6, r0
-	blx MultibootManager__Func_2060D74
+	bl MultibootManager__Func_2060D74
 	mov r2, r0
 	ldr r3, [sp, #0x18]
 	mov r0, r5
@@ -1664,7 +1664,7 @@ _021647F8:
 	orr r1, r0
 	ldr r0, [sp, #0x24]
 	str r1, [r0]
-	blx LoadConnectionStatusIconAssets
+	bl LoadConnectionStatusIconAssets
 	mov r1, #0
 	str r1, [sp]
 	mov r0, #0xe4
@@ -1674,7 +1674,7 @@ _021647F8:
 	mov r0, #2
 	mov r2, #0xc
 	mov r3, #1
-	blx CreateConnectionStatusIcon
+	bl CreateConnectionStatusIcon
 	bl VSCharacterSelect__Alloc
 	ldr r0, [sp, #0x24]
 	ldr r1, [r0]
@@ -1684,21 +1684,21 @@ _021647F8:
 	ldr r0, [sp, #0x24]
 	str r1, [r0]
 	mov r0, #1
-	blx StartSamplingTouchInput
+	bl StartSamplingTouchInput
 	mov r1, #0x3a
 	ldr r0, [sp, #0x24]
 	lsl r1, r1, #4
 	add r0, r0, r1
-	blx TouchField__Init
+	bl TouchField__Init
 	ldr r1, _02164890 // =0x0000039E
 	ldr r0, [sp, #0x24]
 	mov r2, #0
 	strh r2, [r0, r1]
 	sub r1, r1, #2
 	strh r2, [r0, r1]
-	blx MultibootManager__Func_206193C
+	bl MultibootManager__Func_206193C
 	ldr r0, _02164894 // =VSLobbyMenu__Main_2164898
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x70
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
@@ -1711,16 +1711,16 @@ _02164894: .word VSLobbyMenu__Main_2164898
 	thumb_func_start VSLobbyMenu__Main_2164898
 VSLobbyMenu__Main_2164898: // 0x02164898
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bne _021648B0
 	ldr r0, _02164900 // =VSLobbyMenu__Main_2164E64
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _021648B0:
-	blx MultibootManager__Func_20619B4
+	bl MultibootManager__Func_20619B4
 	cmp r0, #0
 	beq _021648FE
 	mov r0, #0xe1
@@ -1742,21 +1742,21 @@ _021648D2:
 	mov r1, #1
 	lsr r0, r0, #0x10
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	b _021648EA
 _021648E0:
 	mov r1, #1
 	mov r0, #0x42
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 _021648EA:
 	mov r0, #0x29
 	mov r1, #0
-	blx PlaySysTrack
+	bl PlaySysTrack
 	mov r0, #0
 	bl VSCharacterSelect__Create
 	ldr r0, _02164908 // =VSLobbyMenu__Main_216490C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _021648FE:
 	pop {r4, pc}
 	.align 2, 0
@@ -1768,13 +1768,13 @@ _02164908: .word VSLobbyMenu__Main_216490C
 	thumb_func_start VSLobbyMenu__Main_216490C
 VSLobbyMenu__Main_216490C: // 0x0216490C
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bne _02164924
 	ldr r0, _0216495C // =VSLobbyMenu__Main_2164E64
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02164924:
 	mov r0, #0xe1
@@ -1797,7 +1797,7 @@ _02164924:
 	mov r0, #0
 	bl VSStageSelectMenu__Create
 	ldr r0, _02164964 // =VSLobbyMenu__Main_2164968
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216495A:
 	pop {r4, pc}
 	.align 2, 0
@@ -1809,13 +1809,13 @@ _02164964: .word VSLobbyMenu__Main_2164968
 	thumb_func_start VSLobbyMenu__Main_2164968
 VSLobbyMenu__Main_2164968: // 0x02164968
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bne _02164980
 	ldr r0, _021649C8 // =VSLobbyMenu__Main_2164E64
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02164980:
 	mov r0, #0xe1
@@ -1850,7 +1850,7 @@ _021649BA:
 	add r1, #0x1a
 	strh r0, [r4, r1]
 	ldr r0, _021649CC // =VSLobbyMenu__Main_21649D0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _021649C6:
 	pop {r4, pc}
 	.align 2, 0
@@ -1862,17 +1862,17 @@ _021649CC: .word VSLobbyMenu__Main_21649D0
 VSLobbyMenu__Main_21649D0: // 0x021649D0
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #8
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r7, r0
 	mov r0, #0xe3
 	lsl r0, r0, #2
 	mov r6, #1
 	add r5, r7, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bne _021649F4
 	ldr r0, _02164C00 // =VSLobbyMenu__Main_2164E64
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, r4, r5, r6, r7, pc}
 _021649F4:
@@ -2079,10 +2079,10 @@ _02164B64:
 	mov r0, #8
 	tst r0, r1
 	beq _02164BFA
-	blx MultibootManager__Func_2061A24
+	bl MultibootManager__Func_2061A24
 	cmp r0, #0
 	beq _02164B82
-	blx MultibootManager__Func_2061BD4
+	bl MultibootManager__Func_2061BD4
 	ldrb r0, [r0, #0xc]
 	strb r0, [r5, #0xc]
 	ldrh r0, [r5, #0xe]
@@ -2147,9 +2147,9 @@ _02164BD6:
 	ldr r0, _02164C14 // =gameState
 _02164BEE:
 	str r1, [r0, #0xc]
-	blx MultibootManager__Func_206193C
+	bl MultibootManager__Func_206193C
 	ldr r0, _02164C1C // =VSLobbyMenu__Main_2164C20
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02164BFA:
 	add sp, #8
 	pop {r3, r4, r5, r6, r7, pc}
@@ -2167,13 +2167,13 @@ _02164C1C: .word VSLobbyMenu__Main_2164C20
 	thumb_func_start VSLobbyMenu__Main_2164C20
 VSLobbyMenu__Main_2164C20: // 0x02164C20
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bne _02164C38
 	ldr r0, _02164C84 // =VSLobbyMenu__Main_2164E64
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02164C38:
 	mov r0, #0xe1
@@ -2185,7 +2185,7 @@ _02164C38:
 	bl VSLobbyMenu__Func_2163F60
 	mov r0, r4
 	bl VSLobbyMenu__Func_21640E0
-	blx MultibootManager__Func_20619B4
+	bl MultibootManager__Func_20619B4
 	cmp r0, #0
 	beq _02164C82
 	mov r0, #0xe3
@@ -2208,7 +2208,7 @@ _02164C72:
 	lsl r0, r0, #2
 	strh r1, [r4, r0]
 	ldr r0, _02164C88 // =VSLobbyMenu__Main_2164C8C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02164C82:
 	pop {r4, pc}
 	.align 2, 0
@@ -2219,13 +2219,13 @@ _02164C88: .word VSLobbyMenu__Main_2164C8C
 	thumb_func_start VSLobbyMenu__Main_2164C8C
 VSLobbyMenu__Main_2164C8C: // 0x02164C8C
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bne _02164CA4
 	ldr r0, _02164D08 // =VSLobbyMenu__Main_2164E64
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02164CA4:
 	mov r0, #0xe1
@@ -2250,25 +2250,25 @@ _02164CD0:
 	mov r1, #1
 	mov r0, #5
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 	mov r0, #1
 	ldr r1, [r4]
 	lsl r0, r0, #0xc
 	orr r0, r1
 	str r0, [r4]
 	ldr r0, _02164D0C // =VSLobbyMenu__Main_2164D50
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02164CF2:
 	ldr r1, [r4]
 	ldr r0, _02164D10 // =0xFFFFEFFF
 	and r0, r1
 	str r0, [r4]
-	blx MultibootManager__Func_206150C
+	bl MultibootManager__Func_206150C
 	ldr r0, _02164D14 // =VSLobbyMenu__Main_2164D18
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02164D04:
 	pop {r4, pc}
 	nop
@@ -2281,12 +2281,12 @@ _02164D14: .word VSLobbyMenu__Main_2164D18
 	thumb_func_start VSLobbyMenu__Main_2164D18
 VSLobbyMenu__Main_2164D18: // 0x02164D18
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	bl VSLobbyMenu__Func_2163F60
 	mov r0, r4
 	bl VSLobbyMenu__Func_21640E0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	beq _02164D38
 	cmp r0, #0x15
@@ -2297,7 +2297,7 @@ _02164D38:
 	mov r1, #0
 	str r1, [r0, #0x64]
 	ldr r0, _02164D4C // =VSLobbyMenu__Main_2164E64
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02164D44:
 	pop {r4, pc}
 	nop
@@ -2308,7 +2308,7 @@ _02164D4C: .word VSLobbyMenu__Main_2164E64
 	thumb_func_start VSLobbyMenu__Main_2164D50
 VSLobbyMenu__Main_2164D50: // 0x02164D50
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r1, #0xe1
 	mov r4, r0
 	lsl r1, r1, #2
@@ -2318,12 +2318,12 @@ VSLobbyMenu__Main_2164D50: // 0x02164D50
 	bl VSLobbyMenu__Func_2163F60
 	mov r0, r4
 	bl VSLobbyMenu__Func_21640E0
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _02164D7E
-	blx DestroyDrawFadeTask
+	bl DestroyDrawFadeTask
 	ldr r0, _02164D80 // =VSLobbyMenu__Main_2164D84
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02164D7E:
 	pop {r4, pc}
 	.align 2, 0
@@ -2333,14 +2333,14 @@ _02164D80: .word VSLobbyMenu__Main_2164D84
 	thumb_func_start VSLobbyMenu__Main_2164D84
 VSLobbyMenu__Main_2164D84: // 0x02164D84
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	mov r0, #0xe1
 	lsl r0, r0, #2
 	ldr r1, [r4, r0]
 	add r1, r1, #1
 	str r1, [r4, r0]
-	blx StopSamplingTouchInput
+	bl StopSamplingTouchInput
 	mov r0, #1
 	ldr r1, [r4]
 	lsl r0, r0, #0xe
@@ -2352,7 +2352,7 @@ VSLobbyMenu__Main_2164D84: // 0x02164D84
 	and r0, r1
 	str r0, [r4]
 _02164DB0:
-	blx ReleaseConnectionStatusIconAssets
+	bl ReleaseConnectionStatusIconAssets
 	mov r0, #2
 	ldr r1, [r4]
 	lsl r0, r0, #0xc
@@ -2368,7 +2368,7 @@ _02164DCA:
 	mov r0, #0xbd
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontFile__Release
+	bl FontFile__Release
 	mov r0, r4
 	add r0, #0xc
 	bl VSLobbyMenu__ReleaseAssets
@@ -2380,10 +2380,10 @@ _02164DCA:
 	ldr r0, [r4, #4]
 	lsl r0, r0, #0x10
 	asr r0, r0, #0x10
-	blx RequestSysEventChange
-	blx NextSysEvent
-	blx ReleaseSysSound
-	blx MultibootManager__Func_2060CC8
+	bl RequestSysEventChange
+	bl NextSysEvent
+	bl ReleaseSysSound
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bne _02164E46
 	mov r0, #1
@@ -2391,33 +2391,33 @@ _02164DCA:
 	lsl r0, r0, #0xc
 	tst r0, r1
 	beq _02164E28
-	blx MultibootManager__Func_2060D28
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _02164E22
 	bl VSLobbyMenu__Func_2163D90
 	cmp r0, #0
 	bne _02164E22
-	blx ReleaseStageCommonAssets
+	bl ReleaseStageCommonAssets
 _02164E22:
 	bl VSStageSelectMenu__Func_2160C60
 	b _02164E40
 _02164E28:
-	blx MultibootManager__Func_2060D28
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _02164E40
 	bl VSLobbyMenu__Func_2163D90
 	cmp r0, #0
 	bne _02164E40
-	blx ReleaseStageCommonAssets
-	blx ReleaseStageCommonArchives
+	bl ReleaseStageCommonAssets
+	bl ReleaseStageCommonArchives
 _02164E40:
 	mov r0, #1
-	blx RequestSysEventChange
+	bl RequestSysEventChange
 _02164E46:
-	blx MultibootManager__Func_2060C9C
+	bl MultibootManager__Func_2060C9C
 	ldr r0, [r4, #8]
-	blx DestroyTask
-	blx DestroyCurrentTask
+	bl DestroyTask
+	bl DestroyCurrentTask
 	pop {r4, pc}
 	nop
 _02164E58: .word 0xFFFFBFFF
@@ -2428,7 +2428,7 @@ _02164E60: .word _mt_math_rand
 	thumb_func_start VSLobbyMenu__Main_2164E64
 VSLobbyMenu__Main_2164E64: // 0x02164E64
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	mov r0, #1
 	str r0, [r4, #4]
@@ -2458,7 +2458,7 @@ _02164E9C:
 	mov r0, r4
 	bl VSLobbyMenu__Func_21640E0
 	ldr r0, _02164EB0 // =VSLobbyMenu__Main_2164EB4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _02164EB0: .word VSLobbyMenu__Main_2164EB4
@@ -2467,7 +2467,7 @@ _02164EB0: .word VSLobbyMenu__Main_2164EB4
 	thumb_func_start VSLobbyMenu__Main_2164EB4
 VSLobbyMenu__Main_2164EB4: // 0x02164EB4
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r1, #0xe1
 	mov r4, r0
 	lsl r1, r1, #2
@@ -2497,11 +2497,11 @@ _02164EE2:
 _02164EF4:
 	mov r0, #4
 	lsl r1, r0, #0xa
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 	ldr r0, _02164F0C // =VSLobbyMenu__Main_2164D50
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _02164F08:
 	pop {r4, pc}
 	nop
@@ -2513,17 +2513,17 @@ VSLobbyMenu__Main2: // 0x02164F10
 	push {r4, lr}
 	ldr r0, _02164F34 // =VSLobbyMenu__sVars
 	ldr r4, [r0, #8]
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0x18
 	beq _02164F32
-	blx MultibootManager__Func_2061A24
+	bl MultibootManager__Func_2061A24
 	cmp r0, #0
 	beq _02164F32
 	mov r0, #0xe3
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0x10
-	blx MultibootManager__Func_2061A98
+	bl MultibootManager__Func_2061A98
 _02164F32:
 	pop {r4, pc}
 	.align 2, 0

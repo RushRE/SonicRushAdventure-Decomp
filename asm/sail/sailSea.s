@@ -18,13 +18,13 @@ SailSea__Create: // 0x0215F944
 	ldr r0, _0215F9D0 // =SailSea__Main
 	ldr r1, _0215F9D4 // =SailSea__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r2, _0215F9CC // =0x00000B88
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, #3
 	lsl r0, r0, #8
 	str r0, [r4, #0x14]
@@ -37,7 +37,7 @@ SailSea__Create: // 0x0215F944
 	str r0, [r4, #0x20]
 	mov r0, #0x48
 	str r0, [r4, #0x24]
-	blx SailManager__GetShipType
+	bl SailManager__GetShipType
 	cmp r0, #3
 	bhi _0215F9B8
 	add r0, r0, r0
@@ -81,7 +81,7 @@ SailSea__Func_215F9D8: // 0x0215F9D8
 	push {r4, r5, lr}
 	sub sp, #0x3c
 	mov r5, r0
-	blx SailManager__GetWork
+	bl SailManager__GetWork
 	asr r2, r5, #0x1f
 	lsl r3, r2, #0x12
 	lsr r1, r5, #0xe
@@ -118,7 +118,7 @@ SailSea__Func_215F9D8: // 0x0215F9D8
 	add r0, r4, #4
 	add r1, sp, #0x30
 	mov r2, r0
-	blx VEC_Add
+	bl VEC_Add
 	ldr r1, [r4, #4]
 	ldr r0, _0215FA50 // =0x00FFFFFF
 	and r1, r0
@@ -140,7 +140,7 @@ _0215FA50: .word 0x00FFFFFF
 SailSea__Func_215FA54: // 0x0215FA54
 	push {r4, lr}
 	mov r4, r0
-	blx SailManager__GetWork
+	bl SailManager__GetWork
 	add r0, #0x94
 	ldr r1, [r0]
 	strh r4, [r1, #0x10]
@@ -152,7 +152,7 @@ SailSea__Func_215FA54: // 0x0215FA54
 	thumb_func_start SailSea__Destructor
 SailSea__Destructor: // 0x0215FA68
 	push {r3, lr}
-	blx GetTaskWork_
+	bl GetTaskWork_
 	bl SailSea__ReleaseSprites
 	pop {r3, pc}
 	thumb_func_end SailSea__Destructor
@@ -160,9 +160,9 @@ SailSea__Destructor: // 0x0215FA68
 	thumb_func_start SailSea__Main
 SailSea__Main: // 0x0215FA74
 	push {r4, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
-	blx SailManager__GetShipType
+	bl SailManager__GetShipType
 	cmp r0, #3
 	beq _0215FA8A
 	mov r0, r4
@@ -183,26 +183,26 @@ SailSea__LoadSprites: // 0x0215FA98
 	mov r7, #0x26
 	mov r5, r0
 	lsl r7, r7, #6
-	blx SailManager__GetArchive
+	bl SailManager__GetArchive
 	mov r2, r0
 	ldr r1, _0215FB74 // =aSbSeaTexBac
 	mov r0, #0
-	blx ObjDataLoad
+	bl ObjDataLoad
 	mov r4, r0
-	blx SailManager__GetShipType
+	bl SailManager__GetShipType
 	cmp r0, #3
 	beq _0215FAF4
 	mov r0, r4
-	blx Sprite__GetTextureSize
+	bl Sprite__GetTextureSize
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
 	mov r1, #0
-	blx VRAMSystem__AllocTexture
+	bl VRAMSystem__AllocTexture
 	mov r6, r0
 	mov r0, r4
-	blx Sprite__GetPaletteSize
+	bl Sprite__GetPaletteSize
 	mov r1, #0
-	blx VRAMSystem__AllocPalette
+	bl VRAMSystem__AllocPalette
 	mov r1, #0
 	str r1, [sp]
 	str r6, [sp, #4]
@@ -210,24 +210,24 @@ SailSea__LoadSprites: // 0x0215FA98
 	add r0, r5, r7
 	mov r2, r4
 	mov r3, r1
-	blx AnimatorSprite3D__Init
+	bl AnimatorSprite3D__Init
 	mov r1, #0
 	add r0, r5, r7
 	mov r2, r1
-	blx AnimatorSprite3D__ProcessAnimation
+	bl AnimatorSprite3D__ProcessAnimation
 _0215FAF4:
 	mov r0, r4
 	ldr r6, _0215FB78 // =0x00000A84
-	blx Sprite__GetPaletteSize
+	bl Sprite__GetPaletteSize
 	mov r1, #0
-	blx VRAMSystem__AllocPalette
+	bl VRAMSystem__AllocPalette
 	mov r7, r0
 	mov r0, r4
-	blx Sprite__GetTextureSize
+	bl Sprite__GetTextureSize
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
 	mov r1, #0
-	blx VRAMSystem__AllocTexture
+	bl VRAMSystem__AllocTexture
 	mov r1, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -235,8 +235,8 @@ _0215FAF4:
 	mov r2, r4
 	mov r3, r1
 	str r7, [sp, #8]
-	blx AnimatorSprite3D__Init
-	blx SailManager__GetShipType
+	bl AnimatorSprite3D__Init
+	bl SailManager__GetShipType
 	cmp r0, #3
 	beq _0215FB64
 	add r0, r5, r6
@@ -253,24 +253,24 @@ _0215FB42:
 	add r0, r5, r6
 	add r0, #0x90
 	mov r1, #1
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _0215FB64
 _0215FB4E:
 	add r0, r5, r6
 	add r0, #0x90
 	mov r1, #1
-	blx AnimatorSpriteDS__SetAnimation
+	bl AnimatorSpriteDS__SetAnimation
 	b _0215FB64
 _0215FB5A:
 	add r0, r5, r6
 	add r0, #0x90
 	mov r1, #1
-	blx AnimatorSpriteDS__SetAnimation2
+	bl AnimatorSpriteDS__SetAnimation2
 _0215FB64:
 	mov r1, #0
 	add r0, r5, r6
 	mov r2, r1
-	blx AnimatorSprite3D__ProcessAnimation
+	bl AnimatorSprite3D__ProcessAnimation
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 	nop
@@ -284,11 +284,11 @@ SailSea__ReleaseSprites: // 0x0215FB7C
 	mov r4, r0
 	ldr r0, _0215FB94 // =0x00000A84
 	add r0, r4, r0
-	blx AnimatorSprite3D__Release
+	bl AnimatorSprite3D__Release
 	mov r0, #0x26
 	lsl r0, r0, #6
 	add r0, r4, r0
-	blx AnimatorSprite3D__Release
+	bl AnimatorSprite3D__Release
 	pop {r4, pc}
 	.align 2, 0
 _0215FB94: .word 0x00000A84
@@ -300,7 +300,7 @@ SailSea__Func_215FB98: // 0x0215FB98
 	sub sp, #0x14
 	mov r4, r0
 	mov r5, #0
-	blx SailManager__GetShipType
+	bl SailManager__GetShipType
 	lsl r0, r0, #0x18
 	lsr r0, r0, #0x18
 	str r0, [sp, #8]
@@ -433,7 +433,7 @@ _0215FBEA:
 	lsl r0, r0, #0xc
 	add r0, r1, r0
 	mov r1, #8
-	blx FX_DivS32
+	bl FX_DivS32
 	lsl r0, r0, #0x10
 	asr r0, r0, #0x10
 	mov r3, #0
@@ -583,7 +583,7 @@ _0215FDC4:
 	ldr r3, [sp, #0x10]
 	asr r1, r4, #0x1f
 	mov r0, r4
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	lsl r2, r2, #0xa
 	add r2, r0, r2
@@ -611,7 +611,7 @@ _0215FDFA:
 	ldr r2, [sp, #0xc]
 	ldr r3, [sp, #0x10]
 	asr r1, r0, #0x1f
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	lsl r2, r2, #0xa
 	add r2, r0, r2
@@ -647,7 +647,7 @@ _0215FDFA:
 	ldr r3, [sp, #0x10]
 	asr r1, r0, #0x1f
 	str r0, [sp, #8]
-	blx _ull_mul
+	bl _ull_mul
 	mov r2, #2
 	lsl r2, r2, #0xa
 	add r2, r0, r2
@@ -737,7 +737,7 @@ SailSea__Draw: // 0x0215FEE4
 	add r0, sp, #0x94
 	bl MTX_Identity33_
 	add r0, sp, #0xb8
-	blx NNS_G3dGlbSetBaseScale
+	bl NNS_G3dGlbSetBaseScale
 	mov r0, #0x12
 	ldrh r1, [r4, #0x10]
 	ldrsh r0, [r4, r0]
@@ -758,20 +758,20 @@ SailSea__Draw: // 0x0215FEE4
 	bl MTX_RotY33_
 	ldr r1, _021600CC // =0x021472FC
 	add r0, sp, #0x94
-	blx MI_Copy36B
+	bl MI_Copy36B
 	ldr r1, _021600D0 // =0x021472C0
 	mov r0, #0xa4
 	ldr r2, [r1, #0x7c]
 	bic r2, r0
 	add r0, sp, #0xc4
 	str r2, [r1, #0x7c]
-	blx NNS_G3dGlbSetBaseTrans
+	bl NNS_G3dGlbSetBaseTrans
 	mov r0, #3
 	str r0, [sp, #0x30]
 	mov r0, #0x10
 	add r1, sp, #0x30
 	mov r2, #1
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	add r0, sp, #0x64
 	bl MTX_Identity43_
 	add r0, sp, #0x34
@@ -808,26 +808,26 @@ SailSea__Draw: // 0x0215FEE4
 	mov r0, #0x17
 	add r1, sp, #0x64
 	mov r2, #0xc
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	mov r2, #1
 	mov r0, #0x10
 	add r1, sp, #0x2c
 	str r2, [sp, #0x2c]
-	blx NNS_G3dGeBufferOP_N
-	blx NNS_G3dGlbFlushVP
+	bl NNS_G3dGeBufferOP_N
+	bl NNS_G3dGlbFlushVP
 	mov r0, #2
 	lsl r0, r0, #0x1c
 	str r0, [sp, #0x28]
 	mov r0, #0x2a
 	add r1, sp, #0x28
 	mov r2, #1
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	ldr r1, _021600D4 // =0x00000488
 	mov r0, r4
 	add r1, r4, r1
 	mov r2, #2
 	bl SailSea__Func_2160104
-	blx SailManager__GetShipType
+	bl SailManager__GetShipType
 	cmp r0, #3
 	beq _0216002C
 	ldr r0, _021600D8 // =0x1F0C8880
@@ -835,7 +835,7 @@ SailSea__Draw: // 0x0215FEE4
 	str r0, [sp, #0x24]
 	mov r0, #0x29
 	mov r2, #1
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	ldr r0, _021600DC // =0x00000A5C
 	mov r2, #1
 	ldr r1, [r4, r0]
@@ -845,7 +845,7 @@ SailSea__Draw: // 0x0215FEE4
 	str r0, [sp, #0x20]
 	mov r0, #0x2b
 	add r1, sp, #0x20
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	ldr r0, _021600E4 // =0x00000A54
 	mov r2, #1
 	ldr r1, [r4, r0]
@@ -857,7 +857,7 @@ SailSea__Draw: // 0x0215FEE4
 	str r0, [sp, #0x1c]
 	mov r0, #0x2a
 	add r1, sp, #0x1c
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	mov r1, r4
 	mov r0, r4
 	add r1, #0x28
@@ -869,7 +869,7 @@ _0216002C:
 	str r0, [sp, #0x18]
 	mov r0, #0x29
 	mov r2, #1
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	mov r0, #0xb6
 	lsl r0, r0, #4
 	ldr r1, [r4, r0]
@@ -880,7 +880,7 @@ _0216002C:
 	str r0, [sp, #0x14]
 	mov r0, #0x2b
 	add r1, sp, #0x14
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	ldr r0, _021600F4 // =0x00000B58
 	mov r2, #1
 	ldr r1, [r4, r0]
@@ -892,7 +892,7 @@ _0216002C:
 	str r0, [sp, #0x10]
 	mov r0, #0x2a
 	add r1, sp, #0x10
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	mov r1, #0x96
 	lsl r1, r1, #2
 	mov r0, r4
@@ -904,14 +904,14 @@ _0216002C:
 	str r0, [sp, #0xc]
 	mov r0, #0x29
 	mov r2, #1
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	mov r0, #2
 	lsl r0, r0, #0x1c
 	str r0, [sp, #8]
 	mov r0, #0x2a
 	add r1, sp, #8
 	mov r2, #1
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	mov r0, r4
 	bl SailSea__Func_21602CC
 	ldr r0, _021600FC // =0x001F0083
@@ -919,7 +919,7 @@ _0216002C:
 	str r0, [sp, #4]
 	mov r0, #0x29
 	mov r2, #1
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	mov r0, #1
 	bl SailSea__Func_2160534
 	mov r1, #1
@@ -927,7 +927,7 @@ _0216002C:
 	ldr r2, _02160100 // =0x00007FFF
 	mov r1, #0x1f
 	mov r3, #0
-	blx G3X_SetClearColor
+	bl G3X_SetClearColor
 	add sp, #0xd0
 	pop {r4, pc}
 	.align 2, 0
@@ -967,7 +967,7 @@ _02160116:
 	add r2, r2, #1
 	sub r1, r1, #1
 	bne _02160116
-	blx SailManager__GetShipType
+	bl SailManager__GetShipType
 	lsl r0, r0, #0x18
 	lsr r4, r0, #0x18
 	ldr r0, [sp]
@@ -979,7 +979,7 @@ _02160116:
 	mov r0, #0x20
 	add r1, sp, #0x1c
 	mov r2, #1
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	b _02160156
 _02160144:
 	mov r0, #0
@@ -988,7 +988,7 @@ _02160144:
 	mov r0, #0x20
 	add r1, sp, #0x18
 	mov r2, #1
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 _02160156:
 	ldr r0, [sp]
 	cmp r0, #1
@@ -1026,7 +1026,7 @@ _02160188:
 	str r0, [sp, #0x14]
 	mov r0, #0x29
 	add r1, sp, #0x14
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	mov r0, #7
 	mov r5, #0
 	mov ip, r0
@@ -1155,14 +1155,14 @@ _02160288:
 	mov r0, #0x40
 	add r1, sp, #0x10
 	mov r2, #1
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	add r0, sp, #0x3c
 	lsl r1, r4, #2
-	blx NNS_G3dGeSendDL
+	bl NNS_G3dGeSendDL
 	mov r1, #0
 	mov r0, #0x41
 	mov r2, r1
-	blx NNS_G3dGeBufferOP_N
+	bl NNS_G3dGeBufferOP_N
 	ldr r0, [sp, #0xc]
 	add r0, r0, #1
 	lsl r0, r0, #0x10
@@ -1311,7 +1311,7 @@ SailSea__Func_21602CC: // 0x021602CC
 	add r1, r3, #1
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0xe
-	blx NNS_G3dGeSendDL
+	bl NNS_G3dGeSendDL
 	add sp, #0x28
 	pop {r4, r5, r6, pc}
 	.align 2, 0
@@ -1329,7 +1329,7 @@ SailSea__Func_21603E8: // 0x021603E8
 	mov r6, r1
 	str r2, [sp, #0x10]
 	str r3, [sp]
-	blx SailManager__GetWork
+	bl SailManager__GetWork
 	add r0, #0x94
 	ldr r4, [r0]
 	ldr r0, [r5, #8]
@@ -1340,7 +1340,7 @@ SailSea__Func_21603E8: // 0x021603E8
 	add r0, r1, r0
 	mov r1, #1
 	lsl r1, r1, #0x10
-	blx FX_Div
+	bl FX_Div
 	asr r5, r0, #0xc
 	mov r1, #6
 	ldr r0, [sp, #4]
@@ -1348,7 +1348,7 @@ SailSea__Func_21603E8: // 0x021603E8
 	add r0, r0, r1
 	mov r1, #1
 	lsl r1, r1, #0x10
-	blx FX_Div
+	bl FX_Div
 	asr r3, r0, #0xc
 	cmp r5, #0
 	bge _0216042A
@@ -1473,16 +1473,16 @@ SailSea__GetSurfacePosition: // 0x021604DC
 	mov r1, r2
 	mov r0, r4
 	add r2, sp, #0x30
-	blx Unknown2066510__Func_2066F88
+	bl Unknown2066510__Func_2066F88
 	add r0, sp, #0x48
 	add r1, sp, #0x24
 	add r2, sp, #0x18
 	add r3, sp, #0xc
-	blx sub_2066FD0
+	bl sub_2066FD0
 	add r0, sp, #0x48
 	add r1, sp, #0x30
 	add r2, sp, #0
-	blx Unknown2066510__Func_20670F8
+	bl Unknown2066510__Func_20670F8
 	ldr r0, [sp, #4]
 	add sp, #0x58
 	pop {r3, r4, r5, pc}
@@ -1497,9 +1497,9 @@ SailSea__Func_2160534: // 0x02160534
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x18
 	mov r4, r0
-	blx SailManager__GetWork
+	bl SailManager__GetWork
 	str r0, [sp, #8]
-	blx SailManager__GetWork
+	bl SailManager__GetWork
 	add r0, #0x98
 	ldr r0, [r0]
 	cmp r4, #0
@@ -1510,7 +1510,7 @@ SailSea__Func_2160534: // 0x02160534
 	cmp r4, #2
 	beq _0216064A
 _02160556:
-	blx SailManager__GetShipType
+	bl SailManager__GetShipType
 	cmp r0, #3
 	beq _02160588
 	mov r0, #6
@@ -1602,7 +1602,7 @@ _021605F4:
 	mov r5, r0
 	b _02160688
 _02160600:
-	blx SailManager__GetShipType
+	bl SailManager__GetShipType
 	cmp r0, #3
 	beq _02160626
 	mov r1, #2
@@ -1640,7 +1640,7 @@ _02160626:
 	ldr r6, [sp, #0xc]
 	b _02160688
 _0216064A:
-	blx SailManager__GetShipType
+	bl SailManager__GetShipType
 	cmp r0, #3
 	beq _02160672
 	mov r1, #0x1f
@@ -1690,17 +1690,17 @@ _02160688:
 	mov r0, r1
 	mov r1, r5
 	mov r2, r7
-	blx ObjAlphaSet
+	bl ObjAlphaSet
 	mov r5, r0
 	ldr r0, [sp, #0x14]
 	mov r1, r4
 	mov r2, r7
-	blx ObjAlphaSet
+	bl ObjAlphaSet
 	mov r4, r0
 	ldr r0, [sp, #0x10]
 	mov r1, r6
 	mov r2, r7
-	blx ObjAlphaSet
+	bl ObjAlphaSet
 	mov r6, r0
 	b _02160758
 _021606CC:
@@ -1724,17 +1724,17 @@ _021606DA:
 	lsr r6, r0, #0x10
 	mov r0, r3
 	mov r2, r6
-	blx ObjAlphaSet
+	bl ObjAlphaSet
 	mov r5, r0
 	ldr r1, [sp, #0x14]
 	mov r0, r7
 	mov r2, r6
-	blx ObjAlphaSet
+	bl ObjAlphaSet
 	mov r4, r0
 	ldr r0, [sp, #0xc]
 	ldr r1, [sp, #0x10]
 	mov r2, r6
-	blx ObjAlphaSet
+	bl ObjAlphaSet
 	mov r6, r0
 	b _02160758
 _02160712:
@@ -1759,17 +1759,17 @@ _02160720:
 	ldr r2, [sp]
 	mov r0, r5
 	mov r1, r3
-	blx ObjAlphaSet
+	bl ObjAlphaSet
 	mov r5, r0
 	ldr r2, [sp]
 	mov r0, r4
 	mov r1, r7
-	blx ObjAlphaSet
+	bl ObjAlphaSet
 	mov r4, r0
 	ldr r1, [sp, #0xc]
 	ldr r2, [sp]
 	mov r0, r6
-	blx ObjAlphaSet
+	bl ObjAlphaSet
 	mov r6, r0
 _02160758:
 	ldr r0, [sp, #8]
@@ -1787,7 +1787,7 @@ _0216076E:
 	mov r0, #1
 	lsl r0, r0, #0xe
 	mov r1, #0
-	blx ObjAlphaSet
+	bl ObjAlphaSet
 	sub r5, r5, r0
 	sub r4, r4, r0
 	sub r6, r6, r0

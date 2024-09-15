@@ -989,7 +989,7 @@ LeaderboardWorker__GetRankScore_Internal: // 0x02175468
 	mov r2, r4
 	and r1, r1, #0xff
 	mov r3, #1
-	blx SaveGame__GetTimeAttackRecord
+	bl SaveGame__GetTimeAttackRecord
 	cmp r0, #1
 	ldr r1, _021754E0 // =0x00008C9F
 	movlt r0, #1
@@ -1036,13 +1036,13 @@ LeaderboardWorker__GetCharacterID: // 0x02175514
 	mov r0, r5
 	mov r1, #0
 	mov r3, #1
-	blx SaveGame__GetTimeAttackRecord
+	bl SaveGame__GetTimeAttackRecord
 	mov r1, #1
 	mov r6, r0
 	mov r0, r5
 	mov r2, r4
 	mov r3, r1
-	blx SaveGame__GetTimeAttackRecord
+	bl SaveGame__GetTimeAttackRecord
 	cmp r6, #0
 	cmpne r0, #0
 	beq _0217558C

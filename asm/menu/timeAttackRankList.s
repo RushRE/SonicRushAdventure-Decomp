@@ -23,7 +23,7 @@ TimeAttackRankList__Create: // 0x0216F60C
 	mov r1, #6
 	mov r3, #1
 	str r2, [sp]
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	mov r1, #0x97
 	lsl r1, r1, #2
 	str r0, [r5, r1]
@@ -50,7 +50,7 @@ _0216F658:
 	lsl r0, r0, #2
 	ldr r0, [r1, r0]
 	ldr r1, [sp, #0x30]
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, [sp, #0x30]
 	ldr r3, _0216F860 // =0x00000804
 	str r1, [sp]
@@ -73,11 +73,11 @@ _0216F658:
 	lsl r1, r1, #2
 	ldr r1, [r2, r1]
 	ldrh r2, [r4, #2]
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r7, r7, #1
 	add r6, #0x64
 	add r4, #0xa
@@ -95,7 +95,7 @@ _0216F6BE:
 	mov r0, #0xb3
 	lsl r0, r0, #2
 	add r0, r5, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r1, _0216F868 // =0x00000594
 	mov r7, #0
 	sub r0, r1, #4
@@ -121,7 +121,7 @@ _0216F6E8:
 	strh r1, [r4, r0]
 	mov r0, r6
 	mov r1, #5
-	blx _u32_div_f
+	bl _u32_div_f
 	mov r1, #0x59
 	lsl r1, r1, #4
 	ldrsh r1, [r5, r1]
@@ -139,14 +139,14 @@ _0216F6E8:
 	mov r0, #0
 	add r1, #2
 	mov r2, #0xa
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r0, _0216F878 // =0x02110460
 	add r1, sp, #0x54
 	mov r2, #8
-	blx MIi_CpuCopy16
+	bl MIi_CpuCopy16
 	mov r0, #0x1b
 	lsl r0, r0, #6
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	mov r6, r0
 	mov r0, #0
 	str r0, [sp, #0x38]
@@ -164,7 +164,7 @@ _0216F74C:
 	mov r0, #0
 	mov r1, r6
 	lsl r2, r2, #6
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	ldr r0, [r7]
 	cmp r0, #0
 	bne _0216F78C
@@ -188,14 +188,14 @@ _0216F74C:
 	ldr r0, [sp, #0x74]
 	mov r2, #0x10
 	mov r3, r6
-	blx FontFile__Func_2052F38
+	bl FontFile__Func_2052F38
 	b _0216F7D6
 _0216F78C:
 	add r2, sp, #0x4c
 	add r1, sp, #0x50
 	add r2, #2
 	add r3, sp, #0x4c
-	blx AkUtilFrameToTime
+	bl AkUtilFrameToTime
 	mov r0, #0x1b
 	str r0, [sp]
 	mov r0, #2
@@ -225,7 +225,7 @@ _0216F78C:
 	ldrh r0, [r0]
 	str r0, [sp, #0x2c]
 	ldr r0, [sp, #0x74]
-	blx FontFile__Func_2052F38
+	bl FontFile__Func_2052F38
 _0216F7D6:
 	mov r0, #0x1b
 	str r0, [sp]
@@ -240,7 +240,7 @@ _0216F7D6:
 	mov r0, r4
 	mov r2, #0
 	mov r3, r6
-	blx Unknown2056FDC__Func_2057004
+	bl Unknown2056FDC__Func_2057004
 	ldr r0, [sp, #0x48]
 	add r7, #8
 	strh r0, [r4, #0x34]
@@ -253,7 +253,7 @@ _0216F7D6:
 	cmp r0, #5
 	blo _0216F74C
 	mov r0, r6
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	mov r1, #0
 	ldr r0, _0216F888 // =0x00004001
 	mov r2, r1
@@ -263,9 +263,9 @@ _0216F7D6:
 	str r0, [sp, #8]
 	ldr r0, _0216F88C // =TimeAttackRankList__Main1
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r5]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0
 	str r5, [r0]
 	ldr r0, _0216F890 // =0x00004081
@@ -276,9 +276,9 @@ _0216F7D6:
 	str r0, [sp, #8]
 	ldr r0, _0216F894 // =TimeAttackRankList__Main2
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r5, #4]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	str r5, [r0]
 	ldr r1, [r5, #0xc]
 	mov r0, #1
@@ -330,14 +330,14 @@ TimeAttackRankList__InitRecords: // 0x0216F8B0
 	mov r0, #0
 	add r1, #2
 	mov r2, #0xa
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r0, _0216F9B0 // =0x02110460
 	add r1, sp, #0x40
 	mov r2, #8
-	blx MIi_CpuCopy16
+	bl MIi_CpuCopy16
 	mov r0, #0x1b
 	lsl r0, r0, #6
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	mov r4, r0
 	mov r0, #0
 	str r0, [sp, #0x34]
@@ -350,7 +350,7 @@ _0216F8E4:
 	mov r0, #0
 	mov r1, r4
 	lsl r2, r2, #6
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	ldr r0, [r6]
 	cmp r0, #0
 	bne _0216F924
@@ -374,14 +374,14 @@ _0216F8E4:
 	ldr r0, [sp, #0x30]
 	mov r2, #0x10
 	mov r3, r4
-	blx FontFile__Func_2052F38
+	bl FontFile__Func_2052F38
 	b _0216F96E
 _0216F924:
 	add r2, sp, #0x38
 	add r1, sp, #0x3c
 	add r2, #2
 	add r3, sp, #0x38
-	blx AkUtilFrameToTime
+	bl AkUtilFrameToTime
 	mov r0, #0x1b
 	str r0, [sp]
 	mov r0, #2
@@ -411,7 +411,7 @@ _0216F924:
 	ldrh r0, [r0]
 	str r0, [sp, #0x2c]
 	ldr r0, [sp, #0x30]
-	blx FontFile__Func_2052F38
+	bl FontFile__Func_2052F38
 _0216F96E:
 	mov r0, #0x1b
 	str r0, [sp]
@@ -426,7 +426,7 @@ _0216F96E:
 	mov r0, r5
 	mov r2, #0
 	mov r3, r4
-	blx Unknown2056FDC__Func_2057004
+	bl Unknown2056FDC__Func_2057004
 	ldrh r0, [r7, #0x14]
 	add r6, #8
 	add r0, r0, #1
@@ -440,7 +440,7 @@ _0216F96E:
 	cmp r0, #5
 	blo _0216F8E4
 	mov r0, r4
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	add sp, #0x48
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
@@ -493,7 +493,7 @@ _0216F9DA:
 	mov r0, #0
 	str r0, [sp, #0x20]
 	mov r0, r5
-	blx Task__Unknown204BE48__Create
+	bl Task__Unknown204BE48__Create
 	ldr r1, _0216FA40 // =0x00000598
 	add r7, r7, #1
 	str r0, [r4, r1]
@@ -560,7 +560,7 @@ _0216FA5C:
 	mov r0, #0
 	str r0, [sp, #0x20]
 	mov r0, r6
-	blx Task__Unknown204BE48__Create
+	bl Task__Unknown204BE48__Create
 	ldr r1, _0216FAB8 // =0x00000598
 	add r4, r4, #1
 	str r0, [r5, r1]
@@ -615,7 +615,7 @@ _0216FAEA:
 	mov r0, #0
 	add r1, r2, r1
 	mov r2, #0x14
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 _0216FAF6:
 	pop {r3, pc}
 	.align 2, 0
@@ -650,11 +650,11 @@ _0216FB1C:
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #0x14
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	ldr r0, [r4]
 	cmp r0, #0
 	beq _0216FB40
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0
 	str r1, [r0]
 	str r1, [r4]
@@ -662,7 +662,7 @@ _0216FB40:
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	beq _0216FB50
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0
 	str r1, [r0]
 	str r1, [r4, #4]
@@ -675,11 +675,11 @@ _0216FB54: .word 0x00000598
 	thumb_func_start TimeAttackRankList__Main1
 TimeAttackRankList__Main1: // 0x0216FB58
 	push {r3, r4, r5, r6, r7, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	ldr r6, [r0]
 	cmp r6, #0
 	bne _0216FB6A
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	pop {r3, r4, r5, r6, r7, pc}
 _0216FB6A:
 	mov r0, r6
@@ -698,7 +698,7 @@ _0216FB84:
 	mov r0, r5
 	mov r1, r7
 	mov r2, r7
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, #0x64
 	cmp r5, r4
 	bne _0216FB84
@@ -712,7 +712,7 @@ _0216FB94:
 	beq _0216FBAE
 _0216FBA2:
 	mov r0, r4
-	blx Unknown2056FDC__Func_2057484
+	bl Unknown2056FDC__Func_2057484
 	add r4, #0x48
 	cmp r4, r5
 	bne _0216FBA2
@@ -725,11 +725,11 @@ _0216FBB0: .word 0x00000524
 	thumb_func_start TimeAttackRankList__Main2
 TimeAttackRankList__Main2: // 0x0216FBB4
 	push {r3, r4, r5, r6, r7, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	ldr r6, [r0]
 	cmp r6, #0
 	bne _0216FBC6
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	pop {r3, r4, r5, r6, r7, pc}
 _0216FBC6:
 	mov r0, r6
@@ -777,7 +777,7 @@ _0216FBF0:
 	add r0, r0, r2
 	strh r0, [r1, #0xa]
 	mov r0, r1
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, _0216FC90 // =0x00000566
 	ldrsh r0, [r4, r0]
 	strh r0, [r5, #4]
@@ -791,7 +791,7 @@ _0216FBF0:
 	cmp r0, #0xc0
 	bge _0216FC3E
 	mov r0, r5
-	blx Unknown2056FDC__Func_2057614
+	bl Unknown2056FDC__Func_2057614
 _0216FC3E:
 	add r7, r7, #1
 	add r4, r4, #4
@@ -824,7 +824,7 @@ _0216FC52:
 	add r0, r0, r1
 	strh r0, [r2, #0xa]
 	mov r0, r2
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	add r4, r4, #1
 	add r6, r6, #4
 	cmp r4, #5

@@ -30,7 +30,7 @@ PlayerNameMenu__Create: // 0x02160E58
 	mov r2, r4
 	mov r0, #0
 	add r1, sp, #0xc
-	blx NameMenu__Create
+	bl NameMenu__Create
 	bl LoadSysSoundVillage
 	mov r0, #0
 	bl PlaySysVillageTrack
@@ -204,13 +204,13 @@ PlayerNameMenu__Main: // 0x0216109C
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	blx NameMenu__Func_215EE68
+	bl NameMenu__Func_215EE68
 	cmp r0, #0
 	beq _02161108
-	blx NameMenu__Func_215EE80
+	bl NameMenu__Func_215EE80
 	cmp r0, #0
 	beq _021610E8
-	blx NameMenu__Func_215EE8C
+	bl NameMenu__Func_215EE8C
 	bl PlayerNameMenu__SetSaveName
 	cmp r0, #0
 	bne _021610E8

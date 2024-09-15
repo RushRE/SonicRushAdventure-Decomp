@@ -13,30 +13,30 @@ StageSelectMenu__Singleton: // 0x0217EFCC
 StageSelectMenu__LoadAssets: // 0x0215D944
 	push {r4, lr}
 	mov r0, #0xa0
-	blx _AllocHeadHEAP_SYSTEM
+	bl _AllocHeadHEAP_SYSTEM
 	mov r4, r0
 	mov r0, #0
 	mov r1, r4
 	mov r2, #0xa0
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r1, #0
 	ldr r0, _0215D988 // =aBbDmasBb
 	mov r2, r1
-	blx ReadFileFromBundle
+	bl ReadFileFromBundle
 	str r0, [r4]
 	ldr r0, _0215D98C // =aBbNlBb_1
 	mov r1, #1
 	mov r2, #0
-	blx ReadFileFromBundle
+	bl ReadFileFromBundle
 	str r0, [r4, #4]
 	mov r0, r4
 	add r0, #8
-	blx FontFile__Init
+	bl FontFile__Init
 	mov r0, r4
 	ldr r1, _0215D990 // =aFntFontIplFnt_ovl03
 	add r0, #8
 	mov r2, #1
-	blx FontFile__InitFromPath
+	bl FontFile__InitFromPath
 	mov r0, r4
 	pop {r4, pc}
 	.align 2, 0
@@ -50,7 +50,7 @@ StageSelectMenu__ReleaseAssets: // 0x0215D994
 	push {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	add r0, #8
-	blx FontFile__Release
+	bl FontFile__Release
 	mov r5, r7
 	mov r0, #8
 	beq _0215D9B6
@@ -59,13 +59,13 @@ StageSelectMenu__ReleaseAssets: // 0x0215D994
 	add r4, #8
 _0215D9AA:
 	ldr r0, [r5]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	stmia r5!, {r6}
 	cmp r5, r4
 	bne _0215D9AA
 _0215D9B6:
 	mov r0, r7
-	blx _FreeHEAP_SYSTEM
+	bl _FreeHEAP_SYSTEM
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 	thumb_func_end StageSelectMenu__ReleaseAssets
@@ -86,7 +86,7 @@ StageSelectMenu__Create: // 0x0215D9C0
 	ldr r0, _0215DA28 // =StageSelectMenu__Main
 	ldr r1, _0215DA2C // =StageSelectMenu__Destructor
 	mov r3, r2
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r1, _0215DA30 // =StageSelectMenu__Singleton
 	mov r2, #0
 	str r0, [r1]
@@ -94,12 +94,12 @@ StageSelectMenu__Create: // 0x0215D9C0
 	add r0, #0x94
 	str r2, [r0]
 	ldr r0, [r1]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r2, _0215DA24 // =0x00001404
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _0215DA34 // =0x000013D0
 	str r5, [r4]
 	str r6, [r4, r1]
@@ -164,7 +164,7 @@ StageSelectMenu__Func_215DA68: // 0x0215DA68
 	push {r3, lr}
 	ldr r0, _0215DA84 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0215DA88 // =0x000013DC
 	ldr r2, [r0, r1]
 	cmp r2, #0
@@ -183,7 +183,7 @@ _0215DA88: .word 0x000013DC
 	thumb_func_start StageSelectMenu__Destructor
 StageSelectMenu__Destructor: // 0x0215DA8C
 	push {r4, r5, r6, lr}
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	ldr r0, _0215DB20 // =0x000013D4
 	ldrh r1, [r6, r0]
@@ -202,7 +202,7 @@ _0215DAA4:
 	beq _0215DABE
 _0215DAB2:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, #0x64
 	cmp r5, r4
 	bne _0215DAB2
@@ -216,7 +216,7 @@ _0215DABE:
 	beq _0215DAD8
 _0215DACC:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, #0x64
 	cmp r5, r4
 	bne _0215DACC
@@ -229,7 +229,7 @@ _0215DAD8:
 	beq _0215DAF0
 _0215DAE4:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, #0x64
 	cmp r5, r4
 	bne _0215DAE4
@@ -243,7 +243,7 @@ _0215DAF0:
 _0215DAFC:
 	mov r0, r5
 	add r0, #0x38
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, #0xb0
 	cmp r5, r4
 	bne _0215DAFC
@@ -275,7 +275,7 @@ StageSelectMenu__Func_215DB44: // 0x0215DB44
 	mov r7, r0
 	ldr r0, _0215DBFC // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r0, _0215DC00 // =0x000013E0
 	ldr r0, [r5, r0]
@@ -296,13 +296,13 @@ StageSelectMenu__Func_215DB44: // 0x0215DB44
 	b _0215DBF4
 _0215DB76:
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	add r1, r4, r6
 	add r1, #0xa4
 	add r0, r4, r6
 	ldrh r1, [r1]
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r2, [r5]
 	mov r0, r2
 	add r0, #0x98
@@ -323,13 +323,13 @@ _0215DBA0:
 	str r1, [r5, r0]
 	b _0215DBF4
 _0215DBAE:
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	add r1, r4, r6
 	add r1, #0xa0
 	add r0, r4, r6
 	ldrh r1, [r1]
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r2, [r5]
 	mov r0, r2
 	add r0, #0x98
@@ -359,7 +359,7 @@ _0215DBD6:
 	str r1, [r5, r0]
 _0215DBF4:
 	ldr r0, _0215DC18 // =StageSelectMenu__Func_215F490
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0215DBFC: .word StageSelectMenu__Singleton
@@ -387,7 +387,7 @@ StageSelectMenu__TouchAreaFunc_215DC1C: // 0x0215DC1C
 	bne _0215DC56
 	ldr r0, _0215DC58 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0215DC5C // =0x000013E0
 	ldr r0, [r0, r1]
 	lsl r1, r4, #0x10
@@ -396,7 +396,7 @@ StageSelectMenu__TouchAreaFunc_215DC1C: // 0x0215DC1C
 	mov r1, #0
 	bl StageSelectMenu__Func_215E084
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	bl StageSelectMenu__Func_215E324
 _0215DC56:
 	pop {r4, pc}
@@ -416,7 +416,7 @@ StageSelectMenu__Func_215DC60: // 0x0215DC60
 	bne _0215DC92
 	ldr r0, _0215DC94 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0215DC98 // =0x000013E0
 	ldr r0, [r0, r1]
 	lsl r1, r4, #0x10
@@ -425,7 +425,7 @@ StageSelectMenu__Func_215DC60: // 0x0215DC60
 	mov r1, #1
 	bl StageSelectMenu__Func_215E084
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	bl StageSelectMenu__Func_215E324
 _0215DC92:
 	pop {r4, pc}
@@ -441,7 +441,7 @@ StageSelectMenu__Func_215DC9C: // 0x0215DC9C
 	add r1, #0xa4
 	ldrh r1, [r1]
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #1
 	bl StageSelectMenu__Func_215DB44
 	pop {r3, pc}
@@ -455,7 +455,7 @@ StageSelectMenu__Func_215DCB4: // 0x0215DCB4
 	add r1, #0xa4
 	ldrh r1, [r1]
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #2
 	bl StageSelectMenu__Func_215DB44
 	pop {r3, pc}
@@ -476,13 +476,13 @@ Task__OVL03Unknown215DCCC__Create: // 0x0215DCCC
 	ldr r0, _0215DD50 // =Task__OVL03Unknown215DCCC__Main
 	ldr r1, _0215DD54 // =Task__OVL03Unknown215DCCC__Destructor
 	mov r3, r2
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0
 	mov r1, r4
 	mov r2, #0xc
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r2, #0
 	str r2, [r4]
 	ldr r0, _0215DD58 // =VRAMSystem__GFXControl
@@ -536,7 +536,7 @@ _0215DD5C: .word 0xFFFFE0FF
 	thumb_func_start Task__OVL03Unknown215DCCC__Destructor
 Task__OVL03Unknown215DCCC__Destructor: // 0x0215DD60
 	push {r3, lr}
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, [r0, #8]
 	ldr r2, _0215DD80 // =VRAMSystem__GFXControl
 	lsl r1, r1, #2
@@ -559,7 +559,7 @@ StageSelectMenu__Func_215DD84: // 0x0215DD84
 	mov r4, r0
 	ldr r0, _0215DD98 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	add r1, r4, r0
 	ldr r0, _0215DD9C // =0x000013E3
 	ldrb r0, [r1, r0]
@@ -614,7 +614,7 @@ StageSelectMenu__Func_215DDD4: // 0x0215DDD4
 	ldrb r4, [r0, r1]
 	ldr r0, _0215DE1C // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	add r1, r4, r0
 	ldr r0, _0215DE20 // =0x000013E3
 	ldrb r0, [r1, r0]
@@ -627,7 +627,7 @@ _0215DDF6:
 	lsl r0, r0, #0x10
 	lsr r5, r0, #0x10
 	ldr r0, [r6]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	add r0, r4, r0
 	ldrb r0, [r0, r7]
 	cmp r5, r0
@@ -682,7 +682,7 @@ _0215DE58:
 	mvn r5, r5
 _0215DE5C:
 	ldr r0, [r7]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	add r1, r4, r0
 	ldr r0, _0215DEAC // =0x000013E3
 	ldrb r0, [r1, r0]
@@ -690,7 +690,7 @@ _0215DE5C:
 	beq _0215DE3A
 	ldr r0, _0215DEA4 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	add r1, r4, r0
 	ldr r0, _0215DEAC // =0x000013E3
 	ldrb r0, [r1, r0]
@@ -701,7 +701,7 @@ _0215DE5C:
 _0215DE82:
 	ldr r0, [r5]
 	sub r6, r6, #1
-	blx GetTaskWork_
+	bl GetTaskWork_
 	add r0, r4, r0
 	ldrb r0, [r0, r7]
 	cmp r6, r0
@@ -749,7 +749,7 @@ _0215DED8:
 _0215DEDE:
 	ldr r0, _0215DF18 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	add r1, r4, r0
 	ldr r0, _0215DF1C // =0x000013E3
 	ldrb r0, [r1, r0]
@@ -760,7 +760,7 @@ _0215DEDE:
 _0215DEF4:
 	ldr r0, [r6]
 	sub r5, r5, #1
-	blx GetTaskWork_
+	bl GetTaskWork_
 	add r0, r4, r0
 	ldrb r0, [r0, r7]
 	cmp r5, r0
@@ -805,7 +805,7 @@ ovl03_215DF24: // 0x0215DF24
 	str r1, [sp, #4]
 	mov r1, r0
 	add r1, #0x38
-	blx TouchField__InitAreaSprite
+	bl TouchField__InitAreaSprite
 	add sp, #8
 	pop {r3, r4, r5, pc}
 	nop
@@ -829,7 +829,7 @@ StageSelectMenu__ConfigureButton: // 0x0215DF60
 	add r2, #0xa4
 	add r0, #0x38
 	strh r3, [r2]
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	pop {r3, r4, r5, pc}
 	thumb_func_end StageSelectMenu__ConfigureButton
 
@@ -867,9 +867,9 @@ _0215DFA6:
 	ldrh r1, [r1]
 	mov r0, r4
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	b _0215E00C
 _0215DFCE:
 	mov r1, r4
@@ -885,7 +885,7 @@ _0215DFCE:
 	ldrh r1, [r1]
 	mov r0, r4
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _0215E00C
 _0215DFEE:
 	mov r0, #0x20
@@ -937,13 +937,13 @@ StageSelectMover__Create: // 0x0215E020
 	str r0, [sp, #8]
 	ldr r0, _0215E080 // =StageSelectMover__Main
 	mov r3, r1
-	blx TaskCreate_
-	blx GetTaskWork_
+	bl TaskCreate_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0
 	mov r1, r4
 	mov r2, #0x20
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	str r5, [r4]
 	ldr r0, [sp, #0xc]
 	strh r0, [r4, #4]
@@ -974,7 +974,7 @@ StageSelectMenu__Func_215E084: // 0x0215E084
 	ldr r0, _0215E0F4 // =StageSelectMenu__Singleton
 	mov r6, r1
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0
 	mvn r0, r0
@@ -994,7 +994,7 @@ StageSelectMenu__Func_215E084: // 0x0215E084
 	add r1, #0xa0
 	ldrh r1, [r1]
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	lsl r0, r5, #0x10
 	lsr r1, r0, #0x10
 	ldr r0, _0215E0F8 // =0x000013E0
@@ -1014,7 +1014,7 @@ _0215E0C6:
 	add r0, r3, r2
 	ldrh r1, [r1]
 	add r0, #0x38
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	cmp r6, #0
 	beq _0215E0F2
 	ldr r0, _0215E100 // =0x000013C4
@@ -1048,7 +1048,7 @@ StageSelectMenu__Func_215E104: // 0x0215E104
 	ldrsh r1, [r1, r2]
 	add r1, r3, r1
 	strh r1, [r4, #0xa]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, [sp]
 	str r0, [r4, #8]
 	add sp, #4
@@ -1104,7 +1104,7 @@ _0215E15C:
 _0215E180:
 	ldr r0, _0215E290 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, [sp, #0x10]
 	mov r4, #0
 	add r1, r1, r0
@@ -1118,7 +1118,7 @@ _0215E198:
 	ldrh r0, [r0]
 	mov r1, r7
 	mov r2, r7
-	blx MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckProgress
 	cmp r0, #0
 	bne _0215E1B4
 	ldr r1, [sp]
@@ -1156,10 +1156,10 @@ _0215E1DC:
 	bne _0215E1DC
 _0215E1E4:
 	mov r0, #0x16
-	blx MenuHelpers__Func_217CE80
+	bl MenuHelpers__Func_217CE80
 	mov r1, #0
 	mov r2, r1
-	blx MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckProgress
 	cmp r0, #0
 	bne _0215E25E
 	ldr r1, _0215E298 // =0x000013EC
@@ -1176,7 +1176,7 @@ _0215E200:
 _0215E20A:
 	ldr r0, _0215E290 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, [sp, #4]
 	mov r5, #0
 	add r1, r1, r0
@@ -1190,7 +1190,7 @@ _0215E222:
 	ldrh r0, [r0]
 	mov r1, r7
 	mov r2, #1
-	blx MenuHelpers__CheckProgress
+	bl MenuHelpers__CheckProgress
 	cmp r0, #0
 	bne _0215E23E
 	ldr r1, [sp]
@@ -1274,7 +1274,7 @@ StageSelectMenu__Func_215E2B8: // 0x0215E2B8
 	add r1, r0, r1
 	ldr r0, _0215E2F4 // =0x0217DBDA
 	ldrb r0, [r0, r1]
-	blx SaveGame__GetStageRank
+	bl SaveGame__GetStageRank
 	cmp r0, #3
 	bhi _0215E2EE
 	add r0, r0, r0
@@ -1335,7 +1335,7 @@ StageSelectMenu__Func_215E324: // 0x0215E324
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _0215E36C // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r0, _0215E370 // =0x000013D4
 	ldr r6, _0215E374 // =gameState
@@ -1377,7 +1377,7 @@ StageSelectMenu__Main: // 0x0215E37C
 	push {r4, r5, r6, lr}
 	ldr r0, _0215E490 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r3, r0
 	ldr r0, _0215E494 // =0x000013D0
 	ldr r0, [r3, r0]
@@ -1506,7 +1506,7 @@ _0215E46E:
 	mov r1, #1
 	lsr r0, r0, #0x10
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	b _0215E488
 _0215E47E:
 	mov r2, #0
@@ -1516,7 +1516,7 @@ _0215E47E:
 	strh r2, [r1]
 _0215E488:
 	ldr r0, _0215E4B4 // =StageSelectMenu__Main_215E4B8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, r5, r6, pc}
 	.align 2, 0
 _0215E490: .word StageSelectMenu__Singleton
@@ -1537,7 +1537,7 @@ StageSelectMenu__Main_215E4B8: // 0x0215E4B8
 	sub sp, #0x5c
 	ldr r0, _0215E5A4 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0215E5A8 // =0x000005C4
 	mov r1, #0
@@ -1554,12 +1554,12 @@ StageSelectMenu__Main_215E4B8: // 0x0215E4B8
 	lsl r2, r2, #0xc
 	asr r2, r2, #0x10
 	lsl r3, r3, #0xc
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	ldr r1, _0215E5B0 // =0x000005C6
 	strh r0, [r4, r1]
 	ldr r0, _0215E5B4 // =0x00000F8C
 	add r0, r4, r0
-	blx TouchField__Init
+	bl TouchField__Init
 	ldr r0, _0215E5B8 // =0x00000F98
 	mov r2, #0
 	str r2, [r4, r0]
@@ -1581,7 +1581,7 @@ _0215E512:
 	ldr r0, _0215E5C0 // =aBbDmasBb
 	lsr r1, r1, #0x10
 	mov r2, #0
-	blx ReadFileFromBundle
+	bl ReadFileFromBundle
 	mov r5, r0
 	mov r0, #2
 	str r0, [sp]
@@ -1594,11 +1594,11 @@ _0215E512:
 	ldr r3, [r4, r3]
 	mov r1, r5
 	mov r2, #0x38
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0x14
-	blx DrawBackground
+	bl DrawBackground
 	mov r0, r5
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r2, _0215E5A8 // =0x000005C4
 	ldr r3, _0215E5C4 // =0x000013D0
 	ldrsh r0, [r4, r2]
@@ -1623,7 +1623,7 @@ _0215E512:
 	mov r0, r4
 	add r2, sp, #0x10
 	add r3, sp, #0xc
-	blx GetVRAMTileConfig
+	bl GetVRAMTileConfig
 	ldr r1, _0215E5CC // =VRAMSystem__VRAM_BG
 	lsl r2, r4, #2
 	ldr r1, [r1, r2]
@@ -1638,9 +1638,9 @@ _0215E512:
 	mov r2, #2
 	lsl r2, r2, #0xa
 	add r1, r1, r2
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	ldr r0, _0215E5D0 // =StageSelectMenu__Main_InitStageSprites
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x5c
 	pop {r4, r5, pc}
 	.align 2, 0
@@ -1664,7 +1664,7 @@ StageSelectMenu__Main_InitStageSprites: // 0x0215E5D4
 	sub sp, #0x20
 	ldr r0, _0215E8B4 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r0, _0215E8B8 // =0x000013E0
 	ldr r4, [r5]
@@ -1711,7 +1711,7 @@ StageSelectMenu__Main_InitStageSprites: // 0x0215E5D4
 	mov r0, r6
 	mov r1, r4
 	lsl r3, r3, #0xb
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #1
 	str r0, [r6, #0x58]
 	ldr r0, _0215E8C4 // =0x000013D4
@@ -1731,7 +1731,7 @@ _0215E658:
 	mov r2, r1
 	strh r1, [r5, r0]
 	mov r0, r6
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _0215E8D0 // =0x000005C8
 	ldr r1, _0215E8BC // =0x000013D0
 	add r6, r5, r0
@@ -1769,7 +1769,7 @@ _0215E658:
 	mov r0, r6
 	mov r1, r4
 	lsl r3, r3, #0xa
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r1, #1
 	mov r2, #0x28
 	str r1, [r6, #0x58]
@@ -1795,14 +1795,14 @@ _0215E658:
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r1, _0215E8BC // =0x000013D0
 	ldr r0, _0215E8DC // =0x0000062C
 	ldr r1, [r5, r1]
 	add r6, r5, r0
 	mov r0, r4
 	mov r2, #0x2d
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, _0215E8BC // =0x000013D0
 	mov r3, #2
 	ldr r1, [r5, r1]
@@ -1817,7 +1817,7 @@ _0215E658:
 	mov r0, r6
 	mov r1, r4
 	lsl r3, r3, #0xa
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #1
 	mov r1, #0x20
 	str r0, [r6, #0x58]
@@ -1843,13 +1843,13 @@ _0215E658:
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r1, _0215E8BC // =0x000013D0
 	mov r0, r4
 	ldr r1, [r5, r1]
 	mov r2, #0x13
 	ldr r6, _0215E8E0 // =0x000008E8
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, _0215E8BC // =0x000013D0
 	mov r3, r6
 	ldr r1, [r5, r1]
@@ -1864,17 +1864,17 @@ _0215E658:
 	add r0, r5, r6
 	mov r1, r4
 	sub r3, #0xe8
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r1, #0
 	add r0, r5, r6
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r1, _0215E8BC // =0x000013D0
 	mov r0, r4
 	ldr r1, [r5, r1]
 	mov r2, #0x12
 	add r6, #0x64
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, _0215E8BC // =0x000013D0
 	mov r3, #2
 	ldr r1, [r5, r1]
@@ -1889,11 +1889,11 @@ _0215E658:
 	add r0, r5, r6
 	mov r1, r4
 	lsl r3, r3, #0xa
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r1, #0
 	add r0, r5, r6
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, #0x82
 	lsl r0, r0, #4
 	add r6, r5, r0
@@ -1931,7 +1931,7 @@ _0215E7E4:
 	mov r0, r6
 	mov r1, r4
 	lsl r3, r3, #0xa
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #1
 	str r0, [r6, #0x58]
 	mov r1, #0
@@ -1939,7 +1939,7 @@ _0215E7E4:
 	mov r0, r6
 	mov r2, r1
 	strh r1, [r6, #0xa]
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _0215E8C4 // =0x000013D4
 	ldrh r1, [r5, r0]
 	mov r0, #0x80
@@ -1986,7 +1986,7 @@ _0215E850:
 	mov r0, r6
 	mov r1, r4
 	lsl r3, r3, #0xa
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #1
 	str r0, [r6, #0x58]
 	mov r1, #0
@@ -1994,7 +1994,7 @@ _0215E850:
 	mov r0, r6
 	mov r2, r1
 	strh r1, [r6, #0xa]
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _0215E8C4 // =0x000013D4
 	ldrh r1, [r5, r0]
 	mov r0, #0x80
@@ -2006,7 +2006,7 @@ _0215E850:
 	str r0, [r6, #0x3c]
 _0215E8A8:
 	ldr r0, _0215E8E8 // =StageSelectMenu__Main_215E908
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
@@ -2035,7 +2035,7 @@ StageSelectMenu__Func_215E8EC: // 0x0215E8EC
 	bic r3, r2
 	ldr r1, [sp, #0xc]
 	add r2, r3, #4
-	blx SpriteUnknown__Func_204C860
+	bl SpriteUnknown__Func_204C860
 	pop {r3}
 	pop {r3}
 	add sp, #0x10
@@ -2049,7 +2049,7 @@ StageSelectMenu__Main_215E908: // 0x0215E908
 	sub sp, #0x48
 	ldr r0, _0215EC88 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, [r4]
 	str r0, [sp, #0x3c]
@@ -2078,7 +2078,7 @@ _0215E934:
 	add r5, r4, r0
 	mov r0, r6
 	mov r2, #5
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, _0215EC94 // =0x000013D0
 	mov r3, #2
 	ldr r1, [r4, r1]
@@ -2092,7 +2092,7 @@ _0215E934:
 	mov r0, r5
 	mov r1, r6
 	lsl r3, r3, #0xa
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0
 	strh r0, [r5, #8]
 	strh r0, [r5, #0xa]
@@ -2109,14 +2109,14 @@ _0215E984:
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r1, _0215EC94 // =0x000013D0
 	ldr r0, _0215EC9C // =0x00000758
 	ldr r1, [r4, r1]
 	add r5, r4, r0
 	mov r0, r6
 	mov r2, #5
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, _0215EC94 // =0x000013D0
 	ldr r3, _0215ECA0 // =0x00000804
 	ldr r1, [r4, r1]
@@ -2130,7 +2130,7 @@ _0215E984:
 	str r0, [sp, #0x10]
 	mov r0, r5
 	mov r1, r6
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, [sp, #0x1c]
 	add r0, r0, #4
 	strh r0, [r5, #8]
@@ -2141,7 +2141,7 @@ _0215E984:
 	str r0, [r5, #0x3c]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, #0x9b
 	lsl r0, r0, #4
 	mov r7, #0x32
@@ -2159,7 +2159,7 @@ _0215E9E2:
 	ldr r1, [r4, r1]
 	mov r0, r6
 	lsr r2, r2, #0x10
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, _0215EC94 // =0x000013D0
 	lsl r2, r5, #0x10
 	ldr r1, [r4, r1]
@@ -2177,13 +2177,13 @@ _0215E9E2:
 	add r0, r1, r0
 	mov r1, r6
 	lsl r3, r3, #0xa
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r1, [sp, #0x40]
 	ldr r0, [sp, #0x44]
 	add r0, r1, r0
 	mov r1, #0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, r5, #1
 	add r7, #0x64
 	cmp r5, #0x11
@@ -2197,7 +2197,7 @@ _0215EA3A:
 	ldr r1, [r4, r1]
 	mov r0, r6
 	lsr r2, r2, #0x10
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, _0215EC94 // =0x000013D0
 	lsl r2, r5, #0x10
 	ldr r1, [r4, r1]
@@ -2213,11 +2213,11 @@ _0215EA3A:
 	mov r0, r7
 	mov r1, r6
 	lsr r2, r2, #0x10
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r1, #0
 	mov r0, r7
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, r5, #1
 	add r7, #0x64
 	cmp r5, #3
@@ -2227,7 +2227,7 @@ _0215EA3A:
 	ldr r1, [r4, r1]
 	mov r2, #4
 	ldr r5, _0215ECA8 // =0x00000F28
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, _0215EC94 // =0x000013D0
 	ldr r3, _0215ECA0 // =0x00000804
 	ldr r1, [r4, r1]
@@ -2241,11 +2241,11 @@ _0215EA3A:
 	str r0, [sp, #0x10]
 	add r0, r4, r5
 	mov r1, r6
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r1, #0
 	add r0, r4, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _0215ECAC // =0x0000108C
 	mov r7, #1
 	add r5, r4, r0
@@ -2266,7 +2266,7 @@ _0215EACC:
 	mov r0, r6
 	ldr r1, [r4, r1]
 	mov r2, #6
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, _0215EC94 // =0x000013D0
 	ldr r3, [sp, #0x18]
 	ldr r1, [r4, r1]
@@ -2283,7 +2283,7 @@ _0215EACC:
 	mov r1, r6
 	mov r2, #6
 	lsr r3, r3, #0x10
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	cmp r7, #1
 	bne _0215EB30
 	mov r0, #0x17
@@ -2339,7 +2339,7 @@ _0215EB64:
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	cmp r7, #1
 	bne _0215EB78
 	mov r1, #0
@@ -2361,7 +2361,7 @@ _0215EB7A:
 	ldr r1, [sp, #0x2c]
 	add r0, r4, r0
 	lsl r2, r2, #8
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	ldr r0, [sp, #0x2c]
 	add r7, r7, #1
 	add r0, #0xb0
@@ -2418,7 +2418,7 @@ _0215EBBC:
 	ldr r0, [sp, #0x34]
 	ldr r2, [sp, #0x20]
 	mov r1, r6
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, _0215ECC8 // =StageSelectMenu__Func_215DC60
 	mov r1, #0
 	str r0, [sp]
@@ -2444,13 +2444,13 @@ _0215EC3C:
 	mov r1, #0
 	ldr r0, [sp, #0x34]
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _0215ECBC // =0x00000F8C
 	mov r2, #1
 	add r0, r4, r0
 	mov r1, r7
 	lsl r2, r2, #8
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	mov r0, #0x41
 	ldr r1, [sp, #0x30]
 	mov r2, #0
@@ -2472,7 +2472,7 @@ _0215EC3C:
 	add r5, r4, r0
 	mov r0, r6
 	mov r2, #0x25
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	ldr r1, _0215EC94 // =0x000013D0
 	ldr r3, _0215ECA0 // =0x00000804
 	b _0215ECD4
@@ -2509,13 +2509,13 @@ _0215ECD4:
 	str r0, [sp, #0x10]
 	mov r0, r5
 	mov r1, r6
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r0, [sp, #0x1c]
 	mov r1, #0
 	strh r0, [r5, #8]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, [sp, #0x3c]
 	ldr r1, _0215EDB0 // =0x000013D0
 	ldr r6, [r0, #4]
@@ -2523,7 +2523,7 @@ _0215ECD4:
 	ldr r1, [r4, r1]
 	add r5, r4, r0
 	mov r0, r6
-	blx SpriteUnknown__GetSpriteSize
+	bl SpriteUnknown__GetSpriteSize
 	ldr r1, _0215EDB0 // =0x000013D0
 	mov r3, #8
 	ldr r1, [r4, r1]
@@ -2536,7 +2536,7 @@ _0215ECD4:
 	mov r0, r5
 	mov r1, r6
 	lsl r3, r3, #8
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	ldr r1, [r5, #0x3c]
 	mov r0, #1
 	orr r0, r1
@@ -2562,7 +2562,7 @@ _0215ECD4:
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r1, #0
 	ldr r0, _0215EDBC // =0x00000FA4
 	str r1, [sp]
@@ -2583,7 +2583,7 @@ _0215ECD4:
 	add r1, #0x18
 	add r1, r4, r1
 	lsl r2, r2, #8
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	ldr r0, _0215EDB0 // =0x000013D0
 	ldr r0, [r4, r0]
 	bl Task__OVL03Unknown215DCCC__Create
@@ -2592,7 +2592,7 @@ _0215ECD4:
 	mov r1, #1
 	bl StageSelectMenu__Func_215E084
 	ldr r0, _0215EDC8 // =StageSelectMenu__Main_215EDCC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x48
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -2611,7 +2611,7 @@ StageSelectMenu__Main_215EDCC: // 0x0215EDCC
 	sub sp, #8
 	ldr r0, _0215EE48 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r0, _0215EE4C // =0x000013D4
 	ldr r6, _0215EE50 // =gameState
@@ -2662,7 +2662,7 @@ _0215EE10:
 	bl TimeAttackRankList__Func_216F9C0
 _0215EE3E:
 	ldr r0, _0215EE5C // =StageSelectMenu__Main_CreateUnknown215EE60
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -2680,9 +2680,9 @@ StageSelectMenu__Main_CreateUnknown215EE60: // 0x0215EE60
 	sub sp, #0xc
 	ldr r0, _0215EEC0 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx ResetTouchInput
+	bl ResetTouchInput
 	ldr r0, _0215EEC4 // =0x000013D0
 	ldr r0, [r4, r0]
 	cmp r0, #1
@@ -2714,12 +2714,12 @@ _0215EE9C:
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r0, _0215EED8 // =0x000013D8
 	mov r1, #0
 	str r1, [r4, r0]
 	ldr r0, _0215EEDC // =StageSelectMenu__Main_CreateUnknown215EEE0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {r3, r4, pc}
 	.align 2, 0
@@ -2739,7 +2739,7 @@ StageSelectMenu__Main_CreateUnknown215EEE0: // 0x0215EEE0
 	sub sp, #0xc
 	ldr r0, _0215EF78 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl StageSelectMenu__Func_215E134
 	cmp r0, #0
@@ -2787,9 +2787,9 @@ _0215EF38:
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r0, _0215EF94 // =StageSelectMenu__Main_215EF98
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {r3, r4, pc}
 _0215EF56:
@@ -2803,7 +2803,7 @@ _0215EF56:
 	mov r1, #0
 	asr r2, r2, #0x10
 	lsl r3, r3, #0xc
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	ldr r1, _0215EF80 // =0x000005C6
 	strh r0, [r4, r1]
 	add sp, #0xc
@@ -2824,7 +2824,7 @@ StageSelectMenu__Main_215EF98: // 0x0215EF98
 	push {r3, r4, r5, lr}
 	ldr r0, _0215F084 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0215F088 // =touchInput
 	mov r4, r0
 	ldrh r1, [r1, #0x12]
@@ -2845,7 +2845,7 @@ StageSelectMenu__Main_215EF98: // 0x0215EF98
 	mov r1, #1
 	bl StageSelectMenu__Func_215E084
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	mov r0, #1
 	b _0215EFF4
 _0215EFD6:
@@ -2859,7 +2859,7 @@ _0215EFD6:
 	mov r1, #1
 	bl StageSelectMenu__Func_215E084
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	mov r0, #1
 _0215EFF4:
 	ldr r1, _0215F08C // =padInput
@@ -2888,7 +2888,7 @@ _0215F008:
 	mov r1, #0
 	bl StageSelectMenu__Func_215E084
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	mov r0, #1
 	b _0215F050
 _0215F032:
@@ -2902,7 +2902,7 @@ _0215F032:
 	mov r1, #0
 	bl StageSelectMenu__Func_215E084
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	mov r0, #1
 _0215F050:
 	cmp r0, #0
@@ -2927,7 +2927,7 @@ _0215F06A:
 _0215F078:
 	ldr r0, _0215F094 // =0x00000F8C
 	add r0, r4, r0
-	blx TouchField__Process
+	bl TouchField__Process
 	pop {r3, r4, r5, pc}
 	nop
 _0215F084: .word StageSelectMenu__Singleton
@@ -2944,10 +2944,10 @@ Task__OVL03Unknown215EEE0__Main: // 0x0215F098
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _0215F0A8
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	pop {r3, r4, r5, r6, r7, pc}
 _0215F0A8:
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r0, _0215F188 // =0x000013E0
 	ldr r0, [r5, r0]
@@ -2979,7 +2979,7 @@ _0215F0DA:
 	beq _0215F102
 	sub r0, #0xc
 	add r0, r5, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, r5
 	mov r1, r4
 	bl StageSelectMenu__Func_215FAC4
@@ -3000,7 +3000,7 @@ _0215F112:
 	mov r0, r4
 	mov r1, r7
 	mov r2, r7
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r4, #0x64
 	cmp r4, r6
 	bne _0215F112
@@ -3017,7 +3017,7 @@ _0215F132:
 	mov r0, r4
 	mov r1, r7
 	mov r2, r7
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r4, #0x64
 	cmp r4, r6
 	bne _0215F132
@@ -3033,7 +3033,7 @@ _0215F150:
 	mov r0, r4
 	mov r1, r7
 	mov r2, r7
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r4, #0x64
 	cmp r4, r6
 	bne _0215F150
@@ -3050,7 +3050,7 @@ _0215F16E:
 	add r0, #0x38
 	mov r1, r6
 	mov r2, r6
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r4, #0xb0
 	cmp r4, r5
 	bne _0215F16E
@@ -3077,11 +3077,11 @@ Task__OVL03Unknown215EE60__Main: // 0x0215F1AC
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _0215F1C0
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	add sp, #0x28
 	pop {r3, r4, r5, r6, r7, pc}
 _0215F1C0:
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r0, _0215F450 // =0x000013E0
 	ldr r0, [r5, r0]
@@ -3147,7 +3147,7 @@ _0215F1C0:
 	beq _0215F258
 _0215F24C:
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	add r4, #0x64
 	cmp r4, r6
 	bne _0215F24C
@@ -3246,7 +3246,7 @@ _0215F2EA:
 _0215F314:
 	mov r0, r4
 	mov r1, #0xa
-	blx _u32_div_f
+	bl _u32_div_f
 	mov r0, #0x64
 	mov r2, r1
 	sub r6, #8
@@ -3262,7 +3262,7 @@ _0215F314:
 	bl StageSelectMenu__Func_215E104
 	mov r0, r4
 	mov r1, #0xa
-	blx _u32_div_f
+	bl _u32_div_f
 	mov r4, r0
 	ldr r0, [sp, #8]
 	add r0, r0, #1
@@ -3386,7 +3386,7 @@ _0215F410:
 _0215F41C:
 	mov r0, r4
 	add r0, #0x38
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	add r4, #0xb0
 	cmp r4, r6
 	bne _0215F41C
@@ -3435,7 +3435,7 @@ StageSelectMenu__Func_215F490: // 0x0215F490
 	sub sp, #0x18
 	ldr r0, _0215F678 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	mov r4, #0
 	bl StageSelectMenu__Func_215E134
@@ -3478,7 +3478,7 @@ _0215F4E0:
 	mov r1, #1
 	lsr r0, r0, #0x10
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r4, r0
 	ldr r0, _0215F680 // =0x000013D4
 	ldrh r2, [r6, r0]
@@ -3505,7 +3505,7 @@ _0215F508:
 	b _0215F578
 _0215F51A:
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 	b _0215F578
 _0215F522:
 	add r1, #8
@@ -3525,7 +3525,7 @@ _0215F538:
 	mov r1, #1
 	lsr r0, r0, #0x10
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r4, r0
 	ldr r0, _0215F680 // =0x000013D4
 	ldrh r2, [r6, r0]
@@ -3552,12 +3552,12 @@ _0215F560:
 	b _0215F578
 _0215F572:
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 _0215F578:
 	cmp r4, #0
 	beq _0215F586
 	ldr r0, _0215F684 // =StageSelectMenu__Func_215F6A8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x18
 	pop {r3, r4, r5, r6, r7, pc}
 _0215F586:
@@ -3675,7 +3675,7 @@ _0215F62E:
 	bl TimeAttackRankList__Func_216FA44
 _0215F66C:
 	ldr r0, _0215F6A4 // =StageSelectMenu__Func_215F6F8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0215F672:
 	add sp, #0x18
 	pop {r3, r4, r5, r6, r7, pc}
@@ -3697,12 +3697,12 @@ _0215F6A4: .word StageSelectMenu__Func_215F6F8
 	thumb_func_start StageSelectMenu__Func_215F6A8
 StageSelectMenu__Func_215F6A8: // 0x0215F6A8
 	push {r4, lr}
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _0215F6EC
 	ldr r0, _0215F6F0 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0215F6F4 // =0x000013C8
 	ldr r1, [r4]
@@ -3724,8 +3724,8 @@ StageSelectMenu__Func_215F6A8: // 0x0215F6A8
 	add r0, #0x94
 	str r1, [r0]
 _0215F6E4:
-	blx DestroyDrawFadeTask
-	blx DestroyCurrentTask
+	bl DestroyDrawFadeTask
+	bl DestroyCurrentTask
 _0215F6EC:
 	pop {r4, pc}
 	nop
@@ -3738,7 +3738,7 @@ StageSelectMenu__Func_215F6F8: // 0x0215F6F8
 	push {r4, lr}
 	ldr r0, _0215F72C // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl StageSelectMenu__Func_215E134
 	cmp r0, #0
@@ -3756,7 +3756,7 @@ _0215F70E:
 	mov r1, #0
 	str r1, [r4, r0]
 	ldr r0, _0215F734 // =StageSelectMenu__Func_215F738
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0215F728:
 	pop {r4, pc}
 	nop
@@ -3770,7 +3770,7 @@ StageSelectMenu__Func_215F738: // 0x0215F738
 	push {r4, lr}
 	ldr r0, _0215F7C4 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl StageSelectMenu__Func_215E134
 	cmp r0, #0
@@ -3816,11 +3816,11 @@ _0215F784:
 	ldr r0, [r4]
 	add r0, #0x94
 	str r1, [r0]
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	b _0215F7A4
 _0215F79E:
 	ldr r0, _0215F7D8 // =StageSelectMenu__Func_215F7E4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0215F7A4:
 	ldr r2, _0215F7C8 // =0x000013D8
 	mov r0, #0
@@ -3833,7 +3833,7 @@ _0215F7A4:
 	lsl r2, r2, #0xc
 	ldr r3, _0215F7DC // =0xFFFFF000
 	asr r2, r2, #0x10
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	ldr r1, _0215F7E0 // =0x000005C6
 	strh r0, [r4, r1]
 	pop {r4, pc}
@@ -3853,7 +3853,7 @@ StageSelectMenu__Func_215F7E4: // 0x0215F7E4
 	push {r4, lr}
 	ldr r0, _0215F80C // =StageSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	add r0, r4, #4
 	bl TimeAttackRankList__Func_216FABC
@@ -3864,7 +3864,7 @@ StageSelectMenu__Func_215F7E4: // 0x0215F7E4
 	ldr r0, [r4]
 	add r0, #0x94
 	str r1, [r0]
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 _0215F808:
 	pop {r4, pc}
 	nop
@@ -3875,16 +3875,16 @@ _0215F810: .word 0x000013C8
 	thumb_func_start Task__OVL03Unknown215DCCC__Main
 Task__OVL03Unknown215DCCC__Main: // 0x0215F814
 	push {r4, r5, r6, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r0, _0215F8A0 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _0215F82A
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	pop {r4, r5, r6, pc}
 _0215F82A:
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0215F8A4 // =0x000013E0
 	ldr r0, [r0, r1]
 	bl StageSelectMenu__Func_215DDB4
@@ -3892,7 +3892,7 @@ _0215F82A:
 	cmp r1, r0
 	beq _0215F842
 	ldr r0, _0215F8A8 // =Task__Unknown215DCCC__Main_215F8B8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0215F842:
 	mov r0, #2
 	ldr r1, [r4, #4]
@@ -3939,7 +3939,7 @@ _0215F856:
 	cmp r1, r0
 	bne _0215F89E
 	ldr r0, _0215F8B4 // =Task__Unknown215DCCC__Main_215F9E4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0215F89E:
 	pop {r4, r5, r6, pc}
 	.align 2, 0
@@ -3954,16 +3954,16 @@ _0215F8B4: .word Task__Unknown215DCCC__Main_215F9E4
 	thumb_func_start Task__Unknown215DCCC__Main_215F8B8
 Task__Unknown215DCCC__Main_215F8B8: // 0x0215F8B8
 	push {r3, r4, r5, r6, r7, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r0, _0215F9C0 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _0215F8CE
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	pop {r3, r4, r5, r6, r7, pc}
 _0215F8CE:
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r0, _0215F9C4 // =0x000013E0
 	ldr r0, [r5, r0]
@@ -3973,7 +3973,7 @@ _0215F8CE:
 	cmp r0, r6
 	bne _0215F8EA
 	ldr r0, _0215F9C8 // =Task__OVL03Unknown215DCCC__Main
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0215F8EA:
 	mov r0, #2
 	ldr r1, [r4, #4]
@@ -4024,7 +4024,7 @@ _0215F8FA:
 	ldrb r1, [r1, r2]
 	add r0, r5, r0
 	str r6, [r4]
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r0, _0215F9D8 // =0x000013D4
 	ldrh r1, [r5, r0]
 	mov r0, #0x80
@@ -4037,7 +4037,7 @@ _0215F8FA:
 	lsl r1, r1, #0x10
 	add r0, r5, r0
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	cmp r6, #0xa
 	blo _0215F972
 	cmp r6, #0xd
@@ -4046,13 +4046,13 @@ _0215F972:
 	ldr r0, _0215F9DC // =0x00000884
 	mov r1, #0x5f
 	add r0, r5, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _0215F988
 _0215F97E:
 	ldr r0, _0215F9DC // =0x00000884
 	mov r1, #0x60
 	add r0, r5, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _0215F988:
 	cmp r6, #9
 	ldr r2, _0215F9E0 // =0x0000085C
@@ -4081,7 +4081,7 @@ _0215F9A4:
 	str r0, [r5, r2]
 _0215F9B8:
 	ldr r0, _0215F9C8 // =Task__OVL03Unknown215DCCC__Main
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0215F9BE:
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -4099,16 +4099,16 @@ _0215F9E0: .word 0x0000085C
 	thumb_func_start Task__Unknown215DCCC__Main_215F9E4
 Task__Unknown215DCCC__Main_215F9E4: // 0x0215F9E4
 	push {r3, r4, r5, lr}
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r5, r0
 	ldr r0, _0215FA28 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _0215F9FA
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	pop {r3, r4, r5, pc}
 _0215F9FA:
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0215FA2C // =0x000013E0
 	ldr r0, [r4, r0]
@@ -4122,9 +4122,9 @@ _0215F9FA:
 	ldr r0, _0215FA34 // =0x000005C8
 	ldrb r1, [r1, r2]
 	add r0, r4, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r0, _0215FA38 // =Task__Unknown215DCCC__Main_215F8B8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0215FA24:
 	pop {r3, r4, r5, pc}
 	nop
@@ -4139,13 +4139,13 @@ _0215FA38: .word Task__Unknown215DCCC__Main_215F8B8
 StageSelectMover__Main: // 0x0215FA3C
 	push {r3, r4, lr}
 	sub sp, #0xc
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r0, _0215FAC0 // =StageSelectMenu__Singleton
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _0215FA56
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	add sp, #0xc
 	pop {r3, r4, pc}
 _0215FA56:
@@ -4163,7 +4163,7 @@ _0215FA56:
 	asr r1, r0, #0xc
 	ldr r0, [r4]
 	strh r1, [r0, #2]
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	add sp, #0xc
 	pop {r3, r4, pc}
 _0215FA7A:
@@ -4175,7 +4175,7 @@ _0215FA7A:
 	add r0, sp, #4
 	add r1, #8
 	add r2, #0x10
-	blx Task__Unknown204BE48__LerpVec2
+	bl Task__Unknown204BE48__LerpVec2
 	ldr r0, [sp, #4]
 	asr r1, r0, #0xc
 	ldr r0, [r4]

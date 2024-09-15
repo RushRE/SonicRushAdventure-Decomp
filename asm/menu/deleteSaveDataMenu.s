@@ -1396,18 +1396,18 @@ DeleteSaveDataMenu__Func_2153C64: // 0x02153C64
 	beq _02153C8C
 	ldr r0, _02153CB4 // =saveGame
 	ldr r1, _02153CB8 // =0x000001FE
-	blx SaveGame__ClearData
+	bl SaveGame__ClearData
 	ldr r0, _02153CB4 // =saveGame
 	ldr r1, _02153CB8 // =0x000001FE
-	blx SaveGame__SaveData
+	bl SaveGame__SaveData
 	b _02153CA4
 _02153C8C:
 	ldr r0, _02153CB4 // =saveGame
 	mov r1, #0xc
-	blx SaveGame__ClearData
+	bl SaveGame__ClearData
 	ldr r0, _02153CB4 // =saveGame
 	ldr r1, _02153CB8 // =0x000001FE
-	blx SaveGame__SaveData
+	bl SaveGame__SaveData
 _02153CA4:
 	cmp r0, #2
 	moveq r0, #0

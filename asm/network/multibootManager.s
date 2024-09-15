@@ -3562,7 +3562,7 @@ MultibootManager__Func_20637E8: // 0x020637E8
 	mov r2, #0x10
 	bl MIi_CpuClear16
 	mov r0, r4
-	blx SaveGame__GetPlayerNameLength
+	bl SaveGame__GetPlayerNameLength
 	strh r0, [r5, #0x12]
 	ldrh r2, [r5, #0x12]
 	cmp r2, #0

@@ -1908,7 +1908,7 @@ SailSailerBoat__SetupObject2: // 0x0217B1A8
 	mul r5, r1, r0
 	ldr r6, [r3, #0xc0]
 	add r0, r6, r5
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r3, [r4, #0x178]
 	ldr r2, _0217B21C // =0x0007FFFF
 	mov r1, r0
@@ -1916,7 +1916,7 @@ SailSailerBoat__SetupObject2: // 0x0217B1A8
 	bl FX_Div
 	mov r1, r0
 	add r0, r6, r5
-	blx SailVoyageManager__Func_2158854
+	bl SailVoyageManager__Func_2158854
 	add r1, r4, #0x100
 	strh r0, [r1, #0x6e]
 	ldmia sp!, {r4, r5, r6, pc}
@@ -3195,7 +3195,7 @@ SailSailerBoat__Func_217C360: // 0x0217C360
 	mul r5, r2, r1
 	ldr r6, [r0, #0xc0]
 	add r0, r6, r5
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r3, [r4, #0x178]
 	ldr r2, _0217C42C // =0x0007FFFF
 	mov r1, r0
@@ -3203,7 +3203,7 @@ SailSailerBoat__Func_217C360: // 0x0217C360
 	bl FX_Div
 	mov r1, r0
 	add r0, r6, r5
-	blx SailVoyageManager__Func_2158854
+	bl SailVoyageManager__Func_2158854
 	add r1, r4, #0x100
 	strh r0, [r1, #0x6e]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -3925,7 +3925,7 @@ SailSailerBoat__Func_217CDB0: // 0x0217CDB0
 	mul r5, r1, r0
 	ldr r6, [r3, #0xc0]
 	add r0, r6, r5
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r3, [r4, #0x178]
 	ldr r2, _0217CE38 // =0x0007FFFF
 	mov r1, r0
@@ -3933,7 +3933,7 @@ SailSailerBoat__Func_217CDB0: // 0x0217CDB0
 	bl FX_Div
 	mov r1, r0
 	add r0, r6, r5
-	blx SailVoyageManager__Func_2158854
+	bl SailVoyageManager__Func_2158854
 	add r1, r4, #0x100
 	strh r0, [r1, #0x6e]
 	ldr r0, [r4, #0x164]
@@ -6245,7 +6245,7 @@ _0217EEC0:
 	str r0, [sp]
 	str r1, [sp, #4]
 	str r2, [sp, #8]
-	blx SailVoyageManager__Func_2157AF4
+	bl SailVoyageManager__Func_2157AF4
 	mov r1, r0
 	add r0, sp, #0
 	mov r2, r0
@@ -6522,7 +6522,7 @@ _0217F2D8:
 	ldr r0, [r9, #0x24]
 	tst r0, #1
 	bne _0217F378
-	blx SailVoyageManager__Func_2157AF4
+	bl SailVoyageManager__Func_2157AF4
 	ldr r2, [r4, #0x148]
 	ldr r1, [r0]
 	sub r1, r2, r1

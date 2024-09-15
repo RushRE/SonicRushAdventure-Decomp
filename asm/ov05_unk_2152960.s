@@ -1891,7 +1891,7 @@ ovl05_2153D88: // 0x02153D88
 	moveq r0, #1
 	ldmeqia sp!, {r3, pc}
 	ldr r0, _02153DBC // =0x02134474
-	blx SaveGame__GetIslandProgress
+	bl SaveGame__GetIslandProgress
 	cmp r0, #2
 	movge r0, #1
 	movlt r0, #0
@@ -2263,7 +2263,7 @@ _021541D0:
 	cmp r1, r5
 	beq _02154208
 	mov r0, r7
-	blx SaveGame__GetIslandProgress
+	bl SaveGame__GetIslandProgress
 	cmp r0, #2
 	blt _02154224
 _02154208:

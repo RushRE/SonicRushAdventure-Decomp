@@ -728,7 +728,7 @@ ViTalkPurchase__Func_216A0BC: // 0x0216A0BC
 	movhs r0, #0
 	ldmhsia sp!, {r3, pc}
 	ldr r0, _0216A0DC // =0x02134474
-	blx SaveGame__GetMaterialCount
+	bl SaveGame__GetMaterialCount
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216A0DC: .word 0x02134474
@@ -790,7 +790,7 @@ _0216A170:
 	beq _0216A18C
 	mov r0, r5
 	mov r1, r6
-	blx SaveGame__UseMaterial
+	bl SaveGame__UseMaterial
 _0216A18C:
 	add r6, r6, #1
 	cmp r6, #9

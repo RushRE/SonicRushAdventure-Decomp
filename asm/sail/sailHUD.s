@@ -1797,7 +1797,7 @@ _0216FDF4:
 	beq _0216FE30
 	ldr r0, _0216FE60 // =saveGame
 	mov r1, #0x20
-	blx SaveGame__SaveData
+	bl SaveGame__SaveData
 	cmp r0, #2
 	bne _0216FE24
 	bl SailManager__GetWork
@@ -1981,7 +1981,7 @@ _02170048:
 	cmp r1, #6
 	bhi _0217006C
 	ldr r0, _02170098 // =0x0213461C
-	blx SaveGame__HasChaosEmerald
+	bl SaveGame__HasChaosEmerald
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 _0217006C:
@@ -3323,7 +3323,7 @@ _02171248:
 	beq _02171294
 	ldr r1, [r1, #0x1a4]
 	ldr r0, _02171360 // =0x02134474
-	blx SaveGame__GiveRings
+	bl SaveGame__GiveRings
 _02171294:
 	ldr r0, [r5, #0x24]
 	tst r0, #0x800000

@@ -151,12 +151,12 @@ VSViewFriendCodeMenu__IsActive: // 0x02172AE4
 	arm_func_start VSRegisterFriendCodeMenu__LoadAssets
 VSRegisterFriendCodeMenu__LoadAssets: // 0x02172AF8
 	stmdb sp!, {r3, lr}
-	blx FriendCodeMenu__LoadAssets
-	blx VSMenu__GetFontWindow
+	bl FriendCodeMenu__LoadAssets
+	bl VSMenu__GetFontWindow
 	mov r2, r0
 	mov r0, #0
 	mov r1, r0
-	blx FriendCodeMenu__Create
+	bl FriendCodeMenu__Create
 	ldmia sp!, {r3, pc}
 	arm_func_end VSRegisterFriendCodeMenu__LoadAssets
 
@@ -164,7 +164,7 @@ VSRegisterFriendCodeMenu__LoadAssets: // 0x02172AF8
 VSRegisterFriendCodeMenu__ReleaseAssets: // 0x02172B18
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	blx FriendCodeMenu__Func_216508C
+	bl FriendCodeMenu__Func_216508C
 	ldr r0, [r4]
 	mov r1, #0
 	str r1, [r0]
@@ -176,10 +176,10 @@ VSRegisterFriendCodeMenu__Main: // 0x02172B34
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
-	blx FriendCodeMenu__Func_2165040
+	bl FriendCodeMenu__Func_2165040
 	cmp r0, #2
 	bne _02172BA4
-	blx FriendCodeMenu__GetFriendKey
+	bl FriendCodeMenu__GetFriendKey
 	mov r4, r0
 	bl VSRegisterFriendCodeMenu__Func_2172BC8
 	cmp r0, #0
@@ -190,21 +190,21 @@ VSRegisterFriendCodeMenu__Main: // 0x02172B34
 	mov r0, #1
 	beq _02172B8C
 	mov r1, r0
-	blx FriendCodeMenu__Func_216504C
+	bl FriendCodeMenu__Func_216504C
 	ldr r0, [r5]
 	mov r1, #1
 	str r1, [r0, #4]
 	b _02172BA4
 _02172B8C:
 	mov r1, #0
-	blx FriendCodeMenu__Func_216504C
+	bl FriendCodeMenu__Func_216504C
 	b _02172BA4
 _02172B98:
 	mov r0, #0
 	mov r1, r0
-	blx FriendCodeMenu__Func_216504C
+	bl FriendCodeMenu__Func_216504C
 _02172BA4:
-	blx FriendCodeMenu__Func_2165068
+	bl FriendCodeMenu__Func_2165068
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	bl DestroyCurrentTask
@@ -330,12 +330,12 @@ _02172CA0:
 	cmp r0, #0
 	beq _02172D58
 	mov r0, #0x19
-	blx VSMenu__SetNetworkMessageSequence
+	bl VSMenu__SetNetworkMessageSequence
 	add sp, sp, #0x30
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02172D58:
 	mov r0, #0x1a
-	blx VSMenu__SetNetworkMessageSequence
+	bl VSMenu__SetNetworkMessageSequence
 	add sp, sp, #0x30
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
@@ -497,9 +497,9 @@ _02172F70:
 	mov r0, #0
 	bl VSViewFriendCodeMenu__Func_2173154
 	ldr r0, _02172FA8 // =0x0000FFFF
-	blx VSMenu__SetNetworkMessageSequence
+	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02172FA8 // =0x0000FFFF
-	blx VSMenu__Func_21667F0
+	bl VSMenu__Func_21667F0
 	mov r1, #0
 	ldr r0, _02172FAC // =VSViewFriendCodeMenu__Main_2172FB0
 	str r1, [r5, #0x4b4]
@@ -645,12 +645,12 @@ VSViewFriendCodeMenu__Func_2173154: // 0x02173154
 	beq _02173170
 	ldr r0, _02173180 // =VSViewFriendCodeMenu__Func_217319C
 	mov r1, #0
-	blx VSMenu__SetTouchCallback
+	bl VSMenu__SetTouchCallback
 	ldmia sp!, {r3, pc}
 _02173170:
 	mov r0, #0
 	mov r1, r0
-	blx VSMenu__SetTouchCallback
+	bl VSMenu__SetTouchCallback
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02173180: .word VSViewFriendCodeMenu__Func_217319C
@@ -659,7 +659,7 @@ _02173180: .word VSViewFriendCodeMenu__Func_217319C
 	arm_func_start VSViewFriendCodeMenu__Func_2173184
 VSViewFriendCodeMenu__Func_2173184: // 0x02173184
 	stmdb sp!, {r3, lr}
-	blx VSMenu__GetUnknownTouchResponseFlags
+	bl VSMenu__GetUnknownTouchResponseFlags
 	tst r0, #0x40000
 	movne r0, #1
 	moveq r0, #0

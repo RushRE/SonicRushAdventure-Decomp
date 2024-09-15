@@ -2775,7 +2775,7 @@ _021826F4:
 	bl SailObject__Func_2166A2C
 	mov r0, r5
 	bl SailSubTargetLockOnHUD__UpdateLockOnPos
-	blx SailVoyageManager__Func_2157AF4
+	bl SailVoyageManager__Func_2157AF4
 	ldr r0, [r0, #8]
 	cmp r0, #0
 	moveq r0, #0
@@ -2846,7 +2846,7 @@ SailSubMine2__State_21827C8: // 0x021827C8
 	orrne r0, r0, #0x80
 	strne r0, [r5, #0x24]
 _021827F4:
-	blx SailVoyageManager__Func_2157AF4
+	bl SailVoyageManager__Func_2157AF4
 	ldr r0, [r0, #8]
 	cmp r0, #0
 	moveq r0, #0
@@ -2932,7 +2932,7 @@ _021828F0:
 	str r0, [r5, #0x18]
 	ldmia sp!, {r3, r4, r5, pc}
 _02182918:
-	blx SailVoyageManager__Func_2157AF4
+	bl SailVoyageManager__Func_2157AF4
 	ldr r0, [r0, #8]
 	cmp r0, #0
 	moveq r0, #0

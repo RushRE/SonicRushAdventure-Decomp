@@ -22,7 +22,7 @@ TimeAttackMenu__Create: // 0x0216C540
 	ldr r0, _0216C570 // =TimeAttackMenu__Main
 	ldr r1, _0216C574 // =TimeAttackMenu__Destructor
 	mov r3, r2
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r1, _0216C578 // =TimeAttackMenu__Singleton
 	str r0, [r1]
 	bl TimeAttackMenu__Setup
@@ -42,7 +42,7 @@ TimeAttackMenu__Func_216C57C: // 0x0216C57C
 	mov r4, r0
 	ldr r0, _0216C590 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x6b
 	lsl r1, r1, #2
 	strh r4, [r0, r1]
@@ -56,7 +56,7 @@ TimeAttackMenu__Func_216C594: // 0x0216C594
 	push {r3, lr}
 	ldr r0, _0216C5B4 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
 	ldr r0, [r0, r1]
@@ -79,7 +79,7 @@ TimeAttackMenu__Func_216C5BC: // 0x0216C5BC
 	push {r3, lr}
 	ldr r0, _0216C5DC // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
 	ldr r0, [r0, r1]
@@ -102,7 +102,7 @@ TimeAttackMenu__Func_216C5E4: // 0x0216C5E4
 	push {r3, lr}
 	ldr r0, _0216C5F8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x86
 	lsl r1, r1, #2
 	add r0, r0, r1
@@ -116,7 +116,7 @@ TimeAttackMenu__Func_216C5FC: // 0x0216C5FC
 	push {r3, lr}
 	ldr r0, _0216C60C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r0, [r0, #0xc]
 	pop {r3, pc}
 	nop
@@ -130,7 +130,7 @@ TimeAttackMenu__Func_216C610: // 0x0216C610
 	ldr r0, _0216C63C // =TimeAttackMenu__Singleton
 	mov r4, r1
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	add r0, #0xdc
 	str r5, [r0, #0xc]
 	str r4, [r0, #0x10]
@@ -155,7 +155,7 @@ TimeAttackMenu__Func_216C640: // 0x0216C640
 	push {r3, lr}
 	ldr r0, _0216C654 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x47
 	lsl r1, r1, #2
 	ldr r0, [r0, r1]
@@ -169,7 +169,7 @@ TimeAttackMenu__GetSpriteButton1: // 0x0216C658
 	push {r3, lr}
 	ldr r0, _0216C668 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216C66C // =0x00000E54
 	add r0, r0, r1
 	pop {r3, pc}
@@ -183,7 +183,7 @@ TimeAttackMenu__Func_216C670: // 0x0216C670
 	push {r3, lr}
 	ldr r0, _0216C680 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216C684 // =0x00001098
 	add r0, r0, r1
 	pop {r3, pc}
@@ -205,7 +205,7 @@ TimeAttackMenu__Func_216C688: // 0x0216C688
 	strh r1, [r0, #2]
 	ldr r0, _0216C708 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216C70C // =0x00000DB8
 	mov r3, #0x43
 	add r2, r0, r1
@@ -280,7 +280,7 @@ TimeAttackMenu__Func_216C730: // 0x0216C730
 	mov r5, r0
 	ldr r0, _0216C7BC // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	cmp r5, #0
 	beq _0216C748
@@ -292,13 +292,13 @@ _0216C748:
 	ldr r0, [r0, #0x14]
 	cmp r0, #3
 	beq _0216C75A
-	blx ReleaseGameState
+	bl ReleaseGameState
 	ldr r0, _0216C7C4 // =0x02139514
 	mov r1, #1
 	strb r1, [r0, #0x1c]
 _0216C75A:
 	mov r0, #0
-	blx RequestSysEventChange
+	bl RequestSysEventChange
 	ldr r0, _0216C7C8 // =0x00001510
 	mov r1, #0
 	str r1, [r4, r0]
@@ -312,11 +312,11 @@ _0216C75A:
 	bge _0216C7A6
 	mov r0, #4
 	lsl r1, r0, #0xa
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	b _0216C7A6
 _0216C780:
 	mov r0, #1
-	blx RequestSysEventChange
+	bl RequestSysEventChange
 	ldr r1, _0216C7CC // =0x0213D300
 	mov r0, #0x18
 	ldrsh r1, [r1, r0]
@@ -328,9 +328,9 @@ _0216C780:
 	mov r1, #1
 	mov r0, #5
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 _0216C7A6:
 	mov r0, #0
 	mov r1, r0
@@ -338,7 +338,7 @@ _0216C7A6:
 	ldr r0, _0216C7BC // =TimeAttackMenu__Singleton
 	ldr r1, _0216C7D0 // =TimeAttackMenu__Main_216D7E8
 	ldr r0, [r0]
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r3, r4, r5, pc}
 	nop
 _0216C7BC: .word TimeAttackMenu__Singleton
@@ -353,15 +353,15 @@ _0216C7D0: .word TimeAttackMenu__Main_216D7E8
 TimeAttackMenu__Setup: // 0x0216C7D4
 	push {r3, r4, r5, r6, r7, lr}
 	mov r6, r0
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx GetSysEventList
+	bl GetSysEventList
 	mov r5, r0
 	ldr r2, _0216C9AC // =0x00001518
 	mov r0, #0
 	mov r1, r4
 	ldr r7, _0216C9B0 // =gameState
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r0, _0216C9B4 // =0x00001504
 	mov r1, #0
 	str r1, [r4, r0]
@@ -403,52 +403,52 @@ _0216C832:
 	mov r1, #1
 	lsr r0, r0, #0x10
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	b _0216C84A
 _0216C840:
 	mov r1, #1
 	mov r0, #0x42
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 _0216C84A:
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0x18
 	bne _0216C862
-	blx MultibootManager__Create
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Create
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0x16
 	beq _0216C862
-	blx MultibootManager__Func_206150C
+	bl MultibootManager__Func_206150C
 _0216C862:
 	bl TimeAttackMenu__LoadArchives
 	mov r0, #0xc
 	ldrsh r0, [r5, r0]
 	cmp r0, #7
 	beq _0216C880
-	blx LoadSysSoundVillage
+	bl LoadSysSoundVillage
 	mov r0, #0
-	blx PlaySysVillageTrack
+	bl PlaySysVillageTrack
 	ldr r0, _0216C9BC // =0x00001510
 	mov r1, #1
 	str r1, [r4, r0]
 	b _0216C8AE
 _0216C880:
-	blx SaveGame__Func_205BEDC
+	bl SaveGame__Func_205BEDC
 	cmp r0, #0
 	bne _0216C89A
-	blx LoadSysSoundVillage
+	bl LoadSysSoundVillage
 	mov r0, #0
-	blx PlaySysVillageTrack
+	bl PlaySysVillageTrack
 	ldr r0, _0216C9BC // =0x00001510
 	mov r1, #1
 	str r1, [r4, r0]
 	b _0216C8AE
 _0216C89A:
 	mov r0, #0x15
-	blx LoadSysSound
+	bl LoadSysSound
 	mov r0, #0x13
 	mov r1, #0
-	blx PlaySysTrack
+	bl PlaySysTrack
 	ldr r0, _0216C9BC // =0x00001510
 	mov r1, #1
 	str r1, [r4, r0]
@@ -458,12 +458,12 @@ _0216C8AE:
 	bl TimeAttackMessageWindow__Create
 	ldr r0, _0216C9C0 // =0x00000E54
 	add r0, r4, r0
-	blx SaveSpriteButton__LoadAssets
+	bl SaveSpriteButton__LoadAssets
 	ldr r0, _0216C9C4 // =0x00001098
 	add r0, r4, r0
-	blx SaveSpriteButton__Func_206515C
+	bl SaveSpriteButton__Func_206515C
 	bl TimeAttackBackButton__Create
-	blx LoadConnectionStatusIconAssets
+	bl LoadConnectionStatusIconAssets
 	bl TimeAttackMenuHeader__Create
 	bl CharacterSelectMenu__LoadAssets
 	ldr r1, _0216C9C8 // =0x00000E24
@@ -482,8 +482,8 @@ _0216C8AE:
 	add r0, r4, r1
 	add r1, #0x14
 	add r1, r4, r1
-	blx TimeAttackLeaderboardsMenu__LoadAssets
-	blx ResetTouchInput
+	bl TimeAttackLeaderboardsMenu__LoadAssets
+	bl ResetTouchInput
 	mov r0, #0xe
 	ldrsh r0, [r5, r0]
 	cmp r0, #0xf
@@ -501,17 +501,17 @@ _0216C916:
 	str r1, [r4, r0]
 	ldr r0, _0216C9B0 // =gameState
 	ldrh r0, [r0, #0x28]
-	blx MenuHelpers__Func_217CEBC
+	bl MenuHelpers__Func_217CEBC
 	ldr r1, _0216C9D8 // =0x00001514
 	str r0, [r4, r1]
 	ldr r1, _0216C9DC // =TimeAttackMenu__Main_216E850
 	mov r0, r6
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r3, r4, r5, r6, r7, pc}
 _0216C93A:
 	ldr r1, _0216C9E0 // =TimeAttackMenu__Main_216E660
 	mov r0, r6
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r3, r4, r5, r6, r7, pc}
 _0216C944:
 	ldr r0, _0216C9E4 // =TimeAttackMenu__Func_216D688
@@ -556,17 +556,17 @@ _0216C982:
 _0216C98C:
 	ldr r1, _0216C9E8 // =TimeAttackMenu__Main_InitCharacterSelect
 	mov r0, r6
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r3, r4, r5, r6, r7, pc}
 _0216C996:
 	ldr r1, _0216C9EC // =TimeAttackMenu__Main_216E180
 	mov r0, r6
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r3, r4, r5, r6, r7, pc}
 _0216C9A0:
 	ldr r1, _0216C9E0 // =TimeAttackMenu__Main_216E660
 	mov r0, r6
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 _0216C9A8:
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
@@ -592,12 +592,12 @@ _0216C9EC: .word TimeAttackMenu__Main_216E180
 	thumb_func_start TimeAttackMenu__Destroy
 TimeAttackMenu__Destroy: // 0x0216C9F0
 	push {r4, lr}
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx ReleaseTouchInput
+	bl ReleaseTouchInput
 	ldr r0, _0216CA64 // =0x00000E2C
 	add r0, r4, r0
-	blx TimeAttackLeaderboardsMenu__ReleaseAssets
+	bl TimeAttackLeaderboardsMenu__ReleaseAssets
 	mov r0, #0x39
 	lsl r0, r0, #6
 	add r0, r4, r0
@@ -615,24 +615,24 @@ TimeAttackMenu__Destroy: // 0x0216C9F0
 	mov r1, #0
 	str r1, [r4, r0]
 	bl TimeAttackMenu__Func_216D0AC
-	blx ReleaseConnectionStatusIconAssets
+	bl ReleaseConnectionStatusIconAssets
 	bl TimeAttackMenu__Func_216D1C0
 	ldr r0, _0216CA70 // =0x00001098
 	add r0, r4, r0
-	blx SaveSpriteButton__Func_20651A4
+	bl SaveSpriteButton__Func_20651A4
 	ldr r0, _0216CA74 // =0x00000E54
 	add r0, r4, r0
-	blx SaveSpriteButton__Release
+	bl SaveSpriteButton__Release
 	bl TimeAttackMenu__ReleaseTextWorker
 	bl TimeAttackMenu__Func_216CD08
 	ldr r0, _0216CA78 // =0x00001510
 	ldr r0, [r4, r0]
 	cmp r0, #0
 	beq _0216CA5A
-	blx ReleaseSysSound
+	bl ReleaseSysSound
 _0216CA5A:
 	bl TimeAttackMenu__ReleaseArchives
-	blx MultibootManager__Func_2060C9C
+	bl MultibootManager__Func_2060C9C
 	pop {r4, pc}
 	.align 2, 0
 _0216CA64: .word 0x00000E2C
@@ -648,13 +648,13 @@ TimeAttackMenu__SetupDisplay: // 0x0216CA7C
 	push {r4, lr}
 	bl TimeAttackMenu__ResetDisplay
 	mov r0, #0
-	blx VRAMSystem__Init
+	bl VRAMSystem__Init
 	mov r1, #0
 	mov r0, #1
 	mov r2, r1
-	blx GX_SetGraphicsMode
+	bl GX_SetGraphicsMode
 	mov r0, #0
-	blx GXS_SetGraphicsMode
+	bl GXS_SetGraphicsMode
 	ldr r0, _0216CAF4 // =renderCurrentDisplay
 	mov r1, #1
 	str r1, [r0]
@@ -687,10 +687,10 @@ TimeAttackMenu__SetupDisplay: // 0x0216CA7C
 	strh r0, [r1]
 	mov r0, #0
 	mov r1, r0
-	blx BackgroundUnknown__Func_204CA00
+	bl BackgroundUnknown__Func_204CA00
 	mov r0, #0
 	mov r1, #1
-	blx BackgroundUnknown__Func_204CA00
+	bl BackgroundUnknown__Func_204CA00
 	ldr r2, _0216CB04 // =0x0400100A
 	mov r0, #0x43
 	ldrh r1, [r2]
@@ -777,14 +777,14 @@ TimeAttackMenu__LoadArchives: // 0x0216CB88
 	sub sp, #0x10
 	ldr r0, _0216CC5C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0
 	ldr r0, _0216CC60 // =aBbDmtaMenuBb_0_ovl03
 	str r2, [sp]
 	mov r1, #6
 	mov r3, #1
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4]
 	mov r0, #1
 	str r0, [sp]
@@ -801,7 +801,7 @@ TimeAttackMenu__LoadArchives: // 0x0216CB88
 	add r1, #0x18
 	add r3, #0x28
 	bl StageClear__LoadFiles
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _0216CBF0
@@ -819,7 +819,7 @@ _0216CBDC: // jump table
 	.hword _0216CBE8 - _0216CBDC - 2 // case 4
 	.hword _0216CBE8 - _0216CBDC - 2 // case 5
 _0216CBE8:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r1, [r0]
 	b _0216CBF2
 _0216CBF0:
@@ -829,7 +829,7 @@ _0216CBF2:
 	ldr r0, _0216CC60 // =aBbDmtaMenuBb_0_ovl03
 	str r2, [sp]
 	mov r3, #1
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #4]
 	mov r0, #0
 	str r0, [sp]
@@ -846,28 +846,28 @@ _0216CBF2:
 	str r2, [sp]
 	mov r1, #9
 	mov r3, r2
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #0x1c]
 	mov r2, #0
 	ldr r0, _0216CC64 // =aBbNlBb_4
 	str r2, [sp]
 	mov r1, #0xc
 	mov r3, r2
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #0x20]
 	mov r2, #0
 	ldr r0, _0216CC64 // =aBbNlBb_4
 	str r2, [sp]
 	mov r1, #1
 	mov r3, r2
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	mov r2, #0
 	str r0, [r4, #0x24]
 	ldr r0, _0216CC68 // =aFntFontAllFnt_4_ovl03
 	sub r1, r2, #1
 	mov r3, r2
 	str r2, [sp]
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #8]
 	add sp, #0x10
 	pop {r4, pc}
@@ -883,20 +883,20 @@ TimeAttackMenu__ReleaseArchives: // 0x0216CC6C
 	push {r4, lr}
 	ldr r0, _0216CCA0 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, [r4, #8]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4, #0x24]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4, #0x20]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4, #0x1c]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4, #4]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, [r4]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	pop {r4, pc}
 	nop
 _0216CCA0: .word TimeAttackMenu__Singleton
@@ -908,7 +908,7 @@ TimeAttackMenuBG__Create: // 0x0216CCA4
 	sub sp, #0xc
 	ldr r0, _0216CCF8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216CCFC // =gameState
 	add r4, #0x2c
@@ -919,7 +919,7 @@ TimeAttackMenuBG__Create: // 0x0216CCA4
 	mov r5, #0
 	b _0216CCD0
 _0216CCC2:
-	blx GetSysEventList
+	bl GetSysEventList
 	mov r1, #0xc
 	ldrsh r0, [r0, r1]
 	cmp r0, #7
@@ -930,7 +930,7 @@ _0216CCD0:
 	add r0, r4, #4
 	mov r2, r1
 	mov r3, r5
-	blx MainMenu__LoadMenuBG
+	bl MainMenu__LoadMenuBG
 	mov r1, #0
 	ldr r0, _0216CD00 // =0x00002042
 	mov r2, r1
@@ -939,7 +939,7 @@ _0216CCD0:
 	ldr r0, _0216CD04 // =TimeAttackMenuBG__Main
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r4]
 	add sp, #0xc
 	pop {r4, r5, pc}
@@ -955,13 +955,13 @@ TimeAttackMenu__Func_216CD08: // 0x0216CD08
 	push {r4, lr}
 	ldr r0, _0216CD24 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, [r0, #0x2c]
 	add r4, #0x2c
-	blx DestroyTask
+	bl DestroyTask
 	add r0, r4, #4
-	blx MainMenu__Func_21567BC
+	bl MainMenu__Func_21567BC
 	pop {r4, pc}
 	.align 2, 0
 _0216CD24: .word TimeAttackMenu__Singleton
@@ -973,7 +973,7 @@ TimeAttackMenu__InitTextWorker: // 0x0216CD28
 	sub sp, #0x14
 	ldr r0, _0216CDAC // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r2, #0x69
 	mov r4, r0
 	lsl r2, r2, #2
@@ -981,28 +981,28 @@ TimeAttackMenu__InitTextWorker: // 0x0216CD28
 	mov r0, #0
 	mov r1, r5
 	add r2, #0xa8
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r5
 	add r0, #0x74
-	blx FontWindow__Init
+	bl FontWindow__Init
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r5, r0
-	blx FontAnimator__Init
+	bl FontAnimator__Init
 	mov r0, #0x7a
 	lsl r0, r0, #2
 	add r0, r5, r0
-	blx FontWindowAnimator__Init
+	bl FontWindowAnimator__Init
 	mov r0, r5
 	ldr r1, [r4, #8]
 	add r0, #0x74
 	mov r2, #1
-	blx FontWindow__LoadFromMemory
+	bl FontWindow__LoadFromMemory
 	mov r1, #0
 	str r1, [r5, #0xc]
 	ldr r0, [r4, #0x28]
 	add r5, #0x10
-	blx SpriteUnknown__GetSpriteSize
+	bl SpriteUnknown__GetSpriteSize
 	mov r2, #0
 	str r2, [sp]
 	str r0, [sp, #4]
@@ -1014,7 +1014,7 @@ TimeAttackMenu__InitTextWorker: // 0x0216CD28
 	ldr r1, [r4, #0x28]
 	mov r0, r5
 	mov r3, #5
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0x80
 	strh r0, [r5, #8]
 	mov r0, #0x90
@@ -1022,7 +1022,7 @@ TimeAttackMenu__InitTextWorker: // 0x0216CD28
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add sp, #0x14
 	pop {r4, r5, pc}
 	nop
@@ -1034,34 +1034,34 @@ TimeAttackMenu__ReleaseTextWorker: // 0x0216CDB0
 	push {r4, lr}
 	ldr r0, _0216CDFC // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
 	add r4, r0, r1
 	ldr r0, [r4]
 	cmp r0, #0
 	beq _0216CDCA
-	blx DestroyTask
+	bl DestroyTask
 _0216CDCA:
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	beq _0216CDD4
-	blx DestroyTask
+	bl DestroyTask
 _0216CDD4:
 	mov r0, r4
 	add r0, #0x10
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, #0x7a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__Release
+	bl FontWindowAnimator__Release
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__Release
+	bl FontAnimator__Release
 	add r4, #0x74
 	mov r0, r4
-	blx FontWindow__Release
+	bl FontWindow__Release
 	pop {r4, pc}
 	nop
 _0216CDFC: .word TimeAttackMenu__Singleton
@@ -1073,7 +1073,7 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	sub sp, #0x34
 	ldr r0, _0216CF40 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216CF44 // =renderCoreGFXControlA
 	mov r2, #0
 	strh r2, [r1, #6]
@@ -1101,30 +1101,30 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	mov r1, r5
 	add r0, r5, r0
 	add r1, #0x74
-	blx FontAnimator__LoadFont1
+	bl FontAnimator__LoadFont1
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r5, r0
-	blx FontAnimator__LoadMappingsFunc
+	bl FontAnimator__LoadMappingsFunc
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r5, r0
-	blx FontAnimator__LoadPaletteFunc
+	bl FontAnimator__LoadPaletteFunc
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r5, r0
-	blx FontAnimator__ClearPixels
+	bl FontAnimator__ClearPixels
 	mov r0, #0x49
 	lsl r0, r0, #2
 	ldr r1, [r4, #0xc]
 	add r0, r5, r0
-	blx FontAnimator__LoadMPCFile
+	bl FontAnimator__LoadMPCFile
 	add r3, sp, #0x2c
 	mov r0, #0
 	mov r1, #1
 	add r2, sp, #0x2c
 	add r3, #2
-	blx GetVRAMCharacterConfig
+	bl GetVRAMCharacterConfig
 	add r1, sp, #0x28
 	ldrh r2, [r1, #4]
 	ldrh r1, [r1, #6]
@@ -1139,7 +1139,7 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	add r1, r2, r1
 	mov r0, #0
 	mov r2, #0x20
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	add r0, sp, #0x28
 	add r0, #2
 	str r0, [sp]
@@ -1147,7 +1147,7 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	mov r1, #1
 	add r2, sp, #0x30
 	add r3, sp, #0x28
-	blx GetVRAMTileConfig
+	bl GetVRAMTileConfig
 	add r1, sp, #0x28
 	ldrh r2, [r1]
 	ldrh r1, [r1, #2]
@@ -1158,7 +1158,7 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	mov r2, #2
 	add r1, r4, r1
 	lsl r2, r2, #0xa
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	mov r0, #2
 	str r0, [sp]
 	str r0, [sp, #4]
@@ -1183,12 +1183,12 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	add r1, #0x74
 	mov r3, r2
 	str r2, [sp, #0x24]
-	blx FontWindowAnimator__Load1
+	bl FontWindowAnimator__Load1
 	ldr r0, _0216CF4C // =0x02110460
 	ldr r3, _0216CF50 // =0x05000182
 	mov r1, #4
 	mov r2, #0
-	blx QueueUncompressedPalette
+	bl QueueUncompressedPalette
 	mov r1, #0
 	ldr r0, _0216CF54 // =0x0000FFFF
 	mov r2, r1
@@ -1201,7 +1201,7 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	str r1, [sp, #4]
 	ldr r0, _0216CF5C // =TimeAttackMessageWindow__Main1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	mov r1, #0
 	str r0, [r5]
 	ldr r0, _0216CF60 // =0x00002085
@@ -1211,7 +1211,7 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	ldr r0, _0216CF64 // =TimeAttackMessageWindow__Main2
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r5, #4]
 	add sp, #0x34
 	pop {r4, r5, pc}
@@ -1245,7 +1245,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	sub sp, #0x1c
 	ldr r0, _0216D08C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x3f
 	lsl r0, r0, #4
@@ -1261,9 +1261,9 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	ldr r1, [r4, #0x10]
 	add r0, r5, r6
 	mov r2, #0x38
-	blx InitBackground
+	bl InitBackground
 	add r0, r5, r6
-	blx DrawBackground
+	bl DrawBackground
 	add r0, sp, #0x14
 	add r0, #2
 	str r0, [sp]
@@ -1271,7 +1271,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	mov r1, r0
 	add r2, sp, #0x18
 	add r3, sp, #0x14
-	blx GetVRAMTileConfig
+	bl GetVRAMTileConfig
 	ldr r1, _0216D090 // =VRAMSystem__VRAM_BG
 	add r3, sp, #0x14
 	ldr r2, [r1, #4]
@@ -1285,7 +1285,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	mov r2, #2
 	lsl r2, r2, #0xa
 	add r1, r1, r2
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	mov r0, r6
 	ldr r1, _0216D094 // =0x0000FFFF
 	add r0, #0xac
@@ -1297,7 +1297,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	mov r0, r7
 	mov r2, #0
 	mov r3, r1
-	blx SpriteUnknown__Func_204C7A4
+	bl SpriteUnknown__Func_204C7A4
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1309,7 +1309,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	mov r0, r6
 	mov r1, r7
 	str r2, [sp, #0x10]
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0x22
 	strh r0, [r6, #8]
 	mov r0, #0xd0
@@ -1317,7 +1317,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	strh r0, [r6, #0xa]
 	mov r0, r6
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, r5
 	mov r1, #1
 	add r0, #8
@@ -1353,7 +1353,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	ldr r0, _0216D0A0 // =TimeAttackMenuHeader__Main1
 	str r1, [sp, #8]
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	mov r1, #0
 	str r0, [r5]
 	ldr r0, _0216D0A4 // =0x00002084
@@ -1363,7 +1363,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	ldr r0, _0216D0A8 // =TimeAttackMenuHeader__Main2
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r5, #4]
 	add sp, #0x1c
 	pop {r4, r5, r6, r7, pc}
@@ -1383,23 +1383,23 @@ TimeAttackMenu__Func_216D0AC: // 0x0216D0AC
 	push {r3, r4, r5, lr}
 	ldr r0, _0216D0E0 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x3f
 	lsl r0, r0, #4
 	add r5, r4, r0
 	ldr r0, [r5, #4]
-	blx DestroyTask
+	bl DestroyTask
 	mov r0, #0x3f
 	lsl r0, r0, #4
 	ldr r0, [r4, r0]
-	blx DestroyTask
+	bl DestroyTask
 	mov r0, r5
 	add r0, #8
 	bl StageSelectMenu__Unknown__Release
 	ldr r0, _0216D0E4 // =0x000009C8
 	add r0, r5, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _0216D0E0: .word TimeAttackMenu__Singleton
@@ -1412,13 +1412,13 @@ TimeAttackBackButton__Create: // 0x0216D0E8
 	sub sp, #0x14
 	ldr r0, _0216D1A4 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	mov r4, r6
 	add r4, #0xdc
 	mov r0, r4
 	add r0, #0x14
-	blx TouchField__Init
+	bl TouchField__Init
 	mov r1, #0
 	mov r0, r4
 	mov r5, r4
@@ -1431,7 +1431,7 @@ TimeAttackBackButton__Create: // 0x0216D0E8
 	ldr r0, [r6, #0x24]
 	mov r1, #1
 	add r5, #0x64
-	blx SpriteUnknown__GetSpriteSize
+	bl SpriteUnknown__GetSpriteSize
 	mov r1, #1
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1443,7 +1443,7 @@ TimeAttackBackButton__Create: // 0x0216D0E8
 	ldr r1, [r6, #0x24]
 	ldr r3, _0216D1A8 // =0x00000804
 	mov r0, r5
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0x10
 	strh r0, [r5, #8]
 	mov r0, #0xb0
@@ -1451,7 +1451,7 @@ TimeAttackBackButton__Create: // 0x0216D0E8
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _0216D1AC // =TimeAttackBackButton__TouchCallback
 	mov r1, r4
 	str r0, [sp]
@@ -1461,13 +1461,13 @@ TimeAttackBackButton__Create: // 0x0216D0E8
 	add r1, #0x64
 	mov r3, r2
 	str r4, [sp, #4]
-	blx TouchField__InitAreaSprite
+	bl TouchField__InitAreaSprite
 	mov r0, r4
 	mov r1, r4
 	add r0, #0x14
 	add r1, #0x2c
 	mov r2, #0
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	mov r1, #0
 	str r1, [r4, #0xc]
 	ldr r0, _0216D1B0 // =0x00002043
@@ -1478,7 +1478,7 @@ TimeAttackBackButton__Create: // 0x0216D0E8
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	mov r1, #0
 	add r6, #0xdc
 	str r0, [r6]
@@ -1489,7 +1489,7 @@ TimeAttackBackButton__Create: // 0x0216D0E8
 	ldr r0, _0216D1BC // =TimeAttackBackButton__Main2
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r4, #4]
 	add sp, #0x14
 	pop {r3, r4, r5, r6, pc}
@@ -1508,18 +1508,18 @@ TimeAttackMenu__Func_216D1C0: // 0x0216D1C0
 	push {r3, r4, r5, lr}
 	ldr r0, _0216D1E8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r5, r4
 	add r5, #0xdc
 	ldr r0, [r5, #4]
-	blx DestroyTask
+	bl DestroyTask
 	add r4, #0xdc
 	ldr r0, [r4]
-	blx DestroyTask
+	bl DestroyTask
 	add r5, #0x64
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _0216D1E8: .word TimeAttackMenu__Singleton
@@ -1533,7 +1533,7 @@ TimeAttackMenu__SetState: // 0x0216D1EC
 	mov r6, r1
 	ldr r7, [r0]
 	mov r0, r7
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__ResetDisplay
 	mov r0, r6
@@ -1542,7 +1542,7 @@ TimeAttackMenu__SetState: // 0x0216D1EC
 	ldr r1, _0216D220 // =TimeAttackMenu__Main
 	str r5, [r4, r0]
 	mov r0, r7
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
 _0216D218: .word TimeAttackMenu__Singleton
@@ -1558,7 +1558,7 @@ TimeAttackMenu__Func_216D224: // 0x0216D224
 	mov r4, r1
 	ldr r6, [r0]
 	mov r0, r6
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216D25C // =0x000014F8
 	mov r2, r1
 	str r5, [r0, r1]
@@ -1576,7 +1576,7 @@ _0216D24A:
 	str r2, [r0, r1]
 	ldr r1, _0216D260 // =TimeAttackMenu__Main_216D600
 	mov r0, r6
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r4, r5, r6, pc}
 	.align 2, 0
 _0216D258: .word TimeAttackMenu__Singleton
@@ -1590,7 +1590,7 @@ TimeAttackMenu__Func_216D264: // 0x0216D264
 	mov r4, r0
 	ldr r0, _0216D278 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216D27C // =0x00000E1C
 	strh r4, [r0, r1]
 	pop {r4, pc}
@@ -1604,7 +1604,7 @@ TimeAttackMenu__Func_216D280: // 0x0216D280
 	push {r3, lr}
 	ldr r0, _0216D2A0 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
 	ldr r0, [r0, r1]
@@ -1646,7 +1646,7 @@ _0216D2C8:
 	bne _0216D2F2
 	mov r0, r1
 	mov r1, #1
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	pop {r3, r4, r5, pc}
 _0216D2D8:
 	lsr r0, r4, #5
@@ -1654,7 +1654,7 @@ _0216D2D8:
 	bne _0216D2F2
 	mov r0, r1
 	mov r1, #0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	pop {r3, r4, r5, pc}
 _0216D2E8:
 	ldr r1, [r2, #0xc]
@@ -1694,15 +1694,15 @@ _0216D31C:
 	mov r1, #5
 	bl TimeAttackMenu__Func_216D224
 	mov r0, #1
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	b _0216D33C
 _0216D32C:
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	b _0216D33C
 _0216D334:
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	pop {r3, pc}
 _0216D33C:
 	ldr r0, _0216D354 // =0x0000FFFF
@@ -1734,7 +1734,7 @@ _0216D368:
 	pop {r3, pc}
 _0216D370:
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	pop {r3, pc}
 	thumb_func_end TimeAttackMenu__Func_216D358
 
@@ -1838,7 +1838,7 @@ _0216D418:
 	pop {r3, pc}
 _0216D420:
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	pop {r3, pc}
 _0216D428:
 	mov r0, #1
@@ -1864,7 +1864,7 @@ _0216D444:
 	pop {r3, pc}
 _0216D44C:
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	pop {r3, pc}
 _0216D454:
 	ldr r1, _0216D46C // =gameState
@@ -1897,13 +1897,13 @@ _0216D480:
 	pop {r3, pc}
 _0216D488:
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	pop {r3, pc}
 _0216D490:
 	ldr r0, _0216D4A0 // =TimeAttackMenu__Singleton
 	ldr r1, _0216D4A4 // =TimeAttackMenu__Main_InitCharacterSelect
 	ldr r0, [r0]
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _0216D49C: .word 0x0000FFFF
@@ -1927,13 +1927,13 @@ _0216D4B8:
 	pop {r3, pc}
 _0216D4C0:
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	pop {r3, pc}
 _0216D4C8:
 	ldr r0, _0216D4D8 // =TimeAttackMenu__Singleton
 	ldr r1, _0216D4DC // =TimeAttackMenu__Main_216E180
 	ldr r0, [r0]
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _0216D4D4: .word 0x0000FFFF
@@ -1957,7 +1957,7 @@ _0216D4F0:
 	pop {r3, pc}
 _0216D4F8:
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	pop {r3, pc}
 _0216D500:
 	ldr r0, _0216D510 // =TimeAttackMenu__Func_216D688
@@ -1985,7 +1985,7 @@ _0216D524:
 	pop {r3, pc}
 _0216D52C:
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	pop {r3, pc}
 _0216D534:
 	mov r0, #0
@@ -2013,14 +2013,14 @@ TimeAttackMenu__Func_216D550: // 0x0216D550
 	ldr r0, _0216D570 // =TimeAttackMenu__Singleton
 	mov r4, r2
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
 	cmp r5, #4
 	bne _0216D56E
 	ldr r0, [r0, r1]
 	mov r1, r4
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 _0216D56E:
 	pop {r3, r4, r5, pc}
 	.align 2, 0
@@ -2077,12 +2077,12 @@ TimeAttackMenu__Main: // 0x0216D5B0
 	push {r3, lr}
 	ldr r0, _0216D5C8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216D5CC // =0x000014F4
 	mov r2, #4
 	str r2, [r0, r1]
 	ldr r0, _0216D5D0 // =TimeAttackMenu__Main_216D5D4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _0216D5C8: .word TimeAttackMenu__Singleton
@@ -2095,7 +2095,7 @@ TimeAttackMenu__Main_216D5D4: // 0x0216D5D4
 	push {r3, lr}
 	ldr r0, _0216D5F8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216D5FC // =0x000014F4
 	ldr r2, [r0, r1]
 	sub r2, r2, #1
@@ -2105,7 +2105,7 @@ TimeAttackMenu__Main_216D5D4: // 0x0216D5D4
 	bge _0216D5F4
 	add r1, r1, #4
 	ldr r0, [r0, r1]
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216D5F4:
 	pop {r3, pc}
 	nop
@@ -2118,7 +2118,7 @@ TimeAttackMenu__Main_216D600: // 0x0216D600
 	push {r4, lr}
 	ldr r0, _0216D650 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216D654 // =0x000014F4
 	ldr r1, [r4, r0]
@@ -2130,7 +2130,7 @@ TimeAttackMenu__Main_216D600: // 0x0216D600
 	ldr r0, _0216D658 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216D264
 	ldr r0, _0216D65C // =TimeAttackMenu__Main_216D660
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	mov r0, #0x15
 	lsl r0, r0, #8
 	ldr r2, [r4, r0]
@@ -2139,7 +2139,7 @@ TimeAttackMenu__Main_216D600: // 0x0216D600
 	beq _0216D63C
 	mov r0, #4
 	lsl r1, r0, #0xa
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	pop {r4, pc}
 _0216D63C:
 	mov r1, #2
@@ -2148,7 +2148,7 @@ _0216D63C:
 	beq _0216D64C
 	mov r0, #5
 	lsl r1, r1, #0xb
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 _0216D64C:
 	pop {r4, pc}
 	nop
@@ -2163,14 +2163,14 @@ TimeAttackMenu__Main_216D660: // 0x0216D660
 	push {r4, lr}
 	ldr r0, _0216D680 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__Func_216D280
 	cmp r0, #0
 	bne _0216D67C
 	ldr r0, _0216D684 // =0x000014F8
 	ldr r0, [r4, r0]
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216D67C:
 	pop {r4, pc}
 	nop
@@ -2184,7 +2184,7 @@ TimeAttackMenu__Func_216D688: // 0x0216D688
 	sub sp, #0x20
 	ldr r0, _0216D7B8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xfe
 	lsl r0, r0, #2
@@ -2307,7 +2307,7 @@ TimeAttackMenu__Func_216D688: // 0x0216D688
 	mov r1, r6
 	mov r3, #1
 	bl StageSelectMenu__Unknown__Func_216A348
-	blx GetCurrentTask
+	bl GetCurrentTask
 	mov r1, #0
 	str r0, [sp]
 	ldr r3, _0216D7D0 // =TimeAttackMenu__Func_216D2F4
@@ -2315,7 +2315,7 @@ TimeAttackMenu__Func_216D688: // 0x0216D688
 	mov r2, r1
 	bl StageSelectMenu__Unknown__Func_2169B78
 	ldr r0, _0216D7D4 // =TimeAttackMenu__Main_216D7D8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r4, r5, r6, pc}
 	nop
@@ -2343,15 +2343,15 @@ _0216D7E4: .word GetTaskWork_
 	thumb_func_start TimeAttackMenu__Main_216D7E8
 TimeAttackMenu__Main_216D7E8: // 0x0216D7E8
 	push {r3, lr}
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _0216D806
-	blx DestroyDrawFadeTask
+	bl DestroyDrawFadeTask
 	ldr r0, _0216D808 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
 	bl TimeAttackMenu__Destroy
-	blx NextSysEvent
-	blx DestroyCurrentTask
+	bl NextSysEvent
+	bl DestroyCurrentTask
 _0216D806:
 	pop {r3, pc}
 	.align 2, 0
@@ -2362,10 +2362,10 @@ _0216D808: .word TimeAttackMenu__Singleton
 TimeAttackMenu__Main_216D80C: // 0x0216D80C
 	push {r3, lr}
 	sub sp, #8
-	blx MultibootManager__Func_2061638
+	bl MultibootManager__Func_2061638
 	cmp r0, #0
 	beq _0216D88A
-	blx MultibootManager__Func_20618F0
+	bl MultibootManager__Func_20618F0
 	cmp r0, #0
 	bne _0216D850
 	mov r0, #0x11
@@ -2376,7 +2376,7 @@ TimeAttackMenu__Main_216D80C: // 0x0216D80C
 	mov r1, #0
 	mov r3, #4
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -2384,11 +2384,11 @@ TimeAttackMenu__Main_216D80C: // 0x0216D80C
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216D8C8 // =TimeAttackMenu__Main_216DAC4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _0216D850:
-	blx MultibootManager__Func_2061904
+	bl MultibootManager__Func_2061904
 	cmp r0, #0
 	bne _0216D8BC
 	mov r0, #0x13
@@ -2400,7 +2400,7 @@ _0216D850:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #4
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -2408,7 +2408,7 @@ _0216D850:
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216D8CC // =TimeAttackMenu__Main_216DB5C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _0216D88A:
@@ -2421,7 +2421,7 @@ _0216D88A:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #4
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -2429,12 +2429,12 @@ _0216D88A:
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216D8D0 // =TimeAttackMenu__Main_216DBB4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _0216D8BC:
 	ldr r0, _0216D8D4 // =TimeAttackMenu__Main_216D8D8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	nop
@@ -2456,7 +2456,7 @@ TimeAttackMenu__Main_216D8D8: // 0x0216D8D8
 	mov r1, #0
 	mov r3, #4
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -2464,7 +2464,7 @@ TimeAttackMenu__Main_216D8D8: // 0x0216D8D8
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216D90C // =TimeAttackMenu__Main_216D910
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	.align 2, 0
@@ -2477,16 +2477,16 @@ TimeAttackMenu__Main_216D910: // 0x0216D910
 	sub sp, #0xc
 	ldr r0, _0216D994 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216D98E
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _0216D946
 	cmp r0, #1
@@ -2495,9 +2495,9 @@ TimeAttackMenu__Main_216D910: // 0x0216D910
 	pop {r3, r4, pc}
 _0216D946:
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r1, #0
 	str r1, [sp]
 	mov r0, #0xf0
@@ -2507,22 +2507,22 @@ _0216D946:
 	mov r0, #1
 	mov r2, #0xe
 	mov r3, r1
-	blx CreateConnectionStatusIcon
-	blx MultibootManager__Func_2061654
+	bl CreateConnectionStatusIcon
+	bl MultibootManager__Func_2061654
 	mov r0, #0x16
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216D998 // =0x0000150C
 	mov r1, #0
 	str r1, [r4, r0]
 	ldr r0, _0216D99C // =TimeAttackMenu__Main_216D9A8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {r3, r4, pc}
 _0216D982:
 	ldr r0, _0216D9A0 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216D9A4 // =TimeAttackMenu__Main_216DE20
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216D98E:
 	add sp, #0xc
 	pop {r3, r4, pc}
@@ -2540,9 +2540,9 @@ TimeAttackMenu__Main_216D9A8: // 0x0216D9A8
 	sub sp, #8
 	ldr r0, _0216DA54 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0x11
 	bgt _0216D9D8
 	cmp r0, #0xf
@@ -2565,7 +2565,7 @@ _0216D9D8:
 	add sp, #8
 	pop {r4, pc}
 _0216D9E0:
-	blx MultibootManager__Func_2061918
+	bl MultibootManager__Func_2061918
 	cmp r0, #0
 	beq _0216DA0C
 	ldr r0, _0216DA58 // =0x0000FFFF
@@ -2575,13 +2575,13 @@ _0216D9E0:
 	cmp r1, #0
 	beq _0216DA00
 	ldr r0, _0216DA60 // =TimeAttackMenu__Main_216DD8C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r4, pc}
 _0216DA00:
 	sub r0, #0x14
 	ldr r0, [r4, r0]
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r4, pc}
 _0216DA0C:
@@ -2594,7 +2594,7 @@ _0216DA0C:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #4
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -2602,17 +2602,17 @@ _0216DA0C:
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216DA64 // =TimeAttackMenu__Main_216DA70
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r4, pc}
 _0216DA3E:
 	ldr r0, _0216DA68 // =TimeAttackMenu__Main_216EE14
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r4, pc}
 _0216DA48:
 	ldr r0, _0216DA6C // =TimeAttackMenu__Main_FadeToCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DA4E:
 	add sp, #8
 	pop {r4, pc}
@@ -2631,16 +2631,16 @@ TimeAttackMenu__Main_216DA70: // 0x0216DA70
 	push {r4, lr}
 	ldr r0, _0216DAB4 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216DAB0
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216DAB0
 	ldr r0, _0216DAB8 // =0x0000FFFF
@@ -2650,7 +2650,7 @@ TimeAttackMenu__Main_216DA70: // 0x0216DA70
 	sub r0, r0, #4
 	str r1, [r4, r0]
 	ldr r0, _0216DAC0 // =TimeAttackMenu__Main_216DEB0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DAB0:
 	pop {r4, pc}
 	nop
@@ -2666,16 +2666,16 @@ TimeAttackMenu__Main_216DAC4: // 0x0216DAC4
 	sub sp, #0xc
 	ldr r0, _0216DB48 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216DB42
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _0216DAFA
 	cmp r0, #1
@@ -2684,9 +2684,9 @@ TimeAttackMenu__Main_216DAC4: // 0x0216DAC4
 	pop {r3, r4, pc}
 _0216DAFA:
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r1, #0
 	str r1, [sp]
 	mov r0, #0xf0
@@ -2696,22 +2696,22 @@ _0216DAFA:
 	mov r0, #1
 	mov r2, #0xe
 	mov r3, r1
-	blx CreateConnectionStatusIcon
-	blx MultibootManager__Func_2061654
+	bl CreateConnectionStatusIcon
+	bl MultibootManager__Func_2061654
 	mov r0, #0x16
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216DB4C // =0x0000150C
 	mov r1, #1
 	str r1, [r4, r0]
 	ldr r0, _0216DB50 // =TimeAttackMenu__Main_216D9A8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {r3, r4, pc}
 _0216DB36:
 	ldr r0, _0216DB54 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216DB58 // =TimeAttackMenu__Main_216DE20
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DB42:
 	add sp, #0xc
 	pop {r3, r4, pc}
@@ -2728,13 +2728,13 @@ TimeAttackMenu__Main_216DB5C: // 0x0216DB5C
 	push {r3, lr}
 	sub sp, #8
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216DBAC
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216DBAC
 	mov r0, #0x14
@@ -2745,7 +2745,7 @@ TimeAttackMenu__Main_216DB5C: // 0x0216DB5C
 	mov r1, #0
 	mov r3, #4
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -2753,7 +2753,7 @@ TimeAttackMenu__Main_216DB5C: // 0x0216DB5C
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216DBB0 // =TimeAttackMenu__Main_216DBEC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DBAC:
 	add sp, #8
 	pop {r3, pc}
@@ -2765,19 +2765,19 @@ _0216DBB0: .word TimeAttackMenu__Main_216DBEC
 TimeAttackMenu__Main_216DBB4: // 0x0216DBB4
 	push {r3, lr}
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216DBE2
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216DBE2
 	ldr r0, _0216DBE4 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216DBE8 // =TimeAttackMenu__Main_216D8D8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DBE2:
 	pop {r3, pc}
 	.align 2, 0
@@ -2790,13 +2790,13 @@ TimeAttackMenu__Main_216DBEC: // 0x0216DBEC
 	push {r3, lr}
 	sub sp, #8
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216DC56
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _0216DC18
 	cmp r0, #1
@@ -2813,7 +2813,7 @@ _0216DC18:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #4
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -2821,14 +2821,14 @@ _0216DC18:
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216DC5C // =TimeAttackMenu__Main_216DC68
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _0216DC4A:
 	ldr r0, _0216DC60 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216DC64 // =TimeAttackMenu__Main_216DE20
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DC56:
 	add sp, #8
 	pop {r3, pc}
@@ -2844,15 +2844,15 @@ TimeAttackMenu__Main_216DC68: // 0x0216DC68
 	sub sp, #8
 	ldr r0, _0216DCC4 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216DCC0
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216DCC0
 	mov r0, #0x15
@@ -2863,7 +2863,7 @@ TimeAttackMenu__Main_216DC68: // 0x0216DC68
 	mov r1, #0
 	mov r3, #4
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -2871,7 +2871,7 @@ TimeAttackMenu__Main_216DC68: // 0x0216DC68
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216DCC8 // =TimeAttackMenu__Main_216DCCC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DCC0:
 	add sp, #8
 	pop {r3, pc}
@@ -2886,16 +2886,16 @@ TimeAttackMenu__Main_216DCCC: // 0x0216DCCC
 	sub sp, #0xc
 	ldr r0, _0216DD78 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216DD72
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _0216DD02
 	cmp r0, #1
@@ -2904,9 +2904,9 @@ TimeAttackMenu__Main_216DCCC: // 0x0216DCCC
 	pop {r3, r4, pc}
 _0216DD02:
 	mov r0, #1
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #1
-	blx RenderCore_SetNextFoldMode
+	bl RenderCore_SetNextFoldMode
 	mov r1, #0
 	str r1, [sp]
 	mov r0, #0xf0
@@ -2916,17 +2916,17 @@ _0216DD02:
 	mov r0, #1
 	mov r2, #0xe
 	mov r3, r1
-	blx CreateConnectionStatusIcon
+	bl CreateConnectionStatusIcon
 	ldr r0, _0216DD7C // =saveGame
 	bl SaveGame__DeleteOnlineProfile_KeepFriends
-	blx MultibootManager__Func_2061654
+	bl MultibootManager__Func_2061654
 	mov r0, #0x16
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216DD80 // =0x0000150C
 	mov r1, #1
 	str r1, [r4, r0]
 	ldr r0, _0216DD84 // =TimeAttackMenu__Main_216D9A8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {r3, r4, pc}
 _0216DD44:
@@ -2939,7 +2939,7 @@ _0216DD44:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #4
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -2947,7 +2947,7 @@ _0216DD44:
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216DD88 // =TimeAttackMenu__Main_216DB5C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DD72:
 	add sp, #0xc
 	pop {r3, r4, pc}
@@ -2966,7 +2966,7 @@ TimeAttackMenu__Main_216DD8C: // 0x0216DD8C
 	mov r0, #0x12
 	bl TimeAttackMenu__Func_216C57C
 	mov r0, #0xa
-	blx TrySaveGameData
+	bl TrySaveGameData
 	cmp r0, #0
 	beq _0216DDCC
 	bl TimeAttackMenu__GetSpriteButton1
@@ -2976,7 +2976,7 @@ TimeAttackMenu__Main_216DD8C: // 0x0216DD8C
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #4
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -2984,12 +2984,12 @@ TimeAttackMenu__Main_216DD8C: // 0x0216DD8C
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216DDD8 // =TimeAttackMenu__Main_216DDE0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _0216DDCC:
 	ldr r0, _0216DDDC // =TimeAttackMenu__Main_216DE48
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	nop
@@ -3002,21 +3002,21 @@ TimeAttackMenu__Main_216DDE0: // 0x0216DDE0
 	push {r4, lr}
 	ldr r0, _0216DE18 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216DE14
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216DE14
 	ldr r0, _0216DE1C // =0x000014F8
 	ldr r0, [r4, r0]
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DE14:
 	pop {r4, pc}
 	nop
@@ -3029,14 +3029,14 @@ TimeAttackMenu__Main_216DE20: // 0x0216DE20
 	push {r4, lr}
 	ldr r0, _0216DE40 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__Func_216C594
 	cmp r0, #0
 	bne _0216DE3C
 	ldr r0, _0216DE44 // =0x000014FC
 	ldr r0, [r4, r0]
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DE3C:
 	pop {r4, pc}
 	nop
@@ -3047,9 +3047,9 @@ _0216DE44: .word 0x000014FC
 	thumb_func_start TimeAttackMenu__Main_216DE48
 TimeAttackMenu__Main_216DE48: // 0x0216DE48
 	push {r3, lr}
-	blx MultibootManager__Func_206150C
+	bl MultibootManager__Func_206150C
 	ldr r0, _0216DE58 // =TimeAttackMenu__Main_216DE5C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _0216DE58: .word TimeAttackMenu__Main_216DE5C
@@ -3060,9 +3060,9 @@ TimeAttackMenu__Main_216DE5C: // 0x0216DE5C
 	push {r4, lr}
 	ldr r0, _0216DEA8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bgt _0216DE74
 	beq _0216DE86
@@ -3081,14 +3081,14 @@ _0216DE86:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
+	bl MainMenu__Func_2156790
 	mov r0, #0
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #0
-	blx RenderCore_SetNextFoldMode
-	blx DestroyConnectionStatusIcon
+	bl RenderCore_SetNextFoldMode
+	bl DestroyConnectionStatusIcon
 	ldr r0, _0216DEAC // =TimeAttackMenu__Main_FadeToCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DEA6:
 	pop {r4, pc}
 	.align 2, 0
@@ -3102,7 +3102,7 @@ TimeAttackMenu__Main_216DEB0: // 0x0216DEB0
 	mov r0, #0x19
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216DEC0 // =TimeAttackMenu__Main_216DEC4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _0216DEC0: .word TimeAttackMenu__Main_216DEC4
@@ -3116,25 +3116,25 @@ TimeAttackMenu__Main_216DEC4: // 0x0216DEC4
 	beq _0216DF02
 	ldr r0, _0216DF04 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	add r0, #0x30
 	mov r1, #1
-	blx MainMenu__Func_2156790
-	blx MultibootManager__Func_2060CC8
+	bl MainMenu__Func_2156790
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	beq _0216DEEA
 	cmp r0, #0x19
 	bne _0216DEF8
 _0216DEEA:
-	blx MultibootManager__Func_2060C9C
-	blx MultibootManager__Func_2061C58
-	blx MultibootManager__Create
+	bl MultibootManager__Func_2060C9C
+	bl MultibootManager__Func_2061C58
+	bl MultibootManager__Create
 	b _0216DEFC
 _0216DEF8:
-	blx MultibootManager__Func_206150C
+	bl MultibootManager__Func_206150C
 _0216DEFC:
 	ldr r0, _0216DF08 // =TimeAttackMenu__Main_216DF0C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DF02:
 	pop {r3, pc}
 	.align 2, 0
@@ -3148,9 +3148,9 @@ TimeAttackMenu__Main_216DF0C: // 0x0216DF0C
 	sub sp, #8
 	ldr r0, _0216DFD0 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bgt _0216DF28
 	beq _0216DF3E
@@ -3172,18 +3172,18 @@ _0216DF3E:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
+	bl MainMenu__Func_2156790
 	ldr r0, _0216DFD4 // =TimeAttackMenu__Main_216EE14
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r4, pc}
 _0216DF52:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
+	bl MainMenu__Func_2156790
 	ldr r0, _0216DFD8 // =TimeAttackMenu__Main_FadeToCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r4, pc}
 _0216DF66:
@@ -3192,15 +3192,15 @@ _0216DF66:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
+	bl MainMenu__Func_2156790
 	mov r0, #0
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #0
-	blx RenderCore_SetNextFoldMode
-	blx DestroyConnectionStatusIcon
-	blx SaveGame__RefreshFriendList
+	bl RenderCore_SetNextFoldMode
+	bl DestroyConnectionStatusIcon
+	bl SaveGame__RefreshFriendList
 	mov r0, #0xb
-	blx TrySaveGameData
+	bl TrySaveGameData
 	cmp r0, #0
 	beq _0216DFC6
 	mov r0, #0x1a
@@ -3212,7 +3212,7 @@ _0216DF66:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #4
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -3220,12 +3220,12 @@ _0216DF66:
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216DFE0 // =TimeAttackMenu__Main_216DFE4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r4, pc}
 _0216DFC6:
 	ldr r0, _0216DFD8 // =TimeAttackMenu__Main_FadeToCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216DFCC:
 	add sp, #8
 	pop {r4, pc}
@@ -3241,19 +3241,19 @@ _0216DFE0: .word TimeAttackMenu__Main_216DFE4
 TimeAttackMenu__Main_216DFE4: // 0x0216DFE4
 	push {r3, lr}
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216E012
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216E012
 	ldr r0, _0216E014 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216E018 // =TimeAttackMenu__Main_216E01C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216E012:
 	pop {r3, pc}
 	.align 2, 0
@@ -3269,10 +3269,10 @@ TimeAttackMenu__Main_216E01C: // 0x0216E01C
 	bne _0216E036
 	ldr r0, _0216E038 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216E03C // =0x000014F8
 	ldr r0, [r0, r1]
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216E036:
 	pop {r3, pc}
 	.align 2, 0
@@ -3285,7 +3285,7 @@ TimeAttackMenu__Main_216E040: // 0x0216E040
 	push {r3, lr}
 	ldr r0, _0216E070 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xe5
 	mov r2, #1
 	lsl r1, r1, #4
@@ -3294,14 +3294,14 @@ TimeAttackMenu__Main_216E040: // 0x0216E040
 	cmp r0, #0
 	beq _0216E062
 	ldr r0, _0216E074 // =TimeAttackMenu__Main_InitCharacterSelect
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _0216E062:
 	ldr r0, _0216E078 // =gameState
 	mov r1, #0
 	str r1, [r0, #4]
 	ldr r0, _0216E07C // =TimeAttackMenu__Main_216E180
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _0216E070: .word TimeAttackMenu__Singleton
@@ -3315,7 +3315,7 @@ TimeAttackMenu__Main_InitCharacterSelect: // 0x0216E080
 	push {r4, lr}
 	ldr r0, _0216E0C8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r2, _0216E0CC // =0x04001000
 	mov r4, r0
 	ldr r1, [r2]
@@ -3324,7 +3324,7 @@ TimeAttackMenu__Main_InitCharacterSelect: // 0x0216E080
 	lsr r0, r2, #0xf
 	orr r0, r1
 	str r0, [r2]
-	blx GetSysEventList
+	bl GetSysEventList
 	mov r1, #0xc
 	ldrsh r0, [r0, r1]
 	cmp r0, #7
@@ -3342,7 +3342,7 @@ _0216E0B4:
 	bl CharacterSelectMenu__Create
 _0216E0BE:
 	ldr r0, _0216E0D8 // =TimeAttackMenu__Main_216E0DC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	nop
 _0216E0C8: .word TimeAttackMenu__Singleton
@@ -3357,9 +3357,9 @@ TimeAttackMenu__Main_216E0DC: // 0x0216E0DC
 	push {r4, lr}
 	ldr r0, _0216E164 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx GetSysEventList
+	bl GetSysEventList
 	mov r1, #0xc
 	ldrsh r0, [r0, r1]
 	cmp r0, #7
@@ -3374,18 +3374,18 @@ TimeAttackMenu__Main_216E0DC: // 0x0216E0DC
 	cmp r0, #3
 	bne _0216E11E
 	mov r0, #8
-	blx RequestNewSysEventChange
+	bl RequestNewSysEventChange
 	mov r0, #0
 	mov r1, r0
 	bl TimeAttackMenu__Func_216C610
 	ldr r0, _0216E170 // =TimeAttackMenu__Main_216D7E8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216E11E:
 	cmp r0, #0
 	bne _0216E160
 	mov r0, #4
-	blx SaveGame__Func_205B9F0
+	bl SaveGame__Func_205B9F0
 	mov r0, #1
 	bl TimeAttackMenu__Func_216C730
 	pop {r4, pc}
@@ -3399,14 +3399,14 @@ _0216E130:
 	pop {r4, pc}
 _0216E140:
 	ldr r0, _0216E174 // =TimeAttackMenu__Main_216E180
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216E148:
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0xc
 	bne _0216E158
 	ldr r0, _0216E178 // =TimeAttackMenu__Main_216DEB0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216E158:
 	ldr r0, _0216E17C // =TimeAttackMenu__Func_216D688
@@ -3429,7 +3429,7 @@ TimeAttackMenu__Main_216E180: // 0x0216E180
 	push {r4, lr}
 	ldr r0, _0216E1BC // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r2, _0216E1C0 // =0x04001000
 	mov r4, r0
 	ldr r1, [r2]
@@ -3449,7 +3449,7 @@ TimeAttackMenu__Main_216E180: // 0x0216E180
 	mov r2, #0xa6
 	bl StageSelectMenu__Create
 	ldr r0, _0216E1D0 // =TimeAttackMenu__Main_216E1D4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	nop
 _0216E1BC: .word TimeAttackMenu__Singleton
@@ -3465,7 +3465,7 @@ TimeAttackMenu__Main_216E1D4: // 0x0216E1D4
 	push {r4, lr}
 	ldr r0, _0216E234 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216E238 // =0x00000E28
 	ldr r0, [r4, r0]
@@ -3487,7 +3487,7 @@ _0216E200:
 	cmp r0, #0
 	beq _0216E210
 	ldr r0, _0216E240 // =TimeAttackMenu__Main_InitCharacterSelect
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216E210:
 	mov r0, #0xe5
@@ -3528,7 +3528,7 @@ TimeAttackMenu__Main_216E248: // 0x0216E248
 	mov r1, #0
 	mov r3, #4
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -3536,7 +3536,7 @@ TimeAttackMenu__Main_216E248: // 0x0216E248
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216E27C // =TimeAttackMenu__Main_216E280
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	.align 2, 0
@@ -3547,13 +3547,13 @@ _0216E27C: .word TimeAttackMenu__Main_216E280
 TimeAttackMenu__Main_216E280: // 0x0216E280
 	push {r3, lr}
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216E2C4
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _0216E2A8
 	cmp r0, #1
@@ -3563,7 +3563,7 @@ _0216E2A8:
 	ldr r0, _0216E2C8 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216E2CC // =TimeAttackMenu__Main_216E2D4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 _0216E2B6:
 	ldr r0, _0216E2C8 // =0x0000FFFF
@@ -3585,7 +3585,7 @@ TimeAttackMenu__Main_216E2D4: // 0x0216E2D4
 	mov r0, #0
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216E2E4 // =TimeAttackMenu__Main_216E2E8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _0216E2E4: .word TimeAttackMenu__Main_216E2E8
@@ -3599,14 +3599,14 @@ TimeAttackMenu__Main_216E2E8: // 0x0216E2E8
 	beq _0216E30C
 	ldr r0, _0216E310 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216E314 // =0x00001418
 	mov r2, #0x18
 	add r0, r0, r1
 	mov r1, #9
-	blx CreateSaveGameWorker
+	bl CreateSaveGameWorker
 	ldr r0, _0216E318 // =TimeAttackMenu__Main_216E31C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216E30C:
 	pop {r3, pc}
 	nop
@@ -3620,26 +3620,26 @@ TimeAttackMenu__Main_216E31C: // 0x0216E31C
 	push {r4, lr}
 	ldr r0, _0216E358 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216E35C // =0x00001418
 	add r0, r4, r0
-	blx AwaitSaveGameCompletion
+	bl AwaitSaveGameCompletion
 	cmp r0, #0
 	beq _0216E354
 	ldr r0, _0216E35C // =0x00001418
 	add r0, r4, r0
-	blx GetSaveGameSuccess
+	bl GetSaveGameSuccess
 	cmp r0, #0
 	beq _0216E34E
 	ldr r0, _0216E360 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216E364 // =TimeAttackMenu__Main_216E36C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216E34E:
 	ldr r0, _0216E368 // =TimeAttackMenu__Main_FadeToCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216E354:
 	pop {r4, pc}
 	nop
@@ -3656,8 +3656,8 @@ TimeAttackMenu__Main_216E36C: // 0x0216E36C
 	sub sp, #8
 	ldr r0, _0216E3D4 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
-	blx MultibootManager__Func_2061638
+	bl GetTaskWork_
+	bl MultibootManager__Func_2061638
 	cmp r0, #0
 	beq _0216E3A0
 	ldr r0, _0216E3D8 // =0x0000FFFF
@@ -3665,11 +3665,11 @@ TimeAttackMenu__Main_216E36C: // 0x0216E36C
 	mov r1, #1
 	mov r0, #5
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 	ldr r0, _0216E3DC // =TimeAttackMenu__Main_216E42C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 _0216E3A0:
@@ -3682,7 +3682,7 @@ _0216E3A0:
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #4
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -3690,7 +3690,7 @@ _0216E3A0:
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216E3E0 // =TimeAttackMenu__Main_216E3E4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	nop
@@ -3704,13 +3704,13 @@ _0216E3E0: .word TimeAttackMenu__Main_216E3E4
 TimeAttackMenu__Main_216E3E4: // 0x0216E3E4
 	push {r3, lr}
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216E422
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216E422
 	ldr r0, _0216E424 // =0x0000FFFF
@@ -3718,11 +3718,11 @@ TimeAttackMenu__Main_216E3E4: // 0x0216E3E4
 	mov r1, #1
 	mov r0, #5
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 	ldr r0, _0216E428 // =TimeAttackMenu__Main_216E42C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216E422:
 	pop {r3, pc}
 	.align 2, 0
@@ -3733,16 +3733,16 @@ _0216E428: .word TimeAttackMenu__Main_216E42C
 	thumb_func_start TimeAttackMenu__Main_216E42C
 TimeAttackMenu__Main_216E42C: // 0x0216E42C
 	push {r3, lr}
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _0216E44C
 	ldr r0, _0216E450 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
 	bl TimeAttackMenu__Destroy
 	mov r0, #0x21
-	blx RequestNewSysEventChange
-	blx NextSysEvent
-	blx DestroyCurrentTask
+	bl RequestNewSysEventChange
+	bl NextSysEvent
+	bl DestroyCurrentTask
 _0216E44C:
 	pop {r3, pc}
 	nop
@@ -3754,7 +3754,7 @@ TimeAttackMenu__Main_216E454: // 0x0216E454
 	push {r4, lr}
 	ldr r0, _0216E488 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r1, _0216E48C // =0x00000E1E
 	mov r0, #1
@@ -3765,13 +3765,13 @@ TimeAttackMenu__Main_216E454: // 0x0216E454
 	add r0, r4, r1
 	ldr r1, _0216E490 // =0x00001514
 	ldr r1, [r4, r1]
-	blx TimeAttackLeaderboardsMenu__Func_2175648
+	bl TimeAttackLeaderboardsMenu__Func_2175648
 	ldr r0, _0216E494 // =0x00000E2C
 	mov r1, #0
 	add r0, r4, r0
-	blx TimeAttackLeaderboardsMenu__Create
+	bl TimeAttackLeaderboardsMenu__Create
 	ldr r0, _0216E498 // =TimeAttackMenu__Main_216E49C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _0216E488: .word TimeAttackMenu__Singleton
@@ -3786,14 +3786,14 @@ TimeAttackMenu__Main_216E49C: // 0x0216E49C
 	push {r3, r4, r5, lr}
 	ldr r0, _0216E4F0 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x3f
 	lsl r0, r0, #4
 	add r5, r4, r0
 	ldr r0, _0216E4F4 // =0x00000E2C
 	add r0, r4, r0
-	blx TimeAttackLeaderboardsMenu__IsActive
+	bl TimeAttackLeaderboardsMenu__IsActive
 	cmp r0, #0
 	beq _0216E4EE
 	ldr r1, _0216E4F8 // =0x00000A2E
@@ -3803,7 +3803,7 @@ TimeAttackMenu__Main_216E49C: // 0x0216E49C
 	ldr r0, _0216E4F4 // =0x00000E2C
 	strh r2, [r5, r1]
 	add r0, r4, r0
-	blx TimeAttackLeaderboardsMenu__Func_2175730
+	bl TimeAttackLeaderboardsMenu__Func_2175730
 	ldr r1, _0216E4FC // =0x0000FFFF
 	cmp r0, r1
 	bne _0216E4DC
@@ -3814,11 +3814,11 @@ TimeAttackMenu__Main_216E49C: // 0x0216E49C
 _0216E4DC:
 	ldr r0, _0216E4F4 // =0x00000E2C
 	add r0, r4, r0
-	blx TimeAttackLeaderboardsMenu__Func_2175730
+	bl TimeAttackLeaderboardsMenu__Func_2175730
 	ldr r1, _0216E504 // =0x00001514
 	str r0, [r4, r1]
 	ldr r0, _0216E508 // =TimeAttackMenu__Main_216EB64
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216E4EE:
 	pop {r3, r4, r5, pc}
 	.align 2, 0
@@ -3836,7 +3836,7 @@ TimeAttackMenu__Main_216E50C: // 0x0216E50C
 	push {r4, lr}
 	ldr r0, _0216E540 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r1, _0216E544 // =0x00000E1E
 	mov r0, #1
@@ -3847,13 +3847,13 @@ TimeAttackMenu__Main_216E50C: // 0x0216E50C
 	add r0, r4, r1
 	ldr r1, _0216E548 // =0x00001514
 	ldr r1, [r4, r1]
-	blx TimeAttackLeaderboardsMenu__Func_2175648
+	bl TimeAttackLeaderboardsMenu__Func_2175648
 	ldr r0, _0216E54C // =0x00000E2C
 	mov r1, #1
 	add r0, r4, r0
-	blx TimeAttackLeaderboardsMenu__Create
+	bl TimeAttackLeaderboardsMenu__Create
 	ldr r0, _0216E550 // =TimeAttackMenu__Main_216E554
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _0216E540: .word TimeAttackMenu__Singleton
@@ -3868,14 +3868,14 @@ TimeAttackMenu__Main_216E554: // 0x0216E554
 	push {r3, r4, r5, lr}
 	ldr r0, _0216E59C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x3f
 	lsl r0, r0, #4
 	add r5, r4, r0
 	ldr r0, _0216E5A0 // =0x00000E2C
 	add r0, r4, r0
-	blx TimeAttackLeaderboardsMenu__IsActive
+	bl TimeAttackLeaderboardsMenu__IsActive
 	cmp r0, #0
 	beq _0216E598
 	ldr r1, _0216E5A4 // =0x00000A2E
@@ -3897,7 +3897,7 @@ _0216E58E:
 	sub r0, #0xc
 	str r1, [r4, r0]
 	ldr r0, _0216E5B4 // =TimeAttackMenu__Main_216DEB0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216E598:
 	pop {r3, r4, r5, pc}
 	nop
@@ -3915,7 +3915,7 @@ TimeAttackMenu__Main_216E5B8: // 0x0216E5B8
 	push {r3, lr}
 	ldr r0, _0216E5E0 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r2, _0216E5E4 // =0x00000E1E
 	mov r1, #1
 	ldrh r3, [r0, r2]
@@ -3926,7 +3926,7 @@ TimeAttackMenu__Main_216E5B8: // 0x0216E5B8
 	mov r1, #0
 	bl TimeAttackRecordsMenu__Create
 	ldr r0, _0216E5E8 // =TimeAttackMenu__Main_216E5EC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _0216E5E0: .word TimeAttackMenu__Singleton
@@ -3939,7 +3939,7 @@ TimeAttackMenu__Main_216E5EC: // 0x0216E5EC
 	push {r3, r4, r5, lr}
 	ldr r0, _0216E648 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x3f
 	lsl r0, r0, #4
@@ -3974,7 +3974,7 @@ _0216E630:
 	ldr r1, _0216E658 // =0x00001514
 	str r0, [r4, r1]
 	ldr r0, _0216E65C // =TimeAttackMenu__Main_216E8A4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216E644:
 	pop {r3, r4, r5, pc}
 	nop
@@ -3992,7 +3992,7 @@ TimeAttackMenu__Main_216E660: // 0x0216E660
 	sub sp, #0x20
 	ldr r0, _0216E81C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xfe
 	lsl r0, r0, #2
@@ -4002,12 +4002,12 @@ TimeAttackMenu__Main_216E660: // 0x0216E660
 	cmp r0, #3
 	beq _0216E69E
 	mov r0, #5
-	blx TrySaveGameData
+	bl TrySaveGameData
 	cmp r0, #0
 	bne _0216E694
-	blx DestroyDrawFadeTask
+	bl DestroyDrawFadeTask
 	ldr r0, _0216E824 // =TimeAttackMenu__Main_FadeToCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r3, r4, r5, pc}
 _0216E694:
@@ -4167,7 +4167,7 @@ _0216E794:
 	str r0, [r4, #0x3c]
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r1, [r4, #0x3c]
 	mov r0, #0x10
 	orr r0, r1
@@ -4177,7 +4177,7 @@ _0216E794:
 	add r0, #0x10
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
-	blx ObjDraw__GetHWPaletteRow
+	bl ObjDraw__GetHWPaletteRow
 	ldr r1, _0216E820 // =gameState
 	ldr r1, [r1, #0x14]
 	cmp r1, #3
@@ -4200,7 +4200,7 @@ _0216E7FC:
 	str r1, [sp]
 	bl StageSelectMenu__Unknown__Func_2169B78
 	ldr r0, _0216E84C // =TimeAttackMenu__Main_216D7D8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x20
 	pop {r3, r4, r5, pc}
 	.align 2, 0
@@ -4224,15 +4224,15 @@ TimeAttackMenu__Main_216E850: // 0x0216E850
 	push {r4, lr}
 	ldr r0, _0216E88C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #5
-	blx TrySaveGameData
+	bl TrySaveGameData
 	cmp r0, #0
 	bne _0216E872
-	blx DestroyDrawFadeTask
+	bl DestroyDrawFadeTask
 	ldr r0, _0216E890 // =TimeAttackMenu__Main_FadeToCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216E872:
 	ldr r0, _0216E894 // =0x00001504
@@ -4240,11 +4240,11 @@ _0216E872:
 	str r1, [r4, r0]
 	ldr r0, _0216E898 // =gameState
 	ldrh r0, [r0, #0x28]
-	blx MenuHelpers__Func_217CEBC
+	bl MenuHelpers__Func_217CEBC
 	ldr r1, _0216E89C // =0x00001514
 	str r0, [r4, r1]
 	ldr r0, _0216E8A0 // =TimeAttackMenu__Main_216E8A4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _0216E88C: .word TimeAttackMenu__Singleton
@@ -4261,7 +4261,7 @@ TimeAttackMenu__Main_216E8A4: // 0x0216E8A4
 	sub sp, #8
 	ldr r0, _0216E8E0 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r0, #0xb
 	bl TimeAttackMenu__Func_216C57C
 	bl TimeAttackMenu__GetSpriteButton1
@@ -4270,7 +4270,7 @@ TimeAttackMenu__Main_216E8A4: // 0x0216E8A4
 	mov r1, #0
 	mov r3, #4
 	str r1, [sp, #4]
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -4278,7 +4278,7 @@ TimeAttackMenu__Main_216E8A4: // 0x0216E8A4
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216E8E4 // =TimeAttackMenu__Main_216E8E8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	.align 2, 0
@@ -4291,16 +4291,16 @@ TimeAttackMenu__Main_216E8E8: // 0x0216E8E8
 	push {r4, lr}
 	ldr r0, _0216E94C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216E948
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #0
 	beq _0216E91A
 	cmp r0, #1
@@ -4332,7 +4332,7 @@ _0216E93E:
 	add r0, r0, #4
 	str r1, [r4, r0]
 	ldr r0, _0216E964 // =TimeAttackMenu__Main_216D80C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216E948:
 	pop {r4, pc}
 	nop
@@ -4350,11 +4350,11 @@ TimeAttackMenu__Main_216E968: // 0x0216E968
 	push {r4, lr}
 	ldr r0, _0216E998 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	add r0, #0x30
 	mov r1, #1
-	blx MainMenu__Func_2156790
+	bl MainMenu__Func_2156790
 	mov r0, #0xc
 	bl TimeAttackMenu__Func_216C57C
 	ldr r2, _0216E99C // =0x00001514
@@ -4362,9 +4362,9 @@ TimeAttackMenu__Main_216E968: // 0x0216E968
 	ldr r0, [r4, r2]
 	sub r2, #0xc
 	ldr r2, [r4, r2]
-	blx LeaderboardWorker__Create
+	bl LeaderboardWorker__Create
 	ldr r0, _0216E9A0 // =TimeAttackMenu__Main_216E9A4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
 _0216E998: .word TimeAttackMenu__Singleton
@@ -4377,9 +4377,9 @@ TimeAttackMenu__Main_216E9A4: // 0x0216E9A4
 	push {r4, lr}
 	ldr r0, _0216EA4C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	beq _0216E9BE
 	cmp r0, #0x19
@@ -4389,22 +4389,22 @@ _0216E9BE:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
-	blx LeaderboardWorker__Destroy
+	bl MainMenu__Func_2156790
+	bl LeaderboardWorker__Destroy
 	ldr r0, _0216EA50 // =TimeAttackMenu__Main_216EE14
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216E9D4:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
-	blx LeaderboardWorker__Destroy
+	bl MainMenu__Func_2156790
+	bl LeaderboardWorker__Destroy
 	ldr r0, _0216EA54 // =TimeAttackMenu__Main_FadeToCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216E9EA:
-	blx LeaderboardWorker__GetFlags
+	bl LeaderboardWorker__GetFlags
 	cmp r0, #3
 	bhi _0216EA4A
 	add r0, r0, r0
@@ -4426,26 +4426,26 @@ _0216EA08:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
-	blx LeaderboardWorker__Destroy
+	bl MainMenu__Func_2156790
+	bl LeaderboardWorker__Destroy
 	ldr r0, _0216EA5C // =TimeAttackMenu__Main_216EDA0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216EA24:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
-	blx LeaderboardWorker__Destroy
+	bl MainMenu__Func_2156790
+	bl LeaderboardWorker__Destroy
 	ldr r0, _0216EA50 // =TimeAttackMenu__Main_216EE14
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216EA3A:
-	blx LeaderboardWorker__Destroy
+	bl LeaderboardWorker__Destroy
 	ldr r0, _0216EA58 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216EA60 // =TimeAttackMenu__Main_216EA64
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216EA4A:
 	pop {r4, pc}
 	.align 2, 0
@@ -4463,7 +4463,7 @@ TimeAttackMenu__Main_216EA64: // 0x0216EA64
 	mov r0, #1
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216EA74 // =TimeAttackMenu__Main_216EA78
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _0216EA74: .word TimeAttackMenu__Main_216EA78
@@ -4477,14 +4477,14 @@ TimeAttackMenu__Main_216EA78: // 0x0216EA78
 	beq _0216EA9C
 	ldr r0, _0216EAA0 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216EAA4 // =0x00001418
 	mov r2, #0x18
 	add r0, r0, r1
 	mov r1, #4
-	blx CreateSaveGameWorker
+	bl CreateSaveGameWorker
 	ldr r0, _0216EAA8 // =TimeAttackMenu__Main_216EAAC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216EA9C:
 	pop {r3, pc}
 	nop
@@ -4498,26 +4498,26 @@ TimeAttackMenu__Main_216EAAC: // 0x0216EAAC
 	push {r4, lr}
 	ldr r0, _0216EAE8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216EAEC // =0x00001418
 	add r0, r4, r0
-	blx AwaitSaveGameCompletion
+	bl AwaitSaveGameCompletion
 	cmp r0, #0
 	beq _0216EAE4
 	ldr r0, _0216EAEC // =0x00001418
 	add r0, r4, r0
-	blx GetSaveGameSuccess
+	bl GetSaveGameSuccess
 	cmp r0, #0
 	beq _0216EADE
 	ldr r0, _0216EAF0 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216EAF4 // =TimeAttackMenu__Main_216EAFC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216EADE:
 	ldr r0, _0216EAF8 // =TimeAttackMenu__Main_216EB14
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216EAE4:
 	pop {r4, pc}
 	nop
@@ -4535,7 +4535,7 @@ TimeAttackMenu__Main_216EAFC: // 0x0216EAFC
 	cmp r0, #0
 	bne _0216EB0C
 	ldr r0, _0216EB10 // =TimeAttackMenu__Main_216E50C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216EB0C:
 	pop {r3, pc}
 	nop
@@ -4545,9 +4545,9 @@ _0216EB10: .word TimeAttackMenu__Main_216E50C
 	thumb_func_start TimeAttackMenu__Main_216EB14
 TimeAttackMenu__Main_216EB14: // 0x0216EB14
 	push {r3, lr}
-	blx MultibootManager__Func_206150C
+	bl MultibootManager__Func_206150C
 	ldr r0, _0216EB24 // =TimeAttackMenu__Main_216EB28
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _0216EB24: .word TimeAttackMenu__Main_216EB28
@@ -4556,7 +4556,7 @@ _0216EB24: .word TimeAttackMenu__Main_216EB28
 	thumb_func_start TimeAttackMenu__Main_216EB28
 TimeAttackMenu__Main_216EB28: // 0x0216EB28
 	push {r3, lr}
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bgt _0216EB36
 	beq _0216EB48
@@ -4573,12 +4573,12 @@ _0216EB36:
 	bne _0216EB5E
 _0216EB48:
 	mov r0, #0
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #0
-	blx RenderCore_SetNextFoldMode
-	blx DestroyConnectionStatusIcon
+	bl RenderCore_SetNextFoldMode
+	bl DestroyConnectionStatusIcon
 	ldr r0, _0216EB60 // =TimeAttackMenu__Main_FadeToCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216EB5E:
 	pop {r3, pc}
 	.align 2, 0
@@ -4590,7 +4590,7 @@ TimeAttackMenu__Main_216EB64: // 0x0216EB64
 	push {r3, lr}
 	ldr r0, _0216EB84 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r2, _0216EB88 // =TimeAttackMenu__Main_216EB98
 	ldr r1, _0216EB8C // =0x000014F8
 	str r2, [r0, r1]
@@ -4598,7 +4598,7 @@ TimeAttackMenu__Main_216EB64: // 0x0216EB64
 	add r1, r1, #4
 	str r2, [r0, r1]
 	ldr r0, _0216EB94 // =TimeAttackMenu__Main_216D80C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _0216EB84: .word TimeAttackMenu__Singleton
@@ -4613,20 +4613,20 @@ TimeAttackMenu__Main_216EB98: // 0x0216EB98
 	push {r4, lr}
 	ldr r0, _0216EBC8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	add r0, #0x30
 	mov r1, #1
-	blx MainMenu__Func_2156790
+	bl MainMenu__Func_2156790
 	mov r0, #0xc
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216EBCC // =0x00001514
 	mov r1, #0
 	ldr r0, [r4, r0]
 	mov r2, r1
-	blx LeaderboardWorker__Create
+	bl LeaderboardWorker__Create
 	ldr r0, _0216EBD0 // =TimeAttackMenu__Main_216EBD4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 	nop
 _0216EBC8: .word TimeAttackMenu__Singleton
@@ -4639,9 +4639,9 @@ TimeAttackMenu__Main_216EBD4: // 0x0216EBD4
 	push {r4, lr}
 	ldr r0, _0216EC88 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	beq _0216EBEE
 	cmp r0, #0x19
@@ -4651,22 +4651,22 @@ _0216EBEE:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
-	blx LeaderboardWorker__Destroy
+	bl MainMenu__Func_2156790
+	bl LeaderboardWorker__Destroy
 	ldr r0, _0216EC8C // =TimeAttackMenu__Main_216EE14
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216EC04:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
-	blx LeaderboardWorker__Destroy
+	bl MainMenu__Func_2156790
+	bl LeaderboardWorker__Destroy
 	ldr r0, _0216EC90 // =TimeAttackMenu__Main_FadeToCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216EC1A:
-	blx LeaderboardWorker__GetFlags
+	bl LeaderboardWorker__GetFlags
 	cmp r0, #3
 	bhi _0216EC86
 	add r0, r0, r0
@@ -4686,7 +4686,7 @@ _0216EC38:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
+	bl MainMenu__Func_2156790
 	b _0216EC76
 _0216EC44:
 	ldr r0, _0216EC94 // =0x0000FFFF
@@ -4694,26 +4694,26 @@ _0216EC44:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
-	blx LeaderboardWorker__Destroy
+	bl MainMenu__Func_2156790
+	bl LeaderboardWorker__Destroy
 	ldr r0, _0216EC98 // =TimeAttackMenu__Main_216EDA0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216EC60:
 	add r4, #0x30
 	mov r0, r4
 	mov r1, #0
-	blx MainMenu__Func_2156790
-	blx LeaderboardWorker__Destroy
+	bl MainMenu__Func_2156790
+	bl LeaderboardWorker__Destroy
 	ldr r0, _0216EC8C // =TimeAttackMenu__Main_216EE14
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216EC76:
-	blx LeaderboardWorker__Destroy
+	bl LeaderboardWorker__Destroy
 	ldr r0, _0216EC94 // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216EC9C // =TimeAttackMenu__Main_216ECA0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216EC86:
 	pop {r4, pc}
 	.align 2, 0
@@ -4731,7 +4731,7 @@ TimeAttackMenu__Main_216ECA0: // 0x0216ECA0
 	mov r0, #1
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216ECB0 // =TimeAttackMenu__Main_216ECB4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _0216ECB0: .word TimeAttackMenu__Main_216ECB4
@@ -4745,14 +4745,14 @@ TimeAttackMenu__Main_216ECB4: // 0x0216ECB4
 	beq _0216ECD8
 	ldr r0, _0216ECDC // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216ECE0 // =0x00001418
 	mov r2, #0x18
 	add r0, r0, r1
 	mov r1, #4
-	blx CreateSaveGameWorker
+	bl CreateSaveGameWorker
 	ldr r0, _0216ECE4 // =TimeAttackMenu__Main_216ECE8
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216ECD8:
 	pop {r3, pc}
 	nop
@@ -4766,26 +4766,26 @@ TimeAttackMenu__Main_216ECE8: // 0x0216ECE8
 	push {r4, lr}
 	ldr r0, _0216ED24 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216ED28 // =0x00001418
 	add r0, r4, r0
-	blx AwaitSaveGameCompletion
+	bl AwaitSaveGameCompletion
 	cmp r0, #0
 	beq _0216ED20
 	ldr r0, _0216ED28 // =0x00001418
 	add r0, r4, r0
-	blx GetSaveGameSuccess
+	bl GetSaveGameSuccess
 	cmp r0, #0
 	beq _0216ED1A
 	ldr r0, _0216ED2C // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216ED30 // =TimeAttackMenu__Main_216ED38
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216ED1A:
 	ldr r0, _0216ED34 // =TimeAttackMenu__Main_216ED50
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216ED20:
 	pop {r4, pc}
 	nop
@@ -4803,7 +4803,7 @@ TimeAttackMenu__Main_216ED38: // 0x0216ED38
 	cmp r0, #0
 	bne _0216ED48
 	ldr r0, _0216ED4C // =TimeAttackMenu__Main_216E50C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216ED48:
 	pop {r3, pc}
 	nop
@@ -4813,9 +4813,9 @@ _0216ED4C: .word TimeAttackMenu__Main_216E50C
 	thumb_func_start TimeAttackMenu__Main_216ED50
 TimeAttackMenu__Main_216ED50: // 0x0216ED50
 	push {r3, lr}
-	blx MultibootManager__Func_206150C
+	bl MultibootManager__Func_206150C
 	ldr r0, _0216ED60 // =TimeAttackMenu__Main_216ED64
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _0216ED60: .word TimeAttackMenu__Main_216ED64
@@ -4824,7 +4824,7 @@ _0216ED60: .word TimeAttackMenu__Main_216ED64
 	thumb_func_start TimeAttackMenu__Main_216ED64
 TimeAttackMenu__Main_216ED64: // 0x0216ED64
 	push {r3, lr}
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bgt _0216ED72
 	beq _0216ED84
@@ -4841,12 +4841,12 @@ _0216ED72:
 	bne _0216ED9A
 _0216ED84:
 	mov r0, #0
-	blx RenderCore_DisableSoftReset
+	bl RenderCore_DisableSoftReset
 	mov r0, #0
-	blx RenderCore_SetNextFoldMode
-	blx DestroyConnectionStatusIcon
+	bl RenderCore_SetNextFoldMode
+	bl DestroyConnectionStatusIcon
 	ldr r0, _0216ED9C // =TimeAttackMenu__Main_FadeToCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216ED9A:
 	pop {r3, pc}
 	.align 2, 0
@@ -4866,7 +4866,7 @@ TimeAttackMenu__Main_216EDA0: // 0x0216EDA0
 	str r2, [sp, #4]
 	mov r2, r1
 	mov r3, #4
-	blx SaveSpriteButton__Func_2064588
+	bl SaveSpriteButton__Func_2064588
 	bl TimeAttackMenu__GetSpriteButton1
 	mov r2, #0x66
 	mov r1, #0x23
@@ -4874,7 +4874,7 @@ TimeAttackMenu__Main_216EDA0: // 0x0216EDA0
 	lsl r1, r1, #4
 	strh r2, [r0, r1]
 	ldr r0, _0216EDD8 // =TimeAttackMenu__Main_216EDDC
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #8
 	pop {r3, pc}
 	nop
@@ -4885,19 +4885,19 @@ _0216EDD8: .word TimeAttackMenu__Main_216EDDC
 TimeAttackMenu__Main_216EDDC: // 0x0216EDDC
 	push {r3, lr}
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__RunState
+	bl SaveSpriteButton__RunState
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__CheckInvalidState
+	bl SaveSpriteButton__CheckInvalidState
 	cmp r0, #0
 	beq _0216EE0A
 	bl TimeAttackMenu__GetSpriteButton1
-	blx SaveSpriteButton__Func_2064660
+	bl SaveSpriteButton__Func_2064660
 	cmp r0, #2
 	bne _0216EE0A
 	ldr r0, _0216EE0C // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216EE10 // =TimeAttackMenu__Main_216E554
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216EE0A:
 	pop {r3, pc}
 	.align 2, 0
@@ -4923,12 +4923,12 @@ TimeAttackMenu__Main_216EE14: // 0x0216EE14
 _0216EE2E:
 	mov r0, #4
 	lsl r1, r0, #0xa
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 _0216EE36:
 	ldr r0, _0216EE4C // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216EE50 // =TimeAttackMenu__Main_216EE54
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _0216EE44: .word 0x0213D300
@@ -4940,18 +4940,18 @@ _0216EE50: .word TimeAttackMenu__Main_216EE54
 	thumb_func_start TimeAttackMenu__Main_216EE54
 TimeAttackMenu__Main_216EE54: // 0x0216EE54
 	push {r3, lr}
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _0216EE7C
-	blx DestroyDrawFadeTask
-	blx ReleaseGameState
+	bl DestroyDrawFadeTask
+	bl ReleaseGameState
 	ldr r0, _0216EE80 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
 	bl TimeAttackMenu__Destroy
 	mov r0, #0x1a
-	blx RequestNewSysEventChange
-	blx NextSysEvent
-	blx DestroyCurrentTask
+	bl RequestNewSysEventChange
+	bl NextSysEvent
+	bl DestroyCurrentTask
 _0216EE7C:
 	pop {r3, pc}
 	nop
@@ -4976,12 +4976,12 @@ TimeAttackMenu__Main_FadeToCorruptSave: // 0x0216EE84
 _0216EE9E:
 	mov r0, #4
 	lsl r1, r0, #0xa
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 _0216EEA6:
 	ldr r0, _0216EEBC // =0x0000FFFF
 	bl TimeAttackMenu__Func_216C57C
 	ldr r0, _0216EEC0 // =TimeAttackMenu__Main_ShowCorruptSave
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
 _0216EEB4: .word 0x0213D300
@@ -4993,18 +4993,18 @@ _0216EEC0: .word TimeAttackMenu__Main_ShowCorruptSave
 	thumb_func_start TimeAttackMenu__Main_ShowCorruptSave
 TimeAttackMenu__Main_ShowCorruptSave: // 0x0216EEC4
 	push {r3, lr}
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _0216EEEC
-	blx DestroyDrawFadeTask
-	blx ReleaseGameState
+	bl DestroyDrawFadeTask
+	bl ReleaseGameState
 	ldr r0, _0216EEF0 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
 	bl TimeAttackMenu__Destroy
 	mov r0, #0x20
-	blx RequestNewSysEventChange
-	blx NextSysEvent
-	blx DestroyCurrentTask
+	bl RequestNewSysEventChange
+	bl NextSysEvent
+	bl DestroyCurrentTask
 _0216EEEC:
 	pop {r3, pc}
 	nop
@@ -5016,9 +5016,9 @@ TimeAttackMenuBG__Main: // 0x0216EEF4
 	push {r3, lr}
 	ldr r0, _0216EF08 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	add r0, #0x30
-	blx MainMenu__HandleBackgroundControl
+	bl MainMenu__HandleBackgroundControl
 	pop {r3, pc}
 	nop
 _0216EF08: .word TimeAttackMenu__Singleton
@@ -5030,7 +5030,7 @@ TimeAttackMessageWindow__Main1: // 0x0216EF0C
 	sub sp, #4
 	ldr r0, _0216EF54 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
 	add r4, r0, r1
@@ -5044,17 +5044,17 @@ TimeAttackMessageWindow__Main1: // 0x0216EF0C
 	mov r1, #1
 	mov r2, #8
 	str r3, [sp]
-	blx FontWindowAnimator__InitAnimation
+	bl FontWindowAnimator__InitAnimation
 	mov r0, #0x7a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__StartAnimating
+	bl FontWindowAnimator__StartAnimating
 	ldr r0, _0216EF5C // =TimeAttackMessageWindow__Main_PrepareWindow
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216EF46:
 	add r4, #0x74
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	add sp, #4
 	pop {r3, r4, pc}
 	nop
@@ -5068,7 +5068,7 @@ TimeAttackMessageWindow__Main_PrepareWindow: // 0x0216EF60
 	push {r3, r4, r5, lr}
 	ldr r0, _0216EFA8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x69
 	mov r2, #1
 	lsl r1, r1, #2
@@ -5089,12 +5089,12 @@ TimeAttackMessageWindow__Main_PrepareWindow: // 0x0216EF60
 	orr r0, r3
 	str r0, [r2]
 	add r0, r4, r1
-	blx FontWindowAnimator__ProcessWindowAnim
+	bl FontWindowAnimator__ProcessWindowAnim
 	add r4, #0x74
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	ldr r0, _0216EFB0 // =TimeAttackMessageWindow__Main_WindowAnimate
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, r4, r5, pc}
 	nop
 _0216EFA8: .word TimeAttackMenu__Singleton
@@ -5108,23 +5108,23 @@ TimeAttackMessageWindow__Main_WindowAnimate: // 0x0216EFB4
 	sub sp, #4
 	ldr r0, _0216F084 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
 	add r4, r0, r1
 	add r1, #0x44
 	add r0, r4, r1
-	blx FontWindowAnimator__ProcessWindowAnim
+	bl FontWindowAnimator__ProcessWindowAnim
 	mov r0, #0x7a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__IsFinishedAnimating
+	bl FontWindowAnimator__IsFinishedAnimating
 	cmp r0, #0
 	beq _0216F076
 	mov r0, #0x7a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__SetWindowOpen
+	bl FontWindowAnimator__SetWindowOpen
 	ldrh r1, [r4, #8]
 	ldr r0, _0216F088 // =0x0000FFFF
 	cmp r1, r0
@@ -5134,29 +5134,29 @@ TimeAttackMessageWindow__Main_WindowAnimate: // 0x0216EFB4
 	strh r1, [r4, #0xa]
 	add r0, r4, r0
 	mov r1, #0x40
-	blx FontAnimator__EnableFlags
+	bl FontAnimator__EnableFlags
 	mov r0, #0x49
 	lsl r0, r0, #2
 	ldrh r1, [r4, #0xa]
 	add r0, r4, r0
-	blx FontAnimator__SetMsgSequence
+	bl FontAnimator__SetMsgSequence
 	mov r0, #0x49
 	lsl r0, r0, #2
 	ldr r1, _0216F08C // =TimeAttackMessageWindow__FontCallback
 	add r0, r4, r0
 	mov r2, r4
-	blx FontAnimator__SetCallback
+	bl FontAnimator__SetCallback
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #1
 	mov r2, #0
-	blx FontAnimator__InitStartPos
+	bl FontAnimator__InitStartPos
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0
-	blx FontAnimator__GetDialogLineCount
+	bl FontAnimator__GetDialogLineCount
 	mov r1, r0
 	lsl r2, r1, #4
 	lsr r1, r2, #0x1f
@@ -5169,9 +5169,9 @@ TimeAttackMessageWindow__Main_WindowAnimate: // 0x0216EFB4
 	lsl r1, r1, #0x10
 	add r0, r4, r0
 	asr r1, r1, #0x10
-	blx FontAnimator__AdvanceLine
+	bl FontAnimator__AdvanceLine
 	ldr r0, _0216F090 // =TimeAttackMessageWindow__Main_LoadSequence
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	b _0216F076
 _0216F054:
 	mov r0, #0x7a
@@ -5181,17 +5181,17 @@ _0216F054:
 	mov r1, #4
 	mov r2, #8
 	str r3, [sp]
-	blx FontWindowAnimator__InitAnimation
+	bl FontWindowAnimator__InitAnimation
 	mov r0, #0x7a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__StartAnimating
+	bl FontWindowAnimator__StartAnimating
 	ldr r0, _0216F094 // =TimeAttackMessageWindow__Main_SequenceFinished
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216F076:
 	add r4, #0x74
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	add sp, #4
 	pop {r3, r4, pc}
 	nop
@@ -5207,25 +5207,25 @@ TimeAttackMessageWindow__Main_LoadSequence: // 0x0216F098
 	push {r3, r4, r5, lr}
 	ldr r0, _0216F110 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
 	add r4, r0, r1
 	sub r1, #0x80
 	add r0, r4, r1
 	mov r1, #0x20
-	blx FontAnimator__LoadCharacters
+	bl FontAnimator__LoadCharacters
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__IsEndOfLine
+	bl FontAnimator__IsEndOfLine
 	cmp r0, #0
 	beq _0216F104
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0x40
-	blx FontAnimator__DisableFlags
+	bl FontAnimator__DisableFlags
 	mov r5, r4
 	add r5, #0x10
 	ldr r0, [r4, #0xc]
@@ -5240,11 +5240,11 @@ TimeAttackMessageWindow__Main_LoadSequence: // 0x0216F098
 	str r1, [r5, #0x3c]
 	mov r0, r5
 	mov r1, #0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	b _0216F0FE
 _0216F0F8:
 	mov r0, #1
@@ -5252,11 +5252,11 @@ _0216F0F8:
 	str r0, [r5, #0x3c]
 _0216F0FE:
 	ldr r0, _0216F114 // =TimeAttackMessageWindow__Main_SetNextSequence
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216F104:
 	add r4, #0x74
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	pop {r3, r4, r5, pc}
 	nop
 _0216F110: .word TimeAttackMenu__Singleton
@@ -5268,7 +5268,7 @@ TimeAttackMessageWindow__Main_SetNextSequence: // 0x0216F118
 	push {r3, r4, r5, lr}
 	ldr r0, _0216F1EC // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
 	add r4, r0, r1
@@ -5277,7 +5277,7 @@ TimeAttackMessageWindow__Main_SetNextSequence: // 0x0216F118
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldrh r1, [r4, #8]
 	ldr r0, _0216F1F0 // =0x0000FFFF
 	cmp r1, r0
@@ -5285,7 +5285,7 @@ TimeAttackMessageWindow__Main_SetNextSequence: // 0x0216F118
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__ClearPixels
+	bl FontAnimator__ClearPixels
 	mov r0, #0x7a
 	lsl r0, r0, #2
 	mov r3, #0
@@ -5293,11 +5293,11 @@ TimeAttackMessageWindow__Main_SetNextSequence: // 0x0216F118
 	mov r1, #4
 	mov r2, #8
 	str r3, [sp]
-	blx FontWindowAnimator__InitAnimation
+	bl FontWindowAnimator__InitAnimation
 	mov r0, #0x7a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__StartAnimating
+	bl FontWindowAnimator__StartAnimating
 	mov r0, #0
 	str r0, [r4, #0xc]
 	ldr r1, [r5, #0x3c]
@@ -5305,7 +5305,7 @@ TimeAttackMessageWindow__Main_SetNextSequence: // 0x0216F118
 	orr r0, r1
 	str r0, [r5, #0x3c]
 	ldr r0, _0216F1F4 // =TimeAttackMessageWindow__Main_SequenceFinished
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	b _0216F1E2
 _0216F178:
 	ldrh r0, [r4, #0xa]
@@ -5315,28 +5315,28 @@ _0216F178:
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0x40
-	blx FontAnimator__EnableFlags
+	bl FontAnimator__EnableFlags
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__ClearPixels
+	bl FontAnimator__ClearPixels
 	ldrh r1, [r4, #8]
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r4, r0
 	strh r1, [r4, #0xa]
-	blx FontAnimator__SetMsgSequence
+	bl FontAnimator__SetMsgSequence
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #1
 	mov r2, #0
-	blx FontAnimator__InitStartPos
+	bl FontAnimator__InitStartPos
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, #0
-	blx FontAnimator__GetDialogLineCount
+	bl FontAnimator__GetDialogLineCount
 	mov r1, r0
 	lsl r2, r1, #4
 	lsr r1, r2, #0x1f
@@ -5349,15 +5349,15 @@ _0216F178:
 	lsl r1, r1, #0x10
 	add r0, r4, r0
 	asr r1, r1, #0x10
-	blx FontAnimator__AdvanceLine
+	bl FontAnimator__AdvanceLine
 	mov r0, #0
 	str r0, [r4, #0xc]
 	ldr r0, _0216F1F8 // =TimeAttackMessageWindow__Main_LoadSequence
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216F1E2:
 	add r4, #0x74
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _0216F1EC: .word TimeAttackMenu__Singleton
@@ -5371,17 +5371,17 @@ TimeAttackMessageWindow__Main_SequenceFinished: // 0x0216F1FC
 	push {r4, lr}
 	ldr r0, _0216F25C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
 	add r4, r0, r1
 	add r1, #0x44
 	add r0, r4, r1
-	blx FontWindowAnimator__ProcessWindowAnim
+	bl FontWindowAnimator__ProcessWindowAnim
 	mov r0, #0x7a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__IsFinishedAnimating
+	bl FontWindowAnimator__IsFinishedAnimating
 	cmp r0, #0
 	beq _0216F250
 	mov r0, #1
@@ -5402,13 +5402,13 @@ TimeAttackMessageWindow__Main_SequenceFinished: // 0x0216F1FC
 	mov r0, #0x7a
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontWindowAnimator__SetWindowOpen
+	bl FontWindowAnimator__SetWindowOpen
 	ldr r0, _0216F264 // =TimeAttackMessageWindow__Main1
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216F250:
 	add r4, #0x74
 	mov r0, r4
-	blx FontWindow__PrepareSwapBuffer
+	bl FontWindow__PrepareSwapBuffer
 	pop {r4, pc}
 	nop
 _0216F25C: .word TimeAttackMenu__Singleton
@@ -5421,20 +5421,20 @@ TimeAttackMessageWindow__Main2: // 0x0216F268
 	push {r4, lr}
 	ldr r0, _0216F294 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
 	add r4, r0, r1
 	add r1, #0x44
 	add r0, r4, r1
-	blx FontWindowAnimator__Draw
+	bl FontWindowAnimator__Draw
 	mov r0, #0x49
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx FontAnimator__Draw
+	bl FontAnimator__Draw
 	add r4, #0x10
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	pop {r4, pc}
 	.align 2, 0
 _0216F294: .word TimeAttackMenu__Singleton
@@ -5446,7 +5446,7 @@ TimeAttackMenuHeader__Main1: // 0x0216F298
 	sub sp, #0x24
 	ldr r0, _0216F31C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
 	add r4, r0, r1
@@ -5457,11 +5457,11 @@ TimeAttackMenuHeader__Main1: // 0x0216F298
 	beq _0216F318
 	sub r5, #0x64
 	add r0, r4, r5
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	add r0, r4, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r2, _0216F328 // =0x04001000
 	mov r0, #0x1f
 	ldr r1, [r2]
@@ -5495,12 +5495,12 @@ TimeAttackMenuHeader__Main1: // 0x0216F298
 	add r0, r4, r5
 	add r0, #0xa
 	mov r2, #0xd0
-	blx Task__Unknown204BE48__Create
+	bl Task__Unknown204BE48__Create
 	mov r1, #0xa3
 	lsl r1, r1, #4
 	str r0, [r4, r1]
 	ldr r0, _0216F340 // =TimeAttackMenuHeader__Main_Animate
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 _0216F318:
 	add sp, #0x24
 	pop {r4, r5, pc}
@@ -5522,12 +5522,12 @@ TimeAttackMenuHeader__Main_Animate: // 0x0216F344
 	push {r3, lr}
 	ldr r0, _0216F35C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216F360 // =0x00000DB8
 	add r0, r0, r1
 	mov r1, #0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	pop {r3, pc}
 	.align 2, 0
 _0216F35C: .word TimeAttackMenu__Singleton
@@ -5540,7 +5540,7 @@ TimeAttackMenuHeader__Main_216F364: // 0x0216F364
 	sub sp, #0x24
 	ldr r0, _0216F3E8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
 	add r4, r0, r1
@@ -5553,7 +5553,7 @@ TimeAttackMenuHeader__Main_216F364: // 0x0216F364
 	mov r1, #0
 	add r0, r4, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, #0
 	str r0, [sp]
 	mov r2, #0x10
@@ -5574,12 +5574,12 @@ TimeAttackMenuHeader__Main_216F364: // 0x0216F364
 	add r0, r4, r5
 	add r0, #0xa
 	mov r1, #2
-	blx Task__Unknown204BE48__Create
+	bl Task__Unknown204BE48__Create
 	mov r1, #0xa3
 	lsl r1, r1, #4
 	str r0, [r4, r1]
 	ldr r0, _0216F408 // =TimeAttackMenuHeader__Main_216F410
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	b _0216F3D8
 _0216F3C6:
 	mov r0, r5
@@ -5589,13 +5589,13 @@ _0216F3C6:
 	beq _0216F3D8
 	sub r5, #0x64
 	add r0, r4, r5
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _0216F3D8:
 	ldr r0, _0216F40C // =0x000009C8
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add sp, #0x24
 	pop {r4, r5, pc}
 	.align 2, 0
@@ -5616,12 +5616,12 @@ TimeAttackMenuHeader__Main_216F410: // 0x0216F410
 	push {r3, lr}
 	ldr r0, _0216F428 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, _0216F42C // =0x00000DB8
 	add r0, r0, r1
 	mov r1, #0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	pop {r3, pc}
 	.align 2, 0
 _0216F428: .word TimeAttackMenu__Singleton
@@ -5633,7 +5633,7 @@ TimeAttackMenuHeader__Main2: // 0x0216F430
 	push {r3, r4, r5, lr}
 	ldr r0, _0216F47C // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
 	add r4, r0, r1
@@ -5646,7 +5646,7 @@ TimeAttackMenuHeader__Main2: // 0x0216F430
 	ldr r0, _0216F480 // =0x000009C8
 	add r5, r4, r0
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, _0216F484 // =0x00000A2E
 	ldrh r1, [r4, r0]
 	mov r0, #1
@@ -5676,14 +5676,14 @@ TimeAttackBackButton__Main1: // 0x0216F48C
 	push {r3, r4, r5, lr}
 	ldr r0, _0216F4F8 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	add r4, #0xdc
 	mov r0, r4
 	mov r5, r4
 	add r0, #0x14
 	add r5, #0x64
-	blx TouchField__Process
+	bl TouchField__Process
 	ldr r0, [r4, #0xc]
 	ldr r1, [r5, #0x3c]
 	cmp r0, #0
@@ -5718,12 +5718,12 @@ _0216F4D0:
 	mov r3, #1
 	asr r2, r2, #0x10
 	lsl r3, r3, #0xc
-	blx Task__Unknown204BE48__LerpValue
+	bl Task__Unknown204BE48__LerpValue
 	mov r1, #0
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _0216F4F8: .word TimeAttackMenu__Singleton
@@ -5734,11 +5734,11 @@ TimeAttackBackButton__Main2: // 0x0216F4FC
 	push {r3, lr}
 	ldr r0, _0216F514 // =TimeAttackMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #5
 	lsl r1, r1, #6
 	add r0, r0, r1
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	pop {r3, pc}
 	nop
 _0216F514: .word TimeAttackMenu__Singleton
@@ -5752,7 +5752,7 @@ TimeAttackRankList__Init: // 0x0216F518
 	mov r0, #0
 	mov r1, r6
 	lsl r2, r2, #6
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, #0x97
 	mov r5, r6
 	lsl r0, r0, #2
@@ -5762,7 +5762,7 @@ TimeAttackRankList__Init: // 0x0216F518
 	beq _0216F542
 _0216F536:
 	mov r0, r5
-	blx Unknown2056FDC__Init
+	bl Unknown2056FDC__Init
 	add r5, #0x48
 	cmp r5, r4
 	bne _0216F536
@@ -5797,7 +5797,7 @@ TimeAttackRankList__Destroy: // 0x0216F560
 	beq _0216F57E
 _0216F572:
 	mov r0, r4
-	blx Unknown2056FDC__Release
+	bl Unknown2056FDC__Release
 	add r4, #0x48
 	cmp r4, r6
 	bne _0216F572
@@ -5809,7 +5809,7 @@ _0216F57E:
 	ldr r0, [r5]
 	cmp r0, #0
 	beq _0216F596
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0
 	str r1, [r0]
 	str r1, [r5]
@@ -5817,7 +5817,7 @@ _0216F596:
 	ldr r0, [r5, #4]
 	cmp r0, #0
 	beq _0216F5A6
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0
 	str r1, [r0]
 	str r1, [r5, #4]
@@ -5832,7 +5832,7 @@ _0216F5B2:
 	ldr r0, [r4]
 	cmp r0, #0
 	beq _0216F5BC
-	blx DestroyTask
+	bl DestroyTask
 _0216F5BC:
 	add r4, r4, #4
 	cmp r4, r6
@@ -5847,7 +5847,7 @@ _0216F5C2:
 	beq _0216F5DC
 _0216F5D0:
 	mov r0, r4
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r4, #0x64
 	cmp r4, r6
 	bne _0216F5D0
@@ -5862,7 +5862,7 @@ _0216F5DC:
 	ldr r0, [r4]
 	cmp r0, #0
 	beq _0216F5F8
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	mov r0, #0
 	str r0, [r4]
 _0216F5F8:

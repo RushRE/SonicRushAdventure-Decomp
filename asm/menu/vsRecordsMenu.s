@@ -67,7 +67,7 @@ VSRecordsMenu__Func_2173218: // 0x02173218
 	bl TaskCreate_
 	str r0, [r5]
 	ldr r0, _021732B4 // =0x0000FFFF
-	blx VSMenu__SetNetworkMessageSequence
+	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, [r5]
 	bl GetTaskWork_
 	mov r4, r0
@@ -78,7 +78,7 @@ VSRecordsMenu__Func_2173218: // 0x02173218
 	str r5, [r4]
 	mov r0, #0
 	str r0, [r4, #4]
-	blx VSMenu__GetFontWindow
+	bl VSMenu__GetFontWindow
 	str r0, [r4, #0xd0]
 	mov r0, #0
 	bl VSRecordsMenu__Func_2173B0C
@@ -559,7 +559,7 @@ _021738F0:
 	mov r0, #0
 	bl VSRecordsMenu__Func_2173B0C
 	ldr r0, _02173928 // =0x0000FFFF
-	blx VSMenu__Func_21667F0
+	bl VSMenu__Func_21667F0
 	mov r1, #0
 	ldr r0, _0217392C // =VSRecordsMenu__Main_21737DC
 	str r1, [r4, #4]
@@ -716,12 +716,12 @@ VSRecordsMenu__Func_2173B0C: // 0x02173B0C
 	beq _02173B28
 	ldr r0, _02173B38 // =VSRecordsMenu__Func_2173B54
 	mov r1, #0
-	blx VSMenu__SetTouchCallback
+	bl VSMenu__SetTouchCallback
 	ldmia sp!, {r3, pc}
 _02173B28:
 	mov r0, #0
 	mov r1, r0
-	blx VSMenu__SetTouchCallback
+	bl VSMenu__SetTouchCallback
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02173B38: .word VSRecordsMenu__Func_2173B54
@@ -730,7 +730,7 @@ _02173B38: .word VSRecordsMenu__Func_2173B54
 	arm_func_start VSRecordsMenu__Func_2173B3C
 VSRecordsMenu__Func_2173B3C: // 0x02173B3C
 	stmdb sp!, {r3, lr}
-	blx VSMenu__GetUnknownTouchResponseFlags
+	bl VSMenu__GetUnknownTouchResponseFlags
 	tst r0, #0x40000
 	movne r0, #1
 	moveq r0, #0

@@ -247,7 +247,7 @@ SailObject__InitFromMapObject: // 0x021649E0
 	ldrh r2, [r6, #0x2c]
 	ldr r0, [r5, #0xc0]
 	mla r0, r2, r1, r0
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r3, [r4, #0x178]
 	ldr r2, _02164A9C // =0x0007FFFF
 	mov r1, r0
@@ -260,7 +260,7 @@ SailObject__InitFromMapObject: // 0x021649E0
 	add r2, r4, #0x1c
 	mla r0, r3, r0, r5
 	add r3, r4, #0x24
-	blx SailVoyageManager__Func_2158888
+	bl SailVoyageManager__Func_2158888
 	str r6, [r4, #0x164]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -459,7 +459,7 @@ SailObject__DefaultIn: // 0x02164D24
 	ldr r0, [r4, #0x24]
 	tst r0, #1
 	bne _02164D50
-	blx SailVoyageManager__Func_2157AF4
+	bl SailVoyageManager__Func_2157AF4
 	mov r1, r0
 	add r0, r4, #0x44
 	mov r2, r0
@@ -2469,7 +2469,7 @@ _02166984:
 	strh r1, [r0, #0x6e]
 _021669AC:
 	mov r0, r5
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r3, [r4, #0x178]
 	ldr r2, _02166A28 // =0x0007FFFF
 	mov r1, r0
@@ -2478,7 +2478,7 @@ _021669AC:
 	mov r7, r0
 	mov r0, r5
 	mov r1, r7
-	blx SailVoyageManager__Func_2158854
+	bl SailVoyageManager__Func_2158854
 	add r1, r4, #0x100
 	cmp r6, #0
 	strh r0, [r1, #0x6e]
@@ -2488,7 +2488,7 @@ _021669AC:
 	add r3, sp, #8
 	mov r0, r5
 	mov r1, r7
-	blx SailVoyageManager__Func_2158888
+	bl SailVoyageManager__Func_2158888
 	add r0, sp, #0
 	mov r2, r6
 	add r1, r4, #0x1c
@@ -2562,7 +2562,7 @@ _02166ADC:
 	strh r1, [r0, #0x6e]
 _02166AF8:
 	mov r0, r6
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r3, [r5, #0x178]
 	ldr r2, _02166BFC // =0x0007FFFF
 	mov r1, r0
@@ -2571,14 +2571,14 @@ _02166AF8:
 	mov r8, r0
 	mov r0, r6
 	mov r1, r8
-	blx SailVoyageManager__Func_2158854
+	bl SailVoyageManager__Func_2158854
 	add r2, r5, #0x100
 	strh r0, [r2, #0x6e]
 	mov r1, r8
 	mov r0, r6
 	add r2, r4, #0x44
 	add r3, r4, #0x4c
-	blx SailVoyageManager__Func_2158888
+	bl SailVoyageManager__Func_2158888
 	add r6, r5, #0x100
 	ldrh r2, [r6, #0x6e]
 	ldr lr, _02166C00 // =FX_SinCosTable_
@@ -2644,7 +2644,7 @@ SailObject__Func_2166C04: // 0x02166C04
 	mul r7, r2, r1
 	ldr r8, [r6, #0xc0]
 	add r0, r8, r7
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	mov r1, r0
 	ldr r2, [r5, #0x178]
 	ldr r0, _02166D10 // =0x0007FFFF
@@ -2654,7 +2654,7 @@ SailObject__Func_2166C04: // 0x02166C04
 	add r0, r8, r7
 	mov r2, r4
 	add r3, r4, #8
-	blx SailVoyageManager__Func_2158888
+	bl SailVoyageManager__Func_2158888
 	mov r1, r6
 	ldr ip, [r4]
 	ldr r3, [r5, #0x170]
@@ -3020,10 +3020,10 @@ SailBuoy__CreateFromSegment: // 0x0216714C
 	mov r0, r6
 	str r2, [sp, #4]
 	mov r5, r1, lsr #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	mov r7, r0
 	mov r0, r6
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r1, [r6, #0x24]
 	cmp r5, #0
 	add r1, r1, r7
@@ -3120,7 +3120,7 @@ SailBuoy__CreateFromSegment2: // 0x021672C4
 	str r1, [r2]
 	str r1, [r2, #8]
 	str r1, [sp, #4]
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r1, [r5, #0x24]
 	add r0, r1, r0
 	str r0, [sp, #8]
@@ -3157,7 +3157,7 @@ _02167358:
 	mul r1, r3, r1
 	str r1, [sp]
 	str r2, [sp, #4]
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r1, [sp, #8]
 	add r0, r1, r0, asr #2
 	str r0, [sp, #8]
@@ -3465,7 +3465,7 @@ _021677AC:
 	mov r0, r5
 	str r1, [r2]
 	str r6, [sp, #4]
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r1, [sp, #8]
 	add r0, r1, r0, asr #2
 	str r0, [sp, #8]
@@ -4234,7 +4234,7 @@ _021682F0:
 	str r5, [sp, #4]
 	str r2, [r1]
 	mov r5, r9, lsr #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	mov r1, r5, lsl #0x12
 	ldr r2, [r7, #0x24]
 	mov r1, r1, lsr #0xe
@@ -4289,7 +4289,7 @@ _0216838C:
 	str r3, [sp]
 	str r2, [r1]
 	mov r5, r8, lsr #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r2, [r7, #0x24]
 	mov r1, r5, lsl #0x10
 	add r0, r2, r0
@@ -4329,7 +4329,7 @@ _0216845C:
 	str r3, [sp]
 	mov r8, ip, lsl #0x10
 	mov r9, r2, lsl #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r3, [r7, #0x24]
 	ldr r1, _02168820 // =0x00003FFF
 	add r0, r3, r0
@@ -4392,7 +4392,7 @@ _02168538:
 	str r3, [sp]
 	str r2, [r1]
 	mov r5, r8, lsr #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r2, _02168808 // =_obj_disp_rand
 	ldr r1, [r7, #0x24]
 	ldr r3, [r2]
@@ -4440,7 +4440,7 @@ _0216862C:
 	str r2, [sp, #4]
 	str r8, [r1]
 	mov r5, r5, lsr #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r2, [r7, #0x24]
 	mov r1, r5, lsl #0x11
 	add r0, r2, r0
@@ -4481,7 +4481,7 @@ _021686AC:
 	str r3, [sp]
 	mov r8, r8, lsl #0x10
 	mov r9, r2, lsl #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r3, [r7, #0x24]
 	ldr r1, _02168820 // =0x00003FFF
 	add r0, r3, r0
@@ -4889,7 +4889,7 @@ _02168CD4:
 	str r2, [sp]
 	mov r9, r10, lsl #0x10
 	mov r5, r5, lsl #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r3, [r8, #0x24]
 	ldr r1, _02169040 // =0x00001FFF
 	add r0, r3, r0
@@ -4933,7 +4933,7 @@ _02168DA0:
 	mov r0, r8
 	str r1, [sp]
 	mov r5, r2, lsr #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r2, [r8, #0x24]
 	mov r1, r5, lsl #0x12
 	add r0, r2, r0
@@ -4979,7 +4979,7 @@ _02168E18:
 	str r3, [sp]
 	mov r5, r5, lsl #0x10
 	mov r9, r2, lsl #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r3, [r8, #0x24]
 	ldr r1, _02169048 // =0x00003FFF
 	add r0, r3, r0
@@ -5043,7 +5043,7 @@ _02168EFC:
 	str r3, [sp]
 	str r2, [r1]
 	mov r5, r9, lsr #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r2, [r8, #0x24]
 	mov r1, r5, lsl #0x12
 	add r0, r2, r0
@@ -5309,7 +5309,7 @@ SailSubFish__CreateUnknown1: // 0x021692C4
 	str lr, [sp, #4]
 	str ip, [r3]
 	mov r6, r2, lsr #0x10
-	blx SailVoyageManager__Func_2157B14
+	bl SailVoyageManager__Func_2157B14
 	ldr r2, [r5, #0x24]
 	mov r1, r6, lsl #0x11
 	add r0, r2, r0

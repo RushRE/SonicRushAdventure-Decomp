@@ -117,7 +117,7 @@ _0204794C:
 _02047960:
 	ldr r0, _0204797C // =0x02134474
 	mov r1, #0xd
-	blx SaveGame__GetIslandProgress
+	bl SaveGame__GetIslandProgress
 	cmp r0, #2
 	movge r0, #1
 	movlt r0, #0

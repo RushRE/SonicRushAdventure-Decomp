@@ -14,14 +14,14 @@ FriendCodeMenu__LoadAssets: // 0x02164F38
 	push {r3, lr}
 	mov r0, #0xc5
 	lsl r0, r0, #4
-	blx _AllocHeadHEAP_SYSTEM
+	bl _AllocHeadHEAP_SYSTEM
 	mov r1, r0
 	ldr r0, _02164F94 // =FriendCodeMenu__sVars
 	mov r2, #0xc5
 	str r1, [r0]
 	mov r0, #0
 	lsl r2, r2, #4
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	ldr r0, _02164F94 // =FriendCodeMenu__sVars
 	mov r1, #0
 	ldr r2, [r0]
@@ -30,22 +30,22 @@ FriendCodeMenu__LoadAssets: // 0x02164F38
 	mov r0, #0x2e
 	lsl r0, r0, #6
 	add r0, r2, r0
-	blx InitThreadWorker
+	bl InitThreadWorker
 	ldr r0, _02164F94 // =FriendCodeMenu__sVars
 	ldr r1, [r0]
 	ldr r0, _02164F98 // =0x00000A4C
 	add r0, r1, r0
-	blx FontAnimator__Init
+	bl FontAnimator__Init
 	ldr r0, _02164F94 // =FriendCodeMenu__sVars
 	ldr r1, [r0]
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r1, r0
-	blx FontWindowAnimator__Init
+	bl FontWindowAnimator__Init
 	ldr r0, _02164F9C // =_0217ED0C
 	mov r1, #0
 	ldr r0, [r0]
-	blx BundleFileUnknown__LoadFile
+	bl BundleFileUnknown__LoadFile
 	ldr r1, _02164F94 // =FriendCodeMenu__sVars
 	ldr r2, [r1]
 	ldr r1, _02164FA0 // =0x00000B78
@@ -96,14 +96,14 @@ FriendCodeMenu__Create: // 0x02164FA4
 	ldr r1, [r3]
 	mov r2, #0xc
 	add r1, #8
-	blx MI_CpuCopy8
+	bl MI_CpuCopy8
 	b _02164FFE
 _02164FF2:
 	ldr r0, [r3]
 	mov r1, #0x20
 	add r0, #8
 	mov r2, #0xc
-	blx MI_CpuFill8
+	bl MI_CpuFill8
 _02164FFE:
 	ldr r0, _0216502C // =FriendCodeMenu__sVars
 	ldr r0, [r0]
@@ -115,7 +115,7 @@ _02164FFE:
 	ldr r1, _02165038 // =FriendCodeMenu__Destructor
 	mov r3, r2
 	str r2, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r2, _0216502C // =FriendCodeMenu__sVars
 	ldr r1, _0216503C // =0x00000B7C
 	ldr r3, [r2]
@@ -194,7 +194,7 @@ FriendCodeMenu__Func_216508C: // 0x0216508C
 	ldr r0, [r1, r0]
 	cmp r0, #0
 	beq _021650A8
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, _021650C8 // =FriendCodeMenu__sVars
 	mov r2, #0
 	ldr r1, [r0]
@@ -206,10 +206,10 @@ _021650A8:
 	mov r0, #0x2e
 	lsl r0, r0, #6
 	add r0, r1, r0
-	blx ReleaseThreadWorker
+	bl ReleaseThreadWorker
 	ldr r0, _021650C8 // =FriendCodeMenu__sVars
 	ldr r0, [r0]
-	blx _FreeHEAP_SYSTEM
+	bl _FreeHEAP_SYSTEM
 	ldr r0, _021650C8 // =FriendCodeMenu__sVars
 	mov r1, #0
 	str r1, [r0]
@@ -228,13 +228,13 @@ FriendCodeMenu__Func_21650D0: // 0x021650D0
 	mov r0, #0
 	lsl r1, r1, #0x18
 	lsl r2, r2, #0x10
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	mov r1, #0x62
 	mov r2, #1
 	mov r0, #0
 	lsl r1, r1, #0x14
 	lsl r2, r2, #0x10
-	blx MIi_CpuClearFast
+	bl MIi_CpuClearFast
 	mov r2, #0xb
 	mov r0, #8
 _021650F4:
@@ -292,9 +292,9 @@ FriendCodeMenu__SetupDisplay: // 0x02165134
 	str r0, [r1]
 	mov r1, #0
 	mov r2, r1
-	blx GX_SetGraphicsMode
+	bl GX_SetGraphicsMode
 	mov r0, #0
-	blx GXS_SetGraphicsMode
+	bl GXS_SetGraphicsMode
 	ldr r2, _02165258 // =0x04000008
 	mov r5, #0x81
 	ldrh r1, [r2]
@@ -336,11 +336,11 @@ FriendCodeMenu__SetupDisplay: // 0x02165134
 	ldr r1, _02165264 // =renderCoreGFXControlA
 	mov r0, #0
 	mov r2, #0x10
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02165268 // =renderCoreGFXControlB
 	mov r0, #0
 	mov r2, #0x10
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r6, _02165258 // =0x04000008
 	mov r2, #3
 	ldrh r0, [r6]
@@ -420,9 +420,9 @@ FriendCodeMenu__Func_216526C: // 0x0216526C
 	str r0, [sp, #0x18]
 	ldr r0, [r0, r1]
 	mov r1, #0
-	blx FileUnknown__GetAOUFile
+	bl FileUnknown__GetAOUFile
 	str r0, [sp, #0x28]
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _021652A8
@@ -440,7 +440,7 @@ _02165294: // jump table
 	.hword _021652A0 - _02165294 - 2 // case 4
 	.hword _021652A0 - _02165294 - 2 // case 5
 _021652A0:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r2, [r0]
 	b _021652AA
 _021652A8:
@@ -452,7 +452,7 @@ _021652AA:
 	add r1, r2, #1
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx FileUnknown__GetAOUFile
+	bl FileUnknown__GetAOUFile
 	str r0, [sp, #0x24]
 	ldr r0, _02165418 // =0x04001000
 	ldr r1, _0216541C // =0x00300010
@@ -655,7 +655,7 @@ FriendCodeMenu__Func_2165450: // 0x02165450
 	ldr r0, _02165480 // =0x00000B78
 	mov r1, #7
 	ldr r0, [r4, r0]
-	blx FileUnknown__GetAOUFile
+	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	mov r0, #3
 	str r0, [sp]
@@ -668,7 +668,7 @@ FriendCodeMenu__Func_2165450: // 0x02165450
 	add r0, r4, r0
 	mov r2, #0
 	mov r3, #1
-	blx InitBackground
+	bl InitBackground
 	add sp, #0xc
 	pop {r3, r4, pc}
 	.align 2, 0
@@ -682,14 +682,14 @@ FriendCodeMenu__Func_2165484: // 0x02165484
 	mov r5, r0
 	mov r0, #0x1e
 	lsl r0, r0, #6
-	blx _AllocHeadHEAP_USER
+	bl _AllocHeadHEAP_USER
 	ldr r1, _0216550C // =0x00000A48
 	mov r2, #0x1e
 	str r0, [r5, r1]
 	ldr r1, [r5, r1]
 	mov r0, #0
 	lsl r2, r2, #6
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	mov r0, #0xa
 	str r0, [sp]
 	mov r1, #1
@@ -708,15 +708,15 @@ FriendCodeMenu__Func_2165484: // 0x02165484
 	str r2, [sp, #0x18]
 	add r0, r5, r0
 	mov r2, #2
-	blx Unknown2056570__Init
+	bl Unknown2056570__Init
 	ldr r0, _02165510 // =0x00000A18
 	mov r1, #2
 	add r0, r5, r0
-	blx Unknown2056570__Func_2056688
+	bl Unknown2056570__Func_2056688
 	ldr r0, _02165514 // =0x02110460
 	ldr r1, _02165518 // =0x05000442
 	mov r2, #8
-	blx MIi_CpuCopy16
+	bl MIi_CpuCopy16
 	mov r6, #0
 	mov r4, r6
 	mov r7, #8
@@ -754,7 +754,7 @@ FriendCodeMenu__Func_216551C: // 0x0216551C
 	mov r0, #0xa
 	lsl r0, r0, #8
 	add r0, r7, r0
-	blx TouchField__Init
+	bl TouchField__Init
 	ldr r0, _021655E0 // =0x00000A0C
 	mov r4, #0
 	str r4, [r7, r0]
@@ -789,13 +789,13 @@ _0216555E:
 	mov r0, r5
 	add r1, sp, #8
 	add r3, sp, #0xc
-	blx TouchField__InitAreaShape
+	bl TouchField__InitAreaShape
 	mov r0, #0xa
 	lsl r0, r0, #8
 	ldr r2, _021655EC // =0x0000FFFF
 	add r0, r7, r0
 	mov r1, r5
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	mov r0, #0
 	ldrsh r0, [r6, r0]
 	add r4, r4, #1
@@ -827,13 +827,13 @@ _021655AC:
 	mov r0, r4
 	add r1, sp, #8
 	add r3, sp, #0xc
-	blx TouchField__InitAreaShape
+	bl TouchField__InitAreaShape
 	mov r0, #0xa
 	lsl r0, r0, #8
 	ldr r2, _021655EC // =0x0000FFFF
 	add r0, r7, r0
 	mov r1, r4
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	mov r0, #0
 	ldrsh r0, [r6, r0]
 	add r5, r5, #1
@@ -878,7 +878,7 @@ FriendCodeMenu__Func_21655F4: // 0x021655F4
 	add r1, #0x64
 	ldr r1, [r4, r1]
 	mov r3, r2
-	blx FontWindowAnimator__Load1
+	bl FontWindowAnimator__Load1
 	mov r0, #9
 	str r0, [sp]
 	mov r0, #0x1c
@@ -897,8 +897,8 @@ FriendCodeMenu__Func_21655F4: // 0x021655F4
 	ldr r1, [r4, r1]
 	add r0, r4, r0
 	mov r3, #2
-	blx FontAnimator__LoadFont1
-	blx RenderCore_GetLanguagePtr
+	bl FontAnimator__LoadFont1
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _0216567A
@@ -916,7 +916,7 @@ _02165666: // jump table
 	.hword _02165672 - _02165666 - 2 // case 4
 	.hword _02165672 - _02165666 - 2 // case 5
 _02165672:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r1, [r0]
 	b _0216567C
 _0216567A:
@@ -927,11 +927,11 @@ _0216567C:
 	lsl r1, r1, #0x10
 	ldr r0, [r4, r0]
 	lsr r1, r1, #0x10
-	blx FileUnknown__GetAOUFile
+	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	ldr r0, _0216569C // =0x00000A4C
 	add r0, r4, r0
-	blx FontAnimator__LoadMPCFile
+	bl FontAnimator__LoadMPCFile
 	add sp, #0x28
 	pop {r4, pc}
 	.align 2, 0
@@ -974,7 +974,7 @@ _021656CE:
 	blx r2
 	mov r1, r0
 	mov r0, r5
-	blx VRAMSystem__AllocSpriteVram
+	bl VRAMSystem__AllocSpriteVram
 	str r5, [sp]
 	mov r1, #0
 	str r1, [sp, #4]
@@ -992,7 +992,7 @@ _021656CE:
 	str r0, [sp, #0x18]
 	ldrh r2, [r2, #0x18]
 	mov r0, r6
-	blx AnimatorSprite__Init
+	bl AnimatorSprite__Init
 	add r0, sp, #0x28
 	ldrh r0, [r0, #0x1c]
 	add r6, #0x50
@@ -1012,7 +1012,7 @@ FriendCodeMenu__Func_216571C: // 0x0216571C
 	ldr r0, _0216585C // =0x00000B78
 	mov r1, #8
 	ldr r0, [r4, r0]
-	blx FileUnknown__GetAOUFile
+	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	mov r0, #3
 	str r0, [sp]
@@ -1023,11 +1023,11 @@ FriendCodeMenu__Func_216571C: // 0x0216571C
 	add r0, sp, #0x150
 	mov r2, #0x38
 	mov r3, #0
-	blx InitBackground
+	bl InitBackground
 	add r0, sp, #0x150
-	blx DrawBackground
+	bl DrawBackground
 	add r0, sp, #0xec
-	blx FontWindowAnimator__Init
+	bl FontWindowAnimator__Init
 	mov r0, #2
 	str r0, [sp]
 	mov r0, #3
@@ -1049,14 +1049,14 @@ FriendCodeMenu__Func_216571C: // 0x0216571C
 	ldr r1, [r4, r1]
 	add r0, sp, #0xec
 	mov r2, #0x38
-	blx FontWindowAnimator__Load1
+	bl FontWindowAnimator__Load1
 	add r0, sp, #0xec
-	blx FontWindowAnimator__Func_20599C4
+	bl FontWindowAnimator__Func_20599C4
 	add r0, sp, #0xec
-	blx FontWindowAnimator__Draw
+	bl FontWindowAnimator__Draw
 	add r0, sp, #0xec
-	blx FontWindowAnimator__Release
-	blx RenderCore_GetLanguagePtr
+	bl FontWindowAnimator__Release
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _021657BA
@@ -1074,7 +1074,7 @@ _021657A6: // jump table
 	.hword _021657B2 - _021657A6 - 2 // case 4
 	.hword _021657B2 - _021657A6 - 2 // case 5
 _021657B2:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r1, [r0]
 	b _021657BC
 _021657BA:
@@ -1085,10 +1085,10 @@ _021657BC:
 	lsl r1, r1, #0x10
 	ldr r0, [r4, r0]
 	lsr r1, r1, #0x10
-	blx FileUnknown__GetAOUFile
+	bl FileUnknown__GetAOUFile
 	mov r5, r0
 	add r0, sp, #0x28
-	blx FontAnimator__Init
+	bl FontAnimator__Init
 	mov r0, #8
 	str r0, [sp]
 	mov r0, #0x18
@@ -1106,24 +1106,24 @@ _021657BC:
 	ldr r1, [r4, r1]
 	mov r2, #0x38
 	mov r3, #4
-	blx FontAnimator__LoadFont1
+	bl FontAnimator__LoadFont1
 	add r0, sp, #0x28
-	blx FontAnimator__LoadMappingsFunc
+	bl FontAnimator__LoadMappingsFunc
 	add r0, sp, #0x28
-	blx FontAnimator__LoadPaletteFunc
+	bl FontAnimator__LoadPaletteFunc
 	add r0, sp, #0x28
 	mov r1, r5
-	blx FontAnimator__LoadMPCFile
+	bl FontAnimator__LoadMPCFile
 	add r0, sp, #0x28
 	mov r1, #3
-	blx FontAnimator__SetMsgSequence
+	bl FontAnimator__SetMsgSequence
 	add r0, sp, #0x28
 	mov r1, #1
 	mov r2, #0
-	blx FontAnimator__InitStartPos
+	bl FontAnimator__InitStartPos
 	add r0, sp, #0x28
 	mov r1, #0
-	blx FontAnimator__GetDialogLineCount
+	bl FontAnimator__GetDialogLineCount
 	cmp r0, #1
 	beq _02165830
 	cmp r0, #2
@@ -1132,20 +1132,20 @@ _021657BC:
 _02165830:
 	add r0, sp, #0x28
 	mov r1, #0x10
-	blx FontAnimator__AdvanceLine
+	bl FontAnimator__AdvanceLine
 	b _02165842
 _0216583A:
 	add r0, sp, #0x28
 	mov r1, #8
-	blx FontAnimator__AdvanceLine
+	bl FontAnimator__AdvanceLine
 _02165842:
 	add r0, sp, #0x28
 	mov r1, #0
-	blx FontAnimator__LoadCharacters
+	bl FontAnimator__LoadCharacters
 	add r0, sp, #0x28
-	blx FontAnimator__Draw
+	bl FontAnimator__Draw
 	add r0, sp, #0x28
-	blx FontAnimator__Release
+	bl FontAnimator__Release
 	add sp, #0x198
 	pop {r3, r4, r5, pc}
 	nop
@@ -1186,7 +1186,7 @@ FriendCodeMenu__Func_2165898: // 0x02165898
 	mov r7, r0
 	ldr r0, _021658EC // =0x0000067C
 	add r0, r7, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r6, r7
 	mov r4, #2
 	mov r5, #0xc8
@@ -1195,19 +1195,19 @@ _021658AC:
 	ldr r0, _021658F0 // =0x00000514
 	add r0, r5, r0
 	add r0, r6, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	sub r5, #0x64
 	sub r4, r4, #1
 	bpl _021658AC
 	ldr r0, _021658F4 // =0x000004EC
 	add r0, r7, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	ldr r0, _021658F8 // =0x00000488
 	add r0, r7, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	ldr r0, _021658FC // =0x00000424
 	add r0, r7, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, #0xe1
 	add r7, #0x3c
 	lsl r0, r0, #2
@@ -1215,7 +1215,7 @@ _021658AC:
 	add r5, r7, r0
 _021658DE:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	sub r5, #0x64
 	sub r4, r4, #1
 	bpl _021658DE
@@ -1240,12 +1240,12 @@ FriendCodeMenu__Func_2165904: // 0x02165904
 	mov r4, r0
 	ldr r0, _02165924 // =0x00000A18
 	add r0, r4, r0
-	blx Unknown2056570__Func_2056670
+	bl Unknown2056570__Func_2056670
 	ldr r0, _02165928 // =0x00000A48
 	ldr r0, [r4, r0]
 	cmp r0, #0
 	beq _02165922
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	ldr r0, _02165928 // =0x00000A48
 	mov r1, #0
 	str r1, [r4, r0]
@@ -1265,12 +1265,12 @@ FriendCodeMenu__Func_216592C: // 0x0216592C
 	mov r0, #0
 	add r1, r4, r1
 	lsl r2, r2, #4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r1, _02165950 // =0x00000958
 	mov r0, #0
 	add r1, r4, r1
 	mov r2, #0xa8
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	pop {r4, pc}
 	.align 2, 0
 _0216594C: .word 0x00000728
@@ -1283,11 +1283,11 @@ FriendCodeMenu__Func_2165954: // 0x02165954
 	mov r4, r0
 	ldr r0, _0216596C // =0x00000A4C
 	add r0, r4, r0
-	blx FontAnimator__Release
+	bl FontAnimator__Release
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx FontWindowAnimator__Release
+	bl FontWindowAnimator__Release
 	pop {r4, pc}
 	.align 2, 0
 _0216596C: .word 0x00000A4C
@@ -1301,23 +1301,23 @@ FriendCodeMenu__Main: // 0x02165970
 	mov r0, #0x6e
 	lsl r0, r0, #4
 	add r0, r1, r0
-	blx DrawBackground
+	bl DrawBackground
 	ldr r0, _021659C0 // =FriendCodeMenu__sVars
 	ldr r1, [r0]
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r1, r0
-	blx FontWindowAnimator__Func_20599B4
+	bl FontWindowAnimator__Func_20599B4
 	ldr r0, _021659C0 // =FriendCodeMenu__sVars
 	ldr r1, [r0]
 	ldr r0, _021659C4 // =0x00000A4C
 	add r0, r1, r0
-	blx FontAnimator__LoadMappingsFunc
+	bl FontAnimator__LoadMappingsFunc
 	ldr r0, _021659C0 // =FriendCodeMenu__sVars
 	ldr r1, [r0]
 	ldr r0, _021659C4 // =0x00000A4C
 	add r0, r1, r0
-	blx FontAnimator__LoadPaletteFunc
+	bl FontAnimator__LoadPaletteFunc
 	ldr r1, _021659C0 // =FriendCodeMenu__sVars
 	ldr r3, _021659C8 // =FriendCodeMenu__State_2165A20
 	ldr r2, [r1]
@@ -1327,7 +1327,7 @@ FriendCodeMenu__Main: // 0x02165970
 	mov r2, #0
 	str r2, [r0, #0x2c]
 	ldr r0, _021659D0 // =FriendCodeMenu__Main_21659D4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _021659C0: .word FriendCodeMenu__sVars
@@ -1349,7 +1349,7 @@ FriendCodeMenu__Main_21659D4: // 0x021659D4
 	mov r0, #0xa
 	lsl r0, r0, #8
 	add r0, r1, r0
-	blx TouchField__Process
+	bl TouchField__Process
 	ldr r0, _02165A08 // =FriendCodeMenu__sVars
 	ldr r1, _02165A0C // =0x00000C4C
 	ldr r0, [r0]
@@ -1357,7 +1357,7 @@ FriendCodeMenu__Main_21659D4: // 0x021659D4
 	blx r1
 	pop {r3, pc}
 _021659F8:
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	ldr r0, _02165A08 // =FriendCodeMenu__sVars
 	mov r1, #0
 	ldr r0, [r0]
@@ -1444,7 +1444,7 @@ FriendCodeMenu__State_2165A84: // 0x02165A84
 	mov r0, #0
 	add r1, sp, #0xc
 	mov r2, #0x1e
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	ldr r0, [r5, #0x14]
 	cmp r0, #0
 	bne _02165AB0
@@ -1516,7 +1516,7 @@ _02165B10:
 	cmp r3, #0
 	bne _02165AF8
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 _02165B1E:
 	ldr r0, _02165DA4 // =padInput
 	ldrh r1, [r0, #8]
@@ -1552,7 +1552,7 @@ _02165B4E:
 	cmp r3, #0
 	bne _02165B36
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 _02165B5C:
 	ldr r0, _02165DA4 // =padInput
 	ldrh r1, [r0, #8]
@@ -1591,7 +1591,7 @@ _02165B94:
 	lsr r6, r0, #0x10
 _02165B9A:
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 _02165BA0:
 	ldr r0, _02165DA4 // =padInput
 	ldrh r1, [r0, #8]
@@ -1635,7 +1635,7 @@ _02165BE0:
 	lsr r6, r0, #0x10
 _02165BE6:
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 _02165BEC:
 	cmp r6, #2
 	bhs _02165BFE
@@ -1688,7 +1688,7 @@ _02165C38:
 	mov r1, #0x37
 	add r0, r5, r0
 	str r6, [r5, #0x30]
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #0
 	str r0, [r5, #0x34]
 _02165C4E:
@@ -1699,7 +1699,7 @@ _02165C4E:
 	mov r1, #0x38
 	add r0, r5, r0
 	str r4, [r5, #0x38]
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02165C60:
 	cmp r7, #0xa
 	bge _02165C84
@@ -1711,9 +1711,9 @@ _02165C60:
 	ldr r0, _02165DA8 // =0x00000424
 	mov r1, #0x37
 	add r0, r5, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	b _02165D52
 _02165C84:
 	ldr r0, [r5, #0x30]
@@ -1729,7 +1729,7 @@ _02165C84:
 	mov r0, r5
 	bl FriendCodeMenu__Func_2166084
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	b _02165D52
 _02165CA8:
 	ldr r1, [r5, #0x14]
@@ -1771,7 +1771,7 @@ _02165CE0:
 	str r0, [r5, #0x38]
 _02165CF0:
 	mov r0, #1
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	b _02165D52
 _02165CF8:
 	ldr r0, _02165DA4 // =padInput
@@ -1786,7 +1786,7 @@ _02165CF8:
 	mov r0, #2
 	str r0, [r5, #0x38]
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	b _02165D52
 _02165D16:
 	cmp r1, #0xc
@@ -1805,7 +1805,7 @@ _02165D2C:
 	mov r0, #1
 	str r0, [sp, #4]
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	b _02165D52
 _02165D38:
 	ldr r1, [r5, #0x38]
@@ -1821,7 +1821,7 @@ _02165D44:
 _02165D4A:
 	mov r0, #1
 	str r0, [sp]
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 _02165D52:
 	mov r0, r5
 	bl FriendCodeMenu__Func_21661B0
@@ -1906,11 +1906,11 @@ _02165DEA:
 	mov r1, #1
 	mov r2, #8
 	str r3, [sp]
-	blx FontWindowAnimator__InitAnimation
+	bl FontWindowAnimator__InitAnimation
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx FontWindowAnimator__StartAnimating
+	bl FontWindowAnimator__StartAnimating
 	mov r0, r4
 	mov r1, #1
 	bl FriendCodeMenu__SetupBlending
@@ -1949,45 +1949,45 @@ FriendCodeMenu__State_2165E28: // 0x02165E28
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx FontWindowAnimator__ProcessWindowAnim
+	bl FontWindowAnimator__ProcessWindowAnim
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx FontWindowAnimator__Draw
+	bl FontWindowAnimator__Draw
 	mov r0, r4
 	bl FriendCodeMenu__Func_21661B0
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx FontWindowAnimator__IsFinishedAnimating
+	bl FontWindowAnimator__IsFinishedAnimating
 	cmp r0, #0
 	beq _02165EDE
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx FontWindowAnimator__SetWindowOpen
+	bl FontWindowAnimator__SetWindowOpen
 	ldr r0, [r4, #0x24]
 	cmp r0, #0
 	ldr r0, _02165EE8 // =0x00000A4C
 	bne _02165E8C
 	add r0, r4, r0
 	mov r1, #0
-	blx FontAnimator__SetMsgSequence
+	bl FontAnimator__SetMsgSequence
 	b _02165E94
 _02165E8C:
 	add r0, r4, r0
 	mov r1, #2
-	blx FontAnimator__SetMsgSequence
+	bl FontAnimator__SetMsgSequence
 _02165E94:
 	ldr r0, _02165EE8 // =0x00000A4C
 	mov r1, #1
 	add r0, r4, r0
 	mov r2, #0
-	blx FontAnimator__InitStartPos
+	bl FontAnimator__InitStartPos
 	ldr r0, _02165EE8 // =0x00000A4C
 	mov r1, #0
 	add r0, r4, r0
-	blx FontAnimator__GetDialogLineCount
+	bl FontAnimator__GetDialogLineCount
 	mov r1, r0
 	lsl r2, r1, #4
 	mov r1, #0x30
@@ -1996,17 +1996,17 @@ _02165E94:
 	lsl r1, r1, #0xf
 	add r0, r4, r0
 	asr r1, r1, #0x10
-	blx FontAnimator__AdvanceLine
+	bl FontAnimator__AdvanceLine
 	ldr r0, _02165EE8 // =0x00000A4C
 	add r0, r4, r0
-	blx FontAnimator__ClearPixels
+	bl FontAnimator__ClearPixels
 	ldr r0, _02165EE8 // =0x00000A4C
 	mov r1, #0
 	add r0, r4, r0
-	blx FontAnimator__LoadCharacters
+	bl FontAnimator__LoadCharacters
 	ldr r0, _02165EE8 // =0x00000A4C
 	add r0, r4, r0
-	blx FontAnimator__Draw
+	bl FontAnimator__Draw
 	ldr r1, _02165EEC // =FriendCodeMenu__State_2165EF4
 	ldr r0, _02165EF0 // =0x00000C4C
 	str r1, [r4, r0]
@@ -2042,18 +2042,18 @@ FriendCodeMenu__State_2165EF4: // 0x02165EF4
 	ldr r0, _02165FA0 // =0x00000A4C
 	mov r1, #0
 	add r0, r4, r0
-	blx FontAnimator__LoadCharacters
+	bl FontAnimator__LoadCharacters
 	ldr r0, _02165FA0 // =0x00000A4C
 	add r0, r4, r0
-	blx FontAnimator__Draw
+	bl FontAnimator__Draw
 	mov r0, r4
 	bl FriendCodeMenu__Func_21661B0
 	ldr r0, _02165FA0 // =0x00000A4C
 	add r0, r4, r0
-	blx FontAnimator__IsEndOfLine
+	bl FontAnimator__IsEndOfLine
 	cmp r0, #0
 	beq _02165F92
-	blx IsTouchInputEnabled
+	bl IsTouchInputEnabled
 	cmp r0, #0
 	beq _02165F4C
 	ldr r0, _02165FA4 // =touchInput
@@ -2088,11 +2088,11 @@ _02165F54:
 	mov r1, #4
 	mov r2, #8
 	str r3, [sp]
-	blx FontWindowAnimator__InitAnimation
+	bl FontWindowAnimator__InitAnimation
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx FontWindowAnimator__StartAnimating
+	bl FontWindowAnimator__StartAnimating
 	ldr r1, _02165FAC // =FriendCodeMenu__State_2165FB4
 	ldr r0, _02165FB0 // =0x00000C4C
 	str r1, [r4, r0]
@@ -2116,17 +2116,17 @@ FriendCodeMenu__State_2165FB4: // 0x02165FB4
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx FontWindowAnimator__ProcessWindowAnim
+	bl FontWindowAnimator__ProcessWindowAnim
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx FontWindowAnimator__Draw
+	bl FontWindowAnimator__Draw
 	mov r0, r4
 	bl FriendCodeMenu__Func_21661B0
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx FontWindowAnimator__IsFinishedAnimating
+	bl FontWindowAnimator__IsFinishedAnimating
 	cmp r0, #0
 	beq _02166018
 	ldr r0, _0216601C // =0x04001000
@@ -2146,7 +2146,7 @@ FriendCodeMenu__State_2165FB4: // 0x02165FB4
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r4, r0
-	blx FontWindowAnimator__SetWindowOpen
+	bl FontWindowAnimator__SetWindowOpen
 	mov r0, r4
 	mov r1, #0
 	bl FriendCodeMenu__SetupBlending
@@ -2237,7 +2237,7 @@ _021660A0:
 	ldr r0, _021660C0 // =0x000004EC
 	mov r1, #0x1e
 	add r0, r5, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #0x10
 	str r0, [r5, #0x34]
 	pop {r3, r4, r5, pc}
@@ -2266,7 +2266,7 @@ FriendCodeMenu__Func_21660C4: // 0x021660C4
 	ldr r0, _021660F4 // =0x000004EC
 	mov r1, #0x1e
 	add r0, r4, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _021660F0:
 	pop {r4, pc}
 	nop
@@ -2296,13 +2296,13 @@ _0216610E:
 _0216611A:
 	ldr r0, _021661A4 // =0x00000B74
 	ldr r0, [r5, r0]
-	blx FontWindow__GetFont
+	bl FontWindow__GetFont
 	ldr r1, [sp, #0x1c]
 	str r0, [sp, #0x20]
-	blx FontFile__GetCharXAdvance
+	bl FontFile__GetCharXAdvance
 	ldr r0, [sp, #0x20]
 	mov r1, #0
-	blx FontFile__GetPixels
+	bl FontFile__GetPixels
 	mov r1, #0x10
 	str r1, [sp]
 	str r1, [sp, #4]
@@ -2317,7 +2317,7 @@ _0216611A:
 	str r6, [sp, #0x14]
 	str r2, [sp, #0x18]
 	mov r1, #2
-	blx BackgroundUnknown__CopyPixels
+	bl BackgroundUnknown__CopyPixels
 	ldr r0, [sp, #0x1c]
 	cmp r0, #0
 	beq _02166182
@@ -2340,7 +2340,7 @@ _0216611A:
 	ldr r0, [sp, #0x20]
 	ldr r1, [sp, #0x1c]
 	ldr r3, [r5, r3]
-	blx FontFile__Func_2052B7C
+	bl FontFile__Func_2052B7C
 _02166182:
 	add r3, r4, #1
 	mov r0, #4
@@ -2354,7 +2354,7 @@ _02166182:
 	lsr r1, r1, #0x10
 	mov r2, #0
 	lsr r3, r3, #0x10
-	blx Unknown2056570__Func_2056958
+	bl Unknown2056570__Func_2056958
 	add sp, #0x24
 	pop {r4, r5, r6, r7, pc}
 	nop
@@ -2423,9 +2423,9 @@ _021661FC:
 	strh r4, [r0, #8]
 	mov r2, r1
 	strh r6, [r0, #0xa]
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, [sp, #0xc]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, [sp]
 	ldr r0, [r0, #0x34]
 	cmp r0, #0
@@ -2444,7 +2444,7 @@ _02166240:
 	beq _0216624E
 	mov r0, r5
 	mov r1, r7
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _0216624E:
 	mov r0, r4
 	add r0, #0xc
@@ -2455,9 +2455,9 @@ _0216624E:
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	add r4, #0x20
 	lsl r0, r4, #0x10
 	asr r4, r0, #0x10
@@ -2487,7 +2487,7 @@ FriendCodeMenu__Func_216628C: // 0x0216628C
 	mov r0, #2
 	add r1, sp, #0x18
 	mov r2, #6
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	b _021662CA
 _021662A4:
 	mov r2, #0
@@ -2565,14 +2565,14 @@ _0216631A:
 	cmp r0, r1
 	beq _02166330
 	mov r0, r4
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02166330:
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, [r7, #0x1c]
 	cmp r0, #0
 	beq _02166364
@@ -2586,9 +2586,9 @@ _02166330:
 	strh r1, [r0, #0xa]
 	mov r1, #0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, [sp]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _02166364:
 	add r6, #0x48
 	lsl r0, r6, #0x10
@@ -2622,17 +2622,17 @@ FriendCodeMenu__Func_2166398: // 0x02166398
 	mov r4, r0
 	ldr r0, _021663FC // =0x00000A18
 	add r0, r4, r0
-	blx Unknown2056570__Func_2056A58
+	bl Unknown2056570__Func_2056A58
 	ldr r0, _021663FC // =0x00000A18
 	add r0, r4, r0
-	blx Unknown2056570__Func_2056A94
+	bl Unknown2056570__Func_2056A94
 	ldr r5, _02166400 // =0x00000488
 	mov r1, #0
 	add r0, r4, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r0, r4, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, [r4, #0x1c]
 	cmp r0, #0
 	beq _021663FA
@@ -2661,9 +2661,9 @@ _021663E8:
 	strh r0, [r4, #0xa]
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _021663FA:
 	pop {r3, r4, r5, pc}
 	.align 2, 0
@@ -2743,7 +2743,7 @@ _02166470:
 	cmp r1, r0
 	beq _0216648A
 	mov r0, r5
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _0216648A:
 	mov r0, r6
 	add r0, #0xc
@@ -2754,14 +2754,14 @@ _0216648A:
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldrh r1, [r4]
 	ldr r0, [sp]
 	sub r0, r0, r1
 	cmp r0, #0x14
 	blo _021664B2
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	b _021664CC
 _021664B2:
 	bl FriendCodeMenu__Func_2166590
@@ -2769,7 +2769,7 @@ _021664B2:
 	mov r0, r5
 	mov r2, r1
 	mov r3, #0
-	blx AnimatorSprite__DrawFrameRotoZoom
+	bl AnimatorSprite__DrawFrameRotoZoom
 	mov r0, #0
 	str r0, [sp, #0xc]
 	b _021664CC
@@ -2834,7 +2834,7 @@ _02166526:
 	mov r0, #0x40
 	mov r1, #0
 	mov r2, #8
-	blx Unknown2051334__Func_2051534
+	bl Unknown2051334__Func_2051534
 	add r0, #0xa0
 	lsl r0, r0, #0x10
 	asr r0, r0, #0x10
@@ -2847,14 +2847,14 @@ _0216653C:
 	cmp r0, r1
 	beq _02166550
 	mov r0, r4
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02166550:
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 _02166560:
 	add r6, #0x48
 	lsl r0, r6, #0x10
@@ -2900,7 +2900,7 @@ _0216659E:
 	lsl r1, r1, #0xa
 	mov r2, #0xc
 	str r0, [sp]
-	blx Unknown2051334__Func_2051534
+	bl Unknown2051334__Func_2051534
 	pop {r3, pc}
 _021665B2:
 	mov r1, #2
@@ -2911,7 +2911,7 @@ _021665B2:
 	lsr r1, r1, #1
 	mov r2, #8
 	sub r3, #0xc
-	blx Unknown2051334__Func_2051534
+	bl Unknown2051334__Func_2051534
 	pop {r3, pc}
 	thumb_func_end FriendCodeMenu__Func_2166590
 
@@ -3029,11 +3029,11 @@ _021666A0:
 	mov r1, r2
 	mov r0, #0
 	mov r2, #6
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, #0
 	mov r1, r4
 	mov r2, #6
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
 _021666B8: .word VRAMSystem__GFXControl

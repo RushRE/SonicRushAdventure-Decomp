@@ -186,7 +186,7 @@ SailRingManager_UpdateRings: // 0x021568B0
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r10, r0
-	blx SailVoyageManager__Func_2157AF4
+	bl SailVoyageManager__Func_2157AF4
 	mov r8, r0
 	bl SailManager__GetShipType
 	cmp r0, #3

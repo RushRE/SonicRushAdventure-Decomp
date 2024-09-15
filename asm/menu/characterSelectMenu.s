@@ -14,34 +14,34 @@ CharacterSelectMenu__LoadAssets: // 0x0215FB04
 	push {r3, r4, lr}
 	sub sp, #4
 	mov r0, #0x1c
-	blx _AllocHeadHEAP_SYSTEM
+	bl _AllocHeadHEAP_SYSTEM
 	mov r4, r0
 	mov r0, #0
 	mov r1, r4
 	mov r2, #0x1c
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r2, #0
 	ldr r0, _0215FB8C // =aBbDmcsLangBb
 	str r2, [sp]
 	mov r1, #6
 	mov r3, #1
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4]
 	mov r2, #0
 	ldr r0, _0215FB90 // =aBbNlBb_2
 	str r2, [sp]
 	mov r1, #1
 	mov r3, r2
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #4]
 	mov r2, #0
 	ldr r0, _0215FB90 // =aBbNlBb_2
 	str r2, [sp]
 	mov r1, #9
 	mov r3, r2
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #8]
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _0215FB74
@@ -59,7 +59,7 @@ _0215FB60: // jump table
 	.hword _0215FB6C - _0215FB60 - 2 // case 4
 	.hword _0215FB6C - _0215FB60 - 2 // case 5
 _0215FB6C:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r1, [r0]
 	b _0215FB76
 _0215FB74:
@@ -69,7 +69,7 @@ _0215FB76:
 	ldr r0, _0215FB8C // =aBbDmcsLangBb
 	mov r3, r2
 	str r2, [sp]
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4, #0xc]
 	mov r0, r4
 	add sp, #4
@@ -91,13 +91,13 @@ CharacterSelectMenu__ReleaseAssets: // 0x0215FB94
 	add r4, #0x10
 _0215FBA4:
 	ldr r0, [r5]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	stmia r5!, {r6}
 	cmp r5, r4
 	bne _0215FBA4
 _0215FBB0:
 	mov r0, r7
-	blx _FreeHEAP_SYSTEM
+	bl _FreeHEAP_SYSTEM
 	pop {r3, r4, r5, r6, r7, pc}
 	thumb_func_end CharacterSelectMenu__ReleaseAssets
 
@@ -117,18 +117,18 @@ CharacterSelectMenu__Create: // 0x0215FBB8
 	ldr r0, _0215FC0C // =CharacterSelectMenu__Main
 	ldr r1, _0215FC10 // =CharacterSelectMenu__Destructor
 	mov r3, r2
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r1, _0215FC14 // =CharacterSelectMenu__Singleton
 	str r0, [r1]
 	mov r0, #0
 	str r0, [r5, #0x10]
 	ldr r0, [r1]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r2, _0215FC08 // =0x0000041C
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, #0xfd
 	str r5, [r4]
 	lsl r0, r0, #2
@@ -176,20 +176,20 @@ CharacterSelect__Func_215FC30: // 0x0215FC30
 	thumb_func_start CharacterSelectMenu__Destructor
 CharacterSelectMenu__Destructor: // 0x0215FC38
 	push {r4, r5, r6, lr}
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r6, r0
 	add r0, #0x4c
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, r6
 	add r0, #0xb0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, #0x45
 	lsl r0, r0, #2
 	mov r4, #0
 	add r5, r6, r0
 _0215FC56:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r4, r4, #1
 	add r5, #0x64
 	cmp r4, #2
@@ -201,7 +201,7 @@ _0215FC56:
 _0215FC6C:
 	mov r0, r4
 	add r0, #0x38
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, r5, #1
 	add r4, #0x9c
 	cmp r5, #2
@@ -209,14 +209,14 @@ _0215FC6C:
 	mov r0, #0xd3
 	lsl r0, r0, #2
 	add r0, r6, r0
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	mov r0, #0x3b
 	lsl r0, r0, #4
 	mov r4, #0
 	add r5, r6, r0
 _0215FC8E:
 	mov r0, r5
-	blx ReleasePaletteAnimator
+	bl ReleasePaletteAnimator
 	add r4, r4, #1
 	add r5, #0x20
 	cmp r4, #2
@@ -235,7 +235,7 @@ CharacterSelectMenu__Func_215FCA8: // 0x0215FCA8
 	ldr r0, _0215FCF0 // =CharacterSelectMenu__Singleton
 	mov r4, r1
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, r0
 	add r1, #0xec
 	ldr r3, [r1]
@@ -263,7 +263,7 @@ _0215FCDA:
 	bl CharacterSelectMenu__Func_21600D4
 	ldr r1, _0215FD00 // =Task__OVL03Unknown2160760__Create
 	mov r0, r4
-	blx SetTaskMainEvent
+	bl SetTaskMainEvent
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _0215FCF0: .word CharacterSelectMenu__Singleton
@@ -290,7 +290,7 @@ CharacterSelectMenu__Func_215FD14: // 0x0215FD14
 	mov r5, r0
 	ldr r0, _0215FD8C // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r2, #0x3f
 	mov r4, r0
 	lsl r2, r2, #4
@@ -305,9 +305,9 @@ _0215FD32:
 	add r2, #0x20
 	str r0, [r4, r2]
 	ldr r0, _0215FD90 // =CharacterSelectMenu__Func_21609B0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	ldr r2, [r4]
 	ldr r3, [r2, #0x14]
 	cmp r3, #0
@@ -332,7 +332,7 @@ _0215FD56:
 	sub r2, #0x68
 	orr r1, r0
 	str r1, [r4, r2]
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	ldr r2, [r4]
 	ldr r3, [r2, #0x14]
 	cmp r3, #0
@@ -355,7 +355,7 @@ CharacterSelectMenu__Func_215FD94: // 0x0215FD94
 	push {r3, r4, r5, lr}
 	ldr r0, _0215FE7C // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	mov r0, #0x3f
 	lsl r0, r0, #4
@@ -384,7 +384,7 @@ _0215FDC8:
 	mov r1, #1
 	lsr r0, r0, #0x10
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r4, r0
 	ldr r0, _0215FE80 // =0x00000414
 	ldrh r2, [r5, r0]
@@ -411,7 +411,7 @@ _0215FDF0:
 	b _0215FE60
 _0215FE02:
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 	b _0215FE60
 _0215FE0A:
 	add r0, #0x24
@@ -431,7 +431,7 @@ _0215FE20:
 	mov r1, #1
 	lsr r0, r0, #0x10
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	mov r4, r0
 	ldr r0, _0215FE80 // =0x00000414
 	ldrh r2, [r5, r0]
@@ -458,18 +458,18 @@ _0215FE48:
 	b _0215FE60
 _0215FE5A:
 	mov r0, #0xc
-	blx FadeSysTrack
+	bl FadeSysTrack
 _0215FE60:
 	cmp r4, #0
 	beq _0215FE6C
 	ldr r0, _0215FE84 // =CharacterSelectMenu__Func_21609D4
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, r4, r5, pc}
 _0215FE6C:
-	blx GetCurrentTask
+	bl GetCurrentTask
 	bl CharacterSelectMenu__Func_215FF44
 	mov r0, #0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _0215FE7C: .word CharacterSelectMenu__Singleton
@@ -484,7 +484,7 @@ Task__Unknown21606EC__Func_215FE88: // 0x0215FE88
 	str r0, [sp, #0x14]
 	ldr r0, _0215FF34 // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r3, #0
 	mov r7, r0
 	str r3, [sp]
@@ -574,7 +574,7 @@ CharacterSelectMenu__Func_215FF44: // 0x0215FF44
 	str r0, [sp, #0x14]
 	ldr r0, _02160004 // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0
 	mov r7, r0
 	mov r2, #0xb0
@@ -691,9 +691,9 @@ _02160030:
 	add r1, #0x38
 	mov r0, r1
 	mov r1, #1
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 	pop {r4, pc}
 _02160048:
 	lsr r0, r3, #5
@@ -702,7 +702,7 @@ _02160048:
 	add r1, #0x38
 	mov r0, r1
 	mov r1, #0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	pop {r4, pc}
 _0216005A:
 	mov r0, #0x20
@@ -715,7 +715,7 @@ _0216005A:
 	add r1, #0x38
 	mov r0, r1
 	mov r1, #1
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #2
 	bl CharacterSelectMenu__Func_215FD14
 _02160078:
@@ -745,7 +745,7 @@ _02160092:
 _021600A0:
 	ldr r0, _021600C8 // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r2, _021600CC // =gameState
 	ldr r1, [r2, #4]
 	cmp r4, r1
@@ -757,7 +757,7 @@ _021600A0:
 	mov r0, r2
 	bl CharacterSelectMenu__Func_21600D4
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 _021600C4:
 	pop {r4, pc}
 	nop
@@ -772,7 +772,7 @@ CharacterSelectMenu__Func_21600D4: // 0x021600D4
 	mov r4, r0
 	ldr r0, _02160164 // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r5, r0
 	ldr r0, _02160168 // =gameState
 	ldr r0, [r0, #4]
@@ -789,22 +789,22 @@ _021600F4:
 	lsl r0, r0, #2
 	add r0, r5, r0
 	mov r1, r4
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #0x3b
 	lsl r0, r0, #4
 	add r0, r5, r0
 	mov r1, r4
-	blx SetPaletteAnimation
+	bl SetPaletteAnimation
 	mov r0, #0x5e
 	lsl r0, r0, #2
 	add r0, r5, r0
 	mov r1, #3
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #0x3d
 	lsl r0, r0, #4
 	add r0, r5, r0
 	mov r1, #0
-	blx SetPaletteAnimation
+	bl SetPaletteAnimation
 	pop {r3, r4, r5, pc}
 _02160126:
 	cmp r4, #0
@@ -819,22 +819,22 @@ _02160134:
 	mov r0, #0x5e
 	lsl r0, r0, #2
 	add r0, r5, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #0x3d
 	lsl r0, r0, #4
 	add r0, r5, r0
 	mov r1, r4
-	blx SetPaletteAnimation
+	bl SetPaletteAnimation
 	mov r0, #0x45
 	lsl r0, r0, #2
 	add r0, r5, r0
 	mov r1, #0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #0x3b
 	lsl r0, r0, #4
 	add r0, r5, r0
 	mov r1, #0
-	blx SetPaletteAnimation
+	bl SetPaletteAnimation
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _02160164: .word CharacterSelectMenu__Singleton
@@ -858,14 +858,14 @@ Task__OVL03Unknown216016C__Create: // 0x0216016C
 	ldr r0, _021601CC // =Task__OVL03Unknown216016C__Main
 	ldr r1, _021601D0 // =Task__OVL03Unknown216016C__Destructor
 	mov r3, r2
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [sp, #0x10]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0
 	mov r1, r4
 	mov r2, #0x1c
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	str r5, [r4]
 	strh r6, [r4, #4]
 	strh r7, [r4, #6]
@@ -894,7 +894,7 @@ _021601D0: .word Task__OVL03Unknown216016C__Destructor
 	thumb_func_start Task__OVL03Unknown216016C__Destructor
 Task__OVL03Unknown216016C__Destructor: // 0x021601D4
 	push {r3, lr}
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r1, [r0]
 	cmp r1, #0
 	beq _021601FA
@@ -944,7 +944,7 @@ CharacterSelectMenu__Main: // 0x02160220
 	push {r4, r5, r6, lr}
 	ldr r0, _02160338 // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r3, r0
 	mov r0, #0xfd
 	lsl r0, r0, #2
@@ -1075,7 +1075,7 @@ _02160316:
 	mov r1, #1
 	lsr r0, r0, #0x10
 	lsl r1, r1, #0xc
-	blx CreateDrawFadeTask
+	bl CreateDrawFadeTask
 	b _02160330
 _02160326:
 	mov r2, #0
@@ -1085,7 +1085,7 @@ _02160326:
 	strh r2, [r1]
 _02160330:
 	ldr r0, _02160358 // =CharacterSelectMenu__Main_216035C
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r4, r5, r6, pc}
 	.align 2, 0
 _02160338: .word CharacterSelectMenu__Singleton
@@ -1105,7 +1105,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	sub sp, #0x40
 	ldr r0, _021606B4 // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, [r4]
 	mov r1, #0
@@ -1115,7 +1115,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	str r1, [r4, r0]
 	sub r0, #0x18
 	add r0, r4, r0
-	blx TouchField__Init
+	bl TouchField__Init
 	ldr r0, _021606B8 // =0x00000404
 	mov r3, #0
 	str r3, [r4, r0]
@@ -1150,9 +1150,9 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	ldr r1, [sp, #0x3c]
 	ldr r3, [r4, r3]
 	add r0, r4, #4
-	blx InitBackground
+	bl InitBackground
 	add r0, r4, #4
-	blx DrawBackground
+	bl DrawBackground
 	ldr r1, [r4, #4]
 	mov r0, #0x20
 	bic r1, r0
@@ -1169,7 +1169,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	mov r1, #2
 	add r2, sp, #0x2c
 	add r3, sp, #0x28
-	blx GetVRAMTileConfig
+	bl GetVRAMTileConfig
 	ldr r1, _021606C4 // =VRAMSystem__VRAM_BG
 	lsl r2, r5, #2
 	ldr r1, [r1, r2]
@@ -1184,7 +1184,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	mov r2, #2
 	lsl r2, r2, #0xa
 	add r1, r1, r2
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	ldr r0, [sp, #0x24]
 	mov r1, #0xfd
 	ldr r0, [r0, #0xc]
@@ -1194,7 +1194,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	ldr r1, [r4, r1]
 	mov r2, #6
 	add r5, #0x4c
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0xfd
 	lsl r1, r1, #2
 	ldr r1, [r4, r1]
@@ -1209,7 +1209,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	mov r0, r5
 	mov r2, #6
 	lsl r3, r3, #0xb
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0x80
 	strh r0, [r5, #8]
 	mov r0, #0xe0
@@ -1217,7 +1217,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, [sp, #0x24]
 	mov r1, #0xfd
 	ldr r0, [r0, #8]
@@ -1227,7 +1227,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	ldr r1, [r4, r1]
 	mov r2, #1
 	add r5, #0xb0
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0xfd
 	lsl r1, r1, #2
 	ldr r1, [r4, r1]
@@ -1242,11 +1242,11 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	ldr r1, [sp, #0x3c]
 	mov r0, r5
 	mov r2, #1
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, [sp, #0x24]
 	mov r2, #0
 	ldr r0, [r0]
@@ -1281,12 +1281,12 @@ _021604D0:
 	ldr r0, [sp, #0x3c]
 	ldr r1, [r4, r1]
 	ldr r2, [sp, #0x20]
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, r0
 	mov r0, #0xfd
 	lsl r0, r0, #2
 	ldr r0, [r4, r0]
-	blx VRAMSystem__AllocSpriteVram
+	bl VRAMSystem__AllocSpriteVram
 	mov r1, #0xfd
 	lsl r1, r1, #2
 	ldr r1, [r4, r1]
@@ -1306,7 +1306,7 @@ _021604D0:
 	ldr r1, [sp, #0x3c]
 	ldr r2, [sp, #0x20]
 	mov r0, r5
-	blx AnimatorSprite__Init
+	bl AnimatorSprite__Init
 	mov r0, r5
 	add r0, #0x50
 	strh r6, [r0]
@@ -1317,7 +1317,7 @@ _021604D0:
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	cmp r6, #1
 	beq _02160534
 	mov r1, #0x30
@@ -1344,13 +1344,13 @@ _02160536:
 	add r1, sp, #0x38
 	add r3, sp, #0x30
 	str r6, [sp, #4]
-	blx TouchField__InitAreaShape
+	bl TouchField__InitAreaShape
 	mov r0, #0xfe
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, r7
 	mov r2, #0
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	add r6, r6, #1
 	add r7, #0x9c
 	cmp r6, #2
@@ -1375,7 +1375,7 @@ _0216058E:
 	ldr r0, [sp, #0x3c]
 	ldr r1, [r4, r1]
 	mov r2, r7
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0xfd
 	lsl r1, r1, #2
 	ldr r1, [r4, r1]
@@ -1393,7 +1393,7 @@ _0216058E:
 	ldr r1, [sp, #0x3c]
 	mov r0, r5
 	mov r2, r7
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0x80
 	strh r0, [r5, #8]
 	mov r0, #0xe0
@@ -1401,7 +1401,7 @@ _0216058E:
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r6, r6, #1
 	add r5, #0x64
 	cmp r6, #2
@@ -1417,7 +1417,7 @@ _0216058E:
 	ldr r1, [r4, r1]
 	mov r2, #0
 	add r5, #0x38
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0xfd
 	lsl r1, r1, #2
 	ldr r1, [r4, r1]
@@ -1430,7 +1430,7 @@ _0216058E:
 	ldr r1, [sp, #0x3c]
 	ldr r3, _021606D8 // =0x00000801
 	mov r0, r5
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #0x10
 	strh r0, [r5, #8]
 	mov r0, #0xb0
@@ -1443,17 +1443,17 @@ _0216058E:
 	add r1, #0x38
 	mov r3, r2
 	str r2, [sp, #4]
-	blx TouchField__InitAreaSprite
+	bl TouchField__InitAreaSprite
 	mov r0, #0xfe
 	lsl r0, r0, #2
 	add r0, r4, r0
 	mov r1, r6
 	mov r2, #0
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	ldr r0, _021606E0 // =0x00000414
 	ldrh r1, [r4, r0]
 	mov r0, #0x80
@@ -1491,9 +1491,9 @@ _0216067E:
 	mov r0, r5
 	mov r2, #0
 	mov r3, #2
-	blx InitPaletteAnimator
+	bl InitPaletteAnimator
 	mov r0, r5
-	blx AnimatePalette
+	bl AnimatePalette
 	mov r0, #2
 	lsl r0, r0, #8
 	add r6, r6, #1
@@ -1505,7 +1505,7 @@ _0216067E:
 	mov r1, #0
 	strh r1, [r4, r0]
 	ldr r0, _021606E8 // =Task__OVL03Unknown21606EC__Create
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0x40
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
@@ -1531,7 +1531,7 @@ Task__OVL03Unknown21606EC__Create: // 0x021606EC
 	sub sp, #0xc
 	ldr r0, _0216074C // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0xfd
 	lsl r1, r1, #2
 	ldr r0, [r0, r1]
@@ -1564,11 +1564,11 @@ _02160724:
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
-	blx GetCurrentTask
+	bl TaskCreate_
+	bl GetCurrentTask
 	bl Task__Unknown21606EC__Func_215FE88
 	mov r0, #0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	add sp, #0xc
 	pop {pc}
 	nop
@@ -1585,7 +1585,7 @@ Task__OVL03Unknown2160760__Create: // 0x02160760
 	sub sp, #0xc
 	ldr r0, _021607A0 // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r2, [r0]
 	ldr r3, [r2, #0x14]
 	cmp r3, #0
@@ -1603,9 +1603,9 @@ _0216077C:
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	ldr r0, _021607AC // =CharacterSelectMenu__Func_21607B0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	bl CharacterSelectMenu__Func_21607B0
 	add sp, #0xc
 	pop {pc}
@@ -1621,7 +1621,7 @@ CharacterSelectMenu__Func_21607B0: // 0x021607B0
 	push {r4, lr}
 	ldr r0, _0216082C // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02160830 // =touchInput
 	mov r1, #1
@@ -1648,7 +1648,7 @@ _021607E0:
 	strh r0, [r4, r1]
 	bl CharacterSelectMenu__Func_21600D4
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 _021607F0:
 	ldr r0, _02160834 // =padInput
 	ldrh r1, [r0, #4]
@@ -1675,7 +1675,7 @@ _0216081E:
 	mov r0, #0xfe
 	lsl r0, r0, #2
 	add r0, r4, r0
-	blx TouchField__Process
+	bl TouchField__Process
 	pop {r4, pc}
 	nop
 _0216082C: .word CharacterSelectMenu__Singleton
@@ -1693,20 +1693,20 @@ Task__OVL03Unknown2160760__Main: // 0x02160844
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _02160854
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	pop {r3, r4, r5, r6, r7, pc}
 _02160854:
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0
 	mov r7, r0
 	add r0, #0x4c
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, r7
 	mov r1, #0
 	add r0, #0xb0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, #0x77
 	lsl r0, r0, #2
 	add r4, r7, r0
@@ -1718,11 +1718,11 @@ _0216087C:
 	mov r1, #0
 	add r0, #0x38
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r1, #0
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r6, r6, #1
 	add r4, #0x9c
 	add r5, #0x64
@@ -1733,14 +1733,14 @@ _0216087C:
 	mov r1, #0
 	add r0, r7, r0
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r0, #0x3b
 	lsl r0, r0, #4
 	mov r5, #0
 	add r4, r7, r0
 _021608B2:
 	mov r0, r4
-	blx AnimatePalette
+	bl AnimatePalette
 	add r5, r5, #1
 	add r4, #0x20
 	cmp r5, #2
@@ -1772,14 +1772,14 @@ Task__OVL03Unknown21606EC__Main: // 0x021608E4
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _021608F8
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	add sp, #8
 	pop {r3, r4, r5, r6, r7, pc}
 _021608F8:
-	blx GetTaskWork_
+	bl GetTaskWork_
 	str r0, [sp, #4]
 	add r0, #0x4c
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r1, _021609A8 // =gameState
 	ldr r0, [sp, #4]
 	ldr r2, [r1, #4]
@@ -1790,7 +1790,7 @@ _021608F8:
 	strh r1, [r0, #8]
 	mov r1, #0xa1
 	strh r1, [r0, #0xa]
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	mov r1, #0x77
 	mov r6, #0
 	ldr r0, [sp, #4]
@@ -1805,7 +1805,7 @@ _02160930:
 	ldr r5, [sp]
 	add r5, #0x38
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, _021609A8 // =gameState
 	ldr r0, [r0, #4]
 	cmp r6, r0
@@ -1831,7 +1831,7 @@ _02160950:
 	add r0, #0x98
 	strh r0, [r4, #0xa]
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r0, [sp]
 	add r6, r6, #1
 	add r0, #0x9c
@@ -1844,7 +1844,7 @@ _02160950:
 	ldr r0, [sp, #4]
 	lsl r1, r1, #2
 	add r0, r0, r1
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	mov r1, #0x3b
 	ldr r0, [sp, #4]
 	lsl r1, r1, #4
@@ -1852,7 +1852,7 @@ _02160950:
 	add r5, r0, r1
 _02160992:
 	mov r0, r5
-	blx DrawAnimatedPalette
+	bl DrawAnimatedPalette
 	add r4, r4, #1
 	add r5, #0x20
 	cmp r4, #2
@@ -1870,7 +1870,7 @@ CharacterSelectMenu__Func_21609B0: // 0x021609B0
 	push {r3, lr}
 	ldr r0, _021609D0 // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x41
 	lsl r1, r1, #4
 	ldr r2, [r0, r1]
@@ -1891,9 +1891,9 @@ CharacterSelectMenu__Func_21609D4: // 0x021609D4
 	push {r3, lr}
 	ldr r0, _021609E8 // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	ldr r0, _021609EC // =CharacterSelectMenu__Func_21609F0
-	blx SetCurrentTaskMainEvent
+	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
 _021609E8: .word CharacterSelectMenu__Singleton
@@ -1903,19 +1903,19 @@ _021609EC: .word CharacterSelectMenu__Func_21609F0
 	thumb_func_start CharacterSelectMenu__Func_21609F0
 CharacterSelectMenu__Func_21609F0: // 0x021609F0
 	push {r3, lr}
-	blx IsDrawFadeTaskFinished
+	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _02160A14
 	ldr r0, _02160A18 // =CharacterSelectMenu__Singleton
 	ldr r0, [r0]
-	blx GetTaskWork_
+	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
 	ldr r1, [r0, r1]
 	ldr r0, [r0]
 	str r1, [r0, #0x10]
-	blx DestroyDrawFadeTask
-	blx DestroyCurrentTask
+	bl DestroyDrawFadeTask
+	bl DestroyCurrentTask
 _02160A14:
 	pop {r3, pc}
 	nop
@@ -1930,17 +1930,17 @@ Task__OVL03Unknown216016C__Main: // 0x02160A1C
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _02160A30
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	add sp, #4
 	pop {r3, r4, pc}
 _02160A30:
-	blx GetCurrentTaskWork_
+	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldrh r3, [r4, #0xc]
 	ldrh r2, [r4, #0xe]
 	cmp r2, r3
 	bhi _02160A46
-	blx DestroyCurrentTask
+	bl DestroyCurrentTask
 	add sp, #4
 	pop {r3, r4, pc}
 _02160A46:
@@ -1951,7 +1951,7 @@ _02160A46:
 	mov r0, #6
 	ldrsh r0, [r4, r0]
 	ldrsh r1, [r4, r1]
-	blx Unknown2051334__Func_2051534
+	bl Unknown2051334__Func_2051534
 	mov r1, #4
 	ldrsh r1, [r4, r1]
 	cmp r1, #2

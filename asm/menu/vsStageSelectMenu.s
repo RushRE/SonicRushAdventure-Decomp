@@ -13,7 +13,7 @@ VSStageSelect__sVars: // 0x0217EFD4
 VSStageSelectMenu__Alloc: // 0x02160A8C
 	push {r3, lr}
 	ldr r0, _02160AA0 // =0x00000658
-	blx _AllocHeadHEAP_SYSTEM
+	bl _AllocHeadHEAP_SYSTEM
 	ldr r1, _02160AA4 // =VSStageSelect__sVars
 	str r0, [r1]
 	bl VSStageSelectMenu__Init
@@ -31,7 +31,7 @@ VSStageSelectMenu__Release: // 0x02160AA8
 	bl VSStageSelectMenu__Free
 	ldr r0, _02160AC4 // =VSStageSelect__sVars
 	ldr r0, [r0]
-	blx _FreeHEAP_SYSTEM
+	bl _FreeHEAP_SYSTEM
 	ldr r0, _02160AC4 // =VSStageSelect__sVars
 	mov r1, #0
 	str r1, [r0]
@@ -86,7 +86,7 @@ _02160B10:
 	str r1, [sp, #8]
 	mov r2, r1
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	mov r1, #0
 	str r0, [r5]
 	ldr r0, _02160C10 // =0x00003002
@@ -96,7 +96,7 @@ _02160B10:
 	ldr r0, _02160C14 // =VSStageSelectMenu__Main2
 	str r1, [sp, #8]
 	mov r3, r1
-	blx TaskCreate_
+	bl TaskCreate_
 	mov r1, #0
 	str r0, [r5, #4]
 	ldr r0, _02160C18 // =0x00003081
@@ -106,7 +106,7 @@ _02160B10:
 	ldr r0, _02160C1C // =VSStageSelectMenu__Main3
 	mov r3, r1
 	str r1, [sp, #8]
-	blx TaskCreate_
+	bl TaskCreate_
 	str r0, [r5, #8]
 	ldr r1, _02160C20 // =VSStageSelectMenu__State_Init
 	mov r0, r5
@@ -256,11 +256,11 @@ _02160C5C: .word VSStageSelect__sVars
 	thumb_func_start VSStageSelectMenu__Func_2160C60
 VSStageSelectMenu__Func_2160C60: // 0x02160C60
 	push {r3, lr}
-	blx MultibootManager__Func_2060D28
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _02160C72
-	blx ReleaseStageCommonArchives
-	blx FlushStageArea
+	bl ReleaseStageCommonArchives
+	bl FlushStageArea
 _02160C72:
 	pop {r3, pc}
 	thumb_func_end VSStageSelectMenu__Func_2160C60
@@ -280,14 +280,14 @@ VSStageSelectMenu__Init: // 0x02160C7C
 	ldr r2, _02160CA4 // =0x00000658
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	mov r0, r4
 	add r0, #0x20
 	bl VSStageSelectMenu__Unknown__Init
 	mov r0, r4
 	add r0, #0x40
 	bl VSStageSelectMenu__LoadAssets
-	blx AllocSndHandle
+	bl AllocSndHandle
 	ldr r1, _02160CA8 // =0x00000654
 	str r0, [r4, r1]
 	pop {r4, pc}
@@ -304,7 +304,7 @@ VSStageSelectMenu__Free: // 0x02160CAC
 	ldr r0, [r4, r0]
 	cmp r0, #0
 	beq _02160CC2
-	blx FreeSndHandle
+	bl FreeSndHandle
 	ldr r0, _02160CE0 // =0x00000654
 	mov r1, #0
 	str r1, [r4, r0]
@@ -318,7 +318,7 @@ _02160CC2:
 	ldr r2, _02160CE4 // =0x00000658
 	mov r0, #0
 	mov r1, r4
-	blx MIi_CpuClear16
+	bl MIi_CpuClear16
 	pop {r4, pc}
 	nop
 _02160CE0: .word 0x00000654
@@ -365,9 +365,9 @@ VSStageSelectMenu__LoadAssets: // 0x02160D0C
 	ldr r0, _02160D78 // =aNarcDmasVsNarc_0
 	str r3, [sp]
 	mov r2, r1
-	blx ArchiveFile__Load
+	bl ArchiveFile__Load
 	str r0, [r4]
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
 	bhi _02160D4C
@@ -385,7 +385,7 @@ _02160D38: // jump table
 	.hword _02160D44 - _02160D38 - 2 // case 4
 	.hword _02160D44 - _02160D38 - 2 // case 5
 _02160D44:
-	blx RenderCore_GetLanguagePtr
+	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	b _02160D4E
 _02160D4C:
@@ -422,11 +422,11 @@ VSStageSelectMenu__ReleaseAssets: // 0x02160D88
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, [r4]
-	blx _FreeHEAP_USER
+	bl _FreeHEAP_USER
 	mov r0, #0
 	mov r1, r4
 	mov r2, #0x10
-	blx MIi_CpuClear32
+	bl MIi_CpuClear32
 	pop {r4, pc}
 	.align 2, 0
 	thumb_func_end VSStageSelectMenu__ReleaseAssets
@@ -473,7 +473,7 @@ _02160DE0:
 	mov r1, #1
 	mov r2, r7
 	str r0, [sp, #0x24]
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	b _02160E4E
 _02160DF2:
 	ldrh r0, [r5]
@@ -484,7 +484,7 @@ _02160DF2:
 	ldr r0, [r0, r1]
 	mov r1, #1
 	str r0, [sp, #0x24]
-	blx SpriteUnknown__Func_204C7A4
+	bl SpriteUnknown__Func_204C7A4
 	b _02160E4E
 _02160E08:
 	bl VSStageSelectMenu__IsRace
@@ -497,7 +497,7 @@ _02160E08:
 	ldr r0, [r0, r1]
 	mov r1, #1
 	str r0, [sp, #0x24]
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	b _02160E4E
 _02160E24:
 	lsl r1, r0, #2
@@ -507,7 +507,7 @@ _02160E24:
 	mov r1, #1
 	mov r2, r7
 	str r0, [sp, #0x24]
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 	b _02160E4E
 _02160E38:
 	ldr r0, [sp, #0x28]
@@ -520,7 +520,7 @@ _02160E3C:
 	ldr r0, [r0, r1]
 	mov r1, #1
 	str r0, [sp, #0x24]
-	blx SpriteUnknown__Func_204C3CC
+	bl SpriteUnknown__Func_204C3CC
 _02160E4E:
 	mov r1, #1
 	str r1, [sp]
@@ -535,7 +535,7 @@ _02160E4E:
 	ldrb r0, [r5, #0xa]
 	str r0, [sp, #0x10]
 	mov r0, r4
-	blx SpriteUnknown__Func_204C90C
+	bl SpriteUnknown__Func_204C90C
 	mov r0, #4
 	ldrsh r0, [r5, r0]
 	mov r1, #0
@@ -545,7 +545,7 @@ _02160E4E:
 	ldrsh r0, [r5, r0]
 	strh r0, [r4, #0xa]
 	mov r0, r4
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	cmp r6, #0xb
 	bhi _02160F00
 	add r0, r6, r6
@@ -610,7 +610,7 @@ _02160EE2:
 	add r0, #0x10
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
-	blx ObjDraw__GetHWPaletteRow
+	bl ObjDraw__GetHWPaletteRow
 	ldr r1, _02160FDC // =0x000024A0
 	strh r1, [r0, #0x10]
 	b _02160F08
@@ -630,12 +630,12 @@ _02160F14:
 	ldr r0, [sp, #0x14]
 	mov r1, #2
 	add r0, #0xc8
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #0
 	bl VSStageSelectMenu__Func_2162210
 	mov r1, r0
 	ldr r0, [sp, #0x14]
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	bl VSLobbyMenu__GetTouchField
 	str r0, [sp, #0x1c]
 	mov r1, #0x4b
@@ -679,7 +679,7 @@ _02160F5A:
 	str r0, [sp]
 	str r0, [sp, #4]
 	mov r0, r4
-	blx TouchField__InitAreaShape
+	bl TouchField__InitAreaShape
 	b _02160F9E
 _02160F82:
 	mov r0, #0
@@ -690,15 +690,15 @@ _02160F82:
 	mov r0, r4
 	mov r2, #0
 	mov r3, #3
-	blx TouchField__InitAreaSprite
+	bl TouchField__InitAreaSprite
 	mov r0, r4
 	add r1, r5, #2
-	blx TouchField__SetAreaHitbox
+	bl TouchField__SetAreaHitbox
 _02160F9E:
 	ldr r0, [sp, #0x1c]
 	mov r1, r4
 	mov r2, #0
-	blx TouchField__AddArea
+	bl TouchField__AddArea
 	ldr r1, [r4, #0x14]
 	mov r0, #0x80
 	orr r0, r1
@@ -745,7 +745,7 @@ VSStageSelectMenu__ReleaseSprites: // 0x02160FE8
 _02161000:
 	mov r0, r7
 	mov r1, r4
-	blx TouchField__RemoveArea
+	bl TouchField__RemoveArea
 	add r4, #0x38
 	cmp r4, r6
 	bne _02161000
@@ -756,7 +756,7 @@ _0216100E:
 	add r4, r5, r0
 _02161016:
 	mov r0, r5
-	blx AnimatorSprite__Release
+	bl AnimatorSprite__Release
 	add r5, #0x64
 	cmp r5, r4
 	bne _02161016
@@ -787,7 +787,7 @@ _02161032:
 	str r0, [r5, #0x3c]
 	mov r0, r5
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r6, r6, #1
 	add r4, r4, #4
 	add r5, #0x64
@@ -796,17 +796,17 @@ _02161032:
 	mov r0, r7
 	add r0, #0xc8
 	mov r1, #2
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #0x4b
 	lsl r0, r0, #2
 	add r0, r7, r0
 	mov r1, #5
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r0, #0
 	bl VSStageSelectMenu__Func_2162210
 	mov r1, r0
 	mov r0, r7
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r2, r7
 	ldr r1, [r7, #0x3c]
 	mov r0, #1
@@ -847,7 +847,7 @@ VSStageSelectMenu__InitFonts: // 0x021610B8
 	bl VSLobbyMenu__Func_2163BDC
 	mov r4, r0
 	mov r0, r5
-	blx FontAniHeader__Func_2054CF8
+	bl FontAniHeader__Func_2054CF8
 	mov r0, #3
 	str r0, [sp]
 	mov r0, #4
@@ -867,7 +867,7 @@ VSStageSelectMenu__InitFonts: // 0x021610B8
 	mov r0, r5
 	mov r2, r4
 	mov r3, r1
-	blx FontWindowAnimator__Unknown__Load2
+	bl FontWindowAnimator__Unknown__Load2
 	mov r0, #1
 	lsl r0, r0, #0xc
 	strh r0, [r5, #0x38]
@@ -911,7 +911,7 @@ _02161132:
 	mov r0, r5
 	mov r1, r6
 	mov r2, r6
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r5, #0x64
 	cmp r5, r4
 	bne _02161132
@@ -1151,7 +1151,7 @@ _021612DE:
 	bic r1, r0
 	str r1, [r4, #0x3c]
 	mov r0, r4
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	ldr r1, [r4, #0x3c]
 	mov r0, #0x80
 	orr r0, r1
@@ -1164,7 +1164,7 @@ _021612DE:
 	add r4, r5, r0
 _02161314:
 	mov r0, r5
-	blx AnimatorSprite__DrawFrame
+	bl AnimatorSprite__DrawFrame
 	add r5, #0x64
 	cmp r5, r4
 	bne _02161314
@@ -1185,9 +1185,9 @@ _02161320:
 	ble _0216134A
 	str r3, [sp]
 	mov r3, #0x68
-	blx FontWindowAnimator__Unknown__Func_205509C
+	bl FontWindowAnimator__Unknown__Func_205509C
 	ldr r0, [sp, #0xc]
-	blx FontWindowAnimator__Unknown__Func_2054F64
+	bl FontWindowAnimator__Unknown__Func_2054F64
 _0216134A:
 	add sp, #0x14
 	pop {r4, r5, r6, r7, pc}
@@ -1246,11 +1246,11 @@ _021613BC:
 	bl VSStageSelectMenu__Func_2162210
 	mov r1, r0
 	mov r0, r4
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r7, r4
 	add r7, #0xc8
 	bl VSStageSelectMenu__IsRace
@@ -1262,17 +1262,17 @@ _021613BC:
 	beq _021613F4
 	mov r0, r7
 	mov r1, #0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _02161406
 _021613F4:
 	mov r0, r7
 	mov r1, #8
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _02161406
 _021613FE:
 	mov r0, r7
 	mov r1, #0xb
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02161406:
 	mov r7, r4
 	add r7, #0xc8
@@ -1281,11 +1281,11 @@ _02161406:
 	add r1, r1, #2
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	mov r0, r7
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	bl VSStageSelectMenu__IsRace
 	cmp r0, #0
 	beq _021614C4
@@ -1334,22 +1334,22 @@ _02161476:
 	bl VSStageSelectMenu__Func_2162210
 	mov r1, r0
 	mov r0, r4
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r7, r4
 	add r1, r6, #2
 	add r7, #0xc8
 	lsl r1, r1, #0x10
 	mov r0, r7
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	mov r0, r7
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	mov r2, r4
 	add r2, #0xc8
 	ldr r1, [r2, #0x3c]
@@ -1438,7 +1438,7 @@ _02161542:
 	mov r2, r1
 	ldr r0, [r4, r0]
 	mov r3, r1
-	blx PlaySfxEx
+	bl PlaySfxEx
 _0216155E:
 	ldr r1, _02161584 // =VSStageSelectMenu__State_2161C54
 	mov r0, r4
@@ -1448,7 +1448,7 @@ _0216155E:
 _0216156A:
 	lsl r0, r0, #0xc
 	mov r1, #0xc
-	blx _u32_div_f
+	bl _u32_div_f
 	strh r0, [r5, #0x3a]
 	add sp, #8
 	pop {r3, r4, r5, pc}
@@ -1618,7 +1618,7 @@ _02161694:
 	bl VSStageSelectMenu__Func_2162210
 	mov r1, r0
 	mov r0, r5
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	bl VSStageSelectMenu__IsRace
 	cmp r0, #0
 	beq _02161726
@@ -1640,7 +1640,7 @@ _02161694:
 	ldr r1, _02161898 // =0x0217DE0C
 	strb r2, [r4, #5]
 	ldrh r1, [r1, #8]
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _021616E0
 _021616DA:
 	mov r1, #1
@@ -1657,12 +1657,12 @@ _021616E0:
 	beq _021616FC
 	ldr r0, [sp]
 	mov r1, #0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _02161704
 _021616FC:
 	ldr r0, [sp]
 	mov r1, #8
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02161704:
 	ldrb r0, [r4, #5]
 	cmp r0, #0
@@ -1670,7 +1670,7 @@ _02161704:
 	ldr r0, [sp]
 	mov r1, r0
 	ldrh r1, [r1, #0xc]
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _02161726
 _02161716:
 	ldr r0, [sp]
@@ -1679,7 +1679,7 @@ _02161716:
 	add r1, r1, #2
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02161726:
 	mov r0, #1
 	str r0, [sp, #8]
@@ -1732,12 +1732,12 @@ _02161772:
 	ldr r1, _021618A0 // =0x0217DE06
 	ldr r0, [sp, #4]
 	ldrh r1, [r1, #2]
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _021617E0
 OpeningSonicNameSprite__LetterPositions:
 	ldr r0, [sp, #4]
 	mov r1, #8
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _021617E0
 _0216179A:
 	ldr r1, _02161898 // =0x0217DE0C
@@ -1745,7 +1745,7 @@ _0216179A:
 	ldrh r1, [r1, #8]
 	lsl r0, r0, #2
 	add r0, r5, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _021617E0
 _021617AA:
 	ldr r1, _02161898 // =0x0217DE0C
@@ -1753,7 +1753,7 @@ _021617AA:
 	ldrh r1, [r1, #0x14]
 	lsl r0, r0, #4
 	add r0, r5, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _021617E0
 _021617BA:
 	cmp r0, #0
@@ -1766,7 +1766,7 @@ _021617C4:
 	mov r0, r5
 	ldrh r1, [r1, #0x3c]
 	add r0, #0xc8
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _021617E0
 _021617D2:
 	ldr r1, _02161898 // =0x0217DE0C
@@ -1774,7 +1774,7 @@ _021617D2:
 	ldrh r1, [r1, #0x14]
 	lsl r0, r0, #4
 	add r0, r5, r0
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _021617E0:
 	ldr r1, _0216189C // =0x00000534
 	mov r2, #1
@@ -1915,12 +1915,12 @@ _021618D2:
 	add r1, r1, #2
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _021618FA
 _021618F2:
 	mov r0, r7
 	mov r1, #0xa
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _021618FA:
 	ldr r1, _02161ACC // =0x0217DE06
 	mov r2, #4
@@ -1945,7 +1945,7 @@ _02161916:
 	add r1, r1, #2
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #4
 	ldrsh r1, [r7, r1]
 	mov r0, #0x32
@@ -1967,7 +1967,7 @@ _02161942:
 	add r1, r1, #2
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #4
 	ldrsh r1, [r7, r1]
 	mov r0, #0x32
@@ -1994,7 +1994,7 @@ _02161978:
 	add r1, r1, #2
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #4
 	ldrsh r1, [r7, r1]
 	mov r0, #0x32
@@ -2016,7 +2016,7 @@ _021619A2:
 	add r1, r1, #2
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #4
 	ldrsh r1, [r7, r1]
 	mov r0, #0x32
@@ -2033,7 +2033,7 @@ _021619CC:
 	cmp r0, #0
 	beq _021619D8
 	mov r0, #2
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 _021619D8:
 	ldr r0, _02161AD8 // =padInput
 	ldrh r1, [r0, #4]
@@ -2098,12 +2098,12 @@ _02161A3C:
 	add r1, r1, #1
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _02161AC2
 _02161A5A:
 	mov r0, r5
 	mov r1, #9
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _02161AC2
 _02161A64:
 	ldr r1, _02161AEC // =0x0217DE0C
@@ -2114,7 +2114,7 @@ _02161A64:
 	add r1, r1, #1
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _02161AC2
 _02161A7A:
 	ldr r1, _02161AEC // =0x0217DE0C
@@ -2125,7 +2125,7 @@ _02161A7A:
 	add r1, r1, #1
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _02161AC2
 _02161A90:
 	cmp r0, #0
@@ -2141,7 +2141,7 @@ _02161A9A:
 	add r1, r1, #1
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	b _02161AC2
 _02161AAE:
 	ldr r1, _02161AEC // =0x0217DE0C
@@ -2152,10 +2152,10 @@ _02161AAE:
 	add r1, r1, #1
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 _02161AC2:
 	mov r0, #0
-	blx PlaySysMenuNavSfx
+	bl PlaySysMenuNavSfx
 _02161AC8:
 	add sp, #0x14
 	pop {r4, r5, r6, r7, pc}
@@ -2222,7 +2222,7 @@ _02161B48:
 	mov r1, #0xc
 	sub r0, r1, r2
 	lsl r0, r0, #0xc
-	blx _u32_div_f
+	bl _u32_div_f
 	strh r0, [r4, #0x3a]
 	pop {r4, pc}
 	nop
@@ -2323,7 +2323,7 @@ _02161BF8:
 	add r6, #0xc
 _02161C12:
 	ldr r0, [r5]
-	blx DestroyTask
+	bl DestroyTask
 	mov r0, #0
 	stmia r5!, {r0}
 	cmp r5, r6
@@ -2340,14 +2340,14 @@ _02161C2C:
 	mov r0, #1
 	tst r0, r1
 	beq _02161C4A
-	blx MultibootManager__Func_2060D28
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _02161C4A
 	ldr r0, [r7, #0x1c]
 	cmp r0, #0
 	beq _02161C4A
-	blx ReleaseStageCommonArchives
-	blx FlushStageArea
+	bl ReleaseStageCommonArchives
+	bl FlushStageArea
 _02161C4A:
 	mov r0, #4
 	str r0, [r4]
@@ -2372,7 +2372,7 @@ VSStageSelectMenu__State_2161C54: // 0x02161C54
 	ldr r0, _02161D94 // =0x00000654
 	mov r1, #0
 	ldr r0, [r5, r0]
-	blx NNS_SndPlayerStopSeq
+	bl NNS_SndPlayerStopSeq
 _02161C74:
 	ldrh r1, [r5, #0x14]
 	mov r0, #4
@@ -2418,7 +2418,7 @@ _02161CBE:
 	bl VSStageSelectMenu__Func_2162210
 	mov r1, r0
 	mov r0, r4
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	cmp r6, #0
 	bne _02161D1E
 	mov r0, #0x4b
@@ -2450,11 +2450,11 @@ _02161D06:
 	cmp r0, r1
 	beq _02161D38
 	mov r0, r4
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	b _02161D38
 _02161D1E:
 	mov r2, r4
@@ -2476,8 +2476,8 @@ _02161D38:
 	tst r0, r1
 	bne _02161D62
 	mov r0, #6
-	blx PlaySysSfx
-	blx MultibootManager__Func_2060D28
+	bl PlaySysSfx
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _02161D58
 	ldr r1, _02161DAC // =VSStageSelectMenu__State_2161DE8
@@ -2496,10 +2496,10 @@ _02161D62:
 	ldr r0, _02161D94 // =0x00000654
 	mov r1, #0
 	ldr r0, [r5, r0]
-	blx NNS_SndPlayerStopSeq
+	bl NNS_SndPlayerStopSeq
 	mov r0, #6
-	blx PlaySysSfx
-	blx MultibootManager__Func_2060D28
+	bl PlaySysSfx
+	bl MultibootManager__Func_2060D28
 	cmp r0, #0
 	beq _02161D8A
 	ldr r1, _02161DAC // =VSStageSelectMenu__State_2161DE8
@@ -2572,10 +2572,10 @@ VSStageSelectMenu__State_2161DE8: // 0x02161DE8
 	bl VSStageSelectMenu__SetState
 	pop {r3, r4, r5, r6, r7, pc}
 _02161E0C:
-	blx MultibootManager__Func_2061A24
+	bl MultibootManager__Func_2061A24
 	cmp r0, #0
 	beq _02161E5A
-	blx MultibootManager__Func_2060D0C
+	bl MultibootManager__Func_2060D0C
 	mov r0, #2
 	mov r1, #0
 	bl VSLobbyMenu__Func_2163CE0
@@ -2588,20 +2588,20 @@ _02161E0C:
 _02161E2C:
 	ldrh r1, [r5, #2]
 	mov r0, r4
-	blx AnimatorSprite__SetAnimation
+	bl AnimatorSprite__SetAnimation
 	ldr r0, [r4, #0x3c]
 	mov r1, #0
 	bic r0, r7
 	str r0, [r4, #0x3c]
 	mov r0, r4
 	mov r2, r1
-	blx AnimatorSprite__ProcessAnimation
+	bl AnimatorSprite__ProcessAnimation
 	add r6, r6, #1
 	add r4, #0x64
 	add r5, #0xc
 	cmp r6, #0xc
 	blo _02161E2C
-	blx MultibootManager__Func_206193C
+	bl MultibootManager__Func_206193C
 	ldr r0, [sp]
 	ldr r1, _02161E64 // =VSStageSelectMenu__State_2161E68
 	bl VSStageSelectMenu__SetState
@@ -2628,13 +2628,13 @@ VSStageSelectMenu__State_2161E68: // 0x02161E68
 	bl VSStageSelectMenu__SetState
 	pop {r4, pc}
 _02161E82:
-	blx MultibootManager__Func_2061A24
+	bl MultibootManager__Func_2061A24
 	cmp r0, #0
 	beq _02161E9E
-	blx MultibootManager__Func_20619B4
+	bl MultibootManager__Func_20619B4
 	cmp r0, #0
 	beq _02161E9E
-	blx MultibootManager__Func_206193C
+	bl MultibootManager__Func_206193C
 	ldr r1, _02161EA4 // =VSStageSelectMenu__State_2161EA8
 	mov r0, r4
 	bl VSStageSelectMenu__SetState
@@ -2660,7 +2660,7 @@ VSStageSelectMenu__State_2161EA8: // 0x02161EA8
 	bl VSStageSelectMenu__SetState
 	pop {r4, pc}
 _02161EC2:
-	blx MultibootManager__Func_20619B4
+	bl MultibootManager__Func_20619B4
 	cmp r0, #0
 	beq _02161ED8
 	mov r0, #3
@@ -2679,7 +2679,7 @@ _02161EE0: .word VSStageSelectMenu__State_2161EE4
 VSStageSelectMenu__State_2161EE4: // 0x02161EE4
 	push {r4, lr}
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
 	bgt _02161EF4
 	beq _02161F28
@@ -2707,11 +2707,11 @@ _02161F06: // jump table
 	.hword _02161F20 - _02161F06 - 2 // case 9
 	.hword _02161F22 - _02161F06 - 2 // case 10
 _02161F1C:
-	blx MultibootManager__Func_206150C
+	bl MultibootManager__Func_206150C
 _02161F20:
 	pop {r4, pc}
 _02161F22:
-	blx MultibootManager__Func_206147C
+	bl MultibootManager__Func_206147C
 _02161F26:
 	pop {r4, pc}
 _02161F28:
@@ -2726,15 +2726,15 @@ _02161F28:
 	bl VSStageSelectMenu__SetState
 	pop {r4, pc}
 _02161F3E:
-	blx MultibootManager__Func_2060D0C
+	bl MultibootManager__Func_2060D0C
 	cmp r0, #0
 	beq _02161F4E
 	mov r0, #1
-	blx InitGameDataLoadContext
+	bl InitGameDataLoadContext
 	b _02161F54
 _02161F4E:
 	mov r0, #0
-	blx InitGameDataLoadContext
+	bl InitGameDataLoadContext
 _02161F54:
 	bl VSLobbyMenu__Func_2163D90
 	cmp r0, #0
@@ -2758,7 +2758,7 @@ _02161F78: .word VSStageSelectMenu__State_216207C
 VSStageSelectMenu__State_2161F7C: // 0x02161F7C
 	push {r4, lr}
 	mov r4, r0
-	blx LoadStageCommonAssets
+	bl LoadStageCommonAssets
 	cmp r0, #0
 	beq _02161FCA
 	cmp r0, #1
@@ -2767,15 +2767,15 @@ VSStageSelectMenu__State_2161F7C: // 0x02161F7C
 	beq _02161FB2
 	pop {r4, pc}
 _02161F92:
-	blx MultibootManager__Func_2060D0C
+	bl MultibootManager__Func_2060D0C
 	cmp r0, #0
 	beq _02161FA2
 	mov r0, #1
-	blx InitGameDataLoadContext
+	bl InitGameDataLoadContext
 	b _02161FA8
 _02161FA2:
 	mov r0, #0
-	blx InitGameDataLoadContext
+	bl InitGameDataLoadContext
 _02161FA8:
 	ldr r1, _02161FCC // =VSStageSelectMenu__State_2161FD4
 	mov r0, r4
@@ -2784,7 +2784,7 @@ _02161FA8:
 _02161FB2:
 	mov r0, #1
 	str r0, [r4, #0x18]
-	blx ReleaseStageCommonArchives
+	bl ReleaseStageCommonArchives
 	ldrh r1, [r4, #0x14]
 	mov r0, #4
 	bic r1, r0
@@ -2803,7 +2803,7 @@ _02161FD0: .word VSStageSelectMenu__State_2161B28
 VSStageSelectMenu__State_2161FD4: // 0x02161FD4
 	push {r4, lr}
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0xe
 	bgt _02161FE8
 	bge _02161FF6
@@ -2819,12 +2819,12 @@ _02161FE8:
 	cmp r0, #0x16
 	b _02162016
 _02161FF6:
-	blx MultibootManager__Func_206150C
+	bl MultibootManager__Func_206150C
 	pop {r4, pc}
 _02161FFC:
 	mov r0, #1
 	str r0, [r4, #0x18]
-	blx ReleaseStageCommonArchives
+	bl ReleaseStageCommonArchives
 	ldrh r1, [r4, #0x14]
 	mov r0, #4
 	bic r1, r0
@@ -2848,7 +2848,7 @@ _02162024: .word VSStageSelectMenu__State_2162028
 VSStageSelectMenu__State_2162028: // 0x02162028
 	push {r4, lr}
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0xe
 	bgt _02162044
 	cmp r0, #0xd
@@ -2863,12 +2863,12 @@ _0216203E:
 _02162044:
 	cmp r0, #0x16
 	bne _02162068
-	blx MultibootManager__Func_206147C
+	bl MultibootManager__Func_206147C
 	pop {r4, pc}
 _0216204E:
 	mov r0, #1
 	str r0, [r4, #0x18]
-	blx ReleaseStageCommonArchives
+	bl ReleaseStageCommonArchives
 	ldrh r1, [r4, #0x14]
 	mov r0, #4
 	bic r1, r0
@@ -2894,7 +2894,7 @@ VSStageSelectMenu__State_216207C: // 0x0216207C
 	mov r4, r0
 	mov r0, #0x20
 	bl VSLobbyMenu__FadeSysTrack
-	blx LoadStageAssets
+	bl LoadStageAssets
 	cmp r0, #0
 	beq _021620C0
 	cmp r0, #1
@@ -2910,8 +2910,8 @@ _02162098:
 _021620A2:
 	mov r0, #1
 	str r0, [r4, #0x18]
-	blx ReleaseStageCommonArchives
-	blx FlushStageArea
+	bl ReleaseStageCommonArchives
+	bl FlushStageArea
 	ldrh r1, [r4, #0x14]
 	mov r0, #4
 	bic r1, r0
@@ -2934,7 +2934,7 @@ _021620D0: .word VSStageSelectMenu__State_2161B28
 VSStageSelectMenu__State_21620D4: // 0x021620D4
 	push {r4, lr}
 	mov r4, r0
-	blx LoadStageAssets
+	bl LoadStageAssets
 	cmp r0, #0
 	beq _02162112
 	cmp r0, #1
@@ -2950,8 +2950,8 @@ _021620EA:
 _021620F4:
 	mov r0, #1
 	str r0, [r4, #0x18]
-	blx ReleaseStageCommonArchives
-	blx FlushStageArea
+	bl ReleaseStageCommonArchives
+	bl FlushStageArea
 	ldrh r1, [r4, #0x14]
 	mov r0, #4
 	bic r1, r0
@@ -2968,7 +2968,7 @@ _02162112:
 	ldr r0, [r4, r0]
 	cmp r0, #0
 	beq _0216212A
-	blx FreeSndHandle
+	bl FreeSndHandle
 	ldr r0, _02162140 // =0x00000654
 	mov r1, #0
 	str r1, [r4, r0]
@@ -2989,7 +2989,7 @@ _02162140: .word 0x00000654
 VSStageSelectMenu__State_2162144: // 0x02162144
 	push {r4, lr}
 	mov r4, r0
-	blx LoadStageAssets
+	bl LoadStageAssets
 	cmp r0, #0
 	beq _02162180
 	cmp r0, #1
@@ -3005,8 +3005,8 @@ _0216215A:
 _02162164:
 	mov r0, #1
 	str r0, [r4, #0x18]
-	blx ReleaseStageCommonArchives
-	blx FlushStageArea
+	bl ReleaseStageCommonArchives
+	bl FlushStageArea
 	ldrh r1, [r4, #0x14]
 	mov r0, #4
 	bic r1, r0
@@ -3025,7 +3025,7 @@ _02162188: .word VSStageSelectMenu__State_2161B28
 VSStageSelectMenu__State_216218C: // 0x0216218C
 	push {r4, lr}
 	mov r4, r0
-	blx MultibootManager__Func_2060CC8
+	bl MultibootManager__Func_2060CC8
 	cmp r0, #0xe
 	bgt _021621AE
 	cmp r0, #0xb
@@ -3050,16 +3050,16 @@ _021621B6:
 	beq _021621C2
 	b _021621E6
 _021621BC:
-	blx MultibootManager__Func_206150C
+	bl MultibootManager__Func_206150C
 	pop {r4, pc}
 _021621C2:
-	blx MultibootManager__Func_20613E4
+	bl MultibootManager__Func_20613E4
 	pop {r4, pc}
 _021621C8:
 	mov r0, #1
 	str r0, [r4, #0x18]
-	blx ReleaseStageCommonArchives
-	blx FlushStageArea
+	bl ReleaseStageCommonArchives
+	bl FlushStageArea
 	ldrh r1, [r4, #0x14]
 	mov r0, #4
 	bic r1, r0

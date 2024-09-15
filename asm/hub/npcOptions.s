@@ -1218,7 +1218,7 @@ NpcOptions__Func_216ED74: // 0x0216ED74
 	movhs r0, #0
 	ldmhsia sp!, {r3, pc}
 	ldr r0, _0216ED94 // =0x02134474
-	blx SaveGame__HasMaterial
+	bl SaveGame__HasMaterial
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216ED94: .word 0x02134474
@@ -1232,7 +1232,7 @@ NpcOptions__Func_216ED98: // 0x0216ED98
 	movhs r0, #0
 	ldmhsia sp!, {r3, pc}
 	ldr r0, _0216EDB8 // =0x02134474
-	blx SaveGame__GetMaterialCount
+	bl SaveGame__GetMaterialCount
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216EDB8: .word 0x02134474

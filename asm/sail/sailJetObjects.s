@@ -1568,7 +1568,7 @@ SailJetShark__State_216E214: // 0x0216E214
 	str r2, [r4, #0x134]
 	bl SailObject__Func_216690C
 	add r0, r5, #0x44
-	blx SailSea__GetSurfacePosition
+	bl SailSea__GetSurfacePosition
 	add r1, r0, #0x400
 	ldr r2, [r4, #0x144]
 	add r0, r4, #0x100
@@ -1644,7 +1644,7 @@ SailJetShark__State_216E318: // 0x0216E318
 	bl ObjSpdUpSet
 	str r0, [r4, #0x144]
 	add r0, r5, #0x44
-	blx SailSea__GetSurfacePosition
+	bl SailSea__GetSurfacePosition
 	add r1, r0, #0x400
 	ldr r2, [r4, #0x144]
 	add r0, r4, #0x100
