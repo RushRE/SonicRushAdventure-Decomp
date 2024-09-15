@@ -311,36 +311,36 @@ _020ECCE0: .word 0xC3D2E1F0
 
 	arm_func_start DGTi_Hash2CalcHmac
 DGTi_Hash2CalcHmac: // 0x020ECCE4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc4
 	ldr r5, [sp, #0xe0]
 	ldr r4, [sp, #0xe4]
-	movs sb, r0
+	movs r9, r0
 	mov r8, r1
 	mov r7, r2
 	mov r6, r3
 	addeq sp, sp, #0xc4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxeq lr
 	cmp r8, #0
 	addeq sp, sp, #0xc4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxeq lr
 	cmp r7, #0
 	addeq sp, sp, #0xc4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxeq lr
 	cmp r6, #0
 	addeq sp, sp, #0xc4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxeq lr
 	cmp r5, #0
 	addeq sp, sp, #0xc4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxeq lr
 	cmp r4, #0
 	addeq sp, sp, #0xc4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxeq lr
 	ldr r0, [r4, #4]
 	cmp r5, r0
@@ -442,10 +442,10 @@ _020ECE90:
 	blx r3
 	ldr r0, [r4, #8]
 	ldr r2, [r4, #0x18]
-	mov r1, sb
+	mov r1, r9
 	blx r2
 	add sp, sp, #0xc4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	.align 2, 0
 	arm_func_end DGTi_Hash2CalcHmac
@@ -459,8 +459,8 @@ _020ECEF0: .word 0xCA62C1D6
 
     arm_func_start DGTi_hash2_arm4_small
 DGTi_hash2_arm4_small: // 0x020ECEF4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, ip, lr}
-	ldmia r0, {r3, sb, sl, fp, ip}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, ip, lr}
+	ldmia r0, {r3, r9, r10, r11, ip}
 	sub sp, sp, #0x84
 	str r2, [sp, #0x80]
 _020ECF04:
@@ -478,15 +478,15 @@ _020ECF14:
 	str r4, [r6, #0x40]
 	str r4, [r6], #4
 	add r2, r2, r4
-	eor r4, sl, fp
-	and r4, r4, sb
-	eor r4, r4, fp
+	eor r4, r10, r11
+	and r4, r4, r9
+	eor r4, r4, r11
 	add r2, r2, r4
-	mov sb, sb, ror #2
-	mov ip, fp
-	mov fp, sl
-	mov sl, sb
-	mov sb, r3
+	mov r9, r9, ror #2
+	mov ip, r11
+	mov r11, r10
+	mov r10, r9
+	mov r9, r3
 	mov r3, r2
 	add r5, r5, #4
 	cmp r5, #0x40
@@ -507,15 +507,15 @@ _020ECF74:
 	add r2, r2, ip
 	add r2, r2, r8
 	add r2, r2, r3, ror #27
-	eor r4, sl, fp
-	and r4, r4, sb
-	eor r4, r4, fp
+	eor r4, r10, r11
+	and r4, r4, r9
+	eor r4, r4, r11
 	add r2, r2, r4
-	mov sb, sb, ror #2
-	mov ip, fp
-	mov fp, sl
-	mov sl, sb
-	mov sb, r3
+	mov r9, r9, ror #2
+	mov ip, r11
+	mov r11, r10
+	mov r10, r9
+	mov r9, r3
 	mov r3, r2
 	add r7, r7, #4
 	cmp r7, #0x10
@@ -536,14 +536,14 @@ _020ECFE4:
 	add r2, r2, ip
 	add r2, r2, r8
 	add r2, r2, r3, ror #27
-	eor lr, sb, sl
-	eor lr, lr, fp
+	eor lr, r9, r10
+	eor lr, lr, r11
 	add r2, r2, lr
-	mov sb, sb, ror #2
-	mov ip, fp
-	mov fp, sl
-	mov sl, sb
-	mov sb, r3
+	mov r9, r9, ror #2
+	mov ip, r11
+	mov r11, r10
+	mov r10, r9
+	mov r9, r3
 	mov r3, r2
 	add r7, r7, #1
 	cmp r7, #0xc
@@ -566,16 +566,16 @@ _020ED058:
 	add r2, r2, ip
 	add r2, r2, r8
 	add r2, r2, r3, ror #27
-	orr r5, sb, sl
-	and r5, r5, fp
-	and r4, sb, sl
+	orr r5, r9, r10
+	and r5, r5, r11
+	and r4, r9, r10
 	orr r5, r5, r4
 	add r2, r2, r5
-	mov sb, sb, ror #2
-	mov ip, fp
-	mov fp, sl
-	mov sl, sb
-	mov sb, r3
+	mov r9, r9, ror #2
+	mov ip, r11
+	mov r11, r10
+	mov r10, r9
+	mov r9, r3
 	mov r3, r2
 	add r7, r7, #1
 	cmp r7, #8
@@ -598,14 +598,14 @@ _020ED0D4:
 	add r2, r2, ip
 	add r2, r2, r8
 	add r2, r2, r3, ror #27
-	eor r4, sb, sl
-	eor r4, r4, fp
+	eor r4, r9, r10
+	eor r4, r4, r11
 	add r2, r2, r4
-	mov sb, sb, ror #2
-	mov ip, fp
-	mov fp, sl
-	mov sl, sb
-	mov sb, r3
+	mov r9, r9, ror #2
+	mov ip, r11
+	mov r11, r10
+	mov r10, r9
+	mov r9, r3
 	mov r3, r2
 	add r7, r7, #1
 	cmp r7, #4
@@ -614,15 +614,15 @@ _020ED0D4:
 	blt _020ED0D4
 	ldmia r0, {r2, r4, r6, r7, lr}
 	add r3, r3, r2
-	add sb, sb, r4
-	add sl, sl, r6
-	add fp, fp, r7
+	add r9, r9, r4
+	add r10, r10, r6
+	add r11, r11, r7
 	add ip, ip, lr
-	stmia r0, {r3, sb, sl, fp, ip}
+	stmia r0, {r3, r9, r10, r11, ip}
 	ldr lr, [sp, #0x80]
 	subs lr, lr, #0x40
 	str lr, [sp, #0x80]
 	bgt _020ECF04
 	add sp, sp, #0x84
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, ip, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, ip, pc}
 	arm_func_end DGTi_hash2_arm4_small

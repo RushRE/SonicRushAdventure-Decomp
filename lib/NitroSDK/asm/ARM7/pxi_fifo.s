@@ -4,25 +4,25 @@
 
 	arm_func_start PXIi_GetFromFifo
 PXIi_GetFromFifo: // 0x037FE9CC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
-	ldr sl, _037FEAE0 // =0x04000184
+	ldr r10, _037FEAE0 // =0x04000184
 	ldr r5, _037FEAE4 // =0x038085F4
 	mov r7, #0x4100000
 	mov r6, #0
 	mvn r8, #3
-	mvn sb, #2
+	mvn r9, #2
 	ldr r4, _037FEAE8 // =0x04000188
 _037FE9F0:
-	ldrh r0, [sl]
+	ldrh r0, [r10]
 	ands r0, r0, #0x4000
-	ldrneh r0, [sl]
+	ldrneh r0, [r10]
 	orrne r0, r0, #0xc000
-	strneh r0, [sl]
-	movne r1, sb
+	strneh r0, [r10]
+	movne r1, r9
 	bne _037FEA38
 	bl OS_DisableInterrupts
-	ldrh r1, [sl]
+	ldrh r1, [r10]
 	ands r1, r1, #0x100
 	beq _037FEA28
 	bl OS_RestoreInterrupts
@@ -59,14 +59,14 @@ _037FEA80:
 	bne _037FE9F0
 	orr r0, r2, #0x20
 	str r0, [sp]
-	ldrh r0, [sl]
+	ldrh r0, [r10]
 	ands r0, r0, #0x4000
-	ldrneh r0, [sl]
+	ldrneh r0, [r10]
 	orrne r0, r0, #0xc000
-	strneh r0, [sl]
+	strneh r0, [r10]
 	bne _037FE9F0
 	bl OS_DisableInterrupts
-	ldrh r1, [sl]
+	ldrh r1, [r10]
 	ands r1, r1, #2
 	beq _037FEAC4
 	bl OS_RestoreInterrupts
@@ -78,7 +78,7 @@ _037FEAC4:
 	b _037FE9F0
 _037FEAD4:
 	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
 _037FEAE0: .word 0x04000184

@@ -276,7 +276,7 @@ _020EFEC8: .word 0x021500E0
 
 	arm_func_start CARDi_LockResource
 CARDi_LockResource: // 0x020EFECC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	ldr r5, _020EFF64 // =0x021500E0
 	mov r7, r0
@@ -296,9 +296,9 @@ _020EFF08:
 	mvn r8, #2
 	cmp r0, r8
 	beq _020EFF30
-	add sb, r5, #0x10
+	add r9, r5, #0x10
 _020EFF1C:
-	mov r0, sb
+	mov r0, r9
 	bl OS_SleepThread
 	ldr r0, [r5, #8]
 	cmp r0, r8
@@ -316,7 +316,7 @@ _020EFF38:
 	str r2, [r1]
 	bl OS_RestoreInterrupts
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	.align 2, 0
 _020EFF64: .word 0x021500E0
@@ -678,11 +678,11 @@ _020F0438: .word 0x021500E0
 
 	arm_func_start CARDi_RequestStreamCommand
 CARDi_RequestStreamCommand: // 0x020F043C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
-	mov sl, r0
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
+	mov r10, r0
 	ldr r6, _020F0520 // =0x021500E0
 	ldr r0, _020F0524 // =_version_NINTENDO_BACKUP
-	mov sb, r1
+	mov r9, r1
 	mov r8, r2
 	mov r7, r3
 	bl OSi_ReferSymbol
@@ -707,8 +707,8 @@ _020F0488:
 	mov r0, r5
 	str r1, [r6, #0x3c]
 	bl OS_RestoreInterrupts
-	str sl, [r6, #0x1c]
-	str sb, [r6, #0x20]
+	str r10, [r6, #0x1c]
+	str r9, [r6, #0x20]
 	ldr r0, [sp, #0x24]
 	ldr r1, [sp, #0x28]
 	str r8, [r6, #0x24]
@@ -722,7 +722,7 @@ _020F0488:
 	ldr r0, _020F0528 // =CARDi_RequestStreamCommandCore
 	bl CARDi_SetTask
 	mov r0, #1
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 _020F04EC:
 	ldr r0, _020F052C // =OSi_ThreadInfo
@@ -736,7 +736,7 @@ _020F04EC:
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
 _020F0520: .word 0x021500E0
@@ -747,13 +747,13 @@ _020F052C: .word OSi_ThreadInfo
 
 	arm_func_start CARDi_RequestStreamCommandCore
 CARDi_RequestStreamCommandCore: // 0x020F0530
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
-	mov sb, r0
-	ldr r8, [sb, #0x2c]
+	mov r9, r0
+	ldr r8, [r9, #0x2c]
 	ldr r0, _020F0728 // =_version_NINTENDO_BACKUP
-	ldr r7, [sb, #0x34]
-	ldr sl, [sb, #0x30]
+	ldr r7, [r9, #0x34]
+	ldr r10, [r9, #0x30]
 	mov r6, #0x100
 	bl OSi_ReferSymbol
 	cmp r8, #0xb
@@ -762,23 +762,23 @@ CARDi_RequestStreamCommandCore: // 0x020F0530
 	mov r6, r0
 _020F0564:
 	mov r0, #1
-	add r4, sb, #0x120
-	mov fp, #9
+	add r4, r9, #0x120
+	mov r11, #9
 	str r0, [sp]
 _020F0574:
-	ldr r5, [sb, #0x24]
-	ldr r0, [sb]
+	ldr r5, [r9, #0x24]
+	ldr r0, [r9]
 	cmp r6, r5
 	movlo r5, r6
 	str r5, [r0, #0x14]
-	ldr r0, [sb, #0x114]
+	ldr r0, [r9, #0x114]
 	ands r0, r0, #0x40
 	beq _020F05B0
-	ldr r0, [sb, #0x114]
+	ldr r0, [r9, #0x114]
 	mov r1, #7
 	bic r0, r0, #0x40
-	str r0, [sb, #0x114]
-	ldr r0, [sb]
+	str r0, [r9, #0x114]
+	ldr r0, [r9]
 	str r1, [r0]
 	b _020F06C4
 _020F05B0:
@@ -792,48 +792,48 @@ _020F05BC: // jump table
 	b _020F0628 // case 3
 _020F05CC:
 	mov r1, r5
-	add r0, sb, #0x120
+	add r0, r9, #0x120
 	bl DC_InvalidateRange
-	ldr r1, [sb, #0x1c]
-	ldr r0, [sb]
+	ldr r1, [r9, #0x1c]
+	ldr r0, [r9]
 	str r1, [r0, #0xc]
-	ldr r0, [sb]
+	ldr r0, [r9]
 	str r4, [r0, #0x10]
 	b _020F0640
 _020F05F0:
-	ldr r0, [sb, #0x1c]
+	ldr r0, [r9, #0x1c]
 	mov r1, r4
 	mov r2, r5
 	bl MI_CpuCopy8
 	mov r1, r5
-	add r0, sb, #0x120
+	add r0, r9, #0x120
 	bl DC_FlushRange
 	bl DC_WaitWriteBufferEmpty
-	ldr r0, [sb]
+	ldr r0, [r9]
 	str r4, [r0, #0xc]
-	ldr r1, [sb, #0x20]
-	ldr r0, [sb]
+	ldr r1, [r9, #0x20]
+	ldr r0, [r9]
 	str r1, [r0, #0x10]
 	b _020F0640
 _020F0628:
-	ldr r1, [sb, #0x1c]
-	ldr r0, [sb]
+	ldr r1, [r9, #0x1c]
+	ldr r0, [r9]
 	str r1, [r0, #0xc]
-	ldr r1, [sb, #0x20]
-	ldr r0, [sb]
+	ldr r1, [r9, #0x20]
+	ldr r0, [r9]
 	str r1, [r0, #0x10]
 _020F0640:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
-	mov r2, sl
+	mov r2, r10
 	bl CARDi_Request
 	cmp r0, #0
 	beq _020F06C4
 	cmp r7, #2
 	bne _020F067C
 	ldr r2, [sp]
-	mov r0, sb
-	mov r1, fp
+	mov r0, r9
+	mov r1, r11
 	bl CARDi_Request
 	cmp r0, #0
 	bne _020F0694
@@ -841,49 +841,49 @@ _020F0640:
 _020F067C:
 	cmp r7, #0
 	bne _020F0694
-	ldr r1, [sb, #0x20]
+	ldr r1, [r9, #0x20]
 	mov r2, r5
-	add r0, sb, #0x120
+	add r0, r9, #0x120
 	bl MI_CpuCopy8
 _020F0694:
-	ldr r0, [sb, #0x1c]
+	ldr r0, [r9, #0x1c]
 	add r0, r0, r5
-	str r0, [sb, #0x1c]
-	ldr r0, [sb, #0x20]
+	str r0, [r9, #0x1c]
+	ldr r0, [r9, #0x20]
 	add r0, r0, r5
-	str r0, [sb, #0x20]
-	ldr r0, [sb, #0x24]
+	str r0, [r9, #0x20]
+	ldr r0, [r9, #0x24]
 	sub r0, r0, r5
-	str r0, [sb, #0x24]
-	ldr r0, [sb, #0x24]
+	str r0, [r9, #0x24]
+	ldr r0, [r9, #0x24]
 	cmp r0, #0
 	bne _020F0574
 _020F06C4:
-	ldr r6, [sb, #0x38]
-	ldr r5, [sb, #0x3c]
+	ldr r6, [r9, #0x38]
+	ldr r5, [r9, #0x3c]
 	bl OS_DisableInterrupts
-	ldr r1, [sb, #0x114]
+	ldr r1, [r9, #0x114]
 	mov r4, r0
 	bic r0, r1, #0x4c
-	str r0, [sb, #0x114]
-	add r0, sb, #0x10c
+	str r0, [r9, #0x114]
+	add r0, r9, #0x10c
 	bl OS_WakeupThread
-	ldr r0, [sb, #0x114]
+	ldr r0, [r9, #0x114]
 	ands r0, r0, #0x10
 	beq _020F06FC
-	add r0, sb, #0x44
+	add r0, r9, #0x44
 	bl OS_WakeupThreadDirect
 _020F06FC:
 	mov r0, r4
 	bl OS_RestoreInterrupts
 	cmp r6, #0
 	addeq sp, sp, #4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxeq lr
 	mov r0, r5
 	blx r6
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _020F0728: .word _version_NINTENDO_BACKUP
@@ -945,14 +945,14 @@ _020F07C4: .word 0x02150720
 
 	arm_func_start CARDi_ReadRom
 CARDi_ReadRom: // 0x020F07C8
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	ldr r6, _020F08DC // =0x021500E0
-	mov sl, r0
-	mov sb, r1
+	mov r10, r0
+	mov r9, r1
 	mov r8, r2
 	mov r7, r3
-	ldr fp, _020F08E0 // =0x02150720
+	ldr r11, _020F08E0 // =0x02150720
 	bl CARD_CheckEnabled
 	bl OS_DisableInterrupts
 	ldr r1, [r6, #0x114]
@@ -977,29 +977,29 @@ _020F0818:
 	str r1, [r6, #0x3c]
 	bl OS_RestoreInterrupts
 	ldr r0, _020F08E4 // =0x02150700
-	str sl, [r6, #0x28]
+	str r10, [r6, #0x28]
 	ldr r0, [r0]
-	cmp sl, #3
-	add r0, sb, r0
+	cmp r10, #3
+	add r0, r9, r0
 	str r0, [r6, #0x1c]
 	str r8, [r6, #0x20]
 	str r7, [r6, #0x24]
 	bhi _020F0868
-	mov r0, sl
+	mov r0, r10
 	bl MI_StopDma
 _020F0868:
-	mov r0, fp
+	mov r0, r11
 	bl CARDi_TryReadCardDma
 	cmp r0, #0
 	beq _020F089C
 	ldr r0, [sp, #0x30]
 	cmp r0, #0
 	addne sp, sp, #4
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxne lr
 	bl CARD_WaitRomAsync
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 _020F089C:
 	ldr r0, [sp, #0x30]
@@ -1008,7 +1008,7 @@ _020F089C:
 	ldr r0, _020F08E8 // =CARDi_ReadRomSyncCore
 	bl CARDi_SetTask
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 _020F08BC:
 	ldr r1, _020F08EC // =OSi_ThreadInfo
@@ -1017,7 +1017,7 @@ _020F08BC:
 	str r1, [r6, #0x104]
 	bl CARDi_ReadRomSyncCore
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _020F08DC: .word 0x021500E0
@@ -1111,37 +1111,37 @@ _020F0A00: .word 0x04100010
 
 	arm_func_start CARDi_ReadCard
 CARDi_ReadCard: // 0x020F0A04
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
-	mov sl, r0
-	ldr sb, _020F0AF8 // =0x021500E0
-	add r7, sl, #0x20
+	mov r10, r0
+	ldr r9, _020F0AF8 // =0x021500E0
+	add r7, r10, #0x20
 	ldr r5, _020F0AFC // =0x04100010
 	ldr r6, _020F0B00 // =0x040001A4
-	mov fp, #0
+	mov r11, #0
 	mov r0, #0x200
 	rsb r4, r0, #0
 _020F0A2C:
-	ldr r0, [sb, #0x1c]
+	ldr r0, [r9, #0x1c]
 	and r1, r0, r4
 	cmp r1, r0
 	bne _020F0A54
-	ldr r8, [sb, #0x20]
+	ldr r8, [r9, #0x20]
 	ands r0, r8, #3
 	bne _020F0A54
-	ldr r0, [sb, #0x24]
+	ldr r0, [r9, #0x24]
 	cmp r0, #0x200
 	bhs _020F0A5C
 _020F0A54:
 	mov r8, r7
-	str r1, [sl, #8]
+	str r1, [r10, #8]
 _020F0A5C:
 	mov r0, r1, lsr #8
 	orr r0, r0, #0xb7000000
 	mov r1, r1, lsl #0x18
 	bl CARDi_SetRomOp
-	ldr r1, [sl, #4]
-	mov r0, fp
+	ldr r1, [r10, #4]
+	mov r0, r11
 	str r1, [r6]
 _020F0A78:
 	ldr r2, [r6]
@@ -1154,29 +1154,29 @@ _020F0A78:
 _020F0A94:
 	ands r1, r2, #0x80000000
 	bne _020F0A78
-	ldr r0, [sb, #0x20]
+	ldr r0, [r9, #0x20]
 	cmp r8, r0
 	bne _020F0ADC
-	ldr r2, [sb, #0x1c]
-	ldr r1, [sb, #0x20]
-	ldr r0, [sb, #0x24]
+	ldr r2, [r9, #0x1c]
+	ldr r1, [r9, #0x20]
+	ldr r0, [r9, #0x24]
 	add r2, r2, #0x200
 	add r1, r1, #0x200
 	subs r0, r0, #0x200
-	str r2, [sb, #0x1c]
-	str r1, [sb, #0x20]
-	str r0, [sb, #0x24]
+	str r2, [r9, #0x1c]
+	str r1, [r9, #0x20]
+	str r0, [r9, #0x24]
 	bne _020F0A2C
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 _020F0ADC:
-	mov r0, sl
+	mov r0, r10
 	bl CARDi_ReadFromCache
 	cmp r0, #0
 	bne _020F0A2C
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _020F0AF8: .word 0x021500E0
@@ -1186,19 +1186,19 @@ _020F0B00: .word 0x040001A4
 
 	arm_func_start CARDi_TryReadCardDma
 CARDi_TryReadCardDma: // 0x020F0B04
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
-	ldr fp, _020F0C64 // =0x021500E0
+	ldr r11, _020F0C64 // =0x021500E0
 	mov r7, #0
-	ldr sb, [fp, #0x20]
-	mov sl, r0
+	ldr r9, [r11, #0x20]
+	mov r10, r0
 	mov r6, r7
 	mov r5, r7
 	mov r1, r7
-	ands r4, sb, #0x1f
-	ldr r8, [fp, #0x24]
+	ands r4, r9, #0x1f
+	ldr r8, [r11, #0x24]
 	bne _020F0B40
-	ldr r0, [fp, #0x28]
+	ldr r0, [r11, #0x28]
 	cmp r0, #3
 	movls r1, #1
 _020F0B40:
@@ -1206,12 +1206,12 @@ _020F0B40:
 	beq _020F0B94
 	bl OS_GetDTCMAddress
 	ldr r1, _020F0C68 // =objDiffAttrSet
-	add r2, sb, r8
+	add r2, r9, r8
 	cmp r2, r1
 	mov r3, #1
 	mov r1, #0
 	bls _020F0B6C
-	cmp sb, #0x2000000
+	cmp r9, #0x2000000
 	movlo r1, r3
 _020F0B6C:
 	cmp r1, #0
@@ -1219,7 +1219,7 @@ _020F0B6C:
 	cmp r0, r2
 	bhs _020F0B88
 	add r0, r0, #0x4000
-	cmp r0, sb
+	cmp r0, r9
 	bhi _020F0B8C
 _020F0B88:
 	mov r3, #0
@@ -1229,7 +1229,7 @@ _020F0B8C:
 _020F0B94:
 	cmp r5, #0
 	beq _020F0BB0
-	ldr r1, [fp, #0x1c]
+	ldr r1, [r11, #0x1c]
 	ldr r0, _020F0C6C // =0x000001FF
 	orr r1, r1, r8
 	ands r0, r1, r0
@@ -1246,25 +1246,25 @@ _020F0BC0:
 	ldr r0, [r0, #0x60]
 	bic r0, r0, #0x7000000
 	orr r0, r0, #0xa1000000
-	str r0, [sl, #4]
+	str r0, [r10, #4]
 	beq _020F0C54
 	bl OS_DisableInterrupts
 	mov r5, r0
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	bl IC_InvalidateRange
 	cmp r4, #0
 	beq _020F0C1C
-	sub sb, sb, r4
-	mov r0, sb
+	sub r9, r9, r4
+	mov r0, r9
 	mov r1, #0x20
 	bl DC_StoreRange
-	add r0, sb, r8
+	add r0, r9, r8
 	mov r1, #0x20
 	bl DC_StoreRange
 	add r8, r8, #0x20
 _020F0C1C:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	bl DC_InvalidateRange
 	bl DC_WaitWriteBufferEmpty
@@ -1281,7 +1281,7 @@ _020F0C1C:
 _020F0C54:
 	mov r0, r7
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _020F0C64: .word 0x021500E0
@@ -1473,7 +1473,7 @@ _020F0EE4: .word 0x021500E0
 
 	arm_func_start CARDi_Request
 CARDi_Request: // 0x020F0EE8
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r6, r0
 	ldr r0, [r6, #0x114]
@@ -1489,11 +1489,11 @@ CARDi_Request: // 0x020F0EE8
 	bl PXI_IsCallbackReady
 	cmp r0, #0
 	bne _020F0F50
-	mov sb, #0x64
+	mov r9, #0x64
 	mov r8, #0xb
 	mov r7, #1
 _020F0F34:
-	mov r0, sb
+	mov r0, r9
 	bl OS_SpinWait
 	mov r0, r8
 	mov r1, r7
@@ -1510,17 +1510,17 @@ _020F0F60:
 	mov r1, #0x60
 	bl DC_FlushRange
 	bl DC_WaitWriteBufferEmpty
-	mov sb, #0xb
+	mov r9, #0xb
 	mov r8, #1
 	mov r7, #0
-	mov fp, #0x60
+	mov r11, #0x60
 _020F0F80:
 	str r5, [r6, #4]
 	ldr r0, [r6, #0x114]
 	orr r0, r0, #0x20
 	str r0, [r6, #0x114]
 _020F0F90:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r5
 	mov r2, r8
 	bl PXI_SendWordByFifo
@@ -1528,10 +1528,10 @@ _020F0F90:
 	blt _020F0F90
 	cmp r5, #0
 	bne _020F0FCC
-	ldr sl, [r6]
+	ldr r10, [r6]
 _020F0FB4:
-	mov r0, sb
-	mov r1, sl
+	mov r0, r9
+	mov r1, r10
 	mov r2, r8
 	bl PXI_SendWordByFifo
 	cmp r0, #0
@@ -1539,7 +1539,7 @@ _020F0FB4:
 _020F0FCC:
 	bl OS_DisableInterrupts
 	ldr r1, [r6, #0x114]
-	mov sl, r0
+	mov r10, r0
 	ands r0, r1, #0x20
 	beq _020F0FF4
 _020F0FE0:
@@ -1549,10 +1549,10 @@ _020F0FE0:
 	ands r0, r0, #0x20
 	bne _020F0FE0
 _020F0FF4:
-	mov r0, sl
+	mov r0, r10
 	bl OS_RestoreInterrupts
 	ldr r0, [r6]
-	mov r1, fp
+	mov r1, r11
 	bl DC_InvalidateRange
 	ldr r0, [r6]
 	ldr r0, [r0]
@@ -1566,7 +1566,7 @@ _020F1024:
 	moveq r0, #1
 	movne r0, #0
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	arm_func_end CARDi_Request
 

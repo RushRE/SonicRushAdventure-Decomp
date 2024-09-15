@@ -5,7 +5,7 @@
 
 	arm_func_start DGT_ProcessBlock
 DGT_ProcessBlock: // 0x020EC2C4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	add r3, r0, #0x18
 	ldr r5, [r0]
@@ -34,9 +34,9 @@ _020EC2EC:
 	orr r1, r6, r1
 	ldr r6, [r8, #4]
 	add r1, ip, r1
-	ldr sb, [r2, #4]
+	ldr r9, [r2, #4]
 	add r1, r6, r1
-	add r6, sb, r1
+	add r6, r9, r1
 	mov r1, r6, lsl #0xc
 	orr r1, r1, r6, lsr #20
 	add ip, r5, r1
@@ -45,24 +45,24 @@ _020EC2EC:
 	and r1, r1, r4
 	orr r6, r6, r1
 	add r1, r8, #0xc
-	ldr sb, [r8, #8]
+	ldr r9, [r8, #8]
 	add r6, lr, r6
-	add r6, sb, r6
-	ldr sb, [r2, #8]
+	add r6, r9, r6
+	ldr r9, [r2, #8]
 	ldr r1, [r1]
-	add sl, sb, r6
+	add r10, r9, r6
 	add r6, r2, #0xc
 	ldr r6, [r6]
-	mov sb, sl, lsl #0x11
-	orr sb, sb, sl, lsr #15
-	add lr, ip, sb
+	mov r9, r10, lsl #0x11
+	orr r9, r9, r10, lsr #15
+	add lr, ip, r9
 	add r2, r2, #0x10
 	add r8, r8, #0x10
-	and sl, lr, ip
-	mvn sb, lr
-	and sb, sb, r5
-	orr sb, sl, sb
-	add r4, r4, sb
+	and r10, lr, ip
+	mvn r9, lr
+	and r9, r9, r5
+	orr r9, r10, r9
+	add r4, r4, r9
 	add r1, r1, r4
 	add r4, r6, r1
 	mov r1, r4, lsl #0x16
@@ -75,11 +75,11 @@ _020EC2EC:
 	mov r1, #0
 _020EC3D0:
 	mvn r7, ip
-	ldr sb, [r6]
+	ldr r9, [r6]
 	and r8, r4, ip
 	and r7, lr, r7
 	orr r7, r8, r7
-	ldr r8, [r3, sb, lsl #2]
+	ldr r8, [r3, r9, lsl #2]
 	add r5, r5, r7
 	ldr r7, [r2]
 	add r5, r8, r5
@@ -89,42 +89,42 @@ _020EC3D0:
 	add r5, r4, r5
 	mvn r8, lr
 	ldr r7, [r6, #4]
-	and sb, r5, lr
+	and r9, r5, lr
 	and r8, r4, r8
-	orr sl, sb, r8
+	orr r10, r9, r8
 	mvn r8, r4
-	ldr sb, [r6, #8]
-	ldr fp, [r3, r7, lsl #2]
-	add r7, ip, sl
-	add sl, fp, r7
+	ldr r9, [r6, #8]
+	ldr r11, [r3, r7, lsl #2]
+	add r7, ip, r10
+	add r10, r11, r7
 	add r7, r6, #0xc
-	ldr sb, [r3, sb, lsl #2]
+	ldr r9, [r3, r9, lsl #2]
 	and r8, r5, r8
 	ldr r7, [r7]
-	ldr fp, [r2, #4]
+	ldr r11, [r2, #4]
 	ldr r7, [r3, r7, lsl #2]
-	add fp, fp, sl
-	mov sl, fp, lsl #9
-	orr sl, sl, fp, lsr #23
-	add ip, r5, sl
-	ldr sl, [r2, #8]
-	and fp, ip, r4
-	orr r8, fp, r8
+	add r11, r11, r10
+	mov r10, r11, lsl #9
+	orr r10, r10, r11, lsr #23
+	add ip, r5, r10
+	ldr r10, [r2, #8]
+	and r11, ip, r4
+	orr r8, r11, r8
 	add r8, lr, r8
-	add r8, sb, r8
-	add sl, sl, r8
+	add r8, r9, r8
+	add r10, r10, r8
 	add r8, r2, #0xc
 	ldr r8, [r8]
-	mov sb, sl, lsl #0xe
-	orr sb, sb, sl, lsr #18
-	add lr, ip, sb
+	mov r9, r10, lsl #0xe
+	orr r9, r9, r10, lsr #18
+	add lr, ip, r9
 	add r2, r2, #0x10
 	add r6, r6, #0x10
-	and sl, lr, r5
-	mvn sb, r5
-	and sb, ip, sb
-	orr sb, sl, sb
-	add r4, r4, sb
+	and r10, lr, r5
+	mvn r9, r5
+	and r9, ip, r9
+	orr r9, r10, r9
+	add r4, r4, r9
 	add r4, r7, r4
 	add r7, r8, r4
 	mov r4, r7, lsl #0x14
@@ -151,32 +151,32 @@ _020EC4C0:
 	eor r1, lr, r1
 	ldr r8, [r3, r8, lsl #2]
 	add r1, ip, r1
-	ldr sb, [r6, #8]
-	ldr sl, [r2, #4]
+	ldr r9, [r6, #8]
+	ldr r10, [r2, #4]
 	add r1, r8, r1
-	add r8, sl, r1
+	add r8, r10, r1
 	mov r1, r8, lsl #0xb
 	orr r1, r1, r8, lsr #21
 	add ip, r5, r1
 	eor r8, ip, r5
 	eor r8, r4, r8
-	ldr sb, [r3, sb, lsl #2]
+	ldr r9, [r3, r9, lsl #2]
 	add r8, lr, r8
-	add sb, sb, r8
-	ldr sl, [r2, #8]
+	add r9, r9, r8
+	ldr r10, [r2, #8]
 	add r1, r2, #0xc
 	ldr r8, [r6, #0xc]
-	add sl, sl, sb
-	ldr sb, [r3, r8, lsl #2]
-	mov r8, sl, lsl #0x10
-	orr r8, r8, sl, lsr #16
+	add r10, r10, r9
+	ldr r9, [r3, r8, lsl #2]
+	mov r8, r10, lsl #0x10
+	orr r8, r8, r10, lsr #16
 	add lr, ip, r8
 	eor r8, lr, ip
 	eor r8, r5, r8
 	add r4, r4, r8
 	add r7, r7, #1
 	ldr r1, [r1]
-	add r4, sb, r4
+	add r4, r9, r4
 	add r4, r1, r4
 	mov r1, r4, lsl #0x17
 	orr r1, r1, r4, lsr #9
@@ -185,7 +185,7 @@ _020EC4C0:
 	add r4, lr, r1
 	cmp r7, #4
 	blt _020EC4C0
-	mov sl, #0
+	mov r10, #0
 _020EC58C:
 	mvn r1, ip
 	ldr r7, [r6]
@@ -206,27 +206,27 @@ _020EC58C:
 	ldr r8, [r6, #8]
 	ldr r7, [r3, r7, lsl #2]
 	add r1, ip, r1
-	ldr sb, [r2, #4]
+	ldr r9, [r2, #4]
 	add r1, r7, r1
-	add sb, sb, r1
-	mov r7, sb, lsl #0xa
+	add r9, r9, r1
+	mov r7, r9, lsl #0xa
 	add r1, r6, #0xc
-	orr sb, r7, sb, lsr #22
+	orr r9, r7, r9, lsr #22
 	ldr r1, [r1]
 	add r7, r2, #0xc
-	add ip, r5, sb
+	add ip, r5, r9
 	ldr r8, [r3, r8, lsl #2]
 	ldr r7, [r7]
 	ldr r1, [r3, r1, lsl #2]
-	ldr sb, [r2, #8]
-	mvn fp, r4
-	orr fp, ip, fp
-	eor fp, r5, fp
-	add fp, lr, fp
-	add r8, r8, fp
-	add sb, sb, r8
-	mov r8, sb, lsl #0xf
-	orr r8, r8, sb, lsr #17
+	ldr r9, [r2, #8]
+	mvn r11, r4
+	orr r11, ip, r11
+	eor r11, r5, r11
+	add r11, lr, r11
+	add r8, r8, r11
+	add r9, r9, r8
+	mov r8, r9, lsl #0xf
+	orr r8, r8, r9, lsr #17
 	add lr, ip, r8
 	add r2, r2, #0x10
 	add r6, r6, #0x10
@@ -239,8 +239,8 @@ _020EC58C:
 	mov r1, r4, lsl #0x15
 	orr r1, r1, r4, lsr #11
 	add r4, lr, r1
-	add sl, sl, #1
-	cmp sl, #4
+	add r10, r10, #1
+	cmp r10, #4
 	blt _020EC58C
 	ldr r1, [r0]
 	add r1, r1, r5
@@ -255,7 +255,7 @@ _020EC58C:
 	add r1, r1, ip
 	str r1, [r0, #0xc]
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _020EC6A4: .word _0211F864
@@ -320,7 +320,7 @@ _020EC76C: .word _0211F7A0
 
 	arm_func_start DGT_Hash1SetSource
 DGT_Hash1SetSource: // 0x020EC770
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r8, r0
 	add ip, r8, #0x10
@@ -338,14 +338,14 @@ DGT_Hash1SetSource: // 0x020EC770
 	bls _020EC7DC
 	cmp r6, #0
 	addeq sp, sp, #4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxeq lr
 	add r1, r8, #0x18
 	mov r0, r7
 	add r1, r1, r3
 	bl MI_CpuCopy8
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 _020EC7DC:
 	add r1, r8, #0x18
@@ -358,17 +358,17 @@ _020EC7DC:
 	sub r6, r6, r5
 	mov r4, r6, lsr #6
 	cmp r4, #0
-	add sb, r7, r5
+	add r9, r7, r5
 	ble _020EC83C
 	add r7, r8, #0x18
 	mov r5, #0x40
 _020EC814:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r7
 	mov r2, r5
 	bl MI_CpuCopy8
 	mov r0, r8
-	add sb, sb, #0x40
+	add r9, r9, #0x40
 	bl DGT_ProcessBlock
 	sub r4, r4, #1
 	cmp r4, #0
@@ -376,13 +376,13 @@ _020EC814:
 _020EC83C:
 	ands r2, r6, #0x3f
 	addeq sp, sp, #4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxeq lr
-	mov r0, sb
+	mov r0, r9
 	add r1, r8, #0x18
 	bl MI_CpuCopy8
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	arm_func_end DGT_Hash1SetSource
 

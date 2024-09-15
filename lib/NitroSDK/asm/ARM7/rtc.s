@@ -207,12 +207,12 @@ _027F6BF8:
 
 	arm_func_start RtcThread
 RtcThread: // 0x027F6C04
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x4c
 	ldr r6, _027F70B4 // =0x027FFDE8
 	add r5, r6, #4
 	mov r7, #0
-	ldr sb, _027F70B8 // =0x027F9A08
+	ldr r9, _027F70B8 // =0x027F9A08
 	mov r8, #1
 	mov r0, #0x10
 	str r0, [sp]
@@ -220,9 +220,9 @@ RtcThread: // 0x027F6C04
 	str r0, [sp, #4]
 	mov r0, #0x12
 	str r0, [sp, #8]
-	mov sl, #0x13
+	mov r10, #0x13
 	mov r4, #2
-	mov fp, #0x14
+	mov r11, #0x14
 	mov r0, #0x15
 	str r0, [sp, #0xc]
 	mov r0, #0x16
@@ -254,7 +254,7 @@ RtcThread: // 0x027F6C04
 	mov r0, #0x29
 	str r0, [sp, #0x44]
 _027F6CBC:
-	mov r0, sb
+	mov r0, r9
 	add r1, sp, #0x48
 	mov r2, r8
 	bl OS_ReceiveMessage
@@ -308,7 +308,7 @@ _027F6CE0: // jump table
 	b _027F7088 // case 41
 _027F6D88:
 	bl RTC_Reset
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	mov r0, r7
 	mov r1, r7
 	bl RtcReturnResult
@@ -318,7 +318,7 @@ _027F6DA0:
 	mov r0, r0, lsl #0x1e
 	mov r0, r0, lsr #0x1f
 	bl RTC_SetHourFormat
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	mov r0, r8
 	mov r1, r7
 	bl RtcReturnResult
@@ -326,7 +326,7 @@ _027F6DA0:
 _027F6DC4:
 	mov r0, r6
 	bl RTC_ReadDateTime
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp]
 	mov r1, r7
 	bl RtcReturnResult
@@ -334,7 +334,7 @@ _027F6DC4:
 _027F6DE0:
 	mov r0, r6
 	bl RTC_ReadDate
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #4]
 	mov r1, r7
 	bl RtcReturnResult
@@ -342,7 +342,7 @@ _027F6DE0:
 _027F6DFC:
 	add r0, r6, #4
 	bl RTC_ReadTime
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #8]
 	mov r1, r7
 	bl RtcReturnResult
@@ -352,14 +352,14 @@ _027F6E18:
 	bl RTC_ReadPulse
 	cmp r0, #0
 	bne _027F6E3C
-	str r7, [sb, #0x1d4]
-	mov r0, sl
+	str r7, [r9, #0x1d4]
+	mov r0, r10
 	mov r1, r4
 	bl RtcReturnResult
 	b _027F6CBC
 _027F6E3C:
-	str r7, [sb, #0x1d4]
-	mov r0, sl
+	str r7, [r9, #0x1d4]
+	mov r0, r10
 	mov r1, r7
 	bl RtcReturnResult
 	b _027F6CBC
@@ -368,14 +368,14 @@ _027F6E50:
 	bl RTC_ReadAlarm1
 	cmp r0, #0
 	bne _027F6E74
-	str r7, [sb, #0x1d4]
-	mov r0, fp
+	str r7, [r9, #0x1d4]
+	mov r0, r11
 	mov r1, r4
 	bl RtcReturnResult
 	b _027F6CBC
 _027F6E74:
-	str r7, [sb, #0x1d4]
-	mov r0, fp
+	str r7, [r9, #0x1d4]
+	mov r0, r11
 	mov r1, r7
 	bl RtcReturnResult
 	b _027F6CBC
@@ -384,13 +384,13 @@ _027F6E88:
 	bl RTC_ReadAlarm2
 	cmp r0, #0
 	bne _027F6EAC
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0xc]
 	mov r1, r4
 	bl RtcReturnResult
 	b _027F6CBC
 _027F6EAC:
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0xc]
 	mov r1, r7
 	bl RtcReturnResult
@@ -398,7 +398,7 @@ _027F6EAC:
 _027F6EC0:
 	mov r0, r6
 	bl RTC_ReadStatus1
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x10]
 	mov r1, r7
 	bl RtcReturnResult
@@ -406,7 +406,7 @@ _027F6EC0:
 _027F6EDC:
 	add r0, r6, #2
 	bl RTC_ReadStatus2
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x14]
 	mov r1, r7
 	bl RtcReturnResult
@@ -414,7 +414,7 @@ _027F6EDC:
 _027F6EF8:
 	add r0, r6, #4
 	bl RTC_ReadAdjust
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x18]
 	mov r1, r7
 	bl RtcReturnResult
@@ -422,7 +422,7 @@ _027F6EF8:
 _027F6F14:
 	add r0, r6, #4
 	bl RTC_ReadFree
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x1c]
 	mov r1, r7
 	bl RtcReturnResult
@@ -430,7 +430,7 @@ _027F6F14:
 _027F6F30:
 	mov r0, r6
 	bl RTC_WriteDateTime
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x20]
 	mov r1, r7
 	bl RtcReturnResult
@@ -440,7 +440,7 @@ _027F6F4C:
 	bl RTC_ReadTime
 	mov r0, r6
 	bl RTC_WriteDateTime
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x24]
 	mov r1, r7
 	bl RtcReturnResult
@@ -448,7 +448,7 @@ _027F6F4C:
 _027F6F70:
 	add r0, r6, #4
 	bl RTC_WriteTime
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x28]
 	mov r1, r7
 	bl RtcReturnResult
@@ -458,13 +458,13 @@ _027F6F8C:
 	bl RTC_WritePulse
 	cmp r0, #0
 	bne _027F6FB0
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x2c]
 	mov r1, r4
 	bl RtcReturnResult
 	b _027F6CBC
 _027F6FB0:
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x2c]
 	mov r1, r7
 	bl RtcReturnResult
@@ -474,13 +474,13 @@ _027F6FC4:
 	bl RTC_WriteAlarm1
 	cmp r0, #0
 	bne _027F6FE8
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x30]
 	mov r1, r4
 	bl RtcReturnResult
 	b _027F6CBC
 _027F6FE8:
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x30]
 	mov r1, r7
 	bl RtcReturnResult
@@ -490,13 +490,13 @@ _027F6FFC:
 	bl RTC_WriteAlarm2
 	cmp r0, #0
 	bne _027F7020
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x34]
 	mov r1, r4
 	bl RtcReturnResult
 	b _027F6CBC
 _027F7020:
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x34]
 	mov r1, r7
 	bl RtcReturnResult
@@ -504,7 +504,7 @@ _027F7020:
 _027F7034:
 	mov r0, r6
 	bl RTC_WriteStatus1
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x38]
 	mov r1, r7
 	bl RtcReturnResult
@@ -512,7 +512,7 @@ _027F7034:
 _027F7050:
 	add r0, r6, #2
 	bl RTC_WriteStatus2
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x3c]
 	mov r1, r7
 	bl RtcReturnResult
@@ -520,7 +520,7 @@ _027F7050:
 _027F706C:
 	add r0, r6, #4
 	bl RTC_WriteAdjust
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x40]
 	mov r1, r7
 	bl RtcReturnResult
@@ -528,13 +528,13 @@ _027F706C:
 _027F7088:
 	add r0, r6, #4
 	bl RTC_WriteFree
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	ldr r0, [sp, #0x44]
 	mov r1, r7
 	bl RtcReturnResult
 	b _027F6CBC
 _027F70A4:
-	str r7, [sb, #0x1d4]
+	str r7, [r9, #0x1d4]
 	mov r1, r8
 	bl RtcReturnResult
 	b _027F6CBC

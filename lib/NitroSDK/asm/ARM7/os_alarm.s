@@ -130,10 +130,10 @@ _037FDB24: .word 0x038085CC
 
 	arm_func_start OS_SetPeriodicAlarm
 OS_SetPeriodicAlarm: // 0x037FDB28
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	movs r4, r0
-	mov sb, r1
+	mov r9, r1
 	mov r8, r2
 	mov r7, r3
 	ldr r6, [sp, #0x20]
@@ -148,7 +148,7 @@ _037FDB58:
 	mov r5, r0
 	str r7, [r4, #0x1c]
 	str r6, [r4, #0x20]
-	str sb, [r4, #0x24]
+	str r9, [r4, #0x24]
 	str r8, [r4, #0x28]
 	ldr r0, [sp, #0x24]
 	str r0, [r4]
@@ -161,7 +161,7 @@ _037FDB58:
 	mov r0, r5
 	bl OS_RestoreInterrupts
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	arm_func_end OS_SetPeriodicAlarm
 

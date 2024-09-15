@@ -7,10 +7,10 @@
 
 	arm_func_start TP_ExecuteProcess
 TP_ExecuteProcess: // 0x03804B74
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x10
-	mov sl, r0
-	ldr r1, [sl, #4]
+	mov r10, r0
+	ldr r1, [r10, #4]
 	cmp r1, #2
 	bhi _03804BA8
 	cmp r1, #0
@@ -36,7 +36,7 @@ _03804BC0:
 	bne _03804BF8
 	mov r0, r4
 	bl OS_RestoreInterrupts
-	ldr r0, [sl, #4]
+	ldr r0, [r10, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #4
@@ -61,7 +61,7 @@ _03804BF8:
 	ldrh r1, [sp, #0xa]
 	ldr r0, _03804D94 // =0x027FFFAC
 	strh r1, [r0]
-	ldr r0, [sl, #4]
+	ldr r0, [r10, #4]
 	cmp r0, #0
 	bne _03804C60
 	mov r0, r0, lsl #0x10
@@ -72,7 +72,7 @@ _03804BF8:
 _03804C60:
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	ldr r1, [sl, #8]
+	ldr r1, [r10, #8]
 	and r1, r1, #0xff
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
@@ -86,34 +86,34 @@ _03804C88:
 	ldr r0, [r7, #0x20]
 	cmp r0, #1
 	bne _03804D20
-	mov sb, #0
+	mov r9, #0
 	ldr r8, _03804D98 // =0x00000107
 	ldr r6, _03804D9C // =0x0380AB20
 	mov r5, #0xa
 	ldr r4, _03804DA0 // =SPI_Func_3804AFC
 	b _03804CF0
 _03804CB0:
-	mul r0, sb, r8
+	mul r0, r9, r8
 	bl _u32_div_f
-	ldr r1, [sl, #0xc]
+	ldr r1, [r10, #0xc]
 	add r0, r1, r0
 	mov r1, r8
 	bl _u32_div_f
-	add r2, r7, sb, lsl #1
+	add r2, r7, r9, lsl #1
 	strh r1, [r2, #0xcc]
-	str sb, [sp]
+	str r9, [sp]
 	mov r0, #0x28
-	mla r0, sb, r0, r6
+	mla r0, r9, r0, r6
 	ldrsh r1, [r2, #0xcc]
 	mov r2, r5
 	mov r3, r4
 	bl OS_SetPeriodicVAlarm
-	add sb, sb, #1
+	add r9, r9, #1
 _03804CF0:
-	ldr r1, [sl, #8]
-	cmp sb, r1
+	ldr r1, [r10, #8]
+	cmp r9, r1
 	blo _03804CB0
-	ldr r0, [sl, #4]
+	ldr r0, [r10, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0
@@ -135,7 +135,7 @@ _03804D34:
 	bne _03804D70
 	ldr r0, _03804DA4 // =0x54505641
 	bl OS_CancelVAlarms
-	ldr r0, [sl, #4]
+	ldr r0, [r10, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0
@@ -151,7 +151,7 @@ _03804D70:
 	bl SPIi_ReturnResult
 _03804D80:
 	add sp, sp, #0x10
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
 _03804D8C: .word 0x0380AAF4
@@ -607,7 +607,7 @@ _038053B8: .word 0x00008201
 
 	arm_func_start TP_Func_38053BC
 TP_Func_38053BC: // 0x038053BC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x18
 	cmp r2, #0
 	moveq r5, #0xd1
@@ -633,7 +633,7 @@ _038053FC:
 	ldr lr, _038055A8 // =0x040001C2
 	add r2, sp, #0
 	mov r4, r7
-	ldr sb, _038055AC // =0x00007FF8
+	ldr r9, _038055AC // =0x00007FF8
 _03805420:
 	strh r4, [lr]
 _03805424:
@@ -653,11 +653,11 @@ _03805448:
 	ldrh r8, [lr]
 	and r8, r8, #0xff
 	mov r8, r8, lsl #0x10
-	ldr sl, [r2, r7, lsl #2]
-	orr r8, sl, r8, lsr #16
+	ldr r10, [r2, r7, lsl #2]
+	orr r8, r10, r8, lsr #16
 	str r8, [r2, r7, lsl #2]
 	ldr r8, [r2, r7, lsl #2]
-	and r8, r8, sb
+	and r8, r8, r9
 	mov r8, r8, asr #3
 	str r8, [r2, r7, lsl #2]
 	add r7, r7, #1
@@ -676,18 +676,18 @@ _0380549C:
 	mov r7, r8
 	add r5, sp, #0
 _038054B4:
-	add sb, r7, #1
+	add r9, r7, #1
 	ldr r4, [r5, r7, lsl #2]
 	b _038054D8
 _038054C0:
-	ldr r2, [r5, sb, lsl #2]
+	ldr r2, [r5, r9, lsl #2]
 	subs r2, r4, r2
 	rsbmi r2, r2, #0
 	cmp r2, r8
 	movgt r8, r2
-	add sb, sb, #1
+	add r9, r9, #1
 _038054D8:
-	cmp sb, #5
+	cmp r9, #5
 	blt _038054C0
 	add r7, r7, #1
 	cmp r7, #4
@@ -706,13 +706,13 @@ _03805508:
 	rsbmi r5, r5, #0
 	cmp r5, r1
 	bgt _03805560
-	add sb, r3, #1
+	add r9, r3, #1
 	b _03805558
 _03805524:
-	ldr r5, [r2, sb, lsl #2]
-	subs sl, r7, r5
-	rsbmi sl, sl, #0
-	cmp sl, r1
+	ldr r5, [r2, r9, lsl #2]
+	subs r10, r7, r5
+	rsbmi r10, r10, #0
+	cmp r10, r1
 	bgt _03805554
 	add r1, r8, r7, lsl #1
 	add r1, r5, r1
@@ -722,9 +722,9 @@ _03805524:
 	mov r0, #0
 	b _03805594
 _03805554:
-	add sb, sb, #1
+	add r9, r9, #1
 _03805558:
-	cmp sb, #5
+	cmp r9, #5
 	blt _03805524
 _03805560:
 	add r3, r3, #1
@@ -744,7 +744,7 @@ _03805570:
 	mov r0, r6
 _03805594:
 	add sp, sp, #0x18
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
 _038055A0: .word 0x040001C0

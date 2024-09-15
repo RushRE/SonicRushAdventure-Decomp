@@ -100,7 +100,7 @@ _037FBAF0:
 	ldmib sp!, {r2, r3}
 	stmib r0!, {r2, r3}
 	ldmib sp!, {r2, r3, ip, lr}
-	stmib r0!, {r2, r3, r4, r5, r6, r7, r8, sb, sl, fp, ip, sp, lr} ^
+	stmib r0!, {r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, ip, sp, lr} ^
 	stmib r0!, {lr}
 	mov r3, #0xd3
 	msr cpsr_c, r3
@@ -111,7 +111,7 @@ _037FBAF0:
 	ldr r2, [r1, #0]!
 	msr spsr_fc, r2
 	ldr lr, [r1, #0x40]
-	ldmib r1!, {r0, r1, r2, r3, r4, r5, r6, r7, r8, sb, sl, fp, ip, sp, lr} ^
+	ldmib r1!, {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, ip, sp, lr} ^
 	mov r0, r0
 	stmda sp!, {r0, r1, r2, r3, ip, lr}
 	ldmia sp!, {pc}

@@ -350,13 +350,13 @@ _020EE364: .word 0x04000304
 
 	arm_func_start PM_GoSleepMode
 PM_GoSleepMode: // 0x020EE368
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	ldr r3, _020EE584 // =PMi_PreSleepCallbackList
-	mov sl, r0
+	mov r10, r0
 	ldr r0, [r3]
-	mov sb, r1
-	mov fp, r2
+	mov r9, r1
+	mov r11, r2
 	mov r8, #0
 	bl PMi_ExecuteList
 	ldr r1, _020EE588 // =0x04000208
@@ -375,19 +375,19 @@ PM_GoSleepMode: // 0x020EE368
 	ldr r2, _020EE588 // =0x04000208
 	mov r1, #1
 	ldrh r0, [r2]
-	ands r0, sl, #8
+	ands r0, r10, #8
 	strh r1, [r2]
 	beq _020EE3E8
 	ldr r0, _020EE590 // =0x027FFC40
 	ldrh r0, [r0]
 	cmp r0, #2
-	biceq sl, sl, #8
+	biceq r10, r10, #8
 _020EE3E8:
-	ands r0, sl, #0x10
+	ands r0, r10, #0x10
 	beq _020EE3FC
 	bl CTRDG_IsExisting
 	cmp r0, #0
-	biceq sl, sl, #0x10
+	biceq r10, r10, #0x10
 _020EE3FC:
 	ldr r0, _020EE594 // =0x04001000
 	mov r1, #0x4000000
@@ -435,23 +435,23 @@ _020EE490:
 	beq _020EE490
 	ldr r0, [sp, #0xc]
 	ldr r1, [sp, #0x10]
-	orr r0, sl, r0, lsl #5
+	orr r0, r10, r0, lsl #5
 	orr r0, r0, r1, lsl #6
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10
-	orr r0, sb, fp
+	orr r0, r9, r11
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 _020EE4C4:
 	mov r0, r5
-	mov r1, sb
+	mov r1, r9
 	bl PMi_SendSleepStart
 	cmp r0, #0
 	bne _020EE4C4
 	bl OS_Halt
 	ldr r0, _020EE59C // =0x00996A00
 	bl OS_SpinWait
-	ands r0, sl, #8
+	ands r0, r10, #8
 	beq _020EE4FC
 	ldr r0, _020EE5A0 // =0x04000214
 	ldr r0, [r0]
@@ -494,7 +494,7 @@ _020EE56C:
 	ldr r0, [r0]
 	bl PMi_ExecuteList
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _020EE584: .word PMi_PreSleepCallbackList

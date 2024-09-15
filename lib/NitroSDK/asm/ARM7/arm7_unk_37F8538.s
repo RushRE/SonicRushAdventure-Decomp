@@ -5,17 +5,17 @@
 
 	arm_func_start sub_37F8538
 sub_37F8538: // 0x037F8538
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
 	ldr r8, _037F85EC // =0x0380FFF4
-	ldr sb, [r8]
+	ldr r9, [r8]
 	mov r7, #0
-	strh r7, [sb, #0x10]
-	strh r7, [sb, #0x14]
+	strh r7, [r9, #0x10]
+	strh r7, [r9, #0x14]
 	add r6, sp, #0
 	ldr r5, _037F85F0 // =0x01000010
-	add r4, sb, #0x10
-	ldr sl, _037F85F4 // =0x0000FFFF
+	add r4, r9, #0x10
+	ldr r10, _037F85F4 // =0x0000FFFF
 _037F8564:
 	ldr r0, [r8]
 	ldr r0, [r0, #0x308]
@@ -29,12 +29,12 @@ _037F8564:
 _037F8588:
 	mov r0, r5
 	bl OS_DisableIrqMask
-	ldrh r1, [sb, #0x10]
-	strh r1, [sb, #0x12]
-	ldrh r1, [sb, #0x12]
+	ldrh r1, [r9, #0x10]
+	strh r1, [r9, #0x12]
+	ldrh r1, [r9, #0x12]
 	mov r1, r1, lsl #1
-	ldrh r1, [sb, r1]
-	cmp r1, sl
+	ldrh r1, [r9, r1]
+	cmp r1, r10
 	bne _037F85C0
 	ldrh r1, [r4]
 	add r1, r1, #1
@@ -43,11 +43,11 @@ _037F8588:
 	b _037F8564
 _037F85C0:
 	bl OS_EnableIrqMask
-	ldrh r0, [sb, #0x12]
+	ldrh r0, [r9, #0x12]
 	bl sub_37F86B8
-	strh r0, [sb, #0x14]
-	ldrh r0, [sb, #0x14]
-	add r0, sb, r0, lsl #3
+	strh r0, [r9, #0x14]
+	ldrh r0, [r9, #0x14]
+	add r0, r9, r0, lsl #3
 	ldr r0, [r0, #0xc0]
 	mov lr, pc
 	bx r0
@@ -55,7 +55,7 @@ _037F85C0:
 
 	arm_func_start sub_37F85E4
 sub_37F85E4: // 0x037F85E4
-	strh sl, [sb, #0x14]
+	strh r10, [r9, #0x14]
 	b _037F8564
 	.align 2, 0
 _037F85EC: .word 0x0380FFF4
@@ -1282,18 +1282,18 @@ _037F9660: .word 0x04808010
 
 	arm_func_start sub_37F9664
 sub_37F9664: // 0x037F9664
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	ldr r0, _037F9934 // =0x0380FFF4
 	ldr r1, [r0]
-	add sl, r1, #0x344
+	add r10, r1, #0x344
 	add r4, r1, #0x31c
 	ldr r0, _037F9938 // =0x0000042C
-	add sb, r1, r0
+	add r9, r1, r0
 	mov r1, #0x4000
 	ldr r0, _037F993C // =0x04808010
 	strh r1, [r0]
-	ldrh r0, [sl, #0xc]
+	ldrh r0, [r10, #0xc]
 	cmp r0, #1
 	beq _037F96B0
 	cmp r0, #2
@@ -1302,9 +1302,9 @@ sub_37F9664: // 0x037F9664
 	beq _037F97B0
 	b _037F9928
 _037F96B0:
-	ldr r0, [sb, #0x80]
+	ldr r0, [r9, #0x80]
 	add r1, r0, #0x24
-	ldrh r0, [sl, #0x96]
+	ldrh r0, [r10, #0x96]
 	add r0, r1, r0
 	add r6, r0, #8
 	ldr r0, _037F9940 // =0x0380FFF0
@@ -1316,7 +1316,7 @@ _037F96B0:
 	mov r1, r5, lsr #8
 	and r1, r1, #0xff
 	bl sub_27E94C4
-	ldrh r0, [sl, #0xe]
+	ldrh r0, [r10, #0xe]
 	cmp r0, #1
 	bne _037F970C
 	ldrh r2, [r4, #0x20]
@@ -1342,18 +1342,18 @@ _037F970C:
 	cmp r0, #2
 	bne _037F975C
 _037F9748:
-	ldr r0, [sb, #0x8c]
+	ldr r0, [r9, #0x8c]
 	bic r0, r0, #2
-	str r0, [sb, #0x8c]
+	str r0, [r9, #0x8c]
 	bl sub_37FA900
 	b _037F9928
 _037F975C:
-	ldr r0, [sb, #0x8c]
+	ldr r0, [r9, #0x8c]
 	orr r0, r0, #2
-	str r0, [sb, #0x8c]
+	str r0, [r9, #0x8c]
 	b _037F9928
 _037F976C:
-	ldrh r0, [sl, #0x12]
+	ldrh r0, [r10, #0x12]
 	cmp r0, #0
 	ldreq r1, _037F994C // =0x0000FFFF
 	ldreq r0, _037F9944 // =0x04808134
@@ -1366,29 +1366,29 @@ _037F976C:
 	add r0, r0, #1
 	strh r0, [r1]
 _037F979C:
-	ldrh r0, [sl, #0x1a]
+	ldrh r0, [r10, #0x1a]
 	cmp r0, #2
 	bne _037F97B0
 	mov r0, #2
 	bl sub_27EA5C8
 _037F97B0:
-	ldrh r0, [sl, #8]
+	ldrh r0, [r10, #8]
 	cmp r0, #0x40
 	movne r1, #1
 	bne _037F9800
 	mov r1, #0
-	ldrh r0, [sl, #0x72]
+	ldrh r0, [r10, #0x72]
 	cmp r0, #1
 	moveq r1, #1
-	ldrh r0, [sl, #0x14]
+	ldrh r0, [r10, #0x14]
 	cmp r0, #0
 	beq _037F9800
-	ldrh r0, [sl, #0x76]
+	ldrh r0, [r10, #0x76]
 	cmp r0, #1
 	beq _037F97FC
 	cmp r0, #0
 	bne _037F9800
-	ldrh r0, [sl, #0x74]
+	ldrh r0, [r10, #0x74]
 	cmp r0, #1
 	bne _037F9800
 _037F97FC:
@@ -1409,41 +1409,41 @@ _037F9800:
 	movhi r1, #0
 	ldrhi r0, _037F9958 // =0x04808048
 	strhih r1, [r0]
-	ldrh r0, [sl, #0x72]
+	ldrh r0, [r10, #0x72]
 	sub r0, r0, #1
-	strh r0, [sl, #0x72]
-	ldrh r0, [sl, #0x72]
+	strh r0, [r10, #0x72]
+	ldrh r0, [r10, #0x72]
 	cmp r0, #0
-	ldreqh r0, [sl, #0x70]
-	streqh r0, [sl, #0x72]
-	ldrh r1, [sl, #0x76]
+	ldreqh r0, [r10, #0x70]
+	streqh r0, [r10, #0x72]
+	ldrh r1, [r10, #0x76]
 	sub r0, r1, #1
-	strh r0, [sl, #0x76]
+	strh r0, [r10, #0x76]
 	cmp r1, #0
-	ldreqh r0, [sl, #0x74]
+	ldreqh r0, [r10, #0x74]
 	subeq r0, r0, #1
-	streqh r0, [sl, #0x76]
+	streqh r0, [r10, #0x76]
 	mov r8, #0
 	mov r6, #2
-	mov fp, r8
+	mov r11, r8
 	mov r5, #0xe
 	mov r4, #0x14
 _037F9888:
 	mul r0, r8, r4
-	add r7, sb, r0
-	ldrh r0, [sb, r0]
+	add r7, r9, r0
+	ldrh r0, [r9, r0]
 	cmp r0, #0
 	beq _037F9910
 	ldr r2, [r7, #0xc]
 	ldrh r0, [r2, #8]
 	cmp r0, #0
 	bne _037F9910
-	ldr r1, [sl, #0xa8]
+	ldr r1, [r10, #0xa8]
 	ldrh r0, [r2, #4]
 	sub r0, r1, r0
 	mov r0, r0, lsl #0x10
 	mov r1, r0, lsr #0x10
-	ldrh r0, [sl, #0x8c]
+	ldrh r0, [r10, #0x8c]
 	cmp r1, r0
 	bls _037F98E0
 	ldr r2, [r7, #8]
@@ -1459,12 +1459,12 @@ _037F98E8:
 	bl sub_27F1A78
 	ldr r0, [r7, #8]
 	strh r6, [r0]
-	mov r0, fp
+	mov r0, r11
 	mov r1, r5
 	bl sub_37F85F8
-	ldrh r0, [sb, #0xae]
+	ldrh r0, [r9, #0xae]
 	add r0, r0, #1
-	strh r0, [sb, #0xae]
+	strh r0, [r9, #0xae]
 _037F9910:
 	add r8, r8, #1
 	cmp r8, #2
@@ -1474,7 +1474,7 @@ _037F9910:
 	strh r1, [r0]
 _037F9928:
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _037F9934: .word 0x0380FFF4
@@ -1948,19 +1948,19 @@ _037F9FB0: .word 0x048080AE
 
 	arm_func_start sub_37F9FB4
 sub_37F9FB4: // 0x037F9FB4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	ldr r0, _037FA3F0 // =0x0380FFF4
 	ldr r1, [r0]
-	add sl, r1, #0x344
+	add r10, r1, #0x344
 	ldr r0, _037FA3F4 // =0x000004DC
-	add sb, r1, r0
+	add r9, r1, r0
 	add r0, r1, #0x600
 	ldrh r2, [r0, #0x90]
 	mov r1, #1
 	ldr r0, _037FA3F8 // =0x04808010
 	strh r1, [r0]
-	ldrh r0, [sl, #0xc]
+	ldrh r0, [r10, #0xc]
 	cmp r0, #0
 	ldreq r0, _037FA3FC // =0x04808054
 	ldreqh r1, [r0]
@@ -1972,7 +1972,7 @@ sub_37F9FB4: // 0x037F9FB4
 	mov r0, #0
 	str r0, [sp, #0x18]
 _037FA010:
-	ldrh r7, [sb, #4]
+	ldrh r7, [r9, #4]
 	ldr r0, _037FA3FC // =0x04808054
 	ldrh r6, [r0]
 	cmp r7, r6
@@ -1987,9 +1987,9 @@ _037FA010:
 	ldrh r1, [r0]
 	cmp r4, r2
 	movhi r0, r2, lsr #4
-	orrhi fp, r0, r1, lsl #12
+	orrhi r11, r0, r1, lsl #12
 	movls r0, r4, lsr #4
-	orrls fp, r0, r3, lsl #12
+	orrls r11, r0, r3, lsl #12
 	ldr r0, _037FA40C // =0x000008C6
 	cmp r7, r0
 	blo _037FA074
@@ -2024,7 +2024,7 @@ _037FA074:
 	orr r1, r2, r1
 	strh r1, [r0]
 	ldr r0, [sp, #0xc]
-	strh fp, [r0]
+	strh r11, [r0]
 	ldr r0, [sp, #0x10]
 	ldrh r2, [r0]
 	add r0, r2, r7, lsl #1
@@ -2032,7 +2032,7 @@ _037FA074:
 	mov r0, r0, lsr #2
 	mov r7, r0, lsl #1
 	cmp r7, #0xfb0
-	ldrhsh r0, [sl, #0x9a]
+	ldrhsh r0, [r10, #0x9a]
 	subhs r7, r7, r0, lsr #1
 	ldr r0, _037FA418 // =0x0000092C
 	cmp r2, r0
@@ -2040,9 +2040,9 @@ _037FA074:
 	ldr r0, _037FA41C // =0x0000FFFF
 	strh r0, [r8]
 	mov r7, r6
-	ldrh r0, [sl, #0xb4]
+	ldrh r0, [r10, #0xb4]
 	add r0, r0, #1
-	strh r0, [sl, #0xb4]
+	strh r0, [r10, #0xb4]
 	b _037FA1C4
 _037FA12C:
 	cmp r5, #0
@@ -2061,7 +2061,7 @@ _037FA12C:
 	andlo r0, r0, #0xff
 	movlo r0, r0, lsl #0x10
 	movlo r3, r0, lsr #0x10
-	ldrhsh r3, [sl, #0x9a]
+	ldrhsh r3, [r10, #0x9a]
 	subhs r0, r0, r3
 	ldrhsh r3, [r0, #6]
 	ands r0, r1, #0x7c00
@@ -2075,14 +2075,14 @@ _037FA190:
 	cmp r2, r0
 	bls _037FA1C4
 _037FA19C:
-	ldrh r0, [sl, #0xb4]
+	ldrh r0, [r10, #0xb4]
 	add r0, r0, #1
-	strh r0, [sl, #0xb4]
+	strh r0, [r10, #0xb4]
 	ldr r0, _037FA41C // =0x0000FFFF
 	strh r0, [r8]
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
-	strh r0, [sb, #4]
+	strh r0, [r9, #4]
 	strh r0, [r4]
 	b _037FA38C
 _037FA1C4:
@@ -2092,14 +2092,14 @@ _037FA1C4:
 	bne _037FA320
 	add r0, r8, #0xc
 	bl sub_37FAA40
-	ldrh fp, [r0]
+	ldrh r11, [r0]
 	add r0, r8, #0x22
 	bl sub_37FAA40
 	ldrh r6, [r0]
-	ldrh r0, [sb]
+	ldrh r0, [r9]
 	cmp r0, r6
 	bne _037FA220
-	ands r0, fp, #0x800
+	ands r0, r11, #0x800
 	beq _037FA220
 	ldr r0, _037FA3F0 // =0x0380FFF4
 	ldr r1, [r0]
@@ -2166,7 +2166,7 @@ _037FA2D0:
 	mov r0, r6
 	strh r0, [r8]
 _037FA2F8:
-	strh r6, [sb]
+	strh r6, [r9]
 	bl sub_37FAA68
 	cmp r0, #0
 	bne _037FA378
@@ -2203,7 +2203,7 @@ _037FA370:
 _037FA378:
 	mov r0, r7, lsl #0x10
 	mov r0, r0, lsr #0x10
-	strh r0, [sb, #4]
+	strh r0, [r9, #4]
 	strh r0, [r4]
 	b _037FA010
 _037FA38C:
@@ -2232,7 +2232,7 @@ _037FA3C0:
 	bl sub_37F85F8
 _037FA3E4:
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _037FA3F0: .word 0x0380FFF4
@@ -2760,23 +2760,23 @@ _037FAB04: .word 0x0380FFF4
 
 	arm_func_start sub_37FAB08
 sub_37FAB08: // 0x037FAB08
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	ldr r0, _037FAD00 // =0x0380FFF4
 	ldr r1, [r0]
-	add sl, r1, #0x344
+	add r10, r1, #0x344
 	ldr r0, _037FAD04 // =0x0000042C
-	add sb, r1, r0
+	add r9, r1, r0
 	mov r8, #2
 	mov r7, #0
 	mov r6, #0x8000
-	mov fp, #3
+	mov r11, #3
 	str r8, [sp]
 	mov r5, r8
 	mov r4, #1
 _037FAB40:
 	mov r0, #0x14
-	mla r2, r8, r0, sb
+	mla r2, r8, r0, r9
 	mov r3, r8, lsl #2
 	ldr r0, _037FAD08 // =0x048080A0
 	add r1, r0, r8, lsl #2
@@ -2819,7 +2819,7 @@ _037FAB40:
 	ldrh r0, [ip, #2]
 	cmp r0, #0
 	bne _037FAC7C
-	ldr r3, [sl, #0xa8]
+	ldr r3, [r10, #0xa8]
 	ldr r0, [r2, #0xc]
 	ldrh r0, [r0, #4]
 	sub r0, r3, r0
@@ -2828,10 +2828,10 @@ _037FAB40:
 	ldr r3, _037FAD0C // =0x04808032
 	strh r7, [r3]
 	strh r6, [r3]
-	ldrh r3, [sl, #0xba]
+	ldrh r3, [r10, #0xba]
 	add r3, r3, #1
-	strh r3, [sl, #0xba]
-	ldrh r3, [sl, #0x8c]
+	strh r3, [r10, #0xba]
+	ldrh r3, [r10, #0x8c]
 	cmp r0, r3
 	bls _037FAC64
 	ldr r0, [r2, #0xc]
@@ -2839,9 +2839,9 @@ _037FAB40:
 	ldrh r0, [r2, #4]
 	add r0, r0, #1
 	strh r0, [r2, #4]
-	ldrh r0, [sb, #0xae]
+	ldrh r0, [r9, #0xae]
 	add r0, r0, #1
-	strh r0, [sb, #0xae]
+	strh r0, [r9, #0xae]
 	ldr r0, [r2, #0xc]
 	mov r1, r4
 	ldr r2, [r2, #0x10]
@@ -2891,7 +2891,7 @@ _037FACCC:
 	add r0, r0, #1
 	strh r0, [r2, #4]
 	ldr r0, [r2, #8]
-	mov r1, fp
+	mov r1, r11
 	ldr r2, [r2, #0x10]
 	mov lr, pc
 	bx r2
@@ -2899,7 +2899,7 @@ _037FACEC:
 	subs r8, r8, #1
 	bpl _037FAB40
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _037FAD00: .word 0x0380FFF4
@@ -2910,10 +2910,10 @@ _037FAD0C: .word 0x04808032
 
 	arm_func_start sub_37FAD10
 sub_37FAD10: // 0x037FAD10
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x34
-	ldr sl, _037FB0C0 // =0x0380FFF4
-	ldr r1, [sl]
+	ldr r10, _037FB0C0 // =0x0380FFF4
+	ldr r1, [r10]
 	ldr r0, _037FB0C4 // =0x000004DC
 	add r7, r1, r0
 	add r6, r1, #0x17c
@@ -2927,7 +2927,7 @@ sub_37FAD10: // 0x037FAD10
 	ldr r0, [sp]
 	str r0, [sp, #0x20]
 	str r0, [sp, #0x18]
-	mov fp, #2
+	mov r11, #2
 	mov r0, #6
 	str r0, [sp, #0x1c]
 	ldr r0, [sp]
@@ -2956,14 +2956,14 @@ _037FADAC:
 	add r5, r0, r5, lsl #1
 	add r0, r5, #2
 	bl sub_37FAA40
-	ldrh sb, [r0]
+	ldrh r9, [r0]
 	add r0, r4, #0x4800000
 	add r0, r0, #0x4000
 	ldrh r1, [r0]
 	ldr r0, _037FB0D4 // =0x0000FFFF
 	cmp r1, r0
 	ldreq r0, _037FB0C8 // =0x0480805A
-	streqh sb, [r0]
+	streqh r9, [r0]
 	beq _037FB0A4
 	add r0, r5, #8
 	bl sub_37FAA40
@@ -2972,7 +2972,7 @@ _037FADAC:
 	bl sub_37FB298
 	movs r4, r0
 	ldr r0, _037FB0C8 // =0x0480805A
-	strh sb, [r0]
+	strh r9, [r0]
 	bne _037FAE30
 	ldrh r0, [r5]
 	and r0, r0, #0xf
@@ -2986,7 +2986,7 @@ _037FAE24:
 	bl sub_27E9140
 	b _037FB0A4
 _037FAE30:
-	ldr r0, [sl]
+	ldr r0, [r10]
 	add r0, r0, #0x600
 	ldrh r0, [r0, #0x90]
 	ands r0, r0, #8
@@ -2997,7 +2997,7 @@ _037FAE30:
 	strneh r0, [r7, #2]
 _037FAE54:
 	ldrh r1, [r4, #8]
-	mov sb, r8
+	mov r9, r8
 	ands r0, r1, #0x200
 	beq _037FAEAC
 	ldrh r0, [r4, #0x14]
@@ -3010,12 +3010,12 @@ _037FAE54:
 	movs r0, r0, lsr #0x1c
 	beq _037FB04C
 _037FAE88:
-	ldr sb, [sp, #0x10]
+	ldr r9, [sp, #0x10]
 	add r0, r6, #0xc
 	add r1, r6, #0x6c
 	sub r2, r4, #0x10
 	bl sub_37F8A3C
-	mov r0, fp
+	mov r0, r11
 	ldr r1, [sp, #0x14]
 	bl sub_37F85F8
 	b _037FB04C
@@ -3046,12 +3046,12 @@ _037FAEFC:
 	and r0, r0, #0xf
 	cmp r0, #8
 	bne _037FB04C
-	ldr sb, [sp, #0x18]
+	ldr r9, [sp, #0x18]
 	add r0, r6, #0xc
 	add r1, r6, #0x48
 	sub r2, r4, #0x10
 	bl sub_37F8A3C
-	mov r0, fp
+	mov r0, r11
 	ldr r1, [sp, #0x1c]
 	bl sub_37F85F8
 	b _037FB04C
@@ -3066,7 +3066,7 @@ _037FAF48:
 	ldrh r0, [r4, #0x14]
 	ands r0, r0, #0xf
 	bne _037FB04C
-	ldr sb, [sp, #0x20]
+	ldr r9, [sp, #0x20]
 	add r0, r6, #0xc
 	add r1, r6, #0x60
 	sub r2, r4, #0x10
@@ -3081,7 +3081,7 @@ _037FAF78:
 	and r0, r1, r0
 	cmp r0, #0xa4
 	bne _037FB04C
-	ldr sb, [sp, #0x28]
+	ldr r9, [sp, #0x28]
 	add r0, r6, #0xc
 	add r1, r6, #0x60
 	sub r2, r4, #0x10
@@ -3105,19 +3105,19 @@ _037FAFD0:
 	and r0, r1, r0
 	cmp r0, #0x228
 	bne _037FB04C
-	ldr r0, [sl]
+	ldr r0, [r10]
 	add r0, r0, #0x300
 	ldrh r0, [r0, #0x54]
 	cmp r0, #0
 	ldreq r0, _037FB0E0 // =0x0480803C
 	streqh r8, [r0]
-	ldr r1, [sl]
+	ldr r1, [r10]
 	ldr r0, [r1, #0x5ac]
 	add r0, r0, #1
 	str r0, [r1, #0x5ac]
 	mov r0, r4
 	bl sub_27F5278
-	mov sb, r0
+	mov r9, r0
 	b _037FB04C
 _037FB01C:
 	ldrh r1, [r4, #0x14]
@@ -3125,21 +3125,21 @@ _037FB01C:
 	and r0, r1, r0
 	cmp r0, #0x218
 	bne _037FB04C
-	ldr r1, [sl]
+	ldr r1, [r10]
 	ldr r0, [r1, #0x5b0]
 	add r0, r0, #1
 	str r0, [r1, #0x5b0]
 	mov r0, r4
 	bl sub_27F4FD0
-	mov sb, r0
+	mov r9, r0
 _037FB04C:
-	cmp sb, #0
+	cmp r9, #0
 	beq _037FB060
 	add r0, r6, #0xc
 	sub r1, r4, #0x10
 	bl sub_37F89B8
 _037FB060:
-	ldr r0, [sl]
+	ldr r0, [r10]
 	add r0, r0, #0x600
 	ldrh r0, [r0, #0x90]
 	ands r0, r0, #1
@@ -3148,7 +3148,7 @@ _037FB060:
 _037FB078:
 	ldr r0, _037FB0E4 // =0x04805F60
 	cmp r5, r0
-	ldrhs r0, [sl]
+	ldrhs r0, [r10]
 	addhs r0, r0, #0x300
 	ldrhsh r0, [r0, #0xde]
 	subhs r5, r5, r0
@@ -3164,7 +3164,7 @@ _037FB0A4:
 	b _037FAD88
 _037FB0B4:
 	add sp, sp, #0x34
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _037FB0C0: .word 0x0380FFF4

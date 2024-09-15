@@ -22,21 +22,21 @@ _037F8028: .word 0x0380ABD4
 
 	arm_func_start sub_37F802C
 sub_37F802C: // 0x037F802C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
-	mov sl, r0
+	mov r10, r0
 	mov r8, #0
 	bl sub_37F81E8
 	cmp r0, #0
 	beq _037F80F8
 	bl sub_37F81C4
 	mov r7, r0
-	mov sb, r8
+	mov r9, r8
 	mov r4, #1
-	mov fp, #0x8a
+	mov r11, #0x8a
 	mov r5, #0x70
 _037F8060:
-	add r6, sl, sb, lsl #8
+	add r6, r10, r9, lsl #8
 	ldr r0, _037F81B4 // =0x0000FFFF
 	mov r1, r6
 	mov r2, r5
@@ -50,7 +50,7 @@ _037F8060:
 	bhs _037F80E0
 	ldr r0, _037F81B4 // =0x0000FFFF
 	add r1, r6, #0x74
-	mov r2, fp
+	mov r2, r11
 	bl sub_37F81B8
 	mov r3, r6
 	ldrh r1, [r3, #0xfe]
@@ -67,12 +67,12 @@ _037F8060:
 	andne r0, r0, #7
 	orrne r0, r1, r0
 	strneh r0, [r6, #0x64]
-	orr r8, r8, r4, lsl sb
+	orr r8, r8, r4, lsl r9
 _037F80E0:
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #2
+	mov r9, r0, lsr #0x10
+	cmp r9, #2
 	blo _037F8060
 	b _037F8158
 _037F80F8:
@@ -86,10 +86,10 @@ _037F80F8:
 	mov r5, #0x70
 _037F8118:
 	mov r0, r6
-	add r1, sl, r7, lsl #8
+	add r1, r10, r7, lsl #8
 	mov r2, r5
 	bl sub_37F81B8
-	add r2, sl, r7, lsl #8
+	add r2, r10, r7, lsl #8
 	ldrh r1, [r2, #0x72]
 	cmp r0, r1
 	bne _037F8144
@@ -114,11 +114,11 @@ _037F8174:
 	mov r0, r8
 	b _037F81A8
 _037F817C:
-	ldrh r0, [sl, #0x70]
+	ldrh r0, [r10, #0x70]
 	add r0, r0, #1
 	and r0, r0, #0x7f
 	and r1, r0, #0xff
-	add r0, sl, #0x100
+	add r0, r10, #0x100
 	ldrh r0, [r0, #0x70]
 	cmp r1, r0
 	moveq r0, #2
@@ -128,7 +128,7 @@ _037F81A4:
 	mov r0, #0
 _037F81A8:
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _037F81B4: .word 0x0000FFFF

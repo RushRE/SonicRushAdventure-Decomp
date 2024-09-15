@@ -457,7 +457,7 @@ _038073DC: .word 0x08001000
 
 	arm_func_start CTRDG_VibPulseEdgeUpdate
 CTRDG_VibPulseEdgeUpdate: // 0x038073E0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	movs r5, r0
 	beq _03807420
@@ -481,7 +481,7 @@ _03807420:
 	bne _038074CC
 _03807434:
 	bl OS_DisableInterrupts
-	mov sb, r0
+	mov r9, r0
 	ldr r0, _038075EC // =0x0380BBD0
 	ldr r0, [r0]
 	cmp r0, #2
@@ -489,14 +489,14 @@ _03807434:
 	mov r8, #0
 	ldr r7, _038075F0 // =0x027FFFE8
 	ldr r4, _038075F4 // =0x0380BBCC
-	ldr fp, _038075F8 // =0x000080E8
+	ldr r11, _038075F8 // =0x000080E8
 	mov r6, r8
 	mov r5, #1
 	b _038074B0
 _03807468:
 	mov r0, r7
 	bl OS_ReadOwnerOfLockWord
-	ands sl, r0, #0x80
+	ands r10, r0, #0x80
 	bne _03807488
 	ldrh r0, [r4]
 	bl OS_TryLockCard
@@ -506,13 +506,13 @@ _03807488:
 	mov r0, r6
 	bl sub_38073C4
 	mov r8, r5
-	cmp sl, #0
+	cmp r10, #0
 	bne _038074B0
 	ldrh r0, [r4]
 	bl OS_UnlockCard
 	b _038074B0
 _038074A8:
-	mov r0, fp
+	mov r0, r11
 	bl OS_SpinWait
 _038074B0:
 	cmp r8, #0
@@ -520,7 +520,7 @@ _038074B0:
 _038074B8:
 	ldr r0, _038075FC // =0x0380BBFC
 	bl OS_CancelAlarm
-	mov r0, sb
+	mov r0, r9
 	bl OS_RestoreInterrupts
 	b _038075E0
 _038074CC:
@@ -600,7 +600,7 @@ _038075C8:
 	bl OS_SetAlarm
 _038075E0:
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _038075EC: .word 0x0380BBD0

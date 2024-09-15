@@ -44,7 +44,7 @@ OS_SaveContext: // 0x037FCBF4
 	str sp, [r1, #0x40]
 	msr cpsr_c, r2
 	mov r0, #1
-	stmia r1, {r0, r1, r2, r3, r4, r5, r6, r7, r8, sb, sl, fp, ip, sp, lr}
+	stmia r1, {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, ip, sp, lr}
 	add r0, pc, #0x8 // =OS_LoadContext
 	str r0, [r1, #0x3c]
 	mov r0, #0
@@ -61,7 +61,7 @@ OS_LoadContext: // 0x037FCC28
 	msr spsr_fsxc, r1
 	ldr sp, [r0, #0x40]
 	ldr lr, [r0, #0x3c]
-	ldmia r0, {r0, r1, r2, r3, r4, r5, r6, r7, r8, sb, sl, fp, ip, sp, lr} ^
+	ldmia r0, {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, ip, sp, lr} ^
 	mov r0, r0
 	subs pc, lr, #4
 	arm_func_end OS_LoadContext

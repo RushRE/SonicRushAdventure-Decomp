@@ -5,19 +5,19 @@
 
 	arm_func_start _ll_udiv
 _ll_udiv: // 0x03807810
-	stmdb sp!, {r4, r5, r6, r7, fp, ip, lr}
+	stmdb sp!, {r4, r5, r6, r7, r11, ip, lr}
 	mov r4, #0
 	b _03807824
 	arm_func_end _ll_udiv
 
 	arm_func_start _ull_mod
 _ull_mod: // 0x0380781C
-	stmdb sp!, {r4, r5, r6, r7, fp, ip, lr}
+	stmdb sp!, {r4, r5, r6, r7, r11, ip, lr}
 	mov r4, #1
 _03807824:
 	orrs r5, r3, r2
 	bne _03807834
-	ldmia sp!, {r4, r5, r6, r7, fp, ip, lr}
+	ldmia sp!, {r4, r5, r6, r7, r11, ip, lr}
 	bx lr
 _03807834:
 	orrs r5, r1, r3
@@ -27,13 +27,13 @@ _03807834:
 	cmp r4, #0
 	movne r0, r1
 	mov r1, #0
-	ldmia sp!, {r4, r5, r6, r7, fp, ip, lr}
+	ldmia sp!, {r4, r5, r6, r7, r11, ip, lr}
 	bx lr
 	arm_func_end _ull_mod
 
 	arm_func_start _ll_mod
 _ll_mod: // 0x03807858
-	stmdb sp!, {r4, r5, r6, r7, fp, ip, lr}
+	stmdb sp!, {r4, r5, r6, r7, r11, ip, lr}
 	mov r4, r1
 	orr r4, r4, #1
 	b _03807878
@@ -41,14 +41,14 @@ _ll_mod: // 0x03807858
 
 	arm_func_start _ll_sdiv
 _ll_sdiv: // 0x03807868
-	stmdb sp!, {r4, r5, r6, r7, fp, ip, lr}
+	stmdb sp!, {r4, r5, r6, r7, r11, ip, lr}
 	eor r4, r1, r3
 	mov r4, r4, asr #1
 	mov r4, r4, lsl #1
 _03807878:
 	orrs r5, r3, r2
 	bne _03807888
-	ldmia sp!, {r4, r5, r6, r7, fp, ip, lr}
+	ldmia sp!, {r4, r5, r6, r7, r11, ip, lr}
 	bx lr
 _03807888:
 	mov r5, r0, lsr #0x1f
@@ -62,7 +62,7 @@ _03807888:
 	ands r4, r4, #1
 	movne r0, r1
 	mov r1, r0, asr #0x1f
-	ldmia sp!, {r4, r5, r6, r7, fp, ip, lr}
+	ldmia sp!, {r4, r5, r6, r7, r11, ip, lr}
 	bx lr
 _038078BC:
 	cmp r1, #0
@@ -100,7 +100,7 @@ _03807910:
 _03807928:
 	mov r7, #0
 	mov ip, #0
-	mov fp, #0
+	mov r11, #0
 	b _03807950
 _03807938:
 	orr ip, ip, #1
@@ -114,7 +114,7 @@ _03807950:
 	sbcs r1, r1, r3
 	sbcs r7, r7, #0
 	adds ip, ip, ip
-	adc fp, fp, fp
+	adc r11, r11, r11
 	cmp r7, #0
 	bge _03807938
 _0380796C:
@@ -127,7 +127,7 @@ _0380796C:
 	adcs r1, r1, r3
 	adc r7, r7, #0
 	adds ip, ip, ip
-	adc fp, fp, fp
+	adc r11, r11, r11
 	cmp r7, #0
 	bge _03807938
 	b _0380796C
@@ -137,7 +137,7 @@ _038079A0:
 _038079A8:
 	ands r7, r4, #1
 	moveq r0, ip
-	moveq r1, fp
+	moveq r1, r11
 	beq _038079E0
 	subs r7, r5, #0x20
 	movge r0, r1, lsr r7
@@ -153,12 +153,12 @@ _038079D8: // 0x038079D8
 _038079E0:
 	cmp r4, #0
 	blt _038079F0
-	ldmia sp!, {r4, r5, r6, r7, fp, ip, lr}
+	ldmia sp!, {r4, r5, r6, r7, r11, ip, lr}
 	bx lr
 _038079F0:
 	rsbs r0, r0, #0
 	rsc r1, r1, #0
-	ldmia sp!, {r4, r5, r6, r7, fp, ip, lr}
+	ldmia sp!, {r4, r5, r6, r7, r11, ip, lr}
 	bx lr
 _03807A00:
 	mov r0, #0
@@ -166,7 +166,7 @@ _03807A04:
 	mov r1, #0
 	cmp r4, #0
 	blt _038079F0
-	ldmia sp!, {r4, r5, r6, r7, fp, ip, lr}
+	ldmia sp!, {r4, r5, r6, r7, r11, ip, lr}
 	bx lr
 	arm_func_end _ll_sdiv
 
@@ -531,7 +531,7 @@ _0380809C: .word sub_3808010
 
 	arm_func_start WMSP_GetAllowedChannel
 WMSP_GetAllowedChannel: // 0x038080A0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	ldr r1, _038081C8 // =0x00001FFF
 	and r0, r0, r1
@@ -539,48 +539,48 @@ WMSP_GetAllowedChannel: // 0x038080A0
 	movs r6, r0, lsr #0x10
 	moveq r0, #0
 	beq _038081BC
-	mov sb, #0
+	mov r9, #0
 	mov r0, #1
 	b _038080DC
 _038080CC:
-	mov r1, r0, lsl sb
+	mov r1, r0, lsl r9
 	ands r1, r6, r1
 	bne _038080E4
-	add sb, sb, #1
+	add r9, r9, #1
 _038080DC:
-	cmp sb, #0x10
+	cmp r9, #0x10
 	blt _038080CC
 _038080E4:
-	mov sl, #0xf
+	mov r10, #0xf
 	mov r0, #1
 	b _03808100
 _038080F0:
-	mov r1, r0, lsl sl
+	mov r1, r0, lsl r10
 	ands r1, r6, r1
 	bne _03808108
-	sub sl, sl, #1
+	sub r10, r10, #1
 _03808100:
-	cmp sl, #0
+	cmp r10, #0
 	bne _038080F0
 _03808108:
-	sub r5, sl, sb
+	sub r5, r10, r9
 	cmp r5, #5
 	movlt r0, #1
-	movlt r0, r0, lsl sb
+	movlt r0, r0, lsl r9
 	movlt r0, r0, lsl #0x10
 	movlt r0, r0, lsr #0x10
 	blt _038081BC
-	add r0, sl, sb
+	add r0, r10, r9
 	mov r1, #2
 	bl _s32_div_f
 	mov r8, r0
 	mov r7, #0
-	mov fp, #2
+	mov r11, #2
 	mov r4, #1
 	b _0380816C
 _03808144:
 	mov r0, r7
-	mov r1, fp
+	mov r1, r11
 	bl _s32_div_f
 	mov r0, r1, lsl #1
 	sub r0, r0, #1
@@ -593,29 +593,29 @@ _0380816C:
 	cmp r7, r5
 	blt _03808144
 _03808174:
-	sub r0, sl, r8
+	sub r0, r10, r8
 	cmp r0, #5
 	blt _0380818C
-	sub r0, r8, sb
+	sub r0, r8, r9
 	cmp r0, #5
 	bge _038081A4
 _0380818C:
 	mov r0, #1
-	mov r1, r0, lsl sb
-	orr r0, r1, r0, lsl sl
+	mov r1, r0, lsl r9
+	orr r0, r1, r0, lsl r10
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	b _038081BC
 _038081A4:
 	mov r1, #1
-	mov r0, r1, lsl sl
+	mov r0, r1, lsl r10
 	orr r0, r0, r1, lsl r8
-	orr r0, r0, r1, lsl sb
+	orr r0, r0, r1, lsl r9
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 _038081BC:
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _038081C8: .word 0x00001FFF

@@ -331,7 +331,7 @@ _020E8968:
 
 	arm_func_start SND_FlushCommand
 SND_FlushCommand: // 0x020E898C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r5, r0
 	bl OS_DisableInterrupts
@@ -343,7 +343,7 @@ SND_FlushCommand: // 0x020E898C
 	bl OS_RestoreInterrupts
 	add sp, sp, #4
 	mov r0, #1
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 _020E89C4:
 	ldr r1, _020E8B34 // =sWaitingCommandListCount
@@ -355,7 +355,7 @@ _020E89C4:
 	bl OS_RestoreInterrupts
 	add sp, sp, #4
 	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 _020E89F0:
 	mov r0, #1
@@ -381,7 +381,7 @@ _020E8A08:
 	bl OS_RestoreInterrupts
 	add sp, sp, #4
 	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 _020E8A50:
 	ldr r1, _020E8B30 // =SND_sReserveList
@@ -392,13 +392,13 @@ _020E8A50:
 	cmp r0, #0
 	bge _020E8AAC
 	ldr r6, _020E8B30 // =SND_sReserveList
-	mov sb, #0x64
+	mov r9, #0x64
 	mov r8, #7
 	mov r7, #0
 _020E8A7C:
 	mov r0, r4
 	bl OS_RestoreInterrupts
-	mov r0, sb
+	mov r0, r9
 	bl OS_SpinWait
 	bl OS_DisableInterrupts
 	mov r4, r0
@@ -441,7 +441,7 @@ _020E8AB8:
 	bl OS_RestoreInterrupts
 	mov r0, #1
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	.align 2, 0
 _020E8B30: .word SND_sReserveList
@@ -612,7 +612,7 @@ _020E8D60: .word SND_sFreeList
 
 	arm_func_start SND_CommandInit
 SND_CommandInit: // 0x020E8D64
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	bl SND_InitPXI
 	ldr r3, _020E8E44 // =sCommandArray
@@ -628,38 +628,38 @@ _020E8D88:
 	str r2, [r3], #0x18
 	blt _020E8D88
 	ldr r7, _020E8E4C // =0x0214F620
-	mov sl, #0
+	mov r10, #0
 	ldr r5, _020E8E50 // =SND_sReserveList
 	ldr r4, _020E8E54 // =SND_sReserveListEnd
 	ldr lr, _020E8E58 // =sWaitingCommandListCount
 	ldr ip, _020E8E5C // =sWaitingCommandListQueueRead
 	ldr r3, _020E8E60 // =sWaitingCommandListQueueWrite
 	ldr r1, _020E8E64 // =sFinishedTag
-	ldr sb, _020E8E68 // =0x0214FE08
+	ldr r9, _020E8E68 // =0x0214FE08
 	ldr r6, _020E8E6C // =SND_sFreeListEnd
 	ldr r2, _020E8E70 // =sCurrentTag
 	mov r8, #1
 	ldr r0, _020E8E74 // =sSharedWork
-	ldr fp, _020E8E78 // =SNDi_SharedWork
-	str sb, [r6]
-	str sl, [r7, #0x7e8]
-	str sl, [r5]
-	str sl, [r4]
-	str sl, [lr]
-	str sl, [ip]
-	str sl, [r3]
+	ldr r11, _020E8E78 // =SNDi_SharedWork
+	str r9, [r6]
+	str r10, [r7, #0x7e8]
+	str r10, [r5]
+	str r10, [r4]
+	str r10, [lr]
+	str r10, [ip]
+	str r10, [r3]
 	str r8, [r2]
-	str sl, [r1]
-	str r0, [fp]
+	str r10, [r1]
+	str r0, [r11]
 	bl SNDi_InitSharedWork
 	mov r0, r8
 	bl SND_AllocCommand
 	cmp r0, #0
 	addeq sp, sp, #4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxeq lr
 	mov r2, #0x1d
-	mov r1, fp
+	mov r1, r11
 	str r2, [r0, #4]
 	ldr r1, [r1]
 	str r1, [r0, #8]
@@ -667,7 +667,7 @@ _020E8D88:
 	mov r0, r8
 	bl SND_FlushCommand
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _020E8E44: .word sCommandArray

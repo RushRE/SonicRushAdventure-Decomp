@@ -64,12 +64,12 @@ FSi_OpenFileFastCommand: // 0x020E9C90
 
 	arm_func_start FSi_GetPathCommand
 FSi_GetPathCommand: // 0x020E9D1C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xe4
 	mov r4, r0
 	ldr r1, [r4, #8]
 	add r0, sp, #0x98
-	add fp, r4, #0x30
+	add r11, r4, #0x30
 	str r1, [sp]
 	bl FS_InitFile
 	ldr r0, [r4, #8]
@@ -82,26 +82,26 @@ FSi_GetPathCommand: // 0x020E9D1C
 	ldrneh r5, [r4, #0x24]
 	movne r4, #0x10000
 	bne _020E9E08
-	ldrh r0, [fp, #8]
+	ldrh r0, [r11, #8]
 	ldr r4, [r4, #0x20]
 	cmp r0, #0
-	ldrneh r5, [fp, #0xa]
+	ldrneh r5, [r11, #0xa]
 	bne _020E9E08
-	mov sl, #0
-	mov sb, sl
+	mov r10, #0
+	mov r9, r10
 	mov r5, #0x10000
 	add r8, sp, #0x98
 	mov r6, #3
 	mov r7, #1
 _020E9D90:
 	mov r0, r8
-	mov r1, sl
+	mov r1, r10
 	bl FSi_SeekDirDirect
 	add r2, sp, #4
-	cmp sl, #0
+	cmp r10, #0
 	mov r0, r8
 	mov r1, r6
-	ldreq sb, [sp, #0xc4]
+	ldreq r9, [sp, #0xc4]
 	str r2, [sp, #0xc8]
 	str r7, [sp, #0xcc]
 	bl FSi_TranslateCommand
@@ -124,35 +124,35 @@ _020E9DE0:
 _020E9DF4:
 	cmp r5, #0x10000
 	bne _020E9E08
-	add sl, sl, #1
-	cmp sl, sb
+	add r10, r10, #1
+	cmp r10, r9
 	blo _020E9D90
 _020E9E08:
 	cmp r5, #0x10000
 	moveq r0, #0
-	streqh r0, [fp, #8]
+	streqh r0, [r11, #8]
 	addeq sp, sp, #0xe4
 	moveq r0, #1
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxeq lr
-	ldrh r0, [fp, #8]
+	ldrh r0, [r11, #8]
 	cmp r0, #0
 	bne _020E9F04
 	ldr r0, [sp]
 	mov r1, #0
 	ldr r0, [r0]
 	cmp r0, #0xff
-	addls sb, r1, #1
+	addls r9, r1, #1
 	bls _020E9E54
 	cmp r0, #0xff00
-	addls sb, r1, #2
-	addhi sb, r1, #3
+	addls r9, r1, #2
+	addhi r9, r1, #3
 _020E9E54:
 	cmp r4, #0x10000
 	ldrne r0, [sp, #0x14]
-	add sb, sb, #2
-	addne sb, sb, r0
-	mov sl, r5
+	add r9, r9, #2
+	addne r9, r9, r0
+	mov r10, r5
 	cmp r5, #0
 	beq _020E9EF8
 	add r0, sp, #0x98
@@ -178,10 +178,10 @@ _020E9EB4:
 	cmp r0, #0
 	beq _020E9ED8
 	ldrh r0, [sp, #8]
-	cmp r0, sl
+	cmp r0, r10
 	ldreq r0, [sp, #0x14]
 	addeq r0, r0, #1
-	addeq sb, sb, r0
+	addeq r9, r9, r0
 	beq _020E9EEC
 _020E9ED8:
 	mov r0, r8
@@ -190,29 +190,29 @@ _020E9ED8:
 	cmp r0, #0
 	beq _020E9EB4
 _020E9EEC:
-	ldrh sl, [sp, #0xbc]
-	cmp sl, #0
+	ldrh r10, [sp, #0xbc]
+	cmp r10, #0
 	bne _020E9E88
 _020E9EF8:
-	add r0, sb, #1
-	strh r0, [fp, #8]
-	strh r5, [fp, #0xa]
+	add r0, r9, #1
+	strh r0, [r11, #8]
+	strh r5, [r11, #0xa]
 _020E9F04:
-	ldr r7, [fp]
+	ldr r7, [r11]
 	cmp r7, #0
 	addeq sp, sp, #0xe4
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxeq lr
-	ldrh r6, [fp, #8]
-	ldr r0, [fp, #4]
+	ldrh r6, [r11, #8]
+	ldr r0, [r11, #4]
 	cmp r0, r6
 	addlo sp, sp, #0xe4
 	movlo r0, #1
-	ldmloia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmloia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxlo lr
 	ldr r0, [sp]
-	mov sb, #0
+	mov r9, #0
 	ldr r0, [r0]
 	cmp r0, #0xff
 	movls r8, #1
@@ -225,7 +225,7 @@ _020E9F5C:
 	mov r1, r7
 	mov r2, r8
 	bl MI_CpuCopy8
-	add r1, sb, r8
+	add r1, r9, r8
 	ldr r0, _020EA0D8 // =_0211F790
 	add r1, r7, r1
 	mov r2, #2
@@ -244,7 +244,7 @@ _020E9F5C:
 	bl FSi_TranslateCommand
 	cmp r0, #0
 	bne _020E9FEC
-	add sb, sp, #0x98
+	add r9, sp, #0x98
 	mov r8, #3
 _020E9FC0:
 	ldr r0, [sp, #0x10]
@@ -254,7 +254,7 @@ _020E9FC0:
 	cmp r0, r4
 	beq _020E9FEC
 _020E9FD8:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	bl FSi_TranslateCommand
 	cmp r0, #0
@@ -277,20 +277,20 @@ _020EA010:
 _020EA020:
 	cmp r5, #0
 	beq _020EA0C8
-	add sl, sp, #0x98
-	add fp, sp, #4
+	add r10, sp, #0x98
+	add r11, sp, #4
 	mov r4, #3
-	mov sb, #0
+	mov r9, #0
 	mov r8, #0x2f
 _020EA03C:
 	ldr r1, [sp, #0xc4]
-	mov r0, sl
+	mov r0, r10
 	bl FSi_SeekDirDirect
 	add r2, r7, r6
-	mov r0, sl
+	mov r0, r10
 	mov r1, r4
-	str fp, [sp, #0xc8]
-	str sb, [sp, #0xcc]
+	str r11, [sp, #0xc8]
+	str r9, [sp, #0xcc]
 	strb r8, [r2, #-1]
 	sub r6, r6, #1
 	bl FSi_TranslateCommand
@@ -312,7 +312,7 @@ _020EA070:
 	sub r6, r6, r5
 	b _020EA0BC
 _020EA0A8:
-	mov r0, sl
+	mov r0, r10
 	mov r1, r4
 	bl FSi_TranslateCommand
 	cmp r0, #0
@@ -324,7 +324,7 @@ _020EA0BC:
 _020EA0C8:
 	mov r0, #0
 	add sp, sp, #0xe4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _020EA0D8: .word _0211F790
@@ -332,19 +332,19 @@ _020EA0D8: .word _0211F790
 
 	arm_func_start FSi_FindPathCommand
 FSi_FindPathCommand: // 0x020EA0DC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x9c
-	mov sl, r0
-	ldr r2, [sl, #0x40]
-	ldr sb, [sl, #0x3c]
+	mov r10, r0
+	ldr r2, [r10, #0x40]
+	ldr r9, [r10, #0x3c]
 	mov r1, #2
 	str r2, [sp]
 	bl FSi_TranslateCommand
-	ldrb r1, [sb]
+	ldrb r1, [r9]
 	cmp r1, #0
 	beq _020EA2CC
 	mov r0, #2
-	add fp, sp, #0x1c
+	add r11, sp, #0x1c
 	mov r4, #3
 	mov r5, #1
 	mov r6, #0
@@ -355,7 +355,7 @@ _020EA120:
 _020EA128:
 	add r7, r7, #1
 _020EA12C:
-	ldrb r8, [sb, r7]
+	ldrb r8, [r9, r7]
 	mov r0, r6
 	cmp r8, #0
 	beq _020EA14C
@@ -377,14 +377,14 @@ _020EA16C:
 	cmp r7, #0
 	addeq sp, sp, #0x9c
 	moveq r0, #1
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxeq lr
 	cmp r1, #0x2e
 	bne _020EA1D8
 	cmp r7, #1
-	addeq sb, sb, #1
+	addeq r9, r9, #1
 	beq _020EA2B0
-	ldrb r0, [sb, #1]
+	ldrb r0, [r9, #1]
 	cmp r7, #2
 	moveq r1, r5
 	movne r1, r6
@@ -393,32 +393,32 @@ _020EA16C:
 	movne r0, r6
 	ands r0, r1, r0
 	beq _020EA1D8
-	ldrh r0, [sl, #0x24]
+	ldrh r0, [r10, #0x24]
 	cmp r0, #0
 	beq _020EA1D0
-	ldr r1, [sl, #0x2c]
-	mov r0, sl
+	ldr r1, [r10, #0x2c]
+	mov r0, r10
 	bl FSi_SeekDirDirect
 _020EA1D0:
-	add sb, sb, #2
+	add r9, r9, #2
 	b _020EA2B0
 _020EA1D8:
 	cmp r7, #0x7f
 	addgt sp, sp, #0x9c
 	movgt r0, #1
-	ldmgtia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmgtia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxgt lr
 	add r0, sp, #8
-	str r0, [sl, #0x30]
-	str r6, [sl, #0x34]
+	str r0, [r10, #0x30]
+	str r6, [r10, #0x34]
 _020EA1F8:
-	mov r0, sl
+	mov r0, r10
 	mov r1, r4
 	bl FSi_TranslateCommand
 	cmp r0, #0
 	addne sp, sp, #0x9c
 	movne r0, #1
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxne lr
 	ldr r0, [sp, #0x14]
 	cmp r8, r0
@@ -426,8 +426,8 @@ _020EA1F8:
 	ldr r0, [sp, #0x18]
 	cmp r7, r0
 	bne _020EA1F8
-	mov r0, sb
-	mov r1, fp
+	mov r0, r9
+	mov r1, r11
 	mov r2, r7
 	bl FSi_StrNICmp
 	cmp r0, #0
@@ -435,12 +435,12 @@ _020EA1F8:
 	cmp r8, #0
 	beq _020EA274
 	add r0, sp, #8
-	add r3, sl, #0x30
+	add r3, r10, #0x30
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	ldr r1, [sp, #4]
-	mov r0, sl
-	add sb, sb, r7
+	mov r0, r10
+	add r9, r9, r7
 	bl FSi_TranslateCommand
 	b _020EA2B0
 _020EA274:
@@ -448,36 +448,36 @@ _020EA274:
 	cmp r0, #0
 	addne sp, sp, #0x9c
 	movne r0, #1
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxne lr
-	ldr r3, [sl, #0x44]
+	ldr r3, [r10, #0x44]
 	ldr r2, [sp, #8]
 	ldr r1, [sp, #0xc]
 	add sp, sp, #0x9c
 	str r2, [r3]
 	str r1, [r3, #4]
 	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 _020EA2B0:
-	ldrb r0, [sb]
+	ldrb r0, [r9]
 	cmp r0, #0
 	movne r0, r5
 	moveq r0, r6
-	ldrb r1, [sb, r0]!
+	ldrb r1, [r9, r0]!
 	cmp r1, #0
 	bne _020EA120
 _020EA2CC:
 	ldr r0, [sp]
 	cmp r0, #0
 	moveq r0, #1
-	addne r0, sl, #0x20
-	ldrne r3, [sl, #0x44]
+	addne r0, r10, #0x20
+	ldrne r3, [r10, #0x44]
 	ldmneia r0, {r0, r1, r2}
 	stmneia r3, {r0, r1, r2}
 	movne r0, #0
 	add sp, sp, #0x9c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	arm_func_end FSi_FindPathCommand
 

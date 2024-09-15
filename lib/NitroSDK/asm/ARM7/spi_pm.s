@@ -570,14 +570,14 @@ _03805E18:
 
 	arm_func_start PMi_DoSleep
 PMi_DoSleep: // 0x03805E24
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r5, #0
 	ldr r0, _03805FE8 // =0x04000208
 	ldrh r4, [r0]
 	strh r5, [r0]
 	bl OS_DisableInterrupts
-	mov sb, r0
+	mov r9, r0
 	mvn r0, #0xfe000000
 	bl OS_DisableIrqMask
 	mov r8, r0
@@ -644,7 +644,7 @@ _03805F20:
 	mov r0, #0x2000
 	bl OS_EnableIrqMask
 _03805F38:
-	mov r0, sb
+	mov r0, r9
 	bl OS_RestoreInterrupts
 	ldr r1, _03805FE8 // =0x04000208
 	ldrh r0, [r1]
@@ -680,13 +680,13 @@ _03805F38:
 	bl OS_DisableInterrupts
 	mov r0, r8
 	bl OS_SetIrqMask
-	mov r0, sb
+	mov r0, r9
 	bl OS_RestoreInterrupts
 	ldr r1, _03805FE8 // =0x04000208
 	ldrh r0, [r1]
 	strh r4, [r1]
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	.align 2, 0
 _03805FE8: .word 0x04000208

@@ -74,22 +74,22 @@ FS_UnloadOverlayImage: // 0x020EBCB4
 
 	arm_func_start FS_EndOverlay
 FS_EndOverlay: // 0x020EBCD0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	ldr r8, _020EBDD0 // =0x02152940
-	mov fp, r0
-	mov sb, #0
+	mov r11, r0
+	mov r9, #0
 _020EBCE4:
-	ldr r1, [fp, #8]
-	ldr r0, [fp, #0xc]
-	ldr r5, [fp, #4]
+	ldr r1, [r11, #8]
+	ldr r0, [r11, #0xc]
+	ldr r5, [r11, #4]
 	add r0, r1, r0
-	mov r7, sb
-	mov r6, sb
+	mov r7, r9
+	mov r6, r9
 	add r4, r5, r0
 	bl OS_DisableInterrupts
 	ldr lr, [r8]
-	mov sl, sb
+	mov r10, r9
 	mov ip, lr
 	cmp lr, #0
 	beq _020EBD88
@@ -115,13 +115,13 @@ _020EBD4C:
 	cmp lr, ip
 	streq r3, [r8]
 	moveq lr, r3
-	str sb, [ip]
-	cmp sl, #0
+	str r9, [ip]
+	cmp r10, #0
 	mov r6, ip
-	strne r3, [sl]
+	strne r3, [r10]
 	b _020EBD7C
 _020EBD78:
-	mov sl, ip
+	mov r10, ip
 _020EBD7C:
 	mov ip, r3
 	cmp r3, #0
@@ -130,7 +130,7 @@ _020EBD88:
 	bl OS_RestoreInterrupts
 	cmp r7, #0
 	addeq sp, sp, #4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxeq lr
 _020EBD9C:
 	ldr r1, [r7, #4]
@@ -145,7 +145,7 @@ _020EBDB4:
 	bne _020EBD9C
 	b _020EBCE4
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _020EBDD0: .word 0x02152940
@@ -395,9 +395,9 @@ _020EC128: .word fs_rom_archive
 
 	arm_func_start FSi_LoadOverlayInfoCore
 FSi_LoadOverlayInfoCore: // 0x020EC12C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x54
-	movs sb, r1
+	movs r9, r1
 	ldreq r5, [sp, #0x74]
 	ldreq r6, [sp, #0x70]
 	ldrne r5, [sp, #0x7c]
@@ -408,7 +408,7 @@ FSi_LoadOverlayInfoCore: // 0x020EC12C
 	mov r8, r3
 	addhs sp, sp, #0x54
 	movhs r0, #0
-	ldmhsia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmhsia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxhs lr
 	add r0, sp, #0xc
 	bl FS_InitFile
@@ -422,7 +422,7 @@ FSi_LoadOverlayInfoCore: // 0x020EC12C
 	cmp r0, #0
 	addeq sp, sp, #0x54
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxeq lr
 	add r0, sp, #0xc
 	mov r1, r4
@@ -434,14 +434,14 @@ FSi_LoadOverlayInfoCore: // 0x020EC12C
 	bl FS_CloseFile
 	add sp, sp, #0x54
 	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 _020EC1D0:
 	add r0, sp, #0xc
 	bl FS_CloseFile
 	add r0, sp, #4
 	mov r1, r4
-	str sb, [r4, #0x20]
+	str r9, [r4, #0x20]
 	bl FS_GetOverlayFileID
 	add r1, sp, #4
 	add r0, sp, #0xc
@@ -450,7 +450,7 @@ _020EC1D0:
 	cmp r0, #0
 	addeq sp, sp, #0x54
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxeq lr
 	ldr r1, [sp, #0x30]
 	add r0, sp, #0xc
@@ -462,7 +462,7 @@ _020EC1D0:
 	bl FS_CloseFile
 	mov r0, #1
 	add sp, sp, #0x54
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	arm_func_end FSi_LoadOverlayInfoCore
 

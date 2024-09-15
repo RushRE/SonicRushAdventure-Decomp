@@ -133,9 +133,9 @@ _037FBFF0: .word OS_LockByWord
 
 	arm_func_start OS_TryLockByWord
 OS_TryLockByWord: // 0x037FBFF4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
-	mov sb, r0
+	mov r9, r0
 	mov r8, r1
 	mov r7, r2
 	movs r6, r3
@@ -147,7 +147,7 @@ _037FC01C:
 	bl OS_DisableInterrupts
 	mov r5, r0
 _037FC024:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	bl MI_SwapWord
 	movs r4, r0
@@ -157,7 +157,7 @@ _037FC024:
 	mov lr, pc
 	bx r7
 _037FC048:
-	strh sb, [r8, #4]
+	strh r9, [r8, #4]
 _037FC04C:
 	cmp r6, #0
 	beq _037FC060
@@ -170,7 +170,7 @@ _037FC060:
 _037FC068:
 	mov r0, r4
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	arm_func_end OS_TryLockByWord
 

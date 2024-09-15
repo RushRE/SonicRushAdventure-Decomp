@@ -304,10 +304,10 @@ SND_SetupCapture: // 0x020E8320
 
 	arm_func_start SND_StopTimer
 SND_StopTimer: // 0x020E836C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r7, r2
-	mov sb, r0
+	mov r9, r0
 	mov r8, r1
 	mov r6, r3
 	mov r4, r7
@@ -327,14 +327,14 @@ _020E83A8:
 	cmp r4, #0
 	bne _020E8390
 _020E83B8:
-	mov r1, sb
+	mov r1, r9
 	mov r2, r8
 	mov r3, r7
 	mov r0, #0xd
 	str r6, [sp]
 	bl SNDi_PushCommand_impl
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	arm_func_end SND_StopTimer
 

@@ -763,57 +763,57 @@ _020D8EFC: .word 0x0214CA04
 
 	arm_func_start NNSi_SndPlayerMain
 NNSi_SndPlayerMain: // 0x020D8F00
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	bl SND_GetPlayerStatus
 	str r0, [sp]
 	ldr r0, _020D9074 // =0x0214C5B8
 	mov r1, #0
 	bl NNS_FndGetNextListObject
-	movs sl, r0
+	movs r10, r0
 	addeq sp, sp, #0xc
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, #0x8000
 	rsb r0, r0, #0
 	ldr r4, _020D9078 // =_02116BC8
 	str r0, [sp, #4]
 	mov r5, #1
-	mov fp, #0
+	mov r11, #0
 _020D8F40:
 	ldr r0, _020D9074 // =0x0214C5B8
-	mov r1, sl
+	mov r1, r10
 	bl NNS_FndGetNextListObject
-	ldrb r1, [sl, #0x2d]
-	mov sb, r0
+	ldrb r1, [r10, #0x2d]
+	mov r9, r0
 	cmp r1, #0
 	bne _020D8F6C
-	ldr r0, [sl, #0x30]
+	ldr r0, [r10, #0x30]
 	bl SND_IsFinishedCommandTag
 	cmp r0, #0
-	strneb r5, [sl, #0x2d]
+	strneb r5, [r10, #0x2d]
 _020D8F6C:
-	ldrb r0, [sl, #0x2d]
+	ldrb r0, [r10, #0x2d]
 	cmp r0, #0
 	beq _020D8F98
-	ldrb r0, [sl, #0x3c]
+	ldrb r0, [r10, #0x3c]
 	mov r1, r5, lsl r0
 	ldr r0, [sp]
 	ands r0, r0, r1
 	bne _020D8F98
-	mov r0, sl
+	mov r0, r10
 	bl NNS_Snd_ShutdownPlayer
 	b _020D9060
 _020D8F98:
-	add r0, sl, #0x1c
+	add r0, r10, #0x1c
 	bl NNSi_SndFaderUpdate
-	ldr r0, [sl, #4]
-	ldrb r2, [sl, #0x41]
-	ldrb r1, [sl, #0x40]
+	ldr r0, [r10, #4]
+	ldrb r2, [r10, #0x41]
+	ldrb r1, [r10, #0x40]
 	ldrb r0, [r0, #0x20]
 	mov r3, r2, lsl #1
 	mov r2, r1, lsl #1
 	mov r1, r0, lsl #1
-	add r0, sl, #0x1c
+	add r0, r10, #0x1c
 	ldrsh r8, [r4, r3]
 	ldrsh r7, [r4, r2]
 	ldrsh r6, [r4, r1]
@@ -833,36 +833,36 @@ _020D8F98:
 	cmp r6, r0
 	movgt r6, r0
 _020D9008:
-	ldrsh r0, [sl, #0x3e]
+	ldrsh r0, [r10, #0x3e]
 	cmp r6, r0
 	beq _020D9024
-	ldrb r0, [sl, #0x3c]
+	ldrb r0, [r10, #0x3c]
 	mov r1, r6
 	bl SND_SetPlayerVolume
-	strh r6, [sl, #0x3e]
+	strh r6, [r10, #0x3e]
 _020D9024:
-	ldrb r0, [sl, #0x2c]
+	ldrb r0, [r10, #0x2c]
 	cmp r0, #2
 	bne _020D9048
-	add r0, sl, #0x1c
+	add r0, r10, #0x1c
 	bl NNSi_SndFaderIsFinished
 	cmp r0, #0
 	beq _020D9048
-	mov r0, sl
+	mov r0, r10
 	bl NNS_Snd_ForceStopSeq
 _020D9048:
-	ldrb r0, [sl, #0x2f]
+	ldrb r0, [r10, #0x2f]
 	cmp r0, #0
 	beq _020D9060
-	ldrb r0, [sl, #0x3c]
+	ldrb r0, [r10, #0x3c]
 	bl SND_StartPreparedSeq
-	strb fp, [sl, #0x2f]
+	strb r11, [r10, #0x2f]
 _020D9060:
-	mov sl, sb
-	cmp sb, #0
+	mov r10, r9
+	cmp r9, #0
 	bne _020D8F40
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020D9074: .word 0x0214C5B8
 _020D9078: .word _02116BC8
@@ -871,7 +871,7 @@ _020D907C: .word 0x00007FFF
 
 	arm_func_start NNSi_SndPlayerInit
 NNSi_SndPlayerInit: // 0x020D9080
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	ldr r0, _020D9124 // =0x0214C5B8
 	mov r1, #0x14
 	bl NNS_FndInitList
@@ -892,28 +892,28 @@ _020D90AC:
 	cmp r7, #0x10
 	add r6, r6, #0x44
 	blt _020D90AC
-	ldr sl, _020D9130 // =0x0214CA04
-	mov sb, #0
-	mov r7, sb
-	mov r4, sb
+	ldr r10, _020D9130 // =0x0214CA04
+	mov r9, #0
+	mov r7, r9
+	mov r4, r9
 	mov r8, #0xc
 	mov r6, #0x7f
 	mov r5, #1
 _020D90EC:
-	mov r0, sl
+	mov r0, r10
 	mov r1, r8
 	bl NNS_FndInitList
 	mov r1, r7
-	add r0, sl, #0xc
+	add r0, r10, #0xc
 	bl NNS_FndInitList
-	strb r6, [sl, #0x20]
-	str r5, [sl, #0x18]
-	add sb, sb, #1
-	str r4, [sl, #0x1c]
-	cmp sb, #0x20
-	add sl, sl, #0x24
+	strb r6, [r10, #0x20]
+	str r5, [r10, #0x18]
+	add r9, r9, #1
+	str r4, [r10, #0x1c]
+	cmp r9, #0x20
+	add r10, r10, #0x24
 	blt _020D90EC
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _020D9124: .word 0x0214C5B8
 _020D9128: .word 0x0214C5AC
@@ -1663,11 +1663,11 @@ NNS_SndStrmStart: // 0x020D999C
 
 	arm_func_start NNS_SndStrmSetup
 NNS_SndStrmSetup: // 0x020D99F0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
-	mov sl, r0
-	ldr r4, [sl, #0x24]
-	mov sb, r1
+	mov r10, r0
+	ldr r4, [r10, #0x24]
+	mov r9, r1
 	mov r1, r4, lsl #0x1f
 	movs r1, r1, asr #0x1f
 	ldr r1, [sp, #0x4c]
@@ -1678,7 +1678,7 @@ NNS_SndStrmSetup: // 0x020D99F0
 	bl NNS_SndStrmStop
 _020D9A24:
 	ldr r0, [sp, #0x4c]
-	ldr r2, [sl, #0x48]
+	ldr r2, [r10, #0x48]
 	mov r0, r0, lsl #5
 	mul r1, r2, r0
 	mov r0, r4
@@ -1687,22 +1687,22 @@ _020D9A24:
 	ldr r2, [sp, #0x48]
 	mul r1, r0, r1
 	mov r0, r1, lsl #5
-	str r0, [sl, #0x28]
-	ldr r0, [sl, #0x28]
-	cmp sb, #1
+	str r0, [r10, #0x28]
+	ldr r0, [r10, #0x28]
+	cmp r9, #1
 	moveq r0, r0, lsr #1
 	mul r0, r2, r0
 	ldr r1, [sp, #0x4c]
 	bl _u32_div_f
 	str r0, [sp, #0x1c]
 	bl NNS_SndAllocAlarm
-	str r0, [sl, #0x40]
-	ldr r0, [sl, #0x40]
+	str r0, [r10, #0x40]
+	ldr r0, [r10, #0x40]
 	cmp r0, #0
 	addlt sp, sp, #0x24
 	movlt r0, #0
-	ldmltia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	ldr r0, [sl, #0x48]
+	ldmltia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	ldr r0, [r10, #0x48]
 	mov r8, #0
 	cmp r0, #0
 	ble _020D9B18
@@ -1711,13 +1711,13 @@ _020D9A24:
 	ldr r6, _020D9BAC // =0x0214CED4
 	mov r5, r8
 	mov r4, #0x7f
-	mov fp, #0x40
+	mov r11, #0x40
 	mov r0, #1
 	str r0, [sp, #0x20]
 _020D9AB8:
-	ldr r2, [sl, #0x28]
+	ldr r2, [r10, #0x28]
 	ldr r1, [sp, #0x18]
-	add r0, sl, r8
+	add r0, r10, r8
 	mla r1, r2, r8, r1
 	ldrb r0, [r0, #0x4c]
 	ldr r3, [sp, #0x20]
@@ -1725,58 +1725,58 @@ _020D9AB8:
 	add r1, r6, r0, lsl #3
 	str r5, [r1, #4]
 	str r5, [sp]
-	ldr r2, [sl, #0x28]
-	mov r1, sb
+	ldr r2, [r10, #0x28]
+	mov r1, r9
 	mov r2, r2, lsr #2
 	str r2, [sp, #4]
 	str r4, [sp, #8]
 	str r5, [sp, #0xc]
 	str r7, [sp, #0x10]
-	str fp, [sp, #0x14]
+	str r11, [sp, #0x14]
 	ldr r2, [r6, r0, lsl #3]
 	bl SND_SetupChannelPcm
-	ldr r0, [sl, #0x48]
+	ldr r0, [r10, #0x48]
 	add r8, r8, #1
 	cmp r8, r0
 	blt _020D9AB8
 _020D9B18:
-	str sl, [sp]
+	str r10, [sp]
 	ldr r1, [sp, #0x1c]
-	ldr r0, [sl, #0x40]
+	ldr r0, [r10, #0x40]
 	ldr r3, _020D9BB0 // =NNS_AlarmCallback
 	mov r2, r1
 	bl SND_SetupAlarm
 	ldr r0, _020D9BB4 // =0x0214CE88
-	mov r1, sl
+	mov r1, r10
 	bl NNS_FndAppendListObject
 	ldr r0, [sp, #0x4c]
-	str sb, [sl, #0x20]
-	str r0, [sl, #0x2c]
+	str r9, [r10, #0x20]
+	str r0, [r10, #0x2c]
 	ldr r1, [sp, #0x50]
 	ldr r0, [sp, #0x54]
-	str r1, [sl, #0x30]
-	str r0, [sl, #0x34]
+	str r1, [r10, #0x30]
+	str r0, [r10, #0x34]
 	mov r0, #0
-	str r0, [sl, #0x38]
-	str r0, [sl, #0x3c]
-	ldr r0, [sl, #0x24]
+	str r0, [r10, #0x38]
+	str r0, [r10, #0x3c]
+	ldr r0, [r10, #0x24]
 	bic r0, r0, #1
 	orr r0, r0, #1
-	str r0, [sl, #0x24]
+	str r0, [r10, #0x24]
 	bl OS_DisableInterrupts
 	mov r4, r0
 	mov r2, #1
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
-	str r2, [sl, #0x2c]
+	str r2, [r10, #0x2c]
 	bl NNS_StrmCallback
 	ldr r1, [sp, #0x4c]
 	mov r0, r4
-	str r1, [sl, #0x2c]
+	str r1, [r10, #0x2c]
 	bl OS_RestoreInterrupts
 	mov r0, #1
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020D9BAC: .word 0x0214CED4
 _020D9BB0: .word NNS_AlarmCallback
@@ -2073,23 +2073,23 @@ _020D9F84: .word 0x0214CF5C
 
 	arm_func_start NNSi_SndCaptureStart
 NNSi_SndCaptureStart: // 0x020D9F88
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x3c
-	mov sl, r3
+	mov r10, r3
 	str r0, [sp, #0x18]
 	str r2, [sp, #0x20]
 	mov r2, #0
 	str r1, [sp, #0x1c]
 	mov r0, r1
-	mov r1, sl
-	ldr sb, [sp, #0x6c]
+	mov r1, r10
+	ldr r9, [sp, #0x6c]
 	ldr r8, [sp, #0x74]
 	str r2, [sp, #0x2c]
 	mvn r6, #0
 	ldr r4, _020DA2D4 // =0x0214CF7C
 	bl DC_FlushRange
 	ldr r0, [sp, #0x20]
-	mov r1, sl
+	mov r1, r10
 	bl DC_FlushRange
 	ldr r0, [sp, #0x60]
 	ldr r1, [sp, #0x70]
@@ -2099,16 +2099,16 @@ NNSi_SndCaptureStart: // 0x020D9F88
 	movne r7, #0
 	bl _s32_div_f
 	ldr r1, [sp, #0x84]
-	mov fp, r0
+	mov r11, r0
 	cmp r1, #0
 	beq _020DA044
-	add r1, fp, #0x10
-	bic fp, r1, #0x1f
-	mov r2, fp, asr #5
-	mov r0, sl
+	add r1, r11, #0x10
+	bic r11, r1, #0x1f
+	mov r2, r11, asr #5
+	mov r0, r10
 	cmp r7, #0
 	ldr r1, [sp, #0x80]
-	moveq r0, sl, lsr #1
+	moveq r0, r10, lsr #1
 	str r2, [sp, #0x34]
 	bl _u32_div_f
 	ldr r1, [sp, #0x34]
@@ -2142,7 +2142,7 @@ _020DA044:
 	movs r6, r0
 	addmi sp, sp, #0x3c
 	movmi r0, #0
-	ldmmiia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmmiia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020DA09C:
 	mov r0, #3
 	bl NNS_SndLockCapture
@@ -2155,7 +2155,7 @@ _020DA09C:
 _020DA0BC:
 	add sp, sp, #0x3c
 	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020DA0C8:
 	mov r0, #0xa
 	bl NNS_SndLockChannel
@@ -2170,18 +2170,18 @@ _020DA0E8:
 	bl NNS_SndUnlockCapture
 	add sp, sp, #0x3c
 	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020DA0FC:
 	mov r0, #0
-	mov r7, sl, lsr #2
+	mov r7, r10, lsr #2
 	str r0, [sp]
 	str r7, [sp, #4]
 	str r8, [sp, #8]
 	str r0, [sp, #0xc]
-	cmp sb, #0
+	cmp r9, #0
 	movne r3, #1
 	ldr r1, [sp, #0x78]
-	str fp, [sp, #0x10]
+	str r11, [sp, #0x10]
 	str r1, [sp, #0x14]
 	ldr r1, [sp, #0x28]
 	ldr r2, [sp, #0x1c]
@@ -2189,7 +2189,7 @@ _020DA0FC:
 	mov r0, #1
 	bl SND_SetupChannelPcm
 	ldr r1, [sp, #0x64]
-	str sb, [sp]
+	str r9, [sp]
 	str r1, [sp, #4]
 	ldr r0, [sp, #0x68]
 	ldr r1, [sp, #0x24]
@@ -2203,10 +2203,10 @@ _020DA0FC:
 	str r7, [sp, #4]
 	str r8, [sp, #8]
 	str r0, [sp, #0xc]
-	cmp sb, #0
+	cmp r9, #0
 	movne r3, #1
 	ldr r2, [sp, #0x7c]
-	str fp, [sp, #0x10]
+	str r11, [sp, #0x10]
 	str r2, [sp, #0x14]
 	ldr r1, [sp, #0x28]
 	ldr r2, [sp, #0x20]
@@ -2214,7 +2214,7 @@ _020DA0FC:
 	mov r0, #3
 	bl SND_SetupChannelPcm
 	ldr r2, [sp, #0x64]
-	str sb, [sp]
+	str r9, [sp]
 	str r2, [sp, #4]
 	ldr r0, [sp, #0x68]
 	ldr r1, [sp, #0x24]
@@ -2268,8 +2268,8 @@ _020DA20C:
 	str r0, [r4, #0xc]
 	ldr r0, [sp, #0x20]
 	str r0, [r4, #0x10]
-	mov r0, sl
-	str sl, [r4, #0x14]
+	mov r0, r10
+	str r10, [r4, #0x14]
 	bl _u32_div_f
 	str r0, [r4, #0x18]
 	mov r1, #0
@@ -2291,7 +2291,7 @@ _020DA20C:
 	str r0, [r4, #0x4c]
 	mov r0, #1
 	add sp, sp, #0x3c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020DA2D4: .word 0x0214CF7C
 _020DA2D8: .word 0x00FFB0FF
@@ -3174,7 +3174,7 @@ NNS_SndHeapAlloc: // 0x020DAD94
 
 	arm_func_start NNS_SndHeapClear
 NNS_SndHeapClear: // 0x020DADFC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r8, r0
 	mov r5, #0
 	mov r1, r5
@@ -3182,8 +3182,8 @@ NNS_SndHeapClear: // 0x020DADFC
 	bl NNS_FndGetPrevListObject
 	movs r7, r0
 	beq _020DAE94
-	add sb, r8, #4
-	mov sl, #1
+	add r9, r8, #4
+	mov r10, #1
 	mov r4, r5
 _020DAE28:
 	mov r0, r7
@@ -3200,7 +3200,7 @@ _020DAE3C:
 	ldr r3, [r6, #0x14]
 	add r0, r6, #0x20
 	blx ip
-	mov r5, sl
+	mov r5, r10
 _020DAE60:
 	mov r0, r7
 	mov r1, r6
@@ -3208,10 +3208,10 @@ _020DAE60:
 	movs r6, r0
 	bne _020DAE3C
 _020DAE74:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r7
 	bl NNS_FndRemoveListObject
-	mov r0, sb
+	mov r0, r9
 	mov r1, r4
 	bl NNS_FndGetPrevListObject
 	movs r7, r0
@@ -3226,7 +3226,7 @@ _020DAE94:
 _020DAEAC:
 	mov r0, r8
 	bl _NNS_NewSection
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end NNS_SndHeapClear
 
 	arm_func_start NNS_SndHeapDestroy
@@ -3279,7 +3279,7 @@ NNS_SndHeapCreate: // 0x020DAED0
 
 	arm_func_start _NNS_LoadSingleWaves
 _NNS_LoadSingleWaves: // 0x020DAF58
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x20
 	mov r8, r0
 	add r0, sp, #8
@@ -3296,14 +3296,14 @@ _NNS_LoadSingleWaves: // 0x020DAF58
 	add r2, sp, #0
 	addeq sp, sp, #0x20
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	add r1, sp, #0x10
 	mov r0, r7
 	bl SND_GetNextInstData
 	cmp r0, #0
 	beq _020DB010
-	add sl, sp, #0x10
-	add sb, sp, #0
+	add r10, sp, #0x10
+	add r9, sp, #0
 _020DAFBC:
 	ldrb r0, [sp, #0x10]
 	cmp r0, #1
@@ -3319,23 +3319,23 @@ _020DAFBC:
 	cmp r0, #0
 	addeq sp, sp, #0x20
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _020DAFF8:
 	mov r0, r7
-	mov r1, sl
-	mov r2, sb
+	mov r1, r10
+	mov r2, r9
 	bl SND_GetNextInstData
 	cmp r0, #0
 	bne _020DAFBC
 _020DB010:
 	mov r0, #1
 	add sp, sp, #0x20
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end _NNS_LoadSingleWaves
 
 	arm_func_start _NNS_LoadSingleWave
 _NNS_LoadSingleWave: // 0x020DB01C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r7, r0
 	mov r6, r1
@@ -3345,7 +3345,7 @@ _NNS_LoadSingleWave: // 0x020DB01C
 	cmp r0, #0
 	addne sp, sp, #4
 	movne r0, #1
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	mov r0, r7
 	bl SND_GetWaveDataCount
 	ldr r1, [r7, #0x38]
@@ -3357,31 +3357,31 @@ _NNS_LoadSingleWave: // 0x020DB01C
 	ldr r8, [r1, #0x3c]
 	ldrhs r0, [r7, #8]
 	cmp r4, #0
-	sub sb, r0, r8
+	sub r9, r0, r8
 	addeq sp, sp, #4
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	ldr r2, _020DB0F8 // =_NNS_SingleWaveDisposeCallback
 	mov r0, r4
 	mov r3, r7
-	add r1, sb, #0x20
+	add r1, r9, #0x20
 	str r6, [sp]
 	bl NNS_SndHeapAlloc
 	movs r4, r0
 	addeq sp, sp, #4
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	mov r0, r5
 	mov r1, r4
-	mov r2, sb
+	mov r2, r9
 	mov r3, r8
 	bl NNS_SndArcReadFile
-	cmp sb, r0
+	cmp r9, r0
 	addne sp, sp, #4
 	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	mov r0, r4
-	mov r1, sb
+	mov r1, r9
 	bl DC_StoreRange
 	mov r0, r7
 	mov r1, r6
@@ -3389,7 +3389,7 @@ _NNS_LoadSingleWave: // 0x020DB01C
 	bl SND_SetWaveDataAddress
 	mov r0, #1
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _020DB0F8: .word _NNS_SingleWaveDisposeCallback
 	arm_func_end _NNS_LoadSingleWave
@@ -3515,23 +3515,23 @@ _020DB258:
 
 	arm_func_start _NNS_LoadWaveArcTable
 _NNS_LoadWaveArcTable: // 0x020DB270
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
-	mov sb, r0
+	mov r9, r0
 	mov r8, r1
 	mov r7, r2
 	bl NNS_SndArcGetFileAddress
 	movs r6, r0
 	bne _020DB37C
 	ldr r1, _020DB388 // =0x0214D074
-	mov r0, sb
+	mov r0, r9
 	mov r2, #0x3c
 	mov r3, #0
 	bl NNS_SndArcReadFile
 	cmp r0, #0x3c
 	addne sp, sp, #4
 	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	ldr r0, _020DB388 // =0x0214D074
 	cmp r8, #0
 	ldr r0, [r0, #0x38]
@@ -3540,7 +3540,7 @@ _NNS_LoadWaveArcTable: // 0x020DB270
 	mov r0, r4, lsl #1
 	add r5, r0, #0x3c
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	cmp r7, #0
 	moveq r3, #0
 	beq _020DB2EC
@@ -3550,13 +3550,13 @@ _020DB2EC:
 	ldr r2, _020DB38C // =_NNS_WaveArcTableDisposeCallback
 	mov r0, r8
 	add r1, r5, #0x20
-	str sb, [sp]
+	str r9, [sp]
 	bl NNS_SndHeapAlloc
 	movs r6, r0
 	addeq sp, sp, #4
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, pc}
-	mov r0, sb
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
+	mov r0, r9
 	mov r1, r6
 	add r2, r4, #0x3c
 	mov r3, #0
@@ -3565,7 +3565,7 @@ _020DB2EC:
 	cmp r0, r1
 	addne sp, sp, #4
 	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	ldr r1, [r6, #0x38]
 	add r0, r6, #0x3c
 	mov r2, r4
@@ -3580,13 +3580,13 @@ _020DB2EC:
 	bl DC_StoreRange
 	cmp r7, #0
 	beq _020DB37C
-	mov r0, sb
+	mov r0, r9
 	mov r1, r6
 	bl NNS_SndArcSetFileAddress
 _020DB37C:
 	mov r0, r6
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _020DB388: .word 0x0214D074
 _020DB38C: .word _NNS_WaveArcTableDisposeCallback
@@ -3833,33 +3833,33 @@ _020DB698:
 
 	arm_func_start NNSi_SndArcLoadBank
 NNSi_SndArcLoadBank: // 0x020DB6AC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
-	mov sl, r1
-	mov sb, r2
-	mov fp, r3
+	mov r10, r1
+	mov r9, r2
+	mov r11, r3
 	bl NNS_SndArcGetBankInfo
 	movs r8, r0
 	addeq sp, sp, #0xc
 	moveq r0, #4
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	ands r0, sl, #2
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	ands r0, r10, #2
 	beq _020DB700
 	ldr r0, [r8]
-	mov r1, sb
-	mov r2, fp
+	mov r1, r9
+	mov r2, r11
 	bl _NNS_LoadBank
 	movs r7, r0
 	bne _020DB70C
 	add sp, sp, #0xc
 	mov r0, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020DB700:
 	ldr r0, [r8]
 	bl NNS_SndArcGetFileAddress
 	mov r7, r0
 _020DB70C:
-	and r5, sl, #4
+	and r5, r10, #4
 	mov r6, #0
 _020DB714:
 	add r0, r8, r6, lsl #1
@@ -3871,24 +3871,24 @@ _020DB714:
 	movs r4, r0
 	addeq sp, sp, #0xc
 	moveq r0, #5
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r0, sp, #4
 	str r0, [sp]
 	add r0, r8, r6, lsl #1
 	ldrh r0, [r0, #4]
-	mov r1, sl
-	mov r2, sb
-	mov r3, fp
+	mov r1, r10
+	mov r2, r9
+	mov r3, r11
 	bl NNSi_SndArcLoadWaveArc
 	cmp r0, #0
 	addne sp, sp, #0xc
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrb r0, [r4, #3]
 	ands r0, r0, #1
 	beq _020DB7AC
 	cmp r5, #0
 	beq _020DB7AC
-	str sb, [sp]
+	str r9, [sp]
 	ldr r1, [r4]
 	ldr r0, [sp, #4]
 	mov r3, r1, lsl #8
@@ -3899,7 +3899,7 @@ _020DB714:
 	cmp r0, #0
 	addeq sp, sp, #0xc
 	moveq r0, #9
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020DB7AC:
 	cmp r7, #0
 	beq _020DB7CC
@@ -3918,7 +3918,7 @@ _020DB7CC:
 	strne r7, [r0]
 	mov r0, #0
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020DB7F0: .word 0x0000FFFF
 	arm_func_end NNSi_SndArcLoadBank
@@ -4001,22 +4001,22 @@ _020DB8DC:
 
 	arm_func_start NNSi_SndArcLoadGroup
 NNSi_SndArcLoadGroup: // 0x020DB8F4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
-	mov sb, r1
+	mov r9, r1
 	bl NNS_SndArcGetGroupInfo
 	movs r8, r0
 	addeq sp, sp, #0xc
 	moveq r0, #1
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [r8]
 	mov r7, #0
 	cmp r0, #0
 	bls _020DBA10
 	add r6, r8, #4
 	str r7, [sp, #4]
-	mov fp, r7
-	mov sl, r7
+	mov r11, r7
+	mov r10, r7
 	mov r5, r7
 	mov r4, #1
 _020DB93C:
@@ -4033,38 +4033,38 @@ _020DB95C:
 	str r5, [sp]
 	ldrb r1, [r6, #1]
 	ldr r0, [r6, #4]
-	mov r2, sb
+	mov r2, r9
 	mov r3, r4
 	bl NNSi_SndArcLoadSeq
 	cmp r0, #0
 	beq _020DB9FC
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020DB984:
-	str sl, [sp]
+	str r10, [sp]
 	ldrb r1, [r6, #1]
 	ldr r0, [r6, #4]
-	mov r2, sb
+	mov r2, r9
 	mov r3, r4
 	bl NNSi_SndArcLoadSeqArc
 	cmp r0, #0
 	beq _020DB9FC
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020DB9AC:
-	str fp, [sp]
+	str r11, [sp]
 	ldrb r1, [r6, #1]
 	ldr r0, [r6, #4]
-	mov r2, sb
+	mov r2, r9
 	mov r3, r4
 	bl NNSi_SndArcLoadBank
 	cmp r0, #0
 	beq _020DB9FC
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020DB9D4:
 	ldr r0, [sp, #4]
-	mov r2, sb
+	mov r2, r9
 	str r0, [sp]
 	ldrb r1, [r6, #1]
 	ldr r0, [r6, #4]
@@ -4072,7 +4072,7 @@ _020DB9D4:
 	bl NNSi_SndArcLoadWaveArc
 	cmp r0, #0
 	addne sp, sp, #0xc
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020DB9FC:
 	ldr r0, [r8]
 	add r7, r7, #1
@@ -4082,7 +4082,7 @@ _020DB9FC:
 _020DBA10:
 	mov r0, #0
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end NNSi_SndArcLoadGroup
 
 	arm_func_start NNS_SndArcLoadSeqArc
@@ -4635,7 +4635,7 @@ _020DC120: .word _NNS_CancelMemoryStream
 
 	arm_func_start _NNS_MakeWaveData
 _NNS_MakeWaveData: // 0x020DC124
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x7c
 	str r0, [sp, #8]
 	ldr r0, [r0, #8]
@@ -4862,15 +4862,15 @@ _020DC430:
 	ldr r0, _020DC9A4 // =0x0214D0B8
 	ldr r1, [r0]
 _020DC480:
-	ldr sl, [sp, #0x3c]
-	ldr sb, [sp, #0x1c]
+	ldr r10, [sp, #0x3c]
+	ldr r9, [sp, #0x1c]
 	ldr r3, [sp, #0x24]
 	ldr r0, [sp, #0xc]
-	mla r3, sl, sb, r3
-	mov sb, r0
+	mla r3, r10, r9, r3
+	mov r9, r0
 	ldr r2, [sp, #0x30]
-	ldr sb, [sb, #0x168]
-	blx sb
+	ldr r9, [r9, #0x168]
+	blx r9
 	ldr r1, [sp, #0x30]
 	cmp r0, r1
 	beq _020DC4EC
@@ -4910,41 +4910,41 @@ _020DC4EC:
 	beq _020DC5D4
 	ldrb r2, [r1]
 	ldrb r3, [r4, #2]
-	ldrsh sb, [r4]
+	ldrsh r9, [r4]
 	mov r2, r2, asr #4
-	and fp, r2, #0xf
-	ands r2, fp, #4
+	and r11, r2, #0xf
+	ands r2, r11, #4
 	ldr r2, _020DC9A8 // =_0211289C
-	mov sl, r3, lsl #1
-	ldrsh sl, [r2, sl]
-	mov r2, sl, asr #3
-	addne r2, r2, sl
-	ands ip, fp, #2
-	addne r2, r2, sl, asr #1
-	ands ip, fp, #1
-	addne r2, r2, sl, asr #2
-	ands sl, fp, #8
+	mov r10, r3, lsl #1
+	ldrsh r10, [r2, r10]
+	mov r2, r10, asr #3
+	addne r2, r2, r10
+	ands ip, r11, #2
+	addne r2, r2, r10, asr #1
+	ands ip, r11, #1
+	addne r2, r2, r10, asr #2
+	ands r10, r11, #8
 	beq _020DC590
-	sub sb, sb, r2
+	sub r9, r9, r2
 	mov r2, #0x8000
 	rsb r2, r2, #0
-	cmp sb, r2
-	movlt sb, r8
+	cmp r9, r2
+	movlt r9, r8
 	b _020DC59C
 _020DC590:
-	add sb, sb, r2
-	cmp sb, r7
-	movgt sb, r7
+	add r9, r9, r2
+	cmp r9, r7
+	movgt r9, r7
 _020DC59C:
 	ldr r2, _020DC9AC // =_0211288C
-	ldrsb r2, [r2, fp]
+	ldrsb r2, [r2, r11]
 	adds r3, r3, r2
 	ldrmi r3, [sp, #0x54]
 	bmi _020DC5B8
 	cmp r3, #0x58
 	movgt r3, r6
 _020DC5B8:
-	mov r2, sb, lsl #0x10
+	mov r2, r9, lsl #0x10
 	mov r2, r2, asr #0x10
 	strh r2, [r4]
 	strb r3, [r4, #2]
@@ -4953,38 +4953,38 @@ _020DC5B8:
 	add r1, r1, #1
 _020DC5D4:
 	ldr r2, [sp, #0x34]
-	bic fp, r2, #1
-	cmp r0, fp
+	bic r11, r2, #1
+	cmp r0, r11
 	bhs _020DC734
 _020DC5E4:
 	ldrb r2, [r1]
 	ldrb r3, [r4, #2]
-	ldrsh sb, [r4]
+	ldrsh r9, [r4]
 	and lr, r2, #0xf
 	ands r2, lr, #4
 	ldr r2, _020DC9A8 // =_0211289C
-	mov sl, r3, lsl #1
-	ldrsh ip, [r2, sl]
+	mov r10, r3, lsl #1
+	ldrsh ip, [r2, r10]
 	mov r2, ip, asr #3
 	addne r2, r2, ip
-	ands sl, lr, #2
-	str sl, [sp, #0x58]
+	ands r10, lr, #2
+	str r10, [sp, #0x58]
 	addne r2, r2, ip, asr #1
-	ands sl, lr, #1
-	str sl, [sp, #0x5c]
+	ands r10, lr, #1
+	str r10, [sp, #0x5c]
 	addne r2, r2, ip, asr #2
-	ands sl, lr, #8
+	ands r10, lr, #8
 	beq _020DC644
-	sub sb, sb, r2
+	sub r9, r9, r2
 	mov r2, #0x8000
 	rsb r2, r2, #0
-	cmp sb, r2
-	movlt sb, r8
+	cmp r9, r2
+	movlt r9, r8
 	b _020DC650
 _020DC644:
-	add sb, sb, r2
-	cmp sb, r7
-	movgt sb, r7
+	add r9, r9, r2
+	cmp r9, r7
+	movgt r9, r7
 _020DC650:
 	ldr r2, _020DC9AC // =_0211288C
 	ldrsb r2, [r2, lr]
@@ -4994,7 +4994,7 @@ _020DC650:
 	cmp r3, #0x58
 	movgt r3, r6
 _020DC66C:
-	mov r2, sb, lsl #0x10
+	mov r2, r9, lsl #0x10
 	mov r2, r2, asr #0x10
 	strh r2, [r4]
 	strb r3, [r4, #2]
@@ -5003,20 +5003,20 @@ _020DC66C:
 	ldrb r3, [r4, #2]
 	ldrsh ip, [r4]
 	mov r2, r2, asr #4
-	and sb, r2, #0xf
-	ands r2, sb, #4
+	and r9, r2, #0xf
+	ands r2, r9, #4
 	ldr r2, _020DC9A8 // =_0211289C
-	mov sl, r3, lsl #1
-	ldrsh lr, [r2, sl]
+	mov r10, r3, lsl #1
+	ldrsh lr, [r2, r10]
 	mov r2, lr, asr #3
 	addne r2, r2, lr
-	ands sl, sb, #2
-	str sl, [sp, #0x64]
+	ands r10, r9, #2
+	str r10, [sp, #0x64]
 	addne r2, r2, lr, asr #1
-	ands sl, sb, #1
-	str sl, [sp, #0x68]
+	ands r10, r9, #1
+	str r10, [sp, #0x68]
 	addne r2, r2, lr, asr #2
-	ands sl, sb, #8
+	ands r10, r9, #8
 	beq _020DC6E4
 	sub ip, ip, r2
 	mov r2, #0x8000
@@ -5030,7 +5030,7 @@ _020DC6E4:
 	movgt ip, r7
 _020DC6F0:
 	ldr r2, _020DC9AC // =_0211288C
-	ldrsb r2, [r2, sb]
+	ldrsb r2, [r2, r9]
 	adds r3, r3, r2
 	ldrmi r3, [sp, #0x6c]
 	bmi _020DC70C
@@ -5038,13 +5038,13 @@ _020DC6F0:
 	movgt r3, r6
 _020DC70C:
 	mov r2, ip, lsl #0x10
-	mov sb, r2, asr #0x10
-	strh sb, [r4]
+	mov r9, r2, asr #0x10
+	strh r9, [r4]
 	strb r3, [r4, #2]
 	add r0, r0, #2
-	strh sb, [r5, #2]
+	strh r9, [r5, #2]
 	add r5, r5, #4
-	cmp r0, fp
+	cmp r0, r11
 	add r1, r1, #1
 	blo _020DC5E4
 _020DC734:
@@ -5057,24 +5057,24 @@ _020DC734:
 	and r2, r2, #0xf
 	ands r3, r2, #4
 	ldr r3, _020DC9A8 // =_0211289C
-	mov sb, r0, lsl #1
-	ldrsh sl, [r3, sb]
-	mov sb, sl, asr #3
-	addne sb, sb, sl
+	mov r9, r0, lsl #1
+	ldrsh r10, [r3, r9]
+	mov r9, r10, asr #3
+	addne r9, r9, r10
 	ands r3, r2, #2
-	addne sb, sb, sl, asr #1
+	addne r9, r9, r10, asr #1
 	ands r3, r2, #1
-	addne sb, sb, sl, asr #2
+	addne r9, r9, r10, asr #2
 	ands r3, r2, #8
 	beq _020DC798
 	mov r3, #0x8000
-	sub r1, r1, sb
+	sub r1, r1, r9
 	rsb r3, r3, #0
 	cmp r1, r3
 	movlt r1, r8
 	b _020DC7A4
 _020DC798:
-	add r1, r1, sb
+	add r1, r1, r9
 	cmp r1, r7
 	movgt r1, r7
 _020DC7A4:
@@ -5215,7 +5215,7 @@ _020DC97C:
 	moveq r1, #1
 	streq r1, [r0, #0x118]
 	add sp, sp, #0x7c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020DC99C: .word 0x00007FFF
 _020DC9A0: .word 0x0214D0C8
@@ -5317,14 +5317,14 @@ _020DCAF4: .word 0x10624DD3
 
 	arm_func_start _NNS_StrmCallback
 _NNS_StrmCallback: // 0x020DCAF8
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	ldr r7, [sp, #0x2c]
-	mov sl, r0
+	mov r10, r0
 	ldr r0, [r7, #0x11c]
-	mov sb, r1
+	mov r9, r1
 	mov r8, r2
-	mov fp, r3
+	mov r11, r3
 	cmp r0, #2
 	blt _020DCBB0
 	ldr r0, _020DCC2C // =0x0214D940
@@ -5371,9 +5371,9 @@ _020DCBB0:
 	bl _NNS_AllocCommandBuffer
 	mov r1, r0
 	str r7, [r1, #8]
-	str sl, [r1, #0xc]
-	str sb, [r1, #0x10]
-	cmp sb, #0
+	str r10, [r1, #0xc]
+	str r9, [r1, #0x10]
+	cmp r9, #0
 	mov r3, #0
 	ble _020DCBE8
 _020DCBD0:
@@ -5381,11 +5381,11 @@ _020DCBD0:
 	add r0, r1, r3, lsl #2
 	add r3, r3, #1
 	str r2, [r0, #0x14]
-	cmp r3, sb
+	cmp r3, r9
 	blt _020DCBD0
 _020DCBE8:
-	str fp, [r1, #0x2c]
-	cmp sl, #0
+	str r11, [r1, #0x2c]
+	cmp r10, #0
 	ldr r4, _020DCC30 // =0x0214D460
 	bne _020DCC08
 	ldr r0, _020DCC34 // =0x0214D0B4
@@ -5401,7 +5401,7 @@ _020DCC08:
 	add r0, r4, #0x4c0
 	bl OS_WakeupThread
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020DCC2C: .word 0x0214D940
 _020DCC30: .word 0x0214D460
@@ -6161,16 +6161,16 @@ NNS_SndArcStrmPrepare: // 0x020DD58C
 
 	arm_func_start NNS_SndArcStrmSetupPlayer
 NNS_SndArcStrmSetupPlayer: // 0x020DD5EC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	ldr r7, _020DD6B8 // =0x0214D94C
-	mov sl, r0
-	mov sb, #0
-	ldr fp, _020DD6BC // =_NNS_DisposeCallback_2
-	mov r6, sb
-	mov r5, sb
+	mov r10, r0
+	mov r9, #0
+	ldr r11, _020DD6BC // =_NNS_DisposeCallback_2
+	mov r6, r9
+	mov r5, r9
 _020DD60C:
-	mov r0, sb
+	mov r0, r9
 	bl NNS_SndArcGetStrmPlayerInfo
 	cmp r0, #0
 	beq _020DD69C
@@ -6190,11 +6190,11 @@ _020DD634:
 	cmp r1, r2
 	blt _020DD634
 _020DD654:
-	cmp sl, #0
+	cmp r10, #0
 	beq _020DD69C
 	ldrb r1, [r7, #0x124]
-	mov r0, sl
-	mov r2, fp
+	mov r0, r10
+	mov r2, r11
 	mov r8, r1, lsl #0xb
 	mov r1, r8
 	mov r3, r7
@@ -6203,19 +6203,19 @@ _020DD654:
 	movs r4, r0
 	addeq sp, sp, #4
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r7
 	bl _NNS_ForceStopStrm
 	str r4, [r7, #0x12c]
 	str r8, [r7, #0x130]
 _020DD69C:
-	add sb, sb, #1
-	cmp sb, #4
+	add r9, r9, #1
+	cmp r9, #4
 	add r7, r7, #0x170
 	blt _020DD60C
 	mov r0, #1
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020DD6B8: .word 0x0214D94C
 _020DD6BC: .word _NNS_DisposeCallback_2

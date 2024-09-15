@@ -403,9 +403,9 @@ _037FC688: .word 0x03808434
 
 	arm_func_start OS_CreateThread
 OS_CreateThread: // 0x037FC68C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
-	mov sb, r0
+	mov r9, r0
 	mov r8, r1
 	mov r7, r2
 	mov r6, r3
@@ -413,60 +413,60 @@ OS_CreateThread: // 0x037FC68C
 	mov r4, r0
 	bl OSi_GetUnusedThreadId
 	ldr r1, [sp, #0x24]
-	str r1, [sb, #0x54]
-	str r0, [sb, #0x50]
+	str r1, [r9, #0x54]
+	str r0, [r9, #0x50]
 	mov r0, #0
-	str r0, [sb, #0x48]
-	str r0, [sb, #0x58]
-	mov r0, sb
+	str r0, [r9, #0x48]
+	str r0, [r9, #0x58]
+	mov r0, r9
 	bl OSi_InsertThreadToList
-	str r6, [sb, #0x78]
+	str r6, [r9, #0x78]
 	ldr r0, [sp, #0x20]
 	sub r5, r6, r0
-	str r5, [sb, #0x74]
+	str r5, [r9, #0x74]
 	mov r2, #0
-	str r2, [sb, #0x7c]
+	str r2, [r9, #0x7c]
 	ldr r1, _037FC790 // =0xD73BFDF7
-	ldr r0, [sb, #0x78]
+	ldr r0, [r9, #0x78]
 	str r1, [r0, #-4]
 	ldr r1, _037FC794 // =0xFBDD37BB
-	ldr r0, [sb, #0x74]
+	ldr r0, [r9, #0x74]
 	str r1, [r0]
-	str r2, [sb, #0x84]
-	ldr r0, [sb, #0x84]
-	str r0, [sb, #0x80]
-	mov r0, sb
+	str r2, [r9, #0x84]
+	ldr r0, [r9, #0x84]
+	str r0, [r9, #0x80]
+	mov r0, r9
 	mov r1, r8
 	sub r2, r6, #4
 	bl OS_InitContext
-	str r7, [sb, #4]
+	str r7, [r9, #4]
 	ldr r0, _037FC798 // =OS_ExitThread
-	str r0, [sb, #0x3c]
+	str r0, [r9, #0x3c]
 	mov r0, #0
 	add r1, r5, #4
 	ldr r2, [sp, #0x20]
 	sub r2, r2, #8
 	bl MIi_CpuClear32
 	mov r1, #0
-	str r1, [sb, #0x68]
-	str r1, [sb, #0x6c]
-	str r1, [sb, #0x70]
-	mov r0, sb
+	str r1, [r9, #0x68]
+	str r1, [r9, #0x6c]
+	str r1, [r9, #0x70]
+	mov r0, r9
 	bl OS_SetThreadDestructor
 	mov r0, #0
-	str r0, [sb, #0x5c]
-	str r0, [sb, #0x64]
-	ldr r1, [sb, #0x64]
-	str r1, [sb, #0x60]
-	add r1, sb, #0x88
+	str r0, [r9, #0x5c]
+	str r0, [r9, #0x64]
+	ldr r1, [r9, #0x64]
+	str r1, [r9, #0x60]
+	add r1, r9, #0x88
 	mov r2, #0xc
 	bl MIi_CpuClear32
 	mov r0, #0
-	str r0, [sb, #0x94]
+	str r0, [r9, #0x94]
 	mov r0, r4
 	bl OS_RestoreInterrupts
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	.align 2, 0
 _037FC790: .word 0xD73BFDF7

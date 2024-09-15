@@ -198,7 +198,7 @@ _020EAF80:
 
 	arm_func_start FSi_NextCommand
 FSi_NextCommand: // 0x020EAFC4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x4c
 	mov r6, r0
 	bl OS_DisableInterrupts
@@ -213,13 +213,13 @@ FSi_NextCommand: // 0x020EAFC4
 	cmp r0, #0
 	beq _020EB04C
 	mov r8, #0
-	mov sb, #1
+	mov r9, #1
 	mov r7, #3
 _020EB008:
 	ldr r1, [r0, #0xc]
 	ldr r4, [r0, #4]
 	ands r1, r1, #2
-	movne r1, sb
+	movne r1, r9
 	moveq r1, r8
 	cmp r1, #0
 	beq _020EB040
@@ -287,14 +287,14 @@ _020EB0D4:
 	bl OS_RestoreInterrupts
 	add sp, sp, #0x4c
 	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 _020EB120:
 	mov r0, r5
 	bl OS_RestoreInterrupts
 	add sp, sp, #0x4c
 	mov r0, r4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 _020EB138:
 	ldr r0, [r6, #0x1c]
@@ -330,7 +330,7 @@ _020EB1A4:
 	bl OS_RestoreInterrupts
 	mov r0, #0
 	add sp, sp, #0x4c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	arm_func_end FSi_NextCommand
 

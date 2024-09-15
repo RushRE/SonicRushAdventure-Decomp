@@ -523,7 +523,7 @@ _020CD238: .word 0x00004652
 
 	arm_func_start NNS_ExpHeap_AllocFromTail
 NNS_ExpHeap_AllocFromTail: // 0x020CD23C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	add r0, r0, #0x24
 	ldrh r4, [r0, #0x12]
@@ -543,11 +543,11 @@ NNS_ExpHeap_AllocFromTail: // 0x020CD23C
 	mvn r2, r2
 _020CD284:
 	ldr r8, [r4, #4]
-	add sb, r4, #0x10
-	add r6, r8, sb
+	add r9, r4, #0x10
+	add r6, r8, r9
 	sub r6, r6, r3
 	and r7, r2, r6
-	subs r6, r7, sb
+	subs r6, r7, r9
 	bmi _020CD2C4
 	cmp lr, r8
 	bls _020CD2C4
@@ -566,18 +566,18 @@ _020CD2D0:
 	cmp r1, #0
 	addeq sp, sp, #4
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	mov r4, #1
 	mov r2, ip
 	str r4, [sp]
 	bl NNS_ExpHeap_AllocUsedBlockFromFreeBlock
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end NNS_ExpHeap_AllocFromTail
 
 	arm_func_start NNS_ExpHeap_AllocFromHead
 NNS_ExpHeap_AllocFromHead: // 0x020CD2F8
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	add r0, r0, #0x24
 	ldrh r4, [r0, #0x12]
@@ -598,8 +598,8 @@ NNS_ExpHeap_AllocFromHead: // 0x020CD2F8
 _020CD340:
 	add r8, r5, #0x10
 	add r7, ip, r8
-	and sb, r2, r7
-	sub r7, sb, r8
+	and r9, r2, r7
+	sub r7, r9, r8
 	ldr r8, [r5, #4]
 	add r7, r3, r7
 	cmp r8, r7
@@ -608,7 +608,7 @@ _020CD340:
 	bls _020CD384
 	mov r1, r5
 	mov r4, r8
-	mov lr, sb
+	mov lr, r9
 	cmp r6, #0
 	bne _020CD390
 	cmp r8, r3
@@ -621,13 +621,13 @@ _020CD390:
 	cmp r1, #0
 	addeq sp, sp, #4
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	mov r4, #0
 	mov r2, lr
 	str r4, [sp]
 	bl NNS_ExpHeap_AllocUsedBlockFromFreeBlock
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end NNS_ExpHeap_AllocFromHead
 
 	arm_func_start NNS_ExpHeap_AllocUsedBlockFromFreeBlock
@@ -1095,11 +1095,11 @@ NNS_FndUnmountArchive: // 0x020CD958
 
 	arm_func_start NNS_FndMountArchive
 NNS_FndMountArchive: // 0x020CD980
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x10
 	mov r7, r2
 	mov r6, #0
-	mov sb, r0
+	mov r9, r0
 	mov r0, r7
 	mov r8, r1
 	mov r5, r6
@@ -1108,7 +1108,7 @@ NNS_FndMountArchive: // 0x020CD980
 	cmp r0, #0
 	addeq sp, sp, #0x10
 	moveq r0, r6
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	ldrh r1, [r7, #0xc]
 	ldrh r0, [r7, #0xe]
 	mov r2, r6
@@ -1119,12 +1119,12 @@ NNS_FndMountArchive: // 0x020CD980
 	ldr ip, _020CDAC4 // =0x46494D47
 	ldr lr, _020CDAC8 // =0x46415442
 _020CD9DC:
-	ldr sl, [r1]
-	cmp sl, lr
+	ldr r10, [r1]
+	cmp r10, lr
 	beq _020CD9FC
-	cmp sl, ip
+	cmp r10, ip
 	beq _020CDA04
-	cmp sl, r3
+	cmp r10, r3
 	moveq r5, r1
 	b _020CDA08
 _020CD9FC:
@@ -1133,28 +1133,28 @@ _020CD9FC:
 _020CDA04:
 	mov r4, r1
 _020CDA08:
-	ldr sl, [r1, #4]
+	ldr r10, [r1, #4]
 	add r2, r2, #1
-	add r1, r1, sl
+	add r1, r1, r10
 	cmp r2, r0
 	blt _020CD9DC
 _020CDA1C:
-	mov r0, sb
+	mov r0, r9
 	bl FS_InitArchive
-	str r7, [sb, #0x5c]
+	str r7, [r9, #0x5c]
 	mov r0, r8
-	str r6, [sb, #0x60]
+	str r6, [r9, #0x60]
 	add r4, r4, #8
-	str r4, [sb, #0x64]
+	str r4, [r9, #0x64]
 	bl strlen
 	mov r2, r0
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	bl FS_RegisterArchiveName
 	cmp r0, #0
 	addeq sp, sp, #0x10
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	add r0, r5, #8
 	sub r0, r0, r4
 	str r0, [sp]
@@ -1166,7 +1166,7 @@ _020CDA1C:
 	str r0, [sp, #8]
 	str r0, [sp, #0xc]
 	ldr r3, [r6, #4]
-	mov r0, sb
+	mov r0, r9
 	mov r1, r4
 	sub r2, r2, r4
 	sub r3, r3, #0xc
@@ -1174,12 +1174,12 @@ _020CDA1C:
 	cmp r0, #0
 	addne sp, sp, #0x10
 	movne r0, #1
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
-	mov r0, sb
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+	mov r0, r9
 	bl RemoveArchiveFromList
 	mov r0, #0
 	add sp, sp, #0x10
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _020CDAC0: .word 0x464E5442
 _020CDAC4: .word 0x46494D47

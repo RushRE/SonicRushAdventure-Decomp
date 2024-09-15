@@ -95,15 +95,15 @@ _03803440: .word 0x027FFC40
 
 	arm_func_start CARDi_SetWriteProtectCore
 CARDi_SetWriteProtectCore: // 0x03803444
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
 	mov r4, r0
 	bl CARDi_WaitPrevCommand
 	cmp r0, #0
 	beq _038034CC
 	ldr r0, _038034D8 // =0x03809DE0
-	ldr sl, [r0]
-	mov sb, #0xa
+	ldr r10, [r0]
+	mov r9, #0xa
 	mov r0, #1
 	strb r0, [sp]
 	strb r4, [sp, #1]
@@ -124,15 +124,15 @@ _03803488:
 	mov r0, r4
 	mov r1, r6
 	bl CARDi_CommandEnd
-	ldr r0, [sl]
+	ldr r0, [r10]
 	cmp r0, #4
 	bne _038034CC
-	sub sb, sb, #1
-	cmp sb, #0
+	sub r9, r9, #1
+	cmp r9, #0
 	bgt _03803488
 _038034CC:
 	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
 _038034D8: .word 0x03809DE0
@@ -262,10 +262,10 @@ _03803670: .word sub_3803A08
 
 	arm_func_start CARDi_WriteBackupCore
 CARDi_WriteBackupCore: // 0x03803674
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
-	mov sl, r0
-	mov sb, r1
+	mov r10, r0
+	mov r9, r1
 	mov r8, r2
 	bl CARDi_WaitPrevCommand
 	cmp r0, #0
@@ -274,12 +274,12 @@ CARDi_WriteBackupCore: // 0x03803674
 	ldr r7, [r0]
 	ldr r6, [r7, #0x20]
 	sub r4, r6, #1
-	mov fp, #0xa
+	mov r11, #0xa
 	mov r0, #0
 	str r0, [sp]
 	b _0380371C
 _038036B4:
-	and r0, sl, r4
+	and r0, r10, r4
 	sub r5, r6, r0
 	cmp r5, r8
 	movhi r5, r8
@@ -288,10 +288,10 @@ _038036B4:
 	add r0, r0, #1
 	add r0, r0, r5
 	bl CARDi_CommandBegin
-	mov r0, sl
-	mov r1, fp
+	mov r0, r10
+	mov r1, r11
 	bl CARDi_SendSpiAddressingCommand
-	mov r0, sb
+	mov r0, r9
 	ldr r1, [sp]
 	mov r2, r5
 	ldr r3, _03803734 // =sub_3803A70
@@ -302,15 +302,15 @@ _038036B4:
 	ldr r0, [r7]
 	cmp r0, #0
 	bne _03803724
-	add sb, sb, r5
-	add sl, sl, r5
+	add r9, r9, r5
+	add r10, r10, r5
 	sub r8, r8, r5
 _0380371C:
 	cmp r8, #0
 	bne _038036B4
 _03803724:
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _03803730: .word 0x03809DE0
@@ -319,10 +319,10 @@ _03803734: .word sub_3803A70
 
 	arm_func_start CARDi_ProgramBackupCore
 CARDi_ProgramBackupCore: // 0x03803738
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
-	mov sl, r0
-	mov sb, r1
+	mov r10, r0
+	mov r9, r1
 	mov r8, r2
 	bl CARDi_WaitPrevCommand
 	cmp r0, #0
@@ -333,10 +333,10 @@ CARDi_ProgramBackupCore: // 0x03803738
 	sub r4, r6, #1
 	mov r0, #2
 	str r0, [sp]
-	mov fp, #0
+	mov r11, #0
 	b _038037E0
 _03803778:
-	and r0, sl, r4
+	and r0, r10, r4
 	sub r5, r6, r0
 	cmp r5, r8
 	movhi r5, r8
@@ -345,29 +345,29 @@ _03803778:
 	add r0, r0, #1
 	add r0, r0, r5
 	bl CARDi_CommandBegin
-	mov r0, sl
+	mov r0, r10
 	ldr r1, [sp]
 	bl CARDi_SendSpiAddressingCommand
-	mov r0, sb
-	mov r1, fp
+	mov r0, r9
+	mov r1, r11
 	mov r2, r5
 	ldr r3, _038037F8 // =sub_3803A70
 	bl CARDi_CommArray
 	ldr r0, [r7, #0x28]
-	mov r1, fp
+	mov r1, r11
 	bl CARDi_CommandEnd
 	ldr r0, [r7]
 	cmp r0, #0
 	bne _038037E8
-	add sb, sb, r5
-	add sl, sl, r5
+	add r9, r9, r5
+	add r10, r10, r5
 	sub r8, r8, r5
 _038037E0:
 	cmp r8, #0
 	bne _03803778
 _038037E8:
 	add sp, sp, #4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _038037F4: .word 0x03809DE0
@@ -956,24 +956,24 @@ _03803F2C: .word 0x040001AF
 
 	arm_func_start CARDi_TaskThread
 CARDi_TaskThread: // 0x03803F30
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
-	ldr sb, _03804138 // =0x03809DE0
-	add r5, sb, #0x48
+	ldr r9, _03804138 // =0x03809DE0
+	add r5, r9, #0x48
 	mov r8, #0
-	add r7, sb, #0xfc
+	add r7, r9, #0xfc
 	mov r6, #1
 	mov r4, #3
-	mov fp, #0xb
+	mov r11, #0xb
 _03803F54:
-	mov sl, r8
+	mov r10, r8
 	bl OS_DisableInterrupts
 	str r0, [sp]
 _03803F60:
-	ldr r0, [sb, #0xfc]
+	ldr r0, [r9, #0xfc]
 	ands r0, r0, #4
 	bne _03803F98
-	ldr r0, [sb, #0xfc]
+	ldr r0, [r9, #0xfc]
 	ands r0, r0, #0x10
 	beq _03803FA4
 	ldr r0, [r7]
@@ -982,31 +982,31 @@ _03803F60:
 	ldr r0, [r7]
 	bic r0, r0, #0x10
 	str r0, [r7]
-	mov sl, r6
+	mov r10, r6
 	b _03803FB4
 _03803F98:
-	ldr r0, [sb, #0xfc]
+	ldr r0, [r9, #0xfc]
 	ands r0, r0, #8
 	bne _03803FB4
 _03803FA4:
-	str r5, [sb, #0xec]
+	str r5, [r9, #0xec]
 	mov r0, r8
 	bl OS_SleepThread
 	b _03803F60
 _03803FB4:
 	ldr r0, [sp]
 	bl OS_RestoreInterrupts
-	cmp sl, #0
+	cmp r10, #0
 	beq _03804124
-	ldr r0, [sb]
+	ldr r0, [r9]
 	str r8, [r0]
-	ldr r2, [sb]
+	ldr r2, [r9]
 	ldr r1, [r2, #0x4c]
-	ldr r0, [sb, #4]
+	ldr r0, [r9, #4]
 	mov r0, r6, lsl r0
 	ands r0, r1, r0
 	streq r4, [r2]
-	ldr r0, [sb, #4]
+	ldr r0, [r9, #4]
 	cmp r0, #0xc
 	addls pc, pc, r0, lsl #2
 	b _038040C8
@@ -1029,43 +1029,43 @@ _03804028:
 	b _038040D0
 _03804030:
 	bl CARDi_ReadRomIDCore
-	ldr r1, [sb]
+	ldr r1, [r9]
 	str r0, [r1, #8]
 	b _038040D0
 _03804040:
-	ldr r0, [sb]
+	ldr r0, [r9]
 	str r4, [r0]
 	b _038040D0
 _0380404C:
-	ldr r2, [sb]
+	ldr r2, [r9]
 	ldr r0, [r2, #0xc]
 	ldr r1, [r2, #0x10]
 	ldr r2, [r2, #0x14]
 	bl CARDi_ReadBackupCore
 	b _038040D0
 _03804064:
-	ldr r2, [sb]
+	ldr r2, [r9]
 	ldr r0, [r2, #0x10]
 	ldr r1, [r2, #0xc]
 	ldr r2, [r2, #0x14]
 	bl CARDi_WriteBackupCore
 	b _038040D0
 _0380407C:
-	ldr r2, [sb]
+	ldr r2, [r9]
 	ldr r0, [r2, #0x10]
 	ldr r1, [r2, #0xc]
 	ldr r2, [r2, #0x14]
 	bl CARDi_ProgramBackupCore
 	b _038040D0
 _03804094:
-	ldr r2, [sb]
+	ldr r2, [r9]
 	ldr r0, [r2, #0x10]
 	ldr r1, [r2, #0xc]
 	ldr r2, [r2, #0x14]
 	bl CARDi_VerifyBackupCore
 	b _038040D0
 _038040AC:
-	ldr r1, [sb]
+	ldr r1, [r9]
 	ldr r0, [r1, #0x10]
 	ldr r1, [r1, #0x14]
 	bl CARDi_EraseBackupSectorCore
@@ -1074,34 +1074,34 @@ _038040C0:
 	bl CARDi_EraseChipCore
 	b _038040D0
 _038040C8:
-	ldr r0, [sb]
+	ldr r0, [r9]
 	str r4, [r0]
 _038040D0:
-	mov r0, fp
+	mov r0, r11
 	mov r1, r6
 	mov r2, r6
 	bl PXI_SendWordByFifo
 	cmp r0, #0
 	blt _038040D0
 	bl OS_DisableInterrupts
-	mov sl, r0
-	ldr r0, [sb, #0xfc]
+	mov r10, r0
+	ldr r0, [r9, #0xfc]
 	bic r0, r0, #0x4c
-	str r0, [sb, #0xfc]
-	add r0, sb, #0xf4
+	str r0, [r9, #0xfc]
+	add r0, r9, #0xf4
 	bl OS_WakeupThread
-	ldr r0, [sb, #0xfc]
+	ldr r0, [r9, #0xfc]
 	ands r0, r0, #0x10
 	beq _03804118
 	mov r0, r5
 	bl OS_WakeupThreadDirect
 _03804118:
-	mov r0, sl
+	mov r0, r10
 	bl OS_RestoreInterrupts
 	b _03803F54
 _03804124:
-	mov r0, sb
-	ldr r1, [sb, #0x44]
+	mov r0, r9
+	ldr r1, [r9, #0x44]
 	mov lr, pc
 	bx r1
 	arm_func_end CARDi_TaskThread

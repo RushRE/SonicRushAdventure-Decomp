@@ -211,16 +211,16 @@ _020FD010:
 
 	arm_func_start STD_ConvertStringUnicodeToSjis
 STD_ConvertStringUnicodeToSjis: // 0x020FD020
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x14
 	mov r8, r0
-	movs fp, r2
+	movs r11, r2
 	mov r0, #0
 	str r1, [sp]
 	str r3, [sp, #4]
 	addeq sp, sp, #0x14
 	moveq r0, #2
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxeq lr
 	mov r6, r0
 	mov r5, r0
@@ -248,26 +248,26 @@ _020FD094:
 	mov r1, #1
 	str r2, [sp, #0xc]
 	str r1, [sp, #0x10]
-	add r2, fp, r6, lsl #1
-	ldrb r3, [fp, r6, lsl #1]
+	add r2, r11, r6, lsl #1
+	ldrb r3, [r11, r6, lsl #1]
 	ldrb r1, [r2, #1]
 	orr r1, r3, r1, lsl #8
 	mov r1, r1, lsl #0x10
-	movs sl, r1, lsr #0x10
+	movs r10, r1, lsr #0x10
 	beq _020FD250
-	cmp sl, #0xe000
+	cmp r10, #0xe000
 	blo _020FD118
 	ldr r1, _020FD274 // =0x0000F8FF
-	cmp sl, r1
+	cmp r10, r1
 	bhs _020FD118
 	ldr r3, _020FD278 // =0xAE4C415D
-	sub r1, sl, #0xe000
-	umull r3, sb, r1, r3
-	mov sb, sb, lsr #7
+	sub r1, r10, #0xe000
+	umull r3, r9, r1, r3
+	mov r9, r9, lsr #7
 	mov r3, #0xbc
-	mul r3, sb, r3
+	mul r3, r9, r3
 	sub r3, r1, r3
-	add r1, sb, #0xf0
+	add r1, r9, #0xf0
 	strb r1, [sp, #8]
 	cmp r3, #0x3f
 	movlo r1, #0x40
@@ -279,26 +279,26 @@ _020FD094:
 	b _020FD198
 _020FD118:
 	mov lr, #0
-	mov sb, lr
+	mov r9, lr
 	ldr r1, _020FD27C // _02117024
 _020FD124:
-	mov r3, sb, lsl #3
-	ldr ip, [r1, sb, lsl #3]
-	subs ip, sl, ip
+	mov r3, r9, lsl #3
+	ldr ip, [r1, r9, lsl #3]
+	subs ip, r10, ip
 	bmi _020FD198
 	add r3, r1, r3
 	ldr r3, [r3, #4]
 	cmp ip, r3
 	bge _020FD188
 	ldr r1, _020FD280 // =unicode2sjis_array
-	add sb, lr, ip
-	ldrb r3, [r1, sb, lsl #1]
-	mov sb, sb, lsl #1
+	add r9, lr, ip
+	ldrb r3, [r1, r9, lsl #1]
+	mov r9, r9, lsl #1
 	strb r3, [sp, #8]
 	ldrsb r3, [sp, #8]
 	cmp r3, #0
 	beq _020FD198
-	add r3, sb, #1
+	add r3, r9, #1
 	ldrb r1, [r1, r3]
 	strb r1, [sp, #9]
 	ldrsb r1, [sp, #9]
@@ -309,25 +309,25 @@ _020FD124:
 	b _020FD198
 _020FD188:
 	add lr, lr, r3
-	add sb, sb, #1
-	cmp sb, #5
+	add r9, r9, #1
+	cmp r9, #5
 	blt _020FD124
 _020FD198:
 	ldr r1, [sp, #0xc]
 	cmp r1, #0
 	bne _020FD1DC
-	ldr sl, [sp, #0x38]
-	cmp sl, #0
+	ldr r10, [sp, #0x38]
+	cmp r10, #0
 	moveq r0, #3
 	beq _020FD1D4
 	sub r3, r7, r6
-	mov sb, #4
+	mov r9, #4
 	str r3, [sp, #0x10]
 	add r0, sp, #8
 	add r1, sp, #0xc
 	add r3, sp, #0x10
-	str sb, [sp, #0xc]
-	blx sl
+	str r9, [sp, #0xc]
+	blx r10
 _020FD1D4:
 	cmp r0, #0
 	bne _020FD250
@@ -343,17 +343,17 @@ _020FD1DC:
 	cmp r8, #0
 	beq _020FD234
 	cmp r2, #0
-	mov sb, #0
+	mov r9, #0
 	ble _020FD234
 	add r3, sp, #8
 _020FD214:
 	ldrsb r2, [r3]
-	add r1, r5, sb
-	add sb, sb, #1
+	add r1, r5, r9
+	add r9, r9, #1
 	strb r2, [r8, r1]
 	ldr r2, [sp, #0xc]
 	add r3, r3, #1
-	cmp sb, r2
+	cmp r9, r2
 	blt _020FD214
 _020FD234:
 	ldr r1, [sp, #0x10]
@@ -372,7 +372,7 @@ _020FD250:
 	cmp r1, #0
 	strne r5, [r1]
 	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _020FD274: .word 0x0000F8FF
@@ -383,17 +383,17 @@ _020FD280: .word unicode2sjis_array
 
 	arm_func_start STD_ConvertStringSjisToUnicode
 STD_ConvertStringSjisToUnicode: // 0x020FD284
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x14
 	ldr r8, [sp, #0x38]
-	mov sl, r0
-	movs sb, r2
+	mov r10, r0
+	movs r9, r2
 	str r3, [sp]
 	mov r0, #0
-	mov fp, r1
+	mov r11, r1
 	addeq sp, sp, #0x14
 	moveq r0, #2
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxeq lr
 	mov r6, r0
 	mov r5, r0
@@ -405,11 +405,11 @@ STD_ConvertStringSjisToUnicode: // 0x020FD284
 _020FD2D0:
 	mvn r7, #0x80000000
 _020FD2D4:
-	cmp sl, #0
+	cmp r10, #0
 	beq _020FD2F0
-	cmp fp, #0
+	cmp r11, #0
 	beq _020FD2F0
-	ldr r4, [fp]
+	ldr r4, [r11]
 	cmp r4, #0
 	bge _020FD4A0
 _020FD2F0:
@@ -418,8 +418,8 @@ _020FD2F0:
 _020FD2F8:
 	mov r1, #0
 	str r1, [sp, #0xc]
-	ldrsb r2, [sb, r6]
-	add r1, sb, r6
+	ldrsb r2, [r9, r6]
+	add r1, r9, r6
 	ands r3, r2, #0xff
 	beq _020FD4B0
 	cmp r3, #0x7e
@@ -467,7 +467,7 @@ _020FD388:
 	movlo r2, #0
 	add r2, r2, #0x81
 	sub r3, r3, r2
-	ldrb r1, [sb, r1]
+	ldrb r1, [r9, r1]
 	mov r2, #0xc0
 	mla r2, r3, r2, r1
 	ldr r1, _020FD4D4 // =sjis2unicode_array
@@ -492,7 +492,7 @@ _020FD3EC:
 	add r0, sp, #4
 	add r1, sp, #0xc
 	add r3, sp, #0x10
-	add r2, sb, r6
+	add r2, r9, r6
 	str ip, [sp, #0xc]
 	blx r8
 _020FD428:
@@ -507,7 +507,7 @@ _020FD430:
 	add r2, r5, r1
 	cmp r2, r4
 	bgt _020FD4B0
-	cmp sl, #0
+	cmp r10, #0
 	beq _020FD494
 	cmp r1, #0
 	mov lr, #0
@@ -517,8 +517,8 @@ _020FD468:
 	mov r1, lr, lsl #1
 	ldrh r1, [r2, r1]
 	add r3, r5, lr
-	add ip, sl, r3, lsl #1
-	strb r1, [sl, r3, lsl #1]
+	add ip, r10, r3, lsl #1
+	strb r1, [r10, r3, lsl #1]
 	mov r1, r1, asr #8
 	strb r1, [ip, #1]
 	ldr r1, [sp, #0xc]
@@ -538,10 +538,10 @@ _020FD4B0:
 	ldr r1, [sp]
 	cmp r1, #0
 	strne r6, [r1]
-	cmp fp, #0
-	strne r5, [fp]
+	cmp r11, #0
+	strne r5, [r11]
 	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
 _020FD4D0: .word 0x0000FEC0
