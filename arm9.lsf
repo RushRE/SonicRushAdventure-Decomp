@@ -392,7 +392,8 @@ Overlay ZoneAct
     Object asm/stage/objects/pipeSteam.o
     Object asm/stage/objects/rotatingHanger.o
     Object asm/stage/objects/ropeTar.o
-    Object asm/stage/objects/flipMushroom.o
+    Object src/stage/objects/flipMushroom.o
+    Object asm/stage/objects/flipMushroom_vars.o
     Object asm/stage/objects/grind3Line.o
     Object src/stage/objects/waterLevelTrigger.o
     Object src/stage/objects/waterRunTrigger.o

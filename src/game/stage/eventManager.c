@@ -40,6 +40,7 @@
 #include <stage/objects/breakableWall.h>
 #include <stage/objects/platform.h>
 #include <stage/objects/diveStand.h>
+#include <stage/objects/flipMushroom.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -70,7 +71,6 @@ NOT_DECOMPILED GameObjectTask *Boss5Stage__Create(MapObject *mapObject, fx32 x, 
 NOT_DECOMPILED GameObjectTask *Boss4Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss3Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss2Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *FlipMushroom__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *GrindTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
