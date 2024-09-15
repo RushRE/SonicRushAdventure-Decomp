@@ -501,7 +501,7 @@ PipeSteam__OnDefend_21617B0: // 0x021617B0
 	mov r2, #0
 	ldrsb ip, [r0, #6]
 	ldr lr, [r4, #0x24]
-	ldr r0, _0216184C // =_02188390
+	ldr r0, _0216184C // =PipeSteam__dword_2188390
 	cmp ip, #0
 	ldr r1, [r0, lr, lsl #2]
 	ldrgt r0, _02161850 // =0x02188398
@@ -523,7 +523,7 @@ _02161834:
 	bl Player__Action_AllowTrickCombos
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0216184C: .word _02188390
+_0216184C: .word PipeSteam__dword_2188390
 _02161850: .word 0x02188398
 	arm_func_end PipeSteam__OnDefend_21617B0
 
@@ -970,54 +970,32 @@ _02161E60: .word PipeSteam__State_2161BB0
 	
 	.rodata
 
-_02188390: // 0x02188390
+.public PipeSteam__dword_2188390
+PipeSteam__dword_2188390: // 0x02188390
     .word 0xA000, 0xA000      
 	
-_02188398: // 0x02188398
+.public PipeSteam__dword_2188398
+PipeSteam__dword_2188398: // 0x02188398
     .word 0x800, 0x800        
 	
-_021883A0: // 0x021883A0
+.public PipeFlow__dword_21883A0
+PipeFlow__dword_21883A0: // 0x021883A0
     .word 0, 0                
 	
-_021883A8: // 0x021883A8
+.public PipeFlow__dword_21883A8
+PipeFlow__dword_21883A8: // 0x021883A8
     .word 0x10000, 0x20000    
 	
-_021883B0: // 0x021883B0
-    .word 0x300018, 0xFFE8FFE8, 0x180030, 0xFFE8, 0x300018, 0xFFE8FFE8
-	.word 0x180030, 0xFFE8, 0x300028, 0xFFE8FFE8, 0x280030, 0xFFF0FFE8
-	.word 0x300028, 0xFFE8FFE8, 0x280030, 0xFFF0FFE8
-
-_021883F0: // 0x021883F0
-    .word 0xFFF2FFA0, 0xFFB0FFB2, 0xFFB0FFB8
-	
-_021883FC: // 0x021883FC
-    .word 0x1800C0, 0x980098, 0x980098
-	
-_02188408: // 0x02188408
-    .word 0xFFE8FF94, 0x6C, 0, 0, 0, 0, 0, 0
-	.word 0x12FFAC, 0x34FFCE, 0xFFF0FFCE, 0x12FFF0, 0xFFCEFFF0
-	.word 0xFFF00012, 0xFFAC0012, 0xFFCE0034, 0xFFACFFCC, 0xFFCEFFEE
-	.word 0xFFCEFFEE, 0xFFF00010, 0xFFF00010, 0x120032, 0x120032
-	.word 0x340054
-	
-_02188468: // 0x02188468
-    .word 0xFFFAC000          
-	
-_0218846C: // 0x0218846C
-    .word 0xFFFE0000, 0x2A000, 0
-	
-_02188478: // 0x02188478
-    .word 0xFFFFEE00          
-	
-_0218847C: // 0x0218847C
-    .word 0x3000, 0x600, 0    
-	
-_02188488: // 0x02188488
-    .word 0x1F001F, 0xFFFB5000, 0x2B000, 0x1F800, 0xFFFE0800
-	.word 0xFFFFF361, 0x2200, 0x435, 0
-	.word 0xF000F, 0x4B000, 0x2B000, 0xFFFE0800, 0xFFFE0800
-	.word 0xC9F, 0x2200, 0xFFFFFBCB, 0
-	.word 0xF000F
+.public PipeSteam__stru_21883B0
+PipeSteam__stru_21883B0: // 0x021883B0
+    .hword 24, 48, -24, -24
+	.hword 48, 24, -24, 0
+	.hword 24, 48, -24, -24
+	.hword 48, 24, -24, 0
+	.hword 40, 48, -24, -24
+	.hword 48, 40, -24, -16
+	.hword 40, 48, -24, -24
+	.hword 48, 40, -24, -16
 
 	.data
 	

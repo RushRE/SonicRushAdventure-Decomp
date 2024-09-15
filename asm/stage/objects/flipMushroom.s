@@ -5,7 +5,7 @@
 
 	arm_func_start FlipMushroom__Create
 FlipMushroom__Create: // 0x02162E20
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	mov r7, r0
 	ldrh r8, [r7, #2]
@@ -29,21 +29,21 @@ FlipMushroom__Create: // 0x02162E20
 	cmp r8, r0
 	addeq sp, sp, #0x10
 	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r8
 	bl GetTaskWork_
 	ldr r2, _02163100 // =0x00000474
-	mov sb, r0
+	mov r9, r0
 	mov r1, #0
 	bl MI_CpuFill8
-	mov r0, sb
+	mov r0, r9
 	mov r1, r7
 	mov r2, r6
 	mov r3, r4
 	bl GameObject__InitFromObject
 	ldrh r0, [r7, #2]
 	cmp r0, #0x51
-	add r0, sb, #0x400
+	add r0, r9, #0x400
 	bne _02162ED8
 	mov r1, #1
 	strh r1, [r0, #0x64]
@@ -60,65 +60,65 @@ _02162ED8:
 	str r0, [sp, #0xc]
 	cmp r1, #0x52
 	moveq r0, #0xe000
-	streqh r0, [sb, #0x34]
+	streqh r0, [r9, #0x34]
 	movne r0, #0x2000
-	strneh r0, [sb, #0x34]
+	strneh r0, [r9, #0x34]
 _02162F04:
 	add r0, r5, #0xad
 	bl GetObjectFileWork
-	ldr r1, _0216310C // =_02188FEC
+	ldr r1, _0216310C // =flipMushSpriteList
 	ldr r3, _02163110 // =gameArchiveStage
 	mov r2, r0
 	ldr r1, [r1, r5, lsl #2]
 	ldr r3, [r3]
-	mov r0, sb
+	mov r0, r9
 	bl ObjObjectCollisionDifSet
-	ldr r0, _02163114 // =0x021883FC
+	ldr r0, _02163114 // =FlipMushroom__collisionSize
 	mov r1, r5, lsl #2
 	ldrh r3, [r0, r1]
 	ldr r2, _02163118 // =0x021883FE
-	str sb, [sb, #0x2d8]
-	add r0, sb, #0x300
+	str r9, [r9, #0x2d8]
+	add r0, r9, #0x300
 	ldrh r6, [r2, r1]
 	strh r3, [r0, #8]
-	ldr r3, _0216311C // =0x021883F0
+	ldr r3, _0216311C // =FlipMushroom__collisionOffset
 	strh r6, [r0, #0xa]
 	ldrsh r6, [r3, r1]
 	ldr r3, _02163120 // =0x021883F2
-	add r2, sb, #0x200
+	add r2, r9, #0x200
 	ldrsh r1, [r3, r1]
 	strh r6, [r2, #0xf0]
 	mov r0, #0xa6
 	strh r1, [r2, #0xf2]
-	ldr r1, [sb, #0x2f4]
+	ldr r1, [r9, #0x2f4]
 	orr r1, r1, #0x20
-	str r1, [sb, #0x2f4]
+	str r1, [r9, #0x2f4]
 	bl GetObjectFileWork
 	mov r3, r0
 	ldr r0, _02163110 // =gameArchiveStage
 	mov r1, #0
 	ldr r2, [r0]
-	mov r0, sb
+	mov r0, r9
 	str r2, [sp]
 	str r1, [sp, #4]
 	ldr r2, _02163124 // =aActAcGmkFlipmu_0
-	add r1, sb, #0x168
+	add r1, r9, #0x168
 	bl ObjObjectAction2dBACLoad
 	mov r0, #0xa7
 	bl GetObjectFileWork
 	mov r2, r0
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0x30
 	bl ObjObjectActionAllocSprite
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0
 	bl StageTask__SetAnimation
-	ldr r0, [sb, #0x1a4]
+	ldr r0, [r9, #0x1a4]
 	orr r0, r0, r4
-	str r0, [sb, #0x1a4]
+	str r0, [r9, #0x1a4]
 	ldrh r0, [r7, #4]
 	tst r0, #1
-	mov r0, sb
+	mov r0, r9
 	beq _02162FF4
 	mov r1, #4
 	mov r2, #0x1d
@@ -129,84 +129,84 @@ _02162FF4:
 	mov r2, #0xe
 	bl ObjActionAllocSpritePalette
 _02163000:
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0x17
 	bl StageTask__SetAnimatorOAMOrder
-	mov r0, sb
+	mov r0, r9
 	mov r1, #2
 	bl StageTask__SetAnimatorPriority
-	add r4, sb, #0x400
+	add r4, r9, #0x400
 	ldrsh r0, [r4, #0x64]
 	mov r8, #0
 	cmp r0, #0
 	ble _021630BC
-	ldr r0, _02163128 // =0x02188408
-	ldr fp, _0216312C // =0x0000FFFE
+	ldr r0, _02163128 // =FlipMushroom__hitboxList
+	ldr r11, _0216312C // =0x0000FFFE
 	add r7, r0, r5, lsl #5
 	ldr r6, _02163130 // =0x00000102
 	ldr r5, _02163134 // =FlipMushroom__OnDefend
-	add sl, sb, #0x364
+	add r10, r9, #0x364
 _02163044:
 	mov r1, #0
-	mov r0, sl
+	mov r0, r10
 	mov r2, r1
 	bl ObjRect__SetAttackStat
-	mov r0, sl
-	mov r1, fp
+	mov r0, r10
+	mov r1, r11
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	add r3, r7, r8, lsl #3
 	ldrsh r1, [r3, #6]
 	mov r2, r8, lsl #3
-	mov r0, sl
+	mov r0, r10
 	str r1, [sp]
 	ldrsh r1, [r2, r7]
 	ldrsh r2, [r3, #2]
 	ldrsh r3, [r3, #4]
 	bl ObjRect__SetBox2D
-	add r1, sb, r8, lsl #6
+	add r1, r9, r8, lsl #6
 	add r0, r1, #0x300
 	strh r6, [r0, #0x98]
-	str sb, [r1, #0x380]
+	str r9, [r1, #0x380]
 	str r5, [r1, #0x388]
 	ldr r0, [r1, #0x37c]
 	add r8, r8, #1
 	orr r0, r0, #0x400
 	str r0, [r1, #0x37c]
 	ldrsh r0, [r4, #0x64]
-	add sl, sl, #0x40
+	add r10, r10, #0x40
 	cmp r8, r0
 	blt _02163044
 _021630BC:
-	ldr r1, [sb, #0x1c]
+	ldr r1, [r9, #0x1c]
 	ldr r0, [sp, #0xc]
 	orr r1, r1, #0x2100
-	str r1, [sb, #0x1c]
-	ldr r2, [sb, #0x20]
+	str r1, [r9, #0x1c]
+	ldr r2, [r9, #0x20]
 	orr r0, r0, #0x10
 	orr r0, r2, r0
-	str r0, [sb, #0x20]
+	str r0, [r9, #0x20]
 	ldr r1, _02163138 // =FlipMushroom__State_Idle
 	ldr r0, _0216313C // =FlipMushroom__Draw
-	str r1, [sb, #0xf4]
-	str r0, [sb, #0xfc]
+	str r1, [r9, #0xf4]
+	str r0, [r9, #0xfc]
 	ldr r1, _02163140 // =FlipMushroom__Collide
-	mov r0, sb
-	str r1, [sb, #0x108]
+	mov r0, r9
+	str r1, [r9, #0x108]
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02163100: .word 0x00000474
 _02163104: .word StageTask_Main
 _02163108: .word GameObject__Destructor
-_0216310C: .word _02188FEC
+_0216310C: .word flipMushSpriteList
 _02163110: .word gameArchiveStage
-_02163114: .word 0x021883FC
+_02163114: .word FlipMushroom__collisionSize
 _02163118: .word 0x021883FE
-_0216311C: .word 0x021883F0
+_0216311C: .word FlipMushroom__collisionOffset
 _02163120: .word 0x021883F2
 _02163124: .word aActAcGmkFlipmu_0
-_02163128: .word 0x02188408
+_02163128: .word FlipMushroom__hitboxList
 _0216312C: .word 0x0000FFFE
 _02163130: .word 0x00000102
 _02163134: .word FlipMushroom__OnDefend
@@ -379,18 +379,18 @@ _02163358: .word g_obj
 
 	arm_func_start FlipMushroom__OnDefend
 FlipMushroom__OnDefend: // 0x0216335C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	ldr r6, [r1, #0x1c]
 	ldr r4, [r0, #0x1c]
 	cmp r6, #0
 	cmpne r4, #0
 	addeq sp, sp, #0xc
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrh r0, [r4]
 	cmp r0, #1
 	addne sp, sp, #0xc
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [r6, #0x18]
 	ldr r5, [r6, #0x340]
 	orr r1, r0, #2
@@ -418,31 +418,31 @@ _021633C4:
 	ldr r1, [r6, #0x340]
 	mov r0, #0x24
 	ldrh r3, [r1, #2]
-	ldr r2, _021634E8 // =0x02188468
-	ldr r1, _021634EC // =0x0218846C
+	ldr r2, _021634E8 // =FlipMushroom__stru_2188468
+	ldr r1, _021634EC // =FlipMushroom__stru_2188468+4
 	sub r3, r3, #0x51
 	mul r5, r3, r0
-	ldr r7, _021634F0 // =0x02188488
-	ldr r8, _021634F4 // =0x0218848A
-	ldr fp, _021634F8 // =0x02188478
-	ldrh sb, [r7, r5]
-	ldr sl, _021634FC // =0x0218847C
+	ldr r7, _021634F0 // =FlipMushroom__stru_2188468+0x20
+	ldr r8, _021634F4 // =FlipMushroom__stru_2188468+0x22
+	ldr r11, _021634F8 // =FlipMushroom__stru_2188468+0x10
+	ldrh r9, [r7, r5]
+	ldr r10, _021634FC // =FlipMushroom__stru_2188468+0x14
 	add r0, r2, r5
 	ldr r3, [r2, r5]
-	ldr r7, [fp, r5]
+	ldr r7, [r11, r5]
 	ldr r4, [r6, #0x44]
 	ldr r2, [r6, #0x48]
 	ldrh r6, [r8, r5]
-	ldr r8, [sl, r5]
+	ldr r8, [r10, r5]
 	ldr r1, [r1, r5]
 	ldr r5, [r0, #8]
 	str r6, [sp, #8]
 	str r5, [sp, #4]
 	ldr r5, [r0, #0xc]
-	ldr fp, [r0, #0x18]
+	ldr r11, [r0, #0x18]
 	str r5, [sp]
 	add r5, r4, r3
-	ldr sl, [r0, #0x1c]
+	ldr r10, [r0, #0x1c]
 	add r6, r2, r1
 	mov r4, #0
 _0216345C:
@@ -458,15 +458,15 @@ _0216345C:
 	ldr r1, [sp, #8]
 	mov r0, r0, lsl #0x10
 	and r0, r1, r0, lsr #16
-	sub r0, r0, sb, asr #1
+	sub r0, r0, r9, asr #1
 	add r1, r6, r0, lsl #12
 	ldr r0, _02163500 // =_mt_math_rand
 	mov r2, r7
 	str r3, [r0]
 	mov r0, r3, lsr #0x10
 	mov r0, r0, lsl #0x10
-	and r0, sb, r0, lsr #16
-	sub r0, r0, sb, asr #1
+	and r0, r9, r0, lsr #16
+	sub r0, r0, r9, asr #1
 	add r0, r5, r0, lsl #12
 	mov r3, r8
 	bl EffectFlipMushPuff__Create
@@ -474,28 +474,69 @@ _0216345C:
 	add r4, r4, #1
 	add r5, r5, r0
 	ldr r0, [sp]
-	add r7, r7, fp
+	add r7, r7, r11
 	add r6, r6, r0
-	add r8, r8, sl
+	add r8, r8, r10
 	cmp r4, #5
 	blt _0216345C
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_021634E8: .word 0x02188468
-_021634EC: .word 0x0218846C
-_021634F0: .word 0x02188488
-_021634F4: .word 0x0218848A
-_021634F8: .word 0x02188478
-_021634FC: .word 0x0218847C
+_021634E8: .word FlipMushroom__stru_2188468
+_021634EC: .word FlipMushroom__stru_2188468+4
+_021634F0: .word FlipMushroom__stru_2188468+0x20
+_021634F4: .word FlipMushroom__stru_2188468+0x22
+_021634F8: .word FlipMushroom__stru_2188468+0x10
+_021634FC: .word FlipMushroom__stru_2188468+0x14
 _02163500: .word _mt_math_rand
 _02163504: .word 0x00196225
 _02163508: .word 0x3C6EF35F
 	arm_func_end FlipMushroom__OnDefend
 
+	.rodata
+
+.public FlipMushroom__collisionOffset
+FlipMushroom__collisionOffset: // 0x021883F0
+	.hword 0xFFA0, 0xFFF2
+	.hword 0xFFB2, 0xFFB0
+	.hword 0xFFB8, 0xFFB0
+
+.public FlipMushroom__collisionSize
+FlipMushroom__collisionSize: // 0x021883FC
+	.hword 0xC0, 0x18
+	.hword 0x98, 0x98
+	.hword 0x98, 0x98
+
+.public FlipMushroom__hitboxList
+FlipMushroom__hitboxList: // 0x02188408
+	.hword -108, -24, 108, 0
+	.hword 0, 0, 0, 0
+	.hword 0, 0, 0, 0
+	.hword 0, 0, 0, 0
+	.hword -84, 18, -50, 52
+	.hword -50, -16, -16, 18
+	.hword -16, -50, 18, -16
+	.hword 18, -84, 52, -50
+	.hword -52, -84, -18, -50
+	.hword -18, -50, 16, -16
+	.hword 16, -16, 50, 18
+	.hword 50, 18, 84, 52
+
+.public FlipMushroom__stru_2188468
+FlipMushroom__stru_2188468: // 0x02188468
+	.word 0xFFFAC000, 0xFFFE0000, 0x2A000, 0, 0xFFFFEE00, 0x3000, 0x600, 0
+	.hword 0x1F, 0x1F
+
+	.word 0xFFFB5000, 0x2B000, 0x1F800, 0xFFFE0800, 0xFFFFF361, 0x2200, 0x435, 0
+	.hword 0xF, 0xF
+
+	.word 0x4B000, 0x2B000, 0xFFFE0800, 0xFFFE0800, 0xC9F, 0x2200, 0xFFFFFBCB, 0
+	.hword 0xF, 0xF
+
 	.data
 	
-_02188FEC:
+.public flipMushSpriteList
+flipMushSpriteList:
 	.word aDfGmkFlipmushU
 	.word aDfGmkFlipmushU_0
 	.word aDfGmkFlipmushU_1
