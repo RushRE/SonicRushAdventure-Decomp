@@ -425,7 +425,7 @@ _02181DB8:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	ldrh r1, [r4, #0x32]
 	ldr r3, _02181EF4 // =FX_SinCosTable_
 	add r0, sp, #0x10
@@ -438,7 +438,7 @@ _02181DB8:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	ldrh r2, [r4, #0x34]
 	add r0, sp, #0x34
 	add r1, sp, #0x10

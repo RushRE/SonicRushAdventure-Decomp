@@ -300,7 +300,7 @@ _02170BB4:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	ldr r2, [r4, #0x44]
 	ldr r0, [sp, #8]
 	ldr r1, [sp, #4]
@@ -2182,7 +2182,7 @@ _021726C0:
 	add r2, r7, r2, lsl #1
 	ldrsh r1, [r7, r1]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY43_
+	bl MTX_RotY43_
 	mov r0, r6
 	bl MTX_Identity43_
 	ldr r2, [sp, #0x4c]
@@ -2208,7 +2208,7 @@ _021726C0:
 	add r2, r7, r2, lsl #1
 	ldrsh r1, [r7, r1]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY43_
+	bl MTX_RotY43_
 	mov r0, r8
 	mov r1, r6
 	mov r2, r8
@@ -2319,7 +2319,7 @@ _02172934:
 	add r2, r7, r2, lsl #1
 	ldrsh r1, [r7, r1]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY43_
+	bl MTX_RotY43_
 	mov r0, r6
 	bl MTX_Identity43_
 	ldr r0, [sp, #0x14]
@@ -2346,7 +2346,7 @@ _02172934:
 	add r2, r7, r2, lsl #1
 	ldrsh r1, [r7, r1]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY43_
+	bl MTX_RotY43_
 	mov r0, r8
 	mov r1, r6
 	mov r2, r8
@@ -2461,7 +2461,7 @@ _02172B4C:
 	add r2, r7, r2, lsl #1
 	ldrsh r1, [r7, r1]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY43_
+	bl MTX_RotY43_
 	mov r0, r6
 	bl MTX_Identity43_
 	ldr r0, [sp, #0x18]
@@ -2488,7 +2488,7 @@ _02172B4C:
 	add r2, r7, r2, lsl #1
 	ldrsh r1, [r7, r1]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY43_
+	bl MTX_RotY43_
 	mov r0, r8
 	mov r1, r6
 	mov r2, r8
@@ -2551,7 +2551,7 @@ _02172B4C:
 	add r2, r7, r2, lsl #1
 	ldrsh r1, [r7, r1]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY43_
+	bl MTX_RotY43_
 	mov r0, r6
 	bl MTX_Identity43_
 	ldr r0, [sp, #0x1c]
@@ -2578,7 +2578,7 @@ _02172B4C:
 	add r2, r7, r2, lsl #1
 	ldrsh r1, [r7, r1]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY43_
+	bl MTX_RotY43_
 	mov r0, r8
 	mov r1, r6
 	mov r2, r8

@@ -1104,7 +1104,7 @@ _02163DC0:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	ldrh r1, [r4, #0x72]
 	ldr r3, _02163EB8 // =FX_SinCosTable_
 	add r0, sp, #8
@@ -1120,7 +1120,7 @@ _02163DC0:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x2c
 	add r1, sp, #8
 	mov r2, r0
@@ -1343,7 +1343,7 @@ ViMapIcon__Func_21640F4: // 0x021640F4
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r4]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	mov r7, #0
 	add r6, sp, #0x30
 	add r5, sp, #0

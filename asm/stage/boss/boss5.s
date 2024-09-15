@@ -2935,7 +2935,7 @@ ovl01_21752C0: // _021752C0
 	ldr r1, [r1]
 	cmp r1, #0
 	bne _021752D2
-	blx MTX_Identity43_
+	bl MTX_Identity43_
 	pop {r3, r4, r5, pc}
 _021752D2:
 	mov r0, r1

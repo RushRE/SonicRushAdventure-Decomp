@@ -1721,7 +1721,7 @@ _0215809C:
 	add r0, sp, #0xc
 	add r1, sp, #0x18
 	mov r2, r0
-	blx MTX_MultVec33
+	bl MTX_MultVec33
 	mov r6, r5
 	add r3, sp, #0x3c
 	ldmia r6!, {r0, r1}

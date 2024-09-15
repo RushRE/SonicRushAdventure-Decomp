@@ -3012,7 +3012,7 @@ _02156378:
 	mov r1, r10
 	mov r2, r9
 	add r0, r7, #0xc
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	b _021563D0
 _021563A4:
 	str r5, [r7, #0x30]
@@ -3152,7 +3152,7 @@ _02156564:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02156594: .word 0x003DDF10
@@ -4726,7 +4726,7 @@ ovl02_2157AB4: // 0x02157AB4
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	ldrh r1, [r4, #0x40]
 	ldr r3, _02157B80 // =FX_SinCosTable_
 	add r0, sp, #0x24
@@ -4737,7 +4737,7 @@ ovl02_2157AB4: // 0x02157AB4
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r2, r5, #0x238
 	add r0, sp, #0x24
 	add r1, sp, #0
@@ -5082,7 +5082,7 @@ ovl02_2157F68: // 0x02157F68
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
 	add r0, r0, #0x400
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02157FA4: .word FX_SinCosTable_
@@ -5552,7 +5552,7 @@ _021585B0:
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
 	add r0, r0, #0x400
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	cmp r5, #0
 	ldrne r0, _021585F8 // =ovl02_21585FC
 	strne r0, [r4, #0x3bc]
@@ -5713,7 +5713,7 @@ _021587B0:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, r3, #0x400
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	cmp r4, #0
 	ldrne r0, _02158848 // =ovl02_215884C
 	strne r0, [r5, #0x3bc]
@@ -5895,7 +5895,7 @@ _02158A90:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r6]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	ldrh r1, [r4, #2]
 	ldr r3, _02158C10 // =FX_SinCosTable_
 	add r0, sp, #0x54
@@ -5906,7 +5906,7 @@ _02158A90:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r6]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	ldrh r1, [r4, #4]
 	ldr r3, _02158C10 // =FX_SinCosTable_
 	add r0, sp, #0x30
@@ -5917,7 +5917,7 @@ _02158A90:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r6]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r2, r5, #0x238
 	add r0, sp, #0x30
 	add r1, sp, #0x78
@@ -6186,7 +6186,7 @@ _02158E80:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r6]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	cmp r4, #0
 	ldrne r0, _02158F24 // =ovl02_2158F28
 	strne r0, [r5, #0x3bc]
@@ -6233,7 +6233,7 @@ _02158F7C:
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
 	add r0, r0, #0x400
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	ldr r1, [r5, #0x408]
 	cmp r1, #0x1000
 	bge _02158FD8
@@ -7720,7 +7720,7 @@ _0215A3F4:
 	add r0, sp, #0
 	mov r3, r2
 	mov r1, #0x800
-	blx MTX_Scale33_
+	bl MTX_Scale33_
 	b _0215A4A4
 _0215A434:
 	add ip, r4, #0x470
@@ -8220,7 +8220,7 @@ ovl02_215AA64: // 0x0215AA64
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	ldrh r1, [r4, #0x10]
 	ldr r3, _0215AAE4 // =FX_SinCosTable_
 	add r0, sp, #0x24
@@ -8231,7 +8231,7 @@ ovl02_215AA64: // 0x0215AA64
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r4]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x24
 	add r1, sp, #0
 	add r2, r5, #0x470
@@ -8818,7 +8818,7 @@ ovl02_215B284: // 0x0215B284
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	ldrh r1, [r4, #0x1c]
 	ldr r3, _0215B304 // =FX_SinCosTable_
 	add r0, sp, #0x24
@@ -8829,7 +8829,7 @@ ovl02_215B284: // 0x0215B284
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r4]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x24
 	add r1, sp, #0
 	add r2, r5, #0x470
@@ -10063,7 +10063,7 @@ ovl02_215C1C4: // 0x0215C1C4
 	mov r2, r2, lsl #1
 	ldrsh r1, [r6, r1]
 	ldrsh r2, [r6, r2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r1, r5, #0x3cc
 	add r0, sp, #0
 	mov r2, r1

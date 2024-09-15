@@ -328,7 +328,7 @@ SailObject__Func_2164B38: // 0x02164B38
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
 	strh lr, [r5, #0x32]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r1, sp, #0
 	add r2, sp, #0x24
 	add r0, r5, #0x68
@@ -390,7 +390,7 @@ _02164C14:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, r4, #0x24
 	add r1, sp, #0
 	mov r2, r0
@@ -410,7 +410,7 @@ _02164C68:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r0, r4, #0x24
 	add r1, sp, #0
 	mov r2, r0
@@ -431,7 +431,7 @@ _02164CB4:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r4, #0x24
 	add r1, sp, #0
 	mov r2, r0
@@ -2811,7 +2811,7 @@ _02166E1C:
 	ldrsh r1, [r4, r1]
 	ldrsh r2, [r0, #2]
 	mov r0, r5
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	mov r0, r6
 	mov r1, r5
 	mov r2, r6
@@ -8939,7 +8939,7 @@ SailChaosEmerald__State_216C69C: // 0x0216C69C
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #4
 	add r1, sp, #0x10
 	mov r2, r0

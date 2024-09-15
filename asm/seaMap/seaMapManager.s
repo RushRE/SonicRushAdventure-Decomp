@@ -1648,7 +1648,7 @@ SeaMapManager__SetupDisplay: // 0x02044A20
 	mov r1, #0x800
 	mov r2, r1
 	add r0, r4, #0x40
-	blx MTX_Scale22_
+	bl MTX_Scale22_
 	add r1, sp, #8
 	add r2, sp, #4
 	mov r0, r5
@@ -2226,7 +2226,7 @@ SeaMapManager__Func_20451A4: // 0x020451A4
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
 	add r0, sp, #0
-	blx MTX_Rot22_
+	bl MTX_Rot22_
 	ldr r1, [r4]
 	ldmia r10, {r2, r3}
 	ldr r0, [r4, #4]

@@ -139,7 +139,7 @@ CPPHelpers__MtxRotY33: // 0x02085E44
 	bl CPPHelpers__Func_2085E6C
 	mov r1, r4
 	mov r2, r5
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	mov r0, r6
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end CPPHelpers__MtxRotY33

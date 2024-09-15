@@ -278,7 +278,7 @@ SailHoverShell2__Create: // 0x02183770
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0x6c
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x60
 	add r1, sp, #0x6c
 	mov r2, r0
@@ -836,7 +836,7 @@ SpawnSailHoverTorpedo2: // 0x02184084
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x3c
 	add r1, sp, #0
 	mov r2, r0
@@ -930,7 +930,7 @@ _02184258:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r5]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	cmp r6, #0
 	beq _021842CC
 	mov r0, r6, lsl #0x10
@@ -944,7 +944,7 @@ _02184258:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r1, sp, #0x24
 	add r0, sp, #0
 	mov r2, r1
@@ -4378,7 +4378,7 @@ _02187200:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r5]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x170
 	add r1, sp, #0x14c
 	mov r2, r0
@@ -4442,7 +4442,7 @@ _021872FC:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r5]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x128
 	add r1, sp, #0x104
 	mov r2, r0

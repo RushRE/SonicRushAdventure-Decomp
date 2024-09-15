@@ -851,7 +851,7 @@ _0216411C:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r4]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 _02164164:
 	ldr r4, [r5, #0x35c]
 	ldr r0, [r4, #0x6d8]

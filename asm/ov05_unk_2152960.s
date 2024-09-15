@@ -849,7 +849,7 @@ _02153110:
 	ldrsh r1, [r7, #0xc]
 	mov r0, r6
 	mov r2, r1
-	blx MTX_Scale22_
+	bl MTX_Scale22_
 	mov r0, #0x20
 	strh r0, [r6, #0x10]
 	strh r0, [r6, #0x12]

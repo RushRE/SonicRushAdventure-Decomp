@@ -599,7 +599,7 @@ _02008C80:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r4]
 	ldrsh r2, [r3, r2]
-	blx MTX_Rot22_
+	bl MTX_Rot22_
 	ldr r1, _02008EAC // =mapCamera
 	add r0, sp, #0x40
 	ldr r2, [r1, #0x24]
@@ -667,7 +667,7 @@ _02008D98:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r4]
 	ldrsh r2, [r3, r2]
-	blx MTX_Rot22_
+	bl MTX_Rot22_
 	ldr r1, _02008EAC // =mapCamera
 	add r0, sp, #0x40
 	ldr r2, [r1, #0x94]

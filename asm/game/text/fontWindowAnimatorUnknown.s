@@ -582,7 +582,7 @@ _0205544C:
 	mov r1, r0
 	add r0, sp, #0x24
 	mov r2, r5
-	blx MTX_Scale22_
+	bl MTX_Scale22_
 	ldr r0, [r4, #0x18]
 	add r1, sp, #0x24
 	bl OAMSystem__AddAffineSprite

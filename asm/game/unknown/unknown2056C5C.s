@@ -1279,7 +1279,7 @@ Unknown2056C5C__AddAffineSprite: // 0x02057DA0
 	mov r1, r0
 	add r0, sp, #0x10
 	mov r2, r4
-	blx MTX_Scale22_
+	bl MTX_Scale22_
 	mov r0, r6, asr #4
 	mov r1, r0, lsl #1
 	add r0, r1, #1
@@ -1289,7 +1289,7 @@ Unknown2056C5C__AddAffineSprite: // 0x02057DA0
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_Rot22_
+	bl MTX_Rot22_
 	add r0, sp, #0x10
 	add r1, sp, #0
 	mov r2, r0

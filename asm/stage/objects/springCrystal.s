@@ -354,7 +354,7 @@ _0216D390:
 	ldrsh r1, [r3, r8]
 	ldrsh r2, [r3, r2]
 	add r0, sp, #0x2c
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r0, sp, #0x20
 	add r1, sp, #0x2c
 	mov r2, r0

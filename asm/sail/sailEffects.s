@@ -3173,7 +3173,7 @@ _021635A0:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r4, #0x44
 	add r1, sp, #0
 	mov r2, r0

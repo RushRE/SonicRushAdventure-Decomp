@@ -320,7 +320,7 @@ _0217B2E0:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, sp, #0x38
 	add r1, sp, #0x14
 	mov r2, r0
@@ -341,7 +341,7 @@ _0217B2E0:
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x38
 	add r1, sp, #0x14
 	mov r2, r0
@@ -357,7 +357,7 @@ _0217B2E0:
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r0, sp, #0x38
 	add r1, sp, #0x14
 	mov r2, r0
@@ -430,7 +430,7 @@ CannonField__Draw: // 0x0217B488
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r5]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, r4, #0x388
 	add r1, sp, #0x20
 	mov r2, r0
@@ -450,7 +450,7 @@ CannonField__Draw: // 0x0217B488
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r4, #0x388
 	add r1, sp, #0x20
 	mov r2, r0
@@ -498,7 +498,7 @@ CannonField__Draw: // 0x0217B488
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r5, #0x24
 	add r1, sp, #0x20
 	mov r2, r0

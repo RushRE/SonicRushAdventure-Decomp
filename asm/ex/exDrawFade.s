@@ -1676,7 +1676,7 @@ ovl09_2161CD4: // 0x02161CD4
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, r4, #0x300
 	ldrh r1, [r0, #0x30]
 	ldr r3, _02161DE0 // =FX_SinCosTable_
@@ -1688,7 +1688,7 @@ ovl09_2161CD4: // 0x02161CD4
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r4, #0x300
 	ldrh r1, [r0, #0x32]
 	ldr r3, _02161DE0 // =FX_SinCosTable_
@@ -1700,7 +1700,7 @@ ovl09_2161CD4: // 0x02161CD4
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r0, sp, #0x48
 	add r1, sp, #0x24
 	add r2, sp, #0
@@ -3489,7 +3489,7 @@ ovl09_21636E0: // 0x021636E0
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, r4, #0x100
 	ldrh r1, [r0, #0xa]
 	ldr r3, _021637EC // =FX_SinCosTable_
@@ -3501,7 +3501,7 @@ ovl09_21636E0: // 0x021636E0
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r4, #0x100
 	ldrh r1, [r0, #0xc]
 	ldr r3, _021637EC // =FX_SinCosTable_
@@ -3513,7 +3513,7 @@ ovl09_21636E0: // 0x021636E0
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r0, sp, #0x48
 	add r1, sp, #0x24
 	add r2, sp, #0

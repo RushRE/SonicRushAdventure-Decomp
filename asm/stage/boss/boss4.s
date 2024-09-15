@@ -900,7 +900,7 @@ Boss4Pulley__Create: // 0x0216C1D8
 	add r0, r4, #0x3e4
 	ldrsh r1, [r2]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	mov r0, r4
 	bl ovl01_216DF24
 	mov r0, r4
@@ -2831,7 +2831,7 @@ ovl01_216DDE0: // 0x0216DDE0
 	add r0, r4, #0x3e4
 	ldrsh r1, [r2]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	ldr r0, [r4, #0x3bc]
 	ldr r2, _0216DEA0 // =FX_SinCosTable_
 	rsb r0, r0, #0
@@ -2847,7 +2847,7 @@ ovl01_216DDE0: // 0x0216DDE0
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, r4, #0x3e4
 	add r1, sp, #0
 	mov r2, r0
@@ -3109,7 +3109,7 @@ ovl01_216E170: // 0x0216E170
 	add r5, r0, #0x400
 	ldrsh r2, [r2, #2]
 	add r0, r5, #0x24
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	ldrh r1, [r4, #0x34]
 	ldr r3, _0216E23C // =FX_SinCosTable_
 	add r0, sp, #0
@@ -3125,7 +3125,7 @@ ovl01_216E170: // 0x0216E170
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r0, r5, #0x24
 	add r1, sp, #0
 	mov r2, r0
@@ -3688,7 +3688,7 @@ ovl01_216E8EC: // 0x0216E8EC
 	ldrsh r2, [r2, #2]
 	str r3, [r4, #0x20]
 	add r0, r0, #0x400
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	ldr r0, [r4, #0x37c]
 	ldr r0, [r0, #0x37c]
 	bl ovl01_216FF98
@@ -3732,7 +3732,7 @@ _0216E99C:
 	ldrsh r2, [r2, #2]
 	add r0, r0, #0x400
 	str r3, [r4, #0x20]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	ldr r1, _0216EA04 // =0x00006999
 	mov r0, r4
 	str r1, [r4, #0x7e0]
@@ -3776,7 +3776,7 @@ _0216EA34:
 	ldrsh r2, [r2, #2]
 	add r0, r0, #0x400
 	str r3, [r4, #0x20]
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	mov r0, r4
 	bl ovl01_216E860
 	mov r0, r4
@@ -4913,7 +4913,7 @@ ovl01_216F9E4: // 0x0216F9E4
 	str ip, [r0, #0x40]
 	str r3, [r0, #0x280]
 	add r0, r0, #0x18c
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	mov r0, #0xa000
 	mov r1, #0x3000
 	mov r2, #0xe3
@@ -5584,14 +5584,14 @@ ovl01_217027C: // _0217027C
 	mov r0, r1
 	ldrsh r1, [r2]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	ldmia sp!, {r3, pc}
 _021702A4:
 	ldr r2, _021702C0 // =0x02113950
 	mov r0, r1
 	ldrsh r1, [r2]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021702BC: .word 0x02115950

@@ -569,7 +569,7 @@ Vi3dObject__Func_2167B98: // 0x02167B98
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	ldrh r0, [r4, #0x40]
 	cmp r0, #0
 	beq _02167CB4
@@ -582,7 +582,7 @@ Vi3dObject__Func_2167B98: // 0x02167B98
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0x24
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, r4, #0x68
 	add r1, sp, #0x24
 	mov r2, r0
@@ -600,7 +600,7 @@ _02167CB4:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r0, r4, #0x68
 	add r1, sp, #0
 	mov r2, r0

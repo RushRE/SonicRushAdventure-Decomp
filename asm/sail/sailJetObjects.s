@@ -594,7 +594,7 @@ _0216D4CC:
 	ldr r3, _0216D578 // =FX_SinCosTable_
 	add r2, r3, r2, lsl #1
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	mov r0, r5
 	mov r1, r6
 	mov r2, r5
@@ -840,7 +840,7 @@ _0216D7F8:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r5, #0x98
 	add r1, sp, #0
 	mov r2, r0
@@ -1234,7 +1234,7 @@ SailJetBirdBob__State_216DD4C: // 0x0216DD4C
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r6, #0x44
 	add r1, sp, #0
 	mov r2, r0
@@ -1414,7 +1414,7 @@ SailJetShark__State_216DFCC: // 0x0216DFCC
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r5, #0x98
 	add r1, sp, #0
 	mov r2, r0
@@ -1744,7 +1744,7 @@ SailJetShark__State_216E468: // 0x0216E468
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0xc
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r6, #0x44
 	add r1, sp, #0xc
 	mov r2, r0

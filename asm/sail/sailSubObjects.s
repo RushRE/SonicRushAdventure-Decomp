@@ -495,7 +495,7 @@ SailSubTorpedo1__Create: // 0x02180608
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r5, #0x44
 	add r1, sp, #8
 	mov r2, r0
@@ -592,7 +592,7 @@ SailSubTorpedo2__Create: // 0x0218078C
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	mov r0, r6
 	add r1, sp, #8
 	add r2, r4, #0x44
@@ -3264,7 +3264,7 @@ SailSubShark__Func_2182CF4: // 0x02182CF4
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x24
 	add r1, sp, #0
 	mov r2, r0

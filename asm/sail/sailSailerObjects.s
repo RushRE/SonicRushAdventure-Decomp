@@ -1463,7 +1463,7 @@ SailMissile__Create: // 0x0217AAE0
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #8
 	add r1, sp, #0x14
 	mov r2, r0
@@ -3491,7 +3491,7 @@ SailSailerBoat__State_217C7B4: // 0x0217C7B4
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r6, #0x44
 	add r1, sp, #0
 	mov r2, r0
@@ -4536,7 +4536,7 @@ _0217D62C:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x28
 	add r1, sp, #4
 	mov r2, r0
@@ -5768,7 +5768,7 @@ SailSailerBoat__Func_217E788: // 0x0217E788
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r6]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x28
 	add r1, sp, #4
 	mov r2, r0
@@ -6025,7 +6025,7 @@ SailTorpedo__State_217EB78: // 0x0217EB78
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r5, #0x44
 	add r1, sp, #0
 	mov r2, r0
@@ -6135,7 +6135,7 @@ SpawnSailTorpedo2: // 0x0217ECD8
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r5]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x30
 	add r1, sp, #0
 	mov r2, r0
@@ -6614,7 +6614,7 @@ SpawnSailMissile: // 0x0217F3E0
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x24
 	add r1, sp, #0
 	mov r2, r0
@@ -6758,7 +6758,7 @@ SailMissile__Func_217F568: // 0x0217F568
 	mov r3, r1, lsl #1
 	ldrsh r1, [r2, r4]
 	ldrsh r2, [r2, r3]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0
 	add r1, sp, #0xc
 	mov r2, r0
@@ -7048,7 +7048,7 @@ SpawnSailTorpedo3: // 0x0217F9F0
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x24
 	add r1, sp, #0
 	mov r2, r0

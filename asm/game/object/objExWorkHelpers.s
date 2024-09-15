@@ -120,7 +120,7 @@ _02077508:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0x78
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, sp, #0x54
 	add r1, sp, #0x78
 	mov r2, r0
@@ -140,7 +140,7 @@ _02077574:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0x78
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x54
 	add r1, sp, #0x78
 	mov r2, r0
@@ -160,7 +160,7 @@ _020775C0:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0x78
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r0, sp, #0x54
 	add r1, sp, #0x78
 	mov r2, r0
@@ -264,7 +264,7 @@ _0207772C:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0x24
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, sp, #0
 	add r1, sp, #0x24
 	mov r2, r0
@@ -284,7 +284,7 @@ _02077798:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0x24
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0
 	add r1, sp, #0x24
 	mov r2, r0
@@ -304,7 +304,7 @@ _020777E4:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0x24
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r0, sp, #0
 	add r1, sp, #0x24
 	mov r2, r0

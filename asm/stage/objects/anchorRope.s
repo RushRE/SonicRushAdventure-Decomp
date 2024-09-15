@@ -475,7 +475,7 @@ AnchorRope__Draw: // 0x02176F6C
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r5]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, r4, #0x38c
 	add r1, sp, #0x24
 	mov r2, r0
@@ -496,7 +496,7 @@ AnchorRope__Draw: // 0x02176F6C
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r4, #0x38c
 	add r1, sp, #0x24
 	mov r2, r0
@@ -543,7 +543,7 @@ AnchorRope__Draw: // 0x02176F6C
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, r5, #0x24
 	add r1, sp, #0x24
 	mov r2, r0
@@ -564,7 +564,7 @@ AnchorRope__Draw: // 0x02176F6C
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r5, #0x24
 	add r1, sp, #0x24
 	mov r2, r0
@@ -660,7 +660,7 @@ AnchorRope__Func_2177274: // 0x02177274
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, sp, #0x30
 	add r1, sp, #0xc
 	mov r2, r0
@@ -681,7 +681,7 @@ AnchorRope__Func_2177274: // 0x02177274
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x30
 	add r1, sp, #0xc
 	mov r2, r0
@@ -721,7 +721,7 @@ AnchorRope__Func_2177274: // 0x02177274
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, sp, #0x30
 	add r1, sp, #0xc
 	mov r2, r0
@@ -742,7 +742,7 @@ AnchorRope__Func_2177274: // 0x02177274
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, sp, #0x30
 	add r1, sp, #0xc
 	mov r2, r0

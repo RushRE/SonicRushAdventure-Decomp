@@ -177,7 +177,7 @@ _02185D98:
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0x28
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, r5, #0x24
 	add r1, sp, #0x28
 	mov r2, r0
@@ -200,7 +200,7 @@ _02185D98:
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r5, #0x24
 	add r1, sp, #0x28
 	mov r2, r0
@@ -234,7 +234,7 @@ _02185E94:
 	add r0, sp, #4
 	ldrsh r1, [r2]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, r4, #0x24
 	add r1, sp, #4
 	mov r2, r0
@@ -243,7 +243,7 @@ _02185E94:
 	add r0, sp, #4
 	ldrsh r1, [r2]
 	ldrsh r2, [r2, #2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r4, #0x24
 	add r1, sp, #4
 	mov r2, r0

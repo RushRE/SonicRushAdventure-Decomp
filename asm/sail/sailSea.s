@@ -114,7 +114,7 @@ SailSea__Func_215F9D8: // 0x0215F9D8
 	add r0, sp, #0x30
 	add r1, sp, #0
 	mov r2, r0
-	blx MTX_MultVec43
+	bl MTX_MultVec43
 	add r0, r4, #4
 	add r1, sp, #0x30
 	mov r2, r0
@@ -735,7 +735,7 @@ SailSea__Draw: // 0x0215FEE4
 	ldr r0, [r3]
 	str r0, [r2]
 	add r0, sp, #0x94
-	blx MTX_Identity33_
+	bl MTX_Identity33_
 	add r0, sp, #0xb8
 	blx NNS_G3dGlbSetBaseScale
 	mov r0, #0x12
@@ -773,9 +773,9 @@ SailSea__Draw: // 0x0215FEE4
 	mov r2, #1
 	blx NNS_G3dGeBufferOP_N
 	add r0, sp, #0x64
-	blx MTX_Identity43_
+	bl MTX_Identity43_
 	add r0, sp, #0x34
-	blx MTX_Identity43_
+	bl MTX_Identity43_
 	mov r0, #0x12
 	ldrh r1, [r4, #0x10]
 	ldrsh r0, [r4, r0]
@@ -800,11 +800,11 @@ SailSea__Draw: // 0x0215FEE4
 	ldr r2, [r4, #4]
 	ldr r3, [r4, #8]
 	mov r1, r0
-	blx MTX_TransApply43
+	bl MTX_TransApply43
 	add r0, sp, #0x64
 	add r1, sp, #0x34
 	mov r2, r0
-	blx MTX_Concat43
+	bl MTX_Concat43
 	mov r0, #0x17
 	add r1, sp, #0x64
 	mov r2, #0xc

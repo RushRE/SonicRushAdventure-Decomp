@@ -323,7 +323,7 @@ BossHelpers__Arena__Func_2038E00: // 0x02038E00
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, r5, #0x24
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	mov r0, r4
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}

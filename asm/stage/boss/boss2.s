@@ -2389,7 +2389,7 @@ ovl01_215D06C: // 0x0215D06C
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, r6, #0x24
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	mov r0, r6
 	bl AnimatorMDL__ProcessAnimation
 	cmp r4, #0
@@ -4358,7 +4358,7 @@ _0215EA58:
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, ip]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	ldr r2, [r5, #0x384]
 	mov r0, #0x30
 	mla r1, r2, r0, r4
@@ -4608,7 +4608,7 @@ ovl01_215ECD8: // 0x0215ECD8
 	add r4, ip, r4
 	add r0, r6, #0x3f0
 	strh r4, [r3, #0xc0]
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	add r0, r6, #0x300
 	ldrh r1, [r0, #0xc0]
 	ldr r3, _0215EDDC // =FX_SinCosTable_
@@ -4620,7 +4620,7 @@ ovl01_215ECD8: // 0x0215ECD8
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r4]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r6, #0x3f0
 	add r1, sp, #0
 	mov r2, r0
@@ -4677,7 +4677,7 @@ ovl01_215EDE4: // 0x0215EDE4
 	add r3, ip, r3
 	strh r3, [r0, #0xc0]
 	add r0, r4, #0x3f0
-	blx MTX_RotX33_
+	bl MTX_RotX33_
 	ldr r0, [r4, #0x9c]
 	mov r1, #0x5000
 	bl FX_Div
@@ -4695,7 +4695,7 @@ ovl01_215EDE4: // 0x0215EDE4
 	ldrsh r1, [r2, r1]
 	ldrsh r2, [r2, r0]
 	add r0, sp, #0
-	blx MTX_RotZ33_
+	bl MTX_RotZ33_
 	add r0, r4, #0x3f0
 	add r1, sp, #0
 	mov r2, r0
@@ -4711,7 +4711,7 @@ ovl01_215EDE4: // 0x0215EDE4
 	mov r2, r2, lsl #1
 	ldrsh r1, [r3, r1]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	add r0, r4, #0x3f0
 	add r1, sp, #0
 	mov r2, r0
@@ -4794,7 +4794,7 @@ ovl01_215EF50: // 0x0215EF50
 	mov r2, r1, lsl #1
 	ldrsh r1, [r3, r6]
 	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	mov r0, r4
 	bl ovl01_215FB14
 	add r0, r4, #0x380
@@ -6593,7 +6593,7 @@ ovl01_21607C8: // 0x021607C8
 	ldrsh r1, [lr, r1]
 	add r0, r4, #0x3f4
 	strh r3, [ip, #0x88]
-	blx MTX_RotY33_
+	bl MTX_RotY33_
 	ldr r1, _02160848 // =ovl01_216084C
 	mov r0, r4
 	str r1, [r4, #0x374]
