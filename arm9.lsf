@@ -415,7 +415,7 @@ Overlay ZoneAct
     Object asm/stage/objects/grabTree.o
     Object asm/stage/objects/objectUnknown1.o
     Object asm/stage/objects/stalactite.o
-    Object asm/stage/objects/springCrystal.o
+    Object src/stage/objects/springCrystal.o
     Object asm/stage/objects/vRotateCrane.o
     Object asm/stage/objects/winch.o
     Object asm/stage/objects/truck3D.o

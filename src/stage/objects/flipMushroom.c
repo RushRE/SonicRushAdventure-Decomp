@@ -5,6 +5,35 @@
 #include <game/object/objectManager.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum FlipMushroomObjectFlags
+{
+    FLIPMUSHROOM_OBJFLAG_NONE,
+
+    FLIPMUSHROOM_OBJFLAG_ALT_PALETTE = 1 << 0,
+};
+
+enum FlipMushroomAnimIDs
+{
+    FLIPMUSHROOM_ANI_MUSHROOM,
+    FLIPMUSHROOM_ANI_STEM_V,
+    FLIPMUSHROOM_ANI_STEM_D,
+    FLIPMUSHROOM_ANI_PUFF,
+    FLIPMUSHROOM_ANI_ALT_PALETTE,
+};
+
+enum FlipMushroomTypes
+{
+    FLIPMUSHROOM_TYPE_U,  // straight upwards
+    FLIPMUSHROOM_TYPE_UL, // up-left
+    FLIPMUSHROOM_TYPE_UR, // up-right
+
+    FLIPMUSHROOM_TYPE_COUNT,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -26,23 +55,114 @@ struct FlipMushroomUnknown
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED const Vec2Fx16 FlipMushroom__collisionOffset[3];
-NOT_DECOMPILED const Vec2U16 FlipMushroom__collisionSize[3];
-NOT_DECOMPILED const HitboxRect FlipMushroom__hitboxList[3][4];
-NOT_DECOMPILED const struct FlipMushroomUnknown FlipMushroom__stru_2188468[3];
+static const Vec2Fx16 collisionOffsetTable[FLIPMUSHROOM_TYPE_COUNT] = {
+    [FLIPMUSHROOM_TYPE_U]  = { -96, -14 },
+    [FLIPMUSHROOM_TYPE_UL] = { -78, -80 },
+    [FLIPMUSHROOM_TYPE_UR] = { -72, -80 },
+};
 
-NOT_DECOMPILED const char *flipMushCollisionList[3];
+static const Vec2Fx16 collisionSizeTable[FLIPMUSHROOM_TYPE_COUNT] = {
+    [FLIPMUSHROOM_TYPE_U]  = { 192, 24 },
+    [FLIPMUSHROOM_TYPE_UL] = { 152, 152 },
+    [FLIPMUSHROOM_TYPE_UR] = { 152, 152 },
+};
 
-NOT_DECOMPILED const char *aDfGmkFlipmushU;
-NOT_DECOMPILED const char *aDfGmkFlipmushU_1;
-NOT_DECOMPILED const char *aDfGmkFlipmushU_0;
+static const HitboxRect hitboxTable[FLIPMUSHROOM_TYPE_COUNT][4] ={
+	[FLIPMUSHROOM_TYPE_U] = {
+		{ -108, -24, 108, 0 },
+		{ 0, 0, 0, 0 },
+		{ 0, 0, 0, 0 },
+		{ 0, 0, 0, 0 },
+	},
+
+	[FLIPMUSHROOM_TYPE_UL] = {
+		{ -84, 18, -50, 52 },
+		{ -50, -16, -16, 18 },
+		{ -16, -50, 18, -16 },
+		{ 18, -84, 52, -50 },
+	},
+
+	[FLIPMUSHROOM_TYPE_UR] = {
+		{ -52, -84, -18, -50 },
+		{ -18, -50, 16, -16 },
+		{ 16, -16, 50, 18 },
+		{ 50, 18, 84, 52 },
+	},
+};
+
+static const struct FlipMushroomUnknown puffParticleConfig[FLIPMUSHROOM_TYPE_COUNT] =
+{
+	[FLIPMUSHROOM_TYPE_U] = {
+    	.x = -0x54000,
+    	.y = -0x20000,
+    	.field_8 = 0x2A000,
+    	.field_C = 0x00,
+    	.field_10 = -0x1200,
+    	.field_14 = 0x3000,
+    	.field_18 = 0x600,
+    	.field_1C = 0x00,
+    	.field_20 = 0x1F,
+    	.field_22 = 0x1F,
+	},
+	
+	[FLIPMUSHROOM_TYPE_UL] = {
+    	.x = -0x4B000,
+    	.y = 0x2B000,
+    	.field_8 = 0x1F800,
+    	.field_C = -0x1F800,
+    	.field_10 = -0xC9F,
+    	.field_14 = 0x2200,
+    	.field_18 = 0x435,
+    	.field_1C = 0x00,
+    	.field_20 = 0xF,
+    	.field_22 = 0xF,
+	},
+	
+	[FLIPMUSHROOM_TYPE_UR] = {
+    	.x = 0x4B000,
+    	.y = 0x2B000,
+    	.field_8 = -0x1F800,
+    	.field_C = -0x1F800,
+    	.field_10 = 0xC9F,
+    	.field_14 = 0x2200,
+    	.field_18 = -0x435,
+    	.field_1C = 0x00,
+    	.field_20 = 0xF,
+    	.field_22 = 0xF,
+	},
+};
+
+// manually re-order strings to match
+#ifndef NON_MATCHING
+static const char *_MATCHING_FIX_00 = "/df/gmk_flipmush_u.df";
+static const char *_MATCHING_FIX_02 = "/df/gmk_flipmush_ur.df";
+static const char *_MATCHING_FIX_01 = "/df/gmk_flipmush_ul.df";
+#endif
+
+static const char *flipMushCollisionList[FLIPMUSHROOM_TYPE_COUNT] = {
+    [FLIPMUSHROOM_TYPE_U]  = "/df/gmk_flipmush_u.df",
+    [FLIPMUSHROOM_TYPE_UL] = "/df/gmk_flipmush_ul.df",
+    [FLIPMUSHROOM_TYPE_UR] = "/df/gmk_flipmush_ur.df",
+};
+
 NOT_DECOMPILED const char *aActAcGmkFlipmu_0;
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void FlipMushroom_State_Idle(FlipMushroom *work);
+static void FlipMushroom_Action_Bounce(FlipMushroom *work);
+static void FlipMushroom_State_Used(FlipMushroom *work);
+static void FlipMushroom_Draw(void);
+static void FlipMushroom_Collide(void);
+static void FlipMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC FlipMushroom *FlipMushroom__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+NONMATCH_FUNC FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
     // https://decomp.me/scratch/TfyST -> 99.55%
     // small issue with "aniFlags = ANIMATOR_FLAG_ENABLE_SCALE"
@@ -106,12 +226,12 @@ NONMATCH_FUNC FlipMushroom *FlipMushroom__Create(MapObject *mapObject, fx32 x, f
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flipmush.bac", GetObjectDataWork(OBJDATAWORK_166), gameArchiveStage,
                              OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 48, GetObjectSpriteRef(OBJDATAWORK_167));
-    StageTask__SetAnimation(&work->gameWork.objWork, 0);
+    StageTask__SetAnimation(&work->gameWork.objWork, FLIPMUSHROOM_ANI_MUSHROOM);
     work->gameWork.animator.ani.work.flags |= aniFlags;
-    if ((mapObject->flags & 1) != 0)
-        ObjActionAllocSpritePalette(&work->gameWork.objWork, 4, 29);
+    if ((mapObject->flags & FLIPMUSHROOM_OBJFLAG_ALT_PALETTE) != 0)
+        ObjActionAllocSpritePalette(&work->gameWork.objWork, FLIPMUSHROOM_ANI_ALT_PALETTE, 29);
     else
-        ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 14);
+        ObjActionAllocSpritePalette(&work->gameWork.objWork, FLIPMUSHROOM_ANI_MUSHROOM, 14);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
     StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
 
@@ -119,11 +239,11 @@ NONMATCH_FUNC FlipMushroom *FlipMushroom__Create(MapObject *mapObject, fx32 x, f
     {
         ObjRect__SetAttackStat(&work->colliders[i], 0, 0);
         ObjRect__SetDefenceStat(&work->colliders[i], ~1, 0);
-        ObjRect__SetBox2D(&work->colliders[i].rect, hitboxList[mushroomType][i].left, hitboxList[mushroomType][i].top, hitboxList[mushroomType][i].right,
-                          hitboxList[mushroomType][i].bottom);
+        ObjRect__SetBox2D(&work->colliders[i].rect, hitboxTable[mushroomType][i].left, hitboxTable[mushroomType][i].top, hitboxTable[mushroomType][i].right,
+                          hitboxTable[mushroomType][i].bottom);
         ObjRect__SetGroupFlags(&work->colliders[i], 2, 1);
         work->colliders[i].parent = &work->gameWork.objWork;
-        ObjRect__SetOnDefend(&work->colliders[i], FlipMushroom__OnDefend);
+        ObjRect__SetOnDefend(&work->colliders[i], FlipMushroom_OnDefend);
         work->colliders[i].flag |= OBS_RECT_WORK_FLAG_400;
     }
 
@@ -131,9 +251,9 @@ NONMATCH_FUNC FlipMushroom *FlipMushroom__Create(MapObject *mapObject, fx32 x, f
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= displayFlag | DISPLAY_FLAG_PAUSED;
 
-    SetTaskState(&work->gameWork.objWork, FlipMushroom__State_Idle);
-    SetTaskOutFunc(&work->gameWork.objWork, FlipMushroom__Draw);
-    SetTaskCollideFunc(&work->gameWork.objWork, FlipMushroom__Collide);
+    SetTaskState(&work->gameWork.objWork, FlipMushroom_State_Idle);
+    SetTaskOutFunc(&work->gameWork.objWork, FlipMushroom_Draw);
+    SetTaskCollideFunc(&work->gameWork.objWork, FlipMushroom_Collide);
 
     return work;
 #else
@@ -206,7 +326,7 @@ _02162F04:
 	ldr r3, [r3]
 	mov r0, r9
 	bl ObjObjectCollisionDifSet
-	ldr r0, =FlipMushroom__collisionSize
+	ldr r0, =collisionSizeTable
 	mov r1, r5, lsl #2
 	ldrh r3, [r0, r1]
 	ldr r2, =0x021883FE
@@ -214,7 +334,7 @@ _02162F04:
 	add r0, r9, #0x300
 	ldrh r6, [r2, r1]
 	strh r3, [r0, #8]
-	ldr r3, =FlipMushroom__collisionOffset
+	ldr r3, =collisionOffsetTable
 	strh r6, [r0, #0xa]
 	ldrsh r6, [r3, r1]
 	ldr r3, =0x021883F2
@@ -273,11 +393,11 @@ _02163000:
 	mov r8, #0
 	cmp r0, #0
 	ble _021630BC
-	ldr r0, =FlipMushroom__hitboxList
+	ldr r0, =hitboxTable
 	ldr r11, =0x0000FFFE
 	add r7, r0, r5, lsl #5
 	ldr r6, =0x00000102
-	ldr r5, =FlipMushroom__OnDefend
+	ldr r5, =FlipMushroom_OnDefend
 	add r10, r9, #0x364
 _02163044:
 	mov r1, #0
@@ -319,11 +439,11 @@ _021630BC:
 	orr r0, r0, #0x10
 	orr r0, r2, r0
 	str r0, [r9, #0x20]
-	ldr r1, =FlipMushroom__State_Idle
-	ldr r0, =FlipMushroom__Draw
+	ldr r1, =FlipMushroom_State_Idle
+	ldr r0, =FlipMushroom_Draw
 	str r1, [r9, #0xf4]
 	str r0, [r9, #0xfc]
-	ldr r1, =FlipMushroom__Collide
+	ldr r1, =FlipMushroom_Collide
 	mov r0, r9
 	str r1, [r9, #0x108]
 	add sp, sp, #0x10
@@ -333,18 +453,21 @@ _021630BC:
 #endif
 }
 
-void FlipMushroom__State_Idle(FlipMushroom *work) {}
-
-void FlipMushroom__Action_Use(FlipMushroom *work)
+void FlipMushroom_State_Idle(FlipMushroom *work)
 {
-    SetTaskState(&work->gameWork.objWork, FlipMushroom__State_Activated);
+    // Do nothing
+}
+
+void FlipMushroom_Action_Bounce(FlipMushroom *work)
+{
+    SetTaskState(&work->gameWork.objWork, FlipMushroom_State_Used);
 
     work->percent      = FLOAT_TO_FX32(0.0);
     work->lerpSpeed    = FLOAT_TO_FX32(0.2);
     work->targetOffset = FLOAT_TO_FX32(16.0);
 }
 
-void FlipMushroom__State_Activated(FlipMushroom *work)
+void FlipMushroom_State_Used(FlipMushroom *work)
 {
     work->percent += work->lerpSpeed;
 
@@ -365,7 +488,7 @@ void FlipMushroom__State_Activated(FlipMushroom *work)
             work->targetOffset >>= 1;
             if (work->targetOffset < FLOAT_TO_FX32(1.0))
             {
-                SetTaskState(&work->gameWork.objWork, FlipMushroom__State_Idle);
+                SetTaskState(&work->gameWork.objWork, FlipMushroom_State_Idle);
                 work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
                 return;
             }
@@ -386,14 +509,14 @@ void FlipMushroom__State_Activated(FlipMushroom *work)
     }
 }
 
-void FlipMushroom__Draw(void)
+void FlipMushroom_Draw(void)
 {
     FlipMushroom *work = TaskGetWorkCurrent(FlipMushroom);
 
     StageTask__Draw2D(&work->gameWork.objWork, &work->gameWork.objWork.obj_2d->ani);
 }
 
-void FlipMushroom__Collide(void)
+void FlipMushroom_Collide(void)
 {
     FlipMushroom *work = TaskGetWorkCurrent(FlipMushroom);
 
@@ -415,7 +538,7 @@ void FlipMushroom__Collide(void)
     }
 }
 
-NONMATCH_FUNC void FlipMushroom__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+NONMATCH_FUNC void FlipMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     // https://decomp.me/scratch/pWlO7 -> 73.70%
 #ifdef NON_MATCHING
@@ -429,7 +552,7 @@ NONMATCH_FUNC void FlipMushroom__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *r
         return;
 
     mushroom->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-    FlipMushroom__Action_Use(mushroom);
+    FlipMushroom_Action_Bounce(mushroom);
 
     MapObject *mapObject = mushroom->gameWork.mapObject;
     fx32 bounceX         = FLOAT_TO_FX32(5.5);
@@ -448,22 +571,22 @@ NONMATCH_FUNC void FlipMushroom__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *r
 
     u32 type = mapObject->id - MAPOBJECT_81;
 
-    fx32 spawnX   = mushroom->gameWork.objWork.position.x + FlipMushroom__stru_2188468[type].x;
-    fx32 spawnY   = mushroom->gameWork.objWork.position.y + FlipMushroom__stru_2188468[type].y;
-    fx32 velX     = FlipMushroom__stru_2188468[type].field_10;
-    fx32 velY     = FlipMushroom__stru_2188468[type].field_14;
-    fx32 field_20 = FlipMushroom__stru_2188468[type].field_20;
-    fx32 field_22 = FlipMushroom__stru_2188468[type].field_22;
+    fx32 spawnX   = mushroom->gameWork.objWork.position.x + puffParticleConfig[type].x;
+    fx32 spawnY   = mushroom->gameWork.objWork.position.y + puffParticleConfig[type].y;
+    fx32 velX     = puffParticleConfig[type].field_10;
+    fx32 velY     = puffParticleConfig[type].field_14;
+    fx32 field_20 = puffParticleConfig[type].field_20;
+    fx32 field_22 = puffParticleConfig[type].field_22;
 
     for (s32 i = 0; i < 5; i++)
     {
         u16 rand = mtMathRand();
         EffectFlipMushPuff__Create(spawnX + FX32_FROM_WHOLE((field_20 & rand) - (field_20 >> 1)), spawnY + FX32_FROM_WHOLE((field_22 & rand) - (field_22 >> 1)), velX, velY);
 
-        spawnX += FlipMushroom__stru_2188468[type].field_8;
-        velX += FlipMushroom__stru_2188468[type].field_18;
-        spawnY += FlipMushroom__stru_2188468[type].field_C;
-        velY += FlipMushroom__stru_2188468[type].field_1C;
+        spawnX += puffParticleConfig[type].field_8;
+        velX += puffParticleConfig[type].field_18;
+        spawnY += puffParticleConfig[type].field_C;
+        velY += puffParticleConfig[type].field_1C;
     }
 #else
     // clang-format off
@@ -484,7 +607,7 @@ NONMATCH_FUNC void FlipMushroom__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *r
 	orr r1, r0, #2
 	mov r0, r6
 	str r1, [r6, #0x18]
-	bl FlipMushroom__Action_Use
+	bl FlipMushroom_Action_Bounce
 	ldrh r0, [r5, #2]
 	mov r1, #0x5800
 	cmp r0, #0x51
@@ -506,15 +629,15 @@ _021633C4:
 	ldr r1, [r6, #0x340]
 	mov r0, #0x24
 	ldrh r3, [r1, #2]
-	ldr r2, =FlipMushroom__stru_2188468
-	ldr r1, =FlipMushroom__stru_2188468+4
+	ldr r2, =puffParticleConfig
+	ldr r1, =puffParticleConfig+4
 	sub r3, r3, #0x51
 	mul r5, r3, r0
-	ldr r7, =FlipMushroom__stru_2188468+0x20
-	ldr r8, =FlipMushroom__stru_2188468+0x22
-	ldr r11, =FlipMushroom__stru_2188468+0x10
+	ldr r7, =puffParticleConfig+0x20
+	ldr r8, =puffParticleConfig+0x22
+	ldr r11, =puffParticleConfig+0x10
 	ldrh r9, [r7, r5]
-	ldr r10, =FlipMushroom__stru_2188468+0x14
+	ldr r10, =puffParticleConfig+0x14
 	add r0, r2, r5
 	ldr r3, [r2, r5]
 	ldr r7, [r11, r5]

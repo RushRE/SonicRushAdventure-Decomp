@@ -41,6 +41,7 @@
 #include <stage/objects/platform.h>
 #include <stage/objects/diveStand.h>
 #include <stage/objects/flipMushroom.h>
+#include <stage/objects/springCrystal.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -99,7 +100,6 @@ NOT_DECOMPILED GameObjectTask *CameraBoundsTrigger__Create(MapObject *mapObject,
 NOT_DECOMPILED GameObjectTask *GrabTree__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *ObjectUnknown1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Stalactite__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *SpringCrystal__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *VRotateCrane__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Winch__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -624,9 +624,9 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_78]  = (CreateObjectFunc)CreateSpikes,
     [MAPOBJECT_79]  = (CreateObjectFunc)CreateSpikes,
     [MAPOBJECT_80]  = (CreateObjectFunc)CreateSpikes,
-    [MAPOBJECT_81]  = (CreateObjectFunc)FlipMushroom__Create,
-    [MAPOBJECT_82]  = (CreateObjectFunc)FlipMushroom__Create,
-    [MAPOBJECT_83]  = (CreateObjectFunc)FlipMushroom__Create,
+    [MAPOBJECT_81]  = (CreateObjectFunc)CreateFlipMushroom,
+    [MAPOBJECT_82]  = (CreateObjectFunc)CreateFlipMushroom,
+    [MAPOBJECT_83]  = (CreateObjectFunc)CreateFlipMushroom,
     [MAPOBJECT_84]  = (CreateObjectFunc)PopSteam__Create,
     [MAPOBJECT_85]  = (CreateObjectFunc)PopSteam__Create,
     [MAPOBJECT_86]  = (CreateObjectFunc)PopSteam__Create,
@@ -705,10 +705,10 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_159] = (CreateObjectFunc)CreateDashPanel,
     [MAPOBJECT_160] = (CreateObjectFunc)Stalactite__Create,
     [MAPOBJECT_161] = (CreateObjectFunc)Stalactite__Create,
-    [MAPOBJECT_162] = (CreateObjectFunc)SpringCrystal__Create,
-    [MAPOBJECT_163] = (CreateObjectFunc)SpringCrystal__Create,
-    [MAPOBJECT_164] = (CreateObjectFunc)SpringCrystal__Create,
-    [MAPOBJECT_165] = (CreateObjectFunc)SpringCrystal__Create,
+    [MAPOBJECT_162] = (CreateObjectFunc)CreateSpringCrystal,
+    [MAPOBJECT_163] = (CreateObjectFunc)CreateSpringCrystal,
+    [MAPOBJECT_164] = (CreateObjectFunc)CreateSpringCrystal,
+    [MAPOBJECT_165] = (CreateObjectFunc)CreateSpringCrystal,
     [MAPOBJECT_166] = (CreateObjectFunc)VRotateCrane__Create,
     [MAPOBJECT_167] = (CreateObjectFunc)VRotateCrane__Create,
     [MAPOBJECT_168] = (CreateObjectFunc)VRotateCrane__Create,

@@ -21,12 +21,6 @@ typedef struct FlipMushroom_
 // FUNCTIONS
 // --------------------
 
-FlipMushroom *FlipMushroom__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-void FlipMushroom__State_Idle(FlipMushroom *work);
-void FlipMushroom__Action_Use(FlipMushroom *work);
-void FlipMushroom__State_Activated(FlipMushroom *work);
-void FlipMushroom__Draw(void);
-void FlipMushroom__Collide(void);
-void FlipMushroom__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
 #endif // RUSH2_FLIPMUSHROOM_H

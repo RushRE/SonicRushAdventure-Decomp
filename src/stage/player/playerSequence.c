@@ -6401,7 +6401,7 @@ NONMATCH_FUNC void Player__Func_2021188(Player *player, u32 a2)
 #endif
 }
 
-void Player__Func_2021204(Player *player, fx32 velX, fx32 velY)
+void Player__Action_SpringCrystal(Player *player, fx32 velX, fx32 velY)
 {
     Player__Gimmick_Jump(player, velX, velY);
 }
