@@ -74,7 +74,7 @@ _02182BD4: .word 0x00000152
 
 	arm_func_start Balloon__Create
 Balloon__Create: // 0x02182BD8
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
 	mov r5, #0x1800
 	mov r8, r0
@@ -97,7 +97,7 @@ Balloon__Create: // 0x02182BD8
 	cmp r5, r0
 	addeq sp, sp, #0xc
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	mov r0, r5
 	bl GetTaskWork_
 	ldr r2, _02182F2C // =0x000004AC
@@ -245,10 +245,10 @@ Balloon__Create: // 0x02182BD8
 	ldr r0, [r5, #0x48]
 	ldr r7, [r5, #0x44]
 	ldr r4, _02182F50 // =FX_SinCosTable_
-	mov sb, r6
+	mov r9, r6
 	sub r8, r0, #0x28000
 _02182E8C:
-	mov r0, sb, lsl #0x10
+	mov r0, r9, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r0, r0, asr #4
 	mov r1, r0, lsl #1
@@ -269,11 +269,11 @@ _02182E8C:
 	mov ip, ip, asr #8
 	str ip, [sp, #4]
 	bl EffectHoverCrystalSparkle__Create
-	add r0, sb, #0x2000
+	add r0, r9, #0x2000
 	add r6, r6, #1
 	mov r0, r0, lsl #0x10
 	cmp r6, #8
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 	blt _02182E8C
 	mov r4, #0x73
 	sub r1, r4, #0x74
@@ -288,7 +288,7 @@ _02182E8C:
 _02182F20:
 	mov r0, r5
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02182F2C: .word 0x000004AC
 _02182F30: .word StageTask_Main
@@ -364,20 +364,20 @@ _02183024: .word 0x00000152
 
 	arm_func_start Balloon__Destructor
 Balloon__Destructor: // 0x02183028
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r8, r0
 	bl GetTaskWork_
 	mov r5, r0
 	mov r6, r5
 	add r7, r5, #0x364
 	mov r4, #0
-	mov sb, #0xa1
+	mov r9, #0xa1
 _02183048:
 	add r0, r6, #0x300
 	ldrh r0, [r0, #0xb4]
 	and r0, r0, #0xff
 	bl ObjDrawReleaseSpritePalette
-	mov r0, sb
+	mov r0, r9
 	bl GetObjectFileWork
 	mov r1, r7
 	bl ObjAction2dBACRelease
@@ -391,7 +391,7 @@ _02183048:
 	bl NNS_SndPlayerStopSeq
 	mov r0, r8
 	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end Balloon__Destructor
 
 	arm_func_start Balloon__State_2183094

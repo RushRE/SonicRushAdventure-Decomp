@@ -462,9 +462,9 @@ _0203E27C: .word GetTaskWork_
 
 	arm_func_start SeaMapView__InitView
 SeaMapView__InitView: // 0x0203E280
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x38
-	mov sb, r0
+	mov r9, r0
 	mov r8, r1
 	mov r4, r2
 	mov r5, r3
@@ -492,44 +492,44 @@ _0203E2DC:
 	bl SeaMapManager__GetWork
 	str r0, [sp, #0x28]
 	ldr r2, _0203E7BC // =0x000007B4
-	mov r1, sb
+	mov r1, r9
 	mov r0, #0
 	bl MIi_CpuClear16
-	str r8, [sb, #4]
+	str r8, [r9, #4]
 	bl SeaMapManager__GetWork
 	add r0, r0, #0x15c
 	ldr r1, _0203E7C0 // =VRAMSystem__GFXControl
-	str r0, [sb, #0xc]
+	str r0, [r9, #0xc]
 	mvn r2, #0
 	ldr r0, [r1, r8, lsl #2]
-	str r2, [sb, #0x790]
+	str r2, [r9, #0x790]
 	ldrsh r0, [r0, #0x58]
 	cmp r4, #4
-	strh r0, [sb, #8]
+	strh r0, [r9, #8]
 	bge _0203E338
 	ldr r0, _0203E7C4 // =0x0210F794
 	ldr r0, [r0, r4, lsl #2]
 	mov r0, r0, lsl #0xc
-	str r0, [sb, #0x798]
-	str r0, [sb, #0x79c]
+	str r0, [r9, #0x798]
+	str r0, [r9, #0x79c]
 _0203E338:
-	mov r0, sb
+	mov r0, r9
 	bl SeaMapView__Func_203FE44
-	ldr r0, [sb, #0xc]
-	add r2, sb, #0x164
+	ldr r0, [r9, #0xc]
+	add r2, r9, #0x164
 	ldr r0, [r0]
 	mov r1, #0x26
 	add r4, r2, #0x400
 	bl Sprite__GetSpriteSize1FromAnim
 	mov r1, r0
-	ldr r0, [sb, #4]
+	ldr r0, [r9, #4]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [sb, #4]
+	ldr r1, [r9, #4]
 	mov r3, #0
 	stmia sp, {r1, r3}
 	str r0, [sp, #8]
 	str r3, [sp, #0xc]
-	ldr r2, [sb, #4]
+	ldr r2, [r9, #4]
 	ldr r0, _0203E7C8 // =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r1, #6
 	ldr r2, [r0, r2, lsl #2]
@@ -537,7 +537,7 @@ _0203E338:
 	str r2, [sp, #0x10]
 	str r3, [sp, #0x14]
 	str r1, [sp, #0x18]
-	ldr r1, [sb, #0xc]
+	ldr r1, [r9, #0xc]
 	ldr r3, _0203E7CC // =0x00000814
 	ldr r1, [r1]
 	mov r2, #0x26
@@ -546,16 +546,16 @@ _0203E338:
 	cmp r5, #0
 	strh r0, [r4, #0x50]
 	addeq sp, sp, #0x38
-	str r5, [sb]
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	mov r0, sb
+	str r5, [r9]
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	mov r0, r9
 	bl SeaMapView__AllocateSprites
 	mov r0, #0
 	ldr r6, _0203E7D0 // =0x0210F82C
-	ldr sl, _0203E7D4 // =0x0210F7A4
+	ldr r10, _0203E7D4 // =0x0210F7A4
 	str r0, [sp, #0x24]
-	mov fp, r0
-	add r5, sb, #0x44
+	mov r11, r0
+	add r5, r9, #0x44
 _0203E3E4:
 	ldr r0, [sp, #0x24]
 	mov r2, #0
@@ -576,7 +576,7 @@ _0203E3FC:
 	str r1, [sp, #4]
 	ldr r0, [r6, #4]
 	ldr r2, _0203E7C8 // =VRAMSystem__VRAM_PALETTE_OBJ
-	add r0, sb, r0, lsl #2
+	add r0, r9, r0, lsl #2
 	ldr r0, [r0, #0x30]
 	ldr r7, [r2, r8, lsl #2]
 	str r0, [sp, #8]
@@ -587,7 +587,7 @@ _0203E3FC:
 	mov r0, r5
 	mov r3, #0x800
 	str r1, [sp, #0x18]
-	ldr r1, [sb, #0xc]
+	ldr r1, [r9, #0xc]
 	ldrh r2, [r5, #0xa2]
 	ldr r1, [r1]
 	bl AnimatorSprite__Init
@@ -600,7 +600,7 @@ _0203E3FC:
 	b _0203E55C
 _0203E484:
 	ldr r1, _0203E7D8 // =a8ajs
-	sub r0, fp, #0x78
+	sub r0, r11, #0x78
 	add r4, r1, r0
 	ldr r0, [sp, #0x20]
 	ldrb r0, [r0, r4]
@@ -637,7 +637,7 @@ _0203E4F4:
 	str r1, [sp, #4]
 	ldr r0, [r4, #0xc]
 	ldr r3, _0203E7C8 // =VRAMSystem__VRAM_PALETTE_OBJ
-	add r0, sb, r0, lsl #2
+	add r0, r9, r0, lsl #2
 	ldr r7, [r3, r8, lsl #2]
 	ldr r3, [r0, #0x30]
 	mov r0, r5
@@ -649,7 +649,7 @@ _0203E4F4:
 	mov r3, #0x800
 	str r1, [sp, #0x18]
 	ldrb r2, [r4, r2]
-	ldr r1, [sb, #0xc]
+	ldr r1, [r9, #0xc]
 	ldr r1, [r1]
 	bl AnimatorSprite__Init
 	ldrh r0, [r5, #0x9c]
@@ -663,15 +663,15 @@ _0203E55C:
 	mov r0, r5
 	mov r1, #0
 	bl AnimatorSprite__GetBlockData
-	ldr r1, [sl, #4]
+	ldr r1, [r10, #4]
 	ldr r2, _0203E7DC // =TouchField__PointInRect
-	stmia sp, {r1, sb}
+	stmia sp, {r1, r9}
 	add r0, r5, #0x64
 	add r1, r5, #8
 	add r3, sp, #0x30
 	bl TouchField__InitAreaShape
 	ldr r0, [sp, #0x28]
-	ldrh r2, [sl], #8
+	ldrh r2, [r10], #8
 	add r0, r0, #0x13c
 	add r1, r5, #0x64
 	bl TouchField__AddArea
@@ -682,7 +682,7 @@ _0203E55C:
 	add r5, r5, #0xa4
 	add r0, r0, #1
 	add r6, r6, #0x10
-	add fp, fp, #0x18
+	add r11, r11, #0x18
 	str r0, [sp, #0x24]
 	cmp r0, #8
 	blo _0203E3E4
@@ -691,7 +691,7 @@ _0203E55C:
 	mov r4, #0x100
 	mov r3, #0xc0
 	strh r3, [sp, #0x36]
-	add r0, sb, #0x358
+	add r0, r9, #0x358
 	ldr r2, _0203E7E0 // =SeaMapView__TouchAreaCallback
 	strh r5, [r1]
 	strh r5, [r1, #2]
@@ -702,15 +702,15 @@ _0203E55C:
 	ldr r2, _0203E7DC // =TouchField__PointInRect
 	add r3, sp, #0x30
 	add r0, r0, #0x400
-	str sb, [sp, #4]
+	str r9, [sp, #4]
 	bl TouchField__InitAreaShape
 	ldr r0, [sp, #0x28]
-	add r1, sb, #0x358
+	add r1, r9, #0x358
 	add r0, r0, #0x13c
 	add r1, r1, #0x400
 	mov r2, #8
 	bl TouchField__AddArea
-	add r0, sb, #0x1c8
+	add r0, r9, #0x1c8
 	ldr r1, _0203E7C8 // =VRAMSystem__VRAM_PALETTE_OBJ
 	add r4, r0, #0x400
 	ldr r0, [r1, r8, lsl #2]
@@ -736,19 +736,19 @@ _0203E55C:
 	mov r0, r4
 	bl AnimatorSprite__Init
 	ldr r1, _0203E7E4 // =0x0210F774
-	mov r0, sb
+	mov r0, r9
 	ldrb r2, [r1, #1]
 	mvn r1, #0
 	strh r2, [r4, #0x50]
 	bl SeaMapView__InitTouchCursor
-	mov sl, #0
-	add r0, sb, #0x22c
+	mov r10, #0
+	add r0, r9, #0x22c
 	ldr r5, _0203E7E8 // =0x0210F776
 	add r6, r0, #0x400
-	mov fp, sl
+	mov r11, r10
 _0203E6B8:
 	bl GetSpriteButtonCursorSprite
-	ldr r1, [sb, #0xc]
+	ldr r1, [r9, #0xc]
 	mov r4, r0
 	ldr r0, [r1]
 	ldrb r1, [r5]
@@ -756,16 +756,16 @@ _0203E6B8:
 	mov r1, r0
 	mov r0, r8
 	bl VRAMSystem__AllocSpriteVram
-	stmia sp, {r8, fp}
+	stmia sp, {r8, r11}
 	str r0, [sp, #8]
-	str fp, [sp, #0xc]
+	str r11, [sp, #0xc]
 	str r7, [sp, #0x10]
-	str fp, [sp, #0x14]
-	str fp, [sp, #0x18]
+	str r11, [sp, #0x14]
+	str r11, [sp, #0x18]
 	ldrb r2, [r5]
 	mov r1, r4
 	mov r0, r6
-	mov r3, fp
+	mov r3, r11
 	bl AnimatorSprite__Init
 	ldrb r2, [r5, #1]
 	mov r1, #0
@@ -773,13 +773,13 @@ _0203E6B8:
 	strh r2, [r6, #0x50]
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	add sl, sl, #1
+	add r10, r10, #1
 	add r5, r5, #2
 	add r6, r6, #0x64
-	cmp sl, #2
+	cmp r10, #2
 	blo _0203E6B8
-	ldr r0, [sb, #0xc]
-	add r2, sb, #0x2f4
+	ldr r0, [r9, #0xc]
+	add r2, r9, #0x2f4
 	ldr r0, [r0]
 	mov r1, #0x2e
 	add r4, r2, #0x400
@@ -797,7 +797,7 @@ _0203E6B8:
 	str r3, [sp, #0x14]
 	mov r0, #5
 	str r0, [sp, #0x18]
-	ldr r1, [sb, #0xc]
+	ldr r1, [r9, #0xc]
 	mov r0, r4
 	ldr r1, [r1]
 	mov r2, #0x2e
@@ -809,9 +809,9 @@ _0203E6B8:
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
 	bl AllocSndHandle
-	str r0, [sb, #0x7a8]
+	str r0, [r9, #0x7a8]
 	add sp, sp, #0x38
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0203E7BC: .word 0x000007B4
 _0203E7C0: .word VRAMSystem__GFXControl
@@ -921,7 +921,7 @@ _0203E910: .word padInput
 
 	arm_func_start SeaMapView__Func_203E914
 SeaMapView__Func_203E914: // 0x0203E914
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x79c]
 	ldr r1, [r5, #0x798]
@@ -948,15 +948,15 @@ SeaMapView__Func_203E914: // 0x0203E914
 	ldrh r6, [r1, r2]
 	ldr r1, _0203EB1C // =0x0210F77A
 	mov r0, r0, lsl #0x10
-	ldrh sb, [r1, r2]
+	ldrh r9, [r1, r2]
 	mov r2, r6, asr #0xa
 	and r7, r2, #0x1f
-	mov r3, sb, asr #0xa
+	mov r3, r9, asr #0xa
 	and r2, r6, #0x1f
 	mov r1, r6, asr #5
 	and r6, r1, #0x1f
 	mov r1, r7, lsl #0x10
-	mov r8, sb, asr #5
+	mov r8, r9, asr #5
 	mov r2, r2, lsl #0x10
 	and r3, r3, #0x1f
 	mov r6, r6, lsl #0x10
@@ -964,18 +964,18 @@ SeaMapView__Func_203E914: // 0x0203E914
 	mov r2, r6, lsr #4
 	mov r1, r1, lsr #4
 	mov r6, r0, asr #0x10
-	and lr, sb, #0x1f
+	and lr, r9, #0x1f
 	sub r0, r1, r3, lsl #12
 	and ip, r8, #0x1f
 	sub r1, r7, lr, lsl #12
 	sub r7, r2, ip, lsl #12
-	smull r2, sb, r0, r6
+	smull r2, r9, r0, r6
 	adds r2, r2, #0x800
 	smull r8, r0, r1, r6
-	adc sb, sb, #0
+	adc r9, r9, #0
 	adds r1, r8, #0x800
 	mov r2, r2, lsr #0xc
-	orr r2, r2, sb, lsl #20
+	orr r2, r2, r9, lsl #20
 	add r2, r2, r3, lsl #12
 	smull r6, r3, r7, r6
 	adc r0, r0, #0
@@ -1050,7 +1050,7 @@ _0203EA40:
 	add r0, r1, #0xcc
 	add r0, r0, #0x400
 	str r0, [r5, #0x59c]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0203EB18: .word 0x0210F77C
 _0203EB1C: .word 0x0210F77A
@@ -1462,9 +1462,9 @@ _0203F02C: .word padInput
 
 	arm_func_start SeaMapView__SetZoomLevel
 SeaMapView__SetZoomLevel: // 0x0203F030
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r4, r0
-	mov sb, r1
+	mov r9, r1
 	bl SeaMapView__SetButtonMode
 	ldr r5, [r4, #0x10]
 	ldr r6, [r4, #0x14]
@@ -1475,7 +1475,7 @@ SeaMapView__SetZoomLevel: // 0x0203F030
 	ldr r2, [r4, #0x14]
 	mov r1, #0x60
 	mla r8, r0, r1, r2
-	mov r0, sb
+	mov r0, r9
 	bl SeaMapManager__SetZoomLevel
 	bl SeaMapManager__GetZoomInScale
 	sub r7, r7, r0, lsl #7
@@ -1505,7 +1505,7 @@ SeaMapView__SetZoomLevel: // 0x0203F030
 	mov r0, #0xf
 	str r1, [r4, #0x1c]
 	bl SeaMapManager__EnableDrawFlags
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end SeaMapView__SetZoomLevel
 
 	arm_func_start SeaMapView__ProcessPadInputs
@@ -2247,10 +2247,10 @@ _0203F9E0:
 
 	arm_func_start SeaMapView__Func_203FA24
 SeaMapView__Func_203FA24: // 0x0203FA24
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl SeaMapManager__GetNodeCount
 	cmp r0, #2
-	ldmloia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmloia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl SeaMapManager__GetStartNode
 	mov r4, r0
 	bl SeaMapManager__GetNextNode
@@ -2266,7 +2266,7 @@ SeaMapView__Func_203FA24: // 0x0203FA24
 	mov r0, r0, lsl #0x10
 	mov r5, #3
 	mov r8, r0, lsr #0x10
-	mov fp, r5
+	mov r11, r5
 	mov r4, #1
 _0203FA78:
 	ldrh r0, [r6, #8]
@@ -2274,24 +2274,24 @@ _0203FA78:
 	bl FX_DivS32
 	mov r2, r0, lsl #0x10
 	ldrh r0, [r6, #0xa]
-	mov r1, fp
-	mov sb, r2, lsr #0x10
+	mov r1, r11
+	mov r9, r2, lsr #0x10
 	bl FX_DivS32
 	mov r0, r0, lsl #0x10
-	mov sl, r0, lsr #0x10
+	mov r10, r0, lsr #0x10
 	mov r0, r7
 	mov r1, r8
-	mov r2, sb
-	mov r3, sl
+	mov r2, r9
+	mov r3, r10
 	str r4, [sp]
 	bl SeaMapManager__Func_2044DCC
 	mov r0, r6
 	bl SeaMapManager__GetNextNode
 	movs r6, r0
-	mov r7, sb
-	mov r8, sl
+	mov r7, r9
+	mov r8, r10
 	bne _0203FA78
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end SeaMapView__Func_203FA24
 
 	arm_func_start SeaMapView__Func_203FAD4

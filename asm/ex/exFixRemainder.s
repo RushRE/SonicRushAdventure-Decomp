@@ -5,7 +5,7 @@
 
 	arm_func_start exFixRemainderTask__Main
 exFixRemainderTask__Main: // 0x02169DBC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetExTaskWorkCurrent_
 	mov r7, r0
 	bl GetCurrentTask
@@ -46,34 +46,34 @@ exFixRemainderTask__Main: // 0x02169DBC
 	strb r1, [r7, #0x112]
 	bl ovl09_2161B80
 	add r0, r7, #0x9a
-	ldr fp, _02169F18 // =0x02175CB4
+	ldr r11, _02169F18 // =0x02175CB4
 	mov r8, #0
 	add r6, r7, #0x118
 	add r5, r7, #0x198
 	add r4, r0, #0x100
 _02169E74:
 	mov r0, #0x88
-	mul sb, r8, r0
+	mul r9, r8, r0
 	mov r0, r8, lsl #1
-	ldrh r1, [fp, r0]
-	add sl, r7, sb
-	add r2, sl, #0x100
+	ldrh r1, [r11, r0]
+	add r10, r7, r9
+	add r2, r10, #0x100
 	strh r1, [r2, #0x18]
 	mov r1, #2
-	add r0, r6, sb
+	add r0, r6, r9
 	strh r1, [r2, #0x1a]
 	bl ovl09_2168EA4
 	ldr r1, _02169F14 // =0x0000E001
-	add r0, r5, sb
+	add r0, r5, r9
 	bl ovl09_21641E8
-	add r1, sl, #0x100
+	add r1, r10, #0x100
 	mov r0, #0
 	strh r0, [r1, #0x80]
 	strh r0, [r1, #0x82]
-	ldrb r1, [r4, sb]
-	add r0, r6, sb
+	ldrb r1, [r4, r9]
+	add r0, r6, r9
 	orr r1, r1, #0x20
-	strb r1, [r4, sb]
+	strb r1, [r4, r9]
 	bl ovl09_2161B80
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
@@ -90,7 +90,7 @@ _02169E74:
 	bl GetExTaskCurrent
 	ldr r1, _02169F1C // =ovl09_2169F84
 	str r1, [r0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02169F10: .word 0x021766A8
 _02169F14: .word 0x0000E001

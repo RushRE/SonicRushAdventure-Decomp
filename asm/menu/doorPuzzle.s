@@ -540,10 +540,10 @@ Task__Unknown215790C__Main_2157A88: // 0x02157A88
 
 	arm_func_start DoorPuzzleDoor__Create
 DoorPuzzleDoor__Create: // 0x02157AC8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	mov r1, #0x3000
-	mov sl, r0
+	mov r10, r0
 	str r1, [sp]
 	mov r0, #1
 	mov r2, #0
@@ -563,20 +563,20 @@ DoorPuzzleDoor__Create: // 0x02157AC8
 	ldr r2, [sp, #0x1c]
 	ldr r0, _02157DD8 // =aFntFontAllFnt_2_ovl04
 	mov r1, #0
-	str sl, [r2, #0x1dc]
+	str r10, [r2, #0x1dc]
 	bl FSRequestFileSync
 	mov r7, #0
-	ldr sb, [sp, #0x1c]
-	str r0, [sl, #8]
-	mov r0, sb
-	ldr fp, _02157DDC // =0x02162A92
+	ldr r9, [sp, #0x1c]
+	str r0, [r10, #8]
+	mov r0, r9
+	ldr r11, _02157DDC // =0x02162A92
 	add r8, r0, #0x1f8
 	mov r5, r7
 	mvn r4, #0x45
 _02157B4C:
 	mov r0, r7, lsl #1
-	ldrh r1, [fp, r0]
-	ldr r0, [sl]
+	ldrh r1, [r11, r0]
+	ldr r0, [r10]
 	bl FileUnknown__GetAOUFile
 	mov r6, r0
 	bl Sprite__GetSpriteSize3
@@ -596,13 +596,13 @@ _02157B4C:
 	mov r3, #4
 	str r5, [sp, #0x18]
 	bl AnimatorSprite__Init
-	add r1, sb, #0x200
+	add r1, r9, #0x200
 	mov r0, #0x30
 	strh r0, [r1]
 	add r7, r7, #1
 	strh r4, [r1, #2]
 	add r8, r8, #0x64
-	add sb, sb, #0x64
+	add r9, r9, #0x64
 	cmp r7, #4
 	blt _02157B4C
 	mov r1, #0
@@ -613,7 +613,7 @@ _02157B4C:
 	ldr r0, [r4]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
-	str r0, [sl, #0xc]
+	str r0, [r10, #0xc]
 	mov r1, r0
 	mov r0, r4
 	bl RenderCore_CPUCopyCompressed
@@ -625,27 +625,27 @@ _02157B4C:
 	ldr r5, _02157DE4 // =0x02162AA6
 	mov r8, r0
 	add r7, r0, #0x388
-	add sb, r1, #0x400
-	mov fp, r6
+	add r9, r1, #0x400
+	mov r11, r6
 	mov r4, r6
 _02157C24:
-	ldr r0, [sl, #0xc]
+	ldr r0, [r10, #0xc]
 	bl Sprite__GetSpriteSize3
 	mov r1, r0
 	mov r0, #0
 	bl VRAMSystem__AllocSpriteVram
-	str fp, [sp]
-	str fp, [sp, #4]
+	str r11, [sp]
+	str r11, [sp, #4]
 	str r0, [sp, #8]
 	mov r0, #2
 	str r0, [sp, #0xc]
-	str fp, [sp, #0x10]
-	str fp, [sp, #0x14]
-	str fp, [sp, #0x18]
+	str r11, [sp, #0x10]
+	str r11, [sp, #0x14]
+	str r11, [sp, #0x18]
 	ldr r2, _02157DE8 // =0x02162A86
 	mov r3, r6, lsl #1
 	ldrh r2, [r2, r3]
-	ldr r1, [sl, #0xc]
+	ldr r1, [r10, #0xc]
 	mov r0, r7
 	mov r3, #4
 	bl AnimatorSprite__Init
@@ -662,7 +662,7 @@ _02157C24:
 	mov r2, r1
 	strh ip, [r3, #0x92]
 	bl AnimatorSprite__ProcessAnimation
-	ldr r0, [sl, #0xc]
+	ldr r0, [r10, #0xc]
 	bl Sprite__GetSpriteSize3
 	mov r1, r0
 	mov r0, #0
@@ -676,8 +676,8 @@ _02157C24:
 	str r4, [sp, #0x14]
 	mov r0, #1
 	str r0, [sp, #0x18]
-	ldr r1, [sl, #0xc]
-	mov r0, sb
+	ldr r1, [r10, #0xc]
+	mov r0, r9
 	mov r2, r4
 	mov r3, #4
 	bl AnimatorSprite__Init
@@ -691,17 +691,17 @@ _02157C24:
 	strh r1, [r2, #0xbc]
 	ldrsh r3, [r0, #2]
 	mov r1, #0
-	mov r0, sb
+	mov r0, r9
 	strh r3, [r2, #0xbe]
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
 	add r7, r7, #0x64
 	add r8, r8, #0x64
-	add sb, sb, #0x64
+	add r9, r9, #0x64
 	add r6, r6, #1
 	cmp r6, #3
 	blt _02157C24
-	ldr r0, [sl, #4]
+	ldr r0, [r10, #4]
 	mov r1, #1
 	bl FileUnknown__GetAOUFile
 	mov r4, r0
@@ -734,7 +734,7 @@ _02157C24:
 	mov r1, #0xa0
 	strh r1, [r0, #0xea]
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02157DCC: .word 0x00000644
 _02157DD0: .word DoorPuzzleDoor__Main
@@ -1932,7 +1932,7 @@ _02158C84:
 
 	arm_func_start Task__Unknown215898C__Func_2158CAC
 Task__Unknown215898C__Func_2158CAC: // 0x02158CAC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x1c
 	mov r7, r1
 	mov r1, #0xa0
@@ -1953,7 +1953,7 @@ Task__Unknown215898C__Func_2158CAC: // 0x02158CAC
 	ldr r0, [r8, #4]
 	ldr r0, [r0]
 	bl FileUnknown__GetAOUFile
-	mov sb, r0
+	mov r9, r0
 	bl Sprite__GetSpriteSize3
 	mov r1, r0
 	mov r0, #1
@@ -1973,7 +1973,7 @@ Task__Unknown215898C__Func_2158CAC: // 0x02158CAC
 	ldr r2, _02158DB0 // =0x02162A8C
 	mov ip, r7, lsl #1
 	ldrh r2, [r2, ip]
-	mov r1, sb
+	mov r1, r9
 	add r0, r0, r6
 	bl AnimatorSprite__Init
 	strh r7, [r5, #0x6c]
@@ -1995,7 +1995,7 @@ Task__Unknown215898C__Func_2158CAC: // 0x02158CAC
 	mov r3, #2
 	bl InitPaletteAnimator
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02158DAC: .word 0x02162A80
 _02158DB0: .word 0x02162A8C

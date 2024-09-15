@@ -5,19 +5,19 @@
 
 	arm_func_start CompressedFile__Decompress
 CompressedFile__Decompress: // 0x0205B6E8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	mov r4, r0
-	mov sl, r1
-	mov sb, r2
+	mov r10, r1
+	mov r9, r2
 	mov r7, #0
 	mov r8, #1
 	bl CompressedFile__GetCompressedSize
-	mov fp, r0
-	mov r0, sl
-	mov r1, fp
+	mov r11, r0
+	mov r0, r10
+	mov r1, r11
 	bl CompressedFile__AllocateMemIfNeeded
-	mov sl, r0
+	mov r10, r0
 	mov r0, r4
 	bl CompressedFile__IsVisAnim
 	cmp r0, #0
@@ -27,24 +27,24 @@ CompressedFile__Decompress: // 0x0205B6E8
 	mov r8, r0
 	cmp r8, #1
 	bls _0205B76C
-	cmp sb, #0
+	cmp r9, #0
 	mvnne r0, #0
-	cmpne sb, r0
+	cmpne r9, r0
 	bne _0205B76C
 	mov r0, r4
 	bl CompressedFile__Func_205B898
 	mov r1, r0
-	mov r0, sb
+	mov r0, r9
 	bl CompressedFile__AllocateMemIfNeeded
-	mov sb, r0
+	mov r9, r0
 	mov r7, #1
 _0205B76C:
 	cmp r8, #0
 	bne _0205B78C
 	mov r0, r4
 	bl CompressedFile__Func_205B8C0
-	mov r1, sl
-	mov r2, fp
+	mov r1, r10
+	mov r2, r11
 	bl RenderCore_CPUCopy
 	b _0205B7CC
 _0205B78C:
@@ -52,19 +52,19 @@ _0205B78C:
 	mov r0, r4
 	beq _0205B7B4
 	bl CompressedFile__Func_205B8C0
-	mov r1, sl
+	mov r1, r10
 	mov r2, #2
 	bl CompressedFile__HandleDecompression2
-	str sl, [sp, #4]
-	str sb, [sp]
+	str r10, [sp, #4]
+	str r9, [sp]
 	b _0205B7CC
 _0205B7B4:
 	bl CompressedFile__Func_205B8C0
-	mov r1, sb
+	mov r1, r9
 	mov r2, #2
 	bl CompressedFile__HandleDecompression2
-	str sb, [sp, #4]
-	str sl, [sp]
+	str r9, [sp, #4]
+	str r10, [sp]
 _0205B7CC:
 	subs r8, r8, #1
 	beq _0205B81C
@@ -90,15 +90,15 @@ _0205B7E4:
 _0205B81C:
 	cmp r7, #0
 	beq _0205B82C
-	mov r0, sb
+	mov r0, r9
 	bl _FreeHEAP_USER
 _0205B82C:
-	mov r0, sl
-	mov r1, fp
+	mov r0, r10
+	mov r1, r11
 	bl DC_StoreRange
-	mov r0, sl
+	mov r0, r10
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end CompressedFile__Decompress
 
 	arm_func_start CompressedFile__IsVisAnim

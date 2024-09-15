@@ -343,7 +343,7 @@ _0215BE10: .word padInput
 
 	arm_func_start ViMap__Func_215BE14
 ViMap__Func_215BE14: // 0x0215BE14
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xc
 	ldr r1, _0215BFBC // =ViMap__TaskSingleton
 	mov r4, r0
@@ -365,26 +365,26 @@ ViMap__Func_215BE14: // 0x0215BE14
 	bl ovl05_2152960
 	ldrh r1, [r0, #0x3c]
 	add r0, r8, #0x700
-	mov sb, #0
-	add sl, r8, #0x810
+	mov r9, #0
+	add r10, r8, #0x810
 	strh r1, [r0, #0xe8]
 	mov r7, #4
-	mov r6, sb
+	mov r6, r9
 	mov r5, #0xf
 	mov r4, #1
 _0215BE88:
-	mov r1, sb, lsl #0x10
-	mov r0, sl
+	mov r1, r9, lsl #0x10
+	mov r0, r10
 	mov r1, r1, lsr #0x10
 	bl AnimatorSprite__SetAnimation
-	str r7, [sl, #0x48]
-	str r6, [sl, #0x4c]
-	strh r5, [sl, #0x50]
-	strb r6, [sl, #0x56]
-	add sb, sb, #1
-	strb r4, [sl, #0x57]
-	cmp sb, #9
-	add sl, sl, #0x64
+	str r7, [r10, #0x48]
+	str r6, [r10, #0x4c]
+	strh r5, [r10, #0x50]
+	strb r6, [r10, #0x56]
+	add r9, r9, #1
+	strb r4, [r10, #0x57]
+	cmp r9, #9
+	add r10, r10, #0x64
 	blt _0215BE88
 	add r0, r8, #0x394
 	mov r1, r6
@@ -450,7 +450,7 @@ _0215BEF8:
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0215BFBC: .word ViMap__TaskSingleton
 _0215BFC0: .word 0x04001000
@@ -533,7 +533,7 @@ _0215C0D4: .word 0x04001000
 
 	arm_func_start ViMap__Func_215C0D8
 ViMap__Func_215C0D8: // 0x0215C0D8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xc
 	ldr r1, _0215C27C // =ViMap__TaskSingleton
 	mov r4, r0
@@ -554,26 +554,26 @@ ViMap__Func_215C0D8: // 0x0215C0D8
 	bl ovl05_2152960
 	ldrh r1, [r0, #0x3c]
 	add r0, r8, #0x700
-	mov sb, #0
-	add sl, r8, #0x810
+	mov r9, #0
+	add r10, r8, #0x810
 	strh r1, [r0, #0xe8]
 	mov r7, #4
-	mov r6, sb
+	mov r6, r9
 	mov r5, #0xf
 	mov r4, #1
 _0215C148:
-	mov r1, sb, lsl #0x10
-	mov r0, sl
+	mov r1, r9, lsl #0x10
+	mov r0, r10
 	mov r1, r1, lsr #0x10
 	bl AnimatorSprite__SetAnimation
-	str r7, [sl, #0x48]
-	str r6, [sl, #0x4c]
-	strh r5, [sl, #0x50]
-	strb r6, [sl, #0x56]
-	add sb, sb, #1
-	strb r4, [sl, #0x57]
-	cmp sb, #9
-	add sl, sl, #0x64
+	str r7, [r10, #0x48]
+	str r6, [r10, #0x4c]
+	strh r5, [r10, #0x50]
+	strb r6, [r10, #0x56]
+	add r9, r9, #1
+	strb r4, [r10, #0x57]
+	cmp r9, #9
+	add r10, r10, #0x64
 	blt _0215C148
 	add r0, r8, #0x394
 	mov r1, r6
@@ -639,7 +639,7 @@ _0215C1B8:
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0215C27C: .word ViMap__TaskSingleton
 _0215C280: .word 0x04001000
@@ -1121,7 +1121,7 @@ _0215C8A4: .word ViMap__TaskSingleton
 
 	arm_func_start ViMapPaletteAnimation__Create
 ViMapPaletteAnimation__Create: // 0x0215C8A8
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
 	bl ViMap__Func_215C960
 	ldr r0, _0215C94C // =0x00001041
@@ -1143,7 +1143,7 @@ ViMapPaletteAnimation__Create: // 0x0215C8A8
 	mov r1, #0
 	bl FSRequestFileSync
 	mov r8, #0
-	mov sb, r7
+	mov r9, r7
 	str r0, [r7, #0x60]
 	mov r6, #3
 	mov r5, r8
@@ -1153,16 +1153,16 @@ _0215C914:
 	str r5, [sp, #4]
 	mov r2, r8, lsl #0x10
 	ldr r1, [r7, #0x60]
-	mov r0, sb
+	mov r0, r9
 	mov r3, r4
 	mov r2, r2, lsr #0x10
 	bl InitPaletteAnimator
 	add r8, r8, #1
 	cmp r8, #3
-	add sb, sb, #0x20
+	add r9, r9, #0x20
 	blt _0215C914
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0215C94C: .word 0x00001041
 _0215C950: .word ViMapPaletteAnimation__Main
@@ -1269,7 +1269,7 @@ ViMap__Func_215CA60: // 0x0215CA60
 
 	arm_func_start ViMap__Func_215CA84
 ViMap__Func_215CA84: // 0x0215CA84
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	str r0, [sp, #0x1c]
 	mov r0, #8
@@ -1277,11 +1277,11 @@ ViMap__Func_215CA84: // 0x0215CA84
 	mov r7, r0
 	ldr r0, [sp, #0x1c]
 	mov r8, #0
-	add sb, r0, #0x810
+	add r9, r0, #0x810
 	mov r6, #1
 	mov r5, r8
 	mov r4, #4
-	mov fp, #0x1e00
+	mov r11, #0x1e00
 _0215CAB8:
 	mov r1, r8, lsl #0x10
 	mov r0, r7
@@ -1289,24 +1289,24 @@ _0215CAB8:
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
 	cmp r8, #0
-	moveq sl, #0
+	moveq r10, #0
 	mov r0, #1
-	movne sl, #0x10
+	movne r10, #0x10
 	bl VRAMSystem__AllocSpriteVram
 	str r6, [sp]
 	str r5, [sp, #4]
 	str r0, [sp, #8]
 	str r4, [sp, #0xc]
-	str fp, [sp, #0x10]
+	str r11, [sp, #0x10]
 	str r5, [sp, #0x14]
-	mov r3, sl
-	mov r0, sb
+	mov r3, r10
+	mov r0, r9
 	mov r1, r7
 	mov r2, r5
 	str r5, [sp, #0x18]
 	bl AnimatorSprite__Init
 	add r8, r8, #1
-	add sb, sb, #0x64
+	add r9, r9, #0x64
 	cmp r8, #9
 	blt _0215CAB8
 	mov r0, #9
@@ -1337,28 +1337,28 @@ _0215CAB8:
 	bl HubControl__GetFileFrom_ViAct
 	mov r7, r0
 	bl Sprite__GetSpriteSize3
-	mov sb, r0
+	mov r9, r0
 	ldr r0, [sp, #0x1c]
 	mov r8, #0
 	add r0, r0, #0x3f8
-	ldr fp, _0215CC10 // =0x05000600
+	ldr r11, _0215CC10 // =0x05000600
 	add r6, r0, #0x800
 	mov r5, #1
 	mov r4, r8
 _0215CBB0:
 	cmp r8, #0
-	moveq sl, #0
+	moveq r10, #0
 	mov r0, #1
-	mov r1, sb
-	movne sl, #0x10
+	mov r1, r9
+	movne r10, #0x10
 	bl VRAMSystem__AllocSpriteVram
 	str r5, [sp]
 	str r4, [sp, #4]
 	str r0, [sp, #8]
 	str r4, [sp, #0xc]
-	str fp, [sp, #0x10]
+	str r11, [sp, #0x10]
 	str r4, [sp, #0x14]
-	orr r3, sl, #4
+	orr r3, r10, #4
 	mov r0, r6
 	mov r1, r7
 	mov r2, r4
@@ -1369,7 +1369,7 @@ _0215CBB0:
 	cmp r8, #8
 	blt _0215CBB0
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215CC10: .word 0x05000600
 	arm_func_end ViMap__Func_215CA84
@@ -1507,7 +1507,7 @@ ViMap__Main: // 0x0215CD94
 
 	arm_func_start ViMap__Func_215CDE0
 ViMap__Func_215CDE0: // 0x0215CDE0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	mov r0, #0
 	str r0, [sp, #8]
@@ -1572,37 +1572,37 @@ _0215CEB8:
 	bl FX_DivS32
 _0215CEC0:
 	ldrh r1, [r7, #0x14]
-	mov sb, r0
+	mov r9, r0
 	add r0, r6, #0x700
 	ldrh r8, [r0, #0xea]
 	cmp r1, #0
-	mov sl, #0
+	mov r10, #0
 	ble _0215CF3C
-	mov fp, #0x2000
+	mov r11, #0x2000
 	mov r4, #0x30
 	mov r5, #0x100
 _0215CEE8:
 	cmp r8, #0
-	addlt r0, r6, sl, lsl #2
+	addlt r0, r6, r10, lsl #2
 	strlt r5, [r0, #0x7f0]
 	blt _0215CF28
 	cmp r8, #0x62
-	addge r0, r6, sl, lsl #2
+	addge r0, r6, r10, lsl #2
 	strge r4, [r0, #0x7f0]
 	bge _0215CF28
 	mov r0, #0x100
 	mov r1, #0x30
 	mov r2, #0x62
 	mov r3, r8
-	str fp, [sp]
+	str r11, [sp]
 	bl Unknown2051334__Func_2051534
-	add r1, r6, sl, lsl #2
+	add r1, r6, r10, lsl #2
 	str r0, [r1, #0x7f0]
 _0215CF28:
 	ldrh r0, [r7, #0x14]
-	sub r8, r8, sb
-	add sl, sl, #1
-	cmp sl, r0
+	sub r8, r8, r9
+	add r10, r10, #1
+	cmp r10, r0
 	blt _0215CEE8
 _0215CF3C:
 	add r3, r6, #0x700
@@ -1731,12 +1731,12 @@ _0215D0F4:
 	mov r1, #1
 	bl ViMapBack__Func_2162158
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0215D114:
 	mov r1, #0
 	bl ViMapBack__Func_2162158
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end ViMap__Func_215CDE0
 
 	arm_func_start ViMap__Destructor
@@ -2018,9 +2018,9 @@ ViMap__Func_215D44C: // 0x0215D44C
 
 	arm_func_start ViMap__Func_215D4B4
 ViMap__Func_215D4B4: // 0x0215D4B4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
-	mov sl, r0
-	ldr r0, [sl, #0x7dc]
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r10, r0
+	ldr r0, [r10, #0x7dc]
 	cmp r0, #5
 	bge _0215D4D8
 	mov r0, r0, lsl #0x10
@@ -2028,14 +2028,14 @@ ViMap__Func_215D4B4: // 0x0215D4B4
 	bl ovl05_2152994
 	b _0215D4E8
 _0215D4D8:
-	ldr r0, [sl, #0x7e4]
+	ldr r0, [r10, #0x7e4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ovl05_21529A8
 _0215D4E8:
 	mov r5, #0
-	mov sb, r0
-	add r6, sl, #0x810
+	mov r9, r0
+	add r6, r10, #0x810
 	mov r4, r5
 _0215D4F8:
 	mov r0, r6
@@ -2046,19 +2046,19 @@ _0215D4F8:
 	cmp r5, #9
 	add r6, r6, #0x64
 	blt _0215D4F8
-	add r0, sl, #0x394
+	add r0, r10, #0x394
 	mov r1, #0
 	mov r2, r1
 	add r0, r0, #0x800
 	bl AnimatorSprite__ProcessAnimation
-	add r5, sl, #0x700
-	ldrh r0, [sb, #0x14]
+	add r5, r10, #0x700
+	ldrh r0, [r9, #0x14]
 	ldrh r7, [r5, #0xec]
 	mov r8, #0
 	cmp r0, #0
-	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	add fp, sl, #0x394
-	add r6, sl, #0x810
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	add r11, r10, #0x394
+	add r6, r10, #0x810
 	mvn r4, #0x1f
 _0215D550:
 	mov r0, r7, asr #4
@@ -2066,14 +2066,14 @@ _0215D550:
 	ldr r0, _0215D600 // =FX_SinCosTable_
 	mov r2, r1, lsl #1
 	add r0, r0, r1, lsl #1
-	add r3, sl, r8, lsl #2
+	add r3, r10, r8, lsl #2
 	ldrsh r1, [r0, #2]
 	ldr r0, [r3, #0x7f0]
 	ldr r3, _0215D600 // =FX_SinCosTable_
 	ldrsh ip, [r3, r2]
 	mul r2, r0, r1
 	mul r1, r0, ip
-	add r3, sb, r8, lsl #1
+	add r3, r9, r8, lsl #1
 	ldrh r0, [r5, #0xd0]
 	ldrh r3, [r3, #0x18]
 	ldrh ip, [r5, #0xd2]
@@ -2081,7 +2081,7 @@ _0215D550:
 	cmp r3, #9
 	movlo r0, #0x64
 	mlalo r0, r3, r0, r6
-	addhs r0, fp, #0x800
+	addhs r0, r11, #0x800
 	add r1, ip, r1, asr #12
 	cmp r2, r4
 	ble _0215D5DC
@@ -2098,14 +2098,14 @@ _0215D550:
 	bl AnimatorSprite__DrawFrame
 _0215D5DC:
 	ldrh r0, [r5, #0xee]
-	ldrh r1, [sb, #0x14]
+	ldrh r1, [r9, #0x14]
 	add r8, r8, #1
 	add r0, r7, r0
 	mov r0, r0, lsl #0x10
 	cmp r8, r1
 	mov r7, r0, lsr #0x10
 	blt _0215D550
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215D600: .word FX_SinCosTable_
 	arm_func_end ViMap__Func_215D4B4

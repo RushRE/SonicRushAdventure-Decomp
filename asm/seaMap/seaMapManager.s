@@ -673,7 +673,7 @@ SeaMapManager__SetSaveFlag: // 0x02043CE8
 
 	arm_func_start SeaMapManager__Func_2043D08
 SeaMapManager__Func_2043D08: // 0x02043D08
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0x16c]
@@ -684,17 +684,17 @@ SeaMapManager__Func_2043D08: // 0x02043D08
 	mov r4, r8
 	mov r5, r8
 _02043D30:
-	mov sb, r5
+	mov r9, r5
 _02043D34:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	bl SeaMapManager__GetMapPixel
 	cmp r0, #0
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
 	streqh r4, [r7]
-	mov sb, r0, lsr #0x10
-	cmp sb, #0xc0
+	mov r9, r0, lsr #0x10
+	cmp r9, #0xc0
 	add r7, r7, #2
 	blo _02043D34
 	add r0, r8, #1
@@ -709,7 +709,7 @@ _02043D34:
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0x170]
 	bl GetBackgroundMappings
@@ -724,7 +724,7 @@ _02043DAC:
 	mul r4, r1, r0
 	mov r7, #0
 	mov r8, r7
-	mov sb, #1
+	mov r9, #1
 _02043DCC:
 	bl SeaMapManager__GetSaveMap
 	bic r1, r7, #1
@@ -734,21 +734,21 @@ _02043DCC:
 	add r3, r0, r4
 	mov ip, r2, asr #5
 	mov r0, r1, asr #5
-	add sl, r3, ip, lsl #2
-	add fp, r3, r0, lsl #2
-	ldr sl, [sl, #0x18]
+	add r10, r3, ip, lsl #2
+	add r11, r3, r0, lsl #2
+	ldr r10, [r10, #0x18]
 	and r2, r2, #0x1f
 	ldr ip, [r3, ip, lsl #2]
-	and sl, sl, sb, lsl r2
+	and r10, r10, r9, lsl r2
 	ldr r0, [r3, r0, lsl #2]
 	and r1, r1, #0x1f
-	ldr fp, [fp, #0x18]
-	and r2, ip, sb, lsl r2
-	and r0, r0, sb, lsl r1
+	ldr r11, [r11, #0x18]
+	and r2, ip, r9, lsl r2
+	and r0, r0, r9, lsl r1
 	orr r0, r2, r0
-	and fp, fp, sb, lsl r1
-	orr r0, sl, r0
-	orrs r0, fp, r0
+	and r11, r11, r9, lsl r1
+	orr r0, r10, r0
+	orrs r0, r11, r0
 	add r0, r7, #2
 	mov r0, r0, lsl #0x10
 	streqh r8, [r5]
@@ -770,7 +770,7 @@ _02043DCC:
 	bl GetBackgroundMappings
 	str r0, [sp, #4]
 	add r5, r0, #4
-	mov fp, #0
+	mov r11, #0
 _02043E80:
 	mov r6, #0
 	mov r4, #1
@@ -783,44 +783,44 @@ _02043E88:
 	add r0, r0, r0, lsl #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
-	mov r0, fp
+	mov r0, r11
 	mov r1, #3
 	bl FX_DivS32
 	add r0, r0, r0, lsl #1
 	mov r0, r0, lsl #0x10
 	mov r1, r0, lsr #0x10
 	mov r0, #0x18
-	mla sl, r1, r0, r8
+	mla r10, r1, r0, r8
 	add r1, r7, #2
 	mov r2, r1, asr #5
-	add r3, sl, r2, lsl #2
+	add r3, r10, r2, lsl #2
 	add r0, r7, #1
 	mov lr, r0, asr #5
 	mov ip, r7, asr #5
-	and sb, r7, #0x1f
+	and r9, r7, #0x1f
 	ldr r7, [r3, #0x30]
 	and r1, r1, #0x1f
 	ldr r3, [r3, #0x18]
-	ldr r2, [sl, r2, lsl #2]
+	ldr r2, [r10, r2, lsl #2]
 	and r8, r7, r4, lsl r1
 	and r3, r3, r4, lsl r1
 	and r1, r2, r4, lsl r1
-	add r2, sl, lr, lsl #2
+	add r2, r10, lr, lsl #2
 	ldr r7, [r2, #0x30]
 	and r0, r0, #0x1f
 	ldr r2, [r2, #0x18]
-	ldr lr, [sl, lr, lsl #2]
+	ldr lr, [r10, lr, lsl #2]
 	and r7, r7, r4, lsl r0
 	and r2, r2, r4, lsl r0
 	and r0, lr, r4, lsl r0
-	add lr, sl, ip, lsl #2
-	ldr sl, [sl, ip, lsl #2]
+	add lr, r10, ip, lsl #2
+	ldr r10, [r10, ip, lsl #2]
 	ldr ip, [lr, #0x30]
 	ldr lr, [lr, #0x18]
-	and ip, ip, r4, lsl sb
-	and lr, lr, r4, lsl sb
-	and sb, sl, r4, lsl sb
-	orr r0, sb, r0
+	and ip, ip, r4, lsl r9
+	and lr, lr, r4, lsl r9
+	and r9, r10, r4, lsl r9
+	orr r0, r9, r0
 	orr r0, r1, r0
 	orr r0, lr, r0
 	orr r0, r2, r0
@@ -836,17 +836,17 @@ _02043E88:
 	cmp r6, #0xc0
 	add r5, r5, #2
 	blo _02043E88
-	add r0, fp, #3
+	add r0, r11, #3
 	mov r0, r0, lsl #0x10
-	mov fp, r0, lsr #0x10
-	cmp fp, #0x48
+	mov r11, r0, lsr #0x10
+	cmp r11, #0x48
 	blo _02043E80
 	ldr r0, [sp, #4]
 	mov r1, #0xc00
 	add r0, r0, #4
 	bl DC_StoreRange
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02043FA8: .word 0x02134188
 	arm_func_end SeaMapManager__Func_2043D08
@@ -869,14 +869,14 @@ SeaMapManager__GetMapPixel: // 0x02043FAC
 
 	arm_func_start SeaMapManager__Func_2043FDC
 SeaMapManager__Func_2043FDC: // 0x02043FDC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	mov r6, r0
 	mov r5, r1
 	cmp r6, #0xc0
 	cmplo r5, #0x48
 	addhs sp, sp, #8
-	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl SeaMapManager__GetSaveMap
 	mov r1, #0x18
 	mla r4, r5, r1, r0
@@ -886,7 +886,7 @@ SeaMapManager__Func_2043FDC: // 0x02043FDC
 	mov r2, #1
 	tst r1, r2, lsl r0
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mvn r0, r2, lsl r0
 	and r0, r1, r0
 	str r0, [r4, r3, lsl #2]
@@ -906,7 +906,7 @@ SeaMapManager__Func_2043FDC: // 0x02043FDC
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl SeaMapManager__GetSaveMap
 	bic r1, r5, #1
 	mov r1, r1, lsl #0x10
@@ -916,23 +916,23 @@ SeaMapManager__Func_2043FDC: // 0x02043FDC
 	bic r1, r6, #1
 	mov r1, r1, lsl #0x10
 	mov r3, r1, lsr #0x10
-	add sl, r3, #1
+	add r10, r3, #1
 	mla r1, r2, r4, r0
-	mov r2, sl, asr #5
-	mla sb, r7, r4, r0
+	mov r2, r10, asr #5
+	mla r9, r7, r4, r0
 	mov r8, r3, asr #5
 	ldr r7, [r1, r8, lsl #2]
 	ldr r4, [r1, r2, lsl #2]
-	and r0, sl, #0x1f
+	and r0, r10, #0x1f
 	mov r1, #1
-	and sl, r3, #0x1f
-	ldr r8, [sb, r8, lsl #2]
-	ldr sb, [sb, r2, lsl #2]
-	and r3, r7, r1, lsl sl
+	and r10, r3, #0x1f
+	ldr r8, [r9, r8, lsl #2]
+	ldr r9, [r9, r2, lsl #2]
+	and r3, r7, r1, lsl r10
 	and r2, r4, r1, lsl r0
-	and r4, r8, r1, lsl sl
+	and r4, r8, r1, lsl r10
 	orr r2, r3, r2
-	and r1, sb, r1, lsl r0
+	and r1, r9, r1, lsl r0
 	orr r0, r4, r2
 	orrs r0, r1, r0
 	bne _02044120
@@ -972,38 +972,38 @@ _02044120:
 	mla r0, r3, r1, r7
 	mla r3, r2, r1, r7
 	mla r2, r8, r1, r7
-	add sb, r4, #1
-	mov r1, sb, asr #5
-	ldr fp, [r2, r1, lsl #2]
-	and sb, sb, #0x1f
-	mov sl, #1
-	and fp, fp, sl, lsl sb
+	add r9, r4, #1
+	mov r1, r9, asr #5
+	ldr r11, [r2, r1, lsl #2]
+	and r9, r9, #0x1f
+	mov r10, #1
+	and r11, r11, r10, lsl r9
 	mov ip, lr, asr #5
-	str fp, [sp, #4]
+	str r11, [sp, #4]
 	mov r8, r4, asr #5
 	and r7, r4, #0x1f
 	and r4, lr, #0x1f
 	ldr lr, [r2, ip, lsl #2]
 	ldr r2, [r2, r8, lsl #2]
-	and lr, lr, sl, lsl r4
-	ldr fp, [r3, ip, lsl #2]
+	and lr, lr, r10, lsl r4
+	ldr r11, [r3, ip, lsl #2]
 	str lr, [sp]
-	and lr, fp, sl, lsl r4
-	ldr fp, [r0, ip, lsl #2]
+	and lr, r11, r10, lsl r4
+	ldr r11, [r0, ip, lsl #2]
 	ldr ip, [r3, r1, lsl #2]
 	ldr r3, [r3, r8, lsl #2]
 	ldr r1, [r0, r1, lsl #2]
 	ldr r8, [r0, r8, lsl #2]
-	and r0, r3, sl, lsl r7
-	and r4, fp, sl, lsl r4
-	and r3, r8, sl, lsl r7
-	and r1, r1, sl, lsl sb
+	and r0, r3, r10, lsl r7
+	and r4, r11, r10, lsl r4
+	and r3, r8, r10, lsl r7
+	and r1, r1, r10, lsl r9
 	orr r1, r3, r1
 	orr r1, r4, r1
-	and fp, ip, sl, lsl sb
+	and r11, ip, r10, lsl r9
 	orr r0, r0, r1
-	orr r0, fp, r0
-	and r2, r2, sl, lsl r7
+	orr r0, r11, r0
+	and r2, r2, r10, lsl r7
 	orr r0, lr, r0
 	orr r1, r2, r0
 	ldr r0, [sp, #4]
@@ -1011,7 +1011,7 @@ _02044120:
 	ldr r0, [sp]
 	orrs r0, r0, r1
 	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0x174]
 	bl GetBackgroundMappings
@@ -1031,7 +1031,7 @@ _02044120:
 	strh r2, [r7, r3]
 	bl DC_StoreRange
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02044264: .word 0x02134188
 	arm_func_end SeaMapManager__Func_2043FDC
@@ -1069,26 +1069,26 @@ _020442B0:
 
 	arm_func_start SeaMapManager__Func_20442C8
 SeaMapManager__Func_20442C8: // 0x020442C8
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	str r0, [sp]
-	mov sl, r3
+	mov r10, r3
 	str r1, [sp, #4]
-	mov r1, sl
+	mov r1, r10
 	mov r0, r2, lsl #0xc
 	bl FX_DivS32
-	rsb r1, sl, #0
+	rsb r1, r10, #0
 	mul r1, r0, r1
-	mul r2, r0, sl
+	mul r2, r0, r10
 	str r0, [sp, #0x18]
 	ldr r0, [sp]
-	mov fp, #0
+	mov r11, #0
 	add r0, r0, r1, asr #12
 	mov r1, r0, lsl #0x10
 	ldr r0, [sp]
 	mov r4, r1, asr #0x10
 	add r0, r0, r2, asr #12
-	mov r2, sl, lsl #1
+	mov r2, r10, lsl #1
 	mov r6, r0, lsl #0x10
 	cmp r4, r6, asr #16
 	rsb r5, r2, #2
@@ -1105,30 +1105,30 @@ _02044328:
 	ble _02044328
 _0204434C:
 	ldr r0, [sp, #4]
-	add r0, sl, r0
+	add r0, r10, r0
 	mov r1, r0, lsl #0x10
 	str r0, [sp, #8]
 	ldr r0, [sp]
 	mov r1, r1, lsr #0x10
 	bl SeaMapManager__Func_2043FDC
 	ldr r0, [sp, #4]
-	sub r0, r0, sl
+	sub r0, r0, r10
 	mov r1, r0, lsl #0x10
 	ldr r0, [sp]
 	mov r1, r1, lsr #0x10
 	bl SeaMapManager__Func_2043FDC
-	mov r0, sl, lsl #1
+	mov r0, r10, lsl #1
 	str r0, [sp, #0x14]
 	mov r0, #1
 	str r0, [sp, #0x10]
 	mov r0, #0
 	str r0, [sp, #0xc]
 _02044398:
-	rsb r0, sl, #0
+	rsb r0, r10, #0
 	cmp r5, r0
 	ble _020443C8
 	ldr r0, [sp, #0x14]
-	sub sl, sl, #1
+	sub r10, r10, #1
 	sub r0, r0, #2
 	rsb r1, r0, #1
 	str r0, [sp, #0x14]
@@ -1137,37 +1137,37 @@ _02044398:
 	sub r0, r0, #1
 	str r0, [sp, #8]
 _020443C8:
-	cmp r5, fp
+	cmp r5, r11
 	bgt _020443F8
 	ldr r0, [sp, #0x10]
 	ldr r1, [sp, #0xc]
 	add r0, r0, #2
 	str r0, [sp, #0x10]
 	ldr r0, [sp, #0x18]
-	add fp, fp, #1
+	add r11, r11, #1
 	add r0, r1, r0
 	str r0, [sp, #0xc]
 	ldr r0, [sp, #0x10]
 	add r5, r5, r0
 _020443F8:
-	cmp sl, #0
+	cmp r10, #0
 	addeq sp, sp, #0x1c
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp, #0x18]
-	rsb r1, fp, #0
+	rsb r1, r11, #0
 	mul r1, r0, r1
 	ldr r0, [sp]
 	add r0, r0, r1, asr #12
 	mov r2, r0, lsl #0x10
 	ldr r1, [sp]
 	ldr r0, [sp, #0xc]
-	mov sb, r2, asr #0x10
+	mov r9, r2, asr #0x10
 	add r3, r1, r0, asr #12
 	ldr r0, [sp, #4]
 	mov r4, r3, lsl #0x10
-	sub r1, r0, sl
+	sub r1, r0, r10
 	ldr r0, [sp, #8]
-	cmp sb, r4, asr #16
+	cmp r9, r4, asr #16
 	mov r0, r0, lsl #0x10
 	mov r2, r0, asr #0x10
 	mov r0, r1, lsl #0x10
@@ -1178,7 +1178,7 @@ _020443F8:
 	mov r0, r1, lsl #0x10
 	mov r7, r0, lsr #0x10
 _02044464:
-	mov r0, sb, lsl #0x10
+	mov r0, r9, lsl #0x10
 	mov r8, r0, lsr #0x10
 	mov r0, r8
 	mov r1, r6
@@ -1186,10 +1186,10 @@ _02044464:
 	mov r0, r8
 	mov r1, r7
 	bl SeaMapManager__Func_2043FDC
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, asr #0x10
-	cmp sb, r4, asr #16
+	mov r9, r0, asr #0x10
+	cmp r9, r4, asr #16
 	ble _02044464
 	b _02044398
 	arm_func_end SeaMapManager__Func_20442C8
@@ -1197,7 +1197,7 @@ _02044464:
 	arm_func_start SeaMapManager__Func_204449C
 SeaMapManager__Func_204449C: // 0x0204449C
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end SeaMapManager__Func_204449C
 
 	arm_func_start SeaMapManager__ClearGlobalNodeList
@@ -2002,7 +2002,7 @@ _02044EA4:
 
 	arm_func_start SeaMapManager__Func_2044F24
 SeaMapManager__Func_2044F24: // 0x02044F24
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r5, r0
 	mov r4, r1
 	bl SeaMapManager__GetWork
@@ -2024,51 +2024,51 @@ _02044F64:
 	mov r6, r6, lsl #0x10
 	mov r8, r6, lsr #0x10
 	add ip, r0, r8, asr #3
-	ldrb sl, [ip, #1]
+	ldrb r10, [ip, #1]
 	and r6, r8, #7
-	rsb sb, r6, #8
+	rsb r9, r6, #8
 	ldrb r8, [r0, r8, asr #3]
-	mov sl, sl, lsl sb
-	ldrb sb, [ip, #2]
-	orr fp, sl, r8, lsr r6
+	mov r10, r10, lsl r9
+	ldrb r9, [ip, #2]
+	orr r11, r10, r8, lsr r6
 	rsb r8, r6, #0x10
-	ldrb sl, [ip, #3]
-	orr fp, fp, sb, lsl r8
-	rsb sb, r6, #0x18
+	ldrb r10, [ip, #3]
+	orr r11, r11, r9, lsl r8
+	rsb r9, r6, #0x18
 	ldrb r8, [ip, #4]
-	orr sb, fp, sl, lsl sb
+	orr r9, r11, r10, lsl r9
 	rsb r6, r6, #0x20
-	orr r8, sb, r8, lsl r6
-	and sl, r8, #0xf
+	orr r8, r9, r8, lsl r6
+	and r10, r8, #0xf
 	mov r6, r8, lsr #4
 	and r6, r6, #0xf
-	mov sb, r8, lsr #8
-	ldr ip, [r7, sl, lsl #2]
-	and sl, sb, #0xf
-	mov sb, r8, lsr #0xc
-	and sb, sb, #0xf
+	mov r9, r8, lsr #8
+	ldr ip, [r7, r10, lsl #2]
+	and r10, r9, #0xf
+	mov r9, r8, lsr #0xc
+	and r9, r9, #0xf
 	ldr r6, [r7, r6, lsl #2]
 	str ip, [lr]
-	ldr sl, [r7, sl, lsl #2]
+	ldr r10, [r7, r10, lsl #2]
 	str r6, [lr, #4]
-	ldr r6, [r7, sb, lsl #2]
-	str sl, [lr, #8]
+	ldr r6, [r7, r9, lsl #2]
+	str r10, [lr, #8]
 	str r6, [lr, #0xc]
 	add r6, lr, #0x10
-	mov sb, r8, lsr #0x10
-	and sl, sb, #0xf
-	mov sb, r8, lsr #0x14
-	and ip, sb, #0xf
-	mov sb, r8, lsr #0x18
-	ldr lr, [r7, sl, lsl #2]
-	and sb, sb, #0xf
+	mov r9, r8, lsr #0x10
+	and r10, r9, #0xf
+	mov r9, r8, lsr #0x14
+	and ip, r9, #0xf
+	mov r9, r8, lsr #0x18
+	ldr lr, [r7, r10, lsl #2]
+	and r9, r9, #0xf
 	mov r8, r8, lsr #0x1c
 	and r8, r8, #0xf
-	ldr sl, [r7, ip, lsl #2]
+	ldr r10, [r7, ip, lsl #2]
 	str lr, [r6]
-	ldr ip, [r7, sb, lsl #2]
+	ldr ip, [r7, r9, lsl #2]
 	ldr r8, [r7, r8, lsl #2]
-	stmib r6, {sl, ip}
+	stmib r6, {r10, ip}
 	str r8, [r6, #0xc]
 	add lr, r6, #0x10
 	add r2, r2, #0x20
@@ -2079,7 +2079,7 @@ _02045034:
 _02045040:
 	cmp r3, #0x60
 	blt _02044F44
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0204504C: .word 0x0210FB40
 	arm_func_end SeaMapManager__Func_2044F24
@@ -2152,12 +2152,12 @@ SeaMapManager__ResetPtr1Ptr2: // 0x020450FC
 
 	arm_func_start SeaMapManager__Func_2045128
 SeaMapManager__Func_2045128: // 0x02045128
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldr r5, [sp, #0x20]
 	add r1, r1, r3, lsl #1
 	cmp r3, r5
 	add r2, r2, r3, lsl #1
-	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov ip, #1
 	mov r7, #0x60
 _02045148:
@@ -2167,10 +2167,10 @@ _02045148:
 	bhi _02045184
 	mla r4, r3, r7, r0
 _0204515C:
-	ldrb sb, [r4, lr, asr #3]
+	ldrb r9, [r4, lr, asr #3]
 	and r8, lr, #7
 	add r6, lr, #1
-	orr r8, sb, ip, lsl r8
+	orr r8, r9, ip, lsl r8
 	strb r8, [r4, lr, asr #3]
 	ldrh r8, [r2]
 	mov r6, r6, lsl #0x10
@@ -2185,19 +2185,19 @@ _02045184:
 	add r2, r2, #2
 	mov r3, r3, lsr #0x10
 	bhi _02045148
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end SeaMapManager__Func_2045128
 
 	arm_func_start SeaMapManager__Func_20451A4
 SeaMapManager__Func_20451A4: // 0x020451A4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x10
 	mov r4, #0
 	mov r8, r0
 	mov r7, r1
 	str r4, [r8]
-	sub sb, r4, #0x800
-	str sb, [r8, #4]
+	sub r9, r4, #0x800
+	str r9, [r8, #4]
 	str r4, [r7]
 	mov r1, #0x800
 	mov r6, r2
@@ -2206,16 +2206,16 @@ SeaMapManager__Func_20451A4: // 0x020451A4
 	stmia r6, {r0, r1}
 	mov r5, r3
 	ldr r4, [sp, #0x30]
-	stmia r5, {r0, sb}
-	ldr sl, [sp, #0x34]
+	stmia r5, {r0, r9}
+	ldr r10, [sp, #0x34]
 	ldr r0, [r4, #4]
-	ldmia sl, {r2, r3}
+	ldmia r10, {r2, r3}
 	ldr r1, [r4]
 	sub r0, r3, r0
 	sub r1, r2, r1
 	bl FX_Atan2Idx
-	mov sb, r0
-	mov r0, sb, lsl #0x10
+	mov r9, r0
+	mov r0, r9, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r0, r0, asr #4
 	mov r1, r0, lsl #1
@@ -2228,15 +2228,15 @@ SeaMapManager__Func_20451A4: // 0x020451A4
 	add r0, sp, #0
 	blx MTX_Rot22_
 	ldr r1, [r4]
-	ldmia sl, {r2, r3}
+	ldmia r10, {r2, r3}
 	ldr r0, [r4, #4]
 	sub r1, r2, r1
 	sub r0, r3, r0
-	smull sl, r3, r1, r1
+	smull r10, r3, r1, r1
 	smull r2, r1, r0, r0
-	adds sl, sl, #0x800
+	adds r10, r10, #0x800
 	adc r0, r3, #0
-	mov r3, sl, lsr #0xc
+	mov r3, r10, lsr #0xc
 	adds r2, r2, #0x800
 	orr r3, r3, r0, lsl #20
 	adc r0, r1, #0
@@ -2269,9 +2269,9 @@ SeaMapManager__Func_20451A4: // 0x020451A4
 	mov r3, r5
 	add r1, sp, #0
 	bl SeaMapManager__Func_204506C
-	mov r0, sb
+	mov r0, r9
 	add sp, sp, #0x10
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _020452EC: .word FX_SinCosTable_
 	arm_func_end SeaMapManager__Func_20451A4
@@ -2321,19 +2321,19 @@ _0204536C:
 
 	arm_func_start SeaMapManager__Func_2045380
 SeaMapManager__Func_2045380: // 0x02045380
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	str r2, [sp, #4]
 	mov r8, r0
 	ldr r0, [sp, #4]
 	ldr r2, [r8, #4]
-	ldr sb, [r0, #4]
+	ldr r9, [r0, #4]
 	str r3, [sp, #8]
-	ldr sl, [r0]
+	ldr r10, [r0]
 	str r1, [sp]
 	mov r4, r2, asr #0xc
-	mov r1, sl, asr #0xc
-	movs r5, sb, asr #0xc
+	mov r1, r10, asr #0xc
+	movs r5, r9, asr #0xc
 	ldr r7, [sp, #0x30]
 	ldr r6, [sp, #0x34]
 	ldr r3, [r8]
@@ -2356,21 +2356,21 @@ _020453F4:
 	strlth r1, [r7, r0]
 	b _0204548C
 _02045404:
-	sub r0, r3, sl
-	sub r1, r2, sb
+	sub r0, r3, r10
+	sub r1, r2, r9
 	bl FX_Div
 	cmp r4, #0
 	movlt r4, #0
-	mov sb, r4, lsl #0xc
-	mov sl, r0, asr #0x1f
-	mov fp, #0
+	mov r9, r4, lsl #0xc
+	mov r10, r0, asr #0x1f
+	mov r11, #0
 	b _0204547C
 _02045428:
 	ldr r1, [r8, #4]
 	ldr lr, [r8]
-	sub r2, sb, r1
+	sub r2, r9, r1
 	umull ip, r3, r2, r0
-	mla r3, r2, sl, r3
+	mla r3, r2, r10, r3
 	mov r1, r2, asr #0x1f
 	mla r3, r1, r0, r3
 	adds r1, ip, #0x800
@@ -2379,14 +2379,14 @@ _02045428:
 	orr r1, r1, r2, lsl #20
 	adds r1, lr, r1
 	movmi r1, r4, lsl #1
-	strmih fp, [r7, r1]
+	strmih r11, [r7, r1]
 	bmi _02045474
 	cmp r1, #0x300000
 	movlt r2, r1, asr #0xc
 	movlt r1, r4, lsl #1
 	strlth r2, [r7, r1]
 _02045474:
-	add sb, sb, #0x1000
+	add r9, r9, #0x1000
 	add r4, r4, #1
 _0204547C:
 	cmp r4, r5
@@ -2395,13 +2395,13 @@ _0204547C:
 	blt _02045428
 _0204548C:
 	ldr r0, [sp, #8]
-	ldr sb, [r8, #4]
+	ldr r9, [r8, #4]
 	ldr r3, [r0]
 	ldr r1, [r0, #4]
-	mov r5, sb, asr #0xc
+	mov r5, r9, asr #0xc
 	mov r2, r3, asr #0xc
 	movs r4, r1, asr #0xc
-	ldr sl, [r8]
+	ldr r10, [r8]
 	bmi _0204557C
 	subs r0, r5, r4
 	bne _020454F0
@@ -2421,28 +2421,28 @@ _020454E0:
 	strgeh r2, [r6, r0]
 	b _0204557C
 _020454F0:
-	sub r0, sl, r3
-	sub r1, sb, r1
+	sub r0, r10, r3
+	sub r1, r9, r1
 	bl FX_Div
 	cmp r5, #0
 	movlt r5, #0
-	mov fp, r5, lsl #0xc
+	mov r11, r5, lsl #0xc
 	mov ip, r0, asr #0x1f
 	ldr lr, _02045794 // =0x000002FF
 	b _0204556C
 _02045514:
 	ldr r1, [r8, #4]
-	ldr sl, [r8]
-	sub r2, fp, r1
-	umull sb, r3, r2, r0
+	ldr r10, [r8]
+	sub r2, r11, r1
+	umull r9, r3, r2, r0
 	mla r3, r2, ip, r3
 	mov r1, r2, asr #0x1f
 	mla r3, r1, r0, r3
-	adds r1, sb, #0x800
+	adds r1, r9, #0x800
 	adc r2, r3, #0
 	mov r1, r1, lsr #0xc
 	orr r1, r1, r2, lsl #20
-	add r1, sl, r1
+	add r1, r10, r1
 	cmp r1, #0x300000
 	movge r1, r5, lsl #1
 	strgeh lr, [r6, r1]
@@ -2452,7 +2452,7 @@ _02045514:
 	movge r1, r5, lsl #1
 	strgeh r2, [r6, r1]
 _02045564:
-	add fp, fp, #0x1000
+	add r11, r11, #0x1000
 	add r5, r5, #1
 _0204556C:
 	cmp r5, r4
@@ -2461,10 +2461,10 @@ _0204556C:
 	blt _02045514
 _0204557C:
 	ldr r0, [sp, #4]
-	ldr sb, [r0]
+	ldr r9, [r0]
 	ldr r3, [r0, #4]
 	ldr r0, [sp]
-	mov r8, sb, asr #0xc
+	mov r8, r9, asr #0xc
 	ldr r1, [r0, #4]
 	mov r5, r3, asr #0xc
 	movs r4, r1, asr #0xc
@@ -2488,30 +2488,30 @@ _020455D4:
 	strlth r8, [r7, r0]
 	b _02045674
 _020455E4:
-	sub r0, sb, r2
+	sub r0, r9, r2
 	sub r1, r3, r1
 	bl FX_Div
 	adds ip, r5, #1
 	movmi ip, #0
 	mov r1, #0
-	mov sl, ip, lsl #0xc
-	mov fp, r0, asr #0x1f
+	mov r10, ip, lsl #0xc
+	mov r11, r0, asr #0x1f
 	mov lr, r1
 	b _02045664
 _0204560C:
 	ldr r2, [sp, #4]
 	ldr r3, [r2, #4]
-	ldr sb, [r2]
-	sub r3, sl, r3
+	ldr r9, [r2]
+	sub r3, r10, r3
 	umull r8, r5, r3, r0
-	mla r5, r3, fp, r5
+	mla r5, r3, r11, r5
 	mov r2, r3, asr #0x1f
 	adds r3, r8, #0x800
 	mla r5, r2, r0, r5
 	adc r2, r5, lr
 	mov r3, r3, lsr #0xc
 	orr r3, r3, r2, lsl #20
-	adds r2, sb, r3
+	adds r2, r9, r3
 	movmi r2, ip, lsl #1
 	strmih r1, [r7, r2]
 	bmi _0204565C
@@ -2520,7 +2520,7 @@ _0204560C:
 	movlt r2, ip, lsl #1
 	strlth r3, [r7, r2]
 _0204565C:
-	add sl, sl, #0x1000
+	add r10, r10, #0x1000
 	add ip, ip, #1
 _02045664:
 	cmp ip, r4
@@ -2538,36 +2538,36 @@ _02045674:
 	movs r4, r1, asr #0xc
 	addmi sp, sp, #0xc
 	ldr r2, [r0]
-	ldmmiia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmmiia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	subs r0, r5, r4
 	bne _020456F0
 	cmp r5, #0
 	addlt sp, sp, #0xc
-	ldmltia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmltia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	cmp r5, #0x120
 	addge sp, sp, #0xc
-	ldmgeia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgeia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	cmp r7, #0x300
 	blt _020456DC
 	ldr r1, _02045794 // =0x000002FF
 	mov r0, r5, lsl #1
 	add sp, sp, #0xc
 	strh r1, [r6, r0]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020456DC:
 	cmp r7, #0
 	movge r0, r5, lsl #1
 	add sp, sp, #0xc
 	strgeh r7, [r6, r0]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020456F0:
 	sub r0, r8, r2
 	sub r1, r3, r1
 	bl FX_Div
 	adds ip, r5, #1
 	movmi ip, #0
-	mov sl, ip, lsl #0xc
-	mov fp, r0, asr #0x1f
+	mov r10, ip, lsl #0xc
+	mov r11, r0, asr #0x1f
 	ldr r2, _02045794 // =0x000002FF
 	mov r1, #0
 	mov lr, #0x800
@@ -2575,17 +2575,17 @@ _020456F0:
 _0204571C:
 	ldr r3, [sp, #8]
 	ldr r5, [r3, #4]
-	ldr sb, [r3]
-	sub r5, sl, r5
+	ldr r9, [r3]
+	sub r5, r10, r5
 	umull r3, r7, r5, r0
 	adds r3, r3, lr
 	mov r8, r3, lsr #0xc
-	mla r7, r5, fp, r7
+	mla r7, r5, r11, r7
 	mov r3, r5, asr #0x1f
 	mla r7, r3, r0, r7
 	adc r3, r7, r1
 	orr r8, r8, r3, lsl #20
-	add r3, sb, r8
+	add r3, r9, r8
 	cmp r3, #0x300000
 	movge r3, ip, lsl #1
 	strgeh r2, [r6, r3]
@@ -2595,16 +2595,16 @@ _0204571C:
 	movge r3, ip, lsl #1
 	strgeh r5, [r6, r3]
 _02045770:
-	add sl, sl, #0x1000
+	add r10, r10, #0x1000
 	add ip, ip, #1
 _02045778:
 	cmp ip, r4
 	addgt sp, sp, #0xc
-	ldmgtia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgtia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	cmp ip, #0x120
 	blt _0204571C
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02045794: .word 0x000002FF
 	arm_func_end SeaMapManager__Func_2045380
@@ -2691,7 +2691,7 @@ SeaMapManager__Func_2045798: // 0x02045798
 
 	arm_func_start SeaMapManager__Func_20458C8
 SeaMapManager__Func_20458C8: // 0x020458C8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr lr, [sp, #0x28]
 	sub r4, r3, r1
 	sub r5, lr, r2
@@ -2708,8 +2708,8 @@ SeaMapManager__Func_20458C8: // 0x020458C8
 	cmp ip, r4, lsr #16
 	bls _020459B0
 	cmp r2, lr
-	movlo fp, #1
-	mvnhs fp, #0
+	movlo r11, #1
+	mvnhs r11, #0
 	cmp r1, r3
 	movlo r5, r1
 	movhs r5, r3
@@ -2718,24 +2718,24 @@ SeaMapManager__Func_20458C8: // 0x020458C8
 	mov r5, r5, lsl #0x10
 	movhs r3, r1
 	mvnhs r8, #0
-	mov sl, r5, lsr #0x10
-	mov sb, #0
+	mov r10, r5, lsr #0x10
+	mov r9, #0
 	cmp r3, r5, lsr #16
-	ldmloia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmloia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r6, #1
 _02045948:
 	add r1, r1, r8
-	add r5, sb, r4, lsr #16
+	add r5, r9, r4, lsr #16
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
 	mov r5, r5, lsl #0x10
 	cmp ip, r5, lsr #16
-	mov sb, r5, lsr #0x10
+	mov r9, r5, lsr #0x10
 	bhi _02045980
-	sub r7, sb, ip
-	add r5, r2, fp
+	sub r7, r9, ip
+	add r5, r2, r11
 	mov r2, r7, lsl #0x10
-	mov sb, r2, lsr #0x10
+	mov r9, r2, lsr #0x10
 	mov r2, r5, lsl #0x10
 	mov r2, r2, lsr #0x10
 _02045980:
@@ -2743,18 +2743,18 @@ _02045980:
 	mla lr, r2, r5, r0
 	ldrb r7, [lr, r1, asr #3]
 	and r5, r1, #7
-	add sl, sl, #1
+	add r10, r10, #1
 	orr r5, r7, r6, lsl r5
 	strb r5, [lr, r1, asr #3]
-	mov r5, sl, lsl #0x10
+	mov r5, r10, lsl #0x10
 	cmp r3, r5, lsr #16
-	mov sl, r5, lsr #0x10
+	mov r10, r5, lsr #0x10
 	bhs _02045948
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020459B0:
 	cmp r1, r3
-	movlo sb, #1
-	mvnhs sb, #0
+	movlo r9, #1
+	mvnhs r9, #0
 	cmp r2, lr
 	movlo r3, r2
 	movhs r3, lr
@@ -2763,24 +2763,24 @@ _020459B0:
 	mov r3, r3, lsl #0x10
 	movhs lr, r2
 	mvnhs r8, #0
-	mov fp, r3, lsr #0x10
-	mov sl, #0
+	mov r11, r3, lsr #0x10
+	mov r10, #0
 	cmp lr, r3, lsr #16
-	ldmloia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmloia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r5, #1
 _020459F0:
-	add r3, sl, ip
+	add r3, r10, ip
 	add r2, r2, r8
 	mov r2, r2, lsl #0x10
 	mov r2, r2, lsr #0x10
 	mov r3, r3, lsl #0x10
-	mov sl, r3, lsr #0x10
-	cmp sl, r4, lsr #16
+	mov r10, r3, lsr #0x10
+	cmp r10, r4, lsr #16
 	blo _02045A28
-	sub r6, sl, r4, lsr #16
-	add r3, r1, sb
+	sub r6, r10, r4, lsr #16
+	add r3, r1, r9
 	mov r1, r6, lsl #0x10
-	mov sl, r1, lsr #0x10
+	mov r10, r1, lsr #0x10
 	mov r1, r3, lsl #0x10
 	mov r1, r1, lsr #0x10
 _02045A28:
@@ -2788,19 +2788,19 @@ _02045A28:
 	mla r7, r2, r3, r0
 	ldrb r6, [r7, r1, asr #3]
 	and r3, r1, #7
-	add fp, fp, #1
+	add r11, r11, #1
 	orr r3, r6, r5, lsl r3
 	strb r3, [r7, r1, asr #3]
-	mov r3, fp, lsl #0x10
+	mov r3, r11, lsl #0x10
 	cmp lr, r3, lsr #16
-	mov fp, r3, lsr #0x10
+	mov r11, r3, lsr #0x10
 	bhs _020459F0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end SeaMapManager__Func_20458C8
 
 	arm_func_start SeaMapManager__Func_2045A58
 SeaMapManager__Func_2045A58: // 0x02045A58
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	mov r4, r2, lsr #1
 	add ip, r4, #1
@@ -2819,8 +2819,8 @@ SeaMapManager__Func_2045A58: // 0x02045A58
 	mov r8, r0
 	str r1, [sp]
 	str r2, [sp, #4]
-	ldr sb, [sp, #0x30]
-	mov fp, #4
+	ldr r9, [sp, #0x30]
+	mov r11, #4
 	bne _02045ACC
 	add r2, r0, #1
 	add r4, r1, #1
@@ -2833,7 +2833,7 @@ _02045ACC:
 	cmp ip, #0
 	addlt sp, sp, #8
 	mov r2, #0
-	ldmltia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmltia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r6, r0, ip
 	add r7, r1, ip
 _02045AE4:
@@ -2854,11 +2854,11 @@ _02045B08:
 	subs r5, r8, ip
 	movmi r5, #0
 	mov r4, r1, lsl #1
-	mov sl, r6
+	mov r10, r6
 	cmp r6, #0x300
-	ldrge sl, _02045BF4 // =0x000002FF
+	ldrge r10, _02045BF4 // =0x000002FF
 	strh r5, [r3, r4]
-	strh sl, [sb, r4]
+	strh r10, [r9, r4]
 _02045B38:
 	cmp r7, #0
 	blt _02045B68
@@ -2867,25 +2867,25 @@ _02045B38:
 	subs r5, r8, r2
 	movmi r5, #0
 	mov r4, r7, lsl #1
-	mov sl, r0
+	mov r10, r0
 	cmp r0, #0x300
-	ldrge sl, _02045BF4 // =0x000002FF
+	ldrge r10, _02045BF4 // =0x000002FF
 	strh r5, [r3, r4]
-	strh sl, [sb, r4]
+	strh r10, [r9, r4]
 _02045B68:
 	ldr r4, [sp]
-	subs sl, r4, r2
+	subs r10, r4, r2
 	bmi _02045B9C
-	cmp sl, #0x120
+	cmp r10, #0x120
 	bge _02045B9C
 	subs r4, r8, ip
 	movmi r4, #0
-	mov sl, sl, lsl #1
+	mov r10, r10, lsl #1
 	mov r5, r6
 	cmp r6, #0x300
 	ldrge r5, _02045BF4 // =0x000002FF
-	strh r4, [r3, sl]
-	strh r5, [sb, sl]
+	strh r4, [r3, r10]
+	strh r5, [r9, r10]
 _02045B9C:
 	ldr r4, [sp]
 	subs r4, r4, ip
@@ -2895,21 +2895,21 @@ _02045B9C:
 	subs r5, r8, r2
 	movmi r5, #0
 	mov r4, r4, lsl #1
-	mov sl, r0
+	mov r10, r0
 	cmp r0, #0x300
-	ldrge sl, _02045BF4 // =0x000002FF
+	ldrge r10, _02045BF4 // =0x000002FF
 	strh r5, [r3, r4]
-	strh sl, [sb, r4]
+	strh r10, [r9, r4]
 _02045BD0:
-	add lr, lr, fp
-	add fp, fp, #8
+	add lr, lr, r11
+	add r11, r11, #8
 	add r1, r1, #1
 	add r0, r0, #1
 	add r2, r2, #1
 	cmp r2, ip
 	ble _02045AE4
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02045BF4: .word 0x000002FF
 	arm_func_end SeaMapManager__Func_2045A58

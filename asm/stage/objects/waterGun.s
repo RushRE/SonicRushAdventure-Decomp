@@ -754,7 +754,7 @@ _021844E4: .word gPlayer
 
 	arm_func_start WaterGun__Draw
 WaterGun__Draw: // 0x021844E8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x28
 	mov r0, #0
 	str r0, [sp, #0xc]
@@ -775,10 +775,10 @@ WaterGun__Draw: // 0x021844E8
 	add r8, r0, #0x30000
 _02184534:
 	ldr r0, [r4, #0x340]
-	mov fp, #0x18000
+	mov r11, #0x18000
 	ldrsb r0, [r0, #6]
-	rsb fp, fp, #0
-	mov sb, #0
+	rsb r11, r11, #0
+	mov r9, #0
 	mov r6, #0x20000
 	bl WaterGrindRail__GetAnimator
 	mov r5, r0
@@ -794,10 +794,10 @@ _02184558:
 	add r8, r0, #0x18000
 _02184578:
 	ldr r0, [r4, #0x340]
-	mov fp, #0x39000
+	mov r11, #0x39000
 	ldrsb r0, [r0, #6]
-	rsb fp, fp, #0
-	add sb, fp, #0x29000
+	rsb r11, r11, #0
+	add r9, r11, #0x29000
 	mov r6, #0x30000
 	bl WaterGrindRail__GetAnimator
 	add r5, r0, #0xa4
@@ -809,17 +809,17 @@ _02184598:
 	mov r7, r0
 	mul r0, r7, r6
 	ldr r1, [r4, #0x2c]
-	subs sl, r1, r0
+	subs r10, r1, r0
 	beq _021845F4
 	ldr r0, [r4, #0x20]
-	sub sl, r6, sl
+	sub r10, r6, r10
 	tst r0, #1
-	rsbeq sl, sl, #0
-	mov r0, sl
+	rsbeq r10, r10, #0
+	mov r0, r10
 	mov r1, r8
 	add r7, r7, #1
 	bl FX_Div
-	smull r1, r0, sb, r0
+	smull r1, r0, r9, r0
 	adds r2, r1, #0x800
 	adc r1, r0, #0
 	mov r0, r2, lsr #0xc
@@ -835,10 +835,10 @@ _021845F4:
 	ldr r0, [sp, #0x10]
 	cmp r7, #0
 	add r0, r1, r0
-	add r0, sl, r0
+	add r0, r10, r0
 	str r0, [sp, #0x1c]
 	ldr r0, [r4, #0x48]
-	add r1, r0, fp
+	add r1, r0, r11
 	ldr r0, [sp, #0xc]
 	str r6, [sp, #0x24]
 	add r0, r0, r1
@@ -846,20 +846,20 @@ _021845F4:
 	ldr r0, [r5, #0x3c]
 	str r0, [sp, #0x14]
 	ble _0218468C
-	add sl, sp, #0x18
-	mov fp, r6
+	add r10, sp, #0x18
+	mov r11, r6
 _0218464C:
-	stmia sp, {sl, fp}
+	stmia sp, {r10, r11}
 	mov r0, r5
 	add r1, sp, #0x1c
-	mov r2, fp
-	str fp, [sp, #8]
+	mov r2, r11
+	str r11, [sp, #8]
 	add r3, r4, #0x38
 	bl StageTask__Draw2DEx
 	ldr r1, [sp, #0x1c]
 	ldr r0, [sp, #0x20]
 	add r1, r1, r8
-	add r0, r0, sb
+	add r0, r0, r9
 	add r6, r6, #1
 	str r1, [sp, #0x1c]
 	str r0, [sp, #0x20]
@@ -879,7 +879,7 @@ _0218468C:
 	mov r0, r0, asr #0xc
 	str r0, [r4, #0x268]
 	add sp, sp, #0x28
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end WaterGun__Draw
 
 	arm_func_start WaterGun__OnDefend
@@ -1207,7 +1207,7 @@ _02184B04:
 
 	arm_func_start WaterGrindRail__Create
 WaterGrindRail__Create: // 0x02184B2C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	ldr r1, _02184D14 // =Task__Unknown2184B2C__Singleton
 	mov r4, r0
@@ -1221,7 +1221,7 @@ WaterGrindRail__Create: // 0x02184B2C
 	add r0, r0, #0x168
 	add r2, r2, #1
 	strh r2, [r1, #0x9e]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02184B68:
 	ldr r0, _02184D18 // =0x000010F6
 	mov r2, #0
@@ -1240,39 +1240,39 @@ _02184B68:
 	cmp r5, r0
 	addeq sp, sp, #0xc
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r1, _02184D14 // =Task__Unknown2184B2C__Singleton
 	mov r0, r5
 	str r5, [r1, r4, lsl #2]
 	bl GetTaskWork_
 	mov r1, #0
 	mov r2, #0x4a0
-	mov sl, r0
+	mov r10, r0
 	bl MI_CpuFill8
 	mov r0, #0xa
 	mul r0, r4, r0
 	add r8, r0, #0xad
 	mov r1, #4
-	strh r1, [sl]
-	add r0, sl, #0x400
+	strh r1, [r10]
+	add r0, r10, #0x400
 	strh r4, [r0, #0x9c]
 	ldrh r1, [r0, #0x9e]
 	ldr r7, _02184D24 // =_02189D28
 	ldr r4, _02184D28 // =gameArchiveStage
 	add r1, r1, #1
 	strh r1, [r0, #0x9e]
-	ldr r0, [sl, #0x1c]
-	add r6, sl, #0x168
+	ldr r0, [r10, #0x1c]
+	add r6, r10, #0x168
 	orr r0, r0, #0x2100
-	str r0, [sl, #0x1c]
-	ldr r0, [sl, #0x20]
-	add sb, r8, #1
+	str r0, [r10, #0x1c]
+	ldr r0, [r10, #0x20]
+	add r9, r8, #1
 	orr r0, r0, #0x20
 	mov r5, #0
-	str r0, [sl, #0x20]
-	mov fp, #0xac
+	str r0, [r10, #0x20]
+	mov r11, #0xac
 _02184C28:
-	mov r0, fp
+	mov r0, r11
 	bl GetObjectFileWork
 	ldr r1, [r4]
 	mov r3, r0
@@ -1287,7 +1287,7 @@ _02184C28:
 	mov r1, #0
 	bl ObjActionAllocSprite
 	str r0, [r6, #0x78]
-	mov r0, sb
+	mov r0, r9
 	bl GetObjectFileWork
 	ldrb r2, [r7], #1
 	mov r1, #1
@@ -1319,18 +1319,18 @@ _02184C28:
 	bl StageTask__SetOAMPriority
 	add r5, r5, #1
 	add r8, r8, #2
-	add sb, sb, #2
+	add r9, r9, #2
 	cmp r5, #5
 	add r6, r6, #0xa4
 	blt _02184C28
-	add r0, sl, #0x2b0
+	add r0, r10, #0x2b0
 	mov r1, #0x16
 	bl StageTask__SetOAMOrder
 	ldr r1, _02184D30 // =WaterGrindRail__Draw
-	add r0, sl, #0x168
-	str r1, [sl, #0xfc]
+	add r0, r10, #0x168
+	str r1, [r10, #0xfc]
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02184D14: .word Task__Unknown2184B2C__Singleton
 _02184D18: .word 0x000010F6
@@ -1388,7 +1388,7 @@ _02184DB4: .word Task__Unknown2184B2C__Singleton
 
 	arm_func_start WaterGrindRail__Func_2184DB8
 WaterGrindRail__Func_2184DB8: // 0x02184DB8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r5, r0
 	add r0, r5, #0x400
 	ldrh r1, [r0, #0x9c]
@@ -1396,14 +1396,14 @@ WaterGrindRail__Func_2184DB8: // 0x02184DB8
 	mov r8, #0
 	mul r0, r1, r0
 	add r4, r5, #0x168
-	add sb, r0, #0xad
+	add r9, r0, #0xad
 	mov r7, r8
 	mov r6, #0xac
 _02184DE4:
 	ldrh r0, [r4, #0x50]
 	and r0, r0, #0xff
 	bl ObjDrawReleaseSpritePalette
-	mov r0, sb
+	mov r0, r9
 	bl GetObjectFileWork
 	bl ObjActionReleaseSpriteDS
 	str r7, [r4, #0x78]
@@ -1414,7 +1414,7 @@ _02184DE4:
 	bl ObjAction2dBACRelease
 	add r8, r8, #1
 	cmp r8, #5
-	add sb, sb, #2
+	add r9, r9, #2
 	add r4, r4, #0xa4
 	blt _02184DE4
 	add r0, r5, #0x400
@@ -1422,7 +1422,7 @@ _02184DE4:
 	ldr r0, _02184E40 // =Task__Unknown2184B2C__Singleton
 	mov r2, #0
 	str r2, [r0, r1, lsl #2]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02184E40: .word Task__Unknown2184B2C__Singleton
 	arm_func_end WaterGrindRail__Func_2184DB8

@@ -85,7 +85,7 @@ _02056684: .word MIi_CpuClear32
 
 	arm_func_start Unknown2056570__Func_2056688
 Unknown2056570__Func_2056688: // 0x02056688
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
 	add r3, sp, #4
 	mov r6, r0
@@ -135,7 +135,7 @@ _0205671C:
 	cmp r0, #1
 	beq _02056750
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 _02056738:
 	ldr r1, [r6, #0x20]
 	ldr r0, [r6, #0x28]
@@ -166,7 +166,7 @@ _02056764:
 	add r5, r5, r7
 	addge sp, sp, #0xc
 	add r2, r1, r2
-	ldmgeia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmgeia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	mov r7, #0x400
 	mov r8, #0x800
 _020567B0:
@@ -179,17 +179,17 @@ _020567C0:
 	mov r6, r6, lsr #0x1a
 	add r6, r6, r0, lsr #21
 	cmp lr, #0x20
-	add sb, r5, r6
+	add r9, r5, r6
 	blt _020567E8
 	cmp r4, #0
 	movne r6, r8
 	moveq r6, r7
-	add sb, sb, r6, lsl #1
+	add r9, r9, r6, lsl #1
 _020567E8:
 	ldrh r6, [sp, #4]
 	cmp ip, #0x20
-	addge sb, sb, #0x800
-	strh r6, [sb]
+	addge r9, r9, #0x800
+	strh r6, [r9]
 	ldrh r6, [sp, #4]
 	add ip, ip, #1
 	cmp ip, r2
@@ -201,7 +201,7 @@ _02056810:
 	cmp lr, r3
 	blt _020567B0
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end Unknown2056570__Func_2056688
 
 	arm_func_start Unknown2056570__Func_2056824
@@ -257,50 +257,50 @@ Unknown2056570__Func_205683C: // 0x0205683C
 
 	arm_func_start Unknown2056570__Func_20568B0
 Unknown2056570__Func_20568B0: // 0x020568B0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	str r2, [sp, #4]
-	mov sl, r0
+	mov r10, r0
 	str r3, [sp, #8]
-	mov fp, r1
+	mov r11, r1
 	bl Unknown2056570__Func_2056C18
-	ldr r1, [sl, #0x1c]
-	ldrh r2, [sl, #0xc]
+	ldr r1, [r10, #0x1c]
+	ldrh r2, [r10, #0xc]
 	cmp r1, #0
 	ldr r1, [sp, #8]
 	mov r4, r0
 	moveq r0, #0x20
-	sub r1, r1, fp
+	sub r1, r1, r11
 	movne r0, #0x40
 	add r1, r1, #1
-	ldrh sb, [sp, #0x30]
+	ldrh r9, [sp, #0x30]
 	mul r5, r0, r2
 	mul r6, r0, r1
 	ldr r7, [sp, #4]
 	mov r1, r7
-	cmp r1, sb
+	cmp r1, r9
 	bgt _02056934
-	mul r8, r0, fp
+	mul r8, r0, r11
 _02056910:
-	ldr r1, [sl, #0x2c]
+	ldr r1, [r10, #0x2c]
 	mov r0, r4
 	mla r1, r5, r7, r1
 	mov r2, r6
 	add r1, r1, r8
 	bl MIi_CpuClearFast
 	add r7, r7, #1
-	cmp r7, sb
+	cmp r7, r9
 	ble _02056910
 _02056934:
 	ldrh r4, [sp, #0x30]
 	ldr r2, [sp, #4]
 	ldr r3, [sp, #8]
-	mov r0, sl
-	mov r1, fp
+	mov r0, r10
+	mov r1, r11
 	str r4, [sp]
 	bl Unknown2056570__Func_2056958
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end Unknown2056570__Func_20568B0
 
 	arm_func_start Unknown2056570__Func_2056958
@@ -401,45 +401,45 @@ Unknown2056570__Func_2056A58: // 0x02056A58
 
 	arm_func_start Unknown2056570__Func_2056A94
 Unknown2056570__Func_2056A94: // 0x02056A94
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
-	mov sl, r0
-	ldrh r2, [sl, #0x14]
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r10, r0
+	ldrh r2, [r10, #0x14]
 	ldr r1, _02056B88 // =0x0000FFFF
 	cmp r2, r1
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	ldrb r1, [sl, #0x13]
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	ldrb r1, [r10, #0x13]
 	cmp r1, #0
 	bne _02056ABC
 	bl Unknown2056570__Func_20569C4
 _02056ABC:
-	ldrh r2, [sl, #0x18]
-	ldrh r1, [sl, #0x14]
-	ldr r0, [sl, #0x1c]
-	ldrh r3, [sl, #0xc]
+	ldrh r2, [r10, #0x18]
+	ldrh r1, [r10, #0x14]
+	ldr r0, [r10, #0x1c]
+	ldrh r3, [r10, #0xc]
 	cmp r0, #0
-	moveq sb, #0x20
+	moveq r9, #0x20
 	sub r1, r2, r1
-	movne sb, #0x40
-	ldr r0, [sl, #4]
+	movne r9, #0x40
+	ldr r0, [r10, #4]
 	add r1, r1, #1
 	cmp r0, #0
-	mul r6, sb, r1
+	mul r6, r9, r1
 	moveq r7, #0x6000000
-	mul r5, sb, r3
-	ldrh r8, [sl, #0x16]
-	ldrh r0, [sl, #0x1a]
+	mul r5, r9, r3
+	ldrh r8, [r10, #0x16]
+	ldrh r0, [r10, #0x1a]
 	movne r7, #0x6200000
-	ldr r1, [sl, #0x20]
+	ldr r1, [r10, #0x20]
 	cmp r8, r0
 	add r7, r7, r1
 	bgt _02056B6C
-	mov fp, #0
-	mov r4, fp
+	mov r11, #0
+	mov r4, r11
 _02056B18:
-	ldrh r1, [sl, #0x14]
-	ldr r0, [sl]
-	ldr ip, [sl, #0x2c]
-	mul r1, sb, r1
+	ldrh r1, [r10, #0x14]
+	ldr r0, [r10]
+	ldr ip, [r10, #0x2c]
+	mul r1, r9, r1
 	mla r3, r5, r8, r1
 	tst r0, #1
 	mov r1, r6
@@ -451,22 +451,22 @@ _02056B18:
 	b _02056B5C
 _02056B4C:
 	add r0, ip, r3
-	mov r2, fp
+	mov r2, r11
 	add r3, r7, r3
 	bl QueueUncompressedPixels
 _02056B5C:
-	ldrh r0, [sl, #0x1a]
+	ldrh r0, [r10, #0x1a]
 	add r8, r8, #1
 	cmp r8, r0
 	ble _02056B18
 _02056B6C:
 	ldr r0, _02056B88 // =0x0000FFFF
-	strh r0, [sl, #0x1a]
-	ldrh r0, [sl, #0x1a]
-	strh r0, [sl, #0x18]
-	strh r0, [sl, #0x16]
-	strh r0, [sl, #0x14]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	strh r0, [r10, #0x1a]
+	ldrh r0, [r10, #0x1a]
+	strh r0, [r10, #0x18]
+	strh r0, [r10, #0x16]
+	strh r0, [r10, #0x14]
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02056B88: .word 0x0000FFFF
 	arm_func_end Unknown2056570__Func_2056A94

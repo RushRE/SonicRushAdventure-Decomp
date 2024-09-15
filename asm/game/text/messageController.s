@@ -317,19 +317,19 @@ MessageController__GetPosition: // 0x02053ED8
 
 	arm_func_start MessageController__Func_2053EF4
 MessageController__Func_2053EF4: // 0x02053EF4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
-	mov sl, r0
+	mov r10, r0
 	movs r0, r1
 	ldreq r0, _02054168 // =0x0000FFFF
 	str r1, [sp, #8]
 	streq r0, [sp, #8]
-	ldr r0, [sl, #0x68]
+	ldr r0, [r10, #0x68]
 	bl FontFile__GetPixelHeight
-	ldrsh r6, [sl, #8]
+	ldrsh r6, [r10, #8]
 	mov r7, r0
 	ldr r0, [sp, #8]
-	mov fp, r6
+	mov r11, r6
 	cmp r0, #0
 	mov r5, #0
 	ble _02054140
@@ -337,80 +337,80 @@ MessageController__Func_2053EF4: // 0x02053EF4
 	mov r0, r0, asr #0x10
 	str r0, [sp, #0xc]
 _02053F40:
-	ldrh r0, [sl, #0x12]
+	ldrh r0, [r10, #0x12]
 	str r0, [sp]
-	ldrh r1, [sl, #0xc]
-	ldrh r2, [sl, #0xe]
-	ldrh r3, [sl, #0x10]
-	ldr r0, [sl, #0x64]
+	ldrh r1, [r10, #0xc]
+	ldrh r2, [r10, #0xe]
+	ldrh r3, [r10, #0x10]
+	ldr r0, [r10, #0x64]
 	bl MPC__GetCharacterFromOffset
 	mov r4, r0
-	ldr r0, [sl, #0x64]
+	ldr r0, [r10, #0x64]
 	mov r1, r4
 	bl MPC__CheckRegularCharacter
 	cmp r0, #0
 	bne _020540B0
-	ldr r0, [sl, #0x64]
+	ldr r0, [r10, #0x64]
 	mov r1, r4
 	bl MPC__GetSpecialCharacter
 	mov r8, r0
-	ldr r0, [sl, #0x64]
+	ldr r0, [r10, #0x64]
 	mov r1, r4
 	bl MPC__ShouldRunCallback
 	cmp r0, #0
 	beq _02053FB4
-	mov r0, sl
+	mov r0, r10
 	mov r1, r8
 	bl MessageController__RunCallback
-	ldrh r0, [sl, #0x12]
+	ldrh r0, [r10, #0x12]
 	add r0, r0, #1
-	strh r0, [sl, #0x12]
+	strh r0, [r10, #0x12]
 	b _02054134
 _02053FB4:
 	cmp r8, #0
 	bne _02054068
-	ldrh r0, [sl, #0x10]
+	ldrh r0, [r10, #0x10]
 	add r0, r0, #1
-	strh r0, [sl, #0x10]
-	ldrh r1, [sl, #0xc]
-	ldrh r2, [sl, #0xe]
-	ldrh r3, [sl, #0x10]
-	ldr r0, [sl, #0x64]
+	strh r0, [r10, #0x10]
+	ldrh r1, [r10, #0xc]
+	ldrh r2, [r10, #0xe]
+	ldrh r3, [r10, #0x10]
+	ldr r0, [r10, #0x64]
 	bl MPC__GetLineLength
-	strh r0, [sl, #0x16]
+	strh r0, [r10, #0x16]
 	mov r0, #0
-	strh r0, [sl, #0x12]
+	strh r0, [r10, #0x12]
 	ldr r0, [sp, #0xc]
-	mov r1, fp
+	mov r1, r11
 	str r0, [sp]
-	ldrsh r3, [sl, #0xa]
-	mov r0, sl
+	ldrsh r3, [r10, #0xa]
+	mov r0, r10
 	mov r2, r6
 	bl MessageController__Func_2054734
-	mov r0, sl
+	mov r0, r10
 	bl MessageController__Func_20546AC
-	ldr r0, [sl, #0x68]
+	ldr r0, [r10, #0x68]
 	str r0, [sp]
-	ldrh r1, [sl, #0xc]
-	ldrh r2, [sl, #0xe]
-	ldrh r3, [sl, #0x10]
-	ldr r0, [sl, #0x64]
+	ldrh r1, [r10, #0xc]
+	ldrh r2, [r10, #0xe]
+	ldrh r3, [r10, #0x10]
+	ldr r0, [r10, #0x64]
 	bl MessageController__MPC__Func_2054524
 	mov r1, r0
-	ldrh r0, [sl, #0x3c]
-	ldrsh r3, [sl, #0x2c]
-	ldr r2, [sl, #0x28]
+	ldrh r0, [r10, #0x3c]
+	ldrsh r3, [r10, #0x2c]
+	ldr r2, [r10, #0x28]
 	mov r0, r0, lsl #3
 	bl MessageController__GetStartPos
-	strh r0, [sl, #4]
-	ldrsh r0, [sl, #4]
-	strh r0, [sl, #8]
-	ldrsh r1, [sl, #0xa]
-	ldrh r0, [sl, #0x30]
+	strh r0, [r10, #4]
+	ldrsh r0, [r10, #4]
+	strh r0, [r10, #8]
+	ldrsh r1, [r10, #0xa]
+	ldrh r0, [r10, #0x30]
 	add r0, r1, r0
-	strh r0, [sl, #0xa]
-	ldrsh r6, [sl, #8]
-	mov fp, r6
+	strh r0, [r10, #0xa]
+	ldrsh r6, [r10, #8]
+	mov r11, r6
 	b _02054134
 _02054068:
 	add r0, r8, #0xff
@@ -420,52 +420,52 @@ _02054068:
 	cmp r0, #1
 	bhi _02054140
 	ldr r0, [sp, #0xc]
-	mov r1, fp
+	mov r1, r11
 	str r0, [sp]
-	ldrsh r3, [sl, #0xa]
-	mov r0, sl
+	ldrsh r3, [r10, #0xa]
+	mov r0, r10
 	mov r2, r6
 	bl MessageController__Func_2054734
-	mov r0, sl
+	mov r0, r10
 	bl MessageController__Func_20546AC
 	mov r6, #0
-	mov fp, r6
+	mov r11, r6
 	b _02054140
 _020540B0:
-	ldr r0, [sl, #0x68]
+	ldr r0, [r10, #0x68]
 	mov r1, r4
 	bl FontFile__GetCharXAdvance
-	ldrsh r8, [sl, #8]
-	ldrh r1, [sl, #0x3c]
+	ldrsh r8, [r10, #8]
+	ldrh r1, [r10, #0x3c]
 	mov r6, r0
 	cmp r8, r1, lsl #3
-	ldrltsh sb, [sl, #0xa]
-	ldrlth r0, [sl, #0x3e]
-	cmplt sb, r0, lsl #3
+	ldrltsh r9, [r10, #0xa]
+	ldrlth r0, [r10, #0x3e]
+	cmplt r9, r0, lsl #3
 	bge _02054114
 	add r0, r8, r6
 	cmp r0, #0
-	addgt r0, sb, r7
+	addgt r0, r9, r7
 	cmpgt r0, #0
 	ble _02054114
-	ldr r0, [sl, #0x68]
+	ldr r0, [r10, #0x68]
 	mov r1, r4
 	bl FontFile__GetPixels
 	mov r1, r0
 	mov r2, r8
-	mov r3, sb
-	mov r0, sl
+	mov r3, r9
+	mov r0, r10
 	stmia sp, {r6, r7}
 	bl MessageController__Draw
 _02054114:
-	ldrsh r0, [sl, #8]
+	ldrsh r0, [r10, #8]
 	add r5, r5, #1
 	add r0, r0, r6
-	strh r0, [sl, #8]
-	ldrh r0, [sl, #0x12]
-	ldrsh r6, [sl, #8]
+	strh r0, [r10, #8]
+	ldrh r0, [r10, #0x12]
+	ldrsh r6, [r10, #8]
 	add r0, r0, #1
-	strh r0, [sl, #0x12]
+	strh r0, [r10, #0x12]
 _02054134:
 	ldr r0, [sp, #8]
 	cmp r5, r0
@@ -474,61 +474,61 @@ _02054140:
 	mov r0, r7, lsl #0x10
 	mov r0, r0, asr #0x10
 	str r0, [sp]
-	ldrsh r3, [sl, #0xa]
-	mov r0, sl
-	mov r1, fp
+	ldrsh r3, [r10, #0xa]
+	mov r0, r10
+	mov r1, r11
 	mov r2, r6
 	bl MessageController__Func_2054734
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02054168: .word 0x0000FFFF
 	arm_func_end MessageController__Func_2053EF4
 
 	arm_func_start MessageController__Func_205416C
 MessageController__Func_205416C: // 0x0205416C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
-	mov sl, r0
-	ldr r0, [sl, #0x68]
-	movs fp, r1
-	ldreq fp, _02054304 // =0x0000FFFF
+	mov r10, r0
+	ldr r0, [r10, #0x68]
+	movs r11, r1
+	ldreq r11, _02054304 // =0x0000FFFF
 	bl FontFile__GetPixelHeight
-	ldrsh r6, [sl, #8]
+	ldrsh r6, [r10, #8]
 	mov r7, r0
-	cmp fp, #0
+	cmp r11, #0
 	str r6, [sp, #8]
 	mov r5, #0
 	ble _020542DC
 _020541A0:
-	ldrh r0, [sl, #0x12]
+	ldrh r0, [r10, #0x12]
 	str r0, [sp]
-	ldrh r1, [sl, #0xc]
-	ldrh r2, [sl, #0xe]
-	ldrh r3, [sl, #0x10]
-	ldr r0, [sl, #0x64]
+	ldrh r1, [r10, #0xc]
+	ldrh r2, [r10, #0xe]
+	ldrh r3, [r10, #0x10]
+	ldr r0, [r10, #0x64]
 	bl MPC__GetCharacterFromOffset
 	mov r4, r0
-	ldr r0, [sl, #0x64]
+	ldr r0, [r10, #0x64]
 	mov r1, r4
 	bl MPC__CheckRegularCharacter
 	cmp r0, #0
 	bne _02054250
-	ldr r0, [sl, #0x64]
+	ldr r0, [r10, #0x64]
 	mov r1, r4
 	bl MPC__GetSpecialCharacter
 	mov r8, r0
-	ldr r0, [sl, #0x64]
+	ldr r0, [r10, #0x64]
 	mov r1, r4
 	bl MPC__ShouldRunCallback
 	cmp r0, #0
 	beq _02054214
-	mov r0, sl
+	mov r0, r10
 	mov r1, r8
 	bl MessageController__RunCallback
-	ldrh r0, [sl, #0x12]
+	ldrh r0, [r10, #0x12]
 	add r0, r0, #1
-	strh r0, [sl, #0x12]
+	strh r0, [r10, #0x12]
 	b _020542D4
 _02054214:
 	cmp r8, #2
@@ -536,65 +536,65 @@ _02054214:
 	mov r0, r7, lsl #0x10
 	mov r0, r0, asr #0x10
 	str r0, [sp]
-	ldrsh r3, [sl, #0xa]
+	ldrsh r3, [r10, #0xa]
 	ldr r1, [sp, #8]
-	mov r0, sl
+	mov r0, r10
 	mov r2, r6
 	bl MessageController__Func_2054734
-	mov r0, sl
+	mov r0, r10
 	bl MessageController__Func_20546AC
 	mov r6, #0
 	str r6, [sp, #8]
 	b _020542DC
 _02054250:
-	ldr r0, [sl, #0x68]
+	ldr r0, [r10, #0x68]
 	mov r1, r4
 	bl FontFile__GetCharXAdvance
-	ldrsh r8, [sl, #8]
-	ldrh r1, [sl, #0x3c]
+	ldrsh r8, [r10, #8]
+	ldrh r1, [r10, #0x3c]
 	mov r6, r0
 	cmp r8, r1, lsl #3
-	ldrltsh sb, [sl, #0xa]
-	ldrlth r0, [sl, #0x3e]
-	cmplt sb, r0, lsl #3
+	ldrltsh r9, [r10, #0xa]
+	ldrlth r0, [r10, #0x3e]
+	cmplt r9, r0, lsl #3
 	bge _020542B4
 	add r0, r8, r6
 	cmp r0, #0
-	addgt r0, sb, r7
+	addgt r0, r9, r7
 	cmpgt r0, #0
 	ble _020542B4
-	ldr r0, [sl, #0x68]
+	ldr r0, [r10, #0x68]
 	mov r1, r4
 	bl FontFile__GetPixels
 	mov r1, r0
-	mov r0, sl
+	mov r0, r10
 	mov r2, r8
-	mov r3, sb
+	mov r3, r9
 	stmia sp, {r6, r7}
 	bl MessageController__Draw
 _020542B4:
-	ldrsh r0, [sl, #8]
+	ldrsh r0, [r10, #8]
 	add r5, r5, #1
 	add r0, r0, r6
-	strh r0, [sl, #8]
-	ldrh r0, [sl, #0x12]
-	ldrsh r6, [sl, #8]
+	strh r0, [r10, #8]
+	ldrh r0, [r10, #0x12]
+	ldrsh r6, [r10, #8]
 	add r0, r0, #1
-	strh r0, [sl, #0x12]
+	strh r0, [r10, #0x12]
 _020542D4:
-	cmp r5, fp
+	cmp r5, r11
 	blt _020541A0
 _020542DC:
 	mov r0, r7, lsl #0x10
 	mov r0, r0, asr #0x10
 	str r0, [sp]
-	ldrsh r3, [sl, #0xa]
+	ldrsh r3, [r10, #0xa]
 	ldr r1, [sp, #8]
-	mov r0, sl
+	mov r0, r10
 	mov r2, r6
 	bl MessageController__Func_2054734
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02054304: .word 0x0000FFFF
 	arm_func_end MessageController__Func_205416C
@@ -772,16 +772,16 @@ _02054518:
 
 	arm_func_start MessageController__MPC__Func_2054524
 MessageController__MPC__Func_2054524: // 0x02054524
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x38
 	str r1, [sp, #0xc]
 	str r2, [sp, #0x10]
-	mov sl, r0
+	mov r10, r0
 	str r3, [sp, #0x14]
-	ldr sb, [sp, #0x60]
+	ldr r9, [sp, #0x60]
 	bl MPC__GetLineLength
 	mov r6, #0
-	movs fp, r0
+	movs r11, r0
 	mov r5, r6
 	beq _020545E4
 	add r4, sp, #0x18
@@ -791,7 +791,7 @@ _02054558:
 	str r0, [sp, #4]
 	ldr r1, [sp, #0xc]
 	ldr r2, [sp, #0x10]
-	mov r0, sl
+	mov r0, r10
 	str r4, [sp, #8]
 	ldr r3, [sp, #0x14]
 	bl MPC__GetText
@@ -801,13 +801,13 @@ _02054558:
 _02054588:
 	mov r0, r8, lsl #1
 	ldrh r1, [r4, r0]
-	mov r0, sl
+	mov r0, r10
 	bl MPC__CheckRegularCharacter
 	cmp r0, #0
 	beq _020545BC
 	mov r0, r8, lsl #1
 	ldrh r1, [r4, r0]
-	mov r0, sb
+	mov r0, r9
 	bl FontFile__GetCharXAdvance
 	add r0, r6, r0
 	mov r0, r0, lsl #0x10
@@ -821,13 +821,13 @@ _020545BC:
 _020545D0:
 	add r0, r5, #0x10
 	mov r0, r0, lsl #0x10
-	cmp fp, r0, lsr #16
+	cmp r11, r0, lsr #16
 	mov r5, r0, lsr #0x10
 	bhi _02054558
 _020545E4:
 	mov r0, r6
 	add sp, sp, #0x38
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end MessageController__MPC__Func_2054524
 
 	arm_func_start MessageController__GetStartPos
@@ -1100,10 +1100,10 @@ MessageController__RunCallback: // 0x02054940
 
 	arm_func_start MessageController__Draw
 MessageController__Draw: // 0x02054968
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x4c
-	mov sl, r0
-	ldr r0, [sl, #0x68]
+	mov r10, r0
+	ldr r0, [r10, #0x68]
 	mov r4, #0
 	str r4, [sp, #0x2c]
 	str r3, [sp, #0x20]
@@ -1111,14 +1111,14 @@ MessageController__Draw: // 0x02054968
 	ldr r4, [sp, #0x2c]
 	ldr r8, [sp, #0x70]
 	ldr r1, [sp, #0x74]
-	mov sb, r2
+	mov r9, r2
 	str r1, [sp, #0x74]
 	bl FontFile__GetPixelWidth
-	ldrh r2, [sl, #0x3c]
-	add r1, sb, r8
-	ldrh r5, [sl, #0x3e]
+	ldrh r2, [r10, #0x3c]
+	add r1, r9, r8
+	ldrh r5, [r10, #0x3e]
 	cmp r1, r2, lsl #3
-	rsbgt r1, sb, r2, lsl #3
+	rsbgt r1, r9, r2, lsl #3
 	movgt r1, r1, lsl #0x10
 	movgt r8, r1, lsr #0x10
 	ldr r3, [sp, #0x20]
@@ -1132,16 +1132,16 @@ MessageController__Draw: // 0x02054968
 	mov r1, r1, lsr #0x10
 	str r1, [sp, #0x74]
 _020549E4:
-	cmp sb, #0
+	cmp r9, #0
 	bge _02054A0C
-	add r1, r8, sb
-	rsb r3, sb, #0
+	add r1, r8, r9
+	rsb r3, r9, #0
 	mov r1, r1, lsl #0x10
 	mov r3, r3, lsl #0x10
 	mov r8, r1, lsr #0x10
 	mov r1, r3, lsr #0x10
 	str r1, [sp, #0x2c]
-	mov sb, #0
+	mov r9, #0
 _02054A0C:
 	ldr r1, [sp, #0x20]
 	cmp r1, #0
@@ -1157,15 +1157,15 @@ _02054A0C:
 	mov r4, r3, lsr #0x10
 	str r1, [sp, #0x20]
 _02054A40:
-	ldrh r1, [sl, #0x46]
+	ldrh r1, [r10, #0x46]
 	cmp r1, #0
 	beq _02054C34
-	ldrh r3, [sl, #0x50]
-	ldrh r2, [sl, #0x52]
-	ldrh r6, [sl, #0x44]
+	ldrh r3, [r10, #0x50]
+	ldrh r2, [r10, #0x52]
+	ldrh r6, [r10, #0x44]
 	mvn r5, r3
 	add r1, r1, #3
-	str sb, [sp, #0x34]
+	str r9, [sp, #0x34]
 	str r1, [sp, #0x3c]
 	mov r1, r5, lsl #0x10
 	str r8, [sp, #0x30]
@@ -1183,17 +1183,17 @@ _02054A40:
 _02054A9C:
 	ldr r1, [sp, #0x20]
 	ldr r0, [sp, #0x3c]
-	ldrh r2, [sl, #0x4e]
+	ldrh r2, [r10, #0x4e]
 	mov r0, r1, asr r0
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	str r0, [sp, #0x24]
 	ldr r0, [sp, #0x44]
-	ldr sb, [sp, #0x34]
+	ldr r9, [sp, #0x34]
 	and r0, r1, r0, lsr #16
 	mov r0, r0, lsl #0x10
 	sub r1, r2, r0, lsr #16
-	mov fp, r0, lsr #0x10
+	mov r11, r0, lsr #0x10
 	mov r1, r1, lsl #0x10
 	ldr r0, [sp, #0x74]
 	mov r5, r1, lsr #0x10
@@ -1210,12 +1210,12 @@ _02054A9C:
 	str r0, [sp, #0x40]
 _02054B08:
 	ldr r0, [sp, #0x38]
-	ldrh r1, [sl, #0x4c]
-	mov r0, sb, asr r0
+	ldrh r1, [r10, #0x4c]
+	mov r0, r9, asr r0
 	mov lr, r0, lsl #0x10
 	ldr r0, [sp, #0x48]
-	ldr ip, [sl, #0x40]
-	and r0, sb, r0, lsr #16
+	ldr ip, [r10, #0x40]
+	and r0, r9, r0, lsr #16
 	mov r0, r0, lsl #0x10
 	mov r2, r0, lsr #0x10
 	sub r0, r1, r0, lsr #16
@@ -1224,24 +1224,24 @@ _02054B08:
 	mov r6, r0, lsr #0x10
 	movls r6, r8
 	cmp ip, #0
-	ldrh r0, [sl, #0x54]
+	ldrh r0, [r10, #0x54]
 	ldr ip, [sp, #0x24]
-	ldr r3, [sl, #0x34]
+	ldr r3, [r10, #0x34]
 	mul ip, r0, ip
-	ldr r1, [sl, #0x48]
+	ldr r1, [r10, #0x48]
 	add r0, ip, lr, lsr #16
 	str r6, [sp]
 	mla r0, r1, r0, r3
 	str r5, [sp, #4]
 	beq _02054BA0
 	str r0, [sp, #8]
-	ldrh r3, [sl, #0x56]
+	ldrh r3, [r10, #0x56]
 	ldr r0, [sp, #0x1c]
 	ldr r1, [sp, #0x40]
 	str r3, [sp, #0xc]
 	str r2, [sp, #0x10]
-	str fp, [sp, #0x14]
-	ldrh ip, [sl, #0x32]
+	str r11, [sp, #0x14]
+	ldrh ip, [r10, #0x32]
 	mov r2, r7
 	mov r3, r4
 	str ip, [sp, #0x18]
@@ -1249,13 +1249,13 @@ _02054B08:
 	b _02054BD0
 _02054BA0:
 	str r0, [sp, #8]
-	ldrh r3, [sl, #0x56]
+	ldrh r3, [r10, #0x56]
 	ldr r0, [sp, #0x1c]
 	ldr r1, [sp, #0x40]
 	str r3, [sp, #0xc]
 	str r2, [sp, #0x10]
-	str fp, [sp, #0x14]
-	ldrh ip, [sl, #0x32]
+	str r11, [sp, #0x14]
+	ldrh ip, [r10, #0x32]
 	mov r2, r7
 	mov r3, r4
 	str ip, [sp, #0x18]
@@ -1264,9 +1264,9 @@ _02054BD0:
 	sub r0, r8, r6
 	mov r0, r0, lsl #0x10
 	movs r8, r0, lsr #0x10
-	add r0, sb, r6
+	add r0, r9, r6
 	mov r0, r0, lsl #0x10
-	mov sb, r0, asr #0x10
+	mov r9, r0, asr #0x10
 	add r0, r7, r6
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
@@ -1288,14 +1288,14 @@ _02054BF8:
 	bne _02054A9C
 	b _02054CE8
 _02054C34:
-	ldr r1, [sl, #0x40]
+	ldr r1, [r10, #0x40]
 	cmp r1, #0
 	str r8, [sp]
 	beq _02054C98
 	ldr r1, [sp, #0x74]
-	mov r3, sb, lsl #0x10
+	mov r3, r9, lsl #0x10
 	str r1, [sp, #4]
-	ldr r1, [sl, #0x34]
+	ldr r1, [r10, #0x34]
 	str r1, [sp, #8]
 	ldr r1, [sp, #0x20]
 	mov r1, r1, lsl #0x10
@@ -1305,7 +1305,7 @@ _02054C34:
 	mov r1, r1, lsr #0x10
 	str r1, [sp, #0x14]
 	mov r1, r0, lsl #0xd
-	ldrh r5, [sl, #0x32]
+	ldrh r5, [r10, #0x32]
 	ldr r2, [sp, #0x2c]
 	ldr r0, [sp, #0x1c]
 	mov r3, r4
@@ -1315,9 +1315,9 @@ _02054C34:
 	b _02054CE8
 _02054C98:
 	ldr r1, [sp, #0x74]
-	mov r3, sb, lsl #0x10
+	mov r3, r9, lsl #0x10
 	str r1, [sp, #4]
-	ldr r1, [sl, #0x34]
+	ldr r1, [r10, #0x34]
 	str r1, [sp, #8]
 	ldr r1, [sp, #0x20]
 	mov r1, r1, lsl #0x10
@@ -1327,7 +1327,7 @@ _02054C98:
 	mov r1, r1, lsr #0x10
 	str r1, [sp, #0x14]
 	mov r1, r0, lsl #0xd
-	ldrh r5, [sl, #0x32]
+	ldrh r5, [r10, #0x32]
 	ldr r2, [sp, #0x2c]
 	ldr r0, [sp, #0x1c]
 	mov r3, r4
@@ -1336,7 +1336,7 @@ _02054C98:
 	bl BackgroundUnknown__CopyPixels
 _02054CE8:
 	mov r0, #0
-	str r0, [sl, #0x5c]
+	str r0, [r10, #0x5c]
 	add sp, sp, #0x4c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end MessageController__Draw

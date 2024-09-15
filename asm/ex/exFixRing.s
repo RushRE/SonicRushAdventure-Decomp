@@ -5,7 +5,7 @@
 
 	arm_func_start exFixRingTask__Main
 exFixRingTask__Main: // 0x021697E0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetExTaskWorkCurrent_
 	mov r7, r0
 	bl GetCurrentTask
@@ -31,35 +31,35 @@ exFixRingTask__Main: // 0x021697E0
 	add r0, r7, #0x90
 	bl ovl09_21641F0
 	add r0, r7, #0x1a
-	ldr fp, _021699AC // =0x02175CC8
+	ldr r11, _021699AC // =0x02175CC8
 	mov r8, #0
 	add r6, r7, #0x98
 	add r5, r7, #0x118
 	add r4, r0, #0x100
 _0216985C:
 	mov r0, #0x88
-	mul sb, r8, r0
+	mul r9, r8, r0
 	mov r0, r8, lsl #1
-	ldrh r1, [fp, r0]
-	add sl, r7, sb
-	add r0, r6, sb
-	strh r1, [sl, #0x98]
+	ldrh r1, [r11, r0]
+	add r10, r7, r9
+	add r0, r6, r9
+	strh r1, [r10, #0x98]
 	mov r1, #2
-	strh r1, [sl, #0x9a]
+	strh r1, [r10, #0x9a]
 	bl ovl09_2168EA4
 	ldr r1, _021699B0 // =0x0000E001
-	add r0, r5, sb
+	add r0, r5, r9
 	bl ovl09_21641E8
-	add r1, sl, #0x100
+	add r1, r10, #0x100
 	mov r0, #0
 	strh r0, [r1]
 	strh r0, [r1, #2]
-	ldrb r1, [r4, sb]
-	add r0, r6, sb
+	ldrb r1, [r4, r9]
+	add r0, r6, r9
 	orr r1, r1, #0x20
-	strb r1, [r4, sb]
+	strb r1, [r4, r9]
 	bl ovl09_2161B80
-	add r0, r5, sb
+	add r0, r5, r9
 	bl ovl09_21641F0
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
@@ -69,18 +69,18 @@ _0216985C:
 	add r0, r7, #0x1e8
 	add r1, r7, #0x268
 	add r2, r7, #0x6a
-	ldr fp, _021699B4 // =0x02175CA0
-	mov sl, #0
+	ldr r11, _021699B4 // =0x02175CA0
+	mov r10, #0
 	add r6, r0, #0x400
 	add r5, r1, #0x400
 	add r4, r2, #0x600
 _021698F0:
 	mov r0, #0x88
-	mul r8, sl, r0
-	mov r0, sl, lsl #1
-	ldrh r1, [fp, r0]
-	add sb, r7, r8
-	add r2, sb, #0x500
+	mul r8, r10, r0
+	mov r0, r10, lsl #1
+	ldrh r1, [r11, r0]
+	add r9, r7, r8
+	add r2, r9, #0x500
 	strh r1, [r2, #0xe8]
 	mov r1, #2
 	add r0, r6, r8
@@ -89,7 +89,7 @@ _021698F0:
 	ldr r1, _021699B0 // =0x0000E001
 	add r0, r5, r8
 	bl ovl09_21641E8
-	add r1, sb, #0x600
+	add r1, r9, #0x600
 	mov r0, #0
 	strh r0, [r1, #0x50]
 	strh r0, [r1, #0x52]
@@ -100,10 +100,10 @@ _021698F0:
 	bl ovl09_2161B80
 	add r0, r5, r8
 	bl ovl09_2164218
-	add r0, sl, #1
+	add r0, r10, #1
 	mov r0, r0, lsl #0x10
-	mov sl, r0, lsr #0x10
-	cmp sl, #0xa
+	mov r10, r0, lsr #0x10
+	cmp r10, #0xa
 	blo _021698F0
 	mov r0, #0x17
 	strh r0, [r7, #2]
@@ -120,7 +120,7 @@ _021698F0:
 	bl GetExTaskCurrent
 	ldr r1, _021699B8 // =ovl09_2169A2C
 	str r1, [r0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021699A8: .word 0x021766A8
 _021699AC: .word 0x02175CC8
@@ -170,7 +170,7 @@ _02169A28: .word 0x021766A8
 
 	arm_func_start ovl09_2169A2C
 ovl09_2169A2C: // 0x02169A2C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl exSysTask__GetStatus
@@ -244,17 +244,17 @@ _02169AD4:
 	mov r0, r1, lsr #0x1f
 	adds r7, r0, r7, asr #5
 	cmpeq r5, #0
-	mov sb, #0
+	mov r9, #0
 	bne _02169C34
 	add r0, r4, #0x1e8
 	add r8, r0, #0x400
 _02169B5C:
 	mov r0, r8
 	bl ovl09_2161908
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, asr #0x10
-	cmp sb, #0xa
+	mov r9, r0, asr #0x10
+	cmp r9, #0xa
 	add r8, r8, #0x88
 	blo _02169B5C
 	mov r0, #0x88
@@ -308,10 +308,10 @@ _02169C34:
 _02169C38:
 	mov r0, r8
 	bl ovl09_2161908
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, asr #0x10
-	cmp sb, #0xa
+	mov r9, r0, asr #0x10
+	cmp r9, #0xa
 	add r8, r8, #0x88
 	blo _02169C38
 	mov r0, #0x88
@@ -357,7 +357,7 @@ _02169CF4:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02169D04: .word 0x66666667
 _02169D08: .word 0x51EB851F

@@ -582,84 +582,84 @@ _0206EE24: .word touchInput
 
 	arm_func_start TouchField__ProcessSingle
 TouchField__ProcessSingle: // 0x0206EE28
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, r1
-	ldr r1, [sb, #0x14]
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r1
+	ldr r1, [r9, #0x14]
 	mov r4, r0
 	tst r1, #0x40
 	movne r0, #0
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	tst r1, #0x80
 	movne r2, #0
-	str r1, [sb, #0x18]
+	str r1, [r9, #0x18]
 	cmp r2, #0
 	beq _0206EE8C
 	ldr r0, [r4, #4]
 	tst r0, #1
 	beq _0206EE8C
-	ldr r1, [sb, #8]
-	mov r0, sb
+	ldr r1, [r9, #8]
+	mov r0, r9
 	blx r1
 	cmp r0, #0
 	beq _0206EE8C
-	ldr r0, [sb, #0x18]
+	ldr r0, [r9, #0x18]
 	and r0, r0, #0xc0
 	orr r0, r0, #0x10
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 	b _0206EE98
 _0206EE8C:
-	ldr r0, [sb, #0x18]
+	ldr r0, [r9, #0x18]
 	and r0, r0, #0xc0
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 _0206EE98:
-	ldr r0, [sb, #0x18]
+	ldr r0, [r9, #0x18]
 	tst r0, #0x10
-	ldrne r0, [sb, #0x14]
+	ldrne r0, [r9, #0x14]
 	orrne r0, r0, #0x20
-	strne r0, [sb, #0x14]
-	ldr r0, [sb, #0x18]
-	ldr r1, [sb, #0x14]
+	strne r0, [r9, #0x14]
+	ldr r0, [r9, #0x18]
+	ldr r1, [r9, #0x14]
 	tst r0, #0x1000000
 	andne r0, r0, #0x1000
 	andeq r0, r0, #0x3c00
 	orr r0, r1, r0
-	str r0, [sb, #0x14]
-	ldr r0, [sb, #0x14]
+	str r0, [r9, #0x14]
+	ldr r0, [r9, #0x14]
 	ands r1, r0, #0x10
 	bne _0206EEE0
-	ldr r0, [sb, #0x18]
+	ldr r0, [r9, #0x18]
 	tst r0, #0x10
 	beq _0206F0A4
 _0206EEE0:
 	cmp r1, #0
 	beq _0206EF94
-	ldr r0, [sb, #0x18]
+	ldr r0, [r9, #0x18]
 	tst r0, #0x10
 	bne _0206EF94
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	orr r0, r0, #0x10000
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 	ldr r0, [r4, #4]
 	tst r0, #4
 	movne r1, #0x400000
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	moveq r1, #0x2000000
 	orr r0, r0, r1
 	orr r0, r0, #0x200000
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 	ldrb r0, [r4, #0x13]
-	strh r0, [sb, #0x22]
-	ldr r0, [sb, #0x14]
+	strh r0, [r9, #0x22]
+	ldr r0, [r9, #0x14]
 	tst r0, #0x400
 	bne _0206EF48
 	ldr r0, _0206F298 // =0x021413FA
-	add r1, sb, #0x1c
+	add r1, r9, #0x1c
 	mov r2, #4
 	bl MIi_CpuCopy16
 	b _0206F0A4
 _0206EF48:
 	ldr r0, _0206F29C // =touchInput
-	ldrsh r1, [sb, #0x1c]
+	ldrsh r1, [r9, #0x1c]
 	ldrsh r0, [r0, #0x14]
 	ldrb r2, [r4, #0x11]
 	subs r0, r0, r1
@@ -667,44 +667,44 @@ _0206EF48:
 	cmp r2, r0
 	ble _0206EF84
 	ldr r0, _0206F29C // =touchInput
-	ldrsh r1, [sb, #0x1e]
+	ldrsh r1, [r9, #0x1e]
 	ldrsh r0, [r0, #0x16]
 	subs r0, r0, r1
 	rsbmi r0, r0, #0
 	cmp r2, r0
 	bgt _0206F0A4
 _0206EF84:
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	orr r0, r0, #0x4800000
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 	b _0206F0A4
 _0206EF94:
 	cmp r1, #0
 	bne _0206EFDC
-	ldr r0, [sb, #0x18]
+	ldr r0, [r9, #0x18]
 	tst r0, #0x10
 	beq _0206EFDC
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	orr r0, r0, #0x20000
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 	ldr r0, [r4, #4]
-	ldr r1, [sb, #0x14]
+	ldr r1, [r9, #0x14]
 	tst r0, #8
 	movne r2, #0x1000000
 	moveq r2, #0x8000000
 	orr r1, r1, r2
 	ldr r0, _0206F2A0 // =0x0000FFFF
-	str r1, [sb, #0x14]
-	strh r0, [sb, #0x22]
+	str r1, [r9, #0x14]
+	strh r0, [r9, #0x22]
 	b _0206F0A4
 _0206EFDC:
 	cmp r1, #0
 	beq _0206F0A4
-	ldr r0, [sb, #0x18]
+	ldr r0, [r9, #0x18]
 	tst r0, #0x10
 	beq _0206F0A4
 	ldr r0, _0206F29C // =touchInput
-	ldrsh r1, [sb, #0x1c]
+	ldrsh r1, [r9, #0x1c]
 	ldrsh r0, [r0, #0x14]
 	ldrb r2, [r4, #0x11]
 	subs r0, r0, r1
@@ -712,18 +712,18 @@ _0206EFDC:
 	cmp r2, r0
 	ble _0206F02C
 	ldr r0, _0206F29C // =touchInput
-	ldrsh r1, [sb, #0x1e]
+	ldrsh r1, [r9, #0x1e]
 	ldrsh r0, [r0, #0x16]
 	subs r0, r0, r1
 	rsbmi r0, r0, #0
 	cmp r2, r0
 	bgt _0206F038
 _0206F02C:
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	orr r0, r0, #0x4000000
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 _0206F038:
-	ldr r0, [sb, #0x18]
+	ldr r0, [r9, #0x18]
 	tst r0, #0x800
 	bne _0206F08C
 	ldr r0, _0206F29C // =touchInput
@@ -742,50 +742,50 @@ _0206F038:
 	cmp r2, r0
 	bgt _0206F08C
 _0206F080:
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	orr r0, r0, #0x400
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 _0206F08C:
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	tst r0, #0x400
 	beq _0206F0A4
 	tst r0, #0x800
 	orrne r0, r0, #0x800000
-	strne r0, [sb, #0x14]
+	strne r0, [r9, #0x14]
 _0206F0A4:
-	ldr r2, [sb, #0x14]
+	ldr r2, [r9, #0x14]
 	tst r2, #0x400000
 	beq _0206F0F4
 	tst r2, #0x1000
-	ldrneh r1, [sb, #0x22]
+	ldrneh r1, [r9, #0x22]
 	ldrne r0, _0206F2A0 // =0x0000FFFF
 	cmpne r1, r0
 	beq _0206F0D8
 	orr r1, r2, #0x2000
 	orr r1, r1, #0x100000
 	bic r1, r1, #0x1000
-	str r1, [sb, #0x14]
-	strh r0, [sb, #0x22]
+	str r1, [r9, #0x14]
+	strh r0, [r9, #0x22]
 _0206F0D8:
 	ldrb r0, [r4, #0x12]
 	cmp r0, #0
 	bne _0206F1C4
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	orr r0, r0, #0x400
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 	b _0206F1C4
 _0206F0F4:
 	tst r2, #0x1000000
 	beq _0206F124
-	ldr r0, [sb, #0x18]
+	ldr r0, [r9, #0x18]
 	tst r0, #0x800
 	bne _0206F1C4
 	tst r2, #0x2000
 	bne _0206F1C4
 	orr r0, r2, #0x41000
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 	ldrb r0, [r4, #0x10]
-	strh r0, [sb, #0x22]
+	strh r0, [r9, #0x22]
 	b _0206F1C4
 _0206F124:
 	tst r2, #0x400
@@ -794,7 +794,7 @@ _0206F124:
 	tst r0, #1
 	beq _0206F180
 	ldr r0, _0206F29C // =touchInput
-	ldrsh r1, [sb, #0x1c]
+	ldrsh r1, [r9, #0x1c]
 	ldrsh r0, [r0, #0x14]
 	ldrb r2, [r4, #0x11]
 	subs r0, r0, r1
@@ -802,72 +802,72 @@ _0206F124:
 	cmp r2, r0
 	ble _0206F174
 	ldr r0, _0206F29C // =touchInput
-	ldrsh r1, [sb, #0x1e]
+	ldrsh r1, [r9, #0x1e]
 	ldrsh r0, [r0, #0x16]
 	subs r0, r0, r1
 	rsbmi r0, r0, #0
 	cmp r2, r0
 	bgt _0206F180
 _0206F174:
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	orr r0, r0, #0x800000
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 _0206F180:
 	ldr r0, [r4, #4]
 	tst r0, #8
 	beq _0206F1C4
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	orr r0, r0, #0x1000000
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 	b _0206F1C4
 _0206F19C:
 	tst r2, #0x2000000
 	beq _0206F1B4
 	orr r0, r2, #0x800
 	orr r0, r0, #0x4000000
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 	b _0206F1C4
 _0206F1B4:
-	ldr r0, [sb, #0x18]
+	ldr r0, [r9, #0x18]
 	tst r0, #0x8000000
 	bicne r0, r2, #0x2800
-	strne r0, [sb, #0x14]
+	strne r0, [r9, #0x14]
 _0206F1C4:
-	ldrh r1, [sb, #0x22]
+	ldrh r1, [r9, #0x22]
 	ldr r0, _0206F2A0 // =0x0000FFFF
 	cmp r1, r0
 	beq _0206F210
 	sub r0, r1, #1
-	strh r0, [sb, #0x22]
+	strh r0, [r9, #0x22]
 	cmp r1, #0
 	bne _0206F210
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	tst r0, #0x1000
 	beq _0206F200
 	orr r0, r0, #0x80000
 	bic r0, r0, #0x1000
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 	b _0206F210
 _0206F200:
 	orr r0, r0, #0x200000
-	str r0, [sb, #0x14]
+	str r0, [r9, #0x14]
 	ldrb r0, [r4, #0x14]
-	strh r0, [sb, #0x22]
+	strh r0, [r9, #0x22]
 _0206F210:
-	ldr r8, [sb, #0xc]
+	ldr r8, [r9, #0xc]
 	cmp r8, #0
 	beq _0206F268
-	ldr r6, [sb, #0x10]
+	ldr r6, [r9, #0x10]
 	ldr r4, _0206F2A4 // =_021116E8
 	mov r7, #0x10000
 	mov r5, #0
 _0206F22C:
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	tst r0, r7
 	beq _0206F250
 	ldr ip, [r4, r5, lsl #2]
 	mov r0, r7
-	mov r1, sb
+	mov r1, r9
 	mov r2, r8
 	mov r3, r6
 	blx ip
@@ -879,19 +879,19 @@ _0206F250:
 	mov r7, r7, lsl #1
 	blo _0206F22C
 _0206F268:
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	tst r0, #0x4800000
 	beq _0206F284
 	ldr r0, _0206F298 // =0x021413FA
-	add r1, sb, #0x1c
+	add r1, r9, #0x1c
 	mov r2, #4
 	bl MIi_CpuCopy16
 _0206F284:
-	ldr r0, [sb, #0x14]
+	ldr r0, [r9, #0x14]
 	tst r0, #0x10
 	movne r0, #1
 	moveq r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0206F298: .word 0x021413FA
 _0206F29C: .word touchInput

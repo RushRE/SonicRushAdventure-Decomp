@@ -427,7 +427,7 @@ _0217964C:
 
 	arm_func_start Trampoline3D__State_2179664
 Trampoline3D__State_2179664: // 0x02179664
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xc
 	mov r3, r0
 	ldr r2, [r3, #0x35c]
@@ -503,16 +503,16 @@ _021796E8:
 	str r0, [r3, #0x520]
 	ldr r7, [r3, #0x510]
 	ldr r4, [r3, #0x588]
-	ldr sl, [r3, #0x4f8]
+	ldr r10, [r3, #0x4f8]
 	ldr r2, [r3, #0x480]
 	sub lr, r7, r4
-	ldr sb, [r3, #0x4fc]
+	ldr r9, [r3, #0x4fc]
 	ldr r8, [r3, #0x484]
 	ldr r1, [r3, #0x514]
 	ldr r0, [r3, #0x58c]
 	mov r7, #0x18
-	sub ip, sb, r8
-	sub r2, sl, r2
+	sub ip, r9, r8
+	sub r2, r10, r2
 	sub r4, r1, r0
 	mov r8, r7
 _021797C0:
@@ -521,20 +521,20 @@ _021797C0:
 	add r1, r1, r2, asr r5
 	str r1, [r6, #0x480]
 	ldr r1, [r6, #0x46c]
-	rsb sb, r5, #0xb
+	rsb r9, r5, #0xb
 	add r1, r1, ip, asr r5
 	str r1, [r6, #0x484]
-	ldr sl, [r6, #0x480]
+	ldr r10, [r6, #0x480]
 	mla r1, r0, r7, r3
-	str sl, [r6, #0x48c]
-	ldr sl, [r6, #0x484]
-	mla r0, sb, r8, r3
-	sub sb, sl, #0x8000
-	str sb, [r6, #0x490]
-	ldr sb, [r1, #0x480]
+	str r10, [r6, #0x48c]
+	ldr r10, [r6, #0x484]
+	mla r0, r9, r8, r3
+	sub r9, r10, #0x8000
+	str r9, [r6, #0x490]
+	ldr r9, [r1, #0x480]
 	add r6, r6, #0x18
-	add sb, sb, lr, asr r5
-	str sb, [r0, #0x480]
+	add r9, r9, lr, asr r5
+	str r9, [r0, #0x480]
 	ldr r1, [r1, #0x484]
 	add r1, r1, r4, asr r5
 	str r1, [r0, #0x484]
@@ -547,12 +547,12 @@ _021797C0:
 	str r1, [r0, #0x490]
 	blt _021797C0
 	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 _02179840:
 	ldr r0, [r3, #0x354]
 	tst r0, #1
 	addeq sp, sp, #0xc
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	ldr r2, [r3, #0x5dc]
 	ldr r1, [r3, #0x5d8]
 	mov r0, #1
@@ -603,11 +603,11 @@ _021798F8:
 	beq _02179910
 	bl Trampoline3D__Func_2179998
 	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 _02179910:
 	bl Trampoline3D__Func_217991C
 	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end Trampoline3D__State_2179664
 
 	arm_func_start Trampoline3D__Func_217991C
@@ -648,7 +648,7 @@ _02179954:
 
 	arm_func_start Trampoline3D__Func_2179998
 Trampoline3D__Func_2179998: // 0x02179998
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r2, [r0, #0x5c8]
 	ldr r1, [r0, #0x5d4]
 	rsb r2, r2, #0
@@ -668,50 +668,50 @@ Trampoline3D__Func_2179998: // 0x02179998
 	mov r7, #0x18
 _021799E0:
 	ldr r8, [r6, #0x480]
-	rsb sb, r5, #0xb
+	rsb r9, r5, #0xb
 	add r8, r1, r8
 	str r8, [r6, #0x498]
-	ldr sl, [r6, #0x484]
+	ldr r10, [r6, #0x484]
 	rsb r8, r5, #0xa
-	add sl, r2, sl
-	add sl, r3, sl
-	str sl, [r6, #0x49c]
-	mov sl, #0x18
-	mla sl, sb, sl, r0
-	ldr fp, [r6, #0x498]
-	mla sb, r8, r7, r0
-	str fp, [r6, #0x4a4]
-	ldr fp, [r6, #0x49c]
+	add r10, r2, r10
+	add r10, r3, r10
+	str r10, [r6, #0x49c]
+	mov r10, #0x18
+	mla r10, r9, r10, r0
+	ldr r11, [r6, #0x498]
+	mla r9, r8, r7, r0
+	str r11, [r6, #0x4a4]
+	ldr r11, [r6, #0x49c]
 	add r5, r5, #1
-	sub r8, fp, #0x8000
+	sub r8, r11, #0x8000
 	str r8, [r6, #0x4a8]
-	ldr r8, [sl, #0x480]
+	ldr r8, [r10, #0x480]
 	add r6, r6, #0x18
 	sub r1, r8, r1
-	str r1, [sb, #0x480]
-	ldr r8, [sl, #0x484]
+	str r1, [r9, #0x480]
+	ldr r8, [r10, #0x484]
 	mov r1, ip, asr #1
 	sub r2, r8, r2
 	add r2, r3, r2
-	str r2, [sb, #0x484]
-	ldr r3, [sb, #0x480]
+	str r2, [r9, #0x484]
+	ldr r3, [r9, #0x480]
 	mov r2, lr, asr #1
-	str r3, [sb, #0x48c]
-	ldr r8, [sb, #0x484]
+	str r3, [r9, #0x48c]
+	ldr r8, [r9, #0x484]
 	mov r3, r4, asr #1
 	sub r8, r8, #0x8000
-	str r8, [sb, #0x490]
+	str r8, [r9, #0x490]
 	sub ip, ip, ip, asr #1
 	sub lr, lr, lr, asr #1
 	sub r4, r4, r4, asr #1
 	cmp r5, #5
 	blt _021799E0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end Trampoline3D__Func_2179998
 
 	arm_func_start Trampoline3D__Draw
 Trampoline3D__Draw: // 0x02179A80
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xac
 	bl GetCurrentTaskWork_
 	mov r3, #0x1000
@@ -792,21 +792,21 @@ _02179AF4:
 	mov r8, #0
 	bl G3C_Color
 	mov r5, r4
-	ldr sb, [r6, #0x480]
-	add sl, r6, #0x480
+	ldr r9, [r6, #0x480]
+	add r10, r6, #0x480
 	mov r7, r8
 	mov r4, r8
-	mov fp, #0x8000
+	mov r11, #0x8000
 _02179BD0:
-	ldr r3, [sl]
+	ldr r3, [r10]
 	mov r0, r5
-	sub r1, r3, sb
+	sub r1, r3, r9
 	add r8, r8, r1
 	mov r1, r8
 	mov r2, r4
-	mov sb, r3
+	mov r9, r3
 	bl G3C_TexCoord
-	ldmia sl, {r1, r2, r3}
+	ldmia r10, {r1, r2, r3}
 	mov r1, r1, lsl #9
 	mov r2, r2, lsl #9
 	mov r3, r3, lsl #9
@@ -817,11 +817,11 @@ _02179BD0:
 	bl G3C_Vtx
 	mov r0, r5
 	mov r1, r8
-	mov r2, fp
+	mov r2, r11
 	bl G3C_TexCoord
-	ldr r1, [sl, #0xc]
-	ldr r2, [sl, #0x10]
-	ldr r3, [sl, #0x14]
+	ldr r1, [r10, #0xc]
+	ldr r2, [r10, #0x10]
+	ldr r3, [r10, #0x14]
 	mov r1, r1, lsl #9
 	mov r2, r2, lsl #9
 	mov r3, r3, lsl #9
@@ -831,7 +831,7 @@ _02179BD0:
 	mov r3, r3, asr #0x10
 	bl G3C_Vtx
 	add r7, r7, #1
-	add sl, sl, #0x18
+	add r10, r10, #0x18
 	cmp r7, #0xc
 	blt _02179BD0
 	add r0, sp, #0x98
@@ -863,12 +863,12 @@ _02179BD0:
 	ldrsb r1, [r2, r3]
 	tst r0, #0x80
 	ldr r0, [r6, #0x5c4]
-	mov sb, r1, lsl #0xd
+	mov r9, r1, lsl #0xd
 	mov r0, r0, asr #0x10
-	rsbne sb, sb, #0
+	rsbne r9, r9, #0
 	cmp r0, #0
 	addle sp, sp, #0xac
-	ldmleia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r7, r6, #0x20
 	mov r5, r8
 	add r4, sp, #0x10
@@ -884,7 +884,7 @@ _02179CF8:
 	ldr r1, [sp, #0x10]
 	ldr r0, [sp, #0x14]
 	add r1, r1, #0x10000
-	add r0, r0, sb
+	add r0, r0, r9
 	str r1, [sp, #0x10]
 	str r0, [sp, #0x14]
 	ldr r0, [r6, #0x5c4]
@@ -892,7 +892,7 @@ _02179CF8:
 	cmp r8, r0, asr #16
 	blt _02179CF8
 	add sp, sp, #0xac
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02179D48: .word g_obj
 _02179D4C: .word 0x021472FC
@@ -903,18 +903,18 @@ _02179D58: .word _021898E0
 
 	arm_func_start Trampoline3D__OnDefend
 Trampoline3D__OnDefend: // 0x02179D5C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	ldr r5, [r1, #0x1c]
 	ldr r4, [r0, #0x1c]
 	cmp r5, #0
 	cmpne r4, #0
 	addeq sp, sp, #0x24
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrh r2, [r4]
 	cmp r2, #1
 	addne sp, sp, #0x24
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r2, [r4, #0x1c]
 	tst r2, #0x10
 	beq _02179DB0
@@ -927,7 +927,7 @@ Trampoline3D__OnDefend: // 0x02179D5C
 _02179DB0:
 	bl ObjRect__FuncNoHit
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02179DBC:
 	add r2, r5, #0x500
 	ldrh r8, [r2, #0xcc]
@@ -963,13 +963,13 @@ _02179E2C:
 	ldr r3, [r5, #0x5c8]
 	ldr r8, [r5, #0x5c4]
 	rsb ip, r3, #0
-	smull r3, sb, r6, ip
-	adds sl, r3, #0x800
+	smull r3, r9, r6, ip
+	adds r10, r3, #0x800
 	rsb lr, r8, #0
 	smull r8, r3, r7, lr
-	adc sb, sb, #0
+	adc r9, r9, #0
 	adds r8, r8, #0x800
-	mov sl, sl, lsr #0xc
+	mov r10, r10, lsr #0xc
 	adc r3, r3, #0
 	mov r8, r8, lsr #0xc
 	orr r8, r8, r3, lsl #20
@@ -978,65 +978,65 @@ _02179E2C:
 	mov r3, r7, asr #0x1f
 	str r3, [sp, #0xc]
 	mov r3, ip, asr #0x1f
-	orr sl, sl, sb, lsl #20
+	orr r10, r10, r9, lsl #20
 	str r3, [sp, #0x1c]
 	mov r3, r6, asr #0x1f
-	subs r8, sl, r8
+	subs r8, r10, r8
 	str r3, [sp, #0x10]
 	beq _02179F84
 	ldr r3, [r5, #0x5bc]
 	add r2, r2, #0xc000
 	sub r3, r3, r2
-	ldr sb, [r5, #0x5b8]
+	ldr r9, [r5, #0x5b8]
 	ldr r2, [sp]
-	mov fp, r3, asr #0x1f
-	sub r2, sb, r2
+	mov r11, r3, asr #0x1f
+	sub r2, r9, r2
 	str r2, [sp, #0x14]
 	mov r2, r2, asr #0x1f
-	ldr sb, [sp, #0x14]
+	ldr r9, [sp, #0x14]
 	str r2, [sp, #0x20]
-	umull sl, r2, sb, ip
-	str sl, [sp, #0x18]
-	mov sl, sb
-	ldr sb, [sp, #0x1c]
-	mla r2, sl, sb, r2
-	ldr sb, [sp, #0x20]
-	ldr sl, [sp, #0x18]
-	mla r2, sb, ip, r2
-	adds sb, sl, #0x800
-	mov sl, sb, lsr #0xc
+	umull r10, r2, r9, ip
+	str r10, [sp, #0x18]
+	mov r10, r9
+	ldr r9, [sp, #0x1c]
+	mla r2, r10, r9, r2
+	ldr r9, [sp, #0x20]
+	ldr r10, [sp, #0x18]
+	mla r2, r9, ip, r2
+	adds r9, r10, #0x800
+	mov r10, r9, lsr #0xc
 	adc r2, r2, #0
-	orr sl, sl, r2, lsl #20
+	orr r10, r10, r2, lsl #20
 	ldr r2, [sp, #8]
-	umull ip, sb, r3, lr
-	mla sb, r3, r2, sb
+	umull ip, r9, r3, lr
+	mla r9, r3, r2, r9
 	adds r2, ip, #0x800
-	mla sb, fp, lr, sb
-	adc sb, sb, #0
+	mla r9, r11, lr, r9
+	adc r9, r9, #0
 	mov r2, r2, lsr #0xc
-	orr r2, r2, sb, lsl #20
-	sub r2, sl, r2
+	orr r2, r2, r9, lsl #20
+	sub r2, r10, r2
 	ldr ip, [sp, #0x10]
-	umull sl, sb, r3, r6
-	mla sb, r3, ip, sb
-	mla sb, fp, r6, sb
-	adds r6, sl, #0x800
-	ldr sl, [sp, #0x14]
-	adc r3, sb, #0
-	mov sb, r6, lsr #0xc
-	orr sb, sb, r3, lsl #20
-	umull r6, r3, sl, r7
-	mov fp, sl
-	ldr sl, [sp, #0xc]
-	mla r3, fp, sl, r3
-	ldr sl, [sp, #0x20]
-	mla r3, sl, r7, r3
+	umull r10, r9, r3, r6
+	mla r9, r3, ip, r9
+	mla r9, r11, r6, r9
+	adds r6, r10, #0x800
+	ldr r10, [sp, #0x14]
+	adc r3, r9, #0
+	mov r9, r6, lsr #0xc
+	orr r9, r9, r3, lsl #20
+	umull r6, r3, r10, r7
+	mov r11, r10
+	ldr r10, [sp, #0xc]
+	mla r3, r11, r10, r3
+	ldr r10, [sp, #0x20]
+	mla r3, r10, r7, r3
 	adds r7, r6, #0x800
 	adc r3, r3, #0
 	cmp r8, #0
 	mov r6, r7, lsr #0xc
 	orr r6, r6, r3, lsl #20
-	sub r3, sb, r6
+	sub r3, r9, r6
 	rsblt r8, r8, #0
 	rsblt r2, r2, #0
 	rsblt r3, r3, #0
@@ -1062,11 +1062,11 @@ _02179F84:
 	str r0, [r5, #0x230]
 	ldr r0, [r4, #0x48]
 	str r0, [r5, #0x5e0]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02179FC4:
 	bl ObjRect__FuncNoHit
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end Trampoline3D__OnDefend
 
 	arm_func_start Trampoline3D__Func_2179FD0

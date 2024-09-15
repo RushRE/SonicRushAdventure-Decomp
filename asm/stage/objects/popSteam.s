@@ -5,7 +5,7 @@
 
 	arm_func_start PopSteam__Create
 PopSteam__Create: // 0x02166380
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	mov r3, #0x1800
 	mov r5, r0
@@ -28,7 +28,7 @@ PopSteam__Create: // 0x02166380
 	cmp r4, r0
 	addeq sp, sp, #0x20
 	moveq r0, r6
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r4
 	bl GetTaskWork_
 	ldr r2, _0216687C // =0x00000428
@@ -264,9 +264,9 @@ _021666D8:
 	add r1, r1, #0x6000
 	cmp r2, #3
 	str r0, [sp, #0x10]
-	mov sb, r7
+	mov r9, r7
 	str r7, [sp, #0xc]
-	mov fp, r7
+	mov r11, r7
 	addls pc, pc, r2, lsl #2
 	b _0216679C
 _0216678C: // jump table
@@ -290,21 +290,21 @@ _021667B8:
 	b _021667EC
 _021667CC:
 	rsb r0, r1, #0
-	mul fp, r0, r6
+	mul r11, r0, r6
 	str r0, [sp, #0x18]
-	sub sb, r7, #0x10000
+	sub r9, r7, #0x10000
 	b _021667EC
 _021667E0:
-	mul fp, r1, r6
+	mul r11, r1, r6
 	str r1, [sp, #0x18]
-	mov sb, #0x10000
+	mov r9, #0x10000
 _021667EC:
 	add r0, r4, #0x400
 	ldrsh r0, [r0, #0x16]
 	mov r0, r0, lsl #0xc
 	bl FX_DivS32
 	mov r1, r6
-	mov sl, r0, lsl #0xc
+	mov r10, r0, lsl #0xc
 	bl FX_DivS32
 	mov r5, r0
 	b _02166858
@@ -316,16 +316,16 @@ _02166810:
 	ldr r3, [sp, #0x1c]
 	mov r0, r7
 	add r1, r1, r8
-	add r2, r2, sb
-	str sl, [sp, #4]
+	add r2, r2, r9
+	str r10, [sp, #4]
 	bl EffectSteamEffect__Create
 	eor r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
 	ldr r0, [sp, #0xc]
-	add sb, sb, fp
+	add r9, r9, r11
 	add r8, r8, r0
-	sub sl, sl, r6, lsl #12
+	sub r10, r10, r6, lsl #12
 	sub r5, r5, #1
 _02166858:
 	cmp r5, #0
@@ -336,7 +336,7 @@ _02166858:
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216687C: .word 0x00000428
 _02166880: .word StageTask_Main
@@ -378,27 +378,27 @@ _021668E0:
 
 	arm_func_start PopSteam__State_21668F8
 PopSteam__State_21668F8: // 0x021668F8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
-	mov sb, r0
-	ldr r0, [sb, #0x2c]
+	mov r9, r0
+	ldr r0, [r9, #0x2c]
 	cmp r0, #0
 	beq _02166934
 	subs r0, r0, #1
-	str r0, [sb, #0x2c]
-	ldr r0, [sb, #0x270]
+	str r0, [r9, #0x2c]
+	ldr r0, [r9, #0x270]
 	biceq r0, r0, #0x40000
-	streq r0, [sb, #0x270]
+	streq r0, [r9, #0x270]
 	beq _02166934
 	tst r0, #0x40000
 	moveq r0, #0
-	streq r0, [sb, #0x2c]
+	streq r0, [r9, #0x2c]
 _02166934:
-	ldr r0, [sb, #0x354]
+	ldr r0, [r9, #0x354]
 	tst r0, #4
 	beq _021669F0
-	ldr r0, [sb, #0x340]
-	add r1, sb, #0x400
+	ldr r0, [r9, #0x340]
+	add r1, r9, #0x400
 	ldrsb r0, [r0, #7]
 	ldrsh r2, [r1, #0x16]
 	mov r0, r0, lsl #0xb
@@ -411,11 +411,11 @@ _02166934:
 	cmp r0, r2
 	blt _02166984
 	strh r2, [r1, #0x16]
-	ldr r0, [sb, #0x354]
+	ldr r0, [r9, #0x354]
 	bic r0, r0, #4
-	str r0, [sb, #0x354]
+	str r0, [r9, #0x354]
 _02166984:
-	ldr r0, [sb, #0x340]
+	ldr r0, [r9, #0x340]
 	mov r1, #0
 	ldrh r0, [r0, #2]
 	add r0, r0, #0xaa
@@ -426,17 +426,17 @@ _02166984:
 	bhi _021669C8
 	mov r0, #0x10
 	str r0, [sp]
-	add r0, sb, #0x400
+	add r0, r9, #0x400
 	ldrsh r3, [r0, #0x16]
-	add r0, sb, #0x258
+	add r0, r9, #0x258
 	sub r2, r1, #0x10
 	bl ObjRect__SetBox2D
 	b _021669F0
 _021669C8:
 	str r1, [sp]
-	add r0, sb, #0x400
+	add r0, r9, #0x400
 	ldrsh r2, [r0, #0x16]
-	add r0, sb, #0x258
+	add r0, r9, #0x258
 	sub r1, r1, #0x10
 	rsb r2, r2, #0
 	mov r2, r2, lsl #0x10
@@ -444,36 +444,36 @@ _021669C8:
 	mov r3, #0x10
 	bl ObjRect__SetBox2D
 _021669F0:
-	ldr r0, [sb, #0x354]
+	ldr r0, [r9, #0x354]
 	tst r0, #2
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r4, _02166B5C // =0x0000FFFF
 	mov r8, #0
 	bl GetObjSpeed
-	ldr r1, [sb, #0x41c]
+	ldr r1, [r9, #0x41c]
 	add r0, r1, r0
-	str r0, [sb, #0x41c]
+	str r0, [r9, #0x41c]
 	bl GetObjSpeed
-	ldr r1, [sb, #0x424]
+	ldr r1, [r9, #0x424]
 	add r0, r1, r0
-	str r0, [sb, #0x424]
-	ldr r1, [sb, #0x41c]
-	ldr r0, [sb, #0x418]
+	str r0, [r9, #0x424]
+	ldr r1, [r9, #0x41c]
+	ldr r0, [r9, #0x418]
 	cmp r1, r0
 	blt _02166A48
 	mov r0, r8
-	str r0, [sb, #0x41c]
+	str r0, [r9, #0x41c]
 	mov r4, #1
 	b _02166A90
 _02166A48:
-	ldr r1, [sb, #0x424]
-	ldr r0, [sb, #0x420]
+	ldr r1, [r9, #0x424]
+	ldr r0, [r9, #0x420]
 	cmp r1, r0
 	blt _02166A90
 	mov r4, r8
 	ldr r2, _02166B60 // =_mt_math_rand
-	str r4, [sb, #0x424]
+	str r4, [r9, #0x424]
 	ldr r3, [r2]
 	ldr r0, _02166B64 // =0x00196225
 	ldr r1, _02166B68 // =0x3C6EF35F
@@ -489,7 +489,7 @@ _02166A90:
 	ldr r0, _02166B5C // =0x0000FFFF
 	cmp r4, r0
 	beq _02166B48
-	ldr r0, [sb, #0x340]
+	ldr r0, [r9, #0x340]
 	mov r5, #0
 	ldrsb r1, [r0, #7]
 	ldrh r0, [r0, #2]
@@ -524,26 +524,26 @@ _02166B04:
 	mov r7, r8
 	mov r8, #0x10000
 _02166B10:
-	add r0, sb, #0x400
+	add r0, r9, #0x400
 	ldrsh r0, [r0, #0x16]
 	mov r0, r0, lsl #0xc
 	bl FX_DivS32
 	mov r0, r0, lsl #0xc
 	str r6, [sp]
 	str r0, [sp, #4]
-	ldr r1, [sb, #0x44]
-	ldr r2, [sb, #0x48]
+	ldr r1, [r9, #0x44]
+	ldr r2, [r9, #0x48]
 	mov r0, r4
 	mov r3, r5
 	add r1, r1, r7
 	add r2, r2, r8
 	bl EffectSteamEffect__Create
 _02166B48:
-	ldr r0, [sb, #0x138]
-	add r1, sb, #0x44
+	ldr r0, [r9, #0x138]
+	add r1, r9, #0x44
 	bl ProcessSpatialSfx
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02166B5C: .word 0x0000FFFF
 _02166B60: .word _mt_math_rand

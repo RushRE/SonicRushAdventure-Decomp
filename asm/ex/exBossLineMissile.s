@@ -496,7 +496,7 @@ _0215ACC0: .word exBossLineNeedleTask__ActiveInstanceCount
 
 	arm_func_start exBossLineNeedleTask__Main
 exBossLineNeedleTask__Main: // 0x0215ACC4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl GetCurrentTask
@@ -525,20 +525,20 @@ _0215AD10:
 	add r2, r4, r3
 	add r0, r8, r0
 	str r0, [r2, #0x530]
-	ldrh sb, [r4]
+	ldrh r9, [r4]
 	ldr r0, [r4, #0x20]
 	add ip, ip, #1
-	mla r8, sb, r6, r1
+	mla r8, r9, r6, r1
 	add r8, r3, r8
-	ldr sb, [r0, #0x3c0]
+	ldr r9, [r0, #0x3c0]
 	ldr r0, [r8, #4]
 	mov ip, ip, lsl #0x10
-	add r0, sb, r0
+	add r0, r9, r0
 	str r0, [r2, #0x534]
-	ldrh sb, [r4]
+	ldrh r9, [r4]
 	ldr r0, [r4, #0x20]
 	mov ip, ip, lsr #0x10
-	mla r8, sb, r7, r1
+	mla r8, r9, r7, r1
 	add r3, r3, r8
 	ldr r8, [r0, #0x3c4]
 	ldr r0, [r3, #8]
@@ -593,7 +593,7 @@ _0215AE2C:
 	bl GetExTaskCurrent
 	ldr r1, _0215AE5C // =ovl09_215AEAC
 	str r1, [r0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0215AE44: .word exBossLineNeedleTask__ActiveInstanceCount
 _0215AE48: .word 0x021740C8
@@ -1059,7 +1059,7 @@ _0215B47C: .word exBossLineNeedleTask__ActiveInstanceCount
 
 	arm_func_start exBossLineMissileTask__Main
 exBossLineMissileTask__Main: // 0x0215B480
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl GetCurrentTask
@@ -1088,20 +1088,20 @@ _0215B4CC:
 	add r2, r4, r3
 	add r0, r8, r0
 	str r0, [r2, #0x538]
-	ldrh sb, [r4]
+	ldrh r9, [r4]
 	ldr r0, [r4, #0x28]
 	add ip, ip, #1
-	mla r8, sb, lr, r1
+	mla r8, r9, lr, r1
 	add r8, r3, r8
-	ldr sb, [r0, #0x3c0]
+	ldr r9, [r0, #0x3c0]
 	ldr r0, [r8, #4]
 	mov ip, ip, lsl #0x10
-	add r0, sb, r0
+	add r0, r9, r0
 	str r0, [r2, #0x53c]
-	ldrh sb, [r4]
+	ldrh r9, [r4]
 	ldr r0, [r4, #0x28]
 	mov ip, ip, lsr #0x10
-	mla r8, sb, r7, r1
+	mla r8, r9, r7, r1
 	add r3, r3, r8
 	ldr r8, [r0, #0x3c4]
 	ldr r0, [r3, #8]
@@ -1156,7 +1156,7 @@ _0215B5F0:
 	bl GetExTaskCurrent
 	ldr r1, _0215B618 // =ovl09_215B668
 	str r1, [r0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0215B600: .word exBossLineNeedleTask__ActiveInstanceCount
 _0215B604: .word 0x021740C8

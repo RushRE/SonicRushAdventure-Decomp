@@ -621,48 +621,48 @@ _02174FA8: .word LeaderboardWorker__GetRankScore_Internal
 
 	arm_func_start LeaderboardWorker__LoadRankList1
 LeaderboardWorker__LoadRankList1: // 0x02174FAC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	str r0, [sp]
 	bl GetLeaderboardsRankCount
 	movs r6, r0
 	mov r7, #0
 	beq _02175040
-	ldr sb, [sp]
+	ldr r9, [sp]
 	mov r4, r7
-	mov r0, sb
+	mov r0, r9
 	add r8, r0, #0x3c
-	add sl, r0, #0x40
-	mov fp, #0x18
+	add r10, r0, #0x40
+	mov r11, #0x18
 _02174FDC:
 	mov r0, r7
 	bl GetLeaderboardsRankData
 	mov r5, r0
 	mov r0, r4
 	mov r1, r8
-	mov r2, fp
+	mov r2, r11
 	bl MIi_CpuClear16
 	ldr r0, [r5, #0x14]
 	cmp r0, #0x14
 	bne _02175028
 	ldr r0, [r5, #8]
-	mov r1, sl
-	str r0, [sb, #0x3c]
+	mov r1, r10
+	str r0, [r9, #0x3c]
 	ldr r0, [r5, #0x18]
 	mov r2, #0x14
 	bl MIi_CpuCopy16
-	ldr r0, [sb, #0x40]
+	ldr r0, [r9, #0x40]
 	orr r0, r0, #0x80000000
-	str r0, [sb, #0x40]
+	str r0, [r9, #0x40]
 _02175028:
 	add r7, r7, #1
 	cmp r7, r6
 	add r8, r8, #0x18
-	add sb, sb, #0x18
-	add sl, sl, #0x18
+	add r9, r9, #0x18
+	add r10, r10, #0x18
 	blo _02174FDC
 _02175040:
 	cmp r7, #3
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp]
 	mov r5, #0
 	add r1, r0, #0x3c
@@ -678,34 +678,34 @@ _02175060:
 	cmp r7, #3
 	add r6, r6, #0x18
 	blt _02175060
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end LeaderboardWorker__LoadRankList1
 
 	arm_func_start LeaderboardWorker__LoadRankList2
 LeaderboardWorker__LoadRankList2: // 0x02175084
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
-	mov sl, r0
+	mov r10, r0
 	bl GetLeaderboardsRankOrder
 	cmp r0, #0
-	str r0, [sl, #0x100]
+	str r0, [r10, #0x100]
 	moveq r0, #0
 	addeq sp, sp, #0x18
-	streq r0, [sl, #0x100]
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	streq r0, [r10, #0x100]
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl GetLeaderboardsRankCount
 	movs r5, r0
 	mov r6, #0
 	beq _02175130
-	mov r8, sl
-	add r7, sl, #0x84
-	add sb, sl, #0x88
-	mov fp, r6
+	mov r8, r10
+	add r7, r10, #0x84
+	add r9, r10, #0x88
+	mov r11, r6
 _021750CC:
 	mov r0, r6
 	bl GetLeaderboardsRankData
 	mov r4, r0
-	mov r0, fp
+	mov r0, r11
 	mov r1, r7
 	mov r2, #0x18
 	bl MIi_CpuClear16
@@ -713,7 +713,7 @@ _021750CC:
 	cmp r0, #0x14
 	bne _02175118
 	ldr r0, [r4, #8]
-	mov r1, sb
+	mov r1, r9
 	str r0, [r8, #0x84]
 	ldr r0, [r4, #0x18]
 	mov r2, #0x14
@@ -726,13 +726,13 @@ _02175118:
 	cmp r6, r5
 	add r7, r7, #0x18
 	add r8, r8, #0x18
-	add sb, sb, #0x18
+	add r9, r9, #0x18
 	blo _021750CC
 _02175130:
 	cmp r6, #5
 	bge _0217516C
 	mov r0, #0x18
-	add r1, sl, #0x84
+	add r1, r10, #0x84
 	mla r7, r6, r0, r1
 	mov r5, #0
 	mov r4, r0
@@ -747,58 +747,58 @@ _0217514C:
 	blt _0217514C
 _0217516C:
 	mov r0, #0
-	str r0, [sl, #0xfc]
-	ldr r0, [sl, #0x88]
+	str r0, [r10, #0xfc]
+	ldr r0, [r10, #0x88]
 	tst r0, #0x80000000
 	addeq sp, sp, #0x18
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	ldr r2, [sl, #0xfc]
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	ldr r2, [r10, #0xfc]
 	cmp r2, #4
 	addhs sp, sp, #0x18
-	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r6, #0x18
-	add sb, sl, #0x84
+	add r9, r10, #0x84
 	add r8, sp, #0
-	mov fp, r6
+	mov r11, r6
 	mov r4, r6
 	mov r5, r6
 	mov r7, r6
 _021751B0:
 	mul r0, r2, r7
-	add r1, sl, r0
+	add r1, r10, r0
 	ldr r1, [r1, #0xa0]
 	tst r1, #0x80000000
 	addeq sp, sp, #0x18
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	mla r1, r2, r6, sl
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	mla r1, r2, r6, r10
 	ldr r2, [r1, #0x84]
 	ldr r1, [r1, #0x9c]
 	cmp r2, r1
 	addge sp, sp, #0x18
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r1, r8
 	mov r2, #0x18
-	add r0, sb, r0
+	add r0, r9, r0
 	bl MIi_CpuCopy16
-	ldr r3, [sl, #0xfc]
+	ldr r3, [r10, #0xfc]
 	mov r2, #0x18
 	add r1, r3, #1
-	mla r0, r1, fp, sb
-	mla r1, r3, r4, sb
+	mla r0, r1, r11, r9
+	mla r1, r3, r4, r9
 	bl MIi_CpuCopy16
-	ldr r1, [sl, #0xfc]
+	ldr r1, [r10, #0xfc]
 	mov r0, r8
 	add r3, r1, #1
-	mla r1, r3, r5, sb
+	mla r1, r3, r5, r9
 	mov r2, #0x18
 	bl MIi_CpuCopy16
-	ldr r0, [sl, #0xfc]
+	ldr r0, [r10, #0xfc]
 	add r2, r0, #1
-	str r2, [sl, #0xfc]
+	str r2, [r10, #0xfc]
 	cmp r2, #4
 	blo _021751B0
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end LeaderboardWorker__LoadRankList2
 
 	arm_func_start LeaderboardWorker__GetSaveSeconds
@@ -841,25 +841,25 @@ _02175290: .word 0x0213529C
 
 	arm_func_start LeaderboardWorker__Func_2175294
 LeaderboardWorker__Func_2175294: // 0x02175294
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
-	mov sl, r0
-	ldr r0, [sl, #0x38]
+	mov r10, r0
+	ldr r0, [r10, #0x38]
 	cmp r0, #0
-	ldrne r1, [sl, #0x100]
+	ldrne r1, [r10, #0x100]
 	cmpne r1, #0
 	beq _021752CC
 	ldr r0, _02175460 // =0x0098967F
 	cmp r1, r0
-	strhi r0, [sl, #0x100]
-	ldr r0, [sl, #0x2c]
-	ldr r1, [sl, #0x100]
+	strhi r0, [r10, #0x100]
+	ldr r0, [r10, #0x2c]
+	ldr r1, [r10, #0x100]
 	bl SaveGame__SaveLeaderboardRankOrder
 _021752CC:
 	mov r5, #0
-	ldr fp, _02175464 // =_0217EF10
-	mov r8, sl
-	add sb, sl, #0x44
+	ldr r11, _02175464 // =_0217EF10
+	mov r8, r10
+	add r9, r10, #0x44
 	mov r4, r5
 _021752E0:
 	ldr r0, [r8, #0x40]
@@ -867,8 +867,8 @@ _021752E0:
 	bne _0217530C
 	stmia sp, {r4, r7}
 	mov r1, r5, lsl #0x10
-	ldr r0, [sl, #0x2c]
-	mov r2, fp
+	ldr r0, [r10, #0x2c]
+	mov r2, r11
 	mov r3, r4
 	mov r1, r1, lsr #0x10
 	bl SaveGame__SaveLeaderboardRank_Top
@@ -893,33 +893,33 @@ _02175338:
 	mov r3, r1, lsr #0x10
 	stmia sp, {r0, r7}
 	mov r1, r5, lsl #0x10
-	ldr r0, [sl, #0x2c]
+	ldr r0, [r10, #0x2c]
 	mov r1, r1, lsr #0x10
-	mov r2, sb
+	mov r2, r9
 	bl SaveGame__SaveLeaderboardRank_Top
 _02175360:
 	add r5, r5, #1
 	cmp r5, #3
 	add r8, r8, #0x18
-	add sb, sb, #0x18
+	add r9, r9, #0x18
 	blt _021752E0
-	mov r4, sl
-	add r5, sl, #0x8c
+	mov r4, r10
+	add r5, r10, #0x8c
 	mov r6, #0
 _02175380:
-	ldr r0, [sl, #0x38]
+	ldr r0, [r10, #0x38]
 	cmp r0, #0
 	beq _021753A0
 	ldr r1, [r4, #0x88]
 	tst r1, #0x80000000
-	ldrne r0, [sl, #0x100]
+	ldrne r0, [r10, #0x100]
 	cmpne r0, #0
 	bne _021753C0
 _021753A0:
 	mov r3, #0
 	stmia sp, {r3, r7}
 	mov r1, r6, lsl #0x10
-	ldr r0, [sl, #0x2c]
+	ldr r0, [r10, #0x2c]
 	ldr r2, _02175464 // =_0217EF10
 	mov r1, r1, lsr #0x10
 	bl SaveGame__SaveLeaderboardRank_Near
@@ -930,13 +930,13 @@ _021753C0:
 	movne r7, #1
 	moveq r7, #0
 	bl LeaderboardWorker__Func_21754E8
-	ldr r1, [sl, #0xfc]
+	ldr r1, [r10, #0xfc]
 	mov r2, #0
 	cmp r6, r1
 	bne _02175400
 	stmia sp, {r0, r7}
 	mov r1, r6, lsl #0x10
-	ldr r0, [sl, #0x2c]
+	ldr r0, [r10, #0x2c]
 	mov r3, r2
 	mov r1, r1, lsr #0x10
 	bl SaveGame__SaveLeaderboardRank_Near
@@ -953,7 +953,7 @@ _0217541C:
 	mov r3, r2, lsl #0x10
 	stmia sp, {r0, r7}
 	mov r1, r6, lsl #0x10
-	ldr r0, [sl, #0x2c]
+	ldr r0, [r10, #0x2c]
 	mov r2, r5
 	mov r1, r1, lsr #0x10
 	mov r3, r3, lsr #0x10
@@ -964,10 +964,10 @@ _0217543C:
 	add r4, r4, #0x18
 	add r5, r5, #0x18
 	blt _02175380
-	ldr r0, [sl, #0x2c]
+	ldr r0, [r10, #0x2c]
 	bl SaveGame__SetLeaderboardLastUpdatedTime
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02175460: .word 0x0098967F
 _02175464: .word _0217EF10

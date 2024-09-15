@@ -142,9 +142,9 @@ SailSeaMapView__GetVoyageCompetionPercent: // 0x0218B5D0
 
 	arm_func_start SailSeaMapView__GetNodesFromPercent
 SailSeaMapView__GetNodesFromPercent: // 0x0218B5E4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
-	mov sl, r0
-	mov sb, r1
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
+	mov r10, r0
+	mov r9, r1
 	mov r8, r2
 	mov r7, r3
 	mov r6, #0
@@ -155,11 +155,11 @@ SailSeaMapView__GetNodesFromPercent: // 0x0218B5E4
 	beq _0218B634
 _0218B610:
 	ldr r1, [r5, #0xc]
-	cmp sl, r1
+	cmp r10, r1
 	ble _0218B634
 	mov r0, r5
 	mov r4, r5
-	sub sl, sl, r1
+	sub r10, r10, r1
 	bl SeaMapManager__GetNextNode
 	movs r5, r0
 	bne _0218B610
@@ -169,7 +169,7 @@ _0218B634:
 	ldrh r1, [r4, #8]
 	mov r0, r4
 	mov r5, r4
-	strh r1, [sb]
+	strh r1, [r9]
 	ldrh r1, [r4, #0xa]
 	strh r1, [r8]
 	bl SeaMapManager__GetPrevNode
@@ -178,7 +178,7 @@ _0218B634:
 	b _0218B6D8
 _0218B664:
 	ldr r1, [r5, #0xc]
-	mov r0, sl
+	mov r0, r10
 	bl FX_Div
 	ldrh r2, [r5, #8]
 	mov r1, r0, lsl #0x10
@@ -186,14 +186,14 @@ _0218B664:
 	mov r2, r2, lsl #0xc
 	mov r1, r1, asr #0x10
 	sub r2, r2, r0, lsl #12
-	smull sl, r3, r2, r1
-	adds sl, sl, #0x800
+	smull r10, r3, r2, r1
+	adds r10, r10, #0x800
 	adc r2, r3, #0
-	mov r3, sl, lsr #0xc
+	mov r3, r10, lsr #0xc
 	orr r3, r3, r2, lsl #20
 	add r0, r3, r0, lsl #12
 	mov r0, r0, asr #0xc
-	strh r0, [sb]
+	strh r0, [r9]
 	ldrh r2, [r5, #0xa]
 	ldrh r0, [r4, #0xa]
 	mov r2, r2, lsl #0xc
@@ -213,7 +213,7 @@ _0218B6D8:
 	cmp r6, #0
 	movne r0, #4
 	moveq r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end SailSeaMapView__GetNodesFromPercent
 
 	arm_func_start SailSeaMapView__Main

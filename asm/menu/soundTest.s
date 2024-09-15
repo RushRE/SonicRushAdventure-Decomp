@@ -550,10 +550,10 @@ _0215CF2C: .word SoundTest__Func_215D5A0
 
 	arm_func_start SoundTest__Func_215CF30
 SoundTest__Func_215CF30: // 0x0215CF30
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x7c
 	ldr r1, _0215D1F8 // =_021618FC
-	mov sl, r0
+	mov r10, r0
 	ldrh r0, [r1, #0xa]
 	ldrh r3, [r1, #8]
 	mov r2, #0
@@ -568,7 +568,7 @@ SoundTest__Func_215CF30: // 0x0215CF30
 	str r2, [sp]
 	str r1, [sp, #4]
 	str r0, [sp, #8]
-	ldr r1, [sl, #0x10]
+	ldr r1, [r10, #0x10]
 	add r0, sp, #0x34
 	mov r2, #0x38
 	mov r3, #1
@@ -581,16 +581,16 @@ SoundTest__Func_215CF30: // 0x0215CF30
 	str r0, [sp, #4]
 	mov r0, #0x18
 	str r0, [sp, #8]
-	ldr r1, [sl, #0x18]
+	ldr r1, [r10, #0x18]
 	add r0, sp, #0x34
 	mov r2, #0x38
 	mov r3, #1
 	bl InitBackground
 	add r0, sp, #0x34
 	bl DrawBackground
-	mov r0, sl
+	mov r0, r10
 	bl SoundTest__Func_215D6C4
-	add r0, sl, #0x11c
+	add r0, r10, #0x11c
 	ldr r4, _0215D1FC // =_02161942
 	add r6, r0, #0x400
 	mov r5, #0
@@ -605,46 +605,46 @@ _0215CFE0:
 	ldrh r1, [r4, r2]
 	ldrh r2, [r3, #2]
 	ldrb r3, [r3, #6]
-	add r1, sl, r1, lsl #2
+	add r1, r10, r1, lsl #2
 	ldr r1, [r1, #8]
 	bl SoundTest__Func_215EB00
 	add r5, r5, #1
 	cmp r5, #0xc
 	add r6, r6, #0x64
 	blt _0215CFE0
-	add r0, sl, #0x800
+	add r0, r10, #0x800
 	mov r1, #0x80
 	strh r1, [r0, #0xa8]
 	mov r1, #0xa0
 	strh r1, [r0, #0xaa]
-	ldr r0, [sl, #0x8dc]
+	ldr r0, [r10, #0x8dc]
 	mov r2, #0
 	orr r0, r0, #0x200
-	str r0, [sl, #0x8dc]
-	str r2, [sl, #0xb54]
-	add r0, sl, #0x1cc
+	str r0, [r10, #0x8dc]
+	str r2, [r10, #0xb54]
+	add r0, r10, #0x1cc
 	ldr r1, _0215D200 // =0x05000440
 	str r2, [sp]
 	str r1, [sp, #4]
-	ldr r1, [sl, #0x20]
+	ldr r1, [r10, #0x20]
 	add r0, r0, #0x800
 	mov r3, #2
 	bl InitPaletteAnimator
-	add r0, sl, #0x1ec
+	add r0, r10, #0x1ec
 	add r0, r0, #0x800
 	bl TouchField__Init
-	add r0, sl, #0x204
+	add r0, r10, #0x204
 	add r8, r0, #0x800
-	add r0, sl, #0x11c
+	add r0, r10, #0x11c
 	ldr r7, _0215D204 // =TouchField__PointInCircle
-	ldr fp, _0215D208 // =_02161908
-	mov sb, #0
+	ldr r11, _0215D208 // =_02161908
+	mov r9, #0
 	add r5, r0, #0x400
-	add r4, sl, #0x1ec
+	add r4, r10, #0x1ec
 	add r6, sp, #0x24
 _0215D09C:
-	mov r0, sb, lsl #1
-	ldrh r2, [fp, r0]
+	mov r0, r9, lsl #1
+	ldrh r2, [r11, r0]
 	cmp r2, #1
 	bne _0215D0D8
 	mov r0, #0x17000
@@ -687,23 +687,23 @@ _0215D130:
 	add r0, r4, #0x800
 	mov r1, r8
 	bl TouchField__AddArea
-	add sb, sb, #1
+	add r9, r9, #1
 	add r8, r8, #0x38
-	cmp sb, #5
+	cmp r9, #5
 	blt _0215D09C
 	mov r0, #0x900
 	bl _AllocHeadHEAP_USER
-	str r0, [sl, #0xb4c]
+	str r0, [r10, #0xb4c]
 	mov r0, #4
 	str r0, [sp]
 	mov r3, #0
-	add r0, sl, #0x31c
+	add r0, r10, #0x31c
 	str r3, [sp, #4]
 	mov r1, #0x18
 	str r1, [sp, #8]
 	mov r2, #3
 	str r2, [sp, #0xc]
-	ldr r1, [sl, #0xb4c]
+	ldr r1, [r10, #0xb4c]
 	add r0, r0, #0x800
 	str r1, [sp, #0x10]
 	str r3, [sp, #0x14]
@@ -711,7 +711,7 @@ _0215D130:
 	mov r1, #1
 	str r4, [sp, #0x18]
 	bl Unknown2056570__Init
-	add r0, sl, #0x31c
+	add r0, r10, #0x31c
 	add r0, r0, #0x800
 	mov r1, #3
 	bl Unknown2056570__Func_2056688
@@ -719,20 +719,20 @@ _0215D130:
 	ldr r1, _0215D214 // =0x05000462
 	mov r2, #8
 	bl MIi_CpuCopy16
-	mov r0, sl
+	mov r0, r10
 	bl SoundTest__Func_215DEE0
-	mov r0, sl
-	ldrh r1, [sl, #2]
+	mov r0, r10
+	ldrh r1, [r10, #2]
 	mov r2, #1
 	bl SoundTest__Func_215DA0C
 	mov r1, #0x18
-	add r0, sl, #0xb00
+	add r0, r10, #0xb00
 	strh r1, [r0, #0x50]
 	strh r1, [r0, #0x52]
 	ldr r0, _0215D218 // =SoundTest__Func_215E0F0
-	str r0, [sl, #0xb80]
+	str r0, [r10, #0xb80]
 	add sp, sp, #0x7c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215D1F8: .word _021618FC
 _0215D1FC: .word _02161942
@@ -1108,7 +1108,7 @@ _0215D6C0: .word renderCoreGFXControlA
 
 	arm_func_start SoundTest__Func_215D6C4
 SoundTest__Func_215D6C4: // 0x0215D6C4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x20
 	mov r4, r0
 	ldr r0, [r4, #0x14]
@@ -1137,7 +1137,7 @@ _0215D720:
 	mov r7, r7, lsl #0x10
 	mov r7, r7, lsr #0xb
 	mov ip, r0
-	add sb, r5, r7, lsl #1
+	add r9, r5, r7, lsl #1
 _0215D734:
 	add r7, ip, r6
 	mov r7, r7, lsl #0x10
@@ -1145,7 +1145,7 @@ _0215D734:
 	add ip, ip, #1
 	orr lr, lr, #0x1000
 	mov r7, r7, lsr #0xf
-	strh lr, [r7, sb]
+	strh lr, [r7, r9]
 	mov r7, r8, lsl #0x10
 	cmp ip, #2
 	mov lr, r7, lsr #0x10
@@ -1205,14 +1205,14 @@ _0215D734:
 	mov r0, #1
 	str r0, [r4, #0xb64]
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0215D840: .word 0x05000420
 	arm_func_end SoundTest__Func_215D6C4
 
 	arm_func_start SoundTest__Func_215D844
 SoundTest__Func_215D844: // 0x0215D844
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x1c
 	mov r4, r0
 	ldr r0, [r4, #0x14]
@@ -1249,11 +1249,11 @@ SoundTest__Func_215D844: // 0x0215D844
 _0215D8CC:
 	ldr r3, _0215DA08 // =_02161912
 	mov r5, r0, lsl #1
-	ldrh sb, [r3, r5]
+	ldrh r9, [r3, r5]
 	mov ip, #0
 	mov r3, ip
 	mov r8, ip
-	cmp sb, #0
+	cmp r9, #0
 	ble _0215D924
 _0215D8EC:
 	and r5, lr, #7
@@ -1267,55 +1267,55 @@ _0215D8EC:
 	addeq r1, r1, #0x20
 	orr r3, r3, r7
 	orr ip, ip, r6
-	cmp r8, sb
+	cmp r8, r9
 	mov lr, r5, lsr #0x10
 	blt _0215D8EC
 _0215D924:
 	cmp r0, #0xc
-	rsblt sb, r0, #0xb
-	subge sb, r0, #0xc
+	rsblt r9, r0, #0xb
+	subge r9, r0, #0xc
 	mov r8, #0
 	mov r6, r8
-	orr r5, sb, sb, lsl #4
+	orr r5, r9, r9, lsl #4
 	mov r7, #4
 _0215D940:
-	mov sl, r3, lsr r6
-	and sl, sl, #0xff
-	cmp sl, #0x10
+	mov r10, r3, lsr r6
+	and r10, r10, #0xff
+	cmp r10, #0x10
 	bhi _0215D970
 	bhs _0215D97C
-	cmp sl, #1
+	cmp r10, #1
 	bhi _0215D980
-	cmp sl, #0
+	cmp r10, #0
 	beq _0215D980
-	cmp sl, #1
-	addeq r3, r3, sb, lsl r6
+	cmp r10, #1
+	addeq r3, r3, r9, lsl r6
 	b _0215D980
 _0215D970:
-	cmp sl, #0x11
+	cmp r10, #0x11
 	addeq r3, r3, r5, lsl r6
 	b _0215D980
 _0215D97C:
-	add r3, r3, sb, lsl r7
+	add r3, r3, r9, lsl r7
 _0215D980:
-	mov sl, ip, lsr r6
-	and sl, sl, #0xff
-	cmp sl, #0x10
+	mov r10, ip, lsr r6
+	and r10, r10, #0xff
+	cmp r10, #0x10
 	bhi _0215D9B0
 	bhs _0215D9BC
-	cmp sl, #1
+	cmp r10, #1
 	bhi _0215D9C0
-	cmp sl, #0
+	cmp r10, #0
 	beq _0215D9C0
-	cmp sl, #1
-	addeq ip, ip, sb, lsl r6
+	cmp r10, #1
+	addeq ip, ip, r9, lsl r6
 	b _0215D9C0
 _0215D9B0:
-	cmp sl, #0x11
+	cmp r10, #0x11
 	addeq ip, ip, r5, lsl r6
 	b _0215D9C0
 _0215D9BC:
-	add ip, ip, sb, lsl r7
+	add ip, ip, r9, lsl r7
 _0215D9C0:
 	add r8, r8, #1
 	cmp r8, #4
@@ -1334,7 +1334,7 @@ _0215D9C0:
 	mov r0, #1
 	str r0, [r4, #0xb64]
 	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0215DA08: .word _02161912
 	arm_func_end SoundTest__Func_215D844
@@ -2247,10 +2247,10 @@ SoundTest__Func_215E5EC: // 0x0215E5EC
 
 	arm_func_start SoundTest__Func_215E618
 SoundTest__Func_215E618: // 0x0215E618
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x2c
-	mov sb, r0
-	ldr r4, [sb, #0x44]
+	mov r9, r0
+	ldr r4, [r9, #0x44]
 	mov r8, r1
 	mov r0, r4
 	bl SoundTest__Func_215ECB4
@@ -2262,17 +2262,17 @@ SoundTest__Func_215E618: // 0x0215E618
 	mov r0, r4
 	mov r1, r8
 	bl SoundTest__Func_215ECF4
-	mov sl, r0
+	mov r10, r0
 	mov r0, r4
 	mov r1, r8
 	bl SoundTest__Func_215ED04
 	mov r7, r0
-	ldrh r0, [sb, #0xda]
+	ldrh r0, [r9, #0xda]
 	cmp r5, r0
-	ldreqh r0, [sb, #0xdc]
+	ldreqh r0, [r9, #0xdc]
 	cmpeq r6, r0
 	beq _0215E6F0
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0
 	bl SoundTest__Func_215E838
 	ldr r1, _0215E820 // =_02162D28
@@ -2297,11 +2297,11 @@ SoundTest__Func_215E618: // 0x0215E618
 _0215E6D4:
 	mov r1, #0
 	bl FSRequestFileSync
-	str r0, [sb, #0xe4]
+	str r0, [r9, #0xe4]
 	bl InitAudioSystemForStage
 _0215E6E4:
-	strh r5, [sb, #0xda]
-	strh r6, [sb, #0xdc]
+	strh r5, [r9, #0xda]
+	strh r6, [r9, #0xdc]
 	b _0215E6F8
 _0215E6F0:
 	bl NNS_SndCaptureStopSampling
@@ -2329,7 +2329,7 @@ _0215E720:
 _0215E73C:
 	mov r0, #0
 	sub r1, r0, #1
-	str sl, [sp]
+	str r10, [sp]
 	mov r2, r1
 	mov r3, r1
 	str r7, [sp, #4]
@@ -2338,7 +2338,7 @@ _0215E73C:
 _0215E75C:
 	mov r0, #0
 	sub r1, r0, #1
-	str sl, [sp]
+	str r10, [sp]
 	mov r2, r1
 	mov r3, r1
 	str r7, [sp, #4]
@@ -2350,7 +2350,7 @@ _0215E77C:
 	ldr r1, [r1]
 	bl NNS_SndArcStrmInit
 	mov r1, r7
-	add r0, sb, #0xe8
+	add r0, r9, #0xe8
 	mov r2, #0
 	bl NNS_SndArcStrmStart
 _0215E79C:
@@ -2358,12 +2358,12 @@ _0215E79C:
 	str r1, [sp]
 	ldr r0, _0215E82C // =SoundTest__Func_215E980
 	mov r1, #0x80
-	stmib sp, {r0, sb}
-	ldr r0, [sb, #0xf0]
+	stmib sp, {r0, r9}
+	ldr r0, [r9, #0xf0]
 	mov r2, #1
 	mov r3, #0x1f40
 	bl NNS_SndCaptureStartSampling
-	ldrh r0, [sb, #0xd8]
+	ldrh r0, [r9, #0xd8]
 	cmp r8, r0
 	beq _0215E80C
 	mov r0, r4
@@ -2375,19 +2375,19 @@ _0215E79C:
 	bl SoundTest__Func_215ED3C
 	mov r3, r0
 	mov r1, #1
-	mov r0, sb
+	mov r0, r9
 	str r1, [sp]
 	mov r2, r5
-	add r1, sb, #0x4e0
+	add r1, r9, #0x4e0
 	bl SoundTest__Func_215EA6C
-	add r0, sb, #0x4e0
+	add r0, r9, #0x4e0
 	bl Unknown2056570__Func_2056B8C
 _0215E80C:
-	strh r8, [sb, #0xd8]
+	strh r8, [r9, #0xd8]
 	mov r0, #1
-	str r0, [sb, #0xe0]
+	str r0, [r9, #0xe0]
 	add sp, sp, #0x2c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0215E820: .word _02162D28
 _0215E824: .word aSoundDataSdat

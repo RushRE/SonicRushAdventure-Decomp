@@ -5,7 +5,7 @@
 
 	arm_func_start SailSubTargetHUD__Create
 SailSubTargetHUD__Create: // 0x0217FFB4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
 	mov r8, r0
 	mov r7, r1
@@ -22,11 +22,11 @@ SailSubTargetHUD__Create: // 0x0217FFB4
 	mov r5, r0
 	mov r0, #0x2c
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
 	ldr r3, _02180170 // =0x0000FFFF
 	ldr r2, _02180174 // =aSbSubFixBac
-	stmia sp, {r3, sb}
+	stmia sp, {r3, r9}
 	str r0, [sp, #8]
 	mov r1, #0
 	mov r0, r4
@@ -115,7 +115,7 @@ _02180150:
 	bl StageTask__InitSeqPlayer
 	mov r0, r4
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0218016C: .word 0x00001010
 _02180170: .word 0x0000FFFF
@@ -547,7 +547,7 @@ _02180788: .word SailSubTorpedo2__State_2181F50
 
 	arm_func_start SailSubTorpedo2__Create
 SailSubTorpedo2__Create: // 0x0218078C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x2c
 	mov r8, r0
 	mov r7, r1
@@ -562,9 +562,9 @@ SailSubTorpedo2__Create: // 0x0218078C
 	mov r5, r0
 	mov r0, #0x23
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
-	str sb, [sp]
+	str r9, [sp]
 	mov r1, #0
 	str r0, [sp, #4]
 	ldr r2, _02180914 // =aSbTorpedoNsbmd_1
@@ -644,7 +644,7 @@ SailSubTorpedo2__Create: // 0x0218078C
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0x2c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02180914: .word aSbTorpedoNsbmd_1
 _02180918: .word FX_SinCosTable_

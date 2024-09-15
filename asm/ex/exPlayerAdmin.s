@@ -1123,7 +1123,7 @@ _0216F3A0: .word ovl09_216E70C
 
 	arm_func_start ovl09_216F3A4
 ovl09_216F3A4: // 0x0216F3A4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -1161,8 +1161,8 @@ ovl09_216F3A4: // 0x0216F3A4
 	ldr r6, [r2, #0x354]
 	ldr r7, [r2, #0x358]
 	ldr r8, [r1, #0x350]
-	ldr sb, [r1, #0x354]
-	ldr sl, [r1, #0x358]
+	ldr r9, [r1, #0x354]
+	ldr r10, [r1, #0x358]
 	bl ovl09_2171954
 	ldr r0, [r4, #8]
 	add r0, r0, #4
@@ -1199,10 +1199,10 @@ ovl09_216F3A4: // 0x0216F3A4
 	str r8, [r2, #0x350]
 	ldr r2, [r4, #0x14]
 	mov r6, #0xa000
-	str sb, [r2, #0x354]
+	str r9, [r2, #0x354]
 	ldr r3, [r4, #0x14]
 	mov r2, r1
-	str sl, [r3, #0x358]
+	str r10, [r3, #0x358]
 	ldr r4, [r4, #4]
 	mov r3, r1
 	str r6, [r4, #0x1c]
@@ -1213,7 +1213,7 @@ ovl09_216F3A4: // 0x0216F3A4
 	str r1, [r0]
 	bl ovl09_216F514
 	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0216F510: .word ovl09_216F514
 	arm_func_end ovl09_216F3A4

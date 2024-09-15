@@ -5,7 +5,7 @@
 
 	arm_func_start TimerShutter__Create
 TimerShutter__Create: // 0x02180004
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	mov r3, #0x1800
 	mov r6, r0
@@ -27,7 +27,7 @@ TimerShutter__Create: // 0x02180004
 	cmp r7, r0
 	addeq sp, sp, #0x24
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r7
 	bl GetTaskWork_
 	ldr r2, _02180390 // =0x0000069C
@@ -103,31 +103,31 @@ _021800D4:
 	mov r1, #4
 	bl StageTask__SetAnimation
 	mov r0, #0x75
-	add sb, r8, #0x364
+	add r9, r8, #0x364
 	bl GetObjectFileWork
 	ldr r1, _0218039C // =gameArchiveStage
 	mov r3, r0
 	ldr r2, [r1]
 	ldr r1, _021803A0 // =aActAcGmkTimerS
 	str r2, [sp]
-	mov r0, sb
+	mov r0, r9
 	mov r2, #0x11
 	bl ObjAction2dBACLoad
 	ldr r1, [r8, #0x128]
-	mov r0, sb
+	mov r0, r9
 	ldrh r2, [r1, #0x50]
 	mov r1, #0
-	strh r2, [sb, #0x50]
-	strh r2, [sb, #0x92]
-	strh r2, [sb, #0x90]
-	ldr r2, [sb, #0x3c]
+	strh r2, [r9, #0x50]
+	strh r2, [r9, #0x92]
+	strh r2, [r9, #0x90]
+	ldr r2, [r9, #0x3c]
 	orr r2, r2, #0x10
-	str r2, [sb, #0x3c]
+	str r2, [r9, #0x3c]
 	bl AnimatorSpriteDS__SetAnimation
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0x17
 	bl StageTask__SetOAMOrder
-	mov r0, sb
+	mov r0, r9
 	mov r1, #2
 	bl StageTask__SetOAMPriority
 	ldr r0, [sp, #0x18]
@@ -140,11 +140,11 @@ _021800D4:
 	strh r3, [sp, #0x1e]
 	strh r2, [sp, #0x20]
 	strh r1, [sp, #0x22]
-	add sb, r0, #0x400
-	mov sl, #0
+	add r9, r0, #0x400
+	mov r10, #0
 	mov r7, #0x75
 	ldr r6, _021803A0 // =aActAcGmkTimerS
-	mov fp, #2
+	mov r11, #2
 	add r5, sp, #0x1c
 	ldr r4, _0218039C // =gameArchiveStage
 	b _021802C4
@@ -154,38 +154,38 @@ _02180238:
 	ldr r1, [r4]
 	mov r3, r0
 	str r1, [sp]
-	mov r0, sb
+	mov r0, r9
 	mov r1, r6
-	mov r2, fp
+	mov r2, r11
 	bl ObjAction2dBACLoad
 	ldr r0, [r8, #0x20c]
-	mov r1, sl, lsl #1
+	mov r1, r10, lsl #1
 	ldrh r1, [r5, r1]
 	ldr r0, [r0]
 	mov r2, #0x5f
 	bl ObjDrawAllocSpritePalette
-	strh r0, [sb, #0x50]
-	strh r0, [sb, #0x92]
-	strh r0, [sb, #0x90]
-	ldr r1, [sb, #0x3c]
-	mov r0, sb
+	strh r0, [r9, #0x50]
+	strh r0, [r9, #0x92]
+	strh r0, [r9, #0x90]
+	ldr r1, [r9, #0x3c]
+	mov r0, r9
 	orr r1, r1, #0x10
-	str r1, [sb, #0x3c]
-	mov r1, sl, lsl #1
+	str r1, [r9, #0x3c]
+	mov r1, r10, lsl #1
 	ldrh r1, [r5, r1]
 	bl AnimatorSpriteDS__SetAnimation
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0x17
 	bl StageTask__SetOAMOrder
-	mov r0, sb
+	mov r0, r9
 	mov r1, #2
 	bl StageTask__SetOAMPriority
-	add r0, sl, #1
+	add r0, r10, #1
 	mov r0, r0, lsl #0x10
-	mov sl, r0, asr #0x10
-	add sb, sb, #0xa4
+	mov r10, r0, asr #0x10
+	add r9, r9, #0xa4
 _021802C4:
-	cmp sl, #4
+	cmp r10, #4
 	blt _02180238
 	ldr r0, [sp, #0x18]
 	mov r1, #0x3c
@@ -237,7 +237,7 @@ _0218037C:
 	mov r0, r8
 	str r1, [r8, #0xfc]
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02180390: .word 0x0000069C
 _02180394: .word StageTask_Main
@@ -477,7 +477,7 @@ _021806F0: .word 0x0000014B
 
 	arm_func_start TimerShutter__Draw
 TimerShutter__Draw: // 0x021806F4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
 	mov r5, r0
@@ -488,8 +488,8 @@ TimerShutter__Draw: // 0x021806F4
 	str r1, [sp, #0xc]
 	str r7, [sp, #0x18]
 	add r6, r0, #0x400
-	add sl, sp, #0xc
-	mov sb, r7
+	add r10, sp, #0xc
+	mov r9, r7
 	add r8, sp, #0x10
 _0218072C:
 	mov r0, r7, lsl #1
@@ -503,12 +503,12 @@ _0218072C:
 	mov r0, r6
 	add r1, r2, r1, lsl #12
 	str r1, [sp, #0x14]
-	str sl, [sp]
-	str sb, [sp, #4]
+	str r10, [sp]
+	str r9, [sp, #4]
 	mov r1, r8
-	mov r2, sb
+	mov r2, r9
 	add r3, r5, #0x38
-	str sb, [sp, #8]
+	str r9, [sp, #8]
 	bl StageTask__Draw2DEx
 	add r7, r7, #1
 	cmp r7, #4
@@ -543,7 +543,7 @@ _0218072C:
 	add r3, r5, #0x38
 	bl StageTask__Draw2DEx
 	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _021807FC: .word _02188768
 	arm_func_end TimerShutter__Draw
@@ -581,7 +581,7 @@ TimerShutterWater__State_218082C: // 0x0218082C
 
 	arm_func_start TimerShutterWater__Draw
 TimerShutterWater__Draw: // 0x0218085C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
 	mov r7, r0
@@ -606,25 +606,25 @@ TimerShutterWater__Draw: // 0x0218085C
 	bl StageTask__Draw2DEx
 _021808B8:
 	ldr r0, [r7, #0x44]
-	mov sb, #0
-	str sb, [sp, #0x18]
+	mov r9, #0
+	str r9, [sp, #0x18]
 	str r0, [sp, #0x10]
 	ldr r0, [r7, #0x20]
-	mov sl, #0x20000
+	mov r10, #0x20000
 	str r0, [sp, #0xc]
 	ldr r8, [r7, #0x2c]
-	rsb sl, sl, #0
+	rsb r10, r10, #0
 	add r6, sp, #0xc
-	mov r5, sb
+	mov r5, r9
 	add r4, sp, #0x10
 _021808E8:
-	add r0, r8, sb
-	cmp r0, sl
+	add r0, r8, r9
+	cmp r0, r10
 	ble _02180930
 	ldr r0, [r7, #0x48]
 	mov r1, r4
 	add r0, r0, r8
-	add r0, sb, r0
+	add r0, r9, r0
 	str r0, [sp, #0x14]
 	str r6, [sp]
 	str r5, [sp, #4]
@@ -637,11 +637,11 @@ _021808E8:
 	orr r0, r0, #0x1000
 	str r0, [sp, #0xc]
 _02180930:
-	add sb, sb, #0x20000
-	cmp sb, #0x40000
+	add r9, r9, #0x20000
+	cmp r9, #0x40000
 	blt _021808E8
 	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end TimerShutterWater__Draw
 
 	arm_func_start TimerShutterWater__OnDefend

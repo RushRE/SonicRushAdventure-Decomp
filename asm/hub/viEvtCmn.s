@@ -1463,7 +1463,7 @@ _0216CB9C: .word 0x0000FFFF
 
 	arm_func_start ViEvtCmnSelect__Func_216CBA0
 ViEvtCmnSelect__Func_216CBA0: // 0x0216CBA0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r6, r0
 	mov r4, #3
 	mov r5, #0
@@ -1555,13 +1555,13 @@ _0216CCAC:
 	mov r8, r1, asr #0x10
 	add r0, r6, #0x15c
 	mov r1, #0
-	mov sb, r2, lsr #0x10
+	mov r9, r2, lsr #0x10
 	bl FontWindowMWControl__SetPaletteAnim
 	add r0, r6, #0x15c
 	mov r1, r7
 	mov r2, r8
 	bl FontWindowMWControl__SetPosition
-	mov r1, sb
+	mov r1, r9
 	add r0, r6, #0x15c
 	mov r2, #0x10
 	bl FontWindowMWControl__SetOffset
@@ -1579,7 +1579,7 @@ _0216CD48:
 	cmp r5, #0
 	movne r4, #4
 	mov r0, r4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0216CD58: .word 0x0000FFFF
 	arm_func_end ViEvtCmnSelect__Func_216CBA0

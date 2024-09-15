@@ -5,11 +5,11 @@
 
 	arm_func_start ovl09_2154030
 ovl09_2154030: // 0x02154030
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	ldr r1, _02154358 // =0x02175F54
-	mov sl, r0
-	str sl, [r1, #0xc]
+	mov r10, r0
+	str r10, [r1, #0xc]
 	bl ovl09_2161CB0
 	ldr r0, _02154358 // =0x02175F54
 	ldrsh r0, [r0]
@@ -49,7 +49,7 @@ ovl09_2154030: // 0x02154030
 	mov r0, r4
 	bl _FreeHEAP_USER
 _021540DC:
-	add r0, sl, #0x20
+	add r0, r10, #0x20
 	mov r1, #0
 	bl AnimatorMDL__Init
 	mov r2, #0
@@ -57,13 +57,13 @@ _021540DC:
 	str r2, [sp]
 	ldr r1, [r0, #4]
 	mov r3, r2
-	add r0, sl, #0x20
+	add r0, r10, #0x20
 	bl AnimatorMDL__SetResource
 	mov r0, #4
-	strb r0, [sl, #0x2a]
+	strb r0, [r10, #0x2a]
 	mov r4, #3
 	ldr r1, _02154360 // =ovl09_215442C
-	add r0, sl, #0xb0
+	add r0, r10, #0xb0
 	mov r2, #0
 	mov r3, #6
 	str r4, [sp]
@@ -72,20 +72,20 @@ _021540DC:
 	ldr r2, _02154358 // =0x02175F54
 	str r1, [sp]
 	ldr r2, [r2, #8]
-	add r0, sl, #0x20
+	add r0, r10, #0x20
 	mov r3, r1
 	bl AnimatorMDL__SetAnimation
-	add r0, sl, #0x300
+	add r0, r10, #0x300
 	mov r3, #0
 	strh r3, [r0, #0x48]
-	ldr r0, [sl, #0x104]
+	ldr r0, [r10, #0x104]
 	mov r2, #1
-	str r0, [sl, #0x344]
+	str r0, [r10, #0x344]
 _0215415C:
 	mov r0, r2, lsl r3
 	tst r0, #1
 	beq _0215417C
-	add r0, sl, r3, lsl #1
+	add r0, r10, r3, lsl #1
 	add r0, r0, #0x100
 	ldrh r1, [r0, #0x2c]
 	orr r1, r1, #2
@@ -157,9 +157,9 @@ _0215417C:
 	ldr r7, _02154364 // =_02173F4C
 	ldr r5, _02154368 // =0x02175F64
 	str r0, [r4, #0x48]
-	add sb, sl, #0x164
+	add r9, r10, #0x164
 	mov r6, #5
-	mov fp, r8
+	mov r11, r8
 _02154290:
 	ldr r0, [r4, #4]
 	bl NNS_G3dGetTex
@@ -168,49 +168,49 @@ _02154290:
 	str r6, [sp]
 	str r0, [sp, #4]
 	ldr r1, [r5, r8, lsl #2]
-	mov r0, sb
-	mov r2, fp
+	mov r0, r9
+	mov r2, r11
 	mov r3, #2
 	bl InitPaletteAnimator
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
 	mov r8, r0, asr #0x10
-	add sb, sb, #0x20
+	add r9, r9, #0x20
 	cmp r8, #0xf
 	blt _02154290
 	mov r0, #0x1000
-	str r0, [sl, #0x368]
-	str r0, [sl, #0x36c]
+	str r0, [r10, #0x368]
+	str r0, [r10, #0x36c]
 	ldr r1, _0215436C // =0x00003FFC
-	str r0, [sl, #0x370]
-	add r0, sl, #0x300
+	str r0, [r10, #0x370]
+	add r0, r10, #0x300
 	strh r1, [r0, #0x4a]
 	mov r0, #1
-	strb r0, [sl]
-	ldrb r2, [sl, #1]
+	strb r0, [r10]
+	ldrb r2, [r10, #1]
 	mov r1, #0
 	mov r0, #0xc000
 	bic r2, r2, #1
 	orr r2, r2, #1
-	strb r2, [sl, #1]
-	str r1, [sl, #0x35c]
-	str r1, [sl, #0x360]
-	str r1, [sl, #0x364]
-	str r0, [sl, #0xc]
-	str r0, [sl, #0x10]
-	str r1, [sl, #0x14]
-	add r0, sl, #0x35c
-	str r0, [sl, #0x18]
-	ldrb r1, [sl, #0x38c]
+	strb r2, [r10, #1]
+	str r1, [r10, #0x35c]
+	str r1, [r10, #0x360]
+	str r1, [r10, #0x364]
+	str r0, [r10, #0xc]
+	str r0, [r10, #0x10]
+	str r1, [r10, #0x14]
+	add r0, r10, #0x35c
+	str r0, [r10, #0x18]
+	ldrb r1, [r10, #0x38c]
 	ldr r0, _02154358 // =0x02175F54
 	bic r1, r1, #3
 	orr r1, r1, #2
-	strb r1, [sl, #0x38c]
+	strb r1, [r10, #0x38c]
 	ldrsh r1, [r0]
 	add r1, r1, #1
 	strh r1, [r0]
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02154358: .word 0x02175F54
 _0215435C: .word aExtraExBb_0

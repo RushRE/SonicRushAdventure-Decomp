@@ -168,7 +168,7 @@ Bungee__OnDefend: // 0x02185934
 
 	arm_func_start Bungee__Draw
 Bungee__Draw: // 0x021859C0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x60
 	bl GetCurrentTaskWork_
 	mov r7, r0
@@ -200,12 +200,12 @@ Bungee__Draw: // 0x021859C0
 	mov r1, #8
 	bl FX_DivS32
 	ldr r8, [r7, #0x44]
-	ldr sb, [r7, #0x48]
+	ldr r9, [r7, #0x48]
 	mov r6, #0
 	add r5, sp, #0x14
 _02185A4C:
 	mla r2, r4, r6, r8
-	mla r3, r0, r6, sb
+	mla r3, r0, r6, r9
 	add r1, r6, #1
 	str r2, [r5, r6, lsl #3]
 	add r2, r5, r6, lsl #3
@@ -234,45 +234,45 @@ _02185A84:
 	cmp r6, #8
 	blo _02185A84
 _02185ABC:
-	mov sb, #8
+	mov r9, #8
 	b _02185AD8
 _02185AC4:
 	ldr r0, [r7, #0x44]
-	mov sb, #1
+	mov r9, #1
 	str r0, [sp, #0x14]
 	ldr r0, [r7, #0x48]
 	str r0, [sp, #0x18]
 _02185AD8:
 	ldr r8, [r7, #0x128]
-	mov sl, #0
-	str sl, [sp, #0x5c]
-	cmp sb, #0
+	mov r10, #0
+	str r10, [sp, #0x5c]
+	cmp r9, #0
 	addls sp, sp, #0x60
-	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r5, r7, #0x20
 	add r6, sp, #0x14
-	mov r4, sl
-	add fp, sp, #0x54
+	mov r4, r10
+	add r11, sp, #0x54
 _02185B00:
-	add r0, r6, sl, lsl #3
-	ldr r1, [r6, sl, lsl #3]
+	add r0, r6, r10, lsl #3
+	ldr r1, [r6, r10, lsl #3]
 	ldr r0, [r0, #4]
 	str r1, [sp, #0x54]
 	str r0, [sp, #0x58]
 	str r5, [sp]
 	str r4, [sp, #4]
 	mov r0, r8
-	mov r1, fp
+	mov r1, r11
 	mov r2, r4
 	add r3, r7, #0x38
 	str r4, [sp, #8]
 	bl StageTask__Draw2DEx
-	add r0, sl, #1
-	and sl, r0, #0xff
-	cmp sl, sb
+	add r0, r10, #1
+	and r10, r0, #0xff
+	cmp r10, r9
 	blo _02185B00
 	add sp, sp, #0x60
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end Bungee__Draw
 
 	.data

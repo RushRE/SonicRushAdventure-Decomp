@@ -223,7 +223,7 @@ _0215F4F4: .word g_obj
 
 	arm_func_start SailCamera__Main
 SailCamera__Main: // 0x0215F4F8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x1c
 	bl SailManager__GetWork
 	mov r5, r0
@@ -305,26 +305,26 @@ _0215F604:
 	mov r0, r0, lsr #0x10
 	str r3, [sp, #0x18]
 	mov r0, r0, asr #4
-	ldr sb, [r7, #0x28]
+	ldr r9, [r7, #0x28]
 	ldr r6, [r7]
 	mov ip, r0, lsl #1
-	add r0, sb, r6
-	ldr sl, [r7, #0x10]
+	add r0, r9, r6
+	ldr r10, [r7, #0x10]
 	mov r6, ip, lsl #1
-	add r0, sl, r0
+	add r0, r10, r0
 	str r0, [sp, #8]
 	ldr r0, _0215F72C // =FX_SinCosTable_
-	ldr sl, [r7, #0x18]
-	ldr sb, [r7, #0x20]
+	ldr r10, [r7, #0x18]
+	ldr r9, [r7, #0x20]
 	ldrsh lr, [r0, r6]
 	add r6, ip, #1
-	add sb, sl, sb
-	smull ip, sl, sb, lr
+	add r9, r10, r9
+	smull ip, r10, r9, lr
 	adds ip, ip, #0x800
-	adc sb, sl, #0
-	mov sl, ip, lsr #0xc
-	orr sl, sl, sb, lsl #20
-	str sl, [sp, #4]
+	adc r9, r10, #0
+	mov r10, ip, lsr #0xc
+	orr r10, r10, r9, lsl #20
+	str r10, [sp, #4]
 	mov r6, r6, lsl #1
 	ldrsh r6, [r0, r6]
 	ldr lr, [r7, #0x18]
@@ -356,15 +356,15 @@ _0215F604:
 	ldr r0, [r5, #0x24]
 	tst r0, #1
 	addne sp, sp, #0x1c
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	ldr r1, [r7, #0x3c]
 	cmp r1, #0
 	addeq sp, sp, #0x1c
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r0, r7
 	blx r1
 	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0215F728: .word g_obj
 _0215F72C: .word FX_SinCosTable_

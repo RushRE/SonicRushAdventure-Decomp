@@ -183,14 +183,14 @@ _02008710: .word MapSys__Main_Boss
 
 	arm_func_start MapSys__Func_2008714
 MapSys__Func_2008714: // 0x02008714
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldr r7, _020087C0 // =mapSystemTask
 	mov r4, #0
 	ldr r0, _020087C4 // =0xFFF8FEFB
 	ldr r1, [r7, #0x100]
 	ldr r5, _020087C8 // =mapCamera
 	and r0, r1, r0
-	ldr sb, _020087CC // =0x0000FFFF
+	ldr r9, _020087CC // =0x0000FFFF
 	ldr r6, _020087D0 // =0xFFFF0FCF
 	str r0, [r7, #0x100]
 	mov r8, r4
@@ -215,7 +215,7 @@ _02008740:
 	ldr r0, [r5]
 	bic r0, r0, #0x3000000
 	str r0, [r5]
-	strh sb, [r5, #0x6e]
+	strh r9, [r5, #0x6e]
 _02008794:
 	strb r8, [r5, #0x6c]
 	strb r8, [r5, #0x6b]
@@ -228,7 +228,7 @@ _020087AC:
 	cmp r4, #2
 	add r5, r5, #0x70
 	blt _02008740
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _020087C0: .word mapSystemTask
 _020087C4: .word 0xFFF8FEFB
@@ -370,7 +370,7 @@ MapSys__Release: // 0x02008958
 
 	arm_func_start MapSys__DrawLayout
 MapSys__DrawLayout: // 0x0200895C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x50
 	mov r0, #0
 	str r0, [sp, #0x34]
@@ -390,7 +390,7 @@ _02008974:
 	ldrh r3, [r0, #0x2a]
 	ldrh r2, [r0, #0x2c]
 	mov r0, r1, lsl #0xa
-	mov fp, r0, lsr #0x10
+	mov r11, r0, lsr #0x10
 	ldr r0, [sp, #0x24]
 	mov r5, r3, asr #6
 	mov r4, r2, asr #6
@@ -403,11 +403,11 @@ _02008974:
 	mov r0, r4, lsl #0x10
 	str r0, [sp, #0x38]
 	mov r0, r1, lsr #0x10
-	mov r2, fp, lsl #0x10
+	mov r2, r11, lsl #0x10
 	str r0, [sp, #0x20]
 	movs r0, r2, asr #0x10
 	ldr r0, [sp, #0x20]
-	movmi fp, #0
+	movmi r11, #0
 	mov r0, r0, lsl #0x10
 	movs r0, r0, asr #0x10
 	movmi r0, #0
@@ -436,26 +436,26 @@ _02008A40:
 _02008A48:
 	ldr r1, [sp, #0x20]
 	ldr r0, [sp, #0x28]
-	add sb, r1, r0
+	add r9, r1, r0
 	ldr r0, [sp, #0x38]
-	cmp sb, r0, lsr #16
+	cmp r9, r0, lsr #16
 	bge _02008B04
 	ldr r2, [sp, #0x28]
 	ldr r0, [sp, #0x2c]
 	mov r1, #0x280
-	mla sl, r2, r1, r0
+	mla r10, r2, r1, r0
 	mov r5, #0
 _02008A74:
 	ldr r0, [sp, #0x3c]
-	add r1, fp, r5
+	add r1, r11, r5
 	cmp r1, r0, lsr #16
 	bge _02008AE8
 	ldr r0, _02008EB0 // =mapSystemTask
-	add r7, sl, r5, lsl #4
+	add r7, r10, r5, lsl #4
 	ldr r2, [r0, #0x10]
 	ldrh r0, [r4]
 	mov r6, #0
-	mla r1, r0, sb, r1
+	mla r1, r0, r9, r1
 	add r0, r4, r1, lsl #1
 	ldrh r0, [r0, #4]
 	add r8, r2, r0, lsl #7
@@ -499,16 +499,16 @@ _02008B18:
 	add r0, r0, #0x70
 	str r0, [sp, #0x24]
 	blo _02008974
-	mov sb, #0
+	mov r9, #0
 	ldr r8, _02008EAC // =mapCamera
-	mov r5, sb
-	mov r4, sb
-	mov fp, #4
+	mov r5, r9
+	mov r4, r9
+	mov r11, #4
 _02008B4C:
 	ldr r0, [r8]
-	cmp sb, #0
-	moveq sl, #0xa
-	movne sl, #0x16
+	cmp r9, #0
+	moveq r10, #0xa
+	movne r10, #0x16
 	tst r0, #0x10000000
 	bne _02008C80
 	tst r0, #1
@@ -527,7 +527,7 @@ _02008B4C:
 	ldr r1, [r8, #0x24]
 	add r0, r0, #7
 	add r1, r1, #7
-	stmia sp, {r5, sl}
+	stmia sp, {r5, r10}
 	mov r0, r0, asr #3
 	mov r1, r1, asr #3
 	add r0, r0, #1
@@ -563,14 +563,14 @@ _02008C04:
 	ldr r0, [r8, #0x24]
 	cmp r1, #0x20
 	add r0, r0, #7
-	stmia sp, {r4, sl}
+	stmia sp, {r4, r10}
 	mov r0, r0, asr #3
 	str r4, [sp, #8]
 	movgt r1, #0x20
 	add r0, r0, #1
 	cmp r0, #0x28
 	movgt r0, #0x28
-	str fp, [sp, #0xc]
+	str r11, [sp, #0xc]
 	mov r0, r0, lsl #0x10
 	str r4, [sp, #0x10]
 	mov r1, r1, lsl #0x10
@@ -585,8 +585,8 @@ _02008C04:
 	bl Mappings__ReadMappingsCompressed
 _02008C80:
 	add r8, r8, #0x70
-	add sb, sb, #1
-	cmp sb, #2
+	add r9, r9, #1
+	cmp r9, #2
 	blo _02008B4C
 	ldr r0, _02008EAC // =mapCamera
 	ldr r3, _02008EB4 // =FX_SinCosTable_
@@ -712,7 +712,7 @@ _02008E64:
 	ldr r0, [r0, #0x70]
 	tst r0, #2
 	addeq sp, sp, #0x50
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, _02008EB8 // =VRAMSystem__GFXControl
 	add r1, sp, #0x40
 	ldr r0, [r0, #4]
@@ -725,7 +725,7 @@ _02008E64:
 	strh r4, [r7, #0x14]
 	strh r5, [r7, #0x16]
 	add sp, sp, #0x50
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02008EAC: .word mapCamera
 _02008EB0: .word mapSystemTask
@@ -1009,7 +1009,7 @@ _0200920C: .word mapCamera
 
 	arm_func_start MapSys__GetScreenSwapPos
 MapSys__GetScreenSwapPos: // 0x02009210
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldr r1, _020092DC // =mapSystemTask
 	mov r3, #0
 	cmp r0, #0
@@ -1031,10 +1031,10 @@ _02009244:
 	mov ip, r0
 	mov r7, #1
 _02009260:
-	add sb, ip, r5, asr #18
-	mov r6, sb, lsl #0xe
+	add r9, ip, r5, asr #18
+	mov r6, r9, lsl #0xe
 	add r8, r1, r6, lsr #16
-	mov r6, sb, lsl #0x1e
+	mov r6, r9, lsl #0x1e
 	mov r6, r6, lsr #0x1d
 	mov r6, r6, lsl #0x10
 	ldrb r8, [r8, #4]
@@ -1047,7 +1047,7 @@ _02009260:
 	beq _020092AC
 	cmp r6, #1
 	moveq r0, r0, lsl #0x12
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r3, r7
 	mov r2, r0
 _020092AC:
@@ -1055,7 +1055,7 @@ _020092AC:
 	cmpeq r6, #1
 	addeq r0, r2, r0
 	moveq r0, r0, lsl #0x11
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	add r0, r0, #1
 	cmp r0, lr
 	add ip, ip, r4
@@ -1063,7 +1063,7 @@ _020092AC:
 _020092D0:
 	bl IsBossStage
 	mov r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _020092DC: .word mapSystemTask
 _020092E0: .word 0x02133BA8

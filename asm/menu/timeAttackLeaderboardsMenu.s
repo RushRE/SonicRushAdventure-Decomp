@@ -284,7 +284,7 @@ _0217598C: .word 0x04001008
 
 	arm_func_start TimeAttackLeaderboardsMenu__InitSprites
 TimeAttackLeaderboardsMenu__InitSprites: // 0x02175990
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x38
 	mov r4, r0
 	ldr r0, [r4]
@@ -322,18 +322,18 @@ _021759EC:
 	ldr r1, [r1, #0xc]
 	ldr r0, _02175BEC // =0x05000600
 	mov r8, #0
-	ldr sl, _02175BF0 // =0x0217E1D4
+	ldr r10, _02175BF0 // =0x0217E1D4
 	str r1, [sp, #0x34]
-	add sb, r4, #0x78
-	sub fp, r0, #0x400
+	add r9, r4, #0x78
+	sub r11, r0, #0x400
 	mov r5, r8
 _02175A2C:
-	ldrb r2, [sl]
+	ldrb r2, [r10]
 	cmp r8, #0xb
 	add r0, sp, #0x2c
 	movlt r6, #0
-	movlt r7, fp
-	ldrb r1, [sl, #1]
+	movlt r7, r11
+	ldrb r1, [r10, #1]
 	ldr r0, [r0, r2, lsl #2]
 	movge r6, #1
 	ldrge r7, _02175BEC // =0x05000600
@@ -349,19 +349,19 @@ _02175A2C:
 	mov r0, #2
 	str r0, [sp, #0x14]
 	str r5, [sp, #0x18]
-	ldrb r6, [sl]
+	ldrb r6, [r10]
 	add r1, sp, #0x2c
-	ldrb r2, [sl, #1]
+	ldrb r2, [r10, #1]
 	ldr r1, [r1, r6, lsl #2]
-	mov r0, sb
+	mov r0, r9
 	mov r3, r5
 	bl AnimatorSprite__Init
-	ldrb r0, [sl, #2]
+	ldrb r0, [r10, #2]
 	add r8, r8, #1
-	add sl, sl, #4
-	strh r0, [sb, #0x50]
+	add r10, r10, #4
+	strh r0, [r9, #0x50]
 	cmp r8, #0x12
-	add sb, sb, #0x64
+	add r9, r9, #0x64
 	blt _02175A2C
 	mov r1, #0
 	str r1, [r4, #0x7a0]
@@ -439,7 +439,7 @@ _02175A2C:
 	orr r0, r0, #0x40
 	str r0, [r4, #0x82c]
 	add sp, sp, #0x38
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02175BEC: .word 0x05000600
 _02175BF0: .word 0x0217E1D4
@@ -578,12 +578,12 @@ _02175CFC:
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2175DE4
 TimeAttackLeaderboardsMenu__Func_2175DE4: // 0x02175DE4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
-	mov sl, r0
+	mov r10, r0
 	blx TimeAttackMenu__Func_216C5E4
 	bl FontWindow__GetFont
-	str r0, [sl, #0x868]
+	str r0, [r10, #0x868]
 	mov r3, #0
 	str r3, [sp]
 	mov r3, #1
@@ -595,9 +595,9 @@ TimeAttackLeaderboardsMenu__Func_2175DE4: // 0x02175DE4
 	mov r3, #0xf
 	str r3, [sp, #0x10]
 	mov r3, #0xc
-	add r1, sl, #0x9c
-	add r2, sl, #0xec
-	add r0, sl, #0x6c
+	add r1, r10, #0x9c
+	add r2, r10, #0xec
+	add r0, r10, #0x6c
 	str r3, [sp, #0x14]
 	mov r3, #0xe
 	str r3, [sp, #0x18]
@@ -605,7 +605,7 @@ TimeAttackLeaderboardsMenu__Func_2175DE4: // 0x02175DE4
 	add r0, r0, #0x800
 	add r1, r1, #0x800
 	add r2, r2, #0xc00
-	add r3, sl, #0xcf0
+	add r3, r10, #0xcf0
 	str r4, [sp, #0x1c]
 	bl TimeAttackLeaderboardsMenu__Func_217610C
 	mov r1, #0
@@ -622,11 +622,11 @@ TimeAttackLeaderboardsMenu__Func_2175DE4: // 0x02175DE4
 	mov r0, #7
 	str r0, [sp, #0x18]
 	mov r0, r4
-	add r1, sl, #0xfc
+	add r1, r10, #0xfc
 	str r0, [sp, #0x1c]
-	add r0, sl, #0xcc
-	add r2, sl, #0xf4
-	add r3, sl, #0xf8
+	add r0, r10, #0xcc
+	add r2, r10, #0xf4
+	add r3, r10, #0xf8
 	add r1, r1, #0x800
 	add r0, r0, #0x800
 	add r2, r2, #0xc00
@@ -647,13 +647,13 @@ TimeAttackLeaderboardsMenu__Func_2175DE4: // 0x02175DE4
 	str r0, [sp, #0x18]
 	mov r0, r4
 	str r0, [sp, #0x1c]
-	add r0, sl, #0x12c
-	add r1, sl, #0x15c
-	add r2, sl, #0xfc
+	add r0, r10, #0x12c
+	add r1, r10, #0x15c
+	add r2, r10, #0xfc
 	add r0, r0, #0x800
 	add r1, r1, #0x800
 	add r2, r2, #0xc00
-	add r3, sl, #0xd00
+	add r3, r10, #0xd00
 	bl TimeAttackLeaderboardsMenu__Func_217610C
 	mov r1, #0
 	str r1, [sp]
@@ -670,30 +670,30 @@ TimeAttackLeaderboardsMenu__Func_2175DE4: // 0x02175DE4
 	str r0, [sp, #0x18]
 	mov r0, r4
 	str r0, [sp, #0x1c]
-	add r0, sl, #0x18c
-	add r1, sl, #0x1bc
-	add r2, sl, #0x104
-	add r3, sl, #0x108
+	add r0, r10, #0x18c
+	add r1, r10, #0x1bc
+	add r2, r10, #0x104
+	add r3, r10, #0x108
 	add r0, r0, #0x800
 	add r1, r1, #0x800
 	add r2, r2, #0xc00
 	add r3, r3, #0xc00
 	bl TimeAttackLeaderboardsMenu__Func_217610C
-	add r0, sl, #0x118
-	add r1, sl, #0x10c
-	add r2, sl, #0x27c
-	add r3, sl, #0x1ec
+	add r0, r10, #0x118
+	add r1, r10, #0x10c
+	add r2, r10, #0x27c
+	add r3, r10, #0x1ec
 	add r6, r0, #0xc00
 	add r7, r1, #0xc00
 	add r8, r2, #0x800
-	add sb, r3, #0x800
+	add r9, r3, #0x800
 	mov r0, #0x20
 	mov r5, #3
 	mov r4, #0
-	mov fp, #1
+	mov r11, #1
 _02175FA8:
-	str fp, [sp]
-	str fp, [sp, #4]
+	str r11, [sp]
+	str r11, [sp, #4]
 	mov r1, #0xb
 	str r1, [sp, #8]
 	str r0, [sp, #0xc]
@@ -706,7 +706,7 @@ _02175FA8:
 	str r0, [sp, #0x18]
 	mov r1, #2
 	str r1, [sp, #0x1c]
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	mov r2, r7
 	mov r3, r6
@@ -716,23 +716,23 @@ _02175FA8:
 	add r6, r6, #4
 	add r7, r7, #4
 	add r8, r8, #0x30
-	add sb, sb, #0x30
+	add r9, r9, #0x30
 	cmp r4, #3
 	blt _02175FA8
-	add r1, sl, #0x138
-	add r2, sl, #0x124
-	add r3, sl, #0x3fc
-	add r7, sl, #0x30c
+	add r1, r10, #0x138
+	add r2, r10, #0x124
+	add r3, r10, #0x3fc
+	add r7, r10, #0x30c
 	add r4, r1, #0xc00
 	add r5, r2, #0xc00
 	add r6, r3, #0x800
 	add r7, r7, #0x800
 	mov r8, #0xb
-	mov sb, #0
-	mov fp, #1
+	mov r9, #0
+	mov r11, #1
 _02176040:
-	str fp, [sp]
-	str fp, [sp, #4]
+	str r11, [sp]
+	str r11, [sp, #4]
 	mov r1, #0xb
 	str r1, [sp, #8]
 	str r0, [sp, #0xc]
@@ -750,15 +750,15 @@ _02176040:
 	mov r2, r5
 	mov r3, r4
 	bl TimeAttackLeaderboardsMenu__Func_217610C
-	add sb, sb, #1
+	add r9, r9, #1
 	add r8, r8, #2
 	add r4, r4, #4
 	add r5, r5, #4
 	add r6, r6, #0x30
 	add r7, r7, #0x30
-	cmp sb, #5
+	cmp r9, #5
 	blt _02176040
-	ldr r0, [sl]
+	ldr r0, [r10]
 	mov r1, #0xb
 	ldr r0, [r0, #8]
 	bl FileUnknown__GetAOUFile
@@ -777,7 +777,7 @@ _02176040:
 	ldr r3, _02176108 // =0x05000562
 	bl QueueUncompressedPalette
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021760FC: .word 0x05000140
 _02176100: .word 0x02110460
@@ -787,16 +787,16 @@ _02176108: .word 0x05000562
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_217610C
 TimeAttackLeaderboardsMenu__Func_217610C: // 0x0217610C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x1c
 	ldrh r4, [sp, #0x58]
 	ldrh r5, [sp, #0x5c]
-	mov sl, r0
+	mov r10, r0
 	mov r0, r4, lsl #5
 	mul r4, r5, r0
 	mov r8, r2
 	mov r0, r4
-	mov sb, r1
+	mov r9, r1
 	mov r7, r3
 	ldr r6, [sp, #0x4c]
 	bl _AllocHeadHEAP_USER
@@ -812,7 +812,7 @@ TimeAttackLeaderboardsMenu__Func_217610C: // 0x0217610C
 	str r0, [sp, #8]
 	ldrh r1, [sp, #0x5c]
 	mov r3, #0
-	mov r0, sl
+	mov r0, r10
 	str r1, [sp, #0xc]
 	ldr r2, [r8]
 	ldr r1, [sp, #0x40]
@@ -822,11 +822,11 @@ TimeAttackLeaderboardsMenu__Func_217610C: // 0x0217610C
 	str r6, [sp, #0x18]
 	bl Unknown2056570__Init
 	ldrh r1, [sp, #0x48]
-	mov r0, sl
+	mov r0, r10
 	bl Unknown2056570__Func_2056688
-	mov r0, sl
+	mov r0, r10
 	bl Unknown2056570__Func_205683C
-	mov r0, sl
+	mov r0, r10
 	bl Unknown2056570__Func_2056B8C
 	add r0, r5, #0x20
 	mov r0, r0, lsl #0x10
@@ -845,19 +845,19 @@ TimeAttackLeaderboardsMenu__Func_217610C: // 0x0217610C
 	ldr r1, [sp, #0x40]
 	add r6, r6, r4
 	str r3, [sp, #0x14]
-	mov r0, sb
+	mov r0, r9
 	str r6, [sp, #0x18]
 	bl Unknown2056570__Init
 	ldrh r1, [sp, #0x48]
-	mov r0, sb
+	mov r0, r9
 	bl Unknown2056570__Func_2056688
-	mov r0, sb
+	mov r0, r9
 	bl Unknown2056570__Func_205683C
-	mov r0, sb
+	mov r0, r9
 	bl Unknown2056570__Func_2056B8C
 	add r0, r6, r4
 	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end TimeAttackLeaderboardsMenu__Func_217610C
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2176228
@@ -1081,13 +1081,13 @@ _021764F8: .word TimeAttackLeaderboardsMenu__State_21768A4
 
 	arm_func_start TimeAttackLeaderboardsMenu__State_21764FC
 TimeAttackLeaderboardsMenu__State_21764FC: // 0x021764FC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x1c
-	mov sb, r0
-	ldrh r2, [sb, #0x6e]
-	ldrh r1, [sb, #0x10]
+	mov r9, r0
+	ldrh r2, [r9, #0x6e]
+	ldrh r1, [r9, #0x10]
 	mov r4, #0
-	add r2, sb, r2, lsl #1
+	add r2, r9, r2, lsl #1
 	mov r6, r4
 	mov r7, r4
 	cmp r1, #1
@@ -1103,7 +1103,7 @@ TimeAttackLeaderboardsMenu__State_21764FC: // 0x021764FC
 _02176548:
 	cmp r8, #0
 	subne r0, r8, #1
-	ldreqh r0, [sb, #0x10]
+	ldreqh r0, [r9, #0x10]
 	mov r4, #1
 	mov r5, #0
 	subeq r0, r0, #1
@@ -1113,19 +1113,19 @@ _02176548:
 	bl PlaySysSfx
 	b _02176638
 _02176574:
-	ldrh r0, [sb, #0x10]
+	ldrh r0, [r9, #0x10]
 	cmp r0, #1
 	bls _021765D4
 	ldr r0, _021767DC // =padInput
 	ldrh r0, [r0]
 	tst r0, #0x10
 	bne _021765A0
-	mov r0, sb
+	mov r0, r9
 	bl TimeAttackLeaderboardsMenu__Func_21781CC
 	cmp r0, #0
 	beq _021765D4
 _021765A0:
-	ldrh r0, [sb, #0x10]
+	ldrh r0, [r9, #0x10]
 	sub r0, r0, #1
 	cmp r8, r0
 	movge r8, #0
@@ -1153,7 +1153,7 @@ _021765F0:
 	bl PlaySysSfx
 	b _02176638
 _02176600:
-	ldr r0, [sb, #8]
+	ldr r0, [r9, #8]
 	cmp r0, #0
 	bne _0217661C
 	ldr r0, _021767DC // =padInput
@@ -1161,7 +1161,7 @@ _02176600:
 	tst r0, #8
 	bne _0217662C
 _0217661C:
-	mov r0, sb
+	mov r0, r9
 	bl TimeAttackLeaderboardsMenu__Func_21782C8
 	cmp r0, #0
 	beq _02176638
@@ -1170,67 +1170,67 @@ _0217662C:
 	mov r0, r7
 	bl PlaySysSfx
 _02176638:
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0x1000
 	bl TimeAttackLeaderboardsMenu__Draw
-	mov r0, sb
+	mov r0, r9
 	bl TimeAttackLeaderboardsMenu__Func_21782EC
-	mov r0, sb
+	mov r0, r9
 	bl TimeAttackLeaderboardsMenu__Func_21781F0
 	cmp r4, #0
 	beq _021766AC
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	bl TimeAttackLeaderboardsMenu__Func_2176964
-	mov r0, sb
+	mov r0, r9
 	mov r1, r5
 	bl TimeAttackLeaderboardsMenu__Func_2176B90
 	mov r0, #0
 	bl TimeAttackLeaderboardsMenu__Func_2178360
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0
 	bl TimeAttackLeaderboardsMenu__Func_2178118
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0
 	bl TimeAttackLeaderboardsMenu__Func_2178270
 	mov r1, #0
 	ldr r0, _021767E0 // =TimeAttackLeaderboardsMenu__State_21768A4
-	str r1, [sb, #4]
+	str r1, [r9, #4]
 	add sp, sp, #0x1c
-	str r0, [sb, #0xd60]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	str r0, [r9, #0xd60]
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 _021766AC:
 	cmp r6, #0
 	beq _02176704
 	ldr r1, _021767E4 // =0x0000FFFF
-	mov r0, sb
+	mov r0, r9
 	bl TimeAttackLeaderboardsMenu__Func_2176964
-	mov r0, sb
+	mov r0, r9
 	mov r1, #1
 	bl TimeAttackLeaderboardsMenu__Func_2176B90
 	mov r0, #0
 	bl TimeAttackLeaderboardsMenu__Func_2178360
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0
 	bl TimeAttackLeaderboardsMenu__Func_2178118
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0
 	bl TimeAttackLeaderboardsMenu__Func_2178270
 	mov r1, #0
 	ldr r0, _021767E0 // =TimeAttackLeaderboardsMenu__State_21768A4
-	str r1, [sb, #4]
+	str r1, [r9, #4]
 	add sp, sp, #0x1c
-	str r0, [sb, #0xd60]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	str r0, [r9, #0xd60]
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 _02176704:
 	cmp r7, #0
 	beq _0217678C
 	mov r0, #0
 	bl TimeAttackLeaderboardsMenu__Func_2178360
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0
 	bl TimeAttackLeaderboardsMenu__Func_2178118
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0
 	bl TimeAttackLeaderboardsMenu__Func_2178270
 	blx TimeAttackMenu__Func_216C670
@@ -1252,17 +1252,17 @@ _02176704:
 	str r1, [sp, #0x18]
 	bl SaveSpriteButton__Func_20651D4
 	mov r0, #0
-	str r0, [sb, #4]
+	str r0, [r9, #4]
 	ldr r0, _021767E8 // =TimeAttackLeaderboardsMenu__State_21767EC
 	add sp, sp, #0x1c
-	str r0, [sb, #0xd60]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	str r0, [r9, #0xd60]
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 _0217678C:
 	mov r0, #1
 	bl TimeAttackLeaderboardsMenu__Func_2178360
-	ldrh r0, [sb, #0x10]
+	ldrh r0, [r9, #0x10]
 	cmp r0, #1
-	mov r0, sb
+	mov r0, r9
 	bls _021767B0
 	mov r1, #1
 	bl TimeAttackLeaderboardsMenu__Func_2178118
@@ -1271,15 +1271,15 @@ _021767B0:
 	mov r1, #0
 	bl TimeAttackLeaderboardsMenu__Func_2178118
 _021767B8:
-	ldr r0, [sb, #8]
+	ldr r0, [r9, #8]
 	cmp r0, #0
 	addne sp, sp, #0x1c
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, pc}
-	mov r0, sb
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, pc}
+	mov r0, r9
 	mov r1, #1
 	bl TimeAttackLeaderboardsMenu__Func_2178270
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021767DC: .word padInput
 _021767E0: .word TimeAttackLeaderboardsMenu__State_21768A4
@@ -1396,7 +1396,7 @@ _02176960: .word TimeAttackLeaderboardsMenu__State_21764FC
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2176964
 TimeAttackLeaderboardsMenu__Func_2176964: // 0x02176964
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
 	mov r6, r0
 	ldrh r0, [r6, #0x6e]
@@ -1466,18 +1466,18 @@ _021769F8:
 	mov r0, r6
 	mov r1, r4
 	bl TimeAttackLeaderboardsMenu__Func_2177758
-	mov sb, #0
+	mov r9, #0
 	add r8, sp, #0xa
 	add r7, sp, #8
 _02176A80:
-	mov r1, sb, lsl #0x10
+	mov r1, r9, lsl #0x10
 	mov r0, r5
 	mov r2, r8
 	mov r3, r7
 	mov r1, r1, lsr #0x10
 	bl TimeAttackLeaderboardsMenu__Func_2178578
 	ldrh r2, [sp, #8]
-	mov r1, sb, lsl #0x10
+	mov r1, r9, lsl #0x10
 	mov r3, r0
 	str r2, [sp]
 	ldrh ip, [sp, #0xa]
@@ -1486,21 +1486,21 @@ _02176A80:
 	str ip, [sp, #4]
 	mov r1, r4
 	bl TimeAttackLeaderboardsMenu__Func_2177C00
-	add sb, sb, #1
-	cmp sb, #3
+	add r9, r9, #1
+	cmp r9, #3
 	blt _02176A80
-	mov sb, #0
+	mov r9, #0
 	add r8, sp, #0xa
 	add r7, sp, #8
 _02176AD8:
-	mov r1, sb, lsl #0x10
+	mov r1, r9, lsl #0x10
 	mov r0, r5
 	mov r2, r8
 	mov r3, r7
 	mov r1, r1, lsr #0x10
 	bl TimeAttackLeaderboardsMenu__Func_217862C
 	ldrh r3, [sp, #8]
-	add r1, sb, #3
+	add r1, r9, #3
 	mov r2, r1, lsl #0x10
 	str r3, [sp]
 	ldrh r1, [sp, #0xa]
@@ -1510,11 +1510,11 @@ _02176AD8:
 	mov r1, r4
 	mov r2, r2, lsr #0x10
 	bl TimeAttackLeaderboardsMenu__Func_2177C00
-	add sb, sb, #1
-	cmp sb, #5
+	add r9, r9, #1
+	cmp r9, #5
 	blt _02176AD8
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 _02176B30:
 	mov r0, r6
 	mov r1, r4
@@ -1539,7 +1539,7 @@ _02176B64:
 	cmp r5, #8
 	blt _02176B64
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02176B8C: .word 0x0000FFFF
 	arm_func_end TimeAttackLeaderboardsMenu__Func_2176964
@@ -1555,33 +1555,33 @@ TimeAttackLeaderboardsMenu__Func_2176B90: // 0x02176B90
 
 	arm_func_start TimeAttackLeaderboardsMenu__Draw
 TimeAttackLeaderboardsMenu__Draw: // 0x02176BA4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
-	mov sl, r0
-	ldrh r3, [sl, #0x10]
-	ldrh r2, [sl, #0x70]
+	mov r10, r0
+	ldrh r3, [r10, #0x10]
+	ldrh r2, [r10, #0x70]
 	cmp r2, r3
 	ldrhs r2, _02177070 // =0x0000FFFF
 	strhsh r2, [sp, #0x18]
 	bhs _02176BD4
-	add r2, sl, r2, lsl #1
+	add r2, r10, r2, lsl #1
 	ldrh r2, [r2, #0x12]
 	strh r2, [sp, #0x18]
 _02176BD4:
-	ldrh r2, [sl, #0x72]
+	ldrh r2, [r10, #0x72]
 	cmp r2, r3
 	ldrhs r2, _02177070 // =0x0000FFFF
 	strhsh r2, [sp, #0x1a]
 	bhs _02176BF4
-	add r2, sl, r2, lsl #1
+	add r2, r10, r2, lsl #1
 	ldrh r2, [r2, #0x12]
 	strh r2, [sp, #0x1a]
 _02176BF4:
-	ldrh r2, [sl, #0x6e]
+	ldrh r2, [r10, #0x6e]
 	mov r1, r1, lsl #8
 	mov r3, r1, asr #0xc
 	cmp r2, #0
-	ldr r1, [sl, #0x74]
+	ldr r1, [r10, #0x74]
 	addeq r3, r3, #0x100
 	cmp r1, #0
 	ldr r1, _02177074 // =0x000001FF
@@ -1613,8 +1613,8 @@ _02176C68:
 	str r2, [sp, #0x10]
 	str r1, [sp, #0x14]
 _02176C7C:
-	ldrh r2, [sl, #0x70]
-	ldrh r3, [sl, #0x72]
+	ldrh r2, [r10, #0x70]
+	ldrh r3, [r10, #0x72]
 	cmp r2, #0x2e
 	movhs r1, #0x100
 	strhs r1, [sp, #0x10]
@@ -1637,7 +1637,7 @@ _02176CC0:
 	bge _02176CEC
 	rsb r0, r0, #8
 	mov r1, r0, lsl #0x10
-	add r0, sl, #0x208
+	add r0, r10, #0x208
 	mov r2, r1, asr #0x10
 	mov r1, #8
 	mov r3, #0
@@ -1648,13 +1648,13 @@ _02176CEC:
 	mov r1, #0x30
 	str r1, [sp, #4]
 	ldr r0, [sp, #0x10]
-	ldr sb, [sp, #0x14]
+	ldr r9, [sp, #0x14]
 	str r0, [sp, #8]
 	ldr r3, _02177080 // =0x0217E2A8
-	mov r0, sl
-	add r1, sl, #0x140
-	add r2, sl, #0x1a4
-	str sb, [sp, #0xc]
+	mov r0, r10
+	add r1, r10, #0x140
+	add r2, r10, #0x1a4
+	str r9, [sp, #0xc]
 	bl TimeAttackLeaderboardsMenu__Func_2177174
 	mov r0, #4
 	str r0, [sp]
@@ -1663,10 +1663,10 @@ _02176CEC:
 	ldr r0, [sp, #0x10]
 	ldr r3, _02177084 // =0x0217E2D8
 	str r0, [sp, #8]
-	mov r0, sl
-	add r1, sl, #0x78
-	add r2, sl, #0xdc
-	str sb, [sp, #0xc]
+	mov r0, r10
+	add r1, r10, #0x78
+	add r2, r10, #0xdc
+	str r9, [sp, #0xc]
 	bl TimeAttackLeaderboardsMenu__Func_2177174
 	mov r0, #0xba
 	str r0, [sp]
@@ -1675,24 +1675,24 @@ _02176CEC:
 	ldr r0, [sp, #0x10]
 	ldr r3, _02177088 // =0x0217E308
 	str r0, [sp, #8]
-	mov r0, sl
-	add r1, sl, #0x2d0
-	add r2, sl, #0x334
-	str sb, [sp, #0xc]
+	mov r0, r10
+	add r1, r10, #0x2d0
+	add r2, r10, #0x334
+	str r9, [sp, #0xc]
 	bl TimeAttackLeaderboardsMenu__Func_2177174
 	mov r8, #0
-	add r7, sl, #0x78
+	add r7, r10, #0x78
 	mov r6, #0x80
-	mov fp, #0x76
+	mov r11, #0x76
 	add r5, sp, #0x10
 	mov r4, #0x64
 _02176D98:
-	add r0, sl, r8, lsl #1
+	add r0, r10, r8, lsl #1
 	ldrh r1, [r0, #0x70]
-	ldrh r0, [sl, #0x10]
+	ldrh r0, [r10, #0x10]
 	cmp r1, r0
 	bhs _02176DD8
-	add r0, sl, r1, lsl #1
+	add r0, r10, r1, lsl #1
 	ldrh r0, [r0, #0x12]
 	bl TimeAttackLeaderboardsMenu__Func_21784E0
 	cmp r0, #2
@@ -1701,7 +1701,7 @@ _02176D98:
 	mla r0, r1, r4, r7
 	ldr r3, [r5, r8, lsl #2]
 	mov r1, r6
-	mov r2, fp
+	mov r2, r11
 	bl TimeAttackLeaderboardsMenu__Func_217708C
 _02176DD8:
 	add r8, r8, #1
@@ -1712,48 +1712,48 @@ _02176DD8:
 	mov r6, #0x94
 	add r5, sp, #0x10
 _02176DF4:
-	add r0, sl, r4, lsl #1
+	add r0, r10, r4, lsl #1
 	ldrh r1, [r0, #0x70]
-	ldrh r0, [sl, #0x10]
+	ldrh r0, [r10, #0x10]
 	cmp r1, r0
 	bhs _02176E1C
 	ldr r3, [r5, r4, lsl #2]
 	mov r1, r7
 	mov r2, r6
-	add r0, sl, #0x26c
+	add r0, r10, #0x26c
 	bl TimeAttackLeaderboardsMenu__Func_217708C
 _02176E1C:
 	add r4, r4, #1
 	cmp r4, #2
 	blt _02176DF4
 	ldr r1, [sp, #0x10]
-	add r0, sl, #0x398
+	add r0, r10, #0x398
 	str r1, [sp]
 	mov r1, #0
 	mov r2, #0x18
 	mov r3, #0xaf
-	str sb, [sp, #4]
+	str r9, [sp, #4]
 	bl TimeAttackLeaderboardsMenu__Func_21770DC
 	ldr r1, [sp, #0x10]
-	add r0, sl, #0x254
+	add r0, r10, #0x254
 	str r1, [sp]
 	add r0, r0, #0x400
 	mov r1, #0
 	mov r2, #0x18
 	mov r3, #8
-	str sb, [sp, #4]
+	str r9, [sp, #4]
 	bl TimeAttackLeaderboardsMenu__Func_21770DC
 	ldr r1, [sp, #0x10]
-	add r0, sl, #0x2b8
+	add r0, r10, #0x2b8
 	str r1, [sp]
 	add r0, r0, #0x400
 	mov r1, #0
 	mov r2, #0x18
 	mov r3, #0x48
-	str sb, [sp, #4]
+	str r9, [sp, #4]
 	bl TimeAttackLeaderboardsMenu__Func_21770DC
-	add r1, sl, #0x5f0
-	add r0, sl, #0x18c
+	add r1, r10, #0x5f0
+	add r0, r10, #0x18c
 	str r1, [sp, #0x20]
 	mov r1, #0
 	add r0, r0, #0x400
@@ -1764,24 +1764,24 @@ _02176E1C:
 	ldr r0, [sp, #0x20]
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	mov fp, #0
+	mov r11, #0
 	add r6, sp, #0x1c
 	mov r5, #0x30
 _02176ECC:
-	mov r1, fp, lsl #1
+	mov r1, r11, lsl #1
 	add r0, sp, #0x18
-	ldrh sb, [r0, r1]
+	ldrh r9, [r0, r1]
 	ldr r0, _02177070 // =0x0000FFFF
-	cmp sb, r0
+	cmp r9, r0
 	beq _02176F34
 	add r0, sp, #0x10
-	ldr r4, [r0, fp, lsl #2]
+	ldr r4, [r0, r11, lsl #2]
 	mov r7, #0
 	mov r8, #0x19
 _02176EF4:
 	mov r0, r7, lsl #0x10
 	mov r1, r0, lsr #0x10
-	mov r0, sb
+	mov r0, r9
 	bl TimeAttackLeaderboardsMenu__Func_21786E0
 	cmp r0, #2
 	bhs _02176F24
@@ -1797,11 +1797,11 @@ _02176F24:
 	add r8, r8, #0x10
 	blt _02176EF4
 _02176F34:
-	add fp, fp, #1
-	cmp fp, #2
+	add r11, r11, #1
+	cmp r11, #2
 	blt _02176ECC
-	add r0, sl, #0x18c
-	add r3, sl, #0x5f0
+	add r0, r10, #0x18c
+	add r3, r10, #0x5f0
 	mov r1, #0
 	add r0, r0, #0x400
 	mov r2, r1
@@ -1812,22 +1812,22 @@ _02176F34:
 	ldr r0, [sp, #0x20]
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	mov fp, #0
+	mov r11, #0
 	add r6, sp, #0x1c
 	mov r5, #0x30
 _02176F7C:
-	mov r1, fp, lsl #1
+	mov r1, r11, lsl #1
 	add r0, sp, #0x18
 	ldrh r8, [r0, r1]
 	ldr r0, _02177070 // =0x0000FFFF
 	cmp r8, r0
 	beq _02176FE4
 	add r0, sp, #0x10
-	ldr r4, [r0, fp, lsl #2]
-	mov sb, #0
+	ldr r4, [r0, r11, lsl #2]
+	mov r9, #0
 	mov r7, #0x59
 _02176FA4:
-	mov r0, sb, lsl #0x10
+	mov r0, r9, lsl #0x10
 	mov r1, r0, lsr #0x10
 	mov r0, r8
 	bl TimeAttackLeaderboardsMenu__Func_2178718
@@ -1840,15 +1840,15 @@ _02176FA4:
 	mov r3, r4
 	bl TimeAttackLeaderboardsMenu__Func_21770C4
 _02176FD4:
-	add sb, sb, #1
-	cmp sb, #5
+	add r9, r9, #1
+	cmp r9, #5
 	add r7, r7, #0x10
 	blt _02176FA4
 _02176FE4:
-	add fp, fp, #1
-	cmp fp, #2
+	add r11, r11, #1
+	cmp r11, #2
 	blt _02176F7C
-	add r8, sl, #0x31c
+	add r8, r10, #0x31c
 	mov r1, #0
 	mov r3, #1
 	mov r2, r1
@@ -1858,7 +1858,7 @@ _02176FE4:
 	ldr r7, _02177070 // =0x0000FFFF
 	mov r6, #0
 	mov r4, #0x18
-	add sb, sp, #0x10
+	add r9, sp, #0x10
 	add r5, sp, #0x18
 _02177020:
 	mov r0, r6, lsl #1
@@ -1871,7 +1871,7 @@ _02177020:
 	mov r0, r0, lsl #4
 	add r0, r0, #0x58
 	mov r2, r0, lsl #0x10
-	ldr r3, [sb, r6, lsl #2]
+	ldr r3, [r9, r6, lsl #2]
 	mov r1, r4
 	add r0, r8, #0x400
 	mov r2, r2, asr #0x10
@@ -1881,7 +1881,7 @@ _0217705C:
 	cmp r6, #2
 	blt _02177020
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02177070: .word 0x0000FFFF
 _02177074: .word 0x000001FF
@@ -2014,7 +2014,7 @@ _021771FC:
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2177214
 TimeAttackLeaderboardsMenu__Func_2177214: // 0x02177214
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x30
 	mov r4, #0x30
 	mul r4, r1, r4
@@ -2025,7 +2025,7 @@ TimeAttackLeaderboardsMenu__Func_2177214: // 0x02177214
 	add r0, r6, r0
 	str r4, [sp, #0x1c]
 	mov r5, r2
-	mov sl, r3
+	mov r10, r3
 	bl Unknown2056570__Func_205683C
 	mov r0, r4
 	add r0, r6, r0
@@ -2042,50 +2042,50 @@ TimeAttackLeaderboardsMenu__Func_2177214: // 0x02177214
 	bl MIi_CpuClear16
 	b _021772B0
 _02177280:
-	cmp sl, #0
+	cmp r10, #0
 	mov r4, #0
 	ble _021772B0
-	add sb, sp, #0x20
+	add r9, sp, #0x20
 _02177290:
 	mov r0, r4, lsl #1
 	ldrh r0, [r5, r0]
 	bl GetFontCharacterFromUTF
 	mov r1, r4, lsl #1
 	add r4, r4, #1
-	strh r0, [sb, r1]
-	cmp r4, sl
+	strh r0, [r9, r1]
+	cmp r4, r10
 	blt _02177290
 _021772B0:
-	cmp sl, #0
+	cmp r10, #0
 	mov r0, #4
-	mov sb, #0
+	mov r9, #0
 	ble _0217730C
 	mov r5, #0xe
-	mov fp, #2
-	mov r4, sb
+	mov r11, #2
+	mov r4, r9
 _021772CC:
-	stmia sp, {r5, fp}
+	stmia sp, {r5, r11}
 	str r0, [sp, #8]
 	str r4, [sp, #0xc]
 	str r4, [sp, #0x10]
 	str r4, [sp, #0x14]
 	str r4, [sp, #0x18]
-	mov r1, sb, lsl #1
+	mov r1, r9, lsl #1
 	add r0, sp, #0x20
 	ldrh r1, [r0, r1]
 	mov r0, r7
 	mov r2, r4
 	mov r3, r8
 	bl FontFile__Func_2052B7C
-	add sb, sb, #1
-	cmp sb, sl
+	add r9, r9, #1
+	cmp r9, r10
 	blt _021772CC
 _0217730C:
 	ldr r0, [sp, #0x1c]
 	add r0, r6, r0
 	bl Unknown2056570__Func_2056B8C
 	add sp, sp, #0x30
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end TimeAttackLeaderboardsMenu__Func_2177214
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2177320
@@ -2104,7 +2104,7 @@ TimeAttackLeaderboardsMenu__Func_2177320: // 0x02177320
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2177348
 TimeAttackLeaderboardsMenu__Func_2177348: // 0x02177348
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x30
 	mov r5, r0
 	ldr r0, [r5]
@@ -2147,25 +2147,25 @@ _021773D0:
 	ldrh r3, [sp, #0x1e]
 	ldr r0, _021774DC // =0x66666667
 	mov r4, #0xa
-	smull sb, sl, r0, r3
+	smull r9, r10, r0, r3
 	mov r2, r3, lsr #0x1f
-	add sl, r2, sl, asr #2
-	strh sl, [sp, #0x26]
-	ldrh sl, [sp, #0x26]
+	add r10, r2, r10, asr #2
+	strh r10, [sp, #0x26]
+	ldrh r10, [sp, #0x26]
 	ldrh r1, [sp, #0x1c]
 	strh r4, [sp, #0x24]
-	mul fp, sl, r4
-	sub r3, r3, fp
-	ldrh sb, [sp, #0x20]
+	mul r11, r10, r4
+	sub r3, r3, r11
+	ldrh r9, [sp, #0x20]
 	strh r3, [sp, #0x1e]
 	ldrh r3, [sp, #0x1e]
 	mov r2, #0xb
-	mov sl, r1, lsr #0x1f
-	smull fp, ip, r0, r1
-	add ip, sl, ip, asr #2
+	mov r10, r1, lsr #0x1f
+	smull r11, ip, r0, r1
+	add ip, r10, ip, asr #2
 	strh ip, [sp, #0x2c]
 	ldrh r0, [sp, #0x2c]
-	strh sb, [sp, #0x22]
+	strh r9, [sp, #0x22]
 	strh r3, [sp, #0x28]
 	mul r4, r0, r4
 	sub r0, r1, r4
@@ -2174,21 +2174,21 @@ _021773D0:
 	strh r2, [sp, #0x2a]
 	strh r0, [sp, #0x2e]
 _02177458:
-	mov sb, #0
-	mov sl, sb
+	mov r9, #0
+	mov r10, r9
 	mov r4, #8
-	mov fp, #0xe
+	mov r11, #0xe
 _02177468:
-	mov r1, sl, lsl #1
+	mov r1, r10, lsl #1
 	add r0, sp, #0x22
 	ldrh r0, [r0, r1]
-	stmia sp, {r4, fp}
+	stmia sp, {r4, r11}
 	mov r0, r0, lsl #0x13
 	mov r2, r0, lsr #0x10
 	str r8, [sp, #8]
 	mov r0, #7
 	str r0, [sp, #0xc]
-	str sb, [sp, #0x10]
+	str r9, [sp, #0x10]
 	mov r0, #1
 	str r0, [sp, #0x14]
 	mov r0, #0
@@ -2197,16 +2197,16 @@ _02177468:
 	mov r1, #0xd
 	mov r3, #0
 	bl BackgroundUnknown__CopyPixels
-	add r0, sb, #8
+	add r0, r9, #8
 	mov r0, r0, lsl #0x10
-	add sl, sl, #1
-	mov sb, r0, lsr #0x10
-	cmp sl, #7
+	add r10, r10, #1
+	mov r9, r0, lsr #0x10
+	cmp r10, #7
 	blt _02177468
 	add r0, r6, r5
 	bl Unknown2056570__Func_2056B8C
 	add sp, sp, #0x30
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021774D8: .word 0x0000FFFF
 _021774DC: .word 0x66666667
@@ -2228,7 +2228,7 @@ TimeAttackLeaderboardsMenu__Func_21774E0: // 0x021774E0
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2177508
 TimeAttackLeaderboardsMenu__Func_2177508: // 0x02177508
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x2c
 	mov r5, r0
 	ldr r0, [r5]
@@ -2324,24 +2324,24 @@ _02177658:
 	cmp r4, #6
 	blt _02177658
 _02177678:
-	mov sb, #0
-	mov sl, sb
-	mov fp, #8
+	mov r9, #0
+	mov r10, r9
+	mov r11, #8
 	add r4, sp, #0x1c
 _02177688:
-	mov r0, sl, lsl #1
+	mov r0, r10, lsl #1
 	ldrh r1, [r4, r0]
 	ldr r0, _0217772C // =0x0000FFFF
 	cmp r1, r0
 	beq _021776DC
 	mov r0, r1, lsl #0x13
 	mov r2, r0, lsr #0x10
-	str fp, [sp]
+	str r11, [sp]
 	mov r0, #0xe
 	stmib sp, {r0, r8}
 	mov r0, #7
 	str r0, [sp, #0xc]
-	str sb, [sp, #0x10]
+	str r9, [sp, #0x10]
 	mov r0, #1
 	str r0, [sp, #0x14]
 	mov r0, #0
@@ -2351,16 +2351,16 @@ _02177688:
 	mov r3, #0
 	bl BackgroundUnknown__CopyPixels
 _021776DC:
-	add r0, sb, #8
+	add r0, r9, #8
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	add sl, sl, #1
-	cmp sl, #7
+	mov r9, r0, lsr #0x10
+	add r10, r10, #1
+	cmp r10, #7
 	blt _02177688
 	add r0, r6, r5
 	bl Unknown2056570__Func_2056B8C
 	add sp, sp, #0x2c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02177704: .word 0x0098967F
 _02177708: .word 0x431BDE83
@@ -2391,14 +2391,14 @@ TimeAttackLeaderboardsMenu__Func_2177730: // 0x02177730
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2177758
 TimeAttackLeaderboardsMenu__Func_2177758: // 0x02177758
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x38
 	mov r4, r0
 	ldr r0, [r4]
 	mov r5, r1
 	ldr r0, [r0, #8]
 	mov r1, #0xc
-	mov sb, r2
+	mov r9, r2
 	mov r8, r3
 	bl FileUnknown__GetAOUFile
 	bl GetBackgroundPixels
@@ -2411,13 +2411,13 @@ TimeAttackLeaderboardsMenu__Func_2177758: // 0x02177758
 	bl Unknown2056570__Func_205683C
 	add r0, r5, r4
 	bl Unknown2056570__Func_2056834
-	subs r1, sb, #0
+	subs r1, r9, #0
 	mov r7, r0
 	sbcs r1, r8, #0
 	blt _02177900
 	add r0, sp, #0x18
 	add r1, sp, #0xc
-	mov r2, sb
+	mov r2, r9
 	mov r3, r8
 	bl RTC_ConvertSecondToDateTime
 	ldr r8, [sp, #0x18]
@@ -2431,25 +2431,25 @@ TimeAttackLeaderboardsMenu__Func_2177758: // 0x02177758
 	sub r0, r8, r0
 	umull r8, r2, r0, r2
 	mov r2, r2, lsr #5
-	and sb, r2, #0xff
+	and r9, r2, #0xff
 	mov r8, #0x64
-	smulbb sb, sb, r8
-	ldr sl, _02177B84 // =0xCCCCCCCD
-	sub r0, r0, sb
+	smulbb r9, r9, r8
+	ldr r10, _02177B84 // =0xCCCCCCCD
+	sub r0, r0, r9
 	strb r2, [sp, #9]
-	umull sb, r2, r0, sl
+	umull r9, r2, r0, r10
 	mov r2, r2, lsr #3
 	strb r2, [sp, #0xa]
-	and sb, r2, #0xff
+	and r9, r2, #0xff
 	mov r2, #0xa
-	smulbb sb, sb, r2
-	sub sb, r0, sb
-	and r0, sb, #0xff
-	sub r0, sb, r0
+	smulbb r9, r9, r2
+	sub r9, r0, r9
+	and r0, r9, #0xff
+	sub r0, r9, r0
 	ldr r8, [sp, #0x1c]
-	strb sb, [sp, #0xb]
+	strb r9, [sp, #0xb]
 	str r0, [sp, #0x18]
-	umull sb, r0, r8, sl
+	umull r9, r0, r8, r10
 	mov r0, r0, lsr #3
 	strb r0, [sp, #6]
 	and r0, r0, #0xff
@@ -2461,7 +2461,7 @@ TimeAttackLeaderboardsMenu__Func_2177758: // 0x02177758
 	ldr lr, [sp, #0x20]
 	strb r8, [sp, #7]
 	str r0, [sp, #0x1c]
-	umull r0, r8, lr, sl
+	umull r0, r8, lr, r10
 	mov r8, r8, lsr #3
 	and r0, r8, #0xff
 	smulbb r0, r0, r2
@@ -2472,19 +2472,19 @@ TimeAttackLeaderboardsMenu__Func_2177758: // 0x02177758
 	ldr ip, [sp, #0xc]
 	strb r8, [sp, #5]
 	str r0, [sp, #0x20]
-	umull r8, r0, ip, sl
+	umull r8, r0, ip, r10
 	ldr r3, [sp, #0x10]
 	mov r0, r0, lsr #3
-	umull r8, sb, r3, sl
+	umull r8, r9, r3, r10
 	strb r0, [sp, #2]
 	and r0, r0, #0xff
 	smulbb r0, r0, r2
 	sub r8, ip, r0
 	and r0, r8, #0xff
 	sub r0, r8, r0
-	mov sb, sb, lsr #3
+	mov r9, r9, lsr #3
 	str r0, [sp, #0xc]
-	and r0, sb, #0xff
+	and r0, r9, #0xff
 	smulbb r0, r0, r2
 	sub r2, r3, r0
 	and r0, r2, #0xff
@@ -2493,7 +2493,7 @@ TimeAttackLeaderboardsMenu__Func_2177758: // 0x02177758
 	sub r2, r2, r0
 	add r0, r1, #2
 	strb r8, [sp, #3]
-	strb sb, [sp]
+	strb r9, [sp]
 	str r2, [sp, #0x10]
 	strb r0, [sp, #8]
 	b _02177950
@@ -2648,29 +2648,29 @@ _02177AC0:
 	mov r2, #2
 	bl MI_CpuCopy8
 _02177B28:
-	mov sl, #0
-	add sb, sp, #0x28
-	mov r8, sl
+	mov r10, #0
+	add r9, sp, #0x28
+	mov r8, r10
 _02177B34:
-	ldrb r1, [sb]
+	ldrb r1, [r9]
 	cmp r1, #0xff
 	beq _02177B50
 	mov r2, r7
-	mov r3, sl
+	mov r3, r10
 	add r0, r6, #4
 	bl TimeAttackLeaderboardsMenu__Func_2177B88
 _02177B50:
-	add r0, sl, #5
+	add r0, r10, #5
 	mov r0, r0, lsl #0x10
 	add r8, r8, #1
 	cmp r8, #0x10
-	mov sl, r0, lsr #0x10
-	add sb, sb, #1
+	mov r10, r0, lsr #0x10
+	add r9, r9, #1
 	blt _02177B34
 	add r0, r5, r4
 	bl Unknown2056570__Func_2056B8C
 	add sp, sp, #0x38
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02177B7C: .word 0x10624DD3
 _02177B80: .word 0x51EB851F
@@ -2717,9 +2717,9 @@ TimeAttackLeaderboardsMenu__Func_2177BD8: // 0x02177BD8
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2177C00
 TimeAttackLeaderboardsMenu__Func_2177C00: // 0x02177C00
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x38
-	mov sl, r3
+	mov r10, r3
 	cmp r2, #3
 	ldr r7, [r0, #0x868]
 	bhs _02177C38
@@ -2745,7 +2745,7 @@ _02177C58:
 	bl Unknown2056570__Func_205683C
 	ldr r0, [sp, #0x1c]
 	bl Unknown2056570__Func_2056834
-	mov sb, r0
+	mov r9, r0
 	mov r0, #0x30
 	bl GetFontCharacterFromUTF
 	mov r4, r0, lsl #0x10
@@ -2772,7 +2772,7 @@ _02177C58:
 	mov r5, #0xa
 	ldrh r0, [sp, #0x20]
 	mul r1, r2, r5
-	add fp, r8, r4, lsr #16
+	add r11, r8, r4, lsr #16
 	add r8, r2, r4, lsr #16
 	sub r1, r6, r1
 	strh r1, [sp, #0x22]
@@ -2783,7 +2783,7 @@ _02177C58:
 	add ip, r1, ip, asr #2
 	strh ip, [sp, #0x30]
 	ldrh r1, [sp, #0x30]
-	strh fp, [sp, #0x26]
+	strh r11, [sp, #0x26]
 	strh r8, [sp, #0x2a]
 	mul r2, r1, r5
 	sub r0, r0, r2
@@ -2813,7 +2813,7 @@ _02177D44:
 	mov r6, #0x15
 	mov r5, #2
 	mov r4, r8
-	add fp, sp, #0x26
+	add r11, sp, #0x26
 _02177D74:
 	str r6, [sp]
 	str r5, [sp, #4]
@@ -2823,10 +2823,10 @@ _02177D74:
 	str r4, [sp, #0x14]
 	str r4, [sp, #0x18]
 	mov r0, r8, lsl #1
-	ldrh r1, [fp, r0]
+	ldrh r1, [r11, r0]
 	mov r0, r7
 	mov r2, r4
-	mov r3, sb
+	mov r3, r9
 	bl FontFile__Func_2052B7C
 	add r8, r8, #1
 	cmp r8, #7
@@ -2853,7 +2853,7 @@ _02177DEC:
 	add r6, sp, #0x26
 _02177E00:
 	mov r0, r5, lsl #1
-	ldrh r0, [sl, r0]
+	ldrh r0, [r10, r0]
 	bl GetFontCharacterFromUTF
 	mov r1, r5, lsl #1
 	add r5, r5, #1
@@ -2863,13 +2863,13 @@ _02177E00:
 _02177E20:
 	ldrh r8, [sp, #0x60]
 	mov r0, #0x3c
-	mov sl, #0
+	mov r10, #0
 	cmp r8, #0
 	ble _02177E84
 	mov r6, #0x15
 	mov r5, #2
-	mov r4, sl
-	add fp, sp, #0x26
+	mov r4, r10
+	add r11, sp, #0x26
 _02177E44:
 	str r6, [sp]
 	str r5, [sp, #4]
@@ -2878,20 +2878,20 @@ _02177E44:
 	str r4, [sp, #0x10]
 	str r4, [sp, #0x14]
 	str r4, [sp, #0x18]
-	mov r0, sl, lsl #1
-	ldrh r1, [fp, r0]
+	mov r0, r10, lsl #1
+	ldrh r1, [r11, r0]
 	mov r0, r7
 	mov r2, r4
-	mov r3, sb
+	mov r3, r9
 	bl FontFile__Func_2052B7C
-	add sl, sl, #1
-	cmp sl, r8
+	add r10, r10, #1
+	cmp r10, r8
 	blt _02177E44
 _02177E84:
 	ldr r0, [sp, #0x1c]
 	bl Unknown2056570__Func_2056B8C
 	add sp, sp, #0x38
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02177E94: .word 0x0000FFFF
 _02177E98: .word 0x66666667
@@ -3432,17 +3432,17 @@ TimeAttackLeaderboardsMenu__Func_2178568: // 0x02178568
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2178578
 TimeAttackLeaderboardsMenu__Func_2178578: // 0x02178578
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, r1
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r1
 	mov r8, r2
 	mov r7, r3
 	bl TimeAttackLeaderboardsMenu__Func_21787F0
-	mov r1, sb
+	mov r1, r9
 	mov r4, r0
 	bl SaveGame__GetLeaderboardsTime_Top
 	movs r6, r0
 	mov r0, r4
-	mov r1, sb
+	mov r1, r9
 	ldreq r6, _02178624 // =0x0000FFFF
 	bl SaveGame__GetLeaderboardsEntry_Top
 	ldr r1, _02178624 // =0x0000FFFF
@@ -3471,14 +3471,14 @@ _021785FC:
 	cmp r7, #0
 	beq _02178614
 	mov r0, r4
-	mov r1, sb
+	mov r1, r9
 	bl SaveGame__GetLeaderboardsNameLen_Top
 	strh r0, [r7]
 _02178614:
 	cmp r8, #0
 	strneh r6, [r8]
 	mov r0, r5
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02178624: .word 0x0000FFFF
 _02178628: .word saveGame
@@ -3486,17 +3486,17 @@ _02178628: .word saveGame
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_217862C
 TimeAttackLeaderboardsMenu__Func_217862C: // 0x0217862C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, r1
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r1
 	mov r8, r2
 	mov r7, r3
 	bl TimeAttackLeaderboardsMenu__Func_21787F0
-	mov r1, sb
+	mov r1, r9
 	mov r4, r0
 	bl SaveGame__GetLeaderboardsTime_Near
 	movs r6, r0
 	mov r0, r4
-	mov r1, sb
+	mov r1, r9
 	ldreq r6, _021786D8 // =0x0000FFFF
 	bl SaveGame__GetLeaderboardsEntry_Near
 	ldr r1, _021786D8 // =0x0000FFFF
@@ -3525,14 +3525,14 @@ _021786B0:
 	cmp r7, #0
 	beq _021786C8
 	mov r0, r4
-	mov r1, sb
+	mov r1, r9
 	bl SaveGame__GetLeaderboardsNameLen_Near
 	strh r0, [r7]
 _021786C8:
 	cmp r8, #0
 	strneh r6, [r8]
 	mov r0, r5
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021786D8: .word 0x0000FFFF
 _021786DC: .word saveGame
@@ -3578,22 +3578,22 @@ _0217874C: .word 0x0000FFFF
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2178750
 TimeAttackLeaderboardsMenu__Func_2178750: // 0x02178750
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, r0
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r0
 	bl TimeAttackLeaderboardsMenu__Func_21787F0
 	mov r7, r0
-	mov r0, sb
+	mov r0, r9
 	bl TimeAttackLeaderboardsMenu__Func_21784E0
 	cmp r0, #2
 	ldrhs r0, _021787DC // =0x0000FFFF
-	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r8, #0
 	ldr r4, _021787DC // =0x0000FFFF
 	add r6, sp, #0
 	mov r5, r8
 _02178784:
 	mov r1, r8, lsl #0x10
-	mov r0, sb
+	mov r0, r9
 	mov r2, r6
 	mov r3, r5
 	mov r1, r1, lsr #0x10
@@ -3608,13 +3608,13 @@ _02178784:
 	cmp r0, #0
 	moveq r0, r8, lsl #0x10
 	moveq r0, r0, lsr #0x10
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _021787C8:
 	add r8, r8, #1
 	cmp r8, #5
 	blt _02178784
 	ldr r0, _021787DC // =0x0000FFFF
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021787DC: .word 0x0000FFFF
 	arm_func_end TimeAttackLeaderboardsMenu__Func_2178750

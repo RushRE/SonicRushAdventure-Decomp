@@ -95,15 +95,15 @@ _0216F75C: .word Object58__OnDefend_2173030
 
 	arm_func_start Truck3D__Func_216F760
 Truck3D__Func_216F760: // 0x0216F760
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x3c
-	mov sl, r0
+	mov r10, r0
 	mov r0, r1
 	str r0, [sp, #0x1c]
 	str r0, [sp, #0x18]
 	mov r0, #0
 	str r1, [sp, #0x14]
-	mov sb, r1
+	mov r9, r1
 	str r0, [sp, #0x28]
 _0216F788:
 	ldr r0, [sp, #0x14]
@@ -114,8 +114,8 @@ _0216F788:
 	beq _0216FB28
 	mov r0, #0
 	str r0, [sp, #0x24]
-	add r0, sl, #0x17c
-	ldr fp, [sp, #0x18]
+	add r0, r10, #0x17c
+	ldr r11, [sp, #0x18]
 	str r0, [sp, #0x30]
 _0216F7B4:
 	ldr r1, [sp, #0x14]
@@ -133,8 +133,8 @@ _0216F7B4:
 	ldreq r1, [r1, #0x70]
 	cmpeq r1, #0xb
 	beq _0216F93C
-	ldr r0, [sl, #0x44]
-	ldr r1, [sl, #0xe80]
+	ldr r0, [r10, #0x44]
+	ldr r1, [r10, #0xe80]
 	sub r0, r0, #0x100000
 	str r0, [sp, #0x20]
 	sub r8, r1, #0x30000
@@ -188,7 +188,7 @@ _0216F878:
 	add r1, r7, #0x370
 	add r0, r0, #0xc00
 	mov r2, #0x104
-	str sl, [r7, #0x11c]
+	str r10, [r7, #0x11c]
 	bl MI_CpuCopy8
 	ldr r0, [sp, #0x1c]
 	add r1, r4, r6, lsl #3
@@ -203,13 +203,13 @@ _0216F878:
 	ldr r1, [r4, r6, lsl #3]
 	bl AkMath__Func_2002C98
 	ldr r2, [sp, #0x38]
-	ldr r1, [sb, #0x78]
-	add r0, fp, r5, lsl #2
+	ldr r1, [r9, #0x78]
+	add r0, r11, r5, lsl #2
 	add r1, r2, r1
 	str r1, [r7, #0x364]
 	str r8, [r7, #0x368]
 	ldr r2, [sp, #0x34]
-	ldr r1, [sb, #0x80]
+	ldr r1, [r9, #0x80]
 	add r1, r2, r1
 	str r1, [r7, #0x36c]
 	str r7, [r0, #0xc]
@@ -222,7 +222,7 @@ _0216F920:
 	ble _0216F878
 	b _0216FB10
 _0216F93C:
-	ldr r1, [sl, #0x44]
+	ldr r1, [r10, #0x44]
 	cmp r0, #5
 	mov r4, #1
 	sub r1, r1, #0x200000
@@ -238,7 +238,7 @@ _0216F954: // jump table
 _0216F96C:
 	ldr r2, [sp, #0x14]
 	ldr r0, [sp, #0x24]
-	ldr r3, [sl, #0xe80]
+	ldr r3, [r10, #0xe80]
 	add r0, r2, r0, lsl #1
 	sub r8, r3, #0x30000
 	ldrh r3, [r0, #4]
@@ -262,7 +262,7 @@ _0216F9BC:
 	mov r3, #0
 	add r0, r2, r0, lsl #1
 	ldrh r2, [r0, #4]
-	ldr r0, [sl, #0xe80]
+	ldr r0, [r10, #0xe80]
 	cmp r2, #0
 	subne r8, r0, #0x6b000
 	addeq r8, r0, #0x15000
@@ -280,7 +280,7 @@ _0216F9BC:
 	mov r7, r0
 	b _0216FAA0
 _0216FA14:
-	ldr r2, [sl, #0xe80]
+	ldr r2, [r10, #0xe80]
 	ldr r0, _0216FB68 // =0x00000142
 	add r8, r2, #0x15000
 	mov r2, #0
@@ -298,7 +298,7 @@ _0216FA14:
 _0216FA50:
 	ldr r2, [sp, #0x14]
 	ldr r0, [sp, #0x24]
-	ldr r3, [sl, #0xe80]
+	ldr r3, [r10, #0xe80]
 	add r0, r2, r0, lsl #1
 	add r8, r3, #0x15000
 	ldrh r3, [r0, #4]
@@ -320,7 +320,7 @@ _0216FAA0:
 	cmp r7, #0
 	beq _0216FB10
 	ldr r0, [sp, #0x1c]
-	str sl, [r7, #0x11c]
+	str r10, [r7, #0x11c]
 	ldrh r3, [r0, #0x9e]
 	ldr r1, _0216FB64 // =_021895C0
 	ldr r0, [sp, #0x24]
@@ -336,25 +336,25 @@ _0216FAA0:
 	add r3, sp, #0x38
 	bl AkMath__Func_2002C98
 	ldr r1, [sp, #0x38]
-	ldr r0, [sb, #0x78]
+	ldr r0, [r9, #0x78]
 	add r0, r1, r0
 	str r0, [r7, #0x364]
 	str r8, [r7, #0x368]
 	ldr r1, [sp, #0x34]
-	ldr r0, [sb, #0x80]
+	ldr r0, [r9, #0x80]
 	add r0, r1, r0
 	str r0, [r7, #0x36c]
-	str r7, [fp, #0xc]
+	str r7, [r11, #0xc]
 _0216FB10:
 	ldr r0, [sp, #0x24]
-	add fp, fp, #0xc
+	add r11, r11, #0xc
 	add r0, r0, #1
 	str r0, [sp, #0x24]
 	cmp r0, #3
 	blt _0216F7B4
 _0216FB28:
 	ldr r0, [sp, #0x28]
-	add sb, sb, #0xc
+	add r9, r9, #0xc
 	add r0, r0, #1
 	str r0, [sp, #0x28]
 	cmp r0, #3
@@ -366,7 +366,7 @@ _0216FB28:
 	str r0, [sp, #0x18]
 	blt _0216F788
 	add sp, sp, #0x3c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216FB60: .word gameState
 _0216FB64: .word _021895C0

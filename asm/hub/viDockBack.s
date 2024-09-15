@@ -130,9 +130,9 @@ _021645C4: .word 0x02173818
 
 	arm_func_start ViDockBack__LoadAssets
 ViDockBack__LoadAssets: // 0x021645C8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x28
-	mov sb, r0
+	mov r9, r0
 	mov r4, r1
 	mov r8, r3
 	cmp r2, #0
@@ -141,8 +141,8 @@ ViDockBack__LoadAssets: // 0x021645C8
 _021645E8:
 	cmp r4, #8
 	addge sp, sp, #0x28
-	str r4, [sb, #4]
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	str r4, [r9, #4]
+	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r0, r4, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ovl05_21529F8
@@ -150,7 +150,7 @@ _021645E8:
 	cmp r8, #0
 	bne _02164814
 	ldrh r1, [r4, #8]
-	ldr r2, [sb, #0x90c]
+	ldr r2, [r9, #0x90c]
 	mov r7, #0
 	ldr r0, _02164910 // =aBbViDockBb_0
 	mov r6, r7
@@ -160,30 +160,30 @@ _021645E8:
 	ldr r0, _02164914 // =0x0000FFFF
 	cmp r1, r0
 	beq _0216464C
-	ldr r2, [sb, #0x910]
+	ldr r2, [r9, #0x910]
 	ldr r0, _02164910 // =aBbViDockBb_0
 	bl BundleFileUnknown__LoadFileFromBundle
-	ldr r5, [sb, #0x910]
+	ldr r5, [r9, #0x910]
 _0216464C:
 	ldrh r1, [r4, #0xc]
 	ldr r0, _02164914 // =0x0000FFFF
 	cmp r1, r0
 	beq _0216466C
-	ldr r2, [sb, #0x914]
+	ldr r2, [r9, #0x914]
 	ldr r0, _02164910 // =aBbViDockBb_0
 	bl BundleFileUnknown__LoadFileFromBundle
-	ldr r7, [sb, #0x914]
+	ldr r7, [r9, #0x914]
 _0216466C:
 	ldrh r1, [r4, #0xe]
 	ldr r0, _02164914 // =0x0000FFFF
 	cmp r1, r0
 	beq _0216468C
-	ldr r2, [sb, #0x918]
+	ldr r2, [r9, #0x918]
 	ldr r0, _02164910 // =aBbViDockBb_0
 	bl BundleFileUnknown__LoadFileFromBundle
-	ldr r6, [sb, #0x918]
+	ldr r6, [r9, #0x918]
 _0216468C:
-	ldr r0, [sb, #4]
+	ldr r0, [r9, #4]
 	mov r2, #0
 	cmp r0, #6
 	ldr r0, _02164914 // =0x0000FFFF
@@ -194,9 +194,9 @@ _0216468C:
 	str r6, [sp, #0x10]
 	str r7, [sp, #0x14]
 	str r0, [sp, #0x18]
-	ldr r1, [sb, #0x90c]
+	ldr r1, [r9, #0x90c]
 	mov r3, r2
-	add r0, sb, #8
+	add r0, r9, #8
 	bl Vi3dObject__Func_216763C
 	ldrh r1, [r4, #0xa]
 	ldr r0, _02164914 // =0x0000FFFF
@@ -205,7 +205,7 @@ _0216468C:
 	mov r1, #0
 	str r1, [sp]
 	mov r3, r1
-	add r0, sb, #8
+	add r0, r9, #8
 	mov r2, #1
 	str r1, [sp, #4]
 	bl Vi3dObject__Func_2167900
@@ -217,7 +217,7 @@ _021646F4:
 	mov r1, #0
 	str r1, [sp]
 	mov r3, r1
-	add r0, sb, #8
+	add r0, r9, #8
 	mov r2, #1
 	str r1, [sp, #4]
 	bl Vi3dObject__Func_2167A80
@@ -229,7 +229,7 @@ _02164720:
 	mov r1, #0
 	str r1, [sp]
 	mov r3, r1
-	add r0, sb, #8
+	add r0, r9, #8
 	mov r2, #1
 	str r1, [sp, #4]
 	bl Vi3dObject__Func_2167A0C
@@ -240,42 +240,42 @@ _02164750:
 	str r6, [sp, #0x10]
 	str r7, [sp, #0x14]
 	str r0, [sp, #0x18]
-	ldr r1, [sb, #0x90c]
+	ldr r1, [r9, #0x90c]
 	mov r3, r2
-	add r0, sb, #8
+	add r0, r9, #8
 	bl Vi3dObject__Func_216763C
 	ldr r5, _02164914 // =0x0000FFFF
 	mov r3, #0
-	add r0, sb, #0x308
-	add r1, sb, #8
+	add r0, r9, #0x308
+	add r1, r9, #8
 	mov r2, #1
 	stmia sp, {r3, r5}
 	bl Vi3dObject__Func_2167704
 	mov r1, #0
 	str r1, [sp]
 	mov r3, r1
-	add r0, sb, #0x308
+	add r0, r9, #0x308
 	mov r2, #1
 	str r1, [sp, #4]
 	bl Vi3dObject__Func_2167900
 	mov r1, #0
 	str r1, [sp]
-	add r0, sb, #0x308
+	add r0, r9, #0x308
 	mov r2, #1
 	mov r3, r1
 	str r1, [sp, #4]
 	bl Vi3dObject__Func_2167A0C
 	mov r3, #0
-	add r0, sb, #0x208
+	add r0, r9, #0x208
 	str r3, [sp]
 	mov r1, r5
 	str r1, [sp, #4]
 	add r0, r0, #0x400
-	add r1, sb, #8
+	add r1, r9, #8
 	mov r2, #2
 	bl Vi3dObject__Func_2167704
 	mov r3, #0
-	add r0, sb, #0x208
+	add r0, r9, #0x208
 	mov r1, #1
 	str r3, [sp]
 	add r0, r0, #0x400
@@ -284,13 +284,13 @@ _02164750:
 	bl Vi3dObject__Func_2167900
 _0216480C:
 	mov r0, #1
-	str r0, [sb, #0x908]
+	str r0, [r9, #0x908]
 _02164814:
 	ldrh r1, [r4, #4]
 	ldr r0, _02164914 // =0x0000FFFF
 	cmp r1, r0
 	beq _021648F8
-	ldr r2, [sb, #0xc24]
+	ldr r2, [r9, #0xc24]
 	ldr r0, _02164910 // =aBbViDockBb_0
 	mov r5, #0
 	bl BundleFileUnknown__LoadFileFromBundle
@@ -300,10 +300,10 @@ _02164814:
 	ldr r0, _02164914 // =0x0000FFFF
 	cmp r1, r0
 	beq _0216485C
-	ldr r2, [sb, #0xc28]
+	ldr r2, [r9, #0xc28]
 	ldr r0, _02164910 // =aBbViDockBb_0
 	bl BundleFileUnknown__LoadFileFromBundle
-	ldr r5, [sb, #0xc28]
+	ldr r5, [r9, #0xc28]
 _0216485C:
 	mov r2, #0
 	stmia sp, {r2, r5}
@@ -313,9 +313,9 @@ _0216485C:
 	ldr r0, _02164914 // =0x0000FFFF
 	str r2, [sp, #0x14]
 	str r0, [sp, #0x18]
-	ldr r1, [sb, #0xc24]
+	ldr r1, [r9, #0xc24]
 	mov r3, r2
-	add r0, sb, #0x920
+	add r0, r9, #0x920
 	bl Vi3dObject__Func_216763C
 	cmp r8, #0
 	bne _021648EC
@@ -326,7 +326,7 @@ _0216485C:
 	mov r1, #0
 	str r1, [sp]
 	mov r3, r1
-	add r0, sb, #0x920
+	add r0, r9, #0x920
 	mov r2, #1
 	str r1, [sp, #4]
 	bl Vi3dObject__Func_2167900
@@ -338,22 +338,22 @@ _021648C0:
 	bl CPPHelpers__Func_2085EEC
 	add r0, sp, #0x1c
 	bl CPPHelpers__Func_2085F98
-	add r2, sb, #0x128
+	add r2, r9, #0x128
 	mov r1, r0
 	add r0, r2, #0x800
 	bl CPPHelpers__VEC_Copy_Alt
 _021648EC:
 	mov r0, #1
-	str r0, [sb, #0x91c]
+	str r0, [r9, #0x91c]
 	b _02164900
 _021648F8:
 	mov r0, #0
-	str r0, [sb, #0x91c]
+	str r0, [r9, #0x91c]
 _02164900:
 	mov r0, #1
-	str r0, [sb, #0xc20]
+	str r0, [r9, #0xc20]
 	add sp, sp, #0x28
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02164910: .word aBbViDockBb_0
 _02164914: .word 0x0000FFFF
@@ -1043,7 +1043,7 @@ _0216525C:
 
 	arm_func_start ViDockBack__Func_2165268
 ViDockBack__Func_2165268: // 0x02165268
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x18
 	ldr r6, [sp, #0x38]
 	mov r8, r2
@@ -1051,33 +1051,33 @@ ViDockBack__Func_2165268: // 0x02165268
 	mov r4, #0
 	strne r4, [r7]
 	ldr r2, [sp, #0x3c]
-	mov sb, r1
+	mov r9, r1
 	cmp r6, #0
 	movne r1, #0
 	strne r1, [r6]
 	cmp r2, #0
 	movne r1, #2
 	strne r1, [r2]
-	ldr r1, [sb]
+	ldr r1, [r9]
 	ldr r5, [r0]
 	cmp r5, r1
 	ldreq r3, [r0, #4]
-	ldreq r2, [sb, #4]
+	ldreq r2, [r9, #4]
 	cmpeq r3, r2
 	ldreq r3, [r0, #8]
-	ldreq r2, [sb, #8]
+	ldreq r2, [r9, #8]
 	cmpeq r3, r2
 	bne _021652E4
 	str r1, [r8]
-	ldr r0, [sb, #4]
+	ldr r0, [r9, #4]
 	str r0, [r8, #4]
-	ldr r0, [sb, #8]
+	ldr r0, [r9, #8]
 	str r0, [r8, #8]
 	b _02165478
 _021652E4:
 	ldr r2, [r0, #8]
 	str r1, [sp, #0x14]
-	ldr r0, [sb, #8]
+	ldr r0, [r9, #8]
 	cmp r2, #0x2f000
 	str r0, [sp, #0x10]
 	ble _0216536C
@@ -1167,18 +1167,18 @@ _02165428:
 _02165438:
 	ldr r0, [sp, #0x14]
 	str r0, [r8]
-	ldr r0, [sb, #4]
+	ldr r0, [r9, #4]
 	str r0, [r8, #4]
 	ldr r0, [sp, #0x10]
 	str r0, [r8, #8]
 	ldr r1, [r8]
-	ldr r0, [sb]
+	ldr r0, [r9]
 	cmp r1, r0
 	ldreq r1, [r8, #4]
-	ldreq r0, [sb, #4]
+	ldreq r0, [r9, #4]
 	cmpeq r1, r0
 	ldreq r1, [r8, #8]
-	ldreq r0, [sb, #8]
+	ldreq r0, [r9, #8]
 	cmpeq r1, r0
 	movne r4, #1
 _02165478:
@@ -1203,12 +1203,12 @@ _021654B0:
 _021654BC:
 	mov r0, r4
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end ViDockBack__Func_2165268
 
 	arm_func_start ViDockBack__Func_21654C8
 ViDockBack__Func_21654C8: // 0x021654C8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	ldr r5, [sp, #0x48]
 	mov r7, r2
@@ -1223,9 +1223,9 @@ ViDockBack__Func_21654C8: // 0x021654C8
 	cmp r2, #0
 	movne r1, #3
 	strne r1, [r2]
-	ldr sb, [r8]
+	ldr r9, [r8]
 	ldr r2, [r0]
-	cmp r2, sb
+	cmp r2, r9
 	ldreq r3, [r0, #4]
 	ldreq r1, [r8, #4]
 	cmpeq r3, r1
@@ -1233,7 +1233,7 @@ ViDockBack__Func_21654C8: // 0x021654C8
 	ldreq r1, [r8, #8]
 	cmpeq r3, r1
 	bne _02165544
-	str sb, [r7]
+	str r9, [r7]
 	ldr r0, [r8, #4]
 	str r0, [r7, #4]
 	ldr r0, [r8, #8]
@@ -1242,14 +1242,14 @@ ViDockBack__Func_21654C8: // 0x021654C8
 _02165544:
 	ldr r0, [r0, #8]
 	mov r3, #0x19000
-	str sb, [sp, #0x1c]
+	str r9, [sp, #0x1c]
 	ldr r1, [r8, #8]
 	rsb r3, r3, #0
 	str r1, [sp, #0x18]
 	cmp r2, r3
 	bge _021655DC
 	sub r0, r3, #0x77000
-	cmp sb, r0
+	cmp r9, r0
 	strlt r0, [sp, #0x1c]
 	ldr r0, [sp, #0x18]
 	cmp r0, #0x76000
@@ -1281,7 +1281,7 @@ _02165544:
 _021655DC:
 	cmp r2, #0x19000
 	ble _02165658
-	cmp sb, #0x90000
+	cmp r9, #0x90000
 	movgt r0, #0x90000
 	strgt r0, [sp, #0x1c]
 	ldr r0, [sp, #0x18]
@@ -1314,7 +1314,7 @@ _02165658:
 	cmp r0, #0x76000
 	ble _02165708
 	add r0, r3, #0xe000
-	cmp sb, r0
+	cmp r9, r0
 	bge _021656A8
 	cmp r1, #0x7c000
 	strgt r0, [sp, #0x1c]
@@ -1323,13 +1323,13 @@ _02165658:
 	mov r0, #0x7c000
 	str r2, [sp]
 	str r0, [sp, #4]
-	sub sl, r0, #0x8d000
-	mov r0, sb
+	sub r10, r0, #0x8d000
+	mov r0, r9
 	add r2, sp, #0x1c
 	add r3, sp, #0x18
-	str sl, [sp, #8]
-	mov sb, #0x76000
-	str sb, [sp, #0xc]
+	str r10, [sp, #8]
+	mov r9, #0x76000
+	str r9, [sp, #0xc]
 	bl Unknown2051334__Func_2051450
 _021656A8:
 	ldr r0, [sp, #0x1c]
@@ -1344,12 +1344,12 @@ _021656A8:
 	str r2, [sp]
 	mov r2, #0x76000
 	str r2, [sp, #4]
-	mov sb, #0xb000
-	str sb, [sp, #8]
-	mov sb, #0x7c000
+	mov r9, #0xb000
+	str r9, [sp, #8]
+	mov r9, #0x7c000
 	add r2, sp, #0x1c
 	add r3, sp, #0x18
-	str sb, [sp, #0xc]
+	str r9, [sp, #0xc]
 	bl Unknown2051334__Func_2051450
 _021656F4:
 	ldr r0, [sp, #0x18]
@@ -1363,9 +1363,9 @@ _02165708:
 	cmp r1, #0x76000
 	ble _021658A0
 	add r0, r3, #0x8000
-	cmp sb, r0
+	cmp r9, r0
 	blt _0216572C
-	cmp sb, #0x11000
+	cmp r9, #0x11000
 	ble _02165738
 _0216572C:
 	mov r0, #0x76000
@@ -1373,35 +1373,35 @@ _0216572C:
 	b _021658A0
 _02165738:
 	add r0, r3, #0xe000
-	cmp sb, r0
+	cmp r9, r0
 	bge _02165778
 	mov r2, r0
 	mov r0, #0x7c000
 	str r2, [sp]
 	str r0, [sp, #4]
-	sub sl, r0, #0x8d000
-	mov r0, sb
+	sub r10, r0, #0x8d000
+	mov r0, r9
 	add r2, sp, #0x1c
 	add r3, sp, #0x18
-	str sl, [sp, #8]
-	mov sb, #0x76000
-	str sb, [sp, #0xc]
+	str r10, [sp, #8]
+	mov r9, #0x76000
+	str r9, [sp, #0xc]
 	bl Unknown2051334__Func_2051450
 	b _021658A0
 _02165778:
-	cmp sb, #0xb000
+	cmp r9, #0xb000
 	ble _021658A0
 	mov r0, #0x11000
 	str r0, [sp]
 	mov r0, #0x76000
 	str r0, [sp, #4]
-	mov sl, #0xb000
-	mov r0, sb
+	mov r10, #0xb000
+	mov r0, r9
 	add r2, sp, #0x1c
 	add r3, sp, #0x18
-	str sl, [sp, #8]
-	mov sb, #0x7c000
-	str sb, [sp, #0xc]
+	str r10, [sp, #8]
+	mov r9, #0x7c000
+	str r9, [sp, #0xc]
 	bl Unknown2051334__Func_2051450
 	b _021658A0
 _021657B4:
@@ -1420,18 +1420,18 @@ _021657D0:
 	strlt r0, [sp, #0x1c]
 	ldr r0, [sp, #0x1c]
 	mov r2, #0x800
-	sub sl, r0, #0x19000
+	sub r10, r0, #0x19000
 	sub ip, r2, #0x10800
 	mvn r2, #0
 	rsb r3, r3, #0
 	str r0, [sp, #0x14]
-	umull r0, lr, sl, r3
-	mov fp, #0
-	movlt fp, #1
+	umull r0, lr, r10, r3
+	mov r11, #0
+	movlt r11, #1
 	adds r0, r0, #0x800
-	mla lr, sl, r2, lr
-	mov sb, sl, asr #0x1f
-	mla lr, sb, r3, lr
+	mla lr, r10, r2, lr
+	mov r9, r10, asr #0x1f
+	mla lr, r9, r3, lr
 	str r2, [sp, #0x10]
 	ldr r1, [sp, #0x18]
 	adc r2, lr, #0
@@ -1439,18 +1439,18 @@ _021657D0:
 	mov r0, r0, lsr #0xc
 	orr r0, r0, r2, lsl #20
 	ldr r2, [sp, #0x10]
-	umull sl, sb, lr, ip
-	mla sb, lr, r2, sb
+	umull r10, r9, lr, ip
+	mla r9, lr, r2, r9
 	mov r3, lr, asr #0x1f
-	mla sb, r3, ip, sb
-	adds r3, sl, #0x800
-	adc r2, sb, #0
+	mla r9, r3, ip, r9
+	adds r3, r10, #0x800
+	adc r2, r9, #0
 	mov r3, r3, lsr #0xc
 	orr r3, r3, r2, lsl #20
 	subs r0, r0, r3
 	bpl _02165890
 	ldr r0, [sp, #0x14]
-	add sb, sp, #0x18
+	add r9, sp, #0x18
 	str r0, [sp]
 	str r1, [sp, #4]
 	add r0, sp, #0x1c
@@ -1459,10 +1459,10 @@ _021657D0:
 	mov r1, #0x47000
 	mov r2, #0x9000
 	mov r3, #0x31000
-	str sb, [sp, #0xc]
+	str r9, [sp, #0xc]
 	bl Unknown2051334__Func_2051334
 _02165890:
-	cmp fp, #0
+	cmp r11, #0
 	ldrne r0, [sp, #0x1c]
 	rsbne r0, r0, #0
 	strne r0, [sp, #0x1c]
@@ -1498,12 +1498,12 @@ _021658FC:
 _02165908:
 	mov r0, r4
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end ViDockBack__Func_21654C8
 
 	arm_func_start ViDockBack__Func_2165914
 ViDockBack__Func_2165914: // 0x02165914
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	ldr r5, [sp, #0x48]
 	mov r7, r2
@@ -1518,9 +1518,9 @@ ViDockBack__Func_2165914: // 0x02165914
 	cmp r2, #0
 	movne r1, #4
 	strne r1, [r2]
-	ldr sb, [r8]
+	ldr r9, [r8]
 	ldr r2, [r0]
-	cmp r2, sb
+	cmp r2, r9
 	ldreq r3, [r0, #4]
 	ldreq r1, [r8, #4]
 	cmpeq r3, r1
@@ -1528,7 +1528,7 @@ ViDockBack__Func_2165914: // 0x02165914
 	ldreq r1, [r8, #8]
 	cmpeq r3, r1
 	bne _02165990
-	str sb, [r7]
+	str r9, [r7]
 	ldr r0, [r8, #4]
 	str r0, [r7, #4]
 	ldr r0, [r8, #8]
@@ -1537,14 +1537,14 @@ ViDockBack__Func_2165914: // 0x02165914
 _02165990:
 	ldr r0, [r0, #8]
 	mov r3, #0x19000
-	str sb, [sp, #0x1c]
+	str r9, [sp, #0x1c]
 	ldr r1, [r8, #8]
 	rsb r3, r3, #0
 	str r1, [sp, #0x18]
 	cmp r2, r3
 	bge _02165A28
 	sub r0, r3, #0x63000
-	cmp sb, r0
+	cmp r9, r0
 	strlt r0, [sp, #0x1c]
 	ldr r0, [sp, #0x18]
 	cmp r0, #0x76000
@@ -1576,7 +1576,7 @@ _02165990:
 _02165A28:
 	cmp r2, #0x19000
 	ble _02165AA4
-	cmp sb, #0x54000
+	cmp r9, #0x54000
 	movgt r0, #0x54000
 	strgt r0, [sp, #0x1c]
 	ldr r0, [sp, #0x18]
@@ -1609,7 +1609,7 @@ _02165AA4:
 	cmp r0, #0x76000
 	ble _02165B54
 	add r0, r3, #0xe000
-	cmp sb, r0
+	cmp r9, r0
 	bge _02165AF4
 	cmp r1, #0x7c000
 	strgt r0, [sp, #0x1c]
@@ -1618,13 +1618,13 @@ _02165AA4:
 	mov r0, #0x7c000
 	str r2, [sp]
 	str r0, [sp, #4]
-	sub sl, r0, #0x8d000
-	mov r0, sb
+	sub r10, r0, #0x8d000
+	mov r0, r9
 	add r2, sp, #0x1c
 	add r3, sp, #0x18
-	str sl, [sp, #8]
-	mov sb, #0x76000
-	str sb, [sp, #0xc]
+	str r10, [sp, #8]
+	mov r9, #0x76000
+	str r9, [sp, #0xc]
 	bl Unknown2051334__Func_2051450
 _02165AF4:
 	ldr r0, [sp, #0x1c]
@@ -1639,12 +1639,12 @@ _02165AF4:
 	str r2, [sp]
 	mov r2, #0x76000
 	str r2, [sp, #4]
-	mov sb, #0xb000
-	str sb, [sp, #8]
-	mov sb, #0x7c000
+	mov r9, #0xb000
+	str r9, [sp, #8]
+	mov r9, #0x7c000
 	add r2, sp, #0x1c
 	add r3, sp, #0x18
-	str sb, [sp, #0xc]
+	str r9, [sp, #0xc]
 	bl Unknown2051334__Func_2051450
 _02165B40:
 	ldr r0, [sp, #0x18]
@@ -1658,9 +1658,9 @@ _02165B54:
 	cmp r1, #0x76000
 	ble _02165CEC
 	add r0, r3, #0x8000
-	cmp sb, r0
+	cmp r9, r0
 	blt _02165B78
-	cmp sb, #0x11000
+	cmp r9, #0x11000
 	ble _02165B84
 _02165B78:
 	mov r0, #0x76000
@@ -1668,35 +1668,35 @@ _02165B78:
 	b _02165CEC
 _02165B84:
 	add r0, r3, #0xe000
-	cmp sb, r0
+	cmp r9, r0
 	bge _02165BC4
 	mov r2, r0
 	mov r0, #0x7c000
 	str r2, [sp]
 	str r0, [sp, #4]
-	sub sl, r0, #0x8d000
-	mov r0, sb
+	sub r10, r0, #0x8d000
+	mov r0, r9
 	add r2, sp, #0x1c
 	add r3, sp, #0x18
-	str sl, [sp, #8]
-	mov sb, #0x76000
-	str sb, [sp, #0xc]
+	str r10, [sp, #8]
+	mov r9, #0x76000
+	str r9, [sp, #0xc]
 	bl Unknown2051334__Func_2051450
 	b _02165CEC
 _02165BC4:
-	cmp sb, #0xb000
+	cmp r9, #0xb000
 	ble _02165CEC
 	mov r0, #0x11000
 	str r0, [sp]
 	mov r0, #0x76000
 	str r0, [sp, #4]
-	mov sl, #0xb000
-	mov r0, sb
+	mov r10, #0xb000
+	mov r0, r9
 	add r2, sp, #0x1c
 	add r3, sp, #0x18
-	str sl, [sp, #8]
-	mov sb, #0x7c000
-	str sb, [sp, #0xc]
+	str r10, [sp, #8]
+	mov r9, #0x7c000
+	str r9, [sp, #0xc]
 	bl Unknown2051334__Func_2051450
 	b _02165CEC
 _02165C00:
@@ -1715,18 +1715,18 @@ _02165C1C:
 	strlt r0, [sp, #0x1c]
 	ldr r0, [sp, #0x1c]
 	mov r2, #0x800
-	sub sl, r0, #0x19000
+	sub r10, r0, #0x19000
 	sub ip, r2, #0x10800
 	mvn r2, #0
 	rsb r3, r3, #0
 	str r0, [sp, #0x14]
-	umull r0, lr, sl, r3
-	mov fp, #0
-	movlt fp, #1
+	umull r0, lr, r10, r3
+	mov r11, #0
+	movlt r11, #1
 	adds r0, r0, #0x800
-	mla lr, sl, r2, lr
-	mov sb, sl, asr #0x1f
-	mla lr, sb, r3, lr
+	mla lr, r10, r2, lr
+	mov r9, r10, asr #0x1f
+	mla lr, r9, r3, lr
 	str r2, [sp, #0x10]
 	ldr r1, [sp, #0x18]
 	adc r2, lr, #0
@@ -1734,18 +1734,18 @@ _02165C1C:
 	mov r0, r0, lsr #0xc
 	orr r0, r0, r2, lsl #20
 	ldr r2, [sp, #0x10]
-	umull sl, sb, lr, ip
-	mla sb, lr, r2, sb
+	umull r10, r9, lr, ip
+	mla r9, lr, r2, r9
 	mov r3, lr, asr #0x1f
-	mla sb, r3, ip, sb
-	adds r3, sl, #0x800
-	adc r2, sb, #0
+	mla r9, r3, ip, r9
+	adds r3, r10, #0x800
+	adc r2, r9, #0
 	mov r3, r3, lsr #0xc
 	orr r3, r3, r2, lsl #20
 	subs r0, r0, r3
 	bpl _02165CDC
 	ldr r0, [sp, #0x14]
-	add sb, sp, #0x18
+	add r9, sp, #0x18
 	str r0, [sp]
 	str r1, [sp, #4]
 	add r0, sp, #0x1c
@@ -1754,10 +1754,10 @@ _02165C1C:
 	mov r1, #0x47000
 	mov r2, #0x9000
 	mov r3, #0x31000
-	str sb, [sp, #0xc]
+	str r9, [sp, #0xc]
 	bl Unknown2051334__Func_2051334
 _02165CDC:
-	cmp fp, #0
+	cmp r11, #0
 	ldrne r0, [sp, #0x1c]
 	rsbne r0, r0, #0
 	strne r0, [sp, #0x1c]
@@ -1793,7 +1793,7 @@ _02165D48:
 _02165D54:
 	mov r0, r4
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end ViDockBack__Func_2165914
 
 	arm_func_start ViDockBack__Func_2165D60

@@ -261,7 +261,7 @@ _02172C38: .word 0x0000FFFF
 
 	arm_func_start VSViewFriendCodeMenu__InitSprites
 VSViewFriendCodeMenu__InitSprites: // 0x02172C3C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x30
 	str r0, [sp, #0x1c]
 	ldr r1, [sp, #0x1c]
@@ -280,18 +280,18 @@ VSViewFriendCodeMenu__InitSprites: // 0x02172C3C
 	bl Sprite__GetSpriteSize3
 	mov r4, #0
 	ldr r8, [sp, #0x1c]
-	mov fp, r0
+	mov r11, r0
 	mov r0, r8
 	add r5, sp, #0x24
-	mov sb, r4
+	mov r9, r4
 	add r6, r0, #4
 	mov r7, #0x26
 _02172CA0:
 	cmp r4, #0
-	moveq sl, #0
+	moveq r10, #0
 	mov r0, #1
-	mov r1, fp
-	movne sl, #0x10
+	mov r1, r11
+	movne r10, #0x10
 	bl VRAMSystem__AllocSpriteVram
 	mov r1, #1
 	str r1, [sp]
@@ -301,7 +301,7 @@ _02172CA0:
 	mov r0, r1
 	str r0, [sp, #0xc]
 	ldr r0, _02172D68 // =0x05000600
-	orr r3, sl, #0x200
+	orr r3, r10, #0x200
 	str r0, [sp, #0x10]
 	mov r0, r1
 	str r0, [sp, #0x14]
@@ -313,7 +313,7 @@ _02172CA0:
 	cmp r4, #6
 	movlt r0, #0x50
 	strlth r7, [r8, #0xc]
-	subge r0, sb, #0xb2
+	subge r0, r9, #0xb2
 	strgeh r0, [r8, #0xc]
 	movge r0, #0x80
 	add r4, r4, #1
@@ -322,7 +322,7 @@ _02172CA0:
 	add r6, r6, #0x64
 	add r7, r7, #0x24
 	add r8, r8, #0x64
-	add sb, sb, #0x24
+	add r9, r9, #0x24
 	cmp r4, #0xc
 	blt _02172CA0
 	ldr r0, [sp, #0x1c]
@@ -332,12 +332,12 @@ _02172CA0:
 	mov r0, #0x19
 	blx VSMenu__SetNetworkMessageSequence
 	add sp, sp, #0x30
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02172D58:
 	mov r0, #0x1a
 	blx VSMenu__SetNetworkMessageSequence
 	add sp, sp, #0x30
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02172D68: .word 0x05000600
 	arm_func_end VSViewFriendCodeMenu__InitSprites
@@ -369,7 +369,7 @@ _02172D84:
 
 	arm_func_start VSViewFriendCodeMenu__Main
 VSViewFriendCodeMenu__Main: // 0x02172DBC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetCurrentTaskWork_
 	mov r7, r0
 	ldr r0, [r7, #0x4b8]
@@ -381,34 +381,34 @@ VSViewFriendCodeMenu__Main: // 0x02172DBC
 	ldr r0, _02172EF0 // =VSViewFriendCodeMenu__Main_2172EF8
 	str r1, [r7, #0x4b4]
 	bl SetCurrentTaskMainEvent
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02172DF0:
 	mov r8, #0
 	ldr r4, _02172EF4 // =0x00001333
-	mov sl, r8
-	add sb, r7, #4
+	mov r10, r8
+	add r9, r7, #4
 	mov r6, #0x1000
 	mov r5, r8
-	mov fp, #6
+	mov r11, #6
 _02172E0C:
 	mov r1, #0
-	mov r0, sb
+	mov r0, r9
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
 	ldr r0, [r7, #0x4b4]
-	sub r0, r0, sl
+	sub r0, r0, r10
 	subs r3, r0, #0x10
 	bmi _02172EAC
 	cmp r3, #6
 	bge _02172E64
 	mov r0, r5
 	mov r1, r4
-	mov r2, fp
+	mov r2, r11
 	str r6, [sp]
 	bl Unknown2051334__Func_2051534
 	mov r0, r0, lsl #0x10
 	mov r1, r0, asr #0x10
-	mov r0, sb
+	mov r0, r9
 	mov r2, r1
 	mov r3, #0
 	bl AnimatorSprite__DrawFrameRotoZoom
@@ -425,32 +425,32 @@ _02172E64:
 	bl Unknown2051334__Func_2051534
 	mov r0, r0, lsl #0x10
 	mov r1, r0, asr #0x10
-	mov r0, sb
+	mov r0, r9
 	mov r2, r1
 	mov r3, #0
 	bl AnimatorSprite__DrawFrameRotoZoom
 	b _02172EAC
 _02172EA4:
-	mov r0, sb
+	mov r0, r9
 	bl AnimatorSprite__DrawFrame
 _02172EAC:
 	add r8, r8, #1
 	cmp r8, #0xc
-	add sb, sb, #0x64
-	add sl, sl, #2
+	add r9, r9, #0x64
+	add r10, r10, #2
 	blt _02172E0C
 	ldr r0, [r7, #0x4b4]
 	cmp r0, #0x2f
 	addlo r0, r0, #1
 	strlo r0, [r7, #0x4b4]
-	ldmloia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmloia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, #1
 	bl VSViewFriendCodeMenu__Func_2173154
 	mov r1, #0
 	ldr r0, _02172EF0 // =VSViewFriendCodeMenu__Main_2172EF8
 	str r1, [r7, #0x4b4]
 	bl SetCurrentTaskMainEvent
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02172EF0: .word VSViewFriendCodeMenu__Main_2172EF8
 _02172EF4: .word 0x00001333
@@ -513,32 +513,32 @@ _02172FAC: .word VSViewFriendCodeMenu__Main_2172FB0
 
 	arm_func_start VSViewFriendCodeMenu__Main_2172FB0
 VSViewFriendCodeMenu__Main_2172FB0: // 0x02172FB0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetCurrentTaskWork_
 	mov r7, r0
 	ldr r0, [r7, #0x4b8]
 	cmp r0, #0
 	bne _02172FD0
 	bl DestroyCurrentTask
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02172FD0:
 	mov r8, #0
 	mov r4, #0x1000
 	ldr r5, _021730B8 // =0x00001333
-	mov sl, r8
-	add sb, r7, #4
+	mov r10, r8
+	add r9, r7, #4
 	mov r6, r4
-	mov fp, #3
+	mov r11, #3
 _02172FEC:
 	mov r1, #0
-	mov r0, sb
+	mov r0, r9
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
 	ldr r0, [r7, #0x4b4]
-	sub r0, r0, sl
+	sub r0, r0, r10
 	subs r3, r0, #0x10
 	bpl _02173018
-	mov r0, sb
+	mov r0, r9
 	bl AnimatorSprite__DrawFrame
 	b _02173088
 _02173018:
@@ -546,12 +546,12 @@ _02173018:
 	bge _02173050
 	mov r0, r6
 	mov r1, r5
-	mov r2, fp
+	mov r2, r11
 	str r6, [sp]
 	bl Unknown2051334__Func_2051534
 	mov r0, r0, lsl #0x10
 	mov r1, r0, asr #0x10
-	mov r0, sb
+	mov r0, r9
 	mov r2, r1
 	mov r3, #0
 	bl AnimatorSprite__DrawFrameRotoZoom
@@ -567,23 +567,23 @@ _02173050:
 	bl Unknown2051334__Func_2051534
 	mov r0, r0, lsl #0x10
 	mov r1, r0, asr #0x10
-	mov r0, sb
+	mov r0, r9
 	mov r2, r1
 	mov r3, #0
 	bl AnimatorSprite__DrawFrameRotoZoom
 _02173088:
 	add r8, r8, #1
 	cmp r8, #0xc
-	add sb, sb, #0x64
-	add sl, sl, #2
+	add r9, r9, #0x64
+	add r10, r10, #2
 	blt _02172FEC
 	ldr r0, [r7, #0x4b4]
 	cmp r0, #0x2f
 	addlo r0, r0, #1
 	strlo r0, [r7, #0x4b4]
-	ldmloia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmloia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl DestroyCurrentTask
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021730B8: .word 0x00001333
 	arm_func_end VSViewFriendCodeMenu__Main_2172FB0

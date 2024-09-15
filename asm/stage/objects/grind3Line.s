@@ -103,7 +103,7 @@ _02163668: .word Grind3LineSpring__State_2163F64
 
 	arm_func_start Grind3Line__Create
 Grind3Line__Create: // 0x0216366C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
 	mov r6, r0
@@ -125,7 +125,7 @@ Grind3Line__Create: // 0x0216366C
 	cmp r7, r0
 	addeq sp, sp, #0xc
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r7
 	bl GetTaskWork_
 	ldr r2, _02163A6C // =0x0000117C
@@ -198,23 +198,23 @@ Grind3Line__Create: // 0x0216366C
 	str r3, [r7, #0x20]
 	ldr r2, [r2]
 	bl ObjDataLoad
-	mov sb, r0
-	add sl, r7, #0x4e0
+	mov r9, r0
+	add r10, r7, #0x4e0
 	mov r8, #0
 	mov r5, #0x860
 	mov r4, #0x1d
-	mov fp, #7
+	mov r11, #7
 	b _02163884
 _02163804:
 	mov r1, r8, lsl #0x10
-	mov r0, sb
+	mov r0, r9
 	mov r1, r1, lsr #0x10
 	bl Sprite__GetTextureSizeFromAnim
 	mov r1, #0
 	bl VRAMSystem__AllocTexture
 	mov r1, r8, lsl #0x10
 	mov r6, r0
-	mov r0, sb
+	mov r0, r9
 	mov r1, r1, lsr #0x10
 	bl Sprite__GetPaletteSizeFromAnim
 	mov r1, #0
@@ -222,22 +222,22 @@ _02163804:
 	stmia sp, {r5, r6}
 	mov r3, r8, lsl #0x10
 	str r0, [sp, #8]
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
-	mov r2, sb
+	mov r2, r9
 	mov r3, r3, lsr #0x10
 	bl AnimatorSprite3D__Init
-	strb r4, [sl, #0xa]
+	strb r4, [r10, #0xa]
 	mov r1, #0
-	strb fp, [sl, #0xb]
-	mov r0, sl
+	strb r11, [r10, #0xb]
+	mov r0, r10
 	mov r2, r1
 	bl AnimatorSprite3D__ProcessAnimation
-	ldr r0, [sl, #0xcc]
+	ldr r0, [r10, #0xcc]
 	add r8, r8, #1
 	orr r0, r0, #0x18
-	str r0, [sl, #0xcc]
-	add sl, sl, #0x104
+	str r0, [r10, #0xcc]
+	add r10, r10, #0x104
 _02163884:
 	cmp r8, #7
 	blt _02163804
@@ -364,7 +364,7 @@ _021638D0:
 	orr r1, r1, #0x100
 	str r1, [r7, #0x1c]
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02163A6C: .word 0x0000117C
 _02163A70: .word StageTask_Main
@@ -576,7 +576,7 @@ _02163D78: .word Grind3LineSpikeBall__State_2164A40
 
 	arm_func_start Grind3LineRingLoss__Create
 Grind3LineRingLoss__Create: // 0x02163D7C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
 	ldr r1, _02163F44 // =Grind3Line__Singleton
 	mov r8, r0
@@ -584,11 +584,11 @@ Grind3LineRingLoss__Create: // 0x02163D7C
 	ldr r4, _02163F48 // =0x00000488
 	cmp r0, #0
 	addeq sp, sp, #0x18
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [r0, #0xe04]
 	tst r0, #1
 	addne sp, sp, #0x18
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, #0x1800
 	mov r2, #0
 	str r0, [sp]
@@ -605,7 +605,7 @@ Grind3LineRingLoss__Create: // 0x02163D7C
 	bl OS_GetArenaLo
 	cmp r5, r0
 	addeq sp, sp, #0x18
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r5
 	bl GetTaskWork_
 	add r2, r4, #0x1e4
@@ -619,28 +619,28 @@ Grind3LineRingLoss__Create: // 0x02163D7C
 	str r0, [r5, #0x3c]
 	str r0, [r5, #0x40]
 	add r0, r8, #0x600
-	ldrsh sl, [r0, #0x7e]
+	ldrsh r10, [r0, #0x7e]
 	mov r1, #0
 	add lr, r5, #0x16c
 	strh r1, [r0, #0x7e]
-	cmp sl, #0x40
-	movgt sl, #0x40
+	cmp r10, #0x40
+	movgt r10, #0x40
 	add ip, sp, #0xc
-	str sl, [r5, #0x168]
+	str r10, [r5, #0x168]
 	add r0, r8, #0x44
 	ldmia r0, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
 	ldr r0, _02163F54 // =ringManagerWork
 	ldrb r1, [r8, #0x5d1]
 	ldr r0, [r0]
-	cmp sl, #0
+	cmp r10, #0
 	add r0, r0, r1
 	ldrb r1, [r0, #0x364]
 	add r0, r5, #0x6c
 	add r8, r0, #0x400
-	add sb, lr, #0x400
+	add r9, lr, #0x400
 	add r4, r4, r1, lsl #8
-	mov fp, #0
+	mov r11, #0
 	ble _02163F14
 	ldr r3, _02163F58 // =FX_SinCosTable_
 _02163E88:
@@ -673,9 +673,9 @@ _02163E88:
 	orr r4, r1, #0x80
 _02163EF4:
 	str r6, [r8], #4
-	add fp, fp, #1
-	cmp fp, sl
-	str r7, [sb], #4
+	add r11, r11, #1
+	cmp r11, r10
+	str r7, [r9], #4
 	rsb r4, r4, #0
 	rsb r6, r6, #0
 	add lr, lr, #0xc
@@ -692,7 +692,7 @@ _02163F14:
 	str r1, [r5, #0xfc]
 	str r0, [r5, #0xf4]
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02163F44: .word Grind3Line__Singleton
 _02163F48: .word 0x00000488
@@ -891,7 +891,7 @@ _021641DC: .word Grind3Line__State_21641E0
 
 	arm_func_start Grind3Line__State_21641E0
 Grind3Line__State_21641E0: // 0x021641E0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x50
 	ldr r1, _0216479C // =0x00141BB2
 	mov r6, r0
@@ -911,7 +911,7 @@ _02164210:
 	mov r0, #0x258
 	add sp, sp, #0x50
 	str r0, [r6, #0x28]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02164230:
 	ldr r2, [r6, #0x44]
 	ldr r1, [r6, #0xe08]
@@ -932,7 +932,7 @@ _02164230:
 	str r1, [r6, #0xe04]
 	add sp, sp, #0x50
 	str r0, [r6, #0xf4]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02164280:
 	sub r0, r1, #0x9600
 	cmp r0, r2
@@ -1021,13 +1021,13 @@ _0216433C:
 	ldr r7, _021647BC // =Grind3Line__Singleton
 	rsb r0, r0, #0
 	add r4, r4, #0xc00
-	mvn fp, #0
+	mvn r11, #0
 	mov r5, #0
 	str r0, [sp, #0x14]
 _021643D8:
 	ldr r0, [r4, #4]
 	cmp r0, #0x100000
-	moveq fp, r5
+	moveq r11, r5
 	beq _02164514
 	ldr r0, [r7]
 	ldrh r1, [r4, #8]
@@ -1047,7 +1047,7 @@ _021643D8:
 _02164424:
 	mov r0, #0x100000
 	str r0, [r4, #4]
-	mov fp, r5
+	mov r11, r5
 	b _02164514
 _02164434:
 	ldr r2, [r7]
@@ -1061,44 +1061,44 @@ _02164434:
 	add r0, r0, r8
 	str r0, [r4, #4]
 	ldrh r0, [r4, #0xa]
-	ldrh sl, [r4, #8]
+	ldrh r10, [r4, #8]
 	ldr ip, [r4]
 	add r8, r0, r0, lsl #6
 	ldr r0, [sp, #0x10]
-	mov sl, sl, asr #4
+	mov r10, r10, asr #4
 	add r0, r0, r8, lsl #2
 	ldr r8, _021647C4 // =FX_SinCosTable_
-	ldr sb, [r7]
-	add r8, r8, sl, lsl #2
-	ldrsh sl, [r8, #2]
-	ldr r8, [sb, #0x44]
-	smull lr, ip, sl, ip
+	ldr r9, [r7]
+	add r8, r8, r10, lsl #2
+	ldrsh r10, [r8, #2]
+	ldr r8, [r9, #0x44]
+	smull lr, ip, r10, ip
 	adds lr, lr, #0x800
-	mov sl, r2
-	adc sl, ip, sl
+	mov r10, r2
+	adc r10, ip, r10
 	mov ip, lr, lsr #0xc
-	orr ip, ip, sl, lsl #20
-	add sl, r8, ip
+	orr ip, ip, r10, lsl #20
+	add r10, r8, ip
 	ldr r8, _0216479C // =0x00141BB2
-	add r8, sl, r8
+	add r8, r10, r8
 	str r8, [sp, #0x44]
-	ldr r8, [sb, #0x48]
-	ldr sb, [r4, #4]
-	add r8, sb, r8
+	ldr r8, [r9, #0x48]
+	ldr r9, [r4, #4]
+	add r8, r9, r8
 	str r8, [sp, #0x48]
 	ldrh r8, [r4, #8]
-	ldr sb, [r4]
+	ldr r9, [r4]
 	mov r8, r8, asr #4
-	mov sl, r8, lsl #2
+	mov r10, r8, lsl #2
 	ldr r8, _021647C4 // =FX_SinCosTable_
-	ldrsh r8, [r8, sl]
-	smull sl, sb, r8, sb
-	adds sl, sl, #0x800
+	ldrsh r8, [r8, r10]
+	smull r10, r9, r8, r9
+	adds r10, r10, #0x800
 	mov r8, r2
-	adc r8, sb, r8
-	mov sb, sl, lsr #0xc
-	orr sb, sb, r8, lsl #20
-	str sb, [sp, #0x4c]
+	adc r8, r9, r8
+	mov r9, r10, lsr #0xc
+	orr r9, r9, r8, lsl #20
+	str r9, [sp, #0x4c]
 	add r8, sp, #0x1c
 	str r8, [sp]
 	mov r8, r2
@@ -1122,7 +1122,7 @@ _02164514:
 	cmp r0, #0
 	bgt _021645A4
 	mvn r0, #0
-	cmp fp, r0
+	cmp r11, r0
 	beq _021645A4
 	ldr r1, _021647BC // =Grind3Line__Singleton
 	add r0, r6, #0x218
@@ -1131,7 +1131,7 @@ _02164514:
 	add r0, r3, #0xe00
 	ldrh r3, [r0, #0x14]
 	mov r1, #0xc
-	mla r0, fp, r1, r2
+	mla r0, r11, r1, r2
 	rsb r4, r3, #0x100
 	bl Grind3Line__Func_21647D8
 	mov r0, r4, asr #5
@@ -1156,7 +1156,7 @@ _021645A4:
 	ldr r4, _021647C4 // =FX_SinCosTable_
 	mvn r8, #0
 	mov r7, #0
-	add sb, r6, #0x2f8
+	add r9, r6, #0x2f8
 _021645D4:
 	ldr r0, [r5, #4]
 	cmp r0, #0x100000
@@ -1185,10 +1185,10 @@ _02164620:
 	ldrsh r3, [r0, #2]
 	ldr r2, [r5]
 	ldr r0, _021647BC // =Grind3Line__Singleton
-	smull fp, sl, r3, r2
-	adds r3, fp, #0x800
+	smull r11, r10, r3, r2
+	adds r3, r11, #0x800
 	ldr r1, [r0]
-	adc r2, sl, #0
+	adc r2, r10, #0
 	mov r3, r3, lsr #0xc
 	ldr r0, [r1, #0x44]
 	orr r3, r3, r2, lsl #20
@@ -1199,29 +1199,29 @@ _02164620:
 	str r0, [sp, #0x2c]
 	ldr r1, [r1, #0x48]
 	ldr r2, [r5, #4]
-	add r0, sb, #0x800
+	add r0, r9, #0x800
 	add r1, r2, r1
 	str r1, [sp, #0x30]
 	ldrh r2, [r5, #8]
-	ldr fp, [r5]
+	ldr r11, [r5]
 	add r1, sp, #0x2c
 	mov r2, r2, asr #4
 	mov r2, r2, lsl #2
-	ldrsh sl, [r4, r2]
+	ldrsh r10, [r4, r2]
 	mov r2, #0
-	smull ip, fp, sl, fp
-	adds sl, ip, #0x800
+	smull ip, r11, r10, r11
+	adds r10, ip, #0x800
 	mov ip, r2
-	adc fp, fp, ip
-	mov sl, sl, lsr #0xc
-	orr sl, sl, fp, lsl #20
-	str sl, [sp, #0x34]
-	add sl, sp, #0x18
-	str sl, [sp]
-	mov sl, r2
-	str sl, [sp, #4]
-	str sl, [sp, #8]
-	str sl, [sp, #0xc]
+	adc r11, r11, ip
+	mov r10, r10, lsr #0xc
+	orr r10, r10, r11, lsl #20
+	str r10, [sp, #0x34]
+	add r10, sp, #0x18
+	str r10, [sp]
+	mov r10, r2
+	str r10, [sp, #4]
+	str r10, [sp, #8]
+	str r10, [sp, #0xc]
 	bl StageTask__Draw3DEx
 _021646D4:
 	add r7, r7, #1
@@ -1231,7 +1231,7 @@ _021646D4:
 	ldr r0, [r6, #0xe04]
 	tst r0, #3
 	addne sp, sp, #0x50
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r0, r6, #0x1100
 	ldrsh r1, [r0, #0x18]
 	sub r1, r1, #1
@@ -1239,11 +1239,11 @@ _021646D4:
 	ldrsh r0, [r0, #0x18]
 	cmp r0, #0
 	addgt sp, sp, #0x50
-	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mvn r0, #0
 	cmp r8, r0
 	addeq sp, sp, #0x50
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r1, _021647BC // =Grind3Line__Singleton
 	add r0, r6, #0x11c
 	ldr r3, [r1]
@@ -1274,7 +1274,7 @@ _02164760:
 	add r0, r0, r4
 	strh r0, [r2, #0x18]
 	add sp, sp, #0x50
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216479C: .word 0x00141BB2
 _021647A0: .word Grind3Line__State_216497C
@@ -1679,15 +1679,15 @@ Grind3LineSpikeBall__OnDefend_2164CB4: // 0x02164CB4
 
 	arm_func_start Grind3LineRingLoss__State_2164D08
 Grind3LineRingLoss__State_2164D08: // 0x02164D08
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	ldr r1, _02164E04 // =Grind3Line__Singleton
-	mov sl, r0
+	mov r10, r0
 	ldr r1, [r1]
-	ldr r6, [sl, #0x168]
+	ldr r6, [r10, #0x168]
 	cmp r1, #0
 	ldrne r0, _02164E08 // =g_obj
-	mov fp, #1
+	mov r11, #1
 	ldrne r0, [r0, #0x14]
 	cmpne r0, #0
 	beq _02164D44
@@ -1695,17 +1695,17 @@ Grind3LineRingLoss__State_2164D08: // 0x02164D08
 	tst r0, #2
 	beq _02164D58
 _02164D44:
-	ldr r0, [sl, #0x18]
+	ldr r0, [r10, #0x18]
 	add sp, sp, #0xc
 	orr r0, r0, #4
-	str r0, [sl, #0x18]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	str r0, [r10, #0x18]
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02164D58:
-	add r7, sl, #0x16c
-	add r0, sl, #0x6c
+	add r7, r10, #0x16c
+	add r0, r10, #0x6c
 	cmp r6, #0
 	add r8, r0, #0x400
-	add sb, r7, #0x400
+	add r9, r7, #0x400
 	mov r5, #0
 	ble _02164DEC
 	mov r4, r5
@@ -1716,16 +1716,16 @@ _02164D78:
 	add r0, r1, r0
 	str r0, [r7]
 	ldr r0, _02164E0C // =0x02118D5C
-	ldr r1, [sb]
+	ldr r1, [r9]
 	ldrsh r0, [r0]
 	ldr r3, [r7, #4]
 	add r1, r1, r0
 	add r1, r3, r1
 	str r1, [r7, #4]
-	ldr r1, [sb]
+	ldr r1, [r9]
 	mov r3, r4
 	add r0, r1, r0
-	str r0, [sb]
+	str r0, [r9]
 	str r4, [sp]
 	str r4, [sp, #4]
 	str r4, [sp, #8]
@@ -1733,19 +1733,19 @@ _02164D78:
 	bl StageTask__ViewOutCheck
 	cmp r0, #0
 	add r5, r5, #1
-	moveq fp, #0
+	moveq r11, #0
 	cmp r5, r6
 	add r7, r7, #0xc
 	add r8, r8, #4
-	add sb, sb, #4
+	add r9, r9, #4
 	blt _02164D78
 _02164DEC:
-	cmp fp, #0
-	ldrne r0, [sl, #0x18]
+	cmp r11, #0
+	ldrne r0, [r10, #0x18]
 	orrne r0, r0, #4
-	strne r0, [sl, #0x18]
+	strne r0, [r10, #0x18]
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02164E04: .word Grind3Line__Singleton
 _02164E08: .word g_obj
@@ -1754,7 +1754,7 @@ _02164E0C: .word 0x02118D5C
 
 	arm_func_start Grind3LineRingLoss__Draw_2164E10
 Grind3LineRingLoss__Draw_2164E10: // 0x02164E10
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x20
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -1764,12 +1764,12 @@ Grind3LineRingLoss__Draw_2164E10: // 0x02164E10
 	ldr r3, _02164EA0 // =0x00001104
 	stmia r7, {r0, r1, r2}
 	str r3, [sp, #0x10]
-	ldr sb, [r4, #0x168]
+	ldr r9, [r4, #0x168]
 	mov r8, #0
-	cmp sb, #0
+	cmp r9, #0
 	addle sp, sp, #0x20
-	ldmleia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
-	add sl, r4, #0x16c
+	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+	add r10, r4, #0x16c
 	ldr r4, _02164EA4 // =Grind3Line__Singleton
 	add r6, sp, #0x10
 	mov r5, r8
@@ -1779,18 +1779,18 @@ _02164E5C:
 	str r5, [sp, #8]
 	str r5, [sp, #0xc]
 	ldr r0, [r4]
-	mov r1, sl
+	mov r1, r10
 	add r0, r0, #0x3fc
 	mov r2, r5
 	mov r3, r7
 	add r0, r0, #0x800
 	bl StageTask__Draw3DEx
 	add r8, r8, #1
-	cmp r8, sb
-	add sl, sl, #0xc
+	cmp r8, r9
+	add r10, r10, #0xc
 	blt _02164E5C
 	add sp, sp, #0x20
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02164EA0: .word 0x00001104
 _02164EA4: .word Grind3Line__Singleton

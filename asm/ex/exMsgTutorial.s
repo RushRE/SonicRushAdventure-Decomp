@@ -46,7 +46,7 @@ _0216C59C:
 
 	arm_func_start exMsgTutorialTask__Main
 exMsgTutorialTask__Main: // 0x0216C5A8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetExTaskWorkCurrent_
 	mov r7, r0
 	bl GetCurrentTask
@@ -57,37 +57,37 @@ exMsgTutorialTask__Main: // 0x0216C5A8
 	bl ovl09_216E3F4
 	str r0, [r7, #0x1a0]
 	add r0, r7, #0x12
-	ldr fp, _0216C6D4 // =_02175D98
+	ldr r11, _0216C6D4 // =_02175D98
 	mov r8, #0
 	add r6, r7, #0x90
 	add r5, r7, #0x110
 	add r4, r0, #0x100
 _0216C5E8:
 	mov r0, #0xc
-	mla r1, r8, r0, fp
+	mla r1, r8, r0, r11
 	mov r0, #0x88
-	mul sb, r8, r0
+	mul r9, r8, r0
 	ldrh r2, [r7, #4]
-	add sl, r7, sb
-	add r0, r6, sb
+	add r10, r7, r9
+	add r0, r6, r9
 	mov r2, r2, lsl #1
 	ldrh r1, [r2, r1]
-	strh r1, [sl, #0x90]
+	strh r1, [r10, #0x90]
 	mov r1, #3
-	strh r1, [sl, #0x92]
+	strh r1, [r10, #0x92]
 	bl ovl09_2168EA4
 	ldr r1, _0216C6D8 // =0x0000E002
-	add r0, r5, sb
+	add r0, r5, r9
 	bl ovl09_21641E8
 	mov r0, #0
-	strh r0, [sl, #0xf8]
-	strh r0, [sl, #0xfa]
-	ldrb r1, [r4, sb]
-	add r0, r6, sb
+	strh r0, [r10, #0xf8]
+	strh r0, [r10, #0xfa]
+	ldrb r1, [r4, r9]
+	add r0, r6, r9
 	orr r1, r1, #0x20
-	strb r1, [r4, sb]
+	strb r1, [r4, r9]
 	bl ovl09_2161B80
-	add r0, r5, sb
+	add r0, r5, r9
 	bl ovl09_21641F0
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
@@ -120,7 +120,7 @@ _0216C5E8:
 	bl GetExTaskCurrent
 	ldr r1, _0216C6E0 // =ovl09_216C744
 	str r1, [r0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216C6D0: .word 0x021775B8
 _0216C6D4: .word _02175D98
@@ -165,7 +165,7 @@ _0216C740: .word 0x021775B8
 
 	arm_func_start ovl09_216C744
 ovl09_216C744: // 0x0216C744
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	bl GetExTaskWorkCurrent_
 	mov r8, r0
 	ldr r0, [r8, #0x1a0]
@@ -185,10 +185,10 @@ ovl09_216C744: // 0x0216C744
 	mov r0, #0xc
 	mla r0, r4, r0, r2
 	mov r1, r1, lsl #1
-	ldrh sb, [r1, r0]
+	ldrh r9, [r1, r0]
 	ldrsh r1, [r8]
 	add r5, r8, #0x110
-	sub r0, sb, #0x80
+	sub r0, r9, #0x80
 	rsb r0, r0, #0
 	cmp r1, r0
 	movle r0, #0x80
@@ -206,28 +206,28 @@ ovl09_216C744: // 0x0216C744
 	ldrsh r2, [r6, r7]
 	add r0, r4, r7
 	add r1, r5, r7
-	sub r2, r2, sb
+	sub r2, r2, r9
 	strh r2, [r6, r7]
 	bl ovl09_2164034
 	ldrsh r2, [r6, r7]
 	add r0, r4, r7
 	add r1, r5, r7
-	add r2, r2, sb
+	add r2, r2, r9
 	strh r2, [r6, r7]
 	ldrsh r2, [r6, r7]
-	add r2, r2, sb
+	add r2, r2, r9
 	strh r2, [r6, r7]
 	bl ovl09_2164034
 	ldrsh r2, [r6, r7]
 	add r0, r8, #8
 	add r1, r8, #0x88
-	sub r2, r2, sb
+	sub r2, r2, r9
 	strh r2, [r6, r7]
 	bl ovl09_2164034
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0216C840: .word _02175DB0
 	arm_func_end ovl09_216C744

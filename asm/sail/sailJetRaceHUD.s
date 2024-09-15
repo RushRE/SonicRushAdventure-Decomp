@@ -44,10 +44,10 @@ _02188140: .word 0x000006DC
 
 	arm_func_start SailJetRaceGoalHUD__Create
 SailJetRaceGoalHUD__Create: // 0x02188144
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
-	mov sl, r0
-	mov sb, r1
+	mov r10, r0
+	mov r9, r1
 	mov r8, r2
 	bl SailManager__GetWork
 	mov r5, r0
@@ -64,7 +64,7 @@ SailJetRaceGoalHUD__Create: // 0x02188144
 	mov r0, #0x45
 	str r1, [r6, #0x18]
 	bl GetObjectFileWork
-	mov fp, r0
+	mov r11, r0
 	bl SailManager__GetArchive
 	mov r4, r0
 	mov r0, #0x45
@@ -75,7 +75,7 @@ SailJetRaceGoalHUD__Create: // 0x02188144
 	str r4, [sp]
 	str r0, [sp, #4]
 	ldr r2, _021882E0 // =aSbFixVsjUpBac
-	mov r3, fp
+	mov r3, r11
 	mov r0, r6
 	mov r1, #0
 	bl ObjObjectAction2dBACLoad
@@ -124,7 +124,7 @@ _02188244:
 _0218826C:
 	bl SailManager__GetWork
 	ldr r1, [r0, #0x98]
-	mov r0, sb, lsl #0x13
+	mov r0, r9, lsl #0x13
 	ldrh r1, [r1, #0xb8]
 	mov r1, r1, lsl #0x13
 	bl FX_Div
@@ -143,14 +143,14 @@ _0218826C:
 	mov r0, #0x9d000
 _021882B8:
 	str r0, [r6, #0x48]
-	mov r1, sl, lsl #0x13
+	mov r1, r10, lsl #0x13
 	str r1, [r7, #4]
-	mov r1, sb, lsl #0x13
+	mov r1, r9, lsl #0x13
 	mov r0, r6
 	str r1, [r7]
 	bl SailJetRaceGoalHUD__SetupObject
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021882DC: .word 0x00001010
 _021882E0: .word aSbFixVsjUpBac
@@ -160,7 +160,7 @@ _021882E8: .word 0x00000804
 
 	arm_func_start SailJetRaceProgressMarkerHUD__Create
 SailJetRaceProgressMarkerHUD__Create: // 0x021882EC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r7, r0
 	mov r6, r1
@@ -182,7 +182,7 @@ SailJetRaceProgressMarkerHUD__Create: // 0x021882EC
 	strne r0, [r4, #0x24]
 	mov r0, #0x45
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
 	mov r8, r0
 	mov r0, #0x45
@@ -193,7 +193,7 @@ SailJetRaceProgressMarkerHUD__Create: // 0x021882EC
 	str r8, [sp]
 	str r0, [sp, #4]
 	ldr r2, _02188404 // =aSbFixVsjUpBac
-	mov r3, sb
+	mov r3, r9
 	mov r0, r4
 	mov r1, #0
 	bl ObjObjectAction2dBACLoad
@@ -230,7 +230,7 @@ _021883AC:
 	mov r0, r4
 	bl SailJetRaceProgressMarkerHUD__SetupObject
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02188400: .word 0x00001010
 _02188404: .word aSbFixVsjUpBac
@@ -240,7 +240,7 @@ _0218840C: .word 0x00000802
 
 	arm_func_start SailJetRaceProgressIconHUD__Create
 SailJetRaceProgressIconHUD__Create: // 0x02188410
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r8, r0
 	mov r7, r1
@@ -263,7 +263,7 @@ SailJetRaceProgressIconHUD__Create: // 0x02188410
 	strne r0, [r4, #0x24]
 	mov r0, #0x45
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
 	mov r6, r0
 	mov r0, #0x45
@@ -274,7 +274,7 @@ SailJetRaceProgressIconHUD__Create: // 0x02188410
 	str r6, [sp]
 	str r0, [sp, #4]
 	ldr r2, _02188544 // =aSbFixVsjUpBac
-	mov r3, sb
+	mov r3, r9
 	mov r0, r4
 	mov r1, #0
 	bl ObjObjectAction2dBACLoad
@@ -317,7 +317,7 @@ _021884D4:
 	mov r0, r4
 	bl SailJetRaceProgressIconHUD__SetupObject
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02188540: .word 0x00001010
 _02188544: .word aSbFixVsjUpBac
@@ -463,25 +463,25 @@ _0218873C: .word 0x00000409
 
 	arm_func_start SailJetRaceCheckpointIconHUD__Create
 SailJetRaceCheckpointIconHUD__Create: // 0x02188740
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
-	mov sl, r0
-	mov sb, r1
+	mov r10, r0
+	mov r9, r1
 	mov r8, r2
 	mov r7, r3
 	bl SailManager__GetWork
 	ldr r0, [r0, #0x24]
 	tst r0, #3
 	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl SailManager__GetShipType
 	cmp r0, #1
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl SailManager__GetShipType
 	cmp r0, #3
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, _021888B0 // =0x00001010
 	mov r1, #1
 	bl CreateStageTaskEx_
@@ -491,7 +491,7 @@ SailJetRaceCheckpointIconHUD__Create: // 0x02188740
 	mov r6, r0
 	mov r0, #0x46
 	bl GetObjectFileWork
-	mov fp, r0
+	mov r11, r0
 	bl SailManager__GetArchive
 	mov r4, r0
 	mov r0, #0x46
@@ -502,7 +502,7 @@ SailJetRaceCheckpointIconHUD__Create: // 0x02188740
 	str r4, [sp]
 	str r0, [sp, #4]
 	ldr r2, _021888B4 // =aSbFixVsjUnderB
-	mov r3, fp
+	mov r3, r11
 	mov r0, r5
 	mov r1, #0
 	bl ObjObjectAction2dBACLoad
@@ -540,26 +540,26 @@ _0218882C:
 _02188860:
 	mov r0, #0x50000
 	str r0, [r5, #0x44]
-	cmp sb, #0
+	cmp r9, #0
 	bne _0218887C
 	cmp r8, #0
 	subne r0, r0, #0x59000
 	strne r0, [r5, #0x48]
 _0218887C:
-	cmp sb, #0
+	cmp r9, #0
 	beq _02188890
 	cmp r8, #0
 	moveq r0, #0x9000
 	streq r0, [r5, #0x48]
 _02188890:
-	mov r1, sl
+	mov r1, r10
 	add r0, r5, #0x28
 	bl MultibootManager__Func_2063CF4
 	mov r0, r5
 	str r7, [r5, #0x2c]
 	bl SailJetRaceCheckpointIconHUD__SetupObject
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021888B0: .word 0x00001010
 _021888B4: .word aSbFixVsjUnderB
@@ -570,7 +570,7 @@ _021888C0: .word 0x0000040B
 
 	arm_func_start SailChallengeHUD__Destructor
 SailChallengeHUD__Destructor: // 0x021888C4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r5, r0
 	bl SailManager__GetWork
 	mov r4, r0
@@ -619,17 +619,17 @@ _02188964:
 	add r6, r7, #0x22c
 	mov r5, #1
 	mov r4, r8
-	mov sb, #0x64
+	mov r9, #0x64
 _02188978:
-	mla sl, r8, sb, r6
-	ldr r1, [sl, #0x44]
+	mla r10, r8, r9, r6
+	ldr r1, [r10, #0x44]
 	cmp r1, #0
 	beq _02188990
 	mov r0, r5
 	bl VRAMSystem__FreeSpriteVram
 _02188990:
-	str r4, [sl, #0x44]
-	ldrh r0, [sl, #0x50]
+	str r4, [r10, #0x44]
+	ldrh r0, [r10, #0x50]
 	add r0, r0, #0x10
 	and r0, r0, #0xff
 	bl ObjDrawReleaseSpritePalette
@@ -696,12 +696,12 @@ _02188A80:
 	ldrh r0, [r4, #0x50]
 	and r0, r0, #0xff
 	bl ObjDrawReleaseSpritePalette
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end SailChallengeHUD__Destructor
 
 	arm_func_start SailChallengeHUD__Main
 SailChallengeHUD__Main: // 0x02188A90
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	bl GetCurrentTaskWork_
 	mov r6, r0
@@ -741,24 +741,24 @@ _02188AD8:
 	ldr r0, [r6]
 	tst r0, #0x80
 	beq _02188BF4
-	and sb, r0, #0x7f
+	and r9, r0, #0x7f
 	add r0, r6, #0x46
 	mov r8, #0
 	add r4, r0, #0x100
 	add r5, r6, #0x66
-	mov sl, #0x10
-	mov fp, #0x64
+	mov r10, #0x10
+	mov r11, #0x64
 _02188B48:
-	cmp sb, r8
+	cmp r9, r8
 	bne _02188BA0
 	mov r0, #0xa
 	mov r2, #0xa
-	stmia sp, {r0, sl}
+	stmia sp, {r0, r10}
 	add r0, r5, r8, lsl #5
 	add r1, r4, r8, lsl #5
 	mov r3, r2
 	bl ObjDraw__TintColorArray
-	mla r0, r8, fp, r6
+	mla r0, r8, r11, r6
 	add r0, r0, #0x200
 	ldrh r0, [r0, #0x7c]
 	add r0, r0, #0x10
@@ -773,7 +773,7 @@ _02188B48:
 	b _02188BE0
 _02188BA0:
 	add r0, r8, #2
-	cmp sb, r0
+	cmp r9, r0
 	bne _02188BE0
 	mov r0, #0x64
 	mla r0, r8, r0, r6
@@ -919,29 +919,29 @@ _02188D24:
 	bl AnimatorSprite__ProcessAnimation
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
-	mov sl, #0
-	ldr sb, _02188E58 // =0x0213461C
+	mov r10, #0
+	ldr r9, _02188E58 // =0x0213461C
 	add r8, r6, #0x22c
-	mov fp, sl
+	mov r11, r10
 	mov r4, #0x64
 _02188DD8:
-	mov r0, sb
-	and r1, sl, #0xff
+	mov r0, r9
+	and r1, r10, #0xff
 	blx SaveGame__HasChaosEmerald
 	cmp r0, #0
 	beq _02188E08
-	mul r5, sl, r4
-	mov r1, fp
-	mov r2, fp
+	mul r5, r10, r4
+	mov r1, r11
+	mov r2, r11
 	add r0, r8, r5
 	bl AnimatorSprite__ProcessAnimation
 	add r0, r8, r5
 	bl AnimatorSprite__DrawFrame
 _02188E08:
-	add r0, sl, #1
+	add r0, r10, #1
 	mov r0, r0, lsl #0x10
-	mov sl, r0, lsr #0x10
-	cmp sl, #7
+	mov r10, r0, lsr #0x10
+	cmp r10, #7
 	blo _02188DD8
 _02188E1C:
 	ldr r0, [r7, #0x24]
@@ -959,7 +959,7 @@ _02188E44:
 	add r0, r0, #1
 	str r0, [r6]
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02188E58: .word 0x0213461C
 	arm_func_end SailChallengeHUD__Main
@@ -1068,9 +1068,9 @@ _02188FC8: .word aBbSbBb_0
 
 	arm_func_start SailChallengeHUD__Func_2188FCC
 SailChallengeHUD__Func_2188FCC: // 0x02188FCC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
-	mov sl, r0
+	mov r10, r0
 	bl SailManager__GetWork
 	str r0, [sp, #0x1c]
 	mov r0, #0x45
@@ -1081,7 +1081,7 @@ SailChallengeHUD__Func_2188FCC: // 0x02188FCC
 	ldr r1, _02189454 // =aSbFixVsjUpBac
 	mov r0, r4
 	bl ObjDataLoad
-	add r1, sl, #0x14c
+	add r1, r10, #0x14c
 	add r5, r1, #0x400
 	mov r1, #4
 	mov r4, r0
@@ -1138,7 +1138,7 @@ _021890C4:
 	beq _021891B0
 	mov r0, r4
 	mov r1, #9
-	add r5, sl, #0x5b0
+	add r5, r10, #0x5b0
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
 	mov r0, #0
@@ -1163,7 +1163,7 @@ _021890C4:
 	add r2, r1, #0x3fc
 	bl ObjDrawAllocSpritePalette
 	strh r0, [r5, #0x50]
-	add r0, sl, #0x214
+	add r0, r10, #0x214
 	add r5, r0, #0x400
 	mov r0, r4
 	mov r1, #5
@@ -1204,7 +1204,7 @@ _021891B0:
 	ldr r1, _02189464 // =aSbFixEmeraldBa
 	mov r0, r4
 	bl ObjDataLoad
-	add r1, sl, #0xe8
+	add r1, r10, #0xe8
 	add r4, r1, #0x400
 	mov r1, #0xe
 	mov r8, r0
@@ -1238,7 +1238,7 @@ _021891B0:
 	strh r0, [r4, #0xa]
 	ldr r0, _02189468 // =0x00000801
 	bl ObjDrawGetPaletteForID
-	add r1, sl, #6
+	add r1, r10, #6
 	mov r2, #0x20
 	bl MIi_CpuCopy16
 	ldr r1, [sp, #0x1c]
@@ -1253,24 +1253,24 @@ _021891B0:
 	bl ObjDraw__TintSprite
 	ldr r0, _02189468 // =0x00000801
 	bl ObjDrawGetPaletteForID
-	add r1, sl, #0x26
+	add r1, r10, #0x26
 	mov r2, #0x20
 	bl MIi_CpuCopy16
-	add r0, sl, #0x46
+	add r0, r10, #0x46
 	mov r6, #0
-	add r5, sl, #0x22c
+	add r5, r10, #0x22c
 	add r4, r0, #0x100
-	mov fp, #1
+	mov r11, #1
 _021892C4:
 	mov r0, #0x64
-	mla sb, r6, r0, r5
+	mla r9, r6, r0, r5
 	mov r0, r8
 	mov r1, r6
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
 	mov r0, #1
 	bl VRAMSystem__AllocSpriteVram
-	str fp, [sp]
+	str r11, [sp]
 	mov r1, #0
 	str r1, [sp, #4]
 	str r0, [sp, #8]
@@ -1280,9 +1280,9 @@ _021892C4:
 	mov r2, r6
 	str r0, [sp, #0x10]
 	mov r0, r1
-	str fp, [sp, #0x14]
+	str r11, [sp, #0x14]
 	str r0, [sp, #0x18]
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	mov r3, #0x10
 	bl AnimatorSprite__Init
@@ -1294,13 +1294,13 @@ _021892C4:
 	mov r2, r2, asr #0x10
 	bl ObjDrawAllocSpritePalette
 	mov r1, r7, lsl #0x10
-	strh r0, [sb, #0x50]
+	strh r0, [r9, #0x50]
 	mov r0, r1, asr #0x10
 	mov r1, r6, lsl #5
 	add r1, r1, #0x10
-	strh r1, [sb, #8]
+	strh r1, [r9, #8]
 	mov r1, #0x37
-	strh r1, [sb, #0xa]
+	strh r1, [r9, #0xa]
 	bl ObjDrawGetPaletteForID
 	add r1, r4, r6, lsl #5
 	mov r2, #0x20
@@ -1315,7 +1315,7 @@ _02189384:
 	ldr r0, [r0, #0x24]
 	tst r0, #0x200000
 	addeq sp, sp, #0x20
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, _0218946C // =aBbSbBb_0
 	mov r1, #0x23
 	mov r2, #0
@@ -1325,7 +1325,7 @@ _02189384:
 	bl GetObjectFileWork
 	mov r1, r5
 	bl ObjDataSet
-	add r1, sl, #0x278
+	add r1, r10, #0x278
 	mov r0, r5
 	add r4, r1, #0x400
 	mov r1, #0
@@ -1362,7 +1362,7 @@ _02189384:
 	str r1, [r4, #0x3c]
 	str r0, [r4, #0x38]
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02189454: .word aSbFixVsjUpBac
 _02189458: .word 0x05000600
@@ -1385,9 +1385,9 @@ _02189480: .word SailJetRaceGoalHUD__State_2189484
 
 	arm_func_start SailJetRaceGoalHUD__State_2189484
 SailJetRaceGoalHUD__State_2189484: // 0x02189484
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, r0
-	ldr r4, [sb, #0x124]
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r0
+	ldr r4, [r9, #0x124]
 	bl SailManager__GetWork
 	ldr r5, [r0, #0x98]
 	bl SailManager__GetWork
@@ -1395,7 +1395,7 @@ SailJetRaceGoalHUD__State_2189484: // 0x02189484
 	mov r7, #0
 	bl SailManager__GetWork
 	ldr r8, [r0, #0x8c]
-	mov r0, sb
+	mov r0, r9
 	cmp r8, #0
 	ldrne r7, [r8, #0x124]
 	bl StageTask__GetAnimID
@@ -1418,59 +1418,59 @@ _021894C8: // jump table
 _021894F8:
 	ldr r0, [r6, #0x24]
 	tst r0, #1
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r1, [r5, #0x44]
 	ldr r0, [r4, #4]
 	cmp r1, r0
 	blt _02189608
-	mov r0, sb
+	mov r0, r9
 	bl StageTask__GetAnimID
 	add r0, r0, #1
 	mov r1, r0, lsl #0x10
-	mov r0, sb
+	mov r0, r9
 	mov r1, r1, lsr #0x10
 	bl StageTask__SetAnimation
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0x1000
 	bl SailObject__SetAnimSpeed
-	ldr r0, [sb, #0x20]
+	ldr r0, [r9, #0x20]
 	orr r0, r0, #4
-	str r0, [sb, #0x20]
+	str r0, [r9, #0x20]
 	b _02189608
 _0218954C:
 	ldr r1, [r5, #0x44]
 	ldr r0, [r4]
 	cmp r1, r0
 	blt _02189608
-	mov r0, sb
+	mov r0, r9
 	mov r1, #7
 	bl StageTask__SetAnimation
-	ldr r1, [sb, #0x20]
+	ldr r1, [r9, #0x20]
 	mov r0, #0x4000
 	bic r1, r1, #4
-	str r1, [sb, #0x20]
-	str r0, [sb, #4]
-	ldr r0, [sb, #0x24]
+	str r1, [r9, #0x20]
+	str r0, [r9, #4]
+	ldr r0, [r9, #0x24]
 	tst r0, #2
 	bne _02189590
 	mov r0, #0
 	bl SailJetRaceCheckpointTextHUD__Create
 _02189590:
-	ldr r0, [sb, #0x24]
+	ldr r0, [r9, #0x24]
 	tst r0, #8
 	bne _021895B0
 	ldrh r1, [r6, #0x28]
 	ldr r0, [r6, #0x20]
-	ldr r3, [sb, #0x2c]
+	ldr r3, [r9, #0x2c]
 	mov r2, #0
 	bl SailJetRaceCheckpointIconHUD__Create
 _021895B0:
-	ldr r1, [sb, #0x24]
+	ldr r1, [r9, #0x24]
 	mov r0, #0
 	orr r3, r1, #0xa
 	mov r2, r0
 	mov r1, #0x52
-	str r3, [sb, #0x24]
+	str r3, [r9, #0x24]
 	bl SailAudio__PlaySpatialSequence
 	b _02189608
 _021895D0:
@@ -1478,17 +1478,17 @@ _021895D0:
 	ldr r0, [r4]
 	cmp r1, r0
 	blt _02189608
-	ldr r0, [sb, #0x20]
+	ldr r0, [r9, #0x20]
 	tst r0, #4
 	beq _021895FC
 	bic r0, r0, #4
-	str r0, [sb, #0x20]
+	str r0, [r9, #0x20]
 	mov r0, #0x4000
-	str r0, [sb, #4]
+	str r0, [r9, #4]
 _021895FC:
-	ldr r0, [sb, #0x24]
+	ldr r0, [r9, #0x24]
 	orr r0, r0, #0xa
-	str r0, [sb, #0x24]
+	str r0, [r9, #0x24]
 _02189608:
 	cmp r7, #0
 	beq _02189688
@@ -1496,12 +1496,12 @@ _02189608:
 	ldr r0, [r4]
 	cmp r1, r0
 	blt _02189688
-	ldr r0, [sb, #0x24]
+	ldr r0, [r9, #0x24]
 	tst r0, #2
 	bne _02189650
 	and r0, r0, #1
 	bl SailJetRaceCheckpointTextHUD__Create
-	ldr r0, [sb, #0x24]
+	ldr r0, [r9, #0x24]
 	tst r0, #1
 	beq _02189650
 	mov r0, r8
@@ -1509,33 +1509,33 @@ _02189608:
 	mov r0, #0x5b
 	bl SailAudio__PlaySequence
 _02189650:
-	ldr r0, [sb, #0x24]
+	ldr r0, [r9, #0x24]
 	tst r0, #4
 	bne _0218967C
 	ldrh r1, [r6, #0x28]
 	ldr r0, [r6, #0x20]
-	ldr r3, [sb, #0x2c]
+	ldr r3, [r9, #0x2c]
 	eor r1, r1, #1
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
 	mov r2, #1
 	bl SailJetRaceCheckpointIconHUD__Create
 _0218967C:
-	ldr r0, [sb, #0x24]
+	ldr r0, [r9, #0x24]
 	orr r0, r0, #6
-	str r0, [sb, #0x24]
+	str r0, [r9, #0x24]
 _02189688:
-	ldr r0, [sb, #0x24]
+	ldr r0, [r9, #0x24]
 	tst r0, #2
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-	ldr r0, [sb, #0x2c]
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+	ldr r0, [r9, #0x2c]
 	add r0, r0, #1
-	str r0, [sb, #0x2c]
+	str r0, [r9, #0x2c]
 	cmp r0, #0x12c
-	ldrgt r0, [sb, #0x24]
+	ldrgt r0, [r9, #0x24]
 	orrgt r0, r0, #0xc
-	strgt r0, [sb, #0x24]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	strgt r0, [r9, #0x24]
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end SailJetRaceGoalHUD__State_2189484
 
 	arm_func_start SailJetRaceProgressMarkerHUD__SetupObject
@@ -1924,41 +1924,41 @@ _02189BAC: .word SailJetRaceCheckpointIconHUD__State_2189BB0
 
 	arm_func_start SailJetRaceCheckpointIconHUD__State_2189BB0
 SailJetRaceCheckpointIconHUD__State_2189BB0: // 0x02189BB0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetWork
 	mov r7, #0x22
-	ldr r2, [sb, #0x2c]
+	ldr r2, [r9, #0x2c]
 	add r1, r7, #0x10c
 	mov r4, r0
 	cmp r2, r1
-	ldr r5, [sb, #0x124]
+	ldr r5, [r9, #0x124]
 	mov r6, #5
 	ble _02189C00
 	mov r3, #0
 	str r3, [sp]
-	ldr r0, [sb, #0x44]
+	ldr r0, [r9, #0x44]
 	mov r1, #0x50000
 	mov r2, #1
 	bl ObjShiftSet
-	str r0, [sb, #0x44]
+	str r0, [r9, #0x44]
 	b _02189C24
 _02189C00:
 	cmp r2, #2
 	ble _02189C24
 	mov r1, #0
 	str r1, [sp]
-	ldr r0, [sb, #0x44]
+	ldr r0, [r9, #0x44]
 	mov r3, r1
 	mov r2, #1
 	bl ObjShiftSet
-	str r0, [sb, #0x44]
+	str r0, [r9, #0x44]
 _02189C24:
-	ldr r1, [sb, #0x2c]
-	mov r0, sb
+	ldr r1, [r9, #0x2c]
+	mov r0, r9
 	add r1, r1, #1
-	str r1, [sb, #0x2c]
+	str r1, [r9, #0x2c]
 	bl StageTask__GetAnimID
 	cmp r0, #3
 	bne _02189C5C
@@ -2001,29 +2001,29 @@ _02189CB4:
 	bl QueueUncompressedPalette
 _02189CC8:
 	str r6, [sp]
-	ldr r1, [sb, #0x44]
-	ldr r0, [sb, #0x48]
+	ldr r1, [r9, #0x44]
+	ldr r0, [r9, #0x48]
 	mov r1, r1, asr #0xc
 	add r1, r1, #0xf6
 	add r0, r7, r0, asr #12
 	mov r2, r0, lsl #0x10
 	mov r1, r1, lsl #0x10
-	ldr r0, [sb, #0x28]
+	ldr r0, [r9, #0x28]
 	mov r1, r1, asr #0x10
 	mov r2, r2, asr #0x10
 	mov r3, #5
 	bl SailHUD__Func_2174A94
-	ldr r0, [sb, #0x2c]
+	ldr r0, [r9, #0x2c]
 	cmp r0, #0x12c
 	addle sp, sp, #8
-	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-	ldr r0, [sb, #0x44]
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+	ldr r0, [r9, #0x44]
 	cmp r0, #0x50000
-	ldreq r0, [sb, #0x18]
+	ldreq r0, [r9, #0x18]
 	orreq r0, r0, #4
-	streq r0, [sb, #0x18]
+	streq r0, [r9, #0x18]
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02189D28: .word 0x0000040A
 	arm_func_end SailJetRaceCheckpointIconHUD__State_2189BB0

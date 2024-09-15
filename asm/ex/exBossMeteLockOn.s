@@ -167,24 +167,24 @@ _0215C870: .word 0x00007FF8
 
 	arm_func_start ovl09_215C874
 ovl09_215C874: // 0x0215C874
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, #0
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, #0
 	ldr r7, _0215C914 // =0x02176228
 	ldr r6, _0215C918 // =0x02176234
 	mov r5, r0
 	mov r4, r1
-	mov r8, sb
+	mov r8, r9
 _0215C890:
 	str r8, [sp]
-	ldr r1, [r7, sb, lsl #2]
-	ldr r2, [r6, sb, lsl #2]
+	ldr r1, [r7, r9, lsl #2]
+	ldr r2, [r6, r9, lsl #2]
 	mov r3, r4
 	add r0, r5, #0x20
 	bl AnimatorMDL__SetAnimation
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #2
+	mov r9, r0, lsr #0x10
+	cmp r9, #2
 	blo _0215C890
 	ldr r1, _0215C91C // =0x021761CC
 	add r0, r5, #0x300
@@ -209,7 +209,7 @@ _0215C904:
 	add r3, r3, #1
 	cmp r3, #5
 	blo _0215C8E4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0215C914: .word 0x02176228
 _0215C918: .word 0x02176234

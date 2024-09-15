@@ -3149,24 +3149,24 @@ _02163234: .word 0x00007C1F
 
 	arm_func_start ovl09_2163238
 ovl09_2163238: // 0x02163238
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x118
 	ldr r1, _021635D8 // =0x02176444
 	mov r4, r0
 	ldrh r0, [r1]
-	add sb, r4, #0x1c
+	add r9, r4, #0x1c
 	cmp r0, #0xa
 	addlo r0, r0, #1
 	addlo sp, sp, #0x118
 	strloh r0, [r1]
-	ldmloia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmloia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl Camera3D__GetTask
 	cmp r0, #0
 	addeq sp, sp, #0x118
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r2, sp, #0x64
 	add r3, sp, #0x34
-	add r0, sb, #8
+	add r0, r9, #8
 	mov r1, #0x1e
 	bl sub_2066D18
 	ldrb r0, [r4, #0x26c]
@@ -3184,7 +3184,7 @@ _021632B4:
 	cmp r5, #0
 	cmpne r6, #0
 	addeq sp, sp, #0x118
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrb r0, [r4, #0x26c]
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1e
@@ -3205,7 +3205,7 @@ _021632F8:
 	bl Camera3D__UseEngineA
 	cmp r0, #0
 	addne sp, sp, #0x118
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r6
 	bl Camera3D__LoadState
 	b _0216333C
@@ -3215,7 +3215,7 @@ _0216331C:
 	bl Camera3D__UseEngineA
 	cmp r0, #0
 	addeq sp, sp, #0x118
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r5
 	bl Camera3D__LoadState
 _0216333C:
@@ -3235,14 +3235,14 @@ _0216333C:
 	mov r0, #0x17
 	mov r2, #0xc
 	bl NNS_G3dGeBufferOP_N
-	mov fp, #6
+	mov r11, #6
 	add r6, r4, #0x200
 	ldr r5, _021635DC // =0x000003FF
 	mov r8, #0
 	add r7, sp, #0x64
-	mov r4, fp
+	mov r4, r11
 _02163394:
-	add r0, sb, r8, lsl #2
+	add r0, r9, r8, lsl #2
 	ldr r1, [r0, #0x1ac]
 	cmp r1, #0
 	ble _021635BC
@@ -3255,7 +3255,7 @@ _02163394:
 	beq _02163454
 	b _02163498
 _021633C4:
-	ldr r2, [sb, #0x24c]
+	ldr r2, [r9, #0x24c]
 	mov r0, #0x29
 	mov r2, r2, lsl #0x18
 	orr r2, r2, #0x8c0
@@ -3264,7 +3264,7 @@ _021633C4:
 	add r1, sp, #0x28
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
-	add r0, sb, r8, lsl #1
+	add r0, r9, r8, lsl #1
 	add r0, r0, #0x100
 	ldrh r2, [r0, #0x70]
 	mov r0, #0x20
@@ -3274,7 +3274,7 @@ _021633C4:
 	bl NNS_G3dGeBufferOP_N
 	b _02163498
 _0216340C:
-	ldr r2, [sb, #0x24c]
+	ldr r2, [r9, #0x24c]
 	mov r0, #0x29
 	mov r2, r2, lsl #0x18
 	orr r2, r2, #0x880
@@ -3283,7 +3283,7 @@ _0216340C:
 	add r1, sp, #0x20
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
-	add r0, sb, r8, lsl #1
+	add r0, r9, r8, lsl #1
 	add r0, r0, #0x100
 	ldrh r2, [r0, #0x70]
 	mov r0, #0x20
@@ -3293,7 +3293,7 @@ _0216340C:
 	bl NNS_G3dGeBufferOP_N
 	b _02163498
 _02163454:
-	ldr r2, [sb, #0x24c]
+	ldr r2, [r9, #0x24c]
 	mov r0, #0x29
 	mov r2, r2, lsl #0x18
 	orr r2, r2, #0x880
@@ -3302,7 +3302,7 @@ _02163454:
 	add r1, sp, #0x18
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
-	add r0, sb, r8, lsl #1
+	add r0, r9, r8, lsl #1
 	add r0, r0, #0x100
 	ldrh r2, [r0, #0x70]
 	mov r0, #0x20
@@ -3317,7 +3317,7 @@ _02163498:
 	add r1, sp, #0x10
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
-	mul r0, r8, fp
+	mul r0, r8, r11
 	add r3, r7, r0
 	ldrsh r1, [r7, r0]
 	ldrsh r0, [r3, #2]
@@ -3334,10 +3334,10 @@ _02163498:
 	add r1, sp, #0xc
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
-	mla sl, r8, r4, r7
-	ldrsh r1, [sl, #8]
-	ldrsh r0, [sl, #0xa]
-	ldrsh r2, [sl, #6]
+	mla r10, r8, r4, r7
+	ldrsh r1, [r10, #8]
+	ldrsh r0, [r10, #0xa]
+	ldrsh r2, [r10, #6]
 	mov r1, r1, asr #6
 	mov r0, r0, asr #6
 	and r2, r5, r2, asr #6
@@ -3350,9 +3350,9 @@ _02163498:
 	add r1, sp, #8
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
-	ldrsh r1, [sl, #0x14]
-	ldrsh r0, [sl, #0x16]
-	ldrsh r2, [sl, #0x12]
+	ldrsh r1, [r10, #0x14]
+	ldrsh r0, [r10, #0x16]
+	ldrsh r2, [r10, #0x12]
 	mov r1, r1, asr #6
 	mov r0, r0, asr #6
 	and r2, r5, r2, asr #6
@@ -3365,9 +3365,9 @@ _02163498:
 	add r1, sp, #4
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
-	ldrsh r1, [sl, #0xe]
-	ldrsh r0, [sl, #0x10]
-	ldrsh r2, [sl, #0xc]
+	ldrsh r1, [r10, #0xe]
+	ldrsh r0, [r10, #0x10]
+	ldrsh r2, [r10, #0xc]
 	mov r1, r1, asr #6
 	mov r0, r0, asr #6
 	and r2, r5, r2, asr #6
@@ -3391,7 +3391,7 @@ _021635BC:
 	cmp r8, #0x1c
 	blo _02163394
 	add sp, sp, #0x118
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021635D8: .word 0x02176444
 _021635DC: .word 0x000003FF
@@ -3955,14 +3955,14 @@ _02163D4C: .word ExTask_State_Destroy
 
 	arm_func_start exDrawFadeTask__Create
 exDrawFadeTask__Create: // 0x02163D50
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x10
 	movs r6, r2
 	mov r8, r0
 	mov r7, r1
 	mov r5, r3
 	addeq sp, sp, #0x10
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r4, #0
 	str r4, [sp]
 	mov r1, #0x10
@@ -3975,13 +3975,13 @@ exDrawFadeTask__Create: // 0x02163D50
 	mov r3, #3
 	str r4, [sp, #0xc]
 	bl ExTaskCreate_
-	mov sb, r0
+	mov r9, r0
 	bl GetExTaskWork_
 	mov r1, r4
 	mov r2, #0x10
 	mov r4, r0
 	bl MI_CpuFill8
-	mov r0, sb
+	mov r0, r9
 	bl GetExTask
 	ldr r2, _02163E24 // =exDrawFadeTask__Func8
 	mvn r1, #0xf
@@ -4004,7 +4004,7 @@ exDrawFadeTask__Create: // 0x02163D50
 	strh r5, [r4, #0xc]
 	strh r0, [r4, #0xe]
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02163E18: .word aExdrawfadetask
 _02163E1C: .word exDrawFadeTask__Destructor

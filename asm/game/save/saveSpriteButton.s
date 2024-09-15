@@ -1003,7 +1003,7 @@ SaveSpriteButton__Func_20651A4: // 0x020651A4
 
 	arm_func_start SaveSpriteButton__Func_20651D4
 SaveSpriteButton__Func_20651D4: // 0x020651D4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x24
 	mov r8, r0
 	mov r7, r1
@@ -1056,10 +1056,10 @@ SaveSpriteButton__Func_20651D4: // 0x020651D4
 	mov r1, #0
 	moveq r4, #0x30
 	bl FontAnimator__GetDialogLineCount
-	mov sb, r0
+	mov r9, r0
 	ldr r0, [sp, #0x48]
 	bl FontFile__GetPixelHeight
-	mul r0, sb, r0
+	mul r0, r9, r0
 	add r0, r0, r0, lsr #31
 	sub r0, r4, r0, asr #1
 	mov r1, r0, lsl #0x10
@@ -1119,7 +1119,7 @@ _02065388:
 	mov r0, r8
 	bl SaveSpriteButton__Func_20653AC
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _020653A4: .word SaveSpriteButton__State2_20654B4
 _020653A8: .word 0x00000847

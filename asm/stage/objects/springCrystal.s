@@ -272,7 +272,7 @@ _0216D298: .word SpringCrystal__OnDefend_216D29C
 
 	arm_func_start SpringCrystal__OnDefend_216D29C
 SpringCrystal__OnDefend_216D29C: // 0x0216D29C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x50
 	ldr r4, [r1, #0x1c]
 	str r1, [sp, #0xc]
@@ -282,18 +282,18 @@ SpringCrystal__OnDefend_216D29C: // 0x0216D29C
 	str r0, [sp, #8]
 	cmpne r5, #0
 	addeq sp, sp, #0x50
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrh r0, [r5]
 	cmp r0, #1
 	addne sp, sp, #0x50
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [r4, #0x340]
 	ldr r8, [r5, #0x44]
 	ldrh r2, [r0, #2]
 	ldr r0, [r5, #0x48]
-	ldr sb, [r4, #0x44]
+	ldr r9, [r4, #0x44]
 	cmp r2, #0xa2
-	ldr sl, [r4, #0x48]
+	ldr r10, [r4, #0x48]
 	beq _0216D3FC
 	cmp r2, #0xa3
 	mov r1, #0
@@ -307,11 +307,11 @@ _0216D318:
 	mov r2, #0x1a000
 	str r1, [sp, #0x14]
 	mov r1, r2
-	mov fp, #0x2a000
+	mov r11, #0x2a000
 	sub r1, r1, #0x34000
 	str r1, [sp, #0x18]
 	str r2, [sp, #0x1c]
-	mov r6, fp
+	mov r6, r11
 	mov r1, #0x8000
 	mov r7, #1
 	b _0216D390
@@ -322,7 +322,7 @@ _0216D344:
 	str r2, [sp, #0x18]
 	str r2, [sp, #0x1c]
 	mov r2, #1
-	sub fp, r6, #0x34000
+	sub r11, r6, #0x34000
 	str r2, [sp, #0x14]
 	mov r7, #3
 	b _0216D390
@@ -333,7 +333,7 @@ _0216D36C:
 	mov r1, r2
 	str r1, [sp, #0x1c]
 	str r2, [sp, #0x18]
-	sub fp, r6, #0x34000
+	sub r11, r6, #0x34000
 	mov r1, #0xc000
 	mov r7, #2
 _0216D390:
@@ -341,9 +341,9 @@ _0216D390:
 	mov r1, r1, lsr #0x10
 	mov r1, r1, asr #4
 	mov r1, r1, lsl #1
-	sub r2, r8, sb
+	sub r2, r8, r9
 	mov r8, r1, lsl #1
-	sub r0, r0, sl
+	sub r0, r0, r10
 	str r0, [sp, #0x24]
 	mov r0, #0
 	str r0, [sp, #0x28]
@@ -361,29 +361,29 @@ _0216D390:
 	bl MTX_MultVec33
 	ldr r1, [sp, #0x20]
 	ldr r0, [sp, #0x24]
-	add r8, r1, sb
-	add r0, r0, sl
+	add r8, r1, r9
+	add r0, r0, r10
 	b _0216D420
 _0216D3FC:
 	mov r1, #0x1a000
-	sub fp, r1, #0x44000
+	sub r11, r1, #0x44000
 	str r1, [sp, #0x1c]
 	sub r1, r1, #0x34000
 	str r1, [sp, #0x18]
 	mov r1, #2
-	mov r6, fp
+	mov r6, r11
 	str r1, [sp, #0x14]
 	mov r7, #3
 _0216D420:
-	sub r1, sl, #0x40000
+	sub r1, r10, #0x40000
 	cmp r0, r1
 	movle r1, #0x14000
 	ble _0216D460
-	sub r1, sl, #0x18000
+	sub r1, r10, #0x18000
 	cmp r0, r1
 	movge r1, #0x46000
 	bge _0216D460
-	sub r0, sl, r0
+	sub r0, r10, r0
 	sub r0, r0, #0x18000
 	rsb r1, r0, #0x28000
 	mov r0, #0x32
@@ -392,25 +392,25 @@ _0216D420:
 	bl FX_Div
 	add r1, r0, #0x14000
 _0216D460:
-	cmp sb, r8
+	cmp r9, r8
 	blt _0216D488
-	sub r0, sb, r8
+	sub r0, r9, r8
 	cmp r0, r1
 	ble _0216D4A8
 	ldr r0, [sp, #8]
 	ldr r1, [sp, #0xc]
 	bl ObjRect__FuncNoHit
 	add sp, sp, #0x50
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216D488:
-	sub r0, r8, sb
+	sub r0, r8, r9
 	cmp r0, r1
 	ble _0216D4A8
 	ldr r0, [sp, #8]
 	ldr r1, [sp, #0xc]
 	bl ObjRect__FuncNoHit
 	add sp, sp, #0x50
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216D4A8:
 	ldr r1, [r4, #0x28]
 	mov r0, r4
@@ -448,7 +448,7 @@ _0216D4A8:
 	mov r1, #0x10
 	mov r2, #2
 	bl EffectTruckSparkles__Create
-	str fp, [sp]
+	str r11, [sp]
 	ldr r3, [sp, #0x18]
 	mov r0, r4
 	mov r1, #0x10
@@ -470,7 +470,7 @@ _0216D4A8:
 	mov r3, r1
 	bl PlaySfxEx
 	add sp, sp, #0x50
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216D594: .word FX_SinCosTable_
 _0216D598: .word _021894D8

@@ -11,7 +11,7 @@ CannonPath__dword_218A394: // 0x0218A394
 
 	arm_func_start CannonField__Create
 CannonField__Create: // 0x0217AA10
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
 	mov r6, r0
@@ -33,7 +33,7 @@ CannonField__Create: // 0x0217AA10
 	cmp r7, r0
 	addeq sp, sp, #0xc
 	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r0, r7
 	bl GetTaskWork_
 	ldr r2, _0217ABD4 // =0x000005EC
@@ -55,28 +55,28 @@ CannonField__Create: // 0x0217AA10
 	ldr r2, [r2]
 	bl ObjDataLoad
 	mov r8, #0
-	mov sl, r0
-	add sb, r7, #0x364
+	mov r10, r0
+	add r9, r7, #0x364
 	mov r6, r8
 	mov r5, r8
 	ldr r4, _0217ABE8 // =0x000034CC
 	b _0217AB14
 _0217AAD8:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r6
 	bl AnimatorMDL__Init
 	mov r2, r8, lsl #0x10
-	mov r0, sb
-	mov r1, sl
+	mov r0, r9
+	mov r1, r10
 	mov r2, r2, lsr #0x10
 	str r5, [sp]
 	mov r3, r5
 	bl AnimatorMDL__SetResource
-	str r4, [sb, #0x18]
-	str r4, [sb, #0x1c]
-	str r4, [sb, #0x20]
+	str r4, [r9, #0x18]
+	str r4, [r9, #0x1c]
+	str r4, [r9, #0x20]
 	add r8, r8, #1
-	add sb, sb, #0x144
+	add r9, r9, #0x144
 _0217AB14:
 	cmp r8, #2
 	blt _0217AAD8
@@ -125,7 +125,7 @@ _0217AB14:
 	mov r0, r7
 	str r1, [r7, #0xfc]
 	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0217ABD4: .word 0x000005EC
 _0217ABD8: .word StageTask_Main

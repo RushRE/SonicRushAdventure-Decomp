@@ -280,36 +280,36 @@ _0200B574: .word MapFarSys__sVars
 
 	arm_func_start MapFarSys__Func_200B578
 MapFarSys__Func_200B578: // 0x0200B578
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x48
 	ldr r5, _0200B710 // =0x0210E120
 	add r4, sp, #0x28
-	mov sl, r0
+	mov r10, r0
 	ldmia r5!, {r0, r1, r2, r3}
 	stmia r4!, {r0, r1, r2, r3}
 	ldmia r5, {r0, r1, r2, r3}
 	stmia r4, {r0, r1, r2, r3}
-	mov r0, sl
+	mov r0, r10
 	bl GetBackgroundFormat
 	str r0, [sp, #0x20]
-	mov r0, sl
+	mov r0, r10
 	bl GetBackgroundWidth
 	str r0, [sp, #0x24]
-	mov r0, sl
+	mov r0, r10
 	bl GetBackgroundHeight
 	mov r6, r0
 	mov r5, #0
 _0200B5C4:
-	mov r0, sl
+	mov r0, r10
 	bl GetBackgroundPixels
 	add r1, sp, #0x28
 	ldr r1, [r1, r5, lsl #4]
 	bl RenderCore_CPUCopyCompressed
-	mov r0, sl
+	mov r0, r10
 	bl GetBackgroundTileCount
 	ldr r1, _0200B714 // =MapFarSys__sVars
 	str r0, [r1, #4]
-	mov r0, sl
+	mov r0, r10
 	bl GetBackgroundPalette
 	ldr r1, [sp, #0x20]
 	cmp r1, #0
@@ -331,13 +331,13 @@ _0200B620:
 	mov r2, #0x6200
 	bl LoadCompressedPalette
 _0200B634:
-	mov r0, sl
+	mov r0, r10
 	bl GetBackgroundMappings
-	mov sb, r0
+	mov r9, r0
 	ldr r0, [sp, #0x24]
 	cmp r0, #0x40
 	bne _0200B698
-	mov r0, sl
+	mov r0, r10
 	bl GetBackgroundFlag
 	add r1, sp, #0x28
 	str r0, [sp]
@@ -351,7 +351,7 @@ _0200B634:
 	str r1, [sp, #0x10]
 	str r1, [sp, #0x14]
 	str r3, [sp, #0x18]
-	mov r0, sb
+	mov r0, r9
 	mov r2, r1
 	str r6, [sp, #0x1c]
 	bl Mappings__ReadMappings
@@ -362,9 +362,9 @@ _0200B698:
 	ldr r8, [r0, #0xc]
 	mov r7, #0
 	mov r4, #8
-	mov fp, #0x20
+	mov r11, #0x20
 _0200B6B0:
-	mov r0, sl
+	mov r0, r10
 	bl GetBackgroundFlag
 	stmia sp, {r0, r8}
 	mov r0, #0
@@ -373,10 +373,10 @@ _0200B6B0:
 	str r7, [sp, #0x10]
 	str r0, [sp, #0x14]
 	mov r1, #0
-	str fp, [sp, #0x18]
-	mov r0, sb
+	str r11, [sp, #0x18]
+	mov r0, r9
 	mov r2, r1
-	mov r3, fp
+	mov r3, r11
 	str r6, [sp, #0x1c]
 	bl Mappings__ReadMappings
 	add r0, r7, #0x20
@@ -388,7 +388,7 @@ _0200B6FC:
 	cmp r5, #2
 	blt _0200B5C4
 	add sp, sp, #0x48
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0200B710: .word 0x0210E120
 _0200B714: .word MapFarSys__sVars
@@ -1161,20 +1161,20 @@ _0200C1A8: .word MapFarSys__sVars
 
 	arm_func_start MapFarSys__Process_Z3
 MapFarSys__Process_Z3: // 0x0200C1AC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	ldr r0, _0200C490 // =mapCamera
 	ldr r1, _0200C494 // =MapFarSys__sVars
 	ldr r2, [r0, #0xe0]
 	ldr r0, [r1, #8]
 	tst r2, #1
-	movne sl, #0x1d0
+	movne r10, #0x1d0
 	mov r5, #0
-	moveq sl, #0xc0
+	moveq r10, #0xc0
 	str r0, [sp, #0x1c]
 	cmp r5, #2
 	bge _0200C474
-	sub r0, sl, #0xe0
+	sub r0, r10, #0xe0
 	str r0, [sp, #0x18]
 _0200C1E8:
 	ldr r0, _0200C494 // =MapFarSys__sVars
@@ -1189,7 +1189,7 @@ _0200C1E8:
 	mla r4, r5, r1, r0
 	ldr r1, [r4, #8]
 	ldr r0, [r0, #0xe0]
-	ldrh sb, [r4, #0x6e]
+	ldrh r9, [r4, #0x6e]
 	mov r8, r1, asr #0xc
 	tst r0, #1
 	beq _0200C234
@@ -1197,31 +1197,31 @@ _0200C1E8:
 	cmp r4, r0
 	subne r8, r8, #0x110
 _0200C234:
-	sub r8, sb, r8
-	cmp r8, sl
+	sub r8, r9, r8
+	cmp r8, r10
 	bge _0200C290
 	ldr r0, _0200C498 // =0x02133BC8
 	ldrh r0, [r0, #0x2c]
-	sub r0, r0, sl
-	sub r1, sb, r0
+	sub r0, r0, r10
+	sub r1, r9, r0
 	sub r0, r8, r1
 	mov r0, r0, lsl #0xc
-	sub r1, sl, r1
+	sub r1, r10, r1
 	bl FX_DivS32
 	mov r1, #0
 	mov r3, r0
 	str r1, [sp]
 	ldr r0, [sp, #0x18]
-	add r1, sl, #0x30
+	add r1, r10, #0x30
 	mov r2, #0x1000
 	bl Unknown2051334__Func_2051534
-	mov sb, r0
-	sub r0, sb, r8
+	mov r9, r0
+	sub r0, r9, r8
 	cmp r0, #0x30
-	addlt sb, r8, #0x30
+	addlt r9, r8, #0x30
 	b _0200C294
 _0200C290:
-	add sb, r8, #0x30
+	add r9, r8, #0x30
 _0200C294:
 	bl MapSys__GetCameraA
 	cmp r4, r0
@@ -1231,10 +1231,10 @@ _0200C294:
 	tst r0, #1
 	bne _0200C2B8
 _0200C2B0:
-	mov fp, #0
+	mov r11, #0
 	b _0200C2BC
 _0200C2B8:
-	mov fp, #0x110
+	mov r11, #0x110
 _0200C2BC:
 	ldr r0, _0200C490 // =mapCamera
 	ldr r0, [r0, #0xe0]
@@ -1243,7 +1243,7 @@ _0200C2BC:
 	bl MapSys__GetCameraA
 	cmp r0, r4
 	subne r8, r8, #0x110
-	subne sb, sb, #0x110
+	subne r9, r9, #0x110
 _0200C2DC:
 	cmp r8, #0
 	ble _0200C334
@@ -1260,7 +1260,7 @@ _0200C2DC:
 	movgt r2, #0xbf
 	movle r0, r0, lsl #0x10
 	movle r2, r0, lsr #0x10
-	rsb r0, fp, #0
+	rsb r0, r11, #0
 	mov r0, r0, lsl #0x10
 	mov r3, r0, asr #0x10
 	str r1, [sp, #0xc]
@@ -1270,7 +1270,7 @@ _0200C2DC:
 _0200C334:
 	cmp r8, #0xc0
 	bge _0200C39C
-	cmp sb, #0
+	cmp r9, #0
 	ble _0200C39C
 	ldr r3, [r4, #4]
 	cmp r8, #0
@@ -1284,8 +1284,8 @@ _0200C334:
 	movlt r1, #0
 	movge r0, r8, lsl #0x10
 	movge r1, r0, lsr #0x10
-	cmp sb, #0xc0
-	suble r0, sb, #1
+	cmp r9, #0xc0
+	suble r0, r9, #1
 	str r3, [sp, #0xc]
 	mov r3, r8, lsl #0x10
 	movgt r2, #0xbf
@@ -1295,10 +1295,10 @@ _0200C334:
 	mov r3, r3, asr #0x10
 	bl MapFarSys__Func_200D144
 _0200C39C:
-	cmp sb, #0xc0
+	cmp r9, #0xc0
 	bge _0200C3EC
 	ldr r2, [r4, #4]
-	cmp sb, #0
+	cmp r9, #0
 	add r2, r2, r7, lsl #4
 	str r2, [sp]
 	mov r2, #0x100
@@ -1306,10 +1306,10 @@ _0200C39C:
 	mov r2, #0x200
 	str r2, [sp, #8]
 	ldr r2, _0200C4A4 // =0x0210E0D8
-	mov r3, sb, lsl #0x10
+	mov r3, r9, lsl #0x10
 	str r2, [sp, #0xc]
 	movlt r1, #0
-	movge r0, sb, lsl #0x10
+	movge r0, r9, lsl #0x10
 	movge r1, r0, lsr #0x10
 	mov r0, r6
 	mov r2, #0xbf
@@ -1328,7 +1328,7 @@ _0200C3EC:
 	add r4, r0, #0x2000
 	mov r2, #0
 	stmia sp, {r2, r4}
-	sub r0, r1, sb
+	sub r0, r1, r9
 	mov r2, #0x40
 	str r2, [sp, #8]
 	mov r2, #0x8000
@@ -1358,7 +1358,7 @@ _0200C474:
 	ldr r0, [sp, #0x1c]
 	str r1, [r0, #0x63c]
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0200C490: .word mapCamera
 _0200C494: .word MapFarSys__sVars
@@ -1370,11 +1370,11 @@ _0200C4A4: .word 0x0210E0D8
 
 	arm_func_start MapFarSys__Process_Z4
 MapFarSys__Process_Z4: // 0x0200C4A8
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	ldr r0, _0200C66C // =_0210E074
 	ldr r1, _0200C670 // =MapFarSys__sVars
-	ldrh sb, [r0, #0x18]
+	ldrh r9, [r0, #0x18]
 	ldrh r8, [r0, #0x1a]
 	ldrh r7, [r0, #0x1c]
 	ldrh r6, [r0, #0x1e]
@@ -1384,7 +1384,7 @@ MapFarSys__Process_Z4: // 0x0200C4A8
 	ldrh r2, [r0, #0x16]
 	ldr r1, [r1, #8]
 	mov r0, #0xe
-	strh sb, [sp, #0xc]
+	strh r9, [sp, #0xc]
 	strh r8, [sp, #0xe]
 	strh r7, [sp, #0x10]
 	strh r6, [sp, #0x12]
@@ -1437,16 +1437,16 @@ _0200C580:
 	mov r2, r2, asr #0xc
 	mov r7, #0
 	mov r6, r0
-	mov sl, r7
+	mov r10, r7
 	mov r1, r1, lsr #0x10
 	mov r4, r2, lsl #0x10
-	add fp, sp, #0xc
+	add r11, sp, #0xc
 _0200C5BC:
-	mov r0, sl, lsl #1
-	ldrh sb, [fp, r0]
-	cmp r1, sb
+	mov r0, r10, lsl #1
+	ldrh r9, [r11, r0]
+	cmp r1, r9
 	bhs _0200C628
-	sub r0, sb, r1
+	sub r0, r9, r1
 	mov r0, r0, lsl #0x10
 	add r1, r7, r0, lsr #16
 	cmp r1, #0xc0
@@ -1456,7 +1456,7 @@ _0200C5BC:
 	movgt r8, r0, lsr #0x10
 	cmp r8, #0
 	beq _0200C618
-	mov r1, sl, lsl #1
+	mov r1, r10, lsl #1
 	add r0, sp, #0x14
 	ldrh r0, [r0, r1]
 	add r1, r6, r7, lsl #1
@@ -1468,13 +1468,13 @@ _0200C5BC:
 _0200C618:
 	add r0, r7, r8
 	mov r0, r0, lsl #0x10
-	mov r1, sb
+	mov r1, r9
 	mov r7, r0, lsr #0x10
 _0200C628:
-	add r0, sl, #1
+	add r0, r10, #1
 	mov r0, r0, lsl #0x10
-	mov sl, r0, lsr #0x10
-	cmp sl, #4
+	mov r10, r0, lsr #0x10
+	cmp r10, #4
 	blo _0200C5BC
 	and r0, r5, #0xff
 	bl RenderCore_PrepareDMASwapBuffer
@@ -1488,7 +1488,7 @@ _0200C650:
 	ldr r0, [sp]
 	str r1, [r0, #0x63c]
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0200C66C: .word _0210E074
 _0200C670: .word MapFarSys__sVars
@@ -1520,7 +1520,7 @@ _0200C6BC: .word mapCamera
 
 	arm_func_start MapFarSys__Process_Z6
 MapFarSys__Process_Z6: // 0x0200C6C0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x3c
 	ldr r0, _0200C898 // =MapFarSys__sVars
 	ldr r3, _0200C89C // =0x0210E0B4
@@ -1596,16 +1596,16 @@ _0200C7B4:
 	mov r2, r2, asr #0xc
 	mov r7, #0
 	mov r6, r0
-	mov sl, r7
+	mov r10, r7
 	mov r1, r1, lsr #0x10
 	mov r4, r2, lsl #0x10
-	add fp, sp, #0x16
+	add r11, sp, #0x16
 _0200C7F0:
-	mov r0, sl, lsl #1
-	ldrh sb, [fp, r0]
-	cmp r1, sb
+	mov r0, r10, lsl #1
+	ldrh r9, [r11, r0]
+	cmp r1, r9
 	bhs _0200C85C
-	sub r0, sb, r1
+	sub r0, r9, r1
 	mov r0, r0, lsl #0x10
 	add r1, r7, r0, lsr #16
 	cmp r1, #0xc0
@@ -1615,7 +1615,7 @@ _0200C7F0:
 	movgt r8, r0, lsr #0x10
 	cmp r8, #0
 	beq _0200C84C
-	mov r1, sl, lsl #1
+	mov r1, r10, lsl #1
 	add r0, sp, #0x28
 	ldrh r0, [r0, r1]
 	add r1, r6, r7, lsl #1
@@ -1627,11 +1627,11 @@ _0200C7F0:
 _0200C84C:
 	add r0, r7, r8
 	mov r0, r0, lsl #0x10
-	mov r1, sb
+	mov r1, r9
 	mov r7, r0, lsr #0x10
 _0200C85C:
-	add sl, sl, #1
-	cmp sl, #9
+	add r10, r10, #1
+	cmp r10, #9
 	blt _0200C7F0
 	and r0, r5, #0xff
 	bl RenderCore_PrepareDMASwapBuffer
@@ -1645,7 +1645,7 @@ _0200C87C:
 	ldr r0, [sp]
 	str r1, [r0, #0x63c]
 	add sp, sp, #0x3c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0200C898: .word MapFarSys__sVars
 _0200C89C: .word 0x0210E0B4
@@ -1655,7 +1655,7 @@ _0200C8A4: .word mapCamera
 
 	arm_func_start MapFarSys__Process_Z7
 MapFarSys__Process_Z7: // 0x0200C8A8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x40
 	ldr r0, _0200CC7C // =gameState
 	ldr r1, _0200CC80 // =MapFarSys__sVars
@@ -1695,21 +1695,21 @@ _0200C92C:
 	mov r0, #0x1c
 	bl MapFarSys__Func_200CE58
 	ldr r0, _0200CC80 // =MapFarSys__sVars
-	ldr sl, _0200CC94 // =mapCamera
+	ldr r10, _0200CC94 // =mapCamera
 	ldr r3, [r0, #8]
 	rsb r0, r7, #0x1e0
-	ldr r2, [sl, #0x38]
+	ldr r2, [r10, #0x38]
 	ldr r1, [r3, #0x10]
 	str r0, [sp, #0x20]
 	add r0, r2, r1
-	str r0, [sl, #0x38]
+	str r0, [r10, #0x38]
 	rsb r0, r7, #0x208
-	ldr r2, [sl, #0xa8]
+	ldr r2, [r10, #0xa8]
 	ldr r1, [r3, #0x18]
 	str r0, [sp, #0x1c]
 	add r0, r2, r1
 	mvn r4, #0xbf
-	str r0, [sl, #0xa8]
+	str r0, [r10, #0xa8]
 	add r0, r4, #0xb8
 	mov r5, #0
 	str r0, [sp, #0x34]
@@ -1717,35 +1717,35 @@ _0200C92C:
 _0200C984:
 	add r0, sp, #0x38
 	ldr r0, [r0, r5, lsl #2]
-	ldrh sb, [sl, #0x6e]
+	ldrh r9, [r10, #0x6e]
 	str r0, [sp, #0x18]
-	ldr r3, [sl, #8]
+	ldr r3, [r10, #8]
 	ldr r0, [r0, #8]
-	cmp sb, #0
+	cmp r9, #0
 	sub r8, r3, r0
 	beq _0200C9BC
 	ldr r2, _0200CC9C // =0x02133BC8
-	sub r1, sb, #8
+	sub r1, r9, #8
 	ldrh r2, [r2, #0x2c]
 	sub r2, r2, r1
 	b _0200C9CC
 _0200C9BC:
 	ldr r1, _0200CC9C // =0x02133BC8
-	ldr sb, _0200CCA0 // =0x0000FFFF
+	ldr r9, _0200CCA0 // =0x0000FFFF
 	ldrh r1, [r1, #0x2c]
 	mov r2, #0
 _0200C9CC:
-	mov ip, sb, lsl #0xc
-	add fp, r0, r7, lsl #12
+	mov ip, r9, lsl #0xc
+	add r11, r0, r7, lsl #12
 	sub r6, ip, #0x8000
-	cmp fp, r6
+	cmp r11, r6
 	bgt _0200CA00
 	ldr r0, [sp, #0x20]
 	sub r1, r1, r7
 	mul r0, r3, r0
 	bl FX_DivS32
 	add r0, r8, r0
-	str r0, [sl, #0x3c]
+	str r0, [r10, #0x3c]
 	mov r6, #0xbf
 	b _0200CAB4
 _0200CA00:
@@ -1755,22 +1755,22 @@ _0200CA00:
 	rsb r6, r1, #0
 	cmp r6, #0
 	ble _0200CA48
-	sub r1, sb, #8
-	sub sb, r1, r0, asr #12
-	sub r0, r7, sb
+	sub r1, r9, #8
+	sub r9, r1, r0, asr #12
+	sub r0, r7, r9
 	mov r0, r0, lsl #0x12
 	mov r1, r7
 	bl FX_DivS32
-	mov r1, sb, lsl #0xc
+	mov r1, r9, lsl #0xc
 	rsb r1, r1, #0x1e0000
 	sub r0, r1, r0
 	add r0, r8, r0
-	str r0, [sl, #0x3c]
+	str r0, [r10, #0x3c]
 	b _0200CAB4
 _0200CA48:
 	rsb r0, r6, #0
 	mov r0, r0, lsl #0xc
-	str r0, [sl, #0x3c]
+	str r0, [r10, #0x3c]
 	b _0200CAB4
 _0200CA58:
 	cmp r0, ip
@@ -1779,7 +1779,7 @@ _0200CA58:
 	rsb r6, r0, #0
 	rsb r0, r6, #0
 	mov r0, r0, lsl #0xc
-	str r0, [sl, #0x3c]
+	str r0, [r10, #0x3c]
 	b _0200CAB4
 _0200CA78:
 	sub r0, r0, r1, lsl #12
@@ -1791,10 +1791,10 @@ _0200CA78:
 	bl FX_DivS32
 	add r0, r0, #0x8000
 	add r0, r8, r0
-	str r0, [sl, #0x3c]
+	str r0, [r10, #0x3c]
 	ldr r0, [sp, #0x18]
 	ldr r0, [r0, #8]
-	sub r0, sb, r0, asr #12
+	sub r0, r9, r0, asr #12
 	sub r0, r0, #8
 	sub r6, r0, r8, asr #12
 _0200CAB4:
@@ -1803,7 +1803,7 @@ _0200CAB4:
 	mov r8, r0
 	cmp r6, #0
 	ble _0200CB14
-	ldr r1, [sl, #0x38]
+	ldr r1, [r10, #0x38]
 	cmp r6, #0xbf
 	str r1, [sp]
 	mov r1, #0x1000
@@ -1813,7 +1813,7 @@ _0200CAB4:
 	ldr r1, [sp, #0x28]
 	movgt r2, #0xbf
 	str r1, [sp, #0xc]
-	ldr r3, [sl, #0x3c]
+	ldr r3, [r10, #0x3c]
 	movle r0, r6, lsl #0x10
 	rsb r3, r3, #0
 	mov r3, r3, lsl #4
@@ -1827,11 +1827,11 @@ _0200CB14:
 	bge _0200CC48
 	cmp r6, #0
 	bgt _0200CB48
-	ldr r0, [sl, #0x3c]
+	ldr r0, [r10, #0x3c]
 	add r2, r6, #8
 	rsb r0, r0, #0
 	mov r0, r0, lsl #4
-	mov sb, r0, asr #0x10
+	mov r9, r0, asr #0x10
 	mov r0, r2, lsl #0x10
 	mov r1, #0
 	mov r0, r0, asr #0x10
@@ -1839,7 +1839,7 @@ _0200CB14:
 _0200CB48:
 	mov r0, r6, lsl #0x10
 	mov r1, r0, lsr #0x10
-	mov sb, r0, asr #0x10
+	mov r9, r0, asr #0x10
 	add r0, r1, #8
 	and r0, r0, #0xff
 _0200CB5C:
@@ -1849,7 +1849,7 @@ _0200CB5C:
 	cmp r0, #0xbf
 	movgt r0, #0xbf
 _0200CB70:
-	ldr r2, [sl, #0x38]
+	ldr r2, [r10, #0x38]
 	mov r0, r0, lsl #0x10
 	mov r2, r2, lsl #1
 	str r2, [sp]
@@ -1858,11 +1858,11 @@ _0200CB70:
 	mov r2, #0
 	str r2, [sp, #8]
 	ldr r2, [sp, #0x24]
-	mov fp, r0, asr #0x10
+	mov r11, r0, asr #0x10
 	str r2, [sp, #0xc]
 	mov r0, r8
 	mov r2, #0xbf
-	mov r3, sb
+	mov r3, r9
 	bl MapFarSys__Func_200D144
 	ldr r0, [sp, #0x30]
 	mov r2, #0x1800
@@ -1873,7 +1873,7 @@ _0200CB70:
 	mov r6, r0, lsl #0xd
 	bge _0200CC14
 	ldr r0, [sp, #0x34]
-	sub r1, r0, sb
+	sub r1, r0, r9
 	mul r3, r1, r4
 	mov r0, r2
 	add r2, r0, r1, lsl #6
@@ -1884,11 +1884,11 @@ _0200CB70:
 	ldrgt r0, _0200CCA4 // =0x017F4000
 	bgt _0200CC10
 	mov r0, #0x18000
-	add sb, r1, #1
+	add r9, r1, #1
 	mul r0, r1, r0
-	mul r1, sb, r1
-	mul sb, r1, r4
-	add r0, r0, sb, asr #1
+	mul r1, r9, r1
+	mul r9, r1, r4
+	add r0, r0, r9, asr #1
 _0200CC10:
 	add r6, r6, r0
 _0200CC14:
@@ -1900,7 +1900,7 @@ _0200CC14:
 	str r2, [sp, #8]
 	str r3, [sp, #0xc]
 	str r4, [sp, #0x10]
-	and r1, fp, #0xff
+	and r1, r11, #0xff
 	mov r2, #0xbf
 	mov r3, r8
 	str r6, [sp, #0x14]
@@ -1908,7 +1908,7 @@ _0200CC14:
 _0200CC48:
 	and r0, r5, #0xff
 	bl RenderCore_PrepareDMASwapBuffer
-	add sl, sl, #0x70
+	add r10, r10, #0x70
 	add r5, r5, #1
 	cmp r5, #2
 	blt _0200C984
@@ -1918,7 +1918,7 @@ _0200CC48:
 	ldr r0, [sp, #0x2c]
 	str r1, [r0, #0x63c]
 	add sp, sp, #0x40
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0200CC7C: .word gameState
 _0200CC80: .word MapFarSys__sVars
@@ -1935,7 +1935,7 @@ _0200CCA4: .word 0x017F4000
 
 	arm_func_start MapFarSys__Process_Z9
 MapFarSys__Process_Z9: // 0x0200CCA8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
 	ldr r0, _0200CE4C // =_0210E074
 	ldr r1, _0200CE50 // =MapFarSys__sVars
@@ -1996,16 +1996,16 @@ _0200CD68:
 	mov r2, r2, asr #0xc
 	mov r7, #0
 	mov r6, r0
-	mov sl, r7
+	mov r10, r7
 	mov r1, r1, lsr #0x10
 	mov r4, r2, lsl #0x10
-	add fp, sp, #0xa
+	add r11, sp, #0xa
 _0200CDA4:
-	mov r0, sl, lsl #1
-	ldrh sb, [fp, r0]
-	cmp r1, sb
+	mov r0, r10, lsl #1
+	ldrh r9, [r11, r0]
+	cmp r1, r9
 	bhs _0200CE10
-	sub r0, sb, r1
+	sub r0, r9, r1
 	mov r0, r0, lsl #0x10
 	add r1, r7, r0, lsr #16
 	cmp r1, #0xc0
@@ -2015,7 +2015,7 @@ _0200CDA4:
 	movgt r8, r0, lsr #0x10
 	cmp r8, #0
 	beq _0200CE00
-	mov r1, sl, lsl #1
+	mov r1, r10, lsl #1
 	add r0, sp, #0x10
 	ldrh r0, [r0, r1]
 	add r1, r6, r7, lsl #1
@@ -2027,11 +2027,11 @@ _0200CDA4:
 _0200CE00:
 	add r0, r7, r8
 	mov r0, r0, lsl #0x10
-	mov r1, sb
+	mov r1, r9
 	mov r7, r0, lsr #0x10
 _0200CE10:
-	add sl, sl, #1
-	cmp sl, #3
+	add r10, r10, #1
+	cmp r10, #3
 	blt _0200CDA4
 	and r0, r5, #0xff
 	bl RenderCore_PrepareDMASwapBuffer
@@ -2045,7 +2045,7 @@ _0200CE30:
 	ldr r0, [sp]
 	str r1, [r0, #0x63c]
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0200CE4C: .word _0210E074
 _0200CE50: .word MapFarSys__sVars
@@ -2162,7 +2162,7 @@ _0200CFCC: .word 0x02133B38
 
 	arm_func_start MapFarSys__ProcessScroll
 MapFarSys__ProcessScroll: // 0x0200CFD0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	ldr r0, _0200D138 // =mapCamera
 	mov r4, #0
@@ -2221,30 +2221,30 @@ _0200D074:
 	mov r7, r6
 	str r2, [r1, #0x3c]
 	bl RenderCore_GetDMASrc
-	ldr fp, _0200D140 // =0x000001FF
-	mov sb, r0
+	ldr r11, _0200D140 // =0x000001FF
+	mov r9, r0
 	mov r5, #0
 _0200D0B0:
 	ldrh r0, [r8, #2]
-	mov r1, sb
-	sub sl, r0, r7
-	add r0, r5, sl
+	mov r1, r9
+	sub r10, r0, r7
+	add r0, r5, r10
 	cmp r0, #0xc0
 	ldrh r0, [r8]
-	rsbge sl, r5, #0xc0
-	mov r2, sl, lsl #1
+	rsbge r10, r5, #0xc0
+	mov r2, r10, lsl #1
 	add r0, r6, r0
-	and r0, r0, fp
+	and r0, r0, r11
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl MIi_CpuClear16
 	ldrh r0, [r8, #2]
-	add r5, r5, sl
+	add r5, r5, r10
 	mov r7, #0
 	cmp r5, #0xc0
 	sub r6, r6, r0
 	add r8, r8, #4
-	add sb, sb, sl, lsl #1
+	add r9, r9, r10, lsl #1
 	blt _0200D0B0
 	and r0, r4, #0xff
 	bl RenderCore_PrepareDMASwapBuffer
@@ -2258,7 +2258,7 @@ _0200D0B0:
 	str r0, [sp]
 	blt _0200D000
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0200D138: .word mapCamera
 _0200D13C: .word MapFarSys__sVars
@@ -2267,26 +2267,26 @@ _0200D140: .word 0x000001FF
 
 	arm_func_start MapFarSys__Func_200D144
 MapFarSys__Func_200D144: // 0x0200D144
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	mov r5, #0
-	mov sl, r2
-	mov sb, r3
+	mov r10, r2
+	mov r9, r3
 	ldr r8, [sp, #0x30]
 	ldr r7, [sp, #0x34]
-	ldr fp, [sp, #0x38]
+	ldr r11, [sp, #0x38]
 	ldr r4, [sp, #0x3c]
 	str r0, [sp]
 	str r1, [sp, #4]
-	cmp sb, sl
+	cmp r9, r10
 	mov r6, r5
 	addgt sp, sp, #8
-	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0200D180:
 	ldrh r2, [r4]
 	ldr r0, [sp, #4]
 	ldrh r1, [r4, #4]
-	cmp sb, r0
+	cmp r9, r0
 	mul r0, r1, r2
 	mov r0, r0, lsl #0x10
 	blt _0200D240
@@ -2299,7 +2299,7 @@ _0200D1A8:
 	ldrh r2, [r4, #4]
 	add r3, r3, r5
 	sub r5, r2, r5
-	sub r2, r3, sb
+	sub r2, r3, r9
 	adds r3, r1, #0x800
 	mov r2, r2, lsl #0x10
 	mov r2, r2, lsr #0x10
@@ -2309,25 +2309,25 @@ _0200D1A8:
 	ldr r0, _0200D2C4 // =0x000001FF
 	mov r2, r2, lsl #0x17
 	and r0, r0, r1, asr #12
-	add r1, sb, r5
-	cmp r1, sl
-	subhi r1, sl, sb
+	add r1, r9, r5
+	cmp r1, r10
+	subhi r1, r10, r9
 	addhi r5, r1, #1
 	ldr r1, [sp]
 	orr r0, r0, r2, lsr #7
-	add r1, r1, sb, lsl #2
+	add r1, r1, r9, lsl #2
 	mov r2, r5, lsl #2
 	bl MIi_CpuClear32
 	ldrh r1, [r4, #6]
 	sub r0, r6, #1
 	mov r0, r0, lsl #0x10
-	add sb, sb, r5
-	add r7, r7, fp
+	add r9, r9, r5
+	add r7, r7, r11
 	add r8, r8, r1, lsl #12
 	mov r6, r0, lsr #0x10
 	mov r5, #0
 _0200D228:
-	cmp sb, sl
+	cmp r9, r10
 	bgt _0200D238
 	cmp r6, #0
 	bne _0200D1A8
@@ -2336,11 +2336,11 @@ _0200D238:
 	b _0200D2B4
 _0200D240:
 	ldr r3, [sp, #4]
-	add r0, sb, r0, lsr #16
+	add r0, r9, r0, lsr #16
 	cmp r0, r3
 	ble _0200D29C
 	mov r0, r3
-	sub r5, r0, sb
+	sub r5, r0, r9
 	mov r0, r5
 	bl FX_DivS32
 	ldrh r3, [r4, #4]
@@ -2353,23 +2353,23 @@ _0200D240:
 	mov r1, r5, lsl #0x10
 	mov r2, r2, lsl #0x10
 	mla r8, r3, r0, r8
-	mla r7, fp, r0, r7
-	ldr sb, [sp, #4]
+	mla r7, r11, r0, r7
+	ldr r9, [sp, #4]
 	mov r5, r1, lsr #0x10
 	mov r6, r2, lsr #0x10
 	b _0200D2B4
 _0200D29C:
 	ldrh r1, [r4, #6]
-	mla r7, fp, r2, r7
+	mla r7, r11, r2, r7
 	mov r1, r1, lsl #0xc
 	mla r8, r1, r2, r8
-	mov sb, r0
+	mov r9, r0
 	add r4, r4, #8
 _0200D2B4:
-	cmp sb, sl
+	cmp r9, r10
 	ble _0200D180
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0200D2C4: .word 0x000001FF
 	arm_func_end MapFarSys__Func_200D144

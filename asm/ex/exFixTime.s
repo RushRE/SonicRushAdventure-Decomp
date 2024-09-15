@@ -5,7 +5,7 @@
 
 	arm_func_start exFixTimeTask__Main
 exFixTimeTask__Main: // 0x02168F78
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetExTaskWorkCurrent_
 	mov r5, r0
 	bl GetCurrentTask
@@ -41,22 +41,22 @@ exFixTimeTask__Main: // 0x02168F78
 	ldr r0, [r5]
 	add r0, r0, #0x98
 	bl ovl09_21641F0
-	mov sb, #0
+	mov r9, #0
 _0216900C:
 	mov r0, #0x88
-	cmp sb, #0
-	muleq r4, sb, r0
+	cmp r9, #0
+	muleq r4, r9, r0
 	ldreq r0, [r5]
 	moveq r1, #0x29
 	beq _02169030
-	mul r4, sb, r0
+	mul r4, r9, r0
 	ldr r0, [r5]
 	mov r1, #0x35
 _02169030:
 	add r0, r0, r4
 	strh r1, [r0, #0xa0]
 	mov r0, #0x88
-	mul r6, sb, r0
+	mul r6, r9, r0
 	ldr r0, [r5]
 	mov r1, #2
 	add r0, r0, r6
@@ -90,7 +90,7 @@ _02169030:
 	add r0, r0, r6
 	bl ovl09_2161B6C
 	ldr r0, [r5]
-	cmp sb, #0
+	cmp r9, #0
 	add r0, r0, #0x120
 	beq _021690DC
 	add r0, r0, r4
@@ -101,7 +101,7 @@ _021690DC:
 	bl ovl09_21641F0
 _021690E4:
 	ldr r0, [r5]
-	cmp sb, #0
+	cmp r9, #0
 	movne r1, #0x36
 	add r0, r0, r4
 	moveq r1, #0x2a
@@ -141,7 +141,7 @@ _021690E4:
 	add r0, r0, r6
 	bl ovl09_2161B6C
 	ldr r0, [r5]
-	cmp sb, #0
+	cmp r9, #0
 	add r0, r0, #0x230
 	beq _021691A0
 	add r0, r0, r4
@@ -152,27 +152,27 @@ _021691A0:
 	bl ovl09_21641F0
 _021691A8:
 	mov r0, #0x550
-	mul r6, sb, r0
-	mov sl, #0
-	ldr fp, _02169390 // =0x02175CDC
-	mov r4, sl
+	mul r6, r9, r0
+	mov r10, #0
+	ldr r11, _02169390 // =0x02175CDC
+	mov r4, r10
 _021691BC:
 	mov r0, #0x88
-	mul r7, sl, r0
-	cmp sb, #0
+	mul r7, r10, r0
+	cmp r9, #0
 	beq _021691EC
 	ldr r0, [r5]
-	mov r1, sl, lsl #1
+	mov r1, r10, lsl #1
 	add r0, r6, r0
 	add r0, r7, r0
-	ldrh r1, [fp, r1]
+	ldrh r1, [r11, r1]
 	add r0, r0, #0x200
 	strh r1, [r0, #0xc0]
 	b _0216920C
 _021691EC:
 	ldr r1, [r5]
 	ldr r0, _02169394 // =0x02175CF0
-	mov r2, sl, lsl #1
+	mov r2, r10, lsl #1
 	ldrh r2, [r0, r2]
 	add r0, r6, r1
 	add r0, r7, r0
@@ -180,7 +180,7 @@ _021691EC:
 	strh r2, [r0, #0xc0]
 _0216920C:
 	mov r0, #0x88
-	mul r8, sl, r0
+	mul r8, r10, r0
 	ldr r0, [r5]
 	add r0, r6, r0
 	add r0, r8, r0
@@ -221,7 +221,7 @@ _0216920C:
 	add r0, r0, r8
 	bl ovl09_2161B6C
 	ldr r0, [r5]
-	cmp sb, #0
+	cmp r9, #0
 	add r0, r0, #0x340
 	beq _021692D0
 	add r0, r0, r6
@@ -233,15 +233,15 @@ _021692D0:
 	add r0, r0, r7
 	bl ovl09_21641F0
 _021692DC:
-	add r0, sl, #1
+	add r0, r10, #1
 	mov r0, r0, lsl #0x10
-	mov sl, r0, lsr #0x10
-	cmp sl, #0xa
+	mov r10, r0, lsr #0x10
+	cmp r10, #0xa
 	blo _021691BC
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #2
+	mov r9, r0, lsr #0x10
+	cmp r9, #2
 	blo _0216900C
 	ldr r0, [r5]
 	mov r1, #0
@@ -275,7 +275,7 @@ _021692DC:
 	bl GetExTaskCurrent
 	ldr r1, _0216939C // =ovl09_216944C
 	str r1, [r0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02169388: .word 0x021766A8
 _0216938C: .word 0x021766BC
@@ -341,7 +341,7 @@ _02169448: .word 0x021766A8
 
 	arm_func_start ovl09_216944C
 ovl09_216944C: // 0x0216944C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	bl GetExTaskWorkCurrent_
 	mov r5, r0
 	bl exSysTask__GetStatus
@@ -359,12 +359,12 @@ _02169484:
 	mov r0, #0x550
 	mul r7, r8, r0
 	mov r6, #0
-	mov sb, #0x88
+	mov r9, #0x88
 _02169494:
 	ldr r0, [r5]
 	add r0, r0, #0x2c0
 	add r0, r0, r7
-	mla r0, r6, sb, r0
+	mla r0, r6, r9, r0
 	bl ovl09_2161908
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
@@ -530,7 +530,7 @@ _02169494:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end ovl09_216944C
 
 	arm_func_start exFixTimeTask__Create

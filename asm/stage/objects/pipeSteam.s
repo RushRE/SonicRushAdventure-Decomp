@@ -548,34 +548,34 @@ _02161888: .word 0x021883A8
 
 	arm_func_start PipeFlow__OnDefend_216188C
 PipeFlow__OnDefend_216188C: // 0x0216188C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r2, [r1, #0x1c]
 	ldr r1, [r0, #0x1c]
 	cmp r2, #0
 	cmpne r1, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrh r0, [r1]
 	cmp r0, #1
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [r1, #0x6d8]
 	cmp r0, r2
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [r1, #0x1c]
 	tst r0, #0x200
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [r2, #0x28]
 	mov r5, #0
 	cmp r0, #6
-	sub sl, r5, #0x4000
+	sub r10, r5, #0x4000
 	ldr r6, [r2, #0x44]
 	ldr r7, [r2, #0x48]
 	bne _02161A14
 	ldr r8, _02161B48 // =0x02188F54
-	ldr sb, _02161B4C // =_02188F2C
-	ldr fp, _02161B50 // =_mt_math_rand
+	ldr r9, _02161B4C // =_02188F2C
+	ldr r11, _02161B50 // =_mt_math_rand
 	mov r4, r5
 _021618F4:
-	ldr r3, [fp]
+	ldr r3, [r11]
 	ldr r2, _02161B54 // =0x00196225
 	ldr r0, _02161B58 // =0x3C6EF35F
 	mov r1, r7
@@ -583,9 +583,9 @@ _021618F4:
 	mov r3, r2
 	ldr r2, _02161B58 // =0x3C6EF35F
 	mla r2, r0, r3, r2
-	str r2, [fp]
+	str r2, [r11]
 	str r5, [sp]
-	ldr r2, [fp]
+	ldr r2, [r11]
 	mov r0, r0, lsr #0x10
 	mov r2, r2, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -597,32 +597,32 @@ _021618F4:
 	ldr r3, [r8], #4
 	sub r2, r2, #1
 	add r2, r3, r2, lsl #10
-	ldr r3, [sb], #4
+	ldr r3, [r9], #4
 	sub r0, r0, #1
 	add r3, r3, r0, lsl #11
-	add r0, r6, sl
+	add r0, r6, r10
 	bl EffectPipeFlowPetal__Create
 	eor r0, r5, #1
 	add r4, r4, #1
 	mov r0, r0, lsl #0x10
 	cmp r4, #5
-	add sl, sl, #0x2000
+	add r10, r10, #0x2000
 	mov r5, r0, lsr #0x10
 	blt _021618F4
-	mov sl, #0
+	mov r10, #0
 	mov r4, #0x4000
 	ldr r8, _02161B50 // =_mt_math_rand
-	ldr fp, _02161B58 // =0x3C6EF35F
-	sub sb, sl, #0x2400
+	ldr r11, _02161B58 // =0x3C6EF35F
+	sub r9, r10, #0x2400
 	rsb r4, r4, #0
 _02161994:
 	ldr r2, [r8]
 	ldr r0, _02161B54 // =0x00196225
 	mov r1, r7
-	mla r0, r2, r0, fp
+	mla r0, r2, r0, r11
 	ldr r2, _02161B54 // =0x00196225
 	mov r3, r0, lsr #0x10
-	mla r2, r0, r2, fp
+	mla r2, r0, r2, r11
 	str r2, [r8]
 	str r5, [sp]
 	ldr r2, [r8]
@@ -634,7 +634,7 @@ _02161994:
 	and r0, r2, #7
 	sub r2, r0, #3
 	mov r3, r3, lsl #0x1d
-	add r0, r6, sb
+	add r0, r6, r9
 	mov r2, r2, lsl #0xc
 	sub r3, r4, r3, lsr #18
 	bl EffectPipeFlowSeed__Create
@@ -642,19 +642,19 @@ _02161994:
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10
 	cmp r5, #3
-	add sl, sl, #1
+	add r10, r10, #1
 	movhs r5, #0
-	cmp sl, #0xa
-	add sb, sb, #0x800
+	cmp r10, #0xa
+	add r9, r9, #0x800
 	blt _02161994
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02161A14:
 	ldr r4, _02161B5C // =0x02188F40
 	ldr r8, _02161B60 // =0x02188F68
-	ldr fp, _02161B50 // =_mt_math_rand
-	mov sb, r5
+	ldr r11, _02161B50 // =_mt_math_rand
+	mov r9, r5
 _02161A24:
-	ldr r3, [fp]
+	ldr r3, [r11]
 	ldr r2, _02161B54 // =0x00196225
 	ldr r1, _02161B58 // =0x3C6EF35F
 	mov r0, r6
@@ -662,9 +662,9 @@ _02161A24:
 	mov r3, r2
 	ldr r2, _02161B58 // =0x3C6EF35F
 	mla r2, r1, r3, r2
-	str r2, [fp]
+	str r2, [r11]
 	str r5, [sp]
-	ldr r2, [fp]
+	ldr r2, [r11]
 	mov r1, r1, lsr #0x10
 	mov r2, r2, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -679,28 +679,28 @@ _02161A24:
 	ldr r3, [r8], #4
 	sub r1, r1, #1
 	add r3, r3, r1, lsl #11
-	add r1, r7, sl
+	add r1, r7, r10
 	bl EffectPipeFlowPetal__Create
 	eor r0, r5, #1
-	add sb, sb, #1
+	add r9, r9, #1
 	mov r0, r0, lsl #0x10
-	cmp sb, #5
-	add sl, sl, #0x2000
+	cmp r9, #5
+	add r10, r10, #0x2000
 	mov r5, r0, lsr #0x10
 	blt _02161A24
-	mov sl, #0
+	mov r10, #0
 	mov r4, #0x3000
 	ldr r8, _02161B50 // =_mt_math_rand
-	ldr fp, _02161B58 // =0x3C6EF35F
-	sub sb, sl, #0x2400
+	ldr r11, _02161B58 // =0x3C6EF35F
+	sub r9, r10, #0x2400
 	rsb r4, r4, #0
 _02161AC4:
 	ldr r2, [r8]
 	ldr r0, _02161B54 // =0x00196225
 	mov r1, r7
-	mla r0, r2, r0, fp
+	mla r0, r2, r0, r11
 	ldr r2, _02161B54 // =0x00196225
-	mla r2, r0, r2, fp
+	mla r2, r0, r2, r11
 	str r2, [r8]
 	str r5, [sp]
 	ldr r2, [r8]
@@ -714,7 +714,7 @@ _02161AC4:
 	sub r0, r2, #3
 	mov r2, r0, lsl #0xb
 	mov r3, r3, lsl #0x1d
-	add r0, r6, sb
+	add r0, r6, r9
 	add r2, r2, #0x3000
 	sub r3, r4, r3, lsr #18
 	bl EffectPipeFlowSeed__Create
@@ -722,12 +722,12 @@ _02161AC4:
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10
 	cmp r5, #3
-	add sl, sl, #1
+	add r10, r10, #1
 	movhs r5, #0
-	cmp sl, #0xa
-	add sb, sb, #0x800
+	cmp r10, #0xa
+	add r9, r9, #0x800
 	blt _02161AC4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02161B48: .word 0x02188F54
 _02161B4C: .word _02188F2C

@@ -5,10 +5,10 @@
 
 	arm_func_start Stalactite__Create
 Stalactite__Create: // 0x0216BE64
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x14
 	mov r3, #0x1800
-	mov fp, r0
+	mov r11, r0
 	mov r6, r1
 	mov r4, r2
 	str r3, [sp]
@@ -27,7 +27,7 @@ Stalactite__Create: // 0x0216BE64
 	cmp r5, r0
 	addeq sp, sp, #0x14
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r5
 	bl GetTaskWork_
 	ldr r2, _0216C2B4 // =0x00000ADC
@@ -35,7 +35,7 @@ Stalactite__Create: // 0x0216BE64
 	mov r1, #0
 	bl MI_CpuFill8
 	mov r0, r5
-	mov r1, fp
+	mov r1, r11
 	mov r2, r6
 	mov r3, r4
 	bl GameObject__InitFromObject
@@ -83,7 +83,7 @@ _0216BF00:
 	orr r0, r0, #8
 	str r0, [r1, #0x3c]
 _0216BF94:
-	ldrh r0, [fp, #2]
+	ldrh r0, [r11, #2]
 	cmp r0, #0xa0
 	mov r0, r5
 	bne _0216BFB4
@@ -144,8 +144,8 @@ _0216BFC0:
 	add r1, r5, #0x68
 	mov r6, r0
 	add r8, r1, #0x400
-	mov sl, #0
-	mov sb, #0xa4
+	mov r10, #0
+	mov r9, #0xa4
 _0216C088:
 	ldr r0, _0216C2C0 // =gameArchiveStage
 	mov r2, #0
@@ -155,13 +155,13 @@ _0216C088:
 	ldr r1, _0216C2C4 // =aActAcGmkStalac
 	mov r3, r6
 	bl ObjAction2dBACLoad
-	add r1, sl, #4
+	add r1, r10, #4
 	mov r1, r1, lsl #0x10
 	ldr r0, [r6]
 	mov r1, r1, lsr #0x10
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r4, r0
-	mov r0, sb
+	mov r0, r9
 	bl GetObjectFileWork
 	mov r2, r0
 	mov r1, r4
@@ -170,7 +170,7 @@ _0216C088:
 	ldr r1, [r5, #0x128]
 	mov r0, r8
 	ldrh r2, [r1, #0x50]
-	add r1, sl, #4
+	add r1, r10, #4
 	mov r1, r1, lsl #0x10
 	strh r2, [r8, #0x50]
 	strh r2, [r8, #0x92]
@@ -190,12 +190,12 @@ _0216C088:
 	mov r0, r8
 	mov r1, #0
 	bl StageTask__SetOAMPriority
-	add sl, sl, #1
+	add r10, r10, #1
 	add r8, r8, #0xa4
-	add sb, sb, #2
-	cmp sl, #3
+	add r9, r9, #2
+	cmp r10, #3
 	blt _0216C088
-	ldrh r0, [fp, #2]
+	ldrh r0, [r11, #2]
 	cmp r0, #0xa0
 	bne _0216C194
 	mvn r4, #0x9d
@@ -273,7 +273,7 @@ _0216C1D0:
 	str r3, [sp, #4]
 	str r3, [sp, #8]
 	str r3, [sp, #0xc]
-	ldrh r1, [fp, #2]
+	ldrh r1, [r11, #2]
 	add r0, r4, #0xd9
 	sub r1, r1, #0xa0
 	and r1, r1, #0xff
@@ -287,7 +287,7 @@ _0216C1D0:
 	strne r5, [r0, #0x11c]
 	mov r0, r5
 	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216C2B4: .word 0x00000ADC
 _0216C2B8: .word StageTask_Main
@@ -470,7 +470,7 @@ _0216C558: .word FallingStalactite__State_216CCDC
 
 	arm_func_start Stalactite__Destructor
 Stalactite__Destructor: // 0x0216C55C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r4, r0
 	bl GetTaskWork_
 	mov r5, r0
@@ -481,11 +481,11 @@ Stalactite__Destructor: // 0x0216C55C
 	add r0, r5, #0x68
 	mov r7, #0
 	add r8, r0, #0x400
-	mov sb, #0xa4
+	mov r9, #0xa4
 	mov r6, r7
 	mov r5, #0x9f
 _0216C594:
-	mov r0, sb
+	mov r0, r9
 	bl GetObjectFileWork
 	bl ObjActionReleaseSpriteDS
 	str r6, [r8, #0x78]
@@ -497,28 +497,28 @@ _0216C594:
 	add r7, r7, #1
 	cmp r7, #3
 	add r8, r8, #0xa4
-	add sb, sb, #2
+	add r9, r9, #2
 	blt _0216C594
 	mov r0, r4
 	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end Stalactite__Destructor
 
 	arm_func_start Stalactite__State_216C5D8
 Stalactite__State_216C5D8: // 0x0216C5D8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xc
-	mov sl, r0
-	ldr r1, [sl, #0x364]
-	mov sb, #0
+	mov r10, r0
+	ldr r1, [r10, #0x364]
+	mov r9, #0
 	cmp r1, #0
 	beq _0216C5F8
 	blx r1
 _0216C5F8:
-	ldr r8, [sl, #0xad4]
+	ldr r8, [r10, #0xad4]
 	cmp r8, #0
 	addeq sp, sp, #0xc
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r6, #0
 	mov r7, #0xf000
 	mov r5, #0x100
@@ -553,31 +553,31 @@ _0216C634:
 	cmp r0, #0
 	beq _0216C6B8
 	ldr r1, [r8, #0x1c]
-	cmp sb, #0
-	strne r1, [sb, #0x1c]
-	streq r1, [sl, #0xad4]
+	cmp r9, #0
+	strne r1, [r9, #0x1c]
+	streq r1, [r10, #0xad4]
 	str r4, [r8, #0x1c]
-	ldr r0, [sl, #0xad8]
-	add r0, sl, r0, lsl #2
+	ldr r0, [r10, #0xad8]
+	add r0, r10, r0, lsl #2
 	str r8, [r0, #0xa54]
-	ldr r0, [sl, #0xad8]
+	ldr r0, [r10, #0xad8]
 	mov r8, r1
 	add r0, r0, #1
-	str r0, [sl, #0xad8]
+	str r0, [r10, #0xad8]
 	b _0216C6C0
 _0216C6B8:
-	mov sb, r8
+	mov r9, r8
 	ldr r8, [r8, #0x1c]
 _0216C6C0:
 	cmp r8, #0
 	bne _0216C618
 	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end Stalactite__State_216C5D8
 
 	arm_func_start Stalactite__State2_216C6D0
 Stalactite__State2_216C6D0: // 0x0216C6D0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r6, r0
 	ldr r0, [r6, #0x2c]
@@ -609,14 +609,14 @@ _0216C70C:
 	str r1, [r6, #0x2f4]
 	str r5, [r6, #0x410]
 	ldr r1, [r6, #0x42c]
-	ldr sb, _0216C904 // =_mt_math_rand
+	ldr r9, _0216C904 // =_mt_math_rand
 	orr r1, r1, #0x100
 	str r1, [r6, #0x42c]
 	ldr r7, _0216C908 // =0x00196225
 	ldr r8, _0216C90C // =0x3C6EF35F
 	str r0, [r6, #0x364]
 _0216C760:
-	ldr r1, [sb]
+	ldr r1, [r9]
 	and r2, r5, #7
 	mla r0, r1, r7, r8
 	mla r1, r0, r7, r8
@@ -626,14 +626,14 @@ _0216C760:
 	mov r1, r1, lsr #0x10
 	and r1, r1, #3
 	rsb r1, r1, #0
-	str r3, [sb]
+	str r3, [r9]
 	mov r1, r1, lsl #0xc
 	str r1, [sp]
 	ldrb r1, [r4, r2]
 	mov r0, r0, lsr #0x10
 	mov r0, r0, lsl #0x10
 	str r1, [sp, #4]
-	ldr r1, [sb]
+	ldr r1, [r9]
 	mov r2, r0, lsr #0x10
 	mov r0, r1, lsr #0x10
 	and r1, r2, #0x7f
@@ -661,7 +661,7 @@ _0216C760:
 	stmia sp, {r0, r4}
 	bl PlaySfxEx
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0216C818:
 	ldr r0, [r6, #0x2c]
 	cmp r0, #0x2d
@@ -677,7 +677,7 @@ _0216C834:
 	movs r0, r0, lsr #0x10
 	addne sp, sp, #8
 	str r1, [r6, #0x28]
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r2, _0216C904 // =_mt_math_rand
 	ldr r0, _0216C908 // =0x00196225
 	ldr r4, [r2]
@@ -720,7 +720,7 @@ _0216C834:
 	orr r0, r0, r0, lsl #16
 	str r0, [r6, #0x28]
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0216C8FC: .word Stalactite__State2_216C910
 _0216C900: .word _02189478
@@ -731,22 +731,22 @@ _0216C90C: .word 0x3C6EF35F
 
 	arm_func_start Stalactite__State2_216C910
 Stalactite__State2_216C910: // 0x0216C910
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
 	mov r6, r0
 	ldr r5, [r6, #0x40c]
 	ldr r0, [r5, #0x24]
 	tst r0, #4
 	addeq sp, sp, #8
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r4, #0
-	ldr sl, _0216C9E4 // =_02189478
-	ldr sb, _0216C9E8 // =_mt_math_rand
+	ldr r10, _0216C9E4 // =_02189478
+	ldr r9, _0216C9E8 // =_mt_math_rand
 	ldr r7, _0216C9EC // =0x00196225
 	ldr r8, _0216C9F0 // =0x3C6EF35F
 	str r4, [r6, #0x364]
 _0216C948:
-	ldr r1, [sb]
+	ldr r1, [r9]
 	and r2, r4, #7
 	mla r0, r1, r7, r8
 	mla r1, r0, r7, r8
@@ -756,14 +756,14 @@ _0216C948:
 	mov r1, r1, lsr #0x10
 	and r1, r1, #7
 	rsb r1, r1, #0
-	str r3, [sb]
+	str r3, [r9]
 	mov r1, r1, lsl #0xc
 	str r1, [sp]
-	ldrb r1, [sl, r2]
+	ldrb r1, [r10, r2]
 	mov r0, r0, lsr #0x10
 	mov r0, r0, lsl #0x10
 	str r1, [sp, #4]
-	ldr r1, [sb]
+	ldr r1, [r9]
 	mov r2, r0, lsr #0x10
 	mov r0, r1, lsr #0x10
 	and r1, r2, #0x3f
@@ -784,7 +784,7 @@ _0216C948:
 	cmp r4, #0xa
 	blt _0216C948
 	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0216C9E4: .word _02189478
 _0216C9E8: .word _mt_math_rand
@@ -794,7 +794,7 @@ _0216C9F0: .word 0x3C6EF35F
 
 	arm_func_start Stalactite__Draw
 Stalactite__Draw: // 0x0216C9F4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x10
 	bl GetCurrentTaskWork_
 	mov r1, #0x100000
@@ -822,11 +822,11 @@ _0216CA24:
 	ldr r5, [r4, #0xad4]
 	cmp r5, #0
 	addeq sp, sp, #0x10
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	add r0, r4, #0x68
 	ldr r4, _0216CAC0 // =0x00010100
 	add r7, r0, #0x400
-	add sb, sp, #0xc
+	add r9, sp, #0xc
 	mov r8, #0
 	mov r6, #0xa4
 _0216CA7C:
@@ -835,7 +835,7 @@ _0216CA7C:
 	mov r3, r8
 	orr r0, r0, r4
 	str r0, [sp, #0xc]
-	str sb, [sp]
+	str r9, [sp]
 	str r8, [sp, #4]
 	str r8, [sp, #8]
 	ldrh ip, [r5]
@@ -846,7 +846,7 @@ _0216CA7C:
 	cmp r5, #0
 	bne _0216CA7C
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0216CAC0: .word 0x00010100
 	arm_func_end Stalactite__Draw

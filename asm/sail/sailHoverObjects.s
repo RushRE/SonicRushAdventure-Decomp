@@ -186,9 +186,9 @@ _0218376C: .word 0x00000708
 
 	arm_func_start SailHoverShell2__Create
 SailHoverShell2__Create: // 0x02183770
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x90
-	mov sb, r1
+	mov r9, r1
 	mov r8, r2
 	mov r7, r3
 	ldr r6, [sp, #0xb4]
@@ -202,10 +202,10 @@ SailHoverShell2__Create: // 0x02183770
 	mov r5, r0
 	mov r0, #0x32
 	bl GetObjectFileWork
-	mov sl, r0
+	mov r10, r0
 	bl SailManager__GetArchive
 	mov r1, #0
-	stmia sp, {r1, sl}
+	stmia sp, {r1, r10}
 	str r0, [sp, #8]
 	ldr r2, _02183A1C // =aSbShellBac_1
 	mov r0, r4
@@ -234,7 +234,7 @@ SailHoverShell2__Create: // 0x02183770
 	mov r0, r4
 	bl SailObject__Func_21646DC
 	add ip, r4, #0x44
-	ldmia sb, {r0, r1, r2}
+	ldmia r9, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
 	mov r3, #0x32
 	str r3, [r5, #0x118]
@@ -288,7 +288,7 @@ _021838F4:
 	add r3, sp, #0x24
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	ldmia sb, {r0, r1, r2}
+	ldmia r9, {r0, r1, r2}
 	add r7, sp, #0x18
 	stmia r7, {r0, r1, r2}
 	add r3, sp, #0xc
@@ -359,7 +359,7 @@ _021839B0:
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0x90
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02183A1C: .word aSbShellBac_1
 _02183A20: .word FX_SinCosTable_
@@ -369,7 +369,7 @@ _02183A28: .word SailHoverShell2__State_2186B98
 
 	arm_func_start SailHoverShell1__Create
 SailHoverShell1__Create: // 0x02183A2C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
 	mov r8, r1
 	mov r7, r2
@@ -384,10 +384,10 @@ SailHoverShell1__Create: // 0x02183A2C
 	mov r4, r0
 	mov r0, #0x32
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
 	mov r1, #0
-	stmia sp, {r1, sb}
+	stmia sp, {r1, r9}
 	str r0, [sp, #8]
 	ldr r2, _02183CBC // =aSbShellBac_1
 	mov r0, r5
@@ -534,7 +534,7 @@ _02183B90:
 	mov r0, r5
 	str r1, [r5, #0xf4]
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02183CBC: .word aSbShellBac_1
 _02183CC0: .word FX_SinCosTable_
@@ -1072,10 +1072,10 @@ _02184488: .word aSbBobNsbmd_1
 
 	arm_func_start SailHoverBobBird__Create
 SailHoverBobBird__Create: // 0x0218448C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
-	mov sb, r0
-	mov sl, #0xa80
+	mov r9, r0
+	mov r10, #0xa80
 	bl CreateStageTask_
 	mov r4, r0
 	mov r1, #1
@@ -1083,7 +1083,7 @@ SailHoverBobBird__Create: // 0x0218448C
 	mov r0, r4
 	mov r1, #0x1a0
 	bl StageTask__AllocateWorker
-	ldr r1, [sb, #0x34]
+	ldr r1, [r9, #0x34]
 	mov r5, r0
 	tst r1, #4
 	beq _021844F8
@@ -1115,7 +1115,7 @@ _02184524:
 	mov r0, r4
 	bl SailObject__Func_21646DC
 	mov r0, r4
-	mov r1, sb
+	mov r1, r9
 	bl SailObject__InitFromMapObject
 	ldr r0, [r5, #0x164]
 	ldr r0, [r0, #0x34]
@@ -1142,7 +1142,7 @@ _02184524:
 	str r1, [r4, #0x3c]
 	str r1, [r4, #0x40]
 	mov r0, #0x16
-	mov sl, #0x1500
+	mov r10, #0x1500
 	bl GetObjectFileWork
 	ldr r0, [r0]
 	add r1, r5, #0x18c
@@ -1187,7 +1187,7 @@ _02184610:
 	bl QueueUncompressedPalette
 	b _02184690
 _02184644:
-	ldr r0, [sb, #0x34]
+	ldr r0, [r9, #0x34]
 	ldr r1, [r5, #0x174]
 	tst r0, #4
 	beq _02184674
@@ -1210,7 +1210,7 @@ _02184674:
 _02184690:
 	mov r0, #5
 	str r0, [r5, #0x13c]
-	ldr r0, [sb, #0x28]
+	ldr r0, [r9, #0x28]
 	mov r3, #0x800
 	cmp r0, #0
 	strne r0, [r5, #0x13c]
@@ -1224,7 +1224,7 @@ _02184690:
 	bl SailObject__SetupHitbox
 	mov r1, #0
 	mov r0, r4
-	mov r2, sl
+	mov r2, r10
 	mov r3, r1
 	bl SailObject__Func_21658D0
 	mov r0, r4
@@ -1247,9 +1247,9 @@ _02184690:
 	bl SailHoverBobBird__SetupObject
 	add sp, sp, #8
 	mov r0, r4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _02184730:
-	ldrh r0, [sb, #0x30]
+	ldrh r0, [r9, #0x30]
 	sub r0, r0, #0x15
 	cmp r0, #4
 	addls pc, pc, r0, lsl #2
@@ -1282,7 +1282,7 @@ _02184788:
 _02184790:
 	mov r0, r4
 	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0218479C: .word aSbBobNsbmd_1
 _021847A0: .word aSbBirdNsbmd_2

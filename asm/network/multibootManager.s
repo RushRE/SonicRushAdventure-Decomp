@@ -445,7 +445,7 @@ _02060F9C: .word MultibootManager__Main_2062104
 
 	arm_func_start MultibootManager__Func_2060FA0
 MultibootManager__Func_2060FA0: // 0x02060FA0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r0, _02061078 // =MultibootManager__sVars
 	ldr r0, [r0, #4]
 	bl GetTaskWork_
@@ -460,12 +460,12 @@ MultibootManager__Func_2060FA0: // 0x02060FA0
 	mov r7, #0
 	bl MultibootManager__Func_20679A8
 	cmp r0, #0
-	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	add sb, r8, #0x68
-	add sl, r8, #0x80
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	add r9, r8, #0x68
+	add r10, r8, #0x80
 	mov r5, #1
 	mov r4, #0x18
-	mov fp, #6
+	mov r11, #6
 _02060FF4:
 	mov r0, r7, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -479,18 +479,18 @@ _02060FF4:
 	bl MultibootManager__Func_20679C0
 	b _0206105C
 _02061020:
-	mov r1, sb
+	mov r1, r9
 	mov r2, r4
 	add r0, r6, #0x50
 	str r5, [r8, #0x64]
 	bl MIi_CpuCopy32
-	mov r1, sl
-	mov r2, fp
+	mov r1, r10
+	mov r2, r11
 	add r0, r6, #4
 	bl MI_CpuCopy8
 	ldrh r0, [r6, #0xc4]
-	add sb, sb, #0x28
-	add sl, sl, #0x28
+	add r9, r9, #0x28
+	add r10, r10, #0x28
 	strh r0, [r8, #0x86]
 	add r8, r8, #0x28
 	add r7, r7, #1
@@ -498,11 +498,11 @@ _0206105C:
 	bl MultibootManager__Func_20679A8
 	cmp r7, r0
 	blt _02060FF4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0206106C:
 	mov r0, r8
 	bl MultibootManager__Func_2063510
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02061078: .word MultibootManager__sVars
 	arm_func_end MultibootManager__Func_2060FA0
@@ -618,16 +618,16 @@ _020611AC: .word MultibootManager__sVars
 
 	arm_func_start MultibootManager__Func_20611B0
 MultibootManager__Func_20611B0: // 0x020611B0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r1, _02061294 // =MultibootManager__sVars
 	mov r4, r0
 	ldr r0, [r1, #4]
-	mov fp, #0
+	mov r11, #0
 	bl GetTaskWork_
 	mov r1, #0x28
-	mul sl, r4, r1
+	mul r10, r4, r1
 	mov r6, r0
-	add r0, r6, sl
+	add r0, r6, r10
 	ldr r0, [r0, #0x64]
 	tst r0, #2
 	bne _0206128C
@@ -644,41 +644,41 @@ _020611F8:
 	ble _0206128C
 	add r5, r6, #0x80
 	add r4, r6, #0x68
-	add sb, r6, sl
+	add r9, r6, r10
 _02061218:
 	mov r0, r8, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl MultibootManager__Func_20679B4
 	add r1, r0, #4
-	add r0, r5, sl
+	add r0, r5, r10
 	bl MultibootManager__Func_20637BC
 	cmp r0, #0
 	beq _02061280
 	mov r2, #0x10
-	add r0, r4, sl
+	add r0, r4, r10
 	add r1, r6, #0x3c
 	bl MIi_CpuCopy16
-	ldrh r2, [sb, #0x7a]
-	add r0, r5, sl
+	ldrh r2, [r9, #0x7a]
+	add r0, r5, r10
 	add r1, r6, #0x4e
 	strh r2, [r6, #0x4c]
 	mov r2, #6
 	bl MI_CpuCopy8
-	ldr r1, [sb, #0x7c]
+	ldr r1, [r9, #0x7c]
 	mov r0, r8, lsl #0x10
 	mov r0, r0, lsr #0x10
 	str r1, [r6, #0x38]
 	bl MultibootManager__Func_20679CC
 	mov r0, #5
 	str r0, [r6, #8]
-	mov fp, #1
+	mov r11, #1
 _02061280:
 	add r8, r8, #1
 	cmp r8, r7
 	blt _02061218
 _0206128C:
-	mov r0, fp
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	mov r0, r11
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02061294: .word MultibootManager__sVars
 	arm_func_end MultibootManager__Func_20611B0
@@ -1804,7 +1804,7 @@ _02062100: .word MultibootManager__Main_2062A2C
 
 	arm_func_start MultibootManager__Main_2062104
 MultibootManager__Main_2062104: // 0x02062104
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
 	mov r5, r0
@@ -1830,26 +1830,26 @@ _0206214C:
 	bl MultibootManager__Func_206150C
 	bl MultibootManager__Func_2060F04
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0206216C:
 	ldr r0, [r5, #8]
 	cmp r0, #4
 	cmpne r0, #5
 	addne sp, sp, #0x1c
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl MultibootManager__Func_20679A8
 	mov r7, #0
 	mov r6, r0
-	mov sb, r5
-	add sl, r5, #0x80
-	mov fp, r7
+	mov r9, r5
+	add r10, r5, #0x80
+	mov r11, r7
 _02062198:
-	ldr r0, [sb, #0x64]
+	ldr r0, [r9, #0x64]
 	tst r0, #1
 	beq _02062214
 	tst r0, #2
 	bne _02062200
-	mov r8, fp
+	mov r8, r11
 	cmp r6, #0
 	ble _020621F0
 _020621B8:
@@ -1857,32 +1857,32 @@ _020621B8:
 	mov r0, r0, lsr #0x10
 	bl MultibootManager__Func_20679B4
 	mov r4, r0
-	mov r0, sl
+	mov r0, r10
 	add r1, r4, #4
 	bl MultibootManager__Func_20637BC
 	cmp r0, #0
 	ldrneh r0, [r4, #0xc4]
-	strneh r0, [sb, #0x86]
+	strneh r0, [r9, #0x86]
 	bne _020621F0
 	add r8, r8, #1
 	cmp r8, r6
 	blt _020621B8
 _020621F0:
 	cmp r8, r6
-	ldrge r0, [sb, #0x64]
+	ldrge r0, [r9, #0x64]
 	orrge r0, r0, #2
-	strge r0, [sb, #0x64]
+	strge r0, [r9, #0x64]
 _02062200:
 	add r7, r7, #1
 	cmp r7, #8
-	add sb, sb, #0x28
-	add sl, sl, #0x28
+	add r9, r9, #0x28
+	add r10, r10, #0x28
 	blt _02062198
 _02062214:
 	ldr r0, [r5, #8]
 	cmp r0, #5
 	addne sp, sp, #0x1c
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp, #4]
 	cmp r0, #6
 	bne _02062264
@@ -1898,7 +1898,7 @@ _02062214:
 	str r1, [r5, #0xc]
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02062264:
 	mov r6, r5
 	add r7, r5, #0x80
@@ -1928,12 +1928,12 @@ _020622AC:
 _020622C0:
 	cmp r4, #8
 	addlt sp, sp, #0x1c
-	ldmltia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmltia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r5
 	bl MultibootManager__Func_20631BC
 	bl MultibootManager__Func_2060F04
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020622E0: .word MultibootManager__Main_2062A2C
 	arm_func_end MultibootManager__Main_2062104

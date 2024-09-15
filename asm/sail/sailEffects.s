@@ -1690,14 +1690,14 @@ _02162010: .word EffectSailTrick4__State_216397C
 
 	arm_func_start EffectSailUnknown2162014__Create
 EffectSailUnknown2162014__Create: // 0x02162014
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x20
-	mov sb, r0
+	mov r9, r0
 	mov r8, r1
 	ldr r0, _0216215C // =0x00001010
 	mov r1, #1
 	mov r7, r2
-	ldr r6, [sb, #0x124]
+	ldr r6, [r9, #0x124]
 	bl CreateStageTaskEx_
 	mov r4, r0
 	mov r1, #2
@@ -1751,7 +1751,7 @@ EffectSailUnknown2162014__Create: // 0x02162014
 	strh r2, [r5, #0x9c]
 	str r1, [r5, #0x98]
 	ldrh r0, [r0, #0xce]
-	mov r1, sb
+	mov r1, r9
 	mov r2, #0
 	cmp r0, #0
 	ldrne r0, [r5, #0x98]
@@ -1771,7 +1771,7 @@ EffectSailUnknown2162014__Create: // 0x02162014
 	bl EffectSailUnknown21624A0__Func_2162400
 	mov r0, r4
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0216215C: .word 0x00001010
 _02162160: .word EffectSailUnknown2162014__State_21636B0
@@ -1779,14 +1779,14 @@ _02162160: .word EffectSailUnknown2162014__State_21636B0
 
 	arm_func_start EffectSailShell__Create
 EffectSailShell__Create: // 0x02162164
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
-	mov sb, r0
+	mov r9, r0
 	mov r8, r1
 	ldr r0, _021623F0 // =0x00001010
 	mov r1, #1
 	mov r7, r2
-	ldr r6, [sb, #0x124]
+	ldr r6, [r9, #0x124]
 	bl CreateStageTaskEx_
 	mov r5, r0
 	mov r1, #2
@@ -1856,7 +1856,7 @@ EffectSailShell__Create: // 0x02162164
 	orr r1, r1, #0x8000
 	strh r1, [r4, #0x9c]
 	ldrh r0, [r0, #0xce]
-	mov r1, sb
+	mov r1, r9
 	cmp r0, #0
 	ldrne r0, [r4, #0x98]
 	addne r0, r0, r0, asr #1
@@ -1941,7 +1941,7 @@ EffectSailShell__Create: // 0x02162164
 	mov r0, r5
 	str r1, [r5, #0x40]
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021623F0: .word 0x00001010
 _021623F4: .word aSbShellBac_0
@@ -1996,14 +1996,14 @@ _0216249C: .word _0218BC40
 
 	arm_func_start EffectSailUnknown21624A0__Create
 EffectSailUnknown21624A0__Create: // 0x021624A0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
-	mov sb, r0
+	mov r9, r0
 	mov r8, r1
 	ldr r0, _021625BC // =0x00001010
 	mov r1, #1
 	mov r7, r2
-	ldr r6, [sb, #0x124]
+	ldr r6, [r9, #0x124]
 	bl CreateStageTaskEx_
 	mov r5, r0
 	mov r1, #2
@@ -2057,7 +2057,7 @@ EffectSailUnknown21624A0__Create: // 0x021624A0
 	orr r1, r1, #0x40
 	strh r1, [r4, #0x9c]
 	ldrh r0, [r0, #0xce]
-	mov r1, sb
+	mov r1, r9
 	cmp r0, #0
 	ldrne r0, [r4, #0x98]
 	addne r0, r0, r0, asr #1
@@ -2066,7 +2066,7 @@ EffectSailUnknown21624A0__Create: // 0x021624A0
 	bl StageTask__SetParent
 	mov r0, r5
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021625BC: .word 0x00001010
 _021625C0: .word SailObject__DefaultLast
@@ -2404,7 +2404,7 @@ _02162A5C: .word EffectSailWater08__State_21644FC
 
 	arm_func_start EffectSailFlash2__Create
 EffectSailFlash2__Create: // 0x02162A60
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r8, r0
 	mov r7, r1
@@ -2422,9 +2422,9 @@ EffectSailFlash2__Create: // 0x02162A60
 	bl StageTask__SetType
 	mov r0, #0x5e
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
-	str sb, [sp]
+	str r9, [sp]
 	mov r1, #0
 	str r0, [sp, #4]
 	ldr r2, _02162CD0 // =aSbFlashNsbmd_0
@@ -2433,41 +2433,41 @@ EffectSailFlash2__Create: // 0x02162A60
 	bl ObjAction3dNNModelLoad
 	mov r0, #0x5f
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
 	str r0, [sp]
 	ldr r2, _02162CD4 // =aSbFlashNsbca
-	mov r3, sb
+	mov r3, r9
 	mov r0, r4
 	mov r1, #0
 	bl ObjAction3dNNMotionLoad
 	mov r0, #0x60
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
 	str r0, [sp]
 	ldr r2, _02162CD8 // =aSbFlashNsbva
-	mov r3, sb
+	mov r3, r9
 	mov r0, r4
 	mov r1, #0
 	bl ObjAction3dNNMotionLoad
 	mov r0, #0x61
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
 	str r0, [sp]
 	ldr r2, _02162CDC // =aSbFlashNsbma
-	mov r3, sb
+	mov r3, r9
 	mov r0, r4
 	mov r1, #0
 	bl ObjAction3dNNMotionLoad
 	mov r0, #0x62
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
 	str r0, [sp]
 	ldr r2, _02162CE0 // =aSbFlashNsbtp
-	mov r3, sb
+	mov r3, r9
 	mov r0, r4
 	mov r1, #0
 	bl ObjAction3dNNMotionLoad
@@ -2489,12 +2489,12 @@ EffectSailFlash2__Create: // 0x02162A60
 	ldr r2, [r0, #0x158]
 	mov r1, #4
 	bl AnimatorMDL__SetAnimation
-	ldr sb, [r4, #0x12c]
-	ldr r0, [sb, #0x144]
+	ldr r9, [r4, #0x12c]
+	ldr r0, [r9, #0x144]
 	bl NNS_G3dGetTex
 	str r0, [sp]
-	ldr r2, [sb, #0x150]
-	mov r0, sb
+	ldr r2, [r9, #0x150]
+	mov r0, r9
 	mov r1, #2
 	mov r3, #0
 	bl AnimatorMDL__SetAnimation
@@ -2560,7 +2560,7 @@ _02162CB8:
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02162CCC: .word 0x00001010
 _02162CD0: .word aSbFlashNsbmd_0
@@ -2683,14 +2683,14 @@ _02162E88: .word EffectSailBazooka__State_2164574
 
 	arm_func_start EffectEffectSailBullet2__Create
 EffectEffectSailBullet2__Create: // 0x02162E8C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	mov r8, #0xc00
-	mov sl, r0
-	mov sb, r1
+	mov r10, r0
+	mov r9, r1
 	add r0, r8, #0x410
 	mov r1, #1
-	ldr fp, [sl, #0x124]
+	ldr r11, [r10, #0x124]
 	mov r6, #0x1000
 	mov r7, #0x4000
 	bl CreateStageTaskEx_
@@ -2703,10 +2703,10 @@ EffectEffectSailBullet2__Create: // 0x02162E8C
 	mov r5, r0
 	mov r0, r4
 	bl StageTask__InitSeqPlayer
-	cmp sb, #0x60000
+	cmp r9, #0x60000
 	movlt r0, #0
 	blt _02162EF4
-	cmp sb, #0x120000
+	cmp r9, #0x120000
 	movlt r0, #1
 	movge r0, #2
 _02162EF4:
@@ -2716,9 +2716,9 @@ _02162EF4:
 	beq _02163038
 	mov r0, #0x73
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
-	str sb, [sp]
+	str r9, [sp]
 	str r0, [sp, #4]
 	mov r0, r4
 	mov r1, #0
@@ -2727,9 +2727,9 @@ _02162EF4:
 	bl ObjAction3dNNModelLoad
 	mov r0, #0x74
 	bl GetObjectFileWork
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetArchive
-	mov r3, sb
+	mov r3, r9
 	str r0, [sp]
 	mov r0, r4
 	mov r1, #0
@@ -2833,13 +2833,13 @@ _02163038:
 	mov r2, #0
 	bl SailAudio__PlaySpatialSequence
 _021630D4:
-	add r0, fp, #0x100
+	add r0, r11, #0x100
 	ldrh r0, [r0, #0xce]
 	cmp r0, #2
 	mov r0, r4
 	addhs r8, r8, r8, asr #1
 	bl SailObject__Func_21646DC
-	add r0, sl, #0x44
+	add r0, r10, #0x44
 	add r3, r4, #0x44
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
@@ -2865,7 +2865,7 @@ _021630D4:
 	str r0, [r5, #0x58]
 	ldrh r2, [r5, #0x9c]
 	mov r0, r4
-	mov r1, sl
+	mov r1, r10
 	orr r2, r2, #0x400
 	strh r2, [r5, #0x9c]
 	ldrh r3, [r5, #0x9c]
@@ -2888,12 +2888,12 @@ _021630D4:
 	ldrsh r8, [r0, r6]
 	rsb r1, r1, #0
 	mov r6, #0x4c00
-	umull fp, sb, r8, r1
-	mla sb, r8, r2, sb
+	umull r11, r9, r8, r1
+	mla r9, r8, r2, r9
 	mov r7, r8, asr #0x1f
-	adds r8, fp, #0x800
-	mla sb, r7, r1, sb
-	adc r7, sb, #0
+	adds r8, r11, #0x800
+	mla r9, r7, r1, r9
+	adc r7, r9, #0
 	mov r8, r8, lsr #0xc
 	orr r8, r8, r7, lsl #20
 	str r8, [sp, #0x14]
@@ -2904,19 +2904,19 @@ _021630D4:
 	add r7, r7, #1
 	mov r7, r7, lsl #1
 	ldrsh r7, [r0, r7]
-	umull sb, r8, r7, r1
+	umull r9, r8, r7, r1
 	mla r8, r7, r2, r8
 	mov r0, r7, asr #0x1f
 	mla r8, r0, r1, r8
-	adds r1, sb, #0x800
+	adds r1, r9, #0x800
 	adc r0, r8, #0
 	mov r1, r1, lsr #0xc
 	orr r1, r1, r0, lsl #20
 	str r1, [sp, #0x1c]
 	str r6, [r5, #0x184]
-	ldr r2, [sl, #0x4c]
+	ldr r2, [r10, #0x4c]
 	ldr r0, [sp, #0x1c]
-	ldr r1, [sl, #0x44]
+	ldr r1, [r10, #0x44]
 	sub r2, r2, r0
 	ldr r0, [sp, #0x14]
 	ldr r6, _02163404 // =0x0000065D
@@ -2927,40 +2927,40 @@ _021630D4:
 	cmp r1, r2
 	mov r7, #0
 	ble _02163294
-	umull r0, fp, r1, ip
-	mla fp, r1, r7, fp
-	umull sb, r8, r2, r6
+	umull r0, r11, r1, ip
+	mla r11, r1, r7, r11
+	umull r9, r8, r2, r6
 	mla r8, r2, r7, r8
 	mov r1, r1, asr #0x1f
 	mov r2, r2, asr #0x1f
 	adds r0, r0, #0x800
-	mla fp, r1, ip, fp
-	adc fp, fp, #0
-	adds r1, sb, #0x800
+	mla r11, r1, ip, r11
+	adc r11, r11, #0
+	adds r1, r9, #0x800
 	mla r8, r2, r6, r8
 	mov r0, r0, lsr #0xc
 	adc r2, r8, #0
 	mov r1, r1, lsr #0xc
-	orr r0, r0, fp, lsl #20
+	orr r0, r0, r11, lsl #20
 	orr r1, r1, r2, lsl #20
 	add r1, r0, r1
 	b _021632D8
 _02163294:
-	umull r0, fp, r2, ip
-	mla fp, r2, r7, fp
-	umull sb, r8, r1, r6
+	umull r0, r11, r2, ip
+	mla r11, r2, r7, r11
+	umull r9, r8, r1, r6
 	mla r8, r1, r7, r8
 	mov r2, r2, asr #0x1f
 	mov r1, r1, asr #0x1f
 	adds r0, r0, #0x800
-	mla fp, r2, ip, fp
-	adc fp, fp, #0
-	adds r2, sb, #0x800
+	mla r11, r2, ip, r11
+	adc r11, r11, #0
+	adds r2, r9, #0x800
 	mla r8, r1, r6, r8
 	mov r0, r0, lsr #0xc
 	adc r1, r8, #0
 	mov r2, r2, lsr #0xc
-	orr r0, r0, fp, lsl #20
+	orr r0, r0, r11, lsl #20
 	orr r2, r2, r1, lsl #20
 	add r1, r0, r2
 _021632D8:
@@ -2976,7 +2976,7 @@ _021632D8:
 	str r7, [sp, #8]
 	str r7, [sp, #0xc]
 	str r7, [sp, #0x10]
-	add r0, sl, #0x44
+	add r0, r10, #0x44
 	ldmia r0, {r0, r1, r2}
 	stmia r6, {r0, r1, r2}
 	str r7, [sp, #0x18]
@@ -2997,10 +2997,10 @@ _021632D8:
 	add r1, sp, #8
 	mov r6, r8, asr #0x1f
 	mov r6, r6, lsl #0xc
-	adds sb, r7, r8, lsl #12
+	adds r9, r7, r8, lsl #12
 	orr r6, r6, r8, lsr #20
 	adc r6, r6, #0
-	mov r8, sb, lsr #0xc
+	mov r8, r9, lsr #0xc
 	orr r8, r8, r6, lsl #20
 	str r8, [sp, #8]
 	ldrh r3, [r3, #0x34]
@@ -3029,7 +3029,7 @@ _021632D8:
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021633E0: .word aSbBullet1Nsbmd_0
 _021633E4: .word aSbBullet1Nsbca
@@ -3598,7 +3598,7 @@ _02163B10:
 
 	arm_func_start EffectUnknown2161638__Main
 EffectUnknown2161638__Main: // 0x02163B90
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x7c
 	bl GetCurrentTaskWork_
 	ldr r1, _02163F64 // =_0218BC4C
@@ -3656,30 +3656,30 @@ EffectUnknown2161638__Main: // 0x02163B90
 	mvn r0, #0
 	str r0, [sp, #8]
 	mov r0, #0x800
-	ldrsh sl, [r4, r3]
+	ldrsh r10, [r4, r3]
 	ldrsh r7, [r4, r1]
 	sub r0, r0, #0x1800
 	mov r1, #0x96000
 	str r0, [sp, #0x20]
 	rsb r1, r1, #0
 	ldr r0, [sp, #8]
-	umull ip, fp, sl, r1
-	mla fp, sl, r0, fp
-	mov sb, sl, asr #0x1f
-	mla fp, sb, r1, fp
-	adds sb, ip, #0x800
-	adc r0, fp, #0
-	mov sb, sb, lsr #0xc
-	orr sb, sb, r0, lsl #20
-	str sb, [sp, #0x1c]
+	umull ip, r11, r10, r1
+	mla r11, r10, r0, r11
+	mov r9, r10, asr #0x1f
+	mla r11, r9, r1, r11
+	adds r9, ip, #0x800
+	adc r0, r11, #0
+	mov r9, r9, lsr #0xc
+	orr r9, r9, r0, lsl #20
+	str r9, [sp, #0x1c]
 	ldr r0, [sp, #8]
-	umull sl, sb, r7, r1
-	mla sb, r7, r0, sb
+	umull r10, r9, r7, r1
+	mla r9, r7, r0, r9
 	mov r3, r7, asr #0x1f
-	mla sb, r3, r1, sb
-	adds r1, sl, #0x800
+	mla r9, r3, r1, r9
+	adds r1, r10, #0x800
 	add lr, r2, #1
-	adc r0, sb, #0
+	adc r0, r9, #0
 	mov r1, r1, lsr #0xc
 	orr r1, r1, r0, lsl #20
 	mov r0, lr, lsl #1
@@ -3721,12 +3721,12 @@ _02163CF8:
 	ldrsh r3, [r4, r1]
 	add r2, r4, r2, lsl #1
 	mov r1, r3, asr #0x1f
-	mov sb, r1, lsl #0xd
+	mov r9, r1, lsl #0xd
 _02163D7C:
 	mov r1, #0x800
-	orr sb, sb, r3, lsr #19
+	orr r9, r9, r3, lsr #19
 	adds r3, r1, r3, lsl #13
-	adc r1, sb, #0
+	adc r1, r9, #0
 	mov r3, r3, lsr #0xc
 	orr r3, r3, r1, lsl #20
 	strh r3, [r0, #0x60]
@@ -3780,17 +3780,17 @@ _02163DD0:
 	strb r2, [r7, #0x20]
 	ldr r3, [sp, #0x34]
 	and r2, r2, #0xff
-	ldr sl, [sp, #0x1c]
+	ldr r10, [sp, #0x1c]
 	add r2, r2, #6
-	mov fp, r3, asr #7
-	mla r2, fp, r2, sl
+	mov r11, r3, asr #7
+	mla r2, r11, r2, r10
 	str r2, [sp, #0x10]
 	ldrb r3, [r7, #0x20]
 	ldr r2, [sp, #0x38]
 	ldr r8, [sp, #0x20]
-	mov sb, r2, asr #7
+	mov r9, r2, asr #7
 	add r3, r3, #6
-	mla r3, sb, r3, r8
+	mla r3, r9, r3, r8
 	str r3, [sp, #0x14]
 	ldrb r3, [r7, #0x20]
 	ldr r2, [sp, #0x3c]
@@ -3801,11 +3801,11 @@ _02163DD0:
 	str r3, [sp, #0x18]
 	ldrb r3, [r7, #0x20]
 	ldr r2, [sp, #8]
-	mla r3, fp, r3, sl
+	mla r3, r11, r3, r10
 	str r3, [sp, #0x28]
 	ldrb r3, [r7, #0x20]
 	add r2, r2, #0x8000
-	mla r3, sb, r3, r8
+	mla r3, r9, r3, r8
 	str r3, [sp, #0x2c]
 	ldrb r3, [r7, #0x20]
 	mla r3, lr, r3, ip
@@ -3835,19 +3835,19 @@ _02163EEC:
 	ldr r0, [r0, #0x24]
 	tst r0, #1
 	addne sp, sp, #0x7c
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	tst r0, #0x80
 	moveq r0, #0
 	add sp, sp, #0x7c
 	streq r0, [r5, #4]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02163F4C:
 	cmp r8, #0
 	addne sp, sp, #0x7c
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl DestroyCurrentTask
 	add sp, sp, #0x7c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02163F64: .word _0218BC4C
 _02163F68: .word 0x021472FC

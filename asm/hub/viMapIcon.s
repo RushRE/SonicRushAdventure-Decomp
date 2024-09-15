@@ -617,29 +617,29 @@ ViMapIcon__Func_2163738: // 0x02163738
 
 	arm_func_start ViMapIcon__Func_21637A0
 ViMapIcon__Func_21637A0: // 0x021637A0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, r1
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r1
 	ldr r1, [r0, #0x144]
 	ldr r5, [r0, #0x148]
 	mov r8, r2
 	cmp r5, r1
 	blo _021637F8
-	cmp sb, #0
+	cmp r9, #0
 	beq _021637D8
 	ldr r1, [r0, #0x13c]
 	add r1, r0, r1, lsl #3
 	add r1, r1, #0x100
 	ldrh r1, [r1, #0x50]
-	strh r1, [sb]
+	strh r1, [r9]
 _021637D8:
 	cmp r8, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r1, [r0, #0x13c]
 	add r0, r0, r1, lsl #3
 	add r0, r0, #0x100
 	ldrh r0, [r0, #0x52]
 	strh r0, [r8]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _021637F8:
 	ldr r3, [r0, #0x13c]
 	add r2, r0, #0x100
@@ -658,7 +658,7 @@ _021637F8:
 	adc r1, r1, #0
 	mov r2, r2, lsr #0xc
 	orr r2, r2, r1, lsl #20
-	cmp sb, #0
+	cmp r9, #0
 	rsb r0, r2, r0, lsl #1
 	mov r2, #0
 	mov r1, #0x800
@@ -671,10 +671,10 @@ _021637F8:
 	orr r2, r2, r1, lsl #20
 	add r1, r2, r5, lsl #12
 	mov r1, r1, asr #0xc
-	strh r1, [sb]
+	strh r1, [r9]
 _02163874:
 	cmp r8, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	sub r1, r7, r4, lsl #12
 	smull r2, r0, r1, r0
 	adds r1, r2, #0x800
@@ -684,7 +684,7 @@ _02163874:
 	add r0, r1, r4, lsl #12
 	mov r0, r0, asr #0xc
 	strh r0, [r8]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end ViMapIcon__Func_21637A0
 
 	arm_func_start ViMapIcon__Func_21638A4
@@ -858,7 +858,7 @@ ViMapIcon__Func_2163A84: // 0x02163A84
 
 	arm_func_start ViMapIcon__Func_2163AA0
 ViMapIcon__Func_2163AA0: // 0x02163AA0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r7, r0
 	mov r4, r1
 	mov r6, r2
@@ -891,16 +891,16 @@ ViMapIcon__Func_2163AA0: // 0x02163AA0
 	add r0, r2, r1
 	str r0, [r7, #0x30]
 _02163B20:
-	ldr sb, [sp, #0x20]
+	ldr r9, [sp, #0x20]
 	mov r1, #0xa000
-	umull r0, lr, sb, r1
+	umull r0, lr, r9, r1
 	mov r3, #0
 	mov r2, #0x18000
-	umull ip, r4, sb, r2
+	umull ip, r4, r9, r2
 	adds r8, r0, #0x800
-	mla lr, sb, r3, lr
-	mov r0, sb, asr #0x1f
-	mla r4, sb, r3, r4
+	mla lr, r9, r3, lr
+	mov r0, r9, asr #0x1f
+	mla r4, r9, r3, r4
 	mla lr, r0, r1, lr
 	adc r3, lr, #0
 	mov r8, r8, lsr #0xc
@@ -957,7 +957,7 @@ _02163C00:
 	strh r0, [r7, #0x7a]
 	mov r0, #1
 	str r0, [r7, #0x2c]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02163C24: .word 0x0000F8E4
 _02163C28: .word 0x000031C7
@@ -1425,11 +1425,11 @@ ViMapIcon__Func_216428C: // 0x0216428C
 
 	arm_func_start ViMapIcon__Func_21642AC
 ViMapIcon__Func_21642AC: // 0x021642AC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, r0
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r0
 	mov r8, r1
 	ldr r1, [r8]
-	ldr r0, [sb]
+	ldr r0, [r9]
 	mov r7, r2
 	mov r6, r3
 	cmp r0, r1
@@ -1441,7 +1441,7 @@ ViMapIcon__Func_21642AC: // 0x021642AC
 _021642E0:
 	str r0, [r4]
 	ldr r1, [r8, #4]
-	ldr r0, [sb, #4]
+	ldr r0, [r9, #4]
 	cmp r0, r1
 	beq _02164300
 	mov r2, r5
@@ -1450,7 +1450,7 @@ _021642E0:
 _02164300:
 	str r0, [r4, #4]
 	ldr r1, [r8, #8]
-	ldr r0, [sb, #8]
+	ldr r0, [r9, #8]
 	cmp r0, r1
 	beq _02164320
 	mov r2, r5
@@ -1459,7 +1459,7 @@ _02164300:
 _02164320:
 	str r0, [r4, #8]
 	ldr r1, [r8, #0xc]
-	ldr r0, [sb, #0xc]
+	ldr r0, [r9, #0xc]
 	cmp r0, r1
 	beq _02164340
 	mov r2, r5
@@ -1468,7 +1468,7 @@ _02164320:
 _02164340:
 	str r0, [r4, #0xc]
 	ldrh r1, [r8, #0x10]
-	ldrh r0, [sb, #0x10]
+	ldrh r0, [r9, #0x10]
 	cmp r0, r1
 	beq _02164360
 	mov r2, r5
@@ -1477,7 +1477,7 @@ _02164340:
 _02164360:
 	strh r0, [r4, #0x10]
 	ldrh r1, [r8, #0x12]
-	ldrh r0, [sb, #0x12]
+	ldrh r0, [r9, #0x12]
 	cmp r0, r1
 	beq _02164380
 	mov r2, r5
@@ -1486,15 +1486,15 @@ _02164360:
 _02164380:
 	strh r0, [r4, #0x12]
 	ldrh r1, [r8, #0x14]
-	ldrh r0, [sb, #0x14]
+	ldrh r0, [r9, #0x14]
 	cmp r0, r1
 	streqh r0, [r4, #0x14]
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r2, r5
 	mov r3, r6
 	bl Unknown2051334__Func_20516B8
 	strh r0, [r4, #0x14]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end ViMapIcon__Func_21642AC
 
 	arm_func_start ViMapIcon__Func_21643AC

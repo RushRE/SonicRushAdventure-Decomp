@@ -351,10 +351,10 @@ _02051F48:
 
 	arm_func_start FontDMAControl__Func_2051F68
 FontDMAControl__Func_2051F68: // 0x02051F68
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	str r0, [sp]
 	ldr r0, [r0, #8]
-	ldr fp, [sp, #0x28]
+	ldr r11, [sp, #0x28]
 	cmp r0, #0
 	ldr r0, [sp, #0x30]
 	ldr r7, [sp, #0x2c]
@@ -362,19 +362,19 @@ FontDMAControl__Func_2051F68: // 0x02051F68
 	ldr r0, [sp, #0x38]
 	ldr r6, [sp, #0x34]
 	ldr r5, [sp, #0x3c]
-	mov sl, r1
-	mov sb, r2
+	mov r10, r1
+	mov r9, r2
 	mov r8, r3
 	str r0, [sp, #0x38]
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp]
 	ldrb r0, [r0, #6]
 	cmp r0, #4
-	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r1, [sp]
 	ldr r1, [r1]
 	tst r1, #1
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r1, _020520AC // =0x000FFFFF
 	and r5, r5, r1
 	bl RenderCore_GetDMASrc
@@ -382,8 +382,8 @@ FontDMAControl__Func_2051F68: // 0x02051F68
 	ldr r1, [r1]
 	tst r1, #2
 	beq _02052038
-	cmp sl, sb
-	add r4, r0, sl, lsl #2
+	cmp r10, r9
+	add r4, r0, r10, lsl #2
 	bgt _02052088
 _02051FF0:
 	mov r1, r7
@@ -393,20 +393,20 @@ _02051FF0:
 	strh r0, [r4]
 	ldr r0, [sp, #0x30]
 	add r5, r5, r6
-	add r8, r8, fp
+	add r8, r8, r11
 	adds r7, r7, r0
 	bmi _02052088
 	ldr r0, [sp, #0x38]
-	add sl, sl, #1
+	add r10, r10, #1
 	adds r6, r6, r0
 	movmi r6, #0
-	cmp sl, sb
+	cmp r10, r9
 	add r4, r4, #4
 	ble _02051FF0
 	b _02052088
 _02052038:
-	cmp sl, sb
-	add r4, r0, sl, lsl #1
+	cmp r10, r9
+	add r4, r0, r10, lsl #1
 	bgt _02052088
 _02052044:
 	mov r1, r7
@@ -416,45 +416,45 @@ _02052044:
 	strh r0, [r4]
 	ldr r0, [sp, #0x30]
 	add r5, r5, r6
-	add r8, r8, fp
+	add r8, r8, r11
 	adds r7, r7, r0
 	bmi _02052088
 	ldr r0, [sp, #0x38]
 	adds r6, r6, r0
 	bmi _02052088
-	add sl, sl, #1
-	cmp sl, sb
+	add r10, r10, #1
+	cmp r10, r9
 	add r4, r4, #2
 	ble _02052044
 _02052088:
-	cmp sl, sb
-	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	cmp r10, r9
+	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r3, r8, lsl #4
 	ldr r0, [sp]
-	mov r2, sb
-	and r1, sl, #0xff
+	mov r2, r9
+	and r1, r10, #0xff
 	mov r3, r3, lsr #0x10
 	bl FontDMAControl__Func_2051CD8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020520AC: .word 0x000FFFFF
 	arm_func_end FontDMAControl__Func_2051F68
 
 	arm_func_start FontDMAControl__Func_20520B0
 FontDMAControl__Func_20520B0: // 0x020520B0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r5, [sp, #0x3c]
 	ldr r4, _02052170 // =0x000FFFFF
-	mov sl, r1
+	mov r10, r1
 	and r5, r5, r4
-	add r4, r0, sl, lsl #2
+	add r4, r0, r10, lsl #2
 	ldr r0, [sp, #0x30]
-	mov sb, r2
+	mov r9, r2
 	str r0, [sp, #0x30]
 	ldr r0, [sp, #0x38]
 	mov r8, r3
-	cmp sl, sb
-	ldr fp, [sp, #0x28]
+	cmp r10, r9
+	ldr r11, [sp, #0x28]
 	ldr r7, [sp, #0x2c]
 	ldr r6, [sp, #0x34]
 	str r0, [sp, #0x38]
@@ -470,29 +470,29 @@ _020520F4:
 	add r0, r1, r0, lsr #16
 	strh r0, [r4]
 	ldr r0, [sp, #0x30]
-	add r8, r8, fp
+	add r8, r8, r11
 	adds r7, r7, r0
 	bmi _02052144
 	ldr r0, [sp, #0x38]
-	add sl, sl, #1
+	add r10, r10, #1
 	adds r6, r6, r0
 	movmi r6, #0
-	cmp sl, sb
+	cmp r10, r9
 	add r4, r4, #4
 	ble _020520F4
 _02052144:
-	cmp sl, sb
-	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	cmp r10, r9
+	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r8, asr #0xc
 	mov r0, r0, lsl #0x10
 _02052154:
 	ldrh r1, [r4]
-	add sl, sl, #1
-	cmp sl, sb
+	add r10, r10, #1
+	cmp r10, r9
 	add r1, r1, r0, lsr #16
 	strh r1, [r4], #4
 	ble _02052154
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02052170: .word 0x000FFFFF
 	arm_func_end FontDMAControl__Func_20520B0

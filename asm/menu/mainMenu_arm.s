@@ -166,49 +166,49 @@ _02156820: .word MainMenuBackgroundControl
 
 	arm_func_start MainMenu__Func_2156824
 MainMenu__Func_2156824: // 0x02156824
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
-	mov sl, r0
+	mov r10, r0
 	mov r8, #0
 	ldr r4, _021568C4 // =0x0000FFFF
-	add sb, sl, #0x10
+	add r9, r10, #0x10
 	mov r6, #0x28
 	mov r5, #0x20
 	mov r7, r8
-	mov fp, #0x48
+	mov r11, #0x48
 _0215684C:
-	add r0, sl, r8, lsl #1
+	add r0, r10, r8, lsl #1
 	ldrh r0, [r0, #4]
 	cmp r0, r4
 	bne _02156870
 	mov r0, r7
-	mov r1, sb
-	mov r2, fp
+	mov r1, r9
+	mov r2, r11
 	bl MIi_CpuClear16
 	b _02156890
 _02156870:
 	and r0, r0, #0xff
 	stmia sp, {r0, r6}
 	str r5, [sp, #8]
-	ldr r1, [sl, #0xa4]
-	mov r0, sb
+	ldr r1, [r10, #0xa4]
+	mov r0, r9
 	mov r2, #4
 	mov r3, r8
 	bl InitBackground
 _02156890:
 	add r8, r8, #1
 	cmp r8, #2
-	add sb, sb, #0x48
+	add r9, r9, #0x48
 	blt _0215684C
 	mov r0, #0xa00
 	bl _AllocHeadHEAP_USER
-	str r0, [sl, #0xa0]
-	ldr r0, [sl, #0xa4]
+	str r0, [r10, #0xa0]
+	ldr r0, [r10, #0xa4]
 	bl GetBackgroundMappings
-	ldr r1, [sl, #0xa0]
+	ldr r1, [r10, #0xa0]
 	bl RenderCore_CPUCopyCompressed
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021568C4: .word 0x0000FFFF
 	arm_func_end MainMenu__Func_2156824
@@ -335,7 +335,7 @@ _02156A04: .word 0x04000010
 
 	arm_func_start MainMenu__VBlankCallback_2156A08
 MainMenu__VBlankCallback_2156A08: // 0x02156A08
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x40
 	ldr r4, _02156B80 // =0x0217D1FC
 	add r5, sp, #0x20
@@ -382,18 +382,18 @@ _02156A4C:
 _02156AB4:
 	mov r4, r4, asr #3
 	cmp r6, #0
-	moveq sl, #1
+	moveq r10, #1
 	mov r0, r4
 	mov r1, #0x28
-	movne sl, #0xd
+	movne r10, #0xd
 	bl FX_ModS32
 	mov r0, r0, lsl #0x10
-	and sb, r4, #0x3f
+	and r9, r4, #0x3f
 	mov r8, r0, lsr #0x10
 	mov r4, #0x29
-	mov fp, #0x20
+	mov r11, #0x20
 _02156AE4:
-	rsb r0, sb, #0x40
+	rsb r0, r9, #0x40
 	mov r0, r0, lsl #0x10
 	add r1, r8, r0, lsr #16
 	cmp r1, #0x28
@@ -402,15 +402,15 @@ _02156AE4:
 	movgt r0, r0, lsl #0x10
 	movgt r5, r0, lsr #0x10
 	mov r0, #0
-	stmia sp, {r0, sl}
+	stmia sp, {r0, r10}
 	str r0, [sp, #8]
 	str r0, [sp, #0xc]
-	str sb, [sp, #0x10]
+	str r9, [sp, #0x10]
 	cmp r4, r5
 	movls r5, r4
 	str r0, [sp, #0x14]
 	str r5, [sp, #0x18]
-	str fp, [sp, #0x1c]
+	str r11, [sp, #0x1c]
 	ldr r0, [r7, #0xa0]
 	mov r1, r8
 	mov r2, #0
@@ -424,15 +424,15 @@ _02156AE4:
 	sub r0, r4, r5
 	mov r0, r0, lsl #0x10
 	movs r4, r0, lsr #0x10
-	add r0, sb, r5
-	and sb, r0, #0x3f
+	add r0, r9, r5
+	and r9, r0, #0x3f
 	bne _02156AE4
 _02156B6C:
 	add r6, r6, #1
 	cmp r6, #2
 	blt _02156A4C
 	add sp, sp, #0x40
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02156B80: .word 0x0217D1FC
 _02156B84: .word MainMenuBackgroundControl

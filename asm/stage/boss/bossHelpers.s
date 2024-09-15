@@ -382,7 +382,7 @@ _02038F54: .word mdlUnknownCount
 
 	arm_func_start BossHelpers__Model__Init
 BossHelpers__Model__Init: // 0x02038F58
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldr ip, _02038FA0 // =mdlUnknownCount
 	ldr r6, _02038FA4 // =mdlUnknownList
 	ldrh r7, [ip]
@@ -390,16 +390,16 @@ BossHelpers__Model__Init: // 0x02038F58
 	mov r4, r2
 	add r2, r7, #1
 	strh r2, [ip]
-	mov sb, r3
+	mov r9, r3
 	add r8, r6, r7, lsl #4
 	bl BossHelpers__Model__FindJointByName
 	str r5, [r6, r7, lsl #4]
 	strh r0, [r8, #4]
 	strh r4, [r8, #6]
 	ldr r0, [sp, #0x20]
-	str sb, [r8, #8]
+	str r9, [r8, #8]
 	str r0, [r8, #0xc]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02038FA0: .word mdlUnknownCount
 _02038FA4: .word mdlUnknownList

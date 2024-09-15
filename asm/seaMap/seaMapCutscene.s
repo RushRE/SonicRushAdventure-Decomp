@@ -753,7 +753,7 @@ _02170994: .word SeaMapCutscene__State2_2170998
 
 	arm_func_start SeaMapCutscene__State2_2170998
 SeaMapCutscene__State2_2170998: // 0x02170998
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldrsh r2, [r0, #0x20]
 	mov r1, #0
 	mov ip, #2
@@ -772,13 +772,13 @@ SeaMapCutscene__State2_2170998: // 0x02170998
 	mov lr, r4, asr #0x1f
 _021709DC:
 	sub r7, r3, r2
-	umull sb, r8, r7, r4
+	umull r9, r8, r7, r4
 	mla r8, r7, lr, r8
 	mov r7, r7, asr #0x1f
 	mla r8, r7, r4, r8
-	adds sb, sb, r5
+	adds r9, r9, r5
 	adc r7, r8, r6
-	mov r8, sb, lsr #0xc
+	mov r8, r9, lsr #0xc
 	orr r8, r8, r7, lsl #20
 	cmp ip, #0
 	add r2, r2, r8
@@ -788,12 +788,12 @@ _021709DC:
 	mov r2, r2, asr #0xc
 	strh r2, [r3, #0xe]
 	cmp r1, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r2, #0
 	ldr r1, _02170A38 // =SeaMapCutscene__State2_2170A3C
 	strh r2, [r0, #0x20]
 	str r1, [r0, #8]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02170A38: .word SeaMapCutscene__State2_2170A3C
 	arm_func_end SeaMapCutscene__State2_2170998

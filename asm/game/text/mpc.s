@@ -20,19 +20,19 @@ MPC__GetSequenceDialogCount: // 0x02053818
 
 	arm_func_start MPC__GetDisplayLineLength
 MPC__GetDisplayLineLength: // 0x0205382C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
-	mov sl, r0
-	ldr r0, [sl, #0x10]
-	ldr r3, [sl, #0x14]
-	mov sb, r1
-	add r0, sl, r0
-	add r0, r0, sb, lsl #3
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
+	mov r10, r0
+	ldr r0, [r10, #0x10]
+	ldr r3, [r10, #0x14]
+	mov r9, r1
+	add r0, r10, r0
+	add r0, r0, r9, lsl #3
 	ldrh r0, [r0, #2]
 	mov r8, r2
 	mov r7, #0
 	add r0, r8, r0
 	mov r0, r0, lsl #0x10
-	add r5, sl, r3
+	add r5, r10, r3
 	mov r4, r0, lsr #0xe
 	ldrh r0, [r5, r4]
 	mov r6, r7
@@ -40,8 +40,8 @@ MPC__GetDisplayLineLength: // 0x0205382C
 	ble _020538A8
 _02053874:
 	mov r3, r6, lsl #0x10
-	mov r0, sl
-	mov r1, sb
+	mov r0, r10
+	mov r1, r9
 	mov r2, r8
 	mov r3, r3, lsr #0x10
 	bl MPC__GetLineLength
@@ -54,7 +54,7 @@ _02053874:
 	blt _02053874
 _020538A8:
 	mov r0, r7
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end MPC__GetDisplayLineLength
 
 	arm_func_start MPC__Func_20538B0
@@ -246,7 +246,7 @@ _02053B00: .word 0x02110388
 
 	arm_func_start MPC__GetCharacters
 MPC__GetCharacters: // 0x02053B04
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mul r4, r2, r1
 	mov r1, r4, asr #5
 	and lr, r4, #0x1f
@@ -254,7 +254,7 @@ MPC__GetCharacters: // 0x02053B04
 	mov r4, #0
 	cmp r3, #0
 	add r1, r0, r1, lsl #2
-	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r0, _02053B88 // =MPC__decodeShiftTable
 	sub r5, r2, #1
 	ldr r5, [r0, r5, lsl #2]
@@ -266,10 +266,10 @@ _02053B34:
 	cmp lr, #0
 	ble _02053B68
 	add r7, r0, lr, lsl #2
-	ldr sb, [r1, #4]!
+	ldr r9, [r1, #4]!
 	ldr r8, [r7, #-4]
 	sub r7, r2, lr
-	and r8, sb, r8
+	and r8, r9, r8
 	orr ip, ip, r8, lsl r7
 	b _02053B70
 _02053B68:
@@ -281,7 +281,7 @@ _02053B70:
 	strh ip, [r6, r7]
 	cmp r4, r3
 	blt _02053B34
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02053B88: .word MPC__decodeShiftTable
 	arm_func_end MPC__GetCharacters

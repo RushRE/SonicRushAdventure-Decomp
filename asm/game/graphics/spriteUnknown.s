@@ -441,7 +441,7 @@ _0204C908: .word 0x00100010
 
 	arm_func_start SpriteUnknown__Func_204C90C
 SpriteUnknown__Func_204C90C: // 0x0204C90C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x1c
 	mov r6, r1
 	mov r5, r2
@@ -449,17 +449,17 @@ SpriteUnknown__Func_204C90C: // 0x0204C90C
 	mov r0, r6
 	mov r1, r5
 	mov r4, r3
-	ldr sb, [sp, #0x38]
+	ldr r9, [sp, #0x38]
 	bl Sprite__GetFormatFromAnim
 	cmp r0, #1
 	beq _0204C994
-	cmp sb, #1
+	cmp r9, #1
 	ldrne r8, _0204C9F8 // =0x05000200
 	ldr r1, [sp, #0x3c]
-	mov r0, sb
+	mov r0, r9
 	ldreq r8, _0204C9FC // =0x05000600
 	bl VRAMSystem__AllocSpriteVram
-	str sb, [sp]
+	str r9, [sp]
 	mov r1, #0
 	str r1, [sp, #4]
 	str r0, [sp, #8]
@@ -477,12 +477,12 @@ SpriteUnknown__Func_204C90C: // 0x0204C90C
 	b _0204C9E8
 _0204C994:
 	ldr r1, [sp, #0x3c]
-	cmp sb, #1
+	cmp r9, #1
 	movne r8, #2
-	mov r0, sb
+	mov r0, r9
 	moveq r8, #4
 	bl VRAMSystem__AllocSpriteVram
-	str sb, [sp]
+	str r9, [sp]
 	mov r1, #0
 	str r1, [sp, #4]
 	str r0, [sp, #8]
@@ -501,7 +501,7 @@ _0204C9E8:
 	ldrb r0, [sp, #0x40]
 	strh r0, [r7, #0x50]
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0204C9F8: .word 0x05000200
 _0204C9FC: .word 0x05000600

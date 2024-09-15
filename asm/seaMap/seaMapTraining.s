@@ -419,31 +419,31 @@ SeaMapTraining__Func_217101C: // 0x0217101C
 
 	arm_func_start SeaMapTraining__GetSpriteSize
 SeaMapTraining__GetSpriteSize: // 0x02171050
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r7, #0
 	ldr r6, [r0, #0xc]
 	ldr r5, _021710AC // =0x0217E104
 	mov r8, r7
 	mov r4, r7
 _02171068:
-	mov sb, r4
+	mov r9, r4
 _0217106C:
 	ldrb r1, [r5, r8]
 	mov r0, r6
-	add r1, sb, r1
+	add r1, r9, r1
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
 	bl Sprite__GetSpriteSize1FromAnim
 	cmp r7, r0
-	add sb, sb, #1
+	add r9, r9, #1
 	movlo r7, r0
-	cmp sb, #2
+	cmp r9, #2
 	blt _0217106C
 	add r8, r8, #1
 	cmp r8, #8
 	blt _02171068
 	mov r0, r7
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021710AC: .word 0x0217E104
 	arm_func_end SeaMapTraining__GetSpriteSize

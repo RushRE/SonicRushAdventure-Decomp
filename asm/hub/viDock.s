@@ -1065,13 +1065,13 @@ _0215E82C: .word ViDockPlayer__Func_2166748
 
 	arm_func_start ViDock__Func_215E830
 ViDock__Func_215E830: // 0x0215E830
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x18
-	mov sb, r0
-	ldr r0, [sb, #8]
+	mov r9, r0
+	ldr r0, [r9, #8]
 	cmp r0, #0
 	addeq sp, sp, #0x18
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r4, #0
 	mov r5, r4
 	bl IsTouchInputEnabled
@@ -1093,7 +1093,7 @@ _0215E878:
 	add r0, sp, #0xc
 	bl CPPHelpers__Func_2085EE8
 	ldr r1, _0215E9EC // =touchInput
-	add r0, sb, #0xe00
+	add r0, r9, #0xe00
 	ldrh r7, [r1, #0x14]
 	ldrh r8, [r1, #0x16]
 	bl CPPHelpers__Func_2085F9C
@@ -1176,15 +1176,15 @@ _0215E9AC:
 _0215E9C0:
 	cmp r4, #0
 	addeq sp, sp, #0x18
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-	add r0, sb, #0x1f8
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+	add r0, r9, #0x1f8
 	mov r1, r6, lsl #0x10
 	mov r2, r5
 	add r0, r0, #0xc00
 	mov r1, r1, lsr #0x10
 	bl ViDockPlayer__Func_21667BC
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0215E9EC: .word touchInput
 _0215E9F0: .word padInput
@@ -1286,22 +1286,22 @@ _0215EB00: .word ViMapIcon__Func_2163A50
 
 	arm_func_start ViDock__Func_215EB04
 ViDock__Func_215EB04: // 0x0215EB04
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
-	mov sl, r0
-	ldrh r1, [sl]
+	mov r10, r0
+	ldrh r1, [r10]
 	cmp r1, #7
 	bhs _0215EC28
 	ldr r0, _0215EC3C // =0x02172EBC
 	mov r1, r1, lsl #1
-	ldrh fp, [r0, r1]
+	ldrh r11, [r0, r1]
 	ldr r0, _0215EC40 // =0x02172ECA
 	mov r4, #0
 	ldrh r0, [r0, r1]
-	cmp fp, #0
+	cmp r11, #0
 	str r0, [sp, #4]
 	ble _0215EC28
-	add r0, sl, #0x130
+	add r0, r10, #0x130
 	str r0, [sp, #8]
 _0215EB48:
 	ldr r0, [sp, #4]
@@ -1329,22 +1329,22 @@ _0215EB48:
 	mov r8, r0
 	sub r0, r5, #7
 	cmp r0, #1
-	movhi sb, #1
+	movhi r9, #1
 	add r0, sp, #0xc
 	mov r2, #0
 	mov r1, r1, lsl #0xc
 	mov r3, r3, lsl #0xc
-	movls sb, #0
+	movls r9, #0
 	bl CPPHelpers__Func_2085EEC
 	add r0, sp, #0xc
 	bl CPPHelpers__Func_2085F98
-	str sb, [sp]
+	str r9, [sp]
 	mov r2, r0
 	ldrh r3, [r6, #2]
 	mov r1, r5
 	mov r0, r8
 	bl ViDockNpc__LoadAssets
-	ldrh r0, [sl]
+	ldrh r0, [r10]
 	bl ovl05_2152970
 	ldrsh r2, [r0, #0x40]
 	add r0, r8, #0x20
@@ -1359,14 +1359,14 @@ _0215EB48:
 	str r1, [r8, #0x308]
 _0215EC1C:
 	add r4, r4, #1
-	cmp r4, fp
+	cmp r4, r11
 	blt _0215EB48
 _0215EC28:
-	add r0, sl, #0x130
+	add r0, r10, #0x130
 	add r0, r0, #0x1000
 	bl ViDockNpcGroup__Func_216853C
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215EC3C: .word 0x02172EBC
 _0215EC40: .word 0x02172ECA
@@ -1600,7 +1600,7 @@ ViDock__Func_215EF3C: // 0x0215EF3C
 
 	arm_func_start ViDock__Func_215EF40
 ViDock__Func_215EF40: // 0x0215EF40
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	mov r4, r0
 	add r1, r4, #0x1600
@@ -1732,16 +1732,16 @@ _0215F0AC:
 _0215F10C:
 	add r0, r4, #0x2a4
 	add r1, r4, #0x1bc
-	add fp, r0, #0x1400
+	add r11, r0, #0x1400
 	mov r0, #0
-	add sb, r1, #0x1400
+	add r9, r1, #0x1400
 	str r0, [sp]
 	add r7, sp, #4
 	mov r6, r0
 	mov r5, r0
 _0215F130:
 	mov r8, #0
-	mov sl, fp
+	mov r10, r11
 _0215F138:
 	add r0, r4, r8, lsl #1
 	str r6, [r7]
@@ -1749,24 +1749,24 @@ _0215F138:
 	str r6, [r7, #8]
 	add r0, r0, #0x1600
 	ldrsh r3, [r0, #0x86]
-	mov r0, sl
+	mov r0, r10
 	mov r1, r7
-	mov r2, sb
+	mov r2, r9
 	bl Unknown2051334__Func_20514DC
 	add r8, r8, #1
-	str r5, [sl, #8]
+	str r5, [r10, #8]
 	cmp r8, #6
-	add sl, sl, #0xc
+	add r10, r10, #0xc
 	blt _0215F138
 	ldr r0, [sp]
-	add fp, fp, #0x48
+	add r11, r11, #0x48
 	add r0, r0, #1
 	str r0, [sp]
 	cmp r0, #0x10
-	add sb, sb, #0xc
+	add r9, r9, #0xc
 	blt _0215F130
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215F198: .word 0x02172EB4
 _0215F19C: .word 0x00007BF7
@@ -1776,10 +1776,10 @@ _0215F1A4: .word 0x00007FFF
 
 	arm_func_start ViDock__Func_215F1A8
 ViDock__Func_215F1A8: // 0x0215F1A8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xa0
 	mov r5, #0
-	mov sl, r0
+	mov r10, r0
 	sub r4, r5, #0x400000
 	mov r3, #0x400000
 	mov r2, #0x300000
@@ -1834,8 +1834,8 @@ ViDock__Func_215F1A8: // 0x0215F1A8
 	bl NNS_G3dGeBufferOP_N
 	mov r0, r5
 	str r0, [sp, #4]
-	str sl, [sp]
-	mov r8, sl
+	str r10, [sp]
+	mov r8, r10
 _0215F298:
 	mov r3, #2
 	add r1, sp, #0x50
@@ -1843,7 +1843,7 @@ _0215F298:
 	mov r2, #1
 	str r3, [sp, #0x50]
 	bl NNS_G3dGeBufferOP_N
-	add r0, sl, #0x1600
+	add r0, r10, #0x1600
 	ldrsh r2, [r0, #0x84]
 	ldrsh r1, [r0, #0x86]
 	cmp r2, r1
@@ -1861,14 +1861,14 @@ _0215F298:
 	str r3, [sp, #0x48]
 	bl NNS_G3dGeBufferOP_N
 _0215F2F4:
-	ldr sb, [sp]
+	ldr r9, [sp]
 	mov r7, #0
 	mov r6, #0x20
 	add r5, sp, #0x44
 	mov r4, #1
-	mov fp, #0x25
+	mov r11, #0x25
 _0215F30C:
-	add r0, sl, r7, lsl #1
+	add r0, r10, r7, lsl #1
 	add r0, r0, #0x1600
 	ldrh r2, [r0, #0x96]
 	mov r0, r6
@@ -1876,7 +1876,7 @@ _0215F30C:
 	str r2, [sp, #0x44]
 	mov r2, r4
 	bl NNS_G3dGeBufferOP_N
-	add r0, sb, #0x1000
+	add r0, r9, #0x1000
 	ldr r1, [r0, #0x6a8]
 	ldr r2, [r0, #0x6a4]
 	mov r1, r1, lsl #0x10
@@ -1889,11 +1889,11 @@ _0215F30C:
 	mov r1, r1, lsl #0x10
 	orr r0, r1, r0, lsr #16
 	str r0, [sp, #0x40]
-	mov r0, fp
+	mov r0, r11
 	add r1, sp, #0x40
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
-	add r0, sb, #0x1000
+	add r0, r9, #0x1000
 	ldr r1, [r0, #0x6f0]
 	ldr r2, [r0, #0x6ec]
 	mov r1, r1, lsl #0x10
@@ -1911,10 +1911,10 @@ _0215F30C:
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
 	add r7, r7, #1
-	add sb, sb, #0xc
+	add r9, r9, #0xc
 	cmp r7, #6
 	blt _0215F30C
-	add r0, sl, #0x1600
+	add r0, r10, #0x1600
 	ldrsh r2, [r0, #0x90]
 	ldrsh r1, [r0, #0x92]
 	cmp r2, r1
@@ -1979,7 +1979,7 @@ _0215F478:
 	mov r2, #1
 	str r3, [sp, #0x2c]
 	bl NNS_G3dGeBufferOP_N
-	add r0, sl, #0x1600
+	add r0, r10, #0x1600
 	ldrsh r2, [r0, #0x84]
 	ldrsh r1, [r0, #0x86]
 	cmp r2, r1
@@ -1997,15 +1997,15 @@ _0215F478:
 	str r3, [sp, #0x24]
 	bl NNS_G3dGeBufferOP_N
 _0215F508:
-	mov r8, sl
-	mov sb, #0
+	mov r8, r10
+	mov r9, #0
 	mov r7, #0x20
 	add r6, sp, #0x20
 	mov r5, #1
 	mov r4, #0x25
-	add fp, sp, #0x1c
+	add r11, sp, #0x1c
 _0215F524:
-	add r0, sl, sb, lsl #1
+	add r0, r10, r9, lsl #1
 	add r0, r0, #0x1600
 	ldrh r2, [r0, #0x96]
 	mov r0, r7
@@ -2027,7 +2027,7 @@ _0215F524:
 	orr r0, r1, r0, lsr #16
 	str r0, [sp, #0x1c]
 	mov r0, r4
-	mov r1, fp
+	mov r1, r11
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
 	add r0, r8, #0x1000
@@ -2047,11 +2047,11 @@ _0215F524:
 	add r1, sp, #0x18
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
-	add sb, sb, #1
+	add r9, r9, #1
 	add r8, r8, #0xc
-	cmp sb, #6
+	cmp r9, #6
 	blt _0215F524
-	add r0, sl, #0x1600
+	add r0, r10, #0x1600
 	ldrsh r2, [r0, #0x90]
 	ldrsh r1, [r0, #0x92]
 	cmp r2, r1
@@ -2062,7 +2062,7 @@ _0215F524:
 	mov r2, #1
 	str r3, [sp, #0x14]
 	bl NNS_G3dGeBufferOP_N
-	add r0, sl, #0x1000
+	add r0, r10, #0x1000
 	ldr r1, [r0, #0x674]
 	ldr r2, [r0, #0x670]
 	mov r0, r1, lsl #0x10
@@ -2079,7 +2079,7 @@ _0215F524:
 	mov r2, #1
 	str r3, [sp, #0x10]
 	bl NNS_G3dGeBufferOP_N
-	add r0, sl, #0x1000
+	add r0, r10, #0x1000
 	ldr r1, [r0, #0x5c0]
 	ldr r2, [r0, #0x5bc]
 	mov r0, r1, lsl #0x10
@@ -2107,7 +2107,7 @@ _0215F690:
 	str r2, [sp, #8]
 	bl NNS_G3dGeBufferOP_N
 	add sp, sp, #0xa0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215F6BC: .word 0x021472FC
 _0215F6C0: .word NNS_G3dGlb
@@ -2116,11 +2116,11 @@ _0215F6C4: .word 0x001F00C0
 
 	arm_func_start ViDock__Func_215F6C8
 ViDock__Func_215F6C8: // 0x0215F6C8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
-	mov sl, r0
-	ldrh r0, [sl, #2]
-	mov fp, r1
+	mov r10, r0
+	ldrh r0, [r10, #2]
+	mov r11, r1
 	str r2, [sp, #4]
 	add r0, r0, #0xff
 	add r0, r0, #0xff00
@@ -2130,7 +2130,7 @@ ViDock__Func_215F6C8: // 0x0215F6C8
 	mov r4, r3
 	movls r5, #0
 	bls _0215F728
-	ldrh r0, [sl]
+	ldrh r0, [r10]
 	cmp r0, #7
 	movhs r5, #0
 	bhs _0215F728
@@ -2155,27 +2155,27 @@ _0215F728:
 	mov r2, r1
 	mov r0, #0x15
 	bl NNS_G3dGeBufferOP_N
-	add r0, sl, #0x18
+	add r0, r10, #0x18
 	bl ViMapIcon__Func_2163EBC
 	cmp r4, #0
 	beq _0215F784
 	mov r2, #0
 	mov r1, r5
 	mov r3, r2
-	add r0, sl, #0xf8
+	add r0, r10, #0xf8
 	bl ViDockBack__Func_2164AB4
 _0215F784:
-	ldrh r0, [sl]
+	ldrh r0, [r10]
 	bl ovl05_2152970
 	ldr r1, [sp, #4]
 	ldrsh r7, [r0, #0x40]
 	cmp r1, #0
 	beq _0215F838
-	add r0, sl, #0x1000
-	ldr sb, [r0, #0x138]
-	cmp sb, #0
-	moveq sb, #0
-	cmp sb, #0
+	add r0, r10, #0x1000
+	ldr r9, [r0, #0x138]
+	cmp r9, #0
+	moveq r9, #0
+	cmp r9, #0
 	beq _0215F838
 	mov r0, #0x5000
 	umull r3, r2, r7, r0
@@ -2186,38 +2186,38 @@ _0215F784:
 	mla r2, r1, r0, r2
 	adc r0, r2, #0
 	mov r8, r3, lsr #0xc
-	cmp sb, #0
+	cmp r9, #0
 	orr r8, r8, r0, lsl #20
 	beq _0215F838
-	add r4, sl, #0x48
-	add r5, sl, #0x130
+	add r4, r10, #0x48
+	add r5, r10, #0x130
 _0215F7EC:
-	add r0, sb, #8
+	add r0, r9, #8
 	bl CPPHelpers__Func_2085F9C
 	mov r6, r0
-	add r0, sb, #8
+	add r0, r9, #8
 	bl CPPHelpers__Func_2085F9C
 	ldr r1, [r6, #8]
 	mov r2, r8
 	str r1, [sp]
 	ldr r3, [r0]
-	add r0, sl, #0xf8
+	add r0, r10, #0xf8
 	add r1, r4, #0x1400
 	bl ViDockBack__Func_2164BF4
-	mov r0, sb
+	mov r0, r9
 	bl Vi3dObject__Func_2167B98
 	add r0, r5, #0x1000
-	mov r1, sb
+	mov r1, r9
 	bl ViDockNpcGroup__Func_216852C
-	movs sb, r0
+	movs r9, r0
 	bne _0215F7EC
 _0215F838:
-	cmp fp, #0
+	cmp r11, #0
 	beq _0215F8A4
-	add r0, sl, #0xe00
+	add r0, r10, #0xe00
 	bl CPPHelpers__Func_2085F9C
 	mov r4, r0
-	add r0, sl, #0xe00
+	add r0, r10, #0xe00
 	bl CPPHelpers__Func_2085F9C
 	ldr r1, [r4, #8]
 	mov r2, #0x5000
@@ -2225,28 +2225,28 @@ _0215F838:
 	umull r8, r6, r7, r2
 	str r1, [sp]
 	ldr r3, [r0]
-	add r1, sl, #0x48
+	add r1, r10, #0x48
 	mla r6, r7, r4, r6
 	mov r5, r7, asr #0x1f
 	mla r6, r5, r2, r6
 	adds r2, r8, #0x800
 	adc r4, r6, #0
 	mov r2, r2, lsr #0xc
-	add r0, sl, #0xf8
+	add r0, r10, #0xf8
 	add r1, r1, #0x1400
 	orr r2, r2, r4, lsl #20
 	bl ViDockBack__Func_2164BF4
-	add r0, sl, #0x1f8
+	add r0, r10, #0x1f8
 	add r0, r0, #0xc00
 	bl Vi3dObject__Func_2167B98
 _0215F8A4:
 	ldr r0, [sp, #4]
 	cmp r0, #0
-	cmpne fp, #0
+	cmpne r11, #0
 	beq _0215F8CC
-	add r0, sl, #0xe00
+	add r0, r10, #0xe00
 	bl CPPHelpers__Func_2085F9C
-	add r2, sl, #0x130
+	add r2, r10, #0x130
 	mov r1, r0
 	add r0, r2, #0x1000
 	bl ViDockNpcGroup__Func_2168590
@@ -2257,7 +2257,7 @@ _0215F8CC:
 	str r2, [sp, #8]
 	bl NNS_G3dGeBufferOP_N
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end ViDock__Func_215F6C8
 
 	arm_func_start ViDock__Func_215F8E8
@@ -2333,7 +2333,7 @@ ViDock__Func_215F998: // 0x0215F998
 
 	arm_func_start ViDock__Func_215F9CC
 ViDock__Func_215F9CC: // 0x0215F9CC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x30
 	bl GetCurrentTaskWork_
 	mov r7, r0
@@ -2469,7 +2469,7 @@ _0215FB70:
 	ldrh r1, [r7]
 	add sp, sp, #0x30
 	str r1, [r0, #0x464]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0215FBDC:
 	ldr r1, [sp, #0x18]
 	cmp r1, #8
@@ -2477,15 +2477,15 @@ _0215FBDC:
 	cmpne r1, r0
 	addne sp, sp, #0x30
 	strne r1, [r7, #4]
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	mov sb, #0
-	mov r8, sb
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	mov r9, #0
+	mov r8, r9
 	add r4, r7, #0x1f8
 	add r5, r7, #0x130
-	add fp, r7, #0xe00
+	add r11, r7, #0xe00
 _0215FC0C:
 	add r0, r4, #0xc00
-	ldrh sl, [fp, #0x32]
+	ldrh r10, [r11, #0x32]
 	bl ViDockPlayer__Func_21667A0
 	mov r6, r0
 	ldrh r0, [r7]
@@ -2494,7 +2494,7 @@ _0215FC0C:
 	stmia sp, {r3, r8}
 	ldrsh r3, [r0, #0x40]
 	mov r1, r6
-	mov r2, sl
+	mov r2, r10
 	add r0, r5, #0x1000
 	bl ViDockNpcGroup__Func_2168674
 	movs r8, r0
@@ -2505,7 +2505,7 @@ _0215FC0C:
 	ldr r0, _0215FD40 // =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #1
-	movne sb, #1
+	movne r9, #1
 _0215FC64:
 	bl IsTouchInputEnabled
 	cmp r0, #0
@@ -2525,7 +2525,7 @@ _0215FC88:
 	beq _0215FCE0
 	ldr r0, _0215FD44 // =touchInput
 	ldrh r6, [r0, #0x1c]
-	ldrh sl, [r0, #0x1e]
+	ldrh r10, [r0, #0x1e]
 	add r0, r8, #8
 	bl CPPHelpers__Func_2085F9C
 	add r1, sp, #0x10
@@ -2535,20 +2535,20 @@ _0215FC88:
 	mov r1, r6
 	str r3, [sp]
 	ldr r3, [sp, #0x10]
-	mov r2, sl
+	mov r2, r10
 	mov r0, r7
 	bl ViDock__Func_215EC58
 	cmp r0, #0
-	movne sb, #1
+	movne r9, #1
 _0215FCE0:
-	cmp sb, #0
+	cmp r9, #0
 	bne _0215FCF0
 	cmp r8, #0
 	bne _0215FC0C
 _0215FCF0:
-	cmp sb, #0
+	cmp r9, #0
 	addeq sp, sp, #0x30
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r0, r7, #0x460
 	adds r0, r0, #0x1000
 	ldrne r1, [r8, #0x304]
@@ -2565,7 +2565,7 @@ _0215FCF0:
 	str r1, [r8, #0x30c]
 	str r8, [r0, #0x468]
 	add sp, sp, #0x30
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215FD40: .word padInput
 _0215FD44: .word touchInput

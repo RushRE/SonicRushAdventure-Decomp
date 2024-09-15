@@ -219,7 +219,7 @@ _0204AD90:
 
 	arm_func_start SeaMapUnknown204AB60__Func_204AE28
 SeaMapUnknown204AB60__Func_204AE28: // 0x0204AE28
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
 	str r0, [sp]
 	mov r5, r1
@@ -230,34 +230,34 @@ SeaMapUnknown204AB60__Func_204AE28: // 0x0204AE28
 	ldrh r0, [r7]
 	cmp r0, #0
 	bls _0204B028
-	add fp, r7, #2
+	add r11, r7, #2
 	add r6, sp, #4
 _0204AE5C:
 	mov r0, #0x12
-	mla sb, r8, r0, fp
-	mov r0, sb
+	mla r9, r8, r0, r11
+	mov r0, r9
 	bl SeaMapEventManager__GetObjectType
 	ldr r1, _0204B034 // =SeaMapEventManager__ObjectList
-	add sl, r1, r0, lsl #4
-	ldr ip, [sl, #0xc]
+	add r10, r1, r0, lsl #4
+	ldr ip, [r10, #0xc]
 	cmp ip, #0
 	beq _0204B010
 	sub r0, r0, #2
 	cmp r0, #1
 	bhi _0204B010
-	ldrb r0, [sb, #7]
+	ldrb r0, [r9, #7]
 	tst r0, #1
 	beq _0204AF0C
-	ldrsh r0, [sb, #0x10]
+	ldrsh r0, [r9, #0x10]
 	bl SeaMapManager__GetSaveFlag
 	cmp r0, #0
 	beq _0204B010
-	ldr sl, [sl, #0xc]
-	mov r0, sb
+	ldr r10, [r10, #0xc]
+	mov r0, r9
 	mov r1, r5
 	mov r2, r4
 	mov r3, #1
-	blx sl
+	blx r10
 	cmp r0, #0
 	beq _0204B010
 	add r1, sp, #4
@@ -269,17 +269,17 @@ _0204AE5C:
 	str r1, [sp, #8]
 	str r1, [sp, #0xc]
 	str r0, [sp, #4]
-	ldrsh r0, [sb, #0x10]
+	ldrsh r0, [r9, #0x10]
 	bl SeaMapEventManager__Func_2046CE8
 	str r0, [sp, #0x10]
 	add r0, sp, #4
 	bl SeaMapUnknown204AB60__AddObject
 	add sp, sp, #0x18
 	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0204AF0C:
-	ldrsh r0, [sb, #0x10]
-	mov sl, #0
+	ldrsh r0, [r9, #0x10]
+	mov r10, #0
 	cmp r0, #3
 	beq _0204AF30
 	cmp r0, #0xe
@@ -288,54 +288,54 @@ _0204AF0C:
 	beq _0204AFA8
 	b _0204AFE0
 _0204AF30:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r5
 	mov r2, r4
 	mov r3, #1
 	blx ip
 	cmp r0, #0
 	beq _0204AFE0
-	mov r0, sl
+	mov r0, r10
 	mov r1, r6
 	mov r2, #0x14
 	bl MIi_CpuClear16
 	mov r0, #1
 	str r0, [sp, #0x10]
-	mov sl, r0
+	mov r10, r0
 	b _0204AFE0
 _0204AF6C:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r5
 	mov r2, r4
 	mov r3, #1
 	blx ip
 	cmp r0, #0
 	beq _0204AFE0
-	mov r0, sl
+	mov r0, r10
 	mov r1, r6
 	mov r2, #0x14
 	bl MIi_CpuClear16
 	mov r0, #3
 	str r0, [sp, #0x10]
-	mov sl, #1
+	mov r10, #1
 	b _0204AFE0
 _0204AFA8:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r5
 	mov r2, r4
 	mov r3, #1
 	blx ip
 	cmp r0, #0
 	beq _0204AFE0
-	mov r0, sl
+	mov r0, r10
 	mov r1, r6
 	mov r2, #0x14
 	bl MIi_CpuClear16
 	mov r0, #8
 	str r0, [sp, #0x10]
-	mov sl, #1
+	mov r10, #1
 _0204AFE0:
-	cmp sl, #0
+	cmp r10, #0
 	beq _0204B010
 	ldr r1, [sp]
 	mov r2, #1
@@ -346,7 +346,7 @@ _0204AFE0:
 	bl SeaMapUnknown204AB60__AddObject
 	add sp, sp, #0x18
 	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0204B010:
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
@@ -357,18 +357,18 @@ _0204B010:
 _0204B028:
 	mov r0, #0
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0204B034: .word SeaMapEventManager__ObjectList
 	arm_func_end SeaMapUnknown204AB60__Func_204AE28
 
 	arm_func_start SeaMapUnknown204AB60__Func_204B038
 SeaMapUnknown204AB60__Func_204B038: // 0x0204B038
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
-	mov fp, r0
-	mov sl, r1
-	mov sb, r2
+	mov r11, r0
+	mov r10, r1
+	mov r9, r2
 	bl SeaMapManager__GetWork
 	ldr r4, [r0, #0x160]
 	mov r5, #0
@@ -395,8 +395,8 @@ _0204B06C:
 	tst r0, #1
 	beq _0204B180
 	mov r0, r6
-	mov r1, sl
-	mov r2, sb
+	mov r1, r10
+	mov r2, r9
 	mov r3, #0
 	blx ip
 	cmp r0, #0
@@ -406,7 +406,7 @@ _0204B06C:
 	mov r2, #0x14
 	bl MIi_CpuClear16
 	mov r0, #1
-	str fp, [sp, #4]
+	str r11, [sp, #4]
 	str r0, [sp, #8]
 	str r0, [sp, #0xc]
 	ldrsh r0, [r6, #0x10]
@@ -416,7 +416,7 @@ _0204B06C:
 	bl SeaMapUnknown204AB60__AddObject
 	add sp, sp, #0x18
 	mov r0, #1
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0204B108:
 	cmp r0, #4
 	beq _0204B11C
@@ -433,8 +433,8 @@ _0204B120:
 	bne _0204B180
 	ldr r7, [r7, #0xc]
 	mov r0, r6
-	mov r1, sl
-	mov r2, sb
+	mov r1, r10
+	mov r2, r9
 	mov r3, #0
 	blx r7
 	cmp r0, #0
@@ -447,7 +447,7 @@ _0204B120:
 	str r0, [sp, #8]
 	add r0, sp, #4
 	str r6, [sp, #0x10]
-	str fp, [sp, #4]
+	str r11, [sp, #4]
 	str r8, [sp, #0xc]
 	bl SeaMapUnknown204AB60__AddObject
 _0204B180:
@@ -460,7 +460,7 @@ _0204B180:
 _0204B198:
 	mov r0, #0
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0204B1A4: .word SeaMapEventManager__ObjectList
 	arm_func_end SeaMapUnknown204AB60__Func_204B038

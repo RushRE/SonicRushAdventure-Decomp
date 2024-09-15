@@ -372,38 +372,38 @@ _02040B8C: .word touchInput
 
 	arm_func_start SeaMapChartCourseView__Func_2040B90
 SeaMapChartCourseView__Func_2040B90: // 0x02040B90
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
-	mov sl, r0
+	mov r10, r0
 	mov r7, #0
-	ldr sb, _02040C4C // =0x0210FA4C
+	ldr r9, _02040C4C // =0x0210FA4C
 	ldr r5, _02040C50 // =VRAMSystem__VRAM_PALETTE_OBJ
-	add r8, sl, #0x7d0
+	add r8, r10, #0x7d0
 	mov r6, r7
-	mov fp, #0x800
+	mov r11, #0x800
 	mov r4, #4
 _02040BB8:
-	ldr r0, [sl, #0xc]
-	ldrb r1, [sb]
+	ldr r0, [r10, #0xc]
+	ldrb r1, [r9]
 	ldr r0, [r0]
 	bl Sprite__GetSpriteSize1FromAnim
 	mov r1, r0
-	ldr r0, [sl, #4]
+	ldr r0, [r10, #4]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [sl, #4]
-	mov r3, fp
+	ldr r1, [r10, #4]
+	mov r3, r11
 	stmia sp, {r1, r6}
 	str r0, [sp, #8]
 	str r6, [sp, #0xc]
-	ldr r1, [sl, #4]
+	ldr r1, [r10, #4]
 	mov r0, r8
 	ldr r1, [r5, r1, lsl #2]
 	str r1, [sp, #0x10]
 	str r6, [sp, #0x14]
-	ldrb r1, [sb, #1]
+	ldrb r1, [r9, #1]
 	str r1, [sp, #0x18]
-	ldr r1, [sl, #0xc]
-	ldrb r2, [sb], #2
+	ldr r1, [r10, #0xc]
+	ldrb r2, [r9], #2
 	ldr r1, [r1]
 	bl AnimatorSprite__Init
 	mov r1, #0
@@ -419,7 +419,7 @@ _02040BB8:
 	add r8, r8, #0x64
 	blo _02040BB8
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02040C4C: .word 0x0210FA4C
 _02040C50: .word VRAMSystem__VRAM_PALETTE_OBJ
@@ -1868,7 +1868,7 @@ _02041F18:
 
 	arm_func_start SeaMapChartCourseView__Func_2041F20
 SeaMapChartCourseView__Func_2041F20: // 0x02041F20
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldr r3, _02041F88 // =aGkosw
 	mov r2, #0xb
 	mla r5, r1, r2, r3
@@ -1878,24 +1878,24 @@ SeaMapChartCourseView__Func_2041F20: // 0x02041F20
 	ldr r6, [r0]
 	mov r4, r7
 _02041F44:
-	mov sb, r4
+	mov r9, r4
 _02041F48:
 	ldrb r1, [r5, r8]
 	mov r0, r6
-	add r1, sb, r1
+	add r1, r9, r1
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
 	bl Sprite__GetSpriteSize1FromAnim
 	cmp r7, r0
-	add sb, sb, #1
+	add r9, r9, #1
 	movlo r7, r0
-	cmp sb, #2
+	cmp r9, #2
 	blt _02041F48
 	add r8, r8, #1
 	cmp r8, #8
 	blt _02041F44
 	mov r0, r7
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02041F88: .word aGkosw
 	arm_func_end SeaMapChartCourseView__Func_2041F20
@@ -1947,17 +1947,17 @@ _02042004:
 
 	arm_func_start SeaMapChartCourseView__Func_204201C
 SeaMapChartCourseView__Func_204201C: // 0x0204201C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x24
-	mov sb, r0
-	add r0, sb, #0x1d4
+	mov r9, r0
+	add r0, r9, #0x1d4
 	add r5, r0, #0x800
 	ldr r2, _02042168 // =aGkosw
 	mov r8, r1
 	mov r0, #0xb
 	mla r4, r8, r0, r2
 	add r6, r5, #0x28
-	ldr r7, [sb, #4]
+	ldr r7, [r9, #4]
 	bl RenderCore_GetLanguagePtr
 	ldrb r0, [r0]
 	cmp r0, #5
@@ -1988,7 +1988,7 @@ _02042090:
 	strh r1, [r0, #0x9c]
 	cmp r2, #3
 	blt _02042090
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	bl SeaMapChartCourseView__Func_2041F20
 	mov r1, r0
@@ -2004,7 +2004,7 @@ _02042090:
 	str r1, [sp, #0x10]
 	str r2, [sp, #0x14]
 	str r2, [sp, #0x18]
-	ldr r0, [sb, #0xc]
+	ldr r0, [r9, #0xc]
 	ldrh r2, [r6, #0xa2]
 	ldr r1, [r0]
 	mov r0, r6
@@ -2021,7 +2021,7 @@ _02042090:
 	bl AnimatorSprite__GetBlockData
 	ldr r1, _02042170 // =SeaMapChartCourseView__Func_2041F8C
 	ldr r2, _02042174 // =TouchField__PointInRect
-	stmia sp, {r1, sb}
+	stmia sp, {r1, r9}
 	add r0, r6, #0x64
 	add r1, r6, #8
 	add r3, sp, #0x1c
@@ -2034,7 +2034,7 @@ _02042090:
 	mov r1, #0
 	bl SetSpriteButtonState
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02042168: .word aGkosw
 _0204216C: .word VRAMSystem__VRAM_PALETTE_OBJ
@@ -2723,7 +2723,7 @@ _020429F4: .word SeaMapChartCourseView__State_20429F8
 
 	arm_func_start SeaMapChartCourseView__State_20429F8
 SeaMapChartCourseView__State_20429F8: // 0x020429F8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r5, r0
 	mov r0, #0
 	add r4, r5, #0x1d4
@@ -2760,13 +2760,13 @@ _02042A64:
 	mov r5, #0x800
 _02042A80:
 	rsb r7, r0, r1, lsl #12
-	umull sb, r8, r7, lr
+	umull r9, r8, r7, lr
 	mla r8, r7, ip, r8
 	mov r7, r7, asr #0x1f
 	mla r8, r7, lr, r8
-	adds sb, sb, r5
+	adds r9, r9, r5
 	adc r7, r8, r6
-	mov r8, sb, lsr #0xc
+	mov r8, r9, lsr #0xc
 	orr r8, r8, r7, lsl #20
 	cmp r3, #0
 	add r0, r0, r8
@@ -2791,7 +2791,7 @@ _02042AC4:
 	sub r3, r3, #1
 	bne _02042AC4
 	bl SeaMapView__Func_203DCE0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02042B00: .word SeaMapChartCourseView__State_2042C04
 	arm_func_end SeaMapChartCourseView__State_20429F8
@@ -3320,17 +3320,17 @@ _020431D0: .word SeaMapChartCourseView__State_20431D4
 
 	arm_func_start SeaMapChartCourseView__State_20431D4
 SeaMapChartCourseView__State_20431D4: // 0x020431D4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
-	mov fp, r0
+	mov r11, r0
 	bl SeaMapView__FadeActiveScreen
 	cmp r0, #0
 	addeq sp, sp, #0xc
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl SeaMapManager__GetTotalDistance
-	mov sb, r0
-	cmp sb, #0
-	mov sl, #0
+	mov r9, r0
+	cmp r9, #0
+	mov r10, #0
 	ble _0204325C
 	add r8, sp, #8
 	add r7, sp, #4
@@ -3338,7 +3338,7 @@ SeaMapChartCourseView__State_20431D4: // 0x020431D4
 	add r5, sp, #0
 	mov r4, #3
 _02043218:
-	mov r0, sl
+	mov r0, r10
 	mov r1, r8
 	mov r2, r7
 	bl SeaMapManager__Func_2045BF8
@@ -3352,13 +3352,13 @@ _02043218:
 	mov r2, r4
 	mov r3, r4
 	bl SeaMapManager__Func_20442C8
-	add sl, sl, #0x10000
-	cmp sl, sb
+	add r10, r10, #0x10000
+	cmp r10, r9
 	blt _02043218
 _0204325C:
 	add r1, sp, #8
 	add r2, sp, #4
-	mov r0, sb
+	mov r0, r9
 	bl SeaMapManager__Func_2045BF8
 	ldr r0, [sp, #8]
 	ldr r1, [sp, #4]
@@ -3370,15 +3370,15 @@ _0204325C:
 	ldrh r1, [sp]
 	mov r3, r2
 	bl SeaMapManager__Func_20442C8
-	ldr r1, [fp, #4]
+	ldr r1, [r11, #4]
 	ldr r0, _020432B8 // =VRAMSystem__GFXControl
 	ldr r0, [r0, r1, lsl #2]
 	add r0, r0, #0x20
 	bl RenderCore_DisableBlending
 	mov r0, #1
-	str r0, [fp, #0x7cc]
+	str r0, [r11, #0x7cc]
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020432B8: .word VRAMSystem__GFXControl
 	arm_func_end SeaMapChartCourseView__State_20431D4

@@ -198,23 +198,23 @@ _02171550:
 
 	arm_func_start VSFriendListMenu__InitSprites
 VSFriendListMenu__InitSprites: // 0x02171570
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #4
 	mov r8, r0
 	ldr r5, _021715F8 // =0x0217E140
 	ldr r4, _021715FC // =0x0217E11C
-	ldr sl, _02171600 // =0x0217E152
-	ldr sb, _02171604 // =0x0217E12E
+	ldr r10, _02171600 // =0x0217E152
+	ldr r9, _02171604 // =0x0217E12E
 	add r7, r8, #0x14c
 	mov r6, #0
 _02171594:
 	mov r3, r6, lsl #1
 	ldrh r1, [r5, r3]
 	ldrh r0, [r4, r3]
-	ldrh r2, [sl, r3]
+	ldrh r2, [r10, r3]
 	str r1, [sp]
 	add r0, r8, r0, lsl #2
-	ldrh r3, [sb, r3]
+	ldrh r3, [r9, r3]
 	ldr r1, [r0, #0x690]
 	mov r0, r7
 	bl VSFriendListMenu__Func_21727A0
@@ -232,7 +232,7 @@ _02171594:
 	sub r0, r0, #1
 	strb r0, [r8, #0x206]
 	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _021715F8: .word 0x0217E140
 _021715FC: .word 0x0217E11C
@@ -242,42 +242,42 @@ _02171604: .word 0x0217E12E
 
 	arm_func_start VSFriendListMenu__InitTouchField
 VSFriendListMenu__InitTouchField: // 0x02171608
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
-	mov sl, r0
-	add r0, sl, #0x38
+	mov r10, r0
+	add r0, r10, #0x38
 	bl TouchField__Init
 	mov r7, #0
 	ldr r8, _02171694 // =0x0217E184
 	ldr r5, _02171698 // =TouchField__PointInRect
 	ldr r4, _0217169C // =0x0000FFFF
-	str r7, [sl, #0x44]
-	add sb, sl, #0x4d0
+	str r7, [r10, #0x44]
+	add r9, r10, #0x4d0
 	mov r6, r7
-	mov fp, r7
+	mov r11, r7
 _0217163C:
 	str r6, [sp]
-	mov r0, sb
+	mov r0, r9
 	mov r1, r6
 	mov r2, r5
 	mov r3, r8
 	str r6, [sp, #4]
 	bl TouchField__InitAreaShape
-	mov r1, sb
+	mov r1, r9
 	mov r2, r4
-	add r0, sl, #0x38
+	add r0, r10, #0x38
 	bl TouchField__AddArea
-	mov r0, sl
+	mov r0, r10
 	mov r1, r7
-	mov r2, fp
+	mov r2, r11
 	bl VSFriendListMenu__Func_2172610
 	add r8, r8, #8
-	add sb, sb, #0x38
+	add r9, r9, #0x38
 	add r7, r7, #1
 	cmp r7, #8
 	blt _0217163C
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02171694: .word 0x0217E184
 _02171698: .word TouchField__PointInRect
@@ -286,36 +286,36 @@ _0217169C: .word 0x0000FFFF
 
 	arm_func_start VSFriendListMenu__InitUnknown
 VSFriendListMenu__InitUnknown: // 0x021716A0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
-	mov sl, r0
-	ldr r0, [sl, #0x30]
+	mov r10, r0
+	ldr r0, [r10, #0x30]
 	bl FontWindow__GetFont
-	str r0, [sl, #0x50]
+	str r0, [r10, #0x50]
 	mov r0, #0x1e00
 	bl _AllocHeadHEAP_USER
-	str r0, [sl, #0x54]
+	str r0, [r10, #0x54]
 	mov r1, r0
 	mov r0, #0
 	mov r2, #0x1e00
 	bl MIi_CpuClearFast
 	mov r7, #0
-	add sb, sl, #0x58
+	add r9, r10, #0x58
 	mov r8, #5
 	mov r6, #4
-	mov fp, #0x18
+	mov r11, #0x18
 	mov r5, #2
 	mov r4, r7
 _021716F0:
 	mov r0, r8, lsl #0x10
 	str r6, [sp]
 	mov r0, r0, lsr #0x10
-	stmib sp, {r0, fp}
+	stmib sp, {r0, r11}
 	mov r0, #0x600
 	mul r2, r7, r0
 	str r5, [sp, #0xc]
-	ldr r1, [sl, #0x54]
-	mov r0, sb
+	ldr r1, [r10, #0x54]
+	mov r0, r9
 	add r1, r1, r2
 	str r1, [sp, #0x10]
 	str r4, [sp, #0x14]
@@ -324,13 +324,13 @@ _021716F0:
 	mov r2, r5
 	mov r3, r4
 	bl Unknown2056570__Init
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0
 	bl Unknown2056570__Func_2056688
 	add r7, r7, #1
 	cmp r7, #5
 	add r8, r8, #3
-	add sb, sb, #0x30
+	add r9, r9, #0x30
 	blt _021716F0
 	ldr r0, _0217177C // =0x02110460
 	ldr r1, _02171780 // =0x05000402
@@ -341,7 +341,7 @@ _021716F0:
 	mov r2, #8
 	bl MIi_CpuCopy16
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0217177C: .word 0x02110460
 _02171780: .word 0x05000402
@@ -734,20 +734,20 @@ _02171CA0: .word VSFriendListMenu__Main
 
 	arm_func_start VSFriendListMenu__Main
 VSFriendListMenu__Main: // 0x02171CA4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetCurrentTaskWork_
 	mov r8, r0
 	bl VSFriendListMenu__Func_2171EEC
-	mov sb, #0
-	mov sl, sb
+	mov r9, #0
+	mov r10, r9
 	mov r7, #0x2000
 	mov r6, #0xc0
-	mov r5, sb
+	mov r5, r9
 	mov r4, #0xc
-	mov fp, sb
+	mov r11, r9
 _02171CD0:
 	ldr r0, [r8, #4]
-	sub r3, r0, sl
+	sub r3, r0, r10
 	cmp r3, #0
 	ble _02171D34
 	cmp r3, #0xc
@@ -758,24 +758,24 @@ _02171CD0:
 	str r7, [sp]
 	bl Unknown2051334__Func_2051534
 	mov r0, r0, lsl #0x10
-	mov r1, sb, lsl #0x10
+	mov r1, r9, lsl #0x10
 	mov r3, r0, asr #0x10
 	mov r0, r8
 	mov r1, r1, lsr #0x10
-	mov r2, fp
+	mov r2, r11
 	bl VSFriendListMenu__Func_2171F18
 	b _02171D34
 _02171D1C:
-	mov r1, sb, lsl #0x10
+	mov r1, r9, lsl #0x10
 	mov r2, #0
 	mov r0, r8
 	mov r3, r2
 	mov r1, r1, lsr #0x10
 	bl VSFriendListMenu__Func_2171F18
 _02171D34:
-	add sb, sb, #1
-	cmp sb, #5
-	add sl, sl, #3
+	add r9, r9, #1
+	cmp r9, #5
+	add r10, r10, #3
 	blt _02171CD0
 	mov r0, r8
 	bl VSFriendListMenu__Func_2172278
@@ -783,7 +783,7 @@ _02171D34:
 	cmp r0, #0x18
 	addlo r0, r0, #1
 	strlo r0, [r8, #4]
-	ldmloia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmloia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r8
 	mov r1, #1
 	bl VSFriendListMenu__Func_2172684
@@ -803,33 +803,33 @@ _02171D34:
 	ldr r0, _02171DB0 // =VSFriendListMenu__Main_217186C
 	str r1, [r8, #4]
 	bl SetCurrentTaskMainEvent
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02171DB0: .word VSFriendListMenu__Main_217186C
 	arm_func_end VSFriendListMenu__Main
 
 	arm_func_start VSFriendListMenu__Main_2171DB4
 VSFriendListMenu__Main_2171DB4: // 0x02171DB4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
 	bl GetCurrentTaskWork_
-	mov sb, r0
+	mov r9, r0
 	bl VSFriendListMenu__Func_2171EEC
-	mov sl, #0
-	mov r7, sl
+	mov r10, #0
+	mov r7, r10
 	mov r6, #0xc0
 	mov r5, #0xc
-	mov r4, sl
-	mov r8, sl
+	mov r4, r10
+	mov r8, r10
 _02171DE0:
-	rsb r0, sl, #4
-	ldr r1, [sb, #4]
+	rsb r0, r10, #4
+	ldr r1, [r9, #4]
 	add r0, r0, r0, lsl #1
 	sub r3, r1, r0
 	cmp r3, #0
 	bgt _02171E14
-	mov r1, sl, lsl #0x10
-	mov r0, sb
+	mov r1, r10, lsl #0x10
+	mov r0, r9
 	mov r2, r8
 	mov r3, r8
 	mov r1, r1, lsr #0x10
@@ -844,50 +844,50 @@ _02171E14:
 	str r7, [sp]
 	bl Unknown2051334__Func_2051534
 	mov r2, r0, lsl #0x10
-	mov r1, sl, lsl #0x10
+	mov r1, r10, lsl #0x10
 	mov r3, r2, asr #0x10
-	mov r0, sb
+	mov r0, r9
 	mov r1, r1, lsr #0x10
 	mov r2, r4
 	bl VSFriendListMenu__Func_2171F18
 _02171E4C:
-	add sl, sl, #1
-	cmp sl, #5
+	add r10, r10, #1
+	cmp r10, #5
 	blt _02171DE0
-	ldr r0, [sb, #4]
+	ldr r0, [r9, #4]
 	cmp r0, #0x18
 	blo _02171EC8
-	ldr r0, [sb, #0xc]
+	ldr r0, [r9, #0xc]
 	mov r1, #0
 	cmp r0, #0
 	beq _02171EB4
 	mov r0, #0x16
-	str r1, [sb, #0xc]
+	str r1, [r9, #0xc]
 	blx VSMenu__SetNetworkMessageSequence
 	mov r1, #0
 	str r1, [sp]
 	str r1, [sp, #4]
-	ldr r0, [sb, #0x34]
+	ldr r0, [r9, #0x34]
 	mov r2, #1
 	mov r3, #7
 	bl SaveSpriteButton__Func_2064588
 	mov r1, #0
 	ldr r0, _02171ED8 // =VSFriendListMenu__Main_2171BE8
-	str r1, [sb, #4]
+	str r1, [r9, #4]
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _02171EB4:
-	mov r0, sb
+	mov r0, r9
 	bl VSFriendListMenu__Func_21725C4
 	bl DestroyCurrentTask
 	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _02171EC8:
 	add r0, r0, #1
-	str r0, [sb, #4]
+	str r0, [r9, #4]
 	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02171ED8: .word VSFriendListMenu__Main_2171BE8
 	arm_func_end VSFriendListMenu__Main_2171DB4
@@ -997,13 +997,13 @@ _02172004: .word 0x04001000
 
 	arm_func_start VSFriendListMenu__Func_2172008
 VSFriendListMenu__Func_2172008: // 0x02172008
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x48
-	mov sl, r0
+	mov r10, r0
 	mov r4, r2
 	mov r5, r1
 	mov r0, r4
-	add r1, sl, #0x10
+	add r1, r10, #0x10
 	bl VSFriendListMenu__Func_2172830
 	mov r1, #0
 	mov r0, #2
@@ -1013,13 +1013,13 @@ VSFriendListMenu__Func_2172008: // 0x02172008
 	mul r8, r5, r0
 	str r1, [sp, #0xc]
 	str r1, [sp, #0x10]
-	add r7, sl, #0x58
+	add r7, r10, #0x58
 	ldr r0, _02172274 // =_0217EE90
 	str r1, [sp, #0x14]
 	str r0, [sp, #0x18]
-	add r0, sl, #0x10
+	add r0, r10, #0x10
 	str r0, [sp, #0x1c]
-	ldr r0, [sl, #0x50]
+	ldr r0, [r10, #0x50]
 	mov r2, r1
 	add r3, r7, r8
 	bl FontFile__Func_20530D8
@@ -1126,35 +1126,35 @@ _021720F4:
 _021721FC:
 	strh r5, [sp, #0x34]
 	ldrh r1, [sp, #0x34]
-	mov sb, #0
+	mov r9, #0
 	mov r0, #0x70
 	strh r1, [sp, #0x2e]
-	mov fp, #8
-	mov r6, sb
-	mov r5, sb
+	mov r11, #8
+	mov r6, r9
+	mov r5, r9
 	add r4, sp, #0x26
 _02172220:
 	stmia sp, {r0, r5}
-	cmp sb, #4
-	cmpne sb, #7
+	cmp r9, #4
+	cmpne r9, #7
 	moveq r2, r6
-	movne r2, fp
+	movne r2, r11
 	cmp r2, #0
 	movne r1, #1
 	str r5, [sp, #8]
 	moveq r1, #0
 	str r5, [sp, #0xc]
-	mov r0, sb, lsl #1
+	mov r0, r9, lsl #1
 	str r1, [sp, #0x10]
 	ldrh r1, [r4, r0]
-	ldr r0, [sl, #0x50]
+	ldr r0, [r10, #0x50]
 	add r3, r7, r8
 	bl FontFile__Func_2052DD0
-	add sb, sb, #1
-	cmp sb, #0xa
+	add r9, r9, #1
+	cmp r9, #0xa
 	blt _02172220
 	add sp, sp, #0x48
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02172274: .word _0217EE90
 	arm_func_end VSFriendListMenu__Func_2172008

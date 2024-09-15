@@ -5217,10 +5217,10 @@ _02172CE8: .word SailMessageCommon__State_SelectOption
 
 	arm_func_start SailMessageCommon__State_SelectOption
 SailMessageCommon__State_SelectOption: // 0x02172CEC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
-	mov sl, r0
-	ldr r6, [sl, #0x124]
+	mov r10, r0
+	ldr r6, [r10, #0x124]
 	ldrh r0, [r6, #0x26]
 	bic r0, r0, #0x2000
 	strh r0, [r6, #0x26]
@@ -5294,8 +5294,8 @@ _02172E04:
 	ldr r0, [r6, #0x20]
 	cmp r0, #0
 	bne _02172F7C
-	ldr fp, _021732DC // =touchInput
-	ldrh r0, [fp, #0x12]
+	ldr r11, _021732DC // =touchInput
+	ldrh r0, [r11, #0x12]
 	tst r0, #0xd
 	beq _02172F7C
 	ldr r0, [r6, #4]
@@ -5314,7 +5314,7 @@ _02172E04:
 	add r2, r2, #1
 	cmp r2, #0
 	mov r8, r0, asr #0x10
-	mov sb, r1, asr #0x10
+	mov r9, r1, asr #0x10
 	mov r0, r3, lsl #0x10
 	mov r7, #0
 	ble _02172F7C
@@ -5323,17 +5323,17 @@ _02172E04:
 	mov r4, r0, asr #0x10
 	add r5, sp, #8
 _02172E80:
-	add r0, sb, #0x10
+	add r0, r9, #0x10
 	mov r0, r0, lsl #0x10
 	mov ip, r0, asr #0x10
 	mov r0, r5
 	mov r1, r8
-	mov r2, sb
+	mov r2, r9
 	mov r3, r4
 	str ip, [sp]
 	bl ObjRect__SetBox2D
-	ldrh r1, [fp, #0x14]
-	ldrh r2, [fp, #0x16]
+	ldrh r1, [r11, #0x14]
+	ldrh r2, [r11, #0x16]
 	mov r0, r5
 	mov r3, #0
 	bl ObjRect__RectPointCheck
@@ -5381,13 +5381,13 @@ _02172F28:
 	b _02172F7C
 _02172F54:
 	ldrsh r2, [r6, #0x2c]
-	add r0, sb, #0x10
+	add r0, r9, #0x10
 	add r1, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r1, r1, lsl #0x10
 	add r2, r2, #1
 	cmp r2, r1, asr #16
-	mov sb, r0, asr #0x10
+	mov r9, r0, asr #0x10
 	mov r7, r1, asr #0x10
 	bgt _02172E80
 _02172F7C:
@@ -5446,13 +5446,13 @@ _02173028:
 	bl FontAnimator__GetDialogLineCount
 	mov r1, #0x18
 	mul r1, r0, r1
-	ldr r2, [sl, #0x2c]
+	ldr r2, [r10, #0x2c]
 	add r0, r2, #1
-	str r0, [sl, #0x2c]
+	str r0, [r10, #0x2c]
 	cmp r0, r1
 	ble _0217306C
 	mov r0, #0
-	str r0, [sl, #0x2c]
+	str r0, [r10, #0x2c]
 	ldrh r0, [r6, #0x26]
 	orr r0, r0, #8
 	strh r0, [r6, #0x26]
@@ -5491,10 +5491,10 @@ _02173098:
 	mov r2, r0
 	mov r1, #0x62
 	bl SailAudio__PlaySpatialSequence
-	mov r0, sl
+	mov r0, r10
 	bl SailMessageCommon__Func_217344C
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02173100:
 	ldr r0, [r6, #0x14]
 	cmp r0, #0
@@ -5505,7 +5505,7 @@ _02173100:
 	bl SailAudio__PlaySpatialSequence
 	b _0217313C
 _02173120:
-	ldr r0, [sl, #0x11c]
+	ldr r0, [r10, #0x11c]
 	cmp r0, #0
 	bne _0217313C
 	mov r0, #0
@@ -5513,10 +5513,10 @@ _02173120:
 	mov r1, #0x62
 	bl SailAudio__PlaySpatialSequence
 _0217313C:
-	mov r0, sl
+	mov r0, r10
 	bl SailMessageCommon__Func_2173658
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0217314C:
 	ldr r0, [r6, #0xc]
 	bl FontAnimator__AdvanceDialog
@@ -5570,17 +5570,17 @@ _021731F4:
 	orr r0, r0, #0x800
 	strh r0, [r6, #0x26]
 _02173200:
-	mov r0, sl
+	mov r0, r10
 	bl SailMessageCommon__Func_2173828
 	ldr r0, [r6, #0x14]
 	cmp r0, #0
 	addeq sp, sp, #0x20
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [r6, #0xc]
 	bl FontAnimator__IsEndOfLine
 	cmp r0, #0
 	addeq sp, sp, #0x20
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r1, [r6, #4]
 	ldrsh r2, [r6, #0x2a]
 	ldrsh r0, [r1, #0x12]
@@ -5623,7 +5623,7 @@ _02173200:
 	ldr r0, [r6, #0x14]
 	bl FontWindowMWControl__CallWindowFunc2
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021732D8: .word padInput
 _021732DC: .word touchInput
@@ -7427,7 +7427,7 @@ SailHUD__Func_2174BA4: // 0x02174BA4
 
 	arm_func_start SailHUD__Destructor
 SailHUD__Destructor: // 0x02174BCC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r4, r0
 	bl GetCurrentTaskWork_
 	mov r0, r4
@@ -7462,14 +7462,14 @@ _02174C38:
 	mov r4, r7
 	mov r8, #0x64
 _02174C4C:
-	mla sb, r7, r8, r6
-	ldr r1, [sb, #0x44]
+	mla r9, r7, r8, r6
+	ldr r1, [r9, #0x44]
 	cmp r1, #0
 	beq _02174C74
 	mov r0, r5
 	bl VRAMSystem__FreeSpriteVram
-	str r4, [sb, #0x44]
-	ldrh r0, [sb, #0x50]
+	str r4, [r9, #0x44]
+	ldrh r0, [r9, #0x50]
 	and r0, r0, #0xff
 	bl ObjDrawReleaseSpritePalette
 _02174C74:
@@ -7482,7 +7482,7 @@ _02174C74:
 	bl ObjDrawReleaseSprite
 	ldr r0, _02174CA0 // =0x0000040B
 	bl ObjDrawReleaseSprite
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02174C9C: .word 0x0000040A
 _02174CA0: .word 0x0000040B
@@ -7560,9 +7560,9 @@ _02174D94: .word 0x05000200
 
 	arm_func_start SailHUD__InitCommonSprites
 SailHUD__InitCommonSprites: // 0x02174D98
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
-	mov sl, r0
+	mov r10, r0
 	mov r0, #0x26
 	bl GetObjectFileWork
 	mov r4, r0
@@ -7583,7 +7583,7 @@ SailHUD__InitCommonSprites: // 0x02174D98
 	str r1, [sp, #8]
 	str r0, [sp, #0xc]
 	str r0, [sp, #0x10]
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	mov r3, r4
 	bl SailHUD__InitAnimator
@@ -7596,12 +7596,12 @@ SailHUD__InitCommonSprites: // 0x02174D98
 	str r0, [sp, #0xc]
 	mov r0, #0x4000
 	str r0, [sp, #0x10]
-	mov r0, sl
+	mov r0, r10
 	mov r1, #8
 	mov r2, #4
 	mov r3, r4
 	bl SailHUD__InitAnimator
-	ldr r0, [sl]
+	ldr r0, [r10]
 	tst r0, #0x20
 	bne _02174E80
 	mov r1, #1
@@ -7611,7 +7611,7 @@ SailHUD__InitCommonSprites: // 0x02174D98
 	str r2, [sp, #4]
 	str r0, [sp, #8]
 	mov r2, #0xa6000
-	mov r0, sl
+	mov r0, r10
 	mov r3, r4
 	str r2, [sp, #0xc]
 	mov r5, #0xd000
@@ -7627,7 +7627,7 @@ _02174E80:
 	mov r5, #0
 	str r0, [sp, #8]
 	str r5, [sp, #0xc]
-	mov r0, sl
+	mov r0, r10
 	mov r3, r4
 	mov r1, #2
 	mov r2, #0x1c
@@ -7644,7 +7644,7 @@ _02174E80:
 	str r0, [sp, #8]
 	str r5, [sp, #0xc]
 	mov r5, #0
-	mov r0, sl
+	mov r0, r10
 	mov r3, r4
 	mov r2, #0x1d
 	str r5, [sp, #0x10]
@@ -7658,7 +7658,7 @@ _02174E80:
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
 	mov r5, #0xf000
-	mov r0, sl
+	mov r0, r10
 	mov r3, r4
 	mov r1, #4
 	mov r2, #6
@@ -7674,7 +7674,7 @@ _02174E80:
 	str r1, [sp, #0xc]
 	mov r2, r5
 	str r2, [sp, #0x10]
-	mov r0, sl
+	mov r0, r10
 	mov r3, r4
 	mov r1, #5
 	mov r2, #7
@@ -7689,20 +7689,20 @@ _02174E80:
 	str r0, [sp, #0xc]
 	mov r0, #0x10000
 	str r0, [sp, #0x10]
-	mov r0, sl
+	mov r0, r10
 	mov r1, #6
 	mov r2, #8
 	mov r3, r4
 	bl SailHUD__InitAnimator
 	mov r1, #0
-	add r0, sl, #0x2ec
+	add r0, r10, #0x2ec
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	ldr r1, [sl, #0x328]
+	ldr r1, [r10, #0x328]
 	mov r0, #0x2000
 	orr r1, r1, #4
-	str r1, [sl, #0x328]
-	str r0, [sl, #0x324]
+	str r1, [r10, #0x328]
+	str r0, [r10, #0x324]
 	mov r0, #1
 	str r0, [sp]
 	str r0, [sp, #4]
@@ -7712,12 +7712,12 @@ _02174E80:
 	str r0, [sp, #0xc]
 	mov r0, #0x10000
 	str r0, [sp, #0x10]
-	mov r0, sl
+	mov r0, r10
 	mov r1, #7
 	mov r2, #0xb
 	mov r3, r4
 	bl SailHUD__InitAnimator
-	ldr r0, [sl]
+	ldr r0, [r10]
 	tst r0, #0x20
 	bne _02175084
 	mov r1, #1
@@ -7728,7 +7728,7 @@ _02174E80:
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
 	mov r5, #0xd000
-	mov r0, sl
+	mov r0, r10
 	mov r3, r4
 	mov r1, #9
 	mov r2, #0x13
@@ -7743,7 +7743,7 @@ _02174E80:
 	mov r1, #0xaf000
 	str r1, [sp, #0xc]
 	mov r4, r5
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0xa
 	mov r2, #0x13
 	str r4, [sp, #0x10]
@@ -7758,9 +7758,9 @@ _02175084:
 	mov r0, r4
 	bl ObjDataLoad
 	mov r7, #0
-	ldr fp, _021754A8 // =0x05000200
+	ldr r11, _021754A8 // =0x05000200
 	mov r8, r0
-	add r5, sl, #0x94
+	add r5, r10, #0x94
 	mov r4, r7
 _021750B8:
 	add r0, r7, #0xb
@@ -7768,7 +7768,7 @@ _021750B8:
 	mov r6, r0, lsr #0x10
 	add r1, r7, #0x30
 	mov r0, #0x64
-	mla sb, r1, r0, r5
+	mla r9, r1, r0, r5
 	mov r0, r8
 	mov r1, r6
 	bl Sprite__GetSpriteSize2FromAnim
@@ -7779,10 +7779,10 @@ _021750B8:
 	str r4, [sp, #4]
 	str r0, [sp, #8]
 	str r4, [sp, #0xc]
-	str fp, [sp, #0x10]
+	str r11, [sp, #0x10]
 	mov r0, #1
 	str r0, [sp, #0x14]
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	mov r2, r6
 	mov r3, #0x10
@@ -7793,8 +7793,8 @@ _021750B8:
 	mov r0, r8
 	bl ObjDrawAllocSpritePalette
 	mov r1, #0
-	strh r0, [sb, #0x50]
-	mov r0, sb
+	strh r0, [r9, #0x50]
+	mov r0, r9
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
 	add r0, r7, #1
@@ -7802,13 +7802,13 @@ _021750B8:
 	mov r7, r0, lsr #0x10
 	cmp r7, #0xa
 	bls _021750B8
-	mov sb, #0
+	mov r9, #0
 	ldr r4, _021754A8 // =0x05000200
-	add r6, sl, #0x94
-	mov r5, sb
-	mov fp, #1
+	add r6, r10, #0x94
+	mov r5, r9
+	mov r11, #1
 _02175168:
-	add r1, sb, #0x3b
+	add r1, r9, #0x3b
 	mov r0, #0x64
 	mla r7, r1, r0, r6
 	mov r0, r8
@@ -7822,24 +7822,24 @@ _02175168:
 	str r0, [sp, #8]
 	str r5, [sp, #0xc]
 	str r4, [sp, #0x10]
-	str fp, [sp, #0x14]
+	str r11, [sp, #0x14]
 	mov r0, r7
 	mov r1, r8
 	mov r2, r5
 	mov r3, #0x810
-	str fp, [sp, #0x18]
+	str r11, [sp, #0x18]
 	bl AnimatorSprite__Init
 	ldr r2, _021754AC // =0x00000406
 	mov r0, r8
 	mov r1, #0
 	bl ObjDrawAllocSpritePalette
 	strh r0, [r7, #0x50]
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #3
+	mov r9, r0, lsr #0x10
+	cmp r9, #3
 	bls _02175168
-	add r2, sl, #0x930
+	add r2, r10, #0x930
 	mov r0, r8
 	mov r1, #0xa
 	add r4, r2, #0x1000
@@ -7872,18 +7872,18 @@ _02175168:
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
 	mov r7, #0
-	ldr fp, _021754A8 // =0x05000200
-	add r5, sl, #0x94
+	ldr r11, _021754A8 // =0x05000200
+	add r5, r10, #0x94
 	mov r4, r7
 _02175274:
 	add r0, r7, #0x16
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 	add r1, r7, #0x40
 	mov r0, #0x64
 	mla r6, r1, r0, r5
 	mov r0, r8
-	mov r1, sb
+	mov r1, r9
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
 	mov r0, #0
@@ -7892,17 +7892,17 @@ _02175274:
 	str r4, [sp, #4]
 	str r0, [sp, #8]
 	str r4, [sp, #0xc]
-	str fp, [sp, #0x10]
+	str r11, [sp, #0x10]
 	mov r0, #1
 	str r0, [sp, #0x14]
 	str r0, [sp, #0x18]
 	mov r0, r6
 	mov r1, r8
-	mov r2, sb
+	mov r2, r9
 	mov r3, #0x10
 	bl AnimatorSprite__Init
 	ldr r2, _021754AC // =0x00000406
-	mov r1, sb
+	mov r1, r9
 	mov r0, r8
 	bl ObjDrawAllocSpritePalette
 	mov r1, #0
@@ -7916,18 +7916,18 @@ _02175274:
 	cmp r7, #0xb
 	bls _02175274
 	mov r7, #0
-	ldr fp, _021754A8 // =0x05000200
-	add r5, sl, #0x94
+	ldr r11, _021754A8 // =0x05000200
+	add r5, r10, #0x94
 	mov r4, r7
 _02175320:
 	add r0, r7, #0x24
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 	add r1, r7, #0x4c
 	mov r0, #0x64
 	mla r6, r1, r0, r5
 	mov r0, r8
-	mov r1, sb
+	mov r1, r9
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
 	mov r0, #0
@@ -7936,17 +7936,17 @@ _02175320:
 	str r4, [sp, #4]
 	str r0, [sp, #8]
 	str r4, [sp, #0xc]
-	str fp, [sp, #0x10]
+	str r11, [sp, #0x10]
 	mov r0, #1
 	str r0, [sp, #0x14]
 	str r0, [sp, #0x18]
 	mov r0, r6
 	mov r1, r8
-	mov r2, sb
+	mov r2, r9
 	mov r3, #0x10
 	bl AnimatorSprite__Init
 	ldr r2, _021754B0 // =0x00000407
-	mov r1, sb
+	mov r1, r9
 	mov r0, r8
 	bl ObjDrawAllocSpritePalette
 	mov r1, #0
@@ -7959,20 +7959,20 @@ _02175320:
 	mov r7, r0, lsr #0x10
 	cmp r7, #0xb
 	bls _02175320
-	mov sb, #0
+	mov r9, #0
 	ldr r4, _021754A8 // =0x05000200
-	add r6, sl, #0x94
-	mov r5, sb
-	mov fp, #1
+	add r6, r10, #0x94
+	mov r5, r9
+	mov r11, #1
 _021753D0:
-	add r0, sb, #0x30
+	add r0, r9, #0x30
 	mov r0, r0, lsl #0x10
-	mov sl, r0, lsr #0x10
-	add r2, sb, #0x58
+	mov r10, r0, lsr #0x10
+	add r2, r9, #0x58
 	mov r1, #0x64
 	mla r7, r2, r1, r6
 	mov r0, r8
-	mov r1, sl
+	mov r1, r10
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
 	mov r0, #0
@@ -7982,15 +7982,15 @@ _021753D0:
 	str r0, [sp, #8]
 	str r5, [sp, #0xc]
 	str r4, [sp, #0x10]
-	str fp, [sp, #0x14]
+	str r11, [sp, #0x14]
 	mov r0, r7
 	mov r1, r8
-	mov r2, sl
+	mov r2, r10
 	mov r3, #0x10
-	str fp, [sp, #0x18]
+	str r11, [sp, #0x18]
 	bl AnimatorSprite__Init
 	ldr r2, _021754AC // =0x00000406
-	mov r1, sl
+	mov r1, r10
 	mov r0, r8
 	bl ObjDrawAllocSpritePalette
 	mov r1, #0
@@ -7998,10 +7998,10 @@ _021753D0:
 	mov r0, r7
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #0xb
+	mov r9, r0, lsr #0x10
+	cmp r9, #0xb
 	bls _021753D0
 	mov r1, #0x22
 	mov r0, r8
@@ -8012,7 +8012,7 @@ _021753D0:
 	add r2, r1, #0x3e8
 	bl ObjDrawAllocSpritePalette
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02175490: .word aSbFixBac
 _02175494: .word 0x00000402
@@ -8027,13 +8027,13 @@ _021754B0: .word 0x00000407
 
 	arm_func_start SailHUD__InitBoatSprites
 SailHUD__InitBoatSprites: // 0x021754B4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
-	mov sl, r0
-	ldr r0, [sl]
+	mov r10, r0
+	ldr r0, [r10]
 	tst r0, #0x40
 	addne sp, sp, #0x1c
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, #0x42
 	bl GetObjectFileWork
 	mov r4, r0
@@ -8045,27 +8045,27 @@ SailHUD__InitBoatSprites: // 0x021754B4
 	ldr r5, _02175964 // =0x00000414
 	mov r7, r0
 	mov r8, #0
-	add r4, sl, #0x94
+	add r4, r10, #0x94
 	mov r6, #1
-	mov fp, #0xa8000
+	mov r11, #0xa8000
 _02175508:
 	mov r0, #0x3a000
 	mul r0, r8, r0
 	str r6, [sp]
 	str r6, [sp, #4]
-	add sb, r8, #0xb
-	mov r1, sb, lsl #0x10
+	add r9, r8, #0xb
+	mov r1, r9, lsl #0x10
 	str r5, [sp, #8]
 	add r0, r0, #0x2a000
 	str r0, [sp, #0xc]
-	mov r0, sl
+	mov r0, r10
 	mov r2, #0
 	mov r1, r1, lsr #0x10
 	mov r3, r7
-	str fp, [sp, #0x10]
+	str r11, [sp, #0x10]
 	bl SailHUD__InitAnimator
 	mov r0, #0x64
-	mla r2, sb, r0, r4
+	mla r2, r9, r0, r4
 	add r0, r8, #1
 	ldr r1, [r2, #0x3c]
 	mov r0, r0, lsl #0x10
@@ -8082,39 +8082,39 @@ _02175508:
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
 	mov r4, #0xa8000
-	mov r0, sl
+	mov r0, r10
 	mov r3, r7
 	mov r1, #0x20
 	mov r2, #0x13
 	str r4, [sp, #0x10]
 	bl SailHUD__InitAnimator
 	ldr r6, _0217596C // =0x00000415
-	mov sb, #0
+	mov r9, #0
 	mov r8, #1
 	mov r5, #0xab000
-	mov fp, #2
+	mov r11, #2
 	mov r4, #0x7000
 _021755BC:
-	mul r2, sb, r4
+	mul r2, r9, r4
 	str r8, [sp]
 	str r8, [sp, #4]
-	add r0, sb, #0x11
+	add r0, r9, #0x11
 	mov r1, r0, lsl #0x10
 	str r6, [sp, #8]
 	add r0, r2, #0x31000
 	str r0, [sp, #0xc]
-	mov r0, sl
-	mov r2, fp
+	mov r0, r10
+	mov r2, r11
 	mov r3, r7
 	mov r1, r1, lsr #0x10
 	str r5, [sp, #0x10]
 	bl SailHUD__InitAnimator
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #6
+	mov r9, r0, lsr #0x10
+	cmp r9, #6
 	bls _021755BC
-	add r0, sl, #0x2000
+	add r0, r10, #0x2000
 	mov r1, #0x31000
 	str r1, [r0, #0x894]
 	mov r1, #1
@@ -8125,39 +8125,39 @@ _021755BC:
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
 	mov r4, #0xab000
-	mov r0, sl
+	mov r0, r10
 	mov r3, r7
 	mov r1, #0x18
 	mov r2, #4
 	str r4, [sp, #0x10]
 	bl SailHUD__InitAnimator
 	ldr r5, _0217596C // =0x00000415
-	mov sb, #0
+	mov r9, #0
 	mov r6, #1
 	mov r4, #0xac000
-	mov fp, #0x2000
+	mov r11, #0x2000
 _02175660:
 	str r6, [sp]
 	str r6, [sp, #4]
-	add r8, sb, #0x19
-	mov r0, sb, lsl #0x10
+	add r8, r9, #0x19
+	mov r0, r9, lsl #0x10
 	mov r1, r8, lsl #0x10
 	str r5, [sp, #8]
 	add r0, r0, #0x68000
 	str r0, [sp, #0xc]
-	mov r0, sl
+	mov r0, r10
 	mov r2, #5
 	mov r3, r7
 	mov r1, r1, lsr #0x10
 	str r4, [sp, #0x10]
 	bl SailHUD__InitAnimator
 	mov r0, #0x64
-	mla r1, r8, r0, sl
-	add r0, sb, #1
+	mla r1, r8, r0, r10
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	str fp, [r1, #0xcc]
-	cmp sb, #2
+	mov r9, r0, lsr #0x10
+	str r11, [r1, #0xcc]
+	cmp r9, #2
 	bls _02175660
 	mov r1, #1
 	str r1, [sp]
@@ -8167,7 +8167,7 @@ _02175660:
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
 	mov r4, #0xac000
-	mov r0, sl
+	mov r0, r10
 	mov r3, r7
 	mov r1, #0x1c
 	mov r2, #7
@@ -8180,13 +8180,13 @@ _02175660:
 	mov r1, #0xb7000
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
-	mov r0, sl
+	mov r0, r10
 	mov r3, r7
 	mov r1, #0x1d
 	mov r2, #0xa
 	str r4, [sp, #0x10]
 	bl SailHUD__InitAnimator
-	add r0, sl, #0x3e8
+	add r0, r10, #0x3e8
 	ldr r2, [r0, #0x83c]
 	mov r1, #1
 	orr r2, r2, #4
@@ -8199,14 +8199,14 @@ _02175660:
 	str r1, [sp, #0xc]
 	mov r2, r4
 	str r2, [sp, #0x10]
-	mov r0, sl
+	mov r0, r10
 	mov r3, r7
 	mov r1, #0x1e
 	mov r2, #9
 	bl SailHUD__InitAnimator
 	mov r0, r7
 	mov r1, #0xb
-	add r4, sl, #0xcb0
+	add r4, r10, #0xcb0
 	bl Sprite__GetSpriteSize2FromAnim
 	add r1, r0, r0, lsl #1
 	mov r0, #0
@@ -8231,7 +8231,7 @@ _02175660:
 	mov r1, #0xb
 	bl ObjDrawAllocSpritePalette
 	strh r0, [r4, #0x50]
-	add r0, sl, #0x2000
+	add r0, r10, #0x2000
 	mov r1, #0xb7000
 	str r1, [r0, #0x8d4]
 	mov r1, #0xac000
@@ -8244,7 +8244,7 @@ _02175660:
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
 	mov r4, #0xa8000
-	mov r0, sl
+	mov r0, r10
 	mov r3, r7
 	mov r1, #0x21
 	mov r2, #0x1e
@@ -8257,7 +8257,7 @@ _02175660:
 	mov r1, #0x2a000
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
-	mov r0, sl
+	mov r0, r10
 	mov r3, r7
 	mov r1, #0x22
 	mov r2, #0x1f
@@ -8278,7 +8278,7 @@ _02175868:
 	str r5, [sp, #8]
 	add r0, r3, #0x2e000
 	str r0, [sp, #0xc]
-	mov r0, sl
+	mov r0, r10
 	mov r3, r7
 	mov r1, r1, lsr #0x10
 	mov r2, r2, lsr #0x10
@@ -8299,38 +8299,38 @@ _02175868:
 	bl ObjDataLoad
 	ldr r5, _0217596C // =0x00000415
 	mov r8, r0
-	mov sb, #0
-	add r4, sl, #0x94
+	mov r9, #0
+	add r4, r10, #0x94
 	mov r6, #1
-	mov fp, #0xa8000
+	mov r11, #0xa8000
 _021758F4:
 	mov r0, #0x3a000
-	mul r0, sb, r0
+	mul r0, r9, r0
 	str r6, [sp]
 	str r6, [sp, #4]
-	add r7, sb, #0xe
+	add r7, r9, #0xe
 	mov r1, r7, lsl #0x10
 	str r5, [sp, #8]
 	add r0, r0, #0x2f000
 	str r0, [sp, #0xc]
-	mov r0, sl
-	mov r2, sb
+	mov r0, r10
+	mov r2, r9
 	mov r3, r8
 	mov r1, r1, lsr #0x10
-	str fp, [sp, #0x10]
+	str r11, [sp, #0x10]
 	bl SailHUD__InitAnimator
 	mov r0, #0x64
 	mla r2, r7, r0, r4
-	add r0, sb, #1
+	add r0, r9, #1
 	ldr r1, [r2, #0x3c]
 	mov r0, r0, lsl #0x10
 	orr r1, r1, #0x800
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 	str r1, [r2, #0x3c]
-	cmp sb, #3
+	cmp r9, #3
 	blo _021758F4
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02175960: .word aSbSilFixBac
 _02175964: .word 0x00000414
@@ -8403,9 +8403,9 @@ _02175A54: .word 0x0000040E
 
 	arm_func_start SailHUD__Func_2175A58
 SailHUD__Func_2175A58: // 0x02175A58
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
-	mov sl, r0
+	mov r10, r0
 	bl SailManager__GetWork
 	ldr r0, [r0, #0x70]
 	mov r8, #0
@@ -8417,110 +8417,110 @@ SailHUD__Func_2175A58: // 0x02175A58
 	ldrne r8, [r0, #0x124]
 	cmp r8, #0
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	ldr r0, [sl, #0x10]
-	str r0, [sl, #0x14]
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	ldr r0, [r10, #0x10]
+	str r0, [r10, #0x14]
 	ldr r0, [r8, #0x1b8]
-	str r0, [sl, #0x10]
-	ldr r0, [sl]
+	str r0, [r10, #0x10]
+	ldr r0, [r10]
 	tst r0, #0x100
 	ldrne r0, [r8, #0x1fc]
 	ldreq r0, [r8, #0x1bc]
-	str r0, [sl, #0x18]
-	ldr r1, [sl, #0x10]
-	ldr r0, [sl, #0x14]
+	str r0, [r10, #0x18]
+	ldr r1, [r10, #0x10]
+	ldr r0, [r10, #0x14]
 	cmp r0, r1
 	beq _02175ADC
 	ble _02175ADC
 	mov r0, #0x20
-	strh r0, [sl, #0x30]
+	strh r0, [r10, #0x30]
 	mov r0, #0x10
-	strh r0, [sl, #0x32]
+	strh r0, [r10, #0x32]
 _02175ADC:
-	ldr r0, [sl]
+	ldr r0, [r10]
 	tst r0, #1
 	bne _02175B0C
-	ldr r0, [sl, #0x10]
-	str r0, [sl, #8]
-	ldr r0, [sl, #0x10]
-	str r0, [sl, #0x28]
-	ldr r0, [sl, #0x18]
-	str r0, [sl, #0xc]
-	ldr r0, [sl]
+	ldr r0, [r10, #0x10]
+	str r0, [r10, #8]
+	ldr r0, [r10, #0x10]
+	str r0, [r10, #0x28]
+	ldr r0, [r10, #0x18]
+	str r0, [r10, #0xc]
+	ldr r0, [r10]
 	orr r0, r0, #1
-	str r0, [sl]
+	str r0, [r10]
 _02175B0C:
 	add r0, r8, #0x100
 	ldrh r1, [r0, #0xc4]
-	add r0, sl, #0x78
+	add r0, r10, #0x78
 	mov r2, #0x3e8
 	bl SailHUD__GetScore
 	ldr r1, [r8, #0x1a8]
 	ldr r2, _02175FA0 // =0x05F5E100
-	add r0, sl, #0x88
+	add r0, r10, #0x88
 	bl SailHUD__GetScore
-	ldr r0, [sl]
+	ldr r0, [r10]
 	tst r0, #0x80
 	bne _02175B48
 	ldr r1, [r4, #0x20]
-	add r0, sl, #0x90
+	add r0, r10, #0x90
 	bl MultibootManager__Func_2063CF4
 _02175B48:
-	ldr r0, [sl]
+	ldr r0, [r10]
 	tst r0, #0x40
 	bne _02175F3C
 	add r5, r8, #0x200
-	ldrh r1, [sl, #0x34]
+	ldrh r1, [r10, #0x34]
 	ldrh r0, [r5, #0xe]
 	cmp r1, r0
 	beq _02175BEC
-	mov sb, #0
-	add r7, sl, #0x94
-	mov fp, sb
+	mov r9, #0
+	add r7, r10, #0x94
+	mov r11, r9
 	mov r6, #1
 	mov r4, #0x64
 _02175B7C:
-	add r1, sb, #0xb
+	add r1, r9, #0xb
 	mul r2, r1, r4
 	ldrh r0, [r5, #0xe]
 	mov r1, r6
-	cmp r0, sb
-	moveq r1, fp
+	cmp r0, r9
+	moveq r1, r11
 	add r0, r7, r2
 	bl AnimatorSprite__SetAnimation
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #3
+	mov r9, r0, lsr #0x10
+	cmp r9, #3
 	blo _02175B7C
-	add r0, sl, #0x114
+	add r0, r10, #0x114
 	add r0, r0, #0xc00
 	mov r1, #0x13
 	bl AnimatorSprite__SetAnimation
 	add r2, r8, #0x200
 	ldrh r3, [r2, #0xe]
 	mov r0, #0x3a000
-	add r1, sl, #0x2000
+	add r1, r10, #0x2000
 	mul r0, r3, r0
 	add r0, r0, #0x2a000
 	str r0, [r1, #0x8dc]
 	mov r0, #0xa8000
 	str r0, [r1, #0x8e0]
 	ldrh r0, [r2, #0xe]
-	strh r0, [sl, #0x34]
+	strh r0, [r10, #0x34]
 _02175BEC:
 	mov r5, #0x400
-	mov sb, #0
+	mov r9, #0
 	add r4, r8, #0x200
-	mov fp, #0xe000
+	mov r11, #0xe000
 	mov r7, r5
 	mov r6, #2
 _02175C04:
 	ldrh r0, [r4, #0xe]
-	cmp r0, sb
+	cmp r0, r9
 	bne _02175C30
 	str r7, [sp]
-	add r0, sl, sb, lsl #2
+	add r0, r10, r9, lsl #2
 	mov r1, #0
 	ldr r0, [r0, #0x5c]
 	mov r2, r6
@@ -8529,21 +8529,21 @@ _02175C04:
 	b _02175C4C
 _02175C30:
 	str r5, [sp]
-	add r0, sl, sb, lsl #2
+	add r0, r10, r9, lsl #2
 	ldr r0, [r0, #0x5c]
-	mov r1, fp
+	mov r1, r11
 	mov r2, #2
 	mov r3, #0
 	bl ObjShiftSet
 _02175C4C:
-	add r1, sl, sb, lsl #2
+	add r1, r10, r9, lsl #2
 	str r0, [r1, #0x5c]
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #3
+	mov r9, r0, lsr #0x10
+	cmp r9, #3
 	blo _02175C04
-	ldr r1, [sl, #0x38]
+	ldr r1, [r10, #0x38]
 	ldr r0, [r8, #0x214]
 	cmp r1, r0
 	beq _02175CD0
@@ -8551,64 +8551,64 @@ _02175C4C:
 	mov r3, #0x7000
 _02175C80:
 	add r0, r1, #1
-	add r2, sl, r1, lsl #3
+	add r2, r10, r1, lsl #3
 	mov r1, r0, lsl #0x10
 	add r0, r2, #0x2000
 	mov r1, r1, lsr #0x10
 	str r3, [r0, #0x7a4]
 	cmp r1, #5
 	bls _02175C80
-	ldr r1, [sl, #0x38]
+	ldr r1, [r10, #0x38]
 	ldr r0, [r8, #0x214]
 	cmp r1, r0
 	ble _02175CD0
-	add r0, sl, #0x990
+	add r0, r10, #0x990
 	mov r1, #3
 	bl AnimatorSprite__SetAnimation
 	mov r0, #5
-	strh r0, [sl, #0x70]
-	add r0, sl, #0x2000
+	strh r0, [r10, #0x70]
+	add r0, r10, #0x2000
 	mov r1, #0
 	str r1, [r0, #0x7d8]
 _02175CD0:
-	ldr r0, [sl, #0x50]
+	ldr r0, [r10, #0x50]
 	cmp r0, #0
 	bne _02175D40
 	mov r5, #0
 	mov r4, #0x2000
 _02175CE4:
-	add r0, sl, r5, lsl #3
+	add r0, r10, r5, lsl #3
 	add r0, r0, #0x2000
 	ldr r0, [r0, #0x7a4]
 	mov r1, r4
 	bl ObjSpdDownSet
 	add r1, r5, #1
-	add r3, sl, r5, lsl #3
+	add r3, r10, r5, lsl #3
 	mov r2, r1, lsl #0x10
 	add r1, r3, #0x2000
 	mov r5, r2, lsr #0x10
 	str r0, [r1, #0x7a4]
 	cmp r5, #5
 	bls _02175CE4
-	ldrh r0, [sl, #0x70]
+	ldrh r0, [r10, #0x70]
 	cmp r0, #0
 	beq _02175D40
-	add r0, sl, #0x2000
+	add r0, r10, #0x2000
 	ldr r1, [r0, #0x7d8]
 	sub r1, r1, #0x2000
 	str r1, [r0, #0x7d8]
-	ldrh r0, [sl, #0x70]
+	ldrh r0, [r10, #0x70]
 	sub r0, r0, #1
-	strh r0, [sl, #0x70]
+	strh r0, [r10, #0x70]
 _02175D40:
 	ldr r0, [r8, #0x214]
-	str r0, [sl, #0x38]
+	str r0, [r10, #0x38]
 	ldr r1, [r8, #0x218]
-	ldr r0, [sl, #0x3c]
+	ldr r0, [r10, #0x3c]
 	cmp r0, r1
 	bge _02175D90
 	mov r7, #0
-	add r4, sl, #0x94
+	add r4, r10, #0x94
 	mov r6, #5
 	mov r5, #0x64
 _02175D68:
@@ -8628,7 +8628,7 @@ _02175D90:
 	sub r0, r0, #1
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	add r2, sl, #0x94
+	add r2, r10, #0x94
 	add r1, r0, #0x19
 	mov r0, #0x64
 	mla r0, r1, r0, r2
@@ -8636,12 +8636,12 @@ _02175D90:
 	bl AnimatorSprite__SetAnimation
 _02175DBC:
 	ldr r0, [r8, #0x218]
-	str r0, [sl, #0x3c]
+	str r0, [r10, #0x3c]
 	ldr r2, [r8, #0x21c]
-	ldr r1, [sl, #0x40]
+	ldr r1, [r10, #0x40]
 	cmp r1, r2
 	beq _02175E64
-	add r0, sl, #0x384
+	add r0, r10, #0x384
 	add r4, r0, #0x800
 	cmp r1, r2
 	ldrh r0, [r4, #0xc]
@@ -8669,60 +8669,60 @@ _02175E14:
 _02175E34:
 	ldr r0, [r8, #0x21c]
 	mov r1, #0xaa
-	str r0, [sl, #0x40]
+	str r0, [r10, #0x40]
 	bl FX_DivS32
-	strh r0, [sl, #0x6e]
-	ldr r0, [sl, #0x40]
+	strh r0, [r10, #0x6e]
+	ldr r0, [r10, #0x40]
 	cmp r0, #0
 	beq _02175E64
-	ldrsh r0, [sl, #0x6e]
+	ldrsh r0, [r10, #0x6e]
 	cmp r0, #0
 	addeq r0, r0, #1
-	streqh r0, [sl, #0x6e]
+	streqh r0, [r10, #0x6e]
 _02175E64:
-	mov sb, #0
-	mov fp, #0x55
+	mov r9, #0
+	mov r11, #0x55
 	mov r5, #0x100
 	mov r6, #0x200
 	mov r4, #8
 _02175E78:
-	add r1, sl, sb, lsl #2
-	add r0, r8, sb, lsl #2
+	add r1, r10, r9, lsl #2
+	add r0, r8, r9, lsl #2
 	ldr r7, [r1, #0x44]
 	ldr r0, [r0, #0x220]
 	cmp r7, r0
 	beq _02175EF0
-	cmp sb, #0
+	cmp r9, #0
 	beq _02175EAC
-	cmp sb, #1
+	cmp r9, #1
 	beq _02175EC4
-	cmp sb, #2
+	cmp r9, #2
 	beq _02175EDC
 	b _02175EF0
 _02175EAC:
 	mov r0, r7
 	mov r1, r6
 	bl FX_DivS32
-	add r1, sl, sb, lsl #1
+	add r1, r10, r9, lsl #1
 	strh r0, [r1, #0x68]
 	b _02175EF0
 _02175EC4:
 	mov r0, r7
 	mov r1, r5
 	bl FX_DivS32
-	add r1, sl, sb, lsl #1
+	add r1, r10, r9, lsl #1
 	strh r0, [r1, #0x68]
 	b _02175EF0
 _02175EDC:
 	mov r0, r7
-	mov r1, fp
+	mov r1, r11
 	bl FX_DivS32
-	add r1, sl, sb, lsl #1
+	add r1, r10, r9, lsl #1
 	strh r0, [r1, #0x68]
 _02175EF0:
-	add r0, r8, sb, lsl #2
+	add r0, r8, r9, lsl #2
 	ldr r0, [r0, #0x220]
-	add r1, sl, sb, lsl #2
+	add r1, r10, r9, lsl #2
 	str r0, [r1, #0x44]
 	cmp r7, #0
 	beq _02175F14
@@ -8730,52 +8730,52 @@ _02175EF0:
 	cmp r0, #0
 	streq r4, [r1, #0x50]
 _02175F14:
-	add r1, sl, sb, lsl #2
+	add r1, r10, r9, lsl #2
 	ldr r0, [r1, #0x50]
 	cmp r0, #0
 	subne r0, r0, #1
 	strne r0, [r1, #0x50]
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #3
+	mov r9, r0, lsr #0x10
+	cmp r9, #3
 	blo _02175E78
 _02175F3C:
-	ldr r0, [sl]
+	ldr r0, [r10]
 	tst r0, #0x100
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp, #4]
 	ldr r1, [r0, #0x24]
-	add r0, sl, #0x228
+	add r0, r10, #0x228
 	add r0, r0, #0x1000
 	tst r1, #0x2000
 	ldrh r1, [r0, #0xc]
 	beq _02175F84
 	cmp r1, #1
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r1, #1
 	bl AnimatorSprite__SetAnimation
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02175F84:
 	cmp r1, #0
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r1, #0
 	bl AnimatorSprite__SetAnimation
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02175FA0: .word 0x05F5E100
 	arm_func_end SailHUD__Func_2175A58
 
 	arm_func_start SailHUD__Func_2175FA4
 SailHUD__Func_2175FA4: // 0x02175FA4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x14
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetWork
 	str r0, [sp, #0x10]
 	bl SailManager__GetWork
@@ -8791,16 +8791,16 @@ SailHUD__Func_2175FA4: // 0x02175FA4
 	ldr r0, [r0, #0x24]
 	tst r0, #1
 	bne _021760F8
-	ldr r0, [sb]
+	ldr r0, [r9]
 	tst r0, #2
 	beq _021760F8
 	mov r7, #0
 	mov r4, #0x400
-	mov sl, #2
+	mov r10, #2
 	mov r8, #1
 	mov r6, r4
-	mov r5, sl
-	mov fp, r7
+	mov r5, r10
+	mov r11, r7
 _02176014:
 	cmp r7, #0xa
 	addls pc, pc, r7, lsl #2
@@ -8818,10 +8818,10 @@ _02176020: // jump table
 	b _02176088 // case 9
 	b _02176088 // case 10
 _0217604C:
-	ldrh r0, [sb, #4]
+	ldrh r0, [r9, #4]
 	cmp r0, #8
 	bls _021760C0
-	add r0, sb, r7, lsl #3
+	add r0, r9, r7, lsl #3
 	add r0, r0, #0x2000
 	str r6, [sp]
 	mov r1, #0
@@ -8829,69 +8829,69 @@ _0217604C:
 	mov r2, r5
 	mov r3, r1
 	bl ObjShiftSet
-	add r1, sb, r7, lsl #3
+	add r1, r9, r7, lsl #3
 	add r1, r1, #0x2000
 	str r0, [r1, #0xb00]
 	b _021760C0
 _02176088:
-	ldrh r0, [sb, #4]
+	ldrh r0, [r9, #4]
 	cmp r0, #0xb
 	bls _021760C0
-	add r0, sb, r7, lsl #3
+	add r0, r9, r7, lsl #3
 	add r0, r0, #0x2000
 	str r4, [sp]
 	mov r1, #0
 	ldr r0, [r0, #0xb00]
-	mov r2, sl
+	mov r2, r10
 	mov r3, r1
 	bl ObjShiftSet
-	add r1, sb, r7, lsl #3
+	add r1, r9, r7, lsl #3
 	add r1, r1, #0x2000
 	str r0, [r1, #0xb00]
 _021760C0:
-	add r0, sb, r7, lsl #3
+	add r0, r9, r7, lsl #3
 	add r0, r0, #0x2000
 	ldr r0, [r0, #0xb00]
 	cmp r0, #0
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
-	movne r8, fp
+	movne r8, r11
 	cmp r7, #0x64
 	blo _02176014
 	cmp r8, #0
-	ldrne r0, [sb]
+	ldrne r0, [r9]
 	bicne r0, r0, #2
-	strne r0, [sb]
+	strne r0, [r9]
 _021760F8:
 	ldr r0, [sp, #0x10]
 	ldr r0, [r0, #0x24]
 	tst r0, #2
 	beq _02176198
-	mov sl, #0
+	mov r10, #0
 	mov r4, #0x30000
 	mov r5, #0x400
 	rsb r4, r4, #0
-	mov r6, sl
-	mov r8, sl
+	mov r6, r10
+	mov r8, r10
 	mov r7, r5
-	mov fp, #0x30000
+	mov r11, #0x30000
 _02176128:
-	cmp sl, #0xb
+	cmp r10, #0xb
 	mov r3, #2
 	blo _02176158
 	str r8, [sp]
-	add r0, sb, sl, lsl #3
+	add r0, r9, r10, lsl #3
 	str r7, [sp, #4]
 	add r0, r0, #0x2000
 	ldr r0, [r0, #0xb00]
-	mov r1, fp
+	mov r1, r11
 	mov r2, r8
 	bl ObjDiffSet
 	b _02176178
 _02176158:
 	str r6, [sp]
-	add r0, sb, sl, lsl #3
+	add r0, r9, r10, lsl #3
 	str r5, [sp, #4]
 	add r0, r0, #0x2000
 	ldr r0, [r0, #0xb00]
@@ -8899,29 +8899,29 @@ _02176158:
 	mov r2, r6
 	bl ObjDiffSet
 _02176178:
-	add r1, sb, sl, lsl #3
+	add r1, r9, r10, lsl #3
 	add r1, r1, #0x2000
 	str r0, [r1, #0xb00]
-	add r0, sl, #1
+	add r0, r10, #1
 	mov r0, r0, lsl #0x10
-	mov sl, r0, lsr #0x10
-	cmp sl, #0x64
+	mov r10, r0, lsr #0x10
+	cmp r10, #0x64
 	blo _02176128
 _02176198:
-	ldr r1, [sb, #0x10]
-	ldr r0, [sb, #0x24]
+	ldr r1, [r9, #0x10]
+	ldr r0, [r9, #0x24]
 	cmp r1, r0
 	bge _02176210
-	ldr r0, [sb]
+	ldr r0, [r9]
 	bic r0, r0, #8
 	orr r0, r0, #0x10
-	str r0, [sb]
-	ldrh r0, [sb, #4]
+	str r0, [r9]
+	ldrh r0, [r9, #4]
 	tst r0, #4
 	mov r0, #0x26
 	beq _021761EC
 	bl GetObjectFileWork
-	add r1, sb, #0x300
+	add r1, r9, #0x300
 	ldrh r2, [r1, #0x3c]
 	ldr r0, [r0]
 	mov r1, #0xa
@@ -8931,7 +8931,7 @@ _02176198:
 	b _0217629C
 _021761EC:
 	bl GetObjectFileWork
-	add r1, sb, #0x300
+	add r1, r9, #0x300
 	ldrh r2, [r1, #0x3c]
 	ldr r0, [r0]
 	mov r1, #9
@@ -8940,19 +8940,19 @@ _021761EC:
 	bl ObjDraw__TintSprite
 	b _0217629C
 _02176210:
-	ldr r0, [sb, #0x20]
+	ldr r0, [r9, #0x20]
 	cmp r1, r0
-	ldr r0, [sb]
+	ldr r0, [r9]
 	bge _02176260
 	bic r0, r0, #0x10
-	str r0, [sb]
+	str r0, [r9]
 	tst r0, #8
 	bne _0217629C
 	orr r1, r0, #8
 	mov r0, #0x26
-	str r1, [sb]
+	str r1, [r9]
 	bl GetObjectFileWork
-	add r1, sb, #0x300
+	add r1, r9, #0x300
 	ldrh r2, [r1, #0x3c]
 	ldr r0, [r0]
 	mov r1, #9
@@ -8965,24 +8965,24 @@ _02176260:
 	beq _0217629C
 	mov r0, #0x26
 	bl GetObjectFileWork
-	add r1, sb, #0x300
+	add r1, r9, #0x300
 	ldrh r2, [r1, #0x3c]
 	ldr r0, [r0]
 	mov r1, #8
 	and r2, r2, #0xff
 	mov r3, #0
 	bl ObjDraw__TintSprite
-	ldr r0, [sb]
+	ldr r0, [r9]
 	bic r0, r0, #0x10
 	bic r0, r0, #8
-	str r0, [sb]
+	str r0, [r9]
 _0217629C:
-	ldr r0, [sb]
+	ldr r0, [r9]
 	tst r0, #0x20
 	addne sp, sp, #0x14
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp, #0xc]
-	add r4, sb, #0x3b4
+	add r4, r9, #0x3b4
 	cmp r0, #0
 	beq _02176304
 	ldr r0, [r0, #0x24]
@@ -9020,14 +9020,14 @@ _02176328:
 	ldrnesh r0, [r0, #0xee]
 	cmpne r0, #0
 	bne _02176358
-	ldr r0, [sb]
+	ldr r0, [r9]
 	ands r1, r0, #0x100
 	beq _02176400
-	ldr r0, [sb, #0xc]
+	ldr r0, [r9, #0xc]
 	cmp r0, #0x120000
 	blt _02176400
 _02176358:
-	ldrh r0, [sb, #4]
+	ldrh r0, [r9, #4]
 	mov r1, #0
 	mov r2, r1
 	tst r0, #4
@@ -9035,7 +9035,7 @@ _02176358:
 	beq _021763D4
 	mov r3, r1
 	bl ObjDraw__TintPaletteRow
-	ldr r0, [sb]
+	ldr r0, [r9]
 	mov r1, #1
 	tst r0, #0x100
 	mov r2, #3
@@ -9048,7 +9048,7 @@ _02176358:
 	mov r3, #0x1f
 	bl ObjDraw__TintPaletteColors
 	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _021763B0:
 	mov r0, #0
 	str r0, [sp]
@@ -9058,7 +9058,7 @@ _021763B0:
 	mov r3, #0x1f
 	bl ObjDraw__TintPaletteColors
 	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _021763D4:
 	mov r3, r1
 	bl ObjDraw__TintPaletteRow
@@ -9070,21 +9070,21 @@ _021763D4:
 	mov r2, #3
 	bl ObjDraw__TintPaletteColors
 	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02176400:
 	cmp r1, #0
 	bne _02176414
-	ldr r0, [sb, #0x18]
+	ldr r0, [r9, #0x18]
 	cmp r0, #0x1e000
 	bge _02176428
 _02176414:
 	cmp r1, #0
 	beq _02176480
-	ldr r0, [sb, #0xc]
+	ldr r0, [r9, #0xc]
 	cmp r0, #0x60000
 	blt _02176480
 _02176428:
-	ldrh r0, [sb, #4]
+	ldrh r0, [r9, #4]
 	tst r0, #4
 	mov r0, #0x26
 	beq _0217645C
@@ -9096,7 +9096,7 @@ _02176428:
 	mov r3, #0
 	bl ObjDraw__TintSprite
 	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0217645C:
 	bl GetObjectFileWork
 	ldrh r2, [r4, #0x50]
@@ -9106,7 +9106,7 @@ _0217645C:
 	mov r3, #0
 	bl ObjDraw__TintSprite
 	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02176480:
 	mov r0, #0x26
 	bl GetObjectFileWork
@@ -9117,7 +9117,7 @@ _02176480:
 	mov r3, #0
 	bl ObjDraw__TintSprite
 	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end SailHUD__Func_2175FA4
 
 	arm_func_start SailHUD__Func_21764A8
@@ -9181,7 +9181,7 @@ _02176550:
 
 	arm_func_start SailHUD__Func_2176578
 SailHUD__Func_2176578: // 0x02176578
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x18
 	mov r4, r0
 	bl SailManager__GetWork
@@ -9197,7 +9197,7 @@ SailHUD__Func_2176578: // 0x02176578
 	ldrne r6, [r7, #0x124]
 	tst r0, #4
 	addne sp, sp, #0x18
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	ldrsh r0, [r4, #0x32]
 	cmp r0, #0
 	beq _021765F4
@@ -9294,12 +9294,12 @@ _021766B8:
 	mov r2, #0xa0
 	bl SailHUD__Func_2177C10
 _0217671C:
-	mov sb, #0
+	mov r9, #0
 	add r7, r4, #0x94
-	mov r6, sb
+	mov r6, r9
 	mov r5, #0x64
 _0217672C:
-	mla r8, sb, r5, r7
+	mla r8, r9, r5, r7
 	ldr r0, [r8, #0x14]
 	cmp r0, #0
 	beq _0217678C
@@ -9307,7 +9307,7 @@ _0217672C:
 	mov r1, r6
 	mov r2, r6
 	bl AnimatorSprite__ProcessAnimation
-	add r0, r4, sb, lsl #3
+	add r0, r4, r9, lsl #3
 	add r0, r0, #0x2000
 	ldrsh r3, [sp, #0x14]
 	ldr r2, [r0, #0x7dc]
@@ -9324,28 +9324,28 @@ _0217672C:
 	strh r1, [r8, #0xa]
 	bl AnimatorSprite__DrawFrame
 _0217678C:
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #4
+	mov r9, r0, lsr #0x10
+	cmp r9, #4
 	blo _0217672C
 	ldrh r0, [r4, #4]
 	ands r1, r0, #1
 	ldrne r0, [r4, #8]
 	ldreq r0, [r4, #0x28]
 	mov r0, r0, lsl #4
-	mov sb, r0, lsr #0x10
-	cmp sb, #4
+	mov r9, r0, lsr #0x10
+	cmp r9, #4
 	bhs _021767E4
 	cmp r1, #0
 	ldrne r0, [r4, #8]
 	cmpne r0, #0
-	movne sb, #4
+	movne r9, #4
 	cmp r1, #0
 	bne _021767E4
 	ldr r0, [r4, #0x28]
 	cmp r0, #0
-	movne sb, #4
+	movne r9, #4
 _021767E4:
 	mov r6, #0
 	add r8, r4, #0x2ec
@@ -9357,22 +9357,22 @@ _021767E4:
 	mov r5, r6
 	cmp r0, #0
 	bls _02176880
-	sub r7, sb, #4
-	add sl, r4, #0x2000
+	sub r7, r9, #4
+	add r10, r4, #0x2000
 _02176814:
 	cmp r7, r6
 	blt _02176880
 	ldrsh r2, [sp, #0x14]
-	ldr r1, [sl, #0x80c]
+	ldr r1, [r10, #0x80c]
 	mov r0, r5, lsl #3
 	add r0, r0, r1, asr #12
-	ldr r1, [sl, #0xb2c]
+	ldr r1, [r10, #0xb2c]
 	add r0, r2, r0
 	add r0, r0, r1, asr #12
 	strh r0, [r8, #8]
 	ldrsh r2, [sp, #0x16]
-	ldr r1, [sl, #0x810]
-	ldr r0, [sl, #0xb30]
+	ldr r1, [r10, #0x810]
+	ldr r0, [r10, #0xb30]
 	add r1, r2, r1, asr #12
 	add r1, r1, r0, asr #12
 	mov r0, r8
@@ -9390,7 +9390,7 @@ _02176814:
 _02176880:
 	cmp r5, #1
 	blo _0217691C
-	and r0, sb, #0x1f
+	and r0, r9, #0x1f
 	mov r0, r0, asr #2
 	add r0, r0, #1
 	rsb r0, r0, #8
@@ -9514,14 +9514,14 @@ _021769EC:
 	mov r0, r4
 	bl SailHUD__Func_2177560
 	add sp, sp, #0x18
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02176A70: .word StageTask__shakeOffsetTable
 	arm_func_end SailHUD__Func_2176578
 
 	arm_func_start SailHUD__Func_2176A74
 SailHUD__Func_2176A74: // 0x02176A74
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	add r2, sp, #0
 	mov r1, #0
 	mov r8, r0
@@ -9529,9 +9529,9 @@ SailHUD__Func_2176A74: // 0x02176A74
 	strh r1, [r2, #2]
 	ldr r0, [r8]
 	tst r0, #4
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	tst r0, #0x20
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldrsh r0, [r8, #0x32]
 	cmp r0, #0
 	beq _02176AD8
@@ -9581,7 +9581,7 @@ _02176AD8:
 	mov r4, r6
 	cmp r1, #0
 	bls _02176BD0
-	add sb, r8, #0x2000
+	add r9, r8, #0x2000
 _02176B64:
 	add r0, r6, #0x20
 	mov r0, r0, lsl #0x10
@@ -9589,16 +9589,16 @@ _02176B64:
 	mov r6, r0, lsr #0x10
 	blo _02176BD0
 	ldrsh r2, [sp]
-	ldr r1, [sb, #0x824]
+	ldr r1, [r9, #0x824]
 	mov r0, r4, lsl #3
 	add r0, r0, r1, asr #12
-	ldr r1, [sb, #0xb44]
+	ldr r1, [r9, #0xb44]
 	add r0, r2, r0
 	add r0, r0, r1, asr #12
 	strh r0, [r7, #8]
 	ldrsh r2, [sp, #2]
-	ldr r1, [sb, #0x828]
-	ldr r0, [sb, #0xb48]
+	ldr r1, [r9, #0x828]
+	ldr r0, [r9, #0xb48]
 	add r1, r2, r1, asr #12
 	add r1, r1, r0, asr #12
 	mov r0, r7
@@ -9612,7 +9612,7 @@ _02176B64:
 	bhi _02176B64
 _02176BD0:
 	cmp r4, r1
-	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	and r0, r5, #0x1f
 	mov r0, r0, asr #2
 	rsb r0, r0, #8
@@ -9621,7 +9621,7 @@ _02176BD0:
 	add r0, r8, #0x7c
 	add r5, r0, #0x400
 	cmp r1, #8
-	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	add r0, r1, #0x13
 	mov r1, r0, lsl #0x10
 	mov r0, r5
@@ -9648,28 +9648,28 @@ _02176BD0:
 	mov r0, r5
 	strh r1, [r5, #0xa]
 	bl AnimatorSprite__DrawFrame
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02176C68: .word StageTask__shakeOffsetTable
 	arm_func_end SailHUD__Func_2176A74
 
 	arm_func_start SailHUD__Func_2176C6C
 SailHUD__Func_2176C6C: // 0x02176C6C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	add r2, sp, #8
 	mov r1, #0
-	mov sb, r0
+	mov r9, r0
 	strh r1, [r2]
 	strh r1, [r2, #2]
-	ldr r0, [sb]
+	ldr r0, [r9]
 	tst r0, #4
 	addne sp, sp, #0xc
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	tst r0, #0x40
 	addne sp, sp, #0xc
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	ldrsh r0, [sb, #0x32]
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	ldrsh r0, [r9, #0x32]
 	cmp r0, #0
 	beq _02176CDC
 	mov r0, r0, asr #1
@@ -9677,20 +9677,20 @@ SailHUD__Func_2176C6C: // 0x02176C6C
 	and r0, r0, #0xf
 	ldrsb r0, [r1, r0]
 	strh r0, [sp, #8]
-	ldrsh r0, [sb, #0x32]
+	ldrsh r0, [r9, #0x32]
 	mov r0, r0, asr #1
 	add r0, r0, #1
 	and r0, r0, #0xf
 	ldrsb r0, [r1, r0]
 	strh r0, [sp, #0xa]
 _02176CDC:
-	add r0, sb, #0x114
+	add r0, r9, #0x114
 	add r4, r0, #0xc00
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	add r0, sb, #0x2000
+	add r0, r9, #0x2000
 	ldrsh r3, [sp, #8]
 	ldr r2, [r0, #0x8dc]
 	ldr r1, [r0, #0xbfc]
@@ -9703,25 +9703,25 @@ _02176CDC:
 	add r1, r2, r1, asr #12
 	add r0, r1, r0, asr #12
 	strh r0, [r4, #0xa]
-	ldrh r1, [sb, #0x34]
+	ldrh r1, [r9, #0x34]
 	ldrsh r2, [r4, #0xa]
 	mov r0, r4
-	add r1, sb, r1, lsl #2
+	add r1, r9, r1, lsl #2
 	ldr r1, [r1, #0x5c]
 	add r1, r2, r1, asr #12
 	strh r1, [r4, #0xa]
 	bl AnimatorSprite__DrawFrame
-	ldrh r0, [sb, #4]
+	ldrh r0, [r9, #4]
 	tst r0, #4
 	beq _02176DF8
 	mov r5, #0
-	add r0, sb, #0x178
+	add r0, r9, #0x178
 	add r6, r0, #0xc00
-	add r7, sb, #0x2000
+	add r7, r9, #0x2000
 	mov r4, r5
 	mov r8, #0x3a
 _02176D6C:
-	add r0, sb, r5, lsl #2
+	add r0, r9, r5, lsl #2
 	ldr r0, [r0, #0x44]
 	cmp r0, #0
 	beq _02176DE4
@@ -9741,7 +9741,7 @@ _02176D6C:
 	add r0, r0, r1, asr #12
 	add r0, r0, r2, asr #12
 	strh r0, [r6, #0xa]
-	add r0, sb, r5, lsl #2
+	add r0, r9, r5, lsl #2
 	ldrsh r2, [r6, #0xa]
 	ldr r1, [r0, #0x5c]
 	mov r0, r6
@@ -9759,13 +9759,13 @@ _02176DE4:
 	blo _02176D6C
 _02176DF8:
 	mov r5, #0
-	add r0, sb, #0x1dc
+	add r0, r9, #0x1dc
 	add r6, r0, #0xc00
-	add r7, sb, #0x2000
+	add r7, r9, #0x2000
 	mov r4, r5
 	mov r8, #0x3a
 _02176E10:
-	add r0, sb, r5, lsl #2
+	add r0, r9, r5, lsl #2
 	ldr r0, [r0, #0x50]
 	cmp r0, #0
 	beq _02176E88
@@ -9785,7 +9785,7 @@ _02176E10:
 	add r0, r0, r1, asr #12
 	add r0, r0, r2, asr #12
 	strh r0, [r6, #0xa]
-	add r0, sb, r5, lsl #2
+	add r0, r9, r5, lsl #2
 	ldrsh r2, [r6, #0xa]
 	ldr r1, [r0, #0x5c]
 	mov r0, r6
@@ -9802,7 +9802,7 @@ _02176E88:
 	cmp r5, #3
 	blo _02176E10
 	mov r7, #0
-	add r6, sb, #0x94
+	add r6, r9, #0x94
 	mov r5, r7
 	mov r4, #0x64
 _02176EAC:
@@ -9810,14 +9810,14 @@ _02176EAC:
 	mla r8, r0, r4, r6
 	ldr r0, [r8, #0x14]
 	cmp r0, #0
-	ldrneh r0, [sb, #0x34]
+	ldrneh r0, [r9, #0x34]
 	cmpne r0, r7
 	beq _02176F2C
 	mov r0, r8
 	mov r1, r5
 	mov r2, r5
 	bl AnimatorSprite__ProcessAnimation
-	add r0, sb, r7, lsl #3
+	add r0, r9, r7, lsl #3
 	add r0, r0, #0x2000
 	ldrsh r3, [sp, #8]
 	ldr r2, [r0, #0x84c]
@@ -9831,7 +9831,7 @@ _02176EAC:
 	add r1, r2, r1, asr #12
 	add r0, r1, r0, asr #12
 	strh r0, [r8, #0xa]
-	add r0, sb, r7, lsl #2
+	add r0, r9, r7, lsl #2
 	ldrsh r2, [r8, #0xa]
 	ldr r1, [r0, #0x5c]
 	mov r0, r8
@@ -9848,35 +9848,35 @@ _02176F2C:
 	str r0, [sp]
 _02176F48:
 	ldr r0, [sp]
-	add r4, sb, r0, lsl #2
+	add r4, r9, r0, lsl #2
 	ldr r0, [r4, #0x44]
 	cmp r0, #0
 	beq _0217703C
 	ldr r0, [sp]
 	mov r1, #0x3a
 	mul r7, r0, r1
-	add r0, sb, r0, lsl #1
+	add r0, r9, r0, lsl #1
 	ldrsh r6, [r0, #0x68]
-	add r0, sb, #0x160
+	add r0, r9, #0x160
 	mov r5, #0
-	add fp, sb, #0x94
+	add r11, r9, #0x94
 	str r0, [sp, #4]
-	add sl, sb, #0x2000
+	add r10, r9, #0x2000
 _02176F84:
 	cmp r6, #8
 	ldrge r0, [sp, #4]
 	addge r8, r0, #0x1000
 	bge _02176FAC
 	cmp r6, #0
-	addle r8, sb, #0xe40
+	addle r8, r9, #0xe40
 	ble _02176FAC
 	add r1, r6, #0x23
 	mov r0, #0x64
-	mla r8, r1, r0, fp
+	mla r8, r1, r0, r11
 _02176FAC:
 	ldrsh r0, [sp, #8]
-	ldr r1, [sl, #0x8f4]
-	ldr r2, [sl, #0xc14]
+	ldr r1, [r10, #0x8f4]
+	ldr r2, [r10, #0xc14]
 	add r0, r0, r1, asr #12
 	add r0, r0, r2, asr #12
 	strh r0, [r8, #8]
@@ -9890,8 +9890,8 @@ _02176FAC:
 	add r3, r3, r5, lsl #3
 	strh r3, [r8, #8]
 	ldrsh r3, [sp, #0xa]
-	ldr ip, [sl, #0x8f8]
-	ldr lr, [sl, #0xc18]
+	ldr ip, [r10, #0x8f8]
+	ldr lr, [r10, #0xc18]
 	add r3, r3, ip, asr #12
 	add r3, r3, lr, asr #12
 	strh r3, [r8, #0xa]
@@ -9912,17 +9912,17 @@ _02176FAC:
 	blo _02176F84
 _0217703C:
 	ldr r0, [sp]
-	add r0, sb, r0, lsl #2
+	add r0, r9, r0, lsl #2
 	ldr r0, [r0, #0x50]
 	cmp r0, #0
 	beq _021770F0
-	add r0, sb, #0x1c4
+	add r0, r9, #0x1c4
 	add r4, r0, #0x1000
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	add r2, sb, #0x2000
+	add r2, r9, #0x2000
 	ldrsh r0, [sp, #8]
 	ldr r1, [r2, #0x93c]
 	ldr r3, [r2, #0xc5c]
@@ -9932,7 +9932,7 @@ _0217703C:
 	ldr r0, [sp]
 	ldrsh r5, [r4, #8]
 	mov r1, #0x3a
-	add r3, sb, r0, lsl #2
+	add r3, r9, r0, lsl #2
 	mla r1, r0, r1, r5
 	strh r1, [r4, #8]
 	ldr r1, [r2, #0x940]
@@ -9965,15 +9965,15 @@ _021770F0:
 	str r0, [sp]
 	cmp r0, #3
 	blo _02176F48
-	ldrh r0, [sb, #0x70]
+	ldrh r0, [r9, #0x70]
 	cmp r0, #0
 	beq _02177188
-	add r4, sb, #0x990
+	add r4, r9, #0x990
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	add r0, sb, #0x2000
+	add r0, r9, #0x2000
 	ldrsh r3, [sp, #8]
 	ldr r2, [r0, #0x894]
 	ldr r1, [r0, #0x7d4]
@@ -9991,7 +9991,7 @@ _021770F0:
 	add r0, r0, r5, asr #12
 	strh r0, [r4, #0xa]
 	ldrsh r2, [r4, #0xa]
-	ldr r1, [sb, #0x5c]
+	ldr r1, [r9, #0x5c]
 	mov r0, r4
 	add r1, r2, r1, asr #12
 	strh r1, [r4, #0xa]
@@ -9999,43 +9999,43 @@ _021770F0:
 _02177188:
 	mov r8, #0
 	mov r6, #0x11
-	add r5, sb, #0x94
+	add r5, r9, #0x94
 	mov r4, r8
-	mov sl, #0x64
+	mov r10, #0x64
 _0217719C:
-	mla r7, r6, sl, r5
+	mla r7, r6, r10, r5
 	ldr r0, [r7, #0x14]
 	cmp r0, #0
 	beq _02177230
-	ldr r0, [sb, #0x38]
+	ldr r0, [r9, #0x38]
 	cmp r8, r0, asr #12
 	bge _02177250
 	mov r0, r7
 	mov r1, r4
 	mov r2, r4
 	bl AnimatorSprite__ProcessAnimation
-	add r0, sb, r6, lsl #3
+	add r0, r9, r6, lsl #3
 	add r2, r0, #0x2000
-	add r0, sb, r8, lsl #3
+	add r0, r9, r8, lsl #3
 	add r3, r0, #0x2000
 	ldrsh r0, [sp, #8]
 	ldr ip, [r2, #0x7dc]
-	ldr fp, [r3, #0x7a4]
+	ldr r11, [r3, #0x7a4]
 	ldr r1, [r2, #0xafc]
-	add fp, ip, fp
-	add r0, r0, fp, asr #12
+	add r11, ip, r11
+	add r0, r0, r11, asr #12
 	add r0, r0, r1, asr #12
 	strh r0, [r7, #8]
-	ldrsh fp, [sp, #0xa]
+	ldrsh r11, [sp, #0xa]
 	ldr r1, [r2, #0x7e0]
 	ldr r0, [r3, #0x7a8]
 	ldr r2, [r2, #0xb00]
 	add r0, r1, r0
-	add r0, fp, r0, asr #12
+	add r0, r11, r0, asr #12
 	add r0, r0, r2, asr #12
 	strh r0, [r7, #0xa]
 	ldrsh r2, [r7, #0xa]
-	ldr r1, [sb, #0x5c]
+	ldr r1, [r9, #0x5c]
 	mov r0, r7
 	add r1, r2, r1, asr #12
 	strh r1, [r7, #0xa]
@@ -10050,13 +10050,13 @@ _02177230:
 	mov r8, r0, lsr #0x10
 	bls _0217719C
 _02177250:
-	add r0, sb, #0x1f4
+	add r0, r9, #0x1f4
 	add r4, r0, #0x800
 	mov r1, #0
 	mov r0, r4
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	add r0, sb, #0x2000
+	add r0, r9, #0x2000
 	ldrsh r3, [sp, #8]
 	ldr r2, [r0, #0x89c]
 	ldr r1, [r0, #0xbbc]
@@ -10070,13 +10070,13 @@ _02177250:
 	add r0, r1, r0, asr #12
 	strh r0, [r4, #0xa]
 	ldrsh r2, [r4, #0xa]
-	ldr r1, [sb, #0x5c]
+	ldr r1, [r9, #0x5c]
 	mov r0, r4
 	add r1, r2, r1, asr #12
 	strh r1, [r4, #0xa]
 	bl AnimatorSprite__DrawFrame
 	mov r7, #0x19
-	add r6, sb, #0x94
+	add r6, r9, #0x94
 	mov r5, #0
 	mov r4, #0x64
 _021772C4:
@@ -10088,7 +10088,7 @@ _021772C4:
 	mov r1, r5
 	mov r2, r5
 	bl AnimatorSprite__ProcessAnimation
-	add r0, sb, r7, lsl #3
+	add r0, r9, r7, lsl #3
 	add r0, r0, #0x2000
 	ldrsh r3, [sp, #8]
 	ldr r2, [r0, #0x7dc]
@@ -10103,7 +10103,7 @@ _021772C4:
 	add r0, r1, r0, asr #12
 	strh r0, [r8, #0xa]
 	ldrsh r2, [r8, #0xa]
-	ldr r1, [sb, #0x60]
+	ldr r1, [r9, #0x60]
 	mov r0, r8
 	add r1, r2, r1, asr #12
 	strh r1, [r8, #0xa]
@@ -10114,22 +10114,22 @@ _02177334:
 	mov r7, r0, lsr #0x10
 	cmp r7, #0x1b
 	bls _021772C4
-	add sl, sb, #0xcb0
+	add r10, r9, #0xcb0
 	mov r8, #0
-	ldrsh r7, [sb, #0x6e]
-	ldr fp, [sl, #0x44]
-	add r4, sb, #0x2000
+	ldrsh r7, [r9, #0x6e]
+	ldr r11, [r10, #0x44]
+	add r4, r9, #0x2000
 	mov r5, r8
 	mov r6, #0x12
 _02177364:
 	mov r1, r6
 	cmp r7, #8
 	blt _0217738C
-	ldr r1, [sl, #0x44]
+	ldr r1, [r10, #0x44]
 	sub r0, r7, #8
 	mov r0, r0, lsl #0x10
 	add r1, r1, #0x40
-	str r1, [sl, #0x44]
+	str r1, [r10, #0x44]
 	mov r7, r0, asr #0x10
 	b _02177418
 _0217738C:
@@ -10137,9 +10137,9 @@ _0217738C:
 	rsbgt r0, r7, #0x12
 	movgt r0, r0, lsl #0x10
 	movgt r1, r0, lsr #0x10
-	mov r0, sl
+	mov r0, r10
 	bl AnimatorSprite__SetAnimation
-	mov r0, sl
+	mov r0, r10
 	mov r1, r5
 	mov r2, r5
 	bl AnimatorSprite__ProcessAnimation
@@ -10149,34 +10149,34 @@ _0217738C:
 	add r0, r0, r1, asr #12
 	add r0, r0, r2, asr #12
 	add r0, r0, r8, lsl #3
-	strh r0, [sl, #8]
+	strh r0, [r10, #8]
 	ldrsh r0, [sp, #0xa]
 	ldr r1, [r4, #0x8d8]
 	ldr r2, [r4, #0xbf8]
 	add r0, r0, r1, asr #12
 	add r0, r0, r2, asr #12
-	strh r0, [sl, #0xa]
-	ldrsh r2, [sl, #0xa]
-	ldr r1, [sb, #0x64]
-	mov r0, sl
+	strh r0, [r10, #0xa]
+	ldrsh r2, [r10, #0xa]
+	ldr r1, [r9, #0x64]
+	mov r0, r10
 	add r1, r2, r1, asr #12
-	strh r1, [sl, #0xa]
+	strh r1, [r10, #0xa]
 	bl AnimatorSprite__DrawFrame
 	sub r0, r7, #8
 	mov r0, r0, lsl #0x10
-	ldr r1, [sl, #0x44]
+	ldr r1, [r10, #0x44]
 	mov r7, r0, asr #0x10
 	add r0, r1, #0x40
-	str r0, [sl, #0x44]
+	str r0, [r10, #0x44]
 _02177418:
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
 	mov r8, r0, lsr #0x10
 	cmp r8, #3
 	blo _02177364
-	str fp, [sl, #0x44]
+	str r11, [r10, #0x44]
 	mov r6, #0x1c
-	add r5, sb, #0x94
+	add r5, r9, #0x94
 	mov r4, #0
 	mov r8, #0x64
 _02177440:
@@ -10185,7 +10185,7 @@ _02177440:
 	mov r1, r4
 	mov r2, r4
 	bl AnimatorSprite__ProcessAnimation
-	add r0, sb, r6, lsl #3
+	add r0, r9, r6, lsl #3
 	add r0, r0, #0x2000
 	ldrsh r3, [sp, #8]
 	ldr r2, [r0, #0x7dc]
@@ -10200,7 +10200,7 @@ _02177440:
 	add r0, r1, r0, asr #12
 	strh r0, [r7, #0xa]
 	ldrsh r2, [r7, #0xa]
-	ldr r1, [sb, #0x64]
+	ldr r1, [r9, #0x64]
 	mov r0, r7
 	add r1, r2, r1, asr #12
 	strh r1, [r7, #0xa]
@@ -10211,7 +10211,7 @@ _02177440:
 	cmp r6, #0x1e
 	bls _02177440
 	mov r7, #0
-	add r6, sb, #0x94
+	add r6, r9, #0x94
 	mov r5, r7
 	mov r4, #0x64
 _021774C8:
@@ -10224,7 +10224,7 @@ _021774C8:
 	mov r1, r5
 	mov r2, r5
 	bl AnimatorSprite__ProcessAnimation
-	add r0, sb, r7, lsl #3
+	add r0, r9, r7, lsl #3
 	add r0, r0, #0x2000
 	ldrsh r3, [sp, #8]
 	ldr r2, [r0, #0x834]
@@ -10238,7 +10238,7 @@ _021774C8:
 	add r1, r2, r1, asr #12
 	add r0, r1, r0, asr #12
 	strh r0, [r8, #0xa]
-	add r0, sb, r7, lsl #2
+	add r0, r9, r7, lsl #2
 	ldrsh r2, [r8, #0xa]
 	ldr r1, [r0, #0x5c]
 	mov r0, r8
@@ -10252,7 +10252,7 @@ _02177540:
 	cmp r7, #3
 	blo _021774C8
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0217755C: .word StageTask__shakeOffsetTable
 	arm_func_end SailHUD__Func_2176C6C
@@ -10405,7 +10405,7 @@ _02177788: .word 0x0000100C
 
 	arm_func_start SailBoatWeaponHUD__Destructor
 SailBoatWeaponHUD__Destructor: // 0x0217778C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r4, r0
 	bl GetCurrentTaskWork_
 	mov r0, r4
@@ -10418,17 +10418,17 @@ SailBoatWeaponHUD__Destructor: // 0x0217778C
 	add r6, r7, #0x10
 	mov r5, r8
 	mov r4, r8
-	mov sb, #0x64
+	mov r9, #0x64
 _021777C4:
-	mla sl, r8, sb, r6
-	ldr r1, [sl, #0x44]
+	mla r10, r8, r9, r6
+	ldr r1, [r10, #0x44]
 	cmp r1, #0
 	beq _021777DC
 	mov r0, r5
 	bl VRAMSystem__FreeSpriteVram
 _021777DC:
-	str r4, [sl, #0x44]
-	ldrh r0, [sl, #0x50]
+	str r4, [r10, #0x44]
+	ldrh r0, [r10, #0x50]
 	and r0, r0, #0xff
 	bl ObjDrawReleaseSpritePalette
 	add r0, r8, #1
@@ -10448,12 +10448,12 @@ _02177818:
 	ldrh r0, [r4, #0x50]
 	and r0, r0, #0xff
 	bl ObjDrawReleaseSpritePalette
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end SailBoatWeaponHUD__Destructor
 
 	arm_func_start SailBoatWeaponHUD__Main
 SailBoatWeaponHUD__Main: // 0x02177830
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x14
 	bl GetCurrentTaskWork_
 	mov r7, r0
@@ -10485,7 +10485,7 @@ _02177880:
 	str r0, [r5, #0x168]
 	bl DestroyCurrentTask
 	add sp, sp, #0x14
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 _021778AC:
 	ldr r0, [r7]
 	ldrsh r4, [r7, #6]
@@ -10510,10 +10510,10 @@ _021778AC:
 	bl NNS_G3dWorldPosToScrPos
 	cmp r0, #0
 	addne sp, sp, #0x14
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
-	mov sb, #0
-	mov sl, sb
-	mov r5, sb
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+	mov r9, #0
+	mov r10, r9
+	mov r5, r9
 	mov r6, #0x15
 _0217791C:
 	add r8, r7, #0x10
@@ -10536,7 +10536,7 @@ _0217791C:
 _02177960:
 	ldr r1, [sp, #4]
 	mov r0, r8
-	add r1, r1, sl
+	add r1, r1, r10
 	sub r1, r1, #0x10
 	strh r1, [r8, #8]
 	ldr r1, [sp]
@@ -10544,10 +10544,10 @@ _02177960:
 	bl AnimatorSprite__DrawFrame
 	sub r0, r4, #8
 	mov r0, r0, lsl #0x10
-	add sb, sb, #1
-	cmp sb, #4
+	add r9, r9, #1
+	cmp r9, #4
 	mov r4, r0, asr #0x10
-	add sl, sl, #8
+	add r10, r10, #8
 	blt _0217791C
 	ldr r1, [sp, #4]
 	add r0, r7, #0x13c
@@ -10557,7 +10557,7 @@ _02177960:
 	strh r1, [r0, #0xa]
 	bl AnimatorSprite__DrawFrame
 	add sp, sp, #0x14
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end SailBoatWeaponHUD__Main
 
 	arm_func_start SailScoreBonus__Main
@@ -10604,16 +10604,16 @@ _02177A34:
 
 	arm_func_start SailHUD__DrawNumbers
 SailHUD__DrawNumbers: // 0x02177A4C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
-	ldrh fp, [sp, #0x3c]
+	ldrh r11, [sp, #0x3c]
 	str r0, [sp]
 	add r0, r0, #0x94
-	ldrsh sb, [sp, #0x38]
+	ldrsh r9, [sp, #0x38]
 	ldrh r7, [sp, #0x40]
 	str r1, [sp, #4]
 	str r2, [sp, #8]
-	mov sl, r3
+	mov r10, r3
 	mov r4, #0
 	mov r8, #7
 	mov r5, #0x1c
@@ -10621,7 +10621,7 @@ SailHUD__DrawNumbers: // 0x02177A4C
 	str r0, [sp, #0xc]
 _02177A88:
 	ldr r0, [sp, #4]
-	cmp r8, fp
+	cmp r8, r11
 	mov r0, r0, lsr r5
 	and r0, r0, #0xf
 	blt _02177AA4
@@ -10637,10 +10637,10 @@ _02177AA8:
 	ldr r0, [sp, #0xc]
 	mov r1, #0x64
 	mla r0, r2, r1, r0
-	sub r1, sl, r6
+	sub r1, r10, r6
 	strh r1, [r0, #8]
 	sub r2, r7, r8
-	strh sb, [r0, #0xa]
+	strh r9, [r0, #0xa]
 	cmp r2, #0
 	ldrgtsh r1, [r0, #0xa]
 	mov r4, #1
@@ -10657,13 +10657,13 @@ _02177AEC:
 	ldr r0, [sp, #8]
 	cmp r0, #1
 	addls sp, sp, #0x10
-	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp]
-	add r1, sl, #5
+	add r1, r10, #5
 	add r0, r0, #0x33c
 	add r0, r0, #0x1400
 	strh r1, [r0, #8]
-	strh sb, [r0, #0xa]
+	strh r9, [r0, #0xa]
 	ldrsh r2, [r0, #0xa]
 	ldrh r1, [sp, #0x40]
 	sub r1, r2, r1
@@ -10675,24 +10675,24 @@ _02177AEC:
 	add r1, r0, #0x30
 	mov r0, #0x64
 	mla r0, r1, r0, r2
-	add r1, sl, #0xa
+	add r1, r10, #0xa
 	strh r1, [r0, #8]
-	strh sb, [r0, #0xa]
+	strh r9, [r0, #0xa]
 	ldrsh r2, [r0, #0xa]
 	ldrh r1, [sp, #0x40]
 	sub r1, r2, r1
 	strh r1, [r0, #0xa]
 	bl AnimatorSprite__DrawFrame
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end SailHUD__DrawNumbers
 
 	arm_func_start SailHUD__Func_2177B80
 SailHUD__Func_2177B80: // 0x02177B80
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
-	ldrh sb, [sp, #0x28]
-	mov sl, r1
-	mov fp, r2
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	ldrh r9, [sp, #0x28]
+	mov r10, r1
+	mov r11, r2
 	str r3, [sp]
 	mov r6, #0
 	mov r5, #7
@@ -10700,9 +10700,9 @@ SailHUD__Func_2177B80: // 0x02177B80
 	mov r8, #0x46
 	add r4, r0, #0x94
 _02177BA8:
-	mov r0, sl, lsr r7
+	mov r0, r10, lsr r7
 	and r0, r0, #0xf
-	cmp r5, sb
+	cmp r5, r9
 	blt _02177BC0
 	cmp r5, #0
 	bne _02177BC4
@@ -10715,7 +10715,7 @@ _02177BC4:
 	add r1, r0, #0x4c
 	mov r0, #0x64
 	mla r0, r1, r0, r4
-	sub r1, fp, r8
+	sub r1, r11, r8
 	strh r1, [r0, #8]
 	ldr r1, [sp]
 	mov r6, #1
@@ -10728,20 +10728,20 @@ _02177BF4:
 	movs r5, r0, asr #0x10
 	sub r8, r8, #0xa
 	bpl _02177BA8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end SailHUD__Func_2177B80
 
 	arm_func_start SailHUD__Func_2177C10
 SailHUD__Func_2177C10: // 0x02177C10
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x2c
-	ldr sl, [sp, #0x60]
+	ldr r10, [sp, #0x60]
 	mov r4, r0
 	str r2, [sp, #4]
 	mov r0, #0
 	str r1, [sp]
-	mov fp, r3
-	cmp sl, #0
+	mov r11, r3
+	cmp r10, #0
 	str r0, [sp, #0x24]
 	beq _02177C48
 	ldr r0, _02177E08 // =0x00000406
@@ -10755,7 +10755,7 @@ _02177C48:
 	add r0, r4, #0x94
 	str r0, [sp, #0x28]
 	ldr r0, [sp, #0xc]
-	mov r1, sl, lsl #0x10
+	mov r1, r10, lsl #0x10
 	add r4, r0, #0xa
 	add r3, r0, #0xb
 	ldr r0, [sp, #0x28]
@@ -10763,7 +10763,7 @@ _02177C48:
 	mla r6, r4, r2, r0
 	mla r7, r3, r2, r0
 	ldrh r0, [sp, #0x50]
-	mov sb, #7
+	mov r9, #7
 	str r0, [sp, #0x10]
 	mov r0, r1, asr #0x10
 	str r0, [sp, #8]
@@ -10774,12 +10774,12 @@ _02177C48:
 _02177CA4:
 	ldr r0, [sp, #0x10]
 	ldr r1, [sp]
-	cmp sb, r0
+	cmp r9, r0
 	ldr r0, [sp, #0x18]
 	mov r0, r1, lsr r0
 	and r1, r0, #0xf
 	blt _02177CC8
-	cmp sb, #0
+	cmp r9, #0
 	bne _02177CD0
 _02177CC8:
 	mov r0, #1
@@ -10790,7 +10790,7 @@ _02177CD0:
 	cmpeq r0, #0
 	beq _02177DD8
 	ldr r0, [sp, #0xc]
-	cmp sl, #0
+	cmp r10, #0
 	add r2, r0, r1
 	ldr r0, [sp, #0x28]
 	mov r1, #0x64
@@ -10803,22 +10803,22 @@ _02177CD0:
 	strh r0, [r4, #0x50]
 _02177D10:
 	ldr r0, [sp, #0x14]
-	mov r1, sb, asr #1
+	mov r1, r9, asr #1
 	mla r2, r1, r5, r0
 	ldr r0, [sp, #4]
 	sub r0, r0, r2
 	strh r0, [r4, #8]
-	strh fp, [r4, #0xa]
+	strh r11, [r4, #0xa]
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
-	cmp sl, #0
+	cmp r10, #0
 	ldrne r0, [sp, #0x1c]
 	strneh r0, [r4, #0x50]
-	cmp sb, #4
-	cmpne sb, #6
+	cmp r9, #4
+	cmpne r9, #6
 	bne _02177D94
 	ldrsh r0, [r4, #8]
-	cmp sl, #0
+	cmp r10, #0
 	mov r4, r6
 	str r0, [sp, #0x20]
 	beq _02177D6C
@@ -10830,17 +10830,17 @@ _02177D6C:
 	add r0, r0, r8
 	add r0, r0, r5, asr #4
 	strh r0, [r6, #8]
-	strh fp, [r6, #0xa]
+	strh r11, [r6, #0xa]
 	mov r0, r6
 	bl AnimatorSprite__DrawFrame
-	cmp sl, #0
+	cmp r10, #0
 	ldrne r0, [sp, #0x1c]
 	strneh r0, [r6, #0x50]
 _02177D94:
-	cmp sb, #2
+	cmp r9, #2
 	bne _02177DD8
 	ldrsh r4, [r4, #8]
-	cmp sl, #0
+	cmp r10, #0
 	beq _02177DB4
 	ldr r0, [sp, #8]
 	bl ObjDrawGetRowForID
@@ -10849,10 +10849,10 @@ _02177DB4:
 	add r0, r4, r8
 	add r0, r0, r5, asr #4
 	strh r0, [r7, #8]
-	strh fp, [r7, #0xa]
+	strh r11, [r7, #0xa]
 	mov r0, r7
 	bl AnimatorSprite__DrawFrame
-	cmp sl, #0
+	cmp r10, #0
 	ldrne r0, [sp, #0x1c]
 	strneh r0, [r7, #0x50]
 _02177DD8:
@@ -10862,28 +10862,28 @@ _02177DD8:
 	ldr r0, [sp, #0x14]
 	sub r0, r0, r8
 	str r0, [sp, #0x14]
-	sub r0, sb, #1
+	sub r0, r9, #1
 	mov r0, r0, lsl #0x10
-	movs sb, r0, asr #0x10
+	movs r9, r0, asr #0x10
 	bpl _02177CA4
 	add sp, sp, #0x2c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02177E08: .word 0x00000406
 	arm_func_end SailHUD__Func_2177C10
 
 	arm_func_start SailHUD__Func_2177E0C
 SailHUD__Func_2177E0C: // 0x02177E0C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	add r4, sp, #4
 	mov r6, #0
-	mov sl, r0
+	mov r10, r0
 	strh r6, [r4]
 	strh r6, [r4, #2]
-	ldrsh r0, [sl, #0x32]
-	mov sb, r1
-	mov fp, r2
+	ldrsh r0, [r10, #0x32]
+	mov r9, r1
+	mov r11, r2
 	str r3, [sp]
 	cmp r0, #0
 	beq _02177E6C
@@ -10892,7 +10892,7 @@ SailHUD__Func_2177E0C: // 0x02177E0C
 	and r0, r0, #0xf
 	ldrsb r0, [r1, r0]
 	strh r0, [sp, #4]
-	ldrsh r0, [sl, #0x32]
+	ldrsh r0, [r10, #0x32]
 	mov r0, r0, asr #1
 	add r0, r0, #1
 	and r0, r0, #0xf
@@ -10902,10 +10902,10 @@ _02177E6C:
 	mov r5, #7
 	mov r7, #0x1c
 	mov r8, #0x2a
-	add r4, sl, #0x94
+	add r4, r10, #0x94
 _02177E7C:
 	ldr r0, [sp]
-	ldr r1, [sl, #0x88]
+	ldr r1, [r10, #0x88]
 	cmp r5, r0
 	mov r0, r1, lsr r7
 	and r0, r0, #0xf
@@ -10923,11 +10923,11 @@ _02177EA0:
 	mla r0, r1, r0, r4
 	ldrsh r1, [sp, #4]
 	mov r6, #1
-	add r1, sb, r1
+	add r1, r9, r1
 	sub r1, r1, r8
 	strh r1, [r0, #8]
 	ldrsh r1, [sp, #6]
-	add r1, fp, r1
+	add r1, r11, r1
 	strh r1, [r0, #0xa]
 	bl AnimatorSprite__DrawFrame
 _02177EDC:
@@ -10937,32 +10937,32 @@ _02177EDC:
 	movs r5, r0, asr #0x10
 	sub r8, r8, #6
 	bpl _02177E7C
-	ldr r0, [sl, #0x88]
-	str r0, [sl, #0x8c]
+	ldr r0, [r10, #0x88]
+	str r0, [r10, #0x8c]
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02177F04: .word StageTask__shakeOffsetTable
 	arm_func_end SailHUD__Func_2177E0C
 
 	arm_func_start SailHUD__Func_2177F08
 SailHUD__Func_2177F08: // 0x02177F08
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	add r5, sp, #8
 	mov r4, #0
-	mov sl, r0
+	mov r10, r0
 	strh r4, [r5]
 	strh r4, [r5, #2]
-	ldr r0, [sl, #0x78]
-	mov sb, r1
-	mov fp, r2
+	ldr r0, [r10, #0x78]
+	mov r9, r1
+	mov r11, r2
 	str r3, [sp]
 	cmp r0, #0
 	addeq sp, sp, #0xc
-	streq r0, [sl, #0x7c]
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	ldrsh r0, [sl, #0x32]
+	streq r0, [r10, #0x7c]
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	ldrsh r0, [r10, #0x32]
 	cmp r0, #0
 	beq _02177F7C
 	mov r0, r0, asr #1
@@ -10970,31 +10970,31 @@ SailHUD__Func_2177F08: // 0x02177F08
 	and r0, r0, #0xf
 	ldrsb r0, [r1, r0]
 	strh r0, [sp, #8]
-	ldrsh r0, [sl, #0x32]
+	ldrsh r0, [r10, #0x32]
 	mov r0, r0, asr #1
 	add r0, r0, #1
 	and r0, r0, #0xf
 	ldrsb r0, [r1, r0]
 	strh r0, [sp, #0xa]
 _02177F7C:
-	ldr r1, [sl, #0x7c]
-	ldr r0, [sl, #0x78]
+	ldr r1, [r10, #0x7c]
+	ldr r0, [r10, #0x78]
 	cmp r1, r0
 	beq _02177FE0
 	cmp r1, #0
 	moveq r0, #4
 	mov r6, #0
-	streqh r0, [sl, #0x86]
+	streqh r0, [r10, #0x86]
 	mov r1, r6
 	mov r2, #4
 	mov r0, #0xf
 _02177FA8:
-	ldr r5, [sl, #0x7c]
-	ldr r3, [sl, #0x78]
+	ldr r5, [r10, #0x7c]
+	ldr r3, [r10, #0x78]
 	and r5, r5, r0, lsl r1
 	and r3, r3, r0, lsl r1
 	cmp r5, r3
-	addne r3, sl, r6, lsl #1
+	addne r3, r10, r6, lsl #1
 	strneh r2, [r3, #0x80]
 	add r3, r6, #1
 	mov r3, r3, lsl #0x10
@@ -11004,14 +11004,14 @@ _02177FA8:
 	add r2, r2, #2
 	blt _02177FA8
 _02177FE0:
-	add r0, sl, #0x94
+	add r0, r10, #0x94
 	mov r8, #7
 	mov r6, #0x1c
 	mov r7, #0x54
 	str r0, [sp, #4]
 _02177FF4:
 	ldr r0, [sp]
-	ldr r1, [sl, #0x78]
+	ldr r1, [r10, #0x78]
 	cmp r8, r0
 	mov r0, r1, lsr r6
 	and r3, r0, #0xf
@@ -11034,22 +11034,22 @@ _02178018:
 	mov r4, #1
 	bl AnimatorSprite__SetAnimation
 	ldrsh r2, [sp, #8]
-	add r1, sl, r8, lsl #1
+	add r1, r10, r8, lsl #1
 	mov r0, r5
-	add r2, sb, r2
+	add r2, r9, r2
 	sub r2, r2, r7
 	strh r2, [r5, #8]
 	ldrsh ip, [sp, #0xa]
 	ldrsh r3, [r1, #0x80]
 	mov r1, #0
-	add ip, fp, ip
+	add ip, r11, ip
 	sub r3, ip, r3
 	mov r2, r1
 	strh r3, [r5, #0xa]
 	bl AnimatorSprite__ProcessAnimation
 	mov r0, r5
 	bl AnimatorSprite__DrawFrame
-	add r1, sl, r8, lsl #1
+	add r1, r10, r8, lsl #1
 	ldrsh r0, [r1, #0x80]
 	cmp r0, #0
 	subne r0, r0, #1
@@ -11062,26 +11062,26 @@ _0217809C:
 	sub r7, r7, #0xc
 	bpl _02177FF4
 	ldrsh r1, [sp, #8]
-	add r0, sl, #0x930
-	add r2, sb, #8
+	add r0, r10, #0x930
+	add r2, r9, #8
 	add r1, r2, r1
 	add r0, r0, #0x1000
 	strh r1, [r0, #8]
 	ldrsh r1, [sp, #0xa]
-	sub r2, fp, #0xc
-	ldrsh r3, [sl, #0x86]
+	sub r2, r11, #0xc
+	ldrsh r3, [r10, #0x86]
 	add r1, r2, r1
 	add r1, r1, r3, lsl #1
 	strh r1, [r0, #0xa]
 	bl AnimatorSprite__DrawFrame
-	ldrsh r0, [sl, #0x86]
+	ldrsh r0, [r10, #0x86]
 	cmp r0, #0
 	subne r0, r0, #1
-	strneh r0, [sl, #0x86]
-	ldr r0, [sl, #0x78]
-	str r0, [sl, #0x7c]
+	strneh r0, [r10, #0x86]
+	ldr r0, [r10, #0x78]
+	str r0, [r10, #0x7c]
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02178108: .word StageTask__shakeOffsetTable
 	arm_func_end SailHUD__Func_2177F08

@@ -214,15 +214,15 @@ _020469A8: .word 0x0213419C
 
 	arm_func_start SeaMapEventManager__CreateObject
 SeaMapEventManager__CreateObject: // 0x020469AC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, r0
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r0
 	mov r8, r1
 	mov r7, r2
 	mov r6, r3
 	bl SeaMapEventManager__GetWork
 	ldr r1, _02046A64 // =SeaMapEventManager__ObjectList
 	mov r5, #0
-	add r4, r1, sb, lsl #4
+	add r4, r1, r9, lsl #4
 	ldr r1, _02046A68 // =0x0000FFFF
 	mov r3, r5
 	mov ip, r0
@@ -244,7 +244,7 @@ _02046A08:
 	mov r0, #0
 	mov r2, #0x12
 	bl MIi_CpuClear16
-	strh sb, [r5]
+	strh r9, [r5]
 	strh r8, [r5, #2]
 	ldr r0, [sp, #0x20]
 	strh r7, [r5, #4]
@@ -263,7 +263,7 @@ _02046A48:
 	strh r2, [r5, #0x10]
 	ldr r2, [r4, #8]
 	blx r2
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02046A64: .word SeaMapEventManager__ObjectList
 _02046A68: .word 0x0000FFFF
@@ -333,7 +333,7 @@ _02046B0C:
 
 	arm_func_start SeaMapEventManager__Func_2046B14
 SeaMapEventManager__Func_2046B14: // 0x02046B14
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	str r0, [sp]
 	str r1, [sp, #4]
@@ -352,16 +352,16 @@ SeaMapEventManager__Func_2046B14: // 0x02046B14
 	add r7, r0, r3
 	cmp r1, #0
 	addls sp, sp, #0x10
-	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	ldr fp, _02046CC0 // =0x00000F5E
+	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	ldr r11, _02046CC0 // =0x00000F5E
 	ldr r6, _02046CC4 // =0x0000065D
 _02046B6C:
 	add r0, r7, r8, lsl #1
 	ldrh r2, [r0, #2]
 	ldr r0, [sp, #0xc]
 	mov r1, #0x12
-	mla sb, r2, r1, r0
-	ldrsh r0, [sb, #0x10]
+	mla r9, r2, r1, r0
+	ldrsh r0, [r9, #0x10]
 	cmp r0, #3
 	beq _02046B98
 	cmp r0, #6
@@ -373,9 +373,9 @@ _02046B98:
 	cmp r0, #0
 	beq _02046CA0
 _02046BA8:
-	ldrsh r1, [sb, #4]
+	ldrsh r1, [r9, #4]
 	ldr r0, [sp, #4]
-	ldrsh r2, [sb, #2]
+	ldrsh r2, [r9, #2]
 	rsb r1, r0, r1, lsl #12
 	ldr r0, [sp]
 	rsbs r0, r0, r2, lsl #12
@@ -385,16 +385,16 @@ _02046BA8:
 	cmp r0, r1
 	mov r2, #0
 	ble _02046C24
-	umull lr, ip, r0, fp
+	umull lr, ip, r0, r11
 	mla ip, r0, r2, ip
-	mov sl, r0, asr #0x1f
+	mov r10, r0, asr #0x1f
 	mov r0, #0x800
 	adds r2, lr, r0
-	mla ip, sl, fp, ip
+	mla ip, r10, r11, ip
 	mov r0, #0
 	adc r0, ip, r0
-	mov sl, r2, lsr #0xc
-	orr sl, sl, r0, lsl #20
+	mov r10, r2, lsr #0xc
+	orr r10, r10, r0, lsl #20
 	umull r2, r0, r1, r6
 	mov ip, #0
 	mla r0, r1, ip, r0
@@ -405,14 +405,14 @@ _02046BA8:
 	adc r0, r0, r1
 	b _02046C68
 _02046C24:
-	umull sl, lr, r1, fp
+	umull r10, lr, r1, r11
 	mla lr, r1, r2, lr
 	mov ip, r1, asr #0x1f
-	mla lr, ip, fp, lr
-	adds r2, sl, #0x800
+	mla lr, ip, r11, lr
+	adds r2, r10, #0x800
 	adc r1, lr, #0
-	mov sl, r2, lsr #0xc
-	orr sl, sl, r1, lsl #20
+	mov r10, r2, lsr #0xc
+	orr r10, r10, r1, lsl #20
 	mov ip, #0
 	umull r2, r1, r0, r6
 	mla r1, r0, ip, r1
@@ -426,11 +426,11 @@ _02046C68:
 	mov r1, r2, lsr #0xc
 	orr r1, r1, r0, lsl #20
 	ldr r0, [sp, #8]
-	add r1, sl, r1
+	add r1, r10, r1
 	cmp r1, r0
 	bgt _02046CA0
 	ldrh r0, [r4]
-	str sb, [r5, r0, lsl #3]
+	str r9, [r5, r0, lsl #3]
 	ldrh r0, [r4]
 	add r0, r5, r0, lsl #3
 	str r1, [r0, #4]
@@ -445,7 +445,7 @@ _02046CA0:
 	cmp r1, r0, lsr #16
 	bhi _02046B6C
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02046CC0: .word 0x00000F5E
 _02046CC4: .word 0x0000065D
@@ -966,18 +966,18 @@ _020472A0: .word GetTaskWork_
 
 	arm_func_start SeaMapEventManager__SpawnObjects1
 SeaMapEventManager__SpawnObjects1: // 0x020472A4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	bl SeaMapManager__GetWork
 	ldr r6, [r0, #0x160]
 	mov r7, #0
 	ldrh r0, [r6]
 	cmp r0, #0
-	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r4, _0204731C // =SeaMapEventManager__ObjectList
 	add r5, r6, #2
-	mov sb, #0x12
+	mov r9, #0x12
 _020472CC:
-	mla r8, r7, sb, r5
+	mla r8, r7, r9, r5
 	mov r0, r8
 	bl SeaMapEventManager__ObjectIsActive
 	cmp r0, #0
@@ -997,16 +997,16 @@ _02047300:
 	cmp r1, r0, lsr #16
 	mov r7, r0, lsr #0x10
 	bhi _020472CC
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0204731C: .word SeaMapEventManager__ObjectList
 	arm_func_end SeaMapEventManager__SpawnObjects1
 
 	arm_func_start SeaMapEventManager__SpawnObjects2
 SeaMapEventManager__SpawnObjects2: // 0x02047320
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetCurrentTaskWork_
-	mov fp, r0
+	mov r11, r0
 	bl SeaMapManager__GetWork
 	ldr r7, [r0, #0x160]
 	mov r8, #0
@@ -1017,21 +1017,21 @@ SeaMapEventManager__SpawnObjects2: // 0x02047320
 	add r6, r7, #2
 	mov r4, #0x12
 _02047350:
-	mla sb, r8, r4, r6
-	mov r0, sb
+	mla r9, r8, r4, r6
+	mov r0, r9
 	bl SeaMapEventManager__ObjectIsActive
 	cmp r0, #0
 	beq _02047390
-	ldrh r1, [sb]
-	add r0, sb, #2
-	add sl, r5, r1, lsl #4
-	add r1, sl, #4
+	ldrh r1, [r9]
+	add r0, r9, #2
+	add r10, r5, r1, lsl #4
+	add r1, r10, #4
 	bl SeaMapEventManager__ObjectInBounds
 	cmp r0, #0
 	beq _02047390
-	ldr r2, [sl, #8]
-	mov r0, sl
-	mov r1, sb
+	ldr r2, [r10, #8]
+	mov r0, r10
+	mov r1, r9
 	blx r2
 _02047390:
 	ldrh r1, [r7]
@@ -1043,9 +1043,9 @@ _02047390:
 _020473A8:
 	mov r1, #0
 	mov r2, r1
-	add r0, fp, #0x1f0
+	add r0, r11, #0x1f0
 	bl SeaMapEventManager__Func_20471B8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020473BC: .word SeaMapEventManager__ObjectList
 	arm_func_end SeaMapEventManager__SpawnObjects2
@@ -1093,7 +1093,7 @@ _02047428: .word 0x0000FFFF
 
 	arm_func_start SeaMapEventManager__ObjectInBounds
 SeaMapEventManager__ObjectInBounds: // 0x0204742C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r7, r0
 	mov r6, r1
 	bl SeaMapManager__GetWork
@@ -1111,8 +1111,8 @@ SeaMapEventManager__ObjectInBounds: // 0x0204742C
 	mul r0, r4, r1
 	add r1, r5, #0xc0
 	add r0, r1, r0, asr #12
-	mov sb, r2, lsl #0x10
-	mov sl, r0, lsl #0x10
+	mov r9, r2, lsl #0x10
+	mov r10, r0, lsl #0x10
 	bl SeaMapManager__GetZoomInScale
 	ldrsb r1, [r6]
 	mul r0, r1, r0
@@ -1121,13 +1121,13 @@ SeaMapEventManager__ObjectInBounds: // 0x0204742C
 	bl SeaMapManager__GetZoomInScale
 	ldrsb r1, [r6, #1]
 	rsb r6, r4, r8, asr #16
-	add r4, r4, sb, asr #16
+	add r4, r4, r9, asr #16
 	mul r0, r1, r0
 	mov r0, r0, lsl #4
 	mov r2, r0, asr #0x10
 	sub r0, r5, r0, asr #16
 	mov r1, r0, lsl #0x10
-	add r3, r2, sl, asr #16
+	add r3, r2, r10, asr #16
 	ldrsh r2, [r7]
 	mov r0, r6, lsl #0x10
 	mov r5, r1, asr #0x10
@@ -1142,10 +1142,10 @@ SeaMapEventManager__ObjectInBounds: // 0x0204742C
 	bgt _020474F4
 	cmp r0, r1, asr #16
 	movlt r0, #1
-	ldmltia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmltia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _020474F4:
 	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end SeaMapEventManager__ObjectInBounds
 
 	arm_func_start SeaMapEventManager__Func_20474FC

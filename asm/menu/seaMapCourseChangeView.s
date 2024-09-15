@@ -8,7 +8,7 @@
 
 	arm_func_start SeaMapCourseChangeView__Create
 SeaMapCourseChangeView__Create: // 0x0204B51C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x1c
 	bl ReleaseAudioSystem
 	ldr r0, _0204B6E4 // =aSndSysSoundDat_0
@@ -43,16 +43,16 @@ SeaMapCourseChangeView__Create: // 0x0204B51C
 	ldr r1, [r1, #0xa0]
 	bl SeaMapChartCourseView__Create
 	bl SeaMapManager__Func_20444E8
-	ldr sl, _0204B6FC // =0x02134184
-	ldr sb, _0204B700 // =0x02134174
-	ldr r0, [sl]
+	ldr r10, _0204B6FC // =0x02134184
+	ldr r9, _0204B700 // =0x02134174
+	ldr r0, [r10]
 	add r8, sp, #0x14
 	add r7, sp, #0x18
 	add r6, sp, #0x10
 	add r5, sp, #0x12
 	mov r4, #1
 _0204B5C8:
-	ldr r3, [sb]
+	ldr r3, [r9]
 	mov r1, r8
 	mov r2, r7
 	sub r0, r0, r3
@@ -68,10 +68,10 @@ _0204B5C8:
 	bl SeaMapCollision__Collide
 	cmp r0, #0
 	beq _0204B628
-	ldr r0, [sl]
-	ldr r1, [sb]
+	ldr r0, [r10]
+	ldr r1, [r9]
 	sub r0, r0, #0x800
-	str r0, [sl]
+	str r0, [r10]
 	cmp r1, r0
 	ble _0204B5C8
 	ldr r0, _0204B6FC // =0x02134184
@@ -123,7 +123,7 @@ _0204B628:
 	bl PlayTrack
 	bl ResetTouchInput
 	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0204B6E4: .word aSndSysSoundDat_0
 _0204B6E8: .word audioManagerSndHeap

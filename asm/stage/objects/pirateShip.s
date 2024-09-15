@@ -290,123 +290,123 @@ _0217A440: .word PirateShip__State_217A444
 
 	arm_func_start PirateShip__State_217A444
 PirateShip__State_217A444: // 0x0217A444
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x14
-	mov sb, r0
-	ldr r4, [sb, #0x35c]
+	mov r9, r0
+	ldr r4, [r9, #0x35c]
 	mov r0, r4
 	bl PirateShip__GetPlayerVelocity
 	ldr r2, [r4, #0x44]
-	ldr r1, [sb, #0x368]
+	ldr r1, [r9, #0x368]
 	mov r5, r0
 	cmp r2, r1
 	blt _0217A47C
-	ldr r0, [sb, #0x36c]
+	ldr r0, [r9, #0x36c]
 	cmp r2, r0
 	ble _0217A498
 _0217A47C:
-	ldr r1, [sb, #0x370]
+	ldr r1, [r9, #0x370]
 	ldr r0, _0217A6F8 // =PirateShip__State_217A714
 	add r1, r1, r5
-	str r1, [sb, #0x370]
+	str r1, [r9, #0x370]
 	add sp, sp, #0x14
-	str r0, [sb, #0xf4]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	str r0, [r9, #0xf4]
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 _0217A498:
 	ldrb r2, [r4, #0x5d3]
 	mov r1, #0x70
 	ldr r0, _0217A6FC // =0x02133ACC
 	smulbb r2, r2, r1
 	ldr r0, [r0, r2]
-	ldr r3, [sb, #0x44]
+	ldr r3, [r9, #0x44]
 	add r2, r0, #0x80000
 	add r0, r2, #0x20000
 	cmp r0, r3
 	bge _0217A4E4
-	ldr r0, [sb, #0x370]
+	ldr r0, [r9, #0x370]
 	sub r1, r1, #0x1f0
 	mov r2, #0x2800
 	bl ObjSpdUpSet
-	str r0, [sb, #0x370]
-	ldr r0, [sb, #0x354]
+	str r0, [r9, #0x370]
+	ldr r0, [r9, #0x354]
 	orr r0, r0, #1
-	str r0, [sb, #0x354]
+	str r0, [r9, #0x354]
 	b _0217A5CC
 _0217A4E4:
 	sub r0, r2, #0x20000
 	cmp r0, r3
 	ble _0217A514
-	ldr r0, [sb, #0x370]
+	ldr r0, [r9, #0x370]
 	mov r1, #0x180
 	mov r2, #0x2800
 	bl ObjSpdUpSet
-	str r0, [sb, #0x370]
-	ldr r0, [sb, #0x354]
+	str r0, [r9, #0x370]
+	ldr r0, [r9, #0x354]
 	bic r0, r0, #1
-	str r0, [sb, #0x354]
+	str r0, [r9, #0x354]
 	b _0217A5CC
 _0217A514:
-	ldr r0, [sb, #0x354]
+	ldr r0, [r9, #0x354]
 	ands r0, r0, #1
 	bne _0217A560
 	cmp r2, r3
 	bge _0217A560
-	ldr r0, [sb, #0x370]
+	ldr r0, [r9, #0x370]
 	mov r1, #0x180
 	cmp r0, #0
 	blt _0217A550
 	bl ObjSpdDownSet
-	str r0, [sb, #0x370]
+	str r0, [r9, #0x370]
 	cmp r0, #0x1800
 	movlt r0, #0x1800
-	strlt r0, [sb, #0x370]
+	strlt r0, [r9, #0x370]
 	b _0217A5CC
 _0217A550:
 	mov r2, #0x2800
 	bl ObjSpdUpSet
-	str r0, [sb, #0x370]
+	str r0, [r9, #0x370]
 	b _0217A5CC
 _0217A560:
 	cmp r0, #0
 	beq _0217A5B0
 	cmp r2, r3
 	ble _0217A5B0
-	ldr r0, [sb, #0x370]
+	ldr r0, [r9, #0x370]
 	mov r1, #0x180
 	cmp r0, #0
 	bge _0217A59C
 	bl ObjSpdDownSet
 	mov r1, #0x1800
 	rsb r1, r1, #0
-	str r0, [sb, #0x370]
+	str r0, [r9, #0x370]
 	cmp r0, r1
-	strgt r1, [sb, #0x370]
+	strgt r1, [r9, #0x370]
 	b _0217A5CC
 _0217A59C:
 	rsb r1, r1, #0
 	mov r2, #0x2800
 	bl ObjSpdUpSet
-	str r0, [sb, #0x370]
+	str r0, [r9, #0x370]
 	b _0217A5CC
 _0217A5B0:
 	cmp r0, #0
 	mov r1, #0x180
-	ldr r0, [sb, #0x370]
+	ldr r0, [r9, #0x370]
 	subne r1, r1, #0x300
 	mov r2, #0x2800
 	bl ObjSpdUpSet
-	str r0, [sb, #0x370]
+	str r0, [r9, #0x370]
 _0217A5CC:
-	ldr r0, [sb, #0x370]
+	ldr r0, [r9, #0x370]
 	add r0, r5, r0
-	str r0, [sb, #0x98]
-	ldr r0, [sb, #0x2c]
+	str r0, [r9, #0x98]
+	ldr r0, [r9, #0x2c]
 	sub r0, r0, #1
 	cmp r0, #0
 	addgt sp, sp, #0x14
-	str r0, [sb, #0x2c]
-	ldmgtia sp!, {r4, r5, r6, r7, r8, sb, pc}
-	ldr r0, [sb, #0x28]
+	str r0, [r9, #0x2c]
+	ldmgtia sp!, {r4, r5, r6, r7, r8, r9, pc}
+	ldr r0, [r9, #0x28]
 	ldr r1, _0217A700 // =_02189904
 	mov r0, r0, lsl #0x1d
 	mov r2, r0, lsr #0x1b
@@ -420,8 +420,8 @@ _0217A5CC:
 	str r3, [sp, #8]
 	str r3, [sp, #0xc]
 	str r3, [sp, #0x10]
-	ldr r1, [sb, #0x44]
-	ldr r2, [sb, #0x48]
+	ldr r1, [r9, #0x44]
+	ldr r2, [r9, #0x48]
 	add r1, r1, r7, lsl #12
 	add r2, r2, r6, lsl #12
 	mov r7, r7, lsl #0xc
@@ -433,13 +433,13 @@ _0217A5CC:
 	str r5, [r6, #0x98]
 	rsb r0, r0, #0
 	str r0, [r6, #0x9c]
-	ldr r0, [sb, #0x44]
+	ldr r0, [r9, #0x44]
 	ldr r1, [r4, #0x44]
 	add r0, r0, r7
 	cmp r5, #0
 	sub r0, r1, r0
 	beq _0217A68C
-	ldr r2, [sb, #0x28]
+	ldr r2, [r9, #0x28]
 	ldr r1, _0217A70C // =0x02189944
 	mov r2, r2, lsl #0x1c
 	mov r2, r2, lsr #0x1b
@@ -452,7 +452,7 @@ _0217A68C:
 	add r0, r1, r0
 	str r0, [r6, #0x98]
 _0217A6A0:
-	mov r0, sb
+	mov r0, r9
 	mov r1, r7
 	mov r2, r8
 	bl PirateShipCannonBlast__Create
@@ -463,17 +463,17 @@ _0217A6A0:
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	ldr r1, [sb, #0x28]
+	ldr r1, [r9, #0x28]
 	ldr r0, _0217A710 // =0x02189924
 	mov r1, r1, lsl #1
 	ldrsh r0, [r0, r1]
-	str r0, [sb, #0x2c]
-	ldr r0, [sb, #0x28]
+	str r0, [r9, #0x2c]
+	ldr r0, [r9, #0x28]
 	add r0, r0, #1
 	and r0, r0, #0xf
-	str r0, [sb, #0x28]
+	str r0, [r9, #0x28]
 	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0217A6F8: .word PirateShip__State_217A714
 _0217A6FC: .word 0x02133ACC

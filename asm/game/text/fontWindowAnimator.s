@@ -616,23 +616,23 @@ _02059EBC: .word FontWindowAnimator__Func_205A180
 
 	arm_func_start FontWindowAnimator__Func_2059EC0
 FontWindowAnimator__Func_2059EC0: // 0x02059EC0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
-	mov sl, r0
-	ldr r0, [sl, #4]
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r10, r0
+	ldr r0, [r10, #4]
 	mov r4, r1
 	mov r6, r2
-	mov sb, r3
+	mov r9, r3
 	bl FontWindow__Func_20582AC
-	ldrh r2, [sl, #0x16]
+	ldrh r2, [r10, #0x16]
 	mov r5, r0
 	mov r1, r6
 	mov r0, r2, lsl #3
-	sub fp, r0, #1
-	mul r0, fp, r4
+	sub r11, r0, #1
+	mul r0, r11, r4
 	mov r0, r0, lsl #0xc
 	bl FX_DivS32
-	ldrh r1, [sl, #0x16]
-	ldrsh r2, [sl, #0x12]
+	ldrh r1, [r10, #0x16]
+	ldrsh r2, [r10, #0x12]
 	mov r4, r0
 	mov r0, r1, lsl #3
 	mov r6, r2, lsl #3
@@ -650,9 +650,9 @@ FontWindowAnimator__Func_2059EC0: // 0x02059EC0
 _02059F3C:
 	cmp r7, r1
 	ble _02059FA0
-	cmp sb, #0
+	cmp r9, #0
 	beq _02059F58
-	cmp sb, #1
+	cmp r9, #1
 	beq _02059F80
 	b _02059F9C
 _02059F58:
@@ -667,7 +667,7 @@ _02059F58:
 	bl FontDMAControl__Func_2051DF0
 	b _02059F9C
 _02059F80:
-	sub r0, fp, r4, asr #12
+	sub r0, r11, r4, asr #12
 	mov r3, r0, lsl #0x10
 	mov r0, r5
 	and r1, r1, #0xff
@@ -679,7 +679,7 @@ _02059F9C:
 _02059FA0:
 	cmp r8, r1
 	ble _02059FC0
-	ldrsh r3, [sl, #0x62]
+	ldrsh r3, [r10, #0x62]
 	mov r0, r5
 	and r1, r1, #0xff
 	and r2, r8, #0xff
@@ -687,26 +687,26 @@ _02059FA0:
 	mov r1, r8
 _02059FC0:
 	cmp r1, #0xbf
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r5
 	and r1, r1, #0xff
 	mov r2, #0xbf
 	mov r3, #0
 	bl FontDMAControl__Func_2051D60
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end FontWindowAnimator__Func_2059EC0
 
 	arm_func_start FontWindowAnimator__Func_2059FE0
 FontWindowAnimator__Func_2059FE0: // 0x02059FE0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
-	mov sl, r0
-	ldr r0, [sl, #4]
+	mov r10, r0
+	ldr r0, [r10, #4]
 	mov r6, r1
 	mov r5, r2
 	str r3, [sp, #4]
 	bl FontWindow__Func_20582AC
-	ldrh r2, [sl, #0x16]
+	ldrh r2, [r10, #0x16]
 	mov r4, r0
 	mov r1, r5
 	mov r0, r2, lsl #3
@@ -715,16 +715,16 @@ FontWindowAnimator__Func_2059FE0: // 0x02059FE0
 	str r0, [sp, #8]
 	mov r0, r2, lsl #0xc
 	bl FX_DivS32
-	ldrsh r2, [sl, #0x12]
+	ldrsh r2, [r10, #0x12]
 	mov r3, r0, asr #0xc
-	ldrh r1, [sl, #0x16]
+	ldrh r1, [r10, #0x16]
 	mov r5, r2, lsl #3
 	cmp r5, #0
 	add r7, r5, r1, lsl #2
 	mov r0, r1, lsl #3
 	sub r0, r0, #1
-	add sb, r0, r2, lsl #3
-	mov fp, r3, asr #1
+	add r9, r0, r2, lsl #3
+	mov r11, r3, asr #1
 	sub r6, r7, r3, asr #1
 	add r8, r7, r3, asr #1
 	mov r1, #0
@@ -737,7 +737,7 @@ FontWindowAnimator__Func_2059FE0: // 0x02059FE0
 _0205A070:
 	cmp r6, r1
 	ble _0205A090
-	ldrsh r3, [sl, #0x62]
+	ldrsh r3, [r10, #0x62]
 	mov r0, r4
 	and r1, r1, #0xff
 	and r2, r6, #0xff
@@ -753,7 +753,7 @@ _0205A090:
 _0205A0A8:
 	cmp r8, r1
 	ble _0205A138
-	mov r0, sb, lsl #0x10
+	mov r0, r9, lsl #0x10
 	mov r3, r5, lsl #0x10
 	mov r5, r0, asr #0x10
 	mov r0, r4
@@ -769,7 +769,7 @@ _0205A0DC:
 	ble _0205A10C
 	ldr r0, [sp, #8]
 	and r1, r1, #0xff
-	rsb r0, fp, r0, asr #1
+	rsb r0, r11, r0, asr #1
 	rsb r0, r0, #0
 	mov r3, r0, lsl #0x10
 	mov r0, r4
@@ -782,7 +782,7 @@ _0205A10C:
 	ble _0205A138
 	ldr r0, [sp, #8]
 	and r1, r1, #0xff
-	rsb r0, fp, r0, asr #1
+	rsb r0, r11, r0, asr #1
 	mov r3, r0, lsl #0x10
 	mov r0, r4
 	and r2, r8, #0xff
@@ -790,46 +790,46 @@ _0205A10C:
 	bl FontDMAControl__Func_2051D60
 	mov r1, r8
 _0205A138:
-	cmp sb, r1
+	cmp r9, r1
 	ble _0205A158
-	ldrsh r3, [sl, #0x62]
+	ldrsh r3, [r10, #0x62]
 	mov r0, r4
 	and r1, r1, #0xff
-	and r2, sb, #0xff
+	and r2, r9, #0xff
 	bl FontDMAControl__Func_2051EB4
-	mov r1, sb
+	mov r1, r9
 _0205A158:
 	cmp r1, #0xbf
 	addge sp, sp, #0xc
-	ldmgeia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgeia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r4
 	and r1, r1, #0xff
 	mov r2, #0xbf
 	mov r3, #0
 	bl FontDMAControl__Func_2051D60
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end FontWindowAnimator__Func_2059FE0
 
 	arm_func_start FontWindowAnimator__Func_205A180
 FontWindowAnimator__Func_205A180: // 0x0205A180
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
-	mov sl, r0
-	ldr r0, [sl, #4]
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r10, r0
+	ldr r0, [r10, #4]
 	mov r4, r1
 	mov r6, r2
-	mov sb, r3
+	mov r9, r3
 	bl FontWindow__Func_20582AC
-	ldrh r2, [sl, #0x16]
+	ldrh r2, [r10, #0x16]
 	mov r5, r0
 	mov r1, r6
 	mov r0, r2, lsl #3
-	sub fp, r0, #1
-	mul r0, fp, r4
+	sub r11, r0, #1
+	mul r0, r11, r4
 	mov r0, r0, lsl #0xc
 	bl FX_DivS32
-	ldrh r1, [sl, #0x16]
-	ldrsh r2, [sl, #0x12]
+	ldrh r1, [r10, #0x16]
+	ldrsh r2, [r10, #0x12]
 	mov r4, r0
 	mov r0, r1, lsl #3
 	sub r0, r0, #1
@@ -847,7 +847,7 @@ FontWindowAnimator__Func_205A180: // 0x0205A180
 _0205A1FC:
 	cmp r7, r1
 	ble _0205A21C
-	ldrsh r3, [sl, #0x62]
+	ldrsh r3, [r10, #0x62]
 	mov r0, r5
 	and r1, r1, #0xff
 	and r2, r7, #0xff
@@ -856,9 +856,9 @@ _0205A1FC:
 _0205A21C:
 	cmp r8, r1
 	ble _0205A284
-	cmp sb, #0
+	cmp r9, #0
 	beq _0205A238
-	cmp sb, #1
+	cmp r9, #1
 	beq _0205A260
 	b _0205A280
 _0205A238:
@@ -873,7 +873,7 @@ _0205A238:
 	bl FontDMAControl__Func_2051DF0
 	b _0205A280
 _0205A260:
-	sub r0, fp, r4, asr #12
+	sub r0, r11, r4, asr #12
 	rsb r0, r0, #0
 	mov r3, r0, lsl #0x10
 	mov r0, r5
@@ -885,13 +885,13 @@ _0205A280:
 	mov r1, r8
 _0205A284:
 	cmp r1, #0xbf
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r5
 	and r1, r1, #0xff
 	mov r2, #0xbf
 	mov r3, #0
 	bl FontDMAControl__Func_2051D60
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end FontWindowAnimator__Func_205A180
 
 	arm_func_start FontWindowAnimator__Func_205A2A4

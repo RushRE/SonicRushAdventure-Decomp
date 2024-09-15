@@ -5,7 +5,7 @@
 
 	arm_func_start exFixBossLifeGaugeTask__Main
 exFixBossLifeGaugeTask__Main: // 0x0216A13C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetExTaskWorkCurrent_
 	mov r5, r0
 	bl GetCurrentTask
@@ -77,19 +77,19 @@ exFixBossLifeGaugeTask__Main: // 0x0216A13C
 	add r0, r5, #0x2e
 	mov r7, r5
 	add r8, r5, #0x1ac
-	add sb, r5, #0x22c
-	add sl, r0, #0x200
+	add r9, r5, #0x22c
+	add r10, r0, #0x200
 	add r4, r5, #0x100
-	mov fp, #9
+	mov r11, #9
 _0216A26C:
 	add r0, r6, #0x15
 	add r1, r7, #0x100
 	strh r0, [r1, #0xac]
 	mov r0, r8
-	strh fp, [r1, #0xae]
+	strh r11, [r1, #0xae]
 	bl ovl09_2168EA4
 	ldr r1, _0216A344 // =0x0000DFFF
-	mov r0, sb
+	mov r0, r9
 	bl ovl09_21641E8
 	add r1, r7, #0x200
 	mov r0, #0
@@ -97,9 +97,9 @@ _0216A26C:
 	ldrsh r2, [r4, #6]
 	mov r0, r8
 	strh r2, [r1, #0x16]
-	ldrb r1, [sl]
+	ldrb r1, [r10]
 	orr r1, r1, #0x20
-	strb r1, [sl], #0x88
+	strb r1, [r10], #0x88
 	bl ovl09_2161B80
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
@@ -107,7 +107,7 @@ _0216A26C:
 	cmp r6, #9
 	add r7, r7, #0x88
 	add r8, r8, #0x88
-	add sb, sb, #0x88
+	add r9, r9, #0x88
 	blt _0216A26C
 	add r0, r5, #0x100
 	ldrsh r2, [r0, #4]
@@ -134,7 +134,7 @@ _0216A26C:
 	bl GetExTaskCurrent
 	ldr r1, _0216A348 // =ovl09_216A3B8
 	str r1, [r0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216A340: .word 0x021766A8
 _0216A344: .word 0x0000DFFF
@@ -181,7 +181,7 @@ _0216A3B4: .word 0x021766A8
 
 	arm_func_start ovl09_216A3B8
 ovl09_216A3B8: // 0x0216A3B8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetExTaskWorkCurrent_
 	mov r8, r0
 	bl exSysTask__GetStatus
@@ -244,7 +244,7 @@ _0216A468:
 	ldr r1, _0216A620 // =ovl09_216A624
 	str r1, [r0]
 	bl ovl09_216A624
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216A4B0:
 	mov r0, r1, asr #2
 	add r0, r1, r0, lsr #29
@@ -274,43 +274,43 @@ _0216A4F4:
 	add r4, r4, #0x88
 	blt _0216A4F4
 	ldrsh r0, [r8, #4]
-	mov sb, #0
-	mov sl, sb
+	mov r9, #0
+	mov r10, r9
 	cmp r0, #0
 	ble _0216A5A4
 	add r6, r8, #0x1ec
 	add r7, r8, #0x26c
 	add r4, r8, #0x100
-	add fp, r8, #0x600
+	add r11, r8, #0x600
 	add r5, r8, #0x200
 _0216A53C:
 	ldrsh r0, [r8, #6]
-	cmp sl, r0
+	cmp r10, r0
 	bge _0216A570
 	ldrsh r1, [r4, #4]
-	add sb, sl, #1
+	add r9, r10, #1
 	add r0, r8, #0x1ac
-	add r2, r1, sb, lsl #3
+	add r2, r1, r9, lsl #3
 	add r1, r8, #0x22c
 	strh r2, [r5, #0x14]
 	bl ovl09_2164034
-	mov r0, sb, lsl #0x10
-	mov sb, r0, asr #0x10
+	mov r0, r9, lsl #0x10
+	mov r9, r0, asr #0x10
 	b _0216A58C
 _0216A570:
 	ldrsh r2, [r4, #4]
-	add r1, sl, #1
+	add r1, r10, #1
 	add r0, r6, #0x400
 	add r2, r2, r1, lsl #3
 	add r1, r7, #0x400
-	strh r2, [fp, #0x54]
+	strh r2, [r11, #0x54]
 	bl ovl09_2164034
 _0216A58C:
 	ldrsh r1, [r8, #4]
-	add r0, sl, #1
+	add r0, r10, #1
 	mov r0, r0, lsl #0x10
 	cmp r1, r0, asr #16
-	mov sl, r0, asr #0x10
+	mov r10, r0, asr #0x10
 	bgt _0216A53C
 _0216A5A4:
 	ldr r0, [sp]
@@ -319,7 +319,7 @@ _0216A5A4:
 	add r2, r8, #0x100
 	mov r1, #0x88
 	smulbb r6, r0, r1
-	add r0, sb, #1
+	add r0, r9, #1
 	add r1, r8, #0x22c
 	ldrsh r5, [r2, #4]
 	add r4, r8, r6
@@ -344,14 +344,14 @@ _0216A5EC:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216A620: .word ovl09_216A624
 	arm_func_end ovl09_216A3B8
 
 	arm_func_start ovl09_216A624
 ovl09_216A624: // 0x0216A624
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetExTaskWorkCurrent_
 	mov r8, r0
 	bl exSysTask__GetStatus
@@ -368,7 +368,7 @@ ovl09_216A624: // 0x0216A624
 	ldr r1, _0216A834 // =ovl09_216A3B8
 	str r1, [r0]
 	bl ovl09_216A3B8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216A66C:
 	ldr r0, [r8, #0x10]
 	ldr r1, _0216A838 // =0x3F666666
@@ -421,43 +421,43 @@ _0216A708:
 	add r4, r4, #0x88
 	blt _0216A708
 	ldrsh r0, [r8, #4]
-	mov sb, #0
-	mov sl, sb
+	mov r9, #0
+	mov r10, r9
 	cmp r0, #0
 	ble _0216A7B8
 	add r6, r8, #0x1ec
 	add r7, r8, #0x26c
 	add r4, r8, #0x100
-	add fp, r8, #0x600
+	add r11, r8, #0x600
 	add r5, r8, #0x200
 _0216A750:
 	ldrsh r0, [r8, #6]
-	cmp sl, r0
+	cmp r10, r0
 	bge _0216A784
 	ldrsh r1, [r4, #4]
-	add sb, sl, #1
+	add r9, r10, #1
 	add r0, r8, #0x1ac
-	add r2, r1, sb, lsl #3
+	add r2, r1, r9, lsl #3
 	add r1, r8, #0x22c
 	strh r2, [r5, #0x14]
 	bl ovl09_2164034
-	mov r0, sb, lsl #0x10
-	mov sb, r0, asr #0x10
+	mov r0, r9, lsl #0x10
+	mov r9, r0, asr #0x10
 	b _0216A7A0
 _0216A784:
 	ldrsh r2, [r4, #4]
-	add r1, sl, #1
+	add r1, r10, #1
 	add r0, r6, #0x400
 	add r2, r2, r1, lsl #3
 	add r1, r7, #0x400
-	strh r2, [fp, #0x54]
+	strh r2, [r11, #0x54]
 	bl ovl09_2164034
 _0216A7A0:
 	ldrsh r1, [r8, #4]
-	add r0, sl, #1
+	add r0, r10, #1
 	mov r0, r0, lsl #0x10
 	cmp r1, r0, asr #16
-	mov sl, r0, asr #0x10
+	mov r10, r0, asr #0x10
 	bgt _0216A750
 _0216A7B8:
 	ldr r0, [sp]
@@ -466,7 +466,7 @@ _0216A7B8:
 	add r2, r8, #0x100
 	mov r1, #0x88
 	smulbb r6, r0, r1
-	add r0, sb, #1
+	add r0, r9, #1
 	add r1, r8, #0x22c
 	ldrsh r5, [r2, #4]
 	add r4, r8, r6
@@ -491,7 +491,7 @@ _0216A800:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216A834: .word ovl09_216A3B8
 _0216A838: .word 0x3F666666

@@ -31,7 +31,7 @@ AkMath__Func_2002C40: // 0x02002C40
 
 	arm_func_start AkMath__Func_2002C98
 AkMath__Func_2002C98: // 0x02002C98
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldrh r4, [sp, #0x20]
 	ldr r5, _02002D24 // =FX_SinCosTable_
 	mov r4, r4, asr #4
@@ -45,12 +45,12 @@ AkMath__Func_2002C98: // 0x02002C98
 	smull r7, r6, r0, r5
 	adds r7, r7, #0x800
 	adc lr, r6, #0
-	adds sb, r4, #0x800
+	adds r9, r4, #0x800
 	mov r4, r7, lsr #0xc
 	smull r6, r7, r0, ip
 	adc r0, r8, #0
 	adds r8, r6, #0x800
-	mov ip, sb, lsr #0xc
+	mov ip, r9, lsr #0xc
 	smull r6, r5, r1, r5
 	adc r7, r7, #0
 	adds r1, r6, #0x800
@@ -65,7 +65,7 @@ AkMath__Func_2002C98: // 0x02002C98
 	str r4, [r2]
 	add r0, r6, r1
 	str r0, [r3]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02002D24: .word FX_SinCosTable_
 	arm_func_end AkMath__Func_2002C98
@@ -95,7 +95,7 @@ _02002D68:
 
 	arm_func_start AkMath__BlendColors
 AkMath__BlendColors: // 0x02002D70
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldr r6, [sp, #0x20]
 	and r4, r2, #0x1f
 	mul r8, r4, r6
@@ -125,13 +125,13 @@ _02002DBC:
 	and r1, r1, #0x7c00
 	mov r7, r1, asr #0xa
 	mla r1, r7, lr, r6
-	ldrsh sb, [r2]
+	ldrsh r9, [r2]
 	mov r8, #0
 	sub r7, r2, #0x20
 	strh r8, [ip]
 	str r4, [r2, #-0x10]
 	sub r4, r2, #8
-	mov r6, sb, lsl #0x10
+	mov r6, r9, lsl #0x10
 	stmia r4, {r3, r5}
 	mov r4, r6, lsr #0x10
 _02002E08:
@@ -165,7 +165,7 @@ _02002E4C:
 	mov r1, r1, lsl #0x10
 	orr r1, r2, r1, lsr #16
 	strh r1, [r0]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02002E80: .word 0x04000280
 _02002E84: .word 0x040002A0

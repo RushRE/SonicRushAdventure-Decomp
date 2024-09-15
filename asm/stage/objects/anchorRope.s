@@ -5,7 +5,7 @@
 
 	arm_func_start AnchorRope__Create
 AnchorRope__Create: // 0x0217690C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	ldr r3, _02176BD0 // =0x000010F6
 	str r0, [sp, #0xc]
@@ -27,7 +27,7 @@ AnchorRope__Create: // 0x0217690C
 	cmp r4, r0
 	addeq sp, sp, #0x10
 	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r4
 	bl GetTaskWork_
 	ldr r2, _02176BD4 // =0x0000076C
@@ -54,34 +54,34 @@ AnchorRope__Create: // 0x0217690C
 	mov r8, #0
 	ldr r5, _02176BE8 // =0x021897E8
 	ldr r4, _02176BEC // =0x000034CC
-	ldr fp, _02176BF0 // =_021897E4
+	ldr r11, _02176BF0 // =_021897E4
 	str r0, [r7, #0x364]
-	add sb, r7, #0x368
-	add sl, r7, #0x5f0
+	add r9, r7, #0x368
+	add r10, r7, #0x5f0
 	mov r6, r8
 _021769E4:
-	mov r0, sb
+	mov r0, r9
 	mov r1, #0
 	bl AnimatorMDL__Init
 	str r6, [sp]
 	mov r2, r8, lsl #1
 	ldrh r2, [r5, r2]
 	ldr r1, [r7, #0x364]
-	mov r0, sb
+	mov r0, r9
 	mov r3, r6
 	bl AnimatorMDL__SetResource
-	str r4, [sb, #0x18]
-	str r4, [sb, #0x1c]
+	str r4, [r9, #0x18]
+	str r4, [r9, #0x1c]
 	mov r0, #0xa0
-	str r4, [sb, #0x20]
+	str r4, [r9, #0x20]
 	bl GetObjectFileWork
 	mov r3, r0
 	ldr r0, _02176BE0 // =gameArchiveStage
 	mov r2, r8, lsl #1
 	ldr r1, [r0]
-	mov r0, sl
+	mov r0, r10
 	str r1, [sp]
-	ldrh r2, [fp, r2]
+	ldrh r2, [r11, r2]
 	ldr r1, _02176BF4 // =aActAcGmkAnchor
 	bl ObjAction2dBACLoad
 	mov r0, #0xa0
@@ -93,26 +93,26 @@ _021769E4:
 	ldr r0, [r0]
 	mov r1, r1, lsr #0x10
 	bl ObjDrawAllocSpritePalette
-	strh r0, [sl, #0x50]
-	ldrh r2, [sl, #0x50]
+	strh r0, [r10, #0x50]
+	ldrh r2, [r10, #0x50]
 	mov r1, r8, lsl #0x10
-	mov r0, sl
-	strh r2, [sl, #0x92]
-	strh r2, [sl, #0x90]
-	ldr r2, [sl, #0x64]
+	mov r0, r10
+	strh r2, [r10, #0x92]
+	strh r2, [r10, #0x90]
+	ldr r2, [r10, #0x64]
 	mov r1, r1, lsr #0x10
 	orr r2, r2, #1
-	str r2, [sl, #0x64]
+	str r2, [r10, #0x64]
 	bl AnimatorSpriteDS__SetAnimation
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0x17
 	bl StageTask__SetOAMOrder
-	mov r0, sl
+	mov r0, r10
 	mov r1, #2
 	bl StageTask__SetOAMPriority
 	add r8, r8, #1
-	add sb, sb, #0x144
-	add sl, sl, #0xa4
+	add r9, r9, #0x144
+	add r10, r10, #0xa4
 	cmp r8, #2
 	blt _021769E4
 	mov r1, #0
@@ -184,7 +184,7 @@ _02176B58:
 	str r0, [r7, #0x138]
 	mov r0, r7
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02176BD0: .word 0x000010F6
 _02176BD4: .word 0x0000076C
@@ -204,14 +204,14 @@ _02176C04: .word AnchorRope__Draw
 
 	arm_func_start AnchorRope__Destructor
 AnchorRope__Destructor: // 0x02176C08
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r8, r0
 	bl GetTaskWork_
 	mov r6, r0
 	add r5, r6, #0x368
 	add r7, r6, #0x5f0
 	mov r4, #0
-	mov sb, #0xa0
+	mov r9, #0xa0
 _02176C28:
 	mov r0, r5
 	bl AnimatorMDL__Release
@@ -219,7 +219,7 @@ _02176C28:
 	ldrh r0, [r0, #0x40]
 	and r0, r0, #0xff
 	bl ObjDrawReleaseSpritePalette
-	mov r0, sb
+	mov r0, r9
 	bl GetObjectFileWork
 	mov r1, r7
 	bl ObjAction2dBACRelease
@@ -234,7 +234,7 @@ _02176C28:
 	bl ObjDataRelease
 	mov r0, r8
 	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end AnchorRope__Destructor
 
 	arm_func_start AnchorRope__State_2176C80

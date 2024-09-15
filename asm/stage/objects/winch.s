@@ -433,7 +433,7 @@ _0216E6A4:
 
 	arm_func_start Winch__Draw
 Winch__Draw: // 0x0216E710
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x2c
 	bl GetCurrentTaskWork_
 	mov r1, #0
@@ -444,7 +444,7 @@ Winch__Draw: // 0x0216E710
 	mov r5, #0
 	ldrh r0, [r0, #4]
 	add r4, sp, #0xc
-	add sb, sp, #0x1c
+	add r9, sp, #0x1c
 	tst r0, #1
 	add r0, r6, #0x400
 	ldrneh r0, [r0, #0xca]
@@ -470,7 +470,7 @@ _0216E788:
 	mov r2, r7
 	orr r0, r1, r0
 	str r0, [sp, #0x1c]
-	str sb, [sp]
+	str r9, [sp]
 	str r8, [sp, #4]
 	str r8, [sp, #8]
 	ldr r0, [r6, #0x128]
@@ -528,7 +528,7 @@ _0216E7F0:
 	ldr r0, [r6, #0x4c0]
 	cmp r0, #0
 	addle sp, sp, #0x2c
-	ldmleia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmleia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	ldr r0, [sp, #0x1c]
 	add r5, r6, #8
 	orr r0, r0, #0x100
@@ -565,7 +565,7 @@ _0216E8F0:
 	str r0, [sp, #0x24]
 	movs r4, r4, asr #3
 	addeq sp, sp, #0x2c
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	add r8, sp, #0x1c
 	mov r7, #0
 	add r6, sp, #0x20
@@ -584,7 +584,7 @@ _0216E924:
 	str r0, [sp, #0x24]
 	bne _0216E924
 	add sp, sp, #0x2c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0216E960: .word _0218859C
 	arm_func_end Winch__Draw

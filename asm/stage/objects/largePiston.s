@@ -5,22 +5,22 @@
 
 	arm_func_start LargePiston__Create
 LargePiston__Create: // 0x02167630
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x48
 	mov r7, r0
-	ldrsb sb, [r7, #6]
-	mov sl, r1
-	mov fp, r2
-	cmp sb, #0
-	movlt sb, #0
+	ldrsb r9, [r7, #6]
+	mov r10, r1
+	mov r11, r2
+	cmp r9, #0
+	movlt r9, #0
 	blt _0216765C
-	cmp sb, #3
-	movgt sb, #3
+	cmp r9, #3
+	movgt r9, #3
 _0216765C:
 	mov r0, #0x1800
 	str r0, [sp]
 	mov r0, #2
-	mov r5, sb, lsl #5
+	mov r5, r9, lsl #5
 	mov r2, #0
 	str r0, [sp, #4]
 	ldr r4, _02167C64 // =0x00000588
@@ -37,15 +37,15 @@ _0216765C:
 	cmp r4, r0
 	addeq sp, sp, #0x48
 	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r4
 	bl GetTaskWork_
 	ldr r2, _02167C64 // =0x00000588
 	mov r4, r0
 	mov r1, #0
 	bl MI_CpuFill8
-	mov r2, sl
-	mov r3, fp
+	mov r2, r10
+	mov r3, r11
 	mov r0, r4
 	mov r1, r7
 	bl GameObject__InitFromObject
@@ -116,13 +116,13 @@ _021677AC:
 	mov r1, #2
 	bl StageTask__SetAnimatorPriority
 _021677E0:
-	mov sl, #0x10
+	mov r10, #0x10
 	str r4, [r4, #0x234]
 	add r0, r4, #0x218
-	sub r1, sl, #0x18
-	sub r2, sl, #0x20
+	sub r1, r10, #0x18
+	sub r2, r10, #0x20
 	mov r3, #0x18
-	str sl, [sp]
+	str r10, [sp]
 	bl ObjRect__SetBox2D
 	mov r1, #0
 	mov r2, r1
@@ -175,7 +175,7 @@ _021677E0:
 	mov r5, #0x90
 	sub r1, r5, #0xa0
 	str r0, [sp]
-	mov r0, sl
+	mov r0, r10
 	str r0, [sp, #4]
 	str r5, [sp, #8]
 	mov r2, r1
@@ -189,7 +189,7 @@ _021677E0:
 	mov r8, #0x47
 	sub r1, r8, #0x57
 	str r0, [sp]
-	mov r0, sl
+	mov r0, r10
 	str r0, [sp, #4]
 	mov r2, r1
 	add r0, r4, #0x298
@@ -200,31 +200,31 @@ _021677E0:
 _02167924:
 	cmp r0, #0xab
 	add r0, r5, #0xc0
-	mov fp, #0x90
+	mov r11, #0x90
 	bne _021679BC
 	mov r1, r0, asr #1
 	mov r5, #1
-	mov r0, sb, lsl #5
+	mov r0, r9, lsl #5
 	rsb r8, r1, #0x20
 	add r2, r0, #0xc0
 	sub r0, r5, #0x21
 	sub r3, r5, #0x81
-	sub sl, r0, r2, asr #1
+	sub r10, r0, r2, asr #1
 	mov r1, r8, lsl #0x10
-	mov r2, sl, lsl #0x10
+	mov r2, r10, lsl #0x10
 	str r3, [sp]
 	mov r0, r1, asr #0x10
 	str r0, [sp, #4]
 	add r0, r4, #0x258
-	sub r1, fp, #0x130
+	sub r1, r11, #0x130
 	mov r2, r2, asr #0x10
 	mov r3, #0x70
-	str fp, [sp, #8]
+	str r11, [sp, #8]
 	bl ObjRect__SetBox3D
-	add r0, r8, sb, lsl #2
+	add r0, r8, r9, lsl #2
 	mov r0, r0, lsl #0x10
 	mvn r1, #0x1f
-	mov r2, sl, lsl #0x10
+	mov r2, r10, lsl #0x10
 	mov r8, #0x47
 	str r1, [sp]
 	mov r0, r0, asr #0x10
@@ -238,28 +238,28 @@ _02167924:
 	b _02167A40
 _021679BC:
 	mov r1, r0, asr #1
-	mov r0, sb, lsl #5
+	mov r0, r9, lsl #5
 	rsb r8, r1, #0x20
 	mov r3, #0xa0
 	str r3, [sp]
 	mov r5, #2
 	add r2, r0, #0xc0
 	sub r0, r5, #0x22
-	sub sl, r0, r2, asr #1
+	sub r10, r0, r2, asr #1
 	mov r1, r8, lsl #0x10
 	mov r0, r1, asr #0x10
 	str r0, [sp, #4]
-	mov r2, sl, lsl #0x10
+	mov r2, r10, lsl #0x10
 	add r0, r4, #0x258
 	mov r2, r2, asr #0x10
 	mov r1, #0x80
 	mov r3, #0x70
-	str fp, [sp, #8]
+	str r11, [sp, #8]
 	bl ObjRect__SetBox3D
-	add r0, r8, sb, lsl #2
+	add r0, r8, r9, lsl #2
 	mov r0, r0, lsl #0x10
 	mov r2, #0xa0
-	mov r1, sl, lsl #0x10
+	mov r1, r10, lsl #0x10
 	str r2, [sp]
 	mov r0, r0, asr #0x10
 	str r0, [sp, #4]
@@ -276,17 +276,17 @@ _02167A40:
 	ldr r1, _02167C8C // =LargePiston__Draw
 	ldr r3, _02167C90 // =0x021891E4
 	str r1, [r4, #0xfc]
-	ldr sb, _02167C94 // =LargePiston__State_2167CBC
+	ldr r9, _02167C94 // =LargePiston__State_2167CBC
 	add r1, r4, #0x11c
-	str sb, [r4, #0xf4]
-	add fp, r3, r0
-	ldr sl, _02167C98 // =0x021891F0
+	str r9, [r4, #0xf4]
+	add r11, r3, r0
+	ldr r10, _02167C98 // =0x021891F0
 	add lr, r1, #0x400
-	add r1, sl, r0
+	add r1, r10, r0
 	ldr ip, _02167C9C // =0x02189214
-	ldr sb, _02167CA0 // =0x021891FC
+	ldr r9, _02167CA0 // =0x021891FC
 	str r1, [sp, #0x14]
-	add r1, sb, r0
+	add r1, r9, r0
 	add ip, ip, r0
 	add r3, r4, #0x134
 	str r1, [sp, #0x18]
@@ -327,18 +327,18 @@ _02167A40:
 	add r1, r4, #0x570
 	add r8, r8, #0x400
 	str r1, [sp, #0x40]
-	add sl, r0, r3
-	ldmia fp, {r0, r1, r2}
+	add r10, r0, r3
+	ldmia r11, {r0, r1, r2}
 	stmia r8, {r0, r1, r2}
 	ldr r0, _02167CB8 // =0x021891C6
 	ldr r5, [sp, #0x10]
 	add r0, r0, r3
 	str r0, [sp, #0x44]
 	ldr r0, [sp, #0xc]
-	add sb, r4, #0x500
+	add r9, r4, #0x500
 	ldmia r0, {r0, r1, r2}
 	stmia r5, {r0, r1, r2}
-	ldmia fp, {r0, r1, r2}
+	ldmia r11, {r0, r1, r2}
 	stmia lr, {r0, r1, r2}
 	ldr r0, [sp, #0x14]
 	ldr r5, [sp, #0x1c]
@@ -369,20 +369,20 @@ _02167A40:
 	stmia r5, {r0, r1, r2}
 	ldr r0, _02167CB4 // =_021891C0
 	ldrh r1, [r0, r3]
-	ldrh r0, [sl, #2]
-	strh r1, [sb, #0x7c]
-	strh r0, [sb, #0x7e]
-	ldrh r0, [sl, #4]
-	strh r0, [sb, #0x80]
+	ldrh r0, [r10, #2]
+	strh r1, [r9, #0x7c]
+	strh r0, [r9, #0x7e]
+	ldrh r0, [r10, #4]
+	strh r0, [r9, #0x80]
 	ldr r0, _02167CB8 // =0x021891C6
 	ldrh r1, [r0, r3]
 	ldr r0, [sp, #0x44]
 	ldrh r0, [r0, #2]
-	strh r1, [sb, #0x82]
-	strh r0, [sb, #0x84]
+	strh r1, [r9, #0x82]
+	strh r0, [r9, #0x84]
 	ldr r0, [sp, #0x44]
 	ldrh r0, [r0, #4]
-	strh r0, [sb, #0x86]
+	strh r0, [r9, #0x86]
 	ldrh r0, [r7, #2]
 	cmp r0, #0x58
 	bne _02167C34
@@ -409,7 +409,7 @@ _02167C34:
 _02167C58:
 	mov r0, r4
 	add sp, sp, #0x48
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02167C64: .word 0x00000588
 _02167C68: .word StageTask_Main

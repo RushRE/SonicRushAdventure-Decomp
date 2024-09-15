@@ -742,14 +742,14 @@ _02154F4C: .word renderCoreGFXControlB
 
 	arm_func_start ovl05_2154F50
 ovl05_2154F50: // 0x02154F50
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x30
-	mov sb, r1
+	mov r9, r1
 	mov r8, r2
-	mov sl, r0
-	mov r0, sb
+	mov r10, r0
+	mov r0, r9
 	mov r1, r8
-	mov fp, r3
+	mov r11, r3
 	bl Sprite__GetFormatFromAnim
 	cmp r0, #0
 	beq _02154F88
@@ -768,13 +768,13 @@ _02154F9C:
 	mov r4, #2
 	mov r5, #4
 _02154FAC:
-	mov r0, sb
+	mov r0, r9
 	bl Sprite__GetSpriteSize2
 	mov r1, r0
 	mov r0, #0
 	bl VRAMSystem__AllocSpriteVram
 	str r0, [sp, #0x2c]
-	mov r0, sb
+	mov r0, r9
 	bl Sprite__GetSpriteSize2
 	mov r1, r0
 	mov r0, #1
@@ -793,61 +793,61 @@ _02154FAC:
 	str r5, [sp, #0x1c]
 	str r7, [sp, #0x20]
 	str r3, [sp, #0x24]
-	mov r1, sb
-	mov r0, sl
+	mov r1, r9
+	mov r0, r10
 	str r3, [sp, #0x28]
 	bl AnimatorSpriteDS__Init
-	strh fp, [sl, #0x90]
-	strh fp, [sl, #0x92]
+	strh r11, [r10, #0x90]
+	strh r11, [r10, #0x92]
 	add sp, sp, #0x30
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02155030: .word 0x05000200
 	arm_func_end ovl05_2154F50
 
 	arm_func_start ovl05_2155034
 ovl05_2155034: // 0x02155034
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
-	mov sl, r0
-	ldr r0, [sl]
+	mov r10, r0
+	ldr r0, [r10]
 	mov r1, #0x10
 	bl FileUnknown__GetAOUFile
 	mov r4, r0
 	mov r2, #0
 	mov r1, r4
 	mov r3, r2
-	add r0, sl, #0x2c8
+	add r0, r10, #0x2c8
 	bl ovl05_2154F50
 	mov r2, #1
 	mov r1, r4
 	mov r3, r2
-	add r0, sl, #0x36c
+	add r0, r10, #0x36c
 	bl ovl05_2154F50
-	ldr r0, [sl]
+	ldr r0, [r10]
 	mov r1, #0x11
 	bl FileUnknown__GetAOUFile
 	mov r2, #0
 	mov r1, r0
-	add r0, sl, #0x410
+	add r0, r10, #0x410
 	mov r3, r2
 	bl ovl05_2154F50
-	ldr r0, [sl]
+	ldr r0, [r10]
 	mov r1, #0x12
 	bl FileUnknown__GetAOUFile
 	mov r7, #0
-	mov sb, r0
-	add r0, sl, #0xb4
+	mov r9, r0
+	add r0, r10, #0xb4
 	ldr r5, _02155130 // =0x05000200
 	add r8, r0, #0x400
-	mov fp, r7
+	mov r11, r7
 	mov r6, r7
 	mov r4, #1
 _021550C4:
-	mov r0, sb
+	mov r0, r9
 	bl Sprite__GetSpriteSize2
 	mov r1, r0
-	mov r0, fp
+	mov r0, r11
 	bl VRAMSystem__AllocSpriteVram
 	str r6, [sp]
 	str r6, [sp, #4]
@@ -858,19 +858,19 @@ _021550C4:
 	str r6, [sp, #0x14]
 	ldr r3, _02155134 // =0x00000801
 	mov r0, r8
-	mov r1, sb
+	mov r1, r9
 	mov r2, r2, lsr #0x10
 	str r6, [sp, #0x18]
 	bl AnimatorSprite__Init
-	add r0, sl, #0x500
+	add r0, r10, #0x500
 	add r7, r7, #1
 	strh r4, [r0, #4]
 	add r8, r8, #0x64
-	add sl, sl, #0x64
+	add r10, r10, #0x64
 	cmp r7, #0x12
 	blt _021550C4
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02155130: .word 0x05000200
 _02155134: .word 0x00000801
@@ -971,10 +971,10 @@ _02155240: .word renderCoreGFXControlB
 
 	arm_func_start ovl05_2155244
 ovl05_2155244: // 0x02155244
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r8, #0
 	mov r4, r0
-	mov fp, r8
+	mov r11, r8
 	cmp r1, #3
 	addls pc, pc, r1, lsl #2
 	b _0215527C
@@ -984,34 +984,34 @@ _02155260: // jump table
 	b _02155270 // case 2
 	b _02155278 // case 3
 _02155270:
-	mov sb, #2
+	mov r9, #2
 	b _0215527C
 _02155278:
-	mov sb, #3
+	mov r9, #3
 _0215527C:
 	mov r0, #0xa4
-	mul sl, r1, r0
+	mul r10, r1, r0
 	add r6, r4, #0x38
-	add r0, r4, sl
+	add r0, r4, r10
 	add r2, r4, #0x48
-	ldr r1, [r6, sl]
+	ldr r1, [r6, r10]
 	ldr r0, [r0, #0x3c]
-	add r7, r2, sl
+	add r7, r2, r10
 	cmp r1, r0
 	bgt _021552F0
 	cmp r1, #0
 	ble _021552B8
-	mov r1, sb
+	mov r1, r9
 	mov r0, #0
 	bl ovl05_21555BC
 _021552B8:
 	mov r0, #0
 	str r0, [r7, #0x48]
-	ldr r1, [r6, sl]
+	ldr r1, [r6, r10]
 	ldr r0, _02155398 // =renderCoreGFXControlA
 	str r1, [r7, #0x4c]
 	ldr r1, [r7, #0x48]
-	mov r2, sb, lsl #2
+	mov r2, r9, lsl #2
 	and r1, r1, #7
 	strh r1, [r0, r2]
 	ldr r1, [r7, #0x4c]
@@ -1020,24 +1020,24 @@ _021552B8:
 	strh r1, [r0, r2]
 	b _02155300
 _021552F0:
-	mov r1, sb
+	mov r1, r9
 	mov r0, #0
 	mov r8, #1
 	bl ovl05_2155578
 _02155300:
 	add r5, r4, #0x40
-	ldr r1, [r6, sl]
-	ldr r0, [r5, sl]
+	ldr r1, [r6, r10]
+	ldr r0, [r5, r10]
 	cmp r1, r0
 	bgt _02155350
 	mov r0, #0
 	str r0, [r7, #0x50]
-	ldr r1, [r6, sl]
+	ldr r1, [r6, r10]
 	ldr r0, _021553A0 // =renderCoreGFXControlB
 	add r1, r1, #0x110
 	str r1, [r7, #0x54]
 	ldr r1, [r7, #0x50]
-	mov r2, sb, lsl #2
+	mov r2, r9, lsl #2
 	and r1, r1, #7
 	strh r1, [r0, r2]
 	ldr r1, [r7, #0x54]
@@ -1046,25 +1046,25 @@ _02155300:
 	strh r1, [r0, r2]
 	b _02155360
 _02155350:
-	mov fp, #1
-	mov r0, fp
-	mov r1, sb
+	mov r11, #1
+	mov r0, r11
+	mov r1, r9
 	bl ovl05_2155578
 _02155360:
 	mov r0, r7
 	bl DrawBackgroundDS
-	ldr r0, [r5, sl]
-	ldr r1, [r6, sl]
+	ldr r0, [r5, r10]
+	ldr r1, [r6, r10]
 	sub r0, r0, #0xc0
 	cmp r1, r0
 	ldrge r0, [r4, #0x14]
 	orrge r0, r0, #4
 	strge r0, [r4, #0x14]
 	cmp r8, #0
-	cmpne fp, #0
+	cmpne r11, #0
 	movne r0, #1
 	moveq r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02155398: .word renderCoreGFXControlA
 _0215539C: .word 0x0213D2C2

@@ -320,7 +320,7 @@ _0204623C: .word 0x0210FB80
 
 	arm_func_start SeaMapManagerNodeList__Func_2046240
 SeaMapManagerNodeList__Func_2046240: // 0x02046240
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x18
 	mov r4, r0
 	ldrh r0, [r4, #8]
@@ -328,7 +328,7 @@ SeaMapManagerNodeList__Func_2046240: // 0x02046240
 	sub r0, r0, r5
 	cmp r0, #1
 	addle sp, sp, #0x18
-	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	add r0, sp, #0
 	bl SeaMapManagerNodeList__Init
 	add r1, sp, #0
@@ -345,7 +345,7 @@ SeaMapManagerNodeList__Func_2046240: // 0x02046240
 	mov r0, r4
 	mov r1, r5
 	bl NNS_FndGetNextListObject
-	movs sb, r0
+	movs r9, r0
 	beq _02046328
 	add r6, sp, #0
 	mvn r5, #0
@@ -354,16 +354,16 @@ _020462B4:
 	mov r8, r7
 	bl SeaMapManagerNodeList__AddNode
 	mov r7, r0
-	mov r0, sb
+	mov r0, r9
 	mov r1, r7
 	bl SeaMapManagerNodeList__CopyNode
 	mov r0, r7
 	str r5, [r7, #0xc]
 	bl SeaMapManagerNodeList__GetNodeDistance
 	mov r0, r4
-	mov r1, sb
+	mov r1, r9
 	bl NNS_FndGetNextListObject
-	movs sb, r0
+	movs r9, r0
 	beq _02046320
 	ldr r0, [r7, #0xc]
 	cmp r0, #0x3000
@@ -378,7 +378,7 @@ _020462B4:
 	mov r0, r6
 	bl SeaMapManagerNodeList__RemoveLastNode
 _02046320:
-	cmp sb, #0
+	cmp r9, #0
 	bne _020462B4
 _02046328:
 	mov r0, r4
@@ -389,34 +389,34 @@ _02046328:
 	add r0, sp, #0
 	bl SeaMapManagerNodeList__Release
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end SeaMapManagerNodeList__Func_2046240
 
 	arm_func_start SeaMapManagerNodeList__Func_204634C
 SeaMapManagerNodeList__Func_204634C: // 0x0204634C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
-	mov fp, r0
-	ldrh r0, [fp, #8]
+	mov r11, r0
+	ldrh r0, [r11, #8]
 	mov r4, r1
 	sub r0, r0, r4
 	cmp r0, #2
 	addle sp, sp, #0x1c
-	ldmleia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r0, sp, #4
 	bl SeaMapManagerNodeList__Init
 	add r1, sp, #4
-	mov r0, fp
+	mov r0, r11
 	mov r2, r4
 	bl SeaMapManagerNodeList__CopyNodesEx
 	mov r5, r0
-	mov r0, fp
+	mov r0, r11
 	mov r1, r5
 	bl NNS_FndGetNextListObject
-	mov sb, r0
-	ldrh r3, [sb, #0xa]
+	mov r9, r0
+	ldrh r3, [r9, #0xa]
 	ldrh r0, [r5, #0xa]
-	ldrh r2, [sb, #8]
+	ldrh r2, [r9, #8]
 	ldrh r1, [r5, #8]
 	sub r0, r3, r0
 	mov r0, r0, lsl #0xc
@@ -433,20 +433,20 @@ SeaMapManagerNodeList__Func_204634C: // 0x0204634C
 	add r0, sp, #4
 	bl SeaMapManagerNodeList__AddNode
 	mov r5, r0
-	mov r0, sb
+	mov r0, r9
 	mov r1, r5
 	bl SeaMapManagerNodeList__CopyNode
-	mov r0, fp
-	mov r1, sb
+	mov r0, r11
+	mov r1, r9
 	bl NNS_FndGetNextListObject
-	mov sl, r0
+	mov r10, r0
 	mvn r0, #0
 	str r0, [sp]
 _0204640C:
-	ldrh r3, [sl, #0xa]
-	ldrh r0, [sb, #0xa]
-	ldrh r2, [sl, #8]
-	ldrh r1, [sb, #8]
+	ldrh r3, [r10, #0xa]
+	ldrh r0, [r9, #0xa]
+	ldrh r2, [r10, #8]
+	ldrh r1, [r9, #8]
 	sub r0, r3, r0
 	mov r0, r0, lsl #0xc
 	sub r1, r2, r1
@@ -465,20 +465,20 @@ _0204640C:
 	mov r0, r0, lsr #0x10
 	cmp r0, #0x300
 	bhs _02046480
-	ldrh r0, [sb, #8]
-	ldrh r1, [sb, #0xa]
-	ldrh r2, [sl, #8]
-	ldrh r3, [sl, #0xa]
+	ldrh r0, [r9, #8]
+	ldrh r1, [r9, #0xa]
+	ldrh r2, [r10, #8]
+	ldrh r3, [r10, #0xa]
 	bl SeaMapManagerNodeList__Func_2046154
 	cmp r0, #0
 	moveq r7, #1
 _02046480:
 	cmp r7, #0
 	beq _020464D4
-	ldrh r1, [sl, #8]
+	ldrh r1, [r10, #8]
 	mov r0, r5
 	strh r1, [r5, #8]
-	ldrh r1, [sl, #0xa]
+	ldrh r1, [r10, #0xa]
 	strh r1, [r5, #0xa]
 	ldr r1, [sp]
 	str r1, [r5, #0xc]
@@ -499,42 +499,42 @@ _020464D4:
 	mov r4, r5
 	bl SeaMapManagerNodeList__AddNode
 	mov r5, r0
-	mov r0, sl
+	mov r0, r10
 	mov r1, r5
 	bl SeaMapManagerNodeList__CopyNode
 _020464F0:
-	mov r0, fp
-	mov r1, sl
-	mov sb, sl
+	mov r0, r11
+	mov r1, r10
+	mov r9, r10
 	bl NNS_FndGetNextListObject
-	movs sl, r0
+	movs r10, r0
 	bne _0204640C
-	mov r0, fp
+	mov r0, r11
 	bl SeaMapManagerNodeList__Release
 	add r0, sp, #4
-	mov r1, fp
+	mov r1, r11
 	bl SeaMapManagerNodeList__CopyNodes
 	add r0, sp, #4
 	bl SeaMapManagerNodeList__Release
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end SeaMapManagerNodeList__Func_204634C
 
 	arm_func_start SeaMapManagerNodeList__Func_204652C
 SeaMapManagerNodeList__Func_204652C: // 0x0204652C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
-	mov sl, r0
-	ldrh r0, [sl, #8]
+	mov r10, r0
+	ldrh r0, [r10, #8]
 	mov r4, r1
 	sub r0, r0, r4
 	cmp r0, #2
 	addle sp, sp, #0x18
-	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r0, sp, #0
 	bl SeaMapManagerNodeList__Init
 	add r1, sp, #0
-	mov r0, sl
+	mov r0, r10
 	mov r2, r4
 	bl SeaMapManagerNodeList__CopyNodesEx
 	mov r4, r0
@@ -544,7 +544,7 @@ SeaMapManagerNodeList__Func_204652C: // 0x0204652C
 	mov r0, r4
 	mov r1, r6
 	bl SeaMapManagerNodeList__CopyNode
-	mov r0, sl
+	mov r0, r10
 	mov r1, r4
 	bl NNS_FndGetNextListObject
 	mov r4, r0
@@ -555,17 +555,17 @@ SeaMapManagerNodeList__Func_204652C: // 0x0204652C
 	mov r1, r7
 	bl SeaMapManagerNodeList__CopyNode
 	mov r1, r4
-	mov r0, sl
+	mov r0, r10
 	bl NNS_FndGetNextListObject
-	movs sb, r0
+	movs r9, r0
 	beq _020466A8
 	mvn r4, #0
-	add fp, sp, #0
+	add r11, sp, #0
 _020465C8:
-	mov r0, fp
+	mov r0, r11
 	bl SeaMapManagerNodeList__AddNode
 	mov r8, r0
-	mov r0, sb
+	mov r0, r9
 	mov r1, r8
 	bl SeaMapManagerNodeList__CopyNode
 	ldrh r3, [r7, #0xa]
@@ -608,26 +608,26 @@ _020465C8:
 	mov r0, r7
 	str r4, [r7, #0xc]
 	bl SeaMapManagerNodeList__GetNodeDistance
-	mov r0, fp
+	mov r0, r11
 	bl SeaMapManagerNodeList__RemoveLastNode
 	b _02046694
 _0204668C:
 	mov r6, r7
 	mov r7, r8
 _02046694:
-	mov r0, sl
-	mov r1, sb
+	mov r0, r10
+	mov r1, r9
 	bl NNS_FndGetNextListObject
-	movs sb, r0
+	movs r9, r0
 	bne _020465C8
 _020466A8:
-	mov r0, sl
+	mov r0, r10
 	bl SeaMapManagerNodeList__Release
 	add r0, sp, #0
-	mov r1, sl
+	mov r1, r10
 	bl SeaMapManagerNodeList__CopyNodes
 	add r0, sp, #0
 	bl SeaMapManagerNodeList__Release
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end SeaMapManagerNodeList__Func_204652C

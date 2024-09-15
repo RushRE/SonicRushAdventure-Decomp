@@ -14,10 +14,10 @@ _02173B94: .word NetworkErrorMenu__Create
 
 	arm_func_start NetworkErrorMenu__Create
 NetworkErrorMenu__Create: // 0x02173B98
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x88
 	ldr r1, _02174344 // =gameState
-	mov sb, r0
+	mov r9, r0
 	ldr r0, [r1, #0x164]
 	cmp r0, #0
 	beq _02173BC8
@@ -43,7 +43,7 @@ _02173BD8:
 	bl RequestNewSysEventChange
 	bl NextSysEvent
 	add sp, sp, #0x88
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02173C08:
 	bl SetupDisplayForCorruptSaveWarning
 	mov r0, #0x1000
@@ -118,7 +118,7 @@ _02173CE0:
 	str r3, [sp, #0xc]
 	str r7, [sp, #0x10]
 	str r3, [sp, #0x14]
-	mov sl, r0
+	mov r10, r0
 	str r3, [sp, #0x18]
 	mov r0, #0x1e
 	str r0, [sp, #0x1c]
@@ -134,7 +134,7 @@ _02173CE0:
 	bl InitBackgroundEx
 	add r0, sp, #0x40
 	bl DrawBackground
-	cmp sb, #0
+	cmp r9, #0
 	bne _02173E18
 	mov r0, #1
 	str r0, [sp]
@@ -175,7 +175,7 @@ _02173CE0:
 	str r2, [sp, #0x28]
 	mov r2, #7
 	str r2, [sp, #0x2c]
-	mov r1, sl
+	mov r1, r10
 	add r0, sp, #0x40
 	mov r2, #0x38
 	bl InitBackgroundEx
@@ -358,13 +358,13 @@ _02173F64:
 	mov r7, r0
 _021740B8:
 	ldr r8, _0217436C // =0x00002710
-	add sl, r4, #0x244
+	add r10, r4, #0x244
 	mov r5, #0
-	mov fp, #0x14
+	mov r11, #0x14
 _021740C8:
-	mov r0, sl
+	mov r0, r10
 	bl FontAnimator__Init
-	str fp, [sp]
+	str r11, [sp]
 	mov r0, #2
 	str r0, [sp, #4]
 	str r0, [sp, #8]
@@ -378,42 +378,42 @@ _021740C8:
 	mov r0, #0
 	mov r3, r3, lsl #0x10
 	str r0, [sp, #0x18]
-	mov r0, sl
+	mov r0, r10
 	add r1, r4, #0xc
 	mov r2, #8
 	mov r3, r3, lsr #0x10
 	bl FontAnimator__LoadFont2
-	mov r0, sl
+	mov r0, r10
 	mov r1, r6
 	bl FontAnimator__LoadMPCFile
-	mov r0, sl
+	mov r0, r10
 	mov r1, #1
 	bl FontAnimator__SetCallbackType
 	mov r0, r7
 	mov r1, r8
 	bl FX_DivS32
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	mul r0, sb, r8
+	mov r9, r0, lsr #0x10
+	mul r0, r9, r8
 	sub r7, r7, r0
 	mov r0, r8
 	mov r1, #0xa
 	bl FX_DivS32
-	add r1, sb, #0x38
+	add r1, r9, #0x38
 	mov r1, r1, lsl #0x10
 	mov r8, r0
 	mov r1, r1, lsr #0x10
-	mov r0, sl
+	mov r0, r10
 	bl FontAnimator__SetMsgSequence
-	mov r0, sl
+	mov r0, r10
 	mov r1, #1
 	mov r2, #0
 	bl FontAnimator__InitStartPos
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	bl FontAnimator__LoadCharacters
 	add r5, r5, #1
-	add sl, sl, #0xc4
+	add r10, r10, #0xc4
 	cmp r5, #5
 	blt _021740C8
 _021741A0:
@@ -521,7 +521,7 @@ _021741A0:
 	str r1, [r2]
 	bl StartSamplingTouchInput
 	add sp, sp, #0x88
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02174344: .word gameState
 _02174348: .word 0x000006E4

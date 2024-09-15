@@ -223,7 +223,7 @@ _02173470: .word 0x05000200
 
 	arm_func_start VSRecordsMenu__Func_2173474
 VSRecordsMenu__Func_2173474: // 0x02173474
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x34
 	mov r4, r0
 	mov r0, #0xc00
@@ -240,8 +240,8 @@ VSRecordsMenu__Func_2173474: // 0x02173474
 	str r0, [sp, #0x28]
 	mov r0, #0
 	str r0, [sp, #0x30]
-	mov sb, #0x20
-	mov fp, #4
+	mov r9, #0x20
+	mov r11, #4
 	mov r4, #2
 _021734C4:
 	ldr r0, [sp, #0x28]
@@ -253,32 +253,32 @@ _021734C4:
 	str r0, [sp, #0x1c]
 _021734E0:
 	ldr r0, [sp, #0x24]
-	ldr sl, [sp, #0x1c]
+	ldr r10, [sp, #0x1c]
 	mov r0, r0, lsl #0x10
 	mov r6, #0
 	mov r5, r0, lsr #0x10
 _021734F4:
 	mov r0, r7, lsl #0x10
 	mov r0, r0, lsr #0x10
-	stmia sp, {r0, r5, fp}
+	stmia sp, {r0, r5, r11}
 	str r4, [sp, #0xc]
 	mov r1, #0
 	str r8, [sp, #0x10]
 	mov r0, #0
 	str r0, [sp, #0x14]
-	mov r0, sl
+	mov r0, r10
 	mov r2, r4
 	mov r3, r1
-	str sb, [sp, #0x18]
+	str r9, [sp, #0x18]
 	bl Unknown2056570__Init
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	bl Unknown2056570__Func_2056688
 	add r6, r6, #1
 	add r8, r8, #0x100
-	add sb, sb, #0x100
+	add r9, r9, #0x100
 	add r7, r7, #5
-	add sl, sl, #0x30
+	add r10, r10, #0x30
 	cmp r6, #3
 	blt _021734F4
 	ldr r0, [sp, #0x24]
@@ -309,7 +309,7 @@ _021734F4:
 	mov r2, #8
 	bl MIi_CpuCopy16
 	add sp, sp, #0x34
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021735C4: .word 0x02110460
 _021735C8: .word 0x05000002
@@ -361,28 +361,28 @@ VSRecordsMenu__Func_217361C: // 0x0217361C
 
 	arm_func_start VSRecordsMenu__Func_2173648
 VSRecordsMenu__Func_2173648: // 0x02173648
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r5, #0
 	str r0, [sp]
 	add r8, r0, #0xd4
 	mov r4, r5
-	mov fp, r5
+	mov r11, r5
 _02173660:
-	mov r6, fp
-	mov sb, r8
+	mov r6, r11
+	mov r9, r8
 _02173668:
 	mov r7, r4
-	mov sl, sb
+	mov r10, r9
 _02173670:
-	mov r0, sl
+	mov r0, r10
 	bl Unknown2056570__Func_2056670
 	add r7, r7, #1
 	cmp r7, #3
-	add sl, sl, #0x30
+	add r10, r10, #0x30
 	blt _02173670
 	add r6, r6, #1
 	cmp r6, #2
-	add sb, sb, #0x90
+	add r9, r9, #0x90
 	blt _02173668
 	add r5, r5, #1
 	cmp r5, #2
@@ -391,12 +391,12 @@ _02173670:
 	ldr r0, [sp]
 	ldr r0, [r0, #0x314]
 	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl _FreeHEAP_USER
 	ldr r0, [sp]
 	mov r1, #0
 	str r1, [r0, #0x314]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end VSRecordsMenu__Func_2173648
 
 	arm_func_start VSRecordsMenu__Main
@@ -607,12 +607,12 @@ _02173970:
 
 	arm_func_start VSRecordsMenu__Func_2173994
 VSRecordsMenu__Func_2173994: // 0x02173994
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	cmp r1, #0xc
 	mov r7, r0
 	addhs sp, sp, #0x24
-	ldmhsia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmhsia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, #0x30
 	mul r5, r1, r0
 	cmp r1, #6
@@ -659,30 +659,30 @@ _02173A0C:
 	add r1, r3, r1, asr #5
 	mov r3, #0x64
 	mul r3, r1, r3
-	sub sb, r8, r3
+	sub r9, r8, r3
 	ldr r4, _02173B08 // =0x66666667
 	mov r7, r0
-	mov r0, sb, lsr #0x1f
-	smull r3, r8, r4, sb
+	mov r0, r9, lsr #0x1f
+	smull r3, r8, r4, r9
 	add r8, r0, r8, asr #2
 	mov r0, #0xa
 	mul r0, r8, r0
-	sub r3, sb, r0
+	sub r3, r9, r0
 	mov r0, #0x30
 	str r2, [sp, #0x14]
 	str r1, [sp, #0x18]
 	str r8, [sp, #0x1c]
 	str r3, [sp, #0x20]
 	bl GetFontCharacterFromUTF
-	mov sb, #0
+	mov r9, #0
 	mov r8, r0
-	mov sl, sb
-	mov r4, sb
-	add fp, sp, #0x14
+	mov r10, r9
+	mov r4, r9
+	add r11, sp, #0x14
 _02173AA4:
-	mov r0, sl, lsl #0x10
+	mov r0, r10, lsl #0x10
 	mov r1, r0, asr #0x10
-	ldr r0, [fp, sb, lsl #2]
+	ldr r0, [r11, r9, lsl #2]
 	stmia sp, {r1, r4}
 	add r0, r8, r0
 	mov r1, r0, lsl #0x10
@@ -694,14 +694,14 @@ _02173AA4:
 	add r3, r6, r5
 	str r4, [sp, #0x10]
 	bl FontFile__Func_2052DD0
-	add sb, sb, #1
-	cmp sb, #4
-	add sl, sl, #8
+	add r9, r9, #1
+	cmp r9, #4
+	add r10, r10, #8
 	blt _02173AA4
 	add r0, r6, r5
 	bl Unknown2056570__Func_2056B8C
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02173AFC: .word 0x0000270F
 _02173B00: .word 0x10624DD3

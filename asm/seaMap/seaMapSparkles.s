@@ -7,7 +7,7 @@
 
 	arm_func_start SeaMapSparkles__Create
 SeaMapSparkles__Create: // 0x02049E6C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x80
 	mov r5, r0
 	mov r4, r1
@@ -68,19 +68,19 @@ _02049F40:
 	bl SeaMapEventManager__GetObjectType
 	cmp r0, #0xc
 	add r4, r6, #0x1d00
-	ldreq sl, _0204A034 // =0x0210FF8E
+	ldreq r10, _0204A034 // =0x0210FF8E
 	ldrh r0, [r4, #0xae]
-	ldrne sl, _0204A038 // =0x0210FF86
+	ldrne r10, _0204A038 // =0x0210FF86
 	mov r8, #0
 	cmp r0, #0
 	ble _0204A010
 	mov r5, r8
-	add fp, sp, #0x1c
+	add r11, sp, #0x1c
 _02049F78:
 	mov r0, r8, lsl #1
-	ldrh sb, [sl, r0]
+	ldrh r9, [r10, r0]
 	ldr r0, [r7, #0x15c]
-	mov r1, sb
+	mov r1, r9
 	bl Sprite__GetSpriteSize1FromAnim
 	mov r1, r0
 	ldr r0, [r6, #0x10]
@@ -89,16 +89,16 @@ _02049F78:
 	add r1, r1, #0x1000
 	str r0, [r1, #0x914]
 	ldr r3, [r6, #0x10]
-	mov r2, sb
+	mov r2, r9
 	stmia sp, {r3, r5}
 	ldr r1, [r1, #0x914]
-	mov r0, fp
+	mov r0, r11
 	str r1, [sp, #8]
 	str r5, [sp, #0xc]
-	ldr sb, [r6, #0x10]
+	ldr r9, [r6, #0x10]
 	ldr r1, _0204A03C // =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r3, r5
-	ldr r1, [r1, sb, lsl #2]
+	ldr r1, [r1, r9, lsl #2]
 	str r1, [sp, #0x10]
 	str r5, [sp, #0x14]
 	mov r1, #8
@@ -108,7 +108,7 @@ _02049F78:
 	mov r0, #5
 	mov r1, #0
 	strh r0, [sp, #0x6c]
-	mov r0, fp
+	mov r0, r11
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
 	ldrh r0, [r4, #0xae]
@@ -120,7 +120,7 @@ _0204A010:
 	bl SeaMapEventManager__SetObjectAsActive
 	mov r0, r6
 	add sp, sp, #0x80
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0204A024: .word 0x00000111
 _0204A028: .word 0x00001DB4
@@ -133,7 +133,7 @@ _0204A03C: .word VRAMSystem__VRAM_PALETTE_OBJ
 
 	arm_func_start SeaMapSparkles__Main
 SeaMapSparkles__Main: // 0x0204A040
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x34
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -157,7 +157,7 @@ _0204A074:
 	blo _0204A0A0
 	bl DestroyCurrentTask
 	add sp, sp, #0x34
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0204A0A0:
 	ldrh r0, [r6, #0xaa]
 	cmp r1, r0
@@ -172,7 +172,7 @@ _0204A0A0:
 	add r0, r4, #0x14
 	str r0, [sp, #0x28]
 	add r0, r4, #0x1000
-	ldr fp, _0204A4E4 // =_mt_math_rand
+	ldr r11, _0204A4E4 // =_mt_math_rand
 	str r0, [sp, #0x2c]
 _0204A0DC:
 	bl SeaMapManager__GetWork
@@ -188,11 +188,11 @@ _0204A0E8:
 	cmp r5, #0x40
 	blt _0204A0E8
 _0204A108:
-	ldr r2, [fp]
+	ldr r2, [r11]
 	ldr r1, _0204A4E8 // =0x00196225
 	ldr r0, _0204A4EC // =0x3C6EF35F
 	mla r0, r2, r1, r0
-	str r0, [fp]
+	str r0, [r11]
 	mov r0, r0, lsr #0x10
 	mov r0, r0, lsl #0x10
 	ldrh r1, [r6, #0xae]
@@ -201,7 +201,7 @@ _0204A108:
 	add r2, r4, r5, lsl #1
 	add r1, r2, #0x1d00
 	strh r0, [r1, #0x24]
-	ldr r7, [fp]
+	ldr r7, [r11]
 	ldr r1, _0204A4E8 // =0x00196225
 	ldr r0, _0204A4EC // =0x3C6EF35F
 	add r3, r4, r5, lsl #3
@@ -213,7 +213,7 @@ _0204A108:
 	mov r3, r3, lsl #0x1c
 	mov r3, r3, lsr #0x10
 	mov r3, r3, lsl #0x10
-	mov sb, r3, lsr #0x10
+	mov r9, r3, lsr #0x10
 	ldr r7, _0204A4E8 // =0x00196225
 	ldr r3, _0204A4EC // =0x3C6EF35F
 	add r2, r2, #0x1c00
@@ -224,41 +224,41 @@ _0204A108:
 	and r1, r1, #0xf
 	add r1, r1, #8
 	mov r8, r1, lsl #0xc
-	mov r1, sb, lsl #0x10
+	mov r1, r9, lsl #0x10
 	mov r1, r1, lsr #0x10
 	mov r1, r1, asr #4
-	str r3, [fp]
-	mov sl, r1, lsl #1
+	str r3, [r11]
+	mov r10, r1, lsl #1
 	ldr r1, [r4, #8]
-	mov r3, sl, lsl #1
+	mov r3, r10, lsl #1
 	ldrsh r7, [r1, #2]
 	ldr r1, _0204A4F0 // =FX_SinCosTable_
-	add r1, r1, sl, lsl #1
-	ldrsh sl, [r1, #2]
+	add r1, r1, r10, lsl #1
+	ldrsh r10, [r1, #2]
 	add r1, r4, r5, lsl #2
 	add r1, r1, #0x1000
-	smull lr, ip, sl, r8
+	smull lr, ip, r10, r8
 	adds lr, lr, #0x800
-	adc sl, ip, #0
+	adc r10, ip, #0
 	mov ip, lr, lsr #0xc
-	orr ip, ip, sl, lsl #20
+	orr ip, ip, r10, lsl #20
 	add r7, ip, r7, lsl #12
 	str r7, [r0, #0x924]
 	ldr r7, _0204A4F0 // =FX_SinCosTable_
 	ldrsh r3, [r7, r3]
 	ldr r7, [r4, #8]
-	smull sl, r8, r3, r8
+	smull r10, r8, r3, r8
 	ldrsh r3, [r7, #4]
-	adds sl, sl, #0x800
+	adds r10, r10, #0x800
 	adc r7, r8, #0
-	mov r8, sl, lsr #0xc
+	mov r8, r10, lsr #0xc
 	orr r8, r8, r7, lsl #20
 	add r3, r8, r3, lsl #12
 	str r3, [r0, #0x928]
 	ldr r0, [sp, #0x2c]
 	ldr r0, [r0, #0xda4]
 	str r0, [r1, #0xb24]
-	strh sb, [r2, #0x24]
+	strh r9, [r2, #0x24]
 	ldrh r0, [r6, #0xa8]
 	strh r0, [r2, #0xa4]
 	ldrh r0, [r6, #0xb0]
@@ -377,37 +377,37 @@ _0204A390:
 	ldr r0, _0204A4F0 // =FX_SinCosTable_
 	mov r1, r1, asr #4
 	add r0, r0, r1, lsl #2
-	ldrsh sl, [r0, #2]
-	ldr fp, [r3, #0xb24]
+	ldrsh r10, [r0, #2]
+	ldr r11, [r3, #0xb24]
 	add r0, r4, r8, lsl #3
-	smull ip, fp, sl, fp
-	adds sl, ip, #0x800
-	add sb, r0, #0x1000
-	ldr r1, [sb, #0x924]
-	adc fp, fp, #0
-	mov sl, sl, lsr #0xc
-	orr sl, sl, fp, lsl #20
-	add r1, r1, sl
-	str r1, [sb, #0x924]
+	smull ip, r11, r10, r11
+	adds r10, ip, #0x800
+	add r9, r0, #0x1000
+	ldr r1, [r9, #0x924]
+	adc r11, r11, #0
+	mov r10, r10, lsr #0xc
+	orr r10, r10, r11, lsl #20
+	add r1, r1, r10
+	str r1, [r9, #0x924]
 	ldrh r1, [r2, #0x24]
-	ldr fp, [r3, #0xb24]
+	ldr r11, [r3, #0xb24]
 	mov ip, #0
 	mov r1, r1, asr #4
 	mov r2, r1, lsl #2
 	ldr r1, _0204A4F0 // =FX_SinCosTable_
-	ldr r3, [sb, #0x928]
-	ldrsh sl, [r1, r2]
+	ldr r3, [r9, #0x928]
+	ldrsh r10, [r1, r2]
 	mov r1, ip
 	mov r2, ip
-	smull ip, fp, sl, fp
-	adds sl, ip, #0x800
+	smull ip, r11, r10, r11
+	adds r10, ip, #0x800
 	mov ip, r2
-	adc fp, fp, ip
-	mov sl, sl, lsr #0xc
-	orr sl, sl, fp, lsl #20
-	add r3, r3, sl
+	adc r11, r11, ip
+	mov r10, r10, lsr #0xc
+	orr r10, r10, r11, lsl #20
+	add r3, r3, r10
 	mov r0, r7
-	str r3, [sb, #0x928]
+	str r3, [r9, #0x928]
 	bl SeaMapEventManager__Func_20471B8
 _0204A468:
 	add r8, r8, #1
@@ -442,7 +442,7 @@ _0204A4CC:
 	add r5, r5, #0x64
 	blt _0204A484
 	add sp, sp, #0x34
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0204A4E4: .word _mt_math_rand
 _0204A4E8: .word 0x00196225

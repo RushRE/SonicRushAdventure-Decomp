@@ -60,14 +60,14 @@ _0204A60C: .word SeaMapCollision__CollideTable
 
 	arm_func_start SeaMapCollision__HandleCollisions
 SeaMapCollision__HandleCollisions: // 0x0204A610
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	str r0, [sp]
 	str r1, [sp, #4]
 	mov r7, r2
 	mov r6, r3
 	ldr r5, [sp, #0x4c]
-	ldr fp, [sp, #0x48]
+	ldr r11, [sp, #0x48]
 	ldr r4, [sp, #0x50]
 	bl SeaMapManager__GetWork
 	ldr r0, [sp]
@@ -83,10 +83,10 @@ SeaMapCollision__HandleCollisions: // 0x0204A610
 	cmp r1, #0
 	rsblt r1, r1, #0
 	strh r7, [r5]
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 	mov r8, r1, lsl #0x10
 	strh r6, [r4]
-	cmp sb, r8, lsr #16
+	cmp r9, r8, lsr #16
 	bls _0204A770
 	ldr r0, [sp, #4]
 	cmp r6, r0
@@ -110,37 +110,37 @@ _0204A6C4:
 	add r0, r1, #1
 	mov r1, r0, lsl #0x10
 	ldr r0, [sp]
-	mov sl, #0
+	mov r10, #0
 	cmp r0, r1, lsr #16
 	mov r0, r1, lsr #0x10
 	str r0, [sp, #0x14]
 	blo _0204A85C
 _0204A6E4:
 	ldr r0, [sp, #0x1c]
-	add r1, sl, r8, lsr #16
+	add r1, r10, r8, lsr #16
 	add r0, r7, r0
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
 	mov r0, r1, lsl #0x10
-	cmp sb, r0, lsr #16
-	mov sl, r0, lsr #0x10
+	cmp r9, r0, lsr #16
+	mov r10, r0, lsr #0x10
 	bhi _0204A724
 	ldr r0, [sp, #0x10]
-	sub r2, sl, sb
+	sub r2, r10, r9
 	add r1, r6, r0
 	mov r0, r2, lsl #0x10
-	mov sl, r0, lsr #0x10
+	mov r10, r0, lsr #0x10
 	mov r0, r1, lsl #0x10
 	mov r6, r0, lsr #0x10
 _0204A724:
 	mov r0, r7
 	mov r1, r6
-	mov r2, fp
+	mov r2, r11
 	bl SeaMapCollision__Collide
 	cmp r0, #0
 	addne sp, sp, #0x20
 	movne r0, #1
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp, #0x14]
 	strh r7, [r5]
 	add r0, r0, #1
@@ -175,37 +175,37 @@ _0204A7B4:
 	add r0, r1, #1
 	mov r1, r0, lsl #0x10
 	ldr r0, [sp, #4]
-	mov sl, #0
+	mov r10, #0
 	cmp r0, r1, lsr #16
 	mov r0, r1, lsr #0x10
 	str r0, [sp, #8]
 	blo _0204A85C
 _0204A7D4:
 	ldr r0, [sp, #0x18]
-	add r1, sl, sb
+	add r1, r10, r9
 	add r0, r6, r0
 	mov r0, r0, lsl #0x10
 	mov r6, r0, lsr #0x10
 	mov r0, r1, lsl #0x10
-	mov sl, r0, lsr #0x10
-	cmp sl, r8, lsr #16
+	mov r10, r0, lsr #0x10
+	cmp r10, r8, lsr #16
 	blo _0204A814
 	ldr r0, [sp, #0xc]
-	sub r2, sl, r8, lsr #16
+	sub r2, r10, r8, lsr #16
 	add r1, r7, r0
 	mov r0, r2, lsl #0x10
-	mov sl, r0, lsr #0x10
+	mov r10, r0, lsr #0x10
 	mov r0, r1, lsl #0x10
 	mov r7, r0, lsr #0x10
 _0204A814:
 	mov r0, r7
 	mov r1, r6
-	mov r2, fp
+	mov r2, r11
 	bl SeaMapCollision__Collide
 	cmp r0, #0
 	addne sp, sp, #0x20
 	movne r0, #1
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp, #8]
 	strh r7, [r5]
 	add r0, r0, #1
@@ -219,12 +219,12 @@ _0204A814:
 _0204A85C:
 	mov r0, #0
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end SeaMapCollision__HandleCollisions
 
 	arm_func_start SeaMapCollision__UpdateMapCollision
 SeaMapCollision__UpdateMapCollision: // 0x0204A868
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x70
 	bl SeaMapManager__GetWork
 	ldr r7, [r0, #0x190]
@@ -236,20 +236,20 @@ _0204A884:
 	stmia r5!, {r0, r1, r2, r3}
 	subs r4, r4, #1
 	bne _0204A884
-	mov sb, #0
-	mov fp, sb
+	mov r9, #0
+	mov r11, r9
 	add r6, sp, #0
 	mov r4, #0x1c
 _0204A8A4:
-	mla sl, sb, r4, r6
-	add r0, sb, #0x2e
+	mla r10, r9, r4, r6
+	add r0, r9, #0x2e
 	mov r0, r0, lsl #0x10
-	mov r8, fp
+	mov r8, r11
 	mov r5, r0, lsr #0x10
 _0204A8B8:
 	add r0, r8, #0xb
 	mov r1, r0, lsl #0x10
-	ldr r3, [sl, r8, lsl #2]
+	ldr r3, [r10, r8, lsl #2]
 	mov r0, r7
 	mov r2, r5
 	mov r1, r1, lsr #0x10
@@ -259,13 +259,13 @@ _0204A8B8:
 	mov r8, r0, lsr #0x10
 	cmp r8, #7
 	blo _0204A8B8
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #4
+	mov r9, r0, lsr #0x10
+	cmp r9, #4
 	blo _0204A8A4
 	add sp, sp, #0x70
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0204A904: .word _0211021C
 	arm_func_end SeaMapCollision__UpdateMapCollision

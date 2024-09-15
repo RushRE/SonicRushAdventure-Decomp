@@ -520,19 +520,19 @@ NpcOptions__Func_216E330: // 0x0216E330
 
 	arm_func_start NpcOptions__Func_216E390
 NpcOptions__Func_216E390: // 0x0216E390
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x40
-	ldr sb, [sp, #0x70]
-	mov sl, r0
+	ldr r9, [sp, #0x70]
+	mov r10, r0
 	str r1, [sp, #0x28]
 	str r2, [sp, #0x2c]
 	str r3, [sp, #0x30]
 	bl NpcOptions__Func_216E8A4
 	ldr r0, [sp, #0x28]
 	ldr r1, _0216E870 // =0x00300010
-	strh r0, [sl, #4]
+	strh r0, [r10, #4]
 	ldr r0, _0216E874 // =0x04001000
-	strh sb, [sl, #6]
+	strh r9, [r10, #6]
 	ldr r2, [r0]
 	sub r0, r1, #0x200000
 	and r2, r2, r1
@@ -541,7 +541,7 @@ NpcOptions__Func_216E390: // 0x0216E390
 	bge _0216E42C
 	cmp r2, #0x10
 	ldreq r0, _0216E878 // =Sprite__GetSpriteSize1FromAnim
-	ldreq fp, _0216E87C // =Sprite__GetSpriteSize1
+	ldreq r11, _0216E87C // =Sprite__GetSpriteSize1
 	streq r0, [sp, #0x3c]
 	b _0216E438
 _0216E3F0:
@@ -554,23 +554,23 @@ _0216E404:
 	cmp r2, r1
 	bne _0216E438
 	ldr r0, _0216E880 // =Sprite__GetSpriteSize4FromAnim
-	ldr fp, _0216E884 // =Sprite__GetSpriteSize4
+	ldr r11, _0216E884 // =Sprite__GetSpriteSize4
 	str r0, [sp, #0x3c]
 	b _0216E438
 _0216E41C:
 	ldr r0, _0216E888 // =Sprite__GetSpriteSize3FromAnim
-	ldr fp, _0216E88C // =Sprite__GetSpriteSize3
+	ldr r11, _0216E88C // =Sprite__GetSpriteSize3
 	str r0, [sp, #0x3c]
 	b _0216E438
 _0216E42C:
 	ldr r0, _0216E890 // =Sprite__GetSpriteSize2FromAnim
-	ldr fp, _0216E894 // =Sprite__GetSpriteSize2
+	ldr r11, _0216E894 // =Sprite__GetSpriteSize2
 	str r0, [sp, #0x3c]
 _0216E438:
 	mov r0, #8
 	bl HubControl__GetFileFrom_ViAct
-	blx fp
-	add r0, sl, #0x104
+	blx r11
+	add r0, r10, #0x104
 	mov r5, #0
 	mov r7, r5
 	add r8, r0, #0x800
@@ -599,7 +599,7 @@ _0216E458:
 	cmp r5, #0
 	movne r0, #0x10
 	strne r0, [r4, #0x3c]
-	strneh sb, [r4, #0x50]
+	strneh r9, [r4, #0x50]
 	bne _0216E4C8
 	mov r0, #0
 	str r0, [r4, #0x3c]
@@ -613,7 +613,7 @@ _0216E4C8:
 	mov r0, #2
 	bl HubControl__GetFileFrom_ViAct
 	mov r4, r0
-	blx fp
+	blx r11
 	mov r1, r0
 	mov r0, #1
 	bl VRAMSystem__AllocSpriteVram
@@ -629,14 +629,14 @@ _0216E4C8:
 	str r2, [sp, #0x14]
 	str r0, [sp, #0x18]
 	mov r1, r4
-	add r0, sl, #0x6c
+	add r0, r10, #0x6c
 	mov r3, r2
 	bl AnimatorSprite__Init
 	ldrh r0, [sp, #0x6c]
 	str r0, [sp, #0x34]
 	ldr r1, [sp, #0x34]
 	mov r0, #3
-	strh r1, [sl, #0xbc]
+	strh r1, [r10, #0xbc]
 	bl HubControl__GetFileFrom_ViAct
 	ldr r2, [sp, #0x3c]
 	mov r1, #0
@@ -644,7 +644,7 @@ _0216E4C8:
 	blx r2
 	mov r1, r0
 	mov r0, #1
-	add r4, sl, #0xd0
+	add r4, r10, #0xd0
 	bl VRAMSystem__AllocSpriteVram
 	mov r1, r5
 	mov r5, #1
@@ -670,24 +670,24 @@ _0216E4C8:
 	mov r0, #0xa
 	bl HubControl__GetFileFrom_ViAct
 	mov r7, r0
-	blx fp
+	blx r11
 	mov r8, r0
 	ldr r0, [sp, #0x34]
-	mov sb, #0
+	mov r9, #0
 	add r0, r0, #2
 	mov r0, r0, lsl #0x10
-	mov fp, r5
-	add r6, sl, #0x134
+	mov r11, r5
+	add r6, r10, #0x134
 	mov r4, r0, lsr #0x10
-	mov r5, sb
+	mov r5, r9
 _0216E5F4:
 	mov r0, #1
 	mov r1, r8
 	bl VRAMSystem__AllocSpriteVram
-	str fp, [sp]
+	str r11, [sp]
 	str r5, [sp, #4]
 	str r0, [sp, #8]
-	mov r2, sb, lsl #0x10
+	mov r2, r9, lsl #0x10
 	ldr r0, _0216E898 // =0x05000600
 	str r5, [sp, #0xc]
 	str r0, [sp, #0x10]
@@ -698,28 +698,28 @@ _0216E5F4:
 	mov r3, r5
 	str r5, [sp, #0x18]
 	bl AnimatorSprite__Init
-	add sb, sb, #1
+	add r9, r9, #1
 	strh r4, [r6, #0x50]
 	add r6, r6, #0x64
-	cmp sb, #0xa
+	cmp r9, #0xa
 	blt _0216E5F4
-	add r0, sl, #0x134
+	add r0, r10, #0x134
 	add r6, r0, #0x3e8
 	ldr r0, [sp, #0x34]
-	mov sb, #0xa
+	mov r9, #0xa
 	add r0, r0, #3
 	mov r0, r0, lsl #0x10
 	mov r4, r0, lsr #0x10
-	mov fp, #1
+	mov r11, #1
 	mov r5, #0
 _0216E670:
 	mov r0, #1
 	mov r1, r8
 	bl VRAMSystem__AllocSpriteVram
-	str fp, [sp]
+	str r11, [sp]
 	str r5, [sp, #4]
 	str r0, [sp, #8]
-	mov r2, sb, lsl #0x10
+	mov r2, r9, lsl #0x10
 	ldr r0, _0216E898 // =0x05000600
 	str r5, [sp, #0xc]
 	str r0, [sp, #0x10]
@@ -730,12 +730,12 @@ _0216E670:
 	mov r3, r5
 	str r5, [sp, #0x18]
 	bl AnimatorSprite__Init
-	add sb, sb, #1
+	add r9, r9, #1
 	strh r4, [r6, #0x50]
 	add r6, r6, #0x64
-	cmp sb, #0x14
+	cmp r9, #0x14
 	blt _0216E670
-	add r0, sl, #8
+	add r0, r10, #8
 	bl FontWindowAnimator__Init
 	bl HubControl__GetField54
 	ldr r1, [sp, #0x28]
@@ -754,7 +754,7 @@ _0216E670:
 	str r4, [sp, #0x14]
 	ldrh r4, [sp, #0x68]
 	str r3, [sp, #0x18]
-	add r0, sl, #8
+	add r0, r10, #8
 	and r4, r4, #0xff
 	str r4, [sp, #0x1c]
 	ldr r4, [sp, #0x2c]
@@ -763,12 +763,12 @@ _0216E670:
 	ldr r4, [sp, #0x30]
 	str r4, [sp, #0x24]
 	bl FontWindowAnimator__Load1
-	add r0, sl, #0x304
+	add r0, r10, #0x304
 	add r0, r0, #0x800
 	str r0, [sp, #0x38]
-	mov sb, #0
+	mov r9, #0
 _0216E748:
-	mov r0, sb, lsl #0x10
+	mov r0, r9, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl NpcOptions__Func_216ED74
 	cmp r0, #0
@@ -779,20 +779,20 @@ _0216E748:
 	bl MIi_CpuClear16
 	b _0216E7FC
 _0216E770:
-	mov r0, sb, lsl #0x10
+	mov r0, r9, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl NpcOptions__Func_216ED98
 	mov r8, r0
-	mov fp, #0xa
+	mov r11, #0xa
 	cmp r8, #0x63
 	ldr r5, _0216E89C // =0x0000FFFF
 	movgt r8, #0x63
 	mov r7, #1
-	add r6, sl, sb, lsl #2
-	mov r4, fp
+	add r6, r10, r9, lsl #2
+	mov r4, r11
 _0216E79C:
 	mov r0, r8
-	mov r1, fp
+	mov r1, r11
 	bl FX_DivS32
 	mul r2, r0, r4
 	add r1, r6, r7, lsl #1
@@ -808,7 +808,7 @@ _0216E79C:
 _0216E7D4:
 	subs r7, r7, #1
 	bpl _0216E79C
-	add r0, sl, sb, lsl #2
+	add r0, r10, r9, lsl #2
 	add r0, r0, #0xb00
 	ldrh r2, [r0, #6]
 	ldr r1, _0216E89C // =0x0000FFFF
@@ -818,9 +818,9 @@ _0216E7D4:
 	streqh r1, [r0, #4]
 _0216E7FC:
 	ldr r0, [sp, #0x38]
-	add sb, sb, #1
+	add r9, r9, #1
 	add r0, r0, #4
-	cmp sb, #9
+	cmp r9, #9
 	str r0, [sp, #0x38]
 	blt _0216E748
 	bl NpcOptions__Func_216EDBC
@@ -836,7 +836,7 @@ _0216E834:
 	mov r1, r4
 	bl FX_DivS32
 	mul r2, r0, r7
-	add r1, sl, r6, lsl #1
+	add r1, r10, r6, lsl #1
 	sub r2, r5, r2
 	add r1, r1, #0xb00
 	mov r5, r0
@@ -844,9 +844,9 @@ _0216E834:
 	subs r6, r6, #1
 	bpl _0216E834
 	mov r0, #1
-	str r0, [sl]
+	str r0, [r10]
 	add sp, sp, #0x40
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216E870: .word 0x00300010
 _0216E874: .word 0x04001000
@@ -889,25 +889,25 @@ _0216E8C4:
 
 	arm_func_start NpcOptions__Func_216E8F0
 NpcOptions__Func_216E8F0: // 0x0216E8F0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	ldr r1, _0216EC40 // =0x021731B4
-	mov sl, r0
+	mov r10, r0
 	ldrh r4, [r1]
 	ldrh r3, [r1, #2]
 	ldrh r2, [r1, #4]
 	ldrh r1, [r1, #6]
-	ldr r0, [sl]
+	ldr r0, [r10]
 	strh r4, [sp, #0xc]
 	strh r3, [sp, #0xe]
 	strh r2, [sp, #8]
 	strh r1, [sp, #0xa]
 	cmp r0, #3
 	bne _0216EAB8
-	add r0, sl, #8
+	add r0, r10, #8
 	bl FontWindowAnimator__Draw
 	ldrsh r0, [sp, #0xc]
-	ldrsh fp, [sp, #0xe]
+	ldrsh r11, [sp, #0xe]
 	str r0, [sp]
 	mov r0, #0
 	str r0, [sp, #4]
@@ -925,20 +925,20 @@ _0216E948:
 	ldr r0, [sp, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	strh r1, [sl, #0x74]
+	strh r1, [r10, #0x74]
 	bl ViMap__Func_215C98C
 	ldrsh r1, [r0, #0xa]
-	add r0, sl, #0x6c
-	strh r1, [sl, #0x76]
+	add r0, r10, #0x6c
+	strh r1, [r10, #0x76]
 	bl AnimatorSprite__DrawFrame
 	ldr r0, [sp, #4]
-	ldr sb, [sp]
+	ldr r9, [sp]
 	mov r0, r0, lsl #0x10
 	mov r4, r0, lsr #0x10
 	ldr r0, [sp, #4]
 	mov r8, #0
-	add r5, sl, #0x134
-	add r6, sl, r0, lsl #2
+	add r5, r10, #0x134
+	add r6, r10, r0, lsl #2
 _0216E9B4:
 	add r0, r6, r8, lsl #1
 	add r0, r0, #0xb00
@@ -958,41 +958,41 @@ _0216E9B4:
 	mov r0, r7
 	strh r1, [r7, #0xa]
 	ldrsh r1, [r7, #8]
-	add r1, r1, sb
+	add r1, r1, r9
 	strh r1, [r7, #8]
 	ldrsh r1, [r7, #0xa]
-	add r1, r1, fp
+	add r1, r1, r11
 	strh r1, [r7, #0xa]
 	bl AnimatorSprite__DrawFrame
 _0216EA14:
 	add r8, r8, #1
 	cmp r8, #2
-	add sb, sb, #8
+	add r9, r9, #8
 	blt _0216E9B4
 	ldr r0, [sp, #4]
 	add r0, r0, #1
 	str r0, [sp, #4]
 	cmp r0, #9
 	blt _0216E948
-	add r0, sl, #0xd0
+	add r0, r10, #0xd0
 	bl AnimatorSprite__DrawFrame
 	ldrsh r6, [sp, #8]
 	ldrsh r7, [sp, #0xa]
 	ldr r4, _0216EC44 // =0x0000FFFF
 	mov r8, #0
-	add r5, sl, #0x134
-	mov sb, #0x64
+	add r5, r10, #0x134
+	mov r9, #0x64
 _0216EA58:
-	add r0, sl, r8, lsl #1
+	add r0, r10, r8, lsl #1
 	add r0, r0, #0xb00
 	ldrh r0, [r0, #0x28]
 	cmp r0, r4
 	beq _0216EAA0
 	add r1, r0, #0xa
-	mla r0, r1, sb, r5
-	ldrsh r1, [sl, #0xd8]
+	mla r0, r1, r9, r5
+	ldrsh r1, [r10, #0xd8]
 	strh r1, [r0, #8]
-	ldrsh r1, [sl, #0xda]
+	ldrsh r1, [r10, #0xda]
 	strh r1, [r0, #0xa]
 	ldrsh r1, [r0, #8]
 	add r1, r1, r6
@@ -1007,27 +1007,27 @@ _0216EAA0:
 	add r6, r6, #9
 	blt _0216EA58
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216EAB8:
 	cmp r0, #2
 	bne _0216EBAC
-	add r0, sl, #8
+	add r0, r10, #8
 	bl FontWindowAnimator__ProcessWindowAnim
-	add r0, sl, #8
+	add r0, r10, #8
 	bl FontWindowAnimator__Draw
-	add r0, sl, #8
+	add r0, r10, #8
 	bl FontWindowAnimator__IsFinishedAnimating
 	cmp r0, #0
 	addeq sp, sp, #0x10
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	add r0, sl, #8
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	add r0, r10, #8
 	bl FontWindowAnimator__SetWindowOpen
 	mov r1, #0
 	mov r2, r1
-	add r0, sl, #0x6c
+	add r0, r10, #0x6c
 	bl AnimatorSprite__ProcessAnimation
 	mov r6, #0
-	add r5, sl, #0x134
+	add r5, r10, #0x134
 	mov r4, r6
 _0216EB08:
 	mov r0, r5
@@ -1040,9 +1040,9 @@ _0216EB08:
 	blt _0216EB08
 	mov r1, #0
 	mov r2, r1
-	add r0, sl, #0xd0
+	add r0, r10, #0xd0
 	bl AnimatorSprite__ProcessAnimation
-	add r0, sl, #0x104
+	add r0, r10, #0x104
 	ldr r5, _0216EC48 // =0x00003DEF
 	add r6, r0, #0x800
 	mov r7, #0
@@ -1062,8 +1062,8 @@ _0216EB70:
 	cmp r7, #9
 	add r6, r6, #0x20
 	blt _0216EB4C
-	ldrh r1, [sl, #6]
-	add r0, sl, #0x104
+	ldrh r1, [r10, #6]
+	add r0, r10, #0x104
 	add r0, r0, #0x800
 	mov r3, r1, lsl #9
 	mov r1, #0x100
@@ -1071,22 +1071,22 @@ _0216EB70:
 	bl QueueUncompressedPalette
 	mov r0, #3
 	add sp, sp, #0x10
-	str r0, [sl]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	str r0, [r10]
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216EBAC:
 	cmp r0, #4
 	bne _0216EC1C
-	add r0, sl, #8
+	add r0, r10, #8
 	bl FontWindowAnimator__ProcessWindowAnim
-	add r0, sl, #8
+	add r0, r10, #8
 	bl FontWindowAnimator__Draw
-	add r0, sl, #8
+	add r0, r10, #8
 	bl FontWindowAnimator__IsFinishedAnimating
 	cmp r0, #0
 	addeq sp, sp, #0x10
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r4, _0216EC4C // =0x04001000
-	ldrh r0, [sl, #4]
+	ldrh r0, [r10, #4]
 	ldr r3, [r4]
 	mov r1, #1
 	ldr r2, [r4]
@@ -1095,23 +1095,23 @@ _0216EBAC:
 	bic r1, r2, #0x1f00
 	and r0, r0, r3, lsr #8
 	orr r1, r1, r0, lsl #8
-	add r0, sl, #8
+	add r0, r10, #8
 	str r1, [r4]
 	bl FontWindowAnimator__SetWindowClosed
 	mov r0, #5
 	add sp, sp, #0x10
-	str r0, [sl]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	str r0, [r10]
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216EC1C:
 	cmp r0, #5
 	addne sp, sp, #0x10
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	add r0, sl, #8
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	add r0, r10, #8
 	bl FontWindowAnimator__SetWindowOpen
 	mov r0, #1
-	str r0, [sl]
+	str r0, [r10]
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216EC40: .word 0x021731B4
 _0216EC44: .word 0x0000FFFF
@@ -1434,11 +1434,11 @@ NpcOptions__Func_216EFDC: // 0x0216EFDC
 
 	arm_func_start NpcOptions__Func_216EFE4
 NpcOptions__Func_216EFE4: // 0x0216EFE4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x28
-	mov sb, r0
+	mov r9, r0
 	mov r8, r1
-	add r0, sb, #0x54
+	add r0, r9, #0x54
 	bl FontWindowAnimator__Init
 	bl HubControl__GetField54
 	ldrh r3, [r8, #0x26]
@@ -1460,10 +1460,10 @@ NpcOptions__Func_216EFE4: // 0x0216EFE4
 	str r0, [sp, #0x20]
 	add r0, r0, #0x3f
 	str r0, [sp, #0x24]
-	add r0, sb, #0x54
+	add r0, r9, #0x54
 	ldrh r3, [r8, #0x24]
 	bl FontWindowAnimator__Load1
-	add r0, sb, #0xb8
+	add r0, r9, #0xb8
 	bl FontWindowMWControl__Init
 	bl HubControl__GetField54
 	mov r1, r0
@@ -1479,7 +1479,7 @@ NpcOptions__Func_216EFE4: // 0x0216EFE4
 	str r0, [sp, #0x10]
 	mov r0, #5
 	str r0, [sp, #0x14]
-	add r0, sb, #0xb8
+	add r0, r9, #0xb8
 	ldrh r3, [r8, #0x28]
 	bl FontWindowMWControl__Load
 	ldr r4, [r8, #0x10]
@@ -1501,11 +1501,11 @@ NpcOptions__Func_216EFE4: // 0x0216EFE4
 	str r0, [sp, #0x14]
 	mov r0, #0x1e
 	str r0, [sp, #0x18]
-	add r0, sb, #0x10c
+	add r0, r9, #0x10c
 	ldrh r2, [r8, #0x20]
 	bl AnimatorSprite__Init
 	mov r1, #8
-	add r0, sb, #0x100
+	add r0, r9, #0x100
 	strh r1, [r0, #0x14]
 	strh r1, [r0, #0x16]
 	mov r1, #0xc
@@ -1528,12 +1528,12 @@ NpcOptions__Func_216EFE4: // 0x0216EFE4
 	mov r1, r4
 	str r0, [sp, #0x14]
 	mov r2, #0x1e
-	add r0, sb, #0x170
+	add r0, r9, #0x170
 	str r2, [sp, #0x18]
 	mov r2, #2
 	bl AnimatorSprite__Init
 	mov r1, #0xe0
-	add r0, sb, #0x100
+	add r0, r9, #0x100
 	strh r1, [r0, #0x78]
 	mov r1, #0x20
 	strh r1, [r0, #0x7a]
@@ -1558,16 +1558,16 @@ NpcOptions__Func_216EFE4: // 0x0216EFE4
 	str r0, [sp, #0x14]
 	mov r0, #0x1e
 	str r0, [sp, #0x18]
-	add r0, sb, #0x1d4
+	add r0, r9, #0x1d4
 	mov r2, #5
 	bl AnimatorSprite__Init
 	mov r1, #0xe0
-	add r0, sb, #0x100
+	add r0, r9, #0x100
 	strh r1, [r0, #0xdc]
 	mov r1, #0x60
 	strh r1, [r0, #0xde]
 	mov r1, #0xe
-	add r0, sb, #0x200
+	add r0, r9, #0x200
 	strh r1, [r0, #0x24]
 	ldr r4, [r8, #0x18]
 	mov r0, r4
@@ -1587,10 +1587,10 @@ NpcOptions__Func_216EFE4: // 0x0216EFE4
 	str r0, [sp, #0x14]
 	mov r0, #0x1e
 	str r0, [sp, #0x18]
-	add r0, sb, #0x238
+	add r0, r9, #0x238
 	mov r3, r2
 	bl AnimatorSprite__Init
-	add r0, sb, #0x200
+	add r0, r9, #0x200
 	mov r1, #0xec
 	strh r1, [r0, #0x40]
 	mov r1, #0xac
@@ -1613,52 +1613,52 @@ NpcOptions__Func_216EFE4: // 0x0216EFE4
 	str r0, [sp, #0x10]
 	str r3, [sp, #0x14]
 	mov r1, r4
-	add r0, sb, #0x29c
+	add r0, r9, #0x29c
 	mov r2, #1
 	str r3, [sp, #0x18]
 	mov r3, #4
 	bl AnimatorSprite__Init
 	mov r1, #8
-	add r0, sb, #0x200
+	add r0, r9, #0x200
 	strh r1, [r0, #0x88]
 	mov r0, #0x6400
-	str r0, [sb, #0x378]
+	str r0, [r9, #0x378]
 	ldr r0, _0216F4B0 // =0x06001000
-	str r0, [sb, #0x374]
-	ldr r0, [sb, #0x378]
+	str r0, [r9, #0x374]
+	ldr r0, [r9, #0x378]
 	bl _AllocHeadHEAP_USER
-	str r0, [sb, #0x37c]
+	str r0, [r9, #0x37c]
 	mov r0, #0x800
 	bl _AllocHeadHEAP_USER
-	str r0, [sb, #0x380]
-	add r0, sb, #0x300
+	str r0, [r9, #0x380]
+	add r0, r9, #0x300
 	bl MessageController__Init
-	ldr r0, [sb, #0x50]
+	ldr r0, [r9, #0x50]
 	bl FontWindow__GetFont
 	mov r1, r0
-	add r0, sb, #0x300
+	add r0, r9, #0x300
 	bl MessageController__SetFont
-	add r0, sb, #0x300
+	add r0, r9, #0x300
 	ldr r1, [r8, #4]
 	bl MessageController__LoadMPCFile
 	mov r0, #0
 	str r0, [sp]
 	str r0, [sp, #4]
 	str r0, [sp, #8]
-	add r0, sb, #0x300
-	ldr r1, [sb, #0x37c]
+	add r0, r9, #0x300
+	ldr r1, [r9, #0x37c]
 	mov r2, #0x19
 	mov r3, #0x20
 	bl MessageController__Setup
-	add r0, sb, #0x300
+	add r0, r9, #0x300
 	ldr r1, _0216F4B4 // =NpcOptions__Func_21705A0
-	mov r2, sb
+	mov r2, r9
 	bl MessageController__SetClearPixelCallback
-	ldrh r0, [sb, #8]
+	ldrh r0, [r9, #8]
 	mov r0, r0, lsl #3
 	bl _AllocHeadHEAP_SYSTEM
-	str r0, [sb, #0x384]
-	ldrh r0, [sb, #8]
+	str r0, [r9, #0x384]
+	ldrh r0, [r9, #8]
 	mov r7, #0
 	mov r6, r7
 	cmp r0, #0
@@ -1666,58 +1666,58 @@ NpcOptions__Func_216EFE4: // 0x0216EFE4
 	mov r4, r7
 	mov r5, r7
 _0216F380:
-	ldr r1, [sb, #0x384]
+	ldr r1, [r9, #0x384]
 	mov r0, r6, lsl #2
 	strb r5, [r1, r6, lsl #3]
-	ldr r1, [sb, #4]
+	ldr r1, [r9, #4]
 	ldrh r0, [r1, r0]
 	tst r0, #1
 	beq _0216F3AC
-	ldr r1, [sb, #0x384]
+	ldr r1, [r9, #0x384]
 	ldrb r0, [r1, r6, lsl #3]
 	orr r0, r0, #1
 	strb r0, [r1, r6, lsl #3]
 _0216F3AC:
-	ldr r1, [sb, #4]
+	ldr r1, [r9, #4]
 	mov r0, r6, lsl #2
 	ldrh r0, [r1, r0]
 	tst r0, #2
 	beq _0216F3D0
-	ldr r1, [sb, #0x384]
+	ldr r1, [r9, #0x384]
 	ldrb r0, [r1, r6, lsl #3]
 	orr r0, r0, #2
 	strb r0, [r1, r6, lsl #3]
 _0216F3D0:
-	ldr r1, [sb, #4]
+	ldr r1, [r9, #4]
 	mov r0, r6, lsl #2
 	ldrh r0, [r1, r0]
 	tst r0, #4
 	beq _0216F3F4
-	ldr r1, [sb, #0x384]
+	ldr r1, [r9, #0x384]
 	ldrb r0, [r1, r6, lsl #3]
 	orr r0, r0, #4
 	strb r0, [r1, r6, lsl #3]
 _0216F3F4:
-	ldr r1, [sb, #4]
-	ldr r0, [sb, #0x384]
+	ldr r1, [r9, #4]
+	ldr r0, [r9, #0x384]
 	add r1, r1, r6, lsl #2
 	ldrh r1, [r1, #2]
 	add r0, r0, r6, lsl #3
 	mov r2, r4
 	strh r1, [r0, #4]
-	ldr r1, [sb, #0x384]
+	ldr r1, [r9, #0x384]
 	ldr r0, [r8, #4]
 	add r1, r1, r6, lsl #3
 	ldrh r1, [r1, #4]
 	bl MPC__Func_20538B0
-	ldr r1, [sb, #0x384]
+	ldr r1, [r9, #0x384]
 	add r1, r1, r6, lsl #3
 	strb r0, [r1, #1]
-	ldr r0, [sb, #0x384]
+	ldr r0, [r9, #0x384]
 	add r0, r0, r6, lsl #3
 	strh r7, [r0, #2]
-	ldr r1, [sb, #0x384]
-	ldrh r0, [sb, #8]
+	ldr r1, [r9, #0x384]
+	ldrh r0, [r9, #8]
 	add r1, r1, r6, lsl #3
 	ldrb r1, [r1, #1]
 	add r6, r6, #1
@@ -1727,24 +1727,24 @@ _0216F3F4:
 	blt _0216F380
 _0216F460:
 	sub r0, r7, #0x98
-	str r0, [sb, #0x390]
+	str r0, [r9, #0x390]
 	cmp r0, r7
 	movhs r0, #0
-	strhs r0, [sb, #0x390]
-	ldrh r0, [sb, #0xa]
-	ldr r1, [sb, #0x384]
+	strhs r0, [r9, #0x390]
+	ldrh r0, [r9, #0xa]
+	ldr r1, [r9, #0x384]
 	add r0, r1, r0, lsl #3
 	ldrh r1, [r0, #2]
-	str r1, [sb, #0x388]
-	ldr r0, [sb, #0x390]
+	str r1, [r9, #0x388]
+	ldr r0, [r9, #0x390]
 	cmp r1, r0
-	strhi r0, [sb, #0x388]
-	mov r0, sb
+	strhi r0, [r9, #0x388]
+	mov r0, r9
 	bl NpcOptions__Func_216F7E0
 	mov r0, #0
-	str r0, [sb, #0x398]
+	str r0, [r9, #0x398]
 	add sp, sp, #0x28
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0216F4AC: .word 0x05000200
 _0216F4B0: .word 0x06001000
@@ -1983,69 +1983,69 @@ NpcOptions__Func_216F7DC: // 0x0216F7DC
 
 	arm_func_start NpcOptions__Func_216F7E0
 NpcOptions__Func_216F7E0: // 0x0216F7E0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
-	mov sb, #0
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r9, #0
 	ldr r6, _0216F8F4 // =0x000003FF
-	mov sl, r0
-	mov r7, sb
+	mov r10, r0
+	mov r7, r9
 	mov r8, #0x80
-	mov fp, #0xa
+	mov r11, #0xa
 	mov r5, #4
-	mov r4, sb
+	mov r4, r9
 _0216F804:
-	ldr r1, [sl, #0x380]
+	ldr r1, [r10, #0x380]
 	mov r0, r6
 	mov r2, r5
-	add r1, r1, sb, lsl #1
+	add r1, r1, r9, lsl #1
 	bl MIi_CpuClear16
-	add r0, sb, #2
+	add r0, r9, #2
 	mov r1, r0, lsl #0x10
 	mov r0, r4
-	mov sb, r1, lsr #0x10
+	mov r9, r1, lsr #0x10
 _0216F828:
 	add r1, r8, #1
-	add r2, sb, #1
+	add r2, r9, #1
 	add r0, r0, #1
-	ldr ip, [sl, #0x380]
-	mov r3, sb, lsl #1
+	ldr ip, [r10, #0x380]
+	mov r3, r9, lsl #1
 	strh r8, [ip, r3]
 	mov r1, r1, lsl #0x10
 	mov r2, r2, lsl #0x10
 	cmp r0, #0x19
 	mov r8, r1, lsr #0x10
-	mov sb, r2, lsr #0x10
+	mov r9, r2, lsr #0x10
 	blt _0216F828
-	ldr r1, [sl, #0x380]
+	ldr r1, [r10, #0x380]
 	mov r0, r6
-	mov r2, fp
-	add r1, r1, sb, lsl #1
+	mov r2, r11
+	add r1, r1, r9, lsl #1
 	bl MIi_CpuClear16
-	add r0, sb, #5
+	add r0, r9, #5
 	mov r0, r0, lsl #0x10
 	add r7, r7, #1
 	cmp r7, #0x20
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 	blt _0216F804
-	ldr r1, [sl, #0x37c]
-	ldr r2, [sl, #0x378]
+	ldr r1, [r10, #0x37c]
+	ldr r2, [r10, #0x378]
 	mov r0, #0
 	bl MIi_CpuClearFast
-	add r3, sl, #0x96
-	ldr r1, [sl, #0x388]
-	mov r0, sl
-	add r2, sl, #0x394
+	add r3, r10, #0x96
+	ldr r1, [r10, #0x388]
+	mov r0, r10
+	add r2, r10, #0x394
 	add r3, r3, #0x300
 	bl NpcOptions__Func_216FFD8
-	add r4, sl, #0x300
+	add r4, r10, #0x300
 	ldrh r5, [r4, #0x94]
 	ldrh r0, [r4, #0x96]
 	cmp r5, r0
-	ldmhiia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmhiia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216F8C0:
-	mov r0, sl
+	mov r0, r10
 	mov r1, r5
 	bl NpcOptions__Func_216F9AC
-	mov r0, sl
+	mov r0, r10
 	mov r1, r5
 	bl NpcOptions__Func_21705A4
 	add r0, r5, #1
@@ -2054,7 +2054,7 @@ _0216F8C0:
 	mov r5, r0, lsr #0x10
 	cmp r1, r0, lsr #16
 	bhs _0216F8C0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216F8F4: .word 0x000003FF
 	arm_func_end NpcOptions__Func_216F7E0
@@ -2152,11 +2152,11 @@ NpcOptions__Func_216F9AC: // 0x0216F9AC
 
 	arm_func_start NpcOptions__Func_216FA40
 NpcOptions__Func_216FA40: // 0x0216FA40
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x28
-	mov sl, r0
-	ldr r4, [sl, #0x384]
-	mov sb, r2
+	mov r10, r0
+	ldr r4, [r10, #0x384]
+	mov r9, r2
 	str r1, [sp, #0x1c]
 	ldrb r0, [r4, r1, lsl #3]
 	tst r0, #4
@@ -2171,8 +2171,8 @@ _0216FA78:
 	mov r3, #0
 	add r0, r4, r0, lsl #3
 	ldrb r1, [r0, #1]
-	mov r0, sb, asr #2
-	add r0, sb, r0, lsr #29
+	mov r0, r9, asr #2
+	add r0, r9, r0, lsr #29
 	mov r1, r1, lsl #1
 	add r5, r1, #1
 	mov r2, r0, asr #3
@@ -2188,17 +2188,17 @@ _0216FAB8:
 	bmi _0216FB34
 	cmp r6, #0x20
 	bge _0216FB40
-	ldr r4, [sl, #0x380]
+	ldr r4, [r10, #0x380]
 	cmp r3, #0
 	add r6, r4, r6, lsl #6
-	ldr fp, _0216FD30 // =0x00000FFF
+	ldr r11, _0216FD30 // =0x00000FFF
 	bne _0216FB0C
 	mov r4, r1
 _0216FAE0:
 	ldrh ip, [r6]
 	add r4, r4, #1
 	cmp r4, #0x20
-	and ip, ip, fp
+	and ip, ip, r11
 	strh ip, [r6]
 	ldrh ip, [r6]
 	orr ip, ip, #0x5000
@@ -2212,7 +2212,7 @@ _0216FB10:
 	ldrh ip, [r6]
 	add r4, r4, #1
 	cmp r4, #0x20
-	and ip, ip, fp
+	and ip, ip, r11
 	strh ip, [r6]
 	ldrh ip, [r6]
 	orr ip, ip, r7
@@ -2230,12 +2230,12 @@ _0216FB40:
 	bl HubControl__GetFileFrom_ViBG
 	bl GetBackgroundPixels
 	ldr r1, [sp, #0x1c]
-	ldrh r7, [sl, #0x12]
+	ldrh r7, [r10, #0x12]
 	add r1, r1, #1
 	mov r1, r1, lsl #0x10
 	mov r5, r0
 	cmp r7, #0
-	mov fp, r1, asr #0x10
+	mov r11, r1, asr #0x10
 	mov r6, #1
 	mov r8, #0
 	ble _0216FC1C
@@ -2245,7 +2245,7 @@ _0216FB40:
 _0216FB8C:
 	mov r1, #0xa
 	mul r1, r6, r1
-	mov r0, fp
+	mov r0, r11
 	bl FX_ModS32
 	mov r1, r6
 	bl FX_DivS32
@@ -2260,7 +2260,7 @@ _0216FB8C:
 	str r1, [sp]
 	mov r0, r0, lsl #0x13
 	str r1, [sp, #4]
-	ldr r1, [sl, #0x37c]
+	ldr r1, [r10, #0x37c]
 	mov r0, r0, asr #0x10
 	mov r0, r0, lsl #0x10
 	str r1, [sp, #8]
@@ -2275,12 +2275,12 @@ _0216FB8C:
 	mov r1, #0xd
 	mov r3, #0
 	bl BackgroundUnknown__CopyPixels
-	ldrh r7, [sl, #0x12]
+	ldrh r7, [r10, #0x12]
 	add r8, r8, #1
 	cmp r8, r7
 	blt _0216FB8C
 _0216FC1C:
-	ldr r1, [sl, #0x384]
+	ldr r1, [r10, #0x384]
 	ldr r0, [sp, #0x1c]
 	ldrb r0, [r1, r0, lsl #3]
 	tst r0, #2
@@ -2290,7 +2290,7 @@ _0216FC1C:
 	mov r0, #8
 	str r0, [sp, #4]
 	mov r0, r7, lsl #0x13
-	ldr r2, [sl, #0x37c]
+	ldr r2, [r10, #0x37c]
 	mov r0, r0, asr #0x10
 	mov r1, r0, lsl #0x10
 	ldr r0, [sp, #0x24]
@@ -2309,48 +2309,48 @@ _0216FC1C:
 	str r3, [sp, #0x18]
 	bl BackgroundUnknown__CopyPixels
 _0216FC8C:
-	add r0, sb, #8
+	add r0, r9, #8
 	mov r0, r0, lsl #0x10
-	mov sb, r0, asr #0x10
-	add r0, sl, #0x300
+	mov r9, r0, asr #0x10
+	add r0, r10, #0x300
 	mov r1, #0
 	bl MessageController__SetCallbackValue
-	mov r1, sb
-	add r0, sl, #0x300
+	mov r1, r9
+	add r0, r10, #0x300
 	bl MessageController__AdvanceLine
 	ldr r1, [sp, #0x20]
-	add r0, sl, #0x300
+	add r0, r10, #0x300
 	bl MessageController__SetSequence
 	mov r1, #0
 	mov r2, r1
-	add r0, sl, #0x300
+	add r0, r10, #0x300
 	bl MessageController__InitStartPos
-	add r0, sl, #0x300
+	add r0, r10, #0x300
 	bl MessageController__Func_2054364
 	cmp r0, #0
 	addne sp, sp, #0x28
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r5, #8
 	mov r4, #0
 _0216FCE8:
 	mov r1, r5
-	mov r2, sb
-	add r0, sl, #0x300
+	mov r2, r9
+	add r0, r10, #0x300
 	bl MessageController__SetPosition
 	mov r1, r4
-	add r0, sl, #0x300
+	add r0, r10, #0x300
 	bl MessageController__Func_205416C
-	add r0, sl, #0x300
+	add r0, r10, #0x300
 	bl MessageController__AdvanceLineID
-	add r0, sb, #0x10
+	add r0, r9, #0x10
 	mov r1, r0, lsl #0x10
-	add r0, sl, #0x300
-	mov sb, r1, asr #0x10
+	add r0, r10, #0x300
+	mov r9, r1, asr #0x10
 	bl MessageController__Func_2054364
 	cmp r0, #0
 	beq _0216FCE8
 	add sp, sp, #0x28
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216FD30: .word 0x00000FFF
 	arm_func_end NpcOptions__Func_216FA40
@@ -3438,10 +3438,10 @@ _02170B38: .word NpcOptions__Func_2170B3C
 
 	arm_func_start NpcOptions__Func_2170B3C
 NpcOptions__Func_2170B3C: // 0x02170B3C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #4
 	mov r6, #0
-	mov sl, r0
+	mov r10, r0
 	mov r7, r6
 	bl IsTouchInputEnabled
 	cmp r0, #0
@@ -3449,33 +3449,33 @@ NpcOptions__Func_2170B3C: // 0x02170B3C
 	ldr r0, _02170EB0 // =touchInput
 	ldrh r0, [r0, #0x12]
 	tst r0, #1
-	movne sb, #1
+	movne r9, #1
 	bne _02170B74
 _02170B70:
-	mov sb, #0
+	mov r9, #0
 _02170B74:
 	mov r1, #0
-	add r0, sl, #0x3ac
-	str r1, [sl, #0x398]
+	add r0, r10, #0x3ac
+	str r1, [r10, #0x398]
 	bl TouchField__Process
-	mov r0, sl
+	mov r0, r10
 	bl NpcOptions__Func_21702BC
-	mov r0, sl
+	mov r0, r10
 	mov r1, #1
 	bl NpcOptions__Func_21702E0
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	bl NpcOptions__Func_21703AC
-	mov r0, sl
+	mov r0, r10
 	bl NpcOptions__Func_217045C
-	mov r0, sl
+	mov r0, r10
 	bl NpcOptions__Func_2170530
-	mov r0, sl
+	mov r0, r10
 	mov r1, #1
-	ldrh r4, [sl, #0xa]
+	ldrh r4, [r10, #0xa]
 	bl NpcOptions__Func_216FD94
 	mov r5, r0
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	bl NpcOptions__Func_216FD94
 	mov r8, r0
@@ -3486,7 +3486,7 @@ _02170B74:
 	bne _02170CEC
 	tst r0, #2
 	bne _02170C04
-	mov r0, sl
+	mov r0, r10
 	bl NpcOptions__Func_2170830
 	cmp r0, #0
 	beq _02170C0C
@@ -3494,14 +3494,14 @@ _02170C04:
 	mov r7, #1
 	b _02170CEC
 _02170C0C:
-	cmp sb, #0
+	cmp r9, #0
 	bne _02170C24
 	ldr r0, _02170EB4 // =padInput
 	ldrh r0, [r0, #8]
 	tst r0, #0x40
 	bne _02170C34
 _02170C24:
-	mov r0, sl
+	mov r0, r10
 	bl NpcOptions__Func_21707F0
 	cmp r0, #0
 	beq _02170C54
@@ -3511,46 +3511,46 @@ _02170C34:
 	sub r0, r4, #1
 	ldr r1, _02170EB8 // =0x0000FFFF
 	mov r0, r0, lsl #0x10
-	strh r1, [sl, #0x14]
+	strh r1, [r10, #0x14]
 	mov r4, r0, lsr #0x10
 	b _02170CEC
 _02170C54:
-	cmp sb, #0
+	cmp r9, #0
 	bne _02170C6C
 	ldr r0, _02170EB4 // =padInput
 	ldrh r0, [r0, #8]
 	tst r0, #0x80
 	bne _02170C7C
 _02170C6C:
-	mov r0, sl
+	mov r0, r10
 	bl NpcOptions__Func_2170810
 	cmp r0, #0
 	beq _02170CA4
 _02170C7C:
-	ldrh r0, [sl, #8]
+	ldrh r0, [r10, #8]
 	sub r0, r0, #1
 	cmp r4, r0
 	bge _02170CEC
 	add r0, r4, #1
 	ldr r1, _02170EB8 // =0x0000FFFF
 	mov r0, r0, lsl #0x10
-	strh r1, [sl, #0x14]
+	strh r1, [r10, #0x14]
 	mov r4, r0, lsr #0x10
 	b _02170CEC
 _02170CA4:
-	ldrh r0, [sl, #8]
+	ldrh r0, [r10, #8]
 	cmp r5, r0
 	movlo r4, r5
-	strloh r5, [sl, #0x14]
+	strloh r5, [r10, #0x14]
 	blo _02170CEC
-	ldrh r0, [sl, #0x14]
+	ldrh r0, [r10, #0x14]
 	ldr r2, _02170EB8 // =0x0000FFFF
 	cmp r0, r2
 	beq _02170CEC
 	cmp r0, r8
 	cmpeq r0, r4
 	bne _02170CEC
-	mov r0, sl
+	mov r0, r10
 	mov r1, r4
 	sub r2, r2, #0x10000
 	bl NpcOptions__Func_216FD34
@@ -3559,101 +3559,101 @@ _02170CA4:
 _02170CEC:
 	cmp r6, #0
 	beq _02170D08
-	ldr r0, [sl, #0x384]
+	ldr r0, [r10, #0x384]
 	ldrb r0, [r0, r4, lsl #3]
 	tst r0, #1
 	moveq r6, #0
-	streq r6, [sl, #0x398]
+	streq r6, [r10, #0x398]
 _02170D08:
 	cmp r6, #0
 	beq _02170D5C
-	strh r4, [sl, #0xa]
-	strh r4, [sl, #0xc]
-	ldrh r1, [sl, #0xa]
+	strh r4, [r10, #0xa]
+	strh r4, [r10, #0xc]
+	ldrh r1, [r10, #0xa]
 	ldr r2, _02170EB8 // =0x0000FFFF
-	mov r0, sl
-	strh r1, [sl, #0xe]
+	mov r0, r10
+	strh r1, [r10, #0xe]
 	mov r1, #0
-	strh r2, [sl, #0x14]
+	strh r2, [r10, #0x14]
 	bl NpcOptions__Func_21706C0
 	mov r0, #1
 	bl ovl05_21544AC
 	mov r1, #0
-	mov r0, sl
-	str r1, [sl]
+	mov r0, r10
+	str r1, [r10]
 	bl NpcOptions__Func_2170378
 	ldr r0, _02170EBC // =NpcOptions__Func_2170EC8
 	add sp, sp, #4
-	str r0, [sl, #0x478]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	str r0, [r10, #0x478]
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 _02170D5C:
 	cmp r7, #0
 	beq _02170DD8
 	ldr r2, _02170EB8 // =0x0000FFFF
-	mov r0, sl
-	strh r2, [sl, #0xe]
+	mov r0, r10
+	strh r2, [r10, #0xe]
 	mov r1, #0
-	strh r2, [sl, #0x14]
+	strh r2, [r10, #0x14]
 	bl NpcOptions__Func_217092C
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	bl NpcOptions__Func_2170980
 	mov r3, #0
-	add r0, sl, #0x54
+	add r0, r10, #0x54
 	mov r1, #4
 	mov r2, #0xc
 	str r3, [sp]
 	bl FontWindowAnimator__InitAnimation
-	add r0, sl, #0x54
+	add r0, r10, #0x54
 	bl FontWindowAnimator__StartAnimating
 	mov r0, #1
-	str r0, [sl, #0x48]
+	str r0, [r10, #0x48]
 	mov r1, #0
-	str r1, [sl, #0x44]
-	str r0, [sl, #0x4c]
-	mov r0, sl
+	str r1, [r10, #0x44]
+	str r0, [r10, #0x4c]
+	mov r0, r10
 	bl NpcOptions__Func_21706C0
 	mov r0, #2
 	bl ovl05_21544AC
 	ldr r0, _02170EC0 // =NpcOptions__Func_2170F6C
-	str r0, [sl, #0x478]
+	str r0, [r10, #0x478]
 	b _02170E54
 _02170DD8:
-	ldrh r0, [sl, #0xa]
+	ldrh r0, [r10, #0xa]
 	cmp r4, r0
 	beq _02170E54
-	mov r0, sl
+	mov r0, r10
 	mov r1, #1
 	bl NpcOptions__Func_2170378
-	mov r0, sl
+	mov r0, r10
 	bl NpcOptions__Func_2170448
 	mov r0, #3
 	bl ovl05_21544AC
-	mov r0, sl
+	mov r0, r10
 	mov r1, r4
 	mvn r2, #0
 	bl NpcOptions__Func_216FD34
 	cmp r0, #0
-	streqh r4, [sl, #0xa]
-	streqh r4, [sl, #0xc]
+	streqh r4, [r10, #0xa]
+	streqh r4, [r10, #0xc]
 	beq _02170E54
-	strh r4, [sl, #0xc]
+	strh r4, [r10, #0xc]
 	mov r1, #0
-	str r1, [sl]
-	ldr r1, [sl, #0x388]
+	str r1, [r10]
+	ldr r1, [r10, #0x388]
 	add r1, r1, r0
-	str r1, [sl, #0x38c]
-	mov r0, sl
-	str r1, [sl, #0x388]
+	str r1, [r10, #0x38c]
+	mov r0, r10
+	str r1, [r10, #0x388]
 	bl NpcOptions__Func_216FE98
-	ldrh r1, [sl, #0xc]
+	ldrh r1, [r10, #0xc]
 	ldr r0, _02170EC4 // =NpcOptions__Func_2170B3C
-	strh r1, [sl, #0xa]
-	str r0, [sl, #0x478]
+	strh r1, [r10, #0xa]
+	str r0, [r10, #0x478]
 _02170E54:
-	ldrh r0, [sl, #0xa]
+	ldrh r0, [r10, #0xa]
 	cmp r0, #0
-	mov r0, sl
+	mov r0, r10
 	beq _02170E70
 	mov r1, #1
 	bl NpcOptions__Func_21706EC
@@ -3662,21 +3662,21 @@ _02170E70:
 	mov r1, #0
 	bl NpcOptions__Func_21706EC
 _02170E78:
-	ldrh r0, [sl, #8]
-	ldrh r1, [sl, #0xa]
+	ldrh r0, [r10, #8]
+	ldrh r1, [r10, #0xa]
 	sub r0, r0, #1
 	cmp r1, r0
-	mov r0, sl
+	mov r0, r10
 	bge _02170EA0
 	mov r1, #1
 	bl NpcOptions__Func_2170740
 	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 _02170EA0:
 	mov r1, #0
 	bl NpcOptions__Func_2170740
 	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02170EB0: .word touchInput
 _02170EB4: .word padInput

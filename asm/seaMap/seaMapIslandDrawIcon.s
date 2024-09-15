@@ -443,10 +443,10 @@ _02047DAC:
 
 	arm_func_start SeaMapIslandDrawIcon__Create
 SeaMapIslandDrawIcon__Create: // 0x02047DB4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x28
 	mov r8, r1
-	mov sb, r0
+	mov r9, r0
 	bl SeaMapManager__GetWork
 	ldrsh r1, [r8, #0x10]
 	mov r5, r0
@@ -457,14 +457,14 @@ SeaMapIslandDrawIcon__Create: // 0x02047DB4
 	cmp r0, #0
 	addeq sp, sp, #0x28
 	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02047DF0:
 	mov r0, r8
 	bl SeaMapIslandDrawIcon__IsEnabled
 	cmp r0, #0
 	addeq sp, sp, #0x28
 	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r0, _02047FA8 // =0x00000111
 	mov r2, #0
 	str r0, [sp]
@@ -485,7 +485,7 @@ _02047DF0:
 	bl MIi_CpuClear16
 	mov r1, r6
 	mov r0, r4
-	mov r2, sb
+	mov r2, r9
 	mov r3, r8
 	bl SeaMapEventManager__InitMapObject
 	mov r0, r8
@@ -498,7 +498,7 @@ _02047DF0:
 	strh r0, [r7, #0xa2]
 	mov r2, #0
 _02047E88:
-	ldrh r1, [sb, #2]
+	ldrh r1, [r9, #2]
 	add r0, r7, r2, lsl #1
 	add r2, r2, #1
 	strh r1, [r0, #0x9c]
@@ -527,7 +527,7 @@ _02047E88:
 	rsb r3, r2, #0x810
 	ldrh r2, [r7, #0xa2]
 	bl AnimatorSprite__Init
-	ldrh r2, [sb, #2]
+	ldrh r2, [r9, #2]
 	mov r1, r6
 	mov r0, r7
 	strh r2, [r7, #0x50]
@@ -569,7 +569,7 @@ _02047E88:
 	bl SeaMapEventManager__SetObjectAsActive
 	mov r0, r4
 	add sp, sp, #0x28
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02047FA8: .word 0x00000111
 _02047FAC: .word SeaMapIslandDrawIcon__Main

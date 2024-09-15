@@ -303,7 +303,7 @@ _0216DA04: .word VRotateCrane__State_216DA08
 
 	arm_func_start VRotateCrane__State_216DA08
 VRotateCrane__State_216DA08: // 0x0216DA08
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r1, [r0, #0x2c]
 	add r1, r1, #0x44
 	str r1, [r0, #0x2c]
@@ -343,16 +343,16 @@ _0216DA68:
 	mov r2, #2
 	mov r4, #0
 	bhi _0216DAF4
-	mov sb, r1, asr #0x10
-	mov r8, sb, asr #0x1f
+	mov r9, r1, asr #0x10
+	mov r8, r9, asr #0x1f
 	mov r1, #0x4000
 	mov r3, #0x800
 _0216DAB4:
 	rsb r5, r1, #0x8000
-	umull r7, r6, r5, sb
+	umull r7, r6, r5, r9
 	mla r6, r5, r8, r6
 	mov r5, r5, asr #0x1f
-	mla r6, r5, sb, r6
+	mla r6, r5, r9, r6
 	adds r7, r7, r3
 	adc r5, r6, r4
 	mov r6, r7, lsr #0xc
@@ -365,16 +365,16 @@ _0216DAB4:
 	mov r4, r1, lsr #0x10
 	b _0216DB40
 _0216DAF4:
-	mov sb, r1, asr #0x10
-	mov r8, sb, asr #0x1f
+	mov r9, r1, asr #0x10
+	mov r8, r9, asr #0x1f
 	mov r1, #0x4000
 	mov r3, #0x800
 _0216DB04:
 	rsb r5, r1, #0
-	umull r7, r6, r5, sb
+	umull r7, r6, r5, r9
 	mla r6, r5, r8, r6
 	mov r5, r5, asr #0x1f
-	mla r6, r5, sb, r6
+	mla r6, r5, r9, r6
 	adds r7, r7, r3
 	adc r5, r6, r4
 	mov r6, r7, lsr #0xc
@@ -392,18 +392,18 @@ _0216DB40:
 	rsbhi r1, r7, #0x10000
 	movhi r1, r1, lsl #0x10
 	movls r1, r7, lsl #0x10
-	mov sl, r1, lsr #0x10
+	mov r10, r1, lsr #0x10
 	mov r6, #2
 	mov r1, r5
-	mov fp, #0x800
+	mov r11, #0x800
 _0216DB68:
-	sub r3, sl, r5
-	umull r2, ip, r3, sb
-	adds r2, r2, fp
+	sub r3, r10, r5
+	umull r2, ip, r3, r9
+	adds r2, r2, r11
 	mov lr, r2, lsr #0xc
 	mla ip, r3, r8, ip
 	mov r2, r3, asr #0x1f
-	mla ip, r2, sb, ip
+	mla ip, r2, r9, ip
 	adc r2, ip, r1
 	orr lr, lr, r2, lsl #20
 	cmp r6, #0
@@ -416,7 +416,7 @@ _0216DB68:
 	mov r1, r2, lsr #0x10
 	ldrne r2, [sp]
 	cmpne r2, #0xa9
-	sub r2, sl, r1
+	sub r2, r10, r1
 	bne _0216DBC0
 	b _0216DBC4
 _0216DBC0:
@@ -441,23 +441,23 @@ _0216DBE4:
 	cmp r2, #1
 	bhi _0216DC54
 	mov r6, r7, asr #0x1f
-	mov sl, #2
-	mov sb, #0x4000
+	mov r10, #2
+	mov r9, #0x4000
 	mov r2, #0
 	mov r1, #0x800
 _0216DC1C:
-	umull r8, r5, sb, r7
-	mla r5, sb, r6, r5
-	mov r4, sb, asr #0x1f
+	umull r8, r5, r9, r7
+	mla r5, r9, r6, r5
+	mov r4, r9, asr #0x1f
 	adds r8, r8, r1
 	mla r5, r4, r7, r5
 	adc r4, r5, r2
-	mov sb, r8, lsr #0xc
-	cmp sl, #0
-	orr sb, sb, r4, lsl #20
-	sub sl, sl, #1
+	mov r9, r8, lsr #0xc
+	cmp r10, #0
+	orr r9, r9, r4, lsl #20
+	sub r10, r10, #1
 	bne _0216DC1C
-	mov r1, sb, lsl #0x10
+	mov r1, r9, lsl #0x10
 	mov r4, r1, lsr #0x10
 	b _0216DCA4
 _0216DC54:
@@ -468,13 +468,13 @@ _0216DC54:
 	mov r2, #0x800
 _0216DC68:
 	sub r5, r5, #0x8000
-	umull sb, r8, r5, r7
+	umull r9, r8, r5, r7
 	mla r8, r5, r6, r8
 	mov r5, r5, asr #0x1f
 	mla r8, r5, r7, r8
-	adds sb, sb, r2
+	adds r9, r9, r2
 	adc r5, r8, r4
-	mov r8, sb, lsr #0xc
+	mov r8, r9, lsr #0xc
 	orr r8, r8, r5, lsl #20
 	cmp r1, #0
 	add r5, r8, #0x8000
@@ -491,18 +491,18 @@ _0216DCA4:
 	movls r1, r5, lsl #0x10
 	mov r8, r1, lsr #0x10
 	mov r1, #0
-	mov sl, r1
-	mov sb, #0x800
+	mov r10, r1
+	mov r9, #0x800
 _0216DCCC:
 	sub ip, r1, r8
 	umull r1, lr, ip, r7
 	mla lr, ip, r6, lr
-	mov fp, ip, asr #0x1f
-	adds r1, r1, sb
-	mla lr, fp, r7, lr
-	adc fp, lr, sl
+	mov r11, ip, asr #0x1f
+	adds r1, r1, r9
+	mla lr, r11, r7, lr
+	adc r11, lr, r10
 	mov r1, r1, lsr #0xc
-	orr r1, r1, fp, lsl #20
+	orr r1, r1, r11, lsl #20
 	cmp r2, #0
 	add r1, r8, r1
 	sub r2, r2, #1
@@ -527,7 +527,7 @@ _0216DD38:
 	strh r4, [r0, #0x30]
 	strh r2, [r0, #0x32]
 	strh r1, [r0, #0x34]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216DD48: .word VRotateCrane__State_216DD4C
 	arm_func_end VRotateCrane__State_216DA08

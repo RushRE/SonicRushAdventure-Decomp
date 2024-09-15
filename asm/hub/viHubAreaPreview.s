@@ -1048,7 +1048,7 @@ ViHubAreaPreview__ClearAnimators: // 0x021598D4
 
 	arm_func_start ViHubAreaPreview__Func_215993C
 ViHubAreaPreview__Func_215993C: // 0x0215993C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x7c
 	str r0, [sp, #0x30]
 	bl ViHubAreaPreview__Func_215ABF8
@@ -1085,22 +1085,22 @@ ViHubAreaPreview__Func_215993C: // 0x0215993C
 	mov r0, r6
 	bl Sprite__GetSpriteSize1
 	mov r8, #0
-	mov sl, r0
+	mov r10, r0
 	ldr r0, [sp, #0x30]
 	ldr r4, _02159C6C // =0x05000200
-	add sb, r0, #0x144
-	mov fp, r8
+	add r9, r0, #0x144
+	mov r11, r8
 	mov r5, r8
 _021599E8:
-	mov r0, fp
-	mov r1, sl
+	mov r0, r11
+	mov r1, r10
 	bl VRAMSystem__AllocSpriteVram
 	str r5, [sp]
 	str r5, [sp, #4]
 	str r0, [sp, #8]
 	str r5, [sp, #0xc]
 	str r4, [sp, #0x10]
-	mov r0, sb
+	mov r0, r9
 	str r5, [sp, #0x14]
 	and r1, r8, #0xff
 	str r1, [sp, #0x18]
@@ -1109,28 +1109,28 @@ _021599E8:
 	mov r3, r5
 	bl AnimatorSprite__Init
 	add r8, r8, #1
-	strh r8, [sb, #0x50]
+	strh r8, [r9, #0x50]
 	cmp r8, #5
-	add sb, sb, #0x64
+	add r9, r9, #0x64
 	blt _021599E8
 	mov r0, r6
 	bl Sprite__GetSpriteSize1
-	mov sl, #0
-	mov sb, r0
+	mov r10, #0
+	mov r9, r0
 	ldr r0, [sp, #0x30]
 	ldr r4, _02159C6C // =0x05000200
 	add r8, r0, #0x39c
-	mov fp, sl
-	mov r5, sl
+	mov r11, r10
+	mov r5, r10
 _02159A60:
-	mov r0, fp
-	mov r1, sb
+	mov r0, r11
+	mov r1, r9
 	bl VRAMSystem__AllocSpriteVram
 	str r5, [sp]
 	str r5, [sp, #4]
 	str r0, [sp, #8]
 	str r5, [sp, #0xc]
-	add r0, sl, #0xc
+	add r0, r10, #0xc
 	mov r0, r0, lsl #0x10
 	mov r2, r0, lsr #0x10
 	str r4, [sp, #0x10]
@@ -1140,33 +1140,33 @@ _02159A60:
 	mov r1, r6
 	mov r3, r5
 	bl AnimatorSprite__Init
-	add r0, sl, #6
+	add r0, r10, #6
 	strh r0, [r8, #0x50]
-	add sl, sl, #1
-	cmp sl, #2
+	add r10, r10, #1
+	cmp r10, #2
 	add r8, r8, #0x64
 	blt _02159A60
 	mov r0, r7
 	bl Sprite__GetSpriteSize1
-	mov sl, #0
+	mov r10, #0
 	ldr r1, [sp, #0x30]
 	ldr r5, _02159C6C // =0x05000200
 	add r1, r1, #0x64
-	mov sb, r0
+	mov r9, r0
 	add r8, r1, #0x400
-	mov fp, sl
-	mov r6, sl
+	mov r11, r10
+	mov r6, r10
 	mov r4, #8
 _02159AE8:
-	mov r0, fp
-	mov r1, sb
+	mov r0, r11
+	mov r1, r9
 	bl VRAMSystem__AllocSpriteVram
 	str r6, [sp]
 	str r6, [sp, #4]
 	str r0, [sp, #8]
 	str r6, [sp, #0xc]
 	str r5, [sp, #0x10]
-	mov r0, sl, lsl #0x10
+	mov r0, r10, lsl #0x10
 	mov r2, r0, lsr #0x10
 	str r6, [sp, #0x14]
 	str r6, [sp, #0x18]
@@ -1174,9 +1174,9 @@ _02159AE8:
 	mov r1, r7
 	mov r3, r6
 	bl AnimatorSprite__Init
-	add sl, sl, #1
+	add r10, r10, #1
 	strh r4, [r8, #0x50]
-	cmp sl, #3
+	cmp r10, #3
 	add r8, r8, #0x64
 	blt _02159AE8
 	mov r0, #4
@@ -1254,7 +1254,7 @@ _02159AE8:
 	add r0, sp, #0x34
 	bl DrawBackground
 	add sp, sp, #0x7c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02159C6C: .word 0x05000200
 	arm_func_end ViHubAreaPreview__Func_215993C
@@ -1353,12 +1353,12 @@ _02159D7C:
 
 	arm_func_start ViHubAreaPreview__Func_2159D84
 ViHubAreaPreview__Func_2159D84: // 0x02159D84
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x98
 	ldr r3, _0215A004 // =0x02172D1C
 	add r5, sp, #0x38
-	mov sl, r0
-	mov sb, r1
+	mov r10, r0
+	mov r9, r1
 	mov r2, #6
 _02159DA0:
 	ldrb r1, [r3]
@@ -1383,32 +1383,32 @@ _02159DD4:
 	add r3, r3, #2
 	subs r2, r2, #1
 	bne _02159DD4
-	add r3, sl, #0x100
+	add r3, r10, #0x100
 	ldrh r0, [r3, #0x3c]
-	cmp sb, r0
+	cmp r9, r0
 	addeq sp, sp, #0x98
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r1, sp, #0x46
 	mov r0, #0xff
 	mov r2, #0xa
-	strh sb, [r3, #0x3c]
+	strh r9, [r3, #0x3c]
 	bl MIi_CpuClear16
-	cmp sb, #8
-	add r4, sl, #0x100
+	cmp r9, #8
+	add r4, r10, #0x100
 	mov r7, #0
 	addge sp, sp, #0x98
 	strh r7, [r4, #0x3e]
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, _0215A00C // =0x02172D2A
-	mov r1, sb, lsl #1
+	mov r1, r9, lsl #1
 	ldrh r6, [r0, r1]
 	ldr r0, _0215A010 // =0x02172D3A
 	cmp r6, #0
 	ldrh r8, [r0, r1]
 	ble _02159EC8
-	add r0, sl, #0x3e
+	add r0, r10, #0x3e
 	add r5, r0, #0x100
-	add fp, sp, #0x38
+	add r11, sp, #0x38
 _02159E5C:
 	mov r0, r8
 	bl ViHubAreaPreview__Func_215B850
@@ -1421,7 +1421,7 @@ _02159E5C:
 	mov r0, r8
 	bl ovl05_2152A0C
 	ldrh r0, [r0]
-	ldrb r2, [fp, r0]
+	ldrb r2, [r11, r0]
 	cmp r2, #0xff
 	beq _02159EB0
 	ldrh r0, [r4, #0x3e]
@@ -1439,7 +1439,7 @@ _02159EB0:
 	mov r8, r0, lsr #0x10
 	blt _02159E5C
 _02159EC8:
-	add r0, sl, #0x100
+	add r0, r10, #0x100
 	ldrh r3, [r0, #0x3e]
 	mov r6, #0
 	sub r1, r3, #1
@@ -1466,8 +1466,8 @@ _02159F1C:
 	cmp r3, #0
 	mov r5, #0
 	ble _02159F58
-	add r4, sl, #0x144
-	add r6, sl, #0x100
+	add r4, r10, #0x144
+	add r6, r10, #0x100
 	add r7, sp, #0x46
 _02159F34:
 	mov r0, r5, lsl #1
@@ -1480,7 +1480,7 @@ _02159F34:
 	cmp r5, r0
 	blt _02159F34
 _02159F58:
-	cmp sb, #7
+	cmp r9, #7
 	mov r1, #0x4000000
 	bne _02159F78
 	ldr r0, [r1]
@@ -1495,8 +1495,8 @@ _02159F78:
 	str r0, [r1]
 _02159F88:
 	add r1, sp, #0x30
-	ldrb r1, [r1, sb]
-	ldr r0, [sl, #0x40]
+	ldrb r1, [r1, r9]
+	ldr r0, [r10, #0x40]
 	bl FileUnknown__GetAOUFile
 	mov r4, #2
 	mov r2, #0
@@ -1524,7 +1524,7 @@ _02159F88:
 	add r0, sp, #0x50
 	bl DrawBackground
 	add sp, sp, #0x98
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215A004: .word 0x02172D1C
 _0215A008: .word 0x02172D14
@@ -1534,13 +1534,13 @@ _0215A010: .word 0x02172D3A
 
 	arm_func_start ViHubAreaPreview__Func_215A014
 ViHubAreaPreview__Func_215A014: // 0x0215A014
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r1, _0215A2D8 // =0x0213D2E0
-	mov sl, r0
+	mov r10, r0
 	mov r0, #0
 	mov r2, #6
 	bl MIi_CpuClear16
-	add r0, sl, #0x100
+	add r0, r10, #0x100
 	ldrsh r0, [r0, #0x42]
 	cmp r0, #0
 	beq _0215A094
@@ -1567,17 +1567,17 @@ ViHubAreaPreview__Func_215A014: // 0x0215A014
 	strh r3, [r1, #0x20]
 	strh r2, [r0]
 _0215A094:
-	add r0, sl, #0x100
+	add r0, r10, #0x100
 	ldrsh r0, [r0, #0x42]
 	mov r1, #0
-	add r5, sl, #0x338
+	add r5, r10, #0x338
 	add r0, r0, r0, lsl #1
 	mov r3, r0, lsl #0x10
 	mov r0, r5
 	mov r2, r1
 	mov r8, r3, asr #0x10
 	bl AnimatorSprite__ProcessAnimation
-	add r0, sl, #0x100
+	add r0, r10, #0x100
 	ldrh r1, [r0, #0x3e]
 	str r0, [sp]
 	mov r0, #0x28
@@ -1589,35 +1589,35 @@ _0215A094:
 	mov r7, r0, asr #0x10
 	ble _0215A194
 	add r1, r8, #0x98
-	add r0, sl, #0x12c
+	add r0, r10, #0x12c
 	mov r1, r1, lsl #0x10
-	add sb, sl, #0x144
+	add r9, r10, #0x144
 	add r4, r0, #0x400
-	mov fp, r1, asr #0x10
+	mov r11, r1, asr #0x10
 _0215A100:
 	mov r1, #0
-	strh r7, [sb, #8]
-	mov r0, sb
+	strh r7, [r9, #8]
+	mov r0, r9
 	mov r2, r1
-	strh fp, [sb, #0xa]
+	strh r11, [r9, #0xa]
 	bl AnimatorSprite__ProcessAnimation
-	mov r0, sb
+	mov r0, r9
 	bl AnimatorSprite__DrawFrame
-	ldrsh r1, [sb, #8]
+	ldrsh r1, [r9, #8]
 	mov r0, r5
 	strh r1, [r5, #8]
-	ldrsh r1, [sb, #0xa]
+	ldrsh r1, [r9, #0xa]
 	strh r1, [r5, #0xa]
 	bl AnimatorSprite__DrawFrame
 	cmp r8, #0
-	ldreqh r0, [sb, #0xc]
+	ldreqh r0, [r9, #0xc]
 	cmpeq r0, #1
 	bne _0215A170
-	ldrsh r2, [sb, #8]
+	ldrsh r2, [r9, #8]
 	mov r1, #0
 	mov r0, r4
 	strh r2, [r4, #8]
-	ldrsh r3, [sb, #0xa]
+	ldrsh r3, [r9, #0xa]
 	mov r2, r1
 	strh r3, [r4, #0xa]
 	bl AnimatorSprite__ProcessAnimation
@@ -1631,14 +1631,14 @@ _0215A170:
 	mov r0, r0, lsl #0x10
 	cmp r6, r1
 	mov r7, r0, asr #0x10
-	add sb, sb, #0x64
+	add r9, r9, #0x64
 	blt _0215A100
 _0215A194:
-	add r0, sl, #0x100
+	add r0, r10, #0x100
 	ldrh r0, [r0, #0x3c]
 	cmp r0, #0
 	bne _0215A2A4
-	add r4, sl, #0x400
+	add r4, r10, #0x400
 	mov r3, #0xd8
 	mov r1, #0
 	mov r0, r4
@@ -1658,7 +1658,7 @@ _0215A194:
 	cmp r8, #0
 	bne _0215A220
 	ldrsh r1, [r4, #8]
-	add r0, sl, #0xc8
+	add r0, r10, #0xc8
 	add r7, r0, #0x400
 	strh r1, [r7, #8]
 	ldrsh r3, [r4, #0xa]
@@ -1673,7 +1673,7 @@ _0215A220:
 	bl SaveGame__GetGameProgress
 	cmp r0, #3
 	blt _0215A2A4
-	add r4, sl, #0x39c
+	add r4, r10, #0x39c
 	mov r0, #0xb0
 	mov r1, #0
 	strh r0, [r4, #8]
@@ -1692,7 +1692,7 @@ _0215A220:
 	cmp r8, #0
 	bne _0215A2A4
 	ldrsh r1, [r4, #8]
-	add r0, sl, #0x64
+	add r0, r10, #0x64
 	add r5, r0, #0x400
 	strh r1, [r5, #8]
 	ldrsh r3, [r4, #0xa]
@@ -1704,7 +1704,7 @@ _0215A220:
 	mov r0, r5
 	bl AnimatorSprite__DrawFrame
 _0215A2A4:
-	add r0, sl, #0x100
+	add r0, r10, #0x100
 	ldrh r1, [r0, #0x3c]
 	cmp r1, #7
 	bne _0215A2C4
@@ -1713,11 +1713,11 @@ _0215A2A4:
 	mov r1, r1, asr #5
 	strh r1, [r0, #0xc]
 _0215A2C4:
-	add r0, sl, #0x100
+	add r0, r10, #0x100
 	ldrh r1, [r0, #0x40]
 	add r1, r1, #1
 	strh r1, [r0, #0x40]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215A2D8: .word 0x0213D2E0
 _0215A2DC: .word renderCoreGFXControlA

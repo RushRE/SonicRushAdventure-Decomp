@@ -92,9 +92,9 @@ SailRampTrick__Main: // 0x021781FC
 
 	arm_func_start SailRampTrick__SetupAnimators
 SailRampTrick__SetupAnimators: // 0x02178220
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xc
-	mov sb, r0
+	mov r9, r0
 	mov r0, #0x53
 	bl GetObjectFileWork
 	mov r4, r0
@@ -113,15 +113,15 @@ _02178260:
 	bl Sprite__GetTextureSize
 	mov r1, r6
 	bl VRAMSystem__AllocTexture
-	mov sl, r0
+	mov r10, r0
 	mov r0, r7
 	bl Sprite__GetPaletteSize
 	mov r1, r5
 	bl VRAMSystem__AllocPalette
-	stmia sp, {r4, sl}
+	stmia sp, {r4, r10}
 	str r0, [sp, #8]
 	add r0, r8, r8, lsl #4
-	add r0, sb, r0, lsl #4
+	add r0, r9, r0, lsl #4
 	add r0, r0, #0xc
 	mov r1, r4
 	mov r2, r7
@@ -133,7 +133,7 @@ _02178260:
 	cmp r8, #0xe
 	blo _02178260
 	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _021782C4: .word aSbTrickBac_0
 	arm_func_end SailRampTrick__SetupAnimators
@@ -457,36 +457,36 @@ _02178748: .word _0218BC94
 
 	arm_func_start SailRampTrick__Func_217874C
 SailRampTrick__Func_217874C: // 0x0217874C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x50
-	mov sl, r0
+	mov r10, r0
 	bl SailManager__GetWork
 	ldr r0, [r0, #0x70]
-	mov sb, #0
+	mov r9, #0
 	cmp r0, #0
-	ldrne sb, [r0, #0x124]
+	ldrne r9, [r0, #0x124]
 	str r0, [sp, #0x18]
-	cmp sb, #0
+	cmp r9, #0
 	addeq sp, sp, #0x50
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	add r0, sl, #0x2e4
-	add r1, sl, #0xe6
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	add r0, r10, #0x2e4
+	add r1, r10, #0xe6
 	add r6, r0, #0xc00
 	add r0, r1, #0xe00
 	str r0, [sp, #0x1c]
 	ldr r0, _02178BC4 // =0x00001770
-	add r2, sl, #0xe2
+	add r2, r10, #0xe2
 	mov r0, r0, lsr #1
 	str r0, [sp, #0x20]
-	add r0, sb, #0x100
+	add r0, r9, #0x100
 	mov r7, #0
-	add fp, r2, #0xe00
-	add r5, sl, #0xe00
-	add r4, sb, #0x200
+	add r11, r2, #0xe00
+	add r5, r10, #0xe00
+	add r4, r9, #0x200
 	str r0, [sp, #0x24]
 _021787B8:
 	add r0, r7, r7, lsl #4
-	add r8, sl, r0, lsl #4
+	add r8, r10, r0, lsl #4
 	ldrb r2, [r8, #7]
 	tst r2, #1
 	beq _02178BA8
@@ -578,7 +578,7 @@ _021788DC:
 	strneb r0, [r8, #7]
 	bne _02178BA8
 _021788FC:
-	ldrb r1, [sl, #0xee0]
+	ldrb r1, [r10, #0xee0]
 	ldrb r0, [r8, #0xb]
 	cmp r1, r0
 	bne _02178BA8
@@ -603,9 +603,9 @@ _021788FC:
 	mov r1, #0
 	str r2, [sp, #0x48]
 	str r1, [sp, #0x4c]
-	ldrh r1, [fp]
+	ldrh r1, [r11]
 	orr r1, r1, #8
-	strh r1, [fp]
+	strh r1, [r11]
 	bl SailJetHUDCross__Create
 	mov r0, #0
 	mov r1, #0xc
@@ -687,9 +687,9 @@ _02178A80:
 _02178A94:
 	mov r0, #0x2000
 	str r0, [r8, #0xd4]
-	ldrb r0, [sl, #0xee0]
+	ldrb r0, [r10, #0xee0]
 	add r0, r0, #1
-	strb r0, [sl, #0xee0]
+	strb r0, [r10, #0xee0]
 	mov r0, #0xc
 	strh r0, [r5, #0xe4]
 	ldrb r0, [r8, #8]
@@ -732,12 +732,12 @@ _02178A94:
 _02178B44:
 	ldr r2, [sp, #0x20]
 _02178B48:
-	ldr r0, [sb, #0x1a8]
+	ldr r0, [r9, #0x1a8]
 	mla r1, r2, r3, r0
 	ldr r0, _02178BC8 // =0x05F5E0FF
-	str r1, [sb, #0x1a8]
+	str r1, [r9, #0x1a8]
 	cmp r1, r0
-	strhi r0, [sb, #0x1a8]
+	strhi r0, [r9, #0x1a8]
 	ldrh r1, [r4, #0x32]
 	ldrsh r0, [r4, #0x30]
 	sub r1, r1, #0x28
@@ -764,7 +764,7 @@ _02178BA8:
 	cmp r7, #0xe
 	blo _021787B8
 	add sp, sp, #0x50
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02178BC4: .word 0x00001770
 _02178BC8: .word 0x05F5E0FF
@@ -772,7 +772,7 @@ _02178BC8: .word 0x05F5E0FF
 
 	arm_func_start SailRampTrick__Func_2178BCC
 SailRampTrick__Func_2178BCC: // 0x02178BCC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x28
 	ldrb r2, [r1, #6]
 	ldrb r3, [r1, #0xa]
@@ -793,76 +793,76 @@ SailRampTrick__Func_2178BCC: // 0x02178BCC
 	rsb ip, r8, #0
 	ldrsh r5, [r3, r2]
 	smull r2, r6, ip, r7
-	mov sb, #0x14
-	moveq sb, #8
+	mov r9, #0x14
+	moveq r9, #8
 	adds r4, r2, #0x800
 	adc lr, r6, #0
-	smull r2, fp, sb, r5
+	smull r2, r11, r9, r5
 	mov r6, r4, lsr #0xc
-	adds sl, r2, #0x800
+	adds r10, r2, #0x800
 	smull r4, r2, ip, r5
 	str r2, [sp, #0x20]
-	adc r2, fp, #0
+	adc r2, r11, #0
 	adds ip, r4, #0x800
-	mov r4, sl, lsr #0xc
-	rsb r3, sb, #0
-	smull sl, fp, r3, r7
+	mov r4, r10, lsr #0xc
+	rsb r3, r9, #0
+	smull r10, r11, r3, r7
 	orr r4, r4, r2, lsl #20
 	ldr r2, [sp, #0x20]
 	orr r6, r6, lr, lsl #20
 	adc r2, r2, #0
 	mov ip, ip, lsr #0xc
 	orr ip, ip, r2, lsl #20
-	str fp, [sp, #0x10]
-	mov r2, sl
-	adds fp, r2, #0x800
+	str r11, [sp, #0x10]
+	mov r2, r10
+	adds r11, r2, #0x800
 	ldr r2, [sp, #0x10]
-	str sl, [sp, #0x18]
-	adc sl, r2, #0
-	mov r2, fp, lsr #0xc
-	orr r2, r2, sl, lsl #20
-	mov sl, r7, asr #0x1f
-	str sl, [sp]
-	mov sl, sb, asr #0x1f
-	str sl, [sp, #4]
-	mov sl, r5, asr #0x1f
-	str sl, [sp, #8]
-	mov sl, r3, asr #0x1f
-	str sl, [sp, #0xc]
-	add sl, ip, r2
-	ldrsh fp, [r1]
+	str r10, [sp, #0x18]
+	adc r10, r2, #0
+	mov r2, r11, lsr #0xc
+	orr r2, r2, r10, lsl #20
+	mov r10, r7, asr #0x1f
+	str r10, [sp]
+	mov r10, r9, asr #0x1f
+	str r10, [sp, #4]
+	mov r10, r5, asr #0x1f
+	str r10, [sp, #8]
+	mov r10, r3, asr #0x1f
+	str r10, [sp, #0xc]
+	add r10, ip, r2
+	ldrsh r11, [r1]
 	add lr, r6, r4
-	str sl, [sp, #0x1c]
-	add sl, fp, lr
-	smull lr, fp, r8, r7
-	strh sl, [r0]
-	str fp, [sp, #0x14]
-	ldrsh sl, [r1, #2]
-	ldr fp, [sp, #0x1c]
-	add sl, sl, fp
-	strh sl, [r0, #2]
-	adds fp, lr, #0x800
-	ldr sl, [sp, #0x14]
-	mov fp, fp, lsr #0xc
-	adc sl, sl, #0
-	orr sl, fp, sl, lsl #20
-	str sl, [sp, #0x24]
-	add fp, sl, r4
-	smull sl, r4, r8, r5
+	str r10, [sp, #0x1c]
+	add r10, r11, lr
+	smull lr, r11, r8, r7
+	strh r10, [r0]
+	str r11, [sp, #0x14]
+	ldrsh r10, [r1, #2]
+	ldr r11, [sp, #0x1c]
+	add r10, r10, r11
+	strh r10, [r0, #2]
+	adds r11, lr, #0x800
+	ldr r10, [sp, #0x14]
+	mov r11, r11, lsr #0xc
+	adc r10, r10, #0
+	orr r10, r11, r10, lsl #20
+	str r10, [sp, #0x24]
+	add r11, r10, r4
+	smull r10, r4, r8, r5
 	ldrsh r8, [r1]
-	add r8, r8, fp
+	add r8, r8, r11
 	strh r8, [r0, #4]
-	adds sl, sl, #0x800
+	adds r10, r10, #0x800
 	adc r8, r4, #0
-	mov r4, sl, lsr #0xc
+	mov r4, r10, lsr #0xc
 	orr r4, r4, r8, lsl #20
-	add fp, r4, r2
-	ldrsh sl, [r1, #2]
+	add r11, r4, r2
+	ldrsh r10, [r1, #2]
 	umull r8, r2, r3, r5
-	add sl, sl, fp
-	ldr fp, [sp, #8]
-	strh sl, [r0, #6]
-	mla r2, r3, fp, r2
+	add r10, r10, r11
+	ldr r11, [sp, #8]
+	strh r10, [r0, #6]
+	mla r2, r3, r11, r2
 	ldr r3, [sp, #0xc]
 	mla r2, r3, r5, r2
 	adds r5, r8, #0x800
@@ -876,8 +876,8 @@ SailRampTrick__Func_2178BCC: // 0x02178BCC
 	add r5, r5, r6
 	strh r5, [r0, #8]
 	ldr r6, [sp]
-	umull r8, r3, sb, r7
-	mla r3, sb, r6, r3
+	umull r8, r3, r9, r7
+	mla r3, r9, r6, r3
 	ldr r6, [sp, #4]
 	ldrsh r5, [r1, #2]
 	mla r3, r6, r7, r3
@@ -896,7 +896,7 @@ SailRampTrick__Func_2178BCC: // 0x02178BCC
 	add r1, r1, r3
 	strh r1, [r0, #0xe]
 	add sp, sp, #0x28
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02178DC0: .word FX_SinCosTable_
 	arm_func_end SailRampTrick__Func_2178BCC
@@ -982,31 +982,31 @@ SailRampTrick__Func_2178DC4: // 0x02178DC4
 
 	arm_func_start SailRampTrick__Func_2178EF0
 SailRampTrick__Func_2178EF0: // 0x02178EF0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	ldr r7, [sp, #0x38]
 	mov r8, r2
 	ldr r5, [sp, #0x40]
 	ldr r6, [sp, #0x3c]
-	mov fp, r3
+	mov r11, r3
 	ldr r4, [sp, #0x44]
-	sub sl, r8, r5
-	sub r2, fp, r6
-	mul r2, sl, r2
-	sub sb, r8, r7
-	sub r3, fp, r4
-	mul r3, sb, r3
+	sub r10, r8, r5
+	sub r2, r11, r6
+	mul r2, r10, r2
+	sub r9, r8, r7
+	sub r3, r11, r4
+	mul r3, r9, r3
 	cmp r2, r3
-	mov sl, r0
-	mov sb, r1
+	mov r10, r0
+	mov r9, r1
 	addeq sp, sp, #0x10
 	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	str sl, [sp]
-	str sb, [sp, #4]
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	str r10, [sp]
+	str r9, [sp, #4]
 	str r5, [sp, #8]
 	mov r0, r8
-	mov r1, fp
+	mov r1, r11
 	mov r2, r7
 	mov r3, r6
 	str r4, [sp, #0xc]
@@ -1014,12 +1014,12 @@ SailRampTrick__Func_2178EF0: // 0x02178EF0
 	cmp r0, #0
 	addlt sp, sp, #0x10
 	movlt r0, #0
-	ldmltia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	str sl, [sp]
-	str sb, [sp, #4]
+	ldmltia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	str r10, [sp]
+	str r9, [sp, #4]
 	str r7, [sp, #8]
 	mov r0, r8
-	mov r1, fp
+	mov r1, r11
 	mov r2, r5
 	mov r3, r4
 	str r6, [sp, #0xc]
@@ -1027,15 +1027,15 @@ SailRampTrick__Func_2178EF0: // 0x02178EF0
 	cmp r0, #0
 	addlt sp, sp, #0x10
 	movlt r0, #0
-	ldmltia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	str sl, [sp]
-	str sb, [sp, #4]
+	ldmltia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	str r10, [sp]
+	str r9, [sp, #4]
 	str r8, [sp, #8]
 	mov r0, r7
 	mov r1, r6
 	mov r2, r5
 	mov r3, r4
-	str fp, [sp, #0xc]
+	str r11, [sp, #0xc]
 	bl SailRampTrick__Func_2178FE8
 	cmp r0, #0
 	movge r0, #1
@@ -1043,7 +1043,7 @@ SailRampTrick__Func_2178EF0: // 0x02178EF0
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end SailRampTrick__Func_2178EF0
 
 	arm_func_start SailRampTrick__Func_2178FE8
@@ -1069,20 +1069,20 @@ SailRampTrick__Func_2178FE8: // 0x02178FE8
 
 	arm_func_start SailRampTrick__Func_217902C
 SailRampTrick__Func_217902C: // 0x0217902C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
-	mov sl, r0
+	mov r10, r0
 	mov r8, r2
-	mov sb, r1
+	mov r9, r1
 	mov r7, r3
-	cmp sl, r8
+	cmp r10, r8
 	ldr r6, [sp, #0x38]
 	ldr r5, [sp, #0x3c]
 	ldr r4, [sp, #0x40]
-	ldr fp, [sp, #0x44]
+	ldr r11, [sp, #0x44]
 	blt _02179080
-	cmp sl, r6
-	cmplt sl, r4
+	cmp r10, r6
+	cmplt r10, r4
 	blt _02179074
 	cmp r8, r6
 	cmpgt r8, r4
@@ -1090,63 +1090,63 @@ SailRampTrick__Func_217902C: // 0x0217902C
 _02179074:
 	add sp, sp, #0x10
 	mov r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02179080:
 	cmp r8, r6
 	cmplt r8, r4
 	blt _02179098
-	cmp sl, r6
-	cmpgt sl, r4
+	cmp r10, r6
+	cmpgt r10, r4
 	ble _021790A4
 _02179098:
 	add sp, sp, #0x10
 	mov r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _021790A4:
-	cmp sb, r7
+	cmp r9, r7
 	blt _021790D0
-	cmp sb, r5
-	cmplt sb, fp
+	cmp r9, r5
+	cmplt r9, r11
 	blt _021790C4
 	cmp r7, r5
-	cmpgt r7, fp
+	cmpgt r7, r11
 	ble _021790F4
 _021790C4:
 	add sp, sp, #0x10
 	mov r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _021790D0:
 	cmp r7, r5
-	cmplt r7, fp
+	cmplt r7, r11
 	blt _021790E8
-	cmp sb, r5
-	cmpgt sb, fp
+	cmp r9, r5
+	cmpgt r9, r11
 	ble _021790F4
 _021790E8:
 	add sp, sp, #0x10
 	mov r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _021790F4:
 	str r6, [sp]
 	str r5, [sp, #4]
 	str r4, [sp, #8]
-	mov r0, sl
-	mov r1, sb
+	mov r0, r10
+	mov r1, r9
 	mov r2, r8
 	mov r3, r7
-	str fp, [sp, #0xc]
+	str r11, [sp, #0xc]
 	bl SailRampTrick__Func_2178FE8
 	cmp r0, #0
 	addge sp, sp, #0x10
 	movge r0, #0
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	str sl, [sp]
-	str sb, [sp, #4]
+	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	str r10, [sp]
+	str r9, [sp, #4]
 	str r8, [sp, #8]
 	mov r0, r6
 	mov r1, r5
 	mov r2, r4
-	mov r3, fp
+	mov r3, r11
 	str r7, [sp, #0xc]
 	bl SailRampTrick__Func_2178FE8
 	cmp r0, #0
@@ -1155,7 +1155,7 @@ _021790F4:
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end SailRampTrick__Func_217902C
 
 	arm_func_start SailRampTrick__Func_2179168

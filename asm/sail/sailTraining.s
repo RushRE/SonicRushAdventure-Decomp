@@ -160,7 +160,7 @@ _02189F38: .word 0x0000FFFE
 
 	arm_func_start SailTraining__Main_2189F3C
 SailTraining__Main_2189F3C: // 0x02189F3C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	bl SailManager__GetWork
@@ -174,7 +174,7 @@ SailTraining__Main_2189F3C: // 0x02189F3C
 	bl SailManager__GetShipType
 	ldrh r1, [r4, #8]
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 	tst r1, #4
 	bne _0218A0DC
 	ldr r0, [r5, #0x24]
@@ -184,7 +184,7 @@ SailTraining__Main_2189F3C: // 0x02189F3C
 	cmp r3, #6
 	bhs _02189FC4
 	mov r0, #6
-	mul r2, sb, r0
+	mul r2, r9, r0
 	ldr r1, _0218A108 // =_0218C8DC
 	ldr r0, _0218A10C // =_0218C8F4
 	add r1, r1, r2
@@ -228,7 +228,7 @@ _02189FC4:
 	bl SailRetireEvent__CreateFadeOut
 _0218A040:
 	bl DestroyCurrentTask
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0218A048:
 	tst r0, #0x10
 	bne _0218A0DC
@@ -243,7 +243,7 @@ _0218A064:
 	bne _0218A0D0
 	ldr r1, _0218A10C // =_0218C8F4
 	mov r0, #6
-	mla r1, sb, r0, r1
+	mla r1, r9, r0, r1
 	ldrh r2, [r4]
 	ldrh r0, [r6, #0x24]
 	ldrb r1, [r2, r1]
@@ -274,14 +274,14 @@ _0218A0DC:
 	ldr r1, [r8, #0x10]
 	ldr r0, [r8, #0x28]
 	cmp r1, r0
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	cmp r1, #0x80000
-	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r1, #0x100000
 	mov r0, r7
 	rsb r1, r1, #0
 	bl SailPlayer__RemoveHealth
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0218A108: .word _0218C8DC
 _0218A10C: .word _0218C8F4

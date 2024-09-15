@@ -5,12 +5,12 @@
 
 	arm_func_start ObjectUnknown1__Create
 ObjectUnknown1__Create: // 0x0216BB24
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x10
 	mov r4, r0
 	ldrh r0, [r4, #4]
 	mvn r7, #0
-	mov sb, r1
+	mov r9, r1
 	mov r5, r2
 	mov r8, r7
 	tst r0, #1
@@ -56,7 +56,7 @@ _0216BBD0:
 	strb r0, [r4]
 	add sp, sp, #0x10
 	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _0216BBE4:
 	mov r0, #0x1800
 	mov r2, #0
@@ -75,7 +75,7 @@ _0216BBE4:
 	cmp r6, r0
 	addeq sp, sp, #0x10
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r0, r6
 	bl GetTaskWork_
 	mov r6, r0
@@ -83,7 +83,7 @@ _0216BBE4:
 	mov r2, #0x36c
 	bl MI_CpuFill8
 	mov r0, r6
-	mov r2, sb
+	mov r2, r9
 	mov r3, r5
 	mov r1, r4
 	bl GameObject__InitFromObject
@@ -111,10 +111,10 @@ _0216BBE4:
 	strb r1, [sp, #0xc]
 _0216BCB0:
 	ldr r5, _0216BD5C // =gPlayerList
-	add sl, sp, #0xc
-	mov sb, #0
+	add r10, sp, #0xc
+	mov r9, #0
 _0216BCBC:
-	ldrsb r0, [sl]
+	ldrsb r0, [r10]
 	cmp r0, #0
 	blt _0216BD24
 	ldr r3, [r5, r0, lsl #2]
@@ -135,15 +135,15 @@ _0216BCBC:
 	cmp r1, r0
 	bgt _0216BD24
 	ldrb r2, [r4, #9]
-	mov r3, sb, lsl #0x18
+	mov r3, r9, lsl #0x18
 	mov r0, r7
 	mov r1, r8
 	mov r3, r3, asr #0x18
 	bl MapFarSys__Func_200B524
 _0216BD24:
-	add sb, sb, #1
-	cmp sb, #2
-	add sl, sl, #1
+	add r9, r9, #1
+	cmp r9, #2
+	add r10, r10, #1
 	blt _0216BCBC
 	b _0216BD40
 _0216BD38:
@@ -152,7 +152,7 @@ _0216BD38:
 _0216BD40:
 	mov r0, r6
 	add sp, sp, #0x10
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0216BD4C: .word 0x00002710
 _0216BD50: .word mapCamera

@@ -663,7 +663,7 @@ _021569BC: .word _02162E8C
 
 	arm_func_start TitleScreen__Func_21569C0
 TitleScreen__Func_21569C0: // 0x021569C0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldr ip, _02156A08 // =_02162F8C
 	ldr r6, _02156A0C // =_02162E8C
 	ldrh r7, [ip]
@@ -671,16 +671,16 @@ TitleScreen__Func_21569C0: // 0x021569C0
 	mov r4, r2
 	add r2, r7, #1
 	strh r2, [ip]
-	mov sb, r3
+	mov r9, r3
 	add r8, r6, r7, lsl #4
 	bl TitleScreen__Func_2156A10
 	str r5, [r6, r7, lsl #4]
 	strh r0, [r8, #4]
 	strh r4, [r8, #6]
 	ldr r0, [sp, #0x20]
-	str sb, [r8, #8]
+	str r9, [r8, #8]
 	str r0, [r8, #0xc]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02156A08: .word _02162F8C
 _02156A0C: .word _02162E8C

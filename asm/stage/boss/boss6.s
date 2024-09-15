@@ -13,7 +13,7 @@ Boss6Stage__Singleton: // 0x02179B9C
 
 	arm_func_start Boss6Stage__Create
 Boss6Stage__Create: // 0x021539C4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x80
 	mov r3, #0x1500
 	mov r6, r0
@@ -91,25 +91,25 @@ Boss6Stage__Create: // 0x021539C4
 	add r0, r8, #0x364
 	bl ovl02_2154F7C
 	bl BossHelpers__Model__InitSystem
-	mov sb, #0
+	mov r9, #0
 	add r0, r8, #0x158
 	ldr r7, _02153E00 // =0x02133A18
 	ldr r4, _02153E04 // =_02179680
-	add sl, r0, #0x400
-	mov r6, sb
-	mov r5, sb
+	add r10, r0, #0x400
+	mov r6, r9
+	mov r5, r9
 _02153B18:
 	str r7, [sp]
 	mov r0, r8
-	mov r1, sl
+	mov r1, r10
 	mov r2, r4
-	mov r3, sb
+	mov r3, r9
 	str r6, [sp, #4]
 	bl ObjAction3dNNModelLoad
-	add sb, sb, #1
+	add r9, r9, #1
 	str r5, [r8, #0x12c]
-	cmp sb, #3
-	add sl, sl, #0x17c
+	cmp r9, #3
+	add r10, r10, #0x17c
 	blt _02153B18
 	ldr r0, _02153E08 // =bossAssetFiles
 	add r4, r8, #0x258
@@ -149,14 +149,14 @@ _02153B18:
 	bl NNS_FndMountArchive
 	add r0, r8, #0x1cc
 	ldr r4, _02153E08 // =bossAssetFiles
-	add sl, r0, #0x800
-	mov sb, r6
+	add r10, r0, #0x800
+	mov r9, r6
 	add r7, sp, #0x18
-	mov fp, #0x16
+	mov r11, #0x16
 	mov r5, #5
 _02153BF4:
 	mov r0, r7
-	mov r1, fp
+	mov r1, r11
 	bl NNS_FndGetArchiveFileByIndex
 	mov r6, r0
 	ldr r0, [r4, #0x10]
@@ -166,40 +166,40 @@ _02153BF4:
 	str r5, [sp]
 	str r0, [sp, #4]
 	mov r1, r6
-	mov r0, sl
+	mov r0, r10
 	mov r2, #0
 	mov r3, #2
 	bl InitPaletteAnimator
-	add sb, sb, #1
-	add sl, sl, #0x20
-	cmp sb, #3
+	add r9, r9, #1
+	add r10, r10, #0x20
+	cmp r9, #3
 	blt _02153BF4
 	add r0, r8, #0x188
 	ldr r6, _02153E18 // =_02179504
 	ldr r4, _02153E08 // =bossAssetFiles
-	add sb, r0, #0xc00
-	mov sl, #0
-	add fp, sp, #0x18
+	add r9, r0, #0xc00
+	mov r10, #0
+	add r11, sp, #0x18
 	mov r5, #5
 _02153C5C:
-	mov r0, fp
-	add r1, sl, #0x17
+	mov r0, r11
+	add r1, r10, #0x17
 	bl NNS_FndGetArchiveFileByIndex
 	mov r7, r0
 	ldr r0, [r4, #0x18]
 	bl NNS_G3dGetTex
-	ldr r1, [r6, sl, lsl #2]
+	ldr r1, [r6, r10, lsl #2]
 	bl Asset3DSetup__PaletteFromName
 	str r5, [sp]
 	mov r2, #0
 	str r0, [sp, #4]
 	mov r1, r7
-	mov r0, sb
+	mov r0, r9
 	mov r3, r2
 	bl InitPaletteAnimator
-	add sl, sl, #1
-	add sb, sb, #0x20
-	cmp sl, #4
+	add r10, r10, #1
+	add r9, r9, #0x20
+	cmp r10, #4
 	blt _02153C5C
 	add r0, r8, #0x188
 	mov r2, #0
@@ -276,7 +276,7 @@ _02153D70:
 	mov r0, r8
 	str r2, [r1, #4]
 	add sp, sp, #0x80
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02153DD4: .word 0x00000E28
 _02153DD8: .word StageTask_Main
@@ -304,7 +304,7 @@ _02153E28: .word renderCoreSwapBuffer
 
 	arm_func_start Boss6__Create
 Boss6__Create: // 0x02153E2C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x74
 	mov r3, #0x1500
 	mov r7, r0
@@ -496,29 +496,29 @@ Boss6__Create: // 0x02153E2C
 	add r0, r8, #0x94
 	ldr r6, _021541F8 // =_02179590
 	ldr r4, _021541D8 // =bossAssetFiles
-	mov sb, #0
-	add sl, r0, #0x400
-	add fp, sp, #0xc
+	mov r9, #0
+	add r10, r0, #0x400
+	add r11, sp, #0xc
 	mov r5, #5
 _0215413C:
-	mov r0, fp
-	add r1, sb, #0xa
+	mov r0, r11
+	add r1, r9, #0xa
 	bl NNS_FndGetArchiveFileByIndex
 	mov r7, r0
 	ldr r0, [r4]
 	bl NNS_G3dGetTex
-	ldr r1, [r6, sb, lsl #2]
+	ldr r1, [r6, r9, lsl #2]
 	bl Asset3DSetup__PaletteFromName
 	str r5, [sp]
 	mov r2, #0
 	str r0, [sp, #4]
 	mov r1, r7
-	mov r0, sl
+	mov r0, r10
 	mov r3, r2
 	bl InitPaletteAnimator
-	add sb, sb, #1
-	add sl, sl, #0x20
-	cmp sb, #0xc
+	add r9, r9, #1
+	add r10, r10, #0x20
+	cmp r9, #0xc
 	blt _0215413C
 	add r0, r8, #0x94
 	mov r2, #0
@@ -532,7 +532,7 @@ _0215413C:
 	bl ovl02_215746C
 	mov r0, r8
 	add sp, sp, #0x74
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021541BC: .word 0x00000A8C
 _021541C0: .word StageTask_Main
@@ -1086,7 +1086,7 @@ _021549F4: .word 0x000034CC
 
 	arm_func_start Boss6Missile__Create
 Boss6Missile__Create: // 0x021549F8
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1500
 	mov r7, r0
@@ -1122,11 +1122,11 @@ Boss6Missile__Create: // 0x021549F8
 	orr r1, r1, #0x10
 	str r1, [r8, #0x18]
 	ldr r1, [r8, #0x20]
-	mov sb, #0
+	mov r9, #0
 	orr r1, r1, #0x180
 	str r1, [r8, #0x20]
 	ldr r1, [r8, #0x1c]
-	ldr fp, _02154BA8 // =ovl02_215C3DC
+	ldr r11, _02154BA8 // =ovl02_215C3DC
 	orr r1, r1, #0x8300
 	str r1, [r8, #0x1c]
 	str r0, [r8, #0x38]
@@ -1135,36 +1135,36 @@ Boss6Missile__Create: // 0x021549F8
 	str r5, [r8, #0x44]
 	str r4, [r8, #0x48]
 	mvn r5, #4
-	add sl, r8, #0x218
-	str sb, [r8, #0x4c]
+	add r10, r8, #0x218
+	str r9, [r8, #0x4c]
 	sub r4, r5, #1
 	mov r7, #5
 	mov r6, #6
 _02154AD0:
-	mov r0, sl
+	mov r0, r10
 	mov r1, #2
 	mov r2, #0x40
 	bl ObjRect__SetAttackStat
-	mov r0, sl
+	mov r0, r10
 	mov r1, #3
 	mov r2, #0x40
 	bl ObjRect__SetDefenceStat
 	str r7, [sp]
 	str r7, [sp, #4]
 	str r6, [sp, #8]
-	mov r0, sl
+	mov r0, r10
 	mov r1, r5
 	mov r2, r5
 	mov r3, r4
 	bl ObjRect__SetBox3D
-	str r8, [sl, #0x1c]
-	str fp, [sl, #0x20]
-	ldr r0, [sl, #0x18]
-	add sb, sb, #1
+	str r8, [r10, #0x1c]
+	str r11, [r10, #0x20]
+	ldr r0, [r10, #0x18]
+	add r9, r9, #1
 	orr r0, r0, #4
-	str r0, [sl, #0x18]
-	cmp sb, #3
-	add sl, sl, #0x40
+	str r0, [r10, #0x18]
+	cmp r9, #3
+	add r10, r10, #0x40
 	blt _02154AD0
 	add r0, r8, #0x364
 	bl ovl02_2154F7C
@@ -1189,7 +1189,7 @@ _02154AD0:
 	bl ovl02_215C494
 	mov r0, r8
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02154B94: .word 0x00000524
 _02154B98: .word StageTask_Main
@@ -1774,25 +1774,25 @@ ovl02_2155354: // 0x02155354
 
 	arm_func_start ovl02_2155390
 ovl02_2155390: // 0x02155390
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	ldr r4, _02155530 // =Boss6Stage__Singleton
-	mov sl, r0
+	mov r10, r0
 	ldr r0, [r4]
 	mov r4, r3
 	str r1, [sp, #8]
 	str r2, [sp, #0xc]
 	bl GetTaskWork_
 	ldr r1, [r0, #0x38c]
-	ldr r0, [sl, #0x48]
+	ldr r0, [r10, #0x48]
 	rsb r1, r1, #0
 	sub r5, r1, r0
 	cmp r5, #0
 	addle sp, sp, #0x10
-	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	cmp r5, #0xb2000
 	addgt sp, sp, #0x10
-	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, _02155534 // =0x00001199
 	mov r1, #0
 	umull r3, r2, r5, r0
@@ -1816,21 +1816,21 @@ _02155418:
 	mov r0, r0, asr #0x10
 	ldr r1, _02155538 // =0xFFFFF029
 	mov r2, #0x800
-	umull sb, r5, r0, r1
+	umull r9, r5, r0, r1
 	mvn r3, #0
 	sub r2, r2, #0xf800
 	umull r8, r6, r0, r2
-	adds sb, sb, #0x800
+	adds r9, r9, #0x800
 	mla r5, r0, r3, r5
-	mov fp, r0, asr #0x1f
+	mov r11, r0, asr #0x1f
 	mla r6, r0, r3, r6
 	mov r0, #0
-	mla r5, fp, r1, r5
-	mla r6, fp, r2, r6
+	mla r5, r11, r1, r5
+	mla r6, r11, r2, r6
 	adc r1, r5, r0
-	mov sb, sb, lsr #0xc
-	orr sb, sb, r1, lsl #20
-	add r1, sb, #0xcc
+	mov r9, r9, lsr #0xc
+	orr r9, r9, r1, lsl #20
+	add r1, r9, #0xcc
 	adds r2, r8, #0x800
 	add r5, r1, #0x3400
 	adc r1, r6, r0
@@ -1847,41 +1847,41 @@ _02155418:
 	rsb r8, r4, #0
 	mov r6, #0
 	add r4, sp, #8
-	mov fp, #0xc
+	mov r11, #0xc
 _021554B4:
 	cmp r6, #0
-	ldr sb, [r4, r6, lsl #2]
+	ldr r9, [r4, r6, lsl #2]
 	bne _021554F8
-	strb fp, [sb, #0xa]
+	strb r11, [r9, #0xa]
 	mov r0, #0x16
-	strb r0, [sb, #0xb]
+	strb r0, [r9, #0xb]
 	mov r0, #0x13
-	strb r0, [sb, #0xc]
+	strb r0, [r9, #0xc]
 	mov r0, #0x14
-	strb r0, [sb, #0xd]
+	strb r0, [r9, #0xd]
 	mov r0, #0
-	strb r0, [sb, #0xe]
-	str r7, [sb, #0x1c]
-	str r5, [sb, #0x18]
-	str r5, [sb, #0x20]
-	str r8, [sb, #0x58]
+	strb r0, [r9, #0xe]
+	str r7, [r9, #0x1c]
+	str r5, [r9, #0x18]
+	str r5, [r9, #0x20]
+	str r8, [r9, #0x58]
 	b _02155510
 _021554F8:
 	mov r1, #0
 	mov r0, r1
-	strb r0, [sb, #0xa]
-	ldr r0, [sb, #0x94]
+	strb r0, [r9, #0xa]
+	ldr r0, [r9, #0x94]
 	mov r2, #0x1f0000
 	bl NNSi_G3dModifyPolygonAttrMask
 _02155510:
-	mov r1, sb
-	mov r0, sl
+	mov r1, r9
+	mov r0, r10
 	bl StageTask__Draw3D
 	add r6, r6, #1
 	cmp r6, #2
 	blt _021554B4
 	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02155530: .word Boss6Stage__Singleton
 _02155534: .word 0x00001199
@@ -2929,24 +2929,24 @@ _02156270: .word 0x02133BC8
 
 	arm_func_start ovl02_2156274
 ovl02_2156274: // 0x02156274
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
-	mov sl, r0
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
+	mov r10, r0
 	ldr r2, _021562F8 // =0x0000069C
-	mov r1, sl
+	mov r1, r10
 	mov r0, #0
 	bl MIi_CpuClear16
-	add r0, sl, #0x18
+	add r0, r10, #0x18
 	mov r1, #0
 	bl NNS_FndInitList
 	mov r7, #0
 	ldr r4, _021562FC // =0x00149FB0
-	mov sb, r7
-	add r8, sl, #0x24
+	mov r9, r7
+	add r8, r10, #0x24
 	mov r6, #3
 	mov r5, r7
 _021562B0:
 	mov r1, r8
-	add r0, sl, #0x18
+	add r0, r10, #0x18
 	bl NNS_FndAppendListObject
 	mov r0, r7
 	mov r1, r6
@@ -2956,13 +2956,13 @@ _021562B0:
 	bl MTX_Identity33_
 	str r5, [r8, #0x30]
 	str r5, [r8, #0x34]
-	str sb, [r8, #0x38]
+	str r9, [r8, #0x38]
 	add r7, r7, #1
 	cmp r7, #7
 	add r8, r8, #0x3c
-	add sb, sb, r4
+	add r9, r9, r4
 	blt _021562B0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _021562F8: .word 0x0000069C
 _021562FC: .word 0x00149FB0
@@ -2970,7 +2970,7 @@ _021562FC: .word 0x00149FB0
 
 	arm_func_start ovl02_2156300
 ovl02_2156300: // 0x02156300
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	add r6, r0, #0x390
 	bl ovl02_2155A78
 	ldr r2, [r6, #0x14]
@@ -2999,8 +2999,8 @@ _0215634C:
 	beq _021563E8
 	ldr r0, _02156470 // =FX_SinCosTable_
 	ldr r4, _02156474 // =0xFFEB6050
-	ldrsh sb, [r0, #2]
-	ldrsh sl, [r0]
+	ldrsh r9, [r0, #2]
+	ldrsh r10, [r0]
 	mov r5, r8
 _02156378:
 	cmp r8, #0
@@ -3009,8 +3009,8 @@ _02156378:
 	add r1, r6, #0xc
 	mov r2, r0
 	bl VEC_Add
-	mov r1, sl
-	mov r2, sb
+	mov r1, r10
+	mov r2, r9
 	add r0, r7, #0xc
 	blx MTX_RotX33_
 	b _021563D0
@@ -3040,7 +3040,7 @@ _021563E8:
 	mov r4, r0
 	ldr r0, [r4, #0x38]
 	cmp r0, #0
-	ldmleia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r1, r4
 	add r0, r6, #0x18
 	bl NNS_FndRemoveListObject
@@ -3067,7 +3067,7 @@ _021563E8:
 	mov r1, r4
 	add r0, r6, #0x18
 	bl NNS_FndAppendListObject
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02156470: .word FX_SinCosTable_
 _02156474: .word 0xFFEB6050
@@ -3075,7 +3075,7 @@ _02156474: .word 0xFFEB6050
 
 	arm_func_start ovl02_2156478
 ovl02_2156478: // 0x02156478
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r8, r0
 	add r5, r8, #0x390
 	add r0, r5, #0x18
@@ -3084,11 +3084,11 @@ ovl02_2156478: // 0x02156478
 	movs r6, r0
 	beq _021564F8
 	add r4, r5, #0x1c8
-	mov sb, #0x17c
+	mov r9, #0x17c
 _021564A0:
 	ldr r1, [r6, #8]
 	mov r0, r5
-	mla r7, r1, sb, r4
+	mla r7, r1, r9, r4
 	add r1, r6, #0x30
 	add r2, r7, #0x48
 	bl VEC_Add
@@ -3111,7 +3111,7 @@ _021564A0:
 _021564F8:
 	ldr r0, [r8, #0xa2c]
 	cmp r0, #0
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	add r0, r5, #0x23c
 	add r5, r0, #0x400
 	mov r4, #0
@@ -3124,7 +3124,7 @@ _02156510:
 	cmp r4, #3
 	add r5, r5, #0x20
 	blt _02156510
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end ovl02_2156478
 
 	arm_func_start ovl02_2156534
@@ -3540,21 +3540,21 @@ _02156AC8: .word _02178818
 
 	arm_func_start ovl02_2156ACC
 ovl02_2156ACC: // 0x02156ACC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x28
 	ldr r6, _02156BC4 // =Boss6Stage__Singleton
-	ldr sb, [r0, #0x45c]
+	ldr r9, [r0, #0x45c]
 	ldr r5, [r0, #0x458]
-	rsb ip, sb, #0
+	rsb ip, r9, #0
 	ldr r8, [r0, #0x460]
 	add r4, r0, #0x98
 	ldr r7, _02156BC8 // =0x00083FE0
-	mov fp, r1
+	mov r11, r1
 	mov r1, #1
 	str r8, [sp, #0x24]
 	ldr r0, [r6]
-	mov sl, r2
-	mov sb, r3
+	mov r10, r2
+	mov r9, r3
 	str r5, [sp, #0x1c]
 	str ip, [sp, #0x20]
 	str r7, [sp, #0x10]
@@ -3570,17 +3570,17 @@ ovl02_2156ACC: // 0x02156ACC
 	str r1, [sp, #0x18]
 	mov r5, #0
 _02156B40:
-	str sl, [sp]
+	str r10, [sp]
 	add r0, sp, #0x10
 	ldr r7, [r0, r5, lsl #2]
-	str sb, [sp, #4]
+	str r9, [sp, #4]
 	add r0, sp, #0x1c
 	str r8, [sp, #8]
 	ldr r6, [r0, r5, lsl #2]
 	ldr r2, [r4, r5, lsl #2]
 	mov r0, r6
 	mov r1, r7
-	mov r3, fp
+	mov r3, r11
 	bl BossHelpers__Math__Func_20392BC
 	subs r1, r7, r6
 	rsbmi r1, r1, #0
@@ -3590,7 +3590,7 @@ _02156B40:
 	ldr r0, [r4, r5, lsl #2]
 	cmp r0, #0
 	rsblt r0, r0, #0
-	cmp sl, r0
+	cmp r10, r0
 	bge _02156BA4
 _02156B98:
 	mov r0, #0
@@ -3605,7 +3605,7 @@ _02156BAC:
 	blt _02156B40
 	ldr r0, [sp, #0xc]
 	add sp, sp, #0x28
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02156BC4: .word Boss6Stage__Singleton
 _02156BC8: .word 0x00083FE0
@@ -4089,14 +4089,14 @@ _02157278: .word 0x0000FFFF
 
 	arm_func_start ovl02_215727C
 ovl02_215727C: // 0x0215727C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r6, r0
-	mov sb, r2
+	mov r9, r2
 	ldr r5, [r6, #0x44]
-	ldr r0, [sb, #0x44]
+	ldr r0, [r9, #0x44]
 	ldr r4, [r6, #0x48]
-	ldr r2, [sb, #0x48]
-	mov sl, r1
+	ldr r2, [r9, #0x48]
+	mov r10, r1
 	sub r0, r5, r0
 	sub r1, r4, r2
 	mov r8, r3
@@ -4140,13 +4140,13 @@ _02157308:
 	mov r3, r0
 	mov r2, r2, lsl #1
 	mov r1, r1, lsl #1
-	ldr r7, [sl, #0x1c]
-	ldr r0, [sl, #0xc]
+	ldr r7, [r10, #0x1c]
+	ldr r0, [r10, #0xc]
 	ldr r6, [r7, #0x44]
 	ldr ip, [r7, #0x48]
 	add r6, r6, r0
-	ldr r7, [sl, #0x10]
-	mov r0, sb
+	ldr r7, [r10, #0x10]
+	mov r0, r9
 	add r7, ip, r7
 	ldr ip, _02157468 // =FX_SinCosTable_
 	ldrsh r2, [ip, r2]
@@ -4166,58 +4166,58 @@ _02157308:
 	bl Player__Action_Spring
 	cmp r5, #0x8000
 	bhs _021573D4
-	ldrsh r2, [sl]
+	ldrsh r2, [r10]
 	ldrsh r0, [r8, #6]
-	ldr r1, [sb, #0x44]
+	ldr r1, [r9, #0x44]
 	add r2, r6, r2, lsl #12
 	add r0, r1, r0, lsl #12
 	sub r1, r2, r0
 	mov r0, #0xa000
 	rsb r0, r0, #0
-	str r1, [sb, #0xb0]
+	str r1, [r9, #0xb0]
 	cmp r1, r0
-	strgt r0, [sb, #0xb0]
+	strgt r0, [r9, #0xb0]
 	b _021573FC
 _021573D4:
-	ldrsh r2, [sl, #6]
+	ldrsh r2, [r10, #6]
 	ldrsh r0, [r8]
-	ldr r1, [sb, #0x44]
+	ldr r1, [r9, #0x44]
 	add r2, r6, r2, lsl #12
 	add r0, r1, r0, lsl #12
 	sub r0, r2, r0
-	str r0, [sb, #0xb0]
+	str r0, [r9, #0xb0]
 	cmp r0, #0xa000
 	movlt r0, #0xa000
-	strlt r0, [sb, #0xb0]
+	strlt r0, [r9, #0xb0]
 _021573FC:
 	cmp r5, #0x4000
 	blo _02157438
 	cmp r5, #0xc000
 	bhs _02157438
-	ldrsh r2, [sl, #8]
+	ldrsh r2, [r10, #8]
 	ldrsh r0, [r8, #2]
-	ldr r1, [sb, #0x48]
+	ldr r1, [r9, #0x48]
 	add r2, r7, r2, lsl #12
 	add r0, r1, r0, lsl #12
 	sub r0, r2, r0
-	str r0, [sb, #0xb4]
+	str r0, [r9, #0xb4]
 	cmp r0, #0xa000
 	movlt r0, #0xa000
-	strlt r0, [sb, #0xb4]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	strlt r0, [r9, #0xb4]
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _02157438:
-	ldrsh r2, [sl, #2]
+	ldrsh r2, [r10, #2]
 	ldrsh r0, [r8, #8]
-	ldr r1, [sb, #0x48]
+	ldr r1, [r9, #0x48]
 	add r2, r7, r2, lsl #12
 	add r0, r1, r0, lsl #12
 	sub r1, r2, r0
 	mov r0, #0xa000
 	rsb r0, r0, #0
-	str r1, [sb, #0xb4]
+	str r1, [r9, #0xb4]
 	cmp r1, r0
-	strgt r0, [sb, #0xb4]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	strgt r0, [r9, #0xb4]
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02157468: .word FX_SinCosTable_
 	arm_func_end ovl02_215727C
@@ -4257,7 +4257,7 @@ _021574C4: .word ovl02_21576B0
 
 	arm_func_start ovl02_21574C8
 ovl02_21574C8: // 0x021574C8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	add r6, r0, #0x374
 	str r0, [sp]
 	mov r1, r6
@@ -4278,32 +4278,32 @@ ovl02_21574C8: // 0x021574C8
 	mov r1, #3
 	mov r0, r0, lsr #0x10
 	ldrne r7, _021575C8 // =_02179574
-	mov sl, #7
+	mov r10, #7
 	str r2, [r3]
 	bl FX_ModS32
 	add r0, r0, #2
 	mov r0, r0, lsl #0x10
 	movs r8, r0, lsr #0x10
-	mov sb, #0
+	mov r9, #0
 	beq _02157584
 	ldr r5, _021575B8 // =_mt_math_rand
-	ldr fp, _021575BC // =0x00196225
+	ldr r11, _021575BC // =0x00196225
 	ldr r4, _021575C0 // =0x3C6EF35F
 _02157548:
 	ldr r0, [r5]
-	mov r1, sl
-	mla r2, r0, fp, r4
+	mov r1, r10
+	mla r2, r0, r11, r4
 	mov r0, r2, lsr #0x10
 	mov r0, r0, lsl #0x10
 	str r2, [r5]
 	mov r0, r0, lsr #0x10
 	bl FX_ModS32
-	add r1, sb, #1
+	add r1, r9, #1
 	ldr r2, [r7, r0, lsl #2]
 	mov r0, r1, lsl #0x10
-	str r2, [r6, sb, lsl #2]
+	str r2, [r6, r9, lsl #2]
 	cmp r8, r0, lsr #16
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 	bhi _02157548
 _02157584:
 	ldr r1, [r6]
@@ -4317,7 +4317,7 @@ _02157584:
 	mov r1, r0
 	str r2, [r1, #0x3bc]
 	blx r2
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021575B4: .word gameState
 _021575B8: .word _mt_math_rand
@@ -5453,7 +5453,7 @@ _02158460: .word ovl02_2158464
 
 	arm_func_start ovl02_2158464
 ovl02_2158464: // 0x02158464
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r4, r0
 	add r0, r4, #0x374
 	ldrsh r1, [r0, #0xa]
@@ -5474,13 +5474,13 @@ ovl02_2158464: // 0x02158464
 	mov r3, ip, asr #0x1f
 _021584B0:
 	sub r7, r7, r1
-	umull sb, r8, r7, ip
+	umull r9, r8, r7, ip
 	mla r8, r7, r3, r8
 	mov r7, r7, asr #0x1f
 	mla r8, r7, ip, r8
-	adds sb, sb, r6
+	adds r9, r9, r6
 	adc r7, r8, lr
-	mov r8, sb, lsr #0xc
+	mov r8, r9, lsr #0xc
 	orr r8, r8, r7, lsl #20
 	cmp r2, #0
 	add r7, r1, r8
@@ -5496,13 +5496,13 @@ _021584B0:
 	mov r6, #0x800
 _02158504:
 	sub r7, r7, r1
-	umull sb, r8, r7, ip
+	umull r9, r8, r7, ip
 	mla r8, r7, r3, r8
 	mov r7, r7, asr #0x1f
 	mla r8, r7, ip, r8
-	adds sb, sb, r6
+	adds r9, r9, r6
 	adc r7, r8, lr
-	mov r8, sb, lsr #0xc
+	mov r8, r9, lsr #0xc
 	orr r8, r8, r7, lsl #20
 	cmp r2, #0
 	add r7, r1, r8
@@ -5518,13 +5518,13 @@ _02158504:
 	mov lr, #0x800
 _02158558:
 	sub r7, r7, r1
-	umull sb, r8, r7, ip
+	umull r9, r8, r7, ip
 	mla r8, r7, r3, r8
 	mov r7, r7, asr #0x1f
 	mla r8, r7, ip, r8
-	adds sb, sb, lr
+	adds r9, r9, lr
 	adc r7, r8, r6
-	mov r8, sb, lsr #0xc
+	mov r8, r9, lsr #0xc
 	orr r8, r8, r7, lsl #20
 	cmp r2, #0
 	add r7, r1, r8
@@ -5556,7 +5556,7 @@ _021585B0:
 	cmp r5, #0
 	ldrne r0, _021585F8 // =ovl02_21585FC
 	strne r0, [r4, #0x3bc]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021585F4: .word FX_SinCosTable_
 _021585F8: .word ovl02_21585FC
@@ -5617,7 +5617,7 @@ _021586B8: .word ovl02_21586BC
 
 	arm_func_start ovl02_21586BC
 ovl02_21586BC: // 0x021586BC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r5, r0
 	add r2, r5, #0x374
 	ldrsh r0, [r2, #0xa]
@@ -5626,7 +5626,7 @@ ovl02_21586BC: // 0x021586BC
 	add r0, r0, #0x51
 	strh r0, [r2, #0xa]
 	ldrsh r0, [r2, #0xa]
-	mov sb, #0
+	mov r9, #0
 	mov r8, #0x800
 	cmp r0, #0x1000
 	movgt r0, #0x1000
@@ -5637,13 +5637,13 @@ ovl02_21586BC: // 0x021586BC
 	movgt r4, #1
 	mov r6, r7, asr #0x1f
 _02158708:
-	sub sl, ip, r3
-	umull r1, r0, sl, r7
-	mla r0, sl, r6, r0
-	mov sl, sl, asr #0x1f
+	sub r10, ip, r3
+	umull r1, r0, r10, r7
+	mla r0, r10, r6, r0
+	mov r10, r10, asr #0x1f
 	adds r1, r1, r8
-	mla r0, sl, r7, r0
-	adc r0, r0, sb
+	mla r0, r10, r7, r0
+	adc r0, r0, r9
 	mov r1, r1, lsr #0xc
 	orr r1, r1, r0, lsl #20
 	cmp lr, #0
@@ -5656,16 +5656,16 @@ _02158708:
 	ldr r3, [r2, #0x10]
 	mov r6, r7, asr #0x1f
 	mov lr, #2
-	mov sb, #0
+	mov r9, #0
 	mov r8, #0x800
 _0215875C:
-	sub sl, ip, r3
-	umull r1, r0, sl, r7
-	mla r0, sl, r6, r0
-	mov sl, sl, asr #0x1f
+	sub r10, ip, r3
+	umull r1, r0, r10, r7
+	mla r0, r10, r6, r0
+	mov r10, r10, asr #0x1f
 	adds r1, r1, r8
-	mla r0, sl, r7, r0
-	adc r0, r0, sb
+	mla r0, r10, r7, r0
+	adc r0, r0, r9
 	mov r1, r1, lsr #0xc
 	orr r1, r1, r0, lsl #20
 	cmp lr, #0
@@ -5678,16 +5678,16 @@ _0215875C:
 	ldr r3, [r2, #0x14]
 	mov r6, r7, asr #0x1f
 	mov lr, #2
-	mov sb, #0
+	mov r9, #0
 	mov r8, #0x800
 _021587B0:
-	sub sl, ip, r3
-	umull r1, r0, sl, r7
-	mla r0, sl, r6, r0
-	mov sl, sl, asr #0x1f
+	sub r10, ip, r3
+	umull r1, r0, r10, r7
+	mla r0, r10, r6, r0
+	mov r10, r10, asr #0x1f
 	adds r1, r1, r8
-	mla r0, sl, r7, r0
-	adc r0, r0, sb
+	mla r0, r10, r7, r0
+	adc r0, r0, r9
 	mov r1, r1, lsr #0xc
 	orr r1, r1, r0, lsl #20
 	cmp lr, #0
@@ -5717,7 +5717,7 @@ _021587B0:
 	cmp r4, #0
 	ldrne r0, _02158848 // =ovl02_215884C
 	strne r0, [r5, #0x3bc]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02158844: .word FX_SinCosTable_
 _02158848: .word ovl02_215884C
@@ -6066,7 +6066,7 @@ _02158D38: .word ovl02_2158D3C
 
 	arm_func_start ovl02_2158D3C
 ovl02_2158D3C: // 0x02158D3C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r5, r0
 	add r2, r5, #0x374
 	ldrsh r0, [r2, #0xa]
@@ -6075,7 +6075,7 @@ ovl02_2158D3C: // 0x02158D3C
 	add r0, r0, #0x28
 	strh r0, [r2, #0xa]
 	ldrsh r0, [r2, #0xa]
-	mov sb, #0
+	mov r9, #0
 	mov r8, #0x800
 	cmp r0, #0x1000
 	movgt r0, #0x1000
@@ -6086,13 +6086,13 @@ ovl02_2158D3C: // 0x02158D3C
 	movgt r4, #1
 	mov r6, r7, asr #0x1f
 _02158D88:
-	sub sl, ip, r3
-	umull r1, r0, sl, r7
-	mla r0, sl, r6, r0
-	mov sl, sl, asr #0x1f
+	sub r10, ip, r3
+	umull r1, r0, r10, r7
+	mla r0, r10, r6, r0
+	mov r10, r10, asr #0x1f
 	adds r1, r1, r8
-	mla r0, sl, r7, r0
-	adc r0, r0, sb
+	mla r0, r10, r7, r0
+	adc r0, r0, r9
 	mov r1, r1, lsr #0xc
 	orr r1, r1, r0, lsl #20
 	cmp lr, #0
@@ -6105,16 +6105,16 @@ _02158D88:
 	ldr r3, [r2, #0x10]
 	mov r6, r7, asr #0x1f
 	mov lr, #2
-	mov sb, #0
+	mov r9, #0
 	mov r8, #0x800
 _02158DDC:
-	sub sl, ip, r3
-	umull r1, r0, sl, r7
-	mla r0, sl, r6, r0
-	mov sl, sl, asr #0x1f
+	sub r10, ip, r3
+	umull r1, r0, r10, r7
+	mla r0, r10, r6, r0
+	mov r10, r10, asr #0x1f
 	adds r1, r1, r8
-	mla r0, sl, r7, r0
-	adc r0, r0, sb
+	mla r0, r10, r7, r0
+	adc r0, r0, r9
 	mov r1, r1, lsr #0xc
 	orr r1, r1, r0, lsl #20
 	cmp lr, #0
@@ -6127,16 +6127,16 @@ _02158DDC:
 	ldr r3, [r2, #0x14]
 	mov r6, r7, asr #0x1f
 	mov lr, #2
-	mov sb, #0
+	mov r9, #0
 	mov r8, #0x800
 _02158E30:
-	sub sl, ip, r3
-	umull r1, r0, sl, r7
-	mla r0, sl, r6, r0
-	mov sl, sl, asr #0x1f
+	sub r10, ip, r3
+	umull r1, r0, r10, r7
+	mla r0, r10, r6, r0
+	mov r10, r10, asr #0x1f
 	adds r1, r1, r8
-	mla r0, sl, r7, r0
-	adc r0, r0, sb
+	mla r0, r10, r7, r0
+	adc r0, r0, r9
 	mov r1, r1, lsr #0xc
 	orr r1, r1, r0, lsl #20
 	cmp lr, #0
@@ -6152,16 +6152,16 @@ _02158E30:
 	mov r6, #0x800
 _02158E80:
 	rsb r8, r0, #0x1000
-	umull lr, sb, r8, ip
-	mla sb, r8, r3, sb
+	umull lr, r9, r8, ip
+	mla r9, r8, r3, r9
 	mov r8, r8, asr #0x1f
-	mla sb, r8, ip, sb
+	mla r9, r8, ip, r9
 	adds lr, lr, r6
-	adc r8, sb, r7
-	mov sb, lr, lsr #0xc
-	orr sb, sb, r8, lsl #20
+	adc r8, r9, r7
+	mov r9, lr, lsr #0xc
+	orr r9, r9, r8, lsl #20
 	cmp r1, #0
-	add r0, r0, sb
+	add r0, r0, r9
 	sub r1, r1, #1
 	bne _02158E80
 	mov r0, r0, lsl #4
@@ -6190,7 +6190,7 @@ _02158E80:
 	cmp r4, #0
 	ldrne r0, _02158F24 // =ovl02_2158F28
 	strne r0, [r5, #0x3bc]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02158F20: .word FX_SinCosTable_
 _02158F24: .word ovl02_2158F28
@@ -6267,7 +6267,7 @@ _02159014: .word FX_SinCosTable_
 
 	arm_func_start ovl02_2159018
 ovl02_2159018: // 0x02159018
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x54
 	mov r6, r0
 	add r0, r6, #0x650
@@ -6299,68 +6299,68 @@ ovl02_2159018: // 0x02159018
 	add r1, sp, #0x48
 	add r2, sp, #0x24
 	bl VEC_Subtract
-	mov sb, #0
+	mov r9, #0
 	add r7, r4, #4
 	mov ip, #0x28
 	mvn lr, #0x27
-	mov r2, sb
-	mov r3, sb
-	mov fp, sb
+	mov r2, r9
+	mov r3, r9
+	mov r11, r9
 	add r0, sp, #0x48
 	add r8, sp, #0x24
 _021590BC:
-	ldr r1, [r8, sb, lsl #2]
+	ldr r1, [r8, r9, lsl #2]
 	cmp r1, #0
-	rsblt sl, r1, #0
-	movge sl, r1
-	cmp sl, #0x7a
+	rsblt r10, r1, #0
+	movge r10, r1
+	cmp r10, #0x7a
 	ble _02159114
 	cmp r1, #0
-	ldr r1, [r7, sb, lsl #2]
+	ldr r1, [r7, r9, lsl #2]
 	addgt r1, r1, #2
 	suble r1, r1, #2
-	str r1, [r7, sb, lsl #2]
-	add r1, r4, sb, lsl #2
-	ldr sl, [r1, #4]
-	cmp sl, lr
-	movlt sl, lr
+	str r1, [r7, r9, lsl #2]
+	add r1, r4, r9, lsl #2
+	ldr r10, [r1, #4]
+	cmp r10, lr
+	movlt r10, lr
 	blt _02159104
-	cmp sl, #0x28
-	movgt sl, ip
+	cmp r10, #0x28
+	movgt r10, ip
 _02159104:
-	add r1, r4, sb, lsl #2
-	mov r5, fp
-	str sl, [r1, #4]
+	add r1, r4, r9, lsl #2
+	mov r5, r11
+	str r10, [r1, #4]
 	b _02159160
 _02159114:
-	add r1, r4, sb, lsl #2
-	ldr sl, [r1, #4]
-	cmp sl, #0
+	add r1, r4, r9, lsl #2
+	ldr r10, [r1, #4]
+	cmp r10, #0
 	bge _02159144
-	rsb sl, sl, #0
-	cmp sl, #2
+	rsb r10, r10, #0
+	cmp r10, #2
 	strle r3, [r1, #4]
 	ble _02159160
-	ldr r1, [r7, sb, lsl #2]
+	ldr r1, [r7, r9, lsl #2]
 	add r1, r1, #2
-	str r1, [r7, sb, lsl #2]
+	str r1, [r7, r9, lsl #2]
 	b _02159160
 _02159144:
 	ble _02159160
-	cmp sl, #2
+	cmp r10, #2
 	strle r2, [r1, #4]
 	ble _02159160
-	ldr r1, [r7, sb, lsl #2]
+	ldr r1, [r7, r9, lsl #2]
 	sub r1, r1, #2
-	str r1, [r7, sb, lsl #2]
+	str r1, [r7, r9, lsl #2]
 _02159160:
-	add sl, r4, sb, lsl #2
-	ldr r1, [r0, sb, lsl #2]
-	ldr sl, [sl, #4]
-	add r1, r1, sl
-	str r1, [r0, sb, lsl #2]
-	add sb, sb, #1
-	cmp sb, #3
+	add r10, r4, r9, lsl #2
+	ldr r1, [r0, r9, lsl #2]
+	ldr r10, [r10, #4]
+	add r1, r1, r10
+	str r1, [r0, r9, lsl #2]
+	add r9, r9, #1
+	cmp r9, #3
 	blt _021590BC
 	mov r1, r0
 	bl VEC_Normalize
@@ -6380,12 +6380,12 @@ _02159160:
 	add r2, sp, #0
 	bl VEC_CrossProduct
 	add r0, r6, #0x238
-	add sb, r0, #0x400
+	add r9, r0, #0x400
 	add r0, r6, #0x244
 	add r1, sp, #0xc
 	add r7, r0, #0x400
 	ldmia r1, {r0, r1, r2}
-	stmia sb, {r0, r1, r2}
+	stmia r9, {r0, r1, r2}
 	add r8, sp, #0
 	ldmia r8, {r0, r1, r2}
 	stmia r7, {r0, r1, r2}
@@ -6395,7 +6395,7 @@ _02159160:
 	stmia r3, {r0, r1, r2}
 	mov r0, r5
 	add sp, sp, #0x54
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02159208: .word _02178890
 _0215920C: .word gPlayer
@@ -6460,65 +6460,65 @@ _021592C8: .word ovl02_21592CC
 
 	arm_func_start ovl02_21592CC
 ovl02_21592CC: // 0x021592CC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
-	mov sl, r0
-	ldr r0, [sl, #0x370]
-	add r4, sl, #0x374
+	mov r10, r0
+	ldr r0, [r10, #0x370]
+	add r4, r10, #0x374
 	bl ovl02_21558E8
 	cmp r0, #0
 	ldreq r0, _021593B4 // =ovl02_2159624
 	addeq sp, sp, #0x1c
-	streq r0, [sl, #0x3bc]
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	mov r0, sl
+	streq r0, [r10, #0x3bc]
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	mov r0, r10
 	bl ovl02_2159018
 	ldrh r1, [r4]
 	str r0, [sp, #0xc]
-	add r7, sl, #0x98
+	add r7, r10, #0x98
 	cmp r1, #0
 	subne r0, r1, #1
 	strneh r0, [r4]
 	moveq r0, #1
-	ldr r1, [sl, #0x45c]
+	ldr r1, [r10, #0x45c]
 	streq r0, [sp, #0xc]
-	ldr r2, [sl, #0x458]
-	ldr r0, [sl, #0x460]
+	ldr r2, [r10, #0x458]
+	ldr r0, [r10, #0x460]
 	rsb r1, r1, #0
 	add r8, r4, #0x10
 	str r2, [sp, #0x10]
 	str r1, [sp, #0x14]
 	str r0, [sp, #0x18]
-	mov sb, #0
-	mov fp, #0xcc
+	mov r9, #0
+	mov r11, #0xcc
 	mov r6, #0x1000
 	mov r5, #0x5000
 	add r4, sp, #0x10
 _02159354:
-	str fp, [sp]
+	str r11, [sp]
 	str r6, [sp, #4]
 	str r5, [sp, #8]
-	ldr r0, [r4, sb, lsl #2]
-	ldr r1, [r8, sb, lsl #2]
-	ldr r2, [r7, sb, lsl #2]
-	mov r3, fp
+	ldr r0, [r4, r9, lsl #2]
+	ldr r1, [r8, r9, lsl #2]
+	ldr r2, [r7, r9, lsl #2]
+	mov r3, r11
 	bl BossHelpers__Math__Func_20392BC
-	str r0, [r7, sb, lsl #2]
-	add sb, sb, #1
-	cmp sb, #3
+	str r0, [r7, r9, lsl #2]
+	add r9, r9, #1
+	cmp r9, #3
 	blt _02159354
 	ldr r0, [sp, #0xc]
 	cmp r0, #0
 	addeq sp, sp, #0x1c
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r1, #0
-	str r1, [sl, #0x98]
-	str r1, [sl, #0x9c]
+	str r1, [r10, #0x98]
+	str r1, [r10, #0x9c]
 	ldr r0, _021593B8 // =ovl02_21593BC
-	str r1, [sl, #0xa0]
-	str r0, [sl, #0x3bc]
+	str r1, [r10, #0xa0]
+	str r0, [r10, #0x3bc]
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021593B4: .word ovl02_2159624
 _021593B8: .word ovl02_21593BC
@@ -6699,7 +6699,7 @@ _02159620: .word ovl02_2159624
 
 	arm_func_start ovl02_2159624
 ovl02_2159624: // 0x02159624
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r6, r0
 	mov r2, #0
 	mov r1, #0xb6
@@ -6715,59 +6715,59 @@ ovl02_2159624: // 0x02159624
 	mov lr, r1
 	mov r7, r1
 	mov ip, r1
-	mov fp, r1
+	mov r11, r1
 _02159668:
-	add sb, r4, r1, lsl #2
-	add sl, r6, r1, lsl #2
-	ldr sb, [sb, #0x1c]
-	ldr sl, [sl, #0x44]
-	subs sb, sb, sl
-	rsbmi sl, sb, #0
-	movpl sl, sb
-	cmp sl, #0xa000
+	add r9, r4, r1, lsl #2
+	add r10, r6, r1, lsl #2
+	ldr r9, [r9, #0x1c]
+	ldr r10, [r10, #0x44]
+	subs r9, r9, r10
+	rsbmi r10, r9, #0
+	movpl r10, r9
+	cmp r10, #0xa000
 	bge _0215970C
-	add sb, r6, r1, lsl #2
-	ldr sl, [sb, #0x98]
-	cmp sl, #0
+	add r9, r6, r1, lsl #2
+	ldr r10, [r9, #0x98]
+	cmp r10, #0
 	bge _021596C0
-	rsb sl, sl, #0
-	cmp sl, r2
-	strle r7, [sb, #0x98]
+	rsb r10, r10, #0
+	cmp r10, r2
+	strle r7, [r9, #0x98]
 	ble _021596DC
-	ldr sb, [r8, r1, lsl #2]
-	add sb, sb, #0x33
-	add sb, sb, #0x300
-	str sb, [r8, r1, lsl #2]
+	ldr r9, [r8, r1, lsl #2]
+	add r9, r9, #0x33
+	add r9, r9, #0x300
+	str r9, [r8, r1, lsl #2]
 	b _021596DC
 _021596C0:
 	ble _021596DC
-	cmp sl, r2
-	strle lr, [sb, #0x98]
+	cmp r10, r2
+	strle lr, [r9, #0x98]
 	ble _021596DC
-	ldr sb, [r8, r1, lsl #2]
-	sub sb, sb, r2
-	str sb, [r8, r1, lsl #2]
+	ldr r9, [r8, r1, lsl #2]
+	sub r9, r9, r2
+	str r9, [r8, r1, lsl #2]
 _021596DC:
-	add sb, r6, r1, lsl #2
-	ldr sb, [sb, #0x98]
-	cmp sb, #0
-	rsblt sb, sb, #0
-	cmp sb, #0x1000
-	addle sb, r6, r1, lsl #2
-	strle ip, [sb, #0x98]
-	add sb, r6, r1, lsl #2
-	ldr sb, [sb, #0x98]
-	cmp sb, #0
-	movne r5, fp
+	add r9, r6, r1, lsl #2
+	ldr r9, [r9, #0x98]
+	cmp r9, #0
+	rsblt r9, r9, #0
+	cmp r9, #0x1000
+	addle r9, r6, r1, lsl #2
+	strle ip, [r9, #0x98]
+	add r9, r6, r1, lsl #2
+	ldr r9, [r9, #0x98]
+	cmp r9, #0
+	movne r5, r11
 	b _02159788
 _0215970C:
 	add r5, r6, r1, lsl #2
-	ldr sl, [r5, #0x98]
-	cmp sl, sb
+	ldr r10, [r5, #0x98]
+	cmp r10, r9
 	bge _02159740
-	sub sl, sb, sl
-	cmp sl, r2, lsr #1
-	strle sb, [r5, #0x98]
+	sub r10, r9, r10
+	cmp r10, r2, lsr #1
+	strle r9, [r5, #0x98]
 	ble _02159760
 	ldr r5, [r8, r1, lsl #2]
 	add r5, r5, #0x99
@@ -6776,24 +6776,24 @@ _0215970C:
 	b _02159760
 _02159740:
 	ble _02159760
-	sub sl, sl, sb
-	cmp sl, r2, lsr #1
-	strle sb, [r5, #0x98]
+	sub r10, r10, r9
+	cmp r10, r2, lsr #1
+	strle r9, [r5, #0x98]
 	ble _02159760
 	ldr r5, [r8, r1, lsl #2]
 	sub r5, r5, r2, lsr #1
 	str r5, [r8, r1, lsl #2]
 _02159760:
 	add r5, r6, r1, lsl #2
-	ldr sb, [r5, #0x98]
-	cmp sb, r3
-	movlt sb, r3
+	ldr r9, [r5, #0x98]
+	cmp r9, r3
+	movlt r9, r3
 	blt _0215977C
-	cmp sb, #0x2000
-	movgt sb, #0x2000
+	cmp r9, #0x2000
+	movgt r9, #0x2000
 _0215977C:
 	add r5, r6, r1, lsl #2
-	str sb, [r5, #0x98]
+	str r9, [r5, #0x98]
 	mov r5, #0
 _02159788:
 	add r1, r1, #1
@@ -6833,13 +6833,13 @@ _02159800:
 	cmp r1, #0
 	cmpne r0, #0
 	cmpne r5, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [r6, #0x370]
 	bl ovl02_2155AB8
 	mov r1, r0
 	mov r0, r6
 	bl ovl02_2157484
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215982C: .word 0x00000333
 _02159830: .word 0x00000199
@@ -7416,11 +7416,11 @@ _0215A010: .word ovl02_215A014
 
 	arm_func_start ovl02_215A014
 ovl02_215A014: // 0x0215A014
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
-	mov sl, r0
-	ldr r4, [sl, #0x370]
-	add r8, sl, #0x374
+	mov r10, r0
+	ldr r4, [r10, #0x370]
+	add r8, r10, #0x374
 	bl Camera3D__GetWork
 	add r1, r4, #0xd00
 	ldrsh r3, [r1, #0x84]
@@ -7454,25 +7454,25 @@ _0215A06C:
 	add r1, r1, #1
 	strh r1, [r0, #0x24]
 _0215A0A4:
-	mov sb, #0
+	mov r9, #0
 	ldr r7, _0215A148 // =BossArena__explosionFXSpawnTime
-	mov r6, sb
-	mov fp, sb
+	mov r6, r9
+	mov r11, r9
 	mov r5, #0xcd
 	mvn r4, #0
 _0215A0BC:
 	ldrh r1, [r8, #8]
-	ldr r0, [r7, sb, lsl #2]
+	ldr r0, [r7, r9, lsl #2]
 	cmp r1, r0
 	bne _0215A11C
-	ldr r0, [sl, #0x48]
-	ldr r1, [sl, #0x44]
+	ldr r0, [r10, #0x48]
+	ldr r1, [r10, #0x44]
 	rsb r2, r0, #0
-	ldr r3, [sl, #0x4c]
+	ldr r3, [r10, #0x4c]
 	mov r0, r6
 	bl BossFX__CreateCondorExplode0
-	str fp, [sp]
-	mov r0, fp
+	str r11, [sp]
+	mov r0, r11
 	mov r1, r4
 	mov r2, r4
 	mov r3, r4
@@ -7486,17 +7486,17 @@ _0215A0BC:
 	mov r2, #0x600
 	bl ShakeScreenEx
 _0215A11C:
-	add sb, sb, #1
-	cmp sb, #3
+	add r9, r9, #1
+	cmp r9, #3
 	blt _0215A0BC
 	ldrh r1, [r8, #8]
 	add r0, r1, #1
 	strh r0, [r8, #8]
 	cmp r1, #0xd2
 	ldrhi r0, _0215A14C // =ovl02_215A150
-	strhi r0, [sl, #0x3bc]
+	strhi r0, [r10, #0x3bc]
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215A148: .word BossArena__explosionFXSpawnTime
 _0215A14C: .word ovl02_215A150
@@ -7911,30 +7911,30 @@ _0215A690: .word ovl02_215A694
 
 	arm_func_start ovl02_215A694
 ovl02_215A694: // 0x0215A694
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
-	mov sl, r0
-	ldr r0, [sl, #0x370]
+	mov r10, r0
+	ldr r0, [r10, #0x370]
 	ldr r1, [r0, #0x370]
 	ldr r0, [r1, #0x3c0]
 	cmp r0, #1
 	bne _0215A6DC
 	add r0, r1, #0x58
 	add r0, r0, #0x400
-	add r3, sl, #0x430
+	add r3, r10, #0x430
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	ldr r1, [sl, #0x434]
+	ldr r1, [r10, #0x434]
 	mov r0, #0
 	rsb r1, r1, #0x1e000
-	str r1, [sl, #0x434]
-	str r0, [sl, #0x438]
+	str r1, [r10, #0x434]
+	str r0, [r10, #0x438]
 _0215A6DC:
-	add r0, sl, #0x430
+	add r0, r10, #0x430
 	add r3, sp, #0xc
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	ldr r0, [sl, #0x39c]
+	ldr r0, [r10, #0x39c]
 	cmp r0, #0
 	ldrne r0, [sp, #0xc]
 	subne r0, r0, #0x64000
@@ -7945,46 +7945,46 @@ _0215A6DC:
 	str r0, [sp, #0xc]
 _0215A710:
 	add r8, sp, #0xc
-	add r6, sl, #0x98
-	add r7, sl, #0x44
-	mov sb, #0
+	add r6, r10, #0x98
+	add r7, r10, #0x44
+	mov r9, #0
 	mov r5, #0x51
 	mov r4, #0x1000
-	mov fp, #0x6000
+	mov r11, #0x6000
 _0215A72C:
 	str r5, [sp]
-	stmib sp, {r4, fp}
-	ldr r0, [r7, sb, lsl #2]
-	ldr r1, [r8, sb, lsl #2]
-	ldr r2, [r6, sb, lsl #2]
+	stmib sp, {r4, r11}
+	ldr r0, [r7, r9, lsl #2]
+	ldr r1, [r8, r9, lsl #2]
+	ldr r2, [r6, r9, lsl #2]
 	mov r3, #0x28
 	bl BossHelpers__Math__Func_20392BC
-	str r0, [r6, sb, lsl #2]
-	add sb, sb, #1
-	cmp sb, #3
+	str r0, [r6, r9, lsl #2]
+	add r9, r9, #1
+	cmp r9, #3
 	blt _0215A72C
-	ldr r1, [sl, #0x3e4]
+	ldr r1, [r10, #0x3e4]
 	cmp r1, #0x1000
 	bge _0215A784
 	rsb r0, r1, #0x1000
 	cmp r0, #0xcc
 	addgt r0, r1, #0xcc
-	strgt r0, [sl, #0x3e4]
+	strgt r0, [r10, #0x3e4]
 	movle r0, #0x1000
 	add sp, sp, #0x18
-	strle r0, [sl, #0x3e4]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	strle r0, [r10, #0x3e4]
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0215A784:
 	addle sp, sp, #0x18
-	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	sub r0, r1, #0x1000
 	cmp r0, #0xcc
 	subgt r0, r1, #0xcc
-	strgt r0, [sl, #0x3e4]
+	strgt r0, [r10, #0x3e4]
 	movle r0, #0x1000
-	strle r0, [sl, #0x3e4]
+	strle r0, [r10, #0x3e4]
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end ovl02_215A694
 
 	arm_func_start ovl02_215A7AC
@@ -8044,117 +8044,117 @@ _0215A858: .word 0x00000AAA
 
 	arm_func_start ovl02_215A85C
 ovl02_215A85C: // 0x0215A85C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
-	mov sl, r0
-	ldr r2, [sl, #0x444]
+	mov r10, r0
+	ldr r2, [r10, #0x444]
 	mov r4, r1
 	cmp r2, #0
 	beq _0215A894
 	bl ovl02_215A818
 	cmp r0, #0
 	beq _0215A894
-	mov r0, sl
+	mov r0, r10
 	bl ovl02_215A550
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0215A894:
 	ldr r1, _0215A9FC // =0x00083FE0
 	ldr r0, _0215AA00 // =Boss6Stage__Singleton
-	str r1, [sl, #0x430]
+	str r1, [r10, #0x430]
 	ldr r0, [r0]
 	bl GetTaskWork_
 	ldr r1, [r0, #0x38c]
 	ldr r0, _0215AA04 // =0xFFDF0080
 	rsb r1, r1, #0
 	add r0, r1, r0
-	str r0, [sl, #0x434]
+	str r0, [r10, #0x434]
 	mov r0, #0
-	str r0, [sl, #0x438]
+	str r0, [r10, #0x438]
 	cmp r4, #0
-	ldr r0, [sl, #0x370]
+	ldr r0, [r10, #0x370]
 	beq _0215A8E4
 	bl ovl02_2155BBC
-	add r1, sl, #0x400
+	add r1, r10, #0x400
 	ldrh r2, [r1, #0x3c]
 	add r0, r2, r0
 	b _0215A8F4
 _0215A8E4:
 	bl ovl02_2155BBC
-	add r1, sl, #0x400
+	add r1, r10, #0x400
 	ldrh r2, [r1, #0x3c]
 	sub r0, r2, r0
 _0215A8F4:
 	strh r0, [r1, #0x3c]
-	add r0, sl, #0x400
+	add r0, r10, #0x400
 	ldrh r0, [r0, #0x3c]
 	add r2, sp, #0xc
 	mov r1, #0x64000
 	bl ovl02_215A7AC
 	add r0, sp, #0xc
 	add r2, sp, #0x18
-	add r1, sl, #0x430
+	add r1, r10, #0x430
 	bl VEC_Add
-	ldr r0, [sl, #0x440]
+	ldr r0, [r10, #0x440]
 	cmp r0, #0
 	bne _0215A99C
 	mov r0, #1
-	mov sb, #0
+	mov r9, #0
 	ldr r5, _0215AA08 // =0x00000199
 	add r8, sp, #0x18
-	str r0, [sl, #0x440]
-	add r6, sl, #0x98
-	add r7, sl, #0x44
-	mov fp, sb
+	str r0, [r10, #0x440]
+	add r6, r10, #0x98
+	add r7, r10, #0x44
+	mov r11, r9
 	mov r4, #0x2000
 _0215A94C:
 	str r5, [sp]
 	str r4, [sp, #4]
 	str r4, [sp, #8]
-	ldr r0, [r7, sb, lsl #2]
-	ldr r1, [r8, sb, lsl #2]
-	ldr r2, [r6, sb, lsl #2]
+	ldr r0, [r7, r9, lsl #2]
+	ldr r1, [r8, r9, lsl #2]
+	ldr r2, [r6, r9, lsl #2]
 	mov r3, #0x28
 	bl BossHelpers__Math__Func_20392BC
-	str r0, [r6, sb, lsl #2]
-	ldr r1, [r7, sb, lsl #2]
-	ldr r2, [r8, sb, lsl #2]
+	str r0, [r6, r9, lsl #2]
+	ldr r1, [r7, r9, lsl #2]
+	ldr r2, [r8, r9, lsl #2]
 	add r0, r1, r0
 	subs r0, r2, r0
 	rsbmi r0, r0, #0
 	cmp r0, #0x2000
-	add sb, sb, #1
-	strgt fp, [sl, #0x440]
-	cmp sb, #3
+	add r9, r9, #1
+	strgt r11, [r10, #0x440]
+	cmp r9, #3
 	blt _0215A94C
 	b _0215A9AC
 _0215A99C:
 	add r0, sp, #0x18
-	add r1, sl, #0x44
-	add r2, sl, #0x98
+	add r1, r10, #0x44
+	add r2, r10, #0x98
 	bl VEC_Subtract
 _0215A9AC:
-	ldr r1, [sl, #0x3e4]
+	ldr r1, [r10, #0x3e4]
 	cmp r1, #0
 	bge _0215A9D8
 	rsb r0, r1, #0
 	cmp r0, #0xcc
 	addgt r0, r1, #0xcc
-	strgt r0, [sl, #0x3e4]
+	strgt r0, [r10, #0x3e4]
 	movle r0, #0
 	add sp, sp, #0x24
-	strle r0, [sl, #0x3e4]
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	strle r0, [r10, #0x3e4]
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0215A9D8:
 	addle sp, sp, #0x24
-	ldmleia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	cmp r1, #0xcc
 	subgt r0, r1, #0xcc
-	strgt r0, [sl, #0x3e4]
+	strgt r0, [r10, #0x3e4]
 	movle r0, #0
-	strle r0, [sl, #0x3e4]
+	strle r0, [r10, #0x3e4]
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215A9FC: .word 0x00083FE0
 _0215AA00: .word Boss6Stage__Singleton
@@ -8257,17 +8257,17 @@ _0215AB04: .word ovl02_215AB08
 
 	arm_func_start ovl02_215AB08
 ovl02_215AB08: // 0x0215AB08
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
 	ldr r1, _0215AC6C // =gPlayer
-	mov sl, r0
+	mov r10, r0
 	ldr r0, [r1]
-	add r6, sl, #0x374
+	add r6, r10, #0x374
 	ldr r1, [r0, #0x44]
-	add r7, sl, #0x98
+	add r7, r10, #0x98
 	str r1, [sp, #0xc]
 	cmp r1, #0x20000
-	add r8, sl, #0x44
+	add r8, r10, #0x44
 	movlt r1, #0x20000
 	blt _0215AB48
 	ldr r0, _0215AC70 // =0x000E7FC0
@@ -8287,22 +8287,22 @@ _0215AB48:
 	sub r1, r1, #0x78000
 	str r1, [sp, #0x10]
 	str r0, [sp, #0x14]
-	mov sb, #0
-	mov fp, #0x4000
+	mov r9, #0
+	mov r11, #0x4000
 	mov r4, r5, lsr #1
 _0215AB88:
-	stmia sp, {r5, fp}
+	stmia sp, {r5, r11}
 	mov r0, #0x5000
 	str r0, [sp, #8]
 	add r1, sp, #0xc
-	ldr r0, [r8, sb, lsl #2]
-	ldr r1, [r1, sb, lsl #2]
-	ldr r2, [r7, sb, lsl #2]
+	ldr r0, [r8, r9, lsl #2]
+	ldr r1, [r1, r9, lsl #2]
+	ldr r2, [r7, r9, lsl #2]
 	mov r3, r4
 	bl BossHelpers__Math__Func_20392BC
-	str r0, [r7, sb, lsl #2]
-	add sb, sb, #1
-	cmp sb, #3
+	str r0, [r7, r9, lsl #2]
+	add r9, r9, #1
+	cmp r9, #3
 	blt _0215AB88
 	ldrh r0, [r6, #0xe]
 	add r0, r0, #0x16c
@@ -8311,25 +8311,25 @@ _0215AB88:
 	cmp r0, #0x8000
 	movhi r0, #0x8000
 	strhih r0, [r6, #0xe]
-	mov r0, sl
+	mov r0, r10
 	bl ovl02_215AA64
-	ldr r1, [sl, #0x3e4]
+	ldr r1, [r10, #0x3e4]
 	cmp r1, #0
 	bge _0215AC08
 	rsb r0, r1, #0
 	cmp r0, #0xcc
 	addgt r0, r1, #0xcc
-	strgt r0, [sl, #0x3e4]
+	strgt r0, [r10, #0x3e4]
 	movle r0, #0
-	strle r0, [sl, #0x3e4]
+	strle r0, [r10, #0x3e4]
 	b _0215AC20
 _0215AC08:
 	ble _0215AC20
 	cmp r1, #0xcc
 	subgt r0, r1, #0xcc
-	strgt r0, [sl, #0x3e4]
+	strgt r0, [r10, #0x3e4]
 	movle r0, #0
-	strle r0, [sl, #0x3e4]
+	strle r0, [r10, #0x3e4]
 _0215AC20:
 	ldr r0, _0215AC6C // =gPlayer
 	ldr r2, [r0]
@@ -8347,9 +8347,9 @@ _0215AC20:
 	ldreqh r0, [r6, #0xe]
 	cmpeq r0, #0x8000
 	ldreq r0, _0215AC7C // =ovl02_215AC80
-	streq r0, [sl, #0x394]
+	streq r0, [r10, #0x394]
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215AC6C: .word gPlayer
 _0215AC70: .word 0x000E7FC0
@@ -8907,30 +8907,30 @@ _0215B3D0: .word ovl02_215B3D4
 
 	arm_func_start ovl02_215B3D4
 ovl02_215B3D4: // 0x0215B3D4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
-	mov sl, r0
-	ldr fp, _0215B568 // =0x00000999
-	add r5, sl, #0x374
-	add r6, sl, #0x98
-	add r7, sl, #0x44
+	mov r10, r0
+	ldr r11, _0215B568 // =0x00000999
+	add r5, r10, #0x374
+	add r6, r10, #0x98
+	add r7, r10, #0x44
 	add r8, r5, #0xc
-	mov sb, #0
-	mov r4, fp, lsr #1
+	mov r9, #0
+	mov r4, r11, lsr #1
 _0215B3FC:
-	str fp, [sp]
+	str r11, [sp]
 	mov r0, #0x4000
 	str r0, [sp, #4]
 	mov r0, #0x5000
 	str r0, [sp, #8]
-	ldr r0, [r7, sb, lsl #2]
-	ldr r1, [r8, sb, lsl #2]
-	ldr r2, [r6, sb, lsl #2]
+	ldr r0, [r7, r9, lsl #2]
+	ldr r1, [r8, r9, lsl #2]
+	ldr r2, [r6, r9, lsl #2]
 	mov r3, r4
 	bl BossHelpers__Math__Func_20392BC
-	str r0, [r6, sb, lsl #2]
-	add sb, sb, #1
-	cmp sb, #3
+	str r0, [r6, r9, lsl #2]
+	add r9, r9, #1
+	cmp r9, #3
 	blt _0215B3FC
 	ldrsh r2, [r5, #0x18]
 	ldrsh r1, [r5, #0x1a]
@@ -8954,26 +8954,26 @@ _0215B464:
 	mov r0, r0, lsl #0x10
 	mov r2, r0, asr #0x10
 _0215B484:
-	mov r0, sl
+	mov r0, r10
 	strh r2, [r5, #0x18]
 	bl ovl02_215B284
-	ldr r1, [sl, #0x3e4]
+	ldr r1, [r10, #0x3e4]
 	cmp r1, #0
 	bge _0215B4B8
 	rsb r0, r1, #0
 	cmp r0, #0xcc
 	addgt r0, r1, #0xcc
-	strgt r0, [sl, #0x3e4]
+	strgt r0, [r10, #0x3e4]
 	movle r0, #0
-	strle r0, [sl, #0x3e4]
+	strle r0, [r10, #0x3e4]
 	b _0215B4D0
 _0215B4B8:
 	ble _0215B4D0
 	cmp r1, #0xcc
 	subgt r0, r1, #0xcc
-	strgt r0, [sl, #0x3e4]
+	strgt r0, [r10, #0x3e4]
 	movle r0, #0
-	strle r0, [sl, #0x3e4]
+	strle r0, [r10, #0x3e4]
 _0215B4D0:
 	ldr r0, [r6]
 	cmp r0, #0
@@ -8985,34 +8985,34 @@ _0215B4D0:
 	ldreqh r0, [r5, #0x18]
 	cmpeq r1, r0
 	addne sp, sp, #0xc
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r3, #0
-	str r3, [sl, #0x2c]
-	ldr r1, [sl, #0x230]
+	str r3, [r10, #0x2c]
+	ldr r1, [r10, #0x230]
 	mov r0, #0x9a
 	bic r1, r1, #4
-	str r1, [sl, #0x230]
-	ldr r2, [sl, #0x2b0]
+	str r1, [r10, #0x230]
+	ldr r2, [r10, #0x2b0]
 	sub r1, r0, #0x9b
 	orr r2, r2, #4
-	str r2, [sl, #0x2b0]
+	str r2, [r10, #0x2b0]
 	mov r2, #1
-	str r2, [sl, #0x448]
+	str r2, [r10, #0x448]
 	str r3, [sp]
 	str r0, [sp, #4]
-	ldr r0, [sl, #0xa3c]
+	ldr r0, [r10, #0xa3c]
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
 	bl DisableSpatialVolume
-	ldr r0, [sl, #0xa3c]
-	add r1, sl, #0x44
+	ldr r0, [r10, #0xa3c]
+	add r1, r10, #0x44
 	bl ProcessSpatialVoiceClip
 	bl EnableSpatialVolume
 	ldr r0, _0215B56C // =ovl02_215B570
-	str r0, [sl, #0x394]
+	str r0, [r10, #0x394]
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215B568: .word 0x00000999
 _0215B56C: .word ovl02_215B570
@@ -9519,7 +9519,7 @@ _0215BBD4: .word ovl02_215BC6C
 
 	arm_func_start ovl02_215BBD8
 ovl02_215BBD8: // 0x0215BBD8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r4, #0
 	add r2, r0, #0x98
 	add r3, r0, #0x44
@@ -9534,20 +9534,20 @@ _0215BBFC:
 	sub r1, r8, r1
 	mov r8, r1, asr #0x1f
 	mov r8, r8, lsl #0xb
-	adds sb, r5, r1, lsl #11
+	adds r9, r5, r1, lsl #11
 	orr r8, r8, r1, lsr #21
 	adc r8, r8, r6
-	mov sb, sb, lsr #0xc
-	orrs sb, sb, r8, lsl #20
-	str sb, [r2, r4, lsl #2]
-	rsbmi sb, sb, #0
-	cmp sb, #4
+	mov r9, r9, lsr #0xc
+	orrs r9, r9, r8, lsl #20
+	str r9, [r2, r4, lsl #2]
+	rsbmi r9, r9, #0
+	cmp r9, #4
 	add r4, r4, #1
 	movgt lr, r7
 	cmp r4, #3
 	blt _0215BBFC
 	cmp lr, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	add r1, r0, #0x300
 	mov r2, #0x200
 	strh r2, [r1, #0xce]
@@ -9556,7 +9556,7 @@ _0215BBFC:
 	mov r1, #0x5000
 	str r1, [r0, #0x3e0]
 	bl ovl02_215BBB8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end ovl02_215BBD8
 
 	arm_func_start ovl02_215BC6C
@@ -9985,7 +9985,7 @@ _0215C1C0: .word gPlayer
 
 	arm_func_start ovl02_215C1C4
 ovl02_215C1C4: // 0x0215C1C4
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x60
 	ldr r1, _0215C318 // =_02178884
 	mov r5, r0
@@ -10029,10 +10029,10 @@ ovl02_215C1C4: // 0x0215C1C4
 	add r0, sp, #0x3c
 	ldmia r0, {r0, r1, r2}
 	stmia r4, {r0, r1, r2}
-	add sl, sp, #0x30
-	add sb, r4, #0xc
-	ldmia sl, {r0, r1, r2}
-	stmia sb, {r0, r1, r2}
+	add r10, sp, #0x30
+	add r9, r4, #0xc
+	ldmia r10, {r0, r1, r2}
+	stmia r9, {r0, r1, r2}
 	add r8, sp, #0x24
 	add r7, r4, #0x18
 	ldmia r8, {r0, r1, r2}
@@ -10069,7 +10069,7 @@ ovl02_215C1C4: // 0x0215C1C4
 	mov r2, r1
 	bl MTX_Concat33
 	add sp, sp, #0x60
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0215C318: .word _02178884
 _0215C31C: .word _0217880C
@@ -10338,15 +10338,15 @@ _0215C69C: .word 0x02113350
 
 	arm_func_start ovl02_215C6A0
 ovl02_215C6A0: // 0x0215C6A0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
-	mov sl, r0
-	ldr r0, [sl, #0x18]
+	mov r10, r0
+	ldr r0, [r10, #0x18]
 	mov r2, #0
 	orr r0, r0, #8
-	str r0, [sl, #0x18]
+	str r0, [r10, #0x18]
 _0215C6BC:
-	add r1, sl, r2, lsl #6
+	add r1, r10, r2, lsl #6
 	ldr r0, [r1, #0x230]
 	add r2, r2, #1
 	bic r0, r0, #4
@@ -10354,16 +10354,16 @@ _0215C6BC:
 	cmp r2, #3
 	blt _0215C6BC
 	ldr r4, _0215C7B0 // =ovl02_215C3DC
-	add r8, sl, #0x218
-	mov sb, #0
+	add r8, r10, #0x218
+	mov r9, #0
 	mov r7, #2
-	mov fp, #0x40
+	mov r11, #0x40
 	mov r6, #4
 	mvn r5, #3
 _0215C6F4:
 	mov r0, r8
 	mov r1, r7
-	mov r2, fp
+	mov r2, r11
 	bl ObjRect__SetAttackStat
 	mov r0, r8
 	mov r1, #3
@@ -10377,20 +10377,20 @@ _0215C6F4:
 	mov r2, r5
 	mov r3, r5
 	bl ObjRect__SetBox3D
-	str sl, [r8, #0x1c]
+	str r10, [r8, #0x1c]
 	str r4, [r8, #0x20]
 	ldr r0, [r8, #0x18]
-	add sb, sb, #1
+	add r9, r9, #1
 	orr r0, r0, #4
 	str r0, [r8, #0x18]
-	cmp sb, #3
+	cmp r9, #3
 	add r8, r8, #0x40
 	blt _0215C6F4
 	mov r0, #0x14000
 	add r3, sp, #0xc
 	rsb r0, r0, #0
-	add r1, sl, #0x38c
-	add r2, sl, #0x44
+	add r1, r10, #0x38c
+	add r2, r10, #0x44
 	bl VEC_MultAdd
 	ldr r0, [sp, #0x10]
 	ldr r1, [sp, #0xc]
@@ -10398,16 +10398,16 @@ _0215C6F4:
 	ldr r3, [sp, #0x14]
 	mov r0, #0
 	bl BossFX__CreateBomb
-	ldr r0, [sl, #0x370]
+	ldr r0, [r10, #0x370]
 	ldr r1, _0215C7B4 // =ovl02_215C7B8
 	ldr r0, [r0, #0x370]
 	add r0, r0, #0x400
 	ldrh r2, [r0, #0x24]
 	sub r2, r2, #1
 	strh r2, [r0, #0x24]
-	str r1, [sl, #0x374]
+	str r1, [r10, #0x374]
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215C7B0: .word ovl02_215C3DC
 _0215C7B4: .word ovl02_215C7B8

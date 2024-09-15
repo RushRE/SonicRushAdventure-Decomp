@@ -452,7 +452,7 @@ _02170DD8:
 
 	arm_func_start Truck3D__State_2170E10
 Truck3D__State_2170E10: // 0x02170E10
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r4, r0
 	bl Truck3D__Func_21711D8
@@ -496,25 +496,25 @@ Truck3D__State_2170E10: // 0x02170E10
 	ldr r0, [r4, #0x138]
 	bl NNS_SndPlayerStopSeq
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02170EC4:
 	ldr r1, [r4, #0x35c]
 	cmp r1, #0
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r0, [r1, #0x6d8]
 	cmp r0, r4
 	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r0, [r1, #0x5d8]
 	tst r0, #0x400
 	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	add r0, r1, #0x700
 	ldrh r0, [r0, #0x22]
 	tst r0, #3
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	orr r1, r2, #0x10
 	orr r1, r1, #0x8000
 	ldr r0, _0217105C // =Truck3D__State_2171064
@@ -559,10 +559,10 @@ _02170EC4:
 	ldrsh r8, [ip, r7]
 	mov r7, r8, asr #0x1f
 	mov r7, r7, lsl #0xe
-	adds sb, r6, r8, lsl #14
+	adds r9, r6, r8, lsl #14
 	orr r7, r7, r8, lsr #18
 	adc r6, r7, #0
-	mov r7, sb, lsr #0xc
+	mov r7, r9, lsr #0xc
 	orr r7, r7, r6, lsl #20
 	add r3, r3, r7
 	str r3, [r4, #0x98]
@@ -599,7 +599,7 @@ _02170EC4:
 	mov r3, r1
 	bl PlaySfxEx
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0217105C: .word Truck3D__State_2171064
 _02171060: .word FX_SinCosTable_
@@ -1081,7 +1081,7 @@ _02171720: .word Truck3D__State_2171724
 
 	arm_func_start Truck3D__State_2171724
 Truck3D__State_2171724: // 0x02171724
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r5, r0
 	add r0, r5, #0x3000
@@ -1365,24 +1365,24 @@ _02171B38:
 	mov r7, r7, lsl #0x10
 	mov r7, r7, lsr #0x10
 	mov r7, r7, asr #4
-	mov sb, r7, lsl #1
-	add r7, sb, #1
-	mov sb, sb, lsl #1
+	mov r9, r7, lsl #1
+	add r7, r9, #1
+	mov r9, r9, lsl #1
 	mov r7, r7, lsl #1
-	ldrsh sb, [r1, sb]
+	ldrsh r9, [r1, r9]
 	ldrsh r7, [r1, r7]
-	smull r1, ip, r6, sb
+	smull r1, ip, r6, r9
 	adds r1, r1, #0x800
-	smull sb, r7, r6, r7
+	smull r9, r7, r6, r7
 	adc ip, ip, #0
-	adds r6, sb, #0x800
-	mov sb, r1, lsr #0xc
+	adds r6, r9, #0x800
+	mov r9, r1, lsr #0xc
 	adc r1, r7, #0
 	mov r6, r6, lsr #0xc
-	orr sb, sb, ip, lsl #20
+	orr r9, r9, ip, lsl #20
 	orr r6, r6, r1, lsl #20
 	cmp r3, #0x8000
-	add r1, r2, sb
+	add r1, r2, r9
 	add r6, r0, r6
 	bne _02171BDC
 	sub r0, r1, r2
@@ -1492,15 +1492,15 @@ _02171D2C:
 	cmp r8, r0
 	beq _02171DD8
 	mov r0, #0x5d0
-	mul sb, r8, r0
-	add r0, r5, sb
+	mul r9, r8, r0
+	add r0, r5, r9
 	ldrb r0, [r0, #0xf32]
 	cmp r0, #0
 	bne _02171DD8
 	add r0, r5, #0x284
 	add r6, r0, #0xc00
 	mov r1, r7
-	add r0, r6, sb
+	add r0, r6, r9
 	bl Truck3D__Func_2173304
 	add r0, r5, #0x3d00
 	ldrsh r1, [r0, #0x36]
@@ -1512,22 +1512,22 @@ _02171D2C:
 	bne _02171DCC
 	add r0, r5, #0xe8
 	add r3, r0, #0x1000
-	ldrh r2, [r3, sb]
+	ldrh r2, [r3, r9]
 	add r0, r5, #0x29c
 	add r1, r5, #0x450
 	bic r2, r2, #0xc
-	strh r2, [r3, sb]
+	strh r2, [r3, r9]
 	add r2, r0, #0x1000
-	ldrh r0, [r2, sb]
+	ldrh r0, [r2, r9]
 	add r1, r1, #0x1000
 	bic r0, r0, #0xc
-	strh r0, [r2, sb]
-	ldrh r0, [r1, sb]
+	strh r0, [r2, r9]
+	ldrh r0, [r1, r9]
 	bic r0, r0, #0xc
-	strh r0, [r1, sb]
+	strh r0, [r1, r9]
 _02171DCC:
 	mov r0, r5
-	add r1, r6, sb
+	add r1, r6, r9
 	bl Truck3D__Func_216F760
 _02171DD8:
 	ldrsb r1, [r7, #0xb0]
@@ -1560,7 +1560,7 @@ _02171E30:
 	bl ObjRoopMove16
 	add sp, sp, #8
 	strh r0, [r5, #0x34]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02171E4C:
 	ldrsb r1, [r4, #0xb0]
 	cmp r1, #1
@@ -1572,7 +1572,7 @@ _02171E4C:
 	and r2, r2, #7
 	cmp r2, r1
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r1, #0x5d0
 	mla r1, r2, r1, r5
 	add r1, r1, #0xf00
@@ -1591,7 +1591,7 @@ _02171E4C:
 	bl ObjRoopMove16
 	add sp, sp, #8
 	strh r0, [r5, #0x34]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02171EC4:
 	tst r0, #0x10
 	ldrh r0, [r5, #0x34]
@@ -1601,14 +1601,14 @@ _02171EC4:
 	bl ObjRoopMove16
 	add sp, sp, #8
 	strh r0, [r5, #0x34]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02171EE8:
 	mov r1, #0
 	mov r2, #0x80
 	bl ObjRoopMove16
 	add sp, sp, #8
 	strh r0, [r5, #0x34]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02171F00:
 	cmp r2, #0
 	bne _02171F24
@@ -1618,18 +1618,18 @@ _02171F00:
 	bl ObjRoopMove16
 	add sp, sp, #8
 	strh r0, [r5, #0x34]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02171F24:
 	cmp r2, #2
 	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldrh r0, [r5, #0x34]
 	mov r1, #0x600
 	mov r2, #0x40
 	bl ObjRoopMove16
 	add sp, sp, #8
 	strh r0, [r5, #0x34]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02171F4C:
 	cmp r1, #0
 	ldrh r0, [r5, #0x34]
@@ -1639,13 +1639,13 @@ _02171F4C:
 	bl ObjRoopMove16
 	add sp, sp, #8
 	strh r0, [r5, #0x34]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02171F70:
 	mov r1, #0xa00
 	bl ObjRoopMove16
 	strh r0, [r5, #0x34]
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02171F84: .word g_obj
 _02171F88: .word Truck3D__State_2171F98
@@ -1656,7 +1656,7 @@ _02171F94: .word FX_SinCosTable_
 
 	arm_func_start Truck3D__State_2171F98
 Truck3D__State_2171F98: // 0x02171F98
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r4, r0
 	add r0, r4, #0x44
@@ -1727,7 +1727,7 @@ _02172054:
 	cmp r0, #1
 	beq _02172348
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _021720B4:
 	ldr r1, [r4, #0x4c]
 	cmp r1, #0
@@ -1780,7 +1780,7 @@ _021720D8:
 	rsb r1, r1, #0
 	str r1, [r3, #0xd10]
 	str r0, [r3, #0xd18]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02172180:
 	mov r1, #0x12c000
 	bl FX_Div
@@ -1810,13 +1810,13 @@ _02172180:
 	umull r0, r8, r7, ip
 	mov lr, #0
 	umull r1, r6, r5, ip
-	adds sb, r0, #0x800
+	adds r9, r0, #0x800
 	mla r8, r7, lr, r8
 	mov r0, r7, asr #0x1f
 	mla r8, r0, ip, r8
 	adc r0, r8, #0
 	adds r7, r1, #0x800
-	mov r1, sb, lsr #0xc
+	mov r1, r9, lsr #0xc
 	mla r6, r5, lr, r6
 	mov r5, r5, asr #0x1f
 	mla r6, r5, ip, r6
@@ -1899,7 +1899,7 @@ _02172290:
 	rsb r0, r0, #0
 	add sp, sp, #8
 	str r0, [r3, #0xd40]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02172348:
 	ldr r2, [r1, #0xd0c]
 	mov r0, #0
@@ -1962,7 +1962,7 @@ _02172420:
 	ldr r1, [r0, #0xd0c]
 	cmp r1, #0x1ac000
 	addle sp, sp, #8
-	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r1, [r4, #0x18]
 	mov r3, #0
 	orr r1, r1, #1
@@ -2003,7 +2003,7 @@ _02172420:
 	mov r3, r1
 	bl PlaySfxEx
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021724D8: .word g_obj
 _021724DC: .word 0xFFFFF334
@@ -2016,7 +2016,7 @@ _021724F0: .word Truck3D__State_2170E10
 
 	arm_func_start Truck3D__Draw_21724F4
 Truck3D__Draw_21724F4: // 0x021724F4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x150
 	bl GetCurrentTaskWork_
 	ldr r2, _0217300C // =0x00012100
@@ -2099,13 +2099,13 @@ _021725A0:
 	ldr r2, [r2, #0xd2c]
 	orr r3, r3, r1, lsl #20
 	str r0, [sp, #0x50]
-	add fp, r2, r3
+	add r11, r2, r3
 	b _02172650
 _0217263C:
 	ldr r0, [sp, #0x5c]
 	add r1, r0, #0x3000
 	ldr r0, [r1, #0xd24]
-	ldr fp, [r1, #0xd2c]
+	ldr r11, [r1, #0xd2c]
 	str r0, [sp, #0x50]
 _02172650:
 	ldr r0, [sp, #0x58]
@@ -2156,18 +2156,18 @@ _021726C0:
 	ldr r1, [r1, #0x4c]
 	str r1, [sp, #0x14c]
 	ldr r1, [sp, #0x58]
-	ldrb sl, [r1]
+	ldrb r10, [r1]
 	ldr r1, [sp, #0x74]
 	ldrh r3, [r1, #0x1e]
 	ldr r1, [sp, #0x68]
-	mla sb, sl, r2, r1
+	mla r9, r10, r2, r1
 	sub r1, r3, #0x8000
 	strh r1, [sp, #0x8e]
 	ldr r1, [sp, #0x44]
 	ldr r2, [r1, #0x80]
 	ldr r3, [r1, #0x78]
 	ldr r1, [sp, #0x50]
-	sub sl, r2, fp
+	sub r10, r2, r11
 	sub r1, r3, r1
 	str r1, [sp, #0x4c]
 	ldrh r1, [r4, #0x9e]
@@ -2189,7 +2189,7 @@ _021726C0:
 	mov r0, r6
 	mov r1, r6
 	mov r3, #0
-	str sl, [sp]
+	str r10, [sp]
 	bl MTX_TransApply43
 	mov r0, r8
 	mov r1, r6
@@ -2227,44 +2227,44 @@ _021726C0:
 	mov r2, r8
 	bl MTX_Concat43
 	mov r0, r8
-	add r1, sb, #0x24
+	add r1, r9, #0x24
 	bl MI_Copy36B
 	ldr r2, [sp, #0x144]
 	ldr r0, [sp, #0x98]
 	add r1, sp, #0x144
 	sub r0, r2, r0
-	str r0, [sb, #0x48]
+	str r0, [r9, #0x48]
 	ldr r3, [sp, #0x148]
 	ldr r0, [sp, #0x94]
 	add r2, sp, #0x8c
 	sub r0, r3, r0
 	rsb r0, r0, #0
-	str r0, [sb, #0x4c]
+	str r0, [r9, #0x4c]
 	ldr r0, [sp, #0x14c]
 	mov r3, #0
-	str r0, [sb, #0x50]
+	str r0, [r9, #0x50]
 	ldr r0, _02173010 // =g_obj
-	ldr sl, [sb, #0x48]
+	ldr r10, [r9, #0x48]
 	ldrsh r0, [r0, #0xc]
-	add r0, sl, r0, lsl #12
-	str r0, [sb, #0x48]
+	add r0, r10, r0, lsl #12
+	str r0, [r9, #0x48]
 	ldr r0, _02173010 // =g_obj
-	ldr sl, [sb, #0x4c]
+	ldr r10, [r9, #0x4c]
 	ldrsh r0, [r0, #0xe]
-	add r0, sl, r0, lsl #12
-	str r0, [sb, #0x4c]
-	ldr sl, [sb, #0x48]
+	add r0, r10, r0, lsl #12
+	str r0, [r9, #0x4c]
+	ldr r10, [r9, #0x48]
 	ldr r0, [sp, #0x138]
-	add r0, sl, r0
-	str r0, [sb, #0x48]
-	ldr sl, [sb, #0x4c]
+	add r0, r10, r0
+	str r0, [r9, #0x48]
+	ldr r10, [r9, #0x4c]
 	ldr r0, [sp, #0x13c]
-	sub r0, sl, r0
-	str r0, [sb, #0x4c]
-	ldr sl, [sb, #0x50]
+	sub r0, r10, r0
+	str r0, [r9, #0x4c]
+	ldr r10, [r9, #0x50]
 	ldr r0, [sp, #0x140]
-	add r0, sl, r0
-	str r0, [sb, #0x50]
+	add r0, r10, r0
+	str r0, [r9, #0x50]
 	add r0, sp, #0x88
 	str r0, [sp]
 	mov r0, r3
@@ -2272,39 +2272,39 @@ _021726C0:
 	str r0, [sp, #8]
 	str r0, [sp, #0xc]
 	ldr r0, [sp, #0x58]
-	mov sb, #0x144
-	ldrb sl, [r0]
+	mov r9, #0x144
+	ldrb r10, [r0]
 	ldr r0, [sp, #0x68]
-	mla r0, sl, sb, r0
+	mla r0, r10, r9, r0
 	bl StageTask__Draw3DEx
 	mov r0, #0
 	str r0, [sp, #0x60]
 	ldr r0, [sp, #0x40]
 	str r0, [sp, #0x2c]
 _021728FC:
-	mov sb, #0
+	mov r9, #0
 _02172900:
 	ldr r0, [sp, #0x2c]
-	add r0, r0, sb, lsl #2
-	ldr sl, [r0, #0xc]
-	cmp sl, #0
+	add r0, r0, r9, lsl #2
+	ldr r10, [r0, #0xc]
+	cmp r10, #0
 	beq _02172920
-	ldr r0, [sl, #0x18]
+	ldr r0, [r10, #0x18]
 	tst r0, #0xc
 	beq _02172934
 _02172920:
 	ldr r0, [sp, #0x2c]
-	add r1, r0, sb, lsl #2
+	add r1, r0, r9, lsl #2
 	mov r0, #0
 	str r0, [r1, #0xc]
 	b _02172AA4
 _02172934:
-	ldr r2, [sl, #0x364]
+	ldr r2, [r10, #0x364]
 	ldr r0, [sp, #0x50]
-	ldr r1, [sl, #0x36c]
+	ldr r1, [r10, #0x36c]
 	sub r0, r2, r0
 	str r0, [sp, #0x20]
-	sub r0, r1, fp
+	sub r0, r1, r11
 	ldrh r1, [r4, #0x9e]
 	str r0, [sp, #0x14]
 	mov r0, r8
@@ -2367,34 +2367,34 @@ _02172934:
 	ldr r1, [sp, #0x144]
 	ldr r0, [sp, #0x138]
 	add r0, r1, r0
-	str r0, [sl, #0x44]
-	ldr r0, [sl, #0x368]
-	str r0, [sl, #0x48]
+	str r0, [r10, #0x44]
+	ldr r0, [r10, #0x368]
+	str r0, [r10, #0x48]
 	ldr r1, [sp, #0x14c]
 	ldr r0, [sp, #0x140]
 	add r0, r1, r0
-	str r0, [sl, #0x4c]
+	str r0, [r10, #0x4c]
 	ldr r0, [sp, #0x60]
 	ldrh r1, [sp, #0x8e]
 	cmp r0, #0
 	ldrh r0, [r4, #0x9e]
 	sub r0, r0, #0x8000
 	add r0, r1, r0
-	strh r0, [sl, #0x32]
+	strh r0, [r10, #0x32]
 	bne _02172A90
-	ldrh r0, [sl, #0x32]
+	ldrh r0, [r10, #0x32]
 	sub r0, r0, #0x4000
-	strh r0, [sl, #0x32]
+	strh r0, [r10, #0x32]
 	b _02172AA4
 _02172A90:
 	ldr r0, [sp, #0x60]
 	cmp r0, #2
-	ldreqh r0, [sl, #0x32]
+	ldreqh r0, [r10, #0x32]
 	addeq r0, r0, #0x4000
-	streqh r0, [sl, #0x32]
+	streqh r0, [r10, #0x32]
 _02172AA4:
-	add sb, sb, #1
-	cmp sb, #3
+	add r9, r9, #1
+	cmp r9, #3
 	blt _02172900
 	ldr r0, [sp, #0x2c]
 	add r0, r0, #0xc
@@ -2413,7 +2413,7 @@ _02172AA4:
 	str r0, [sp, #0x7c]
 _02172AEC:
 	ldr r0, [sp, #0x34]
-	mov sb, #0
+	mov r9, #0
 	str r0, [sp, #0x30]
 	ldr r0, [sp, #0x7c]
 	ldrh r1, [r0, #0xb0]
@@ -2424,29 +2424,29 @@ _02172AEC:
 	str r0, [sp, #0x78]
 _02172B14:
 	mov r0, #1
-	mov r1, r0, lsl sb
+	mov r1, r0, lsl r9
 	ldr r0, [sp, #0x78]
 	tst r1, r0, lsr #16
 	beq _02172E40
-	cmp sb, #0
+	cmp r9, #0
 	moveq r1, #1
 	movne r1, #0
 	orr r0, r1, #0x100
 	orr r0, r0, #0x10000
 	str r0, [sp, #0x84]
 	mov r0, #0
-	ldr sl, [sp, #0x30]
+	ldr r10, [sp, #0x30]
 	str r0, [sp, #0x48]
 _02172B4C:
-	ldr r0, [sl, #4]
+	ldr r0, [r10, #4]
 	cmp r0, #0
 	beq _02172E28
-	ldr r2, [sl]
+	ldr r2, [r10]
 	ldr r0, [sp, #0x50]
-	ldr r1, [sl, #8]
+	ldr r1, [r10, #8]
 	sub r0, r2, r0
 	str r0, [sp, #0x24]
-	sub r0, r1, fp
+	sub r0, r1, r11
 	ldrh r1, [r4, #0x9e]
 	str r0, [sp, #0x18]
 	mov r0, r8
@@ -2512,7 +2512,7 @@ _02172B4C:
 	add r0, r2, r0
 	str r0, [sp, #0xd8]
 	ldr r0, [sp, #0x5c]
-	ldr r2, [sl, #4]
+	ldr r2, [r10, #4]
 	ldr r3, [r0, #0xe80]
 	ldr r0, [sp, #0x140]
 	add r2, r3, r2
@@ -2531,12 +2531,12 @@ _02172B4C:
 	add r1, sp, #0xd8
 	mov r3, r2
 	bl StageTask__Draw3DEx
-	ldr r2, [sl, #0xd8]
+	ldr r2, [r10, #0xd8]
 	ldr r0, [sp, #0x50]
-	ldr r1, [sl, #0xe0]
+	ldr r1, [r10, #0xe0]
 	sub r0, r2, r0
 	str r0, [sp, #0x28]
-	sub r0, r1, fp
+	sub r0, r1, r11
 	ldrh r1, [r4, #0x9e]
 	str r0, [sp, #0x1c]
 	mov r0, r8
@@ -2602,7 +2602,7 @@ _02172B4C:
 	add r0, r2, r0
 	str r0, [sp, #0xd8]
 	ldr r0, [sp, #0x5c]
-	ldr r2, [sl, #0xdc]
+	ldr r2, [r10, #0xdc]
 	ldr r3, [r0, #0xe80]
 	ldr r0, [sp, #0x140]
 	add r2, r3, r2
@@ -2623,17 +2623,17 @@ _02172B4C:
 	bl StageTask__Draw3DEx
 _02172E28:
 	ldr r0, [sp, #0x48]
-	add sl, sl, #0xc
+	add r10, r10, #0xc
 	add r0, r0, #1
 	str r0, [sp, #0x48]
 	cmp r0, #3
 	blt _02172B4C
 _02172E40:
 	ldr r0, [sp, #0x30]
-	add sb, sb, #1
+	add r9, r9, #1
 	add r0, r0, #0x24
 	str r0, [sp, #0x30]
-	cmp sb, #2
+	cmp r9, #2
 	blt _02172B14
 	ldr r0, [sp, #0x38]
 	add r0, r0, #2
@@ -2739,13 +2739,13 @@ _02172F0C:
 	bl CheckPaletteAnimationIsValid
 	cmp r0, #0
 	addeq sp, sp, #0x150
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp, #0x5c]
 	add r0, r0, #0x364
 	add r0, r0, #0x3c00
 	bl DrawAnimatedPalette
 	add sp, sp, #0x150
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0217300C: .word 0x00012100
 _02173010: .word g_obj
@@ -2900,30 +2900,30 @@ Truck3D__Func_2173204: // 0x02173204
 
 	arm_func_start Truck3D__Func_217322C
 Truck3D__Func_217322C: // 0x0217322C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	add r4, r0, #0x3d00
-	ldrsh sb, [r4, #6]
+	ldrsh r9, [r4, #6]
 	ldrsh r5, [r4, #4]
-	sub r5, sb, r5
+	sub r5, r9, r5
 	mov r5, r5, lsl #0x10
 	mov r5, r5, asr #0x10
 	cmp r5, #6
-	ldmgeia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmgeia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	mvn lr, #1
 	cmp r5, lr
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
-	add r5, sb, #1
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+	add r5, r9, #1
 	and r8, r5, #7
 	mov ip, #0x5d0
 	strh r8, [r4, #6]
 	mov r6, r2, asr #4
-	add sl, r0, #0x284
-	smulbb ip, sb, ip
+	add r10, r0, #0x284
+	smulbb ip, r9, ip
 	ldrb r7, [sp, #0x20]
-	add sb, sl, #0xc00
-	strb r1, [sb, ip]
+	add r9, r10, #0xc00
+	strb r1, [r9, ip]
 	mov r0, r7, asr #4
-	add r1, sb, ip
+	add r1, r9, ip
 	and r2, r2, #0xf
 	strb r2, [r1, #1]
 	and r2, r3, #0xf
@@ -2940,7 +2940,7 @@ Truck3D__Func_217322C: // 0x0217322C
 	add r0, lr, #1
 	strb r0, [r1, #0xb0]
 	strb r0, [r1, #0xaf]
-	ldrb r0, [sb, ip]
+	ldrb r0, [r9, ip]
 	mov r4, #0
 	cmp r0, #6
 	movhs r0, #0
@@ -2954,18 +2954,18 @@ _021732E4:
 	strhsb r0, [r3, #1]
 	cmp r4, #3
 	blt _021732E4
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end Truck3D__Func_217322C
 
 	arm_func_start Truck3D__Func_2173304
 Truck3D__Func_2173304: // 0x02173304
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x88
 	ldr r2, _02173E74 // =0x021885A4
 	str r1, [sp, #8]
 	str r0, [sp, #4]
 	ldr r0, [sp, #8]
-	ldrb sb, [r2]
+	ldrb r9, [r2]
 	ldrb r8, [r2, #1]
 	ldrb r7, [r2, #2]
 	ldrb r6, [r2, #3]
@@ -2976,16 +2976,16 @@ Truck3D__Func_2173304: // 0x02173304
 	ldrh r3, [r2, #8]
 	ldrh r2, [r2, #0xa]
 	ldrb r0, [r0]
-	add sl, sp, #0x82
-	strb sb, [sp, #0x82]
+	add r10, sp, #0x82
+	strb r9, [sp, #0x82]
 	ldr r8, [sp, #4]
 	strb r7, [sp, #0x84]
 	strb r6, [sp, #0x85]
 	strb r5, [sp, #0x86]
 	strb r1, [sp, #0x87]
-	ldrb r1, [sl, r0]
+	ldrb r1, [r10, r0]
 	mov r0, r8
-	mov sb, r8
+	mov r9, r8
 	strb r1, [r0, #0xae]
 	add r0, r0, #0xb4
 	str r0, [sp, #0x34]
@@ -3019,14 +3019,14 @@ _02173390:
 	ldrh r5, [r7, #0x9e]
 	mov r0, r0, lsl #1
 	ldrh r4, [r2, r0]
-	strh r6, [sb, #0x9c]
-	strh r5, [sb, #0x9e]
+	strh r6, [r9, #0x9c]
+	strh r5, [r9, #0x9e]
 	ldrh r0, [r7, #0xa0]
 	cmp r4, #0
-	strh r0, [sb, #0xa0]
-	ldrh r0, [sb, #0x9e]
+	strh r0, [r9, #0xa0]
+	ldrh r0, [r9, #0x9e]
 	add r0, r0, r4
-	strh r0, [sb, #0x9e]
+	strh r0, [r9, #0x9e]
 	ldr r0, [sp, #8]
 	ldrsb r2, [r0, #0xaf]
 	mla r0, r2, r1, r0
@@ -3101,7 +3101,7 @@ _021734E0:
 	ldr r5, _02173E88 // =0x3C6EF35F
 	ldrb r1, [r0, r1]
 	add r7, sp, #0x74
-	add fp, sp, #0x78
+	add r11, sp, #0x78
 	tst r1, #2
 	movne r0, #1
 	strne r0, [sp, #0x14]
@@ -3173,7 +3173,7 @@ _02173608:
 	mov r0, #0
 	str r0, [sp, #0x3c]
 	ble _02173810
-	ldr sl, [sp, #0x30]
+	ldr r10, [sp, #0x30]
 _02173650:
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
@@ -3183,22 +3183,22 @@ _02173650:
 	tst r0, #2
 	str r1, [r6]
 	movne r0, #0
-	strne r0, [sl, #0x28]
+	strne r0, [r10, #0x28]
 	bne _021737F4
 	ldr r0, [sp, #0x2c]
 	ldr r1, _02173E94 // =0x000EF153
 	str r0, [sp]
 	mov r0, #0
 	mov r2, r7
-	mov r3, fp
+	mov r3, r11
 	bl AkMath__Func_2002C98
 	ldr r1, [sp, #0x78]
 	ldr r0, [sp, #0x60]
 	mov r2, r7
 	sub r0, r1, r0
 	str r0, [sp, #0x78]
-	ldrh r0, [sb, #0x9e]
-	mov r3, fp
+	ldrh r0, [r9, #0x9e]
+	mov r3, r11
 	sub r0, r0, #0x8000
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -3210,9 +3210,9 @@ _02173650:
 	ldr r0, [r8, #0x78]
 	mov r2, r7
 	add r0, r1, r0
-	str r0, [sl, #0x24]
+	str r0, [r10, #0x24]
 	ldr r0, [r6]
-	mov r3, fp
+	mov r3, r11
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3221,11 +3221,11 @@ _02173650:
 	sub r0, r0, #0x64
 	str r1, [r6]
 	mov r0, r0, lsl #0xc
-	str r0, [sl, #0x28]
+	str r0, [r10, #0x28]
 	ldr r1, [sp, #0x74]
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
-	str r0, [sl, #0x2c]
+	str r0, [r10, #0x2c]
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
@@ -3247,8 +3247,8 @@ _02173650:
 	mov r2, r7
 	sub r0, r1, r0
 	str r0, [sp, #0x78]
-	ldrh r0, [sb, #0x9e]
-	mov r3, fp
+	ldrh r0, [r9, #0x9e]
+	mov r3, r11
 	sub r0, r0, #0x8000
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -3264,7 +3264,7 @@ _02173650:
 	mov r0, r0, lsl #0x10
 	add r1, r3, r2
 	mov r0, r0, lsr #0x10
-	str r1, [sl, #0xfc]
+	str r1, [r10, #0xfc]
 	str r0, [sp, #0x2c]
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
@@ -3275,14 +3275,14 @@ _02173650:
 	sub r0, r0, #0x5a
 	str r1, [r6]
 	mov r0, r0, lsl #0xc
-	str r0, [sl, #0x100]
+	str r0, [r10, #0x100]
 	ldr r1, [sp, #0x74]
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
-	str r0, [sl, #0x104]
+	str r0, [r10, #0x104]
 _021737F4:
 	ldr r0, [sp, #0x3c]
-	add sl, sl, #0xc
+	add r10, r10, #0xc
 	add r1, r0, #1
 	ldr r0, [sp, #0x14]
 	str r1, [sp, #0x3c]
@@ -3322,7 +3322,7 @@ _02173864:
 	mov r0, #0
 	str r0, [sp, #0x1c]
 	ble _021739E8
-	ldr sl, [sp, #0x30]
+	ldr r10, [sp, #0x30]
 _0217388C:
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
@@ -3332,9 +3332,9 @@ _0217388C:
 	tst r0, #2
 	str r1, [r6]
 	movne r0, #0
-	strne r0, [sl, #4]
+	strne r0, [r10, #4]
 	bne _021739CC
-	ldrh r2, [sb, #0x9e]
+	ldrh r2, [r9, #0x9e]
 	ldr r0, [sp, #0x38]
 	ldr r1, [sp, #0x54]
 	sub r2, r2, #0x8000
@@ -3342,13 +3342,13 @@ _0217388C:
 	mov r2, r2, lsr #0x10
 	str r2, [sp]
 	mov r2, r7
-	mov r3, fp
+	mov r3, r11
 	bl AkMath__Func_2002C98
 	ldr r1, [sp, #0x78]
 	ldr r0, [r8, #0x78]
 	mov r2, r7
 	add r0, r1, r0
-	str r0, [sl]
+	str r0, [r10]
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
@@ -3358,11 +3358,11 @@ _0217388C:
 	sub r0, r0, #0x64
 	str r1, [r6]
 	mov r0, r0, lsl #0xc
-	str r0, [sl, #4]
+	str r0, [r10, #4]
 	ldr r1, [sp, #0x74]
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
-	str r0, [sl, #8]
+	str r0, [r10, #8]
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
@@ -3370,7 +3370,7 @@ _0217388C:
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	tst r0, #1
-	ldrh r3, [sb, #0x9e]
+	ldrh r3, [r9, #0x9e]
 	ldreq r0, [sp, #0x54]
 	movne r1, #0x19000
 	addeq r1, r0, #0x17000
@@ -3381,7 +3381,7 @@ _0217388C:
 	mov r3, r3, lsr #0x10
 	str r3, [sp]
 	ldr r1, [sp, #0x58]
-	mov r3, fp
+	mov r3, r11
 	bl AkMath__Func_2002C98
 	ldr r0, [sp, #0x38]
 	ldr r2, [sp, #0x78]
@@ -3389,7 +3389,7 @@ _0217388C:
 	ldr r1, [r8, #0x78]
 	str r0, [sp, #0x38]
 	add r0, r2, r1
-	str r0, [sl, #0xd8]
+	str r0, [r10, #0xd8]
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
@@ -3399,14 +3399,14 @@ _0217388C:
 	sub r0, r0, #0x5a
 	str r1, [r6]
 	mov r0, r0, lsl #0xc
-	str r0, [sl, #0xdc]
+	str r0, [r10, #0xdc]
 	ldr r1, [sp, #0x74]
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
-	str r0, [sl, #0xe0]
+	str r0, [r10, #0xe0]
 _021739CC:
 	ldr r0, [sp, #0x1c]
-	add sl, sl, #0xc
+	add r10, r10, #0xc
 	add r1, r0, #1
 	ldr r0, [sp, #0x10]
 	str r1, [sp, #0x1c]
@@ -3437,7 +3437,7 @@ _02173A24:
 	mov r0, #0
 	str r0, [sp, #0x20]
 	ble _02173BA0
-	ldr sl, [sp, #0x30]
+	ldr r10, [sp, #0x30]
 _02173A44:
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
@@ -3447,9 +3447,9 @@ _02173A44:
 	tst r0, #2
 	str r1, [r6]
 	movne r0, #0
-	strne r0, [sl, #0x28]
+	strne r0, [r10, #0x28]
 	bne _02173B84
-	ldrh r2, [sb, #0x9e]
+	ldrh r2, [r9, #0x9e]
 	ldr r0, [sp, #0x18]
 	mov r1, #0x30000
 	sub r2, r2, #0x8000
@@ -3457,13 +3457,13 @@ _02173A44:
 	mov r2, r2, lsr #0x10
 	str r2, [sp]
 	mov r2, r7
-	mov r3, fp
+	mov r3, r11
 	bl AkMath__Func_2002C98
 	ldr r1, [sp, #0x78]
 	ldr r0, [r8, #0x78]
 	mov r2, r7
 	add r0, r1, r0
-	str r0, [sl, #0x24]
+	str r0, [r10, #0x24]
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
@@ -3473,17 +3473,17 @@ _02173A44:
 	sub r0, r0, #0x64
 	str r1, [r6]
 	mov r0, r0, lsl #0xc
-	str r0, [sl, #0x28]
+	str r0, [r10, #0x28]
 	ldr r1, [sp, #0x74]
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
-	str r0, [sl, #0x2c]
+	str r0, [r10, #0x2c]
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
 	str r1, [r6]
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
-	ldrh r3, [sb, #0x9e]
+	ldrh r3, [r9, #0x9e]
 	mov r0, r0, lsr #0x10
 	tst r0, #1
 	sub r3, r3, #0x8000
@@ -3494,7 +3494,7 @@ _02173A44:
 	movne r1, #0x19000
 	addeq r1, r0, #0x17000
 	ldr r0, [sp, #0x18]
-	mov r3, fp
+	mov r3, r11
 	add r0, r0, r1
 	mov r1, #0x38000
 	bl AkMath__Func_2002C98
@@ -3504,7 +3504,7 @@ _02173A44:
 	ldr r1, [r8, #0x78]
 	str r0, [sp, #0x18]
 	add r0, r2, r1
-	str r0, [sl, #0xfc]
+	str r0, [r10, #0xfc]
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
@@ -3514,14 +3514,14 @@ _02173A44:
 	sub r0, r0, #0x5a
 	str r1, [r6]
 	mov r0, r0, lsl #0xc
-	str r0, [sl, #0x100]
+	str r0, [r10, #0x100]
 	ldr r1, [sp, #0x74]
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
-	str r0, [sl, #0x104]
+	str r0, [r10, #0x104]
 _02173B84:
 	ldr r0, [sp, #0x20]
-	add sl, sl, #0xc
+	add r10, r10, #0xc
 	add r1, r0, #1
 	ldr r0, [sp, #0xc]
 	str r1, [sp, #0x20]
@@ -3559,7 +3559,7 @@ _02173BF4:
 	mov r0, #0
 	str r0, [sp, #0x24]
 	ble _02173DD4
-	ldr sl, [sp, #0x30]
+	ldr r10, [sp, #0x30]
 _02173C14:
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
@@ -3569,22 +3569,22 @@ _02173C14:
 	tst r0, #2
 	str r1, [r6]
 	movne r0, #0
-	strne r0, [sl, #4]
+	strne r0, [r10, #4]
 	bne _02173DB8
 	ldr r0, [sp, #0x28]
 	ldr r1, _02173E94 // =0x000EF153
 	str r0, [sp]
 	mov r0, #0
 	mov r2, r7
-	mov r3, fp
+	mov r3, r11
 	bl AkMath__Func_2002C98
 	ldr r1, [sp, #0x78]
 	ldr r0, [sp, #0x6c]
 	mov r2, r7
 	add r0, r1, r0
 	str r0, [sp, #0x78]
-	ldrh r0, [sb, #0x9e]
-	mov r3, fp
+	ldrh r0, [r9, #0x9e]
+	mov r3, r11
 	sub r0, r0, #0x8000
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -3596,9 +3596,9 @@ _02173C14:
 	ldr r0, [r8, #0x78]
 	mov r2, r7
 	add r0, r1, r0
-	str r0, [sl]
+	str r0, [r10]
 	ldr r0, [r6]
-	mov r3, fp
+	mov r3, r11
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3607,11 +3607,11 @@ _02173C14:
 	sub r0, r0, #0x64
 	str r1, [r6]
 	mov r0, r0, lsl #0xc
-	str r0, [sl, #4]
+	str r0, [r10, #4]
 	ldr r1, [sp, #0x74]
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
-	str r0, [sl, #8]
+	str r0, [r10, #8]
 	ldr r0, [r6]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
@@ -3633,8 +3633,8 @@ _02173C14:
 	mov r2, r7
 	add r0, r1, r0
 	str r0, [sp, #0x78]
-	ldrh r0, [sb, #0x9e]
-	mov r3, fp
+	ldrh r0, [r9, #0x9e]
+	mov r3, r11
 	sub r0, r0, #0x8000
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -3649,7 +3649,7 @@ _02173C14:
 	add r0, r0, #0x1500
 	add r1, r2, r1
 	mov r0, r0, lsl #0x10
-	str r1, [sl, #0xd8]
+	str r1, [r10, #0xd8]
 	mov r0, r0, lsr #0x10
 	str r0, [sp, #0x28]
 	ldr r0, [r6]
@@ -3661,14 +3661,14 @@ _02173C14:
 	sub r0, r0, #0x5a
 	str r1, [r6]
 	mov r0, r0, lsl #0xc
-	str r0, [sl, #0xdc]
+	str r0, [r10, #0xdc]
 	ldr r1, [sp, #0x74]
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
-	str r0, [sl, #0xe0]
+	str r0, [r10, #0xe0]
 _02173DB8:
 	ldr r0, [sp, #0x24]
-	add sl, sl, #0xc
+	add r10, r10, #0xc
 	add r1, r0, #1
 	ldr r0, [sp, #0x14]
 	str r1, [sp, #0x24]
@@ -3713,12 +3713,12 @@ _02173E44:
 	str r0, [sp, #0x44]
 	cmp r0, #3
 	ldr r0, [sp, #0x34]
-	add sb, sb, #6
+	add r9, r9, #6
 	add r0, r0, #0x1b4
 	str r0, [sp, #0x34]
 	blt _02173390
 	add sp, sp, #0x88
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02173E74: .word 0x021885A4
 _02173E78: .word FX_SinCosTable_

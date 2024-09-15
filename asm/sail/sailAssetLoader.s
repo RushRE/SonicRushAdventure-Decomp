@@ -5,22 +5,22 @@
 
 	arm_func_start SailAssetLoader__LoadSprite3D
 SailAssetLoader__LoadSprite3D: // 0x02153814
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x110
 	mov r6, r0
 	mov r5, r1
 	mov r4, r2
 	bl SailManager__GetArchive
-	mov sb, r0
+	mov r9, r0
 	mov r0, r6
-	mov r1, sb
+	mov r1, r9
 	bl ObjDataSearchArchive
 	mov r1, r4
 	bl Sprite__GetTextureSizeFromAnim
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
 	mov r0, r6
-	mov r1, sb
+	mov r1, r9
 	bl ObjDataSearchArchive
 	mov r1, r4
 	bl Sprite__GetPaletteSizeFromAnim
@@ -35,7 +35,7 @@ SailAssetLoader__LoadSprite3D: // 0x02153814
 	mov r1, r8
 	bl ObjActionAllocPalette
 	mov r5, r0
-	mov r1, sb
+	mov r1, r9
 	mov r0, r6
 	bl ObjDataSearchArchive
 	mov r1, #0
@@ -50,7 +50,7 @@ SailAssetLoader__LoadSprite3D: // 0x02153814
 	mov r2, r1
 	bl AnimatorSprite3D__ProcessAnimation
 	add sp, sp, #0x110
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end SailAssetLoader__LoadSprite3D
 
 	arm_func_start SailAssetLoader__ReleaseSprite3D

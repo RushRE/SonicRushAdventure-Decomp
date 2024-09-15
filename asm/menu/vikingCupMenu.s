@@ -334,7 +334,7 @@ _0217AE4C: .word 0x04001008
 
 	arm_func_start VikingCupStageSelectMenu__Func_217AE50
 VikingCupStageSelectMenu__Func_217AE50: // 0x0217AE50
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	mov r4, r0
 	ldr r0, [r4]
@@ -373,19 +373,19 @@ VikingCupStageSelectMenu__Func_217AEBC: // 0x0217AEBC
 	bl FileUnknown__GetAOUFile
 	str r0, [sp, #0x20]
 	ldr r0, _0217AF70 // =0x05000600
-	ldr sl, _0217AF74 // =0x0217E340
+	ldr r10, _0217AF74 // =0x0217E340
 	mov r8, #0
-	add sb, r4, #0x1c
+	add r9, r4, #0x1c
 	sub r5, r0, #0x400
-	add fp, sp, #0x1c
+	add r11, sp, #0x1c
 	mov r4, r8
 _0217AEE4:
-	ldrb r0, [sl]
+	ldrb r0, [r10]
 	cmp r8, #2
-	ldrb r1, [sl, #1]
+	ldrb r1, [r10, #1]
 	movlt r6, #0
 	movlt r7, r5
-	ldr r0, [fp, r0, lsl #2]
+	ldr r0, [r11, r0, lsl #2]
 	movge r6, #1
 	ldrge r7, _0217AF70 // =0x05000600
 	bl Sprite__GetSpriteSize3FromAnim
@@ -400,21 +400,21 @@ _0217AEE4:
 	mov r0, #2
 	str r0, [sp, #0x14]
 	str r4, [sp, #0x18]
-	ldrb r1, [sl]
-	ldrb r2, [sl, #1]
-	mov r0, sb
-	ldr r1, [fp, r1, lsl #2]
+	ldrb r1, [r10]
+	ldrb r2, [r10, #1]
+	mov r0, r9
+	ldr r1, [r11, r1, lsl #2]
 	mov r3, r4
 	bl AnimatorSprite__Init
-	ldrb r0, [sl, #2]
+	ldrb r0, [r10, #2]
 	add r8, r8, #1
-	add sl, sl, #4
-	strh r0, [sb, #0x50]
+	add r10, r10, #4
+	strh r0, [r9, #0x50]
 	cmp r8, #0xc
-	add sb, sb, #0x64
+	add r9, r9, #0x64
 	blt _0217AEE4
 	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0217AF70: .word 0x05000600
 _0217AF74: .word 0x0217E340
@@ -478,35 +478,35 @@ VikingCupStageSelectMenu__Func_217AF78: // 0x0217AF78
 
 	arm_func_start VikingCupStageSelectMenu__Func_217B048
 VikingCupStageSelectMenu__Func_217B048: // 0x0217B048
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
-	mov sl, r0
-	add r0, sl, #0x28c
+	mov r10, r0
+	add r0, r10, #0x28c
 	add r0, r0, #0x400
 	bl FontFile__Init
-	ldr r1, [sl]
-	add r0, sl, #0x28c
+	ldr r1, [r10]
+	add r0, r10, #0x28c
 	ldr r1, [r1, #0xc]
 	add r0, r0, #0x400
 	bl FontFile__InitFromHeader
-	add r0, sl, #0x318
-	add sb, r0, #0x400
+	add r0, r10, #0x318
+	add r9, r0, #0x400
 	mov r7, #0x20
 	mov r8, #0xd
 	mov r6, #0
 	mov r5, #8
 	mov r4, #0x10
-	mov fp, #2
+	mov r11, #2
 _0217B094:
 	mov r0, #0x400
 	bl _AllocHeadHEAP_USER
-	add r1, sl, r6, lsl #2
+	add r1, r10, r6, lsl #2
 	str r0, [r1, #0x808]
 	stmia sp, {r5, r8}
 	str r4, [sp, #8]
-	str fp, [sp, #0xc]
+	str r11, [sp, #0xc]
 	ldr r1, [r1, #0x808]
-	mov r0, sb
+	mov r0, r9
 	str r1, [sp, #0x10]
 	mov r1, #0
 	str r1, [sp, #0x14]
@@ -514,7 +514,7 @@ _0217B094:
 	mov r3, r1
 	str r7, [sp, #0x18]
 	bl Unknown2056570__Init
-	mov r0, sb
+	mov r0, r9
 	mov r1, #4
 	bl Unknown2056570__Func_2056688
 	add r0, r8, #2
@@ -522,7 +522,7 @@ _0217B094:
 	add r6, r6, #1
 	add r7, r7, #0x400
 	mov r8, r0, lsr #0x10
-	add sb, sb, #0x30
+	add r9, r9, #0x30
 	cmp r6, #5
 	blt _0217B094
 	ldr r0, _0217B11C // =0x02110460
@@ -531,7 +531,7 @@ _0217B094:
 	mov r2, #0
 	bl QueueUncompressedPalette
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0217B11C: .word 0x02110460
 _0217B120: .word 0x05000082
@@ -728,24 +728,24 @@ _0217B360: .word renderCoreGFXControlB
 
 	arm_func_start VikingCupStageSelectMenu__State_217B364
 VikingCupStageSelectMenu__State_217B364: // 0x0217B364
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
-	mov sl, r0
-	add r0, sl, #0x800
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
+	mov r10, r0
+	add r0, r10, #0x800
 	ldrh r0, [r0, #0x20]
-	ldrh sb, [sl, #8]
+	ldrh r9, [r10, #8]
 	mov r6, #0
-	ldrh r5, [sl, #0xa]
+	ldrh r5, [r10, #0xa]
 	mov r7, r6
 	mov r8, r6
 	cmp r0, #0
-	add r4, r5, sb, lsl #1
+	add r4, r5, r9, lsl #1
 	beq _0217B3E8
 	cmp r5, #0
 	bne _0217B3C4
 	cmp r0, #1
 	bls _0217B3C4
 	sub r0, r0, #2
-	add r0, sl, r0, lsl #1
+	add r0, r10, r0, lsl #1
 	add r0, r0, #0x800
 	ldrh r0, [r0, #0x28]
 	add r0, r0, #8
@@ -756,7 +756,7 @@ _0217B3C4:
 	cmp r5, #1
 	bne _0217B3E8
 	sub r0, r0, #1
-	add r0, sl, r0, lsl #1
+	add r0, r10, r0, lsl #1
 	add r0, r0, #0x800
 	ldrh r0, [r0, #0x28]
 	add r0, r0, #8
@@ -767,7 +767,7 @@ _0217B3E8:
 	ldrh r0, [r0, #4]
 	tst r0, #2
 	bne _0217B408
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217C68C
 	cmp r0, #0
 	beq _0217B410
@@ -779,32 +779,32 @@ _0217B410:
 	ldrh r0, [r0, #8]
 	tst r0, #0x40
 	bne _0217B454
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	bl VikingCupStageSelectMenu__Func_217C6A0
 	cmp r0, #0
 	bne _0217B454
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217C26C
 	cmp r0, #0
 	beq _0217B4A8
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217C708
 	cmp r0, #0
 	beq _0217B4A8
 _0217B454:
-	cmp sb, #0
+	cmp r9, #0
 	bne _0217B498
-	add r0, sl, #0x800
+	add r0, r10, #0x800
 	mov r1, #0
 	strh r1, [r0, #0x26]
 	cmp r5, #0
 	bne _0217B498
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217C6A0
 	cmp r0, #0
 	bne _0217B498
-	add r0, sl, #0x800
+	add r0, r10, #0x800
 	ldrh r1, [r0, #0x20]
 	cmp r1, #0
 	subne r1, r1, #1
@@ -820,32 +820,32 @@ _0217B4A8:
 	ldrh r0, [r0, #8]
 	tst r0, #0x80
 	bne _0217B4EC
-	mov r0, sl
+	mov r0, r10
 	mov r1, #1
 	bl VikingCupStageSelectMenu__Func_217C6A0
 	cmp r0, #0
 	bne _0217B4EC
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217C294
 	cmp r0, #0
 	beq _0217B544
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217C744
 	cmp r0, #0
 	beq _0217B544
 _0217B4EC:
-	cmp sb, #0
+	cmp r9, #0
 	bne _0217B534
-	add r0, sl, #0x800
+	add r0, r10, #0x800
 	mov r1, #1
 	strh r1, [r0, #0x26]
 	cmp r5, #1
 	bne _0217B534
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217C6A0
 	cmp r0, #0
 	bne _0217B534
-	add r0, sl, #0x800
+	add r0, r10, #0x800
 	ldrh r2, [r0, #0x20]
 	ldrh r1, [r0, #0x24]
 	cmp r2, r1
@@ -864,25 +864,25 @@ _0217B544:
 	bne _0217B56C
 	tst r0, #0x200
 	bne _0217B56C
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217C6E0
 	cmp r0, #0
 	beq _0217B5AC
 _0217B56C:
-	cmp sb, #0
-	subne r0, sb, #1
-	ldreqh r0, [sl, #0xe]
+	cmp r9, #0
+	subne r0, r9, #1
+	ldreqh r0, [r10, #0xe]
 	mov r7, #1
 	subeq r0, r0, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #0
+	mov r9, r0, lsr #0x10
+	cmp r9, #0
 	beq _0217B658
-	add r0, sl, #0x800
+	add r0, r10, #0x800
 	mov r1, #0
 	strh r1, [r0, #0x20]
 	strh r1, [r0, #0x22]
-	ldrh r1, [sl, #0xa]
+	ldrh r1, [r10, #0xa]
 	strh r1, [r0, #0x26]
 	b _0217B658
 _0217B5AC:
@@ -892,28 +892,28 @@ _0217B5AC:
 	bne _0217B5D4
 	tst r0, #0x100
 	bne _0217B5D4
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217C6F4
 	cmp r0, #0
 	beq _0217B61C
 _0217B5D4:
-	ldrh r0, [sl, #0xe]
+	ldrh r0, [r10, #0xe]
 	sub r0, r0, #1
-	cmp sb, r0
-	movge sb, #0
+	cmp r9, r0
+	movge r9, #0
 	bge _0217B5F4
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 _0217B5F4:
-	cmp sb, #0
+	cmp r9, #0
 	mov r7, #1
 	beq _0217B658
-	add r0, sl, #0x800
+	add r0, r10, #0x800
 	mov r1, #0
 	strh r1, [r0, #0x20]
 	strh r1, [r0, #0x22]
-	ldrh r1, [sl, #0xa]
+	ldrh r1, [r10, #0xa]
 	strh r1, [r0, #0x26]
 	b _0217B658
 _0217B61C:
@@ -921,12 +921,12 @@ _0217B61C:
 	ldrh r0, [r0, #4]
 	tst r0, #1
 	bne _0217B654
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	bl VikingCupStageSelectMenu__Func_217C6C0
 	cmp r0, #0
 	bne _0217B654
-	mov r0, sl
+	mov r0, r10
 	mov r1, #1
 	bl VikingCupStageSelectMenu__Func_217C6C0
 	cmp r0, #0
@@ -936,9 +936,9 @@ _0217B654:
 _0217B658:
 	cmp r7, #0
 	beq _0217B6D8
-	add r0, sl, #0x800
+	add r0, r10, #0x800
 	ldrh r0, [r0, #0x20]
-	add r1, r5, sb, lsl #1
+	add r1, r5, r9, lsl #1
 	cmp r0, #0
 	beq _0217B6C8
 	cmp r5, #0
@@ -946,7 +946,7 @@ _0217B658:
 	cmp r0, #1
 	bls _0217B6A4
 	sub r0, r0, #2
-	add r0, sl, r0, lsl #1
+	add r0, r10, r0, lsl #1
 	add r0, r0, #0x800
 	ldrh r0, [r0, #0x28]
 	add r0, r0, #8
@@ -957,69 +957,69 @@ _0217B6A4:
 	cmp r5, #1
 	bne _0217B6C8
 	sub r0, r0, #1
-	add r0, sl, r0, lsl #1
+	add r0, r10, r0, lsl #1
 	add r0, r0, #0x800
 	ldrh r0, [r0, #0x28]
 	add r0, r0, #8
 	mov r0, r0, lsl #0x10
 	mov r1, r0, lsr #0x10
 _0217B6C8:
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217B7F0
 	mov r0, #2
 	bl PlaySysMenuNavSfx
 _0217B6D8:
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217B8B0
-	mov r0, sl
+	mov r0, r10
 	bl VikingCupStageSelectMenu__Func_217B8C0
 	cmp r6, #0
 	beq _0217B73C
-	ldr r2, [sl]
+	ldr r2, [r10]
 	ldr r3, _0217B7A4 // =0x0000FFFF
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	strh r3, [r2, #4]
 	bl VikingCupStageSelectMenu__Func_217C2CC
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	bl VikingCupStageSelectMenu__Func_217C044
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	bl VikingCupStageSelectMenu__Func_217BC68
 	mov r0, #0
-	str r0, [sl, #4]
+	str r0, [r10, #4]
 	ldr r1, _0217B7A8 // =VikingCupStageSelectMenu__State_217B2CC
 	mov r0, #1
-	str r1, [sl, #0x81c]
+	str r1, [r10, #0x81c]
 	bl PlaySysMenuNavSfx
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _0217B73C:
 	cmp r8, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	cmp r5, #0
-	addeq r0, sl, #0x800
+	addeq r0, r10, #0x800
 	ldreqh r0, [r0, #0x20]
-	ldr r2, [sl]
+	ldr r2, [r10]
 	mov r1, #0
 	cmpeq r0, #1
 	moveq r4, #1
 	add r3, r4, #9
-	mov r0, sl
+	mov r0, r10
 	strh r3, [r2, #4]
 	bl VikingCupStageSelectMenu__Func_217C2CC
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	bl VikingCupStageSelectMenu__Func_217C044
-	mov r0, sl
+	mov r0, r10
 	mov r1, #0
 	bl VikingCupStageSelectMenu__Func_217BC68
 	mov r0, #0
 	ldr r1, _0217B7AC // =VikingCupStageSelectMenu__State_217B7B0
-	str r0, [sl, #4]
-	str r1, [sl, #0x81c]
+	str r0, [r10, #4]
+	str r1, [r10, #0x81c]
 	bl PlaySysMenuNavSfx
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0217B7A0: .word padInput
 _0217B7A4: .word 0x0000FFFF
@@ -1201,26 +1201,26 @@ _0217B964:
 
 	arm_func_start VikingCupStageSelectMenu__Func_217BA04
 VikingCupStageSelectMenu__Func_217BA04: // 0x0217BA04
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x34
 	add r2, r0, #0x318
 	mov r8, #0
-	ldr fp, _0217BBE0 // =0x05F5E0FF
-	mov sl, r1
-	add sb, r2, #0x400
+	ldr r11, _0217BBE0 // =0x05F5E0FF
+	mov r10, r1
+	add r9, r2, #0x400
 	add r5, r0, #0x28c
 	mov r6, r8
 	mvn r4, #0
 _0217BA2C:
-	mov r0, sb
+	mov r0, r9
 	bl Unknown2056570__Func_205683C
 	mov r1, r8, lsl #0x10
-	mov r0, sl
+	mov r0, r10
 	mov r1, r1, lsr #0x10
 	bl VikingCupStageSelectMenu__GetRecord
 	mov r7, r0
 	cmp r7, r4
-	mov r0, sl
+	mov r0, r10
 	bne _0217BAE0
 	bl VikingCupStageSelectMenu__Func_217C8E0
 	cmp r0, #0
@@ -1240,7 +1240,7 @@ _0217BA2C:
 	mov r2, r1
 	str r0, [sp, #0x18]
 	add r0, r5, #0x400
-	mov r3, sb
+	mov r3, r9
 	bl FontFile__Func_2053010
 	b _0217BBC0
 _0217BAA8:
@@ -1255,7 +1255,7 @@ _0217BAA8:
 	mov r2, r1
 	str r0, [sp, #0x18]
 	add r0, r5, #0x400
-	mov r3, sb
+	mov r3, r9
 	bl FontFile__Func_2053010
 	b _0217BBC0
 _0217BAE0:
@@ -1292,7 +1292,7 @@ _0217BAE0:
 	add r0, r5, #0x400
 	mov r1, r6
 	mov r2, r6
-	mov r3, sb
+	mov r3, r9
 	bl FontFile__Func_2053010
 	b _0217BBC0
 _0217BB70:
@@ -1308,23 +1308,23 @@ _0217BB70:
 	str r0, [sp, #0x14]
 	ldr r0, _0217BBF0 // =0x0217EF94
 	mov r1, #0
-	cmp r7, fp
+	cmp r7, r11
 	str r0, [sp, #0x18]
-	movhi r7, fp
+	movhi r7, r11
 	add r0, r5, #0x400
 	mov r2, r1
-	mov r3, sb
+	mov r3, r9
 	str r7, [sp, #0x1c]
 	bl FontFile__Func_2053010
 _0217BBC0:
-	mov r0, sb
+	mov r0, r9
 	bl Unknown2056570__Func_2056B8C
-	add sb, sb, #0x30
+	add r9, r9, #0x30
 	add r8, r8, #1
 	cmp r8, #5
 	blt _0217BA2C
 	add sp, sp, #0x34
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0217BBE0: .word 0x05F5E0FF
 _0217BBE4: .word asc_217EF70
@@ -1410,59 +1410,59 @@ _0217BCBC:
 
 	arm_func_start VikingCupStageSelectMenu__Func_217BCF0
 VikingCupStageSelectMenu__Func_217BCF0: // 0x0217BCF0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
-	mov sl, r0
-	ldrh r0, [sl, #0xc]
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
+	mov r10, r0
+	ldrh r0, [r10, #0xc]
 	cmp r0, #3
-	movlo fp, #0
+	movlo r11, #0
 	blo _0217BD14
 	cmp r0, #6
-	movlo fp, #1
-	movhs fp, #2
+	movlo r11, #1
+	movhs r11, #2
 _0217BD14:
-	ldr r0, [sl, #0x10]
-	add r4, sl, #0x274
+	ldr r0, [r10, #0x10]
+	add r4, r10, #0x274
 	cmp r0, #0
-	add r5, sl, #0x2d8
-	add r6, sl, #0x33c
-	add r7, sl, #0x3a0
+	add r5, r10, #0x2d8
+	add r6, r10, #0x33c
+	add r7, r10, #0x3a0
 	beq _0217BD4C
-	ldrh r0, [sl, #0xa]
+	ldrh r0, [r10, #0xa]
 	cmp r0, #0
 	moveq r8, #0x22
-	moveq sb, #0x23
+	moveq r9, #0x23
 	movne r8, #0x20
-	movne sb, #0x25
+	movne r9, #0x25
 	b _0217BD9C
 _0217BD4C:
-	ldr r2, [sl, #0x81c]
+	ldr r2, [r10, #0x81c]
 	ldr r0, _0217C038 // =VikingCupStageSelectMenu__State_217B230
 	cmp r2, r0
 	beq _0217BD94
-	ldr r1, [sl]
+	ldr r1, [r10]
 	ldr r0, _0217C03C // =0x0000FFFF
 	ldrh r1, [r1, #4]
 	cmp r1, r0
 	ldreq r0, _0217C040 // =VikingCupStageSelectMenu__State_217B2CC
 	cmpeq r2, r0
 	beq _0217BD94
-	ldrh r0, [sl, #0xa]
+	ldrh r0, [r10, #0xa]
 	cmp r0, #0
 	moveq r8, #0x21
-	moveq sb, #0x23
+	moveq r9, #0x23
 	movne r8, #0x20
-	movne sb, #0x24
+	movne r9, #0x24
 	b _0217BD9C
 _0217BD94:
 	mov r8, #0x20
-	mov sb, #0x23
+	mov r9, #0x23
 _0217BD9C:
-	add r0, sl, #0x800
+	add r0, r10, #0x800
 	ldrh r0, [r0, #0x20]
 	cmp r0, #1
 	bls _0217BDD4
 	sub r1, r0, #2
-	add r1, sl, r1, lsl #1
+	add r1, r10, r1, lsl #1
 	add r1, r1, #0x800
 	ldrh r1, [r1, #0x28]
 	add r1, r1, r1, lsl #1
@@ -1480,15 +1480,15 @@ _0217BDE4:
 	cmp r0, #0
 	beq _0217BE14
 	sub r0, r0, #1
-	add r0, sl, r0, lsl #1
+	add r0, r10, r0, lsl #1
 	add r0, r0, #0x800
 	ldrh r0, [r0, #0x28]
 	sub r0, r0, #1
 	add r0, r0, r0, lsl #1
 	add r0, r0, #0x1b
-	add r0, sb, r0
+	add r0, r9, r0
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 _0217BE14:
 	ldrh r0, [r4, #0xc]
 	cmp r0, r8
@@ -1498,18 +1498,18 @@ _0217BE14:
 	bl AnimatorSprite__SetAnimation
 _0217BE2C:
 	ldrh r0, [r5, #0xc]
-	cmp r0, sb
+	cmp r0, r9
 	beq _0217BE44
 	mov r0, r5
-	mov r1, sb
+	mov r1, r9
 	bl AnimatorSprite__SetAnimation
 _0217BE44:
-	add r0, sl, #0x800
+	add r0, r10, #0x800
 	ldrh r0, [r0, #0x20]
 	cmp r0, #1
 	bls _0217BE7C
 	sub r1, r0, #2
-	add r1, sl, r1, lsl #1
+	add r1, r10, r1, lsl #1
 	add r1, r1, #0x800
 	ldrh r1, [r1, #0x28]
 	add r1, r1, r1, lsl #1
@@ -1527,15 +1527,15 @@ _0217BE8C:
 	cmp r0, #0
 	beq _0217BEBC
 	sub r0, r0, #1
-	add r0, sl, r0, lsl #1
+	add r0, r10, r0, lsl #1
 	add r0, r0, #0x800
 	ldrh r0, [r0, #0x28]
 	sub r0, r0, #1
 	add r0, r0, r0, lsl #1
 	add r0, r0, #0x1b
-	sub r0, sb, r0
+	sub r0, r9, r0
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
+	mov r9, r0, lsr #0x10
 _0217BEBC:
 	ldr r0, [r4, #0x3c]
 	cmp r8, #0x21
@@ -1543,11 +1543,11 @@ _0217BEBC:
 	bicne r0, r0, #4
 	str r0, [r4, #0x3c]
 	ldr r0, [r5, #0x3c]
-	cmp sb, #0x24
+	cmp r9, #0x24
 	orreq r0, r0, #4
 	bicne r0, r0, #4
 	str r0, [r5, #0x3c]
-	ldrh r0, [sl, #0xc]
+	ldrh r0, [r10, #0xc]
 	cmp r0, #0
 	bne _0217BEFC
 	mov r0, r7
@@ -1575,9 +1575,9 @@ _0217BEFC:
 	bl AnimatorSprite__ProcessAnimation
 	cmp r8, #0x20
 	beq _0217BF84
-	rsb r0, fp, #0x94
+	rsb r0, r11, #0x94
 	strh r0, [r4, #8]
-	rsb r0, fp, #0x48
+	rsb r0, r11, #0x48
 	strh r0, [r4, #0xa]
 	mov r0, #0x94
 	strh r0, [r6, #8]
@@ -1598,11 +1598,11 @@ _0217BF94:
 	mov r0, r4
 	strb r1, [r4, #0x57]
 	bl AnimatorSprite__DrawFrame
-	cmp sb, #0x23
+	cmp r9, #0x23
 	beq _0217BFE0
-	rsb r0, fp, #0x94
+	rsb r0, r11, #0x94
 	strh r0, [r5, #8]
-	rsb r0, fp, #0x68
+	rsb r0, r11, #0x68
 	strh r0, [r5, #0xa]
 	mov r0, #0x94
 	strh r0, [r6, #8]
@@ -1623,10 +1623,10 @@ _0217BFF0:
 	mov r0, r5
 	strb r1, [r5, #0x57]
 	bl AnimatorSprite__DrawFrame
-	ldr r0, [sl, #0x10]
+	ldr r0, [r10, #0x10]
 	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	ldrh r0, [sl, #0xa]
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	ldrh r0, [r10, #0xa]
 	cmp r0, #0
 	mov r0, #0x94
 	streqh r0, [r7, #8]
@@ -1636,7 +1636,7 @@ _0217BFF0:
 	strh r0, [r7, #0xa]
 	mov r0, r7
 	bl AnimatorSprite__DrawFrame
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0217C038: .word VikingCupStageSelectMenu__State_217B230
 _0217C03C: .word 0x0000FFFF

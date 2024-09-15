@@ -15,7 +15,7 @@ exPauseTask__TaskSingleton: // 0x02177B9C
 
 	arm_func_start exPauseTask__Main
 exPauseTask__Main: // 0x0216D8D8
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
 	bl GetExTaskWorkCurrent_
 	mov r7, r0
@@ -95,7 +95,7 @@ _0216D98C:
 	orr r0, r0, #0x20
 	strb r0, [r7, #0x9a]
 	add r0, r7, #0x22
-	add fp, r0, #0x100
+	add r11, r0, #0x100
 	add r0, r7, #0x1b0
 	str r0, [sp, #0xc]
 	add r0, r7, #0x230
@@ -111,42 +111,42 @@ _0216DA20:
 	mul r0, r8, r0
 	str r0, [sp, #8]
 	mov r0, #0x88
-	mul sb, r8, r0
+	mul r9, r8, r0
 	ldrh r2, [r7]
 	ldr r1, _0216DB88 // =0x02175DF8
 	ldr r0, [sp, #8]
 	mov r2, r2, lsl #1
 	add r1, r1, r0
 	ldrh r1, [r2, r1]
-	add sl, r7, sb
-	add r0, r6, sb
-	strh r1, [sl, #0xa0]
+	add r10, r7, r9
+	add r0, r6, r9
+	strh r1, [r10, #0xa0]
 	mov r1, #8
-	strh r1, [sl, #0xa2]
+	strh r1, [r10, #0xa2]
 	bl ovl09_2168EA4
-	add r0, r5, sb
+	add r0, r5, r9
 	mov r1, #0xe000
 	bl ovl09_21641E8
-	add r1, sl, #0x100
+	add r1, r10, #0x100
 	strh r4, [r1, #8]
 	mov r0, #0x48
 	strh r0, [r1, #0xa]
-	add r0, r6, sb
+	add r0, r6, r9
 	bl ovl09_2161B80
-	add r0, r5, sb
+	add r0, r5, r9
 	bl ovl09_21641F0
 	ldr r1, _0216DB8C // =0x02175E10
 	ldr r0, [sp, #8]
-	add r2, sl, #0x100
+	add r2, r10, #0x100
 	add r3, r1, r0
-	ldrb r1, [fp, sb]
+	ldrb r1, [r11, r9]
 	ldr r0, [sp, #0xc]
 	orr r1, r1, #0x20
-	strb r1, [fp, sb]
+	strb r1, [r11, r9]
 	mov r1, #0
-	strb r1, [sl, #0xfa]
+	strb r1, [r10, #0xfa]
 	ldrh r1, [r7]
-	add r0, r0, sb
+	add r0, r0, r9
 	mov r1, r1, lsl #1
 	ldrh r1, [r1, r3]
 	strh r1, [r2, #0xb0]
@@ -155,28 +155,28 @@ _0216DA20:
 	bl ovl09_2168EA4
 	ldr r0, [sp, #0x10]
 	mov r1, #0xe000
-	add r0, r0, sb
+	add r0, r0, r9
 	bl ovl09_21641E8
-	add r1, sl, #0x200
+	add r1, r10, #0x200
 	strh r4, [r1, #0x18]
 	mov r0, #0x58
 	strh r0, [r1, #0x1a]
 	ldr r0, [sp, #0xc]
-	add r0, r0, sb
+	add r0, r0, r9
 	bl ovl09_2161B80
 	ldr r0, [sp, #0x10]
-	add r0, r0, sb
+	add r0, r0, r9
 	bl ovl09_21641F0
 	ldr r0, [sp, #0x14]
-	ldrb r2, [r0, sb]
+	ldrb r2, [r0, r9]
 	add r0, r8, #1
 	mov r1, r0, lsl #0x10
 	mov r8, r1, lsr #0x10
 	ldr r0, [sp, #0x14]
 	orr r2, r2, #0x20
-	strb r2, [r0, sb]
+	strb r2, [r0, r9]
 	mov r0, #0
-	strb r0, [sl, #0x20a]
+	strb r0, [r10, #0x20a]
 	cmp r8, #2
 	blo _0216DA20
 	mov r0, #1
@@ -194,7 +194,7 @@ _0216DA20:
 	ldr r1, _0216DB90 // =ovl09_216DC00
 	str r1, [r0]
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216DB80: .word exPauseTask__word_2177B98
 _0216DB84: .word _02175DEC

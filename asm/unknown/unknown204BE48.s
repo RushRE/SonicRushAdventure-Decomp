@@ -5,12 +5,12 @@
 
 	arm_func_start Task__Unknown204BE48__Create
 Task__Unknown204BE48__Create: // 0x0204BE48
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
 	ldrh r5, [sp, #0x44]
 	ldrb r4, [sp, #0x48]
 	mov r6, r3
-	mov sb, r0
+	mov r9, r0
 	mov r8, r1
 	str r5, [sp]
 	mov r7, r2
@@ -29,7 +29,7 @@ Task__Unknown204BE48__Create: // 0x0204BE48
 	mov r1, r4
 	mov r2, #0x28
 	bl MIi_CpuClear16
-	str sb, [r4]
+	str r9, [r4]
 	strh r8, [r4, #0xc]
 	str r7, [r4, #4]
 	ldr r1, [sp, #0x30]
@@ -49,7 +49,7 @@ Task__Unknown204BE48__Create: // 0x0204BE48
 	mov r0, r5
 	strh r1, [r4, #0x14]
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0204BEFC: .word Task__Unknown204BE48__Main
 _0204BF00: .word Task__Unknown204BE48__Destructor

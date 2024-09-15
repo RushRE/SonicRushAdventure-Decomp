@@ -401,7 +401,7 @@ _02167108: .word 0x021730B0
 
 	arm_func_start ViDockNpc__Func_216710C
 ViDockNpc__Func_216710C: // 0x0216710C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r5, r2
 	ldr r2, [r5]
 	mov r4, r3
@@ -422,29 +422,29 @@ ViDockNpc__Func_216710C: // 0x0216710C
 	ldreq r0, [r5, #8]
 	cmpeq r1, r0
 	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
-	ldr sb, [sp, #0x20]
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+	ldr r9, [sp, #0x20]
 	ldr r1, [r7, #0x328]
 	ldr r0, [r7, #0x330]
-	smull r2, r3, r1, sb
+	smull r2, r3, r1, r9
 	adds r8, r2, #0x800
-	smull r2, r1, r0, sb
+	smull r2, r1, r0, r9
 	adc r3, r3, #0
 	adds r0, r2, #0x800
-	mov sb, r8, lsr #0xc
+	mov r9, r8, lsr #0xc
 	adc r1, r1, #0
 	mov r8, r0, lsr #0xc
 	add r0, r7, #8
-	orr sb, sb, r3, lsl #20
+	orr r9, r9, r3, lsl #20
 	orr r8, r8, r1, lsl #20
 	bl CPPHelpers__Func_2085F9C
 	ldr r1, [r0]
 	add r0, r7, #8
-	sub sl, r1, sb
+	sub r10, r1, r9
 	bl CPPHelpers__Func_2085F9C
 	ldr r1, [r0]
 	add r0, r7, #8
-	add sb, sb, r1
+	add r9, r9, r1
 	bl CPPHelpers__Func_2085F9C
 	ldr r1, [r0, #8]
 	add r0, r7, #8
@@ -453,9 +453,9 @@ ViDockNpc__Func_216710C: // 0x0216710C
 	ldr r1, [r0, #8]
 	ldr r0, [r5]
 	add r1, r8, r1
-	cmp r0, sl
+	cmp r0, r10
 	ble _02167200
-	cmp r0, sb
+	cmp r0, r9
 	bge _02167200
 	ldr r0, [r5, #8]
 	cmp r0, r7
@@ -464,14 +464,14 @@ ViDockNpc__Func_216710C: // 0x0216710C
 	blt _02167208
 _02167200:
 	mov r0, #0
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _02167208:
 	ldr r0, [r6]
-	cmp r0, sl
-	strle sl, [r4]
+	cmp r0, r10
+	strle r10, [r4]
 	ble _0216723C
-	cmp r0, sb
-	strge sb, [r4]
+	cmp r0, r9
+	strge r9, [r4]
 	bge _0216723C
 	ldr r0, [r6, #8]
 	cmp r0, r7
@@ -481,48 +481,48 @@ _02167208:
 	strge r1, [r4, #8]
 _0216723C:
 	mov r0, #1
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end ViDockNpc__Func_216710C
 
 	arm_func_start ViDockNpc__Func_2167244
 ViDockNpc__Func_2167244: // 0x02167244
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
-	mov sb, r0
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
+	mov r9, r0
 	mov r8, r1
-	add r0, sb, #8
+	add r0, r9, #8
 	mov r7, r2
 	mov r6, r3
 	ldr r5, [sp, #0x20]
 	bl CPPHelpers__Func_2085F9C
 	ldr r2, [r0]
 	ldr r1, [r8]
-	add r0, sb, #8
+	add r0, r9, #8
 	sub r4, r2, r1
 	bl CPPHelpers__Func_2085F9C
-	add r2, sb, #0x300
-	ldr sl, [r0, #8]
+	add r2, r9, #0x300
+	ldr r10, [r0, #8]
 	ldr r0, [r8, #8]
 	smull r3, r1, r4, r4
-	sub ip, sl, r0
+	sub ip, r10, r0
 	adds r3, r3, #0x800
 	ldrh r2, [r2, #0x12]
-	mov sb, #0xc
+	mov r9, #0xc
 	smull lr, r0, ip, ip
-	mul r8, r2, sb
+	mul r8, r2, r9
 	ldr r2, _02167370 // =0x021730AF
 	mov r3, r3, lsr #0xc
 	ldrb r8, [r2, r8]
 	adc r2, r1, #0
 	adds r1, lr, #0x800
-	smulbb r8, r8, sb
-	ldr sb, _02167374 // =0x0217305C
-	adc sl, r0, #0
+	smulbb r8, r8, r9
+	ldr r9, _02167374 // =0x0217305C
+	adc r10, r0, #0
 	mov r1, r1, lsr #0xc
-	add lr, sb, r8
-	ldr r0, [sb, r8]
+	add lr, r9, r8
+	ldr r0, [r9, r8]
 	ldr r8, [lr, #8]
 	orr r3, r3, r2, lsl #20
-	orr r1, r1, sl, lsl #20
+	orr r1, r1, r10, lsl #20
 	cmp r0, r8
 	movlt r0, r8
 	add r1, r3, r1
@@ -539,7 +539,7 @@ ViDockNpc__Func_2167244: // 0x02167244
 	mov r3, r3, lsr #0xc
 	orr r3, r3, r2, lsl #20
 	cmp r1, r3
-	ldmgtia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmgtia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r0, r7, asr #4
 	mov r2, r0, lsl #1
 	ldr r1, _02167378 // =FX_SinCosTable_
@@ -563,7 +563,7 @@ _0216735C:
 	strne r0, [r5]
 _02167368:
 	mov r0, #1
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02167370: .word 0x021730AF
 _02167374: .word 0x0217305C

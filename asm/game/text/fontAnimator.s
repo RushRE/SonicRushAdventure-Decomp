@@ -31,7 +31,7 @@ FontAnimator__Init: // 0x02058448
 
 	arm_func_start FontAnimator__LoadFont1
 FontAnimator__LoadFont1: // 0x020584A0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x10
 	mov r4, r0
 	mov r6, r1
@@ -140,19 +140,19 @@ _02058640:
 	mov r7, r3
 _02058644:
 	mov r6, r2
-	add sb, r5, r7
+	add r9, r5, r7
 _0205864C:
 	ldrh r1, [r4, #0x10]
 	add r0, lr, r6
 	cmp r0, r1
 	ldrlth r0, [r4, #0x12]
-	cmplt sb, r0
+	cmplt r9, r0
 	bge _0205867C
-	mul r0, r1, sb
-	ldr sl, [r4, #0xb4]
+	mul r0, r1, r9
+	ldr r10, [r4, #0xb4]
 	mov r1, r6, lsl #1
-	add sl, sl, lr, lsl #1
-	add r0, sl, r0, lsl #1
+	add r10, r10, lr, lsl #1
+	add r0, r10, r0, lsl #1
 	strh r8, [r1, r0]
 _0205867C:
 	add r0, r8, #1
@@ -184,7 +184,7 @@ _020586C0:
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	add sp, sp, #0x10
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _020586EC: .word FontAnimator__DefaultThingCallback
 	arm_func_end FontAnimator__LoadFont1
@@ -906,16 +906,16 @@ FontUnknown2058D78__Func_2058F2C: // 0x02058F2C
 
 	arm_func_start FontAnimator__Apply0
 FontAnimator__Apply0: // 0x02058F38
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #8
 	str r0, [sp]
 	str r1, [sp, #4]
 	tst r2, #2
 	addne sp, sp, #8
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	cmp r3, #0
 	addeq sp, sp, #8
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrh r1, [r3, #6]
 	ldrh r4, [r3, #4]
 	ldrh r5, [r3]
@@ -926,33 +926,33 @@ FontAnimator__Apply0: // 0x02058F38
 	add r4, r4, #0x1f
 	mov r0, r4, lsl #0xb
 	mov r5, r3, lsl #0xc
-	mov sb, r1, lsr #0x10
-	cmp sb, r5, lsr #16
+	mov r9, r1, lsr #0x10
+	cmp r9, r5, lsr #16
 	mov r4, r6, lsl #0x10
 	addhs sp, sp, #8
 	mov r0, r0, lsr #0x10
-	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	sub r0, r0, r4, lsr #16
-	cmp sb, r5, lsr #16
+	cmp r9, r5, lsr #16
 	mov r8, r0, lsl #8
 	addhs sp, sp, #8
-	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
-	ldr fp, [sp, #0x30]
-	and sl, r2, #0x10
+	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+	ldr r11, [sp, #0x30]
+	and r10, r2, #0x10
 _02058FBC:
 	ldr r0, [sp]
 	mov r1, r8
 	ldrh r2, [r0, #0x14]
 	ldr r0, [sp, #4]
 	mov r2, r2, asr #2
-	mul r3, r2, sb
+	mul r3, r2, r9
 	add r2, r3, r4, lsr #16
 	ldr r0, [r0, #8]
-	add r6, fp, r2, lsl #8
+	add r6, r11, r2, lsl #8
 	add r7, r0, r2, lsl #8
 	mov r0, r6
 	bl DC_StoreRange
-	cmp sl, #0
+	cmp r10, #0
 	mov r0, r6
 	mov r2, #0
 	mov r1, r8
@@ -964,21 +964,21 @@ _0205900C:
 	mov r3, r7
 	bl QueueUncompressedPixels
 _02059014:
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, r5, lsr #16
+	mov r9, r0, lsr #0x10
+	cmp r9, r5, lsr #16
 	blo _02058FBC
 	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end FontAnimator__Apply0
 
 	arm_func_start FontAnimator__Apply1
 FontAnimator__Apply1: // 0x02059030
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
-	mov sl, r0
-	mov sb, r1
+	mov r10, r0
+	mov r9, r1
 	tst r2, #2
 	bne _02059118
 	cmp r3, #0
@@ -995,10 +995,10 @@ FontAnimator__Apply1: // 0x02059030
 	mov r4, r3, lsl #0xc
 	mov r7, r1, lsr #0x10
 	cmp r7, r4, lsr #16
-	mov fp, r5, lsl #0x10
+	mov r11, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bhs _02059118
-	sub r0, r0, fp, lsr #16
+	sub r0, r0, r11, lsr #16
 	cmp r7, r4, lsr #16
 	mov r8, r0, lsl #8
 	bhs _02059118
@@ -1007,12 +1007,12 @@ FontAnimator__Apply1: // 0x02059030
 	and r0, r2, #0x10
 	str r0, [sp]
 _020590AC:
-	ldrh r0, [sl, #0x14]
-	ldr r2, [sb, #0xc]
+	ldrh r0, [r10, #0x14]
+	ldr r2, [r9, #0xc]
 	mov r1, r8
 	mov r0, r0, asr #2
 	mul r3, r0, r7
-	add r3, r3, fp, lsr #16
+	add r3, r3, r11, lsr #16
 	ldr r0, [sp, #4]
 	add r6, r2, r3, lsl #8
 	add r5, r0, r3, lsl #8
@@ -1037,10 +1037,10 @@ _02059104:
 	cmp r7, r4, lsr #16
 	blo _020590AC
 _02059118:
-	ldr r0, [sb]
+	ldr r0, [r9]
 	ldr r8, [sp, #0x40]
 	cmp r0, #0
-	ldr r0, [sb, #0xc]
+	ldr r0, [r9, #0xc]
 	bne _02059140
 	mov r1, #0x4000000
 	sub r0, r0, #0x6400000
@@ -1065,7 +1065,7 @@ _02059150:
 	cmp r1, r0
 	beq _02059194
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02059184:
 	mov r2, #0
 	b _02059198
@@ -1078,7 +1078,7 @@ _02059198:
 	mov r3, r7, asr r2
 	mov r0, #8
 	mov r2, r0, asr r2
-	ldrh r1, [sl, #0x16]
+	ldrh r1, [r10, #0x16]
 	mov r0, r3, lsl #0x10
 	mov r7, r0, lsr #0x10
 	mov r0, r2, lsl #0x10
@@ -1087,15 +1087,15 @@ _02059198:
 	cmp r1, #0
 	str r0, [sp, #0x10]
 	addle sp, sp, #0x18
-	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrh r0, [sp, #0x48]
 	str r0, [sp, #0xc]
 	ldrh r0, [sp, #0x44]
 	str r0, [sp, #8]
 _020591DC:
-	ldrsh r2, [sb, #6]
+	ldrsh r2, [r9, #6]
 	ldr r0, [sp, #0xc]
-	ldrh r1, [sl, #0x14]
+	ldrh r1, [r10, #0x14]
 	add r0, r2, r0, lsl #3
 	mov r0, r0, lsl #0x10
 	mov r6, #0
@@ -1107,15 +1107,15 @@ _020591DC:
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10
 	ldr r0, _020592C4 // =0x000001FF
-	add fp, r0, #0x200
+	add r11, r0, #0x200
 _02059218:
 	ldr r0, [sp, #8]
-	ldrsh r2, [sb, #4]
+	ldrsh r2, [r9, #4]
 	add r1, r0, r6
-	ldr r0, [sb]
+	ldr r0, [r9]
 	add r1, r2, r1, lsl #3
 	mov r4, r1, lsl #0x10
-	ldrb r1, [sb, #9]
+	ldrb r1, [r9, #9]
 	bl OAMSystem__Alloc
 	ldr r1, _020592C4 // =0x000001FF
 	strh r5, [r0]
@@ -1123,23 +1123,23 @@ _02059218:
 	orr r1, r1, #0x8000
 	strh r1, [r0, #2]
 	ldr r1, [sp, #0x14]
-	and r2, r7, fp
+	and r2, r7, r11
 	add r1, r7, r1, lsr #16
 	mov r1, r1, lsl #0x10
 	mov r7, r1, lsr #0x10
-	ldrb r1, [sb, #8]
-	ldrb r3, [sb, #0xa]
+	ldrb r1, [r9, #8]
+	ldrb r3, [r9, #0xa]
 	add r6, r6, #4
 	orr r1, r2, r1, lsl #10
 	orr r1, r1, r3, lsl #12
 	strh r1, [r0, #4]
-	ldrh r0, [sl, #0x14]
+	ldrh r0, [r10, #0x14]
 	add r8, r8, #0x100
 	cmp r6, r0
 	blt _02059218
 _02059288:
 	ldr r0, [sp, #0x10]
-	ldrh r1, [sl, #0x16]
+	ldrh r1, [r10, #0x16]
 	add r0, r0, #2
 	str r0, [sp, #0x10]
 	ldr r0, [sp, #0xc]
@@ -1149,7 +1149,7 @@ _02059288:
 	cmp r0, r1
 	blt _020591DC
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020592B8: .word 0x04001000
 _020592BC: .word 0x00300010

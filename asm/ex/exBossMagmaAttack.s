@@ -218,24 +218,24 @@ _0215FD5C: .word 0x00003FFC
 
 	arm_func_start ovl09_215FD60
 ovl09_215FD60: // 0x0215FD60
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, #0
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, #0
 	ldr r7, _0215FE00 // =exBossMagmaAttackTask__AnimTable
 	ldr r6, _0215FE04 // =exBossMagmaAttackTask__FileTable
 	mov r5, r0
 	mov r4, r1
-	mov r8, sb
+	mov r8, r9
 _0215FD7C:
 	str r8, [sp]
-	ldr r1, [r7, sb, lsl #2]
-	ldr r2, [r6, sb, lsl #2]
+	ldr r1, [r7, r9, lsl #2]
+	ldr r2, [r6, r9, lsl #2]
 	mov r3, r4
 	add r0, r5, #0x20
 	bl AnimatorMDL__SetAnimation
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #2
+	mov r9, r0, lsr #0x10
+	cmp r9, #2
 	blo _0215FD7C
 	ldr r1, _0215FE08 // =exBossMagmaAttackTask__ActiveInstanceCount
 	add r0, r5, #0x300
@@ -260,7 +260,7 @@ _0215FDF0:
 	add r3, r3, #1
 	cmp r3, #5
 	blo _0215FDD0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0215FE00: .word exBossMagmaAttackTask__AnimTable
 _0215FE04: .word exBossMagmaAttackTask__FileTable

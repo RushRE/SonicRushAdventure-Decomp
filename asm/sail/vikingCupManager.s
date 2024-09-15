@@ -61,12 +61,12 @@ _02063CF0: .word 0x0211162F
 
 	arm_func_start MultibootManager__Func_2063CF4
 MultibootManager__Func_2063CF4: // 0x02063CF4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	ldr r6, _02063E2C // =_0211160C
 	add r4, sp, #0
-	mov sl, r0
-	mov sb, r1
+	mov r10, r0
+	mov r9, r1
 	mov r5, r4
 	ldmia r6!, {r0, r1, r2, r3}
 	mov r8, #0
@@ -75,33 +75,33 @@ MultibootManager__Func_2063CF4: // 0x02063CF4
 	stmia r4, {r0, r1, r2, r3}
 	ldr r4, _02063E30 // =0x000036A0
 	mov r7, r8
-	str r8, [sl]
-	mov fp, r8
+	str r8, [r10]
+	mov r11, r8
 _02063D34:
 	cmp r8, #6
 	ldr r6, [r5, r8, lsl #2]
 	bne _02063D68
 	mov r0, #0
-	umull r2, r1, sb, r4
-	mla r1, sb, r0, r1
-	mov r0, sb, asr #0x1f
+	umull r2, r1, r9, r4
+	mla r1, r9, r0, r1
+	mov r0, r9, asr #0x1f
 	mla r1, r0, r4, r1
 	mov r0, #0x800
 	adds r2, r2, r0
-	adc r0, r1, fp
-	mov sb, r2, lsr #0xc
-	orr sb, sb, r0, lsl #20
+	adc r0, r1, r11
+	mov r9, r2, lsr #0xc
+	orr r9, r9, r0, lsl #20
 _02063D68:
-	cmp sb, r6
+	cmp r9, r6
 	blo _02063D90
-	mov r0, sb
+	mov r0, r9
 	mov r1, r6
 	bl FX_DivS32
 	mul r1, r0, r6
-	ldr r2, [sl]
-	sub sb, sb, r1
+	ldr r2, [r10]
+	sub r9, r9, r1
 	orr r0, r2, r0, lsl r7
-	str r0, [sl]
+	str r0, [r10]
 _02063D90:
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
@@ -109,40 +109,40 @@ _02063D90:
 	cmp r8, #7
 	add r7, r7, #4
 	blt _02063D34
-	ldr r1, [sl]
+	ldr r1, [r10]
 	mov r0, r8, lsl #2
-	orr r1, r1, sb, lsl r0
+	orr r1, r1, r9, lsl r0
 	mov r0, r0, lsl #0x10
 	mov r8, r0, asr #0x10
 	cmp r8, r8, asr #1
 	mov r3, r8
 	addlt sp, sp, #0x20
-	str r1, [sl]
+	str r1, [r10]
 	mov r2, r8, asr #1
-	ldmltia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmltia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, #0xf
 _02063DD8:
-	ldr sb, [sl]
+	ldr r9, [r10]
 	sub r1, r3, r8
-	and r4, sb, r0, lsl r8
-	and r6, sb, r0, lsl r1
+	and r4, r9, r0, lsl r8
+	and r6, r9, r0, lsl r1
 	mov r7, r0, lsl r8
 	mov r5, r4, lsr r8
 	orr r4, r7, r0, lsl r1
 	mov r6, r6, lsr r1
 	mov r1, r5, lsl r1
 	mvn r4, r4
-	and r7, sb, r4
+	and r7, r9, r4
 	orr r1, r1, r6, lsl r8
 	sub r4, r8, #4
 	mov r4, r4, lsl #0x10
 	orr r1, r7, r1
-	str r1, [sl]
+	str r1, [r10]
 	cmp r2, r4, asr #16
 	mov r8, r4, asr #0x10
 	ble _02063DD8
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02063E2C: .word _0211160C
 _02063E30: .word 0x000036A0

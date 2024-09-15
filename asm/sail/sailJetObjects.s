@@ -531,12 +531,12 @@ _0216D3FC: .word aSbBirdNsbmd_0
 
 	arm_func_start EffectSailFlash__CreateFromJohnny
 EffectSailFlash__CreateFromJohnny: // 0x0216D400
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x50
 	add r3, sp, #0x44
 	mov r2, #0
 	add r1, sp, #0x38
-	mov sl, r0
+	mov r10, r0
 	str r2, [r3]
 	str r2, [r3, #4]
 	str r2, [r3, #8]
@@ -545,7 +545,7 @@ EffectSailFlash__CreateFromJohnny: // 0x0216D400
 	str r2, [r1, #8]
 	bl SailManager__GetWork
 	mov r4, r0
-	ldr fp, [sl, #0x124]
+	ldr r11, [r10, #0x124]
 	bl SailManager__GetWork
 	ldrh r1, [r4, #0x10]
 	mov r7, #0x1000
@@ -555,7 +555,7 @@ EffectSailFlash__CreateFromJohnny: // 0x0216D400
 	str r0, [sp]
 	mov r0, #0x1000
 	rsb r0, r0, #0
-	mov sb, #0
+	mov r9, #0
 	rsb r7, r7, #0
 	str r0, [sp, #4]
 	add r6, sp, #8
@@ -567,9 +567,9 @@ _0216D478:
 	mov r0, #0
 	str r7, [sp, #0x48]
 	str r0, [sp, #0x4c]
-	ldr r1, [fp, #0x178]
+	ldr r1, [r11, #0x178]
 	ldr r0, [r8, #0x44]
-	cmp sb, #0
+	cmp r9, #0
 	sub r2, r1, r0
 	rsb r0, r2, #0
 	mov r1, r0, asr #4
@@ -584,7 +584,7 @@ _0216D478:
 	ldr r0, [sp, #4]
 	str r0, [sp, #0x44]
 _0216D4CC:
-	ldrh r1, [sl, #0x32]
+	ldrh r1, [r10, #0x32]
 	mov r0, r6
 	mov r1, r1, asr #4
 	mov r2, r1, lsl #1
@@ -600,7 +600,7 @@ _0216D4CC:
 	mov r2, r5
 	bl MTX_MultVec33
 	mov r0, r5
-	add r1, sl, #0x44
+	add r1, r10, #0x44
 	mov r2, r5
 	bl VEC_Add
 	add r0, sp, #0x38
@@ -614,19 +614,19 @@ _0216D4CC:
 	mov r2, r4
 	bl VEC_Add
 	ldr r3, [sp]
-	mov r0, sl
+	mov r0, r10
 	mov r1, r5
 	mov r2, r4
 	bl SailTorpedo2__Create
 	mov r0, r5
 	bl EffectSailFlash__Create
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #2
+	mov r9, r0, lsr #0x10
+	cmp r9, #2
 	blo _0216D478
 	add sp, sp, #0x50
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216D578: .word FX_SinCosTable_
 	arm_func_end EffectSailFlash__CreateFromJohnny

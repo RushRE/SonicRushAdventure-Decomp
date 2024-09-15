@@ -5,7 +5,7 @@
 
 	arm_func_start Unknown2051334__Func_2051334
 Unknown2051334__Func_2051334: // 0x02051334
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r7, r0
 	sub r4, r2, r7
 	mov r6, r1
@@ -13,27 +13,27 @@ Unknown2051334__Func_2051334: // 0x02051334
 	ldr r1, [sp, #0x24]
 	ldr r0, [sp, #0x20]
 	smull r2, r8, r1, r5
-	adds sb, r2, #0x800
+	adds r9, r2, #0x800
 	smull r2, r3, r0, r4
 	adc r1, r8, #0
 	adds r8, r2, #0x800
-	mov r2, sb, lsr #0xc
-	smull r0, sb, r7, r4
+	mov r2, r9, lsr #0xc
+	smull r0, r9, r7, r4
 	adc lr, r3, #0
 	adds ip, r0, #0x800
 	mov r0, r8, lsr #0xc
 	smull r3, r8, r6, r5
 	orr r2, r2, r1, lsl #20
 	orr r0, r0, lr, lsl #20
-	adc r1, sb, #0
-	mov sb, ip, lsr #0xc
-	orr sb, sb, r1, lsl #20
-	sub r0, r0, sb
-	adds sb, r3, #0x800
+	adc r1, r9, #0
+	mov r9, ip, lsr #0xc
+	orr r9, r9, r1, lsl #20
+	sub r0, r0, r9
+	adds r9, r3, #0x800
 	smull r1, r3, r4, r4
 	add ip, r2, r0
 	adc r0, r8, #0
-	mov r2, sb, lsr #0xc
+	mov r2, r9, lsr #0xc
 	orr r2, r2, r0, lsl #20
 	sub r0, ip, r2
 	adds r8, r1, #0x800
@@ -47,7 +47,7 @@ Unknown2051334__Func_2051334: // 0x02051334
 	orr r2, r2, r1, lsl #20
 	add r1, r8, r2
 	mov r8, r4, asr #0x1f
-	mov sb, r5, asr #0x1f
+	mov r9, r5, asr #0x1f
 	bl FX_Div
 	ldr r1, [sp, #0x28]
 	cmp r1, #0
@@ -65,57 +65,57 @@ Unknown2051334__Func_2051334: // 0x02051334
 _02051418:
 	ldr r4, [sp, #0x2c]
 	cmp r4, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r1, r0, asr #0x1f
 	umull r3, r2, r5, r0
 	mla r2, r5, r1, r2
 	adds r1, r3, #0x800
-	mla r2, sb, r0, r2
+	mla r2, r9, r0, r2
 	adc r0, r2, #0
 	mov r1, r1, lsr #0xc
 	orr r1, r1, r0, lsl #20
 	add r0, r6, r1
 	str r0, [r4]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end Unknown2051334__Func_2051334
 
 	arm_func_start Unknown2051334__Func_2051450
 Unknown2051334__Func_2051450: // 0x02051450
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x10
 	ldr r7, [sp, #0x30]
 	ldr r8, [sp, #0x34]
-	ldr sb, [sp, #0x3c]
+	ldr r9, [sp, #0x3c]
 	sub r4, r0, r7
-	sub r5, sb, r8
-	smull r4, sl, r5, r4
+	sub r5, r9, r8
+	smull r4, r10, r5, r4
 	adds ip, r4, #0x800
 	ldr lr, [sp, #0x38]
 	sub r5, r1, r8
 	sub r4, lr, r7
 	smull r6, r5, r4, r5
-	adc sl, sl, #0
+	adc r10, r10, #0
 	adds r4, r6, #0x800
 	mov r6, ip, lsr #0xc
 	adc r5, r5, #0
 	mov r4, r4, lsr #0xc
-	orr r6, r6, sl, lsl #20
+	orr r6, r6, r10, lsl #20
 	orr r4, r4, r5, lsl #20
 	sub r4, r6, r4
 	cmp r4, #0
 	mov r4, #0
 	addle sp, sp, #0x10
 	movle r0, r4
-	ldmleia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	stmia sp, {r0, r1, r2, r3}
 	mov r0, lr
-	mov r1, sb
+	mov r1, r9
 	mov r2, r7
 	mov r3, r8
 	bl Unknown2051334__Func_2051334
 	mov r0, #1
 	add sp, sp, #0x10
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end Unknown2051334__Func_2051450
 
 	arm_func_start Unknown2051334__Func_20514DC

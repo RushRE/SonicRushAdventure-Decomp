@@ -746,20 +746,20 @@ _02052B48:
 
 	arm_func_start FontFile__Func_2052B7C
 FontFile__Func_2052B7C: // 0x02052B7C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x28
 	str r1, [sp, #0x1c]
-	mov sl, r0
+	mov r10, r0
 	mov r6, r2
-	mov fp, r3
-	ldr sb, [sp, #0x58]
+	mov r11, r3
+	ldr r9, [sp, #0x58]
 	ldr r8, [sp, #0x5c]
 	bl FontFile__GetCharXAdvance
 	mov r5, r0
-	mov r0, sl
+	mov r0, r10
 	bl FontFile__GetPixelHeight
 	mov r7, r0
-	mov r0, sl
+	mov r0, r10
 	bl FontFile__GetPixelWidth2
 	str r0, [sp, #0x24]
 	cmp r6, #0
@@ -772,7 +772,7 @@ FontFile__Func_2052B7C: // 0x02052B7C
 	mov r0, r0, lsl #0x13
 	mov r6, r0, lsr #0x10
 _02052BE0:
-	add r0, sb, r6
+	add r0, r9, r6
 	ldr r1, [sp, #0x68]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, asr #0x10
@@ -789,11 +789,11 @@ _02052BE0:
 	b _02052C50
 _02052C1C:
 	sub r0, r6, r5
-	add r1, sb, r0, asr #1
+	add r1, r9, r0, asr #1
 	mov r0, r5, lsl #0x10
 	mov r1, r1, lsl #0x10
 	mov r6, r0, asr #0x10
-	mov sb, r1, asr #0x10
+	mov r9, r1, asr #0x10
 	mov r4, #0
 	b _02052C50
 _02052C3C:
@@ -804,15 +804,15 @@ _02052C3C:
 	mov r6, r0, asr #0x10
 _02052C50:
 	mov r0, r7, lsl #0x10
-	cmp sb, #0
+	cmp r9, #0
 	mov r7, r0, asr #0x10
 	mov r5, #0
 	bge _02052C80
-	add r0, r6, sb
-	sub r1, r4, sb
+	add r0, r6, r9
+	sub r1, r4, r9
 	mov r0, r0, lsl #0x10
 	mov r1, r1, lsl #0x10
-	mov sb, r5
+	mov r9, r5
 	mov r6, r0, asr #0x10
 	mov r4, r1, asr #0x10
 _02052C80:
@@ -827,7 +827,7 @@ _02052C80:
 	mov r8, #0
 _02052CA4:
 	ldrh r0, [sp, #0x50]
-	add r1, sb, r6
+	add r1, r9, r6
 	sub r0, r1, r0, lsl #3
 	cmp r0, #0
 	subgt r0, r6, r0
@@ -844,10 +844,10 @@ _02052CA4:
 	cmpgt r7, #0
 	ldrle r0, [sp, #0x20]
 	addle sp, sp, #0x28
-	ldmleia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp, #0x64]
 	cmp r0, #0
-	mov r0, sl
+	mov r0, r10
 	beq _02052D64
 	ldr r1, [sp, #0x1c]
 	bl FontFile__GetPixels
@@ -857,8 +857,8 @@ _02052CA4:
 	str r6, [sp]
 	mov r1, r1, lsr #0x10
 	ldrh r6, [sp, #0x50]
-	stmib sp, {r1, fp}
-	mov r2, sb, lsl #0x10
+	stmib sp, {r1, r11}
+	mov r2, r9, lsl #0x10
 	str r6, [sp, #0xc]
 	mov r1, r2, lsr #0x10
 	mov r4, r4, lsl #0x10
@@ -883,8 +883,8 @@ _02052D64:
 	str r6, [sp]
 	mov r1, r1, lsr #0x10
 	ldrh r6, [sp, #0x50]
-	stmib sp, {r1, fp}
-	mov r2, sb, lsl #0x10
+	stmib sp, {r1, r11}
+	mov r2, r9, lsl #0x10
 	str r6, [sp, #0xc]
 	mov r1, r2, lsr #0x10
 	mov r4, r4, lsl #0x10
@@ -902,17 +902,17 @@ _02052D64:
 _02052DC4:
 	ldr r0, [sp, #0x20]
 	add sp, sp, #0x28
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end FontFile__Func_2052B7C
 
 	arm_func_start FontFile__Func_2052DD0
 FontFile__Func_2052DD0: // 0x02052DD0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x1c
 	mov r7, r3
-	mov sb, r0
+	mov r9, r0
 	mov r0, r7
-	mov sl, r1
+	mov r10, r1
 	mov r8, r2
 	ldr r6, [sp, #0x44]
 	bl Unknown2056570__Func_2056834
@@ -922,35 +922,35 @@ FontFile__Func_2052DD0: // 0x02052DD0
 	mov r4, r0
 	mov r0, r7
 	bl Unknown2056570__Func_205682C
-	mov r1, sl
+	mov r1, r10
 	mov r3, r5
 	mov r5, r0
 	str r4, [sp]
 	mov r2, r8
-	ldrsh sl, [sp, #0x40]
+	ldrsh r10, [sp, #0x40]
 	str r5, [sp, #4]
 	ldrh r8, [sp, #0x48]
-	str sl, [sp, #8]
+	str r10, [sp, #8]
 	str r6, [sp, #0xc]
 	str r8, [sp, #0x10]
 	ldr r0, [sp, #0x4c]
 	ldr r8, [sp, #0x50]
 	str r0, [sp, #0x14]
-	mov r0, sb
+	mov r0, r9
 	str r8, [sp, #0x18]
 	bl FontFile__Func_2052B7C
 	mov r8, r0
-	mov r0, sb
-	ldrsh sb, [sp, #0x40]
-	mov sl, r8
+	mov r0, r9
+	ldrsh r9, [sp, #0x40]
+	mov r10, r8
 	bl FontFile__GetPixelHeight
 	ldrsh r1, [sp, #0x40]
 	add r0, r6, r0
 	mov r0, r0, lsl #0x10
 	cmp r1, #0
-	movlt sb, #0
-	mov r1, sb, asr #3
-	cmp r4, sb, asr #3
+	movlt r9, #0
+	mov r1, r9, asr #3
+	cmp r4, r9, asr #3
 	suble r1, r4, #1
 	movle r1, r1, lsl #0x10
 	movle r1, r1, asr #0x10
@@ -962,8 +962,8 @@ FontFile__Func_2052DD0: // 0x02052DD0
 	movle r2, r2, lsl #0x10
 	movle r2, r2, asr #0x10
 	cmp r8, #0
-	movlt sl, #0
-	add r3, sl, #7
+	movlt r10, #0
+	add r3, r10, #7
 	mov r3, r3, lsl #0xd
 	cmp r4, r3, asr #16
 	mov r3, r3, asr #0x10
@@ -997,13 +997,13 @@ FontFile__Func_2052DD0: // 0x02052DD0
 _02052F2C:
 	mov r0, r8
 	add sp, sp, #0x1c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end FontFile__Func_2052DD0
 
 	arm_func_start FontFile__Func_2052F38
 FontFile__Func_2052F38: // 0x02052F38
 	stmdb sp!, {r0, r1, r2, r3}
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x28
 	mov r8, r0
 	ldr r0, [sp, #0x78]
@@ -1011,8 +1011,8 @@ FontFile__Func_2052F38: // 0x02052F38
 	mov r6, r2
 	mov r5, r3
 	bl STD_GetStringLength
-	mov sb, r0
-	add r0, sb, #1
+	mov r9, r0
+	add r0, r9, #1
 	mov r0, r0, lsl #1
 	bl _AllocHeadHEAP_SYSTEM
 	mov r1, #0
@@ -1025,7 +1025,7 @@ FontFile__Func_2052F38: // 0x02052F38
 	mov r2, r6
 	mov r3, r5
 	ldrh r7, [sp, #0x58]
-	mov ip, sb, lsl #1
+	mov ip, r9, lsl #1
 	mov r5, #0
 	strh r5, [r4, ip]
 	str r7, [sp]
@@ -1053,7 +1053,7 @@ FontFile__Func_2052F38: // 0x02052F38
 	mov r0, r4
 	bl _FreeHEAP_SYSTEM
 	add sp, sp, #0x28
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	add sp, sp, #0x10
 	bx lr
 	arm_func_end FontFile__Func_2052F38
@@ -1061,7 +1061,7 @@ FontFile__Func_2052F38: // 0x02052F38
 	arm_func_start FontFile__Func_2053010
 FontFile__Func_2053010: // 0x02053010
 	stmdb sp!, {r0, r1, r2, r3}
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x20
 	mov r8, r0
 	ldr r0, [sp, #0x68]
@@ -1069,8 +1069,8 @@ FontFile__Func_2053010: // 0x02053010
 	mov r6, r2
 	mov r5, r3
 	bl STD_GetStringLength
-	mov sb, r0
-	add r0, sb, #1
+	mov r9, r0
+	add r0, r9, #1
 	mov r0, r0, lsl #1
 	bl _AllocHeadHEAP_SYSTEM
 	mov r1, #0
@@ -1083,7 +1083,7 @@ FontFile__Func_2053010: // 0x02053010
 	mov r2, r6
 	mov r3, r5
 	ldrsh r7, [sp, #0x50]
-	mov ip, sb, lsl #1
+	mov ip, r9, lsl #1
 	mov r5, #0
 	strh r5, [r4, ip]
 	ldrsh r6, [sp, #0x54]
@@ -1107,7 +1107,7 @@ FontFile__Func_2053010: // 0x02053010
 	mov r0, r4
 	bl _FreeHEAP_SYSTEM
 	add sp, sp, #0x20
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	add sp, sp, #0x10
 	bx lr
 	arm_func_end FontFile__Func_2053010
@@ -1144,22 +1144,22 @@ FontFile__Func_20530D8: // 0x020530D8
 
 	arm_func_start FontFile__Func_2053140
 FontFile__Func_2053140: // 0x02053140
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x228
 	sub sp, sp, #0x400
 	str r3, [sp, #0x1c]
 	ldr r3, [sp, #0x650]
-	mov sb, r1
+	mov r9, r1
 	str r3, [sp, #0x650]
 	ldr r3, [sp, #0x654]
 	add r1, sp, #0x400
 	str r3, [sp, #0x654]
 	ldr r8, [sp, #0x658]
 	ldr r3, [sp, #0x65c]
-	mov sl, r0
+	mov r10, r0
 	str r3, [sp, #0x65c]
 	ldr r3, [sp, #0x660]
-	mov fp, r2
+	mov r11, r2
 	str r3, [sp, #0x660]
 	ldr r3, [sp, #0x664]
 	ldr r6, [sp, #0x670]
@@ -1209,13 +1209,13 @@ _020531E4:
 	str r1, [sp]
 	bl STD_ConvertStringSjisToUnicode
 _0205323C:
-	cmp fp, #0
+	cmp r11, #0
 	bne _02053250
-	mov r0, sl
+	mov r0, r10
 	bl FontFile__GetPixelHeight
-	mov fp, r0
+	mov r11, r0
 _02053250:
-	cmp sb, #0
+	cmp r9, #0
 	movne r0, #1
 	strne r0, [sp, #0x20]
 	moveq r0, #0
@@ -1226,8 +1226,8 @@ _02053250:
 	movne r0, r0, lsl #0x10
 	add r2, sp, #0x400
 	movne r5, r0, lsr #0x10
-	mov r0, sl
-	mov r1, fp
+	mov r0, r10
+	mov r1, r11
 	add r2, r2, #0x28
 	bl FontFile__GetTextHeight
 	ldr r1, _020534F4 // =0x55555556
@@ -1286,15 +1286,15 @@ _02053344:
 	mov r4, r8
 	b _02053378
 _0205334C:
-	mov r0, sl
-	mov r1, sb
+	mov r0, r10
+	mov r1, r9
 	mov r2, r6
 	bl FontFile__GetTextWidth
 	sub r4, r8, r0, lsr #1
 	b _02053378
 _02053364:
-	mov r0, sl
-	mov r1, sb
+	mov r0, r10
+	mov r1, r9
 	mov r2, r6
 	bl FontFile__GetTextWidth
 	sub r4, r8, r0
@@ -1307,7 +1307,7 @@ _02053388:
 	cmp r0, #0xa
 	bne _020533E8
 	cmp r7, #0
-	add r5, r5, fp
+	add r5, r5, r11
 	beq _020533B0
 	cmp r7, #1
 	beq _020533B8
@@ -1318,15 +1318,15 @@ _020533B0:
 	mov r4, r8
 	b _02053448
 _020533B8:
-	mov r0, sl
-	mov r1, sb
+	mov r0, r10
+	mov r1, r9
 	add r2, r6, #2
 	bl FontFile__GetTextWidth
 	sub r4, r8, r0, lsr #1
 	b _02053448
 _020533D0:
-	mov r0, sl
-	mov r1, sb
+	mov r0, r10
+	mov r1, r9
 	add r2, r6, #2
 	bl FontFile__GetTextWidth
 	sub r4, r8, r0
@@ -1347,13 +1347,13 @@ _020533E8:
 	mov r0, r0, asr #0x10
 	str r0, [sp, #0xc]
 	ldr r0, [sp, #0x660]
-	mov r2, sb
+	mov r2, r9
 	str r0, [sp, #0x10]
 	ldr r0, [sp, #0x664]
 	str r0, [sp, #0x14]
 	ldr r0, [sp, #0x20]
 	str r0, [sp, #0x18]
-	mov r0, sl
+	mov r0, r10
 	bl FontFile__Func_2052B7C
 	mov r4, r0
 _02053448:
@@ -1365,11 +1365,11 @@ _02053454:
 	cmp r0, #0
 	addeq sp, sp, #0x228
 	addeq sp, sp, #0x400
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r2, sp, #0x400
 	add r2, r2, #0x28
-	mov r0, sl
-	mov r1, fp
+	mov r0, r10
+	mov r1, r11
 	bl FontFile__GetLineLength
 	cmp r7, #0
 	beq _020534AC
@@ -1401,7 +1401,7 @@ _020534AC:
 	strh r5, [r0, #0xa]
 	add sp, sp, #0x228
 	add sp, sp, #0x400
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _020534F0: .word 0x000001FE
 _020534F4: .word 0x55555556
@@ -1409,16 +1409,16 @@ _020534F4: .word 0x55555556
 
 	arm_func_start FontFile__Func_20534F8
 FontFile__Func_20534F8: // 0x020534F8
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x34
 	mov r7, r3
-	mov sl, r0
+	mov r10, r0
 	mov r0, r7
-	mov sb, r1
+	mov r9, r1
 	mov r8, r2
 	ldr r6, [sp, #0x6c]
 	bl Unknown2056570__Func_2056834
-	mov fp, r0
+	mov r11, r0
 	mov r0, r7
 	bl Unknown2056570__Func_2056824
 	mov r4, r0
@@ -1442,10 +1442,10 @@ FontFile__Func_20534F8: // 0x020534F8
 	str r6, [sp, #0x1c]
 	str r0, [sp, #0x20]
 	ldr ip, [sp, #0x74]
-	mov r0, sl
-	mov r1, sb
+	mov r0, r10
+	mov r1, r9
 	mov r2, r8
-	mov r3, fp
+	mov r3, r11
 	str ip, [sp, #0x24]
 	bl FontFile__Func_2053140
 	ldrsh r2, [r6]
@@ -1487,7 +1487,7 @@ FontFile__Func_20534F8: // 0x020534F8
 	cmp r2, r0
 	cmplt r3, r1
 	addge sp, sp, #0x34
-	ldmgeia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmgeia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r1, r1, lsl #0x10
 	mov r2, r2, lsl #0x10
 	mov r3, r3, lsl #0x10
@@ -1500,7 +1500,7 @@ FontFile__Func_20534F8: // 0x020534F8
 	str r5, [sp]
 	bl Unknown2056570__Func_2056958
 	add sp, sp, #0x34
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end FontFile__Func_20534F8
 
 	arm_func_start FontFile__GetTextHeight

@@ -218,9 +218,9 @@ _021685F0:
 
 	arm_func_start ViDockNpcGroup__Func_2168608
 ViDockNpcGroup__Func_2168608: // 0x02168608
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, r0
-	ldr r4, [sb, #8]
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r0
+	ldr r4, [r9, #8]
 	mov r8, r1
 	cmp r4, #0
 	moveq r4, #0
@@ -238,23 +238,23 @@ _02168634:
 	bl ViDockNpc__Func_216710C
 	cmp r0, #0
 	movne r0, r4
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-	mov r0, sb
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+	mov r0, r9
 	mov r1, r4
 	bl ViDockNpcGroup__Func_216852C
 	movs r4, r0
 	bne _02168634
 _0216866C:
 	mov r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end ViDockNpcGroup__Func_2168608
 
 	arm_func_start ViDockNpcGroup__Func_2168674
 ViDockNpcGroup__Func_2168674: // 0x02168674
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r8, r1
 	ldr r1, [sp, #0x24]
-	mov sb, r0
+	mov r9, r0
 	mov r7, r2
 	mov r6, r3
 	cmp r1, #0
@@ -264,7 +264,7 @@ ViDockNpcGroup__Func_2168674: // 0x02168674
 	mov r4, r0
 	b _021686B0
 _021686A4:
-	ldr r4, [sb, #8]
+	ldr r4, [r9, #8]
 	cmp r4, #0
 	moveq r4, #0
 _021686B0:
@@ -279,15 +279,15 @@ _021686B8:
 	bl ViDockNpc__Func_2167244
 	cmp r0, #0
 	movne r0, r4
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
-	mov r0, sb
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
+	mov r0, r9
 	mov r1, r4
 	bl ViDockNpcGroup__Func_216852C
 	movs r4, r0
 	bne _021686B8
 _021686F0:
 	mov r0, #0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end ViDockNpcGroup__Func_2168674
 
 	arm_func_start ViDockNpcGroup__Func_21686F8

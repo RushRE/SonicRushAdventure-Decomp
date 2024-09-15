@@ -378,24 +378,24 @@ _02157020: .word 0x00007FF8
 
 	arm_func_start ovl09_2157024
 ovl09_2157024: // 0x02157024
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, #0
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, #0
 	ldr r7, _021570EC // =0x021760F8
 	ldr r6, _021570F0 // =0x021760A8
 	mov r5, r0
 	mov r4, r1
-	mov r8, sb
+	mov r8, r9
 _02157040:
 	str r8, [sp]
-	ldr r1, [r7, sb, lsl #2]
-	ldr r2, [r6, sb, lsl #2]
+	ldr r1, [r7, r9, lsl #2]
+	ldr r2, [r6, r9, lsl #2]
 	mov r3, r4
 	add r0, r5, #0x20
 	bl AnimatorMDL__SetAnimation
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #3
+	mov r9, r0, lsr #0x10
+	cmp r9, #3
 	blo _02157040
 	ldr r0, _021570F4 // =exBossEffectHomingTask__ActiveInstanceCount
 	ldr r0, [r0, #0x6c]
@@ -430,7 +430,7 @@ _021570DC:
 	add r3, r3, #1
 	cmp r3, #5
 	blo _021570BC
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021570EC: .word 0x021760F8
 _021570F0: .word 0x021760A8

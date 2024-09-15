@@ -256,10 +256,10 @@ _02154EEC: .word FX_SinCosTable_
 
 	arm_func_start SailEventManager__ProcessSBB
 SailEventManager__ProcessSBB: // 0x02154EF0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	bl SailManager__GetWork
-	ldr fp, [r0, #0xa0]
+	ldr r11, [r0, #0xa0]
 	bl SailManager__GetWork
 	ldr r5, [r0, #0x98]
 	bl SailManager__GetWork
@@ -280,7 +280,7 @@ SailEventManager__ProcessSBB: // 0x02154EF0
 	ldrh r0, [r5, #0xb8]
 	cmp r0, #1
 	addlo sp, sp, #0xc
-	ldmloia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmloia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl SailManager__GetShipType
 	cmp r0, #3
 	bne _02154F90
@@ -295,7 +295,7 @@ SailEventManager__ProcessSBB: // 0x02154EF0
 	cmp r2, #2
 	str r0, [sp, #4]
 	addlo sp, sp, #0xc
-	ldmloia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmloia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02154F90:
 	cmp r7, #0
 	mov r4, #0
@@ -321,26 +321,26 @@ _02154FC4:
 	cmp r0, #0
 	beq _02155144
 _02154FE4:
-	ldr r2, [fp, #0x48]
-	mov sl, #0
+	ldr r2, [r11, #0x48]
+	mov r10, #0
 	ldr r1, [r2]
-	mov sb, sl
+	mov r9, r10
 	add r4, r2, r1
 	ldrh r0, [r4, #8]
 	ldr r1, [r2, r1]
-	mov fp, sl
+	mov r11, r10
 	add r0, r0, #1
 	strh r0, [r5, #0xb8]
 	add r6, r4, r1
 _02155010:
 	mov r0, #0xc
-	mla r7, sb, r0, r6
+	mla r7, r9, r0, r6
 	ldr r1, [r5, #0xc0]
 	mov r0, #0x28
-	mla r8, sb, r0, r1
+	mla r8, r9, r0, r1
 	mov r0, #0
 	strh r0, [r8, #8]
-	strh sb, [r8, #6]
+	strh r9, [r8, #6]
 	bl SailManager__GetShipType
 	cmp r0, #1
 	mov r0, #0
@@ -356,36 +356,36 @@ _02155054:
 	mov r0, r0, lsl #8
 	strh r0, [r8, #4]
 _02155064:
-	strb fp, [r8]
+	strb r11, [r8]
 	ldrh r0, [r7, #6]
 	tst r0, #4
 	beq _02155090
 	mov r0, #0xc
 	strh r0, [r8, #8]
-	mov r0, sl
-	mov r1, sb
-	mov r2, fp
+	mov r0, r10
+	mov r1, r9
+	mov r2, r11
 	bl SailJetRaceGoalHUD__Create
-	mov sl, sb
+	mov r10, r9
 _02155090:
 	ldrh r0, [r4, #8]
-	cmp sb, r0
+	cmp r9, r0
 	beq _021550B0
-	add r0, sb, #1
+	add r0, r9, #1
 	mov r0, r0, lsl #0x10
-	mov sb, r0, lsr #0x10
-	cmp sb, #0xff
+	mov r9, r0, lsr #0x10
+	cmp r9, #0xff
 	blo _02155010
 _021550B0:
-	mov r0, sl
-	mov r1, sb
+	mov r0, r10
+	mov r1, r9
 	mov r2, #1
 	bl SailJetRaceGoalHUD__Create
 	mov r0, #0x28
-	sub r2, sb, #1
+	sub r2, r9, #1
 	mul r1, r2, r0
 	ldr r2, [r5, #0xc0]
-	mul r0, sb, r0
+	mul r0, r9, r0
 	add r2, r2, r1
 	mov r3, #0
 	strh r3, [r2, #4]
@@ -405,7 +405,7 @@ _021550B0:
 	ldrne r2, [r2, #0x18]
 	cmpne r2, #0
 	addeq sp, sp, #0xc
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r2, [r5, #0xc0]
 	mov r3, #0xe
 	strb r3, [r2, r1]
@@ -413,7 +413,7 @@ _021550B0:
 	mov r2, #0xf
 	strb r2, [r1, r0]
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02155144:
 	ldr r0, [sp, #8]
 	ldrh r0, [r0, #0x12]
@@ -448,41 +448,41 @@ _02155144:
 _021551BC:
 	cmp r7, #0x100
 	addhs sp, sp, #0xc
-	ldmhsia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmhsia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _021551C8:
 	ldrh r0, [r5, #0xb8]
 	cmp r7, r0
 	addeq sp, sp, #0xc
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r4, [r5, #0xc0]
 	mov r0, #0x28
 	mla r0, r7, r0, r4
 	ldr r2, [r6]
-	ldrh r1, [fp, #0x34]
+	ldrh r1, [r11, #0x34]
 	add r3, r6, r2
 	ldr r2, [r6, r2]
 	str r0, [sp]
 	cmp r1, #0
-	add sb, r3, r2
+	add r9, r3, r2
 	add r8, r3, #4
 	beq _02155220
 	add r0, r1, #1
-	strh r0, [fp, #0x34]
-	ldrh r2, [fp, #0x34]
+	strh r0, [r11, #0x34]
+	ldrh r2, [r11, #0x34]
 	mov r0, #0
-	strh r0, [fp, #0x34]
+	strh r0, [r11, #0x34]
 	b _02155438
 _02155220:
 	bl SailManager__GetShipType
 	cmp r0, #3
 	beq _02155394
-	ldrh r4, [fp, #0x42]
+	ldrh r4, [r11, #0x42]
 	bl SailManager__GetShipType
 	cmp r0, #1
 	movne r0, r4, lsl #0xf
 	movne r4, r0, lsr #0x10
 	cmp r4, #4
-	ldrh r0, [fp, #0x44]
+	ldrh r0, [r11, #0x44]
 	movhi r4, #4
 	cmp r0, #0
 	beq _02155298
@@ -501,7 +501,7 @@ _02155220:
 	str r1, [sp, #4]
 	str r0, [r2]
 	mov r0, #0
-	strh r0, [fp, #0x44]
+	strh r0, [r11, #0x44]
 	b _0215533C
 _02155298:
 	ldr r3, _021554DC // =_mt_math_rand
@@ -509,14 +509,14 @@ _02155298:
 	ldr r2, [r3]
 	ldr lr, _021554E0 // =0x00196225
 	ldr ip, _021554E4 // =0x3C6EF35F
-	add sl, r0, r4, lsl #4
+	add r10, r0, r4, lsl #4
 	mla r1, r2, lr, ip
 	str r1, [r3]
 	mov r2, r1, lsr #0x10
 	mov r2, r2, lsl #0x10
 	mov r2, r2, lsr #0x10
 	and r2, r2, #0xf
-	ldrb r2, [r2, sl]
+	ldrb r2, [r2, r10]
 	cmp r2, #0
 	beq _02155318
 	cmp r4, #0
@@ -564,16 +564,16 @@ _0215534C: // jump table
 	b _02155394 // case 8
 	b _0215538C // case 9
 _02155374:
-	ldrh r0, [fp, #0x42]
+	ldrh r0, [r11, #0x42]
 	add r0, r0, #1
-	strh r0, [fp, #0x42]
+	strh r0, [r11, #0x42]
 	b _02155394
 _02155384:
 	mov r0, #1
-	strh r0, [fp, #0x44]
+	strh r0, [r11, #0x44]
 _0215538C:
 	mov r0, #0
-	strh r0, [fp, #0x42]
+	strh r0, [r11, #0x42]
 _02155394:
 	ldr r0, [sp]
 	mov r4, #0xc
@@ -590,9 +590,9 @@ _021553AC:
 	ldr r0, _021554DC // =_mt_math_rand
 	str r1, [r0]
 	mov r0, r1, lsr #0x10
-	mov sl, r0, lsl #0x10
+	mov r10, r0, lsl #0x10
 	ldrh r1, [r8, #4]
-	mov r0, sl, lsr #0x10
+	mov r0, r10, lsr #0x10
 	bl FX_DivS32
 	ldrh r3, [r8, #4]
 	ldr r2, [r6]
@@ -600,11 +600,11 @@ _021553AC:
 	mul r0, r3, r0
 	add r2, r6, r2
 	add r2, r2, #4
-	rsb r0, r0, sl, lsr #16
+	rsb r0, r0, r10, lsr #16
 	add r1, r1, r2
 	ldr r2, [r1, r0, lsl #2]
 	mov r1, #0xc
-	mla r1, r2, r1, sb
+	mla r1, r2, r1, r9
 	mov r0, #1
 _0215540C:
 	mla r3, r0, r4, r1
@@ -620,15 +620,15 @@ _0215540C:
 	bgt _021553AC
 _02155438:
 	mov r0, #0xc
-	mla sb, r2, r0, sb
-	ldrh r0, [sb, #6]
+	mla r9, r2, r0, r9
+	ldrh r0, [r9, #6]
 	tst r0, #1
 	ldr r0, [sp]
-	strneh r2, [fp, #0x34]
+	strneh r2, [r11, #0x34]
 	ldrb r1, [r0]
 	cmp r1, #0xe
 	bhs _02155470
-	ldrh r0, [sb, #6]
+	ldrh r0, [r9, #6]
 	tst r0, #1
 	ldrne r0, [sp]
 	addne r1, r1, #7
@@ -638,7 +638,7 @@ _02155470:
 	ldr r0, [sp]
 	strh r1, [r0, #8]
 	strh r2, [r0, #6]
-	ldrh r0, [sb, #0xa]
+	ldrh r0, [r9, #0xa]
 	mov r1, r0, lsl #8
 	ldr r0, [sp]
 	strh r1, [r0, #0xa]
@@ -660,7 +660,7 @@ _021554BC:
 	cmp r7, #0x100
 	blo _021551C8
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021554D8: .word 0x0000FFFF
 _021554DC: .word _mt_math_rand
@@ -671,9 +671,9 @@ _021554E8: .word _0218CD30
 
 	arm_func_start SailEventManager__LoadMapObjects
 SailEventManager__LoadMapObjects: // 0x021554EC
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
-	mov fp, r0
+	mov r11, r0
 	bl SailManager__GetWork
 	ldr r0, [r0, #0xa0]
 	str r0, [sp, #0xc]
@@ -691,9 +691,9 @@ SailEventManager__LoadMapObjects: // 0x021554EC
 	str r1, [r2, #8]
 	ldr r2, [r5, #0xc0]
 	mov r1, #0x28
-	mla r8, fp, r1, r2
+	mla r8, r11, r1, r2
 	ldr r1, [sp, #0xc]
-	mov sb, r0
+	mov r9, r0
 	ldrh r2, [r1, #0x36]
 	ldr r1, _02155B8C // =0x0000FFFE
 	cmp r2, r1
@@ -702,12 +702,12 @@ SailEventManager__LoadMapObjects: // 0x021554EC
 	add r1, r1, #1
 	strh r1, [r0, #0x36]
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0215556C:
-	ldr r0, [sb, #0xc]
+	ldr r0, [r9, #0xc]
 	cmp r0, #1
 	beq _02155584
-	ldrh r0, [sb, #0x14]
+	ldrh r0, [r9, #0x14]
 	cmp r0, #0
 	beq _02155590
 _02155584:
@@ -720,21 +720,21 @@ _02155590:
 	ldr r2, [r0]
 _0215559C:
 	ldr r1, [r2]
-	cmp fp, #0xff
+	cmp r11, #0xff
 	ldr r0, [r2, r1]
 	add r1, r2, r1
 	add r4, r1, r0
 	bhs _0215598C
-	ldr r0, [sb, #0xc]
+	ldr r0, [r9, #0xc]
 	cmp r0, #1
 	beq _021555CC
-	ldrh r0, [sb, #0x14]
+	ldrh r0, [r9, #0x14]
 	cmp r0, #0
 	beq _021555E8
 _021555CC:
 	ldrh r0, [r5, #0xb8]
 	sub r0, r0, #2
-	cmp fp, r0
+	cmp r11, r0
 	bne _02155600
 	mov r0, r8
 	bl SailBuoy__CreateFromSegment2
@@ -742,7 +742,7 @@ _021555CC:
 _021555E8:
 	ldrh r0, [r5, #0xb8]
 	sub r0, r0, #1
-	cmp fp, r0
+	cmp r11, r0
 	bne _02155600
 	mov r0, r8
 	bl SailBuoy__CreateFromSegment2
@@ -806,12 +806,12 @@ _021556C8:
 	cmp r0, #1
 	beq _021557A8
 	ldr r7, _02155B90 // =_obj_disp_rand
-	ldr sl, _02155B98 // =0x3C6EF35F
+	ldr r10, _02155B98 // =0x3C6EF35F
 	mov r6, #0
 _021556E0:
 	ldr r1, [r7]
 	ldr r0, _02155B94 // =0x00196225
-	mla r2, r1, r0, sl
+	mla r2, r1, r0, r10
 	mov r0, r2, lsr #0x10
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -975,7 +975,7 @@ _02155920:
 	cmp r0, #0x10
 	bne _0215598C
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02155934:
 	mov r5, #0
 	mov r4, r5
@@ -1000,13 +1000,13 @@ _02155964:
 	cmp r5, #0x20
 	blo _02155964
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0215598C:
 	ldrh r3, [r8, #6]
 	ldr r1, _02155B9C // =0x0000FFFF
 	cmp r3, r1
 	addeq sp, sp, #0x1c
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp, #0xc]
 	ldrh r2, [r0, #0x36]
 	mov r0, #0xc
@@ -1015,12 +1015,12 @@ _0215598C:
 	mlaeq r4, r3, r0, r4
 	ldrh r0, [r5, #0xb8]
 	ldr r1, [r4]
-	cmp fp, r0
+	cmp r11, r0
 	add r6, r4, r1
 	addhs sp, sp, #0x1c
-	ldmhsia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmhsia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrh r0, [r4, #4]
-	mov sl, #0
+	mov r10, #0
 	cmp r0, #0
 	bls _02155B54
 	ldr r0, [sp, #8]
@@ -1041,7 +1041,7 @@ _02155A00:
 	ldrh r0, [r6, #0xc]
 	add r3, r7, #0x10
 	strh r0, [r7, #0x30]
-	strh fp, [r7, #0x2c]
+	strh r11, [r7, #0x2c]
 	ldrh r0, [r8, #2]
 	strh r0, [r7, #0x2e]
 	ldmia r6, {r0, r1, r2}
@@ -1086,7 +1086,7 @@ _02155A00:
 	ldr r0, [r5, #0x70]
 	add r0, r1, r0
 	str r0, [r7, #0x18]
-	ldrh r0, [sb, #0x62]
+	ldrh r0, [r9, #0x62]
 	strh r0, [r7, #0x32]
 	mov r0, #0x10000000
 	str r0, [r7, #0x34]
@@ -1098,7 +1098,7 @@ _02155A00:
 	ldrne r0, [r7, #0x34]
 	orrne r0, r0, #0x8000000
 	strne r0, [r7, #0x34]
-	ldr r0, [sb, #0x24]
+	ldr r0, [r9, #0x24]
 	tst r0, #4
 	beq _02155B2C
 	ldr r0, [r7, #0x10]
@@ -1111,11 +1111,11 @@ _02155B2C:
 	ldr r0, [sp, #0xc]
 	mov r1, r7
 	bl NNS_FndAppendListObject
-	add r0, sl, #1
+	add r0, r10, #1
 	mov r0, r0, lsl #0x10
 	ldrh r1, [r4, #4]
 	add r6, r6, #0x18
-	mov sl, r0, lsr #0x10
+	mov r10, r0, lsr #0x10
 	cmp r1, r0, lsr #16
 	bhi _02155A00
 _02155B54:
@@ -1126,15 +1126,15 @@ _02155B54:
 	blo _02155B78
 _02155B68:
 	cmp r0, #7
-	ldrloh r0, [sb, #0x62]
+	ldrloh r0, [r9, #0x62]
 	addlo r0, r0, #1
-	strloh r0, [sb, #0x62]
+	strloh r0, [r9, #0x62]
 _02155B78:
 	ldr r1, _02155B9C // =0x0000FFFF
 	ldr r0, [sp, #0xc]
 	strh r1, [r0, #0x36]
 	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02155B8C: .word 0x0000FFFE
 _02155B90: .word _obj_disp_rand
@@ -1281,9 +1281,9 @@ _02155D70:
 
 	arm_func_start SailEventManager__CreateObject
 SailEventManager__CreateObject: // 0x02155D7C
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r8, r1
-	mov sb, r0
+	mov r9, r0
 	bl SailManager__GetWork
 	ldr r7, [r0, #0x98]
 	bl SailEventManager__AllocateStageObject
@@ -1297,13 +1297,13 @@ SailEventManager__CreateObject: // 0x02155D7C
 	mov r1, r6
 	mov r2, #0x40
 	bl MIi_CpuClear16
-	strh sb, [r6, #0x30]
+	strh r9, [r6, #0x30]
 	ldr r0, [r8, #8]
-	add sb, r6, #0x10
+	add r9, r6, #0x10
 	mov r0, r0, asr #0x13
 	strh r0, [r6, #0x2c]
 	ldmia r8, {r0, r1, r2}
-	stmia sb, {r0, r1, r2}
+	stmia r9, {r0, r1, r2}
 	mov r3, #0
 	str r3, [r6, #0x3c]
 	add r0, r5, r4
@@ -1359,7 +1359,7 @@ SailEventManager__CreateObject: // 0x02155D7C
 	mov r1, #0x10000000
 	mov r0, r6
 	str r1, [r6, #0x34]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02155EB8: .word 0x0007FFFF
 _02155EBC: .word FX_SinCosTable_
@@ -1453,7 +1453,7 @@ _02155FCC:
 
 	arm_func_start SailEventManager__Main
 SailEventManager__Main: // 0x02155FDC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x40
 	bl GetCurrentTaskWork_
 	mov r5, r0
@@ -1461,7 +1461,7 @@ SailEventManager__Main: // 0x02155FDC
 	ldr r6, [r0, #0x98]
 	bl SailManager__GetWork
 	str r0, [sp, #8]
-	mov sl, #0
+	mov r10, #0
 	bl SailManager__GetWork
 	ldr r4, [r0, #0x70]
 	blx SailVoyageManager__Func_2157AE4
@@ -1470,47 +1470,47 @@ SailEventManager__Main: // 0x02155FDC
 	mov r0, r0, lsl #0x10
 	cmp r4, #0
 	mov r4, r0, lsr #0x10
-	ldr sb, [r5, #0x38]
+	ldr r9, [r5, #0x38]
 	beq _02156034
 	bl SailManager__GetWork
 	ldr r0, [r0, #0x70]
-	ldr sl, [r0, #0x124]
+	ldr r10, [r0, #0x124]
 _02156034:
 	ldr r0, [sp, #8]
 	ldr r0, [r0, #0x24]
 	tst r0, #0x800
 	addne sp, sp, #0x40
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	cmp r4, #2
 	moveq r4, #0
 	cmp r4, #3
 	subeq r0, r4, #1
 	moveq r0, r0, lsl #0x10
 	moveq r4, r0, lsr #0x10
-	cmp sl, #0
-	addne r0, sl, #0x100
+	cmp r10, #0
+	addne r0, r10, #0x100
 	ldrnesh r0, [r0, #0xca]
 	ldr r7, [r5]
 	cmpne r0, #0
 	beq _021560A8
 	mov r2, r0, asr #2
 	mov r0, #0x30000
-	umull sl, r3, r2, r0
+	umull r10, r3, r2, r0
 	mov r1, #0
 	mla r3, r2, r1, r3
 	mov r1, r2, asr #0x1f
-	adds r2, sl, #0x800
+	adds r2, r10, #0x800
 	mla r3, r1, r0, r3
 	adc r0, r3, #0
 	mov r1, r2, lsr #0xc
 	orr r1, r1, r0, lsl #20
-	sub sb, sb, r1
+	sub r9, r9, r1
 _021560A8:
 	ldr r1, _021565C4 // =sailObjectSpawnList
 	mov r0, #0x98
 	mla r0, r4, r0, r1
 	str r0, [sp]
-	add r0, r8, sb
+	add r0, r8, r9
 	str r0, [sp, #4]
 	add r4, sp, #0x34
 _021560C4:
@@ -1537,28 +1537,28 @@ _021560F8:
 	ldr r0, [sp, #4]
 	cmp r0, r1
 	ble _02156304
-	ldrh sl, [r7, #0x2c]
-	ldr sb, [r6, #0xc0]
+	ldrh r10, [r7, #0x2c]
+	ldr r9, [r6, #0xc0]
 	mov r3, #0x28
-	mla sb, sl, r3, sb
+	mla r9, r10, r3, r9
 	add r0, r7, #0x10
 	add r3, sp, #0x28
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	ldr r1, [sp, #0x30]
-	ldr r0, [sb, #0x24]
+	ldr r0, [r9, #0x24]
 	sub r0, r1, r0
 	str r0, [sp, #0x30]
 	mov r0, r3
 	ldmia r0, {r0, r1, r2}
 	stmia r4, {r0, r1, r2}
-	mov r0, sb
+	mov r0, r9
 	blx SailVoyageManager__Func_2157B14
 	mov r1, r0
 	ldr r0, [sp, #0x30]
 	bl FX_Div
 	mov r1, r0
-	mov r0, sb
+	mov r0, r9
 	mov r2, r4
 	add r3, sp, #0x3c
 	blx SailVoyageManager__Func_2158888
@@ -1574,18 +1574,18 @@ _021560F8:
 	ldr r1, _021565C8 // =FX_SinCosTable_
 	mov lr, #0
 	add r1, r1, r2, lsl #2
-	ldrsh sb, [r1, #2]
-	ldr fp, [sp, #0x3c]
+	ldrsh r9, [r1, #2]
+	ldr r11, [sp, #0x3c]
 	mov r0, r4
-	smull sb, sl, ip, sb
-	adds sb, sb, #0x800
-	adc sl, sl, #0
-	mov sb, sb, lsr #0xc
-	orr sb, sb, sl, lsl #20
-	add r3, r3, sb
+	smull r9, r10, ip, r9
+	adds r9, r9, #0x800
+	adc r10, r10, #0
+	mov r9, r9, lsr #0xc
+	orr r9, r9, r10, lsl #20
+	add r3, r3, r9
 	str r3, [sp, #0x34]
 	ldrh r3, [r7, #0x2e]
-	mov sl, lr
+	mov r10, lr
 	mov r1, r6
 	rsb r3, r3, #0
 	mov r3, r3, lsl #0x10
@@ -1593,22 +1593,22 @@ _021560F8:
 	mov r3, r3, lsl #0x10
 	mov r3, r3, lsr #0x10
 	mov r3, r3, asr #4
-	mov sb, r3, lsl #2
+	mov r9, r3, lsl #2
 	ldr r3, _021565C8 // =FX_SinCosTable_
 	mov r2, r4
-	ldrsh r3, [r3, sb]
-	smull sb, r3, ip, r3
-	adds sb, sb, #0x800
-	adc r3, r3, sl
-	mov sb, sb, lsr #0xc
-	orr sb, sb, r3, lsl #20
-	add r3, fp, sb
+	ldrsh r3, [r3, r9]
+	smull r9, r3, ip, r3
+	adds r9, r9, #0x800
+	adc r3, r3, r10
+	mov r9, r9, lsr #0xc
+	orr r9, r9, r3, lsl #20
+	add r3, r11, r9
 	str r3, [sp, #0x3c]
 	bl VEC_Subtract
 	add r3, r7, #0x1c
 	ldmia r4, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	mov r0, sl
+	mov r0, r10
 	str r0, [r7, #0xc]
 	str r0, [r7, #8]
 	ldr r0, [sp, #8]
@@ -1795,26 +1795,26 @@ _021564D8:
 	mov r8, #0
 	mov r7, #0x800
 	ldr r4, [r5, #0xc]
-	mov sl, r8
-	mov sb, r7
+	mov r10, r8
+	mov r9, r7
 _021564FC:
 	cmp r4, #0
 	addeq sp, sp, #0x40
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	add r0, sp, #0x10
 	add r2, sp, #0x1c
 	add r1, r4, #0x10
 	bl VEC_Subtract
 	ldr r1, [sp, #0x24]
 	ldr r3, [sp, #0x1c]
-	mov fp, r1, asr #8
-	smull r2, r1, fp, fp
-	mov fp, r3, asr #8
-	smull ip, r3, fp, fp
-	adds fp, ip, #0x800
+	mov r11, r1, asr #8
+	smull r2, r1, r11, r11
+	mov r11, r3, asr #8
+	smull ip, r3, r11, r11
+	adds r11, ip, #0x800
 	adc ip, r3, #0
 	adds r2, r2, r7
-	mov r3, fp, lsr #0xc
+	mov r3, r11, lsr #0xc
 	adc r1, r1, r8
 	mov r2, r2, lsr #0xc
 	ldr r0, [r4, #0x28]
@@ -1824,10 +1824,10 @@ _021564FC:
 	mov r2, r0, asr #8
 	ldr r3, [r5, #0x30]
 	ldr r0, [r4, #8]
-	add fp, r2, r3, asr #8
-	smull r3, r2, fp, fp
-	adds r3, r3, sb
-	adc r2, r2, sl
+	add r11, r2, r3, asr #8
+	smull r3, r2, r11, r11
+	adds r3, r3, r9
+	adc r2, r2, r10
 	cmp r0, #0
 	mov r0, r3, lsr #0xc
 	orr r0, r0, r2, lsl #20

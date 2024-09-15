@@ -277,12 +277,12 @@ SteamFan__OnDefend: // 0x02166288
 
 	arm_func_start SteamFan__Draw
 SteamFan__Draw: // 0x02166308
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x14
 	bl GetCurrentTaskWork_
 	mov r7, r0
 	mov r8, #0
-	ldr sb, [r7, #0x128]
+	ldr r9, [r7, #0x128]
 	add r0, r7, #0x300
 	strh r8, [sp, #0xe]
 	strh r8, [sp, #0xc]
@@ -294,7 +294,7 @@ SteamFan__Draw: // 0x02166308
 _02166340:
 	str r6, [sp]
 	str r5, [sp, #4]
-	mov r0, sb
+	mov r0, r9
 	mov r2, r4
 	mov r3, r5
 	str r5, [sp, #8]
@@ -307,7 +307,7 @@ _02166340:
 	strh r0, [sp, #0x10]
 	blt _02166340
 	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end SteamFan__Draw
 
 	.data

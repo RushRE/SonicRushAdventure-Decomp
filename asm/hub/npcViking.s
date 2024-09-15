@@ -107,52 +107,52 @@ _021711CC: .word ViHubAreaPreview__Func_215A888
 
 	arm_func_start NpcViking__Func_21711D0
 NpcViking__Func_21711D0: // 0x021711D0
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x2c
-	mov sl, r0
-	add r0, sl, #0x400
+	mov r10, r0
+	add r0, r10, #0x400
 	ldrh r0, [r0, #0x84]
 	mov r0, r0, lsl #2
 	bl _AllocHeadHEAP_SYSTEM
-	str r0, [sl, #0x480]
-	add r4, sl, #0x400
+	str r0, [r10, #0x480]
+	add r4, r10, #0x400
 	ldrh r0, [r4, #0x84]
 	mov r6, #0
 	cmp r0, #0
 	ble _02171264
-	ldr sb, _02171304 // =0x02173220
+	ldr r9, _02171304 // =0x02173220
 	mov r8, r6
-	mov fp, #0x46
+	mov r11, #0x46
 	mov r5, r6
 _02171214:
-	ldr r1, [sl, #0x480]
+	ldr r1, [r10, #0x480]
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	strh r5, [r1, r8]
 	add r7, r1, r8
 	bl NpcViking__Func_21714EC
 	cmp r0, #0
-	streqh fp, [r7, #2]
+	streqh r11, [r7, #2]
 	beq _0217124C
 	ldrh r0, [r7]
 	orr r0, r0, #1
 	strh r0, [r7]
-	ldrh r0, [sb, #2]
+	ldrh r0, [r9, #2]
 	strh r0, [r7, #2]
 _0217124C:
 	ldrh r0, [r4, #0x84]
 	add r6, r6, #1
 	add r8, r8, #4
 	cmp r6, r0
-	add sb, sb, #6
+	add r9, r9, #6
 	blt _02171214
 _02171264:
 	bl HubControl__GetField54
 	str r0, [sp]
-	ldr r1, [sl, #0x48c]
-	add r0, sl, #0x400
+	ldr r1, [r10, #0x48c]
+	add r0, r10, #0x400
 	str r1, [sp, #4]
-	ldr r1, [sl, #0x480]
+	ldr r1, [r10, #0x480]
 	str r1, [sp, #8]
 	ldrh r0, [r0, #0x84]
 	strh r0, [sp, #0xc]
@@ -180,13 +180,13 @@ _02171264:
 	strh r0, [sp, #0x26]
 	mov r0, #3
 	strh r0, [sp, #0x28]
-	mov r0, sl
+	mov r0, r10
 	bl NpcOptions__Func_216EDCC
-	mov r0, sl
+	mov r0, r10
 	add r1, sp, #0
 	bl NpcOptions__Func_216EDF8
 	add sp, sp, #0x2c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02171304: .word 0x02173220
 	arm_func_end NpcViking__Func_21711D0

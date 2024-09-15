@@ -683,7 +683,7 @@ _0217B864: .word GameObject__Destructor
 
 	arm_func_start CannonPath__State_217B868
 CannonPath__State_217B868: // 0x0217B868
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r4, r0
 	ldr ip, [r4, #0x35c]
 	ldr r0, [ip, #0x6d8]
@@ -697,7 +697,7 @@ CannonPath__State_217B868: // 0x0217B868
 	str r1, [r0, #4]
 	str r1, [r0]
 	str r1, [r0, #8]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0217B8A4:
 	add r3, r4, #0x44
 	add r5, r4, #0x8c
@@ -706,7 +706,7 @@ _0217B8A4:
 	ldr r0, [r4, #0x28]
 	cmp r0, #4
 	addls pc, pc, r0, lsl #2
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0217B8C4: // jump table
 	b _0217B8D8 // case 0
 	b _0217B92C // case 1
@@ -730,11 +730,11 @@ _0217B8D8:
 	ldr r1, [r4, #0x48]
 	sub r0, r0, #0x60000
 	cmp r1, r0
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r0, [r4, #0x28]
 	add r0, r0, #1
 	str r0, [r4, #0x28]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0217B92C:
 	ldr r2, [r3]
 	ldr r1, [r4, #0x380]
@@ -763,7 +763,7 @@ _0217B92C:
 	ldr r2, [r4, #0x48]
 	sub r1, r1, #0xc0000
 	cmp r2, r1
-	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r1, [r4, #0x28]
 	mov r2, #0x23000
 	add r1, r1, #1
@@ -780,7 +780,7 @@ _0217B92C:
 	mov r0, r4
 	str r2, [r4, #0x24]
 	bl EffectUnknown202C414__Create
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0217B9E0:
 	ldr r0, [r3]
 	add r0, r0, #0xc1
@@ -800,7 +800,7 @@ _0217B9E0:
 _0217BA1C:
 	ldr r0, [r4, #0x378]
 	cmp r0, #0
-	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r0, [r4, #0x28]
 	add r5, r4, #0x39c
 	add r0, r0, #1
@@ -825,11 +825,11 @@ _0217BA1C:
 	stmib r1, {r0, r3}
 	mov r0, #1
 	str r0, [r4, #0x24]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0217BA8C:
 	add r0, r0, #1
 	str r0, [r4, #0x28]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0217BA98:
 	add r0, r4, #0x300
 	ldrsh r1, [r0, #0x76]
@@ -849,13 +849,13 @@ _0217BA98:
 	mov r3, lr, asr #0x1f
 _0217BAD8:
 	sub r7, r1, r0
-	umull sb, r8, r7, lr
+	umull r9, r8, r7, lr
 	mla r8, r7, r3, r8
 	mov r7, r7, asr #0x1f
 	mla r8, r7, lr, r8
-	adds sb, sb, r5
+	adds r9, r9, r5
 	adc r7, r8, r6
-	mov r8, sb, lsr #0xc
+	mov r8, r9, lsr #0xc
 	orr r8, r8, r7, lsl #20
 	cmp r2, #0
 	add r0, r0, r8
@@ -872,13 +872,13 @@ _0217BAD8:
 	mov r5, #0x800
 _0217BB30:
 	sub r7, r1, r0
-	umull sb, r8, r7, lr
+	umull r9, r8, r7, lr
 	mla r8, r7, r3, r8
 	mov r7, r7, asr #0x1f
 	mla r8, r7, lr, r8
-	adds sb, sb, r5
+	adds r9, r9, r5
 	adc r7, r8, r6
-	mov r8, sb, lsr #0xc
+	mov r8, r9, lsr #0xc
 	orr r8, r8, r7, lsl #20
 	cmp r2, #0
 	add r0, r0, r8
@@ -912,7 +912,7 @@ _0217BB84:
 	str r5, [r0]
 	ldrsh r0, [r2, #0x76]
 	cmp r0, #0x1000
-	ldmltia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmltia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	mov r3, #0x1000
 	mov r0, ip
 	mov r1, r4
@@ -921,7 +921,7 @@ _0217BB84:
 	ldr r0, [r4, #0x18]
 	orr r0, r0, #4
 	str r0, [r4, #0x18]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0217BBF8: .word CannonPath__dword_218A394
 	arm_func_end CannonPath__State_217B868
@@ -947,7 +947,7 @@ CannonRing__Destructor: // 0x0217BBFC
 
 	arm_func_start CannonRing__Draw_217BC38
 CannonRing__Draw_217BC38: // 0x0217BC38
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x20
 	ldr r5, _0217BD88 // =mapCamera
 	bl GetCurrentTaskWork_
@@ -959,33 +959,33 @@ CannonRing__Draw_217BC38: // 0x0217BC38
 	str r2, [sp, #0x10]
 	cmp r1, #0
 	addeq sp, sp, #0x20
-	ldmeqia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	ldr r8, [r5, #4]
 	ldr r3, [r4, #0x44]
 	cmp r3, r8
 	addlt sp, sp, #0x20
-	ldmltia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmltia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	add r1, r8, #0x100000
 	cmp r3, r1
 	addgt sp, sp, #0x20
-	ldmgtia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmgtia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	mov lr, #0x800
 	mov r2, #0
 	sub r7, r3, r8
-	sub sb, lr, #0x1700
+	sub r9, lr, #0x1700
 	sub ip, r2, #1
-	umull r3, r1, r7, sb
-	sub sl, lr, #0x5300
+	umull r3, r1, r7, r9
+	sub r10, lr, #0x5300
 	adds lr, lr, r7, lsl #12
 	ldr r5, [r5, #8]
 	mla r1, r7, ip, r1
 	mov r6, r7, asr #0x1f
 	mov ip, r6, lsl #0xc
-	mla r1, r6, sb, r1
+	mla r1, r6, r9, r1
 	orr ip, ip, r7, lsr #20
 	mov lr, lr, lsr #0xc
-	adc sb, ip, #0
-	orr lr, lr, sb, lsl #20
+	adc r9, ip, #0
+	orr lr, lr, r9, lsl #20
 	add r8, r8, lr
 	str r8, [sp, #0x14]
 	adds r8, r3, #0x800
@@ -995,9 +995,9 @@ CannonRing__Draw_217BC38: // 0x0217BC38
 	orr r8, r8, r1, lsl #20
 	add r8, r5, r8
 	sub r3, r2, #1
-	umull r5, r1, r7, sl
+	umull r5, r1, r7, r10
 	mla r1, r7, r3, r1
-	mla r1, r6, sl, r1
+	mla r1, r6, r10, r1
 	str r8, [sp, #0x18]
 	adds r3, r5, #0x800
 	ldr r5, [r0, #4]
@@ -1018,7 +1018,7 @@ CannonRing__Draw_217BC38: // 0x0217BC38
 	ldr r0, [r4, #0x24]
 	tst r0, #2
 	addne sp, sp, #0x20
-	ldmneia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r2, #0
 	add r0, sp, #0x10
 	stmia sp, {r0, r2}
@@ -1030,7 +1030,7 @@ CannonRing__Draw_217BC38: // 0x0217BC38
 	str r2, [sp, #0xc]
 	bl StageTask__Draw3DEx
 	add sp, sp, #0x20
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _0217BD88: .word mapCamera
 _0217BD8C: .word CannonPath__dword_218A394

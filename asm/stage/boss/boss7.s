@@ -5,7 +5,7 @@
 
 	arm_func_start Boss7Stage__Create
 Boss7Stage__Create: // 0x0215C8E4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x80
 	mov r7, #0x1500
 	mov r8, r0
@@ -135,10 +135,10 @@ Boss7Stage__Create: // 0x0215C8E4
 	bl ObjDataLoad
 	mov r7, r0
 	ldr r0, [sp, #0x14]
-	ldr sl, [sp, #0x14]
+	ldr r10, [sp, #0x14]
 	add r0, r0, #0x288
-	mov fp, #0
-	add sb, r0, #0x400
+	mov r11, #0
+	add r9, r0, #0x400
 _0215CAFC:
 	mov r0, r7
 	bl Sprite__GetTextureSize
@@ -154,16 +154,16 @@ _0215CAFC:
 	mov r1, #0
 	stmia sp, {r1, r4}
 	str r0, [sp, #8]
-	mov r0, sb
+	mov r0, r9
 	mov r2, r7
 	mov r3, r1
 	bl AnimatorSprite3D__Init
-	ldr r0, [sl, #0x754]
-	add r5, sl, #0x354
+	ldr r0, [r10, #0x754]
+	add r5, r10, #0x354
 	orr r0, r0, #4
-	add r8, fp, #1
-	str r0, [sl, #0x754]
-	add r4, sl, #0x700
+	add r8, r11, #1
+	str r0, [r10, #0x754]
+	add r4, r10, #0x700
 	mov r6, #0
 _0215CB60:
 	ldrh r0, [r4, #0x26]
@@ -175,19 +175,19 @@ _0215CB60:
 	orrlt r0, r0, #0x18
 	bicge r0, r0, #0x18
 	str r0, [r5, #0x400]
-	mov r0, sb
+	mov r0, r9
 	bl AnimatorSprite3D__ProcessAnimation
 	ldrh r0, [r4, #0x26]
 	cmp r8, r0
 	bne _0215CB60
-	add fp, fp, #1
-	cmp fp, #0xa
-	add sb, sb, #0x104
-	add sl, sl, #0x104
+	add r11, r11, #1
+	cmp r11, #0xa
+	add r9, r9, #0x104
+	add r10, r10, #0x104
 	blt _0215CAFC
 	ldr r0, [sp, #0x14]
 	add sp, sp, #0x80
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215CBB8: .word StageTask_Main
 _0215CBBC: .word ovl02_215F7D4
@@ -754,7 +754,7 @@ _0215D434: .word _02179768
 
 	arm_func_start Boss7Unknown__Create
 Boss7Unknown__Create: // 0x0215D438
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r7, #0x1500
 	mov r6, r0
@@ -767,7 +767,7 @@ Boss7Unknown__Create: // 0x0215D438
 	ldr r0, _0215D59C // =StageTask_Main
 	ldr r1, _0215D5A0 // =ovl02_2163B3C
 	mov r2, #0
-	mov sl, r3
+	mov r10, r3
 	mov r3, r2
 	str r7, [sp, #8]
 	bl TaskCreate_
@@ -793,7 +793,7 @@ Boss7Unknown__Create: // 0x0215D438
 	orr r0, r0, #0x10
 	str r0, [r7, #0x18]
 	ldr r0, [r7, #0x1c]
-	add sb, r7, #0x3b4
+	add r9, r7, #0x3b4
 	orr r0, r0, #0x9700
 	bic r0, r0, #0x80
 	str r0, [r7, #0x1c]
@@ -801,50 +801,50 @@ Boss7Unknown__Create: // 0x0215D438
 	str r4, [r7, #0x48]
 	ldr r5, _0215D5B4 // =ovl02_2163BFC
 	ldr r4, _0215D5B8 // =_021796C0
-	str sl, [r7, #0x374]
-	mov fp, #2
+	str r10, [r7, #0x374]
+	mov r11, #2
 _0215D4FC:
 	ldrsh r1, [r4, #0xe]
-	add r0, sb, #0xc
+	add r0, r9, #0xc
 	str r1, [sp]
 	ldrsh r1, [r4, #8]
 	ldrsh r2, [r4, #0xa]
 	ldrsh r3, [r4, #0xc]
 	bl ObjRect__SetBox2D
-	add r0, sb, #0xc
-	mov r1, fp
+	add r0, r9, #0xc
+	mov r1, r11
 	mov r2, #0x40
-	strh r6, [sb, #0x40]
+	strh r6, [r9, #0x40]
 	bl ObjRect__SetAttackStat
-	add r0, sb, #0xc
+	add r0, r9, #0xc
 	mov r1, #0
 	mov r2, #0x3f
 	bl ObjRect__SetDefenceStat
-	str r7, [sb, #0x28]
-	str r5, [sb, #0x2c]
-	ldr r0, [sb, #0x24]
+	str r7, [r9, #0x28]
+	str r5, [r9, #0x2c]
+	ldr r0, [r9, #0x24]
 	add r8, r8, #1
 	bic r0, r0, #4
-	str r0, [sb, #0x24]
+	str r0, [r9, #0x24]
 	cmp r8, #0xf
-	add sb, sb, #0x58
+	add r9, r9, #0x58
 	blt _0215D4FC
 	mov r0, #0
 	str r0, [r7, #0x3b0]
-	cmp sl, #0
+	cmp r10, #0
 	bne _0215D57C
 	mov r0, r7
 	bl ovl02_2164344
 	b _0215D58C
 _0215D57C:
-	cmp sl, #1
+	cmp r10, #1
 	bne _0215D58C
 	mov r0, r7
 	bl ovl02_216446C
 _0215D58C:
 	mov r0, r7
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0215D598: .word 0x00000904
 _0215D59C: .word StageTask_Main
@@ -1250,7 +1250,7 @@ _0215DB7C: .word gameState
 
 	arm_func_start ovl02_215DB80
 ovl02_215DB80: // 0x0215DB80
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x18
 	mov r8, r0
 	ldr r3, [r8, #0x370]
@@ -1369,7 +1369,7 @@ _0215DD08:
 	ldr r3, _0215DED8 // =0x00000355
 	cmp r0, r1
 	mov ip, #0
-	umull sb, r0, r5, r3
+	umull r9, r0, r5, r3
 	mla r0, r5, ip, r0
 	mov lr, r5, asr #0x1f
 	movgt r7, #0x100
@@ -1378,15 +1378,15 @@ _0215DD08:
 	str r1, [r8, #0x39c]
 	ldr r3, [ip]
 	movle r7, #0x80
-	adds r1, sb, #0x800
+	adds r1, r9, #0x800
 	ldr r3, [r3, #0x44]
-	mov sb, r1, lsr #0xc
+	mov r9, r1, lsr #0xc
 	adc r0, r0, #0
-	orr sb, sb, r0, lsl #20
+	orr r9, r9, r0, lsl #20
 	ldr r1, [r8, #0x390]
 	sub ip, r3, #0x100000
 	cmp r1, ip
-	add r0, r2, sb
+	add r0, r2, r9
 	blt _0215DD98
 	add ip, r3, #0x100000
 	cmp r1, ip
@@ -1473,7 +1473,7 @@ _0215DE60:
 	mov r1, #0x100
 	bl BossArena__SetAmplitudeYSpeed
 	add sp, sp, #0x18
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0215DECC: .word gPlayer
 _0215DED0: .word 0x00001555
@@ -9616,7 +9616,7 @@ ovl02_21646A0: // 0x021646A0
 
 	arm_func_start ovl02_21646E0
 ovl02_21646E0: // 0x021646E0
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x54
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -9703,39 +9703,39 @@ _021647D8:
 	add r0, r4, #0x7c
 	add r6, r0, #0xc00
 	add r0, r4, #0x218
-	add sb, r0, #0x800
-	ldmia sb!, {r0, r1, r2, r3}
+	add r9, r0, #0x800
+	ldmia r9!, {r0, r1, r2, r3}
 	add r8, r6, #0x24
 	stmia r8!, {r0, r1, r2, r3}
 	add r0, r4, #0x338
 	add r7, r0, #0x800
-	ldmia sb!, {r0, r1, r2, r3}
+	ldmia r9!, {r0, r1, r2, r3}
 	stmia r8!, {r0, r1, r2, r3}
-	ldr r0, [sb]
+	ldr r0, [r9]
 	add lr, r4, #0x44
 	str r0, [r8]
 	add ip, r6, #0x48
 	ldmia lr, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
 	ldr r2, [r6, #0x4c]
-	add sl, r4, #0x194
+	add r10, r4, #0x194
 	rsb r2, r2, #0
-	add r0, sl, #0x800
+	add r0, r10, #0x800
 	add r1, sp, #0
 	str r2, [r6, #0x4c]
 	bl sub_20665F8
 	add r0, r4, #0x1b8
 	add ip, sp, #0
-	add sb, r0, #0x800
+	add r9, r0, #0x800
 	ldmia ip!, {r0, r1, r2, r3}
-	add sl, r7, #0x24
-	stmia sl!, {r0, r1, r2, r3}
+	add r10, r7, #0x24
+	stmia r10!, {r0, r1, r2, r3}
 	ldmia ip!, {r0, r1, r2, r3}
-	stmia sl!, {r0, r1, r2, r3}
+	stmia r10!, {r0, r1, r2, r3}
 	ldr r0, [ip]
 	add r8, r7, #0x48
-	str r0, [sl]
-	ldmia sb, {r0, r1, r2}
+	str r0, [r10]
+	ldmia r9, {r0, r1, r2}
 	stmia r8, {r0, r1, r2}
 	ldr r0, [r4, #0x20]
 	tst r0, #0x20
@@ -9744,7 +9744,7 @@ _021647D8:
 	ldrsh r0, [r0, #0x50]
 	cmp r0, #0
 	addeq sp, sp, #0x54
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r0, r5
 	bl AnimatorMDL__ProcessAnimation
 	mov r0, r7
@@ -9752,11 +9752,11 @@ _021647D8:
 	ldr r0, [r4, #0x3d4]
 	tst r0, #0x200
 	addeq sp, sp, #0x54
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r0, r6
 	bl AnimatorMDL__ProcessAnimation
 	add sp, sp, #0x54
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 _0216490C:
 	mov r0, r5
 	bl AnimatorMDL__ProcessAnimation
@@ -9783,7 +9783,7 @@ _02164948:
 	mov r0, #0x19
 	bl BossHelpers__Model__SetMatrixMode
 	add sp, sp, #0x54
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02164970: .word FX_SinCosTable_
 	arm_func_end ovl02_21646E0
@@ -12229,10 +12229,10 @@ _021668D8: .word ovl02_21668DC
 
 	arm_func_start ovl02_21668DC
 ovl02_21668DC: // 0x021668DC
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, lr}
-	mov sb, r0
-	ldr r5, [sb, #0x370]
-	add r4, sb, #0x188
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
+	mov r9, r0
+	ldr r5, [r9, #0x370]
+	add r4, r9, #0x188
 	bl Camera3D__GetWork
 	add r1, r5, #0x300
 	ldrsh r2, [r1, #0xd8]
@@ -12280,7 +12280,7 @@ _02166938:
 _02166990:
 	mov r8, #1
 _02166994:
-	add r1, sb, #0x188
+	add r1, r9, #0x188
 	mov r0, r5
 	add r1, r1, #0x400
 	bl ovl02_216002C
@@ -12291,8 +12291,8 @@ _02166994:
 	add r1, r1, #1
 	strh r1, [r0, #8]
 	ldrne r0, _021669C8 // =ovl02_21669CC
-	strne r0, [sb, #0x3cc]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, pc}
+	strne r0, [r9, #0x3cc]
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _021669C8: .word ovl02_21669CC
 	arm_func_end ovl02_21668DC

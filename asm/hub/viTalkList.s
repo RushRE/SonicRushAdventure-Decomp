@@ -362,30 +362,30 @@ _0216A6D4: .word 0x05000600
 
 	arm_func_start ViTalkList__Func_216A6D8
 ViTalkList__Func_216A6D8: // 0x0216A6D8
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x2c
-	mov fp, r0
-	add r0, fp, #0x400
+	mov r11, r0
+	add r0, r11, #0x400
 	ldrh r0, [r0, #0xbc]
 	mov r0, r0, lsl #2
 	bl _AllocHeadHEAP_SYSTEM
-	str r0, [fp, #0xd14]
-	add r4, fp, #0x400
+	str r0, [r11, #0xd14]
+	add r4, r11, #0x400
 	ldrh r0, [r4, #0xbc]
 	mov r6, #0
 	cmp r0, #0
 	ble _0216A7A4
 	mov r8, r6
-	mov sb, r6
+	mov r9, r6
 _0216A714:
 	mov r0, r6, lsl #0x10
-	ldr r5, [fp, #0xd14]
+	ldr r5, [r11, #0xd14]
 	mov r0, r0, lsr #0x10
 	add r7, r5, r8
 	bl ovl05_2154024
 	mov r1, #0
 	strh r1, [r5, r8]
-	mov sl, r0
+	mov r10, r0
 	bl ovl05_2153DF8
 	cmp r0, #0
 	ldreqh r0, [r4, #0xbc]
@@ -395,15 +395,15 @@ _0216A714:
 	ldrh r0, [r7]
 	orr r0, r0, #1
 	strh r0, [r7]
-	strh sb, [r7, #2]
+	strh r9, [r7, #2]
 _0216A75C:
-	mov r0, sl
+	mov r0, r10
 	bl ovl05_2153F24
 	cmp r0, #1
 	ldreqh r0, [r7]
 	orreq r0, r0, #2
 	streqh r0, [r7]
-	mov r0, sl
+	mov r0, r10
 	bl ovl05_2153EA4
 	cmp r0, #1
 	ldreqh r0, [r7]
@@ -412,16 +412,16 @@ _0216A75C:
 	orreq r0, r0, #4
 	streqh r0, [r7]
 	ldrh r0, [r4, #0xbc]
-	add sb, sb, #3
+	add r9, r9, #3
 	cmp r6, r0
 	blt _0216A714
 _0216A7A4:
 	bl HubControl__GetField54
 	str r0, [sp]
-	ldr r0, [fp, #0x4b8]
-	add r1, fp, #0x400
+	ldr r0, [r11, #0x4b8]
+	add r1, r11, #0x400
 	str r0, [sp, #4]
-	ldr r2, [fp, #0xd14]
+	ldr r2, [r11, #0xd14]
 	mov r0, #0
 	str r2, [sp, #8]
 	ldrh r2, [r1, #0xbc]
@@ -445,18 +445,18 @@ _0216A7A4:
 	mov r3, #4
 	strh r2, [sp, #0x20]
 	mov r2, #2
-	add r1, fp, #0x94
+	add r1, r11, #0x94
 	str r0, [sp, #0x1c]
 	add r0, r1, #0x800
 	strh r3, [sp, #0x26]
 	strh r2, [sp, #0x28]
 	bl NpcOptions__Func_216EDCC
-	add r0, fp, #0x94
+	add r0, r11, #0x94
 	add r1, sp, #0
 	add r0, r0, #0x800
 	bl NpcOptions__Func_216EDF8
 	add sp, sp, #0x2c
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	arm_func_end ViTalkList__Func_216A6D8
 
 	arm_func_start ViTalkList__Func_216A848
@@ -985,18 +985,18 @@ _0216AF28:
 
 	arm_func_start ViTalkList__Func_216AF34
 ViTalkList__Func_216AF34: // 0x0216AF34
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #4
-	mov sb, r0
-	ldr r0, [sb, #0x4d0]
+	mov r9, r0
+	ldr r0, [r9, #0x4d0]
 	mov r8, r1
 	cmp r0, r8
 	addeq sp, sp, #4
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	mvn r0, #0
 	cmp r8, r0
 	bne _0216AF70
-	add r0, sb, #0x208
+	add r0, r9, #0x208
 	add r0, r0, #0x400
 	bl Unknown2056570__Func_205683C
 	b _0216B008
@@ -1023,60 +1023,60 @@ _0216AF70:
 	mov r1, #0xa
 	bl FX_DivS32
 	mov r4, r0
-	add r0, sb, #0x208
+	add r0, r9, #0x208
 	add r0, r0, #0x400
 	bl Unknown2056570__Func_2056834
-	mov sl, r0
+	mov r10, r0
 	add r0, r7, r4, lsl #5
-	mov r1, sl
+	mov r1, r10
 	mov r2, #0x20
 	bl MIi_CpuCopyFast
 	add r0, r7, r5, lsl #5
-	add r1, sl, #0x20
+	add r1, r10, #0x20
 	mov r2, #0x20
 	bl MIi_CpuCopyFast
 	add r0, r7, r6, lsl #5
-	add r1, sl, #0x40
+	add r1, r10, #0x40
 	mov r2, #0x20
 	bl MIi_CpuCopyFast
 _0216B008:
-	add r0, sb, #0x208
+	add r0, r9, #0x208
 	add r0, r0, #0x400
 	bl Unknown2056570__Func_2056B8C
 	mvn r0, #0
 	cmp r8, r0
-	ldr r1, [sb, #0x4d0]
+	ldr r1, [r9, #0x4d0]
 	bne _0216B058
 	cmp r1, r0
 	beq _0216B088
 	mov r3, #0
-	add r0, sb, #0x4e0
+	add r0, r9, #0x4e0
 	mov r1, #4
 	mov r2, #0xc
 	str r3, [sp]
 	bl FontWindowAnimator__InitAnimation
-	add r0, sb, #0x4e0
+	add r0, r9, #0x4e0
 	bl FontWindowAnimator__StartAnimating
 	mov r0, #1
-	str r0, [sb, #0x4dc]
+	str r0, [r9, #0x4dc]
 	b _0216B088
 _0216B058:
 	cmp r1, r0
 	bne _0216B088
 	mov r3, #0
-	add r0, sb, #0x4e0
+	add r0, r9, #0x4e0
 	mov r1, #1
 	mov r2, #0xc
 	str r3, [sp]
 	bl FontWindowAnimator__InitAnimation
-	add r0, sb, #0x4e0
+	add r0, r9, #0x4e0
 	bl FontWindowAnimator__StartAnimating
 	mov r0, #1
-	str r0, [sb, #0x4dc]
+	str r0, [r9, #0x4dc]
 _0216B088:
-	str r8, [sb, #0x4d0]
+	str r8, [r9, #0x4d0]
 	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end ViTalkList__Func_216AF34
 
 	arm_func_start ViTalkList__Func_216B094

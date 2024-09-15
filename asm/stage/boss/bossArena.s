@@ -444,19 +444,19 @@ BossArena__Func_2039AB4: // 0x02039AB4
 
 	arm_func_start BossArena__Func_2039AD4
 BossArena__Func_2039AD4: // 0x02039AD4
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x24
-	mov sl, r0
-	mov sb, r2
+	mov r10, r0
+	mov r9, r2
 	mov r0, r1
 	add r2, sp, #0x18
-	mov r1, sl
+	mov r1, r10
 	mov r4, r3
 	ldr r8, [sp, #0x4c]
 	ldr r7, [sp, #0x58]
 	bl VEC_Subtract
 	add r1, sp, #0x18
-	mov r0, sb
+	mov r0, r9
 	add r2, sp, #0
 	bl VEC_CrossProduct
 	add r0, sp, #0
@@ -471,7 +471,7 @@ BossArena__Func_2039AD4: // 0x02039AD4
 	bl VEC_Normalize
 	mov r5, r4, asr #1
 	ldr r1, [sp, #0xc]
-	ldr r0, [sl]
+	ldr r0, [r10]
 	smull r2, r1, r5, r1
 	adds r2, r2, #0x800
 	adc r1, r1, #0
@@ -480,7 +480,7 @@ BossArena__Func_2039AD4: // 0x02039AD4
 	add r0, r0, r2
 	str r0, [r8]
 	ldr r2, [sp, #0x10]
-	ldr r1, [sl, #4]
+	ldr r1, [r10, #4]
 	smull r3, r2, r5, r2
 	adds r3, r3, #0x800
 	adc r2, r2, #0
@@ -494,7 +494,7 @@ BossArena__Func_2039AD4: // 0x02039AD4
 	adds ip, ip, #0x800
 	rsb r1, r6, #0
 	mov r1, r1, lsl #0xf
-	ldr r2, [sl, #8]
+	ldr r2, [r10, #8]
 	adc r3, r3, #0
 	mov ip, ip, lsr #0xc
 	orr ip, ip, r3, lsl #20
@@ -511,10 +511,10 @@ BossArena__Func_2039AD4: // 0x02039AD4
 	mov r2, r1
 	bl VEC_Add
 	ldr ip, [sp, #0x54]
-	ldmia sb, {r0, r1, r2}
+	ldmia r9, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
 	ldr r1, [sp, #0xc]
-	ldr r0, [sl]
+	ldr r0, [r10]
 	smull r2, r1, r5, r1
 	adds r2, r2, #0x800
 	adc r1, r1, #0
@@ -523,7 +523,7 @@ BossArena__Func_2039AD4: // 0x02039AD4
 	sub r0, r0, r2
 	str r0, [r7]
 	ldr r1, [sp, #0x10]
-	ldr r0, [sl, #4]
+	ldr r0, [r10, #4]
 	smull r2, r1, r5, r1
 	adds r2, r2, #0x800
 	adc r1, r1, #0
@@ -543,7 +543,7 @@ BossArena__Func_2039AD4: // 0x02039AD4
 	mov r2, r3, lsr #0xc
 	adc r0, r6, r8
 	orr r2, r2, r0, lsl #20
-	ldr r3, [sl, #8]
+	ldr r3, [r10, #8]
 	add r0, sp, #0
 	sub r4, r3, r2
 	ldr r3, [sp, #0x5c]
@@ -556,10 +556,10 @@ BossArena__Func_2039AD4: // 0x02039AD4
 	mov r2, r1
 	bl VEC_Add
 	ldr r3, [sp, #0x60]
-	ldmia sb, {r0, r1, r2}
+	ldmia r9, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	add sp, sp, #0x24
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end BossArena__Func_2039AD4
 
 	arm_func_start BossArena__Func_2039CA4
@@ -1146,16 +1146,16 @@ BossArena__DrawBackground3D: // 0x0203A41C
 
 	arm_func_start BossArena__DrawBackground2D
 BossArena__DrawBackground2D: // 0x0203A448
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x28
-	mov sl, r0
+	mov r10, r0
 	mov r0, r1
 	bl BossArena__GetCameraConfig2
 	mov r1, #0x400
 	str r1, [sp]
 	mov r1, #0x240
 	str r1, [sp, #4]
-	add r2, sl, #0x100
+	add r2, r10, #0x100
 	ldrsh r3, [r2, #0x94]
 	mov r5, r0
 	add r0, sp, #0x24
@@ -1166,20 +1166,20 @@ BossArena__DrawBackground2D: // 0x0203A448
 	add r3, r5, #0x2c
 	str r4, [sp, #0xc]
 	bl BossArena__Func_2039CA4
-	ldr r0, [sl, #0x14c]
+	ldr r0, [r10, #0x14c]
 	bl GetBackgroundMappings
 	add r4, r0, #4
-	mov r0, sl
+	mov r0, r10
 	bl BossArena__Func_203A0A0
 	mov r5, r0, lsl #0x10
-	mov r0, sl
+	mov r0, r10
 	mov r8, r5, asr #0x10
 	bl BossArena__Func_203A0AC
 	add r0, r0, r5, asr #16
 	mov r0, r0, lsl #0x10
-	mov fp, r0, asr #0x10
+	mov r11, r0, asr #0x10
 	mov r5, #0
-	sub r0, fp, #1
+	sub r0, r11, #1
 	mov r7, r5
 	str r0, [sp, #0x20]
 _0203A4D8:
@@ -1188,11 +1188,11 @@ _0203A4D8:
 	cmp r8, r2
 	movgt r2, r8
 	bgt _0203A4F4
-	cmp fp, r2
+	cmp r11, r2
 	ldrle r2, [sp, #0x20]
 _0203A4F4:
 	ldrsh r0, [sp, #0x24]
-	ldr r1, [sl, #0x190]
+	ldr r1, [r10, #0x190]
 	mov r0, r0, asr #3
 	and r3, r0, #0x7f
 	cmp r3, #0x5f
@@ -1204,16 +1204,16 @@ _0203A4F4:
 	bl MIi_CpuCopy16
 	b _0203A558
 _0203A524:
-	add sb, r4, r2, lsl #8
+	add r9, r4, r2, lsl #8
 	rsb r6, r3, #0x80
-	add r0, sb, r3, lsl #1
+	add r0, r9, r3, lsl #1
 	add r1, r1, r7
 	mov r2, r6, lsl #1
 	bl MIi_CpuCopy16
-	ldr r1, [sl, #0x190]
+	ldr r1, [r10, #0x190]
 	rsb r2, r6, #0x21
 	add r1, r1, r7
-	mov r0, sb
+	mov r0, r9
 	add r1, r1, r6, lsl #1
 	mov r2, r2, lsl #1
 	bl MIi_CpuCopy16
@@ -1222,13 +1222,13 @@ _0203A558:
 	cmp r5, #0x19
 	add r7, r7, #0x42
 	blt _0203A4D8
-	ldr r0, [sl, #0x190]
+	ldr r0, [r10, #0x190]
 	ldr r1, _0203A628 // =0x00000672
 	bl DC_StoreRange
 	mov r1, #0
 	str r1, [sp]
-	ldr r2, [sl, #0x170]
-	add r0, sl, #0x100
+	ldr r2, [r10, #0x170]
+	add r0, r10, #0x100
 	str r2, [sp, #4]
 	ldrh r4, [r0, #0x74]
 	mov r2, r1
@@ -1244,7 +1244,7 @@ _0203A558:
 	str r4, [sp, #0x18]
 	ldrh r0, [r0, #0x7e]
 	str r0, [sp, #0x1c]
-	ldr r0, [sl, #0x190]
+	ldr r0, [r10, #0x190]
 	bl Mappings__ReadMappingsCompressed
 	bl Camera3D__GetTask
 	cmp r0, #0
@@ -1261,17 +1261,17 @@ _0203A5F4:
 	ldr r2, _0203A62C // =renderCoreGFXControlA
 _0203A5F8:
 	ldrsh r1, [sp, #0x24]
-	ldrb r0, [sl, #0x15c]
+	ldrb r0, [r10, #0x15c]
 	and r1, r1, #7
 	mov r0, r0, lsl #2
 	strh r1, [r2, r0]
 	ldrsh r1, [sp, #0x26]
-	ldrb r0, [sl, #0x15c]
+	ldrb r0, [r10, #0x15c]
 	and r1, r1, #7
 	add r0, r2, r0, lsl #2
 	strh r1, [r0, #2]
 	add sp, sp, #0x28
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0203A628: .word 0x00000672
 _0203A62C: .word renderCoreGFXControlA

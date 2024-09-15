@@ -375,26 +375,26 @@ _021626DC:
 
 	arm_func_start RopeTar__Draw_2162700
 RopeTar__Draw_2162700: // 0x02162700
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x18
 	bl GetCurrentTaskWork_
-	mov sb, r0
-	ldr r1, [sb, #0x128]
+	mov r9, r0
+	ldr r1, [r9, #0x128]
 	bl StageTask__Draw2D
-	add sl, sb, #0x400
-	ldrsh r0, [sl, #0x14]
+	add r10, r9, #0x400
+	ldrsh r0, [r10, #0x14]
 	mov r8, #0
 	cmp r0, #0
 	addle sp, sp, #0x18
-	ldmleia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
-	add r7, sb, #0x44
-	add r5, sb, #0x20
+	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+	add r7, r9, #0x44
+	add r5, r9, #0x20
 	add r6, sp, #0xc
 	mov r4, r8
 _02162740:
 	ldmia r7, {r0, r1, r2}
 	stmia r6, {r0, r1, r2}
-	add r1, sb, r8, lsl #3
+	add r1, r9, r8, lsl #3
 	ldr r3, [sp, #0xc]
 	ldr r0, [r1, #0x420]
 	ldr r2, [sp, #0x10]
@@ -409,14 +409,14 @@ _02162740:
 	mov r2, r4
 	mov r3, r4
 	str r4, [sp, #8]
-	add r0, sb, #0x364
+	add r0, r9, #0x364
 	bl StageTask__Draw2DEx
-	ldrsh r0, [sl, #0x14]
+	ldrsh r0, [r10, #0x14]
 	add r8, r8, #1
 	cmp r8, r0
 	blt _02162740
 	add sp, sp, #0x18
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	arm_func_end RopeTar__Draw_2162700
 
 	arm_func_start RopeTar__Collide_21627A4
@@ -560,7 +560,7 @@ _02162968:
 
 	arm_func_start RopeTar__Func_216299C
 RopeTar__Func_216299C: // 0x0216299C
-	stmdb sp!, {r4, r5, r6, r7, r8, sb, sl, fp, lr}
+	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
 	add r1, r4, #0x400
@@ -583,13 +583,13 @@ RopeTar__Func_216299C: // 0x0216299C
 	mov r3, #0x800
 _021629F0:
 	add r7, r7, r2
-	umull sb, r8, r7, r5
+	umull r9, r8, r7, r5
 	mla r8, r7, r1, r8
 	mov r7, r7, asr #0x1f
 	mla r8, r7, r5, r8
-	adds sb, sb, r3
+	adds r9, r9, r3
 	adc r7, r8, r6
-	mov r8, sb, lsr #0xc
+	mov r8, r9, lsr #0xc
 	orr r8, r8, r7, lsl #20
 	add r7, r8, #0xaa
 	cmp r0, #0
@@ -598,22 +598,22 @@ _021629F0:
 	bne _021629F0
 	mov r0, r7, lsl #0x10
 	mov r7, #0
-	mov fp, r0, lsr #0x10
+	mov r11, r0, lsr #0x10
 	ldr r2, _02162E08 // =0xFFFFEAAB
 	mov r0, #3
 	mov r6, r7
 	mov r3, #0x800
 _02162A44:
 	add r8, r7, r2
-	umull r7, sb, r8, r5
+	umull r7, r9, r8, r5
 	adds r7, r7, r3
-	mov sl, r7, lsr #0xc
-	mla sb, r8, r1, sb
+	mov r10, r7, lsr #0xc
+	mla r9, r8, r1, r9
 	mov r7, r8, asr #0x1f
-	mla sb, r7, r5, sb
-	adc r7, sb, r6
-	orr sl, sl, r7, lsl #20
-	add r7, sl, #0x55
+	mla r9, r7, r5, r9
+	adc r7, r9, r6
+	orr r10, r10, r7, lsl #20
+	add r7, r10, #0x55
 	cmp r0, #0
 	add r7, r7, #0x1500
 	sub r0, r0, #1
@@ -636,35 +636,35 @@ _02162A8C:
 	mov r6, #0x800
 _02162AB8:
 	sub r8, r2, r0
-	umull sl, sb, r8, r5
-	mla sb, r8, r3, sb
+	umull r10, r9, r8, r5
+	mla r9, r8, r3, r9
 	mov r8, r8, asr #0x1f
-	mla sb, r8, r5, sb
-	adds sl, sl, r6
-	adc r8, sb, r7
-	mov sb, sl, lsr #0xc
-	orr sb, sb, r8, lsl #20
+	mla r9, r8, r5, r9
+	adds r10, r10, r6
+	adc r8, r9, r7
+	mov r9, r10, lsr #0xc
+	orr r9, r9, r8, lsl #20
 	cmp r1, #0
-	add r0, r0, sb
+	add r0, r0, r9
 	sub r1, r1, #1
 	bne _02162AB8
 	mov r0, r0, lsl #0x10
 	mov r1, #0
 	ldr r6, _02162E10 // =0x00001555
-	mov fp, r0, lsr #0x10
+	mov r11, r0, lsr #0x10
 	mov r2, #3
 	mov r8, r1
 	mov r7, #0x800
 _02162B08:
-	sub sl, r6, r1
-	umull r0, ip, sl, r5
-	mla ip, sl, r3, ip
-	mov sb, sl, asr #0x1f
+	sub r10, r6, r1
+	umull r0, ip, r10, r5
+	mla ip, r10, r3, ip
+	mov r9, r10, asr #0x1f
 	adds r0, r0, r7
-	mla ip, sb, r5, ip
-	adc sb, ip, r8
+	mla ip, r9, r5, ip
+	adc r9, ip, r8
 	mov r0, r0, lsr #0xc
-	orr r0, r0, sb, lsl #20
+	orr r0, r0, r9, lsl #20
 	cmp r2, #0
 	add r1, r1, r0
 	sub r2, r2, #1
@@ -688,13 +688,13 @@ _02162B50:
 	mov r5, #0x800
 _02162B7C:
 	add r7, r7, r3
-	umull sb, r8, r7, r2
+	umull r9, r8, r7, r2
 	mla r8, r7, r1, r8
 	mov r7, r7, asr #0x1f
 	mla r8, r7, r2, r8
-	adds sb, sb, r5
+	adds r9, r9, r5
 	adc r7, r8, r6
-	mov r8, sb, lsr #0xc
+	mov r8, r9, lsr #0xc
 	orr r8, r8, r7, lsl #20
 	add r7, r8, #0x56
 	cmp r0, #0
@@ -703,22 +703,22 @@ _02162B7C:
 	bne _02162B7C
 	mov r0, r7, lsl #0x10
 	mov r7, #0
-	mov fp, r0, lsr #0x10
+	mov r11, r0, lsr #0x10
 	ldr r3, _02162E08 // =0xFFFFEAAB
 	mov r0, #3
 	mov r6, r7
 	mov r5, #0x800
 _02162BD0:
 	add r8, r7, r3
-	umull r7, sb, r8, r2
+	umull r7, r9, r8, r2
 	adds r7, r7, r5
-	mov sl, r7, lsr #0xc
-	mla sb, r8, r1, sb
+	mov r10, r7, lsr #0xc
+	mla r9, r8, r1, r9
 	mov r7, r8, asr #0x1f
-	mla sb, r7, r2, sb
-	adc r7, sb, r6
-	orr sl, sl, r7, lsl #20
-	add r7, sl, #0x55
+	mla r9, r7, r2, r9
+	adc r7, r9, r6
+	orr r10, r10, r7, lsl #20
+	add r7, r10, #0x55
 	cmp r0, #0
 	add r7, r7, #0x1500
 	sub r0, r0, #1
@@ -740,35 +740,35 @@ _02162C1C:
 	mov r6, #0x800
 _02162C40:
 	sub r8, r2, r0
-	umull sl, sb, r8, r5
-	mla sb, r8, r3, sb
+	umull r10, r9, r8, r5
+	mla r9, r8, r3, r9
 	mov r8, r8, asr #0x1f
-	mla sb, r8, r5, sb
-	adds sl, sl, r6
-	adc r8, sb, r7
-	mov sb, sl, lsr #0xc
-	orr sb, sb, r8, lsl #20
+	mla r9, r8, r5, r9
+	adds r10, r10, r6
+	adc r8, r9, r7
+	mov r9, r10, lsr #0xc
+	orr r9, r9, r8, lsl #20
 	cmp r1, #0
-	add r0, r0, sb
+	add r0, r0, r9
 	sub r1, r1, #1
 	bne _02162C40
 	mov r0, r0, lsl #0x10
 	mov r1, #0
 	ldr r6, _02162E10 // =0x00001555
-	mov fp, r0, lsr #0x10
+	mov r11, r0, lsr #0x10
 	mov r2, #3
 	mov r8, r1
 	mov r7, #0x800
 _02162C90:
-	sub sl, r6, r1
-	umull r0, ip, sl, r5
-	mla ip, sl, r3, ip
-	mov sb, sl, asr #0x1f
+	sub r10, r6, r1
+	umull r0, ip, r10, r5
+	mla ip, r10, r3, ip
+	mov r9, r10, asr #0x1f
 	adds r0, r0, r7
-	mla ip, sb, r5, ip
-	adc sb, ip, r8
+	mla ip, r9, r5, ip
+	adc r9, ip, r8
 	mov r0, r0, lsr #0xc
-	orr r0, r0, sb, lsl #20
+	orr r0, r0, r9, lsl #20
 	cmp r2, #0
 	add r1, r1, r0
 	sub r2, r2, #1
@@ -780,51 +780,51 @@ _02162CD0:
 	ldr r0, [sp, #4]
 	ldr r2, _02162E1C // =FX_SinCosTable_
 	cmp r0, #0x8000
-	mov r0, fp, lsl #0x10
+	mov r0, r11, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r0, r0, asr #4
 	mov r3, r0, lsl #1
 	add r0, r4, #0x900
-	strh fp, [r0, #0x30]
+	strh r11, [r0, #0x30]
 	add r1, r3, #1
 	mov r0, r1, lsl #1
 	ldrsh r1, [r2, r0]
-	ldr sb, [sp, #8]
+	ldr r9, [sp, #8]
 	mov r0, r3, lsl #1
 	mov r1, r1, lsl #4
 	str r1, [r4, #0x420]
 	ldrsh r1, [r2, r0]
-	movlo sl, #0
+	movlo r10, #0
 	ldr r0, [sp]
-	movhs sl, #0x10000
+	movhs r10, #0x10000
 	cmp r0, #1
 	mov r0, r1, lsl #4
 	mov r5, #1
 	addle sp, sp, #0xc
 	str r0, [r4, #0x424]
-	ldmleia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02162D38:
 	ldr r2, [sp, #4]
-	mov r8, sb, asr #0x1f
+	mov r8, r9, asr #0x1f
 	mov r6, #1
 	mov r1, #0
 	mov r0, #0x800
 _02162D4C:
-	sub r3, r2, sl
-	umull lr, ip, r3, sb
+	sub r3, r2, r10
+	umull lr, ip, r3, r9
 	mla ip, r3, r8, ip
 	mov r2, r3, asr #0x1f
 	adds r3, lr, r0
-	mla ip, r2, sb, ip
+	mla ip, r2, r9, ip
 	mov r7, r6
 	adc r2, ip, r1
 	mov r3, r3, lsr #0xc
 	orr r3, r3, r2, lsl #20
 	cmp r7, #0
 	sub r6, r6, #1
-	add r2, sl, r3
+	add r2, r10, r3
 	bne _02162D4C
-	add r0, fp, r2
+	add r0, r11, r2
 	mov r0, r0, lsl #0x10
 	mov r3, r0, lsr #0x10
 	mov r0, r3, lsl #0x10
@@ -843,7 +843,7 @@ _02162D4C:
 	add r5, r5, #1
 	add r6, r7, r6, lsl #3
 	str r6, [r1, #0x420]
-	add r3, sb, r3
+	add r3, r9, r3
 	mov r6, r2, lsl #1
 	mov r2, r3, lsl #0x10
 	ldrsh r3, [r0, r6]
@@ -852,10 +852,10 @@ _02162D4C:
 	cmp r5, r0
 	add r0, r6, r3, lsl #3
 	str r0, [r1, #0x424]
-	mov sb, r2, asr #0x10
+	mov r9, r2, asr #0x10
 	blt _02162D38
 	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, sb, sl, fp, pc}
+	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02162E04: .word 0xFFFF9556
 _02162E08: .word 0xFFFFEAAB
