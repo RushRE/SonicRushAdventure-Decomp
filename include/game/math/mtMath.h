@@ -23,6 +23,9 @@
 #define VOID_TO_INT(x) (size_t)(void *)(x)
 #define INT_TO_VOID(x) (void *)(size_t)(x)
 
+// non-fx32 squared function
+#define MT_SQUARED(x) ((x) * (x))
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -162,6 +165,12 @@ RUSH_INLINE s32 Abs(s32 x)
 RUSH_INLINE s32 MultiplyFX(s32 v1, s32 v2)
 {
     return FX32_CAST((s64)v1 * (s64)v2 + 0x800L >> FX32_SHIFT);
+}
+
+// fx32 squared function
+RUSH_INLINE s32 SquaredFX(s32 v1)
+{
+    return MultiplyFX(v1, v1);
 }
 
 RUSH_INLINE fx16 SinFX(u16 idx)

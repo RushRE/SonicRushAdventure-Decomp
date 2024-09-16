@@ -92,9 +92,9 @@ NONMATCH_FUNC void Icicle_State_Active(Icicle *work)
     Player *player = (Player *)work->gameWork.parent;
     if (player != NULL)
     {
-        if (CheckPlayerGimmickObj(player, work))
+        if (!CheckPlayerGimmickObj(player, work))
         {
-            work->gameWork.parent            = 0;
+            work->gameWork.parent            = NULL;
             work->gameWork.objWork.userTimer = 60;
         }
     }

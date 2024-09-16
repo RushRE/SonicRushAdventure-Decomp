@@ -875,7 +875,7 @@
 .public EffectPipeFlowSeed__State_202ADFC
 .public EffectSteamDust__Create
 .public EffectSteamEffect__Create
-.public EffectSteamFan__Create
+.public EffectCreateSteamFan
 .public EffectSteamFan__State_202B324
 .public EffectPiston__Create
 .public EffectIceBlockDebris__Create
@@ -8286,11 +8286,11 @@
 .public GoalChest_Draw_Effect
 .public SpawnGoalChestJewel
 .public GoalChest_OnDefend
-.public SteamFan__Create
-.public SteamFan__Destructor
-.public SteamFan__State_2166138
-.public SteamFan__OnDefend
-.public SteamFan__Draw
+.public CreateSteamFan
+.public SteamFan_Destructor
+.public SteamFan_State_Spinning
+.public SteamFan_OnDefend
+.public SteamFan_Draw
 .public PopSteam__Create
 .public PopSteam__Destructor
 .public PopSteam__State_21668F8

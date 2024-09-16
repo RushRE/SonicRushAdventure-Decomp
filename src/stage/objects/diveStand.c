@@ -1295,7 +1295,7 @@ void DiveStand__OnDefend_216AC14(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER || CheckIsPlayer1(player) == FALSE)
         return;
 
-    if (CheckPlayerGimmickObj(player, diveStand))
+    if (!CheckPlayerGimmickObj(player, diveStand))
     {
         ObjRect__FuncNoHit(rect1, rect2);
     }

@@ -42,6 +42,7 @@
 #include <stage/objects/diveStand.h>
 #include <stage/objects/flipMushroom.h>
 #include <stage/objects/springCrystal.h>
+#include <stage/objects/steamFan.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -93,7 +94,6 @@ NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, f
 NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *SteamFan__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DreamWing__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DreamWingPart__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CameraBoundsTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -678,7 +678,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_132] = (CreateObjectFunc)PipeSteam__Create,
     [MAPOBJECT_133] = (CreateObjectFunc)PipeSteam__Create,
     [MAPOBJECT_134] = (CreateObjectFunc)PipeSteam__Create,
-    [MAPOBJECT_135] = (CreateObjectFunc)SteamFan__Create,
+    [MAPOBJECT_135] = (CreateObjectFunc)CreateSteamFan,
     [MAPOBJECT_136] = (CreateObjectFunc)DreamWing__Create,
     [MAPOBJECT_137] = (CreateObjectFunc)DreamWingPart__Create,
     [MAPOBJECT_138] = (CreateObjectFunc)CameraBoundsTrigger__Create,

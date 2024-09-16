@@ -399,7 +399,7 @@ Overlay ZoneAct
     Object src/stage/objects/waterRunTrigger.o
     Object asm/stage/objects/goalChest_vars.o
     Object src/stage/objects/goalChest.o
-    Object asm/stage/objects/steamFan.o
+    Object src/stage/objects/steamFan.o
     Object asm/stage/objects/popSteam.o
     Object asm/stage/objects/dreamWing.o
     Object asm/stage/objects/largePiston.o

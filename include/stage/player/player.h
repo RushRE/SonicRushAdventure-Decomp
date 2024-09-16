@@ -755,15 +755,15 @@ void Player__Func_201DD24(Player *player);
 void Player__State_201DE24(Player *work);
 void Player__Gimmick_WaterRun(Player *player);
 void Player__State_WaterRun(Player *work);
-void Player__Action_SteamFan(Player *player, GameObjectTask *other, s32 a3);
+void Player__Action_SteamFan(Player *player, GameObjectTask *other, s32 fanRadius);
 void Player__State_SteamFan(Player *work);
-void Player__Action_PopSteam(Player *player, GameObjectTask *other, fx32 velX, fx32 velY, s32 a5, u32 a6);
+void Player__Action_PopSteam(Player *player, GameObjectTask *other, fx32 velX, fx32 velY, fx32 speedThreshold, BOOL allowTricks);
 void Player__State_PopSteam(Player *work);
-void Player__Action_DreamWing(Player *player, GameObjectTask *other, fx32 velX, fx32 velY, s32 a5);
+void Player__Action_DreamWing(Player *player, GameObjectTask *other, fx32 velX, fx32 velY, s32 burstDelay);
 void Player__State_DreamWing(Player *work);
-void Player__Action_LargePiston1(Player *player, GameObjectTask *other, s32 a3, s32 a4, s32 a5, s32 a6);
+void Player__Action_LargePiston1(Player *player, GameObjectTask *other, fx32 velX, fx32 velY, fx32 velZ, fx32 delay);
 void Player__State_LargePiston1(Player *work);
-void Player__Action_LargePiston2(Player *player, GameObjectTask *other, s32 a3, s32 a4, s32 a5, u32 a6);
+void Player__Action_LargePiston2(Player *player, GameObjectTask *other, fx32 velX, fx32 velY, fx32 velZ, fx32 delay);
 void Player__State_LargePiston2(Player *work);
 void Player__Action_IcicleGrab(Player *player, GameObjectTask *other, s32 width);
 void Player__State_IcicleGrab(Player *work);
@@ -851,7 +851,7 @@ void Player__State_SpringRope(Player *work);
 // INLINE FUNCTIONS
 // --------------------
 
-#define CheckPlayerGimmickObj(player, gimmickWork) ((player)->gimmickObj != &(gimmickWork)->gameWork)
+#define CheckPlayerGimmickObj(player, gimmickWork) ((player)->gimmickObj == &(gimmickWork)->gameWork)
 
 RUSH_INLINE BOOL CheckIsPlayer1(Player *player)
 {

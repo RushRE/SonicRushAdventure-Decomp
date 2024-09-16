@@ -2262,7 +2262,7 @@ _0202B110:
 }
 
 // EffectSteamFan
-NONMATCH_FUNC EffectSteamFan *EffectSteamFan__Create(StageTask *parent, s32 userTimer, u16 angle, s32 userWork)
+NONMATCH_FUNC EffectSteamFan *EffectCreateSteamFan(StageTask *parent, s32 userTimer, u16 angle, s32 userWork)
 {
 #ifdef NON_MATCHING
 
