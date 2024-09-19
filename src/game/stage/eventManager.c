@@ -43,6 +43,7 @@
 #include <stage/objects/flipMushroom.h>
 #include <stage/objects/springCrystal.h>
 #include <stage/objects/steamFan.h>
+#include <stage/objects/winch.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -101,11 +102,10 @@ NOT_DECOMPILED GameObjectTask *GrabTree__Create(MapObject *mapObject, fx32 x, fx
 NOT_DECOMPILED GameObjectTask *ObjectUnknown1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Stalactite__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *VRotateCrane__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Winch__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Truck3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Truck__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
+NOT_DECOMPILED GameObjectTask *TruckBarrier__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Truck3DTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Avalanche__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *IceTree__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -713,11 +713,11 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_167] = (CreateObjectFunc)VRotateCrane__Create,
     [MAPOBJECT_168] = (CreateObjectFunc)VRotateCrane__Create,
     [MAPOBJECT_169] = (CreateObjectFunc)VRotateCrane__Create,
-    [MAPOBJECT_170] = (CreateObjectFunc)Winch__Create,
+    [MAPOBJECT_170] = (CreateObjectFunc)CreateWinch,
     [MAPOBJECT_171] = (CreateObjectFunc)LargePiston__Create,
     [MAPOBJECT_172] = (CreateObjectFunc)LargePiston__Create,
     [MAPOBJECT_173] = (CreateObjectFunc)Truck3D__Create,
-    [MAPOBJECT_174] = (CreateObjectFunc)Truck__Create,
+    [MAPOBJECT_174] = (CreateObjectFunc)TruckBarrier__Create,
     [MAPOBJECT_175] = (CreateObjectFunc)CreateFlagChange,
     [MAPOBJECT_176] = (CreateObjectFunc)CreateStageRing,
     [MAPOBJECT_177] = (CreateObjectFunc)CreateFlagChange,

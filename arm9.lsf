@@ -417,15 +417,9 @@ Overlay ZoneAct
     Object asm/stage/objects/stalactite.o
     Object src/stage/objects/springCrystal.o
     Object asm/stage/objects/vRotateCrane.o
-    Object asm/stage/objects/winch.o
-    Object asm/stage/objects/truck3D.o
+    Object asm/stage/objects/winch_vars.o
+    Object src/stage/objects/winch.o
     Object asm/stage/objects/truck.o
-    Object asm/stage/objects/truck3DTrigger.o
-    Object asm/stage/objects/ringTruck3D.o
-    Object asm/stage/objects/itemBoxTruck3D.o
-    Object asm/stage/objects/truckBomb3D.o
-    Object asm/stage/objects/truckSpike3D.o
-    Object asm/stage/objects/truckLava3D.o
     Object src/stage/objects/stageRing.o
     Object src/stage/objects/itemBox.o
     Object src/stage/objects/checkpoint.o

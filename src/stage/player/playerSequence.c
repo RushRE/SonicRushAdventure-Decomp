@@ -247,321 +247,149 @@ void Player__Gimmick_201B500(Player *player, GameObjectTask *other, s32 value1, 
     }
 }
 
-NONMATCH_FUNC void Player__State_201B5A0(Player *work)
+void Player__State_201B5A0(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *gimmickObj = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0x54
-	mov r5, r0
-	ldr r4, [r5, #0x6d8]
-	cmp r4, #0
-	beq _0201B8D0
-	ldr r0, [r5, #0x44]
-	str r0, [r5, #0x8c]
-	ldr r0, [r5, #0x48]
-	str r0, [r5, #0x90]
-	ldr r0, [r5, #0x4c]
-	str r0, [r5, #0x94]
-	ldr r0, [r5, #0x5d8]
-	tst r0, #7
-	beq _0201B7C4
-	add r0, sp, #0x30
-	bl MTX_Identity33_
-	ldr r0, [r5, #0x5d8]
-	tst r0, #8
-	beq _0201B624
-	ldrh r1, [r4, #0x34]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0x30
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov ip, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, ip]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotZ33_
-	ldrh r0, [r4, #0x34]
-	strh r0, [r5, #0x34]
-_0201B624:
-	ldr r0, [r5, #0x5d8]
-	tst r0, #1
-	beq _0201B674
-	ldrh r1, [r4, #0x30]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0xc
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov ip, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, ip]
-	ldrsh r2, [r3, r2]
-	blx MTX_RotX33_
-	ldrh r3, [r4, #0x30]
-	add r0, sp, #0x30
-	add r1, sp, #0xc
-	mov r2, r0
-	strh r3, [r5, #0x30]
-	bl MTX_Concat33
-_0201B674:
-	ldr r0, [r5, #0x5d8]
-	tst r0, #2
-	beq _0201B6D8
-	ldrh r1, [r4, #0x32]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0xc
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov ip, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, ip]
-	ldrsh r2, [r3, r2]
-	blx MTX_RotY33_
-	ldrh r3, [r4, #0x32]
-	add r0, sp, #0x30
-	add r1, sp, #0xc
-	mov r2, r0
-	strh r3, [r5, #0x32]
-	bl MTX_Concat33
-_0201B6D8:
-	ldr r0, [r5, #0x5d8]
-	tst r0, #4
-	beq _0201B728
-	ldrh r1, [r4, #0x34]
-	ldr r3, =FX_SinCosTable_
-	add r0, sp, #0xc
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	add r1, r2, #1
-	mov ip, r2, lsl #1
-	mov r2, r1, lsl #1
-	ldrsh r1, [r3, ip]
-	ldrsh r2, [r3, r2]
-	bl MTX_RotZ33_
-	ldrh r3, [r4, #0x34]
-	add r0, sp, #0x30
-	add r1, sp, #0xc
-	mov r2, r0
-	strh r3, [r5, #0x34]
-	bl MTX_Concat33
-_0201B728:
-	ldr lr, [r5, #0x6f8]
-	add r0, sp, #0
-	ldr ip, [r5, #0x6f4]
-	ldr r3, [r5, #0x6f0]
-	add r1, sp, #0x30
-	mov r2, r0
-	str r3, [sp]
-	str ip, [sp, #4]
-	str lr, [sp, #8]
-	bl MTX_MultVec33
-	ldr r0, [r5, #0x24]
-	tst r0, #2
-	beq _0201B790
-	ldr r1, [r4, #0x8c]
-	ldr r0, [sp]
-	ldr lr, [r4, #0x94]
-	ldr ip, [sp, #8]
-	ldr r3, [r4, #0x90]
-	ldr r2, [sp, #4]
-	add r0, r1, r0
-	str r0, [r5, #0x44]
-	add r0, r3, r2
-	str r0, [r5, #0x48]
-	add r0, lr, ip
-	str r0, [r5, #0x4c]
-	b _0201B824
-_0201B790:
-	ldr r1, [r4, #0x44]
-	ldr r0, [sp]
-	ldr lr, [r4, #0x4c]
-	ldr ip, [sp, #8]
-	ldr r3, [r4, #0x48]
-	ldr r2, [sp, #4]
-	add r0, r1, r0
-	str r0, [r5, #0x44]
-	add r0, r3, r2
-	str r0, [r5, #0x48]
-	add r0, lr, ip
-	str r0, [r5, #0x4c]
-	b _0201B824
-_0201B7C4:
-	ldr r0, [r5, #0x24]
-	tst r0, #2
-	beq _0201B7FC
-	ldr r1, [r4, #0x8c]
-	ldr r0, [r5, #0x6f0]
-	add r0, r1, r0
-	str r0, [r5, #0x44]
-	ldr r1, [r4, #0x90]
-	ldr r0, [r5, #0x6f4]
-	add r0, r1, r0
-	str r0, [r5, #0x48]
-	ldr r0, [r4, #0x94]
-	str r0, [r5, #0x4c]
-	b _0201B824
-_0201B7FC:
-	ldr r1, [r4, #0x44]
-	ldr r0, [r5, #0x6f0]
-	add r0, r1, r0
-	str r0, [r5, #0x44]
-	ldr r1, [r4, #0x48]
-	ldr r0, [r5, #0x6f4]
-	add r0, r1, r0
-	str r0, [r5, #0x48]
-	ldr r0, [r4, #0x4c]
-	str r0, [r5, #0x4c]
-_0201B824:
-	ldr r1, [r5, #0x44]
-	ldr r0, [r5, #0x8c]
-	sub r0, r1, r0
-	str r0, [r5, #0xbc]
-	ldr r1, [r5, #0x48]
-	ldr r0, [r5, #0x90]
-	sub r0, r1, r0
-	str r0, [r5, #0xc0]
-	ldr r1, [r5, #0x4c]
-	ldr r0, [r5, #0x94]
-	sub r0, r1, r0
-	str r0, [r5, #0xc4]
-	ldr r0, [r5, #0x24]
-	tst r0, #0x40
-	ldrne r0, [r4, #4]
-	cmpne r0, #0
-	addne r0, r0, #0x1000
-	strne r0, [r5, #4]
-	ldr r0, [r4, #0x24]
-	tst r0, #1
-	beq _0201B894
-	ldr r1, [r4, #0x98]
-	mov r0, #0
-	str r1, [r5, #0x98]
-	ldr r1, [r4, #0x9c]
-	str r1, [r5, #0x9c]
-	str r0, [r5, #0x6d8]
-	b _0201B8AC
-_0201B894:
-	tst r0, #2
-	beq _0201B8AC
-	ldr r1, [r4, #0xc8]
-	mov r0, #0
-	str r1, [r5, #0x98]
-	str r0, [r5, #0x6d8]
-_0201B8AC:
-	ldr r0, [r4, #0x24]
-	tst r0, #4
-	beq _0201B8D0
-	ldr r1, [r5, #0xbc]
-	mov r0, #0
-	str r1, [r5, #0x98]
-	ldr r1, [r5, #0xc0]
-	str r1, [r5, #0x9c]
-	str r0, [r5, #0x6d8]
-_0201B8D0:
-	ldr r0, [r5, #0x6d8]
-	cmp r0, #0
-	beq _0201B900
-	ldr r0, [r5, #0x24]
-	tst r0, #1
-	addeq sp, sp, #0x54
-	ldmeqia sp!, {r3, r4, r5, r6, pc}
-	add r0, r5, #0x700
-	ldrh r0, [r0, #0x22]
-	tst r0, #3
-	addeq sp, sp, #0x54
-	ldmeqia sp!, {r3, r4, r5, r6, pc}
-_0201B900:
-	mov r1, #0
-	str r1, [r5, #0x6d8]
-	ldr r0, [r5, #0x1c]
-	ldr r2, =0xFFFDFFCF
-	bic r0, r0, #0xa100
-	orr r0, r0, #0xc0
-	str r0, [r5, #0x1c]
-	ldr r0, [r5, #0x20]
-	add r3, r5, #0x254
-	orr r0, r0, #0x200
-	str r0, [r5, #0x20]
-	ldr r4, [r5, #0x5d8]
-	ldr r0, =0xFFEFDFFF
-	and r0, r4, r0
-	str r0, [r5, #0x5d8]
-	ldr r4, [r5, #0x5dc]
-	add r0, r5, #0x600
-	and r2, r4, r2
-	str r2, [r5, #0x5dc]
-	strh r1, [r0, #0xde]
-	strh r1, [r0, #0xdc]
-	strh r1, [r5, #0x34]
-	strh r1, [r5, #0x32]
-	strh r1, [r5, #0x30]
-	add r0, r3, #0x400
-	bl NNS_SndPlayerStopSeq
-	ldr r4, [r5, #0x24]
-	tst r4, #1
-	beq _0201B998
-	add r0, r5, #0x700
-	ldrh r0, [r0, #0x22]
-	tst r0, #3
-	beq _0201B998
-	ldr r1, [r5, #0x5f0]
-	mov r0, r5
-	blx r1
-	add sp, sp, #0x54
-	ldmia sp!, {r3, r4, r5, r6, pc}
-_0201B998:
-	tst r4, #4
-	beq _0201B9C4
-	ldr r4, [r5, #0x98]
-	ldr r6, [r5, #0x9c]
-	ldr r1, [r5, #0x5f0]
-	mov r0, r5
-	blx r1
-	str r4, [r5, #0x98]
-	add sp, sp, #0x54
-	str r6, [r5, #0x9c]
-	ldmia sp!, {r3, r4, r5, r6, pc}
-_0201B9C4:
-	tst r4, #8
-	beq _0201BA0C
-	ldr r1, [r5, #0x98]
-	ldr r2, [r5, #0x9c]
-	mov r0, r5
-	bl Player__Gimmick_Jump
-	tst r4, #0x10
-	ldrne r0, [r5, #0x5d8]
-	orrne r0, r0, #4
-	strne r0, [r5, #0x5d8]
-	tst r4, #0x20
-	addeq sp, sp, #0x54
-	ldmeqia sp!, {r3, r4, r5, r6, pc}
-	ldr r0, [r5, #0x5d8]
-	add sp, sp, #0x54
-	orr r0, r0, #8
-	str r0, [r5, #0x5d8]
-	ldmia sp!, {r3, r4, r5, r6, pc}
-_0201BA0C:
-	mov r0, r5
-	mov r1, #0
-	bl Player__Action_LandOnGround
-	ldr r1, [r5, #0x5e4]
-	mov r0, r5
-	blx r1
-	add sp, sp, #0x54
-	ldmia sp!, {r3, r4, r5, r6, pc}
+    if (gimmickObj != NULL)
+    {
+        work->objWork.prevPosition.x = work->objWork.position.x;
+        work->objWork.prevPosition.y = work->objWork.position.y;
+        work->objWork.prevPosition.z = work->objWork.position.z;
 
-// clang-format on
-#endif
+        if ((work->playerFlag & (PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG)) != 0)
+        {
+            MtxFx33 matDirection;
+            MtxFx33 matTemp;
+
+            MTX_Identity33(&matDirection);
+
+            if ((work->playerFlag & PLAYER_FLAG_DISABLE_TRICK_FINISHER) != 0)
+            {
+                MTX_RotZ33(&matDirection, SinFX(gimmickObj->objWork.dir.z), CosFX(gimmickObj->objWork.dir.z));
+                work->objWork.dir.z = gimmickObj->objWork.dir.z;
+            }
+
+            if ((work->playerFlag & PLAYER_FLAG_USER_FLAG) != 0)
+            {
+                MTX_RotX33(&matTemp, SinFX(gimmickObj->objWork.dir.x), CosFX(gimmickObj->objWork.dir.x));
+                work->objWork.dir.x = gimmickObj->objWork.dir.x;
+                MTX_Concat33(&matDirection, &matTemp, &matDirection);
+            }
+
+            if ((work->playerFlag & PLAYER_FLAG_ALLOW_TRICKS) != 0)
+            {
+                MTX_RotY33(&matTemp, SinFX((s32)(u16)-gimmickObj->objWork.dir.y), CosFX((s32)(u16)-gimmickObj->objWork.dir.y));
+                work->objWork.dir.y = gimmickObj->objWork.dir.y;
+                MTX_Concat33(&matDirection, &matTemp, &matDirection);
+            }
+
+            if ((work->playerFlag & PLAYER_FLAG_FINISHED_TRICK_COMBO) != 0)
+            {
+                MTX_RotZ33(&matTemp, SinFX(gimmickObj->objWork.dir.z), CosFX(gimmickObj->objWork.dir.z));
+                work->objWork.dir.z = gimmickObj->objWork.dir.z;
+                MTX_Concat33(&matDirection, &matTemp, &matDirection);
+            }
+
+            VecFx32 offset;
+            VEC_Set(&offset, work->gimmickValue1, work->gimmickValue2, work->gimmickValue3);
+            MTX_MultVec33(&offset, &matDirection, &offset);
+
+            if ((work->objWork.userFlag & 2) != 0)
+            {
+                VEC_Set(&work->objWork.position, gimmickObj->objWork.prevPosition.x + offset.x, gimmickObj->objWork.prevPosition.y + offset.y,
+                        gimmickObj->objWork.prevPosition.z + offset.z);
+            }
+            else
+            {
+                VEC_Set(&work->objWork.position, gimmickObj->objWork.position.x + offset.x, gimmickObj->objWork.position.y + offset.y, gimmickObj->objWork.position.z + offset.z);
+            }
+        }
+        else if ((work->objWork.userFlag & 2) != 0)
+        {
+            work->objWork.position.x = gimmickObj->objWork.prevPosition.x + work->gimmickValue1;
+            work->objWork.position.y = gimmickObj->objWork.prevPosition.y + work->gimmickValue2;
+            work->objWork.position.z = gimmickObj->objWork.prevPosition.z;
+        }
+        else
+        {
+            work->objWork.position.x = gimmickObj->objWork.position.x + work->gimmickValue1;
+            work->objWork.position.y = gimmickObj->objWork.position.y + work->gimmickValue2;
+            work->objWork.position.z = gimmickObj->objWork.position.z;
+        }
+
+        work->objWork.move.x = work->objWork.position.x - work->objWork.prevPosition.x;
+        work->objWork.move.y = work->objWork.position.y - work->objWork.prevPosition.y;
+        work->objWork.move.z = work->objWork.position.z - work->objWork.prevPosition.z;
+
+        if ((work->objWork.userFlag & 0x40) != 0 && gimmickObj->objWork.shakeTimer != 0)
+            work->objWork.shakeTimer = gimmickObj->objWork.shakeTimer + FLOAT_TO_FX32(1.0);
+
+        if ((gimmickObj->objWork.userFlag & 1) != 0)
+        {
+            work->objWork.velocity.x = gimmickObj->objWork.velocity.x;
+            work->objWork.velocity.y = gimmickObj->objWork.velocity.y;
+            work->gimmickObj         = NULL;
+        }
+        else if ((gimmickObj->objWork.userFlag & 2) != 0)
+        {
+            work->objWork.velocity.x = gimmickObj->objWork.groundVel;
+            work->gimmickObj         = NULL;
+        }
+
+        if ((gimmickObj->objWork.userFlag & 4) != 0)
+        {
+            work->objWork.velocity.x = work->objWork.move.x;
+            work->objWork.velocity.y = work->objWork.move.y;
+            work->gimmickObj         = NULL;
+        }
+    }
+
+    if (work->gimmickObj == NULL || (work->objWork.userFlag & 1) != 0 && (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
+    {
+        work->gimmickObj = NULL;
+
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT)
+                                  | STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
+        work->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+        work->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_GRABBED);
+
+        work->gimmickCamOffsetX = work->gimmickCamOffsetY = 0;
+        work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+
+        StopPlayerSfx(work, PLAYER_SEQPLAYER_COMMON);
+
+        u32 flag = work->objWork.userFlag;
+        if ((flag & 1) != 0 && (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
+        {
+            work->actionJump(work);
+        }
+        else if ((flag & 4) != 0)
+        {
+            fx32 velX = work->objWork.velocity.x;
+            fx32 velY = work->objWork.velocity.y;
+            work->actionJump(work);
+            work->objWork.velocity.x = velX;
+            work->objWork.velocity.y = velY;
+        }
+        else if ((flag & 8) != 0)
+        {
+            Player__Gimmick_Jump(work, work->objWork.velocity.x, work->objWork.velocity.y);
+
+            if ((flag & 0x10) != 0)
+                work->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO;
+
+            if ((flag & 0x20) != 0)
+                work->playerFlag |= PLAYER_FLAG_DISABLE_TRICK_FINISHER;
+        }
+        else
+        {
+            Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
+            work->onLandGround(work);
+        }
+    }
 }
 
 void Player__Action_DashRing(Player *player, fx32 x, fx32 y, fx32 velX, fx32 velY)
@@ -3494,14 +3322,14 @@ void Player__Action_DreamWing(Player *player, GameObjectTask *other, fx32 velX, 
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
 
-        player->objWork.dir.z      = FLOAT_DEG_TO_IDX(0.0);
-        player->gimmickValue4      = player->objWork.groundVel;
+        player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+        player->gimmickValue4 = player->objWork.groundVel;
 
         player->objWork.velocity.x = velX;
         player->objWork.velocity.y = velY;
         player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
 
-        player->gimmickValue1      = -velY;
+        player->gimmickValue1 = -velY;
         if (velY <= FLOAT_TO_FX32(0.0))
             player->gimmickValue1 = FLOAT_TO_FX32(2.0);
 
@@ -3658,9 +3486,9 @@ void Player__Action_LargePiston1(Player *player, GameObjectTask *other, fx32 vel
         player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
         ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
 
-        player->objWork.position.x   = other->objWork.position.x;
-        player->objWork.position.y   = other->objWork.position.y;
-        player->objWork.position.z   = FLOAT_TO_FX32(0.0);
+        player->objWork.position.x = other->objWork.position.x;
+        player->objWork.position.y = other->objWork.position.y;
+        player->objWork.position.z = FLOAT_TO_FX32(0.0);
 
         player->objWork.shakeTimer   = FLOAT_TO_FX32(8.0);
         player->objWork.hitstopTimer = FLOAT_TO_FX32(8.0);
@@ -3794,12 +3622,12 @@ void Player__Action_LargePiston2(Player *player, GameObjectTask *other, fx32 vel
 
         player->objWork.shakeTimer   = FLOAT_TO_FX32(8.0);
         player->objWork.hitstopTimer = FLOAT_TO_FX32(8.0);
-		
-        player->objWork.velocity.x   = velX;
-        player->objWork.velocity.y   = velY;
-        player->objWork.velocity.z   = velZ;
-        player->objWork.userTimer    = delay;
-        player->trickCooldownTimer   = 0;
+
+        player->objWork.velocity.x = velX;
+        player->objWork.velocity.y = velY;
+        player->objWork.velocity.z = velZ;
+        player->objWork.userTimer  = delay;
+        player->trickCooldownTimer = 0;
         player->playerFlag &= ~PLAYER_FLAG_FINISHED_TRICK_COMBO;
 
         SetTaskState(&player->objWork, Player__State_LargePiston2);
@@ -5939,10 +5767,10 @@ void Player__Action_CraneGrab(Player *player, GameObjectTask *other)
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_CRANE_TURN);
 }
 
-void Player__Func_20212C8(Player *player, GameObjectTask *other, u32 displayFlag)
+void Player__Action_Winch(Player *player, GameObjectTask *other, u32 displayFlag)
 {
     Player__Gimmick_201B500(player, other, 0, FLOAT_TO_FX32(15.0), 0);
-    SetTaskState(&player->objWork, Player__State_202135C);
+    SetTaskState(&player->objWork, Player__State_Winch);
 
     player->objWork.userFlag |= 1 | 2 | 8 | 64;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
@@ -5957,13 +5785,13 @@ void Player__Func_20212C8(Player *player, GameObjectTask *other, u32 displayFlag
     player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
 }
 
-void Player__State_202135C(Player *work)
+void Player__State_Winch(Player *work)
 {
     GameObjectTask *gimmick = work->gimmickObj;
 
     Player__State_201B5A0(work);
 
-    if (!StageTaskStateMatches(&work->objWork, Player__State_202135C) && gimmick != NULL)
+    if (!StageTaskStateMatches(&work->objWork, Player__State_Winch) && gimmick != NULL)
         Player__Action_AllowTrickCombos(work, gimmick);
 }
 
@@ -6218,7 +6046,7 @@ _020216E4:
 #endif
 }
 
-void Player__Func_202178C(Player *player, GameObjectTask *other, s32 a3)
+void Player__Action_TruckLaunch(Player *player, GameObjectTask *other, s32 a3)
 {
     if (player->gimmickObj == other)
     {
@@ -6233,7 +6061,7 @@ void Player__Func_202178C(Player *player, GameObjectTask *other, s32 a3)
         player->gimmickFlag &= ~(PLAYER_GIMMICK_10 | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_GRABBED);
 
         player->gimmickCamOffsetX = player->gimmickCamOffsetY = 0;
-        player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
+        player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
         Player__Gimmick_Jump(player, player->objWork.move.x, -FLOAT_TO_FX32(8.0));
 

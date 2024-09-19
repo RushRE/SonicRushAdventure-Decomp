@@ -6,7 +6,7 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void Truck3D__Func_216F57C(GameObjectTask *work);
+NOT_DECOMPILED void Truck3D__Action_Enter3D(GameObjectTask *work);
 NOT_DECOMPILED void Truck3D__Func_216F2FC(Player *player, GameObjectTask *a2);
 
 // --------------------
@@ -203,9 +203,9 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         case MAPOBJECT_177:
             if (player->gimmickObj != NULL)
             {
-                GameObjectTask *gimmickObj = player->gimmickObj;
-                if (gimmickObj->objWork.objType == STAGE_OBJ_TYPE_OBJECT && gimmickObj->mapObject->id == MAPOBJECT_173)
-                    Truck3D__Func_216F57C(gimmickObj);
+                GameObjectTask *truck = player->gimmickObj;
+                if (truck->objWork.objType == STAGE_OBJ_TYPE_OBJECT && truck->mapObject->id == MAPOBJECT_173)
+                    Truck3D__Action_Enter3D(truck);
             }
             break;
 

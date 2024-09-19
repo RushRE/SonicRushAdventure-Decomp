@@ -53,7 +53,7 @@ typedef struct ScoreBonus_ ScoreBonus;
 #define PLAYER_TENSION_TRICKFINISH (320)
 
 #define PLAYER_TENSION_CHECKPOINT (800)
-#define PLAYER_TENSION_ENEMY (400)
+#define PLAYER_TENSION_ENEMY      (400)
 
 #define PLAYER_TRICK_COOLDOWN       (24)
 #define PLAYER_TRICK_COOLDOWN_HYPER (12)
@@ -69,9 +69,9 @@ typedef struct ScoreBonus_ ScoreBonus;
 #define PLAYER_BOOST_SCROLL_DELAY (8)
 #define PLAYER_BOOST_DURATION     (96)
 
-#define PLAYER_SUPERBOOST_MINIMUM           (80) // the superboost only requires you to have 80 tension to use
+#define PLAYER_SUPERBOOST_MINIMUM           (80)  // the superboost only requires you to have 80 tension to use
 #define PLAYER_SUPERBOOST_COST              (112) // the superboost will drain 112 tension on activation
-#define PLAYER_SUPERBOOST_DRAIN_SPEED       (8) // the superboost will drain 8 tension per frame
+#define PLAYER_SUPERBOOST_DRAIN_SPEED       (8)   // the superboost will drain 8 tension per frame
 #define PLAYER_SUPERBOOST_COOLDOWN_DURATION (8)
 #define PLAYER_SUPERBOOST_SFX_FADE_DURATION (16)
 
@@ -792,11 +792,11 @@ void Player__Action_ExitHalfpipe(Player *player);
 void Player__Func_2021188(Player *player, u32 a2);
 void Player__Action_SpringCrystal(Player *player, fx32 velX, fx32 velY);
 void Player__Action_CraneGrab(Player *player, GameObjectTask *other);
-void Player__Func_20212C8(Player *player, GameObjectTask *other, u32 displayFlag);
-void Player__State_202135C(Player *work);
+void Player__Action_Winch(Player *player, GameObjectTask *other, u32 displayFlag);
+void Player__State_Winch(Player *work);
 void Player__Gimmick_2021394(Player *player, GameObjectTask *other);
 void Player__State_202146C(Player *work);
-void Player__Func_202178C(Player *player, GameObjectTask *other, s32 a3);
+void Player__Action_TruckLaunch(Player *player, GameObjectTask *other, s32 a3);
 void Player__State_2021848(Player *work);
 void Player__OnDefend_Unknown(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void Player__Func_2021A84(Player *player, GameObjectTask *other);
@@ -851,7 +851,7 @@ void Player__State_SpringRope(Player *work);
 // INLINE FUNCTIONS
 // --------------------
 
-#define CheckPlayerGimmickObj(player, gimmickWork) ((player)->gimmickObj == &(gimmickWork)->gameWork)
+#define CheckPlayerGimmickObj(player, gimmickWork) (((Player *)(player))->gimmickObj == &(gimmickWork)->gameWork)
 
 RUSH_INLINE BOOL CheckIsPlayer1(Player *player)
 {
