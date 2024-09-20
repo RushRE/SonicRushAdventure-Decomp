@@ -1226,14 +1226,14 @@ void Opening_StateScene_ProcessAnimatedScene(Opening *work)
 
     if (targetAnimator != NULL)
     {
-        if (!GetOpeningSceneID(work) && targetAnimator->currentAnimObj[0]->frame <= FLOAT_TO_FX32(20.0) && (work->flags & OPENING_FLAG_IS_FADING) == 0)
+        if (!GetOpeningSceneID(work) && targetAnimator->currentAnimObj[B3D_ANIM_JOINT_ANIM]->frame <= FLOAT_TO_FX32(20.0) && (work->flags & OPENING_FLAG_IS_FADING) == 0)
         {
             StartOpeningFade(&work->fadeControl, OPENING_FADE_FROM_WHITE, FLOAT_TO_FX32(0.8));
             work->flags |= OPENING_FLAG_IS_FADING;
         }
 
         if (GetOpeningSceneID(work) == OPENING_SCENE_ANI_TJETSKI_SKID
-            && targetAnimator->currentAnimObj[0]->frame >= NNS_G3dAnmObjGetNumFrame(targetAnimator->currentAnimObj[0]) - FLOAT_TO_FX32(30.0)
+            && targetAnimator->currentAnimObj[B3D_ANIM_JOINT_ANIM]->frame >= NNS_G3dAnmObjGetNumFrame(targetAnimator->currentAnimObj[0]) - FLOAT_TO_FX32(30.0)
             && (work->flags & OPENING_FLAG_IS_FADING) == 0)
         {
             StartOpeningFade(&work->fadeControl, OPENING_FADE_TO_WHITE, FLOAT_TO_FX32(0.533204));

@@ -5697,46 +5697,20 @@ _02021178:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_2021188(Player *player, u32 a2)
+void Player__Action_GhostTree(Player *player, GameObjectTask *other)
 {
-#ifdef NON_MATCHING
+    Player__Gimmick_201B500(player, other, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #4
-	mov r2, #0
-	mov r3, r2
-	mov r4, r0
-	str r2, [sp]
-	bl Player__Gimmick_201B500
-	mov r0, #0xa
-	str r0, [r4, #0x24]
-	ldr r1, [r4, #0x1c]
-	mov r0, r4
-	orr r1, r1, #0x100
-	str r1, [r4, #0x1c]
-	mov r1, #0x12
-	bl Player__ChangeAction
-	ldr r0, [r4, #0x20]
-	mov r1, #0
-	orr r0, r0, #4
-	bic r0, r0, #1
-	str r0, [r4, #0x20]
-	ldr r0, [r4, #0x5d8]
-	mov r2, r1
-	orr r0, r0, #0x100000
-	str r0, [r4, #0x5d8]
-	ldr r3, [r4, #0x5dc]
-	add r0, r4, #0x550
-	orr r3, r3, #0x20000
-	str r3, [r4, #0x5dc]
-	bl ObjRect__SetAttackStat
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, pc}
+    player->objWork.userFlag = 2 | 8;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    Player__ChangeAction(player, PLAYER_ACTION_HOMING_ATTACK);
 
-// clang-format on
-#endif
+    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+    player->gimmickFlag |= PLAYER_GIMMICK_GRABBED;
+
+    ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
 }
 
 void Player__Action_SpringCrystal(Player *player, fx32 velX, fx32 velY)

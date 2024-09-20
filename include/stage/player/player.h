@@ -789,7 +789,7 @@ void Player__State_Halfpipe(Player *work);
 void Player__Func_2020C00(Player *player, s32 a2);
 void Player__Func_2020DB8(Player *player);
 void Player__Action_ExitHalfpipe(Player *player);
-void Player__Func_2021188(Player *player, u32 a2);
+void Player__Action_GhostTree(Player *player, GameObjectTask *other);
 void Player__Action_SpringCrystal(Player *player, fx32 velX, fx32 velY);
 void Player__Action_CraneGrab(Player *player, GameObjectTask *other);
 void Player__Action_Winch(Player *player, GameObjectTask *other, u32 displayFlag);

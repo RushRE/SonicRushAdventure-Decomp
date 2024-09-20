@@ -46,6 +46,7 @@
 #include <stage/objects/winch.h>
 #include <stage/objects/bgUnknownTrigger.h>
 #include <stage/objects/avalanche.h>
+#include <stage/objects/ghostTree.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -100,7 +101,6 @@ NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, f
 NOT_DECOMPILED GameObjectTask *DreamWing__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DreamWingPart__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CameraBoundsTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *GrabTree__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Stalactite__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *VRotateCrane__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -690,7 +690,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_145] = (CreateObjectFunc)CreateHalfpipe,
     [MAPOBJECT_146] = (CreateObjectFunc)CreateHalfpipe,
     [MAPOBJECT_147] = (CreateObjectFunc)CreateHalfpipe,
-    [MAPOBJECT_148] = (CreateObjectFunc)GrabTree__Create,
+    [MAPOBJECT_148] = (CreateObjectFunc)CreateGhostTree,
     [MAPOBJECT_149] = (CreateObjectFunc)DiveStand__Create,
     [MAPOBJECT_150] = (CreateObjectFunc)CreateBGUnknownTrigger,
     [MAPOBJECT_151] = (CreateObjectFunc)CreateFlagChange,

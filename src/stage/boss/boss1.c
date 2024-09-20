@@ -2446,7 +2446,7 @@ NONMATCH_FUNC void Boss1__Func_2156094(Boss1 *work, u32 anim1, u32 anim2, u32 an
 
         if (anim3 == work->animID || anim6 == work->animID)
         {
-            u32 step = FX32_TO_WHOLE((u32)work->aniBossMain.ani.currentAnimObj[0]->frame * 16) >> 4;
+            u32 step = FX32_TO_WHOLE((u32)work->aniBossMain.ani.currentAnimObj[B3D_ANIM_JOINT_ANIM]->frame * 16) >> 4;
             if (work->field_E48 != step)
             {
                 if (step == 0 || step == 50)
@@ -4380,7 +4380,7 @@ void Boss1__BossState_Bite2(Boss1 *work)
 {
     struct Boss1ActionBite *action = &work->action.bite;
 
-    fx32 frame = work->aniBossMain.ani.currentAnimObj[0]->frame;
+    fx32 frame = work->aniBossMain.ani.currentAnimObj[B3D_ANIM_JOINT_ANIM]->frame;
     if (!action->field_14 && action->field_20 <= frame && (action->type != 3 || action->direction >= 3))
     {
         Boss1__ConfigureCollider(work, BOSS1_COLLIDER_BITE_IDLE);
@@ -4943,7 +4943,7 @@ void Boss1__BossState_HeadSlamDown(Boss1 *work)
 {
     struct Boss1ActionHeadSlam *action = &work->action.headSlam;
 
-    if (!action->finished && work->aniBossMain.ani.currentAnimObj[0]->frame >= FLOAT_TO_FX32(25.0))
+    if (!action->finished && work->aniBossMain.ani.currentAnimObj[B3D_ANIM_JOINT_ANIM]->frame >= FLOAT_TO_FX32(25.0))
     {
         Boss1Stage *stage = TaskGetWork(Boss1Stage__Singleton, Boss1Stage);
         BossFX__CreateRexHead(BOSSFX3D_FLAG_NONE, work->mtx2.m[3][0], stage->field_378, FLOAT_TO_FX32(0.0));
@@ -5533,9 +5533,9 @@ NONMATCH_FUNC void Boss1__BossState_Drop(Boss1 *work)
     // https://decomp.me/scratch/HgiyU -> 96.02%
 #ifdef NON_MATCHING
     VecFx32 translation = work->aniBossMain.ani.work.translation;
-    fx32 frame          = FX32_TO_WHOLE(work->aniBossMain.ani.currentAnimObj[0]->frame);
+    fx32 frame          = FX32_TO_WHOLE(work->aniBossMain.ani.currentAnimObj[B3D_ANIM_JOINT_ANIM]->frame);
 
-    switch (FX32_TO_WHOLE(work->aniBossMain.ani.currentAnimObj[0]->frame))
+    switch (FX32_TO_WHOLE(work->aniBossMain.ani.currentAnimObj[B3D_ANIM_JOINT_ANIM]->frame))
     {
         case 35: // stomp.
             ShakeScreenEx(0x4000, 0x3000, 273);

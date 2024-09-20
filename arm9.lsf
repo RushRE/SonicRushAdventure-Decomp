@@ -412,7 +412,7 @@ Overlay ZoneAct
     Object src/stage/objects/diveStand.o
     Object src/stage/objects/iceBlock.o
     Object src/stage/objects/halfpipe.o
-    Object asm/stage/objects/grabTree.o
+    Object src/stage/objects/ghostTree.o
     Object src/stage/objects/bgUnknownTrigger.o
     Object asm/stage/objects/stalactite.o
     Object src/stage/objects/springCrystal.o
