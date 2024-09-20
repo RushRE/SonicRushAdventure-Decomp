@@ -8357,9 +8357,9 @@
 .public GrabTree__Draw
 .public GrabTree__OnDefend_216BA1C
 .public GrabTree__OnDefend_216BAB4
-.public ObjectUnknown1__Create
-.public ObjectUnknown1__State_216BD64
-.public ObjectUnknown1__Func_216BDFC
+.public CreateBGUnknownTrigger
+.public BGUnknownTrigger_State_Active
+.public BGUnknownTrigger_CheckBounds
 .public Stalactite__Create
 .public FallingStalactite__Create
 .public Stalactite__Destructor

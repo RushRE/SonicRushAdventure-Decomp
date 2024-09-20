@@ -44,7 +44,7 @@
 #include <stage/objects/springCrystal.h>
 #include <stage/objects/steamFan.h>
 #include <stage/objects/winch.h>
-#include <stage/objects/unknown1.h>
+#include <stage/objects/bgUnknownTrigger.h>
 #include <stage/objects/avalanche.h>
 
 // Enemies
@@ -692,7 +692,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_147] = (CreateObjectFunc)CreateHalfpipe,
     [MAPOBJECT_148] = (CreateObjectFunc)GrabTree__Create,
     [MAPOBJECT_149] = (CreateObjectFunc)DiveStand__Create,
-    [MAPOBJECT_150] = (CreateObjectFunc)ObjectUnknown1__Create,
+    [MAPOBJECT_150] = (CreateObjectFunc)CreateBGUnknownTrigger,
     [MAPOBJECT_151] = (CreateObjectFunc)CreateFlagChange,
     [MAPOBJECT_152] = (CreateObjectFunc)CreateDashPanel,
     [MAPOBJECT_153] = (CreateObjectFunc)CreateDashPanel,

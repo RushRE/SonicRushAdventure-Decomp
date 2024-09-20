@@ -22,7 +22,7 @@ NOT_DECOMPILED void MapFarSys__ReleaseBG(void);
 NOT_DECOMPILED void MapFarSys__ProcessBG(void);
 NOT_DECOMPILED void MapFarSys__SetScrollSpeed(s32 id, fx32 x1, fx32 x2);
 NOT_DECOMPILED void MapFarSys__AdvanceScrollSpeed(s32 id, fx32 move);
-NOT_DECOMPILED void MapFarSys__Func_200B524(void);
+NOT_DECOMPILED void MapFarSys__Func_200B524(s32 a1, s32 a2, s32 a3, s8 id);
 NOT_DECOMPILED void MapFarSys__Func_200B578(void);
 NOT_DECOMPILED void MapFarSys__Func_200B718(void);
 NOT_DECOMPILED void MapFarSys__Build_Z1(void);
