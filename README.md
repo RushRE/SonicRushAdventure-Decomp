@@ -39,6 +39,15 @@ This repository builds the following ROM:
 
 You must have a copy of the Sonic Rush Adventure ROM named `baserom.nds` in the repository root directory. Any Sonic Rush Adventure ROM should be fine, as the game shares most assets between versions, Though the EU revision 00 rom is recommended, as it is the default build configuration.
 
+### Contributing
+
+There's much left to be done, if you think you want to help out then there's many ways to contribute! 
+- The biggest tasks still to be completed is the work of decompiling and matching functions, if you'd like to help out in that field then create a branch, pick a game logic asm file in the [asm](asm/) folder or a library asm file in the [library asm](lib/) folder and do your best to translate it into C code!
+- If you'd like to just assist with smaller tasks, but still help out a bunch, then there's many functions partially or mostly matched throughout the repo that don't require as much knowledge of assembly or C code as decompiling an object or module from scratch!
+- General research is also super appreciated even if you can't decompile or match any functions! Tasks like running the game in a debugger to verify everything is named properly and that it's easy for people to understand what it all does and is used for is also an important goal for this project.
+
+When you've got some work you think is finished or ready to be merged into master, create a pull request and it'll either get feedback on what to change or be merged in if it's ready!
+
 ### Community
 
 Join us on [discord](https://discord.gg/EnYXZGrk6V) to get started in helping out, to discuss the decompilation, or just to hang out!
