@@ -988,7 +988,7 @@ void EffectSteamBlasterSteam_State_Active(EffectSteamBlasterSteam *work)
                     StageTask__SetAnimation(&work->objWork, STEAMBLASTER_ANI_STEAM_END);
                 break;
 
-			// case STEAMBLASTER_ANI_STEAM_END:
+                // case STEAMBLASTER_ANI_STEAM_END:
             default:
                 if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
                 {
@@ -1181,13 +1181,14 @@ void EffectWaterBubble__State_202A198(EffectWaterBubble *work)
 // EffectCoralDebris
 NONMATCH_FUNC EffectCoralDebris *EffectCoralDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type)
 {
-    // https://decomp.me/scratch/vKybC -> 98.15%
+    // https://decomp.me/scratch/gszkP -> 98.15%
 #ifdef NON_MATCHING
     u8 debrisType;
     if (type > 2)
         debrisType = 2;
     else
         debrisType = type;
+    debrisType = debrisType & 0xFF;
 
     EffectCoralDebris *work = CreateEffect(EffectCoralDebris, NULL);
     if (work == NULL)
@@ -1525,21 +1526,21 @@ _0202A5F4:
 // EffectStartDash
 NONMATCH_FUNC EffectStartDash *EffectStartDash__Create(StageTask *parent)
 {
+	// will match when "/effe_startdash" is decompiled properly
 #ifdef NON_MATCHING
     EffectStartDash *work = CreateEffect(EffectStartDash, NULL);
     if (work == NULL)
         return NULL;
 
-    LoadEffectTask3DAsset(EffectStartDash, "/effe_startdash", NULL, gameArchiveCommon, (1 << B3D_ANIM_VIS_ANIM) | (1 << B3D_ANIM_MAT_ANIM) | (1 << B3D_ANIM_JOINT_ANIM), NULL,
-                          FALSE);
-    work->parentObj = parent;
+    LoadEffectTask3DAsset(&work->effWork, "/effe_startdash", NULL, gameArchiveCommon, B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, NULL, FALSE);
+    work->effWork.objWork.parentObj = parent;
 
-    work->position = parent->position;
+    work->effWork.objWork.position = parent->position;
 
-    work->position.x += FLOAT_TO_FX32(50.0);
-    work->position.y += FLOAT_TO_FX32(20.0);
+    work->effWork.objWork.position.x += FLOAT_TO_FX32(50.0);
+    work->effWork.objWork.position.y += FLOAT_TO_FX32(20.0);
 
-    work->velocity.x = FLOAT_TO_FX32(6.0);
+    work->effWork.objWork.velocity.x = FLOAT_TO_FX32(6.0);
 
     return work;
 #else
@@ -2677,40 +2678,30 @@ _0202B760:
 #endif
 }
 
-NONMATCH_FUNC void EffectTruckSparkles__Destructor(Task *task)
+void EffectTruckSparkles__Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    s32 i;
+    AnimatorSpriteDS *aniSparkles;
+    u32 id;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	mov r9, r0
-	bl GetTaskWork_
-	mov r6, #0
-	add r7, r0, #0x168
-	mov r8, #0xb8
-	mov r5, r6
-	mov r4, #0xb3
-_0202B828:
-	mov r0, r8
-	bl GetObjectFileWork
-	bl ObjActionReleaseSpriteDS
-	str r5, [r7, #0x78]
-	mov r0, r4
-	str r5, [r7, #0x7c]
-	bl GetObjectFileWork
-	mov r1, r7
-	bl ObjAction2dBACRelease
-	add r6, r6, #1
-	cmp r6, #3
-	add r7, r7, #0xa4
-	add r8, r8, #2
-	blt _0202B828
-	mov r0, r9
-	bl StageTask_Destructor
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-// clang-format on
-#endif
+    EffectTruckSparkles *work = TaskGetWork(task, EffectTruckSparkles);
+
+    id          = OBJDATAWORK_184;
+    aniSparkles = &work->aniSparkles[0];
+    for (i = 0; i < 3; i++)
+    {
+        ObjActionReleaseSpriteDS(GetObjectFileWork(id));
+
+        aniSparkles->vramPixels[0] = NULL;
+        aniSparkles->vramPixels[1] = NULL;
+
+        ObjAction2dBACRelease(GetObjectDataWork(OBJDATAWORK_179), aniSparkles);
+
+        aniSparkles++;
+        id += 2;
+    }
+
+    StageTask_Destructor(task);
 }
 
 void EffectTruckSparkles__State_202B86C(EffectTruckSparkles *work)

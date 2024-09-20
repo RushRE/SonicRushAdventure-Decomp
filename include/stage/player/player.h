@@ -725,7 +725,7 @@ void Player__State_StageStartSnowboard(Player *work);
 void Player__Action_Spring(Player *player, fx32 velX, fx32 velY);
 void Player__Gimmick_Jump(Player *player, fx32 velX, fx32 velY);
 void Player__Gimmick_201B418(Player *player, fx32 velX, fx32 velY, BOOL allowTricks);
-void Player__Gimmick_201B500(Player *player, GameObjectTask *other, s32 value1, s32 value2, s32 value3);
+void Player__Gimmick_201B500(Player *player, GameObjectTask *other, fx32 offsetX, fx32 offsetY, fx32 offsetZ);
 void Player__State_201B5A0(Player *work);
 void Player__Action_DashRing(Player *player, fx32 x, fx32 y, fx32 velX, fx32 velY);
 void Player__Gimmick_201BAC0(Player *player, fx32 velX, fx32 velY);

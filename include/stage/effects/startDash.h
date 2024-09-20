@@ -9,9 +9,7 @@
 
 typedef struct EffectStartDash_
 {
-    StageTask objWork;
-    
-    OBS_ACTION2D_BAC_WORK ani;
+    EffectTask3D effWork;
 } EffectStartDash;
 
 // --------------------

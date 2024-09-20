@@ -25,7 +25,7 @@ typedef void (*EffectTask3DState)(EffectTask3D *work);
 struct EffectTaskStaticVars
 {
     Task *lastCreatedTask;
-    StageTask *field_4;
+    StageTask *airEffectSingleton;
     OBS_DATA_WORK field_8;
     OBS_DATA_WORK field_10;
     OBS_DATA_WORK field_18;

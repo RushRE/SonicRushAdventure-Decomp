@@ -96,27 +96,6 @@ NOT_DECOMPILED void *EffectButtonPrompt_animIDs;
 NOT_DECOMPILED void *_02119324;
 NOT_DECOMPILED void *_0211930C;
 
-NOT_DECOMPILED const char *aActAcEffWaterB_0;
-NOT_DECOMPILED const char *aAcEffFoundBac;
-NOT_DECOMPILED const char *aNsbmd;
-NOT_DECOMPILED const char *aActAcGmkTruckJ;
-NOT_DECOMPILED const char *aActAcGmkTruckJ_0;
-NOT_DECOMPILED const char *aBpaGmkMedal;
-NOT_DECOMPILED const char *aActAcDecCoralB;
-NOT_DECOMPILED const char *aActAcDecSakuBa;
-NOT_DECOMPILED const char *aEffeStartdash;
-NOT_DECOMPILED const char *aActAcGmkBreakO;
-NOT_DECOMPILED const char *aAcEffGoalJewel;
-NOT_DECOMPILED const char *aActAcGmkFlipmu;
-NOT_DECOMPILED const char *aActAcGmkPipeFl;
-NOT_DECOMPILED const char *aActAcGmkPipeFl;
-NOT_DECOMPILED const char *aActAcEffSteamD;
-NOT_DECOMPILED const char *aActAcGmkSteamE;
-NOT_DECOMPILED const char *aActAcGmkSteamF;
-NOT_DECOMPILED const char *aModGmkPistonEf;
-NOT_DECOMPILED const char *aActAcGmkIceBlo;
-NOT_DECOMPILED const char *aActAcGmkTruckB;
-NOT_DECOMPILED const char *aActAcGmkSnowsl;
 NOT_DECOMPILED const char *aActAcGmkSnowsl;
 NOT_DECOMPILED const char *aActAcGmkPirate;
 NOT_DECOMPILED const char *aActAcGmkSlingD;
@@ -125,6 +104,9 @@ NOT_DECOMPILED const char *aActAcGmkAirEfB;
 NOT_DECOMPILED const char *aActAcGmkMedal;
 NOT_DECOMPILED const char *aAcItmRingBac_0;
 NOT_DECOMPILED const char *aAcFixKeyLittle;
+NOT_DECOMPILED const char *aActAcGmkTruckJ;
+NOT_DECOMPILED const char *aActAcGmkTruckJ_0;
+NOT_DECOMPILED const char *aBpaGmkMedal;
 
 NOT_DECOMPILED u8 RegularShield__matList[];
 NOT_DECOMPILED u8 RegularShield__shpList[];
@@ -152,7 +134,8 @@ static void HandleEffectZScale(fx32 z, fx32 *a2, fx32 *scale);
 // --------------------
 
 // EffectAvalanche
-NONMATCH_FUNC EffectSnowSlide *EffectAvalanche__Create(fx32 x, fx32 y, fx32 velX, fx32 velY){
+NONMATCH_FUNC EffectSnowSlide *EffectAvalanche__Create(fx32 x, fx32 y, fx32 velX, fx32 velY)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -248,7 +231,8 @@ _0202BC6C:
 #endif
 }
 
-NONMATCH_FUNC EffectSnowSlide *EffectAvalancheDebris__Create(s32 type, fx32 x, fx32 y, fx32 velX, fx32 velY){
+NONMATCH_FUNC EffectSnowSlide *EffectAvalancheDebris__Create(s32 type, fx32 x, fx32 y, fx32 velX, fx32 velY)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -368,7 +352,8 @@ NONMATCH_FUNC EffectSnowSlide *EffectAvalancheDebris__Create(s32 type, fx32 x, f
 }
 
 // EffectTruckJewel
-NONMATCH_FUNC EffectTruckJewel *EffectTruckJewel__Create(StageTask *parent, fx32 velX, fx32 velY, fx32 velZ, u8 type, u8 flag){
+NONMATCH_FUNC EffectTruckJewel *EffectTruckJewel__Create(StageTask *parent, fx32 velX, fx32 velY, fx32 velZ, u8 type, u8 flag)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -476,208 +461,81 @@ _0202BFF4:
 #endif
 }
 
-NONMATCH_FUNC void EffectTruckJewel__State_202C06C(EffectTruckJewel *work){
-#ifdef NON_MATCHING
+void EffectTruckJewel__State_202C06C(EffectTruckJewel *work)
+{
+    if (work->objWork.parentObj != NULL)
+    {
+        work->objWork.position.x = work->objWork.parentObj->position.x + work->objWork.parentObj->offset.x;
+        work->objWork.position.y = work->objWork.parentObj->position.y + work->objWork.parentObj->offset.y;
+        work->objWork.position.z = work->objWork.parentObj->position.z;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0x14
-	mov r4, r0
-	ldr r2, [r4, #0x11c]
-	cmp r2, #0
-	beq _0202C1D0
-	ldr r1, [r2, #0x44]
-	ldr r0, [r2, #0x50]
-	add r2, sp, #8
-	add r0, r1, r0
-	str r0, [r4, #0x44]
-	ldr r0, [r4, #0x11c]
-	add r3, sp, #0x10
-	ldr r1, [r0, #0x48]
-	ldr r0, [r0, #0x54]
-	add r0, r1, r0
-	str r0, [r4, #0x48]
-	ldr r0, [r4, #0x11c]
-	ldr r0, [r0, #0x4c]
-	str r0, [r4, #0x4c]
-	ldr r0, [r4, #0x11c]
-	ldrh r0, [r0, #0x32]
-	rsb r0, r0, #0
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	str r0, [sp]
-	ldr r0, [r4, #0xa0]
-	ldr r1, [r4, #0x98]
-	bl AkMath__Func_2002C98
-	ldr r0, [r4, #0x11c]
-	add r2, sp, #0x10
-	ldrh r0, [r0, #0x34]
-	add r3, sp, #0xc
-	str r0, [sp]
-	ldr r0, [sp, #0x10]
-	ldr r1, [r4, #0x9c]
-	bl AkMath__Func_2002C98
-	ldr r1, [r4, #0x44]
-	ldr r0, [sp, #0x10]
-	add r0, r1, r0
-	str r0, [r4, #0x44]
-	ldr r1, [r4, #0x48]
-	ldr r0, [sp, #0xc]
-	add r0, r1, r0
-	str r0, [r4, #0x48]
-	ldr r1, [r4, #0x4c]
-	ldr r0, [sp, #8]
-	add r0, r1, r0
-	str r0, [r4, #0x4c]
-	ldr r2, [r4, #0x11c]
-	ldrh r1, [r2, #0x30]
-	ldrh r0, [r2, #0x32]
-	strh r1, [r4, #0x30]
-	strh r0, [r4, #0x32]
-	ldrh r0, [r2, #0x34]
-	strh r0, [r4, #0x34]
-	ldr r2, [r4, #0x2c]
-	cmp r2, #0
-	addeq sp, sp, #0x14
-	ldmeqia sp!, {r3, r4, r5, r6, pc}
-	ldr r1, [r4, #0x11c]
-	ldr r0, [r1, #0x98]
-	cmp r0, #0
-	addne sp, sp, #0x14
-	ldmneia sp!, {r3, r4, r5, r6, pc}
-	ldr r0, [r1, #0x9c]
-	cmp r0, r2
-	addlt sp, sp, #0x14
-	ldmltia sp!, {r3, r4, r5, r6, pc}
-	mov r2, #0
-	str r2, [sp]
-	mov r0, r4
-	mov r3, r2
-	mov r1, #0x10
-	str r2, [sp, #4]
-	bl InitEffectTaskViewCheck
-	mov r1, #0
-	str r1, [r4, #0x98]
-	ldr r0, [r4, #0x11c]
-	add sp, sp, #0x14
-	ldr r0, [r0, #0x9c]
-	str r0, [r4, #0x9c]
-	str r1, [r4, #0xa0]
-	ldr r0, [r4, #0x1c]
-	bic r0, r0, #0x2000
-	str r0, [r4, #0x1c]
-	str r1, [r4, #0xf4]
-	str r1, [r4, #0x11c]
-	ldmia sp!, {r3, r4, r5, r6, pc}
-_0202C1D0:
-	ldr r6, =_mt_math_rand
-	mov r5, #0x4000
-	ldr r3, [r6]
-	ldr ip, =0x00196225
-	ldr lr, =0x3C6EF35F
-	rsb r5, r5, #0
-	mla r1, r3, ip, lr
-	mov r3, r1, lsr #0x10
-	mov r3, r3, lsl #0x10
-	mov r3, r3, lsr #0x10
-	and r3, r3, #0x3f0
-	mov r3, r3, lsl #4
-	str r1, [r6]
-	add r1, r3, #0x6000
-	str r1, [r4, #0x98]
-	ldr r1, [r6]
-	mov r2, #0
-	mla r3, r1, ip, lr
-	mov r1, r3, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	and r1, r1, #0x3f0
-	str r3, [r6]
-	sub r1, r5, r1, lsl #4
-	str r1, [r4, #0x9c]
-	str r2, [r4, #0xa0]
-	strh r2, [r4, #0x34]
-	strh r2, [r4, #0x32]
-	strh r2, [r4, #0x30]
-	str r2, [sp]
-	mov r3, r2
-	str r2, [sp, #4]
-	mov r1, #0x40
-	bl InitEffectTaskViewCheck
-	ldr r1, [r4, #0x1c]
-	mov r0, #0
-	bic r1, r1, #0x2000
-	orr r1, r1, #0x80
-	str r1, [r4, #0x1c]
-	str r0, [r4, #0xf4]
-	add sp, sp, #0x14
-	ldmia sp!, {r3, r4, r5, r6, pc}
-// clang-format on
-#endif
+        fx32 x, y, z;
+        AkMath__Func_2002C98(work->objWork.velocity.z, work->objWork.velocity.x, &z, &x, -work->objWork.parentObj->dir.y);
+        AkMath__Func_2002C98(x, work->objWork.velocity.y, &x, &y, work->objWork.parentObj->dir.z);
+        work->objWork.position.x += x;
+        work->objWork.position.y += y;
+        work->objWork.position.z += z;
+
+        work->objWork.dir = work->objWork.parentObj->dir;
+
+        // check if the jewel should fly out of the truck
+        if (work->objWork.userTimer != 0)
+        {
+            if (work->objWork.parentObj->velocity.x == FLOAT_TO_FX32(0.0) && work->objWork.parentObj->velocity.y >= work->objWork.userTimer)
+            {
+                InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
+                work->objWork.velocity.x = FLOAT_TO_FX32(0.0);
+                work->objWork.velocity.y = work->objWork.parentObj->velocity.y;
+                work->objWork.velocity.z = FLOAT_TO_FX32(0.0);
+                work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+                SetTaskState(&work->objWork, NULL);
+                work->objWork.parentObj = NULL;
+            }
+        }
+    }
+    else
+    {
+        // no parent, get ejected!!
+
+        work->objWork.velocity.x = FLOAT_TO_FX32(6.0) + (16 * (mtMathRand() & 0x3F0));
+        work->objWork.velocity.y = -FLOAT_TO_FX32(4.0) - (16 * (mtMathRand() & 0x3F0));
+        work->objWork.velocity.z = FLOAT_TO_FX32(0.0);
+
+        work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+
+        InitEffectTaskViewCheck(&work->objWork, 64, 0, 0, 0, 0);
+        work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+        SetTaskState(&work->objWork, NULL);
+    }
 }
 
-NONMATCH_FUNC void EffectTruckJewel__Draw(void){
-#ifdef NON_MATCHING
+void EffectTruckJewel__Draw(void)
+{
+    EffectTruckJewel *work = TaskGetWorkCurrent(EffectTruckJewel);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	sub sp, sp, #0x10
-	bl GetCurrentTaskWork_
-	mov r3, r0
-	ldr r1, [r3, #0x11c]
-	cmp r1, #0
-	beq _0202C314
-	ldr r0, [r1, #0x4c]
-	cmp r0, #0
-	ldreqh r0, [r1, #0x32]
-	cmpeq r0, #0
-	add r0, r3, #0x20
-	bne _0202C2E4
-	str r0, [sp]
-	mov r0, #0
-	str r0, [sp, #4]
-	str r0, [sp, #8]
-	ldr r0, [r3, #0x128]
-	add r1, r3, #0x44
-	add r2, r3, #0x30
-	add r3, r3, #0x38
-	bl StageTask__Draw2DEx
-	add sp, sp, #0x10
-	ldmia sp!, {r3, pc}
-_0202C2E4:
-	str r0, [sp]
-	mov r0, #0
-	str r0, [sp, #4]
-	str r0, [sp, #8]
-	str r0, [sp, #0xc]
-	ldr r0, [r3, #0x134]
-	add r1, r3, #0x44
-	add r2, r3, #0x30
-	add r3, r3, #0x38
-	bl StageTask__Draw3DEx
-	add sp, sp, #0x10
-	ldmia sp!, {r3, pc}
-_0202C314:
-	add r0, r3, #0x20
-	str r0, [sp]
-	mov r0, #0
-	str r0, [sp, #4]
-	str r0, [sp, #8]
-	ldr r0, [r3, #0x128]
-	add r1, r3, #0x44
-	add r2, r3, #0x30
-	add r3, r3, #0x38
-	bl StageTask__Draw2DEx
-	add sp, sp, #0x10
-	ldmia sp!, {r3, pc}
-// clang-format on
-#endif
+    StageTask *truck = work->objWork.parentObj;
+    if (truck)
+    {
+        if (truck->position.z == FLOAT_DEG_TO_IDX(0.0) && truck->dir.y == FLOAT_DEG_TO_IDX(0.0))
+        {
+            StageTask__Draw2DEx(&work->objWork.obj_2d->ani, &work->objWork.position, &work->objWork.dir, &work->objWork.scale, &work->objWork.displayFlag, NULL, NULL);
+        }
+        else
+        {
+            StageTask__Draw3DEx(&work->objWork.obj_2dIn3d->ani.work, &work->objWork.position, &work->objWork.dir, &work->objWork.scale, &work->objWork.displayFlag, NULL, NULL,
+                                NULL);
+        }
+    }
+    else
+    {
+        StageTask__Draw2DEx(&work->objWork.obj_2d->ani, &work->objWork.position, &work->objWork.dir, &work->objWork.scale, &work->objWork.displayFlag, NULL, NULL);
+    }
 }
 
 // EffectPirateShip
-NONMATCH_FUNC EffectPirateShipCannonBlast *PirateShipCannonBlast__Create(StageTask *parent, fx32 velX, fx32 velY){
+NONMATCH_FUNC EffectPirateShipCannonBlast *PirateShipCannonBlast__Create(StageTask *parent, fx32 velX, fx32 velY)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -790,7 +648,7 @@ void EffectUnknown202C414__Destructor(Task *task)
 
 NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *work)
 {
-    // https://decomp.me/scratch/HLeU8 -> 99.03%
+    // https://decomp.me/scratch/fpt9F -> 99.03%
     // minor register issues
 #ifdef NON_MATCHING
     s32 id;
@@ -991,7 +849,8 @@ _0202C798:
 #endif
 }
 
-NONMATCH_FUNC void EffectUnknown202C414__Draw(void){
+NONMATCH_FUNC void EffectUnknown202C414__Draw(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1154,7 +1013,8 @@ _0202CA18:
 }
 
 // EffectSlingDust
-NONMATCH_FUNC EffectSlingDust *EffectSlingDust__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, s32 type){
+NONMATCH_FUNC EffectSlingDust *EffectSlingDust__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, s32 type)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1267,7 +1127,8 @@ NONMATCH_FUNC EffectSlingDust *EffectSlingDust__Create(fx32 x, fx32 y, fx32 velX
 }
 
 // EffectSailboatBazookaSmoke
-NONMATCH_FUNC EffectSailboatBazookaSmoke *EffectSailboatBazookaSmoke__Create(StageTask *parent, fx32 velX, fx32 velY, fx32 velZ){
+NONMATCH_FUNC EffectSailboatBazookaSmoke *EffectSailboatBazookaSmoke__Create(StageTask *parent, fx32 velX, fx32 velY, fx32 velZ)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1391,7 +1252,8 @@ NONMATCH_FUNC EffectSailboatBazookaSmoke *EffectSailboatBazookaSmoke__Create(Sta
 }
 
 // EffectHoverCrystalSparkle
-NONMATCH_FUNC EffectHoverCrystalSparkle *EffectHoverCrystalSparkle__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, fx32 accX, fx32 accY){
+NONMATCH_FUNC EffectHoverCrystalSparkle *EffectHoverCrystalSparkle__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, fx32 accX, fx32 accY)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1504,234 +1366,114 @@ _0202CF08:
 #endif
 }
 
-NONMATCH_FUNC void EffectHoverCrystalSparkle__Destructor(Task *task){
-#ifdef NON_MATCHING
+void EffectHoverCrystalSparkle__Destructor(Task *task)
+{
+    EffectHoverCrystalSparkle *work = TaskGetWork(task, EffectHoverCrystalSparkle);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl GetTaskWork_
-	ldr r1, =EffectTask__sVars
-	ldr r2, [r1, #4]
-	cmp r2, r0
-	moveq r0, #0
-	streq r0, [r1, #4]
-	mov r0, r4
-	bl StageTask_Destructor
-	ldmia sp!, {r4, pc}
-// clang-format on
-#endif
+    if (EffectTask__sVars.airEffectSingleton == &work->objWork)
+        EffectTask__sVars.airEffectSingleton = NULL;
+
+    StageTask_Destructor(task);
 }
 
-NONMATCH_FUNC void EffectHoverCrystalSparkle__State_202CFB8(EffectHoverCrystalSparkle *work){
-#ifdef NON_MATCHING
+void EffectHoverCrystalSparkle__State_202CFB8(EffectHoverCrystalSparkle *work)
+{
+    s32 i           = 0;
+    s32 removeCount = 0;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	add r4, r0, #0x200
-	ldrsh r1, [r4, #0x18]
-	mov r3, #0
-	mov ip, r3
-	cmp r1, #0
-	ble _0202D06C
-	add r1, r0, #0x21c
-	mov lr, #0x1c
-_0202CFDC:
-	ldrsh r2, [r4, #0x1a]
-	add r2, r2, r3
-	and r5, r2, #0x1f
-	mla r2, r5, lr, r1
-	ldrh r5, [r2, #0x18]
-	add r5, r5, #1
-	strh r5, [r2, #0x18]
-	ldrh r5, [r2, #0x18]
-	cmp r5, #0x24
-	blo _0202D01C
-	ldrsh r2, [r4, #0x1a]
-	add ip, ip, #1
-	add r2, r2, #1
-	and r2, r2, #0x1f
-	strh r2, [r4, #0x1a]
-	b _0202D05C
-_0202D01C:
-	ldr r6, [r2]
-	ldr r5, [r2, #8]
-	add r5, r6, r5
-	str r5, [r2]
-	ldr r6, [r2, #4]
-	ldr r5, [r2, #0xc]
-	add r5, r6, r5
-	str r5, [r2, #4]
-	ldr r6, [r2, #8]
-	ldr r5, [r2, #0x10]
-	add r5, r6, r5
-	str r5, [r2, #8]
-	ldr r6, [r2, #0xc]
-	ldr r5, [r2, #0x14]
-	add r5, r6, r5
-	str r5, [r2, #0xc]
-_0202D05C:
-	ldrsh r2, [r4, #0x18]
-	add r3, r3, #1
-	cmp r3, r2
-	blt _0202CFDC
-_0202D06C:
-	add r1, r0, #0x200
-	ldrsh r2, [r1, #0x18]
-	sub r2, r2, ip
-	strh r2, [r1, #0x18]
-	ldrsh r1, [r1, #0x18]
-	cmp r1, #0
-	ldmgtia sp!, {r4, r5, r6, pc}
-	ldr r1, =EffectTask__sVars
-	ldr r2, [r1, #4]
-	cmp r2, r0
-	moveq r2, #0
-	streq r2, [r1, #4]
-	ldr r1, [r0, #0x18]
-	orr r1, r1, #4
-	str r1, [r0, #0x18]
-	ldmia sp!, {r4, r5, r6, pc}
-// clang-format on
-#endif
+    for (; i < work->listCount; i++)
+    {
+        struct EffectAirEffectParticle *particle = &work->list[(work->listStartSlot + i) & 0x1F];
+
+        particle->timer++;
+        if (particle->timer >= 36)
+        {
+            removeCount++;
+            work->listStartSlot = (work->listStartSlot + 1) & 0x1F;
+        }
+        else
+        {
+            particle->position.x += particle->velocity.x;
+            particle->position.y += particle->velocity.y;
+
+            particle->velocity.x += particle->acceleration.x;
+            particle->velocity.y += particle->acceleration.y;
+        }
+    }
+
+    work->listCount -= removeCount;
+    if (work->listCount <= 0)
+    {
+        if (EffectTask__sVars.airEffectSingleton == &work->objWork)
+            EffectTask__sVars.airEffectSingleton = NULL;
+
+        DestroyStageTask(&work->objWork);
+    }
 }
 
-NONMATCH_FUNC void EffectHoverCrystalSparkle__Draw(void){
-#ifdef NON_MATCHING
+void EffectHoverCrystalSparkle__Draw(void)
+{
+    s32 i;
+    s32 lastTime;
+    struct EffectAirEffectParticle *particle;
+    u32 displayFlag = DISPLAY_FLAG_NO_ANIMATE_CB;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x1c
-	mov r0, #0x1000
-	str r0, [sp, #0xc]
-	bl GetCurrentTaskWork_
-	mov r5, r0
-	ldr r10, [r5, #0x128]
-	mov r1, #0
-	mov r0, r10
-	bl AnimatorSpriteDS__SetAnimation
-	mov r8, #0
-	str r8, [sp, #0x18]
-	add r4, r5, #0x200
-	ldrsh r0, [r4, #0x18]
-	subs r7, r0, #1
-	addmi sp, sp, #0x1c
-	ldmmiia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	add r6, r5, #0x21c
-	add r5, sp, #0xc
-	mov r11, #0x1c
-_0202D100:
-	ldrsh r0, [r4, #0x1a]
-	add r0, r0, r7
-	and r0, r0, #0x1f
-	mla r9, r0, r11, r6
-	ldrh r0, [r9, #0x18]
-	subs r1, r0, r8
-	beq _0202D134
-	mov r2, #0
-	mov r0, r10
-	mov r3, r2
-	mov r1, r1, lsl #0xc
-	bl AnimatorSpriteDS__AnimateManual
-	ldrh r8, [r9, #0x18]
-_0202D134:
-	ldr r1, [r9]
-	mov r0, r10
-	str r1, [sp, #0x10]
-	ldr r2, [r9, #4]
-	add r1, sp, #0x10
-	str r2, [sp, #0x14]
-	mov r2, #0
-	str r5, [sp]
-	str r2, [sp, #4]
-	mov r9, r2
-	mov r3, r2
-	str r9, [sp, #8]
-	bl StageTask__Draw2DEx
-	subs r7, r7, #1
-	bpl _0202D100
-	add sp, sp, #0x1c
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-// clang-format on
-#endif
+    EffectHoverCrystalSparkle *work = TaskGetWorkCurrent(EffectHoverCrystalSparkle);
+
+    AnimatorSpriteDS *aniSparkle = &work->objWork.obj_2d->ani;
+    AnimatorSpriteDS__SetAnimation(aniSparkle, 0);
+
+    VecFx32 position;
+    position.z = FLOAT_TO_FX32(0.0);
+
+    lastTime = 0;
+    for (i = work->listCount - 1; i >= 0; i--)
+    {
+        particle = &work->list[(work->listStartSlot + i) & 0x1F];
+
+        fx32 advance = (particle->timer - lastTime);
+        if (advance != 0)
+        {
+            AnimatorSpriteDS__AnimateManualFast(aniSparkle, FX32_FROM_WHOLE(advance));
+            lastTime = particle->timer;
+        }
+
+        position.x = particle->position.x;
+        position.y = particle->position.y;
+        StageTask__Draw2DEx(aniSparkle, &position, NULL, NULL, &displayFlag, NULL, NULL);
+    }
 }
 
 // EffectIceSparklesSpawner
-NONMATCH_FUNC EffectIceSparklesSpawner *EffectIceSparklesSpawner__Create(StageTask *parent){
-#ifdef NON_MATCHING
+void EffectIceSparklesSpawner__Create(StageTask *parent)
+{
+    EffectIceSparklesSpawner *work = CreateEffect(EffectIceSparklesSpawner, parent);
+    if (work == NULL)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r1, r0
-	mov r0, #0x168
-	bl CreateEffectTask
-	cmp r0, #0
-	ldrne r1, =EffectIceSparklesSpawner__State_202D19C
-	strne r1, [r0, #0xf4]
-	ldmia sp!, {r3, pc}
-// clang-format on
-#endif
+    SetTaskState(&work->objWork, EffectIceSparklesSpawner__State_202D19C);
 }
 
-NONMATCH_FUNC void EffectIceSparklesSpawner__State_202D19C(EffectIceSparklesSpawner *work){
-#ifdef NON_MATCHING
+void EffectIceSparklesSpawner__State_202D19C(EffectIceSparklesSpawner *work)
+{
+    StageTask *parent = work->objWork.parentObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x2c]
-	ldr r1, [r4, #0x11c]
-	tst r0, #3
-	bne _0202D228
-	ldr r3, =_mt_math_rand
-	ldr r0, =0x00196225
-	ldr lr, [r3]
-	ldr r2, =0x3C6EF35F
-	mov ip, #1
-	mla r5, lr, r0, r2
-	mla r2, r5, r0, r2
-	str r5, [r3]
-	ldr r0, [r1, #0x48]
-	mov lr, r5, lsr #0x10
-	str r2, [r3]
-	str ip, [sp]
-	ldr r3, [r3]
-	mov r2, lr, lsl #0x10
-	mov r3, r3, lsr #0x10
-	mov ip, r2, lsr #0x10
-	mov r2, r3, lsl #0x10
-	and r3, ip, #6
-	mov r2, r2, lsr #0x10
-	rsb r3, r3, #3
-	and r2, r2, #6
-	add r3, r0, r3, lsl #12
-	ldr r1, [r1, #0x44]
-	rsb r0, r2, #3
-	add r0, r1, r0, lsl #12
-	add r1, r3, #0x10000
-	mov r2, #0
-	mov r3, #0x2000
-	bl EffectIceSparkles__Create
-_0202D228:
-	ldr r0, [r4, #0x2c]
-	add r0, r0, #1
-	str r0, [r4, #0x2c]
-	cmp r0, #0x3c
-	ldrge r0, [r4, #0x18]
-	orrge r0, r0, #4
-	strge r0, [r4, #0x18]
-	ldmia sp!, {r3, r4, r5, pc}
-// clang-format on
-#endif
+    if ((work->objWork.userTimer & 3) == 0)
+    {
+        fx32 y = parent->position.y + FX32_FROM_WHOLE((3 - (mtMathRand() & 6))) + FLOAT_TO_FX32(16.0);
+        fx32 x = parent->position.x + FX32_FROM_WHOLE((3 - (mtMathRand() & 6)));
+
+        EffectIceSparkles__Create(x, y, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(2.0), 1);
+    }
+
+    work->objWork.userTimer++;
+    if (work->objWork.userTimer >= 60)
+        DestroyStageTask(&work->objWork);
 }
 
 // EffectMedal
-NONMATCH_FUNC EffectMedal *EffectMedal__Create(StageTask *parent){
+NONMATCH_FUNC EffectMedal *EffectMedal__Create(StageTask *parent)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1912,27 +1654,18 @@ _0202D364:
 #endif
 }
 
-NONMATCH_FUNC void EffectMedal__Destructor(Task *task){
-#ifdef NON_MATCHING
+void EffectMedal__Destructor(Task *task)
+{
+    EffectMedal *work = TaskGetWork(task, EffectMedal);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl GetTaskWork_
-	add r0, r0, #0x218
-	bl ReleasePaletteAnimator
-	mov r0, #0x9d
-	bl GetObjectFileWork
-	bl ObjDataRelease
-	mov r0, r4
-	bl StageTask_Destructor
-	ldmia sp!, {r4, pc}
-// clang-format on
-#endif
+    ReleasePaletteAnimator(&work->aniPalette);
+    ObjDataRelease(GetObjectDataWork(OBJDATAWORK_157));
+
+    StageTask_Destructor(task);
 }
 
-NONMATCH_FUNC void EffectMedal__State_202D514(EffectMedal *work){
+NONMATCH_FUNC void EffectMedal__State_202D514(EffectMedal *work)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2144,7 +1877,8 @@ _0202D7EC:
 }
 
 // EffectRingSparkle
-NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, fx32 accX, fx32 accY){
+NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, fx32 accX, fx32 accY)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2236,7 +1970,8 @@ NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 
 #endif
 }
 
-NONMATCH_FUNC void EffectRingSparkle__Destructor(Task *task){
+NONMATCH_FUNC void EffectRingSparkle__Destructor(Task *task)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2260,8 +1995,8 @@ NONMATCH_FUNC void EffectRingSparkle__Destructor(Task *task){
 NONMATCH_FUNC EffectButtonPrompt *EffectButtonPrompt__Create(StageTask *parent, s32 type)
 {
 #ifdef NON_MATCHING
-    static u8 animIDs[2]                                = { 1, 0 };
-    static void (*states[2])(EffectButtonPrompt * work) = { EffectButtonPrompt__State_DPadUp, EffectButtonPrompt__State_JumpButton };
+    static u8 animIDs[2]                               = { 1, 0 };
+    static void (*states[2])(EffectButtonPrompt *work) = { EffectButtonPrompt__State_DPadUp, EffectButtonPrompt__State_JumpButton };
 
     EffectButtonPrompt *work = CreateEffect(EffectButtonPrompt, parent);
 

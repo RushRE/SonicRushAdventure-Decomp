@@ -44,6 +44,7 @@
 #include <stage/objects/springCrystal.h>
 #include <stage/objects/steamFan.h>
 #include <stage/objects/winch.h>
+#include <stage/objects/unknown1.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -99,7 +100,6 @@ NOT_DECOMPILED GameObjectTask *DreamWing__Create(MapObject *mapObject, fx32 x, f
 NOT_DECOMPILED GameObjectTask *DreamWingPart__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CameraBoundsTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *GrabTree__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *ObjectUnknown1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Stalactite__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *VRotateCrane__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);

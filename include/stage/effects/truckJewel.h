@@ -11,7 +11,8 @@ typedef struct EffectTruckJewel_
 {
     StageTask objWork;
     
-    OBS_ACTION2D_BAC_WORK ani;
+    OBS_ACTION2D_BAC_WORK ani2D;
+    OBS_ACTION3D_BAC_WORK ani3D;
 } EffectTruckJewel;
 
 // --------------------

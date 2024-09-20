@@ -220,7 +220,7 @@ void Player__Gimmick_201B418(Player *player, fx32 velX, fx32 velY, BOOL allowTri
     SetTaskState(&player->objWork, Player__State_Air);
 }
 
-void Player__Gimmick_201B500(Player *player, GameObjectTask *other, s32 value1, s32 value2, s32 value3)
+void Player__Gimmick_201B500(Player *player, GameObjectTask *other, fx32 offsetX, fx32 offsetY, fx32 offsetZ)
 {
     if (player->gimmickObj != other)
     {
@@ -234,14 +234,14 @@ void Player__Gimmick_201B500(Player *player, GameObjectTask *other, s32 value1, 
         player->objWork.userFlag = 0;
         player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
-        player->objWork.velocity.x = 0;
-        player->objWork.velocity.y = 0;
-        player->objWork.groundVel  = 0;
+        player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
+        player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
+        player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
         player->objWork.userWork   = 0;
         player->objWork.userTimer  = 0;
-        player->gimmickValue1      = value1;
-        player->gimmickValue2      = value2;
-        player->gimmickValue3      = value3;
+        player->gimmickValue1      = offsetX;
+        player->gimmickValue2      = offsetY;
+        player->gimmickValue3      = offsetZ;
 
         SetTaskState(&player->objWork, Player__State_201B5A0);
     }
