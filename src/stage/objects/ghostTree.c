@@ -150,9 +150,9 @@ void GhostTree_State_FailedGrabWait(GhostTree *work)
 
 void GhostTree_State_GrabbedPlayer(GhostTree *work)
 {
-    if (work->gameWork.objWork.obj_3d->ani.currentAnimObj[B3D_ANIM_JOINT_ANIM]->frame >= FLOAT_TO_FX32(145.0) && (work->gameWork.objWork.userFlag & 1) == 0)
+    if (work->gameWork.objWork.obj_3d->ani.currentAnimObj[B3D_ANIM_JOINT_ANIM]->frame >= FLOAT_TO_FX32(145.0) && (work->gameWork.objWork.userFlag & PLAYER_PARENTFLAG_RELEASE_WITH_VELOCITY) == 0)
     {
-        work->gameWork.objWork.userFlag |= 1;
+        work->gameWork.objWork.userFlag |= PLAYER_PARENTFLAG_RELEASE_WITH_VELOCITY;
         work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(8.0);
         work->gameWork.objWork.velocity.y = -FLOAT_TO_FX32(8.0);
         NNS_G3dRenderObjResetCallBack(&work->gameWork.objWork.obj_3d->ani.renderObj);
@@ -191,7 +191,7 @@ void GhostTree_State_ThrownPlayer(GhostTree *work)
         AnimatorMDL__SetAnimation(&work->gameWork.objWork.obj_3d->ani, B3D_ANIM_VIS_ANIM, work->gameWork.objWork.obj_3d->resources[B3D_RESOURCE_VIS_ANIM], 0, NULL);
         ani->speedMultiplier = FLOAT_TO_FX32(1.0);
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_PAUSED;
-        work->gameWork.objWork.userFlag &= ~1;
+        work->gameWork.objWork.userFlag &= ~PLAYER_PARENTFLAG_RELEASE_WITH_VELOCITY;
 
         NNS_G3dRenderObjSetCallBack(&ani->renderObj, GhostTree_RenderCallback, NULL, NNS_G3D_SBC_NODEDESC, NNS_G3D_SBC_CALLBACK_TIMING_C);
         work->gameWork.colliders[1].parent = &work->gameWork.objWork;

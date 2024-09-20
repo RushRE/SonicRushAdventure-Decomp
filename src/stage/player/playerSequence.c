@@ -89,11 +89,11 @@ void Player__State_StageStartSnowboard(Player *work)
 
 void Player__Action_Spring(Player *player, fx32 velX, fx32 velY)
 {
-    Player__Gimmick_Jump(player, velX, velY);
+    Player__Action_GimmickLaunch(player, velX, velY);
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPRING);
 }
 
-void Player__Gimmick_Jump(Player *player, fx32 velX, fx32 velY)
+void Player__Action_GimmickLaunch(Player *player, fx32 velX, fx32 velY)
 {
     if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0)
     {
@@ -112,7 +112,7 @@ void Player__Gimmick_Jump(Player *player, fx32 velX, fx32 velY)
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
         SetTaskState(&player->objWork, Player__State_Air);
 
-        if (velX != 0)
+        if (velX != FLOAT_TO_FX32(0.0))
         {
             if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
             {
@@ -162,6 +162,7 @@ void Player__Gimmick_Jump(Player *player, fx32 velX, fx32 velY)
             player->objWork.velocity.y = velY;
         else
             player->objWork.velocity.y = MultiplyFX(player->objWork.groundVel, SinFX(player->objWork.dir.z));
+		
         ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
         player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
         player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
@@ -220,7 +221,7 @@ void Player__Gimmick_201B418(Player *player, fx32 velX, fx32 velY, BOOL allowTri
     SetTaskState(&player->objWork, Player__State_Air);
 }
 
-void Player__Gimmick_201B500(Player *player, GameObjectTask *other, fx32 offsetX, fx32 offsetY, fx32 offsetZ)
+void Player__Action_FollowParent(Player *player, GameObjectTask *other, fx32 offsetX, fx32 offsetY, fx32 offsetZ)
 {
     if (player->gimmickObj != other)
     {
@@ -231,7 +232,7 @@ void Player__Gimmick_201B500(Player *player, GameObjectTask *other, fx32 offsetX
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR | STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
         player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES);
         player->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
-        player->objWork.userFlag = 0;
+        player->objWork.userFlag = PLAYER_CHILDFLAG_NONE;
         player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
         player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
@@ -243,11 +244,11 @@ void Player__Gimmick_201B500(Player *player, GameObjectTask *other, fx32 offsetX
         player->gimmickValue2      = offsetY;
         player->gimmickValue3      = offsetZ;
 
-        SetTaskState(&player->objWork, Player__State_201B5A0);
+        SetTaskState(&player->objWork, Player__State_FollowParent);
     }
 }
 
-void Player__State_201B5A0(Player *work)
+void Player__State_FollowParent(Player *work)
 {
     GameObjectTask *gimmickObj = work->gimmickObj;
 
@@ -295,7 +296,7 @@ void Player__State_201B5A0(Player *work)
             VEC_Set(&offset, work->gimmickValue1, work->gimmickValue2, work->gimmickValue3);
             MTX_MultVec33(&offset, &matDirection, &offset);
 
-            if ((work->objWork.userFlag & 2) != 0)
+            if ((work->objWork.userFlag & PLAYER_CHILDFLAG_FOLLOW_PREV_POS) != 0)
             {
                 VEC_Set(&work->objWork.position, gimmickObj->objWork.prevPosition.x + offset.x, gimmickObj->objWork.prevPosition.y + offset.y,
                         gimmickObj->objWork.prevPosition.z + offset.z);
@@ -305,7 +306,7 @@ void Player__State_201B5A0(Player *work)
                 VEC_Set(&work->objWork.position, gimmickObj->objWork.position.x + offset.x, gimmickObj->objWork.position.y + offset.y, gimmickObj->objWork.position.z + offset.z);
             }
         }
-        else if ((work->objWork.userFlag & 2) != 0)
+        else if ((work->objWork.userFlag & PLAYER_CHILDFLAG_FOLLOW_PREV_POS) != 0)
         {
             work->objWork.position.x = gimmickObj->objWork.prevPosition.x + work->gimmickValue1;
             work->objWork.position.y = gimmickObj->objWork.prevPosition.y + work->gimmickValue2;
@@ -322,22 +323,22 @@ void Player__State_201B5A0(Player *work)
         work->objWork.move.y = work->objWork.position.y - work->objWork.prevPosition.y;
         work->objWork.move.z = work->objWork.position.z - work->objWork.prevPosition.z;
 
-        if ((work->objWork.userFlag & 0x40) != 0 && gimmickObj->objWork.shakeTimer != 0)
+        if ((work->objWork.userFlag & PLAYER_CHILDFLAG_INHERIT_SHAKE_TIMER) != 0 && gimmickObj->objWork.shakeTimer != FLOAT_TO_FX32(0.0))
             work->objWork.shakeTimer = gimmickObj->objWork.shakeTimer + FLOAT_TO_FX32(1.0);
 
-        if ((gimmickObj->objWork.userFlag & 1) != 0)
+        if ((gimmickObj->objWork.userFlag & PLAYER_PARENTFLAG_RELEASE_WITH_VELOCITY) != 0)
         {
             work->objWork.velocity.x = gimmickObj->objWork.velocity.x;
             work->objWork.velocity.y = gimmickObj->objWork.velocity.y;
             work->gimmickObj         = NULL;
         }
-        else if ((gimmickObj->objWork.userFlag & 2) != 0)
+        else if ((gimmickObj->objWork.userFlag & PLAYER_PARENTFLAG_RELEASE_WITH_GROUNDVEL) != 0)
         {
             work->objWork.velocity.x = gimmickObj->objWork.groundVel;
             work->gimmickObj         = NULL;
         }
 
-        if ((gimmickObj->objWork.userFlag & 4) != 0)
+        if ((gimmickObj->objWork.userFlag & PLAYER_PARENTFLAG_RELEASE_WITH_MOVE) != 0)
         {
             work->objWork.velocity.x = work->objWork.move.x;
             work->objWork.velocity.y = work->objWork.move.y;
@@ -345,7 +346,7 @@ void Player__State_201B5A0(Player *work)
         }
     }
 
-    if (work->gimmickObj == NULL || (work->objWork.userFlag & 1) != 0 && (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
+    if (work->gimmickObj == NULL || ((work->objWork.userFlag & PLAYER_CHILDFLAG_CAN_JUMP) != 0 && (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0))
     {
         work->gimmickObj = NULL;
 
@@ -362,11 +363,11 @@ void Player__State_201B5A0(Player *work)
         StopPlayerSfx(work, PLAYER_SEQPLAYER_COMMON);
 
         u32 flag = work->objWork.userFlag;
-        if ((flag & 1) != 0 && (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
+        if ((flag & PLAYER_CHILDFLAG_CAN_JUMP) != 0 && (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
         {
             work->actionJump(work);
         }
-        else if ((flag & 4) != 0)
+        else if ((flag & PLAYER_CHILDFLAG_FORCE_JUMP_ACTION) != 0)
         {
             fx32 velX = work->objWork.velocity.x;
             fx32 velY = work->objWork.velocity.y;
@@ -374,14 +375,14 @@ void Player__State_201B5A0(Player *work)
             work->objWork.velocity.x = velX;
             work->objWork.velocity.y = velY;
         }
-        else if ((flag & 8) != 0)
+        else if ((flag & PLAYER_CHILDFLAG_FORCE_LAUNCH_ACTION) != 0)
         {
-            Player__Gimmick_Jump(work, work->objWork.velocity.x, work->objWork.velocity.y);
+            Player__Action_GimmickLaunch(work, work->objWork.velocity.x, work->objWork.velocity.y);
 
-            if ((flag & 0x10) != 0)
+            if ((flag & PLAYER_CHILDFLAG_FINISH_TRICK_COMBO) != 0)
                 work->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO;
 
-            if ((flag & 0x20) != 0)
+            if ((flag & PLAYER_CHILDFLAG_DISABLE_TRICK_FINISHER) != 0)
                 work->playerFlag |= PLAYER_FLAG_DISABLE_TRICK_FINISHER;
         }
         else
@@ -2232,7 +2233,7 @@ NONMATCH_FUNC void Player__Action_MushroomBounce(Player *player, fx32 velX, fx32
     player->objWork.groundVel  = MTM_MATH_CLIP(player->objWork.groundVel, -player->spdThresholdDash, player->spdThresholdDash);
     player->objWork.velocity.x = MTM_MATH_CLIP(player->objWork.groundVel, -player->spdThresholdDash, player->spdThresholdDash);
 
-    Player__Gimmick_Jump(player, velX, velY);
+    Player__Action_GimmickLaunch(player, velX, velY);
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     player->objWork.userTimer = 3 * timer + 1;
 
@@ -2270,7 +2271,7 @@ _0201D60C:
 	strlt r0, [r5, #0x98]
 _0201D618:
 	mov r0, r5
-	bl Player__Gimmick_Jump
+	bl Player__Action_GimmickLaunch
 	ldr r0, [r5, #0x1c]
 	add r1, r4, r4, lsl #1
 	bic r2, r0, #0x80
@@ -2319,7 +2320,7 @@ NONMATCH_FUNC void Player__Func_201D684(Player *player, s32 a2, s32 a3, s32 a4)
 	str ip, [r4, #0x9c]
 	mov r2, r3
 	str ip, [r4, #0x98]
-	bl Player__Gimmick_Jump
+	bl Player__Action_GimmickLaunch
 	add r0, r4, #0x700
 	ldrh r3, [r0, #0x20]
 	ldr r2, =Player__State_201D748
@@ -4731,7 +4732,7 @@ NONMATCH_FUNC void Player__Func_2020420(Player *player, GameObjectTask *other, f
 	mov r1, r2
 	mov r0, r4
 	mov r2, r3
-	bl Player__Gimmick_Jump
+	bl Player__Action_GimmickLaunch
 	mov ip, #0x3c
 	sub r1, ip, #0x3d
 	add r0, r4, #0x254
@@ -5699,9 +5700,9 @@ _02021178:
 
 void Player__Action_GhostTree(Player *player, GameObjectTask *other)
 {
-    Player__Gimmick_201B500(player, other, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
+    Player__Action_FollowParent(player, other, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
 
-    player->objWork.userFlag = 2 | 8;
+    player->objWork.userFlag = PLAYER_CHILDFLAG_FOLLOW_PREV_POS | PLAYER_CHILDFLAG_FORCE_LAUNCH_ACTION;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     Player__ChangeAction(player, PLAYER_ACTION_HOMING_ATTACK);
 
@@ -5715,18 +5716,18 @@ void Player__Action_GhostTree(Player *player, GameObjectTask *other)
 
 void Player__Action_SpringCrystal(Player *player, fx32 velX, fx32 velY)
 {
-    Player__Gimmick_Jump(player, velX, velY);
+    Player__Action_GimmickLaunch(player, velX, velY);
 }
 
 void Player__Action_CraneGrab(Player *player, GameObjectTask *other)
 {
-    fx32 v4;
+    fx32 offsetX;
     if ((other->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
-        v4 = -FLOAT_TO_FX32(46.0);
+        offsetX = -FLOAT_TO_FX32(46.0);
     else
-        v4 = FLOAT_TO_FX32(46.0);
+        offsetX = FLOAT_TO_FX32(46.0);
 
-    Player__Gimmick_201B500(player, other, v4, FLOAT_TO_FX32(128.0), 0);
+    Player__Action_FollowParent(player, other, offsetX, FLOAT_TO_FX32(128.0), 0);
 
     player->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
@@ -5743,10 +5744,10 @@ void Player__Action_CraneGrab(Player *player, GameObjectTask *other)
 
 void Player__Action_Winch(Player *player, GameObjectTask *other, u32 displayFlag)
 {
-    Player__Gimmick_201B500(player, other, 0, FLOAT_TO_FX32(15.0), 0);
+    Player__Action_FollowParent(player, other, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(15.0), FLOAT_TO_FX32(0.0));
     SetTaskState(&player->objWork, Player__State_Winch);
 
-    player->objWork.userFlag |= 1 | 2 | 8 | 64;
+    player->objWork.userFlag |= PLAYER_CHILDFLAG_CAN_JUMP | PLAYER_CHILDFLAG_FOLLOW_PREV_POS | PLAYER_CHILDFLAG_FORCE_LAUNCH_ACTION | PLAYER_CHILDFLAG_INHERIT_SHAKE_TIMER;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
@@ -5756,14 +5757,14 @@ void Player__Action_Winch(Player *player, GameObjectTask *other, u32 displayFlag
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
     player->objWork.collisionFlag &= ~STAGE_TASK_COLLISION_FLAG_GRIND_RAIL;
 
-    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
+    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 }
 
 void Player__State_Winch(Player *work)
 {
     GameObjectTask *gimmick = work->gimmickObj;
 
-    Player__State_201B5A0(work);
+    Player__State_FollowParent(work);
 
     if (!StageTaskStateMatches(&work->objWork, Player__State_Winch) && gimmick != NULL)
         Player__Action_AllowTrickCombos(work, gimmick);
@@ -5945,7 +5946,7 @@ _02021648:
 	mov r1, r4
 	sub r3, r2, #0x23000
 	str ip, [sp]
-	bl Player__Gimmick_201B500
+	bl Player__Action_FollowParent
 	ldr r1, =Player__State_2021848
 	ldr r0, =Player__OnDefend_Unknown
 	str r1, [r5, #0xf4]
@@ -6037,7 +6038,7 @@ void Player__Action_TruckLaunch(Player *player, GameObjectTask *other, s32 a3)
         player->gimmickCamOffsetX = player->gimmickCamOffsetY = 0;
         player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
-        Player__Gimmick_Jump(player, player->objWork.move.x, -FLOAT_TO_FX32(8.0));
+        Player__Action_GimmickLaunch(player, player->objWork.move.x, -FLOAT_TO_FX32(8.0));
 
         if (!a3)
             player->playerFlag |= PLAYER_FLAG_DISABLE_TRICK_FINISHER;
@@ -6064,7 +6065,7 @@ void Player__State_2021848(Player *work)
         }
     }
 
-    Player__State_201B5A0(work);
+    Player__State_FollowParent(work);
 }
 
 void Player__OnDefend_Unknown(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
@@ -6137,7 +6138,7 @@ void Player__Func_2021A84(Player *player, GameObjectTask *other)
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_PAUSED;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
-        SetTaskState(&player->objWork, Player__State_201B5A0);
+        SetTaskState(&player->objWork, Player__State_FollowParent);
     }
 }
 
@@ -6167,12 +6168,12 @@ void Player__Func_2021B44(Player *player, GameObjectTask *other)
 
 void Player__Func_2021B84(Player *player, GameObjectTask *other)
 {
-    Player__Gimmick_201B500(player, other, 0, 0, 0);
+    Player__Action_FollowParent(player, other, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
 
     SetTaskState(&player->objWork, Player__State_AnchorRope);
 
     player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
-    player->objWork.userFlag |= 1 | 2 | 8;
+    player->objWork.userFlag |= PLAYER_CHILDFLAG_CAN_JUMP | PLAYER_CHILDFLAG_FOLLOW_PREV_POS | PLAYER_CHILDFLAG_FORCE_LAUNCH_ACTION;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_10;
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
@@ -6181,37 +6182,38 @@ void Player__Func_2021B84(Player *player, GameObjectTask *other)
     Player__ChangeAction(player, PLAYER_ACTION_33);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_FLIP_X;
 
-    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
+    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 }
 
 NONMATCH_FUNC void Player__State_AnchorRope(Player *work)
 {
 #ifdef NON_MATCHING
-    Player__State_201B5A0(work);
+    Player__State_FollowParent(work);
 
     if (StageTaskStateMatches(&work->objWork, Player__State_AnchorRope))
     {
         GameObjectTask *gimmick = work->gimmickObj;
         if (gimmick != NULL)
         {
-            if ((gimmick->objWork.position.x - work->objWork.position.x <= 0 && gimmick->objWork.position.x - work->objWork.prevPosition.x > 0)
-                || (gimmick->objWork.position.x - work->objWork.position.x >= 0 && gimmick->objWork.position.x - work->objWork.prevPosition.x < 0))
+            if ((gimmick->objWork.position.x - work->objWork.position.x <= FLOAT_TO_FX32(0.0) && gimmick->objWork.position.x - work->objWork.prevPosition.x > FLOAT_TO_FX32(0.0))
+                || (gimmick->objWork.position.x - work->objWork.position.x >= FLOAT_TO_FX32(0.0)
+                    && gimmick->objWork.position.x - work->objWork.prevPosition.x < FLOAT_TO_FX32(0.0)))
             {
-                if (work->objWork.position.z > 0)
+                if (work->objWork.position.z > FLOAT_TO_FX32(0.0))
                     PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ANCHOR_ROPE);
             }
         }
     }
     else
     {
-        work->objWork.position.z = 0;
+        work->objWork.position.z = FLOAT_TO_FX32(0.0);
     }
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
-	bl Player__State_201B5A0
+	bl Player__State_FollowParent
 	ldr r1, [r4, #0xf4]
 	ldr r0, =Player__State_AnchorRope
 	cmp r1, r0
@@ -6265,18 +6267,17 @@ _02021CD4:
 
 void Player__Func_2021CE8(Player *player, GameObjectTask *other)
 {
-    fx32 v3;
-
+    fx32 offsetX;
     if (player->characterID == CHARACTER_SONIC)
-        v3 = FLOAT_TO_FX32(40.0);
+        offsetX = FLOAT_TO_FX32(40.0);
     else
-        v3 = FLOAT_TO_FX32(42.0);
-    Player__Gimmick_201B500(player, other, 0, v3, 0);
+        offsetX = FLOAT_TO_FX32(42.0);
+    Player__Action_FollowParent(player, other, FLOAT_TO_FX32(0.0), offsetX, FLOAT_TO_FX32(0.0));
 
     SetTaskState(&player->objWork, Player__State_2021DD4);
 
     player->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO;
-    player->objWork.userFlag |= 2 | 4;
+    player->objWork.userFlag |= PLAYER_CHILDFLAG_FOLLOW_PREV_POS | PLAYER_CHILDFLAG_FORCE_JUMP_ACTION;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_10;
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
@@ -6292,7 +6293,7 @@ void Player__Func_2021CE8(Player *player, GameObjectTask *other)
     player->blinkTimer            = 0;
     player->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
 
-    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
+    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 }
 
 void Player__State_2021DD4(Player *work)
@@ -6311,7 +6312,7 @@ void Player__State_2021DD4(Player *work)
     if (work->objWork.userTimer >= 5)
         work->objWork.userWork |= 2;
 
-    Player__State_201B5A0(work);
+    Player__State_FollowParent(work);
 
     if (!StageTaskStateMatches(&work->objWork, Player__State_2021DD4))
     {
@@ -6438,7 +6439,7 @@ _02022054:
 
 void Player__Action_Trampoline(Player *player, fx32 velX, fx32 velY)
 {
-    Player__Gimmick_Jump(player, velX, velY);
+    Player__Action_GimmickLaunch(player, velX, velY);
 
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
     player->objWork.userTimer = 1;
@@ -7944,7 +7945,7 @@ _020233C4:
 
 void Player__Action_JumpBoxLaunch(Player *player, fx32 velX, fx32 velY)
 {
-    Player__Gimmick_Jump(player, velX, velY);
+    Player__Action_GimmickLaunch(player, velX, velY);
 
     if (MATH_ABS(velY) > MATH_ABS(velX))
     {
@@ -7965,7 +7966,7 @@ void Player__Action_JumpBoxPlaneSwitchLaunch(Player *player, fx32 velX, fx32 vel
     player->objWork.groundVel  = 0;
     player->objWork.velocity.x = player->objWork.velocity.y = 0;
 
-    Player__Gimmick_Jump(player, velX, velY);
+    Player__Action_GimmickLaunch(player, velX, velY);
     Player__ChangeAction(player, PLAYER_ACTION_AIRRISE);
     player->objWork.velocity.z = velZ;
     player->playerFlag |= PLAYER_FLAG_DISABLE_INPUT_READ | PLAYER_FLAG_SLOWMO | PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO;
@@ -8042,7 +8043,7 @@ void Player__Action_PlaneSwitchSpring(Player *player, fx32 velX, fx32 velY)
     player->objWork.groundVel  = 0;
     player->objWork.velocity.x = player->objWork.velocity.y = 0;
 
-    Player__Gimmick_Jump(player, velX, velY);
+    Player__Action_GimmickLaunch(player, velX, velY);
     player->playerFlag |= PLAYER_FLAG_SLOWMO | PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_USER_FLAG;
     player->slomoTimer = 0;
 
@@ -8126,11 +8127,11 @@ void Player__Func_202374C(Player *player)
 
 void Player__Func_202379C(Player *player, GameObjectTask *other)
 {
-    Player__Gimmick_201B500(player, other, 0, 0, 0);
+    Player__Action_FollowParent(player, other, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
     SetTaskState(&player->objWork, Player__State_2023858);
 
     player->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO;
-    player->objWork.userFlag |= (1 | 2 | 8);
+    player->objWork.userFlag |= PLAYER_CHILDFLAG_CAN_JUMP | PLAYER_CHILDFLAG_FOLLOW_PREV_POS | PLAYER_CHILDFLAG_FORCE_LAUNCH_ACTION;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     player->gimmickFlag |= PLAYER_GIMMICK_GRABBED | PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
@@ -8143,7 +8144,7 @@ void Player__Func_202379C(Player *player, GameObjectTask *other)
     player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
     player->objWork.displayFlag |= other->objWork.displayFlag & DISPLAY_FLAG_FLIP_X;
 
-    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = 0;
+    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 }
 
 NONMATCH_FUNC void Player__State_2023858(Player *work)
@@ -8189,7 +8190,7 @@ NONMATCH_FUNC void Player__State_2023858(Player *work)
 	sub r5, r5, r1
 _020238E4:
 	mov r0, r7
-	bl Player__State_201B5A0
+	bl Player__State_FollowParent
 	cmp r5, #0
 	cmpeq r6, #0
 	beq _02023918
@@ -8640,7 +8641,7 @@ _02023F1C:
 	mov r1, #0
 	mov r0, r4
 	sub r2, r1, #0x8000
-	bl Player__Gimmick_Jump
+	bl Player__Action_GimmickLaunch
 	cmp r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r4

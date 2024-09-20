@@ -659,10 +659,10 @@
 .public Player__Action_StageStartSnowboard
 .public Player__State_StageStartSnowboard
 .public Player__Action_Spring
-.public Player__Gimmick_Jump
+.public Player__Action_GimmickLaunch
 .public Player__Gimmick_201B418
-.public Player__Gimmick_201B500
-.public Player__State_201B5A0
+.public Player__Action_FollowParent
+.public Player__State_FollowParent
 .public Player__Action_DashRing
 .public Player__Gimmick_201BAC0
 .public Player__Action_SpringboardLaunch

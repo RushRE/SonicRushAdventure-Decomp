@@ -352,7 +352,7 @@ void Winch_State_PlayerAttached(Winch *work)
 
                 work->gameWork.objWork.userTimer = 0;
                 work->gameWork.objWork.userWork  = 0;
-                work->gameWork.objWork.userFlag |= 1;
+                work->gameWork.objWork.userFlag |= PLAYER_PARENTFLAG_RELEASE_WITH_VELOCITY;
                 work->gameWork.objWork.velocity.x = FLOAT_TO_FX32(0.0);
                 work->gameWork.objWork.velocity.y = -work->speed;
             }
@@ -528,7 +528,7 @@ void Winch_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     winch->hookAngle                  = FLOAT_DEG_TO_IDX(0.0);
     winch->spinSpeed                  = winch->speed;
     winch->lineLength                 = FLOAT_TO_FX32(32.0);
-    winch->gameWork.objWork.userFlag  = 0;
+    winch->gameWork.objWork.userFlag  = PLAYER_PARENTFLAG_NONE;
     winch->gameWork.objWork.userTimer = 0;
     winch->gameWork.flags &= ~WINCH_FLAG_1;
 

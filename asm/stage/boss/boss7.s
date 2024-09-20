@@ -1681,14 +1681,14 @@ ovl02_215E16C: // 0x0215E16C
 	mov r3, #0x3000
 	cmp r2, r0
 	mov r2, #0x3000
-	ldr ip, _0215E198 // =Player__Gimmick_Jump
+	ldr ip, _0215E198 // =Player__Action_GimmickLaunch
 	rsbge r3, r3, #0
 	mov r0, r1
 	mov r1, r3
 	rsb r2, r2, #0
 	bx ip
 	.align 2, 0
-_0215E198: .word Player__Gimmick_Jump
+_0215E198: .word Player__Action_GimmickLaunch
 	arm_func_end ovl02_215E16C
 
 	arm_func_start ovl02_215E19C

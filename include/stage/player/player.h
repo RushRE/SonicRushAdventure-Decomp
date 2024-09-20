@@ -344,6 +344,30 @@ enum PlayerSeqPlayerID_
     PLAYER_SEQPLAYER_COUNT,
 };
 
+// used by player for Player__State_FollowParent
+enum PlayerChildFlag
+{
+    PLAYER_CHILDFLAG_NONE = 0x00,
+
+    PLAYER_CHILDFLAG_CAN_JUMP               = 1 << 0,
+    PLAYER_CHILDFLAG_FOLLOW_PREV_POS        = 1 << 1,
+    PLAYER_CHILDFLAG_FORCE_JUMP_ACTION      = 1 << 2,
+    PLAYER_CHILDFLAG_FORCE_LAUNCH_ACTION    = 1 << 3,
+    PLAYER_CHILDFLAG_FINISH_TRICK_COMBO     = 1 << 4,
+    PLAYER_CHILDFLAG_DISABLE_TRICK_FINISHER = 1 << 5,
+    PLAYER_CHILDFLAG_INHERIT_SHAKE_TIMER    = 1 << 6,
+};
+
+// used by the parent for Player__State_FollowParent
+enum PlayerParentFlag
+{
+    PLAYER_PARENTFLAG_NONE = 0x00,
+
+    PLAYER_PARENTFLAG_RELEASE_WITH_VELOCITY  = 1 << 0,
+    PLAYER_PARENTFLAG_RELEASE_WITH_GROUNDVEL = 1 << 1,
+    PLAYER_PARENTFLAG_RELEASE_WITH_MOVE      = 1 << 2,
+};
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -723,10 +747,10 @@ void Player__Action_AllowTrickCombos(Player *player, GameObjectTask *other);
 void Player__Action_StageStartSnowboard(Player *player);
 void Player__State_StageStartSnowboard(Player *work);
 void Player__Action_Spring(Player *player, fx32 velX, fx32 velY);
-void Player__Gimmick_Jump(Player *player, fx32 velX, fx32 velY);
+void Player__Action_GimmickLaunch(Player *player, fx32 velX, fx32 velY);
 void Player__Gimmick_201B418(Player *player, fx32 velX, fx32 velY, BOOL allowTricks);
-void Player__Gimmick_201B500(Player *player, GameObjectTask *other, fx32 offsetX, fx32 offsetY, fx32 offsetZ);
-void Player__State_201B5A0(Player *work);
+void Player__Action_FollowParent(Player *player, GameObjectTask *other, fx32 offsetX, fx32 offsetY, fx32 offsetZ);
+void Player__State_FollowParent(Player *work);
 void Player__Action_DashRing(Player *player, fx32 x, fx32 y, fx32 velX, fx32 velY);
 void Player__Gimmick_201BAC0(Player *player, fx32 velX, fx32 velY);
 void Player__Action_SpringboardLaunch(Player *player, fx32 velX, fx32 velY);
