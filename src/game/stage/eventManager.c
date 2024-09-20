@@ -45,6 +45,7 @@
 #include <stage/objects/steamFan.h>
 #include <stage/objects/winch.h>
 #include <stage/objects/unknown1.h>
+#include <stage/objects/avalanche.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -107,8 +108,6 @@ NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x,
 NOT_DECOMPILED GameObjectTask *Truck3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *TruckBarrier__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Truck3DTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Avalanche__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *IceTree__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *AnchorRope__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Barrel__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Trampoline3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -737,9 +736,9 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_191] = (CreateObjectFunc)NULL,
     [MAPOBJECT_192] = (CreateObjectFunc)NULL,
     [MAPOBJECT_193] = (CreateObjectFunc)NULL,
-    [MAPOBJECT_194] = (CreateObjectFunc)Avalanche__Create,
-    [MAPOBJECT_195] = (CreateObjectFunc)Avalanche__Create,
-    [MAPOBJECT_196] = (CreateObjectFunc)IceTree__Create,
+    [MAPOBJECT_194] = (CreateObjectFunc)CreateAvalanche,
+    [MAPOBJECT_195] = (CreateObjectFunc)CreateAvalanche,
+    [MAPOBJECT_196] = (CreateObjectFunc)CreateAvalancheTree,
     [MAPOBJECT_197] = (CreateObjectFunc)AnchorRope__Create,
     [MAPOBJECT_198] = (CreateObjectFunc)Barrel__Create,
     [MAPOBJECT_199] = (CreateObjectFunc)Trampoline3D__Create,
