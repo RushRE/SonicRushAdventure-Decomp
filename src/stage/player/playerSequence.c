@@ -3717,10 +3717,8 @@ void Player__State_LargePiston2(Player *work)
     }
 }
 
-NONMATCH_FUNC void Player__Action_IcicleGrab(Player *player, GameObjectTask *other, s32 width)
+void Player__Action_IcicleGrab(Player *player, GameObjectTask *other, s32 width)
 {
-    // https://decomp.me/scratch/ZvACC -> 99.76%
-#ifdef NON_MATCHING
     if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0)
     {
         Player__InitPhysics(player);
@@ -3749,12 +3747,12 @@ NONMATCH_FUNC void Player__Action_IcicleGrab(Player *player, GameObjectTask *oth
 
         if (player->objWork.position.x <= other->objWork.position.x)
         {
-            player->objWork.position.x -= (size >> 1);
+            player->objWork.position.x = other->objWork.position.x - (size >> 1);
             player->gimmickValue2 = FLOAT_DEG_TO_IDX(0.0);
         }
         else
         {
-            player->objWork.position.x += (size >> 1);
+            player->objWork.position.x = other->objWork.position.x + (size >> 1);
             player->gimmickValue2 = FLOAT_DEG_TO_IDX(180.0);
         }
 
@@ -3764,97 +3762,6 @@ NONMATCH_FUNC void Player__Action_IcicleGrab(Player *player, GameObjectTask *oth
         SetTaskState(&player->objWork, Player__State_IcicleGrab);
         PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ICICLE_TURNING);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	mov r6, r0
-	ldr r3, [r6, #0x5d8]
-	mov r5, r1
-	tst r3, #0x400
-	mov r4, r2
-	addne sp, sp, #8
-	ldmneia sp!, {r4, r5, r6, pc}
-	bl Player__InitPhysics
-	mov r0, r6
-	mov r1, #0
-	bl Player__InitGimmick
-	mov r0, r6
-	mov r1, #0x2e
-	bl Player__ChangeAction
-	ldr r0, [r6, #0x20]
-	mov r1, #0
-	orr r0, r0, #4
-	str r0, [r6, #0x20]
-	str r5, [r6, #0x6d8]
-	ldr r2, [r6, #0x1c]
-	add r0, r6, #0x600
-	orr r2, r2, #0x310
-	orr r2, r2, #0x2000
-	str r2, [r6, #0x1c]
-	ldr r2, [r6, #0x5dc]
-	orr r2, r2, #0x10
-	orr r2, r2, #0x20000
-	str r2, [r6, #0x5dc]
-	ldr r2, [r6, #0x5d8]
-	orr r2, r2, #0x100000
-	str r2, [r6, #0x5d8]
-	strh r1, [r0, #0xdc]
-	strh r1, [r6, #0x34]
-	strh r1, [r6, #0x32]
-	strh r1, [r6, #0x30]
-	ldr r2, [r6, #0x20]
-	add r0, r6, #0x550
-	bic r2, r2, #1
-	str r2, [r6, #0x20]
-	mov r2, r1
-	bl ObjRect__SetAttackStat
-	str r4, [r6, #0x6f0]
-	ldr r1, [r5, #0x48]
-	ldr r0, [r6, #0x48]
-	sub r2, r1, #0x100000
-	cmp r0, r2
-	movle r0, #0x44000
-	ble _0201F488
-	ldr r1, [r6, #0x6f0]
-	sub r0, r0, r2
-	sub r2, r1, r0
-	mov r0, #0x44
-	mul r0, r2, r0
-	bl FX_Div
-_0201F488:
-	ldr r2, [r5, #0x44]
-	ldr r1, [r6, #0x44]
-	cmp r1, r2
-	addgt r0, r2, r0, asr #1
-	strgt r0, [r6, #0x44]
-	movgt r0, #0x8000
-	bgt _0201F4B0
-	sub r0, r2, r0, asr #1
-	str r0, [r6, #0x44]
-	mov r0, #0
-_0201F4B0:
-	str r0, [r6, #0x6f4]
-	mov r3, #0
-	str r3, [r6, #0x4c]
-	str r3, [r6, #0x9c]
-	mov r4, #0x52
-	add r0, r6, #0x254
-	ldr r2, =Player__State_IcicleGrab
-	str r3, [r6, #0x98]
-	str r2, [r6, #0xf4]
-	sub r1, r4, #0x53
-	str r3, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	str r4, [sp, #4]
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
 void Player__State_IcicleGrab(Player *work)

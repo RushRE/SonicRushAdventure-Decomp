@@ -69,7 +69,7 @@ Platform *Platform__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
 	// yuck, meant to be "mapObject->id", but doesn't seem to match with a proper variable index??
 #ifdef NON_MATCHING
-    switch (mapObject->id)
+    switch (mapObject->id) // using a proper variable index when not matching for readability & editability
 #else
     switch (*((u16*)mapObject + 1)) // TODO: see if we can get this to be neat like the non-matching line: https://decomp.me/scratch/mAtBM
 #endif

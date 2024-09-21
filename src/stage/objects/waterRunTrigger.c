@@ -6,7 +6,7 @@
 
 enum WaterRunTriggerObjectFlags
 {
-	WATERRUNTRIGGER_OBJFLAG_FROM_RIGHT = 1 << 0,
+    WATERRUNTRIGGER_OBJFLAG_FROM_RIGHT = 1 << 0,
 };
 
 // --------------------
@@ -48,16 +48,16 @@ WaterRunTrigger *CreateWaterRunTrigger(MapObject *mapObject, fx32 x, fx32 y, fx3
 
 void WaterRunTrigger_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-    WaterRunTrigger *object37 = (WaterRunTrigger *)rect2->parent;
-    Player *player     = (Player *)rect1->parent;
+    WaterRunTrigger *trigger = (WaterRunTrigger *)rect2->parent;
+    Player *player           = (Player *)rect1->parent;
 
-    if (object37 == NULL || player == NULL)
+    if (trigger == NULL || player == NULL)
         return;
 
     if (player->objWork.objType == STAGE_OBJ_TYPE_PLAYER)
     {
-        if ((player->objWork.groundVel >= player->spdThresholdRun && (object37->gameWork.mapObject->flags & WATERRUNTRIGGER_OBJFLAG_FROM_RIGHT) == 0)
-            || (player->objWork.groundVel <= -player->spdThresholdRun && (object37->gameWork.mapObject->flags & WATERRUNTRIGGER_OBJFLAG_FROM_RIGHT) != 0))
+        if ((player->objWork.groundVel >= player->spdThresholdRun && (trigger->gameWork.mapObject->flags & WATERRUNTRIGGER_OBJFLAG_FROM_RIGHT) == 0)
+            || (player->objWork.groundVel <= -player->spdThresholdRun && (trigger->gameWork.mapObject->flags & WATERRUNTRIGGER_OBJFLAG_FROM_RIGHT) != 0))
         {
             Player__Gimmick_WaterRun(player);
         }
