@@ -217,7 +217,8 @@ ObjCollisionFlags objDiffSufSet(StageTask *work)
     return flags;
 }
 
-NONMATCH_FUNC void objDiffCollisionDirWidthCheck(StageTask *work, u8 ucWall, s32 sSpd){
+NONMATCH_FUNC void objDiffCollisionDirWidthCheck(StageTask *work, u8 ucWall, s32 sSpd)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1753,7 +1754,8 @@ s32 ObjDiffCollisionFast(OBS_COL_CHK_DATA *colWork)
     }
 }
 
-NONMATCH_FUNC s32 ObjDiffCollision(OBS_COL_CHK_DATA *colWork){
+NONMATCH_FUNC s32 ObjDiffCollision(OBS_COL_CHK_DATA *colWork)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2147,9 +2149,120 @@ NONMATCH_FUNC u16 objGetMapBlockData(s32 pos_x, s32 pos_y, s32 suf)
 #endif
 }
 
-NONMATCH_FUNC s32 objGetMapColDataX(fx32 lPosX, fx32 lPosY, ObjCollisionFlags flags, u16 *pDir, u32 *pAttr){
+NONMATCH_FUNC s32 objGetMapColDataX(fx32 lPosX, fx32 lPosY, ObjCollisionFlags flags, u16 *pDir, u32 *pAttr)
+{
+    // https://decomp.me/scratch/dHgfS -> 72.96%
 #ifdef NON_MATCHING
+    s8 xDiff;
 
+    if ((flags & 64) != 0)
+    {
+        if ((lPosX & ~7) > _obj_fCol->right - 1 || lPosX < _obj_fCol->left - 7)
+            return 8;
+
+        if (((lPosX & ~7) + 8) > _obj_fCol->right - 1)
+        {
+            xDiff = (_obj_fCol->right - 1 & 7);
+            if (xDiff == 0)
+                xDiff = 8;
+
+            return xDiff;
+        }
+
+        if ((lPosX & ~7) < _obj_fCol->left)
+        {
+            if ((_obj_fCol->left & 7) != 0)
+                xDiff = 16 - (_obj_fCol->left & 7);
+            else
+                xDiff = 8;
+
+            xDiff |= -16;
+
+            if (xDiff == -8)
+                xDiff = 8;
+
+            return xDiff;
+        }
+
+        if (lPosY > _obj_fCol->bottom - 1 || lPosY < _obj_fCol->top)
+            return 8;
+    }
+    else
+    {
+        // clamp func, neither MTM_MATH_CLIP or MTM_MATH_CLIP_2 got it to match though
+        fx32 newPos = _obj_fCol->left;
+        if (newPos >= _obj_fCol->left)
+        {
+            newPos = _obj_fCol->right - 1;
+            if (lPosX <= _obj_fCol->right - 1)
+            {
+                newPos = lPosX;
+            }
+        }
+        lPosX = newPos;
+
+        // clamp func, neither MTM_MATH_CLIP or MTM_MATH_CLIP_2 got it to match though
+        newPos = _obj_fCol->top;
+        if (newPos >= _obj_fCol->top)
+        {
+            newPos = _obj_fCol->bottom - 1;
+            if (lPosX <= _obj_fCol->bottom - 1)
+            {
+                newPos = lPosY;
+            }
+        }
+        lPosY = newPos;
+    }
+
+    u16 mapTile   = objGetMapBlockData(lPosX, lPosY, flags & 1);
+    u16 tileID    = mapTile & 0x3FF;
+    u32 tileFlipY = mapTile & 0x800;
+
+    int conv_pos_y = lPosY & 7;
+    if ((mapTile & 0x800) != 0)
+        conv_pos_y = 7 - conv_pos_y;
+
+    xDiff = _obj_fCol->diffCollision[(8 * tileID) + conv_pos_y] & 0xF;
+
+    if ((xDiff & 8) != 0)
+        xDiff |= -16;
+
+    if (xDiff == -8)
+        xDiff = 8;
+
+    if ((flags & 128) != 0 && (_obj_fCol->attrCollision[tileID] & 1) != 0)
+        xDiff = 0;
+
+    if ((mapTile & 0x400) == 0 && xDiff == 0)
+    {
+        xDiff += 8;
+    }
+    else if (((mapTile & 0x400) != 0 && xDiff == 8))
+    {
+        xDiff -= 8;
+    }
+
+    if (pDir != NULL && xDiff != 0)
+    {
+        u16 dir = _obj_fCol->dirCollision[tileID] << 8;
+
+        if (tileFlipY != 0)
+        {
+            dir = -(s16)dir - 0x8000;
+        }
+
+        if ((mapTile & 0x400) != 0 && xDiff != 0)
+        {
+            dir = -(s16)dir;
+        }
+
+        *pDir = dir;
+    }
+
+    if (pAttr != NULL && xDiff != 0)
+        *pAttr = _obj_fCol->attrCollision[tileID];
+
+    return xDiff;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
@@ -2515,7 +2628,7 @@ void ObjCollisionObjectRegist(StageTaskCollisionObj *work)
 
             VecFx32 position = { 0, 0, 0 };
             position         = work->pos;
-            if (work->parent != NULL && (work->flag & 0x10) == 0)
+            if (work->parent != NULL && (work->flag & STAGE_TASK_OBJCOLLISION_FLAG_10) == 0)
             {
                 position.x += work->parent->position.x;
                 position.y += work->parent->position.y;
@@ -2523,21 +2636,22 @@ void ObjCollisionObjectRegist(StageTaskCollisionObj *work)
             }
             work->check_pos = position;
 
-            work->flag &= ~(0x40000000 | 0x80000000);
+            work->flag &= ~(STAGE_TASK_OBJCOLLISION_FLAG_40000000 | STAGE_TASK_OBJCOLLISION_FLAG_80000000);
             if (work->parent != NULL)
             {
-                if ((work->parent->displayFlag & 1) != 0)
-                    work->flag |= 0x40000000;
-                if ((work->parent->displayFlag & 2) != 0)
-                    work->flag |= 0x80000000;
+                if ((work->parent->displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+                    work->flag |= STAGE_TASK_OBJCOLLISION_FLAG_40000000;
+
+                if ((work->parent->displayFlag & DISPLAY_FLAG_FLIP_Y) != 0)
+                    work->flag |= STAGE_TASK_OBJCOLLISION_FLAG_80000000;
             }
             else
             {
-                if ((work->flag & 1) != 0)
-                    work->flag |= 0x40000000;
+                if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_1) != 0)
+                    work->flag |= STAGE_TASK_OBJCOLLISION_FLAG_40000000;
 
-                if ((work->flag & 2) != 0)
-                    work->flag |= 0x80000000;
+                if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_2) != 0)
+                    work->flag |= STAGE_TASK_OBJCOLLISION_FLAG_80000000;
             }
 
             objCollsionOffsetSet(work, &work->check_ofst.x, &work->check_ofst.y);
@@ -2547,10 +2661,10 @@ void ObjCollisionObjectRegist(StageTaskCollisionObj *work)
             work->right  = FX32_TO_WHOLE(work->check_pos.x) + work->width + work->check_ofst.x;
             work->bottom = FX32_TO_WHOLE(work->check_pos.y) + work->height + work->check_ofst.y;
 
-            if ((work->flag & 0x40) == 0)
+            if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_40) == 0)
                 work->check_dir = work->dir;
 
-            if ((work->flag & 0x20) == 0)
+            if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_20) == 0)
             {
                 if (work->parent != NULL)
                     work->check_dir += work->parent->dir.z + work->parent->fallDir;
@@ -2582,10 +2696,10 @@ void objCollsionOffsetSet(StageTaskCollisionObj *work, s16 *offsetX, s16 *offset
     *offsetX = work->ofst_x;
     *offsetY = work->ofst_y;
 
-    if ((work->flag & 0x40000000) != 0)
+    if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_40000000) != 0)
         *offsetX = (s16)(-work->ofst_x - work->width);
 
-    if ((work->flag & 0x80000000) != 0)
+    if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_80000000) != 0)
         *offsetY = (s16)(-work->ofst_y - work->height);
 }
 
@@ -2602,483 +2716,288 @@ s32 ObjCollisionObjectFastCheckDet(fx32 x, fx32 y, u16 flag, ObjCollisionVec vec
     return ObjCollisionObjectFastCheck(&colWork);
 }
 
-NONMATCH_FUNC s32 ObjCollisionObjectFastCheck(OBS_COL_CHK_DATA *colWork){
-#ifdef NON_MATCHING
+s32 ObjCollisionObjectFastCheck(OBS_COL_CHK_DATA *colWork)
+{
+    u16 index;
+    fx32 x          = colWork->x;
+    fx32 y          = colWork->y;
+    s32 penetration = 24;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x44
-	mov r9, r0
-	add r1, sp, #0x30
-	mov r2, #0x14
-	ldmia r9, {r5, r6}
-	mov r11, #0x18
-	bl MI_CpuCopy8
-	ldr r0, =_obj_collision_num
-	ldrb r0, [r0, #1]
-	cmp r0, #0
-	addeq sp, sp, #0x44
-	moveq r0, r11
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	cmp r0, #0
-	mov r4, #0
-	ble _01FFA834
-	mvn r10, #0x1e
-_01FFA650:
-	ldr r0, =_obj_collision_tbl
-	ldr r7, [r0, r4, lsl #2]
-	ldr r0, [r7]
-	cmp r0, #0
-	beq _01FFA818
-	ldr r0, [r7, #0x1c]
-	tst r0, #0x100
-	bne _01FFA818
-	ldr r1, [r9]
-	str r1, [sp, #0x30]
-	ldr r0, [r9, #4]
-	str r0, [sp, #0x34]
-	ldr r2, [r7, #0x1c]
-	tst r2, #4
-	ldrneh r2, [r7, #0x54]
-	cmpne r2, #0
-	beq _01FFA72C
-	ldr r3, [r7, #0x38]
-	ldr r2, [r7, #0x34]
-	rsb r3, r3, r0, lsl #12
-	rsb r0, r2, r1, lsl #12
-	str r0, [sp]
-	mov r0, #0
-	str r0, [sp, #8]
-	str r3, [sp, #4]
-	ldrh r1, [r7, #0x54]
-	add r0, sp, #0xc
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	ldr r1, =FX_SinCosTable_
-	mov r3, r2, lsl #1
-	ldrsh r1, [r1, r3]
-	ldr r3, =FX_SinCosTable_
-	add r2, r3, r2, lsl #1
-	ldrsh r2, [r2, #2]
-	bl MTX_RotZ33_
-	add r0, sp, #0
-	add r1, sp, #0xc
-	mov r2, r0
-	bl MTX_MultVec33
-	ldr r2, [sp]
-	ldr r0, [r7, #0x34]
-	ldr r1, [sp, #4]
-	add r0, r2, r0
-	mov r0, r0, asr #0xc
-	str r0, [sp, #0x30]
-	ldr r0, [r7, #0x38]
-	add r0, r1, r0
-	mov r0, r0, asr #0xc
-	str r0, [sp, #0x34]
-_01FFA72C:
-	ldr r0, [r7, #0x24]
-	cmp r0, #0
-	beq _01FFA788
-	mov r0, r7
-	add r1, sp, #0x30
-	bl objFastCollisionDiffObject
-	movs r8, r0
-	bne _01FFA810
-	ldrh r0, [r9, #0x12]
-	cmp r0, #0
-	beq _01FFA774
-	cmp r0, #1
-	bne _01FFA810
-	ldr r0, [r7]
-	ldr r0, [r0, #0xbc]
-	cmp r0, #0
-	subgt r8, r8, #1
-	b _01FFA810
-_01FFA774:
-	ldr r0, [r7]
-	ldr r0, [r0, #0xbc]
-	cmp r0, #0
-	sublt r8, r8, #1
-	b _01FFA810
-_01FFA788:
-	ldrh r0, [r9, #0x12]
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	b _01FFA7FC
-_01FFA798: // jump table
-	b _01FFA7E0 // case 0
-	b _01FFA7C0 // case 1
-	b _01FFA7A8 // case 2
-	b _01FFA7B4 // case 3
-_01FFA7A8:
-	ldr r0, [r7, #0x48]
-	sub r8, r0, r6
-	b _01FFA7FC
-_01FFA7B4:
-	ldr r0, [r7, #0x50]
-	sub r8, r6, r0
-	b _01FFA7FC
-_01FFA7C0:
-	ldr r0, [r7, #0x4c]
-	subs r8, r5, r0
-	bne _01FFA7FC
-	ldr r0, [r7]
-	ldr r0, [r0, #0xbc]
-	cmp r0, #0
-	subgt r8, r8, #1
-	b _01FFA7FC
-_01FFA7E0:
-	ldr r0, [r7, #0x44]
-	subs r8, r0, r5
-	bne _01FFA7FC
-	ldr r0, [r7]
-	ldr r0, [r0, #0xbc]
-	cmp r0, #0
-	sublt r8, r8, #1
-_01FFA7FC:
-	cmp r8, r10
-	movlt r8, r10
-	blt _01FFA810
-	cmp r8, #0x1f
-	movgt r8, #0x1f
-_01FFA810:
-	cmp r11, r8
-	movgt r11, r8
-_01FFA818:
-	add r0, r4, #1
-	mov r1, r0, lsl #0x10
-	ldr r0, =_obj_collision_num
-	mov r4, r1, lsr #0x10
-	ldrb r0, [r0, #1]
-	cmp r0, r1, lsr #16
-	bgt _01FFA650
-_01FFA834:
-	mov r0, r11
-	add sp, sp, #0x44
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-// clang-format on
-#endif
+    OBS_COL_CHK_DATA colWorkCopy;
+    MI_CpuCopy8(colWork, &colWorkCopy, sizeof(colWorkCopy));
+
+    if (_obj_collision_num.count == 0)
+        return penetration;
+
+    for (index = 0; index < _obj_collision_num.count; ++index)
+    {
+        StageTaskCollisionObj *collisionWork = _obj_collision_tbl[index];
+
+        if (collisionWork->parent != NULL && (collisionWork->flag & STAGE_TASK_OBJCOLLISION_FLAG_100) == 0)
+        {
+            colWorkCopy.x = colWork->x;
+            colWorkCopy.y = colWork->y;
+            if ((collisionWork->flag & STAGE_TASK_OBJCOLLISION_FLAG_4) != 0 && collisionWork->check_dir != FLOAT_DEG_TO_IDX(0.0))
+            {
+                MtxFx33 matRot;
+                VecFx32 rotPos;
+                VEC_Set(&rotPos, FX32_FROM_WHOLE(colWorkCopy.x) - collisionWork->check_pos.x, FX32_FROM_WHOLE(colWorkCopy.y) - collisionWork->check_pos.y, 0);
+
+                MTX_RotZ33(&matRot, SinFX((s32)(u16)-collisionWork->check_dir), CosFX((s32)(u16)-collisionWork->check_dir));
+                MTX_MultVec33(&rotPos, &matRot, &rotPos);
+                colWorkCopy.x = FX32_TO_WHOLE(rotPos.x + collisionWork->check_pos.x);
+                colWorkCopy.y = FX32_TO_WHOLE(rotPos.y + collisionWork->check_pos.y);
+            }
+
+            s32 objPenetration;
+            if (collisionWork->diff_data != NULL)
+            {
+                objPenetration = objFastCollisionDiffObject(collisionWork, &colWorkCopy);
+                if (objPenetration == 0)
+                {
+                    switch (colWork->vec)
+                    {
+                        case OBJ_COL_VEC_RIGHT:
+                            if (collisionWork->parent->move.x > 0)
+                            {
+                                objPenetration--;
+                                break;
+                            }
+                            break;
+
+                        case OBJ_COL_VEC_LEFT:
+                            if (collisionWork->parent->move.x < 0)
+                            {
+                                objPenetration--;
+                                break;
+                            }
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                switch (colWork->vec)
+                {
+                    case OBJ_COL_VEC_UP:
+                        objPenetration = collisionWork->top - y;
+                        break;
+
+                    case OBJ_COL_VEC_DOWN:
+                        objPenetration = y - collisionWork->bottom;
+                        break;
+
+                    case OBJ_COL_VEC_RIGHT:
+                        objPenetration = x - collisionWork->right;
+                        if (objPenetration == 0 && collisionWork->parent->move.x > 0)
+                        {
+                            objPenetration--;
+                            break;
+                        }
+                        break;
+
+                    case OBJ_COL_VEC_LEFT:
+                        objPenetration = collisionWork->left - x;
+                        if (objPenetration == 0 && collisionWork->parent->move.x < 0)
+                        {
+                            objPenetration--;
+                            break;
+                        }
+                        break;
+                }
+
+                objPenetration = MTM_MATH_CLIP(objPenetration, -31, 31);
+            }
+
+            if (penetration > objPenetration)
+                penetration = objPenetration;
+        }
+    }
+
+    return penetration;
 }
 
-NONMATCH_FUNC s32 ObjCollisionObjectCheck(StageTask *work, OBS_COL_CHK_DATA *colWork){
-#ifdef NON_MATCHING
+s32 ObjCollisionObjectCheck(StageTask *work, OBS_COL_CHK_DATA *colWork)
+{
+    s32 penetration = 24;
+    s16 touchDist   = 0;
+    u16 isRiding    = FALSE;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x44
-	mov r8, r1
-	mov r9, r0
-	mov r7, #0
-	add r1, sp, #0x30
-	mov r0, r8
-	mov r2, #0x14
-	mov r11, r7
-	mov r10, #0x18
-	bl MI_CpuCopy8
-	ldr r0, =_obj_collision_num
-	ldrb r1, [r0, #1]
-	cmp r1, #0
-	addeq sp, sp, #0x44
-	moveq r0, r10
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, [r9, #0x1c]
-	ands r0, r0, #0x10
-	ldrneh r2, [r9, #0xce]
-	bne _01FFA8B8
-	ldrh r3, [r9, #0xce]
-	ldrh r2, [r9, #0x34]
-	mov r7, #1
-	add r2, r3, r2
-	mov r2, r2, lsl #0x10
-	mov r2, r2, lsr #0x10
-_01FFA8B8:
-	add r2, r2, #0x2000
-	and r2, r2, #0xc000
-	mov r2, r2, asr #0xe
-	cmp r2, #1
-	beq _01FFA904
-	cmp r2, #2
-	beq _01FFA92C
-	cmp r2, #3
-	ldrh r2, [r8, #0x12]
-	beq _01FFA954
-	cmp r2, #2
-	bne _01FFA974
-	cmp r0, #0
-	beq _01FFA8FC
-	ldr r0, [r9, #0xc0]
-	cmp r0, #0
-	blt _01FFA974
-_01FFA8FC:
-	mov r11, #1
-	b _01FFA974
-_01FFA904:
-	ldrh r2, [r8, #0x12]
-	cmp r2, #1
-	bne _01FFA974
-	cmp r0, #0
-	beq _01FFA924
-	ldr r0, [r9, #0xbc]
-	cmp r0, #0
-	bge _01FFA974
-_01FFA924:
-	mov r11, #1
-	b _01FFA974
-_01FFA92C:
-	ldrh r2, [r8, #0x12]
-	cmp r2, #3
-	bne _01FFA974
-	cmp r0, #0
-	beq _01FFA94C
-	ldr r0, [r9, #0xc0]
-	cmp r0, #0
-	bge _01FFA974
-_01FFA94C:
-	mov r11, #1
-	b _01FFA974
-_01FFA954:
-	cmp r2, #0
-	bne _01FFA974
-	cmp r0, #0
-	beq _01FFA970
-	ldr r0, [r9, #0xbc]
-	cmp r0, #0
-	ble _01FFA974
-_01FFA970:
-	mov r11, #1
-_01FFA974:
-	cmp r1, #0
-	mov r5, #0
-	ble _01FFACAC
-	mvn r4, #0x1e
-_01FFA984:
-	ldr r0, =_obj_collision_tbl
-	ldr r6, [r0, r5, lsl #2]
-	ldr r0, [r6]
-	cmp r0, r9
-	beq _01FFAC90
-	ldr r0, [r6, #0x1c]
-	tst r0, #0x100
-	bne _01FFAC90
-	ldr r1, [r8]
-	str r1, [sp, #0x30]
-	ldr r0, [r8, #4]
-	str r0, [sp, #0x34]
-	ldr r2, [r6, #0x1c]
-	tst r2, #4
-	ldrneh r2, [r6, #0x54]
-	cmpne r2, #0
-	beq _01FFAA60
-	ldr r3, [r6, #0x38]
-	ldr r2, [r6, #0x34]
-	rsb r3, r3, r0, lsl #12
-	rsb r0, r2, r1, lsl #12
-	str r0, [sp]
-	mov r0, #0
-	str r0, [sp, #8]
-	str r3, [sp, #4]
-	ldrh r1, [r6, #0x54]
-	add r0, sp, #0xc
-	rsb r1, r1, #0
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	ldr r1, =FX_SinCosTable_
-	mov r3, r2, lsl #1
-	ldrsh r1, [r1, r3]
-	ldr r3, =FX_SinCosTable_
-	add r2, r3, r2, lsl #1
-	ldrsh r2, [r2, #2]
-	bl MTX_RotZ33_
-	add r0, sp, #0
-	add r1, sp, #0xc
-	mov r2, r0
-	bl MTX_MultVec33
-	ldr r2, [sp]
-	ldr r0, [r6, #0x34]
-	ldr r1, [sp, #4]
-	add r0, r2, r0
-	mov r0, r0, asr #0xc
-	str r0, [sp, #0x30]
-	ldr r0, [r6, #0x38]
-	add r0, r1, r0
-	mov r0, r0, asr #0xc
-	str r0, [sp, #0x34]
-_01FFAA60:
-	ldr r0, [r6, #0x24]
-	cmp r0, #0
-	beq _01FFAACC
-	mov r0, r6
-	add r1, sp, #0x30
-	bl objCollisionDiffObject
-	cmp r0, #0
-	bne _01FFAC10
-	ldrh r1, [r8, #0x12]
-	cmp r1, #0
-	beq _01FFAAB0
-	cmp r1, #1
-	bne _01FFAC10
-	ldr r1, [r6]
-	cmp r1, #0
-	beq _01FFAC10
-	ldr r1, [r1, #0xbc]
-	cmp r1, #0
-	subgt r0, r0, #1
-	b _01FFAC10
-_01FFAAB0:
-	ldr r1, [r6]
-	cmp r1, #0
-	beq _01FFAC10
-	ldr r1, [r1, #0xbc]
-	cmp r1, #0
-	sublt r0, r0, #1
-	b _01FFAC10
-_01FFAACC:
-	ldrh r1, [r8, #0x12]
-	mov r0, #0x18
-	cmp r1, #3
-	addls pc, pc, r1, lsl #2
-	b _01FFABFC
-_01FFAAE0: // jump table
-	b _01FFABAC // case 0
-	b _01FFAB58 // case 1
-	b _01FFAAF0 // case 2
-	b _01FFAB24 // case 3
-_01FFAAF0:
-	ldr r2, [sp, #0x34]
-	ldr r1, [r6, #0x50]
-	cmp r2, r1
-	bge _01FFABFC
-	ldr r1, [sp, #0x30]
-	ldr r3, [r6, #0x44]
-	cmp r1, r3
-	ble _01FFABFC
-	ldr r3, [r6, #0x4c]
-	cmp r1, r3
-	ldrlt r0, [r6, #0x48]
-	sublt r0, r0, r2
-	b _01FFABFC
-_01FFAB24:
-	ldr r2, [sp, #0x34]
-	ldr r1, [r6, #0x48]
-	cmp r1, r2
-	bge _01FFABFC
-	ldr r1, [sp, #0x30]
-	ldr r3, [r6, #0x44]
-	cmp r1, r3
-	ble _01FFABFC
-	ldr r3, [r6, #0x4c]
-	cmp r1, r3
-	ldrlt r0, [r6, #0x50]
-	sublt r0, r2, r0
-	b _01FFABFC
-_01FFAB58:
-	ldr r2, [sp, #0x30]
-	ldr r1, [r6, #0x44]
-	cmp r1, r2
-	bge _01FFABFC
-	ldr r1, [sp, #0x34]
-	ldr r3, [r6, #0x48]
-	cmp r1, r3
-	ble _01FFABFC
-	ldr r3, [r6, #0x50]
-	cmp r1, r3
-	bge _01FFABFC
-	ldr r0, [r6, #0x4c]
-	subs r0, r2, r0
-	bne _01FFABFC
-	ldr r1, [r6]
-	cmp r1, #0
-	beq _01FFABFC
-	ldr r1, [r1, #0xbc]
-	cmp r1, #0
-	subgt r0, r0, #1
-	b _01FFABFC
-_01FFABAC:
-	ldr r2, [sp, #0x30]
-	ldr r1, [r6, #0x4c]
-	cmp r2, r1
-	bge _01FFABFC
-	ldr r1, [sp, #0x34]
-	ldr r3, [r6, #0x48]
-	cmp r1, r3
-	ble _01FFABFC
-	ldr r3, [r6, #0x50]
-	cmp r1, r3
-	bge _01FFABFC
-	ldr r0, [r6, #0x44]
-	subs r0, r0, r2
-	bne _01FFABFC
-	ldr r1, [r6]
-	cmp r1, #0
-	beq _01FFABFC
-	ldr r1, [r1, #0xbc]
-	cmp r1, #0
-	sublt r0, r0, #1
-_01FFABFC:
-	cmp r0, r4
-	movlt r0, r4
-	blt _01FFAC10
-	cmp r0, #0x1f
-	movgt r0, #0x1f
-_01FFAC10:
-	cmp r10, r0
-	ble _01FFAC90
-	cmp r0, r7
-	ldrle r1, [r6]
-	mov r10, r0
-	strle r1, [r9, #0x118]
-	strle r9, [r6, #8]
-	cmp r0, r7
-	bgt _01FFAC90
-	cmp r11, #0
-	beq _01FFAC90
-	ldr r0, [r6]
-	str r0, [r9, #0x114]
-	str r9, [r6, #4]
-	ldr r2, [r8, #8]
-	cmp r2, #0
-	beq _01FFAC64
-	ldrh r1, [r2]
-	ldrh r0, [r6, #0x54]
-	add r0, r1, r0
-	strh r0, [r2]
-_01FFAC64:
-	ldr r0, [r8, #0xc]
-	cmp r0, #0
-	beq _01FFAC90
-	ldr r1, [r6, #0x1c]
-	tst r1, #0x80
-	bne _01FFAC90
-	ldrh r1, [r6, #0x22]
-	ldr r2, [r0]
-	and r1, r1, #0xff
-	orr r1, r2, r1
-	str r1, [r0]
-_01FFAC90:
-	add r0, r5, #1
-	mov r1, r0, lsl #0x10
-	ldr r0, =_obj_collision_num
-	mov r5, r1, lsr #0x10
-	ldrb r0, [r0, #1]
-	cmp r0, r1, lsr #16
-	bgt _01FFA984
-_01FFACAC:
-	mov r0, r10
-	add sp, sp, #0x44
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-// clang-format on
-#endif
+    OBS_COL_CHK_DATA colWorkCopy;
+    MI_CpuCopy8(colWork, &colWorkCopy, sizeof(colWorkCopy));
+
+    if (_obj_collision_num.count == 0)
+        return penetration;
+
+    u16 angle;
+    if ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+    {
+        angle = work->fallDir;
+    }
+    else
+    {
+        touchDist = 1;
+        angle     = work->fallDir + work->dir.z;
+    }
+
+    switch (((angle + FLOAT_DEG_TO_IDX(45.0)) & 0xC000) >> 14)
+    {
+        default:
+            // case 0:
+            if (colWork->vec == OBJ_COL_VEC_UP && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 || work->move.y >= 0))
+            {
+                isRiding = TRUE;
+                break;
+            }
+            break;
+
+        case 1:
+            if (colWork->vec == OBJ_COL_VEC_RIGHT && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 || work->move.x < 0))
+            {
+                isRiding = TRUE;
+                break;
+            }
+            break;
+
+        case 2:
+            if (colWork->vec == OBJ_COL_VEC_DOWN && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 || work->move.y < 0))
+            {
+                isRiding = TRUE;
+                break;
+            }
+            break;
+
+        case 3:
+            if (colWork->vec == OBJ_COL_VEC_LEFT && ((work->moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 || work->move.x > 0))
+            {
+                isRiding = TRUE;
+                break;
+            }
+            break;
+    }
+
+    for (u16 index = 0; index < _obj_collision_num.count; ++index)
+    {
+        StageTaskCollisionObj *collisionWork = _obj_collision_tbl[index];
+
+        if (collisionWork->parent != work && (collisionWork->flag & STAGE_TASK_OBJCOLLISION_FLAG_100) == 0)
+        {
+            colWorkCopy.x = colWork->x;
+            colWorkCopy.y = colWork->y;
+            if ((collisionWork->flag & STAGE_TASK_OBJCOLLISION_FLAG_4) != 0 && collisionWork->check_dir != FLOAT_DEG_TO_IDX(0.0))
+            {
+                MtxFx33 matRot;
+                VecFx32 rotPos;
+                VEC_Set(&rotPos, FX32_FROM_WHOLE(colWorkCopy.x) - collisionWork->check_pos.x, FX32_FROM_WHOLE(colWorkCopy.y) - collisionWork->check_pos.y, 0);
+
+                MTX_RotZ33(&matRot, SinFX((s32)(u16)-collisionWork->check_dir), CosFX((s32)(u16)-collisionWork->check_dir));
+                MTX_MultVec33(&rotPos, &matRot, &rotPos);
+                colWorkCopy.x = FX32_TO_WHOLE(rotPos.x + collisionWork->check_pos.x);
+                colWorkCopy.y = FX32_TO_WHOLE(rotPos.y + collisionWork->check_pos.y);
+            }
+
+            s32 objPenetration;
+            if (collisionWork->diff_data != NULL)
+            {
+                objPenetration = objCollisionDiffObject(collisionWork, &colWorkCopy);
+                if (objPenetration == 0)
+                {
+                    switch (colWork->vec)
+                    {
+                        case OBJ_COL_VEC_RIGHT:
+                            if (collisionWork->parent != NULL && collisionWork->parent->move.x > 0)
+                            {
+                                objPenetration--;
+                                break;
+                            }
+                            break;
+
+                        case OBJ_COL_VEC_LEFT:
+                            if (collisionWork->parent != NULL && collisionWork->parent->move.x < 0)
+                            {
+                                objPenetration--;
+                                break;
+                            }
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                s32 distance = 24;
+                switch (colWork->vec)
+                {
+                    case OBJ_COL_VEC_UP:
+                        if (colWorkCopy.y < collisionWork->bottom && colWorkCopy.x > collisionWork->left && colWorkCopy.x < collisionWork->right)
+                        {
+                            distance = collisionWork->top - colWorkCopy.y;
+                            break;
+                        }
+                        break;
+
+                    case OBJ_COL_VEC_DOWN:
+                        if (collisionWork->top < colWorkCopy.y && colWorkCopy.x > collisionWork->left && colWorkCopy.x < collisionWork->right)
+                        {
+                            distance = colWorkCopy.y - collisionWork->bottom;
+                            break;
+                        }
+                        break;
+
+                    case OBJ_COL_VEC_RIGHT:
+                        if (collisionWork->left < colWorkCopy.x && colWorkCopy.y > collisionWork->top && colWorkCopy.y < collisionWork->bottom)
+                        {
+                            distance = colWorkCopy.x - collisionWork->right;
+                            if (distance == 0 && collisionWork->parent != NULL && collisionWork->parent->move.x > 0)
+                            {
+                                distance--;
+                                break;
+                            }
+                            break;
+                        }
+                        break;
+
+                    case OBJ_COL_VEC_LEFT:
+                        if (colWorkCopy.x < collisionWork->right && colWorkCopy.y > collisionWork->top && colWorkCopy.y < collisionWork->bottom)
+                        {
+                            distance = collisionWork->left - colWorkCopy.x;
+                            if (distance == 0 && collisionWork->parent != NULL && collisionWork->parent->move.x < 0)
+                            {
+                                distance--;
+                                break;
+                            }
+                            break;
+                        }
+                        break;
+                }
+
+                objPenetration = MTM_MATH_CLIP(distance, -31, 31);
+            }
+
+            if (penetration > objPenetration)
+            {
+                penetration = objPenetration;
+                if (penetration <= touchDist)
+                {
+                    work->touchObj            = collisionWork->parent;
+                    collisionWork->toucherObj = work;
+                }
+
+                if (penetration <= touchDist && isRiding != FALSE)
+                {
+                    work->rideObj           = collisionWork->parent;
+                    collisionWork->riderObj = work;
+
+                    if (colWork->dir != NULL)
+                        *colWork->dir += collisionWork->check_dir;
+
+                    if (colWork->attr != NULL && (collisionWork->flag & STAGE_TASK_OBJCOLLISION_FLAG_80) == 0)
+                        *colWork->attr |= (u8)collisionWork->attr;
+                }
+            }
+        }
+    }
+
+    return penetration;
 }
 
 s32 objFastCollisionDiffObject(StageTaskCollisionObj *work, OBS_COL_CHK_DATA *colWork)
@@ -3132,9 +3051,163 @@ s32 objFastCollisionDiffObject(StageTaskCollisionObj *work, OBS_COL_CHK_DATA *co
     }
 }
 
-NONMATCH_FUNC s32 objCollisionDiffObject(StageTaskCollisionObj *work, OBS_COL_CHK_DATA *colWork){
+NONMATCH_FUNC s32 objCollisionDiffObject(StageTaskCollisionObj *work, OBS_COL_CHK_DATA *colWork)
+{
+    // https://decomp.me/scratch/QhDIC -> 74.48%
 #ifdef NON_MATCHING
+    s32 offsetX = 0;
+    s32 offsetY = 0;
+    u32 attr    = 0;
+    u16 dir     = 0;
+    s8 stepX    = 0;
+    s8 stepY    = 0;
 
+    if (colWork->dir != NULL)
+        dir = *colWork->dir;
+
+    if (colWork->attr != NULL)
+        attr = *colWork->attr;
+
+    if ((colWork->vec & 2) != 0)
+    {
+        stepY = 8;
+        if ((colWork->vec & 1) != 0)
+            stepY = -8;
+    }
+    else
+    {
+        stepX = 8;
+        if ((colWork->vec & 1) != 0)
+            stepX = -8;
+    }
+
+    s8 sPix;
+    s32 (*objGetColData)(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjCollisionFlags flags, u16 *pDir, u32 *pAttr);
+    if ((colWork->vec & 2) != 0)
+    {
+        sPix          = (colWork->y - work->top & 7);
+        objGetColData = objGetColDataY;
+    }
+    else
+    {
+        sPix          = (colWork->x - work->left & 7);
+        objGetColData = objGetColDataX;
+    }
+
+    s32 lCol1 = objGetColData(work, colWork->x, colWork->y, colWork->flag, colWork->dir, colWork->attr);
+    if (lCol1 == 0)
+    {
+        offsetX   = stepX;
+        offsetY   = stepY;
+        s32 lCol2 = objGetColData(work, colWork->x + offsetX, colWork->y + offsetY, colWork->flag, colWork->dir, colWork->attr);
+        if (lCol2 == 0)
+        {
+            offsetX += stepX;
+            offsetY += stepY;
+            s32 lCol3 = objGetColData(work, colWork->x + offsetX, colWork->y + offsetY, colWork->flag, colWork->dir, colWork->attr);
+            if (lCol3 == 0)
+            {
+                if (colWork->dir != NULL)
+                    *colWork->dir = dir;
+
+                if (colWork->attr != NULL)
+                    *colWork->attr = attr;
+
+                return objMapGetForward(sPix, stepX + stepY) + 16;
+            }
+            else
+            {
+                if (lCol3 == 8)
+                {
+                    return objMapGetBack(sPix, stepX + stepY) + 16;
+                }
+                else
+                {
+                    return objMapGetDiff(lCol3, sPix, stepX + stepY) + 16;
+                }
+            }
+        }
+        else
+        {
+            if (lCol2 == 8)
+            {
+                return objMapGetBack(sPix, stepX + stepY) + 8;
+            }
+            else
+            {
+                return objMapGetDiff(lCol2, sPix, stepX + stepY) + 8;
+            }
+        }
+    }
+    else
+    {
+        if (lCol1 == 8)
+        {
+            if (colWork->dir != NULL)
+                dir = *colWork->dir;
+
+            if (colWork->attr != NULL)
+                attr = *colWork->attr;
+
+            offsetX   = -stepX;
+            offsetY   = -stepY;
+            s32 lCol4 = objGetColData(work, colWork->x + offsetX, colWork->y + offsetY, colWork->flag, colWork->dir, colWork->attr);
+            if (lCol4 == 8)
+            {
+                if (colWork->dir != NULL)
+                    dir = *colWork->dir;
+
+                if (colWork->attr != NULL)
+                    attr = *colWork->attr;
+
+                offsetX += -stepX;
+                offsetY += -stepY;
+                s32 lCol5 = objGetColData(work, colWork->x + offsetX, colWork->y + offsetY, colWork->flag, colWork->dir, colWork->attr);
+                if (lCol5 == 0)
+                {
+                    if (colWork->dir != NULL)
+                        *colWork->dir = dir;
+
+                    if (colWork->attr != NULL)
+                        *colWork->attr = attr;
+
+                    return objMapGetForwardRev(sPix, stepX + stepY) - 16;
+                }
+                else
+                {
+                    if (lCol5 == 8)
+                    {
+                        return objMapGetBack(sPix, stepX + stepY) - 16;
+                    }
+                    else
+                    {
+                        return objMapGetDiff(lCol5, sPix, stepX + stepY) - 16;
+                    }
+                }
+            }
+            else
+            {
+                if (lCol4 == 0)
+                {
+                    if (colWork->dir != NULL)
+                        *colWork->dir = dir;
+
+                    if (colWork->attr != NULL)
+                        *colWork->attr = attr;
+
+                    return objMapGetForwardRev(sPix, stepX + stepY) - 8;
+                }
+                else
+                {
+                    return objMapGetDiff(lCol4, sPix, stepX + stepY) - 8;
+                }
+            }
+        }
+        else
+        {
+            return objMapGetDiff(lCol1, sPix, stepX + stepY);
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -3476,16 +3549,16 @@ s32 objGetColDataX(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjColli
     x = (lPosX - work->left) >> 3;
     y = (lPosY - work->top) >> 3;
 
-    if ((work->flag & 0x40000000) != 0)
+    if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_40000000) != 0)
         x = (work->width >> 3) - 1 - x;
 
-    if ((work->flag & 0x80000000) != 0)
+    if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_80000000) != 0)
         y = (work->height >> 3) - 1 - y;
 
     tile = x + y * (work->width >> 3);
 
     depth = (lPosY - work->top) & 7;
-    if ((work->flag & 0x80000000) != 0)
+    if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_80000000) != 0)
         depth = 7 - depth;
 
     penetration = ((s8)work->diff_data[(tile << 3) + depth] & 15);
@@ -3506,7 +3579,7 @@ s32 objGetColDataX(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjColli
             penetration = 0;
     }
 
-    if ((work->flag & 0x40000000) != 0 && penetration != 8 && penetration != 0)
+    if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_40000000) != 0 && penetration != 8 && penetration != 0)
     {
         if (penetration > 0)
             penetration -= 8;
@@ -3522,15 +3595,15 @@ s32 objGetColDataX(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjColli
         else
             dir = FLOAT_DEG_TO_IDX(0.0);
 
-        if ((work->flag & 4) != 0)
+        if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_4) != 0)
             dir += work->check_dir;
 
-        if ((work->flag & 8) != 0)
+        if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_8) != 0)
         {
-            if ((work->flag & 0x40000000) != 0)
+            if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_40000000) != 0)
                 dir = -(s16)dir;
 
-            if ((work->flag & 0x80000000) != 0)
+            if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_80000000) != 0)
                 dir = (-((s16)dir + (s16)FLOAT_DEG_TO_IDX(90.0)) - (s16)FLOAT_DEG_TO_IDX(90.0));
         }
 
@@ -3565,16 +3638,16 @@ s32 objGetColDataY(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjColli
     x = (lPosX - work->left) >> 3;
     y = (lPosY - work->top) >> 3;
 
-    if ((work->flag & 0x40000000) != 0)
+    if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_40000000) != 0)
         x = (work->width >> 3) - 1 - x;
 
-    if ((work->flag & 0x80000000) != 0)
+    if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_80000000) != 0)
         y = (work->height >> 3) - 1 - y;
 
     tile = x + y * (work->width >> 3);
 
     depth = (lPosX - work->left) & 7;
-    if ((work->flag & 0x40000000) != 0)
+    if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_40000000) != 0)
         depth = 7 - depth;
 
     penetration = ((s32)(s8)((s8)work->diff_data[(tile << 3) + depth] >> 4));
@@ -3595,7 +3668,7 @@ s32 objGetColDataY(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjColli
             penetration = 0;
     }
 
-    if ((work->flag & 0x80000000) != 0 && penetration != 8 && penetration != 0)
+    if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_80000000) != 0 && penetration != 8 && penetration != 0)
     {
         if (penetration > 0)
             penetration -= 8;
@@ -3611,15 +3684,15 @@ s32 objGetColDataY(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjColli
         else
             dir = FLOAT_DEG_TO_IDX(0.0);
 
-        if ((work->flag & 4) != 0)
+        if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_4) != 0)
             dir += work->check_dir;
 
-        if ((work->flag & 8) != 0)
+        if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_8) != 0)
         {
-            if ((work->flag & 0x40000000) != 0)
+            if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_40000000) != 0)
                 dir = -(s16)dir;
 
-            if ((work->flag & 0x80000000) != 0)
+            if ((work->flag & STAGE_TASK_OBJCOLLISION_FLAG_80000000) != 0)
                 dir = (-((s16)dir + (s16)FLOAT_DEG_TO_IDX(90.0)) - (s16)FLOAT_DEG_TO_IDX(90.0));
         }
 

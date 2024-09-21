@@ -34,16 +34,55 @@ enum ObjCollisionFlags_
 {
     OBJ_COL_FLAG_NONE = 0,
 
-    OBJ_COL_FLAG_USE_PLANE_B  = 1 << 0,
-    OBJ_COL_FLAG_2  = 1 << 1,
-    OBJ_COL_FLAG_4  = 1 << 2,
-    OBJ_COL_FLAG_8  = 1 << 3,
-    OBJ_COL_FLAG_10 = 1 << 4,
-    OBJ_COL_FLAG_20 = 1 << 5,
-    OBJ_COL_FLAG_40 = 1 << 6,
-    OBJ_COL_FLAG_80 = 1 << 7,
+    OBJ_COL_FLAG_USE_PLANE_B = 1 << 0,
+    OBJ_COL_FLAG_2           = 1 << 1,
+    OBJ_COL_FLAG_4           = 1 << 2,
+    OBJ_COL_FLAG_8           = 1 << 3,
+    OBJ_COL_FLAG_10          = 1 << 4,
+    OBJ_COL_FLAG_20          = 1 << 5,
+    OBJ_COL_FLAG_40          = 1 << 6,
+    OBJ_COL_FLAG_80          = 1 << 7,
 };
 typedef u16 ObjCollisionFlags;
+
+enum StageTaskCollisionObjFlag_
+{
+    STAGE_TASK_OBJCOLLISION_FLAG_NONE = 0x00,
+
+    STAGE_TASK_OBJCOLLISION_FLAG_1        = 1 << 0,
+    STAGE_TASK_OBJCOLLISION_FLAG_2        = 1 << 1,
+    STAGE_TASK_OBJCOLLISION_FLAG_4        = 1 << 2,
+    STAGE_TASK_OBJCOLLISION_FLAG_8        = 1 << 3,
+    STAGE_TASK_OBJCOLLISION_FLAG_10       = 1 << 4,
+    STAGE_TASK_OBJCOLLISION_FLAG_20       = 1 << 5,
+    STAGE_TASK_OBJCOLLISION_FLAG_40       = 1 << 6,
+    STAGE_TASK_OBJCOLLISION_FLAG_80       = 1 << 7,
+    STAGE_TASK_OBJCOLLISION_FLAG_100      = 1 << 8,
+    STAGE_TASK_OBJCOLLISION_FLAG_200      = 1 << 9,
+    STAGE_TASK_OBJCOLLISION_FLAG_400      = 1 << 10,
+    STAGE_TASK_OBJCOLLISION_FLAG_800      = 1 << 11,
+    STAGE_TASK_OBJCOLLISION_FLAG_1000     = 1 << 12,
+    STAGE_TASK_OBJCOLLISION_FLAG_2000     = 1 << 13,
+    STAGE_TASK_OBJCOLLISION_FLAG_4000     = 1 << 14,
+    STAGE_TASK_OBJCOLLISION_FLAG_8000     = 1 << 15,
+    STAGE_TASK_OBJCOLLISION_FLAG_10000    = 1 << 16,
+    STAGE_TASK_OBJCOLLISION_FLAG_20000    = 1 << 17,
+    STAGE_TASK_OBJCOLLISION_FLAG_40000    = 1 << 18,
+    STAGE_TASK_OBJCOLLISION_FLAG_80000    = 1 << 19,
+    STAGE_TASK_OBJCOLLISION_FLAG_100000   = 1 << 20,
+    STAGE_TASK_OBJCOLLISION_FLAG_200000   = 1 << 21,
+    STAGE_TASK_OBJCOLLISION_FLAG_400000   = 1 << 22,
+    STAGE_TASK_OBJCOLLISION_FLAG_800000   = 1 << 23,
+    STAGE_TASK_OBJCOLLISION_FLAG_1000000  = 1 << 24,
+    STAGE_TASK_OBJCOLLISION_FLAG_2000000  = 1 << 25,
+    STAGE_TASK_OBJCOLLISION_FLAG_4000000  = 1 << 26,
+    STAGE_TASK_OBJCOLLISION_FLAG_8000000  = 1 << 27,
+    STAGE_TASK_OBJCOLLISION_FLAG_10000000 = 1 << 28,
+    STAGE_TASK_OBJCOLLISION_FLAG_20000000 = 1 << 29,
+    STAGE_TASK_OBJCOLLISION_FLAG_40000000 = 1 << 30,
+    STAGE_TASK_OBJCOLLISION_FLAG_80000000 = 1 << 31,
+};
+typedef u32 StageTaskCollisionObjFlag;
 
 // --------------------
 // STRUCTS
@@ -69,7 +108,7 @@ typedef struct StageTaskCollisionObj_
     VecFx32 pos;
     s16 ofst_x;
     s16 ofst_y;
-    u32 flag;
+    StageTaskCollisionObjFlag flag;
     u16 dir;
     u16 attr;
     u8 *diff_data;

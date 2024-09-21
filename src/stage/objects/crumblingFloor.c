@@ -111,7 +111,7 @@ CrumblingFloor *CreateCrumblingFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 
     if (mapObject->id == MAPOBJECT_233)
     {
         work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
-        work->gameWork.collisionObject.work.flag |= 8;
+        work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_8;
     }
 
     if (mapObjectParam_delay == 0)
@@ -170,7 +170,7 @@ void CrumblingFloor_State_Active(CrumblingFloor *work)
             work->gameWork.objWork.userTimer--;
             if (work->gameWork.objWork.userTimer <= 0)
             {
-                work->gameWork.collisionObject.work.flag |= 0x100;
+                work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_100;
 
                 if ((work->gameWork.objWork.userTimer & 2) != 0)
                     work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;

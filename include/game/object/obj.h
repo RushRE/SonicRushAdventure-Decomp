@@ -38,9 +38,9 @@ fx32 ObjSpdDownSet(fx32 value, fx32 step);
 s32 ObjShiftSet(s32 value, s32 target, u16 shift, s32 max, s32 min);
 s32 ObjDiffSet(s32 value, s32 target, s32 start, u16 shift, s32 max, s32 min);
 
-fx32 ObjAlphaSet(fx32 target, fx32 start, u16 percent);   // lerp
-s32 ObjRoopMove16(u32 dir, u32 targetDir, fx32 speed); // move from dir to targetDir by speed
-s32 ObjRoopDiff16(u32 dir1, u32 dir2);                 // distance between 2 directions
+fx32 ObjAlphaSet(fx32 target, fx32 start, u16 percent); // lerp
+s32 ObjRoopMove16(u32 dir, u32 targetDir, fx32 speed);  // move from dir to targetDir by speed
+s32 ObjRoopDiff16(u32 dir1, u32 dir2);                  // distance between 2 directions
 
 // check if player touched within a rect in world-space
 BOOL ObjTouchCheck(StageTask *work, OBS_RECT_WORK *rect);

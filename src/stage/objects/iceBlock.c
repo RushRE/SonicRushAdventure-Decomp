@@ -107,7 +107,7 @@ void IceBlock_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     iceBlock->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME;
     iceBlock->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     iceBlock->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
-    iceBlock->gameWork.collisionObject.work.flag |= 0x100;
+    iceBlock->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_100;
 
     fx32 x = iceBlock->gameWork.objWork.position.x;
     fx32 y = iceBlock->gameWork.objWork.position.y;

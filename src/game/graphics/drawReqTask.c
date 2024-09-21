@@ -37,7 +37,7 @@ void InitDrawReqSystem(void)
 
 NONMATCH_FUNC void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *paletteMode, void **palettePtr)
 {
-    // https://decomp.me/scratch/xzfLI -> 99.58%
+    // https://decomp.me/scratch/xzfLI -> 99.69%
 #ifdef NON_MATCHING
     u32 displayControl = *(u32 *)VRAMSystem__DisplayControllers[useEngineB];
     u32 mode           = 0;
@@ -149,11 +149,12 @@ NONMATCH_FUNC void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *p
 
     if (use256Colors)
     {
-        if (!useEngineB)
-            *paletteMode = PALETTE_MODE_BG;
+        if (useEngineB == GRAPHICS_ENGINE_A)
+            mode = PALETTE_MODE_BG;
         else
-            *paletteMode = PALETTE_MODE_SUB_BG;
-
+            mode = PALETTE_MODE_SUB_BG;
+        
+        *paletteMode = mode;
         *palettePtr = NULL;
         if (bgID == BACKGROUND_0)
         {

@@ -610,7 +610,7 @@ void GoalChest_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         goalChest->gameWork.objWork.displayFlag &= ~(DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED);
         SetTaskState(&goalChest->gameWork.objWork, GoalChest_State_Opened);
         goalChest->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
-        goalChest->gameWork.collisionObject.work.flag |= 0x100;
+        goalChest->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_100;
 
         fx32 impactVelocity = MATH_ABS(player->objWork.move.x) + MATH_ABS(player->objWork.move.y);
         if (impactVelocity > FLOAT_TO_FX32(12.0))

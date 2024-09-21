@@ -221,7 +221,7 @@ NONMATCH_FUNC FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx3
     work->gameWork.collisionObject.work.height = collisionSize[mushroomType].y;
     work->gameWork.collisionObject.work.ofst_x = collisionOffset[mushroomType].x;
     work->gameWork.collisionObject.work.ofst_y = collisionOffset[mushroomType].y;
-    work->gameWork.collisionObject.work.flag |= 0x20;
+    work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_20;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flipmush.bac", GetObjectDataWork(OBJDATAWORK_166), gameArchiveStage,
                              OBJ_DATA_GFX_NONE);

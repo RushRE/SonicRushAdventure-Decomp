@@ -91,7 +91,7 @@ void Breakable__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
                 return;
 
             player->objWork.hitstopTimer = FLOAT_TO_FX32(4.0);
-            breakable->gameWork.collisionObject.work.flag |= 0x100;
+            breakable->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_100;
             player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL;
             break;
 
@@ -108,10 +108,10 @@ void Breakable__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     ShakeScreen(SCREENSHAKE_C_SHORT);
     breakable->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-    breakable->gameWork.flags |= 0x10000;
+    breakable->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
     breakable->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
     breakable->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
-    breakable->gameWork.collisionObject.work.flag |= 0x100;
+    breakable->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_100;
 
     fx32 x = breakable->gameWork.objWork.position.x;
     fx32 y = breakable->gameWork.objWork.position.y;
@@ -146,10 +146,10 @@ NONMATCH_FUNC void Breakable__State_Tutorial(Breakable *work)
         ShakeScreen(SCREENSHAKE_C_SHORT);
 
         work->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROYED | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-        work->gameWork.flags |= 0x10000;
+        work->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
         work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
         work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800;
-        work->gameWork.collisionObject.work.flag |= 0x100;
+        work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_100;
 
         fx32 x = work->gameWork.objWork.position.x;
         fx32 y = work->gameWork.objWork.position.y;
