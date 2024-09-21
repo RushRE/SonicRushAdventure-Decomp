@@ -1859,7 +1859,7 @@ _020309F0:
 
 NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
 {
-    // https://decomp.me/scratch/LuSxh -> 99.26%
+    // https://decomp.me/scratch/Zqqul -> 99.77%
 #ifdef NON_MATCHING
     VecFx32 vertices[4];
     VecFx32 baseScale;
@@ -1872,28 +1872,31 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
     VecFx16 offset;
     Player *player;
     TrailEffect *curNode;
-
-    work   = TaskGetWorkCurrent(EffectPlayerTrail);
+    
+    work = TaskGetWorkCurrent(EffectPlayerTrail);
     player = (Player *)work->objWork.parentObj;
 
     if ((work->objWork.displayFlag & DISPLAY_FLAG_NO_DRAW) == 0 && work->nodeCount && (player->objWork.objType != 1 || (player->gimmickFlag & PLAYER_GIMMICK_GRABBED) == 0))
     {
         MapSys__Func_20090D0(&mapCamera.camera[0], work->trailListStart->start.x, work->trailListStart->start.y, &offset.x, &offset.y);
         offset.z = 0;
-
+        
         NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
 
         offset2.x = g_obj.offset[0] + FX32_TO_WHOLE(work->objWork.offset.x) - offset.x;
         offset2.y = g_obj.offset[1] + FX32_TO_WHOLE(work->objWork.offset.y) - offset.y;
-
+        
         VEC_Set(&baseScale, FLOAT_TO_FX32(4096.0), FLOAT_TO_FX32(4096.0), FLOAT_TO_FX32(4096.0));
-
-        static MtxFx33 baseRot = { FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0),
-                                   FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0) };
+        
+        static MtxFx33 baseRot = {
+            FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), 
+            FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0), 
+            FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0) 
+        };
 
         VEC_Set(&baseTranslation, FX32_FROM_WHOLE(offset.x), FX32_FROM_WHOLE(-offset.y), FX32_FROM_WHOLE(offset.z));
         baseTranslation.z += FLOAT_TO_FX32(1.0);
-
+        
         NNS_G3dGlbSetBaseScale(&baseScale);
         NNS_G3dGlbSetBaseRot(&baseRot);
         NNS_G3dGlbSetBaseTrans(&baseTranslation);
@@ -1904,10 +1907,9 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
 
         fx32 timeNow = FX_DivS32(work->nodeCount * work->field_2F0, work->vanish_time);
 
-        GXRgb inputColor[2];
-        inputColor[0] = work->trailStartColor;
-        inputColor[1] = work->trailEndColor;
-
+        GXRgb inputColor0 = work->trailStartColor;
+        GXRgb inputColor1 = work->trailEndColor;
+        
         s32 nodeCount = work->nodeCount;
         for (n = 0; n < nodeCount; n++)
         {
@@ -1920,7 +1922,7 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
                 }
                 else
                 {
-                    alpha = work->unknownAlpha - FX_DivS32(n * (work->unknownAlpha - work->startAlpha), timeNow);
+                    alpha = work->unknownAlpha - FX_DivS32((work->unknownAlpha - work->startAlpha) * n, timeNow);
                 }
             }
             else
@@ -1936,7 +1938,7 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
             }
 
             NNS_G3dGePolygonAttr(GX_LIGHTMASK_NONE, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, alpha & 0x1F, GX_POLYGON_ATTR_MISC_NONE);
-
+            
             VEC_Set(&vertices[0], curNode->start.x, curNode->start.y, curNode->start.z);
             VEC_Set(&vertices[1], curNode->end.x, curNode->end.y, curNode->end.z);
             VEC_Set(&vertices[2], nextNode->start.x, nextNode->start.y, nextNode->start.z);
@@ -1947,7 +1949,7 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
             fx16 x;
             fx16 y;
             GXRgb vertexColor;
-            AkMath__BlendColors(&vertexColor, inputColor[0], inputColor[1], nodeCount, n);
+            AkMath__BlendColors(&vertexColor, inputColor0, inputColor1, nodeCount, n);
 
             for (v = 0; v < 4; v++)
             {
