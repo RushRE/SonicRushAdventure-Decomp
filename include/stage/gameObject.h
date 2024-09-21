@@ -107,7 +107,7 @@ s16 GameObject__GetNextTempObjID(void);
 void GameObject__ReleaseTempObj(MapObject *obj);
 void GameObject__ProcessRecievedPackets(GameObjectTask *work);
 BadnikBreakResult GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2, GameObjectPacketType type);
-void GameObject__Func_20282A8(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx33 *mtx, BOOL setFrustum);
+void GameObject__Func_20282A8(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx44 *mtx, BOOL setFrustum);
 
 // --------------------
 // INLINE FUNCTIONS

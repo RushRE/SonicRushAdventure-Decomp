@@ -425,8 +425,289 @@ void DiveStand__Destructor(Task *task)
 
 NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
 {
+	// https://decomp.me/scratch/jFmka -> 87.71%
 #ifdef NON_MATCHING
+    s32 i;
 
+    Player *player = gPlayer;
+
+    fx32 playerX  = gPlayer->objWork.position.x;
+    fx32 distance = playerX - work->gameWork.objWork.position.x;
+
+    if ((work->gameWork.flags & 1) != 0)
+    {
+        if (CheckPlayerGimmickObj(gPlayer, work))
+        {
+            u16 targetAngle;
+            s16 angleStep;
+            if ((work->gameWork.flags & 4) != 0)
+            {
+                targetAngle = 0xFD60;
+                angleStep   = -16;
+            }
+            else
+            {
+                targetAngle = 0xFEAB;
+                angleStep   = -128;
+            }
+
+            VecFx32 *vertices = &work->vertices[23][1];
+            u16 *angles       = &work->angles[22];
+            for (i = 22; i >= 0; vertices -= 2, angles--, i--)
+            {
+                if ((work->gameWork.mapObject->id == MAPOBJECT_143 && distance <= 8 * vertices->x)
+                    || (work->gameWork.mapObject->id == MAPOBJECT_149 && distance >= 8 * vertices->x))
+                {
+                    *angles += 16;
+                    if ((s16)*angles > 0)
+                        *angles = 0;
+                    continue;
+                }
+
+                if (*angles != 0)
+                {
+                    *angles += angleStep;
+                    if (*angles < targetAngle)
+                        *angles = targetAngle;
+                    continue;
+                }
+
+                *angles = angleStep;
+                break;
+            }
+
+            if ((work->gameWork.flags & 4) != 0)
+            {
+                if (work->angles[22] == 0xFD60 && work->angles[0] == 0xFD60 && work->dword70C >= 6144)
+                {
+                    work->gameWork.flags &= ~5;
+                    work->gameWork.flags |= 8;
+                    work->field_710 = 16;
+                }
+                else
+                {
+                    work->dword70C += 64;
+                    if (work->dword70C > 6144)
+                        work->dword70C = 6144;
+                }
+            }
+            else
+            {
+                if (work->dword70C > 4096)
+                {
+                    work->dword70C -= 64;
+                    if (work->dword70C < 4096)
+                        work->dword70C = 4096;
+                }
+            }
+        }
+        else
+        {
+            DiveStand__Func_2169F6C(work);
+        }
+    }
+    else
+    {
+        if ((work->gameWork.flags & 2) != 0)
+        {
+            BOOL moved = FALSE;
+            s16 step   = -16;
+            if (work->dword70C > 4096)
+            {
+                work->dword70C -= 64;
+                if (work->dword70C < 4096)
+                    work->dword70C = 4096;
+            }
+
+            if ((work->gameWork.flags & 8) != 0)
+                step <<= 2;
+
+            u16 *angles = &work->angles[0];
+            for (i = 0; i < 23; i++)
+            {
+                if (*angles != FLOAT_DEG_TO_IDX(0.0))
+                {
+                    *angles -= step;
+                    moved = TRUE;
+                    if ((s16)*angles > 0)
+                        *angles = 0;
+                }
+
+                angles++;
+            }
+
+            if (!moved)
+            {
+                work->gameWork.flags &= ~2;
+                if ((work->gameWork.flags & 8) != 0)
+                {
+                    fx32 force = work->gameWork.mapObject->left;
+
+                    fx32 velX = (force << 11) + FLOAT_TO_FX32(2.0);
+                    if (work->gameWork.mapObject->id == MAPOBJECT_149)
+                        velX = -velX;
+                    Player__Action_DiveStandLaunch(player, &work->gameWork, velX, -FLOAT_TO_FX32(1.5) * force - FLOAT_TO_FX32(7.5));
+                    Player__Action_AllowTrickCombos(player, &work->gameWork);
+                }
+            }
+        }
+        else
+        {
+            if (work->dword70C > 4096)
+            {
+                work->dword70C -= 64;
+                if (work->dword70C < 4096)
+                    work->dword70C = 4096;
+            }
+        }
+    }
+
+    VecFx32 v68 = { FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0) };
+    VecFx32 v69 = { FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0) };
+
+    fx32 v29 = work->dword70C;
+    if (work->gameWork.mapObject->id != MAPOBJECT_143)
+        v29 = -v29;
+
+    VecFx32 vec;
+    VEC_Set(&vec, v29, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
+
+    work->vertices[0][0] = v69;
+    work->vertices[0][1] = v68;
+
+    MtxFx43 mtx;
+    MtxFx43 dest;
+    MtxFx43 src;
+    MTX_Identity43(&mtx);
+    MI_CpuCopy32(&mtx, &dest, sizeof(dest));
+    MI_CpuCopy32(&mtx, &src, sizeof(src));
+    MTX_TransApply43(&src, &src, vec.x, vec.y, vec.z);
+
+    {
+        MtxFx43 v64;
+
+        VecFx32 *vertices = &work->vertices[1][0];
+        u16 *angles       = &work->angles[0];
+        if (work->gameWork.mapObject->id == MAPOBJECT_143)
+        {
+            for (i = 0; i < 24; i++)
+            {
+                VecFx32 vector;
+
+                MI_CpuCopy32(&mtx, &v64, sizeof(v64));
+                VEC_Set(&vec, MultiplyFX(CosFX(*angles), v29), -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
+                MTX_MultVec43(&vec, &dest, &vertices[0]);
+                MTX_MultVec43(&vector, &dest, &vertices[1]);
+                MTX_RotZ33((MtxFx33 *)&v64, SinFX(*angles), CosFX(*angles));
+                MTX_Concat43(&v64, &src, &v64);
+                MTX_Concat43(&v64, &dest, &dest);
+
+                angles++;
+                vertices += 2;
+            }
+        }
+        else
+        {
+            for (i = 0; i < 24; i++)
+            {
+                VecFx32 vector;
+
+                MI_CpuCopy32(&mtx, &v64, sizeof(v64));
+                VEC_Set(&vec, MultiplyFX(CosFX(*angles), v29), -FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0));
+                MTX_MultVec43(&vec, &dest, &vertices[0]);
+                MTX_MultVec43(&vector, &dest, &vertices[1]);
+                MTX_RotZ33((MtxFx33 *)&v64, SinFX((s32)(u16) - *angles), CosFX((s32)(u16) - *angles));
+                MTX_Concat43(&v64, &src, &v64);
+                MTX_Concat43(&v64, &dest, &dest);
+
+                angles++;
+                vertices += 2;
+            }
+        }
+    }
+
+    work->gameWork.colliders[1].rect.pos.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x) + (work->vertices[24][1].x >> 9);
+    work->gameWork.colliders[1].rect.pos.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y) - (work->vertices[24][1].y >> 9);
+    work->gameWork.objWork.prevPosition.x  = work->gameWork.objWork.position.x + 8 * work->vertices[24][1].x;
+    work->gameWork.objWork.prevPosition.y  = work->gameWork.objWork.position.y - 8 * work->vertices[24][1].y;
+
+    StageTaskCollisionObj *collisionObject = &work->gameWork.collisionObject.work;
+
+    if (work->gameWork.mapObject->id != MAPOBJECT_143
+        || player->objWork.position.x >= work->gameWork.objWork.position.x - 0x18000 && player->objWork.position.x <= work->gameWork.objWork.position.x + 0xD8000
+               && player->objWork.position.y >= work->gameWork.objWork.position.y - 0x18000 && player->objWork.position.y <= work->gameWork.objWork.position.y + 0xD8000)
+    {
+        if (work->gameWork.mapObject->id != MAPOBJECT_149
+            || player->objWork.position.x <= work->gameWork.objWork.position.x + 0x18000 && player->objWork.position.x >= work->gameWork.objWork.position.x - 0xD8000
+                   && player->objWork.position.y >= work->gameWork.objWork.position.y - 0x18000 && player->objWork.position.y <= work->gameWork.objWork.position.y + 0xD8000)
+        {
+            if (work->gameWork.mapObject->id == MAPOBJECT_143 && distance <= 0 || work->gameWork.mapObject->id == MAPOBJECT_149 && distance >= 0)
+            {
+                if (work->gameWork.mapObject->id == MAPOBJECT_143)
+                    collisionObject->ofst_x = 0;
+                else
+                    collisionObject->ofst_x = -192;
+                collisionObject->ofst_y = 0;
+
+                work->gameWork.objWork.userWork = 0;
+            }
+            else
+            {
+                s32 v = 0;
+
+                VecFx32 *vertices    = &work->vertices[0][0];
+                VecFx32 *firstVertex = work->vertices[1];
+                fx32 lastVertexX     = work->vertices[24][0].x;
+                u16 angle            = 0;
+
+                if (work->gameWork.mapObject->id == MAPOBJECT_143)
+                {
+                    collisionObject->ofst_x = (lastVertexX >> 9) - 192;
+                    for (; v < 24; v++)
+                    {
+                        if (distance <= 8 * firstVertex->x)
+                            break;
+
+                        angle += work->angles[v];
+                        firstVertex += 2;
+                    }
+
+                    if (v >= 24)
+                    {
+                        vertices -= 2;
+                        firstVertex -= 2;
+                    }
+
+                    collisionObject->ofst_y =
+                        -(vertices->y + ((MultiplyFX(FX_Div(distance - 8 * vertices->x, 8 * (firstVertex->x - vertices->x)), firstVertex->y - vertices->y)))) >> 9;
+                    work->gameWork.objWork.userWork = 0x10000 - angle;
+                }
+                else
+                {
+                    collisionObject->ofst_x = lastVertexX >> 9;
+                    for (; v < 24; v++)
+                    {
+                        if (distance >= 8 * firstVertex->x)
+                            break;
+
+                        angle += work->angles[v];
+                        firstVertex += 2;
+                    }
+
+                    if (v >= 24)
+                    {
+                        vertices -= 2;
+                        firstVertex -= 2;
+                    }
+
+                    collisionObject->ofst_y =
+                        -(vertices->y + ((MultiplyFX(FX_Div(distance - 8 * vertices->x, 8 * (firstVertex->x - vertices->x)), firstVertex->y - vertices->y)))) >> 9;
+                    work->gameWork.objWork.userWork = angle;
+                }
+            }
+            work->gameWork.objWork.userTimer = work->gameWork.objWork.position.y + FX32_FROM_WHOLE(collisionObject->ofst_y);
+        }
+    }
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -597,7 +878,7 @@ _0216A228:
 	rsbeq r2, r2, #0
 	mov r1, r8
 	sub r3, r3, #0x7800
-	bl Player__Func_2020420
+	bl Player__Action_DiveStandLaunch
 	ldr r0, [sp, #8]
 	mov r1, r8
 	bl Player__Action_AllowTrickCombos
@@ -1001,203 +1282,99 @@ _0216A868:
 #endif
 }
 
-NONMATCH_FUNC void DiveStand__Draw(void)
+void DiveStand__Draw(void)
 {
-#ifdef NON_MATCHING
+    GXDLInfo info;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #0xac
-	bl GetCurrentTaskWork_
-	mov r4, #0x8000
-	ldr r1, =g_obj
-	mov r3, #0x1000
-	ldr r2, [r1]
-	mov r7, r0
-	str r4, [sp, #0x4c]
-	str r4, [sp, #0x50]
-	str r3, [sp, #0x54]
-	cmp r2, #0x1000
-	beq _0216A8E0
-	smull r1, r0, r2, r4
-	adds r1, r1, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [sp, #0x4c]
-_0216A8E0:
-	ldr r0, =g_obj
-	ldr r2, [r0, #4]
-	cmp r2, #0x1000
-	beq _0216A90C
-	ldr r0, [sp, #0x50]
-	smull r1, r0, r2, r0
-	adds r1, r1, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [sp, #0x50]
-_0216A90C:
-	ldr r2, [sp, #0x4c]
-	ldr r1, [sp, #0x50]
-	mov r3, r2, lsl #5
-	mov r2, r1, lsl #5
-	ldr r0, [sp, #0x54]
-	str r3, [sp, #0x4c]
-	mov r1, r0, lsl #5
-	add r0, sp, #0x1c
-	str r2, [sp, #0x50]
-	str r1, [sp, #0x54]
-	bl MTX_Identity33_
-	add r1, sp, #0x40
-	add r2, sp, #0x58
-	add r0, r7, #0x44
-	mov r3, #0
-	bl GameObject__Func_20282A8
-	add r0, sp, #0x4c
-	bl NNS_G3dGlbSetBaseScale
-	ldr r1, =0x021472FC
-	add r0, sp, #0x1c
-	bl MI_Copy36B
-	ldr r1, =NNS_G3dGlb
-	add r0, sp, #0x40
-	ldr r2, [r1, #0xfc]
-	bic r2, r2, #0xa4
-	str r2, [r1, #0xfc]
-	bl NNS_G3dGlbSetBaseTrans
-	mov r2, #1
-	mov r0, #0x10
-	add r1, sp, #0xc
-	str r2, [sp, #0xc]
-	bl NNS_G3dGeBufferOP_N
-	bl NNS_G3dGlbFlushP
-	add r0, r7, #0x6c
-	add r6, r0, #0x400
-	add r5, sp, #0x98
-	ldmia r6!, {r0, r1, r2, r3}
-	mov r4, r5
-	stmia r5!, {r0, r1, r2, r3}
-	ldr r1, [r6]
-	mov r0, r4
-	str r1, [r5]
-	mov r1, #3
-	bl G3C_Begin
-	ldr r0, [r7, #0x340]
-	ldr r1, =0x00007FFF
-	ldrh r0, [r0, #2]
-	cmp r0, #0x8f
-	moveq r9, #0
-	add r0, sp, #0x98
-	movne r9, #0x7000
-	bl G3C_Color
-	add r0, r7, #0x84
-	mov r8, #0
-	add r10, r0, #0x400
-	add r6, sp, #0x98
-	mov r5, r8
-	mov r4, #0x8000
-_0216A9F4:
-	mov r0, r6
-	mov r1, r9
-	mov r2, r5
-	bl G3C_TexCoord
-	ldmia r10, {r0, r2, r3}
-	mov r0, r0, lsl #0xb
-	mov r1, r0, asr #0x10
-	mov r0, r2, lsl #0xb
-	mov r2, r0, asr #0x10
-	mov r0, r3, lsl #0xb
-	mov r3, r0, asr #0x10
-	mov r0, r6
-	bl G3C_Vtx
-	mov r0, r6
-	mov r1, r9
-	mov r2, r4
-	bl G3C_TexCoord
-	ldr r1, [r10, #0xc]
-	ldr r2, [r10, #0x10]
-	ldr r3, [r10, #0x14]
-	mov r1, r1, lsl #0xb
-	mov r2, r2, lsl #0xb
-	mov r3, r3, lsl #0xb
-	mov r0, r6
-	mov r1, r1, asr #0x10
-	mov r2, r2, asr #0x10
-	mov r3, r3, asr #0x10
-	bl G3C_Vtx
-	add r8, r8, #1
-	add r10, r10, #0x18
-	add r9, r9, #0x8000
-	cmp r8, #0x19
-	blt _0216A9F4
-	add r0, sp, #0x98
-	bl G3C_End
-	add r0, sp, #0x98
-	bl G3_EndMakeDL
-	ldr r0, [r7, #0x480]
-	mov r1, #0x400
-	bl DC_FlushRange
-	ldr r1, [sp, #0x98]
-	tst r1, #3
-	ldrne r0, [sp, #0xa0]
-	ldrne r1, [sp, #0x9c]
-	ldreq r0, [sp, #0xa0]
-	sub r1, r1, r0
-	ldr r0, [r7, #0x480]
-	bl NNS_G3dGeSendDL
-	ldr r0, [r7, #0x354]
-	tst r0, #0xf
-	addne sp, sp, #0xac
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	add r0, r7, #0x44
-	add r3, sp, #0x10
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r0, [r7, #0x340]
-	mov r9, #0x8000
-	ldrh r0, [r0, #2]
-	cmp r0, #0x8f
-	bne _0216AAF8
-	ldr r0, [sp, #0x10]
-	add r0, r0, #0x3000
-	str r0, [sp, #0x10]
-	b _0216AB08
-_0216AAF8:
-	ldr r0, [sp, #0x10]
-	rsb r9, r9, #0
-	sub r0, r0, #0x4000
-	str r0, [sp, #0x10]
-_0216AB08:
-	mov r8, #0
-	add r6, r7, #0x20
-	mov r5, r8
-	add r4, sp, #0x10
-_0216AB18:
-	str r6, [sp]
-	str r5, [sp, #4]
-	mov r1, r4
-	mov r2, r5
-	mov r3, r5
-	str r5, [sp, #8]
-	add r0, r7, #0x168
-	bl StageTask__Draw2DEx
-	ldr r0, [sp, #0x10]
-	add r8, r8, #1
-	add r0, r0, r9
-	str r0, [sp, #0x10]
-	cmp r8, #0x18
-	blt _0216AB18
-	add sp, sp, #0xac
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
+    MtxFx44 matTrans;
+    VecFx32 baseScale;
 
-// clang-format on
-#endif
+    DiveStand *work = TaskGetWorkCurrent(DiveStand);
+
+    VEC_Set(&baseScale, FLOAT_TO_FX32(8.0), FLOAT_TO_FX32(8.0), FLOAT_TO_FX32(1.0));
+
+    if (g_obj.scale.x != FLOAT_TO_FX32(1.0))
+        baseScale.x = MultiplyFX(g_obj.scale.x, baseScale.x);
+
+    if (g_obj.scale.y != FLOAT_TO_FX32(1.0))
+        baseScale.y = MultiplyFX(g_obj.scale.y, baseScale.y);
+
+    baseScale.x *= 32;
+    baseScale.y *= 32;
+    baseScale.z *= 32;
+
+    VecFx32 baseTranslation;
+    s32 v;
+    MtxFx33 baseRot;
+    MTX_Identity33(&baseRot);
+    GameObject__Func_20282A8(&work->gameWork.objWork.position, &baseTranslation, &matTrans, FALSE);
+    NNS_G3dGlbSetBaseScale(&baseScale);
+    NNS_G3dGlbSetBaseRot(&baseRot);
+    NNS_G3dGlbSetBaseTrans(&baseTranslation);
+
+    NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
+    NNS_G3dGlbFlush();
+
+    info = work->dlInfo;
+    G3C_Begin(&info, GX_BEGIN_QUAD_STRIP);
+
+    fx32 texS;
+    if (work->gameWork.mapObject->id == MAPOBJECT_143)
+        texS = FLOAT_TO_FX32(0.0);
+    else
+        texS = FLOAT_TO_FX32(7.0);
+    G3C_Color(&info, 0x7FFF);
+
+    VecFx32 *vertices = (VecFx32 *)work->vertices;
+    for (v = 0; v < 25; v++)
+    {
+        G3C_TexCoord(&info, texS, FLOAT_TO_FX32(0.0));
+        G3C_Vtx(&info, vertices[0].x >> 5, vertices[0].y >> 5, vertices[0].z >> 5);
+
+        G3C_TexCoord(&info, texS, FLOAT_TO_FX32(8.0));
+        G3C_Vtx(&info, vertices[1].x >> 5, vertices[1].y >> 5, vertices[1].z >> 5);
+
+        vertices += 2;
+        texS += FLOAT_TO_FX32(8.0);
+    }
+    G3C_End(&info);
+    G3_EndMakeDL(&info);
+    DC_FlushRange(work->dlList, 0x400);
+
+    size_t size;
+    if ((VOID_TO_INT(info.curr_cmd) & 3) != 0)
+        size = VOID_TO_INT((void *)info.curr_param - (void *)info.bottom);
+    else
+        size = VOID_TO_INT((void *)info.curr_cmd - (void *)info.bottom);
+    NNS_G3dGeSendDL(work->dlList, size);
+
+    s32 i;
+    if ((work->gameWork.flags & 0xF) == 0)
+    {
+        VecFx32 position = work->gameWork.objWork.position;
+
+        fx32 step;
+        if (work->gameWork.mapObject->id == MAPOBJECT_143)
+        {
+            step = FLOAT_TO_FX32(8.0);
+            position.x += FLOAT_TO_FX32(3.0);
+        }
+        else
+        {
+            step = -FLOAT_TO_FX32(8.0);
+            position.x -= FLOAT_TO_FX32(4.0);
+        }
+
+        for (i = 0; i < 24; i++)
+        {
+            StageTask__Draw2DEx(&work->gameWork.animator.ani, &position, NULL, NULL, &work->gameWork.objWork.displayFlag, NULL, NULL);
+            position.x += step;
+        }
+    }
 }
 
-NONMATCH_FUNC void DiveStand__OnDefend_216AB68(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void DiveStand__OnDefend_216AB68(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
     DiveStand *diveStand = (DiveStand *)rect2->parent;
     Player *player       = (Player *)rect1->parent;
 
@@ -1207,17 +1384,23 @@ NONMATCH_FUNC void DiveStand__OnDefend_216AB68(OBS_RECT_WORK *rect1, OBS_RECT_WO
     if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER || CheckIsPlayer1(player) == FALSE)
         return;
 
+    if (CheckPlayerGimmickObj(player, diveStand))
+        return;
+
     if ((diveStand->gameWork.flags & 2) != 0)
-    {
-        diveStand->gameWork.collisionObject.work.parent = &diveStand->gameWork.objWork;
-    }
-    else if (player->objWork.position.y + FLOAT_TO_FX32(13.0) <= diveStand->gameWork.objWork.position.y)
     {
         diveStand->gameWork.collisionObject.work.parent = &diveStand->gameWork.objWork;
     }
     else
     {
-        diveStand->gameWork.collisionObject.work.parent = NULL;
+        if (player->objWork.position.y + FLOAT_TO_FX32(13.0) > diveStand->gameWork.objWork.position.y)
+        {
+            diveStand->gameWork.collisionObject.work.parent = NULL;
+        }
+        else
+        {
+            diveStand->gameWork.collisionObject.work.parent = &diveStand->gameWork.objWork;
+        }
     }
 
     if (!CheckStageTaskTouchObj(&player->objWork, &diveStand->gameWork.objWork) || (player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) == 0)
@@ -1226,62 +1409,11 @@ NONMATCH_FUNC void DiveStand__OnDefend_216AB68(OBS_RECT_WORK *rect1, OBS_RECT_WO
     }
     else
     {
-        Player__Gimmick_201FD7C(player, &diveStand->gameWork);
+        Player__Action_DiveStandStood(player, &diveStand->gameWork);
         diveStand->gameWork.flags |= 3;
         diveStand->gameWork.flags &= ~8;
         diveStand->gameWork.collisionObject.work.parent = NULL;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r4, [r1, #0x1c]
-	ldr r2, [r0, #0x1c]
-	cmp r4, #0
-	cmpne r2, #0
-	ldmeqia sp!, {r4, pc}
-	ldrh r3, [r2]
-	cmp r3, #1
-	ldreqb r3, [r2, #0x5d1]
-	cmpeq r3, #0
-	ldmneia sp!, {r4, pc}
-	ldr r3, [r2, #0x6d8]
-	cmp r3, r4
-	ldmeqia sp!, {r4, pc}
-	ldr r3, [r4, #0x354]
-	tst r3, #2
-	strne r4, [r4, #0x2d8]
-	bne _0216ABCC
-	ldr ip, [r2, #0x48]
-	ldr r3, [r4, #0x48]
-	add ip, ip, #0xd000
-	cmp ip, r3
-	movgt r3, #0
-	strgt r3, [r4, #0x2d8]
-	strle r4, [r4, #0x2d8]
-_0216ABCC:
-	ldr r3, [r2, #0x118]
-	cmp r3, r4
-	bne _0216ABE4
-	ldr r3, [r2, #0x1c]
-	tst r3, #1
-	bne _0216ABEC
-_0216ABE4:
-	bl ObjRect__FuncNoHit
-	ldmia sp!, {r4, pc}
-_0216ABEC:
-	mov r0, r2
-	mov r1, r4
-	bl Player__Gimmick_201FD7C
-	ldr r1, [r4, #0x354]
-	mov r0, #0
-	orr r1, r1, #3
-	bic r1, r1, #8
-	str r1, [r4, #0x354]
-	str r0, [r4, #0x2d8]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void DiveStand__OnDefend_216AC14(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
@@ -1301,7 +1433,7 @@ void DiveStand__OnDefend_216AC14(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     }
     else
     {
-        Player__Func_20202E4(player, &diveStand->gameWork);
+        Player__Action_DiveStandGrab(player, &diveStand->gameWork);
         diveStand->gameWork.flags |= 4;
         Player__Action_AllowTrickCombos(player, &diveStand->gameWork);
     }

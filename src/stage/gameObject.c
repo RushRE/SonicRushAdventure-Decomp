@@ -1314,7 +1314,7 @@ BadnikBreakResult GameObject__BadnikBreak(OBS_RECT_WORK *rect1, OBS_RECT_WORK *r
     return BADNIKBREAKRESULT_NONE;
 }
 
-NONMATCH_FUNC void GameObject__Func_20282A8(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx33 *mtx, BOOL setFrustum)
+NONMATCH_FUNC void GameObject__Func_20282A8(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx44 *mtx, BOOL setFrustum)
 {
 #ifdef NON_MATCHING
 

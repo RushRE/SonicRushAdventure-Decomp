@@ -49,13 +49,13 @@
 // Gimmick Objects
 #include <stage/objects/jumpbox.h>
 #include <stage/objects/hoverCrystal.h>
+#include <stage/objects/diveStand.h>
 
 // --------------------
 // TEMP
 // --------------------
 
 // TODO: SOME OF THESE FUNC SIGNATURES AREN'T RIGHT... decompile them
-NOT_DECOMPILED void DiveStand__Func_2169F6C(void);
 NOT_DECOMPILED void CannonPath__GetOffsetZ(void);
 NOT_DECOMPILED void Grind3LineRingLoss__Create(Player *player);
 
@@ -162,7 +162,7 @@ void Player__Action_GimmickLaunch(Player *player, fx32 velX, fx32 velY)
             player->objWork.velocity.y = velY;
         else
             player->objWork.velocity.y = MultiplyFX(player->objWork.groundVel, SinFX(player->objWork.dir.z));
-		
+
         ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
         player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
         player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
@@ -4184,570 +4184,275 @@ void Player__Action_Flipboard(Player *player, fx32 velX, fx32 velY)
     Player__Gimmick_201B418(player, velX, velY, TRUE);
 }
 
-NONMATCH_FUNC void Player__Gimmick_201FD7C(Player *player, GameObjectTask *other)
+void Player__Action_DiveStandStood(Player *player, GameObjectTask *other)
 {
-#ifdef NON_MATCHING
+    if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0)
+    {
+        Player__InitGimmick(player, FALSE);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r2, [r4, #0x5d8]
-	mov r5, r1
-	tst r2, #0x400
-	ldmneia sp!, {r3, r4, r5, pc}
-	mov r1, #0
-	bl Player__InitGimmick
-	ldr r0, [r4, #0x1c]
-	tst r0, #0x10
-	beq _0201FDC0
-	mov r0, r4
-	mov r1, #0
-	bl Player__Action_LandOnGround
-	ldr r1, [r4, #0x5e4]
-	mov r0, r4
-	blx r1
-_0201FDC0:
-	str r5, [r4, #0x6d8]
-	ldr r1, [r4, #0xf4]
-	ldr r0, =Player__State_GroundIdle
-	cmp r1, r0
-	ldreq r0, =Player__Func_201FFD4
-	streq r0, [r4, #0xf4]
-	beq _0201FE00
-	ldr r0, =Player__State_GroundMove
-	cmp r1, r0
-	ldreq r0, =Player__Func_201FF10
-	streq r0, [r4, #0xf4]
-	beq _0201FE00
-	ldr r0, =Player__State_Roll
-	cmp r1, r0
-	ldreq r0, =Player__Func_2020098
-	streq r0, [r4, #0xf4]
-_0201FE00:
-	ldr r0, [r4, #0x1c]
-	orr r0, r0, #0x300
-	str r0, [r4, #0x1c]
-	ldmia sp!, {r3, r4, r5, pc}
+        if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0)
+        {
+            Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
+            player->onLandGround(player);
+        }
 
-// clang-format on
-#endif
+        player->gimmickObj = other;
+
+        if (StageTaskStateMatches(&player->objWork, Player__State_GroundIdle))
+        {
+            SetTaskState(&player->objWork, Player__State_DiveStand_GroundIdle);
+        }
+        else if (StageTaskStateMatches(&player->objWork, Player__State_GroundMove))
+        {
+            SetTaskState(&player->objWork, Player__State_DiveStand_GroundMove);
+        }
+        else if (StageTaskStateMatches(&player->objWork, Player__State_Roll))
+        {
+            SetTaskState(&player->objWork, Player__State_DiveStand_Roll);
+        }
+
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    }
 }
 
-NONMATCH_FUNC void Player__Func_201FE28(Player *player)
+void Player__UpdateDiveStandState(Player *player)
 {
-#ifdef NON_MATCHING
+    if (StageTaskStateMatches(&player->objWork, Player__State_GroundIdle))
+    {
+        SetTaskState(&player->objWork, Player__State_DiveStand_GroundMove);
+    }
+    else if (StageTaskStateMatches(&player->objWork, Player__State_GroundMove))
+    {
+        SetTaskState(&player->objWork, Player__State_DiveStand_GroundIdle);
+    }
+    else if (StageTaskStateMatches(&player->objWork, Player__State_Roll))
+    {
+        SetTaskState(&player->objWork, Player__State_DiveStand_Roll);
+    }
+    else if (StageTaskStateMatches(&player->objWork, Player__State_Spindash))
+    {
+        SetTaskState(&player->objWork, Player__State_DiveStand_Spindash);
+    }
+    else if (StageTaskStateMatches(&player->objWork, Player__State_Crouch))
+    {
+        SetTaskState(&player->objWork, Player__State_DiveStand_Crouch);
+    }
+    else
+    {
+        DiveStand__Func_2169F6C((DiveStand *)player->gimmickObj);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0xf4]
-	ldr r0, =Player__State_GroundIdle
-	cmp r1, r0
-	ldreq r0, =Player__Func_201FF10
-	streq r0, [r4, #0xf4]
-	ldmeqia sp!, {r4, pc}
-	ldr r0, =Player__State_GroundMove
-	cmp r1, r0
-	ldreq r0, =Player__Func_201FFD4
-	streq r0, [r4, #0xf4]
-	ldmeqia sp!, {r4, pc}
-	ldr r0, =Player__State_Roll
-	cmp r1, r0
-	ldreq r0, =Player__Func_2020098
-	streq r0, [r4, #0xf4]
-	ldmeqia sp!, {r4, pc}
-	ldr r0, =Player__State_Spindash
-	cmp r1, r0
-	ldreq r0, =Player__Func_202015C
-	streq r0, [r4, #0xf4]
-	ldmeqia sp!, {r4, pc}
-	ldr r0, =Player__State_Crouch
-	cmp r1, r0
-	ldreq r0, =Player__Func_2020220
-	streq r0, [r4, #0xf4]
-	ldmeqia sp!, {r4, pc}
-	ldr r0, [r4, #0x6d8]
-	bl DiveStand__Func_2169F6C
-	mov r0, #0
-	str r0, [r4, #0x6d8]
-	ldr r0, [r4, #0x1c]
-	bic r0, r0, #0x2300
-	str r0, [r4, #0x1c]
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+        player->gimmickObj = NULL;
+        player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+    }
 }
 
-NONMATCH_FUNC void Player__Func_201FEE0(Player *player){
-#ifdef NON_MATCHING
+void Player__HandleDiveStandStood(Player *player)
+{
+    GameObjectTask *diveStand = player->gimmickObj;
 
-#else
-    // clang-format off
-	ldr ip, [r0, #0x6d8]
-	ldr r1, [r0, #0x48]
-	ldr r2, [ip, #0x2c]
-	ldr r3, [r0, #0xc0]
-	sub r2, r2, #0xd000
-	sub r1, r2, r1
-	add r1, r3, r1
-	str r1, [r0, #0xc0]
-	ldr r1, [ip, #0x2c]
-	sub r1, r1, #0xd000
-	str r1, [r0, #0x48]
-	bx lr
-
-// clang-format on
-#endif
+    player->objWork.move.y += (diveStand->objWork.userTimer - FLOAT_TO_FX32(13.0)) - player->objWork.position.y;
+    player->objWork.position.y = diveStand->objWork.userTimer - FLOAT_TO_FX32(13.0);
 }
 
-NONMATCH_FUNC void Player__Func_201FF10(Player *player)
+void Player__State_DiveStand_GroundMove(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *diveStand = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r2, [r4, #0x6d8]
-	cmp r2, #0
-	beq _0201FF64
-	ldr r0, [r2, #0x340]
-	ldrh r3, [r0, #2]
-	cmp r3, #0x8f
-	bne _0201FF48
-	ldr r1, [r4, #0x44]
-	ldr r0, [r2, #0x44]
-	add r1, r1, #0x10000
-	cmp r1, r0
-	blt _0201FF64
-_0201FF48:
-	cmp r3, #0x95
-	bne _0201FF8C
-	ldr r1, [r4, #0x44]
-	ldr r0, [r2, #0x44]
-	sub r1, r1, #0x10000
-	cmp r1, r0
-	ble _0201FF8C
-_0201FF64:
-	mov r0, #0
-	str r0, [r4, #0x6d8]
-	ldr r0, [r4, #0x1c]
-	ldr r1, =Player__State_GroundIdle
-	bic r0, r0, #0x2300
-	str r0, [r4, #0x1c]
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	bl Player__State_GroundIdle
-	ldmia sp!, {r3, r4, r5, pc}
-_0201FF8C:
-	ldr r1, [r4, #0x1c]
-	mov r0, r4
-	orr r1, r1, #1
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x6d8]
-	ldr r1, [r1, #0x28]
-	strh r1, [r4, #0x34]
-	bl Player__Func_201FEE0
-	mov r0, r4
-	ldr r5, [r4, #0xf4]
-	bl Player__State_GroundIdle
-	ldr r0, [r4, #0xf4]
-	cmp r0, r5
-	ldmeqia sp!, {r3, r4, r5, pc}
-	mov r0, r4
-	bl Player__Func_201FE28
-	ldmia sp!, {r3, r4, r5, pc}
+    if (diveStand == NULL ||                                                                                                           // check if divestand is invalid
+        diveStand->mapObject->id == MAPOBJECT_143 && work->objWork.position.x + FLOAT_TO_FX32(16.0) < diveStand->objWork.position.x || // check if player is off the divestand
+        diveStand->mapObject->id == MAPOBJECT_149 && work->objWork.position.x - FLOAT_TO_FX32(16.0) > diveStand->objWork.position.x)
+    {
+        work->gimmickObj = NULL;
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+        SetTaskState(&work->objWork, Player__State_GroundIdle);
+        Player__State_GroundIdle(work);
+    }
+    else
+    {
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
+        work->objWork.dir.z = work->gimmickObj->objWork.userWork;
 
-// clang-format on
-#endif
+        Player__HandleDiveStandStood(work);
+
+        StageTaskState prevState = work->objWork.state;
+        Player__State_GroundIdle(work);
+        if (work->objWork.state != prevState)
+            Player__UpdateDiveStandState(work);
+    }
 }
 
-NONMATCH_FUNC void Player__Func_201FFD4(Player *player)
+void Player__State_DiveStand_GroundIdle(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *diveStand = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r2, [r4, #0x6d8]
-	cmp r2, #0
-	beq _02020028
-	ldr r0, [r2, #0x340]
-	ldrh r3, [r0, #2]
-	cmp r3, #0x8f
-	bne _0202000C
-	ldr r1, [r4, #0x44]
-	ldr r0, [r2, #0x44]
-	add r1, r1, #0x10000
-	cmp r1, r0
-	blt _02020028
-_0202000C:
-	cmp r3, #0x95
-	bne _02020050
-	ldr r1, [r4, #0x44]
-	ldr r0, [r2, #0x44]
-	sub r1, r1, #0x10000
-	cmp r1, r0
-	ble _02020050
-_02020028:
-	mov r0, #0
-	str r0, [r4, #0x6d8]
-	ldr r0, [r4, #0x1c]
-	ldr r1, =Player__State_GroundMove
-	bic r0, r0, #0x2300
-	str r0, [r4, #0x1c]
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	bl Player__State_GroundMove
-	ldmia sp!, {r3, r4, r5, pc}
-_02020050:
-	ldr r1, [r4, #0x1c]
-	mov r0, r4
-	orr r1, r1, #1
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x6d8]
-	ldr r1, [r1, #0x28]
-	strh r1, [r4, #0x34]
-	bl Player__Func_201FEE0
-	mov r0, r4
-	ldr r5, [r4, #0xf4]
-	bl Player__State_GroundMove
-	ldr r0, [r4, #0xf4]
-	cmp r0, r5
-	ldmeqia sp!, {r3, r4, r5, pc}
-	mov r0, r4
-	bl Player__Func_201FE28
-	ldmia sp!, {r3, r4, r5, pc}
+    if (diveStand == NULL ||                                                                                                           // check if divestand is invalid
+        diveStand->mapObject->id == MAPOBJECT_143 && work->objWork.position.x + FLOAT_TO_FX32(16.0) < diveStand->objWork.position.x || // check if player is off the divestand
+        diveStand->mapObject->id == MAPOBJECT_149 && work->objWork.position.x - FLOAT_TO_FX32(16.0) > diveStand->objWork.position.x)
+    {
+        work->gimmickObj = NULL;
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+        SetTaskState(&work->objWork, Player__State_GroundMove);
+        Player__State_GroundMove(work);
+    }
+    else
+    {
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
+        work->objWork.dir.z = work->gimmickObj->objWork.userWork;
 
-// clang-format on
-#endif
+        Player__HandleDiveStandStood(work);
+
+        StageTaskState prevState = work->objWork.state;
+        Player__State_GroundMove(work);
+        if (work->objWork.state != prevState)
+            Player__UpdateDiveStandState(work);
+    }
 }
 
-NONMATCH_FUNC void Player__Func_2020098(Player *player)
+void Player__State_DiveStand_Roll(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *diveStand = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r2, [r4, #0x6d8]
-	cmp r2, #0
-	beq _020200EC
-	ldr r0, [r2, #0x340]
-	ldrh r3, [r0, #2]
-	cmp r3, #0x8f
-	bne _020200D0
-	ldr r1, [r4, #0x44]
-	ldr r0, [r2, #0x44]
-	add r1, r1, #0x10000
-	cmp r1, r0
-	blt _020200EC
-_020200D0:
-	cmp r3, #0x95
-	bne _02020114
-	ldr r1, [r4, #0x44]
-	ldr r0, [r2, #0x44]
-	sub r1, r1, #0x10000
-	cmp r1, r0
-	ble _02020114
-_020200EC:
-	mov r0, #0
-	str r0, [r4, #0x6d8]
-	ldr r0, [r4, #0x1c]
-	ldr r1, =Player__State_Roll
-	bic r0, r0, #0x2300
-	str r0, [r4, #0x1c]
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	bl Player__State_Roll
-	ldmia sp!, {r3, r4, r5, pc}
-_02020114:
-	ldr r1, [r4, #0x1c]
-	mov r0, r4
-	orr r1, r1, #1
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x6d8]
-	ldr r1, [r1, #0x28]
-	strh r1, [r4, #0x34]
-	bl Player__Func_201FEE0
-	mov r0, r4
-	ldr r5, [r4, #0xf4]
-	bl Player__State_Roll
-	ldr r0, [r4, #0xf4]
-	cmp r0, r5
-	ldmeqia sp!, {r3, r4, r5, pc}
-	mov r0, r4
-	bl Player__Func_201FE28
-	ldmia sp!, {r3, r4, r5, pc}
+    if (diveStand == NULL ||                                                                                                           // check if divestand is invalid
+        diveStand->mapObject->id == MAPOBJECT_143 && work->objWork.position.x + FLOAT_TO_FX32(16.0) < diveStand->objWork.position.x || // check if player is off the divestand
+        diveStand->mapObject->id == MAPOBJECT_149 && work->objWork.position.x - FLOAT_TO_FX32(16.0) > diveStand->objWork.position.x)
+    {
+        work->gimmickObj = NULL;
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+        SetTaskState(&work->objWork, Player__State_Roll);
+        Player__State_Roll(work);
+    }
+    else
+    {
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
+        work->objWork.dir.z = work->gimmickObj->objWork.userWork;
 
-// clang-format on
-#endif
+        Player__HandleDiveStandStood(work);
+
+        StageTaskState prevState = work->objWork.state;
+        Player__State_Roll(work);
+        if (work->objWork.state != prevState)
+            Player__UpdateDiveStandState(work);
+    }
 }
 
-NONMATCH_FUNC void Player__Func_202015C(Player *player)
+void Player__State_DiveStand_Spindash(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *diveStand = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r2, [r4, #0x6d8]
-	cmp r2, #0
-	beq _020201B0
-	ldr r0, [r2, #0x340]
-	ldrh r3, [r0, #2]
-	cmp r3, #0x8f
-	bne _02020194
-	ldr r1, [r4, #0x44]
-	ldr r0, [r2, #0x44]
-	add r1, r1, #0x10000
-	cmp r1, r0
-	blt _020201B0
-_02020194:
-	cmp r3, #0x95
-	bne _020201D8
-	ldr r1, [r4, #0x44]
-	ldr r0, [r2, #0x44]
-	sub r1, r1, #0x10000
-	cmp r1, r0
-	ble _020201D8
-_020201B0:
-	mov r0, #0
-	str r0, [r4, #0x6d8]
-	ldr r0, [r4, #0x1c]
-	ldr r1, =Player__State_Spindash
-	bic r0, r0, #0x2300
-	str r0, [r4, #0x1c]
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	bl Player__State_Spindash
-	ldmia sp!, {r3, r4, r5, pc}
-_020201D8:
-	ldr r1, [r4, #0x1c]
-	mov r0, r4
-	orr r1, r1, #1
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x6d8]
-	ldr r1, [r1, #0x28]
-	strh r1, [r4, #0x34]
-	bl Player__Func_201FEE0
-	mov r0, r4
-	ldr r5, [r4, #0xf4]
-	bl Player__State_Spindash
-	ldr r0, [r4, #0xf4]
-	cmp r0, r5
-	ldmeqia sp!, {r3, r4, r5, pc}
-	mov r0, r4
-	bl Player__Func_201FE28
-	ldmia sp!, {r3, r4, r5, pc}
+    if (diveStand == NULL ||                                                                                                           // check if divestand is invalid
+        diveStand->mapObject->id == MAPOBJECT_143 && work->objWork.position.x + FLOAT_TO_FX32(16.0) < diveStand->objWork.position.x || // check if player is off the divestand
+        diveStand->mapObject->id == MAPOBJECT_149 && work->objWork.position.x - FLOAT_TO_FX32(16.0) > diveStand->objWork.position.x)
+    {
+        work->gimmickObj = NULL;
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+        SetTaskState(&work->objWork, Player__State_Spindash);
+        Player__State_Spindash(work);
+    }
+    else
+    {
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
+        work->objWork.dir.z = work->gimmickObj->objWork.userWork;
 
-// clang-format on
-#endif
+        Player__HandleDiveStandStood(work);
+
+        StageTaskState prevState = work->objWork.state;
+        Player__State_Spindash(work);
+        if (work->objWork.state != prevState)
+            Player__UpdateDiveStandState(work);
+    }
 }
 
-NONMATCH_FUNC void Player__Func_2020220(Player *player)
+void Player__State_DiveStand_Crouch(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *diveStand = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r2, [r4, #0x6d8]
-	cmp r2, #0
-	beq _02020274
-	ldr r0, [r2, #0x340]
-	ldrh r3, [r0, #2]
-	cmp r3, #0x8f
-	bne _02020258
-	ldr r1, [r4, #0x44]
-	ldr r0, [r2, #0x44]
-	add r1, r1, #0x10000
-	cmp r1, r0
-	blt _02020274
-_02020258:
-	cmp r3, #0x95
-	bne _0202029C
-	ldr r1, [r4, #0x44]
-	ldr r0, [r2, #0x44]
-	sub r1, r1, #0x10000
-	cmp r1, r0
-	ble _0202029C
-_02020274:
-	mov r0, #0
-	str r0, [r4, #0x6d8]
-	ldr r0, [r4, #0x1c]
-	ldr r1, =Player__State_Crouch
-	bic r0, r0, #0x2300
-	str r0, [r4, #0x1c]
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	bl Player__State_Crouch
-	ldmia sp!, {r3, r4, r5, pc}
-_0202029C:
-	ldr r1, [r4, #0x1c]
-	mov r0, r4
-	orr r1, r1, #1
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x6d8]
-	ldr r1, [r1, #0x28]
-	strh r1, [r4, #0x34]
-	bl Player__Func_201FEE0
-	mov r0, r4
-	ldr r5, [r4, #0xf4]
-	bl Player__State_Crouch
-	ldr r0, [r4, #0xf4]
-	cmp r0, r5
-	ldmeqia sp!, {r3, r4, r5, pc}
-	mov r0, r4
-	bl Player__Func_201FE28
-	ldmia sp!, {r3, r4, r5, pc}
+    if (diveStand == NULL ||                                                                                                           // check if divestand is invalid
+        diveStand->mapObject->id == MAPOBJECT_143 && work->objWork.position.x + FLOAT_TO_FX32(16.0) < diveStand->objWork.position.x || // check if player is off the divestand
+        diveStand->mapObject->id == MAPOBJECT_149 && work->objWork.position.x - FLOAT_TO_FX32(16.0) > diveStand->objWork.position.x)
+    {
+        work->gimmickObj = NULL;
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+        SetTaskState(&work->objWork, Player__State_Crouch);
+        Player__State_Crouch(work);
+    }
+    else
+    {
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
+        work->objWork.dir.z = work->gimmickObj->objWork.userWork;
 
-// clang-format on
-#endif
+        Player__HandleDiveStandStood(work);
+
+        StageTaskState prevState = work->objWork.state;
+        Player__State_Crouch(work);
+        if (work->objWork.state != prevState)
+            Player__UpdateDiveStandState(work);
+    }
 }
 
-NONMATCH_FUNC void Player__Func_20202E4(Player *player, GameObjectTask *other)
+void Player__Action_DiveStandGrab(Player *player, GameObjectTask *other)
 {
-#ifdef NON_MATCHING
+    if ((player->playerFlag & PLAYER_FLAG_DEATH) != 0)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r2, [r5, #0x5d8]
-	mov r4, r1
-	tst r2, #0x400
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r1, [r5, #0x6d8]
-	cmp r1, r4
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r2, [r5, #0xf4]
-	ldr r1, =Player__Func_20203B4
-	cmp r2, r1
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r1, [r5, #0x5dc]
-	tst r1, #0x800
-	bne _02020330
-	mov r1, #0x31
-	bl Player__ChangeAction
-	b _02020344
-_02020330:
-	mov r1, #0x5b
-	bl Player__ChangeAction
-	mov r0, r5
-	mov r1, #0x1a
-	bl ChangePlayerSnowboardAction
-_02020344:
-	ldr r0, [r5, #0x20]
-	mov r1, #0
-	orr r3, r0, #4
-	mov r2, r1
-	add r0, r5, #0x550
-	str r3, [r5, #0x20]
-	bl ObjRect__SetAttackStat
-	mov r0, #0
-	strh r0, [r5, #0x34]
-	ldr r0, [r4, #0x340]
-	ldrh r0, [r0, #2]
-	cmp r0, #0x8f
-	ldr r0, [r5, #0x20]
-	biceq r0, r0, #1
-	orrne r0, r0, #1
-	str r0, [r5, #0x20]
-	ldr r1, [r4, #0x8c]
-	ldr r0, =Player__Func_20203B4
-	str r1, [r5, #0x44]
-	ldr r1, [r4, #0x90]
-	add r1, r1, #0x2000
-	str r1, [r5, #0x48]
-	str r0, [r5, #0xf4]
-	ldr r0, [r5, #0x1c]
-	orr r0, r0, #0x2300
-	str r0, [r5, #0x1c]
-	ldmia sp!, {r3, r4, r5, pc}
+    if (player->gimmickObj != other || StageTaskStateMatches(&player->objWork, Player__State_DiveStandGrab))
+        return;
 
-// clang-format on
-#endif
+    if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
+    {
+        Player__ChangeAction(player, PLAYER_ACTION_DIVING_BOARD);
+    }
+    else
+    {
+        Player__ChangeAction(player, PLAYER_ACTION_DIVING_BOARD_SNOWBOARD);
+        ChangePlayerSnowboardAction(player, PLAYERSNOWBOARD_ACTION_DIVING_BOARD);
+    }
+
+    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+    ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+    player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+
+    if (other->mapObject->id == MAPOBJECT_143)
+        player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+    else
+        player->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+
+    player->objWork.position.x = other->objWork.prevPosition.x;
+    player->objWork.position.y = other->objWork.prevPosition.y + FLOAT_TO_FX32(2.0);
+
+    SetTaskState(&player->objWork, Player__State_DiveStandGrab);
+
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
 }
 
-NONMATCH_FUNC void Player__Func_20203B4(Player *player)
+void Player__State_DiveStandGrab(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *diveStand = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r2, [r0, #0x6d8]
-	cmp r2, #0
-	bne _020203D8
-	ldr r1, [r0, #0x1c]
-	bic r1, r1, #0x2300
-	str r1, [r0, #0x1c]
-	bl Player__Action_Launch
-	ldmia sp!, {r3, pc}
-_020203D8:
-	ldr r1, [r0, #0x44]
-	str r1, [r0, #0x8c]
-	ldr r1, [r0, #0x48]
-	str r1, [r0, #0x90]
-	ldr r1, [r2, #0x8c]
-	str r1, [r0, #0x44]
-	ldr r1, [r2, #0x90]
-	add r1, r1, #0x2000
-	str r1, [r0, #0x48]
-	ldr r2, [r0, #0x44]
-	ldr r1, [r0, #0x8c]
-	sub r1, r2, r1
-	str r1, [r0, #0xbc]
-	ldr r2, [r0, #0x48]
-	ldr r1, [r0, #0x90]
-	sub r1, r2, r1
-	str r1, [r0, #0xc0]
-	ldmia sp!, {r3, pc}
+    if (diveStand == NULL)
+    {
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+        Player__Action_Launch(work);
+    }
+    else
+    {
+        work->objWork.prevPosition.x = work->objWork.position.x;
+        work->objWork.prevPosition.y = work->objWork.position.y;
 
-// clang-format on
-#endif
+        work->objWork.position.x = diveStand->objWork.prevPosition.x;
+        work->objWork.position.y = diveStand->objWork.prevPosition.y + FLOAT_TO_FX32(2.0);
+
+        work->objWork.move.x = work->objWork.position.x - work->objWork.prevPosition.x;
+        work->objWork.move.y = work->objWork.position.y - work->objWork.prevPosition.y;
+    }
 }
 
-NONMATCH_FUNC void Player__Func_2020420(Player *player, GameObjectTask *other, fx32 velX, fx32 velY)
+void Player__Action_DiveStandLaunch(Player *player, GameObjectTask *other, fx32 velX, fx32 velY)
 {
-#ifdef NON_MATCHING
+    if (player->gimmickObj == other)
+        player->gimmickObj = NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r0, [r4, #0x6d8]
-	cmp r0, r1
-	moveq r0, #0
-	streq r0, [r4, #0x6d8]
-	mov r1, r2
-	mov r0, r4
-	mov r2, r3
-	bl Player__Action_GimmickLaunch
-	mov ip, #0x3c
-	sub r1, ip, #0x3d
-	add r0, r4, #0x254
-	mov r2, #0
-	str r2, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r0, #0x400
-	str ip, [sp, #4]
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    Player__Action_GimmickLaunch(player, velX, velY);
+    PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPRING);
 }
 
 NONMATCH_FUNC void Player__Action_EnterHalfpipe(Player *player, GameObjectTask *other, BOOL flag)
