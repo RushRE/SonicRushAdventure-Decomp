@@ -25,11 +25,8 @@ NOT_DECOMPILED void *aActAcGmkLandBa;
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC Platform *Platform__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+Platform *Platform__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // https://decomp.me/scratch/mAtBM -> 98.22%
-    // missing ldrh near 'ObjObjectAction2dBACLoad'
-#ifdef NON_MATCHING
     static u8 collisionTable[] = { 0, 1, 2, 0, 0, 3, 0, 0 };
     static u16 animTable[]     = { 0, 1, 2, 3, 0, 4, 0 };
     static u16 spriteTable[]   = { 0x10, 0x18, 0x20, 0x10, 0x10, 8, 0x10 };
@@ -70,7 +67,12 @@ NONMATCH_FUNC Platform *Platform__Create(MapObject *mapObject, fx32 x, fx32 y, f
         platformType = mapObject->id - MAPOBJECT_187;
     }
 
+	// yuck, meant to be "mapObject->id", but doesn't seem to match with a proper variable index??
+#ifdef NON_MATCHING
     switch (mapObject->id)
+#else
+    switch (*((u16*)mapObject + 1)) // TODO: see if we can get this to be neat like the non-matching line: https://decomp.me/scratch/mAtBM
+#endif
     {
         case MAPOBJECT_191:
             ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_land.bac", GetObjectDataWork(OBJDATAWORK_74), gameArchiveStage,
@@ -152,241 +154,6 @@ NONMATCH_FUNC Platform *Platform__Create(MapObject *mapObject, fx32 x, fx32 y, f
     }
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0xc
-	mov r8, r0
-	ldrh r0, [r8, #2]
-	mov r7, r1
-	mov r6, r2
-	cmp r0, #0xbe
-	cmpne r0, #0xbf
-	ldr r0, =0x000010F6
-	mov r5, #0x364
-	str r0, [sp]
-	mov r0, #2
-	mov r2, #0
-	str r0, [sp, #4]
-	moveq r5, #0x3f4
-	ldr r0, =StageTask_Main
-	ldr r1, =Platform__Destructor
-	mov r3, r2
-	str r5, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	mov r4, r0
-	mov r2, r5
-	mov r1, #0
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r8
-	mov r2, r7
-	mov r3, r6
-	bl GameObject__InitFromObject
-	ldr r1, [r4, #0x1c]
-	ldr r0, =0x00000149
-	orr r1, r1, #0x2100
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x18]
-	orr r1, r1, #2
-	str r1, [r4, #0x18]
-	ldrh r1, [r8, #2]
-	cmp r1, r0
-	moveq r5, #6
-	beq _02175374
-	cmp r1, #0xbe
-	moveq r5, #3
-	beq _02175374
-	cmp r1, #0x14c
-	moveq r5, #5
-	subne r5, r1, #0xbb
-_02175374:
-	ldrh r0, [r8, #2]
-	mov r6, #0
-	cmp r0, #0xbf
-	bne _021753B4
-	mov r0, #0x4a
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1]
-	ldr r2, =aActAcGmkLandBa
-	str r1, [sp]
-	mov r0, r4
-	add r1, r4, #0x168
-	str r6, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	b _021753E0
-_021753B4:
-	mov r0, #0x49
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1]
-	ldr r2, =aActAcGmkLandBa
-	str r1, [sp]
-	mov r0, r4
-	add r1, r4, #0x168
-	str r6, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-_021753E0:
-	mov r0, r5, lsl #1
-	add r0, r0, #0x4b
-	bl GetObjectFileWork
-	ldr r1, =0x02189764
-	mov r3, r5, lsl #1
-	mov r2, r0
-	ldrh r1, [r1, r3]
-	mov r0, r4
-	bl ObjObjectActionAllocSprite
-	mov r0, r4
-	mov r1, #0
-	mov r2, #0x4a
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	mov r0, r4
-	mov r2, r5, lsl #1
-	ldr r1, =0x02189772
-	ldrh r1, [r1, r2]
-	bl StageTask__SetAnimation
-	str r4, [r4, #0x2d8]
-	ldr r0, =StageTask__DefaultDiffData
-	str r0, [r4, #0x2fc]
-	ldrh r0, [r8, #4]
-	tst r0, #0x80
-	bne _0217546C
-	ldrh r0, [r8, #2]
-	cmp r0, #0xbd
-	addne r0, r4, #0x200
-	movne r1, #1
-	strneh r1, [r0, #0xfa]
-_0217546C:
-	ldr r0, =_0218975C
-	ldrb r0, [r0, r5]
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	b _02175554
-_02175480: // jump table
-	b _02175490 // case 0
-	b _021754DC // case 1
-	b _02175508 // case 2
-	b _02175530 // case 3
-_02175490:
-	add r0, r4, #0x300
-	mov r3, #0x18
-	mov r1, #0x30
-	strh r1, [r0, #8]
-	strh r3, [r0, #0xa]
-	sub r2, r3, #0x30
-	add r1, r4, #0x200
-	strh r2, [r1, #0xf0]
-	sub r2, r3, #0x23
-	strh r2, [r1, #0xf2]
-	ldr r2, [r4, #0x304]
-	cmp r2, #0
-	beq _02175554
-	mov r2, #8
-	strh r2, [r0, #0xa]
-	ldrsh r0, [r1, #0xf2]
-	add r0, r0, #4
-	strh r0, [r1, #0xf2]
-	b _02175554
-_021754DC:
-	add r0, r4, #0x300
-	mov r2, #0x18
-	mov r1, #0x60
-	strh r1, [r0, #8]
-	strh r2, [r0, #0xa]
-	sub r1, r2, #0x48
-	add r0, r4, #0x200
-	strh r1, [r0, #0xf0]
-	sub r1, r2, #0x23
-	strh r1, [r0, #0xf2]
-	b _02175554
-_02175508:
-	mov r2, #0x30
-	add r0, r4, #0x300
-	strh r2, [r0, #8]
-	strh r2, [r0, #0xa]
-	sub r1, r2, #0x48
-	add r0, r4, #0x200
-	strh r1, [r0, #0xf0]
-	sub r1, r2, #0x47
-	strh r1, [r0, #0xf2]
-	b _02175554
-_02175530:
-	mov r2, #0x20
-	add r0, r4, #0x300
-	strh r2, [r0, #8]
-	strh r2, [r0, #0xa]
-	sub r1, r2, #0x30
-	add r0, r4, #0x200
-	strh r1, [r0, #0xf0]
-	sub r1, r2, #0x2f
-	strh r1, [r0, #0xf2]
-_02175554:
-	ldrh r0, [r8, #2]
-	cmp r0, #0xc1
-	bne _02175590
-	ldr r1, =Platform__activeCount
-	ldrsh r0, [r1]
-	cmp r0, #0
-	ldreq r0, [r1, #4]
-	cmpeq r0, #0
-	ldreq r0, =playerGameStatus
-	ldreq r0, [r0, #0xc]
-	streq r0, [r1, #4]
-	ldr r0, =Platform__activeCount
-	ldrsh r1, [r0]
-	add r1, r1, #1
-	strh r1, [r0]
-_02175590:
-	ldr r0, [r4, #0x44]
-	ldr r1, [r4, #0x48]
-	bl Player__UseUpsideDownGravity
-	cmp r0, #0
-	beq _021755C0
-	ldr r1, [r4, #0x20]
-	add r0, r4, #0x200
-	orr r1, r1, #2
-	str r1, [r4, #0x20]
-	ldrsh r1, [r0, #0xf2]
-	sub r1, r1, #2
-	strh r1, [r0, #0xf2]
-_021755C0:
-	bl AllocSndHandle
-	str r0, [r4, #0x138]
-	ldrh r1, [r8, #2]
-	cmp r1, #0xbf
-	cmpne r1, #0xc1
-	ldrne r0, =0x00000149
-	cmpne r1, r0
-	beq _021755F0
-	mov r0, r4
-	bl Platform__Action_Init
-	ldr r0, =Platform__State_Move
-	str r0, [r4, #0xf4]
-_021755F0:
-	mov r0, r4
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-
-// clang-format on
-#endif
 }
 
 void Platform__Destructor(Task *task)
