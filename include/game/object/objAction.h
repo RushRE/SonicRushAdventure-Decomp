@@ -5,6 +5,18 @@
 #include <game/object/objData.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum ObjActionFlags_
+{
+    OBJ_ACTION_FLAG_NONE = 0x00,
+
+    OBJ_ACTION_FLAG_USING_ARCHIVE = 1 << 0,
+};
+typedef u32 ObjActionFlags;
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -16,7 +28,7 @@ typedef struct OBS_ACTION2D_BAC_WORK_
 
     OBS_DATA_WORK *fileWork;
     OBS_SPRITE_REF *spriteRef;
-    u32 flags;
+    ObjActionFlags flags;
 } OBS_ACTION2D_BAC_WORK;
 
 typedef struct OBS_ACTION3D_BAC_WORK_
@@ -26,7 +38,7 @@ typedef struct OBS_ACTION3D_BAC_WORK_
     void *fileData;
     OBS_DATA_WORK *fileWork;
     OBS_TEXTURE_REF *textureRef;
-    u32 flags;
+    ObjActionFlags flags;
 } OBS_ACTION3D_BAC_WORK;
 
 typedef struct OBS_ACTION3D_NN_WORK_
@@ -36,7 +48,7 @@ typedef struct OBS_ACTION3D_NN_WORK_
     NNSG3dResFileHeader *resources[B3D_RESOURCE_MAX];
     OBS_DATA_WORK *file[B3D_RESOURCE_MAX];
     u16 animID;
-    u32 flags;
+    ObjActionFlags flags;
 } OBS_ACTION3D_NN_WORK;
 
 typedef struct OBS_ACTION3D_ES_WORK_
@@ -46,7 +58,7 @@ typedef struct OBS_ACTION3D_ES_WORK_
     struct OBS_ACTION3D_ES_WORK_ *next;
     NNSG3dResFileHeader *resource;
     OBS_DATA_WORK *fileWork;
-    u32 flags;
+    ObjActionFlags flags;
 } OBS_ACTION3D_ES_WORK;
 
 // --------------------

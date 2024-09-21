@@ -20,7 +20,7 @@ void ObjObjectAction2dBACLoad(StageTask *work, OBS_ACTION2D_BAC_WORK *obj_2d, co
         else
         {
             obj_2d = HeapAllocHead(HEAP_USER, sizeof(*obj_2d));
-            MI_CpuFill8(obj_2d, 0, sizeof(*obj_2d));
+            MI_CpuClear8(obj_2d, sizeof(*obj_2d));
             work->flag |= STAGE_TASK_FLAG_ALLOCATED_OBJ_2D;
         }
     }
@@ -29,12 +29,12 @@ void ObjObjectAction2dBACLoad(StageTask *work, OBS_ACTION2D_BAC_WORK *obj_2d, co
     work->flag &= ~STAGE_TASK_FLAG_DISABLE_OBJ_2D_RELEASE;
     work->obj_2d->fileWork = file;
 
-    work->obj_2d->ani.screensToDraw = 0;
+    work->obj_2d->ani.screensToDraw = SCREEN_DRAW_NONE;
     if ((work->flag & STAGE_TASK_FLAG_400000) != 0)
-        work->obj_2d->ani.screensToDraw |= 1;
+        work->obj_2d->ani.screensToDraw |= SCREEN_DRAW_A;
 
     if ((work->flag & STAGE_TASK_FLAG_800000) != 0)
-        work->obj_2d->ani.screensToDraw |= 2;
+        work->obj_2d->ani.screensToDraw |= SCREEN_DRAW_B;
 
     ObjAction2dBACLoad(&work->obj_2d->ani, filePath, gfxSize, file, archive);
 
@@ -56,7 +56,7 @@ void ObjAction3dNNModelLoad(StageTask *work, OBS_ACTION3D_NN_WORK *obj_3d, const
         else
         {
             obj_3d = HeapAllocHead(HEAP_USER, sizeof(*obj_3d));
-            MI_CpuFill8(obj_3d, 0, sizeof(*obj_3d));
+            MI_CpuClear8(obj_3d, sizeof(*obj_3d));
             work->flag |= STAGE_TASK_FLAG_ALLOCATED_OBJ_3D;
         }
     }
@@ -65,7 +65,7 @@ void ObjAction3dNNModelLoad(StageTask *work, OBS_ACTION3D_NN_WORK *obj_3d, const
     AnimatorMDL__Init(&obj_3d->ani, ANIMATOR_FLAG_NONE);
 
     if (archive != NULL)
-        obj_3d->flags |= 1;
+        obj_3d->flags |= OBJ_ACTION_FLAG_USING_ARCHIVE;
 
     // load file from archive
     NNSG3dResFileHeader *resource = (NNSG3dResFileHeader *)ObjDataLoad(file, path, archive);
@@ -73,7 +73,7 @@ void ObjAction3dNNModelLoad(StageTask *work, OBS_ACTION3D_NN_WORK *obj_3d, const
     // as a backup, try loading the file from the root directory instead!
     if (resource == NULL && archive != NULL)
     {
-        obj_3d->flags &= ~1;
+        obj_3d->flags &= ~OBJ_ACTION_FLAG_USING_ARCHIVE;
         resource = (NNSG3dResFileHeader *)ObjDataLoad(file, path, NULL);
     }
 
@@ -106,7 +106,7 @@ void ObjAction3dNNMotionLoad(StageTask *work, OBS_ACTION3D_NN_WORK *obj_3d, cons
         else
         {
             obj_3d = HeapAllocHead(HEAP_USER, sizeof(*obj_3d));
-            MI_CpuFill8(obj_3d, 0, sizeof(*obj_3d));
+            MI_CpuClear8(obj_3d, sizeof(*obj_3d));
             work->flag |= STAGE_TASK_FLAG_ALLOCATED_OBJ_3D;
         }
     }
@@ -169,7 +169,7 @@ void ObjAction3dESEffectLoad(StageTask *work, OBS_ACTION3D_ES_WORK *es_work, con
     if (es_work == NULL)
     {
         es_work = HeapAllocHead(HEAP_USER, sizeof(*es_work));
-        MI_CpuFill8(es_work, 0, sizeof(*es_work));
+        MI_CpuClear8(es_work, sizeof(*es_work));
         work->flag |= STAGE_TASK_FLAG_ALLOCATED_OBJ_3DES;
     }
 
@@ -195,7 +195,7 @@ void ObjAction3dESEffectLoad(StageTask *work, OBS_ACTION3D_ES_WORK *es_work, con
     AnimatorShape3D__Init(&es_work->ani, ANIMATOR_FLAG_NONE);
 
     if (archive != NULL)
-        es_work->flags |= 1;
+        es_work->flags |= OBJ_ACTION_FLAG_USING_ARCHIVE;
 
     // load file from archive
     NNSG3dResFileHeader *resource = (NNSG3dResFileHeader *)ObjDataLoad(file, path, archive);
@@ -203,7 +203,7 @@ void ObjAction3dESEffectLoad(StageTask *work, OBS_ACTION3D_ES_WORK *es_work, con
     // as a backup, try loading the file from the root directory instead!
     if (resource == NULL && archive != NULL)
     {
-        es_work->flags &= ~1;
+        es_work->flags &= ~OBJ_ACTION_FLAG_USING_ARCHIVE;
         resource = (NNSG3dResFileHeader *)ObjDataLoad(file, path, NULL);
     }
 
@@ -238,7 +238,7 @@ void ObjObjectAction3dBACLoad(StageTask *work, OBS_ACTION3D_BAC_WORK *obj_2d, co
         else
         {
             obj_2d = HeapAllocHead(HEAP_USER, sizeof(*obj_2d));
-            MI_CpuFill8(obj_2d, 0, sizeof(*obj_2d));
+            MI_CpuClear8(obj_2d, sizeof(*obj_2d));
             work->flag |= STAGE_TASK_FLAG_ALLOCATED_OBJ_2DIN3D;
         }
     }
@@ -246,7 +246,7 @@ void ObjObjectAction3dBACLoad(StageTask *work, OBS_ACTION3D_BAC_WORK *obj_2d, co
     work->obj_2dIn3d = obj_2d;
 
     if (archive != NULL)
-        obj_2d->flags |= 1;
+        obj_2d->flags |= OBJ_ACTION_FLAG_USING_ARCHIVE;
 
     obj_2d->fileWork = file;
 
