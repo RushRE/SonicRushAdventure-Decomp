@@ -5,6 +5,27 @@
 #include <game/stage/gameSystem.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum DashRingObjectFlags
+{
+    DASHRING_OBJFLAG_NONE,
+
+    DASHRING_OBJFLAG_FLIPPED = 1 << 0,
+};
+
+enum DashRingAnimID
+{
+    DASHRING_ANI_HORIZONTAL_FRONT,
+    DASHRING_ANI_HORIZONTAL_BACK,
+    DASHRING_ANI_VERTICAL_FRONT,
+    DASHRING_ANI_VERTICAL_BACK,
+    DASHRING_ANI_DIAGONAL_FRONT,
+    DASHRING_ANI_DIAGONAL_BACK,
+};
+
+// --------------------
 // VARIABLES
 // --------------------
 
@@ -29,27 +50,6 @@ void DashRing_Destructor(Task *task);
 void SetupDashRingObject(DashRing *work);
 void DashRing_State_Active(DashRing *work);
 void DashRing_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-
-// --------------------
-// ENUMS
-// --------------------
-
-enum DashRingObjectFlags
-{
-    DASHRING_OBJFLAG_NONE,
-
-    DASHRING_OBJFLAG_FLIPPED = 1 << 0,
-};
-
-enum DashRingAnimID
-{
-    DASHRING_ANI_HORIZONTAL_FRONT,
-    DASHRING_ANI_HORIZONTAL_BACK,
-    DASHRING_ANI_VERTICAL_FRONT,
-    DASHRING_ANI_VERTICAL_BACK,
-    DASHRING_ANI_DIAGONAL_FRONT,
-    DASHRING_ANI_DIAGONAL_BACK,
-};
 
 // --------------------
 // FUNCTIONS

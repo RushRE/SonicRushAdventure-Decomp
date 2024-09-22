@@ -1483,9 +1483,9 @@ void Player__OnGroundMove(Player *player)
     }
     else
     {
-        if (player->actionState != PLAYER_ACTION_41)
+        if (player->actionState != PLAYER_ACTION_WALK_SNOWBOARD)
         {
-            Player__ChangeAction(player, PLAYER_ACTION_41);
+            Player__ChangeAction(player, PLAYER_ACTION_WALK_SNOWBOARD);
             player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
             ChangePlayerSnowboardAction(player, PLAYERSNOWBOARD_ACTION_WALK);
         }

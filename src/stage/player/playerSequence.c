@@ -400,197 +400,111 @@ void Player__Action_DashRing(Player *player, fx32 x, fx32 y, fx32 velX, fx32 vel
 
     MapSys__Func_20091D0(player->cameraID);
     MapSys__Func_20091F0(player->cameraID);
-    player->objWork.dir.z = 0;
+    player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
-    if (x != 0)
+    if (x != FLOAT_TO_FX32(0.0))
         player->objWork.position.x = x;
 
-    if (y != 0)
+    if (y != FLOAT_TO_FX32(0.0))
         player->objWork.position.y = y;
 
     Player__Gimmick_201BAC0(player, velX, velY);
 
-    if (velX == 0)
-        player->objWork.velocity.x = 0;
+    if (velX == FLOAT_TO_FX32(0.0))
+        player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
 
     player->overSpeedLimitTimer = 30;
     player->objWork.userTimer   = 30;
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
 }
 
-NONMATCH_FUNC void Player__Gimmick_201BAC0(Player *player, fx32 velX, fx32 velY)
+void Player__Gimmick_201BAC0(Player *player, fx32 velX, fx32 velY)
 {
-#ifdef NON_MATCHING
+    Player__InitGimmick(player, TRUE);
 
-#else
-    // clang-format off
-	stmdb sp!, {r0, r1, r2, r3}
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	mov r1, #1
-	bl Player__InitGimmick
-	ldr r0, [r4, #0x1c]
-	mov r1, #0
-	tst r0, #1
-	ldrne r0, [r4, #0xc8]
-	strne r0, [r4, #0x98]
-	mov r0, r4
-	bl Player__Action_LandOnGround
-	ldrh r2, [r4, #0xce]
-	add r0, sp, #0xc
-	add r1, sp, #0x10
-	bl StageTask__ObjectSpdDirFall
-	ldr r0, [r4, #0x1c]
-	tst r0, #0x10
-	ldreq r0, [r4, #0x48]
-	streq r0, [r4, #0x6bc]
-	ldr r1, [r4, #0x1c]
-	ldr r0, =Player__State_Air
-	orr r2, r1, #0x10
-	orr r1, r2, #0x8000
-	bic r1, r1, #1
-	str r1, [r4, #0x1c]
-	str r0, [r4, #0xf4]
-	ldr r0, [sp, #0xc]
-	cmp r0, #0
-	ldr r0, [r4, #0x5dc]
-	beq _0201BBC0
-	tst r0, #0x800
-	mov r0, r4
-	bne _0201BB54
-	mov r1, #0x19
-	bl Player__ChangeAction
-	b _0201BB68
-_0201BB54:
-	mov r1, #0x52
-	bl Player__ChangeAction
-	mov r0, r4
-	mov r1, #0xb
-	bl ChangePlayerSnowboardAction
-_0201BB68:
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #4
-	str r0, [r4, #0x20]
-	ldr r0, [sp, #0xc]
-	str r0, [r4, #0x98]
-	cmp r0, #0
-	ldr r0, [r4, #0xc8]
-	bge _0201BBA4
-	cmp r0, #0
-	movgt r0, #0
-	strgt r0, [r4, #0xc8]
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #1
-	str r0, [r4, #0x20]
-	b _0201BC30
-_0201BBA4:
-	cmp r0, #0
-	movlt r0, #0
-	strlt r0, [r4, #0xc8]
-	ldr r0, [r4, #0x20]
-	bic r0, r0, #1
-	str r0, [r4, #0x20]
-	b _0201BC30
-_0201BBC0:
-	tst r0, #0x800
-	mov r0, r4
-	bne _0201BBD8
-	mov r1, #0x14
-	bl Player__ChangeAction
-	b _0201BBEC
-_0201BBD8:
-	mov r1, #0x4d
-	bl Player__ChangeAction
-	mov r0, r4
-	mov r1, #7
-	bl ChangePlayerSnowboardAction
-_0201BBEC:
-	ldr r1, [r4, #0x20]
-	ldr r0, =FX_SinCosTable_
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	ldrh r1, [r4, #0x34]
-	ldr r2, [r4, #0xc8]
-	mov r1, r1, asr #4
-	mov r1, r1, lsl #1
-	add r1, r1, #1
-	mov r1, r1, lsl #1
-	ldrsh r0, [r0, r1]
-	smull r1, r0, r2, r0
-	adds r1, r1, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [r4, #0x98]
-_0201BC30:
-	ldr r0, [sp, #0x10]
-	cmp r0, #0
-	strne r0, [r4, #0x9c]
-	bne _0201BC70
-	ldrh r1, [r4, #0x34]
-	ldr r0, =FX_SinCosTable_
-	ldr r2, [r4, #0xc8]
-	mov r1, r1, asr #4
-	mov r1, r1, lsl #2
-	ldrsh r0, [r0, r1]
-	smull r1, r0, r2, r0
-	adds r1, r1, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [r4, #0x9c]
-_0201BC70:
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0x550
-	bl ObjRect__SetAttackStat
-	ldr r1, [r4, #0x5d8]
-	add r0, r4, #0x500
-	bic r1, r1, #0xf
-	orr r1, r1, #3
-	str r1, [r4, #0x5d8]
-	mov r1, #0x30
-	strh r1, [r0, #0xfa]
-	mov r1, #0
-	str r1, [r4, #0x2c]
-	str r1, [r4, #0x28]
-	strh r1, [r0, #0xd6]
-	ldr r0, [r4, #0x5d8]
-	tst r0, #0x4000000
-	ldmeqia sp!, {r4, lr}
-	addeq sp, sp, #0x10
-	bxeq lr
-	bl IsBossStage
-	cmp r0, #0
-	bne _0201BCDC
-	ldr r1, [r4, #0x98]
-	mov r0, r1, asr #2
-	add r0, r0, r1, asr #1
-	str r0, [r4, #0x98]
-_0201BCDC:
-	bl IsBossStage
-	cmp r0, #0
-	bne _0201BCF8
-	ldr r1, [r4, #0x9c]
-	mov r0, r1, asr #2
-	add r0, r0, r1, asr #1
-	str r0, [r4, #0x9c]
-_0201BCF8:
-	ldrb r2, [r4, #0x5d3]
-	mov r0, #0x70
-	mov r1, #0
-	smulbb r3, r2, r0
-	ldr r2, =0x02133B36
-	mov r0, r4
-	ldrh r3, [r2, r3]
-	mov r2, r1
-	bl CreateEffectWaterBubbleForPlayer
-	ldmia sp!, {r4, lr}
-	add sp, sp, #0x10
-	bx lr
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
+        player->objWork.velocity.x = player->objWork.groundVel;
 
-// clang-format on
-#endif
+    Player__Action_LandOnGround(player, FLOAT_DEG_TO_IDX(0.0));
+    StageTask__ObjectSpdDirFall(&velX, &velY, player->objWork.fallDir);
+
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
+        player->cameraJumpPosY = player->objWork.position.y;
+
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_IN_AIR;
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES;
+    player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
+
+    SetTaskState(&player->objWork, Player__State_Air);
+
+    if (velX != FLOAT_TO_FX32(0.0))
+    {
+        if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
+        {
+            Player__ChangeAction(player, PLAYER_ACTION_JUMPDASH_01);
+        }
+        else
+        {
+            Player__ChangeAction(player, PLAYER_ACTION_JUMPDASH_SNOWBOARD_01);
+            ChangePlayerSnowboardAction(player, PLAYERSNOWBOARD_ACTION_RAINBOWDASHRING);
+        }
+        player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+
+        player->objWork.velocity.x = velX;
+        if (player->objWork.velocity.x < FLOAT_TO_FX32(0.0))
+        {
+            if (player->objWork.groundVel > FLOAT_TO_FX32(0.0))
+                player->objWork.groundVel = FLOAT_TO_FX32(0.0);
+
+            player->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+        }
+        else
+        {
+            if (player->objWork.groundVel < FLOAT_TO_FX32(0.0))
+                player->objWork.groundVel = FLOAT_TO_FX32(0.0);
+
+            player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+        }
+    }
+    else
+    {
+        if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
+        {
+            Player__ChangeAction(player, PLAYER_ACTION_AIRRISE);
+        }
+        else
+        {
+            Player__ChangeAction(player, PLAYER_ACTION_AIRRISE_SNOWBOARD);
+            ChangePlayerSnowboardAction(player, PLAYERSNOWBOARD_ACTION_AIRRISE);
+        }
+
+        player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+        player->objWork.velocity.x = MultiplyFX(player->objWork.groundVel, CosFX(player->objWork.dir.z));
+    }
+
+    if (velY != FLOAT_TO_FX32(0.0))
+        player->objWork.velocity.y = velY;
+    else
+        player->objWork.velocity.y = MultiplyFX(player->objWork.groundVel, SinFX(player->objWork.dir.z));
+
+    ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
+    player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
+    player->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG;
+    player->overSpeedLimitTimer = 48;
+    player->objWork.userTimer   = 0;
+    player->objWork.userWork    = 0;
+    player->trickCooldownTimer  = 0;
+
+    if ((player->playerFlag & PLAYER_FLAG_IN_WATER) != 0)
+    {
+        if (!IsBossStage())
+            player->objWork.velocity.x = (player->objWork.velocity.x >> 1) + (player->objWork.velocity.x >> 2);
+
+        if (!IsBossStage())
+            player->objWork.velocity.y = (player->objWork.velocity.y >> 1) + (player->objWork.velocity.y >> 2);
+
+        CreateEffectWaterBubbleForPlayer(player, 0, 0, mapCamera.camera[player->cameraID].waterLevel);
+    }
 }
 
 void Player__Action_SpringboardLaunch(Player *player, fx32 velX, fx32 velY)
@@ -3114,9 +3028,9 @@ void Player__Action_SteamFan(Player *player, GameObjectTask *other, s32 fanRadiu
         Player__InitPhysics(player);
         Player__InitGimmick(player, FALSE);
         player->gimmickObj = other;
-        if (player->actionState != PLAYER_ACTION_2C)
+        if (player->actionState != PLAYER_ACTION_STEAM_FAN)
         {
-            Player__ChangeAction(player, PLAYER_ACTION_2C);
+            Player__ChangeAction(player, PLAYER_ACTION_STEAM_FAN);
             player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         }
         SetTaskState(&player->objWork, Player__State_SteamFan);
@@ -3748,12 +3662,12 @@ void Player__Action_IcicleGrab(Player *player, GameObjectTask *other, s32 width)
         if (player->objWork.position.x <= other->objWork.position.x)
         {
             player->objWork.position.x = other->objWork.position.x - (size >> 1);
-            player->gimmickValue2 = FLOAT_DEG_TO_IDX(0.0);
+            player->gimmickValue2      = FLOAT_DEG_TO_IDX(0.0);
         }
         else
         {
             player->objWork.position.x = other->objWork.position.x + (size >> 1);
-            player->gimmickValue2 = FLOAT_DEG_TO_IDX(180.0);
+            player->gimmickValue2      = FLOAT_DEG_TO_IDX(180.0);
         }
 
         player->objWork.position.z = 0;
@@ -3838,7 +3752,7 @@ void Player__Action_IceSlide(Player *player, s32 _unused)
     if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0 && !StageTaskStateMatches(&player->objWork, Player__State_IceSlide))
     {
         Player__InitGimmick(player, FALSE);
-        Player__ChangeAction(player, PLAYER_ACTION_2F);
+        Player__ChangeAction(player, PLAYER_ACTION_ICE_SLIDE);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
 
@@ -5345,7 +5259,7 @@ void Player__Action_CraneGrab(Player *player, GameObjectTask *other)
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     player->gimmickFlag |= PLAYER_GIMMICK_GRABBED;
 
-    Player__ChangeAction(player, PLAYER_ACTION_32);
+    Player__ChangeAction(player, PLAYER_ACTION_CRANE);
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
@@ -5363,7 +5277,7 @@ void Player__Action_Winch(Player *player, GameObjectTask *other, u32 displayFlag
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
-    Player__ChangeAction(player, PLAYER_ACTION_32);
+    Player__ChangeAction(player, PLAYER_ACTION_CRANE);
 
     player->objWork.displayFlag |= displayFlag | DISPLAY_FLAG_DISABLE_LOOPING;
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
@@ -5791,7 +5705,7 @@ void Player__Func_2021B84(Player *player, GameObjectTask *other)
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
 
     player->gimmickCamOffsetX = 0;
-    Player__ChangeAction(player, PLAYER_ACTION_33);
+    Player__ChangeAction(player, PLAYER_ACTION_ANCHOR_ROPE);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING | DISPLAY_FLAG_FLIP_X;
 
     player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
@@ -7750,7 +7664,7 @@ void Player__Func_202379C(Player *player, GameObjectTask *other)
 
     player->gimmickCamOffsetX = 0;
     player->gimmickCamOffsetY = 160;
-    Player__ChangeAction(player, PLAYER_ACTION_32);
+    Player__ChangeAction(player, PLAYER_ACTION_CRANE);
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
@@ -8437,7 +8351,7 @@ void Player__Action_HoverCrystal(Player *player, GameObjectTask *other, fx32 lef
             && (player->objWork.position.y <= y || (other->objWork.displayFlag & DISPLAY_FLAG_FLIP_Y) == 0))
         {
             Player__InitGimmick(player, FALSE);
-            Player__ChangeAction(player, PLAYER_ACTION_39);
+            Player__ChangeAction(player, PLAYER_ACTION_HOVER_CRYSTAL);
             player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
             if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
@@ -8522,7 +8436,7 @@ void Player__Action_BalloonRide(Player *player, GameObjectTask *other, s32 a3)
 
     FadeOutPlayerSfx(player, PLAYER_SEQPLAYER_GRINDTRICKSUCCES, 32);
     ReleasePlayerSfx(player, PLAYER_SEQPLAYER_GRINDTRICKSUCCES);
-    Player__ChangeAction(player, PLAYER_ACTION_3A);
+    Player__ChangeAction(player, PLAYER_ACTION_BALLOON_RIDE);
 
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     player->objWork.velocity.x >>= 1;
@@ -9029,7 +8943,7 @@ void Player__Action_SpringRope(Player *player, GameObjectTask *other, s32 timer)
     Player__InitState(player);
     player->gimmickObj = other;
 
-    Player__ChangeAction(player, PLAYER_ACTION_33);
+    Player__ChangeAction(player, PLAYER_ACTION_ANCHOR_ROPE);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     SetTaskState(&player->objWork, Player__State_SpringRope);
 
