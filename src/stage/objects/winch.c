@@ -17,7 +17,7 @@ enum WinchFlags
 {
     WINCH_FLAG_NONE,
 
-    WINCH_FLAG_1 = 1 << 0,
+    WINCH_FLAG_PLAYER_DETACHED = 1 << 0,
 };
 
 enum WinchAnimIDs
@@ -306,9 +306,9 @@ void Winch_Destructor(Task *task)
 
 void Winch_State_PlayerAttached(Winch *work)
 {
-    if ((work->gameWork.flags & WINCH_FLAG_1) == 0 && !CheckPlayerGimmickObj(work->gameWork.parent, work))
+    if ((work->gameWork.flags & WINCH_FLAG_PLAYER_DETACHED) == 0 && !CheckPlayerGimmickObj(work->gameWork.parent, work))
     {
-        work->gameWork.flags |= WINCH_FLAG_1;
+        work->gameWork.flags |= WINCH_FLAG_PLAYER_DETACHED;
         work->spinSpeed = -work->speed >> 2;
 
         StopStageSfx(work->gameWork.objWork.sequencePlayerPtr);
@@ -397,7 +397,7 @@ void Winch_State_Retract(Winch *work)
 
         case 2:
             work->hookAngle -= FLOAT_DEG_TO_IDX(1.40625);
-            work->lineLength +=  FLOAT_TO_FX32(0.75);
+            work->lineLength += FLOAT_TO_FX32(0.75);
             work->centerAngle += FLOAT_DEG_TO_IDX(0.52734375);
 
             if (work->hookAngle > FLOAT_DEG_TO_IDX(180.0))
@@ -530,7 +530,7 @@ void Winch_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     winch->lineLength                 = FLOAT_TO_FX32(32.0);
     winch->gameWork.objWork.userFlag  = PLAYER_PARENTFLAG_NONE;
     winch->gameWork.objWork.userTimer = 0;
-    winch->gameWork.flags &= ~WINCH_FLAG_1;
+    winch->gameWork.flags &= ~WINCH_FLAG_PLAYER_DETACHED;
 
     SetTaskState(&winch->gameWork.objWork, Winch_State_PlayerAttached);
 

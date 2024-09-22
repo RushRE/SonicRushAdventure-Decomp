@@ -47,6 +47,7 @@
 #include <stage/objects/bgUnknownTrigger.h>
 #include <stage/objects/avalanche.h>
 #include <stage/objects/ghostTree.h>
+#include <stage/objects/stalactite.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -101,7 +102,6 @@ NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, f
 NOT_DECOMPILED GameObjectTask *DreamWing__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DreamWingPart__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CameraBoundsTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Stalactite__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *VRotateCrane__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -179,7 +179,6 @@ NOT_DECOMPILED GameObjectTask *BossFBodyCannon__Create(MapObject *mapObject, fx3
 NOT_DECOMPILED GameObjectTask *BossFShipCannon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *BossFMissileGreen__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *BossFMissileRed__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *FallingStalactite__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *RingTruck3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *ItemBoxTruck3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *TruckBomb3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -702,8 +701,8 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_157] = (CreateObjectFunc)CreateDashPanel,
     [MAPOBJECT_158] = (CreateObjectFunc)CreateDashPanel,
     [MAPOBJECT_159] = (CreateObjectFunc)CreateDashPanel,
-    [MAPOBJECT_160] = (CreateObjectFunc)Stalactite__Create,
-    [MAPOBJECT_161] = (CreateObjectFunc)Stalactite__Create,
+    [MAPOBJECT_160] = (CreateObjectFunc)CreateStalactite,
+    [MAPOBJECT_161] = (CreateObjectFunc)CreateStalactite,
     [MAPOBJECT_162] = (CreateObjectFunc)CreateSpringCrystal,
     [MAPOBJECT_163] = (CreateObjectFunc)CreateSpringCrystal,
     [MAPOBJECT_164] = (CreateObjectFunc)CreateSpringCrystal,
@@ -865,7 +864,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_318] = (CreateObjectFunc)BossFMissileRed__Create,
     [MAPOBJECT_319] = (CreateObjectFunc)CreateStartPlatform,
     [MAPOBJECT_320] = (CreateObjectFunc)CreatePlayerSnowboard,
-    [MAPOBJECT_321] = (CreateObjectFunc)FallingStalactite__Create,
+    [MAPOBJECT_321] = (CreateObjectFunc)CreateFallingStalactite,
     [MAPOBJECT_322] = (CreateObjectFunc)RingTruck3D__Create,
     [MAPOBJECT_323] = (CreateObjectFunc)ItemBoxTruck3D__Create,
     [MAPOBJECT_324] = (CreateObjectFunc)TruckBomb3D__Create,
