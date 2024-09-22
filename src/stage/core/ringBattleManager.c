@@ -154,16 +154,9 @@ void RingBattleManager_Main(void)
     HandleRingBattleManagerButtons(work);
 }
 
-NONMATCH_FUNC void HandleRingBattleManagerButtons(RingBattleManager *work)
+void HandleRingBattleManagerButtons(RingBattleManager *work)
 {
-    // https://decomp.me/scratch/7wg4v -> 93.21%
-#ifdef NON_MATCHING
-    if (work->buttonActivateDelay > 0)
-    {
-        work->buttonActivateDelay--;
-        return;
-    }
-
+    if (work->buttonActivateDelay != 0 || --work->buttonActivateDelay == 0)
     {
         for (s32 i = 0; i < work->ringButtonCount; i++)
         {
@@ -191,91 +184,6 @@ NONMATCH_FUNC void HandleRingBattleManagerButtons(RingBattleManager *work)
             work->timer               = 0;
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	mov r7, r0
-	ldr r0, [r7, #8]
-	cmp r0, #0
-	bne _02187394
-	subs r0, r0, #1
-	str r0, [r7, #8]
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-_02187394:
-	ldrh r3, [r7, #0x10]
-	mov r2, #0
-	cmp r3, #0
-	ble _021873D0
-	ldr r1, =RingButtonSfxManager__timerTable
-_021873A8:
-	add r0, r7, r2, lsl #2
-	ldr r0, [r0, #0x1c]
-	ldr r0, [r0, #0x340]
-	ldrsb r0, [r0, #6]
-	ldr r0, [r1, r0, lsl #2]
-	cmp r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	add r2, r2, #1
-	cmp r2, r3
-	blt _021873A8
-_021873D0:
-	ldr r0, [r7, #0xc]
-	add r0, r0, #1
-	str r0, [r7, #0xc]
-	cmp r0, #0x3c
-	ldmloia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	mov r6, #0
-	mov r4, r6
-	ldr r5, =RingButtonSfxManager__timerTable
-	ldr r8, =0x00196225
-	ldr r9, =0x3C6EF35F
-	b _0218744C
-_021873FC:
-	ldr r0, [r7]
-	mla r1, r0, r8, r9
-	mov r0, r1, lsr #0x10
-	str r1, [r7]
-	mov r0, r0, lsl #0x10
-	ldrh r1, [r7, #0x10]
-	mov r0, r0, lsr #0x10
-	bl FX_ModS32
-	mov r0, r0, lsl #0x10
-	add r0, r7, r0, lsr #14
-	ldr r0, [r0, #0x1c]
-	ldr r0, [r0, #0x340]
-	ldrsb r1, [r0, #6]
-	ldr r0, [r5, r1, lsl #2]
-	cmp r0, #0
-	beq _0218744C
-	add r0, r6, #1
-	mov r0, r0, lsl #0x10
-	str r4, [r5, r1, lsl #2]
-	mov r6, r0, lsr #0x10
-_0218744C:
-	ldrh r0, [r7, #0x14]
-	cmp r6, r0
-	ldrloh r0, [r7, #0x10]
-	cmplo r6, r0
-	blo _021873FC
-	ldr r3, [r7]
-	ldr r0, =0x00196225
-	ldr r1, =0x3C6EF35F
-	add r2, r7, #0x100
-	mla r0, r3, r0, r1
-	str r0, [r7]
-	mov r0, r0, lsr #0x10
-	ldrh r2, [r2, #0x1c]
-	mov r0, r0, lsl #0x10
-	mov r1, #0
-	and r0, r2, r0, lsr #16
-	mov r0, r0, lsl #8
-	add r0, r0, #0x12c
-	str r0, [r7, #8]
-	str r1, [r7, #0xc]
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-
-// clang-format on
-#endif
 }
 
 void HandleRingBattleManagerItemBoxes(RingBattleManager *work)

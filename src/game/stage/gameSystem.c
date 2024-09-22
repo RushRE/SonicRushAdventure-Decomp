@@ -1698,9 +1698,10 @@ void LoadGameMissionArchive(void)
 
 NONMATCH_FUNC void CreateGameSystem(void)
 {
-    // https://decomp.me/scratch/p7aRj -> 95.53%
+    // https://decomp.me/scratch/bq1cz -> 98.16%
     // func should match when all other funcs are done, assuming Player__Create's 'characterID' param is a u32 or s32 type! (https://decomp.me/scratch/yxIlf)
 #ifdef NON_MATCHING
+    Player **playerList;
     GameState *state = GetGameState();
 
     playerGameStatus.gameOnlineSysTask = TaskCreateNoWork(GameOnlineSystem_Main, NULL, TASK_FLAG_NONE, 0, 0x1000, TASK_SCOPE_3, "GameOnlineSysTask");
@@ -1769,7 +1770,10 @@ NONMATCH_FUNC void CreateGameSystem(void)
     InitStageCollision();
 
     if (IsBossStage())
-        g_obj.flag = (g_obj.flag | OBJECTMANAGER_FLAG_200) & ~OBJECTMANAGER_FLAG_8;
+    {
+        g_obj.flag |= OBJECTMANAGER_FLAG_200;
+        g_obj.flag &= ~OBJECTMANAGER_FLAG_8;
+    }
 
     MI_CpuClear16(gPlayerList, sizeof(gPlayerList));
 
@@ -1793,17 +1797,18 @@ NONMATCH_FUNC void CreateGameSystem(void)
         gPlayerList[0] = player;
 
         u16 id = 1;
+        playerList = TEMP_PLACEMENT.gPlayerList;
         for (s32 p = 0; p < 2; p++)
         {
             if (p != aid)
             {
-                gPlayerList[id] = Player__Create(state->characterID[id + 1], ObjPacket__GetAIDIndex(p));
+                playerList[id] = Player__Create(state->characterID[id + 1], ObjPacket__GetAIDIndex(p));
 
-                Animator3D__Process(&gPlayerList[id]->obj_3dWork.ani.work);
+                Animator3D__Process(&playerList[id]->obj_3dWork.ani.work);
 
-                if ((gPlayerList[id]->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
+                if ((playerList[id]->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
                 {
-                    Animator3D__Process(&gPlayerList[id]->tailAnimator.work);
+                    Animator3D__Process(&playerList[id]->tailAnimator.work);
                 }
 
                 id++;
