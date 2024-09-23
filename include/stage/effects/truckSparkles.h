@@ -30,7 +30,7 @@ typedef struct EffectTruckSparkles_
 // FUNCTIONS
 // --------------------
 
-EffectTruckSparkles *EffectTruckSparkles__Create(StageTask *parent, u16 duration, s32 userWork, fx32 offsetX, fx32 offsetY, u16 flags);
+void EffectTruckSparkles__Create(StageTask *parent, u16 duration, s32 userWork, fx32 offsetX, fx32 offsetY, u32 flags);
 void EffectTruckSparkles__Destructor(Task *task);
 void EffectTruckSparkles__State_202B86C(EffectTruckSparkles *work);
 void EffectTruckSparkles__State_202BA48(EffectTruckSparkles *work);

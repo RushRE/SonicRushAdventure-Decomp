@@ -18,6 +18,6 @@ typedef struct EffectSlingDust_
 // FUNCTIONS
 // --------------------
 
-EffectSlingDust *EffectSlingDust__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, s32 type);
+EffectSlingDust *EffectSlingDust__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u8 type);
 
 #endif // RUSH2_EFFECT_SLING_DUST_H

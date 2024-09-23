@@ -77,7 +77,6 @@ def ParseCFiles(includeLib = True):
     for subdir, dir, files in os.walk(rootdir):
         for file in files:
             path = os.path.join(subdir, file)
-            # print(path)
             
             if not path.endswith(".c") and not path.endswith(".cpp"):
                 continue
@@ -95,9 +94,12 @@ def ParseCFiles(includeLib = True):
                             overlays[key][i].decompiled = False
 
 def PrintProgress():
-    ReadXMAP("build/rush2.eu/arm9.elf.xMAP")
+    # calculate config
+    version = "eu"
+    includeLib = True
+    
+    ReadXMAP("build/rush2.{0}/arm9.elf.xMAP".format(version))
         
-    includeLib = False
     ParseAsmFiles(includeLib=includeLib)
     ParseCFiles(includeLib=includeLib)
 
@@ -105,7 +107,7 @@ def PrintProgress():
     allTotalCount = 0
 
     for key, value in overlays.items():
-        srcCount = 0  #TODO: count these
+        srcCount = 0
         totalCount = 0
 
         for info in value:

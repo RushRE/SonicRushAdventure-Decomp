@@ -27,8 +27,8 @@ typedef struct EffectUnknown202C414_
 {
     StageTask objWork;
 
-    GXDLInfo info;
-    const void *cmdList;
+    GXDLInfo dlInfo;
+    const void *drawList;
     EffectUnknown202C414Entry list[EFFECTUNKNOWN202C414_LIST_SIZE];
 } EffectUnknown202C414;
 

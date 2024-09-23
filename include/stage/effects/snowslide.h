@@ -19,6 +19,6 @@ typedef struct EffectSnowSlide_
 // --------------------
 
 EffectSnowSlide *EffectAvalanche__Create(fx32 x, fx32 y, fx32 velX, fx32 velY);
-EffectSnowSlide *EffectAvalancheDebris__Create(s32 type, fx32 x, fx32 y, fx32 velX, fx32 velY);
+EffectSnowSlide *EffectAvalancheDebris__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 velY);
 
 #endif // RUSH2_EFFECT_SNOW_SLIDE_H

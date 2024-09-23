@@ -18,6 +18,6 @@ typedef struct EffectBreakableObjDebris_
 // FUNCTIONS
 // --------------------
 
-EffectBreakableObjDebris *EffectBreakableObjDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type);
+EffectBreakableObjDebris *EffectBreakableObjDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u8 type);
 
 #endif // RUSH2_EFFECT_BREAKABLEOBJ_DEBRIS_H

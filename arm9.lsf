@@ -40,35 +40,17 @@ Static arm9
 
     ## GAME EFFECTS ##
     Object asm/stage/effects/stageEffect_vars_bss.o
-    Object asm/stage/effectTask_vars.o
+    Object asm/stage/effects/effectTask_vars.o
     Object src/stage/effects/effectCommon.o
 
     ## STAGE EFFECTS ##
-    Object asm/stage/effects/coral_vars.o
-    Object asm/stage/effects/saku_vars.o
-    Object asm/stage/effects/startDash_vars.o
-    Object asm/stage/effects/breakObj_vars.o
-    Object asm/stage/effects/goalJewel_vars.o
-    Object asm/stage/effects/flipMush_vars.o
-    Object asm/stage/effects/pipeFlw_vars.o
-    Object asm/stage/effects/steamDust_vars.o
-    Object asm/stage/effects/steamEffect_vars.o
-    Object asm/stage/effects/steamFan_vars.o
-    Object asm/stage/effects/piston_vars.o
-    Object asm/stage/effects/iceBlockDebris_vars.o
-    Object asm/stage/effects/truck_vars.o
-    Object asm/stage/effects/snowSlide_vars.o
-    Object asm/stage/effects/truckJewel_vars.o
-    Object asm/stage/effects/pirateShip_vars.o
-    Object asm/stage/effects/slingDust_vars.o
-    Object asm/stage/effects/sailboatBazooka_vars.o
+    Object src/stage/effects/effectStage.o
     Object asm/stage/effects/airEffect_vars.o
     Object asm/stage/effects/medal_vars.o
     Object asm/stage/effects/ringSparkle_vars.o
     Object asm/stage/effects/buttonPrompt_vars.o
     
     ## PLAYER EFFECTS ##
-    Object src/stage/effects/effectStage.o
     Object asm/stage/effects/stageEffects_vars.o
     Object src/stage/effects/stageEffects.o
     

@@ -4,6 +4,12 @@
 #include <stage/effectTask.h>
 
 // --------------------
+// CONSTANTS
+// --------------------
+
+#define EFFECT_HOVERCRYSTALSPARKLE_PARTICLE_COUNT 32
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -22,7 +28,7 @@ typedef struct EffectHoverCrystalSparkle_
     OBS_ACTION2D_BAC_WORK ani;
     s16 listCount;
     s16 listStartSlot;
-    struct EffectAirEffectParticle list[32];
+    struct EffectAirEffectParticle list[EFFECT_HOVERCRYSTALSPARKLE_PARTICLE_COUNT];
 } EffectHoverCrystalSparkle;
 
 // --------------------

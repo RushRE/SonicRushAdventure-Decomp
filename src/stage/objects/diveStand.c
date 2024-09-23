@@ -33,7 +33,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    work->dlList   = HeapAllocHead(HEAP_SYSTEM, DIVESTAND_DLLIST_SIZE);
+    work->drawList   = HeapAllocHead(HEAP_SYSTEM, DIVESTAND_DLLIST_SIZE);
     work->dword70C = 4096;
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
@@ -62,7 +62,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
     work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
 
-    G3_BeginMakeDL(&work->dlInfo, work->dlList, DIVESTAND_DLLIST_SIZE);
+    G3_BeginMakeDL(&work->dlInfo, work->drawList, DIVESTAND_DLLIST_SIZE);
     G3C_PolygonAttr(&work->dlInfo, GX_LIGHTID_0, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, GX_COLOR_FROM_888(0xFF), 0);
     G3C_TexPlttBase(&work->dlInfo, VRAMKEY_TO_KEY(work->aniDiveStand[0].animatorSprite.vramPalette) & 0x1FFFF, GX_TEXFMT_PLTT16);
     G3C_TexImageParam(&work->dlInfo, GX_TEXFMT_PLTT16, GX_TEXGEN_TEXCOORD, GX_TEXSIZE_S8, GX_TEXSIZE_T8, GX_TEXREPEAT_S, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS,
@@ -396,7 +396,7 @@ void DiveStand__Destructor(Task *task)
 {
     DiveStand *work = TaskGetWork(task, DiveStand);
 
-    HeapFree(HEAP_SYSTEM, work->dlList);
+    HeapFree(HEAP_SYSTEM, work->drawList);
 
     OBS_TEXTURE_REF *ref = GetObjectTextureRef(OBJDATAWORK_172);
     ref->texture.referenceCount--;
@@ -1323,7 +1323,7 @@ void DiveStand__Draw(void)
         texS = FLOAT_TO_FX32(0.0);
     else
         texS = FLOAT_TO_FX32(7.0);
-    G3C_Color(&info, 0x7FFF);
+    G3C_Color(&info, GX_RGB_888(0xFF, 0xFF, 0xFF));
 
     VecFx32 *vertices = (VecFx32 *)work->vertices;
     for (v = 0; v < 25; v++)
@@ -1339,14 +1339,9 @@ void DiveStand__Draw(void)
     }
     G3C_End(&info);
     G3_EndMakeDL(&info);
-    DC_FlushRange(work->dlList, 0x400);
+    DC_FlushRange(work->drawList, 0x400);
 
-    size_t size;
-    if ((VOID_TO_INT(info.curr_cmd) & 3) != 0)
-        size = VOID_TO_INT((void *)info.curr_param - (void *)info.bottom);
-    else
-        size = VOID_TO_INT((void *)info.curr_cmd - (void *)info.bottom);
-    NNS_G3dGeSendDL(work->dlList, size);
+    NNS_G3dGeSendDL(work->drawList, G3_GetDLSize(&info));
 
     s32 i;
     if ((work->gameWork.flags & 0xF) == 0)

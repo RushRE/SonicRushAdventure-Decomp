@@ -83,57 +83,33 @@
 #include <stage/enemies/robot.h>
 
 // --------------------
-// TEMP
+// VARIABLES
 // --------------------
 
-NOT_DECOMPILED void *_02118FBC;
-NOT_DECOMPILED void *_0210EA44;
-NOT_DECOMPILED void *_0202B670;
-NOT_DECOMPILED void *_0202C470;
-NOT_DECOMPILED void *EffectButtonPrompt__states;
-NOT_DECOMPILED void *_02118FB4;
-NOT_DECOMPILED void *EffectButtonPrompt_animIDs;
+// const u8 _0210EA44[2] = {61, 33};
+// const u16 EffectButtonPrompt_animIDs[2] = {1, 0};
+NOT_DECOMPILED const u8 _0210EA44[2];
 
-NOT_DECOMPILED const char *aAcEffBombWater;
-NOT_DECOMPILED const char *aActAcEffBombGr;
-NOT_DECOMPILED const char *aAcEffBattleBac;
-NOT_DECOMPILED const char *aActAcEneProtDa;
-NOT_DECOMPILED const char *aActAcEffWaterB_0;
-NOT_DECOMPILED const char *aNsbmd;
-NOT_DECOMPILED const char *aActAcGmkTruckJ;
-NOT_DECOMPILED const char *aActAcGmkTruckJ_0;
-NOT_DECOMPILED const char *aBpaGmkMedal;
-NOT_DECOMPILED const char *aActAcDecCoralB;
-NOT_DECOMPILED const char *aActAcDecSakuBa;
-NOT_DECOMPILED const char *aEffeStartdash;
-NOT_DECOMPILED const char *aActAcGmkBreakO;
-NOT_DECOMPILED const char *aAcEffGoalJewel;
-NOT_DECOMPILED const char *aActAcGmkFlipmu;
-NOT_DECOMPILED const char *aActAcGmkPipeFl;
-NOT_DECOMPILED const char *aActAcGmkPipeFl;
-NOT_DECOMPILED const char *aActAcEffSteamD;
-NOT_DECOMPILED const char *aActAcGmkSteamE;
-NOT_DECOMPILED const char *aActAcGmkSteamF;
-NOT_DECOMPILED const char *aModGmkPistonEf;
-NOT_DECOMPILED const char *aActAcGmkIceBlo;
-NOT_DECOMPILED const char *aActAcGmkTruckB;
-NOT_DECOMPILED const char *aActAcGmkSnowsl;
-NOT_DECOMPILED const char *aActAcGmkSnowsl;
-NOT_DECOMPILED const char *aActAcGmkPirate;
-NOT_DECOMPILED const char *aActAcGmkSlingD;
-NOT_DECOMPILED const char *aModSbBazooka;
-NOT_DECOMPILED const char *aActAcGmkAirEfB;
-NOT_DECOMPILED const char *aActAcGmkMedal;
-NOT_DECOMPILED const char *aAcItmRingBac_0;
-NOT_DECOMPILED const char *aAcFixKeyLittle;
+// force string alignment when matching
+// (it's likely stripped functions/variables caused the order to change)
+#ifndef NON_MATCHING
+static const char *aNsbtp = ".nsbtp";
+static const char *aNsbca = ".nsbca";
+static const char *aNsbma = ".nsbma";
+static const char *aNsbva = ".nsbva";
+static const char *aNsbta = ".nsbta";
+#endif
 
-NOT_DECOMPILED u8 RegularShield__matList[];
-NOT_DECOMPILED u8 RegularShield__shpList[];
+static const char *iceSparklesSprite[2] = { "/act/ac_eff_ice_kira.bac", "/act/ac_eff_water_kira.bac" };
 
-NOT_DECOMPILED u8 MagnetShield__matList[];
-NOT_DECOMPILED u8 MagnetShield__shpList[];
+static const char *animationType[B3D_ANIM_MAX] = {
+    [B3D_ANIM_JOINT_ANIM] = ".nsbca", [B3D_ANIM_MAT_ANIM] = ".nsbma", [B3D_ANIM_PAT_ANIM] = ".nsbtp", [B3D_ANIM_TEX_ANIM] = ".nsbta", [B3D_ANIM_VIS_ANIM] = ".nsbva"
+};
 
-NOT_DECOMPILED void *_02118FD0;
+static u16 goalJewelSpriteSize[10] = { 29, 22, 32, 9, 29, 36, 22, 32, 9, 36 };
+
+typedef void (*EffectButtonPromptState)(EffectButtonPrompt *work);
+EffectButtonPromptState const EffectButtonPrompt__states[2] = { EffectButtonPrompt__State_DPadUp, EffectButtonPrompt__State_JumpButton };
 
 // --------------------
 // FUNCTION DECLS
@@ -204,148 +180,74 @@ StageTask *InitEffectTaskViewCheck(StageTask *work, s16 offset, s16 left, s16 to
 // EFFECT TASK 3D
 // ==============
 
-NONMATCH_FUNC void LoadEffectTask3DAsset(EffectTask3D *work, const char *path, OBS_DATA_WORK *fileWork, NNSiFndArchiveHeader *archive, u32 resourceFlags,
-                                         EffectTask3DState nextState, BOOL initResources)
+void LoadEffectTask3DAsset(EffectTask3D *work, const char *path, OBS_DATA_WORK *fileWork, NNSiFndArchiveHeader *archive, u32 resourceFlags, StageTaskState nextState,
+                           BOOL initResources)
 {
-#ifdef NON_MATCHING
+    work->filePtr = fileWork;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x24
-	mov r10, r0
-	mov r5, r2
-	add r0, sp, #4
-	mov r9, r1
-	mov r8, r3
-	str r5, [r10, #0x2ac]
-	ldr r7, [sp, #0x48]
-	bl STD_CopyString
-	ldr r1, =aNsbmd
-	add r0, sp, #4
-	bl STD_ConcatenateString
-	add r1, sp, #4
-	mov r0, r5
-	mov r2, r8
-	bl ObjDataLoad
-	movs r4, r0
-	addeq sp, sp, #0x24
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	cmp r8, #0
-	beq _020286AC
-	add r0, r10, #0x200
-	ldrh r1, [r0, #0xce]
-	orr r1, r1, #2
-	strh r1, [r0, #0xce]
-_020286AC:
-	add r0, r10, #0x168
-	mov r1, #0
-	str r4, [r10, #0x2b0]
-	bl AnimatorMDL__Init
-	ldr r0, [sp, #0x50]
-	cmp r0, #0
-	beq _02028700
-	add r0, r10, #0x200
-	ldrh r1, [r0, #0xce]
-	cmp r5, #0
-	orr r1, r1, #1
-	strh r1, [r0, #0xce]
-	beq _020286F8
-	cmp r5, #0
-	beq _02028700
-	ldrh r0, [r5, #4]
-	bic r0, r0, #0x8000
-	cmp r0, #1
-	bne _02028700
-_020286F8:
-	mov r0, r4
-	bl NNS_G3dResDefaultSetup
-_02028700:
-	add r0, r10, #0x168
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r2, #0
-	mov r1, r4
-	mov r3, r2
-	add r0, r10, #0x168
-	str r2, [sp]
-	bl AnimatorMDL__SetResource
-	ldr r0, =0x000034CC
-	mov r6, #0
-	str r0, [r10, #0x180]
-	str r0, [r10, #0x184]
-	str r0, [r10, #0x188]
-	add r0, r10, #0xce
-	add r4, r0, #0x200
-	mov r11, r6
-	add r5, sp, #4
-_02028748:
-	mov r0, #1
-	tst r7, r0, lsl r6
-	beq _020287CC
-	mov r0, r5
-	mov r1, r9
-	bl STD_CopyString
-	ldr r1, =_02118FBC
-	mov r0, r5
-	ldr r1, [r1, r6, lsl #2]
-	bl STD_ConcatenateString
-	mov r0, #0
-	mov r1, r5
-	mov r2, r8
-	bl ObjDataLoad
-	add r1, r10, r6, lsl #2
-	str r0, [r1, #0x2b4]
-	cmp r0, #0
-	beq _020287CC
-	cmp r8, #0
-	beq _020287A8
-	ldrh r1, [r4]
-	mov r0, #4
-	orr r0, r1, r0, lsl r6
-	strh r0, [r4]
-_020287A8:
-	cmp r6, #2
-	beq _020287CC
-	str r11, [sp]
-	add r0, r10, r6, lsl #2
-	ldr r2, [r0, #0x2b4]
-	mov r1, r6
-	add r0, r10, #0x168
-	mov r3, r11
-	bl AnimatorMDL__SetAnimation
-_020287CC:
-	add r6, r6, #1
-	cmp r6, #5
-	blt _02028748
-	ldr r1, [r10, #0x20]
-	add r0, r10, #0x200
-	orr r1, r1, #0x30
-	str r1, [r10, #0x20]
-	mov r2, #2
-	ldr r1, =EffectTask__sVars
-	strh r2, [r0, #0xcc]
-	ldr r0, [r1]
-	ldr r1, =EffectTask3D_Destructor
-	bl SetTaskDestructorEvent
-	ldr r0, [sp, #0x4c]
-	ldr r1, =EffectTask3D_State_Init
-	cmp r0, #0
-	ldreq r0, =EffectTask_State_DestroyAfterAnimation
-	str r0, [r10, #0x2c8]
-	ldr r0, =EffectTask3D_State_Visible
-	str r1, [r10, #0xf4]
-	str r0, [r10, #0xfc]
-	add sp, sp, #0x24
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-// clang-format on
-#endif
+    char tempPath[32];
+    STD_CopyString(tempPath, path);
+    STD_ConcatenateString(tempPath, ".nsbmd");
+
+    NNSG3dResFileHeader *resource = ObjDataLoad(fileWork, tempPath, archive);
+    if (resource != NULL)
+    {
+        if (archive)
+            work->flags |= EFFECTTASK3D_FLAG_HAS_ARCHIVE;
+
+        work->resource = resource;
+        AnimatorMDL__Init(&work->animatorMDL, ANIMATORMDL_FLAG_NONE);
+
+        if (initResources)
+        {
+            work->flags |= EFFECTTASK3D_FLAG_HAS_MODEL;
+            if (fileWork == NULL || (fileWork != NULL && (fileWork->referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1))
+                NNS_G3dResDefaultSetup(resource);
+        }
+
+        AnimatorMDL__Init(&work->animatorMDL, ANIMATORMDL_FLAG_NONE);
+        AnimatorMDL__SetResource(&work->animatorMDL, resource, 0, FALSE, FALSE);
+
+        VEC_Set(&work->animatorMDL.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
+
+        for (s32 r = 0; r < B3D_ANIM_MAX; r++)
+        {
+            if ((resourceFlags & (1 << r)) != 0)
+            {
+                STD_CopyString(tempPath, path);
+                STD_ConcatenateString(tempPath, animationType[r]);
+
+                work->files[r] = ObjDataLoad(NULL, tempPath, archive);
+
+                if (work->files[r] != NULL)
+                {
+                    if (archive != NULL)
+                        work->flags |= (EFFECTTASK3D_FLAG_HAS_ANIM_JOINT << r);
+
+                    if (r != B3D_ANIM_PAT_ANIM)
+                        AnimatorMDL__SetAnimation(&work->animatorMDL, r, work->files[r], 0, NULL);
+                }
+            }
+        }
+
+        work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW | DISPLAY_FLAG_PAUSED;
+        work->delay = 2;
+        SetTaskDestructorEvent(EffectTask__sVars.lastCreatedTask, EffectTask3D_Destructor);
+
+        if (nextState == NULL)
+            work->nextState = (EffectTask3DState)EffectTask_State_DestroyAfterAnimation;
+        else
+            work->nextState = (EffectTask3DState)nextState;
+
+        SetTaskState(&work->objWork, EffectTask3D_State_Init);
+        SetTaskOutFunc(&work->objWork, EffectTask3D_Draw_3D);
+    }
 }
 
 void EffectTask3D_State_Init(EffectTask3D *work)
 {
-    work->field_2CC--;
-    if (work->field_2CC == 0)
+    work->delay--;
+    if (work->delay == 0)
     {
         if (work->files[B3D_ANIM_PAT_ANIM] != NULL)
         {
@@ -357,7 +259,7 @@ void EffectTask3D_State_Init(EffectTask3D *work)
     }
 }
 
-void EffectTask3D_State_Visible(EffectTask3D *work)
+void EffectTask3D_Draw_3D(void)
 {
     EffectTask3D *curWork = TaskGetWorkCurrent(EffectTask3D);
     StageTask__Draw3D(&curWork->objWork, &curWork->animatorMDL.work);
@@ -371,24 +273,24 @@ void EffectTask3D_Destructor(Task *task)
 
     if (work->filePtr != NULL)
     {
-        if ((work->activeFiles & (1 << 0)) != 0 && (work->filePtr->referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
+        if ((work->flags & EFFECTTASK3D_FLAG_HAS_MODEL) != 0 && (work->filePtr->referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
             NNS_G3dResDefaultRelease(work->resource);
 
         ObjDataRelease(work->filePtr);
     }
     else
     {
-        if ((work->activeFiles & (1 << 0)) != 0)
+        if ((work->flags & EFFECTTASK3D_FLAG_HAS_MODEL) != 0)
             NNS_G3dResDefaultRelease(work->resource);
 
-        if ((work->activeFiles & (1 << 1)) == 0)
+        if ((work->flags & EFFECTTASK3D_FLAG_HAS_ARCHIVE) == 0)
             HeapFree(HEAP_USER, work->resource);
     }
 
-    for (s32 i = 0; i < B3D_ANIM_MAX; i++)
+    for (s32 r = 0; r < B3D_ANIM_MAX; r++)
     {
-        if (work->files[i] != NULL && (work->activeFiles & (4 << i)) == 0)
-            HeapFree(HEAP_USER, work->files[i]);
+        if (work->files[r] != NULL && (work->flags & (EFFECTTASK3D_FLAG_HAS_ANIM_JOINT << r)) == 0)
+            HeapFree(HEAP_USER, work->files[r]);
     }
 
     StageTask_Destructor(task);
@@ -476,8 +378,8 @@ EffectExplosion *CreateEffectExplosion(StageTask *parent, fx32 velX, fx32 velY, 
     if (type >= EXPLOSION_COUNT)
         type = EXPLOSION_ENEMY;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.field_8, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->objWork, 0, 0x53);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.effectExplosionFile, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjActionAllocSpritePalette(&work->objWork, 0, 83);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
     StageTask__SetAnimation(&work->objWork, type);
@@ -521,8 +423,8 @@ EffectHarmfulExplosion *CreateEffectHarmfulExplosion(StageTask *parent, fx32 vel
     if (type >= EXPLOSION_COUNT)
         type = EXPLOSION_ENEMY;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.field_8, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->objWork, 0, 0x53);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.effectExplosionFile, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjActionAllocSpritePalette(&work->objWork, 0, 83);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
     StageTask__SetAnimation(&work->objWork, type);
@@ -579,7 +481,7 @@ EffectFound *CreateEffectFound(StageTask *parent, fx32 velX, fx32 velY)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_found.bac", &EffectTask__sVars.field_18, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_found.bac", &EffectTask__sVars.effectFoundFile, gameArchiveCommon, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, 0, 56);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -660,9 +562,9 @@ EffectEnemyDebris *CreateEffectEnemyDebris(StageTask *parent, fx32 offsetX, fx32
         spriteType = mtMathRand() & 3;
     }
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.field_8, gameArchiveCommon, 2);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_zako_bomb.bac", &EffectTask__sVars.effectExplosionFile, gameArchiveCommon, 2);
     s32 anim = spriteType + 3;
-    ObjActionAllocSpritePalette(&work->objWork, anim, 0x53);
+    ObjActionAllocSpritePalette(&work->objWork, anim, 83);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
 
     if ((parent->flag & STAGE_TASK_FLAG_ON_PLANE_B) != 0)
@@ -756,8 +658,7 @@ void EffectEnemyDebris_State_Active(EffectEnemyDebris *work)
         {
             work->objWork.shakeTimer = FLOAT_TO_FX32(4.0);
             work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-            work->objWork.velocity.y = 0;
-            work->objWork.velocity.x = 0;
+            work->objWork.velocity.x = work->objWork.velocity.y = FLOAT_TO_FX32(0.0);
         }
     }
 }
@@ -779,7 +680,7 @@ EffectWaterExplosion *CreateEffectWaterExplosion(StageTask *parent, fx32 velX, f
         type = WATEREXPLOSION_BOMB;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_bomb_water.bac", GetObjectFileWork(OBJDATAWORK_4), gameArchiveCommon, gfxSizes[type]);
-    ObjActionAllocSpritePalette(&work->objWork, 0, 0x21);
+    ObjActionAllocSpritePalette(&work->objWork, 0, 33);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
     StageTask__SetAnimation(&work->objWork, type);
@@ -828,7 +729,7 @@ EffectGroundExplosion *CreateEffectGroundExplosion(StageTask *parent, fx32 velX,
         return NULL;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_bomb_ground.bac", GetObjectFileWork(OBJDATAWORK_151), gameArchiveStage, OBJ_DATA_GFX_AUTO);
-    ObjActionAllocSpritePalette(&work->objWork, 0, 0x53);
+    ObjActionAllocSpritePalette(&work->objWork, 0, 83);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
 
@@ -869,8 +770,8 @@ EffectBattleBurst *CreateEffectBattleBurst(fx32 x, fx32 y)
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_battle.bac", &EffectTask__sVars.field_30, gameArchiveCommon, 8);
-    ObjActionAllocSpritePalette(&work->objWork, 4, 0x1F);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/ac_eff_battle.bac", &EffectTask__sVars.effectBattleBurstFile, gameArchiveCommon, 8);
+    ObjActionAllocSpritePalette(&work->objWork, 4, 31);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
     StageTask__SetAnimation(&work->objWork, 4);
@@ -1007,7 +908,7 @@ EffectWaterSplash *CreateEffectWaterSplash(StageTask *parent, fx32 offsetX, fx32
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.field_10, gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.effectWaterSplashFile, gameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, WATERBUBBLE_ANI_SPLASH, 33);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -1034,7 +935,7 @@ EffectWaterWake *CreateEffectWaterWake(StageTask *parent, fx32 offsetX, fx32 pos
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.field_10, gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.effectWaterSplashFile, gameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, WATERBUBBLE_ANI_SPLASH, 33);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -1090,7 +991,7 @@ EffectWaterGush *EffectWaterGush__Create(StageTask *parent, fx32 velX, fx32 velY
     if (work == NULL)
         return NULL;
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.field_10, gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_water.bac", &EffectTask__sVars.effectWaterSplashFile, gameArchiveStage, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(&work->objWork, WATERBUBBLE_ANI_SPLASH, 33);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
@@ -1143,7 +1044,7 @@ EffectWaterBubble *EffectWaterBubble__Create(fx32 x, fx32 y, s32 anim, u16 durat
 
     work->objWork.userWork = FX32_FROM_WHOLE(duration + 8);
 
-    work->objWork.velocity.y = 2047 - (mtMathRand() & 0xFFE);
+    work->objWork.velocity.y = 0x7FF - (mtMathRand() & 0xFFE);
     work->objWork.userTimer  = 0x2BFF - (0xFFE & mtMathRand());
     work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
     InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
@@ -1179,27 +1080,20 @@ void EffectWaterBubble__State_202A198(EffectWaterBubble *work)
 }
 
 // EffectCoralDebris
-NONMATCH_FUNC EffectCoralDebris *EffectCoralDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type)
+EffectCoralDebris *EffectCoralDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u8 type)
 {
-    // https://decomp.me/scratch/gszkP -> 98.15%
-#ifdef NON_MATCHING
-    u8 debrisType;
-    if (type > 2)
-        debrisType = 2;
-    else
-        debrisType = type;
-    debrisType = debrisType & 0xFF;
+    type = MATH_MIN(type, 2);
 
     EffectCoralDebris *work = CreateEffect(EffectCoralDebris, NULL);
     if (work == NULL)
         return NULL;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_dec_coral.bac", GetObjectFileWork(OBJDATAWORK_193), gameArchiveStage, OBJ_DATA_GFX_NONE);
-    ObjActionAllocSpritePalette(&work->objWork, debrisType + 20, 67);
+    ObjActionAllocSpritePalette(&work->objWork, type + 20, 67);
 
-    u16 debrisAnim = debrisType + 20;
-    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, debrisType + 20), GetObjectSpriteRef(2 * debrisType + OBJDATAWORK_194));
-    StageTask__SetAnimation(&work->objWork, debrisAnim);
+    u16 anim = type + 20;
+    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, type + 20), GetObjectSpriteRef(2 * type + OBJDATAWORK_194));
+    StageTask__SetAnimation(&work->objWork, anim);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_2);
 
@@ -1222,312 +1116,77 @@ NONMATCH_FUNC EffectCoralDebris *EffectCoralDebris__Create(fx32 x, fx32 y, fx32 
     SetTaskState(&work->objWork, EffectTask_State_MoveTowardsZeroX);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #8
-	ldr r8, [sp, #0x28]
-	mov r7, r0
-	mov r6, r1
-	cmp r8, #2
-	movhi r8, #2
-	mov r0, #0x218
-	mov r1, #0
-	mov r5, r2
-	mov r4, r3
-	and r8, r8, #0xff
-	bl CreateEffectTask
-	movs r9, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	mov r0, #0xc1
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	ldr r2, =aActAcDecCoralB
-	ldr r1, [r1]
-	mov r3, r0
-	str r1, [sp]
-	mov r1, #0
-	str r1, [sp, #4]
-	mov r0, r9
-	add r1, r9, #0x168
-	bl ObjObjectAction2dBACLoad
-	add r10, r8, #0x14
-	mov r1, r10, lsl #0x10
-	mov r0, r9
-	mov r1, r1, lsr #0x10
-	mov r2, #0x43
-	bl ObjActionAllocSpritePalette
-	ldr r0, [r9, #0x20c]
-	mov r1, r10, lsl #0x10
-	ldr r0, [r0]
-	mov r1, r1, lsr #0x10
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r1, r8, lsl #1
-	mov r8, r0
-	add r0, r1, #0xc2
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r1, r8
-	mov r0, r9
-	bl ObjObjectActionAllocSprite
-	mov r0, r10, lsl #0x10
-	mov r1, r0, lsr #0x10
-	mov r0, r9
-	bl StageTask__SetAnimation
-	mov r0, r9
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r9
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	str r7, [r9, #0x44]
-	str r6, [r9, #0x48]
-	str r5, [r9, #0x98]
-	ldr r2, =_mt_math_rand
-	str r4, [r9, #0x9c]
-	ldr r0, =0x00196225
-	ldr r3, [r2]
-	ldr r1, =0x3C6EF35F
-	mla r0, r3, r0, r1
-	str r0, [r2]
-	mov r0, r0, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	tst r0, #1
-	ldrne r0, [r9, #0x20]
-	ldr r2, =_mt_math_rand
-	orrne r0, r0, #1
-	strne r0, [r9, #0x20]
-	ldr r0, =0x00196225
-	ldr r3, [r2]
-	ldr r1, =0x3C6EF35F
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	str r1, [r2]
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	tst r0, #1
-	ldrne r0, [r9, #0x20]
-	mov r2, #0
-	orrne r0, r0, #2
-	strne r0, [r9, #0x20]
-	str r2, [sp]
-	mov r0, r9
-	mov r3, r2
-	str r2, [sp, #4]
-	mov r1, #0x10
-	bl InitEffectTaskViewCheck
-	ldr r1, [r9, #0x1c]
-	mov r0, #0xa0
-	orr r1, r1, #0x80
-	str r1, [r9, #0x1c]
-	str r0, [r9, #0x2c]
-	ldr r1, =EffectTask_State_MoveTowardsZeroX
-	mov r0, r9
-	str r1, [r9, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-// clang-format on
-#endif
 }
 
 // EffectBridgeDebris
-NONMATCH_FUNC EffectBridgeDebris *EffectBridgeDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type)
+EffectBridgeDebris *EffectBridgeDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u8 type)
 {
-#ifdef NON_MATCHING
+    type = MATH_MIN(type, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #8
-	ldr r8, [sp, #0x28]
-	mov r7, r0
-	mov r6, r1
-	cmp r8, #1
-	movhi r8, #1
-	mov r0, #0x218
-	mov r1, #0
-	mov r5, r2
-	mov r4, r3
-	and r8, r8, #0xff
-	bl CreateEffectTask
-	movs r9, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	mov r0, #0xa8
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	ldr r2, =aActAcDecSakuBa
-	ldr r1, [r1]
-	mov r3, r0
-	str r1, [sp]
-	mov r1, #0
-	str r1, [sp, #4]
-	mov r0, r9
-	add r1, r9, #0x168
-	bl ObjObjectAction2dBACLoad
-	add r10, r8, #3
-	mov r1, r10, lsl #0x10
-	mov r0, r9
-	mov r1, r1, lsr #0x10
-	mov r2, #0x59
-	bl ObjActionAllocSpritePalette
-	ldr r0, [r9, #0x20c]
-	mov r1, r10, lsl #0x10
-	ldr r0, [r0]
-	mov r1, r1, lsr #0x10
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r1, r8, lsl #1
-	mov r8, r0
-	add r0, r1, #0xa9
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r1, r8
-	mov r0, r9
-	bl ObjObjectActionAllocSprite
-	mov r0, r10, lsl #0x10
-	mov r1, r0, lsr #0x10
-	mov r0, r9
-	bl StageTask__SetAnimation
-	mov r0, r9
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r9
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	str r7, [r9, #0x44]
-	str r6, [r9, #0x48]
-	str r5, [r9, #0x98]
-	ldr r2, =_mt_math_rand
-	str r4, [r9, #0x9c]
-	ldr r0, =0x00196225
-	ldr r3, [r2]
-	ldr r1, =0x3C6EF35F
-	mla r0, r3, r0, r1
-	str r0, [r2]
-	mov r0, r0, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	tst r0, #1
-	ldrne r0, [r9, #0x20]
-	ldr r2, =_mt_math_rand
-	orrne r0, r0, #1
-	strne r0, [r9, #0x20]
-	ldr r0, =0x00196225
-	ldr r3, [r2]
-	ldr r1, =0x3C6EF35F
-	mla r1, r3, r0, r1
-	mov r0, r1, lsr #0x10
-	str r1, [r2]
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	tst r0, #1
-	ldrne r0, [r9, #0x20]
-	mov r2, #0
-	orrne r0, r0, #2
-	strne r0, [r9, #0x20]
-	str r2, [sp]
-	mov r0, r9
-	mov r3, r2
-	str r2, [sp, #4]
-	mov r1, #0x10
-	bl InitEffectTaskViewCheck
-	ldr r1, [r9, #0x1c]
-	mov r0, #0xa0
-	orr r1, r1, #0x80
-	str r1, [r9, #0x1c]
-	str r0, [r9, #0x2c]
-	ldr r1, =EffectTask_State_MoveTowardsZeroX
-	mov r0, r9
-	str r1, [r9, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-// clang-format on
-#endif
+    EffectBridgeDebris *work = CreateEffect(EffectBridgeDebris, NULL);
+    if (work == NULL)
+        return NULL;
+
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_dec_saku.bac", GetObjectFileWork(OBJDATAWORK_168), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjActionAllocSpritePalette(&work->objWork, type + 3, 89);
+
+    u16 anim = type + 3;
+    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, type + 3), GetObjectSpriteRef(2 * type + OBJDATAWORK_169));
+    StageTask__SetAnimation(&work->objWork, anim);
+    StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
+    StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_2);
+
+    work->objWork.position.x = x;
+    work->objWork.position.y = y;
+    work->objWork.velocity.x = velX;
+    work->objWork.velocity.y = velY;
+
+    if ((mtMathRand() & 1) != 0)
+        work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+
+    if ((mtMathRand() & 1) != 0)
+        work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_Y;
+
+    InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
+
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    work->objWork.userTimer = 160;
+
+    SetTaskState(&work->objWork, EffectTask_State_MoveTowardsZeroX);
+
+    return work;
 }
 
 // EffectIceSparkles
-NONMATCH_FUNC EffectIceSparkles *EffectIceSparkles__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type)
+EffectIceSparkles *EffectIceSparkles__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, s32 type)
 {
-#ifdef NON_MATCHING
+    type = MTM_MATH_CLIP(type, 0, 2);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #8
-	ldr r5, [sp, #0x28]
-	mov r9, r0
-	cmp r5, #0
-	mov r8, r1
-	mov r7, r2
-	mov r6, r3
-	movlt r5, #0
-	blt _0202A5F4
-	cmp r5, #2
-	movgt r5, #2
-_0202A5F4:
-	mov r0, #0x218
-	mov r1, #0
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	add r0, r5, #0x9a
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	ldr r2, =0x0000FFFF
-	ldr r3, [r1]
-	ldr r1, =_02118FB4
-	str r3, [sp]
-	str r2, [sp, #4]
-	mov r3, r0
-	ldr r2, [r1, r5, lsl #2]
-	mov r0, r4
-	add r1, r4, #0x168
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #0
-	ldr r2, =_0210EA44
-	ldrb r2, [r2, r5]
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimation
-	mov r0, r4
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	str r9, [r4, #0x44]
-	str r8, [r4, #0x48]
-	str r7, [r4, #0x98]
-	str r6, [r4, #0x9c]
-	mov r2, #0
-	str r2, [sp]
-	str r2, [sp, #4]
-	mov r0, r4
-	mov r1, #0x10
-	mov r3, r2
-	bl InitEffectTaskViewCheck
-	ldr r1, =EffectTask_State_DestroyAfterAnimation
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-// clang-format on
-#endif
+    EffectIceSparkles *work = CreateEffect(EffectIceSparkles, NULL);
+    if (!work)
+        return 0;
+
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, iceSparklesSprite[type], GetObjectDataWork(type + OBJDATAWORK_154), gameArchiveStage, OBJ_DATA_GFX_AUTO);
+    ObjActionAllocSpritePalette(&work->objWork, 0, _0210EA44[type]);
+    StageTask__SetAnimation(&work->objWork, 0);
+    StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
+    StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
+
+    work->objWork.position.x = x;
+    work->objWork.position.y = y;
+    work->objWork.velocity.x = velX;
+    work->objWork.velocity.y = velY;
+
+    InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
+
+    SetTaskState(&work->objWork, EffectTask_State_DestroyAfterAnimation);
+
+    return work;
 }
 
 // EffectStartDash
-NONMATCH_FUNC EffectStartDash *EffectStartDash__Create(StageTask *parent)
+EffectStartDash *EffectStartDash__Create(StageTask *parent)
 {
-	// will match when "/effe_startdash" is decompiled properly
-#ifdef NON_MATCHING
     EffectStartDash *work = CreateEffect(EffectStartDash, NULL);
     if (work == NULL)
         return NULL;
@@ -1543,404 +1202,143 @@ NONMATCH_FUNC EffectStartDash *EffectStartDash__Create(StageTask *parent)
     work->effWork.objWork.velocity.x = FLOAT_TO_FX32(6.0);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0xc
-	mov r5, r0
-	mov r0, #0x2d0
-	mov r1, #0
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, pc}
-	mov r1, #0x13
-	str r1, [sp]
-	mov r2, #0
-	str r2, [sp, #4]
-	ldr r1, =gameArchiveCommon
-	str r2, [sp, #8]
-	ldr r3, [r1]
-	ldr r1, =aEffeStartdash
-	bl LoadEffectTask3DAsset
-	str r5, [r4, #0x11c]
-	add r0, r5, #0x44
-	add r3, r4, #0x44
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldr r0, [r4, #0x44]
-	mov r1, #0x6000
-	add r0, r0, #0x32000
-	str r0, [r4, #0x44]
-	ldr r2, [r4, #0x48]
-	mov r0, r4
-	add r2, r2, #0x14000
-	str r2, [r4, #0x48]
-	str r1, [r4, #0x98]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, pc}
-// clang-format on
-#endif
 }
 
 // EffectBreakableObjDebris
-NONMATCH_FUNC EffectBreakableObjDebris *EffectBreakableObjDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type)
+EffectBreakableObjDebris *EffectBreakableObjDebris__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u8 type)
 {
-#ifdef NON_MATCHING
+    type = MATH_MIN(type, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #8
-	ldr r8, [sp, #0x28]
-	mov r7, r0
-	mov r6, r1
-	cmp r8, #1
-	movhi r8, #1
-	mov r0, #0x218
-	mov r1, #0
-	mov r5, r2
-	mov r4, r3
-	and r8, r8, #0xff
-	bl CreateEffectTask
-	movs r9, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	mov r0, #0x36
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1]
-	ldr r2, =aActAcGmkBreakO
-	mov r0, r9
-	str r1, [sp]
-	mov r1, #0
-	str r1, [sp, #4]
-	add r1, r9, #0x168
-	bl ObjObjectAction2dBACLoad
-	mov r0, r9
-	mov r1, r8
-	mov r2, #6
-	bl ObjActionAllocSpritePalette
-	add r10, r8, #1
-	ldr r0, [r9, #0x20c]
-	mov r1, r10, lsl #0x10
-	ldr r0, [r0]
-	mov r1, r1, lsr #0x10
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r1, r8, lsl #1
-	mov r8, r0
-	add r0, r1, #0x39
-	bl GetObjectFileWork
-	mov r1, r8
-	mov r2, r0
-	mov r0, r9
-	bl ObjObjectActionAllocSprite
-	mov r0, r10, lsl #0x10
-	mov r1, r0, lsr #0x10
-	mov r0, r9
-	bl StageTask__SetAnimation
-	mov r0, r9
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r9
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	str r7, [r9, #0x44]
-	str r6, [r9, #0x48]
-	str r5, [r9, #0x98]
-	str r4, [r9, #0x9c]
-	mov r2, #0
-	str r2, [sp]
-	str r2, [sp, #4]
-	mov r0, r9
-	mov r1, #0x10
-	mov r3, r2
-	bl InitEffectTaskViewCheck
-	ldr r1, [r9, #0x1c]
-	mov r0, #0xa0
-	orr r1, r1, #0x80
-	str r1, [r9, #0x1c]
-	str r0, [r9, #0x2c]
-	ldr r1, =EffectTask_State_MoveTowardsZeroX
-	mov r0, r9
-	str r1, [r9, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-// clang-format on
-#endif
+    EffectBreakableObjDebris *work = CreateEffect(EffectBreakableObjDebris, NULL);
+    if (work == NULL)
+        return NULL;
+
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_break_obj.bac", GetObjectFileWork(OBJDATAWORK_54), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjActionAllocSpritePalette(&work->objWork, type, 6);
+
+    u16 anim = type + 1;
+    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, type + 1), GetObjectSpriteRef(2 * type + OBJDATAWORK_57));
+    StageTask__SetAnimation(&work->objWork, anim);
+    StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
+    StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
+
+    work->objWork.position.x = x;
+    work->objWork.position.y = y;
+    work->objWork.velocity.x = velX;
+    work->objWork.velocity.y = velY;
+
+    InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
+
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    work->objWork.userTimer = 160;
+
+    SetTaskState(&work->objWork, EffectTask_State_MoveTowardsZeroX);
+
+    return work;
 }
 
 // EffectGoalJewel
-NONMATCH_FUNC EffectGoalJewel *EffectGoalJewel__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY)
+EffectGoalJewel *EffectGoalJewel__Create(u16 type, fx32 x, fx32 y, fx32 velX, fx32 velY)
 {
-#ifdef NON_MATCHING
+    type = MATH_MIN(type, 9);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #8
-	mov r9, r0
-	cmp r9, #9
-	mov r8, r1
-	movhi r9, #9
-	mov r7, r2
-	mov r2, r9, lsl #0x10
-	mov r0, #0x218
-	mov r1, #0
-	mov r6, r3
-	mov r9, r2, lsr #0x10
-	bl CreateEffectTask
-	movs r5, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	mov r0, #0x80
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveCommon
-	mov r3, r0
-	ldr r1, [r1]
-	ldr r2, =aAcEffGoalJewel
-	str r1, [sp]
-	mov r4, #0
-	mov r0, r5
-	add r1, r5, #0x168
-	str r4, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r4, r9, lsl #1
-	add r0, r4, #0x81
-	bl GetObjectFileWork
-	mov r2, r0
-	ldr r1, =_02118FD0
-	mov r3, r4
-	ldrh r1, [r1, r3]
-	mov r0, r5
-	bl ObjObjectActionAllocSprite
-	mov r0, r5
-	mov r1, r9
-	mov r2, #0x17
-	bl ObjActionAllocSpritePalette
-	mov r0, r5
-	mov r1, r9
-	bl StageTask__SetAnimation
-	ldr r1, [r5, #0x20]
-	add r0, r4, #0x81
-	orr r1, r1, #4
-	str r1, [r5, #0x20]
-	ldr r4, [r5, #0x128]
-	bl GetObjectFileWork
-	ldrh r0, [r0, #4]
-	bic r0, r0, #0x8000
-	cmp r0, #1
-	bne _0202A9AC
-	ldr r0, [r4, #0x3c]
-	mov r1, #0
-	orr r3, r0, #0x20
-	mov r0, r4
-	mov r2, r1
-	str r3, [r4, #0x3c]
-	bl AnimatorSpriteDS__ProcessAnimation
-	mov r0, r5
-	mov r1, r9
-	bl StageTask__SetAnimation
-_0202A9AC:
-	ldr r1, [r4, #0x3c]
-	mov r0, r5
-	orr r2, r1, #8
-	mov r1, #0xc
-	str r2, [r4, #0x3c]
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r5
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	str r8, [r5, #0x44]
-	str r7, [r5, #0x48]
-	mov r2, #0
-	ldr r0, [sp, #0x28]
-	str r6, [r5, #0x98]
-	str r0, [r5, #0x9c]
-	str r2, [sp]
-	mov r0, r5
-	mov r3, r2
-	mov r1, #0x18
-	str r2, [sp, #4]
-	bl InitEffectTaskViewCheck
-	mov r0, r5
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-// clang-format on
-#endif
+    EffectGoalJewel *work = CreateEffect(EffectGoalJewel, NULL);
+    if (work == NULL)
+        return NULL;
+
+    ObjObjectAction2dBACLoad(&work->objWork, &work->aniEffect, "/ac_eff_goal_jewel.bac", GetObjectDataWork(OBJDATAWORK_128), gameArchiveCommon, OBJ_DATA_GFX_NONE);
+    ObjObjectActionAllocSprite(&work->objWork, goalJewelSpriteSize[type], GetObjectSpriteRef(2 * type + OBJDATAWORK_129));
+    ObjActionAllocSpritePalette(&work->objWork, type, 23);
+    StageTask__SetAnimation(&work->objWork, type);
+    work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+
+    AnimatorSpriteDS *aniJewel = &work->objWork.obj_2d->ani;
+    if ((GetObjectSpriteRef(2 * type + OBJDATAWORK_129)->engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
+    {
+        aniJewel->work.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PIXELS;
+        AnimatorSpriteDS__ProcessAnimationFast(aniJewel);
+        StageTask__SetAnimation(&work->objWork, type);
+    }
+    aniJewel->work.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+    StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
+    StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
+
+    work->objWork.position.x = x;
+    work->objWork.position.y = y;
+    work->objWork.velocity.x = velX;
+    work->objWork.velocity.y = velY;
+
+    InitEffectTaskViewCheck(&work->objWork, 24, 0, 0, 0, 0);
+
+    return work;
 }
 
 // EffectFlipMush
-NONMATCH_FUNC EffectFlipMushPuff *EffectFlipMushPuff__Create(fx32 x, fx32 y, fx32 velX, fx32 velY)
+EffectFlipMushPuff *EffectFlipMushPuff__Create(fx32 x, fx32 y, fx32 velX, fx32 velY)
 {
-#ifdef NON_MATCHING
+    EffectFlipMushPuff *work = CreateEffect(EffectFlipMushPuff, NULL);
+    if (work == NULL)
+        return NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #8
-	mov r8, r0
-	mov r7, r1
-	mov r0, #0x218
-	mov r1, #0
-	mov r6, r2
-	mov r5, r3
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	mov r0, #0xa6
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1]
-	ldr r2, =aActAcGmkFlipmu
-	mov r0, r4
-	str r1, [sp]
-	mov r9, #0
-	add r1, r4, #0x168
-	str r9, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #3
-	mov r2, #0xf
-	bl ObjActionAllocSpritePalette
-	ldr r0, [r4, #0x20c]
-	mov r1, #3
-	ldr r0, [r0]
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r9, r0
-	mov r0, #0xab
-	bl GetObjectFileWork
-	mov r1, r9
-	mov r2, r0
-	mov r0, r4
-	bl ObjObjectActionAllocSprite
-	mov r0, r4
-	mov r1, #3
-	bl StageTask__SetAnimation
-	mov r0, r4
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	str r8, [r4, #0x44]
-	str r7, [r4, #0x48]
-	str r6, [r4, #0x98]
-	rsb r0, r6, #0
-	mov r0, r0, asr #5
-	str r5, [r4, #0x9c]
-	str r0, [r4, #0xa4]
-	rsb r0, r5, #0
-	mov r0, r0, asr #5
-	str r0, [r4, #0xa8]
-	mov r2, #0
-	str r2, [sp]
-	str r2, [sp, #4]
-	mov r0, r4
-	mov r1, #0x40
-	mov r3, r2
-	bl InitEffectTaskViewCheck
-	ldr r1, =EffectTask_State_DestroyAfterAnimation
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-// clang-format on
-#endif
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_flipmush.bac", GetObjectFileWork(OBJDATAWORK_166), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjActionAllocSpritePalette(&work->objWork, FLIPMUSHROOM_ANI_PUFF, 15);
+    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, FLIPMUSHROOM_ANI_PUFF), GetObjectSpriteRef(OBJDATAWORK_171));
+    StageTask__SetAnimation(&work->objWork, FLIPMUSHROOM_ANI_PUFF);
+    StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
+    StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
+
+    work->objWork.position.x     = x;
+    work->objWork.position.y     = y;
+    work->objWork.velocity.x     = velX;
+    work->objWork.velocity.y     = velY;
+    work->objWork.acceleration.x = -velX >> 5;
+    work->objWork.acceleration.y = -velY >> 5;
+
+    InitEffectTaskViewCheck(&work->objWork, 64, 0, 0, 0, 0);
+
+    SetTaskState(&work->objWork, EffectTask_State_DestroyAfterAnimation);
+
+    return work;
 }
 
 // EffectPipeFlowPetal
-NONMATCH_FUNC EffectPipeFlowPetal *EffectPipeFlowPetal__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type)
+EffectPipeFlowPetal *EffectPipeFlowPetal__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type)
 {
-#ifdef NON_MATCHING
+    EffectPipeFlowPetal *work = CreateEffect(EffectPipeFlowPetal, NULL);
+    if (work == NULL)
+        return NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #8
-	mov r8, r0
-	mov r7, r1
-	mov r0, #0x218
-	mov r1, #0
-	mov r6, r2
-	mov r5, r3
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	mov r0, #0x9f
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1]
-	ldr r2, =aActAcGmkPipeFl
-	str r1, [sp]
-	mov ip, #8
-	mov r0, r4
-	add r1, r4, #0x168
-	str ip, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #3
-	mov r2, #0xa
-	bl ObjActionAllocSpritePalette
-	ldrh r1, [sp, #0x20]
-	mov r0, r4
-	add r1, r1, #3
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	bl StageTask__SetAnimation
-	ldr r1, [r4, #0x20]
-	mov r0, r4
-	orr r1, r1, #4
-	str r1, [r4, #0x20]
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	str r8, [r4, #0x44]
-	str r7, [r4, #0x48]
-	str r6, [r4, #0x98]
-	mov r2, #0
-	str r5, [r4, #0x9c]
-	str r2, [sp]
-	mov r0, r4
-	mov r1, #0x100
-	mov r3, r2
-	str r2, [sp, #4]
-	bl InitEffectTaskViewCheck
-	cmp r6, #0
-	movge r0, #1
-	bge _0202AC38
-	ldr r1, [r4, #0x20]
-	mvn r0, #0
-	orr r1, r1, #1
-	str r1, [r4, #0x20]
-_0202AC38:
-	str r0, [r4, #0x28]
-	ldr r1, [r4, #0x1c]
-	mov r0, #0x100
-	orr r1, r1, #0x80
-	str r1, [r4, #0x1c]
-	str r0, [r4, #0xd8]
-	mov r0, #0x3000
-	str r0, [r4, #0xdc]
-	ldr r1, =EffectPipeFlowPetal__State_202AC78
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-// clang-format on
-#endif
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_pipe_flw.bac", GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage, 8);
+    ObjActionAllocSpritePalette(&work->objWork, 3, 10);
+    StageTask__SetAnimation(&work->objWork, type + 3);
+    work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+    StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
+    StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
+
+    work->objWork.position.x = x;
+    work->objWork.position.y = y;
+    work->objWork.velocity.x = velX;
+    work->objWork.velocity.y = velY;
+
+    InitEffectTaskViewCheck(&work->objWork, 256, 0, 0, 0, 0);
+
+    if (velX >= FLOAT_TO_FX32(0.0))
+    {
+        work->objWork.userWork = 1;
+    }
+    else
+    {
+        work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+        work->objWork.userWork = -1;
+    }
+
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    work->objWork.gravityStrength  = FLOAT_TO_FX32(0.0625);
+    work->objWork.terminalVelocity = FLOAT_TO_FX32(3.0);
+
+    SetTaskState(&work->objWork, EffectPipeFlowPetal__State_202AC78);
+
+    return work;
 }
 
 void EffectPipeFlowPetal__State_202AC78(EffectPipeFlowPetal *work)
@@ -1959,87 +1357,42 @@ void EffectPipeFlowPetal__State_202AC78(EffectPipeFlowPetal *work)
 }
 
 // EffectPipeFlowSeed
-NONMATCH_FUNC EffectPipeFlowSeed *EffectPipeFlowSeed__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type)
+EffectPipeFlowSeed *EffectPipeFlowSeed__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type)
 {
-#ifdef NON_MATCHING
+    EffectPipeFlowSeed *work = CreateEffect(EffectPipeFlowSeed, NULL);
+    if (work == NULL)
+        return NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #8
-	mov r8, r0
-	mov r7, r1
-	mov r0, #0x218
-	mov r1, #0
-	mov r6, r2
-	mov r5, r3
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	mov r0, #0x9f
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1]
-	ldr r2, =aActAcGmkPipeFl
-	str r1, [sp]
-	mov ip, #1
-	mov r0, r4
-	add r1, r4, #0x168
-	str ip, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, #5
-	mov r2, #0xa
-	bl ObjActionAllocSpritePalette
-	ldrh r1, [sp, #0x20]
-	mov r0, r4
-	add r1, r1, #5
-	mov r1, r1, lsl #0x10
-	mov r1, r1, lsr #0x10
-	bl StageTask__SetAnimation
-	mov r0, r4
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	str r8, [r4, #0x44]
-	str r7, [r4, #0x48]
-	str r6, [r4, #0x98]
-	mov r2, #0
-	str r5, [r4, #0x9c]
-	str r2, [sp]
-	mov r0, r4
-	mov r1, #0x100
-	mov r3, r2
-	str r2, [sp, #4]
-	bl InitEffectTaskViewCheck
-	cmp r6, #0
-	movge r0, #1
-	bge _0202ADBC
-	ldr r1, [r4, #0x20]
-	mvn r0, #0
-	orr r1, r1, #1
-	str r1, [r4, #0x20]
-_0202ADBC:
-	str r0, [r4, #0x28]
-	ldr r1, [r4, #0x1c]
-	mov r0, #0x100
-	orr r1, r1, #0x80
-	str r1, [r4, #0x1c]
-	str r0, [r4, #0xd8]
-	mov r0, #0x2800
-	str r0, [r4, #0xdc]
-	ldr r1, =EffectPipeFlowSeed__State_202ADFC
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-// clang-format on
-#endif
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_pipe_flw.bac", GetObjectFileWork(OBJDATAWORK_159), gameArchiveStage, 1);
+    ObjActionAllocSpritePalette(&work->objWork, 5, 10);
+    StageTask__SetAnimation(&work->objWork, type + 5);
+    StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
+    StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
+
+    work->objWork.position.x = x;
+    work->objWork.position.y = y;
+    work->objWork.velocity.x = velX;
+    work->objWork.velocity.y = velY;
+
+    InitEffectTaskViewCheck(&work->objWork, 256, 0, 0, 0, 0);
+
+    if (velX >= FLOAT_TO_FX32(0.0))
+    {
+        work->objWork.userWork = 1;
+    }
+    else
+    {
+        work->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
+        work->objWork.userWork = -1;
+    }
+
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    work->objWork.gravityStrength  = FLOAT_TO_FX32(0.0625);
+    work->objWork.terminalVelocity = FLOAT_TO_FX32(2.5);
+
+    SetTaskState(&work->objWork, EffectPipeFlowSeed__State_202ADFC);
+
+    return work;
 }
 
 void EffectPipeFlowSeed__State_202ADFC(EffectPipeFlowSeed *work)
@@ -2068,614 +1421,252 @@ void EffectPipeFlowSeed__State_202ADFC(EffectPipeFlowSeed *work)
 }
 
 // EffectSteam
-NONMATCH_FUNC EffectSteam *EffectSteamDust__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY)
+EffectSteam *EffectSteamDust__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 velY)
 {
-#ifdef NON_MATCHING
+    type = MATH_MIN(type, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #8
-	mov r8, r0
-	mov r7, r1
-	cmp r8, #1
-	movhi r8, #1
-	mov r0, #0x218
-	mov r1, #0
-	mov r6, r2
-	mov r5, r3
-	and r8, r8, #0xff
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	mov r0, #0xa0
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1]
-	ldr r2, =aActAcEffSteamD
-	str r1, [sp]
-	mov r9, #0
-	mov r0, r4
-	add r1, r4, #0x168
-	str r9, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, r9
-	mov r2, #0x20
-	bl ObjActionAllocSpritePalette
-	ldr r0, [r4, #0x20c]
-	mov r1, r8
-	ldr r0, [r0]
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r9, r0
-	mov r0, r8, lsl #1
-	add r0, r0, #0xa1
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r1, r9
-	mov r0, r4
-	bl ObjObjectActionAllocSprite
-	mov r1, r8
-	mov r0, r4
-	bl StageTask__SetAnimation
-	mov r0, r4
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	str r7, [r4, #0x44]
-	str r6, [r4, #0x48]
-	mov r2, #0
-	ldr r0, [sp, #0x28]
-	str r5, [r4, #0x98]
-	str r0, [r4, #0x9c]
-	str r2, [sp]
-	str r2, [sp, #4]
-	mov r0, r4
-	mov r1, #0x10
-	mov r3, r2
-	bl InitEffectTaskViewCheck
-	ldr r1, [r4, #0x1c]
-	mov r0, #0xa0
-	orr r1, r1, #0x80
-	str r1, [r4, #0x1c]
-	str r0, [r4, #0x2c]
-	ldr r1, =EffectTask_State_MoveTowardsZeroX
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-// clang-format on
-#endif
+    EffectSteam *work = CreateEffect(EffectSteam, NULL);
+    if (work == NULL)
+        return NULL;
+
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_eff_steam_dust.bac", GetObjectFileWork(OBJDATAWORK_160), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjActionAllocSpritePalette(&work->objWork, 0, 32);
+
+    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, type), GetObjectSpriteRef(2 * type + OBJDATAWORK_161));
+    StageTask__SetAnimation(&work->objWork, type);
+    StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
+    StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
+
+    work->objWork.position.x = x;
+    work->objWork.position.y = y;
+    work->objWork.velocity.x = velX;
+    work->objWork.velocity.y = velY;
+
+    InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
+
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    work->objWork.userTimer = 160;
+
+    SetTaskState(&work->objWork, EffectTask_State_MoveTowardsZeroX);
+
+    return work;
 }
 
-NONMATCH_FUNC EffectSteam *EffectSteamEffect__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY, s32 timer)
+EffectSteam *EffectSteamEffect__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 velY, s32 timer)
 {
-#ifdef NON_MATCHING
+    type = MATH_MIN(type, 1);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #8
-	mov r9, r0
-	mov r8, r1
-	cmp r9, #1
-	movhi r9, #1
-	mov r0, #0x218
-	mov r1, #0
-	mov r7, r2
-	mov r6, r3
-	and r9, r9, #0xff
-	bl CreateEffectTask
-	movs r5, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	mov r0, #0xb3
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1]
-	ldr r2, =aActAcGmkSteamE
-	str r1, [sp]
-	mov r4, #0
-	mov r0, r5
-	add r1, r5, #0x168
-	str r4, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r5
-	mov r1, r4
-	mov r2, #0x22
-	bl ObjActionAllocSpritePalette
-	ldr r0, [r5, #0x20c]
-	mov r4, r9, lsl #1
-	ldr r0, [r0]
-	mov r1, r9
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r10, r0
-	add r0, r4, #0xb4
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r1, r10
-	mov r0, r5
-	bl ObjObjectActionAllocSprite
-	mov r0, r5
-	mov r1, r9
-	bl StageTask__SetAnimation
-	ldr r1, [r5, #0x20]
-	add r0, r4, #0xb4
-	orr r1, r1, #4
-	str r1, [r5, #0x20]
-	ldr r4, [r5, #0x128]
-	bl GetObjectFileWork
-	ldrh r0, [r0, #4]
-	bic r0, r0, #0x8000
-	cmp r0, #1
-	bne _0202B0CC
-	ldr r0, [r4, #0x3c]
-	mov r1, #0
-	orr r3, r0, #0x60
-	mov r0, r4
-	mov r2, r1
-	str r3, [r4, #0x3c]
-	bl AnimatorSpriteDS__ProcessAnimation
-	mov r0, r5
-	mov r1, r9
-	bl StageTask__SetAnimation
-_0202B0CC:
-	ldr r0, [r4, #0x3c]
-	cmp r9, #0
-	orr r0, r0, #0x18
-	str r0, [r4, #0x3c]
-	mov r0, r5
-	beq _0202B0FC
-	mov r1, #0xe
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r5
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	b _0202B110
-_0202B0FC:
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r5
-	mov r1, #1
-	bl StageTask__SetAnimatorPriority
-_0202B110:
-	str r8, [r5, #0x44]
-	str r7, [r5, #0x48]
-	ldr r1, [sp, #0x28]
-	str r6, [r5, #0x98]
-	ldr r0, [sp, #0x2c]
-	str r1, [r5, #0x9c]
-	ldr r1, =EffectTask_State_DestroyAfterTime
-	str r0, [r5, #0x2c]
-	mov r0, r5
-	str r1, [r5, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-// clang-format on
-#endif
+    EffectSteam *work = CreateEffect(EffectSteam, NULL);
+    if (work == NULL)
+        return NULL;
+
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_steam_efct.bac", GetObjectDataWork(OBJDATAWORK_179), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjActionAllocSpritePalette(&work->objWork, 0, 34);
+    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, type), GetObjectSpriteRef(2 * type + OBJDATAWORK_180));
+    StageTask__SetAnimation(&work->objWork, type);
+    work->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+
+    AnimatorSpriteDS *aniDust = &work->objWork.obj_2d->ani;
+    if ((GetObjectSpriteRef(2 * type + OBJDATAWORK_180)->engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
+    {
+        aniDust->work.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS;
+        AnimatorSpriteDS__ProcessAnimationFast(aniDust);
+        StageTask__SetAnimation(&work->objWork, type);
+    }
+    aniDust->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+
+    switch (type)
+    {
+        default:
+            StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_14);
+            StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_2);
+            break;
+
+        case 0:
+            StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
+            StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_1);
+            break;
+    }
+
+    work->objWork.position.x = x;
+    work->objWork.position.y = y;
+    work->objWork.velocity.x = velX;
+    work->objWork.velocity.y = velY;
+    work->objWork.userTimer  = timer;
+
+    SetTaskState(&work->objWork, EffectTask_State_DestroyAfterTime);
+
+    return work;
 }
 
 // EffectSteamFan
-NONMATCH_FUNC EffectSteamFan *EffectCreateSteamFan(StageTask *parent, s32 userTimer, u16 angle, s32 userWork)
+EffectSteamFan *EffectCreateSteamFan(StageTask *parent, s32 radius, u16 angle, s32 rotationSpeed)
 {
-#ifdef NON_MATCHING
+    if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) == 0)
+        return NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #8
-	ldr r4, =playerGameStatus
-	mov r9, r0
-	ldr r0, [r4]
-	mov r8, r1
-	tst r0, #1
-	mov r7, r2
-	mov r6, r3
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	mov r0, #0x218
-	mov r1, #0
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	mov r0, #0xa5
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1]
-	ldr r2, =aActAcGmkSteamF
-	str r1, [sp]
-	mov r5, #0
-	mov r0, r4
-	add r1, r4, #0x168
-	str r5, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, r5
-	mov r2, #0x22
-	bl ObjActionAllocSpritePalette
-	mov r0, #0xa8
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r0, r4
-	mov r1, #0x18
-	bl ObjObjectActionAllocSprite
-	mov r0, r4
-	mov r1, #1
-	bl StageTask__SetAnimation
-	mov r0, #0xa8
-	ldr r5, [r4, #0x128]
-	bl GetObjectFileWork
-	ldrh r0, [r0, #4]
-	bic r0, r0, #0x8000
-	cmp r0, #1
-	bne _0202B240
-	ldr r0, [r5, #0x3c]
-	mov r1, #0
-	orr r3, r0, #0x60
-	mov r0, r5
-	mov r2, r1
-	str r3, [r5, #0x3c]
-	bl AnimatorSpriteDS__ProcessAnimation
-	mov r0, r4
-	mov r1, #1
-	bl StageTask__SetAnimation
-_0202B240:
-	ldr r1, [r5, #0x3c]
-	mov r0, r4
-	orr r1, r1, #0x18
-	str r1, [r5, #0x3c]
-	ldr r1, [r9, #0x20]
-	ldr r2, [r4, #0x20]
-	and r1, r1, #1
-	orr r2, r2, r1
-	mov r1, #0xe
-	str r2, [r4, #0x20]
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	mov r0, r7, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, asr #4
-	mov r5, r0, lsl #1
-	add r1, r5, #1
-	ldr r0, [r4, #0x1c]
-	ldr r3, =FX_SinCosTable_
-	mov r1, r1, lsl #1
-	ldrsh r2, [r3, r1]
-	mov r1, r5, lsl #1
-	ldrsh r1, [r3, r1]
-	smull r5, r3, r2, r8
-	adds r5, r5, #0x800
-	orr r0, r0, #0x2000
-	str r0, [r4, #0x1c]
-	str r9, [r4, #0x11c]
-	str r8, [r4, #0x2c]
-	str r6, [r4, #0x28]
-	strh r7, [r4, #0x34]
-	smull r2, r0, r1, r8
-	adc r3, r3, #0
-	adds r1, r2, #0x800
-	mov r2, r5, lsr #0xc
-	ldr r5, [r9, #0x44]
-	orr r2, r2, r3, lsl #20
-	add r2, r5, r2
-	str r2, [r4, #0x44]
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	ldr r2, [r9, #0x48]
-	orr r1, r1, r0, lsl #20
-	add r0, r2, r1
-	ldr r1, =EffectSteamFan__State_202B324
-	str r0, [r4, #0x48]
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-// clang-format on
-#endif
+    EffectSteamFan *work = CreateEffect(EffectSteamFan, NULL);
+    if (work == NULL)
+        return NULL;
+
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_steam_fan.bac", GetObjectDataWork(OBJDATAWORK_165), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjActionAllocSpritePalette(&work->objWork, 0, 34);
+    ObjObjectActionAllocSprite(&work->objWork, 24, GetObjectSpriteRef(OBJDATAWORK_168));
+    StageTask__SetAnimation(&work->objWork, 1);
+
+    AnimatorSpriteDS *aniSteam = &work->objWork.obj_2d->ani;
+    if ((GetObjectSpriteRef(OBJDATAWORK_168)->engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) == 1)
+    {
+        aniSteam->work.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS;
+        AnimatorSpriteDS__ProcessAnimationFast(aniSteam);
+        StageTask__SetAnimation(&work->objWork, 1);
+    }
+    aniSteam->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+
+    work->objWork.displayFlag |= parent->displayFlag & DISPLAY_FLAG_FLIP_X;
+    StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_14);
+    StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_2);
+
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+    work->objWork.parentObj = parent;
+    work->objWork.userTimer = radius;
+    work->objWork.userWork  = rotationSpeed;
+    work->objWork.dir.z     = angle;
+
+    work->objWork.position.x = parent->position.x + MultiplyFX(CosFX((s32)angle), radius);
+    work->objWork.position.y = parent->position.y + MultiplyFX(SinFX((s32)angle), radius);
+
+    SetTaskState(&work->objWork, EffectSteamFan__State_202B324);
+
+    return work;
 }
 
 void EffectSteamFan__State_202B324(EffectSteamFan *work)
 {
-    fx32 power = work->objWork.userTimer + (FX32_FROM_WHOLE(mtMathRand() & 3));
+    fx32 radius = work->objWork.userTimer + (FX32_FROM_WHOLE(mtMathRand() & 3));
 
     work->objWork.dir.z += (u16)work->objWork.userWork;
 
-    work->objWork.position.x = work->objWork.parentObj->position.x + MultiplyFX(CosFX(work->objWork.dir.z), power);
-    work->objWork.position.y = work->objWork.parentObj->position.y + MultiplyFX(SinFX(work->objWork.dir.z), power);
+    work->objWork.position.x = work->objWork.parentObj->position.x + MultiplyFX(CosFX(work->objWork.dir.z), radius);
+    work->objWork.position.y = work->objWork.parentObj->position.y + MultiplyFX(SinFX(work->objWork.dir.z), radius);
 
     if ((work->objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
         DestroyStageTask(&work->objWork);
 }
 
 // EffectPiston
-NONMATCH_FUNC EffectPiston *EffectPiston__Create(VecFx32 *position, VecU16 *dir)
+EffectPiston *EffectPiston__Create(VecFx32 *position, VecU16 *dir)
 {
-#ifdef NON_MATCHING
+    EffectPiston *work = CreateEffect(EffectPiston, NULL);
+    if (work == NULL)
+        return NULL;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, lr}
-	sub sp, sp, #0xc
-	mov r6, r0
-	mov r5, r1
-	mov r0, #0x2d0
-	mov r1, #0
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #0xc
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, pc}
-	mov r0, #0xbf
-	bl GetObjectFileWork
-	mov r2, #3
-	str r2, [sp]
-	ldr r1, =EffectTask_State_TrackParent
-	mov r2, r0
-	str r1, [sp, #4]
-	mov r1, #0
-	str r1, [sp, #8]
-	ldr r0, =gameArchiveStage
-	ldr r1, =aModGmkPistonEf
-	ldr r3, [r0]
-	mov r0, r4
-	bl LoadEffectTask3DAsset
-	ldr r0, =0x00003A13
-	add r3, r4, #0x44
-	str r0, [r4, #0x180]
-	str r0, [r4, #0x184]
-	str r0, [r4, #0x188]
-	ldmia r6, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldrh r2, [r5]
-	ldrh r1, [r5, #2]
-	mov r0, r4
-	strh r2, [r4, #0x30]
-	strh r1, [r4, #0x32]
-	ldrh r1, [r5, #4]
-	strh r1, [r4, #0x34]
-	ldr r1, [r4, #0x20]
-	bic r1, r1, #0x100
-	orr r1, r1, #0x200
-	str r1, [r4, #0x20]
-	ldr r1, [r4, #0x1c]
-	orr r1, r1, #0x2000
-	str r1, [r4, #0x1c]
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, pc}
-// clang-format on
-#endif
+    LoadEffectTask3DAsset(&work->effWork, "/mod/gmk_piston_ef", GetObjectDataWork(OBJDATAWORK_191), gameArchiveStage, B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM,
+                          EffectTask_State_TrackParent, 0);
+
+    // ~3.63
+    VEC_Set(&work->effWork.animatorMDL.work.scale, FLOAT_TO_FX32(3.629638671875), FLOAT_TO_FX32(3.629638671875), FLOAT_TO_FX32(3.629638671875));
+
+    work->effWork.objWork.position = *position;
+    work->effWork.objWork.dir      = *dir;
+
+    work->effWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_ROTATION;
+    work->effWork.objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+    work->effWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+
+    return work;
 }
 
 // EffectIceBlock
-NONMATCH_FUNC EffectIceBlockDebris *EffectIceBlockDebris__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY)
+EffectIceBlockDebris *EffectIceBlockDebris__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 velY)
 {
-#ifdef NON_MATCHING
+    type = MATH_MIN(type, 3);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	sub sp, sp, #8
-	mov r9, r0
-	mov r8, r1
-	cmp r9, #3
-	movhi r9, #3
-	mov r0, #0x218
-	mov r1, #0
-	mov r7, r2
-	mov r6, r3
-	and r9, r9, #0xff
-	bl CreateEffectTask
-	movs r4, r0
-	addeq sp, sp, #8
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	mov r0, #0xaf
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1]
-	ldr r2, =aActAcGmkIceBlo
-	str r1, [sp]
-	mov r5, #0
-	mov r0, r4
-	add r1, r4, #0x168
-	str r5, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r4
-	mov r1, r5
-	mov r2, #0x23
-	bl ObjActionAllocSpritePalette
-	ldr r0, [r4, #0x20c]
-	add r5, r9, #1
-	mov r1, r5, lsl #0x10
-	ldr r0, [r0]
-	mov r1, r1, lsr #0x10
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r1, r9, lsl #1
-	mov r9, r0
-	add r0, r1, #0xb2
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r1, r9
-	mov r0, r4
-	bl ObjObjectActionAllocSprite
-	mov r0, r5, lsl #0x10
-	mov r1, r0, lsr #0x10
-	mov r0, r4
-	bl StageTask__SetAnimation
-	mov r0, r4
-	mov r1, #0xc
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-	str r8, [r4, #0x44]
-	str r7, [r4, #0x48]
-	mov r2, #0
-	ldr r0, [sp, #0x28]
-	str r6, [r4, #0x98]
-	str r0, [r4, #0x9c]
-	str r2, [sp]
-	str r2, [sp, #4]
-	mov r0, r4
-	mov r1, #0x10
-	mov r3, r2
-	bl InitEffectTaskViewCheck
-	ldr r1, [r4, #0x1c]
-	mov r0, #0xa0
-	orr r1, r1, #0x80
-	str r1, [r4, #0x1c]
-	str r0, [r4, #0x2c]
-	ldr r1, =EffectTask_State_MoveTowardsZeroX
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-// clang-format on
-#endif
+    EffectIceBlockDebris *work = CreateEffect(EffectIceBlockDebris, NULL);
+    if (work == NULL)
+        return NULL;
+
+    ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_ice_block.bac", GetObjectFileWork(OBJDATAWORK_175), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjActionAllocSpritePalette(&work->objWork, 0, 35);
+
+    u16 anim = type + 1;
+    ObjObjectActionAllocSprite(&work->objWork, Sprite__GetSpriteSize2FromAnim(work->ani.fileWork->fileData, type + 1), GetObjectSpriteRef(2 * type + OBJDATAWORK_178));
+    StageTask__SetAnimation(&work->objWork, anim);
+    StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
+    StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
+
+    work->objWork.position.x = x;
+    work->objWork.position.y = y;
+    work->objWork.velocity.x = velX;
+    work->objWork.velocity.y = velY;
+
+    InitEffectTaskViewCheck(&work->objWork, 16, 0, 0, 0, 0);
+
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    work->objWork.userTimer = 160;
+
+    SetTaskState(&work->objWork, EffectTask_State_MoveTowardsZeroX);
+
+    return work;
 }
 
 // EffectTruckSparkles
-NONMATCH_FUNC EffectTruckSparkles *EffectTruckSparkles__Create(StageTask *parent, u16 duration, s32 userWork, fx32 offsetX, fx32 offsetY, u16 flags)
+void EffectTruckSparkles__Create(StageTask *parent, u16 duration, s32 userWork, fx32 offsetX, fx32 offsetY, u32 flags)
 {
-#ifdef NON_MATCHING
+    s32 i;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x14
-	str r0, [sp, #4]
-	str r1, [sp, #8]
-	ldr r0, =0x00000E64
-	mov r1, #0
-	str r2, [sp, #0xc]
-	str r3, [sp, #0x10]
-	bl CreateEffectTask
-	movs r7, r0
-	addeq sp, sp, #0x14
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, =EffectTask__sVars
-	ldr r1, =EffectTruckSparkles__Destructor
-	ldr r0, [r0]
-	bl SetTaskDestructorEvent
-	ldr r4, =gameArchiveStage
-	add r9, r7, #0x168
-	mov r6, #0
-	mov r10, #0xb8
-	mov r11, #0xb4
-_0202B670:
-	mov r0, r11
-	mov r8, r9
-	bl GetObjectFileWork
-	ldr r1, [r4]
-	mov r3, r0
-	str r1, [sp]
-	ldr r1, =aActAcGmkTruckB
-	mov r0, r9
-	mov r2, #0
-	bl ObjAction2dBACLoad
-	ldr r1, [r9, #0x3c]
-	add r0, r6, #1
-	orr r1, r1, #0x10
-	str r1, [r9, #0x3c]
-	mov r0, r0, lsl #0x10
-	mov r1, r0, lsr #0x10
-	ldr r0, [r9, #0x14]
-	bl Sprite__GetSpriteSize2FromAnim
-	mov r5, r0
-	mov r0, r10
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r1, r5
-	mov r0, r9
-	bl ObjActionAllocSpriteDS
-	add r1, r6, #1
-	mov r1, r1, lsl #0x10
-	mov r0, r9
-	mov r1, r1, lsr #0x10
-	bl AnimatorSpriteDS__SetAnimation
-	mov r0, #0xb8
-	bl GetObjectFileWork
-	ldrh r0, [r0, #4]
-	bic r0, r0, #0x8000
-	cmp r0, #1
-	bgt _0202B710
-	mov r1, #0
-	mov r0, r9
-	mov r2, r1
-	bl AnimatorSpriteDS__ProcessAnimation
-_0202B710:
-	ldr r1, [r9, #0x3c]
-	mov r0, r9
-	orr r1, r1, #8
-	str r1, [r9, #0x3c]
-	mov r1, #0xc
-	bl StageTask__SetOAMOrder
-	mov r0, r9
-	mov r1, #2
-	bl StageTask__SetOAMPriority
-	add r6, r6, #1
-	add r9, r9, #0xa4
-	add r10, r10, #2
-	cmp r6, #3
-	blt _0202B670
-	ldr r0, [r8, #0x14]
-	mov r1, #1
-	mov r2, #0x3a
-	bl ObjDrawAllocSpritePalette
-	mov r3, r7
-	mov r4, #0
-_0202B760:
-	add r1, r3, #0x100
-	strh r0, [r1, #0xb8]
-	ldrh r2, [r1, #0xb8]
-	add r4, r4, #1
-	cmp r4, #3
-	strh r2, [r1, #0xfa]
-	strh r2, [r1, #0xf8]
-	add r3, r3, #0xa4
-	blt _0202B760
-	ldr r0, [sp, #8]
-	add r1, r7, #0xe00
-	strh r0, [r1, #0x60]
-	ldr r2, [sp, #0x3c]
-	ldr r0, [sp, #4]
-	strh r2, [r1, #0x62]
-	ldr r1, [r0, #0x44]
-	ldr r0, [sp, #0x10]
-	ldr r2, [sp, #0x38]
-	add r0, r1, r0
-	str r0, [r7, #0xe58]
-	ldr r0, [sp, #4]
-	ldr r1, =EffectTruckSparkles__Draw
-	ldr r0, [r0, #0x48]
-	add r0, r0, r2
-	str r0, [r7, #0xe5c]
-	ldr r0, [sp, #0xc]
-	str r0, [r7, #0x28]
-	ldr r2, [r7, #0x1c]
-	ldr r0, =EffectTruckSparkles__State_202B86C
-	orr r2, r2, #0x2000
-	str r2, [r7, #0x1c]
-	str r1, [r7, #0xfc]
-	str r0, [r7, #0xf4]
-	add sp, sp, #0x14
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-// clang-format on
-#endif
+    EffectTruckSparkles *work = CreateEffect(EffectTruckSparkles, NULL);
+    if (work == NULL)
+        return;
+
+    SetTaskDestructorEvent(EffectTask__sVars.lastCreatedTask, EffectTruckSparkles__Destructor);
+
+    AnimatorSpriteDS *aniSparkle2;
+    AnimatorSpriteDS *aniSparkle = work->aniSparkles;
+    i                            = 0;
+    u32 id                       = OBJDATAWORK_184;
+    for (; i < 3; i++)
+    {
+        aniSparkle2 = aniSparkle++;
+
+        void *archive = gameArchiveStage;
+        ObjAction2dBACLoad(aniSparkle2, "/act/ac_gmk_truck.bac", OBJ_DATA_GFX_NONE, GetObjectDataWork(OBJDATAWORK_180), archive);
+        aniSparkle2->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
+
+        ObjActionAllocSpriteDS(aniSparkle2, Sprite__GetSpriteSize2FromAnim(aniSparkle2->work.fileData, i + 1), GetObjectSpriteRef(id));
+        AnimatorSpriteDS__SetAnimation(aniSparkle2, i + 1);
+
+        if ((GetObjectSpriteRef(OBJDATAWORK_184)->engineRef[0].referenceCount & OBJDATA_FLAG_REFCOUNT_MASK) <= 1)
+            AnimatorSpriteDS__ProcessAnimationFast(aniSparkle2);
+
+        aniSparkle2->work.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+        StageTask__SetOAMOrder(&aniSparkle2->work, SPRITE_ORDER_12);
+        StageTask__SetOAMPriority(&aniSparkle2->work, SPRITE_PRIORITY_2);
+
+        // sure, whatever I guess
+        aniSparkle++;
+        aniSparkle--;
+
+        id += 2;
+    }
+
+    u16 palette = ObjDrawAllocSpritePalette(aniSparkle2->work.fileData, 1, 58);
+    for (i = 0; i < 3; i++)
+    {
+        work->aniSparkles[i].cParam[0].palette = work->aniSparkles[i].cParam[1].palette = work->aniSparkles[i].work.palette = palette;
+    }
+
+    work->duration = duration;
+    work->flags    = flags;
+
+    work->position.x = parent->position.x + offsetX;
+    work->position.y = parent->position.y + offsetY;
+
+    work->objWork.userWork = userWork;
+    work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+
+    SetTaskOutFunc(&work->objWork, EffectTruckSparkles__Draw);
+    SetTaskState(&work->objWork, EffectTruckSparkles__State_202B86C);
 }
 
 void EffectTruckSparkles__Destructor(Task *task)

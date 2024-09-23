@@ -837,7 +837,7 @@
 .public InitEffectTaskViewCheck
 .public LoadEffectTask3DAsset
 .public EffectTask3D_State_Init
-.public EffectTask3D_State_Visible
+.public EffectTask3D_Draw_3D
 .public EffectTask3D_Destructor
 .public EffectTask_State_DestroyAfterAnimation
 .public EffectTask_State_DestroyAfterTime

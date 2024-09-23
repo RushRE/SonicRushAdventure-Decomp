@@ -18,6 +18,6 @@ typedef struct EffectIceSparkles_
 // FUNCTIONS
 // --------------------
 
-EffectIceSparkles *EffectIceSparkles__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 type);
+EffectIceSparkles *EffectIceSparkles__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, s32 type);
 
 #endif // RUSH2_EFFECT_ICE_SPARKLES_H

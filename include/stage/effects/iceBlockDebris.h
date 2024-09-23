@@ -18,6 +18,6 @@ typedef struct EffectIceBlockDebris_
 // FUNCTIONS
 // --------------------
 
-EffectIceBlockDebris *EffectIceBlockDebris__Create(u32 type, fx32 x, fx32 y, fx32 velX, fx32 velY);
+EffectIceBlockDebris *EffectIceBlockDebris__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 velY);
 
 #endif // RUSH2_EFFECT_ICE_BLOCK_DEBRIS_H

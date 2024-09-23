@@ -19,6 +19,24 @@ typedef void (*EffectTask3DState)(EffectTask3D *work);
 #define CreateEffect(type, parent) (type *)CreateEffectTask(sizeof(type), (StageTask *)(parent))
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum EffectTask3DFlags_
+{
+    EFFECTTASK3D_FLAG_NONE = 0x00,
+
+    EFFECTTASK3D_FLAG_HAS_MODEL      = 1 << 0,
+    EFFECTTASK3D_FLAG_HAS_ARCHIVE    = 1 << 1,
+    EFFECTTASK3D_FLAG_HAS_ANIM_JOINT = 1 << 2,
+    EFFECTTASK3D_FLAG_HAS_ANIM_MAT   = 1 << 3,
+    EFFECTTASK3D_FLAG_HAS_ANIM_PAT   = 1 << 4,
+    EFFECTTASK3D_FLAG_HAS_ANIM_TEX   = 1 << 5,
+    EFFECTTASK3D_FLAG_HAS_ANIM_VIS   = 1 << 6,
+};
+typedef u16 EffectTask3DFlags;
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -26,12 +44,12 @@ struct EffectTaskStaticVars
 {
     Task *lastCreatedTask;
     StageTask *airEffectSingleton;
-    OBS_DATA_WORK field_8;
-    OBS_DATA_WORK field_10;
-    OBS_DATA_WORK field_18;
+    OBS_DATA_WORK effectExplosionFile;
+    OBS_DATA_WORK effectWaterSplashFile;
+    OBS_DATA_WORK effectFoundFile;
     OBS_DATA_WORK effectVitalityFile;
     OBS_DATA_WORK field_28;
-    OBS_DATA_WORK field_30;
+    OBS_DATA_WORK effectBattleBurstFile;
     u8 trailIDList[4];
     fx32 trailXOffset;
     Task *trailTaskList[2];
@@ -61,8 +79,8 @@ struct EffectTask3D_
     NNSG3dResFileHeader *resource;
     void *files[B3D_ANIM_MAX];
     EffectTask3DState nextState;
-    u16 field_2CC;
-    u16 activeFiles;
+    u16 delay;
+    EffectTask3DFlags flags;
 };
 
 // --------------------
@@ -80,10 +98,10 @@ StageTask *CreateEffectTask(size_t size, StageTask *parent);
 StageTask *InitEffectTaskViewCheck(StageTask *work, s16 offset, s16 left, s16 top, s16 right, s16 bottom);
 
 // EffectTask3D
-void LoadEffectTask3DAsset(EffectTask3D *work, const char *path, OBS_DATA_WORK *fileWork, NNSiFndArchiveHeader *archive, u32 resourceFlags,
-                                            EffectTask3DState nextState, BOOL initResources);
+void LoadEffectTask3DAsset(EffectTask3D *work, const char *path, OBS_DATA_WORK *fileWork, NNSiFndArchiveHeader *archive, u32 resourceFlags, StageTaskState nextState,
+                           BOOL initResources);
 void EffectTask3D_State_Init(EffectTask3D *work);
-void EffectTask3D_State_Visible(EffectTask3D *work);
+void EffectTask3D_Draw_3D(void);
 void EffectTask3D_Destructor(Task *task);
 
 // EffectTask states

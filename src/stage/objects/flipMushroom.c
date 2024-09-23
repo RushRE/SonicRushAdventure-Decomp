@@ -15,15 +15,6 @@ enum FlipMushroomObjectFlags
     FLIPMUSHROOM_OBJFLAG_ALT_PALETTE = 1 << 0,
 };
 
-enum FlipMushroomAnimIDs
-{
-    FLIPMUSHROOM_ANI_MUSHROOM,
-    FLIPMUSHROOM_ANI_STEM_V,
-    FLIPMUSHROOM_ANI_STEM_D,
-    FLIPMUSHROOM_ANI_PUFF,
-    FLIPMUSHROOM_ANI_ALT_PALETTE,
-};
-
 enum FlipMushroomTypes
 {
     FLIPMUSHROOM_TYPE_U,  // straight upwards
