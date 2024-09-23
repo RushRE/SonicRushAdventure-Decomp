@@ -1,60 +1,132 @@
-from typing import NamedTuple
+from dataclasses import dataclass
 import re
+import os
 
-class Address(NamedTuple):
+@dataclass
+class Address:
     addr: str
     size: str
     section: str
     name: str
     file: str
+    decompiled: bool
 
-def pretty(d, indent=0):
-   for key, value in d.items():
-      print('\t' * indent + str(key))
-      if isinstance(value, dict):
-         pretty(value, indent+1)
-      else:
-         print('\t' * (indent+1) + str(value))
+overlays = {
+    "unknown": [],
+}
 
-with open("build/rush2.eu/arm9.elf.xMAP") as file:
-    mode = 0
+# read info from xmap file
+def ReadXMAP(path):
 
-    overlays = {
-        "unknown": [],
-    }
+    with open("build/rush2.eu/arm9.elf.xMAP") as file:
+        region = "unknown"
+        for line in file:
+            split = line.strip()
 
-    region = "unknown"
-    for line in file:
-        split = line.strip()
+            if split.startswith("# ."):
+                region = split.replace("# .", "")
 
-        if split.startswith("# ."):
-            region = split.replace("# .", "")
+            result = re.match(r"^([0-9A-Fa-f]*) ([0-9A-Fa-f]*) (\.[A-Za-z]*)\s*([A-Za-z0-9_]*)\s*\(([A-Za-z0-9_.]*)([^\)]*)\)", split)
+            if result:
+                info = Address(result.group(1), result.group(2), result.group(3), result.group(4), result.group(5), True)
 
-        result = re.match("^([0-9A-Fa-f]*) ([0-9A-Fa-f]*) (\.[A-Za-z]*)\s*([A-Za-z0-9_]*)\s*\(([A-Za-z0-9_.]*)([^\)]*)\)", split)
-        if result:
-            info = Address(result.group(1), result.group(2), result.group(3), result.group(4), result.group(5))
+                if region not in overlays:
+                    overlays[region] = []
+                    
+                overlays[region].append(info)
 
-            if region not in overlays:
-                overlays[region] = []
-                
-            overlays[region].append(info)
+#parse any asm (.s) files and set the functions in there to be NOT decompiled
+def ParseAsmFiles(includeLib = True):
+    rootdir = './'
+    if not includeLib:
+        rootdir = 'asm/'
 
-            # print(info)
+    for subdir, dirs, files in os.walk(rootdir):
+        for file in files:
+            path = os.path.join(subdir, file)
+            
+            if not path.endswith(".s"):
+                continue
+
+            text = ""
+            with open(path, 'r') as file:
+                text = file.read()
+
+            for result in re.finditer(r"arm_func_start ([A-Za-z0-9_]*)", text):
+                labelName = result.group(1)
+
+                for key, value in overlays.items():
+                    for i in range(len(value)):
+                        if value[i].name == labelName:
+                            overlays[key][i].decompiled = False
+
+            for result in re.finditer(r"thumb_func_start ([A-Za-z0-9_]*)", text):
+                labelName = result.group(1)
+
+                for key, value in overlays.items():
+                    for i in range(len(value)):
+                        if value[i].name == labelName:
+                            overlays[key][i].decompiled = False
+
+#parse any c (.c & .cpp) files and set the functions in there with the "NONMATCH_FUNC" macro to be NOT decompiled
+def ParseCFiles(includeLib = True):
+    rootdir = './'
+    if not includeLib:
+        rootdir = 'src/'
+
+    for subdir, dir, files in os.walk(rootdir):
+        for file in files:
+            path = os.path.join(subdir, file)
+            # print(path)
+            
+            if not path.endswith(".c") and not path.endswith(".cpp"):
+                continue
+
+            text = ""
+            with open(path, 'r') as file:
+                text = file.read()
+
+            for result in re.finditer(r"NONMATCH_FUNC [static ]*([A-Za-z0-9_]*)[*]* [*]*([A-Za-z0-9_]*)", text):
+                labelName = result.group(2)
+
+                for key, value in overlays.items():
+                    for i in range(len(value)):
+                        if value[i].name == labelName:
+                            overlays[key][i].decompiled = False
+
+def PrintProgress():
+    ReadXMAP("build/rush2.eu/arm9.elf.xMAP")
         
-        # if mode == 1:
-        
+    includeLib = False
+    ParseAsmFiles(includeLib=includeLib)
+    ParseCFiles(includeLib=includeLib)
+
+    allSrcCount = 0
+    allTotalCount = 0
+
     for key, value in overlays.items():
-        print(key)
-
         srcCount = 0  #TODO: count these
         totalCount = 0
 
         for info in value:
+            # for now, just count functions (labels in .text section)
+            if info.section != ".text":
+                continue
+
             totalCount += 1
-            #print("\t" + info.name)
+            allTotalCount += 1
 
-        percent = 100
-        if totalCount > 0:
-            percent = (srcCount / totalCount) * 100
+            if info.decompiled:
+                srcCount += 1
+                allSrcCount += 1
 
-        print("{0}/{1} => {2}%".format(srcCount, totalCount, "{:.2f}".format(percent)))
+        if totalCount == 0:
+            continue
+
+        percent = (srcCount / totalCount) * 100
+        print("{0}: {1}/{2} => {3}%".format(key, srcCount, totalCount, "{:.2f}".format(percent)))
+
+    percent = (allSrcCount / allTotalCount) * 100
+    print("Total: {0}/{1} => {2}%".format(allSrcCount, allTotalCount, "{:.2f}".format(percent)))
+
+PrintProgress()
