@@ -57,6 +57,19 @@ typedef int BOOL;
 
 #define SDK_INLINE static inline
 
+#if defined(SDK_CW) || defined(__MWERKS__)
+#ifndef ATTRIBUTE_ALIGN
+#define ATTRIBUTE_ALIGN(num) __attribute__((aligned(num)))
+#endif
+#endif
+
+// Weak symbol
+#if defined(SDK_CW) || defined(__MWERKS__)
+#define SDK_WEAK_SYMBOL __declspec(weak)
+#else
+#define SDK_WEAK_SYMBOL
+#endif
+
 #endif // SDK_ASM
 
 #endif // NITRO_TYPES_H

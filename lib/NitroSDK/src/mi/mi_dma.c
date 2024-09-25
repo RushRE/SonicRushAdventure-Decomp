@@ -16,7 +16,7 @@ void MIi_DmaSetParams(u32 dmaNo, u32 src, u32 dest, u32 ctrl)
     *(p + 1) = (vu32)dest;
     *(p + 2) = (vu32)ctrl;
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 void MIi_DmaSetParams_wait(u32 dmaNo, u32 src, u32 dest, u32 ctrl)
@@ -43,7 +43,7 @@ void MIi_DmaSetParams_wait(u32 dmaNo, u32 src, u32 dest, u32 ctrl)
         *(p + 2) = (vu32)MIi_DUMMY_CNT;
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 void MIi_DmaSetParams_noInt(u32 dmaNo, u32 src, u32 dest, u32 ctrl)
@@ -196,7 +196,7 @@ void MI_WaitDma(u32 dmaNo)
         *(p + 2) = (vu32)MIi_DUMMY_CNT;
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 void MI_StopDma(u32 dmaNo)
@@ -224,7 +224,7 @@ void MI_StopDma(u32 dmaNo)
         *(p + 2) = (vu32)MIi_DUMMY_CNT;
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 #ifdef SDK_ARM9

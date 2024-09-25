@@ -14,11 +14,4 @@
 #define asm
 #endif //__CLION_IDE__
 
-// Weak symbol
-#if defined(SDK_CW) || defined(__MWERKS__)
-#define SDK_WEAK_SYMBOL __declspec(weak)
-#else
-#define SDK_WEAK_SYMBOL
-#endif
-
 #endif // GUARD_CW_FUNCTION_TARGET_H

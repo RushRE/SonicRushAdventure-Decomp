@@ -56,7 +56,7 @@ void OSi_UnlockVram(u16 bank, u16 lockId)
         }
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 #endif

@@ -195,7 +195,7 @@ _0204014C:
 	mov r0, #7
 	mov r1, #0x10
 	str r3, [r2]
-	bl NNS_SndPlayerStopSeqBySeqArcNo
+	bl NNS_SndPlayerStopSeqBySeqNo
 	ldr r2, _020401B4 // =SeaMapMenu__State_Close
 	mov r0, #0
 	sub r1, r0, #1
@@ -255,7 +255,7 @@ _020401E4:
 	bl PlaySfxEx
 	mov r0, #7
 	mov r1, #0x10
-	bl NNS_SndPlayerStopSeqBySeqArcNo
+	bl NNS_SndPlayerStopSeqBySeqNo
 	ldr r0, _020402A0 // =SeaMapMenu__State_FadeOut
 	str r0, [r5, #0x7c0]
 	b _0204028C

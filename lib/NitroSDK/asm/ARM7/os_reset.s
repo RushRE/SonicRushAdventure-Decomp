@@ -3,18 +3,6 @@
 
 	.text
 
-	arm_func_start OS_SpinWait
-OS_SpinWait: // 0x037FE508
-	stmdb sp!, {lr}
-	sub sp, sp, #4
-	mov r1, #4
-	bl _s32_div_f
-	bl SVC_WaitByLoop_ARM
-	add sp, sp, #4
-	ldmia sp!, {lr}
-	bx lr
-	arm_func_end OS_SpinWait
-
 	arm_func_start OS_ResetSystem
 OS_ResetSystem: // 0x037FE528
 	stmdb sp!, {lr}

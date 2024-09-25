@@ -127,7 +127,7 @@ static inline void TPi_ErrorAtPxi(TPRequestCommand command)
 
 static void TPi_TpCallback(PXIFifoTag tag, u32 data, BOOL err)
 {
-    UNUSED(tag);
+#pragma unused(tag)
 
     u16 result;
     u16 command;
@@ -314,7 +314,7 @@ void TP_SetCalibrateParam(const TPCalibrateParam *param)
         tpState.calibrate.yDotSizeInv = 0;
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 
     tpState.calibrate_flg = TRUE;
 }
@@ -325,7 +325,7 @@ void TP_SetCallback(TPRecvCallback callback)
 
     enabled          = OS_DisableInterrupts();
     tpState.callback = callback;
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 void TP_RequestSamplingAsync(void)
@@ -336,14 +336,14 @@ void TP_RequestSamplingAsync(void)
 
     if (TPi_SamplingNow() == FALSE)
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+        (void) OS_RestoreInterrupts(enabled);
         TPi_ErrorAtPxi(TP_REQUEST_COMMAND_SAMPLING);
         return;
     }
     tpState.command_flg |= TP_REQUEST_COMMAND_FLAG_SAMPLING;
     tpState.err_flg &= ~TP_REQUEST_COMMAND_FLAG_SAMPLING;
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 u32 TP_WaitRawResult(TPData *result)
@@ -396,14 +396,14 @@ void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData sampling
 
     if ((u8)TPi_AutoSamplingOn(vcount, (u8)frequence) == FALSE)
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+        (void) OS_RestoreInterrupts(enabled);
         TPi_ErrorAtPxi(TP_REQUEST_COMMAND_AUTO_ON);
         return;
     }
     tpState.command_flg |= TP_REQUEST_COMMAND_FLAG_AUTO_ON;
     tpState.err_flg &= ~TP_REQUEST_COMMAND_FLAG_AUTO_ON;
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 void TP_RequestAutoSamplingStopAsync(void)
 {
@@ -413,7 +413,7 @@ void TP_RequestAutoSamplingStopAsync(void)
 
     if (TPi_AutoSamplingOff() == FALSE)
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+        (void) OS_RestoreInterrupts(enabled);
         TPi_ErrorAtPxi(TP_REQUEST_COMMAND_AUTO_OFF);
         return;
     }
@@ -421,7 +421,7 @@ void TP_RequestAutoSamplingStopAsync(void)
     tpState.command_flg |= TP_REQUEST_COMMAND_FLAG_AUTO_OFF;
     tpState.err_flg &= ~TP_REQUEST_COMMAND_FLAG_AUTO_OFF;
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 void TP_RequestSetStabilityAsync(u8 retry, u16 range)
@@ -432,14 +432,14 @@ void TP_RequestSetStabilityAsync(u8 retry, u16 range)
 
     if (TPi_SetupStability(range) == FALSE)
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+        (void) OS_RestoreInterrupts(enabled);
         TPi_ErrorAtPxi(TP_REQUEST_COMMAND_SET_STABILITY);
         return;
     }
     tpState.command_flg |= TP_REQUEST_COMMAND_FLAG_SET_STABILITY;
     tpState.err_flg &= ~TP_REQUEST_COMMAND_FLAG_SET_STABILITY;
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 void TP_GetLatestRawPointInAuto(TPData *result)
@@ -567,20 +567,20 @@ u32 TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 raw_x1, u16 raw_y1, u
 
     if (!IN_S16_RANGE(tmp32))
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+        (void) OS_RestoreInterrupts(enabled);
         return 1;
     }
     calibrate->xDotSize = (s16)tmp32;
     tmp32 = (s16)((((s32)(raw_x1 + raw_x2) << TP_CALIBRATE_DOT_SCALE_SHIFT) - ((s32)(dx1 + dx2) * calibrate->xDotSize)) >> (TP_CALIBRATE_DOT_SCALE_SHIFT - TP_CALIBRATE_ORIGIN_SCALE_SHIFT + 1));
     if (!IN_S16_RANGE(tmp32))
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+        (void) OS_RestoreInterrupts(enabled);
         return 1;
     }
     calibrate->x0 = (s16)tmp32;
 
     tmp32 = CP_GetDivResult32();
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 
     if (!IN_S16_RANGE(tmp32))
     {

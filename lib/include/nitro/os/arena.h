@@ -2,9 +2,11 @@
 #define NITRO_OS_ARENA_H
 
 #include <nitro/os/common/arena_shared.h>
+#include <nitro/types.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -39,8 +41,8 @@ SDK_INLINE void OS_InitArenaLo(OSArenaId id)
 
 SDK_INLINE void OS_InitArenaHiAndLo(OSArenaId id)
 {
-    (IGNORE_RETURN) OS_InitArenaHi(id);
-    (IGNORE_RETURN) OS_InitArenaLo(id);
+    (void)OS_InitArenaHi(id);
+    (void)OS_InitArenaLo(id);
 }
 
 #ifdef __cplusplus

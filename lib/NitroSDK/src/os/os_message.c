@@ -25,7 +25,7 @@ BOOL OS_SendMessage(OSMessageQueue *mq, OSMessage msg, s32 flags)
     {
         if (!(flags & OS_MESSAGE_BLOCK))
         {
-            (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+            (void) OS_RestoreInterrupts(enabled);
             return FALSE;
         }
         else
@@ -40,7 +40,7 @@ BOOL OS_SendMessage(OSMessageQueue *mq, OSMessage msg, s32 flags)
 
     OS_WakeupThread(&mq->queueReceive);
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
     return TRUE;
 }
 
@@ -54,7 +54,7 @@ BOOL OS_ReceiveMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags)
     {
         if (!(flags & OS_MESSAGE_BLOCK))
         {
-            (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+            (void) OS_RestoreInterrupts(enabled);
             return FALSE;
         }
         else
@@ -73,7 +73,7 @@ BOOL OS_ReceiveMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags)
 
     OS_WakeupThread(&mq->queueSend);
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
     return TRUE;
 }
 
@@ -105,7 +105,7 @@ BOOL OS_JamMessage(OSMessageQueue *mq, OSMessage msg, s32 flags)
     // Wakeup receiving threads if any
     OS_WakeupThread(&mq->queueReceive);
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
     return TRUE;
 }
 
@@ -119,7 +119,7 @@ BOOL OS_ReadMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags)
     {
         if (!(flags & OS_MESSAGE_BLOCK))
         {
-            (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+            (void) OS_RestoreInterrupts(enabled);
             return FALSE;
         }
         else
@@ -133,6 +133,6 @@ BOOL OS_ReadMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags)
         *msg = mq->msgArray[mq->firstIndex];
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
     return TRUE;
 }

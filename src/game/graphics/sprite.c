@@ -940,7 +940,8 @@ _02080B14:
 #endif
 }
 
-NONMATCH_FUNC void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, fx32 scaleX, fx32 scaleY, s32 rotation){
+NONMATCH_FUNC void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, fx32 scaleX, fx32 scaleY, s32 rotation)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1598,7 +1599,8 @@ void AnimatorSpriteDS__ProcessFrame(AnimatorSpriteDS *animator)
     }
 }
 
-NONMATCH_FUNC void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator){
+NONMATCH_FUNC void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2862,21 +2864,18 @@ void AnimatorMDL__Release(AnimatorMDL *animator)
 
 void AnimatorMDL__SetResource(AnimatorMDL *animator, const NNSG3dResFileHeader *resource, u32 idx, BOOL setJoint, BOOL setMaterial)
 {
-    NNSG3dResMdlSet *mdlSet = NNS_G3dGetMdlSet(resource);
-    NNS_G3dRenderObjInit(&animator->renderObj, (NNSG3dResMdl *)NNS_G3dGetResDataByIdx_Fast(mdlSet, &mdlSet->dict, idx));
+    NNS_G3dRenderObjInit(&animator->renderObj, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx));
 
     if (setJoint)
     {
-        NNSG3dResMdlSet *mdlJnt       = NNS_G3dGetMdlSet(resource);
         animator->renderObj.recJntAnm = animator->jntAnimResult =
-            NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, (NNSG3dResMdl *)NNS_G3dGetResDataByIdx_Fast(mdlJnt, &mdlJnt->dict, idx));
+            NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx));
     }
 
     if (setMaterial)
     {
-        NNSG3dResMdlSet *mdlMat       = NNS_G3dGetMdlSet(resource);
         animator->renderObj.recMatAnm = animator->matAnimResult =
-            NNS_G3dAllocRecBufferMat(&heapSystemAllocator, (NNSG3dResMdl *)NNS_G3dGetResDataByIdx_Fast(mdlMat, &mdlMat->dict, idx));
+            NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx));
     }
 }
 
@@ -3034,9 +3033,7 @@ void AnimatorShape3D__Init(AnimatorShape3D *animator, AnimatorFlags flags)
 
 void AnimatorShape3D__SetResource(AnimatorShape3D *animator, NNSG3dResFileHeader *resource, u32 idx, u32 matID, u32 shpID)
 {
-    NNSG3dResMdlSet *mdlSet = NNS_G3dGetMdlSet(resource);
-
-    animator->pResMdl = (NNSG3dResMdl *)NNS_G3dGetResDataByIdx_Fast(mdlSet, &mdlSet->dict, idx);
+    animator->pResMdl = NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx);
     animator->matID   = matID;
     animator->shpID   = shpID;
 }

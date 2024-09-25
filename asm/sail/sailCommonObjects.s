@@ -2910,7 +2910,7 @@ _02166FCC:
 	mov r1, #1
 	ldr r0, [r0, #0x94]
 	mov r2, #0
-	bl NNS_G3dMdlSetMdlCullMode
+	bl NNS_G3dMdlSetMdlLightEnableFlag
 	mov r0, r4
 	bl SailObject__Func_21646DC
 	mov r0, r4

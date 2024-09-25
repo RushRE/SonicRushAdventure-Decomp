@@ -323,9 +323,9 @@ Player *Player__Create(CharacterID characterID, u16 aidIndex)
 
     ObjAction3dNNMotionLoad(&work->objWork, &work->obj_3dWork, "plycom.nsbca", &animationWork, NULL);
     work->obj_3dWork.ani.renderObj.recJntAnm = work->obj_3dWork.ani.jntAnimResult =
-        NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlDataByIdx_Fast(NNS_G3dGetMdlSet(work->obj_3dWork.resources[B3D_RESOURCE_MODEL]), idx));
+        NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->obj_3dWork.resources[B3D_RESOURCE_MODEL]), idx));
     work->obj_3dWork.ani.renderObj.recMatAnm = work->obj_3dWork.ani.matAnimResult =
-        NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlDataByIdx_Fast(NNS_G3dGetMdlSet(work->obj_3dWork.resources[B3D_RESOURCE_MODEL]), idx));
+        NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->obj_3dWork.resources[B3D_RESOURCE_MODEL]), idx));
 
     switch (characterID)
     {
@@ -351,9 +351,9 @@ Player *Player__Create(CharacterID characterID, u16 aidIndex)
             work->blzTailAnimsWork = &animationWork;
 
             work->tailAnimator.renderObj.recJntAnm = work->tailAnimator.jntAnimResult =
-                NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, (NNSG3dResMdl *)NNS_G3dGetMdlDataByIdx_Fast(NNS_G3dGetMdlSet(work->blzTailModel), idx));
+                NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->blzTailModel), idx));
             work->tailAnimator.renderObj.recMatAnm = work->tailAnimator.matAnimResult =
-                NNS_G3dAllocRecBufferMat(&heapSystemAllocator, (NNSG3dResMdl *)NNS_G3dGetMdlDataByIdx_Fast(NNS_G3dGetMdlSet(work->blzTailModel), idx));
+                NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->blzTailModel), idx));
             break;
     }
 

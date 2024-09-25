@@ -3321,20 +3321,20 @@ CutsceneScriptResult CutsceneScript__SoundCommand_LoadSndArcSeq(ScriptThread *th
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__SoundCommand_LoadSndArcWaveArc(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SoundCommand_LoadSndArcSeqArc(ScriptThread *thread, CutsceneScript *work)
 {
     s32 waveArcNo = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-    NNS_SndArcLoadWaveArc(waveArcNo, audioManagerSndHeap);
+    NNS_SndArcLoadSeqArc(waveArcNo, audioManagerSndHeap);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }
 
-CutsceneScriptResult CutsceneScript__SoundCommand_LoadSndArcSeqArc(ScriptThread *thread, CutsceneScript *work)
+CutsceneScriptResult CutsceneScript__SoundCommand_LoadSndArcBank(ScriptThread *thread, CutsceneScript *work)
 {
     s32 seqArcNo = CutsceneScript__GetFunctionParamRegister(thread, 0);
 
-    NNS_SndArcLoadSeqArc(seqArcNo, audioManagerSndHeap);
+    NNS_SndArcLoadBank(seqArcNo, audioManagerSndHeap);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }

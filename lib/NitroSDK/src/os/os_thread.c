@@ -353,7 +353,7 @@ void OS_InitThread(void)
     OS_GetSystemWork()->threadinfo_subp = &OSi_ThreadInfo;
 #endif
 
-    (IGNORE_RETURN) OS_SetSwitchThreadCallback(NULL);
+    (void) OS_SetSwitchThreadCallback(NULL);
 
 #ifdef SDK_ARM9
     OS_CreateThread(&OSi_IdleThread, OSi_IdleThreadProc, (void *)NULL, OSi_IdleThreadStack + OSi_IDLE_THREAD_STACK_SIZE / sizeof(u32), OSi_IDLE_THREAD_STACK_SIZE, OS_THREAD_PRIORITY_MAX);
@@ -421,12 +421,12 @@ void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, void *st
 
     thread->alarmForSleep = NULL;
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enable);
+    (void) OS_RestoreInterrupts(enable);
 }
 
 void OS_ExitThread(void)
 {
-    (IGNORE_RETURN) OS_DisableInterrupts();
+    (void) OS_DisableInterrupts();
 
     OSi_ExitThread_ArgSpecified(OS_GetCurrentThread(), 0);
 }
@@ -457,7 +457,7 @@ static void OSi_ExitThread(void *arg)
     {
         currentThread->destructor = NULL;
         destructor(arg);
-        (IGNORE_RETURN) OS_DisableInterrupts();
+        (void) OS_DisableInterrupts();
     }
 
     OSi_ExitThread_Destroy();
@@ -467,13 +467,13 @@ static void OSi_ExitThread_Destroy(void)
 {
     OSThread *currentThread = OSi_GetCurrentThread();
 
-    (IGNORE_RETURN) OS_DisableScheduler();
+    (void) OS_DisableScheduler();
 
     OSi_UnlockAllMutex(currentThread);
 
     if (currentThread->queue)
     {
-        (IGNORE_RETURN) OSi_RemoveSpecifiedLinkFromQueue(currentThread->queue, currentThread);
+        (void) OSi_RemoveSpecifiedLinkFromQueue(currentThread->queue, currentThread);
     }
 
     OSi_RemoveThreadFromList(currentThread);
@@ -482,7 +482,7 @@ static void OSi_ExitThread_Destroy(void)
 
     OS_WakeupThread(&currentThread->joinQueue);
 
-    (IGNORE_RETURN) OS_EnableScheduler();
+    (void) OS_EnableScheduler();
 
     OS_RescheduleThread();
 
@@ -498,14 +498,14 @@ void OS_DestroyThread(OSThread *thread)
         OSi_ExitThread_Destroy();
     }
 
-    (IGNORE_RETURN) OS_DisableScheduler();
+    (void) OS_DisableScheduler();
 
     OSi_UnlockAllMutex(thread);
     OSi_CancelThreadAlarmForSleep(thread);
 
     if (thread->queue)
     {
-        (IGNORE_RETURN) OSi_RemoveSpecifiedLinkFromQueue(thread->queue, thread);
+        (void) OSi_RemoveSpecifiedLinkFromQueue(thread->queue, thread);
     }
 
     OSi_RemoveThreadFromList(thread);
@@ -514,8 +514,8 @@ void OS_DestroyThread(OSThread *thread)
 
     OS_WakeupThread(&thread->joinQueue);
 
-    (IGNORE_RETURN) OS_EnableScheduler();
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_EnableScheduler();
+    (void) OS_RestoreInterrupts(enabled);
 
     OS_RescheduleThread();
 }
@@ -539,7 +539,7 @@ void OS_JoinThread(OSThread *thread)
         OS_SleepThread(&thread->joinQueue);
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 BOOL OS_IsThreadTerminated(const OSThread *thread)
@@ -567,7 +567,7 @@ void OS_SleepThread(OSThreadQueue *queue)
         OSi_RescheduleThread();
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enable);
+    (void) OS_RestoreInterrupts(enable);
 }
 
 void OS_WakeupThread(OSThreadQueue *queue)
@@ -592,7 +592,7 @@ void OS_WakeupThread(OSThreadQueue *queue)
         OSi_RescheduleThread();
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enable);
+    (void) OS_RestoreInterrupts(enable);
 }
 
 void OS_WakeupThreadDirect(OSThread *thread)
@@ -604,7 +604,7 @@ void OS_WakeupThreadDirect(OSThread *thread)
         thread->state = OS_THREAD_STATE_READY;
         OSi_RescheduleThread();
     }
-    (IGNORE_RETURN) OS_RestoreInterrupts(enable);
+    (void) OS_RestoreInterrupts(enable);
 }
 
 OSThread *OS_SelectThread(void)
@@ -623,7 +623,7 @@ void OS_RescheduleThread(void)
 {
     OSIntrMode bak_intr = OS_DisableInterrupts();
     OSi_RescheduleThread();
-    (IGNORE_RETURN) OS_RestoreInterrupts(bak_intr);
+    (void) OS_RestoreInterrupts(bak_intr);
 }
 
 void OS_YieldThread(void)
@@ -658,7 +658,7 @@ void OS_YieldThread(void)
 
     if (samePriorityThread <= 1 || lastThread == current)
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(enable);
+        (void) OS_RestoreInterrupts(enable);
         return;
     }
 
@@ -676,7 +676,7 @@ void OS_YieldThread(void)
 
     OSi_RescheduleThread();
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enable);
+    (void) OS_RestoreInterrupts(enable);
 }
 
 BOOL OS_SetThreadPriority(OSThread *thread, u32 prio)
@@ -695,7 +695,7 @@ BOOL OS_SetThreadPriority(OSThread *thread, u32 prio)
 
     if (t == NULL || t == &OSi_IdleThread)
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(enable);
+        (void) OS_RestoreInterrupts(enable);
         return FALSE;
     }
 
@@ -716,7 +716,7 @@ BOOL OS_SetThreadPriority(OSThread *thread, u32 prio)
         OSi_RescheduleThread();
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enable);
+    (void) OS_RestoreInterrupts(enable);
 
     return TRUE;
 }
@@ -743,7 +743,7 @@ void OS_Sleep(u32 msec)
             OS_SleepThread(NULL);
         }
 
-        (IGNORE_RETURN) OS_RestoreInterrupts(bak_cpsr);
+        (void) OS_RestoreInterrupts(bak_cpsr);
     }
 }
 
@@ -767,13 +767,13 @@ OSSwitchThreadCallback OS_SetSwitchThreadCallback(OSSwitchThreadCallback callbac
     prev                          = OSi_ThreadInfo.switchCallback;
     OSi_ThreadInfo.switchCallback = callback;
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
     return prev;
 }
 
 static void OSi_IdleThreadProc(void *)
 {
-    (IGNORE_RETURN) OS_EnableInterrupts();
+    (void) OS_EnableInterrupts();
 
     while (1)
     {
@@ -791,7 +791,7 @@ u32 OS_DisableScheduler(void)
         count = OSi_RescheduleCount++;
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 
     return count;
 }
@@ -806,7 +806,7 @@ u32 OS_EnableScheduler(void)
         count = OSi_RescheduleCount--;
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 
     return count;
 }

@@ -2,7 +2,8 @@
 #define NITRO_GX_GXCOMMON_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #ifndef SDK_ASM
@@ -55,8 +56,9 @@ typedef u32 VecFx10;
 #define GX_RGBA(r, g, b, a) ((GXRgba)(((r) << GX_RGB_R_SHIFT) | ((g) << GX_RGB_G_SHIFT) | ((b) << GX_RGB_B_SHIFT) | ((a) << GX_RGB_A_SHIFT)))
 #endif
 
-#define GX_VECFX10(x, y, z)                                                                                                                                                                            \
-    ((VecFx10)(((((x) >> (FX32_DEC_SIZE - GX_FX10_DEC_SIZE)) & GX_FX10_MASK) << GX_VEC_FX10_X_SHIFT) | ((((y) >> (FX32_DEC_SIZE - GX_FX10_DEC_SIZE)) & GX_FX10_MASK) << GX_VEC_FX10_Y_SHIFT)           \
+#define GX_VECFX10(x, y, z)                                                                                                                                                        \
+    ((VecFx10)(((((x) >> (FX32_DEC_SIZE - GX_FX10_DEC_SIZE)) & GX_FX10_MASK) << GX_VEC_FX10_X_SHIFT)                                                                               \
+               | ((((y) >> (FX32_DEC_SIZE - GX_FX10_DEC_SIZE)) & GX_FX10_MASK) << GX_VEC_FX10_Y_SHIFT)                                                                             \
                | ((((z) >> (FX32_DEC_SIZE - GX_FX10_DEC_SIZE)) & GX_FX10_MASK) << GX_VEC_FX10_Z_SHIFT)))
 
 // --------------------

@@ -213,7 +213,7 @@ SeaMapUnknown__State_216FF10: // 0x0216FF10
 	ldmneia sp!, {r4, pc}
 	mov r0, #7
 	mov r1, #0x10
-	bl NNS_SndPlayerStopSeqBySeqArcNo
+	bl NNS_SndPlayerStopSeqBySeqNo
 	ldr r0, _0216FF3C // =SeaMapUnknown__State_216FF40
 	str r0, [r4]
 	ldmia sp!, {r4, pc}

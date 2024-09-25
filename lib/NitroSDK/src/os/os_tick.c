@@ -41,7 +41,7 @@ void OS_InitTick(void)
 
         OS_SetIrqFunction(OSi_TICK_IE_TIMER, OSi_CountUpTick);
 
-        (IGNORE_RETURN)OS_EnableIrqMask(OSi_TICK_IE_TIMER);
+        (void)OS_EnableIrqMask(OSi_TICK_IE_TIMER);
 
         OSi_NeedResetTimer = FALSE;
     }
@@ -81,7 +81,7 @@ OSTick OS_GetTick(void)
     if (reg_OS_IF & OSi_TICK_IE_TIMER && !(countL & 0x8000))
         countH++;
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(prev);
+    (void) OS_RestoreInterrupts(prev);
 
     return (countH << 16) | countL;
 }

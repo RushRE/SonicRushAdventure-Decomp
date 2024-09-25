@@ -655,7 +655,7 @@ ovl09_215CED8: // 0x0215CED8
 	str r3, [r2, #0x78]
 	ldr r3, [r4, #0x368]
 	str r3, [r2, #0x7c]
-	bl NNS_G3dMdlSetMdlSpecAll
+	bl NNS_G3dMdlSetMdlDiffAll
 	bl GetExTaskCurrent
 	ldr r1, _0215CF3C // =ovl09_215CF40
 	str r1, [r0]
@@ -716,7 +716,7 @@ ovl09_215CFB4: // 0x0215CFB4
 	bl ovl09_21641F0
 	mov r0, r5
 	mov r1, #0x7c00
-	bl NNS_G3dMdlSetMdlSpecAll
+	bl NNS_G3dMdlSetMdlDiffAll
 	bl GetExTaskCurrent
 	ldr r1, _0215D004 // =ovl09_215D008
 	str r1, [r0]

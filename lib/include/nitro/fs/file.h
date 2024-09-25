@@ -4,7 +4,8 @@
 #include <nitro/fs/archive.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -180,6 +181,7 @@ BOOL FS_OpenFileFast(FSFile *p_file, FSFileID file_id);
 BOOL FS_OpenFile(FSFile *p_file, const char *path);
 BOOL FS_CloseFile(FSFile *p_file);
 BOOL FS_WaitAsync(FSFile *p_file);
+void FS_CancelFile(FSFile *p_file);
 int FS_ReadFileAsync(FSFile *p_file, void *dst, s32 len);
 int FS_ReadFile(FSFile *p_file, void *dst, s32 len);
 BOOL FS_SeekFile(FSFile *p_file, s32 offset, FSSeekFileMode origin);
@@ -192,24 +194,20 @@ u32 FS_TryLoadTable(void *p_mem, u32 maxsize);
 // INLINE FUNCTIONS
 // --------------------
 
-SDK_INLINE u32 const FS_GetFileImageTop(volatile const FSFile *p_file)
+SDK_INLINE u32 FS_GetTableSize(void)
 {
-    return p_file->prop.file.top;
+    return FS_TryLoadTable(NULL, 0);
 }
 
-SDK_INLINE u32 const FS_GetLength(volatile const FSFile *p_file)
+SDK_INLINE BOOL FS_LoadTable(void *p_mem, u32 size)
 {
-    return p_file->prop.file.bottom - p_file->prop.file.top;
+    return (FS_TryLoadTable(p_mem, size) <= size) ? TRUE : FALSE;
 }
 
-SDK_INLINE BOOL FS_IsCanceling(volatile const FSFile *p_file)
+SDK_INLINE void *FS_UnloadTable(void)
 {
-    return (p_file->stat & FS_FILE_STATUS_CANCEL) ? TRUE : FALSE;
-}
-
-SDK_INLINE BOOL FS_IsFileSyncMode(volatile const FSFile *p_file)
-{
-    return (p_file->stat & FS_FILE_STATUS_SYNC) ? TRUE : FALSE;
+    FSArchive *const p_arc = FS_FindArchive("rom", 3);
+    return FS_UnloadArchiveTables(p_arc);
 }
 
 SDK_INLINE BOOL FS_IsBusy(volatile const FSFile *p_file)
@@ -217,14 +215,69 @@ SDK_INLINE BOOL FS_IsBusy(volatile const FSFile *p_file)
     return p_file->stat & FS_FILE_STATUS_BUSY ? TRUE : FALSE;
 }
 
+SDK_INLINE BOOL FS_IsCanceling(volatile const FSFile *p_file)
+{
+    return (p_file->stat & FS_FILE_STATUS_CANCEL) ? TRUE : FALSE;
+}
+
 SDK_INLINE BOOL FS_IsSucceeded(volatile const FSFile *p_file)
 {
     return (p_file->error == FS_RESULT_SUCCESS) ? TRUE : FALSE;
 }
 
+SDK_INLINE BOOL FS_IsFile(volatile const FSFile *p_file)
+{
+    return (p_file->stat & FS_FILE_STATUS_IS_FILE) ? TRUE : FALSE;
+}
+
 SDK_INLINE BOOL FS_IsDir(volatile const FSFile *p_file)
 {
     return (p_file->stat & FS_FILE_STATUS_IS_DIR) ? TRUE : FALSE;
+}
+
+SDK_INLINE BOOL FS_IsFileSyncMode(const volatile FSFile *p)
+{
+    return (p->stat & FS_FILE_STATUS_SYNC) ? TRUE : FALSE;
+}
+
+SDK_INLINE FSResult FS_GetResultCode(volatile const FSFile *p_file)
+{
+    return p_file->error;
+}
+
+SDK_INLINE u32 FS_GetLength(const FSFile *p_file)
+{
+    return p_file->prop.file.bottom - p_file->prop.file.top;
+}
+
+SDK_INLINE u32 FS_GetPosition(const FSFile *p_file)
+{
+    return p_file->prop.file.pos - p_file->prop.file.top;
+}
+
+SDK_INLINE BOOL FS_SeekFileToBegin(FSFile *p_file)
+{
+    return FS_SeekFile(p_file, 0, FS_SEEK_SET);
+}
+
+SDK_INLINE BOOL FS_SeekFileToEnd(FSFile *p_file)
+{
+    return FS_SeekFile(p_file, 0, FS_SEEK_END);
+}
+
+SDK_INLINE FSArchive *FS_GetAttachedArchive(const FSFile *p_file)
+{
+    return p_file->arc;
+}
+
+SDK_INLINE u32 const FS_GetFileImageTop(volatile const FSFile *p_file)
+{
+    return p_file->prop.file.top;
+}
+
+SDK_INLINE u32 FS_GetFileImageBottom(const FSFile *p_file)
+{
+    return p_file->prop.file.bottom;
 }
 
 #ifdef __cplusplus

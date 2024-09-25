@@ -2,6 +2,8 @@
 #define NNSG3D_CONFIG_H
 
 #include <nnsys/inline.h>
+#include <nitro.h>
+
 #define NNS_G3D_INLINE NNS_INLINE
 
 #ifndef NNS_G3D_ANMFMT_MAX

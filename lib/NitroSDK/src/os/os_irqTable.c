@@ -83,7 +83,7 @@ void OSi_IrqCallback(s32 index)
 
     // restore IRQEnable
     if (!OSi_IrqCallbackInfo[index].enable)
-        (IGNORE_RETURN) OS_DisableIrqMask(imask);
+        (void) OS_DisableIrqMask(imask);
 }
 
 void OSi_IrqDma0(void)

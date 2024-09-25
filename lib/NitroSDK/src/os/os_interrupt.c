@@ -147,7 +147,7 @@ void OSi_EnterTimerCallback(u32 timerNo, void (*callback)(void *), void *arg)
     OSi_IrqCallbackInfo[timerNo + 4].arg  = arg;
 
     // store irq mask for later (it's forced to be enabled here!!)
-    (IGNORE_RETURN) OS_EnableIrqMask(imask);
+    (void) OS_EnableIrqMask(imask);
     OSi_IrqCallbackInfo[timerNo + 4].enable = TRUE;
 }
 
@@ -158,7 +158,7 @@ OSIrqMask OS_SetIrqMask(OSIrqMask intr)
 
     reg_OS_IE = intr;
 
-    (IGNORE_RETURN) OS_RestoreIrq(ime); // we're done, so restore it!
+    (void) OS_RestoreIrq(ime); // we're done, so restore it!
     return prep;
 }
 
@@ -169,7 +169,7 @@ OSIrqMask OS_EnableIrqMask(OSIrqMask intr)
 
     reg_OS_IE = prep | intr;
 
-    (IGNORE_RETURN) OS_RestoreIrq(ime); // we're done, so restore it!
+    (void) OS_RestoreIrq(ime); // we're done, so restore it!
     return prep;
 }
 
@@ -180,7 +180,7 @@ OSIrqMask OS_DisableIrqMask(OSIrqMask intr)
 
     reg_OS_IE = prep & ~intr;
 
-    (IGNORE_RETURN) OS_RestoreIrq(ime); // we're done, so restore it!
+    (void) OS_RestoreIrq(ime); // we're done, so restore it!
     return prep;
 }
 
@@ -191,7 +191,7 @@ OSIrqMask OS_ResetRequestIrqMask(OSIrqMask intr)
 
     reg_OS_IF = intr;
 
-    (IGNORE_RETURN) OS_RestoreIrq(ime); // we're done, so restore it!
+    (void) OS_RestoreIrq(ime); // we're done, so restore it!
     return prep;
 }
 

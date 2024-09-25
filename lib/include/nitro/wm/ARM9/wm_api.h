@@ -121,8 +121,8 @@ static inline WMErrCode WM_SetMPDataToPort(WMCallbackFunc callback, const u16 *s
 }
 
 static inline WMErrCode WM_SetMPData(WMCallbackFunc callback, const u16 *sendData, u16 sendDataSize, u16 tmptt, u16 pollbmp)
-{
-    UNUSED(tmptt);
+{ 
+#pragma unused(tmptt)
     return WM_SetMPDataToPortEx(callback, NULL, sendData, sendDataSize, pollbmp, WM_PORT_RAWDATA, WM_PRIORITY_NORMAL);
 }
 

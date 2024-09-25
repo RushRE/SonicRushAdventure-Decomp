@@ -108,7 +108,6 @@ BOOL NNS_SndArcStrmPrepareEx2(struct NNSSndStrmHandle *handle, int playerNo, int
 BOOL NNS_SndArcStrmAllocChannel(int playerNo);
 void NNS_SndArcStrmFreeChannel(int playerNo);
 
-void NNS_SndArcStrmSetVolume(struct NNSSndStrmHandle *handle, int volume);
 void NNS_SndArcStrmMoveVolume(struct NNSSndStrmHandle *handle, int volume, int frames);
 void NNS_SndArcStrmSetChannelVolume(struct NNSSndStrmHandle *handle, int chNo, int volume);
 void NNS_SndArcStrmSetChannelPan(struct NNSSndStrmHandle *handle, int chNo, int pan);

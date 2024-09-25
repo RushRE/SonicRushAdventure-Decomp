@@ -80,11 +80,11 @@ void MI_SendGXCommandAsync(u32 dmaNo, const void *src, u32 commandLength, MIDmaC
 
         G3X_SetFifoIntrCond(GX_FIFOINTR_COND_UNDERHALF);
         OS_SetIrqFunction(OS_IE_GXFIFO, MIi_FIFOCallback);
-        (IGNORE_RETURN) OS_EnableIrqMask(OS_IE_GXFIFO);
+        (void) OS_EnableIrqMask(OS_IE_GXFIFO);
 
         MIi_FIFOCallback();
 
-        (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+        (void) OS_RestoreInterrupts(enabled);
     }
 }
 
@@ -106,18 +106,18 @@ static void MIi_FIFOCallback(void)
     {
         OSi_EnterDmaCallback(MIi_GXDmaParams.dmaNo, MIi_DMACallback, NULL);
         MIi_DmaSetParams(MIi_GXDmaParams.dmaNo, src, (u32)REG_GXFIFO_ADDR, MI_CNT_SEND32_IF(length));
-        (IGNORE_RETURN) OS_ResetRequestIrqMask(OS_IE_GXFIFO);
+        (void) OS_ResetRequestIrqMask(OS_IE_GXFIFO);
     }
     else
     {
         MIi_DmaSetParams(MIi_GXDmaParams.dmaNo, src, (u32)REG_GXFIFO_ADDR, MI_CNT_SEND32(length));
-        (IGNORE_RETURN) OS_ResetRequestIrqMask(OS_IE_GXFIFO);
+        (void) OS_ResetRequestIrqMask(OS_IE_GXFIFO);
     }
 }
 
 static void MIi_DMACallback(void *)
 {
-    (IGNORE_RETURN) OS_DisableIrqMask(OS_IE_GXFIFO);
+    (void) OS_DisableIrqMask(OS_IE_GXFIFO);
 
     G3X_SetFifoIntrCond(MIi_GXDmaParams.fifoCond);
     OS_SetIrqFunction(OS_IE_GXFIFO, MIi_GXDmaParams.fifoFunc);

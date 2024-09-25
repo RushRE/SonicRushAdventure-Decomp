@@ -76,7 +76,7 @@ void ReleaseAudioSystem(void)
 
 void LoadAudioSndArc(const char *path)
 {
-    NNS_SndArcInitWithResult(&audioManagerSndArc, path, audioManagerSndHeap, FALSE);
+    NNS_SndArcInit(&audioManagerSndArc, path, audioManagerSndHeap, FALSE);
     NNS_SndArcPlayerSetup(audioManagerSndHeap);
 }
 

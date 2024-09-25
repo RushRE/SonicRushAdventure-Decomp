@@ -6,7 +6,7 @@ SDK_WEAK_SYMBOL void OS_Terminate(void)
 {
     while (TRUE)
     {
-        (IGNORE_RETURN) OS_DisableInterrupts();
+        (void) OS_DisableInterrupts();
         OS_Halt();
     }
 }

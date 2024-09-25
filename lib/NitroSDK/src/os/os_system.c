@@ -87,6 +87,10 @@ asm OSProcMode OS_GetProcMode(void)
     // clang-format on
 }
 
+#include <nitro/codereset.h>
+
+#ifdef  SDK_ARM9
+#include <nitro/code32.h>
 asm void OS_SpinWait(u32 cycles)
 {
     // clang-format off
@@ -96,6 +100,14 @@ loop:
 	bx lr
     // clang-format on
 }
+#include <nitro/codereset.h>
+#else
+void OS_SpinWait(u32 cycle)
+{
+    SVC_WaitByLoop((s32)cycle / 4);
+}
+#endif
+
 
 void OS_WaitVBlankIntr(void)
 {

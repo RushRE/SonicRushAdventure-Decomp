@@ -1,19 +1,9 @@
 #ifndef NITRO_H
 #define NITRO_H
 
-// Misc helper macros
-
-#define IGNORE_RETURN void
-#define UNUSED(arg)   (void)(arg)
-
 // decomp helper macros
 // (will be removed when not needed)
-
-#ifdef NON_MATCHING
-#define NONMATCH_FUNC
-#else
-#define NONMATCH_FUNC asm
-#endif
+#include <nonmatching.h>
 
 // Includes
 #include <cw.h>

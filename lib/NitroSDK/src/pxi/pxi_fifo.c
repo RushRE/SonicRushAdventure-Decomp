@@ -39,9 +39,9 @@ void PXI_InitFifo(void)
 
         reg_PXI_FIFO_CNT = (REG_PXI_FIFO_CNT_SEND_CL_MASK | REG_PXI_FIFO_CNT_RECV_RI_MASK | REG_PXI_FIFO_CNT_E_MASK | REG_PXI_FIFO_CNT_ERR_MASK);
 
-        (IGNORE_RETURN) OS_ResetRequestIrqMask(OS_IE_FIFO_RECV);
-        (IGNORE_RETURN) OS_SetIrqFunction(OS_IE_FIFO_RECV, PXIi_HandlerRecvFifoNotEmpty);
-        (IGNORE_RETURN) OS_EnableIrqMask(OS_IE_FIFO_RECV);
+        (void) OS_ResetRequestIrqMask(OS_IE_FIFO_RECV);
+        (void) OS_SetIrqFunction(OS_IE_FIFO_RECV, PXIi_HandlerRecvFifoNotEmpty);
+        (void) OS_EnableIrqMask(OS_IE_FIFO_RECV);
 
         {
             int timeout;
@@ -69,7 +69,7 @@ void PXI_InitFifo(void)
         }
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 void PXI_SetFifoRecvCallback(int fifotag, PXIFifoCallback callback)
@@ -89,7 +89,7 @@ void PXI_SetFifoRecvCallback(int fifotag, PXIFifoCallback callback)
         p->pxiHandleChecker[PXI_PROC_ARM] &= ~(1UL << fifotag);
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 BOOL PXI_IsCallbackReady(int fifotag, PXIProc proc)
@@ -123,12 +123,12 @@ static inline PXIFifoStatus PXIi_SetToFifo(u32 data)
     enabled = OS_DisableInterrupts();
     if (reg_PXI_FIFO_CNT & REG_PXI_FIFO_CNT_SEND_FULL_MASK)
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+        (void) OS_RestoreInterrupts(enabled);
         return PXI_FIFO_FAIL_SEND_FULL;
     }
 
     reg_PXI_SEND_FIFO = data;
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
     return PXI_FIFO_SUCCESS;
 }
 
@@ -145,12 +145,12 @@ static inline PXIFifoStatus PXIi_GetFromFifo(u32 *data_buf)
     enabled = OS_DisableInterrupts();
     if (reg_PXI_FIFO_CNT & REG_PXI_FIFO_CNT_RECV_EMP_MASK)
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+        (void) OS_RestoreInterrupts(enabled);
         return PXI_FIFO_FAIL_RECV_EMPTY;
     }
 
     *data_buf = reg_PXI_RECV_FIFO;
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 
     return PXI_FIFO_SUCCESS;
 }

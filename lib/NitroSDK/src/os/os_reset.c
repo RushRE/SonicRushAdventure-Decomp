@@ -123,8 +123,8 @@ void OS_ResetSystem(u32 parameter)
     MI_StopDma(2);
     MI_StopDma(3);
 
-    (IGNORE_RETURN) OS_SetIrqMask(OS_IE_FIFO_RECV);
-    (IGNORE_RETURN) OS_ResetRequestIrqMask(0xffffffff);
+    (void) OS_SetIrqMask(OS_IE_FIFO_RECV);
+    (void) OS_ResetRequestIrqMask(0xffffffff);
 
     *(u32 *)HW_RESET_PARAMETER_BUF = parameter;
 
@@ -141,8 +141,8 @@ void OS_ResetSystem(void)
     MI_StopDma(2);
     MI_StopDma(3);
 
-    (IGNORE_RETURN) OS_SetIrqMask(OS_IE_FIFO_RECV);
-    (IGNORE_RETURN) OS_ResetRequestIrqMask(0xffffffff);
+    (void) OS_SetIrqMask(OS_IE_FIFO_RECV);
+    (void) OS_ResetRequestIrqMask(0xffffffff);
 
     SND_Shutdown();
 
@@ -328,7 +328,7 @@ static void OSi_ReloadRomData(void)
             OSIntrMode bak_cpsr = OS_DisableInterrupts();
             DC_StoreAll();
             DC_InvalidateAll();
-            (IGNORE_RETURN) OS_RestoreInterrupts(bak_cpsr);
+            (void) OS_RestoreInterrupts(bak_cpsr);
         }
 
         IC_InvalidateAll();

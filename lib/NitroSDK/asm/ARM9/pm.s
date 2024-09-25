@@ -42,8 +42,8 @@ PMi_RegisterBuffer: // 0x0215002C
 
 	.text
 
-	arm_func_start PM_PrependPostSleepCallback
-PM_PrependPostSleepCallback: // 0x020EDFE8
+	arm_func_start PM_DeletePostSleepCallback
+PM_DeletePostSleepCallback: // 0x020EDFE8
 	ldr ip, _020EDFF8 // =sub_20EE078
 	mov r1, r0
 	ldr r0, _020EDFFC // =PMi_PostSleepCallbackList
@@ -51,10 +51,10 @@ PM_PrependPostSleepCallback: // 0x020EDFE8
 	.align 2, 0
 _020EDFF8: .word sub_20EE078
 _020EDFFC: .word PMi_PostSleepCallbackList
-	arm_func_end PM_PrependPostSleepCallback
+	arm_func_end PM_DeletePostSleepCallback
 
-	arm_func_start PM_AppendPostSleepCallback
-PM_AppendPostSleepCallback: // 0x020EE000
+	arm_func_start PM_DeletePreSleepCallback
+PM_DeletePreSleepCallback: // 0x020EE000
 	ldr ip, _020EE010 // =sub_20EE078
 	mov r1, r0
 	ldr r0, _020EE014 // =PMi_PreSleepCallbackList
@@ -62,10 +62,10 @@ PM_AppendPostSleepCallback: // 0x020EE000
 	.align 2, 0
 _020EE010: .word sub_20EE078
 _020EE014: .word PMi_PreSleepCallbackList
-	arm_func_end PM_AppendPostSleepCallback
+	arm_func_end PM_DeletePreSleepCallback
 
-	arm_func_start PM_PrependPreSleepCallback
-PM_PrependPreSleepCallback: // 0x020EE018
+	arm_func_start PM_AppendPostSleepCallback
+PM_AppendPostSleepCallback: // 0x020EE018
 	ldr ip, _020EE028 // =sub_20EE0C4
 	mov r1, r0
 	ldr r0, _020EE02C // =PMi_PostSleepCallbackList
@@ -73,10 +73,10 @@ PM_PrependPreSleepCallback: // 0x020EE018
 	.align 2, 0
 _020EE028: .word sub_20EE0C4
 _020EE02C: .word PMi_PostSleepCallbackList
-	arm_func_end PM_PrependPreSleepCallback
+	arm_func_end PM_AppendPostSleepCallback
 
-	arm_func_start PM_AppendPreSleepCallback
-PM_AppendPreSleepCallback: // 0x020EE030
+	arm_func_start PM_PrependPreSleepCallback
+PM_PrependPreSleepCallback: // 0x020EE030
 	ldr ip, _020EE040 // =sub_20EE10C
 	mov r1, r0
 	ldr r0, _020EE044 // =PMi_PreSleepCallbackList
@@ -84,7 +84,7 @@ PM_AppendPreSleepCallback: // 0x020EE030
 	.align 2, 0
 _020EE040: .word sub_20EE10C
 _020EE044: .word PMi_PreSleepCallbackList
-	arm_func_end PM_AppendPreSleepCallback
+	arm_func_end PM_PrependPreSleepCallback
 
 	arm_func_start PMi_ExecuteList
 PMi_ExecuteList: // 0x020EE048

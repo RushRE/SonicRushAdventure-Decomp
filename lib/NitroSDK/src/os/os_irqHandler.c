@@ -202,9 +202,9 @@ void OS_WaitIrq(BOOL clear, OSIrqMask irqFlags)
 
     // clear irq flags
     if (clear)
-        (IGNORE_RETURN) OS_ClearIrqCheckFlag(irqFlags);
+        (void) OS_ClearIrqCheckFlag(irqFlags);
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 
     // sleep till required interrupts
     while (!(OS_GetIrqCheckFlag() & irqFlags))

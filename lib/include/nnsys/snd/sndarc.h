@@ -9,7 +9,8 @@
 #include <nnsys/snd/heap.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -249,8 +250,6 @@ u32 NNS_SndArcGetFileSize(u32 fileId);
 u32 NNS_SndArcGetFileOffset(u32 fileId);
 void *NNS_SndArcGetFileAddress(u32 fileId);
 void NNS_SndArcSetFileAddress(u32 fileId, void *address);
-void NNS_SndArcSetLoadBlockSize(s32 loadBlockSize);
-s32 NNS_SndArcGetLoadBlockSize(void);
 
 const char *NNS_SndArcGetSeqSymbol(int seqNo);
 const char *NNS_SndArcGetSeqArcSymbol(int seqArcNo);

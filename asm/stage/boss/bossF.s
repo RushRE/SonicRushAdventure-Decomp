@@ -1049,7 +1049,7 @@ _02168A40:
 	ldr r0, [r4, #0x12c]
 	mov r1, #1
 	ldr r0, [r0, #0x94]
-	bl NNS_G3dMdlGetMdlAlpha
+	bl NNS_G3dMdlGetMdlEmi
 	strh r0, [r6, #0x2c]
 	mov r1, #0
 	mov r0, r4
@@ -13376,7 +13376,7 @@ _0217390C:
 	bne _021739B4
 	ldr r1, _021739F4 // =0x0000012F
 	mov r0, #0
-	bl NNS_SndPlayerCountPlayingSeqBySeqArcNo
+	bl NNS_SndPlayerCountPlayingSeqBySeqArcIdx
 	cmp r0, #0
 	bne _021739B4
 	mov r1, #0
@@ -13866,12 +13866,12 @@ _0217404C:
 	beq _0217409C
 	ldr r1, _021740F4 // =0x0000421F
 	ldr r0, [r0, #0x94]
-	bl NNS_G3dMdlSetMdlSpecAll
+	bl NNS_G3dMdlSetMdlDiffAll
 	b _021740A8
 _0217409C:
 	ldr r1, _021740F8 // =0x00007FFF
 	ldr r0, [r0, #0x94]
-	bl NNS_G3dMdlSetMdlSpecAll
+	bl NNS_G3dMdlSetMdlDiffAll
 _021740A8:
 	ldrsh r0, [r4, #4]
 	cmp r0, #0
@@ -13879,7 +13879,7 @@ _021740A8:
 	ldr r0, [r6, #0x12c]
 	ldr r1, _021740F8 // =0x00007FFF
 	ldr r0, [r0, #0x94]
-	bl NNS_G3dMdlSetMdlSpecAll
+	bl NNS_G3dMdlSetMdlDiffAll
 _021740C4:
 	ldr r1, [r5, #0xf4]
 	ldr r0, _021740FC // =ovl02_2172F08
@@ -13914,7 +13914,7 @@ ovl02_2174100: // _02174100
 	ldr r0, [r4, #0x12c]
 	ldr r1, _02174158 // =0x00007FFF
 	ldr r0, [r0, #0x94]
-	bl NNS_G3dMdlSetMdlSpecAll
+	bl NNS_G3dMdlSetMdlDiffAll
 	ldr r0, [r4, #0x48]
 	ldr r1, [r4, #0x44]
 	ldr r3, [r4, #0x4c]

@@ -13,11 +13,11 @@ SeaMapCutscene__Create: // 0x0216FF90
 	ldr r1, _02170264 // =audioManagerSndHeap
 	mov r0, #0
 	ldr r1, [r1]
-	bl NNS_SndArcLoadWaveArc
+	bl NNS_SndArcLoadSeqArc
 	ldr r1, _02170264 // =audioManagerSndHeap
 	mov r0, #1
 	ldr r1, [r1]
-	bl NNS_SndArcLoadSeqArc
+	bl NNS_SndArcLoadBank
 	bl SeaMapCutscene__InitDisplay
 	ldr r0, _02170268 // =VRAMSystem__GFXControl
 	mov r2, #1

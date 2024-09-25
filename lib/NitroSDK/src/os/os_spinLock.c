@@ -71,8 +71,8 @@ void OS_InitLock(void)
 
         MIi_SetCartridgeProcessor(MI_PROCESSOR_ARM7);
 
-        (IGNORE_RETURN) OS_UnlockByWord(OS_MAINP_SYSTEM_LOCK_ID - 1, lockp, NULL);
-        (IGNORE_RETURN) OS_LockByWord(OS_MAINP_SYSTEM_LOCK_ID, lockp, NULL);
+        (void) OS_UnlockByWord(OS_MAINP_SYSTEM_LOCK_ID - 1, lockp, NULL);
+        (void) OS_LockByWord(OS_MAINP_SYSTEM_LOCK_ID, lockp, NULL);
     }
 
 #else // SDK_ARM7
@@ -128,11 +128,11 @@ static s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(v
 
     if (disableFIQ)
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts_IrqAndFiq(lastInterrupts);
+        (void) OS_RestoreInterrupts_IrqAndFiq(lastInterrupts);
     }
     else
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(lastInterrupts);
+        (void) OS_RestoreInterrupts(lastInterrupts);
     }
 
     return OS_UNLOCK_SUCCESS;
@@ -163,11 +163,11 @@ static s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(
 
     if (disableFIQ)
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts_IrqAndFiq(lastInterrupts);
+        (void) OS_RestoreInterrupts_IrqAndFiq(lastInterrupts);
     }
     else
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(lastInterrupts);
+        (void) OS_RestoreInterrupts(lastInterrupts);
     }
 
     return lastLockFlag;

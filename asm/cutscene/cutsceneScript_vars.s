@@ -84,8 +84,8 @@ CutsceneScript__SoundCommands: // 0x0215B294
     .word CutsceneScript__SoundCommand_MoveVolume
     .word CutsceneScript__SoundCommand_LoadSndArcGroup
     .word CutsceneScript__SoundCommand_LoadSndArcSeq
-    .word CutsceneScript__SoundCommand_LoadSndArcWaveArc
     .word CutsceneScript__SoundCommand_LoadSndArcSeqArc
+    .word CutsceneScript__SoundCommand_LoadSndArcBank
     .word CutsceneScript__SoundCommand_PlayTrack
     .word CutsceneScript__SoundCommand_PlayTrackEx
     .word CutsceneScript__SoundCommand_PlaySequence

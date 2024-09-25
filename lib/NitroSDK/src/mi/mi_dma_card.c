@@ -8,7 +8,7 @@ void MIi_CardDmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size)
 {
     vu32 *dmaCntp;
 
-    UNUSED(size);
+#pragma unused(size)
 
 #ifdef SDK_ARM9
     MIi_CheckAnotherAutoDMA(dmaNo, MIi_DMA_TIMING_ANY);

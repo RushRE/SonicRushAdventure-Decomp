@@ -32,7 +32,7 @@ static void FSRequestCloseFile(AsyncFileWork *work);
 void InitFSRequestSystem(size_t tableSize, u32 defaultDMA)
 {
     FS_Init(defaultDMA);
-    FS_TryLoadTable(NULL, 0);
+    u32 loadedTableSize = FS_GetTableSize();
 
     // Init Addresses for file heap
     tableSize       = (tableSize + 3) & ~3;
@@ -43,7 +43,7 @@ void InitFSRequestSystem(size_t tableSize, u32 defaultDMA)
     fsReqTableEnd = OS_GetArenaLo(OS_ARENA_MAIN);
 
     if (fsReqTableStart < fsReqTableEnd)
-        FS_TryLoadTable(fsReqTableStart, tableSize);
+        FS_LoadTable(fsReqTableStart, tableSize);
 
     fsReqCount = 0;
     MI_CpuClear32(fsRequestStorage, sizeof(fsRequestStorage));

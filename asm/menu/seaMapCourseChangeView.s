@@ -282,7 +282,7 @@ SeaMapCourseChangeView__State_Active: // 0x0204B894
 	ldmneia sp!, {r4, pc}
 	mov r0, #7
 	mov r1, #0x10
-	bl NNS_SndPlayerStopSeqBySeqArcNo
+	bl NNS_SndPlayerStopSeqBySeqNo
 	ldr r0, _0204B8C0 // =SeaMapCourseChangeView__State_FadeOut
 	str r0, [r4]
 	ldmia sp!, {r4, pc}

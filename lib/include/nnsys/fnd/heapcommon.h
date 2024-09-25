@@ -5,7 +5,8 @@
 #include <nnsys/fnd/list.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -65,13 +66,17 @@ typedef NNSiFndHeapHead *NNSFndHeapHandle;
 // --------------------
 
 #define NNS_FndGetHeapStartAddress(heap) ((void *)(heap))
-#define NNS_FndGetHeapEndAddress(heap) (((NNSiFndHeapHead *)(heap))->heapEnd)
+#define NNS_FndGetHeapEndAddress(heap)   (((NNSiFndHeapHead *)(heap))->heapEnd)
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
 NNSFndHeapHandle NNS_FndFindContainHeap(const void *memBlock);
+
+#define NNS_FndDumpHeap(heap)               ((void)0)
+#define NNS_FndSetFillValForHeap(type, val) (0)
+#define NNS_FndGetFillValForHeap(type)      (0)
 
 #ifdef __cplusplus
 }

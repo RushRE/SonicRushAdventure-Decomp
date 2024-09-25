@@ -49,7 +49,7 @@ void OS_InitVAlarm(void)
         OSi_VAlarmQueue.head = NULL;
         OSi_VAlarmQueue.tail = NULL;
 
-        (IGNORE_RETURN) OS_DisableIrqMask(OS_IE_V_COUNT);
+        (void) OS_DisableIrqMask(OS_IE_V_COUNT);
 
         OSi_VFrameCount    = 0;
         OSi_PreviousVCount = 0;
@@ -179,7 +179,7 @@ void OS_SetVAlarm(OSVAlarm *alarm, s16 count, s16 delay, OSVAlarmHandler handler
 
     OSi_InsertVAlarm(alarm);
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 static void OSi_SetNextVAlarm(OSVAlarm *alarm)
@@ -189,7 +189,7 @@ static void OSi_SetNextVAlarm(OSVAlarm *alarm)
     GX_SetVCountEqVal(alarm->fire);
 
     GX_VCountEqIntr(TRUE);
-    (IGNORE_RETURN) OS_EnableIrqMask(OS_IE_V_COUNT);
+    (void) OS_EnableIrqMask(OS_IE_V_COUNT);
 }
 
 void OS_CancelVAlarm(OSVAlarm *alarm)
@@ -199,7 +199,7 @@ void OS_CancelVAlarm(OSVAlarm *alarm)
     alarm->canceled = TRUE;
     if (alarm->handler == NULL)
     {
-        (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+        (void) OS_RestoreInterrupts(enabled);
         return;
     }
 
@@ -207,7 +207,7 @@ void OS_CancelVAlarm(OSVAlarm *alarm)
 
     alarm->handler = NULL;
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 static void OSi_VAlarmHandler(void *)
@@ -218,7 +218,7 @@ static void OSi_VAlarmHandler(void *)
     s32 currentVCount;
     s32 currentVFrame;
 
-    (IGNORE_RETURN) OS_DisableIrqMask(OS_IE_V_COUNT);
+    (void) OS_DisableIrqMask(OS_IE_V_COUNT);
     GX_VCountEqIntr(FALSE);
 
     OS_SetIrqCheckFlag(OS_IE_V_COUNT);
@@ -243,9 +243,9 @@ static void OSi_VAlarmHandler(void *)
                     return;
                 }
 
-                (IGNORE_RETURN) OS_DisableIrqMask(OS_IE_V_COUNT);
+                (void) OS_DisableIrqMask(OS_IE_V_COUNT);
                 GX_VCountEqIntr(FALSE);
-                (IGNORE_RETURN) OS_ResetRequestIrqMask(OS_IE_V_COUNT);
+                (void) OS_ResetRequestIrqMask(OS_IE_V_COUNT);
 
             case OSi_VALARM_NOW:
                 handler = alarm->handler;
@@ -305,6 +305,6 @@ static s32 OSi_GetVFrame(s32 vcount)
     }
     OSi_PreviousVCount = vcount;
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
     return OSi_VFrameCount;
 }

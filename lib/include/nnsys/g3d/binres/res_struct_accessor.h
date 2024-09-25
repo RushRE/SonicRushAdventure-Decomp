@@ -21,8 +21,6 @@ int NNS_G3dGetResDictIdxByName(const NNSG3dResDict *dict, const NNSG3dResName *n
 
 NNS_G3D_RES_INLINE const NNSG3dResName *NNS_G3dGetResNameByIdx(const NNSG3dResDict *dict, u32 idx);
 NNS_G3D_RES_INLINE void *NNS_G3dGetResDataByIdx(const NNSG3dResDict *dict, u32 idx);
-NNS_G3D_RES_INLINE void *NNS_G3dGetResDataByIdx_Fast(void *resource, NNSG3dResDict *dict, u32 idx);
-NNS_G3D_RES_INLINE void *NNS_G3dGetMdlDataByIdx_Fast(NNSG3dResMdlSet *mdlResource, u32 idx);
 
 NNS_G3D_RES_INLINE const NNSG3dResName *NNS_G3dGetTexNameByIdx(const NNSG3dResTex *tex, u32 idx);
 NNS_G3D_RES_INLINE int NNS_G3dGetTexIdxByName(const NNSG3dResTex *tex, const NNSG3dResName *name);

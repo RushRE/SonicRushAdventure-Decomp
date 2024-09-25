@@ -52,7 +52,7 @@ void OS_LockMutex(OSMutex *mutex)
         }
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(saved);
+    (void) OS_RestoreInterrupts(saved);
 }
 
 void OS_UnlockMutex(OSMutex *mutex)
@@ -72,7 +72,7 @@ void OS_UnlockMutex(OSMutex *mutex)
         OS_WakeupThread(&mutex->queue);
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(saved);
+    (void) OS_RestoreInterrupts(saved);
 }
 
 void OSi_UnlockAllMutex(OSThread *thread)
@@ -115,7 +115,7 @@ BOOL OS_TryLockMutex(OSMutex *mutex)
         locked = FALSE;
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(saved);
+    (void) OS_RestoreInterrupts(saved);
     return locked;
 }
 

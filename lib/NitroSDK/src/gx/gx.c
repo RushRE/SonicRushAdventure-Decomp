@@ -212,7 +212,7 @@ u32 GX_SetDefaultDMA(u32 dma_no)
 
     GXi_DmaId = dma_no;
 
-    (IGNORE_RETURN)OS_RestoreInterrupts(enabled);
+    (void)OS_RestoreInterrupts(enabled);
 
     return previous;
 }

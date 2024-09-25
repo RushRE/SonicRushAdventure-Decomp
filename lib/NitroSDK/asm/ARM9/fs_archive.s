@@ -389,8 +389,8 @@ _020EAB34: .word FSi_ReadMemCallback
 _020EAB38: .word FSi_WriteMemCallback
 	arm_func_end FS_LoadArchive
 
-	arm_func_start RemoveArchiveFromList
-RemoveArchiveFromList: // 0x020EAB3C
+	arm_func_start FS_ReleaseArchiveName
+FS_ReleaseArchiveName: // 0x020EAB3C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4]
@@ -431,7 +431,7 @@ _020EABC0:
 	.align 2, 0
 _020EABCC: .word current_dir_pos
 _020EABD0: .word arc_list
-	arm_func_end RemoveArchiveFromList
+	arm_func_end FS_ReleaseArchiveName
 
 	arm_func_start FS_RegisterArchiveName
 FS_RegisterArchiveName: // 0x020EABD4

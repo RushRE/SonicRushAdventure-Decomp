@@ -7,7 +7,8 @@
 #include <nitro/spi/common/spi_common.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -113,6 +114,8 @@ void PM_AppendPreSleepCallback(PMSleepCallbackInfo *info);
 void PM_PrependPreSleepCallback(PMSleepCallbackInfo *info);
 void PM_AppendPostSleepCallback(PMSleepCallbackInfo *info);
 void PM_PrependPostSleepCallback(PMSleepCallbackInfo *info);
+void PM_DeletePreSleepCallback(PMSleepCallbackInfo *info);
+void PM_DeletePostSleepCallback(PMSleepCallbackInfo *info);
 
 BOOL PM_SetLCDPower(PMLCDPower sw);
 PMLCDPower PM_GetLCDPower(void);

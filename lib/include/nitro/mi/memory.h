@@ -4,7 +4,8 @@
 #include <nitro/types.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -36,6 +37,11 @@ void MI_Zero36B(void *pDest);
 // INLINE FUNCTIONS
 // --------------------
 
+SDK_INLINE void MI_CpuClear8(void *dest, u32 size)
+{
+    MI_CpuFill8(dest, 0, size);
+}
+
 SDK_INLINE void MI_CpuCopy16(const void *src, void *dest, u32 size)
 {
     MIi_CpuCopy16(src, dest, size);
@@ -66,6 +72,11 @@ SDK_INLINE void MI_CpuClear32(void *dest, u32 size)
     MI_CpuFill32(dest, 0, size);
 }
 
+SDK_INLINE void MI_CpuSend32(const void *src, volatile void *dest, u32 size)
+{
+    MIi_CpuSend32(src, dest, size);
+}
+
 SDK_INLINE void MI_CpuCopyFast(const void *src, void *dest, u32 size)
 {
     MIi_CpuCopyFast(src, dest, size);
@@ -79,11 +90,6 @@ SDK_INLINE void MI_CpuFillFast(void *dest, u32 data, u32 size)
 SDK_INLINE void MI_CpuClearFast(void *dest, u32 size)
 {
     MI_CpuFillFast(dest, 0, size);
-}
-
-SDK_INLINE void MI_CpuClear8(void *dest, u32 size)
-{
-    MI_CpuFill8(dest, 0, size);
 }
 
 #ifdef __cplusplus

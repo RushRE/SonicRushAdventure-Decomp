@@ -189,7 +189,7 @@ static inline void MIi_DmaSetParams(u32 dmaNo, u32 src, u32 dest, u32 ctrl)
     *(p + 1) = (vu32)dest;
     *(p + 2) = (vu32)ctrl;
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 static inline void MIi_DmaSetParams_wait(u32 dmaNo, u32 src, u32 dest, u32 ctrl)
@@ -206,7 +206,7 @@ static inline void MIi_DmaSetParams_wait(u32 dmaNo, u32 src, u32 dest, u32 ctrl)
         u32 dummy = reg_MI_DMA0SAD;
     }
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(enabled);
+    (void) OS_RestoreInterrupts(enabled);
 }
 
 static inline void MIi_DmaSetParams_noInt(u32 dmaNo, u32 src, u32 dest, u32 ctrl)
@@ -243,7 +243,7 @@ static inline void MIi_DmaSetParams_wait_src32(u32 dmaNo, u32 data, u32 dest, u3
     scrp->b32            = data;
     MIi_DmaSetParams_wait_noInt(dmaNo, (u32)scrp, dest, ctrl);
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(lastIntrMode);
+    (void) OS_RestoreInterrupts(lastIntrMode);
 }
 
 static inline void MIi_DmaSetParams_src32(u32 dmaNo, u32 data, u32 dest, u32 ctrl)
@@ -254,7 +254,7 @@ static inline void MIi_DmaSetParams_src32(u32 dmaNo, u32 data, u32 dest, u32 ctr
     srcp->b32            = data;
     MIi_DmaSetParams_noInt(dmaNo, (u32)srcp, dest, ctrl);
 
-    (IGNORE_RETURN) OS_RestoreInterrupts(lastIntrMode);
+    (void) OS_RestoreInterrupts(lastIntrMode);
 }
 
 static inline void MIi_CallCallback(MIDmaCallback callback, void *arg)

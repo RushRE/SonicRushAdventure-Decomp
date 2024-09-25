@@ -74,7 +74,7 @@ ArchiveFileUnknown__GetFileFromMemArchive: // 0x020518A4
 	mov r2, r5
 	add r0, sp, #0
 	add r1, sp, #0x48
-	bl OpenFileFast_IfFileID
+	bl NNS_FndOpenArchiveFileByIndex
 	ldr r1, [sp, #0x28]
 	ldr r0, [sp, #0x24]
 	cmp r7, #0
@@ -149,7 +149,7 @@ FileUnknown__GetAOUFileSize: // 0x020519C4
 	add r0, sp, #0
 	add r1, sp, #0x48
 	mov r2, r4
-	bl OpenFileFast_IfFileID
+	bl NNS_FndOpenArchiveFileByIndex
 	ldr r2, [sp, #0x28]
 	ldr r1, [sp, #0x24]
 	add r0, sp, #0x48

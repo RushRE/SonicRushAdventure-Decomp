@@ -32977,7 +32977,7 @@ ovl08_2174CBC: // 0x02174CBC
 	ldr r0, _02174D44 // =0x0217E950
 	ldr r0, [r0]
 	add r0, r0, #0x88
-	bl RemoveArchiveFromList
+	bl FS_ReleaseArchiveName
 	ldr r0, _02174D44 // =0x0217E950
 	ldr r0, [r0]
 	ldrh r0, [r0, #0xe4]
@@ -34111,7 +34111,7 @@ ovl08_2175B50: // 0x02175B50
 	str r1, [sp, #0xc]
 	ldrb r1, [r4, #0x36]
 	ldrb r2, [r4, #0x37]
-	bl sub_20CDF54
+	bl NNS_G2dArrangeOBJ1D
 	add sp, sp, #0x10
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	arm_func_end ovl08_2175B50
@@ -34139,7 +34139,7 @@ ovl08_2175C00: // 0x02175C00
 	str lr, [sp, #8]
 	add r0, r0, #0x20
 	str ip, [sp, #0xc]
-	bl sub_20CF26C
+	bl NNSi_G2dTextCanvasDrawTextRect
 	add sp, sp, #0x14
 	ldmia sp!, {pc}
 	arm_func_end ovl08_2175C00
@@ -34166,14 +34166,14 @@ _02175C74:
 	ldr r0, [r0]
 	add r5, r0, r4
 	mov r0, r5
-	bl sub_20CDE40
+	bl NNS_G2dFontFindGlyphIndex
 	mov r1, r0
 	ldr r0, _02175CFC // =0x0000FFFF
 	cmp r1, r0
 	ldreq r0, [r5]
 	ldreqh r1, [r0, #2]
 	mov r0, r5
-	bl sub_20CDD8C
+	bl NNS_G2dFontGetCharWidthsFromIndex
 	ldrh r1, [r5, #8]
 	ldrh r2, [r7]
 	ldr r3, [sp, #8]
@@ -34215,7 +34215,7 @@ ovl08_2175D00: // 0x02175D00
 	mla r1, ip, r3, lr
 	mov r3, r2
 	mov r2, r4
-	bl sub_20CE4D0
+	bl NNS_G2dCharCanvasDrawChar
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -34231,7 +34231,7 @@ ovl08_2175D44: // 0x02175D44
 	str lr, [sp]
 	add r0, r0, #0x20
 	str ip, [sp, #4]
-	bl sub_20CF31C
+	bl NNSi_G2dTextCanvasDrawText
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
 	arm_func_end ovl08_2175D44
@@ -34405,7 +34405,7 @@ _02175F9C:
 	mov r0, r6
 	mov r2, r4
 	mov r3, r5
-	bl sub_20CE48C
+	bl NNS_G2dCharCanvasInitForBG
 	ldr r1, _02176064 // =0x0217E964
 	mov r0, #0xc
 	ldr r2, [r1]
@@ -34434,7 +34434,7 @@ _02175FF0:
 	str r7, [sp, #8]
 	mov r4, #0xf
 	str r4, [sp, #0xc]
-	bl sub_20CE344
+	bl NNS_G2dMapScrToCharText
 	mov r0, r6
 	mov r1, #0
 	bl ovl08_2175BE8
@@ -34504,7 +34504,7 @@ ovl08_21760B4: // 0x021760B4
 	mov r0, r6
 	strh r1, [r4, #0x34]
 	mov r1, r5
-	bl sub_20CE284
+	bl NNSi_G2dCalcRequiredOBJ
 	ldr r1, [sp, #0x20]
 	cmp r7, #1
 	str r0, [r1]
@@ -34517,7 +34517,7 @@ ovl08_21760B4: // 0x021760B4
 	mov r2, r6
 	mov r3, r5
 	add r1, ip, r7, lsl #7
-	bl sub_20CE3FC
+	bl NNS_G2dCharCanvasInitForOBJ1D
 	ldr r2, [r4, #0x18]
 	mov r0, r4
 	mov r1, #0
@@ -34603,7 +34603,7 @@ _02176240:
 	add r0, r2, r8, lsl #2
 	ldr r1, [r0, #0x78c]
 	add r0, r2, r7
-	bl sub_20CDDE8
+	bl NNS_G2dFontInitUTF16
 	add r8, r8, #1
 	cmp r8, #2
 	add r7, r7, #0xc
@@ -34629,7 +34629,7 @@ _021762A0:
 	add r0, r2, r7, lsl #2
 	ldr r1, [r0, #0x78c]
 	add r0, r2, r8
-	bl sub_20CDDE8
+	bl NNS_G2dFontInitUTF16
 	add r7, r7, #1
 	cmp r7, #2
 	add r8, r8, #0xc

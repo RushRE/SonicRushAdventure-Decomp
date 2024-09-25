@@ -103,8 +103,8 @@ void InitSailingSysEvent(void)
     NNS_SndArcLoadSeq(SND_SAIL_SEQ_SEQ_RETIRE, audioManagerSndHeap);
     NNS_SndArcLoadSeq(SND_SAIL_SEQ_SEQ_RESULT, audioManagerSndHeap);
     NNS_SndArcLoadSeq(SND_SAIL_SEQ_SEQ_DISCOVER, audioManagerSndHeap);
-    NNS_SndArcLoadWaveArc(SND_SAIL_WAVEARC_WAVE_BGM, audioManagerSndHeap);
-    NNS_SndArcLoadSeqArc(SND_SAIL_WAVEARC_WAVE_VOYAGE_SE, audioManagerSndHeap);
+    NNS_SndArcLoadSeqArc(SND_SAIL_SEQARC_ARC_VOYAGE_SE, audioManagerSndHeap);
+    NNS_SndArcLoadBank(SND_SAIL_BANK_BANK_VOYAGE_SE, audioManagerSndHeap);
 
     if (state->sailShipType != SHIP_SUBMARINE)
         PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, bgmForShip[state->sailShipType]);
