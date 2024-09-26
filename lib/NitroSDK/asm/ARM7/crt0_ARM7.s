@@ -20,16 +20,16 @@ _037F801C:
 _037F8028: .word 0x0380ABD4
 	arm_func_end VBlankIntr
 
-	arm_func_start sub_37F802C
-sub_37F802C: // 0x037F802C
+	arm_func_start CheckCorrectNCDEx
+CheckCorrectNCDEx: // 0x037F802C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r10, r0
 	mov r8, #0
-	bl sub_37F81E8
+	bl IsValidConfigEx
 	cmp r0, #0
 	beq _037F80F8
-	bl sub_37F81C4
+	bl GetRomValidLanguage
 	mov r7, r0
 	mov r9, r8
 	mov r4, #1
@@ -40,7 +40,7 @@ _037F8060:
 	ldr r0, _037F81B4 // =0x0000FFFF
 	mov r1, r6
 	mov r2, r5
-	bl sub_37F81B8
+	bl _Ven__SVC_GetCRC16
 	mov r2, r6
 	ldrh r1, [r2, #0x72]
 	cmp r0, r1
@@ -51,7 +51,7 @@ _037F8060:
 	ldr r0, _037F81B4 // =0x0000FFFF
 	add r1, r6, #0x74
 	mov r2, r11
-	bl sub_37F81B8
+	bl _Ven__SVC_GetCRC16
 	mov r3, r6
 	ldrh r1, [r3, #0xfe]
 	cmp r0, r1
@@ -76,7 +76,7 @@ _037F80E0:
 	blo _037F8060
 	b _037F8158
 _037F80F8:
-	bl sub_37F81C4
+	bl GetRomValidLanguage
 	cmp r0, #0
 	movne r0, #3
 	bne _037F81A8
@@ -88,7 +88,7 @@ _037F8118:
 	mov r0, r6
 	add r1, r10, r7, lsl #8
 	mov r2, r5
-	bl sub_37F81B8
+	bl _Ven__SVC_GetCRC16
 	add r2, r10, r7, lsl #8
 	ldrh r1, [r2, #0x72]
 	cmp r0, r1
@@ -132,18 +132,18 @@ _037F81A8:
 	bx lr
 	.align 2, 0
 _037F81B4: .word 0x0000FFFF
-	arm_func_end sub_37F802C
+	arm_func_end CheckCorrectNCDEx
 
-	arm_func_start sub_37F81B8
-sub_37F81B8: // 0x037F81B8
+	arm_func_start _Ven__SVC_GetCRC16
+_Ven__SVC_GetCRC16: // 0x037F81B8
 	ldr ip, _037F81C0 // =SVC_GetCRC16
 	bx ip
 	.align 2, 0
 _037F81C0: .word SVC_GetCRC16
-	arm_func_end sub_37F81B8
+	arm_func_end _Ven__SVC_GetCRC16
 
-	arm_func_start sub_37F81C4
-sub_37F81C4: // 0x037F81C4
+	arm_func_start GetRomValidLanguage
+GetRomValidLanguage: // 0x037F81C4
 	mov r0, #0
 	ldr r1, _037F81E4 // =0x027FFE1D
 	ldrb r1, [r1]
@@ -154,10 +154,10 @@ sub_37F81C4: // 0x037F81C4
 	bx lr
 	.align 2, 0
 _037F81E4: .word 0x027FFE1D
-	arm_func_end sub_37F81C4
+	arm_func_end GetRomValidLanguage
 
-	arm_func_start sub_37F81E8
-sub_37F81E8: // 0x037F81E8
+	arm_func_start IsValidConfigEx
+IsValidConfigEx: // 0x037F81E8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #0x1d
@@ -175,10 +175,10 @@ _037F821C:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_37F81E8
+	arm_func_end IsValidConfigEx
 
-	arm_func_start sub_37F8228
-sub_37F8228: // 0x037F8228
+	arm_func_start ReadUserInfo
+ReadUserInfo: // 0x037F8228
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x210
 	mov r0, #0x20
@@ -197,7 +197,7 @@ sub_37F8228: // 0x037F8228
 	add r2, sp, #0x110
 	bl NVRAM_ReadDataBytes
 	add r0, sp, #0x10
-	bl sub_37F802C
+	bl CheckCorrectNCDEx
 	cmp r0, #3
 	blt _037F8290
 	mvn r0, #0
@@ -287,10 +287,10 @@ _037F834C:
 _037F83A4: .word 0x027FFC80
 _037F83A8: .word 0xFFFFFF2A
 _037F83AC: .word 0xFFFFFF60
-	arm_func_end sub_37F8228
+	arm_func_end ReadUserInfo
 
-	arm_func_start sub_37F83B0
-sub_37F83B0: // 0x037F83B0
+	arm_func_start InitializeAllocateSystem
+InitializeAllocateSystem: // 0x037F83B0
 	stmdb sp!, {r4, lr}
 	mov r0, #8
 	bl OS_GetArenaHi
@@ -339,4 +339,4 @@ _037F845C:
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_37F83B0
+	arm_func_end InitializeAllocateSystem

@@ -721,8 +721,8 @@ _027F7328: .word 0x027F9BDC
 _027F732C: .word RtcAlarmIntr
 	arm_func_end RTC_Init
 
-	arm_func_start RTC_Func_27F7330
-RTC_Func_27F7330: // 0x027F7330
+	arm_func_start RtcGpioTransfer
+RtcGpioTransfer: // 0x027F7330
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -750,10 +750,10 @@ _027F7384:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
-	arm_func_end RTC_Func_27F7330
+	arm_func_end RtcGpioTransfer
 
-	arm_func_start RTC_Func_27F7394
-RTC_Func_27F7394: // 0x027F7394
+	arm_func_start RtcChangeAlarmFormat12to24
+RtcChangeAlarmFormat12to24: // 0x027F7394
 	ldr r2, [r0]
 	mov r1, r2, lsl #0x12
 	mov r3, r1, lsr #0x1a
@@ -829,10 +829,10 @@ _027F7490:
 	bic r1, r1, #0x3f00
 	str r1, [r0]
 	bx lr
-	arm_func_end RTC_Func_27F7394
+	arm_func_end RtcChangeAlarmFormat12to24
 
-	arm_func_start RTC_Func_27F74AC
-RTC_Func_27F74AC: // 0x027F74AC
+	arm_func_start RtcChangeAlarmFormat24to12
+RtcChangeAlarmFormat24to12: // 0x027F74AC
 	ldr r1, [r0]
 	mov r2, r1, lsl #0x12
 	mov r2, r2, lsr #0x1a
@@ -912,7 +912,7 @@ _027F75B8:
 	bic r1, r1, #0x3f00
 	str r1, [r0]
 	bx lr
-	arm_func_end RTC_Func_27F74AC
+	arm_func_end RtcChangeAlarmFormat24to12
 
 	arm_func_start RTC_WriteFree
 RTC_WriteFree: // 0x027F75D4
@@ -924,7 +924,7 @@ RTC_WriteFree: // 0x027F75D4
 	mov r1, #0x70
 	mov r2, r4
 	mov r3, #1
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_WriteFree
@@ -939,7 +939,7 @@ RTC_ReadFree: // 0x027F7600
 	mov r1, #0x70
 	mov r2, r4
 	mov r3, #1
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_ReadFree
@@ -954,7 +954,7 @@ RTC_WriteAdjust: // 0x027F762C
 	mov r1, #0x30
 	mov r2, r4
 	mov r3, #1
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_WriteAdjust
@@ -969,7 +969,7 @@ RTC_ReadAdjust: // 0x027F7658
 	mov r1, #0x30
 	mov r2, r4
 	mov r3, #1
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_ReadAdjust
@@ -984,7 +984,7 @@ RTC_WriteStatus2: // 0x027F7684
 	mov r1, #0x40
 	mov r2, r4
 	mov r3, #1
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_WriteStatus2
@@ -999,7 +999,7 @@ RTC_ReadStatus2: // 0x027F76B0
 	mov r1, #0x40
 	mov r2, r4
 	mov r3, #1
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_ReadStatus2
@@ -1014,7 +1014,7 @@ RTC_WriteStatus1: // 0x027F76DC
 	mov r1, #0
 	mov r2, r4
 	mov r3, #1
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_WriteStatus1
@@ -1029,7 +1029,7 @@ RTC_ReadStatus1: // 0x027F7708
 	mov r1, #0
 	mov r2, r4
 	mov r3, #1
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_ReadStatus1
@@ -1050,7 +1050,7 @@ RTC_WriteAlarm2: // 0x027F7734
 	mov r1, #0x50
 	mov r2, r4
 	mov r3, #3
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	mov r0, #1
 _027F7774:
 	add sp, sp, #8
@@ -1074,7 +1074,7 @@ RTC_ReadAlarm2: // 0x027F7780
 	mov r1, #0x50
 	mov r2, r4
 	mov r3, #3
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	mov r0, #1
 _027F77C0:
 	add sp, sp, #8
@@ -1099,7 +1099,7 @@ RTC_WriteAlarm1: // 0x027F77CC
 	mov r1, #0x10
 	mov r2, r4
 	mov r3, #3
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	mov r0, #1
 _027F7810:
 	add sp, sp, #8
@@ -1124,7 +1124,7 @@ RTC_ReadAlarm1: // 0x027F781C
 	mov r1, #0x10
 	mov r2, r4
 	mov r3, #3
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	mov r0, #1
 _027F7860:
 	add sp, sp, #8
@@ -1150,7 +1150,7 @@ RTC_WritePulse: // 0x027F786C
 	mov r1, #0x10
 	mov r2, r4
 	mov r3, #1
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	mov r0, #1
 _027F78B4:
 	add sp, sp, #8
@@ -1176,7 +1176,7 @@ RTC_ReadPulse: // 0x027F78C0
 	mov r1, #0x10
 	mov r2, r4
 	mov r3, #1
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	mov r0, #1
 _027F7908:
 	add sp, sp, #8
@@ -1194,7 +1194,7 @@ RTC_WriteTime: // 0x027F7914
 	mov r1, #0x60
 	mov r2, r4
 	mov r3, #3
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_WriteTime
@@ -1209,7 +1209,7 @@ RTC_ReadTime: // 0x027F7940
 	mov r1, #0x60
 	mov r2, r4
 	mov r3, #3
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_ReadTime
@@ -1224,7 +1224,7 @@ RTC_ReadDate: // 0x027F796C
 	mov r1, #0x20
 	mov r2, r4
 	mov r3, #4
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_ReadDate
@@ -1239,7 +1239,7 @@ RTC_WriteDateTime: // 0x027F7998
 	mov r1, #0x20
 	mov r2, r4
 	mov r3, #7
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_WriteDateTime
@@ -1254,7 +1254,7 @@ RTC_ReadDateTime: // 0x027F79C4
 	mov r1, #0x20
 	mov r2, r4
 	mov r3, #7
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	ldmia sp!, {r4, lr}
 	bx lr
 	arm_func_end RTC_ReadDateTime
@@ -1290,42 +1290,42 @@ RTC_SetHourFormat: // 0x027F79F0
 	mov r1, #0x10
 	add r2, sp, #4
 	mov r3, #3
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	mov r0, r4, lsl #0x10
 	movs r0, r0, lsr #0x10
 	bne _027F7A80
 	add r0, sp, #4
-	bl RTC_Func_27F74AC
+	bl RtcChangeAlarmFormat24to12
 	b _027F7A88
 _027F7A80:
 	add r0, sp, #4
-	bl RTC_Func_27F7394
+	bl RtcChangeAlarmFormat12to24
 _027F7A88:
 	mov r0, #6
 	mov r1, #0x10
 	add r2, sp, #4
 	mov r3, #3
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	mov r0, #0x86
 	mov r1, #0x50
 	add r2, sp, #4
 	mov r3, #3
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	mov r0, r5, lsl #0x10
 	movs r0, r0, lsr #0x10
 	bne _027F7AC8
 	add r0, sp, #4
-	bl RTC_Func_27F74AC
+	bl RtcChangeAlarmFormat24to12
 	b _027F7AD0
 _027F7AC8:
 	add r0, sp, #4
-	bl RTC_Func_27F7394
+	bl RtcChangeAlarmFormat12to24
 _027F7AD0:
 	mov r0, #6
 	mov r1, #0x50
 	add r2, sp, #4
 	mov r3, #3
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 _027F7AE4:
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, lr}
@@ -1346,7 +1346,7 @@ RTC_Reset: // 0x027F7AF0
 	mov r1, #0
 	add r2, sp, #0
 	mov r3, #1
-	bl RTC_Func_27F7330
+	bl RtcGpioTransfer
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr

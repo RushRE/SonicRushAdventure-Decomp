@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start NVRAM_Func_27F5B74
-NVRAM_Func_27F5B74: // 0x027F5B74
+	arm_func_start NvramCheckReadyToWrite
+NvramCheckReadyToWrite: // 0x027F5B74
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	add r0, sp, #0
@@ -20,10 +20,10 @@ _027F5BA0:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end NVRAM_Func_27F5B74
+	arm_func_end NvramCheckReadyToWrite
 
-	arm_func_start NVRAM_Func_27F5BAC
-NVRAM_Func_27F5BAC: // 0x027F5BAC
+	arm_func_start NvramCheckReadyToRead
+NvramCheckReadyToRead: // 0x027F5BAC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	add r0, sp, #0
@@ -35,7 +35,7 @@ NVRAM_Func_27F5BAC: // 0x027F5BAC
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end NVRAM_Func_27F5BAC
+	arm_func_end NvramCheckReadyToRead
 
 	arm_func_start NVRAM_ExecuteProcess
 NVRAM_ExecuteProcess: // 0x027F5BD8
@@ -92,7 +92,7 @@ _027F5C88:
 	bl NVRAM_ReadStatusRegister
 	b _027F5E8C
 _027F5C94:
-	bl NVRAM_Func_27F5BAC
+	bl NvramCheckReadyToRead
 	cmp r0, #0
 	bne _027F5CC0
 	ldr r0, [r4, #4]
@@ -110,7 +110,7 @@ _027F5CC0:
 	bl NVRAM_ReadDataBytes
 	b _027F5E8C
 _027F5CD4:
-	bl NVRAM_Func_27F5BAC
+	bl NvramCheckReadyToRead
 	cmp r0, #0
 	bne _027F5D00
 	ldr r0, [r4, #4]
@@ -128,7 +128,7 @@ _027F5D00:
 	bl NVRAM_ReadDataBytesAtHigherSpeed
 	b _027F5E8C
 _027F5D14:
-	bl NVRAM_Func_27F5B74
+	bl NvramCheckReadyToWrite
 	cmp r0, #0
 	bne _027F5D40
 	ldr r0, [r4, #4]
@@ -148,7 +148,7 @@ _027F5D40:
 	bl NVRAM_PageWrite
 	b _027F5E8C
 _027F5D5C:
-	bl NVRAM_Func_27F5B74
+	bl NvramCheckReadyToWrite
 	cmp r0, #0
 	bne _027F5D88
 	ldr r0, [r4, #4]
@@ -168,7 +168,7 @@ _027F5D88:
 	bl NVRAM_PageProgram
 	b _027F5E8C
 _027F5DA4:
-	bl NVRAM_Func_27F5B74
+	bl NvramCheckReadyToWrite
 	cmp r0, #0
 	bne _027F5DD0
 	ldr r0, [r4, #4]
@@ -184,7 +184,7 @@ _027F5DD0:
 	bl NVRAM_PageErase
 	b _027F5E8C
 _027F5DDC:
-	bl NVRAM_Func_27F5B74
+	bl NvramCheckReadyToWrite
 	cmp r0, #0
 	bne _027F5E08
 	ldr r0, [r4, #4]
@@ -206,7 +206,7 @@ _027F5E1C:
 	bl NVRAM_ReleaseFromDeepPowerDown
 	b _027F5E8C
 _027F5E24:
-	bl NVRAM_Func_27F5B74
+	bl NvramCheckReadyToWrite
 	cmp r0, #0
 	bne _027F5E50
 	ldr r0, [r4, #4]

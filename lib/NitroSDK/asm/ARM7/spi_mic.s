@@ -5,8 +5,8 @@
 
 	.text
 
-	arm_func_start MIC_Func_3806298
-MIC_Func_3806298: // 0x03806298
+	arm_func_start MicTimerHandler
+MicTimerHandler: // 0x03806298
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	ldr r4, _038063F0 // =0x0380BB7C
 	ldrh r5, [r4, #0x26]
@@ -106,13 +106,13 @@ _038063F0: .word 0x0380BB7C
 _038063F4: .word 0x0000FFFF
 _038063F8: .word 0x027FFC00
 _038063FC: .word 0x0400010E
-	arm_func_end MIC_Func_3806298
+	arm_func_end MicTimerHandler
 
-	arm_func_start MIC_Func_3806400
-MIC_Func_3806400: // 0x03806400
+	arm_func_start MIC_TimerHandler
+MIC_TimerHandler: // 0x03806400
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl MIC_Func_3806298
+	bl MicTimerHandler
 	ldr r1, _03806434 // =0x0380FFF8
 	ldr r0, [r1]
 	orr r0, r0, #0x40
@@ -126,7 +126,7 @@ MIC_Func_3806400: // 0x03806400
 	.align 2, 0
 _03806434: .word 0x0380FFF8
 _03806438: .word 0x04000214
-	arm_func_end MIC_Func_3806400
+	arm_func_end MIC_TimerHandler
 
 	arm_func_start MIC_ExecuteProcess
 MIC_ExecuteProcess: // 0x0380643C
@@ -209,7 +209,7 @@ _03806534:
 	mov r0, #0x40
 	bl OS_EnableIrqMask
 	mov r0, #0x40
-	ldr r1, _0380668C // =MIC_Func_3806400
+	ldr r1, _0380668C // =MIC_TimerHandler
 	bl MIC_SetIrqFunction
 	bl MIC_EnableMultipleInterrupt
 	ldr r0, _03806688 // =0x0380BB7C
@@ -291,13 +291,13 @@ _03806674:
 _03806680: .word 0x027FFF94
 _03806684: .word 0x027FFF90
 _03806688: .word 0x0380BB7C
-_0380668C: .word MIC_Func_3806400
+_0380668C: .word MIC_TimerHandler
 _03806690: .word 0x0400010C
 _03806694: .word 0x0400010E
 	arm_func_end MIC_ExecuteProcess
 
-	arm_func_start MIC_Func_3806698
-MIC_Func_3806698: // 0x03806698
+	arm_func_start MicSetTimerValue
+MicSetTimerValue: // 0x03806698
 	cmp r0, #0x10000
 	bhs _038066BC
 	mov r2, #0
@@ -343,7 +343,7 @@ _0380670C:
 	bx lr
 	.align 2, 0
 _03806738: .word 0x0380BB7C
-	arm_func_end MIC_Func_3806698
+	arm_func_end MicSetTimerValue
 
 	arm_func_start MIC_AnalyzeCommand
 MIC_AnalyzeCommand: // 0x0380673C
@@ -438,7 +438,7 @@ _03806870:
 	ldrh r2, [r1, #0xa]
 	ldrh r0, [r1, #0xc]
 	orr r0, r0, r2, lsl #16
-	bl MIC_Func_3806698
+	bl MicSetTimerValue
 	cmp r0, #0
 	bne _0380689C
 	mov r0, r4
@@ -511,7 +511,7 @@ _0380697C:
 	ldrh r2, [r1, #2]
 	ldrh r0, [r1, #4]
 	orr r0, r0, r2, lsl #16
-	bl MIC_Func_3806698
+	bl MicSetTimerValue
 	cmp r0, #0
 	bne _038069A4
 	mov r0, r4
@@ -691,8 +691,8 @@ _03806BD8: .word 0x00008201
 _03806BDC: .word 0x00007F80
 	arm_func_end MIC_ExecSampling8
 
-	arm_func_start MIC_Func_3806BE0
-MIC_Func_3806BE0: // 0x03806BE0
+	arm_func_start MIC_IrqHandler
+MIC_IrqHandler: // 0x03806BE0
 	mov ip, #0x4000000
 	add r1, ip, #0x208
 	ldrh r0, [r1]
@@ -752,12 +752,9 @@ _03806C7C:
 _03806CBC:
 	ldr r1, [ip, #0x210]
 	stmdb sp!, {r1}
-	add lr, pc, #0x0 // =sub_3806CCC
+	add lr, pc, #0x0 // =_3806CCC
 	bx r0
-	arm_func_end MIC_Func_3806BE0
-
-	arm_func_start sub_3806CCC
-sub_3806CCC: // 0x03806CCC
+_3806CCC: // 0x03806CCC
 	mov r0, #0x9f
 	msr cpsr_c, r0
 	mov ip, #0x4000000
@@ -796,8 +793,8 @@ _03806D50: .word 0x03808434
 _03806D54: .word 0x0380BBB8
 _03806D58: .word 0x03807F60
 _03806D5C: .word OS_IRQTable
-	arm_func_end sub_3806CCC
 _03806D60: .word OS_IrqHandler_ThreadSwitch
+	arm_func_end MIC_IrqHandler
 
 	arm_func_start MIC_DisableMultipleInterrupt
 MIC_DisableMultipleInterrupt: // 0x03806D64
@@ -805,7 +802,7 @@ MIC_DisableMultipleInterrupt: // 0x03806D64
 	sub sp, sp, #4
 	ldr r0, _03806DA4 // =0x0380FFFC
 	ldr r1, [r0]
-	ldr r0, _03806DA8 // =MIC_Func_3806BE0
+	ldr r0, _03806DA8 // =MIC_IrqHandler
 	cmp r1, r0
 	bne _03806D98
 	bl OS_DisableInterrupts
@@ -820,7 +817,7 @@ _03806D98:
 	bx lr
 	.align 2, 0
 _03806DA4: .word 0x0380FFFC
-_03806DA8: .word MIC_Func_3806BE0
+_03806DA8: .word MIC_IrqHandler
 _03806DAC: .word 0x0380BBB8
 	arm_func_end MIC_DisableMultipleInterrupt
 
@@ -830,7 +827,7 @@ MIC_EnableMultipleInterrupt: // 0x03806DB0
 	sub sp, sp, #4
 	ldr r0, _03806E0C // =0x0380FFFC
 	ldr r2, [r0]
-	ldr r0, _03806E10 // =MIC_Func_3806BE0
+	ldr r0, _03806E10 // =MIC_IrqHandler
 	cmp r2, r0
 	beq _03806E00
 	mov r1, #0
@@ -842,7 +839,7 @@ MIC_EnableMultipleInterrupt: // 0x03806DB0
 	str r1, [r0, #8]
 	str r2, [r0, #0xc]
 	bl OS_DisableInterrupts
-	ldr r2, _03806E10 // =MIC_Func_3806BE0
+	ldr r2, _03806E10 // =MIC_IrqHandler
 	ldr r1, _03806E0C // =0x0380FFFC
 	str r2, [r1]
 	bl OS_RestoreInterrupts
@@ -852,7 +849,7 @@ _03806E00:
 	bx lr
 	.align 2, 0
 _03806E0C: .word 0x0380FFFC
-_03806E10: .word MIC_Func_3806BE0
+_03806E10: .word MIC_IrqHandler
 _03806E14: .word 0x0380BBB8
 _03806E18: .word 0x0380FE80
 	arm_func_end MIC_EnableMultipleInterrupt

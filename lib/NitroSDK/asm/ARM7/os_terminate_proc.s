@@ -11,6 +11,6 @@ OS_Terminate: // 0x037FE638
 	bl CTRDG_VibPulseEdgeUpdate
 _037FE648:
 	bl OS_DisableInterrupts
-	bl SVC_Halt_ARM
+	bl _Ven__SVC_Halt
 	b _037FE648
 	arm_func_end OS_Terminate

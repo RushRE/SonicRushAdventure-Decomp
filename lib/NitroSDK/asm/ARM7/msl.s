@@ -481,8 +481,8 @@ _03807F68: // 0x03807F68
 	.byte 0x00, 0x00, 0x40, 0x00, 0x16, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x02, 0x00, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x17, 0x00, 0x00, 0x00
 
-	arm_func_start sub_3808010
-sub_3808010: // 0x03808010
+	arm_func_start SDK_AUTOLOAD.WRAM.TEXT_END
+SDK_AUTOLOAD.WRAM.TEXT_END: // 0x03808010
 	mov ip, #0x4000000
 	str ip, [ip, #0x208]
 	ldr r1, _03808078 // =0x0380FFFC
@@ -515,18 +515,18 @@ _0380804C:
 _03808078: .word 0x0380FFFC
 _0380807C: .word 0x04000180
 _03808080: .word 0x027FFE00
-	arm_func_end sub_3808010
+	arm_func_end SDK_AUTOLOAD.WRAM.TEXT_END
 
 	arm_func_start OSi_DoResetSystem
 OSi_DoResetSystem: // 0x03808084
 	mov r1, #0
 	ldr r0, _03808098 // =0x04000208
 	strh r1, [r0]
-	ldr ip, _0380809C // =sub_3808010
+	ldr ip, _0380809C // =SDK_AUTOLOAD.WRAM.TEXT_END
 	bx ip
 	.align 2, 0
 _03808098: .word 0x04000208
-_0380809C: .word sub_3808010
+_0380809C: .word SDK_AUTOLOAD.WRAM.TEXT_END
 	arm_func_end OSi_DoResetSystem
 
 	arm_func_start WMSP_GetAllowedChannel

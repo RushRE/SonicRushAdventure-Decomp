@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start sub_27E0000
-sub_27E0000: // 0x027E0000
+	arm_func_start SDK_AUTOLOAD_MAIN_START
+SDK_AUTOLOAD_MAIN_START: // 0x027E0000
 	ldr r1, _027E002C // =0x027F9454
 	ldr r2, [r1, #0x550]
 	strh r0, [r2, #0x32]
@@ -18,10 +18,10 @@ sub_27E0000: // 0x027E0000
 	bx lr
 	.align 2, 0
 _027E002C: .word 0x027F9454
-	arm_func_end sub_27E0000
+	arm_func_end SDK_AUTOLOAD_MAIN_START
 
-	arm_func_start sub_27E0030
-sub_27E0030: // 0x027E0030
+	arm_func_start WMSP_SetParentSize
+WMSP_SetParentSize: // 0x027E0030
 	ldr r1, _027E005C // =0x027F9454
 	ldr r2, [r1, #0x550]
 	strh r0, [r2, #0x30]
@@ -35,10 +35,10 @@ sub_27E0030: // 0x027E0030
 	bx lr
 	.align 2, 0
 _027E005C: .word 0x027F9454
-	arm_func_end sub_27E0030
+	arm_func_end WMSP_SetParentSize
 
-	arm_func_start sub_27E0060
-sub_27E0060: // 0x027E0060
+	arm_func_start WMSP_SetChildMaxSize
+WMSP_SetChildMaxSize: // 0x027E0060
 	ldr r1, _027E00AC // =0x027F9454
 	ldr r2, [r1, #0x550]
 	strh r0, [r2, #0x36]
@@ -60,10 +60,10 @@ sub_27E0060: // 0x027E0060
 	bx lr
 	.align 2, 0
 _027E00AC: .word 0x027F9454
-	arm_func_end sub_27E0060
+	arm_func_end WMSP_SetChildMaxSize
 
-	arm_func_start sub_27E00B0
-sub_27E00B0: // 0x027E00B0
+	arm_func_start WMSP_SetParentMaxSize
+WMSP_SetParentMaxSize: // 0x027E00B0
 	ldr r1, _027E00FC // =0x027F9454
 	ldr r2, [r1, #0x550]
 	strh r0, [r2, #0x30]
@@ -85,10 +85,10 @@ sub_27E00B0: // 0x027E00B0
 	bx lr
 	.align 2, 0
 _027E00FC: .word 0x027F9454
-	arm_func_end sub_27E00B0
+	arm_func_end WMSP_SetParentMaxSize
 
-	arm_func_start sub_27E0100
-sub_27E0100: // 0x027E0100
+	arm_func_start WMSP_ResetSizeVars
+WMSP_ResetSizeVars: // 0x027E0100
 	ldr r0, _027E0130 // =0x027F9454
 	ldr r1, [r0, #0x550]
 	mov r0, #0
@@ -103,10 +103,10 @@ sub_27E0100: // 0x027E0100
 	bx lr
 	.align 2, 0
 _027E0130: .word 0x027F9454
-	arm_func_end sub_27E0100
+	arm_func_end WMSP_ResetSizeVars
 
-	arm_func_start sub_27E0134
-sub_27E0134: // 0x027E0134
+	arm_func_start WMSP_GetInternalRequestBuf
+WMSP_GetInternalRequestBuf: // 0x027E0134
 	stmdb sp!, {r4, lr}
 	mov r4, #0
 	bl OS_DisableInterrupts
@@ -140,10 +140,10 @@ _027E0190:
 	bx lr
 	.align 2, 0
 _027E01A0: .word 0x027F9454
-	arm_func_end sub_27E0134
+	arm_func_end WMSP_GetInternalRequestBuf
 
-	arm_func_start sub_27E01A4
-sub_27E01A4: // 0x027E01A4
+	arm_func_start WmspError
+WmspError: // 0x027E01A4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -157,10 +157,10 @@ sub_27E01A4: // 0x027E01A4
 	bl WMSP_ReturnResult2Wm9
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
-	arm_func_end sub_27E01A4
+	arm_func_end WmspError
 
-	arm_func_start sub_27E01D8
-sub_27E01D8: // 0x027E01D8
+	arm_func_start WMSP_SetThreadPriorityHigh
+WMSP_SetThreadPriorityHigh: // 0x027E01D8
 	stmdb sp!, {r4, lr}
 	bl OS_DisableInterrupts
 	mov r4, r0
@@ -169,7 +169,7 @@ sub_27E01D8: // 0x027E01D8
 	ldr r1, _027E0230 // =0x027F9454
 	ldr r1, [r1, #0x578]
 	bl OS_YieldThread
-	bl sub_27E8B40
+	bl WL_GetThreadStruct
 	ldr r1, _027E0230 // =0x027F9454
 	ldr r1, [r1, #0x57c]
 	bl OS_YieldThread
@@ -186,10 +186,10 @@ sub_27E01D8: // 0x027E01D8
 _027E022C: .word 0x0380BCCC
 _027E0230: .word 0x027F9454
 _027E0234: .word 0x0380BC28
-	arm_func_end sub_27E01D8
+	arm_func_end WMSP_SetThreadPriorityHigh
 
-	arm_func_start sub_27E0238
-sub_27E0238: // 0x027E0238
+	arm_func_start WMSP_SetThreadPriorityLow
+WMSP_SetThreadPriorityLow: // 0x027E0238
 	stmdb sp!, {r4, lr}
 	bl OS_DisableInterrupts
 	mov r4, r0
@@ -198,7 +198,7 @@ sub_27E0238: // 0x027E0238
 	ldr r1, _027E0290 // =0x027F9454
 	ldr r1, [r1, #0x58c]
 	bl OS_YieldThread
-	bl sub_27E8B40
+	bl WL_GetThreadStruct
 	ldr r1, _027E0290 // =0x027F9454
 	ldr r1, [r1, #0x588]
 	bl OS_YieldThread
@@ -215,10 +215,10 @@ sub_27E0238: // 0x027E0238
 _027E028C: .word 0x0380BC28
 _027E0290: .word 0x027F9454
 _027E0294: .word 0x0380BCCC
-	arm_func_end sub_27E0238
+	arm_func_end WMSP_SetThreadPriorityLow
 
-	arm_func_start sub_27E0298
-sub_27E0298: // 0x027E0298
+	arm_func_start WMSP_GetLinkLevel
+WMSP_GetLinkLevel: // 0x027E0298
 	ldr r1, _027E02FC // =0x027F9454
 	ldr r1, [r1, #0x54c]
 	ldrb r1, [r1, #0x53]
@@ -247,10 +247,10 @@ _027E02D4:
 	bx lr
 	.align 2, 0
 _027E02FC: .word 0x027F9454
-	arm_func_end sub_27E0298
+	arm_func_end WMSP_GetLinkLevel
 
-	arm_func_start sub_27E0300
-sub_27E0300: // 0x027E0300
+	arm_func_start WMSP_GetAverageLinkLevel
+WMSP_GetAverageLinkLevel: // 0x027E0300
 	mov r2, #0
 	mov r3, r2
 	ldr r1, _027E0334 // =_027F8454
@@ -263,15 +263,15 @@ _027E030C:
 	cmp r3, #0x20
 	blt _027E030C
 	mov r0, r2, lsr #5
-	ldr ip, _027E0338 // =sub_27E0298
+	ldr ip, _027E0338 // =WMSP_GetLinkLevel
 	bx ip
 	.align 2, 0
 _027E0334: .word _027F8454
-_027E0338: .word sub_27E0298
-	arm_func_end sub_27E0300
+_027E0338: .word WMSP_GetLinkLevel
+	arm_func_end WMSP_GetAverageLinkLevel
 
-	arm_func_start sub_27E033C
-sub_27E033C: // 0x027E033C
+	arm_func_start WMSP_FillRssiIntoList
+WMSP_FillRssiIntoList: // 0x027E033C
 	mov r3, #0
 	ldr r2, _027E036C // =_027F8454
 _027E0344:
@@ -288,10 +288,10 @@ _027E0344:
 	.align 2, 0
 _027E036C: .word _027F8454
 _027E0370: .word 0x027F9454
-	arm_func_end sub_27E033C
+	arm_func_end WMSP_FillRssiIntoList
 
-	arm_func_start sub_27E0374
-sub_27E0374: // 0x027E0374
+	arm_func_start WMSP_AddRssiToList
+WMSP_AddRssiToList: // 0x027E0374
 	ldr r1, _027E03AC // =0x027F9454
 	ldr r3, [r1, #0x574]
 	ldr r2, _027E03B0 // =0x027F99A8
@@ -310,10 +310,10 @@ sub_27E0374: // 0x027E0374
 _027E03AC: .word 0x027F9454
 _027E03B0: .word 0x027F99A8
 _027E03B4: .word 0x027FFF98
-	arm_func_end sub_27E0374
+	arm_func_end WMSP_AddRssiToList
 
-	arm_func_start sub_27E03B8
-sub_27E03B8: // 0x027E03B8
+	arm_func_start WMSP_SetAllParams
+WMSP_SetAllParams: // 0x027E03B8
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -388,14 +388,14 @@ _027E04C0:
 	ldrh r0, [r0, #0xee]
 	strh r0, [r5, #0x9c]
 	mov r0, r5
-	bl sub_27E26D4
+	bl WMSP_WL_ParamSetAll
 	ldrh r2, [r0, #4]
 	cmp r2, #0
 	moveq r0, #1
 	beq _027E04F4
 	mov r0, r6
 	mov r1, #0x200
-	bl sub_27E01A4
+	bl WmspError
 	mov r0, #0
 _027E04F4:
 	ldmia sp!, {r4, r5, r6, lr}
@@ -403,10 +403,10 @@ _027E04F4:
 	.align 2, 0
 _027E04FC: .word 0x027F9454
 _027E0500: .word 0x0000FFFF
-	arm_func_end sub_27E03B8
+	arm_func_end WMSP_SetAllParams
 
-	arm_func_start sub_27E0504
-sub_27E0504: // 0x027E0504
+	arm_func_start WMSP_CopyParentParam
+WMSP_CopyParentParam: // 0x027E0504
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r2, r0
@@ -452,10 +452,10 @@ _027E05A8:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27E0504
+	arm_func_end WMSP_CopyParentParam
 
-	arm_func_start sub_27E05B4
-sub_27E05B4: // 0x027E05B4
+	arm_func_start WMSP_CheckMacAddress
+WMSP_CheckMacAddress: // 0x027E05B4
 	ldr r1, _027E062C // =0x027F9454
 	ldr r1, [r1, #0x550]
 	add r3, r1, #0xe0
@@ -489,10 +489,10 @@ _027E0624:
 	bx lr
 	.align 2, 0
 _027E062C: .word 0x027F9454
-	arm_func_end sub_27E05B4
+	arm_func_end WMSP_CheckMacAddress
 
-	arm_func_start sub_27E0630
-sub_27E0630: // 0x027E0630
+	arm_func_start WmspPxiCallback
+WmspPxiCallback: // 0x027E0630
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	cmp r2, #0
@@ -521,10 +521,10 @@ _027E0688:
 	.align 2, 0
 _027E0690: .word 0x027F84DC
 _027E0694: .word 0x027F9454
-	arm_func_end sub_27E0630
+	arm_func_end WmspPxiCallback
 
-	arm_func_start sub_27E0698
-sub_27E0698: // 0x027E0698
+	arm_func_start WMSP_WlRequest
+WMSP_WlRequest: // 0x027E0698
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r1, r0
@@ -559,10 +559,10 @@ _027E0700:
 	.align 2, 0
 _027E0710: .word _027F8454
 _027E0714: .word 0x027F84AC
-	arm_func_end sub_27E0698
+	arm_func_end WMSP_WlRequest
 
-	arm_func_start sub_27E0718
-sub_27E0718: // 0x027E0718
+	arm_func_start WM_sp_init
+WM_sp_init: // 0x027E0718
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -617,7 +617,7 @@ sub_27E0718: // 0x027E0718
 	ldr r0, [r4, #4]
 	str r0, [sp, #4]
 	ldr r0, _027E08CC // =0x0380BCCC
-	ldr r1, _027E08D0 // =sub_27E1FAC
+	ldr r1, _027E08D0 // =WMSP_IndicateThread
 	mov r2, #0
 	ldr r3, _027E08C8 // =0x027F997C
 	bl OS_CreateThread
@@ -628,7 +628,7 @@ sub_27E0718: // 0x027E0718
 	ldr r0, [r4, #0xc]
 	str r0, [sp, #4]
 	ldr r0, _027E08D4 // =0x0380BC28
-	ldr r1, _027E08D8 // =sub_27E204C
+	ldr r1, _027E08D8 // =WMSP_RequestThread
 	mov r2, #0
 	ldr r3, _027E08DC // =0x027F957C
 	bl OS_CreateThread
@@ -653,14 +653,14 @@ _027E0840:
 _027E0870:
 	bl PXI_Init
 	mov r0, #0xa
-	ldr r1, _027E08E0 // =sub_27E0630
+	ldr r1, _027E08E0 // =WmspPxiCallback
 	bl PXI_SetFifoRecvCallback
 	mov r0, #2
 	str r0, [r5, #0x18]
 	ldr r0, [r4, #0x14]
 	str r0, [r5, #0xc]
 	mov r0, r5
-	bl sub_27E8B54
+	bl WL_InitDriver
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, lr}
 	bx lr
@@ -676,15 +676,15 @@ _027E08C0: .word 0x027F84DC
 _027E08C4: .word 0x027F84FC
 _027E08C8: .word 0x027F997C
 _027E08CC: .word 0x0380BCCC
-_027E08D0: .word sub_27E1FAC
+_027E08D0: .word WMSP_IndicateThread
 _027E08D4: .word 0x0380BC28
-_027E08D8: .word sub_27E204C
+_027E08D8: .word WMSP_RequestThread
 _027E08DC: .word 0x027F957C
-_027E08E0: .word sub_27E0630
-	arm_func_end sub_27E0718
+_027E08E0: .word WmspPxiCallback
+	arm_func_end WM_sp_init
 
-	arm_func_start sub_27E08E4
-sub_27E08E4: // 0x027E08E4
+	arm_func_start WMSP_InitAlarm
+WMSP_InitAlarm: // 0x027E08E4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027E0908 // =0x0380BD9C
@@ -697,10 +697,10 @@ sub_27E08E4: // 0x027E08E4
 	.align 2, 0
 _027E0908: .word 0x0380BD9C
 _027E090C: .word 0x0380BD70
-	arm_func_end sub_27E08E4
+	arm_func_end WMSP_InitAlarm
 
-	arm_func_start sub_27E0910
-sub_27E0910: // 0x027E0910
+	arm_func_start WmspIndicateMlmeAuthenticate
+WmspIndicateMlmeAuthenticate: // 0x027E0910
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -714,10 +714,10 @@ sub_27E0910: // 0x027E0910
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27E0910
+	arm_func_end WmspIndicateMlmeAuthenticate
 
-	arm_func_start sub_27E0944
-sub_27E0944: // 0x027E0944
+	arm_func_start WmspIndicateMlmeDeAuthenticate
+WmspIndicateMlmeDeAuthenticate: // 0x027E0944
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r8, r0
@@ -830,7 +830,7 @@ _027E0A78:
 	mov r0, r0, lsl r5
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 	b _027E0BF8
 _027E0AF8:
 	mov r5, #0
@@ -849,8 +849,8 @@ _027E0B1C:
 	mov r0, r5
 	str r0, [r6, #0xc]
 	mov r5, #1
-	bl sub_27E681C
-	bl sub_27E0238
+	bl WMSP_CancelVAlarm
+	bl WMSP_SetThreadPriorityLow
 _027E0B3C:
 	mov r1, #0
 	add r0, r6, #0x100
@@ -864,7 +864,7 @@ _027E0B3C:
 	add r0, r6, #0x19c
 	mov r2, #0x50
 	bl MI_CpuFill8
-	bl sub_27E0100
+	bl WMSP_ResetSizeVars
 	mov r0, #0
 	strh r0, [r6, #0xc2]
 	mov r0, #3
@@ -898,7 +898,7 @@ _027E0B3C:
 	cmp r5, #0
 	beq _027E0BF8
 	mov r0, #1
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 _027E0BF8:
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -906,10 +906,10 @@ _027E0BF8:
 	.align 2, 0
 _027E0C04: .word 0x027F9454
 _027E0C08: .word 0x0000018A
-	arm_func_end sub_27E0944
+	arm_func_end WmspIndicateMlmeDeAuthenticate
 
-	arm_func_start sub_27E0C0C
-sub_27E0C0C: // 0x027E0C0C
+	arm_func_start WmspIndicateMlmeAssociate
+WmspIndicateMlmeAssociate: // 0x027E0C0C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -923,7 +923,7 @@ sub_27E0C0C: // 0x027E0C0C
 	ldrh r0, [r5, #0xf6]
 	cmp r0, #0
 	bne _027E0CAC
-	bl sub_27E0134
+	bl WMSP_GetInternalRequestBuf
 	movs r4, r0
 	moveq r0, #0
 	beq _027E0C78
@@ -1012,10 +1012,10 @@ _027E0D80:
 	.align 2, 0
 _027E0D8C: .word 0x027F9454
 _027E0D90: .word 0x027F84DC
-	arm_func_end sub_27E0C0C
+	arm_func_end WmspIndicateMlmeAssociate
 
-	arm_func_start sub_27E0D94
-sub_27E0D94: // 0x027E0D94
+	arm_func_start WmspIndicateMlmeReAssociate
+WmspIndicateMlmeReAssociate: // 0x027E0D94
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -1029,10 +1029,10 @@ sub_27E0D94: // 0x027E0D94
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27E0D94
+	arm_func_end WmspIndicateMlmeReAssociate
 
-	arm_func_start sub_27E0DC8
-sub_27E0DC8: // 0x027E0DC8
+	arm_func_start WmspIndicateMlmeDisAssociate
+WmspIndicateMlmeDisAssociate: // 0x027E0DC8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -1046,10 +1046,10 @@ sub_27E0DC8: // 0x027E0DC8
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27E0DC8
+	arm_func_end WmspIndicateMlmeDisAssociate
 
-	arm_func_start sub_27E0DFC
-sub_27E0DFC: // 0x027E0DFC
+	arm_func_start WmspIndicateMaFatalErr
+WmspIndicateMaFatalErr: // 0x027E0DFC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r1, _027E0F20 // =0x027F9454
@@ -1071,7 +1071,7 @@ sub_27E0DFC: // 0x027E0DFC
 	mov r1, #0
 	strh r1, [r5, #0x8a]
 	mov r0, #1
-	bl sub_27E6FF4
+	bl WMSP_FlushSendQueue
 	bl WMSP_GetBuffer4Callback2Wm9
 	mov r1, #0x80
 	strh r1, [r0]
@@ -1084,7 +1084,7 @@ sub_27E0DFC: // 0x027E0DFC
 	bl WMSP_ReturnResult2Wm9
 	b _027E0F14
 _027E0E80:
-	bl sub_27E0134
+	bl WMSP_GetInternalRequestBuf
 	movs r1, r0
 	moveq r0, #0
 	beq _027E0EE4
@@ -1136,10 +1136,10 @@ _027E0F24: .word 0x0380BD70
 _027E0F28: .word 0x00008003
 _027E0F2C: .word 0x00007FFE
 _027E0F30: .word 0x027F84DC
-	arm_func_end sub_27E0DFC
+	arm_func_end WmspIndicateMaFatalErr
 
-	arm_func_start sub_27E0F34
-sub_27E0F34: // 0x027E0F34
+	arm_func_start WmspIndicateMaData
+WmspIndicateMaData: // 0x027E0F34
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -1155,12 +1155,12 @@ sub_27E0F34: // 0x027E0F34
 	moveq r0, r1, asr #2
 	addeq r0, r0, #0x19
 	andeq r0, r0, #0xff
-	bl sub_27E0374
-	bl sub_27E0300
+	bl WMSP_AddRssiToList
+	bl WMSP_GetAverageLinkLevel
 	strh r0, [r4, #0xbc]
 	add r5, r5, #0x10
 	add r0, r5, #0x1e
-	bl sub_27E05B4
+	bl WMSP_CheckMacAddress
 	cmp r0, #1
 	beq _027E1018
 	ldrh r1, [r5, #6]
@@ -1204,12 +1204,12 @@ _027E1018:
 	.align 2, 0
 _027E1024: .word 0x027F9454
 _027E1028: .word 0x000005E4
-	arm_func_end sub_27E0F34
+	arm_func_end WmspIndicateMaData
 
-	arm_func_start sub_27E102C
-sub_27E102C: // 0x027E102C
+	arm_func_start WmspKickMPChild
+WmspKickMPChild: // 0x027E102C
 	stmdb sp!, {r4, lr}
-	bl sub_27E0134
+	bl WMSP_GetInternalRequestBuf
 	movs r1, r0
 	ldr r4, _027E10B4 // =_027F8454
 	ldr r0, _027E10B8 // =0x027F9454
@@ -1247,18 +1247,18 @@ _027E10AC:
 	.align 2, 0
 _027E10B4: .word _027F8454
 _027E10B8: .word 0x027F9454
-	arm_func_end sub_27E102C
+	arm_func_end WmspKickMPChild
 
-	arm_func_start sub_27E10BC
-sub_27E10BC: // 0x027E10BC
-	ldr ip, _027E10C4 // =sub_27E102C
+	arm_func_start WmspMPChildIntervalAlarmCallback
+WmspMPChildIntervalAlarmCallback: // 0x027E10BC
+	ldr ip, _027E10C4 // =WmspKickMPChild
 	bx ip
 	.align 2, 0
-_027E10C4: .word sub_27E102C
-	arm_func_end sub_27E10BC
+_027E10C4: .word WmspKickMPChild
+	arm_func_end WmspMPChildIntervalAlarmCallback
 
-	arm_func_start sub_27E10C8
-sub_27E10C8: // 0x027E10C8
+	arm_func_start WmspIndicateMaMultiPollAck
+WmspIndicateMaMultiPollAck: // 0x027E10C8
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	add r9, r0, #0x10
@@ -1336,7 +1336,7 @@ _027E11B4:
 	mov r0, r8
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_27E6FF4
+	bl WMSP_FlushSendQueue
 	mov r7, r0
 _027E11F0:
 	cmp r6, #0
@@ -1405,11 +1405,11 @@ _027E12C4:
 	ldr r0, _027E1330 // =0x0380BD9C
 	ldr r1, [r5, #0x50]
 	ldr r2, [r5, #0x54]
-	ldr r3, _027E1334 // =sub_27E10BC
+	ldr r3, _027E1334 // =WmspMPChildIntervalAlarmCallback
 	bl OS_SetAlarm
 	b _027E1314
 _027E12F8:
-	bl sub_27E102C
+	bl WmspKickMPChild
 	b _027E1314
 _027E1300:
 	mov r1, #0
@@ -1427,11 +1427,11 @@ _027E1324: .word 0x048080F8
 _027E1328: .word 0x048080FA
 _027E132C: .word 0x0380BD70
 _027E1330: .word 0x0380BD9C
-_027E1334: .word sub_27E10BC
-	arm_func_end sub_27E10C8
+_027E1334: .word WmspMPChildIntervalAlarmCallback
+	arm_func_end WmspIndicateMaMultiPollAck
 
-	arm_func_start sub_27E1338
-sub_27E1338: // 0x027E1338
+	arm_func_start WmspMaMultiPollAckAlarmCallback
+WmspMaMultiPollAckAlarmCallback: // 0x027E1338
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r5, _027E13C8 // =_027F8454
@@ -1451,7 +1451,7 @@ sub_27E1338: // 0x027E1338
 	cmp r0, #0
 	bne _027E13BC
 	mov r0, r4
-	bl sub_27E1E20
+	bl WmspFreeBufOfWL
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x54c]
 	cmp r0, #0
@@ -1474,10 +1474,10 @@ _027E13C8: .word _027F8454
 _027E13CC: .word 0x027F9454
 _027E13D0: .word 0x00000185
 _027E13D4: .word 0x027F847C
-	arm_func_end sub_27E1338
+	arm_func_end WmspMaMultiPollAckAlarmCallback
 
-	arm_func_start sub_27E13D8
-sub_27E13D8: // 0x027E13D8
+	arm_func_start WmspIndicateMaMultiPoll
+WmspIndicateMaMultiPoll: // 0x027E13D8
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r10, r0
@@ -1555,7 +1555,7 @@ _027E1490:
 	mov r2, lr, lsr #0xa
 	mov r1, r1, lsr #0xa
 	orr r1, r1, lr, lsl #22
-	ldr r3, _027E1718 // =sub_27E1338
+	ldr r3, _027E1718 // =WmspMaMultiPollAckAlarmCallback
 	bl OS_SetAlarm
 	and r0, r4, #0x2800
 	cmp r0, #0x2800
@@ -1592,7 +1592,7 @@ _027E1490:
 	beq _027E15A0
 	mov r0, r1, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27E0000
+	bl SDK_AUTOLOAD_MAIN_START
 _027E15A0:
 	mov r0, r11
 	bl OS_RestoreInterrupts
@@ -1602,7 +1602,7 @@ _027E15A0:
 	bne _027E15C4
 	mov r0, r7
 	mov r1, #0
-	bl sub_27E6FF4
+	bl WMSP_FlushSendQueue
 _027E15C4:
 	bl WMSP_GetBuffer4Callback2Wm9
 	mov r1, #0xe
@@ -1661,7 +1661,7 @@ _027E1618:
 	mov r0, #0
 	ldrh r1, [r8, #0x30]
 	add r2, r8, #0x32
-	bl sub_27E6B48
+	bl WMSP_ParsePortPacket
 	b _027E16D4
 _027E16A8:
 	mov r0, #0
@@ -1695,11 +1695,11 @@ _027E1700:
 _027E170C: .word 0x027F9454
 _027E1710: .word 0x0380BD70
 _027E1714: .word 0x000082EA
-_027E1718: .word sub_27E1338
-	arm_func_end sub_27E13D8
+_027E1718: .word WmspMaMultiPollAckAlarmCallback
+	arm_func_end WmspIndicateMaMultiPoll
 
-	arm_func_start sub_27E171C
-sub_27E171C: // 0x027E171C
+	arm_func_start WmspSetRssi
+WmspSetRssi: // 0x027E171C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r2, _027E1798 // =0x027F9454
@@ -1736,14 +1736,14 @@ _027E178C:
 	bx lr
 	.align 2, 0
 _027E1798: .word 0x027F9454
-	arm_func_end sub_27E171C
+	arm_func_end WmspSetRssi
 
-	arm_func_start sub_27E179C
-sub_27E179C: // 0x027E179C
+	arm_func_start WmspKickMPParent
+WmspKickMPParent: // 0x027E179C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
-	bl sub_27E0134
+	bl WMSP_GetInternalRequestBuf
 	movs r1, r0
 	ldr r4, _027E1820 // =_027F8454
 	moveq r0, #0
@@ -1777,24 +1777,24 @@ _027E1814:
 	bx lr
 	.align 2, 0
 _027E1820: .word _027F8454
-	arm_func_end sub_27E179C
+	arm_func_end WmspKickMPParent
 
-	arm_func_start sub_27E1824
-sub_27E1824: // 0x027E1824
+	arm_func_start WmspMPParentIntervalAlarmCallback
+WmspMPParentIntervalAlarmCallback: // 0x027E1824
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	ldr ip, _027E1834 // =sub_27E179C
+	ldr ip, _027E1834 // =WmspKickMPParent
 	bx ip
 	.align 2, 0
-_027E1834: .word sub_27E179C
-	arm_func_end sub_27E1824
+_027E1834: .word WmspKickMPParent
+	arm_func_end WmspMPParentIntervalAlarmCallback
 
-	arm_func_start sub_27E1838
-sub_27E1838: // 0x027E1838
+	arm_func_start WMSP_RequestResumeMP
+WMSP_RequestResumeMP: // 0x027E1838
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E18B0 // =0x027F9454
 	ldr r4, [r0, #0x550]
-	bl sub_27E0134
+	bl WMSP_GetInternalRequestBuf
 	movs r1, r0
 	moveq r0, #0
 	beq _027E1870
@@ -1826,10 +1826,10 @@ _027E18A8:
 	.align 2, 0
 _027E18B0: .word 0x027F9454
 _027E18B4: .word 0x027F84DC
-	arm_func_end sub_27E1838
+	arm_func_end WMSP_RequestResumeMP
 
-	arm_func_start sub_27E18B8
-sub_27E18B8: // 0x027E18B8
+	arm_func_start WmspIndicateMaMultiPollEnd
+WmspIndicateMaMultiPollEnd: // 0x027E18B8
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x2c
 	mov r10, r0
@@ -1849,7 +1849,7 @@ sub_27E18B8: // 0x027E18B8
 	cmp r0, #0
 	beq _027E1908
 _027E1900:
-	bl sub_27E1838
+	bl WMSP_RequestResumeMP
 	b _027E1BFC
 _027E1908:
 	cmp r1, #0
@@ -1871,7 +1871,7 @@ _027E1908:
 	mov r0, r10
 	ldrh r1, [r7]
 	ldrh r2, [r8, #0x92]
-	bl sub_27E171C
+	bl WmspSetRssi
 	bl OS_GetTick
 	mov r9, #0
 	mov r2, #1
@@ -1922,7 +1922,7 @@ _027E19A8:
 	mov r0, r4
 	ldrh r1, [r6, #8]
 	add r2, r6, #0xa
-	bl sub_27E6B48
+	bl WMSP_ParsePortPacket
 	b _027E1AFC
 _027E1A24:
 	cmp r1, #0
@@ -1951,7 +1951,7 @@ _027E1A24:
 	cmp r3, r1
 	cmpeq r0, r2
 	bls _027E1AFC
-	bl sub_27E0134
+	bl WMSP_GetInternalRequestBuf
 	movs r1, r0
 	add r2, r8, r4, lsl #3
 	ldr r0, [sp, #0x14]
@@ -1993,7 +1993,7 @@ _027E1B10:
 	mov r0, #0
 	mov r1, r11, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_27E6FF4
+	bl WMSP_FlushSendQueue
 	ldrh r0, [r7]
 	cmp r0, #0
 	movne r5, #1
@@ -2043,12 +2043,12 @@ _027E1BAC:
 	ldr r0, _027E1C18 // =0x0380BD9C
 	ldr r1, [r8, #0x48]
 	ldr r2, [r8, #0x4c]
-	ldr r3, _027E1C1C // =sub_27E1824
+	ldr r3, _027E1C1C // =WmspMPParentIntervalAlarmCallback
 	bl OS_SetAlarm
 	b _027E1BFC
 _027E1BF4:
 	mov r0, r4
-	bl sub_27E179C
+	bl WmspKickMPParent
 _027E1BFC:
 	add sp, sp, #0x2c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -2059,11 +2059,11 @@ _027E1C0C: .word 0x0000FFFF
 _027E1C10: .word 0x00008001
 _027E1C14: .word 0x027F84DC
 _027E1C18: .word 0x0380BD9C
-_027E1C1C: .word sub_27E1824
-	arm_func_end sub_27E18B8
+_027E1C1C: .word WmspMPParentIntervalAlarmCallback
+	arm_func_end WmspIndicateMaMultiPollEnd
 
-	arm_func_start sub_27E1C20
-sub_27E1C20: // 0x027E1C20
+	arm_func_start WmspIndicateMlmeBeaconLost
+WmspIndicateMlmeBeaconLost: // 0x027E1C20
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027E1C68 // =0x027F9454
@@ -2085,10 +2085,10 @@ _027E1C5C:
 	bx lr
 	.align 2, 0
 _027E1C68: .word 0x027F9454
-	arm_func_end sub_27E1C20
+	arm_func_end WmspIndicateMlmeBeaconLost
 
-	arm_func_start sub_27E1C6C
-sub_27E1C6C: // 0x027E1C6C
+	arm_func_start WmspIndicateMlmeBeaconRecv
+WmspIndicateMlmeBeaconRecv: // 0x027E1C6C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -2117,7 +2117,7 @@ _027E1CC8:
 	ldrh r0, [r6, #8]
 	cmp r1, r0
 	beq _027E1D40
-	bl sub_27E0134
+	bl WMSP_GetInternalRequestBuf
 	movs r1, r0
 	moveq r0, #0
 	beq _027E1D0C
@@ -2184,10 +2184,10 @@ _027E1DC0: .word 0x027F9454
 _027E1DC4: .word 0x027FFF98
 _027E1DC8: .word 0x00008002
 _027E1DCC: .word 0x027F84DC
-	arm_func_end sub_27E1C6C
+	arm_func_end WmspIndicateMlmeBeaconRecv
 
-	arm_func_start sub_27E1DD0
-sub_27E1DD0: // 0x027E1DD0
+	arm_func_start WmspIndicateMlmeBeaconSend
+WmspIndicateMlmeBeaconSend: // 0x027E1DD0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027E1E18 // =0x027F9454
@@ -2209,15 +2209,15 @@ _027E1E0C:
 	bx lr
 	.align 2, 0
 _027E1E18: .word 0x027F9454
-	arm_func_end sub_27E1DD0
+	arm_func_end WmspIndicateMlmeBeaconSend
 
-	arm_func_start sub_27E1E1C
-sub_27E1E1C: // 0x027E1E1C
+	arm_func_start WmspIndicateFuncDummy
+WmspIndicateFuncDummy: // 0x027E1E1C
 	bx lr
-	arm_func_end sub_27E1E1C
+	arm_func_end WmspIndicateFuncDummy
 
-	arm_func_start sub_27E1E20
-sub_27E1E20: // 0x027E1E20
+	arm_func_start WmspFreeBufOfWL
+WmspFreeBufOfWL: // 0x027E1E20
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -2235,10 +2235,10 @@ sub_27E1E20: // 0x027E1E20
 	bx lr
 	.align 2, 0
 _027E1E5C: .word 0x027F9454
-	arm_func_end sub_27E1E20
+	arm_func_end WmspFreeBufOfWL
 
-	arm_func_start sub_27E1E60
-sub_27E1E60: // 0x027E1E60
+	arm_func_start WmspIndicate
+WmspIndicate: // 0x027E1E60
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, _027E1F9C // =0x027F9454
@@ -2290,51 +2290,51 @@ _027E1F08:
 	beq _027E1F7C
 	b _027E1F84
 _027E1F18:
-	bl sub_27E0910
+	bl WmspIndicateMlmeAuthenticate
 	b _027E1F8C
 _027E1F20:
-	bl sub_27E0944
+	bl WmspIndicateMlmeDeAuthenticate
 	b _027E1F8C
 _027E1F28:
-	bl sub_27E0C0C
+	bl WmspIndicateMlmeAssociate
 	b _027E1F8C
 _027E1F30:
-	bl sub_27E0D94
+	bl WmspIndicateMlmeReAssociate
 	b _027E1F8C
 _027E1F38:
-	bl sub_27E0DC8
+	bl WmspIndicateMlmeDisAssociate
 	b _027E1F8C
 _027E1F40:
-	bl sub_27E1C20
+	bl WmspIndicateMlmeBeaconLost
 	b _027E1F8C
 _027E1F48:
-	bl sub_27E1DD0
+	bl WmspIndicateMlmeBeaconSend
 	b _027E1F8C
 _027E1F50:
-	bl sub_27E1C6C
+	bl WmspIndicateMlmeBeaconRecv
 	b _027E1F8C
 _027E1F58:
 	mov r0, r4
-	bl sub_27E0F34
+	bl WmspIndicateMaData
 	b _027E1F8C
 _027E1F64:
-	bl sub_27E13D8
+	bl WmspIndicateMaMultiPoll
 	b _027E1F8C
 _027E1F6C:
-	bl sub_27E18B8
+	bl WmspIndicateMaMultiPollEnd
 	b _027E1F8C
 _027E1F74:
-	bl sub_27E10C8
+	bl WmspIndicateMaMultiPollAck
 	b _027E1F8C
 _027E1F7C:
-	bl sub_27E0DFC
+	bl WmspIndicateMaFatalErr
 	b _027E1F8C
 _027E1F84:
 	mov r0, r4
-	bl sub_27E1E1C
+	bl WmspIndicateFuncDummy
 _027E1F8C:
 	mov r0, r4
-	bl sub_27E1E20
+	bl WmspFreeBufOfWL
 _027E1F94:
 	ldmia sp!, {r4, lr}
 	bx lr
@@ -2343,10 +2343,10 @@ _027E1F9C: .word 0x027F9454
 _027E1FA0: .word 0x00000182
 _027E1FA4: .word 0x00000185
 _027E1FA8: .word 0x00000186
-	arm_func_end sub_27E1E60
+	arm_func_end WmspIndicate
 
-	arm_func_start sub_27E1FAC
-sub_27E1FAC: // 0x027E1FAC
+	arm_func_start WMSP_IndicateThread
+WMSP_IndicateThread: // 0x027E1FAC
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	ldr r0, _027E2044 // =_027F8454
@@ -2379,7 +2379,7 @@ _027E2014:
 	ands r0, r3, #0x80
 	beq _027E2028
 	mov r0, r1
-	bl sub_27E1E60
+	bl WmspIndicate
 	b _027E1FC8
 _027E2028:
 	mov r0, r7
@@ -2392,15 +2392,15 @@ _027E2038:
 	bx lr
 	.align 2, 0
 _027E2044: .word _027F8454
-	arm_func_end sub_27E1FAC
+	arm_func_end WMSP_IndicateThread
 
-	arm_func_start sub_27E2048
-sub_27E2048: // 0x027E2048
+	arm_func_start WmspRequestFuncDummy
+WmspRequestFuncDummy: // 0x027E2048
 	bx lr
-	arm_func_end sub_27E2048
+	arm_func_end WmspRequestFuncDummy
 
-	arm_func_start sub_27E204C
-sub_27E204C: // 0x027E204C
+	arm_func_start WMSP_RequestThread
+WMSP_RequestThread: // 0x027E204C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
 	ldr r1, _027E20EC // =_027F8454
@@ -2435,10 +2435,7 @@ _027E2098:
 	ldr r1, [r5, r9, lsl #2]
 	mov lr, pc
 	bx r1
-	arm_func_end sub_27E204C
-
-	arm_func_start sub_27E20CC
-sub_27E20CC: // 0x027E20CC
+_27E20CC: // 0x027E20CC
 	str r4, [r10, #4]
 _027E20D0:
 	orr r1, r9, #0x8000
@@ -2453,10 +2450,10 @@ _027E20E0:
 _027E20EC: .word _027F8454
 _027E20F0: .word 0x027F9454
 _027E20F4: .word 0x027F7D5C
-	arm_func_end sub_27E20CC
+	arm_func_end WMSP_RequestThread
 
-	arm_func_start sub_27E20F8
-sub_27E20F8: // 0x027E20F8
+	arm_func_start WMSPi_WL_NoArg
+WMSPi_WL_NoArg: // 0x027E20F8
 	stmdb sp!, {r4, lr}
 	mov r3, #0
 	strh r3, [r0]
@@ -2473,14 +2470,14 @@ sub_27E20F8: // 0x027E20F8
 	ldrh r1, [r0, #0xc]
 	strh r1, [r3, #0x10]
 	strh r2, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27E20F8
+	arm_func_end WMSPi_WL_NoArg
 
-	arm_func_start sub_27E2148
-sub_27E2148: // 0x027E2148
+	arm_func_start WMSP_WL_DevTestSignal
+WMSP_WL_DevTestSignal: // 0x027E2148
 	stmdb sp!, {r4, lr}
 	mov ip, #0
 	strh ip, [r0]
@@ -2505,134 +2502,134 @@ sub_27E2148: // 0x027E2148
 	strh r1, [r2, #0x10]
 	mov r1, #1
 	strh r1, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E21B8: .word 0x00000309
-	arm_func_end sub_27E2148
+	arm_func_end WMSP_WL_DevTestSignal
 
-	arm_func_start sub_27E21BC
-sub_27E21BC: // 0x027E21BC
+	arm_func_start WMSP_WL_DevGetStationState
+WMSP_WL_DevGetStationState: // 0x027E21BC
 	mov r1, #0x308
 	mov r2, #2
-	ldr ip, _027E21CC // =sub_27E20F8
+	ldr ip, _027E21CC // =WMSPi_WL_NoArg
 	bx ip
 	.align 2, 0
-_027E21CC: .word sub_27E20F8
-	arm_func_end sub_27E21BC
+_027E21CC: .word WMSPi_WL_NoArg
+	arm_func_end WMSP_WL_DevGetStationState
 
-	arm_func_start sub_27E21D0
-sub_27E21D0: // 0x027E21D0
+	arm_func_start WMSP_WL_DevGetWirelessCounter
+WMSP_WL_DevGetWirelessCounter: // 0x027E21D0
 	ldr r1, _027E21E0 // =0x00000307
 	mov r2, #0x5c
-	ldr ip, _027E21E4 // =sub_27E20F8
+	ldr ip, _027E21E4 // =WMSPi_WL_NoArg
 	bx ip
 	.align 2, 0
 _027E21E0: .word 0x00000307
-_027E21E4: .word sub_27E20F8
-	arm_func_end sub_27E21D0
+_027E21E4: .word WMSPi_WL_NoArg
+	arm_func_end WMSP_WL_DevGetWirelessCounter
 
-	arm_func_start sub_27E21E8
-sub_27E21E8: // 0x027E21E8
+	arm_func_start WMSP_WL_DevGetVersion
+WMSP_WL_DevGetVersion: // 0x027E21E8
 	ldr r1, _027E21F8 // =0x00000306
 	mov r2, #9
-	ldr ip, _027E21FC // =sub_27E20F8
+	ldr ip, _027E21FC // =WMSPi_WL_NoArg
 	bx ip
 	.align 2, 0
 _027E21F8: .word 0x00000306
-_027E21FC: .word sub_27E20F8
-	arm_func_end sub_27E21E8
+_027E21FC: .word WMSPi_WL_NoArg
+	arm_func_end WMSP_WL_DevGetVersion
 
-	arm_func_start sub_27E2200
-sub_27E2200: // 0x027E2200
+	arm_func_start WMSP_WL_DevSetInitializeWirelessCounter
+WMSP_WL_DevSetInitializeWirelessCounter: // 0x027E2200
 	ldr r1, _027E2210 // =0x00000305
 	mov r2, #1
-	ldr ip, _027E2214 // =sub_27E20F8
+	ldr ip, _027E2214 // =WMSPi_WL_NoArg
 	bx ip
 	.align 2, 0
 _027E2210: .word 0x00000305
-_027E2214: .word sub_27E20F8
-	arm_func_end sub_27E2200
+_027E2214: .word WMSPi_WL_NoArg
+	arm_func_end WMSP_WL_DevSetInitializeWirelessCounter
 
-	arm_func_start sub_27E2218
-sub_27E2218: // 0x027E2218
+	arm_func_start WMSP_WL_DevRestart
+WMSP_WL_DevRestart: // 0x027E2218
 	mov r1, #0x304
 	mov r2, #1
-	ldr ip, _027E2228 // =sub_27E20F8
+	ldr ip, _027E2228 // =WMSPi_WL_NoArg
 	bx ip
 	.align 2, 0
-_027E2228: .word sub_27E20F8
-	arm_func_end sub_27E2218
+_027E2228: .word WMSPi_WL_NoArg
+	arm_func_end WMSP_WL_DevRestart
 
-	arm_func_start sub_27E222C
-sub_27E222C: // 0x027E222C
+	arm_func_start WMSP_WL_DevClass1
+WMSP_WL_DevClass1: // 0x027E222C
 	ldr r1, _027E223C // =0x00000303
 	mov r2, #1
-	ldr ip, _027E2240 // =sub_27E20F8
+	ldr ip, _027E2240 // =WMSPi_WL_NoArg
 	bx ip
 	.align 2, 0
 _027E223C: .word 0x00000303
-_027E2240: .word sub_27E20F8
-	arm_func_end sub_27E222C
+_027E2240: .word WMSPi_WL_NoArg
+	arm_func_end WMSP_WL_DevClass1
 
-	arm_func_start sub_27E2244
-sub_27E2244: // 0x027E2244
+	arm_func_start WMSP_WL_DevIdle
+WMSP_WL_DevIdle: // 0x027E2244
 	ldr r1, _027E2254 // =0x00000302
 	mov r2, #1
-	ldr ip, _027E2258 // =sub_27E20F8
+	ldr ip, _027E2258 // =WMSPi_WL_NoArg
 	bx ip
 	.align 2, 0
 _027E2254: .word 0x00000302
-_027E2258: .word sub_27E20F8
-	arm_func_end sub_27E2244
+_027E2258: .word WMSPi_WL_NoArg
+	arm_func_end WMSP_WL_DevIdle
 
-	arm_func_start sub_27E225C
-sub_27E225C: // 0x027E225C
+	arm_func_start WMSP_WL_DevShutdown
+WMSP_WL_DevShutdown: // 0x027E225C
 	ldr r1, _027E226C // =0x00000301
 	mov r2, #1
-	ldr ip, _027E2270 // =sub_27E20F8
+	ldr ip, _027E2270 // =WMSPi_WL_NoArg
 	bx ip
 	.align 2, 0
 _027E226C: .word 0x00000301
-_027E2270: .word sub_27E20F8
-	arm_func_end sub_27E225C
+_027E2270: .word WMSPi_WL_NoArg
+	arm_func_end WMSP_WL_DevShutdown
 
-	arm_func_start sub_27E2274
-sub_27E2274: // 0x027E2274
+	arm_func_start WMSP_WL_ParamGetMode
+WMSP_WL_ParamGetMode: // 0x027E2274
 	mov r1, #0x284
 	mov r2, #2
-	ldr ip, _027E2284 // =sub_27E20F8
+	ldr ip, _027E2284 // =WMSPi_WL_NoArg
 	bx ip
 	.align 2, 0
-_027E2284: .word sub_27E20F8
-	arm_func_end sub_27E2274
+_027E2284: .word WMSPi_WL_NoArg
+	arm_func_end WMSP_WL_ParamGetMode
 
-	arm_func_start sub_27E2288
-sub_27E2288: // 0x027E2288
+	arm_func_start WMSP_WL_ParamGetEnableChannel
+WMSP_WL_ParamGetEnableChannel: // 0x027E2288
 	ldr r1, _027E2298 // =0x00000283
 	mov r2, #3
-	ldr ip, _027E229C // =sub_27E20F8
+	ldr ip, _027E229C // =WMSPi_WL_NoArg
 	bx ip
 	.align 2, 0
 _027E2298: .word 0x00000283
-_027E229C: .word sub_27E20F8
-	arm_func_end sub_27E2288
+_027E229C: .word WMSPi_WL_NoArg
+	arm_func_end WMSP_WL_ParamGetEnableChannel
 
-	arm_func_start sub_27E22A0
-sub_27E22A0: // 0x027E22A0
+	arm_func_start WMSP_WL_ParamGetMacAddress
+WMSP_WL_ParamGetMacAddress: // 0x027E22A0
 	ldr r1, _027E22B0 // =0x00000281
 	mov r2, #4
-	ldr ip, _027E22B4 // =sub_27E20F8
+	ldr ip, _027E22B4 // =WMSPi_WL_NoArg
 	bx ip
 	.align 2, 0
 _027E22B0: .word 0x00000281
-_027E22B4: .word sub_27E20F8
-	arm_func_end sub_27E22A0
+_027E22B4: .word WMSPi_WL_NoArg
+	arm_func_end WMSP_WL_ParamGetMacAddress
 
-	arm_func_start sub_27E22B8
-sub_27E22B8: // 0x027E22B8
+	arm_func_start WMSP_WL_ParamSetGameInfo
+WMSP_WL_ParamSetGameInfo: // 0x027E22B8
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	mov r6, r1
@@ -2664,16 +2661,16 @@ sub_27E22B8: // 0x027E22B8
 	mov r0, #1
 	strh r0, [r5, #2]
 	mov r0, r4
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r5
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
 _027E2344: .word 0x00000245
-	arm_func_end sub_27E22B8
+	arm_func_end WMSP_WL_ParamSetGameInfo
 
-	arm_func_start sub_27E2348
-sub_27E2348: // 0x027E2348
+	arm_func_start WMSP_WL_ParamSetBeaconPeriod
+WMSP_WL_ParamSetBeaconPeriod: // 0x027E2348
 	stmdb sp!, {r4, lr}
 	mov r2, #0
 	strh r2, [r0]
@@ -2693,16 +2690,16 @@ sub_27E2348: // 0x027E2348
 	ldrh r1, [r0, #0xc]
 	strh r1, [r2, #0x10]
 	strh r3, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E23A4: .word 0x00000242
-	arm_func_end sub_27E2348
+	arm_func_end WMSP_WL_ParamSetBeaconPeriod
 
-	arm_func_start sub_27E23A8
-sub_27E23A8: // 0x027E23A8
+	arm_func_start WMSP_WL_ParamSetNullKeyResponseMode
+WMSP_WL_ParamSetNullKeyResponseMode: // 0x027E23A8
 	stmdb sp!, {r4, lr}
 	mov r2, #0
 	strh r2, [r0]
@@ -2722,16 +2719,16 @@ sub_27E23A8: // 0x027E23A8
 	ldrh r1, [r0, #0xc]
 	strh r1, [r2, #0x10]
 	strh r3, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E2404: .word 0x00000216
-	arm_func_end sub_27E23A8
+	arm_func_end WMSP_WL_ParamSetNullKeyResponseMode
 
-	arm_func_start sub_27E2408
-sub_27E2408: // 0x027E2408
+	arm_func_start WMSP_WL_ParamSetBeaconSendRecvInd
+WMSP_WL_ParamSetBeaconSendRecvInd: // 0x027E2408
 	stmdb sp!, {r4, lr}
 	mov r2, #0
 	strh r2, [r0]
@@ -2751,16 +2748,16 @@ sub_27E2408: // 0x027E2408
 	ldrh r1, [r0, #0xc]
 	strh r1, [r2, #0x10]
 	strh r3, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E2464: .word 0x00000215
-	arm_func_end sub_27E2408
+	arm_func_end WMSP_WL_ParamSetBeaconSendRecvInd
 
-	arm_func_start sub_27E2468
-sub_27E2468: // 0x027E2468
+	arm_func_start WMSP_WL_ParamSetMaxConnectableChild
+WMSP_WL_ParamSetMaxConnectableChild: // 0x027E2468
 	stmdb sp!, {r4, lr}
 	mov r2, #0
 	strh r2, [r0]
@@ -2780,16 +2777,16 @@ sub_27E2468: // 0x027E2468
 	ldrh r1, [r0, #0xc]
 	strh r1, [r2, #0x10]
 	strh r3, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E24C4: .word 0x00000212
-	arm_func_end sub_27E2468
+	arm_func_end WMSP_WL_ParamSetMaxConnectableChild
 
-	arm_func_start sub_27E24C8
-sub_27E24C8: // 0x027E24C8
+	arm_func_start WMSP_WL_ParamSetLifeTime
+WMSP_WL_ParamSetLifeTime: // 0x027E24C8
 	stmdb sp!, {r4, lr}
 	mov ip, #0
 	strh ip, [r0]
@@ -2812,16 +2809,16 @@ sub_27E24C8: // 0x027E24C8
 	strh r1, [r2, #0x10]
 	mov r1, #1
 	strh r1, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E2530: .word 0x00000211
-	arm_func_end sub_27E24C8
+	arm_func_end WMSP_WL_ParamSetLifeTime
 
-	arm_func_start sub_27E2534
-sub_27E2534: // 0x027E2534
+	arm_func_start WMSP_WL_ParamSetPreambleType
+WMSP_WL_ParamSetPreambleType: // 0x027E2534
 	stmdb sp!, {r4, lr}
 	mov r2, #0
 	strh r2, [r0]
@@ -2841,16 +2838,16 @@ sub_27E2534: // 0x027E2534
 	ldrh r1, [r0, #0xc]
 	strh r1, [r2, #0x10]
 	strh r3, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E2590: .word 0x0000020E
-	arm_func_end sub_27E2534
+	arm_func_end WMSP_WL_ParamSetPreambleType
 
-	arm_func_start sub_27E2594
-sub_27E2594: // 0x027E2594
+	arm_func_start WMSP_WL_ParamSetSsidMask
+WMSP_WL_ParamSetSsidMask: // 0x027E2594
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -2877,17 +2874,17 @@ sub_27E2594: // 0x027E2594
 	mov r0, #1
 	strh r0, [r5, #2]
 	mov r0, r4
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r5
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
 _027E2610: .word 0x0000020D
-	arm_func_end sub_27E2594
+	arm_func_end WMSP_WL_ParamSetSsidMask
 
-	arm_func_start sub_27E2614
-sub_27E2614: // 0x027E2614
+	arm_func_start WMSP_WL_ParamSetBeaconLostThreshold
+WMSP_WL_ParamSetBeaconLostThreshold: // 0x027E2614
 	stmdb sp!, {r4, lr}
 	mov r2, #0
 	strh r2, [r0]
@@ -2907,16 +2904,16 @@ sub_27E2614: // 0x027E2614
 	ldrh r1, [r0, #0xc]
 	strh r1, [r2, #0x10]
 	strh r3, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E2670: .word 0x0000020B
-	arm_func_end sub_27E2614
+	arm_func_end WMSP_WL_ParamSetBeaconLostThreshold
 
-	arm_func_start sub_27E2674
-sub_27E2674: // 0x027E2674
+	arm_func_start WMSP_WL_ParamSetWepKeyId
+WMSP_WL_ParamSetWepKeyId: // 0x027E2674
 	stmdb sp!, {r4, lr}
 	mov r2, #0
 	strh r2, [r0]
@@ -2936,16 +2933,16 @@ sub_27E2674: // 0x027E2674
 	ldrh r1, [r0, #0xc]
 	strh r1, [r2, #0x10]
 	strh r3, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E26D0: .word 0x00000207
-	arm_func_end sub_27E2674
+	arm_func_end WMSP_WL_ParamSetWepKeyId
 
-	arm_func_start sub_27E26D4
-sub_27E26D4: // 0x027E26D4
+	arm_func_start WMSP_WL_ParamSetAll
+WMSP_WL_ParamSetAll: // 0x027E26D4
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	strh r1, [r0]
@@ -2965,14 +2962,14 @@ sub_27E26D4: // 0x027E26D4
 	strh r1, [r2, #0x10]
 	mov r1, #1
 	strh r1, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27E26D4
+	arm_func_end WMSP_WL_ParamSetAll
 
-	arm_func_start sub_27E2730
-sub_27E2730: // 0x027E2730
+	arm_func_start WMSP_WL_MaClearData
+WMSP_WL_MaClearData: // 0x027E2730
 	stmdb sp!, {r4, lr}
 	mov r2, #0
 	strh r2, [r0]
@@ -2992,14 +2989,14 @@ sub_27E2730: // 0x027E2730
 	ldrh r1, [r0, #0xc]
 	strh r1, [r2, #0x10]
 	strh r3, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27E2730
+	arm_func_end WMSP_WL_MaClearData
 
-	arm_func_start sub_27E278C
-sub_27E278C: // 0x027E278C
+	arm_func_start WMSP_WL_MaMp
+WMSP_WL_MaMp: // 0x027E278C
 	stmdb sp!, {r4, lr}
 	mov ip, #0
 	strh ip, [r0]
@@ -3034,16 +3031,16 @@ sub_27E278C: // 0x027E278C
 	strh r1, [r2, #0x10]
 	mov r1, #1
 	strh r1, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E2824: .word 0x00000102
-	arm_func_end sub_27E278C
+	arm_func_end WMSP_WL_MaMp
 
-	arm_func_start sub_27E2828
-sub_27E2828: // 0x027E2828
+	arm_func_start WMSP_WL_MaKeyData
+WMSP_WL_MaKeyData: // 0x027E2828
 	stmdb sp!, {r4, lr}
 	mov ip, #0
 	strh ip, [r0]
@@ -3066,16 +3063,16 @@ sub_27E2828: // 0x027E2828
 	strh r1, [r2, #0x10]
 	mov r1, #1
 	strh r1, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E2890: .word 0x00000101
-	arm_func_end sub_27E2828
+	arm_func_end WMSP_WL_MaKeyData
 
-	arm_func_start sub_27E2894
-sub_27E2894: // 0x027E2894
+	arm_func_start WMSP_WL_MaData
+WMSP_WL_MaData: // 0x027E2894
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -3117,15 +3114,15 @@ sub_27E2894: // 0x027E2894
 	mov r0, #2
 	strh r0, [r5, #2]
 	mov r0, r4
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r5
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E2894
+	arm_func_end WMSP_WL_MaData
 
-	arm_func_start sub_27E294C
-sub_27E294C: // 0x027E294C
+	arm_func_start WMSP_WL_MlmeMeasureChannel
+WMSP_WL_MlmeMeasureChannel: // 0x027E294C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -3156,15 +3153,15 @@ sub_27E294C: // 0x027E294C
 	mov r0, #0x12
 	strh r0, [r5, #2]
 	mov r0, r4
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r5
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E294C
+	arm_func_end WMSP_WL_MlmeMeasureChannel
 
-	arm_func_start sub_27E29D8
-sub_27E29D8: // 0x027E29D8
+	arm_func_start WMSP_WL_MlmeStart
+WMSP_WL_MlmeStart: // 0x027E29D8
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -3213,15 +3210,15 @@ sub_27E29D8: // 0x027E29D8
 	mov r0, #1
 	strh r0, [r4, #2]
 	mov r0, r7
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
-	arm_func_end sub_27E29D8
+	arm_func_end WMSP_WL_MlmeStart
 
-	arm_func_start sub_27E2AAC
-sub_27E2AAC: // 0x027E2AAC
+	arm_func_start WMSP_WL_MlmeAssociate
+WMSP_WL_MlmeAssociate: // 0x027E2AAC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	mov r6, r2
@@ -3250,14 +3247,14 @@ sub_27E2AAC: // 0x027E2AAC
 	mov r0, #3
 	strh r0, [r5, #2]
 	mov r0, r4
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r5
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
-	arm_func_end sub_27E2AAC
+	arm_func_end WMSP_WL_MlmeAssociate
 
-	arm_func_start sub_27E2B2C
-sub_27E2B2C: // 0x027E2B2C
+	arm_func_start WMSP_WL_MlmeDeAuthenticate
+WMSP_WL_MlmeDeAuthenticate: // 0x027E2B2C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -3286,15 +3283,15 @@ sub_27E2B2C: // 0x027E2B2C
 	mov r0, #4
 	strh r0, [r5, #2]
 	mov r0, r4
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r5
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E2B2C
+	arm_func_end WMSP_WL_MlmeDeAuthenticate
 
-	arm_func_start sub_27E2BB0
-sub_27E2BB0: // 0x027E2BB0
+	arm_func_start WMSP_WL_MlmeAuthenticate
+WMSP_WL_MlmeAuthenticate: // 0x027E2BB0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	mov r6, r2
@@ -3324,14 +3321,14 @@ sub_27E2BB0: // 0x027E2BB0
 	mov r0, #6
 	strh r0, [r5, #2]
 	mov r0, r4
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r5
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
-	arm_func_end sub_27E2BB0
+	arm_func_end WMSP_WL_MlmeAuthenticate
 
-	arm_func_start sub_27E2C34
-sub_27E2C34: // 0x027E2C34
+	arm_func_start WMSP_WL_MlmeJoin
+WMSP_WL_MlmeJoin: // 0x027E2C34
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -3360,15 +3357,15 @@ sub_27E2C34: // 0x027E2C34
 	mov r0, #5
 	strh r0, [r5, #2]
 	mov r0, r4
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r5
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E2C34
+	arm_func_end WMSP_WL_MlmeJoin
 
-	arm_func_start sub_27E2CB8
-sub_27E2CB8: // 0x027E2CB8
+	arm_func_start WMSP_WL_MlmeScan
+WMSP_WL_MlmeScan: // 0x027E2CB8
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	mov r4, r1
@@ -3412,14 +3409,14 @@ sub_27E2CB8: // 0x027E2CB8
 	sub r0, r0, #0x2c
 	strh r0, [r6, #2]
 	mov r0, r5
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r6
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
-	arm_func_end sub_27E2CB8
+	arm_func_end WMSP_WL_MlmeScan
 
-	arm_func_start sub_27E2D74
-sub_27E2D74: // 0x027E2D74
+	arm_func_start WMSP_WL_MlmePowerManagement
+WMSP_WL_MlmePowerManagement: // 0x027E2D74
 	stmdb sp!, {r4, lr}
 	mov ip, #0
 	strh ip, [r0]
@@ -3441,14 +3438,14 @@ sub_27E2D74: // 0x027E2D74
 	ldrh r1, [r0, #0xc]
 	strh r1, [r2, #0x10]
 	strh lr, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27E2D74
+	arm_func_end WMSP_WL_MlmePowerManagement
 
-	arm_func_start sub_27E2DD8
-sub_27E2DD8: // 0x027E2DD8
+	arm_func_start WMSP_WL_MlmeReset
+WMSP_WL_MlmeReset: // 0x027E2DD8
 	stmdb sp!, {r4, lr}
 	mov r2, #0
 	strh r2, [r0]
@@ -3467,14 +3464,14 @@ sub_27E2DD8: // 0x027E2DD8
 	ldrh r1, [r0, #0xc]
 	strh r1, [r2, #0x10]
 	strh r3, [r4, #2]
-	bl sub_27E0698
+	bl WMSP_WlRequest
 	mov r0, r4
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27E2DD8
+	arm_func_end WMSP_WL_MlmeReset
 
-	arm_func_start sub_27E2E30
-sub_27E2E30: // 0x027E2E30
+	arm_func_start WMSP_Initialize
+WMSP_Initialize: // 0x027E2E30
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r4, [r0, #4]
@@ -3485,7 +3482,7 @@ sub_27E2E30: // 0x027E2E30
 	str r2, [r4]
 	ldr r0, [r0, #0xc]
 	str r0, [r4, #8]
-	bl sub_27E7FA8
+	bl WMSPi_CommonInit
 	mov r0, #0xf
 	bl PM_SetLEDPattern
 	mov r1, #1
@@ -3493,7 +3490,7 @@ sub_27E2E30: // 0x027E2E30
 	strh r1, [r0]
 	add r0, sp, #0
 	add r1, sp, #2
-	bl sub_27E8204
+	bl WMSPi_CommonWlIdle
 	cmp r0, #0
 	bne _027E2EB0
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -3522,10 +3519,10 @@ _027E2ED0:
 	bx lr
 	.align 2, 0
 _027E2EDC: .word 0x027F9454
-	arm_func_end sub_27E2E30
+	arm_func_end WMSP_Initialize
 
-	arm_func_start sub_27E2EE0
-sub_27E2EE0: // 0x027E2EE0
+	arm_func_start WmspError_0
+WmspError_0: // 0x027E2EE0
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -3540,10 +3537,10 @@ sub_27E2EE0: // 0x027E2EE0
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E2EE0
+	arm_func_end WmspError_0
 
-	arm_func_start sub_27E2F18
-sub_27E2F18: // 0x027E2F18
+	arm_func_start WMSP_Reset
+WMSP_Reset: // 0x027E2F18
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x214
 	ldr r0, _027E3304 // =0x027F9454
@@ -3557,8 +3554,8 @@ sub_27E2F18: // 0x027E2F18
 	mov r0, r5
 	str r0, [r7, #0xc]
 	mov r5, #1
-	bl sub_27E681C
-	bl sub_27E0238
+	bl WMSP_CancelVAlarm
+	bl WMSP_SetThreadPriorityLow
 	ldrh r0, [r7]
 	cmp r0, #0xa
 	moveq r0, #8
@@ -3597,7 +3594,7 @@ _027E2FAC:
 	cmp r5, #0
 	beq _027E2FE4
 	ldr r0, _027E330C // =0x0000FFFF
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 _027E2FE4:
 	cmp r10, #0
 	movne r0, #0
@@ -3621,7 +3618,7 @@ _027E3010:
 	mov r0, r10
 	mov r1, r8, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_27E4B10
+	bl WMSP_IndicateDisconnectionFromMyself
 _027E303C:
 	add r8, r8, #1
 	cmp r8, #0x10
@@ -3632,22 +3629,22 @@ _027E3048:
 	mov r2, #0x5a
 	bl MI_CpuFill8
 	add r0, sp, #0x10
-	bl sub_27E21BC
+	bl WMSP_WL_DevGetStationState
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3078
 	mov r0, #0x308
-	bl sub_27E2EE0
+	bl WmspError_0
 	b _027E32F8
 _027E3078:
 	ldrh r4, [r0, #6]
 	add r0, sp, #0x10
-	bl sub_27E2274
+	bl WMSP_WL_ParamGetMode
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E309C
 	mov r0, #0x284
-	bl sub_27E2EE0
+	bl WmspError_0
 	b _027E32F8
 _027E309C:
 	ldrh r1, [r0, #6]
@@ -3701,7 +3698,7 @@ _027E3148:
 	add r0, sp, #0x10
 	mov r1, r5
 	mov r2, r4
-	bl sub_27E2B2C
+	bl WMSP_WL_MlmeDeAuthenticate
 	ldrh r0, [r0, #4]
 	cmp r0, #0
 	beq _027E3178
@@ -3730,7 +3727,7 @@ _027E3194:
 	add r0, sp, #0x10
 	add r1, sp, #0xa
 	mov r2, #3
-	bl sub_27E2B2C
+	bl WMSP_WL_MlmeDeAuthenticate
 	ldrh r0, [r0, #4]
 	cmp r0, #0
 	moveq r0, #3
@@ -3738,21 +3735,21 @@ _027E3194:
 _027E31CC:
 	add r0, sp, #0x10
 	mov r1, #1
-	bl sub_27E2DD8
+	bl WMSP_WL_MlmeReset
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E31F0
 	mov r0, #0
-	bl sub_27E2EE0
+	bl WmspError_0
 	b _027E32F8
 _027E31F0:
 	add r0, sp, #0x10
-	bl sub_27E2244
+	bl WMSP_WL_DevIdle
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3210
 	ldr r0, _027E3318 // =0x00000302
-	bl sub_27E2EE0
+	bl WmspError_0
 	b _027E32F8
 _027E3210:
 	add r0, r7, #0x100
@@ -3761,12 +3758,12 @@ _027E3210:
 	bne _027E3250
 	add r0, sp, #0x10
 	mov r1, #1
-	bl sub_27E2534
+	bl WMSP_WL_ParamSetPreambleType
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3244
 	ldr r0, _027E331C // =0x0000020E
-	bl sub_27E2EE0
+	bl WmspError_0
 	b _027E32F8
 _027E3244:
 	mov r1, #1
@@ -3777,7 +3774,7 @@ _027E3250:
 	strh r0, [r7]
 	mov r0, #0
 	str r0, [r7, #0x198]
-	bl sub_27E0100
+	bl WMSP_ResetSizeVars
 	b _027E32E0
 _027E3268:
 	cmp r1, #0
@@ -3788,21 +3785,21 @@ _027E3268:
 	mov r1, #0
 	mov r2, r1
 	mov r3, #0x14
-	bl sub_27E2148
+	bl WMSP_WL_DevTestSignal
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E32A4
 	ldr r0, _027E3320 // =0x00000309
-	bl sub_27E2EE0
+	bl WmspError_0
 	b _027E32F8
 _027E32A4:
 	add r0, sp, #0x10
-	bl sub_27E2244
+	bl WMSP_WL_DevIdle
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E32C4
 	ldr r0, _027E3318 // =0x00000302
-	bl sub_27E2EE0
+	bl WmspError_0
 	b _027E32F8
 _027E32C4:
 	mov r0, #2
@@ -3811,7 +3808,7 @@ _027E32C4:
 _027E32D0:
 	mov r0, #0x308
 	mov r1, #0
-	bl sub_27E2EE0
+	bl WmspError_0
 	b _027E32F8
 _027E32E0:
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -3833,10 +3830,10 @@ _027E3314: .word 0x0000FFFE
 _027E3318: .word 0x00000302
 _027E331C: .word 0x0000020E
 _027E3320: .word 0x00000309
-	arm_func_end sub_27E2F18
+	arm_func_end WMSP_Reset
 
-	arm_func_start sub_27E3324
-sub_27E3324: // 0x027E3324
+	arm_func_start WmspError_1
+WmspError_1: // 0x027E3324
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -3852,10 +3849,10 @@ sub_27E3324: // 0x027E3324
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E3324
+	arm_func_end WmspError_1
 
-	arm_func_start sub_27E3360
-sub_27E3360: // 0x027E3360
+	arm_func_start WMSP_End
+WMSP_End: // 0x027E3360
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x200
 	ldr r0, _027E33F0 // =0x027F9454
@@ -3872,12 +3869,12 @@ sub_27E3360: // 0x027E3360
 	b _027E33E4
 _027E3398:
 	add r0, sp, #0
-	bl sub_27E225C
+	bl WMSP_WL_DevShutdown
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E33B8
 	ldr r0, _027E33F4 // =0x00000301
-	bl sub_27E3324
+	bl WmspError_1
 	b _027E33E4
 _027E33B8:
 	mov r0, #1
@@ -3898,10 +3895,10 @@ _027E33E4:
 	.align 2, 0
 _027E33F0: .word 0x027F9454
 _027E33F4: .word 0x00000301
-	arm_func_end sub_27E3360
+	arm_func_end WMSP_End
 
-	arm_func_start sub_27E33F8
-sub_27E33F8: // 0x027E33F8
+	arm_func_start WmspError_2
+WmspError_2: // 0x027E33F8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -3917,10 +3914,10 @@ sub_27E33F8: // 0x027E33F8
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E33F8
+	arm_func_end WmspError_2
 
-	arm_func_start sub_27E3434
-sub_27E3434: // 0x027E3434
+	arm_func_start WMSP_SetParentParam
+WMSP_SetParentParam: // 0x027E3434
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x200
 	ldr r1, _027E34D4 // =0x027F9454
@@ -3946,12 +3943,12 @@ sub_27E3434: // 0x027E3434
 _027E348C:
 	add r0, sp, #0
 	ldrh r1, [r4, #0xf8]
-	bl sub_27E2468
+	bl WMSP_WL_ParamSetMaxConnectableChild
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E34B0
 	ldr r0, _027E34D8 // =0x00000212
-	bl sub_27E33F8
+	bl WmspError_2
 	b _027E34C8
 _027E34B0:
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -3967,10 +3964,10 @@ _027E34C8:
 	.align 2, 0
 _027E34D4: .word 0x027F9454
 _027E34D8: .word 0x00000212
-	arm_func_end sub_27E3434
+	arm_func_end WMSP_SetParentParam
 
-	arm_func_start sub_27E34DC
-sub_27E34DC: // 0x027E34DC
+	arm_func_start WmspError_3
+WmspError_3: // 0x027E34DC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -3988,10 +3985,10 @@ sub_27E34DC: // 0x027E34DC
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E34DC
+	arm_func_end WmspError_3
 
-	arm_func_start sub_27E3520
-sub_27E3520: // 0x027E3520
+	arm_func_start WMSP_StartParent
+WMSP_StartParent: // 0x027E3520
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x2b8
 	ldr r1, _027E379C // =0x027F9454
@@ -4043,16 +4040,16 @@ _027E35AC:
 	strh r1, [r0, #0xee]
 	mov r0, #8
 	mov r1, r6
-	bl sub_27E03B8
+	bl WMSP_SetAllParams
 	cmp r0, #0
 	beq _027E3790
 	mov r0, r6
-	bl sub_27E222C
+	bl WMSP_WL_DevClass1
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3610
 	ldr r0, _027E37A0 // =0x00000303
-	bl sub_27E34DC
+	bl WmspError_3
 	b _027E3790
 _027E3610:
 	cmp r5, #0
@@ -4064,12 +4061,12 @@ _027E3610:
 	mov r1, r5
 	mov r2, #0
 	mov r3, #1
-	bl sub_27E2D74
+	bl WMSP_WL_MlmePowerManagement
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3650
 	mov r0, #1
-	bl sub_27E34DC
+	bl WmspError_3
 	b _027E3790
 _027E3650:
 	strh r5, [r4, #0xc6]
@@ -4080,7 +4077,7 @@ _027E3650:
 	bl MIi_CpuClear16
 	add r0, sp, #0x238
 	mov r1, r5
-	bl sub_27E0504
+	bl WMSP_CopyParentParam
 	mov r0, #0
 	add r1, sp, #0x18
 	mov r2, #0x20
@@ -4112,12 +4109,12 @@ _027E3650:
 	mov r1, #0x20
 	add r2, sp, #0x18
 	ldrh r3, [r5, #0x18]
-	bl sub_27E29D8
+	bl WMSP_WL_MlmeStart
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E370C
 	mov r0, #9
-	bl sub_27E34DC
+	bl WmspError_3
 	b _027E3790
 _027E370C:
 	ldrh r0, [r5, #0x14]
@@ -4128,7 +4125,7 @@ _027E370C:
 	add r0, r0, r1
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27E00B0
+	bl WMSP_SetParentMaxSize
 	ldrh r0, [r5, #0x14]
 	cmp r0, #0
 	movne r1, #6
@@ -4137,7 +4134,7 @@ _027E370C:
 	add r0, r0, r1
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27E0060
+	bl WMSP_SetChildMaxSize
 	bl WMSP_GetBuffer4Callback2Wm9
 	mov r1, #7
 	strh r1, [r4]
@@ -4160,10 +4157,10 @@ _027E3790:
 	.align 2, 0
 _027E379C: .word 0x027F9454
 _027E37A0: .word 0x00000303
-	arm_func_end sub_27E3520
+	arm_func_end WMSP_StartParent
 
-	arm_func_start sub_27E37A4
-sub_27E37A4: // 0x027E37A4
+	arm_func_start WmspError_4
+WmspError_4: // 0x027E37A4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -4179,10 +4176,10 @@ sub_27E37A4: // 0x027E37A4
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E37A4
+	arm_func_end WmspError_4
 
-	arm_func_start sub_27E37E0
-sub_27E37E0: // 0x027E37E0
+	arm_func_start WMSP_EndParent
+WMSP_EndParent: // 0x027E37E0
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x214
 	ldr r0, _027E39AC // =0x027F9454
@@ -4225,7 +4222,7 @@ _027E3870:
 	add r0, sp, #0x10
 	add r1, sp, #8
 	ldr r2, [sp]
-	bl sub_27E2B2C
+	bl WMSP_WL_MlmeDeAuthenticate
 	ldrh r0, [r0, #4]
 	cmp r0, #0
 	beq _027E38A8
@@ -4258,7 +4255,7 @@ _027E38A8:
 	mov r1, r10, lsl #0x10
 	mov r1, r1, lsr #0x10
 	add r2, sp, #8
-	bl sub_27E4B10
+	bl WMSP_IndicateDisconnectionFromMyself
 	b _027E3900
 _027E38FC:
 	bl OS_RestoreInterrupts
@@ -4268,12 +4265,12 @@ _027E3900:
 	blt _027E383C
 	add r0, sp, #0x10
 	mov r1, #1
-	bl sub_27E2DD8
+	bl WMSP_WL_MlmeReset
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3930
 	mov r0, #0
-	bl sub_27E37A4
+	bl WmspError_4
 	b _027E39A0
 _027E3930:
 	mov r0, #0
@@ -4281,12 +4278,12 @@ _027E3930:
 	mov r0, #3
 	strh r0, [r8]
 	add r0, sp, #0x10
-	bl sub_27E2244
+	bl WMSP_WL_DevIdle
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3960
 	ldr r0, _027E39B0 // =0x00000302
-	bl sub_27E37A4
+	bl WmspError_4
 	b _027E39A0
 _027E3960:
 	mov r0, #2
@@ -4298,7 +4295,7 @@ _027E3960:
 	add r0, r8, #0x19c
 	mov r2, #0x50
 	bl MI_CpuFill8
-	bl sub_27E0100
+	bl WMSP_ResetSizeVars
 	bl WMSP_GetBuffer4Callback2Wm9
 	mov r1, #9
 	strh r1, [r0]
@@ -4312,10 +4309,10 @@ _027E39A0:
 	.align 2, 0
 _027E39AC: .word 0x027F9454
 _027E39B0: .word 0x00000302
-	arm_func_end sub_27E37E0
+	arm_func_end WMSP_EndParent
 
-	arm_func_start sub_27E39B4
-sub_27E39B4: // 0x027E39B4
+	arm_func_start WmspError_5
+WmspError_5: // 0x027E39B4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -4335,10 +4332,10 @@ sub_27E39B4: // 0x027E39B4
 	bl WMSP_ReturnResult2Wm9
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
-	arm_func_end sub_27E39B4
+	arm_func_end WmspError_5
 
-	arm_func_start sub_27E3A00
-sub_27E3A00: // 0x027E3A00
+	arm_func_start WmspGetScanExBufSize4WL
+WmspGetScanExBufSize4WL: // 0x027E3A00
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	sub r0, r4, #0x40
@@ -4348,10 +4345,10 @@ sub_27E3A00: // 0x027E3A00
 	add r0, r0, #0x5e
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27E3A00
+	arm_func_end WmspGetScanExBufSize4WL
 
-	arm_func_start sub_27E3A24
-sub_27E3A24: // 0x027E3A24
+	arm_func_start IsIncludeValidSSID
+IsIncludeValidSSID: // 0x027E3A24
 	ldrh r2, [r0, #0xa]
 	cmp r2, #0
 	moveq r0, #0
@@ -4373,10 +4370,10 @@ _027E3A60:
 	blt _027E3A48
 	mov r0, #0
 	bx lr
-	arm_func_end sub_27E3A24
+	arm_func_end IsIncludeValidSSID
 
-	arm_func_start sub_27E3A70
-sub_27E3A70: // 0x027E3A70
+	arm_func_start WMSP_StartScanEx
+WMSP_StartScanEx: // 0x027E3A70
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr ip, _027E3F8C // =0x000004CC
 	sub sp, sp, ip
@@ -4481,13 +4478,13 @@ _027E3BE0:
 	mov r0, #2
 	strh r0, [r4, #0xe6]
 	add r0, sp, #0x74
-	bl sub_27E21BC
+	bl WMSP_WL_DevGetStationState
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3C0C
 	mov r0, #0x308
 	mov r2, #1
-	bl sub_27E39B4
+	bl WmspError_5
 	b _027E3F7C
 _027E3C0C:
 	ldrh r0, [r0, #6]
@@ -4495,17 +4492,17 @@ _027E3C0C:
 	bne _027E3C90
 	mov r0, #0x26
 	add r1, sp, #0x74
-	bl sub_27E03B8
+	bl WMSP_SetAllParams
 	cmp r0, #0
 	beq _027E3F7C
 	add r0, sp, #0x74
-	bl sub_27E222C
+	bl WMSP_WL_DevClass1
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3C50
 	ldr r0, _027E3F98 // =0x00000303
 	mov r2, #1
-	bl sub_27E39B4
+	bl WmspError_5
 	b _027E3F7C
 _027E3C50:
 	mov r0, #3
@@ -4514,13 +4511,13 @@ _027E3C50:
 	mov r1, #1
 	mov r2, #0
 	mov r3, r1
-	bl sub_27E2D74
+	bl WMSP_WL_MlmePowerManagement
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3C88
 	mov r0, #1
 	mov r2, r0
-	bl sub_27E39B4
+	bl WmspError_5
 	b _027E3F7C
 _027E3C88:
 	mov r0, #1
@@ -4534,13 +4531,13 @@ _027E3C90:
 	bne _027E3D24
 	add r0, sp, #0x74
 	mov r1, #0
-	bl sub_27E2534
+	bl WMSP_WL_ParamSetPreambleType
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3CD0
 	ldr r0, _027E3F9C // =0x0000020E
 	mov r2, #1
-	bl sub_27E39B4
+	bl WmspError_5
 	b _027E3F7C
 _027E3CD0:
 	mov r1, #0
@@ -4554,13 +4551,13 @@ _027E3CE0:
 	bne _027E3D24
 	add r0, sp, #0x74
 	mov r1, #1
-	bl sub_27E2534
+	bl WMSP_WL_ParamSetPreambleType
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3D18
 	ldr r0, _027E3F9C // =0x0000020E
 	mov r2, #1
-	bl sub_27E39B4
+	bl WmspError_5
 	b _027E3F7C
 _027E3D18:
 	mov r1, #1
@@ -4582,13 +4579,13 @@ _027E3D24:
 _027E3D54:
 	add r0, sp, #0x74
 	add r1, sp, #0x42
-	bl sub_27E2594
+	bl WMSP_WL_ParamSetSsidMask
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E3D7C
 	ldr r0, _027E3FA0 // =0x0000020D
 	mov r2, #1
-	bl sub_27E39B4
+	bl WmspError_5
 	b _027E3F7C
 _027E3D7C:
 	mov r0, #5
@@ -4614,7 +4611,7 @@ _027E3DA4:
 	cmp r3, #0xf
 	blo _027E3DA4
 	ldr r0, [sp, #0x10]
-	bl sub_27E3A00
+	bl WmspGetScanExBufSize4WL
 	mov r1, r0
 	add r0, sp, #0x22
 	str r0, [sp]
@@ -4625,14 +4622,14 @@ _027E3DA4:
 	add r0, sp, #0x74
 	add r2, sp, #0x1c
 	mov r3, r9
-	bl sub_27E2CB8
+	bl WMSP_WL_MlmeScan
 	mov r8, r0
 	ldrh r1, [r8, #4]
 	cmp r1, #0
 	beq _027E3E24
 	mov r0, #2
 	mov r2, #1
-	bl sub_27E39B4
+	bl WmspError_5
 	b _027E3F7C
 _027E3E24:
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -4673,7 +4670,7 @@ _027E3E88:
 	cmp r9, #0
 	beq _027E3ED4
 	mov r0, r4
-	bl sub_27E3A24
+	bl IsIncludeValidSSID
 	cmp r0, #0
 	bne _027E3ED4
 	strh r9, [r4, #0xa]
@@ -4693,7 +4690,7 @@ _027E3ED4:
 	addeq r0, r0, #0x19
 	andeq r11, r0, #0xff
 	mov r0, r11
-	bl sub_27E0298
+	bl WMSP_GetLinkLevel
 	add r1, r7, r6, lsl #1
 	strh r0, [r1, #0x50]
 	ldr r0, _027E3FA4 // =0x027FFF98
@@ -4739,10 +4736,10 @@ _027E3F98: .word 0x00000303
 _027E3F9C: .word 0x0000020E
 _027E3FA0: .word 0x0000020D
 _027E3FA4: .word 0x027FFF98
-	arm_func_end sub_27E3A70
+	arm_func_end WMSP_StartScanEx
 
-	arm_func_start sub_27E3FA8
-sub_27E3FA8: // 0x027E3FA8
+	arm_func_start WMSP_StartScan
+WMSP_StartScan: // 0x027E3FA8
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x24c
 	add r6, sp, #0x48
@@ -4814,13 +4811,13 @@ _027E40A8:
 	mov r0, #2
 	strh r0, [r4, #0xe6]
 	mov r0, r6
-	bl sub_27E21BC
+	bl WMSP_WL_DevGetStationState
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E40D4
 	mov r0, #0x308
 	mov r2, #0
-	bl sub_27E39B4
+	bl WmspError_5
 	b _027E4324
 _027E40D4:
 	ldrh r0, [r0, #6]
@@ -4828,17 +4825,17 @@ _027E40D4:
 	bne _027E4158
 	mov r0, #0xa
 	mov r1, r6
-	bl sub_27E03B8
+	bl WMSP_SetAllParams
 	cmp r0, #0
 	beq _027E4324
 	mov r0, r6
-	bl sub_27E222C
+	bl WMSP_WL_DevClass1
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E4118
 	ldr r0, _027E4338 // =0x00000303
 	mov r2, #0
-	bl sub_27E39B4
+	bl WmspError_5
 	b _027E4324
 _027E4118:
 	mov r0, #3
@@ -4847,13 +4844,13 @@ _027E4118:
 	mov r1, #1
 	mov r2, #0
 	mov r3, r1
-	bl sub_27E2D74
+	bl WMSP_WL_MlmePowerManagement
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E4150
 	mov r0, #1
 	mov r2, #0
-	bl sub_27E39B4
+	bl WmspError_5
 	b _027E4324
 _027E4150:
 	mov r0, #1
@@ -4881,14 +4878,14 @@ _027E4158:
 	ldr r1, _027E433C // =0x0000011E
 	add r2, sp, #0x10
 	mov r3, #0
-	bl sub_27E2CB8
+	bl WMSP_WL_MlmeScan
 	mov r6, r0
 	ldrh r1, [r6, #4]
 	cmp r1, #0
 	beq _027E41D4
 	mov r0, #2
 	mov r2, #0
-	bl sub_27E39B4
+	bl WmspError_5
 	b _027E4324
 _027E41D4:
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -4933,7 +4930,7 @@ _027E420C:
 	addeq r0, r0, #0x19
 	andeq r4, r0, #0xff
 	mov r0, r4
-	bl sub_27E0298
+	bl WMSP_GetLinkLevel
 	strh r0, [r5, #0x12]
 	ldr r1, _027E4340 // =0x027FFF98
 	ldrh r0, [r1]
@@ -4988,10 +4985,10 @@ _027E4334: .word 0x0000FFFF
 _027E4338: .word 0x00000303
 _027E433C: .word 0x0000011E
 _027E4340: .word 0x027FFF98
-	arm_func_end sub_27E3FA8
+	arm_func_end WMSP_StartScan
 
-	arm_func_start sub_27E4344
-sub_27E4344: // 0x027E4344
+	arm_func_start WmspError_6
+WmspError_6: // 0x027E4344
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -5007,10 +5004,10 @@ sub_27E4344: // 0x027E4344
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E4344
+	arm_func_end WmspError_6
 
-	arm_func_start sub_27E4380
-sub_27E4380: // 0x027E4380
+	arm_func_start WMSP_EndScan
+WMSP_EndScan: // 0x027E4380
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x204
 	add r5, sp, #0
@@ -5028,12 +5025,12 @@ sub_27E4380: // 0x027E4380
 	b _027E443C
 _027E43BC:
 	mov r0, r5
-	bl sub_27E2244
+	bl WMSP_WL_DevIdle
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E43DC
 	ldr r0, _027E444C // =0x00000302
-	bl sub_27E4344
+	bl WmspError_6
 	b _027E443C
 _027E43DC:
 	mov r0, #2
@@ -5044,12 +5041,12 @@ _027E43DC:
 	bne _027E4424
 	mov r0, r5
 	mov r1, #1
-	bl sub_27E2534
+	bl WMSP_WL_ParamSetPreambleType
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E4418
 	ldr r0, _027E4450 // =0x0000020E
-	bl sub_27E4344
+	bl WmspError_6
 	b _027E443C
 _027E4418:
 	mov r1, #1
@@ -5070,10 +5067,10 @@ _027E443C:
 _027E4448: .word 0x027F9454
 _027E444C: .word 0x00000302
 _027E4450: .word 0x0000020E
-	arm_func_end sub_27E4380
+	arm_func_end WMSP_EndScan
 
-	arm_func_start sub_27E4454
-sub_27E4454: // 0x027E4454
+	arm_func_start WmspError_7
+WmspError_7: // 0x027E4454
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -5089,10 +5086,10 @@ sub_27E4454: // 0x027E4454
 	bl WMSP_ReturnResult2Wm9
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
-	arm_func_end sub_27E4454
+	arm_func_end WmspError_7
 
-	arm_func_start sub_27E4490
-sub_27E4490: // 0x027E4490
+	arm_func_start WMSP_StartConnectEx
+WMSP_StartConnectEx: // 0x027E4490
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x250
 	mov r6, r0
@@ -5197,18 +5194,18 @@ _027E45D8:
 	strneh r0, [r5, #0xe6]
 	mov r0, #0xc
 	mov r1, r4
-	bl sub_27E03B8
+	bl WMSP_SetAllParams
 	cmp r0, #0
 	beq _027E4A50
 	mov r0, r4
 	mov r1, #0
-	bl sub_27E23A8
+	bl WMSP_WL_ParamSetNullKeyResponseMode
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E464C
 	ldr r0, _027E4A64 // =0x00000216
 	mov r2, #0
-	bl sub_27E4454
+	bl WmspError_7
 	b _027E4A50
 _027E464C:
 	ldrh r0, [r7, #0x4c]
@@ -5227,23 +5224,23 @@ _027E4674:
 	cmp r1, #0xff
 	movhi r1, #0xff
 	mov r0, r4
-	bl sub_27E2614
+	bl WMSP_WL_ParamSetBeaconLostThreshold
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E46A8
 	ldr r0, _027E4A6C // =0x0000020B
 	mov r2, #0
-	bl sub_27E4454
+	bl WmspError_7
 	b _027E4A50
 _027E46A8:
 	mov r0, r4
-	bl sub_27E222C
+	bl WMSP_WL_DevClass1
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E46CC
 	ldr r0, _027E4A70 // =0x00000303
 	mov r2, #0
-	bl sub_27E4454
+	bl WmspError_7
 	b _027E4A50
 _027E46CC:
 	mov r0, #3
@@ -5258,13 +5255,13 @@ _027E46CC:
 	mov r1, r8
 	mov r2, #0
 	mov r3, #1
-	bl sub_27E2D74
+	bl WMSP_WL_MlmePowerManagement
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E471C
 	mov r0, #1
 	mov r2, #0
-	bl sub_27E4454
+	bl WmspError_7
 	b _027E4A50
 _027E471C:
 	strh r8, [r5, #0xc6]
@@ -5295,7 +5292,7 @@ _027E477C:
 	mov r0, r4
 	mov r1, #0x7d0
 	add r2, sp, #0x20c
-	bl sub_27E2C34
+	bl WMSP_WL_MlmeJoin
 	mov r2, r0
 	ldrh r1, [r2, #4]
 	cmp r1, #0
@@ -5306,7 +5303,7 @@ _027E477C:
 _027E47A8:
 	mov r0, #3
 	ldrh r2, [r2, #6]
-	bl sub_27E4454
+	bl WmspError_7
 	b _027E4A50
 _027E47B8:
 	add r0, r2, #8
@@ -5323,7 +5320,7 @@ _027E47B8:
 	add r1, sp, #0
 	ldrh r2, [r6, #0x26]
 	mov r3, #0x7d0
-	bl sub_27E2BB0
+	bl WMSP_WL_MlmeAuthenticate
 	mov r2, r0
 	ldrh r1, [r2, #4]
 	cmp r1, #0xc
@@ -5348,7 +5345,7 @@ _027E4830:
 _027E4844:
 	mov r0, #4
 	ldrh r2, [r2, #6]
-	bl sub_27E4454
+	bl WmspError_7
 	b _027E4A50
 _027E4854:
 	ldr r0, _027E4A74 // =0x0000018A
@@ -5360,7 +5357,7 @@ _027E4854:
 	add r1, sp, #6
 	mov r2, #1
 	mov r3, #0x7d0
-	bl sub_27E2AAC
+	bl WMSP_WL_MlmeAssociate
 	mov r4, r0
 	bl OS_DisableInterrupts
 	mov r6, r0
@@ -5391,7 +5388,7 @@ _027E48D8:
 	mov r0, #6
 	ldrh r1, [r4, #4]
 	ldrh r2, [r4, #6]
-	bl sub_27E4454
+	bl WmspError_7
 	b _027E4A50
 _027E48F4:
 	ldrh r1, [r4, #8]
@@ -5412,10 +5409,10 @@ _027E48F4:
 	addeq r0, r0, #0x19
 	andeq r4, r0, #0xff
 	mov r0, r4
-	bl sub_27E0298
+	bl WMSP_GetLinkLevel
 	strh r0, [r5, #0xbc]
 	mov r0, r4
-	bl sub_27E033C
+	bl WMSP_FillRssiIntoList
 	bl OS_DisableInterrupts
 	mov r4, r0
 	mov r1, #1
@@ -5444,7 +5441,7 @@ _027E4990:
 	add r0, r0, r1
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27E00B0
+	bl WMSP_SetParentMaxSize
 	ldrb r0, [r7, #0x5b]
 	ands r0, r0, #4
 	movne r1, #6
@@ -5453,7 +5450,7 @@ _027E4990:
 	add r0, r0, r1
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27E0060
+	bl WMSP_SetChildMaxSize
 	mov r0, r4
 	bl OS_RestoreInterrupts
 	mov r0, #1
@@ -5494,10 +5491,10 @@ _027E4A68: .word 0x00002710
 _027E4A6C: .word 0x0000020B
 _027E4A70: .word 0x00000303
 _027E4A74: .word 0x0000018A
-	arm_func_end sub_27E4490
+	arm_func_end WMSP_StartConnectEx
 
-	arm_func_start sub_27E4A78
-sub_27E4A78: // 0x027E4A78
+	arm_func_start WmspIndError
+WmspIndError: // 0x027E4A78
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -5517,10 +5514,10 @@ sub_27E4A78: // 0x027E4A78
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
-	arm_func_end sub_27E4A78
+	arm_func_end WmspIndError
 
-	arm_func_start sub_27E4AC4
-sub_27E4AC4: // 0x027E4AC4
+	arm_func_start WmspError_8
+WmspError_8: // 0x027E4AC4
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -5540,10 +5537,10 @@ sub_27E4AC4: // 0x027E4AC4
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
-	arm_func_end sub_27E4AC4
+	arm_func_end WmspError_8
 
-	arm_func_start sub_27E4B10
-sub_27E4B10: // 0x027E4B10
+	arm_func_start WMSP_IndicateDisconnectionFromMyself
+WMSP_IndicateDisconnectionFromMyself: // 0x027E4B10
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r0
 	mov r7, r1
@@ -5598,10 +5595,10 @@ _027E4BC4:
 	.align 2, 0
 _027E4BD4: .word 0x027F9454
 _027E4BD8: .word 0x0000F001
-	arm_func_end sub_27E4B10
+	arm_func_end WMSP_IndicateDisconnectionFromMyself
 
-	arm_func_start sub_27E4BDC
-sub_27E4BDC: // 0x027E4BDC
+	arm_func_start WMSP_DisconnectCore
+WMSP_DisconnectCore: // 0x027E4BDC
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x244
 	movs r10, r1
@@ -5664,8 +5661,8 @@ _027E4CA8:
 	mov r0, #0
 	str r0, [r5, #0xc]
 	mov r7, #1
-	bl sub_27E681C
-	bl sub_27E0238
+	bl WMSP_CancelVAlarm
+	bl WMSP_SetThreadPriorityLow
 	ldrh r0, [r5]
 	cmp r0, #0xa
 	moveq r0, #8
@@ -5718,7 +5715,7 @@ _027E4D74:
 	add r0, sp, #0x44
 	mov r1, r6
 	mov r2, r4
-	bl sub_27E2B2C
+	bl WMSP_WL_MlmeDeAuthenticate
 	ldrh r1, [r0, #4]
 	cmp r1, #7
 	bgt _027E4DBC
@@ -5745,18 +5742,18 @@ _027E4DCC:
 	mov r0, #5
 	mov r2, r9
 	mov r3, #0
-	bl sub_27E4A78
+	bl WmspIndError
 	b _027E4DF8
 _027E4DE8:
 	mov r0, #5
 	mov r2, r9
 	mov r3, #0
-	bl sub_27E4AC4
+	bl WmspError_8
 _027E4DF8:
 	cmp r7, #0
 	beq _027E4E08
 	mov r0, #1
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 _027E4E08:
 	mov r0, #0
 	b _027E51C4
@@ -5771,7 +5768,7 @@ _027E4E18:
 	strh r0, [r5]
 	add r0, sp, #0x44
 	mov r1, r8
-	bl sub_27E2DD8
+	bl WMSP_WL_MlmeReset
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E4E88
@@ -5780,24 +5777,24 @@ _027E4E18:
 	mov r0, #0
 	mov r2, r9
 	mov r3, r8
-	bl sub_27E4A78
+	bl WmspIndError
 	b _027E4E70
 _027E4E60:
 	mov r0, #0
 	mov r2, r9
 	mov r3, r8
-	bl sub_27E4AC4
+	bl WmspError_8
 _027E4E70:
 	cmp r7, #0
 	beq _027E4E80
 	mov r0, #1
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 _027E4E80:
 	mov r0, #0
 	b _027E51C4
 _027E4E88:
 	add r0, sp, #0x44
-	bl sub_27E2244
+	bl WMSP_WL_DevIdle
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E4EE0
@@ -5806,18 +5803,18 @@ _027E4E88:
 	ldr r0, _027E51D8 // =0x00000302
 	mov r2, r9
 	mov r3, r8
-	bl sub_27E4A78
+	bl WmspIndError
 	b _027E4EC8
 _027E4EB8:
 	ldr r0, _027E51D8 // =0x00000302
 	mov r2, r9
 	mov r3, r8
-	bl sub_27E4AC4
+	bl WmspError_8
 _027E4EC8:
 	cmp r7, #0
 	beq _027E4ED8
 	mov r0, #1
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 _027E4ED8:
 	mov r0, #0
 	b _027E51C4
@@ -5831,7 +5828,7 @@ _027E4EE0:
 	add r0, r5, #0x19c
 	mov r2, #0x50
 	bl MI_CpuFill8
-	bl sub_27E0100
+	bl WMSP_ResetSizeVars
 	cmp r10, #1
 	bne _027E4F70
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -5862,12 +5859,12 @@ _027E4F70:
 	mov r0, #0
 	mov r1, r0
 	add r2, sp, #0x38
-	bl sub_27E4B10
+	bl WMSP_IndicateDisconnectionFromMyself
 _027E4F80:
 	cmp r7, #0
 	beq _027E51B4
 	mov r0, #1
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 	b _027E51B4
 _027E4F94:
 	mov r6, #1
@@ -5910,7 +5907,7 @@ _027E5020:
 	add r0, sp, #0x44
 	add r1, sp, #0x3e
 	ldr r2, [sp, #0x1c]
-	bl sub_27E2B2C
+	bl WMSP_WL_MlmeDeAuthenticate
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E50AC
@@ -5929,18 +5926,18 @@ _027E505C:
 	mov r0, #5
 	mov r2, r9
 	mov r3, r8
-	bl sub_27E4A78
+	bl WmspIndError
 	b _027E5088
 _027E5078:
 	mov r0, #5
 	mov r2, r9
 	mov r3, r8
-	bl sub_27E4AC4
+	bl WmspError_8
 _027E5088:
 	cmp r7, #0
 	beq _027E5098
 	mov r0, #1
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 _027E5098:
 	mov r0, #0
 	b _027E51C4
@@ -6005,13 +6002,13 @@ _027E5178:
 	mov r1, r6, lsl #0x10
 	mov r1, r1, lsr #0x10
 	add r2, sp, #0x3e
-	bl sub_27E4B10
+	bl WMSP_IndicateDisconnectionFromMyself
 _027E518C:
 	cmp r7, #0
 	beq _027E51A8
 	mov r0, r4, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 	b _027E51A8
 _027E51A4:
 	bl OS_RestoreInterrupts
@@ -6033,10 +6030,10 @@ _027E51C4:
 _027E51D0: .word 0x027F9454
 _027E51D4: .word 0x0000018A
 _027E51D8: .word 0x00000302
-	arm_func_end sub_27E4BDC
+	arm_func_end WMSP_DisconnectCore
 
-	arm_func_start sub_27E51DC
-sub_27E51DC: // 0x027E51DC
+	arm_func_start WMSP_Disconnect
+WMSP_Disconnect: // 0x027E51DC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r1, [r0, #4]
@@ -6044,7 +6041,7 @@ sub_27E51DC: // 0x027E51DC
 	mov r4, r1, lsr #0x10
 	mov r1, #0
 	add r2, sp, #0
-	bl sub_27E4BDC
+	bl WMSP_DisconnectCore
 	cmp r0, #1
 	bne _027E5228
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -6060,10 +6057,10 @@ _027E5228:
 	add sp, sp, #8
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27E51DC
+	arm_func_end WMSP_Disconnect
 
-	arm_func_start sub_27E5234
-sub_27E5234: // 0x027E5234
+	arm_func_start WMSP_StartMP
+WMSP_StartMP: // 0x027E5234
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x200
 	ldr r1, _027E54E4 // =_027F8454
@@ -6133,12 +6130,12 @@ _027E5318:
 	cmp r1, #0
 	beq _027E533C
 	ldr r0, _027E54EC // =0x0000FFFF
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 _027E533C:
-	bl sub_27E7DA4
+	bl WMSP_InitSendQueue
 	mov r0, r5
 	mov r1, #0
-	bl sub_27E854C
+	bl WMSP_SetMPParameterCore
 	bl OS_DisableInterrupts
 	mov r5, r0
 	ldrh r2, [r4]
@@ -6188,10 +6185,10 @@ _027E53F4:
 	add r2, r2, #1
 	cmp r2, #0x10
 	blt _027E53F4
-	bl sub_27E01D8
+	bl WMSP_SetThreadPriorityHigh
 	mov r0, #0
 	strh r0, [r4, #0xce]
-	bl sub_27E678C
+	bl WMSP_SetVAlarm
 	ldrh r0, [r4]
 	cmp r0, #8
 	moveq r0, #0xa
@@ -6215,7 +6212,7 @@ _027E543C:
 	bl OS_RestoreInterrupts
 	add r0, sp, #0
 	mov r1, #1
-	bl sub_27E23A8
+	bl WMSP_WL_ParamSetNullKeyResponseMode
 	mov r4, r0
 	ldrh r0, [r4, #4]
 	cmp r0, #0
@@ -6251,10 +6248,10 @@ _027E54E8: .word 0x027F9454
 _027E54EC: .word 0x0000FFFF
 _027E54F0: .word 0x0000FFF9
 _027E54F4: .word 0x00000216
-	arm_func_end sub_27E5234
+	arm_func_end WMSP_StartMP
 
-	arm_func_start sub_27E54F8
-sub_27E54F8: // 0x027E54F8
+	arm_func_start WMSP_SetMPData
+WMSP_SetMPData: // 0x027E54F8
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x14
 	ldr r1, _027E5638 // =0x027F9454
@@ -6292,7 +6289,7 @@ sub_27E54F8: // 0x027E54F8
 	mov r0, r5
 	ldr r2, [sp, #0x10]
 	mov r3, r8
-	bl sub_27E7338
+	bl WMSP_PutSendQueue
 	mov r6, r0
 _027E5594:
 	cmp r6, #2
@@ -6340,10 +6337,10 @@ _027E562C:
 	.align 2, 0
 _027E5638: .word 0x027F9454
 _027E563C: .word 0x0000FFFF
-	arm_func_end sub_27E54F8
+	arm_func_end WMSP_SetMPData
 
-	arm_func_start sub_27E5640
-sub_27E5640: // 0x027E5640
+	arm_func_start WmspError_9
+WmspError_9: // 0x027E5640
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -6359,10 +6356,10 @@ sub_27E5640: // 0x027E5640
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E5640
+	arm_func_end WmspError_9
 
-	arm_func_start sub_27E567C
-sub_27E567C: // 0x027E567C
+	arm_func_start WMSP_EndMP
+WMSP_EndMP: // 0x027E567C
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x200
 	ldr r0, _027E5790 // =0x027F9454
@@ -6388,8 +6385,8 @@ _027E56C0:
 	moveq r6, #1
 	mov r0, #0
 	str r0, [r4, #0xc]
-	bl sub_27E681C
-	bl sub_27E0238
+	bl WMSP_CancelVAlarm
+	bl WMSP_SetThreadPriorityLow
 	ldrh r0, [r4]
 	cmp r0, #0xa
 	moveq r0, #8
@@ -6403,22 +6400,22 @@ _027E5704:
 	bl OS_RestoreInterrupts
 	add r0, sp, #0
 	mov r1, #0
-	bl sub_27E23A8
+	bl WMSP_WL_ParamSetNullKeyResponseMode
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E5730
 	ldr r0, _027E5794 // =0x00000216
-	bl sub_27E5640
+	bl WmspError_9
 	b _027E5784
 _027E5730:
 	add r0, sp, #0
 	mov r1, #7
-	bl sub_27E2730
+	bl WMSP_WL_MaClearData
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E5754
 	mov r0, #0x104
-	bl sub_27E5640
+	bl WmspError_9
 	b _027E5784
 _027E5754:
 	mov r0, #0
@@ -6426,7 +6423,7 @@ _027E5754:
 	cmp r6, #0
 	beq _027E576C
 	ldr r0, _027E5798 // =0x0000FFFF
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 _027E576C:
 	bl WMSP_GetBuffer4Callback2Wm9
 	mov r1, #0x10
@@ -6442,10 +6439,10 @@ _027E5784:
 _027E5790: .word 0x027F9454
 _027E5794: .word 0x00000216
 _027E5798: .word 0x0000FFFF
-	arm_func_end sub_27E567C
+	arm_func_end WMSP_EndMP
 
-	arm_func_start sub_27E579C
-sub_27E579C: // 0x027E579C
+	arm_func_start WMSP_StartDCF
+WMSP_StartDCF: // 0x027E579C
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	ldr r1, _027E5824 // =0x027F9454
 	ldr r5, [r1, #0x550]
@@ -6482,10 +6479,10 @@ sub_27E579C: // 0x027E579C
 	bx lr
 	.align 2, 0
 _027E5824: .word 0x027F9454
-	arm_func_end sub_27E579C
+	arm_func_end WMSP_StartDCF
 
-	arm_func_start sub_27E5828
-sub_27E5828: // 0x027E5828
+	arm_func_start WMSP_SetDCFData
+WMSP_SetDCFData: // 0x027E5828
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x234
 	mov r5, r0
@@ -6527,7 +6524,7 @@ sub_27E5828: // 0x027E5828
 	str r0, [sp, #0x2c]
 	add r0, sp, #0x30
 	add r1, sp, #0
-	bl sub_27E2894
+	bl WMSP_WL_MaData
 	mov r4, r0
 	bl WMSP_GetBuffer4Callback2Wm9
 	mov r1, #0x12
@@ -6549,10 +6546,10 @@ sub_27E5828: // 0x027E5828
 	bx lr
 	.align 2, 0
 _027E591C: .word 0x027F9454
-	arm_func_end sub_27E5828
+	arm_func_end WMSP_SetDCFData
 
-	arm_func_start sub_27E5920
-sub_27E5920: // 0x027E5920
+	arm_func_start WmspError_10
+WmspError_10: // 0x027E5920
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -6568,10 +6565,10 @@ sub_27E5920: // 0x027E5920
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E5920
+	arm_func_end WmspError_10
 
-	arm_func_start sub_27E595C
-sub_27E595C: // 0x027E595C
+	arm_func_start WMSP_EndDCF
+WMSP_EndDCF: // 0x027E595C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x200
 	ldr r0, _027E59F8 // =0x027F9454
@@ -6596,12 +6593,12 @@ _027E599C:
 	bl OS_RestoreInterrupts
 	add r0, sp, #0
 	mov r1, #7
-	bl sub_27E2730
+	bl WMSP_WL_MaClearData
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E59D4
 	mov r0, #0x104
-	bl sub_27E5920
+	bl WmspError_10
 	b _027E59EC
 _027E59D4:
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -6616,10 +6613,10 @@ _027E59EC:
 	bx lr
 	.align 2, 0
 _027E59F8: .word 0x027F9454
-	arm_func_end sub_27E595C
+	arm_func_end WMSP_EndDCF
 
-	arm_func_start sub_27E59FC
-sub_27E59FC: // 0x027E59FC
+	arm_func_start WmspError_11
+WmspError_11: // 0x027E59FC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -6635,10 +6632,10 @@ sub_27E59FC: // 0x027E59FC
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E59FC
+	arm_func_end WmspError_11
 
-	arm_func_start sub_27E5A38
-sub_27E5A38: // 0x027E5A38
+	arm_func_start WMSP_SetWEPKeyEx
+WMSP_SetWEPKeyEx: // 0x027E5A38
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x204
 	mov r5, r0
@@ -6686,12 +6683,12 @@ _027E5AC8:
 	strh r0, [r4, #0xc4]
 	add r0, sp, #0
 	ldrh r1, [r4, #0xc4]
-	bl sub_27E2674
+	bl WMSP_WL_ParamSetWepKeyId
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E5AF0
 	ldr r0, _027E5B18 // =0x00000207
-	bl sub_27E59FC
+	bl WmspError_11
 _027E5AF0:
 	bl WMSP_GetBuffer4Callback2Wm9
 	mov r1, #0x27
@@ -6705,10 +6702,10 @@ _027E5AF0:
 	.align 2, 0
 _027E5B14: .word 0x027F9454
 _027E5B18: .word 0x00000207
-	arm_func_end sub_27E5A38
+	arm_func_end WMSP_SetWEPKeyEx
 
-	arm_func_start sub_27E5B1C
-sub_27E5B1C: // 0x027E5B1C
+	arm_func_start WMSP_SetWEPKey
+WMSP_SetWEPKey: // 0x027E5B1C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _027E5BCC // =0x027F9454
@@ -6762,10 +6759,10 @@ _027E5BA8:
 	bx lr
 	.align 2, 0
 _027E5BCC: .word 0x027F9454
-	arm_func_end sub_27E5B1C
+	arm_func_end WMSP_SetWEPKey
 
-	arm_func_start sub_27E5BD0
-sub_27E5BD0: // 0x027E5BD0
+	arm_func_start WMSP_SetGameInfo
+WMSP_SetGameInfo: // 0x027E5BD0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x280
 	ldr r1, _027E5CBC // =0x027F9454
@@ -6798,14 +6795,14 @@ sub_27E5BD0: // 0x027E5BD0
 	strh r0, [r4, #0xfe]
 	add r0, sp, #0x200
 	add r1, r4, #0xe8
-	bl sub_27E0504
+	bl WMSP_CopyParentParam
 	add r0, sp, #0
 	ldrh r1, [r4, #0xec]
 	add r1, r1, #0x10
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
 	add r2, sp, #0x200
-	bl sub_27E22B8
+	bl WMSP_WL_ParamSetGameInfo
 	mov r4, r0
 	bl WMSP_GetBuffer4Callback2Wm9
 	mov r1, #0x18
@@ -6828,10 +6825,10 @@ sub_27E5BD0: // 0x027E5BD0
 	.align 2, 0
 _027E5CBC: .word 0x027F9454
 _027E5CC0: .word 0x00000245
-	arm_func_end sub_27E5BD0
+	arm_func_end WMSP_SetGameInfo
 
-	arm_func_start sub_27E5CC4
-sub_27E5CC4: // 0x027E5CC4
+	arm_func_start WmspError_12
+WmspError_12: // 0x027E5CC4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -6847,10 +6844,10 @@ sub_27E5CC4: // 0x027E5CC4
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E5CC4
+	arm_func_end WmspError_12
 
-	arm_func_start sub_27E5D00
-sub_27E5D00: // 0x027E5D00
+	arm_func_start WMSP_SetBeaconTxRxInd
+WMSP_SetBeaconTxRxInd: // 0x027E5D00
 	stmdb sp!, {lr}
 	sub sp, sp, #0x204
 	mov r1, r0
@@ -6858,12 +6855,12 @@ sub_27E5D00: // 0x027E5D00
 	ldr r1, [r1, #4]
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_27E2408
+	bl WMSP_WL_ParamSetBeaconSendRecvInd
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E5D38
 	ldr r0, _027E5D5C // =0x00000215
-	bl sub_27E5CC4
+	bl WmspError_12
 	b _027E5D50
 _027E5D38:
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -6878,10 +6875,10 @@ _027E5D50:
 	bx lr
 	.align 2, 0
 _027E5D5C: .word 0x00000215
-	arm_func_end sub_27E5D00
+	arm_func_end WMSP_SetBeaconTxRxInd
 
-	arm_func_start sub_27E5D60
-sub_27E5D60: // 0x027E5D60
+	arm_func_start WMSP_StartTestMode
+WMSP_StartTestMode: // 0x027E5D60
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -6893,10 +6890,10 @@ sub_27E5D60: // 0x027E5D60
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27E5D60
+	arm_func_end WMSP_StartTestMode
 
-	arm_func_start sub_27E5D8C
-sub_27E5D8C: // 0x027E5D8C
+	arm_func_start WMSP_StopTestMode
+WMSP_StopTestMode: // 0x027E5D8C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -6908,10 +6905,10 @@ sub_27E5D8C: // 0x027E5D8C
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27E5D8C
+	arm_func_end WMSP_StopTestMode
 
-	arm_func_start sub_27E5DB8
-sub_27E5DB8: // 0x027E5DB8
+	arm_func_start WmspError_13
+WmspError_13: // 0x027E5DB8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -6927,10 +6924,10 @@ sub_27E5DB8: // 0x027E5DB8
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E5DB8
+	arm_func_end WmspError_13
 
-	arm_func_start sub_27E5DF4
-sub_27E5DF4: // 0x027E5DF4
+	arm_func_start WMSP_SetLifeTime
+WMSP_SetLifeTime: // 0x027E5DF4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x204
 	mov r3, r0
@@ -6949,12 +6946,12 @@ sub_27E5DF4: // 0x027E5DF4
 	ldr r3, [r3, #0xc]
 	mov r3, r3, lsl #0x10
 	mov r3, r3, lsr #0x10
-	bl sub_27E24C8
+	bl WMSP_WL_ParamSetLifeTime
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E5E58
 	ldr r0, _027E5F08 // =0x00000211
-	bl sub_27E5DB8
+	bl WmspError_13
 	b _027E5EF8
 _027E5E58:
 	ldr r0, _027E5F0C // =0x0000FFFF
@@ -7010,10 +7007,10 @@ _027E5F04: .word 0x027F9454
 _027E5F08: .word 0x00000211
 _027E5F0C: .word 0x0000FFFF
 _027E5F10: .word 0x000082EA
-	arm_func_end sub_27E5DF4
+	arm_func_end WMSP_SetLifeTime
 
-	arm_func_start sub_27E5F14
-sub_27E5F14: // 0x027E5F14
+	arm_func_start WmspError_14
+WmspError_14: // 0x027E5F14
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -7029,10 +7026,10 @@ sub_27E5F14: // 0x027E5F14
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E5F14
+	arm_func_end WmspError_14
 
-	arm_func_start sub_27E5F50
-sub_27E5F50: // 0x027E5F50
+	arm_func_start WMSP_MeasureChannel
+WMSP_MeasureChannel: // 0x027E5F50
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x214
 	mov r8, r0
@@ -7051,12 +7048,12 @@ sub_27E5F50: // 0x027E5F50
 	b _027E60EC
 _027E5F90:
 	mov r0, r7
-	bl sub_27E21BC
+	bl WMSP_WL_DevGetStationState
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E5FB0
 	mov r0, #0x308
-	bl sub_27E5F14
+	bl WmspError_14
 	b _027E60EC
 _027E5FB0:
 	ldrh r1, [r0, #6]
@@ -7066,16 +7063,16 @@ _027E5FB0:
 	bne _027E6034
 	mov r0, #0xa
 	mov r1, r7
-	bl sub_27E03B8
+	bl WMSP_SetAllParams
 	cmp r0, #0
 	beq _027E60EC
 	mov r0, r7
-	bl sub_27E222C
+	bl WMSP_WL_DevClass1
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E5FF8
 	ldr r0, _027E60FC // =0x00000303
-	bl sub_27E5F14
+	bl WmspError_14
 	b _027E60EC
 _027E5FF8:
 	mov r0, #3
@@ -7084,12 +7081,12 @@ _027E5FF8:
 	mov r1, #1
 	mov r2, #0
 	mov r3, r1
-	bl sub_27E2D74
+	bl WMSP_WL_MlmePowerManagement
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E602C
 	mov r0, #1
-	bl sub_27E5F14
+	bl WmspError_14
 	b _027E60EC
 _027E602C:
 	mov r0, #1
@@ -7110,12 +7107,12 @@ _027E6034:
 	mov r1, r6
 	mov r2, r5
 	mov r3, r8
-	bl sub_27E294C
+	bl WMSP_WL_MlmeMeasureChannel
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E608C
 	mov r0, #0xa
-	bl sub_27E5F14
+	bl WmspError_14
 	b _027E60EC
 _027E608C:
 	ldrh r1, [r0, #8]
@@ -7125,12 +7122,12 @@ _027E608C:
 	mov r0, r1, lsl #8
 	mov r6, r0, lsr #0x10
 	mov r0, r7
-	bl sub_27E2244
+	bl WMSP_WL_DevIdle
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E60C4
 	ldr r0, _027E6100 // =0x00000302
-	bl sub_27E5F14
+	bl WmspError_14
 	b _027E60EC
 _027E60C4:
 	mov r0, #2
@@ -7151,10 +7148,10 @@ _027E60EC:
 _027E60F8: .word 0x027F9454
 _027E60FC: .word 0x00000303
 _027E6100: .word 0x00000302
-	arm_func_end sub_27E5F50
+	arm_func_end WMSP_MeasureChannel
 
-	arm_func_start sub_27E6104
-sub_27E6104: // 0x027E6104
+	arm_func_start WmspError_15
+WmspError_15: // 0x027E6104
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -7170,19 +7167,19 @@ sub_27E6104: // 0x027E6104
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E6104
+	arm_func_end WmspError_15
 
-	arm_func_start sub_27E6140
-sub_27E6140: // 0x027E6140
+	arm_func_start WMSP_InitWirelessCounter
+WMSP_InitWirelessCounter: // 0x027E6140
 	stmdb sp!, {lr}
 	sub sp, sp, #0x204
 	add r0, sp, #0
-	bl sub_27E2200
+	bl WMSP_WL_DevSetInitializeWirelessCounter
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E6168
 	ldr r0, _027E618C // =0x00000305
-	bl sub_27E6104
+	bl WmspError_15
 	b _027E6180
 _027E6168:
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -7197,10 +7194,10 @@ _027E6180:
 	bx lr
 	.align 2, 0
 _027E618C: .word 0x00000305
-	arm_func_end sub_27E6140
+	arm_func_end WMSP_InitWirelessCounter
 
-	arm_func_start sub_27E6190
-sub_27E6190: // 0x027E6190
+	arm_func_start WmspError_16
+WmspError_16: // 0x027E6190
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -7216,20 +7213,20 @@ sub_27E6190: // 0x027E6190
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E6190
+	arm_func_end WmspError_16
 
-	arm_func_start sub_27E61CC
-sub_27E61CC: // 0x027E61CC
+	arm_func_start WMSP_GetWirelessCounter
+WMSP_GetWirelessCounter: // 0x027E61CC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x204
 	add r0, sp, #0
-	bl sub_27E21D0
+	bl WMSP_WL_DevGetWirelessCounter
 	mov r5, r0
 	ldrh r1, [r5, #4]
 	cmp r1, #0
 	beq _027E61F8
 	ldr r0, _027E6234 // =0x00000307
-	bl sub_27E6190
+	bl WmspError_16
 	b _027E6228
 _027E61F8:
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -7250,10 +7247,10 @@ _027E6228:
 	bx lr
 	.align 2, 0
 _027E6234: .word 0x00000307
-	arm_func_end sub_27E61CC
+	arm_func_end WMSP_GetWirelessCounter
 
-	arm_func_start sub_27E6238
-sub_27E6238: // 0x027E6238
+	arm_func_start WmspFromVAlarmToWmspThread
+WmspFromVAlarmToWmspThread: // 0x027E6238
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r5, _027E62E8 // =_027F8454
@@ -7269,7 +7266,7 @@ _027E6264:
 	mov r1, #1
 	strh r1, [r4, #0xce]
 	bl OS_RestoreInterrupts
-	bl sub_27E0134
+	bl WMSP_GetInternalRequestBuf
 	movs r1, r0
 	moveq r0, #0
 	beq _027E6294
@@ -7304,10 +7301,10 @@ _027E62DC:
 	.align 2, 0
 _027E62E8: .word _027F8454
 _027E62EC: .word 0x027F9454
-	arm_func_end sub_27E6238
+	arm_func_end WmspFromVAlarmToWmspThread
 
-	arm_func_start sub_27E62F0
-sub_27E62F0: // 0x027E62F0
+	arm_func_start WmspParentVAlarmMP
+WmspParentVAlarmMP: // 0x027E62F0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027E632C // =0x027F9454
@@ -7316,21 +7313,21 @@ sub_27E62F0: // 0x027E62F0
 	cmp r0, #1
 	bne _027E6320
 	mov r0, #0xd1
-	ldr r1, _027E6330 // =sub_27E6334
+	ldr r1, _027E6330 // =WmspParentAdjustVSync
 	mov r2, #3
-	bl sub_27E6754
-	bl sub_27E6238
+	bl WmspSetVAlarm
+	bl WmspFromVAlarmToWmspThread
 _027E6320:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027E632C: .word 0x027F9454
-_027E6330: .word sub_27E6334
-	arm_func_end sub_27E62F0
+_027E6330: .word WmspParentAdjustVSync
+	arm_func_end WmspParentVAlarmMP
 
-	arm_func_start sub_27E6334
-sub_27E6334: // 0x027E6334
+	arm_func_start WmspParentAdjustVSync
+WmspParentAdjustVSync: // 0x027E6334
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E6394 // =0x027F9454
 	ldr r4, [r0, #0x550]
@@ -7350,21 +7347,21 @@ _027E6370:
 	add r0, r0, #1
 	strh r0, [r4, #0xdc]
 _027E6378:
-	bl sub_27E66FC
+	bl WmspSetVTSF
 	ldrsh r0, [r4, #0x40]
-	ldr r1, _027E639C // =sub_27E62F0
+	ldr r1, _027E639C // =WmspParentVAlarmMP
 	mov r2, #5
-	bl sub_27E6754
+	bl WmspSetVAlarm
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E6394: .word 0x027F9454
 _027E6398: .word 0x04000006
-_027E639C: .word sub_27E62F0
-	arm_func_end sub_27E6334
+_027E639C: .word WmspParentVAlarmMP
+	arm_func_end WmspParentAdjustVSync
 
-	arm_func_start sub_27E63A0
-sub_27E63A0: // 0x027E63A0
+	arm_func_start WmspChildVAlarmMP
+WmspChildVAlarmMP: // 0x027E63A0
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E6498 // =0x027F9454
 	ldr r4, [r0, #0x550]
@@ -7372,9 +7369,9 @@ sub_27E63A0: // 0x027E63A0
 	cmp r0, #1
 	bne _027E6490
 	mov r0, #0xc8
-	ldr r1, _027E649C // =sub_27E64E8
+	ldr r1, _027E649C // =WmspChildAdjustVSync1
 	mov r2, #1
-	bl sub_27E6754
+	bl WmspSetVAlarm
 	ldr r2, [r4, #0x7b8]
 	ldr r1, [r4, #0x7bc]
 	mov r0, #0
@@ -7399,7 +7396,7 @@ sub_27E63A0: // 0x027E63A0
 	bls _027E648C
 	str r2, [r4, #0x738]
 	str r2, [r4, #0x73c]
-	bl sub_27E0134
+	bl WMSP_GetInternalRequestBuf
 	movs r1, r0
 	moveq r0, #0
 	beq _027E6458
@@ -7426,40 +7423,40 @@ _027E6458:
 	bl WMSP_ReturnResult2Wm9
 	b _027E6490
 _027E648C:
-	bl sub_27E6238
+	bl WmspFromVAlarmToWmspThread
 _027E6490:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E6498: .word 0x027F9454
-_027E649C: .word sub_27E64E8
+_027E649C: .word WmspChildAdjustVSync1
 _027E64A0: .word 0x00008001
 _027E64A4: .word 0x027F84DC
-	arm_func_end sub_27E63A0
+	arm_func_end WmspChildVAlarmMP
 
-	arm_func_start sub_27E64A8
-sub_27E64A8: // 0x027E64A8
+	arm_func_start WmspChildAdjustVSync2
+WmspChildAdjustVSync2: // 0x027E64A8
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E64E0 // =0x027F9454
 	ldr r4, [r0, #0x550]
-	bl sub_27E6568
+	bl WmspExpendVRemain
 	ldr r0, [r4, #0xd8]
 	cmp r0, #0x7f
 	movhs r0, #0
 	strhs r0, [r4, #0x1c]
 	ldrsh r0, [r4, #0x42]
-	ldr r1, _027E64E4 // =sub_27E63A0
+	ldr r1, _027E64E4 // =WmspChildVAlarmMP
 	mov r2, #4
-	bl sub_27E6754
+	bl WmspSetVAlarm
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E64E0: .word 0x027F9454
-_027E64E4: .word sub_27E63A0
-	arm_func_end sub_27E64A8
+_027E64E4: .word WmspChildVAlarmMP
+	arm_func_end WmspChildAdjustVSync2
 
-	arm_func_start sub_27E64E8
-sub_27E64E8: // 0x027E64E8
+	arm_func_start WmspChildAdjustVSync1
+WmspChildAdjustVSync1: // 0x027E64E8
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E6558 // =0x027F9454
 	ldr r4, [r0, #0x550]
@@ -7471,35 +7468,35 @@ sub_27E64E8: // 0x027E64E8
 	cmp r0, r1
 	beq _027E6518
 	str r1, [r4, #0xd4]
-	bl sub_27E65FC
+	bl WmspCalcVRemain
 _027E6518:
 	ldr r0, [r4, #0xd8]
 	cmp r0, #0x7f
 	bls _027E6538
 	mov r0, #0xd0
-	ldr r1, _027E6560 // =sub_27E64A8
+	ldr r1, _027E6560 // =WmspChildAdjustVSync2
 	mov r2, #2
-	bl sub_27E6754
+	bl WmspSetVAlarm
 	b _027E6550
 _027E6538:
 	mov r0, #1
 	str r0, [r4, #0x1c]
 	ldrsh r0, [r4, #0x42]
-	ldr r1, _027E6564 // =sub_27E63A0
+	ldr r1, _027E6564 // =WmspChildVAlarmMP
 	mov r2, #4
-	bl sub_27E6754
+	bl WmspSetVAlarm
 _027E6550:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E6558: .word 0x027F9454
 _027E655C: .word 0x0380FFF0
-_027E6560: .word sub_27E64A8
-_027E6564: .word sub_27E63A0
-	arm_func_end sub_27E64E8
+_027E6560: .word WmspChildAdjustVSync2
+_027E6564: .word WmspChildVAlarmMP
+	arm_func_end WmspChildAdjustVSync1
 
-	arm_func_start sub_27E6568
-sub_27E6568: // 0x027E6568
+	arm_func_start WmspExpendVRemain
+WmspExpendVRemain: // 0x027E6568
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027E65F4 // =0x027F9454
@@ -7542,10 +7539,10 @@ _027E65E8:
 	.align 2, 0
 _027E65F4: .word 0x027F9454
 _027E65F8: .word 0x04000006
-	arm_func_end sub_27E6568
+	arm_func_end WmspExpendVRemain
 
-	arm_func_start sub_27E65FC
-sub_27E65FC: // 0x027E65FC
+	arm_func_start WmspCalcVRemain
+WmspCalcVRemain: // 0x027E65FC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027E66DC // =0x027F9454
@@ -7615,10 +7612,10 @@ _027E66EC: .word 0x003FFFC0
 _027E66F0: .word 0x00000107
 _027E66F4: .word 0x0000414B
 _027E66F8: .word 0x0000400E
-	arm_func_end sub_27E65FC
+	arm_func_end WmspCalcVRemain
 
-	arm_func_start sub_27E66FC
-sub_27E66FC: // 0x027E66FC
+	arm_func_start WmspSetVTSF
+WmspSetVTSF: // 0x027E66FC
 	ldr r0, _027E6744 // =0x04000006
 	ldrh ip, [r0]
 	ldr r2, _027E6748 // =0x048080F8
@@ -7642,10 +7639,10 @@ _027E6744: .word 0x04000006
 _027E6748: .word 0x048080F8
 _027E674C: .word 0x048080FA
 _027E6750: .word 0x0380FFF0
-	arm_func_end sub_27E66FC
+	arm_func_end WmspSetVTSF
 
-	arm_func_start sub_27E6754
-sub_27E6754: // 0x027E6754
+	arm_func_start WmspSetVAlarm
+WmspSetVAlarm: // 0x027E6754
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov ip, r0
@@ -7661,10 +7658,10 @@ sub_27E6754: // 0x027E6754
 	.align 2, 0
 _027E6784: .word 0x0380BDC8
 _027E6788: .word 0x00000107
-	arm_func_end sub_27E6754
+	arm_func_end WmspSetVAlarm
 
-	arm_func_start sub_27E678C
-sub_27E678C: // 0x027E678C
+	arm_func_start WMSP_SetVAlarm
+WMSP_SetVAlarm: // 0x027E678C
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E680C // =0x027F9454
 	ldr r4, [r0, #0x550]
@@ -7678,9 +7675,9 @@ sub_27E678C: // 0x027E678C
 	bl OS_CancelVAlarm
 _027E67B8:
 	mov r0, #0xd1
-	ldr r1, _027E6814 // =sub_27E6334
+	ldr r1, _027E6814 // =WmspParentAdjustVSync
 	mov r2, #3
-	bl sub_27E6754
+	bl WmspSetVAlarm
 	b _027E6804
 _027E67CC:
 	cmp r1, #2
@@ -7693,9 +7690,9 @@ _027E67CC:
 	bl OS_CancelVAlarm
 _027E67EC:
 	mov r0, #0xc8
-	ldr r1, _027E6818 // =sub_27E64E8
+	ldr r1, _027E6818 // =WmspChildAdjustVSync1
 	mov r2, #1
-	bl sub_27E6754
+	bl WmspSetVAlarm
 	mov r0, #0
 	str r0, [r4, #0xd8]
 _027E6804:
@@ -7704,32 +7701,32 @@ _027E6804:
 	.align 2, 0
 _027E680C: .word 0x027F9454
 _027E6810: .word 0x0380BDC8
-_027E6814: .word sub_27E6334
-_027E6818: .word sub_27E64E8
-	arm_func_end sub_27E678C
+_027E6814: .word WmspParentAdjustVSync
+_027E6818: .word WmspChildAdjustVSync1
+	arm_func_end WMSP_SetVAlarm
 
-	arm_func_start sub_27E681C
-sub_27E681C: // 0x027E681C
+	arm_func_start WMSP_CancelVAlarm
+WMSP_CancelVAlarm: // 0x027E681C
 	ldr r0, _027E6828 // =0x0380BDC8
 	ldr ip, _027E682C // =OS_CancelVAlarm
 	bx ip
 	.align 2, 0
 _027E6828: .word 0x0380BDC8
 _027E682C: .word OS_CancelVAlarm
-	arm_func_end sub_27E681C
+	arm_func_end WMSP_CancelVAlarm
 
-	arm_func_start sub_27E6830
-sub_27E6830: // 0x027E6830
+	arm_func_start WMSP_InitVAlarm
+WMSP_InitVAlarm: // 0x027E6830
 	ldr r0, _027E683C // =0x0380BDC8
 	ldr ip, _027E6840 // =OS_CreateVAlarm
 	bx ip
 	.align 2, 0
 _027E683C: .word 0x0380BDC8
 _027E6840: .word OS_CreateVAlarm
-	arm_func_end sub_27E6830
+	arm_func_end WMSP_InitVAlarm
 
-	arm_func_start sub_27E6844
-sub_27E6844: // 0x027E6844
+	arm_func_start WMSP_KickNextMP_Resume
+WMSP_KickNextMP_Resume: // 0x027E6844
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _027E687C // =0x027F9454
@@ -7740,17 +7737,17 @@ sub_27E6844: // 0x027E6844
 	ldr r0, [r0, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27E79D0
+	bl WMSP_ResumeMaMP
 _027E6870:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027E687C: .word 0x027F9454
-	arm_func_end sub_27E6844
+	arm_func_end WMSP_KickNextMP_Resume
 
-	arm_func_start sub_27E6880
-sub_27E6880: // 0x027E6880
+	arm_func_start WMSP_KickNextMP_Child
+WMSP_KickNextMP_Child: // 0x027E6880
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027E68AC // =0x027F9454
@@ -7758,17 +7755,17 @@ sub_27E6880: // 0x027E6880
 	ldrh r0, [r0]
 	cmp r0, #0xa
 	bne _027E68A0
-	bl sub_27E7CD4
+	bl WMSP_SendMaKeyData
 _027E68A0:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027E68AC: .word 0x027F9454
-	arm_func_end sub_27E6880
+	arm_func_end WMSP_KickNextMP_Child
 
-	arm_func_start sub_27E68B0
-sub_27E68B0: // 0x027E68B0
+	arm_func_start WMSP_KickNextMP_Parent
+WMSP_KickNextMP_Parent: // 0x027E68B0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _027E68E8 // =0x027F9454
@@ -7779,17 +7776,17 @@ sub_27E68B0: // 0x027E68B0
 	ldr r0, [r0, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27E7AD4
+	bl WMSP_SendMaMP
 _027E68DC:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027E68E8: .word 0x027F9454
-	arm_func_end sub_27E68B0
+	arm_func_end WMSP_KickNextMP_Parent
 
-	arm_func_start sub_27E68EC
-sub_27E68EC: // 0x027E68EC
+	arm_func_start WMSP_VAlarmSetMPData
+WMSP_VAlarmSetMPData: // 0x027E68EC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _027E6A8C // =0x027F9454
@@ -7811,8 +7808,8 @@ sub_27E68EC: // 0x027E68EC
 	streqh r0, [r4, #0xbe]
 	ldrh r0, [r4, #0xbe]
 	and r0, r0, #0xff
-	bl sub_27E0374
-	bl sub_27E0300
+	bl WMSP_AddRssiToList
+	bl WMSP_GetAverageLinkLevel
 	strh r0, [r4, #0xbc]
 	ldr r0, _027E6A90 // =0x0000FFFF
 	strh r0, [r4, #0xbe]
@@ -7869,7 +7866,7 @@ _027E6A04:
 	cmp r5, #0
 	beq _027E6A18
 	ldr r0, _027E6A90 // =0x0000FFFF
-	bl sub_27E7AD4
+	bl WMSP_SendMaMP
 _027E6A18:
 	ldrh r0, [r4, #0x92]
 	cmp r0, #1
@@ -7897,7 +7894,7 @@ _027E6A4C:
 	bl OS_RestoreInterrupts
 	cmp r5, #1
 	bne _027E6A80
-	bl sub_27E7CD4
+	bl WMSP_SendMaKeyData
 _027E6A80:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
@@ -7905,10 +7902,10 @@ _027E6A80:
 	.align 2, 0
 _027E6A8C: .word 0x027F9454
 _027E6A90: .word 0x0000FFFF
-	arm_func_end sub_27E68EC
+	arm_func_end WMSP_VAlarmSetMPData
 
-	arm_func_start sub_27E6A94
-sub_27E6A94: // 0x027E6A94
+	arm_func_start WmspGetTmptt
+WmspGetTmptt: // 0x027E6A94
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -7957,10 +7954,10 @@ _027E6B38: .word 0x00007FFF
 _027E6B3C: .word 0x04000006
 _027E6B40: .word 0x00000107
 _027E6B44: .word 0x66666667
-	arm_func_end sub_27E6A94
+	arm_func_end WmspGetTmptt
 
-	arm_func_start sub_27E6B48
-sub_27E6B48: // 0x027E6B48
+	arm_func_start WMSP_ParsePortPacket
+WMSP_ParsePortPacket: // 0x027E6B48
 	stmdb sp!, {r0, r1, r2, r3}
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x2c
@@ -8133,10 +8130,10 @@ _027E6DC4:
 	.align 2, 0
 _027E6DDC: .word 0x027F9454
 _027E6DE0: .word 0x0000FFFF
-	arm_func_end sub_27E6B48
+	arm_func_end WMSP_ParsePortPacket
 
-	arm_func_start sub_27E6DE4
-sub_27E6DE4: // 0x027E6DE4
+	arm_func_start WMSP_CleanSendQueue
+WMSP_CleanSendQueue: // 0x027E6DE4
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	ldr r1, _027E6FE4 // =0x027F9454
@@ -8275,10 +8272,10 @@ _027E6FE4: .word 0x027F9454
 _027E6FE8: .word 0x0000071C
 _027E6FEC: .word 0x0000070C
 _027E6FF0: .word 0x0000FFFF
-	arm_func_end sub_27E6DE4
+	arm_func_end WMSP_CleanSendQueue
 
-	arm_func_start sub_27E6FF4
-sub_27E6FF4: // 0x027E6FF4
+	arm_func_start WMSP_FlushSendQueue
+WMSP_FlushSendQueue: // 0x027E6FF4
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x2c
 	str r0, [sp]
@@ -8500,10 +8497,10 @@ _027E7328: .word 0x027F9454
 _027E732C: .word 0x0000071C
 _027E7330: .word 0x000006FC
 _027E7334: .word 0x0000FFFF
-	arm_func_end sub_27E6FF4
+	arm_func_end WMSP_FlushSendQueue
 
-	arm_func_start sub_27E7338
-sub_27E7338: // 0x027E7338
+	arm_func_start WMSP_PutSendQueue
+WMSP_PutSendQueue: // 0x027E7338
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r8, r0
@@ -8593,10 +8590,10 @@ _027E7484: .word 0x027F9454
 _027E7488: .word 0x0000070C
 _027E748C: .word 0x0000071C
 _027E7490: .word 0x0000FFFF
-	arm_func_end sub_27E7338
+	arm_func_end WMSP_PutSendQueue
 
-	arm_func_start sub_27E7494
-sub_27E7494: // 0x027E7494
+	arm_func_start WmspMakePortPacket
+WmspMakePortPacket: // 0x027E7494
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x64
 	mov r10, r3
@@ -8950,10 +8947,10 @@ _027E79C0: .word 0x0000070C
 _027E79C4: .word 0x000006FC
 _027E79C8: .word 0x0000FFFF
 _027E79CC: .word 0x00007FFF
-	arm_func_end sub_27E7494
+	arm_func_end WmspMakePortPacket
 
-	arm_func_start sub_27E79D0
-sub_27E79D0: // 0x027E79D0
+	arm_func_start WMSP_ResumeMaMP
+WMSP_ResumeMaMP: // 0x027E79D0
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x218
 	mov r7, r0
@@ -8979,7 +8976,7 @@ sub_27E79D0: // 0x027E79D0
 	bge _027E7A44
 	mov r0, #2
 	bl OS_Sleep
-	bl sub_27E1838
+	bl WMSP_RequestResumeMP
 	add sp, sp, #0x218
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
@@ -8995,7 +8992,7 @@ _027E7A5C:
 	ldrh r1, [r4, #0x6c]
 	mov r2, r7
 	ldrh r3, [r4, #0x40]
-	bl sub_27E6A94
+	bl WmspGetTmptt
 	orr r5, r5, #0x8000
 	b _027E7A80
 _027E7A78:
@@ -9016,7 +9013,7 @@ _027E7A80:
 	add r0, sp, #0x18
 	ldr r1, _027E7AD0 // =0x0000800C
 	mov r3, r2
-	bl sub_27E278C
+	bl WMSP_WL_MaMp
 	add sp, sp, #0x218
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
@@ -9024,10 +9021,10 @@ _027E7A80:
 _027E7AC8: .word 0x027F9454
 _027E7ACC: .word 0x048080F8
 _027E7AD0: .word 0x0000800C
-	arm_func_end sub_27E79D0
+	arm_func_end WMSP_ResumeMaMP
 
-	arm_func_start sub_27E7AD4
-sub_27E7AD4: // 0x027E7AD4
+	arm_func_start WMSP_SendMaMP
+WMSP_SendMaMP: // 0x027E7AD4
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x228
 	mov r8, r0
@@ -9056,7 +9053,7 @@ sub_27E7AD4: // 0x027E7AD4
 	mov r1, r7
 	mov r2, r6
 	add r3, sp, #0x18
-	bl sub_27E7494
+	bl WmspMakePortPacket
 	cmp r0, #1
 	moveq r0, #0
 	streqh r0, [r4, #0x62]
@@ -9081,7 +9078,7 @@ sub_27E7AD4: // 0x027E7AD4
 	mov r0, #0
 	mov r1, r8, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_27E6FF4
+	bl WMSP_FlushSendQueue
 	mov r0, #0
 	strh r0, [r4, #0x62]
 	strh r0, [r4, #0x64]
@@ -9100,7 +9097,7 @@ _027E7BDC:
 	mov r1, r6
 	mov r2, r8
 	ldrh r3, [r4, #0x40]
-	bl sub_27E6A94
+	bl WmspGetTmptt
 	mov r5, r0
 	ldrh r0, [sp, #0x18]
 	orr r0, r0, #0x8000
@@ -9147,7 +9144,7 @@ _027E7C4C:
 	mov r2, r1
 	mov r3, r6, lsl #0x10
 	mov r3, r3, lsr #0x10
-	bl sub_27E278C
+	bl WMSP_WL_MaMp
 	strh r8, [r4, #0x68]
 	ldrh r0, [sp, #0x18]
 	strh r0, [r4, #0x6a]
@@ -9162,10 +9159,10 @@ _027E7CC4: .word 0x027F9454
 _027E7CC8: .word 0x0000FFFF
 _027E7CCC: .word 0x000080D6
 _027E7CD0: .word 0x048080F8
-	arm_func_end sub_27E7AD4
+	arm_func_end WMSP_SendMaMP
 
-	arm_func_start sub_27E7CD4
-sub_27E7CD4: // 0x027E7CD4
+	arm_func_start WMSP_SendMaKeyData
+WMSP_SendMaKeyData: // 0x027E7CD4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x218
 	ldr r0, _027E7DA0 // =0x027F9454
@@ -9187,7 +9184,7 @@ sub_27E7CD4: // 0x027E7CD4
 	mov r1, r0
 	mov r2, r0
 	add r3, sp, #8
-	bl sub_27E7494
+	bl WmspMakePortPacket
 	cmp r0, #1
 	moveq r0, #0
 	streqh r0, [r4, #0x8a]
@@ -9205,7 +9202,7 @@ sub_27E7CD4: // 0x027E7CD4
 	mov r1, r1, lsr #0x10
 	ldrh r2, [sp, #8]
 	ldr r3, [r4, #0x7c]
-	bl sub_27E2828
+	bl WMSP_WL_MaKeyData
 	ldrh r0, [r0, #4]
 	cmp r0, #0
 	addeq sp, sp, #0x218
@@ -9219,10 +9216,10 @@ sub_27E7CD4: // 0x027E7CD4
 	bx lr
 	.align 2, 0
 _027E7DA0: .word 0x027F9454
-	arm_func_end sub_27E7CD4
+	arm_func_end WMSP_SendMaKeyData
 
-	arm_func_start sub_27E7DA4
-sub_27E7DA4: // 0x027E7DA4
+	arm_func_start WMSP_InitSendQueue
+WMSP_InitSendQueue: // 0x027E7DA4
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E7E58 // =0x027F9454
 	ldr r4, [r0, #0x550]
@@ -9274,10 +9271,10 @@ _027E7E14:
 _027E7E58: .word 0x027F9454
 _027E7E5C: .word 0x0000071C
 _027E7E60: .word 0x0000FFFF
-	arm_func_end sub_27E7DA4
+	arm_func_end WMSP_InitSendQueue
 
-	arm_func_start sub_27E7E64
-sub_27E7E64: // 0x027E7E64
+	arm_func_start WMSP_SetEntry
+WMSP_SetEntry: // 0x027E7E64
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x280
 	ldr r1, _027E7EF0 // =0x027F9454
@@ -9286,14 +9283,14 @@ sub_27E7E64: // 0x027E7E64
 	strh r0, [r4, #0xf6]
 	add r0, sp, #0x200
 	add r1, r4, #0xe8
-	bl sub_27E0504
+	bl WMSP_CopyParentParam
 	add r0, sp, #0
 	ldrh r1, [r4, #0xec]
 	add r1, r1, #0x10
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
 	add r2, sp, #0x200
-	bl sub_27E22B8
+	bl WMSP_WL_ParamSetGameInfo
 	mov r4, r0
 	bl WMSP_GetBuffer4Callback2Wm9
 	mov r1, #0x21
@@ -9317,10 +9314,10 @@ _027E7EE0:
 	.align 2, 0
 _027E7EF0: .word 0x027F9454
 _027E7EF4: .word 0x00000245
-	arm_func_end sub_27E7E64
+	arm_func_end WMSP_SetEntry
 
-	arm_func_start sub_27E7EF8
-sub_27E7EF8: // 0x027E7EF8
+	arm_func_start WMSP_AutoDeAuth
+WMSP_AutoDeAuth: // 0x027E7EF8
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x208
 	add r0, r0, #4
@@ -9336,7 +9333,7 @@ _027E7F24:
 	mov r0, r7
 	mov r1, r6
 	mov r2, r5
-	bl sub_27E2B2C
+	bl WMSP_WL_MlmeDeAuthenticate
 	mov r4, r0
 	ldrh r0, [r4, #4]
 	cmp r0, #0
@@ -9370,10 +9367,10 @@ _027E7F98:
 	add sp, sp, #0x208
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
-	arm_func_end sub_27E7EF8
+	arm_func_end WMSP_AutoDeAuth
 
-	arm_func_start sub_27E7FA8
-sub_27E7FA8: // 0x027E7FA8
+	arm_func_start WMSPi_CommonInit
+WMSPi_CommonInit: // 0x027E7FA8
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	ldr r0, _027E80F4 // =0x027F9454
@@ -9388,8 +9385,8 @@ sub_27E7FA8: // 0x027E7FA8
 	mov r0, r6
 	str r0, [r4, #0xc]
 	mov r6, #1
-	bl sub_27E681C
-	bl sub_27E0238
+	bl WMSP_CancelVAlarm
+	bl WMSP_SetThreadPriorityLow
 _027E7FE8:
 	mov r1, #0
 	add r0, r4, #0x100
@@ -9415,7 +9412,7 @@ _027E7FE8:
 	add r0, r4, #0x19c
 	mov r2, #0x50
 	bl MI_CpuFill8
-	bl sub_27E0100
+	bl WMSP_ResetSizeVars
 	mov r0, #0x104
 	strh r0, [r4, #0x40]
 	mov r0, #0xf0
@@ -9438,7 +9435,7 @@ _027E7FE8:
 	cmp r6, #0
 	beq _027E80A8
 	ldr r0, _027E80FC // =0x0000FFFF
-	bl sub_27E6DE4
+	bl WMSP_CleanSendQueue
 _027E80A8:
 	mov r2, #0
 	mov r1, #0x8000
@@ -9452,11 +9449,11 @@ _027E80B0:
 	add r1, r4, #0x1f8
 	mov r2, #0x100
 	bl MIi_CpuClear16
-	bl sub_27E08E4
+	bl WMSP_InitAlarm
 	ldr r0, _027E8100 // =0x0000071C
 	add r0, r4, r0
 	bl OS_InitMutex
-	bl sub_27E6830
+	bl WMSP_InitVAlarm
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
@@ -9465,10 +9462,10 @@ _027E80F4: .word 0x027F9454
 _027E80F8: .word 0x0000020B
 _027E80FC: .word 0x0000FFFF
 _027E8100: .word 0x0000071C
-	arm_func_end sub_27E7FA8
+	arm_func_end WMSPi_CommonInit
 
-	arm_func_start sub_27E8104
-sub_27E8104: // 0x027E8104
+	arm_func_start WMSP_Enable
+WMSP_Enable: // 0x027E8104
 	stmdb sp!, {r4, lr}
 	ldr r4, [r0, #4]
 	ldr r1, _027E8160 // =0x027F9454
@@ -9478,7 +9475,7 @@ sub_27E8104: // 0x027E8104
 	str r2, [r4]
 	ldr r0, [r0, #0xc]
 	str r0, [r4, #8]
-	bl sub_27E7FA8
+	bl WMSPi_CommonInit
 	mov r0, #0xf
 	bl PM_SetLEDPattern
 	mov r1, #1
@@ -9494,10 +9491,10 @@ sub_27E8104: // 0x027E8104
 	bx lr
 	.align 2, 0
 _027E8160: .word 0x027F9454
-	arm_func_end sub_27E8104
+	arm_func_end WMSP_Enable
 
-	arm_func_start sub_27E8164
-sub_27E8164: // 0x027E8164
+	arm_func_start WMSP_Disable
+WMSP_Disable: // 0x027E8164
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E81C8 // =0x027F9454
 	ldr r4, [r0, #0x550]
@@ -9527,10 +9524,10 @@ _027E81C0:
 	bx lr
 	.align 2, 0
 _027E81C8: .word 0x027F9454
-	arm_func_end sub_27E8164
+	arm_func_end WMSP_Disable
 
-	arm_func_start sub_27E81CC
-sub_27E81CC: // 0x027E81CC
+	arm_func_start WmspStabilizeBeacon
+WmspStabilizeBeacon: // 0x027E81CC
 	mov r1, #0xc8
 	ldr r0, _027E81F4 // =0x04808124
 	strh r1, [r0]
@@ -9546,10 +9543,10 @@ _027E81F4: .word 0x04808124
 _027E81F8: .word 0x04808128
 _027E81FC: .word 0x00000202
 _027E8200: .word 0x04808150
-	arm_func_end sub_27E81CC
+	arm_func_end WmspStabilizeBeacon
 
-	arm_func_start sub_27E8204
-sub_27E8204: // 0x027E8204
+	arm_func_start WMSPi_CommonWlIdle
+WMSPi_CommonWlIdle: // 0x027E8204
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x204
 	mov r7, r0
@@ -9557,7 +9554,7 @@ sub_27E8204: // 0x027E8204
 	ldr r0, _027E83D4 // =0x027F9454
 	ldr r5, [r0, #0x550]
 	add r0, sp, #0
-	bl sub_27E2218
+	bl WMSP_WL_DevRestart
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E8248
@@ -9569,7 +9566,7 @@ sub_27E8204: // 0x027E8204
 	b _027E83C8
 _027E8248:
 	add r0, sp, #0
-	bl sub_27E2244
+	bl WMSP_WL_DevIdle
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E8274
@@ -9580,9 +9577,9 @@ _027E8248:
 	mov r0, #0
 	b _027E83C8
 _027E8274:
-	bl sub_27E81CC
+	bl WmspStabilizeBeacon
 	add r0, sp, #0
-	bl sub_27E2288
+	bl WMSP_WL_ParamGetEnableChannel
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E82A4
@@ -9605,7 +9602,7 @@ _027E82A4:
 	ldr r1, _027E83E0 // =0x0000FFFF
 	mov r2, #0x28
 	mov r3, #5
-	bl sub_27E24C8
+	bl WMSP_WL_ParamSetLifeTime
 	ldr r1, _027E83E4 // =0x001FF621
 	mov r0, #0
 	str r1, [r5, #0x7b8]
@@ -9616,7 +9613,7 @@ _027E82A4:
 	mov r1, #1
 	strh r1, [r0, #0xee]
 	add r0, sp, #0
-	bl sub_27E21E8
+	bl WMSP_WL_DevGetVersion
 	mov r4, r0
 	ldrh r0, [r4, #4]
 	cmp r0, #0
@@ -9641,7 +9638,7 @@ _027E832C:
 	ldrh r0, [r4, #0x14]
 	strh r0, [r5, #0x2a]
 	add r0, sp, #0
-	bl sub_27E22A0
+	bl WMSP_WL_ParamGetMacAddress
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E8388
@@ -9658,7 +9655,7 @@ _027E8388:
 	bl MI_CpuCopy8
 	add r0, sp, #0
 	mov r1, #1
-	bl sub_27E2408
+	bl WMSP_WL_ParamSetBeaconSendRecvInd
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	moveq r0, #1
@@ -9681,10 +9678,10 @@ _027E83E4: .word 0x001FF621
 _027E83E8: .word 0x00000306
 _027E83EC: .word 0x00000281
 _027E83F0: .word 0x00000215
-	arm_func_end sub_27E8204
+	arm_func_end WMSPi_CommonWlIdle
 
-	arm_func_start sub_27E83F4
-sub_27E83F4: // 0x027E83F4
+	arm_func_start WMSP_PowerOn
+WMSP_PowerOn: // 0x027E83F4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r0, _027E8498 // =0x027F9454
@@ -9702,7 +9699,7 @@ sub_27E83F4: // 0x027E83F4
 _027E842C:
 	add r0, sp, #0
 	add r1, sp, #2
-	bl sub_27E8204
+	bl WMSPi_CommonWlIdle
 	cmp r0, #0
 	bne _027E846C
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -9731,10 +9728,10 @@ _027E848C:
 	bx lr
 	.align 2, 0
 _027E8498: .word 0x027F9454
-	arm_func_end sub_27E83F4
+	arm_func_end WMSP_PowerOn
 
-	arm_func_start sub_27E849C
-sub_27E849C: // 0x027E849C
+	arm_func_start WMSP_PowerOff
+WMSP_PowerOff: // 0x027E849C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x204
 	ldr r0, _027E8544 // =0x027F9454
@@ -9751,7 +9748,7 @@ sub_27E849C: // 0x027E849C
 	b _027E8538
 _027E84D4:
 	add r0, sp, #0
-	bl sub_27E225C
+	bl WMSP_WL_DevShutdown
 	mov r4, r0
 	ldrh r0, [r4, #4]
 	cmp r0, #0
@@ -9783,10 +9780,10 @@ _027E8538:
 	.align 2, 0
 _027E8544: .word 0x027F9454
 _027E8548: .word 0x00000301
-	arm_func_end sub_27E849C
+	arm_func_end WMSP_PowerOff
 
-	arm_func_start sub_27E854C
-sub_27E854C: // 0x027E854C
+	arm_func_start WMSP_SetMPParameterCore
+WMSP_SetMPParameterCore: // 0x027E854C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r9, r0
@@ -9879,7 +9876,7 @@ _027E867C:
 	cmp r2, r1
 	movhi r6, #6
 	bhi _027E86AC
-	bl sub_27E0030
+	bl WMSP_SetParentSize
 _027E86AC:
 	ands r0, r5, #0x10
 	beq _027E86DC
@@ -9892,7 +9889,7 @@ _027E86AC:
 	cmp r2, r1
 	movhi r6, #6
 	bhi _027E86DC
-	bl sub_27E0000
+	bl SDK_AUTOLOAD_MAIN_START
 _027E86DC:
 	ands r0, r5, #0x20
 	beq _027E8730
@@ -9998,16 +9995,16 @@ _027E8848: .word 0x00003FFF
 _027E884C: .word 0x00002710
 _027E8850: .word 0x000082EA
 _027E8854: .word 0x00000106
-	arm_func_end sub_27E854C
+	arm_func_end WMSP_SetMPParameterCore
 
-	arm_func_start sub_27E8858
-sub_27E8858: // 0x027E8858
+	arm_func_start WMSP_SetMPParameter
+WMSP_SetMPParameter: // 0x027E8858
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x20
 	mov r6, r0
 	add r0, r6, #4
 	add r1, sp, #0
-	bl sub_27E854C
+	bl WMSP_SetMPParameterCore
 	mov r5, r0
 	bl WMSP_GetBuffer4Callback2Wm9
 	mov r4, r0
@@ -10025,10 +10022,10 @@ sub_27E8858: // 0x027E8858
 	add sp, sp, #0x20
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
-	arm_func_end sub_27E8858
+	arm_func_end WMSP_SetMPParameter
 
-	arm_func_start sub_27E88B4
-sub_27E88B4: // 0x027E88B4
+	arm_func_start WmspError_17
+WmspError_17: // 0x027E88B4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -10044,10 +10041,10 @@ sub_27E88B4: // 0x027E88B4
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27E88B4
+	arm_func_end WmspError_17
 
-	arm_func_start sub_27E88F0
-sub_27E88F0: // 0x027E88F0
+	arm_func_start WMSP_SetBeaconPeriod
+WMSP_SetBeaconPeriod: // 0x027E88F0
 	stmdb sp!, {lr}
 	sub sp, sp, #0x204
 	mov r1, r0
@@ -10055,12 +10052,12 @@ sub_27E88F0: // 0x027E88F0
 	ldr r1, [r1, #4]
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_27E2348
+	bl WMSP_WL_ParamSetBeaconPeriod
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E8928
 	ldr r0, _027E894C // =0x00000242
-	bl sub_27E88B4
+	bl WmspError_17
 	b _027E8940
 _027E8928:
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -10075,20 +10072,20 @@ _027E8940:
 	bx lr
 	.align 2, 0
 _027E894C: .word 0x00000242
-	arm_func_end sub_27E88F0
+	arm_func_end WMSP_SetBeaconPeriod
 
-	arm_func_start sub_27E8950
-sub_27E8950: // 0x027E8950
+	arm_func_start WMSP_AutoDisconnect
+WMSP_AutoDisconnect: // 0x027E8950
 	mov r1, #1
 	mov r2, #0
-	ldr ip, _027E8960 // =sub_27E4BDC
+	ldr ip, _027E8960 // =WMSP_DisconnectCore
 	bx ip
 	.align 2, 0
-_027E8960: .word sub_27E4BDC
-	arm_func_end sub_27E8950
+_027E8960: .word WMSP_DisconnectCore
+	arm_func_end WMSP_AutoDisconnect
 
-	arm_func_start sub_27E8964
-sub_27E8964: // 0x027E8964
+	arm_func_start WMSP_SetPowerSaveMode
+WMSP_SetPowerSaveMode: // 0x027E8964
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x234
 	mov r7, r0
@@ -10116,7 +10113,7 @@ _027E89A8:
 	mov r1, r1, lsr #0x10
 	mov r2, #0
 	mov r3, #1
-	bl sub_27E2D74
+	bl WMSP_WL_MlmePowerManagement
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E89FC
@@ -10166,7 +10163,7 @@ _027E89FC:
 	add r0, sp, #0x30
 	str r0, [sp, #0x2c]
 	add r1, sp, #0
-	bl sub_27E2894
+	bl WMSP_WL_MaData
 	ldrh r1, [r0, #4]
 	cmp r1, #0
 	beq _027E8AC4
@@ -10191,10 +10188,10 @@ _027E8AD4:
 	.align 2, 0
 _027E8AE0: .word 0x027F9454
 _027E8AE4: .word 0x0000018A
-	arm_func_end sub_27E8964
+	arm_func_end WMSP_SetPowerSaveMode
 
-	arm_func_start sub_27E8AE8
-sub_27E8AE8: // 0x027E8AE8
+	arm_func_start WMSP_StartTestRxMode
+WMSP_StartTestRxMode: // 0x027E8AE8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -10206,10 +10203,10 @@ sub_27E8AE8: // 0x027E8AE8
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27E8AE8
+	arm_func_end WMSP_StartTestRxMode
 
-	arm_func_start sub_27E8B14
-sub_27E8B14: // 0x027E8B14
+	arm_func_start WMSP_StopTestRxMode
+WMSP_StopTestRxMode: // 0x027E8B14
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	bl WMSP_GetBuffer4Callback2Wm9
@@ -10221,20 +10218,20 @@ sub_27E8B14: // 0x027E8B14
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27E8B14
+	arm_func_end WMSP_StopTestRxMode
 
-	arm_func_start sub_27E8B40
-sub_27E8B40: // 0x027E8B40
+	arm_func_start WL_GetThreadStruct
+WL_GetThreadStruct: // 0x027E8B40
 	ldr r0, _027E8B50 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x18
 	bx lr
 	.align 2, 0
 _027E8B50: .word 0x0380FFF4
-	arm_func_end sub_27E8B40
+	arm_func_end WL_GetThreadStruct
 
-	arm_func_start sub_27E8B54
-sub_27E8B54: // 0x027E8B54
+	arm_func_start WL_InitDriver
+WL_InitDriver: // 0x027E8B54
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x10
 	mov r4, r0
@@ -10261,8 +10258,8 @@ sub_27E8B54: // 0x027E8B54
 	mvneq r0, #0
 	streq r0, [r1, #0x310]
 	add r0, r4, #0x20
-	bl sub_27E8EC0
-	bl sub_27F58E4
+	bl InitializeHeapBuf
+	bl FLASH_MakeImage
 	ldr r1, _027E8D20 // =0x04000304
 	ldrh r0, [r1]
 	orr r0, r0, #2
@@ -10279,13 +10276,13 @@ sub_27E8B54: // 0x027E8B54
 	ldr r3, [r2]
 	ldr r2, _027E8D28 // =0x00000692
 	add r2, r3, r2
-	bl sub_27F5A28
+	bl FLASH_Read
 	mov r0, #0x3e
 	mov r1, #2
 	ldr r2, _027E8D18 // =0x0380FFF4
 	ldr r2, [r2]
 	add r2, r2, #0x690
-	bl sub_27F5A28
+	bl FLASH_Read
 	ldr r1, [r4, #0x10]
 	ldr r2, _027E8D18 // =0x0380FFF4
 	ldr r0, [r2]
@@ -10298,14 +10295,14 @@ sub_27E8B54: // 0x027E8B54
 	bl _u32_div_f
 	mov r1, r0
 	ldr r0, [r4, #0x2c]
-	bl sub_27EB50C
-	bl sub_27E8D84
-	bl sub_27ECA64
-	bl sub_27ECAF0
-	bl sub_27EBE50
-	bl sub_27E98B4
+	bl InitializeParam
+	bl InitializeTask
+	bl InitializeCmdIf
+	bl InitializeMLME
+	bl InitializeCAM
+	bl InitializeAlarm
 	add r0, sp, #8
-	bl sub_27F5AC8
+	bl FLASH_VerifyCheckSum
 	cmp r0, #0
 	beq _027E8C94
 	ldr r0, _027E8D18 // =0x0380FFF4
@@ -10316,16 +10313,16 @@ sub_27E8B54: // 0x027E8B54
 	strh r1, [r0, #0x3e]
 	b _027E8CBC
 _027E8C94:
-	bl sub_27E9B48
-	bl sub_27EBA08
-	bl sub_27EA4AC
-	bl sub_27E9B10
-	bl sub_27E9910
-	bl sub_27EB884
-	bl sub_27EB58C
-	bl sub_27E9AA0
-	bl sub_27EA9E0
-	bl sub_27EA540
+	bl WConfigDevice
+	bl DiagMacRegister
+	bl WWakeUp
+	bl InitMac
+	bl InitRF
+	bl DiagMacMemory
+	bl DiagBaseBand
+	bl InitBaseBand
+	bl WSetDefaultParameters
+	bl WShutdown
 _027E8CBC:
 	ldr r0, [r4, #8]
 	str r0, [sp]
@@ -10334,7 +10331,7 @@ _027E8CBC:
 	ldr r0, _027E8D18 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x18
-	ldr r1, _027E8D2C // =sub_37F8538
+	ldr r1, _027E8D2C // =MainTaskRoutine
 	mov r2, #0
 	ldr r3, [r4, #4]
 	bl OS_CreateThread
@@ -10342,7 +10339,7 @@ _027E8CBC:
 	ldr r0, [r0]
 	add r0, r0, #0x18
 	bl OS_WakeupThreadDirect
-	bl sub_27EBBDC
+	bl InitializeIntr
 	ldr r0, _027E8D18 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x300
@@ -10356,37 +10353,37 @@ _027E8D1C: .word 0x00000694
 _027E8D20: .word 0x04000304
 _027E8D24: .word 0x04000206
 _027E8D28: .word 0x00000692
-_027E8D2C: .word sub_37F8538
-	arm_func_end sub_27E8B54
+_027E8D2C: .word MainTaskRoutine
+	arm_func_end WL_InitDriver
 
-	arm_func_start sub_27E8D30
-sub_27E8D30: // 0x027E8D30
+	arm_func_start WlessLibReboot
+WlessLibReboot: // 0x027E8D30
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_27E961C
-	bl sub_27EA540
-	bl sub_27E9B10
-	bl sub_27E8E64
-	bl sub_27E8D84
+	bl ClearTimeOut
+	bl WShutdown
+	bl InitMac
+	bl ReleaseAllWlHeapBuf
+	bl InitializeTask
 	ldr r0, _027E8D80 // =0x0380FFF4
 	ldr r1, [r0]
 	ldr r0, [r1, #0x31c]
 	add r1, r1, #0x300
 	ldrh r1, [r1, #0x20]
-	bl sub_27EB50C
-	bl sub_27ECA64
-	bl sub_27ECAF0
-	bl sub_27EBE50
-	bl sub_27EA9E0
+	bl InitializeParam
+	bl InitializeCmdIf
+	bl InitializeMLME
+	bl InitializeCAM
+	bl WSetDefaultParameters
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027E8D80: .word 0x0380FFF4
-	arm_func_end sub_27E8D30
+	arm_func_end WlessLibReboot
 
-	arm_func_start sub_27E8D84
-sub_27E8D84: // 0x027E8D84
+	arm_func_start InitializeTask
+InitializeTask: // 0x027E8D84
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E8E04 // =0x0380FFF4
 	ldr r4, [r0]
@@ -10418,17 +10415,17 @@ _027E8DD0:
 	blo _027E8DD0
 	mov r0, #3
 	mov r1, #0xc
-	bl sub_37F85F8
+	bl AddTask
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E8E04: .word 0x0380FFF4
 _027E8E08: .word 0x0000FFFF
 _027E8E0C: .word 0x027F7E14
-	arm_func_end sub_27E8D84
+	arm_func_end InitializeTask
 
-	arm_func_start sub_27E8E10
-sub_27E8E10: // 0x027E8E10
+	arm_func_start ReleaseAllHeapBuf
+ReleaseAllHeapBuf: // 0x027E8E10
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -10440,11 +10437,11 @@ sub_27E8E10: // 0x027E8E10
 	b _027E8E50
 _027E8E34:
 	mov r0, r6
-	bl sub_37F8B44
+	bl GetHeapBufNextAdrs
 	mov r5, r0
 	mov r0, r7
 	mov r1, r6
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 	mov r6, r5
 _027E8E50:
 	cmp r6, r4
@@ -10453,38 +10450,38 @@ _027E8E58:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
-	arm_func_end sub_27E8E10
+	arm_func_end ReleaseAllHeapBuf
 
-	arm_func_start sub_27E8E64
-sub_27E8E64: // 0x027E8E64
+	arm_func_start ReleaseAllWlHeapBuf
+ReleaseAllWlHeapBuf: // 0x027E8E64
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E8EBC // =0x0380FFF4
 	ldr r0, [r0]
 	add r4, r0, #0x17c
 	add r0, r4, #0x18
-	bl sub_27E8E10
+	bl ReleaseAllHeapBuf
 	add r0, r4, #0x24
-	bl sub_27E8E10
+	bl ReleaseAllHeapBuf
 	add r0, r4, #0x30
-	bl sub_27E8E10
+	bl ReleaseAllHeapBuf
 	add r0, r4, #0x3c
-	bl sub_27E8E10
+	bl ReleaseAllHeapBuf
 	add r0, r4, #0x48
-	bl sub_27E8E10
+	bl ReleaseAllHeapBuf
 	add r0, r4, #0x54
-	bl sub_27E8E10
+	bl ReleaseAllHeapBuf
 	add r0, r4, #0x60
-	bl sub_27E8E10
+	bl ReleaseAllHeapBuf
 	add r0, r4, #0x6c
-	bl sub_27E8E10
+	bl ReleaseAllHeapBuf
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E8EBC: .word 0x0380FFF4
-	arm_func_end sub_27E8E64
+	arm_func_end ReleaseAllWlHeapBuf
 
-	arm_func_start sub_27E8EC0
-sub_27E8EC0: // 0x027E8EC0
+	arm_func_start InitializeHeapBuf
+InitializeHeapBuf: // 0x027E8EC0
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r1, _027E8FA0 // =0x0380FFF4
@@ -10499,40 +10496,40 @@ sub_27E8EC0: // 0x027E8EC0
 	str r0, [r5, #8]
 	add r0, r5, #0xc
 	mov r1, #2
-	bl sub_27E8FA4
+	bl InitHeapBufMan
 	add r0, r5, #0x18
 	mov r1, #3
-	bl sub_27E8FA4
+	bl InitHeapBufMan
 	add r0, r5, #0x24
 	mov r1, #4
-	bl sub_27E8FA4
+	bl InitHeapBufMan
 	add r0, r5, #0x30
 	mov r1, #5
-	bl sub_27E8FA4
+	bl InitHeapBufMan
 	add r0, r5, #0x3c
 	mov r1, #6
-	bl sub_27E8FA4
+	bl InitHeapBufMan
 	add r0, r5, #0x48
 	mov r1, #7
-	bl sub_27E8FA4
+	bl InitHeapBufMan
 	add r0, r5, #0x54
 	mov r1, #8
-	bl sub_27E8FA4
+	bl InitHeapBufMan
 	add r0, r5, #0x60
 	mov r1, #9
-	bl sub_27E8FA4
+	bl InitHeapBufMan
 	add r0, r5, #0x6c
 	mov r1, #0xa
-	bl sub_27E8FA4
+	bl InitHeapBufMan
 	add r0, r5, #0x78
 	mov r1, #0xb
-	bl sub_27E8FA4
+	bl InitHeapBufMan
 	add r0, r5, #0x84
 	mov r1, #0xc
-	bl sub_27E8FA4
+	bl InitHeapBufMan
 	add r0, r5, #0xc
 	mov r1, #0x81
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	add r0, r0, #0xc
 	str r0, [r4, #0x9c]
 	mov r0, #0
@@ -10543,10 +10540,10 @@ sub_27E8EC0: // 0x027E8EC0
 	bx lr
 	.align 2, 0
 _027E8FA0: .word 0x0380FFF4
-	arm_func_end sub_27E8EC0
+	arm_func_end InitializeHeapBuf
 
-	arm_func_start sub_27E8FA4
-sub_27E8FA4: // 0x027E8FA4
+	arm_func_start InitHeapBufMan
+InitHeapBufMan: // 0x027E8FA4
 	mvn r2, #0
 	str r2, [r0]
 	str r2, [r0, #4]
@@ -10554,36 +10551,36 @@ sub_27E8FA4: // 0x027E8FA4
 	strh r2, [r0, #8]
 	strh r1, [r0, #0xa]
 	bx lr
-	arm_func_end sub_27E8FA4
+	arm_func_end InitHeapBufMan
 
-	arm_func_start sub_27E8FC0
-sub_27E8FC0: // 0x027E8FC0
+	arm_func_start ReleaseWlTask
+ReleaseWlTask: // 0x027E8FC0
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E9010 // =0x0380FFF4
 	ldr r0, [r0]
 	add r4, r0, #0x17c
-	bl sub_27EBBB4
+	bl ReleaseIntr
 	add r0, r4, #0xc
 	ldr r1, _027E9010 // =0x0380FFF4
 	ldr r1, [r1]
 	ldr r1, [r1, #0x318]
 	sub r1, r1, #0xc
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 	add r0, r4, #0xc
 	ldr r1, _027E9010 // =0x0380FFF4
 	ldr r1, [r1]
 	ldr r1, [r1, #0x3e0]
 	sub r1, r1, #0xc
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 	bl OS_ExitThread
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E9010: .word 0x0380FFF4
-	arm_func_end sub_27E8FC0
+	arm_func_end ReleaseWlTask
 
-	arm_func_start sub_27E9014
-sub_27E9014: // 0x027E9014
+	arm_func_start TerminateWlTask
+TerminateWlTask: // 0x027E9014
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r2, _027E90B0 // =0x0380FFF4
@@ -10597,7 +10594,7 @@ sub_27E9014: // 0x027E9014
 	ldrh r0, [r0, #0x4c]
 	cmp r0, #0
 	beq _027E9084
-	bl sub_37F93A0
+	bl WStop
 	ldr r2, _027E90B0 // =0x0380FFF4
 	ldr r0, [r2]
 	add r0, r0, #0x400
@@ -10610,28 +10607,28 @@ sub_27E9014: // 0x027E9014
 	ldr r0, [r2]
 	ldr r0, [r0, #0x420]
 	strh r1, [r0, #4]
-	bl sub_27ED08C
+	bl IssueMlmeConfirm
 _027E9080:
-	bl sub_27EA540
+	bl WShutdown
 _027E9084:
 	mov r0, #3
-	bl sub_37F86B8
+	bl DeleteTask
 	ldr r1, _027E90B4 // =0x0000FFFF
 	cmp r0, r1
 	bne _027E9084
 	mov r0, #3
 	mov r1, #0x17
-	bl sub_37F85F8
+	bl AddTask
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027E90B0: .word 0x0380FFF4
 _027E90B4: .word 0x0000FFFF
-	arm_func_end sub_27E9014
+	arm_func_end TerminateWlTask
 
-	arm_func_start sub_27E90B8
-sub_27E90B8: // 0x027E90B8
+	arm_func_start SendFatalErrMsgTask
+SendFatalErrMsgTask: // 0x027E90B8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _027E9138 // =0x0380FFF4
@@ -10642,7 +10639,7 @@ sub_27E90B8: // 0x027E90B8
 	beq _027E912C
 	add r0, r1, #0x188
 	mov r1, #0x12
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	beq _027E912C
 	ldr r0, _027E913C // =0x00000186
@@ -10660,7 +10657,7 @@ sub_27E90B8: // 0x027E90B8
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, r4
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 _027E912C:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
@@ -10668,10 +10665,10 @@ _027E912C:
 	.align 2, 0
 _027E9138: .word 0x0380FFF4
 _027E913C: .word 0x00000186
-	arm_func_end sub_27E90B8
+	arm_func_end SendFatalErrMsgTask
 
-	arm_func_start sub_27E9140
-sub_27E9140: // 0x027E9140
+	arm_func_start SetFatalErr
+SetFatalErr: // 0x027E9140
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0x1000000
@@ -10685,15 +10682,15 @@ sub_27E9140: // 0x027E9140
 	bl OS_EnableIrqMask
 	mov r0, #2
 	mov r1, #0x15
-	bl sub_37F85F8
+	bl AddTask
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E9180: .word 0x0380FFF4
-	arm_func_end sub_27E9140
+	arm_func_end SetFatalErr
 
-	arm_func_start sub_27E9184
-sub_27E9184: // 0x027E9184
+	arm_func_start WCheckTxBuf
+WCheckTxBuf: // 0x027E9184
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _027E9280 // =0x0380FFF4
@@ -10711,50 +10708,50 @@ sub_27E9184: // 0x027E9184
 	b _027E9230
 _027E91C0:
 	add r0, r4, #0x78
-	bl sub_27E931C
+	bl WCheckTxBufIdBeforeFrame
 	cmp r0, #0
 	beq _027E91D8
-	bl sub_27E92D8
-	bl sub_27F122C
+	bl WaitMacStop
+	bl MakeBeaconFrame
 _027E91D8:
 	add r0, r4, #0x28
-	bl sub_27E931C
+	bl WCheckTxBufIdBeforeFrame
 	cmp r0, #0
 	beq _027E9230
 	add r0, r4, #0x28
-	bl sub_27E928C
+	bl RestoreTxFrame
 	b _027E9230
 _027E91F4:
 	add r0, r4, #0x64
-	bl sub_27E931C
+	bl WCheckTxBufIdBeforeFrame
 	add r0, r4, #0x28
-	bl sub_27E931C
+	bl WCheckTxBufIdBeforeFrame
 	cmp r0, #0
 	beq _027E9230
 	ldrh r0, [r4, #0x28]
 	cmp r0, #0
 	beq _027E921C
-	bl sub_27E92D8
+	bl WaitMacStop
 _027E921C:
 	ldrh r0, [r5, #0x6a]
-	bl sub_27F08F8
+	bl MakePsPollFrame
 	ldrh r0, [r5, #0xb8]
 	add r0, r0, #1
 	strh r0, [r5, #0xb8]
 _027E9230:
 	add r0, r4, #0x14
-	bl sub_27E931C
+	bl WCheckTxBufIdBeforeFrame
 	cmp r0, #0
 	beq _027E9248
 	add r0, r4, #0x14
-	bl sub_27E928C
+	bl RestoreTxFrame
 _027E9248:
 	mov r0, r4
-	bl sub_27E931C
+	bl WCheckTxBufIdBeforeFrame
 	cmp r0, #0
 	beq _027E9260
 	mov r0, r4
-	bl sub_27E928C
+	bl RestoreTxFrame
 _027E9260:
 	ldr r1, _027E9288 // =0x04808004
 	ldrh r0, [r1]
@@ -10768,20 +10765,20 @@ _027E9260:
 _027E9280: .word 0x0380FFF4
 _027E9284: .word 0x0000042C
 _027E9288: .word 0x04808004
-	arm_func_end sub_27E9184
+	arm_func_end WCheckTxBuf
 
-	arm_func_start sub_27E928C
-sub_27E928C: // 0x027E928C
+	arm_func_start RestoreTxFrame
+RestoreTxFrame: // 0x027E928C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r0, [r4]
 	cmp r0, #0
 	beq _027E92CC
-	bl sub_27E92D8
+	bl WaitMacStop
 	ldr r0, [r4, #8]
 	ldr r1, [r4, #0xc]
 	sub r1, r1, #0x10
-	bl sub_27F25BC
+	bl CopyTxFrmToMacBuf
 	ldr r0, _027E92D4 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x300
@@ -10793,10 +10790,10 @@ _027E92CC:
 	bx lr
 	.align 2, 0
 _027E92D4: .word 0x0380FFF4
-	arm_func_end sub_27E928C
+	arm_func_end RestoreTxFrame
 
-	arm_func_start sub_27E92D8
-sub_27E92D8: // 0x027E92D8
+	arm_func_start WaitMacStop
+WaitMacStop: // 0x027E92D8
 	mov r1, #0
 	ldr r0, _027E9314 // =0x04808004
 	strh r1, [r0]
@@ -10817,10 +10814,10 @@ _027E9308:
 	.align 2, 0
 _027E9314: .word 0x04808004
 _027E9318: .word 0x04808214
-	arm_func_end sub_27E92D8
+	arm_func_end WaitMacStop
 
-	arm_func_start sub_27E931C
-sub_27E931C: // 0x027E931C
+	arm_func_start WCheckTxBufIdBeforeFrame
+WCheckTxBufIdBeforeFrame: // 0x027E931C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r3, [r0, #8]
@@ -10862,10 +10859,10 @@ _027E9398:
 _027E93A4: .word 0x0000B6B8
 _027E93A8: .word 0x00001D46
 _027E93AC: .word 0x0380FFF4
-	arm_func_end sub_27E931C
+	arm_func_end WCheckTxBufIdBeforeFrame
 
-	arm_func_start sub_27E93B0
-sub_27E93B0: // 0x027E93B0
+	arm_func_start calc_NextCRC
+calc_NextCRC: // 0x027E93B0
 	and r2, r1, #0xf
 	mov r3, r2, lsl #1
 	ldr r2, _027E9420 // =0x027F7ED8
@@ -10897,10 +10894,10 @@ sub_27E93B0: // 0x027E93B0
 	.align 2, 0
 _027E9420: .word 0x027F7ED8
 _027E9424: .word 0x00000FFF
-	arm_func_end sub_27E93B0
+	arm_func_end calc_NextCRC
 
-	arm_func_start sub_27E9428
-sub_27E9428: // 0x027E9428
+	arm_func_start RND_rand
+RND_rand: // 0x027E9428
 	ldr r0, _027E9454 // =0x0380FFF4
 	ldr r0, [r0]
 	add r3, r0, #0x5f0
@@ -10914,10 +10911,10 @@ sub_27E9428: // 0x027E9428
 	bx lr
 	.align 2, 0
 _027E9454: .word 0x0380FFF4
-	arm_func_end sub_27E9428
+	arm_func_end RND_rand
 
-	arm_func_start sub_27E9458
-sub_27E9458: // 0x027E9458
+	arm_func_start RND_seed
+RND_seed: // 0x027E9458
 	ldr r1, _027E946C // =0x0380FFF4
 	ldr r1, [r1]
 	add r1, r1, #0x500
@@ -10925,10 +10922,10 @@ sub_27E9458: // 0x027E9458
 	bx lr
 	.align 2, 0
 _027E946C: .word 0x0380FFF4
-	arm_func_end sub_27E9458
+	arm_func_end RND_seed
 
-	arm_func_start sub_27E9470
-sub_27E9470: // 0x027E9470
+	arm_func_start RND_init
+RND_init: // 0x027E9470
 	ldr r2, _027E949C // =0x0380FFF4
 	ldr r3, [r2]
 	add ip, r3, #0x5f0
@@ -10943,10 +10940,10 @@ sub_27E9470: // 0x027E9470
 	.align 2, 0
 _027E949C: .word 0x0380FFF4
 _027E94A0: .word 0x0000FFF8
-	arm_func_end sub_27E9470
+	arm_func_end RND_init
 
-	arm_func_start sub_27E94A4
-sub_27E94A4: // 0x027E94A4
+	arm_func_start WL_ReadByte
+WL_ReadByte: // 0x027E94A4
 	ands r1, r0, #1
 	ldrneh r0, [r0, #-1]
 	movne r0, r0, asr #8
@@ -10955,10 +10952,10 @@ sub_27E94A4: // 0x027E94A4
 	andeq r0, r0, #0xff
 	and r0, r0, #0xff
 	bx lr
-	arm_func_end sub_27E94A4
+	arm_func_end WL_ReadByte
 
-	arm_func_start sub_27E94C4
-sub_27E94C4: // 0x027E94C4
+	arm_func_start WL_WriteByte
+WL_WriteByte: // 0x027E94C4
 	ands r2, r0, #1
 	ldrneh r2, [r0, #-1]
 	andne r2, r2, #0xff
@@ -10970,60 +10967,60 @@ sub_27E94C4: // 0x027E94C4
 	orreq r1, r2, r1
 	streqh r1, [r0]
 	bx lr
-	arm_func_end sub_27E94C4
+	arm_func_end WL_WriteByte
 
-	arm_func_start sub_27E94F0
-sub_27E94F0: // 0x027E94F0
+	arm_func_start DMA_WepWriteHeaderData
+DMA_WepWriteHeaderData: // 0x027E94F0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r2
 	mov r4, r3
 	mov r2, #0x12
-	bl sub_27E957C
+	bl DMA_WriteCore
 	cmp r4, #0
 	beq _027E9524
 	add r0, r6, #0x28
 	mov r1, r5
 	add r2, r4, #1
 	mov r2, r2, lsr #1
-	bl sub_27E957C
+	bl DMA_WriteCore
 _027E9524:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
-	arm_func_end sub_27E94F0
+	arm_func_end DMA_WepWriteHeaderData
 
-	arm_func_start sub_27E952C
-sub_27E952C: // 0x027E952C
+	arm_func_start DMA_WriteHeaderData
+DMA_WriteHeaderData: // 0x027E952C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r2
 	mov r4, r3
 	mov r2, #0x12
-	bl sub_27E957C
+	bl DMA_WriteCore
 	cmp r4, #0
 	beq _027E9560
 	add r0, r6, #0x24
 	mov r1, r5
 	add r2, r4, #1
 	mov r2, r2, lsr #1
-	bl sub_27E957C
+	bl DMA_WriteCore
 _027E9560:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
-	arm_func_end sub_27E952C
+	arm_func_end DMA_WriteHeaderData
 
-	arm_func_start sub_27E9568
-sub_27E9568: // 0x027E9568
+	arm_func_start DMA_Write
+DMA_Write: // 0x027E9568
 	add r2, r2, #1
 	mov r2, r2, lsr #1
-	ldr ip, _027E9578 // =sub_27E957C
+	ldr ip, _027E9578 // =DMA_WriteCore
 	bx ip
 	.align 2, 0
-_027E9578: .word sub_27E957C
-	arm_func_end sub_27E9568
+_027E9578: .word DMA_WriteCore
+	arm_func_end DMA_Write
 
-	arm_func_start sub_27E957C
-sub_27E957C: // 0x027E957C
+	arm_func_start DMA_WriteCore
+DMA_WriteCore: // 0x027E957C
 	mov r3, r0
 	mov r0, r1
 	mov r1, r3
@@ -11032,10 +11029,10 @@ sub_27E957C: // 0x027E957C
 	bx ip
 	.align 2, 0
 _027E9594: .word MIi_CpuCopy16
-	arm_func_end sub_27E957C
+	arm_func_end DMA_WriteCore
 
-	arm_func_start sub_27E9598
-sub_27E9598: // 0x027E9598
+	arm_func_start DMA_Read
+DMA_Read: // 0x027E9598
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -11071,10 +11068,10 @@ _027E9608:
 	.align 2, 0
 _027E9614: .word 0x04805F60
 _027E9618: .word 0x0380FFF4
-	arm_func_end sub_27E9598
+	arm_func_end DMA_Read
 
-	arm_func_start sub_27E961C
-sub_27E961C: // 0x027E961C
+	arm_func_start ClearTimeOut
+ClearTimeOut: // 0x027E961C
 	ldr r0, _027E9634 // =0x0380FFF4
 	ldr r1, [r0]
 	ldr r0, _027E9638 // =0x00000634
@@ -11085,10 +11082,10 @@ sub_27E961C: // 0x027E961C
 _027E9634: .word 0x0380FFF4
 _027E9638: .word 0x00000634
 _027E963C: .word OS_CancelAlarm
-	arm_func_end sub_27E961C
+	arm_func_end ClearTimeOut
 
-	arm_func_start sub_27E9640
-sub_27E9640: // 0x027E9640
+	arm_func_start SetupUsTimeOut
+SetupUsTimeOut: // 0x027E9640
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -11126,10 +11123,10 @@ sub_27E9640: // 0x027E9640
 _027E96C4: .word 0x0380FFF4
 _027E96C8: .word 0x00000634
 _027E96CC: .word 0x000082EA
-	arm_func_end sub_27E9640
+	arm_func_end SetupUsTimeOut
 
-	arm_func_start sub_27E96D0
-sub_27E96D0: // 0x027E96D0
+	arm_func_start SetupTimeOut
+SetupTimeOut: // 0x027E96D0
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -11161,10 +11158,10 @@ sub_27E96D0: // 0x027E96D0
 _027E973C: .word 0x0380FFF4
 _027E9740: .word 0x00000634
 _027E9744: .word 0x000082EA
-	arm_func_end sub_27E96D0
+	arm_func_end SetupTimeOut
 
-	arm_func_start sub_27E9748
-sub_27E9748: // 0x027E9748
+	arm_func_start WIntervalTimer
+WIntervalTimer: // 0x027E9748
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E97C4 // =0x0380FFF4
 	ldr r4, [r0]
@@ -11173,20 +11170,20 @@ sub_27E9748: // 0x027E9748
 	str r0, [r4, #0x3ec]
 	mov r0, #1
 	mov r1, #0xa
-	bl sub_37F85F8
+	bl AddTask
 	mov r0, #2
 	mov r1, #0x12
-	bl sub_37F85F8
+	bl AddTask
 	mov r0, #1
 	mov r1, #0x11
-	bl sub_37F85F8
+	bl AddTask
 	add r0, r4, #0x100
 	ldrh r0, [r0, #0xfc]
 	cmp r0, #0
 	beq _027E97A0
 	mov r0, #2
 	mov r1, #0x13
-	bl sub_37F85F8
+	bl AddTask
 _027E97A0:
 	add r0, r4, #0x300
 	ldrh r0, [r0, #0xf4]
@@ -11194,16 +11191,16 @@ _027E97A0:
 	beq _027E97BC
 	mov r0, #2
 	mov r1, #0x15
-	bl sub_37F85F8
+	bl AddTask
 _027E97BC:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E97C4: .word 0x0380FFF4
-	arm_func_end sub_27E9748
+	arm_func_end WIntervalTimer
 
-	arm_func_start sub_27E97C8
-sub_27E97C8: // 0x027E97C8
+	arm_func_start ClearPeriodicTimeOut
+ClearPeriodicTimeOut: // 0x027E97C8
 	ldr r0, _027E97E0 // =0x0380FFF4
 	ldr r1, [r0]
 	ldr r0, _027E97E4 // =0x00000608
@@ -11214,10 +11211,10 @@ sub_27E97C8: // 0x027E97C8
 _027E97E0: .word 0x0380FFF4
 _027E97E4: .word 0x00000608
 _027E97E8: .word OS_CancelAlarm
-	arm_func_end sub_27E97C8
+	arm_func_end ClearPeriodicTimeOut
 
-	arm_func_start sub_27E97EC
-sub_27E97EC: // 0x027E97EC
+	arm_func_start SetupPeriodicTimeOut
+SetupPeriodicTimeOut: // 0x027E97EC
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x10
 	mov r5, r0
@@ -11255,38 +11252,38 @@ sub_27E97EC: // 0x027E97EC
 _027E9870: .word 0x0380FFF4
 _027E9874: .word 0x00000608
 _027E9878: .word 0x000082EA
-	arm_func_end sub_27E97EC
+	arm_func_end SetupPeriodicTimeOut
 
-	arm_func_start sub_27E987C
-sub_27E987C: // 0x027E987C
-	ldr r1, _027E9888 // =sub_27E98A8
-	ldr ip, _027E988C // =sub_37FB858
+	arm_func_start WWaitus
+WWaitus: // 0x027E987C
+	ldr r1, _027E9888 // =TimeoutDummy
+	ldr ip, _027E988C // =WaitLoop_Waitus
 	bx ip
 	.align 2, 0
-_027E9888: .word sub_27E98A8
-_027E988C: .word sub_37FB858
-	arm_func_end sub_27E987C
+_027E9888: .word TimeoutDummy
+_027E988C: .word WaitLoop_Waitus
+	arm_func_end WWaitus
 
-	arm_func_start sub_27E9890
-sub_27E9890: // 0x027E9890
+	arm_func_start WWait
+WWait: // 0x027E9890
 	mov r1, #0x3e8
 	mul r1, r0, r1
 	mov r0, r1
-	ldr ip, _027E98A4 // =sub_27E987C
+	ldr ip, _027E98A4 // =WWaitus
 	bx ip
 	.align 2, 0
-_027E98A4: .word sub_27E987C
-	arm_func_end sub_27E9890
+_027E98A4: .word WWaitus
+	arm_func_end WWait
 
-	arm_func_start sub_27E98A8
-sub_27E98A8: // 0x027E98A8
+	arm_func_start TimeoutDummy
+TimeoutDummy: // 0x027E98A8
 	mov r1, #0
 	str r1, [r0]
 	bx lr
-	arm_func_end sub_27E98A8
+	arm_func_end TimeoutDummy
 
-	arm_func_start sub_27E98B4
-sub_27E98B4: // 0x027E98B4
+	arm_func_start InitializeAlarm
+InitializeAlarm: // 0x027E98B4
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E9904 // =0x0380FFF4
 	ldr r4, [r0]
@@ -11312,10 +11309,10 @@ _027E98FC:
 _027E9904: .word 0x0380FFF4
 _027E9908: .word 0x00000608
 _027E990C: .word 0x00000634
-	arm_func_end sub_27E98B4
+	arm_func_end InitializeAlarm
 
-	arm_func_start sub_27E9910
-sub_27E9910: // 0x027E9910
+	arm_func_start InitRF
+InitRF: // 0x027E9910
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc
 	ldr r0, _027E9A90 // =0x0380FFF4
@@ -11332,7 +11329,7 @@ _027E993C:
 	add r0, r0, #0x44
 	mov r1, r6
 	mov r2, r5
-	bl sub_27F5A28
+	bl FLASH_Read
 	ldr r1, [sp, #4]
 	mov r0, r8, lsl #1
 	ldrh r0, [r4, r0]
@@ -11366,7 +11363,7 @@ _027E993C:
 	add r0, r4, #0xce
 	mov r1, #1
 	add r2, r7, #8
-	bl sub_27F5A28
+	bl FLASH_Read
 	mov r9, #0
 	mov r8, r9
 	mov r7, #1
@@ -11377,13 +11374,13 @@ _027E99EC:
 	mov r0, r5
 	mov r1, r7
 	mov r2, r6
-	bl sub_27F5A28
+	bl FLASH_Read
 	ldr r1, [sp]
 	mov r0, r9, lsl #8
 	add r0, r0, #0x50000
 	orr r0, r1, r0
 	str r0, [sp]
-	bl sub_27E9C2C
+	bl RF_Write
 	add r9, r9, #1
 	add r5, r5, #1
 _027E9A20:
@@ -11399,9 +11396,9 @@ _027E9A3C:
 	mov r0, r5
 	mov r1, r8
 	mov r2, r6
-	bl sub_27F5A28
+	bl FLASH_Read
 	ldr r0, [sp]
-	bl sub_27E9C2C
+	bl RF_Write
 	ldrh r0, [r7]
 	cmp r0, #2
 	bne _027E9A74
@@ -11425,10 +11422,10 @@ _027E9A90: .word 0x0380FFF4
 _027E9A94: .word 0x000005F8
 _027E9A98: .word 0x027F7EF8
 _027E9A9C: .word 0x04808184
-	arm_func_end sub_27E9910
+	arm_func_end InitRF
 
-	arm_func_start sub_27E9AA0
-sub_27E9AA0: // 0x027E9AA0
+	arm_func_start InitBaseBand
+InitBaseBand: // 0x027E9AA0
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r1, #0x100
@@ -11443,26 +11440,26 @@ _027E9AC8:
 	mov r0, r6
 	mov r1, r5
 	mov r2, r4
-	bl sub_27F5A28
+	bl FLASH_Read
 	mov r0, r7
 	ldr r1, [sp]
-	bl sub_27E9C54
+	bl BBP_Write
 	add r6, r6, #1
 	add r7, r7, #1
 	cmp r7, #0x69
 	blo _027E9AC8
 	mov r0, #0x5a
 	mov r1, #2
-	bl sub_27E9C54
+	bl BBP_Write
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
 _027E9B0C: .word 0x04808160
-	arm_func_end sub_27E9AA0
+	arm_func_end InitBaseBand
 
-	arm_func_start sub_27E9B10
-sub_27E9B10: // 0x027E9B10
+	arm_func_start InitMac
+InitMac: // 0x027E9B10
 	mov ip, #0
 	ldr r2, _027E9B44 // =0x027F7F68
 _027E9B18:
@@ -11479,10 +11476,10 @@ _027E9B18:
 	bx lr
 	.align 2, 0
 _027E9B44: .word 0x027F7F68
-	arm_func_end sub_27E9B10
+	arm_func_end InitMac
 
-	arm_func_start sub_27E9B48
-sub_27E9B48: // 0x027E9B48
+	arm_func_start WConfigDevice
+WConfigDevice: // 0x027E9B48
 	stmdb sp!, {r4, lr}
 	ldr r0, _027E9BB4 // =0x0380FFF4
 	ldr r1, [r0]
@@ -11495,28 +11492,28 @@ sub_27E9B48: // 0x027E9B48
 	mov r0, #0x40
 	mov r1, #1
 	mov r2, r4
-	bl sub_27F5A28
+	bl FLASH_Read
 	mov r0, #0x41
 	mov r1, #1
 	add r2, r4, #2
-	bl sub_27F5A28
+	bl FLASH_Read
 	mov r0, #0x42
 	mov r1, #1
 	add r2, r4, #4
-	bl sub_27F5A28
+	bl FLASH_Read
 	mov r0, #0x43
 	mov r1, #1
 	add r2, r4, #6
-	bl sub_27F5A28
+	bl FLASH_Read
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027E9BB4: .word 0x0380FFF4
 _027E9BB8: .word 0x000005F8
-	arm_func_end sub_27E9B48
+	arm_func_end WConfigDevice
 
-	arm_func_start sub_27E9BBC
-sub_27E9BBC: // 0x027E9BBC
+	arm_func_start CalcBbpCRC
+CalcBbpCRC: // 0x027E9BBC
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #8
 	mov r8, #0x64
@@ -11529,7 +11526,7 @@ _027E9BDC:
 	mov r0, r8
 	mov r1, r5
 	mov r2, r4
-	bl sub_27F5A28
+	bl FLASH_Read
 	cmp r7, #1
 	ldreq r0, [sp]
 	andeq r0, r0, #0x80
@@ -11537,7 +11534,7 @@ _027E9BDC:
 	ldr r0, [sp]
 	and r0, r0, #0xff
 	mov r1, r6
-	bl sub_27E93B0
+	bl calc_NextCRC
 	mov r6, r0
 	add r8, r8, #1
 	add r7, r7, #1
@@ -11546,25 +11543,25 @@ _027E9BDC:
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
-	arm_func_end sub_27E9BBC
+	arm_func_end CalcBbpCRC
 
-	arm_func_start sub_27E9C2C
-sub_27E9C2C: // 0x027E9C2C
+	arm_func_start RF_Write
+RF_Write: // 0x027E9C2C
 	ldr r1, _027E9C48 // =0x0480817E
 	strh r0, [r1]
 	mov r1, r0, lsr #0x10
 	ldr r0, _027E9C4C // =0x0480817C
 	strh r1, [r0]
-	ldr ip, _027E9C50 // =sub_37FB9A0
+	ldr ip, _027E9C50 // =WaitLoop_RfAccess
 	bx ip
 	.align 2, 0
 _027E9C48: .word 0x0480817E
 _027E9C4C: .word 0x0480817C
-_027E9C50: .word sub_37FB9A0
-	arm_func_end sub_27E9C2C
+_027E9C50: .word WaitLoop_RfAccess
+	arm_func_end RF_Write
 
-	arm_func_start sub_27E9C54
-sub_27E9C54: // 0x027E9C54
+	arm_func_start BBP_Write
+BBP_Write: // 0x027E9C54
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r2, _027E9C8C // =0x0480815A
@@ -11572,7 +11569,7 @@ sub_27E9C54: // 0x027E9C54
 	orr r1, r0, #0x5000
 	ldr r0, _027E9C90 // =0x04808158
 	strh r1, [r0]
-	bl sub_37FB96C
+	bl WaitLoop_BbpAccess
 	cmp r0, #0
 	mvnne r0, #0
 	moveq r0, #0
@@ -11582,16 +11579,16 @@ sub_27E9C54: // 0x027E9C54
 	.align 2, 0
 _027E9C8C: .word 0x0480815A
 _027E9C90: .word 0x04808158
-	arm_func_end sub_27E9C54
+	arm_func_end BBP_Write
 
-	arm_func_start sub_27E9C94
-sub_27E9C94: // 0x027E9C94
+	arm_func_start BBP_Read
+BBP_Read: // 0x027E9C94
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	orr r1, r0, #0x6000
 	ldr r0, _027E9CC0 // =0x04808158
 	strh r1, [r0]
-	bl sub_37FB96C
+	bl WaitLoop_BbpAccess
 	ldr r0, _027E9CC4 // =0x0480815C
 	ldrh r0, [r0]
 	add sp, sp, #4
@@ -11600,10 +11597,10 @@ sub_27E9C94: // 0x027E9C94
 	.align 2, 0
 _027E9CC0: .word 0x04808158
 _027E9CC4: .word 0x0480815C
-	arm_func_end sub_27E9C94
+	arm_func_end BBP_Read
 
-	arm_func_start sub_27E9CC8
-sub_27E9CC8: // 0x027E9CC8
+	arm_func_start WCalcManRate
+WCalcManRate: // 0x027E9CC8
 	ldr r0, _027E9D10 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x300
@@ -11627,10 +11624,10 @@ _027E9D08:
 	bx lr
 	.align 2, 0
 _027E9D10: .word 0x0380FFF4
-	arm_func_end sub_27E9CC8
+	arm_func_end WCalcManRate
 
-	arm_func_start sub_27E9D14
-sub_27E9D14: // 0x027E9D14
+	arm_func_start WElement2RateSet
+WElement2RateSet: // 0x027E9D14
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r4, r0
 	mov r10, r1
@@ -11638,7 +11635,7 @@ sub_27E9D14: // 0x027E9D14
 	strh r0, [r10]
 	strh r0, [r10, #2]
 	add r0, r4, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r8, r0
 	mov r9, #0
 	ldr r6, _027E9DCC // =0x027F7FCC
@@ -11648,7 +11645,7 @@ sub_27E9D14: // 0x027E9D14
 	b _027E9DBC
 _027E9D50:
 	add r0, r7, r9
-	bl sub_27E94A4
+	bl WL_ReadByte
 	and r1, r0, #0x7f
 	sub r1, r1, #1
 	cmp r1, #0x78
@@ -11683,10 +11680,10 @@ _027E9DBC:
 	bx lr
 	.align 2, 0
 _027E9DCC: .word 0x027F7FCC
-	arm_func_end sub_27E9D14
+	arm_func_end WElement2RateSet
 
-	arm_func_start sub_27E9DD0
-sub_27E9DD0: // 0x027E9DD0
+	arm_func_start CheckEnableChannel
+CheckEnableChannel: // 0x027E9DD0
 	mov r2, #1
 	ldr r1, _027E9DEC // =0x0380FFF4
 	ldr r1, [r1]
@@ -11696,10 +11693,10 @@ sub_27E9DD0: // 0x027E9DD0
 	bx lr
 	.align 2, 0
 _027E9DEC: .word 0x0380FFF4
-	arm_func_end sub_27E9DD0
+	arm_func_end CheckEnableChannel
 
-	arm_func_start sub_27E9DF0
-sub_27E9DF0: // 0x027E9DF0
+	arm_func_start MatchMacAdrs
+MatchMacAdrs: // 0x027E9DF0
 	ldrh r3, [r0, #4]
 	ldrh r2, [r1, #4]
 	cmp r3, r2
@@ -11716,10 +11713,10 @@ sub_27E9DF0: // 0x027E9DF0
 _027E9E24:
 	mov r0, #0
 	bx lr
-	arm_func_end sub_27E9DF0
+	arm_func_end MatchMacAdrs
 
-	arm_func_start sub_27E9E2C
-sub_27E9E2C: // 0x027E9E2C
+	arm_func_start WCheckSSID
+WCheckSSID: // 0x027E9E2C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r9, r0
 	mov r8, r1
@@ -11753,15 +11750,15 @@ _027E9E90:
 	b _027E9EE4
 _027E9EA0:
 	mov r0, r6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r4, r0
 	add r6, r6, #1
 	mov r0, r8
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r10, r0
 	add r8, r8, #1
 	mov r0, r7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	add r7, r7, #1
 	orr r1, r10, r4
 	orr r0, r0, r4
@@ -11778,10 +11775,10 @@ _027E9EF0:
 	bx lr
 	.align 2, 0
 _027E9EF8: .word 0x0380FFF4
-	arm_func_end sub_27E9E2C
+	arm_func_end WCheckSSID
 
-	arm_func_start sub_27E9EFC
-sub_27E9EFC: // 0x027E9EFC
+	arm_func_start WUpdateCounter
+WUpdateCounter: // 0x027E9EFC
 	ldr r0, _027EA0F4 // =0x0380FFF4
 	ldr r1, [r0]
 	ldr r0, _027EA0F8 // =0x0000053C
@@ -11912,13 +11909,13 @@ sub_27E9EFC: // 0x027E9EFC
 _027EA0F4: .word 0x0380FFF4
 _027EA0F8: .word 0x0000053C
 _027EA0FC: .word 0x048081B0
-	arm_func_end sub_27E9EFC
+	arm_func_end WUpdateCounter
 
-	arm_func_start sub_27EA100
-sub_27EA100: // 0x027EA100
+	arm_func_start WInitCounter
+WInitCounter: // 0x027EA100
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_27E9EFC
+	bl WUpdateCounter
 	mov r0, #0
 	ldr r1, _027EA134 // =0x0380FFF4
 	ldr r2, [r1]
@@ -11932,10 +11929,10 @@ sub_27EA100: // 0x027EA100
 	.align 2, 0
 _027EA134: .word 0x0380FFF4
 _027EA138: .word 0x0000053C
-	arm_func_end sub_27EA100
+	arm_func_end WInitCounter
 
-	arm_func_start sub_27EA13C
-sub_27EA13C: // 0x027EA13C
+	arm_func_start WSetMacAdrs3
+WSetMacAdrs3: // 0x027EA13C
 	ldrh ip, [r1]
 	strh ip, [r0]
 	ldrh ip, [r1, #2]
@@ -11955,10 +11952,10 @@ sub_27EA13C: // 0x027EA13C
 	ldrh r1, [r3, #4]
 	strh r1, [r0, #0x10]
 	bx lr
-	arm_func_end sub_27EA13C
+	arm_func_end WSetMacAdrs3
 
-	arm_func_start sub_27EA188
-sub_27EA188: // 0x027EA188
+	arm_func_start WSetMacAdrs2
+WSetMacAdrs2: // 0x027EA188
 	ldrh r3, [r1]
 	strh r3, [r0]
 	ldrh r3, [r1, #2]
@@ -11972,10 +11969,10 @@ sub_27EA188: // 0x027EA188
 	ldrh r1, [r2, #4]
 	strh r1, [r0, #0xa]
 	bx lr
-	arm_func_end sub_27EA188
+	arm_func_end WSetMacAdrs2
 
-	arm_func_start sub_27EA1BC
-sub_27EA1BC: // 0x027EA1BC
+	arm_func_start WSetMacAdrs1
+WSetMacAdrs1: // 0x027EA1BC
 	ldrh r2, [r1]
 	strh r2, [r0]
 	ldrh r2, [r1, #2]
@@ -11983,27 +11980,27 @@ sub_27EA1BC: // 0x027EA1BC
 	ldrh r1, [r1, #4]
 	strh r1, [r0, #4]
 	bx lr
-	arm_func_end sub_27EA1BC
+	arm_func_end WSetMacAdrs1
 
-	arm_func_start sub_27EA1D8
-sub_27EA1D8: // 0x027EA1D8
+	arm_func_start WClearKSID
+WClearKSID: // 0x027EA1D8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027EA200 // =0x04808094
 	ldrh r0, [r0]
 	ands r0, r0, #0x8000
 	bne _027EA1F4
-	bl sub_37FB8E4
+	bl WaitLoop_ClrAid
 _027EA1F4:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027EA200: .word 0x04808094
-	arm_func_end sub_27EA1D8
+	arm_func_end WClearKSID
 
-	arm_func_start sub_27EA204
-sub_27EA204: // 0x027EA204
+	arm_func_start WSetKSID
+WSetKSID: // 0x027EA204
 	ldr r0, _027EA220 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x300
@@ -12014,27 +12011,27 @@ sub_27EA204: // 0x027EA204
 	.align 2, 0
 _027EA220: .word 0x0380FFF4
 _027EA224: .word 0x04808028
-	arm_func_end sub_27EA204
+	arm_func_end WSetKSID
 
-	arm_func_start sub_27EA228
-sub_27EA228: // 0x027EA228
+	arm_func_start WClearAids
+WClearAids: // 0x027EA228
 	stmdb sp!, {r4, lr}
 	ldr r0, _027EA27C // =0x0380FFF4
 	ldr r0, [r0]
 	add r4, r0, #0x344
 	mov r0, #0
 	strh r0, [r4, #0x6a]
-	bl sub_37FB8E4
+	bl WaitLoop_ClrAid
 	mov r1, #0
 	ldr r0, _027EA280 // =0x0480802A
 	strh r1, [r0]
 	ldrh r0, [r4, #0x88]
 	cmp r0, #0
 	beq _027EA274
-	bl sub_27F1968
+	bl DeleteTxFrames
 	ldrh r0, [r4, #0x88]
 	mov r1, #0x20
-	bl sub_27EC648
+	bl CAM_SetStaState
 	mov r0, #0
 	strh r0, [r4, #0x88]
 _027EA274:
@@ -12043,10 +12040,10 @@ _027EA274:
 	.align 2, 0
 _027EA27C: .word 0x0380FFF4
 _027EA280: .word 0x0480802A
-	arm_func_end sub_27EA228
+	arm_func_end WClearAids
 
-	arm_func_start sub_27EA284
-sub_27EA284: // 0x027EA284
+	arm_func_start WSetAids
+WSetAids: // 0x027EA284
 	ldr r2, _027EA2BC // =0x0380FFF4
 	ldr r1, [r2]
 	add r1, r1, #0x300
@@ -12065,10 +12062,10 @@ sub_27EA284: // 0x027EA284
 _027EA2BC: .word 0x0380FFF4
 _027EA2C0: .word 0x0480802A
 _027EA2C4: .word 0x04808028
-	arm_func_end sub_27EA284
+	arm_func_end WSetAids
 
-	arm_func_start sub_27EA2C8
-sub_27EA2C8: // 0x027EA2C8
+	arm_func_start WSetGameInfo
+WSetGameInfo: // 0x027EA2C8
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r6, r0
 	mov r5, r1
@@ -12086,16 +12083,16 @@ sub_27EA2C8: // 0x027EA2C8
 	ldr r8, [r4, #0x9c]
 	mov r0, r8
 	mov r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r8, r8, #1
 	mov r7, #0
 	b _027EA33C
 _027EA31C:
 	mov r0, r5
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	mov r0, r8
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r8, r8, #1
 	add r5, r5, #1
 	add r7, r7, #1
@@ -12118,10 +12115,10 @@ _027EA368:
 	bx lr
 	.align 2, 0
 _027EA370: .word 0x0380FFF4
-	arm_func_end sub_27EA2C8
+	arm_func_end WSetGameInfo
 
-	arm_func_start sub_27EA374
-sub_27EA374: // 0x027EA374
+	arm_func_start WInitGameInfo
+WInitGameInfo: // 0x027EA374
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -12143,10 +12140,10 @@ _027EA3B0:
 	bx lr
 	.align 2, 0
 _027EA3BC: .word 0x0380FFF4
-	arm_func_end sub_27EA374
+	arm_func_end WInitGameInfo
 
-	arm_func_start sub_27EA3C0
-sub_27EA3C0: // 0x027EA3C0
+	arm_func_start WEnableTmpttPowerSave
+WEnableTmpttPowerSave: // 0x027EA3C0
 	mov r1, #0
 	ldr r0, _027EA3E8 // =0x0380FFF4
 	ldr r0, [r0]
@@ -12160,10 +12157,10 @@ sub_27EA3C0: // 0x027EA3C0
 	.align 2, 0
 _027EA3E8: .word 0x0380FFF4
 _027EA3EC: .word 0x04808038
-	arm_func_end sub_27EA3C0
+	arm_func_end WEnableTmpttPowerSave
 
-	arm_func_start sub_27EA3F0
-sub_27EA3F0: // 0x027EA3F0
+	arm_func_start WDisableTmpttPowerSave
+WDisableTmpttPowerSave: // 0x027EA3F0
 	mov r2, #1
 	ldr r1, _027EA438 // =0x0380FFF4
 	ldr r0, [r1]
@@ -12186,10 +12183,10 @@ sub_27EA3F0: // 0x027EA3F0
 _027EA438: .word 0x0380FFF4
 _027EA43C: .word 0x04808038
 _027EA440: .word 0x04808048
-	arm_func_end sub_27EA3F0
+	arm_func_end WDisableTmpttPowerSave
 
-	arm_func_start sub_27EA444
-sub_27EA444: // 0x027EA444
+	arm_func_start WSetFrameLifeTime
+WSetFrameLifeTime: // 0x027EA444
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, _027EA4A4 // =0x0380FFF4
@@ -12219,16 +12216,16 @@ _027EA49C:
 	.align 2, 0
 _027EA4A4: .word 0x0380FFF4
 _027EA4A8: .word 0x0000FFFF
-	arm_func_end sub_27EA444
+	arm_func_end WSetFrameLifeTime
 
-	arm_func_start sub_27EA4AC
-sub_27EA4AC: // 0x027EA4AC
+	arm_func_start WWakeUp
+WWakeUp: // 0x027EA4AC
 	stmdb sp!, {r4, lr}
 	mov r1, #0
 	ldr r0, _027EA534 // =0x04808036
 	strh r1, [r0]
 	mov r0, #8
-	bl sub_27E9890
+	bl WWait
 	mov r1, #0
 	ldr r0, _027EA538 // =0x04808168
 	strh r1, [r0]
@@ -12243,20 +12240,20 @@ sub_27EA4AC: // 0x027EA4AC
 	b _027EA52C
 _027EA4F4:
 	mov r0, #1
-	bl sub_27E9C94
+	bl BBP_Read
 	mov r4, r0
 	mov r0, #1
 	and r1, r4, #0x7f
-	bl sub_27E9C54
+	bl BBP_Write
 	mov r0, #1
 	mov r1, r4
-	bl sub_27E9C54
+	bl BBP_Write
 	mov r0, #0x28
-	bl sub_27E9890
-	bl sub_27E9910
+	bl WWait
+	bl InitRF
 	b _027EA52C
 _027EA528:
-	bl sub_27E9910
+	bl InitRF
 _027EA52C:
 	ldmia sp!, {r4, lr}
 	bx lr
@@ -12264,10 +12261,10 @@ _027EA52C:
 _027EA534: .word 0x04808036
 _027EA538: .word 0x04808168
 _027EA53C: .word 0x0380FFF4
-	arm_func_end sub_27EA4AC
+	arm_func_end WWakeUp
 
-	arm_func_start sub_27EA540
-sub_27EA540: // 0x027EA540
+	arm_func_start WShutdown
+WShutdown: // 0x027EA540
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027EA5A0 // =0x0380FFF4
@@ -12277,13 +12274,13 @@ sub_27EA540: // 0x027EA540
 	cmp r0, #2
 	bne _027EA568
 	ldr r0, _027EA5A4 // =0x0000C008
-	bl sub_27E9C2C
+	bl RF_Write
 _027EA568:
 	mov r0, #0x1e
-	bl sub_27E9C94
+	bl BBP_Read
 	orr r1, r0, #0x3f
 	mov r0, #0x1e
-	bl sub_27E9C54
+	bl BBP_Write
 	ldr r1, _027EA5A8 // =0x0000800D
 	ldr r0, _027EA5AC // =0x04808168
 	strh r1, [r0]
@@ -12299,20 +12296,20 @@ _027EA5A4: .word 0x0000C008
 _027EA5A8: .word 0x0000800D
 _027EA5AC: .word 0x04808168
 _027EA5B0: .word 0x04808036
-	arm_func_end sub_27EA540
+	arm_func_end WShutdown
 
-	arm_func_start sub_27EA5B4
-sub_27EA5B4: // 0x027EA5B4
+	arm_func_start WSetForcePowerState
+WSetForcePowerState: // 0x027EA5B4
 	ldr r1, _027EA5C4 // =0x04808040
 	strh r0, [r1]
 	mov r0, #0
 	bx lr
 	.align 2, 0
 _027EA5C4: .word 0x04808040
-	arm_func_end sub_27EA5B4
+	arm_func_end WSetForcePowerState
 
-	arm_func_start sub_27EA5C8
-sub_27EA5C8: // 0x027EA5C8
+	arm_func_start WSetPowerState
+WSetPowerState: // 0x027EA5C8
 	mov r2, r0, lsr #1
 	ldr r1, _027EA5EC // =0x0380FFF4
 	ldr r1, [r1]
@@ -12325,10 +12322,10 @@ sub_27EA5C8: // 0x027EA5C8
 	.align 2, 0
 _027EA5EC: .word 0x0380FFF4
 _027EA5F0: .word 0x0480803C
-	arm_func_end sub_27EA5C8
+	arm_func_end WSetPowerState
 
-	arm_func_start sub_27EA5F4
-sub_27EA5F4: // 0x027EA5F4
+	arm_func_start WSetPowerMgtMode
+WSetPowerMgtMode: // 0x027EA5F4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _027EA660 // =0x0380FFF4
@@ -12352,7 +12349,7 @@ _027EA634:
 	strh r0, [r1]
 	ldrh r0, [r2, #0x20]
 	mov r1, #0
-	bl sub_27EB0D0
+	bl WSetActiveZoneTime
 _027EA650:
 	mov r0, #0
 	add sp, sp, #4
@@ -12361,10 +12358,10 @@ _027EA650:
 	.align 2, 0
 _027EA660: .word 0x0380FFF4
 _027EA664: .word 0x04808006
-	arm_func_end sub_27EA5F4
+	arm_func_end WSetPowerMgtMode
 
-	arm_func_start sub_27EA668
-sub_27EA668: // 0x027EA668
+	arm_func_start WSetTxTimeStampOffset
+WSetTxTimeStampOffset: // 0x027EA668
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027EA6E4 // =0x0000E2E2
@@ -12372,12 +12369,12 @@ sub_27EA668: // 0x027EA668
 	mov r0, #0x58
 	mov r1, #2
 	add r2, sp, #0
-	bl sub_27F5A28
+	bl FLASH_Read
 	ldr r1, [sp]
 	ldr r0, _027EA6E8 // =0x00000202
 	add r0, r1, r0
 	str r0, [sp]
-	bl sub_27E9CC8
+	bl WCalcManRate
 	cmp r0, #0x14
 	bne _027EA6CC
 	ldr r1, [sp]
@@ -12404,10 +12401,10 @@ _027EA6EC: .word 0x00006161
 _027EA6F0: .word 0x048080BC
 _027EA6F4: .word 0x00006060
 _027EA6F8: .word 0x04808140
-	arm_func_end sub_27EA668
+	arm_func_end WSetTxTimeStampOffset
 
-	arm_func_start sub_27EA6FC
-sub_27EA6FC: // 0x027EA6FC
+	arm_func_start WSetRateSet
+WSetRateSet: // 0x027EA6FC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _027EA740 // =0x0380FFF4
@@ -12420,25 +12417,25 @@ sub_27EA6FC: // 0x027EA6FC
 	ldrh r0, [r0]
 	orr r0, r1, r0
 	strh r0, [r3, #2]
-	bl sub_27EA668
+	bl WSetTxTimeStampOffset
 	mov r0, #0
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027EA740: .word 0x0380FFF4
-	arm_func_end sub_27EA6FC
+	arm_func_end WSetRateSet
 
-	arm_func_start sub_27EA744
-sub_27EA744: // 0x027EA744
+	arm_func_start WSetChannel
+WSetChannel: // 0x027EA744
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r10, r0
 	cmp r1, #0
-	ldrne r9, _027EA9BC // =sub_27F59D8
-	ldreq r9, _027EA9C0 // =sub_27F5A28
+	ldrne r9, _027EA9BC // =FLASH_DirectRead
+	ldreq r9, _027EA9C0 // =FLASH_Read
 	mov r0, r10
-	bl sub_27E9DD0
+	bl CheckEnableChannel
 	cmp r0, #0
 	moveq r0, #5
 	beq _027EA9B0
@@ -12483,23 +12480,17 @@ _027EA7E0:
 	add r2, sp, #0
 	mov lr, pc
 	bx r9
-	arm_func_end sub_27EA744
-
-	arm_func_start sub_27EA808
-sub_27EA808: // 0x027EA808
+_27EA808:
 	ldr r0, [sp]
-	bl sub_27E9C2C
+	bl RF_Write
 	add r0, r5, #0xf5
 	mov r1, #3
 	add r2, sp, #0
 	mov lr, pc
 	bx r9
-	arm_func_end sub_27EA808
-
-	arm_func_start sub_27EA824
-sub_27EA824: // 0x027EA824
+_27EA824:
 	ldr r0, [sp]
-	bl sub_27E9C2C
+	bl RF_Write
 	mov r0, #0
 	str r0, [sp]
 	ldr r0, _027EA9D4 // =0x0380FFF4
@@ -12514,10 +12505,7 @@ sub_27EA824: // 0x027EA824
 	add r2, sp, #0
 	mov lr, pc
 	bx r9
-	arm_func_end sub_27EA824
-
-	arm_func_start sub_27EA864
-sub_27EA864: // 0x027EA864
+_27EA864: // 0x027EA864
 	ldr r0, _027EA9D4 // =0x0380FFF4
 	ldr r0, [r0]
 	ldr r1, [r0, #0x604]
@@ -12525,7 +12513,7 @@ sub_27EA864: // 0x027EA864
 	and r0, r0, #0x1f
 	orr r0, r1, r0, lsl #10
 	str r0, [sp]
-	bl sub_27E9C2C
+	bl RF_Write
 	b _027EA998
 _027EA888:
 	ldr r0, _027EA9D8 // =0x00000146
@@ -12534,13 +12522,10 @@ _027EA888:
 	add r2, sp, #0
 	mov lr, pc
 	bx r9
-	arm_func_end sub_27EA864
-
-	arm_func_start sub_27EA8A0
-sub_27EA8A0: // 0x027EA8A0
+_27EA8A0: // 0x027EA8A0
 	mov r0, #0x1e
 	ldr r1, [sp]
-	bl sub_27E9C54
+	bl BBP_Write
 	b _027EA998
 _027EA8B0:
 	ldrh r0, [r0, #0xfc]
@@ -12557,22 +12542,16 @@ _027EA8C8:
 	add r2, sp, #4
 	mov lr, pc
 	bx r9
-	arm_func_end sub_27EA8A0
-
-	arm_func_start sub_27EA8E4
-sub_27EA8E4: // 0x027EA8E4
+_27EA8E4: // 0x027EA8E4
 	add r0, r7, r10
 	mov r1, r4
 	add r2, sp, #0
 	mov lr, pc
 	bx r9
-	arm_func_end sub_27EA8E4
-
-	arm_func_start sub_27EA8F8
-sub_27EA8F8: // 0x027EA8F8
+_27EA8F8: // 0x027EA8F8
 	ldr r0, [sp, #4]
 	ldr r1, [sp]
-	bl sub_27E9C54
+	bl BBP_Write
 	add r7, r7, #0xf
 	add r6, r6, #1
 _027EA90C:
@@ -12593,10 +12572,7 @@ _027EA934:
 	add r2, sp, #0
 	mov lr, pc
 	bx r9
-	arm_func_end sub_27EA8F8
-
-	arm_func_start sub_27EA94C
-sub_27EA94C: // 0x027EA94C
+_27EA94C: // 0x027EA94C
 	ldr r0, [sp]
 	mov r0, r0, lsl #8
 	str r0, [sp]
@@ -12605,14 +12581,11 @@ sub_27EA94C: // 0x027EA94C
 	add r2, sp, #0
 	mov lr, pc
 	bx r9
-	arm_func_end sub_27EA94C
-
-	arm_func_start sub_27EA96C
-sub_27EA96C: // 0x027EA96C
+_27EA96C: // 0x027EA96C
 	ldr r0, [sp]
 	orr r0, r0, #0x50000
 	str r0, [sp]
-	bl sub_27E9C2C
+	bl RF_Write
 	add r7, r7, #0xf
 	add r6, r6, #1
 _027EA984:
@@ -12633,88 +12606,88 @@ _027EA9B0:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
-_027EA9BC: .word sub_27F59D8
-_027EA9C0: .word sub_27F5A28
+_027EA9BC: .word FLASH_DirectRead
+_027EA9C0: .word FLASH_Read
 _027EA9C4: .word 0x04808040
 _027EA9C8: .word 0x00008001
 _027EA9CC: .word 0x0480803C
 _027EA9D0: .word 0x04808214
 _027EA9D4: .word 0x0380FFF4
-	arm_func_end sub_27EA96C
 _027EA9D8: .word 0x00000146
 _027EA9DC: .word 0x04808048
+	arm_func_end WSetChannel
 
-	arm_func_start sub_27EA9E0
-sub_27EA9E0: // 0x027EA9E0
+	arm_func_start WSetDefaultParameters
+WSetDefaultParameters: // 0x027EA9E0
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	mov r0, #0x36
 	mov r1, #6
 	add r2, sp, #2
-	bl sub_27F5A28
+	bl FLASH_Read
 	mov r0, #0x3c
 	mov r1, #2
 	add r2, sp, #0
-	bl sub_27F5A28
+	bl FLASH_Read
 	add r0, sp, #2
-	bl sub_27EB4AC
+	bl WSetMacAdrs
 	mov r0, #7
-	bl sub_27EB478
+	bl WSetRetryLimit
 	ldrh r1, [sp]
 	ldr r0, _027EAB14 // =0x00007FFE
 	and r0, r1, r0
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27EB438
+	bl WSetEnableChannel
 	mov r0, #2
-	bl sub_27EB3B0
+	bl WSetMode
 	mov r0, #0
-	bl sub_27EB374
+	bl WSetRate
 	mov r0, #0
-	bl sub_27EB2C0
+	bl WSetWepMode
 	mov r0, #0
-	bl sub_27EB29C
+	bl WSetWepKeyId
 	ldr r0, _027EAB18 // =0x027F7F18
-	bl sub_27EB238
+	bl WSetWepKey
 	mov r0, #0x1f4
-	bl sub_27EABB0
+	bl WSetBeaconPeriod
 	mov r0, #0
-	bl sub_27EB200
+	bl WSetBeaconType
 	mov r0, #0
-	bl sub_27EB1C8
+	bl WSetBcSsidResponse
 	mov r0, #0x10
-	bl sub_27EB190
+	bl WSetBeaconLostThreshold
 	ldr r0, _027EAB1C // =0x0000FFFF
 	mov r1, #0
-	bl sub_27EB0D0
+	bl WSetActiveZoneTime
 	ldr r0, _027EAB20 // =0x027F7EB8
-	bl sub_27EB0A0
+	bl WSetSsidMask
 	mov r0, #1
-	bl sub_27EAFE0
+	bl WSetPreambleType
 	mov r0, #0
-	bl sub_27EAFBC
-	ldr r0, _027EAB24 // =_027F7E74
-	bl sub_27EA6FC
+	bl WSetAuthAlgo
+	ldr r0, _027EAB24 // =c_RateSet_3853
+	bl WSetRateSet
 	mov r0, #0
 	mov r1, #0x1f
-	bl sub_27EAF74
+	bl WSetCCA_ED
 	mov r0, #5
-	bl sub_27EA444
+	bl WSetFrameLifeTime
 	mov r0, #0
 	mov r1, r0
-	bl sub_27EAE30
+	bl WSetDiversity
 	mov r0, #0
-	bl sub_27EAF0C
+	bl WSetMainAntenna
 	mov r0, #0
-	bl sub_27EADF0
+	bl WSetBeaconSendRecvIndicate
 	mov r0, #0
-	bl sub_27EAD94
+	bl WSetNullKeyMode
 	ldr r2, _027EAB28 // =0x04808044
 	ldrh r1, [r2]
 	ldrh r0, [r2]
 	add r0, r1, r0, lsl #8
 	ldrh r1, [r2]
-	bl sub_27E9470
+	bl RND_init
 	mov r1, #1
 	ldr r0, _027EAB2C // =0x0380FFF4
 	ldr r0, [r0]
@@ -12728,13 +12701,13 @@ _027EAB14: .word 0x00007FFE
 _027EAB18: .word 0x027F7F18
 _027EAB1C: .word 0x0000FFFF
 _027EAB20: .word 0x027F7EB8
-_027EAB24: .word _027F7E74
+_027EAB24: .word c_RateSet_3853
 _027EAB28: .word 0x04808044
 _027EAB2C: .word 0x0380FFF4
-	arm_func_end sub_27EA9E0
+	arm_func_end WSetDefaultParameters
 
-	arm_func_start sub_27EAB30
-sub_27EAB30: // 0x027EAB30
+	arm_func_start WSetListenInterval
+WSetListenInterval: // 0x027EAB30
 	cmp r0, #1
 	blo _027EAB40
 	cmp r0, #0xff
@@ -12751,10 +12724,10 @@ _027EAB48:
 	bx lr
 	.align 2, 0
 _027EAB60: .word 0x0380FFF4
-	arm_func_end sub_27EAB30
+	arm_func_end WSetListenInterval
 
-	arm_func_start sub_27EAB64
-sub_27EAB64: // 0x027EAB64
+	arm_func_start WSetDTIMPeriod
+WSetDTIMPeriod: // 0x027EAB64
 	cmp r0, #1
 	blo _027EAB74
 	cmp r0, #0xff
@@ -12777,10 +12750,10 @@ _027EAB7C:
 _027EABA4: .word 0x0380FFF4
 _027EABA8: .word 0x0480808E
 _027EABAC: .word 0x04808088
-	arm_func_end sub_27EAB64
+	arm_func_end WSetDTIMPeriod
 
-	arm_func_start sub_27EABB0
-sub_27EABB0: // 0x027EABB0
+	arm_func_start WSetBeaconPeriod
+WSetBeaconPeriod: // 0x027EABB0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	cmp r0, #0xa
@@ -12800,7 +12773,7 @@ _027EABD0:
 	ldr r0, [r2]
 	add r0, r0, #0x300
 	ldrh r0, [r0, #0x38]
-	bl sub_27EA444
+	bl WSetFrameLifeTime
 	mov r0, #0
 _027EABFC:
 	add sp, sp, #4
@@ -12809,10 +12782,10 @@ _027EABFC:
 	.align 2, 0
 _027EAC08: .word 0x0380FFF4
 _027EAC0C: .word 0x0480808C
-	arm_func_end sub_27EABB0
+	arm_func_end WSetBeaconPeriod
 
-	arm_func_start sub_27EAC10
-sub_27EAC10: // 0x027EAC10
+	arm_func_start WSetSsid
+WSetSsid: // 0x027EAC10
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r8, r0
@@ -12844,10 +12817,10 @@ _027EAC74:
 	b _027EAC9C
 _027EAC80:
 	mov r0, r7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	add r0, r9, r5
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r7, r7, #1
 	add r5, r5, #1
 _027EAC9C:
@@ -12859,7 +12832,7 @@ _027EAC9C:
 _027EACB0:
 	add r0, r9, r5
 	mov r1, r7
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r5, r5, #1
 _027EACC0:
 	cmp r5, #0x20
@@ -12878,10 +12851,10 @@ _027EACC0:
 	b _027EAD10
 _027EACF8:
 	add r0, r4, r5
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	add r0, r7, r5
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r5, r5, #1
 _027EAD10:
 	cmp r5, r8
@@ -12894,20 +12867,20 @@ _027EAD1C:
 	bx lr
 	.align 2, 0
 _027EAD28: .word 0x0380FFF4
-	arm_func_end sub_27EAC10
+	arm_func_end WSetSsid
 
-	arm_func_start sub_27EAD2C
-sub_27EAD2C: // 0x027EAD2C
+	arm_func_start WSetBssid
+WSetBssid: // 0x027EAD2C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, _027EAD88 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x3a8
 	mov r1, r4
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ldr r0, _027EAD8C // =0x04808020
 	mov r1, r4
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ldrh r0, [r4]
 	ands r0, r0, #1
 	ldrne r1, _027EAD90 // =0x048080D0
@@ -12925,10 +12898,10 @@ sub_27EAD2C: // 0x027EAD2C
 _027EAD88: .word 0x0380FFF4
 _027EAD8C: .word 0x04808020
 _027EAD90: .word 0x048080D0
-	arm_func_end sub_27EAD2C
+	arm_func_end WSetBssid
 
-	arm_func_start sub_27EAD94
-sub_27EAD94: // 0x027EAD94
+	arm_func_start WSetNullKeyMode
+WSetNullKeyMode: // 0x027EAD94
 	cmp r0, #1
 	movhi r0, #5
 	bxhi lr
@@ -12953,10 +12926,10 @@ sub_27EAD94: // 0x027EAD94
 _027EADE4: .word 0x0380FFF4
 _027EADE8: .word 0x0480802A
 _027EADEC: .word 0x04808028
-	arm_func_end sub_27EAD94
+	arm_func_end WSetNullKeyMode
 
-	arm_func_start sub_27EADF0
-sub_27EADF0: // 0x027EADF0
+	arm_func_start WSetBeaconSendRecvIndicate
+WSetBeaconSendRecvIndicate: // 0x027EADF0
 	cmp r0, #1
 	movhi r0, #5
 	bxhi lr
@@ -12974,10 +12947,10 @@ sub_27EADF0: // 0x027EADF0
 	bx lr
 	.align 2, 0
 _027EAE2C: .word 0x0380FFF4
-	arm_func_end sub_27EADF0
+	arm_func_end WSetBeaconSendRecvIndicate
 
-	arm_func_start sub_27EAE30
-sub_27EAE30: // 0x027EAE30
+	arm_func_start WSetDiversity
+WSetDiversity: // 0x027EAE30
 	cmp r0, #1
 	bhi _027EAE40
 	cmp r1, #1
@@ -13039,10 +13012,10 @@ _027EAEB0:
 	.align 2, 0
 _027EAF04: .word 0x0380FFF4
 _027EAF08: .word 0x04808290
-	arm_func_end sub_27EAE30
+	arm_func_end WSetDiversity
 
-	arm_func_start sub_27EAF0C
-sub_27EAF0C: // 0x027EAF0C
+	arm_func_start WSetMainAntenna
+WSetMainAntenna: // 0x027EAF0C
 	cmp r0, #1
 	movhi r0, #5
 	bxhi lr
@@ -13070,10 +13043,10 @@ sub_27EAF0C: // 0x027EAF0C
 	.align 2, 0
 _027EAF6C: .word 0x0380FFF4
 _027EAF70: .word 0x04808290
-	arm_func_end sub_27EAF0C
+	arm_func_end WSetMainAntenna
 
-	arm_func_start sub_27EAF74
-sub_27EAF74: // 0x027EAF74
+	arm_func_start WSetCCA_ED
+WSetCCA_ED: // 0x027EAF74
 	stmdb sp!, {r4, lr}
 	mov r2, r0
 	mov r4, r1
@@ -13085,18 +13058,18 @@ sub_27EAF74: // 0x027EAF74
 	bhi _027EAFB4
 	mov r0, #0x13
 	mov r1, r2
-	bl sub_27E9C54
+	bl BBP_Write
 	mov r0, #0x35
 	mov r1, r4
-	bl sub_27E9C54
+	bl BBP_Write
 	mov r0, #0
 _027EAFB4:
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27EAF74
+	arm_func_end WSetCCA_ED
 
-	arm_func_start sub_27EAFBC
-sub_27EAFBC: // 0x027EAFBC
+	arm_func_start WSetAuthAlgo
+WSetAuthAlgo: // 0x027EAFBC
 	cmp r0, #1
 	movhi r0, #5
 	ldrls r1, _027EAFDC // =0x0380FFF4
@@ -13107,10 +13080,10 @@ sub_27EAFBC: // 0x027EAFBC
 	bx lr
 	.align 2, 0
 _027EAFDC: .word 0x0380FFF4
-	arm_func_end sub_27EAFBC
+	arm_func_end WSetAuthAlgo
 
-	arm_func_start sub_27EAFE0
-sub_27EAFE0: // 0x027EAFE0
+	arm_func_start WSetPreambleType
+WSetPreambleType: // 0x027EAFE0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _027EB098 // =0x0380FFF4
@@ -13153,7 +13126,7 @@ _027EB060:
 	ldrneh r0, [r1]
 	orrne r0, r0, #6
 	strneh r0, [r1]
-	bl sub_27EA668
+	bl WSetTxTimeStampOffset
 	mov r0, #0
 _027EB08C:
 	add sp, sp, #4
@@ -13162,10 +13135,10 @@ _027EB08C:
 	.align 2, 0
 _027EB098: .word 0x0380FFF4
 _027EB09C: .word 0x048080BC
-	arm_func_end sub_27EAFE0
+	arm_func_end WSetPreambleType
 
-	arm_func_start sub_27EB0A0
-sub_27EB0A0: // 0x027EB0A0
+	arm_func_start WSetSsidMask
+WSetSsidMask: // 0x027EB0A0
 	ldr r1, _027EB0CC // =0x0380FFF4
 	ldr r1, [r1]
 	add r2, r1, #0x384
@@ -13180,10 +13153,10 @@ _027EB0B0:
 	bx lr
 	.align 2, 0
 _027EB0CC: .word 0x0380FFF4
-	arm_func_end sub_27EB0A0
+	arm_func_end WSetSsidMask
 
-	arm_func_start sub_27EB0D0
-sub_27EB0D0: // 0x027EB0D0
+	arm_func_start WSetActiveZoneTime
+WSetActiveZoneTime: // 0x027EB0D0
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -13214,19 +13187,19 @@ sub_27EB0D0: // 0x027EB0D0
 	bne _027EB160
 	mov r0, r5
 	and r1, r4, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r5, #1
 	mov r1, r4, asr #8
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	b _027EB178
 _027EB160:
 	mov r0, r5
 	mov r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r5, #1
 	mov r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 _027EB178:
 	mov r0, #0
 _027EB17C:
@@ -13236,10 +13209,10 @@ _027EB17C:
 	.align 2, 0
 _027EB188: .word 0x0380FFF4
 _027EB18C: .word 0x04808134
-	arm_func_end sub_27EB0D0
+	arm_func_end WSetActiveZoneTime
 
-	arm_func_start sub_27EB190
-sub_27EB190: // 0x027EB190
+	arm_func_start WSetBeaconLostThreshold
+WSetBeaconLostThreshold: // 0x027EB190
 	cmp r0, #0xff
 	movhi r0, #5
 	bxhi lr
@@ -13255,10 +13228,10 @@ sub_27EB190: // 0x027EB190
 	bx lr
 	.align 2, 0
 _027EB1C4: .word 0x0380FFF4
-	arm_func_end sub_27EB190
+	arm_func_end WSetBeaconLostThreshold
 
-	arm_func_start sub_27EB1C8
-sub_27EB1C8: // 0x027EB1C8
+	arm_func_start WSetBcSsidResponse
+WSetBcSsidResponse: // 0x027EB1C8
 	cmp r0, #1
 	movhi r0, #5
 	bxhi lr
@@ -13274,10 +13247,10 @@ sub_27EB1C8: // 0x027EB1C8
 	bx lr
 	.align 2, 0
 _027EB1FC: .word 0x0380FFF4
-	arm_func_end sub_27EB1C8
+	arm_func_end WSetBcSsidResponse
 
-	arm_func_start sub_27EB200
-sub_27EB200: // 0x027EB200
+	arm_func_start WSetBeaconType
+WSetBeaconType: // 0x027EB200
 	cmp r0, #1
 	movhi r0, #5
 	bxhi lr
@@ -13293,28 +13266,28 @@ sub_27EB200: // 0x027EB200
 	bx lr
 	.align 2, 0
 _027EB234: .word 0x0380FFF4
-	arm_func_end sub_27EB200
+	arm_func_end WSetBeaconType
 
-	arm_func_start sub_27EB238
-sub_27EB238: // 0x027EB238
+	arm_func_start WSetWepKey
+WSetWepKey: // 0x027EB238
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, _027EB28C // =0x04805F80
 	mov r1, r4
 	mov r2, #0x14
-	bl sub_27E9568
+	bl DMA_Write
 	ldr r0, _027EB290 // =0x04805FA0
 	add r1, r4, #0x14
 	mov r2, #0x14
-	bl sub_27E9568
+	bl DMA_Write
 	ldr r0, _027EB294 // =0x04805FC0
 	add r1, r4, #0x28
 	mov r2, #0x14
-	bl sub_27E9568
+	bl DMA_Write
 	ldr r0, _027EB298 // =0x04805FE0
 	add r1, r4, #0x3c
 	mov r2, #0x14
-	bl sub_27E9568
+	bl DMA_Write
 	mov r0, #0
 	ldmia sp!, {r4, lr}
 	bx lr
@@ -13323,10 +13296,10 @@ _027EB28C: .word 0x04805F80
 _027EB290: .word 0x04805FA0
 _027EB294: .word 0x04805FC0
 _027EB298: .word 0x04805FE0
-	arm_func_end sub_27EB238
+	arm_func_end WSetWepKey
 
-	arm_func_start sub_27EB29C
-sub_27EB29C: // 0x027EB29C
+	arm_func_start WSetWepKeyId
+WSetWepKeyId: // 0x027EB29C
 	cmp r0, #3
 	movhi r0, #5
 	ldrls r1, _027EB2BC // =0x0380FFF4
@@ -13337,10 +13310,10 @@ sub_27EB29C: // 0x027EB29C
 	bx lr
 	.align 2, 0
 _027EB2BC: .word 0x0380FFF4
-	arm_func_end sub_27EB29C
+	arm_func_end WSetWepKeyId
 
-	arm_func_start sub_27EB2C0
-sub_27EB2C0: // 0x027EB2C0
+	arm_func_start WSetWepMode
+WSetWepMode: // 0x027EB2C0
 	ldr r1, _027EB368 // =0x0380FFF4
 	ldr r1, [r1]
 	add r2, r1, #0x344
@@ -13390,10 +13363,10 @@ _027EB340:
 _027EB368: .word 0x0380FFF4
 _027EB36C: .word 0x04808006
 _027EB370: .word 0x0000FFC7
-	arm_func_end sub_27EB2C0
+	arm_func_end WSetWepMode
 
-	arm_func_start sub_27EB374
-sub_27EB374: // 0x027EB374
+	arm_func_start WSetRate
+WSetRate: // 0x027EB374
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	cmp r0, #2
@@ -13403,7 +13376,7 @@ sub_27EB374: // 0x027EB374
 	ldr r1, [r1]
 	add r1, r1, #0x300
 	strh r0, [r1, #0x30]
-	bl sub_27EA668
+	bl WSetTxTimeStampOffset
 	mov r0, #0
 _027EB3A0:
 	add sp, sp, #4
@@ -13411,10 +13384,10 @@ _027EB3A0:
 	bx lr
 	.align 2, 0
 _027EB3AC: .word 0x0380FFF4
-	arm_func_end sub_27EB374
+	arm_func_end WSetRate
 
-	arm_func_start sub_27EB3B0
-sub_27EB3B0: // 0x027EB3B0
+	arm_func_start WSetMode
+WSetMode: // 0x027EB3B0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	cmp r0, #3
@@ -13436,7 +13409,7 @@ sub_27EB3B0: // 0x027EB3B0
 	ldr r0, [ip]
 	add r0, r0, #0x300
 	ldrh r0, [r0, #0x52]
-	bl sub_27EA5F4
+	bl WSetPowerMgtMode
 	ldr r0, _027EB42C // =0x0380FFF4
 	ldr r1, [r0]
 	ldr r0, [r1, #0x340]
@@ -13451,10 +13424,10 @@ _027EB420:
 _027EB42C: .word 0x0380FFF4
 _027EB430: .word 0x04808006
 _027EB434: .word 0x0000FFF8
-	arm_func_end sub_27EB3B0
+	arm_func_end WSetMode
 
-	arm_func_start sub_27EB438
-sub_27EB438: // 0x027EB438
+	arm_func_start WSetEnableChannel
+WSetEnableChannel: // 0x027EB438
 	ldr r1, _027EB470 // =0x00007FFE
 	ands r1, r0, r1
 	moveq r0, #5
@@ -13472,10 +13445,10 @@ sub_27EB438: // 0x027EB438
 	.align 2, 0
 _027EB470: .word 0x00007FFE
 _027EB474: .word 0x0380FFF4
-	arm_func_end sub_27EB438
+	arm_func_end WSetEnableChannel
 
-	arm_func_start sub_27EB478
-sub_27EB478: // 0x027EB478
+	arm_func_start WSetRetryLimit
+WSetRetryLimit: // 0x027EB478
 	cmp r0, #0xff
 	movhi r0, #5
 	bxhi lr
@@ -13490,10 +13463,10 @@ sub_27EB478: // 0x027EB478
 	.align 2, 0
 _027EB4A4: .word 0x0380FFF4
 _027EB4A8: .word 0x0480802C
-	arm_func_end sub_27EB478
+	arm_func_end WSetRetryLimit
 
-	arm_func_start sub_27EB4AC
-sub_27EB4AC: // 0x027EB4AC
+	arm_func_start WSetMacAdrs
+WSetMacAdrs: // 0x027EB4AC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r0, [r4]
@@ -13504,10 +13477,10 @@ sub_27EB4AC: // 0x027EB4AC
 	ldr r0, [r0]
 	add r0, r0, #0x324
 	mov r1, r4
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ldr r0, _027EB508 // =0x04808018
 	mov r1, r4
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ldr r0, _027EB504 // =0x0380FFF4
 	ldr r1, [r0]
 	ldr r0, [r1, #0x340]
@@ -13520,10 +13493,10 @@ _027EB4FC:
 	.align 2, 0
 _027EB504: .word 0x0380FFF4
 _027EB508: .word 0x04808018
-	arm_func_end sub_27EB4AC
+	arm_func_end WSetMacAdrs
 
-	arm_func_start sub_27EB50C
-sub_27EB50C: // 0x027EB50C
+	arm_func_start InitializeParam
+InitializeParam: // 0x027EB50C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -13557,10 +13530,10 @@ sub_27EB50C: // 0x027EB50C
 	bx lr
 	.align 2, 0
 _027EB588: .word 0x0380FFF4
-	arm_func_end sub_27EB50C
+	arm_func_end InitializeParam
 
-	arm_func_start sub_27EB58C
-sub_27EB58C: // 0x027EB58C
+	arm_func_start DiagBaseBand
+DiagBaseBand: // 0x027EB58C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r9, #0
@@ -13578,7 +13551,7 @@ sub_27EB58C: // 0x027EB58C
 _027EB5C4:
 	mov r0, r6
 	mov r1, r5
-	bl sub_27E9C54
+	bl BBP_Write
 	cmp r0, r4
 	moveq r9, #1
 	beq _027EB84C
@@ -13596,7 +13569,7 @@ _027EB5F4:
 	addeq r5, r5, #1
 	beq _027EB62C
 	mov r0, r4
-	bl sub_27E9C94
+	bl BBP_Read
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	cmp r0, #0xff
@@ -13614,7 +13587,7 @@ _027EB630:
 _027EB640:
 	mov r0, r5
 	mov r1, r4
-	bl sub_27E9C54
+	bl BBP_Write
 	add r5, r5, #1
 	cmp r5, #0x69
 	blo _027EB640
@@ -13628,7 +13601,7 @@ _027EB664:
 	addeq r4, r4, #1
 	beq _027EB698
 	mov r0, r5
-	bl sub_27E9C94
+	bl BBP_Read
 	mov r0, r0, lsl #0x10
 	movs r0, r0, lsr #0x10
 	beq _027EB698
@@ -13645,7 +13618,7 @@ _027EB69C:
 _027EB6AC:
 	mov r0, r4
 	mov r1, r5
-	bl sub_27E9C54
+	bl BBP_Write
 	add r4, r4, #1
 	mvn r0, r5
 	mov r0, r0, lsl #0x10
@@ -13663,7 +13636,7 @@ _027EB6E0:
 	addeq r4, r4, #1
 	beq _027EB718
 	mov r0, r6
-	bl sub_27E9C94
+	bl BBP_Read
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	cmp r0, r5
@@ -13685,7 +13658,7 @@ _027EB72C:
 _027EB73C:
 	mov r0, r5
 	mov r1, r4
-	bl sub_27E9C54
+	bl BBP_Write
 	add r5, r5, #1
 	sub r0, r4, #1
 	mov r0, r0, lsl #0x10
@@ -13703,7 +13676,7 @@ _027EB770:
 	addeq r4, r4, #1
 	beq _027EB7A8
 	mov r0, r6
-	bl sub_27E9C94
+	bl BBP_Read
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	cmp r0, r5
@@ -13736,9 +13709,9 @@ _027EB7D4:
 _027EB7F4:
 	mov r0, r6
 	mov r1, r7
-	bl sub_27E9C54
+	bl BBP_Write
 	mov r0, r6
-	bl sub_27E9C94
+	bl BBP_Read
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	cmp r0, r7
@@ -13777,10 +13750,10 @@ _027EB86C:
 _027EB878: .word 0x0380FFF4
 _027EB87C: .word 0x027F80C4
 _027EB880: .word 0x027F80F8
-	arm_func_end sub_27EB58C
+	arm_func_end DiagBaseBand
 
-	arm_func_start sub_27EB884
-sub_27EB884: // 0x027EB884
+	arm_func_start DiagMacMemory
+DiagMacMemory: // 0x027EB884
 	mov r0, #0
 	ldr r3, _027EB9F4 // =0x04804000
 	ldr r1, _027EB9F8 // =0x0000FFFF
@@ -13892,16 +13865,16 @@ _027EB9F8: .word 0x0000FFFF
 _027EB9FC: .word 0x00005A5A
 _027EBA00: .word 0x0000A5A5
 _027EBA04: .word 0x0380FFF4
-	arm_func_end sub_27EB884
+	arm_func_end DiagMacMemory
 
-	arm_func_start sub_27EBA08
-sub_27EBA08: // 0x027EBA08
+	arm_func_start DiagMacRegister
+DiagMacRegister: // 0x027EBA08
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r3, #0
 	mov r2, r3
 	mov r1, r3
-	ldr r0, _027EBBA4 // =_027F8130
+	ldr r0, _027EBBA4 // =test_reg
 	ldr r5, _027EBBA8 // =0x027F80BC
 	b _027EBA80
 _027EBA28:
@@ -13935,7 +13908,7 @@ _027EBA80:
 	blo _027EBA28
 	mov r4, #0
 	ldr r5, _027EBBAC // =0x00001234
-	ldr r2, _027EBBA4 // =_027F8130
+	ldr r2, _027EBBA4 // =test_reg
 	mov r1, r5
 _027EBA98:
 	mov ip, r4, lsl #2
@@ -13954,7 +13927,7 @@ _027EBA98:
 	blo _027EBA98
 	mov r0, #0
 	ldr r4, _027EBBAC // =0x00001234
-	ldr lr, _027EBBA4 // =_027F8130
+	ldr lr, _027EBBA4 // =test_reg
 	mov r1, r4
 	b _027EBB28
 _027EBAE4:
@@ -13980,7 +13953,7 @@ _027EBB28:
 	cmp r0, #0x1b
 	blo _027EBAE4
 	mov r4, #0
-	ldr r2, _027EBBA4 // =_027F8130
+	ldr r2, _027EBBA4 // =test_reg
 	mov r1, r4
 	b _027EBB70
 _027EBB40:
@@ -14014,14 +13987,14 @@ _027EBB98:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_027EBBA4: .word _027F8130
+_027EBBA4: .word test_reg
 _027EBBA8: .word 0x027F80BC
 _027EBBAC: .word 0x00001234
 _027EBBB0: .word 0x0380FFF4
-	arm_func_end sub_27EBA08
+	arm_func_end DiagMacRegister
 
-	arm_func_start sub_27EBBB4
-sub_27EBBB4: // 0x027EBBB4
+	arm_func_start ReleaseIntr
+ReleaseIntr: // 0x027EBBB4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #0x1000000
@@ -14032,14 +14005,14 @@ sub_27EBBB4: // 0x027EBBB4
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27EBBB4
+	arm_func_end ReleaseIntr
 
-	arm_func_start sub_27EBBDC
-sub_27EBBDC: // 0x027EBBDC
+	arm_func_start InitializeIntr
+InitializeIntr: // 0x027EBBDC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #0x1000000
-	ldr r1, _027EBC04 // =sub_37F94F4
+	ldr r1, _027EBC04 // =WlIntr
 	bl OS_SetIrqFunction
 	mov r0, #0x1000000
 	bl OS_EnableIrqMask
@@ -14047,11 +14020,11 @@ sub_27EBBDC: // 0x027EBBDC
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_027EBC04: .word sub_37F94F4
-	arm_func_end sub_27EBBDC
+_027EBC04: .word WlIntr
+	arm_func_end InitializeIntr
 
-	arm_func_start sub_27EBC08
-sub_27EBC08: // 0x027EBC08
+	arm_func_start CheckKeyTxEndMain
+CheckKeyTxEndMain: // 0x027EBC08
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldrh r1, [r0]
@@ -14069,7 +14042,7 @@ sub_27EBC08: // 0x027EBC08
 	ldrh r1, [r1]
 	cmp r2, r1
 	beq _027EBC58
-	bl sub_27F1D20
+	bl TxEndKeyData
 	mov r0, #1
 	b _027EBC5C
 _027EBC58:
@@ -14081,10 +14054,10 @@ _027EBC5C:
 	.align 2, 0
 _027EBC68: .word 0x00003FFF
 _027EBC6C: .word 0x04808098
-	arm_func_end sub_27EBC08
+	arm_func_end CheckKeyTxEndMain
 
-	arm_func_start sub_27EBC70
-sub_27EBC70: // 0x027EBC70
+	arm_func_start MultiPollRevicedClearSeq
+MultiPollRevicedClearSeq: // 0x027EBC70
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027EBCC8 // =0x0380FFF4
@@ -14114,20 +14087,20 @@ _027EBCCC: .word 0x0000042C
 _027EBCD0: .word 0x0000FFFF
 _027EBCD4: .word 0x04808094
 _027EBCD8: .word 0x04808030
-	arm_func_end sub_27EBC70
+	arm_func_end MultiPollRevicedClearSeq
 
-	arm_func_start sub_27EBCDC
-sub_27EBCDC: // 0x027EBCDC
+	arm_func_start WlIntrRfWakeup
+WlIntrRfWakeup: // 0x027EBCDC
 	mov r1, #0x800
 	ldr r0, _027EBCEC // =0x04808010
 	strh r1, [r0]
 	bx lr
 	.align 2, 0
 _027EBCEC: .word 0x04808010
-	arm_func_end sub_27EBCDC
+	arm_func_end WlIntrRfWakeup
 
-	arm_func_start sub_27EBCF0
-sub_27EBCF0: // 0x027EBCF0
+	arm_func_start CAM_InitElement
+CAM_InitElement: // 0x027EBCF0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -14158,12 +14131,12 @@ sub_27EBCF0: // 0x027EBCF0
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0
-	bl sub_27EC5CC
+	bl CAM_SetPowerMgtMode
 	mov r0, r6
-	bl sub_27EC568
+	bl CAM_SetAwake
 	add r0, r4, #4
 	mov r1, r5
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ldr r0, _027EBDC0 // =0x0000FFFF
 	strh r0, [r4, #0x14]
 	ldr r0, _027EBDBC // =0x0380FFF4
@@ -14176,16 +14149,16 @@ sub_27EBCF0: // 0x027EBCF0
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0x20
-	bl sub_27EC648
+	bl CAM_SetStaState
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
 _027EBDBC: .word 0x0380FFF4
 _027EBDC0: .word 0x0000FFFF
-	arm_func_end sub_27EBCF0
+	arm_func_end CAM_InitElement
 
-	arm_func_start sub_27EBDC4
-sub_27EBDC4: // 0x027EBDC4
+	arm_func_start InitCAM
+InitCAM: // 0x027EBDC4
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	ldr r0, _027EBE44 // =0x0380FFF4
 	ldr r1, [r0]
@@ -14224,10 +14197,10 @@ _027EBE0C:
 _027EBE44: .word 0x0380FFF4
 _027EBE48: .word 0x0000052C
 _027EBE4C: .word 0x0000FFFE
-	arm_func_end sub_27EBDC4
+	arm_func_end InitCAM
 
-	arm_func_start sub_27EBE50
-sub_27EBE50: // 0x027EBE50
+	arm_func_start InitializeCAM
+InitializeCAM: // 0x027EBE50
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _027EBEE8 // =0x0380FFF4
@@ -14260,11 +14233,11 @@ _027EBEBC:
 	cmp r3, r4
 	blo _027EBEB0
 	mov r0, #0
-	ldr r1, _027EBEF4 // =_027F7E78
-	bl sub_27EBCF0
+	ldr r1, _027EBEF4 // =BC_ADRS
+	bl CAM_InitElement
 	mov r0, #0
 	mov r1, #0x40
-	bl sub_27EC648
+	bl CAM_SetStaState
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
@@ -14272,14 +14245,14 @@ _027EBEBC:
 _027EBEE8: .word 0x0380FFF4
 _027EBEEC: .word 0x0000052C
 _027EBEF0: .word 0x0000FFFF
-_027EBEF4: .word _027F7E78
-	arm_func_end sub_27EBE50
+_027EBEF4: .word BC_ADRS
+	arm_func_end InitializeCAM
 
-	arm_func_start sub_27EBEF8
-sub_27EBEF8: // 0x027EBEF8
+	arm_func_start CAM_Delete
+CAM_Delete: // 0x027EBEF8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_27F1968
+	bl DeleteTxFrames
 	mov r3, #0
 	ldr r2, _027EBF3C // =0x0380FFF4
 	ldr r0, [r2]
@@ -14296,10 +14269,10 @@ sub_27EBEF8: // 0x027EBEF8
 	bx lr
 	.align 2, 0
 _027EBF3C: .word 0x0380FFF4
-	arm_func_end sub_27EBEF8
+	arm_func_end CAM_Delete
 
-	arm_func_start sub_27EBF40
-sub_27EBF40: // 0x027EBF40
+	arm_func_start CAM_TimerTask
+CAM_TimerTask: // 0x027EBF40
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x2c
 	ldr r0, _027EC120 // =0x0380FFF4
@@ -14342,14 +14315,14 @@ _027EBF9C:
 	cmp r0, #0x20
 	blo _027EC0D8
 	mov r0, r8
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	mov r5, r0
 	mov r0, r8, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, r4
-	bl sub_27EC648
+	bl CAM_SetStaState
 	mov r0, r8
-	bl sub_27F1968
+	bl DeleteTxFrames
 	add r0, r10, #0x300
 	ldrh r1, [r0, #0x50]
 	cmp r1, #1
@@ -14365,24 +14338,24 @@ _027EBF9C:
 	mov r0, r8, lsl #0x10
 	mov r0, r0, lsr #0x10
 	ldr r1, [sp]
-	bl sub_27EC5CC
+	bl CAM_SetPowerMgtMode
 	mov r0, r8
-	bl sub_27EC568
+	bl CAM_SetAwake
 	add r0, r9, #4
 	ldr r1, [sp, #4]
 	ldr r2, [sp, #8]
-	bl sub_27F094C
+	bl MakeDeAuthFrame
 	cmp r0, #0
 	beq _027EC078
 	ldr r1, [sp, #0xc]
 	strh r1, [r0]
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	add r7, r7, #1
 	b _027EC0FC
 _027EC078:
 	add r0, r9, #4
 	ldr r1, [sp, #0x10]
-	bl sub_27ECF94
+	bl MLME_IssueDeAuthIndication
 	b _027EC0D8
 _027EC088:
 	ldrh r0, [r0, #0xcc]
@@ -14391,21 +14364,21 @@ _027EC088:
 	add r0, r9, #4
 	ldr r1, [sp, #0x14]
 	ldr r2, [sp, #0x18]
-	bl sub_27F094C
+	bl MakeDeAuthFrame
 	cmp r0, #0
 	beq _027EC0C0
 	ldr r1, [sp, #0x1c]
 	strh r1, [r0]
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	add r7, r7, #1
 	b _027EC0FC
 _027EC0C0:
 	mov r0, r4
-	bl sub_37F9458
-	bl sub_27EA228
+	bl WSetStaState
+	bl WClearAids
 	add r0, r9, #4
 	ldr r1, [sp, #0x20]
-	bl sub_27ECF94
+	bl MLME_IssueDeAuthIndication
 _027EC0D8:
 	ldr r0, [sp, #0x24]
 	strh r0, [r9]
@@ -14433,13 +14406,13 @@ _027EC114:
 	.align 2, 0
 _027EC120: .word 0x0380FFF4
 _027EC124: .word 0x0000FFFF
-	arm_func_end sub_27EBF40
+	arm_func_end CAM_TimerTask
 
-	arm_func_start sub_27EC128
-sub_27EC128: // 0x027EC128
+	arm_func_start CAM_ClrTIMElementBitmap
+CAM_ClrTIMElementBitmap: // 0x027EC128
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	bne _027EC1C4
 	ldr r0, _027EC1CC // =0x0380FFF4
@@ -14454,27 +14427,27 @@ sub_27EC128: // 0x027EC128
 	cmp r5, #0
 	bne _027EC184
 	add r0, r6, #4
-	bl sub_27E94A4
+	bl WL_ReadByte
 	and r1, r0, #0xfe
 	add r0, r6, #4
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	b _027EC1BC
 _027EC184:
 	mov r0, r5
-	bl sub_27EC2CC
+	bl CAM_GetAID
 	mov r5, r0
 	add r0, r6, #5
 	add r6, r0, r5, lsr #3
 	mov r0, r6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r2, #1
 	and r1, r5, #7
 	mvn r1, r2, lsl r1
 	and r1, r1, r0
 	mov r0, r6
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 _027EC1BC:
 	mov r0, r4
 	bl OS_EnableIrqMask
@@ -14484,13 +14457,13 @@ _027EC1C4:
 	.align 2, 0
 _027EC1CC: .word 0x0380FFF4
 _027EC1D0: .word 0x0480425C
-	arm_func_end sub_27EC128
+	arm_func_end CAM_ClrTIMElementBitmap
 
-	arm_func_start sub_27EC1D4
-sub_27EC1D4: // 0x027EC1D4
+	arm_func_start CAM_SetTIMElementBitmap
+CAM_SetTIMElementBitmap: // 0x027EC1D4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	bne _027EC284
 	ldr r0, _027EC28C // =0x0380FFF4
@@ -14511,26 +14484,26 @@ sub_27EC1D4: // 0x027EC1D4
 	cmp r5, #0
 	bne _027EC248
 	add r0, r6, #4
-	bl sub_27E94A4
+	bl WL_ReadByte
 	orr r1, r0, #1
 	add r0, r6, #4
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	b _027EC27C
 _027EC248:
 	mov r0, r5
-	bl sub_27EC2CC
+	bl CAM_GetAID
 	mov r5, r0
 	add r0, r6, #5
 	add r6, r0, r5, lsr #3
 	mov r0, r6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r2, #1
 	and r1, r5, #7
 	orr r1, r0, r2, lsl r1
 	mov r0, r6
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 _027EC27C:
 	mov r0, r4
 	bl OS_EnableIrqMask
@@ -14540,10 +14513,10 @@ _027EC284:
 	.align 2, 0
 _027EC28C: .word 0x0380FFF4
 _027EC290: .word 0x0480425C
-	arm_func_end sub_27EC1D4
+	arm_func_end CAM_SetTIMElementBitmap
 
-	arm_func_start sub_27EC294
-sub_27EC294: // 0x027EC294
+	arm_func_start CAM_GetTbl
+CAM_GetTbl: // 0x027EC294
 	ldr r1, _027EC2AC // =0x0380FFF4
 	ldr r1, [r1]
 	ldr r2, [r1, #0x31c]
@@ -14552,35 +14525,35 @@ sub_27EC294: // 0x027EC294
 	bx lr
 	.align 2, 0
 _027EC2AC: .word 0x0380FFF4
-	arm_func_end sub_27EC294
+	arm_func_end CAM_GetTbl
 
-	arm_func_start sub_27EC2B0
-sub_27EC2B0: // 0x027EC2B0
+	arm_func_start CAM_GetFrameCount
+CAM_GetFrameCount: // 0x027EC2B0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_27EC294
+	bl CAM_GetTbl
 	ldrh r0, [r0, #0x16]
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27EC2B0
+	arm_func_end CAM_GetFrameCount
 
-	arm_func_start sub_27EC2CC
-sub_27EC2CC: // 0x027EC2CC
+	arm_func_start CAM_GetAID
+CAM_GetAID: // 0x027EC2CC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_27EC294
+	bl CAM_GetTbl
 	ldrh r0, [r0, #2]
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27EC2CC
+	arm_func_end CAM_GetAID
 
-	arm_func_start sub_27EC2E8
-sub_27EC2E8: // 0x027EC2E8
+	arm_func_start CAM_GetTxRate
+CAM_GetTxRate: // 0x027EC2E8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_27EC294
+	bl CAM_GetTbl
 	ldrh r0, [r0, #0x10]
 	ands r0, r0, #2
 	movne r0, #0x14
@@ -14588,43 +14561,43 @@ sub_27EC2E8: // 0x027EC2E8
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27EC2E8
+	arm_func_end CAM_GetTxRate
 
-	arm_func_start sub_27EC310
-sub_27EC310: // 0x027EC310
+	arm_func_start CAM_GetLastSeqCtrl
+CAM_GetLastSeqCtrl: // 0x027EC310
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_27EC294
+	bl CAM_GetTbl
 	ldrh r0, [r0, #0x14]
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27EC310
+	arm_func_end CAM_GetLastSeqCtrl
 
-	arm_func_start sub_27EC32C
-sub_27EC32C: // 0x027EC32C
+	arm_func_start CAM_GetAuthSeed
+CAM_GetAuthSeed: // 0x027EC32C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_27EC294
+	bl CAM_GetTbl
 	ldrh r0, [r0, #0xe]
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27EC32C
+	arm_func_end CAM_GetAuthSeed
 
-	arm_func_start sub_27EC348
-sub_27EC348: // 0x027EC348
+	arm_func_start CAM_GetMacAdrs
+CAM_GetMacAdrs: // 0x027EC348
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_27EC294
+	bl CAM_GetTbl
 	add r0, r0, #4
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27EC348
+	arm_func_end CAM_GetMacAdrs
 
-	arm_func_start sub_27EC364
-sub_27EC364: // 0x027EC364
+	arm_func_start CAM_GetPowerMgtMode
+CAM_GetPowerMgtMode: // 0x027EC364
 	ldr r1, _027EC380 // =0x0380FFF4
 	ldr r1, [r1]
 	add r1, r1, #0x500
@@ -14634,10 +14607,10 @@ sub_27EC364: // 0x027EC364
 	bx lr
 	.align 2, 0
 _027EC380: .word 0x0380FFF4
-	arm_func_end sub_27EC364
+	arm_func_end CAM_GetPowerMgtMode
 
-	arm_func_start sub_27EC384
-sub_27EC384: // 0x027EC384
+	arm_func_start CAM_IsActive
+CAM_IsActive: // 0x027EC384
 	ldr r1, _027EC3A0 // =0x0380FFF4
 	ldr r1, [r1]
 	add r1, r1, #0x500
@@ -14647,32 +14620,32 @@ sub_27EC384: // 0x027EC384
 	bx lr
 	.align 2, 0
 _027EC3A0: .word 0x0380FFF4
-	arm_func_end sub_27EC384
+	arm_func_end CAM_IsActive
 
-	arm_func_start sub_27EC3A4
-sub_27EC3A4: // 0x027EC3A4
+	arm_func_start CAM_GetStaState
+CAM_GetStaState: // 0x027EC3A4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_27EC294
+	bl CAM_GetTbl
 	ldrh r0, [r0]
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27EC3A4
+	arm_func_end CAM_GetStaState
 
-	arm_func_start sub_27EC3C0
-sub_27EC3C0: // 0x027EC3C0
+	arm_func_start CAM_ReleaseAID
+CAM_ReleaseAID: // 0x027EC3C0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r1, _027EC430 // =0x0380FFF4
 	ldr r5, [r1]
-	bl sub_27EC128
+	bl CAM_ClrTIMElementBitmap
 	mov r0, r6
-	bl sub_27EC2CC
+	bl CAM_GetAID
 	movs r4, r0
 	beq _027EC428
 	mov r0, r6
-	bl sub_27EC294
+	bl CAM_GetTbl
 	mov r1, #0
 	strh r1, [r0, #2]
 	add r0, r5, #0x500
@@ -14687,16 +14660,16 @@ sub_27EC3C0: // 0x027EC3C0
 	ldrh r0, [r0, #0x38]
 	cmp r0, #0
 	bne _027EC428
-	bl sub_27EA3F0
+	bl WDisableTmpttPowerSave
 _027EC428:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
 _027EC430: .word 0x0380FFF4
-	arm_func_end sub_27EC3C0
+	arm_func_end CAM_ReleaseAID
 
-	arm_func_start sub_27EC434
-sub_27EC434: // 0x027EC434
+	arm_func_start CAM_AllocateAID
+CAM_AllocateAID: // 0x027EC434
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -14722,10 +14695,10 @@ _027EC468:
 	ldrh r0, [r6, #0xc]
 	cmp r0, #1
 	bne _027EC498
-	bl sub_27EA3C0
+	bl WEnableTmpttPowerSave
 _027EC498:
 	mov r0, r7
-	bl sub_27EC294
+	bl CAM_GetTbl
 	strh r5, [r0, #2]
 	mov r0, r4
 	bl OS_EnableIrqMask
@@ -14747,10 +14720,10 @@ _027EC4D0:
 	.align 2, 0
 _027EC4DC: .word 0x0380FFF4
 _027EC4E0: .word 0x0000052C
-	arm_func_end sub_27EC434
+	arm_func_end CAM_AllocateAID
 
-	arm_func_start sub_27EC4E4
-sub_27EC4E4: // 0x027EC4E4
+	arm_func_start CAM_UpdateLifeTime
+CAM_UpdateLifeTime: // 0x027EC4E4
 	mov r1, #0x1c
 	ldr r2, _027EC504 // =0x0380FFF4
 	ldr r2, [r2]
@@ -14761,50 +14734,50 @@ sub_27EC4E4: // 0x027EC4E4
 	bx lr
 	.align 2, 0
 _027EC504: .word 0x0380FFF4
-	arm_func_end sub_27EC4E4
+	arm_func_end CAM_UpdateLifeTime
 
-	arm_func_start sub_27EC508
-sub_27EC508: // 0x027EC508
+	arm_func_start CAM_SetAuthSeed
+CAM_SetAuthSeed: // 0x027EC508
 	stmdb sp!, {r4, lr}
 	mov r4, r1
-	bl sub_27EC294
+	bl CAM_GetTbl
 	strh r4, [r0, #0xe]
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27EC508
+	arm_func_end CAM_SetAuthSeed
 
-	arm_func_start sub_27EC520
-sub_27EC520: // 0x027EC520
+	arm_func_start CAM_SetLastSeqCtrl
+CAM_SetLastSeqCtrl: // 0x027EC520
 	stmdb sp!, {r4, lr}
 	mov r4, r1
-	bl sub_27EC294
+	bl CAM_GetTbl
 	strh r4, [r0, #0x14]
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27EC520
+	arm_func_end CAM_SetLastSeqCtrl
 
-	arm_func_start sub_27EC538
-sub_27EC538: // 0x027EC538
+	arm_func_start CAM_SetSupRate
+CAM_SetSupRate: // 0x027EC538
 	stmdb sp!, {r4, lr}
 	mov r4, r1
-	bl sub_27EC294
+	bl CAM_GetTbl
 	strh r4, [r0, #0x10]
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27EC538
+	arm_func_end CAM_SetSupRate
 
-	arm_func_start sub_27EC550
-sub_27EC550: // 0x027EC550
+	arm_func_start CAM_SetCapaInfo
+CAM_SetCapaInfo: // 0x027EC550
 	stmdb sp!, {r4, lr}
 	mov r4, r1
-	bl sub_27EC294
+	bl CAM_GetTbl
 	strh r4, [r0, #0xc]
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27EC550
+	arm_func_end CAM_SetCapaInfo
 
-	arm_func_start sub_27EC568
-sub_27EC568: // 0x027EC568
+	arm_func_start CAM_SetAwake
+CAM_SetAwake: // 0x027EC568
 	ldr r1, _027EC588 // =0x0380FFF4
 	ldr r1, [r1]
 	add r1, r1, #0x500
@@ -14815,13 +14788,13 @@ sub_27EC568: // 0x027EC568
 	bx lr
 	.align 2, 0
 _027EC588: .word 0x0380FFF4
-	arm_func_end sub_27EC568
+	arm_func_end CAM_SetAwake
 
-	arm_func_start sub_27EC58C
-sub_27EC58C: // 0x027EC58C
+	arm_func_start CAM_SetDoze
+CAM_SetDoze: // 0x027EC58C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	bne _027EC5C0
 	ldr r0, _027EC5C8 // =0x0380FFF4
@@ -14837,10 +14810,10 @@ _027EC5C0:
 	bx lr
 	.align 2, 0
 _027EC5C8: .word 0x0380FFF4
-	arm_func_end sub_27EC58C
+	arm_func_end CAM_SetDoze
 
-	arm_func_start sub_27EC5CC
-sub_27EC5CC: // 0x027EC5CC
+	arm_func_start CAM_SetPowerMgtMode
+CAM_SetPowerMgtMode: // 0x027EC5CC
 	ldr r2, _027EC620 // =0x0380FFF4
 	ldr r3, [r2]
 	ldr r2, _027EC624 // =0x0000052C
@@ -14867,20 +14840,20 @@ _027EC620: .word 0x0380FFF4
 _027EC624: .word 0x0000052C
 _027EC628: .word 0x048080AC
 _027EC62C: .word 0x048080AE
-	arm_func_end sub_27EC5CC
+	arm_func_end CAM_SetPowerMgtMode
 
-	arm_func_start sub_27EC630
-sub_27EC630: // 0x027EC630
+	arm_func_start CAM_SetRSSI
+CAM_SetRSSI: // 0x027EC630
 	stmdb sp!, {r4, lr}
 	mov r4, r1
-	bl sub_27EC294
+	bl CAM_GetTbl
 	strh r4, [r0, #0xa]
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27EC630
+	arm_func_end CAM_SetRSSI
 
-	arm_func_start sub_27EC648
-sub_27EC648: // 0x027EC648
+	arm_func_start CAM_SetStaState
+CAM_SetStaState: // 0x027EC648
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -14890,7 +14863,7 @@ sub_27EC648: // 0x027EC648
 	cmp r5, #0x40
 	bhs _027EC6BC
 	mov r0, r6
-	bl sub_27EC568
+	bl CAM_SetAwake
 	ldr r3, _027EC710 // =0x0380FFF4
 	ldr r0, [r3]
 	add r0, r0, #0x500
@@ -14904,11 +14877,11 @@ sub_27EC648: // 0x027EC648
 	cmp r0, #1
 	bne _027EC6F4
 	mov r0, r6
-	bl sub_27EC2CC
+	bl CAM_GetAID
 	cmp r0, #0
 	beq _027EC6F4
 	mov r0, r6
-	bl sub_27EC3C0
+	bl CAM_ReleaseAID
 	b _027EC6F4
 _027EC6BC:
 	ldr r0, _027EC710 // =0x0380FFF4
@@ -14920,14 +14893,14 @@ _027EC6BC:
 	and r1, r2, r1
 	strh r1, [r0, #0x32]
 	mov r0, r6
-	bl sub_27EC364
+	bl CAM_GetPowerMgtMode
 	cmp r0, #0
 	beq _027EC6F4
 	mov r0, r6
-	bl sub_27EC58C
+	bl CAM_SetDoze
 _027EC6F4:
 	mov r0, r6
-	bl sub_27EC294
+	bl CAM_GetTbl
 	strh r5, [r0]
 	mov r0, r4
 	bl OS_EnableIrqMask
@@ -14935,14 +14908,14 @@ _027EC6F4:
 	bx lr
 	.align 2, 0
 _027EC710: .word 0x0380FFF4
-	arm_func_end sub_27EC648
+	arm_func_end CAM_SetStaState
 
-	arm_func_start sub_27EC714
-sub_27EC714: // 0x027EC714
+	arm_func_start CAM_DecFrameCount
+CAM_DecFrameCount: // 0x027EC714
 	stmdb sp!, {r4, r5, r6, lr}
 	ldrh r4, [r0, #2]
 	mov r0, r4
-	bl sub_27EC294
+	bl CAM_GetTbl
 	mov r6, r0
 	mov r0, #0x1000000
 	bl OS_DisableIrqMask
@@ -14957,7 +14930,7 @@ sub_27EC714: // 0x027EC714
 	cmp r0, #1
 	bne _027EC760
 	mov r0, r4
-	bl sub_27EC128
+	bl CAM_ClrTIMElementBitmap
 _027EC760:
 	ldrh r0, [r6, #0x16]
 	sub r0, r0, #1
@@ -14968,14 +14941,14 @@ _027EC760:
 	bx lr
 	.align 2, 0
 _027EC77C: .word 0x0380FFF4
-	arm_func_end sub_27EC714
+	arm_func_end CAM_DecFrameCount
 
-	arm_func_start sub_27EC780
-sub_27EC780: // 0x027EC780
+	arm_func_start CAM_IncFrameCount
+CAM_IncFrameCount: // 0x027EC780
 	stmdb sp!, {r4, r5, r6, lr}
 	ldrh r4, [r0, #2]
 	mov r0, r4
-	bl sub_27EC294
+	bl CAM_GetTbl
 	mov r6, r0
 	mov r0, #0x1000000
 	bl OS_DisableIrqMask
@@ -14990,7 +14963,7 @@ sub_27EC780: // 0x027EC780
 	cmp r0, #0
 	bne _027EC7CC
 	mov r0, r4
-	bl sub_27EC1D4
+	bl CAM_SetTIMElementBitmap
 _027EC7CC:
 	ldrh r0, [r6, #0x16]
 	add r0, r0, #1
@@ -15010,10 +14983,10 @@ _027EC7CC:
 	bx lr
 	.align 2, 0
 _027EC80C: .word 0x0380FFF4
-	arm_func_end sub_27EC780
+	arm_func_end CAM_IncFrameCount
 
-	arm_func_start sub_27EC810
-sub_27EC810: // 0x027EC810
+	arm_func_start CAM_AddBcFrame
+CAM_AddBcFrame: // 0x027EC810
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -15028,12 +15001,12 @@ sub_27EC810: // 0x027EC810
 	cmp r0, #0
 	bne _027EC84C
 	mov r0, #0
-	bl sub_27EC1D4
+	bl CAM_SetTIMElementBitmap
 _027EC84C:
 	mov r0, r7
 	mov r1, r5
 	mov r2, r6
-	bl sub_37F8A3C
+	bl MoveHeapBuf
 	mov r0, r4
 	bl OS_EnableIrqMask
 	add sp, sp, #4
@@ -15041,10 +15014,10 @@ _027EC84C:
 	bx lr
 	.align 2, 0
 _027EC870: .word 0x0380FFF4
-	arm_func_end sub_27EC810
+	arm_func_end CAM_AddBcFrame
 
-	arm_func_start sub_27EC874
-sub_27EC874: // 0x027EC874
+	arm_func_start CAM_SearchAdd
+CAM_SearchAdd: // 0x027EC874
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r9, r0
 	ldr r10, _027EC9B8 // =0x0380FFF4
@@ -15070,7 +15043,7 @@ _027EC8C0:
 	beq _027EC900
 	add r0, r7, #4
 	mov r1, r9
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	movne r0, r6
 	bne _027EC9B0
@@ -15133,17 +15106,17 @@ _027EC98C:
 _027EC9A0:
 	mov r0, r6
 	mov r1, r9
-	bl sub_27EBCF0
+	bl CAM_InitElement
 	mov r0, r6
 _027EC9B0:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
 _027EC9B8: .word 0x0380FFF4
-	arm_func_end sub_27EC874
+	arm_func_end CAM_SearchAdd
 
-	arm_func_start sub_27EC9BC
-sub_27EC9BC: // 0x027EC9BC
+	arm_func_start CAM_Search
+CAM_Search: // 0x027EC9BC
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r0
 	ldrh r0, [r8]
@@ -15167,7 +15140,7 @@ _027ECA00:
 	beq _027ECA3C
 	add r0, r7, #4
 	mov r1, r8
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	movne r0, r6
 	bne _027ECA58
@@ -15192,10 +15165,10 @@ _027ECA58:
 	bx lr
 	.align 2, 0
 _027ECA60: .word 0x0380FFF4
-	arm_func_end sub_27EC9BC
+	arm_func_end CAM_Search
 
-	arm_func_start sub_27ECA64
-sub_27ECA64: // 0x027ECA64
+	arm_func_start InitializeCmdIf
+InitializeCmdIf: // 0x027ECA64
 	mov r1, #0
 	ldr r0, _027ECA7C // =0x0380FFF4
 	ldr r0, [r0]
@@ -15204,10 +15177,10 @@ sub_27ECA64: // 0x027ECA64
 	bx lr
 	.align 2, 0
 _027ECA7C: .word 0x0380FFF4
-	arm_func_end sub_27ECA64
+	arm_func_end InitializeCmdIf
 
-	arm_func_start sub_27ECA80
-sub_27ECA80: // 0x027ECA80
+	arm_func_start SendMessageToWmTask
+SendMessageToWmTask: // 0x027ECA80
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	ldr r6, _027ECAE4 // =0x0380FFF4
@@ -15226,7 +15199,7 @@ _027ECAA0:
 	ldr r0, [r6]
 	add r0, r0, #0x1f4
 	mov r1, r7
-	bl sub_37F882C
+	bl DeleteHeapBuf
 	ldr r0, [r6]
 	ldr r7, [r0, #0x1f4]
 _027ECAD0:
@@ -15238,16 +15211,16 @@ _027ECAD8:
 	bx lr
 	.align 2, 0
 _027ECAE4: .word 0x0380FFF4
-	arm_func_end sub_27ECA80
+	arm_func_end SendMessageToWmTask
 
-	arm_func_start sub_27ECAE8
-sub_27ECAE8: // 0x027ECAE8
+	arm_func_start CMD_ReservedReqCmd
+CMD_ReservedReqCmd: // 0x027ECAE8
 	mov r0, #3
 	bx lr
-	arm_func_end sub_27ECAE8
+	arm_func_end CMD_ReservedReqCmd
 
-	arm_func_start sub_27ECAF0
-sub_27ECAF0: // 0x027ECAF0
+	arm_func_start InitializeMLME
+InitializeMLME: // 0x027ECAF0
 	mov r0, #0
 	ldr r1, _027ECB10 // =0x0380FFF4
 	ldr r2, [r1]
@@ -15260,10 +15233,10 @@ sub_27ECAF0: // 0x027ECAF0
 _027ECB10: .word 0x0380FFF4
 _027ECB14: .word 0x00000404
 _027ECB18: .word MIi_CpuClear16
-	arm_func_end sub_27ECAF0
+	arm_func_end InitializeMLME
 
-	arm_func_start sub_27ECB1C
-sub_27ECB1C: // 0x027ECB1C
+	arm_func_start MLME_IssueBeaconRecvIndication
+MLME_IssueBeaconRecvIndication: // 0x027ECB1C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r6, r0
@@ -15274,11 +15247,11 @@ sub_27ECB1C: // 0x027ECB1C
 	add r1, r1, #0x300
 	ldrh r1, [r1, #0xe4]
 	add r1, r1, #0x3e
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027ECB60
 	mov r0, #1
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, #0
 	b _027ECC38
 _027ECB60:
@@ -15293,14 +15266,14 @@ _027ECB60:
 	add r0, r4, #0x1f
 	ldrh r1, [r6, #0x12]
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r4, #0x1e
 	ldrh r1, [r6, #0xe]
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r4, #0x2e
 	add r1, r6, #0x1e
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ldrh r0, [r5, #0xa0]
 	strh r0, [r4, #0x16]
 	ldrh r2, [r4, #0x16]
@@ -15316,10 +15289,10 @@ _027ECB60:
 	b _027ECC00
 _027ECBE0:
 	mov r0, r6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	mov r0, r5
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r6, r6, #1
 	add r5, r5, #1
 	add r7, r7, #1
@@ -15338,7 +15311,7 @@ _027ECC20:
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, r4
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	mov r0, #1
 _027ECC38:
 	add sp, sp, #4
@@ -15346,21 +15319,21 @@ _027ECC38:
 	bx lr
 	.align 2, 0
 _027ECC44: .word 0x0380FFF4
-	arm_func_end sub_27ECB1C
+	arm_func_end MLME_IssueBeaconRecvIndication
 
-	arm_func_start sub_27ECC48
-sub_27ECC48: // 0x027ECC48
+	arm_func_start MLME_IssueBeaconSendIndication
+MLME_IssueBeaconSendIndication: // 0x027ECC48
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027ECCAC // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x10
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r1, r0
 	bne _027ECC7C
 	mov r0, #1
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, #0
 	b _027ECCA0
 _027ECC7C:
@@ -15371,7 +15344,7 @@ _027ECC7C:
 	ldr r0, _027ECCAC // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x188
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	mov r0, #1
 _027ECCA0:
 	add sp, sp, #4
@@ -15379,10 +15352,10 @@ _027ECCA0:
 	bx lr
 	.align 2, 0
 _027ECCAC: .word 0x0380FFF4
-	arm_func_end sub_27ECC48
+	arm_func_end MLME_IssueBeaconSendIndication
 
-	arm_func_start sub_27ECCB0
-sub_27ECCB0: // 0x027ECCB0
+	arm_func_start MLME_IssueBeaconLostIndication
+MLME_IssueBeaconLostIndication: // 0x027ECCB0
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -15390,11 +15363,11 @@ sub_27ECCB0: // 0x027ECCB0
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x16
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027ECCE8
 	mov r0, #1
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, #0
 	b _027ECD1C
 _027ECCE8:
@@ -15404,12 +15377,12 @@ _027ECCE8:
 	strh r0, [r4, #0xe]
 	add r0, r4, #0x10
 	mov r1, r5
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ldr r0, _027ECD28 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, r4
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	mov r0, #1
 _027ECD1C:
 	add sp, sp, #4
@@ -15417,10 +15390,10 @@ _027ECD1C:
 	bx lr
 	.align 2, 0
 _027ECD28: .word 0x0380FFF4
-	arm_func_end sub_27ECCB0
+	arm_func_end MLME_IssueBeaconLostIndication
 
-	arm_func_start sub_27ECD2C
-sub_27ECD2C: // 0x027ECD2C
+	arm_func_start MLME_IssueDisAssIndication
+MLME_IssueDisAssIndication: // 0x027ECD2C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -15428,11 +15401,11 @@ sub_27ECD2C: // 0x027ECD2C
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x18
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027ECD64
 	mov r0, #1
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, #0
 	b _027ECD9C
 _027ECD64:
@@ -15442,23 +15415,23 @@ _027ECD64:
 	strh r0, [r4, #0xe]
 	add r0, r4, #0x10
 	mov r1, r6
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	strh r5, [r4, #0x16]
 	ldr r0, _027ECDA4 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, r4
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	mov r0, #1
 _027ECD9C:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
 _027ECDA4: .word 0x0380FFF4
-	arm_func_end sub_27ECD2C
+	arm_func_end MLME_IssueDisAssIndication
 
-	arm_func_start sub_27ECDA8
-sub_27ECDA8: // 0x027ECDA8
+	arm_func_start MLME_IssueReAssIndication
+MLME_IssueReAssIndication: // 0x027ECDA8
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -15468,11 +15441,11 @@ sub_27ECDA8: // 0x027ECDA8
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x3a
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027ECDE8
 	mov r0, #1
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, #0
 	b _027ECE88
 _027ECDE8:
@@ -15482,10 +15455,10 @@ _027ECDE8:
 	strh r0, [r4, #0xe]
 	add r0, r4, #0x10
 	mov r1, r7
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	strh r6, [r4, #0x16]
 	add r0, r5, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	strh r0, [r4, #0x18]
 	mov r7, #0
 	add r6, r5, #2
@@ -15495,10 +15468,10 @@ _027ECE24:
 	cmp r7, #0x20
 	bhs _027ECE68
 	add r0, r6, r7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	add r0, r5, r7
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r7, r7, #1
 _027ECE44:
 	ldrh r0, [r4, #0x18]
@@ -15509,7 +15482,7 @@ _027ECE54:
 	add r0, r4, #0x1a
 	add r0, r0, r7
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r7, r7, #1
 _027ECE68:
 	cmp r7, #0x20
@@ -15518,7 +15491,7 @@ _027ECE68:
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, r4
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	mov r0, #1
 _027ECE88:
 	add sp, sp, #4
@@ -15526,10 +15499,10 @@ _027ECE88:
 	bx lr
 	.align 2, 0
 _027ECE94: .word 0x0380FFF4
-	arm_func_end sub_27ECDA8
+	arm_func_end MLME_IssueReAssIndication
 
-	arm_func_start sub_27ECE98
-sub_27ECE98: // 0x027ECE98
+	arm_func_start MLME_IssueAssIndication
+MLME_IssueAssIndication: // 0x027ECE98
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -15539,11 +15512,11 @@ sub_27ECE98: // 0x027ECE98
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x3a
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027ECED8
 	mov r0, #1
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, #0
 	b _027ECF80
 _027ECED8:
@@ -15553,12 +15526,12 @@ _027ECED8:
 	strh r0, [r4, #0xe]
 	add r0, r4, #0x10
 	mov r1, r7
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ldr r0, _027ECF90 // =0x00000FFF
 	and r0, r6, r0
 	strh r0, [r4, #0x16]
 	add r0, r5, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	strh r0, [r4, #0x18]
 	mov r7, #0
 	add r6, r5, #2
@@ -15568,10 +15541,10 @@ _027ECF1C:
 	cmp r7, #0x20
 	bhs _027ECF60
 	add r0, r6, r7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	add r0, r5, r7
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r7, r7, #1
 _027ECF3C:
 	ldrh r0, [r4, #0x18]
@@ -15582,7 +15555,7 @@ _027ECF4C:
 	add r0, r4, #0x1a
 	add r0, r0, r7
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r7, r7, #1
 _027ECF60:
 	cmp r7, #0x20
@@ -15591,7 +15564,7 @@ _027ECF60:
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, r4
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	mov r0, #1
 _027ECF80:
 	add sp, sp, #4
@@ -15600,10 +15573,10 @@ _027ECF80:
 	.align 2, 0
 _027ECF8C: .word 0x0380FFF4
 _027ECF90: .word 0x00000FFF
-	arm_func_end sub_27ECE98
+	arm_func_end MLME_IssueAssIndication
 
-	arm_func_start sub_27ECF94
-sub_27ECF94: // 0x027ECF94
+	arm_func_start MLME_IssueDeAuthIndication
+MLME_IssueDeAuthIndication: // 0x027ECF94
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -15611,11 +15584,11 @@ sub_27ECF94: // 0x027ECF94
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x18
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027ECFCC
 	mov r0, #1
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, #0
 	b _027ED004
 _027ECFCC:
@@ -15625,23 +15598,23 @@ _027ECFCC:
 	strh r0, [r4, #0xe]
 	add r0, r4, #0x10
 	mov r1, r6
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	strh r5, [r4, #0x16]
 	ldr r0, _027ED00C // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, r4
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	mov r0, #1
 _027ED004:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
 _027ED00C: .word 0x0380FFF4
-	arm_func_end sub_27ECF94
+	arm_func_end MLME_IssueDeAuthIndication
 
-	arm_func_start sub_27ED010
-sub_27ED010: // 0x027ED010
+	arm_func_start MLME_IssueAuthIndication
+MLME_IssueAuthIndication: // 0x027ED010
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -15649,11 +15622,11 @@ sub_27ED010: // 0x027ED010
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x18
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027ED048
 	mov r0, #1
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, #0
 	b _027ED080
 _027ED048:
@@ -15663,23 +15636,23 @@ _027ED048:
 	strh r0, [r4, #0xe]
 	add r0, r4, #0x10
 	mov r1, r6
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	strh r5, [r4, #0x16]
 	ldr r0, _027ED088 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, r4
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	mov r0, #1
 _027ED080:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
 _027ED088: .word 0x0380FFF4
-	arm_func_end sub_27ED010
+	arm_func_end MLME_IssueAuthIndication
 
-	arm_func_start sub_27ED08C
-sub_27ED08C: // 0x027ED08C
+	arm_func_start IssueMlmeConfirm
+IssueMlmeConfirm: // 0x027ED08C
 	stmdb sp!, {r4, lr}
 	ldr r0, _027ED0DC // =0x0380FFF4
 	ldr r2, [r0]
@@ -15691,37 +15664,37 @@ sub_27ED08C: // 0x027ED08C
 	strh r0, [r1, #4]
 	add r0, r4, #0x84
 	ldr r1, [r2, #0x424]
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	ldrh r0, [r4, #0x8c]
 	cmp r0, #0
 	beq _027ED0D4
 	mov r0, #2
 	mov r1, #0xb
-	bl sub_37F85F8
+	bl AddTask
 _027ED0D4:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027ED0DC: .word 0x0380FFF4
 _027ED0E0: .word 0x00000424
-	arm_func_end sub_27ED08C
+	arm_func_end IssueMlmeConfirm
 
-	arm_func_start sub_27ED0E4
-sub_27ED0E4: // 0x027ED0E4
+	arm_func_start MLME_BeaconLostTask
+MLME_BeaconLostTask: // 0x027ED0E4
 	ldr r0, _027ED0FC // =0x0380FFF4
 	ldr r1, [r0]
 	ldr r0, _027ED100 // =0x000003C6
 	add r0, r1, r0
-	ldr ip, _027ED104 // =sub_27ECCB0
+	ldr ip, _027ED104 // =MLME_IssueBeaconLostIndication
 	bx ip
 	.align 2, 0
 _027ED0FC: .word 0x0380FFF4
 _027ED100: .word 0x000003C6
-_027ED104: .word sub_27ECCB0
-	arm_func_end sub_27ED0E4
+_027ED104: .word MLME_IssueBeaconLostIndication
+	arm_func_end MLME_BeaconLostTask
 
-	arm_func_start sub_27ED108
-sub_27ED108: // 0x027ED108
+	arm_func_start MLME_MeasChanTimeOut
+MLME_MeasChanTimeOut: // 0x027ED108
 	mov r1, #0x83
 	ldr r0, _027ED12C // =0x0380FFF4
 	ldr r0, [r0]
@@ -15729,15 +15702,15 @@ sub_27ED108: // 0x027ED108
 	strh r1, [r0, #4]
 	mov r0, #2
 	mov r1, #5
-	ldr ip, _027ED130 // =sub_37F85F8
+	ldr ip, _027ED130 // =AddTask
 	bx ip
 	.align 2, 0
 _027ED12C: .word 0x0380FFF4
-_027ED130: .word sub_37F85F8
-	arm_func_end sub_27ED108
+_027ED130: .word AddTask
+	arm_func_end MLME_MeasChanTimeOut
 
-	arm_func_start sub_27ED134
-sub_27ED134: // 0x027ED134
+	arm_func_start MLME_MeasChannelTask
+MLME_MeasChannelTask: // 0x027ED134
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _027ED3A8 // =0x0380FFF4
@@ -15761,15 +15734,15 @@ _027ED17C:
 	mov r0, #0
 	strh r0, [r4, #0x14]
 	mov r0, #0x13
-	bl sub_27E9C94
+	bl BBP_Read
 	strh r0, [r4, #0xe]
 	mov r0, #0x35
-	bl sub_27E9C94
+	bl BBP_Read
 	strh r0, [r4, #0x10]
 	ldr r1, [r4, #0x18]
 	ldrh r0, [r1, #0x12]
 	ldrh r1, [r1, #0x14]
-	bl sub_27EAF74
+	bl WSetCCA_ED
 	mov r0, #4
 	strh r0, [r5, #0xc]
 	mov r0, #0
@@ -15782,7 +15755,7 @@ _027ED1BC:
 	add r1, r0, #0x18
 	ldrh r0, [r4, #0x14]
 	add r0, r1, r0
-	bl sub_27E94A4
+	bl WL_ReadByte
 	movs r5, r0
 	beq _027ED1F0
 	ldrh r0, [r4, #0x14]
@@ -15794,7 +15767,7 @@ _027ED1F0:
 	b _027ED384
 _027ED1FC:
 	mov r0, #0
-	bl sub_27F5AC8
+	bl FLASH_VerifyCheckSum
 	cmp r0, #0
 	movne r0, #0xe
 	strneh r0, [r4, #0x16]
@@ -15807,26 +15780,26 @@ _027ED1FC:
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0
-	bl sub_27EA744
-	bl sub_37F8EF4
+	bl WSetChannel
+	bl WStart
 	ldr r0, _027ED3B0 // =0x04808040
 	ldrh r0, [r0]
 	strh r0, [r4, #0xc]
 	mov r0, #0x8000
-	bl sub_27EA5B4
+	bl WSetForcePowerState
 	b _027ED264
 _027ED254:
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0
-	bl sub_27EA744
+	bl WSetChannel
 _027ED264:
 	mov r0, #0x82
 	strh r0, [r4]
 	ldr r0, [r4, #0x18]
 	ldrh r0, [r0, #0x16]
-	ldr r1, _027ED3B4 // =sub_27ED108
-	bl sub_27E96D0
+	ldr r1, _027ED3B4 // =MLME_MeasChanTimeOut
+	bl SetupTimeOut
 _027ED27C:
 	ldr r0, [r4, #4]
 	add r0, r0, #1
@@ -15843,7 +15816,7 @@ _027ED2A4:
 	add r1, r0, #0x18
 	ldrh r0, [r4, #0x14]
 	add r0, r1, r0
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r5, r0
 	mov r2, #0
 	ldr r1, [r4, #4]
@@ -15869,7 +15842,7 @@ _027ED2E8:
 	strh r0, [r4]
 	b _027ED384
 _027ED314:
-	bl sub_37F93A0
+	bl WStop
 	ldr r0, _027ED3A8 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x300
@@ -15877,12 +15850,12 @@ _027ED314:
 	strh r0, [r5, #0xc]
 	mov r0, #0x13
 	ldrh r1, [r4, #0xe]
-	bl sub_27E9C54
+	bl BBP_Write
 	mov r0, #0x35
 	ldrh r1, [r4, #0x10]
-	bl sub_27E9C54
+	bl BBP_Write
 	ldrh r0, [r4, #0xc]
-	bl sub_27EA5B4
+	bl WSetForcePowerState
 	ldrh r1, [r4, #0x16]
 	ldr r0, [r4, #0x1c]
 	strh r1, [r0, #4]
@@ -15898,14 +15871,14 @@ _027ED368:
 _027ED378:
 	cmp r2, #0x10
 	blo _027ED368
-	bl sub_27ED08C
+	bl IssueMlmeConfirm
 _027ED384:
 	ldrh r0, [r4]
 	cmp r0, #0
 	beq _027ED39C
 	mov r0, #2
 	mov r1, #5
-	bl sub_37F85F8
+	bl AddTask
 _027ED39C:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
@@ -15914,12 +15887,12 @@ _027ED39C:
 _027ED3A8: .word 0x0380FFF4
 _027ED3AC: .word 0x00000404
 _027ED3B0: .word 0x04808040
-_027ED3B4: .word sub_27ED108
+_027ED3B4: .word MLME_MeasChanTimeOut
 _027ED3B8: .word 0x0480819C
-	arm_func_end sub_27ED134
+	arm_func_end MLME_MeasChannelTask
 
-	arm_func_start sub_27ED3BC
-sub_27ED3BC: // 0x027ED3BC
+	arm_func_start MLME_ReAssTimeOut
+MLME_ReAssTimeOut: // 0x027ED3BC
 	ldr r0, _027ED3F4 // =0x0380FFF4
 	ldr r2, [r0]
 	ldr r0, _027ED3F8 // =0x00000404
@@ -15932,16 +15905,16 @@ sub_27ED3BC: // 0x027ED3BC
 	strh r1, [r0, #4]
 	mov r0, #2
 	mov r1, #4
-	ldr ip, _027ED3FC // =sub_37F85F8
+	ldr ip, _027ED3FC // =AddTask
 	bx ip
 	.align 2, 0
 _027ED3F4: .word 0x0380FFF4
 _027ED3F8: .word 0x00000404
-_027ED3FC: .word sub_37F85F8
-	arm_func_end sub_27ED3BC
+_027ED3FC: .word AddTask
+	arm_func_end MLME_ReAssTimeOut
 
-	arm_func_start sub_27ED400
-sub_27ED400: // 0x027ED400
+	arm_func_start MLME_ReAssTask
+MLME_ReAssTask: // 0x027ED400
 	stmdb sp!, {r4, lr}
 	ldr r0, _027ED4B0 // =0x0380FFF4
 	ldr r1, [r0]
@@ -15957,7 +15930,7 @@ sub_27ED400: // 0x027ED400
 _027ED430:
 	ldr r0, [r4, #0x18]
 	add r0, r0, #0x10
-	bl sub_27F0F08
+	bl MakeReAssReqFrame
 	cmp r0, #0
 	bne _027ED468
 	mov r1, #8
@@ -15967,37 +15940,37 @@ _027ED430:
 	strh r0, [r4]
 	mov r0, #2
 	mov r1, #4
-	bl sub_37F85F8
+	bl AddTask
 	b _027ED4A8
 _027ED468:
 	mov r1, #0x61
 	strh r1, [r4]
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	ldr r0, [r4, #0x18]
 	ldrh r0, [r0, #0x18]
-	ldr r1, _027ED4B8 // =sub_27ED3BC
-	bl sub_27E96D0
+	ldr r1, _027ED4B8 // =MLME_ReAssTimeOut
+	bl SetupTimeOut
 	b _027ED4A8
 _027ED488:
 	mov r0, #1
-	bl sub_27F1B10
+	bl ClearQueuedPri
 	mov r0, #1
 	mov r1, #0
-	bl sub_27F173C
+	bl MessageDeleteTx
 	mov r0, #0
 	strh r0, [r4]
-	bl sub_27ED08C
+	bl IssueMlmeConfirm
 _027ED4A8:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027ED4B0: .word 0x0380FFF4
 _027ED4B4: .word 0x00000404
-_027ED4B8: .word sub_27ED3BC
-	arm_func_end sub_27ED400
+_027ED4B8: .word MLME_ReAssTimeOut
+	arm_func_end MLME_ReAssTask
 
-	arm_func_start sub_27ED4BC
-sub_27ED4BC: // 0x027ED4BC
+	arm_func_start MLME_AssTimeOut
+MLME_AssTimeOut: // 0x027ED4BC
 	ldr r0, _027ED4F4 // =0x0380FFF4
 	ldr r2, [r0]
 	ldr r0, _027ED4F8 // =0x00000404
@@ -16010,16 +15983,16 @@ sub_27ED4BC: // 0x027ED4BC
 	strh r1, [r0, #4]
 	mov r0, #2
 	mov r1, #3
-	ldr ip, _027ED4FC // =sub_37F85F8
+	ldr ip, _027ED4FC // =AddTask
 	bx ip
 	.align 2, 0
 _027ED4F4: .word 0x0380FFF4
 _027ED4F8: .word 0x00000404
-_027ED4FC: .word sub_37F85F8
-	arm_func_end sub_27ED4BC
+_027ED4FC: .word AddTask
+	arm_func_end MLME_AssTimeOut
 
-	arm_func_start sub_27ED500
-sub_27ED500: // 0x027ED500
+	arm_func_start MLME_AssTask
+MLME_AssTask: // 0x027ED500
 	stmdb sp!, {r4, lr}
 	ldr r0, _027ED5B8 // =0x0380FFF4
 	ldr r1, [r0]
@@ -16035,7 +16008,7 @@ sub_27ED500: // 0x027ED500
 _027ED530:
 	ldr r0, [r4, #0x18]
 	add r0, r0, #0x10
-	bl sub_27F0FC0
+	bl MakeAssReqFrame
 	cmp r0, #0
 	bne _027ED568
 	mov r1, #8
@@ -16045,39 +16018,39 @@ _027ED530:
 	strh r0, [r4]
 	mov r0, #2
 	mov r1, #3
-	bl sub_37F85F8
+	bl AddTask
 	b _027ED5B0
 _027ED568:
 	mov r1, #0x51
 	strh r1, [r4]
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	ldr r0, [r4, #0x18]
 	ldrh r0, [r0, #0x18]
-	ldr r1, _027ED5C0 // =sub_27ED4BC
-	bl sub_27E96D0
+	ldr r1, _027ED5C0 // =MLME_AssTimeOut
+	bl SetupTimeOut
 	b _027ED5B0
 _027ED588:
 	mov r0, #1
-	bl sub_27F1A78
+	bl ResetTxqPri
 	mov r0, #1
-	bl sub_27F1B10
+	bl ClearQueuedPri
 	mov r0, #1
 	mov r1, #0
-	bl sub_27F173C
+	bl MessageDeleteTx
 	mov r0, #0
 	strh r0, [r4]
-	bl sub_27ED08C
+	bl IssueMlmeConfirm
 _027ED5B0:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027ED5B8: .word 0x0380FFF4
 _027ED5BC: .word 0x00000404
-_027ED5C0: .word sub_27ED4BC
-	arm_func_end sub_27ED500
+_027ED5C0: .word MLME_AssTimeOut
+	arm_func_end MLME_AssTask
 
-	arm_func_start sub_27ED5C4
-sub_27ED5C4: // 0x027ED5C4
+	arm_func_start MLME_AuthTimeOut
+MLME_AuthTimeOut: // 0x027ED5C4
 	ldr r0, _027ED5FC // =0x0380FFF4
 	ldr r2, [r0]
 	ldr r0, _027ED600 // =0x00000404
@@ -16090,16 +16063,16 @@ sub_27ED5C4: // 0x027ED5C4
 	strh r1, [r0, #4]
 	mov r0, #2
 	mov r1, r0
-	ldr ip, _027ED604 // =sub_37F85F8
+	ldr ip, _027ED604 // =AddTask
 	bx ip
 	.align 2, 0
 _027ED5FC: .word 0x0380FFF4
 _027ED600: .word 0x00000404
-_027ED604: .word sub_37F85F8
-	arm_func_end sub_27ED5C4
+_027ED604: .word AddTask
+	arm_func_end MLME_AuthTimeOut
 
-	arm_func_start sub_27ED608
-sub_27ED608: // 0x027ED608
+	arm_func_start MLME_AuthTask
+MLME_AuthTask: // 0x027ED608
 	stmdb sp!, {r4, lr}
 	ldr r0, _027ED6E4 // =0x0380FFF4
 	ldr r1, [r0]
@@ -16117,7 +16090,7 @@ _027ED638:
 	add r0, r0, #0x10
 	mov r1, #0
 	mov r2, r1
-	bl sub_27F09E8
+	bl MakeAuthFrame
 	cmp r0, #0
 	bne _027ED678
 	mov r1, #8
@@ -16127,7 +16100,7 @@ _027ED638:
 	strh r0, [r4]
 	mov r0, #2
 	mov r1, r0
-	bl sub_37F85F8
+	bl AddTask
 	b _027ED6DC
 _027ED678:
 	ldr r1, [r4, #0x18]
@@ -16139,34 +16112,34 @@ _027ED678:
 	strh r1, [r0, #0x30]
 	mov r1, #0x31
 	strh r1, [r4]
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	ldr r0, [r4, #0x18]
 	ldrh r0, [r0, #0x18]
-	ldr r1, _027ED6EC // =sub_27ED5C4
-	bl sub_27E96D0
+	ldr r1, _027ED6EC // =MLME_AuthTimeOut
+	bl SetupTimeOut
 	b _027ED6DC
 _027ED6B4:
 	mov r0, #1
-	bl sub_27F1A78
+	bl ResetTxqPri
 	mov r0, #1
-	bl sub_27F1B10
+	bl ClearQueuedPri
 	mov r0, #1
 	mov r1, #0
-	bl sub_27F173C
+	bl MessageDeleteTx
 	mov r0, #0
 	strh r0, [r4]
-	bl sub_27ED08C
+	bl IssueMlmeConfirm
 _027ED6DC:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027ED6E4: .word 0x0380FFF4
 _027ED6E8: .word 0x00000404
-_027ED6EC: .word sub_27ED5C4
-	arm_func_end sub_27ED608
+_027ED6EC: .word MLME_AuthTimeOut
+	arm_func_end MLME_AuthTask
 
-	arm_func_start sub_27ED6F0
-sub_27ED6F0: // 0x027ED6F0
+	arm_func_start MLME_JoinTimeOut
+MLME_JoinTimeOut: // 0x027ED6F0
 	ldr r0, _027ED724 // =0x0380FFF4
 	ldr r2, [r0]
 	ldr r0, _027ED728 // =0x00000404
@@ -16178,16 +16151,16 @@ sub_27ED6F0: // 0x027ED6F0
 	strh r1, [r0, #4]
 	mov r0, #2
 	mov r1, #1
-	ldr ip, _027ED72C // =sub_37F85F8
+	ldr ip, _027ED72C // =AddTask
 	bx ip
 	.align 2, 0
 _027ED724: .word 0x0380FFF4
 _027ED728: .word 0x00000404
-_027ED72C: .word sub_37F85F8
-	arm_func_end sub_27ED6F0
+_027ED72C: .word AddTask
+	arm_func_end MLME_JoinTimeOut
 
-	arm_func_start sub_27ED730
-sub_27ED730: // 0x027ED730
+	arm_func_start MLME_JoinTask
+MLME_JoinTask: // 0x027ED730
 	stmdb sp!, {r4, lr}
 	ldr r0, _027ED7C8 // =0x0380FFF4
 	ldr r1, [r0]
@@ -16201,7 +16174,7 @@ sub_27ED730: // 0x027ED730
 	beq _027ED78C
 	b _027ED7C0
 _027ED760:
-	bl sub_37F8EF4
+	bl WStart
 	mov r0, #0
 	strh r0, [r4, #4]
 	strh r0, [r4, #6]
@@ -16209,8 +16182,8 @@ _027ED760:
 	strh r0, [r4]
 	ldr r0, [r4, #0x18]
 	ldrh r0, [r0, #0x10]
-	ldr r1, _027ED7D0 // =sub_27ED6F0
-	bl sub_27E96D0
+	ldr r1, _027ED7D0 // =MLME_JoinTimeOut
+	bl SetupTimeOut
 	b _027ED7C0
 _027ED78C:
 	ldrh r1, [r4, #4]
@@ -16222,22 +16195,22 @@ _027ED78C:
 	ldrh r0, [r4, #4]
 	cmp r0, #0
 	beq _027ED7B4
-	bl sub_37F93A0
+	bl WStop
 _027ED7B4:
 	mov r0, #0
 	strh r0, [r4]
-	bl sub_27ED08C
+	bl IssueMlmeConfirm
 _027ED7C0:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027ED7C8: .word 0x0380FFF4
 _027ED7CC: .word 0x00000404
-_027ED7D0: .word sub_27ED6F0
-	arm_func_end sub_27ED730
+_027ED7D0: .word MLME_JoinTimeOut
+	arm_func_end MLME_JoinTask
 
-	arm_func_start sub_27ED7D4
-sub_27ED7D4: // 0x027ED7D4
+	arm_func_start MLME_ScanTimeOut
+MLME_ScanTimeOut: // 0x027ED7D4
 	ldr r0, _027ED830 // =0x0380FFF4
 	ldr r1, [r0]
 	ldr r0, _027ED834 // =0x00000404
@@ -16260,16 +16233,16 @@ sub_27ED7D4: // 0x027ED7D4
 _027ED820:
 	mov r0, #2
 	mov r1, #0
-	ldr ip, _027ED838 // =sub_37F85F8
+	ldr ip, _027ED838 // =AddTask
 	bx ip
 	.align 2, 0
 _027ED830: .word 0x0380FFF4
 _027ED834: .word 0x00000404
-_027ED838: .word sub_37F85F8
-	arm_func_end sub_27ED7D4
+_027ED838: .word AddTask
+	arm_func_end MLME_ScanTimeOut
 
-	arm_func_start sub_27ED83C
-sub_27ED83C: // 0x027ED83C
+	arm_func_start MLME_ScanTask
+MLME_ScanTask: // 0x027ED83C
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r0, _027EDA2C // =0x0380FFF4
 	ldr r1, [r0]
@@ -16292,7 +16265,7 @@ _027ED870: // jump table
 	b _027ED9F0 // case 5
 _027ED888:
 	mov r0, #0x20
-	bl sub_37F9458
+	bl WSetStaState
 	mov r0, #2
 	strh r0, [r5, #0xc]
 	mov r1, r4
@@ -16328,7 +16301,7 @@ _027ED900:
 	add r1, r0, #0x3a
 	ldrh r0, [r6, #6]
 	add r0, r1, r0
-	bl sub_27E94A4
+	bl WL_ReadByte
 	movs r5, r0
 	moveq r0, #0x15
 	streqh r0, [r6]
@@ -16339,7 +16312,7 @@ _027ED900:
 	strh r0, [r6, #6]
 	mov r0, #0
 	strh r0, [r6, #0xa]
-	bl sub_27F5AC8
+	bl FLASH_VerifyCheckSum
 	cmp r0, #0
 	beq _027ED964
 	mov r1, #0xe
@@ -16355,13 +16328,13 @@ _027ED964:
 	bne _027ED984
 	mov r0, r5
 	mov r1, #0
-	bl sub_27EA744
-	bl sub_37F8EF4
+	bl WSetChannel
+	bl WStart
 	b _027ED990
 _027ED984:
 	mov r0, r5
 	mov r1, #0
-	bl sub_27EA744
+	bl WSetChannel
 _027ED990:
 	mov r0, #0x12
 	strh r0, [r6]
@@ -16373,7 +16346,7 @@ _027ED998:
 	cmp r0, #0
 	bne _027ED9E0
 	add r0, r1, #0x10
-	bl sub_27F0B94
+	bl MakeProbeReqFrame
 	cmp r0, #0
 	bne _027ED9DC
 	mov r1, #8
@@ -16384,38 +16357,38 @@ _027ED998:
 	mov r4, #1
 	b _027EDA10
 _027ED9DC:
-	bl sub_27F171C
+	bl TxManCtrlFrame
 _027ED9E0:
 	ldrh r0, [r6, #0xc]
-	ldr r1, _027EDA34 // =sub_27ED7D4
-	bl sub_27E96D0
+	ldr r1, _027EDA34 // =MLME_ScanTimeOut
+	bl SetupTimeOut
 	b _027EDA10
 _027ED9F0:
 	strh r4, [r6]
-	bl sub_37F93A0
+	bl WStop
 	ldr r0, _027EDA2C // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x300
 	ldrh r0, [r0, #0x2e]
 	strh r0, [r5, #0xc]
-	bl sub_27ED08C
+	bl IssueMlmeConfirm
 _027EDA10:
 	cmp r4, #0
 	beq _027EDA24
 	mov r0, #2
 	mov r1, #0
-	bl sub_37F85F8
+	bl AddTask
 _027EDA24:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
 _027EDA2C: .word 0x0380FFF4
 _027EDA30: .word 0x00000404
-_027EDA34: .word sub_27ED7D4
-	arm_func_end sub_27ED83C
+_027EDA34: .word MLME_ScanTimeOut
+	arm_func_end MLME_ScanTask
 
-	arm_func_start sub_27EDA38
-sub_27EDA38: // 0x027EDA38
+	arm_func_start MLME_MeasChanReqCmd
+MLME_MeasChanReqCmd: // 0x027EDA38
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r6, r0
 	mov r5, r1
@@ -16451,10 +16424,10 @@ sub_27EDA38: // 0x027EDA38
 	b _027EDAE0
 _027EDABC:
 	add r0, r7, r8
-	bl sub_27E94A4
+	bl WL_ReadByte
 	cmp r0, #0
 	beq _027EDAE8
-	bl sub_27E9DD0
+	bl CheckEnableChannel
 	cmp r0, #0
 	moveq r0, #5
 	beq _027EDB10
@@ -16471,7 +16444,7 @@ _027EDAE8:
 	mov r0, #0x80
 	strh r0, [r4]
 	strh r0, [r5, #4]
-	bl sub_27ED134
+	bl MLME_MeasChannelTask
 	mov r0, #0x80
 _027EDB10:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
@@ -16479,10 +16452,10 @@ _027EDB10:
 	.align 2, 0
 _027EDB18: .word 0x0380FFF4
 _027EDB1C: .word 0x00000404
-	arm_func_end sub_27EDA38
+	arm_func_end MLME_MeasChanReqCmd
 
-	arm_func_start sub_27EDB20
-sub_27EDB20: // 0x027EDB20
+	arm_func_start MLME_StartReqCmd
+MLME_StartReqCmd: // 0x027EDB20
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, _027E.byte8 // =0x0380FFF4
@@ -16528,7 +16501,7 @@ _027EDB58:
 	ands r1, r0, r1
 	movne r0, #5
 	bne _027E.byte0
-	bl sub_27E9DD0
+	bl CheckEnableChannel
 	cmp r0, #0
 	moveq r0, #5
 	beq _027E.byte0
@@ -16553,38 +16526,38 @@ _027EDB58:
 	movhi r0, #5
 	bhi _027E.byte0
 	mov r0, #0
-	bl sub_27F5AC8
+	bl FLASH_VerifyCheckSum
 	cmp r0, #0
 	movne r0, #0xe
 	bne _027E.byte0
 	ldrh r0, [r4, #0x12]
 	cmp r0, #0
 	bne _027EDC5C
-	ldr r0, _027EDCC0 // =_027F7E78
-	bl sub_27EAD2C
+	ldr r0, _027EDCC0 // =BC_ADRS
+	bl WSetBssid
 	b _027EDC64
 _027EDC5C:
 	add r0, r4, #8
-	bl sub_27EAD2C
+	bl WSetBssid
 _027EDC64:
 	ldrh r0, [r6, #0x10]
 	add r1, r6, #0x12
-	bl sub_27EAC10
+	bl WSetSsid
 	ldrh r0, [r6, #0x32]
-	bl sub_27EABB0
+	bl WSetBeaconPeriod
 	ldrh r0, [r6, #0x34]
-	bl sub_27EAB64
+	bl WSetDTIMPeriod
 	ldrh r0, [r6, #0x36]
 	mov r1, #0
-	bl sub_27EA744
+	bl WSetChannel
 	add r0, r6, #0x38
-	bl sub_27EA6FC
+	bl WSetRateSet
 	ldrh r0, [r6, #0x3c]
 	add r1, r6, #0x3e
-	bl sub_27EA374
+	bl WInitGameInfo
 	mov r0, #0
 	strh r0, [r5, #0xa4]
-	bl sub_37F8EF4
+	bl WStart
 	mov r0, #0
 _027E.byte0:
 	ldmia sp!, {r4, r5, r6, lr}
@@ -16592,11 +16565,11 @@ _027E.byte0:
 	.align 2, 0
 _027E.byte8: .word 0x0380FFF4
 _027E.byteC: .word 0x0000FFF0
-_027EDCC0: .word _027F7E78
-	arm_func_end sub_27EDB20
+_027EDCC0: .word BC_ADRS
+	arm_func_end MLME_StartReqCmd
 
-	arm_func_start sub_27EDCC4
-sub_27EDCC4: // 0x027EDCC4
+	arm_func_start MLME_DisAssReqCmd
+MLME_DisAssReqCmd: // 0x027EDCC4
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -16627,7 +16600,7 @@ _027EDD1C:
 	bne _027EDDC8
 	add r0, r7, #0x10
 	ldrh r1, [r7, #0x16]
-	bl sub_27F106C
+	bl MakeDisAssFrame
 	movs r4, r0
 	moveq r0, #8
 	beq _027EDDC8
@@ -16646,7 +16619,7 @@ _027EDD1C:
 	ldr r0, [r1]
 	add r0, r0, #0x188
 	sub r1, r4, #0x10
-	bl sub_27EC810
+	bl CAM_AddBcFrame
 	ldr r0, _027EDDD4 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x500
@@ -16656,13 +16629,13 @@ _027EDD1C:
 	ands r0, r1, r0
 	bne _027EDDC4
 	mov r0, #2
-	bl sub_27F2728
+	bl TxqPri
 	b _027EDDC4
 _027EDDB4:
 	add r0, r7, #0x10
-	bl sub_27F18C4
+	bl DeleteTxFrameByAdrs
 	mov r0, r4
-	bl sub_27F171C
+	bl TxManCtrlFrame
 _027EDDC4:
 	mov r0, #0x80
 _027EDDC8:
@@ -16672,10 +16645,10 @@ _027EDDC8:
 	.align 2, 0
 _027EDDD4: .word 0x0380FFF4
 _027EDDD8: .word 0x00000404
-	arm_func_end sub_27EDCC4
+	arm_func_end MLME_DisAssReqCmd
 
-	arm_func_start sub_27EDDDC
-sub_27EDDDC: // 0x027EDDDC
+	arm_func_start MLME_ReAssReqCmd
+MLME_ReAssReqCmd: // 0x027EDDDC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r2, _027EDEA4 // =0x0380FFF4
@@ -16722,7 +16695,7 @@ _027EDE1C:
 	str r1, [r2, #0x1c]
 	mov r0, #0x60
 	strh r0, [r2]
-	bl sub_27ED400
+	bl MLME_ReAssTask
 	mov r0, #0x80
 _027EDE98:
 	add sp, sp, #4
@@ -16731,10 +16704,10 @@ _027EDE98:
 	.align 2, 0
 _027EDEA4: .word 0x0380FFF4
 _027EDEA8: .word 0x00000404
-	arm_func_end sub_27EDDDC
+	arm_func_end MLME_ReAssReqCmd
 
-	arm_func_start sub_27EDEAC
-sub_27EDEAC: // 0x027EDEAC
+	arm_func_start MLME_AssReqCmd
+MLME_AssReqCmd: // 0x027EDEAC
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -16777,8 +16750,8 @@ _027EDEF4:
 	movlo r0, #5
 	blo _027EDF80
 	mov r0, #0x30
-	bl sub_37F9458
-	bl sub_27EA228
+	bl WSetStaState
+	bl WClearAids
 	ldrh r0, [r7, #0x16]
 	strh r0, [r5, #0x70]
 	ldrh r0, [r7, #0x16]
@@ -16787,7 +16760,7 @@ _027EDEF4:
 	str r6, [r4, #0x1c]
 	mov r0, #0x50
 	strh r0, [r4]
-	bl sub_27ED500
+	bl MLME_AssTask
 	mov r0, #0x80
 _027EDF80:
 	add sp, sp, #4
@@ -16796,10 +16769,10 @@ _027EDF80:
 	.align 2, 0
 _027EDF8C: .word 0x0380FFF4
 _027EDF90: .word 0x00000404
-	arm_func_end sub_27EDEAC
+	arm_func_end MLME_AssReqCmd
 
-	arm_func_start sub_27EDF94
-sub_27EDF94: // 0x027EDF94
+	arm_func_start MLME_DeAuthReqCmd
+MLME_DeAuthReqCmd: // 0x027EDF94
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -16839,11 +16812,11 @@ _027EDFE4:
 _027EE020:
 	add r0, r6, #6
 	add r1, r7, #0x10
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	add r0, r6, #6
 	ldrh r1, [r7, #0x16]
 	mov r2, #0
-	bl sub_27F094C
+	bl MakeDeAuthFrame
 	movs r4, r0
 	moveq r0, #8
 	beq _027EE0C8
@@ -16862,7 +16835,7 @@ _027EE020:
 	ldr r0, [r1]
 	add r0, r0, #0x188
 	sub r1, r4, #0x10
-	bl sub_27EC810
+	bl CAM_AddBcFrame
 	ldr r0, _027EE0D4 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x500
@@ -16872,13 +16845,13 @@ _027EE020:
 	ands r0, r1, r0
 	bne _027EE0C4
 	mov r0, #2
-	bl sub_27F2728
+	bl TxqPri
 	b _027EE0C4
 _027EE0B4:
 	add r0, r7, #0x10
-	bl sub_27F18C4
+	bl DeleteTxFrameByAdrs
 	mov r0, r4
-	bl sub_27F171C
+	bl TxManCtrlFrame
 _027EE0C4:
 	mov r0, #0x80
 _027EE0C8:
@@ -16889,10 +16862,10 @@ _027EE0C8:
 _027EE0D4: .word 0x0380FFF4
 _027EE0D8: .word 0x00000404
 _027EE0DC: .word 0x0000FFFE
-	arm_func_end sub_27EDF94
+	arm_func_end MLME_DeAuthReqCmd
 
-	arm_func_start sub_27EE0E0
-sub_27EE0E0: // 0x027EE0E0
+	arm_func_start MLME_AuthReqCmd
+MLME_AuthReqCmd: // 0x027EE0E0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -16931,7 +16904,7 @@ _027EE124:
 	movlo r0, #5
 	blo _027EE1AC
 	mov r0, #0x20
-	bl sub_37F9458
+	bl WSetStaState
 	str r6, [r4, #0x18]
 	str r5, [r4, #0x1c]
 	mov r0, #0x30
@@ -16942,8 +16915,8 @@ _027EE124:
 	add r0, r5, #8
 	ldr r1, [r4, #0x18]
 	add r1, r1, #0x10
-	bl sub_27EA1BC
-	bl sub_27ED608
+	bl WSetMacAdrs1
+	bl MLME_AuthTask
 	mov r0, #0x80
 _027EE1AC:
 	ldmia sp!, {r4, r5, r6, lr}
@@ -16951,10 +16924,10 @@ _027EE1AC:
 	.align 2, 0
 _027EE1B4: .word 0x0380FFF4
 _027EE1B8: .word 0x00000404
-	arm_func_end sub_27EE0E0
+	arm_func_end MLME_AuthReqCmd
 
-	arm_func_start sub_27EE1BC
-sub_27EE1BC: // 0x027EE1BC
+	arm_func_start MLME_JoinReqCmd
+MLME_JoinReqCmd: // 0x027EE1BC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -16978,7 +16951,7 @@ _027EE200:
 	movlo r0, #1
 	blo _027EE368
 	mov r0, #0x20
-	bl sub_37F9458
+	bl WSetStaState
 	ldrh r0, [r6, #0x18]
 	ands r0, r0, #1
 	movne r0, #5
@@ -17006,7 +16979,7 @@ _027EE200:
 	ands r1, r0, r1
 	movne r0, #5
 	bne _027EE368
-	bl sub_27E9DD0
+	bl CheckEnableChannel
 	cmp r0, #0
 	moveq r0, #5
 	beq _027EE368
@@ -17031,7 +17004,7 @@ _027EE200:
 	movhi r0, #5
 	bhi _027EE368
 	mov r0, #0
-	bl sub_27F5AC8
+	bl FLASH_VerifyCheckSum
 	cmp r0, #0
 	movne r0, #0xe
 	bne _027EE368
@@ -17039,31 +17012,31 @@ _027EE200:
 	ands r0, r0, #0x20
 	beq _027EE310
 	mov r0, #1
-	bl sub_27EAFE0
+	bl WSetPreambleType
 	b _027EE318
 _027EE310:
 	mov r0, #0
-	bl sub_27EAFE0
+	bl WSetPreambleType
 _027EE318:
 	add r0, r6, #0x18
-	bl sub_27EAD2C
+	bl WSetBssid
 	ldrh r0, [r6, #0x1e]
 	add r1, r6, #0x20
-	bl sub_27EAC10
+	bl WSetSsid
 	ldrh r0, [r6, #0x46]
-	bl sub_27EABB0
+	bl WSetBeaconPeriod
 	ldrh r0, [r6, #0x4a]
 	mov r1, #0
-	bl sub_27EA744
+	bl WSetChannel
 	add r0, r6, #0x42
-	bl sub_27EA6FC
+	bl WSetRateSet
 	str r6, [r4, #0x18]
 	str r5, [r4, #0x1c]
 	mov r0, #0x20
 	strh r0, [r4]
 	mov r0, #2
 	mov r1, #1
-	bl sub_37F85F8
+	bl AddTask
 	mov r0, #0x80
 _027EE368:
 	ldmia sp!, {r4, r5, r6, lr}
@@ -17072,10 +17045,10 @@ _027EE368:
 _027EE370: .word 0x0380FFF4
 _027EE374: .word 0x00000404
 _027EE378: .word 0x0000FFF0
-	arm_func_end sub_27EE1BC
+	arm_func_end MLME_JoinReqCmd
 
-	arm_func_start sub_27EE37C
-sub_27EE37C: // 0x027EE37C
+	arm_func_start MLME_ScanReqCmd
+MLME_ScanReqCmd: // 0x027EE37C
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r6, r0
 	mov r5, r1
@@ -17114,7 +17087,7 @@ _027EE3D0:
 	movhi r0, #5
 	bhi _027EE4B8
 	add r0, r6, #0x3a
-	bl sub_27E94A4
+	bl WL_ReadByte
 	cmp r0, #0
 	moveq r0, #5
 	beq _027EE4B8
@@ -17134,10 +17107,10 @@ _027EE3D0:
 	b _027EE47C
 _027EE458:
 	add r0, r7, r8
-	bl sub_27E94A4
+	bl WL_ReadByte
 	cmp r0, #0
 	beq _027EE484
-	bl sub_27E9DD0
+	bl CheckEnableChannel
 	cmp r0, #0
 	moveq r0, #5
 	beq _027EE4B8
@@ -17147,17 +17120,17 @@ _027EE47C:
 	blo _027EE458
 _027EE484:
 	add r0, r6, #0x10
-	bl sub_27EAD2C
+	bl WSetBssid
 	ldrh r0, [r6, #0x16]
 	add r1, r6, #0x18
-	bl sub_27EAC10
+	bl WSetSsid
 	str r6, [r4, #0x18]
 	str r5, [r4, #0x1c]
 	mov r0, #0x10
 	strh r0, [r4]
 	mov r0, #2
 	mov r1, #0
-	bl sub_37F85F8
+	bl AddTask
 	mov r0, #0x80
 _027EE4B8:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
@@ -17165,10 +17138,10 @@ _027EE4B8:
 	.align 2, 0
 _027EE4C0: .word 0x0380FFF4
 _027EE4C4: .word 0x00000404
-	arm_func_end sub_27EE37C
+	arm_func_end MLME_ScanReqCmd
 
-	arm_func_start sub_27EE4C8
-sub_27EE4C8: // 0x027EE4C8
+	arm_func_start MLME_PwrMgtReqCmd
+MLME_PwrMgtReqCmd: // 0x027EE4C8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #9
@@ -17185,7 +17158,7 @@ sub_27EE4C8: // 0x027EE4C8
 	cmp r1, #1
 	movhi r0, #5
 	bhi _027EE564
-	bl sub_27EA5F4
+	bl WSetPowerMgtMode
 	ldrh r0, [r4, #0x10]
 	cmp r0, #1
 	bne _027EE550
@@ -17193,11 +17166,11 @@ sub_27EE4C8: // 0x027EE4C8
 	cmp r0, #1
 	bne _027EE530
 	ldr r0, _027EE56C // =0x00008001
-	bl sub_27EA5B4
+	bl WSetForcePowerState
 	b _027EE538
 _027EE530:
 	mov r0, #0
-	bl sub_27EA5B4
+	bl WSetForcePowerState
 _027EE538:
 	ldrh r1, [r4, #0x14]
 	ldr r0, _027EE570 // =0x0380FFF4
@@ -17207,9 +17180,9 @@ _027EE538:
 	b _027EE560
 _027EE550:
 	mov r0, #0x8000
-	bl sub_27EA5B4
+	bl WSetForcePowerState
 	mov r0, #2
-	bl sub_27EA5C8
+	bl WSetPowerState
 _027EE560:
 	mov r0, #0
 _027EE564:
@@ -17218,10 +17191,10 @@ _027EE564:
 	.align 2, 0
 _027EE56C: .word 0x00008001
 _027EE570: .word 0x0380FFF4
-	arm_func_end sub_27EE4C8
+	arm_func_end MLME_PwrMgtReqCmd
 
-	arm_func_start sub_27EE574
-sub_27EE574: // 0x027EE574
+	arm_func_start MLME_ResetReqCmd
+MLME_ResetReqCmd: // 0x027EE574
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #1
@@ -17230,20 +17203,20 @@ sub_27EE574: // 0x027EE574
 	cmp r0, #1
 	movhi r0, #5
 	bhi _027EE5AC
-	bl sub_37F93A0
+	bl WStop
 	ldrh r0, [r4, #0x10]
 	cmp r0, #1
 	bne _027EE5A8
-	bl sub_27EA100
+	bl WInitCounter
 _027EE5A8:
 	mov r0, #0
 _027EE5AC:
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27EE574
+	arm_func_end MLME_ResetReqCmd
 
-	arm_func_start sub_27EE5B4
-sub_27EE5B4: // 0x027EE5B4
+	arm_func_start PARAMGET_GameInfoReqCmd
+PARAMGET_GameInfoReqCmd: // 0x027EE5B4
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r4, r1
@@ -17276,10 +17249,10 @@ sub_27EE5B4: // 0x027EE5B4
 	b _027EE64C
 _027EE62C:
 	mov r0, r7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	mov r0, r6
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r6, r6, #1
 	add r7, r7, #1
 	add r5, r5, #1
@@ -17307,10 +17280,10 @@ _027EE688:
 	bx lr
 	.align 2, 0
 _027EE694: .word 0x0380FFF4
-	arm_func_end sub_27EE5B4
+	arm_func_end PARAMGET_GameInfoReqCmd
 
-	arm_func_start sub_27EE698
-sub_27EE698: // 0x027EE698
+	arm_func_start PARAMGET_ListenIntervalReqCmd
+PARAMGET_ListenIntervalReqCmd: // 0x027EE698
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EE6BC // =0x0380FFF4
@@ -17322,10 +17295,10 @@ sub_27EE698: // 0x027EE698
 	bx lr
 	.align 2, 0
 _027EE6BC: .word 0x0380FFF4
-	arm_func_end sub_27EE698
+	arm_func_end PARAMGET_ListenIntervalReqCmd
 
-	arm_func_start sub_27EE6C0
-sub_27EE6C0: // 0x027EE6C0
+	arm_func_start PARAMGET_DTIMPeriodReqCmd
+PARAMGET_DTIMPeriodReqCmd: // 0x027EE6C0
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EE6E4 // =0x0380FFF4
@@ -17337,10 +17310,10 @@ sub_27EE6C0: // 0x027EE6C0
 	bx lr
 	.align 2, 0
 _027EE6E4: .word 0x0380FFF4
-	arm_func_end sub_27EE6C0
+	arm_func_end PARAMGET_DTIMPeriodReqCmd
 
-	arm_func_start sub_27EE6E8
-sub_27EE6E8: // 0x027EE6E8
+	arm_func_start PARAMGET_BeaconPeriodReqCmd
+PARAMGET_BeaconPeriodReqCmd: // 0x027EE6E8
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EE70C // =0x0380FFF4
@@ -17352,10 +17325,10 @@ sub_27EE6E8: // 0x027EE6E8
 	bx lr
 	.align 2, 0
 _027EE70C: .word 0x0380FFF4
-	arm_func_end sub_27EE6E8
+	arm_func_end PARAMGET_BeaconPeriodReqCmd
 
-	arm_func_start sub_27EE710
-sub_27EE710: // 0x027EE710
+	arm_func_start PARAMGET_SSIDReqCmd
+PARAMGET_SSIDReqCmd: // 0x027EE710
 	mov r0, #0x12
 	strh r0, [r1, #2]
 	ldr r2, _027EE758 // =0x0380FFF4
@@ -17377,10 +17350,10 @@ _027EE73C:
 	bx lr
 	.align 2, 0
 _027EE758: .word 0x0380FFF4
-	arm_func_end sub_27EE710
+	arm_func_end PARAMGET_SSIDReqCmd
 
-	arm_func_start sub_27EE75C
-sub_27EE75C: // 0x027EE75C
+	arm_func_start PARAMGET_BSSIDReqCmd
+PARAMGET_BSSIDReqCmd: // 0x027EE75C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #4
@@ -17389,17 +17362,17 @@ sub_27EE75C: // 0x027EE75C
 	ldr r1, _027EE790 // =0x0380FFF4
 	ldr r1, [r1]
 	add r1, r1, #0x3a8
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	mov r0, #0
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027EE790: .word 0x0380FFF4
-	arm_func_end sub_27EE75C
+	arm_func_end PARAMGET_BSSIDReqCmd
 
-	arm_func_start sub_27EE794
-sub_27EE794: // 0x027EE794
+	arm_func_start PARAMGET_NullKeyModeReqCmd
+PARAMGET_NullKeyModeReqCmd: // 0x027EE794
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EE7CC // =0x0380FFF4
@@ -17416,10 +17389,10 @@ sub_27EE794: // 0x027EE794
 	bx lr
 	.align 2, 0
 _027EE7CC: .word 0x0380FFF4
-	arm_func_end sub_27EE794
+	arm_func_end PARAMGET_NullKeyModeReqCmd
 
-	arm_func_start sub_27EE7D0
-sub_27EE7D0: // 0x027EE7D0
+	arm_func_start PARAMGET_BcnSendRecvIndReqCmd
+PARAMGET_BcnSendRecvIndReqCmd: // 0x027EE7D0
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EE808 // =0x0380FFF4
@@ -17436,10 +17409,10 @@ sub_27EE7D0: // 0x027EE7D0
 	bx lr
 	.align 2, 0
 _027EE808: .word 0x0380FFF4
-	arm_func_end sub_27EE7D0
+	arm_func_end PARAMGET_BcnSendRecvIndReqCmd
 
-	arm_func_start sub_27EE80C
-sub_27EE80C: // 0x027EE80C
+	arm_func_start PARAMGET_DiversityReqCmd
+PARAMGET_DiversityReqCmd: // 0x027EE80C
 	mov r0, #3
 	strh r0, [r1, #2]
 	ldr r3, _027EE868 // =0x0380FFF4
@@ -17465,10 +17438,10 @@ sub_27EE80C: // 0x027EE80C
 	bx lr
 	.align 2, 0
 _027EE868: .word 0x0380FFF4
-	arm_func_end sub_27EE80C
+	arm_func_end PARAMGET_DiversityReqCmd
 
-	arm_func_start sub_27EE86C
-sub_27EE86C: // 0x027EE86C
+	arm_func_start PARAMGET_MainAntennaReqCmd
+PARAMGET_MainAntennaReqCmd: // 0x027EE86C
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EE8A4 // =0x0380FFF4
@@ -17485,10 +17458,10 @@ sub_27EE86C: // 0x027EE86C
 	bx lr
 	.align 2, 0
 _027EE8A4: .word 0x0380FFF4
-	arm_func_end sub_27EE86C
+	arm_func_end PARAMGET_MainAntennaReqCmd
 
-	arm_func_start sub_27EE8A8
-sub_27EE8A8: // 0x027EE8A8
+	arm_func_start PARAMGET_MaxConnReqCmd
+PARAMGET_MaxConnReqCmd: // 0x027EE8A8
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EE8D0 // =0x0380FFF4
@@ -17501,30 +17474,30 @@ sub_27EE8A8: // 0x027EE8A8
 	bx lr
 	.align 2, 0
 _027EE8D0: .word 0x0380FFF4
-	arm_func_end sub_27EE8A8
+	arm_func_end PARAMGET_MaxConnReqCmd
 
-	arm_func_start sub_27EE8D4
-sub_27EE8D4: // 0x027EE8D4
+	arm_func_start PARAMGET_CCAModeEDThReqCmd
+PARAMGET_CCAModeEDThReqCmd: // 0x027EE8D4
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r0, #4
 	strh r0, [r4, #2]
 	mov r0, #0x13
-	bl sub_27E9C94
+	bl BBP_Read
 	strh r0, [r4, #6]
 	mov r0, #0x35
-	bl sub_27E9C94
+	bl BBP_Read
 	strh r0, [r4, #8]
 	mov r0, #0x2e
-	bl sub_27E9C94
+	bl BBP_Read
 	strh r0, [r4, #0xa]
 	mov r0, #0
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27EE8D4
+	arm_func_end PARAMGET_CCAModeEDThReqCmd
 
-	arm_func_start sub_27EE914
-sub_27EE914: // 0x027EE914
+	arm_func_start PARAMGET_AuthAlgoReqCmd
+PARAMGET_AuthAlgoReqCmd: // 0x027EE914
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EE938 // =0x0380FFF4
@@ -17536,10 +17509,10 @@ sub_27EE914: // 0x027EE914
 	bx lr
 	.align 2, 0
 _027EE938: .word 0x0380FFF4
-	arm_func_end sub_27EE914
+	arm_func_end PARAMGET_AuthAlgoReqCmd
 
-	arm_func_start sub_27EE93C
-sub_27EE93C: // 0x027EE93C
+	arm_func_start PARAMGET_PreambleTypeReqCmd
+PARAMGET_PreambleTypeReqCmd: // 0x027EE93C
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EE968 // =0x0380FFF4
@@ -17553,10 +17526,10 @@ sub_27EE93C: // 0x027EE93C
 	bx lr
 	.align 2, 0
 _027EE968: .word 0x0380FFF4
-	arm_func_end sub_27EE93C
+	arm_func_end PARAMGET_PreambleTypeReqCmd
 
-	arm_func_start sub_27EE96C
-sub_27EE96C: // 0x027EE96C
+	arm_func_start PARAMGET_SSIDMaskReqCmd
+PARAMGET_SSIDMaskReqCmd: // 0x027EE96C
 	mov r0, #0x11
 	strh r0, [r1, #2]
 	add r2, r1, #6
@@ -17574,10 +17547,10 @@ _027EE988:
 	bx lr
 	.align 2, 0
 _027EE9A4: .word 0x0380FFF4
-	arm_func_end sub_27EE96C
+	arm_func_end PARAMGET_SSIDMaskReqCmd
 
-	arm_func_start sub_27EE9A8
-sub_27EE9A8: // 0x027EE9A8
+	arm_func_start PARAMGET_ActiveZoneReqCmd
+PARAMGET_ActiveZoneReqCmd: // 0x027EE9A8
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EE9CC // =0x0380FFF4
@@ -17589,10 +17562,10 @@ sub_27EE9A8: // 0x027EE9A8
 	bx lr
 	.align 2, 0
 _027EE9CC: .word 0x0380FFF4
-	arm_func_end sub_27EE9A8
+	arm_func_end PARAMGET_ActiveZoneReqCmd
 
-	arm_func_start sub_27EE9D0
-sub_27EE9D0: // 0x027EE9D0
+	arm_func_start PARAMGET_BeaconLostThReqCmd
+PARAMGET_BeaconLostThReqCmd: // 0x027EE9D0
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EE9F4 // =0x0380FFF4
@@ -17604,10 +17577,10 @@ sub_27EE9D0: // 0x027EE9D0
 	bx lr
 	.align 2, 0
 _027EE9F4: .word 0x0380FFF4
-	arm_func_end sub_27EE9D0
+	arm_func_end PARAMGET_BeaconLostThReqCmd
 
-	arm_func_start sub_27EE9F8
-sub_27EE9F8: // 0x027EE9F8
+	arm_func_start PARAMGET_ResBcSsidReqCmd
+PARAMGET_ResBcSsidReqCmd: // 0x027EE9F8
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EEA24 // =0x0380FFF4
@@ -17621,10 +17594,10 @@ sub_27EE9F8: // 0x027EE9F8
 	bx lr
 	.align 2, 0
 _027EEA24: .word 0x0380FFF4
-	arm_func_end sub_27EE9F8
+	arm_func_end PARAMGET_ResBcSsidReqCmd
 
-	arm_func_start sub_27EEA28
-sub_27EEA28: // 0x027EEA28
+	arm_func_start PARAMGET_BeaconTypeReqCmd
+PARAMGET_BeaconTypeReqCmd: // 0x027EEA28
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EEA54 // =0x0380FFF4
@@ -17638,10 +17611,10 @@ sub_27EEA28: // 0x027EEA28
 	bx lr
 	.align 2, 0
 _027EEA54: .word 0x0380FFF4
-	arm_func_end sub_27EEA28
+	arm_func_end PARAMGET_BeaconTypeReqCmd
 
-	arm_func_start sub_27EEA58
-sub_27EEA58: // 0x027EEA58
+	arm_func_start PARAMGET_WepKeyIdReqCmd
+PARAMGET_WepKeyIdReqCmd: // 0x027EEA58
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EEA7C // =0x0380FFF4
@@ -17653,10 +17626,10 @@ sub_27EEA58: // 0x027EEA58
 	bx lr
 	.align 2, 0
 _027EEA7C: .word 0x0380FFF4
-	arm_func_end sub_27EEA58
+	arm_func_end PARAMGET_WepKeyIdReqCmd
 
-	arm_func_start sub_27EEA80
-sub_27EEA80: // 0x027EEA80
+	arm_func_start PARAMGET_WepModeReqCmd
+PARAMGET_WepModeReqCmd: // 0x027EEA80
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EEAA4 // =0x0380FFF4
@@ -17668,10 +17641,10 @@ sub_27EEA80: // 0x027EEA80
 	bx lr
 	.align 2, 0
 _027EEAA4: .word 0x0380FFF4
-	arm_func_end sub_27EEA80
+	arm_func_end PARAMGET_WepModeReqCmd
 
-	arm_func_start sub_27EEAA8
-sub_27EEAA8: // 0x027EEAA8
+	arm_func_start PARAMGET_RateReqCmd
+PARAMGET_RateReqCmd: // 0x027EEAA8
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EEACC // =0x0380FFF4
@@ -17683,10 +17656,10 @@ sub_27EEAA8: // 0x027EEAA8
 	bx lr
 	.align 2, 0
 _027EEACC: .word 0x0380FFF4
-	arm_func_end sub_27EEAA8
+	arm_func_end PARAMGET_RateReqCmd
 
-	arm_func_start sub_27EEAD0
-sub_27EEAD0: // 0x027EEAD0
+	arm_func_start PARAMGET_ModeReqCmd
+PARAMGET_ModeReqCmd: // 0x027EEAD0
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EEAF4 // =0x0380FFF4
@@ -17698,10 +17671,10 @@ sub_27EEAD0: // 0x027EEAD0
 	bx lr
 	.align 2, 0
 _027EEAF4: .word 0x0380FFF4
-	arm_func_end sub_27EEAD0
+	arm_func_end PARAMGET_ModeReqCmd
 
-	arm_func_start sub_27EEAF8
-sub_27EEAF8: // 0x027EEAF8
+	arm_func_start PARAMGET_EnableChannelReqCmd
+PARAMGET_EnableChannelReqCmd: // 0x027EEAF8
 	mov r0, #3
 	strh r0, [r1, #2]
 	ldr r2, _027EEB2C // =0x0380FFF4
@@ -17717,10 +17690,10 @@ sub_27EEAF8: // 0x027EEAF8
 	bx lr
 	.align 2, 0
 _027EEB2C: .word 0x0380FFF4
-	arm_func_end sub_27EEAF8
+	arm_func_end PARAMGET_EnableChannelReqCmd
 
-	arm_func_start sub_27EEB30
-sub_27EEB30: // 0x027EEB30
+	arm_func_start PARAMGET_RetryReqCmd
+PARAMGET_RetryReqCmd: // 0x027EEB30
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EEB54 // =0x0380FFF4
@@ -17732,10 +17705,10 @@ sub_27EEB30: // 0x027EEB30
 	bx lr
 	.align 2, 0
 _027EEB54: .word 0x0380FFF4
-	arm_func_end sub_27EEB30
+	arm_func_end PARAMGET_RetryReqCmd
 
-	arm_func_start sub_27EEB58
-sub_27EEB58: // 0x027EEB58
+	arm_func_start PARAMGET_MacAdrsReqCmd
+PARAMGET_MacAdrsReqCmd: // 0x027EEB58
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #4
@@ -17744,17 +17717,17 @@ sub_27EEB58: // 0x027EEB58
 	ldr r1, _027EEB8C // =0x0380FFF4
 	ldr r1, [r1]
 	add r1, r1, #0x324
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	mov r0, #0
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027EEB8C: .word 0x0380FFF4
-	arm_func_end sub_27EEB58
+	arm_func_end PARAMGET_MacAdrsReqCmd
 
-	arm_func_start sub_27EEB90
-sub_27EEB90: // 0x027EEB90
+	arm_func_start PARAMGET_AllReqCmd
+PARAMGET_AllReqCmd: // 0x027EEB90
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r0, #0x21
@@ -17763,7 +17736,7 @@ sub_27EEB90: // 0x027EEB90
 	ldr r1, _027EECC4 // =0x0380FFF4
 	ldr r1, [r1]
 	add r1, r1, #0x324
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ldr r0, _027EECC4 // =0x0380FFF4
 	ldr r1, [r0]
 	add r1, r1, #0x300
@@ -17834,10 +17807,10 @@ sub_27EEB90: // 0x027EEB90
 	bx lr
 	.align 2, 0
 _027EECC4: .word 0x0380FFF4
-	arm_func_end sub_27EEB90
+	arm_func_end PARAMGET_AllReqCmd
 
-	arm_func_start sub_27EECC8
-sub_27EECC8: // 0x027EECC8
+	arm_func_start PARAMSET_GameInfoReqCmd
+PARAMSET_GameInfoReqCmd: // 0x027EECC8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -17861,17 +17834,17 @@ sub_27EECC8: // 0x027EECC8
 	blt _027EED28
 	mov r0, r5
 	add r1, r4, #0x12
-	bl sub_27EA2C8
+	bl WSetGameInfo
 _027EED28:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
 _027EED34: .word 0x0380FFF4
-	arm_func_end sub_27EECC8
+	arm_func_end PARAMSET_GameInfoReqCmd
 
-	arm_func_start sub_27EED38
-sub_27EED38: // 0x027EED38
+	arm_func_start PARAMSET_ListenIntervalReqCmd
+PARAMSET_ListenIntervalReqCmd: // 0x027EED38
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r2, #1
@@ -17887,17 +17860,17 @@ sub_27EED38: // 0x027EED38
 	bne _027EED74
 _027EED6C:
 	ldrh r0, [r0, #0x10]
-	bl sub_27EAB30
+	bl WSetListenInterval
 _027EED74:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027EED80: .word 0x0380FFF4
-	arm_func_end sub_27EED38
+	arm_func_end PARAMSET_ListenIntervalReqCmd
 
-	arm_func_start sub_27EED84
-sub_27EED84: // 0x027EED84
+	arm_func_start PARAMSET_DTIMPeriodReqCmd
+PARAMSET_DTIMPeriodReqCmd: // 0x027EED84
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r2, #1
@@ -17910,17 +17883,17 @@ sub_27EED84: // 0x027EED84
 	movne r0, #0xb
 	bne _027EEDB8
 	ldrh r0, [r0, #0x10]
-	bl sub_27EAB64
+	bl WSetDTIMPeriod
 _027EEDB8:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027EEDC4: .word 0x0380FFF4
-	arm_func_end sub_27EED84
+	arm_func_end PARAMSET_DTIMPeriodReqCmd
 
-	arm_func_start sub_27EEDC8
-sub_27EEDC8: // 0x027EEDC8
+	arm_func_start PARAMSET_BeaconPeriodReqCmd
+PARAMSET_BeaconPeriodReqCmd: // 0x027EEDC8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r2, #1
@@ -17933,41 +17906,41 @@ sub_27EEDC8: // 0x027EEDC8
 	movne r0, #0xb
 	bne _027EEDFC
 	ldrh r0, [r0, #0x10]
-	bl sub_27EABB0
+	bl WSetBeaconPeriod
 _027EEDFC:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027EEE08: .word 0x0380FFF4
-	arm_func_end sub_27EEDC8
+	arm_func_end PARAMSET_BeaconPeriodReqCmd
 
-	arm_func_start sub_27EEE0C
-sub_27EEE0C: // 0x027EEE0C
+	arm_func_start PARAMSET_SSIDReqCmd
+PARAMSET_SSIDReqCmd: // 0x027EEE0C
 	mov r2, r0
 	mov r0, #1
 	strh r0, [r1, #2]
 	ldrh r0, [r2, #0x10]
 	add r1, r2, #0x12
-	ldr ip, _027EEE28 // =sub_27EAC10
+	ldr ip, _027EEE28 // =WSetSsid
 	bx ip
 	.align 2, 0
-_027EEE28: .word sub_27EAC10
-	arm_func_end sub_27EEE0C
+_027EEE28: .word WSetSsid
+	arm_func_end PARAMSET_SSIDReqCmd
 
-	arm_func_start sub_27EEE2C
-sub_27EEE2C: // 0x027EEE2C
+	arm_func_start PARAMSET_BSSIDReqCmd
+PARAMSET_BSSIDReqCmd: // 0x027EEE2C
 	mov r2, #1
 	strh r2, [r1, #2]
 	add r0, r0, #0x10
-	ldr ip, _027EEE40 // =sub_27EAD2C
+	ldr ip, _027EEE40 // =WSetBssid
 	bx ip
 	.align 2, 0
-_027EEE40: .word sub_27EAD2C
-	arm_func_end sub_27EEE2C
+_027EEE40: .word WSetBssid
+	arm_func_end PARAMSET_BSSIDReqCmd
 
-	arm_func_start sub_27EEE44
-sub_27EEE44: // 0x027EEE44
+	arm_func_start PARAMSET_NullKeyModeReqCmd
+PARAMSET_NullKeyModeReqCmd: // 0x027EEE44
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r2, #1
@@ -17979,7 +17952,7 @@ sub_27EEE44: // 0x027EEE44
 	cmp r1, #0x10
 	blo _027EEE78
 	ldrh r0, [r0, #0x10]
-	bl sub_27EAD94
+	bl WSetNullKeyMode
 	mov r2, r0
 _027EEE78:
 	mov r0, r2
@@ -17988,10 +17961,10 @@ _027EEE78:
 	bx lr
 	.align 2, 0
 _027EEE88: .word 0x0380FFF4
-	arm_func_end sub_27EEE44
+	arm_func_end PARAMSET_NullKeyModeReqCmd
 
-	arm_func_start sub_27EEE8C
-sub_27EEE8C: // 0x027EEE8C
+	arm_func_start PARAMSET_BcnSendRecvIndReqCmd
+PARAMSET_BcnSendRecvIndReqCmd: // 0x027EEE8C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r2, #1
@@ -18003,7 +17976,7 @@ sub_27EEE8C: // 0x027EEE8C
 	cmp r1, #0x10
 	blo _027EEEC0
 	ldrh r0, [r0, #0x10]
-	bl sub_27EADF0
+	bl WSetBeaconSendRecvIndicate
 	mov r2, r0
 _027EEEC0:
 	mov r0, r2
@@ -18012,10 +17985,10 @@ _027EEEC0:
 	bx lr
 	.align 2, 0
 _027EEED0: .word 0x0380FFF4
-	arm_func_end sub_27EEE8C
+	arm_func_end PARAMSET_BcnSendRecvIndReqCmd
 
-	arm_func_start sub_27EEED4
-sub_27EEED4: // 0x027EEED4
+	arm_func_start PARAMSET_DiversityReqCmd
+PARAMSET_DiversityReqCmd: // 0x027EEED4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r2, r0
@@ -18029,17 +18002,17 @@ sub_27EEED4: // 0x027EEED4
 	blo _027EEF0C
 	ldrh r0, [r2, #0x10]
 	ldrh r1, [r2, #0x12]
-	bl sub_27EAE30
+	bl WSetDiversity
 _027EEF0C:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027EEF18: .word 0x0380FFF4
-	arm_func_end sub_27EEED4
+	arm_func_end PARAMSET_DiversityReqCmd
 
-	arm_func_start sub_27EEF1C
-sub_27EEF1C: // 0x027EEF1C
+	arm_func_start PARAMSET_MainAntennaReqCmd
+PARAMSET_MainAntennaReqCmd: // 0x027EEF1C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r2, #1
@@ -18051,7 +18024,7 @@ sub_27EEF1C: // 0x027EEF1C
 	cmp r1, #0x10
 	blo _027EEF50
 	ldrh r0, [r0, #0x10]
-	bl sub_27EAF0C
+	bl WSetMainAntenna
 	mov r2, r0
 _027EEF50:
 	mov r0, r2
@@ -18060,10 +18033,10 @@ _027EEF50:
 	bx lr
 	.align 2, 0
 _027EEF60: .word 0x0380FFF4
-	arm_func_end sub_27EEF1C
+	arm_func_end PARAMSET_MainAntennaReqCmd
 
-	arm_func_start sub_27EEF64
-sub_27EEF64: // 0x027EEF64
+	arm_func_start PARAMSET_MaxConnReqCmd
+PARAMSET_MaxConnReqCmd: // 0x027EEF64
 	mov r3, #1
 	strh r3, [r1, #2]
 	ldr r2, _027EEFB8 // =0x0380FFF4
@@ -18087,10 +18060,10 @@ sub_27EEF64: // 0x027EEF64
 	bx lr
 	.align 2, 0
 _027EEFB8: .word 0x0380FFF4
-	arm_func_end sub_27EEF64
+	arm_func_end PARAMSET_MaxConnReqCmd
 
-	arm_func_start sub_27EEFBC
-sub_27EEFBC: // 0x027EEFBC
+	arm_func_start PARAMSET_LifeTimeReqCmd
+PARAMSET_LifeTimeReqCmd: // 0x027EEFBC
 	stmdb sp!, {r4, lr}
 	ldr ip, _027EF0C0 // =0x0380FFF4
 	ldr r2, [ip]
@@ -18158,7 +18131,7 @@ _027EF0A4:
 	ldrh r0, [r0, #0x14]
 	cmp r0, #0
 	beq _027EF0B4
-	bl sub_27EA444
+	bl WSetFrameLifeTime
 _027EF0B4:
 	mov r0, #0
 _027EF0B8:
@@ -18167,10 +18140,10 @@ _027EF0B8:
 	.align 2, 0
 _027EF0C0: .word 0x0380FFF4
 _027EF0C4: .word 0x0000FFFF
-	arm_func_end sub_27EEFBC
+	arm_func_end PARAMSET_LifeTimeReqCmd
 
-	arm_func_start sub_27EF0C8
-sub_27EF0C8: // 0x027EF0C8
+	arm_func_start PARAMSET_CCAModeEDThReqCmd
+PARAMSET_CCAModeEDThReqCmd: // 0x027EF0C8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -18182,89 +18155,89 @@ sub_27EF0C8: // 0x027EF0C8
 	bhi _027EF110
 	ldrh r0, [r5, #0x10]
 	ldrh r1, [r5, #0x12]
-	bl sub_27EAF74
+	bl WSetCCA_ED
 	movs r4, r0
 	bne _027EF10C
 	mov r0, #0x2e
 	ldrh r1, [r5, #0x14]
-	bl sub_27E9C54
+	bl BBP_Write
 _027EF10C:
 	mov r0, r4
 _027EF110:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_27EF0C8
+	arm_func_end PARAMSET_CCAModeEDThReqCmd
 
-	arm_func_start sub_27EF11C
-sub_27EF11C: // 0x027EF11C
+	arm_func_start PARAMSET_AuthAlgoReqCmd
+PARAMSET_AuthAlgoReqCmd: // 0x027EF11C
 	mov r2, #1
 	strh r2, [r1, #2]
 	ldrh r0, [r0, #0x10]
-	ldr ip, _027EF130 // =sub_27EAFBC
+	ldr ip, _027EF130 // =WSetAuthAlgo
 	bx ip
 	.align 2, 0
-_027EF130: .word sub_27EAFBC
-	arm_func_end sub_27EF11C
+_027EF130: .word WSetAuthAlgo
+	arm_func_end PARAMSET_AuthAlgoReqCmd
 
-	arm_func_start sub_27EF134
-sub_27EF134: // 0x027EF134
+	arm_func_start PARAMSET_PreambleTypeReqCmd
+PARAMSET_PreambleTypeReqCmd: // 0x027EF134
 	mov r2, #1
 	strh r2, [r1, #2]
 	ldrh r0, [r0, #0x10]
-	ldr ip, _027EF148 // =sub_27EAFE0
+	ldr ip, _027EF148 // =WSetPreambleType
 	bx ip
 	.align 2, 0
-_027EF148: .word sub_27EAFE0
-	arm_func_end sub_27EF134
+_027EF148: .word WSetPreambleType
+	arm_func_end PARAMSET_PreambleTypeReqCmd
 
-	arm_func_start sub_27EF14C
-sub_27EF14C: // 0x027EF14C
+	arm_func_start PARAMSET_SSIDMaskReqCmd
+PARAMSET_SSIDMaskReqCmd: // 0x027EF14C
 	mov r2, #1
 	strh r2, [r1, #2]
 	add r0, r0, #0x10
-	ldr ip, _027EF160 // =sub_27EB0A0
+	ldr ip, _027EF160 // =WSetSsidMask
 	bx ip
 	.align 2, 0
-_027EF160: .word sub_27EB0A0
-	arm_func_end sub_27EF14C
+_027EF160: .word WSetSsidMask
+	arm_func_end PARAMSET_SSIDMaskReqCmd
 
-	arm_func_start sub_27EF164
-sub_27EF164: // 0x027EF164
+	arm_func_start PARAMSET_ActiveZoneReqCmd
+PARAMSET_ActiveZoneReqCmd: // 0x027EF164
 	mov r2, #1
 	strh r2, [r1, #2]
 	ldrh r0, [r0, #0x10]
 	mov r1, #0
-	ldr ip, _027EF17C // =sub_27EB0D0
+	ldr ip, _027EF17C // =WSetActiveZoneTime
 	bx ip
 	.align 2, 0
-_027EF17C: .word sub_27EB0D0
-	arm_func_end sub_27EF164
+_027EF17C: .word WSetActiveZoneTime
+	arm_func_end PARAMSET_ActiveZoneReqCmd
 
-	arm_func_start sub_27EF180
-sub_27EF180: // 0x027EF180
+	arm_func_start PARAMSET_BeaconLostThReqCmd
+PARAMSET_BeaconLostThReqCmd: // 0x027EF180
 	mov r2, #1
 	strh r2, [r1, #2]
 	ldrh r0, [r0, #0x10]
-	ldr ip, _027EF194 // =sub_27EB190
+	ldr ip, _027EF194 // =WSetBeaconLostThreshold
 	bx ip
 	.align 2, 0
-_027EF194: .word sub_27EB190
-	arm_func_end sub_27EF180
+_027EF194: .word WSetBeaconLostThreshold
+	arm_func_end PARAMSET_BeaconLostThReqCmd
 
-	arm_func_start sub_27EF198
-sub_27EF198: // 0x027EF198
+	arm_func_start PARAMSET_ResBcSsidReqCmd
+PARAMSET_ResBcSsidReqCmd: // 0x027EF198
 	mov r2, #1
 	strh r2, [r1, #2]
 	ldrh r0, [r0, #0x10]
-	ldr ip, _027EF1AC // =sub_27EB1C8
+	ldr ip, _027EF1AC // =WSetBcSsidResponse
 	bx ip
 	.align 2, 0
-_027EF1AC: .word sub_27EB1C8
-	arm_func_end sub_27EF198
+_027EF1AC: .word WSetBcSsidResponse
+	arm_func_end PARAMSET_ResBcSsidReqCmd
 
-	arm_func_start sub_27EF1B0
-sub_27EF1B0: // 0x027EF1B0
+	arm_func_start PARAMSET_BeaconTypeReqCmd
+PARAMSET_BeaconTypeReqCmd: // 0x027EF1B0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r2, #1
@@ -18276,7 +18249,7 @@ sub_27EF1B0: // 0x027EF1B0
 	cmp r1, #0x20
 	bhi _027EF1E4
 	ldrh r0, [r0, #0x10]
-	bl sub_27EB200
+	bl WSetBeaconType
 	mov r2, r0
 _027EF1E4:
 	mov r0, r2
@@ -18285,54 +18258,54 @@ _027EF1E4:
 	bx lr
 	.align 2, 0
 _027EF1F4: .word 0x0380FFF4
-	arm_func_end sub_27EF1B0
+	arm_func_end PARAMSET_BeaconTypeReqCmd
 
-	arm_func_start sub_27EF1F8
-sub_27EF1F8: // 0x027EF1F8
+	arm_func_start PARAMSET_WepKeyReqCmd
+PARAMSET_WepKeyReqCmd: // 0x027EF1F8
 	mov r2, #1
 	strh r2, [r1, #2]
 	add r0, r0, #0x10
-	ldr ip, _027EF20C // =sub_27EB238
+	ldr ip, _027EF20C // =WSetWepKey
 	bx ip
 	.align 2, 0
-_027EF20C: .word sub_27EB238
-	arm_func_end sub_27EF1F8
+_027EF20C: .word WSetWepKey
+	arm_func_end PARAMSET_WepKeyReqCmd
 
-	arm_func_start sub_27EF210
-sub_27EF210: // 0x027EF210
+	arm_func_start PARAMSET_WepKeyIdReqCmd
+PARAMSET_WepKeyIdReqCmd: // 0x027EF210
 	mov r2, #1
 	strh r2, [r1, #2]
 	ldrh r0, [r0, #0x10]
-	ldr ip, _027EF224 // =sub_27EB29C
+	ldr ip, _027EF224 // =WSetWepKeyId
 	bx ip
 	.align 2, 0
-_027EF224: .word sub_27EB29C
-	arm_func_end sub_27EF210
+_027EF224: .word WSetWepKeyId
+	arm_func_end PARAMSET_WepKeyIdReqCmd
 
-	arm_func_start sub_27EF228
-sub_27EF228: // 0x027EF228
+	arm_func_start PARAMSET_WepModeReqCmd
+PARAMSET_WepModeReqCmd: // 0x027EF228
 	mov r2, #1
 	strh r2, [r1, #2]
 	ldrh r0, [r0, #0x10]
-	ldr ip, _027EF23C // =sub_27EB2C0
+	ldr ip, _027EF23C // =WSetWepMode
 	bx ip
 	.align 2, 0
-_027EF23C: .word sub_27EB2C0
-	arm_func_end sub_27EF228
+_027EF23C: .word WSetWepMode
+	arm_func_end PARAMSET_WepModeReqCmd
 
-	arm_func_start sub_27EF240
-sub_27EF240: // 0x027EF240
+	arm_func_start PARAMSET_RateReqCmd
+PARAMSET_RateReqCmd: // 0x027EF240
 	mov r2, #1
 	strh r2, [r1, #2]
 	ldrh r0, [r0, #0x10]
-	ldr ip, _027EF254 // =sub_27EB374
+	ldr ip, _027EF254 // =WSetRate
 	bx ip
 	.align 2, 0
-_027EF254: .word sub_27EB374
-	arm_func_end sub_27EF240
+_027EF254: .word WSetRate
+	arm_func_end PARAMSET_RateReqCmd
 
-	arm_func_start sub_27EF258
-sub_27EF258: // 0x027EF258
+	arm_func_start PARAMSET_ModeReqCmd
+PARAMSET_ModeReqCmd: // 0x027EF258
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r3, #1
@@ -18352,17 +18325,17 @@ sub_27EF258: // 0x027EF258
 	bne _027EF2A4
 _027EF29C:
 	ldrh r0, [r0, #0x10]
-	bl sub_27EB3B0
+	bl WSetMode
 _027EF2A4:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027EF2B0: .word 0x0380FFF4
-	arm_func_end sub_27EF258
+	arm_func_end PARAMSET_ModeReqCmd
 
-	arm_func_start sub_27EF2B4
-sub_27EF2B4: // 0x027EF2B4
+	arm_func_start PARAMSET_EnableChannelReqCmd
+PARAMSET_EnableChannelReqCmd: // 0x027EF2B4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r2, #1
@@ -18374,7 +18347,7 @@ sub_27EF2B4: // 0x027EF2B4
 	cmp r1, #0x10
 	bne _027EF2E8
 	ldrh r0, [r0, #0x10]
-	bl sub_27EB438
+	bl WSetEnableChannel
 	mov r2, r0
 _027EF2E8:
 	mov r0, r2
@@ -18383,21 +18356,21 @@ _027EF2E8:
 	bx lr
 	.align 2, 0
 _027EF2F8: .word 0x0380FFF4
-	arm_func_end sub_27EF2B4
+	arm_func_end PARAMSET_EnableChannelReqCmd
 
-	arm_func_start sub_27EF2FC
-sub_27EF2FC: // 0x027EF2FC
+	arm_func_start PARAMSET_RetryReqCmd
+PARAMSET_RetryReqCmd: // 0x027EF2FC
 	mov r2, #1
 	strh r2, [r1, #2]
 	ldrh r0, [r0, #0x10]
-	ldr ip, _027EF310 // =sub_27EB478
+	ldr ip, _027EF310 // =WSetRetryLimit
 	bx ip
 	.align 2, 0
-_027EF310: .word sub_27EB478
-	arm_func_end sub_27EF2FC
+_027EF310: .word WSetRetryLimit
+	arm_func_end PARAMSET_RetryReqCmd
 
-	arm_func_start sub_27EF314
-sub_27EF314: // 0x027EF314
+	arm_func_start PARAMSET_MacAdrsReqCmd
+PARAMSET_MacAdrsReqCmd: // 0x027EF314
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r2, #1
@@ -18409,7 +18382,7 @@ sub_27EF314: // 0x027EF314
 	cmp r1, #0x10
 	bne _027EF348
 	add r0, r0, #0x10
-	bl sub_27EB4AC
+	bl WSetMacAdrs
 	mov r2, r0
 _027EF348:
 	mov r0, r2
@@ -18418,10 +18391,10 @@ _027EF348:
 	bx lr
 	.align 2, 0
 _027EF358: .word 0x0380FFF4
-	arm_func_end sub_27EF314
+	arm_func_end PARAMSET_MacAdrsReqCmd
 
-	arm_func_start sub_27EF35C
-sub_27EF35C: // 0x027EF35C
+	arm_func_start PARAMSET_AllReqCmd
+PARAMSET_AllReqCmd: // 0x027EF35C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -18434,50 +18407,50 @@ sub_27EF35C: // 0x027EF35C
 	cmp r1, #0x10
 	bne _027EF440
 	add r0, r5, #0x10
-	bl sub_27EB4AC
+	bl WSetMacAdrs
 	mov r4, r0
 	ldrh r0, [r5, #0x16]
-	bl sub_27EB478
+	bl WSetRetryLimit
 	orr r4, r4, r0
 	ldrh r0, [r5, #0x18]
-	bl sub_27EB438
+	bl WSetEnableChannel
 	orr r4, r4, r0
 	ldrh r0, [r5, #0x1c]
-	bl sub_27EB3B0
+	bl WSetMode
 	orr r4, r4, r0
 	ldrh r0, [r5, #0x1e]
-	bl sub_27EB374
+	bl WSetRate
 	orr r4, r4, r0
 	ldrh r0, [r5, #0x20]
-	bl sub_27EB2C0
+	bl WSetWepMode
 	orr r4, r4, r0
 	ldrh r0, [r5, #0x22]
-	bl sub_27EB29C
+	bl WSetWepKeyId
 	orr r4, r4, r0
 	add r0, r5, #0x24
-	bl sub_27EB238
+	bl WSetWepKey
 	orr r4, r4, r0
 	ldrh r0, [r5, #0x74]
-	bl sub_27EB200
+	bl WSetBeaconType
 	orr r4, r4, r0
 	ldrh r0, [r5, #0x76]
-	bl sub_27EB1C8
+	bl WSetBcSsidResponse
 	orr r4, r4, r0
 	ldrh r0, [r5, #0x78]
-	bl sub_27EB190
+	bl WSetBeaconLostThreshold
 	orr r4, r4, r0
 	ldrh r0, [r5, #0x7a]
 	mov r1, #0
-	bl sub_27EB0D0
+	bl WSetActiveZoneTime
 	orr r4, r4, r0
 	add r0, r5, #0x7c
-	bl sub_27EB0A0
+	bl WSetSsidMask
 	orr r4, r4, r0
 	ldrh r0, [r5, #0x9c]
-	bl sub_27EAFE0
+	bl WSetPreambleType
 	orr r4, r4, r0
 	ldrh r0, [r5, #0x9e]
-	bl sub_27EAFBC
+	bl WSetAuthAlgo
 	orr r0, r4, r0
 _027EF440:
 	add sp, sp, #4
@@ -18485,10 +18458,10 @@ _027EF440:
 	bx lr
 	.align 2, 0
 _027EF44C: .word 0x0380FFF4
-	arm_func_end sub_27EF35C
+	arm_func_end PARAMSET_AllReqCmd
 
-	arm_func_start sub_27EF450
-sub_27EF450: // 0x027EF450
+	arm_func_start DEV_TestRxReqCmd
+DEV_TestRxReqCmd: // 0x027EF450
 	stmdb sp!, {r4, lr}
 	ldr r2, _027EF4FC // =0x0380FFF4
 	ldr r2, [r2]
@@ -18510,12 +18483,12 @@ sub_27EF450: // 0x027EF450
 	bne _027EF4F4
 	ldrh r0, [r0, #0x12]
 	mov r1, r3
-	bl sub_27EA744
+	bl WSetChannel
 	mov r0, #0
 	strh r0, [r4, #0xc]
-	bl sub_37F8EF4
+	bl WStart
 	mov r0, #0x8000
-	bl sub_27EA5B4
+	bl WSetForcePowerState
 	mov r0, #0x11
 	strh r0, [r4, #8]
 	b _027EF4F0
@@ -18523,8 +18496,8 @@ _027EF4C8:
 	cmp r2, #0x11
 	bne _027EF4E0
 	mov r0, #0
-	bl sub_27EA5B4
-	bl sub_37F93A0
+	bl WSetForcePowerState
+	bl WStop
 	b _027EF4E8
 _027EF4E0:
 	mov r0, r3
@@ -18539,10 +18512,10 @@ _027EF4F4:
 	bx lr
 	.align 2, 0
 _027EF4FC: .word 0x0380FFF4
-	arm_func_end sub_27EF450
+	arm_func_end DEV_TestRxReqCmd
 
-	arm_func_start sub_27EF500
-sub_27EF500: // 0x027EF500
+	arm_func_start IntrCarrierSuppresionSignal
+IntrCarrierSuppresionSignal: // 0x027EF500
 	ldr r0, _027EF580 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x300
@@ -18587,27 +18560,27 @@ _027EF598: .word 0x0000FFFF
 _027EF59C: .word 0x04808010
 _027EF5A0: .word 0x04808194
 _027EF5A4: .word 0x04808040
-	arm_func_end sub_27EF500
+	arm_func_end IntrCarrierSuppresionSignal
 
-	arm_func_start sub_27EF5A8
-sub_27EF5A8: // 0x027EF5A8
+	arm_func_start CarrierSuppresionSignal
+CarrierSuppresionSignal: // 0x027EF5A8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
 	ldr r0, _027EF6C0 // =0x0380FFF4
 	ldr r0, [r0]
 	add r4, r0, #0x344
-	bl sub_37F8EF4
-	bl sub_37F93A0
+	bl WStart
+	bl WStop
 	mov r0, #6
-	bl sub_27E9C94
+	bl BBP_Read
 	strh r0, [r4, #0xac]
 	ldrh r0, [r5, #0x12]
 	cmp r0, #4
 	bne _027EF5EC
 	mov r0, #6
 	mov r1, #0
-	bl sub_27E9C54
+	bl BBP_Write
 _027EF5EC:
 	mov r0, #0
 	ldr r1, _027EF6C4 // =0x04804000
@@ -18638,12 +18611,12 @@ _027EF620:
 	mov r1, #1
 	strh r1, [r4, #0x18]
 	ldrh r0, [r5, #0x16]
-	bl sub_27EA744
+	bl WSetChannel
 	mov r1, #0x8000
 	ldr r0, _027EF6D4 // =0x04808040
 	strh r1, [r0]
 	ldr r0, _027EF6D8 // =0x000005DC
-	bl sub_27E987C
+	bl WWaitus
 	mov r1, #2
 	ldr r0, _027EF6DC // =0x04808012
 	strh r1, [r0]
@@ -18676,10 +18649,10 @@ _027EF6E0: .word 0x04808004
 _027EF6E4: .word 0x048080AE
 _027EF6E8: .word 0x00003FFF
 _027EF6EC: .word 0x048080A0
-	arm_func_end sub_27EF5A8
+	arm_func_end CarrierSuppresionSignal
 
-	arm_func_start sub_27EF6F0
-sub_27EF6F0: // 0x027EF6F0
+	arm_func_start DEV_TestSignalReqCmd
+DEV_TestSignalReqCmd: // 0x027EF6F0
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -18708,7 +18681,7 @@ _027EF748:
 	movhi r0, #5
 	bhi _027EF934
 	mov r0, #0
-	bl sub_27F5AC8
+	bl FLASH_VerifyCheckSum
 	cmp r0, #0
 	movne r0, #0xe
 	bne _027EF934
@@ -18726,17 +18699,17 @@ _027EF748:
 	mov r0, #0x65
 	mov r1, #1
 	add r2, sp, #0
-	bl sub_27F59D8
+	bl FLASH_DirectRead
 	ldr r6, [sp]
 	mov r0, #1
-	bl sub_27E9C94
+	bl BBP_Read
 	cmp r6, r0
 	beq _027EF7D0
 	mov r0, #1
 	mov r1, r6
-	bl sub_27E9C54
+	bl BBP_Write
 	ldr r0, _027EF944 // =0x00001388
-	bl sub_27E987C
+	bl WWaitus
 _027EF7D0:
 	ldrh r0, [r5, #0x12]
 	cmp r0, #4
@@ -18753,16 +18726,16 @@ _027EF7F4:
 	strh r0, [r4, #8]
 	ldrh r0, [r5, #0x16]
 	mov r1, #1
-	bl sub_27EA744
+	bl WSetChannel
 	mov r1, #0x8000
 	ldr r0, _027EF948 // =0x04808040
 	strh r1, [r0]
 	ldr r0, _027EF94C // =0x000005DC
-	bl sub_27E987C
+	bl WWaitus
 	ldrh r0, [r5, #0x14]
 	strh r0, [r4, #0x16]
 	mov r0, #2
-	bl sub_27E9C94
+	bl BBP_Read
 	str r0, [sp]
 	ldrh r1, [r5, #0x12]
 	cmp r1, #1
@@ -18785,20 +18758,20 @@ _027EF7F4:
 _027EF878:
 	mov r0, #2
 	ldr r1, [sp]
-	bl sub_27E9C54
+	bl BBP_Write
 	ldr r1, _027EF958 // =0x00000823
 	ldr r0, _027EF95C // =0x048081A0
 	strh r1, [r0]
 	b _027EF930
 _027EF894:
 	mov r0, r5
-	bl sub_27EF5A8
+	bl CarrierSuppresionSignal
 	b _027EF930
 _027EF8A0:
 	ldrh r0, [r4, #8]
 	cmp r0, #0x11
 	bne _027EF8F0
-	bl sub_27E97C8
+	bl ClearPeriodicTimeOut
 	mov r2, #0
 	ldr r0, _027EF95C // =0x048081A0
 	strh r2, [r0]
@@ -18808,12 +18781,12 @@ _027EF8A0:
 	ldr r0, _027EF948 // =0x04808040
 	strh r2, [r0]
 	mov r0, #2
-	bl sub_27E9C94
+	bl BBP_Read
 	str r0, [sp]
 	bic r1, r0, #0x30
 	str r1, [sp]
 	mov r0, #2
-	bl sub_27E9C54
+	bl BBP_Write
 	b _027EF928
 _027EF8F0:
 	cmp r0, #0x12
@@ -18827,7 +18800,7 @@ _027EF904:
 	bne _027EF904
 	mov r0, #6
 	ldrh r1, [r4, #0xac]
-	bl sub_27E9C54
+	bl BBP_Write
 	b _027EF928
 _027EF920:
 	mov r0, #1
@@ -18851,10 +18824,10 @@ _027EF954: .word 0x048081A2
 _027EF958: .word 0x00000823
 _027EF95C: .word 0x048081A0
 _027EF960: .word 0x04808004
-	arm_func_end sub_27EF6F0
+	arm_func_end DEV_TestSignalReqCmd
 
-	arm_func_start sub_27EF964
-sub_27EF964: // 0x027EF964
+	arm_func_start DEV_GetStateReqCmd
+DEV_GetStateReqCmd: // 0x027EF964
 	mov r0, #2
 	strh r0, [r1, #2]
 	ldr r0, _027EF988 // =0x0380FFF4
@@ -18866,10 +18839,10 @@ sub_27EF964: // 0x027EF964
 	bx lr
 	.align 2, 0
 _027EF988: .word 0x0380FFF4
-	arm_func_end sub_27EF964
+	arm_func_end DEV_GetStateReqCmd
 
-	arm_func_start sub_27EF98C
-sub_27EF98C: // 0x027EF98C
+	arm_func_start DEV_GetWlInfoReqCmd
+DEV_GetWlInfoReqCmd: // 0x027EF98C
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	ldr r0, _027EF9E4 // =0x0380FFF4
@@ -18881,7 +18854,7 @@ sub_27EF98C: // 0x027EF98C
 	beq _027EF9DC
 	mov r0, #0x5c
 	strh r0, [r4, #2]
-	bl sub_27E9EFC
+	bl WUpdateCounter
 	ldr r0, _027EF9E4 // =0x0380FFF4
 	ldr r1, [r0]
 	ldr r0, _027EF9E8 // =0x0000053C
@@ -18896,15 +18869,15 @@ _027EF9DC:
 	.align 2, 0
 _027EF9E4: .word 0x0380FFF4
 _027EF9E8: .word 0x0000053C
-	arm_func_end sub_27EF98C
+	arm_func_end DEV_GetWlInfoReqCmd
 
-	arm_func_start sub_27EF9EC
-sub_27EF9EC: // 0x027EF9EC
+	arm_func_start DEV_GetVerInfoReqCmd
+DEV_GetVerInfoReqCmd: // 0x027EF9EC
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	mov r0, #9
 	strh r0, [r4, #2]
-	ldr r0, _027EFA88 // =a27800
+	ldr r0, _027EFA88 // =wlVersion_3529
 	add r1, r4, #6
 	mov r2, #8
 	bl MIi_CpuCopy16
@@ -18922,9 +18895,9 @@ sub_27EF9EC: // 0x027EF9EC
 	streqh r0, [r4, #0x12]
 	beq _027EFA54
 	mov r0, #0
-	bl sub_27E9C94
+	bl BBP_Read
 	strh r0, [r4, #0x10]
-	bl sub_27E9BBC
+	bl CalcBbpCRC
 	strh r0, [r4, #0x12]
 _027EFA54:
 	ldr r0, _027EFA90 // =0x0380FFF4
@@ -18941,14 +18914,14 @@ _027EFA54:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_027EFA88: .word a27800
+_027EFA88: .word wlVersion_3529
 _027EFA8C: .word 0x04808000
 _027EFA90: .word 0x0380FFF4
 _027EFA94: .word 0x0000933D
-	arm_func_end sub_27EF9EC
+	arm_func_end DEV_GetVerInfoReqCmd
 
-	arm_func_start sub_27EFA98
-sub_27EFA98: // 0x027EFA98
+	arm_func_start DEV_ClearWlInfoReqCmd
+DEV_ClearWlInfoReqCmd: // 0x027EFA98
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027EFAD8 // =0x0380FFF4
@@ -18960,7 +18933,7 @@ sub_27EFA98: // 0x027EFA98
 	beq _027EFACC
 	mov r0, #1
 	strh r0, [r1, #2]
-	bl sub_27EA100
+	bl WInitCounter
 	mov r0, #0
 _027EFACC:
 	add sp, sp, #4
@@ -18968,10 +18941,10 @@ _027EFACC:
 	bx lr
 	.align 2, 0
 _027EFAD8: .word 0x0380FFF4
-	arm_func_end sub_27EFA98
+	arm_func_end DEV_ClearWlInfoReqCmd
 
-	arm_func_start sub_27EFADC
-sub_27EFADC: // 0x027EFADC
+	arm_func_start DEV_RebootReqCmd
+DEV_RebootReqCmd: // 0x027EFADC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #1
@@ -18982,19 +18955,19 @@ sub_27EFADC: // 0x027EFADC
 	ldrh r0, [r0, #0x4c]
 	cmp r0, #0x20
 	blo _027EFB08
-	bl sub_37F93A0
+	bl WStop
 _027EFB08:
-	bl sub_27E8D30
+	bl WlessLibReboot
 	mov r0, #0
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
 _027EFB1C: .word 0x0380FFF4
-	arm_func_end sub_27EFADC
+	arm_func_end DEV_RebootReqCmd
 
-	arm_func_start sub_27EFB20
-sub_27EFB20: // 0x027EFB20
+	arm_func_start DEV_Class1ReqCmd
+DEV_Class1ReqCmd: // 0x027EFB20
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #1
@@ -19012,7 +18985,7 @@ sub_27EFB20: // 0x027EFB20
 	bne _027EFB6C
 _027EFB5C:
 	mov r0, #0x20
-	bl sub_37F9458
+	bl WSetStaState
 	mov r0, #0
 	b _027EFB70
 _027EFB6C:
@@ -19023,10 +18996,10 @@ _027EFB70:
 	bx lr
 	.align 2, 0
 _027EFB7C: .word 0x0380FFF4
-	arm_func_end sub_27EFB20
+	arm_func_end DEV_Class1ReqCmd
 
-	arm_func_start sub_27EFB80
-sub_27EFB80: // 0x027EFB80
+	arm_func_start DEV_IdleReqCmd
+DEV_IdleReqCmd: // 0x027EFB80
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #1
@@ -19041,12 +19014,12 @@ sub_27EFB80: // 0x027EFB80
 	cmp r1, #0
 	bne _027EFBD4
 	mov r0, #0
-	bl sub_27F5AC8
+	bl FLASH_VerifyCheckSum
 	cmp r0, #0
 	movne r0, #0xe
 	bne _027EFBD4
 	mov r0, #0x10
-	bl sub_37F9458
+	bl WSetStaState
 	mov r0, #0
 _027EFBD4:
 	add sp, sp, #4
@@ -19054,10 +19027,10 @@ _027EFBD4:
 	bx lr
 	.align 2, 0
 _027EFBE0: .word 0x0380FFF4
-	arm_func_end sub_27EFB80
+	arm_func_end DEV_IdleReqCmd
 
-	arm_func_start sub_27EFBE4
-sub_27EFBE4: // 0x027EFBE4
+	arm_func_start DEV_ShutdownReqCmd
+DEV_ShutdownReqCmd: // 0x027EFBE4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #1
@@ -19072,7 +19045,7 @@ sub_27EFBE4: // 0x027EFBE4
 	bne _027EFC20
 _027EFC14:
 	mov r0, #0
-	bl sub_37F9458
+	bl WSetStaState
 	mov r0, #0
 _027EFC20:
 	add sp, sp, #4
@@ -19080,10 +19053,10 @@ _027EFC20:
 	bx lr
 	.align 2, 0
 _027EFC2C: .word 0x0380FFF4
-	arm_func_end sub_27EFBE4
+	arm_func_end DEV_ShutdownReqCmd
 
-	arm_func_start sub_27EFC30
-sub_27EFC30: // 0x027EFC30
+	arm_func_start IssueMaDataConfirm
+IssueMaDataConfirm: // 0x027EFC30
 	ldrh r2, [r1, #0xe]
 	add r2, r1, r2, lsl #1
 	add r3, r2, #0x10
@@ -19095,14 +19068,14 @@ sub_27EFC30: // 0x027EFC30
 	strh r2, [r3, #4]
 	ldrh r2, [r1, #0x18]
 	strh r2, [r3, #6]
-	ldr ip, _027EFC64 // =sub_37F8E64
+	ldr ip, _027EFC64 // =SendMessageToWmDirect
 	bx ip
 	.align 2, 0
-_027EFC64: .word sub_37F8E64
-	arm_func_end sub_27EFC30
+_027EFC64: .word SendMessageToWmDirect
+	arm_func_end IssueMaDataConfirm
 
-	arm_func_start sub_27EFC68
-sub_27EFC68: // 0x027EFC68
+	arm_func_start MA_ClrDataReqCmd
+MA_ClrDataReqCmd: // 0x027EFC68
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #1
@@ -19110,25 +19083,25 @@ sub_27EFC68: // 0x027EFC68
 	ldrh r0, [r4, #0x10]
 	ands r0, r0, #1
 	beq _027EFC88
-	bl sub_27F1CA0
+	bl ClearTxKeyData
 _027EFC88:
 	ldrh r0, [r4, #0x10]
 	ands r0, r0, #2
 	beq _027EFC98
-	bl sub_27F1C40
+	bl ClearTxMp
 _027EFC98:
 	ldrh r0, [r4, #0x10]
 	ands r0, r0, #4
 	beq _027EFCA8
-	bl sub_27F1B88
+	bl ClearTxData
 _027EFCA8:
 	mov r0, #0
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27EFC68
+	arm_func_end MA_ClrDataReqCmd
 
-	arm_func_start sub_27EFCB4
-sub_27EFCB4: // 0x027EFCB4
+	arm_func_start MA_TestDataReqCmd
+MA_TestDataReqCmd: // 0x027EFCB4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #1
@@ -19140,25 +19113,25 @@ sub_27EFCB4: // 0x027EFCB4
 	strh r1, [r0, #2]
 	ldrh r1, [r0, #6]
 	strh r1, [r0, #0x12]
-	bl sub_27EC780
+	bl CAM_IncFrameCount
 	ldr r0, _027EFD14 // =0x0380FFF4
 	ldr r1, [r0]
 	add r0, r1, #0x200
 	add r1, r1, #0x194
 	mov r2, r4
-	bl sub_37F8A3C
+	bl MoveHeapBuf
 	mov r0, #0
-	bl sub_27F2728
+	bl TxqPri
 	mov r0, #0
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027EFD10: .word 0x0000FFFF
 _027EFD14: .word 0x0380FFF4
-	arm_func_end sub_27EFCB4
+	arm_func_end MA_TestDataReqCmd
 
-	arm_func_start sub_27EFD18
-sub_27EFD18: // 0x027EFD18
+	arm_func_start MA_MpReqCmd
+MA_MpReqCmd: // 0x027EFD18
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
@@ -19266,7 +19239,7 @@ _027EFE94:
 	add r0, r10, #0xc
 	ldr r1, [sp, #8]
 	add r1, r1, #0x1a
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	str r0, [r9, #0x90]
 	ldr r0, [r9, #0x90]
 	cmp r0, #0
@@ -19308,7 +19281,7 @@ _027EFE94:
 	ldr r2, [sp]
 	add r2, r2, #0x64
 	add r3, r7, #8
-	bl sub_27EA13C
+	bl WSetMacAdrs3
 	ldrh r0, [r5, #0x10]
 	ands r0, r0, #0x8000
 	beq _027EFF7C
@@ -19334,11 +19307,11 @@ _027EFF88:
 	ldrh r0, [r5, #0x1c]
 	cmp r0, #0
 	beq _027EFFCC
-	bl sub_27E9EFC
+	bl WUpdateCounter
 	add r0, r4, #0x2a
 	ldr r1, [r5, #0x20]
 	ldrh r2, [r5, #0x1c]
-	bl sub_27E9568
+	bl DMA_Write
 _027EFFCC:
 	ands r0, r8, #4
 	beq _027EFFFC
@@ -19463,7 +19436,7 @@ _027F0194:
 	bl OS_RestoreInterrupts
 	add r0, r10, #0xc
 	ldr r1, [r9, #0x90]
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 	mov r0, #0
 	strh r0, [r9, #0x3c]
 	ldrh r0, [r9, #0x3e]
@@ -19493,10 +19466,10 @@ _027F0200: .word 0x04808118
 _027F0204: .word 0x00003FFF
 _027F0208: .word 0x04808090
 _027F020C: .word 0x048080F8
-	arm_func_end sub_27EFD18
+	arm_func_end MA_MpReqCmd
 
-	arm_func_start sub_27F0210
-sub_27F0210: // 0x027F0210
+	arm_func_start MA_KeyDataReqCmd
+MA_KeyDataReqCmd: // 0x027F0210
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r10, r0
@@ -19548,8 +19521,8 @@ sub_27F0210: // 0x027F0210
 	add r0, r5, #0x10
 	add r1, r2, #0x64
 	add r2, r8, #8
-	ldr r3, _027F03A4 // =_027F7E80
-	bl sub_27EA13C
+	ldr r3, _027F03A4 // =MPKEY_ADRS
+	bl WSetMacAdrs3
 	ldrh r0, [r10, #0x12]
 	strh r0, [r5, #0x24]
 	ldrh r0, [r10, #0x10]
@@ -19557,12 +19530,12 @@ sub_27F0210: // 0x027F0210
 	beq _027F0314
 	cmp r9, #0
 	bne _027F0304
-	bl sub_27E9EFC
+	bl WUpdateCounter
 _027F0304:
 	add r0, r5, #0x26
 	ldr r1, [r10, #0x14]
 	ldrh r2, [r10, #0x10]
-	bl sub_27E9568
+	bl DMA_Write
 _027F0314:
 	ands r0, r6, #4
 	beq _027F0344
@@ -19593,7 +19566,7 @@ _027F0344:
 	mov r0, r0, lsl #0x18
 	movs r0, r0, lsr #0x1f
 	bne _027F0388
-	bl sub_27EA204
+	bl WSetKSID
 _027F0388:
 	mov r0, #0
 _027F038C:
@@ -19604,14 +19577,14 @@ _027F038C:
 _027F0398: .word 0x0380FFF4
 _027F039C: .word 0x0000042C
 _027F03A0: .word 0x04808094
-_027F03A4: .word _027F7E80
+_027F03A4: .word MPKEY_ADRS
 _027F03A8: .word 0x0000B6B8
 _027F03AC: .word 0x00001D46
 _027F03B0: .word 0x00003FFF
-	arm_func_end sub_27F0210
+	arm_func_end MA_KeyDataReqCmd
 
-	arm_func_start sub_27F03B4
-sub_27F03B4: // 0x027F03B4
+	arm_func_start MA_DataReqCmd
+MA_DataReqCmd: // 0x027F03B4
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r9, r0
@@ -19630,11 +19603,11 @@ sub_27F03B4: // 0x027F03B4
 	cmp r0, #1
 	bne _027F0420
 	add r0, r5, #0x18
-	bl sub_27EC9BC
+	bl CAM_Search
 	mov r4, r0
 	cmp r4, #0xff
 	beq _027F0418
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	beq _027F0424
 _027F0418:
@@ -19655,7 +19628,7 @@ _027F0424:
 	strneh r0, [r5, #0xe]
 	bne _027F045C
 	mov r0, r4
-	bl sub_27EC2E8
+	bl CAM_GetTxRate
 	strh r0, [r5, #0x10]
 _027F045C:
 	ldrh r0, [r5, #6]
@@ -19691,15 +19664,15 @@ _027F04AC:
 _027F04CC:
 	add r0, r5, #0x24
 	add r1, r5, #0x1e
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	add r0, r5, #0x1e
 	add r1, r8, #0x64
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	cmp r4, #0
 	bne _027F0524
 	add r0, r6, #0x84
 	mov r1, r9
-	bl sub_27EC810
+	bl CAM_AddBcFrame
 	ldr r0, _027F0590 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x500
@@ -19709,33 +19682,33 @@ _027F04CC:
 	ands r0, r1, r0
 	bne _027F0580
 	mov r0, #2
-	bl sub_27F2728
+	bl TxqPri
 	b _027F0580
 _027F0524:
 	mov r0, r5
-	bl sub_27EC780
+	bl CAM_IncFrameCount
 	add r0, r6, #0x84
 	add r1, r6, #0x18
 	mov r2, r9
-	bl sub_37F8A3C
+	bl MoveHeapBuf
 	mov r0, #0
-	bl sub_27F2728
+	bl TxqPri
 	b _027F0580
 _027F0548:
 	add r0, r5, #0x24
 	add r1, r5, #0x18
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	add r0, r5, #0x18
 	add r1, r8, #0x64
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	mov r0, r5
-	bl sub_27EC780
+	bl CAM_IncFrameCount
 	add r0, r6, #0x84
 	add r1, r6, #0x18
 	mov r2, r9
-	bl sub_37F8A3C
+	bl MoveHeapBuf
 	mov r0, #0
-	bl sub_27F2728
+	bl TxqPri
 _027F0580:
 	mov r0, #0x81
 _027F0584:
@@ -19745,10 +19718,10 @@ _027F0584:
 	.align 2, 0
 _027F0590: .word 0x0380FFF4
 _027F0594: .word 0x000005E4
-	arm_func_end sub_27F03B4
+	arm_func_end MA_DataReqCmd
 
-	arm_func_start sub_27F0598
-sub_27F0598: // 0x027F0598
+	arm_func_start SetGameInfoElement
+SetGameInfoElement: // 0x027F0598
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r7, r0
 	ldr r1, _027F06B4 // =0x0380FFF4
@@ -19757,7 +19730,7 @@ sub_27F0598: // 0x027F0598
 	add r5, r1, #0x31c
 	mov r4, #0
 	mov r1, #0xdd
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r7, #1
 	ldr r1, _027F06B4 // =0x0380FFF4
 	ldr r1, [r1]
@@ -19765,37 +19738,37 @@ sub_27F0598: // 0x027F0598
 	ldrh r1, [r1, #0xe4]
 	add r1, r1, #8
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r7, #2
 	mov r1, r4
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r7, #3
 	mov r1, #9
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r7, #4
 	mov r1, #0xbf
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r7, #5
 	mov r1, r4
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r7, #6
 	ldrh r1, [r5, #0x20]
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r7, #7
 	ldrh r1, [r5, #0x20]
 	mov r1, r1, asr #8
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	ldr r0, _027F06B8 // =0x0380FFF0
 	ldrh r5, [r0]
 	add r0, r7, #8
 	and r1, r5, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r7, #9
 	mov r1, r5, lsr #8
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r4, r4, #0xa
 	ldrh r0, [r6, #0xa0]
 	cmp r0, #0
@@ -19808,10 +19781,10 @@ sub_27F0598: // 0x027F0598
 	b _027F069C
 _027F067C:
 	mov r0, r5
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	add r0, r7, r4
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r4, r4, #1
 	add r5, r5, #1
 	add r8, r8, #1
@@ -19826,33 +19799,33 @@ _027F06A8:
 	.align 2, 0
 _027F06B4: .word 0x0380FFF4
 _027F06B8: .word 0x0380FFF0
-	arm_func_end sub_27F0598
+	arm_func_end SetGameInfoElement
 
-	arm_func_start sub_27F06BC
-sub_27F06BC: // 0x027F06BC
+	arm_func_start SetDSParamSet
+SetDSParamSet: // 0x027F06BC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #3
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r4, #1
 	mov r1, #1
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r4, #2
 	ldr r1, _027F0700 // =0x0380FFF4
 	ldr r1, [r1]
 	add r1, r1, #0x300
 	ldrh r1, [r1, #0xbe]
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	mov r0, #3
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027F0700: .word 0x0380FFF4
-	arm_func_end sub_27F06BC
+	arm_func_end SetDSParamSet
 
-	arm_func_start sub_27F0704
-sub_27F0704: // 0x027F0704
+	arm_func_start SetSupRateSet
+SetSupRateSet: // 0x027F0704
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r9, r0
@@ -19861,7 +19834,7 @@ sub_27F0704: // 0x027F0704
 	add r8, r1, #0x344
 	mov r7, #0
 	mov r1, #1
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r7, r7, #2
 	mov r6, #0
 	ldr r4, _027F07B8 // =0x027F7E98
@@ -19879,14 +19852,14 @@ _027F0738:
 	ldrh r1, [r4, r1]
 	orr r1, r1, #0x80
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	b _027F0784
 _027F0770:
 	add r0, r9, r7
 	mov r1, r6, lsl #1
 	ldrh r1, [r4, r1]
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 _027F0784:
 	add r7, r7, #1
 _027F0788:
@@ -19896,7 +19869,7 @@ _027F0788:
 	add r0, r9, #1
 	sub r1, r7, #2
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	mov r0, r7
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
@@ -19904,10 +19877,10 @@ _027F0788:
 	.align 2, 0
 _027F07B4: .word 0x0380FFF4
 _027F07B8: .word 0x027F7E98
-	arm_func_end sub_27F0704
+	arm_func_end SetSupRateSet
 
-	arm_func_start sub_27F07BC
-sub_27F07BC: // 0x027F07BC
+	arm_func_start SetSSIDElement
+SetSSIDElement: // 0x027F07BC
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r4, r0
 	ldr r1, _027F082C // =0x0380FFF4
@@ -19916,20 +19889,20 @@ sub_27F07BC: // 0x027F07BC
 	mov r8, #0
 	ldrh r7, [r5, #0x1e]
 	mov r1, r8
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r4, #1
 	and r1, r7, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r8, r8, #2
 	mov r6, #0
 	add r5, r5, #0x20
 	b _027F0818
 _027F07FC:
 	add r0, r5, r6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	add r0, r4, r8
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r8, r8, #1
 	add r6, r6, #1
 _027F0818:
@@ -19940,10 +19913,10 @@ _027F0818:
 	bx lr
 	.align 2, 0
 _027F082C: .word 0x0380FFF4
-	arm_func_end sub_27F07BC
+	arm_func_end SetSSIDElement
 
-	arm_func_start sub_27F0830
-sub_27F0830: // 0x027F0830
+	arm_func_start IsExistManFrame
+IsExistManFrame: // 0x027F0830
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -19960,13 +19933,13 @@ _027F0854:
 	bne _027F087C
 	add r0, r1, #0x18
 	mov r1, r5
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	movne r0, #1
 	bne _027F0894
 _027F087C:
 	mov r0, r7
-	bl sub_37F8B44
+	bl GetHeapBufNextAdrs
 	mov r7, r0
 _027F0888:
 	cmp r7, r6
@@ -19978,10 +19951,10 @@ _027F0894:
 	bx lr
 	.align 2, 0
 _027F08A0: .word 0x0380FFF4
-	arm_func_end sub_27F0830
+	arm_func_end IsExistManFrame
 
-	arm_func_start sub_27F08A4
-sub_27F08A4: // 0x027F08A4
+	arm_func_start InitManHeader
+InitManHeader: // 0x027F08A4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -19990,7 +19963,7 @@ sub_27F08A4: // 0x027F08A4
 	mov r1, r5
 	mov r2, #0x2c
 	bl MIi_CpuClear16
-	bl sub_27E9CC8
+	bl WCalcManRate
 	strh r0, [r5, #0x10]
 	ldr r0, _027F08F4 // =0x0380FFF4
 	ldr r3, [r0]
@@ -19998,16 +19971,16 @@ sub_27F08A4: // 0x027F08A4
 	mov r1, r4
 	add r2, r3, #0x324
 	add r3, r3, #0x3a8
-	bl sub_27EA13C
+	bl WSetMacAdrs3
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
 _027F08F4: .word 0x0380FFF4
-	arm_func_end sub_27F08A4
+	arm_func_end InitManHeader
 
-	arm_func_start sub_27F08F8
-sub_27F08F8: // 0x027F08F8
+	arm_func_start MakePsPollFrame
+MakePsPollFrame: // 0x027F08F8
 	ldr r2, _027F0944 // =0x0380FFF4
 	ldr r1, [r2]
 	ldr r3, [r1, #0x45c]
@@ -20025,21 +19998,21 @@ sub_27F08F8: // 0x027F08F8
 	add r0, r3, #0x10
 	add r1, r2, #0x3a8
 	add r2, r2, #0x324
-	ldr ip, _027F0948 // =sub_27EA188
+	ldr ip, _027F0948 // =WSetMacAdrs2
 	bx ip
 	.align 2, 0
 _027F0944: .word 0x0380FFF4
-_027F0948: .word sub_27EA188
-	arm_func_end sub_27F08F8
+_027F0948: .word WSetMacAdrs2
+	arm_func_end MakePsPollFrame
 
-	arm_func_start sub_27F094C
-sub_27F094C: // 0x027F094C
+	arm_func_start MakeDeAuthFrame
+MakeDeAuthFrame: // 0x027F094C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
 	cmp r2, #0
 	bne _027F0970
-	bl sub_27F10F0
+	bl IsEnableManagement
 	cmp r0, #0
 	moveq r0, #0
 	beq _027F09D8
@@ -20048,11 +20021,11 @@ _027F0970:
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x36
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027F099C
 	mov r0, #2
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, r4
 	b _027F09D8
 _027F099C:
@@ -20061,7 +20034,7 @@ _027F099C:
 	add r4, r4, #0x10
 	mov r0, r4
 	mov r1, r6
-	bl sub_27F08A4
+	bl InitManHeader
 	strh r5, [r4, #0x2c]
 	mov r0, #2
 	strh r0, [r4, #6]
@@ -20077,16 +20050,16 @@ _027F09D8:
 	.align 2, 0
 _027F09E0: .word 0x0380FFF4
 _027F09E4: .word 0x0000FFFF
-	arm_func_end sub_27F094C
+	arm_func_end MakeDeAuthFrame
 
-	arm_func_start sub_27F09E8
-sub_27F09E8: // 0x027F09E8
+	arm_func_start MakeAuthFrame
+MakeAuthFrame: // 0x027F09E8
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
 	cmp r2, #0
 	beq _027F0A0C
-	bl sub_27F10F0
+	bl IsEnableManagement
 	cmp r0, #0
 	moveq r0, #0
 	beq _027F0A9C
@@ -20095,11 +20068,11 @@ _027F0A0C:
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	add r1, r5, #0x3d
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027F0A38
 	mov r0, #2
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, r4
 	b _027F0A9C
 _027F0A38:
@@ -20108,15 +20081,15 @@ _027F0A38:
 	add r4, r4, #0x10
 	mov r0, r4
 	mov r1, r6
-	bl sub_27F08A4
+	bl InitManHeader
 	cmp r5, #0
 	beq _027F0A7C
 	add r0, r4, #0x32
 	mov r1, #0x10
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r4, #0x33
 	and r1, r5, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r5, #2
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10
@@ -20135,16 +20108,16 @@ _027F0A9C:
 	.align 2, 0
 _027F0AA4: .word 0x0380FFF4
 _027F0AA8: .word 0x0000FFFF
-	arm_func_end sub_27F09E8
+	arm_func_end MakeAuthFrame
 
-	arm_func_start sub_27F0AAC
-sub_27F0AAC: // 0x027F0AAC
+	arm_func_start MakeProbeResFrame
+MakeProbeResFrame: // 0x027F0AAC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, _027F0B8C // =0x0380FFF4
 	ldr r0, [r0]
 	add r5, r0, #0x344
-	bl sub_27F10F0
+	bl IsEnableManagement
 	cmp r0, #0
 	moveq r0, #0
 	beq _027F0B84
@@ -20153,11 +20126,11 @@ sub_27F0AAC: // 0x027F0AAC
 	add r0, r0, #0x188
 	ldrh r1, [r5, #0xa0]
 	add r1, r1, #0x78
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027F0B00
 	mov r0, #2
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, r4
 	b _027F0B84
 _027F0B00:
@@ -20166,25 +20139,25 @@ _027F0B00:
 	add r4, r4, #0x10
 	mov r0, r4
 	mov r1, r6
-	bl sub_27F08A4
+	bl InitManHeader
 	ldrh r0, [r5, #0x6e]
 	strh r0, [r4, #0x34]
 	ldrh r0, [r5, #0x7c]
 	strh r0, [r4, #0x36]
 	add r0, r4, #0x38
-	bl sub_27F07BC
+	bl SetSSIDElement
 	mov r5, r0
 	add r0, r4, #0x38
 	add r0, r0, r5
-	bl sub_27F0704
+	bl SetSupRateSet
 	add r5, r5, r0
 	add r0, r4, #0x38
 	add r0, r0, r5
-	bl sub_27F06BC
+	bl SetDSParamSet
 	add r5, r5, r0
 	add r0, r4, #0x38
 	add r0, r0, r5
-	bl sub_27F0598
+	bl SetGameInfoElement
 	add r0, r5, r0
 	add r0, r0, #0xc
 	strh r0, [r4, #6]
@@ -20200,21 +20173,21 @@ _027F0B84:
 	.align 2, 0
 _027F0B8C: .word 0x0380FFF4
 _027F0B90: .word 0x0000FFFF
-	arm_func_end sub_27F0AAC
+	arm_func_end MakeProbeResFrame
 
-	arm_func_start sub_27F0B94
-sub_27F0B94: // 0x027F0B94
+	arm_func_start MakeProbeReqFrame
+MakeProbeReqFrame: // 0x027F0B94
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, _027F0C1C // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x5a
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027F0BC8
 	mov r0, #2
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, r4
 	b _027F0C14
 _027F0BC8:
@@ -20223,13 +20196,13 @@ _027F0BC8:
 	add r5, r4, #0x10
 	mov r0, r5
 	mov r1, r6
-	bl sub_27F08A4
+	bl InitManHeader
 	add r0, r5, #0x2c
-	bl sub_27F07BC
+	bl SetSSIDElement
 	mov r4, r0
 	add r0, r5, #0x2c
 	add r0, r0, r4
-	bl sub_27F0704
+	bl SetSupRateSet
 	add r0, r4, r0
 	strh r0, [r5, #6]
 	add r0, r0, #0x1c
@@ -20243,10 +20216,10 @@ _027F0C14:
 	.align 2, 0
 _027F0C1C: .word 0x0380FFF4
 _027F0C20: .word 0x0000FFFF
-	arm_func_end sub_27F0B94
+	arm_func_end MakeProbeReqFrame
 
-	arm_func_start sub_27F0C24
-sub_27F0C24: // 0x027F0C24
+	arm_func_start MakeReAssResFrame
+MakeReAssResFrame: // 0x027F0C24
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r8, r0
@@ -20256,11 +20229,11 @@ sub_27F0C24: // 0x027F0C24
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x60
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027F0C64
 	mov r0, #2
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, r4
 	b _027F0D7C
 _027F0C64:
@@ -20270,7 +20243,7 @@ _027F0C64:
 	cmp r7, #0
 	bne _027F0C8C
 	mov r0, r8
-	bl sub_27EC434
+	bl CAM_AllocateAID
 	movs r4, r0
 	moveq r7, #0x13
 	b _027F0C90
@@ -20278,10 +20251,10 @@ _027F0C8C:
 	mov r4, #0
 _027F0C90:
 	mov r0, r8
-	bl sub_27EC348
+	bl CAM_GetMacAdrs
 	mov r1, r0
 	mov r0, r5
-	bl sub_27F08A4
+	bl InitManHeader
 	ldr r0, _027F0D88 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x300
@@ -20291,7 +20264,7 @@ _027F0C90:
 	orr r0, r4, #0xc000
 	strh r0, [r5, #0x30]
 	add r0, r5, #0x32
-	bl sub_27F0704
+	bl SetSupRateSet
 	add r0, r0, #6
 	strh r0, [r5, #6]
 	ldrh r0, [r5, #6]
@@ -20305,26 +20278,26 @@ _027F0C90:
 	cmp r6, #0
 	beq _027F0D60
 	add r0, r6, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r7, r0
 	mov r0, r6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	mov r0, r8
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r8, #1
 	and r1, r7, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r8, r8, #2
 	mov r9, #0
 	add r4, r6, #2
 	b _027F0D54
 _027F0D38:
 	add r0, r4, r9
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	mov r0, r8
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r8, r8, #1
 	add r9, r9, #1
 _027F0D54:
@@ -20334,10 +20307,10 @@ _027F0D54:
 _027F0D60:
 	mov r0, r8
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r8, #1
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 _027F0D78:
 	mov r0, r5
 _027F0D7C:
@@ -20347,10 +20320,10 @@ _027F0D7C:
 	.align 2, 0
 _027F0D88: .word 0x0380FFF4
 _027F0D8C: .word 0x0000FFFF
-	arm_func_end sub_27F0C24
+	arm_func_end MakeReAssResFrame
 
-	arm_func_start sub_27F0D90
-sub_27F0D90: // 0x027F0D90
+	arm_func_start MakeAssResFrame
+MakeAssResFrame: // 0x027F0D90
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r8, r0
@@ -20360,11 +20333,11 @@ sub_27F0D90: // 0x027F0D90
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x60
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027F0DD0
 	mov r0, #2
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, r4
 	b _027F0EF4
 _027F0DD0:
@@ -20374,7 +20347,7 @@ _027F0DD0:
 	cmp r7, #0
 	bne _027F0DF8
 	mov r0, r8
-	bl sub_27EC434
+	bl CAM_AllocateAID
 	movs r4, r0
 	moveq r7, #0x13
 	b _027F0DFC
@@ -20382,10 +20355,10 @@ _027F0DF8:
 	mov r4, #0
 _027F0DFC:
 	mov r0, r8
-	bl sub_27EC348
+	bl CAM_GetMacAdrs
 	mov r1, r0
 	mov r0, r5
-	bl sub_27F08A4
+	bl InitManHeader
 	ldr r0, _027F0F00 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x300
@@ -20398,7 +20371,7 @@ _027F0DFC:
 	orrne r0, r0, #0xc000
 	strneh r0, [r5, #0x30]
 	add r0, r5, #0x32
-	bl sub_27F0704
+	bl SetSupRateSet
 	add r0, r0, #6
 	strh r0, [r5, #6]
 	ldrh r0, [r5, #6]
@@ -20412,26 +20385,26 @@ _027F0DFC:
 	cmp r6, #0
 	beq _027F0ED8
 	add r0, r6, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r7, r0
 	mov r0, r6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	mov r0, r8
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r8, #1
 	add r8, r8, #2
 	and r1, r7, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	mov r9, #0
 	add r4, r6, #2
 	b _027F0ECC
 _027F0EB0:
 	add r0, r4, r9
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	mov r0, r8
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r9, r9, #1
 	add r8, r8, #1
 _027F0ECC:
@@ -20441,10 +20414,10 @@ _027F0ECC:
 _027F0ED8:
 	mov r0, r8
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r8, #1
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 _027F0EF0:
 	mov r0, r5
 _027F0EF4:
@@ -20454,10 +20427,10 @@ _027F0EF4:
 	.align 2, 0
 _027F0F00: .word 0x0380FFF4
 _027F0F04: .word 0x0000FFFF
-	arm_func_end sub_27F0D90
+	arm_func_end MakeAssResFrame
 
-	arm_func_start sub_27F0F08
-sub_27F0F08: // 0x027F0F08
+	arm_func_start MakeReAssReqFrame
+MakeReAssReqFrame: // 0x027F0F08
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, _027F0FB8 // =0x0380FFF4
@@ -20465,11 +20438,11 @@ sub_27F0F08: // 0x027F0F08
 	add r5, r0, #0x344
 	add r0, r0, #0x188
 	mov r1, #0x64
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027F0F40
 	mov r0, #2
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, r4
 	b _027F0FB0
 _027F0F40:
@@ -20478,20 +20451,20 @@ _027F0F40:
 	add r4, r4, #0x10
 	mov r0, r4
 	mov r1, r6
-	bl sub_27F08A4
+	bl InitManHeader
 	ldrh r0, [r5, #0x7c]
 	strh r0, [r4, #0x2c]
 	ldrh r0, [r5, #0x70]
 	strh r0, [r4, #0x2e]
 	add r0, r4, #0x30
 	add r1, r5, #0x82
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	add r0, r4, #0x36
-	bl sub_27F07BC
+	bl SetSSIDElement
 	mov r5, r0
 	add r0, r4, #0x36
 	add r0, r0, r5
-	bl sub_27F0704
+	bl SetSupRateSet
 	add r0, r5, r0
 	add r0, r0, #0xa
 	strh r0, [r4, #6]
@@ -20507,10 +20480,10 @@ _027F0FB0:
 	.align 2, 0
 _027F0FB8: .word 0x0380FFF4
 _027F0FBC: .word 0x0000FFFF
-	arm_func_end sub_27F0F08
+	arm_func_end MakeReAssReqFrame
 
-	arm_func_start sub_27F0FC0
-sub_27F0FC0: // 0x027F0FC0
+	arm_func_start MakeAssReqFrame
+MakeAssReqFrame: // 0x027F0FC0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, _027F1064 // =0x0380FFF4
@@ -20518,11 +20491,11 @@ sub_27F0FC0: // 0x027F0FC0
 	add r5, r0, #0x344
 	add r0, r0, #0x188
 	mov r1, #0x5e
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027F0FF8
 	mov r0, #2
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, r4
 	b _027F105C
 _027F0FF8:
@@ -20531,17 +20504,17 @@ _027F0FF8:
 	add r4, r4, #0x10
 	mov r0, r4
 	mov r1, r6
-	bl sub_27F08A4
+	bl InitManHeader
 	ldrh r0, [r5, #0x7c]
 	strh r0, [r4, #0x2c]
 	ldrh r0, [r5, #0x70]
 	strh r0, [r4, #0x2e]
 	add r0, r4, #0x30
-	bl sub_27F07BC
+	bl SetSSIDElement
 	mov r5, r0
 	add r0, r4, #0x30
 	add r0, r0, r5
-	bl sub_27F0704
+	bl SetSupRateSet
 	add r0, r5, r0
 	add r0, r0, #4
 	strh r0, [r4, #6]
@@ -20557,10 +20530,10 @@ _027F105C:
 	.align 2, 0
 _027F1064: .word 0x0380FFF4
 _027F1068: .word 0x0000FFFF
-	arm_func_end sub_27F0FC0
+	arm_func_end MakeAssReqFrame
 
-	arm_func_start sub_27F106C
-sub_27F106C: // 0x027F106C
+	arm_func_start MakeDisAssFrame
+MakeDisAssFrame: // 0x027F106C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -20568,11 +20541,11 @@ sub_27F106C: // 0x027F106C
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	mov r1, #0x36
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r4, r0
 	bne _027F10A4
 	mov r0, #2
-	bl sub_27E9140
+	bl SetFatalErr
 	mov r0, r4
 	b _027F10E0
 _027F10A4:
@@ -20581,7 +20554,7 @@ _027F10A4:
 	add r4, r4, #0x10
 	mov r0, r4
 	mov r1, r6
-	bl sub_27F08A4
+	bl InitManHeader
 	strh r5, [r4, #0x2c]
 	mov r0, #2
 	strh r0, [r4, #6]
@@ -20597,10 +20570,10 @@ _027F10E0:
 	.align 2, 0
 _027F10E8: .word 0x0380FFF4
 _027F10EC: .word 0x0000FFFF
-	arm_func_end sub_27F106C
+	arm_func_end MakeDisAssFrame
 
-	arm_func_start sub_27F10F0
-sub_27F10F0: // 0x027F10F0
+	arm_func_start IsEnableManagement
+IsEnableManagement: // 0x027F10F0
 	ldr r0, _027F111C // =0x0380FFF4
 	ldr r2, [r0]
 	add r0, r2, #0x100
@@ -20614,10 +20587,10 @@ sub_27F10F0: // 0x027F10F0
 	bx lr
 	.align 2, 0
 _027F111C: .word 0x0380FFF4
-	arm_func_end sub_27F10F0
+	arm_func_end IsEnableManagement
 
-	arm_func_start sub_27F1120
-sub_27F1120: // 0x027F1120
+	arm_func_start UpdateGameInfoElement
+UpdateGameInfoElement: // 0x027F1120
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _027F121C // =0x0380FFF4
@@ -20637,19 +20610,19 @@ sub_27F1120: // 0x027F1120
 	sub r0, r0, #1
 	ldr r1, [r5, #0x9c]
 	add r2, r2, #2
-	bl sub_27E9568
+	bl DMA_Write
 	add r0, r4, #9
 	ldr r1, _027F1220 // =0x0380FFF0
 	ldrh r1, [r1]
 	mov r1, r1, asr #8
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	b _027F119C
 _027F118C:
 	add r0, r4, #0xa
 	ldr r1, [r5, #0x9c]
 	add r2, r2, #1
-	bl sub_27E9568
+	bl DMA_Write
 _027F119C:
 	ldrh r0, [r5, #0x96]
 	add r1, r0, #0x26
@@ -20663,7 +20636,7 @@ _027F119C:
 	ldrh r1, [r5, #0xa0]
 	add r1, r1, #8
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	ldr r0, _027F121C // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x600
@@ -20689,10 +20662,10 @@ _027F121C: .word 0x0380FFF4
 _027F1220: .word 0x0380FFF0
 _027F1224: .word 0x0000B6B8
 _027F1228: .word 0x00001D46
-	arm_func_end sub_27F1120
+	arm_func_end UpdateGameInfoElement
 
-	arm_func_start sub_27F122C
-sub_27F122C: // 0x027F122C
+	arm_func_start MakeBeaconFrame
+MakeBeaconFrame: // 0x027F122C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	ldr r0, _027F1580 // =0x0380FFF4
 	ldr r0, [r0]
@@ -20704,17 +20677,17 @@ sub_27F122C: // 0x027F122C
 	strh r0, [r10, #2]
 	strh r0, [r10, #4]
 	strh r0, [r10, #6]
-	bl sub_27E9CC8
+	bl WCalcManRate
 	strh r0, [r10, #8]
 	mov r0, #0x80
 	strh r0, [r10, #0xc]
 	mov r0, #0
 	strh r0, [r10, #0xe]
 	add r0, r10, #0x10
-	ldr r1, _027F1584 // =_027F7E78
+	ldr r1, _027F1584 // =BC_ADRS
 	add r2, r9, #8
 	mov r3, r2
-	bl sub_27EA13C
+	bl WSetMacAdrs3
 	mov r1, #0
 	strh r1, [r10, #0x22]
 	add r7, r10, #0x24
@@ -20732,21 +20705,21 @@ sub_27F122C: // 0x027F122C
 	sub r0, r6, r7
 	strh r0, [r8, #0x92]
 	mov r0, r6
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #1
 	add r6, r6, #2
 	ldrh r1, [r8, #0x1e]
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	mov r5, #0
 	add r4, r8, #0x20
 	b _027F1308
 _027F12EC:
 	add r0, r4, r5
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	mov r0, r6
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r6, r6, #1
 	add r5, r5, #1
 _027F1308:
@@ -20757,24 +20730,24 @@ _027F1308:
 	sub r0, r0, r5
 	add r0, r6, r0
 	and r1, r5, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	b _027F1330
 _027F132C:
 	strh r1, [r8, #0x92]
 _027F1330:
 	mov r0, r6
-	bl sub_27F0704
+	bl SetSupRateSet
 	add r6, r6, r0
 	mov r0, r6
 	mov r1, #3
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #1
 	mov r1, #1
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #2
 	ldrh r1, [r8, #0x7a]
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #3
 	sub r1, r0, r7
 	strh r1, [r8, #0x94]
@@ -20783,26 +20756,26 @@ _027F1330:
 	ldr r1, _027F1588 // =0x04808084
 	strh r2, [r1]
 	mov r1, #5
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #4
 	mov r1, #5
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #5
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #6
 	ldrh r1, [r8, #0x74]
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #7
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #8
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #9
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #0xa
 	sub r1, r0, r7
 	strh r1, [r8, #0x96]
@@ -20810,66 +20783,66 @@ _027F1330:
 	and r1, r1, #1
 	strh r1, [r8, #0xa2]
 	mov r1, #0xdd
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #0xb
 	ldrh r1, [r8, #0xa0]
 	add r1, r1, #8
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #0xc
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #0xd
 	mov r1, #9
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #0xe
 	mov r1, #0xbf
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #0xf
 	mov r1, #0
-	bl sub_27E94C4
+	bl WL_WriteByte
 	ldrh r0, [r8, #0xe]
 	cmp r0, #1
 	bne _027F1470
 	add r0, r6, #0x10
 	ldrh r1, [r9, #0x20]
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #0x11
 	add r6, r6, #0x12
 	ldrh r1, [r9, #0x20]
 	mov r1, r1, asr #8
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	b _027F148C
 _027F1470:
 	add r0, r6, #0x10
 	mov r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #0x11
 	add r6, r6, #0x12
 	mov r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 _027F148C:
 	ldr r0, _027F158C // =0x0380FFF0
 	ldrh r4, [r0]
 	mov r0, r6
 	and r1, r4, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r6, #1
 	add r6, r6, #2
 	mov r1, r4, lsr #8
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	ldr r5, [r8, #0x9c]
 	mov r4, #0
 	b _027F14E0
 _027F14C0:
 	mov r0, r5
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	mov r0, r6
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r6, r6, #1
 	add r5, r5, #1
 	add r4, r4, #1
@@ -20887,10 +20860,10 @@ _027F14E0:
 	b _027F1528
 _027F150C:
 	mov r0, r4
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	add r0, r4, #1
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r5, r5, #1
 	sub r4, r4, #1
 _027F1528:
@@ -20920,15 +20893,15 @@ _027F1564:
 	bx lr
 	.align 2, 0
 _027F1580: .word 0x0380FFF4
-_027F1584: .word _027F7E78
+_027F1584: .word BC_ADRS
 _027F1588: .word 0x04808084
 _027F158C: .word 0x0380FFF0
 _027F1590: .word 0x0000B6B8
 _027F1594: .word 0x00001D46
-	arm_func_end sub_27F122C
+	arm_func_end MakeBeaconFrame
 
-	arm_func_start sub_27F1598
-sub_27F1598: // 0x027F1598
+	arm_func_start StopBeaconFrame
+StopBeaconFrame: // 0x027F1598
 	ldr r0, _027F15B8 // =0x0380FFF4
 	ldr r2, [r0]
 	mov r1, #0
@@ -20940,10 +20913,10 @@ sub_27F1598: // 0x027F1598
 	.align 2, 0
 _027F15B8: .word 0x0380FFF4
 _027F15BC: .word 0x04808080
-	arm_func_end sub_27F1598
+	arm_func_end StopBeaconFrame
 
-	arm_func_start sub_27F15C0
-sub_27F15C0: // 0x027F15C0
+	arm_func_start StartBeaconFrame
+StartBeaconFrame: // 0x027F15C0
 	ldr r0, _027F15FC // =0x0380FFF4
 	ldr r2, [r0]
 	ldr r0, _027F1600 // =0x000004A4
@@ -20964,10 +20937,10 @@ _027F15FC: .word 0x0380FFF4
 _027F1600: .word 0x000004A4
 _027F1604: .word 0x00003FFF
 _027F1608: .word 0x04808080
-	arm_func_end sub_27F15C0
+	arm_func_end StartBeaconFrame
 
-	arm_func_start sub_27F160C
-sub_27F160C: // 0x027F160C
+	arm_func_start TxPsPollFrame
+TxPsPollFrame: // 0x027F160C
 	stmdb sp!, {r4, lr}
 	ldr r0, _027F1698 // =0x0380FFF4
 	ldr r1, [r0]
@@ -20990,7 +20963,7 @@ sub_27F160C: // 0x027F160C
 	strh r1, [r0]
 	ldr r0, [r4, #8]
 	strh r1, [r0, #4]
-	bl sub_27E9CC8
+	bl WCalcManRate
 	ldr r1, [r4, #8]
 	strh r0, [r1, #8]
 	ldr r1, [r4, #8]
@@ -21009,14 +20982,14 @@ _027F1698: .word 0x0380FFF4
 _027F169C: .word 0x00000454
 _027F16A0: .word 0x00003FFF
 _027F16A4: .word 0x048080A8
-	arm_func_end sub_27F160C
+	arm_func_end TxPsPollFrame
 
-	arm_func_start sub_27F16A8
-sub_27F16A8: // 0x027F16A8
+	arm_func_start SetManCtrlFrame
+SetManCtrlFrame: // 0x027F16A8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x18
-	bl sub_27EC9BC
+	bl CAM_Search
 	strh r0, [r4, #2]
 	ldrh r0, [r4, #2]
 	cmp r0, #0xff
@@ -21032,33 +21005,33 @@ sub_27F16A8: // 0x027F16A8
 	addne r0, r0, #8
 	strneh r0, [r4, #0x12]
 	mov r0, r4
-	bl sub_27EC780
+	bl CAM_IncFrameCount
 	ldr r0, _027F1718 // =0x0380FFF4
 	ldr r1, [r0]
 	add r0, r1, #0x188
 	add r1, r1, #0x1a0
 	sub r2, r4, #0x10
-	bl sub_37F8A3C
+	bl MoveHeapBuf
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027F1718: .word 0x0380FFF4
-	arm_func_end sub_27F16A8
+	arm_func_end SetManCtrlFrame
 
-	arm_func_start sub_27F171C
-sub_27F171C: // 0x027F171C
+	arm_func_start TxManCtrlFrame
+TxManCtrlFrame: // 0x027F171C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_27F16A8
+	bl SetManCtrlFrame
 	mov r0, #1
-	bl sub_27F2728
+	bl TxqPri
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_27F171C
+	arm_func_end TxManCtrlFrame
 
-	arm_func_start sub_27F173C
-sub_27F173C: // 0x027F173C
+	arm_func_start MessageDeleteTx
+MessageDeleteTx: // 0x027F173C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r10, r0
@@ -21075,13 +21048,13 @@ sub_27F173C: // 0x027F173C
 	mov r5, #2
 _027F1774:
 	mov r0, r8
-	bl sub_37F8B44
+	bl GetHeapBufNextAdrs
 	mov r11, r0
 	add r7, r8, #0x10
 	cmp r10, #2
 	beq _027F1794
 	mov r0, r7
-	bl sub_27EC714
+	bl CAM_DecFrameCount
 _027F1794:
 	strh r5, [r7, #8]
 	cmp r9, #0
@@ -21091,7 +21064,7 @@ _027F1794:
 	add r0, r0, #0x194
 	add r0, r0, r6
 	mov r1, r8
-	bl sub_27EFC30
+	bl IssueMaDataConfirm
 _027F17B8:
 	mov r8, r11
 	cmp r11, r4
@@ -21102,10 +21075,10 @@ _027F17C4:
 	bx lr
 	.align 2, 0
 _027F17D0: .word 0x0380FFF4
-	arm_func_end sub_27F173C
+	arm_func_end MessageDeleteTx
 
-	arm_func_start sub_27F17D4
-sub_27F17D4: // 0x027F17D4
+	arm_func_start DeleteAllTxFrames
+DeleteAllTxFrames: // 0x027F17D4
 	stmdb sp!, {r4, lr}
 	ldr r0, _027F18BC // =0x0380FFF4
 	ldr r1, [r0]
@@ -21123,13 +21096,13 @@ sub_27F17D4: // 0x027F17D4
 _027F180C:
 	mov r0, #0
 	mov r1, #1
-	bl sub_27F173C
+	bl MessageDeleteTx
 	mov r0, #1
 	mov r1, #0
-	bl sub_27F173C
+	bl MessageDeleteTx
 	mov r0, #2
 	mov r1, #1
-	bl sub_27F173C
+	bl MessageDeleteTx
 	ldrh r0, [r4, #0x3c]
 	cmp r0, #0
 	beq _027F18B4
@@ -21142,39 +21115,39 @@ _027F180C:
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	ldr r1, [r4, #0x90]
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 	b _027F18B4
 _027F1868:
 	mov r0, #0
 	mov r1, #1
-	bl sub_27F173C
+	bl MessageDeleteTx
 	mov r0, #1
 	mov r1, #0
-	bl sub_27F173C
+	bl MessageDeleteTx
 	mov r0, #2
 	mov r1, #0
-	bl sub_27F173C
+	bl MessageDeleteTx
 	b _027F18B4
 _027F1890:
 	mov r0, #0
 	mov r1, r0
-	bl sub_27F173C
+	bl MessageDeleteTx
 	mov r0, #1
 	mov r1, #0
-	bl sub_27F173C
+	bl MessageDeleteTx
 	mov r0, #2
 	mov r1, #0
-	bl sub_27F173C
+	bl MessageDeleteTx
 _027F18B4:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027F18BC: .word 0x0380FFF4
 _027F18C0: .word 0x0000042C
-	arm_func_end sub_27F17D4
+	arm_func_end DeleteAllTxFrames
 
-	arm_func_start sub_27F18C4
-sub_27F18C4: // 0x027F18C4
+	arm_func_start DeleteTxFrameByAdrs
+DeleteTxFrameByAdrs: // 0x027F18C4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldrh r1, [r0]
@@ -21185,7 +21158,7 @@ sub_27F18C4: // 0x027F18C4
 	b _027F18F0
 _027F18E4:
 	mov r0, r5
-	bl sub_27F1968
+	bl DeleteTxFrames
 	add r5, r5, #1
 _027F18F0:
 	ldr r0, [r4]
@@ -21195,11 +21168,11 @@ _027F18F0:
 	blo _027F18E4
 	b _027F1958
 _027F1908:
-	bl sub_27EC9BC
+	bl CAM_Search
 	mov r4, r0
 	cmp r4, #0xff
 	beq _027F191C
-	bl sub_27F1968
+	bl DeleteTxFrames
 _027F191C:
 	ldr r0, _027F1964 // =0x0380FFF4
 	ldr r0, [r0]
@@ -21208,29 +21181,29 @@ _027F191C:
 	cmp r0, #1
 	bne _027F1958
 	mov r0, r4
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	bne _027F1958
 	mov r0, r4, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0x20
-	bl sub_27EC648
-	bl sub_27F1CA0
+	bl CAM_SetStaState
+	bl ClearTxKeyData
 _027F1958:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
 _027F1964: .word 0x0380FFF4
-	arm_func_end sub_27F18C4
+	arm_func_end DeleteTxFrameByAdrs
 
-	arm_func_start sub_27F1968
-sub_27F1968: // 0x027F1968
+	arm_func_start DeleteTxFrames
+DeleteTxFrames: // 0x027F1968
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r11, r0
 	mov r8, #0
-	bl sub_27EC2B0
+	bl CAM_GetFrameCount
 	cmp r0, #0
 	beq _027F1A68
 	mov r7, r8
@@ -21252,7 +21225,7 @@ _027F1998:
 	mul r6, r7, r0
 _027F19C4:
 	mov r0, r10
-	bl sub_37F8B44
+	bl GetHeapBufNextAdrs
 	str r0, [sp]
 	add r9, r10, #0x10
 	ldrh r0, [r9, #2]
@@ -21268,22 +21241,22 @@ _027F19C4:
 	bne _027F1A1C
 _027F1A00:
 	mov r0, r9
-	bl sub_27EC714
+	bl CAM_DecFrameCount
 	ldr r0, [sp, #4]
 	strh r0, [r9, #2]
 	mov r0, r9
-	bl sub_27EC780
+	bl CAM_IncFrameCount
 	b _027F1A48
 _027F1A1C:
 	strh r4, [r9, #8]
 	mov r0, r9
-	bl sub_27EC714
+	bl CAM_DecFrameCount
 	ldr r0, _027F1A74 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x194
 	add r0, r0, r5
 	mov r1, r10
-	bl sub_27EFC30
+	bl IssueMaDataConfirm
 	cmp r8, #0
 	ldreq r8, [sp, #8]
 _027F1A48:
@@ -21302,10 +21275,10 @@ _027F1A68:
 	bx lr
 	.align 2, 0
 _027F1A74: .word 0x0380FFF4
-	arm_func_end sub_27F1968
+	arm_func_end DeleteTxFrames
 
-	arm_func_start sub_27F1A78
-sub_27F1A78: // 0x027F1A78
+	arm_func_start ResetTxqPri
+ResetTxqPri: // 0x027F1A78
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -21319,7 +21292,7 @@ sub_27F1A78: // 0x027F1A78
 	mov r0, #0x1000000
 	bl OS_DisableIrqMask
 	mov r2, r7, lsl #1
-	ldr r1, _027F1B08 // =_027F844C
+	ldr r1, _027F1B08 // =Pri2QBit
 	ldrh r2, [r1, r2]
 	ldr r1, _027F1B0C // =0x048080B4
 	strh r2, [r1]
@@ -21344,12 +21317,12 @@ _027F1AF0:
 	.align 2, 0
 _027F1B00: .word 0x0380FFF4
 _027F1B04: .word 0x0000042C
-_027F1B08: .word _027F844C
+_027F1B08: .word Pri2QBit
 _027F1B0C: .word 0x048080B4
-	arm_func_end sub_27F1A78
+	arm_func_end ResetTxqPri
 
-	arm_func_start sub_27F1B10
-sub_27F1B10: // 0x027F1B10
+	arm_func_start ClearQueuedPri
+ClearQueuedPri: // 0x027F1B10
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _027F1B80 // =0x0380FFF4
@@ -21382,10 +21355,10 @@ _027F1B74:
 	.align 2, 0
 _027F1B80: .word 0x0380FFF4
 _027F1B84: .word 0x0000042C
-	arm_func_end sub_27F1B10
+	arm_func_end ClearQueuedPri
 
-	arm_func_start sub_27F1B88
-sub_27F1B88: // 0x027F1B88
+	arm_func_start ClearTxData
+ClearTxData: // 0x027F1B88
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _027F1C34 // =0x0380FFF4
@@ -21408,11 +21381,11 @@ sub_27F1B88: // 0x027F1B88
 	cmp r0, #0
 	beq _027F1BE4
 	mov r0, #2
-	bl sub_27F1B10
+	bl ClearQueuedPri
 _027F1BE4:
 	mov r0, #2
 	mov r1, #1
-	bl sub_27F173C
+	bl MessageDeleteTx
 	b _027F1C00
 _027F1BF4:
 	mov r1, #1
@@ -21423,11 +21396,11 @@ _027F1C00:
 	cmp r0, #0
 	beq _027F1C14
 	mov r0, #0
-	bl sub_27F1B10
+	bl ClearQueuedPri
 _027F1C14:
 	mov r0, #0
 	mov r1, #1
-	bl sub_27F173C
+	bl MessageDeleteTx
 	mov r0, r4
 	bl OS_EnableIrqMask
 	add sp, sp, #4
@@ -21437,10 +21410,10 @@ _027F1C14:
 _027F1C34: .word 0x0380FFF4
 _027F1C38: .word 0x0000042C
 _027F1C3C: .word 0x048080B4
-	arm_func_end sub_27F1B88
+	arm_func_end ClearTxData
 
-	arm_func_start sub_27F1C40
-sub_27F1C40: // 0x027F1C40
+	arm_func_start ClearTxMp
+ClearTxMp: // 0x027F1C40
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _027F1C94 // =0x0380FFF4
@@ -21456,7 +21429,7 @@ sub_27F1C40: // 0x027F1C40
 	ldrh r0, [r5, #0x3c]
 	cmp r0, #0
 	beq _027F1C80
-	bl sub_37FB0E8
+	bl WlIntrMpEndTask
 _027F1C80:
 	mov r0, r4
 	bl OS_EnableIrqMask
@@ -21467,10 +21440,10 @@ _027F1C80:
 _027F1C94: .word 0x0380FFF4
 _027F1C98: .word 0x0000042C
 _027F1C9C: .word 0x048080B4
-	arm_func_end sub_27F1C40
+	arm_func_end ClearTxMp
 
-	arm_func_start sub_27F1CA0
-sub_27F1CA0: // 0x027F1CA0
+	arm_func_start ClearTxKeyData
+ClearTxKeyData: // 0x027F1CA0
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _027F1D14 // =0x0380FFF4
@@ -21488,7 +21461,7 @@ sub_27F1CA0: // 0x027F1CA0
 	movs r0, r0, lsr #0x1f
 	bne _027F1CE8
 	mov r0, #0
-	bl sub_27EA1D8
+	bl WClearKSID
 _027F1CE8:
 	mov r1, #0xc0
 	ldr r0, _027F1D1C // =0x048080B4
@@ -21505,10 +21478,10 @@ _027F1CE8:
 _027F1D14: .word 0x0380FFF4
 _027F1D18: .word 0x0000042C
 _027F1D1C: .word 0x048080B4
-	arm_func_end sub_27F1CA0
+	arm_func_end ClearTxKeyData
 
-	arm_func_start sub_27F1D20
-sub_27F1D20: // 0x027F1D20
+	arm_func_start TxEndKeyData
+TxEndKeyData: // 0x027F1D20
 	ldr r1, [r0, #8]
 	ldrh r1, [r1, #4]
 	ands r3, r1, #0xff
@@ -21531,10 +21504,10 @@ sub_27F1D20: // 0x027F1D20
 	.align 2, 0
 _027F1D6C: .word 0x0380FFF4
 _027F1D70: .word 0x0000053C
-	arm_func_end sub_27F1D20
+	arm_func_end TxEndKeyData
 
-	arm_func_start sub_27F1D74
-sub_27F1D74: // 0x027F1D74
+	arm_func_start TxqEndBroadCast
+TxqEndBroadCast: // 0x027F1D74
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -21550,19 +21523,19 @@ sub_27F1D74: // 0x027F1D74
 	mov r1, r1, lsl #0x1c
 	movs r1, r1, lsr #0x1e
 	bne _027F1DD4
-	bl sub_27EC780
+	bl CAM_IncFrameCount
 	mov r0, r4
 	add r1, r5, #0x24
 	sub r2, r7, #0x10
-	bl sub_37F8A3C
+	bl MoveHeapBuf
 	mov r0, r7
 	mov r1, #0
-	bl sub_27F1F08
+	bl TxqEndManCtrl
 	b _027F1DE0
 _027F1DD4:
 	mov r0, r4
 	sub r1, r7, #0x10
-	bl sub_27EFC30
+	bl IssueMaDataConfirm
 _027F1DE0:
 	mov r2, #0
 	ldr r1, _027F1E88 // =0x0380FFF4
@@ -21587,13 +21560,13 @@ _027F1DE0:
 	cmp r0, #0
 	beq _027F1E40
 	mov r0, #1
-	bl sub_27F2728
+	bl TxqPri
 _027F1E40:
 	ldrh r0, [r5, #0x20]
 	cmp r0, #0
 	beq _027F1E54
 	mov r0, #0
-	bl sub_27F2728
+	bl TxqPri
 _027F1E54:
 	ldrh r0, [r4, #8]
 	cmp r0, #0
@@ -21601,11 +21574,11 @@ _027F1E54:
 	cmp r6, #0
 	beq _027F1E7C
 	mov r0, #2
-	bl sub_27F2728
+	bl TxqPri
 	b _027F1E7C
 _027F1E74:
 	mov r0, #0
-	bl sub_27EC128
+	bl CAM_ClrTIMElementBitmap
 _027F1E7C:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
@@ -21614,10 +21587,10 @@ _027F1E7C:
 _027F1E88: .word 0x0380FFF4
 _027F1E8C: .word 0x048080AC
 _027F1E90: .word 0x048080AE
-	arm_func_end sub_27F1D74
+	arm_func_end TxqEndBroadCast
 
-	arm_func_start sub_27F1E94
-sub_27F1E94: // 0x027F1E94
+	arm_func_start TxqEndPsPoll
+TxqEndPsPoll: // 0x027F1E94
 	ldr r1, _027F1F00 // =0x0380FFF4
 	ldr r2, [r1]
 	ldr r1, _027F1F04 // =0x0000053C
@@ -21649,10 +21622,10 @@ _027F1EE8:
 	.align 2, 0
 _027F1F00: .word 0x0380FFF4
 _027F1F04: .word 0x0000053C
-	arm_func_end sub_27F1E94
+	arm_func_end TxqEndPsPoll
 
-	arm_func_start sub_27F1F08
-sub_27F1F08: // 0x027F1F08
+	arm_func_start TxqEndManCtrl
+TxqEndManCtrl: // 0x027F1F08
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r10, r0
@@ -21681,14 +21654,14 @@ sub_27F1F08: // 0x027F1F08
 	addeq r0, r0, #1
 	streq r0, [r5, #0x10]
 	mov r0, r6
-	bl sub_27EC364
+	bl CAM_GetPowerMgtMode
 	cmp r0, #0
 	beq _027F1FA8
 	ldrh r0, [r10, #0x14]
 	ands r0, r0, #0x2000
 	bne _027F1FA8
 	mov r0, r6
-	bl sub_27EC58C
+	bl CAM_SetDoze
 	b _027F1FA8
 _027F1F9C:
 	ldr r0, [r5, #4]
@@ -21749,10 +21722,10 @@ _027F202C:
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0x30
-	bl sub_27EC648
+	bl CAM_SetStaState
 	add r0, r10, #0x18
 	ldrh r1, [r10, #0x2c]
-	bl sub_27ED010
+	bl MLME_IssueAuthIndication
 	b _027F23C8
 _027F2084:
 	cmp r1, #1
@@ -21766,10 +21739,10 @@ _027F2084:
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0x30
-	bl sub_27EC648
+	bl CAM_SetStaState
 	add r0, r10, #0x18
 	ldrh r1, [r10, #0x2c]
-	bl sub_27ED010
+	bl MLME_IssueAuthIndication
 	b _027F23C8
 _027F20C4:
 	cmp r6, #0
@@ -21781,13 +21754,13 @@ _027F20C4:
 	cmp r0, #0
 	bne _027F23C8
 	mov r0, r6
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x30
 	bne _027F23C8
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0x40
-	bl sub_27EC648
+	bl CAM_SetStaState
 	cmp r5, #0x10
 	bne _027F2128
 	add r0, r10, #0x18
@@ -21795,7 +21768,7 @@ _027F20C4:
 	add r3, r10, #0x14
 	ldrh r2, [r10, #0x12]
 	add r2, r3, r2
-	bl sub_27ECE98
+	bl MLME_IssueAssIndication
 	b _027F23C8
 _027F2128:
 	add r0, r10, #0x18
@@ -21803,26 +21776,26 @@ _027F2128:
 	add r3, r10, #0x14
 	ldrh r2, [r10, #0x12]
 	add r2, r3, r2
-	bl sub_27ECDA8
+	bl MLME_IssueReAssIndication
 	b _027F23C8
 _027F2144:
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27EC3C0
+	bl CAM_ReleaseAID
 	add r0, r10, #0x18
 	mov r1, #1
 	mov r2, #0
-	bl sub_27F094C
+	bl MakeDeAuthFrame
 	cmp r0, #0
 	beq _027F23C8
 	mov r1, #2
 	strh r1, [r0]
 	cmp r9, #0
 	beq _027F2180
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	b _027F23C8
 _027F2180:
-	bl sub_27F16A8
+	bl SetManCtrlFrame
 	b _027F23C8
 _027F2188:
 	ldrh r0, [r4, #0xc]
@@ -21831,13 +21804,13 @@ _027F2188:
 	cmp r6, #0
 	beq _027F21C0
 	mov r0, r6
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x30
 	bls _027F2230
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0x30
-	bl sub_27EC648
+	bl CAM_SetStaState
 	b _027F2230
 _027F21C0:
 	ldrh r0, [r10, #0x18]
@@ -21849,13 +21822,13 @@ _027F21C0:
 	b _027F2200
 _027F21DC:
 	mov r0, r6
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x30
 	bls _027F21FC
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, r5
-	bl sub_27EC648
+	bl CAM_SetStaState
 _027F21FC:
 	add r6, r6, #1
 _027F2200:
@@ -21870,8 +21843,8 @@ _027F2218:
 	cmp r0, #0x30
 	bls _027F2230
 	mov r0, #0x30
-	bl sub_37F9458
-	bl sub_27EA228
+	bl WSetStaState
+	bl WClearAids
 _027F2230:
 	ldrh r0, [r8]
 	cmp r0, #0x71
@@ -21889,7 +21862,7 @@ _027F2230:
 	strneh r1, [r0, #4]
 	mov r0, #0
 	strh r0, [r8]
-	bl sub_27ED08C
+	bl IssueMlmeConfirm
 	b _027F23C8
 _027F2278:
 	ldrh r0, [r4, #0xc]
@@ -21898,13 +21871,13 @@ _027F2278:
 	cmp r6, #0
 	beq _027F22B0
 	mov r0, r6
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x20
 	bls _027F2320
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0x20
-	bl sub_27EC648
+	bl CAM_SetStaState
 	b _027F2320
 _027F22B0:
 	ldrh r0, [r10, #0x18]
@@ -21916,13 +21889,13 @@ _027F22B0:
 	b _027F22F0
 _027F22CC:
 	mov r0, r5
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x20
 	bls _027F22EC
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, r4
-	bl sub_27EC648
+	bl CAM_SetStaState
 _027F22EC:
 	add r5, r5, #1
 _027F22F0:
@@ -21937,8 +21910,8 @@ _027F2308:
 	cmp r0, #0x20
 	bls _027F2320
 	mov r0, #0x20
-	bl sub_37F9458
-	bl sub_27EA228
+	bl WSetStaState
+	bl WClearAids
 _027F2320:
 	ldrh r0, [r8]
 	cmp r0, #0x41
@@ -21956,7 +21929,7 @@ _027F2320:
 	strneh r1, [r0, #4]
 	mov r0, #0
 	strh r0, [r8]
-	bl sub_27ED08C
+	bl IssueMlmeConfirm
 _027F2364:
 	ldrh r0, [r10]
 	cmp r0, #1
@@ -21973,24 +21946,24 @@ _027F2364:
 	strh r1, [r0, #0x34]
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27EBEF8
+	bl CAM_Delete
 _027F23A4:
 	add r0, r10, #0x18
 	mov r1, #1
-	bl sub_27ECF94
+	bl MLME_IssueDeAuthIndication
 	b _027F23C8
 _027F23B4:
 	cmp r0, #2
 	bne _027F23C8
 	add r0, r10, #0x18
 	ldrh r1, [r10, #0x2c]
-	bl sub_27ECF94
+	bl MLME_IssueDeAuthIndication
 _027F23C8:
 	mov r0, r10
-	bl sub_27EC714
+	bl CAM_DecFrameCount
 	mov r0, r7
 	sub r1, r10, #0x10
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 	mov r1, #0
 	ldr r0, _027F2418 // =0x0380FFF4
 	ldr r0, [r0]
@@ -22002,7 +21975,7 @@ _027F23C8:
 	cmp r0, #0
 	beq _027F240C
 	mov r0, #1
-	bl sub_27F2728
+	bl TxqPri
 _027F240C:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -22011,10 +21984,10 @@ _027F240C:
 _027F2418: .word 0x0380FFF4
 _027F241C: .word 0x00000404
 _027F2420: .word 0x0000053C
-	arm_func_end sub_27F1F08
+	arm_func_end TxqEndManCtrl
 
-	arm_func_start sub_27F2424
-sub_27F2424: // 0x027F2424
+	arm_func_start TxqEndData
+TxqEndData: // 0x027F2424
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r9, r0
@@ -22026,7 +21999,7 @@ sub_27F2424: // 0x027F2424
 	ldr r1, _027F25B4 // =0x0000053C
 	add r5, r2, r1
 	sub r4, r9, #0x10
-	bl sub_27EC714
+	bl CAM_DecFrameCount
 	ldrh r0, [r9, #8]
 	ands r0, r0, #2
 	bne _027F24C4
@@ -22069,21 +22042,21 @@ _027F24D0:
 	strne r0, [r5, #0x18]
 	mov r0, r7
 	mov r1, r4
-	bl sub_27EFC30
+	bl IssueMaDataConfirm
 	mov r1, #0
 	ldr r0, _027F25B0 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x400
 	strh r1, [r0, #0x2c]
 	ldrh r0, [r9, #2]
-	bl sub_27EC364
+	bl CAM_GetPowerMgtMode
 	cmp r0, #0
 	beq _027F252C
 	ldrh r0, [r9, #0x14]
 	ands r0, r0, #0x2000
 	bne _027F252C
 	ldrh r0, [r9, #2]
-	bl sub_27EC58C
+	bl CAM_SetDoze
 _027F252C:
 	cmp r8, #0
 	beq _027F25A4
@@ -22091,7 +22064,7 @@ _027F252C:
 	cmp r0, #0
 	beq _027F254C
 	mov r0, #0
-	bl sub_27F2728
+	bl TxqPri
 	b _027F25A4
 _027F254C:
 	ldrh r1, [r6, #0xc]
@@ -22108,14 +22081,14 @@ _027F254C:
 	cmp r0, #0
 	beq _027F25A4
 	ldrh r0, [r6, #0x88]
-	bl sub_27EC2B0
+	bl CAM_GetFrameCount
 	cmp r0, #0
 	bne _027F25A4
 	ldrh r0, [r6, #0x8e]
 	cmp r0, #0
 	bne _027F25A4
 	mov r0, #1
-	bl sub_27EA5C8
+	bl WSetPowerState
 _027F25A4:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
@@ -22124,10 +22097,10 @@ _027F25A4:
 _027F25B0: .word 0x0380FFF4
 _027F25B4: .word 0x0000053C
 _027F25B8: .word 0x0000FFFE
-	arm_func_end sub_27F2424
+	arm_func_end TxqEndData
 
-	arm_func_start sub_27F25BC
-sub_27F25BC: // 0x027F25BC
+	arm_func_start CopyTxFrmToMacBuf
+CopyTxFrmToMacBuf: // 0x027F25BC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -22141,7 +22114,7 @@ sub_27F25BC: // 0x027F25BC
 	ldrh r0, [r0, #0x50]
 	cmp r0, #3
 	bne _027F25F4
-	bl sub_27E9EFC
+	bl WUpdateCounter
 _027F25F4:
 	ldrh r1, [r5, #0xc]
 	ldr r0, _027F2718 // =0x0000FFFF
@@ -22151,14 +22124,14 @@ _027F25F4:
 	add r1, r4, #8
 	add r2, r4, #0x2c
 	ldrh r3, [r4, #6]
-	bl sub_27E94F0
+	bl DMA_WepWriteHeaderData
 	b _027F2630
 _027F261C:
 	mov r0, r6
 	add r1, r4, #8
 	ldr r2, [r4, #0x2c]
 	ldrh r3, [r4, #6]
-	bl sub_27E94F0
+	bl DMA_WepWriteHeaderData
 _027F2630:
 	ldr r2, _027F271C // =0x04808044
 	ldrh r1, [r2]
@@ -22195,13 +22168,13 @@ _027F269C:
 	add r1, r4, #8
 	ldrh r2, [r4, #6]
 	add r2, r2, #0x24
-	bl sub_27E9568
+	bl DMA_Write
 	b _027F26D0
 _027F26C0:
 	add r1, r4, #8
 	ldr r2, [r4, #0x2c]
 	ldrh r3, [r4, #6]
-	bl sub_27E952C
+	bl DMA_WriteHeaderData
 _027F26D0:
 	ldr r0, _027F2714 // =0x0380FFF4
 	ldr r0, [r0]
@@ -22227,10 +22200,10 @@ _027F2718: .word 0x0000FFFF
 _027F271C: .word 0x04808044
 _027F2720: .word 0x0000B6B8
 _027F2724: .word 0x00001D46
-	arm_func_end sub_27F25BC
+	arm_func_end CopyTxFrmToMacBuf
 
-	arm_func_start sub_27F2728
-sub_27F2728: // 0x027F2728
+	arm_func_start TxqPri
+TxqPri: // 0x027F2728
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x14
 	mov r10, r0
@@ -22271,7 +22244,7 @@ _027F279C:
 	b _027F295C
 _027F27B8:
 	str r0, [sp]
-	bl sub_37F8B44
+	bl GetHeapBufNextAdrs
 	str r0, [sp, #4]
 	ldr r0, [sp]
 	add r6, r0, #0x10
@@ -22304,10 +22277,7 @@ _027F2808:
 	ldr r2, [r7, #0x10]
 	mov lr, pc
 	bx r2
-	arm_func_end sub_27F2728
-
-	arm_func_start sub_27F2838
-sub_27F2838: // 0x027F2838
+_27F2838: // 0x027F2838
 	b _027F279C
 _027F283C:
 	cmp r10, #0
@@ -22315,24 +22285,24 @@ _027F283C:
 	cmp r10, #1
 	bne _027F2898
 	mov r0, r5
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	bne _027F2898
 _027F285C:
 	mov r0, r5
-	bl sub_27EC384
+	bl CAM_IsActive
 	cmp r0, #0
 	beq _027F279C
 	mov r0, r5
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	beq _027F2898
 	strh r4, [r6, #8]
 	mov r0, r11
 	sub r1, r6, #0x10
-	bl sub_27EFC30
+	bl IssueMaDataConfirm
 	mov r0, r6
-	bl sub_27EC714
+	bl CAM_DecFrameCount
 	b _027F279C
 _027F2898:
 	mov r0, #1
@@ -22346,16 +22316,16 @@ _027F2898:
 	cmp r0, #0
 	bne _027F28C8
 	mov r0, #2
-	bl sub_27EA5C8
+	bl WSetPowerState
 _027F28C8:
 	mov r0, r4
 	ldr r1, [sp]
-	bl sub_27F25BC
+	bl CopyTxFrmToMacBuf
 	ldrh r0, [r9, #0xc]
 	cmp r0, #1
 	bne _027F28F8
 	mov r0, r5
-	bl sub_27EC2B0
+	bl CAM_GetFrameCount
 	cmp r0, #1
 	ldrhih r0, [r4, #0xc]
 	orrhi r0, r0, #0x2000
@@ -22396,10 +22366,10 @@ _027F2968: .word 0x0380FFF4
 _027F296C: .word 0x0000042C
 _027F2970: .word 0x048080A0
 _027F2974: .word 0x00003FFF
-	arm_func_end sub_27F2838
+	arm_func_end TxqPri
 
-	arm_func_start sub_27F2978
-sub_27F2978: // 0x027F2978
+	arm_func_start DefragTimerTask
+DefragTimerTask: // 0x027F2978
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	ldr r4, _027F29E8 // =0x0380FFF4
@@ -22422,7 +22392,7 @@ _027F2998:
 	ldr r0, [r4]
 	add r0, r0, #0x188
 	ldr r1, [r1, #0x14]
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 _027F29D0:
 	add r5, r5, #1
 	cmp r5, #3
@@ -22433,10 +22403,10 @@ _027F29D0:
 	.align 2, 0
 _027F29E8: .word 0x0380FFF4
 _027F29EC: .word 0x000004E4
-	arm_func_end sub_27F2978
+	arm_func_end DefragTimerTask
 
-	arm_func_start sub_27F29F0
-sub_27F29F0: // 0x027F29F0
+	arm_func_start MoreDefragment
+MoreDefragment: // 0x027F29F0
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r10, r0
@@ -22461,12 +22431,12 @@ _027F2A28:
 	beq _027F2AC4
 	add r0, r4, #4
 	mov r1, r9
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F2AC4
 	add r0, r4, #0xa
 	add r1, r9, #6
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F2AC4
 	ldrh r0, [r9, #0xc]
@@ -22511,7 +22481,7 @@ _027F2AD0:
 	bls _027F2B18
 	add r0, r8, #0xc
 	sub r1, r6, #0x10
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 	mov r0, #0
 	strh r0, [r7, r4]
 	b _027F2C18
@@ -22564,24 +22534,24 @@ _027F2B18:
 	add r0, r8, #0xc
 	add r1, r8, #0x48
 	sub r2, r6, #0x10
-	bl sub_37F8A3C
+	bl MoveHeapBuf
 	mov r0, #2
 	mov r1, #6
-	bl sub_37F85F8
+	bl AddTask
 	b _027F2C18
 _027F2BEC:
 	add r0, r8, #0xc
 	add r1, r8, #0x60
 	sub r2, r6, #0x10
-	bl sub_37F8A3C
+	bl MoveHeapBuf
 	mov r0, #1
 	mov r1, #7
-	bl sub_37F85F8
+	bl AddTask
 	b _027F2C18
 _027F2C0C:
 	add r0, r8, #0xc
 	sub r1, r6, #0x10
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 _027F2C18:
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -22590,10 +22560,10 @@ _027F2C18:
 _027F2C24: .word 0x0380FFF4
 _027F2C28: .word 0x000004E4
 _027F2C2C: .word 0x000005E4
-	arm_func_end sub_27F29F0
+	arm_func_end MoreDefragment
 
-	arm_func_start sub_27F2C30
-sub_27F2C30: // 0x027F2C30
+	arm_func_start NewDefragment
+NewDefragment: // 0x027F2C30
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r10, r0
@@ -22616,12 +22586,12 @@ _027F2C68:
 	beq _027F2D70
 	add r0, r4, #4
 	mov r1, r9
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F2D74
 	add r0, r4, #0xa
 	ldr r1, [sp]
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F2D74
 	ldrh r0, [r9, #0xc]
@@ -22689,7 +22659,7 @@ _027F2D78:
 	ldr r0, [r0]
 	add r0, r0, #0x188
 	ldr r1, _027F2E7C // =0x00000622
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	movs r5, r0
 	beq _027F2E60
 	mov r0, #0x18
@@ -22740,7 +22710,7 @@ _027F2D78:
 	b _027F2E68
 _027F2E60:
 	mov r0, #4
-	bl sub_27E9140
+	bl SetFatalErr
 _027F2E68:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -22749,10 +22719,10 @@ _027F2E68:
 _027F2E74: .word 0x0380FFF4
 _027F2E78: .word 0x000004E4
 _027F2E7C: .word 0x00000622
-	arm_func_end sub_27F2C30
+	arm_func_end NewDefragment
 
-	arm_func_start sub_27F2E80
-sub_27F2E80: // 0x027F2E80
+	arm_func_start DefragTask
+DefragTask: // 0x027F2E80
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x14
 	ldr r0, _027F2F94 // =0x0380FFF4
@@ -22776,27 +22746,27 @@ sub_27F2E80: // 0x027F2E80
 	beq _027F2EF8
 	add r0, sp, #0
 	add r1, r5, #0x24
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ands r0, r4, #0x200
 	bne _027F2F64
 	add r0, sp, #6
 	add r1, r5, #0x1e
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	b _027F2F28
 _027F2EF8:
 	add r0, sp, #0
 	add r1, r5, #0x18
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ands r0, r4, #0x200
 	beq _027F2F1C
 	add r0, sp, #6
 	add r1, r5, #0x24
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	b _027F2F28
 _027F2F1C:
 	add r0, sp, #6
 	add r1, r5, #0x1e
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 _027F2F28:
 	ldrh r0, [r5, #0x2a]
 	strh r0, [sp, #0xc]
@@ -22808,22 +22778,22 @@ _027F2F28:
 	bne _027F2F58
 	add r0, r5, #8
 	add r1, sp, #0
-	bl sub_27F2C30
+	bl NewDefragment
 	b _027F2F64
 _027F2F58:
 	add r0, r5, #8
 	add r1, sp, #0
-	bl sub_27F29F0
+	bl MoreDefragment
 _027F2F64:
 	add r0, r7, #0x6c
 	mov r1, r6
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 	ldrh r0, [r7, #0x74]
 	cmp r0, #0
 	beq _027F2F88
 	mov r0, #2
 	mov r1, #9
-	bl sub_37F85F8
+	bl AddTask
 _027F2F88:
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, lr}
@@ -22831,25 +22801,25 @@ _027F2F88:
 	.align 2, 0
 _027F2F94: .word 0x0380FFF4
 _027F2F98: .word 0x000005FC
-	arm_func_end sub_27F2E80
+	arm_func_end DefragTask
 
-	arm_func_start sub_27F2F9C
-sub_27F2F9C: // 0x027F2F9C
+	arm_func_start CheckChallengeText
+CheckChallengeText: // 0x027F2F9C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r4, r0
 	ldrh r0, [r4, #2]
-	bl sub_27EC32C
-	bl sub_27E9458
+	bl CAM_GetAuthSeed
+	bl RND_seed
 	add r5, r4, #0x34
 	add r0, r4, #0x33
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r6, r0
 	mov r7, #0
 	mov r4, r6, lsr #1
 	b _027F2FE8
 _027F2FD0:
-	bl sub_27E9428
+	bl RND_rand
 	ldrh r1, [r5], #2
 	cmp r1, r0
 	movne r0, #0
@@ -22860,7 +22830,7 @@ _027F2FE8:
 	blo _027F2FD0
 	ands r0, r6, #1
 	beq _027F3014
-	bl sub_27E9428
+	bl RND_rand
 	ldrh r1, [r5]
 	and r1, r1, #0xff
 	and r0, r0, #0xff
@@ -22873,10 +22843,10 @@ _027F3018:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
-	arm_func_end sub_27F2F9C
+	arm_func_end CheckChallengeText
 
-	arm_func_start sub_27F3024
-sub_27F3024: // 0x027F3024
+	arm_func_start SetChallengeText
+SetChallengeText: // 0x027F3024
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	mov r4, r1
@@ -22888,18 +22858,18 @@ sub_27F3024: // 0x027F3024
 	movs r6, r0, lsr #0x10
 	moveq r6, #1
 	mov r0, r6
-	bl sub_27E9458
+	bl RND_seed
 	mov r0, r5
 	mov r1, r6
-	bl sub_27EC508
+	bl CAM_SetAuthSeed
 	add r5, r4, #0x34
 	add r0, r4, #0x33
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r4, r0
 	mov r6, #0
 	b _027F3084
 _027F3078:
-	bl sub_27E9428
+	bl RND_rand
 	strh r0, [r5], #2
 	add r6, r6, #2
 _027F3084:
@@ -22909,10 +22879,10 @@ _027F3084:
 	bx lr
 	.align 2, 0
 _027F3094: .word 0x04808044
-	arm_func_end sub_27F3024
+	arm_func_end SetChallengeText
 
-	arm_func_start sub_27F3098
-sub_27F3098: // 0x027F3098
+	arm_func_start RxManCtrlTask
+RxManCtrlTask: // 0x027F3098
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	ldr r0, _027F33DC // =0x0380FFF4
@@ -22951,7 +22921,7 @@ sub_27F3098: // 0x027F3098
 	mov r0, r0, lsl #0x18
 	mov r4, r0, lsr #0x1c
 	add r0, r10, #0xa
-	bl sub_27EC874
+	bl CAM_SearchAdd
 	mov r11, r0
 	strh r11, [r6, #2]
 	cmp r11, #0xff
@@ -22969,31 +22939,31 @@ sub_27F3098: // 0x027F3098
 	cmp r4, #0xb
 	bne _027F33AC
 	mov r0, r6
-	bl sub_27F384C
+	bl RxAuthFrame
 	b _027F33AC
 _027F3180:
 	mov r0, r6
-	bl sub_27F4180
+	bl RxProbeReqFrame
 	b _027F33AC
 _027F318C:
 	mov r0, r6
-	bl sub_27F4640
+	bl RxAssReqFrame
 	b _027F33AC
 _027F3198:
-	bl sub_27EC4E4
+	bl CAM_UpdateLifeTime
 	mov r0, r11, lsl #0x10
 	mov r0, r0, lsr #0x10
 	ldrh r1, [r6, #0x12]
 	and r1, r1, #0xff
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_27EC630
+	bl CAM_SetRSSI
 	cmp r5, #0
 	bne _027F31F0
 	ldrh r0, [r6, #0x2a]
 	str r0, [sp, #4]
 	mov r0, r11
-	bl sub_27EC310
+	bl CAM_GetLastSeqCtrl
 	ldr r1, [sp, #4]
 	cmp r1, r0
 	ldreq r0, [r8, #0x3c]
@@ -23001,7 +22971,7 @@ _027F3198:
 	streq r0, [r8, #0x3c]
 	beq _027F33AC
 	mov r0, r11
-	bl sub_27EC520
+	bl CAM_SetLastSeqCtrl
 _027F31F0:
 	cmp r7, #1
 	beq _027F320C
@@ -23016,7 +22986,7 @@ _027F320C:
 	ldrh r1, [r10]
 	mov r1, r1, lsl #0x13
 	mov r1, r1, lsr #0x1f
-	bl sub_27EC5CC
+	bl CAM_SetPowerMgtMode
 	cmp r5, #0
 	bne _027F32D0
 	cmp r4, #0xc
@@ -23038,36 +23008,36 @@ _027F3238: // jump table
 	b _027F32C4 // case 12
 _027F326C:
 	mov r0, r6
-	bl sub_27F4910
+	bl RxBeaconFrame
 	b _027F33AC
 _027F3278:
 	mov r0, r6
-	bl sub_27F4640
+	bl RxAssReqFrame
 	b _027F33AC
 _027F3284:
 	mov r0, r6
-	bl sub_27F4368
+	bl RxReAssReqFrame
 	b _027F33AC
 _027F3290:
 	mov r0, r6
-	bl sub_27F4180
+	bl RxProbeReqFrame
 	b _027F33AC
 _027F329C:
 	mov r0, r6
 	mov r1, #0
-	bl sub_27F3D90
+	bl RxProbeResFrame
 	b _027F33AC
 _027F32AC:
 	mov r0, r6
-	bl sub_27F481C
+	bl RxDisAssFrame
 	b _027F33AC
 _027F32B8:
 	mov r0, r6
-	bl sub_27F384C
+	bl RxAuthFrame
 	b _027F33AC
 _027F32C4:
 	mov r0, r6
-	bl sub_27F3790
+	bl RxDeAuthFrame
 	b _027F33AC
 _027F32D0:
 	cmp r5, #1
@@ -23075,7 +23045,7 @@ _027F32D0:
 	cmp r4, #0xa
 	bne _027F33AC
 	mov r0, r6
-	bl sub_27F3728
+	bl RxPsPollFrame
 	b _027F33AC
 _027F32EC:
 	cmp r5, #0
@@ -23099,32 +23069,32 @@ _027F3300: // jump table
 	b _027F3380 // case 12
 _027F3334:
 	mov r0, r6
-	bl sub_27F4910
+	bl RxBeaconFrame
 	b _027F33AC
 _027F3340:
 	mov r0, r6
-	bl sub_27F4514
+	bl RxAssResFrame
 	b _027F33AC
 _027F334C:
 	mov r0, r6
-	bl sub_27F4234
+	bl RxReAssResFrame
 	b _027F33AC
 _027F3358:
 	mov r0, r6
 	mov r1, #0
-	bl sub_27F3D90
+	bl RxProbeResFrame
 	b _027F33AC
 _027F3368:
 	mov r0, r6
-	bl sub_27F481C
+	bl RxDisAssFrame
 	b _027F33AC
 _027F3374:
 	mov r0, r6
-	bl sub_27F384C
+	bl RxAuthFrame
 	b _027F33AC
 _027F3380:
 	mov r0, r6
-	bl sub_27F3790
+	bl RxDeAuthFrame
 	b _027F33AC
 _027F338C:
 	cmp r5, #1
@@ -23135,17 +23105,17 @@ _027F338C:
 	bne _027F33AC
 _027F33A4:
 	mov r0, r6
-	bl sub_27F3724
+	bl RxCfEndFrame
 _027F33AC:
 	add r0, r9, #0x60
 	ldr r1, [sp]
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 	ldrh r0, [r9, #0x68]
 	cmp r0, #0
 	beq _027F33D0
 	mov r0, #1
 	mov r1, #7
-	bl sub_37F85F8
+	bl AddTask
 _027F33D0:
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -23153,10 +23123,10 @@ _027F33D0:
 	.align 2, 0
 _027F33DC: .word 0x0380FFF4
 _027F33E0: .word 0x0000053C
-	arm_func_end sub_27F3098
+	arm_func_end RxManCtrlTask
 
-	arm_func_start sub_27F33E4
-sub_27F33E4: // 0x027F33E4
+	arm_func_start ElementChecker
+ElementChecker: // 0x027F33E4
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r9, r0
@@ -23177,11 +23147,11 @@ sub_27F33E4: // 0x027F33E4
 	b _027F3690
 _027F342C:
 	mov r0, r7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r10, r0
 	add r0, r7, #1
 	add r7, r7, #2
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r5, r0
 	cmp r10, #6
 	addls pc, pc, r10, lsl #2
@@ -23221,7 +23191,7 @@ _027F34B8:
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, r7
-	bl sub_27E9E2C
+	bl WCheckSSID
 	cmp r0, #0
 	ldrneh r0, [r9, #0xa]
 	orrne r0, r0, #1
@@ -23235,7 +23205,7 @@ _027F34E8:
 	strh r0, [r4]
 	sub r0, r7, #2
 	mov r1, r11
-	bl sub_27E9D14
+	bl WElement2RateSet
 	ldrh r1, [r9, #0x14]
 	ldrh r0, [r8, #0x60]
 	ldrh r2, [r8, #0x62]
@@ -23263,7 +23233,7 @@ _027F3554:
 	orr r0, r0, #2
 	strh r0, [r4]
 	mov r0, r7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	strh r0, [r9, #0x12]
 	ldrh r1, [r9, #0x12]
 	ldr r0, _027F3720 // =0x0380FFF4
@@ -23300,19 +23270,19 @@ _027F35E8:
 	cmp r5, #8
 	blo _027F3630
 	mov r0, r7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	cmp r0, #0
 	bne _027F3630
 	add r0, r7, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	cmp r0, #9
 	bne _027F3630
 	add r0, r7, #2
-	bl sub_27E94A4
+	bl WL_ReadByte
 	cmp r0, #0xbf
 	bne _027F3630
 	add r0, r7, #3
-	bl sub_27E94A4
+	bl WL_ReadByte
 	cmp r0, #0
 	beq _027F3650
 _027F3630:
@@ -23385,15 +23355,15 @@ _027F3714:
 	bx lr
 	.align 2, 0
 _027F3720: .word 0x0380FFF4
-	arm_func_end sub_27F33E4
+	arm_func_end ElementChecker
 
-	arm_func_start sub_27F3724
-sub_27F3724: // 0x027F3724
+	arm_func_start RxCfEndFrame
+RxCfEndFrame: // 0x027F3724
 	bx lr
-	arm_func_end sub_27F3724
+	arm_func_end RxCfEndFrame
 
-	arm_func_start sub_27F3728
-sub_27F3728: // 0x027F3728
+	arm_func_start RxPsPollFrame
+RxPsPollFrame: // 0x027F3728
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r1, _027F378C // =0x0380FFF4
@@ -23401,32 +23371,32 @@ sub_27F3728: // 0x027F3728
 	add r5, r1, #0x17c
 	ldrh r4, [r0, #2]
 	mov r0, r4
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	bne _027F3780
 	mov r0, r4
-	bl sub_27EC568
+	bl CAM_SetAwake
 	ldrh r0, [r5, #0x2c]
 	cmp r0, #0
 	beq _027F376C
 	mov r0, #1
-	bl sub_27F2728
+	bl TxqPri
 _027F376C:
 	ldrh r0, [r5, #0x20]
 	cmp r0, #0
 	beq _027F3780
 	mov r0, #0
-	bl sub_27F2728
+	bl TxqPri
 _027F3780:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
 _027F378C: .word 0x0380FFF4
-	arm_func_end sub_27F3728
+	arm_func_end RxPsPollFrame
 
-	arm_func_start sub_27F3790
-sub_27F3790: // 0x027F3790
+	arm_func_start RxDeAuthFrame
+RxDeAuthFrame: // 0x027F3790
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -23444,18 +23414,18 @@ sub_27F3790: // 0x027F3790
 	b _027F383C
 _027F37CC:
 	mov r0, r5
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x20
 	bls _027F383C
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0x20
-	bl sub_27EC648
+	bl CAM_SetStaState
 	add r0, r4, #0x1e
 	ldrh r1, [r4, #0x2c]
-	bl sub_27ECF94
+	bl MLME_IssueDeAuthIndication
 	mov r0, r5
-	bl sub_27F1968
+	bl DeleteTxFrames
 	b _027F383C
 _027F3804:
 	ldrh r0, [r1, #8]
@@ -23463,25 +23433,25 @@ _027F3804:
 	bls _027F383C
 	add r0, r4, #0x1e
 	add r1, r1, #0x82
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F383C
 	mov r0, #0x20
-	bl sub_37F9458
-	bl sub_27EA228
+	bl WSetStaState
+	bl WClearAids
 	add r0, r4, #0x1e
 	ldrh r1, [r4, #0x2c]
-	bl sub_27ECF94
+	bl MLME_IssueDeAuthIndication
 _027F383C:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
 _027F3848: .word 0x0380FFF4
-	arm_func_end sub_27F3790
+	arm_func_end RxDeAuthFrame
 
-	arm_func_start sub_27F384C
-sub_27F384C: // 0x027F384C
+	arm_func_start RxAuthFrame
+RxAuthFrame: // 0x027F384C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r10, r0
@@ -23533,7 +23503,7 @@ _027F38CC:
 _027F3900:
 	add r0, r10, #0x1e
 	mov r1, #0xb0
-	bl sub_27F0830
+	bl IsExistManFrame
 	cmp r0, #0
 	bne _027F3D6C
 	mov r5, #0
@@ -23550,22 +23520,22 @@ _027F3900:
 	cmp r0, #1
 	bne _027F39B0
 	mov r0, r6
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x20
 	bls _027F3974
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0x20
-	bl sub_27EC648
+	bl CAM_SetStaState
 	add r0, r10, #0x1e
 	mov r1, #1
-	bl sub_27ECF94
+	bl MLME_IssueDeAuthIndication
 _027F3974:
 	ldrh r0, [r10, #8]
 	ands r0, r0, #0x400
 	beq _027F39B0
 	mov r0, r6
-	bl sub_27EC32C
+	bl CAM_GetAuthSeed
 	cmp r0, #0
 	beq _027F39B0
 	mov r5, #1
@@ -23574,7 +23544,7 @@ _027F3974:
 	mov r11, #4
 	mov r0, r6
 	mov r1, #0
-	bl sub_27EC508
+	bl CAM_SetAuthSeed
 	b _027F3D30
 _027F39B0:
 	ldrh r0, [r7]
@@ -23618,18 +23588,18 @@ _027F3A1C:
 	bne _027F3D30
 	add r0, r1, #0x10
 	add r1, r10, #0x1e
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F3D30
 	ldrh r0, [r8]
 	cmp r0, #0x31
 	bne _027F3D30
-	bl sub_27E961C
+	bl ClearTimeOut
 	ldrh r0, [r7, #4]
 	cmp r0, #0
 	bne _027F3A90
 	mov r0, #0x30
-	bl sub_37F9458
+	bl WSetStaState
 	mov r1, #0
 	ldr r0, [r8, #0x1c]
 	strh r1, [r0, #4]
@@ -23648,7 +23618,7 @@ _027F3AA8:
 	strh r0, [r8]
 	mov r0, #2
 	mov r1, r0
-	bl sub_37F85F8
+	bl AddTask
 	b _027F3D30
 _027F3AC0:
 	ldrh r0, [r9, #0xc]
@@ -23657,14 +23627,14 @@ _027F3AC0:
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0x20
-	bl sub_27EC648
+	bl CAM_SetStaState
 	ldrh r0, [r7, #2]
 	cmp r0, #1
 	bne _027F3B2C
 	add r0, r10, #0x1e
 	mov r1, #0x80
 	mov r2, #1
-	bl sub_27F09E8
+	bl MakeAuthFrame
 	movs r8, r0
 	beq _027F3D30
 	ldrh r0, [r7]
@@ -23674,19 +23644,19 @@ _027F3AC0:
 	strh r0, [r8, #0x30]
 	mov r0, r6
 	mov r1, r8
-	bl sub_27F3024
+	bl SetChallengeText
 	mov r0, r8
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	b _027F3D30
 _027F3B2C:
 	cmp r0, #3
 	bne _027F3BA0
 	mov r0, r6
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x20
 	bne _027F3B54
 	mov r0, r6
-	bl sub_27EC32C
+	bl CAM_GetAuthSeed
 	cmp r0, #0
 	bne _027F3B60
 _027F3B54:
@@ -23695,26 +23665,26 @@ _027F3B54:
 	b _027F3D30
 _027F3B60:
 	mov r0, r10
-	bl sub_27F2F9C
+	bl CheckChallengeText
 	cmp r0, #0
 	bne _027F3B88
 	mov r4, #0xf
 	mov r5, #1
 	mov r0, r6
 	mov r1, #0
-	bl sub_27EC508
+	bl CAM_SetAuthSeed
 	b _027F3D30
 _027F3B88:
 	mov r0, r6
 	mov r1, #0
-	bl sub_27EC508
+	bl CAM_SetAuthSeed
 	mov r4, #0
 	mov r5, #1
 	b _027F3D30
 _027F3BA0:
 	mov r0, r6
 	mov r1, #0
-	bl sub_27EC508
+	bl CAM_SetAuthSeed
 	mov r4, #0xe
 	mov r11, #2
 	mov r5, #1
@@ -23726,7 +23696,7 @@ _027F3BBC:
 	bne _027F3D30
 	add r0, r1, #0x10
 	add r1, r10, #0x1e
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F3D30
 	ldrh r0, [r7, #2]
@@ -23738,7 +23708,7 @@ _027F3BBC:
 	ldrh r0, [r7, #4]
 	cmp r0, #0
 	beq _027F3C40
-	bl sub_27E961C
+	bl ClearTimeOut
 	mov r0, #0x35
 	strh r0, [r8]
 	mov r1, #0xc
@@ -23749,19 +23719,19 @@ _027F3BBC:
 	strh r1, [r0, #6]
 	mov r0, #2
 	mov r1, r0
-	bl sub_37F85F8
+	bl AddTask
 	mov r0, #0x20
-	bl sub_37F9458
+	bl WSetStaState
 	b _027F3D30
 _027F3C40:
 	mov r0, #0x33
 	strh r0, [r8]
 	add r0, r10, #0x33
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	add r0, r10, #0x1e
 	mov r2, #1
-	bl sub_27F09E8
+	bl MakeAuthFrame
 	movs r6, r0
 	beq _027F3D30
 	ldrh r0, [r6, #0x14]
@@ -23779,7 +23749,7 @@ _027F3C40:
 	mov r0, #0
 	strh r0, [r6, #0x30]
 	mov r0, r6
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	b _027F3D30
 _027F3CAC:
 	cmp r0, #4
@@ -23787,12 +23757,12 @@ _027F3CAC:
 	ldrh r0, [r8]
 	cmp r0, #0x33
 	bne _027F3D30
-	bl sub_27E961C
+	bl ClearTimeOut
 	ldrh r0, [r7, #4]
 	cmp r0, #0
 	bne _027F3CF0
 	mov r0, #0x30
-	bl sub_37F9458
+	bl WSetStaState
 	mov r1, #0
 	ldr r0, [r8, #0x1c]
 	strh r1, [r0, #4]
@@ -23811,7 +23781,7 @@ _027F3D08:
 	strh r0, [r8]
 	mov r0, #2
 	mov r1, r0
-	bl sub_37F85F8
+	bl AddTask
 	b _027F3D30
 _027F3D20:
 	ldrh r0, [r9, #0xc]
@@ -23826,14 +23796,14 @@ _027F3D30:
 	moveq r2, #0
 	add r0, r10, #0x1e
 	mov r1, #0
-	bl sub_27F09E8
+	bl MakeAuthFrame
 	cmp r0, #0
 	beq _027F3D6C
 	ldrh r1, [r7]
 	strh r1, [r0, #0x2c]
 	strh r11, [r0, #0x2e]
 	strh r4, [r0, #0x30]
-	bl sub_27F171C
+	bl TxManCtrlFrame
 _027F3D6C:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -23845,10 +23815,10 @@ _027F3D80: .word 0x0000042C
 _027F3D84: .word 0x048080B0
 _027F3D88: .word 0x0480819C
 _027F3D8C: .word 0x04808032
-	arm_func_end sub_27F384C
+	arm_func_end RxAuthFrame
 
-	arm_func_start sub_27F3D90
-sub_27F3D90: // 0x027F3D90
+	arm_func_start RxProbeResFrame
+RxProbeResFrame: // 0x027F3D90
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x34
 	mov r5, r0
@@ -23871,7 +23841,7 @@ sub_27F3D90: // 0x027F3D90
 _027F3DDC:
 	mov r0, r6
 	mov r1, r11
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	ldrneh r1, [r8, #6]
 	movne r0, #1
@@ -23892,7 +23862,7 @@ _027F3E08:
 _027F3E28:
 	mov r0, r11
 	add r1, r7, #4
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	bne _027F4168
 	ldrh r0, [r7]
@@ -23928,7 +23898,7 @@ _027F3E48:
 	ldrh r0, [r4, #0xa]
 	strh r0, [sp, #0xe]
 	add r0, sp, #8
-	bl sub_27F33E4
+	bl ElementChecker
 	add r10, sp, #8
 _027F3EC4:
 	ldr r0, [r10, #0x28]
@@ -23939,7 +23909,7 @@ _027F3EC4:
 	streqh r0, [r7]
 	beq _027F3F00
 	add r0, r0, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	sub r0, r0, #8
 	strh r0, [r7, #0x3c]
 	ldrh r0, [r7, #0x3c]
@@ -23962,7 +23932,7 @@ _027F3F00:
 	strh r0, [r7, #0x2c]
 	add r0, r7, #4
 	add r1, r5, #0x24
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	ldrh r0, [r4, #8]
 	strh r0, [r7, #0x32]
 	ldrh r0, [r5, #0x12]
@@ -23978,10 +23948,10 @@ _027F3F6C:
 	ldr r0, [r10, #0x28]
 	add r0, r0, #0xa
 	add r0, r0, r4
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	add r0, r5, r4
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r4, r4, #1
 _027F3F8C:
 	ldrh r0, [r7, #0x3c]
@@ -24001,10 +23971,10 @@ _027F3F9C:
 	b _027F4038
 _027F3FC4:
 	mov r0, r6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r4, r0
 	add r0, r6, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	cmp r4, #6
 	bls _027F4030
 	ldr r1, [r10, #0x28]
@@ -24016,10 +23986,10 @@ _027F3FC4:
 	b _027F401C
 _027F3FFC:
 	mov r0, r6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	mov r0, r11
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r11, r11, #1
 	add r6, r6, #1
 	add r4, r4, #1
@@ -24041,7 +24011,7 @@ _027F4044:
 	cmp r0, #0
 	beq _027F4098
 	add r0, r0, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	strh r0, [r7, #0xa]
 	mov r4, #0
 	add r5, r7, #0xc
@@ -24050,10 +24020,10 @@ _027F4068:
 	ldr r0, [r10, #0x1c]
 	add r0, r0, #2
 	add r0, r0, r4
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	add r0, r5, r4
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r4, r4, #1
 _027F4088:
 	ldrh r0, [r7, #0xa]
@@ -24068,7 +24038,7 @@ _027F4098:
 _027F40A8:
 	add r0, r5, r6
 	mov r1, r4
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r6, r6, #1
 	cmp r6, #0x20
 	blo _027F40A8
@@ -24083,14 +24053,14 @@ _027F40C0:
 	cmp r0, #0
 	beq _027F40F0
 	add r0, r0, #3
-	bl sub_27E94A4
+	bl WL_ReadByte
 	strh r0, [r7, #0x38]
 _027F40F0:
 	ldr r0, [r10, #0x24]
 	cmp r0, #0
 	beq _027F4108
 	add r0, r0, #3
-	bl sub_27E94A4
+	bl WL_ReadByte
 	strh r0, [r7, #0x34]
 _027F4108:
 	ldrh r1, [r8, #2]
@@ -24107,17 +24077,17 @@ _027F4108:
 	ldrh r0, [r9, #4]
 	cmp r0, #0x20
 	bhs _027F4168
-	bl sub_27E961C
+	bl ClearTimeOut
 	mov r0, #0x15
 	strh r0, [r9]
 	mov r0, #2
 	mov r1, #0
-	bl sub_37F85F8
+	bl AddTask
 	b _027F4168
 _027F415C:
 	add r0, r7, #4
-	ldr r1, _027F417C // =_027F7E88
-	bl sub_27EA1BC
+	ldr r1, _027F417C // =NULL_ADRS
+	bl WSetMacAdrs1
 _027F4168:
 	add sp, sp, #0x34
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -24125,17 +24095,17 @@ _027F4168:
 	.align 2, 0
 _027F4174: .word 0x0380FFF4
 _027F4178: .word 0x00000404
-_027F417C: .word _027F7E88
-	arm_func_end sub_27F3D90
+_027F417C: .word NULL_ADRS
+	arm_func_end RxProbeResFrame
 
-	arm_func_start sub_27F4180
-sub_27F4180: // 0x027F4180
+	arm_func_start RxProbeReqFrame
+RxProbeReqFrame: // 0x027F4180
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x30
 	mov r4, r0
 	add r0, r4, #0x1e
 	mov r1, #0x50
-	bl sub_27F0830
+	bl IsExistManFrame
 	cmp r0, #0
 	bne _027F4224
 	ldrh r0, [r4, #0x24]
@@ -24162,26 +24132,26 @@ _027F41B8:
 	moveq r0, #0x800
 	streqh r0, [sp, #0xc]
 	add r0, sp, #0
-	bl sub_27F33E4
+	bl ElementChecker
 	ldrh r0, [sp, #0xa]
 	and r0, r0, #1
 	cmp r0, #1
 	bne _027F4224
 	add r0, r4, #0x1e
-	bl sub_27F0AAC
+	bl MakeProbeResFrame
 	cmp r0, #0
 	beq _027F4224
-	bl sub_27F171C
+	bl TxManCtrlFrame
 _027F4224:
 	add sp, sp, #0x30
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _027F4230: .word 0x0380FFF4
-	arm_func_end sub_27F4180
+	arm_func_end RxProbeReqFrame
 
-	arm_func_start sub_27F4234
-sub_27F4234: // 0x027F4234
+	arm_func_start RxReAssResFrame
+RxReAssResFrame: // 0x027F4234
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -24203,10 +24173,10 @@ _027F426C:
 	ldr r0, [r5, #0x18]
 	add r0, r0, #0x10
 	add r1, r7, #0x1e
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F4350
-	bl sub_27E961C
+	bl ClearTimeOut
 	ldrh r0, [r4, #2]
 	cmp r0, #0
 	bne _027F42EC
@@ -24215,20 +24185,20 @@ _027F426C:
 	and r0, r1, r0
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27EA284
+	bl WSetAids
 	ldrh r0, [r6, #0x6a]
-	bl sub_27F08F8
+	bl MakePsPollFrame
 	add r0, r6, #0x82
 	add r1, r7, #0x1e
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	add r0, r7, #0x1e
-	bl sub_27EC9BC
+	bl CAM_Search
 	strh r0, [r6, #0x88]
 	ldrh r0, [r6, #0x88]
 	mov r1, #0x40
-	bl sub_27EC648
+	bl CAM_SetStaState
 	mov r0, #0x40
-	bl sub_37F9458
+	bl WSetStaState
 _027F42EC:
 	ldrh r0, [r4, #2]
 	cmp r0, #0
@@ -24239,7 +24209,7 @@ _027F42EC:
 	ldr r0, [r5, #0x1c]
 	strh r1, [r0, #6]
 	mov r0, #0x40
-	bl sub_37F9458
+	bl WSetStaState
 	b _027F4330
 _027F4318:
 	mov r1, #0xc
@@ -24256,7 +24226,7 @@ _027F4330:
 	strh r0, [r5]
 	mov r0, #2
 	mov r1, #4
-	bl sub_37F85F8
+	bl AddTask
 _027F4350:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
@@ -24265,10 +24235,10 @@ _027F4350:
 _027F435C: .word 0x0380FFF4
 _027F4360: .word 0x00000404
 _027F4364: .word 0x00000FFF
-	arm_func_end sub_27F4234
+	arm_func_end RxReAssResFrame
 
-	arm_func_start sub_27F4368
-sub_27F4368: // 0x027F4368
+	arm_func_start RxReAssReqFrame
+RxReAssReqFrame: // 0x027F4368
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x30
 	mov r8, r0
@@ -24284,42 +24254,42 @@ sub_27F4368: // 0x027F4368
 	bne _027F4500
 	add r0, r8, #0x1e
 	mov r1, #0x30
-	bl sub_27F0830
+	bl IsExistManFrame
 	cmp r0, #0
 	bne _027F4500
 	ldrh r4, [r8, #2]
 	mov r0, r4
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x30
 	bhs _027F43F8
 	add r0, r8, #0x1e
 	mov r1, #0xc0
-	bl sub_27F0830
+	bl IsExistManFrame
 	cmp r0, #0
 	bne _027F4500
 	add r0, r8, #0x1e
 	mov r1, #6
 	mov r2, #1
-	bl sub_27F094C
+	bl MakeDeAuthFrame
 	cmp r0, #0
 	beq _027F4500
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	b _027F4500
 _027F43F8:
 	mov r0, r4
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	bne _027F4424
 	mov r0, r4
 	mov r1, #0x30
-	bl sub_27EC648
+	bl CAM_SetStaState
 	add r0, r8, #0x1e
 	mov r1, #1
-	bl sub_27ECD2C
+	bl MLME_IssueDisAssIndication
 	b _027F4434
 _027F4424:
 	mov r0, r4
-	bl sub_27EC2CC
+	bl CAM_GetAID
 	cmp r0, #0
 	bne _027F4500
 _027F4434:
@@ -24334,7 +24304,7 @@ _027F4434:
 	mov r0, #0x800
 	strh r0, [sp, #0xc]
 	add r0, sp, #0
-	bl sub_27F33E4
+	bl ElementChecker
 	ldrh r1, [r6]
 	ldr r0, _027F4510 // =0x0000FFC2
 	ands r0, r1, r0
@@ -24359,7 +24329,7 @@ _027F44AC:
 	b _027F44E8
 _027F44B4:
 	mov r0, r4
-	bl sub_27EC550
+	bl CAM_SetCapaInfo
 	ldrh r1, [sp, #0xa]
 	ands r0, r1, #1
 	moveq r1, #1
@@ -24369,15 +24339,15 @@ _027F44B4:
 	beq _027F44E8
 	mov r0, r4
 	ldrh r1, [sp, #0x16]
-	bl sub_27EC538
+	bl CAM_SetSupRate
 	mov r1, #0
 _027F44E8:
 	mov r0, r4
 	ldr r2, [sp, #0x1c]
-	bl sub_27F0C24
+	bl MakeReAssResFrame
 	cmp r0, #0
 	beq _027F4500
-	bl sub_27F171C
+	bl TxManCtrlFrame
 _027F4500:
 	add sp, sp, #0x30
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
@@ -24385,10 +24355,10 @@ _027F4500:
 	.align 2, 0
 _027F450C: .word 0x0380FFF4
 _027F4510: .word 0x0000FFC2
-	arm_func_end sub_27F4368
+	arm_func_end RxReAssReqFrame
 
-	arm_func_start sub_27F4514
-sub_27F4514: // 0x027F4514
+	arm_func_start RxAssResFrame
+RxAssResFrame: // 0x027F4514
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -24410,10 +24380,10 @@ _027F454C:
 	ldr r0, [r5, #0x18]
 	add r0, r0, #0x10
 	add r1, r7, #0x1e
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F4628
-	bl sub_27E961C
+	bl ClearTimeOut
 	ldrh r0, [r4, #2]
 	cmp r0, #0
 	bne _027F45C4
@@ -24422,18 +24392,18 @@ _027F454C:
 	and r0, r1, r0
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl sub_27EA284
+	bl WSetAids
 	ldrh r0, [r6, #0x6a]
-	bl sub_27F08F8
+	bl MakePsPollFrame
 	add r0, r6, #0x82
 	add r1, r7, #0x1e
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	add r0, r7, #0x1e
-	bl sub_27EC9BC
+	bl CAM_Search
 	strh r0, [r6, #0x88]
 	ldrh r0, [r6, #0x88]
 	mov r1, #0x40
-	bl sub_27EC648
+	bl CAM_SetStaState
 _027F45C4:
 	ldrh r0, [r4, #2]
 	cmp r0, #0
@@ -24444,7 +24414,7 @@ _027F45C4:
 	ldr r0, [r5, #0x1c]
 	strh r1, [r0, #6]
 	mov r0, #0x40
-	bl sub_37F9458
+	bl WSetStaState
 	b _027F4608
 _027F45F0:
 	mov r1, #0xc
@@ -24461,7 +24431,7 @@ _027F4608:
 	strh r0, [r5]
 	mov r0, #2
 	mov r1, #3
-	bl sub_37F85F8
+	bl AddTask
 _027F4628:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
@@ -24470,10 +24440,10 @@ _027F4628:
 _027F4634: .word 0x0380FFF4
 _027F4638: .word 0x00000404
 _027F463C: .word 0x00000FFF
-	arm_func_end sub_27F4514
+	arm_func_end RxAssResFrame
 
-	arm_func_start sub_27F4640
-sub_27F4640: // 0x027F4640
+	arm_func_start RxAssReqFrame
+RxAssReqFrame: // 0x027F4640
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x30
 	mov r8, r0
@@ -24490,45 +24460,45 @@ sub_27F4640: // 0x027F4640
 	bne _027F4808
 	add r0, r8, #0x1e
 	mov r1, #0x10
-	bl sub_27F0830
+	bl IsExistManFrame
 	cmp r0, #0
 	bne _027F4808
 	ldrh r4, [r8, #2]
 	cmp r4, #0
 	beq _027F46A8
 	mov r0, r4
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x30
 	bhs _027F46DC
 _027F46A8:
 	add r0, r8, #0x1e
 	mov r1, #0xc0
-	bl sub_27F0830
+	bl IsExistManFrame
 	cmp r0, #0
 	bne _027F4808
 	add r0, r8, #0x1e
 	mov r1, #6
 	mov r2, #1
-	bl sub_27F094C
+	bl MakeDeAuthFrame
 	cmp r0, #0
 	beq _027F4808
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	b _027F4808
 _027F46DC:
 	mov r0, r4
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	bne _027F4708
 	mov r0, r4
 	mov r1, #0x30
-	bl sub_27EC648
+	bl CAM_SetStaState
 	add r0, r8, #0x1e
 	mov r1, #1
-	bl sub_27ECD2C
+	bl MLME_IssueDisAssIndication
 	b _027F4718
 _027F4708:
 	mov r0, r4
-	bl sub_27EC2CC
+	bl CAM_GetAID
 	cmp r0, #0
 	bne _027F4808
 _027F4718:
@@ -24541,7 +24511,7 @@ _027F4718:
 	sub r0, r5, #4
 	strh r0, [sp, #8]
 	add r0, sp, #0
-	bl sub_27F33E4
+	bl ElementChecker
 	ldrh r1, [r6]
 	ldr r0, _027F4818 // =0x0000FFC2
 	ands r0, r1, r0
@@ -24578,7 +24548,7 @@ _027F47B4:
 	b _027F47F0
 _027F47BC:
 	mov r0, r4
-	bl sub_27EC550
+	bl CAM_SetCapaInfo
 	ldrh r1, [sp, #0xa]
 	ands r0, r1, #1
 	moveq r1, #1
@@ -24588,15 +24558,15 @@ _027F47BC:
 	beq _027F47F0
 	mov r0, r4
 	ldrh r1, [sp, #0x16]
-	bl sub_27EC538
+	bl CAM_SetSupRate
 	mov r1, #0
 _027F47F0:
 	mov r0, r4
 	ldr r2, [sp, #0x1c]
-	bl sub_27F0D90
+	bl MakeAssResFrame
 	cmp r0, #0
 	beq _027F4808
-	bl sub_27F171C
+	bl TxManCtrlFrame
 _027F4808:
 	add sp, sp, #0x30
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
@@ -24604,10 +24574,10 @@ _027F4808:
 	.align 2, 0
 _027F4814: .word 0x0380FFF4
 _027F4818: .word 0x0000FFC2
-	arm_func_end sub_27F4640
+	arm_func_end RxAssReqFrame
 
-	arm_func_start sub_27F481C
-sub_27F481C: // 0x027F481C
+	arm_func_start RxDisAssFrame
+RxDisAssFrame: // 0x027F481C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -24625,35 +24595,35 @@ sub_27F481C: // 0x027F481C
 	b _027F4900
 _027F4858:
 	mov r0, r5
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	bne _027F4890
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0x30
-	bl sub_27EC648
+	bl CAM_SetStaState
 	add r0, r4, #0x1e
 	ldrh r1, [r4, #0x2c]
-	bl sub_27ECD2C
+	bl MLME_IssueDisAssIndication
 	mov r0, r5
-	bl sub_27F1968
+	bl DeleteTxFrames
 	b _027F4900
 _027F4890:
 	cmp r0, #0x30
 	bne _027F48A8
 	add r0, r4, #0x1e
 	mov r1, #7
-	bl sub_27F106C
+	bl MakeDisAssFrame
 	b _027F48B8
 _027F48A8:
 	add r0, r4, #0x1e
 	mov r1, #7
 	mov r2, #1
-	bl sub_27F094C
+	bl MakeDeAuthFrame
 _027F48B8:
 	cmp r0, #0
 	beq _027F4900
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	b _027F4900
 _027F48C8:
 	ldrh r0, [r1, #8]
@@ -24661,25 +24631,25 @@ _027F48C8:
 	bne _027F4900
 	add r0, r4, #0x1e
 	add r1, r1, #0x82
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F4900
 	mov r0, #0x30
-	bl sub_37F9458
-	bl sub_27EA228
+	bl WSetStaState
+	bl WClearAids
 	add r0, r4, #0x1e
 	ldrh r1, [r4, #0x2c]
-	bl sub_27ECD2C
+	bl MLME_IssueDisAssIndication
 _027F4900:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
 _027F490C: .word 0x0380FFF4
-	arm_func_end sub_27F481C
+	arm_func_end RxDisAssFrame
 
-	arm_func_start sub_27F4910
-sub_27F4910: // 0x027F4910
+	arm_func_start RxBeaconFrame
+RxBeaconFrame: // 0x027F4910
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x44
 	mov r10, r0
@@ -24694,7 +24664,7 @@ sub_27F4910: // 0x027F4910
 	add r0, r0, #1
 	str r0, [r1, #0x570]
 	add r0, r10, #0x1e
-	bl sub_27EC874
+	bl CAM_SearchAdd
 	mov r4, r0
 	mov r0, r4, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -24702,7 +24672,7 @@ sub_27F4910: // 0x027F4910
 	cmp r4, #0xff
 	beq _027F4F84
 	ldrh r1, [r10, #0x12]
-	bl sub_27EC630
+	bl CAM_SetRSSI
 	add r9, r10, #0x2c
 	ldrh r11, [r10, #6]
 	cmp r11, #0xc
@@ -24729,7 +24699,7 @@ sub_27F4910: // 0x027F4910
 	ldrh r0, [r9, #0xa]
 	strh r0, [sp, #0x1e]
 	add r0, sp, #0x18
-	bl sub_27F33E4
+	bl ElementChecker
 	ldr r9, [sp, #0x38]
 	cmp r9, #0
 	beq _027F4A10
@@ -24737,10 +24707,10 @@ sub_27F4910: // 0x027F4910
 	ands r0, r0, #0x8000
 	beq _027F4A10
 	add r0, r9, #6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r11, r0
 	add r0, r9, #7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	add r1, r11, r0, lsl #8
 	ldr r0, _027F4F98 // =0x0480810C
 	strh r1, [r0]
@@ -24758,7 +24728,7 @@ _027F4A10:
 	bne _027F4F6C
 	mov r0, r10
 	add r1, sp, #0x18
-	bl sub_27F3D90
+	bl RxProbeResFrame
 	b _027F4F6C
 _027F4A4C:
 	ldrh r0, [sp, #0x22]
@@ -24766,7 +24736,7 @@ _027F4A4C:
 	beq _027F4F6C
 	cmp r1, #0x21
 	bne _027F4BD4
-	bl sub_27E961C
+	bl ClearTimeOut
 	ldrh r0, [sp, #0x22]
 	and r0, r0, #0x30
 	cmp r0, #0x30
@@ -24791,11 +24761,11 @@ _027F4A4C:
 	ands r0, r0, #2
 	bne _027F4AC8
 	ldrh r0, [sp, #0x2a]
-	bl sub_27EA744
+	bl WSetChannel
 _027F4AC8:
 	mov r0, r4
 	ldrh r1, [sp, #0x2e]
-	bl sub_27EC538
+	bl CAM_SetSupRate
 	ldrh r0, [r8, #0xc]
 	cmp r0, #2
 	bne _027F4B58
@@ -24803,22 +24773,22 @@ _027F4AC8:
 	cmp r9, #0
 	beq _027F4B40
 	add r0, r9, #6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r11, r0
 	add r0, r9, #7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	add r0, r11, r0, lsl #8
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #1
-	bl sub_27EB0D0
+	bl WSetActiveZoneTime
 	ldr r0, [sp, #0x40]
 	add r0, r0, #8
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r9, r0
 	ldr r0, [sp, #0x40]
 	add r0, r0, #9
-	bl sub_27E94A4
+	bl WL_ReadByte
 	add r1, r9, r0, lsl #8
 	ldr r0, _027F4F9C // =0x0380FFF0
 	strh r1, [r0]
@@ -24826,21 +24796,21 @@ _027F4AC8:
 _027F4B40:
 	ldr r0, _027F4FA0 // =0x0000FFFF
 	mov r1, #1
-	bl sub_27EB0D0
+	bl WSetActiveZoneTime
 	mov r1, #0
 	ldr r0, _027F4F9C // =0x0380FFF0
 	strh r1, [r0]
 _027F4B58:
 	ldr r0, [sp, #0x3c]
 	add r0, r0, #3
-	bl sub_27E94A4
-	bl sub_27EAB64
+	bl WL_ReadByte
+	bl WSetDTIMPeriod
 	ldr r0, [sp, #0x3c]
 	add r0, r0, #2
-	bl sub_27E94A4
+	bl WL_ReadByte
 	strh r0, [r8, #0x76]
 	ldrh r0, [r10, #0x34]
-	bl sub_27EABB0
+	bl WSetBeaconPeriod
 	mov r0, #1
 	strh r0, [r8, #0x12]
 	strh r0, [r8, #0x1a]
@@ -24857,12 +24827,12 @@ _027F4BB0:
 	ldr r0, [r7, #0x1c]
 	add r0, r0, #8
 	add r1, r10, #0x1e
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	mov r0, #0x25
 	strh r0, [r7]
 	mov r0, #2
 	mov r1, #1
-	bl sub_37F85F8
+	bl AddTask
 _027F4BD4:
 	ldrh r0, [r8, #0xc]
 	cmp r0, #2
@@ -24875,28 +24845,28 @@ _027F4BEC:
 	cmp r9, #0
 	beq _027F4CA8
 	add r0, r9, #6
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r7, r0
 	add r0, r9, #7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	add r0, r7, r0, lsl #8
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, #0
-	bl sub_27EB0D0
+	bl WSetActiveZoneTime
 	ldr r0, [sp, #0x40]
 	add r0, r0, #8
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r7, r0
 	ldr r0, [sp, #0x40]
 	add r0, r0, #9
-	bl sub_27E94A4
+	bl WL_ReadByte
 	add r1, r7, r0, lsl #8
 	ldr r0, _027F4F9C // =0x0380FFF0
 	strh r1, [r0]
 	ldr r0, [sp, #0x40]
 	add r0, r0, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	sub r0, r0, #8
 	strh r0, [r8, #0xa0]
 	ldrh r2, [r8, #0xa0]
@@ -24923,7 +24893,7 @@ _027F4CA8:
 	mov r0, #0
 	strh r0, [r8, #0x80]
 	mov r0, r4
-	bl sub_27EC4E4
+	bl CAM_UpdateLifeTime
 	add r0, r10, #0x2c
 	ldmia r0, {r2, r3}
 	add r0, sp, #0
@@ -25038,7 +25008,7 @@ _027F4E4C:
 	cmp r0, #1
 	bne _027F4F54
 	add r0, r1, #2
-	bl sub_27E94A4
+	bl WL_ReadByte
 	ldrh r1, [r8, #0x76]
 	cmp r1, r0
 	strneh r0, [r8, #0x76]
@@ -25048,7 +25018,7 @@ _027F4E4C:
 	bne _027F4EB0
 	ldr r0, [sp, #0x3c]
 	add r0, r0, #4
-	bl sub_27E94A4
+	bl WL_ReadByte
 	ands r0, r0, #1
 	ldrneh r0, [r8, #0x8e]
 	orrne r0, r0, #1
@@ -25056,12 +25026,12 @@ _027F4E4C:
 _027F4EB0:
 	ldr r0, [sp, #0x3c]
 	add r0, r0, #4
-	bl sub_27E94A4
+	bl WL_ReadByte
 	and r7, r0, #0xfe
 	mov r4, r7, lsl #3
 	ldr r0, [sp, #0x3c]
 	add r0, r0, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	add r0, r7, r0
 	sub r0, r0, #3
 	mov r1, r0, lsl #3
@@ -25074,7 +25044,7 @@ _027F4EB0:
 	ldr r0, [sp, #0x3c]
 	add r0, r0, #5
 	add r0, r0, r4, lsr #3
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r2, #1
 	and r1, r4, #7
 	mov r1, r2, lsl r1
@@ -25083,7 +25053,7 @@ _027F4EB0:
 	ldrh r0, [r8, #0x8e]
 	orr r0, r0, #2
 	strh r0, [r8, #0x8e]
-	bl sub_27F160C
+	bl TxPsPollFrame
 _027F4F28:
 	ldrh r0, [r5, #0x20]
 	cmp r0, #0
@@ -25095,21 +25065,21 @@ _027F4F28:
 	cmp r0, #0
 	bne _027F4F54
 	mov r0, #1
-	bl sub_27EA5C8
+	bl WSetPowerState
 _027F4F54:
 	ldrh r0, [r6, #0x1e]
 	mov r0, r0, lsl #0x19
 	movs r0, r0, lsr #0x1f
 	beq _027F4F6C
 	mov r0, r10
-	bl sub_27ECB1C
+	bl MLME_IssueBeaconRecvIndication
 _027F4F6C:
 	ldr r2, [sp, #0x34]
 	cmp r2, #0
 	beq _027F4F84
 	ldrh r0, [sp, #0x2a]
 	mov r1, r10
-	bl sub_27F5790
+	bl UpdateApList
 _027F4F84:
 	add sp, sp, #0x44
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -25131,10 +25101,10 @@ _027F4FC0: .word 0x048080FA
 _027F4FC4: .word 0x048080FC
 _027F4FC8: .word 0x048080FE
 _027F4FCC: .word 0x04808134
-	arm_func_end sub_27F4910
+	arm_func_end RxBeaconFrame
 
-	arm_func_start sub_27F4FD0
-sub_27F4FD0: // 0x027F4FD0
+	arm_func_start RxMpAckFrame
+RxMpAckFrame: // 0x027F4FD0
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -25148,12 +25118,12 @@ sub_27F4FD0: // 0x027F4FD0
 	bne _027F5098
 	add r0, r4, #0x1e
 	add r1, r5, #0x64
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F5024
 	add r0, r4, #0x24
 	add r1, r5, #0x82
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	bne _027F502C
 _027F5024:
@@ -25185,7 +25155,7 @@ _027F502C:
 	strh r0, [r1, #0x18]
 	ldr r0, [r4]
 	add r0, r0, #0x188
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	mov r0, #0
 _027F5098:
 	add sp, sp, #4
@@ -25196,10 +25166,10 @@ _027F50A4: .word 0x0380FFF4
 _027F50A8: .word 0x00000185
 _027F50AC: .word 0x04808094
 _027F50B0: .word 0x04808098
-	arm_func_end sub_27F4FD0
+	arm_func_end RxMpAckFrame
 
-	arm_func_start sub_27F50B4
-sub_27F50B4: // 0x027F50B4
+	arm_func_start RxKeyDataFrame
+RxKeyDataFrame: // 0x027F50B4
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
@@ -25214,7 +25184,7 @@ sub_27F50B4: // 0x027F50B4
 	beq _027F5264
 	add r0, r7, #0x18
 	add r1, r1, #0x3a8
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F5264
 	ldrh r0, [r7, #0x10]
@@ -25224,30 +25194,30 @@ sub_27F50B4: // 0x027F50B4
 	cmp r1, r0
 	bgt _027F5264
 	add r0, r7, #0x1e
-	bl sub_27EC9BC
+	bl CAM_Search
 	mov r4, r0
 	cmp r4, #0xff
 	beq _027F5138
 	cmp r4, #0
 	beq _027F5174
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	beq _027F5174
 _027F5138:
 	add r0, r7, #0x1e
 	mov r1, #0xc0
-	bl sub_27F0830
+	bl IsExistManFrame
 	cmp r0, #0
 	bne _027F5264
 	add r0, r7, #0x1e
 	mov r1, #7
 	mov r2, #0
-	bl sub_27F094C
+	bl MakeDeAuthFrame
 	cmp r0, #0
 	beq _027F5264
 	mov r1, #2
 	strh r1, [r0]
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	b _027F5264
 _027F5174:
 	cmp r4, #0
@@ -25257,11 +25227,11 @@ _027F5174:
 	ldrh r1, [r7, #0x14]
 	mov r1, r1, lsl #0x13
 	mov r1, r1, lsr #0x1f
-	bl sub_27EC5CC
+	bl CAM_SetPowerMgtMode
 	mov r0, r4
-	bl sub_27EC4E4
+	bl CAM_UpdateLifeTime
 	mov r0, r4
-	bl sub_27EC2CC
+	bl CAM_GetAID
 	mov r1, #1
 	mov r0, r1, lsl r0
 	mov r0, r0, lsl #0x10
@@ -25299,12 +25269,12 @@ _027F520C:
 	ldrh r1, [r7, #0x12]
 	and r1, r1, #0xff
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r0, r4, #2
 	ldrh r1, [r7, #0xe]
 	and r1, r1, #0xff
 	and r1, r1, #0xff
-	bl sub_27E94C4
+	bl WL_WriteByte
 	ldrh r2, [r4]
 	cmp r2, #0
 	beq _027F5264
@@ -25319,10 +25289,10 @@ _027F5264:
 	.align 2, 0
 _027F5270: .word 0x0380FFF4
 _027F5274: .word 0x0000042C
-	arm_func_end sub_27F50B4
+	arm_func_end RxKeyDataFrame
 
-	arm_func_start sub_27F5278
-sub_27F5278: // 0x027F5278
+	arm_func_start RxMpFrame
+RxMpFrame: // 0x027F5278
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, _027F53F4 // =0x0380FFF4
@@ -25336,12 +25306,12 @@ sub_27F5278: // 0x027F5278
 	bne _027F53EC
 	add r0, r6, #0x1e
 	add r1, r5, #0x64
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	beq _027F52CC
 	add r0, r6, #0x24
 	add r1, r5, #0x82
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	bne _027F52D4
 _027F52CC:
@@ -25375,7 +25345,7 @@ _027F52D4:
 	strneh r0, [r4, #6]
 _027F5338:
 	ldrh r0, [r5, #0x88]
-	bl sub_27EC4E4
+	bl CAM_UpdateLifeTime
 	ldrh r0, [r6, #0x10]
 	sub r0, r0, #0x1c
 	strh r0, [r6, #6]
@@ -25419,7 +25389,7 @@ _027F5384:
 	ldr r0, _027F53F4 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x188
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	mov r0, #0
 _027F53EC:
 	ldmia sp!, {r4, r5, r6, lr}
@@ -25431,10 +25401,10 @@ _027F53FC: .word 0x04808098
 _027F5400: .word 0x00007FFF
 _027F5404: .word 0x00000182
 _027F5408: .word 0x04808094
-	arm_func_end sub_27F5278
+	arm_func_end RxMpFrame
 
-	arm_func_start sub_27F540C
-sub_27F540C: // 0x027F540C
+	arm_func_start RxDataFrameTask
+RxDataFrameTask: // 0x027F540C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	ldr r0, _027F5714 // =0x0380FFF4
 	ldr r1, [r0]
@@ -25451,7 +25421,7 @@ sub_27F540C: // 0x027F540C
 	beq _027F5454
 	add r0, r7, #0x48
 	mov r1, r10
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 	b _027F570C
 _027F5454:
 	add r9, r10, #0x10
@@ -25500,41 +25470,41 @@ _027F54F0:
 	ands r0, r0, #1
 	bne _027F5678
 	add r0, r9, #0x1e
-	bl sub_27EC9BC
+	bl CAM_Search
 	mov r5, r0
 	cmp r5, #0xff
 	beq _027F551C
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x40
 	beq _027F5584
 _027F551C:
 	mov r0, r5
-	bl sub_27EC3A4
+	bl CAM_GetStaState
 	cmp r0, #0x30
 	bne _027F5550
 	add r0, r9, #0x1e
 	mov r1, #0xa0
-	bl sub_27F0830
+	bl IsExistManFrame
 	cmp r0, #0
 	bne _027F5678
 	add r0, r9, #0x1e
 	mov r1, #7
-	bl sub_27F106C
+	bl MakeDisAssFrame
 	b _027F5574
 _027F5550:
 	add r0, r9, #0x1e
 	mov r1, #0xc0
-	bl sub_27F0830
+	bl IsExistManFrame
 	cmp r0, #0
 	bne _027F5678
 	add r0, r9, #0x1e
 	mov r1, #7
 	mov r2, #1
-	bl sub_27F094C
+	bl MakeDeAuthFrame
 _027F5574:
 	cmp r0, #0
 	beq _027F5678
-	bl sub_27F171C
+	bl TxManCtrlFrame
 	b _027F5678
 _027F5584:
 	mov r0, r5, lsl #0x10
@@ -25542,9 +25512,9 @@ _027F5584:
 	ldrh r1, [r9, #0x14]
 	mov r1, r1, lsl #0x13
 	mov r1, r1, lsr #0x1f
-	bl sub_27EC5CC
+	bl CAM_SetPowerMgtMode
 	mov r0, r5
-	bl sub_27EC310
+	bl CAM_GetLastSeqCtrl
 	ldrh r1, [r9, #0x2a]
 	cmp r1, r0
 	ldreq r0, [r6, #0x3c]
@@ -25553,7 +25523,7 @@ _027F5584:
 	beq _027F5678
 	add r0, r9, #0x18
 	add r1, r9, #0x24
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	mov r4, #0
 	b _027F5678
 _027F55D0:
@@ -25586,11 +25556,11 @@ _027F5618:
 	cmp r0, #0
 	bne _027F5644
 	mov r0, #1
-	bl sub_27EA5C8
+	bl WSetPowerState
 _027F5644:
 	ldrh r5, [r8, #0x88]
 	mov r0, r5
-	bl sub_27EC310
+	bl CAM_GetLastSeqCtrl
 	ldrh r1, [r9, #0x2a]
 	cmp r1, r0
 	ldreq r0, [r6, #0x3c]
@@ -25599,7 +25569,7 @@ _027F5644:
 	beq _027F5678
 	add r0, r9, #0x1e
 	add r1, r9, #0x24
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	mov r4, #0
 _027F5678:
 	cmp r4, #0
@@ -25611,12 +25581,12 @@ _027F5678:
 	and r1, r1, #0xff
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_27EC630
+	bl CAM_SetRSSI
 	mov r0, r5
 	ldrh r1, [r9, #0x2a]
-	bl sub_27EC520
+	bl CAM_SetLastSeqCtrl
 	mov r0, r5
-	bl sub_27EC4E4
+	bl CAM_UpdateLifeTime
 	ldrh r0, [r9, #0x10]
 	sub r0, r0, #0x18
 	strh r0, [r9, #6]
@@ -25628,29 +25598,29 @@ _027F5678:
 	strh r0, [r10, #0xe]
 	add r0, r7, #0x48
 	mov r1, r10
-	bl sub_37F8E64
+	bl SendMessageToWmDirect
 	b _027F56F4
 _027F56E8:
 	add r0, r7, #0x48
 	mov r1, r10
-	bl sub_37F89B8
+	bl ReleaseHeapBuf
 _027F56F4:
 	ldrh r0, [r7, #0x50]
 	cmp r0, #0
 	beq _027F570C
 	mov r0, #2
 	mov r1, #6
-	bl sub_37F85F8
+	bl AddTask
 _027F570C:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
 _027F5714: .word 0x0380FFF4
 _027F5718: .word 0x0000053C
-	arm_func_end sub_27F540C
+	arm_func_end RxDataFrameTask
 
-	arm_func_start sub_27F571C
-sub_27F571C: // 0x027F571C
+	arm_func_start UpdateApListTask
+UpdateApListTask: // 0x027F571C
 	ldr r0, _027F5768 // =0x0380FFF4
 	ldr r0, [r0]
 	add ip, r0, #0x23c
@@ -25674,10 +25644,10 @@ _027F5758:
 	bx lr
 	.align 2, 0
 _027F5768: .word 0x0380FFF4
-	arm_func_end sub_27F571C
+	arm_func_end UpdateApListTask
 
-	arm_func_start sub_27F576C
-sub_27F576C: // 0x027F576C
+	arm_func_start InitApList
+InitApList: // 0x027F576C
 	mov r0, #0
 	ldr r1, _027F5788 // =0x0380FFF4
 	ldr r1, [r1]
@@ -25688,10 +25658,10 @@ sub_27F576C: // 0x027F576C
 	.align 2, 0
 _027F5788: .word 0x0380FFF4
 _027F578C: .word MIi_CpuClear16
-	arm_func_end sub_27F576C
+	arm_func_end InitApList
 
-	arm_func_start sub_27F5790
-sub_27F5790: // 0x027F5790
+	arm_func_start UpdateApList
+UpdateApList: // 0x027F5790
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r11, r0
@@ -25701,7 +25671,7 @@ sub_27F5790: // 0x027F5790
 	ldr r0, [r0]
 	add r8, r0, #0x23c
 	add r0, r9, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	cmp r0, #0x20
 	bhi _027F58D4
 	mov r6, #4
@@ -25717,7 +25687,7 @@ _027F57DC:
 	beq _027F5810
 	add r0, r8, #6
 	ldr r1, [sp]
-	bl sub_27E9DF0
+	bl MatchMacAdrs
 	cmp r0, #0
 	bne _027F583C
 	ldrh r0, [r8, #0x30]
@@ -25757,9 +25727,9 @@ _027F583C:
 	strh r11, [r6, #2]
 	add r0, r6, #6
 	add r1, r10, #0x24
-	bl sub_27EA1BC
+	bl WSetMacAdrs1
 	add r0, r9, #1
-	bl sub_27E94A4
+	bl WL_ReadByte
 	strh r0, [r6, #0xc]
 	mov r7, #0
 	add r5, r9, #2
@@ -25767,10 +25737,10 @@ _027F583C:
 	b _027F58B8
 _027F58A0:
 	add r0, r5, r7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	mov r1, r0
 	add r0, r4, r7
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r7, r7, #1
 _027F58B8:
 	ldrh r0, [r6, #0xc]
@@ -25786,17 +25756,17 @@ _027F58D4:
 	bx lr
 	.align 2, 0
 _027F58E0: .word 0x0380FFF4
-	arm_func_end sub_27F5790
+	arm_func_end UpdateApList
 
-	arm_func_start sub_27F58E4
-sub_27F58E4: // 0x027F58E4
+	arm_func_start FLASH_MakeImage
+FLASH_MakeImage: // 0x027F58E4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _027F59D0 // =0x0380FFF4
 	ldr r0, [r0]
 	ldr r0, [r0, #0x314]
 	bl SPI_Lock
-	bl sub_27F5A88
+	bl FLASH_Wait
 	mov r0, #0
 	str r0, [sp]
 	mov r0, #0x2c
@@ -25822,7 +25792,7 @@ _027F5948:
 	ldr r0, _027F59D0 // =0x0380FFF4
 	ldr r0, [r0]
 	add r0, r0, #0x188
-	bl sub_37F8910
+	bl AllocateHeapBuf
 	ldr r2, _027F59D0 // =0x0380FFF4
 	ldr r1, [r2]
 	str r0, [r1, #0x318]
@@ -25836,7 +25806,7 @@ _027F5948:
 	ldr r0, [r2]
 	ldr r0, [r0, #0x314]
 	bl SPI_Lock
-	bl sub_27F5A88
+	bl FLASH_Wait
 	mov r0, #0x2a
 	ldr r1, [sp]
 	ldr r2, _027F59D0 // =0x0380FFF4
@@ -25855,10 +25825,10 @@ _027F59C4:
 	.align 2, 0
 _027F59D0: .word 0x0380FFF4
 _027F59D4: .word 0x000001D6
-	arm_func_end sub_27F58E4
+	arm_func_end FLASH_MakeImage
 
-	arm_func_start sub_27F59D8
-sub_27F59D8: // 0x027F59D8
+	arm_func_start FLASH_DirectRead
+FLASH_DirectRead: // 0x027F59D8
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -25867,7 +25837,7 @@ sub_27F59D8: // 0x027F59D8
 	ldr r0, [r0]
 	ldr r0, [r0, #0x314]
 	bl SPI_Lock
-	bl sub_27F5A88
+	bl FLASH_Wait
 	mov r0, r6
 	mov r1, r5
 	mov r2, r4
@@ -25880,10 +25850,10 @@ sub_27F59D8: // 0x027F59D8
 	bx lr
 	.align 2, 0
 _027F5A24: .word 0x0380FFF4
-	arm_func_end sub_27F59D8
+	arm_func_end FLASH_DirectRead
 
-	arm_func_start sub_27F5A28
-sub_27F5A28: // 0x027F5A28
+	arm_func_start FLASH_Read
+FLASH_Read: // 0x027F5A28
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r1
 	mov r5, r2
@@ -25897,11 +25867,11 @@ sub_27F5A28: // 0x027F5A28
 	b _027F5A74
 _027F5A54:
 	mov r0, r4
-	bl sub_27E94A4
+	bl WL_ReadByte
 	add r4, r4, #1
 	mov r1, r0
 	mov r0, r5
-	bl sub_27E94C4
+	bl WL_WriteByte
 	add r5, r5, #1
 	sub r6, r6, #1
 _027F5A74:
@@ -25912,10 +25882,10 @@ _027F5A7C:
 	bx lr
 	.align 2, 0
 _027F5A84: .word 0x0380FFF4
-	arm_func_end sub_27F5A28
+	arm_func_end FLASH_Read
 
-	arm_func_start sub_27F5A88
-sub_27F5A88: // 0x027F5A88
+	arm_func_start FLASH_Wait
+FLASH_Wait: // 0x027F5A88
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	add r4, sp, #0
@@ -25934,10 +25904,10 @@ _027F5AB0:
 	add sp, sp, #8
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_27F5A88
+	arm_func_end FLASH_Wait
 
-	arm_func_start sub_27F5AC8
-sub_27F5AC8: // 0x027F5AC8
+	arm_func_start FLASH_VerifyCheckSum
+FLASH_VerifyCheckSum: // 0x027F5AC8
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -25959,12 +25929,12 @@ _027F5B00:
 	b _027F5B30
 _027F5B0C:
 	mov r0, r7
-	bl sub_27E94A4
+	bl WL_ReadByte
 	add r7, r7, #1
 	and r0, r0, #0xff
 	mov r1, r4, lsl #0x10
 	mov r1, r1, lsr #0x10
-	bl sub_27E93B0
+	bl calc_NextCRC
 	mov r4, r0
 	sub r6, r6, #1
 _027F5B30:
@@ -25987,73 +25957,139 @@ _027F5B60:
 	.align 2, 0
 _027F5B6C: .word 0x0380FFF4
 _027F5B70: .word 0x000001D6
-	arm_func_end sub_27F5AC8
+	arm_func_end FLASH_VerifyCheckSum
 
 	.rodata
 
-_027F7D5C:
-    .word sub_27E2E30, sub_27E2F18, sub_27E3360, sub_27E8104
-	.word sub_27E8164, sub_27E83F4, sub_27E849C, sub_27E3434
-	.word sub_27E3520, sub_27E37E0, sub_27E3FA8, sub_27E4380
-	.word sub_27E4490, sub_27E51DC, sub_27E5234, sub_27E54F8
-	.word sub_27E567C, sub_27E579C, sub_27E5828, sub_27E595C
-	.word sub_27E5B1C, sub_27E2048, sub_27E2048, sub_27E2048
-	.word sub_27E5BD0, sub_27E5D00, sub_27E5D60, sub_27E5D8C
-	.word sub_27E68EC, sub_27E5DF4, sub_27E5F50, sub_27E6140
-	.word sub_27E61CC, sub_27E7E64, sub_27E7EF8, sub_27E8858
-	.word sub_27E88F0, sub_27E8950, sub_27E3A70, sub_27E5A38
-	.word sub_27E8964, sub_27E8AE8, sub_27E8B14, sub_27E68B0
-	.word sub_27E6880, sub_27E6844
+.public WmspRequestFuncTable
+WmspRequestFuncTable: // 0x027F7D5C
+	.word WMSP_Initialize
+	.word WMSP_Reset
+	.word WMSP_End
+	.word WMSP_Enable
+	.word WMSP_Disable
+	.word WMSP_PowerOn
+	.word WMSP_PowerOff
+	.word WMSP_SetParentParam
+	.word WMSP_StartParent
+	.word WMSP_EndParent
+	.word WMSP_StartScan
+	.word WMSP_EndScan
+	.word WMSP_StartConnectEx
+	.word WMSP_Disconnect
+	.word WMSP_StartMP
+	.word WMSP_SetMPData
+	.word WMSP_EndMP
+	.word WMSP_StartDCF
+	.word WMSP_SetDCFData
+	.word WMSP_EndDCF
+	.word WMSP_SetWEPKey
+	.word WmspRequestFuncDummy
+	.word WmspRequestFuncDummy
+	.word WmspRequestFuncDummy
+	.word WMSP_SetGameInfo
+	.word WMSP_SetBeaconTxRxInd
+	.word WMSP_StartTestMode
+	.word WMSP_StopTestMode
+	.word WMSP_VAlarmSetMPData
+	.word WMSP_SetLifeTime
+	.word WMSP_MeasureChannel
+	.word WMSP_InitWirelessCounter
+	.word WMSP_GetWirelessCounter
+	.word WMSP_SetEntry
+	.word WMSP_AutoDeAuth
+	.word WMSP_SetMPParameter
+	.word WMSP_SetBeaconPeriod
+	.word WMSP_AutoDisconnect
+	.word WMSP_StartScanEx
+	.word WMSP_SetWEPKeyEx
+	.word WMSP_SetPowerSaveMode
+	.word WMSP_StartTestRxMode
+	.word WMSP_StopTestRxMode
+	.word WMSP_KickNextMP_Parent
+	.word WMSP_KickNextMP_Child
+	.word WMSP_KickNextMP_Resume
 
-_027F7E14:
-    .word sub_27ED83C, sub_27ED730, sub_27ED608, sub_27ED500
-	.word sub_27ED400, sub_27ED134, sub_27F540C, sub_27F3098
-	.word sub_37FAAB4, sub_27F2E80, sub_27EBF40, sub_37F8B4C
-	.word sub_37F8730, sub_27ED0E4, sub_37FAB08, sub_37FAD10
-	.word sub_37FB0E8, sub_27F2978, sub_27F571C, sub_27ECA80
-	.word sub_37FB1D4, sub_27E90B8, sub_27E9014, sub_27E8FC0
+.public pTaskFunc
+pTaskFunc: // 0x027F7E14
+	.word MLME_ScanTask
+	.word MLME_JoinTask
+	.word MLME_AuthTask
+	.word MLME_AssTask
+	.word MLME_ReAssTask
+	.word MLME_MeasChannelTask
+	.word RxDataFrameTask
+	.word RxManCtrlTask
+	.word WlIntrTxBeaconTask
+	.word DefragTask
+	.word CAM_TimerTask
+	.word RequestCmdTask
+	.word LowestIdleTask
+	.word MLME_BeaconLostTask
+	.word WlIntrTxEndTask
+	.word WlIntrRxEndTask
+	.word WlIntrMpEndTask
+	.word DefragTimerTask
+	.word UpdateApListTask
+	.word SendMessageToWmTask
+	.word SetParentTbttTxqTask
+	.word SendFatalErrMsgTask
+	.word TerminateWlTask
+	.word ReleaseWlTask
 
-_027F7E74:
+.public c_RateSet_3853
+c_RateSet_3853: // 0x027F7E74
     .hword 3, 3
 
-_027F7E78:
+.public BC_ADRS
+BC_ADRS: // 0x027F7E78
     .byte 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0
 
-_027F7E80:
+.public MPKEY_ADRS
+MPKEY_ADRS: // 0x027F7E80
     .byte 3, 9, 0xBF, 0, 0, 0x10, 0, 0
 
-_027F7E88:
+.public NULL_ADRS
+NULL_ADRS: // 0x027F7E88
     .byte 0, 0, 0, 0, 0, 0, 0, 0
 
-_027F7E90:
+.public MP_ADRS
+MP_ADRS: // 0x027F7E90
     .byte 3, 9, 0xBF, 0, 0, 0, 0, 0
 
-_027F7E98:
+.public RateBit2Element
+RateBit2Element: // 0x027F7E98
     .hword 2, 4, 0xB, 0xC, 0x12, 0x16, 0x18, 0x24, 0x30, 0x48, 0x60, 0x6C, 0, 0, 0, 0
 
-_027F7EB8:
+.public def_SsidMask
+def_SsidMask: // 0x027F7EB8
     .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
-_027F7ED8:
+.public crc16_table
+crc16_table: // 0x027F7ED8
     .hword 0, 0xCC01, 0xD801, 0x1400, 0xF001, 0x3C00, 0x2800, 0xE401, 0xA001, 0x6C00, 0x7800, 0xB401, 0x5000, 0x9C01, 0x8801, 0x4400
 
-_027F7EF8:
+.public macTxRxRegAdrs
+macTxRxRegAdrs: // 0x027F7EF8
     .hword 0x146, 0x148, 0x14A, 0x14C, 0x120, 0x122, 0x154, 0x144, 0x132, 0x132, 0x140, 0x142, 0x38, 0x124, 0x128, 0x150
 
-_027F7F18:
+.public def_WepKey
+def_WepKey: // 0x027F7F18
     .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
-_027F7F68:
+.public macInitRegs
+macInitRegs: // 0x027F7F68
     .word 4, 8, 0xA, 0x12, 0xFFFF0010, 0x254, 0xFFFF00B4, 0x80
 	.word 0x1008E, 0x88, 0x2A, 0x28, 0xE8, 0xEA, 0x100EE, 0x3F0300EC
 	.word 0x101A2, 0x1A0, 0x8000110, 0x100BC, 0x300D4, 0x400D8
 	.word 0x60200DA, 0x76, 0x1460130
 
-_027F7FCC:
+.public RateElement2Bit
+RateElement2Bit: // 0x027F7FCC
     .word 0xFF, 0x100FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0x30002
 	.word 0xFF00FF, 0xFF00FF, 0x400FF, 0xFF00FF, 0x500FF, 0x600FF
 	.word 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0x700FF
@@ -26065,18 +26101,22 @@ _027F7FCC:
 	.word 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xB00FF
 	.word 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF, 0xFF00FF
 
-_027F80BC:
+.public test_pattern
+test_pattern: // 0x027F80BC
     .byte 0xFF, 0xFF, 0x5A, 0x5A, 0xA5, 0xA5, 0, 0
 
-_027F80C4:
+.public BBPDiagSkipAdrsES1
+BBPDiagSkipAdrsES1: // 0x027F80C4
     .hword 2, 4, 5, 6, 7, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x26, 0x29, 0x2C, 0x2D, 0x2E, 0x2F, 0x30, 0x33, 0x34
 	.hword 0x35, 0x36, 0x37, 0x65, 0, 0
 
-_027F80F8:
+.public BBPDiagSkipAdrsRelease
+BBPDiagSkipAdrsRelease: // 0x027F80F8
     .hword 0, 9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF, 0x10, 0x11, 0x12, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x27, 0x4D
 	.hword 0x5D, 0x5E, 0x5F, 0x60, 0x61, 0x64, 0x66, 0
 
-_027F8130:
+.public test_reg
+test_reg: // 0x027F8130
     .hword 6, 0x3F, 0x18, 0xFFFF, 0x1A, 0xFFFF, 0x1C, 0xFFFF
 	.hword 0x20, 0xFFFF, 0x22, 0xFFFF, 0x24, 0xFFFF, 0x2A, 0x7FF
 	.hword 0x50, 0xFFFF, 0x52, 0xFFFF, 0x56, 0xFFE, 0x58, 0x1FFE
@@ -26085,98 +26125,207 @@ _027F8130:
 	.hword 0x124, 0xFFFF, 0x128, 0xFFFF, 0x130, 0xFFF, 0x132
 	.hword 0x8FFF, 0x134, 0xFFFF, 0x140, 0xFFFF, 0x142, 0xFFFF
 
-_027F819C:
-    .hword 0x18, 2, 0x3B4, 0x27F, 4
+.public WlibCmdTbl_MA
+WlibCmdTbl_MA: // 0x027F819C
+	.word 0x20018, MA_DataReqCmd
+	.word 0x10004, MA_KeyDataReqCmd
+	.word 0x1000A, MA_MpReqCmd
+	.word 0x1000C, MA_TestDataReqCmd
+	.word 0x10001, MA_ClrDataReqCmd
 
-_027F81A6:
-    .hword 1
+.public WlibCmdTbl_PARAMGET2
+WlibCmdTbl_PARAMGET2: // 0x027F81C4
+	.word 0x40000, PARAMGET_BSSIDReqCmd
+	.word 0x120000, PARAMGET_SSIDReqCmd
+	.word 0x20000, PARAMGET_BeaconPeriodReqCmd
+	.word 0x20000, PARAMGET_DTIMPeriodReqCmd
+	.word 0x20000, PARAMGET_ListenIntervalReqCmd
+	.word 0x10000, PARAMGET_GameInfoReqCmd
 
-_027F81A8:
-    .word sub_27F0210, 0x1000A, sub_27EFD18, 0x1000C, sub_27EFCB4, 0x10001, sub_27EFC68
+.public WlibCmdTbl_PARAMSET2
+WlibCmdTbl_PARAMSET2: // 0x027F81F4
+	.word 0x10003, PARAMSET_BSSIDReqCmd
+	.word 0x10011, PARAMSET_SSIDReqCmd
+	.word 0x10001, PARAMSET_BeaconPeriodReqCmd
+	.word 0x10001, PARAMSET_DTIMPeriodReqCmd
+	.word 0x10001, PARAMSET_ListenIntervalReqCmd
+	.word 0x10000, PARAMSET_GameInfoReqCmd
 
-_027F81C4:
-    .hword 0, 4, 0xE75C, 0x27E, 0
+.public WlibCmdTbl_MLME
+WlibCmdTbl_MLME: // 0x027F8224
+	.word 0x10001, MLME_ResetReqCmd
+	.word 0x10003, MLME_PwrMgtReqCmd
+	.word 0x23001F, MLME_ScanReqCmd
+	.word 0x50022, MLME_JoinReqCmd
+	.word 0x60005, MLME_AuthReqCmd
+	.word 0x40004, MLME_DeAuthReqCmd
+	.word 0x30005, MLME_AssReqCmd
+	.word 0x30005, MLME_ReAssReqCmd
+	.word 0x10004, MLME_DisAssReqCmd
+	.word 0x10017, MLME_StartReqCmd
+	.word 0x12000C, MLME_MeasChanReqCmd
 
-_027F81CE:
-    .hword 0x12
+.public WlibCmdTbl_DEV
+WlibCmdTbl_DEV: // 0x027F827C
+	.word 0x10000, CMD_ReservedReqCmd
+	.word 0x10000, DEV_ShutdownReqCmd
+	.word 0x10000, DEV_IdleReqCmd
+	.word 0x10000, DEV_Class1ReqCmd
+	.word 0x10000, DEV_RebootReqCmd
+	.word 0x10000, DEV_ClearWlInfoReqCmd
+	.word 0x90000, DEV_GetVerInfoReqCmd
+	.word 0x5C0000, DEV_GetWlInfoReqCmd
+	.word 0x20000, DEV_GetStateReqCmd
+	.word 0x10004, DEV_TestSignalReqCmd
+	.word 0x10002, DEV_TestRxReqCmd
 
-_027F81D0:
-    .word sub_27EE710, 0x20000, sub_27EE6E8, 0x20000, sub_27EE6C0, 0x20000, sub_27EE698, 0x10000, sub_27EE5B4
+.public WlibCmdTbl_PARAMGET
+WlibCmdTbl_PARAMGET: // 0x027F82D4
+	.word 0x210000, PARAMGET_AllReqCmd
+	.word 0x40000, PARAMGET_MacAdrsReqCmd
+	.word 0x20000, PARAMGET_RetryReqCmd
+	.word 0x30000, PARAMGET_EnableChannelReqCmd
+	.word 0x20000, PARAMGET_ModeReqCmd
+	.word 0x20000, PARAMGET_RateReqCmd
+	.word 0x20000, PARAMGET_WepModeReqCmd
+	.word 0x20000, PARAMGET_WepKeyIdReqCmd
+	.word 0x10000, CMD_ReservedReqCmd
+	.word 0x20000, PARAMGET_BeaconTypeReqCmd
+	.word 0x20000, PARAMGET_ResBcSsidReqCmd
+	.word 0x20000, PARAMGET_BeaconLostThReqCmd
+	.word 0x20000, PARAMGET_ActiveZoneReqCmd
+	.word 0x110000, PARAMGET_SSIDMaskReqCmd
+	.word 0x20000, PARAMGET_PreambleTypeReqCmd
+	.word 0x20000, PARAMGET_AuthAlgoReqCmd
+	.word 0x40000, PARAMGET_CCAModeEDThReqCmd
+	.word 0x10000, CMD_ReservedReqCmd
+	.word 0x20000, PARAMGET_MaxConnReqCmd
+	.word 0x20000, PARAMGET_MainAntennaReqCmd
+	.word 0x30000, PARAMGET_DiversityReqCmd
+	.word 0x20000, PARAMGET_BcnSendRecvIndReqCmd
+	.word 0x20000, PARAMGET_NullKeyModeReqCmd
 
-_027F81F4:
-    .hword 3, 1, 0xEE2C, 0x27E, 0x11
+.public WlibCmdTbl_PARAMSET
+WlibCmdTbl_PARAMSET: // 0x027F838C
+	.word 0x10048, PARAMSET_AllReqCmd
+	.word 0x10003, PARAMSET_MacAdrsReqCmd
+	.word 0x10001, PARAMSET_RetryReqCmd
+	.word 0x10001, PARAMSET_EnableChannelReqCmd
+	.word 0x10001, PARAMSET_ModeReqCmd
+	.word 0x10001, PARAMSET_RateReqCmd
+	.word 0x10001, PARAMSET_WepModeReqCmd
+	.word 0x10001, PARAMSET_WepKeyIdReqCmd
+	.word 0x10028, PARAMSET_WepKeyReqCmd
+	.word 0x10001, PARAMSET_BeaconTypeReqCmd
+	.word 0x10001, PARAMSET_ResBcSsidReqCmd
+	.word 0x10001, PARAMSET_BeaconLostThReqCmd
+	.word 0x10001, PARAMSET_ActiveZoneReqCmd
+	.word 0x10010, PARAMSET_SSIDMaskReqCmd
+	.word 0x10001, PARAMSET_PreambleTypeReqCmd
+	.word 0x10001, PARAMSET_AuthAlgoReqCmd
+	.word 0x10003, PARAMSET_CCAModeEDThReqCmd
+	.word 0x10003, PARAMSET_LifeTimeReqCmd
+	.word 0x10001, PARAMSET_MaxConnReqCmd
+	.word 0x10001, PARAMSET_MainAntennaReqCmd
+	.word 0x10002, PARAMSET_DiversityReqCmd
+	.word 0x10001, PARAMSET_BcnSendRecvIndReqCmd
+	.word 0x10001, PARAMSET_NullKeyModeReqCmd
 
-_027F81FE:
-    .hword 1
-
-_027F8200:
-    .word sub_27EEE0C, 0x10001, sub_27EEDC8, 0x10001, sub_27EED84, 0x10001, sub_27EED38, 0x10000, sub_27EECC8
-
-_027F8224:
-    .hword 1, 1, 0xE574, 0x27E, 3
-
-_027F822E:
-    .hword 1
-
-_027F8230:
-    .word sub_27EE4C8, 0x23001F, sub_27EE37C, 0x50022, sub_27EE1BC
-	.word 0x60005, sub_27EE0E0, 0x40004, sub_27EDF94, 0x30005
-	.word sub_27EDEAC, 0x30005, sub_27EDDDC, 0x10004, sub_27EDCC4
-	.word 0x10017, sub_27EDB20, 0x12000C, sub_27EDA38
-
-_027F827C:
-    .hword 0, 1, 0xCAE8, 0x27E, 0
-
-_027F8286:
-    .hword 1
-
-_027F8288:
-    .word sub_27EFBE4, 0x10000, sub_27EFB80, 0x10000, sub_27EFB20
-	.word 0x10000, sub_27EFADC, 0x10000, sub_27EFA98, 0x90000
-	.word sub_27EF9EC, 0x5C0000, sub_27EF98C, 0x20000, sub_27EF964
-	.word 0x10004, sub_27EF6F0, 0x10002, sub_27EF450
-
-_027F82D4:
-    .hword 0, 0x21, 0xEB90, 0x27E, 0
-
-_027F82DE:
-    .hword 4
-
-_027F82E0:
-    .word sub_27EEB58, 0x20000, sub_27EEB30, 0x30000, sub_27EEAF8
-	.word 0x20000, sub_27EEAD0, 0x20000, sub_27EEAA8, 0x20000
-	.word sub_27EEA80, 0x20000, sub_27EEA58, 0x10000, sub_27ECAE8
-	.word 0x20000, sub_27EEA28, 0x20000, sub_27EE9F8, 0x20000
-	.word sub_27EE9D0, 0x20000, sub_27EE9A8, 0x110000, sub_27EE96C
-	.word 0x20000, sub_27EE93C, 0x20000, sub_27EE914, 0x40000
-	.word sub_27EE8D4, 0x10000, sub_27ECAE8, 0x20000, sub_27EE8A8
-	.word 0x20000, sub_27EE86C, 0x30000, sub_27EE80C, 0x20000
-	.word sub_27EE7D0, 0x20000, sub_27EE794
-
-_027F838C:
-    .byte 0x48, 0, 1, 0, 0x5C, 0xF3, 0x7E, 2, 3, 0
-
-_027F8396:
-    .hword 1
-
-_027F8398:
-    .word sub_27EF314, 0x10001, sub_27EF2FC, 0x10001, sub_27EF2B4
-	.word 0x10001, sub_27EF258, 0x10001, sub_27EF240, 0x10001
-	.word sub_27EF228, 0x10001, sub_27EF210, 0x10028, sub_27EF1F8
-	.word 0x10001, sub_27EF1B0, 0x10001, sub_27EF198, 0x10001
-	.word sub_27EF180, 0x10001, sub_27EF164, 0x10010, sub_27EF14C
-	.word 0x10001, sub_27EF134, 0x10001, sub_27EF11C, 0x10003
-	.word sub_27EF0C8, 0x10003, sub_27EEFBC, 0x10001, sub_27EEF64
-	.word 0x10001, sub_27EEF1C, 0x10002, sub_27EEED4, 0x10001
-	.word sub_27EEE8C, 0x10001, sub_27EEE44
-
-a27800: // 0x027F8444
+.public wlVersion_3529
+wlVersion_3529: // 0x027F8444
 	.asciz "2.78.00"
 
-_027F844C:
+.public Pri2QBit
+Pri2QBit: // 0x027F844C
     .hword 1, 4, 8, 0
 
 	.bss
 
-_027F8454:
-	.space 0x1968
+.public _027F8454
+_027F8454: // 0x027F8454
+	.space 0x20
+         
+.public byte_27F8474
+byte_27F8474: // 0x027F8474
+	.space 8
+           
+.public byte_27F847C
+byte_27F847C: // 0x027F847C
+	.space 0x20
+        
+.public byte_27F849C
+byte_27F849C: // 0x027F849C
+	.space 0x10
+       
+.public byte_27F84AC
+byte_27F84AC: // 0x027F84AC
+	.space 0x20
+          
+.public byte_27F84CC
+byte_27F84CC: // 0x027F84CC
+	.space 0x10
+        
+.public byte_27F84DC
+byte_27F84DC: // 0x027F84DC
+	.space 0xF58
+     
+.public byte_27F9434
+byte_27F9434: // 0x027F9434
+	.space 0x128
+
+.public byte_27F955C
+byte_27F955C: // 0x027F955C
+	.space 0x400
+
+.public byte_27F995C
+byte_27F995C: // 0x027F995C
+	.space 0x2C
+
+.public byte_27F9988
+byte_27F9988: // 0x027F9988
+	.space 0x3C
+        
+.public dword_27F99C4
+dword_27F99C4: // 0x027F99C4
+	.space 4
+
+.public dword_27F99C8
+dword_27F99C8: // 0x027F99C8
+	.space 4
+           
+.public dword_27F99CC
+dword_27F99CC: // 0x027F99CC
+	.space 4
+           
+.public dword_27F99D0
+dword_27F99D0: // 0x027F99D0
+	.space 4
+           
+.public dword_27F99D4
+dword_27F99D4: // 0x027F99D4
+	.space 4
+           
+.public dword_27F99D8
+dword_27F99D8: // 0x027F99D8
+	.space 4
+           
+.public dword_27F99DC
+dword_27F99DC: // 0x027F99DC
+	.space 4
+          
+.public dword_27F99E0
+dword_27F99E0: // 0x027F99E0
+	.space 4
+           
+.public nvramw
+nvramw: // 0x027F99E4
+	.space 0x20
+       
+.public rtcInitialized
+rtcInitialized: // 0x027F9A04
+	.space 4
+          
+.public rtcWork
+rtcWork: // 0x027F9A08
+	.space 0x3B4
+       

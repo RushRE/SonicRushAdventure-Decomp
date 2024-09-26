@@ -338,10 +338,7 @@ OSi_ExitThread: // 0x037FC5B0
 	str r1, [r3, #0x98]
 	mov lr, pc
 	bx r2
-	arm_func_end OSi_ExitThread
-
-	arm_func_start sub_37FC5E0
-sub_37FC5E0: // 0x037FC5E0
+_37FC5E0: // 0x037FC5E0
 	bl OS_DisableInterrupts
 _037FC5E4:
 	bl OSi_ExitThread_Destroy
@@ -350,7 +347,7 @@ _037FC5E4:
 	bx lr
 	.align 2, 0
 _037FC5F4: .word 0x0380842C
-	arm_func_end sub_37FC5E0
+	arm_func_end OSi_ExitThread
 
 	arm_func_start OSi_ExitThread_ArgSpecified
 OSi_ExitThread_ArgSpecified: // 0x037FC5F8

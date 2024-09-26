@@ -54,7 +54,7 @@ _03804BF8:
 	bl TP_ExecSampling
 	add r0, sp, #8
 	ldrh r1, [sp, #4]
-	bl TP_Func_3804DA8
+	bl TP_AutoAdjustRange
 	ldrh r1, [sp, #8]
 	ldr r0, _03804D90 // =0x027FFFAA
 	strh r1, [r0]
@@ -90,7 +90,7 @@ _03804C88:
 	ldr r8, _03804D98 // =0x00000107
 	ldr r6, _03804D9C // =0x0380AB20
 	mov r5, #0xa
-	ldr r4, _03804DA0 // =SPI_Func_3804AFC
+	ldr r4, _03804DA0 // =TpVAlarmHandler
 	b _03804CF0
 _03804CB0:
 	mul r0, r9, r8
@@ -159,12 +159,12 @@ _03804D90: .word 0x027FFFAA
 _03804D94: .word 0x027FFFAC
 _03804D98: .word 0x00000107
 _03804D9C: .word 0x0380AB20
-_03804DA0: .word SPI_Func_3804AFC
+_03804DA0: .word TpVAlarmHandler
 _03804DA4: .word 0x54505641
 	arm_func_end TP_ExecuteProcess
 
-	arm_func_start TP_Func_3804DA8
-TP_Func_3804DA8: // 0x03804DA8
+	arm_func_start TP_AutoAdjustRange
+TP_AutoAdjustRange: // 0x03804DA8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, [r0]
@@ -230,7 +230,7 @@ _03804E84:
 _03804E90: .word 0x0380AAF0
 _03804E94: .word 0x0380AAEC
 _03804E98: .word 0x0380AAF4
-	arm_func_end TP_Func_3804DA8
+	arm_func_end TP_AutoAdjustRange
 
 	arm_func_start TP_AnalyzeCommand
 TP_AnalyzeCommand: // 0x03804E9C
@@ -271,7 +271,7 @@ _03804F14:
 	and r0, r1, #0xff
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl SPI_Func_3804AB4
+	bl SetStability
 	b _03805048
 _03804F28:
 	mov r0, #0
@@ -453,7 +453,7 @@ TP_ExecSampling: // 0x0380516C
 	mov r0, #0
 	strh r0, [r5]
 	rsbmi r6, r6, #0
-	bl TP_Func_38055B4
+	bl TPi_DetectTouch
 	movs r4, r0
 	bne _038051E8
 	ldr r1, [r7]
@@ -481,7 +481,7 @@ _038051E8:
 	mov r1, r6
 	mov r2, #0
 	add r3, sp, #2
-	bl TP_Func_38053BC
+	bl TPi_DetectPos
 	ldr r1, [r7]
 	bic r1, r1, #0x6000000
 	and r0, r0, #3
@@ -500,7 +500,7 @@ _038051E8:
 	mov r1, r6
 	mov r2, #1
 	add r3, sp, #4
-	bl TP_Func_38053BC
+	bl TPi_DetectPos
 	cmp r0, #2
 	bne _03805270
 	ldr r0, [r7]
@@ -550,7 +550,7 @@ _038052DC:
 	biceq r0, r0, #0x6000000
 	orreq r0, r0, #0x6000000
 	streq r0, [r7]
-	bl TP_Func_38055B4
+	bl TPi_DetectTouch
 	cmp r0, #0
 	beq _03805374
 	cmp r0, #1
@@ -605,8 +605,8 @@ _038053B4: .word 0x040001C2
 _038053B8: .word 0x00008201
 	arm_func_end TP_ExecSampling
 
-	arm_func_start TP_Func_38053BC
-TP_Func_38053BC: // 0x038053BC
+	arm_func_start TPi_DetectPos
+TPi_DetectPos: // 0x038053BC
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x18
 	cmp r2, #0
@@ -752,10 +752,10 @@ _038055A4: .word 0x00008A01
 _038055A8: .word 0x040001C2
 _038055AC: .word 0x00007FF8
 _038055B0: .word 0x00008201
-	arm_func_end TP_Func_38053BC
+	arm_func_end TPi_DetectPos
 
-	arm_func_start TP_Func_38055B4
-TP_Func_38055B4: // 0x038055B4
+	arm_func_start TPi_DetectTouch
+TPi_DetectTouch: // 0x038055B4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #0x8000
@@ -853,4 +853,4 @@ _03805700: .word 0x040001C2
 _03805704: .word 0x00008201
 _03805708: .word 0x0380ABC8
 _0380570C: .word 0x04000136
-	arm_func_end TP_Func_38055B4
+	arm_func_end TPi_DetectTouch

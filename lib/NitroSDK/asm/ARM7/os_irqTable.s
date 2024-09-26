@@ -109,7 +109,7 @@ OSi_IrqCallback: // 0x037FBC24
 	sub sp, sp, #4
 	mov r3, #1
 	mov r2, r0, lsl #1
-	ldr r1, _037FBCA4 // =_0380827C
+	ldr r1, _037FBCA4 // =OSi_IrqCallbackInfoIndex
 	ldrh r1, [r1, r2]
 	mov r5, r3, lsl r1
 	mov r1, #0xc
@@ -140,7 +140,7 @@ _037FBC98:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_037FBCA4: .word _0380827C
+_037FBCA4: .word OSi_IrqCallbackInfoIndex
 _037FBCA8: .word 0x038083AC
 _037FBCAC: .word 0x038083B4
 _037FBCB0: .word 0x0380FFF8
@@ -154,7 +154,8 @@ OS_IrqDummy: // 0x037FBCB8
 
 	.rodata
 
-_0380827C:
+.public OSi_IrqCallbackInfoIndex
+OSi_IrqCallbackInfoIndex:
 	.hword 8, 9, 0xA, 0xB, 3, 4, 5, 6, 0, 0
 
 .public OS_IRQTable

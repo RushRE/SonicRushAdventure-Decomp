@@ -411,8 +411,8 @@ _03804AAC: .word 0x0380A658
 _03804AB0: .word SPI_ThreadHandler
 	arm_func_end SPI_Init
 
-	arm_func_start SPI_Func_3804AB4
-SPI_Func_3804AB4: // 0x03804AB4
+	arm_func_start SetStability
+SetStability: // 0x03804AB4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	cmp r0, #0
@@ -434,10 +434,10 @@ _03804AEC:
 	bx lr
 	.align 2, 0
 _03804AF8: .word 0x0380AAF4
-	arm_func_end SPI_Func_3804AB4
+	arm_func_end SetStability
 
-	arm_func_start SPI_Func_3804AFC
-SPI_Func_3804AFC: // 0x03804AFC
+	arm_func_start TpVAlarmHandler
+TpVAlarmHandler: // 0x03804AFC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -470,4 +470,4 @@ _03804B60:
 	.align 2, 0
 _03804B6C: .word 0x027FFFAA
 _03804B70: .word 0x027FFFAC
-	arm_func_end SPI_Func_3804AFC
+	arm_func_end TpVAlarmHandler

@@ -3,8 +3,8 @@
 
 	.text
 
-	arm_func_start WVR_Func_3806168
-WVR_Func_3806168: // 0x03806168
+	arm_func_start WvrBegin
+WvrBegin: // 0x03806168
 	stmdb sp!, {lr}
 	sub sp, sp, #0x54
 	ldr r1, _03806200 // =0x0380B47C
@@ -39,7 +39,7 @@ WVR_Func_3806168: // 0x03806168
 	str r0, [sp, #0x40]
 	add r0, sp, #0
 	add r1, sp, #0x34
-	bl sub_27E0718
+	bl WM_sp_init
 	add sp, sp, #0x54
 	ldmia sp!, {lr}
 	bx lr
@@ -47,7 +47,7 @@ WVR_Func_3806168: // 0x03806168
 _03806200: .word 0x0380B47C
 _03806204: .word 0x0380B47C
 _03806208: .word 0x0380ACBC
-	arm_func_end WVR_Func_3806168
+	arm_func_end WvrBegin
 
 	arm_func_start WVR_Shutdown
 WVR_Shutdown: // 0x0380620C
@@ -81,7 +81,7 @@ WVR_Init: // 0x03806244
 	mov r2, #0xa4
 	bl MI_CpuFill8
 	mov r0, r4
-	bl WVR_Func_3806168
+	bl WvrBegin
 	mov r1, #3
 	ldr r0, _03806294 // =0x0380AC0C
 	strb r1, [r0]

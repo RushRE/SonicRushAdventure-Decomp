@@ -280,15 +280,15 @@ PMi_SendPxiCommand: // 0x03805AA8
 	and r0, r1, #0x3f0000
 	orr r0, r2, r0, lsl #16
 	orr r0, r3, r0
-	ldr ip, _03805AD0 // =sub_3805AD4
+	ldr ip, _03805AD0 // =PMi_SendPxiData
 	bx ip
 	.align 2, 0
 _03805ACC: .word 0x0000FFFF
-_03805AD0: .word sub_3805AD4
+_03805AD0: .word PMi_SendPxiData
 	arm_func_end PMi_SendPxiCommand
 
-	arm_func_start sub_3805AD4
-sub_3805AD4: // 0x03805AD4
+	arm_func_start PMi_SendPxiData
+PMi_SendPxiData: // 0x03805AD4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, #8
@@ -302,7 +302,7 @@ _03805AE4:
 	bne _03805AE4
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
-	arm_func_end sub_3805AD4
+	arm_func_end PMi_SendPxiData
 
 	arm_func_start PMi_ResetControl
 PMi_ResetControl: // 0x03805B04
@@ -341,9 +341,9 @@ _03805B60:
 	ldrh r0, [r1]
 	ands r0, r0, #0x80
 	bne _03805B60
-	bl PM_Func_3805C5C
+	bl PMi_ChangeSpiModeTP
 	mov r0, #1
-	bl PM_Func_3805C74
+	bl PMi_ChangeSpiMode
 	orr r0, r4, #0x80
 	and r0, r0, #0xff
 	and r1, r0, #0xff
@@ -355,7 +355,7 @@ _03805B90:
 	ands r0, r0, #0x80
 	bne _03805B90
 	mov r0, #0
-	bl PM_Func_3805C74
+	bl PMi_ChangeSpiMode
 	mov r1, #0
 	ldr r0, _03805BE4 // =0x040001C2
 	strh r1, [r0]
@@ -388,9 +388,9 @@ _03805BFC:
 	ldrh r0, [r1]
 	ands r0, r0, #0x80
 	bne _03805BFC
-	bl PM_Func_3805C5C
+	bl PMi_ChangeSpiModeTP
 	mov r0, #1
-	bl PM_Func_3805C74
+	bl PMi_ChangeSpiMode
 	and r0, r5, #0xff
 	and r1, r0, #0xff
 	ldr r0, _03805C58 // =0x040001C2
@@ -401,7 +401,7 @@ _03805C28:
 	ands r0, r0, #0x80
 	bne _03805C28
 	mov r0, #0
-	bl PM_Func_3805C74
+	bl PMi_ChangeSpiMode
 	and r1, r4, #0xff
 	ldr r0, _03805C58 // =0x040001C2
 	strh r1, [r0]
@@ -413,8 +413,8 @@ _03805C54: .word 0x040001C0
 _03805C58: .word 0x040001C2
 	arm_func_end PMi_SetRegister
 
-	arm_func_start PM_Func_3805C5C
-PM_Func_3805C5C: // 0x03805C5C
+	arm_func_start PMi_ChangeSpiModeTP
+PMi_ChangeSpiModeTP: // 0x03805C5C
 	ldr r1, _03805C6C // =0x00008202
 	ldr r0, _03805C70 // =0x040001C0
 	strh r1, [r0]
@@ -422,10 +422,10 @@ PM_Func_3805C5C: // 0x03805C5C
 	.align 2, 0
 _03805C6C: .word 0x00008202
 _03805C70: .word 0x040001C0
-	arm_func_end PM_Func_3805C5C
+	arm_func_end PMi_ChangeSpiModeTP
 
-	arm_func_start PM_Func_3805C74
-PM_Func_3805C74: // 0x03805C74
+	arm_func_start PMi_ChangeSpiMode
+PMi_ChangeSpiMode: // 0x03805C74
 	ldr r1, _03805C88 // =0x00008002
 	orr r1, r1, r0, lsl #11
 	ldr r0, _03805C8C // =0x040001C0
@@ -434,7 +434,7 @@ PM_Func_3805C74: // 0x03805C74
 	.align 2, 0
 _03805C88: .word 0x00008002
 _03805C8C: .word 0x040001C0
-	arm_func_end PM_Func_3805C74
+	arm_func_end PMi_ChangeSpiMode
 
 	arm_func_start PMi_SetLED
 PMi_SetLED: // 0x03805C90
@@ -464,12 +464,12 @@ _03805CCC:
 _03805CE0:
 	bl OS_Terminate
 _03805CE4:
-	ldr r0, _03805CF4 // =_03808308
+	ldr r0, _03805CF4 // =PMi_LEDStatus
 	str r4, [r0]
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_03805CF4: .word _03808308
+_03805CF4: .word PMi_LEDStatus
 	arm_func_end PMi_SetLED
 
 	arm_func_start PMi_SwitchUtilityProc
@@ -650,7 +650,7 @@ _03805F38:
 	ldrh r0, [r1]
 	mov r0, #1
 	strh r0, [r1]
-	bl PM_Func_3806000
+	bl _Ven__SVC_Sleep
 	mov r0, #0
 	mov r1, r7
 	bl PMi_SetRegister
@@ -697,13 +697,13 @@ _03805FF8: .word 0x04000134
 _03805FFC: .word 0x0380ABD8
 	arm_func_end PMi_DoSleep
 
-	arm_func_start PM_Func_3806000
-PM_Func_3806000: // 0x03806000
+	arm_func_start _Ven__SVC_Sleep
+_Ven__SVC_Sleep: // 0x03806000
 	ldr ip, _03806008 // =SVC_Stop
 	bx ip
 	.align 2, 0
 _03806008: .word SVC_Stop
-	arm_func_end PM_Func_3806000
+	arm_func_end _Ven__SVC_Sleep
 
 	arm_func_start PM_GetLEDPattern
 PM_GetLEDPattern: // 0x0380600C
@@ -748,7 +748,7 @@ PM_SelfBlinkProc: // 0x03806040
 _0380607C:
 	cmp r3, #4
 	bge _038060A8
-	ldr r0, _0380615C // =_03808308
+	ldr r0, _0380615C // =PMi_LEDStatus
 	ldr r0, [r0]
 	cmp r3, r0
 	beq _03806150
@@ -758,7 +758,7 @@ _0380607C:
 	bl SPIi_SetEntry
 	b _03806150
 _038060A8:
-	ldr r6, _03806160 // =_0380830C
+	ldr r6, _03806160 // =PMi_BlinkPatternData
 	sub r1, r3, #4
 	mov r0, #0xc
 	mul r5, r1, r0
@@ -792,7 +792,7 @@ _038060A8:
 	cmp ip, r1
 	movhs r1, #0
 	strhs r1, [r0]
-	ldr r0, _0380615C // =_03808308
+	ldr r0, _0380615C // =PMi_LEDStatus
 	ldr r0, [r0]
 	cmp r3, r0
 	beq _03806150
@@ -805,17 +805,19 @@ _03806150:
 	bx lr
 	.align 2, 0
 _03806158: .word 0x0380AC08
-_0380615C: .word _03808308
-_03806160: .word _0380830C
+_0380615C: .word PMi_LEDStatus
+_03806160: .word PMi_BlinkPatternData
 _03806164: .word 0x0380AC04
 	arm_func_end PM_SelfBlinkProc
 
 	.rodata
 
-_03808308:
+.public PMi_LEDStatus
+PMi_LEDStatus:
 	.word 1
 	
-_0380830C:
+.public PMi_BlinkPatternData
+PMi_BlinkPatternData:
 	.byte 0, 0, 0, 0, 0, 0, 0, 0xAA, 8, 0, 1, 0, 0, 0, 0, 0
 	.byte 0, 0, 0, 0xCC, 8, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0x80
 	.byte 0xE3, 0xC, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0xF0, 0xF0, 0x10

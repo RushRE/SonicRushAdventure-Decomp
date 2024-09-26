@@ -14,9 +14,8 @@ Static arm7
 Autoload WRAM
 {
 	Address 0x037F8000
-	Object lib/NitroSDK/asm/ARM7/arm7_unk_37F8000.o
+	Object lib/NitroSDK/asm/ARM7/crt0_ARM7.o
 	Object lib/NitroSDK/asm/ARM7/main.o
-	Object lib/NitroSDK/asm/ARM7/arm7_unk_37F8538.o
 	Object lib/NitroSDK/asm/ARM7/os_irqHandler.o
 	Object lib/NitroSDK/asm/ARM7/os_irqTable.o
 	Object lib/NitroSDK/asm/ARM7/os_interrupt.o
@@ -59,8 +58,7 @@ Autoload WRAM
 	# Object lib/NitroSDK/asm/ARM7/CARD_common.o
 	# Object lib/NitroSDK/asm/ARM7/CARD_spi.o
 	# Object lib/NitroSDK/asm/ARM7/CARD_rom.o
-	# Object lib/NitroSDK/asm/ARM7/CARD_thread.o
-	# Object lib/NitroSDK/asm/ARM7/CARD_fifo.o
+	# Object lib/NitroSDK/asm/ARM7/CARD_command.o
 	# Object lib/NitroSDK/asm/ARM7/CARD_pullOut.o
 	Object lib/NitroSDK/asm/ARM7/libsyscall.o
 	Object lib/NitroSDK/src/math/math.o
