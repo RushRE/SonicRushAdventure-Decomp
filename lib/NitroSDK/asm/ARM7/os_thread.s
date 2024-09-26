@@ -14,7 +14,7 @@ OS_EnableScheduler: // 0x037FC1E8
 	stmdb sp!, {r4, lr}
 	bl OS_DisableInterrupts
 	mov r4, #0
-	ldr r1, _037FC21C // =0x03808420
+	ldr r1, _037FC21C // =OSi_RescheduleCount
 	ldr r3, [r1]
 	cmp r3, #0
 	subne r2, r3, #1
@@ -25,14 +25,14 @@ OS_EnableScheduler: // 0x037FC1E8
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_037FC21C: .word 0x03808420
+_037FC21C: .word OSi_RescheduleCount
 	arm_func_end OS_EnableScheduler
 
 	arm_func_start OS_DisableScheduler
 OS_DisableScheduler: // 0x037FC220
 	stmdb sp!, {r4, lr}
 	bl OS_DisableInterrupts
-	ldr r2, _037FC254 // =0x03808420
+	ldr r2, _037FC254 // =OSi_RescheduleCount
 	ldr r3, [r2]
 	mvn r1, #0
 	cmp r3, r1
@@ -44,7 +44,7 @@ OS_DisableScheduler: // 0x037FC220
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_037FC254: .word 0x03808420
+_037FC254: .word OSi_RescheduleCount
 	arm_func_end OS_DisableScheduler
 
 	arm_func_start OS_SetSwitchThreadCallback
@@ -53,7 +53,7 @@ OS_SetSwitchThreadCallback: // 0x037FC258
 	sub sp, sp, #4
 	mov r5, r0
 	bl OS_DisableInterrupts
-	ldr r1, _037FC288 // =0x03808434
+	ldr r1, _037FC288 // =OSi_ThreadInfo
 	ldr r4, [r1, #0xc]
 	str r5, [r1, #0xc]
 	bl OS_RestoreInterrupts
@@ -62,7 +62,7 @@ OS_SetSwitchThreadCallback: // 0x037FC258
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_037FC288: .word 0x03808434
+_037FC288: .word OSi_ThreadInfo
 	arm_func_end OS_SetSwitchThreadCallback
 
 	arm_func_start OSi_SleepAlarmCallback
@@ -85,7 +85,7 @@ OS_Sleep: // 0x037FC2AC
 	mov r5, r0
 	add r0, sp, #8
 	bl OS_CreateAlarm
-	ldr r0, _037FC344 // =0x0380842C
+	ldr r0, _037FC344 // =OSi_CurrentThreadPtr
 	ldr r0, [r0]
 	ldr r0, [r0]
 	str r0, [sp, #4]
@@ -121,7 +121,7 @@ _037FC324:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_037FC344: .word 0x0380842C
+_037FC344: .word OSi_CurrentThreadPtr
 _037FC348: .word 0x000082EA
 _037FC34C: .word OSi_SleepAlarmCallback
 	arm_func_end OS_Sleep
@@ -131,7 +131,7 @@ OS_YieldThread: // 0x037FC350
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r6, r0
 	mov r5, r1
-	ldr r0, _037FC3F8 // =0x03808434
+	ldr r0, _037FC3F8 // =OSi_ThreadInfo
 	ldr r8, [r0, #8]
 	mov r7, #0
 	bl OS_DisableInterrupts
@@ -148,7 +148,7 @@ _037FC37C:
 _037FC38C:
 	cmp r8, #0
 	beq _037FC3A0
-	ldr r0, _037FC3FC // =0x03808444
+	ldr r0, _037FC3FC // =OSi_IdleThread
 	cmp r8, r0
 	bne _037FC3B0
 _037FC3A0:
@@ -162,7 +162,7 @@ _037FC3B0:
 	beq _037FC3E4
 	cmp r7, #0
 	ldreq r1, [r6, #0x4c]
-	ldreq r0, _037FC3F8 // =0x03808434
+	ldreq r0, _037FC3F8 // =OSi_ThreadInfo
 	streq r1, [r0, #8]
 	ldrne r0, [r6, #0x4c]
 	strne r0, [r7, #0x4c]
@@ -178,8 +178,8 @@ _037FC3F0:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_037FC3F8: .word 0x03808434
-_037FC3FC: .word 0x03808444
+_037FC3F8: .word OSi_ThreadInfo
+_037FC3FC: .word OSi_IdleThread
 	arm_func_end OS_YieldThread
 
 	arm_func_start OS_RescheduleThread
@@ -196,7 +196,7 @@ OS_RescheduleThread: // 0x037FC400
 
 	arm_func_start OS_SelectThread
 OS_SelectThread: // 0x037FC420
-	ldr r0, _037FC448 // =0x03808434
+	ldr r0, _037FC448 // =OSi_ThreadInfo
 	ldr r0, [r0, #8]
 	b _037FC430
 _037FC42C:
@@ -209,7 +209,7 @@ _037FC430:
 	bne _037FC42C
 	bx lr
 	.align 2, 0
-_037FC448: .word 0x03808434
+_037FC448: .word OSi_ThreadInfo
 	arm_func_end OS_SelectThread
 
 	arm_func_start OS_WakeupThreadDirect
@@ -273,7 +273,7 @@ OS_SleepThread: // 0x037FC4FC
 	mov r6, r0
 	bl OS_DisableInterrupts
 	mov r5, r0
-	ldr r0, _037FC54C // =0x0380842C
+	ldr r0, _037FC54C // =OSi_CurrentThreadPtr
 	ldr r0, [r0]
 	ldr r4, [r0]
 	cmp r6, #0
@@ -291,13 +291,13 @@ _037FC530:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
-_037FC54C: .word 0x0380842C
+_037FC54C: .word OSi_CurrentThreadPtr
 	arm_func_end OS_SleepThread
 
 	arm_func_start OSi_ExitThread_Destroy
 OSi_ExitThread_Destroy: // 0x037FC550
 	stmdb sp!, {r4, lr}
-	ldr r0, _037FC5AC // =0x0380842C
+	ldr r0, _037FC5AC // =OSi_CurrentThreadPtr
 	ldr r0, [r0]
 	ldr r4, [r0]
 	bl OS_DisableScheduler
@@ -321,14 +321,14 @@ _037FC580:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_037FC5AC: .word 0x0380842C
+_037FC5AC: .word OSi_CurrentThreadPtr
 	arm_func_end OSi_ExitThread_Destroy
 
 	arm_func_start OSi_ExitThread
 OSi_ExitThread: // 0x037FC5B0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r1, _037FC5F4 // =0x0380842C
+	ldr r1, _037FC5F4 // =OSi_CurrentThreadPtr
 	ldr r1, [r1]
 	ldr r3, [r1]
 	ldr r2, [r3, #0x98]
@@ -346,7 +346,7 @@ _037FC5E4:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FC5F4: .word 0x0380842C
+_037FC5F4: .word OSi_CurrentThreadPtr
 	arm_func_end OSi_ExitThread
 
 	arm_func_start OSi_ExitThread_ArgSpecified
@@ -355,7 +355,7 @@ OSi_ExitThread_ArgSpecified: // 0x037FC5F8
 	sub sp, sp, #4
 	mov r5, r0
 	mov r4, r1
-	ldr r1, _037FC658 // =0x0380841C
+	ldr r1, _037FC658 // =OSi_StackForDestructor
 	ldr r2, [r1]
 	cmp r2, #0
 	beq _037FC644
@@ -378,7 +378,7 @@ _037FC64C:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_037FC658: .word 0x0380841C
+_037FC658: .word OSi_StackForDestructor
 _037FC65C: .word OSi_ExitThread
 	arm_func_end OSi_ExitThread_ArgSpecified
 
@@ -387,7 +387,7 @@ OS_ExitThread: // 0x037FC660
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	bl OS_DisableInterrupts
-	ldr r0, _037FC688 // =0x03808434
+	ldr r0, _037FC688 // =OSi_ThreadInfo
 	ldr r0, [r0, #4]
 	mov r1, #0
 	bl OSi_ExitThread_ArgSpecified
@@ -395,7 +395,7 @@ OS_ExitThread: // 0x037FC660
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FC688: .word 0x03808434
+_037FC688: .word OSi_ThreadInfo
 	arm_func_end OS_ExitThread
 
 	arm_func_start OS_CreateThread
@@ -475,29 +475,29 @@ _037FC798: .word OS_ExitThread
 OS_InitThread: // 0x037FC79C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, _037FC874 // =0x03808430
+	ldr r0, _037FC874 // =OSi_IsThreadInitialized
 	ldr r1, [r0]
 	cmp r1, #0
 	bne _037FC868
 	mov r2, #1
 	str r2, [r0]
 	ldr r1, _037FC878 // =0x03808438
-	ldr r0, _037FC87C // =0x0380842C
+	ldr r0, _037FC87C // =OSi_CurrentThreadPtr
 	str r1, [r0]
 	mov r0, #0x10
-	ldr r1, _037FC880 // =0x038084E8
+	ldr r1, _037FC880 // =OSi_LauncherThread
 	str r0, [r1, #0x54]
 	mov r0, #0
 	str r0, [r1, #0x50]
 	str r2, [r1, #0x48]
 	str r0, [r1, #0x4c]
 	str r0, [r1, #0x58]
-	ldr r0, _037FC884 // =0x03808434
+	ldr r0, _037FC884 // =OSi_ThreadInfo
 	str r1, [r0, #8]
 	str r1, [r0, #4]
 	ldr r2, _037FC888 // =0x00000400
 	cmp r2, #0
-	ldrle r0, _037FC88C // =0x037F8000
+	ldrle r0, _037FC88C // =VBlankIntr
 	suble r2, r0, r2
 	ldrgt r1, _037FC890 // =0x00000400
 	ldrgt r0, _037FC894 // =0x0380FF80
@@ -506,7 +506,7 @@ OS_InitThread: // 0x037FC79C
 	ldr r1, _037FC890 // =0x00000400
 	ldr r0, _037FC894 // =0x0380FF80
 	sub r3, r0, r1
-	ldr r1, _037FC880 // =0x038084E8
+	ldr r1, _037FC880 // =OSi_LauncherThread
 	str r3, [r1, #0x78]
 	str r2, [r1, #0x74]
 	mov r0, #0
@@ -518,7 +518,7 @@ OS_InitThread: // 0x037FC79C
 	str r3, [r2]
 	str r0, [r1, #0x84]
 	str r0, [r1, #0x80]
-	ldr r1, _037FC884 // =0x03808434
+	ldr r1, _037FC884 // =OSi_ThreadInfo
 	strh r0, [r1]
 	strh r0, [r1, #2]
 	ldr r2, _037FC8A0 // =0x027FFFA4
@@ -529,13 +529,13 @@ _037FC868:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FC874: .word 0x03808430
+_037FC874: .word OSi_IsThreadInitialized
 _037FC878: .word 0x03808438
-_037FC87C: .word 0x0380842C
-_037FC880: .word 0x038084E8
-_037FC884: .word 0x03808434
+_037FC87C: .word OSi_CurrentThreadPtr
+_037FC880: .word OSi_LauncherThread
+_037FC884: .word OSi_ThreadInfo
 _037FC888: .word 0x00000400
-_037FC88C: .word 0x037F8000
+_037FC88C: .word VBlankIntr
 _037FC890: .word 0x00000400
 _037FC894: .word 0x0380FF80
 _037FC898: .word 0xD73BFDF7
@@ -546,11 +546,11 @@ _037FC8A0: .word 0x027FFFA4
 	arm_func_start OSi_RescheduleThread
 OSi_RescheduleThread: // 0x037FC8A4
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r0, _037FC974 // =0x03808420
+	ldr r0, _037FC974 // =OSi_RescheduleCount
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _037FC96C
-	ldr r4, _037FC978 // =0x03808434
+	ldr r4, _037FC978 // =OSi_ThreadInfo
 	ldrh r0, [r4, #2]
 	cmp r0, #0
 	bne _037FC8D4
@@ -562,7 +562,7 @@ _037FC8D4:
 	strh r0, [r4]
 	b _037FC96C
 _037FC8E0:
-	ldr r0, _037FC97C // =0x0380842C
+	ldr r0, _037FC97C // =OSi_CurrentThreadPtr
 	ldr r0, [r0]
 	ldr r6, [r0]
 	bl OS_SelectThread
@@ -579,7 +579,7 @@ _037FC8E0:
 	cmp r0, #0
 	bne _037FC96C
 _037FC920:
-	ldr r0, _037FC980 // =0x03808428
+	ldr r0, _037FC980 // =OSi_SystemCallbackInSwitchThread
 	ldr r2, [r0]
 	cmp r2, #0
 	beq _037FC940
@@ -596,7 +596,7 @@ _037FC940:
 	mov lr, pc
 	bx r2
 _037FC95C:
-	ldr r0, _037FC978 // =0x03808434
+	ldr r0, _037FC978 // =OSi_ThreadInfo
 	str r5, [r0, #4]
 	mov r0, r5
 	bl OS_LoadContext
@@ -604,15 +604,15 @@ _037FC96C:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
-_037FC974: .word 0x03808420
-_037FC978: .word 0x03808434
-_037FC97C: .word 0x0380842C
-_037FC980: .word 0x03808428
+_037FC974: .word OSi_RescheduleCount
+_037FC978: .word OSi_ThreadInfo
+_037FC97C: .word OSi_CurrentThreadPtr
+_037FC980: .word OSi_SystemCallbackInSwitchThread
 	arm_func_end OSi_RescheduleThread
 
 	arm_func_start OSi_RemoveThreadFromList
 OSi_RemoveThreadFromList: // 0x037FC984
-	ldr r1, _037FC9C8 // =0x03808434
+	ldr r1, _037FC9C8 // =OSi_ThreadInfo
 	ldr r2, [r1, #8]
 	mov r1, #0
 	b _037FC99C
@@ -627,20 +627,20 @@ _037FC99C:
 _037FC9AC:
 	cmp r1, #0
 	ldreq r1, [r0, #0x4c]
-	ldreq r0, _037FC9C8 // =0x03808434
+	ldreq r0, _037FC9C8 // =OSi_ThreadInfo
 	streq r1, [r0, #8]
 	ldrne r0, [r0, #0x4c]
 	strne r0, [r1, #0x4c]
 	bx lr
 	.align 2, 0
-_037FC9C8: .word 0x03808434
+_037FC9C8: .word OSi_ThreadInfo
 	arm_func_end OSi_RemoveThreadFromList
 
 	arm_func_start OSi_InsertThreadToList
 OSi_InsertThreadToList: // 0x037FC9CC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r1, _037FCA30 // =0x03808434
+	ldr r1, _037FCA30 // =OSi_ThreadInfo
 	ldr r3, [r1, #8]
 	mov lr, r3
 	mov ip, #0
@@ -658,7 +658,7 @@ _037FC9F0:
 _037FCA08:
 	cmp ip, #0
 	streq r3, [r0, #0x4c]
-	ldreq r1, _037FCA30 // =0x03808434
+	ldreq r1, _037FCA30 // =OSi_ThreadInfo
 	streq r0, [r1, #8]
 	ldrne r1, [ip, #0x4c]
 	strne r1, [r0, #0x4c]
@@ -667,7 +667,7 @@ _037FCA08:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FCA30: .word 0x03808434
+_037FCA30: .word OSi_ThreadInfo
 	arm_func_end OSi_InsertThreadToList
 
 	arm_func_start OSi_RemoveMutexLinkFromQueue
@@ -777,11 +777,11 @@ _037FCB50:
 
 	arm_func_start OSi_GetUnusedThreadId
 OSi_GetUnusedThreadId: // 0x037FCB70
-	ldr r1, _037FCB84 // =0x03808424
+	ldr r1, _037FCB84 // =OSi_ThreadIdCount
 	ldr r0, [r1]
 	add r0, r0, #1
 	str r0, [r1]
 	bx lr
 	.align 2, 0
-_037FCB84: .word 0x03808424
+_037FCB84: .word OSi_ThreadIdCount
 	arm_func_end OSi_GetUnusedThreadId

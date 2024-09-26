@@ -105,7 +105,7 @@ SPIi_SetEntry: // 0x038046A8
 	movhi r0, #0
 	bhi _03804760
 	bl OS_DisableInterrupts
-	ldr r2, _0380476C // =0x0380A650
+	ldr r2, _0380476C // =spiWork
 	ldr r3, [r2, #0x48c]
 	mov r1, #0x18
 	mul ip, r3, r1
@@ -132,7 +132,7 @@ _0380470C:
 _03804728:
 	cmp lr, ip
 	blt _0380470C
-	ldr r1, _0380476C // =0x0380A650
+	ldr r1, _0380476C // =spiWork
 	ldr r4, [r1, #0x48c]
 	add r2, r4, #1
 	and r2, r2, #0xf
@@ -149,7 +149,7 @@ _03804760:
 	add sp, sp, #0x10
 	bx lr
 	.align 2, 0
-_0380476C: .word 0x0380A650
+_0380476C: .word spiWork
 _03804770: .word 0x0380A95C
 _03804774: .word 0x0380A960
 _03804778: .word 0x0380A8FC
@@ -159,7 +159,7 @@ _03804778: .word 0x0380A8FC
 SPIi_ReleaseException: // 0x0380477C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r1, _038047B8 // =0x0380A650
+	ldr r1, _038047B8 // =spiWork
 	ldr r2, [r1, #4]
 	cmp r2, r0
 	bne _038047AC
@@ -174,31 +174,31 @@ _038047AC:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_038047B8: .word 0x0380A650
+_038047B8: .word spiWork
 _038047BC: .word 0x0380AAE0
 	arm_func_end SPIi_ReleaseException
 
 	arm_func_start SPIi_GetException
 SPIi_GetException: // 0x038047C0
 	mov r2, #1
-	ldr r1, _038047D4 // =0x0380A650
+	ldr r1, _038047D4 // =spiWork
 	str r2, [r1]
 	str r0, [r1, #4]
 	bx lr
 	.align 2, 0
-_038047D4: .word 0x0380A650
+_038047D4: .word spiWork
 	arm_func_end SPIi_GetException
 
 	arm_func_start SPIi_CheckException
 SPIi_CheckException: // 0x038047D8
-	ldr r0, _038047F0 // =0x0380A650
+	ldr r0, _038047F0 // =spiWork
 	ldr r0, [r0]
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
 	bx lr
 	.align 2, 0
-_038047F0: .word 0x0380A650
+_038047F0: .word spiWork
 	arm_func_end SPIi_CheckException
 
 	arm_func_start SPIi_ReturnResult
@@ -272,7 +272,7 @@ _038048A8:
 SPI_Unlock: // 0x038048C8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r1, _0380492C // =0x0380A650
+	ldr r1, _0380492C // =spiWork
 	ldr r2, [r1]
 	cmp r2, #0
 	beq _03804920
@@ -284,7 +284,7 @@ SPI_Unlock: // 0x038048C8
 	bne _03804920
 	bl OS_DisableInterrupts
 	mov r2, #5
-	ldr r1, _0380492C // =0x0380A650
+	ldr r1, _0380492C // =spiWork
 	str r2, [r1, #4]
 	mov r2, #0
 	str r2, [r1]
@@ -297,7 +297,7 @@ _03804920:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_0380492C: .word 0x0380A650
+_0380492C: .word spiWork
 _03804930: .word 0x0380AAE0
 	arm_func_end SPI_Unlock
 
@@ -307,7 +307,7 @@ SPI_Lock: // 0x03804934
 	sub sp, sp, #4
 	mov r7, r0
 	ldr r5, _03804990 // =0x0380AAE0
-	ldr r4, _03804994 // =0x0380A650
+	ldr r4, _03804994 // =spiWork
 _03804948:
 	bl OS_DisableInterrupts
 	mov r6, r0
@@ -321,7 +321,7 @@ _03804948:
 _0380496C:
 	mov r0, #4
 	bl SPIi_GetException
-	ldr r0, _03804994 // =0x0380A650
+	ldr r0, _03804994 // =spiWork
 	str r7, [r0, #0x498]
 	mov r0, r6
 	bl OS_RestoreInterrupts
@@ -330,7 +330,7 @@ _0380496C:
 	bx lr
 	.align 2, 0
 _03804990: .word 0x0380AAE0
-_03804994: .word 0x0380A650
+_03804994: .word spiWork
 	arm_func_end SPI_Lock
 
 	arm_func_start SPI_Init
@@ -338,14 +338,14 @@ SPI_Init: // 0x03804998
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #8
 	mov r4, r0
-	ldr r0, _03804A94 // =0x0380A64C
+	ldr r0, _03804A94 // =spiInitialized
 	ldrh r1, [r0]
 	cmp r1, #0
 	bne _03804A88
 	mov r1, #1
 	strh r1, [r0]
 	mov r1, #0
-	ldr r0, _03804A98 // =0x0380A650
+	ldr r0, _03804A98 // =spiWork
 	str r1, [r0]
 	mov r1, #5
 	str r1, [r0, #4]
@@ -383,7 +383,7 @@ _03804A34:
 	cmp r8, #0x10
 	blt _03804A34
 	mov r2, #0
-	ldr r0, _03804A98 // =0x0380A650
+	ldr r0, _03804A98 // =spiWork
 	str r2, [r0, #0x48c]
 	str r2, [r0, #0x494]
 	str r2, [r0, #0x490]
@@ -401,8 +401,8 @@ _03804A88:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_03804A94: .word 0x0380A64C
-_03804A98: .word 0x0380A650
+_03804A94: .word spiInitialized
+_03804A98: .word spiWork
 _03804A9C: .word SPI_OnFifoRecv
 _03804AA0: .word 0x0380A8FC
 _03804AA4: .word 0x0380A91C
@@ -422,7 +422,7 @@ SetStability: // 0x03804AB4
 	bl SPIi_ReturnResult
 	b _03804AEC
 _03804AD4:
-	ldr r1, _03804AF8 // =0x0380AAF4
+	ldr r1, _03804AF8 // =tpw
 	str r0, [r1, #0x24]
 	str r0, [r1, #0x28]
 	mov r0, #3
@@ -433,7 +433,7 @@ _03804AEC:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_03804AF8: .word 0x0380AAF4
+_03804AF8: .word tpw
 	arm_func_end SetStability
 
 	arm_func_start TpVAlarmHandler

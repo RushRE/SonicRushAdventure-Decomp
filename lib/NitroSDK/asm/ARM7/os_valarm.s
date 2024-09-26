@@ -8,23 +8,23 @@ OSi_GetVFrame: // 0x037FDE54
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl OS_DisableInterrupts
-	ldr r1, _037FDE98 // =0x038085D8
+	ldr r1, _037FDE98 // =OSi_PreviousVCount
 	ldr r1, [r1]
 	cmp r4, r1
-	ldrlt r1, _037FDE9C // =0x038085DC
+	ldrlt r1, _037FDE9C // =OSi_VFrameCount
 	ldrlt r2, [r1]
 	addlt r2, r2, #1
 	strlt r2, [r1]
-	ldr r1, _037FDE98 // =0x038085D8
+	ldr r1, _037FDE98 // =OSi_PreviousVCount
 	str r4, [r1]
 	bl OS_RestoreInterrupts
-	ldr r0, _037FDE9C // =0x038085DC
+	ldr r0, _037FDE9C // =OSi_VFrameCount
 	ldr r0, [r0]
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_037FDE98: .word 0x038085D8
-_037FDE9C: .word 0x038085DC
+_037FDE98: .word OSi_PreviousVCount
+_037FDE9C: .word OSi_VFrameCount
 	arm_func_end OSi_GetVFrame
 
 	arm_func_start OSi_CompareVCount
@@ -80,7 +80,7 @@ OSi_VAlarmHandler: // 0x037FDEF0
 	mov r6, #4
 	ldr r5, _037FE064 // =0x04000004
 	mov r4, #0
-	ldr r11, _037FE070 // =0x038085DC
+	ldr r11, _037FE070 // =OSi_VFrameCount
 	b _037FE048
 _037FDF58:
 	ldrh r8, [r9]
@@ -148,7 +148,7 @@ _037FE02C:
 	add r0, r0, #1
 	str r0, [r10, #0xc]
 _037FE048:
-	ldr r0, _037FE074 // =0x038085E0
+	ldr r0, _037FE074 // =OSi_VAlarmQueue
 	ldr r10, [r0]
 	cmp r10, #0
 	bne _037FDF58
@@ -160,8 +160,8 @@ _037FE058:
 _037FE064: .word 0x04000004
 _037FE068: .word 0x0380FFF8
 _037FE06C: .word 0x04000006
-_037FE070: .word 0x038085DC
-_037FE074: .word 0x038085E0
+_037FE070: .word OSi_VFrameCount
+_037FE074: .word OSi_VAlarmQueue
 	arm_func_end OSi_VAlarmHandler
 
 	arm_func_start OS_CancelVAlarms
@@ -175,7 +175,7 @@ OS_CancelVAlarms: // 0x037FE078
 	bne _037FE098
 	bl OS_Terminate
 _037FE098:
-	ldr r0, _037FE0F0 // =0x038085E0
+	ldr r0, _037FE0F0 // =OSi_VAlarmQueue
 	ldr r0, [r0]
 	cmp r0, #0
 	ldrne r6, [r0, #0x18]
@@ -201,7 +201,7 @@ _037FE0D4:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_037FE0F0: .word 0x038085E0
+_037FE0F0: .word OSi_VAlarmQueue
 	arm_func_end OS_CancelVAlarms
 
 	arm_func_start OS_CancelVAlarm
@@ -382,22 +382,22 @@ OSi_DetachVAlarm: // 0x037FE314
 	ldr r1, [r0, #0x18]
 	cmp r1, #0
 	strne r2, [r1, #0x14]
-	ldreq r0, _037FE348 // =0x038085E0
+	ldreq r0, _037FE348 // =OSi_VAlarmQueue
 	streq r2, [r0, #4]
 	cmp r2, #0
 	strne r1, [r2, #0x18]
-	ldreq r0, _037FE348 // =0x038085E0
+	ldreq r0, _037FE348 // =OSi_VAlarmQueue
 	streq r1, [r0]
 	bx lr
 	.align 2, 0
-_037FE348: .word 0x038085E0
+_037FE348: .word OSi_VAlarmQueue
 	arm_func_end OSi_DetachVAlarm
 
 	arm_func_start OSi_AppendVAlarm
 OSi_AppendVAlarm: // 0x037FE34C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r1, _037FE38C // =0x038085E0
+	ldr r1, _037FE38C // =OSi_VAlarmQueue
 	ldr r3, [r1, #4]
 	str r3, [r0, #0x14]
 	mov r2, #0
@@ -413,14 +413,14 @@ _037FE380:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FE38C: .word 0x038085E0
+_037FE38C: .word OSi_VAlarmQueue
 	arm_func_end OSi_AppendVAlarm
 
 	arm_func_start OSi_InsertVAlarm
 OSi_InsertVAlarm: // 0x037FE390
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r1, _037FE414 // =0x038085E0
+	ldr r1, _037FE414 // =OSi_VAlarmQueue
 	ldr r3, [r1]
 	b _037FE3FC
 _037FE3A4:
@@ -442,7 +442,7 @@ _037FE3CC:
 	cmp r1, #0
 	strne r0, [r1, #0x18]
 	bne _037FE408
-	ldr r1, _037FE414 // =0x038085E0
+	ldr r1, _037FE414 // =OSi_VAlarmQueue
 	str r0, [r1]
 	bl OSi_SetNextVAlarm
 	b _037FE408
@@ -457,46 +457,46 @@ _037FE408:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FE414: .word 0x038085E0
+_037FE414: .word OSi_VAlarmQueue
 	arm_func_end OSi_InsertVAlarm
 
 	arm_func_start OS_IsVAlarmAvailable
 OS_IsVAlarmAvailable: // 0x037FE418
-	ldr r0, _037FE424 // =0x038085D4
+	ldr r0, _037FE424 // =OSi_UseVAlarm
 	ldrh r0, [r0]
 	bx lr
 	.align 2, 0
-_037FE424: .word 0x038085D4
+_037FE424: .word OSi_UseVAlarm
 	arm_func_end OS_IsVAlarmAvailable
 
 	arm_func_start OS_InitVAlarm
 OS_InitVAlarm: // 0x037FE428
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, _037FE480 // =0x038085D4
+	ldr r0, _037FE480 // =OSi_UseVAlarm
 	ldrh r1, [r0]
 	cmp r1, #0
 	bne _037FE474
 	mov r1, #1
 	strh r1, [r0]
 	mov r1, #0
-	ldr r0, _037FE484 // =0x038085E0
+	ldr r0, _037FE484 // =OSi_VAlarmQueue
 	str r1, [r0]
 	str r1, [r0, #4]
 	mov r0, #4
 	bl OS_DisableIrqMask
 	mov r1, #0
-	ldr r0, _037FE488 // =0x038085DC
+	ldr r0, _037FE488 // =OSi_VFrameCount
 	str r1, [r0]
-	ldr r0, _037FE48C // =0x038085D8
+	ldr r0, _037FE48C // =OSi_PreviousVCount
 	str r1, [r0]
 _037FE474:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FE480: .word 0x038085D4
-_037FE484: .word 0x038085E0
-_037FE488: .word 0x038085DC
-_037FE48C: .word 0x038085D8
+_037FE480: .word OSi_UseVAlarm
+_037FE484: .word OSi_VAlarmQueue
+_037FE488: .word OSi_VFrameCount
+_037FE48C: .word OSi_PreviousVCount
 	arm_func_end OS_InitVAlarm

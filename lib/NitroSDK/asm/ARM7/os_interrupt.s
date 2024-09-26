@@ -113,7 +113,7 @@ OS_SetIrqFunction: // 0x037FBDE4
 	mov r7, r9
 	ldr lr, _037FBE80 // =OS_IRQTable
 	ldr r4, _037FBE84 // =0x0380840C
-	ldr r6, _037FBE88 // =0x038083AC
+	ldr r6, _037FBE88 // =OSi_IrqCallbackInfo
 	mov ip, r9
 	mov r3, #1
 	mov r2, #0xc
@@ -154,7 +154,7 @@ _037FBE64:
 	.align 2, 0
 _037FBE80: .word OS_IRQTable
 _037FBE84: .word 0x0380840C
-_037FBE88: .word 0x038083AC
+_037FBE88: .word OSi_IrqCallbackInfo
 	arm_func_end OS_SetIrqFunction
 
 	arm_func_start OS_InitIrqTable

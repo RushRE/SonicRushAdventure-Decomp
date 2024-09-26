@@ -258,7 +258,7 @@ NVRAM_AnalyzeCommand: // 0x027F5EB4
 	beq _027F5EE4
 	mov r5, #0
 	mov lr, r5
-	ldr r1, _027F6054 // =0x027F99E4
+	ldr r1, _027F6054 // =nvramw
 _027F5ED0:
 	mov r4, r5, lsl #1
 	strh lr, [r1, r4]
@@ -269,7 +269,7 @@ _027F5EE4:
 	and r1, r0, #0xf0000
 	mov r1, r1, lsr #0x10
 	mov r4, r1, lsl #1
-	ldr r1, _027F6054 // =0x027F99E4
+	ldr r1, _027F6054 // =nvramw
 	strh r0, [r1, r4]
 	ands r0, r0, #0x1000000
 	beq _027F6048
@@ -371,14 +371,14 @@ _027F6048:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_027F6054: .word 0x027F99E4
+_027F6054: .word nvramw
 	arm_func_end NVRAM_AnalyzeCommand
 
 	arm_func_start NVRAM_Init
 NVRAM_Init: // 0x027F6058
 	mov r3, #0
 	mov r2, r3
-	ldr r0, _027F607C // =0x027F99E4
+	ldr r0, _027F607C // =nvramw
 _027F6064:
 	mov r1, r3, lsl #1
 	strh r2, [r0, r1]
@@ -387,7 +387,7 @@ _027F6064:
 	blt _027F6064
 	bx lr
 	.align 2, 0
-_027F607C: .word 0x027F99E4
+_027F607C: .word nvramw
 	arm_func_end NVRAM_Init
 
 	arm_func_start NVRAM_SoftwareReset

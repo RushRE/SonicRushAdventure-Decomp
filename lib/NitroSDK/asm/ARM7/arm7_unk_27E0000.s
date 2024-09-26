@@ -497,7 +497,7 @@ WmspPxiCallback: // 0x027E0630
 	mov r4, r1
 	cmp r2, #0
 	bne _027E0688
-	ldr r0, _027E0690 // =0x027F84DC
+	ldr r0, _027E0690 // =byte_27F84DC
 	mov r2, #0
 	bl OS_SendMessage
 	cmp r0, #0
@@ -519,7 +519,7 @@ _027E0688:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_027E0690: .word 0x027F84DC
+_027E0690: .word byte_27F84DC
 _027E0694: .word 0x027F9454
 	arm_func_end WmspPxiCallback
 
@@ -531,7 +531,7 @@ WMSP_WlRequest: // 0x027E0698
 	ldr r0, _027E0710 // =_027F8454
 	mov r2, #1
 	bl OS_SendMessage
-	ldr r0, _027E0714 // =0x027F84AC
+	ldr r0, _027E0714 // =byte_27F84AC
 	add r1, sp, #0
 	mov r2, #1
 	bl OS_ReceiveMessage
@@ -558,7 +558,7 @@ _027E0700:
 	bx lr
 	.align 2, 0
 _027E0710: .word _027F8454
-_027E0714: .word 0x027F84AC
+_027E0714: .word byte_27F84AC
 	arm_func_end WMSP_WlRequest
 
 	arm_func_start WM_sp_init
@@ -578,24 +578,24 @@ WM_sp_init: // 0x027E0718
 	str r1, [r0, #0x54c]
 	str r1, [r0, #0x550]
 	ldr r0, _027E08A8 // =_027F8454
-	ldr r1, _027E08AC // =0x027F8474
+	ldr r1, _027E08AC // =byte_27F8474
 	mov r2, #2
 	bl OS_InitMessageQueue
-	ldr r0, _027E08B0 // =0x027F847C
-	ldr r1, _027E08B4 // =0x027F849C
+	ldr r0, _027E08B0 // =byte_27F847C
+	ldr r1, _027E08B4 // =byte_27F849C
 	mov r2, #4
 	bl OS_InitMessageQueue
-	ldr r0, _027E08B8 // =0x027F84AC
-	ldr r1, _027E08BC // =0x027F84CC
+	ldr r0, _027E08B8 // =byte_27F84AC
+	ldr r1, _027E08BC // =byte_27F84CC
 	mov r2, #4
 	bl OS_InitMessageQueue
-	ldr r0, _027E08C0 // =0x027F84DC
+	ldr r0, _027E08C0 // =byte_27F84DC
 	ldr r1, _027E08C4 // =0x027F84FC
 	mov r2, #0x20
 	bl OS_InitMessageQueue
 	ldr r0, _027E08A8 // =_027F8454
 	str r0, [r5, #0x10]
-	ldr r0, _027E08B0 // =0x027F847C
+	ldr r0, _027E08B0 // =byte_27F847C
 	str r0, [r5, #0x14]
 	ldr r1, [r4, #8]
 	ldr r0, _027E08A4 // =0x027F9454
@@ -667,12 +667,12 @@ _027E0870:
 	.align 2, 0
 _027E08A4: .word 0x027F9454
 _027E08A8: .word _027F8454
-_027E08AC: .word 0x027F8474
-_027E08B0: .word 0x027F847C
-_027E08B4: .word 0x027F849C
-_027E08B8: .word 0x027F84AC
-_027E08BC: .word 0x027F84CC
-_027E08C0: .word 0x027F84DC
+_027E08AC: .word byte_27F8474
+_027E08B0: .word byte_27F847C
+_027E08B4: .word byte_27F849C
+_027E08B8: .word byte_27F84AC
+_027E08BC: .word byte_27F84CC
+_027E08C0: .word byte_27F84DC
 _027E08C4: .word 0x027F84FC
 _027E08C8: .word 0x027F997C
 _027E08CC: .word 0x0380BCCC
@@ -933,7 +933,7 @@ WmspIndicateMlmeAssociate: // 0x027E0C0C
 	add r1, r4, #4
 	mov r2, #6
 	bl MI_CpuCopy8
-	ldr r0, _027E0D90 // =0x027F84DC
+	ldr r0, _027E0D90 // =byte_27F84DC
 	mov r1, r4
 	mov r2, #0
 	bl OS_SendMessage
@@ -1011,7 +1011,7 @@ _027E0D80:
 	bx lr
 	.align 2, 0
 _027E0D8C: .word 0x027F9454
-_027E0D90: .word 0x027F84DC
+_027E0D90: .word byte_27F84DC
 	arm_func_end WmspIndicateMlmeAssociate
 
 	arm_func_start WmspIndicateMlmeReAssociate
@@ -1110,7 +1110,7 @@ _027E0ED0:
 	mov r0, #1
 	str r0, [r1, #4]
 _027E0ED8:
-	ldr r0, _027E0F30 // =0x027F84DC
+	ldr r0, _027E0F30 // =byte_27F84DC
 	mov r2, #0
 	bl OS_SendMessage
 _027E0EE4:
@@ -1135,7 +1135,7 @@ _027E0F20: .word 0x027F9454
 _027E0F24: .word 0x0380BD70
 _027E0F28: .word 0x00008003
 _027E0F2C: .word 0x00007FFE
-_027E0F30: .word 0x027F84DC
+_027E0F30: .word byte_27F84DC
 	arm_func_end WmspIndicateMaFatalErr
 
 	arm_func_start WmspIndicateMaData
@@ -1445,7 +1445,7 @@ WmspMaMultiPollAckAlarmCallback: // 0x027E1338
 	strh r0, [r4, #0xc]
 	mov r2, #0
 	strh r2, [r4, #0xe]
-	ldr r0, _027E13D4 // =0x027F847C
+	ldr r0, _027E13D4 // =byte_27F847C
 	mov r1, r4
 	bl OS_SendMessage
 	cmp r0, #0
@@ -1473,7 +1473,7 @@ _027E13BC:
 _027E13C8: .word _027F8454
 _027E13CC: .word 0x027F9454
 _027E13D0: .word 0x00000185
-_027E13D4: .word 0x027F847C
+_027E13D4: .word byte_27F847C
 	arm_func_end WmspMaMultiPollAckAlarmCallback
 
 	arm_func_start WmspIndicateMaMultiPoll
@@ -1802,7 +1802,7 @@ WMSP_RequestResumeMP: // 0x027E1838
 	str r0, [r1]
 	ldrh r0, [r4, #0x68]
 	str r0, [r1, #4]
-	ldr r0, _027E18B4 // =0x027F84DC
+	ldr r0, _027E18B4 // =byte_27F84DC
 	mov r2, #0
 	bl OS_SendMessage
 _027E1870:
@@ -1825,7 +1825,7 @@ _027E18A8:
 	bx lr
 	.align 2, 0
 _027E18B0: .word 0x027F9454
-_027E18B4: .word 0x027F84DC
+_027E18B4: .word byte_27F84DC
 	arm_func_end WMSP_RequestResumeMP
 
 	arm_func_start WmspIndicateMaMultiPollEnd
@@ -1964,7 +1964,7 @@ _027E1A24:
 	str r0, [r1, #4]
 	ldr r0, _027E1C10 // =0x00008001
 	str r0, [r1, #8]
-	ldr r0, _027E1C14 // =0x027F84DC
+	ldr r0, _027E1C14 // =byte_27F84DC
 	ldr r2, [sp, #0x14]
 	bl OS_SendMessage
 _027E1ACC:
@@ -2057,7 +2057,7 @@ _027E1BFC:
 _027E1C08: .word 0x027F9454
 _027E1C0C: .word 0x0000FFFF
 _027E1C10: .word 0x00008001
-_027E1C14: .word 0x027F84DC
+_027E1C14: .word byte_27F84DC
 _027E1C18: .word 0x0380BD9C
 _027E1C1C: .word WmspMPParentIntervalAlarmCallback
 	arm_func_end WmspIndicateMaMultiPollEnd
@@ -2127,7 +2127,7 @@ _027E1CC8:
 	str r0, [r1, #4]
 	ldr r0, _027E1DC8 // =0x00008002
 	str r0, [r1, #8]
-	ldr r0, _027E1DCC // =0x027F84DC
+	ldr r0, _027E1DCC // =byte_27F84DC
 	mov r2, #0
 	bl OS_SendMessage
 _027E1D0C:
@@ -2183,7 +2183,7 @@ _027E1DB4:
 _027E1DC0: .word 0x027F9454
 _027E1DC4: .word 0x027FFF98
 _027E1DC8: .word 0x00008002
-_027E1DCC: .word 0x027F84DC
+_027E1DCC: .word byte_27F84DC
 	arm_func_end WmspIndicateMlmeBeaconRecv
 
 	arm_func_start WmspIndicateMlmeBeaconSend
@@ -2407,7 +2407,7 @@ WMSP_RequestThread: // 0x027E204C
 	ldr r0, _027E20F0 // =0x027F9454
 	ldr r10, [r0, #0x550]
 	mov r6, #1
-	ldr r5, _027E20F4 // =0x027F7D5C
+	ldr r5, _027E20F4 // =WmspRequestFuncTable
 	mov r4, #0
 	add r8, r1, #0x88
 	add r7, sp, #0
@@ -2449,7 +2449,7 @@ _027E20E0:
 	.align 2, 0
 _027E20EC: .word _027F8454
 _027E20F0: .word 0x027F9454
-_027E20F4: .word 0x027F7D5C
+_027E20F4: .word WmspRequestFuncTable
 	arm_func_end WMSP_RequestThread
 
 	arm_func_start WMSPi_WL_NoArg
@@ -7406,7 +7406,7 @@ WmspChildVAlarmMP: // 0x027E63A0
 	str r2, [r1, #4]
 	ldr r0, _027E64A0 // =0x00008001
 	str r0, [r1, #8]
-	ldr r0, _027E64A4 // =0x027F84DC
+	ldr r0, _027E64A4 // =byte_27F84DC
 	bl OS_SendMessage
 _027E6458:
 	cmp r0, #0
@@ -7431,7 +7431,7 @@ _027E6490:
 _027E6498: .word 0x027F9454
 _027E649C: .word WmspChildAdjustVSync1
 _027E64A0: .word 0x00008001
-_027E64A4: .word 0x027F84DC
+_027E64A4: .word byte_27F84DC
 	arm_func_end WmspChildVAlarmMP
 
 	arm_func_start WmspChildAdjustVSync2
@@ -10403,7 +10403,7 @@ _027E8DA0:
 	mov lr, #0
 	ldr ip, _027E8E08 // =0x0000FFFF
 	mov r2, lr
-	ldr r1, _027E8E0C // =0x027F7E14
+	ldr r1, _027E8E0C // =pTaskFunc
 _027E8DD0:
 	add r3, r4, lr, lsl #3
 	strh ip, [r3, #0xbc]
@@ -10421,7 +10421,7 @@ _027E8DD0:
 	.align 2, 0
 _027E8E04: .word 0x0380FFF4
 _027E8E08: .word 0x0000FFFF
-_027E8E0C: .word 0x027F7E14
+_027E8E0C: .word pTaskFunc
 	arm_func_end InitializeTask
 
 	arm_func_start ReleaseAllHeapBuf
@@ -10865,7 +10865,7 @@ _027E93AC: .word 0x0380FFF4
 calc_NextCRC: // 0x027E93B0
 	and r2, r1, #0xf
 	mov r3, r2, lsl #1
-	ldr r2, _027E9420 // =0x027F7ED8
+	ldr r2, _027E9420 // =crc16_table
 	ldrh ip, [r2, r3]
 	ldr r3, _027E9424 // =0x00000FFF
 	and r1, r3, r1, asr #4
@@ -10892,7 +10892,7 @@ calc_NextCRC: // 0x027E93B0
 	mov r0, r0, lsr #0x10
 	bx lr
 	.align 2, 0
-_027E9420: .word 0x027F7ED8
+_027E9420: .word crc16_table
 _027E9424: .word 0x00000FFF
 	arm_func_end calc_NextCRC
 
@@ -11323,7 +11323,7 @@ InitRF: // 0x027E9910
 	str r8, [sp, #4]
 	mov r6, #2
 	add r5, sp, #4
-	ldr r4, _027E9A98 // =0x027F7EF8
+	ldr r4, _027E9A98 // =macTxRxRegAdrs
 _027E993C:
 	mov r0, r8, lsl #1
 	add r0, r0, #0x44
@@ -11420,7 +11420,7 @@ _027E9A84:
 	.align 2, 0
 _027E9A90: .word 0x0380FFF4
 _027E9A94: .word 0x000005F8
-_027E9A98: .word 0x027F7EF8
+_027E9A98: .word macTxRxRegAdrs
 _027E9A9C: .word 0x04808184
 	arm_func_end InitRF
 
@@ -11461,7 +11461,7 @@ _027E9B0C: .word 0x04808160
 	arm_func_start InitMac
 InitMac: // 0x027E9B10
 	mov ip, #0
-	ldr r2, _027E9B44 // =0x027F7F68
+	ldr r2, _027E9B44 // =macInitRegs
 _027E9B18:
 	mov r3, ip, lsl #2
 	add r0, r2, ip, lsl #2
@@ -11475,7 +11475,7 @@ _027E9B18:
 	blo _027E9B18
 	bx lr
 	.align 2, 0
-_027E9B44: .word 0x027F7F68
+_027E9B44: .word macInitRegs
 	arm_func_end InitMac
 
 	arm_func_start WConfigDevice
@@ -11638,7 +11638,7 @@ WElement2RateSet: // 0x027E9D14
 	bl WL_ReadByte
 	mov r8, r0
 	mov r9, #0
-	ldr r6, _027E9DCC // =0x027F7FCC
+	ldr r6, _027E9DCC // =RateElement2Bit
 	add r7, r4, #2
 	add r4, r10, #2
 	mov r5, #1
@@ -11679,7 +11679,7 @@ _027E9DBC:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
-_027E9DCC: .word 0x027F7FCC
+_027E9DCC: .word RateElement2Bit
 	arm_func_end WElement2RateSet
 
 	arm_func_start CheckEnableChannel
@@ -12647,7 +12647,7 @@ WSetDefaultParameters: // 0x027EA9E0
 	bl WSetWepMode
 	mov r0, #0
 	bl WSetWepKeyId
-	ldr r0, _027EAB18 // =0x027F7F18
+	ldr r0, _027EAB18 // =def_WepKey
 	bl WSetWepKey
 	mov r0, #0x1f4
 	bl WSetBeaconPeriod
@@ -12660,7 +12660,7 @@ WSetDefaultParameters: // 0x027EA9E0
 	ldr r0, _027EAB1C // =0x0000FFFF
 	mov r1, #0
 	bl WSetActiveZoneTime
-	ldr r0, _027EAB20 // =0x027F7EB8
+	ldr r0, _027EAB20 // =def_SsidMask
 	bl WSetSsidMask
 	mov r0, #1
 	bl WSetPreambleType
@@ -12698,9 +12698,9 @@ WSetDefaultParameters: // 0x027EA9E0
 	bx lr
 	.align 2, 0
 _027EAB14: .word 0x00007FFE
-_027EAB18: .word 0x027F7F18
+_027EAB18: .word def_WepKey
 _027EAB1C: .word 0x0000FFFF
-_027EAB20: .word 0x027F7EB8
+_027EAB20: .word def_SsidMask
 _027EAB24: .word c_RateSet_3853
 _027EAB28: .word 0x04808044
 _027EAB2C: .word 0x0380FFF4
@@ -13542,8 +13542,8 @@ DiagBaseBand: // 0x027EB58C
 	add r0, r0, #0x500
 	ldrh r0, [r0, #0xf8]
 	cmp r0, #5
-	ldreq r10, _027EB87C // =0x027F80C4
-	ldrne r10, _027EB880 // =0x027F80F8
+	ldreq r10, _027EB87C // =BBPDiagSkipAdrsES1
+	ldrne r10, _027EB880 // =BBPDiagSkipAdrsRelease
 	mov r6, #0
 	mov r5, #0xff
 	mvn r4, #0
@@ -13748,8 +13748,8 @@ _027EB86C:
 	bx lr
 	.align 2, 0
 _027EB878: .word 0x0380FFF4
-_027EB87C: .word 0x027F80C4
-_027EB880: .word 0x027F80F8
+_027EB87C: .word BBPDiagSkipAdrsES1
+_027EB880: .word BBPDiagSkipAdrsRelease
 	arm_func_end DiagBaseBand
 
 	arm_func_start DiagMacMemory
@@ -13875,7 +13875,7 @@ DiagMacRegister: // 0x027EBA08
 	mov r2, r3
 	mov r1, r3
 	ldr r0, _027EBBA4 // =test_reg
-	ldr r5, _027EBBA8 // =0x027F80BC
+	ldr r5, _027EBBA8 // =test_pattern
 	b _027EBA80
 _027EBA28:
 	mov ip, r1
@@ -13988,7 +13988,7 @@ _027EBB98:
 	bx lr
 	.align 2, 0
 _027EBBA4: .word test_reg
-_027EBBA8: .word 0x027F80BC
+_027EBBA8: .word test_pattern
 _027EBBAC: .word 0x00001234
 _027EBBB0: .word 0x0380FFF4
 	arm_func_end DiagMacRegister
@@ -19277,7 +19277,7 @@ _027EFE94:
 	mla r1, r0, r6, r1
 	strh r1, [r4, #0xe]
 	add r0, r4, #0x10
-	ldr r1, _027F01E4 // =0x027F7E90
+	ldr r1, _027F01E4 // =MP_ADRS
 	ldr r2, [sp]
 	add r2, r2, #0x64
 	add r3, r7, #8
@@ -19455,7 +19455,7 @@ _027F01D4: .word 0x0380FFF4
 _027F01D8: .word 0x0000042C
 _027F01DC: .word 0x00007FFF
 _027F01E0: .word 0x00000206
-_027F01E4: .word 0x027F7E90
+_027F01E4: .word MP_ADRS
 _027F01E8: .word 0x0000FFFF
 _027F01EC: .word 0x0000B6B8
 _027F01F0: .word 0x00001D46
@@ -19837,7 +19837,7 @@ SetSupRateSet: // 0x027F0704
 	bl WL_WriteByte
 	add r7, r7, #2
 	mov r6, #0
-	ldr r4, _027F07B8 // =0x027F7E98
+	ldr r4, _027F07B8 // =RateBit2Element
 	mov r5, #1
 _027F0738:
 	mov r1, r5, lsl r6
@@ -19876,7 +19876,7 @@ _027F0788:
 	bx lr
 	.align 2, 0
 _027F07B4: .word 0x0380FFF4
-_027F07B8: .word 0x027F7E98
+_027F07B8: .word RateBit2Element
 	arm_func_end SetSupRateSet
 
 	arm_func_start SetSSIDElement
@@ -25962,7 +25962,7 @@ _027F5B70: .word 0x000001D6
 	.rodata
 
 .public WmspRequestFuncTable
-WmspRequestFuncTable: // 0x027F7D5C
+WmspRequestFuncTable: // WmspRequestFuncTable
 	.word WMSP_Initialize
 	.word WMSP_Reset
 	.word WMSP_End
@@ -26011,7 +26011,7 @@ WmspRequestFuncTable: // 0x027F7D5C
 	.word WMSP_KickNextMP_Resume
 
 .public pTaskFunc
-pTaskFunc: // 0x027F7E14
+pTaskFunc: // pTaskFunc
 	.word MLME_ScanTask
 	.word MLME_JoinTask
 	.word MLME_AuthTask

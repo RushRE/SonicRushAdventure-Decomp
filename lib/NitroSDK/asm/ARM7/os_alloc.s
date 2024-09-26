@@ -12,7 +12,7 @@ OS_CheckHeap: // 0x037FD1D0
 	mov r5, r6
 	mvn r4, #0
 	bl OS_DisableInterrupts
-	ldr r1, _037FD37C // =0x03808590
+	ldr r1, _037FD37C // =OSiHeapInfo
 	ldr ip, [r1, r8, lsl #2]
 	mov r1, r4
 	cmp r7, r1
@@ -121,7 +121,7 @@ _037FD36C:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_037FD37C: .word 0x03808590
+_037FD37C: .word OSiHeapInfo
 	arm_func_end OS_CheckHeap
 
 	arm_func_start OS_CreateHeap
@@ -132,7 +132,7 @@ OS_CreateHeap: // 0x037FD380
 	mov r6, r1
 	mov r5, r2
 	bl OS_DisableInterrupts
-	ldr r1, _037FD424 // =0x03808590
+	ldr r1, _037FD424 // =OSiHeapInfo
 	ldr r7, [r1, r4, lsl #2]
 	add r1, r6, #0x1f
 	bic r6, r1, #0x1f
@@ -172,7 +172,7 @@ _037FD418:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_037FD424: .word 0x03808590
+_037FD424: .word OSiHeapInfo
 	arm_func_end OS_CreateHeap
 
 	arm_func_start OS_InitAlloc
@@ -183,7 +183,7 @@ OS_InitAlloc: // 0x037FD428
 	mov r4, r2
 	mov r6, r3
 	bl OS_DisableInterrupts
-	ldr r1, _037FD4CC // =0x03808590
+	ldr r1, _037FD4CC // =OSiHeapInfo
 	str r5, [r1, r7, lsl #2]
 	mov r2, #0xc
 	mul r1, r6, r2
@@ -221,7 +221,7 @@ _037FD48C:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_037FD4CC: .word 0x03808590
+_037FD4CC: .word OSiHeapInfo
 	arm_func_end OS_InitAlloc
 
 	arm_func_start OS_SetCurrentHeap
@@ -231,7 +231,7 @@ OS_SetCurrentHeap: // 0x037FD4D0
 	mov r4, r0
 	mov r5, r1
 	bl OS_DisableInterrupts
-	ldr r1, _037FD508 // =0x03808590
+	ldr r1, _037FD508 // =OSiHeapInfo
 	ldr r1, [r1, r4, lsl #2]
 	ldr r4, [r1]
 	str r5, [r1]
@@ -241,7 +241,7 @@ OS_SetCurrentHeap: // 0x037FD4D0
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_037FD508: .word 0x03808590
+_037FD508: .word OSiHeapInfo
 	arm_func_end OS_SetCurrentHeap
 
 	arm_func_start OS_FreeToHeap
@@ -253,7 +253,7 @@ OS_FreeToHeap: // 0x037FD50C
 	mov r6, r2
 	bl OS_DisableInterrupts
 	mov r5, r0
-	ldr r0, _037FD57C // =0x03808590
+	ldr r0, _037FD57C // =OSiHeapInfo
 	ldr r0, [r0, r7, lsl #2]
 	cmp r4, #0
 	ldrlt r4, [r0]
@@ -275,7 +275,7 @@ OS_FreeToHeap: // 0x037FD50C
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_037FD57C: .word 0x03808590
+_037FD57C: .word OSiHeapInfo
 	arm_func_end OS_FreeToHeap
 
 	arm_func_start OS_AllocFromHeap
@@ -287,7 +287,7 @@ OS_AllocFromHeap: // 0x037FD580
 	mov r7, r2
 	bl OS_DisableInterrupts
 	mov r4, r0
-	ldr r1, _037FD694 // =0x03808590
+	ldr r1, _037FD694 // =OSiHeapInfo
 	ldr r1, [r1, r6, lsl #2]
 	cmp r1, #0
 	bne _037FD5B8
@@ -358,7 +358,7 @@ _037FD688:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_037FD694: .word 0x03808590
+_037FD694: .word OSiHeapInfo
 	arm_func_end OS_AllocFromHeap
 
 	arm_func_start DLInsert

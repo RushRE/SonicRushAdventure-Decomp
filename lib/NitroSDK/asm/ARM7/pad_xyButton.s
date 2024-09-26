@@ -38,12 +38,12 @@ _037FED9C:
 	mov r0, #0
 	b _037FEE00
 _037FEDA4:
-	ldr r0, _037FEE0C // =0x03808674
+	ldr r0, _037FEE0C // =PADi_XYButtonAvailable
 	ldr r0, [r0]
 	cmp r0, #0
 	movne r0, #0
 	bne _037FEE00
-	ldr r0, _037FEE10 // =0x03808678
+	ldr r0, _037FEE10 // =PADi_XYButtonAlarm
 	bl OS_CreateAlarm
 	bl OS_GetTick
 	mov r2, r0
@@ -53,21 +53,21 @@ _037FEDA4:
 	str r0, [sp, #8]
 	ldr r3, _037FEE18 // =0x0000082E
 	str r0, [sp]
-	ldr r0, _037FEE10 // =0x03808678
+	ldr r0, _037FEE10 // =PADi_XYButtonAlarm
 	adds ip, r2, r3
 	adc r2, r1, #0
 	mov r1, ip
 	bl OS_SetPeriodicAlarm
 	mov r0, #1
-	ldr r1, _037FEE0C // =0x03808674
+	ldr r1, _037FEE0C // =PADi_XYButtonAvailable
 	str r0, [r1]
 _037FEE00:
 	add sp, sp, #0xc
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FEE0C: .word 0x03808674
-_037FEE10: .word 0x03808678
+_037FEE0C: .word PADi_XYButtonAvailable
+_037FEE10: .word PADi_XYButtonAlarm
 _037FEE14: .word PADi_xyButtonAlarmHandler
 _037FEE18: .word 0x0000082E
 	arm_func_end PAD_InitXYButton

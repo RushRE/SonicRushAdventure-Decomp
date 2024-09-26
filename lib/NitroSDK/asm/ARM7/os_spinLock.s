@@ -255,7 +255,7 @@ _037FC154: .word SVC_WaitByLoop
 OS_InitLock: // 0x037FC158
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
-	ldr r0, _037FC1D0 // =0x03808418
+	ldr r0, _037FC1D0 // =isInitialized_3171
 	ldr r1, [r0]
 	cmp r1, #0
 	bne _037FC1C4
@@ -287,7 +287,7 @@ _037FC1C4:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_037FC1D0: .word 0x03808418
+_037FC1D0: .word isInitialized_3171
 _037FC1D4: .word 0x027FFFF0
 _037FC1D8: .word 0x027FFFB8
 _037FC1DC: .word 0x027FFFBC

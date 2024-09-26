@@ -212,7 +212,7 @@ RtcThread: // 0x027F6C04
 	ldr r6, _027F70B4 // =0x027FFDE8
 	add r5, r6, #4
 	mov r7, #0
-	ldr r9, _027F70B8 // =0x027F9A08
+	ldr r9, _027F70B8 // =rtcWork
 	mov r8, #1
 	mov r0, #0x10
 	str r0, [sp]
@@ -540,7 +540,7 @@ _027F70A4:
 	b _027F6CBC
 	.align 2, 0
 _027F70B4: .word 0x027FFDE8
-_027F70B8: .word 0x027F9A08
+_027F70B8: .word rtcWork
 _027F70BC: .word 0x027F9B08
 	arm_func_end RtcThread
 
@@ -620,7 +620,7 @@ _027F7124: // jump table
 	b _027F71CC // case 40
 	b _027F71CC // case 41
 _027F71CC:
-	ldr r0, _027F7234 // =0x027F9A08
+	ldr r0, _027F7234 // =rtcWork
 	ldr r1, [r0, #0x1d4]
 	cmp r1, #0
 	beq _027F71EC
@@ -650,7 +650,7 @@ _027F722C:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_027F7234: .word 0x027F9A08
+_027F7234: .word rtcWork
 _027F7238: .word 0x027F9B08
 	arm_func_end RtcCommonCallback
 
@@ -659,23 +659,23 @@ RTC_Init: // 0x027F723C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
-	ldr r0, _027F7310 // =0x027F9A04
+	ldr r0, _027F7310 // =rtcInitialized
 	ldrh r1, [r0]
 	cmp r1, #0
 	bne _027F7304
 	mov r1, #1
 	strh r1, [r0]
-	ldr r0, _027F7314 // =0x027F9A08
+	ldr r0, _027F7314 // =rtcWork
 	str r1, [r0, #0x1d4]
 	bl RtcInitialize
 	mov r1, #0
-	ldr r0, _027F7314 // =0x027F9A08
+	ldr r0, _027F7314 // =rtcWork
 	str r1, [r0, #0x1d4]
 	bl PXI_Init
 	mov r0, #5
 	ldr r1, _027F7318 // =RtcCommonCallback
 	bl PXI_SetFifoRecvCallback
-	ldr r0, _027F7314 // =0x027F9A08
+	ldr r0, _027F7314 // =rtcWork
 	ldr r1, _027F731C // =0x027F9A28
 	mov r2, #4
 	bl OS_InitMessageQueue
@@ -711,8 +711,8 @@ _027F7304:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_027F7310: .word 0x027F9A04
-_027F7314: .word 0x027F9A08
+_027F7310: .word rtcInitialized
+_027F7314: .word rtcWork
 _027F7318: .word RtcCommonCallback
 _027F731C: .word 0x027F9A28
 _027F7320: .word 0x027F9A38

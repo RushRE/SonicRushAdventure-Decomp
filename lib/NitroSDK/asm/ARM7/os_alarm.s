@@ -25,7 +25,7 @@ OSi_ArrangeTimer: // 0x037FD998
 	orr r0, r0, #0x10
 	str r0, [r1]
 	bl OS_GetTick
-	ldr r2, _037FDA94 // =0x038085CC
+	ldr r2, _037FDA94 // =OSi_AlarmQueue
 	ldr r4, [r2]
 	cmp r4, #0
 	beq _037FDA80
@@ -69,7 +69,7 @@ _037FDA44:
 	mov r2, r1
 	bl OSi_InsertAlarm
 _037FDA6C:
-	ldr r0, _037FDA94 // =0x038085CC
+	ldr r0, _037FDA94 // =OSi_AlarmQueue
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _037FDA80
@@ -81,7 +81,7 @@ _037FDA80:
 	.align 2, 0
 _037FDA8C: .word 0x04000106
 _037FDA90: .word 0x0380FFF8
-_037FDA94: .word 0x038085CC
+_037FDA94: .word OSi_AlarmQueue
 	arm_func_end OSi_ArrangeTimer
 
 	arm_func_start OS_CancelAlarm
@@ -100,7 +100,7 @@ _037FDAC0:
 	ldr r0, [r5, #0x18]
 	cmp r0, #0
 	ldreq r2, [r5, #0x14]
-	ldreq r1, _037FDB24 // =0x038085CC
+	ldreq r1, _037FDB24 // =OSi_AlarmQueue
 	streq r2, [r1, #4]
 	ldrne r1, [r5, #0x14]
 	strne r1, [r0, #0x14]
@@ -108,7 +108,7 @@ _037FDAC0:
 	cmp r1, #0
 	strne r0, [r1, #0x18]
 	bne _037FDB00
-	ldr r1, _037FDB24 // =0x038085CC
+	ldr r1, _037FDB24 // =OSi_AlarmQueue
 	str r0, [r1]
 	cmp r0, #0
 	beq _037FDB00
@@ -125,7 +125,7 @@ _037FDB18:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_037FDB24: .word 0x038085CC
+_037FDB24: .word OSi_AlarmQueue
 	arm_func_end OS_CancelAlarm
 
 	arm_func_start OS_SetPeriodicAlarm
@@ -236,7 +236,7 @@ OSi_InsertAlarm: // 0x037FDC18
 _037FDC94:
 	str r7, [r8, #0xc]
 	str r6, [r8, #0x10]
-	ldr r0, _037FDD44 // =0x038085CC
+	ldr r0, _037FDD44 // =OSi_AlarmQueue
 	ldr r4, [r0]
 	mov r1, #0
 	b _037FDD00
@@ -256,7 +256,7 @@ _037FDCAC:
 	cmp r0, #0
 	strne r8, [r0, #0x18]
 	bne _037FDD3C
-	ldr r0, _037FDD44 // =0x038085CC
+	ldr r0, _037FDD44 // =OSi_AlarmQueue
 	str r8, [r0]
 	mov r0, r8
 	bl OSi_SetTimer
@@ -268,7 +268,7 @@ _037FDD00:
 	bne _037FDCAC
 	mov r0, #0
 	str r0, [r8, #0x18]
-	ldr r0, _037FDD44 // =0x038085CC
+	ldr r0, _037FDD44 // =OSi_AlarmQueue
 	ldr r1, [r0, #4]
 	str r8, [r0, #4]
 	str r1, [r8, #0x14]
@@ -283,7 +283,7 @@ _037FDD3C:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_037FDD44: .word 0x038085CC
+_037FDD44: .word OSi_AlarmQueue
 	arm_func_end OSi_InsertAlarm
 
 	arm_func_start OS_CreateAlarm
@@ -296,18 +296,18 @@ OS_CreateAlarm: // 0x037FDD48
 
 	arm_func_start OS_IsAlarmAvailable
 OS_IsAlarmAvailable: // 0x037FDD58
-	ldr r0, _037FDD64 // =0x038085C8
+	ldr r0, _037FDD64 // =OSi_UseAlarm
 	ldrh r0, [r0]
 	bx lr
 	.align 2, 0
-_037FDD64: .word 0x038085C8
+_037FDD64: .word OSi_UseAlarm
 	arm_func_end OS_IsAlarmAvailable
 
 	arm_func_start OS_InitAlarm
 OS_InitAlarm: // 0x037FDD68
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r1, _037FDDB0 // =0x038085C8
+	ldr r1, _037FDDB0 // =OSi_UseAlarm
 	ldrh r0, [r1]
 	cmp r0, #0
 	bne _037FDDA4
@@ -315,7 +315,7 @@ OS_InitAlarm: // 0x037FDD68
 	strh r0, [r1]
 	bl OSi_SetTimerReserved
 	mov r1, #0
-	ldr r0, _037FDDB4 // =0x038085CC
+	ldr r0, _037FDDB4 // =OSi_AlarmQueue
 	str r1, [r0]
 	str r1, [r0, #4]
 	mov r0, #0x10
@@ -325,8 +325,8 @@ _037FDDA4:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FDDB0: .word 0x038085C8
-_037FDDB4: .word 0x038085CC
+_037FDDB0: .word OSi_UseAlarm
+_037FDDB4: .word OSi_AlarmQueue
 	arm_func_end OS_InitAlarm
 
 	arm_func_start OSi_SetTimer

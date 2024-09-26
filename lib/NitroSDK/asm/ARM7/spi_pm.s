@@ -41,19 +41,19 @@ _03805778: // jump table
 	b _0380585C // case 5
 _03805790:
 	mov r1, #1
-	ldr r0, _0380588C // =0x0380ABD8
+	ldr r0, _0380588C // =PMi_Work
 	str r1, [r0, #0x20]
 	ldr r1, [r4, #8]
-	ldr r0, _03805890 // =0x0380ABD0
+	ldr r0, _03805890 // =PMi_TriggerBL
 	strh r1, [r0]
 	ldr r1, [r4, #0xc]
-	ldr r0, _03805894 // =0x0380ABCC
+	ldr r0, _03805894 // =PMi_KeyPattern
 	strh r1, [r0]
 	bl PMi_DoSleep
 	b _03805878
 _038057BC:
 	mov r1, #4
-	ldr r0, _0380588C // =0x0380ABD8
+	ldr r0, _0380588C // =PMi_Work
 	str r1, [r0, #0x20]
 	ldr r2, [r4, #8]
 	str r2, [r0, #0x28]
@@ -69,7 +69,7 @@ _038057BC:
 	b _03805878
 _038057F8:
 	mov r1, #3
-	ldr r0, _0380588C // =0x0380ABD8
+	ldr r0, _0380588C // =PMi_Work
 	str r1, [r0, #0x20]
 	ldr r1, [r4, #8]
 	str r1, [r0, #0x28]
@@ -85,7 +85,7 @@ _038057F8:
 	b _03805878
 _03805834:
 	mov r0, #2
-	ldr r1, _0380588C // =0x0380ABD8
+	ldr r1, _0380588C // =PMi_Work
 	str r0, [r1, #0x20]
 	ldr r0, [r4, #8]
 	str r0, [r1, #0x24]
@@ -111,9 +111,9 @@ _03805880:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_0380588C: .word 0x0380ABD8
-_03805890: .word 0x0380ABD0
-_03805894: .word 0x0380ABCC
+_0380588C: .word PMi_Work
+_03805890: .word PMi_TriggerBL
+_03805894: .word PMi_KeyPattern
 	arm_func_end PM_ExecuteProcess
 
 	arm_func_start PM_AnalyzeCommand
@@ -124,7 +124,7 @@ PM_AnalyzeCommand: // 0x03805898
 	beq _038058C8
 	mov r4, #0
 	mov r3, r4
-	ldr r1, _03805A64 // =0x0380ABD8
+	ldr r1, _03805A64 // =PMi_Work
 _038058B4:
 	mov r2, r4, lsl #1
 	strh r3, [r1, r2]
@@ -135,7 +135,7 @@ _038058C8:
 	and r1, r0, #0xf0000
 	mov r1, r1, lsr #0x10
 	mov r1, r1, lsl #1
-	ldr ip, _03805A64 // =0x0380ABD8
+	ldr ip, _03805A64 // =PMi_Work
 	strh r0, [ip, r1]
 	ands r0, r0, #0x1000000
 	beq _03805A58
@@ -246,17 +246,17 @@ _03805A58:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_03805A64: .word 0x0380ABD8
+_03805A64: .word PMi_Work
 _03805A68: .word 0x0000FFFF
 	arm_func_end PM_AnalyzeCommand
 
 	arm_func_start PM_Init
 PM_Init: // 0x03805A6C
 	mov r1, #1
-	ldr r0, _03805AA0 // =0x0380ABD4
+	ldr r0, _03805AA0 // =PMi_Initialized
 	str r1, [r0]
 	mov r3, #0
-	ldr r0, _03805AA4 // =0x0380ABD8
+	ldr r0, _03805AA4 // =PMi_Work
 	str r3, [r0, #0x20]
 	mov r2, r3
 _03805A88:
@@ -267,8 +267,8 @@ _03805A88:
 	blt _03805A88
 	bx lr
 	.align 2, 0
-_03805AA0: .word 0x0380ABD4
-_03805AA4: .word 0x0380ABD8
+_03805AA0: .word PMi_Initialized
+_03805AA4: .word PMi_Work
 	arm_func_end PM_Init
 
 	arm_func_start PMi_SendPxiCommand
@@ -593,11 +593,11 @@ PMi_DoSleep: // 0x03805E24
 	bl SND_BeginSleep
 	mov r0, #1
 	bl PMi_ResetControl
-	ldr r0, _03805FEC // =0x0380ABD0
+	ldr r0, _03805FEC // =PMi_TriggerBL
 	ldrh r0, [r0]
 	ands r0, r0, #1
 	beq _03805EAC
-	ldr r0, _03805FF0 // =0x0380ABCC
+	ldr r0, _03805FF0 // =PMi_KeyPattern
 	ldrh r0, [r0]
 	orr r1, r0, #0x4000
 	ldr r0, _03805FF4 // =0x04000132
@@ -605,14 +605,14 @@ PMi_DoSleep: // 0x03805E24
 	mov r0, #0x1000
 	bl OS_EnableIrqMask
 _03805EAC:
-	ldr r0, _03805FEC // =0x0380ABD0
+	ldr r0, _03805FEC // =PMi_TriggerBL
 	ldrh r0, [r0]
 	ands r0, r0, #4
 	beq _03805EC4
 	mov r0, #0x400000
 	bl OS_EnableIrqMask
 _03805EC4:
-	ldr r0, _03805FEC // =0x0380ABD0
+	ldr r0, _03805FEC // =PMi_TriggerBL
 	ldrh r0, [r0]
 	ands r0, r0, #2
 	beq _03805F08
@@ -630,14 +630,14 @@ _03805EC4:
 	mov r0, #0x80
 	bl OS_EnableIrqMask
 _03805F08:
-	ldr r0, _03805FEC // =0x0380ABD0
+	ldr r0, _03805FEC // =PMi_TriggerBL
 	ldrh r0, [r0]
 	ands r0, r0, #8
 	beq _03805F20
 	mov r0, #0x100000
 	bl OS_EnableIrqMask
 _03805F20:
-	ldr r0, _03805FEC // =0x0380ABD0
+	ldr r0, _03805FEC // =PMi_TriggerBL
 	ldrh r0, [r0]
 	ands r0, r0, #0x10
 	beq _03805F38
@@ -654,7 +654,7 @@ _03805F38:
 	mov r0, #0
 	mov r1, r7
 	bl PMi_SetRegister
-	ldr r0, _03805FEC // =0x0380ABD0
+	ldr r0, _03805FEC // =PMi_TriggerBL
 	ldrh r1, [r0]
 	ands r0, r1, #0x20
 	movne r0, #6
@@ -672,7 +672,7 @@ _03805F38:
 	bl PMi_SetControl
 	bl SND_EndSleep
 	mov r1, #0
-	ldr r0, _03805FFC // =0x0380ABD8
+	ldr r0, _03805FFC // =PMi_Work
 	str r1, [r0, #0x20]
 	mov r0, #0x62
 	mov r2, r1
@@ -690,11 +690,11 @@ _03805F38:
 	bx lr
 	.align 2, 0
 _03805FE8: .word 0x04000208
-_03805FEC: .word 0x0380ABD0
-_03805FF0: .word 0x0380ABCC
+_03805FEC: .word PMi_TriggerBL
+_03805FF0: .word PMi_KeyPattern
 _03805FF4: .word 0x04000132
 _03805FF8: .word 0x04000134
-_03805FFC: .word 0x0380ABD8
+_03805FFC: .word PMi_Work
 	arm_func_end PMi_DoSleep
 
 	arm_func_start _Ven__SVC_Sleep
@@ -707,31 +707,31 @@ _03806008: .word SVC_Stop
 
 	arm_func_start PM_GetLEDPattern
 PM_GetLEDPattern: // 0x0380600C
-	ldr r0, _03806018 // =0x0380AC08
+	ldr r0, _03806018 // =PMi_BlinkPatternNo
 	ldr r0, [r0]
 	bx lr
 	.align 2, 0
-_03806018: .word 0x0380AC08
+_03806018: .word PMi_BlinkPatternNo
 	arm_func_end PM_GetLEDPattern
 
 	arm_func_start PM_SetLEDPattern
 PM_SetLEDPattern: // 0x0380601C
 	cmp r0, #0xf
-	ldrle r1, _03806038 // =0x0380AC08
+	ldrle r1, _03806038 // =PMi_BlinkPatternNo
 	strle r0, [r1]
 	movle r1, #0
-	ldrle r0, _0380603C // =0x0380AC04
+	ldrle r0, _0380603C // =PMi_BlinkCounter
 	strle r1, [r0]
 	bx lr
 	.align 2, 0
-_03806038: .word 0x0380AC08
-_0380603C: .word 0x0380AC04
+_03806038: .word PMi_BlinkPatternNo
+_0380603C: .word PMi_BlinkCounter
 	arm_func_end PM_SetLEDPattern
 
 	arm_func_start PM_SelfBlinkProc
 PM_SelfBlinkProc: // 0x03806040
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r0, _03806158 // =0x0380AC08
+	ldr r0, _03806158 // =PMi_BlinkPatternNo
 	ldr r3, [r0]
 	cmp r3, #0
 	bne _0380607C
@@ -763,7 +763,7 @@ _038060A8:
 	mov r0, #0xc
 	mul r5, r1, r0
 	add r4, r6, r5
-	ldr r0, _03806164 // =0x0380AC04
+	ldr r0, _03806164 // =PMi_BlinkCounter
 	ldr r0, [r0]
 	ldrh r1, [r4, #0xa]
 	bl _u32_div_f
@@ -782,7 +782,7 @@ _038060A8:
 	cmpeq r1, r3
 	movne r3, #1
 	moveq r3, #2
-	ldr r0, _03806164 // =0x0380AC04
+	ldr r0, _03806164 // =PMi_BlinkCounter
 	ldr r1, [r0]
 	add ip, r1, #1
 	str ip, [r0]
@@ -804,10 +804,10 @@ _03806150:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
-_03806158: .word 0x0380AC08
+_03806158: .word PMi_BlinkPatternNo
 _0380615C: .word PMi_LEDStatus
 _03806160: .word PMi_BlinkPatternData
-_03806164: .word 0x0380AC04
+_03806164: .word PMi_BlinkCounter
 	arm_func_end PM_SelfBlinkProc
 
 	.rodata

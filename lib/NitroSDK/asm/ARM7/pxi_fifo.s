@@ -7,7 +7,7 @@ PXIi_GetFromFifo: // 0x037FE9CC
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
 	ldr r10, _037FEAE0 // =0x04000184
-	ldr r5, _037FEAE4 // =0x038085F4
+	ldr r5, _037FEAE4 // =FifoRecvCallbackTable
 	mov r7, #0x4100000
 	mov r6, #0
 	mvn r8, #3
@@ -82,7 +82,7 @@ _037FEAD4:
 	bx lr
 	.align 2, 0
 _037FEAE0: .word 0x04000184
-_037FEAE4: .word 0x038085F4
+_037FEAE4: .word FifoRecvCallbackTable
 _037FEAE8: .word 0x04000188
 	arm_func_end PXIi_GetFromFifo
 
@@ -156,7 +156,7 @@ PXI_SetFifoRecvCallback: // 0x037FEBB8
 	mov r4, r0
 	mov r5, r1
 	bl OS_DisableInterrupts
-	ldr r1, _037FEC1C // =0x038085F4
+	ldr r1, _037FEC1C // =FifoRecvCallbackTable
 	str r5, [r1, r4, lsl #2]
 	cmp r5, #0
 	beq _037FEBF4
@@ -179,7 +179,7 @@ _037FEC0C:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_037FEC1C: .word 0x038085F4
+_037FEC1C: .word FifoRecvCallbackTable
 _037FEC20: .word 0x027FFC00
 	arm_func_end PXI_SetFifoRecvCallback
 
@@ -188,7 +188,7 @@ PXI_InitFifo: // 0x037FEC24
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	bl OS_DisableInterrupts
 	mov r5, r0
-	ldr r0, _037FECE4 // =0x038085F0
+	ldr r0, _037FECE4 // =FifoCtrlInit
 	ldrh r1, [r0]
 	cmp r1, #0
 	bne _037FECD4
@@ -198,7 +198,7 @@ PXI_InitFifo: // 0x037FEC24
 	ldr r0, _037FECE8 // =0x027FFC00
 	str r2, [r0, #0x38c]
 	mov r1, r2
-	ldr r0, _037FECEC // =0x038085F4
+	ldr r0, _037FECEC // =FifoRecvCallbackTable
 _037FEC5C:
 	str r1, [r0, r2, lsl #2]
 	add r2, r2, #1
@@ -238,9 +238,9 @@ _037FECD4:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_037FECE4: .word 0x038085F0
+_037FECE4: .word FifoCtrlInit
 _037FECE8: .word 0x027FFC00
-_037FECEC: .word 0x038085F4
+_037FECEC: .word FifoRecvCallbackTable
 _037FECF0: .word 0x0000C408
 _037FECF4: .word 0x04000184
 _037FECF8: .word PXIi_GetFromFifo

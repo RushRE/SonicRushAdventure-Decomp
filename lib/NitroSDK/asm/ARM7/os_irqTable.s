@@ -7,7 +7,7 @@
 OSi_IrqVBlank: // 0x037FBB4C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, _037FBB98 // =0x038083AC
+	ldr r0, _037FBB98 // =OSi_IrqCallbackInfo
 	ldr r2, [r0, #0x60]
 	ldr r1, _037FBB9C // =0x027FFC3C
 	ldr r0, [r1]
@@ -26,7 +26,7 @@ _037FBB7C:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FBB98: .word 0x038083AC
+_037FBB98: .word OSi_IrqCallbackInfo
 _037FBB9C: .word 0x027FFC3C
 _037FBBA0: .word 0x0380FFF8
 	arm_func_end OSi_IrqVBlank
@@ -114,7 +114,7 @@ OSi_IrqCallback: // 0x037FBC24
 	mov r5, r3, lsl r1
 	mov r1, #0xc
 	mul r4, r0, r1
-	ldr r2, _037FBCA8 // =0x038083AC
+	ldr r2, _037FBCA8 // =OSi_IrqCallbackInfo
 	ldr r1, [r2, r4]
 	mov r0, #0
 	str r0, [r2, r4]
@@ -141,7 +141,7 @@ _037FBC98:
 	bx lr
 	.align 2, 0
 _037FBCA4: .word OSi_IrqCallbackInfoIndex
-_037FBCA8: .word 0x038083AC
+_037FBCA8: .word OSi_IrqCallbackInfo
 _037FBCAC: .word 0x038083B4
 _037FBCB0: .word 0x0380FFF8
 _037FBCB4: .word 0x038083B0

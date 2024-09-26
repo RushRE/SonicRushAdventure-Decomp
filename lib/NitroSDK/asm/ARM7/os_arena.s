@@ -118,7 +118,7 @@ OS_GetArenaHi: // 0x037FD118
 OS_InitArena: // 0x037FD12C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r1, _037FD1CC // =0x0380858C
+	ldr r1, _037FD1CC // =OSi_Initialized
 	ldr r0, [r1]
 	cmp r0, #0
 	bne _037FD1C0
@@ -158,5 +158,5 @@ _037FD1C0:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FD1CC: .word 0x0380858C
+_037FD1CC: .word OSi_Initialized
 	arm_func_end OS_InitArena

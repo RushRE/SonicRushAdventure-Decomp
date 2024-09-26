@@ -52,11 +52,11 @@ _037FBA40:
 	ldr ip, _037FBB44 // =_038083A4
 	str r3, [ip]
 	str r3, [ip, #4]
-	ldr ip, _037FBB48 // =0x03808434
+	ldr ip, _037FBB48 // =OSi_ThreadInfo
 	mov r1, #1
 	strh r1, [ip]
 _037FBA78:
-	ldr ip, _037FBB48 // =0x03808434
+	ldr ip, _037FBB48 // =OSi_ThreadInfo
 	ldrh r1, [ip]
 	cmp r1, #0
 	ldreq pc, [sp], #4
@@ -114,7 +114,7 @@ _037FBAF0:
 	ldmia sp!, {pc}
 	.align 2, 0
 _037FBB44: .word _038083A4
-_037FBB48: .word 0x03808434
+_037FBB48: .word OSi_ThreadInfo
 	arm_func_end OS_IrqHandler_ThreadSwitch
 
 	.bss
@@ -156,7 +156,7 @@ OSi_IsThreadInitialized: // 0x03808430
 	.space 4
 
 .public OSi_ThreadInfo
-OSi_ThreadInfo: // 0x03808434
+OSi_ThreadInfo: // OSi_ThreadInfo
 	.space 0x10
 
 .public OSi_IdleThread

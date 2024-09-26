@@ -54,7 +54,7 @@ OSi_CommonCallback: // 0x037FE5AC
 	mov r0, r0, lsr #0x10
 	cmp r0, #0x10
 	moveq r1, #1
-	ldreq r0, _037FE5E4 // =0x038085EC
+	ldreq r0, _037FE5E4 // =OSi_IsResetOccurred
 	streqh r1, [r0]
 	beq _037FE5D8
 	bl OS_Terminate
@@ -63,23 +63,23 @@ _037FE5D8:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FE5E4: .word 0x038085EC
+_037FE5E4: .word OSi_IsResetOccurred
 	arm_func_end OSi_CommonCallback
 
 	arm_func_start OS_IsResetOccurred
 OS_IsResetOccurred: // 0x037FE5E8
-	ldr r0, _037FE5F4 // =0x038085EC
+	ldr r0, _037FE5F4 // =OSi_IsResetOccurred
 	ldrh r0, [r0]
 	bx lr
 	.align 2, 0
-_037FE5F4: .word 0x038085EC
+_037FE5F4: .word OSi_IsResetOccurred
 	arm_func_end OS_IsResetOccurred
 
 	arm_func_start OS_InitReset
 OS_InitReset: // 0x037FE5F8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, _037FE630 // =0x038085E8
+	ldr r0, _037FE630 // =OSi_IsInitReset
 	ldrh r1, [r0]
 	cmp r1, #0
 	bne _037FE624
@@ -93,6 +93,6 @@ _037FE624:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FE630: .word 0x038085E8
+_037FE630: .word OSi_IsInitReset
 _037FE634: .word OSi_CommonCallback
 	arm_func_end OS_InitReset

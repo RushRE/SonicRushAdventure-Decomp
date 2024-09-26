@@ -7,9 +7,9 @@
 WvrBegin: // 0x03806168
 	stmdb sp!, {lr}
 	sub sp, sp, #0x54
-	ldr r1, _03806200 // =0x0380B47C
+	ldr r1, _03806200 // =wvrWlWork
 	str r1, [sp]
-	ldr r1, _03806204 // =0x0380B47C
+	ldr r1, _03806204 // =wvrWlWork
 	str r1, [sp, #4]
 	mov r1, #0x600
 	str r1, [sp, #8]
@@ -20,7 +20,7 @@ WvrBegin: // 0x03806168
 	mov r2, #8
 	str r2, [sp, #0x24]
 	str r0, [sp, #0x28]
-	ldr r0, _03806208 // =0x0380ACBC
+	ldr r0, _03806208 // =wvrWlStaElement
 	str r0, [sp, #0x2c]
 	mov r0, #0x1c0
 	str r0, [sp, #0x30]
@@ -44,9 +44,9 @@ WvrBegin: // 0x03806168
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_03806200: .word 0x0380B47C
-_03806204: .word 0x0380B47C
-_03806208: .word 0x0380ACBC
+_03806200: .word wvrWlWork
+_03806204: .word wvrWlWork
+_03806208: .word wvrWlStaElement
 	arm_func_end WvrBegin
 
 	arm_func_start WVR_Shutdown
@@ -73,23 +73,23 @@ WVR_Init: // 0x03806244
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
-	ldr r0, _03806288 // =0x0380AC10
+	ldr r0, _03806288 // =wvrVramImageBuf
 	str r1, [r0]
-	ldr r0, _0380628C // =0x0380AC14
+	ldr r0, _0380628C // =wvrHeapHandle
 	str r4, [r0]
-	ldr r0, _03806290 // =0x0380AC18
+	ldr r0, _03806290 // =wvrThread
 	mov r2, #0xa4
 	bl MI_CpuFill8
 	mov r0, r4
 	bl WvrBegin
 	mov r1, #3
-	ldr r0, _03806294 // =0x0380AC0C
+	ldr r0, _03806294 // =wvrStatus
 	strb r1, [r0]
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_03806288: .word 0x0380AC10
-_0380628C: .word 0x0380AC14
-_03806290: .word 0x0380AC18
-_03806294: .word 0x0380AC0C
+_03806288: .word wvrVramImageBuf
+_0380628C: .word wvrHeapHandle
+_03806290: .word wvrThread
+_03806294: .word wvrStatus
 	arm_func_end WVR_Init

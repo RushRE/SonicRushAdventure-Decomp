@@ -16,7 +16,7 @@ CARD_SetThreadPriority: // 0x0380333C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, r0
-	ldr r6, _03803380 // =0x03809DE0
+	ldr r6, _03803380 // =cardi_common
 	bl OS_DisableInterrupts
 	mov r4, r0
 	ldr r5, [r6, #0xf0]
@@ -31,16 +31,16 @@ CARD_SetThreadPriority: // 0x0380333C
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_03803380: .word 0x03809DE0
+_03803380: .word cardi_common
 	arm_func_end CARD_SetThreadPriority
 
 	arm_func_start CARD_Enable
 CARD_Enable: // 0x03803384
-	ldr r1, _03803390 // =0x03809DC4
+	ldr r1, _03803390 // =CARDi_EnableFlag
 	str r0, [r1]
 	bx lr
 	.align 2, 0
-_03803390: .word 0x03809DC4
+_03803390: .word CARDi_EnableFlag
 	arm_func_end CARD_Enable
 
 	arm_func_start CARDi_InitCommon
@@ -48,7 +48,7 @@ CARDi_InitCommon: // 0x03803394
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	mvn r1, #2
-	ldr r0, _0380342C // =0x03809DE0
+	ldr r0, _0380342C // =cardi_common
 	str r1, [r0, #0xc]
 	mov r2, #0
 	str r2, [r0, #0x10]
@@ -67,7 +67,7 @@ CARDi_InitCommon: // 0x03803394
 	str r0, [sp, #4]
 	ldr r0, _03803430 // =0x03809E28
 	ldr r1, _03803434 // =CARDi_TaskThread
-	ldr r3, _03803438 // =0x0380A400
+	ldr r3, _03803438 // =status_checked_3333
 	bl OS_CreateThread
 	ldr r0, _03803430 // =0x03809E28
 	bl OS_WakeupThreadDirect
@@ -85,10 +85,10 @@ _03803420:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_0380342C: .word 0x03809DE0
+_0380342C: .word cardi_common
 _03803430: .word 0x03809E28
 _03803434: .word CARDi_TaskThread
-_03803438: .word 0x0380A400
+_03803438: .word status_checked_3333
 _0380343C: .word CARDi_OnFifoRecv
 _03803440: .word 0x027FFC40
 	arm_func_end CARDi_InitCommon
@@ -101,7 +101,7 @@ CARDi_SetWriteProtectCore: // 0x03803444
 	bl CARDi_WaitPrevCommand
 	cmp r0, #0
 	beq _038034CC
-	ldr r0, _038034D8 // =0x03809DE0
+	ldr r0, _038034D8 // =cardi_common
 	ldr r10, [r0]
 	mov r9, #0xa
 	mov r0, #1
@@ -135,7 +135,7 @@ _038034CC:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
-_038034D8: .word 0x03809DE0
+_038034D8: .word cardi_common
 _038034DC: .word CARDi_CommWriteCore
 	arm_func_end CARDi_SetWriteProtectCore
 
@@ -145,7 +145,7 @@ CARDi_EraseChipCore: // 0x038034E0
 	bl CARDi_WaitPrevCommand
 	cmp r0, #0
 	beq _03803524
-	ldr r0, _0380352C // =0x03809DE0
+	ldr r0, _0380352C // =cardi_common
 	ldr r4, [r0]
 	bl CARDi_WriteEnable
 	mov r0, #1
@@ -162,7 +162,7 @@ _03803524:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_0380352C: .word 0x03809DE0
+_0380352C: .word cardi_common
 _03803530: .word 0x03807F54
 _03803534: .word CARDi_CommWriteCore
 	arm_func_end CARDi_EraseChipCore
@@ -172,7 +172,7 @@ CARDi_EraseBackupSectorCore: // 0x03803538
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r7, r0
 	mov r6, r1
-	ldr r0, _038035C8 // =0x03809DE0
+	ldr r0, _038035C8 // =cardi_common
 	ldr r5, [r0]
 	ldr r4, [r5, #0x1c]
 	sub r1, r4, #1
@@ -209,7 +209,7 @@ _038035C0:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_038035C8: .word 0x03809DE0
+_038035C8: .word cardi_common
 	arm_func_end CARDi_EraseBackupSectorCore
 
 	arm_func_start CARDi_VerifyBackupCore
@@ -222,10 +222,10 @@ CARDi_VerifyBackupCore: // 0x038035CC
 	bl CARDi_WaitPrevCommand
 	cmp r0, #0
 	beq _0380365C
-	ldr r0, _03803668 // =0x03809DE0
+	ldr r0, _03803668 // =cardi_common
 	ldr r4, [r0]
 	mov r1, #1
-	ldr r0, _0380366C // =0x0380A404
+	ldr r0, _0380366C // =cardi_param
 	str r1, [r0, #0xc]
 	ldr r0, [r4, #0x24]
 	add r0, r0, #1
@@ -245,7 +245,7 @@ CARDi_VerifyBackupCore: // 0x038035CC
 	ldr r0, [r4]
 	cmp r0, #0
 	bne _0380365C
-	ldr r0, _0380366C // =0x0380A404
+	ldr r0, _0380366C // =cardi_param
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	moveq r0, #1
@@ -255,8 +255,8 @@ _0380365C:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_03803668: .word 0x03809DE0
-_0380366C: .word 0x0380A404
+_03803668: .word cardi_common
+_0380366C: .word cardi_param
 _03803670: .word CARDi_CommVerifyCore
 	arm_func_end CARDi_VerifyBackupCore
 
@@ -270,7 +270,7 @@ CARDi_WriteBackupCore: // 0x03803674
 	bl CARDi_WaitPrevCommand
 	cmp r0, #0
 	beq _03803724
-	ldr r0, _03803730 // =0x03809DE0
+	ldr r0, _03803730 // =cardi_common
 	ldr r7, [r0]
 	ldr r6, [r7, #0x20]
 	sub r4, r6, #1
@@ -313,7 +313,7 @@ _03803724:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
-_03803730: .word 0x03809DE0
+_03803730: .word cardi_common
 _03803734: .word CARDi_CommWriteCore
 	arm_func_end CARDi_WriteBackupCore
 
@@ -327,7 +327,7 @@ CARDi_ProgramBackupCore: // 0x03803738
 	bl CARDi_WaitPrevCommand
 	cmp r0, #0
 	beq _038037E8
-	ldr r0, _038037F4 // =0x03809DE0
+	ldr r0, _038037F4 // =cardi_common
 	ldr r7, [r0]
 	ldr r6, [r7, #0x20]
 	sub r4, r6, #1
@@ -370,7 +370,7 @@ _038037E8:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
-_038037F4: .word 0x03809DE0
+_038037F4: .word cardi_common
 _038037F8: .word CARDi_CommWriteCore
 	arm_func_end CARDi_ProgramBackupCore
 
@@ -383,7 +383,7 @@ CARDi_ReadBackupCore: // 0x038037FC
 	bl CARDi_WaitPrevCommand
 	cmp r0, #0
 	beq _0380385C
-	ldr r0, _03803864 // =0x03809DE0
+	ldr r0, _03803864 // =cardi_common
 	ldr r0, [r0]
 	ldr r0, [r0, #0x24]
 	add r0, r0, #1
@@ -404,7 +404,7 @@ _0380385C:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
-_03803864: .word 0x03809DE0
+_03803864: .word cardi_common
 _03803868: .word CARDi_CommReadCore
 	arm_func_end CARDi_ReadBackupCore
 
@@ -412,12 +412,12 @@ _03803868: .word CARDi_CommReadCore
 CARDi_InitStatusRegister: // 0x0380386C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
-	ldr r0, _03803908 // =0x03809DE0
+	ldr r0, _03803908 // =cardi_common
 	ldr r0, [r0]
 	ldrb r4, [r0, #0x48]
 	cmp r4, #0xff
 	beq _038038FC
-	ldr r0, _0380390C // =0x0380A400
+	ldr r0, _0380390C // =status_checked_3333
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _038038FC
@@ -445,15 +445,15 @@ CARDi_InitStatusRegister: // 0x0380386C
 	bl CARDi_SetWriteProtectCore
 _038038F0:
 	mov r1, #1
-	ldr r0, _0380390C // =0x0380A400
+	ldr r0, _0380390C // =status_checked_3333
 	str r1, [r0]
 _038038FC:
 	add sp, sp, #8
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_03803908: .word 0x03809DE0
-_0380390C: .word 0x0380A400
+_03803908: .word cardi_common
+_0380390C: .word status_checked_3333
 _03803910: .word CARDi_CommWriteCore
 _03803914: .word CARDi_CommReadCore
 	arm_func_end CARDi_InitStatusRegister
@@ -462,7 +462,7 @@ _03803914: .word CARDi_CommReadCore
 CARDi_SendSpiAddressingCommand: // 0x03803918
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r2, _038039BC // =0x03809DE0
+	ldr r2, _038039BC // =cardi_common
 	ldr r2, [r2]
 	ldr r2, [r2, #0x24]
 	cmp r2, #1
@@ -506,7 +506,7 @@ _0380399C:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_038039BC: .word 0x03809DE0
+_038039BC: .word cardi_common
 _038039C0: .word CARDi_CommWriteCore
 	arm_func_end CARDi_SendSpiAddressingCommand
 
@@ -618,7 +618,7 @@ CARDi_CommArray: // 0x03803B00
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r7, r2
 	mov r6, r3
-	ldr r5, _03803B84 // =0x0380A404
+	ldr r5, _03803B84 // =cardi_param
 	str r0, [r5, #4]
 	str r1, [r5, #8]
 	ldr r0, _03803B88 // =0x0000A040
@@ -653,7 +653,7 @@ _03803B60:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_03803B84: .word 0x0380A404
+_03803B84: .word cardi_param
 _03803B88: .word 0x0000A040
 _03803B8C: .word 0x040001A0
 	arm_func_end CARDi_CommArray
@@ -665,7 +665,7 @@ CARDi_WaitPrevCommand: // 0x03803B90
 	mov r0, #0
 	mov r1, #0x32
 	bl CARDi_CommandEnd
-	ldr r0, _03803BD0 // =0x03809DE0
+	ldr r0, _03803BD0 // =cardi_common
 	ldr r1, [r0]
 	ldr r0, [r1]
 	cmp r0, #4
@@ -677,7 +677,7 @@ CARDi_WaitPrevCommand: // 0x03803B90
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_03803BD0: .word 0x03809DE0
+_03803BD0: .word cardi_common
 	arm_func_end CARDi_WaitPrevCommand
 
 	arm_func_start CARDi_CommandCheckBusy
@@ -745,23 +745,23 @@ _03803CA0:
 	bl CARDi_CommandCheckBusy
 	cmp r0, #0
 	moveq r1, #4
-	ldreq r0, _03803CC0 // =0x03809DE0
+	ldreq r0, _03803CC0 // =cardi_common
 	ldreq r0, [r0]
 	streq r1, [r0]
 _03803CB8:
 	ldmia sp!, {r4, r5, r6, lr}
 	bx lr
 	.align 2, 0
-_03803CC0: .word 0x03809DE0
+_03803CC0: .word cardi_common
 	arm_func_end CARDi_CommandEnd
 
 	arm_func_start CARDi_CommandBegin
 CARDi_CommandBegin: // 0x03803CC4
-	ldr r1, _03803CD0 // =0x0380A404
+	ldr r1, _03803CD0 // =cardi_param
 	str r0, [r1]
 	bx lr
 	.align 2, 0
-_03803CD0: .word 0x0380A404
+_03803CD0: .word cardi_param
 	arm_func_end CARDi_CommandBegin
 
 	arm_func_start CARDi_GetRomAccessor
@@ -776,7 +776,7 @@ _03803CDC: .word CARDi_ReadCard
 CARD_Init: // 0x03803CE0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r2, _03803D50 // =0x03809DE0
+	ldr r2, _03803D50 // =cardi_common
 	ldr r0, [r2, #0xfc]
 	cmp r0, #0
 	bne _03803D44
@@ -792,11 +792,11 @@ CARD_Init: // 0x03803CE0
 	str r0, [r2, #0x2c]
 	str r1, [r2, #0x3c]
 	str r1, [r2, #0x40]
-	ldr r0, _03803D54 // =0x0380A414
+	ldr r0, _03803D54 // =cardi_rom_base
 	str r1, [r0]
 	bl CARDi_InitCommon
 	bl CARDi_GetRomAccessor
-	ldr r1, _03803D58 // =0x0380A420
+	ldr r1, _03803D58 // =rom_stat
 	str r0, [r1]
 	bl CARD_InitPulledOutCallback
 _03803D44:
@@ -804,15 +804,15 @@ _03803D44:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_03803D50: .word 0x03809DE0
-_03803D54: .word 0x0380A414
-_03803D58: .word 0x0380A420
+_03803D50: .word cardi_common
+_03803D54: .word cardi_rom_base
+_03803D58: .word rom_stat
 	arm_func_end CARD_Init
 
 	arm_func_start CARDi_ReadRomID
 CARDi_ReadRomID: // 0x03803D5C
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	ldr r5, _03803E20 // =0x03809DE0
+	ldr r5, _03803E20 // =cardi_common
 	bl OS_DisableInterrupts
 	mov r4, r0
 	add r6, r5, #0xf4
@@ -834,7 +834,7 @@ _03803D7C:
 	bl OS_RestoreInterrupts
 	bl CARDi_ReadRomIDCore
 	mov r8, r0
-	ldr r7, _03803E20 // =0x03809DE0
+	ldr r7, _03803E20 // =cardi_common
 	mov r1, #0
 	ldr r0, [r7]
 	str r1, [r0]
@@ -865,7 +865,7 @@ _03803E14:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_03803E20: .word 0x03809DE0
+_03803E20: .word cardi_common
 	arm_func_end CARDi_ReadRomID
 
 	arm_func_start CARDi_ReadRomIDCore
@@ -955,7 +955,7 @@ _03803F2C: .word 0x040001AF
 CARDi_TaskThread: // 0x03803F30
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
-	ldr r9, _03804138 // =0x03809DE0
+	ldr r9, _03804138 // =cardi_common
 	add r5, r9, #0x48
 	mov r8, #0
 	add r7, r9, #0xfc
@@ -1104,7 +1104,7 @@ _03804124:
 _3804134: // 0x03804134
 	b _03803F54
 	.align 2, 0
-_03804138: .word 0x03809DE0
+_03804138: .word cardi_common
 	arm_func_end CARDi_TaskThread
 
 	arm_func_start CARDi_OnFifoRecv
@@ -1115,7 +1115,7 @@ CARDi_OnFifoRecv: // 0x0380413C
 	bne _0380420C
 	cmp r2, #0
 	beq _0380420C
-	ldr r0, _03804218 // =0x03809DE0
+	ldr r0, _03804218 // =cardi_common
 	ldr r2, [r0, #8]
 	cmp r2, #0
 	streq r1, [r0, #4]
@@ -1170,7 +1170,7 @@ _0380420C:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_03804218: .word 0x03809DE0
+_03804218: .word cardi_common
 	arm_func_end CARDi_OnFifoRecv
 
 	arm_func_start CARDi_SendtoPxi
@@ -1215,7 +1215,7 @@ CARDi_TerminateARM7: // 0x03804264
 CARD_CheckPullOut_Polling: // 0x0380428C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, _03804360 // =0x0380A640
+	ldr r0, _03804360 // =isCardPullOut
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _03804354
@@ -1243,7 +1243,7 @@ CARD_CheckPullOut_Polling: // 0x0380428C
 	cmp r0, #0
 	beq _0380432C
 	mov r1, #1
-	ldr r0, _03804360 // =0x0380A640
+	ldr r0, _03804360 // =isCardPullOut
 	str r1, [r0]
 	bl CARD_GetRomHeader
 	ldr r0, [r0, #0xc]
@@ -1257,7 +1257,7 @@ _0380432C:
 	mov r1, #0
 	ldr r0, _03804370 // =isFirstCheck_3202
 	str r1, [r0]
-	ldr r0, _03804360 // =0x0380A640
+	ldr r0, _03804360 // =isCardPullOut
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _03804354
@@ -1269,7 +1269,7 @@ _03804354:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_03804360: .word 0x0380A640
+_03804360: .word isCardPullOut
 _03804364: .word 0x027FFC40
 _03804368: .word nextCount_3193
 _0380436C: .word 0x027FFC3C
@@ -1284,12 +1284,12 @@ CARD_IsCardIreqLo: // 0x03804374
 	ldr r1, [r1]
 	ands r1, r1, #0x100000
 	movne r0, #0
-	ldrne r1, _0380439C // =0x0380A648
+	ldrne r1, _0380439C // =detectPullOut
 	strne r2, [r1]
 	bx lr
 	.align 2, 0
 _03804398: .word 0x04000214
-_0380439C: .word 0x0380A648
+_0380439C: .word detectPullOut
 	arm_func_end CARD_IsCardIreqLo
 
 	arm_func_start CARD_CompareCardID
@@ -1311,7 +1311,7 @@ CARD_CompareCardID: // 0x038043A0
 	cmp r0, #0
 	moveq r2, #1
 	movne r2, #0
-	ldr r1, _03804404 // =0x0380A648
+	ldr r1, _03804404 // =detectPullOut
 	str r2, [r1]
 	add sp, sp, #4
 	ldmia sp!, {lr}
@@ -1320,14 +1320,14 @@ CARD_CompareCardID: // 0x038043A0
 _038043F8: .word 0x027FFC10
 _038043FC: .word 0x027FF800
 _03804400: .word 0x027FFC00
-_03804404: .word 0x0380A648
+_03804404: .word detectPullOut
 	arm_func_end CARD_CompareCardID
 
 	arm_func_start CARD_IsPulledOut
 CARD_IsPulledOut: // 0x03804408
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, _03804450 // =0x0380A648
+	ldr r0, _03804450 // =detectPullOut
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _0380443C
@@ -1340,13 +1340,13 @@ CARD_IsPulledOut: // 0x03804408
 _03804438:
 	bl CARD_IsCardIreqLo
 _0380443C:
-	ldr r0, _03804450 // =0x0380A648
+	ldr r0, _03804450 // =detectPullOut
 	ldr r0, [r0]
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_03804450: .word 0x0380A648
+_03804450: .word detectPullOut
 _03804454: .word 0x027FFC1F
 	arm_func_end CARD_IsPulledOut
 
@@ -1371,7 +1371,7 @@ _03804478:
 CARD_InitPulledOutCallback: // 0x03804484
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
-	ldr r0, _038044DC // =0x0380A644
+	ldr r0, _038044DC // =isInitialized_3152
 	ldr r1, [r0]
 	cmp r1, #0
 	bne _038044D0
@@ -1394,7 +1394,7 @@ _038044D0:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_038044DC: .word 0x0380A644
+_038044DC: .word isInitialized_3152
 _038044E0: .word CARDi_PulledOutCallback
 	arm_func_end CARD_InitPulledOutCallback
 

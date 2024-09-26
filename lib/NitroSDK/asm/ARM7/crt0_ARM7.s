@@ -7,7 +7,7 @@
 VBlankIntr: // 0x037F8000
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, _037F8028 // =0x0380ABD4
+	ldr r0, _037F8028 // =PMi_Initialized
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _037F801C
@@ -17,7 +17,7 @@ _037F801C:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037F8028: .word 0x0380ABD4
+_037F8028: .word PMi_Initialized
 	arm_func_end VBlankIntr
 
 	arm_func_start CheckCorrectNCDEx

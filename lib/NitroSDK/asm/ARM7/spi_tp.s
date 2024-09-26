@@ -23,7 +23,7 @@ TP_ExecuteProcess: // 0x03804B74
 _03804BA8:
 	cmp r1, #0x10
 	bne _03804D80
-	ldr r0, _03804D8C // =0x0380AAF4
+	ldr r0, _03804D8C // =tpw
 	ldr r0, [r0, #0x20]
 	cmp r0, #2
 	bne _03804D80
@@ -48,7 +48,7 @@ _03804BF8:
 	mov r0, r4
 	bl OS_RestoreInterrupts
 	add r0, sp, #8
-	ldr r1, _03804D8C // =0x0380AAF4
+	ldr r1, _03804D8C // =tpw
 	ldr r1, [r1, #0x24]
 	add r2, sp, #4
 	bl TP_ExecSampling
@@ -82,7 +82,7 @@ _03804C7C:
 	bl SPIi_ReleaseException
 	b _03804D80
 _03804C88:
-	ldr r7, _03804D8C // =0x0380AAF4
+	ldr r7, _03804D8C // =tpw
 	ldr r0, [r7, #0x20]
 	cmp r0, #1
 	bne _03804D20
@@ -119,7 +119,7 @@ _03804CF0:
 	mov r1, #0
 	bl SPIi_ReturnResult
 	mov r1, #2
-	ldr r0, _03804D8C // =0x0380AAF4
+	ldr r0, _03804D8C // =tpw
 	str r1, [r0, #0x20]
 	b _03804D80
 _03804D20:
@@ -129,7 +129,7 @@ _03804D20:
 	bl SPIi_ReturnResult
 	b _03804D80
 _03804D34:
-	ldr r0, _03804D8C // =0x0380AAF4
+	ldr r0, _03804D8C // =tpw
 	ldr r0, [r0, #0x20]
 	cmp r0, #3
 	bne _03804D70
@@ -141,7 +141,7 @@ _03804D34:
 	mov r1, #0
 	bl SPIi_ReturnResult
 	mov r1, #0
-	ldr r0, _03804D8C // =0x0380AAF4
+	ldr r0, _03804D8C // =tpw
 	str r1, [r0, #0x20]
 	b _03804D80
 _03804D70:
@@ -154,7 +154,7 @@ _03804D80:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
-_03804D8C: .word 0x0380AAF4
+_03804D8C: .word tpw
 _03804D90: .word 0x027FFFAA
 _03804D94: .word 0x027FFFAC
 _03804D98: .word 0x00000107
@@ -172,9 +172,9 @@ TP_AutoAdjustRange: // 0x03804DA8
 	movs r2, r2, lsr #0x1f
 	bne _03804DD8
 	mov r1, #0
-	ldr r0, _03804E90 // =0x0380AAF0
+	ldr r0, _03804E90 // =invalid_cnt_3255
 	strb r1, [r0]
-	ldr r0, _03804E94 // =0x0380AAEC
+	ldr r0, _03804E94 // =valid_cnt_3256
 	strb r1, [r0]
 	b _03804E84
 _03804DD8:
@@ -182,9 +182,9 @@ _03804DD8:
 	movs r0, r0, lsr #0x1e
 	beq _03804E28
 	mov r2, #0
-	ldr r0, _03804E94 // =0x0380AAEC
+	ldr r0, _03804E94 // =valid_cnt_3256
 	strb r2, [r0]
-	ldr r0, _03804E90 // =0x0380AAF0
+	ldr r0, _03804E90 // =invalid_cnt_3255
 	ldrb r1, [r0]
 	add r1, r1, #1
 	strb r1, [r0]
@@ -192,7 +192,7 @@ _03804DD8:
 	cmp r1, #4
 	blo _03804E84
 	strb r2, [r0]
-	ldr r0, _03804E98 // =0x0380AAF4
+	ldr r0, _03804E98 // =tpw
 	ldr r1, [r0, #0x24]
 	cmp r1, #0x23
 	addlt r1, r1, #1
@@ -200,15 +200,15 @@ _03804DD8:
 	b _03804E84
 _03804E28:
 	mov lr, #0
-	ldr r3, _03804E90 // =0x0380AAF0
+	ldr r3, _03804E90 // =invalid_cnt_3255
 	strb lr, [r3]
-	ldr r2, _03804E98 // =0x0380AAF4
+	ldr r2, _03804E98 // =tpw
 	ldr ip, [r2, #0x24]
 	cmp r1, ip, asr #1
-	ldrge r0, _03804E94 // =0x0380AAEC
+	ldrge r0, _03804E94 // =valid_cnt_3256
 	strgeb lr, [r0]
 	bge _03804E84
-	ldr r0, _03804E94 // =0x0380AAEC
+	ldr r0, _03804E94 // =valid_cnt_3256
 	ldrb r1, [r0]
 	add r1, r1, #1
 	strb r1, [r0]
@@ -227,9 +227,9 @@ _03804E84:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_03804E90: .word 0x0380AAF0
-_03804E94: .word 0x0380AAEC
-_03804E98: .word 0x0380AAF4
+_03804E90: .word invalid_cnt_3255
+_03804E94: .word valid_cnt_3256
+_03804E98: .word tpw
 	arm_func_end TP_AutoAdjustRange
 
 	arm_func_start TP_AnalyzeCommand
@@ -240,7 +240,7 @@ TP_AnalyzeCommand: // 0x03804E9C
 	beq _03804ECC
 	mov r4, #0
 	mov r3, r4
-	ldr r1, _03805054 // =0x0380AAF4
+	ldr r1, _03805054 // =tpw
 _03804EB8:
 	mov r2, r4, lsl #1
 	strh r3, [r1, r2]
@@ -251,7 +251,7 @@ _03804ECC:
 	and r1, r0, #0xf0000
 	mov r1, r1, lsr #0x10
 	mov r1, r1, lsl #1
-	ldr r2, _03805054 // =0x0380AAF4
+	ldr r2, _03805054 // =tpw
 	strh r0, [r2, r1]
 	ands r0, r0, #0x1000000
 	beq _03805048
@@ -321,7 +321,7 @@ _03804FB4:
 	bl SPIi_SetEntry
 	cmp r0, #0
 	movne r1, #1
-	ldrne r0, _03805054 // =0x0380AAF4
+	ldrne r0, _03805054 // =tpw
 	strne r1, [r0, #0x20]
 	bne _03805048
 	mov r0, r4
@@ -343,7 +343,7 @@ _03805008:
 	bl SPIi_SetEntry
 	cmp r0, #0
 	movne r1, #3
-	ldrne r0, _03805054 // =0x0380AAF4
+	ldrne r0, _03805054 // =tpw
 	strne r1, [r0, #0x20]
 	bne _03805048
 	mov r0, r4
@@ -359,7 +359,7 @@ _03805048:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_03805054: .word 0x0380AAF4
+_03805054: .word tpw
 _03805058: .word 0x00000107
 	arm_func_end TP_AnalyzeCommand
 
@@ -367,7 +367,7 @@ _03805058: .word 0x00000107
 TP_Init: // 0x0380505C
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r3, #0
-	ldr r0, _03805150 // =0x0380AAF4
+	ldr r0, _03805150 // =tpw
 	str r3, [r0, #0x20]
 	mov r1, #0x14
 	str r1, [r0, #0x24]
@@ -434,7 +434,7 @@ _0380513C:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_03805150: .word 0x0380AAF4
+_03805150: .word tpw
 _03805154: .word 0x0380AB20
 _03805158: .word 0x54505641
 _0380515C: .word 0x040001C0
@@ -473,7 +473,7 @@ TP_ExecSampling: // 0x0380516C
 	orr r0, r0, #0x6000000
 	str r0, [r7]
 	mov r1, #0
-	ldr r0, _038053A4 // =0x0380ABC8
+	ldr r0, _038053A4 // =last_touch_flg
 	strh r1, [r0]
 	b _03805394
 _038051E8:
@@ -565,7 +565,7 @@ _038052DC:
 	orr r0, r0, #0x6000000
 	str r0, [r7]
 	mov r1, #0
-	ldr r0, _038053A4 // =0x0380ABC8
+	ldr r0, _038053A4 // =last_touch_flg
 	strh r1, [r0]
 	b _03805394
 _03805344:
@@ -573,7 +573,7 @@ _03805344:
 	orr r0, r0, #0x1000000
 	str r0, [r7]
 	mov r1, #1
-	ldr r0, _038053A4 // =0x0380ABC8
+	ldr r0, _038053A4 // =last_touch_flg
 	strh r1, [r0]
 	ldrh r0, [sp, #4]
 	ldrh r1, [sp, #2]
@@ -586,7 +586,7 @@ _03805374:
 	bic r0, r0, #0x1000000
 	str r0, [r7]
 	mov r1, #0
-	ldr r0, _038053A4 // =0x0380ABC8
+	ldr r0, _038053A4 // =last_touch_flg
 	strh r1, [r0]
 	b _03805394
 _03805390:
@@ -597,7 +597,7 @@ _03805394:
 	bx lr
 	.align 2, 0
 _038053A0: .word 0xFF000FFF
-_038053A4: .word 0x0380ABC8
+_038053A4: .word last_touch_flg
 _038053A8: .word 0x00000FFF
 _038053AC: .word 0x00008A01
 _038053B0: .word 0x040001C0
@@ -793,7 +793,7 @@ _0380562C:
 	ldrh r0, [r1]
 	ands r0, r0, #0x80
 	bne _0380562C
-	ldr r0, _03805708 // =0x0380ABC8
+	ldr r0, _03805708 // =last_touch_flg
 	ldrh r0, [r0]
 	cmp r0, #0
 	bne _03805660
@@ -851,6 +851,6 @@ _038056F8: .word 0x040001C0
 _038056FC: .word 0x00008A01
 _03805700: .word 0x040001C2
 _03805704: .word 0x00008201
-_03805708: .word 0x0380ABC8
+_03805708: .word last_touch_flg
 _0380570C: .word 0x04000136
 	arm_func_end TPi_DetectTouch

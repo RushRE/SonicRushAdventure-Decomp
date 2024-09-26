@@ -11,7 +11,7 @@ OS_GetTick: // 0x037FD7AC
 	ldr r1, _037FD84C // =0x04000100
 	ldrh r1, [r1]
 	strh r1, [sp]
-	ldr r1, _037FD850 // =0x038085C0
+	ldr r1, _037FD850 // =OSi_TickCounter
 	ldr ip, [r1]
 	ldr r3, [r1, #4]
 	ldr r2, _037FD854 // =0x0000FFFF
@@ -48,7 +48,7 @@ _037FD820:
 	bx lr
 	.align 2, 0
 _037FD84C: .word 0x04000100
-_037FD850: .word 0x038085C0
+_037FD850: .word OSi_TickCounter
 _037FD854: .word 0x0000FFFF
 _037FD858: .word 0x04000214
 	arm_func_end OS_GetTick
@@ -57,7 +57,7 @@ _037FD858: .word 0x04000214
 OSi_CountUpTick: // 0x037FD85C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r1, _037FD8D0 // =0x038085C0
+	ldr r1, _037FD8D0 // =OSi_TickCounter
 	ldr ip, [r1]
 	ldr r2, [r1, #4]
 	mov r3, #0
@@ -66,7 +66,7 @@ OSi_CountUpTick: // 0x037FD85C
 	adc r0, r2, #0
 	str ip, [r1]
 	str r0, [r1, #4]
-	ldr r0, _037FD8D4 // =0x038085BC
+	ldr r0, _037FD8D4 // =OSi_NeedResetTimer
 	ldr r1, [r0]
 	cmp r1, #0
 	beq _037FD8B4
@@ -86,8 +86,8 @@ _037FD8B4:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FD8D0: .word 0x038085C0
-_037FD8D4: .word 0x038085BC
+_037FD8D0: .word OSi_TickCounter
+_037FD8D4: .word OSi_NeedResetTimer
 _037FD8D8: .word 0x04000102
 _037FD8DC: .word 0x04000100
 _037FD8E0: .word OSi_CountUpTick
@@ -95,18 +95,18 @@ _037FD8E0: .word OSi_CountUpTick
 
 	arm_func_start OS_IsTickAvailable
 OS_IsTickAvailable: // 0x037FD8E4
-	ldr r0, _037FD8F0 // =0x038085B8
+	ldr r0, _037FD8F0 // =OSi_UseTick
 	ldrh r0, [r0]
 	bx lr
 	.align 2, 0
-_037FD8F0: .word 0x038085B8
+_037FD8F0: .word OSi_UseTick
 	arm_func_end OS_IsTickAvailable
 
 	arm_func_start OS_InitTick
 OS_InitTick: // 0x037FD8F4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, _037FD970 // =0x038085B8
+	ldr r0, _037FD970 // =OSi_UseTick
 	ldrh r1, [r0]
 	cmp r1, #0
 	bne _037FD964
@@ -115,7 +115,7 @@ OS_InitTick: // 0x037FD8F4
 	mov r0, #0
 	bl OSi_SetTimerReserved
 	mov r2, #0
-	ldr r0, _037FD974 // =0x038085C0
+	ldr r0, _037FD974 // =OSi_TickCounter
 	str r2, [r0]
 	str r2, [r0, #4]
 	ldr r1, _037FD978 // =0x04000102
@@ -130,17 +130,17 @@ OS_InitTick: // 0x037FD8F4
 	mov r0, #8
 	bl OS_EnableIrqMask
 	mov r1, #0
-	ldr r0, _037FD984 // =0x038085BC
+	ldr r0, _037FD984 // =OSi_NeedResetTimer
 	str r1, [r0]
 _037FD964:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FD970: .word 0x038085B8
-_037FD974: .word 0x038085C0
+_037FD970: .word OSi_UseTick
+_037FD974: .word OSi_TickCounter
 _037FD978: .word 0x04000102
 _037FD97C: .word 0x04000100
 _037FD980: .word OSi_CountUpTick
-_037FD984: .word 0x038085BC
+_037FD984: .word OSi_NeedResetTimer
 	arm_func_end OS_InitTick

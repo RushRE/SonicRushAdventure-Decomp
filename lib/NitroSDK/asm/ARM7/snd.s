@@ -148,7 +148,7 @@ _037FEF88: .word 0x04000501
 SND_CalcSurroundDecay: // 0x037FEF8C
 	cmp r1, #0x18
 	bge _037FEFBC
-	ldr r2, _037FEFF0 // =0x038086A4
+	ldr r2, _037FEFF0 // =sSurroundDecay
 	ldr r3, [r2]
 	ldr r2, _037FEFF4 // =0x00007FFF
 	sub r2, r2, r3
@@ -161,7 +161,7 @@ SND_CalcSurroundDecay: // 0x037FEF8C
 _037FEFBC:
 	cmp r1, #0x68
 	bxle lr
-	ldr r2, _037FEFF0 // =0x038086A4
+	ldr r2, _037FEFF0 // =sSurroundDecay
 	ldr ip, [r2]
 	ldr r2, _037FEFF4 // =0x00007FFF
 	add r3, ip, r2
@@ -173,17 +173,17 @@ _037FEFBC:
 	mov r0, r1, asr #0x15
 	bx lr
 	.align 2, 0
-_037FEFF0: .word 0x038086A4
+_037FEFF0: .word sSurroundDecay
 _037FEFF4: .word 0x00007FFF
 	arm_func_end SND_CalcSurroundDecay
 
 	arm_func_start SNDi_SetSurroundDecay
 SNDi_SetSurroundDecay: // 0x037FEFF8
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	ldr r1, _037FF050 // =0x038086A4
+	ldr r1, _037FF050 // =sSurroundDecay
 	str r0, [r1]
 	mov r4, #0
-	ldr r6, _037FF054 // =0x038086B8
+	ldr r6, _037FF054 // =sOrgVolume
 	mov r7, #1
 	ldr r5, _037FF058 // =0x0000FFF5
 _037FF014:
@@ -204,8 +204,8 @@ _037FF03C:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_037FF050: .word 0x038086A4
-_037FF054: .word 0x038086B8
+_037FF050: .word sSurroundDecay
+_037FF054: .word sOrgVolume
 _037FF058: .word 0x0000FFF5
 	arm_func_end SNDi_SetSurroundDecay
 
@@ -235,7 +235,7 @@ _037FF084:
 	bx lr
 _037FF0A0:
 	mov r3, #0
-	ldr r2, _037FF0CC // =0x038086A8
+	ldr r2, _037FF0CC // =sOrgPan
 _037FF0A8:
 	ldrb r1, [r2, r3]
 	mov r0, r3, lsl #4
@@ -247,7 +247,7 @@ _037FF0A8:
 	bx lr
 	.align 2, 0
 _037FF0C8: .word sMasterPan
-_037FF0CC: .word 0x038086A8
+_037FF0CC: .word sOrgPan
 	arm_func_end SND_SetMasterPan
 
 	arm_func_start SND_IsChannelActive
@@ -264,7 +264,7 @@ SND_IsChannelActive: // 0x037FF0D0
 	arm_func_start SND_SetChannelPan
 SND_SetChannelPan: // 0x037FF0EC
 	stmdb sp!, {r4, lr}
-	ldr r2, _037FF154 // =0x038086A8
+	ldr r2, _037FF154 // =sOrgPan
 	strb r1, [r2, r0]
 	ldr r2, _037FF158 // =sMasterPan
 	ldr r2, [r2]
@@ -273,7 +273,7 @@ SND_SetChannelPan: // 0x037FF0EC
 	mov r4, r0, lsl #4
 	add r2, r4, #0x4000000
 	strb r1, [r2, #0x402]
-	ldr r2, _037FF15C // =0x038086A4
+	ldr r2, _037FF15C // =sSurroundDecay
 	ldr r2, [r2]
 	cmp r2, #0
 	ble _037FF14C
@@ -282,7 +282,7 @@ SND_SetChannelPan: // 0x037FF0EC
 	ldr r2, _037FF160 // =0x0000FFF5
 	ands r2, r3, r2
 	beq _037FF14C
-	ldr r2, _037FF164 // =0x038086B8
+	ldr r2, _037FF164 // =sOrgVolume
 	ldrb r0, [r2, r0]
 	bl SND_CalcSurroundDecay
 	add r1, r4, #0x4000000
@@ -291,11 +291,11 @@ _037FF14C:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_037FF154: .word 0x038086A8
+_037FF154: .word sOrgPan
 _037FF158: .word sMasterPan
-_037FF15C: .word 0x038086A4
+_037FF15C: .word sSurroundDecay
 _037FF160: .word 0x0000FFF5
-_037FF164: .word 0x038086B8
+_037FF164: .word sOrgVolume
 	arm_func_end SND_SetChannelPan
 
 	arm_func_start SND_SetChannelTimer
@@ -314,9 +314,9 @@ SND_SetChannelVolume: // 0x037FF180
 	sub sp, sp, #4
 	mov r5, r0
 	mov r4, r2
-	ldr r0, _037FF1F8 // =0x038086B8
+	ldr r0, _037FF1F8 // =sOrgVolume
 	strb r1, [r0, r5]
-	ldr r0, _037FF1FC // =0x038086A4
+	ldr r0, _037FF1FC // =sSurroundDecay
 	ldr r0, [r0]
 	cmp r0, #0
 	ble _037FF1D8
@@ -342,8 +342,8 @@ _037FF1D8:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_037FF1F8: .word 0x038086B8
-_037FF1FC: .word 0x038086A4
+_037FF1F8: .word sOrgVolume
+_037FF1FC: .word sSurroundDecay
 _037FF200: .word 0x0000FFF5
 	arm_func_end SND_SetChannelVolume
 
@@ -371,15 +371,15 @@ SND_SetupChannelNoise: // 0x037FF230
 	mov r6, r3
 	ldr r5, [sp, #0x18]
 	mov r4, r0, lsl #4
-	ldr r2, _037FF2CC // =0x038086A8
+	ldr r2, _037FF2CC // =sOrgPan
 	strb r5, [r2, r0]
 	ldr r2, _037FF2D0 // =sMasterPan
 	ldr r2, [r2]
 	cmp r2, #0
 	movge r5, r2
-	ldr r2, _037FF2D4 // =0x038086B8
+	ldr r2, _037FF2D4 // =sOrgVolume
 	strb r1, [r2, r0]
-	ldr r2, _037FF2D8 // =0x038086A4
+	ldr r2, _037FF2D8 // =sSurroundDecay
 	ldr r2, [r2]
 	cmp r2, #0
 	ble _037FF29C
@@ -406,10 +406,10 @@ _037FF29C:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_037FF2CC: .word 0x038086A8
+_037FF2CC: .word sOrgPan
 _037FF2D0: .word sMasterPan
-_037FF2D4: .word 0x038086B8
-_037FF2D8: .word 0x038086A4
+_037FF2D4: .word sOrgVolume
+_037FF2D8: .word sSurroundDecay
 _037FF2DC: .word 0x0000FFF5
 	arm_func_end SND_SetupChannelNoise
 
@@ -421,15 +421,15 @@ SND_SetupChannelPsg: // 0x037FF2E0
 	mov r6, r3
 	ldr r5, [sp, #0x1c]
 	mov r4, r0, lsl #4
-	ldr r1, _037FF384 // =0x038086A8
+	ldr r1, _037FF384 // =sOrgPan
 	strb r5, [r1, r0]
 	ldr r1, _037FF388 // =sMasterPan
 	ldr r1, [r1]
 	cmp r1, #0
 	movge r5, r1
-	ldr r1, _037FF38C // =0x038086B8
+	ldr r1, _037FF38C // =sOrgVolume
 	strb r2, [r1, r0]
-	ldr r1, _037FF390 // =0x038086A4
+	ldr r1, _037FF390 // =sSurroundDecay
 	ldr r1, [r1]
 	cmp r1, #0
 	ble _037FF34C
@@ -458,10 +458,10 @@ _037FF34C:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_037FF384: .word 0x038086A8
+_037FF384: .word sOrgPan
 _037FF388: .word sMasterPan
-_037FF38C: .word 0x038086B8
-_037FF390: .word 0x038086A4
+_037FF38C: .word sOrgVolume
+_037FF390: .word sSurroundDecay
 _037FF394: .word 0x0000FFF5
 	arm_func_end SND_SetupChannelPsg
 
@@ -474,15 +474,15 @@ SND_SetupChannelPcm: // 0x037FF398
 	ldr r1, [sp, #0x20]
 	ldr r5, [sp, #0x2c]
 	mov r4, r0, lsl #4
-	ldr r2, _037FF454 // =0x038086A8
+	ldr r2, _037FF454 // =sOrgPan
 	strb r5, [r2, r0]
 	ldr r2, _037FF458 // =sMasterPan
 	ldr r2, [r2]
 	cmp r2, #0
 	movge r5, r2
-	ldr r2, _037FF45C // =0x038086B8
+	ldr r2, _037FF45C // =sOrgVolume
 	strb r1, [r2, r0]
-	ldr r2, _037FF460 // =0x038086A4
+	ldr r2, _037FF460 // =sSurroundDecay
 	ldr r2, [r2]
 	cmp r2, #0
 	ble _037FF408
@@ -516,10 +516,10 @@ _037FF408:
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
 	.align 2, 0
-_037FF454: .word 0x038086A8
+_037FF454: .word sOrgPan
 _037FF458: .word sMasterPan
-_037FF45C: .word 0x038086B8
-_037FF460: .word 0x038086A4
+_037FF45C: .word sOrgVolume
+_037FF460: .word sSurroundDecay
 _037FF464: .word 0x0000FFF5
 	arm_func_end SND_SetupChannelPcm
 
@@ -756,13 +756,13 @@ _037FF71C:
 
 	arm_func_start SndAlarmCallback
 SndAlarmCallback: // 0x037FF740
-	ldr r0, _037FF754 // =0x038086EC
+	ldr r0, _037FF754 // =sndMesgQueue
 	mov r1, #1
 	mov r2, #0
 	ldr ip, _037FF758 // =OS_SendMessage
 	bx ip
 	.align 2, 0
-_037FF754: .word 0x038086EC
+_037FF754: .word sndMesgQueue
 _037FF758: .word OS_SendMessage
 	arm_func_end SndAlarmCallback
 
@@ -778,13 +778,13 @@ SNDi_LockMutex: // 0x037FF760
 
 	arm_func_start SND_SendWakeupMessage
 SND_SendWakeupMessage: // 0x037FF764
-	ldr r0, _037FF778 // =0x038086EC
+	ldr r0, _037FF778 // =sndMesgQueue
 	mov r1, #2
 	mov r2, #0
 	ldr ip, _037FF77C // =OS_SendMessage
 	bx ip
 	.align 2, 0
-_037FF778: .word 0x038086EC
+_037FF778: .word sndMesgQueue
 _037FF77C: .word OS_SendMessage
 	arm_func_end SND_SendWakeupMessage
 
@@ -792,7 +792,7 @@ _037FF77C: .word OS_SendMessage
 SND_WaitForIntervalTimer: // 0x037FF780
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, _037FF7A8 // =0x038086EC
+	ldr r0, _037FF7A8 // =sndMesgQueue
 	add r1, sp, #0
 	mov r2, #1
 	bl OS_ReceiveMessage
@@ -801,16 +801,16 @@ SND_WaitForIntervalTimer: // 0x037FF780
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FF7A8: .word 0x038086EC
+_037FF7A8: .word sndMesgQueue
 	arm_func_end SND_WaitForIntervalTimer
 
 	arm_func_start SND_StopIntervalTimer
 SND_StopIntervalTimer: // 0x037FF7AC
-	ldr r0, _037FF7B8 // =0x0380870C
+	ldr r0, _037FF7B8 // =sndAlarm
 	ldr ip, _037FF7BC // =OS_CancelAlarm
 	bx ip
 	.align 2, 0
-_037FF7B8: .word 0x0380870C
+_037FF7B8: .word sndAlarm
 _037FF7BC: .word OS_CancelAlarm
 	arm_func_end SND_StopIntervalTimer
 
@@ -826,7 +826,7 @@ SND_StartIntervalTimer: // 0x037FF7C0
 	str r0, [sp, #8]
 	ldr r3, _037FF810 // =0x00000AA8
 	str r0, [sp]
-	ldr r0, _037FF814 // =0x0380870C
+	ldr r0, _037FF814 // =sndAlarm
 	mov r2, #0x10000
 	adds ip, ip, r2
 	adc r2, r1, #0
@@ -838,26 +838,26 @@ SND_StartIntervalTimer: // 0x037FF7C0
 	.align 2, 0
 _037FF80C: .word SndAlarmCallback
 _037FF810: .word 0x00000AA8
-_037FF814: .word 0x0380870C
+_037FF814: .word sndAlarm
 	arm_func_end SND_StartIntervalTimer
 
 	arm_func_start SND_InitIntervalTimer
 SND_InitIntervalTimer: // 0x037FF818
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, _037FF844 // =0x038086EC
-	ldr r1, _037FF848 // =0x038086CC
+	ldr r0, _037FF844 // =sndMesgQueue
+	ldr r1, _037FF848 // =sndMesgBuffer
 	mov r2, #8
 	bl OS_InitMessageQueue
-	ldr r0, _037FF84C // =0x0380870C
+	ldr r0, _037FF84C // =sndAlarm
 	bl OS_CreateAlarm
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FF844: .word 0x038086EC
-_037FF848: .word 0x038086CC
-_037FF84C: .word 0x0380870C
+_037FF844: .word sndMesgQueue
+_037FF848: .word sndMesgBuffer
+_037FF84C: .word sndAlarm
 	arm_func_end SND_InitIntervalTimer
 
 	arm_func_start SND_CreateThread
@@ -867,27 +867,27 @@ SND_CreateThread: // 0x037FF850
 	mov r1, #0x400
 	str r1, [sp]
 	str r0, [sp, #4]
-	ldr r0, _037FF88C // =0x03808738
+	ldr r0, _037FF88C // =sndThread
 	ldr r1, _037FF890 // =SndThread
 	mov r2, #0
-	ldr r3, _037FF894 // =0x03808BDC
+	ldr r3, _037FF894 // =sWeakLockChannel
 	bl OS_CreateThread
-	ldr r0, _037FF88C // =0x03808738
+	ldr r0, _037FF88C // =sndThread
 	bl OS_WakeupThreadDirect
 	add sp, sp, #0xc
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_037FF88C: .word 0x03808738
+_037FF88C: .word sndThread
 _037FF890: .word SndThread
-_037FF894: .word 0x03808BDC
+_037FF894: .word sWeakLockChannel
 	arm_func_end SND_CreateThread
 
 	arm_func_start SND_Init
 SND_Init: // 0x037FF898
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, _037FF8CC // =0x038086C8
+	ldr r0, _037FF8CC // =initialized_3150
 	ldr r1, [r0]
 	cmp r1, #0
 	bne _037FF8C4
@@ -900,7 +900,7 @@ _037FF8C4:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_037FF8CC: .word 0x038086C8
+_037FF8CC: .word initialized_3150
 	arm_func_end SND_Init
 
 	arm_func_start SND_IsCaptureActive
@@ -1237,7 +1237,7 @@ SND_InvalidateWave: // 0x037FFCEC
 	mov r6, r1
 	mov r5, #0
 	mov r9, r5
-	ldr r4, _037FFD70 // =0x03808C04
+	ldr r4, _037FFD70 // =SNDi_Work
 	mov r8, #0x54
 _037FFD0C:
 	mla r2, r5, r8, r4
@@ -1267,40 +1267,40 @@ _037FFD54:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	.align 2, 0
-_037FFD70: .word 0x03808C04
+_037FFD70: .word SNDi_Work
 	arm_func_end SND_InvalidateWave
 
 	arm_func_start SND_GetLockedChannel
 SND_GetLockedChannel: // 0x037FFD74
 	ands r0, r0, #1
-	ldrne r0, _037FFD8C // =0x03808BDC
+	ldrne r0, _037FFD8C // =sWeakLockChannel
 	ldrne r0, [r0]
-	ldreq r0, _037FFD90 // =0x03808BE0
+	ldreq r0, _037FFD90 // =sLockChannel
 	ldreq r0, [r0]
 	bx lr
 	.align 2, 0
-_037FFD8C: .word 0x03808BDC
-_037FFD90: .word 0x03808BE0
+_037FFD8C: .word sWeakLockChannel
+_037FFD90: .word sLockChannel
 	arm_func_end SND_GetLockedChannel
 
 	arm_func_start SND_UnlockChannel
 SND_UnlockChannel: // 0x037FFD94
 	ands r1, r1, #1
-	ldreq r1, _037FFDC8 // =0x03808BE0
+	ldreq r1, _037FFDC8 // =sLockChannel
 	ldreq r2, [r1]
 	mvneq r0, r0
 	andeq r0, r2, r0
 	streq r0, [r1]
 	bxeq lr
-	ldr r1, _037FFDCC // =0x03808BDC
+	ldr r1, _037FFDCC // =sWeakLockChannel
 	ldr r2, [r1]
 	mvn r0, r0
 	and r0, r2, r0
 	str r0, [r1]
 	bx lr
 	.align 2, 0
-_037FFDC8: .word 0x03808BE0
-_037FFDCC: .word 0x03808BDC
+_037FFDC8: .word sLockChannel
+_037FFDCC: .word sWeakLockChannel
 	arm_func_end SND_UnlockChannel
 
 	arm_func_start SND_LockChannel
@@ -1320,9 +1320,9 @@ _037FFDFC:
 	ands r0, r7, #1
 	beq _037FFE74
 	mov r1, #0x54
-	ldr r0, _037FFEBC // =0x03808C04
+	ldr r0, _037FFEBC // =SNDi_Work
 	mla r8, r6, r1, r0
-	ldr r0, _037FFEC0 // =0x03808BE0
+	ldr r0, _037FFEC0 // =sLockChannel
 	ldr r1, [r0]
 	mov r0, r5, lsl r6
 	ands r0, r1, r0
@@ -1358,11 +1358,11 @@ _037FFE7C:
 	bne _037FFDFC
 _037FFE8C:
 	ands r0, r9, #1
-	ldrne r0, _037FFEC4 // =0x03808BDC
+	ldrne r0, _037FFEC4 // =sWeakLockChannel
 	ldrne r1, [r0]
 	orrne r1, r1, r10
 	strne r1, [r0]
-	ldreq r0, _037FFEC0 // =0x03808BE0
+	ldreq r0, _037FFEC0 // =sLockChannel
 	ldreq r1, [r0]
 	orreq r1, r1, r10
 	streq r1, [r0]
@@ -1370,9 +1370,9 @@ _037FFE8C:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
-_037FFEBC: .word 0x03808C04
-_037FFEC0: .word 0x03808BE0
-_037FFEC4: .word 0x03808BDC
+_037FFEBC: .word SNDi_Work
+_037FFEC0: .word sLockChannel
+_037FFEC4: .word sWeakLockChannel
 	arm_func_end SND_LockChannel
 
 	arm_func_start SND_StopUnlockedChannel
@@ -1384,7 +1384,7 @@ SND_StopUnlockedChannel: // 0x037FFEC8
 	mov r6, r8
 	mov r5, r8
 	mov r4, r8
-	ldr r11, _037FFF88 // =0x03808C04
+	ldr r11, _037FFF88 // =SNDi_Work
 	mov r7, #1
 	b _037FFF6C
 _037FFEF0:
@@ -1392,7 +1392,7 @@ _037FFEF0:
 	beq _037FFF64
 	mov r0, #0x54
 	mla r9, r8, r0, r11
-	ldr r0, _037FFF8C // =0x03808BE0
+	ldr r0, _037FFF8C // =sLockChannel
 	ldr r1, [r0]
 	mov r0, r7, lsl r8
 	ands r0, r1, r0
@@ -1431,8 +1431,8 @@ _037FFF7C:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
-_037FFF88: .word 0x03808C04
-_037FFF8C: .word 0x03808BE0
+_037FFF88: .word SNDi_Work
+_037FFF8C: .word sLockChannel
 	arm_func_end SND_StopUnlockedChannel
 
 	arm_func_start SND_FreeExChannel
@@ -1451,12 +1451,12 @@ SND_AllocExChannel: // 0x037FFFA4
 	mov r10, r0
 	mov r9, r1
 	mov r11, r3
-	ldr r0, _038000CC // =0x03808BE0
+	ldr r0, _038000CC // =sLockChannel
 	ldr r0, [r0]
 	mvn r0, r0
 	and r10, r10, r0
 	cmp r2, #0
-	ldreq r0, _038000D0 // =0x03808BDC
+	ldreq r0, _038000D0 // =sWeakLockChannel
 	ldreq r0, [r0]
 	mvneq r0, r0
 	andeq r10, r10, r0
@@ -1470,7 +1470,7 @@ _037FFFEC:
 	mov r0, r5, lsl r1
 	ands r0, r10, r0
 	beq _03800044
-	ldr r0, _038000D8 // =0x03808C04
+	ldr r0, _038000D8 // =SNDi_Work
 	mla r6, r1, r4, r0
 	cmp r8, #0
 	moveq r8, r6
@@ -1526,10 +1526,10 @@ _038000C0:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
-_038000CC: .word 0x03808BE0
-_038000D0: .word 0x03808BDC
+_038000CC: .word sLockChannel
+_038000D0: .word sWeakLockChannel
 _038000D4: .word 0x03807F30
-_038000D8: .word 0x03808C04
+_038000D8: .word SNDi_Work
 	arm_func_end SND_AllocExChannel
 
 	arm_func_start SND_IsExChannelActive
@@ -1735,7 +1735,7 @@ _03800320:
 	mov r10, r8
 	mov r9, r8
 	mov r1, #0x54
-	ldr r0, _038005F4 // =0x03808C04
+	ldr r0, _038005F4 // =SNDi_Work
 	mla r5, r4, r1, r0
 	ldrb r1, [r5, #3]
 	mov r0, r1, lsl #0x1f
@@ -1925,7 +1925,7 @@ _038005DC:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
-_038005F4: .word 0x03808C04
+_038005F4: .word SNDi_Work
 _038005F8: .word 0x03807E2C
 _038005FC: .word 0xFFFFFD2D
 _03800600: .word 0x0000FFFC
@@ -1939,7 +1939,7 @@ SND_UpdateExChannel: // 0x03800604
 	mov r4, #2
 	mov r5, #1
 	mov r6, r8
-	ldr r7, _038007EC // =0x03808C04
+	ldr r7, _038007EC // =SNDi_Work
 	mov r10, #0x54
 _03800624:
 	mla r9, r8, r10, r7
@@ -2042,7 +2042,7 @@ _03800784:
 	cmp r8, #0x10
 	blt _03800624
 	mov r5, #0
-	ldr r3, _038007EC // =0x03808C04
+	ldr r3, _038007EC // =SNDi_Work
 	mov r1, #0x54
 _0380079C:
 	mla r4, r5, r1, r3
@@ -2067,13 +2067,13 @@ _038007D4:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
-_038007EC: .word 0x03808C04
+_038007EC: .word SNDi_Work
 	arm_func_end SND_UpdateExChannel
 
 	arm_func_start SND_ExChannelInit
 SND_ExChannelInit: // 0x038007F0
 	mov ip, #0
-	ldr r2, _03800844 // =0x03808C04
+	ldr r2, _03800844 // =SNDi_Work
 	mov r0, #0x54
 _038007FC:
 	mul r1, ip, r0
@@ -2089,15 +2089,15 @@ _038007FC:
 	cmp ip, #0x10
 	blt _038007FC
 	mov r1, #0
-	ldr r0, _03800848 // =0x03808BE0
+	ldr r0, _03800848 // =sLockChannel
 	str r1, [r0]
-	ldr r0, _0380084C // =0x03808BDC
+	ldr r0, _0380084C // =sWeakLockChannel
 	str r1, [r0]
 	bx lr
 	.align 2, 0
-_03800844: .word 0x03808C04
-_03800848: .word 0x03808BE0
-_0380084C: .word 0x03808BDC
+_03800844: .word SNDi_Work
+_03800848: .word sLockChannel
+_0380084C: .word sWeakLockChannel
 	arm_func_end SND_ExChannelInit
 
 	arm_func_start SetTrackMute
@@ -2168,7 +2168,7 @@ _03800910: .word 0x03809384
 
 	arm_func_start GetVariablePtr
 GetVariablePtr: // 0x03800914
-	ldr r2, _03800954 // =0x03808C00
+	ldr r2, _03800954 // =SNDi_SharedWork
 	ldr r2, [r2]
 	cmp r2, #0
 	moveq r0, #0
@@ -2185,7 +2185,7 @@ GetVariablePtr: // 0x03800914
 	add r0, r0, r1, lsl #1
 	bx lr
 	.align 2, 0
-_03800954: .word 0x03808C00
+_03800954: .word SNDi_SharedWork
 	arm_func_end GetVariablePtr
 
 	arm_func_start PlayerSeqMain
@@ -2671,7 +2671,7 @@ _03800FF4:
 	strb r0, [r9, #8]
 	b _03801374
 _03801004:
-	ldr r0, _038013A0 // =0x03808BE4
+	ldr r0, _038013A0 // =sMmlPrintEnable
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _03801374
@@ -2930,7 +2930,7 @@ _03801394:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
-_038013A0: .word 0x03808BE4
+_038013A0: .word sMmlPrintEnable
 	arm_func_end TrackSeqMain
 
 	arm_func_start NoteOnCommandProc
@@ -3351,7 +3351,7 @@ _03801900:
 	cmp r4, r5
 	blt _038018DC
 _03801908:
-	ldr r0, _03801958 // =0x03808C00
+	ldr r0, _03801958 // =SNDi_SharedWork
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _03801934
@@ -3373,7 +3373,7 @@ _03801934:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_03801958: .word 0x03808C00
+_03801958: .word SNDi_SharedWork
 	arm_func_end PlayerTempoMain
 
 	arm_func_start FreeTrackChannelAll
@@ -3459,7 +3459,7 @@ _03801A50:
 	add r3, r3, #1
 	cmp r3, #0x10
 	blt _03801A50
-	ldr r2, _03801AB4 // =0x03808C00
+	ldr r2, _03801AB4 // =SNDi_SharedWork
 	ldr r3, [r2]
 	cmp r3, #0
 	beq _03801AAC
@@ -3482,7 +3482,7 @@ _03801AAC:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_03801AB4: .word 0x03808C00
+_03801AB4: .word SNDi_SharedWork
 	arm_func_end InitPlayer
 
 	arm_func_start StartTrack
@@ -3698,7 +3698,7 @@ Read16: // 0x03801D28
 GetByteCache: // 0x03801D78
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, _03801DC0 // =0x03808BE8
+	ldr r0, _03801DC0 // =seqCache
 	ldr r1, [r0]
 	cmp r4, r1
 	blo _03801D9C
@@ -3709,7 +3709,7 @@ _03801D9C:
 	mov r0, r4
 	bl InitCache
 _03801DA4:
-	ldr r0, _03801DC0 // =0x03808BE8
+	ldr r0, _03801DC0 // =seqCache
 	ldr r0, [r0]
 	sub r1, r4, r0
 	ldr r0, _03801DC4 // =0x03808BF0
@@ -3717,14 +3717,14 @@ _03801DA4:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_03801DC0: .word 0x03808BE8
+_03801DC0: .word seqCache
 _03801DC4: .word 0x03808BF0
 	arm_func_end GetByteCache
 
 	arm_func_start InitCache
 InitCache: // 0x03801DC8
 	bic r2, r0, #3
-	ldr r0, _03801E00 // =0x03808BE8
+	ldr r0, _03801E00 // =seqCache
 	str r2, [r0]
 	add r1, r2, #0x10
 	str r1, [r0, #4]
@@ -3738,7 +3738,7 @@ InitCache: // 0x03801DC8
 	str r1, [r0, #0x14]
 	bx lr
 	.align 2, 0
-_03801E00: .word 0x03808BE8
+_03801E00: .word seqCache
 	arm_func_end InitCache
 
 	arm_func_start SNDi_SetTrackParam
@@ -4021,7 +4021,7 @@ _03802160:
 	blo _0380213C
 _03802168:
 	bl SND_StartIntervalTimer
-	ldr r0, _038021A4 // =0x03808C00
+	ldr r0, _038021A4 // =SNDi_SharedWork
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _03802198
@@ -4037,7 +4037,7 @@ _03802198:
 	bx lr
 	.align 2, 0
 _038021A0: .word 0x03809144
-_038021A4: .word 0x03808C00
+_038021A4: .word SNDi_SharedWork
 	arm_func_end SND_SkipSeq
 
 	arm_func_start SND_PauseSeq
@@ -4094,7 +4094,7 @@ SND_StopSeq: // 0x0380222C
 	movs r1, r1, lsr #0x1f
 	beq _03802278
 	bl FinishPlayer
-	ldr r0, _03802284 // =0x03808C00
+	ldr r0, _03802284 // =SNDi_SharedWork
 	ldr r2, [r0]
 	cmp r2, #0
 	ldrne r1, [r2, #4]
@@ -4107,7 +4107,7 @@ _03802278:
 	bx lr
 	.align 2, 0
 _03802280: .word 0x03809144
-_03802284: .word 0x03808C00
+_03802284: .word SNDi_SharedWork
 	arm_func_end SND_StopSeq
 
 	arm_func_start SND_StartSeq
@@ -4213,7 +4213,7 @@ _038023C8:
 	ldrb r0, [r7]
 	bic r0, r0, #2
 	strb r0, [r7]
-	ldr r0, _03802414 // =0x03808C00
+	ldr r0, _03802414 // =SNDi_SharedWork
 	ldr r2, [r0]
 	cmp r2, #0
 	ldrne r1, [r2, #4]
@@ -4227,7 +4227,7 @@ _03802400:
 	.align 2, 0
 _0380240C: .word 0x03809144
 _03802410: .word 0x03809384
-_03802414: .word 0x03808C00
+_03802414: .word SNDi_SharedWork
 	arm_func_end SND_PrepareSeq
 
 	arm_func_start SND_SeqMain
@@ -4268,7 +4268,7 @@ _0380248C:
 	add r6, r6, #1
 	cmp r6, #0x10
 	blt _03802434
-	ldr r0, _038024B4 // =0x03808C00
+	ldr r0, _038024B4 // =SNDi_SharedWork
 	ldr r0, [r0]
 	cmp r0, #0
 	strne r5, [r0, #4]
@@ -4276,7 +4276,7 @@ _0380248C:
 	bx lr
 	.align 2, 0
 _038024B0: .word 0x03809144
-_038024B4: .word 0x03808C00
+_038024B4: .word SNDi_SharedWork
 	arm_func_end SND_SeqMain
 
 	arm_func_start SND_SeqInit
@@ -4566,7 +4566,7 @@ SND_UpdateSharedWork: // 0x03802858
 	sub sp, sp, #4
 	mov r5, #0
 	mov r4, r5
-	ldr r0, _038028F4 // =0x03808C00
+	ldr r0, _038028F4 // =SNDi_SharedWork
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _038028E8
@@ -4594,7 +4594,7 @@ _03802880:
 	orrne r0, r4, #2
 	movne r0, r0, lsl #0x10
 	movne r4, r0, lsr #0x10
-	ldr r0, _038028F4 // =0x03808C00
+	ldr r0, _038028F4 // =SNDi_SharedWork
 	ldr r1, [r0]
 	strh r5, [r1, #8]
 	ldr r0, [r0]
@@ -4604,24 +4604,24 @@ _038028E8:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_038028F4: .word 0x03808C00
+_038028F4: .word SNDi_SharedWork
 	arm_func_end SND_UpdateSharedWork
 
 	arm_func_start SND_SetPlayerGlobalVariable
 SND_SetPlayerGlobalVariable: // 0x038028F8
-	ldr r2, _03802910 // =0x03808C00
+	ldr r2, _03802910 // =SNDi_SharedWork
 	ldr r2, [r2]
 	add r0, r2, r0, lsl #1
 	add r0, r0, #0x200
 	strh r1, [r0, #0x60]
 	bx lr
 	.align 2, 0
-_03802910: .word 0x03808C00
+_03802910: .word SNDi_SharedWork
 	arm_func_end SND_SetPlayerGlobalVariable
 
 	arm_func_start SND_SetPlayerLocalVariable
 SND_SetPlayerLocalVariable: // 0x03802914
-	ldr r3, _03802930 // =0x03808C00
+	ldr r3, _03802930 // =SNDi_SharedWork
 	ldr ip, [r3]
 	mov r3, #0x24
 	mla r3, r0, r3, ip
@@ -4629,7 +4629,7 @@ SND_SetPlayerLocalVariable: // 0x03802914
 	strh r2, [r0, #0x20]
 	bx lr
 	.align 2, 0
-_03802930: .word 0x03808C00
+_03802930: .word SNDi_SharedWork
 	arm_func_end SND_SetPlayerLocalVariable
 
 	arm_func_start AlarmHandler
@@ -4762,7 +4762,7 @@ _03802AC4: .word 0x03809B84
 SND_AlarmInit: // 0x03802AC8
 	mov r3, #0
 	mov r2, r3
-	ldr r1, _03802AF0 // =0x03808C04
+	ldr r1, _03802AF0 // =SNDi_Work
 _03802AD4:
 	add r0, r1, r3, lsl #6
 	strb r2, [r0, #0xf80]
@@ -4772,7 +4772,7 @@ _03802AD4:
 	blt _03802AD4
 	bx lr
 	.align 2, 0
-_03802AF0: .word 0x03808C04
+_03802AF0: .word SNDi_Work
 	arm_func_end SND_AlarmInit
 
 	arm_func_start SND_ReadDriverInfo
@@ -4780,11 +4780,11 @@ SND_ReadDriverInfo: // 0x03802AF4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
-	ldr r0, _03802B5C // =0x03808C04
+	ldr r0, _03802B5C // =SNDi_Work
 	mov r1, r5
 	mov r2, #0x1180
 	bl MIi_CpuCopy32
-	ldr r1, _03802B5C // =0x03808C04
+	ldr r1, _03802B5C // =SNDi_Work
 	add r0, r5, #0x1000
 	str r1, [r0, #0x1c0]
 	mov r4, #0
@@ -4805,7 +4805,7 @@ _03802B20:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_03802B5C: .word 0x03808C04
+_03802B5C: .word SNDi_Work
 	arm_func_end SND_ReadDriverInfo
 
 	arm_func_start SND_StopTimer
@@ -5047,7 +5047,7 @@ SND_PxiFifoCallback: // 0x03802E18
 	mov r4, r0
 	cmp r5, #0x2000000
 	blo _03802E48
-	ldr r0, _03802E68 // =0x03809D84
+	ldr r0, _03802E68 // =sCommandMesgQueue
 	mov r1, r5
 	mov r2, #0
 	bl OS_SendMessage
@@ -5063,15 +5063,15 @@ _03802E54:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_03802E68: .word 0x03809D84
+_03802E68: .word sCommandMesgQueue
 	arm_func_end SND_PxiFifoCallback
 
 	arm_func_start SND_CommandProc
 SND_CommandProc: // 0x03802E6C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x34
-	ldr r7, _038032D4 // =0x03808C00
-	ldr r9, _038032D8 // =0x03809D84
+	ldr r7, _038032D4 // =SNDi_SharedWork
+	ldr r9, _038032D8 // =sCommandMesgQueue
 	add r8, sp, #0x18
 	mov r4, #0
 	ldr r6, _038032DC // =0x0000FFFF
@@ -5391,8 +5391,8 @@ _038032B0:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
 	.align 2, 0
-_038032D4: .word 0x03808C00
-_038032D8: .word 0x03809D84
+_038032D4: .word SNDi_SharedWork
+_038032D8: .word sCommandMesgQueue
 _038032DC: .word 0x0000FFFF
 _038032E0: .word 0x003FFFFF
 	arm_func_end SND_CommandProc
@@ -5401,21 +5401,21 @@ _038032E0: .word 0x003FFFFF
 SND_CommandInit: // 0x038032E4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, _03803318 // =0x03809D84
-	ldr r1, _0380331C // =0x03809DA4
+	ldr r0, _03803318 // =sCommandMesgQueue
+	ldr r1, _0380331C // =sCommandMesgBuffer
 	mov r2, #8
 	bl OS_InitMessageQueue
 	bl SND_InitPXI
 	mov r1, #0
-	ldr r0, _03803320 // =0x03808C00
+	ldr r0, _03803320 // =SNDi_SharedWork
 	str r1, [r0]
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_03803318: .word 0x03809D84
-_0380331C: .word 0x03809DA4
-_03803320: .word 0x03808C00
+_03803318: .word sCommandMesgQueue
+_0380331C: .word sCommandMesgBuffer
+_03803320: .word SNDi_SharedWork
 	arm_func_end SND_CommandInit
 
 	.rodata

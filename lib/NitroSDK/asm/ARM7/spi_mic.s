@@ -8,7 +8,7 @@
 	arm_func_start MicTimerHandler
 MicTimerHandler: // 0x03806298
 	stmdb sp!, {r4, r5, r6, r7, lr}
-	ldr r4, _038063F0 // =0x0380BB7C
+	ldr r4, _038063F0 // =micw
 	ldrh r5, [r4, #0x26]
 	and r0, r5, #4
 	cmp r0, #4
@@ -102,7 +102,7 @@ _038063E8:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_038063F0: .word 0x0380BB7C
+_038063F0: .word micw
 _038063F4: .word 0x0000FFFF
 _038063F8: .word 0x027FFC00
 _038063FC: .word 0x0400010E
@@ -197,7 +197,7 @@ _03806514:
 	bl SPIi_ReleaseException
 	b _03806674
 _03806534:
-	ldr r0, _03806688 // =0x0380BB7C
+	ldr r0, _03806688 // =micw
 	ldr r1, [r0, #0x20]
 	cmp r1, #1
 	bne _038065BC
@@ -212,7 +212,7 @@ _03806534:
 	ldr r1, _0380668C // =MIC_TimerHandler
 	bl MIC_SetIrqFunction
 	bl MIC_EnableMultipleInterrupt
-	ldr r0, _03806688 // =0x0380BB7C
+	ldr r0, _03806688 // =micw
 	ldrh r2, [r0, #0x34]
 	ldr r1, _03806690 // =0x0400010C
 	strh r2, [r1]
@@ -228,7 +228,7 @@ _03806534:
 	mov r1, #0
 	bl SPIi_ReturnResult
 	mov r1, #2
-	ldr r0, _03806688 // =0x0380BB7C
+	ldr r0, _03806688 // =micw
 	str r1, [r0, #0x20]
 	b _03806674
 _038065BC:
@@ -238,7 +238,7 @@ _038065BC:
 	bl SPIi_ReturnResult
 	b _03806674
 _038065D0:
-	ldr r0, _03806688 // =0x0380BB7C
+	ldr r0, _03806688 // =micw
 	ldr r1, [r0, #0x20]
 	sub r0, r1, #3
 	cmp r0, #1
@@ -255,7 +255,7 @@ _038065D0:
 	bl MIC_DisableMultipleInterrupt
 	mov r0, r4
 	bl OS_RestoreInterrupts
-	ldr r0, _03806688 // =0x0380BB7C
+	ldr r0, _03806688 // =micw
 	ldr r0, [r0, #0x20]
 	cmp r0, #3
 	bne _03806634
@@ -269,7 +269,7 @@ _03806634:
 	bl SPIi_ReturnResult
 _03806640:
 	mov r1, #0
-	ldr r0, _03806688 // =0x0380BB7C
+	ldr r0, _03806688 // =micw
 	str r1, [r0, #0x20]
 	b _03806674
 _03806650:
@@ -290,7 +290,7 @@ _03806674:
 	.align 2, 0
 _03806680: .word 0x027FFF94
 _03806684: .word 0x027FFF90
-_03806688: .word 0x0380BB7C
+_03806688: .word micw
 _0380668C: .word MIC_TimerHandler
 _03806690: .word 0x0400010C
 _03806694: .word 0x0400010E
@@ -301,7 +301,7 @@ MicSetTimerValue: // 0x03806698
 	cmp r0, #0x10000
 	bhs _038066BC
 	mov r2, #0
-	ldr r1, _03806738 // =0x0380BB7C
+	ldr r1, _03806738 // =micw
 	strh r2, [r1, #0x36]
 	rsb r0, r0, #0x10000
 	strh r0, [r1, #0x34]
@@ -311,7 +311,7 @@ _038066BC:
 	cmp r0, #0x400000
 	bhs _038066E4
 	mov r2, #1
-	ldr r1, _03806738 // =0x0380BB7C
+	ldr r1, _03806738 // =micw
 	strh r2, [r1, #0x36]
 	mov r0, r0, lsr #6
 	rsb r0, r0, #0x10000
@@ -322,7 +322,7 @@ _038066E4:
 	cmp r0, #0x1000000
 	bhs _0380670C
 	mov r2, #2
-	ldr r1, _03806738 // =0x0380BB7C
+	ldr r1, _03806738 // =micw
 	strh r2, [r1, #0x36]
 	mov r0, r0, lsr #8
 	rsb r0, r0, #0x10000
@@ -334,7 +334,7 @@ _0380670C:
 	movhs r0, #0
 	bxhs lr
 	mov r2, #3
-	ldr r1, _03806738 // =0x0380BB7C
+	ldr r1, _03806738 // =micw
 	strh r2, [r1, #0x36]
 	mov r0, r0, lsr #0xa
 	rsb r0, r0, #0x10000
@@ -342,7 +342,7 @@ _0380670C:
 	mov r0, #1
 	bx lr
 	.align 2, 0
-_03806738: .word 0x0380BB7C
+_03806738: .word micw
 	arm_func_end MicSetTimerValue
 
 	arm_func_start MIC_AnalyzeCommand
@@ -352,7 +352,7 @@ MIC_AnalyzeCommand: // 0x0380673C
 	beq _03806768
 	mov r4, #0
 	mov r3, r4
-	ldr r1, _038069FC // =0x0380BB7C
+	ldr r1, _038069FC // =micw
 _03806754:
 	mov r2, r4, lsl #1
 	strh r3, [r1, r2]
@@ -363,7 +363,7 @@ _03806768:
 	and r1, r0, #0xf0000
 	mov r1, r1, lsr #0x10
 	mov r2, r1, lsl #1
-	ldr r1, _038069FC // =0x0380BB7C
+	ldr r1, _038069FC // =micw
 	strh r0, [r1, r2]
 	ands r0, r0, #0x1000000
 	beq _038069F4
@@ -447,7 +447,7 @@ _03806870:
 	b _038069F4
 _0380689C:
 	mov r2, #0
-	ldr r0, _038069FC // =0x0380BB7C
+	ldr r0, _038069FC // =micw
 	str r2, [r0, #0x2c]
 	ldrh r1, [r0, #0x24]
 	and r1, r1, #7
@@ -468,7 +468,7 @@ _038068D8:
 	ldr r0, _03806A04 // =0x027FFF90
 	str r1, [r0]
 	mov r1, #1
-	ldr r0, _038069FC // =0x0380BB7C
+	ldr r0, _038069FC // =micw
 	str r1, [r0, #0x20]
 	b _038069F4
 _038068FC:
@@ -492,7 +492,7 @@ _03806918:
 	b _038069F4
 _03806940:
 	mov r1, #3
-	ldr r0, _038069FC // =0x0380BB7C
+	ldr r0, _038069FC // =micw
 	str r1, [r0, #0x20]
 	ldr r1, _03806A08 // =0x0400010E
 	ldrh r0, [r1]
@@ -524,7 +524,7 @@ _038069A4:
 	ldrh r1, [ip]
 	bic r1, r1, #0x80
 	strh r1, [ip]
-	ldr r1, _038069FC // =0x0380BB7C
+	ldr r1, _038069FC // =micw
 	ldrh r3, [r1, #0x34]
 	ldr r2, _03806A0C // =0x0400010C
 	strh r3, [r2]
@@ -544,7 +544,7 @@ _038069F4:
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
-_038069FC: .word 0x0380BB7C
+_038069FC: .word micw
 _03806A00: .word 0x027FFF94
 _03806A04: .word 0x027FFF90
 _03806A08: .word 0x0400010E
@@ -554,7 +554,7 @@ _03806A0C: .word 0x0400010C
 	arm_func_start MIC_Init
 MIC_Init: // 0x03806A10
 	mov r3, #0
-	ldr r0, _03806A48 // =0x0380BB7C
+	ldr r0, _03806A48 // =micw
 	str r3, [r0, #0x20]
 	mov r2, r3
 _03806A20:
@@ -569,7 +569,7 @@ _03806A20:
 	strh r0, [r1]
 	bx lr
 	.align 2, 0
-_03806A48: .word 0x0380BB7C
+_03806A48: .word micw
 _03806A4C: .word 0x0400010E
 	arm_func_end MIC_Init
 
@@ -713,11 +713,11 @@ MIC_IrqHandler: // 0x03806BE0
 	sub sp, sp, #8
 	mov r0, #0x9f
 	msr cpsr_c, r0
-	ldr r1, _03806D50 // =0x03808434
+	ldr r1, _03806D50 // =OSi_ThreadInfo
 	ldrh r0, [r1, #2]
 	add r0, r0, #1
 	strh r0, [r1, #2]
-	ldr r1, _03806D54 // =0x0380BBB8
+	ldr r1, _03806D54 // =micIntrInfo
 	cmp r0, #1
 	moveq r0, sp
 	ldreq sp, [r1, #4]
@@ -742,7 +742,7 @@ _03806C7C:
 	ldr r2, [r0, #4]
 	ldr r3, _03806D5C // =OS_IRQTable
 	ldr r0, [r3, r2, lsl #2]
-	ldr r2, _03806D50 // =0x03808434
+	ldr r2, _03806D50 // =OSi_ThreadInfo
 	ldrh r3, [r2, #2]
 	cmp r3, #1
 	ldreq r2, [r1]
@@ -767,8 +767,8 @@ _3806CCC: // 0x03806CCC
 	orr r3, r3, r1
 	bic r3, r3, r0
 	str r3, [ip, #0x210]
-	ldr r2, _03806D50 // =0x03808434
-	ldr r3, _03806D54 // =0x0380BBB8
+	ldr r2, _03806D50 // =OSi_ThreadInfo
+	ldr r3, _03806D54 // =micIntrInfo
 	ldrh r0, [r2, #2]
 	subs r1, r0, #1
 	strh r1, [r2, #2]
@@ -789,8 +789,8 @@ _3806CCC: // 0x03806CCC
 	ldmia sp!, {pc}
 	.align 2, 0
 _03806D4C: .word 0x01DF3FFF
-_03806D50: .word 0x03808434
-_03806D54: .word 0x0380BBB8
+_03806D50: .word OSi_ThreadInfo
+_03806D54: .word micIntrInfo
 _03806D58: .word 0x03807F60
 _03806D5C: .word OS_IRQTable
 _03806D60: .word OS_IrqHandler_ThreadSwitch
@@ -806,7 +806,7 @@ MIC_DisableMultipleInterrupt: // 0x03806D64
 	cmp r1, r0
 	bne _03806D98
 	bl OS_DisableInterrupts
-	ldr r1, _03806DAC // =0x0380BBB8
+	ldr r1, _03806DAC // =micIntrInfo
 	ldr r2, [r1, #0xc]
 	ldr r1, _03806DA4 // =0x0380FFFC
 	str r2, [r1]
@@ -818,7 +818,7 @@ _03806D98:
 	.align 2, 0
 _03806DA4: .word 0x0380FFFC
 _03806DA8: .word MIC_IrqHandler
-_03806DAC: .word 0x0380BBB8
+_03806DAC: .word micIntrInfo
 	arm_func_end MIC_DisableMultipleInterrupt
 
 	arm_func_start MIC_EnableMultipleInterrupt
@@ -831,7 +831,7 @@ MIC_EnableMultipleInterrupt: // 0x03806DB0
 	cmp r2, r0
 	beq _03806E00
 	mov r1, #0
-	ldr r0, _03806E14 // =0x0380BBB8
+	ldr r0, _03806E14 // =micIntrInfo
 	str r1, [r0]
 	ldr r1, _03806E18 // =0x0380FE80
 	str r1, [r0, #4]
@@ -850,7 +850,7 @@ _03806E00:
 	.align 2, 0
 _03806E0C: .word 0x0380FFFC
 _03806E10: .word MIC_IrqHandler
-_03806E14: .word 0x0380BBB8
+_03806E14: .word micIntrInfo
 _03806E18: .word 0x0380FE80
 	arm_func_end MIC_EnableMultipleInterrupt
 

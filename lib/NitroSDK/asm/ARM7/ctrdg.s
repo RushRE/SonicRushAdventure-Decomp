@@ -132,7 +132,7 @@ CTRDG_IsExisting: // 0x03806F90
 	cmp r0, #1
 	moveq r0, #0
 	beq _03807098
-	ldr r0, _038070AC // =0x0380BBC8
+	ldr r0, _038070AC // =CTRDGi_Work
 	ldrh r0, [r0, #2]
 	add r1, sp, #0
 	bl CTRDGi_LockByProcessor
@@ -183,7 +183,7 @@ _03807068:
 _0380707C:
 	add r0, sp, #8
 	bl CTRDGi_RestoreAccessCycle
-	ldr r0, _038070AC // =0x0380BBC8
+	ldr r0, _038070AC // =CTRDGi_Work
 	ldrh r0, [r0, #2]
 	add r1, sp, #0
 	bl CTRDGi_UnlockByProcessor
@@ -195,7 +195,7 @@ _03807098:
 	.align 2, 0
 _038070A4: .word 0x027FFC30
 _038070A8: .word 0x0000FFFF
-_038070AC: .word 0x0380BBC8
+_038070AC: .word CTRDGi_Work
 _038070B0: .word 0x0801FFFE
 	arm_func_end CTRDG_IsExisting
 
@@ -235,17 +235,17 @@ CTRDGi_InitCommon: // 0x0380710C
 	mov r0, #0
 	str r0, [sp]
 	add r0, sp, #0
-	ldr r1, _03807144 // =0x0380BBC8
+	ldr r1, _03807144 // =CTRDGi_Work
 	ldr r2, _03807148 // =0x05000001
 	bl _Ven__SVC_CpuSet
 	bl OS_GetLockID
-	ldr r1, _03807144 // =0x0380BBC8
+	ldr r1, _03807144 // =CTRDGi_Work
 	strh r0, [r1, #2]
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_03807144: .word 0x0380BBC8
+_03807144: .word CTRDGi_Work
 _03807148: .word 0x05000001
 	arm_func_end CTRDGi_InitCommon
 
@@ -326,11 +326,11 @@ CTRDG_CheckPullOut_Polling: // 0x03807204
 	addeq r0, r0, #0xa
 	streq r0, [r1]
 	beq _038072F8
-	ldr r0, _0380730C // =0x0380BBDC
+	ldr r0, _0380730C // =skipCheck_3295
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _038072F8
-	ldr r0, _03807310 // =0x0380BBD8
+	ldr r0, _03807310 // =isCartridgePullOut_3293
 	ldr r0, [r0]
 	cmp r0, #0
 	bne _038072F8
@@ -342,7 +342,7 @@ CTRDG_CheckPullOut_Polling: // 0x03807204
 	add r0, r0, #0xa
 	str r0, [r1]
 	bl CTRDG_IsPulledOut
-	ldr r1, _03807310 // =0x0380BBD8
+	ldr r1, _03807310 // =isCartridgePullOut_3293
 	str r0, [r1]
 	bl CTRDG_IsExisting
 	cmp r0, #0
@@ -351,17 +351,17 @@ CTRDG_CheckPullOut_Polling: // 0x03807204
 	ldr r0, [r0]
 	cmp r0, #0
 	movne r1, #1
-	ldrne r0, _0380730C // =0x0380BBDC
+	ldrne r0, _0380730C // =skipCheck_3295
 	strne r1, [r0]
 	bne _038072F8
 	mov r1, #1
-	ldr r0, _03807310 // =0x0380BBD8
+	ldr r0, _03807310 // =isCartridgePullOut_3293
 	str r1, [r0]
 _038072AC:
 	mov r7, #0
 	ldr r0, _03807314 // =isFirstCheck_3294
 	str r7, [r0]
-	ldr r0, _03807310 // =0x0380BBD8
+	ldr r0, _03807310 // =isCartridgePullOut_3293
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _038072F8
@@ -386,8 +386,8 @@ _038072F8:
 	.align 2, 0
 _03807304: .word nextCount_3292
 _03807308: .word 0x027FFC3C
-_0380730C: .word 0x0380BBDC
-_03807310: .word 0x0380BBD8
+_0380730C: .word skipCheck_3295
+_03807310: .word isCartridgePullOut_3293
 _03807314: .word isFirstCheck_3294
 	arm_func_end CTRDG_CheckPullOut_Polling
 
@@ -445,13 +445,13 @@ _038073C0: .word 0x0000FFFF
 
 	arm_func_start CTRDGi_VibOnOff
 CTRDGi_VibOnOff: // 0x038073C4
-	ldr r1, _038073D8 // =0x0380BBD0
+	ldr r1, _038073D8 // =current_vib
 	str r0, [r1]
 	ldr r1, _038073DC // =0x08001000
 	strh r0, [r1]
 	bx lr
 	.align 2, 0
-_038073D8: .word 0x0380BBD0
+_038073D8: .word current_vib
 _038073DC: .word 0x08001000
 	arm_func_end CTRDGi_VibOnOff
 
@@ -482,13 +482,13 @@ _03807420:
 _03807434:
 	bl OS_DisableInterrupts
 	mov r9, r0
-	ldr r0, _038075EC // =0x0380BBD0
+	ldr r0, _038075EC // =current_vib
 	ldr r0, [r0]
 	cmp r0, #2
 	bne _038074B8
 	mov r8, #0
 	ldr r7, _038075F0 // =0x027FFFE8
-	ldr r4, _038075F4 // =0x0380BBCC
+	ldr r4, _038075F4 // =lock_id
 	ldr r11, _038075F8 // =0x000080E8
 	mov r6, r8
 	mov r5, #1
@@ -518,7 +518,7 @@ _038074B0:
 	cmp r8, #0
 	beq _03807468
 _038074B8:
-	ldr r0, _038075FC // =0x0380BBFC
+	ldr r0, _038075FC // =pulse_edge_alarm
 	bl OS_CancelAlarm
 	mov r0, r9
 	bl OS_RestoreInterrupts
@@ -530,7 +530,7 @@ _038074CC:
 	bl OS_ReadOwnerOfLockWord
 	ands r4, r0, #0x80
 	bne _038074F8
-	ldr r0, _038075F4 // =0x0380BBCC
+	ldr r0, _038075F4 // =lock_id
 	ldrh r0, [r0]
 	bl OS_TryLockCard
 	cmp r0, #0
@@ -543,7 +543,7 @@ _038074F8:
 	mov r0, #0
 	bl CTRDGi_VibOnOff
 	str r5, [sp]
-	ldr r0, _038075FC // =0x0380BBFC
+	ldr r0, _038075FC // =pulse_edge_alarm
 	ldr r1, [r5, #8]
 	mov r2, #0
 	ldr r3, _03807600 // =CTRDG_VibPulseEdgeUpdate
@@ -557,7 +557,7 @@ _03807534:
 	mov r0, #0
 	bl CTRDGi_VibOnOff
 	str r5, [sp]
-	ldr r0, _038075FC // =0x0380BBFC
+	ldr r0, _038075FC // =pulse_edge_alarm
 	ldr r1, [r5]
 	mov r1, r1, lsr #1
 	add r1, r5, r1, lsl #2
@@ -573,7 +573,7 @@ _03807578:
 	mov r0, #2
 	bl CTRDGi_VibOnOff
 	str r5, [sp]
-	ldr r0, _038075FC // =0x0380BBFC
+	ldr r0, _038075FC // =pulse_edge_alarm
 	ldr r1, [r5]
 	mov r1, r1, lsr #1
 	add r1, r5, r1, lsl #2
@@ -587,13 +587,13 @@ _03807578:
 _038075B0:
 	cmp r4, #0
 	bne _038075E0
-	ldr r0, _038075F4 // =0x0380BBCC
+	ldr r0, _038075F4 // =lock_id
 	ldrh r0, [r0]
 	bl OS_UnlockCard
 	b _038075E0
 _038075C8:
 	str r5, [sp]
-	ldr r0, _038075FC // =0x0380BBFC
+	ldr r0, _038075FC // =pulse_edge_alarm
 	ldr r1, _03807604 // =0x0000020B
 	mov r2, #0
 	ldr r3, _03807600 // =CTRDG_VibPulseEdgeUpdate
@@ -603,11 +603,11 @@ _038075E0:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 	.align 2, 0
-_038075EC: .word 0x0380BBD0
+_038075EC: .word current_vib
 _038075F0: .word 0x027FFFE8
-_038075F4: .word 0x0380BBCC
+_038075F4: .word lock_id
 _038075F8: .word 0x000080E8
-_038075FC: .word 0x0380BBFC
+_038075FC: .word pulse_edge_alarm
 _03807600: .word CTRDG_VibPulseEdgeUpdate
 _03807604: .word 0x0000020B
 	arm_func_end CTRDG_VibPulseEdgeUpdate
@@ -644,7 +644,7 @@ CTRDGi_CallbackForInitModuleInfo: // 0x03807644
 	sub sp, sp, #4
 	and r0, r1, #0x3f
 	cmp r0, #1
-	ldreq r0, _03807678 // =0x0380BBE4
+	ldreq r0, _03807678 // =ctw_sp
 	streq r1, [r0]
 	moveq r1, #1
 	streq r1, [r0, #0x10]
@@ -655,14 +655,14 @@ _0380766C:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_03807678: .word 0x0380BBE4
+_03807678: .word ctw_sp
 	arm_func_end CTRDGi_CallbackForInitModuleInfo
 
 	arm_func_start CTRDGi_InitModuleInfo
 CTRDGi_InitModuleInfo: // 0x0380767C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
-	ldr r0, _0380774C // =0x0380BBD4
+	ldr r0, _0380774C // =isInitialized_3175
 	ldr r1, [r0]
 	cmp r1, #0
 	bne _03807740
@@ -680,7 +680,7 @@ CTRDGi_InitModuleInfo: // 0x0380767C
 	mov r0, #1
 	strh r0, [r1]
 	mov r7, #0x100
-	ldr r6, _03807758 // =0x0380BBE4
+	ldr r6, _03807758 // =ctw_sp
 	b _038076DC
 _038076D4:
 	mov r0, r7
@@ -716,10 +716,10 @@ _03807740:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_0380774C: .word 0x0380BBD4
+_0380774C: .word isInitialized_3175
 _03807750: .word 0x04000300
 _03807754: .word 0x04000208
-_03807758: .word 0x0380BBE4
+_03807758: .word ctw_sp
 _0380775C: .word 0x01FFFFC0
 _03807760: .word 0x027FFC30
 	arm_func_end CTRDGi_InitModuleInfo
@@ -730,9 +730,9 @@ CTRDG_Init: // 0x03807764
 	sub sp, sp, #4
 	bl OS_InitTick
 	bl OS_InitAlarm
-	ldr r0, _038077F4 // =0x0380BBFC
+	ldr r0, _038077F4 // =pulse_edge_alarm
 	bl OS_CreateAlarm
-	ldr r0, _038077F8 // =0x0380BBE0
+	ldr r0, _038077F8 // =isInitialized_3164
 	ldr r1, [r0]
 	cmp r1, #0
 	bne _038077E8
@@ -743,7 +743,7 @@ CTRDG_Init: // 0x03807764
 	mvn r1, #2
 	cmp r0, r1
 	beq _038077E8
-	ldr r1, _038077FC // =0x0380BBCC
+	ldr r1, _038077FC // =lock_id
 	strh r0, [r1]
 	bl PXI_Init
 	mov r0, #0xd
@@ -764,9 +764,9 @@ _038077E8:
 	ldmia sp!, {lr}
 	bx lr
 	.align 2, 0
-_038077F4: .word 0x0380BBFC
-_038077F8: .word 0x0380BBE0
-_038077FC: .word 0x0380BBCC
+_038077F4: .word pulse_edge_alarm
+_038077F8: .word isInitialized_3164
+_038077FC: .word lock_id
 _03807800: .word CTRDGi_CallbackForInitModuleInfo
 _03807804: .word CTRDGi_CallbackForPulledOut
 _03807808: .word CTRDGi_CallbackForCTREx

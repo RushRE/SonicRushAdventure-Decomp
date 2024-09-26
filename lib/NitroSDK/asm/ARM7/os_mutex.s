@@ -57,7 +57,7 @@ OS_UnlockMutex: // 0x037FCEB4
 	mov r5, r0
 	bl OS_DisableInterrupts
 	mov r4, r0
-	ldr r0, _037FCF20 // =0x03808434
+	ldr r0, _037FCF20 // =OSi_ThreadInfo
 	ldr r0, [r0, #4]
 	ldr r1, [r5, #8]
 	cmp r1, r0
@@ -81,7 +81,7 @@ _037FCF0C:
 	ldmia sp!, {r4, r5, lr}
 	bx lr
 	.align 2, 0
-_037FCF20: .word 0x03808434
+_037FCF20: .word OSi_ThreadInfo
 	arm_func_end OS_UnlockMutex
 
 	arm_func_start OS_LockMutex
@@ -91,7 +91,7 @@ OS_LockMutex: // 0x037FCF24
 	mov r5, r0
 	bl OS_DisableInterrupts
 	mov r4, r0
-	ldr r0, _037FCFAC // =0x03808434
+	ldr r0, _037FCFAC // =OSi_ThreadInfo
 	ldr r7, [r0, #4]
 	mov r6, #0
 _037FCF44:
@@ -124,7 +124,7 @@ _037FCF98:
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 	.align 2, 0
-_037FCFAC: .word 0x03808434
+_037FCFAC: .word OSi_ThreadInfo
 	arm_func_end OS_LockMutex
 
 	arm_func_start OS_InitMutex
