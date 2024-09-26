@@ -1,7 +1,23 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
+	
+	.bss
 
-	.public OS_IRQTable
+.public valid_cnt_3256
+valid_cnt_3256: // 0x0380AAEC
+	.space 4
+
+.public invalid_cnt_3255
+invalid_cnt_3255: // 0x0380AAF0
+	.space 4
+
+.public tpw
+tpw: // 0x0380AAF4
+	.space 0xD4
+
+.public last_touch_flg
+last_touch_flg: // 0x0380ABC8
+	.space 4
 
 	.text
 

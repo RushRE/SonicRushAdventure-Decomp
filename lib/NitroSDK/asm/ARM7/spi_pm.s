@@ -1,6 +1,32 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+.public PMi_KeyPattern
+PMi_KeyPattern: // 0x0380ABCC
+	.space 4
+
+.public PMi_TriggerBL
+PMi_TriggerBL: // 0x0380ABD0
+	.space 4
+
+.public PMi_Initialized
+PMi_Initialized: // 0x0380ABD4
+	.space 4
+
+.public PMi_Work
+PMi_Work: // 0x0380ABD8
+	.space 0x2C
+
+.public PMi_BlinkCounter
+PMi_BlinkCounter: // 0x0380AC04
+	.space 4
+
+.public PMi_BlinkPatternNo
+PMi_BlinkPatternNo: // 0x0380AC08
+	.space 4
+
 	.text
 
 	arm_func_start PM_ExecuteProcess
@@ -810,7 +836,7 @@ _03806160: .word PMi_BlinkPatternData
 _03806164: .word PMi_BlinkCounter
 	arm_func_end PM_SelfBlinkProc
 
-	.rodata
+	.data
 
 .public PMi_LEDStatus
 PMi_LEDStatus:

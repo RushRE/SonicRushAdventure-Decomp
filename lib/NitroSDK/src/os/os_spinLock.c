@@ -71,8 +71,8 @@ void OS_InitLock(void)
 
         MIi_SetCartridgeProcessor(MI_PROCESSOR_ARM7);
 
-        (void) OS_UnlockByWord(OS_MAINP_SYSTEM_LOCK_ID - 1, lockp, NULL);
-        (void) OS_LockByWord(OS_MAINP_SYSTEM_LOCK_ID, lockp, NULL);
+        (void)OS_UnlockByWord(OS_MAINP_SYSTEM_LOCK_ID - 1, lockp, NULL);
+        (void)OS_LockByWord(OS_MAINP_SYSTEM_LOCK_ID, lockp, NULL);
     }
 
 #else // SDK_ARM7
@@ -128,11 +128,11 @@ static s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(v
 
     if (disableFIQ)
     {
-        (void) OS_RestoreInterrupts_IrqAndFiq(lastInterrupts);
+        (void)OS_RestoreInterrupts_IrqAndFiq(lastInterrupts);
     }
     else
     {
-        (void) OS_RestoreInterrupts(lastInterrupts);
+        (void)OS_RestoreInterrupts(lastInterrupts);
     }
 
     return OS_UNLOCK_SUCCESS;
@@ -163,14 +163,19 @@ static s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(
 
     if (disableFIQ)
     {
-        (void) OS_RestoreInterrupts_IrqAndFiq(lastInterrupts);
+        (void)OS_RestoreInterrupts_IrqAndFiq(lastInterrupts);
     }
     else
     {
-        (void) OS_RestoreInterrupts(lastInterrupts);
+        (void)OS_RestoreInterrupts(lastInterrupts);
     }
 
     return lastLockFlag;
+}
+
+s32 OS_TryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
+{
+    return OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, FALSE);
 }
 
 s32 OS_UnlockCartridge(u16 lockID)
@@ -214,6 +219,11 @@ s32 OS_LockCard(u16 lockID)
 s32 OS_UnlockCard(u16 lockID)
 {
     return OS_UnlockByWord(lockID, (OSLockWord *)HW_CARD_LOCK_BUF, OSi_FreeCardBus);
+}
+
+s32 OS_TryLockCard(u16 lockID)
+{
+    return OS_TryLockByWord(lockID, (OSLockWord *)HW_CARD_LOCK_BUF, OSi_AllocateCardBus);
 }
 
 static void OSi_AllocateCardBus(void)

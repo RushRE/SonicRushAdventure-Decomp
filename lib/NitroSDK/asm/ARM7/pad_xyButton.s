@@ -1,6 +1,16 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+.public PADi_XYButtonAvailable
+PADi_XYButtonAvailable: // 0x03808674
+	.space 4
+
+.public PADi_XYButtonAlarm
+PADi_XYButtonAlarm: // 0x03808678
+	.space 0x2C
+
 	.text
 
 	arm_func_start PADi_xyButtonAlarmHandler

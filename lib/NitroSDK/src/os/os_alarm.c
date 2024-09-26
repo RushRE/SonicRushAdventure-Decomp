@@ -57,7 +57,7 @@ static void OSi_SetTimer(OSAlarm *alarm)
     OS_SetTimerCount((OSTimer)OSi_ALARM_TIMER, timerCount);
     OS_SetTimerControl(OSi_ALARM_TIMER, (u16)OSi_ALARM_TIMERCONTROL);
 
-    (void) OS_EnableIrqMask(OSi_ALARM_IE_TIMER);
+    (void)OS_EnableIrqMask(OSi_ALARM_IE_TIMER);
 }
 
 void OS_InitAlarm(void)
@@ -71,7 +71,7 @@ void OS_InitAlarm(void)
         OSi_AlarmQueue.head = NULL;
         OSi_AlarmQueue.tail = NULL;
 
-        (void) OS_DisableIrqMask(OSi_ALARM_IE_TIMER);
+        (void)OS_DisableIrqMask(OSi_ALARM_IE_TIMER);
     }
 }
 
@@ -163,7 +163,28 @@ void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg)
 
     OSi_InsertAlarm(alarm, OS_GetTick() + tick);
 
-    (void) OS_RestoreInterrupts(enabled);
+    (void)OS_RestoreInterrupts(enabled);
+}
+
+void OS_SetPeriodicAlarm(OSAlarm *alarm, OSTick start, OSTick period, OSAlarmHandler handler, void *arg)
+{
+    OSIntrMode enabled;
+
+    if (!alarm || alarm->handler)
+    {
+        OS_Panic("");
+    }
+
+    enabled = OS_DisableInterrupts();
+
+    alarm->period  = period;
+    alarm->start   = start;
+    alarm->handler = handler;
+    alarm->arg     = arg;
+
+    OSi_InsertAlarm(alarm, 0);
+
+    (void)OS_RestoreInterrupts(enabled);
 }
 
 void OS_CancelAlarm(OSAlarm *alarm)
@@ -175,7 +196,7 @@ void OS_CancelAlarm(OSAlarm *alarm)
 
     if (alarm->handler == NULL)
     {
-        (void) OS_RestoreInterrupts((OSIntrMode)enabled);
+        (void)OS_RestoreInterrupts((OSIntrMode)enabled);
         return;
     }
 
@@ -205,7 +226,7 @@ void OS_CancelAlarm(OSAlarm *alarm)
     alarm->handler = NULL;
     alarm->period  = 0;
 
-    (void) OS_RestoreInterrupts((OSIntrMode)enabled);
+    (void)OS_RestoreInterrupts((OSIntrMode)enabled);
 }
 
 #include <nitro/code32.h>
@@ -228,7 +249,7 @@ static void OSi_ArrangeTimer(void)
     OSAlarmHandler handler;
 
     OS_SetTimerControl(OSi_ALARM_TIMER, 0);
-    (void) OS_DisableIrqMask(OSi_ALARM_IE_TIMER);
+    (void)OS_DisableIrqMask(OSi_ALARM_IE_TIMER);
     OS_SetIrqCheckFlag(OSi_ALARM_IE_TIMER);
 
     tick  = OS_GetTick();

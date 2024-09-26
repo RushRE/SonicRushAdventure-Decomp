@@ -695,7 +695,7 @@
 .public OS_TryLockByWord
 .public OS_UnlockByWord
 .public OS_LockByWord
-.public SVC_WaitByLoop_ARM
+.public _Ven_SVC_WaitByLoop
 .public OS_InitLock
 .public OS_SetThreadDestructor
 .public OS_EnableScheduler
@@ -1109,7 +1109,7 @@
 .public PMi_BlinkPatternData
 .public isFirstCheck_3294
 .public nextCount_3292
-.public _038083A4
+.public OSi_IrqThreadQueue
 .public OSi_IrqCallbackInfo
 .public isInitialized_3171
 .public OSi_StackForDestructor

@@ -1,6 +1,36 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+.public wvrStatus
+wvrStatus: // 0x0380AC0C
+	.space 4
+
+.public wvrVramImageBuf
+wvrVramImageBuf: // 0x0380AC10
+	.space 4
+
+.public wvrHeapHandle
+wvrHeapHandle: // 0x0380AC14
+	.space 4
+
+.public wvrThread
+wvrThread: // 0x0380AC18
+	.space 0xA4
+
+.public wvrWlStaElement
+wvrWlStaElement: // 0x0380ACBC
+	.space 0x1C0
+
+.public wvrWlStack
+wvrWlStack: // 0x0380AE7C
+	.space 0x600
+
+.public wvrWlWork
+wvrWlWork: // 0x0380B47C
+	.space 0x700
+
 	.text
 
 	arm_func_start WvrBegin

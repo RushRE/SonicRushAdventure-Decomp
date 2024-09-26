@@ -16,23 +16,23 @@ Autoload WRAM
 	Address 0x037F8000
 	Object lib/NitroSDK/asm/ARM7/crt0_ARM7.o
 	Object lib/NitroSDK/asm/ARM7/main.o
-	Object lib/NitroSDK/asm/ARM7/os_irqHandler.o
-	Object lib/NitroSDK/asm/ARM7/os_irqTable.o
-	Object lib/NitroSDK/asm/ARM7/os_interrupt.o
+	Object lib/NitroSDK/src/os/os_irqHandler.o
+	Object lib/NitroSDK/src/os/os_irqTable.o
+	Object lib/NitroSDK/src/os/os_interrupt.o
 	Object lib/NitroSDK/asm/ARM7/os_spinLock.o
 	Object lib/NitroSDK/asm/ARM7/os_thread.o
-	Object lib/NitroSDK/asm/ARM7/os_context.o
+	Object lib/NitroSDK/src/os/os_context.o
 	Object lib/NitroSDK/asm/ARM7/os_message.o
-	Object lib/NitroSDK/asm/ARM7/os_mutex.o
+	Object lib/NitroSDK/src/os/os_mutex.o
 	Object lib/NitroSDK/src/os/os_init.o
-	Object lib/NitroSDK/asm/ARM7/os_arena.o # lib/NitroSDK/src/os/os_arena.o
-	Object lib/NitroSDK/asm/ARM7/os_alloc.o
-	Object lib/NitroSDK/asm/ARM7/os_timer.o
-	Object lib/NitroSDK/asm/ARM7/os_tick.o
-	Object lib/NitroSDK/asm/ARM7/os_alarm.o
-	Object lib/NitroSDK/asm/ARM7/os_valarm.o
+	Object lib/NitroSDK/asm/ARM7/os_arena.o
+	Object lib/NitroSDK/src/os/os_alloc.o
+	Object lib/NitroSDK/src/os/os_timer.o
+	Object lib/NitroSDK/src/os/os_tick.o
+	Object lib/NitroSDK/src/os/os_alarm.o
+	Object lib/NitroSDK/src/os/os_valarm.o
 	Object lib/NitroSDK/asm/ARM7/os_system.o
-	Object lib/NitroSDK/asm/ARM7/os_reset.o
+	Object lib/NitroSDK/src/os/os_reset.o
 	Object lib/NitroSDK/asm/ARM7/os_terminate_proc.o
 	Object lib/NitroSDK/src/mi/mi_dma.o
 	Object lib/NitroSDK/src/mi/mi_memory.o
@@ -69,6 +69,9 @@ Autoload WRAM
 	Object lib/NitroSDK/asm/ARM7/spi_mic.o
 	Object lib/NitroSDK/asm/ARM7/ctrdg.o
 	Object lib/NitroSDK/asm/ARM7/msl.o
+	
+	Object lib/NitroSDK/src/os/os_reset.o (.wram)
+	Object lib/NitroSDK/asm/ARM7/wmsp.o (.wram)
 }
 
 Autoload MAIN

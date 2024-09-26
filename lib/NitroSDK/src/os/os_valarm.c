@@ -49,11 +49,16 @@ void OS_InitVAlarm(void)
         OSi_VAlarmQueue.head = NULL;
         OSi_VAlarmQueue.tail = NULL;
 
-        (void) OS_DisableIrqMask(OS_IE_V_COUNT);
+        (void)OS_DisableIrqMask(OS_IE_V_COUNT);
 
         OSi_VFrameCount    = 0;
         OSi_PreviousVCount = 0;
     }
+}
+
+BOOL OS_IsVAlarmAvailable(void)
+{
+    return OSi_UseVAlarm;
 }
 
 static void OSi_InsertVAlarm(OSVAlarm *alarm)
@@ -179,7 +184,37 @@ void OS_SetVAlarm(OSVAlarm *alarm, s16 count, s16 delay, OSVAlarmHandler handler
 
     OSi_InsertVAlarm(alarm);
 
-    (void) OS_RestoreInterrupts(enabled);
+    (void)OS_RestoreInterrupts(enabled);
+}
+
+void OS_SetPeriodicVAlarm(OSVAlarm *alarm, s16 count, s16 delay, OSVAlarmHandler handler, void *arg)
+{
+    OSIntrMode enabled = OS_DisableInterrupts();
+    s32 currentVCount;
+    s32 currentVFrame;
+
+    if (!alarm || alarm->handler)
+    {
+        OS_Panic("");
+    }
+
+    //---- get current frame and vcount
+    currentVCount = GX_GetVCount();
+    currentVFrame = OSi_GetVFrame(currentVCount);
+
+    alarm->period = TRUE;
+    alarm->fire   = count;
+    alarm->frame  = (u32)((count > currentVCount) ? currentVFrame : (currentVFrame + 1));
+
+    alarm->delay   = delay;
+    alarm->handler = handler;
+    alarm->arg     = arg;
+
+    alarm->canceled = FALSE;
+
+    OSi_InsertVAlarm(alarm);
+
+    (void)OS_RestoreInterrupts(enabled);
 }
 
 static void OSi_SetNextVAlarm(OSVAlarm *alarm)
@@ -189,7 +224,20 @@ static void OSi_SetNextVAlarm(OSVAlarm *alarm)
     GX_SetVCountEqVal(alarm->fire);
 
     GX_VCountEqIntr(TRUE);
-    (void) OS_EnableIrqMask(OS_IE_V_COUNT);
+    (void)OS_EnableIrqMask(OS_IE_V_COUNT);
+}
+
+void OS_SetVAlarmTag(OSVAlarm *alarm, u32 tag)
+{
+    if (tag == 0)
+    {
+        OS_Panic("");
+    }
+
+    if (alarm)
+    {
+        alarm->tag = tag;
+    }
 }
 
 void OS_CancelVAlarm(OSVAlarm *alarm)
@@ -199,7 +247,7 @@ void OS_CancelVAlarm(OSVAlarm *alarm)
     alarm->canceled = TRUE;
     if (alarm->handler == NULL)
     {
-        (void) OS_RestoreInterrupts(enabled);
+        (void)OS_RestoreInterrupts(enabled);
         return;
     }
 
@@ -207,7 +255,29 @@ void OS_CancelVAlarm(OSVAlarm *alarm)
 
     alarm->handler = NULL;
 
-    (void) OS_RestoreInterrupts(enabled);
+    (void)OS_RestoreInterrupts(enabled);
+}
+
+void OS_CancelVAlarms(u32 tag)
+{
+    OSIntrMode enabled = OS_DisableInterrupts();
+    OSVAlarm *alarm;
+    OSVAlarm *next;
+
+    if (tag == 0)
+    {
+        OS_Panic("");
+    }
+
+    for (alarm = OSi_VAlarmQueue.head, next = alarm ? alarm->next : NULL; alarm; alarm = next, next = alarm ? alarm->next : NULL)
+    {
+        if (alarm->tag == tag)
+        {
+            OS_CancelVAlarm(alarm);
+        }
+    }
+
+    (void)OS_RestoreInterrupts(enabled);
 }
 
 static void OSi_VAlarmHandler(void *)
@@ -218,7 +288,7 @@ static void OSi_VAlarmHandler(void *)
     s32 currentVCount;
     s32 currentVFrame;
 
-    (void) OS_DisableIrqMask(OS_IE_V_COUNT);
+    (void)OS_DisableIrqMask(OS_IE_V_COUNT);
     GX_VCountEqIntr(FALSE);
 
     OS_SetIrqCheckFlag(OS_IE_V_COUNT);
@@ -243,9 +313,9 @@ static void OSi_VAlarmHandler(void *)
                     return;
                 }
 
-                (void) OS_DisableIrqMask(OS_IE_V_COUNT);
+                (void)OS_DisableIrqMask(OS_IE_V_COUNT);
                 GX_VCountEqIntr(FALSE);
-                (void) OS_ResetRequestIrqMask(OS_IE_V_COUNT);
+                (void)OS_ResetRequestIrqMask(OS_IE_V_COUNT);
 
             case OSi_VALARM_NOW:
                 handler = alarm->handler;
@@ -305,6 +375,6 @@ static s32 OSi_GetVFrame(s32 vcount)
     }
     OSi_PreviousVCount = vcount;
 
-    (void) OS_RestoreInterrupts(enabled);
+    (void)OS_RestoreInterrupts(enabled);
     return OSi_VFrameCount;
 }

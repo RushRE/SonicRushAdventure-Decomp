@@ -1,6 +1,48 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+.public CARDi_EnableFlag
+CARDi_EnableFlag: // 0x03809DC4
+	.space 0x1C
+
+.public cardi_common
+cardi_common: // 0x03809DE0
+	.space 0x220
+
+.public cardi_thread_stack
+cardi_thread_stack: // 0x0380A000
+	.space 0x400
+
+.public status_checked_3333
+status_checked_3333: // 0x0380A400
+	.space 4
+
+.public cardi_param
+cardi_param: // 0x0380A404
+	.space 0x10
+
+.public cardi_rom_base
+cardi_rom_base: // 0x0380A414
+	.space 0xC
+
+.public rom_stat
+rom_stat: // 0x0380A420
+	.space 0x220
+
+.public isCardPullOut
+isCardPullOut: // 0x0380A640
+	.space 4
+
+.public isInitialized_3152
+isInitialized_3152: // 0x0380A644
+	.space 4
+
+.public detectPullOut
+detectPullOut: // 0x0380A648
+	.space 4
+
 	.text
 
 	arm_func_start CARD_GetRomHeader
@@ -1184,7 +1226,7 @@ CARDi_SendtoPxi: // 0x0380421C
 	b _03804240
 _03804238:
 	mov r0, r6
-	bl SVC_WaitByLoop_ARM
+	bl _Ven_SVC_WaitByLoop
 _03804240:
 	mov r0, r5
 	mov r1, r7
@@ -1398,7 +1440,7 @@ _038044DC: .word isInitialized_3152
 _038044E0: .word CARDi_PulledOutCallback
 	arm_func_end CARD_InitPulledOutCallback
 
-	.rodata
+	.data
 	
 .public cardi_rom_header_addr
 cardi_rom_header_addr: // 0x038082FC

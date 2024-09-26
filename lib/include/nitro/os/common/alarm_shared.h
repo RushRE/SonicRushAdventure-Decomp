@@ -49,6 +49,7 @@ void OS_InitAlarm(void);
 BOOL OS_IsAlarmAvailable(void);
 void OS_CreateAlarm(OSAlarm *alarm);
 void OS_SetAlarm(OSAlarm *alarm, OSTick tick, OSAlarmHandler handler, void *arg);
+void OS_SetPeriodicAlarm(OSAlarm *alarm, OSTick start, OSTick period, OSAlarmHandler handler, void *arg);
 void OS_CancelAlarm(OSAlarm *alarm);
 
 #endif // NITRO_OS_ALARM_SHARED_H

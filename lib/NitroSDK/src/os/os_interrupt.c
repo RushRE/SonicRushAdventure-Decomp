@@ -38,6 +38,10 @@ extern OSThreadQueue OSi_IrqThreadQueue;
 void OS_InitIrqTable(void)
 {
     OS_InitThreadQueue(&OSi_IrqThreadQueue);
+
+#ifdef SDK_ARM7
+    OSi_SetVBlankCount(0);
+#endif
 }
 
 void OS_SetIrqFunction(OSIrqMask intrBit, OSIrqFunction function)

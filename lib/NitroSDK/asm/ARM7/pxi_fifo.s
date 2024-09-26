@@ -1,5 +1,16 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
+	
+	.bss
+
+.public FifoCtrlInit
+FifoCtrlInit: // 0x038085F0
+	.space 4
+
+.public FifoRecvCallbackTable
+FifoRecvCallbackTable: // 0x038085F4
+	.space 0x80
+	
 	.text
 
 	arm_func_start PXIi_GetFromFifo

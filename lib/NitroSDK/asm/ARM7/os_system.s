@@ -63,7 +63,7 @@ OS_SpinWait: // 0x037FE508
 	sub sp, sp, #4
 	mov r1, #4
 	bl _s32_div_f
-	bl SVC_WaitByLoop_ARM
+	bl _Ven_SVC_WaitByLoop
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr

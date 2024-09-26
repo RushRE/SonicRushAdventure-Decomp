@@ -1,11 +1,46 @@
 #include <nitro.h>
 
 // --------------------
+// FUNCTION DECLS
+// --------------------
+
+void OSi_IrqCallback(s32 index);
+
+void OSi_IrqDma0(void);
+void OSi_IrqDma1(void);
+void OSi_IrqDma2(void);
+void OSi_IrqDma3(void);
+
+void OSi_IrqTimer0(void);
+void OSi_IrqTimer1(void);
+void OSi_IrqTimer2(void);
+void OSi_IrqTimer3(void);
+
+#ifdef SDK_ARM7
+void OSi_IrqVBlank(void);
+#endif
+
+// --------------------
 // VARIABLES
 // --------------------
 
-OSIrqCallbackInfo OSi_IrqCallbackInfo[OSi_IRQCALLBACK_NUM];
+OSIrqCallbackInfo OSi_IrqCallbackInfo[OSi_IRQCALLBACK_NUM] = {
+    { NULL, 0, 0 }, // dma0
+    { NULL, 0, 0 }, // dma1
+    { NULL, 0, 0 }, // dma2
+    { NULL, 0, 0 }, // dma3
 
+    { NULL, 0, 0 }, // timer0
+    { NULL, 0, 0 }, // timer1
+    { NULL, 0, 0 }, // timer2
+    { NULL, 0, 0 }, // timer3
+
+#ifdef SDK_ARM7
+    { NULL, 0, 0 } // vblank
+#endif
+};
+
+// clang-format off
 u16 OSi_IrqCallbackInfoIndex[] = {
     REG_OS_IE_D0_SHIFT, 
     REG_OS_IE_D1_SHIFT, 
@@ -16,20 +51,21 @@ u16 OSi_IrqCallbackInfoIndex[] = {
     REG_OS_IE_T2_SHIFT, 
     REG_OS_IE_T3_SHIFT,
 #ifdef SDK_ARM7
-    REG_OS_IE_VB_SHIFT,
+    REG_OS_IE_VB_SHIFT
 #endif
 };
-
-// --------------------
-// VARIABLES (dtcm)
-// --------------------
+// clang-format on
 
 #ifdef SDK_ARM9
 #include <nitro/dtcm_begin.h>
 #endif
 
 OSIrqFunction OS_IRQTable[OS_IRQ_TABLE_MAX] = {
-    OS_IrqDummy,   // VBlank
+#ifdef SDK_ARM9
+    OS_IrqDummy, // VBlank
+#else
+    OSi_IrqVBlank, // VBlank
+#endif
     OS_IrqDummy,   // HBlank
     OS_IrqDummy,   // VCounter
     OSi_IrqTimer0, // Timer0
@@ -50,7 +86,14 @@ OSIrqFunction OS_IRQTable[OS_IRQ_TABLE_MAX] = {
     OS_IrqDummy,   // Sub processor receive FIFO not empty
     OS_IrqDummy,   // card data transfer finish
     OS_IrqDummy,   // card IREQ
-    OS_IrqDummy,   // Geometry command FIFO
+#ifdef SDK_ARM9
+    OS_IrqDummy, // Geometry command FIFO
+#else
+    OS_IrqDummy, // Unused.
+    OS_IrqDummy, // Power Management IC
+    OS_IrqDummy, // SPI data transfer
+    OS_IrqDummy  // Wireless module
+#endif
 };
 
 #ifdef SDK_ARM9
@@ -83,7 +126,7 @@ void OSi_IrqCallback(s32 index)
 
     // restore IRQEnable
     if (!OSi_IrqCallbackInfo[index].enable)
-        (void) OS_DisableIrqMask(imask);
+        (void)OS_DisableIrqMask(imask);
 }
 
 void OSi_IrqDma0(void)
@@ -125,3 +168,19 @@ void OSi_IrqTimer3(void)
 {
     OSi_IrqCallback(OSi_IRQCALLBACK_NO_TIMER3);
 }
+
+#ifdef SDK_ARM7
+void OSi_IrqVBlank(void)
+{
+    void (*callback)(void) = (void (*)(void))OSi_IrqCallbackInfo[OSi_IRQCALLBACK_NO_VBLANK].func;
+
+    (*(u32 *)HW_VBLANK_COUNT_BUF)++;
+
+    if (callback)
+    {
+        callback();
+    }
+
+    OS_SetIrqCheckFlag(1 << REG_OS_IE_VB_SHIFT);
+}
+#endif

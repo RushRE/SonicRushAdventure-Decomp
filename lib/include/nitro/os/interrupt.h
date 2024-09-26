@@ -5,7 +5,8 @@
 #include <nitro/hw/consts.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -113,16 +114,12 @@ static inline BOOL OS_EnableIrq(void)
     return (BOOL)prep;
 }
 
-#ifdef SDK_ARM9
 static inline BOOL OS_DisableIrq(void)
 {
-    BOOL ime   = reg_OS_IME;
+    u16 prep   = reg_OS_IME;
     reg_OS_IME = OS_IME_DISABLE;
-    return ime;
+    return (BOOL)prep;
 }
-#else
-BOOL OS_DisableIrq(void);
-#endif
 
 static inline BOOL OS_RestoreIrq(BOOL enable)
 {

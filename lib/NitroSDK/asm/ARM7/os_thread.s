@@ -1,6 +1,44 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+.public OSi_StackForDestructor
+OSi_StackForDestructor: // 0x0380841C
+	.space 4
+
+.public OSi_RescheduleCount
+OSi_RescheduleCount: // 0x03808420
+	.space 4
+
+.public OSi_ThreadIdCount
+OSi_ThreadIdCount: // 0x03808424
+	.space 4
+
+.public OSi_SystemCallbackInSwitchThread
+OSi_SystemCallbackInSwitchThread: // 0x03808428
+	.space 4
+
+.public OSi_CurrentThreadPtr
+OSi_CurrentThreadPtr: // 0x0380842C
+	.space 4
+
+.public OSi_IsThreadInitialized
+OSi_IsThreadInitialized: // 0x03808430
+	.space 4
+
+.public OSi_ThreadInfo
+OSi_ThreadInfo: // OSi_ThreadInfo
+	.space 0x10
+
+.public OSi_IdleThread
+OSi_IdleThread: // 0x03808444
+	.space 0xA4
+
+.public OSi_LauncherThread
+OSi_LauncherThread: // 0x038084E8
+	.space 0xA4
+
 	.text
 
 	arm_func_start OS_SetThreadDestructor

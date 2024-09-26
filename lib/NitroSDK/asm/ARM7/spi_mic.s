@@ -1,7 +1,15 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
-	.public OS_IRQTable
+	.bss
+
+.public micw
+micw: // 0x0380BB7C
+	.space 0x3C
+
+.public micIntrInfo
+micIntrInfo: // 0x0380BBB8
+	.space 0x10
 
 	.text
 

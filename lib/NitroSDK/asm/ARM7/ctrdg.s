@@ -1,6 +1,64 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+.public CTRDGi_Work
+CTRDGi_Work: // 0x0380BBC8
+	.space 4
+
+.public lock_id
+lock_id: // 0x0380BBCC
+	.space 4
+
+.public current_vib
+current_vib: // 0x0380BBD0
+	.space 4
+
+.public isInitialized_3175
+isInitialized_3175: // 0x0380BBD4
+	.space 4
+
+.public isCartridgePullOut_3293
+isCartridgePullOut_3293: // 0x0380BBD8
+	.space 4
+
+.public skipCheck_3295
+skipCheck_3295: // 0x0380BBDC
+	.space 4
+
+.public isInitialized_3164
+isInitialized_3164: // 0x0380BBE0
+	.space 4
+
+.public ctw_sp
+ctw_sp: // 0x0380BBE4
+	.space 0x18
+
+.public pulse_edge_alarm
+pulse_edge_alarm: // 0x0380BBFC
+	.space 0x2C
+
+.public wmspRequestThread
+wmspRequestThread: // 0x0380BC28
+	.space 0xA4
+
+.public wmspIndicateThread
+wmspIndicateThread: // 0x0380BCCC
+	.space 0xA4
+
+.public wmspMPAckAlarm
+wmspMPAckAlarm: // 0x0380BD70
+	.space 0x2C
+
+.public wmspMPIntervalAlarm
+wmspMPIntervalAlarm: // 0x0380BD9C
+	.space 0x2C
+
+.public wmspVAlarm
+wmspVAlarm: // 0x0380BDC8
+	.space 0x28
+
 	.text
 
 	arm_func_start CTRDGi_SendtoPxi
@@ -14,7 +72,7 @@ CTRDGi_SendtoPxi: // 0x03806E44
 	b _03806E68
 _03806E60:
 	mov r0, r6
-	bl SVC_WaitByLoop_ARM
+	bl _Ven_SVC_WaitByLoop
 _03806E68:
 	mov r0, r5
 	mov r1, r7
@@ -279,7 +337,7 @@ CTRDGi_CallbackForSetPhi: // 0x03807158
 	b _038071A8
 _038071A0:
 	mov r0, r7
-	bl SVC_WaitByLoop_ARM
+	bl _Ven_SVC_WaitByLoop
 _038071A8:
 	mov r0, r6
 	mov r1, r5
@@ -684,7 +742,7 @@ CTRDGi_InitModuleInfo: // 0x0380767C
 	b _038076DC
 _038076D4:
 	mov r0, r7
-	bl SVC_WaitByLoop_ARM
+	bl _Ven_SVC_WaitByLoop
 _038076DC:
 	ldr r0, [r6, #0x10]
 	cmp r0, #1
@@ -773,7 +831,7 @@ _03807808: .word CTRDGi_CallbackForCTREx
 _0380780C: .word CTRDGi_CallbackForSetPhi
 	arm_func_end CTRDG_Init
 
-	.rodata
+	.data
 
 .public isFirstCheck_3294
 isFirstCheck_3294:

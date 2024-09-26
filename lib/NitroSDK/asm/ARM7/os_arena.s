@@ -1,8 +1,11 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 	
-	.public SinTable
-	.public _03807F2C
+	.bss
+
+.public OSi_Initialized
+OSi_Initialized: // 0x0380858C
+	.space 4
 
 	.text
 

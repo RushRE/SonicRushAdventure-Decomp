@@ -1,6 +1,12 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+.public isInitialized_3171
+isInitialized_3171: // 0x03808418
+	.space 4
+
 	.text
 
 	arm_func_start OS_UnLockCartridge
@@ -230,7 +236,7 @@ OS_LockByWord: // 0x037FC104
 	b _037FC128
 _037FC120:
 	mov r0, r4
-	bl SVC_WaitByLoop_ARM
+	bl _Ven_SVC_WaitByLoop
 _037FC128:
 	mov r0, r8
 	mov r1, r7
@@ -243,13 +249,13 @@ _037FC128:
 	bx lr
 	arm_func_end OS_LockByWord
 
-	arm_func_start SVC_WaitByLoop_ARM
-SVC_WaitByLoop_ARM: // 0x037FC14C
+	arm_func_start _Ven_SVC_WaitByLoop
+_Ven_SVC_WaitByLoop: // 0x037FC14C
 	ldr ip, _037FC154 // =SVC_WaitByLoop
 	bx ip
 	.align 2, 0
 _037FC154: .word SVC_WaitByLoop
-	arm_func_end SVC_WaitByLoop_ARM
+	arm_func_end _Ven_SVC_WaitByLoop
 
 	arm_func_start OS_InitLock
 OS_InitLock: // 0x037FC158
@@ -268,7 +274,7 @@ OS_InitLock: // 0x037FC158
 	b _037FC194
 _037FC18C:
 	mov r0, r5
-	bl SVC_WaitByLoop_ARM
+	bl _Ven_SVC_WaitByLoop
 _037FC194:
 	ldrh r0, [r4, #4]
 	cmp r0, #0x7f

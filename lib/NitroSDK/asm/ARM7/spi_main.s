@@ -1,6 +1,16 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+.public spiInitialized
+spiInitialized: // 0x0380A64C
+	.space 4
+
+.public spiWork
+spiWork: // 0x0380A650
+	.space 0x49C
+
 	.text
 
 	arm_func_start SPI_OnFifoRecv
