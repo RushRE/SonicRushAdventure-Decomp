@@ -322,8 +322,14 @@ Static arm9
     Object lib/NitroSDK/src/mi/mi_compress.o
     Object lib/NitroSDK/src/mi/mi_exMemory.o
     Object lib/NitroSDK/src/mi/mi_init.o
-    Object lib/NitroSDK/asm/ARM9/snd_20E7FD0.o
+    Object lib/NitroSDK/src/snd/snd_interface.o
     Object lib/NitroSDK/src/snd/snd_main.o
+    # Object lib/NitroSDK/src/snd/snd_command.o
+    # Object lib/NitroSDK/src/snd/snd_alarm.o
+    # Object lib/NitroSDK/src/snd/snd_work.o
+    # Object lib/NitroSDK/src/snd/snd_util.o
+    # Object lib/NitroSDK/src/snd/snd_bank.o
+    # Object lib/NitroSDK/src/snd/snd_data.o
     Object lib/NitroSDK/asm/ARM9/snd_20E8658.o
     Object lib/NitroSDK/src/pxi/pxi_init.o
     Object lib/NitroSDK/src/pxi/pxi_fifo.o
@@ -340,9 +346,9 @@ Static arm9
     Object lib/NitroSDK/src/spi/ARM9/tp.o
     Object lib/NitroSDK/src/spi/ARM9/mic.o
     Object lib/NitroSDK/src/spi/ARM9/pm.o
-    Object lib/NitroSDK/asm/ARM9/rtc_external.o
-    Object lib/NitroSDK/asm/ARM9/rtc_internal.o
-    Object lib/NitroSDK/asm/ARM9/rtc_convert.o
+    Object lib/NitroSDK/src/rtc/ARM9/rtc_external.o
+    Object lib/NitroSDK/src/rtc/ARM9/rtc_internal.o
+    Object lib/NitroSDK/src/rtc/ARM9/rtc_convert.o
     Object lib/NitroSDK/asm/ARM9/card.o
     Object lib/NitroSDK/asm/ARM9/wm.o
     Object lib/NitroSDK/asm/ARM9/mb.o

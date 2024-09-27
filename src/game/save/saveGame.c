@@ -32,6 +32,16 @@ NOT_DECOMPILED u16 SaveGame__hiddenIslandList[];
 NOT_DECOMPILED u16 SaveGame__nextStage[];
 NOT_DECOMPILED u16 _021107AE[];
 
+NOT_DECOMPILED void *_021107BE;
+NOT_DECOMPILED void *_021107B4;
+NOT_DECOMPILED void *_02110B70;
+NOT_DECOMPILED void *_02110C20;
+NOT_DECOMPILED void *_02110D00;
+NOT_DECOMPILED void *_02110D12;
+NOT_DECOMPILED void *_02110D2A;
+NOT_DECOMPILED void *_02110B20;
+NOT_DECOMPILED void *_02110D48;
+
 // --------------------
 // VARIABLES
 // --------------------
@@ -490,7 +500,7 @@ _0205C094:
 	cmp r5, #0x18
 	mov r4, #0
 	beq _0205C134
-	ldr r0, =0x02110B20
+	ldr r0, =_02110B20
 	mov r1, r5, lsl #1
 	ldrh r10, [r0, r1]
 	cmp r8, r10
@@ -534,7 +544,7 @@ _0205C128:
 _0205C134:
 	movs r0, #0
 	bne _0205C1CC
-	ldr r0, =0x021107BE
+	ldr r0, =_021107BE
 	mov r1, r6, lsl #1
 	ldrh r5, [r0, r1]
 	cmp r8, r5
@@ -577,7 +587,7 @@ _0205C1C4:
 _0205C1CC:
 	cmp r4, #0
 	bne _0205C264
-	ldr r0, =0x021108DC
+	ldr r0, =_021108DC
 	mov r1, r7, lsl #1
 	ldrh r5, [r0, r1]
 	cmp r8, r5
@@ -959,7 +969,7 @@ _0205C858:
 _0205C870:
 	bl SaveGame__Func_205BB18
 	mov r4, r0
-	ldr r0, =0x021107B4
+	ldr r0, =_021107B4
 	mov r1, r4, lsl #1
 	ldrh r5, [r0, r1]
 	bl SaveGame__Func_205BBBC
@@ -1010,7 +1020,7 @@ NONMATCH_FUNC void SaveGame__UnknownTable2Func_205C91C(void){
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r0, =gameState
-	ldr r1, =0x02110B70
+	ldr r1, =_02110B70
 	ldr r2, [r0, #0x80]
 	mov r0, r2, lsl #1
 	cmp r2, #0xe
@@ -1058,7 +1068,7 @@ _0205C99C:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0205C9D4:
 	ldr r5, =0x02134474
-	ldr r6, =0x02110958
+	ldr r6, =SaveGame__hiddenIslandList
 	mov r7, #0
 _0205C9E0:
 	mov r0, r7, lsl #1
@@ -1569,7 +1579,7 @@ NONMATCH_FUNC void SaveGame__Func_205D150(void){
 	moveq r2, #0
 	cmp r6, #0x18
 	bgt _0205D278
-	ldr ip, =0x02110C20
+	ldr ip, =_02110C20
 	ldrb r3, [ip, r6, lsl #2]
 	add r6, ip, r6, lsl #2
 	cmp r3, #0xff
@@ -1821,7 +1831,7 @@ NONMATCH_FUNC void SaveGame__Func_205D520(void){
 	bl SaveGame__GetUnknownProgress2
 	mov r1, #6
 	mul r2, r6, r1
-	ldr r1, =0x02110D00
+	ldr r1, =_02110D00
 	ldrh r1, [r1, r2]
 	cmp r5, r1
 	ldrge r1, =0x02110D02
@@ -1891,8 +1901,8 @@ NONMATCH_FUNC void SaveGame__Func_205D65C(void){
 	strb r0, [sp]
 	bl SaveGame__GetUnknownProgress2
 	mov r8, #0
-	ldr r9, =0x02110D48
-	ldr r6, =0x02110D12
+	ldr r9, =_02110D48
+	ldr r6, =_02110D12
 	mov r7, r8
 	strb r0, [sp, #1]
 	add r5, sp, #0
@@ -1966,8 +1976,8 @@ NONMATCH_FUNC void SaveGame__Func_205D758(void){
 	strb r0, [sp]
 	bl SaveGame__GetUnknownProgress2
 	mov r7, #0
-	ldr r8, =0x02110D48
-	ldr r5, =0x02110D12
+	ldr r8, =_02110D48
+	ldr r5, =_02110D12
 	mov r6, r7
 	strb r0, [sp, #1]
 	add r4, sp, #0
@@ -2014,7 +2024,7 @@ _0205D7E4:
 _0205D824:
 	cmp r10, r7
 	bne _0205D83C
-	ldr r0, =0x02110D2A
+	ldr r0, =_02110D2A
 	mov r1, r6, lsl #1
 	ldrh r0, [r0, r1]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}

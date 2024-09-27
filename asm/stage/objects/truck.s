@@ -267,7 +267,7 @@ _0216EC80:
 	bl InitPaletteAnimator
 	mov r10, #0xc
 	mov r8, #0
-	ldr r9, _0216F2D4 // =0x0218866C
+	ldr r9, _0216F2D4 // =Truck3D__stru_218866C
 	add r7, sp, #0x24
 	mov r4, r10
 	mov r5, r10
@@ -343,7 +343,7 @@ _0216EFA4:
 	mov r1, #3
 	bl G3C_Begin
 	mov r8, #0
-	ldr r6, _0216F2D4 // =0x0218866C
+	ldr r6, _0216F2D4 // =Truck3D__stru_218866C
 	add r5, sp, #0x24
 	b _0216F0CC
 _0216F004:
@@ -493,9 +493,9 @@ _0216F0E4:
 	mov r0, #0x100
 	strh r0, [r11, #0x12]
 	mov r7, #0
-	ldr r5, _0216F2F0 // =0x021886FC
-	ldr r4, _0216F2F4 // =0x02188704
-	ldr r8, _0216F2F8 // =0x0218860C
+	ldr r5, _0216F2F0 // =Truck__TruckJewelTypeTable
+	ldr r4, _0216F2F4 // =Truck__TruckJewelFlagTable
+	ldr r8, _0216F2F8 // =Truck__TruckJewelPositionTable
 	mov r6, #0xc
 	b _0216F284
 _0216F258:
@@ -532,16 +532,16 @@ _0216F2C4: .word aActAcItmRing3d_0
 _0216F2C8: .word 0x00000844
 _0216F2CC: .word aActAcGmkTruckC
 _0216F2D0: .word aBpaGmkTruckCan
-_0216F2D4: .word 0x0218866C
+_0216F2D4: .word Truck3D__stru_218866C
 _0216F2D8: .word 0x00000201
 _0216F2DC: .word 0x0000FFFF
 _0216F2E0: .word 0x0000FFEF
 _0216F2E4: .word Truck3D__OnDefend_21712A4
 _0216F2E8: .word StageTask__DefaultDiffData
 _0216F2EC: .word Truck3D__State_2170D44
-_0216F2F0: .word 0x021886FC
-_0216F2F4: .word 0x02188704
-_0216F2F8: .word 0x0218860C
+_0216F2F0: .word Truck__TruckJewelTypeTable
+_0216F2F4: .word Truck__TruckJewelFlagTable
+_0216F2F8: .word Truck__TruckJewelPositionTable
 	arm_func_end Truck3D__Create
 
 	arm_func_start Truck3D__Func_216F2FC
@@ -2120,8 +2120,8 @@ TruckLava3D__Create: // 0x0217078C
 	ldr r1, _02170AD4 // =0x00007FFF
 	add r0, r5, #0x398
 	bl G3C_Color
-	ldr r7, _02170AD8 // =0x021885DC
-	ldr r4, _02170ADC // =0x021885BC
+	ldr r7, _02170AD8 // =Truck__stru_21885DC
+	ldr r4, _02170ADC // =Truck__stru_21885BC
 	mov r6, #0
 _021709DC:
 	add r0, r4, r6, lsl #3
@@ -2189,8 +2189,8 @@ _02170AC8: .word aActAcGmkTruckL
 _02170ACC: .word aBpaGmkTruckLav
 _02170AD0: .word 0x0001FFFF
 _02170AD4: .word 0x00007FFF
-_02170AD8: .word 0x021885DC
-_02170ADC: .word 0x021885BC
+_02170AD8: .word Truck__stru_21885DC
+_02170ADC: .word Truck__stru_21885BC
 _02170AE0: .word TruckLava3D__Draw_2170B24
 _02170AE4: .word 0x0000FFFF
 	arm_func_end TruckLava3D__Create
@@ -2237,7 +2237,7 @@ TruckLava3D__Draw_2170B24: // 0x02170B24
 	add r0, r4, #0x370
 	bl DrawAnimatedPalette
 _02170B74:
-	ldr r0, _02170C88 // =0x021885B0
+	ldr r0, _02170C88 // =Truck__stru_21885B0
 	add r3, sp, #0x3c
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
@@ -2309,7 +2309,7 @@ _02170BB4:
 	add sp, sp, #0x48
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02170C88: .word 0x021885B0
+_02170C88: .word Truck__stru_21885B0
 _02170C8C: .word g_obj
 _02170C90: .word FX_SinCosTable_
 _02170C94: .word 0x021472FC

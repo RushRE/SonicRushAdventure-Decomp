@@ -4,8 +4,19 @@
 #include <nitro/types.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
+
+// --------------------
+// CONSTANTS
+// --------------------
+
+#define RTC_ALARM_ENABLE_NONE   0x0000
+#define RTC_ALARM_ENABLE_WEEK   0x0001
+#define RTC_ALARM_ENABLE_HOUR   0x0002
+#define RTC_ALARM_ENABLE_MINUTE 0x0004
+#define RTC_ALARM_ENABLE_ALL    (RTC_ALARM_ENABLE_WEEK | RTC_ALARM_ENABLE_HOUR | RTC_ALARM_ENABLE_MINUTE)
 
 // --------------------
 // ENUMS
@@ -35,8 +46,29 @@ typedef enum RTCResult
     RTC_RESULT_MAX
 } RTCResult;
 
+typedef enum RTCAlarmChan
+{
+    RTC_ALARM_CHAN_1 = 0,
+    RTC_ALARM_CHAN_2,
+    RTC_ALARM_CHAN_MAX
+} RTCAlarmChan;
+
+typedef enum RTCAlarmStatus
+{
+    RTC_ALARM_STATUS_OFF = 0,
+    RTC_ALARM_STATUS_ON,
+    RTC_ALARM_STATUS_MAX
+} RTCAlarmStatus;
+
 // --------------------
-// STRUCT
+// TYPES
+// --------------------
+
+typedef void (*RTCCallback)(RTCResult result, void *arg);
+typedef void (*RTCInterrupt)(void);
+
+// --------------------
+// STRUCTS
 // --------------------
 
 typedef struct RTCDate
@@ -54,11 +86,21 @@ typedef struct RTCTime
     u32 second;
 } RTCTime;
 
-// --------------------
-// TYPES
-// --------------------
+typedef struct RTCTimeEx
+{
+    s32 hour;
+    s32 minute;
+    s32 second;
+    s32 millisecond;
+} RTCTimeEx;
 
-typedef void (*RTCCallback)(RTCResult result, void *arg);
+typedef struct RTCAlarmParam
+{
+    RTCWeek week;
+    u32 hour;
+    u32 minute;
+    u32 enable;
+} RTCAlarmParam;
 
 // --------------------
 // FUNCTIONS
@@ -67,13 +109,63 @@ typedef void (*RTCCallback)(RTCResult result, void *arg);
 void RTC_Init(void);
 
 RTCResult RTC_GetDate(RTCDate *date);
-RTCResult RTC_GetDateAsync(RTCDate *date, RTCCallback callback, void *arg);
-
 RTCResult RTC_GetTime(RTCTime *time);
-RTCResult RTC_GetTimeAsync(RTCTime *time, RTCCallback callback, void *arg);
-
 RTCResult RTC_GetDateTime(RTCDate *date, RTCTime *time);
+RTCResult RTC_GetDateTimeExByTick(RTCDate *date, RTCTimeEx *time);
+
+RTCResult RTC_SetDate(const RTCDate *date);
+RTCResult RTC_SetTime(const RTCTime *time);
+RTCResult RTC_SetDateTime(const RTCDate *date, const RTCTime *time);
+
+RTCResult RTC_GetAlarmStatus(RTCAlarmChan chan, RTCAlarmStatus *status);
+RTCResult RTC_GetAlarmParam(RTCAlarmChan chan, RTCAlarmParam *param);
+
+RTCResult RTC_SetAlarmStatus(RTCAlarmChan chan, const RTCAlarmStatus *status);
+RTCResult RTC_SetAlarmParam(RTCAlarmChan chan, const RTCAlarmParam *param);
+
+RTCResult RTC_GetDateAsync(RTCDate *date, RTCCallback callback, void *arg);
+RTCResult RTC_GetTimeAsync(RTCTime *time, RTCCallback callback, void *arg);
 RTCResult RTC_GetDateTimeAsync(RTCDate *date, RTCTime *time, RTCCallback callback, void *arg);
+
+RTCResult RTC_SetDateAsync(const RTCDate *date, RTCCallback callback, void *arg);
+RTCResult RTC_SetTimeAsync(const RTCTime *time, RTCCallback callback, void *arg);
+RTCResult RTC_SetDateTimeAsync(const RTCDate *date, const RTCTime *time, RTCCallback callback, void *arg);
+
+RTCResult RTC_GetAlarmStatusAsync(RTCAlarmChan chan, RTCAlarmStatus *status, RTCCallback callback, void *arg);
+RTCResult RTC_GetAlarmParamAsync(RTCAlarmChan chan, RTCAlarmParam *param, RTCCallback callback, void *arg);
+
+void RTC_SetAlarmInterrupt(RTCInterrupt interrupt);
+
+RTCResult RTC_SetAlarmStatusAsync(RTCAlarmChan chan, const RTCAlarmStatus *status, RTCCallback callback, void *arg);
+RTCResult RTC_SetAlarmParamAsync(RTCAlarmChan chan, const RTCAlarmParam *param, RTCCallback callback, void *arg);
+
+BOOL RTCi_ResetAsync(void);
+BOOL RTCi_SetHourFormatAsync(void);
+BOOL RTCi_ReadRawDateTimeAsync(void);
+BOOL RTCi_WriteRawDateTimeAsync(void);
+BOOL RTCi_ReadRawDateAsync(void);
+BOOL RTCi_WriteRawDateAsync(void);
+BOOL RTCi_ReadRawTimeAsync(void);
+BOOL RTCi_WriteRawTimeAsync(void);
+BOOL RTCi_ReadRawPulseAsync(void);
+BOOL RTCi_WriteRawPulseAsync(void);
+BOOL RTCi_ReadRawAlarm1Async(void);
+BOOL RTCi_WriteRawAlarm1Async(void);
+BOOL RTCi_ReadRawAlarm2Async(void);
+BOOL RTCi_WriteRawAlarm2Async(void);
+BOOL RTCi_ReadRawStatus1Async(void);
+BOOL RTCi_WriteRawStatus1Async(void);
+BOOL RTCi_ReadRawStatus2Async(void);
+BOOL RTCi_WriteRawStatus2Async(void);
+BOOL RTCi_ReadRawAdjustAsync(void);
+BOOL RTCi_WriteRawAdjustAsync(void);
+BOOL RTCi_ReadRawFreeAsync(void);
+BOOL RTCi_WriteRawFreeAsync(void);
+
+RTCResult RTCi_SetRegStatus2Async(const RTCRawStatus2 *status2, RTCCallback callback, void *arg);
+RTCResult RTCi_SetRegAdjustAsync(const RTCRawAdjust *adjust, RTCCallback callback, void *arg);
+RTCResult RTCi_SetRegAdjust(const RTCRawAdjust *Adjust);
+RTCResult RTCi_SetRegStatus2(const RTCRawStatus2 *status2);
 
 #ifdef __cplusplus
 }

@@ -447,7 +447,7 @@ _0211F86C: // 0x0211F86C
 
 .public _0211F964
 _0211F964: // 0x0211F964
-    .word 0x20ECEF4
+    .word DGTi_hash2_arm4_small
 
 .public _0211F968
 _0211F968: // 0x0211F968

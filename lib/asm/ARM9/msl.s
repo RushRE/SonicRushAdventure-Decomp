@@ -82,30 +82,30 @@ abort: // 0x020FD4D8
 	stmdb sp!, {r3, lr}
 	mov r0, #1
 	bl raise
-	ldr r1, _020FD4F8 // =0x021523F0
+	ldr r1, _020FD4F8 // =_021523F0
 	mov r0, #1
 	str r0, [r1, #0xc]
 	bl exit
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_020FD4F8: .word 0x021523F0
+_020FD4F8: .word _021523F0
 	arm_func_end abort
 
 	arm_func_start exit
 exit: // 0x020FD4FC
 	stmdb sp!, {r4, lr}
-	ldr r1, _020FD544 // =0x021523F0
+	ldr r1, _020FD544 // =_021523F0
 	mov r4, r0
 	ldr r0, [r1, #0xc]
 	cmp r0, #0
 	bne _020FD538
 	bl __destroy_global_chain
-	ldr r0, _020FD544 // =0x021523F0
+	ldr r0, _020FD544 // =_021523F0
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	beq _020FD538
 	blx r0
-	ldr r0, _020FD544 // =0x021523F0
+	ldr r0, _020FD544 // =_021523F0
 	mov r1, #0
 	str r1, [r0, #4]
 _020FD538:
@@ -113,20 +113,20 @@ _020FD538:
 	bl __exit
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_020FD544: .word 0x021523F0
+_020FD544: .word _021523F0
 	arm_func_end exit
 
 	arm_func_start __exit
 __exit: // 0x020FD548
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r0, _020FD658 // =0x02152548
+	ldr r0, _020FD658 // =_02152548
 	bl OS_TryLockMutex
 	cmp r0, #0
 	bne _020FD580
 	ldr r0, _020FD65C // =OSi_ThreadInfo
-	ldr r1, _020FD660 // =0x02152500
+	ldr r1, _020FD660 // =_02152500
 	ldr r2, [r0, #4]
-	ldr r0, _020FD664 // =0x02152524
+	ldr r0, _020FD664 // =_02152524
 	ldr r3, [r2, #0x6c]
 	mov r2, #1
 	str r3, [r1]
@@ -134,34 +134,34 @@ __exit: // 0x020FD548
 	b _020FD5D8
 _020FD580:
 	ldr r0, _020FD65C // =OSi_ThreadInfo
-	ldr r1, _020FD660 // =0x02152500
+	ldr r1, _020FD660 // =_02152500
 	ldr r0, [r0, #4]
 	ldr r1, [r1]
 	ldr r0, [r0, #0x6c]
 	cmp r1, r0
 	bne _020FD5B0
-	ldr r0, _020FD664 // =0x02152524
+	ldr r0, _020FD664 // =_02152524
 	ldr r1, [r0]
 	add r1, r1, #1
 	str r1, [r0]
 	b _020FD5D8
 _020FD5B0:
-	ldr r0, _020FD658 // =0x02152548
+	ldr r0, _020FD658 // =_02152548
 	bl OS_LockMutex
 	ldr r0, _020FD65C // =OSi_ThreadInfo
-	ldr r1, _020FD660 // =0x02152500
+	ldr r1, _020FD660 // =_02152500
 	ldr r2, [r0, #4]
-	ldr r0, _020FD664 // =0x02152524
+	ldr r0, _020FD664 // =_02152524
 	ldr r3, [r2, #0x6c]
 	mov r2, #1
 	str r3, [r1]
 	str r2, [r0]
 _020FD5D8:
-	ldr r4, _020FD668 // =0x021523F0
+	ldr r4, _020FD668 // =_021523F0
 	ldr r0, [r4, #8]
 	cmp r0, #0
 	ble _020FD60C
-	ldr r5, _020FD66C // =0x02152400
+	ldr r5, _020FD66C // =_02152400
 _020FD5EC:
 	ldr r0, [r4, #8]
 	sub r1, r0, #1
@@ -172,20 +172,20 @@ _020FD5EC:
 	cmp r0, #0
 	bgt _020FD5EC
 _020FD60C:
-	ldr r0, _020FD664 // =0x02152524
+	ldr r0, _020FD664 // =_02152524
 	ldr r1, [r0]
 	subs r1, r1, #1
 	str r1, [r0]
 	bne _020FD628
-	ldr r0, _020FD658 // =0x02152548
+	ldr r0, _020FD658 // =_02152548
 	bl OS_UnlockMutex
 _020FD628:
-	ldr r0, _020FD668 // =0x021523F0
+	ldr r0, _020FD668 // =_021523F0
 	ldr r0, [r0]
 	cmp r0, #0
 	beq _020FD648
 	blx r0
-	ldr r0, _020FD668 // =0x021523F0
+	ldr r0, _020FD668 // =_021523F0
 	mov r1, #0
 	str r1, [r0]
 _020FD648:
@@ -194,12 +194,12 @@ _020FD648:
 	bl _ExitProcess
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_020FD658: .word 0x02152548
+_020FD658: .word _02152548
 _020FD65C: .word OSi_ThreadInfo
-_020FD660: .word 0x02152500
-_020FD664: .word 0x02152524
-_020FD668: .word 0x021523F0
-_020FD66C: .word 0x02152400
+_020FD660: .word _02152500
+_020FD664: .word _02152524
+_020FD668: .word _021523F0
+_020FD66C: .word _02152400
 	arm_func_end __exit
 
 	arm_func_start nan
@@ -434,7 +434,7 @@ fread: // 0x020FD910
 	movne r6, #5
 	mov r0, #0x18
 	mul r4, r6, r0
-	ldr r5, _020FDA0C // =0x02152548
+	ldr r5, _020FDA0C // =_02152548
 	mov r9, r1
 	add r0, r5, r4
 	mov r8, r2
@@ -442,9 +442,9 @@ fread: // 0x020FD910
 	cmp r0, #0
 	bne _020FD974
 	ldr r0, _020FDA10 // =OSi_ThreadInfo
-	ldr r2, _020FDA14 // =0x02152500
+	ldr r2, _020FDA14 // =_02152500
 	ldr r1, [r0, #4]
-	ldr r0, _020FDA18 // =0x02152524
+	ldr r0, _020FDA18 // =_02152524
 	ldr r3, [r1, #0x6c]
 	mov r1, #1
 	str r3, [r2, r6, lsl #2]
@@ -452,13 +452,13 @@ fread: // 0x020FD910
 	b _020FD9CC
 _020FD974:
 	ldr r0, _020FDA10 // =OSi_ThreadInfo
-	ldr r1, _020FDA14 // =0x02152500
+	ldr r1, _020FDA14 // =_02152500
 	ldr r0, [r0, #4]
 	ldr r1, [r1, r6, lsl #2]
 	ldr r0, [r0, #0x6c]
 	cmp r1, r0
 	bne _020FD9A4
-	ldr r1, _020FDA18 // =0x02152524
+	ldr r1, _020FDA18 // =_02152524
 	ldr r0, [r1, r6, lsl #2]
 	add r0, r0, #1
 	str r0, [r1, r6, lsl #2]
@@ -467,9 +467,9 @@ _020FD9A4:
 	add r0, r5, r4
 	bl OS_LockMutex
 	ldr r0, _020FDA10 // =OSi_ThreadInfo
-	ldr r2, _020FDA14 // =0x02152500
+	ldr r2, _020FDA14 // =_02152500
 	ldr r1, [r0, #4]
-	ldr r0, _020FDA18 // =0x02152524
+	ldr r0, _020FDA18 // =_02152524
 	ldr r3, [r1, #0x6c]
 	mov r1, #1
 	str r3, [r2, r6, lsl #2]
@@ -480,7 +480,7 @@ _020FD9CC:
 	mov r2, r8
 	mov r3, r7
 	bl __fread
-	ldr r1, _020FDA18 // =0x02152524
+	ldr r1, _020FDA18 // =_02152524
 	mov r7, r0
 	ldr r0, [r1, r6, lsl #2]
 	subs r0, r0, #1
@@ -493,10 +493,10 @@ _020FDA00:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _020FDA08: .word _021322D4
-_020FDA0C: .word 0x02152548
+_020FDA0C: .word _02152548
 _020FDA10: .word OSi_ThreadInfo
-_020FDA14: .word 0x02152500
-_020FDA18: .word 0x02152524
+_020FDA14: .word _02152500
+_020FDA18: .word _02152524
 	arm_func_end fread
 
 	arm_func_start __fread
@@ -1093,7 +1093,7 @@ _ftell: // 0x020FE230
 	cmp r1, #0
 	beq _020FE270
 _020FE25C:
-	ldr r0, _020FE2A8 // =0x02152920
+	ldr r0, _020FE2A8 // =_02152920
 	mov r1, #0x28
 	str r1, [r0]
 	sub r0, r1, #0x29
@@ -1114,7 +1114,7 @@ _020FE270:
 	subhs r0, r0, r1
 	bx lr
 	.align 2, 0
-_020FE2A8: .word 0x02152920
+_020FE2A8: .word _02152920
 	arm_func_end _ftell
 
 	arm_func_start ftell
@@ -1136,15 +1136,15 @@ ftell: // 0x020FE2AC
 _020FE2E4:
 	mov r0, #0x18
 	mul r4, r6, r0
-	ldr r5, _020FE3B8 // =0x02152548
+	ldr r5, _020FE3B8 // =_02152548
 	add r0, r5, r4
 	bl OS_TryLockMutex
 	cmp r0, #0
 	bne _020FE324
 	ldr r0, _020FE3BC // =OSi_ThreadInfo
-	ldr r2, _020FE3C0 // =0x02152500
+	ldr r2, _020FE3C0 // =_02152500
 	ldr r1, [r0, #4]
-	ldr r0, _020FE3C4 // =0x02152524
+	ldr r0, _020FE3C4 // =_02152524
 	ldr r3, [r1, #0x6c]
 	mov r1, #1
 	str r3, [r2, r6, lsl #2]
@@ -1152,13 +1152,13 @@ _020FE2E4:
 	b _020FE37C
 _020FE324:
 	ldr r0, _020FE3BC // =OSi_ThreadInfo
-	ldr r1, _020FE3C0 // =0x02152500
+	ldr r1, _020FE3C0 // =_02152500
 	ldr r0, [r0, #4]
 	ldr r1, [r1, r6, lsl #2]
 	ldr r0, [r0, #0x6c]
 	cmp r1, r0
 	bne _020FE354
-	ldr r1, _020FE3C4 // =0x02152524
+	ldr r1, _020FE3C4 // =_02152524
 	ldr r0, [r1, r6, lsl #2]
 	add r0, r0, #1
 	str r0, [r1, r6, lsl #2]
@@ -1167,9 +1167,9 @@ _020FE354:
 	add r0, r5, r4
 	bl OS_LockMutex
 	ldr r0, _020FE3BC // =OSi_ThreadInfo
-	ldr r2, _020FE3C0 // =0x02152500
+	ldr r2, _020FE3C0 // =_02152500
 	ldr r1, [r0, #4]
-	ldr r0, _020FE3C4 // =0x02152524
+	ldr r0, _020FE3C4 // =_02152524
 	ldr r3, [r1, #0x6c]
 	mov r1, #1
 	str r3, [r2, r6, lsl #2]
@@ -1177,7 +1177,7 @@ _020FE354:
 _020FE37C:
 	mov r0, r7
 	bl _ftell
-	ldr r1, _020FE3C4 // =0x02152524
+	ldr r1, _020FE3C4 // =_02152524
 	mov r7, r0
 	ldr r0, [r1, r6, lsl #2]
 	subs r0, r0, #1
@@ -1192,10 +1192,10 @@ _020FE3A4:
 _020FE3AC: .word _021322D4
 _020FE3B0: .word 0x02132320
 _020FE3B4: .word 0x0213236C
-_020FE3B8: .word 0x02152548
+_020FE3B8: .word _02152548
 _020FE3BC: .word OSi_ThreadInfo
-_020FE3C0: .word 0x02152500
-_020FE3C4: .word 0x02152524
+_020FE3C0: .word _02152500
+_020FE3C4: .word _02152524
 	arm_func_end ftell
 
 	arm_func_start _fseek
@@ -1212,7 +1212,7 @@ _fseek: // 0x020FE3C8
 	ldreqb r1, [r5, #0xd]
 	cmpeq r1, #0
 	beq _020FE414
-	ldr r0, _020FE5AC // =0x02152920
+	ldr r0, _020FE5AC // =_02152920
 	mov r1, #0x28
 	str r1, [r0]
 	sub r0, r1, #0x29
@@ -1232,7 +1232,7 @@ _020FE414:
 	mov r0, #1
 	strb r0, [r5, #0xd]
 	mov r2, #0
-	ldr r0, _020FE5AC // =0x02152920
+	ldr r0, _020FE5AC // =_02152920
 	mov r1, #0x28
 	str r2, [r5, #0x28]
 	str r1, [r0]
@@ -1311,7 +1311,7 @@ _020FE524:
 	mov r0, #1
 	strb r0, [r5, #0xd]
 	mov r2, #0
-	ldr r0, _020FE5AC // =0x02152920
+	ldr r0, _020FE5AC // =_02152920
 	mov r1, #0x28
 	str r2, [r5, #0x28]
 	str r1, [r0]
@@ -1331,7 +1331,7 @@ _020FE59C:
 	add sp, sp, #0x10
 	bx lr
 	.align 2, 0
-_020FE5AC: .word 0x02152920
+_020FE5AC: .word _02152920
 	arm_func_end _fseek
 
 	arm_func_start fseek
@@ -1355,15 +1355,15 @@ fseek: // 0x020FE5B0
 _020FE5F0:
 	mov r0, #0x18
 	mul r4, r6, r0
-	ldr r5, _020FE6CC // =0x02152548
+	ldr r5, _020FE6CC // =_02152548
 	add r0, r5, r4
 	bl OS_TryLockMutex
 	cmp r0, #0
 	bne _020FE630
 	ldr r0, _020FE6D0 // =OSi_ThreadInfo
-	ldr r2, _020FE6D4 // =0x02152500
+	ldr r2, _020FE6D4 // =_02152500
 	ldr r1, [r0, #4]
-	ldr r0, _020FE6D8 // =0x02152524
+	ldr r0, _020FE6D8 // =_02152524
 	ldr r3, [r1, #0x6c]
 	mov r1, #1
 	str r3, [r2, r6, lsl #2]
@@ -1371,13 +1371,13 @@ _020FE5F0:
 	b _020FE688
 _020FE630:
 	ldr r0, _020FE6D0 // =OSi_ThreadInfo
-	ldr r1, _020FE6D4 // =0x02152500
+	ldr r1, _020FE6D4 // =_02152500
 	ldr r0, [r0, #4]
 	ldr r1, [r1, r6, lsl #2]
 	ldr r0, [r0, #0x6c]
 	cmp r1, r0
 	bne _020FE660
-	ldr r1, _020FE6D8 // =0x02152524
+	ldr r1, _020FE6D8 // =_02152524
 	ldr r0, [r1, r6, lsl #2]
 	add r0, r0, #1
 	str r0, [r1, r6, lsl #2]
@@ -1386,9 +1386,9 @@ _020FE660:
 	add r0, r5, r4
 	bl OS_LockMutex
 	ldr r0, _020FE6D0 // =OSi_ThreadInfo
-	ldr r2, _020FE6D4 // =0x02152500
+	ldr r2, _020FE6D4 // =_02152500
 	ldr r1, [r0, #4]
-	ldr r0, _020FE6D8 // =0x02152524
+	ldr r0, _020FE6D8 // =_02152524
 	ldr r3, [r1, #0x6c]
 	mov r1, #1
 	str r3, [r2, r6, lsl #2]
@@ -1398,7 +1398,7 @@ _020FE688:
 	mov r1, r8
 	mov r2, r7
 	bl _fseek
-	ldr r1, _020FE6D8 // =0x02152524
+	ldr r1, _020FE6D8 // =_02152524
 	mov r7, r0
 	ldr r0, [r1, r6, lsl #2]
 	subs r0, r0, #1
@@ -1413,10 +1413,10 @@ _020FE6B8:
 _020FE6C0: .word _021322D4
 _020FE6C4: .word 0x02132320
 _020FE6C8: .word 0x0213236C
-_020FE6CC: .word 0x02152548
+_020FE6CC: .word _02152548
 _020FE6D0: .word OSi_ThreadInfo
-_020FE6D4: .word 0x02152500
-_020FE6D8: .word 0x02152524
+_020FE6D4: .word _02152500
+_020FE6D8: .word _02152524
 	arm_func_end fseek
 
 	arm_func_start rewind
@@ -4097,14 +4097,14 @@ printf: // 0x02100B00
 	ldmgeia sp!, {r4, lr}
 	addge sp, sp, #0x10
 	bxge lr
-	ldr r0, _02100C04 // =0x02152590
+	ldr r0, _02100C04 // =_02152590
 	bl OS_TryLockMutex
 	cmp r0, #0
 	bne _02100B5C
 	ldr r0, _02100C08 // =OSi_ThreadInfo
-	ldr r1, _02100C0C // =0x02152500
+	ldr r1, _02100C0C // =_02152500
 	ldr r2, [r0, #4]
-	ldr r0, _02100C10 // =0x02152524
+	ldr r0, _02100C10 // =_02152524
 	ldr r3, [r2, #0x6c]
 	mov r2, #1
 	str r3, [r1, #0xc]
@@ -4112,24 +4112,24 @@ printf: // 0x02100B00
 	b _02100BB4
 _02100B5C:
 	ldr r0, _02100C08 // =OSi_ThreadInfo
-	ldr r1, _02100C0C // =0x02152500
+	ldr r1, _02100C0C // =_02152500
 	ldr r0, [r0, #4]
 	ldr r1, [r1, #0xc]
 	ldr r0, [r0, #0x6c]
 	cmp r1, r0
 	bne _02100B8C
-	ldr r0, _02100C10 // =0x02152524
+	ldr r0, _02100C10 // =_02152524
 	ldr r1, [r0, #0xc]
 	add r1, r1, #1
 	str r1, [r0, #0xc]
 	b _02100BB4
 _02100B8C:
-	ldr r0, _02100C04 // =0x02152590
+	ldr r0, _02100C04 // =_02152590
 	bl OS_LockMutex
 	ldr r0, _02100C08 // =OSi_ThreadInfo
-	ldr r1, _02100C0C // =0x02152500
+	ldr r1, _02100C0C // =_02152500
 	ldr r2, [r0, #4]
-	ldr r0, _02100C10 // =0x02152524
+	ldr r0, _02100C10 // =_02152524
 	ldr r3, [r2, #0x6c]
 	mov r2, #1
 	str r3, [r1, #0xc]
@@ -4142,13 +4142,13 @@ _02100BB4:
 	ldr r1, _02100C00 // =0x02132320
 	add r3, r3, #4
 	bl __pformatter
-	ldr r1, _02100C10 // =0x02152524
+	ldr r1, _02100C10 // =_02152524
 	mov r4, r0
 	ldr r0, [r1, #0xc]
 	subs r0, r0, #1
 	str r0, [r1, #0xc]
 	bne _02100BF0
-	ldr r0, _02100C04 // =0x02152590
+	ldr r0, _02100C04 // =_02152590
 	bl OS_UnlockMutex
 _02100BF0:
 	mov r0, r4
@@ -4157,10 +4157,10 @@ _02100BF0:
 	bx lr
 	.align 2, 0
 _02100C00: .word 0x02132320
-_02100C04: .word 0x02152590
+_02100C04: .word _02152590
 _02100C08: .word OSi_ThreadInfo
-_02100C0C: .word 0x02152500
-_02100C10: .word 0x02152524
+_02100C0C: .word _02152500
+_02100C10: .word _02152524
 _02100C14: .word __FileWrite
 	arm_func_end printf
 
@@ -5802,14 +5802,14 @@ _021021E0:
 	mvn r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
 _021021E8:
-	ldr r0, _021022E4 // =0x021525F0
+	ldr r0, _021022E4 // =_021525F0
 	bl OS_TryLockMutex
 	cmp r0, #0
 	bne _0210221C
 	ldr r0, _021022E8 // =OSi_ThreadInfo
-	ldr r1, _021022EC // =0x02152500
+	ldr r1, _021022EC // =_02152500
 	ldr r2, [r0, #4]
-	ldr r0, _021022F0 // =0x02152524
+	ldr r0, _021022F0 // =_02152524
 	ldr r3, [r2, #0x6c]
 	mov r2, #1
 	str r3, [r1, #0x1c]
@@ -5817,41 +5817,41 @@ _021021E8:
 	b _02102274
 _0210221C:
 	ldr r0, _021022E8 // =OSi_ThreadInfo
-	ldr r1, _021022EC // =0x02152500
+	ldr r1, _021022EC // =_02152500
 	ldr r0, [r0, #4]
 	ldr r1, [r1, #0x1c]
 	ldr r0, [r0, #0x6c]
 	cmp r1, r0
 	bne _0210224C
-	ldr r0, _021022F0 // =0x02152524
+	ldr r0, _021022F0 // =_02152524
 	ldr r1, [r0, #0x1c]
 	add r1, r1, #1
 	str r1, [r0, #0x1c]
 	b _02102274
 _0210224C:
-	ldr r0, _021022E4 // =0x021525F0
+	ldr r0, _021022E4 // =_021525F0
 	bl OS_LockMutex
 	ldr r0, _021022E8 // =OSi_ThreadInfo
-	ldr r1, _021022EC // =0x02152500
+	ldr r1, _021022EC // =_02152500
 	ldr r2, [r0, #4]
-	ldr r0, _021022F0 // =0x02152524
+	ldr r0, _021022F0 // =_02152524
 	ldr r3, [r2, #0x6c]
 	mov r2, #1
 	str r3, [r1, #0x1c]
 	str r2, [r0, #0x1c]
 _02102274:
-	ldr r1, _021022F4 // =0x02152924
+	ldr r1, _021022F4 // =_02152924
 	sub r2, r5, #1
 	ldr r4, [r1, r2, lsl #2]
 	cmp r4, #1
 	movne r0, #0
 	strne r0, [r1, r2, lsl #2]
-	ldr r0, _021022F0 // =0x02152524
+	ldr r0, _021022F0 // =_02152524
 	ldr r1, [r0, #0x1c]
 	subs r1, r1, #1
 	str r1, [r0, #0x1c]
 	bne _021022A8
-	ldr r0, _021022E4 // =0x021525F0
+	ldr r0, _021022E4 // =_021525F0
 	bl OS_UnlockMutex
 _021022A8:
 	cmp r4, #1
@@ -5873,11 +5873,11 @@ _021022D4:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_021022E4: .word 0x021525F0
+_021022E4: .word _021525F0
 _021022E8: .word OSi_ThreadInfo
-_021022EC: .word 0x02152500
-_021022F0: .word 0x02152524
-_021022F4: .word 0x02152924
+_021022EC: .word _02152500
+_021022F0: .word _02152524
+_021022F4: .word _02152924
 	arm_func_end raise
 
 	arm_func_start strlen
@@ -7596,7 +7596,7 @@ strtold: // 0x02103958
 	bl _dgeq
 	bls _02103A1C
 _02103A10:
-	ldr r0, _02103A34 // =0x02152920
+	ldr r0, _02103A34 // =_02152920
 	mov r1, #0x22
 	str r1, [r0]
 _02103A1C:
@@ -7607,7 +7607,7 @@ _02103A1C:
 	.align 2, 0
 _02103A2C: .word __StringRead
 _02103A30: .word 0x7FEFFFFF
-_02103A34: .word 0x02152920
+_02103A34: .word _02152920
 	arm_func_end strtold
 
 	arm_func_start atof
@@ -8263,7 +8263,7 @@ strtoul: // 0x0210427C
 	ldr r1, [sp, #0x14]
 	cmp r1, #0
 	beq _021042F8
-	ldr r0, _02104310 // =0x02152920
+	ldr r0, _02104310 // =_02152920
 	mov r1, #0x22
 	str r1, [r0]
 	add sp, sp, #0x20
@@ -8277,7 +8277,7 @@ _021042F8:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0210430C: .word __StringRead
-_02104310: .word 0x02152920
+_02104310: .word _02152920
 	arm_func_end strtoul
 
 	arm_func_start strtol
@@ -8320,7 +8320,7 @@ _02104390:
 	bls _021043C4
 _021043A0:
 	ldr r0, [sp, #0x18]
-	ldr r1, _021043D8 // =0x02152920
+	ldr r1, _021043D8 // =_02152920
 	mov r2, #0x22
 	cmp r0, #0
 	movne r0, #0x80000000
@@ -8335,7 +8335,7 @@ _021043C4:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _021043D4: .word __StringRead
-_021043D8: .word 0x02152920
+_021043D8: .word _02152920
 	arm_func_end strtol
 
 	arm_func_start atoi
@@ -10978,7 +10978,7 @@ _021067E4:
 	orrs r0, r7, r5
 	bne _0210681C
 	ldr r0, _02106A48 // =0x021323F4
-	ldr r1, _02106A4C // =0x02152920
+	ldr r1, _02106A4C // =_02152920
 	ldr r0, [r0]
 	mov r2, #0x21
 	str r2, [r1]
@@ -11133,7 +11133,7 @@ _02106A3C: .word 0x43400000
 _02106A40: .word 0xFFFFFC01
 _02106A44: .word 0x3FE00000
 _02106A48: .word 0x021323F4
-_02106A4C: .word 0x02152920
+_02106A4C: .word _02152920
 _02106A50: .word 0x41E00000
 _02106A54: .word 0x3FEFFFFF
 _02106A58: .word 0x3FD00000
@@ -14535,7 +14535,7 @@ _02109988:
 _02109994:
 	ldr r2, _021099B4 // =0x7FF80000
 	orr r1, r1, r2
-	ldr r3, _021099B8 // =0x02152920
+	ldr r3, _021099B8 // =_02152920
 	mov r4, #0x21
 	str r4, [r3]
 	ldmia sp!, {r4, r5, r6, lr}
@@ -14543,7 +14543,7 @@ _02109994:
 	.align 2, 0
 _021099B0: .word 0x7FF00000
 _021099B4: .word 0x7FF80000
-_021099B8: .word 0x02152920
+_021099B8: .word _02152920
 	arm_func_end _dsqrt
 
 	arm_func_start _drsb
@@ -17235,23 +17235,26 @@ _0211714C: // 0x0211714C
 	.byte 0x71, 0x00, 0x71, 0x00, 0x71, 0x00, 0x71, 0x00, 0x71, 0x00, 0x71, 0x00, 0x71, 0x00, 0x71, 0x00
 	.byte 0x71, 0x00, 0xD0, 0x00, 0xD0, 0x00, 0xD0, 0x00, 0xD0, 0x00, 0x04, 0x00, 
 	
+.public _0211724C
 _0211724C: // 0x0211724C
 	.byte 0x00, 0x00, 0x00, 0x00
 	.byte 0xFF, 0xFF, 0xFF, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 
+.public _0211725C
 _0211725C: // 0x0211725C
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 
 	
+.public aNan_3
 aNan_3: // 0x02117274
 	.asciz "NAN("
 
+.public aFinity
 aFinity: // 0x02117279
 	.asciz "INFINITY"
+	.align 4
 	
-_02117282:
-	.byte 0x00, 0x00
-	
+.public _02117284
 _02117284:
 	.byte 0x00, 0x00, 0x01, 0x00, 0x02, 0x00, 0x03, 0x00, 0x04, 0x00, 0x05, 0x00
 	.byte 0x06, 0x00, 0x07, 0x00, 0x08, 0x00, 0x09, 0x00, 0x0A, 0x00, 0x0B, 0x00, 0x0C, 0x00, 0x0D, 0x00
@@ -17308,6 +17311,7 @@ _02117284:
 
 	.data
 
+.public _021322D4
 _021322D4:
 	.byte 0x00, 0x00, 0x00, 0x00, 0x24, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
@@ -17324,18 +17328,23 @@ _021322D4:
 	.byte 0x20, 0x26, 0x15, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xEC, 0xB9, 0x10, 0x02, 0x3C, 0xBA, 0x10, 0x02
 	.byte 0x70, 0xBA, 0x10, 0x02, 0x00, 0x00, 0x00, 0x00
+	
+.public aAssertionSFail
 aAssertionSFail: // 0x021323B8
 	.asciz "Assertion (%s) failed in \"%s\", function \"%s\", line %d\n"
 	.align 4
 
+.public _021323F0
 _021323F0:
 	.byte 0x00, 0x00, 0x80, 0x7F, 0xFF, 0xFF, 0xFF, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF0, 0x7F
 	.byte 0x00, 0x00, 0x00, 0x00, 0x25, 0x54, 0x00, 0x00
 
+.public aAmPm
 aAmPm: // 0x02132408
 	.asciz "AM|PM"
 	.align 4
 
+.public _02132410
 _02132410:
 	.byte 0x1C, 0xE7, 0x0F, 0x02, 0x54, 0xE7, 0x0F, 0x02, 0x20, 0x00, 0x00, 0x00, 0x6E, 0x00, 0x00, 0x00
 	.byte 0x00, 0x00, 0x00, 0x00, 0x48, 0x24, 0x13, 0x02, 0x08, 0x24, 0x13, 0x02, 0x2C, 0x25, 0x13, 0x02
@@ -17354,32 +17363,40 @@ _02132410:
 	.byte 0x52, 0x00, 0x54, 0x00, 0x56, 0x00, 0x58, 0x00, 0x5A, 0x00, 0x5C, 0x00, 0x5E, 0x00, 0x1D, 0x00
 	.byte 0x1E, 0x00, 0x1F, 0x00, 0x20, 0x00, 0x00, 0x00
 
+.public aMDY
 aMDY: // 0x02132508
 	.asciz "%m/%d/%y"
 	.align 4
 
+.public _02132514
 _02132514:
 	.byte 0x28, 0x24, 0x13, 0x02, 0x18, 0x24, 0x13, 0x02, 0x10, 0x24, 0x13, 0x02
 
+.public aIMSP
 aIMSP: // 0x02132520
 	.asciz "%I:%M:%S %p"
 
+.public aABETY
 aABETY: // 0x0213252C
 	.asciz "%a %b %e %T %Y"
 	.align 4
 
+.public aSunSundayMonMo
 aSunSundayMonMo: // 0x0213253C
 	.asciz "Sun|Sunday|Mon|Monday|Tue|Tuesday|Wed|Wednesday|Thu|Thursday|Fri|Friday|Sat|Saturday"
 	.align 4
 
+.public aJanJanuaryFebF
 aJanJanuaryFebF: // 0x02132594
 	.asciz "Jan|January|Feb|February|Mar|March|Apr|April|May|May|Jun|June|Jul|July|Aug|August|Sep|September|Oct|October|Nov|November|Dec|December"
 	.align 4
 
+.public a0x0p0
 a0x0p0: // 0x0213261C
 	.asciz "0x0p0"
 	.align 4
 
+.public _02132624
 _02132624:
 	.byte 0x2D, 0x49, 0x4E, 0x46, 0x00, 0x00, 0x00, 0x00, 0x2D, 0x69, 0x6E, 0x66
 	.byte 0x00, 0x00, 0x00, 0x00, 0x49, 0x4E, 0x46, 0x00, 0x69, 0x6E, 0x66, 0x00, 0x2D, 0x4E, 0x41, 0x4E
@@ -17397,30 +17414,37 @@ _02132624:
 	.byte 0x80, 0x84, 0x2E, 0x41, 0x00, 0x00, 0x00, 0x00, 0xD0, 0x12, 0x63, 0x41, 0x00, 0x00, 0x00, 0x00
 	.byte 0x84, 0xD7, 0x97, 0x41
 
+.public a54210108624275
 a54210108624275: // 0x02132704
 	.asciz "542101086242752217003726400434970855712890625"
 	.align 4
 
+.public a11102230246251
 a11102230246251: // 0x02132734
 	.asciz "11102230246251565404236316680908203125"
 	.align 4
 
+.public a23283064365386
 a23283064365386: // 0x0213275C
 	.asciz "23283064365386962890625"
 	.align 4
 
+.public a152587890625
 a152587890625: // 0x02132774
 	.asciz "152587890625"
 	.align 4
 
+.public a390625
 a390625: // 0x02132784
 	.asciz "390625"
 	.align 4
 
+.public a78125
 a78125: // 0x0213278C
 	.asciz "78125"
 	.align 4
 
+.public a15625
 a15625: // 0x02132794
 	.asciz "15625"
 	.align 4
@@ -17495,64 +17519,77 @@ a256:
 	.asciz "256"
 	.align 4
 
+.public a17976931348623
 a17976931348623: // 0x021327D8
 	.asciz "179769313486231580793728714053034151"
 	.align 4
 
+.public _ZTISt9type_info
 _ZTISt9type_info: // 0x02132800
     .word _ZTVN10__cxxabiv117__class_type_infoE+8
 	.word _ZTSSt9type_info    
 
+.public _ZTIN10__cxxabiv117__array_type_infoE
 _ZTIN10__cxxabiv117__array_type_infoE: // 0x02132808
     .word _ZTVN10__cxxabiv120__si_class_type_infoE+8 
 	.word _ZTSN10__cxxabiv117__array_type_infoE 
 	.word _ZTISt9type_info    
 
+.public _ZTIN10__cxxabiv119__pointer_type_infoE
 _ZTIN10__cxxabiv119__pointer_type_infoE: // 0x02132814
     .word _ZTVN10__cxxabiv120__si_class_type_infoE+8 
 	.word _ZTSN10__cxxabiv119__pointer_type_infoE 
 	.word _ZTIN10__cxxabiv117__pbase_type_infoE 
 
+.public _02132624
 _ZTIN10__cxxabiv116__enum_type_infoE: // 0x02132820
     .word _ZTVN10__cxxabiv120__si_class_type_infoE+8 
 	.word _ZTSN10__cxxabiv116__enum_type_infoE 
 	.word _ZTISt9type_info    
 
+.public _ZTIN10__cxxabiv117__pbase_type_infoE
 _ZTIN10__cxxabiv117__pbase_type_infoE: // 0x0213282C
     .word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word _ZTSN10__cxxabiv117__pbase_type_infoE 
 	.word _ZTISt9type_info    
 
+.public _ZTIN10__cxxabiv121__vmi_class_type_infoE
 _ZTIN10__cxxabiv121__vmi_class_type_infoE: // 0x02132838
     .word _ZTVN10__cxxabiv120__si_class_type_infoE+8 
 	.word _ZTSN10__cxxabiv121__vmi_class_type_infoE 
 	.word _ZTIN10__cxxabiv117__class_type_infoE 
 
+.public _ZTIN10__cxxabiv120__function_type_infoE
 _ZTIN10__cxxabiv120__function_type_infoE: // 0x02132844
     .word _ZTVN10__cxxabiv120__si_class_type_infoE+8 
 	.word _ZTSN10__cxxabiv120__function_type_infoE 
 	.word _ZTISt9type_info    
 
+.public _ZTIN10__cxxabiv120__si_class_type_infoE
 _ZTIN10__cxxabiv120__si_class_type_infoE: // 0x02132850
     .word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word _ZTSN10__cxxabiv120__si_class_type_infoE 
 	.word _ZTIN10__cxxabiv117__class_type_infoE 
 
+.public _ZTIN10__cxxabiv129__pointer_to_member_type_infoE
 _ZTIN10__cxxabiv129__pointer_to_member_type_infoE: // 0x0213285C
     .word _ZTVN10__cxxabiv120__si_class_type_infoE+8 
 	.word _ZTSN10__cxxabiv129__pointer_to_member_type_infoE 
 	.word _ZTIN10__cxxabiv117__pbase_type_infoE 
 
+.public _ZTIN10__cxxabiv123__fundamental_type_infoE
 _ZTIN10__cxxabiv123__fundamental_type_infoE: // 0x02132868
     .word _ZTVN10__cxxabiv120__si_class_type_infoE+8 
 	.word _ZTSN10__cxxabiv123__fundamental_type_infoE 
 	.word _ZTISt9type_info    
 
+.public _ZTIN10__cxxabiv117__class_type_infoE
 _ZTIN10__cxxabiv117__class_type_infoE: // 0x02132874
     .word _ZTVN10__cxxabiv120__si_class_type_infoE+8
 	.word _ZTSN10__cxxabiv117__class_type_infoE 
 	.word _ZTISt9type_info    
 	
+.public _ZTSSt9type_info
 _ZTSSt9type_info: // 0x02132880
 	.asciz "St9type_info"
 	.align 4
@@ -17560,51 +17597,59 @@ _ZTSSt9type_info: // 0x02132880
 .public _ZTVN10__cxxabiv120__si_class_type_infoE
 _ZTVN10__cxxabiv120__si_class_type_infoE: // 0x02132890
 	.word 0, _ZTIN10__cxxabiv120__si_class_type_infoE
-_02132898:
 	.word _ZN10__cxxabiv120__si_class_type_infoD1Ev, _ZN10__cxxabiv120__si_class_type_infoD0Ev
 	
 .public _ZTVN10__cxxabiv117__class_type_infoE
 _ZTVN10__cxxabiv117__class_type_infoE: // 0x021328A0
 	.word 0, _ZTIN10__cxxabiv117__class_type_infoE
-_021328A8:
 	.word _ZN10__cxxabiv117__class_type_infoD1Ev, _ZN10__cxxabiv117__class_type_infoD0Ev
 
+.public _ZTSN10__cxxabiv116__enum_type_infoE
 _ZTSN10__cxxabiv116__enum_type_infoE: // 0x021328B0
 	.asciz "N10__cxxabiv116__enum_type_infoE"
 	.align 4
 	
+.public _ZTSN10__cxxabiv117__pbase_type_infoE
 _ZTSN10__cxxabiv117__pbase_type_infoE: // 0x021328D4
 	.asciz "N10__cxxabiv117__pbase_type_infoE"
 	.align 4
 	
+.public _ZTSN10__cxxabiv117__class_type_infoE
 _ZTSN10__cxxabiv117__class_type_infoE: // 0x021328F8
 	.asciz "N10__cxxabiv117__class_type_infoE"
 	.align 4
 	
+.public _ZTSN10__cxxabiv117__array_type_infoE
 _ZTSN10__cxxabiv117__array_type_infoE: // 0x0213291C
 	.asciz "N10__cxxabiv117__array_type_infoE"
 	.align 4
 	
+.public _02132624
 _ZTSN10__cxxabiv119__pointer_type_infoE: // 0x02132940
 	.asciz "N10__cxxabiv119__pointer_type_infoE"
 	.align 4
 	
+.public _ZTSN10__cxxabiv120__function_type_infoE
 _ZTSN10__cxxabiv120__function_type_infoE: // 0x02132964
 	.asciz "N10__cxxabiv120__function_type_infoE"
 	.align 4
 	
+.public _ZTSN10__cxxabiv120__si_class_type_infoE
 _ZTSN10__cxxabiv120__si_class_type_infoE: // 0x0213298C
 	.asciz "N10__cxxabiv120__si_class_type_infoE"
 	.align 4
 	
+.public _ZTSN10__cxxabiv121__vmi_class_type_infoE
 _ZTSN10__cxxabiv121__vmi_class_type_infoE: // 0x021329B4
 	.asciz "N10__cxxabiv121__vmi_class_type_infoE"
 	.align 4
 	
+.public _ZTSN10__cxxabiv123__fundamental_type_infoE
 _ZTSN10__cxxabiv123__fundamental_type_infoE: // 0x021329DC
 	.asciz "N10__cxxabiv123__fundamental_type_infoE"
 	.align 4
 
+.public _ZTSN10__cxxabiv129__pointer_to_member_type_infoE
 _ZTSN10__cxxabiv129__pointer_to_member_type_infoE: // 0x02132A04
 	.asciz "N10__cxxabiv129__pointer_to_member_type_infoE"
 	.align 4

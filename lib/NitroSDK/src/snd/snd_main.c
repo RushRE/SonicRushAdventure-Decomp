@@ -41,19 +41,19 @@ void SND_Init(void)
 void SND_Init(u32 threadPrio)
 #endif
 {
-    {
-        static BOOL initialized = FALSE;
-        if (initialized)
-            return;
-        initialized = TRUE;
-    }
+    static BOOL initialized = FALSE;
+    if (initialized)
+        return;
+
+    initialized = TRUE;
 
 #ifdef SDK_ARM9
     OS_InitMutex(&sSndMutex);
     SND_CommandInit();
     SND_AlarmInit();
 #else
-    // TODO: this
+    SND_CommandInit();
+    SND_CreateThread(threadPrio);
 #endif
 }
 

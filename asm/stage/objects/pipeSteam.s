@@ -393,7 +393,7 @@ _0216166C:
 	str r4, [r4, #0x2d8]
 	str r0, [r4, #0x2fc]
 	ldrh r0, [r8, #2]
-	ldr r6, _02161724 // =0x021883B0
+	ldr r6, _02161724 // =PipeSteam__stru_21883B0
 	add r3, r4, #0x300
 	sub r2, r0, #0x7f
 	mov r0, r2, lsl #3
@@ -434,7 +434,7 @@ _02161714: .word PipeSteam__State_2161728
 _02161718: .word PipeSteam__OnDefend_21617B0
 _0216171C: .word PipeSteam__OnDefend_2161DE0
 _02161720: .word StageTask__DefaultDiffData
-_02161724: .word 0x021883B0
+_02161724: .word PipeSteam__stru_21883B0
 	arm_func_end PipeSteam__Create
 
 	arm_func_start PipeSteam__State_2161728
@@ -469,7 +469,7 @@ PipeFlow__OnDefend_216174C: // 0x0216174C
 	orr r2, r2, #2
 	str r2, [r1, #0x18]
 	ldr ip, [r1, #0x24]
-	ldr r3, _021617AC // =0x021883A0
+	ldr r3, _021617AC // =PipeFlow__dword_21883A0
 	add r2, lr, #0x8000
 	mov r2, r2, lsl #0x10
 	ldr r3, [r3, ip, lsl #2]
@@ -477,7 +477,7 @@ PipeFlow__OnDefend_216174C: // 0x0216174C
 	bl Player__Gimmick_201C80C
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_021617AC: .word 0x021883A0
+_021617AC: .word PipeFlow__dword_21883A0
 	arm_func_end PipeFlow__OnDefend_216174C
 
 	arm_func_start PipeSteam__OnDefend_21617B0
@@ -504,7 +504,7 @@ PipeSteam__OnDefend_21617B0: // 0x021617B0
 	ldr r0, _0216184C // =PipeSteam__dword_2188390
 	cmp ip, #0
 	ldr r1, [r0, lr, lsl #2]
-	ldrgt r0, _02161850 // =0x02188398
+	ldrgt r0, _02161850 // =PipeSteam__dword_2188398
 	mov r3, r2
 	ldrgt r0, [r0, lr, lsl #2]
 	mlagt r1, ip, r0, r1
@@ -524,7 +524,7 @@ _02161834:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0216184C: .word PipeSteam__dword_2188390
-_02161850: .word 0x02188398
+_02161850: .word PipeSteam__dword_2188398
 	arm_func_end PipeSteam__OnDefend_21617B0
 
 	arm_func_start PipeFlow__OnDefend_2161854
@@ -538,12 +538,12 @@ PipeFlow__OnDefend_2161854: // 0x02161854
 	cmp r0, #1
 	bxne lr
 	ldr r1, [r1, #0x24]
-	ldr r0, _02161888 // =0x021883A8
+	ldr r0, _02161888 // =PipeFlow__dword_21883A8
 	ldr r0, [r0, r1, lsl #2]
 	str r0, [r2, #8]
 	bx lr
 	.align 2, 0
-_02161888: .word 0x021883A8
+_02161888: .word PipeFlow__dword_21883A8
 	arm_func_end PipeFlow__OnDefend_2161854
 
 	arm_func_start PipeFlow__OnDefend_216188C
@@ -940,7 +940,7 @@ PipeSteam__OnDefend_2161DE0: // 0x02161DE0
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r1, [r4, #0x24]
-	ldr r0, _02161E5C // =0x021883A8
+	ldr r0, _02161E5C // =PipeFlow__dword_21883A8
 	ldr r0, [r0, r1, lsl #2]
 	str r0, [r5, #8]
 	ldr r0, [r4, #0x128]
@@ -964,7 +964,7 @@ _02161E3C:
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02161E5C: .word 0x021883A8
+_02161E5C: .word PipeFlow__dword_21883A8
 _02161E60: .word PipeSteam__State_2161BB0
 	arm_func_end PipeSteam__OnDefend_2161DE0
 	
@@ -975,19 +975,19 @@ PipeSteam__dword_2188390: // 0x02188390
     .word 0xA000, 0xA000      
 	
 .public PipeSteam__dword_2188398
-PipeSteam__dword_2188398: // 0x02188398
+PipeSteam__dword_2188398: // PipeSteam__dword_2188398
     .word 0x800, 0x800        
 	
 .public PipeFlow__dword_21883A0
-PipeFlow__dword_21883A0: // 0x021883A0
+PipeFlow__dword_21883A0: // PipeFlow__dword_21883A0
     .word 0, 0                
 	
 .public PipeFlow__dword_21883A8
-PipeFlow__dword_21883A8: // 0x021883A8
+PipeFlow__dword_21883A8: // PipeFlow__dword_21883A8
     .word 0x10000, 0x20000    
 	
 .public PipeSteam__stru_21883B0
-PipeSteam__stru_21883B0: // 0x021883B0
+PipeSteam__stru_21883B0: // PipeSteam__stru_21883B0
     .hword 24, 48, -24, -24
 	.hword 48, 24, -24, 0
 	.hword 24, 48, -24, -24

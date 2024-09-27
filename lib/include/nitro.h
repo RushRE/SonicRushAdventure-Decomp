@@ -42,7 +42,7 @@
 #include <nitro/vib.h>
 
 #else // SDK_ARM7
-// TODO: is there anything we need here?
+// #include <nitro/exi.h>
 #endif
 
 #endif // NITRO_H

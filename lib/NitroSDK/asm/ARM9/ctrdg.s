@@ -670,7 +670,7 @@ CTRDGi_InitTaskThread: // 0x020FCA58
 	str r0, [r5, #0xc0]
 	mov r2, #0x400
 	ldr r1, _020FCAE0 // =CTRDGi_TaskThread
-	ldr r3, _020FCAE4 // =0x021523F0
+	ldr r3, _020FCAE4 // =_021523F0
 	mov r0, r5
 	str r2, [sp]
 	mov r2, #0x14
@@ -689,5 +689,5 @@ _020FCAC4:
 _020FCAD8: .word 0x02151FC8
 _020FCADC: .word 0x02151FCC
 _020FCAE0: .word CTRDGi_TaskThread
-_020FCAE4: .word 0x021523F0
+_020FCAE4: .word _021523F0
 	arm_func_end CTRDGi_InitTaskThread
