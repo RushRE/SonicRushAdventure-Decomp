@@ -25,7 +25,6 @@ extern u32 SDK_AUTOLOAD_DTCM_START[];
 #define HW_ITCM_END   (HW_ITCM + HW_ITCM_SIZE)
 
 #define HW_IOREG     0x04000000
-#define HW_CTRDG_ROM 0x08000000
 #define HW_BIOS      0xffff0000
 
 #define HW_DTCM      ((u32)SDK_AUTOLOAD_DTCM_START)

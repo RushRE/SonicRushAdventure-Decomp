@@ -1,15 +1,3 @@
-/*
- * NOTE:
- * This file is shared between ARM9 and ARM7
- * DO NOT PUT PROC SPECIFIC CODE IN HERE
- * Thank You!
- */
-
-/*
- * DO NOT INCLUDE THIS FILE DIRECTLY
- * Include MI_dma.h from the specific proc's lib
- */
-
 #ifndef GUARD_DMA_SHARED_H
 #define GUARD_DMA_SHARED_H
 

@@ -2,7 +2,8 @@
 #define NITRO_SPI_COMMON_PM_COMMON_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------

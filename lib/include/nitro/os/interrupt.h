@@ -92,6 +92,16 @@ extern OSIrqCallbackInfo OSi_IrqCallbackInfo[OSi_IRQCALLBACK_NUM];
 // INLINE FUNCTIONS
 // --------------------
 
+static inline vu32 OS_GetVBlankCount (void)
+{
+	return *(vu32 *)HW_VBLANK_COUNT_BUF;
+}
+
+static inline void OSi_SetVBlankCount(u32 count)
+{
+    *(u32 *)HW_VBLANK_COUNT_BUF = count;
+}
+
 static inline void OS_ClearIrqCheckFlag(OSIrqMask intr)
 {
     *(vu32 *)HW_INTR_CHECK_BUF &= (u32)~intr;
@@ -131,6 +141,11 @@ static inline BOOL OS_RestoreIrq(BOOL enable)
 static inline OSIrqMask OS_GetIrqMask(void)
 {
     return reg_OS_IE;
+}
+
+static inline OSIrqMask OS_GetRequestIrqMask(void)
+{
+    return reg_OS_IF;
 }
 
 // --------------------

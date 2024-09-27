@@ -4,7 +4,8 @@
 #include <nitro/hw/consts.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -154,6 +155,21 @@ static inline void MI_SetCartridgeRamCycle(MICartridgeRamCycle c)
 static inline MICartridgeRamCycle MI_GetCartridgeRamCycle(void)
 {
     return (MICartridgeRamCycle)((reg_MI_EXMEMCNT & 3) >> 0);
+}
+
+static inline MIProcessor MI_GetCartridgeProcessor(void)
+{
+    return (MIProcessor)((reg_MI_EXMEMCNT & REG_MI_EXMEMCNT_CP_MASK) >> REG_MI_EXMEMCNT_CP_SHIFT);
+}
+
+static inline void MIi_SetPhiClock(MIiPhiClock clock)
+{
+    reg_MI_EXMEMCNT = (u16)((reg_MI_EXMEMCNT & ~REG_MI_EXMEMCNT_PHI_MASK) | (clock << REG_MI_EXMEMCNT_PHI_SHIFT));
+}
+
+static inline MIiPhiClock MIi_GetPhiClock(void)
+{
+    return (MIiPhiClock)((reg_MI_EXMEMCNT & REG_MI_EXMEMCNT_PHI_MASK) >> REG_MI_EXMEMCNT_PHI_SHIFT);
 }
 
 #ifdef SDK_ARM9

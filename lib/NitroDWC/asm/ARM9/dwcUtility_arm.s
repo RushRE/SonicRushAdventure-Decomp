@@ -25829,7 +25829,7 @@ _0216EE78:
 	mov r2, r4
 	add r0, r1, r8
 	add r1, r1, r6
-	bl MATH_CRC16Update
+	bl MATH_CalcCRC16
 	ldr r1, [r9]
 	add r1, r1, r7, lsl #8
 	strh r0, [r1, #0xfe]

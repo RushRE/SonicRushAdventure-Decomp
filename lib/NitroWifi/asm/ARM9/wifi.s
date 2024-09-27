@@ -3819,7 +3819,7 @@ sub_20BE844: // 0x020BE844
 	ldr r0, _020BE8FC // =0x0214571C
 	ldr r2, _020BE900 // =0x00000101
 	mov r1, r5
-	bl STD_SearchString
+	bl STD_CopyLString
 	mov r1, r4, lsr #0x18
 	mov r0, r4, lsr #8
 	mov r2, r4, lsl #8

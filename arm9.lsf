@@ -1,5 +1,5 @@
 ############################################################
-### Linker spec file for Sonic Rush Adventure (EU)       ###
+###    Linker spec file for Sonic Rush Adventure (EU)    ###
 ###      Pass this to the SDK's makelcf.exe utility      ###
 ###           along with the ARM9-TS template.           ###
 ###                        WIP                           ###
@@ -54,7 +54,7 @@ Static arm9
     Object asm/stage/effects/stageEffects_vars.o
     Object src/stage/effects/stageEffects.o
     
-    ## PLAYER/UI ##
+    ## STAGE CORE ##
     Object src/stage/player/starCombo.o
     Object asm/stage/player/starCombo_vars.o
     Object asm/stage/core/hud_varsS1.o
@@ -327,26 +327,32 @@ Static arm9
     Object lib/NitroSDK/asm/ARM9/snd_20E8658.o
     Object lib/NitroSDK/src/pxi/pxi_init.o
     Object lib/NitroSDK/src/pxi/pxi_fifo.o
-    Object lib/NitroSDK/asm/ARM9/fs_command.o
-    Object lib/NitroSDK/asm/ARM9/fs_command_default.o
-    Object lib/NitroSDK/asm/ARM9/fs_archive.o
-    Object lib/NitroSDK/asm/ARM9/fs_file.o
-    Object lib/NitroSDK/asm/ARM9/fs_rom.o
+    Object lib/NitroSDK/src/fs/fs_command.o
+    Object lib/NitroSDK/src/fs/fs_command_default.o
+    Object lib/NitroSDK/src/fs/fs_archive.o
+    Object lib/NitroSDK/src/fs/fs_file.o
+    Object lib/NitroSDK/src/fs/fs_rom.o
     Object lib/NitroSDK/src/fs/fs_mem.o
-    Object lib/NitroSDK/asm/ARM9/fs_overlay.o
+    Object lib/NitroSDK/src/fs/fs_overlay.o
     Object lib/NitroSDK/asm/ARM9/dgt_hash1.o
     Object lib/NitroSDK/asm/ARM9/dgt_hash2.o
     Object lib/NitroSDK/src/cp/cp_context.o
     Object lib/NitroSDK/src/spi/ARM9/tp.o
     Object lib/NitroSDK/src/spi/ARM9/mic.o
-    Object lib/NitroSDK/asm/ARM9/pm.o
-    Object lib/NitroSDK/asm/ARM9/rtc.o
+    Object lib/NitroSDK/src/spi/ARM9/pm.o
+    Object lib/NitroSDK/asm/ARM9/rtc_external.o
+    Object lib/NitroSDK/asm/ARM9/rtc_internal.o
+    Object lib/NitroSDK/asm/ARM9/rtc_convert.o
     Object lib/NitroSDK/asm/ARM9/card.o
     Object lib/NitroSDK/asm/ARM9/wm.o
     Object lib/NitroSDK/asm/ARM9/mb.o
     Object lib/NitroSDK/asm/ARM9/ctrdg.o
-    Object lib/NitroSDK/asm/ARM9/math.o
-    Object lib/NitroSDK/asm/ARM9/std.o
+    Object lib/NitroSDK/src/math/math.o
+    Object lib/NitroSDK/src/math/dgt.o
+    Object lib/NitroSDK/src/math/crc.o
+    Object lib/NitroSDK/src/cht/ARM9/pictocatch.o
+    Object lib/NitroSDK/src/std/std_string.o
+    Object lib/NitroSDK/src/std/std_unicode.o
 
     ## MSL ##
     Object lib/asm/ARM9/msl.o

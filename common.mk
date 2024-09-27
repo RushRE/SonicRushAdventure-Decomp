@@ -74,7 +74,7 @@ TOOLDIRS := $(foreach tool,$(NATIVE_TOOLS),$(dir $(tool)))
 
 # NitroSDK
 NITROSYSTEM_SRC_SUBDIRS   := 
-NITROSDK_SRC_SUBDIRS      := init/$(BUILD_MODE) fx gx os os/$(BUILD_MODE) mi snd pxi fs dgt cp spi spi/$(BUILD_MODE) rtc card wm mb ctrdg math std
+NITROSDK_SRC_SUBDIRS      := init/$(BUILD_MODE) fx gx os os/$(BUILD_MODE) mi snd pxi fs dgt cp spi spi/$(BUILD_MODE) rtc card wm mb ctrdg math cht cht/$(BUILD_MODE) std 
 
 ifeq ($(BUILD_MODE),ARM7)
 NITROSDK_SRC_SUBDIRS      := init/$(BUILD_MODE) os os/$(BUILD_MODE) mi snd_TODO_THIS pxi fs dgt spi spi/$(BUILD_MODE) rtc card wvr ctrdg math

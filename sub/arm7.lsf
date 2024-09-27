@@ -1,5 +1,5 @@
 ############################################################
-### Linker spec file for Sonic Rush Adventure            ###
+### 	 Linker spec file for Sonic Rush Adventure       ###
 ###      Pass this to the SDK's makelcf.exe utility      ###
 ###           along with the ARM7-TS template.           ###
 ###                        WIP                           ###
@@ -53,7 +53,7 @@ Autoload WRAM
 	# Object lib/NitroSDK/asm/ARM7/SND_work.o
 	# Object lib/NitroSDK/asm/ARM7/SND_alarm.o
 	# Object lib/NitroSDK/asm/ARM7/SND_command.o
-	Object lib/NitroSDK/asm/ARM7/fs_file.o
+	Object lib/NitroSDK/src/fs/fs_file.o
 	Object lib/NitroSDK/asm/ARM7/CARD.o # TODO: split module
 	# Object lib/NitroSDK/asm/ARM7/CARD_common.o
 	# Object lib/NitroSDK/asm/ARM7/CARD_spi.o

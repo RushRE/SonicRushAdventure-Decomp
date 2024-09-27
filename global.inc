@@ -6361,10 +6361,10 @@
 .public CTRDGi_InitTaskInfo
 .public CTRDGi_InitTaskThread
 .public MATH_CountPopulation
+.public MATH_CalcSHA1
+.public MATH_CalcCRC32
+.public MATH_CalcCRC16
 .public MATH_CalcCRC8
-.public MATH_CRC32Update
-.public MATH_CRC16Update
-.public MATH_CRC8Update
 .public MATHi_CRC32UpdateRev
 .public MATHi_CRC32InitTableRev
 .public MATHi_CRC16UpdateRev
@@ -6376,8 +6376,8 @@
 .public STD_CompareString
 .public STD_ConcatenateString
 .public STD_GetStringLength
-.public STD_SearchString
 .public STD_CopyLString
+.public STD_CopyLStringZeroFill
 .public STD_CopyString
 .public STD_ConvertStringUnicodeToSjis
 .public STD_ConvertStringSjisToUnicode
@@ -7952,7 +7952,7 @@
 .public fsi_default_dma_no
 .public fsi_ovt9
 .public fsi_ovt7
-.public fs_rom_archive
+.public fsi_arc_rom
 .public tpState
 .public micInitialized
 .public micWork

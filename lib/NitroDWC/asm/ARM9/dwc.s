@@ -9175,7 +9175,7 @@ _0208DDF0:
 	mov r0, r6
 	mov r1, r7
 	mov r2, r11
-	bl MATH_CRC16Update
+	bl MATH_CalcCRC16
 	add r1, r10, r9, lsl #8
 	strh r0, [r1, #0xfe]
 _0208DE08:
@@ -9324,7 +9324,7 @@ _0208DFCC:
 	mov r1, r10
 	mov r2, r11
 	add r0, r10, #0x200
-	bl MATH_CRC16Update
+	bl MATH_CalcCRC16
 	strh r0, [r10, #0xfe]
 _0208DFF0:
 	mov r0, r8
@@ -9597,7 +9597,7 @@ _0208E398:
 	mov r0, r6
 	mov r1, r8
 	mov r2, r5
-	bl MATH_CRC16Update
+	bl MATH_CalcCRC16
 	add r1, r10, r9, lsl #8
 	ldrh r1, [r1, #0xfe]
 	cmp r0, r1
@@ -9615,7 +9615,7 @@ _0208E3C8:
 	add r0, r10, #0x500
 	add r1, r10, #0x300
 	mov r2, #0xfe
-	bl MATH_CRC16Update
+	bl MATH_CalcCRC16
 	add r1, r10, #0x300
 	ldrh r1, [r1, #0xfe]
 	cmp r0, r1
@@ -27641,7 +27641,7 @@ DWCi_Acc_ClearDirty: // 0x0209D860
 	add r0, sp, #0
 	mov r1, r4
 	mov r2, #0x3c
-	bl MATH_CRC32Update
+	bl MATH_CalcCRC32
 	str r0, [r4, #0x3c]
 	add sp, sp, #0x400
 	ldmia sp!, {r4, pc}
@@ -27691,7 +27691,7 @@ DWCi_Acc_SetLoginIdToUserData: // 0x0209D8D4
 	add r0, sp, #0
 	mov r1, r4
 	mov r2, #0x3c
-	bl MATH_CRC32Update
+	bl MATH_CalcCRC32
 	str r0, [r4, #0x3c]
 	ldr r0, [r4, #0x20]
 	orr r0, r0, #1
@@ -27760,7 +27760,7 @@ DWC_CheckUserData: // 0x0209D9C4
 	add r0, sp, #0
 	mov r1, r4
 	mov r2, #0x3c
-	bl MATH_CRC32Update
+	bl MATH_CalcCRC32
 	ldr r1, [r4, #0x3c]
 	cmp r0, r1
 	moveq r0, #1
@@ -27936,7 +27936,7 @@ DWCi_Acc_CreateUserData: // 0x0209DBA4
 	add r0, sp, #0
 	mov r1, r5
 	mov r2, #0x3c
-	bl MATH_CRC32Update
+	bl MATH_CalcCRC32
 	str r0, [r5, #0x3c]
 	ldr r0, [r5, #0x20]
 	orr r0, r0, #1
@@ -28117,7 +28117,7 @@ DWC_Acc_CheckFriendKey: // 0x0209DE08
 	add r0, sp, #8
 	add r1, sp, #0
 	mov r2, #8
-	bl MATH_CRC8Update
+	bl MATH_CalcCRC8
 	and r2, r0, #0x7f
 	mov r1, r2, asr #0x1f
 	mov r0, #0
@@ -28153,7 +28153,7 @@ DWC_Acc_CreateFriendKey: // 0x0209DE94
 	add r0, sp, #8
 	add r1, sp, #0
 	mov r2, #8
-	bl MATH_CRC8Update
+	bl MATH_CalcCRC8
 	and r0, r0, #0x7f
 	orr r1, r0, #0
 	orr r0, r4, #0
@@ -29480,7 +29480,7 @@ _0209EF38:
 	add r1, sp, #0
 	mov r0, r4
 	mov r2, #0x34
-	bl MATH_CalcCRC8
+	bl MATH_CalcSHA1
 	mov r2, #0
 	ldr r3, _0209F090 // =_0211C3EC
 	mov r1, r2

@@ -3,9 +3,8 @@
 
 #ifdef SDK_ARM7
 
-#define HW_CARD_ROM_HEADER         0x27FFA80
-#define HW_CARD_ROM_HEADER_SIZE    0x160
-#define HW_DOWNLOAD_PARAMETER_SIZE 0x20
+#define HW_CARD_ROM_HEADER      0x27FFA80
+#define HW_CARD_ROM_HEADER_SIZE 0x160
 
 #define HW_RESET_VECTOR 0xFFFF0000
 
@@ -170,6 +169,8 @@ _0238018C:
     // clang-format on
 }
 
-SDK_WEAK_SYMBOL void NitroStartUp(void) {}
+SDK_WEAK_SYMBOL void NitroStartUp(void)
+{
+}
 
 #endif

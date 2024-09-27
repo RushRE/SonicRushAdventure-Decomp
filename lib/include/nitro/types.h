@@ -1,6 +1,11 @@
 #ifndef NITRO_TYPES_H
 #define NITRO_TYPES_H
 
+// Endian config
+#define SDK_LITTLE_ENDIAN
+#define SDK_IS_LITTLE_ENDIAN 1
+#define SDK_IS_BIG_ENDIAN    0
+
 #ifndef SDK_ASM
 typedef unsigned char u8;
 typedef unsigned short int u16;

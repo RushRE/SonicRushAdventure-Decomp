@@ -2223,7 +2223,7 @@ _0205D99E:
 	ldr r1, =aSonicRush2
 	add r0, sp, #0xc0
 	mov r2, #0xc
-	bl STD_CopyLString
+	bl STD_CopyLStringZeroFill
 	mov r0, #0
 	add r1, sp, #0xc0
 	mov r2, #0xc
@@ -2879,7 +2879,7 @@ NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
     {
         char signatureW[12];
         MI_CpuClear16(signatureW, 12);
-        STD_CopyLString(signatureW, "sonic_rush2", 12);
+        STD_CopyLStringZeroFill(signatureW, "sonic_rush2", 12);
         if (WriteToCardBackup(0, signatureW, 12) == FALSE)
         {
             error = SAVE_ERROR_CANT_LOAD;
@@ -2905,8 +2905,8 @@ NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData2(SaveGame *work)
 
                 u32 writeCount           = 0;
                 MATHCRC32Context context = -1;
-                MATH_CRC32Update(crcTable, &context, &writeCount, sizeof(writeCount));
-                MATH_CRC32Update(crcTable, &context, (u8 *)work + offset, size);
+                MATH_CalcCRC32(crcTable, &context, &writeCount, sizeof(writeCount));
+                MATH_CalcCRC32(crcTable, &context, (u8 *)work + offset, size);
 
                 block->header.checksum   = ~context;
                 block->header.writeCount = 0;
@@ -2997,7 +2997,7 @@ _0205DEE0:
 	ldr r1, =aSonicRush2
 	add r0, sp, #0x28
 	mov r2, #0xc
-	bl STD_CopyLString
+	bl STD_CopyLStringZeroFill
 	mov r0, #0
 	add r1, sp, #0x28
 	mov r2, #0xc

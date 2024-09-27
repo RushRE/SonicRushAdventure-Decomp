@@ -9,12 +9,13 @@ _version_NINTENDO_BACKUP: ; 0x02000C70
 
 	.bss
 
+.public CARDi_EnableFlag
 CARDi_EnableFlag: // 0x0215007C
     .space 0x04
 
 .public _02150080
-_02150080:
-	.space 0x28E0
+_02150080: // 0x02150080
+	.space 0x2370
 
 	.text
 

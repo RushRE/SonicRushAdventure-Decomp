@@ -7,18 +7,19 @@
 #include <nitro/dgt/dgt.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
 // CONSTANTS
 // --------------------
 
-#define MATH_MD5_DIGEST_SIZE  DGT_HASH1_DIGEST_SIZE 
-#define MATH_SHA1_DIGEST_SIZE DGT_HASH2_DIGEST_SIZE 
+#define MATH_MD5_DIGEST_SIZE  DGT_HASH1_DIGEST_SIZE
+#define MATH_SHA1_DIGEST_SIZE DGT_HASH2_DIGEST_SIZE
 
-#define MATH_MD5_BLOCK_SIZE  DGT_HASH_BLOCK_SIZE 
-#define MATH_SHA1_BLOCK_SIZE DGT_HASH_BLOCK_SIZE 
+#define MATH_MD5_BLOCK_SIZE  DGT_HASH_BLOCK_SIZE
+#define MATH_SHA1_BLOCK_SIZE DGT_HASH_BLOCK_SIZE
 
 // --------------------
 // TYPES
@@ -26,6 +27,13 @@ extern "C" {
 
 typedef DGTHash1Context MATHMD5Context;
 typedef DGTHash2Context MATHSHA1Context;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+void MATH_CalcMD5(void *digest, const void *data, u32 dataLength);
+void MATH_CalcSHA1(void *digest, const void *data, u32 dataLength);
 
 // --------------------
 // INLINE FUNCTIONS

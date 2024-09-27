@@ -1,6 +1,78 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+.public _021523F0
+_021523F0: // 0x021523F0
+	.space 0x04
+	
+.public _021523F4
+_021523F4: // 0x021523F4
+	.space 0x04
+	
+.public _021523F8
+_021523F8: // 0x021523F8
+	.space 0x04
+	
+.public _021523FC
+_021523FC: // 0x021523FC
+	.space 0x04
+	
+.public _02152400
+_02152400: // 0x02152400
+	.space 0x100
+	
+.public _02152500
+_02152500: // 0x02152500
+	.space 0x0C
+	
+.public _0215250C
+_0215250C: // 0x0215250C
+	.space 0x10
+	
+.public _0215251C
+_0215251C: // 0x0215251C
+	.space 0x08
+
+.public _02152524
+_02152524: // 0x02152524
+	.space 0x04
+	.space 0x04 // padding
+	.space 0x04 // padding
+
+.public _02152530
+_02152530: // 0x02152530
+	.space 0x10
+	
+.public _02152540
+_02152540: // 0x02152540
+	.space 0x08
+	
+.public _02152548
+_02152548: // 0x02152548
+	.space 0x48
+	
+.public _02152590
+_02152590: // 0x02152590
+	.space 0x60
+	
+.public _021525F0
+_021525F0: // 0x021525F0
+	.space 0x330
+	
+.public _02152920
+_02152920: // 0x02152920
+	.space 0x04
+	
+.public _02152924
+_02152924: // 0x02152924
+	.space 0x1C
+	
+.public __global_destructor_chain
+__global_destructor_chain: // 0x02152940
+	.space 0x04
+
 	.text
 
 	// library begin: MSL_C_NITRO_Ai_LE.a
@@ -16928,7 +17000,7 @@ _0210BAA0: .word 0x021175B4
 	arm_func_start __destroy_global_chain
 __destroy_global_chain: // 0x0210BAA4
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r4, _0210BAE4 // =0x02152940
+	ldr r4, _0210BAE4 // =__global_destructor_chain
 	ldr r2, [r4]
 	cmp r2, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
@@ -16945,7 +17017,7 @@ _0210BABC:
 	bne _0210BABC
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0210BAE4: .word 0x02152940
+_0210BAE4: .word __global_destructor_chain
 	arm_func_end __destroy_global_chain
 
 	arm_func_start _ZNSt9type_infoD2Ev

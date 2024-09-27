@@ -173,22 +173,38 @@ typedef struct FSFile
 
 void FS_Init(u32 default_dma_no);
 BOOL FS_IsAvailable(void);
+void FS_End(void);
+
+u32 FS_GetDefaultDMA(void);
+u32 FS_SetDefaultDMA(u32 dma_no);
+u32 FS_TryLoadTable(void *p_mem, u32 size);
+
 void FS_InitFile(FSFile *p_file);
-int FSi_ReadFileCore(FSFile *p_file, void *dst, s32 len, BOOL async);
-BOOL FS_ConvertPathToFileID(FSFileID *p_file_id, const char *path);
-BOOL FS_OpenFileDirect(FSFile *p_file, FSArchive *p_arc, u32 image_top, u32 image_bottom, u32 file_index);
-BOOL FS_OpenFileFast(FSFile *p_file, FSFileID file_id);
 BOOL FS_OpenFile(FSFile *p_file, const char *path);
+BOOL FS_OpenFileFast(FSFile *p_file, FSFileID file_id);
+BOOL FS_ConvertPathToFileID(FSFileID *p_file_id, const char *path);
 BOOL FS_CloseFile(FSFile *p_file);
+BOOL FS_GetPathName(FSFile *p_file, char *buf, u32 len);
+s32 FS_GetPathLength(FSFile *p_file);
+
+s32 FS_ReadFile(FSFile *p_file, void *dst, s32 len);
+s32 FS_ReadFileAsync(FSFile *p_file, void *dst, s32 len);
+s32 FS_WriteFile(FSFile *p_file, const void *src, s32 len);
+s32 FS_WriteFileAsync(FSFile *p_file, const void *src, s32 len);
 BOOL FS_WaitAsync(FSFile *p_file);
 void FS_CancelFile(FSFile *p_file);
-int FS_ReadFileAsync(FSFile *p_file, void *dst, s32 len);
-int FS_ReadFile(FSFile *p_file, void *dst, s32 len);
 BOOL FS_SeekFile(FSFile *p_file, s32 offset, FSSeekFileMode origin);
-BOOL FS_ChangeDir(const char *path);
-u32 FS_SetDefaultDMA(u32 dma_no);
 
-u32 FS_TryLoadTable(void *p_mem, u32 maxsize);
+BOOL FS_ChangeDir(const char *path);
+BOOL FS_FindDir(FSFile *p_dir, const char *path);
+BOOL FS_ReadDir(FSFile *p_dir, FSDirEntry *p_entry);
+BOOL FS_TellDir(const FSFile *p_dir, FSDirPos *p_pos);
+BOOL FS_SeekDir(FSFile *p_dir, const FSDirPos *p_pos);
+BOOL FS_RewindDir(FSFile *p_dir);
+BOOL FS_OpenFileDirect(FSFile *p_file, FSArchive *p_arc, u32 image_top, u32 image_bottom, u32 file_index);
+
+BOOL FS_CreateFileFromRom(FSFile *p_file, u32 offset, u32 size);
+BOOL FS_CreateFileFromMemory(FSFile *p_file, void *buf, u32 size);
 
 // --------------------
 // INLINE FUNCTIONS

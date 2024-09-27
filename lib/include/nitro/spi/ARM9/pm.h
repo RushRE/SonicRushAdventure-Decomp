@@ -5,6 +5,7 @@
 #include <nitro/types.h>
 #include <nitro/spi/common/pm_common.h>
 #include <nitro/spi/common/spi_common.h>
+#include <nitro/pxi/fifo.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -104,16 +105,30 @@ u32 PM_SendUtilityCommand(u32 number);
 
 u32 PM_SetBackLightAsync(PMLCDTarget target, PMBackLightSwitch sw, PMCallback callback, void *arg);
 u32 PM_SetBackLight(PMLCDTarget target, PMBackLightSwitch status);
+
 u32 PM_ForceToPowerOffAsync(PMCallback callback, void *arg);
 u32 PM_ForceToPowerOff(void);
+
+u32 PM_SetAmpAsync(PMAmpSwitch sw, PMCallback callback, void *arg);
 u32 PM_SetAmp(PMAmpSwitch sw);
+
+u32 PM_SetAmpGainAsync(PMAmpGain gain, PMCallback callback, void *arg);
+u32 PM_SetAmpGain(PMAmpGain gain);
+
+u32 PM_GetBattery(PMBattery *batteryBuf);
 u32 PM_GetBackLight(PMBackLightSwitch *top, PMBackLightSwitch *bottom);
 
+u32 PM_GetAmp(PMAmpSwitch *swBuf);
+u32 PM_GetAmpGain(PMAmpGain *gainBuf);
+
 void PM_GoSleepMode(PMWakeUpTrigger trigger, PMLogic logic, u16 keyPattern);
+
 void PM_AppendPreSleepCallback(PMSleepCallbackInfo *info);
 void PM_PrependPreSleepCallback(PMSleepCallbackInfo *info);
+
 void PM_AppendPostSleepCallback(PMSleepCallbackInfo *info);
 void PM_PrependPostSleepCallback(PMSleepCallbackInfo *info);
+
 void PM_DeletePreSleepCallback(PMSleepCallbackInfo *info);
 void PM_DeletePostSleepCallback(PMSleepCallbackInfo *info);
 
@@ -122,18 +137,42 @@ PMLCDPower PM_GetLCDPower(void);
 
 u32 PMi_SendLEDPatternCommandAsync(PMLEDPattern pattern, PMCallback callback, void *arg);
 u32 PMi_SendLEDPatternCommand(PMLEDPattern pattern);
+
 u32 PM_GetLEDPatternAsync(PMLEDPattern *patternBuf, PMCallback callback, void *arg);
 u32 PM_GetLEDPattern(PMLEDPattern *patternBuf);
+
 BOOL PMi_SetLCDPower(PMLCDPower sw, PMLEDStatus led, BOOL skip, BOOL isSync);
 
+u32 PMi_SetSoundPowerAsync(PMSoundPowerSwitch sw, PMCallback callback, void *arg);
+u32 PMi_SetSoundPower(PMSoundPowerSwitch sw);
+
+u32 PMi_SetSoundVolumeAsync(PMSoundVolumeSwitch sw, PMCallback callback, void *arg);
+u32 PMi_SetSoundVolume(PMSoundVolumeSwitch sw);
+
+u32 PMi_GetSoundPower(PMSoundPowerSwitch *swBuf);
+u32 PMi_GetSoundVolume(PMSoundVolumeSwitch *swBuf);
+
 void PMi_SendPxiData(u32 data);
+
 void PMi_CommonCallback(PXIFifoTag tag, u32 data, BOOL err);
+
 u32 PMi_SendSleepStart(u16 trigger, u16 keyIntrData);
+u32 PMi_DisposeSleepEnd(void);
+
+u32 PMi_ReadRegisterAsync(u16 registerAddr, u16 *buffer, PMCallback callback, void *arg);
+u32 PMi_ReadRegister(u16 registerAddr, u16 *buffer);
 
 u32 PMi_WriteRegisterAsync(u16 registerAddr, u16 data, PMCallback callback, void *arg);
 u32 PMi_WriteRegister(u16 registerAddr, u16 data);
+
 u32 PMi_SetLEDAsync(PMLEDStatus status, PMCallback callback, void *arg);
 u32 PMi_SetLED(PMLEDStatus status);
+
+u32 PMi_GetLCDOffCount(void);
+
+// --------------------
+// INLINE FUNCTIONS
+// --------------------
 
 SDK_INLINE void PM_SetSleepCallbackInfo(PMSleepCallbackInfo *info, PMSleepCallback callback, void *arg)
 {

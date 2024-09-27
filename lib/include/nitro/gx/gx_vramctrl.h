@@ -1,6 +1,9 @@
 #ifndef NITRO_GX_GX_VRAMCNT_H
 #define NITRO_GX_GX_VRAMCNT_H
 
+#include <nitro/gx/gxcommon.h>
+#include <nitro/os/ARM9/vramExclusive.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
