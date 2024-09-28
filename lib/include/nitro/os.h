@@ -21,9 +21,9 @@
 #include <nitro/os/irqHandler.h>
 
 #ifdef SDK_ARM9
-#include <nitro/os/cache.h>
-#include <nitro/os/protectionRegion.h>
-#include <nitro/os/protectionUnit.h>
+#include <nitro/os/ARM9/cache.h>
+#include <nitro/os/ARM9/protectionRegion.h>
+#include <nitro/os/ARM9/protectionUnit.h>
 #include <nitro/os/ARM9/vramExclusive.h>
 #endif // SDK_ARM9
 

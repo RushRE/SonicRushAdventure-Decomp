@@ -1,6 +1,11 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+_02150948: // 0x02150948
+	.space 0x13C0
+
 	.text
 
 	arm_func_start sub_20F130C
@@ -215,7 +220,7 @@ _020F15B4:
 	beq _020F15E4
 	mov r0, r10
 	blx r1
-	ldr r0, _020F17E4 // =0x02150948
+	ldr r0, _020F17E4 // =_02150948
 	ldrh r0, [r0]
 	cmp r0, #0
 	addeq sp, sp, #0xc
@@ -360,7 +365,7 @@ _020F1794:
 	.align 2, 0
 _020F17DC: .word 0x0215094C
 _020F17E0: .word 0x0000FFF5
-_020F17E4: .word 0x02150948
+_020F17E4: .word _02150948
 _020F17E8: .word 0x02150998
 _020F17EC: .word 0x0000FFFF
 _020F17F0: .word 0x021509AC
@@ -445,14 +450,14 @@ _020F18F8: .word 0x0215094C
 
 	arm_func_start sub_20F18FC
 sub_20F18FC: // 0x020F18FC
-	ldr r0, _020F1914 // =0x02150948
+	ldr r0, _020F1914 // =_02150948
 	ldrh r0, [r0]
 	cmp r0, #0
 	movne r0, #0
 	moveq r0, #3
 	bx lr
 	.align 2, 0
-_020F1914: .word 0x02150948
+_020F1914: .word _02150948
 	arm_func_end sub_20F18FC
 
 	arm_func_start WMi_GetSystemWork
@@ -623,7 +628,7 @@ _020F1B10:
 	bl PXI_SetFifoRecvCallback
 	ldr r2, _020F1B60 // =0x0215094C
 	mov r3, #0
-	ldr r1, _020F1B64 // =0x02150948
+	ldr r1, _020F1B64 // =_02150948
 	mov r0, r4
 	str r3, [r2]
 	strh r3, [r1]
@@ -633,7 +638,7 @@ _020F1B10:
 	bx lr
 	.align 2, 0
 _020F1B60: .word 0x0215094C
-_020F1B64: .word 0x02150948
+_020F1B64: .word _02150948
 	arm_func_end sub_20F1AE4
 
 	arm_func_start sub_20F1B68
@@ -643,7 +648,7 @@ sub_20F1B68: // 0x020F1B68
 	mov r5, r1
 	mov r7, r2
 	bl OS_DisableInterrupts
-	ldr r1, _020F1D48 // =0x02150948
+	ldr r1, _020F1D48 // =_02150948
 	mov r4, r0
 	ldrh r1, [r1]
 	cmp r1, #0
@@ -757,7 +762,7 @@ _020F1CEC:
 	ldr r1, _020F1D5C // =sub_20F1414
 	mov r0, #0xa
 	bl PXI_SetFifoRecvCallback
-	ldr r1, _020F1D48 // =0x02150948
+	ldr r1, _020F1D48 // =_02150948
 	mov r2, #1
 	mov r0, r4
 	strh r2, [r1]
@@ -766,7 +771,7 @@ _020F1CEC:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	bx lr
 	.align 2, 0
-_020F1D48: .word 0x02150948
+_020F1D48: .word _02150948
 _020F1D4C: .word 0x0215094C
 _020F1D50: .word 0x02150950
 _020F1D54: .word 0x02150970

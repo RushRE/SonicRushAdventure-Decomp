@@ -5,7 +5,8 @@
 #include <nitro/os/common/spinLock_shared.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -35,6 +36,13 @@ extern "C" {
 #define OS_LOCK_ID_ERROR (-3)
 
 // --------------------
+// MACROS
+// --------------------
+
+#define OS_ReadOwnerOfLockCartridge() OS_ReadOwnerOfLockWord((OSLockWord *)HW_CTRDG_LOCK_BUF)
+#define OS_ReadOwnerOfLockCard()      OS_ReadOwnerOfLockWord((OSLockWord *)HW_CARD_LOCK_BUF)
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
@@ -44,6 +52,7 @@ s32 OS_UnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
 s32 OS_UnlockCartridge(u16 lockID);
 s32 OS_TryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
 s32 OS_LockCartridge(u16 lockID);
+s32 OS_TryLockCartridge(u16 lockID);
 s32 OS_LockCard(u16 lockID);
 s32 OS_UnlockCard(u16 lockID);
 s32 OS_TryLockCard(u16 lockID);

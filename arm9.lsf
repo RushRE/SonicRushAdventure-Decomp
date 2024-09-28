@@ -357,9 +357,13 @@ Static arm9
     Object lib/NitroSDK/asm/ARM9/card_pullOut.o
     Object lib/NitroSDK/asm/ARM9/wm.o # TODO: split asm blob into proper files
     Object lib/NitroSDK/asm/ARM9/mb.o # TODO: split asm blob into proper files
-    Object lib/NitroSDK/asm/ARM9/ctrdg.o
-    Object lib/NitroSDK/asm/ARM9/ctrdg_proc.o
-    Object lib/NitroSDK/asm/ARM9/ctrdg_task.o
+    Object lib/NitroSDK/src/ctrdg/ctrdg.o
+    Object lib/NitroSDK/src/ctrdg/ARM9/ctrdg_proc.o
+    Object lib/NitroSDK/src/ctrdg/ARM9/ctrdg_vib.o
+    Object lib/NitroSDK/src/ctrdg/ARM9/ctrdg_backup.o
+    Object lib/NitroSDK/src/ctrdg/ARM9/ctrdg_flash_common.o
+    Object lib/NitroSDK/src/ctrdg/ARM9/ctrdg_sram.o
+    Object lib/NitroSDK/src/ctrdg/ARM9/ctrdg_task.o
     Object lib/NitroSDK/src/math/math.o
     Object lib/NitroSDK/src/math/dgt.o
     Object lib/NitroSDK/src/math/crc.o

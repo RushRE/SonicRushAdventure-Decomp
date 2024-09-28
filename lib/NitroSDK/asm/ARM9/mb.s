@@ -1,6 +1,11 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+
+_02151D08: // 0x02151D08
+	.space 0xEC
+
 	.text
 	
 	arm_func_start MBi_CommCallParentError
@@ -38,7 +43,7 @@ MBi_calc_nextsendblock: // 0x020F6D98
 
 	arm_func_start MBi_calc_sendblock
 MBi_calc_sendblock: // 0x020F6DA8
-	ldr r1, _020F6E20 // =0x02151D08
+	ldr r1, _020F6E20 // =_02151D08
 	mov r2, #1
 	mov r2, r2, lsl r0
 	ldr r1, [r1]
@@ -70,7 +75,7 @@ _020F6E14:
 	strh ip, [r0, #0x48]
 	bx lr
 	.align 2, 0
-_020F6E20: .word 0x02151D08
+_020F6E20: .word _02151D08
 _020F6E24: .word 0x2151DBC
 _020F6E28: .word 0x000005D4
 	arm_func_end MBi_calc_sendblock
@@ -592,7 +597,7 @@ _020F7524:
 	mov r6, r0, lsr #0x10
 	cmp r6, #0x10
 	blo _020F7524
-	ldr r0, _020F75BC // =0x02151D08
+	ldr r0, _020F75BC // =_02151D08
 	mov r1, #0
 	str r1, [r0]
 	mov r6, #1
@@ -621,7 +626,7 @@ _020F7598:
 	.align 2, 0
 _020F75B4: .word 0x2151DBC
 _020F75B8: .word 0x000005D4
-_020F75BC: .word 0x02151D08
+_020F75BC: .word _02151D08
 _020F75C0: .word 0x0000FFFF
 	arm_func_end MBi_CommParentRecvData
 
@@ -905,7 +910,7 @@ _020F79A0:
 	ldrh r0, [r0, #0x4a]
 	bl MBi_calc_nextsendblock
 	ldr r1, _020F7AC8 // =0x2151DBC
-	ldr r2, _020F7AD0 // =0x02151D08
+	ldr r2, _020F7AD0 // =_02151D08
 	ldr r1, [r1]
 	mov r3, #1
 	add r1, r1, r4
@@ -966,7 +971,7 @@ _020F7ABC:
 	.align 2, 0
 _020F7AC8: .word 0x2151DBC
 _020F7ACC: .word 0x000005D4
-_020F7AD0: .word 0x02151D08
+_020F7AD0: .word _02151D08
 	arm_func_end MBi_CommParentRecvDataPerChild
 
 	arm_func_start MBi_CommParentCallback

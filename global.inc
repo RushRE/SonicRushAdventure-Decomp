@@ -5656,7 +5656,7 @@
 .public OS_LockCard
 .public OSi_FreeCartridgeBus
 .public OSi_AllocateCartridgeBus
-.public OS_LockCartridge
+.public OS_TryLockCartridge
 .public OS_UnlockCartridge
 .public OSi_DoTryLockByWord
 .public OS_UnlockByWord
@@ -5742,7 +5742,7 @@
 .public OS_GetDTCMAddress
 .public OS_EnableProtectionUnit
 .public OS_DisableProtectionUnit
-.public OS_SetIPermissionsForProtectionRegion
+.public OS_SetDPermissionsForProtectionRegion
 .public OS_SetProtectionRegion1
 .public OS_SetProtectionRegion2
 .public OSi_ExceptionHandler

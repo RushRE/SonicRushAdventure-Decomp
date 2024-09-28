@@ -178,6 +178,15 @@ s32 OS_TryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
     return OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, FALSE);
 }
 
+s32 OS_LockCartridge(u16 lockID)
+{
+    s32 lastLockFlag;
+
+    lastLockFlag = OSi_DoLockByWord(lockID, (OSLockWord *)HW_CTRDG_LOCK_BUF, OSi_AllocateCartridgeBus, TRUE);
+
+    return lastLockFlag;
+}
+
 s32 OS_UnlockCartridge(u16 lockID)
 {
     s32 lastLockFlag;
@@ -187,11 +196,10 @@ s32 OS_UnlockCartridge(u16 lockID)
     return lastLockFlag;
 }
 
-s32 OS_LockCartridge(u16 lockID)
+s32 OS_TryLockCartridge(u16 lockID)
 {
     s32 lastLockFlag;
 
-    // CHANGE: this is OSi_DoLockByWord in NitroSDK 3.2.060901
     lastLockFlag = OSi_DoTryLockByWord(lockID, (OSLockWord *)HW_CTRDG_LOCK_BUF, OSi_AllocateCartridgeBus, TRUE);
 
     return lastLockFlag;

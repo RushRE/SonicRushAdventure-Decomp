@@ -15,7 +15,7 @@ CARDi_EnableFlag: // 0x0215007C
 
 .public _02150080
 _02150080: // 0x02150080
-	.space 0x2370
+	.space 0x8C8
 
 	.text
 

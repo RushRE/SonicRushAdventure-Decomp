@@ -2,7 +2,8 @@
 #define NITRO_MI_UNCOMPRESS_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -30,6 +31,15 @@ typedef struct
     u32 compType : 4;
     u32 destSize : 24;
 } MICompressionHeader;
+
+typedef struct
+{
+    u16 srcNum;
+    u16 srcBitNum : 8;
+    u16 destBitNum : 8;
+    u32 destOffset : 31;
+    u32 destOffset0_on : 1;
+} MIUnpackBitsParam;
 
 // --------------------
 // FUNCTIONS

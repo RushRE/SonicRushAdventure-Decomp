@@ -8,6 +8,7 @@
 #include <nitro/mi/dma.h>
 #include <nitro/mi/uncompress.h>
 #include <nitro/mi/byteAccess.h>
+#include <nitro/mi/stream.h>
 #include <nitro/mi/endian.h>
 
 #ifdef __cplusplus

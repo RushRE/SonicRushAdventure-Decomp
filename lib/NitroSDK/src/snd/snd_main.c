@@ -18,17 +18,13 @@
 // --------------------
 
 #ifdef SDK_ARM9
-
 static OSMutex sSndMutex;
-
 #else
-
 static OSThread sndThread;
 static u64 sndStack[SND_THREAD_STACK_SIZE / sizeof(u64)];
 static OSAlarm sndAlarm;
 static OSMessageQueue sndMesgQueue;
 static OSMessage sndMesgBuffer[SND_THREAD_MESSAGE_BUFSIZE];
-
 #endif
 
 // --------------------
