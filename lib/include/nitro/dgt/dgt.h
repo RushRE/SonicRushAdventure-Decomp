@@ -4,7 +4,8 @@
 #include <nitro/dgt/common.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -44,21 +45,18 @@ typedef struct DGTHash2Context
 // FUNCTIONS
 // --------------------
 
-void DGT_Hash1Reset(DGTHash1Context *);
-void DGT_Hash1SetSource(DGTHash1Context *, unsigned char *, unsigned long);
+void DGT_Hash1Reset(DGTHash1Context *ctx);
+void DGT_Hash1SetSource(DGTHash1Context *ctx, unsigned char *, unsigned long);
 void DGT_Hash1GetDigest_R(unsigned char digest[16], DGTHash1Context *);
 
-void DGT_Hash2Reset(DGTHash2Context *);
-void DGT_Hash2SetSource(DGTHash2Context *, unsigned char *, unsigned long);
-void DGT_Hash2GetDigest(DGTHash2Context *, unsigned char digest[20]);
+void DGT_Hash2Reset(DGTHash2Context *ctx);
+void DGT_Hash2SetSource(DGTHash2Context *ctx, unsigned char *, unsigned long);
+void DGT_Hash2GetDigest(DGTHash2Context *ctx, unsigned char digest[20]);
 
 void DGT_Hash1CalcHmac(void *digest, void *bin_ptr, int bin_len, void *key_ptr, int key_len);
 void DGT_Hash2CalcHmac(void *digest, void *bin_ptr, int bin_len, void *key_ptr, int key_len);
-int DGT_Hash1CalcHmacForRms(void *digest, void *romh_ptr, int romh_len, void *mbin_ptr, int mbin_len, void *sbin_ptr, int sbin_len, void *key_ptr, int key_len);
-int DGT_Hash2CalcHmacForRms(void *digest, void *romh_ptr, int romh_len, void *mbin_ptr, int mbin_len, void *sbin_ptr, int sbin_len, void *key_ptr, int key_len);
-int DGT_Hash1TestHmacForRms(void *digest, void *romh_ptr, int romh_len, void *mbin_ptr, int mbin_len, void *sbin_ptr, int sbin_len, void *key_ptr, int key_len);
-int DGT_Hash2TestHmacForRms(void *digest, void *romh_ptr, int romh_len, void *mbin_ptr, int mbin_len, void *sbin_ptr, int sbin_len, void *key_ptr, int key_len);
-int DGT_SetOverlayTableMode(int flag);
+
+void DGTi_hash2_arm4_small(void *result, void *a2, int a3);
 
 #ifdef __cplusplus
 }

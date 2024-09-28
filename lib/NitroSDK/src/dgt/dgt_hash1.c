@@ -1,10 +1,28 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <nitro.h>
 
-	.text
+// --------------------
+// VARIABLES
+// --------------------
 
-	arm_func_start DGT_ProcessBlock
-DGT_ProcessBlock: // 0x020EC2C4
+NOT_DECOMPILED void *_0211F864;
+NOT_DECOMPILED void *_0211F7A4;
+NOT_DECOMPILED void *_0211F7A0;
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void DGT_ProcessBlock(DGTHash1Context *ctx);
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC void DGT_ProcessBlock(DGTHash1Context *ctx){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	add r3, r0, #0x18
@@ -12,7 +30,7 @@ DGT_ProcessBlock: // 0x020EC2C4
 	ldr r4, [r0, #4]
 	ldr lr, [r0, #8]
 	ldr ip, [r0, #0xc]
-	ldr r2, _020EC6A4 // _0211F864
+	ldr r2, =_0211F864
 	mov r8, r3
 	mov r7, #0
 _020EC2EC:
@@ -71,7 +89,7 @@ _020EC2EC:
 	add r7, r7, #1
 	cmp r7, #4
 	blt _020EC2EC
-	ldr r6, _020EC6A8 // _0211F7A4
+	ldr r6, =_0211F7A4
 	mov r1, #0
 _020EC3D0:
 	mvn r7, ip
@@ -257,13 +275,15 @@ _020EC58C:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
-	.align 2, 0
-_020EC6A4: .word _0211F864
-_020EC6A8: .word _0211F7A4
-	arm_func_end DGT_ProcessBlock
+// clang-format on
+#endif
+}
 
-	arm_func_start DGT_Hash1GetDigest_R
-DGT_Hash1GetDigest_R: // 0x020EC6AC
+NONMATCH_FUNC void DGT_Hash1GetDigest_R(unsigned char digest[16], DGTHash1Context *ctx){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r6, r1
@@ -271,7 +291,7 @@ DGT_Hash1GetDigest_R: // 0x020EC6AC
 	ldr r3, [r6, #0x10]
 	mov r7, r0
 	mov r4, r1, lsl #3
-	ldr r1, _020EC76C // _0211F7A0
+	ldr r1, =_0211F7A0
 	mov r0, r6
 	mov r2, #1
 	orr r4, r4, r3, lsr #29
@@ -314,12 +334,15 @@ _020EC730:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
-	.align 2, 0
-_020EC76C: .word _0211F7A0
-	arm_func_end DGT_Hash1GetDigest_R
+// clang-format on
+#endif
+}
 
-	arm_func_start DGT_Hash1SetSource
-DGT_Hash1SetSource: // 0x020EC770
+NONMATCH_FUNC void DGT_Hash1SetSource(DGTHash1Context *ctx, unsigned char *, unsigned long){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #4
 	mov r8, r0
@@ -384,74 +407,16 @@ _020EC83C:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
-	arm_func_end DGT_Hash1SetSource
+// clang-format on
+#endif
+}
 
-	arm_func_start DGT_Hash1Reset
-DGT_Hash1Reset: // 0x020EC864
-	ldr r2, _020EC894 // =0x67452301
-	ldr r1, _020EC898 // =0xEFCDAB89
-	str r2, [r0]
-	ldr r2, _020EC89C // =0x98BADCFE
-	str r1, [r0, #4]
-	ldr r1, _020EC8A0 // =0x10325476
-	str r2, [r0, #8]
-	str r1, [r0, #0xc]
-	mov r1, #0
-	str r1, [r0, #0x10]
-	str r1, [r0, #0x14]
-	bx lr
-	.align 2, 0
-_020EC894: .word 0x67452301
-_020EC898: .word 0xEFCDAB89
-_020EC89C: .word 0x98BADCFE
-_020EC8A0: .word 0x10325476
-	arm_func_end DGT_Hash1Reset
+void DGT_Hash1Reset(DGTHash1Context *ctx)
+{
+    ctx->a      = 0x67452301;
+    ctx->b      = 0xEFCDAB89;
+    ctx->c      = 0x98BADCFE;
+    ctx->d      = 0x10325476;
 
-	.data
-	
-_0211F7A0: // 0x0211F7A0
-    .word 0x80
-	
-_0211F7A4: // 0x0211F7A4
-    .word 1
-	
-_0211F7A8: // 0x0211F7A8
-    .word 6
-	
-_0211F7AC: // 0x0211F7AC
-    .word 0xB, 0, 5, 0xA, 0xF, 4, 9, 0xE, 3, 8, 0xD, 2, 7, 0xC
-	.word 5, 8, 0xB, 0xE, 1, 4, 7, 0xA, 0xD, 0, 3, 6, 9, 0xC
-	.word 0xF, 2, 0, 7, 0xE, 5, 0xC, 3, 0xA, 1, 8, 0xF, 6, 0xD
-	.word 4, 0xB, 2, 9
-
-_0211F864: // 0x0211F864
-    .word 0xD76AA478
-	
-_0211F868: // 0x0211F868
-    .word 0xE8C7B756
-	
-_0211F86C: // 0x0211F86C
-    .word 0x242070DB, 0xC1BDCEEE, 0xF57C0FAF, 0x4787C62A, 0xA8304613
-	.word 0xFD469501, 0x698098D8, 0x8B44F7AF, 0xFFFF5BB1, 0x895CD7BE
-	.word 0x6B901122, 0xFD987193, 0xA679438E, 0x49B40821, 0xF61E2562
-	.word 0xC040B340, 0x265E5A51, 0xE9B6C7AA, 0xD62F105D, 0x2441453
-	.word 0xD8A1E681, 0xE7D3FBC8, 0x21E1CDE6, 0xC33707D6, 0xF4D50D87
-	.word 0x455A14ED, 0xA9E3E905, 0xFCEFA3F8, 0x676F02D9, 0x8D2A4C8A
-	.word 0xFFFA3942, 0x8771F681, 0x6D9D6122, 0xFDE5380C, 0xA4BEEA44
-	.word 0x4BDECFA9, 0xF6BB4B60, 0xBEBFBC70, 0x289B7EC6, 0xEAA127FA
-	.word 0xD4EF3085, 0x4881D05, 0xD9D4D039, 0xE6DB99E5, 0x1FA27CF8
-	.word 0xC4AC5665, 0xF4292244, 0x432AFF97, 0xAB9423A7, 0xFC93A039
-	.word 0x655B59C3, 0x8F0CCC92, 0xFFEFF47D, 0x85845DD1, 0x6FA87E4F
-	.word 0xFE2CE6E0, 0xA3014314, 0x4E0811A1, 0xF7537E82, 0xBD3AF235
-	.word 0x2AD7D2BB, 0xEB86D391
-
-.public _0211F964
-_0211F964: // 0x0211F964
-    .word DGTi_hash2_arm4_small
-
-.public _0211F968
-_0211F968: // 0x0211F968
-	.byte 0x14, 0, 0, 0, 0x40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-
-_0211F978: // 0x0211F978
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ctx->length = 0;
+}

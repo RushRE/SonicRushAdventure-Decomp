@@ -1,16 +1,31 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-    
-.public _0211F964
-.public _0211F968
 
-	.text
+#include <nitro.h>
 
-    arm_func_start DGT_Hash2CalcHmac
-DGT_Hash2CalcHmac: // 0x020EC8A4
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED void *DGTi_Hash2ProcessMessageBlockFunc;
+NOT_DECOMPILED void *_0211F968;
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void DGTi_Hash2CalcHmac(void *digest, void *bin_ptr, int bin_len, void *key_ptr, int key_len);
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC void DGT_Hash2CalcHmac(void *digest, void *bin_ptr, int bin_len, void *key_ptr, int key_len){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xa0
-	ldr lr, _020EC92C // _0211F968
+	ldr lr, =_0211F968
 	add ip, sp, #0x1c
 	mov r8, r0
 	mov r7, r1
@@ -24,11 +39,11 @@ DGT_Hash2CalcHmac: // 0x020EC8A4
 	add lr, sp, #0x38
 	add ip, sp, #8
 	str lr, [sp, #0x24]
-	ldr lr, _020EC930 // =DGT_Hash2Reset
+	ldr lr, =DGT_Hash2Reset
 	str ip, [sp, #0x28]
-	ldr ip, _020EC934 // =DGT_Hash2SetSource
+	ldr ip,=DGT_Hash2SetSource
 	str lr, [sp, #0x2c]
-	ldr lr, _020EC938 // =DGT_Hash2GetDigest
+	ldr lr, =DGT_Hash2GetDigest
 	str ip, [sp, #0x30]
 	ldr ip, [sp, #0xb8]
 	str lr, [sp, #0x34]
@@ -42,15 +57,15 @@ DGT_Hash2CalcHmac: // 0x020EC8A4
 	add sp, sp, #0xa0
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
-	.align 2, 0
-_020EC92C: .word _0211F968
-_020EC930: .word DGT_Hash2Reset
-_020EC934: .word DGT_Hash2SetSource
-_020EC938: .word DGT_Hash2GetDigest
-	arm_func_end DGT_Hash2CalcHmac
+// clang-format on
+#endif
+}
 
-	arm_func_start DGT_Hash2GetDigest
-DGT_Hash2GetDigest: // 0x020EC93C
+NONMATCH_FUNC void DGT_Hash2GetDigest(DGTHash2Context *ctx, unsigned char digest[20]){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r0, r1, r2, r3}
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r0, [sp, #0x10]
@@ -89,7 +104,7 @@ _020EC9B4:
 	cmp r0, #0x10
 	blt _020EC9B4
 _020EC9C4:
-	ldr r1, _020ECB34 // _0211F964
+	ldr r1, =DGTi_Hash2ProcessMessageBlockFunc
 	ldr r0, [sp, #0x10]
 	ldr r3, [r1]
 	mov r1, r5
@@ -109,7 +124,7 @@ _020EC9FC:
 	ldr r0, [sp, #0x10]
 	mov r1, r5
 	ldr r2, [r0, #0x14]
-	ldr r3, _020ECB34 // _0211F964
+	ldr r3, =DGTi_Hash2ProcessMessageBlockFunc
 	strb r2, [r4, #0x3f]
 	mov r0, r2, lsr #8
 	strb r0, [r4, #0x3e]
@@ -184,12 +199,15 @@ _020EC9FC:
 	ldmia sp!, {r4, r5, r6, lr}
 	add sp, sp, #0x10
 	bx lr
-	.align 2, 0
-_020ECB34: .word _0211F964
-	arm_func_end DGT_Hash2GetDigest
+// clang-format on
+#endif
+}
 
-	arm_func_start DGT_Hash2SetSource
-DGT_Hash2SetSource: // 0x020ECB38
+NONMATCH_FUNC void DGT_Hash2SetSource(DGTHash2Context *ctx, unsigned char *, unsigned long){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r0
 	movs r6, r2
@@ -218,7 +236,7 @@ DGT_Hash2SetSource: // 0x020ECB38
 	mov r2, r4
 	add r1, r5, r1
 	bl MI_CpuCopy8
-	ldr r1, _020ECC90 // _0211F964
+	ldr r1, =DGTi_Hash2ProcessMessageBlockFunc
 	mov r0, r8
 	ldr r3, [r1]
 	mov r1, r5
@@ -246,7 +264,7 @@ _020ECBF8:
 	sub r6, r6, r4
 	ands r0, r7, #3
 	bne _020ECC30
-	ldr r1, _020ECC90 // _0211F964
+	ldr r1, =DGTi_Hash2ProcessMessageBlockFunc
 	mov r0, r8
 	ldr r3, [r1]
 	mov r1, r7
@@ -259,7 +277,7 @@ _020ECC30:
 	mov r1, r5
 	mov r2, #0x40
 	bl MI_CpuCopy8
-	ldr r1, _020ECC90 // _0211F964
+	ldr r1, =DGTi_Hash2ProcessMessageBlockFunc
 	mov r0, r8
 	ldr r3, [r1]
 	mov r1, r5
@@ -280,20 +298,33 @@ _020ECC68:
 	bl MI_CpuCopy8
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
 	bx lr
-	.align 2, 0
-_020ECC90: .word _0211F964
-	arm_func_end DGT_Hash2SetSource
+// clang-format on
+#endif
+}
 
-	arm_func_start DGT_Hash2Reset
-DGT_Hash2Reset: // 0x020ECC94
-	ldr r1, _020ECCD0 // =0x67452301
-	ldr r2, _020ECCD4 // =0xEFCDAB89
+NONMATCH_FUNC void DGT_Hash2Reset(DGTHash2Context *ctx)
+{
+    // matches, just needs other funcs to match to order properly
+#ifdef NON_MATCHING
+    ctx->Intermediate_Hash[0] = 0x67452301;
+    ctx->Intermediate_Hash[1] = 0xEFCDAB89;
+    ctx->Intermediate_Hash[2] = 0x98BADCFE;
+    ctx->Intermediate_Hash[3] = 0x10325476;
+    ctx->Intermediate_Hash[4] = 0xC3D2E1F0;
+
+    ctx->Length_Low          = 0;
+    ctx->Length_High         = 0;
+    ctx->Message_Block_Index = 0;
+#else
+    // clang-format off
+	ldr r1, =0x67452301
+	ldr r2, =0xEFCDAB89
 	str r1, [r0]
-	ldr r1, _020ECCD8 // =0x98BADCFE
+	ldr r1, =0x98BADCFE
 	str r2, [r0, #4]
-	ldr r2, _020ECCDC // =0x10325476
+	ldr r2, =0x10325476
 	str r1, [r0, #8]
-	ldr r1, _020ECCE0 // =0xC3D2E1F0
+	ldr r1, =0xC3D2E1F0
 	str r2, [r0, #0xc]
 	str r1, [r0, #0x10]
 	mov r1, #0
@@ -301,16 +332,16 @@ DGT_Hash2Reset: // 0x020ECC94
 	str r1, [r0, #0x18]
 	str r1, [r0, #0x1c]
 	bx lr
-	.align 2, 0
-_020ECCD0: .word 0x67452301
-_020ECCD4: .word 0xEFCDAB89
-_020ECCD8: .word 0x98BADCFE
-_020ECCDC: .word 0x10325476
-_020ECCE0: .word 0xC3D2E1F0
-	arm_func_end DGT_Hash2Reset
+// clang-format on
+#endif
+}
 
-	arm_func_start DGTi_Hash2CalcHmac
-DGTi_Hash2CalcHmac: // 0x020ECCE4
+NONMATCH_FUNC void DGTi_Hash2CalcHmac(void *digest, void *bin_ptr, int bin_len, void *key_ptr, int key_len)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0xc4
 	ldr r5, [sp, #0xe0]
@@ -447,182 +478,6 @@ _020ECE90:
 	add sp, sp, #0xc4
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bx lr
-	.align 2, 0
-	arm_func_end DGTi_Hash2CalcHmac
-    
-
-_020ECEE0: .word 0x00FF00FF
-_020ECEE4: .word 0x5A827999
-_020ECEE8: .word 0x6ED9EBA1
-_020ECEEC: .word 0x8F1BBCDC
-_020ECEF0: .word 0xCA62C1D6
-
-    arm_func_start DGTi_hash2_arm4_small
-DGTi_hash2_arm4_small: // 0x020ECEF4
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, ip, lr}
-	ldmia r0, {r3, r9, r10, r11, ip}
-	sub sp, sp, #0x84
-	str r2, [sp, #0x80]
-_020ECF04:
-	ldr r8, _020ECEE4 // =0x5A827999
-	ldr r7, _020ECEE0 // =0x00FF00FF
-	mov r6, sp
-	mov r5, #0
-_020ECF14:
-	ldr r4, [r1], #4
-	add r2, r8, ip
-	add r2, r2, r3, ror #27
-	and lr, r4, r7
-	and r4, r7, r4, ror #24
-	orr r4, r4, lr, ror #8
-	str r4, [r6, #0x40]
-	str r4, [r6], #4
-	add r2, r2, r4
-	eor r4, r10, r11
-	and r4, r4, r9
-	eor r4, r4, r11
-	add r2, r2, r4
-	mov r9, r9, ror #2
-	mov ip, r11
-	mov r11, r10
-	mov r10, r9
-	mov r9, r3
-	mov r3, r2
-	add r5, r5, #4
-	cmp r5, #0x40
-	blt _020ECF14
-	mov r7, #0
-	mov r6, sp
-_020ECF74:
-	ldr r2, [r6]
-	ldr r5, [r6, #8]
-	ldr r4, [r6, #0x20]
-	ldr lr, [r6, #0x34]
-	eor r2, r2, r5
-	eor r4, r4, lr
-	eor r2, r2, r4
-	mov r2, r2, ror #0x1f
-	str r2, [r6, #0x40]
-	str r2, [r6], #4
-	add r2, r2, ip
-	add r2, r2, r8
-	add r2, r2, r3, ror #27
-	eor r4, r10, r11
-	and r4, r4, r9
-	eor r4, r4, r11
-	add r2, r2, r4
-	mov r9, r9, ror #2
-	mov ip, r11
-	mov r11, r10
-	mov r10, r9
-	mov r9, r3
-	mov r3, r2
-	add r7, r7, #4
-	cmp r7, #0x10
-	blt _020ECF74
-	ldr r8, _020ECEE8 // =0x6ED9EBA1
-	mov r7, #0
-_020ECFE4:
-	ldr r2, [r6]
-	ldr r4, [r6, #8]
-	ldr lr, [r6, #0x20]
-	ldr r5, [r6, #0x34]
-	eor r2, r2, r4
-	eor lr, lr, r5
-	eor r2, r2, lr
-	mov r2, r2, ror #0x1f
-	str r2, [r6, #0x40]
-	str r2, [r6], #4
-	add r2, r2, ip
-	add r2, r2, r8
-	add r2, r2, r3, ror #27
-	eor lr, r9, r10
-	eor lr, lr, r11
-	add r2, r2, lr
-	mov r9, r9, ror #2
-	mov ip, r11
-	mov r11, r10
-	mov r10, r9
-	mov r9, r3
-	mov r3, r2
-	add r7, r7, #1
-	cmp r7, #0xc
-	moveq r6, sp
-	cmp r7, #0x14
-	blt _020ECFE4
-	ldr r8, _020ECEEC // =0x8F1BBCDC
-	mov r7, #0
-_020ED058:
-	ldr r2, [r6]
-	ldr lr, [r6, #8]
-	ldr r5, [r6, #0x20]
-	ldr r4, [r6, #0x34]
-	eor r2, r2, lr
-	eor r5, r5, r4
-	eor r2, r2, r5
-	mov r2, r2, ror #0x1f
-	str r2, [r6, #0x40]
-	str r2, [r6], #4
-	add r2, r2, ip
-	add r2, r2, r8
-	add r2, r2, r3, ror #27
-	orr r5, r9, r10
-	and r5, r5, r11
-	and r4, r9, r10
-	orr r5, r5, r4
-	add r2, r2, r5
-	mov r9, r9, ror #2
-	mov ip, r11
-	mov r11, r10
-	mov r10, r9
-	mov r9, r3
-	mov r3, r2
-	add r7, r7, #1
-	cmp r7, #8
-	moveq r6, sp
-	cmp r7, #0x14
-	blt _020ED058
-	ldr r8, _020ECEF0 // =0xCA62C1D6
-	mov r7, #0
-_020ED0D4:
-	ldr r2, [r6]
-	ldr r5, [r6, #8]
-	ldr r4, [r6, #0x20]
-	ldr lr, [r6, #0x34]
-	eor r2, r2, r5
-	eor r4, r4, lr
-	eor r2, r2, r4
-	mov r2, r2, ror #0x1f
-	str r2, [r6, #0x40]
-	str r2, [r6], #4
-	add r2, r2, ip
-	add r2, r2, r8
-	add r2, r2, r3, ror #27
-	eor r4, r9, r10
-	eor r4, r4, r11
-	add r2, r2, r4
-	mov r9, r9, ror #2
-	mov ip, r11
-	mov r11, r10
-	mov r10, r9
-	mov r9, r3
-	mov r3, r2
-	add r7, r7, #1
-	cmp r7, #4
-	moveq r6, sp
-	cmp r7, #0x14
-	blt _020ED0D4
-	ldmia r0, {r2, r4, r6, r7, lr}
-	add r3, r3, r2
-	add r9, r9, r4
-	add r10, r10, r6
-	add r11, r11, r7
-	add ip, ip, lr
-	stmia r0, {r3, r9, r10, r11, ip}
-	ldr lr, [sp, #0x80]
-	subs lr, lr, #0x40
-	str lr, [sp, #0x80]
-	bgt _020ECF04
-	add sp, sp, #0x84
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, ip, pc}
-	arm_func_end DGTi_hash2_arm4_small
+// clang-format on
+#endif
+}

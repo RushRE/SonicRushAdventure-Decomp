@@ -324,13 +324,11 @@ Static arm9
     Object lib/NitroSDK/src/mi/mi_init.o
     Object lib/NitroSDK/src/snd/snd_interface.o
     Object lib/NitroSDK/src/snd/snd_main.o
-    # Object lib/NitroSDK/src/snd/snd_command.o
-    # Object lib/NitroSDK/src/snd/snd_alarm.o
-    # Object lib/NitroSDK/src/snd/snd_work.o
-    # Object lib/NitroSDK/src/snd/snd_util.o
-    # Object lib/NitroSDK/src/snd/snd_bank.o
-    # Object lib/NitroSDK/src/snd/snd_data.o
-    Object lib/NitroSDK/asm/ARM9/snd_20E8658.o
+    Object lib/NitroSDK/src/snd/snd_command.o
+    Object lib/NitroSDK/src/snd/snd_alarm.o
+    Object lib/NitroSDK/src/snd/snd_work.o
+    Object lib/NitroSDK/src/snd/snd_util.o
+    Object lib/NitroSDK/src/snd/snd_bank.o
     Object lib/NitroSDK/src/pxi/pxi_init.o
     Object lib/NitroSDK/src/pxi/pxi_fifo.o
     Object lib/NitroSDK/src/fs/fs_command.o
@@ -340,8 +338,10 @@ Static arm9
     Object lib/NitroSDK/src/fs/fs_rom.o
     Object lib/NitroSDK/src/fs/fs_mem.o
     Object lib/NitroSDK/src/fs/fs_overlay.o
-    Object lib/NitroSDK/asm/ARM9/dgt_hash1.o
-    Object lib/NitroSDK/asm/ARM9/dgt_hash2.o
+    Object lib/NitroSDK/asm/ARM9/dgt_hash1_vars.o
+    Object lib/NitroSDK/src/dgt/dgt_hash1.o
+    Object lib/NitroSDK/src/dgt/dgt_hash2.o
+    Object lib/NitroSDK/asm/ARM9/dgt_sha1s.o
     Object lib/NitroSDK/src/cp/cp_context.o
     Object lib/NitroSDK/src/spi/ARM9/tp.o
     Object lib/NitroSDK/src/spi/ARM9/mic.o
@@ -349,10 +349,17 @@ Static arm9
     Object lib/NitroSDK/src/rtc/ARM9/rtc_external.o
     Object lib/NitroSDK/src/rtc/ARM9/rtc_internal.o
     Object lib/NitroSDK/src/rtc/ARM9/rtc_convert.o
-    Object lib/NitroSDK/asm/ARM9/card.o
-    Object lib/NitroSDK/asm/ARM9/wm.o
-    Object lib/NitroSDK/asm/ARM9/mb.o
+    Object lib/NitroSDK/asm/ARM9/card_common.o
+    Object lib/NitroSDK/asm/ARM9/card_spi.o
+    Object lib/NitroSDK/asm/ARM9/card_backup.o
+    Object lib/NitroSDK/asm/ARM9/card_rom.o
+    Object lib/NitroSDK/asm/ARM9/card_request.o
+    Object lib/NitroSDK/asm/ARM9/card_pullOut.o
+    Object lib/NitroSDK/asm/ARM9/wm.o # TODO: split asm blob into proper files
+    Object lib/NitroSDK/asm/ARM9/mb.o # TODO: split asm blob into proper files
     Object lib/NitroSDK/asm/ARM9/ctrdg.o
+    Object lib/NitroSDK/asm/ARM9/ctrdg_proc.o
+    Object lib/NitroSDK/asm/ARM9/ctrdg_task.o
     Object lib/NitroSDK/src/math/math.o
     Object lib/NitroSDK/src/math/dgt.o
     Object lib/NitroSDK/src/math/crc.o

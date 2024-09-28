@@ -7648,7 +7648,7 @@
 .public OSi_ConsoleTypeCache
 .public fsi_digest_key_ptr
 .public fsi_digest_key_len
-.public _0211F964
+.public DGTi_Hash2ProcessMessageBlockFunc
 .public _0211F968
 .public sDayOfYear
 .public sjis2unicode_array
