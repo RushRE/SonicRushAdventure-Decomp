@@ -6109,7 +6109,7 @@
 .public CARDi_TaskThread
 .public CARDi_OnFifoRecv
 .public CARDi_SendtoPxi
-.public CARDi_CheckPulledOut
+.public CARDi_CheckPulledOutCore
 .public CARD_TerminateForPulledOut
 .public CARD_IsPulledOut
 .public CARD_SetPulledOutCallback

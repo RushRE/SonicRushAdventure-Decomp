@@ -74,10 +74,10 @@ TOOLDIRS := $(foreach tool,$(NATIVE_TOOLS),$(dir $(tool)))
 
 # NitroSDK
 NITROSYSTEM_SRC_SUBDIRS   := 
-NITROSDK_SRC_SUBDIRS      := init/$(BUILD_MODE) fx gx os os/$(BUILD_MODE) mi snd pxi fs dgt cp spi spi/$(BUILD_MODE) rtc rtc/$(BUILD_MODE) card wm mb ctrdg ctrdg/$(BUILD_MODE) math cht cht/$(BUILD_MODE) std 
+NITROSDK_SRC_SUBDIRS      := init/$(BUILD_MODE) fx gx os os/$(BUILD_MODE) mi snd pxi pad pad/$(BUILD_MODE) fs dgt cp spi spi/$(BUILD_MODE) rtc rtc/$(BUILD_MODE) card card/$(BUILD_MODE) wm mb ctrdg ctrdg/$(BUILD_MODE) math cht cht/$(BUILD_MODE) std 
 
 ifeq ($(BUILD_MODE),ARM7)
-NITROSDK_SRC_SUBDIRS      := init/$(BUILD_MODE) os os/$(BUILD_MODE) mi snd_TODO_THIS pxi fs spi spi/$(BUILD_MODE) rtc rtc/$(BUILD_MODE) card wvr ctrdg ctrdg/$(BUILD_MODE) math
+NITROSDK_SRC_SUBDIRS      := init/$(BUILD_MODE) os os/$(BUILD_MODE) mi snd_TODO_THIS pxi pad pad/$(BUILD_MODE) fs spi spi/$(BUILD_MODE) rtc rtc/$(BUILD_MODE) card card/$(BUILD_MODE) wvr ctrdg ctrdg/$(BUILD_MODE) math
 else
 # set this here so arm7 doesn't try to compile it
 NITROSYSTEM_SRC_SUBDIRS   := fnd g2d g3d gfd snd g2d/internal g2d/load g3d/binres g3d/anm g3d/cgtool

@@ -188,5 +188,6 @@
 #include <nitro/hw/ARM7/io_reg_gx.h>
 #include <nitro/hw/ARM7/io_reg_snd.h>
 #include <nitro/hw/ARM7/io_reg_spi.h>
+#include <nitro/hw/ARM7/io_reg_ex.h>
 
 #endif // NITRO_HW_ARM7_IO_REG_H

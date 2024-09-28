@@ -11,7 +11,7 @@
 #define COUNT_OF_(array) (sizeof(array) / sizeof(*array))
 
 #define BIT_MASK(n)          ((1 << (n)) - 1)
-#define ALIGN_MASK(a)        ((a)-1)
+#define ALIGN_MASK(a)        ((a) - 1)
 #define ALIGN_BYTE(n, a)     (((u32)(n) + ALIGN_MASK(a)) & ~ALIGN_MASK(a))
 #define CARD_ALIGN_HI_BIT(n) (((u32)(n)) & ~ALIGN_MASK(CARD_ROM_PAGE_SIZE))
 #define CARD_ALIGN_LO_BIT(n) (((u32)(n)) & ALIGN_MASK(CARD_ROM_PAGE_SIZE))
@@ -92,19 +92,19 @@ typedef struct CARDiCommandArg
 
 typedef struct CARDiCommon
 {
-
     CARDiCommandArg *cmd;
-
     int command;
 #if defined(SDK_ARM7)
     u32 recv_step;
 #endif
-
     volatile CARDiOwner lock_owner;
     volatile int lock_ref;
+#ifndef SDK_THREAD_INFINITY
+    OSThreadQueue lock_queue[4 / sizeof(OSThreadQueue)];
+#else
     OSThreadQueue lock_queue[1];
+#endif
     CARDTargetMode lock_target;
-
     u32 src;
     u32 dst;
     u32 len;
@@ -115,29 +115,30 @@ typedef struct CARDiCommon
     MIDmaCallback callback;
     void *callback_arg;
     void (*task_func)(struct CARDiCommon *);
-
     OSThread thread[1];
     OSThread *cur_th;
-    Can also be user thread * / u32 priority;
-    OSThreadQueue busy_q[1];
-
-    volatile u32 flag;
-
-#if defined(SDK_ARM9)
-    u8 dummy[8];
+    u32 priority;
+#ifndef SDK_THREAD_INFINITY
+    OSThreadQueue busy_q[4 / sizeof(OSThreadQueue)];
 #else
-    u8 dummy[32];
+    OSThreadQueue busy_q[1];
 #endif
-
+    volatile u32 flag;
+#if defined(SDK_ARM9)
+    u32 flush_threshold_ic;
+    u32 flush_threshold_dc;
+#endif
+#ifndef SDK_THREAD_INFINITY
+    u8 dummy[20];
+#endif
     u8 backup_cache_page_buf[256] ATTRIBUTE_ALIGN(32);
-
 } CARDiCommon;
 
 // --------------------
 // VARIABLES
 // --------------------
 
-CARDiCommon cardi_common;
+extern CARDiCommon cardi_common;
 
 // --------------------
 // FUNCTIONS
@@ -145,11 +146,12 @@ CARDiCommon cardi_common;
 
 void CARDi_OnFifoRecv(PXIFifoTag tag, u32 data, BOOL err);
 BOOL CARDi_WaitAsync(void);
+BOOL CARDi_TryWaitAsync(void);
 void CARDi_SetTask(void (*task)(CARDiCommon *));
 void CARDi_TaskThread(void *arg);
 void CARDi_InitCommon(void);
 
-#if defined(SDK_ARM9)
+#ifdef SDK_ARM9
 BOOL CARDi_Request(CARDiCommon *p, int req_type, int retry_max);
 #endif
 

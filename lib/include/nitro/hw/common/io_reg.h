@@ -1,18 +1,7 @@
-/*
- * NOTE:
- * This file is shared between ARM9 and ARM7
- * DO NOT PUT PROC SPECIFIC CODE IN HERE
- * Thank You!
- */
-
 #ifndef NITRO_HW_IO_REG_SHARED_H
 #define NITRO_HW_IO_REG_SHARED_H
 
 #define HW_REG_BASE 0x04000000
-
-#define reg_EXI_SIODATA32 (*(REGType32v *)0x4000120)
-#define reg_EXI_SIOCNT    (*(REGType16v *)0x4000128)
-#define reg_EXI_SIOSEL    (*(REGType32v *)0x400012c)
 
 #define reg_PAD_KEYINPUT (*(REGType16v *)0x4000130)
 #define reg_PAD_KEYCNT   (*(REGType16v *)0x4000132)
@@ -80,10 +69,11 @@
 #define REG_PAD_KEYINPUT_A_MASK  0x0001
 
 #ifndef SDK_ASM
-#define REG_PAD_KEYINPUT_FIELD(l, r, down, up, left, right, start, sel, b, a)                                                                                                                          \
-    (u16)(((u32)(l) << REG_PAD_KEYINPUT_L_SHIFT) | ((u32)(r) << REG_PAD_KEYINPUT_R_SHIFT) | ((u32)(down) << REG_PAD_KEYINPUT_DOWN_SHIFT) | ((u32)(up) << REG_PAD_KEYINPUT_UP_SHIFT)                    \
-          | ((u32)(left) << REG_PAD_KEYINPUT_LEFT_SHIFT) | ((u32)(right) << REG_PAD_KEYINPUT_RIGHT_SHIFT) | ((u32)(start) << REG_PAD_KEYINPUT_START_SHIFT)                                             \
-          | ((u32)(sel) << REG_PAD_KEYINPUT_SEL_SHIFT) | ((u32)(b) << REG_PAD_KEYINPUT_B_SHIFT) | ((u32)(a) << REG_PAD_KEYINPUT_A_SHIFT))
+#define REG_PAD_KEYINPUT_FIELD(l, r, down, up, left, right, start, sel, b, a)                                                                                                      \
+    (u16)(((u32)(l) << REG_PAD_KEYINPUT_L_SHIFT) | ((u32)(r) << REG_PAD_KEYINPUT_R_SHIFT) | ((u32)(down) << REG_PAD_KEYINPUT_DOWN_SHIFT)                                           \
+          | ((u32)(up) << REG_PAD_KEYINPUT_UP_SHIFT) | ((u32)(left) << REG_PAD_KEYINPUT_LEFT_SHIFT) | ((u32)(right) << REG_PAD_KEYINPUT_RIGHT_SHIFT)                               \
+          | ((u32)(start) << REG_PAD_KEYINPUT_START_SHIFT) | ((u32)(sel) << REG_PAD_KEYINPUT_SEL_SHIFT) | ((u32)(b) << REG_PAD_KEYINPUT_B_SHIFT)                                   \
+          | ((u32)(a) << REG_PAD_KEYINPUT_A_SHIFT))
 #endif
 
 #define REG_PAD_KEYCNT_LOGIC_SHIFT 15
@@ -145,10 +135,11 @@
 #define REG_G2_WINOUT_FIELD(objwinin, winout) (u16)(((u32)(objwinin) << REG_G2_WINOUT_OBJWININ_SHIFT) | ((u32)(winout) << REG_G2_WINOUT_WINOUT_SHIFT))
 
 #ifndef SDK_ASM
-#define REG_PAD_KEYCNT_FIELD(logic, intr, l, r, down, up, left, right, start, sel, b, a)                                                                                                               \
-    (u16)(((u32)(logic) << REG_PAD_KEYCNT_LOGIC_SHIFT) | ((u32)(intr) << REG_PAD_KEYCNT_INTR_SHIFT) | ((u32)(l) << REG_PAD_KEYCNT_L_SHIFT) | ((u32)(r) << REG_PAD_KEYCNT_R_SHIFT)                      \
-          | ((u32)(down) << REG_PAD_KEYCNT_DOWN_SHIFT) | ((u32)(up) << REG_PAD_KEYCNT_UP_SHIFT) | ((u32)(left) << REG_PAD_KEYCNT_LEFT_SHIFT) | ((u32)(right) << REG_PAD_KEYCNT_RIGHT_SHIFT)            \
-          | ((u32)(start) << REG_PAD_KEYCNT_START_SHIFT) | ((u32)(sel) << REG_PAD_KEYCNT_SEL_SHIFT) | ((u32)(b) << REG_PAD_KEYCNT_B_SHIFT) | ((u32)(a) << REG_PAD_KEYCNT_A_SHIFT))
+#define REG_PAD_KEYCNT_FIELD(logic, intr, l, r, down, up, left, right, start, sel, b, a)                                                                                           \
+    (u16)(((u32)(logic) << REG_PAD_KEYCNT_LOGIC_SHIFT) | ((u32)(intr) << REG_PAD_KEYCNT_INTR_SHIFT) | ((u32)(l) << REG_PAD_KEYCNT_L_SHIFT) | ((u32)(r) << REG_PAD_KEYCNT_R_SHIFT)  \
+          | ((u32)(down) << REG_PAD_KEYCNT_DOWN_SHIFT) | ((u32)(up) << REG_PAD_KEYCNT_UP_SHIFT) | ((u32)(left) << REG_PAD_KEYCNT_LEFT_SHIFT)                                       \
+          | ((u32)(right) << REG_PAD_KEYCNT_RIGHT_SHIFT) | ((u32)(start) << REG_PAD_KEYCNT_START_SHIFT) | ((u32)(sel) << REG_PAD_KEYCNT_SEL_SHIFT)                                 \
+          | ((u32)(b) << REG_PAD_KEYCNT_B_SHIFT) | ((u32)(a) << REG_PAD_KEYCNT_A_SHIFT))
 #endif
 
 #define REG_GX_POWCNT_GE_SHIFT 3
@@ -778,11 +769,11 @@
 #define REG_G3X_DISP3DCNT_TME_MASK  0x0001
 
 #ifndef SDK_ASM
-#define REG_G3X_DISP3DCNT_FIELD(pri, go, ro, fog_shift, fme, fmod, eme, aae, abe, ate, ths, tme)                                                                                                       \
-    (u16)(((u32)(pri) << REG_G3X_DISP3DCNT_PRI_SHIFT) | ((u32)(go) << REG_G3X_DISP3DCNT_GO_SHIFT) | ((u32)(ro) << REG_G3X_DISP3DCNT_RO_SHIFT)                                                          \
-          | ((u32)(fog_shift) << REG_G3X_DISP3DCNT_FOG_SHIFT_SHIFT) | ((u32)(fme) << REG_G3X_DISP3DCNT_FME_SHIFT) | ((u32)(fmod) << REG_G3X_DISP3DCNT_FMOD_SHIFT)                                      \
-          | ((u32)(eme) << REG_G3X_DISP3DCNT_EME_SHIFT) | ((u32)(aae) << REG_G3X_DISP3DCNT_AAE_SHIFT) | ((u32)(abe) << REG_G3X_DISP3DCNT_ABE_SHIFT) | ((u32)(ate) << REG_G3X_DISP3DCNT_ATE_SHIFT)      \
-          | ((u32)(ths) << REG_G3X_DISP3DCNT_THS_SHIFT) | ((u32)(tme) << REG_G3X_DISP3DCNT_TME_SHIFT))
+#define REG_G3X_DISP3DCNT_FIELD(pri, go, ro, fog_shift, fme, fmod, eme, aae, abe, ate, ths, tme)                                                                                   \
+    (u16)(((u32)(pri) << REG_G3X_DISP3DCNT_PRI_SHIFT) | ((u32)(go) << REG_G3X_DISP3DCNT_GO_SHIFT) | ((u32)(ro) << REG_G3X_DISP3DCNT_RO_SHIFT)                                      \
+          | ((u32)(fog_shift) << REG_G3X_DISP3DCNT_FOG_SHIFT_SHIFT) | ((u32)(fme) << REG_G3X_DISP3DCNT_FME_SHIFT) | ((u32)(fmod) << REG_G3X_DISP3DCNT_FMOD_SHIFT)                  \
+          | ((u32)(eme) << REG_G3X_DISP3DCNT_EME_SHIFT) | ((u32)(aae) << REG_G3X_DISP3DCNT_AAE_SHIFT) | ((u32)(abe) << REG_G3X_DISP3DCNT_ABE_SHIFT)                                \
+          | ((u32)(ate) << REG_G3X_DISP3DCNT_ATE_SHIFT) | ((u32)(ths) << REG_G3X_DISP3DCNT_THS_SHIFT) | ((u32)(tme) << REG_G3X_DISP3DCNT_TME_SHIFT))
 #endif
 
 #endif // NITRO_HW_IO_REG_SHARED_H

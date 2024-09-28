@@ -2,7 +2,8 @@
 #define NITRO_CARD_PULLOUT_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -20,6 +21,7 @@ void CARD_InitPulledOutCallback(void);
 #ifdef SDK_ARM9
 void CARD_SetPulledOutCallback(CARDPulledOutCallback callback);
 void CARD_TerminateForPulledOut(void);
+void CARD_CheckPulledOut(void);
 #endif
 
 BOOL CARD_IsPulledOut(void);

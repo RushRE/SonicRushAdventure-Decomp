@@ -38,23 +38,19 @@
 
 typedef struct CARDRomStat
 {
-
     void (*read_func)(struct CARDRomStat *);
     u32 ctrl;
     u8 *cache_page;
-
     u32 dummy[5];
-
     u8 cache_buf[CARD_ROM_PAGE_SIZE];
-
 } CARDRomStat;
 
 // --------------------
 // VARIABLES
 // --------------------
 
-CARDRomStat rom_stat;
-u32 cardi_rom_header_addr;
+extern CARDRomStat rom_stat;
+extern u32 cardi_rom_header_addr;
 
 // --------------------
 // FUNCTIONS
@@ -74,9 +70,9 @@ BOOL CARDi_TryReadCardDma(CARDRomStat *p);
 // INLINE FUNCTIONS
 // --------------------
 
-SDK_INLINE BOOL CARDi_IsInTcm(u32 buf, u32 len)
+static inline BOOL CARDi_IsInTcm(u32 buf, u32 len)
 {
-#if defined(SDK_ARM9)
+#ifdef SDK_ARM9
     const u32 i = OS_GetITCMAddress();
     const u32 d = OS_GetDTCMAddress();
     return ((i < buf + len) && (i + HW_ITCM_SIZE > buf)) || ((d < buf + len) && (d + HW_DTCM_SIZE > buf));
@@ -87,13 +83,19 @@ SDK_INLINE BOOL CARDi_IsInTcm(u32 buf, u32 len)
 #endif
 }
 
-SDK_INLINE u32 CARDi_GetRomFlag(u32 flag)
+static inline u32 CARDi_GetRomFlag(u32 flag)
 {
     const u32 rom_ctrl = *(vu32 *)(cardi_rom_header_addr + 0x60);
     return (u32)((rom_ctrl & ~CARD_COMMAND_MASK) | flag | CARD_READ_MODE | CARD_START | CARD_RESET_HI);
 }
 
-SDK_INLINE void CARDi_ReadEnd(void)
+void CARDi_CheckPulledOutCore(u32 id);
+
+#if defined(SDK_TS) || defined(SDK_ARM7)
+u32 CARDi_ReadRomIDCore(void);
+#endif
+
+static inline void CARDi_ReadEnd(void)
 {
     CARDiCommon *const p = &cardi_common;
 #ifdef SDK_ARM9
@@ -102,5 +104,19 @@ SDK_INLINE void CARDi_ReadEnd(void)
     p->cmd->result = CARD_RESULT_SUCCESS;
     CARDi_EndTask(p, TRUE);
 }
+
+#ifdef SDK_ARM7
+void CARDi_ReadRomCore(const void *src, void *dst, u32 len);
+#endif
+
+void (*CARDi_GetRomAccessor(void))(CARDRomStat *);
+
+void CARDi_ReadCard(CARDRomStat *p);
+BOOL CARDi_TryReadCardDma(CARDRomStat *p);
+
+#ifdef SDK_TEG
+void CARDi_ReadCartridge(CARDRomStat *p);
+void CARDi_ReadPxi(CARDRomStat *p);
+#endif
 
 #endif // _NITRO_LIBRARIES_CARD_ROM_H

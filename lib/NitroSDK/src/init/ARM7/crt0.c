@@ -3,9 +3,6 @@
 
 #ifdef SDK_ARM7
 
-#define HW_CARD_ROM_HEADER      0x27FFA80
-#define HW_CARD_ROM_HEADER_SIZE 0x160
-
 #define HW_RESET_VECTOR 0xFFFF0000
 
 extern void OS_IrqHandler(void);

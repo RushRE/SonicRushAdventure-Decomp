@@ -41,8 +41,6 @@
 
 #define HW_CARD_LOCK_BUF (HW_MAIN_MEM + 0x007FFFE0)
 
-#define HW_DOWNLOAD_PARAMETER_SIZE 0x00000020
-
 #define HW_DOWNLOAD_PARAMETER (HW_MAIN_MEM + 0x007ffbe0)
 
 #include <nitro/hw/ARM7/mmap_wram.h>

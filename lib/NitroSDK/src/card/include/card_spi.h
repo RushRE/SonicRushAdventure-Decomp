@@ -34,6 +34,18 @@
 // FUNCTIONS
 // --------------------
 
+void CARDi_InitStatusRegister(void);
 void CARDi_IdentifyBackupCore(CARDBackupType type);
+
+u8 CARDi_CommandReadStatus(void);
+
+void CARDi_ReadBackupCore(u32 src, void *dst, u32 len);
+void CARDi_ProgramBackupCore(u32 dst, const void *src, u32 len);
+void CARDi_WriteBackupCore(u32 dst, const void *src, u32 len);
+void CARDi_VerifyBackupCore(u32 dst, const void *src, u32 len);
+void CARDi_EraseBackupSectorCore(u32 dst, u32 len);
+void CARDi_EraseBackupSubSectorCore(u32 dst, u32 len);
+void CARDi_EraseChipCore(void);
+void CARDi_SetWriteProtectCore(u16 stat);
 
 #endif // _NITRO_CARD_SPI_H

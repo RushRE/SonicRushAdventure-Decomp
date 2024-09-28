@@ -13,8 +13,12 @@ extern "C" {
 
 void CARD_LockBackup(u16 lock_id);
 void CARD_UnlockBackup(u16 lock_id);
+BOOL CARD_TryWaitBackupAsync(void);
+BOOL CARD_WaitBackupAsync(void);
+void CARD_CancelBackupAsync(void);
 
 BOOL CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, MIDmaCallback callback, void *arg, BOOL is_async, CARDRequest req_type, int req_retry, CARDRequestMode req_mode);
+BOOL CARDi_RequestWriteSectorCommand(u32 src, u32 dst, u32 len, BOOL verify, MIDmaCallback callback, void *arg, BOOL is_async);
 
 // --------------------
 // INLINE FUNCTIONS

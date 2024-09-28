@@ -8,7 +8,8 @@
 #include <nitro/os.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 // --------------------
@@ -24,7 +25,7 @@ extern "C" {
 #define CARD_BACKUP_TYPE_SIZEBIT_MASK  0xFF
 #define CARD_BACKUP_TYPE_VENDER_SHIFT  16
 #define CARD_BACKUP_TYPE_VENDER_MASK   0xFF
-#define CARD_BACKUP_TYPE_DEFINE(type, size, vender)                                                                                                                                                    \
+#define CARD_BACKUP_TYPE_DEFINE(type, size, vender)                                                                                                                                \
     (((CARD_BACKUP_TYPE_DEVICE_##type) << CARD_BACKUP_TYPE_DEVICE_SHIFT) | ((size) << CARD_BACKUP_TYPE_SIZEBIT_SHIFT) | ((vender) << CARD_BACKUP_TYPE_VENDER_SHIFT))
 
 #define CARD_THREAD_PRIORITY_DEFAULT 4
@@ -98,15 +99,28 @@ typedef enum
 // --------------------
 
 void CARD_Init(void);
+
+BOOL CARD_IsAvailable(void);
 BOOL CARD_IsEnabled(void);
+
 void CARD_CheckEnabled(void);
 void CARD_Enable(BOOL enable);
+
+u32 CARD_GetThreadPriority(void);
 u32 CARD_SetThreadPriority(u32 prior);
+
+CARDResult CARD_GetResultCode(void);
 const u8 *CARD_GetRomHeader(void);
 
+void CARD_GetCacheFlushThreshold(u32 *icache, u32 *dcache);
+void CARD_SetCacheFlushThreshold(u32 icache, u32 dcache);
+
 BOOL CARD_IdentifyBackup(CARDBackupType type);
-u32 CARD_GetBackupSectorSize(void);
 u32 CARD_GetBackupTotalSize(void);
+u32 CARD_GetBackupSectorSize(void);
+u32 CARD_GetBackupPageSize(void);
+
+CARDBackupType CARD_GetCurrentBackupType(void);
 
 #ifdef __cplusplus
 }

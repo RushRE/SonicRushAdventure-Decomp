@@ -83,6 +83,7 @@ void CARD_LockRom(u16 lock_id);
 void CARD_UnlockRom(u16 lock_id);
 void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len, MIDmaCallback callback, void *arg, BOOL is_async);
 void CARD_WaitRomAsync(void);
+BOOL CARD_TryWaitRomAsync(void);
 u32 CARDi_ReadRomID(void);
 
 // --------------------
