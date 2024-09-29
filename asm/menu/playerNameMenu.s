@@ -51,7 +51,7 @@ PlayerNameMenu__Func_2160EDC: // 0x02160EDC
 	mov r0, r4
 	bl PlayerNameMenu__Func_2161028
 	mov r0, r4
-	bl NameMenu__LoadAssets_ARM
+	bl PlayerNameMenu__LoadAssets_ARM
 	ldmia sp!, {r4, pc}
 	arm_func_end PlayerNameMenu__Func_2160EDC
 
@@ -145,13 +145,13 @@ PlayerNameMenu__Func_2161028: // 0x02161028
 	bx lr
 	arm_func_end PlayerNameMenu__Func_2161028
 
-	arm_func_start NameMenu__LoadAssets_ARM
-NameMenu__LoadAssets_ARM: // 0x0216102C
+	arm_func_start PlayerNameMenu__LoadAssets_ARM
+PlayerNameMenu__LoadAssets_ARM: // 0x0216102C
 	ldr ip, _02161034 // =NameMenu__LoadAssets
 	bx ip
 	.align 2, 0
 _02161034: .word NameMenu__LoadAssets
-	arm_func_end NameMenu__LoadAssets_ARM
+	arm_func_end PlayerNameMenu__LoadAssets_ARM
 
 	arm_func_start PlayerNameMenu__Func_2161038
 PlayerNameMenu__Func_2161038: // 0x02161038

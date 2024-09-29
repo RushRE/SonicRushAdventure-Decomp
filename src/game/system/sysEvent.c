@@ -41,7 +41,6 @@ NOT_DECOMPILED void DeleteSaveDataMenu__Create(void);
 NOT_DECOMPILED void SoundTest__Create(void);
 NOT_DECOMPILED void DoorPuzzle__Init(void);
 NOT_DECOMPILED void VikingCupMenu__Create(void);
-NOT_DECOMPILED void AutoSavePopup__Create(void);
 
 // --------------------
 // FUNC DECLS
@@ -632,7 +631,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_AUTOSAVE
     {
-        .initFunc    = AutoSavePopup__Create,
+        .initFunc    = CreateAutoSavePopup,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

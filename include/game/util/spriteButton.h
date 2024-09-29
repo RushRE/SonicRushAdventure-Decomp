@@ -1,7 +1,6 @@
 #ifndef RUSH2_SPRITE_BUTTON_H
 #define RUSH2_SPRITE_BUTTON_H
 
-#include <global.h>
 #include <game/system/task.h>
 #include <game/input/touchField.h>
 #include <game/graphics/sprite.h>
