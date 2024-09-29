@@ -1,6 +1,7 @@
 #include <game/graphics/mappingsQueue.h>
 #include <game/system/allocator.h>
 #include <game/graphics/renderCore.h>
+#include <game/graphics/vramSystem.h>
 
 // --------------------
 // STRUCTS
@@ -140,7 +141,7 @@ NONMATCH_FUNC void Mappings__ReadMappingsCompressed(void *srcMappingsPtr, fx32 x
 {
     // https://decomp.me/scratch/lQAQP -> 71.20%
 #ifdef NON_MATCHING
-    void *vramLocation[] = { (void *)HW_BG_VRAM, (void *)HW_DB_BG_VRAM };
+    void *vramLocation[] = { VRAM_BG, VRAM_DB_BG };
 
     BOOL useEngineB;
     if ((s32)mode >= MAPPINGS_MODE_TEXT_256x256_A && mode < MAPPINGS_MODE_TEXT_256x256_B)
@@ -725,7 +726,7 @@ void Mappings__ReadMappings2(void *mappingsPtr, fx32 x, fx32 y, s32 width, s32 f
         else
             useEngineB = TRUE;
 
-        void *vramLocation[] = { (void *)HW_BG_VRAM, (void *)HW_DB_BG_VRAM };
+        void *vramLocation[] = { VRAM_BG, VRAM_DB_BG };
 
         MappingsQueueEntry *entry = Mappings__AddToList();
         tileSize                  = mappingsQueueSystem.bgTileSize[mode];

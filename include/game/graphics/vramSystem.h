@@ -14,6 +14,12 @@
 #define VRAM_OBJ_PLTT    ((VRAMPaletteKey)HW_OBJ_PLTT)
 #define VRAM_DB_OBJ_PLTT ((VRAMPaletteKey)HW_DB_OBJ_PLTT)
 
+#define VRAM_BG    ((void *)HW_BG_VRAM)
+#define VRAM_DB_BG ((void *)HW_DB_BG_VRAM)
+
+#define VRAM_OBJ    ((void *)HW_OBJ_VRAM)
+#define VRAM_DB_OBJ ((void *)HW_DB_OBJ_VRAM)
+
 #define VRAMSYSTEM_FLAG_ALLOCATED 0x80000000
 
 // --------------------

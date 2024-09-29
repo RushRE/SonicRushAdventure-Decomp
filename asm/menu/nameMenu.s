@@ -105,14 +105,14 @@ _0215EE08:
 _0215EE14:
 	ldr r0, _0215EE50 // =NameMenu__sVars
 	ldr r0, [r0]
-	bl NameMenu__Func_215EF5C
+	bl NameMenu__SetupDisplay
 	ldr r0, _0215EE50 // =NameMenu__sVars
 	ldr r0, [r0]
-	bl NameMenu__Func_215F5B4
+	bl NameMenu__InitFontWindow
 	mov r2, #0
 	str r2, [sp]
 	str r2, [sp, #4]
-	ldr r0, _0215EE58 // =NameMenu__Main
+	ldr r0, _0215EE58 // =NameMenu__Main_Loading
 	ldr r1, _0215EE5C // =NameMenu__Destructor
 	mov r3, r2
 	str r2, [sp, #8]
@@ -123,7 +123,7 @@ _0215EE14:
 	str r0, [r3, r1]
 	add r0, r1, #4
 	ldr r2, [r2]
-	ldr r1, _0215EE64 // =NameMenu__Func_215F534
+	ldr r1, _0215EE64 // =NameMenu__ThreadFunc
 	add r0, r2, r0
 	mov r3, #0x18
 	bl CreateThreadWorker
@@ -132,14 +132,14 @@ _0215EE14:
 	.align 2, 0
 _0215EE50: .word NameMenu__sVars
 _0215EE54: .word 0x00000DF4
-_0215EE58: .word NameMenu__Main
+_0215EE58: .word NameMenu__Main_Loading
 _0215EE5C: .word NameMenu__Destructor
 _0215EE60: .word 0x00000E2C
-_0215EE64: .word NameMenu__Func_215F534
+_0215EE64: .word NameMenu__ThreadFunc
 	thumb_func_end NameMenu__Create
 
-	thumb_func_start NameMenu__Func_215EE68
-NameMenu__Func_215EE68: // 0x0215EE68
+	thumb_func_start NameMenu__IsFinished
+NameMenu__IsFinished: // 0x0215EE68
 	ldr r0, _0215EE7C // =NameMenu__sVars
 	ldr r0, [r0]
 	ldr r0, [r0, #0xc]
@@ -152,30 +152,30 @@ _0215EE76:
 	bx lr
 	nop
 _0215EE7C: .word NameMenu__sVars
-	thumb_func_end NameMenu__Func_215EE68
+	thumb_func_end NameMenu__IsFinished
 
-	thumb_func_start NameMenu__Func_215EE80
-NameMenu__Func_215EE80: // 0x0215EE80
+	thumb_func_start NameMenu__ShouldApplyName
+NameMenu__ShouldApplyName: // 0x0215EE80
 	ldr r0, _0215EE88 // =NameMenu__sVars
 	ldr r0, [r0]
 	ldr r0, [r0, #0x10]
 	bx lr
 	.align 2, 0
 _0215EE88: .word NameMenu__sVars
-	thumb_func_end NameMenu__Func_215EE80
+	thumb_func_end NameMenu__ShouldApplyName
 
-	thumb_func_start NameMenu__Func_215EE8C
-NameMenu__Func_215EE8C: // 0x0215EE8C
+	thumb_func_start NameMenu__GetName
+NameMenu__GetName: // 0x0215EE8C
 	ldr r0, _0215EE94 // =NameMenu__sVars
 	ldr r0, [r0]
 	add r0, #0x1c
 	bx lr
 	.align 2, 0
 _0215EE94: .word NameMenu__sVars
-	thumb_func_end NameMenu__Func_215EE8C
+	thumb_func_end NameMenu__GetName
 
-	thumb_func_start NameMenu__Func_215EE98
-NameMenu__Func_215EE98: // 0x0215EE98
+	thumb_func_start NameMenu__ReleaseAssets
+NameMenu__ReleaseAssets: // 0x0215EE98
 	push {r3, lr}
 	ldr r0, _0215EED8 // =NameMenu__sVars
 	ldr r1, [r0]
@@ -207,10 +207,10 @@ _0215EEB8:
 	pop {r3, pc}
 	nop
 _0215EED8: .word NameMenu__sVars
-	thumb_func_end NameMenu__Func_215EE98
+	thumb_func_end NameMenu__ReleaseAssets
 
-	thumb_func_start NameMenu__Func_215EEDC
-NameMenu__Func_215EEDC: // 0x0215EEDC
+	thumb_func_start NameMenu__Init
+NameMenu__Init: // 0x0215EEDC
 	push {r3, r4, r5, r6, r7, lr}
 	mov r1, #0x62
 	mov r2, #1
@@ -252,28 +252,28 @@ _0215EF26:
 	mov r0, r6
 	add r0, #0x1c
 	mov r1, #8
-	bl NameMenu__Func_2160E30
+	bl NameMenu__GetNameLength
 	str r0, [r6, #0x2c]
 	mov r0, #1
 	strh r0, [r6, #0x30]
 	mov r0, #0
 	strh r0, [r6, #0x32]
 	mov r0, r6
-	bl NameMenu__Func_215F090
+	bl NameMenu__InitAnimators
 	mov r0, r6
-	bl NameMenu__Func_215F3C4
+	bl NameMenu__InitBackgrounds
 	mov r0, r6
-	bl NameMenu__Func_215F434
+	bl NameMenu__InitUnknown2056570
 	mov r0, r6
-	bl NameMenu__Func_215F4BC
+	bl NameMenu__InitTouchField
 	mov r0, r6
-	bl NameMenu__Func_21601A8
+	bl NameMenu__InitName
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-	thumb_func_end NameMenu__Func_215EEDC
+	thumb_func_end NameMenu__Init
 
-	thumb_func_start NameMenu__Func_215EF5C
-NameMenu__Func_215EF5C: // 0x0215EF5C
+	thumb_func_start NameMenu__SetupDisplay
+NameMenu__SetupDisplay: // 0x0215EF5C
 	push {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	mov r1, #0xf
@@ -399,7 +399,7 @@ NameMenu__Func_215EF5C: // 0x0215EF5C
 	str r1, [r0]
 	mov r0, r4
 	mov r1, #0x10
-	bl NameMenu__Func_2160C98
+	bl NameMenu__SetupBlending
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0215F064: .word 0x0213D300
@@ -413,10 +413,10 @@ _0215F080: .word 0x0400100A
 _0215F084: .word renderCoreGFXControlA
 _0215F088: .word renderCoreGFXControlB
 _0215F08C: .word 0x04001008
-	thumb_func_end NameMenu__Func_215EF5C
+	thumb_func_end NameMenu__SetupDisplay
 
-	thumb_func_start NameMenu__Func_215F090
-NameMenu__Func_215F090: // 0x0215F090
+	thumb_func_start NameMenu__InitAnimators
+NameMenu__InitAnimators: // 0x0215F090
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x48
 	mov r1, #0xdf
@@ -518,7 +518,7 @@ _0215F12A:
 	str r0, [sp, #0x14]
 	mov r0, r6
 	mov r3, #0
-	bl NameMenu__Func_215F53C
+	bl NameMenu__InitAnimator
 	ldr r0, [sp, #0x28]
 	add r6, #0x64
 	add r0, r0, #1
@@ -557,7 +557,7 @@ _0215F170:
 	ldr r0, [sp, #0x34]
 	add r0, r0, r1
 	ldr r1, [sp, #0x30]
-	bl NameMenu__Func_215F53C
+	bl NameMenu__InitAnimator
 	ldr r0, [sp, #0x1c]
 	add r4, #0x64
 	add r0, r0, #1
@@ -596,7 +596,7 @@ _0215F1BE:
 	ldr r0, [sp, #0x38]
 	add r0, r0, r1
 	ldr r1, [sp, #0x30]
-	bl NameMenu__Func_215F53C
+	bl NameMenu__InitAnimator
 	ldr r0, [sp, #0x20]
 	add r4, #0x64
 	add r0, r0, #1
@@ -633,7 +633,7 @@ _0215F20A:
 	ldr r0, [sp, #0x3c]
 	add r0, r0, r1
 	ldr r1, [sp, #0x30]
-	bl NameMenu__Func_215F53C
+	bl NameMenu__InitAnimator
 	add r6, r6, #1
 	add r4, #0x64
 	add r5, r5, #2
@@ -669,7 +669,7 @@ _0215F24E:
 	ldr r0, [sp, #0x40]
 	add r0, r0, r1
 	ldr r1, [sp, #0x30]
-	bl NameMenu__Func_215F53C
+	bl NameMenu__InitAnimator
 	add r6, r6, #1
 	add r4, #0x64
 	add r5, r5, #2
@@ -691,7 +691,7 @@ _0215F24E:
 	mov r3, r2
 	add r0, r0, r1
 	ldr r1, [sp, #0x30]
-	bl NameMenu__Func_215F53C
+	bl NameMenu__InitAnimator
 	mov r2, #0
 	str r2, [sp]
 	str r7, [sp, #4]
@@ -708,7 +708,7 @@ _0215F24E:
 	mov r3, r2
 	add r0, r0, r1
 	ldr r1, [sp, #0x30]
-	bl NameMenu__Func_215F53C
+	bl NameMenu__InitAnimator
 	mov r3, #0
 	str r3, [sp]
 	mov r1, #0x2b
@@ -725,7 +725,7 @@ _0215F24E:
 	ldr r1, [sp, #0x30]
 	mov r2, #1
 	str r3, [sp, #0x14]
-	bl NameMenu__Func_215F53C
+	bl NameMenu__InitAnimator
 	mov r3, #0
 	str r3, [sp]
 	str r7, [sp, #4]
@@ -741,7 +741,7 @@ _0215F24E:
 	mov r2, #1
 	add r0, r0, r1
 	ldr r1, [sp, #0x30]
-	bl NameMenu__Func_215F53C
+	bl NameMenu__InitAnimator
 	mov r4, #0
 	mov r1, #0xa3
 	ldr r0, [sp, #0x18]
@@ -771,7 +771,7 @@ _0215F326:
 	ldr r0, [sp, #0x44]
 	add r0, r0, r1
 	ldr r1, [sp, #0x2c]
-	bl NameMenu__Func_215F53C
+	bl NameMenu__InitAnimator
 	ldr r0, [sp, #0x24]
 	add r4, #0x64
 	add r0, r0, #1
@@ -795,7 +795,7 @@ _0215F326:
 	mov r3, r2
 	add r0, r0, r1
 	ldr r1, [sp, #0x30]
-	bl NameMenu__Func_215F53C
+	bl NameMenu__InitAnimator
 	add sp, #0x48
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
@@ -814,10 +814,10 @@ _0215F3B4: .word 0x00000A5C
 _0215F3B8: .word 0x00000B24
 _0215F3BC: .word 0x000008FC
 _0215F3C0: .word 0x00000CB4
-	thumb_func_end NameMenu__Func_215F090
+	thumb_func_end NameMenu__InitAnimators
 
-	thumb_func_start NameMenu__Func_215F3C4
-NameMenu__Func_215F3C4: // 0x0215F3C4
+	thumb_func_start NameMenu__InitBackgrounds
+NameMenu__InitBackgrounds: // 0x0215F3C4
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	mov r6, r0
@@ -871,10 +871,10 @@ _0215F3F8:
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 	.align 2, 0
-	thumb_func_end NameMenu__Func_215F3C4
+	thumb_func_end NameMenu__InitBackgrounds
 
-	thumb_func_start NameMenu__Func_215F434
-NameMenu__Func_215F434: // 0x0215F434
+	thumb_func_start NameMenu__InitUnknown2056570
+NameMenu__InitUnknown2056570: // 0x0215F434
 	push {r3, r4, r5, r6, lr}
 	sub sp, #0x1c
 	mov r6, r0
@@ -934,10 +934,10 @@ _0215F4AC: .word 0x00000E28
 _0215F4B0: .word 0x00000DF8
 _0215F4B4: .word 0x02110460
 _0215F4B8: .word 0x05000422
-	thumb_func_end NameMenu__Func_215F434
+	thumb_func_end NameMenu__InitUnknown2056570
 
-	thumb_func_start NameMenu__Func_215F4BC
-NameMenu__Func_215F4BC: // 0x0215F4BC
+	thumb_func_start NameMenu__InitTouchField
+NameMenu__InitTouchField: // 0x0215F4BC
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x1c
 	mov r6, r0
@@ -992,18 +992,18 @@ _0215F524: .word 0x00000DD8
 _0215F528: .word 0x00000DE4
 _0215F52C: .word TouchField__PointInRect
 _0215F530: .word 0x0000FFFF
-	thumb_func_end NameMenu__Func_215F4BC
+	thumb_func_end NameMenu__InitTouchField
 
-	thumb_func_start NameMenu__Func_215F534
-NameMenu__Func_215F534: // 0x0215F534
-	ldr r3, _0215F538 // =NameMenu__Func_215EEDC
+	thumb_func_start NameMenu__ThreadFunc
+NameMenu__ThreadFunc: // 0x0215F534
+	ldr r3, _0215F538 // =NameMenu__Init
 	bx r3
 	.align 2, 0
-_0215F538: .word NameMenu__Func_215EEDC
-	thumb_func_end NameMenu__Func_215F534
+_0215F538: .word NameMenu__Init
+	thumb_func_end NameMenu__ThreadFunc
 
-	thumb_func_start NameMenu__Func_215F53C
-NameMenu__Func_215F53C: // 0x0215F53C
+	thumb_func_start NameMenu__InitAnimator
+NameMenu__InitAnimator: // 0x0215F53C
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x20
 	mov r6, r0
@@ -1064,10 +1064,10 @@ _0215F566:
 	nop
 _0215F5AC: .word 0x05000200
 _0215F5B0: .word 0x05000600
-	thumb_func_end NameMenu__Func_215F53C
+	thumb_func_end NameMenu__InitAnimator
 
-	thumb_func_start NameMenu__Func_215F5B4
-NameMenu__Func_215F5B4: // 0x0215F5B4
+	thumb_func_start NameMenu__InitFontWindow
+NameMenu__InitFontWindow: // 0x0215F5B4
 	push {r3, r4, r5, lr}
 	sub sp, #0x198
 	mov r4, r0
@@ -1214,44 +1214,44 @@ _0215F6DE:
 	pop {r3, r4, r5, pc}
 	nop
 _0215F6F8: .word 0x00000DF4
-	thumb_func_end NameMenu__Func_215F5B4
+	thumb_func_end NameMenu__InitFontWindow
 
-	thumb_func_start NameMenu__Func_215F6FC
-NameMenu__Func_215F6FC: // 0x0215F6FC
+	thumb_func_start NameMenu__Release
+NameMenu__Release: // 0x0215F6FC
 	push {r3, r4, r5, lr}
 	mov r5, r0
-	bl NameMenu__Func_215F868
+	bl NameMenu__ReleaseTouchField
 	mov r0, r5
-	bl NameMenu__Func_215F840
+	bl NameMenu__ReleaseUnknown2056570
 	mov r0, r5
-	bl SoundTest__Func_215F83C
+	bl NameMenu__ReleaseBackgrounds
 	mov r0, r5
-	bl NameMenu__Func_215F73C
+	bl NameMenu__ReleaseAnimators
 	mov r0, r5
-	bl NameMenu__Func_215F730
+	bl NameMenu__ResetDisplay
 	mov r4, #0
 _0215F71E:
 	ldrh r0, [r5, #0x1c]
-	bl NameMenu__Func_2160D84
+	bl NameMenu__GetCharacterFromIndex
 	strh r0, [r5, #0x1c]
 	add r4, r4, #1
 	add r5, r5, #2
 	cmp r4, #8
 	blt _0215F71E
 	pop {r3, r4, r5, pc}
-	thumb_func_end NameMenu__Func_215F6FC
+	thumb_func_end NameMenu__Release
 
-	thumb_func_start NameMenu__Func_215F730
-NameMenu__Func_215F730: // 0x0215F730
-	ldr r3, _0215F738 // =NameMenu__Func_2160C98
+	thumb_func_start NameMenu__ResetDisplay
+NameMenu__ResetDisplay: // 0x0215F730
+	ldr r3, _0215F738 // =NameMenu__SetupBlending
 	mov r1, #0x10
 	bx r3
 	nop
-_0215F738: .word NameMenu__Func_2160C98
-	thumb_func_end NameMenu__Func_215F730
+_0215F738: .word NameMenu__SetupBlending
+	thumb_func_end NameMenu__ResetDisplay
 
-	thumb_func_start NameMenu__Func_215F73C
-NameMenu__Func_215F73C: // 0x0215F73C
+	thumb_func_start NameMenu__ReleaseAnimators
+NameMenu__ReleaseAnimators: // 0x0215F73C
 	push {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	ldr r0, _0215F820 // =0x00000CB4
@@ -1368,16 +1368,16 @@ _0215F82C: .word 0x00000A5C
 _0215F830: .word 0x000009F8
 _0215F834: .word 0x000006A4
 _0215F838: .word 0x00000A8C
-	thumb_func_end NameMenu__Func_215F73C
+	thumb_func_end NameMenu__ReleaseAnimators
 
-	thumb_func_start SoundTest__Func_215F83C
-SoundTest__Func_215F83C: // 0x0215F83C
+	thumb_func_start NameMenu__ReleaseBackgrounds
+NameMenu__ReleaseBackgrounds: // 0x0215F83C
 	bx lr
 	.align 2, 0
-	thumb_func_end SoundTest__Func_215F83C
+	thumb_func_end NameMenu__ReleaseBackgrounds
 
-	thumb_func_start NameMenu__Func_215F840
-NameMenu__Func_215F840: // 0x0215F840
+	thumb_func_start NameMenu__ReleaseUnknown2056570
+NameMenu__ReleaseUnknown2056570: // 0x0215F840
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, _0215F860 // =0x00000DF8
@@ -1396,10 +1396,10 @@ _0215F85E:
 	.align 2, 0
 _0215F860: .word 0x00000DF8
 _0215F864: .word 0x00000E28
-	thumb_func_end NameMenu__Func_215F840
+	thumb_func_end NameMenu__ReleaseUnknown2056570
 
-	thumb_func_start NameMenu__Func_215F868
-NameMenu__Func_215F868: // 0x0215F868
+	thumb_func_start NameMenu__ReleaseTouchField
+NameMenu__ReleaseTouchField: // 0x0215F868
 	mov r1, #0xd3
 	mov r2, r0
 	lsl r1, r1, #4
@@ -1410,10 +1410,10 @@ NameMenu__Func_215F868: // 0x0215F868
 	bx r3
 	.align 2, 0
 _0215F878: .word MIi_CpuClear16
-	thumb_func_end NameMenu__Func_215F868
+	thumb_func_end NameMenu__ReleaseTouchField
 
-	thumb_func_start NameMenu__Main
-NameMenu__Main: // 0x0215F87C
+	thumb_func_start NameMenu__Main_Loading
+NameMenu__Main_Loading: // 0x0215F87C
 	push {r4, r5, r6, lr}
 	ldr r0, _0215F8CC // =NameMenu__sVars
 	ldr r1, [r0]
@@ -1430,7 +1430,7 @@ NameMenu__Main: // 0x0215F87C
 	ldr r0, _0215F8CC // =NameMenu__sVars
 	mov r1, #2
 	ldr r0, [r0]
-	bl NameMenu__Func_2160294
+	bl NameMenu__SetTextPage
 	mov r5, #0
 	ldr r4, _0215F8CC // =NameMenu__sVars
 	mov r6, r5
@@ -1438,28 +1438,28 @@ _0215F8AA:
 	ldr r0, [r4]
 	mov r1, r5
 	mov r2, r6
-	bl NameMenu__Func_2160430
+	bl NameMenu__SetUnknown
 	add r5, r5, #1
 	cmp r5, #5
 	blt _0215F8AA
 	ldr r0, _0215F8CC // =NameMenu__sVars
-	ldr r2, _0215F8D0 // =NameMenu__State_215F924
+	ldr r2, _0215F8D0 // =NameMenu__State_FadeIn
 	ldr r1, [r0]
 	ldr r0, _0215F8D4 // =0x00000D18
 	str r2, [r1, r0]
-	ldr r0, _0215F8D8 // =NameMenu__Main_215F8DC
+	ldr r0, _0215F8D8 // =NameMenu__Main_Active
 	bl SetCurrentTaskMainEvent
 _0215F8CA:
 	pop {r4, r5, r6, pc}
 	.align 2, 0
 _0215F8CC: .word NameMenu__sVars
-_0215F8D0: .word NameMenu__State_215F924
+_0215F8D0: .word NameMenu__State_FadeIn
 _0215F8D4: .word 0x00000D18
-_0215F8D8: .word NameMenu__Main_215F8DC
-	thumb_func_end NameMenu__Main
+_0215F8D8: .word NameMenu__Main_Active
+	thumb_func_end NameMenu__Main_Loading
 
-	thumb_func_start NameMenu__Main_215F8DC
-NameMenu__Main_215F8DC: // 0x0215F8DC
+	thumb_func_start NameMenu__Main_Active
+NameMenu__Main_Active: // 0x0215F8DC
 	push {r3, lr}
 	ldr r0, _0215F90C // =NameMenu__sVars
 	ldr r2, [r0]
@@ -1486,21 +1486,21 @@ _0215F8FE:
 	.align 2, 0
 _0215F90C: .word NameMenu__sVars
 _0215F910: .word 0x00000D18
-	thumb_func_end NameMenu__Main_215F8DC
+	thumb_func_end NameMenu__Main_Active
 
 	thumb_func_start NameMenu__Destructor
 NameMenu__Destructor: // 0x0215F914
 	ldr r0, _0215F91C // =NameMenu__sVars
-	ldr r3, _0215F920 // =NameMenu__Func_215F6FC
+	ldr r3, _0215F920 // =NameMenu__Release
 	ldr r0, [r0]
 	bx r3
 	.align 2, 0
 _0215F91C: .word NameMenu__sVars
-_0215F920: .word NameMenu__Func_215F6FC
+_0215F920: .word NameMenu__Release
 	thumb_func_end NameMenu__Destructor
 
-	thumb_func_start NameMenu__State_215F924
-NameMenu__State_215F924: // 0x0215F924
+	thumb_func_start NameMenu__State_FadeIn
+NameMenu__State_FadeIn: // 0x0215F924
 	push {r4, lr}
 	ldr r1, _0215F974 // =0x0213D300
 	mov r4, r0
@@ -1522,7 +1522,7 @@ _0215F93E:
 	ldr r0, _0215F978 // =0x0213D2A4
 	strh r1, [r0, #0x18]
 	mov r0, r4
-	bl NameMenu__Func_2160468
+	bl NameMenu__DrawMenuInitial
 	cmp r0, #0
 	beq _0215F972
 	ldr r0, _0215F97C // =VRAMSystem__GFXControl
@@ -1537,7 +1537,7 @@ _0215F93E:
 	bl AnimatorSprite__SetAnimation
 	mov r0, #1
 	str r0, [r4, #0x14]
-	ldr r1, _0215F984 // =NameMenu__State_215F98C
+	ldr r1, _0215F984 // =NameMenu__State_Active
 	ldr r0, _0215F988 // =0x00000D18
 	str r1, [r4, r0]
 _0215F972:
@@ -1547,12 +1547,12 @@ _0215F974: .word 0x0213D300
 _0215F978: .word 0x0213D2A4
 _0215F97C: .word VRAMSystem__GFXControl
 _0215F980: .word 0x000005AC
-_0215F984: .word NameMenu__State_215F98C
+_0215F984: .word NameMenu__State_Active
 _0215F988: .word 0x00000D18
-	thumb_func_end NameMenu__State_215F924
+	thumb_func_end NameMenu__State_FadeIn
 
-	thumb_func_start NameMenu__State_215F98C
-NameMenu__State_215F98C: // 0x0215F98C
+	thumb_func_start NameMenu__State_Active
+NameMenu__State_Active: // 0x0215F98C
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x14
 	mov r4, r0
@@ -1586,7 +1586,7 @@ _0215F9BA:
 	tst r0, r1
 	beq _0215F9DA
 	mov r0, r4
-	bl NameMenu__Func_215FFB4
+	bl NameMenu__DeleteCharacter
 	mov r0, #1
 	bl PlaySysMenuNavSfx
 	b _0215FEA0
@@ -1610,7 +1610,7 @@ _0215F9F8:
 	mov r0, r4
 	add r1, #2
 	add r2, sp, #0x10
-	bl NameMenu__Func_2160BC4
+	bl NameMenu__GetCursorPositionFromTouch
 	cmp r0, #0
 	beq _0215FA34
 	ldr r2, [r4, #8]
@@ -1630,18 +1630,18 @@ _0215F9F8:
 	ldrh r1, [r2, #2]
 	ldrh r2, [r2]
 	mov r0, r4
-	bl NameMenu__Func_216036C
+	bl NameMenu__SetCharacterSelection
 	mov r0, #1
 	str r0, [sp, #8]
 	b _0215FA46
 _0215FA34:
 	mov r0, r4
-	bl NameMenu__Func_2160C3C
+	bl NameMenu__GetMenuSelectionFromTouch
 	mov r1, r0
 	cmp r1, #3
 	bge _0215FA46
 	mov r0, r4
-	bl NameMenu__Func_216038C
+	bl NameMenu__SetMenuSelection
 _0215FA46:
 	ldr r5, [r4, #0x38]
 	cmp r5, #3
@@ -1783,7 +1783,7 @@ _0215FB2A:
 	b _0215FCB0
 _0215FB42:
 	mov r0, r4
-	bl NameMenu__Func_216036C
+	bl NameMenu__SetCharacterSelection
 	b _0215FCB0
 _0215FB4A:
 	ldrh r0, [r0, #2]
@@ -1820,7 +1820,7 @@ _0215FB74:
 	beq _0215FB6A
 _0215FB7E:
 	mov r0, r4
-	bl NameMenu__Func_216038C
+	bl NameMenu__SetMenuSelection
 	b _0215FCB0
 _0215FB86:
 	ldr r0, _0215FC7C // =padInput
@@ -1844,7 +1844,7 @@ _0215FB9C:
 	beq _0215FB92
 	mov r0, r4
 	mov r1, r5
-	bl NameMenu__Func_216038C
+	bl NameMenu__SetMenuSelection
 	mov r0, #2
 	bl PlaySysMenuNavSfx
 _0215FBB4:
@@ -1869,7 +1869,7 @@ _0215FBCA:
 	beq _0215FBC0
 	mov r0, r4
 	mov r1, r5
-	bl NameMenu__Func_216038C
+	bl NameMenu__SetMenuSelection
 	mov r0, #2
 	bl PlaySysMenuNavSfx
 _0215FBE2:
@@ -1915,7 +1915,7 @@ _0215FC2A:
 	ldrh r1, [r2, #2]
 	ldrh r2, [r2]
 	mov r0, r4
-	bl NameMenu__Func_216036C
+	bl NameMenu__SetCharacterSelection
 	mov r0, #2
 	bl PlaySysMenuNavSfx
 _0215FC3C:
@@ -1970,17 +1970,17 @@ _0215FC9E:
 	ldrh r1, [r2, #2]
 	ldrh r2, [r2]
 	mov r0, r4
-	bl NameMenu__Func_216036C
+	bl NameMenu__SetCharacterSelection
 	mov r0, #2
 	bl PlaySysMenuNavSfx
 _0215FCB0:
 	mov r0, r4
-	bl NameMenu__Func_2160B0C
+	bl NameMenu__CheckPageChange
 	mov r1, r0
 	cmp r1, #5
 	bge _0215FCC8
 	mov r0, r4
-	bl NameMenu__Func_2160268
+	bl NameMenu__UpdateTextPage
 	mov r0, #2
 	bl PlaySysMenuNavSfx
 _0215FCC8:
@@ -2031,7 +2031,7 @@ _0215FD16:
 	cmp r0, #0
 	ble _0215FD70
 	mov r0, r4
-	bl NameMenu__Func_215FFB4
+	bl NameMenu__DeleteCharacter
 	mov r0, #0
 	bl PlaySysMenuNavSfx
 	b _0215FD70
@@ -2052,7 +2052,7 @@ _0215FD3A:
 	cmp r0, #0
 	ble _0215FD70
 	mov r0, r4
-	bl NameMenu__Func_215FFB4
+	bl NameMenu__DeleteCharacter
 	mov r0, r5
 	bl PlaySysMenuNavSfx
 	b _0215FD70
@@ -2065,7 +2065,7 @@ _0215FD56:
 	cmp r0, #2
 	beq _0215FD70
 	mov r0, r4
-	bl NameMenu__Func_216038C
+	bl NameMenu__SetMenuSelection
 	mov r0, #0
 	bl PlaySysMenuNavSfx
 _0215FD70:
@@ -2076,7 +2076,7 @@ _0215FD70:
 	bhs _0215FD8E
 	ldr r1, [sp, #0xc]
 	mov r0, r4
-	bl NameMenu__Func_215FF78
+	bl NameMenu__SetCharacter
 	mov r0, #0x10
 	str r0, [r4, #0x34]
 	mov r0, #0
@@ -2109,7 +2109,7 @@ _0215FDB2:
 	beq _0215FDC8
 	mov r0, r4
 	mov r1, #0
-	bl NameMenu__Func_2160294
+	bl NameMenu__SetTextPage
 	mov r0, #0
 	bl PlaySysMenuNavSfx
 	b _0215FEA0
@@ -2126,7 +2126,7 @@ _0215FDD6:
 	beq _0215FDEC
 	mov r0, r4
 	mov r1, #1
-	bl NameMenu__Func_2160294
+	bl NameMenu__SetTextPage
 	mov r0, #0
 	bl PlaySysMenuNavSfx
 	b _0215FEA0
@@ -2143,7 +2143,7 @@ _0215FDFA:
 	beq _0215FE10
 	mov r0, r4
 	mov r1, #2
-	bl NameMenu__Func_2160294
+	bl NameMenu__SetTextPage
 	mov r0, #0
 	bl PlaySysMenuNavSfx
 	b _0215FEA0
@@ -2160,7 +2160,7 @@ _0215FE1E:
 	beq _0215FE34
 	mov r0, r4
 	mov r1, #3
-	bl NameMenu__Func_2160294
+	bl NameMenu__SetTextPage
 	mov r0, #0
 	bl PlaySysMenuNavSfx
 	b _0215FEA0
@@ -2218,7 +2218,7 @@ _0215FE94:
 _0215FEA0:
 	ldr r0, _0215FF00 // =NameMenu__sVars
 	ldr r0, [r0]
-	bl NameMenu__Func_2160734
+	bl NameMenu__DrawMenu
 	ldr r0, [sp]
 	cmp r0, #0
 	beq _0215FECC
@@ -2231,7 +2231,7 @@ _0215FEA0:
 	add r1, #0x3c
 	mov r2, #0xc
 	bl MIi_CpuClear32
-	ldr r1, _0215FF04 // =NameMenu__State_215FF0C
+	ldr r1, _0215FF04 // =NameMenu__State_FadeOut
 	ldr r0, _0215FF08 // =0x00000D18
 	add sp, #0x14
 	str r1, [r4, r0]
@@ -2248,7 +2248,7 @@ _0215FECC:
 	add r1, #0x3c
 	mov r2, #0xc
 	bl MIi_CpuClear32
-	ldr r1, _0215FF04 // =NameMenu__State_215FF0C
+	ldr r1, _0215FF04 // =NameMenu__State_FadeOut
 	ldr r0, _0215FF08 // =0x00000D18
 	str r1, [r4, r0]
 _0215FEEA:
@@ -2260,12 +2260,12 @@ _0215FEF4: .word 0x0000FFFF
 _0215FEF8: .word padInput
 _0215FEFC: .word 0x0000FFF8
 _0215FF00: .word NameMenu__sVars
-_0215FF04: .word NameMenu__State_215FF0C
+_0215FF04: .word NameMenu__State_FadeOut
 _0215FF08: .word 0x00000D18
-	thumb_func_end NameMenu__State_215F98C
+	thumb_func_end NameMenu__State_Active
 
-	thumb_func_start NameMenu__State_215FF0C
-NameMenu__State_215FF0C: // 0x0215FF0C
+	thumb_func_start NameMenu__State_FadeOut
+NameMenu__State_FadeOut: // 0x0215FF0C
 	push {r4, lr}
 	ldr r2, _0215FF64 // =VRAMSystem__GFXControl
 	mov r1, #0
@@ -2309,7 +2309,7 @@ _0215FF44:
 _0215FF58:
 	ldr r0, _0215FF74 // =NameMenu__sVars
 	ldr r0, [r0]
-	bl NameMenu__Func_2160734
+	bl NameMenu__DrawMenu
 	pop {r4, pc}
 	nop
 _0215FF64: .word VRAMSystem__GFXControl
@@ -2317,10 +2317,10 @@ _0215FF68: .word 0x0213D2A4
 _0215FF6C: .word 0x0213D300
 _0215FF70: .word 0x00000D18
 _0215FF74: .word NameMenu__sVars
-	thumb_func_end NameMenu__State_215FF0C
+	thumb_func_end NameMenu__State_FadeOut
 
-	thumb_func_start NameMenu__Func_215FF78
-NameMenu__Func_215FF78: // 0x0215FF78
+	thumb_func_start NameMenu__SetCharacter
+NameMenu__SetCharacter: // 0x0215FF78
 	push {r4, lr}
 	mov r4, r0
 	mov r2, r1
@@ -2341,7 +2341,7 @@ _0215FF8C:
 	lsr r1, r1, #0x10
 	bl NameMenu__Func_21600A8
 	mov r0, r4
-	bl NameMenu__Func_21601A8
+	bl NameMenu__InitName
 	ldr r0, _0215FFB0 // =0x000009F8
 	mov r1, #0x1e
 	add r0, r4, r0
@@ -2349,10 +2349,10 @@ _0215FF8C:
 	pop {r4, pc}
 	nop
 _0215FFB0: .word 0x000009F8
-	thumb_func_end NameMenu__Func_215FF78
+	thumb_func_end NameMenu__SetCharacter
 
-	thumb_func_start NameMenu__Func_215FFB4
-NameMenu__Func_215FFB4: // 0x0215FFB4
+	thumb_func_start NameMenu__DeleteCharacter
+NameMenu__DeleteCharacter: // 0x0215FFB4
 	push {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -2368,7 +2368,7 @@ NameMenu__Func_215FFB4: // 0x0215FFB4
 	lsr r1, r1, #0x10
 	bl NameMenu__Func_21600A8
 	mov r0, r4
-	bl NameMenu__Func_21601A8
+	bl NameMenu__InitName
 	ldr r0, _0215FFE4 // =0x000009F8
 	mov r1, #0x1e
 	add r0, r4, r0
@@ -2377,7 +2377,7 @@ _0215FFE2:
 	pop {r4, pc}
 	.align 2, 0
 _0215FFE4: .word 0x000009F8
-	thumb_func_end NameMenu__Func_215FFB4
+	thumb_func_end NameMenu__DeleteCharacter
 
 	thumb_func_start NameMenu__Func_215FFE8
 NameMenu__Func_215FFE8: // 0x0215FFE8
@@ -2561,8 +2561,8 @@ _02160140: .word 0x00000E28
 _02160144: .word 0x00000DF8
 	thumb_func_end NameMenu__Func_21600A8
 
-	thumb_func_start NameMenu__Func_2160148
-NameMenu__Func_2160148: // 0x02160148
+	thumb_func_start NameMenu__DrawCharacterCursor
+NameMenu__DrawCharacterCursor: // 0x02160148
 	push {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r0, _0216019C // =0x00000DF8
@@ -2605,10 +2605,10 @@ _0216019A:
 _0216019C: .word 0x00000DF8
 _021601A0: .word 0x00000B24
 _021601A4: .word 0x000009F8
-	thumb_func_end NameMenu__Func_2160148
+	thumb_func_end NameMenu__DrawCharacterCursor
 
-	thumb_func_start NameMenu__Func_21601A8
-NameMenu__Func_21601A8: // 0x021601A8
+	thumb_func_start NameMenu__InitName
+NameMenu__InitName: // 0x021601A8
 	push {r4, lr}
 	ldr r1, [r0, #0x2c]
 	cmp r1, #0
@@ -2673,7 +2673,7 @@ _02160210:
 	pop {r4, pc}
 	nop
 _02160214: .word 0x00000CB4
-	thumb_func_end NameMenu__Func_21601A8
+	thumb_func_end NameMenu__InitName
 
 	thumb_func_start NameMenu__Func_2160218
 NameMenu__Func_2160218: // 0x02160218
@@ -2719,8 +2719,8 @@ _0216025E:
 _02160264: .word 0x01C71000
 	thumb_func_end NameMenu__Func_2160218
 
-	thumb_func_start NameMenu__Func_2160268
-NameMenu__Func_2160268: // 0x02160268
+	thumb_func_start NameMenu__UpdateTextPage
+NameMenu__UpdateTextPage: // 0x02160268
 	push {r3, lr}
 	ldr r2, [r0, #8]
 	cmp r2, #7
@@ -2737,16 +2737,16 @@ _0216027A:
 	lsl r2, r1, #2
 	ldr r1, _02160290 // =_021619E4
 	ldr r1, [r1, r2]
-	bl NameMenu__Func_2160294
+	bl NameMenu__SetTextPage
 _02160288:
 	pop {r3, pc}
 	nop
 _0216028C: .word _02161A28
 _02160290: .word _021619E4
-	thumb_func_end NameMenu__Func_2160268
+	thumb_func_end NameMenu__UpdateTextPage
 
-	thumb_func_start NameMenu__Func_2160294
-NameMenu__Func_2160294: // 0x02160294
+	thumb_func_start NameMenu__SetTextPage
+NameMenu__SetTextPage: // 0x02160294
 	push {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r0, [r5, #8]
@@ -2838,7 +2838,7 @@ _0216031E:
 	mov r0, r5
 	mov r1, #1
 	mov r2, #0
-	bl NameMenu__Func_216036C
+	bl NameMenu__SetCharacterSelection
 _02160344:
 	ldr r0, [r5, #8]
 	mov r2, r5
@@ -2856,10 +2856,10 @@ _0216035C: .word 0x00000D1C
 _02160360: .word _02161A44
 _02160364: .word _02161A60
 _02160368: .word 0x0000FFFF
-	thumb_func_end NameMenu__Func_2160294
+	thumb_func_end NameMenu__SetTextPage
 
-	thumb_func_start NameMenu__Func_216036C
-NameMenu__Func_216036C: // 0x0216036C
+	thumb_func_start NameMenu__SetCharacterSelection
+NameMenu__SetCharacterSelection: // 0x0216036C
 	strh r1, [r0, #0x30]
 	strh r2, [r0, #0x32]
 	mov r1, #4
@@ -2874,10 +2874,10 @@ NameMenu__Func_216036C: // 0x0216036C
 	nop
 _02160384: .word 0x00000A5C
 _02160388: .word AnimatorSprite__SetAnimation
-	thumb_func_end NameMenu__Func_216036C
+	thumb_func_end NameMenu__SetCharacterSelection
 
-	thumb_func_start NameMenu__Func_216038C
-NameMenu__Func_216038C: // 0x0216038C
+	thumb_func_start NameMenu__SetMenuSelection
+NameMenu__SetMenuSelection: // 0x0216038C
 	str r1, [r0, #0x38]
 	ldr r1, _02160398 // =0x00000CB4
 	ldr r3, _0216039C // =AnimatorSprite__SetAnimation
@@ -2887,10 +2887,10 @@ NameMenu__Func_216038C: // 0x0216038C
 	.align 2, 0
 _02160398: .word 0x00000CB4
 _0216039C: .word AnimatorSprite__SetAnimation
-	thumb_func_end NameMenu__Func_216038C
+	thumb_func_end NameMenu__SetMenuSelection
 
-	thumb_func_start NameMenu__Func_21603A0
-NameMenu__Func_21603A0: // 0x021603A0
+	thumb_func_start NameMenu__ChangePageVariant_JPN_Hiragana
+NameMenu__ChangePageVariant_JPN_Hiragana: // 0x021603A0
 	push {r4, lr}
 	mov r4, r0
 	cmp r1, #0
@@ -2908,10 +2908,10 @@ NameMenu__Func_21603A0: // 0x021603A0
 _021603C0:
 	pop {r4, pc}
 	.align 2, 0
-	thumb_func_end NameMenu__Func_21603A0
+	thumb_func_end NameMenu__ChangePageVariant_JPN_Hiragana
 
-	thumb_func_start NameMenu__Func_21603C4
-NameMenu__Func_21603C4: // 0x021603C4
+	thumb_func_start NameMenu__ChangePageVariant_JPN_Katakana
+NameMenu__ChangePageVariant_JPN_Katakana: // 0x021603C4
 	push {r4, lr}
 	mov r4, r0
 	cmp r1, #0
@@ -2929,10 +2929,10 @@ NameMenu__Func_21603C4: // 0x021603C4
 _021603E4:
 	pop {r4, pc}
 	.align 2, 0
-	thumb_func_end NameMenu__Func_21603C4
+	thumb_func_end NameMenu__ChangePageVariant_JPN_Katakana
 
-	thumb_func_start NameMenu__Func_21603E8
-NameMenu__Func_21603E8: // 0x021603E8
+	thumb_func_start NameMenu__ChangePageVariant_ENG_Lower
+NameMenu__ChangePageVariant_ENG_Lower: // 0x021603E8
 	push {r4, lr}
 	mov r4, r0
 	cmp r1, #0
@@ -2950,10 +2950,10 @@ NameMenu__Func_21603E8: // 0x021603E8
 _02160408:
 	pop {r4, pc}
 	.align 2, 0
-	thumb_func_end NameMenu__Func_21603E8
+	thumb_func_end NameMenu__ChangePageVariant_ENG_Lower
 
-	thumb_func_start NameMenu__Func_216040C
-NameMenu__Func_216040C: // 0x0216040C
+	thumb_func_start NameMenu__ChangePageVariant_ENG_Upper
+NameMenu__ChangePageVariant_ENG_Upper: // 0x0216040C
 	push {r4, lr}
 	mov r4, r0
 	cmp r1, #0
@@ -2971,10 +2971,10 @@ NameMenu__Func_216040C: // 0x0216040C
 _0216042C:
 	pop {r4, pc}
 	.align 2, 0
-	thumb_func_end NameMenu__Func_216040C
+	thumb_func_end NameMenu__ChangePageVariant_ENG_Upper
 
-	thumb_func_start NameMenu__Func_2160430
-NameMenu__Func_2160430: // 0x02160430
+	thumb_func_start NameMenu__SetUnknown
+NameMenu__SetUnknown: // 0x02160430
 	push {r3, r4, r5, lr}
 	mov r3, #0xa3
 	lsl r3, r3, #2
@@ -3001,10 +3001,10 @@ _0216044E:
 	bl AnimatorSprite__AnimateManual
 	pop {r3, r4, r5, pc}
 	.align 2, 0
-	thumb_func_end NameMenu__Func_2160430
+	thumb_func_end NameMenu__SetUnknown
 
-	thumb_func_start NameMenu__Func_2160468
-NameMenu__Func_2160468: // 0x02160468
+	thumb_func_start NameMenu__DrawMenuInitial
+NameMenu__DrawMenuInitial: // 0x02160468
 	push {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r1, [r5, #8]
@@ -3018,17 +3018,17 @@ NameMenu__Func_2160468: // 0x02160468
 	blx r1
 _0216047E:
 	mov r0, r5
-	bl NameMenu__Func_2160148
+	bl NameMenu__DrawCharacterCursor
 	ldr r1, [r5, #0x18]
 	mov r0, r5
-	bl NameMenu__Func_21604BC
+	bl NameMenu__DrawPageSelectionsInitial
 	cmp r0, #0
 	beq _02160492
 	mov r6, #1
 _02160492:
 	ldr r1, [r5, #0x18]
 	mov r0, r5
-	bl NameMenu__Func_2160698
+	bl NameMenu__DrawMenuOptionsInitial
 	cmp r0, #0
 	beq _021604A0
 	mov r4, #1
@@ -3047,10 +3047,10 @@ _021604B2:
 	pop {r4, r5, r6, pc}
 	nop
 _021604B8: .word _02161A0C
-	thumb_func_end NameMenu__Func_2160468
+	thumb_func_end NameMenu__DrawMenuInitial
 
-	thumb_func_start NameMenu__Func_21604BC
-NameMenu__Func_21604BC: // 0x021604BC
+	thumb_func_start NameMenu__DrawPageSelectionsInitial
+NameMenu__DrawPageSelectionsInitial: // 0x021604BC
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x2c
 	str r0, [sp, #4]
@@ -3198,7 +3198,7 @@ _021605E4:
 	ldr r0, [sp, #4]
 	ldr r1, [sp, #0x1c]
 	mov r2, #1
-	bl NameMenu__Func_2160430
+	bl NameMenu__SetUnknown
 _021605F2:
 	cmp r5, #8
 	blo _02160606
@@ -3281,10 +3281,10 @@ _0216068A:
 	.align 2, 0
 _02160690: .word _021619F8
 _02160694: .word 0x00000D1C
-	thumb_func_end NameMenu__Func_21604BC
+	thumb_func_end NameMenu__DrawPageSelectionsInitial
 
-	thumb_func_start NameMenu__Func_2160698
-NameMenu__Func_2160698: // 0x02160698
+	thumb_func_start NameMenu__DrawMenuOptionsInitial
+NameMenu__DrawMenuOptionsInitial: // 0x02160698
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x14
 	str r1, [sp, #4]
@@ -3365,10 +3365,10 @@ _0216072A:
 	pop {r4, r5, r6, r7, pc}
 	.align 2, 0
 _02160730: .word 0x000008FC
-	thumb_func_end NameMenu__Func_2160698
+	thumb_func_end NameMenu__DrawMenuOptionsInitial
 
-	thumb_func_start NameMenu__Func_2160734
-NameMenu__Func_2160734: // 0x02160734
+	thumb_func_start NameMenu__DrawMenu
+NameMenu__DrawMenu: // 0x02160734
 	push {r3, r4, r5, r6, lr}
 	sub sp, #4
 	mov r5, r0
@@ -3381,11 +3381,11 @@ NameMenu__Func_2160734: // 0x02160734
 	blx r1
 _02160748:
 	mov r0, r5
-	bl NameMenu__Func_2160908
+	bl NameMenu__DrawPageSelections
 	mov r0, r5
-	bl NameMenu__Func_2160148
+	bl NameMenu__DrawCharacterCursor
 	mov r0, r5
-	bl NameMenu__Func_2160A34
+	bl NameMenu__DrawMenuOptions
 	ldr r0, [r5, #0x14]
 	cmp r0, #0
 	beq _021607E6
@@ -3427,7 +3427,7 @@ _02160748:
 	str r0, [r4, #0x58]
 	mov r0, r5
 	mov r1, #0x10
-	bl NameMenu__Func_2160C98
+	bl NameMenu__SetupBlending
 	b _021607D6
 _021607B6:
 	mov r0, #1
@@ -3443,7 +3443,7 @@ _021607B6:
 	lsl r0, r0, #0x10
 	lsr r1, r0, #0x10
 	mov r0, r5
-	bl NameMenu__Func_2160C98
+	bl NameMenu__SetupBlending
 _021607D6:
 	mov r1, #0
 	mov r0, r4
@@ -3463,10 +3463,10 @@ _021607F0:
 	.align 2, 0
 _021607F4: .word _02161A0C
 _021607F8: .word 0x00000A5C
-	thumb_func_end NameMenu__Func_2160734
+	thumb_func_end NameMenu__DrawMenu
 
-	thumb_func_start NameMenu__Func_21607FC
-NameMenu__Func_21607FC: // 0x021607FC
+	thumb_func_start NameMenu__DrawPageVariants_JPN
+NameMenu__DrawPageVariants_JPN: // 0x021607FC
 	push {r4, r5, r6, lr}
 	mov r5, #0xa3
 	mov r1, #0
@@ -3572,10 +3572,10 @@ _021608BE:
 _021608D0: .word 0x0000041C
 _021608D4: .word 0x0000FFFF
 _021608D8: .word 0x000004E4
-	thumb_func_end NameMenu__Func_21607FC
+	thumb_func_end NameMenu__DrawPageVariants_JPN
 
-	thumb_func_start NameMenu__Func_21608DC
-NameMenu__Func_21608DC: // 0x021608DC
+	thumb_func_start NameMenu__DrawPageVariants_ENG
+NameMenu__DrawPageVariants_ENG: // 0x021608DC
 	push {r3, r4, r5, lr}
 	mov r5, #0xd5
 	mov r1, #0
@@ -3594,10 +3594,10 @@ NameMenu__Func_21608DC: // 0x021608DC
 	add r0, r4, r5
 	bl AnimatorSprite__DrawFrame
 	pop {r3, r4, r5, pc}
-	thumb_func_end NameMenu__Func_21608DC
+	thumb_func_end NameMenu__DrawPageVariants_ENG
 
-	thumb_func_start NameMenu__Func_2160908
-NameMenu__Func_2160908: // 0x02160908
+	thumb_func_start NameMenu__DrawPageSelections
+NameMenu__DrawPageSelections: // 0x02160908
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x14
 	str r0, [sp]
@@ -3738,10 +3738,10 @@ _021609CC:
 _02160A28: .word _021619F8
 _02160A2C: .word 0x00000D1C
 _02160A30: .word 0x00000994
-	thumb_func_end NameMenu__Func_2160908
+	thumb_func_end NameMenu__DrawPageSelections
 
-	thumb_func_start NameMenu__Func_2160A34
-NameMenu__Func_2160A34: // 0x02160A34
+	thumb_func_start NameMenu__DrawMenuOptions
+NameMenu__DrawMenuOptions: // 0x02160A34
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x18
 	str r0, [sp]
@@ -3849,10 +3849,10 @@ _02160ADE:
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
 _02160B08: .word 0x000008FC
-	thumb_func_end NameMenu__Func_2160A34
+	thumb_func_end NameMenu__DrawMenuOptions
 
-	thumb_func_start NameMenu__Func_2160B0C
-NameMenu__Func_2160B0C: // 0x02160B0C
+	thumb_func_start NameMenu__CheckPageChange
+NameMenu__CheckPageChange: // 0x02160B0C
 	push {r4, r5, r6, lr}
 	ldr r1, [r0, #8]
 	mov r3, #1
@@ -3954,10 +3954,10 @@ _02160BB4:
 _02160BB8: .word _02161A28
 _02160BBC: .word padInput
 _02160BC0: .word touchInput
-	thumb_func_end NameMenu__Func_2160B0C
+	thumb_func_end NameMenu__CheckPageChange
 
-	thumb_func_start NameMenu__Func_2160BC4
-NameMenu__Func_2160BC4: // 0x02160BC4
+	thumb_func_start NameMenu__GetCursorPositionFromTouch
+NameMenu__GetCursorPositionFromTouch: // 0x02160BC4
 	push {r3, r4, r5, lr}
 	mov r5, r1
 	mov r4, r2
@@ -4025,10 +4025,10 @@ _02160C2C:
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _02160C38: .word touchInput
-	thumb_func_end NameMenu__Func_2160BC4
+	thumb_func_end NameMenu__GetCursorPositionFromTouch
 
-	thumb_func_start NameMenu__Func_2160C3C
-NameMenu__Func_2160C3C: // 0x02160C3C
+	thumb_func_start NameMenu__GetMenuSelectionFromTouch
+NameMenu__GetMenuSelectionFromTouch: // 0x02160C3C
 	push {r3, r4, r5, lr}
 	mov r4, r0
 	bl IsTouchInputEnabled
@@ -4079,10 +4079,10 @@ _02160C90:
 	pop {r3, r4, r5, pc}
 	nop
 _02160C94: .word touchInput
-	thumb_func_end NameMenu__Func_2160C3C
+	thumb_func_end NameMenu__GetMenuSelectionFromTouch
 
-	thumb_func_start NameMenu__Func_2160C98
-NameMenu__Func_2160C98: // 0x02160C98
+	thumb_func_start NameMenu__SetupBlending
+NameMenu__SetupBlending: // 0x02160C98
 	push {r3, r4}
 	ldr r0, _02160CF0 // =VRAMSystem__GFXControl
 	ldr r2, [r0, #4]
@@ -4130,10 +4130,10 @@ _02160CAE:
 	nop
 _02160CF0: .word VRAMSystem__GFXControl
 _02160CF4: .word 0xFFFFE0FF
-	thumb_func_end NameMenu__Func_2160C98
+	thumb_func_end NameMenu__SetupBlending
 
-	thumb_func_start NameMenu__Func_2160CF8
-NameMenu__Func_2160CF8: // 0x02160CF8
+	thumb_func_start NameMenu__GetCharacter_JPN_Hiragana
+NameMenu__GetCharacter_JPN_Hiragana: // 0x02160CF8
 	mov r3, r1
 	mov r2, #0x18
 	mul r3, r2
@@ -4144,10 +4144,10 @@ NameMenu__Func_2160CF8: // 0x02160CF8
 	bx lr
 	.align 2, 0
 _02160D08: .word _02161B24
-	thumb_func_end NameMenu__Func_2160CF8
+	thumb_func_end NameMenu__GetCharacter_JPN_Hiragana
 
-	thumb_func_start NameMenu__Func_2160D0C
-NameMenu__Func_2160D0C: // 0x02160D0C
+	thumb_func_start NameMenu__GetCharacter_JPN_Katakana
+NameMenu__GetCharacter_JPN_Katakana: // 0x02160D0C
 	mov r3, r1
 	mov r2, #0x18
 	mul r3, r2
@@ -4158,10 +4158,10 @@ NameMenu__Func_2160D0C: // 0x02160D0C
 	bx lr
 	.align 2, 0
 _02160D1C: .word _02161B9C
-	thumb_func_end NameMenu__Func_2160D0C
+	thumb_func_end NameMenu__GetCharacter_JPN_Katakana
 
-	thumb_func_start NameMenu__Func_2160D20
-NameMenu__Func_2160D20: // 0x02160D20
+	thumb_func_start NameMenu__GetCharacter_ENG_Lower
+NameMenu__GetCharacter_ENG_Lower: // 0x02160D20
 	mov r3, r1
 	mov r2, #0x18
 	mul r3, r2
@@ -4172,10 +4172,10 @@ NameMenu__Func_2160D20: // 0x02160D20
 	bx lr
 	.align 2, 0
 _02160D30: .word _02161C14
-	thumb_func_end NameMenu__Func_2160D20
+	thumb_func_end NameMenu__GetCharacter_ENG_Lower
 
-	thumb_func_start NameMenu__Func_2160D34
-NameMenu__Func_2160D34: // 0x02160D34
+	thumb_func_start NameMenu__GetCharacter_ENG_Upper
+NameMenu__GetCharacter_ENG_Upper: // 0x02160D34
 	mov r3, r1
 	mov r2, #0x18
 	mul r3, r2
@@ -4186,10 +4186,10 @@ NameMenu__Func_2160D34: // 0x02160D34
 	bx lr
 	.align 2, 0
 _02160D44: .word _02161C8C
-	thumb_func_end NameMenu__Func_2160D34
+	thumb_func_end NameMenu__GetCharacter_ENG_Upper
 
-	thumb_func_start NameMenu__Func_2160D48
-NameMenu__Func_2160D48: // 0x02160D48
+	thumb_func_start NameMenu__GetCharacter_Latin
+NameMenu__GetCharacter_Latin: // 0x02160D48
 	mov r3, r1
 	mov r2, #0x18
 	mul r3, r2
@@ -4200,10 +4200,10 @@ NameMenu__Func_2160D48: // 0x02160D48
 	bx lr
 	.align 2, 0
 _02160D58: .word _02161D04
-	thumb_func_end NameMenu__Func_2160D48
+	thumb_func_end NameMenu__GetCharacter_Latin
 
-	thumb_func_start NameMenu__Func_2160D5C
-NameMenu__Func_2160D5C: // 0x02160D5C
+	thumb_func_start NameMenu__GetCharacter_Symbols
+NameMenu__GetCharacter_Symbols: // 0x02160D5C
 	mov r3, r1
 	mov r2, #0x18
 	mul r3, r2
@@ -4214,10 +4214,10 @@ NameMenu__Func_2160D5C: // 0x02160D5C
 	bx lr
 	.align 2, 0
 _02160D6C: .word _02161D7C
-	thumb_func_end NameMenu__Func_2160D5C
+	thumb_func_end NameMenu__GetCharacter_Symbols
 
-	thumb_func_start NameMenu__Func_2160D70
-NameMenu__Func_2160D70: // 0x02160D70
+	thumb_func_start NameMenu__GetCharacter_Icons
+NameMenu__GetCharacter_Icons: // 0x02160D70
 	mov r3, r1
 	mov r2, #0x18
 	mul r3, r2
@@ -4228,10 +4228,10 @@ NameMenu__Func_2160D70: // 0x02160D70
 	bx lr
 	.align 2, 0
 _02160D80: .word _02161DF4
-	thumb_func_end NameMenu__Func_2160D70
+	thumb_func_end NameMenu__GetCharacter_Icons
 
-	thumb_func_start NameMenu__Func_2160D84
-NameMenu__Func_2160D84: // 0x02160D84
+	thumb_func_start NameMenu__GetCharacterFromIndex
+NameMenu__GetCharacterFromIndex: // 0x02160D84
 	push {r3, r4, r5, r6}
 	ldr r5, _02160DD0 // =_02161E6C
 	mov r1, #0
@@ -4277,7 +4277,7 @@ _02160DBE:
 _02160DD0: .word _02161E6C
 _02160DD4: .word _02161F50
 _02160DD8: .word _02161AB2
-	thumb_func_end NameMenu__Func_2160D84
+	thumb_func_end NameMenu__GetCharacterFromIndex
 
 	thumb_func_start NameMenu__Func_2160DDC
 NameMenu__Func_2160DDC: // 0x02160DDC
@@ -4333,8 +4333,8 @@ _02160E28: .word 0x0000FFFF
 _02160E2C: .word _02162654
 	thumb_func_end NameMenu__Func_2160E14
 
-	thumb_func_start NameMenu__Func_2160E30
-NameMenu__Func_2160E30: // 0x02160E30
+	thumb_func_start NameMenu__GetNameLength
+NameMenu__GetNameLength: // 0x02160E30
 	push {r3, r4}
 	sub r4, r1, #1
 	mov r3, r4
@@ -4357,7 +4357,7 @@ _02160E4A:
 	pop {r3, r4}
 	bx lr
 	.align 2, 0
-	thumb_func_end NameMenu__Func_2160E30
+	thumb_func_end NameMenu__GetNameLength
 
 	.rodata
 
@@ -4372,23 +4372,23 @@ _021619F8: // 0x021619F8
 	.hword 0xDB, 0x2B
 	
 _02161A0C: // 0x02161A0C
-    .word NameMenu__Func_21607FC, NameMenu__Func_21607FC
-	.word NameMenu__Func_21608DC, NameMenu__Func_21608DC
+    .word NameMenu__DrawPageVariants_JPN, NameMenu__DrawPageVariants_JPN
+	.word NameMenu__DrawPageVariants_ENG, NameMenu__DrawPageVariants_ENG
 	.word 0, 0, 0
 
 _02161A28: // 0x02161A28
     .word 0, 0, 1, 1, 2, 3, 4
 	
 _02161A44: // 0x02161A44
-    .word NameMenu__Func_21603A0, NameMenu__Func_21603C4
-	.word NameMenu__Func_21603E8, NameMenu__Func_216040C
+    .word NameMenu__ChangePageVariant_JPN_Hiragana, NameMenu__ChangePageVariant_JPN_Katakana
+	.word NameMenu__ChangePageVariant_ENG_Lower, NameMenu__ChangePageVariant_ENG_Upper
 	.word 0, 0, 0
 
 _02161A60: // 0x02161A60
-    .word NameMenu__Func_2160CF8, NameMenu__Func_2160D0C
-	.word NameMenu__Func_2160D20, NameMenu__Func_2160D34
-	.word NameMenu__Func_2160D48, NameMenu__Func_2160D5C
-	.word NameMenu__Func_2160D70
+    .word NameMenu__GetCharacter_JPN_Hiragana, NameMenu__GetCharacter_JPN_Katakana
+	.word NameMenu__GetCharacter_ENG_Lower, NameMenu__GetCharacter_ENG_Upper
+	.word NameMenu__GetCharacter_Latin, NameMenu__GetCharacter_Symbols
+	.word NameMenu__GetCharacter_Icons
 
 _02161A7C: // 0x02161A7C
     .hword 0, 0, 0, 0

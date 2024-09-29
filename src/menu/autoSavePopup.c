@@ -15,11 +15,11 @@
 // --------------------
 
 static void InitAutoSavePopup(AutoSavePopup *work);
-static void SetupAutoSavePopupDisplay(AutoSavePopup *work);
+static void SetupDisplayForAutoSavePopup(AutoSavePopup *work);
 static void LoadAutoSavePopupAssets(AutoSavePopup *work);
 static void InitAutoSavePopupButtons(AutoSavePopup *work);
 static void ReleaseAutoSavePopup(AutoSavePopup *work);
-static void ResetAutoSavePopupDisplay(AutoSavePopup *work);
+static void ResetDisplayFromAutoSavePopup(AutoSavePopup *work);
 static void ReleaseAutoSavePopupAssets(AutoSavePopup *work);
 static void ReleaseAutoSavePopupButtons(AutoSavePopup *work);
 static void AutoSavePopup_Main_OpenWindow(void);
@@ -44,12 +44,12 @@ void CreateAutoSavePopup(void)
 
 void InitAutoSavePopup(AutoSavePopup *work)
 {
-    SetupAutoSavePopupDisplay(work);
+    SetupDisplayForAutoSavePopup(work);
     LoadAutoSavePopupAssets(work);
     InitAutoSavePopupButtons(work);
 }
 
-void SetupAutoSavePopupDisplay(AutoSavePopup *work)
+void SetupDisplayForAutoSavePopup(AutoSavePopup *work)
 {
     GX_SetVisiblePlane(GX_PLANEMASK_OBJ);
     GXS_SetVisiblePlane(GX_PLANEMASK_OBJ);
@@ -88,10 +88,10 @@ void ReleaseAutoSavePopup(AutoSavePopup *work)
 {
     ReleaseAutoSavePopupButtons(work);
     ReleaseAutoSavePopupAssets(work);
-    ResetAutoSavePopupDisplay(work);
+    ResetDisplayFromAutoSavePopup(work);
 }
 
-void ResetAutoSavePopupDisplay(AutoSavePopup *work)
+void ResetDisplayFromAutoSavePopup(AutoSavePopup *work)
 {
     GX_SetVisiblePlane(GX_PLANEMASK_NONE);
     GXS_SetVisiblePlane(GX_PLANEMASK_NONE);

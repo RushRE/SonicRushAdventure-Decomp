@@ -13,12 +13,14 @@
 #include <ex/ex.h>
 #include <sail/sailManager.h>
 #include <cutscene/cutsceneScript.h>
+#include <menu/autoSavePopup.h>
+#include <menu/playerNameMenu.h>
 
 // --------------------
 // TEMP
 // --------------------
 
-// Note: function params not decompiled yet either! these are just here for the addresses!
+// Note: function params not decompiled yet! these are just here for the addresses!
 NOT_DECOMPILED void TitleScreen__Init(void);
 NOT_DECOMPILED void InitCreditsEvent(void);
 NOT_DECOMPILED void TimeAttackMenu__Create(void);
@@ -30,7 +32,6 @@ NOT_DECOMPILED void VSLobbyMenu__Create(void);
 NOT_DECOMPILED void InitNetworkErrorMenu(void);
 NOT_DECOMPILED void HubControl__ReturnToHub(void);
 NOT_DECOMPILED void MainMenu__Create(void);
-NOT_DECOMPILED void PlayerNameMenu__Create(void);
 NOT_DECOMPILED void EmeraldCollectedScreen__Create(void);
 NOT_DECOMPILED void CreateCorruptSaveWarning(void);
 NOT_DECOMPILED void SeaMapUnknown__Create(void);
@@ -451,7 +452,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_PLAYER_NAME_MENU
     {
-        .initFunc    = PlayerNameMenu__Create,
+        .initFunc    = CreatePlayerNameMenu,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

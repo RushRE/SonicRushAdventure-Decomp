@@ -624,7 +624,7 @@ Overlay Menus2
     Object src/menu/splashScreen.o
     Object asm/menu/soundTest.o
     Object asm/menu/nameMenu.o
-    Object asm/menu/playerNameMenu.o
+    Object src/menu/playerNameMenu.o
     Object src/menu/autoSavePopup.o
 }
 
