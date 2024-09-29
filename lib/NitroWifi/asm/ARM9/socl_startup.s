@@ -8,16 +8,6 @@ _version_NINTENDO_WiFi: ; 0x02000BC4
 	.asciz "[SDK+NINTENDO:WiFi1.3.30000.0611120346]"
 	.align 4
 
-	.public _version_UBIQUITOUS_CPS
-_version_UBIQUITOUS_CPS: ; 0x02000BEC
-	.asciz "[SDK+UBIQUITOUS:CPS]"
-	.align 4
-
-	.public _version_UBIQUITOUS_SSL
-_version_UBIQUITOUS_SSL: ; 0x02000C04
-	.asciz "[SDK+UBIQUITOUS:SSL]"
-	.align 4
-
 	.bss
 
 .public _02145638

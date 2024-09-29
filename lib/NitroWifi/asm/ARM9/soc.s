@@ -1,5 +1,12 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
+	
+	.section .version,4
+
+	.public _version_UBIQUITOUS_CPS
+_version_UBIQUITOUS_CPS: ; 0x02000BEC
+	.asciz "[SDK+UBIQUITOUS:CPS]"
+	.align 4
 
 	.text
 

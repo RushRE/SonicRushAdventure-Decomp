@@ -1,5 +1,12 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
+	
+	.section .version,4
+
+	.public _version_UBIQUITOUS_SSL
+_version_UBIQUITOUS_SSL: ; 0x02000C04
+	.asciz "[SDK+UBIQUITOUS:SSL]"
+	.align 4
 
 	.text
 
