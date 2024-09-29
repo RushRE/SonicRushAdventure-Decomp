@@ -8,7 +8,7 @@ DWC_Auth_CheckWiFiIDNeedCreate: // 0x0208E650
 	stmdb sp!, {lr}
 	sub sp, sp, #0x14
 	add r0, sp, #0
-	bl sub_208E050
+	bl DWCi_BM_GetWiFiInfo
 	ldr r2, [sp, #8]
 	ldr r1, [sp, #0xc]
 	mov r0, #0
@@ -34,7 +34,7 @@ DWC_Auth_GetId: // 0x0208E6A0
 	sub sp, sp, #0x18
 	mov r4, r0
 	add r0, sp, #0
-	bl sub_208E050
+	bl DWCi_BM_GetWiFiInfo
 	add r0, sp, #0
 	ldmia r0, {r2, r3}
 	stmia r4, {r2, r3}
@@ -54,8 +54,8 @@ DWC_Auth_GetId: // 0x0208E6A0
 	ldmia sp!, {r4, pc}
 	arm_func_end DWC_Auth_GetId
 
-	arm_func_start sub_208E6F8
-sub_208E6F8: // 0x0208E6F8
+	arm_func_start DWCi_AUTH_RemakeWiFiID
+DWCi_AUTH_RemakeWiFiID: // 0x0208E6F8
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x28
 	add r2, sp, #0
@@ -67,7 +67,7 @@ sub_208E6F8: // 0x0208E6F8
 	strb r1, [r2, #4]
 	mov r5, r0
 	strb r1, [r2, #5]
-	bl sub_208E050
+	bl DWCi_BM_GetWiFiInfo
 	bl RTC_Init
 	add r0, sp, #8
 	bl RTC_GetDate
@@ -149,7 +149,7 @@ _0208E82C:
 	mov r1, r10
 	mov r2, r4
 	mov r3, r8
-	bl sub_208EB10
+	bl DWCi_Util_WiFiId_scrambleUid
 	str r0, [r5, #8]
 	str r1, [r5, #0xc]
 	ldr r0, [r5, #0xc]
@@ -166,16 +166,16 @@ _0208E888: .word OS_GetTick
 _0208E88C: .word 0x5D588B65
 _0208E890: .word 0x00269EC3
 _0208E894: .word 0x000009BF
-	arm_func_end sub_208E6F8
+	arm_func_end DWCi_AUTH_RemakeWiFiID
 
-	arm_func_start sub_208E898
-sub_208E898: // 0x0208E898
+	arm_func_start DWCi_AUTH_UpDateWiFiID
+DWCi_AUTH_UpDateWiFiID: // 0x0208E898
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x14
 	mov r5, r0
 	add r0, sp, #0
 	mov r4, r1
-	bl sub_208E050
+	bl DWCi_BM_GetWiFiInfo
 	add ip, r5, #8
 	ldmia ip, {r2, r3}
 	stmia r5, {r2, r3}
@@ -184,13 +184,13 @@ sub_208E898: // 0x0208E898
 	mov r0, r5
 	mov r1, r4
 	stmia ip, {r2, r3}
-	bl sub_208DF68
+	bl DWCi_BM_SetWiFiInfo
 	cmp r0, #0
 	movne r0, #1
 	moveq r0, #0
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end sub_208E898
+	arm_func_end DWCi_AUTH_UpDateWiFiID
 
 	arm_func_start DWCi_AUTH_MakeWiFiID
 DWCi_AUTH_MakeWiFiID: // 0x0208E8E8
@@ -198,14 +198,14 @@ DWCi_AUTH_MakeWiFiID: // 0x0208E8E8
 	sub sp, sp, #0x18
 	mov r4, r0
 	add r0, sp, #0
-	bl sub_208E92C
+	bl DWCi_AUTH_GetNewWiFiInfo
 	cmp r0, #0
 	addeq sp, sp, #0x18
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
 	add r0, sp, #0
 	mov r1, r4
-	bl sub_208DF68
+	bl DWCi_BM_SetWiFiInfo
 	cmp r0, #0
 	movne r0, #1
 	moveq r0, #0
@@ -213,12 +213,12 @@ DWCi_AUTH_MakeWiFiID: // 0x0208E8E8
 	ldmia sp!, {r4, pc}
 	arm_func_end DWCi_AUTH_MakeWiFiID
 
-	arm_func_start sub_208E92C
-sub_208E92C: // 0x0208E92C
+	arm_func_start DWCi_AUTH_GetNewWiFiInfo
+DWCi_AUTH_GetNewWiFiInfo: // 0x0208E92C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x28
 	mov r8, r0
-	bl sub_208E050
+	bl DWCi_BM_GetWiFiInfo
 	bl RTC_Init
 	add r0, sp, #8
 	bl RTC_GetDate
@@ -301,7 +301,7 @@ _0208EA60:
 	mov r1, r6
 	mov r2, r7
 	mov r3, r4
-	bl sub_208EB10
+	bl DWCi_Util_WiFiId_scrambleUid
 	str r0, [r8, #8]
 	str r1, [r8, #0xc]
 	ldr r0, [r8, #0xc]
@@ -327,7 +327,7 @@ _0208EAB8:
 	strh r0, [r5]
 	ldrh r0, [r8, #0x12]
 	mov r3, r4
-	bl sub_208EB10
+	bl DWCi_Util_WiFiId_scrambleUid
 	str r0, [r8, #8]
 	str r1, [r8, #0xc]
 	ldr r0, [r8, #0xc]
@@ -344,10 +344,10 @@ _0208EB00: .word OS_GetTick
 _0208EB04: .word 0x5D588B65
 _0208EB08: .word 0x00269EC3
 _0208EB0C: .word 0x000009BF
-	arm_func_end sub_208E92C
+	arm_func_end DWCi_AUTH_GetNewWiFiInfo
 
-	arm_func_start sub_208EB10
-sub_208EB10: // 0x0208EB10
+	arm_func_start DWCi_Util_WiFiId_scrambleUid
+DWCi_Util_WiFiId_scrambleUid: // 0x0208EB10
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x14
 	mov lr, #0
@@ -452,4 +452,4 @@ _0208EC50:
 _0208EC90: .word 0x0000FFFF
 _0208EC94: .word 0x02112624
 _0208EC98: .word 0x0211261C
-	arm_func_end sub_208EB10
+	arm_func_end DWCi_Util_WiFiId_scrambleUid

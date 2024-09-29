@@ -505,7 +505,7 @@ BossArena__Func_2039AD4: // 0x02039AD4
 	mov r1, r1, lsr #0x10
 	add r2, sp, #0x18
 	mov r4, r5, asr #0x1f
-	bl sub_20668A8
+	bl Unknown2066510__Func_20668A8
 	ldr r1, [sp, #0x50]
 	mov r0, r8
 	mov r2, r1
@@ -550,7 +550,7 @@ BossArena__Func_2039AD4: // 0x02039AD4
 	add r2, sp, #0x18
 	mov r1, r1, lsr #0x10
 	str r4, [r7, #8]
-	bl sub_20668A8
+	bl Unknown2066510__Func_20668A8
 	ldr r1, [sp, #0x5c]
 	mov r0, r7
 	mov r2, r1
@@ -599,12 +599,12 @@ BossArena__Func_2039CA4: // 0x02039CA4
 	rsb r2, r1, #0
 	add r1, sp, #0x10
 	str r2, [sp, #0xc]
-	bl sub_20670CC
+	bl Unknown2066510__Func_20670CC
 	bl Math__Func_207B14C
 	mov r1, r4
 	mov r4, r0
 	add r0, sp, #0
-	bl sub_20670B4
+	bl Unknown2066510__Func_20670B4
 	cmp r0, #0
 	rsblt r0, r4, #0
 	movlt r0, r0, lsl #0x10

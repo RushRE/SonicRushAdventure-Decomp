@@ -3,16 +3,16 @@
 
 	.text
 
-	arm_func_start sub_208D4AC
-sub_208D4AC: // 0x0208D4AC
+	arm_func_start DWCi_BACKUPlGetWifi
+DWCi_BACKUPlGetWifi: // 0x0208D4AC
 	ldr r0, _0208D4B4 // =0x02143994
 	bx lr
 	.align 2, 0
 _0208D4B4: .word 0x02143994
-	arm_func_end sub_208D4AC
+	arm_func_end DWCi_BACKUPlGetWifi
 
-	arm_func_start sub_208D4B8
-sub_208D4B8: // 0x0208D4B8
+	arm_func_start DWCi_BACKUPlConvWifiInfo
+DWCi_BACKUPlConvWifiInfo: // 0x0208D4B8
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -62,7 +62,7 @@ sub_208D4B8: // 0x0208D4B8
 _0208D56C: .word 0x02143994
 _0208D570: .word 0x0214399A
 _0208D574: .word 0x021439A0
-	arm_func_end sub_208D4B8
+	arm_func_end DWCi_BACKUPlConvWifiInfo
 
 	arm_func_start sub_208D578
 sub_208D578: // 0x0208D578
@@ -570,8 +570,8 @@ _0208DC60: .word 0x02143988
 _0208DC64: .word 0x000082EA
 	arm_func_end sub_208D77C
 
-	arm_func_start sub_208DC68
-sub_208DC68: // 0x0208DC68
+	arm_func_start DWC_BACKUPlCheckAddress
+DWC_BACKUPlCheckAddress: // 0x0208DC68
 	ldrb r0, [r0]
 	cmp r0, #0x7f
 	moveq r0, #0
@@ -583,15 +583,15 @@ sub_208DC68: // 0x0208DC68
 	movls r0, #1
 	movhi r0, #0
 	bx lr
-	arm_func_end sub_208DC68
+	arm_func_end DWC_BACKUPlCheckAddress
 
-	arm_func_start sub_208DC94
-sub_208DC94: // 0x0208DC94
+	arm_func_start DWC_BACKUPlCheckIp
+DWC_BACKUPlCheckIp: // 0x0208DC94
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
 	mov r4, r1
-	bl sub_208DC68
+	bl DWC_BACKUPlCheckAddress
 	cmp r0, #0
 	addeq sp, sp, #0xc
 	moveq r0, #0
@@ -618,10 +618,10 @@ sub_208DC94: // 0x0208DC94
 	moveq r0, #0
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end sub_208DC94
+	arm_func_end DWC_BACKUPlCheckIp
 
-	arm_func_start sub_208DD10
-sub_208DD10: // 0x0208DD10
+	arm_func_start DWC_BACKUPlCheckSsid
+DWC_BACKUPlCheckSsid: // 0x0208DD10
 	mov r2, #0
 _0208DD14:
 	ldrb r1, [r0, r2]
@@ -633,10 +633,10 @@ _0208DD14:
 	blt _0208DD14
 	mov r0, #0
 	bx lr
-	arm_func_end sub_208DD10
+	arm_func_end DWC_BACKUPlCheckSsid
 
-	arm_func_start sub_208DD38
-sub_208DD38: // 0x0208DD38
+	arm_func_start DWCi_BACKUPlConvMaskAddr
+DWCi_BACKUPlConvMaskAddr: // 0x0208DD38
 	mvn r2, #0
 	mov ip, #0
 	eor r3, r2, r2, lsr r0
@@ -650,7 +650,7 @@ _0208DD48:
 	add r2, r2, #8
 	blt _0208DD48
 	bx lr
-	arm_func_end sub_208DD38
+	arm_func_end DWCi_BACKUPlConvMaskAddr
 
 	arm_func_start sub_208DD68
 sub_208DD68: // 0x0208DD68
@@ -776,8 +776,8 @@ _0208DEC0:
 _0208DEEC: .word 0x02143990
 	arm_func_end sub_208DE64
 
-	arm_func_start sub_208DEF0
-sub_208DEF0: // 0x0208DEF0
+	arm_func_start DWCi_BACKUPlRead
+DWCi_BACKUPlRead: // 0x0208DEF0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _0208DF20 // =0x02143990
@@ -792,10 +792,10 @@ sub_208DEF0: // 0x0208DEF0
 	ldmia sp!, {pc}
 	.align 2, 0
 _0208DF20: .word 0x02143990
-	arm_func_end sub_208DEF0
+	arm_func_end DWCi_BACKUPlRead
 
-	arm_func_start sub_208DF24
-sub_208DF24: // 0x0208DF24
+	arm_func_start DWCi_BACKUPlInit
+DWCi_BACKUPlInit: // 0x0208DF24
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0x20
@@ -814,16 +814,16 @@ sub_208DF24: // 0x0208DF24
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0208DF64: .word 0x02143990
-	arm_func_end sub_208DF24
+	arm_func_end DWCi_BACKUPlInit
 
-	arm_func_start sub_208DF68
-sub_208DF68: // 0x0208DF68
+	arm_func_start DWCi_BM_SetWiFiInfo
+DWCi_BM_SetWiFiInfo: // 0x0208DF68
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	ldr r2, _0208E044 // =0x02143990
 	mov r10, r1
 	ldr r8, [r2]
-	bl sub_208D4B8
+	bl DWCi_BACKUPlConvWifiInfo
 	ldr r1, _0208E048 // =0x0000A001
 	add r0, r10, #0x200
 	bl MATHi_CRC16InitTableRev
@@ -880,10 +880,10 @@ _0208DFF0:
 _0208E044: .word 0x02143990
 _0208E048: .word 0x0000A001
 _0208E04C: .word 0x02143994
-	arm_func_end sub_208DF68
+	arm_func_end DWCi_BM_SetWiFiInfo
 
-	arm_func_start sub_208E050
-sub_208E050: // 0x0208E050
+	arm_func_start DWCi_BM_GetWiFiInfo
+DWCi_BM_GetWiFiInfo: // 0x0208E050
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, _0208E118 // =0x02143994
@@ -941,7 +941,7 @@ _0208E120: .word 0x02143999
 _0208E124: .word 0x0214399E
 _0208E128: .word 0x000003FF
 _0208E12C: .word 0x021439A0
-	arm_func_end sub_208E050
+	arm_func_end DWCi_BM_GetWiFiInfo
 
 	arm_func_start sub_208E130
 sub_208E130: // 0x0208E130

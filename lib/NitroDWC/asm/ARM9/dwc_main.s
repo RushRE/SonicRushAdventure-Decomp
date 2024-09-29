@@ -791,10 +791,10 @@ DWCi_SetState: // 0x0209025C
 _02090278: .word 0x02143A10
 	arm_func_end DWCi_SetState
 
-	arm_func_start sub_209027c
-sub_209027c: // 0x0209027C
+	arm_func_start DWCs_ForceShutdown
+DWCs_ForceShutdown: // 0x0209027C
 	bx lr
-	arm_func_end sub_209027c
+	arm_func_end DWCs_ForceShutdown
 
 	arm_func_start DWCi_IsValidAID
 DWCi_IsValidAID: // 0x02090280
@@ -1558,7 +1558,7 @@ DWC_ProcessFriendsMatch: // 0x02090BF4
 	bl DWC_UpdateConnection
 	cmp r0, #0
 	beq _02090C0C
-	bl sub_209027c
+	bl DWCs_ForceShutdown
 _02090C0C:
 	ldr r0, _02090E64 // =0x02143A10
 	ldr r0, [r0]

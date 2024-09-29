@@ -550,15 +550,15 @@ _02093A98:
 _02093AAC: .word 0x02143BDC
 	arm_func_end DWCi_QR2KeyListCallback
 
-	arm_func_start sub_2093ab0
-sub_2093ab0: // 0x02093AB0
+	arm_func_start DWCi_QR2TeamKeyCallback
+DWCi_QR2TeamKeyCallback: // 0x02093AB0
 	bx lr
-	arm_func_end sub_2093ab0
+	arm_func_end DWCi_QR2TeamKeyCallback
 
-	arm_func_start sub_2093ab4
-sub_2093ab4: // 0x02093AB4
+	arm_func_start DWCi_QR2PlayerKeyCallback
+DWCi_QR2PlayerKeyCallback: // 0x02093AB4
 	bx lr
-	arm_func_end sub_2093ab4
+	arm_func_end DWCi_QR2PlayerKeyCallback
 
 	arm_func_start DWCi_QR2ServerKeyCallback
 DWCi_QR2ServerKeyCallback: // 0x02093AB8
@@ -907,10 +907,10 @@ _02093F78: .word 0x007FFFFF
 _02093F7C: .word aDwcEval
 	arm_func_end DWCi_EvaluateServers
 
-	arm_func_start sub_2093f80
-sub_2093f80: // 0x02093F80
+	arm_func_start DWCi_SBPrintServerData
+DWCi_SBPrintServerData: // 0x02093F80
 	bx lr
-	arm_func_end sub_2093f80
+	arm_func_end DWCi_SBPrintServerData
 
 	arm_func_start DWCi_SBCallback
 DWCi_SBCallback: // 0x02093F84
@@ -926,7 +926,7 @@ DWCi_SBCallback: // 0x02093F84
 	ldmia sp!, {r4, r5, r6, r7, pc}
 _02093FAC:
 	mov r0, r2
-	bl sub_2093f80
+	bl DWCi_SBPrintServerData
 	bl DWCi_GetMatchCnt
 	mov r4, r0
 	bl OS_GetTick
@@ -9096,10 +9096,10 @@ _0209B224:
 	str r3, [sp]
 	str r5, [sp, #4]
 	str r5, [sp, #8]
-	ldr r3, _0209B350 // =sub_2093ab4
+	ldr r3, _0209B350 // =DWCi_QR2PlayerKeyCallback
 	str r11, [sp, #0xc]
 	str r3, [sp, #0x10]
-	ldr r3, _0209B354 // =sub_2093ab0
+	ldr r3, _0209B354 // =DWCi_QR2TeamKeyCallback
 	mov r2, r7
 	str r3, [sp, #0x14]
 	ldr r3, _0209B358 // =DWCi_QR2KeyListCallback
@@ -9155,8 +9155,8 @@ _0209B2EC:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0209B34C: .word DWCi_QR2ServerKeyCallback
-_0209B350: .word sub_2093ab4
-_0209B354: .word sub_2093ab0
+_0209B350: .word DWCi_QR2PlayerKeyCallback
+_0209B354: .word DWCi_QR2TeamKeyCallback
 _0209B358: .word DWCi_QR2KeyListCallback
 _0209B35C: .word DWCi_QR2CountCallback
 _0209B360: .word DWCi_QR2AddErrorCallback

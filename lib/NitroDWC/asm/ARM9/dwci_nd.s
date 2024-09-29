@@ -14,7 +14,7 @@ DWCi_SVLTokenWaitThread: // 0x0209E078
 	ldr r0, [r0]
 	ldr r1, [r1]
 	blx r1
-	bl sub_209e2b0
+	bl sub_209E2B0
 	ldr r0, _0209E0BC // =0x02144328
 	mov r1, #0
 	str r1, [r0]
@@ -196,10 +196,10 @@ _0209E2A8: .word OS_LockMutex
 _0209E2AC: .word 0x02144C00
 	arm_func_end sub_209E29C
 
-	arm_func_start sub_209e2b0
-sub_209e2b0: // 0x0209E2B0
+	arm_func_start sub_209E2B0
+sub_209E2B0: // 0x0209E2B0
 	bx lr
-	arm_func_end sub_209e2b0
+	arm_func_end sub_209E2B0
 
 	arm_func_start sub_209E2B4
 sub_209E2B4: // 0x0209E2B4
@@ -361,8 +361,8 @@ sub_209E48C: // 0x0209E48C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	bl sub_209E410
-	bl sub_209e4f0
-	bl sub_209e4ec
+	bl sub_209E4F0
+	bl sub_209E4EC
 	ldr r0, _0209E4DC // =0x02144CFC
 	ldr r1, _0209E4E0 // =0x02144D08
 	ldr r0, [r0]
@@ -385,12 +385,12 @@ _0209E4E4: .word 0x02144D00
 _0209E4E8: .word 0x02144CF8
 	arm_func_end sub_209E48C
 
-	arm_func_start sub_209e4ec
-sub_209e4ec: // 0x0209E4EC
+	arm_func_start sub_209E4EC
+sub_209E4EC: // 0x0209E4EC
 	bx lr
-	arm_func_end sub_209e4ec
+	arm_func_end sub_209E4EC
 
-	arm_func_start sub_209e4f0
-sub_209e4f0: // 0x0209E4F0
+	arm_func_start sub_209E4F0
+sub_209E4F0: // 0x0209E4F0
 	bx lr
-	arm_func_end sub_209e4f0
+	arm_func_end sub_209E4F0

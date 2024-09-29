@@ -3,17 +3,17 @@
 
 	.text
 
-	arm_func_start sub_2076D90
-sub_2076D90: // 0x02076D90
-	ldr ip, _02076D9C // =sub_2076DA0
+	arm_func_start ExWork__Func_2076D90
+ExWork__Func_2076D90: // 0x02076D90
+	ldr ip, _02076D9C // =ExWork__Func_2076DA0
 	ldr r1, [r0, #0x140]
 	bx ip
 	.align 2, 0
-_02076D9C: .word sub_2076DA0
-	arm_func_end sub_2076D90
+_02076D9C: .word ExWork__Func_2076DA0
+	arm_func_end ExWork__Func_2076D90
 
-	arm_func_start sub_2076DA0
-sub_2076DA0: // 0x02076DA0
+	arm_func_start ExWork__Func_2076DA0
+ExWork__Func_2076DA0: // 0x02076DA0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r1
 	ldr r1, [r4, #0x10]
@@ -38,30 +38,30 @@ _02076DE8:
 	beq _02076E00
 	mov r0, r5
 	mov r1, r4
-	bl sub_20773A0
+	bl ExWork__Func_20773A0
 _02076E00:
 	ldr r0, [r4, #0x34]
 	cmp r0, #0
 	beq _02076E18
 	mov r0, r5
 	mov r1, r4
-	bl sub_20778C0
+	bl ExWork__Func_20778C0
 _02076E18:
 	ldr r0, [r4, #0x3c]
 	cmp r0, #0
 	beq _02076E30
 	mov r0, r5
 	mov r1, r4
-	bl sub_20779AC
+	bl ExWork__Func_20779AC
 _02076E30:
 	ldr r0, [r4, #0x40]
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r5
 	mov r1, r4
-	bl sub_2077A80
+	bl ExWork__Func_2077A80
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end sub_2076DA0
+	arm_func_end ExWork__Func_2076DA0
 
 	arm_func_start ObjExWork__Init
 ObjExWork__Init: // 0x02076E4C
@@ -112,8 +112,8 @@ _02076ECC:
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ObjExWork__Release
 
-	arm_func_start sub_2076EE4
-sub_2076EE4: // 0x02076EE4
+	arm_func_start ObjExWork__Func_2076EE4
+ObjExWork__Func_2076EE4: // 0x02076EE4
 	str r1, [r0, #0x38]
 	bx lr
-	arm_func_end sub_2076EE4
+	arm_func_end ObjExWork__Func_2076EE4

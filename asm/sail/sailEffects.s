@@ -3810,7 +3810,7 @@ _02163DD0:
 	ldrb r3, [r7, #0x20]
 	mla r3, lr, r3, ip
 	str r3, [sp, #0x30]
-	bl sub_2066C24
+	bl Unknown2066510__Func_2066C24
 	ldrb r0, [r7, #0x20]
 	mov r8, #1
 	cmp r0, #0x90

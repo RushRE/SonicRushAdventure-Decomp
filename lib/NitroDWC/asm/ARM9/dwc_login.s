@@ -143,11 +143,11 @@ _02091460: .word 0x02143BA0
 DWCi_RemoteLoginProcess: // 0x02091464
 	stmdb sp!, {lr}
 	sub sp, sp, #0x3d4
-	bl sub_2089D04
+	bl DWC_Auth_GetError
 	cmp r0, #0x15
 	bne _0209153C
 	add r0, sp, #0
-	bl sub_2089C70
+	bl DWC_Auth_GetResult
 	ldr r0, _0209165C // =0x02143B9C
 	add r1, sp, #0x4a
 	ldr r0, [r0]
@@ -159,7 +159,7 @@ DWCi_RemoteLoginProcess: // 0x02091464
 	add r1, r1, #0x77
 	add r0, r0, #0x148
 	bl strcpy
-	bl sub_2089D94
+	bl DWC_Auth_Destroy
 	ldr r1, _0209165C // =0x02143B9C
 	mov r0, #0
 	ldr r1, [r1]
@@ -197,7 +197,7 @@ _02091518:
 	add sp, sp, #0x3d4
 	ldmia sp!, {pc}
 _0209153C:
-	bl sub_2089D04
+	bl DWC_Auth_GetError
 	cmp r0, #0
 	addeq sp, sp, #0x3d4
 	ldmeqia sp!, {pc}
@@ -219,8 +219,8 @@ _0209153C:
 	cmpeq r0, r2
 	bls _020915D8
 	add r0, sp, #0x1c4
-	bl sub_2089C70
-	bl sub_2089D94
+	bl DWC_Auth_GetResult
+	bl DWC_Auth_Destroy
 	ldr r1, _0209165C // =0x02143B9C
 	mov r0, #0
 	ldr r1, [r1]
@@ -237,7 +237,7 @@ _0209153C:
 	add sp, sp, #0x3d4
 	ldmia sp!, {pc}
 _020915D8:
-	bl sub_2089D94
+	bl DWC_Auth_Destroy
 	add r0, sp, #0x388
 	mov r1, #0
 	mov r2, #0x48
@@ -267,7 +267,7 @@ _020915D8:
 	str r2, [sp, #0x3cc]
 	ldr r1, [r1, #0x24]
 	add r0, sp, #0x388
-	bl sub_2089F44
+	bl DWC_Auth_Create
 	add sp, sp, #0x3d4
 	ldmia sp!, {pc}
 	.align 2, 0
@@ -396,7 +396,7 @@ _0209179C:
 	str r1, [r2, #0x2c]
 	mov r1, r4
 	add r0, sp, #0
-	bl sub_2089F44
+	bl DWC_Auth_Create
 	add sp, sp, #0x4c
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
@@ -609,8 +609,8 @@ DWCi_ShutdownLogin: // 0x02091AC8
 	ldr r0, [r0, #0x24]
 	cmp r0, #0
 	beq _02091B14
-	bl sub_2089DEC
-	bl sub_2089D94
+	bl DWC_Auth_Abort
+	bl DWC_Auth_Destroy
 	ldr r1, _02091B28 // =0x02143B9C
 	mov r0, #0
 	ldr r1, [r1]

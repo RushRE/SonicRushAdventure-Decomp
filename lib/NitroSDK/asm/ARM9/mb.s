@@ -605,7 +605,7 @@ _020F7524:
 _020F7568:
 	mov r0, r4
 	mov r1, r6
-	bl sub_20F2194
+	bl WM_ReadMPData
 	cmp r0, #0
 	beq _020F7598
 	ldrh r1, [r0]
@@ -4908,7 +4908,7 @@ _020FB0D4:
 	blx r2
 	ldr r0, _020FB818 // =MBi_ParentCallback
 	mov r1, #1
-	bl sub_20F438C
+	bl WM_SetBeaconIndication
 	mov r1, r0
 	mov r0, #0x19
 	bl MBi_CheckWmErrcode
@@ -4932,7 +4932,7 @@ _020FB140:
 	ldr r1, _020FB81C // _0211F9F0
 	ldr r0, _020FB818 // =MBi_ParentCallback
 	ldr r1, [r1]
-	bl sub_20F2A90
+	bl WMi_StartParentEx
 	mov r1, r0
 	mov r0, #8
 	bl MBi_CheckWmErrcode

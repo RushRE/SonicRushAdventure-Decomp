@@ -3313,7 +3313,7 @@ _0216AAE0:
 	str r0, [r4, #0x4c]
 	ldr r0, [r4, #0x140]
 	ldr r1, _0216AB8C // =_02179118
-	bl sub_2076EE4
+	bl ObjExWork__Func_2076EE4
 	b _0216AB7C
 _0216AB08:
 	mov r1, #0x1dc000
@@ -3324,7 +3324,7 @@ _0216AB08:
 	str r0, [r4, #0x4c]
 	ldr r0, [r4, #0x140]
 	ldr r1, _0216AB94 // =_02179188
-	bl sub_2076EE4
+	bl ObjExWork__Func_2076EE4
 	b _0216AB7C
 _0216AB30:
 	mov r1, #0x78000
@@ -3335,7 +3335,7 @@ _0216AB30:
 	str r0, [r4, #0x4c]
 	ldr r0, [r4, #0x140]
 	ldr r1, _0216AB9C // =_021791F8
-	bl sub_2076EE4
+	bl ObjExWork__Func_2076EE4
 	b _0216AB7C
 _0216AB58:
 	mov r0, #0x3c000
@@ -3346,7 +3346,7 @@ _0216AB58:
 	str r0, [r4, #0x4c]
 	ldr r0, [r4, #0x140]
 	ldr r1, _0216ABA0 // =_02179268
-	bl sub_2076EE4
+	bl ObjExWork__Func_2076EE4
 _0216AB7C:
 	ldr r1, _0216ABA4 // =ovl02_216ABA8
 	mov r0, r4
@@ -3366,7 +3366,7 @@ _0216ABA4: .word ovl02_216ABA8
 ovl02_216ABA8: // 0x0216ABA8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_2076D90
+	bl ExWork__Func_2076D90
 	bl TitleCard__GetProgress
 	cmp r0, #3
 	ldreq r0, [r4, #0x18]
@@ -10732,7 +10732,7 @@ _021713A4:
 	add r3, sp, #0x14
 	mov r0, lr
 	str ip, [sp, #0x48]
-	bl sub_2066A4C
+	bl Unknown2066510__Func_2066A4C
 	ldr r1, [r6, #0x12c]
 	add r0, sp, #0x14
 	add r1, r1, #0x24
@@ -13631,7 +13631,7 @@ _02173CF0:
 	add r1, sp, #0x78
 	add r2, sp, #0x60
 	add r3, sp, #0x24
-	bl sub_2066A4C
+	bl Unknown2066510__Func_2066A4C
 	add r0, sp, #0x24
 	add r1, sp, #0
 	bl MI_Copy36B
@@ -14797,7 +14797,7 @@ ovl02_2174D00: // _02174D00
 	add r1, sp, #0x78
 	add r2, sp, #0x60
 	add r3, sp, #0x24
-	bl sub_2066A4C
+	bl Unknown2066510__Func_2066A4C
 	add r0, sp, #0x24
 	add r1, sp, #0
 	bl MI_Copy36B
@@ -16143,7 +16143,7 @@ _0217603C:
 	add r1, sp, #0x48
 	add r2, sp, #0x30
 	add r3, sp, #0
-	bl sub_2066A4C
+	bl Unknown2066510__Func_2066A4C
 	ldr r1, [r4, #0x12c]
 	add r0, sp, #0
 	add r1, r1, #0x24

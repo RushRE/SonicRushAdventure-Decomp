@@ -3168,7 +3168,7 @@ ovl09_2163238: // 0x02163238
 	add r3, sp, #0x34
 	add r0, r9, #8
 	mov r1, #0x1e
-	bl sub_2066D18
+	bl Unknown2066510__Func_2066D18
 	ldrb r0, [r4, #0x26c]
 	mov r0, r0, lsl #0x1c
 	mov r0, r0, lsr #0x1f

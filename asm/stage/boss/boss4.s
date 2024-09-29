@@ -4040,7 +4040,7 @@ _0216ED40:
 	add r2, r3, #0xb6000
 	mov r2, r2, lsl #4
 	mov r2, r2, lsr #0x10
-	bl sub_2066554
+	bl Unknown2066510__LerpAngle2
 	add r1, r5, #0x700
 	strh r0, [r1, #0x96]
 	ldr r1, [r5, #0x4c]
@@ -4189,7 +4189,7 @@ _0216EF60:
 	add r2, r3, #0xb6000
 	mov r2, r2, lsl #4
 	mov r2, r2, lsr #0x10
-	bl sub_2066554
+	bl Unknown2066510__LerpAngle2
 	add r1, r5, #0x700
 	strh r0, [r1, #0x96]
 	ldr r1, [r5, #0x4c]
@@ -4446,7 +4446,7 @@ _0216F3A4:
 	ldrh r0, [r0, #0x96]
 	mov r1, r6
 	mov r2, #0x2d8
-	bl sub_2066554
+	bl Unknown2066510__LerpAngle2
 	add r1, r5, #0x700
 	strh r0, [r1, #0x96]
 	cmp r7, #0xf000
@@ -4552,7 +4552,7 @@ _0216F530:
 	add r0, r4, #0x700
 	ldrh r0, [r0, #0x96]
 	mov r2, #0x2d8
-	bl sub_2066554
+	bl Unknown2066510__LerpAngle2
 	add r1, r4, #0x700
 	strh r0, [r1, #0x96]
 	add sp, sp, #0x14

@@ -3,11 +3,11 @@
 
 	.text
 
-	arm_func_start sub_20CC00C
-sub_20CC00C: // 0x020CC00C
+	arm_func_start WcmAppendApList
+WcmAppendApList: // 0x020CC00C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	add r1, r0, #0x2000
 	cmp r4, #0
 	ldr r0, [r1, #0x270]
@@ -61,13 +61,13 @@ _020CC09C:
 	streq r1, [r0]
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_20CC00C
+	arm_func_end WcmAppendApList
 
-	arm_func_start sub_20CC0E0
-sub_20CC0E0: // 0x020CC0E0
+	arm_func_start WcmSearchIndexedApList
+WcmSearchIndexedApList: // 0x020CC0E0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	add r1, r0, #0x2000
 	ldr r2, [r1, #0x270]
 	mov r0, #0
@@ -92,14 +92,14 @@ _020CC124:
 	bne _020CC124
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_20CC0E0
+	arm_func_end WcmSearchIndexedApList
 
-	arm_func_start sub_20CC148
-sub_20CC148: // 0x020CC148
+	arm_func_start WcmSearchApList
+WcmSearchApList: // 0x020CC148
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	add r0, r0, #0x2000
 	cmp r5, #0
 	mov r4, #0
@@ -120,7 +120,7 @@ _020CC198:
 	add r0, r4, #0x10
 	mov r1, r5
 	add r0, r0, #4
-	bl sub_20CCBD4
+	bl WCM_CompareBssID
 	cmp r0, #0
 	bne _020CC1BC
 	ldr r4, [r4, #0xc]
@@ -131,13 +131,13 @@ _020CC1BC:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_20CC148
+	arm_func_end WcmSearchApList
 
-	arm_func_start sub_20CC1CC
-sub_20CC1CC: // 0x020CC1CC
+	arm_func_start WcmGetOldestApList
+WcmGetOldestApList: // 0x020CC1CC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	add r0, r0, #0x2000
 	ldr r1, [r0, #0x270]
 	cmp r1, #0
@@ -153,12 +153,12 @@ _020CC200:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_20CC1CC
+	arm_func_end WcmGetOldestApList
 
-	arm_func_start sub_20CC210
-sub_20CC210: // 0x020CC210
+	arm_func_start WcmAllocApList
+WcmAllocApList: // 0x020CC210
 	stmdb sp!, {r4, lr}
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	add r2, r0, #0x2000
 	ldr r1, [r2, #0x270]
 	mov r0, #0
@@ -217,15 +217,15 @@ _020CC29C:
 	bx lr
 	.align 2, 0
 _020CC2F0: .word 0x4EC4EC4F
-	arm_func_end sub_20CC210
+	arm_func_end WcmAllocApList
 
-	arm_func_start sub_20CC2F4
-sub_20CC2F4: // 0x020CC2F4
+	arm_func_start WCMi_EntryApList
+WCMi_EntryApList: // 0x020CC2F4
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r5, r0
 	mov r4, r1
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	movs r7, r0
 	addeq sp, sp, #4
 	ldmeqia sp!, {r4, r5, r6, r7, lr}
@@ -242,10 +242,10 @@ sub_20CC2F4: // 0x020CC2F4
 	ldmneia sp!, {r4, r5, r6, r7, lr}
 	bxne lr
 	add r0, r5, #4
-	bl sub_20CC148
+	bl WcmSearchApList
 	movs r6, r0
 	bne _020CC35C
-	bl sub_20CC210
+	bl WcmAllocApList
 	mov r6, r0
 _020CC35C:
 	cmp r6, #0
@@ -254,7 +254,7 @@ _020CC35C:
 	ldr r0, [r0, #0x278]
 	cmp r0, #1
 	bne _020CC37C
-	bl sub_20CC1CC
+	bl WcmGetOldestApList
 	mov r6, r0
 _020CC37C:
 	cmp r6, #0
@@ -267,20 +267,20 @@ _020CC37C:
 	strh r4, [r6, #2]
 	bl MIi_CpuCopyFast
 	mov r0, r6
-	bl sub_20CC00C
+	bl WcmAppendApList
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
-	arm_func_end sub_20CC2F4
+	arm_func_end WCMi_EntryApList
 
-	arm_func_start sub_20CC3B4
-sub_20CC3B4: // 0x020CC3B4
+	arm_func_start WCM_PointApListLinkLevel
+WCM_PointApListLinkLevel: // 0x020CC3B4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r4, r0
 	bl OS_DisableInterrupts
 	mov r5, r0
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	cmp r0, #0
 	bne _020CC3EC
 	mov r0, r5
@@ -291,7 +291,7 @@ sub_20CC3B4: // 0x020CC3B4
 	bx lr
 _020CC3EC:
 	mov r0, r4
-	bl sub_20CC0E0
+	bl WcmSearchIndexedApList
 	movs r4, r0
 	bne _020CC414
 	mov r0, r5
@@ -307,16 +307,16 @@ _020CC414:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_20CC3B4
+	arm_func_end WCM_PointApListLinkLevel
 
-	arm_func_start sub_20CC42C
-sub_20CC42C: // 0x020CC42C
+	arm_func_start WCM_LockApList
+WCM_LockApList: // 0x020CC42C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
 	bl OS_DisableInterrupts
 	mov r4, r0
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	cmp r0, #0
 	bne _020CC464
 	mov r0, r4
@@ -353,15 +353,15 @@ _020CC4B0:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_20CC42C
+	arm_func_end WCM_LockApList
 
-	arm_func_start sub_20CC4C8
-sub_20CC4C8: // 0x020CC4C8
+	arm_func_start WCM_CountApList
+WCM_CountApList: // 0x020CC4C8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	bl OS_DisableInterrupts
 	mov r5, r0
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	cmp r0, #0
 	mov r4, #0
 	bne _020CC500
@@ -386,14 +386,14 @@ _020CC51C:
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
-	arm_func_end sub_20CC4C8
+	arm_func_end WCM_CountApList
 
-	arm_func_start sub_20CC534
-sub_20CC534: // 0x020CC534
+	arm_func_start WCM_ClearApList
+WCM_ClearApList: // 0x020CC534
 	stmdb sp!, {r4, lr}
 	bl OS_DisableInterrupts
 	mov r4, r0
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	cmp r0, #0
 	bne _020CC55C
 	mov r0, r4
@@ -415,4 +415,4 @@ _020CC580:
 	bl OS_RestoreInterrupts
 	ldmia sp!, {r4, lr}
 	bx lr
-	arm_func_end sub_20CC534
+	arm_func_end WCM_ClearApList

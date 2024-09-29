@@ -24,8 +24,8 @@ Unknown2066510__LerpAngle: // 0x02066510
 	bx lr
 	arm_func_end Unknown2066510__LerpAngle
 
-	arm_func_start sub_2066554
-sub_2066554: // 0x02066554
+	arm_func_start Unknown2066510__LerpAngle2
+Unknown2066510__LerpAngle2: // 0x02066554
 	sub r3, r1, r0
 	mov r3, r3, lsl #0x10
 	mov r3, r3, lsr #0x10
@@ -46,10 +46,10 @@ _02066580:
 	movlo r1, r0, lsr #0x10
 	mov r0, r1
 	bx lr
-	arm_func_end sub_2066554
+	arm_func_end Unknown2066510__LerpAngle2
 
-	arm_func_start sub_20665A0
-sub_20665A0: // 0x020665A0
+	arm_func_start Unknown2066510__LerpMtx43
+Unknown2066510__LerpMtx43: // 0x020665A0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov lr, #0
 	mov r4, r2, asr #0x1f
@@ -73,10 +73,10 @@ _020665B4:
 	cmp lr, #0xc
 	blt _020665B4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	arm_func_end sub_20665A0
+	arm_func_end Unknown2066510__LerpMtx43
 
-	arm_func_start sub_20665F8
-sub_20665F8: // 0x020665F8
+	arm_func_start Unknown2066510__NormalizeScale
+Unknown2066510__NormalizeScale: // 0x020665F8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -152,10 +152,10 @@ sub_20665F8: // 0x020665F8
 	orr r1, r1, r0, lsl #20
 	str r1, [r4, #0x20]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end sub_20665F8
+	arm_func_end Unknown2066510__NormalizeScale
 
-	arm_func_start sub_2066724
-sub_2066724: // 0x02066724
+	arm_func_start Unknown2066510__Func_2066724
+Unknown2066510__Func_2066724: // 0x02066724
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r4, [r6, #0x24]
@@ -253,10 +253,10 @@ sub_2066724: // 0x02066724
 	orr r1, r1, r0, lsl #20
 	str r1, [r4, #0x20]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end sub_2066724
+	arm_func_end Unknown2066510__Func_2066724
 
-	arm_func_start sub_20668A8
-sub_20668A8: // 0x020668A8
+	arm_func_start Unknown2066510__Func_20668A8
+Unknown2066510__Func_20668A8: // 0x020668A8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	mov r1, r1, lsl #0x10
@@ -363,10 +363,10 @@ sub_20668A8: // 0x020668A8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _02066A48: .word FX_SinCosTable_
-	arm_func_end sub_20668A8
+	arm_func_end Unknown2066510__Func_20668A8
 
-	arm_func_start sub_2066A4C
-sub_2066A4C: // 0x02066A4C
+	arm_func_start Unknown2066510__Func_2066A4C
+Unknown2066510__Func_2066A4C: // 0x02066A4C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r0, r1
@@ -396,10 +396,10 @@ sub_2066A4C: // 0x02066A4C
 	ldr r0, [r6, #8]
 	str r0, [r4, #0x2c]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end sub_2066A4C
+	arm_func_end Unknown2066510__Func_2066A4C
 
-	arm_func_start sub_2066AC0
-sub_2066AC0: // 0x02066AC0
+	arm_func_start Unknown2066510__Func_2066AC0
+Unknown2066510__Func_2066AC0: // 0x02066AC0
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x30
 	mov r7, r0
@@ -456,10 +456,10 @@ _02066B2C:
 	.align 2, 0
 _02066B8C: .word 0x00000FFB
 _02066B90: .word FX_SinCosTable_
-	arm_func_end sub_2066AC0
+	arm_func_end Unknown2066510__Func_2066AC0
 
-	arm_func_start sub_2066B94
-sub_2066B94: // 0x02066B94
+	arm_func_start Unknown2066510__Func_2066B94
+Unknown2066510__Func_2066B94: // 0x02066B94
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r5, r2
@@ -492,15 +492,15 @@ sub_2066B94: // 0x02066B94
 	mov r1, r6
 	mov r2, r7
 	mov r3, r4
-	bl sub_20668A8
+	bl Unknown2066510__Func_20668A8
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
 _02066C20: .word FX_SinCosTable_
-	arm_func_end sub_2066B94
+	arm_func_end Unknown2066510__Func_2066B94
 
-	arm_func_start sub_2066C24
-sub_2066C24: // 0x02066C24
+	arm_func_start Unknown2066510__Func_2066C24
+Unknown2066510__Func_2066C24: // 0x02066C24
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x40
 	mov r5, r1
@@ -563,10 +563,10 @@ sub_2066C24: // 0x02066C24
 	.align 2, 0
 _02066D10: .word 0x001F00C0
 _02066D14: .word _021116A8
-	arm_func_end sub_2066C24
+	arm_func_end Unknown2066510__Func_2066C24
 
-	arm_func_start sub_2066D18
-sub_2066D18: // 0x02066D18
+	arm_func_start Unknown2066510__Func_2066D18
+Unknown2066510__Func_2066D18: // 0x02066D18
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	mov r5, r3
@@ -735,7 +735,7 @@ _02066F60:
 	bhi _02066EA0
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end sub_2066D18
+	arm_func_end Unknown2066510__Func_2066D18
 
 	arm_func_start Unknown2066510__Func_2066F88
 Unknown2066510__Func_2066F88: // 0x02066F88
@@ -759,8 +759,8 @@ Unknown2066510__Func_2066F88: // 0x02066F88
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end Unknown2066510__Func_2066F88
 
-	arm_func_start sub_2066FD0
-sub_2066FD0: // 0x02066FD0
+	arm_func_start Unknown2066510__Func_2066FD0
+Unknown2066510__Func_2066FD0: // 0x02066FD0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x18
 	mov r5, r2
@@ -788,7 +788,7 @@ sub_2066FD0: // 0x02066FD0
 	str r0, [r7, #0xc]
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end sub_2066FD0
+	arm_func_end Unknown2066510__Func_2066FD0
 
 	arm_func_start Unknown2066510__Func_206703C
 Unknown2066510__Func_206703C: // 0x0206703C
@@ -824,18 +824,18 @@ Unknown2066510__Func_206703C: // 0x0206703C
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end Unknown2066510__Func_206703C
 
-	arm_func_start sub_20670B4
-sub_20670B4: // 0x020670B4
+	arm_func_start Unknown2066510__Func_20670B4
+Unknown2066510__Func_20670B4: // 0x020670B4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl VEC_DotProduct
 	ldr r1, [r4, #0xc]
 	add r0, r1, r0
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_20670B4
+	arm_func_end Unknown2066510__Func_20670B4
 
-	arm_func_start sub_20670CC
-sub_20670CC: // 0x020670CC
+	arm_func_start Unknown2066510__Func_20670CC
+Unknown2066510__Func_20670CC: // 0x020670CC
 	stmdb sp!, {r3, lr}
 	mov r2, r0
 	mov r0, r1
@@ -847,7 +847,7 @@ sub_20670CC: // 0x020670CC
 	mov r0, r0, lsl #0x10
 	mov r0, r0, asr #0x10
 	ldmia sp!, {r3, pc}
-	arm_func_end sub_20670CC
+	arm_func_end Unknown2066510__Func_20670CC
 
 	arm_func_start Unknown2066510__Func_20670F8
 Unknown2066510__Func_20670F8: // 0x020670F8

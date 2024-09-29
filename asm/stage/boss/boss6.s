@@ -3503,7 +3503,7 @@ ovl02_2156A00: // 0x02156A00
 	mov r0, r4
 	mov r1, r6
 	mov r2, ip
-	bl sub_2066AC0
+	bl Unknown2066510__Func_2066AC0
 	mov r4, r0
 	add r0, sp, #0x30
 	add r1, sp, #0
@@ -6294,7 +6294,7 @@ ovl02_2159018: // 0x02159018
 	ldr r1, _02159210 // =0x00002AAA
 	add r0, sp, #0x30
 	mov r3, r2
-	bl sub_2066B94
+	bl Unknown2066510__Func_2066B94
 	add r0, sp, #0x3c
 	add r1, sp, #0x48
 	add r2, sp, #0x24
@@ -10301,7 +10301,7 @@ _0215C600:
 	add r1, r4, #0x380
 	mov r2, r2, lsr #0x10
 	mov r3, r0
-	bl sub_2066AC0
+	bl Unknown2066510__Func_2066AC0
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
 _0215C630:
@@ -10310,7 +10310,7 @@ _0215C630:
 	add r0, r4, #0x380
 	add r1, sp, #0
 	mov r3, r0
-	bl sub_2066AC0
+	bl Unknown2066510__Func_2066AC0
 	str r0, [r4, #0x3a0]
 	add r0, r4, #0x300
 	ldrh r2, [r0, #0x98]
@@ -10321,7 +10321,7 @@ _0215C630:
 	add r0, r4, #0x38c
 	mov r2, r2, lsr #0x10
 	mov r3, r0
-	bl sub_2066AC0
+	bl Unknown2066510__Func_2066AC0
 	add r0, r4, #0x300
 	mov r1, #0
 	strh r1, [r0, #0xa4]

@@ -551,7 +551,7 @@ MultibootManager__Func_206789C: // 0x0206789C
 _020678B8:
 	mov r7, #0
 	bl WirelessManager__Func_2068484
-	bl sub_20F18FC
+	bl WMi_CheckInitialized
 	cmp r0, #0
 	bne _020678D4
 	mov r0, r7
@@ -600,7 +600,7 @@ _02067948:
 	bl MultibootManager__Func_2067B50
 	b _02067970
 _0206795C:
-	bl sub_20F18FC
+	bl WMi_CheckInitialized
 	cmp r0, #0
 	bne _02067970
 	mov r0, #0
@@ -986,7 +986,7 @@ _02067E10:
 	mov r7, #0
 	bl WirelessManager__Func_2068484
 	bl WFS_End
-	bl sub_20F18FC
+	bl WMi_CheckInitialized
 	cmp r0, #0
 	bne _02067E30
 	mov r0, r7
@@ -1033,7 +1033,7 @@ _02067EA0:
 	bl MultibootManager__Func_2067B50
 	b _02067EC8
 _02067EB4:
-	bl sub_20F18FC
+	bl WMi_CheckInitialized
 	cmp r0, #0
 	bne _02067EC8
 	mov r0, #0
@@ -1371,11 +1371,11 @@ _020682B0:
 	arm_func_start WirelessManager__GetLinkLevel
 WirelessManager__GetLinkLevel: // 0x020682B8
 	stmdb sp!, {r3, lr}
-	bl sub_20F18FC
+	bl WMi_CheckInitialized
 	cmp r0, #0
 	movne r0, #0
 	ldmneia sp!, {r3, pc}
-	bl sub_20F20C0
+	bl WM_GetLinkLevel
 	ldmia sp!, {r3, pc}
 	arm_func_end WirelessManager__GetLinkLevel
 
@@ -1910,10 +1910,10 @@ WirelessManager__ReceiverCB_2068948: // 0x02068948
 _02068968: .word word_21361C0
 	arm_func_end WirelessManager__ReceiverCB_2068948
 
-	arm_func_start sub_206896c
-sub_206896c: // 0x0206896C
+	arm_func_start WirelessManager__SendDataCB_206896C
+WirelessManager__SendDataCB_206896C: // 0x0206896C
 	bx lr
-	arm_func_end sub_206896c
+	arm_func_end WirelessManager__SendDataCB_206896C
 
 	arm_func_start WirelessManager__ReceiverCB_2068970
 WirelessManager__ReceiverCB_2068970: // 0x02068970
@@ -2772,7 +2772,7 @@ _0206943C:
 	ldrh r0, [r5, #2]
 	tst r0, #1
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r2, _02069494 // =sub_206896c
+	ldr r2, _02069494 // =WirelessManager__SendDataCB_206896C
 	mov r0, r5
 	mov r1, #4
 	bl WH_SendData
@@ -2788,7 +2788,7 @@ _0206943C:
 	.align 2, 0
 _0206948C: .word WirelessManager__State_206966C
 _02069490: .word word_21361C0
-_02069494: .word sub_206896c
+_02069494: .word WirelessManager__SendDataCB_206896C
 	arm_func_end WirelessManager__State_20693BC
 
 	arm_func_start WirelessManager__State_2069498
@@ -2905,7 +2905,7 @@ _02069608:
 	ldrh r0, [r5, #2]
 	tst r0, #1
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r2, _02069668 // =sub_206896c
+	ldr r2, _02069668 // =WirelessManager__SendDataCB_206896C
 	mov r0, r5
 	mov r1, #4
 	bl WH_SendData
@@ -2923,7 +2923,7 @@ _02069608:
 	.align 2, 0
 _02069660: .word WirelessManager__State_206966C
 _02069664: .word word_21361C0
-_02069668: .word sub_206896c
+_02069668: .word WirelessManager__SendDataCB_206896C
 	arm_func_end WirelessManager__State_2069580
 
 	arm_func_start WirelessManager__State_206966C
@@ -2970,7 +2970,7 @@ WirelessManager__State_20696C4: // 0x020696C4
 	mov r8, #0
 	bl WirelessManager__Func_2068484
 	bl WFS_End
-	bl sub_20F18FC
+	bl WMi_CheckInitialized
 	cmp r0, #0
 	bne _02069704
 	mov r0, r8

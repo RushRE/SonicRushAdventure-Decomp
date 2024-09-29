@@ -3,8 +3,8 @@
 
 	.text
 
-	arm_func_start sub_20CC590
-sub_20CC590: // 0x020CC590
+	arm_func_start WcmCpsifUnlockMutexInIRQ
+WcmCpsifUnlockMutexInIRQ: // 0x020CC590
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r2, [r0, #8]
@@ -29,10 +29,10 @@ sub_20CC590: // 0x020CC590
 	bx lr
 	.align 2, 0
 _020CC5E8: .word OS_IrqHandler
-	arm_func_end sub_20CC590
+	arm_func_end WcmCpsifUnlockMutexInIRQ
 
-	arm_func_start sub_20CC5EC
-sub_20CC5EC: // 0x020CC5EC
+	arm_func_start WcmCpsifTryLockMutexInIRQ
+WcmCpsifTryLockMutexInIRQ: // 0x020CC5EC
 	ldr r2, [r0, #8]
 	cmp r2, #0
 	bne _020CC614
@@ -54,20 +54,20 @@ _020CC614:
 	bx lr
 	.align 2, 0
 _020CC634: .word OS_IrqHandler
-	arm_func_end sub_20CC5EC
+	arm_func_end WcmCpsifTryLockMutexInIRQ
 
-	arm_func_start sub_20CC638
-sub_20CC638: // 0x020CC638
-	ldr ip, _020CC644 // =sub_20CC590
+	arm_func_start WcmCpsifKACallback
+WcmCpsifKACallback: // 0x020CC638
+	ldr ip, _020CC644 // =WcmCpsifUnlockMutexInIRQ
 	ldr r0, _020CC648 // =0x021471FC
 	bx ip
 	.align 2, 0
-_020CC644: .word sub_20CC590
+_020CC644: .word WcmCpsifUnlockMutexInIRQ
 _020CC648: .word 0x021471FC
-	arm_func_end sub_20CC638
+	arm_func_end WcmCpsifKACallback
 
-	arm_func_start sub_20CC64C
-sub_20CC64C: // 0x020CC64C
+	arm_func_start WcmCpsifWmCallback
+WcmCpsifWmCallback: // 0x020CC64C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldrh r1, [r0]
@@ -81,7 +81,7 @@ sub_20CC64C: // 0x020CC64C
 	ldrh r0, [r0, #2]
 	cmp r0, #0
 	bne _020CC684
-	bl sub_20CAC18
+	bl WCMi_ResetKeepAliveAlarm
 _020CC684:
 	ldr r0, _020CC69C // =0x021471F4
 	bl OS_WakeupThread
@@ -91,17 +91,17 @@ _020CC684:
 	.align 2, 0
 _020CC698: .word 0x021471F0
 _020CC69C: .word 0x021471F4
-	arm_func_end sub_20CC64C
+	arm_func_end WcmCpsifWmCallback
 
-	arm_func_start sub_20CC6A0
-sub_20CC6A0: // 0x020CC6A0
+	arm_func_start WCM_SendDCFData
+WCM_SendDCFData: // 0x020CC6A0
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r0
 	mov r7, r1
 	mov r6, r2
 	bl OS_DisableInterrupts
 	mov r5, r0
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	cmp r0, #0
 	bne _020CC6D8
 	mov r0, r5
@@ -112,7 +112,7 @@ sub_20CC6A0: // 0x020CC6A0
 _020CC6D8:
 	ldr r0, _020CC808 // =0x021471FC
 	bl OS_LockMutex
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	movs r4, r0
 	bne _020CC708
 	ldr r0, _020CC808 // =0x021471FC
@@ -144,11 +144,11 @@ _020CC740:
 	add r1, r4, #0xf00
 	bl MI_CpuCopy8
 	mov r3, r6, lsl #0x10
-	ldr r0, _020CC80C // =sub_20CC64C
+	ldr r0, _020CC80C // =WcmCpsifWmCallback
 	mov r1, r8
 	add r2, r4, #0xf00
 	mov r3, r3, lsr #0x10
-	bl sub_20F3390
+	bl WM_SetDCFData
 	cmp r0, #8
 	addls pc, pc, r0, lsl #2
 	b _020CC798
@@ -195,13 +195,13 @@ _020CC7EC:
 	bx lr
 	.align 2, 0
 _020CC808: .word 0x021471FC
-_020CC80C: .word sub_20CC64C
+_020CC80C: .word WcmCpsifWmCallback
 _020CC810: .word 0x021471F4
 _020CC814: .word 0x021471F0
-	arm_func_end sub_20CC6A0
+	arm_func_end WCM_SendDCFData
 
-	arm_func_start sub_20CC818
-sub_20CC818: // 0x020CC818
+	arm_func_start WCM_SetRecvDCFCallback
+WCM_SetRecvDCFCallback: // 0x020CC818
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl OS_DisableInterrupts
@@ -212,16 +212,16 @@ sub_20CC818: // 0x020CC818
 	bx lr
 	.align 2, 0
 _020CC838: .word 0x021471F0
-	arm_func_end sub_20CC818
+	arm_func_end WCM_SetRecvDCFCallback
 
-	arm_func_start sub_20CC83C
-sub_20CC83C: // 0x020CC83C
+	arm_func_start WCM_GetApEssid
+WCM_GetApEssid: // 0x020CC83C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	mov r7, #0
 	mov r4, r0
 	mov r6, r7
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	mov r5, r0
 	bl OS_DisableInterrupts
 	cmp r5, #0
@@ -246,14 +246,14 @@ _020CC88C:
 	bx lr
 	.align 2, 0
 _020CC8A8: .word 0x0000214C
-	arm_func_end sub_20CC83C
+	arm_func_end WCM_GetApEssid
 
-	arm_func_start sub_20CC8AC
-sub_20CC8AC: // 0x020CC8AC
+	arm_func_start WCM_GetApMacAddress
+WCM_GetApMacAddress: // 0x020CC8AC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, #0
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	mov r4, r0
 	bl OS_DisableInterrupts
 	cmp r4, #0
@@ -274,12 +274,12 @@ _020CC8EC:
 	bx lr
 	.align 2, 0
 _020CC900: .word 0x00002144
-	arm_func_end sub_20CC8AC
+	arm_func_end WCM_GetApMacAddress
 
-	arm_func_start sub_20CC904
-sub_20CC904: // 0x020CC904
+	arm_func_start WCMi_CpsifSendNullPacket
+WCMi_CpsifSendNullPacket: // 0x020CC904
 	stmdb sp!, {r4, lr}
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	movs r4, r0
 	ldmeqia sp!, {r4, lr}
 	bxeq lr
@@ -293,31 +293,31 @@ sub_20CC904: // 0x020CC904
 	ldmeqia sp!, {r4, lr}
 	bxeq lr
 	ldr r0, _020CC984 // =0x021471FC
-	bl sub_20CC5EC
+	bl WcmCpsifTryLockMutexInIRQ
 	cmp r0, #0
 	ldmeqia sp!, {r4, lr}
 	bxeq lr
 	ldr r1, _020CC988 // =0x00002144
-	ldr r0, _020CC98C // =sub_20CC638
+	ldr r0, _020CC98C // =WcmCpsifKACallback
 	add r1, r4, r1
 	add r2, r4, #0xf00
 	mov r3, #0
-	bl sub_20F3390
+	bl WM_SetDCFData
 	cmp r0, #2
 	ldmeqia sp!, {r4, lr}
 	bxeq lr
 	ldr r0, _020CC984 // =0x021471FC
-	bl sub_20CC590
+	bl WcmCpsifUnlockMutexInIRQ
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _020CC984: .word 0x021471FC
 _020CC988: .word 0x00002144
-_020CC98C: .word sub_20CC638
-	arm_func_end sub_20CC904
+_020CC98C: .word WcmCpsifKACallback
+	arm_func_end WCMi_CpsifSendNullPacket
 
-	arm_func_start sub_20CC990
-sub_20CC990: // 0x020CC990
+	arm_func_start WCMi_CpsifRecvCallback
+WCMi_CpsifRecvCallback: // 0x020CC990
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _020CC9D4 // =0x021471F0
@@ -337,10 +337,10 @@ sub_20CC990: // 0x020CC990
 	bx lr
 	.align 2, 0
 _020CC9D4: .word 0x021471F0
-	arm_func_end sub_20CC990
+	arm_func_end WCMi_CpsifRecvCallback
 
-	arm_func_start sub_20CC9D8
-sub_20CC9D8: // 0x020CC9D8
+	arm_func_start WCMi_InitCpsif
+WCMi_InitCpsif: // 0x020CC9D8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _020CCA24 // =0x021471F0
@@ -363,4 +363,4 @@ sub_20CC9D8: // 0x020CC9D8
 	.align 2, 0
 _020CCA24: .word 0x021471F0
 _020CCA28: .word 0x021471FC
-	arm_func_end sub_20CC9D8
+	arm_func_end WCMi_InitCpsif

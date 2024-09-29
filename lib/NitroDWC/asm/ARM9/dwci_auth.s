@@ -3,8 +3,8 @@
 
 	.text
 
-	arm_func_start sub_2089190
-sub_2089190: // 0x02089190
+	arm_func_start DWCi_Auth_SetError
+DWCi_Auth_SetError: // 0x02089190
 	stmdb sp!, {r4, lr}
 	ldr r2, _020891D0 // =0x021438E8
 	ldr r1, _020891D4 // =0x000013D8
@@ -24,10 +24,10 @@ sub_2089190: // 0x02089190
 	.align 2, 0
 _020891D0: .word 0x021438E8
 _020891D4: .word 0x000013D8
-	arm_func_end sub_2089190
+	arm_func_end DWCi_Auth_SetError
 
-	arm_func_start sub_20891D8
-sub_20891D8: // 0x020891D8
+	arm_func_start DWCi_Auth_Prepare_FirstPost
+DWCi_Auth_Prepare_FirstPost: // 0x020891D8
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x98
 	ldr r4, _02089358 // =0x021438EC
@@ -46,7 +46,7 @@ sub_20891D8: // 0x020891D8
 	ldr r1, _02089360 // =aAction
 	ldr r2, _0208935C // =aAcctcreate
 	mov r0, r5
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	beq _02089290
 	add sp, sp, #0x98
@@ -59,7 +59,7 @@ _02089238:
 	ldr r1, _02089360 // =aAction
 	ldr r2, _02089364 // =aLogin
 	mov r0, r5
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x98
 	movne r0, #8
@@ -70,7 +70,7 @@ _02089238:
 	ldr r1, _02089368 // =aGsbrcd
 	mov r0, r5
 	mov r2, r6
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x98
 	movne r0, #8
@@ -78,7 +78,7 @@ _02089238:
 _02089290:
 	ldr r1, _02089358 // =0x021438EC
 	add r0, sp, #0
-	bl sub_208A3F0
+	bl DWC_Auth_GetCalInfoFromWiFiInfo
 	cmp r0, #0
 	addeq sp, sp, #0x98
 	moveq r0, #5
@@ -87,7 +87,7 @@ _02089290:
 	add r1, sp, #0
 	ldr r2, [r0]
 	mov r0, r5
-	bl sub_208A0A4
+	bl DWC_Auth_SetCalInfoToHttp
 	cmp r0, #0
 	addeq sp, sp, #0x98
 	moveq r0, #8
@@ -102,7 +102,7 @@ _02089290:
 	ldr r1, _02089378 // =aIswfc
 	ldr r2, _02089374 // =0x0211AEAC
 	mov r0, r5
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x98
 	movne r0, #8
@@ -119,7 +119,7 @@ _0208930C:
 	mov r0, r5
 	mov r2, r4
 	mov r3, r3, lsl #1
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x98
 	movne r0, #8
@@ -139,10 +139,10 @@ _02089370: .word 0x021438E0
 _02089374: .word 0x0211AEAC
 _02089378: .word aIswfc
 _0208937C: .word aIngamesn
-	arm_func_end sub_20891D8
+	arm_func_end DWCi_Auth_Prepare_FirstPost
 
-	arm_func_start sub_2089380
-sub_2089380: // 0x02089380
+	arm_func_start DWCi_Auth_FillResult
+DWCi_Auth_FillResult: // 0x02089380
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _02089634 // =0x021438E8
@@ -152,11 +152,11 @@ sub_2089380: // 0x02089380
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x314]
 	ldr r1, _02089638 // =0x0211AEC4
-	bl sub_208A800
+	bl DWC_Http_GetResult
 	str r0, [sp]
 	cmp r0, #0
 	beq _020893B8
-	bl sub_208CF24
+	bl DWC_Auth_SetNasTimeDiff
 _020893B8:
 	ldr r0, _02089634 // =0x021438E8
 	mov r2, #0
@@ -167,7 +167,7 @@ _020893B8:
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0x314]
 	ldr r1, _02089640 // =aHttpresult
-	bl sub_208A800
+	bl DWC_Http_GetResult
 	bl atoi
 	ldr r1, _0208963C // =_02152920
 	ldr r1, [r1]
@@ -202,7 +202,7 @@ _02089440:
 	ldr r0, [r0, #0x314]
 	add r2, r3, r2
 	mov r3, #4
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	cmp r0, #0
 	bgt _0208948C
 	ldr r0, _02089634 // =0x021438E8
@@ -268,7 +268,7 @@ _0208948C:
 	add r0, r2, #0x1000
 	ldr r0, [r0, #0x314]
 	add r2, r2, r5
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	ldr r0, _02089634 // =0x021438E8
 	ldr r2, _02089664 // =0x0000101F
 	ldr r3, [r0]
@@ -277,7 +277,7 @@ _0208948C:
 	add r2, r3, r2
 	ldr r0, [r0, #0x314]
 	mov r3, #0x33
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	ldr r0, _02089634 // =0x021438E8
 	ldr r2, _0208966C // =0x0000117F
 	ldr r3, [r0]
@@ -286,7 +286,7 @@ _0208948C:
 	add r2, r3, r2
 	ldr r0, [r0, #0x314]
 	mov r3, #9
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	ldr r0, _02089634 // =0x021438E8
 	ldr r2, _02089674 // =0x00001010
 	ldr r3, [r0]
@@ -295,7 +295,7 @@ _0208948C:
 	add r2, r3, r2
 	ldr r0, [r0, #0x314]
 	mov r3, #0xf
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	ldr r0, _02089634 // =0x021438E8
 	ldr r2, _0208967C // =0x00001188
 	ldr r3, [r0]
@@ -304,7 +304,7 @@ _0208948C:
 	add r2, r3, r2
 	ldr r0, [r0, #0x314]
 	mov r3, #0x41
-	bl sub_208A76C
+	bl DWC_Http_GetRawResult
 	ldr r0, _02089634 // =0x021438E8
 	mov r1, #0
 	ldr r0, [r0]
@@ -343,10 +343,10 @@ _02089678: .word aDatetime
 _0208967C: .word 0x00001188
 _02089680: .word aSetCookie
 _02089684: .word 0x021438E4
-	arm_func_end sub_2089380
+	arm_func_end DWCi_Auth_FillResult
 
-	arm_func_start sub_2089688
-sub_2089688: // 0x02089688
+	arm_func_start DWCi_Auth_ParseHttp
+DWCi_Auth_ParseHttp: // 0x02089688
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _0208986C // =0x021438E8
@@ -356,7 +356,7 @@ sub_2089688: // 0x02089688
 	ldr r0, [r2, #0x314]
 	ldr r5, [r2, #0x20c]
 	ldr r4, [r2, #0x210]
-	bl sub_208A854
+	bl DWC_Http_ParseResult
 	cmp r0, #1
 	beq _020896D8
 	ldr r0, _0208986C // =0x021438E8
@@ -368,7 +368,7 @@ sub_2089688: // 0x02089688
 	mov r0, #0xe
 	ldmia sp!, {r4, r5, pc}
 _020896D8:
-	bl sub_2089380
+	bl DWCi_Auth_FillResult
 	cmp r0, #0
 	addne sp, sp, #4
 	movne r0, #0xe
@@ -400,7 +400,7 @@ _02089748:
 	add r1, r5, #0x1f
 	ldr r0, _02089880 // =0x021438EC
 	bic r1, r1, #0x1f
-	bl sub_208E898
+	bl DWCi_AUTH_UpDateWiFiID
 	cmp r0, #1
 	beq _02089790
 	ldr r0, _02089884 // =aFreeBmwork
@@ -434,7 +434,7 @@ _020897AC:
 	b _02089860
 _020897C8:
 	ldr r0, _02089880 // =0x021438EC
-	bl sub_208E6F8
+	bl DWCi_AUTH_RemakeWiFiID
 	ldr r0, _0208986C // =0x021438E8
 	ldr r2, _02089888 // =0x00004E88
 	ldr r1, [r0]
@@ -487,10 +487,10 @@ _02089880: .word 0x021438EC
 _02089884: .word aFreeBmwork
 _02089888: .word 0x00004E88
 _0208988C: .word 0x00004E8C
-	arm_func_end sub_2089688
+	arm_func_end DWCi_Auth_ParseHttp
 
-	arm_func_start sub_2089890
-sub_2089890: // 0x02089890
+	arm_func_start DWCi_Auth_Thread
+DWCi_Auth_Thread: // 0x02089890
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x14
 	mov r9, #0
@@ -532,7 +532,7 @@ _020898E8:
 	cmp r0, #7
 	bne _02089938
 	mov r0, #0x14
-	bl sub_2089190
+	bl DWCi_Auth_SetError
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02089938:
@@ -541,19 +541,19 @@ _02089938:
 	cmp r0, #2
 	bne _02089958
 	mov r0, #9
-	bl sub_2089190
+	bl DWCi_Auth_SetError
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02089958:
 	cmp r0, #3
 	bne _02089970
 	mov r0, #0xb
-	bl sub_2089190
+	bl DWCi_Auth_SetError
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02089970:
 	mov r0, #0xd
-	bl sub_2089190
+	bl DWCi_Auth_SetError
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02089980:
@@ -562,7 +562,7 @@ _02089980:
 	str r0, [sp]
 	b _02089A10
 _02089990:
-	bl sub_2089688
+	bl DWCi_Auth_ParseHttp
 	cmp r0, #0x10
 	beq _020899BC
 	cmp r0, #0x11
@@ -570,14 +570,14 @@ _02089990:
 	cmp r0, #0x15
 	bne _020899F0
 	mov r0, #0x15
-	bl sub_2089190
+	bl DWCi_Auth_SetError
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020899BC:
 	cmp r9, #2
 	ble _020899D4
 	mov r0, #0x10
-	bl sub_2089190
+	bl DWCi_Auth_SetError
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020899D4:
@@ -586,13 +586,13 @@ _020899D4:
 	str r0, [sp]
 	b _02089A10
 _020899E4:
-	bl sub_2089190
+	bl DWCi_Auth_SetError
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020899F0:
 	cmp r9, #2
 	blt _02089A04
-	bl sub_2089190
+	bl DWCi_Auth_SetError
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02089A04:
@@ -631,7 +631,7 @@ _02089A4C:
 	add r0, r1, r0
 	bl OS_UnlockMutex
 	mov r0, #0x14
-	bl sub_2089190
+	bl DWCi_Auth_SetError
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02089A94:
@@ -660,7 +660,7 @@ _02089AD4:
 	add r0, r0, r4
 	bl OS_LockMutex
 	ldr r0, [sp]
-	bl sub_2089B64
+	bl DWCi_Auth_Start
 	ldr r1, [r5]
 	add r1, r1, #0x1000
 	str r0, [r1, #4]
@@ -681,7 +681,7 @@ _02089B38:
 	add r0, r2, r4
 	bl OS_UnlockMutex
 	b _020898C0
-	arm_func_end sub_2089890
+	arm_func_end DWCi_Auth_Thread
 
 	arm_func_start sub_2089B44
 sub_2089B44: // 0x02089B44
@@ -696,8 +696,8 @@ _02089B5C: .word 0x00001B38
 _02089B60: .word 0x00004E84
 	arm_func_end sub_2089B44
 
-	arm_func_start sub_2089B64
-sub_2089B64: // 0x02089B64
+	arm_func_start DWCi_Auth_Start
+DWCi_Auth_Start: // 0x02089B64
 	stmdb sp!, {r4, lr}
 	ldr r1, _02089C58 // =_0211AE44
 	mov r4, r0
@@ -717,14 +717,14 @@ sub_2089B64: // 0x02089B64
 	ldr r2, [r0, #0x210]
 	str r2, [r1, #0x10]
 	ldr r0, [r0, #0x314]
-	bl sub_208BA88
+	bl DWC_Http_Create
 	cmp r0, #0
 	movne r0, #4
 	ldmneia sp!, {r4, pc}
 	cmp r4, #1
 	bne _02089BD0
 	ldr r0, _02089C64 // =0x021438EC
-	bl sub_208E050
+	bl DWCi_BM_GetWiFiInfo
 _02089BD0:
 	ldr r0, _02089C60 // =0x021438E8
 	ldr r2, _02089C68 // =0x000011CC
@@ -733,7 +733,7 @@ _02089BD0:
 	ldr r0, [r0, #0x314]
 	add r1, r3, #0x1200
 	add r2, r3, r2
-	bl sub_20891D8
+	bl DWCi_Auth_Prepare_FirstPost
 	ldr r2, _02089C60 // =0x021438E8
 	ldr r1, [r2]
 	add r1, r1, #0x1000
@@ -745,7 +745,7 @@ _02089BD0:
 	movne r0, #4
 	ldmneia sp!, {r4, pc}
 	ldr r0, [r0, #0x314]
-	bl sub_208B9F0
+	bl DWC_Http_FinishHeader
 	cmp r0, #0
 	movne r0, #4
 	ldmneia sp!, {r4, pc}
@@ -757,7 +757,7 @@ _02089BD0:
 	sub r1, r0, #1
 	add r0, r2, #0x1000
 	ldr r0, [r0, #0x314]
-	bl sub_208B924
+	bl DWC_Http_StartThread
 	mov r0, #0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -767,10 +767,10 @@ _02089C60: .word 0x021438E8
 _02089C64: .word 0x021438EC
 _02089C68: .word 0x000011CC
 _02089C6C: .word OSi_ThreadInfo
-	arm_func_end sub_2089B64
+	arm_func_end DWCi_Auth_Start
 
-	arm_func_start sub_2089C70
-sub_2089C70: // 0x02089C70
+	arm_func_start DWC_Auth_GetResult
+DWC_Auth_GetResult: // 0x02089C70
 	stmdb sp!, {r4, lr}
 	ldr r1, _02089CEC // =0x021438E8
 	mov r4, r0
@@ -812,10 +812,10 @@ _02089CF4: .word 0x00004E20
 _02089CF8: .word 0x00007530
 _02089CFC: .word 0x00005206
 _02089D00: .word 0x00004E84
-	arm_func_end sub_2089C70
+	arm_func_end DWC_Auth_GetResult
 
-	arm_func_start sub_2089D04
-sub_2089D04: // 0x02089D04
+	arm_func_start DWC_Auth_GetError
+DWC_Auth_GetError: // 0x02089D04
 	stmdb sp!, {r4, lr}
 	ldr r0, _02089D4C // =0x021438E8
 	ldr r1, [r0]
@@ -837,10 +837,10 @@ sub_2089D04: // 0x02089D04
 	.align 2, 0
 _02089D4C: .word 0x021438E8
 _02089D50: .word 0x000013D8
-	arm_func_end sub_2089D04
+	arm_func_end DWC_Auth_GetError
 
-	arm_func_start sub_2089D54
-sub_2089D54: // 0x02089D54
+	arm_func_start DWC_Auth_Join
+DWC_Auth_Join: // 0x02089D54
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _02089D8C // =0x021438E8
@@ -858,10 +858,10 @@ sub_2089D54: // 0x02089D54
 	.align 2, 0
 _02089D8C: .word 0x021438E8
 _02089D90: .word 0x00001318
-	arm_func_end sub_2089D54
+	arm_func_end DWC_Auth_Join
 
-	arm_func_start sub_2089D94
-sub_2089D94: // 0x02089D94
+	arm_func_start DWC_Auth_Destroy
+DWC_Auth_Destroy: // 0x02089D94
 	stmdb sp!, {r4, lr}
 	ldr r0, _02089DE4 // =0x021438E8
 	ldr r0, [r0]
@@ -886,10 +886,10 @@ _02089DC0:
 	.align 2, 0
 _02089DE4: .word 0x021438E8
 _02089DE8: .word aFreeDwcauth
-	arm_func_end sub_2089D94
+	arm_func_end DWC_Auth_Destroy
 
-	arm_func_start sub_2089DEC
-sub_2089DEC: // 0x02089DEC
+	arm_func_start DWC_Auth_Abort
+DWC_Auth_Abort: // 0x02089DEC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _02089E84 // =0x021438E8
@@ -933,10 +933,10 @@ _02089E54:
 _02089E84: .word 0x021438E8
 _02089E88: .word 0x000013D8
 _02089E8C: .word 0x00001318
-	arm_func_end sub_2089DEC
+	arm_func_end DWC_Auth_Abort
 
-	arm_func_start sub_2089E90
-sub_2089E90: // 0x02089E90
+	arm_func_start DWC_Auth_Create_WFCUtil
+DWC_Auth_Create_WFCUtil: // 0x02089E90
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r1, _02089F34 // =0x021438E8
@@ -965,7 +965,7 @@ _02089EEC:
 	ldr r0, _02089F3C // =0x00001318
 	ldr lr, [r2]
 	mov r3, #0x1000
-	ldr r1, _02089F40 // =sub_2089890
+	ldr r1, _02089F40 // =DWCi_Auth_Thread
 	str r3, [sp]
 	mov ip, #0x10
 	add r0, lr, r0
@@ -983,11 +983,11 @@ _02089EEC:
 _02089F34: .word 0x021438E8
 _02089F38: .word 0x000013D8
 _02089F3C: .word 0x00001318
-_02089F40: .word sub_2089890
-	arm_func_end sub_2089E90
+_02089F40: .word DWCi_Auth_Thread
+	arm_func_end DWC_Auth_Create_WFCUtil
 
-	arm_func_start sub_2089F44
-sub_2089F44: // 0x02089F44
+	arm_func_start DWC_Auth_Create
+DWC_Auth_Create: // 0x02089F44
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r2, _0208A074 // =0x021438E8
@@ -1047,7 +1047,7 @@ _02089FF4:
 	ldr r1, [r1]
 	add r1, r1, #0x1000
 	strb r2, [r1, #0x20b]
-	bl sub_2089B64
+	bl DWCi_Auth_Start
 	ldr r2, _0208A074 // =0x021438E8
 	ldr r1, [r2]
 	add r1, r1, #0x1000
@@ -1061,7 +1061,7 @@ _02089FF4:
 	ldr r0, _0208A090 // =0x021438E0
 	mov r1, #0
 	str r1, [r0]
-	bl sub_2089E90
+	bl DWC_Auth_Create_WFCUtil
 	mov r0, #0
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, pc}
@@ -1074,19 +1074,19 @@ _0208A084: .word 0x021438E4
 _0208A088: .word 0x00004E84
 _0208A08C: .word 0x000011CC
 _0208A090: .word 0x021438E0
-	arm_func_end sub_2089F44
+	arm_func_end DWC_Auth_Create
 
-	arm_func_start sub_208A094
-sub_208A094: // 0x0208A094
+	arm_func_start DWC_Auth_SetCustomNas
+DWC_Auth_SetCustomNas: // 0x0208A094
 	ldr r1, _0208A0A0 // =_0211AE44
 	str r0, [r1]
 	bx lr
 	.align 2, 0
 _0208A0A0: .word _0211AE44
-	arm_func_end sub_208A094
+	arm_func_end DWC_Auth_SetCustomNas
 
-	arm_func_start sub_208A0A4
-sub_208A0A4: // 0x0208A0A4
+	arm_func_start DWC_Auth_SetCalInfoToHttp
+DWC_Auth_SetCalInfoToHttp: // 0x0208A0A4
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x28
 	mov r4, r2
@@ -1105,7 +1105,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3AC // =aSdkver
 	mov r0, r6
 	add r2, sp, #4
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1116,7 +1116,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3B0 // =aUserid
 	mov r0, r6
 	mov r2, r5
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1127,7 +1127,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3B4 // =aPasswd
 	mov r0, r6
 	add r2, r5, #0xe
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1138,7 +1138,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3B8 // =aBssid
 	mov r0, r6
 	add r2, r5, #0x41
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1149,7 +1149,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3BC // =aApinfo
 	mov r0, r6
 	add r2, r5, #0x6f
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1160,7 +1160,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3C0 // =aGamecd
 	mov r0, r6
 	add r2, r5, #0x15
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1171,7 +1171,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3C4 // =aMakercd
 	mov r0, r6
 	add r2, r5, #0x1a
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1182,7 +1182,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3C8 // =aUnitcd
 	mov r0, r6
 	add r2, r5, #0x1d
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1193,7 +1193,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3CC // =aMacadr
 	mov r0, r6
 	add r2, r5, #0x1f
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1204,7 +1204,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3D0 // =0x0211AFC8
 	mov r0, r6
 	add r2, r5, #0x2c
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1215,7 +1215,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3D4 // =aBirth
 	mov r0, r6
 	add r2, r5, #0x2f
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1226,7 +1226,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3D8 // =aDevtime
 	mov r0, r6
 	add r2, r5, #0x34
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1238,7 +1238,7 @@ sub_208A0A4: // 0x0208A0A4
 	mov r0, r6
 	add r2, r5, #0x7e
 	mov r3, r3, lsl #1
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1251,7 +1251,7 @@ sub_208A0A4: // 0x0208A0A4
 	ldr r1, _0208A3E0 // =_0211AFE8
 	mov r0, r6
 	add r2, r5, #0x4e
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #0
@@ -1300,10 +1300,10 @@ _0208A3E0: .word _0211AFE8
 _0208A3E4: .word aNitroWifiSdkDD
 _0208A3E8: .word aUserAgent
 _0208A3EC: .word aHttpXGamecd
-	arm_func_end sub_208A0A4
+	arm_func_end DWC_Auth_SetCalInfoToHttp
 
-	arm_func_start sub_208A3F0
-sub_208A3F0: // 0x0208A3F0
+	arm_func_start DWC_Auth_GetCalInfoFromWiFiInfo
+DWC_Auth_GetCalInfoFromWiFiInfo: // 0x0208A3F0
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x8c
 	mov r6, r1
@@ -1427,7 +1427,7 @@ _0208A57C:
 	bl OS_SNPrintf
 	bl OS_DisableInterrupts
 	mov r9, r0
-	bl sub_20CC8AC
+	bl WCM_GetApMacAddress
 	mov r8, r0
 	mov r1, #6
 	bl DC_InvalidateRange
@@ -1451,14 +1451,14 @@ _0208A5F8:
 	cmp r6, #6
 	add r7, r7, #2
 	blt _0208A5F8
-	bl sub_2086594
+	bl DWC_AC_GetApType
 	mov r3, r0
 	ldr r2, _0208A6AC // =a02d000000000
 	add r0, r4, #0x6f
 	mov r1, #0xe
 	bl OS_SNPrintf
 	add r0, sp, #0x14
-	bl sub_20CC83C
+	bl WCM_GetApEssid
 	mov r5, r0
 	mov r1, #0x20
 	bl DC_InvalidateRange
@@ -1491,7 +1491,7 @@ _0208A6A0: .word 0x0211B034
 _0208A6A4: .word a02x02x
 _0208A6A8: .word a02d02d02d02d02
 _0208A6AC: .word a02d000000000
-	arm_func_end sub_208A3F0
+	arm_func_end DWC_Auth_GetCalInfoFromWiFiInfo
 
 	arm_func_start sub_208A6B0
 sub_208A6B0: // 0x0208A6B0
@@ -1499,10 +1499,10 @@ sub_208A6B0: // 0x0208A6B0
 	sub sp, sp, #0x18
 	mov r4, r0
 	add r0, sp, #0
-	bl sub_208E050
+	bl DWCi_BM_GetWiFiInfo
 	add r1, sp, #0
 	mov r0, r4
-	bl sub_208A3F0
+	bl DWC_Auth_GetCalInfoFromWiFiInfo
 	add sp, sp, #0x18
 	ldmia sp!, {r4, pc}
 	arm_func_end sub_208A6B0
@@ -1552,12 +1552,12 @@ _0208A764: .word aFreeArrayEntry
 _0208A768: .word aFreeArrayEntry_0
 	arm_func_end sub_208A6D8
 
-	arm_func_start sub_208A76C
-sub_208A76C: // 0x0208A76C
+	arm_func_start DWC_Http_GetRawResult
+DWC_Http_GetRawResult: // 0x0208A76C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r2
 	mov r5, r3
-	bl sub_208A800
+	bl DWC_Http_GetResult
 	movs r4, r0
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
@@ -1570,14 +1570,14 @@ sub_208A76C: // 0x0208A76C
 	bl strcpy
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end sub_208A76C
+	arm_func_end DWC_Http_GetRawResult
 
-	arm_func_start sub_208A7AC
-sub_208A7AC: // 0x0208A7AC
+	arm_func_start DWC_Http_GetBase64DecodedResult
+DWC_Http_GetBase64DecodedResult: // 0x0208A7AC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r2
 	mov r5, r3
-	bl sub_208A800
+	bl DWC_Http_GetResult
 	movs r4, r0
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
@@ -1595,10 +1595,10 @@ sub_208A7AC: // 0x0208A7AC
 	mov r1, #0
 	strb r1, [r6, r0]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end sub_208A7AC
+	arm_func_end DWC_Http_GetBase64DecodedResult
 
-	arm_func_start sub_208A800
-sub_208A800: // 0x0208A800
+	arm_func_start DWC_Http_GetResult
+DWC_Http_GetResult: // 0x0208A800
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r5, r1
@@ -1622,10 +1622,10 @@ _0208A810:
 _0208A84C:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end sub_208A800
+	arm_func_end DWC_Http_GetResult
 
-	arm_func_start sub_208A854
-sub_208A854: // 0x0208A854
+	arm_func_start DWC_Http_ParseResult
+DWC_Http_ParseResult: // 0x0208A854
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x14
 	ldr r2, _0208AAE0 // =0x00001A38
@@ -1808,7 +1808,7 @@ _0208AAF4: .word 0x0211B0F4
 _0208AAF8: .word 0x0211B0F8
 _0208AAFC: .word 0x0211B0FC
 _0208AB00: .word 0x0211B100
-	arm_func_end sub_208A854
+	arm_func_end DWC_Http_ParseResult
 
 	arm_func_start sub_208AB04
 sub_208AB04: // 0x0208AB04
@@ -2163,8 +2163,8 @@ _0208AFD8: .word 0x000019F8
 _0208AFDC: .word 0x0211B1D0
 	arm_func_end sub_208AF44
 
-	arm_func_start sub_208AFE0
-sub_208AFE0: // 0x0208AFE0
+	arm_func_start DWC_Http_Add_PostBase64Item
+DWC_Http_Add_PostBase64Item: // 0x0208AFE0
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r10, r0
@@ -2243,7 +2243,7 @@ _0208B0A0:
 _0208B104: .word 0x000019F8
 _0208B108: .word 0x0211B1D4
 _0208B10C: .word 0x0211B1D8
-	arm_func_end sub_208AFE0
+	arm_func_end DWC_Http_Add_PostBase64Item
 
 	arm_func_start sub_208B110
 sub_208B110: // 0x0208B110
@@ -2470,7 +2470,7 @@ sub_208B390: // 0x0208B390
 	str r6, [r8, #0xc]
 	bl sub_20C76E4
 	mov r0, #1
-	bl sub_20C4348
+	bl CPS_SetSsl
 _0208B448:
 	add r0, r10, #0x1100
 	ldrh r1, [r0, #0x34]
@@ -2822,8 +2822,8 @@ _0208B91C: .word 0x00001BF8
 _0208B920: .word 0x00001B38
 	arm_func_end sub_208B8C0
 
-	arm_func_start sub_208B924
-sub_208B924: // 0x0208B924
+	arm_func_start DWC_Http_StartThread
+DWC_Http_StartThread: // 0x0208B924
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	ldr r3, _0208B9DC // =0x00001BF8
@@ -2877,10 +2877,10 @@ _0208B9E0: .word 0x00001A18
 _0208B9E4: .word 0x02143900
 _0208B9E8: .word 0x00001B38
 _0208B9EC: .word sub_208B390
-	arm_func_end sub_208B924
+	arm_func_end DWC_Http_StartThread
 
-	arm_func_start sub_208B9F0
-sub_208B9F0: // 0x0208B9F0
+	arm_func_start DWC_Http_FinishHeader
+DWC_Http_FinishHeader: // 0x0208B9F0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r1, _0208BA74 // =aConnection
@@ -2921,10 +2921,10 @@ _0208BA78: .word aClose
 _0208BA7C: .word 0x0211B0D8
 _0208BA80: .word 0x0211B2B8
 _0208BA84: .word aContentLength_0
-	arm_func_end sub_208B9F0
+	arm_func_end DWC_Http_FinishHeader
 
-	arm_func_start sub_208BA88
-sub_208BA88: // 0x0208BA88
+	arm_func_start DWC_Http_Create
+DWC_Http_Create: // 0x0208BA88
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r1
 	ldr r2, _0208BB94 // =0x00001C14
@@ -3000,7 +3000,7 @@ _0208BBA0: .word 0x00000B68
 _0208BBA4: .word aAllocHttpLowse
 _0208BBA8: .word 0x000005EA
 _0208BBAC: .word 0x00001A08
-	arm_func_end sub_208BA88
+	arm_func_end DWC_Http_Create
 
 	arm_func_start sub_208BBB0
 sub_208BBB0: // 0x0208BBB0
@@ -3092,7 +3092,7 @@ _0208BCB0:
 	str r0, [r1, #4]
 	ldr r0, [r4]
 	ldr r1, _0208CB14 // =0x02143918
-	bl sub_208BA88
+	bl DWC_Http_Create
 	cmp r0, #0
 	beq _0208BD1C
 	ldr r0, _0208CB10 // =0x02143914
@@ -3103,7 +3103,7 @@ _0208BCB0:
 	b _0208CAB0
 _0208BD1C:
 	ldr r0, [r4]
-	bl sub_208B9F0
+	bl DWC_Http_FinishHeader
 	cmp r0, #0
 	beq _0208BD44
 	ldr r0, _0208CB10 // =0x02143914
@@ -3118,7 +3118,7 @@ _0208BD44:
 	bl OS_GetThreadPriority
 	sub r1, r0, #1
 	ldr r0, [r4]
-	bl sub_208B924
+	bl DWC_Http_StartThread
 	ldr r1, [r4]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0xba4]
@@ -3151,7 +3151,7 @@ _0208BDB0:
 	b _0208CAB0
 _0208BDC8:
 	ldr r1, [sp, #0x1c]
-	bl sub_208A854
+	bl DWC_Http_ParseResult
 	cmp r0, #1
 	beq _0208BDF0
 	ldr r0, _0208CB10 // =0x02143914
@@ -3163,7 +3163,7 @@ _0208BDC8:
 _0208BDF0:
 	ldr r0, [r4]
 	ldr r1, _0208CB28 // =aHttpresult_1
-	bl sub_208A800
+	bl DWC_Http_GetResult
 	bl atoi
 	mov r10, r0
 	ldr r0, _0208CB2C // =_02152920
@@ -3221,7 +3221,7 @@ _0208BE50:
 	ldr r0, _0208CB10 // =0x02143914
 	ldr r1, _0208CB14 // =0x02143918
 	ldr r0, [r0]
-	bl sub_208BA88
+	bl DWC_Http_Create
 	cmp r0, #0
 	beq _0208BEF8
 	ldr r0, _0208CB10 // =0x02143914
@@ -3239,7 +3239,7 @@ _0208BEF8:
 	add r1, sp, #0x240
 	ldr r0, [r0]
 	mov r2, #1
-	bl sub_208A0A4
+	bl DWC_Auth_SetCalInfoToHttp
 	cmp r0, #0
 	bne _0208BF3C
 _0208BF24:
@@ -3255,7 +3255,7 @@ _0208BF3C:
 	ldr r0, [r0]
 	ldr r2, _0208CB48 // =aMessage
 	mov r3, #7
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	bne _0208BF94
 	ldr r0, _0208CB0C // =0x02143904
@@ -3269,7 +3269,7 @@ _0208BF3C:
 	ldr r0, [r1]
 	ldr r1, _0208CB4C // =aHotspotrespons
 	mov r2, r4
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	beq _0208BFAC
 _0208BF94:
@@ -3294,7 +3294,7 @@ _0208BFAC:
 	add r0, r0, #0x1000
 	str r2, [r0, #0x118]
 	ldr r0, [r1]
-	bl sub_208B9F0
+	bl DWC_Http_FinishHeader
 	cmp r0, #0
 	beq _0208C008
 	ldr r0, _0208CB10 // =0x02143914
@@ -3310,7 +3310,7 @@ _0208C008:
 	ldr r2, _0208CB10 // =0x02143914
 	sub r1, r0, #1
 	ldr r0, [r2]
-	bl sub_208B924
+	bl DWC_Http_StartThread
 	ldr r0, _0208CB10 // =0x02143914
 	ldr r1, [r0]
 	add r0, r1, #0x1000
@@ -3398,7 +3398,7 @@ _0208C150:
 	ldr r0, [r4]
 	bl sub_208B2C4
 	add r0, sp, #0x68
-	bl sub_208E050
+	bl DWCi_BM_GetWiFiInfo
 	ldr r2, [sp, #0x68]
 	ldr r1, [sp, #0x6c]
 	mov r0, #0
@@ -3422,18 +3422,18 @@ _0208C150:
 	str r11, [r2, #0x40]
 	ldr r3, [r3, #0x10c]
 	str r3, [r2, #0x44]
-	bl sub_2089F44
+	bl DWC_Auth_Create
 	cmp r0, #0
 	beq _0208C1D4
 	mov r0, #5
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C1D4:
-	bl sub_2089D54
-	bl sub_2089D04
+	bl DWC_Auth_Join
+	bl DWC_Auth_GetError
 	cmp r0, #0x15
 	beq _0208C284
-	bl sub_2089D04
+	bl DWC_Auth_GetError
 	cmp r0, #9
 	bne _0208C208
 	ldr r0, _0208CB0C // =0x02143904
@@ -3444,7 +3444,7 @@ _0208C1D4:
 	b _0208C274
 _0208C208:
 	add r0, sp, #0x7c
-	bl sub_2089C70
+	bl DWC_Auth_GetResult
 	ldr r0, _0208CB5C // =0x02143910
 	ldr r0, [r0]
 	cmp r0, #1
@@ -3453,7 +3453,7 @@ _0208C208:
 	ldr r0, _0208CB60 // =0xFFFFA4FA
 	cmp r1, r0
 	beq _0208C23C
-	bl sub_2089D04
+	bl DWC_Auth_GetError
 	cmp r0, #0xb
 	bne _0208C260
 _0208C23C:
@@ -3462,7 +3462,7 @@ _0208C23C:
 	ldr r0, [r0]
 	add r0, r0, #0x1000
 	str r1, [r0, #4]
-	bl sub_2089D94
+	bl DWC_Auth_Destroy
 	mov r0, #0xb
 	bl sub_208BBB0
 	b _0208CAB0
@@ -3473,12 +3473,12 @@ _0208C260:
 	add r0, r0, #0x1000
 	str r1, [r0, #4]
 _0208C274:
-	bl sub_2089D94
+	bl DWC_Auth_Destroy
 	mov r0, #6
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C284:
-	bl sub_2089D94
+	bl DWC_Auth_Destroy
 _0208C288:
 	cmp r10, #0xc8
 	bne _0208C2B0
@@ -3515,7 +3515,7 @@ _0208C2B0:
 	ldr r1, _0208CB14 // =0x02143918
 	strne r6, [r0, #0x14]
 	ldr r0, [r4]
-	bl sub_208BA88
+	bl DWC_Http_Create
 	cmp r0, #0
 	beq _0208C334
 	ldr r0, _0208CB10 // =0x02143914
@@ -3532,7 +3532,7 @@ _0208C334:
 	ldr r0, [r4]
 	add r1, sp, #0x240
 	mov r2, r6
-	bl sub_208A0A4
+	bl DWC_Auth_SetCalInfoToHttp
 	cmp r0, #0
 	bne _0208C374
 _0208C35C:
@@ -3547,7 +3547,7 @@ _0208C374:
 	ldr r1, _0208CB44 // =aAction_0
 	ldr r2, _0208CB68 // =aParse
 	ldr r3, [sp, #0x30]
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	bne _0208C3C0
 	ldr r0, [r5]
@@ -3559,7 +3559,7 @@ _0208C374:
 	ldr r0, [r4]
 	ldr r1, _0208CB6C // =0x0211B41C
 	mov r2, r10
-	bl sub_208AFE0
+	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	beq _0208C3D8
 _0208C3C0:
@@ -3581,7 +3581,7 @@ _0208C3D8:
 	ldr r0, [sp, #0x38]
 	str r0, [r1, #0x114]
 	ldr r0, [r4]
-	bl sub_208B9F0
+	bl DWC_Http_FinishHeader
 	cmp r0, #0
 	beq _0208C428
 	ldr r0, _0208CB10 // =0x02143914
@@ -3596,7 +3596,7 @@ _0208C428:
 	bl OS_GetThreadPriority
 	sub r1, r0, #1
 	ldr r0, [r4]
-	bl sub_208B924
+	bl DWC_Http_StartThread
 	ldr r1, [r4]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0xba4]
@@ -3649,7 +3649,7 @@ _0208C4DC:
 	b _0208CAB0
 _0208C4F4:
 	ldr r1, [sp, #0x3c]
-	bl sub_208A854
+	bl DWC_Http_ParseResult
 	cmp r0, #1
 	beq _0208C51C
 	ldr r0, _0208CB10 // =0x02143914
@@ -3661,7 +3661,7 @@ _0208C4F4:
 _0208C51C:
 	ldr r0, [r4]
 	ldr r1, _0208CB28 // =aHttpresult_1
-	bl sub_208A800
+	bl DWC_Http_GetResult
 	bl atoi
 	mov r10, r0
 	ldr r0, _0208CB2C // =_02152920
@@ -3704,7 +3704,7 @@ _0208C5B4:
 	ldr r1, _0208CB74 // =aReturncd_0
 	ldr r3, [sp, #0x40]
 	add r2, sp, #0x64
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	cmp r0, #0
 	bgt _0208C5E8
 	ldr r0, _0208CB10 // =0x02143914
@@ -3755,7 +3755,7 @@ _0208C670:
 	ldr r0, [r4]
 	ldr r1, _0208CB78 // =0x0211B430
 	mov r3, r2
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	mov r11, r0
 	cmp r11, #0
 	bgt _0208C6A8
@@ -3770,7 +3770,7 @@ _0208C6A8:
 	ldr r0, [r4]
 	ldr r1, _0208CB7C // =0x0211B434
 	mov r3, r2
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	str r0, [sp, #4]
 	cmp r0, #0
 	bgt _0208C6E0
@@ -3785,7 +3785,7 @@ _0208C6E0:
 	ldr r0, [r4]
 	ldr r1, _0208CB80 // =0x0211B43C
 	mov r3, r2
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	mov r10, r0
 	ldr r0, _0208CB84 // =aAllocUrl
 	add r1, r11, #1
@@ -3832,7 +3832,7 @@ _0208C790:
 	ldr r1, _0208CB78 // =0x0211B430
 	ldr r2, [sp]
 	add r3, r11, #1
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	cmp r0, #0
 	bge _0208C7C4
 	ldr r0, _0208CB10 // =0x02143914
@@ -3850,7 +3850,7 @@ _0208C7C4:
 	ldr r0, [r4]
 	ldr r1, _0208CB7C // =0x0211B434
 	mov r2, r7
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	cmp r0, #0
 	bge _0208C808
 	ldr r0, _0208CB10 // =0x02143914
@@ -3869,7 +3869,7 @@ _0208C808:
 	ldr r1, _0208CB80 // =0x0211B43C
 	ldr r2, [sp, #8]
 	add r3, r10, #1
-	bl sub_208A7AC
+	bl DWC_Http_GetBase64DecodedResult
 	cmp r0, #0
 	bge _0208C850
 	ldr r0, _0208CB10 // =0x02143914
@@ -3920,7 +3920,7 @@ _0208C8A0:
 	ldr r2, _0208CB94 // =0x0001D4C0
 	str r2, [r0, #0x18]
 	ldr r0, [r4]
-	bl sub_208BA88
+	bl DWC_Http_Create
 	cmp r0, #0
 	beq _0208C910
 	ldr r0, _0208CB10 // =0x02143914
@@ -3943,7 +3943,7 @@ _0208C910:
 	b _0208CAB0
 _0208C93C:
 	ldr r0, [r4]
-	bl sub_208B9F0
+	bl DWC_Http_FinishHeader
 	cmp r0, #0
 	beq _0208C964
 	ldr r0, _0208CB10 // =0x02143914
@@ -3958,7 +3958,7 @@ _0208C964:
 	bl OS_GetThreadPriority
 	sub r1, r0, #1
 	ldr r0, [r4]
-	bl sub_208B924
+	bl DWC_Http_StartThread
 	ldr r1, [r4]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0xba4]
@@ -3991,7 +3991,7 @@ _0208C9D0:
 	b _0208CAB0
 _0208C9E8:
 	mov r1, r6
-	bl sub_208A854
+	bl DWC_Http_ParseResult
 	cmp r0, #1
 	beq _0208CA10
 	ldr r0, _0208CB10 // =0x02143914
@@ -4200,7 +4200,7 @@ sub_208CC90: // 0x0208CC90
 	beq _0208CCC0
 	bl sub_208B8C0
 _0208CCC0:
-	bl sub_2089DEC
+	bl DWC_Auth_Abort
 	ldr r0, _0208CD04 // =0x02143904
 	ldr r1, [r0]
 	add r0, r1, #0x1000
@@ -4245,7 +4245,7 @@ sub_208CD10: // 0x0208CD10
 	mov r1, #0
 	str r1, [r0]
 _0208CD58:
-	bl sub_2089D94
+	bl DWC_Auth_Destroy
 	ldr r0, _0208CDF8 // =0x02143904
 	ldr r0, [r0]
 	cmp r0, #0
@@ -4370,8 +4370,8 @@ _0208CF1C: .word 0x000011DC
 _0208CF20: .word 0x02143908
 	arm_func_end sub_208CE10
 
-	arm_func_start sub_208CF24
-sub_208CF24: // 0x0208CF24
+	arm_func_start DWC_Auth_SetNasTimeDiff
+DWC_Auth_SetNasTimeDiff: // 0x0208CF24
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x40
 	mov r6, r0
@@ -4521,7 +4521,7 @@ _0208D158: .word _02152920
 _0208D15C: .word 0x0211B4E0
 _0208D160: .word 0x02143980
 _0208D164: .word 0x0214397C
-	arm_func_end sub_208CF24
+	arm_func_end DWC_Auth_SetNasTimeDiff
 
 	arm_func_start sub_208D168
 sub_208D168: // 0x0208D168

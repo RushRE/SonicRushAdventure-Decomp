@@ -26,21 +26,21 @@ _02145638:
 
 	.text
 
-	arm_func_start sub_20BB70C
-sub_20BB70C: // 0x020BB70C
+	arm_func_start SOCL_LinkIsOn
+SOCL_LinkIsOn: // 0x020BB70C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_20CC8AC
+	bl WCM_GetApMacAddress
 	cmp r0, #0
 	movne r0, #1
 	moveq r0, #0
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_20BB70C
+	arm_func_end SOCL_LinkIsOn
 
-	arm_func_start sub_20BB730
-sub_20BB730: // 0x020BB730
+	arm_func_start SOCLi_DhcpTimeout
+SOCLi_DhcpTimeout: // 0x020BB730
 	ldr r0, _020BB744 // =0x02145644
 	ldr r1, [r0]
 	orr r1, r1, #2
@@ -48,10 +48,10 @@ sub_20BB730: // 0x020BB730
 	bx lr
 	.align 2, 0
 _020BB744: .word 0x02145644
-	arm_func_end sub_20BB730
+	arm_func_end SOCLi_DhcpTimeout
 
-	arm_func_start sub_20BB748
-sub_20BB748: // 0x020BB748
+	arm_func_start SOCLi_SetMyIP
+SOCLi_SetMyIP: // 0x020BB748
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _020BB7AC // =_02145638
@@ -84,10 +84,10 @@ _020BB7B4: .word 0x0214587C
 _020BB7B8: .word 0x02145848
 _020BB7BC: .word 0x02145858
 _020BB7C0: .word 0x02145894
-	arm_func_end sub_20BB748
+	arm_func_end SOCLi_SetMyIP
 
-	arm_func_start sub_20BB7C4
-sub_20BB7C4: // 0x020BB7C4
+	arm_func_start SOCLi_StartupCPS
+SOCLi_StartupCPS: // 0x020BB7C4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _020BB918 // =_02145638
@@ -103,7 +103,7 @@ sub_20BB7C4: // 0x020BB7C4
 	str r2, [r1, #4]
 	ldr ip, [r4, #0x1c]
 	mov r2, #0
-	ldr r3, _020BB924 // =sub_20BB70C
+	ldr r3, _020BB924 // =SOCL_LinkIsOn
 	ldr r0, [r0]
 	str ip, [r1, #8]
 	str r3, [r1, #0x10]
@@ -148,7 +148,7 @@ _020BB858:
 	ldr r0, _020BB930 // =0x02145644
 	mov r1, #1
 	str r1, [r0]
-	ldr r1, _020BB934 // =sub_20BB730
+	ldr r1, _020BB934 // =SOCLi_DhcpTimeout
 	str r2, [r5]
 	ldr r0, _020BB938 // =0x02145640
 	str r1, [r5, #0xc]
@@ -159,20 +159,20 @@ _020BB8CC:
 	ldr r0, _020BB930 // =0x02145644
 	mov r1, #1
 	str r2, [r0]
-	ldr r0, _020BB93C // =sub_20BB748
+	ldr r0, _020BB93C // =SOCLi_SetMyIP
 	str r1, [r5]
 	str r0, [r5, #0xc]
 _020BB8E4:
 	ldr r0, [r4, #0x2c]
 	cmp r0, #0
 	moveq r0, #0xb
-	bl sub_20C3CE4
-	ldr r0, _020BB940 // =sub_20C36B8
-	bl sub_20CC818
-	ldr r0, _020BB944 // =sub_20BD818
-	bl sub_20C3D80
+	bl CPS_SetThreadPriority
+	ldr r0, _020BB940 // =CPSi_RecvCallbackFunc
+	bl WCM_SetRecvDCFCallback
+	ldr r0, _020BB944 // =SOCLi_TrashSocket
+	bl CPS_SetScavengerCallback
 	mov r0, r5
-	bl sub_20C3DF0
+	bl CPS_Startup
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, lr}
 	bx lr
@@ -180,28 +180,28 @@ _020BB8E4:
 _020BB918: .word _02145638
 _020BB91C: .word 0x0214564C
 _020BB920: .word 0x0214563C
-_020BB924: .word sub_20BB70C
+_020BB924: .word SOCL_LinkIsOn
 _020BB928: .word 0x0211F180
 _020BB92C: .word 0x0214587C
 _020BB930: .word 0x02145644
-_020BB934: .word sub_20BB730
+_020BB934: .word SOCLi_DhcpTimeout
 _020BB938: .word 0x02145640
-_020BB93C: .word sub_20BB748
-_020BB940: .word sub_20C36B8
-_020BB944: .word sub_20BD818
-	arm_func_end sub_20BB7C4
+_020BB93C: .word SOCLi_SetMyIP
+_020BB940: .word CPSi_RecvCallbackFunc
+_020BB944: .word SOCLi_TrashSocket
+	arm_func_end SOCLi_StartupCPS
 
-	arm_func_start sub_20BB948
-sub_20BB948: // 0x020BB948
+	arm_func_start SOCLi_StartupSOCL
+SOCLi_StartupSOCL: // 0x020BB948
 	stmdb sp!, {r4, lr}
 	ldr r0, _020BB980 // =_02145638
 	ldr r0, [r0]
 	ldr r0, [r0, #0x20]
-	bl sub_20BBCD0
+	bl SOCLi_StartupCommandPacketQueue
 	movs r4, r0
 	bmi _020BB974
 	ldr r0, _020BB984 // =0x0211F198
-	bl sub_20BC0C8
+	bl SOCL_UdpSendSocket
 	ldr r1, _020BB988 // =0x02145648
 	str r0, [r1]
 _020BB974:
@@ -212,10 +212,10 @@ _020BB974:
 _020BB980: .word _02145638
 _020BB984: .word 0x0211F198
 _020BB988: .word 0x02145648
-	arm_func_end sub_20BB948
+	arm_func_end SOCLi_StartupSOCL
 
-	arm_func_start sub_20BB98C
-sub_20BB98C: // 0x020BB98C
+	arm_func_start SOCL_Startup
+SOCL_Startup: // 0x020BB98C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, _020BB9C8 // =_version_NINTENDO_WiFi
@@ -227,11 +227,11 @@ sub_20BB98C: // 0x020BB98C
 	ldmneia sp!, {r4, lr}
 	bxne lr
 	str r4, [r0]
-	bl sub_20BB7C4
-	bl sub_20BB948
+	bl SOCLi_StartupCPS
+	bl SOCLi_StartupSOCL
 	ldmia sp!, {r4, lr}
 	bx lr
 	.align 2, 0
 _020BB9C8: .word _version_NINTENDO_WiFi
 _020BB9CC: .word _02145638
-	arm_func_end sub_20BB98C
+	arm_func_end SOCL_Startup

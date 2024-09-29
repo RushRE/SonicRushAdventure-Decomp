@@ -3,8 +3,8 @@
 
 	.text
 
-	arm_func_start sub_208E164
-sub_208E164: // 0x0208E164
+	arm_func_start _DWC_BM_initPage
+_DWC_BM_initPage: // 0x0208E164
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
@@ -18,10 +18,10 @@ sub_208E164: // 0x0208E164
 	strb r1, [r0, #0xe7]
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end sub_208E164
+	arm_func_end _DWC_BM_initPage
 
-	arm_func_start sub_208E198
-sub_208E198: // 0x0208E198
+	arm_func_start _DWC_BM_init
+_DWC_BM_init: // 0x0208E198
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x14
 	mov r7, r0
@@ -38,9 +38,9 @@ _0208E1BC:
 	cmp r2, #3
 	blt _0208E1BC
 	add r0, sp, #0
-	bl sub_208E92C
+	bl DWCi_AUTH_GetNewWiFiInfo
 	add r0, sp, #0
-	bl sub_208D4B8
+	bl DWCi_BACKUPlConvWifiInfo
 	mov r6, r0
 	mov r5, #0
 	mov r4, #0xe
@@ -56,10 +56,10 @@ _0208E1EC:
 	mov r0, #0
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	arm_func_end sub_208E198
+	arm_func_end _DWC_BM_init
 
-	arm_func_start sub_208E218
-sub_208E218: // 0x0208E218
+	arm_func_start _DWC_BM_checkAp
+_DWC_BM_checkAp: // 0x0208E218
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -73,7 +73,7 @@ sub_208E218: // 0x0208E218
 	movhi r0, #0
 	ldmhiia sp!, {r4, pc}
 	add r0, r4, #0x40
-	bl sub_208DD10
+	bl DWC_BACKUPlCheckSsid
 	cmp r0, #0
 	addeq sp, sp, #8
 	moveq r0, #0
@@ -85,7 +85,7 @@ sub_208E218: // 0x0208E218
 	cmp r0, #0
 	beq _0208E2C8
 	add r0, r4, #0xc4
-	bl sub_208DC68
+	bl DWC_BACKUPlCheckAddress
 	cmp r0, #0
 	addeq sp, sp, #8
 	moveq r0, #0
@@ -96,10 +96,10 @@ sub_208E218: // 0x0208E218
 	movhi r0, #0
 	ldmhiia sp!, {r4, pc}
 	add r1, sp, #0
-	bl sub_208DD38
+	bl DWCi_BACKUPlConvMaskAddr
 	add r1, sp, #0
 	add r0, r4, #0xc0
-	bl sub_208DC94
+	bl DWC_BACKUPlCheckIp
 	cmp r0, #0
 	addeq sp, sp, #8
 	moveq r0, #0
@@ -112,11 +112,11 @@ _0208E2C8:
 	cmp r0, #0
 	beq _0208E308
 	add r0, r4, #0xc8
-	bl sub_208DC68
+	bl DWC_BACKUPlCheckAddress
 	cmp r0, #0
 	bne _0208E308
 	add r0, r4, #0xcc
-	bl sub_208DC68
+	bl DWC_BACKUPlCheckAddress
 	cmp r0, #0
 	addeq sp, sp, #8
 	moveq r0, #0
@@ -127,7 +127,7 @@ _0208E308:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0208E314: .word 0x02112618
-	arm_func_end sub_208E218
+	arm_func_end _DWC_BM_checkAp
 
 	arm_func_start DWC_BM_Init
 DWC_BM_Init: // 0x0208E318
@@ -138,7 +138,7 @@ DWC_BM_Init: // 0x0208E318
 	mov r2, #0x700
 	bl MI_CpuFill8
 	mov r0, r10
-	bl sub_208DF24
+	bl DWCi_BACKUPlInit
 	cmp r0, #0
 	addeq sp, sp, #0x14
 	ldreq r0, _0208E63C // =0xFFFFD8EF
@@ -147,7 +147,7 @@ DWC_BM_Init: // 0x0208E318
 	add r0, r10, #0x500
 	bl MATHi_CRC16InitTableRev
 	mov r0, r10
-	bl sub_208DEF0
+	bl DWCi_BACKUPlRead
 	cmp r0, #0
 	addeq sp, sp, #0x14
 	ldreq r0, _0208E63C // =0xFFFFD8EF
@@ -173,7 +173,7 @@ _0208E398:
 	cmp r0, r1
 	bne _0208E3C8
 	mov r0, r7
-	bl sub_208E218
+	bl _DWC_BM_checkAp
 	cmp r0, #0
 	strne r4, [r11, r9, lsl #2]
 _0208E3C8:
@@ -221,7 +221,7 @@ _0208E444:
 	cmp r0, #0
 	bne _0208E494
 	mov r0, r10
-	bl sub_208E198
+	bl _DWC_BM_init
 	mov r0, r10
 	bl sub_208DDC4
 	cmp r0, #0
@@ -244,7 +244,7 @@ _0208E4A8:
 	bne _0208E4E4
 _0208E4C0:
 	mov r0, r10
-	bl sub_208E198
+	bl _DWC_BM_init
 	mov r0, r10
 	bl sub_208DDC4
 	cmp r0, #0
@@ -259,7 +259,7 @@ _0208E4E4:
 	cmp r0, #0
 	bne _0208E51C
 	mov r0, r10
-	bl sub_208E198
+	bl _DWC_BM_init
 	mov r0, r10
 	bl sub_208DDC4
 	cmp r0, #0
@@ -272,7 +272,7 @@ _0208E51C:
 	bne _0208E54C
 	mov r0, r10
 	mov r1, #0
-	bl sub_208E164
+	bl _DWC_BM_initPage
 	add r0, r10, #0x1f0
 	add r1, r10, #0xf0
 	mov r2, #0xe
@@ -286,7 +286,7 @@ _0208E54C:
 	bne _0208E57C
 	mov r0, r10
 	mov r1, #1
-	bl sub_208E164
+	bl _DWC_BM_initPage
 	add r0, r10, #0xf0
 	add r1, r10, #0x1f0
 	mov r2, #0xe
@@ -301,7 +301,7 @@ _0208E57C:
 	bne _0208E59C
 	mov r0, r10
 	mov r1, #2
-	bl sub_208E164
+	bl _DWC_BM_initPage
 _0208E59C:
 	ldr r0, [sp, #0xc]
 	cmp r0, #0

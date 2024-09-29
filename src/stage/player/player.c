@@ -3035,7 +3035,7 @@ NONMATCH_FUNC void Player__Func_2013630(Player *player)
 	ldr r1, [r2, r1]
 	tst r1, #0x40
 	bne _02013670
-	bl MapSys__SetTargetOffset
+	bl MapSys__Func_2009190
 _02013670:
 	ldr r2, [r5, #0x6d8]
 	cmp r2, #0
@@ -7056,7 +7056,7 @@ void Player__ReceivePacket(Player *player)
 
         if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) == 0)
         {
-            MapSys__SetTargetOffset(player->cameraID);
+            MapSys__Func_2009190(player->cameraID);
             MapSys__Func_20091B0(player->cameraID);
             player->field24Store  = playerPacket->cameraDispPos.x;
             player->userWorkStore = playerPacket->cameraDispPos.y;

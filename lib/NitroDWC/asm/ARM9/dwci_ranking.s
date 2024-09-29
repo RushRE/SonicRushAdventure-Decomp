@@ -479,12 +479,12 @@ _0209EB94: // jump table
 	b _0209EC50 // case 7
 	b _0209EC64 // case 8
 _0209EBB8:
-	ldr r2, _0209EC78 // =sub_209EEA4
+	ldr r2, _0209EC78 // =DWCi_RankingSessionCompleteCallback
 	mov r1, #0
 	str r2, [sp]
 	str r1, [sp, #4]
 	ldr r0, [r0, #0x50]
-	ldr r3, _0209EC7C // =sub_209F0A4
+	ldr r3, _0209EC7C // =DWCi_RankingSessionProgressCallback
 	mov r2, r1
 	bl DWC_GetGHTTPDataEx
 	ldr r1, _0209EC74 // =_0211C3EC
@@ -503,12 +503,12 @@ _0209EBF8:
 	streq r1, [r0]
 	b _0209EC64
 _0209EC10:
-	ldr r2, _0209EC78 // =sub_209EEA4
+	ldr r2, _0209EC78 // =DWCi_RankingSessionCompleteCallback
 	mov r1, #0
 	str r2, [sp]
 	str r1, [sp, #4]
 	ldr r0, [r0, #0x50]
-	ldr r3, _0209EC7C // =sub_209F0A4
+	ldr r3, _0209EC7C // =DWCi_RankingSessionProgressCallback
 	mov r2, r1
 	bl DWC_GetGHTTPDataEx
 	ldr r1, _0209EC74 // =_0211C3EC
@@ -532,8 +532,8 @@ _0209EC64:
 	ldmia sp!, {pc}
 	.align 2, 0
 _0209EC74: .word _0211C3EC
-_0209EC78: .word sub_209EEA4
-_0209EC7C: .word sub_209F0A4
+_0209EC78: .word DWCi_RankingSessionCompleteCallback
+_0209EC7C: .word DWCi_RankingSessionProgressCallback
 	arm_func_end DWCi_RankingSessionProcess
 
 	arm_func_start DWCi_RankingSessionInitialize
@@ -701,8 +701,8 @@ sub_209EE90: // 0x0209EE90
 _0209EEA0: .word 0x02144D18
 	arm_func_end sub_209EE90
 
-	arm_func_start sub_209EEA4
-sub_209EEA4: // 0x0209EEA4
+	arm_func_start DWCi_RankingSessionCompleteCallback
+DWCi_RankingSessionCompleteCallback: // 0x0209EEA4
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x48
 	ldr r3, _0209F090 // =_0211C3EC
@@ -842,12 +842,12 @@ _0209F094: .word a0123456789abcd_0
 _0209F098: .word 0x0211C418
 _0209F09C: .word aHash
 _0209F0A0: .word aError
-	arm_func_end sub_209EEA4
+	arm_func_end DWCi_RankingSessionCompleteCallback
 
-	arm_func_start sub_209F0A4
-sub_209F0A4: // 0x0209F0A4
+	arm_func_start DWCi_RankingSessionProgressCallback
+DWCi_RankingSessionProgressCallback: // 0x0209F0A4
 	bx lr
-	arm_func_end sub_209F0A4
+	arm_func_end DWCi_RankingSessionProgressCallback
 
 	arm_func_start sub_209F0A8
 sub_209F0A8: // 0x0209F0A8

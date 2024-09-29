@@ -11,7 +11,7 @@ DWC_UpdateConnection: // 0x0208EF7C
 	bl DWCi_CheckDisconnected
 	cmp r0, #0
 	beq _0208EFC4
-	bl sub_2086594
+	bl DWC_AC_GetApType
 	mov r2, r0
 	cmp r2, #0x63
 	ldr r1, _0208EFD0 // =0xFFFF2D10
@@ -68,14 +68,14 @@ DWC_CleanupInet: // 0x0208F00C
 	moveq r1, #0
 	streq r1, [r0]
 	ldmeqia sp!, {r4, pc}
-	bl sub_2086544
+	bl DWC_AC_Destroy
 	cmp r0, #0
 	bne _0208F058
 	mov r4, #0xa
 _0208F044:
 	mov r0, r4
 	bl OS_Sleep
-	bl sub_2086544
+	bl DWC_AC_Destroy
 	cmp r0, #0
 	beq _0208F044
 _0208F058:
@@ -101,7 +101,7 @@ DWC_GetInetStatus: // 0x0208F06C
 	cmp r0, #1
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
-	bl sub_20865D8
+	bl DWC_AC_GetStatus
 	mov r1, r0
 	cmp r1, #5
 	bne _0208F0D0
@@ -158,7 +158,7 @@ DWC_ProcessInet: // 0x0208F138
 	ldrh r0, [r1, #4]
 	cmp r0, #2
 	bne _0208F178
-	bl sub_2086670
+	bl DWC_AC_Process
 	ldr r1, _0208F1C8 // =0x021439F0
 	add sp, sp, #4
 	ldr r1, [r1]
@@ -243,7 +243,7 @@ DWC_ConnectInetAsync: // 0x0208F21C
 	str r3, [sp]
 	str r2, [sp, #4]
 	strh r1, [lr, #4]
-	bl sub_2086750
+	bl DWC_AC_Create
 	cmp r0, #0
 	addne sp, sp, #0xc
 	ldmneia sp!, {pc}
@@ -278,17 +278,17 @@ DWC_SetAuthServer: // 0x0208F2CC
 	ldmia sp!, {pc}
 _0208F2F4:
 	ldr r0, _0208F324 // =aHttpsNasTestNi
-	bl sub_208A094
+	bl DWC_Auth_SetCustomNas
 	add sp, sp, #4
 	ldmia sp!, {pc}
 _0208F304:
 	ldr r0, _0208F328 // =aHttpsNasDevNin
-	bl sub_208A094
+	bl DWC_Auth_SetCustomNas
 	add sp, sp, #4
 	ldmia sp!, {pc}
 _0208F314:
 	ldr r0, _0208F32C // =aHttpsNasNinten_1
-	bl sub_208A094
+	bl DWC_Auth_SetCustomNas
 	add sp, sp, #4
 	ldmia sp!, {pc}
 	.align 2, 0

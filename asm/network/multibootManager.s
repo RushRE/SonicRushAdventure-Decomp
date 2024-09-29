@@ -237,10 +237,10 @@ _02060D24: .word MultibootManager__sVars
 
 	arm_func_start MultibootManager__Func_2060D28
 MultibootManager__Func_2060D28: // 0x02060D28
-	ldr ip, _02060D30 // =sub_2063AA4
+	ldr ip, _02060D30 // =MultibootManager__CheckUsingNetwork
 	bx ip
 	.align 2, 0
-_02060D30: .word sub_2063AA4
+_02060D30: .word MultibootManager__CheckUsingNetwork
 	arm_func_end MultibootManager__Func_2060D28
 
 	arm_func_start MultibootManager__Func_2060D34
@@ -1536,7 +1536,7 @@ MultibootManager__Func_2061D1C: // 0x02061D1C
 	str r0, [r1, #0x164]
 	bl MultibootManager__Func_206789C
 	ldr r0, _02061DF8 // =MultibootManager__sVars
-	ldr r1, _02061DFC // =sub_2061f48
+	ldr r1, _02061DFC // =MultibootManager__Main_Error
 	ldr r0, [r0, #4]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -1573,7 +1573,7 @@ _02061D80:
 	.align 2, 0
 _02061DF4: .word gameState
 _02061DF8: .word MultibootManager__sVars
-_02061DFC: .word sub_2061f48
+_02061DFC: .word MultibootManager__Main_Error
 _02061E00: .word MultibootManager__Main_2062A2C
 	arm_func_end MultibootManager__Func_2061D1C
 
@@ -1675,10 +1675,10 @@ MultibootManager__Main: // 0x02061F44
 	bx lr
 	arm_func_end MultibootManager__Main
 
-	arm_func_start sub_2061f48
-sub_2061f48: // 0x02061F48
+	arm_func_start MultibootManager__Main_Error
+MultibootManager__Main_Error: // 0x02061F48
 	bx lr
-	arm_func_end sub_2061f48
+	arm_func_end MultibootManager__Main_Error
 
 	arm_func_start MultibootManager__Main_2061F4C
 MultibootManager__Main_2061F4C: // 0x02061F4C
@@ -3314,14 +3314,14 @@ MultibootManager__Func_20634D4: // 0x020634D4
 	str r2, [r1, #0x164]
 	bl MultibootManager__Func_206789C
 	ldr r0, _02063508 // =MultibootManager__sVars
-	ldr r1, _0206350C // =sub_2061f48
+	ldr r1, _0206350C // =MultibootManager__Main_Error
 	ldr r0, [r0, #4]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02063504: .word gameState
 _02063508: .word MultibootManager__sVars
-_0206350C: .word sub_2061f48
+_0206350C: .word MultibootManager__Main_Error
 	arm_func_end MultibootManager__Func_20634D4
 
 	arm_func_start MultibootManager__Func_2063510
@@ -3334,14 +3334,14 @@ MultibootManager__Func_2063510: // 0x02063510
 	str r2, [r1, #0x164]
 	bl MultibootManager__Func_206789C
 	ldr r0, _02063544 // =MultibootManager__sVars
-	ldr r1, _02063548 // =sub_2061f48
+	ldr r1, _02063548 // =MultibootManager__Main_Error
 	ldr r0, [r0, #4]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02063540: .word gameState
 _02063544: .word MultibootManager__sVars
-_02063548: .word sub_2061f48
+_02063548: .word MultibootManager__Main_Error
 	arm_func_end MultibootManager__Func_2063510
 
 	arm_func_start MultibootManager__Func_206354C
@@ -3354,14 +3354,14 @@ MultibootManager__Func_206354C: // 0x0206354C
 	str r2, [r1, #0x164]
 	bl WirelessManager__Func_2067DF4
 	ldr r0, _02063580 // =MultibootManager__sVars
-	ldr r1, _02063584 // =sub_2061f48
+	ldr r1, _02063584 // =MultibootManager__Main_Error
 	ldr r0, [r0, #4]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0206357C: .word gameState
 _02063580: .word MultibootManager__sVars
-_02063584: .word sub_2061f48
+_02063584: .word MultibootManager__Main_Error
 	arm_func_end MultibootManager__Func_206354C
 
 	arm_func_start MultibootManager__Func_2063588
@@ -3374,14 +3374,14 @@ MultibootManager__Func_2063588: // 0x02063588
 	str r2, [r1, #0x164]
 	bl WirelessManager__Func_2067DF4
 	ldr r0, _020635BC // =MultibootManager__sVars
-	ldr r1, _020635C0 // =sub_2061f48
+	ldr r1, _020635C0 // =MultibootManager__Main_Error
 	ldr r0, [r0, #4]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _020635B8: .word gameState
 _020635BC: .word MultibootManager__sVars
-_020635C0: .word sub_2061f48
+_020635C0: .word MultibootManager__Main_Error
 	arm_func_end MultibootManager__Func_2063588
 
 	arm_func_start MultibootManager__Func_20635C4
@@ -3393,14 +3393,14 @@ MultibootManager__Func_20635C4: // 0x020635C4
 	str r2, [r1, #0x164]
 	bl WirelessManager__Func_2068060
 	ldr r0, _020635F4 // =MultibootManager__sVars
-	ldr r1, _020635F8 // =sub_2061f48
+	ldr r1, _020635F8 // =MultibootManager__Main_Error
 	ldr r0, [r0, #4]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _020635F0: .word gameState
 _020635F4: .word MultibootManager__sVars
-_020635F8: .word sub_2061f48
+_020635F8: .word MultibootManager__Main_Error
 	arm_func_end MultibootManager__Func_20635C4
 
 	arm_func_start MultibootManager__Func_20635FC
@@ -3467,7 +3467,7 @@ _020636BC:
 	bl DestroyINetManager
 _020636E0:
 	ldr r0, _02063700 // =MultibootManager__sVars
-	ldr r1, _02063704 // =sub_2061f48
+	ldr r1, _02063704 // =MultibootManager__Main_Error
 	ldr r0, [r0, #4]
 	bl SetTaskMainEvent
 	add sp, sp, #4
@@ -3476,7 +3476,7 @@ _020636E0:
 _020636F8: .word gameState
 _020636FC: .word 0x021395B4
 _02063700: .word MultibootManager__sVars
-_02063704: .word sub_2061f48
+_02063704: .word MultibootManager__Main_Error
 	arm_func_end MultibootManager__Func_20635FC
 
 	arm_func_start MultibootManager__Func_2063708
@@ -3501,7 +3501,7 @@ MultibootManager__Func_2063708: // 0x02063708
 	mov r0, #0
 	bl DestroyINetManager
 	ldr r0, _02063770 // =MultibootManager__sVars
-	ldr r1, _02063774 // =sub_2061f48
+	ldr r1, _02063774 // =MultibootManager__Main_Error
 	ldr r0, [r0, #4]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, pc}
@@ -3509,7 +3509,7 @@ MultibootManager__Func_2063708: // 0x02063708
 _02063768: .word gameState
 _0206376C: .word 0x021395B4
 _02063770: .word MultibootManager__sVars
-_02063774: .word sub_2061f48
+_02063774: .word MultibootManager__Main_Error
 	arm_func_end MultibootManager__Func_2063708
 
 	arm_func_start MultibootManager__Func_2063778
@@ -3784,8 +3784,8 @@ MultibootManager__Func_2063A74: // 0x02063A74
 _02063AA0: .word MultibootManager__sVars
 	arm_func_end MultibootManager__Func_2063A74
 
-	arm_func_start sub_2063AA4
-sub_2063AA4: // 0x02063AA4
+	arm_func_start MultibootManager__CheckUsingNetwork
+MultibootManager__CheckUsingNetwork: // 0x02063AA4
 	ldr r0, _02063ABC // =MultibootManager__sVars
 	ldr r0, [r0]
 	tst r0, #1
@@ -3794,7 +3794,7 @@ sub_2063AA4: // 0x02063AA4
 	bx lr
 	.align 2, 0
 _02063ABC: .word MultibootManager__sVars
-	arm_func_end sub_2063AA4
+	arm_func_end MultibootManager__CheckUsingNetwork
 
 	arm_func_start MultibootManager__Func_2063AC0
 MultibootManager__Func_2063AC0: // 0x02063AC0

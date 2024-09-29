@@ -7016,7 +7016,7 @@ ovl02_21624C4: // 0x021624C4
 	bl BossFX__CreateRivalShot
 	add r1, r0, #0x18c
 	add r0, r4, #0xa70
-	bl sub_20665F8
+	bl Unknown2066510__NormalizeScale
 	mov r0, #0
 	str r0, [sp]
 	mov r0, #0xe6
@@ -7189,7 +7189,7 @@ ovl02_21626C4: // 0x021626C4
 	bl BossFX__CreateRivalShot
 	add r1, r0, #0x18c
 	add r0, r4, #0xa70
-	bl sub_20665F8
+	bl Unknown2066510__NormalizeScale
 	mov r0, #0
 	str r0, [sp]
 	mov r0, #0xe6
@@ -8463,7 +8463,7 @@ _021637DC:
 	add r1, sp, #0x14
 	add r2, r4, #0x390
 	add r3, r4, #0x44
-	bl sub_2066724
+	bl Unknown2066510__Func_2066724
 	ldr r1, [r4, #0x48]
 	ldr r0, _0216383C // =gPlayer
 	rsb r1, r1, #0
@@ -8940,7 +8940,7 @@ ovl02_2163D7C: // 0x02163D7C
 	add r1, sp, #0x14
 	add r0, r0, #0x800
 	add r2, r4, #0x37c
-	bl sub_2066724
+	bl Unknown2066510__Func_2066724
 	ldr r1, [r4, #0x48]
 	add r0, r4, #0x44
 	rsb r3, r1, #0
@@ -9723,7 +9723,7 @@ _021647D8:
 	add r0, r10, #0x800
 	add r1, sp, #0
 	str r2, [r6, #0x4c]
-	bl sub_20665F8
+	bl Unknown2066510__NormalizeScale
 	add r0, r4, #0x1b8
 	add ip, sp, #0
 	add r9, r0, #0x800

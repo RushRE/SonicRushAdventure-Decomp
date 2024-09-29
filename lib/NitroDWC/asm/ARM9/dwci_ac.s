@@ -9,8 +9,8 @@ _021438CC:
 
 	.text
 
-	arm_func_start sub_2086134
-sub_2086134: // 0x02086134
+	arm_func_start CheckDuplicate
+CheckDuplicate: // 0x02086134
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	ldr r1, _020861CC // =_021438CC
 	ldr r0, _020861D0 // =0x00000474
@@ -55,43 +55,43 @@ _020861C4:
 	.align 2, 0
 _020861CC: .word _021438CC
 _020861D0: .word 0x00000474
-	arm_func_end sub_2086134
+	arm_func_end CheckDuplicate
 
-	arm_func_start sub_20861D4
-sub_20861D4: // 0x020861D4
+	arm_func_start Free_Disused
+Free_Disused: // 0x020861D4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _0208620C // =0x021438D8
 	mov r0, #8
 	ldr r1, [r1]
 	mov r2, #0xc
-	bl sub_208647C
+	bl DWCi_AC_Free
 	ldr r0, _02086210 // =_021438CC
 	ldr r2, _02086214 // =0x00000D18
 	ldr r1, [r0]
 	mov r0, #0x10
-	bl sub_208647C
+	bl DWCi_AC_Free
 	add sp, sp, #4
 	ldmia sp!, {pc}
 	.align 2, 0
 _0208620C: .word 0x021438D8
 _02086210: .word _021438CC
 _02086214: .word 0x00000D18
-	arm_func_end sub_20861D4
+	arm_func_end Free_Disused
 
-	arm_func_start sub_2086218
-sub_2086218: // 0x02086218
+	arm_func_start DWCi_ConvConnectAPType
+DWCi_ConvConnectAPType: // 0x02086218
 	cmp r0, #2
 	subhi r0, r0, #3
 	andhi r0, r0, #0xff
 	bx lr
-	arm_func_end sub_2086218
+	arm_func_end DWCi_ConvConnectAPType
 
-	arm_func_start sub_2086228
-sub_2086228: // 0x02086228
+	arm_func_start DWCi_AC_SetApType
+DWCi_AC_SetApType: // 0x02086228
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_2086218
+	bl DWCi_ConvConnectAPType
 	ldr r1, _02086248 // =0x021438DC
 	ldr r1, [r1]
 	strb r0, [r1, #0x17]
@@ -99,52 +99,52 @@ sub_2086228: // 0x02086228
 	ldmia sp!, {pc}
 	.align 2, 0
 _02086248: .word 0x021438DC
-	arm_func_end sub_2086228
+	arm_func_end DWCi_AC_SetApType
 
-	arm_func_start sub_208624C
-sub_208624C: // 0x0208624C
+	arm_func_start DWCi_AC_GetError
+DWCi_AC_GetError: // 0x0208624C
 	ldr r0, _0208625C // =0x021438DC
 	ldr r0, [r0]
 	ldr r0, [r0, #0xc]
 	bx lr
 	.align 2, 0
 _0208625C: .word 0x021438DC
-	arm_func_end sub_208624C
+	arm_func_end DWCi_AC_GetError
 
-	arm_func_start sub_2086260
-sub_2086260: // 0x02086260
+	arm_func_start DWCi_AC_SetError
+DWCi_AC_SetError: // 0x02086260
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
 	mov r0, #1
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
 	str r5, [r4, #0xc]
-	bl sub_208628C
+	bl DWCi_AC_GetPhase
 	strb r0, [r4, #0xa]
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end sub_2086260
+	arm_func_end DWCi_AC_SetError
 
-	arm_func_start sub_208628C
-sub_208628C: // 0x0208628C
+	arm_func_start DWCi_AC_GetPhase
+DWCi_AC_GetPhase: // 0x0208628C
 	ldr r0, _0208629C // =0x021438DC
 	ldr r0, [r0]
 	ldrb r0, [r0, #9]
 	bx lr
 	.align 2, 0
 _0208629C: .word 0x021438DC
-	arm_func_end sub_208628C
+	arm_func_end DWCi_AC_GetPhase
 
-	arm_func_start sub_20862A0
-sub_20862A0: // 0x020862A0
+	arm_func_start DWCi_AC_SetPhase
+DWCi_AC_SetPhase: // 0x020862A0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r0, #1
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r5, r0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
 	strb r6, [r5, #9]
 	cmp r6, #0x10
@@ -156,17 +156,17 @@ sub_20862A0: // 0x020862A0
 	cmp r6, #7
 	ldmlsia sp!, {r4, r5, r6, pc}
 	ldrb r0, [r4, #0xd0d]
-	bl sub_2086218
+	bl DWCi_ConvConnectAPType
 	strb r0, [r5, #0x15]
 	ldrb r0, [r4, #0xd13]
 	add r0, r4, r0, lsl #2
 	ldrb r0, [r0, #0x444]
 	strb r0, [r5, #0x14]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end sub_20862A0
+	arm_func_end DWCi_AC_SetPhase
 
-	arm_func_start sub_2086304
-sub_2086304: // 0x02086304
+	arm_func_start DWCi_AC_GetMemPtr
+DWCi_AC_GetMemPtr: // 0x02086304
 	ands r1, r0, #1
 	ldrne r0, _02086358 // =0x021438DC
 	ldrne r0, [r0]
@@ -194,19 +194,19 @@ _0208635C: .word 0x021438D0
 _02086360: .word 0x021438D4
 _02086364: .word 0x021438D8
 _02086368: .word _021438CC
-	arm_func_end sub_2086304
+	arm_func_end DWCi_AC_GetMemPtr
 
-	arm_func_start sub_208636C
-sub_208636C: // 0x0208636C
+	arm_func_start DWCi_AC_FreeAll
+DWCi_AC_FreeAll: // 0x0208636C
 	stmdb sp!, {r4, lr}
 	mov r0, #1
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
 	ldrb r0, [r4, #8]
 	ands r0, r0, #0x10
 	beq _020863B0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	ldrb r3, [r4, #8]
 	mov r1, r0
 	ldr r2, _02086478 // =0x00000D18
@@ -220,7 +220,7 @@ _020863B0:
 	ands r0, r0, #8
 	beq _020863E4
 	mov r0, #8
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	ldrb r2, [r4, #8]
 	mov r1, r0
 	mov r0, #8
@@ -234,7 +234,7 @@ _020863E4:
 	ands r0, r0, #4
 	beq _02086418
 	mov r0, #4
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	ldrb r2, [r4, #8]
 	mov r1, r0
 	mov r0, #4
@@ -248,7 +248,7 @@ _02086418:
 	ands r0, r0, #2
 	beq _0208644C
 	mov r0, #2
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	ldrb r2, [r4, #8]
 	mov r1, r0
 	mov r0, #2
@@ -271,16 +271,16 @@ _0208644C:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02086478: .word 0x00000D18
-	arm_func_end sub_208636C
+	arm_func_end DWCi_AC_FreeAll
 
-	arm_func_start sub_208647C
-sub_208647C: // 0x0208647C
+	arm_func_start DWCi_AC_Free
+DWCi_AC_Free: // 0x0208647C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r0, #1
 	mov r5, r1
 	mov r4, r2
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	ldrb r2, [r0, #8]
 	ands r1, r2, r6
 	ldmeqia sp!, {r4, r5, r6, pc}
@@ -293,16 +293,16 @@ sub_208647C: // 0x0208647C
 	mov r2, r4
 	blx r3
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end sub_208647C
+	arm_func_end DWCi_AC_Free
 
-	arm_func_start sub_20864C4
-sub_20864C4: // 0x020864C4
+	arm_func_start DWCi_AC_Alloc
+DWCi_AC_Alloc: // 0x020864C4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
 	mov r0, #1
 	mov r4, r1
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	ldrb r1, [r0, #8]
 	ands r2, r1, r5
 	addne sp, sp, #4
@@ -316,16 +316,16 @@ sub_20864C4: // 0x020864C4
 	blx r2
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end sub_20864C4
+	arm_func_end DWCi_AC_Alloc
 
-	arm_func_start sub_2086510
-sub_2086510: // 0x02086510
+	arm_func_start DWCi_AC_InsertApInfo
+DWCi_AC_InsertApInfo: // 0x02086510
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
 	mov r0, #0x10
 	mov r4, r1
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r1, r0
 	mov r0, r4
 	add r1, r1, r5, lsl #8
@@ -333,13 +333,13 @@ sub_2086510: // 0x02086510
 	bl MIi_CpuCopy32
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end sub_2086510
+	arm_func_end DWCi_AC_InsertApInfo
 
-	arm_func_start sub_2086544
-sub_2086544: // 0x02086544
+	arm_func_start DWC_AC_Destroy
+DWC_AC_Destroy: // 0x02086544
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_208628C
+	bl DWCi_AC_GetPhase
 	strb r0, [sp]
 	ldrb r0, [sp]
 	cmp r0, #0
@@ -347,22 +347,22 @@ sub_2086544: // 0x02086544
 	cmp r0, #0x12
 	bne _02086578
 _02086568:
-	bl sub_208636C
+	bl DWCi_AC_FreeAll
 	add sp, sp, #4
 	mov r0, #1
 	ldmia sp!, {pc}
 _02086578:
 	add r0, sp, #0
-	bl sub_2087628
+	bl DWCi_AC_CloseNetwork
 	ldrb r0, [sp]
-	bl sub_20862A0
+	bl DWCi_AC_SetPhase
 	mov r0, #0
 	add sp, sp, #4
 	ldmia sp!, {pc}
-	arm_func_end sub_2086544
+	arm_func_end DWC_AC_Destroy
 
-	arm_func_start sub_2086594
-sub_2086594: // 0x02086594
+	arm_func_start DWC_AC_GetApType
+DWC_AC_GetApType: // 0x02086594
 	stmdb sp!, {r4, lr}
 	ldr r0, _020865D4 // =0x021438DC
 	mov r4, #0xff
@@ -370,7 +370,7 @@ sub_2086594: // 0x02086594
 	cmp r0, #0
 	moveq r0, r4
 	ldmeqia sp!, {r4, pc}
-	bl sub_208628C
+	bl DWCi_AC_GetPhase
 	cmp r0, #0xa
 	blo _020865CC
 	cmp r0, #0x10
@@ -382,13 +382,13 @@ _020865CC:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _020865D4: .word 0x021438DC
-	arm_func_end sub_2086594
+	arm_func_end DWC_AC_GetApType
 
-	arm_func_start sub_20865D8
-sub_20865D8: // 0x020865D8
+	arm_func_start DWC_AC_GetStatus
+DWC_AC_GetStatus: // 0x020865D8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_208628C
+	bl DWCi_AC_GetPhase
 	cmp r0, #1
 	addls sp, sp, #4
 	movls r0, #0
@@ -421,16 +421,16 @@ sub_20865D8: // 0x020865D8
 	addeq sp, sp, #4
 	moveq r0, #4
 	ldmeqia sp!, {pc}
-	bl sub_2087844
+	bl DWCi_AC_GetResult
 	add sp, sp, #4
 	ldmia sp!, {pc}
-	arm_func_end sub_20865D8
+	arm_func_end DWC_AC_GetStatus
 
-	arm_func_start sub_2086670
-sub_2086670: // 0x02086670
+	arm_func_start DWC_AC_Process
+DWC_AC_Process: // 0x02086670
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
-	bl sub_208628C
+	bl DWCi_AC_GetPhase
 	mov r5, r0
 	cmp r5, #1
 	bne _02086694
@@ -444,7 +444,7 @@ _02086694:
 	mov r4, r0
 	bl sub_2088560
 	mov r5, r0
-	bl sub_20862A0
+	bl DWCi_AC_SetPhase
 	mov r0, r4
 	bl OS_RestoreInterrupts
 	b _02086708
@@ -473,12 +473,12 @@ _020866F8:
 	mov r5, r0
 _02086708:
 	mov r0, r5
-	bl sub_20862A0
+	bl DWCi_AC_SetPhase
 	cmp r5, #0x10
 	bne _02086730
-	bl sub_2086134
+	bl CheckDuplicate
 	mov r4, r0
-	bl sub_20861D4
+	bl Free_Disused
 	add sp, sp, #4
 	mov r0, r4
 	ldmia sp!, {r4, r5, pc}
@@ -487,14 +487,14 @@ _02086730:
 	addne sp, sp, #4
 	movne r0, #0
 	ldmneia sp!, {r4, r5, pc}
-	bl sub_20861D4
+	bl Free_Disused
 	mvn r0, #0
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end sub_2086670
+	arm_func_end DWC_AC_Process
 
-	arm_func_start sub_2086750
-sub_2086750: // 0x02086750
+	arm_func_start DWC_AC_Create
+DWC_AC_Create: // 0x02086750
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r2, [r4]
@@ -519,22 +519,22 @@ sub_2086750: // 0x02086750
 	strb r2, [r3, #0x16]
 	mov r0, #0x10
 	strb r2, [r3, #8]
-	bl sub_20864C4
+	bl DWCi_AC_Alloc
 	ldr r2, _02086900 // =_021438CC
 	mov r1, #0x2300
 	str r0, [r2]
 	mov r0, #2
-	bl sub_20864C4
+	bl DWCi_AC_Alloc
 	ldr r2, _02086904 // =0x021438D0
 	mov r1, #0x58
 	str r0, [r2]
 	mov r0, #4
-	bl sub_20864C4
+	bl DWCi_AC_Alloc
 	ldr r2, _02086908 // =0x021438D4
 	mov r1, #0xc
 	str r0, [r2]
 	mov r0, #8
-	bl sub_20864C4
+	bl DWCi_AC_Alloc
 	ldr r2, _0208690C // =0x021438D8
 	ldr r1, _02086900 // =_021438CC
 	str r0, [r2]
@@ -591,13 +591,13 @@ sub_2086750: // 0x02086750
 	ldr r0, _02086904 // =0x021438D0
 	mov r1, #0x2300
 	ldr r0, [r0]
-	bl sub_20CBEDC
+	bl WCM_Init
 	cmp r0, #1
 	beq _020868E4
 	cmp r0, #4
 	blt _020868F0
 _020868E4:
-	bl sub_208636C
+	bl DWCi_AC_FreeAll
 	mov r0, #0
 	ldmia sp!, {r4, pc}
 _020868F0:
@@ -610,7 +610,7 @@ _02086900: .word _021438CC
 _02086904: .word 0x021438D0
 _02086908: .word 0x021438D4
 _0208690C: .word 0x021438D8
-	arm_func_end sub_2086750
+	arm_func_end DWC_AC_Create
 
 	arm_func_start sub_2086910
 sub_2086910: // 0x02086910
@@ -915,7 +915,7 @@ sub_2086D00: // 0x02086D00
 	sub sp, sp, #4
 	mov r5, r0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
 	ldrb r0, [r4, #0xd0c]
 	mov r0, r0, lsl #0x1c
@@ -969,13 +969,13 @@ sub_2086DB4: // 0x02086DB4
 	mov r7, r0
 	mov r0, #0x10
 	mvn r6, #0
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
 	mov r0, #1
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r1, #1
 	strb r1, [r0, #0xb]
-	bl sub_208628C
+	bl DWCi_AC_GetPhase
 	cmp r0, #3
 	beq _02086E04
 	cmp r0, #4
@@ -1078,7 +1078,7 @@ sub_2086F3C: // 0x02086F3C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	ldrsh r1, [r4]
 	cmp r1, #5
 	bne _02086FB4
@@ -1408,7 +1408,7 @@ _02087388:
 	mov r0, r5
 	add r1, r6, r1
 	orr r2, r4, r2
-	bl sub_20CB61C
+	bl WCM_ConnectAsync
 	b _020873D0
 _020873AC:
 	cmp r0, #9
@@ -1509,10 +1509,10 @@ _020874F4: .word 0x00000CB8
 	arm_func_start sub_20874F8
 sub_20874F8: // 0x020874F8
 	stmdb sp!, {r4, lr}
-	bl sub_208628C
+	bl DWCi_AC_GetPhase
 	mov r4, r0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	cmp r4, #7
 	beq _02087520
 	cmp r4, #8
@@ -1582,23 +1582,23 @@ _020875D4:
 	mov r0, #1
 	ldmia sp!, {pc}
 _020875E0:
-	bl sub_20CBE68
+	bl WCM_Finish
 	b _0208761C
 _020875E8:
-	bl sub_20CBB24
+	bl WCM_CleanupAsync
 	b _0208761C
 _020875F0:
-	bl sub_20CB87C
+	bl WCM_EndSearchAsync
 	b _0208761C
 _020875F8:
-	bl sub_20CB4E4
+	bl WCM_DisconnectAsync
 	b _0208761C
 _02087600:
-	bl sub_20CB288
+	bl WCM_TerminateAsync
 	b _0208761C
 _02087608:
 	mov r0, #0
-	bl sub_2086260
+	bl DWCi_AC_SetError
 	add sp, sp, #4
 	mvn r0, #0
 	ldmia sp!, {pc}
@@ -1608,8 +1608,8 @@ _0208761C:
 	ldmia sp!, {pc}
 	arm_func_end sub_2087588
 
-	arm_func_start sub_2087628
-sub_2087628: // 0x02087628
+	arm_func_start DWCi_AC_CloseNetwork
+DWCi_AC_CloseNetwork: // 0x02087628
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrb r0, [r4]
@@ -1646,7 +1646,7 @@ _0208768C:
 _020876A4:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_2087628
+	arm_func_end DWCi_AC_CloseNetwork
 
 	arm_func_start sub_20876AC
 sub_20876AC: // 0x020876AC
@@ -1776,13 +1776,13 @@ _0208783C:
 	bx lr
 	arm_func_end sub_2087800
 
-	arm_func_start sub_2087844
-sub_2087844: // 0x02087844
+	arm_func_start DWCi_AC_GetResult
+DWCi_AC_GetResult: // 0x02087844
 	stmdb sp!, {r4, lr}
 	mov r0, #1
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
-	bl sub_208624C
+	bl DWCi_AC_GetError
 	cmp r0, #4
 	bge _02087868
 	bl sub_2087800
@@ -1802,16 +1802,16 @@ _0208788C:
 	mov r0, r4
 	bl sub_20876AC
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_2087844
+	arm_func_end DWCi_AC_GetResult
 
 	arm_func_start sub_2087898
 sub_2087898: // 0x02087898
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #1
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	add r0, r0, #0xa
-	bl sub_2087628
+	bl DWCi_AC_CloseNetwork
 	cmp r0, #1
 	moveq r0, #0x12
 	movne r0, #0x11
@@ -2082,7 +2082,7 @@ sub_2087C1C: // 0x02087C1C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	ldrb r0, [r0, #0xd0c]
 	mov r0, r0, lsl #0x1c
 	movs r0, r0, lsr #0x1c
@@ -2110,7 +2110,7 @@ sub_2087C6C: // 0x02087C6C
 	sub sp, sp, #4
 	mov r5, r0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
 	cmp r5, #0
 	beq _02087CA0
@@ -2156,7 +2156,7 @@ sub_2087D08: // 0x02087D08
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
 	mov r5, #9
 	bl WCM_GetPhase
@@ -2199,20 +2199,20 @@ _02087D94:
 	bl sub_20883C4
 	b _02087DE0
 _02087DB0:
-	bl sub_20CB87C
+	bl WCM_EndSearchAsync
 	b _02087DE0
 _02087DB8:
-	bl sub_20CB4E4
+	bl WCM_DisconnectAsync
 	b _02087DE0
 _02087DC0:
-	bl sub_20CB288
+	bl WCM_TerminateAsync
 	mov r0, #4
-	bl sub_2086260
+	bl DWCi_AC_SetError
 	mov r5, #0x11
 	b _02087DE0
 _02087DD4:
 	mov r0, #0
-	bl sub_2086260
+	bl DWCi_AC_SetError
 	mov r5, #0x11
 _02087DE0:
 	mov r0, r5
@@ -2229,7 +2229,7 @@ sub_2087DEC: // 0x02087DEC
 	movgt r2, #0xc
 	ldr r2, [ip, r2, lsl #2]
 	orr r2, r3, r2
-	bl sub_20CBAEC
+	bl WCM_SearchAsync
 	add sp, sp, #4
 	ldmia sp!, {pc}
 	.align 2, 0
@@ -2296,11 +2296,11 @@ _02087EC8:
 	cmp r2, #0
 	bne _02087EEC
 	mov r0, #5
-	bl sub_2086260
+	bl DWCi_AC_SetError
 	b _02087EF4
 _02087EEC:
 	mov r0, #6
-	bl sub_2086260
+	bl DWCi_AC_SetError
 _02087EF4:
 	add sp, sp, #4
 	mov r0, #0x11
@@ -2322,7 +2322,7 @@ _02087F00:
 	ldmloia sp!, {r4, r5, pc}
 _02087F38:
 	strb r2, [r5, #0xd13]
-	bl sub_20CB87C
+	bl WCM_EndSearchAsync
 	cmp r0, #1
 	strneb r4, [r5, #0xd0e]
 	movne r4, #7
@@ -2665,7 +2665,7 @@ sub_20883C4: // 0x020883C4
 	sub sp, sp, #4
 	mov r5, r0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
 	cmp r5, #3
 	beq _020883FC
@@ -2735,7 +2735,7 @@ sub_20884C0: // 0x020884C0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	add r0, r0, #0xd00
 	ldrh r2, [r0, #0x16]
 	cmp r2, #0
@@ -2768,7 +2768,7 @@ sub_208852C: // 0x0208852C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	add r0, r0, #0xd00
 	cmp r4, #0xd
 	movhi r4, #0xd
@@ -2785,9 +2785,9 @@ sub_2088560: // 0x02088560
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r5, r0
-	bl sub_208628C
+	bl DWCi_AC_GetPhase
 	mov r4, r0
 	bl WCM_GetPhase
 	cmp r4, #2
@@ -2850,7 +2850,7 @@ sub_2088634: // 0x02088634
 	bl WCM_GetPhase
 	mov r4, r0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	cmp r4, #1
 	bne _020886A0
 	ldrb r1, [r0, #0xd0a]
@@ -2862,14 +2862,14 @@ sub_2088634: // 0x02088634
 	bl sub_2087C6C
 	ldr r1, _020886B8 // =sub_2086F3C
 	add r0, sp, #0
-	bl sub_20CBC30
+	bl WCM_StartupAsync
 	cmp r0, #1
 	beq _0208868C
 	cmp r0, #4
 	blt _020886AC
 _0208868C:
 	mov r0, #1
-	bl sub_2086260
+	bl DWCi_AC_SetError
 	add sp, sp, #0x10
 	mov r0, #0x11
 	ldmia sp!, {r4, pc}
@@ -2894,7 +2894,7 @@ sub_20886BC: // 0x020886BC
 	cmp r0, #6
 	addhs sp, sp, #8
 	ldmhsia sp!, {r4, pc}
-	bl sub_2086218
+	bl DWCi_ConvConnectAPType
 	add r4, r4, r0, lsl #8
 	ldrb r0, [r4, #0xc0]
 	ldrb r2, [r4, #0xc8]
@@ -2992,7 +2992,7 @@ sub_20887EC: // 0x020887EC
 	ldrb r0, [r5, #0xd0d]
 	cmp r0, #6
 	ldmhsia sp!, {r4, r5, r6, pc}
-	bl sub_2086218
+	bl DWCi_ConvConnectAPType
 	add r5, r5, r0, lsl #8
 	ldrb r0, [r5, #0xc0]
 	cmp r0, #0
@@ -3059,7 +3059,7 @@ sub_20888F8: // 0x020888F8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldrb r0, [r0, #0xd0d]
-	bl sub_2086228
+	bl DWCi_AC_SetApType
 	mov r0, #0x10
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -3070,13 +3070,13 @@ sub_2088914: // 0x02088914
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r0, #1
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
 	bl sub_208CC4C
 	movs r5, r0
 	beq _02088978
 	ldrb r0, [r6, #0xd0d]
-	bl sub_2086218
+	bl DWCi_ConvConnectAPType
 	ldrb r1, [r4, #0x15]
 	cmp r1, r0
 	bne _02088950
@@ -3103,14 +3103,14 @@ sub_2088980: // 0x02088980
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	mov r0, #8
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	bl sub_208CE10
 	cmp r0, #0
 	addeq sp, sp, #4
 	moveq r0, #0xe
 	ldmeqia sp!, {pc}
 	mov r0, #3
-	bl sub_2086260
+	bl DWCi_AC_SetError
 	mov r0, #0x11
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -3163,10 +3163,10 @@ sub_2088A48: // 0x02088A48
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r0, #1
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r5, r0
 	mov r0, #4
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
 	mov r0, r5
 	mov r1, r6
@@ -3181,7 +3181,7 @@ sub_2088A48: // 0x02088A48
 	moveq r0, #0xc
 	ldmeqia sp!, {r4, r5, r6, pc}
 	mov r0, #2
-	bl sub_2086260
+	bl DWCi_AC_SetError
 	mov r0, #0x11
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
@@ -3192,10 +3192,10 @@ _02088AA8: .word 0x0214563C
 sub_2088AAC: // 0x02088AAC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
-	bl sub_208628C
+	bl DWCi_AC_GetPhase
 	mov r5, r0
 	mov r0, #0x10
-	bl sub_2086304
+	bl DWCi_AC_GetMemPtr
 	mov r4, r0
 	bl WCM_GetPhase
 	cmp r0, #9

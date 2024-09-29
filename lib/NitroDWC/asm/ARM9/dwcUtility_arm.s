@@ -1272,7 +1272,7 @@ ovl08_215AC48: // 0x0215AC48
 	bl WM_GetAllowedChannel
 	cmp r0, #0x8000
 	beq _0215AC74
-	bl sub_20F20C0
+	bl WM_GetLinkLevel
 	mov r4, r0
 _0215AC74:
 	ldr r2, _0215AD00 // =0x04000208
@@ -8136,7 +8136,7 @@ ovl08_21606D4: // 0x021606D4
 	mov r0, r11
 	bl ovl08_2175C00
 	add r0, sp, #0x1c
-	bl sub_208E050
+	bl DWCi_BM_GetWiFiInfo
 	ldr r9, [sp, #0x1c]
 	ldr r10, [sp, #0x20]
 	mov r3, #0
@@ -8509,7 +8509,7 @@ _02160C60:
 	b _02160CCC
 _02160C6C:
 	add r0, sp, #0
-	bl sub_208E050
+	bl DWCi_BM_GetWiFiInfo
 	ldr r0, _02160CDC // =0x0217E84C
 	ldrb r0, [r0]
 	cmp r0, #0
@@ -8754,7 +8754,7 @@ _02160F2C:
 	bl ovl08_2174AF4
 	mov r5, r0
 	add r0, sp, #0x30
-	bl sub_208E050
+	bl DWCi_BM_GetWiFiInfo
 	ldr r1, [sp, #0x30]
 	ldr r0, [sp, #0x34]
 	mov r6, #0
@@ -14611,7 +14611,7 @@ _02165B4C:
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 _02165B74:
 	add r0, sp, #8
-	bl sub_208DC68
+	bl DWC_BACKUPlCheckAddress
 	cmp r0, #0
 	movne r0, #1
 	moveq r0, #0
@@ -16111,11 +16111,11 @@ ovl08_2166F64: // 0x02166F64
 	cmp r0, #0
 	bne _02166FB0
 	add r0, r4, #0xc8
-	bl sub_208DC68
+	bl DWC_BACKUPlCheckAddress
 	cmp r0, #0
 	bne _02166FB0
 	add r0, r4, #0xcc
-	bl sub_208DC68
+	bl DWC_BACKUPlCheckAddress
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
@@ -16124,18 +16124,18 @@ _02166FB0:
 	cmp r0, #0
 	bne _02166FFC
 	add r0, r4, #0xc0
-	bl sub_208DC68
+	bl DWC_BACKUPlCheckAddress
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #0xc4
-	bl sub_208DC68
+	bl DWC_BACKUPlCheckAddress
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #0xc0
 	add r1, r4, #0xf0
-	bl sub_208DC94
+	bl DWC_BACKUPlCheckIp
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
@@ -22705,7 +22705,7 @@ ovl08_216C700: // 0x0216C700
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
-	bl sub_2086670
+	bl DWC_AC_Process
 	movs r4, r0
 	addeq sp, sp, #4
 	ldmeqia sp!, {r4, r5, pc}
@@ -22720,7 +22720,7 @@ ovl08_216C700: // 0x0216C700
 	bl ovl08_216F934
 	b _0216C754
 _0216C744:
-	bl sub_20865D8
+	bl DWC_AC_GetStatus
 	bl ovl08_21667A4
 	mov r0, #0x12
 	bl ovl08_216F934
@@ -22742,14 +22742,14 @@ ovl08_216C778: // 0x0216C778
 	stmdb sp!, {r4, lr}
 	bl ovl08_216EFE4
 	mov r4, r0
-	bl sub_2086544
+	bl DWC_AC_Destroy
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	bl sub_208D4AC
+	bl DWCi_BACKUPlGetWifi
 	add r1, r4, #0xf0
 	mov r2, #0xe
 	bl MI_CpuCopy8
-	bl sub_208D4AC
+	bl DWCi_BACKUPlGetWifi
 	add r1, r4, #0x1f0
 	mov r2, #0xe
 	bl MI_CpuCopy8
@@ -22924,7 +22924,7 @@ ovl08_216C954: // 0x0216C954
 	addne r0, r0, #1
 	strneb r0, [sp, #0xe]
 	add r0, sp, #4
-	bl sub_2086750
+	bl DWC_AC_Create
 	cmp r0, #0
 	bne _0216C9B0
 	bl OS_Terminate
@@ -22934,7 +22934,7 @@ _0216C9B0:
 	bne _0216C9C8
 	ldrb r0, [r4, #0xf4]
 	mov r1, r4
-	bl sub_2086510
+	bl DWCi_AC_InsertApInfo
 _0216C9C8:
 	mov r0, #0
 	ldr r1, _0216C9E8 // =ovl08_216C700
@@ -25407,7 +25407,7 @@ _0216E89C:
 	mov r1, r10
 	strb r0, [r7, #0x28]
 	mov r0, r5
-	bl sub_20F1E0C
+	bl WM_GetOtherElements
 	ldrb r8, [sp, #0x28]
 	ldr r9, [sp, #0x20]
 	cmp r8, #0
@@ -25583,7 +25583,7 @@ ovl08_216EB34: // 0x0216EB34
 	ldr r2, [r0]
 	ldr r0, _0216EB70 // =ovl08_216E9A0
 	add r1, r2, r1
-	bl sub_20F27B8
+	bl WM_StartScanEx
 	cmp r0, #2
 	moveq r0, #1
 	movne r0, #0
@@ -25876,9 +25876,9 @@ _0216EF18:
 	cmp r3, #3
 	blt _0216EF18
 	add r0, sp, #0
-	bl sub_208E92C
+	bl DWCi_AUTH_GetNewWiFiInfo
 	add r0, sp, #0
-	bl sub_208D4B8
+	bl DWCi_BACKUPlConvWifiInfo
 	mov r6, #0
 	ldr r4, _0216EF9C // =0x0217E910
 	mov r8, r0
@@ -26222,7 +26222,7 @@ _0216F3D0:
 	ldrb r0, [r4, #0xd0]
 	ldr r1, [r1]
 	add r1, r1, #0x4f0
-	bl sub_208DD38
+	bl DWCi_BACKUPlConvMaskAddr
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
@@ -26635,7 +26635,7 @@ ovl08_216F874: // 0x0216F874
 	bl MATHi_CRC16InitTableRev
 	ldr r0, _0216F8B8 // =0x0217E910
 	ldr r0, [r0]
-	bl sub_208DEF0
+	bl DWCi_BACKUPlRead
 	add sp, sp, #4
 	ldmia sp!, {pc}
 	.align 2, 0
@@ -28072,7 +28072,7 @@ ovl08_2170B9C: // 0x02170B9C
 	ldr r2, [r0]
 	ldr r0, _02170BD8 // =ovl08_21709E0
 	add r1, r2, r1
-	bl sub_20F27B8
+	bl WM_StartScanEx
 	cmp r0, #2
 	moveq r0, #1
 	movne r0, #0
@@ -32752,7 +32752,7 @@ ovl08_2174958: // 0x02174958
 	ldr r0, _02174A48 // =0x0000064C
 	ldr r1, [r1]
 	add r0, r1, r0
-	bl sub_208DEF0
+	bl DWCi_BACKUPlRead
 	bl OS_GetTick
 	bl ovl08_216EFE4
 	ldr r1, _02174A44 // =0x0217E94C

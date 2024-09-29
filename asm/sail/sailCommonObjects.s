@@ -2414,7 +2414,7 @@ SailObject__Func_216688C: // 0x0216688C
 	mov r2, lr
 	add r3, sp, #0x24
 	str ip, [sp, #0x10]
-	bl sub_2066A4C
+	bl Unknown2066510__Func_2066A4C
 	add r1, r4, #0x24
 	add r0, sp, #0x24
 	bl MI_Copy36B

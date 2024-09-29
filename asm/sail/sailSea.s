@@ -1478,7 +1478,7 @@ SailSea__GetSurfacePosition: // 0x021604DC
 	add r1, sp, #0x24
 	add r2, sp, #0x18
 	add r3, sp, #0xc
-	bl sub_2066FD0
+	bl Unknown2066510__Func_2066FD0
 	add r0, sp, #0x48
 	add r1, sp, #0x30
 	add r2, sp, #0

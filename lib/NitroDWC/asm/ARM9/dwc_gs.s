@@ -154,7 +154,7 @@ GSIStartAvailableCheckA: // 0x0209F2E0
 	ldr r0, _0209F3C0 // =0x02144DA4
 	mvn r1, #0
 	str r1, [r0]
-	bl sub_20a0c94
+	bl sub_20A0C94
 	ldr r0, _0209F3C4 // =0x02144D24
 	ldrsb r5, [r0]
 	cmp r5, #0
@@ -340,22 +340,22 @@ sub_209F570: // 0x0209F570
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	mov r5, r0
-	bl sub_209FAB4
+	bl ArrayLength
 	subs r4, r0, #1
 	addmi sp, sp, #4
 	ldmmiia sp!, {r4, r5, pc}
 _0209F58C:
 	mov r0, r5
 	mov r1, r4
-	bl sub_209F7CC
+	bl ArrayDeleteAt
 	subs r4, r4, #1
 	bpl _0209F58C
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, pc}
 	arm_func_end sub_209F570
 
-	arm_func_start sub_209F5A8
-sub_209F5A8: // 0x0209F5A8
+	arm_func_start ArrayMapBackwards
+ArrayMapBackwards: // 0x0209F5A8
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	movs r7, r1
 	mov r8, r0
@@ -373,7 +373,7 @@ _0209F5D0:
 _0209F5DC:
 	mov r0, r8
 	mov r1, r5
-	bl sub_209FA44
+	bl ArrayNth
 	mov r1, r6
 	mov r4, r0
 	blx r7
@@ -389,10 +389,10 @@ _0209F608:
 _0209F610: .word 0x0211C558
 _0209F614: .word aDarrayC
 _0209F618: .word 0x00000121
-	arm_func_end sub_209F5A8
+	arm_func_end ArrayMapBackwards
 
-	arm_func_start sub_209F61C
-sub_209F61C: // 0x0209F61C
+	arm_func_start ArrayMap
+ArrayMap: // 0x0209F61C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	movs r6, r1
@@ -412,7 +412,7 @@ _0209F648:
 _0209F658:
 	mov r0, r7
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	mov r1, r5
 	blx r6
 	subs r4, r4, #1
@@ -422,10 +422,10 @@ _0209F658:
 	.align 2, 0
 _0209F67C: .word 0x0211C558
 _0209F680: .word aDarrayC
-	arm_func_end sub_209F61C
+	arm_func_end ArrayMap
 
-	arm_func_start sub_209F684
-sub_209F684: // 0x0209F684
+	arm_func_start ArraySearch
+ArraySearch: // 0x0209F684
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x10
 	mov ip, #1
@@ -447,7 +447,7 @@ _0209F6C0:
 	cmp r1, #0
 	beq _0209F6F8
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	add r1, sp, #8
 	str r5, [sp]
 	str r1, [sp, #4]
@@ -459,7 +459,7 @@ _0209F6C0:
 	b _0209F718
 _0209F6F8:
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	str r5, [sp]
 	mov r1, r0
 	ldr r3, [r7, #8]
@@ -482,7 +482,7 @@ _0209F744:
 	mvn r0, #0
 	add sp, sp, #0x10
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end sub_209F684
+	arm_func_end ArraySearch
 
 	arm_func_start sub_209F750
 sub_209F750: // 0x0209F750
@@ -497,8 +497,8 @@ sub_209F750: // 0x0209F750
 _0209F76C: .word qsort
 	arm_func_end sub_209F750
 
-	arm_func_start sub_209F770
-sub_209F770: // 0x0209F770
+	arm_func_start ArrayReplaceAt
+ArrayReplaceAt: // 0x0209F770
 	stmdb sp!, {r4, r5, r6, lr}
 	movs r4, r2
 	mov r6, r0
@@ -525,10 +525,10 @@ _0209F7A4:
 	.align 2, 0
 _0209F7C4: .word aN0NArrayCount
 _0209F7C8: .word aDarrayC
-	arm_func_end sub_209F770
+	arm_func_end ArrayReplaceAt
 
-	arm_func_start sub_209F7CC
-sub_209F7CC: // 0x0209F7CC
+	arm_func_start ArrayDeleteAt
+ArrayDeleteAt: // 0x0209F7CC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	movs r4, r1
@@ -555,7 +555,7 @@ _0209F800:
 	.align 2, 0
 _0209F820: .word aN0NArrayCount
 _0209F824: .word aDarrayC
-	arm_func_end sub_209F7CC
+	arm_func_end ArrayDeleteAt
 
 	arm_func_start sub_209F828
 sub_209F828: // 0x0209F828
@@ -580,11 +580,11 @@ _0209F85C:
 	bge _0209F8A0
 	mov r0, r4
 	mov r1, r7
-	bl sub_209FA44
+	bl ArrayNth
 	mov r5, r0
 	mov r0, r4
 	add r1, r7, #1
-	bl sub_209FA44
+	bl ArrayNth
 	mov r1, r0
 	ldr r3, [r4, #8]
 	sub r0, r6, r7
@@ -672,11 +672,11 @@ _0209F984:
 	bge _0209F9D4
 	mov r0, r6
 	add r1, r4, #1
-	bl sub_209FA44
+	bl ArrayNth
 	mov r7, r0
 	mov r0, r6
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	mov r1, r0
 	ldr r3, [r6, #8]
 	sub r0, r8, r4
@@ -694,8 +694,8 @@ _0209F9E8: .word aN0NArrayCount_0
 _0209F9EC: .word aDarrayC
 	arm_func_end sub_209F938
 
-	arm_func_start sub_209F9F0
-sub_209F9F0: // 0x0209F9F0
+	arm_func_start ArrayAppend
+ArrayAppend: // 0x0209F9F0
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	movs r5, r0
@@ -719,10 +719,10 @@ _0209FA18:
 	.align 2, 0
 _0209FA3C: .word aArray
 _0209FA40: .word aDarrayC
-	arm_func_end sub_209F9F0
+	arm_func_end ArrayAppend
 
-	arm_func_start sub_209FA44
-sub_209FA44: // 0x0209FA44
+	arm_func_start ArrayNth
+ArrayNth: // 0x0209FA44
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	movs r4, r1
@@ -756,16 +756,16 @@ _0209FA98:
 	.align 2, 0
 _0209FAAC: .word aN0NArrayCount
 _0209FAB0: .word aDarrayC
-	arm_func_end sub_209FA44
+	arm_func_end ArrayNth
 
-	arm_func_start sub_209FAB4
-sub_209FAB4: // 0x0209FAB4
+	arm_func_start ArrayLength
+ArrayLength: // 0x0209FAB4
 	ldr r0, [r0]
 	bx lr
-	arm_func_end sub_209FAB4
+	arm_func_end ArrayLength
 
-	arm_func_start sub_209FABC
-sub_209FABC: // 0x0209FABC
+	arm_func_start ArrayFree
+ArrayFree: // 0x0209FABC
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	movs r5, r0
@@ -798,7 +798,7 @@ _0209FB0C:
 	.align 2, 0
 _0209FB24: .word aArray
 _0209FB28: .word aDarrayC
-	arm_func_end sub_209FABC
+	arm_func_end ArrayFree
 
 	arm_func_start sub_209FB2C
 sub_209FB2C: // 0x0209FB2C
@@ -869,7 +869,7 @@ sub_209FC00: // 0x0209FC00
 	mov r4, r1
 	mov r5, r0
 	mov r1, r2
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r2, [r5, #8]
 	mov r1, r4
 	bl memcpy
@@ -912,14 +912,14 @@ sub_209FC88: // 0x0209FC88
 	ldr r2, [r4, #0x10]
 	cmp r2, #0
 	ldmeqia sp!, {r4, pc}
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r1, [r4, #0x10]
 	blx r1
 	ldmia sp!, {r4, pc}
 	arm_func_end sub_209FC88
 
-	arm_func_start sub_209FCAC
-sub_209FCAC: // 0x0209FCAC
+	arm_func_start TableMapSafe2
+TableMapSafe2: // 0x0209FCAC
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	movs r6, r1
@@ -941,7 +941,7 @@ _0209FCE8:
 	mov r1, r6
 	ldr r0, [r0, r4, lsl #2]
 	mov r2, r5
-	bl sub_209F5A8
+	bl ArrayMapBackwards
 	cmp r0, #0
 	addne sp, sp, #4
 	ldmneia sp!, {r4, r5, r6, r7, pc}
@@ -956,10 +956,10 @@ _0209FD18:
 	.align 2, 0
 _0209FD24: .word _0211C5D4
 _0209FD28: .word aHashtableC
-	arm_func_end sub_209FCAC
+	arm_func_end TableMapSafe2
 
-	arm_func_start sub_209FD2C
-sub_209FD2C: // 0x0209FD2C
+	arm_func_start TableMap
+TableMap: // 0x0209FD2C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	movs r6, r1
@@ -982,7 +982,7 @@ _0209FD6C:
 	mov r1, r6
 	ldr r0, [r0, r4, lsl #2]
 	mov r2, r5
-	bl sub_209F61C
+	bl ArrayMap
 	ldr r0, [r7, #4]
 	add r4, r4, #1
 	cmp r4, r0
@@ -992,10 +992,10 @@ _0209FD6C:
 	.align 2, 0
 _0209FD98: .word _0211C5D4
 _0209FD9C: .word aHashtableC
-	arm_func_end sub_209FD2C
+	arm_func_end TableMap
 
-	arm_func_start sub_209FDA0
-sub_209FDA0: // 0x0209FDA0
+	arm_func_start TableLookup
+TableLookup: // 0x0209FDA0
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	movs r6, r0
@@ -1022,7 +1022,7 @@ _0209FDC8:
 	ldr r0, [r1, r4, lsl #2]
 	ldr r2, [r6, #0x10]
 	mov r1, r5
-	bl sub_209F684
+	bl ArraySearch
 	mov r1, r0
 	mvn r0, #0
 	cmp r1, r0
@@ -1031,16 +1031,16 @@ _0209FDC8:
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r0, [r6]
 	ldr r0, [r0, r4, lsl #2]
-	bl sub_209FA44
+	bl ArrayNth
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0209FE34: .word aTable
 _0209FE38: .word aHashtableC
-	arm_func_end sub_209FDA0
+	arm_func_end TableLookup
 
-	arm_func_start sub_209FE3C
-sub_209FE3C: // 0x0209FE3C
+	arm_func_start TableRemove
+TableRemove: // 0x0209FE3C
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	movs r6, r0
@@ -1067,7 +1067,7 @@ _0209FE64:
 	ldr r0, [r1, r4, lsl #2]
 	ldr r2, [r6, #0x10]
 	mov r1, r5
-	bl sub_209F684
+	bl ArraySearch
 	mov r1, r0
 	mvn r0, #0
 	cmp r1, r0
@@ -1076,17 +1076,17 @@ _0209FE64:
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r0, [r6]
 	ldr r0, [r0, r4, lsl #2]
-	bl sub_209F7CC
+	bl ArrayDeleteAt
 	mov r0, #1
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0209FED4: .word aTable
 _0209FED8: .word aHashtableC
-	arm_func_end sub_209FE3C
+	arm_func_end TableRemove
 
-	arm_func_start sub_209FEDC
-sub_209FEDC: // 0x0209FEDC
+	arm_func_start TableEnter
+TableEnter: // 0x0209FEDC
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	movs r6, r0
@@ -1112,7 +1112,7 @@ _0209FF04:
 	ldr r0, [r1, r4, lsl #2]
 	ldr r2, [r6, #0x10]
 	mov r1, r5
-	bl sub_209F684
+	bl ArraySearch
 	mov r2, r0
 	mvn r0, #0
 	cmp r2, r0
@@ -1120,23 +1120,23 @@ _0209FF04:
 	ldr r0, [r6]
 	mov r1, r5
 	ldr r0, [r0, r4, lsl #2]
-	bl sub_209F9F0
+	bl ArrayAppend
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 _0209FF68:
 	ldr r0, [r6]
 	mov r1, r5
 	ldr r0, [r0, r4, lsl #2]
-	bl sub_209F770
+	bl ArrayReplaceAt
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0209FF80: .word aTable
 _0209FF84: .word aHashtableC
-	arm_func_end sub_209FEDC
+	arm_func_end TableEnter
 
-	arm_func_start sub_209FF88
-sub_209FF88: // 0x0209FF88
+	arm_func_start TableCount
+TableCount: // 0x0209FF88
 	stmdb sp!, {r4, r5, r6, lr}
 	movs r6, r0
 	mov r4, #0
@@ -1157,7 +1157,7 @@ _0209FFAC:
 _0209FFC8:
 	ldr r0, [r6]
 	ldr r0, [r0, r5, lsl #2]
-	bl sub_209FAB4
+	bl ArrayLength
 	ldr r1, [r6, #4]
 	add r5, r5, #1
 	cmp r5, r1
@@ -1169,10 +1169,10 @@ _0209FFE8:
 	.align 2, 0
 _0209FFF0: .word aTable
 _0209FFF4: .word aHashtableC
-	arm_func_end sub_209FF88
+	arm_func_end TableCount
 
-	arm_func_start sub_209FFF8
-sub_209FFF8: // 0x0209FFF8
+	arm_func_start TableFree
+TableFree: // 0x0209FFF8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	movs r5, r0
@@ -1193,7 +1193,7 @@ _020A001C:
 _020A0038:
 	ldr r0, [r5]
 	ldr r0, [r0, r4, lsl #2]
-	bl sub_209FABC
+	bl ArrayFree
 	ldr r0, [r5, #4]
 	add r4, r4, #1
 	cmp r4, r0
@@ -1208,10 +1208,10 @@ _020A0054:
 	.align 2, 0
 _020A006C: .word aTable
 _020A0070: .word aHashtableC
-	arm_func_end sub_209FFF8
+	arm_func_end TableFree
 
-	arm_func_start sub_20A0074
-sub_20A0074: // 0x020A0074
+	arm_func_start TableNew2
+TableNew2: // 0x020A0074
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	movs r7, r3
 	mov r10, r0
@@ -1301,10 +1301,10 @@ _020A01A4: .word aElemsize_0
 _020A01A8: .word aNbuckets
 _020A01AC: .word aTable
 _020A01B0: .word aTableBuckets
-	arm_func_end sub_20A0074
+	arm_func_end TableNew2
 
-	arm_func_start sub_20A01B4
-sub_20A01B4: // 0x020A01B4
+	arm_func_start TableNew
+TableNew: // 0x020A01B4
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr ip, [sp, #0x10]
@@ -1312,10 +1312,10 @@ sub_20A01B4: // 0x020A01B4
 	mov r3, r2
 	mov r2, #4
 	str ip, [sp, #4]
-	bl sub_20A0074
+	bl TableNew2
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
-	arm_func_end sub_20A01B4
+	arm_func_end TableNew
 
 	arm_func_start sub_20A01DC
 sub_20A01DC: // 0x020A01DC
@@ -1325,23 +1325,23 @@ sub_20A01DC: // 0x020A01DC
 	add r0, sp, #0x10
 	mov r5, r1
 	mov r4, r2
-	bl sub_20CCC18
+	bl MD5Init
 	add r0, sp, #0x10
 	mov r1, r6
 	mov r2, r5
-	bl sub_20CCC0C
+	bl MD5Update
 	add r0, sp, #0
 	add r1, sp, #0x10
-	bl sub_20CCC00
+	bl MD5Final
 	add r0, sp, #0
 	mov r1, r4
-	bl sub_20A0228
+	bl MD5Print
 	add sp, sp, #0x68
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end sub_20A01DC
 
-	arm_func_start sub_20A0228
-sub_20A0228: // 0x020A0228
+	arm_func_start MD5Print
+MD5Print: // 0x020A0228
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r6, #0
 	mov r8, r0
@@ -1360,7 +1360,7 @@ _020A0240:
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _020A0264: .word 0x0211C624
-	arm_func_end sub_20A0228
+	arm_func_end MD5Print
 
 	arm_func_start sub_20A0268
 sub_20A0268: // 0x020A0268
@@ -1686,7 +1686,7 @@ _020A0630:
 	add ip, sp, #4
 	strb lr, [sp, #4]
 	str ip, [sp]
-	bl sub_20BE928
+	bl SOC_SendTo
 	mvn r1, #0
 	bl sub_20A081C
 	add sp, sp, #0x10
@@ -1803,7 +1803,7 @@ _020A0794:
 	bne _020A0794
 	add r1, sp, #0
 	strb r2, [sp]
-	bl sub_20BEAFC
+	bl SOC_Bind
 	mvn r1, #0
 	bl sub_20A081C
 	add sp, sp, #8
@@ -1836,7 +1836,7 @@ sub_20A07E4: // 0x020A07E4
 sub_20A0800: // 0x020A0800
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_20BEB28
+	bl SOC_Socket
 	mvn r1, #0
 	bl sub_20A081C
 	add sp, sp, #4
@@ -1987,7 +1987,7 @@ sub_20A09A4: // 0x020A09A4
 	add r0, sp, #0
 	mov r1, #1
 	strh r2, [sp, #6]
-	bl sub_20BE204
+	bl SOC_Poll
 	cmp r0, #0
 	addlt sp, sp, #8
 	mvnlt r0, #0
@@ -2198,15 +2198,15 @@ _020A0C84:
 	ldmia sp!, {r4, r5, pc}
 	arm_func_end sub_20A0C50
 
-	arm_func_start sub_20a0c90
-sub_20a0c90: // 0x020A0C90
+	arm_func_start sub_20A0C90
+sub_20A0C90: // 0x020A0C90
 	bx lr
-	arm_func_end sub_20a0c90
+	arm_func_end sub_20A0C90
 
-	arm_func_start sub_20a0c94
-sub_20a0c94: // 0x020A0C94
+	arm_func_start sub_20A0C94
+sub_20A0C94: // 0x020A0C94
 	bx lr
-	arm_func_end sub_20a0c94
+	arm_func_end sub_20A0C94
 
 	arm_func_start sub_20A0C98
 sub_20A0C98: // 0x020A0C98
@@ -2926,7 +2926,7 @@ _020A1628:
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	ldr r0, [r4, #0x140]
-	bl sub_209FAB4
+	bl ArrayLength
 	str r0, [sp]
 	ldr r0, [r4, #0x44]
 	str r0, [sp, #4]
@@ -3337,25 +3337,25 @@ _020A1BBC:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	arm_func_end sub_20A1AAC
 
-	arm_func_start sub_20a1be8
-sub_20a1be8: // 0x020A1BE8
+	arm_func_start sub_20A1BE8
+sub_20A1BE8: // 0x020A1BE8
 	bx lr
-	arm_func_end sub_20a1be8
+	arm_func_end sub_20A1BE8
 
-	arm_func_start sub_20a1bec
-sub_20a1bec: // 0x020A1BEC
+	arm_func_start sub_20A1BEC
+sub_20A1BEC: // 0x020A1BEC
 	bx lr
-	arm_func_end sub_20a1bec
+	arm_func_end sub_20A1BEC
 
-	arm_func_start sub_20a1bf0
-sub_20a1bf0: // 0x020A1BF0
+	arm_func_start sub_20A1BF0
+sub_20A1BF0: // 0x020A1BF0
 	bx lr
-	arm_func_end sub_20a1bf0
+	arm_func_end sub_20A1BF0
 
-	arm_func_start sub_20a1bf4
-sub_20a1bf4: // 0x020A1BF4
+	arm_func_start sub_20A1BF4
+sub_20A1BF4: // 0x020A1BF4
 	bx lr
-	arm_func_end sub_20a1bf4
+	arm_func_end sub_20A1BF4
 
 	arm_func_start sub_20A1BF8
 sub_20A1BF8: // 0x020A1BF8
@@ -3480,7 +3480,7 @@ sub_20A1D84: // 0x020A1D84
 	cmp r0, #0
 	addle sp, sp, #4
 	ldmleia sp!, {r4, r5, r6, r7, pc}
-	bl sub_20a1bec
+	bl sub_20A1BEC
 	ldr r7, _020A1DF8 // =0x02144E48
 	mov r4, #0
 	ldr r0, [r7]
@@ -3500,7 +3500,7 @@ _020A1DD8:
 	cmp r4, r0
 	blt _020A1DC0
 _020A1DE8:
-	bl sub_20a1be8
+	bl sub_20A1BE8
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -3530,7 +3530,7 @@ _020A1E20:
 	mov r2, #0
 	bl __msl_assertion_failed
 _020A1E44:
-	bl sub_20a1bec
+	bl sub_20A1BEC
 	cmp r4, #0
 	blt _020A1E60
 	ldr r0, _020A1E9C // =0x02144E48
@@ -3538,7 +3538,7 @@ _020A1E44:
 	cmp r4, r0
 	blt _020A1E6C
 _020A1E60:
-	bl sub_20a1be8
+	bl sub_20A1BE8
 	mov r0, #0
 	ldmia sp!, {r4, pc}
 _020A1E6C:
@@ -3548,7 +3548,7 @@ _020A1E6C:
 	ldr r0, [r4]
 	cmp r0, #0
 	moveq r4, #0
-	bl sub_20a1be8
+	bl sub_20A1BE8
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -3617,7 +3617,7 @@ _020A1F34:
 	cmp r1, r0
 	movge r0, #0
 	ldmgeia sp!, {r4, pc}
-	bl sub_20a1bec
+	bl sub_20A1BEC
 	ldr r0, [r4, #0x14]
 	bl DWCi_GsFree
 	ldr r0, [r4, #0x18]
@@ -3683,7 +3683,7 @@ _020A2050:
 	ldr r1, [r0]
 	sub r1, r1, #1
 	str r1, [r0]
-	bl sub_20a1be8
+	bl sub_20A1BE8
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -3700,13 +3700,13 @@ _020A208C: .word 0x02144E4C
 sub_20A2090: // 0x020A2090
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
-	bl sub_20a1bec
+	bl sub_20A1BEC
 	bl sub_20A2240
 	mov r5, r0
 	mvn r0, #0
 	cmp r5, r0
 	bne _020A20C0
-	bl sub_20a1be8
+	bl sub_20A1BE8
 	add sp, sp, #4
 	mov r0, #0
 	ldmia sp!, {r4, r5, pc}
@@ -3794,7 +3794,7 @@ _020A21F4:
 	bne _020A2214
 	mov r0, r4
 	bl sub_20A1EAC
-	bl sub_20a1be8
+	bl sub_20A1BE8
 	add sp, sp, #4
 	mov r0, #0
 	ldmia sp!, {r4, r5, pc}
@@ -3803,7 +3803,7 @@ _020A2214:
 	ldr r1, [r0]
 	add r1, r1, #1
 	str r1, [r0]
-	bl sub_20a1be8
+	bl sub_20A1BE8
 	mov r0, r4
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, pc}
@@ -4107,7 +4107,7 @@ _020A2614: .word 0x02144E58
 ghttpCleanup: // 0x020A2618
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_20a1bec
+	bl sub_20A1BEC
 	ldr r0, _020A2678 // =0x02144E58
 	ldr r1, [r0]
 	subs r1, r1, #1
@@ -4123,12 +4123,12 @@ ghttpCleanup: // 0x020A2618
 	mov r1, #0
 	str r1, [r0]
 _020A265C:
-	bl sub_20a1be8
-	bl sub_20a1bf0
+	bl sub_20A1BE8
+	bl sub_20A1BF0
 	add sp, sp, #4
 	ldmia sp!, {pc}
 _020A266C:
-	bl sub_20a1be8
+	bl sub_20A1BE8
 	add sp, sp, #4
 	ldmia sp!, {pc}
 	.align 2, 0
@@ -4140,14 +4140,14 @@ _020A267C: .word 0x02144E44
 ghttpStartup: // 0x020A2680
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_20a1bec
+	bl sub_20A1BEC
 	ldr r0, _020A26D4 // =0x02144E58
 	ldr r1, [r0]
 	add r1, r1, #1
 	str r1, [r0]
 	cmp r1, #1
 	bne _020A26C8
-	bl sub_20a1bf4
+	bl sub_20A1BF4
 	ldr r1, _020A26D8 // =0x0211C76C
 	mov r3, #0x7d
 	ldr r0, _020A26DC // =0x0211C768
@@ -4157,7 +4157,7 @@ ghttpStartup: // 0x020A2680
 	add sp, sp, #4
 	ldmia sp!, {pc}
 _020A26C8:
-	bl sub_20a1be8
+	bl sub_20A1BE8
 	add sp, sp, #4
 	ldmia sp!, {pc}
 	.align 2, 0
@@ -4379,10 +4379,10 @@ _020A2974:
 _020A2994:
 	ldr r0, [r10, #0x13c]
 	ldr r0, [r0]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r4, r0
 	ldr r0, [r10, #0x140]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r4, r0
 	beq _020A29C8
 	ldr r0, _020A2BA8 // =aArraylengthCon
@@ -4401,7 +4401,7 @@ _020A29C8:
 	bl __msl_assertion_failed
 _020A29E8:
 	ldr r0, [r10, #0x140]
-	bl sub_209FAB4
+	bl ArrayLength
 	ldr r1, [r10, #0x144]
 	cmp r1, r0
 	ble _020A2A10
@@ -4413,7 +4413,7 @@ _020A29E8:
 _020A2A10:
 	ldr r0, [r10, #0x140]
 	add r9, r10, #0x140
-	bl sub_209FAB4
+	bl ArrayLength
 	ldr r1, [r10, #0x5c]
 	mov r7, r0
 	cmp r1, #0
@@ -4447,7 +4447,7 @@ _020A2A78:
 	mov r4, #1
 _020A2A94:
 	ldr r0, [r9]
-	bl sub_209FA44
+	bl ArrayNth
 	movs r8, r0
 	bne _020A2AB8
 	ldr r3, _020A2BC4 // =0x0000042F
@@ -4999,7 +4999,7 @@ sub_20A3240: // 0x020A3240
 	ldr r0, [r6, #0x140]
 	cmp r0, #0
 	beq _020A3294
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r4, r0
 	cmp r4, #0
 	mov r5, #0
@@ -5007,14 +5007,14 @@ sub_20A3240: // 0x020A3240
 _020A3268:
 	ldr r0, [r6, #0x140]
 	mov r1, r5
-	bl sub_209FA44
+	bl ArrayNth
 	bl sub_20A3450
 	add r5, r5, #1
 	cmp r5, r4
 	blt _020A3268
 _020A3284:
 	ldr r0, [r6, #0x140]
-	bl sub_209FABC
+	bl ArrayFree
 	mov r0, #0
 	str r0, [r6, #0x140]
 _020A3294:
@@ -5061,7 +5061,7 @@ _020A32E8:
 	str r0, [r4, #0x154]
 	ldr r0, [r4, #0x13c]
 	ldr r0, [r0]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r7, r0
 	mov r1, r7
 	mov r0, #0x10
@@ -5082,7 +5082,7 @@ _020A3370:
 	ldr r0, [r4, #0x13c]
 	mov r1, r8
 	ldr r0, [r0]
-	bl sub_209FA44
+	bl ArrayNth
 	str r5, [r6]
 	str r5, [r6, #4]
 	str r5, [r6, #8]
@@ -5097,13 +5097,13 @@ _020A3370:
 _020A33AC:
 	ldr r0, [r4, #0x140]
 	mov r1, r8
-	bl sub_209FA44
+	bl ArrayNth
 	bl sub_20A3450
 	subs r8, r8, #1
 	bpl _020A33AC
 _020A33C4:
 	ldr r0, [r4, #0x140]
-	bl sub_209FABC
+	bl ArrayFree
 	mov r0, #0
 	add sp, sp, #0x10
 	str r0, [r4, #0x140]
@@ -5111,17 +5111,17 @@ _020A33C4:
 _020A33DC:
 	ldr r0, [r4, #0x140]
 	mov r1, r6
-	bl sub_209F9F0
+	bl ArrayAppend
 	add r8, r8, #1
 	cmp r8, r7
 	blt _020A3370
 _020A33F4:
 	ldr r0, [r4, #0x13c]
 	ldr r0, [r0]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r5, r0
 	ldr r0, [r4, #0x140]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r5, r0
 	beq _020A3428
 	ldr r0, _020A3448 // =aArraylengthCon
@@ -5288,7 +5288,7 @@ sub_20A35D8: // 0x020A35D8
 	str r6, [r1]
 _020A3630:
 	ldr r0, [r7]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r5, r0
 	cmp r5, #0
 	mov r6, #0
@@ -5298,7 +5298,7 @@ _020A3630:
 _020A3650:
 	ldr r0, [r7]
 	mov r1, r6
-	bl sub_209FA44
+	bl ArrayNth
 	mov r10, r0
 	ldr r0, [r10]
 	cmp r0, #0
@@ -5329,7 +5329,7 @@ _020A3690:
 	add r4, r4, r0
 	ldr r0, [r8, #0x140]
 	mov r1, r6
-	bl sub_209FA44
+	bl ArrayNth
 	movs r10, r0
 	bne _020A36F0
 	ldr r0, _020A3794 // =aState
@@ -5397,7 +5397,7 @@ sub_20A37A4: // 0x020A37A4
 	ldr r10, [r0, #0x13c]
 	mov r6, #0
 	ldr r0, [r10]
-	bl sub_209FAB4
+	bl ArrayLength
 	movs r7, r0
 	addeq sp, sp, #4
 	moveq r0, r6
@@ -5411,7 +5411,7 @@ sub_20A37A4: // 0x020A37A4
 _020A37E4:
 	ldr r0, [r10]
 	mov r1, r8
-	bl sub_209FA44
+	bl ArrayNth
 	mov r9, r0
 	ldr r0, [r9]
 	cmp r0, #0
@@ -5477,7 +5477,7 @@ sub_20A38B4: // 0x020A38B4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4]
-	bl sub_209FABC
+	bl ArrayFree
 	mov r0, r4
 	bl DWCi_GsFree
 	ldmia sp!, {r4, pc}
@@ -6933,7 +6933,7 @@ sub_20A4CD4: // 0x020A4CD4
 	mov r4, r0
 	mov r2, r1
 	bl sub_20A1674
-	bl sub_20a0c94
+	bl sub_20A0C94
 	mov r0, r4
 	bl sub_20A4DA4
 	cmp r0, #0
@@ -8579,7 +8579,7 @@ sub_20A62DC: // 0x020A62DC
 	mov r0, #0
 	str r0, [r4, #0x460]
 	ldr r0, [r4, #0x428]
-	bl sub_209FFF8
+	bl TableFree
 	mov r0, r4
 	bl DWCi_GsFree
 	mov r0, #0
@@ -8666,7 +8666,7 @@ _020A63EC:
 	mov r0, r4
 	ldmia sp!, {r4, r5, r6, pc}
 _020A6448:
-	bl sub_20a0c94
+	bl sub_20A0C94
 	bl sub_20A0CA4
 	bl srand
 	ldr r1, [sp]
@@ -10167,7 +10167,7 @@ _020A797C:
 	subs r0, r1, r0
 	bne _020A7A08
 	ldr r0, [r9, #0x38]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	bne _020A7A08
 	ldr r11, _020A7A44 // =0x0211D50C
@@ -10235,7 +10235,7 @@ _020A7A7C:
 	subs r0, r1, r0
 	bne _020A7AF8
 	ldr r0, [r4, #0x38]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	bne _020A7AF8
 	add r0, sp, #0xc
@@ -15216,7 +15216,7 @@ _020ABFF4:
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
 	ldr r0, [r7, #0x38]
 	add r1, sp, #0
-	bl sub_209F9F0
+	bl ArrayAppend
 	mov r0, #0
 	bl sub_20A0510
 	add r0, r0, #0x12c
@@ -15597,14 +15597,14 @@ _020AC60C:
 	str r0, [r1, #0x3c]
 _020AC614:
 	ldr r0, [r4, #0x38]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	beq _020AC674
 	mov r6, #0
 _020AC628:
 	ldr r0, [r4, #0x38]
 	mov r1, r6
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r2, [r0, #0x10]
 	cmp r2, #0x64
 	bge _020AC658
@@ -15617,9 +15617,9 @@ _020AC628:
 _020AC658:
 	ldr r0, [r4, #0x38]
 	mov r1, r6
-	bl sub_209F7CC
+	bl ArrayDeleteAt
 	ldr r0, [r4, #0x38]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	bne _020AC628
 _020AC674:
@@ -15656,7 +15656,7 @@ sub_20AC69C: // 0x020AC69C
 	ldr r0, [r4, #0x38]
 	cmp r0, #0
 	beq _020AC6F0
-	bl sub_209FABC
+	bl ArrayFree
 	mov r0, #0
 	str r0, [r4, #0x38]
 _020AC6F0:
@@ -15906,7 +15906,7 @@ sub_20ACA28: // 0x020ACA28
 	movne r0, #0
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	ldr r0, [r8, #0x38]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	beq _020ACAE8
 	ldr r5, _020ACAF4 // =0x0211DFD4
@@ -15915,7 +15915,7 @@ sub_20ACA28: // 0x020ACA28
 _020ACA68:
 	ldr r0, [r8, #0x38]
 	mov r1, r7
-	bl sub_209FA44
+	bl ArrayNth
 	mov r6, r0
 	str r7, [sp]
 	str r5, [sp, #4]
@@ -15942,9 +15942,9 @@ _020ACABC:
 	bne _020ACAE8
 	ldr r0, [r8, #0x38]
 	mov r1, r7
-	bl sub_209F7CC
+	bl ArrayDeleteAt
 	ldr r0, [r8, #0x38]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	bne _020ACA68
 _020ACAE8:
@@ -16417,7 +16417,7 @@ sub_20AD148: // 0x020AD148
 	ldr r0, [r3, #0x428]
 	ldr r1, _020AD184 // =sub_20AD188
 	add r2, sp, #0
-	bl sub_209FCAC
+	bl TableMapSafe2
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
@@ -16497,11 +16497,11 @@ _020AD254:
 	arm_func_start sub_20AD25C
 sub_20AD25C: // 0x020AD25C
 	ldr r0, [r0]
-	ldr ip, _020AD26C // =sub_209FE3C
+	ldr ip, _020AD26C // =TableRemove
 	ldr r0, [r0, #0x428]
 	bx ip
 	.align 2, 0
-_020AD26C: .word sub_209FE3C
+_020AD26C: .word TableRemove
 	arm_func_end sub_20AD25C
 
 	arm_func_start sub_20AD270
@@ -16516,7 +16516,7 @@ sub_20AD270: // 0x020AD270
 	ldmeqia sp!, {r4, pc}
 	ldr r0, [r4, #0x428]
 	ldr r1, [sp]
-	bl sub_209FE3C
+	bl TableRemove
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	arm_func_end sub_20AD270
@@ -16530,7 +16530,7 @@ sub_20AD2A4: // 0x020AD2A4
 	str r1, [sp]
 	ldr r0, [r0, #0x428]
 	add r1, sp, #0
-	bl sub_209FDA0
+	bl TableLookup
 	cmp r4, #0
 	strne r0, [r4]
 	cmp r0, #0
@@ -16585,7 +16585,7 @@ _020AD318:
 	str r0, [sp, #0x1c]
 	str r0, [sp, #0x18]
 	ldr r0, [r6]
-	bl sub_209FEDC
+	bl TableEnter
 	ldr r0, [r6, #4]
 	add r2, sp, #0
 	add r3, r0, #1
@@ -16716,7 +16716,7 @@ sub_20AD52C: // 0x020AD52C
 	ldr r3, _020AD584 // =sub_20AD604
 	mov r0, #0x1c
 	mov r1, #4
-	bl sub_20A01B4
+	bl TableNew
 	str r0, [r4, #0x428]
 	ldr r0, [r4, #0x428]
 	cmp r0, #0
@@ -19780,7 +19780,7 @@ sub_20B0108: // 0x020B0108
 	cmp r0, #0
 	addeq sp, sp, #0x24
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
-	bl sub_209FAB4
+	bl ArrayLength
 	subs r4, r0, #1
 	bmi _020B01BC
 	ldr r5, _020B01E0 // =0x0211267C
@@ -19824,7 +19824,7 @@ _020B0174:
 _020B01BC:
 	ldr r0, _020B01DC // =0x02144E74
 	ldr r0, [r0]
-	bl sub_209FABC
+	bl ArrayFree
 	ldr r0, _020B01DC // =0x02144E74
 	mov r1, #0
 	str r1, [r0]
@@ -19849,14 +19849,14 @@ sub_20B01EC: // 0x020B01EC
 	ldmmiia sp!, {r4, r5, r6, r7, pc}
 	ldr r0, _020B030C // =0x02144E74
 	ldr r0, [r0]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r7, r0
 	addge sp, sp, #0x14
 	ldmgeia sp!, {r4, r5, r6, r7, pc}
 	ldr r0, _020B030C // =0x02144E74
 	mov r1, r7
 	ldr r0, [r0]
-	bl sub_209FA44
+	bl ArrayNth
 	mov r3, r0
 	ldr ip, [r3, #0x18]
 	cmp ip, #0
@@ -19914,7 +19914,7 @@ _020B02F4:
 	ldr r0, _020B030C // =0x02144E74
 	mov r1, r7
 	ldr r0, [r0]
-	bl sub_209F7CC
+	bl ArrayDeleteAt
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -20170,7 +20170,7 @@ sub_20B0624: // 0x020B0624
 	ldr r0, _020B06B8 // =0x02144E74
 	mov r1, r5
 	ldr r0, [r0]
-	bl sub_209FA44
+	bl ArrayNth
 	cmp r4, #0
 	movgt r1, #1
 	mov r2, #0
@@ -20218,7 +20218,7 @@ sub_20B06BC: // 0x020B06BC
 	ldr r0, _020B0768 // =0x02144E74
 	mov r1, r6
 	ldr r0, [r0]
-	bl sub_209FA44
+	bl ArrayNth
 	cmp r5, #0
 	movgt r1, #1
 	str r5, [r0, #8]
@@ -20249,14 +20249,14 @@ sub_20B076C: // 0x020B076C
 	mvneq r0, #0
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
 	mov r4, #0
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	ble _020B07EC
 	ldr r8, _020B07F4 // =0x02144E74
 _020B07A4:
 	ldr r0, [r8]
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r1, [r0]
 	cmp r1, r7
 	bne _020B07D8
@@ -20270,7 +20270,7 @@ _020B07A4:
 _020B07D8:
 	ldr r0, [r8]
 	add r4, r4, #1
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r4, r0
 	blt _020B07A4
 _020B07EC:
@@ -21180,7 +21180,7 @@ _020B13B0:
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
 	ldr r0, [r7, #0x9c]
 	mov r1, r6
-	bl sub_209FA44
+	bl ArrayNth
 	movs lr, r0
 	addeq sp, sp, #4
 	moveq r0, #1
@@ -21257,7 +21257,7 @@ _020B14C0:
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
 	ldr r0, [r7, #0x98]
 	mov r1, r6
-	bl sub_209FA44
+	bl ArrayNth
 	movs lr, r0
 	addeq sp, sp, #4
 	moveq r0, #1
@@ -21732,22 +21732,22 @@ _020B1B40:
 	ldr r0, [r4, #0x5c]
 	cmp r0, #0
 	beq _020B1B50
-	bl sub_209FABC
+	bl ArrayFree
 _020B1B50:
 	ldr r0, [r4, #0x60]
 	cmp r0, #0
 	beq _020B1B60
-	bl sub_209FABC
+	bl ArrayFree
 _020B1B60:
 	ldr r0, [r4, #0x98]
 	cmp r0, #0
 	beq _020B1B70
-	bl sub_209FABC
+	bl ArrayFree
 _020B1B70:
 	ldr r0, [r4, #0x9c]
 	cmp r0, #0
 	beq _020B1B80
-	bl sub_209FABC
+	bl ArrayFree
 _020B1B80:
 	mov r0, r4
 	bl DWCi_GsFree
@@ -21772,12 +21772,12 @@ sub_20B1B8C: // 0x020B1B8C
 	add r1, sp, #8
 	ldr r0, [r0, #8]
 	ldr r0, [r0, #0xc]
-	bl sub_209FE3C
+	bl TableRemove
 	ldr r0, [sp, #8]
 	add r1, sp, #8
 	ldr r0, [r0, #8]
 	ldr r0, [r0, #0x10]
-	bl sub_209F9F0
+	bl ArrayAppend
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	add sp, sp, #0x10
@@ -21897,7 +21897,7 @@ sub_20B1D4C: // 0x020B1D4C
 	mov r7, r0
 	ldr r0, [r7, #0x60]
 	mov r6, r1
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r4, r0
 	cmp r4, #0
 	mov r5, #0
@@ -21905,7 +21905,7 @@ sub_20B1D4C: // 0x020B1D4C
 _020B1D74:
 	ldr r0, [r7, #0x60]
 	mov r1, r5
-	bl sub_209FA44
+	bl ArrayNth
 	mov r1, r0
 	ldr r0, [r1, #0xc]
 	sub r0, r6, r0
@@ -22216,7 +22216,7 @@ gt2CloseAllConnections: // 0x020B211C
 	ldr r0, [r0, #0xc]
 	ldr r1, _020B2168 // =sub_20B216C
 	mov r2, #0
-	bl sub_209FD2C
+	bl TableMap
 	ldr r0, _020B2164 // =0x02145284
 	mov r1, #0
 	str r1, [r0]
@@ -22262,7 +22262,7 @@ sub_20B218C: // 0x020B218C
 	add r1, sp, #0x18
 	bl sub_20B49D0
 	ldr r0, [r5, #0x98]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	beq _020B21FC
 	str r4, [sp]
@@ -22943,7 +22943,7 @@ sub_20B2A8C: // 0x020B2A8C
 	sub sp, sp, #4
 	mov r5, r0
 	ldr r0, [r5, #0x60]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r4, r0
 	cmp r4, #0
 	bgt _020B2AC0
@@ -22955,7 +22955,7 @@ sub_20B2A8C: // 0x020B2A8C
 _020B2AC0:
 	ldr r0, [r5, #0x60]
 	sub r1, r4, #1
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r3, [r5, #0x50]
 	ldr r1, [r0]
 	ldr r2, [r0, #4]
@@ -23053,13 +23053,13 @@ sub_20B2BE0: // 0x020B2BE0
 	bl sub_20A0CA4
 	str r0, [sp, #0xc]
 	ldr r0, [r5, #0x60]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r4, r0
 	ldr r0, [r5, #0x60]
 	add r1, sp, #0
-	bl sub_209F9F0
+	bl ArrayAppend
 	ldr r0, [r5, #0x60]
-	bl sub_209FAB4
+	bl ArrayLength
 	add r1, r4, #1
 	cmp r1, r0
 	moveq r0, #1
@@ -23604,7 +23604,7 @@ _020B3388:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 _020B33A4:
 	ldr r0, [r4, #0x60]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r7, r0
 	cmp r7, #0
 	mov r6, #0
@@ -23612,7 +23612,7 @@ _020B33A4:
 _020B33BC:
 	ldr r0, [r4, #0x60]
 	mov r1, r6
-	bl sub_209FA44
+	bl ArrayNth
 	mov r5, r0
 	ldrh r0, [r5, #8]
 	mov r1, r9
@@ -23776,13 +23776,13 @@ sub_20B35E8: // 0x020B35E8
 	mov r6, r0
 _020B35F0:
 	ldr r0, [r6, #0x5c]
-	bl sub_209FAB4
+	bl ArrayLength
 	subs r5, r0, #1
 	bmi _020B3664
 _020B3600:
 	ldr r0, [r6, #0x5c]
 	mov r1, r5
-	bl sub_209FA44
+	bl ArrayNth
 	mov r4, r0
 	ldrh r1, [r4, #0xc]
 	ldrh r0, [r6, #0x66]
@@ -23821,9 +23821,9 @@ sub_20B366C: // 0x020B366C
 	ldr r6, [r1, #4]
 	mov r1, r2
 	mov r8, #0
-	bl sub_209F7CC
+	bl ArrayDeleteAt
 	ldr r0, [r9, #0x5c]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r5, r0
 	cmp r5, #0
 	mov r4, r8
@@ -23831,7 +23831,7 @@ sub_20B366C: // 0x020B366C
 _020B36A8:
 	ldr r0, [r9, #0x5c]
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r1, [r0]
 	cmp r1, r7
 	ble _020B36DC
@@ -23865,7 +23865,7 @@ sub_20B3700: // 0x020B3700
 	mov r7, r2
 	mov r6, r3
 	ldr r5, [sp, #0x34]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r4, r0
 	cmp r4, #0
 	mov r10, #0
@@ -23873,7 +23873,7 @@ sub_20B3700: // 0x020B3700
 _020B3734:
 	ldr r0, [r9, #0x5c]
 	mov r1, r10
-	bl sub_209FA44
+	bl ArrayNth
 	ldrh r0, [r0, #0xc]
 	cmp r0, r7
 	moveq r0, #0
@@ -23907,7 +23907,7 @@ _020B3778:
 	ldr r2, _020B38AC // =sub_20B38B0
 	bl sub_209F8BC
 	ldr r0, [r9, #0x5c]
-	bl sub_209FAB4
+	bl ArrayLength
 	add r1, r4, #1
 	cmp r1, r0
 	movne r0, #1
@@ -23934,13 +23934,13 @@ _020B3778:
 _020B3820:
 	ldr r0, [r9, #0x5c]
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	ldrh r0, [r0, #0xc]
 	cmp r0, r7
 	bne _020B3898
 	ldr r0, [r9, #0x5c]
 	sub r1, r4, #1
-	bl sub_209FA44
+	bl ArrayNth
 	mov r4, r0
 	ldrh r1, [r4, #0xc]
 	mov r0, r7
@@ -24350,7 +24350,7 @@ sub_20B3D78: // 0x020B3D78
 	ldmia sp!, {r4, r5, r6, pc}
 _020B3DB8:
 	ldr r0, [r6, #0x9c]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	beq _020B3DF8
 	mov ip, #1
@@ -24397,7 +24397,7 @@ sub_20B3E28: // 0x020B3E28
 	ldmneia sp!, {r4, r5, r6, pc}
 _020B3E58:
 	ldr r0, [r6, #0x9c]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	beq _020B3E94
 	mov r1, #0
@@ -24431,7 +24431,7 @@ sub_20B3EBC: // 0x020B3EBC
 	mov r4, r0
 	ldr r0, [r4, #0x60]
 	mov r7, r1
-	bl sub_209FAB4
+	bl ArrayLength
 	movs r6, r0
 	addeq sp, sp, #4
 	moveq r0, #1
@@ -24442,7 +24442,7 @@ sub_20B3EBC: // 0x020B3EBC
 _020B3EF0:
 	ldr r0, [r4, #0x60]
 	mov r1, r5
-	bl sub_209FA44
+	bl ArrayNth
 	ldrh r0, [r0, #8]
 	mov r1, r7
 	bl sub_20B40A0
@@ -24462,13 +24462,13 @@ _020B3F1C:
 _020B3F38:
 	ldr r0, [r4, #0x60]
 	mov r1, r5
-	bl sub_209F7CC
+	bl ArrayDeleteAt
 	cmp r5, #0
 	sub r5, r5, #1
 	bne _020B3F38
 _020B3F50:
 	ldr r0, [r4, #0x60]
-	bl sub_209FAB4
+	bl ArrayLength
 	movs r6, r0
 	moveq r0, #0
 	streq r0, [r4, #0x58]
@@ -24477,7 +24477,7 @@ _020B3F50:
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
 	ldr r0, [r4, #0x60]
 	mov r1, #0
-	bl sub_209FA44
+	bl ArrayNth
 	cmp r6, #0
 	ldr r7, [r0]
 	mov r5, #0
@@ -24485,7 +24485,7 @@ _020B3F50:
 _020B3F8C:
 	ldr r0, [r4, #0x60]
 	mov r1, r5
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r1, [r0]
 	add r5, r5, #1
 	sub r1, r1, r7
@@ -24625,14 +24625,14 @@ sub_20B4120: // 0x020B4120
 	sub sp, sp, #4
 	mov r5, r0
 	ldr r0, [r5, #0x10]
-	bl sub_209FAB4
+	bl ArrayLength
 	subs r4, r0, #1
 	addmi sp, sp, #4
 	ldmmiia sp!, {r4, r5, pc}
 _020B4140:
 	ldr r0, [r5, #0x10]
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r0, [r0]
 	bl sub_20B43B0
 	subs r4, r4, #1
@@ -24651,7 +24651,7 @@ sub_20B4164: // 0x020B4164
 	ldr r0, [r4, #0xc]
 	ldr r1, _020B419C // =sub_20B41A0
 	add r2, sp, #0
-	bl sub_209FCAC
+	bl TableMapSafe2
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
@@ -24828,7 +24828,7 @@ sub_20B43B0: // 0x020B43B0
 	bne _020B4468
 	ldr r0, [r1, #8]
 	ldr r0, [r0, #0x10]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r6, r0
 	mov r5, #0
 	cmp r6, #0
@@ -24840,14 +24840,14 @@ _020B4414:
 	mov r1, r5
 	ldr r0, [r4, #8]
 	ldr r0, [r0, #0x10]
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r0, [r0]
 	cmp r4, r0
 	bne _020B4450
 	ldr r0, [r4, #8]
 	mov r1, r5
 	ldr r0, [r0, #0x10]
-	bl sub_209F7CC
+	bl ArrayDeleteAt
 	ldmia sp!, {r4, r5, r6, lr}
 	add sp, sp, #0x10
 	bx lr
@@ -24862,7 +24862,7 @@ _020B4468:
 	ldr r0, [r1, #8]
 	add r1, sp, #0x10
 	ldr r0, [r0, #0xc]
-	bl sub_209FE3C
+	bl TableRemove
 	ldmia sp!, {r4, r5, r6, lr}
 	add sp, sp, #0x10
 	bx lr
@@ -24963,7 +24963,7 @@ sub_20B4484: // 0x020B4484
 	beq _020B4624
 	ldr r0, [r7, #0xc]
 	add r1, sp, #0
-	bl sub_209FEDC
+	bl TableEnter
 	mov r0, r7
 	mov r1, r5
 	mov r2, r4
@@ -24987,25 +24987,25 @@ _020B4624:
 	ldr r0, [r0, #0x5c]
 	cmp r0, #0
 	beq _020B4658
-	bl sub_209FABC
+	bl ArrayFree
 _020B4658:
 	ldr r0, [sp]
 	ldr r0, [r0, #0x60]
 	cmp r0, #0
 	beq _020B466C
-	bl sub_209FABC
+	bl ArrayFree
 _020B466C:
 	ldr r0, [sp]
 	ldr r0, [r0, #0x98]
 	cmp r0, #0
 	beq _020B4680
-	bl sub_209FABC
+	bl ArrayFree
 _020B4680:
 	ldr r0, [sp]
 	ldr r0, [r0, #0x9c]
 	cmp r0, #0
 	beq _020B4694
-	bl sub_209FABC
+	bl ArrayFree
 _020B4694:
 	ldr r0, [sp]
 	bl DWCi_GsFree
@@ -25042,12 +25042,12 @@ sub_20B46C0: // 0x020B46C0
 	ldr r0, [r4]
 	bl sub_20A07E4
 	ldr r0, [r4, #0xc]
-	bl sub_209FFF8
+	bl TableFree
 	ldr r0, [r4, #0x10]
-	bl sub_209FABC
+	bl ArrayFree
 	mov r0, r4
 	bl DWCi_GsFree
-	bl sub_20a0c90
+	bl sub_20A0C90
 	ldmia sp!, {r4, pc}
 	arm_func_end sub_20B46C0
 
@@ -25059,7 +25059,7 @@ sub_20B4704: // 0x020B4704
 	mov r6, r3
 	mov r5, r0
 	mov r7, r2
-	bl sub_20a0c94
+	bl sub_20A0C94
 	cmp r6, #0
 	moveq r6, #0x10000
 	cmp r7, #0
@@ -25095,7 +25095,7 @@ sub_20B4704: // 0x020B4704
 	mov r0, #4
 	mov r1, #0x20
 	mov r2, #2
-	bl sub_20A0074
+	bl TableNew2
 	str r0, [r4, #0xc]
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
@@ -25115,7 +25115,7 @@ _020B47D4:
 	cmp r0, #0
 	bne _020B4810
 	ldr r0, [r4, #0xc]
-	bl sub_209FFF8
+	bl TableFree
 	mov r0, r4
 	bl DWCi_GsFree
 	add sp, sp, #0x1c
@@ -25132,9 +25132,9 @@ _020B4810:
 	cmp r1, r0
 	bne _020B4858
 	ldr r0, [r4, #0xc]
-	bl sub_209FFF8
+	bl TableFree
 	ldr r0, [r4, #0x10]
-	bl sub_209FABC
+	bl ArrayFree
 	mov r0, r4
 	bl DWCi_GsFree
 	add sp, sp, #0x1c
@@ -25165,9 +25165,9 @@ _020B4858:
 	ldr r0, [r4]
 	bl sub_20A07E4
 	ldr r0, [r4, #0xc]
-	bl sub_209FFF8
+	bl TableFree
 	ldr r0, [r4, #0x10]
-	bl sub_209FABC
+	bl ArrayFree
 	mov r0, r4
 	bl DWCi_GsFree
 	add sp, sp, #0x1c
@@ -25209,7 +25209,7 @@ sub_20B4930: // 0x020B4930
 	str r3, [sp]
 	ldr r0, [r0, #0xc]
 	add r1, sp, #0
-	bl sub_209FDA0
+	bl TableLookup
 	cmp r0, #0
 	ldrne r0, [r0]
 	moveq r0, #0
@@ -25817,7 +25817,7 @@ NNThink: // 0x020B515C
 	cmp r0, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {r4, r5, pc}
-	bl sub_209FAB4
+	bl ArrayLength
 	subs r5, r0, #1
 	addmi sp, sp, #4
 	ldmmiia sp!, {r4, r5, pc}
@@ -25825,7 +25825,7 @@ NNThink: // 0x020B515C
 _020B518C:
 	ldr r0, [r4]
 	mov r1, r5
-	bl sub_209FA44
+	bl ArrayNth
 	bl sub_20B51B0
 	subs r5, r5, #1
 	bpl _020B518C
@@ -26478,7 +26478,7 @@ NNFreeNegotiateList: // 0x020B5A60
 	cmp r0, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
-	bl sub_209FABC
+	bl ArrayFree
 	ldr r0, _020B5A94 // =0x021452C8
 	mov r1, #0
 	str r1, [r0]
@@ -26495,14 +26495,14 @@ sub_20B5A98: // 0x020B5A98
 	mov r6, r0
 	ldr r0, [r1]
 	mov r5, #0
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	ldmleia sp!, {r4, r5, r6, pc}
 	ldr r4, _020B5AFC // =0x021452C8
 _020B5ABC:
 	ldr r0, [r4]
 	mov r1, r5
-	bl sub_209FA44
+	bl ArrayNth
 	cmp r6, r0
 	bne _020B5AE4
 	ldr r0, _020B5AFC // =0x021452C8
@@ -26513,7 +26513,7 @@ _020B5ABC:
 _020B5AE4:
 	ldr r0, [r4]
 	add r5, r5, #1
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r5, r0
 	blt _020B5ABC
 	ldmia sp!, {r4, r5, r6, pc}
@@ -26550,14 +26550,14 @@ _020B5B5C:
 	ldr r0, _020B5B90 // =0x021452C8
 	add r1, sp, #0
 	ldr r0, [r0]
-	bl sub_209F9F0
+	bl ArrayAppend
 	ldr r0, _020B5B90 // =0x021452C8
 	ldr r0, [r0]
-	bl sub_209FAB4
+	bl ArrayLength
 	ldr r2, _020B5B90 // =0x021452C8
 	sub r1, r0, #1
 	ldr r0, [r2]
-	bl sub_209FA44
+	bl ArrayNth
 	add sp, sp, #0x44
 	ldmia sp!, {pc}
 	.align 2, 0
@@ -26592,20 +26592,20 @@ sub_20B5BC8: // 0x020B5BC8
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	mov r5, #0
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	ble _020B5C24
 	ldr r4, _020B5C2C // =0x021452C8
 _020B5BF8:
 	ldr r0, [r4]
 	mov r1, r5
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r1, [r0, #8]
 	cmp r1, r6
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r0, [r4]
 	add r5, r5, #1
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r5, r0
 	blt _020B5BF8
 _020B5C24:
@@ -28036,7 +28036,7 @@ _020B6FBC:
 	ldr r0, [r4, #0xc4]
 	cmp r0, #0
 	beq _020B6FDC
-	bl sub_20a0c90
+	bl sub_20A0C90
 _020B6FDC:
 	ldr r0, _020B6FF8 // =0x0211E900
 	cmp r4, r0
@@ -29075,7 +29075,7 @@ sub_20B7D3C: // 0x020B7D3C
 	cmp r0, #1
 	ldmneia sp!, {r4, r5, r6, pc}
 _020B7D64:
-	bl sub_20a0c94
+	bl sub_20A0C94
 	str r4, [r6]
 	mov r0, #2
 	str r5, [r6, #4]
@@ -29387,7 +29387,7 @@ sub_20B80E8: // 0x020B80E8
 	mov r1, r0
 	str r2, [sp, #4]
 	mov r2, #4
-	bl sub_20A0074
+	bl TableNew2
 	str r0, [r4, #0x18]
 	ldr r0, [r4, #0x18]
 	cmp r0, #0
@@ -29882,7 +29882,7 @@ _020B8700:
 	str r5, [sp]
 	ldr r0, [r6, #0x18]
 	add r1, sp, #0
-	bl sub_209FDA0
+	bl TableLookup
 	cmp r0, #0
 	ldrne r4, [r0, #4]
 	mov r0, r4
@@ -29927,7 +29927,7 @@ sub_20B8774: // 0x020B8774
 	str r0, [sp, #4]
 	ldr r0, [r5, #0x18]
 	add r1, sp, #0
-	bl sub_209FEDC
+	bl TableEnter
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
 	arm_func_end sub_20B8774
@@ -29937,7 +29937,7 @@ sub_20B87B4: // 0x020B87B4
 	stmdb sp!, {r4, lr}
 	ldr r4, [r0]
 	ldr r0, [r4, #0x18]
-	bl sub_209FFF8
+	bl TableFree
 	mov r1, #0
 	mov r0, r4
 	str r1, [r4, #0x18]
@@ -29954,13 +29954,13 @@ sub_20B87D8: // 0x020B87D8
 	cmp r0, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
-	bl sub_209FF88
+	bl TableCount
 	cmp r0, #0
 	addne sp, sp, #4
 	ldmneia sp!, {pc}
 	ldr r0, _020B8824 // =0x02145628
 	ldr r0, [r0]
-	bl sub_209FFF8
+	bl TableFree
 	ldr r0, _020B8824 // =0x02145628
 	mov r1, #0
 	str r1, [r0]
@@ -29986,7 +29986,7 @@ sub_20B8828: // 0x020B8828
 	mov r1, #0x64
 	mov r2, #2
 	str ip, [sp, #4]
-	bl sub_20A0074
+	bl TableNew2
 	ldr r1, _020B887C // =0x02145628
 	str r0, [r1]
 _020B886C:
@@ -30500,7 +30500,7 @@ _020B8E88:
 	bl sub_20BA6C4
 _020B8E98:
 	ldr r0, [r6, #4]
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	beq _020B8EB4
 	ldr r0, [r4, #0x10]
@@ -31380,7 +31380,7 @@ _020B9AA8:
 	str r0, [sp]
 	ldr r0, [r10, #8]
 	mov r1, r11
-	bl sub_209F9F0
+	bl ArrayAppend
 	add r0, r5, #1
 	add r7, r7, #1
 	cmp r7, r6
@@ -31530,7 +31530,7 @@ _020B9CC8:
 	sub r6, r6, #1
 _020B9D18:
 	ldr r0, [r8, #8]
-	bl sub_209FAB4
+	bl ArrayLength
 	ldr r1, [r8, #0x484]
 	cmp r1, r0
 	ble _020B9D98
@@ -31553,18 +31553,18 @@ _020B9D34:
 	str r0, [sp]
 	ldr r0, [r8, #8]
 	mov r1, r5
-	bl sub_209F9F0
+	bl ArrayAppend
 	add r1, r9, #1
 	ldr r0, [r8, #8]
 	add r7, r7, r1
 	sub r6, r6, r1
-	bl sub_209FAB4
+	bl ArrayLength
 	ldr r1, [r8, #0x484]
 	cmp r1, r0
 	bgt _020B9D34
 _020B9D98:
 	ldr r0, [r8, #8]
-	bl sub_209FAB4
+	bl ArrayLength
 	ldr r1, [r8, #0x484]
 	cmp r1, r0
 	bgt _020B9F00
@@ -31861,7 +31861,7 @@ _020BA1BC:
 	ands r0, r0, #0x40
 	beq _020BA2F4
 	ldr r0, [r10, #8]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r5, r0
 	cmp r5, #0
 	mov r4, #0
@@ -31870,7 +31870,7 @@ _020BA1BC:
 _020BA1E4:
 	ldr r0, [r10, #8]
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	mov r1, r0
 	ldr r0, [r1, #4]
 	cmp r0, #0
@@ -32032,7 +32032,7 @@ sub_20BA40C: // 0x020BA40C
 	ldr r0, [r8, #8]
 	mov r7, r1
 	mov r6, r2
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r5, r0
 	cmp r5, #0
 	mov r4, #0
@@ -32041,7 +32041,7 @@ sub_20BA40C: // 0x020BA40C
 _020BA43C:
 	ldr r0, [r8, #8]
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	beq _020BA480
@@ -32226,7 +32226,7 @@ sub_20BA68C: // 0x020BA68C
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	beq _020BA6B8
-	bl sub_209FABC
+	bl ArrayFree
 _020BA6B8:
 	mov r0, #0
 	str r0, [r4, #4]
@@ -32274,24 +32274,24 @@ sub_20BA728: // 0x020BA728
 	addeq sp, sp, #4
 	ldmeqia sp!, {r4, r5, pc}
 	mov r4, #0
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r0, #0
 	ble _020BA780
 _020BA754:
 	ldr r0, [r5, #8]
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r1, [r0]
 	mov r0, r5
 	bl sub_20BB0D8
 	ldr r0, [r5, #8]
 	add r4, r4, #1
-	bl sub_209FAB4
+	bl ArrayLength
 	cmp r4, r0
 	blt _020BA754
 _020BA780:
 	ldr r0, [r5, #8]
-	bl sub_209FABC
+	bl ArrayFree
 	mov r0, #0
 	str r0, [r5, #8]
 	add sp, sp, #4
@@ -32946,7 +32946,7 @@ _020BB02C:
 	str r0, [r7, #0x5cc]
 	bl sub_20A0CA4
 	bl srand
-	bl sub_20a0c94
+	bl sub_20A0C94
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -32984,7 +32984,7 @@ sub_20BB0D8: // 0x020BB0D8
 	str r1, [sp]
 	bl sub_20B8828
 	add r1, sp, #0
-	bl sub_209FDA0
+	bl TableLookup
 	movs r4, r0
 	bne _020BB110
 	ldr r0, _020BB150 // =aValNull
@@ -33006,7 +33006,7 @@ _020BB110:
 	mov r0, r5
 	bl sub_20B8828
 	add r1, sp, #0
-	bl sub_209FE3C
+	bl TableRemove
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
@@ -33023,7 +33023,7 @@ sub_20BB158: // 0x020BB158
 	str r4, [sp]
 	bl sub_20B8828
 	add r1, sp, #0
-	bl sub_209FDA0
+	bl TableLookup
 	cmp r0, #0
 	ldrne r1, [r0, #4]
 	addne sp, sp, #0xc
@@ -33039,7 +33039,7 @@ sub_20BB158: // 0x020BB158
 	str r1, [sp, #4]
 	bl sub_20B8828
 	add r1, sp, #0
-	bl sub_209FEDC
+	bl TableEnter
 	ldr r0, [sp]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
@@ -33064,7 +33064,7 @@ sub_20BB1EC: // 0x020BB1EC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #4]
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r4, r0
 	cmp r4, #0
 	mov r5, #0
@@ -33072,7 +33072,7 @@ sub_20BB1EC: // 0x020BB1EC
 _020BB20C:
 	ldr r0, [r6, #4]
 	mov r1, r5
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r1, [r0]
 	mov r0, r6
 	bl sub_20BB318
@@ -33121,7 +33121,7 @@ sub_20BB2A0: // 0x020BB2A0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, [r0, #4]
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r0, [r0]
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -33129,11 +33129,11 @@ sub_20BB2A0: // 0x020BB2A0
 
 	arm_func_start sub_20BB2BC
 sub_20BB2BC: // 0x020BB2BC
-	ldr ip, _020BB2C8 // =sub_209FAB4
+	ldr ip, _020BB2C8 // =ArrayLength
 	ldr r0, [r0, #4]
 	bx ip
 	.align 2, 0
-_020BB2C8: .word sub_209FAB4
+_020BB2C8: .word ArrayLength
 	arm_func_end sub_20BB2BC
 
 	arm_func_start sub_20BB2CC
@@ -33142,7 +33142,7 @@ sub_20BB2CC: // 0x020BB2CC
 	mov r6, r0
 	ldr r0, [r6, #4]
 	mov r5, r1
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r4, [r0]
 	ldr r3, [r6, #0x494]
 	ldr ip, [r6, #0x488]
@@ -33152,7 +33152,7 @@ sub_20BB2CC: // 0x020BB2CC
 	blx ip
 	ldr r0, [r6, #4]
 	mov r1, r5
-	bl sub_209F7CC
+	bl ArrayDeleteAt
 	mov r0, r6
 	mov r1, r4
 	bl sub_20BB318
@@ -33189,7 +33189,7 @@ sub_20BB358: // 0x020BB358
 	ldr r0, [r9, #4]
 	mov r8, r1
 	mov r7, r2
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r6, r0
 	cmp r6, #0
 	mov r4, #0
@@ -33197,7 +33197,7 @@ sub_20BB358: // 0x020BB358
 _020BB384:
 	ldr r0, [r9, #4]
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r5, [r0]
 	mov r0, r5
 	bl SBServerGetPublicInetAddress
@@ -33226,7 +33226,7 @@ sub_20BB3D4: // 0x020BB3D4
 	mov r7, r0
 	ldr r0, [r7, #4]
 	mov r6, r1
-	bl sub_209FAB4
+	bl ArrayLength
 	mov r5, r0
 	cmp r5, #0
 	mov r4, #0
@@ -33234,7 +33234,7 @@ sub_20BB3D4: // 0x020BB3D4
 _020BB3FC:
 	ldr r0, [r7, #4]
 	mov r1, r4
-	bl sub_209FA44
+	bl ArrayNth
 	ldr r0, [r0]
 	cmp r6, r0
 	addeq sp, sp, #4
@@ -33256,7 +33256,7 @@ sub_20BB434: // 0x020BB434
 	mov r4, r0
 	ldr r0, [r4, #4]
 	add r1, sp, #0xc
-	bl sub_209F9F0
+	bl ArrayAppend
 	ldr r2, [sp, #0xc]
 	ldr r3, [r4, #0x494]
 	ldr ip, [r4, #0x488]
@@ -33279,7 +33279,7 @@ _020BB47C: // jump table
 	b _020BB49C // case 2
 	b _020BB4A4 // case 3
 _020BB48C:
-	ldr r3, _020BB4D0 // =sub_20BB6A8
+	ldr r3, _020BB4D0 // =IntKeyCompare
 	b _020BB4B0
 _020BB494:
 	ldr r3, _020BB4D4 // =sub_20BB5C8
@@ -33302,7 +33302,7 @@ _020BB4B0:
 	ldr r0, [r0, #4]
 	bx ip
 	.align 2, 0
-_020BB4D0: .word sub_20BB6A8
+_020BB4D0: .word IntKeyCompare
 _020BB4D4: .word sub_20BB5C8
 _020BB4D8: .word sub_20BB558
 _020BB4DC: .word sub_20BB4E8
@@ -33438,8 +33438,8 @@ _020BB65C:
 _020BB6A4: .word 0x02145634
 	arm_func_end sub_20BB5C8
 
-	arm_func_start sub_20BB6A8
-sub_20BB6A8: // 0x020BB6A8
+	arm_func_start IntKeyCompare
+IntKeyCompare: // 0x020BB6A8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r2, _020BB708 // =0x02145634
@@ -33466,7 +33466,7 @@ sub_20BB6A8: // 0x020BB6A8
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _020BB708: .word 0x02145634
-	arm_func_end sub_20BB6A8
+	arm_func_end IntKeyCompare
 
 	.rodata
 	

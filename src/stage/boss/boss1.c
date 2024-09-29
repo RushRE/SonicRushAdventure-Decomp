@@ -22,9 +22,9 @@
 // --------------------
 
 NOT_DECOMPILED u16 Unknown2066510__LerpAngle(u16 start, u16 end, fx32 percent);
-NOT_DECOMPILED void sub_20665A0(void);
-NOT_DECOMPILED void sub_2066B94(void);
-NOT_DECOMPILED void sub_20665F8(void);
+NOT_DECOMPILED void Unknown2066510__LerpMtx43(void);
+NOT_DECOMPILED void Unknown2066510__Func_2066B94(void);
+NOT_DECOMPILED void Unknown2066510__NormalizeScale(void);
 
 // --------------------
 // ENUMS
@@ -3022,7 +3022,7 @@ NONMATCH_FUNC void Boss1__NeckRenderCallback(s32 a1, void *param){
 	bl NNS_G3dGetCurrentMtx
 	add r0, sp, #0x78
 	mov r1, r0
-	bl sub_20665F8
+	bl Unknown2066510__NormalizeScale
 	ldr r0, =gPlayer
 	add r1, sp, #0x9c
 	ldr r0, [r0]
@@ -3036,7 +3036,7 @@ NONMATCH_FUNC void Boss1__NeckRenderCallback(s32 a1, void *param){
 	add r0, sp, #0x90
 	mov r1, #0x2000
 	mov r3, r2
-	bl sub_2066B94
+	bl Unknown2066510__Func_2066B94
 	ldr r0, =Boss1__neckUpVector
 	add r3, sp, #0xc
 	ldmia r0, {r0, r1, r2}
@@ -3078,7 +3078,7 @@ _02156888:
 	add r0, sp, #0x78
 	add r1, sp, #0x48
 	add r3, sp, #0x18
-	bl sub_20665A0
+	bl Unknown2066510__LerpMtx43
 _02156898:
 	add r1, sp, #0x18
 	mov r0, #0x17

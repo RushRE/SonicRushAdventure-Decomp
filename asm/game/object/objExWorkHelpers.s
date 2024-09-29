@@ -3,8 +3,8 @@
 
 	.text
 
-	arm_func_start sub_20773A0
-sub_20773A0: // 0x020773A0
+	arm_func_start ExWork__Func_20773A0
+ExWork__Func_20773A0: // 0x020773A0
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0xa8
 	mov r6, r0
@@ -350,10 +350,10 @@ _020778A8:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _020778BC: .word FX_SinCosTable_
-	arm_func_end sub_20773A0
+	arm_func_end ExWork__Func_20773A0
 
-	arm_func_start sub_20778C0
-sub_20778C0: // 0x020778C0
+	arm_func_start ExWork__Func_20778C0
+ExWork__Func_20778C0: // 0x020778C0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r1
 	ldr r1, [r5, #0x10]
@@ -416,10 +416,10 @@ _0207799C:
 	sub r0, r0, #1
 	strh r0, [r5, #8]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end sub_20778C0
+	arm_func_end ExWork__Func_20778C0
 
-	arm_func_start sub_20779AC
-sub_20779AC: // 0x020779AC
+	arm_func_start ExWork__Func_20779AC
+ExWork__Func_20779AC: // 0x020779AC
 	stmdb sp!, {r3, lr}
 	ldr r3, [r1, #0x10]
 	ldr r2, [r1, #0x3c]
@@ -476,10 +476,10 @@ _02077A70:
 	sub r0, r0, #1
 	strh r0, [r1, #0xc]
 	ldmia sp!, {r3, pc}
-	arm_func_end sub_20779AC
+	arm_func_end ExWork__Func_20779AC
 
-	arm_func_start sub_2077A80
-sub_2077A80: // 0x02077A80
+	arm_func_start ExWork__Func_2077A80
+ExWork__Func_2077A80: // 0x02077A80
 	ldr r3, [r1, #0x10]
 	ldr r2, [r1, #0x40]
 	bic r3, r3, #1
@@ -539,4 +539,4 @@ _02077B50:
 	sub r0, r0, #1
 	strh r0, [r1, #0xe]
 	bx lr
-	arm_func_end sub_2077A80
+	arm_func_end ExWork__Func_2077A80

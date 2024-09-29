@@ -918,17 +918,17 @@ MapSys__Func_20090D0: // 0x020090D0
 
 	arm_func_start MapSys__SetTargetOffsetA
 MapSys__SetTargetOffsetA: // 0x0200911C
-	ldr ip, _02009130 // =sub_2009134
+	ldr ip, _02009130 // =MapSys__SetTargetOffset
 	mov r2, r1
 	mov r1, r0
 	mov r0, #0
 	bx ip
 	.align 2, 0
-_02009130: .word sub_2009134
+_02009130: .word MapSys__SetTargetOffset
 	arm_func_end MapSys__SetTargetOffsetA
 
-	arm_func_start sub_2009134
-sub_2009134: // 0x02009134
+	arm_func_start MapSys__SetTargetOffset
+MapSys__SetTargetOffset: // 0x02009134
 	stmdb sp!, {r3, lr}
 	mov r3, #0x70
 	mul lr, r0, r3
@@ -953,10 +953,10 @@ _02009180: .word 0x02133B1C
 _02009184: .word mapCamera
 _02009188: .word 0x02133B10
 _0200918C: .word 0x02133B14
-	arm_func_end sub_2009134
+	arm_func_end MapSys__SetTargetOffset
 
-	arm_func_start MapSys__SetTargetOffset
-MapSys__SetTargetOffset: // 0x02009190
+	arm_func_start MapSys__Func_2009190
+MapSys__Func_2009190: // 0x02009190
 	mov r1, #0x70
 	mul r1, r0, r1
 	ldr r2, _020091AC // =mapCamera
@@ -966,7 +966,7 @@ MapSys__SetTargetOffset: // 0x02009190
 	bx lr
 	.align 2, 0
 _020091AC: .word mapCamera
-	arm_func_end MapSys__SetTargetOffset
+	arm_func_end MapSys__Func_2009190
 
 	arm_func_start MapSys__Func_20091B0
 MapSys__Func_20091B0: // 0x020091B0

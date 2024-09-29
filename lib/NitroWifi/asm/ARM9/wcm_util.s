@@ -3,8 +3,8 @@
 
 	.text
 
-	arm_func_start sub_20CCA2C
-sub_20CCA2C: // 0x020CCA2C
+	arm_func_start WCMi_ShelterRssi
+WCMi_ShelterRssi: // 0x020CCA2C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r2, _020CCAA4 // =0x0214721C
@@ -38,13 +38,13 @@ sub_20CCA2C: // 0x020CCA2C
 	.align 2, 0
 _020CCAA4: .word 0x0214721C
 _020CCAA8: .word 0x02147220
-	arm_func_end sub_20CCA2C
+	arm_func_end WCMi_ShelterRssi
 
-	arm_func_start sub_20CCAAC
-sub_20CCAAC: // 0x020CCAAC
+	arm_func_start WcmGetLinkLevel
+WcmGetLinkLevel: // 0x020CCAAC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	bl sub_20CCAEC
+	bl WCMi_GetRssiAverage
 	mov r1, #0
 	cmp r0, #0x1c
 	movhs r1, #3
@@ -59,10 +59,10 @@ _020CCADC:
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
-	arm_func_end sub_20CCAAC
+	arm_func_end WcmGetLinkLevel
 
-	arm_func_start sub_20CCAEC
-sub_20CCAEC: // 0x020CCAEC
+	arm_func_start WCMi_GetRssiAverage
+WCMi_GetRssiAverage: // 0x020CCAEC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _020CCB7C // =0x0214721C
@@ -107,7 +107,7 @@ _020CCB6C:
 	.align 2, 0
 _020CCB7C: .word 0x0214721C
 _020CCB80: .word 0x02147220
-	arm_func_end sub_20CCAEC
+	arm_func_end WCMi_GetRssiAverage
 
 	arm_func_start WCM_GetLinkLevel
 WCM_GetLinkLevel: // 0x020CCB84
@@ -115,7 +115,7 @@ WCM_GetLinkLevel: // 0x020CCB84
 	sub sp, sp, #4
 	bl OS_DisableInterrupts
 	mov r5, r0
-	bl sub_20CB194
+	bl WCMi_GetSystemWork
 	cmp r0, #0
 	mov r4, #0
 	beq _020CCBBC
@@ -123,7 +123,7 @@ WCM_GetLinkLevel: // 0x020CCB84
 	ldr r0, [r0, #0x260]
 	cmp r0, #9
 	bne _020CCBBC
-	bl sub_20CCAAC
+	bl WcmGetLinkLevel
 	mov r4, r0
 _020CCBBC:
 	mov r0, r5
@@ -134,8 +134,8 @@ _020CCBBC:
 	bx lr
 	arm_func_end WCM_GetLinkLevel
 
-	arm_func_start sub_20CCBD4
-sub_20CCBD4: // 0x020CCBD4
+	arm_func_start WCM_CompareBssID
+WCM_CompareBssID: // 0x020CCBD4
 	mov ip, #0
 _020CCBD8:
 	ldrb r3, [r0, ip]
@@ -148,4 +148,4 @@ _020CCBD8:
 	blt _020CCBD8
 	mov r0, #1
 	bx lr
-	arm_func_end sub_20CCBD4
+	arm_func_end WCM_CompareBssID

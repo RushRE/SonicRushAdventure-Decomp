@@ -307,7 +307,7 @@ _0218393C:
 	add r1, sp, #0xc
 	add r2, sp, #0x24
 	add r3, sp, #0x30
-	bl sub_2066A4C
+	bl Unknown2066510__Func_2066A4C
 	add r0, sp, #0x30
 	add r1, sp, #0x6c
 	bl MI_Copy36B
