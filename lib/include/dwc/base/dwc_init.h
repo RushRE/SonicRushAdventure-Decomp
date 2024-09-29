@@ -26,6 +26,7 @@ enum
 // --------------------
 
 int DWC_Init(void *work);
+u64 DWC_GetAuthenticatedUserId(void);
 
 #ifdef __cplusplus
 }

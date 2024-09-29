@@ -192,10 +192,42 @@ Static arm9
     Object asm/game/util/cppHelpers.o
     
     ### NitroDWC ###
-    Object lib/NitroDWC/asm/ARM9/dwc.o # TODO: split asm blob into proper files
+    Object lib/NitroDWC/asm/ARM9/dwci_ac.o # TODO: split asm blob into proper files
+    Object lib/NitroDWC/asm/ARM9/dwci_auth.o # TODO: split asm blob into proper files
+    Object lib/NitroDWC/asm/ARM9/dwc_bm_backup.o
+    Object lib/NitroDWC/asm/ARM9/dwc_bm_init.o
+    Object lib/NitroDWC/asm/ARM9/dwc_bm_wifiidtool.o
+    Object lib/NitroDWC/asm/ARM9/dwc_error.o
+    Object lib/NitroDWC/asm/ARM9/dwc_memfunc.o
+    Object lib/NitroDWC/asm/ARM9/dwc_connectinet.o
+    Object lib/NitroDWC/asm/ARM9/dwc_nasfunc.o
+    Object lib/NitroDWC/asm/ARM9/dwc_nd.o
+    Object lib/NitroDWC/asm/ARM9/dwc_common.o
+    Object lib/NitroDWC/asm/ARM9/dwc_main.o
+    Object lib/NitroDWC/asm/ARM9/dwc_login.o
+    Object lib/NitroDWC/asm/ARM9/dwc_friend.o
+    Object lib/NitroDWC/asm/ARM9/dwc_match.o
+    Object lib/NitroDWC/asm/ARM9/dwc_transport.o
+    Object lib/NitroDWC/asm/ARM9/dwc_ghttp.o
+    Object lib/NitroDWC/asm/ARM9/dwc_ranking.o
+    Object lib/NitroDWC/src/account/dwc_init.o
+    Object lib/NitroDWC/asm/ARM9/dwc_account.o
+    Object lib/NitroDWC/asm/ARM9/dwci_nd.o
+    Object lib/NitroDWC/asm/ARM9/dwci_ranking.o
+    Object lib/NitroDWC/asm/ARM9/dwc_gs.o # TODO: split asm blob into proper files
     
     ### NitroWiFi ###
-    Object lib/NitroWiFi/asm/ARM9/wifi.o # TODO: split asm blob into proper files
+    Object lib/NitroWiFi/asm/ARM9/cps_network.o
+    Object lib/NitroWiFi/asm/ARM9/socl_startup.o
+    Object lib/NitroWiFi/asm/ARM9/soc.o # TODO: split asm blob into proper files
+    Object lib/NitroWiFi/asm/ARM9/ssl.o # TODO: split asm blob into proper files
+    Object lib/NitroWiFi/asm/ARM9/wcm_system.o
+    Object lib/NitroWiFi/asm/ARM9/wcm_aplist.o
+    Object lib/NitroWiFi/asm/ARM9/wcm_cpsif.o
+    Object lib/NitroWiFi/asm/ARM9/wcm_util.o
+    Object lib/NitroWiFi/asm/ARM9/wcm_dummy_md5.o
+    Object lib/NitroWiFi/asm/ARM9/stubs_soc.o
+    Object lib/NitroWiFi/asm/ARM9/stubs_ssl.o
     
     ### NitroSystem ###
     Object lib/NitroSystem/src/fnd/list.o
@@ -692,6 +724,9 @@ Overlay DWCUtility
     After arm9
 
     # libdwcutil library's logic
+
+    # TODO: use pre-built util library if possible
+    # Library ../../../lib/NitroDWC/lib/libdwcutil.a
     Object lib/NitroDWC/asm/ARM9/dwcUtility_thumb.o
     Object lib/NitroDWC/asm/ARM9/dwcUtility_arm.o
 

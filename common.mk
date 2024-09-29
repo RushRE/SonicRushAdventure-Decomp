@@ -74,6 +74,8 @@ TOOLDIRS := $(foreach tool,$(NATIVE_TOOLS),$(dir $(tool)))
 
 # NitroSDK
 NITROSYSTEM_SRC_SUBDIRS   := 
+NITROWIFI_SRC_SUBDIRS     := 
+NITRODWC_SRC_SUBDIRS      := 
 NITROSDK_SRC_SUBDIRS      := init/$(BUILD_MODE) fx gx os os/$(BUILD_MODE) mi snd pxi pad pad/$(BUILD_MODE) fs dgt cp spi spi/$(BUILD_MODE) rtc rtc/$(BUILD_MODE) card card/$(BUILD_MODE) wm mb ctrdg ctrdg/$(BUILD_MODE) math cht cht/$(BUILD_MODE) std 
 
 ifeq ($(BUILD_MODE),ARM7)
@@ -81,14 +83,16 @@ NITROSDK_SRC_SUBDIRS      := init/$(BUILD_MODE) os os/$(BUILD_MODE) mi snd_TODO_
 else
 # set this here so arm7 doesn't try to compile it
 NITROSYSTEM_SRC_SUBDIRS   := fnd g2d g3d gfd snd g2d/internal g2d/load g3d/binres g3d/anm g3d/cgtool
+NITROWIFI_SRC_SUBDIRS     := 
+NITRODWC_SRC_SUBDIRS      := base account
 endif
 
 
 LIB_SUBDIRS               := cw NitroSDK NitroSystem NitroDWC NitroWiFi libCPS libSSL
 SRC_SUBDIR                := src
 ASM_SUBDIR                := asm
-LIB_SRC_SUBDIR            := lib/src $(LIB_SUBDIRS:%=$(ROOT_DIR)lib/%/src) $(NITROSDK_SRC_SUBDIRS:%=$(ROOT_DIR)lib/NitroSDK/src/%) $(NITROSYSTEM_SRC_SUBDIRS:%=$(ROOT_DIR)lib/NitroSystem/src/%)
-LIB_ASM_SUBDIR            := lib/asm/$(BUILD_MODE) $(LIB_SUBDIRS:%=$(ROOT_DIR)lib/%/asm/$(BUILD_MODE)) $(NITROSYSTEM_SRC_SUBDIRS:%=$(ROOT_DIR)lib/NitroSystem/asm/%)
+LIB_SRC_SUBDIR            := lib/src $(LIB_SUBDIRS:%=$(ROOT_DIR)lib/%/src) $(NITROSDK_SRC_SUBDIRS:%=$(ROOT_DIR)lib/NitroSDK/src/%) $(NITROSYSTEM_SRC_SUBDIRS:%=$(ROOT_DIR)lib/NitroSystem/src/%) $(NITROWIFI_SRC_SUBDIRS:%=$(ROOT_DIR)lib/NitroWiFi/src/%) $(NITRODWC_SRC_SUBDIRS:%=$(ROOT_DIR)lib/NitroDWC/src/%)
+LIB_ASM_SUBDIR            := lib/asm/$(BUILD_MODE) $(LIB_SUBDIRS:%=$(ROOT_DIR)lib/%/asm/$(BUILD_MODE)) $(NITROSYSTEM_SRC_SUBDIRS:%=$(ROOT_DIR)lib/NitroSystem/asm/%) $(NITROWIFI_SRC_SUBDIRS:%=$(ROOT_DIR)lib/NitroWiFi/asm/%) $(NITRODWC_SRC_SUBDIRS:%=$(ROOT_DIR)lib/NitroDWC/asm/%)
 ALL_SUBDIRS               := $(SRC_SUBDIR) $(ASM_SUBDIR) $(LIB_SRC_SUBDIR) $(LIB_ASM_SUBDIR)
 
 SRC_BUILDDIR              := $(addprefix $(BUILD_DIR)/,$(SRC_SUBDIR))
@@ -210,17 +214,17 @@ $(DEPFILES):
 # libraries are compiled with an older version and then linked to the game, so replicate that!
 $(BUILD_DIR)/lib/NitroSDK/%.o: MWCCVER := 1.2/sp2p3
 $(BUILD_DIR)/lib/NitroSystem/%.o: MWCCVER := 1.2/sp4
-$(BUILD_DIR)/lib/NitroDWC/%.o: MWCCVER := 1.2/sp2p3
-$(BUILD_DIR)/lib/NitroWiFi/%.o: MWCCVER := 1.2/sp2p3
+$(BUILD_DIR)/lib/NitroDWC/%.o: MWCCVER := 1.2/sp4
+$(BUILD_DIR)/lib/NitroWiFi/%.o: MWCCVER := 1.2/sp4
 
 lib/NitroSDK/%.c: MWCCVER := 1.2/sp2p3
 lib/NitroSDK/%.s: MWCCVER := 1.2/sp2p3
 lib/NitroSystem/%.c: MWCCVER := 1.2/sp4
 lib/NitroSystem/%.s: MWCCVER := 1.2/sp4
-lib/NitroDWC/%.c: MWCCVER := 1.2/sp2p3
-lib/NitroDWC/%.s: MWCCVER := 1.2/sp2p3
-lib/NitroWiFi/%.c: MWCCVER := 1.2/sp2p3
-lib/NitroWiFi/%.s: MWCCVER := 1.2/sp2p3
+lib/NitroDWC/%.c: MWCCVER := 1.2/sp4
+lib/NitroDWC/%.s: MWCCVER := 1.2/sp4
+lib/NitroWiFi/%.c: MWCCVER := 1.2/sp4
+lib/NitroWiFi/%.s: MWCCVER := 1.2/sp4
 
 $(BUILD_DIR)/%.o: $(ROOT_DIR)%.c
 $(BUILD_DIR)/%.o: $(ROOT_DIR)%.c $(BUILD_DIR)/%.d
