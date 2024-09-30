@@ -3,6 +3,7 @@
 #include <game/game/gameState.h>
 #include <game/save/saveGame.h>
 #include <game/save/saveInitManager.h>
+#include <game/save/corruptSaveWarning.h>
 #include <game/graphics/renderCore.h>
 #include <game/system/netConfig.h>
 #include <stage/core/titleCard.h>
@@ -16,25 +17,24 @@
 #include <menu/autoSavePopup.h>
 #include <menu/playerNameMenu.h>
 #include <menu/deleteSaveDataMenu.h>
+#include <menu/stageClearEx.h>
+#include <menu/emeraldCollectedScreen.h>
+#include <menu/titleScreen.h>
 
 // --------------------
 // TEMP
 // --------------------
 
 // Note: function params not decompiled yet! these are just here for the addresses!
-NOT_DECOMPILED void TitleScreen__Init(void);
 NOT_DECOMPILED void InitCreditsEvent(void);
 NOT_DECOMPILED void TimeAttackMenu__Create(void);
 NOT_DECOMPILED void StageClear__Create(void);
 NOT_DECOMPILED void VSStageClear__Create(void);
-NOT_DECOMPILED void StageClearEx__Create(void);
 NOT_DECOMPILED void VSMenu__Create(void);
 NOT_DECOMPILED void VSLobbyMenu__Create(void);
 NOT_DECOMPILED void InitNetworkErrorMenu(void);
 NOT_DECOMPILED void HubControl__ReturnToHub(void);
 NOT_DECOMPILED void MainMenu__Create(void);
-NOT_DECOMPILED void EmeraldCollectedScreen__Create(void);
-NOT_DECOMPILED void CreateCorruptSaveWarning(void);
 NOT_DECOMPILED void SeaMapUnknown__Create(void);
 NOT_DECOMPILED void SeaMapCourseChangeView__Create(void);
 NOT_DECOMPILED void SeaMapTraining__Create(void);
@@ -44,7 +44,7 @@ NOT_DECOMPILED void DoorPuzzle__Init(void);
 NOT_DECOMPILED void VikingCupMenu__Create(void);
 
 // --------------------
-// FUNC DECLS
+// FUNCTION DECLS
 // --------------------
 
 extern void InitSkipTitleCardEvent(void);

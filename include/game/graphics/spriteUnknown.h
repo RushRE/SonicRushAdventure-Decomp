@@ -1,0 +1,25 @@
+#ifndef RUSH2_UNKNOWN2056570_H
+#define RUSH2_UNKNOWN2056570_H
+
+#include <game/system/task.h>
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NOT_DECOMPILED void SpriteUnknown__Func_204C3CC(void);
+NOT_DECOMPILED u32 SpriteUnknown__GetSpriteSize(void *file, BOOL useEngineB);
+NOT_DECOMPILED void SpriteUnknown__Func_204C514(void);
+NOT_DECOMPILED void SpriteUnknown__Func_204C560(void);
+NOT_DECOMPILED void SpriteUnknown__Func_204C5B8(void);
+NOT_DECOMPILED void SpriteUnknown__Func_204C604(void);
+NOT_DECOMPILED void SpriteUnknown__Func_204C65C(void);
+NOT_DECOMPILED void SpriteUnknown__Func_204C6A8(void);
+NOT_DECOMPILED void SpriteUnknown__Func_204C700(void);
+NOT_DECOMPILED void SpriteUnknown__Func_204C74C(void);
+NOT_DECOMPILED void SpriteUnknown__Func_204C7A4(void);
+NOT_DECOMPILED void SpriteUnknown__Func_204C860(void);
+NOT_DECOMPILED void SpriteUnknown__Func_204C90C(AnimatorSprite *animator, void *fileData, u32 animID, AnimatorFlags flags, PixelMode pixelMode, BOOL useEngineB, u8 paletteRow,
+                                                u8 oamPriority, u8 oamOrder);
+
+#endif // RUSH2_UNKNOWN2056570_H

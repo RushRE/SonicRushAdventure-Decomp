@@ -1,72 +1,111 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <menu/stageClearEx.h>
+#include <game/system/sysEvent.h>
+#include <game/audio/audioSystem.h>
+#include <game/audio/sysSound.h>
+#include <game/graphics/screenShake.h>
+#include <game/graphics/drawState.h>
+#include <game/graphics/spriteUnknown.h>
+#include <game/input/padInput.h>
+#include <game/save/saveGame.h>
+#include <game/stage/gameSystem.h>
+#include <game/file/archiveFile.h>
+#include <game/util/unknown204BE48.h>
 
-	.public _02161514
+#include <nitro/code16.h>
 
-	.bss
+// --------------------
+// VARIABLES
+// --------------------
 
-StageClearEx__Singleton: // 0x02162E80
-    .space 0x04 // Task*
+static Task *StageClearEx__Singleton;
 
-	.text
+NOT_DECOMPILED void *_02161514;
+NOT_DECOMPILED void *_0216151C;
+NOT_DECOMPILED void *_02161524;
+NOT_DECOMPILED void *_02161548;
 
-thumb_func_start StageClearEx__Create
-StageClearEx__Create: // 0x02153CBC
+NOT_DECOMPILED void *aNarcPldm6700Lz;
+NOT_DECOMPILED void *aNarcCldmExLz7N;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NOT_DECOMPILED void _ull_mul(void);
+NOT_DECOMPILED void _u32_div_f(void);
+
+NONMATCH_FUNC void StageClearEx__Create(void){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {lr}
 	sub sp, #0xc
 	mov r0, #1
 	str r0, [sp]
 	mov r2, #0
-	ldr r0, _02153CE8 // =0x00001178
+	ldr r0, =0x00001178
 	str r2, [sp, #4]
 	str r0, [sp, #8]
-	ldr r0, _02153CEC // =StageClearEx__Main
-	ldr r1, _02153CF0 // =StageClearEx__Destructor
+	ldr r0, =StageClearEx__Main_Core
+	ldr r1, =StageClearEx__Destructor
 	mov r3, r2
 	bl TaskCreate_
-	ldr r1, _02153CF4 // =StageClearEx__Singleton
+	ldr r1, =StageClearEx__Singleton
 	str r0, [r1]
 	bl GetTaskWork_
-	bl StageClearEx__Func_2153D64
+	bl StageClearEx__Init
 	add sp, #0xc
 	pop {pc}
 	nop
-_02153CE8: .word 0x00001178
-_02153CEC: .word StageClearEx__Main
-_02153CF0: .word StageClearEx__Destructor
-_02153CF4: .word StageClearEx__Singleton
-	thumb_func_end StageClearEx__Create
 
-	thumb_func_start StageClearEx__Destructor
-StageClearEx__Destructor: // 0x02153CF8
-	ldr r0, _02153D00 // =StageClearEx__Singleton
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__Destructor(Task *task){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r0, =StageClearEx__Singleton
 	mov r1, #0
 	str r1, [r0]
 	bx lr
-	.align 2, 0
-_02153D00: .word StageClearEx__Singleton
-	thumb_func_end StageClearEx__Destructor
 
-	thumb_func_start StageClearEx__SetState
-StageClearEx__SetState: // 0x02153D04
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__SetState(StageClearEx *work, void (*state)(StageClearEx *work)){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	mov r2, #0
 	str r2, [r0, #0xc]
 	str r1, [r0, #8]
 	bx lr
-	thumb_func_end StageClearEx__SetState
 
-	thumb_func_start Task__Unknown2153D0C__Create
-Task__Unknown2153D0C__Create: // 0x02153D0C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__CreateAnimationManager(StageClearEx *parent){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, lr}
 	sub sp, #0xc
 	mov r4, r0
 	mov r1, #0
 	mov r0, #0x61
 	str r0, [sp]
-	ldr r0, _02153D30 // =0x00001178
+	ldr r0, =0x00001178
 	str r1, [sp, #4]
 	str r0, [sp, #8]
-	ldr r0, _02153D34 // =Task__Unknown2153D0C__Main
+	ldr r0, =StageClearEx__Main_AnimationManager
 	mov r2, r1
 	mov r3, r1
 	bl TaskCreate_
@@ -74,22 +113,26 @@ Task__Unknown2153D0C__Create: // 0x02153D0C
 	add sp, #0xc
 	pop {r3, r4, pc}
 	nop
-_02153D30: .word 0x00001178
-_02153D34: .word Task__Unknown2153D0C__Main
-	thumb_func_end Task__Unknown2153D0C__Create
 
-	thumb_func_start Task__Unknown2153D38__Create
-Task__Unknown2153D38__Create: // 0x02153D38
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__CreateDrawManager(StageClearEx *parent){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, lr}
 	sub sp, #0xc
 	mov r4, r0
 	mov r1, #0
 	mov r0, #0x81
 	str r0, [sp]
-	ldr r0, _02153D5C // =0x00001178
+	ldr r0, =0x00001178
 	str r1, [sp, #4]
 	str r0, [sp, #8]
-	ldr r0, _02153D60 // =Task__Unknown2153D38__Main
+	ldr r0, =StageClearEx__Main_DrawManager
 	mov r2, r1
 	mov r3, r1
 	bl TaskCreate_
@@ -97,28 +140,32 @@ Task__Unknown2153D38__Create: // 0x02153D38
 	add sp, #0xc
 	pop {r3, r4, pc}
 	nop
-_02153D5C: .word 0x00001178
-_02153D60: .word Task__Unknown2153D38__Main
-	thumb_func_end Task__Unknown2153D38__Create
 
-	thumb_func_start StageClearEx__Func_2153D64
-StageClearEx__Func_2153D64: // 0x02153D64
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__Init(StageClearEx *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, r5, lr}
 	mov r5, r0
-	ldr r2, _02153DFC // =0x00001178
+	ldr r2, =0x00001178
 	mov r0, #0
 	mov r1, r5
 	bl MIi_CpuClear32
 	mov r2, #1
 	lsl r2, r2, #0x1a
-	ldr r1, [r2]
-	ldr r0, _02153E00 // =0xFFFFE0FF
+	ldr r1, [r2, #0]
+	ldr r0, =0xFFFFE0FF
 	and r1, r0
-	str r1, [r2]
-	ldr r2, _02153E04 // =0x04001000
-	ldr r1, [r2]
+	str r1, [r2, #0]
+	ldr r2, =0x04001000
+	ldr r1, [r2, #0]
 	and r0, r1
-	str r0, [r2]
+	str r0, [r2, #0]
 	mov r0, #1
 	mov r1, #0
 	mov r2, r0
@@ -135,7 +182,7 @@ StageClearEx__Func_2153D64: // 0x02153D64
 	mov r0, #1
 	lsl r0, r0, #0xa
 	str r0, [sp]
-	ldr r1, _02153E08 // =0x00100010
+	ldr r1, =0x00100010
 	mov r0, #0x10
 	mov r2, #0x40
 	mov r3, #0
@@ -150,33 +197,33 @@ StageClearEx__Func_2153D64: // 0x02153D64
 	mov r0, r5
 	add r0, #0x1c
 	mov r1, r4
-	bl StageClearEx__Func_2153EA4
-	ldr r0, _02153E0C // =0x00000958
+	bl StageClearEx__InitGraphics3D
+	ldr r0, =0x00000958
 	mov r1, r4
 	add r0, r5, r0
-	bl StageClearEx__Func_2154118
+	bl StageClearEx__InitGraphics2D
 	mov r0, #1
 	str r0, [r5, #0x10]
 	mov r0, r5
-	bl Task__Unknown2153D0C__Create
-	ldr r1, _02153E10 // =StageClearEx__State_21548C0
+	bl StageClearEx__CreateAnimationManager
+	ldr r1, =StageClearEx__State_21548C0
 	mov r0, r5
 	bl StageClearEx__SetState
 	pop {r3, r4, r5, pc}
 	nop
-_02153DFC: .word 0x00001178
-_02153E00: .word 0xFFFFE0FF
-_02153E04: .word 0x04001000
-_02153E08: .word 0x00100010
-_02153E0C: .word 0x00000958
-_02153E10: .word StageClearEx__State_21548C0
-	thumb_func_end StageClearEx__Func_2153D64
 
-	thumb_func_start StageClearEx__Func_2153E14
-StageClearEx__Func_2153E14: // 0x02153E14
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__Destroy(StageClearEx *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	beq _02153E22
 	bl DestroyTask
@@ -189,36 +236,41 @@ _02153E2C:
 	mov r0, #0
 	str r0, [r4, #0x10]
 	bl Camera3D__Destroy
-	ldr r0, _02153E58 // =0x00000958
+	ldr r0, =0x00000958
 	add r0, r4, r0
-	bl StageClearEx__Func_21543EC
+	bl StageClearEx__ReleaseGraphics2D
 	mov r0, r4
 	add r0, #0x1c
-	bl StageClearEx__Func_21540C4
+	bl StageClearEx__ReleaseGraphics3D
 	bl ReleaseSysSound
 	add r4, #0x14
 	mov r0, r4
-	bl StageClearEx__Func_2153E90
+	bl StageClearEx__ReleaseAssets
 	bl DestroyCurrentTask
 	pop {r4, pc}
 	nop
-_02153E58: .word 0x00000958
-	thumb_func_end StageClearEx__Func_2153E14
 
-	thumb_func_start StageClearEx__LoadArchives
-StageClearEx__LoadArchives: // 0x02153E5C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__LoadArchives(StageClearExAssets *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, lr}
 	sub sp, #4
 	mov r2, #0
 	mov r4, r0
-	ldr r0, _02153E88 // =aNarcPldm6700Lz
+	ldr r0, =aNarcPldm6700Lz
 	str r2, [sp]
 	sub r1, r2, #1
 	mov r3, #1
 	bl ArchiveFile__Load
 	str r0, [r4]
 	mov r2, #0
-	ldr r0, _02153E8C // =aNarcCldmExLz7N
+	ldr r0, =aNarcCldmExLz7N
 	sub r1, r2, #1
 	mov r3, #1
 	str r2, [sp]
@@ -227,24 +279,34 @@ StageClearEx__LoadArchives: // 0x02153E5C
 	add sp, #4
 	pop {r3, r4, pc}
 	nop
-_02153E88: .word aNarcPldm6700Lz
-_02153E8C: .word aNarcCldmExLz7N
-	thumb_func_end StageClearEx__LoadArchives
 
-	thumb_func_start StageClearEx__Func_2153E90
-StageClearEx__Func_2153E90: // 0x02153E90
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__ReleaseAssets(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #4]
 	bl _FreeHEAP_USER
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	pop {r4, pc}
-	.align 2, 0
-	thumb_func_end StageClearEx__Func_2153E90
 
-	thumb_func_start StageClearEx__Func_2153EA4
-StageClearEx__Func_2153EA4: // 0x02153EA4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__InitGraphics3D(StageClearExGraphics3D *work, StageClearExAssets *assets){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x20
 	mov r5, r0
@@ -261,14 +323,14 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	str r0, [sp, #0x10]
 	mov r2, #0
 	str r2, [sp, #0x14]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r1, r5
 	add r3, r5, #4
-	bl StageClearEx__Func_21540A8
+	bl StageClearEx__LoadAssets
 	ldr r0, [sp, #0x1c]
-	ldr r1, _02154094 // =0x001FFFFF
+	ldr r1, =0x001FFFFF
 	bl LoadDrawState
-	ldr r0, _02154098 // =0x000008E8
+	ldr r0, =0x000008E8
 	add r4, r5, r0
 	ldr r0, [sp, #0x1c]
 	mov r1, r4
@@ -291,11 +353,11 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	lsl r0, r1, #0x14
 	lsr r1, r2, #0xc
 	orr r1, r0
-	ldr r0, _0215409C // =0x00000938
+	ldr r0, =0x00000938
 	add r1, r4, r1
 	str r1, [r5, r0]
 	ldr r0, [r5, #8]
-	ldr r6, [r5]
+	ldr r6, [r5, #0]
 	str r0, [sp, #0x18]
 	mov r0, r6
 	ldr r7, [r5, #4]
@@ -394,7 +456,7 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	mov r0, #2
 	orr r0, r2
 	strh r0, [r4, r1]
-	ldr r0, _021540A0 // =0x0000051C
+	ldr r0, =0x0000051C
 	mov r1, #0
 	add r4, r5, r0
 	mov r0, r4
@@ -446,7 +508,7 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	mov r3, #0x2a
 	str r1, [sp]
 	bl AnimatorMDL__SetAnimation
-	ldr r4, _021540A4 // =0x000007A4
+	ldr r4, =0x000007A4
 	mov r1, #0
 	add r0, r5, r4
 	bl AnimatorMDL__Init
@@ -465,15 +527,16 @@ StageClearEx__Func_2153EA4: // 0x02153EA4
 	add sp, #0x20
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
-_02154094: .word 0x001FFFFF
-_02154098: .word 0x000008E8
-_0215409C: .word 0x00000938
-_021540A0: .word 0x0000051C
-_021540A4: .word 0x000007A4
-	thumb_func_end StageClearEx__Func_2153EA4
 
-	thumb_func_start StageClearEx__Func_21540A8
-StageClearEx__Func_21540A8: // 0x021540A8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__LoadAssets(void *archive, ...){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r0, r1, r2, r3}
 	push {r3, lr}
 	add r2, sp, #8
@@ -486,11 +549,16 @@ StageClearEx__Func_21540A8: // 0x021540A8
 	pop {r3}
 	add sp, #0x10
 	bx r3
-	.align 2, 0
-	thumb_func_end StageClearEx__Func_21540A8
 
-	thumb_func_start StageClearEx__Func_21540C4
-StageClearEx__Func_21540C4: // 0x021540C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__ReleaseGraphics3D(StageClearExGraphics3D *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, lr}
 	mov r4, r0
 	add r0, #0xc
@@ -507,39 +575,44 @@ StageClearEx__Func_21540C4: // 0x021540C4
 	lsl r0, r0, #2
 	add r0, r4, r0
 	bl AnimatorMDL__Release
-	ldr r0, _02154110 // =0x0000051C
+	ldr r0, =0x0000051C
 	add r0, r4, r0
 	bl AnimatorMDL__Release
 	mov r0, #0x66
 	lsl r0, r0, #4
 	add r0, r4, r0
 	bl AnimatorMDL__Release
-	ldr r0, _02154114 // =0x000007A4
+	ldr r0, =0x000007A4
 	add r0, r4, r0
 	bl AnimatorMDL__Release
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl NNS_G3dResDefaultRelease
 	pop {r4, pc}
 	nop
-_02154110: .word 0x0000051C
-_02154114: .word 0x000007A4
-	thumb_func_end StageClearEx__Func_21540C4
 
-	thumb_func_start StageClearEx__Func_2154118
-StageClearEx__Func_2154118: // 0x02154118
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__InitGraphics2D(StageClearExGraphics2D *work, StageClearExAssets *assets)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x18
 	mov r5, r0
-	ldr r0, _021543B0 // =playerGameStatus
+	ldr r0, =playerGameStatus
 	mov r4, r1
 	ldr r0, [r0, #0x1c]
 	bl StageClearEx__CalcRingBonus
-	ldr r1, _021543B4 // =0x00000808
+	ldr r1, =0x00000808
 	str r0, [r5, r1]
-	ldr r0, _021543B0 // =playerGameStatus
+	ldr r0, =playerGameStatus
 	ldr r0, [r0, #0xc]
 	bl StageClearEx__CalcTimeBonus
-	ldr r1, _021543B8 // =0x0000080C
+	ldr r1, =0x0000080C
 	str r0, [r5, r1]
 	sub r0, r1, #4
 	ldr r2, [r5, r0]
@@ -551,11 +624,11 @@ StageClearEx__Func_2154118: // 0x02154118
 	ldr r0, [r4, #4]
 	add r1, sp, #0x14
 	mov r3, r2
-	bl StageClearEx__Func_21540A8
+	bl StageClearEx__LoadAssets
 	ldr r0, [sp, #0x14]
 	mov r1, #0
 	mov r2, #0xa
-	ldr r4, _021543BC // =0x00000528
+	ldr r4, =0x00000528
 	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
@@ -566,7 +639,7 @@ StageClearEx__Func_2154118: // 0x02154118
 	mov r0, #0xe
 	str r0, [sp, #0x10]
 	ldr r1, [sp, #0x14]
-	ldr r3, _021543C0 // =0x00000804
+	ldr r3, =0x00000804
 	add r0, r5, r4
 	mov r2, #0xa
 	bl SpriteUnknown__Func_204C90C
@@ -584,7 +657,7 @@ StageClearEx__Func_2154118: // 0x02154118
 	mov r0, #0xe
 	str r0, [sp, #0x10]
 	ldr r1, [sp, #0x14]
-	ldr r3, _021543C0 // =0x00000804
+	ldr r3, =0x00000804
 	add r0, r5, r4
 	mov r2, #0xb
 	bl SpriteUnknown__Func_204C90C
@@ -603,11 +676,11 @@ StageClearEx__Func_2154118: // 0x02154118
 	mov r0, #0xa
 	str r0, [sp, #0x10]
 	ldr r1, [sp, #0x14]
-	ldr r3, _021543C0 // =0x00000804
+	ldr r3, =0x00000804
 	add r0, r5, r4
 	mov r2, #0x17
 	bl SpriteUnknown__Func_204C90C
-	ldr r4, _021543C4 // =0x0000051C
+	ldr r4, =0x0000051C
 	mov r0, #0x9f
 	add r1, r5, r4
 	mvn r0, r0
@@ -628,7 +701,7 @@ StageClearEx__Func_2154118: // 0x02154118
 	mov r0, #0xa
 	str r0, [sp, #0x10]
 	ldr r1, [sp, #0x14]
-	ldr r3, _021543C0 // =0x00000804
+	ldr r3, =0x00000804
 	add r0, r5, r4
 	mov r2, #0x19
 	bl SpriteUnknown__Func_204C90C
@@ -652,13 +725,13 @@ StageClearEx__Func_2154118: // 0x02154118
 	str r1, [sp, #0xc]
 	mov r0, #0xa
 	str r0, [sp, #0x10]
-	ldr r0, _021543C8 // =0x000004B8
+	ldr r0, =0x000004B8
 	ldr r1, [sp, #0x14]
-	ldr r3, _021543C0 // =0x00000804
+	ldr r3, =0x00000804
 	add r0, r5, r0
 	mov r2, #0x1b
 	bl SpriteUnknown__Func_204C90C
-	ldr r0, _021543CC // =0x00000524
+	ldr r0, =0x00000524
 	mov r6, r5
 	add r1, r5, r0
 	mov r0, #0x9f
@@ -666,7 +739,7 @@ StageClearEx__Func_2154118: // 0x02154118
 	strh r0, [r1]
 	mov r0, #0xac
 	strh r0, [r1, #2]
-	ldr r0, _021543D0 // =0x0000081C
+	ldr r0, =0x0000081C
 	mov r1, #1
 	str r1, [r5, r0]
 	mov r4, #0
@@ -688,7 +761,7 @@ _02154252:
 	mov r0, #0xc
 	str r0, [sp, #0x10]
 	ldr r1, [sp, #0x14]
-	ldr r3, _021543C0 // =0x00000804
+	ldr r3, =0x00000804
 	mov r0, r6
 	mov r2, r7
 	bl SpriteUnknown__Func_204C90C
@@ -710,7 +783,7 @@ _02154252:
 	str r1, [sp, #0xc]
 	str r0, [sp, #0x10]
 	ldr r1, [sp, #0x14]
-	ldr r3, _021543C0 // =0x00000804
+	ldr r3, =0x00000804
 	add r0, r5, r4
 	mov r2, #0xc
 	bl SpriteUnknown__Func_204C90C
@@ -728,14 +801,14 @@ _02154252:
 	mov r0, #4
 	str r0, [sp, #0x10]
 	ldr r1, [sp, #0x14]
-	ldr r3, _021543C0 // =0x00000804
+	ldr r3, =0x00000804
 	add r0, r5, r4
 	mov r2, #0x21
 	bl SpriteUnknown__Func_204C90C
 	ldr r0, [sp, #0x14]
 	mov r1, #0
 	mov r2, #0x20
-	ldr r4, _021543D4 // =0x000006B8
+	ldr r4, =0x000006B8
 	bl SpriteUnknown__Func_204C3CC
 	mov r1, #0
 	str r1, [sp]
@@ -746,14 +819,14 @@ _02154252:
 	mov r0, #4
 	str r0, [sp, #0x10]
 	ldr r1, [sp, #0x14]
-	ldr r3, _021543C0 // =0x00000804
+	ldr r3, =0x00000804
 	add r0, r5, r4
 	mov r2, #0x20
 	bl SpriteUnknown__Func_204C90C
 	mov r2, r4
 	add r2, #0x68
 	mov r1, #0
-	ldr r3, _021543D8 // =0xFFFEA000
+	ldr r3, =0xFFFEA000
 	str r1, [r5, r2]
 	add r0, r2, #4
 	str r3, [r5, r0]
@@ -771,7 +844,7 @@ _02154252:
 	mov r0, #0xc
 	str r0, [sp, #0x10]
 	ldr r1, [sp, #0x14]
-	ldr r3, _021543DC // =0x00000805
+	ldr r3, =0x00000805
 	mov r0, r4
 	mov r2, #0xd
 	bl SpriteUnknown__Func_204C90C
@@ -782,13 +855,13 @@ _02154252:
 	mov r0, #0x81
 	lsl r0, r0, #4
 	ldr r1, [r5, r0]
-	ldr r0, _021543E0 // =0x0000C350
+	ldr r0, =0x0000C350
 	cmp r1, r0
 	blo _0215434C
 	mov r4, #0x1c
 	b _02154362
 _0215434C:
-	ldr r0, _021543E4 // =0x00009C40
+	ldr r0, =0x00009C40
 	cmp r1, r0
 	blo _02154356
 	mov r4, #0x1d
@@ -818,7 +891,7 @@ _02154362:
 	mov r0, #0xa
 	str r0, [sp, #0x10]
 	ldr r1, [sp, #0x14]
-	ldr r3, _021543E8 // =0x00000A05
+	ldr r3, =0x00000A05
 	mov r0, r6
 	mov r2, r4
 	bl SpriteUnknown__Func_204C90C
@@ -837,26 +910,17 @@ _02154362:
 	bl SaveGame__UpdateStageRecord
 	add sp, #0x18
 	pop {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_021543B0: .word playerGameStatus
-_021543B4: .word 0x00000808
-_021543B8: .word 0x0000080C
-_021543BC: .word 0x00000528
-_021543C0: .word 0x00000804
-_021543C4: .word 0x0000051C
-_021543C8: .word 0x000004B8
-_021543CC: .word 0x00000524
-_021543D0: .word 0x0000081C
-_021543D4: .word 0x000006B8
-_021543D8: .word 0xFFFEA000
-_021543DC: .word 0x00000805
-_021543E0: .word 0x0000C350
-_021543E4: .word 0x00009C40
-_021543E8: .word 0x00000A05
-	thumb_func_end StageClearEx__Func_2154118
 
-	thumb_func_start StageClearEx__Func_21543EC
-StageClearEx__Func_21543EC: // 0x021543EC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__ReleaseGraphics2D(StageClearExGraphics2D *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #4]
@@ -865,13 +929,13 @@ StageClearEx__Func_21543EC: // 0x021543EC
 	lsl r0, r0, #4
 	add r0, r6, r0
 	bl AnimatorSprite__Release
-	ldr r0, _02154468 // =0x0000072C
+	ldr r0, =0x0000072C
 	add r0, r6, r0
 	bl AnimatorSprite__Release
-	ldr r0, _0215446C // =0x000006B8
+	ldr r0, =0x000006B8
 	add r0, r6, r0
 	bl AnimatorSprite__Release
-	ldr r0, _02154470 // =0x00000654
+	ldr r0, =0x00000654
 	add r0, r6, r0
 	bl AnimatorSprite__Release
 	mov r0, #0x5f
@@ -895,7 +959,7 @@ _0215443C:
 	mov r0, #0x3f
 	lsl r0, r0, #4
 	add r5, r6, r0
-	ldr r0, _02154474 // =0x0000051C
+	ldr r0, =0x0000051C
 	add r4, r6, r0
 	cmp r5, r4
 	beq _02154456
@@ -906,27 +970,27 @@ _0215444A:
 	cmp r5, r4
 	bne _0215444A
 _02154456:
-	ldr r0, _02154478 // =0x0000058C
+	ldr r0, =0x0000058C
 	add r0, r6, r0
 	bl AnimatorSprite__Release
-	ldr r0, _0215447C // =0x00000528
+	ldr r0, =0x00000528
 	add r0, r6, r0
 	bl AnimatorSprite__Release
 	pop {r4, r5, r6, pc}
-	.align 2, 0
-_02154468: .word 0x0000072C
-_0215446C: .word 0x000006B8
-_02154470: .word 0x00000654
-_02154474: .word 0x0000051C
-_02154478: .word 0x0000058C
-_0215447C: .word 0x00000528
-	thumb_func_end StageClearEx__Func_21543EC
 
-	thumb_func_start StageClearEx__Func_2154480
-StageClearEx__Func_2154480: // 0x02154480
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__HandleAnimations(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, r5, r6, r7, lr}
 	mov r2, r0
-	ldr r1, _02154564 // =0x00000958
+	ldr r1, =0x00000958
 	add r2, #0x1c
 	add r4, r0, r1
 	mov r5, r2
@@ -944,12 +1008,12 @@ _0215449A:
 	cmp r5, r6
 	bne _0215449A
 _021544A6:
-	ldr r0, _02154568 // =0x000006B8
+	ldr r0, =0x000006B8
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	ldr r0, _0215456C // =0x00000654
+	ldr r0, =0x00000654
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
@@ -999,7 +1063,7 @@ _02154510:
 	mov r0, #0x3f
 	lsl r0, r0, #4
 	add r5, r4, r0
-	ldr r0, _02154570 // =0x0000051C
+	ldr r0, =0x0000051C
 	add r6, r4, r0
 	cmp r5, r6
 	beq _02154530
@@ -1013,12 +1077,12 @@ _02154520:
 	cmp r5, r6
 	bne _02154520
 _02154530:
-	ldr r0, _02154574 // =0x0000058C
+	ldr r0, =0x0000058C
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	ldr r0, _02154578 // =0x00000528
+	ldr r0, =0x00000528
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
@@ -1029,34 +1093,32 @@ _02154530:
 	add r0, r4, r0
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	ldr r0, _0215457C // =0x0000072C
+	ldr r0, =0x0000072C
 	mov r1, #0
 	add r0, r4, r0
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
 	pop {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_02154564: .word 0x00000958
-_02154568: .word 0x000006B8
-_0215456C: .word 0x00000654
-_02154570: .word 0x0000051C
-_02154574: .word 0x0000058C
-_02154578: .word 0x00000528
-_0215457C: .word 0x0000072C
-	thumb_func_end StageClearEx__Func_2154480
 
-	thumb_func_start StageClearEx__Func_2154580
-StageClearEx__Func_2154580: // 0x02154580
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__HandleDrawing(StageClearEx *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	mov r7, r0
 	mov r4, r7
-	ldr r0, _0215487C // =0x000008E8
+	ldr r0, =0x000008E8
 	add r4, #0x1c
 	add r5, r4, r0
 	bl Camera3D__UseEngineA
 	cmp r0, #0
-	ldr r0, _02154880 // =0x00000938
+	ldr r0, =0x00000938
 	beq _021545A8
 	ldr r1, [r4, r0]
 	sub r0, #0x50
@@ -1072,7 +1134,7 @@ _021545A8:
 	str r1, [r5, #0x18]
 	bl Camera3D__LoadState
 _021545B4:
-	ldr r0, _0215487C // =0x000008E8
+	ldr r0, =0x000008E8
 	mov r5, r4
 	add r5, #0xc
 	add r4, r4, r0
@@ -1087,7 +1149,7 @@ _021545C4:
 	cmp r5, r4
 	bne _021545C4
 _021545D0:
-	ldr r0, _02154884 // =0x00000958
+	ldr r0, =0x00000958
 	add r4, r7, r0
 	bl Camera3D__UseEngineA
 	cmp r0, #0
@@ -1108,7 +1170,7 @@ _021545DE:
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	bl AnimatorSprite__DrawFrame
-	ldr r0, _02154888 // =0x000006B8
+	ldr r0, =0x000006B8
 	ldr r1, [r5, #8]
 	add r6, r4, r0
 	str r1, [r6, #8]
@@ -1133,7 +1195,7 @@ _02154612:
 	strh r0, [r6, #8]
 	mov r0, r6
 	bl AnimatorSprite__DrawFrame
-	ldr r1, _0215488C // =0x0000051C
+	ldr r1, =0x0000051C
 	mov r0, r1
 	add r0, #0xc
 	add r5, r4, r0
@@ -1146,7 +1208,7 @@ _02154612:
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	bl AnimatorSprite__DrawFrame
-	ldr r1, _0215488C // =0x0000051C
+	ldr r1, =0x0000051C
 	mov r0, #0x3f
 	lsl r0, r0, #4
 	ldrsh r1, [r4, r1]
@@ -1161,8 +1223,8 @@ _02154612:
 	str r0, [sp]
 	mov r0, #0
 	str r0, [sp, #4]
-	ldr r0, _02154890 // =0x00000808
-	ldr r1, _0215488C // =0x0000051C
+	ldr r0, =0x00000808
+	ldr r1, =0x0000051C
 	ldr r0, [r4, r0]
 	mov r2, #2
 	str r0, [sp, #8]
@@ -1177,7 +1239,7 @@ _02154612:
 	asr r1, r1, #0x10
 	asr r2, r2, #0x10
 	mov r3, #8
-	bl StageClearEx__Func_2154D68
+	bl StageClearEx__DrawNumber
 	mov r0, #0x52
 	lsl r0, r0, #4
 	add r6, r4, r0
@@ -1189,7 +1251,7 @@ _02154612:
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	bl AnimatorSprite__DrawFrame
-	ldr r1, _02154894 // =0x00000454
+	ldr r1, =0x00000454
 	add r0, r4, r1
 	add r1, #0xcc
 	ldrsh r1, [r4, r1]
@@ -1203,7 +1265,7 @@ _02154612:
 	str r0, [sp]
 	mov r0, #0
 	str r0, [sp, #4]
-	ldr r0, _02154898 // =0x0000080C
+	ldr r0, =0x0000080C
 	mov r1, #0x52
 	ldr r0, [r4, r0]
 	lsl r1, r1, #4
@@ -1220,8 +1282,8 @@ _02154612:
 	asr r1, r1, #0x10
 	asr r2, r2, #0x10
 	mov r3, #8
-	bl StageClearEx__Func_2154D68
-	ldr r0, _0215489C // =0x00000818
+	bl StageClearEx__DrawNumber
+	ldr r0, =0x00000818
 	mov r5, #1
 	ldrh r2, [r4, r0]
 	mov r1, #0
@@ -1239,13 +1301,13 @@ _02154704:
 	ldr r0, [r4, r0]
 	mov r1, r5
 	bl _u32_div_f
-	ldr r0, _021548A0 // =0x00000814
+	ldr r0, =0x00000814
 	mov r6, r1
 	ldr r0, [r4, r0]
 	mov r1, r5
 	bl _u32_div_f
 	mul r0, r5
-	ldr r1, _021548A4 // =0x00000524
+	ldr r1, =0x00000524
 	add r6, r6, r0
 	mov r0, r1
 	add r5, r4, r1
@@ -1258,7 +1320,7 @@ _02154704:
 	ldrsh r1, [r5, r1]
 	strh r1, [r0, #0xa]
 	bl AnimatorSprite__DrawFrame
-	ldr r1, _021548A8 // =0x000004B8
+	ldr r1, =0x000004B8
 	add r0, r4, r1
 	add r1, #0x6c
 	ldrsh r1, [r4, r1]
@@ -1270,8 +1332,8 @@ _02154704:
 	bl AnimatorSprite__DrawFrame
 	mov r0, #6
 	str r0, [sp]
-	ldr r0, _021548AC // =0x0000081C
-	ldr r1, _021548A4 // =0x00000524
+	ldr r0, =0x0000081C
+	ldr r1, =0x00000524
 	ldr r0, [r4, r0]
 	mov r2, #2
 	str r0, [sp, #4]
@@ -1287,7 +1349,7 @@ _02154704:
 	asr r1, r1, #0x10
 	asr r2, r2, #0x10
 	mov r3, #8
-	bl StageClearEx__Func_2154D68
+	bl StageClearEx__DrawNumber
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 _0215477E:
@@ -1310,7 +1372,7 @@ _0215477E:
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	bl AnimatorSprite__DrawFrame
-	ldr r0, _021548B0 // =0x00000654
+	ldr r0, =0x00000654
 	add r6, r4, r0
 	ldr r0, [r5, #8]
 	str r0, [r6, #8]
@@ -1323,7 +1385,7 @@ _0215477E:
 	strh r0, [r5, #8]
 	mov r0, r5
 	bl AnimatorSprite__DrawFrame
-	ldr r0, _021548B4 // =0x0000071C
+	ldr r0, =0x0000071C
 	ldr r0, [r4, r0]
 	cmp r0, #0
 	beq _021547DC
@@ -1335,7 +1397,7 @@ _0215477E:
 	mov r0, r6
 	bl AnimatorSprite__DrawFrame
 _021547DC:
-	ldr r1, _021548B8 // =0x000007F4
+	ldr r1, =0x000007F4
 	mov r0, #1
 	ldr r2, [r4, r1]
 	lsl r0, r0, #0xc
@@ -1344,7 +1406,7 @@ _021547DC:
 	sub r1, #0xc8
 	add r0, r4, r1
 	bl AnimatorSprite__DrawFrame
-	ldr r0, _021548B8 // =0x000007F4
+	ldr r0, =0x000007F4
 	mov r3, #0
 	ldr r1, [r4, r0]
 	sub r0, #0x64
@@ -1371,7 +1433,7 @@ _02154804:
 	strh r0, [r5, #0xa]
 	mov r0, r5
 	bl AnimatorSprite__DrawFrame
-	ldr r1, _021548BC // =0x000007F8
+	ldr r1, =0x000007F8
 	mov r0, #8
 	ldrsh r3, [r5, r0]
 	ldrsh r2, [r4, r1]
@@ -1399,7 +1461,7 @@ _02154804:
 	bl AnimatorSprite__DrawFrame
 	mov r0, #8
 	ldrsh r2, [r5, r0]
-	ldr r0, _021548BC // =0x000007F8
+	ldr r0, =0x000007F8
 	ldrsh r1, [r4, r0]
 	add r0, r0, #2
 	add r1, r2, r1
@@ -1412,46 +1474,36 @@ _02154804:
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 	nop
-_0215487C: .word 0x000008E8
-_02154880: .word 0x00000938
-_02154884: .word 0x00000958
-_02154888: .word 0x000006B8
-_0215488C: .word 0x0000051C
-_02154890: .word 0x00000808
-_02154894: .word 0x00000454
-_02154898: .word 0x0000080C
-_0215489C: .word 0x00000818
-_021548A0: .word 0x00000814
-_021548A4: .word 0x00000524
-_021548A8: .word 0x000004B8
-_021548AC: .word 0x0000081C
-_021548B0: .word 0x00000654
-_021548B4: .word 0x0000071C
-_021548B8: .word 0x000007F4
-_021548BC: .word 0x000007F8
-	thumb_func_end StageClearEx__Func_2154580
 
-	thumb_func_start StageClearEx__State_21548C0
-StageClearEx__State_21548C0: // 0x021548C0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_21548C0(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, lr}
 	mov r4, r0
 	bl Camera3D__Create
 	bl Camera3D__GetWork
-	ldr r1, _02154928 // =0x0213D300
+	ldr r1, =0x0213D300
 	mov r2, #0x18
 	ldrsh r3, [r1, r2]
 	mov r1, r0
 	add r1, #0x58
 	strh r3, [r1]
-	ldr r1, _0215492C // =0x0213D2A4
+	ldr r1, =0x0213D2A4
 	add r0, #0xb4
 	ldrsh r1, [r1, r2]
 	strh r1, [r0]
 	mov r0, r4
-	bl Task__Unknown2153D38__Create
-	ldr r0, _02154930 // =0x04000008
+	bl StageClearEx__CreateDrawManager
+	ldr r0, =0x04000008
 	mov r2, #3
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	bic r1, r2
 	strh r1, [r0]
 	ldrh r3, [r0, #2]
@@ -1470,32 +1522,33 @@ StageClearEx__State_21548C0: // 0x021548C0
 	orr r1, r3
 	strh r1, [r0, #6]
 	sub r0, #8
-	ldr r2, [r0]
-	ldr r1, _02154934 // =0xFFFFE0FF
+	ldr r2, [r0, #0]
+	ldr r1, =0xFFFFE0FF
 	and r2, r1
 	mov r1, #0x11
 	lsl r1, r1, #8
 	orr r1, r2
 	str r1, [r0]
-	ldr r1, _02154938 // =StageClearEx__State_215493C
+	ldr r1, =StageClearEx__State_FadeIn
 	mov r0, r4
 	bl StageClearEx__SetState
 	pop {r4, pc}
-	.align 2, 0
-_02154928: .word 0x0213D300
-_0215492C: .word 0x0213D2A4
-_02154930: .word 0x04000008
-_02154934: .word 0xFFFFE0FF
-_02154938: .word StageClearEx__State_215493C
-	thumb_func_end StageClearEx__State_21548C0
 
-	thumb_func_start StageClearEx__State_215493C
-StageClearEx__State_215493C: // 0x0215493C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_FadeIn(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, r5, r6, r7, lr}
 	mov r6, r0
 	bl Camera3D__GetWork
 	mov r4, r0
-	ldr r0, _02154990 // =0x0213D300
+	ldr r0, =0x0213D300
 	mov r5, #0x18
 	ldrsh r0, [r0, r5]
 	cmp r0, #0
@@ -1531,18 +1584,22 @@ _02154980:
 	ldr r0, [r6, #0xc]
 	cmp r0, #0x40
 	bne _0215498E
-	ldr r1, _02154994 // =StageClearEx__State_2154998
+	ldr r1, =StageClearEx__State_2154998
 	mov r0, r6
 	bl StageClearEx__SetState
 _0215498E:
 	pop {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_02154990: .word 0x0213D300
-_02154994: .word StageClearEx__State_2154998
-	thumb_func_end StageClearEx__State_215493C
 
-	thumb_func_start StageClearEx__State_2154998
-StageClearEx__State_2154998: // 0x02154998
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_2154998(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0xc]
@@ -1551,23 +1608,28 @@ StageClearEx__State_2154998: // 0x02154998
 	mov r0, #0xd
 	mov r1, #1
 	bl PlaySysTrack
-	ldr r1, _021549B4 // =StageClearEx__State_21549B8
+	ldr r1, =StageClearEx__State_21549B8
 	mov r0, r4
 	bl StageClearEx__SetState
 _021549B2:
 	pop {r4, pc}
-	.align 2, 0
-_021549B4: .word StageClearEx__State_21549B8
-	thumb_func_end StageClearEx__State_2154998
 
-	thumb_func_start StageClearEx__State_21549B8
-StageClearEx__State_21549B8: // 0x021549B8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_21549B8(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, lr}
 	sub sp, #0x24
 	mov r4, r0
-	ldr r0, _02154A00 // =0x00000958
+	ldr r0, =0x00000958
 	mov r2, #6
-	ldr r1, _02154A04 // =0x00000728
+	ldr r1, =0x00000728
 	add r0, r4, r0
 	lsl r2, r2, #0xa
 	str r2, [r0, r1]
@@ -1575,7 +1637,7 @@ StageClearEx__State_21549B8: // 0x021549B8
 	str r3, [sp]
 	mov r2, #0x10
 	str r2, [sp, #4]
-	ldr r2, _02154A08 // =Task__Unknown204BE48__LerpValue
+	ldr r2, =Task__Unknown204BE48__LerpValue
 	sub r1, r1, #4
 	str r2, [sp, #8]
 	str r3, [sp, #0xc]
@@ -1587,58 +1649,64 @@ StageClearEx__State_21549B8: // 0x021549B8
 	str r2, [sp, #0x1c]
 	str r3, [sp, #0x20]
 	mov r3, #0x16
-	ldr r2, _02154A0C // =0xFFFEA000
+	ldr r2, =0xFFFEA000
 	mov r1, #4
 	lsl r3, r3, #0xc
 	bl Task__Unknown204BE48__Create
-	ldr r1, _02154A10 // =StageClearEx__State_2154A14
+	ldr r1, =StageClearEx__State_2154A14
 	mov r0, r4
 	bl StageClearEx__SetState
 	add sp, #0x24
 	pop {r3, r4, pc}
-	.align 2, 0
-_02154A00: .word 0x00000958
-_02154A04: .word 0x00000728
-_02154A08: .word Task__Unknown204BE48__LerpValue
-_02154A0C: .word 0xFFFEA000
-_02154A10: .word StageClearEx__State_2154A14
-	thumb_func_end StageClearEx__State_21549B8
 
-	thumb_func_start StageClearEx__State_2154A14
-StageClearEx__State_2154A14: // 0x02154A14
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_2154A14(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, lr}
 	ldr r1, [r0, #0xc]
 	cmp r1, #0x78
 	bls _02154A22
-	ldr r1, _02154A24 // =StageClearEx__State_2154A28
+	ldr r1, =StageClearEx__State_2154A28
 	bl StageClearEx__SetState
 _02154A22:
 	pop {r3, pc}
-	.align 2, 0
-_02154A24: .word StageClearEx__State_2154A28
-	thumb_func_end StageClearEx__State_2154A14
 
-	thumb_func_start StageClearEx__State_2154A28
-StageClearEx__State_2154A28: // 0x02154A28
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_2154A28(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x24
 	mov r5, r0
-	ldr r0, _02154AF8 // =0x00000958
+	ldr r0, =0x00000958
 	mov r3, #0
 	add r4, r5, r0
-	ldr r0, _02154AFC // =0x00000818
-	ldr r6, _02154B00 // =_mt_math_rand
+	ldr r0, =0x00000818
+	ldr r6, =_mt_math_rand
 	strh r3, [r4, r0]
-	ldr r1, [r6]
-	ldr r0, _02154B04 // =0x00196225
-	ldr r7, _02154B08 // =0x3C6EF35F
+	ldr r1, [r6, #0]
+	ldr r0, =0x00196225
+	ldr r7, =0x3C6EF35F
 	mul r0, r1
 	add r1, r0, r7
-	ldr r2, _02154B04 // =0x00196225
+	ldr r2, =0x00196225
 	lsr r0, r1, #0x10
 	mul r2, r1
 	add r1, r2, r7
-	str r1, [r6]
+	str r1, [r6, #0]
 	lsr r1, r1, #0x10
 	lsl r0, r0, #0x10
 	lsl r1, r1, #0x10
@@ -1648,7 +1716,7 @@ StageClearEx__State_2154A28: // 0x02154A28
 	and r0, r1
 	mov r1, r2
 	orr r1, r0
-	ldr r0, _02154AFC // =0x00000818
+	ldr r0, =0x00000818
 	sub r0, r0, #4
 	str r1, [r4, r0]
 	mov r1, #2
@@ -1656,31 +1724,31 @@ StageClearEx__State_2154A28: // 0x02154A28
 	str r3, [sp]
 	mov r0, #0x10
 	str r0, [sp, #4]
-	ldr r0, _02154B0C // =Task__Unknown204BE48__LerpValue
+	ldr r0, =Task__Unknown204BE48__LerpValue
 	sub r2, #0xa2
 	str r0, [sp, #8]
-	ldr r0, _02154B10 // =0xFFFFF000
+	ldr r0, =0xFFFFF000
 	str r0, [sp, #0xc]
-	ldr r0, _02154B14 // =StageClearEx__Func_2154E38
+	ldr r0, =StageClearEx__LerpCB_ScoreBonus
 	str r0, [sp, #0x10]
 	str r5, [sp, #0x14]
 	str r3, [sp, #0x18]
 	mov r0, #0x62
 	str r0, [sp, #0x1c]
-	ldr r0, _02154B18 // =0x0000051C
+	ldr r0, =0x0000051C
 	str r3, [sp, #0x20]
 	add r0, r4, r0
 	bl Task__Unknown204BE48__Create
 	mov r0, #0x10
 	str r0, [sp]
 	str r0, [sp, #4]
-	ldr r0, _02154B0C // =Task__Unknown204BE48__LerpValue
+	ldr r0, =Task__Unknown204BE48__LerpValue
 	mov r1, #2
 	str r0, [sp, #8]
-	ldr r0, _02154B10 // =0xFFFFF000
+	ldr r0, =0xFFFFF000
 	mov r2, r1
 	str r0, [sp, #0xc]
-	ldr r0, _02154B14 // =StageClearEx__Func_2154E38
+	ldr r0, =StageClearEx__LerpCB_ScoreBonus
 	mov r3, #0
 	str r0, [sp, #0x10]
 	str r5, [sp, #0x14]
@@ -1697,95 +1765,91 @@ StageClearEx__State_2154A28: // 0x02154A28
 	str r0, [sp]
 	mov r0, #0x10
 	str r0, [sp, #4]
-	ldr r0, _02154B0C // =Task__Unknown204BE48__LerpValue
+	ldr r0, =Task__Unknown204BE48__LerpValue
 	mov r1, #2
 	str r0, [sp, #8]
-	ldr r0, _02154B10 // =0xFFFFF000
+	ldr r0, =0xFFFFF000
 	mov r2, r1
 	str r0, [sp, #0xc]
-	ldr r0, _02154B1C // =StageClearEx__Func_2154E58
+	ldr r0, =StageClearEx__LerpCB_ScoreTotal
 	mov r3, #0
 	str r0, [sp, #0x10]
 	str r5, [sp, #0x14]
 	str r3, [sp, #0x18]
 	mov r0, #0x62
 	str r0, [sp, #0x1c]
-	ldr r0, _02154B20 // =0x00000524
+	ldr r0, =0x00000524
 	sub r2, #0xa2
 	add r0, r4, r0
 	str r3, [sp, #0x20]
 	bl Task__Unknown204BE48__Create
-	ldr r1, _02154B24 // =StageClearEx__State_2154B28
+	ldr r1, =StageClearEx__State_2154B28
 	mov r0, r5
 	bl StageClearEx__SetState
 	add sp, #0x24
 	pop {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02154AF8: .word 0x00000958
-_02154AFC: .word 0x00000818
-_02154B00: .word _mt_math_rand
-_02154B04: .word 0x00196225
-_02154B08: .word 0x3C6EF35F
-_02154B0C: .word Task__Unknown204BE48__LerpValue
-_02154B10: .word 0xFFFFF000
-_02154B14: .word StageClearEx__Func_2154E38
-_02154B18: .word 0x0000051C
-_02154B1C: .word StageClearEx__Func_2154E58
-_02154B20: .word 0x00000524
-_02154B24: .word StageClearEx__State_2154B28
-	thumb_func_end StageClearEx__State_2154A28
 
-	thumb_func_start StageClearEx__State_2154B28
-StageClearEx__State_2154B28: // 0x02154B28
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_2154B28(StageClearEx *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, r5, lr}
 	mov r5, r0
-	ldr r0, _02154B58 // =0x00000958
+	ldr r0, =0x00000958
 	ldr r1, [r5, #0xc]
 	add r4, r5, r0
 	mov r0, #1
 	tst r0, r1
 	beq _02154B46
 	bl Task__Unknown204BE48__Rand
-	ldr r1, _02154B5C // =0x000F4240
+	ldr r1, =0x000F4240
 	bl _u32_div_f
-	ldr r0, _02154B60 // =0x00000814
+	ldr r0, =0x00000814
 	str r1, [r4, r0]
 _02154B46:
 	ldr r0, [r5, #0xc]
 	cmp r0, #0x5a
 	bls _02154B54
-	ldr r1, _02154B64 // =StageClearEx__State_2154B68
+	ldr r1, =StageClearEx__State_2154B68
 	mov r0, r5
 	bl StageClearEx__SetState
 _02154B54:
 	pop {r3, r4, r5, pc}
 	nop
-_02154B58: .word 0x00000958
-_02154B5C: .word 0x000F4240
-_02154B60: .word 0x00000814
-_02154B64: .word StageClearEx__State_2154B68
-	thumb_func_end StageClearEx__State_2154B28
 
-	thumb_func_start StageClearEx__State_2154B68
-StageClearEx__State_2154B68: // 0x02154B68
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_2154B68(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, r5, lr}
 	sub sp, #8
 	mov r5, r0
-	ldr r0, _02154BC4 // =0x00000958
+	ldr r0, =0x00000958
 	ldr r1, [r5, #0xc]
 	add r4, r5, r0
 	mov r0, #1
 	tst r0, r1
 	beq _02154B88
 	bl Task__Unknown204BE48__Rand
-	ldr r1, _02154BC8 // =0x000F4240
+	ldr r1, =0x000F4240
 	bl _u32_div_f
-	ldr r0, _02154BCC // =0x00000814
+	ldr r0, =0x00000814
 	str r1, [r4, r0]
 _02154B88:
 	ldr r0, [r5, #0xc]
 	lsr r1, r0, #4
-	ldr r0, _02154BD0 // =0x00000818
+	ldr r0, =0x00000818
 	strh r1, [r4, r0]
 	ldrh r0, [r4, r0]
 	cmp r0, #6
@@ -1802,26 +1866,26 @@ _02154B88:
 	ldr r0, [r4, #4]
 	mov r1, #0
 	bl NNS_SndPlayerStopSeq
-	ldr r0, _02154BD4 // =0x0000081C
+	ldr r0, =0x0000081C
 	mov r1, #0
 	str r1, [r4, r0]
-	ldr r1, _02154BD8 // =StageClearEx__State_2154BDC
+	ldr r1, =StageClearEx__State_2154BDC
 	mov r0, r5
 	bl StageClearEx__SetState
 _02154BC0:
 	add sp, #8
 	pop {r3, r4, r5, pc}
-	.align 2, 0
-_02154BC4: .word 0x00000958
-_02154BC8: .word 0x000F4240
-_02154BCC: .word 0x00000814
-_02154BD0: .word 0x00000818
-_02154BD4: .word 0x0000081C
-_02154BD8: .word StageClearEx__State_2154BDC
-	thumb_func_end StageClearEx__State_2154B68
 
-	thumb_func_start StageClearEx__State_2154BDC
-StageClearEx__State_2154BDC: // 0x02154BDC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_2154BDC(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, lr}
 	ldr r1, [r0, #0xc]
 	cmp r1, #0x20
@@ -1831,23 +1895,27 @@ StageClearEx__State_2154BDC: // 0x02154BDC
 	ldr r3, [r0, r2]
 	mov r1, #1
 	bic r3, r1
-	ldr r1, _02154BF8 // =StageClearEx__State_2154BFC
+	ldr r1, =StageClearEx__State_2154BFC
 	str r3, [r0, r2]
 	bl StageClearEx__SetState
 _02154BF6:
 	pop {r3, pc}
-	.align 2, 0
-_02154BF8: .word StageClearEx__State_2154BFC
-	thumb_func_end StageClearEx__State_2154BDC
 
-	thumb_func_start StageClearEx__State_2154BFC
-StageClearEx__State_2154BFC: // 0x02154BFC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_2154BFC(StageClearEx *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, lr}
 	ldr r1, [r0, #0xc]
 	cmp r1, #0x1e
 	bls _02154C20
-	ldr r1, _02154C24 // =0x00000958
-	ldr r2, _02154C28 // =0x000007CC
+	ldr r1, =0x00000958
+	ldr r2, =0x000007CC
 	add r4, r0, r1
 	ldr r3, [r4, r2]
 	mov r1, #1
@@ -1857,33 +1925,37 @@ StageClearEx__State_2154BFC: // 0x02154BFC
 	lsl r1, r1, #0xa
 	add r2, #0x28
 	str r1, [r4, r2]
-	ldr r1, _02154C2C // =StageClearEx__State_2154C30
+	ldr r1, =StageClearEx__State_2154C30
 	bl StageClearEx__SetState
 _02154C20:
 	pop {r4, pc}
 	nop
-_02154C24: .word 0x00000958
-_02154C28: .word 0x000007CC
-_02154C2C: .word StageClearEx__State_2154C30
-	thumb_func_end StageClearEx__State_2154BFC
 
-	thumb_func_start StageClearEx__State_2154C30
-StageClearEx__State_2154C30: // 0x02154C30
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_2154C30(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, r5, lr}
 	sub sp, #8
 	mov r5, r0
-	ldr r0, _02154C84 // =0x00000958
+	ldr r0, =0x00000958
 	ldr r2, [r5, #0xc]
 	add r4, r5, r0
 	mov r0, #6
 	mov r1, #1
 	lsl r2, r2, #0x17
-	ldr r3, _02154C88 // =0xFFFFD000
+	ldr r3, =0xFFFFD000
 	lsl r0, r0, #0xa
 	lsl r1, r1, #0xc
 	asr r2, r2, #0x10
 	bl Task__Unknown204BE48__LerpValue
-	ldr r1, _02154C8C // =0x000007F4
+	ldr r1, =0x000007F4
 	str r0, [r4, r1]
 	ldr r0, [r5, #0xc]
 	cmp r0, #0x20
@@ -1902,90 +1974,102 @@ StageClearEx__State_2154C30: // 0x02154C30
 	bl PlaySfxEx
 	mov r0, #6
 	bl ShakeScreen
-	ldr r1, _02154C90 // =StageClearEx__State_2154C94
+	ldr r1, =StageClearEx__State_2154C94
 	mov r0, r5
 	bl StageClearEx__SetState
 _02154C80:
 	add sp, #8
 	pop {r3, r4, r5, pc}
-	.align 2, 0
-_02154C84: .word 0x00000958
-_02154C88: .word 0xFFFFD000
-_02154C8C: .word 0x000007F4
-_02154C90: .word StageClearEx__State_2154C94
-	thumb_func_end StageClearEx__State_2154C30
 
-	thumb_func_start StageClearEx__State_2154C94
-StageClearEx__State_2154C94: // 0x02154C94
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_2154C94(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, r5, lr}
 	mov r5, r0
-	ldr r0, _02154CC4 // =0x00000958
+	ldr r0, =0x00000958
 	add r4, r5, r0
 	bl GetScreenShakeOffsetX
 	asr r1, r0, #0xc
-	ldr r0, _02154CC8 // =0x000007F8
+	ldr r0, =0x000007F8
 	strh r1, [r4, r0]
 	bl GetScreenShakeOffsetY
 	asr r1, r0, #0xc
-	ldr r0, _02154CCC // =0x000007FA
+	ldr r0, =0x000007FA
 	strh r1, [r4, r0]
 	mov r0, #0x11
 	bl ShakeScreen
 	cmp r0, #0
 	bne _02154CC2
-	ldr r1, _02154CD0 // =StageClearEx__State_2154CD4
+	ldr r1, =StageClearEx__State_2154CD4
 	mov r0, r5
 	bl StageClearEx__SetState
 _02154CC2:
 	pop {r3, r4, r5, pc}
-	.align 2, 0
-_02154CC4: .word 0x00000958
-_02154CC8: .word 0x000007F8
-_02154CCC: .word 0x000007FA
-_02154CD0: .word StageClearEx__State_2154CD4
-	thumb_func_end StageClearEx__State_2154C94
 
-	thumb_func_start StageClearEx__State_2154CD4
-StageClearEx__State_2154CD4: // 0x02154CD4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_2154CD4(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, lr}
 	ldr r1, [r0, #0xc]
 	cmp r1, #0x10
 	bls _02154CE2
-	ldr r1, _02154CE4 // =StageClearEx__State_2154CE8
+	ldr r1, =StageClearEx__State_2154CE8
 	bl StageClearEx__SetState
 _02154CE2:
 	pop {r3, pc}
-	.align 2, 0
-_02154CE4: .word StageClearEx__State_2154CE8
-	thumb_func_end StageClearEx__State_2154CD4
 
-	thumb_func_start StageClearEx__State_2154CE8
-StageClearEx__State_2154CE8: // 0x02154CE8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_2154CE8(StageClearEx *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, lr}
-	ldr r1, _02154D0C // =padInput
+	ldr r1, =padInput
 	ldrh r2, [r1, #4]
-	ldr r1, _02154D10 // =0x00000C0B
+	ldr r1, =0x00000C0B
 	tst r1, r2
 	beq _02154CFC
-	ldr r1, _02154D14 // =StageClearEx__State_2154D18
+	ldr r1, =StageClearEx__State_FadeOut
 	bl StageClearEx__SetState
 	pop {r3, pc}
 _02154CFC:
 	ldr r1, [r0, #0xc]
 	cmp r1, #0x78
 	bls _02154D08
-	ldr r1, _02154D14 // =StageClearEx__State_2154D18
+	ldr r1, =StageClearEx__State_FadeOut
 	bl StageClearEx__SetState
 _02154D08:
 	pop {r3, pc}
 	nop
-_02154D0C: .word padInput
-_02154D10: .word 0x00000C0B
-_02154D14: .word StageClearEx__State_2154D18
-	thumb_func_end StageClearEx__State_2154CE8
 
-	thumb_func_start StageClearEx__State_2154D18
-StageClearEx__State_2154D18: // 0x02154D18
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__State_FadeOut(StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	bl Camera3D__GetWork
@@ -2020,13 +2104,20 @@ _02154D4A:
 	bl RequestSysEventChange
 	bl NextSysEvent
 	mov r0, r5
-	bl StageClearEx__Func_2153E14
+	bl StageClearEx__Destroy
 _02154D66:
 	pop {r3, r4, r5, r6, r7, pc}
-	thumb_func_end StageClearEx__State_2154D18
 
-	thumb_func_start StageClearEx__Func_2154D68
-StageClearEx__Func_2154D68: // 0x02154D68
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__DrawNumber(AnimatorSprite *aniNumbers, s16 x, s16 y, s32 spacing, u16 digitCount, BOOL showAll, s32 value)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xc
 	str r0, [sp]
@@ -2080,22 +2171,27 @@ _02154DC8:
 _02154DCE:
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
-	.align 2, 0
-	thumb_func_end StageClearEx__Func_2154D68
 
-	thumb_func_start StageClearEx__CalcTimeBonus
-StageClearEx__CalcTimeBonus: // 0x02154DD4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u32 StageClearEx__CalcTimeBonus(u32 time){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, r5}
-	ldr r5, _02154E00 // =_02161514
+	ldr r5, =_02161514
 	mov r4, #0
 	mov r1, #0x3c
 _02154DDC:
-	ldrb r2, [r5]
+	ldrb r2, [r5, #0]
 	mov r3, r2
 	mul r3, r1
 	cmp r3, r0
 	bhi _02154DF0
-	ldr r0, _02154E04 // =_02161524
+	ldr r0, =_02161524
 	lsl r1, r4, #2
 	ldr r0, [r0, r1]
 	pop {r4, r5}
@@ -2105,24 +2201,27 @@ _02154DF0:
 	add r5, r5, #1
 	cmp r4, #8
 	blo _02154DDC
-	ldr r0, _02154E08 // =0x0000AFC8
+	ldr r0, =0x0000AFC8
 	pop {r4, r5}
 	bx lr
 	nop
-_02154E00: .word _02161514
-_02154E04: .word _02161524
-_02154E08: .word 0x0000AFC8
-	thumb_func_end StageClearEx__CalcTimeBonus
 
-	thumb_func_start StageClearEx__CalcRingBonus
-StageClearEx__CalcRingBonus: // 0x02154E0C
-	ldr r3, _02154E2C // =_0216151C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u32 StageClearEx__CalcRingBonus(u32 rings){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	ldr r3, =_0216151C
 	mov r2, #0
 _02154E10:
-	ldrb r1, [r3]
+	ldrb r1, [r3, #0]
 	cmp r0, r1
 	bhs _02154E1E
-	ldr r0, _02154E30 // =_02161548
+	ldr r0, =_02161548
 	lsl r1, r2, #2
 	ldr r0, [r0, r1]
 	bx lr
@@ -2131,16 +2230,20 @@ _02154E1E:
 	add r3, r3, #1
 	cmp r2, #8
 	blo _02154E10
-	ldr r0, _02154E34 // =0x00001388
+	ldr r0, =0x00001388
 	bx lr
 	nop
-_02154E2C: .word _0216151C
-_02154E30: .word _02161548
-_02154E34: .word 0x00001388
-	thumb_func_end StageClearEx__CalcRingBonus
 
-	thumb_func_start StageClearEx__Func_2154E38
-StageClearEx__Func_2154E38: // 0x02154E38
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__LerpCB_ScoreBonus(s32 a1, void *a2, StageClearEx *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, lr}
 	sub sp, #8
 	cmp r0, #4
@@ -2156,11 +2259,16 @@ StageClearEx__Func_2154E38: // 0x02154E38
 _02154E52:
 	add sp, #8
 	pop {r3, pc}
-	.align 2, 0
-	thumb_func_end StageClearEx__Func_2154E38
 
-	thumb_func_start StageClearEx__Func_2154E58
-StageClearEx__Func_2154E58: // 0x02154E58
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__LerpCB_ScoreTotal(s32 a1, void *a2, StageClearEx *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r4, lr}
 	sub sp, #8
 	mov r4, r2
@@ -2179,7 +2287,7 @@ StageClearEx__Func_2154E58: // 0x02154E58
 	mov r1, #1
 	str r1, [sp, #4]
 	sub r1, r1, #2
-	ldr r0, _02154E90 // =0x0000095C
+	ldr r0, =0x0000095C
 	mov r2, r1
 	ldr r0, [r4, r0]
 	mov r3, r1
@@ -2188,11 +2296,17 @@ _02154E8A:
 	add sp, #8
 	pop {r4, pc}
 	nop
-_02154E90: .word 0x0000095C
-	thumb_func_end StageClearEx__Func_2154E58
 
-	thumb_func_start StageClearEx__Main
-StageClearEx__Main: // 0x02154E94
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__Main_Core(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0xc]
@@ -2204,53 +2318,43 @@ StageClearEx__Main: // 0x02154E94
 	blx r1
 _02154EA8:
 	pop {r3, pc}
-	.align 2, 0
-	thumb_func_end StageClearEx__Main
 
-	thumb_func_start Task__Unknown2153D0C__Main
-Task__Unknown2153D0C__Main: // 0x02154EAC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__Main_AnimationManager(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, lr}
-	ldr r0, _02154EBC // =StageClearEx__Singleton
-	ldr r0, [r0]
+	ldr r0, =StageClearEx__Singleton
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	bl StageClearEx__Func_2154480
+	bl StageClearEx__HandleAnimations
 	pop {r3, pc}
-	.align 2, 0
-_02154EBC: .word StageClearEx__Singleton
-	thumb_func_end Task__Unknown2153D0C__Main
 
-	thumb_func_start Task__Unknown2153D38__Main
-Task__Unknown2153D38__Main: // 0x02154EC0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void StageClearEx__Main_DrawManager(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	push {r3, lr}
-	ldr r0, _02154ED0 // =StageClearEx__Singleton
-	ldr r0, [r0]
+	ldr r0, =StageClearEx__Singleton
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	bl StageClearEx__Func_2154580
+	bl StageClearEx__HandleDrawing
 	pop {r3, pc}
-	.align 2, 0
-_02154ED0: .word StageClearEx__Singleton
-	thumb_func_end Task__Unknown2153D38__Main
 
-	.rodata
+// clang-format on
+#endif
+}
 
-_02161514: // 0x02161514
-    .byte 190, 180, 170, 160, 150, 140, 130, 120
-	
-_0216151C: // 0x0216151C
-    .byte 15, 20, 25, 30, 35, 40, 45, 50
-	
-_02161524: // 0x02161524
-    .word 10000, 15000, 20000, 25000, 30000, 34000, 38000, 42000, 45000
-
-_02161548: // 0x02161548
-    .word 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000
-
-    .data
-    
-aNarcPldm6700Lz: // 0x021629D4
-	.asciz "/narc/pldm_67_00_lz7.narc"
-	.align 4
-
-aNarcCldmExLz7N: // 0x021629F0
-	.asciz "/narc/cldm_ex_lz7.narc"
-	.align 4
+#include <nitro/codereset.h>

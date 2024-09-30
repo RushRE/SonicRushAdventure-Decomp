@@ -23,7 +23,7 @@ EmeraldCollectedScreen__Create: // 0x02154ED4
 	ldr r0, _02154F2C // =0x00001148
 	str r2, [sp, #4]
 	str r0, [sp, #8]
-	ldr r0, _02154F30 // =EmeraldCollectedScreen__Main
+	ldr r0, _02154F30 // =EmeraldCollectedScreen__Main_Core
 	ldr r1, _02154F34 // =EmeraldCollectedScreen__Destructor
 	mov r3, r2
 	bl TaskCreate_
@@ -31,12 +31,12 @@ EmeraldCollectedScreen__Create: // 0x02154ED4
 	str r0, [r1, #4]
 	bl GetTaskWork_
 	mov r4, r0
-	bl EmeraldCollectedScreen__Func_21550D8
+	bl EmeraldCollectedScreen__Init
 	mov r1, #0
 	mov r0, #0x21
 	str r0, [sp]
 	str r1, [sp, #4]
-	ldr r0, _02154F3C // =EmeraldCollectedScreen__Main2
+	ldr r0, _02154F3C // =EmeraldCollectedScreen__Main_UpdateManager
 	str r1, [sp, #8]
 	mov r2, r1
 	mov r3, r1
@@ -46,7 +46,7 @@ EmeraldCollectedScreen__Create: // 0x02154ED4
 	mov r0, #0x81
 	str r0, [sp]
 	str r1, [sp, #4]
-	ldr r0, _02154F40 // =EmeraldCollectedScreen__Main3
+	ldr r0, _02154F40 // =EmeraldCollectedScreen__Main_DrawManager
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp, #8]
@@ -56,11 +56,11 @@ EmeraldCollectedScreen__Create: // 0x02154ED4
 	pop {r3, r4, pc}
 	.align 2, 0
 _02154F2C: .word 0x00001148
-_02154F30: .word EmeraldCollectedScreen__Main
+_02154F30: .word EmeraldCollectedScreen__Main_Core
 _02154F34: .word EmeraldCollectedScreen__Destructor
 _02154F38: .word _02162E84
-_02154F3C: .word EmeraldCollectedScreen__Main2
-_02154F40: .word EmeraldCollectedScreen__Main3
+_02154F3C: .word EmeraldCollectedScreen__Main_UpdateManager
+_02154F40: .word EmeraldCollectedScreen__Main_DrawManager
 	thumb_func_end EmeraldCollectedScreen__Create
 
 	thumb_func_start EmeraldCollectedScreen__Destructor
@@ -81,8 +81,8 @@ EmeraldCollectedScreen__SetState: // 0x02154F50
 	bx lr
 	thumb_func_end EmeraldCollectedScreen__SetState
 
-	thumb_func_start EmeraldCollectedScreen__Func_2154F58
-EmeraldCollectedScreen__Func_2154F58: // 0x02154F58
+	thumb_func_start EmeraldCollectedScreen__SetupDisplay
+EmeraldCollectedScreen__SetupDisplay: // 0x02154F58
 	push {r3, r4, r5, r6, lr}
 	sub sp, #4
 	mov r2, #1
@@ -253,10 +253,10 @@ _021550C8: .word 0x04001008
 _021550CC: .word renderCoreGFXControlB
 _021550D0: .word renderCoreGFXControlA
 _021550D4: .word 0x00000704
-	thumb_func_end EmeraldCollectedScreen__Func_2154F58
+	thumb_func_end EmeraldCollectedScreen__SetupDisplay
 
-	thumb_func_start EmeraldCollectedScreen__Func_21550D8
-EmeraldCollectedScreen__Func_21550D8: // 0x021550D8
+	thumb_func_start EmeraldCollectedScreen__Init
+EmeraldCollectedScreen__Init: // 0x021550D8
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r2, _02155128 // =0x00001148
@@ -265,8 +265,8 @@ EmeraldCollectedScreen__Func_21550D8: // 0x021550D8
 	bl MIi_CpuClear32
 	mov r0, r5
 	add r0, #0x1c
-	bl EmeraldCollectedScreen__Func_2155C24
-	bl EmeraldCollectedScreen__Func_2154F58
+	bl EmeraldCollectedScreen__InitEmeraldConfig
+	bl EmeraldCollectedScreen__SetupDisplay
 	mov r4, r5
 	add r4, #0x14
 	mov r0, r4
@@ -280,7 +280,7 @@ EmeraldCollectedScreen__Func_21550D8: // 0x021550D8
 	mov r0, r5
 	add r0, #0x1c
 	mov r1, r4
-	bl EmeraldCollectedScreen__Func_21551C4
+	bl EmeraldCollectedScreen__InitGraphics
 	bl ResetTouchInput
 	ldr r1, _02155130 // =EmeraldCollectedScreen__State_21556EC
 	mov r0, r5
@@ -290,10 +290,10 @@ EmeraldCollectedScreen__Func_21550D8: // 0x021550D8
 _02155128: .word 0x00001148
 _0215512C: .word 0x00001144
 _02155130: .word EmeraldCollectedScreen__State_21556EC
-	thumb_func_end EmeraldCollectedScreen__Func_21550D8
+	thumb_func_end EmeraldCollectedScreen__Init
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155134
-EmeraldCollectedScreen__Func_2155134: // 0x02155134
+	thumb_func_start EmeraldCollectedScreen__Release
+EmeraldCollectedScreen__Release: // 0x02155134
 	push {r4, lr}
 	mov r4, r0
 	bl ReleaseTouchInput
@@ -303,7 +303,7 @@ EmeraldCollectedScreen__Func_2155134: // 0x02155134
 	bl DestroyTask
 	mov r0, r4
 	add r0, #0x1c
-	bl EmeraldCollectedScreen__Func_21554E0
+	bl EmeraldCollectedScreen__ReleaseGraphics
 	ldr r0, _02155174 // =0x00001144
 	mov r1, #0
 	ldr r0, [r4, r0]
@@ -314,12 +314,12 @@ EmeraldCollectedScreen__Func_2155134: // 0x02155134
 	bl ReleaseSysSound
 	add r4, #0x14
 	mov r0, r4
-	bl EmeraldCollectedScreen__Func_21551A8
+	bl EmeraldCollectedScreen__ReleaseAssets
 	bl DestroyCurrentTask
 	pop {r4, pc}
 	.align 2, 0
 _02155174: .word 0x00001144
-	thumb_func_end EmeraldCollectedScreen__Func_2155134
+	thumb_func_end EmeraldCollectedScreen__Release
 
 	thumb_func_start EmeraldCollectedScreen__LoadArchives
 EmeraldCollectedScreen__LoadArchives: // 0x02155178
@@ -345,8 +345,8 @@ _021551A0: .word aNarcEmdmLz7Nar
 _021551A4: .word aNarcActComBLz7_0
 	thumb_func_end EmeraldCollectedScreen__LoadArchives
 
-	thumb_func_start EmeraldCollectedScreen__Func_21551A8
-EmeraldCollectedScreen__Func_21551A8: // 0x021551A8
+	thumb_func_start EmeraldCollectedScreen__ReleaseAssets
+EmeraldCollectedScreen__ReleaseAssets: // 0x021551A8
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #4]
@@ -358,10 +358,10 @@ EmeraldCollectedScreen__Func_21551A8: // 0x021551A8
 	mov r2, #8
 	bl MIi_CpuClear32
 	pop {r4, pc}
-	thumb_func_end EmeraldCollectedScreen__Func_21551A8
+	thumb_func_end EmeraldCollectedScreen__ReleaseAssets
 
-	thumb_func_start EmeraldCollectedScreen__Func_21551C4
-EmeraldCollectedScreen__Func_21551C4: // 0x021551C4
+	thumb_func_start EmeraldCollectedScreen__InitGraphics
+EmeraldCollectedScreen__InitGraphics: // 0x021551C4
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0xec
 	str r0, [sp, #0x28]
@@ -389,8 +389,8 @@ EmeraldCollectedScreen__Func_21551C4: // 0x021551C4
 	ldr r0, [r4]
 	add r1, sp, #0x30
 	add r3, sp, #0x34
-	bl StageClearEx__Func_21540A8
-	bl EmeraldCollectedScreen__Func_2155C10
+	bl StageClearEx__LoadAssets
+	bl EmeraldCollectedScreen__IsChaosEmeralds
 	cmp r0, #0
 	add r1, sp, #0x38
 	beq _02155224
@@ -405,7 +405,7 @@ EmeraldCollectedScreen__Func_21551C4: // 0x021551C4
 	ldr r0, [r4]
 	mov r2, #2
 	add r3, sp, #0x3c
-	bl StageClearEx__Func_21540A8
+	bl StageClearEx__LoadAssets
 	b _0215523E
 _02155224:
 	mov r0, #6
@@ -419,7 +419,7 @@ _02155224:
 	ldr r0, [r4]
 	mov r2, #5
 	add r3, sp, #0x3c
-	bl StageClearEx__Func_21540A8
+	bl StageClearEx__LoadAssets
 _0215523E:
 	ldr r1, [sp, #0x38]
 	mov r0, #3
@@ -499,7 +499,7 @@ _021552A0:
 	add r5, #0x10
 	cmp r6, #7
 	blo _021552A0
-	bl EmeraldCollectedScreen__Func_2155C10
+	bl EmeraldCollectedScreen__IsChaosEmeralds
 	cmp r0, #0
 	beq _021552F8
 	ldr r0, _021554C4 // =_021615DC
@@ -590,7 +590,7 @@ _0215537C:
 	ldr r0, [sp, #0x50]
 	add r1, sp, #0x54
 	bl GetDrawStateCameraProjection
-	bl EmeraldCollectedScreen__Func_2155C10
+	bl EmeraldCollectedScreen__IsChaosEmeralds
 	cmp r0, #0
 	beq _021553D2
 	mov r2, #0x69
@@ -647,7 +647,7 @@ _021553F4:
 	ldr r0, [sp, #0x28]
 	mov r1, #6
 	ldrsh r5, [r0, r1]
-	bl EmeraldCollectedScreen__Func_2155C10
+	bl EmeraldCollectedScreen__IsChaosEmeralds
 	cmp r0, #0
 	beq _02155438
 	mov r3, #0
@@ -708,7 +708,7 @@ _02155446:
 	mov r0, #3
 	add r4, #0x90
 	str r0, [sp]
-	ldr r1, _021554D8 // =EmeraldCollectedScreen__Func_2155CF0
+	ldr r1, _021554D8 // =EmeraldCollectedScreen__RenderCallback
 	mov r0, r4
 	mov r2, #0
 	mov r3, #6
@@ -717,7 +717,7 @@ _02155446:
 	ldr r0, [sp, #0x28]
 	add r0, r0, r1
 	ldr r1, [sp, #0x30]
-	bl EmeraldCollectedScreen__Func_2155D3C
+	bl EmeraldCollectedScreen__InitSparkles
 	add sp, #0xec
 	pop {r4, r5, r6, r7, pc}
 	nop
@@ -727,17 +727,17 @@ _021554C8: .word _0216166C
 _021554CC: .word 0x001FFFFF
 _021554D0: .word 0x0000078C
 _021554D4: .word 0x00000648
-_021554D8: .word EmeraldCollectedScreen__Func_2155CF0
+_021554D8: .word EmeraldCollectedScreen__RenderCallback
 _021554DC: .word 0x000007A8
-	thumb_func_end EmeraldCollectedScreen__Func_21551C4
+	thumb_func_end EmeraldCollectedScreen__InitGraphics
 
-	thumb_func_start EmeraldCollectedScreen__Func_21554E0
-EmeraldCollectedScreen__Func_21554E0: // 0x021554E0
+	thumb_func_start EmeraldCollectedScreen__ReleaseGraphics
+EmeraldCollectedScreen__ReleaseGraphics: // 0x021554E0
 	push {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, _02155528 // =0x000007A8
 	add r0, r6, r0
-	bl EmeraldCollectedScreen__Func_2155DD0
+	bl EmeraldCollectedScreen__ReleaseSparkles
 	ldr r0, _0215552C // =0x00000648
 	mov r5, r6
 	add r5, #8
@@ -771,10 +771,10 @@ _0215551E:
 _02155528: .word 0x000007A8
 _0215552C: .word 0x00000648
 _02155530: .word 0x0000078C
-	thumb_func_end EmeraldCollectedScreen__Func_21554E0
+	thumb_func_end EmeraldCollectedScreen__ReleaseGraphics
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155534
-EmeraldCollectedScreen__Func_2155534: // 0x02155534
+	thumb_func_start EmeraldCollectedScreen__HandleUpdating
+EmeraldCollectedScreen__HandleUpdating: // 0x02155534
 	push {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	add r7, #0x1c
@@ -918,7 +918,7 @@ _021555F6:
 	str r1, [r4, r0]
 _02155648:
 	mov r0, r4
-	bl EmeraldCollectedScreen__Func_2155E84
+	bl EmeraldCollectedScreen__ProcessSparkles
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02155650: .word 0x000007A8
@@ -930,10 +930,10 @@ _02155664: .word 0x00000964
 _02155668: .word 0x00163000
 _0215566C: .word 0x00000974
 _02155670: .word 0x0000097C
-	thumb_func_end EmeraldCollectedScreen__Func_2155534
+	thumb_func_end EmeraldCollectedScreen__HandleUpdating
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155674
-EmeraldCollectedScreen__Func_2155674: // 0x02155674
+	thumb_func_start EmeraldCollectedScreen__HandleDrawing
+EmeraldCollectedScreen__HandleDrawing: // 0x02155674
 	push {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
 	add r4, #0x1c
@@ -984,7 +984,7 @@ _021556AC:
 _021556CE:
 	ldr r0, _021556E8 // =0x000007A8
 	add r0, r4, r0
-	bl EmeraldCollectedScreen__Func_215604C
+	bl EmeraldCollectedScreen__DrawSparkles
 	pop {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _021556D8: .word _0216156C
@@ -992,7 +992,7 @@ _021556DC: .word 0x000005E4
 _021556E0: .word 0x00000648
 _021556E4: .word 0x0000078C
 _021556E8: .word 0x000007A8
-	thumb_func_end EmeraldCollectedScreen__Func_2155674
+	thumb_func_end EmeraldCollectedScreen__HandleDrawing
 
 	thumb_func_start EmeraldCollectedScreen__State_21556EC
 EmeraldCollectedScreen__State_21556EC: // 0x021556EC
@@ -1088,7 +1088,7 @@ EmeraldCollectedScreen__State_2155770: // 0x02155770
 	strh r3, [r0, r2]
 	ldr r0, _021557B8 // =0x000007A8
 	add r0, r1, r0
-	bl EmeraldCollectedScreen__Func_2155DF4
+	bl EmeraldCollectedScreen__EnableSparkles
 	ldr r1, _021557BC // =EmeraldCollectedScreen__State_21557C0
 	mov r0, r4
 	bl EmeraldCollectedScreen__SetState
@@ -1188,7 +1188,7 @@ EmeraldCollectedScreen__State_2155858: // 0x02155858
 	mov r2, #9
 	mov r3, #0
 	add r4, #0x1c
-	bl StageClearEx__Func_21540A8
+	bl StageClearEx__LoadAssets
 	ldr r0, _021558CC // =padInput
 	ldrh r1, [r0, #4]
 	mov r0, #1
@@ -1356,7 +1356,7 @@ EmeraldCollectedScreen__State_2155974: // 0x02155974
 	strh r0, [r1, #4]
 	ldr r0, _021559FC // =0x000007A8
 	add r0, r1, r0
-	bl EmeraldCollectedScreen__Func_2155E78
+	bl EmeraldCollectedScreen__DisableSparkles
 	mov r0, #3
 	lsl r1, r7, #0xa
 	bl CreateDrawFadeTask
@@ -1455,7 +1455,7 @@ EmeraldCollectedScreen__State_2155A80: // 0x02155A80
 	mov r4, r0
 	str r0, [sp]
 	add r4, #0x1c
-	bl EmeraldCollectedScreen__Func_2155C10
+	bl EmeraldCollectedScreen__IsChaosEmeralds
 	cmp r0, #0
 	beq _02155A98
 	ldr r0, _02155B2C // =_021615DC
@@ -1475,7 +1475,7 @@ _02155AA4:
 	cmp r0, r7
 	bne _02155ADC
 	mov r0, r5
-	bl EmeraldCollectedScreen__Func_2155BD0
+	bl EmeraldCollectedScreen__GetEmeraldUnknown
 	mov r1, r0
 	add r0, r1, #7
 	mov r2, #0x64
@@ -1501,7 +1501,7 @@ _02155ADC:
 	cmp r0, r6
 	bne _02155B0E
 	mov r0, r5
-	bl EmeraldCollectedScreen__Func_2155BD0
+	bl EmeraldCollectedScreen__GetEmeraldUnknown
 	mov r1, r0
 	add r0, r1, #7
 	mov r2, #0x64
@@ -1600,30 +1600,30 @@ EmeraldCollectedScreen__State_2155B90: // 0x02155B90
 	mov r0, #3
 	bic r1, r0
 	str r1, [r4, #0x10]
-	ldr r1, _02155BB4 // =EmeraldCollectedScreen__State_2155BB8
+	ldr r1, _02155BB4 // =EmeraldCollectedScreen__State_ChangeEvent
 	mov r0, r4
 	bl EmeraldCollectedScreen__SetState
 _02155BB0:
 	pop {r4, pc}
 	nop
-_02155BB4: .word EmeraldCollectedScreen__State_2155BB8
+_02155BB4: .word EmeraldCollectedScreen__State_ChangeEvent
 	thumb_func_end EmeraldCollectedScreen__State_2155B90
 
-	thumb_func_start EmeraldCollectedScreen__State_2155BB8
-EmeraldCollectedScreen__State_2155BB8: // 0x02155BB8
+	thumb_func_start EmeraldCollectedScreen__State_ChangeEvent
+EmeraldCollectedScreen__State_ChangeEvent: // 0x02155BB8
 	push {r4, lr}
 	mov r4, r0
 	mov r0, #0x28
 	bl RequestNewSysEventChange
 	bl NextSysEvent
 	mov r0, r4
-	bl EmeraldCollectedScreen__Func_2155134
+	bl EmeraldCollectedScreen__Release
 	pop {r4, pc}
 	.align 2, 0
-	thumb_func_end EmeraldCollectedScreen__State_2155BB8
+	thumb_func_end EmeraldCollectedScreen__State_ChangeEvent
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155BD0
-EmeraldCollectedScreen__Func_2155BD0: // 0x02155BD0
+	thumb_func_start EmeraldCollectedScreen__GetEmeraldUnknown
+EmeraldCollectedScreen__GetEmeraldUnknown: // 0x02155BD0
 	cmp r0, #6
 	bhi _02155C0A
 	add r0, r0, r0
@@ -1665,10 +1665,10 @@ _02155C0A:
 	mov r0, #0
 	bx lr
 	.align 2, 0
-	thumb_func_end EmeraldCollectedScreen__Func_2155BD0
+	thumb_func_end EmeraldCollectedScreen__GetEmeraldUnknown
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155C10
-EmeraldCollectedScreen__Func_2155C10: // 0x02155C10
+	thumb_func_start EmeraldCollectedScreen__IsChaosEmeralds
+EmeraldCollectedScreen__IsChaosEmeralds: // 0x02155C10
 	push {r3, lr}
 	ldr r0, _02155C20 // =_02162E84
 	ldr r0, [r0, #4]
@@ -1677,10 +1677,10 @@ EmeraldCollectedScreen__Func_2155C10: // 0x02155C10
 	pop {r3, pc}
 	nop
 _02155C20: .word _02162E84
-	thumb_func_end EmeraldCollectedScreen__Func_2155C10
+	thumb_func_end EmeraldCollectedScreen__IsChaosEmeralds
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155C24
-EmeraldCollectedScreen__Func_2155C24: // 0x02155C24
+	thumb_func_start EmeraldCollectedScreen__InitEmeraldConfig
+EmeraldCollectedScreen__InitEmeraldConfig: // 0x02155C24
 	push {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	mov r4, #0
@@ -1782,10 +1782,10 @@ _02155CE0: .word 0x0213461C
 _02155CE4: .word gameState
 _02155CE8: .word 0x00000151
 _02155CEC: .word 0x02134474
-	thumb_func_end EmeraldCollectedScreen__Func_2155C24
+	thumb_func_end EmeraldCollectedScreen__InitEmeraldConfig
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155CF0
-EmeraldCollectedScreen__Func_2155CF0: // 0x02155CF0
+	thumb_func_start EmeraldCollectedScreen__RenderCallback
+EmeraldCollectedScreen__RenderCallback: // 0x02155CF0
 	push {r3, r4, lr}
 	sub sp, #0x44
 	ldr r0, _02155D34 // =_02162E84
@@ -1820,10 +1820,10 @@ EmeraldCollectedScreen__Func_2155CF0: // 0x02155CF0
 	.align 2, 0
 _02155D34: .word _02162E84
 _02155D38: .word 0x0000079C
-	thumb_func_end EmeraldCollectedScreen__Func_2155CF0
+	thumb_func_end EmeraldCollectedScreen__RenderCallback
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155D3C
-EmeraldCollectedScreen__Func_2155D3C: // 0x02155D3C
+	thumb_func_start EmeraldCollectedScreen__InitSparkles
+EmeraldCollectedScreen__InitSparkles: // 0x02155D3C
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x14
 	mov r6, r1
@@ -1891,10 +1891,10 @@ _02155DC0: .word 0x00000A04
 _02155DC4: .word _mt_math_rand
 _02155DC8: .word 0x00196225
 _02155DCC: .word 0x3C6EF35F
-	thumb_func_end EmeraldCollectedScreen__Func_2155D3C
+	thumb_func_end EmeraldCollectedScreen__InitSparkles
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155DD0
-EmeraldCollectedScreen__Func_2155DD0: // 0x02155DD0
+	thumb_func_start EmeraldCollectedScreen__ReleaseSparkles
+EmeraldCollectedScreen__ReleaseSparkles: // 0x02155DD0
 	push {r4, r5, r6, lr}
 	mov r6, r0
 	mov r0, #0xfa
@@ -1914,10 +1914,10 @@ _02155DEA:
 	lsl r0, r0, #4
 	str r1, [r6, r0]
 	pop {r4, r5, r6, pc}
-	thumb_func_end EmeraldCollectedScreen__Func_2155DD0
+	thumb_func_end EmeraldCollectedScreen__ReleaseSparkles
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155DF4
-EmeraldCollectedScreen__Func_2155DF4: // 0x02155DF4
+	thumb_func_start EmeraldCollectedScreen__EnableSparkles
+EmeraldCollectedScreen__EnableSparkles: // 0x02155DF4
 	push {r3, r4, r5, r6, r7, lr}
 	mov r1, #0xfa
 	lsl r1, r1, #2
@@ -1979,20 +1979,20 @@ _02155E04:
 _02155E6C: .word _mt_math_rand
 _02155E70: .word 0x3C6EF35F
 _02155E74: .word 0x00196225
-	thumb_func_end EmeraldCollectedScreen__Func_2155DF4
+	thumb_func_end EmeraldCollectedScreen__EnableSparkles
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155E78
-EmeraldCollectedScreen__Func_2155E78: // 0x02155E78
+	thumb_func_start EmeraldCollectedScreen__DisableSparkles
+EmeraldCollectedScreen__DisableSparkles: // 0x02155E78
 	mov r1, #0x96
 	mov r2, #0
 	lsl r1, r1, #4
 	str r2, [r0, r1]
 	bx lr
 	.align 2, 0
-	thumb_func_end EmeraldCollectedScreen__Func_2155E78
+	thumb_func_end EmeraldCollectedScreen__DisableSparkles
 
-	thumb_func_start EmeraldCollectedScreen__Func_2155E84
-EmeraldCollectedScreen__Func_2155E84: // 0x02155E84
+	thumb_func_start EmeraldCollectedScreen__ProcessSparkles
+EmeraldCollectedScreen__ProcessSparkles: // 0x02155E84
 	push {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	mov r0, #0xfa
@@ -2213,10 +2213,10 @@ _0215603C: .word FX_SinCosTable_
 _02156040: .word 0x00000978
 _02156044: .word 0x00000000
 _02156048: .word 0x00000974
-	thumb_func_end EmeraldCollectedScreen__Func_2155E84
+	thumb_func_end EmeraldCollectedScreen__ProcessSparkles
 
-	thumb_func_start EmeraldCollectedScreen__Func_215604C
-EmeraldCollectedScreen__Func_215604C: // 0x0215604C
+	thumb_func_start EmeraldCollectedScreen__DrawSparkles
+EmeraldCollectedScreen__DrawSparkles: // 0x0215604C
 	push {r3, r4, r5, r6, r7, lr}
 	mov r6, r0
 	mov r0, #0xfa
@@ -2265,10 +2265,10 @@ _0215609C:
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
 _021560A8: .word 0x00000974
-	thumb_func_end EmeraldCollectedScreen__Func_215604C
+	thumb_func_end EmeraldCollectedScreen__DrawSparkles
 
-	thumb_func_start EmeraldCollectedScreen__Main
-EmeraldCollectedScreen__Main: // 0x021560AC
+	thumb_func_start EmeraldCollectedScreen__Main_Core
+EmeraldCollectedScreen__Main_Core: // 0x021560AC
 	push {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0xc]
@@ -2281,10 +2281,10 @@ EmeraldCollectedScreen__Main: // 0x021560AC
 _021560C0:
 	pop {r3, pc}
 	.align 2, 0
-	thumb_func_end EmeraldCollectedScreen__Main
+	thumb_func_end EmeraldCollectedScreen__Main_Core
 
-	thumb_func_start EmeraldCollectedScreen__Main2
-EmeraldCollectedScreen__Main2: // 0x021560C4
+	thumb_func_start EmeraldCollectedScreen__Main_UpdateManager
+EmeraldCollectedScreen__Main_UpdateManager: // 0x021560C4
 	push {r3, lr}
 	ldr r0, _021560DC // =_02162E84
 	ldr r0, [r0, #4]
@@ -2293,15 +2293,15 @@ EmeraldCollectedScreen__Main2: // 0x021560C4
 	mov r1, #1
 	tst r1, r2
 	beq _021560DA
-	bl EmeraldCollectedScreen__Func_2155534
+	bl EmeraldCollectedScreen__HandleUpdating
 _021560DA:
 	pop {r3, pc}
 	.align 2, 0
 _021560DC: .word _02162E84
-	thumb_func_end EmeraldCollectedScreen__Main2
+	thumb_func_end EmeraldCollectedScreen__Main_UpdateManager
 
-	thumb_func_start EmeraldCollectedScreen__Main3
-EmeraldCollectedScreen__Main3: // 0x021560E0
+	thumb_func_start EmeraldCollectedScreen__Main_DrawManager
+EmeraldCollectedScreen__Main_DrawManager: // 0x021560E0
 	push {r3, lr}
 	ldr r0, _021560F8 // =_02162E84
 	ldr r0, [r0, #4]
@@ -2310,12 +2310,12 @@ EmeraldCollectedScreen__Main3: // 0x021560E0
 	mov r1, #2
 	tst r1, r2
 	beq _021560F6
-	bl EmeraldCollectedScreen__Func_2155674
+	bl EmeraldCollectedScreen__HandleDrawing
 _021560F6:
 	pop {r3, pc}
 	.align 2, 0
 _021560F8: .word _02162E84
-	thumb_func_end EmeraldCollectedScreen__Main3
+	thumb_func_end EmeraldCollectedScreen__Main_DrawManager
 
 	.rodata
 	

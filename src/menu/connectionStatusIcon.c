@@ -2,6 +2,7 @@
 #include <menu/connectionStatusIcon.h>
 #include <game/file/archiveFile.h>
 #include <game/graphics/pixelsQueue.h>
+#include <game/graphics/spriteUnknown.h>
 #include <network/wirelessManager.h>
 #include <network/networkHandler.h>
 
@@ -11,10 +12,6 @@
 // --------------------
 // TEMP
 // --------------------
-
-NOT_DECOMPILED u32 SpriteUnknown__GetSpriteSize(void *file, BOOL useEngineB);
-NOT_DECOMPILED void SpriteUnknown__Func_204C90C(AnimatorSprite *animator, void *fileData, u32 animID, AnimatorFlags flags, PixelMode pixelMode, BOOL useEngineB, u8 paletteRow,
-                                                u8 oamPriority, u8 oamOrder);
 
 NOT_DECOMPILED void StageClear__LoadFiles(void *archive, ...);
 

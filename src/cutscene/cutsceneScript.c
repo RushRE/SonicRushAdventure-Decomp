@@ -10,6 +10,7 @@
 #include <game/graphics/background.h>
 #include <game/graphics/drawState.h>
 #include <game/graphics/drawReqTask.h>
+#include <game/graphics/spriteUnknown.h>
 #include <game/audio/audioSystem.h>
 #include <game/file/fsRequest.h>
 #include <game/file/archiveFile.h>
@@ -27,7 +28,6 @@ NOT_DECOMPILED void _u32_div_f(void);
 NOT_DECOMPILED void BankUnknown__GetBankID(void);
 NOT_DECOMPILED void BackgroundUnknown__Func_204CA00(void);
 NOT_DECOMPILED void Task__Unknown204BE48__Func_204C104(void);
-NOT_DECOMPILED void SpriteUnknown__GetSpriteSize(void);
 
 // --------------------
 // CONSTANTS
