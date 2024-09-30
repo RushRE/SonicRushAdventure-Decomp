@@ -6,8 +6,17 @@
 #include <game/graphics/paletteAnimation.h>
 
 // --------------------
-// CONSTANTS
+// ENUMS
 // --------------------
+
+enum FontWindowMWFrames_
+{
+    FONTWINDOWMW_FRAME,
+    FONTWINDOWMW_FILL,
+    FONTWINDOWMW_FILL_MISSION,
+    FONTWINDOWMW_FILL_VIEWER,
+};
+typedef u32 FontWindowMWFrames;
 
 // --------------------
 // STRUCTS
@@ -30,7 +39,7 @@ typedef struct FontWindowMWControl_
     u16 pixelSize;
     BOOL renderedPixels;
     u16 tileCount;
-    u16 funcID;
+    u16 frame;
     void *pixels;
     PaletteAnimator paletteAnim;
 } FontWindowMWControl;
@@ -40,10 +49,10 @@ typedef struct FontWindowMWControl_
 // --------------------
 
 NOT_DECOMPILED void FontWindowMWControl__Init(FontWindowMWControl *work);
-NOT_DECOMPILED void FontWindowMWControl__Load(FontWindowMWControl *work, FontWindow *window, s32 a3, s32 fileID, s16 offsetX, s16 offsetY, BOOL useEngineB, u8 oamMode, u8 oamOrder, u8 paletteRow);
+NOT_DECOMPILED void FontWindowMWControl__Load(FontWindowMWControl *work, FontWindow *window, s32 flags, FontWindowMWFrames frame, s16 offsetX, s16 offsetY, BOOL useEngineB, u8 oamMode, u8 oamOrder, u8 paletteRow);
 NOT_DECOMPILED void FontWindowMWControl__Release(FontWindowMWControl *work);
 NOT_DECOMPILED void FontWindowMWControl__SetPaletteAnim(FontWindowMWControl *work, u16 anim);
-NOT_DECOMPILED void FontWindowMWControl__ValidatePaletteAnim(FontWindowMWControl *work, u16 anim);
+NOT_DECOMPILED void FontWindowMWControl__ValidatePaletteAnim(FontWindowMWControl *work);
 NOT_DECOMPILED void FontWindowMWControl__SetPosition(FontWindowMWControl *work, s16 x, s16 y);
 NOT_DECOMPILED void FontWindowMWControl__SetOffset(void);
 NOT_DECOMPILED void FontWindowMWControl__GetOffset(void);

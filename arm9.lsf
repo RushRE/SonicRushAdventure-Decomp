@@ -614,7 +614,7 @@ Overlay Menus2
 {
     After arm9
     Object src/game/stage/demoSystem.o
-    Object asm/menu/deleteSaveDataMenu.o
+    Object src/menu/deleteSaveDataMenu.o
     Object asm/menu/stageClearEx.o
     Object asm/menu/emeraldCollectedScreen.o
     Object asm/menu/titleScreen.o

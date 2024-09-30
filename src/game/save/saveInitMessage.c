@@ -15,6 +15,17 @@
 #include <resources/narc/dmbl_lz7.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum SaveInitMsgSequences
+{
+    SAVEINIT_MSGSEQ_REFORMATTING,
+    SAVEINIT_MSGSEQ_DATA_IS_CORRUPT,
+    SAVEINIT_MSGSEQ_LOADING,
+};
+
+// --------------------
 // FUNCTION DECLS
 // --------------------
 
@@ -55,15 +66,15 @@ void CreateSaveInitMessage(SaveInitManager *parent, GameInitMessageTypes type)
     switch (type)
     {
         case GAMEINIT_MSG_REFORMATTING:
-            FontAnimator__SetMsgSequence(&work->fontAnimator, 0);
+            FontAnimator__SetMsgSequence(&work->fontAnimator, SAVEINIT_MSGSEQ_REFORMATTING);
             break;
 
         case GAMEINIT_MSG_CORRUPTED:
-            FontAnimator__SetMsgSequence(&work->fontAnimator, 1);
+            FontAnimator__SetMsgSequence(&work->fontAnimator, SAVEINIT_MSGSEQ_DATA_IS_CORRUPT);
             break;
 
         case GAMEINIT_MSG_LOADING:
-            FontAnimator__SetMsgSequence(&work->fontAnimator, 2);
+            FontAnimator__SetMsgSequence(&work->fontAnimator, SAVEINIT_MSGSEQ_LOADING);
             break;
     }
 

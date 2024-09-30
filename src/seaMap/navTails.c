@@ -133,7 +133,7 @@ void NavTailsSpeak(u16 msgSequence, u16 duration)
         work->speakDelay    = 0;
         work->speakDuration = duration;
 
-        if (msgSequence != 0)
+        if (msgSequence != NAVTAILS_MSGSEQ_NONE)
         {
             if (work->windowMode)
             {
@@ -881,9 +881,6 @@ void LoadNavTailsAssets(NavTailsAssets *assets)
         case OS_LANGUAGE_SPANISH:
             textFileID = ARCHIVE_NAV_ASSETS_FILE_NV_MSG_MAIN_SPA_MPC;
             break;
-
-        default:
-            break;
     }
 
     assets->mpcText = NNS_FndGetArchiveFileByIndex(&arc, textFileID);
@@ -1102,7 +1099,7 @@ void NavTails_StateTalk_Speaking(NavTails *work)
         {
             if (CheckNavTailsSpeaking())
             {
-                NavTailsSpeak(0, 1);
+                NavTailsSpeak(NAVTAILS_MSGSEQ_NONE, 1);
             }
             else
             {

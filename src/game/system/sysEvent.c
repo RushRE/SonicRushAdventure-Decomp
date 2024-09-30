@@ -15,6 +15,7 @@
 #include <cutscene/cutsceneScript.h>
 #include <menu/autoSavePopup.h>
 #include <menu/playerNameMenu.h>
+#include <menu/deleteSaveDataMenu.h>
 
 // --------------------
 // TEMP
@@ -38,7 +39,6 @@ NOT_DECOMPILED void SeaMapUnknown__Create(void);
 NOT_DECOMPILED void SeaMapCourseChangeView__Create(void);
 NOT_DECOMPILED void SeaMapTraining__Create(void);
 NOT_DECOMPILED void SeaMapCutscene__Create(void);
-NOT_DECOMPILED void DeleteSaveDataMenu__Create(void);
 NOT_DECOMPILED void SoundTest__Create(void);
 NOT_DECOMPILED void DoorPuzzle__Init(void);
 NOT_DECOMPILED void VikingCupMenu__Create(void);
@@ -560,7 +560,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_DELETE_SAVE_MENU
     {
-        .initFunc    = DeleteSaveDataMenu__Create,
+        .initFunc    = CreateDeleteSaveDataMenu,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

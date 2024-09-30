@@ -15,8 +15,8 @@
 
 typedef struct PlayerNameMenu_
 {
-  FontWindow fontWindow;
-  void *fntAll;
+    FontWindow fontWindow;
+    void *fntAll;
 } PlayerNameMenu;
 
 // --------------------
