@@ -7,7 +7,7 @@
 SeaMapUnknown204AB60__Func_204AB60: // 0x0204AB60
 	stmdb sp!, {r4, lr}
 	ldr r0, _0204ABAC // =0x02134430
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0204AB84
 	bl SeaMapUnknown204AB60__InitList
@@ -227,7 +227,7 @@ SeaMapUnknown204AB60__Func_204AE28: // 0x0204AE28
 	bl SeaMapManager__GetWork
 	ldr r7, [r0, #0x160]
 	mov r8, #0
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	cmp r0, #0
 	bls _0204B028
 	add r11, r7, #2
@@ -351,7 +351,7 @@ _0204B010:
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
 	mov r8, r0, lsr #0x10
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	cmp r1, r0, lsr #16
 	bhi _0204AE5C
 _0204B028:
@@ -372,7 +372,7 @@ SeaMapUnknown204AB60__Func_204B038: // 0x0204B038
 	bl SeaMapManager__GetWork
 	ldr r4, [r0, #0x160]
 	mov r5, #0
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0
 	bls _0204B198
 	add r0, r4, #2
@@ -454,7 +454,7 @@ _0204B180:
 	add r0, r5, #1
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	cmp r1, r0, lsr #16
 	bhi _0204B06C
 _0204B198:
@@ -590,7 +590,7 @@ _0204B320:
 	bl NNS_FndRemoveListObject
 	mov r0, r5
 	bl _FreeHEAP_SYSTEM
-	ldr r5, [r4]
+	ldr r5, [r4, #0]
 	cmp r5, #0
 	bne _0204B320
 	ldmia sp!, {r3, r4, r5, pc}
@@ -737,7 +737,7 @@ SeaMapUnknown204AB60__Func_204B4F0: // 0x0204B4F0
 	ldr ip, _0204B510 // =0x02134440
 	ldr r3, _0204B514 // =0x02134184
 	stmia ip, {r0, r1}
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr r0, _0204B518 // =0x02134174
 	str r2, [r3]
 	str r1, [r0]

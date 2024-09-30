@@ -273,7 +273,7 @@ _027F5EE4:
 	strh r0, [r1, r4]
 	ands r0, r0, #0x1000000
 	beq _027F6048
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	and r4, r0, #0xff00
 	mov r4, r4, lsl #8
 	mov r4, r4, lsr #0x10
@@ -394,7 +394,7 @@ _027F607C: .word nvramw
 NVRAM_SoftwareReset: // 0x027F6080
 	ldr r1, _027F60B8 // =0x040001C0
 _027F6084:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F6084
 	mov r0, #0x8100
@@ -404,7 +404,7 @@ _027F6084:
 	strh r1, [r0]
 	ldr r1, _027F60B8 // =0x040001C0
 _027F60A8:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F60A8
 	bx lr
@@ -417,7 +417,7 @@ _027F60BC: .word 0x040001C2
 NVRAM_ReadSiliconId: // 0x027F60C0
 	ldr r2, _027F6154 // =0x040001C0
 _027F60C4:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ands r1, r1, #0x80
 	bne _027F60C4
 	mov r1, #0x8900
@@ -427,7 +427,7 @@ _027F60C4:
 	strh r2, [r1]
 	ldr r2, _027F6154 // =0x040001C0
 _027F60E8:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ands r1, r1, #0x80
 	bne _027F60E8
 	mov r2, #0
@@ -435,11 +435,11 @@ _027F60E8:
 	strh r2, [r1]
 	ldr r3, _027F6154 // =0x040001C0
 _027F6104:
-	ldrh r1, [r3]
+	ldrh r1, [r3, #0]
 	ands r1, r1, #0x80
 	bne _027F6104
 	ldr r2, _027F6158 // =0x040001C2
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	and r1, r1, #0xff
 	strb r1, [r0]
 	mov r1, #0x8100
@@ -448,11 +448,11 @@ _027F6104:
 	strh r1, [r2]
 	ldr r2, _027F6154 // =0x040001C0
 _027F6134:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ands r1, r1, #0x80
 	bne _027F6134
 	ldr r1, _027F6158 // =0x040001C2
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	and r1, r1, #0xff
 	strb r1, [r0, #1]
 	bx lr
@@ -465,7 +465,7 @@ _027F6158: .word 0x040001C2
 NVRAM_ChipErase: // 0x027F615C
 	ldr r1, _027F6194 // =0x040001C0
 _027F6160:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F6160
 	mov r0, #0x8100
@@ -475,7 +475,7 @@ _027F6160:
 	strh r1, [r0]
 	ldr r1, _027F6194 // =0x040001C0
 _027F6184:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F6184
 	bx lr
@@ -488,7 +488,7 @@ _027F6198: .word 0x040001C2
 NVRAM_ReleaseFromDeepPowerDown: // 0x027F619C
 	ldr r1, _027F61D4 // =0x040001C0
 _027F61A0:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F61A0
 	mov r0, #0x8100
@@ -498,7 +498,7 @@ _027F61A0:
 	strh r1, [r0]
 	ldr r1, _027F61D4 // =0x040001C0
 _027F61C4:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F61C4
 	bx lr
@@ -511,7 +511,7 @@ _027F61D8: .word 0x040001C2
 NVRAM_DeepPowerDown: // 0x027F61DC
 	ldr r1, _027F6214 // =0x040001C0
 _027F61E0:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F61E0
 	mov r0, #0x8100
@@ -521,7 +521,7 @@ _027F61E0:
 	strh r1, [r0]
 	ldr r1, _027F6214 // =0x040001C0
 _027F6204:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F6204
 	bx lr
@@ -562,7 +562,7 @@ _027F626C:
 	strh r3, [r2]
 	ldr r3, _027F62D8 // =0x040001C0
 _027F6288:
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	ands r2, r2, #0x80
 	bne _027F6288
 	and r2, r1, #0xff
@@ -570,7 +570,7 @@ _027F6288:
 	strh r2, [r1]
 	ldr r2, _027F62D8 // =0x040001C0
 _027F62A4:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ands r1, r1, #0x80
 	bne _027F62A4
 	mov r1, #0x8100
@@ -580,7 +580,7 @@ _027F62A4:
 	strh r1, [r0]
 	ldr r1, _027F62D8 // =0x040001C0
 _027F62C8:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F62C8
 	bx lr
@@ -621,7 +621,7 @@ _027F6330:
 	strh r3, [r2]
 	ldr r3, _027F639C // =0x040001C0
 _027F634C:
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	ands r2, r2, #0x80
 	bne _027F634C
 	and r2, r1, #0xff
@@ -629,7 +629,7 @@ _027F634C:
 	strh r2, [r1]
 	ldr r2, _027F639C // =0x040001C0
 _027F6368:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ands r1, r1, #0x80
 	bne _027F6368
 	mov r1, #0x8100
@@ -639,7 +639,7 @@ _027F6368:
 	strh r1, [r0]
 	ldr r1, _027F639C // =0x040001C0
 _027F638C:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F638C
 	bx lr
@@ -672,7 +672,7 @@ NVRAM_PageProgram: // 0x027F63A4
 	strh r0, [sp, #4]
 	ldr r3, _027F64C8 // =0x040001C0
 _027F63F8:
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	ands r0, r0, #0x80
 	bne _027F63F8
 	mov r0, #0x8900
@@ -700,7 +700,7 @@ _027F6424:
 	ldr r0, _027F64CC // =0x040001C2
 	b _027F647C
 _027F6460:
-	ldrh r1, [r3]
+	ldrh r1, [r3, #0]
 	ands r1, r1, #0x80
 	bne _027F6460
 	ldrb r1, [r2, ip]
@@ -712,7 +712,7 @@ _027F647C:
 	blt _027F6460
 	ldr r1, _027F64C8 // =0x040001C0
 _027F6488:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F6488
 	mov r0, #0x8100
@@ -723,7 +723,7 @@ _027F6488:
 	strh r1, [r0]
 	ldr r1, _027F64C8 // =0x040001C0
 _027F64B0:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F64B0
 _027F64BC:
@@ -759,7 +759,7 @@ NVRAM_PageWrite: // 0x027F64D0
 	strh r0, [sp, #4]
 	ldr r3, _027F65F4 // =0x040001C0
 _027F6524:
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	ands r0, r0, #0x80
 	bne _027F6524
 	mov r0, #0x8900
@@ -787,7 +787,7 @@ _027F6550:
 	ldr r0, _027F65F8 // =0x040001C2
 	b _027F65A8
 _027F658C:
-	ldrh r1, [r3]
+	ldrh r1, [r3, #0]
 	ands r1, r1, #0x80
 	bne _027F658C
 	ldrb r1, [r2, ip]
@@ -799,7 +799,7 @@ _027F65A8:
 	blt _027F658C
 	ldr r1, _027F65F4 // =0x040001C0
 _027F65B4:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F65B4
 	mov r0, #0x8100
@@ -810,7 +810,7 @@ _027F65B4:
 	strh r1, [r0]
 	ldr r1, _027F65F4 // =0x040001C0
 _027F65DC:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F65DC
 _027F65E8:
@@ -838,7 +838,7 @@ NVRAM_ReadDataBytesAtHigherSpeed: // 0x027F65FC
 	strh r0, [sp, #4]
 	ldr r3, _027F6730 // =0x040001C0
 _027F6630:
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	ands r0, r0, #0x80
 	bne _027F6630
 	mov r0, #0x8900
@@ -850,7 +850,7 @@ _027F6630:
 	add r3, sp, #0
 	ldr r4, _027F6730 // =0x040001C0
 _027F665C:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ands r0, r0, #0x80
 	bne _027F665C
 	mov r0, lr, lsl #1
@@ -862,7 +862,7 @@ _027F665C:
 	blt _027F665C
 	ldr r3, _027F6730 // =0x040001C0
 _027F6688:
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	ands r0, r0, #0x80
 	bne _027F6688
 	mov r3, #0
@@ -870,7 +870,7 @@ _027F6688:
 	strh r3, [r0]
 	ldr r3, _027F6730 // =0x040001C0
 _027F66A4:
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	ands r0, r0, #0x80
 	bne _027F66A4
 	mov r0, #0
@@ -903,7 +903,7 @@ _027F6708:
 	ands r1, r1, #0x80
 	bne _027F6708
 	ldr r1, _027F6734 // =0x040001C2
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	and r1, r1, #0xff
 	strb r1, [r2, r0]
 _027F6724:
@@ -931,7 +931,7 @@ NVRAM_ReadDataBytes: // 0x027F6738
 	strh r0, [sp, #4]
 	ldr r3, _027F6850 // =0x040001C0
 _027F676C:
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	ands r0, r0, #0x80
 	bne _027F676C
 	mov r0, #0x8900
@@ -943,7 +943,7 @@ _027F676C:
 	add r3, sp, #0
 	ldr r4, _027F6850 // =0x040001C0
 _027F6798:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ands r0, r0, #0x80
 	bne _027F6798
 	mov r0, lr, lsl #1
@@ -955,7 +955,7 @@ _027F6798:
 	blt _027F6798
 	ldr r3, _027F6850 // =0x040001C0
 _027F67C4:
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	ands r0, r0, #0x80
 	bne _027F67C4
 	mov r0, #0
@@ -988,7 +988,7 @@ _027F6828:
 	ands r1, r1, #0x80
 	bne _027F6828
 	ldr r1, _027F6854 // =0x040001C2
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	and r1, r1, #0xff
 	strb r1, [r2, r0]
 _027F6844:
@@ -1004,7 +1004,7 @@ _027F6854: .word 0x040001C2
 NVRAM_ReadStatusRegister: // 0x027F6858
 	ldr r2, _027F68C4 // =0x040001C0
 _027F685C:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ands r1, r1, #0x80
 	bne _027F685C
 	mov r1, #0x8900
@@ -1014,7 +1014,7 @@ _027F685C:
 	strh r2, [r1]
 	ldr r2, _027F68C4 // =0x040001C0
 _027F6880:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ands r1, r1, #0x80
 	bne _027F6880
 	mov r1, #0x8100
@@ -1024,11 +1024,11 @@ _027F6880:
 	strh r2, [r1]
 	ldr r2, _027F68C4 // =0x040001C0
 _027F68A4:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ands r1, r1, #0x80
 	bne _027F68A4
 	ldr r1, _027F68C8 // =0x040001C2
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	and r1, r1, #0xff
 	strb r1, [r0]
 	bx lr
@@ -1041,7 +1041,7 @@ _027F68C8: .word 0x040001C2
 NVRAM_WriteDisable: // 0x027F68CC
 	ldr r1, _027F6904 // =0x040001C0
 _027F68D0:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F68D0
 	mov r0, #0x8100
@@ -1051,7 +1051,7 @@ _027F68D0:
 	strh r1, [r0]
 	ldr r1, _027F6904 // =0x040001C0
 _027F68F4:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F68F4
 	bx lr
@@ -1064,7 +1064,7 @@ _027F6908: .word 0x040001C2
 NVRAM_WriteEnable: // 0x027F690C
 	ldr r1, _027F6944 // =0x040001C0
 _027F6910:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F6910
 	mov r0, #0x8100
@@ -1074,7 +1074,7 @@ _027F6910:
 	strh r1, [r0]
 	ldr r1, _027F6944 // =0x040001C0
 _027F6934:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _027F6934
 	bx lr

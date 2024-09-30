@@ -106,7 +106,7 @@ _020EC9B4:
 _020EC9C4:
 	ldr r1, =DGTi_Hash2ProcessMessageBlockFunc
 	ldr r0, [sp, #0x10]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r1, r5
 	mov r2, #0x40
 	blx r3
@@ -143,11 +143,11 @@ _020EC9FC:
 	mov r0, r5, lsr #0x18
 	strb r0, [r4, #0x38]
 	ldr r0, [sp, #0x10]
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	blx r3
 	ldr r0, [sp, #0x10]
 	add r1, sp, #0x10
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	mov r0, #0
 	mov r2, r3, lsr #0x18
 	strb r2, [r6]
@@ -238,7 +238,7 @@ NONMATCH_FUNC void DGT_Hash2SetSource(DGTHash2Context *ctx, unsigned char *, uns
 	bl MI_CpuCopy8
 	ldr r1, =DGTi_Hash2ProcessMessageBlockFunc
 	mov r0, r8
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r1, r5
 	mov r2, #0x40
 	sub r6, r6, r4
@@ -266,7 +266,7 @@ _020ECBF8:
 	bne _020ECC30
 	ldr r1, =DGTi_Hash2ProcessMessageBlockFunc
 	mov r0, r8
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r1, r7
 	mov r2, r4
 	blx r3
@@ -279,7 +279,7 @@ _020ECC30:
 	bl MI_CpuCopy8
 	ldr r1, =DGTi_Hash2ProcessMessageBlockFunc
 	mov r0, r8
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r1, r5
 	mov r2, #0x40
 	add r7, r7, #0x40
@@ -388,7 +388,7 @@ NONMATCH_FUNC void DGTi_Hash2CalcHmac(void *digest, void *bin_ptr, int bin_len, 
 	ldr r2, [r4, #0x18]
 	add r1, sp, #0
 	blx r2
-	ldr r5, [r4]
+	ldr r5, [r4, #0]
 	add r6, sp, #0
 _020ECDA4:
 	cmp r5, #0
@@ -468,7 +468,7 @@ _020ECE90:
 	blx r3
 	ldr r0, [r4, #8]
 	ldr r1, [r4, #0xc]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r3, [r4, #0x14]
 	blx r3
 	ldr r0, [r4, #8]

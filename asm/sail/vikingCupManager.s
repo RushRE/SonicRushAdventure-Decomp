@@ -98,7 +98,7 @@ _02063D68:
 	mov r1, r6
 	bl FX_DivS32
 	mul r1, r0, r6
-	ldr r2, [r10]
+	ldr r2, [r10, #0]
 	sub r9, r9, r1
 	orr r0, r2, r0, lsl r7
 	str r0, [r10]
@@ -109,7 +109,7 @@ _02063D90:
 	cmp r8, #7
 	add r7, r7, #4
 	blt _02063D34
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	mov r0, r8, lsl #2
 	orr r1, r1, r9, lsl r0
 	mov r0, r0, lsl #0x10
@@ -122,7 +122,7 @@ _02063D90:
 	ldmltia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, #0xf
 _02063DD8:
-	ldr r9, [r10]
+	ldr r9, [r10, #0]
 	sub r1, r3, r8
 	and r4, r9, r0, lsl r8
 	and r6, r9, r0, lsl r1

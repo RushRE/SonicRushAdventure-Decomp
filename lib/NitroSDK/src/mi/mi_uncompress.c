@@ -30,7 +30,7 @@ asm void MI_UncompressLZ8(register const void *srcp, register void *destp)
 	b @05
 
 @03:
-	ldrb r5, [r0]
+	ldrb r5, [r0, #0]
 	mov r6, #3
 	add r3, r6, r5, asr #4
 	ldrb r6, [r0], #1
@@ -89,7 +89,7 @@ asm void MI_UncompressLZ16(register const void *srcp, register void *destp)
 	b @11
 
 @09:
-	ldrb r9, [r0]
+	ldrb r9, [r0, #0]
 	mov r8, #3
 	add r5, r8, r9, asr #4
 	ldrb r9, [r0], #1
@@ -139,16 +139,16 @@ asm void MI_UncompressHuffman(register const void *srcp, register void *destp)
 	sub sp, sp, #4
 	add r2, r0, #4
 	add r7, r2, #1
-	ldrb r10, [r0]
+	ldrb r10, [r0, #0]
 	and r4, r10, #0xf
 	mov r3, #0
 	mov lr, #0
 	and r10, r4, #7
 	add r11, r10, #4
 	str r11, [sp]
-	ldr r10, [r0]
+	ldr r10, [r0, #0]
 	mov ip, r10, lsr #8
-	ldrb r10, [r2]
+	ldrb r10, [r2, #0]
 	add r10, r10, #1
 	add r0, r2, r10, lsl #1
 	mov r2, r7
@@ -164,11 +164,11 @@ asm void MI_UncompressHuffman(register const void *srcp, register void *destp)
 	blt @13
 	mov r10, #1
 	and r9, r10, r5, lsr #31
-	ldrb r6, [r2]
+	ldrb r6, [r2, #0]
 	mov r6, r6, lsl r9
 	mov r10, r2, lsr #1
 	mov r10, r10, lsl #1
-	ldrb r11, [r2]
+	ldrb r11, [r2, #0]
 	and r11, r11, #0x3f
 	add r11, r11, #1
 	add r10, r10, r11, lsl #1
@@ -176,7 +176,7 @@ asm void MI_UncompressHuffman(register const void *srcp, register void *destp)
 	tst r6, #0x80
 	beq @15
 	mov r3, r3, lsr r4
-	ldrb r10, [r2]
+	ldrb r10, [r2, #0]
 	rsb r11, r4, #0x20
 	orr r3, r3, r10, lsl r11
 	mov r2, r7
@@ -258,7 +258,7 @@ asm void MI_UncompressRL16(register const void *srcp, register void *destp)
 @22:
 	cmp r5, #0
 	ble @28
-	ldrb r3, [r0]
+	ldrb r3, [r0, #0]
 	str r3, [sp, #4]
 	add r0, #1
 	ldr r3, [sp, #4]
@@ -271,7 +271,7 @@ asm void MI_UncompressRL16(register const void *srcp, register void *destp)
 	sub r5, r5, r2
 
 @23:
-	ldrb r6, [r0]
+	ldrb r6, [r0, #0]
 	lsl r6, r4
 	orr r7, r6
 	add r0, #1
@@ -290,7 +290,7 @@ asm void MI_UncompressRL16(register const void *srcp, register void *destp)
 @25:
 	add r2, #3
 	sub r5, r5, r2
-	ldrb r6, [r0]
+	ldrb r6, [r0, #0]
 	str r6, [sp, #8]
 	add r0, #1
 

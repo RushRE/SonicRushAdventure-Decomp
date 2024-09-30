@@ -309,7 +309,7 @@ _02168720: .word 0x02173964
 	arm_func_start ViDockNpcGroup__Func_2168724
 ViDockNpcGroup__Func_2168724: // 0x02168724
 	ldr r0, _02168730 // =0x02173964
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02168730: .word 0x02173964
@@ -318,7 +318,7 @@ _02168730: .word 0x02173964
 	arm_func_start ViDockNpcGroup__Func_2168734
 ViDockNpcGroup__Func_2168734: // 0x02168734
 	ldr r0, _02168740 // =ViNpcGroup__Value_2173A5C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02168740: .word ViNpcGroup__Value_2173A5C

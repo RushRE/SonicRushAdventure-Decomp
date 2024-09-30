@@ -48,7 +48,7 @@ _02158D60:
 	sub r2, r1, #9
 	bl ReadFileFromBundle
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _02158F70 // =0x02176108
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x10]
@@ -577,7 +577,7 @@ ovl09_21594B0: // 0x021594B0
 	strb r1, [r4, #0x30]
 	str r0, [r4, #4]
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02159554
 	ldrsh r0, [r4, #0x34]
@@ -609,7 +609,7 @@ _02159524:
 	b _021595C8
 _02159554:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _021595C8
 	ldrsh r0, [r4, #0x34]

@@ -44,7 +44,7 @@ _02165540:
 	sub r2, r1, #0x1f
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _021656E8 // =0x02176484
 	mov r0, r0, lsr #8
 	str r0, [r1, #8]
@@ -301,7 +301,7 @@ _021658CC:
 	bl _f_sub
 _021658E0:
 	bl _f_ftoi
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	cmp r1, r0
 	blt _02165944
 	ldr r0, _02165A44 // =_0217441C
@@ -330,7 +330,7 @@ _02165938:
 _02165944:
 	ldr r1, _02165A44 // =_0217441C
 	ldr r0, [r1, #0x30]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl _f_sub
 	ldr r1, _02165A4C // =0x42F00000
 	bl _fdiv
@@ -339,7 +339,7 @@ _02165944:
 	bls _0216599C
 	ldr r1, _02165A44 // =_0217441C
 	ldr r0, [r1, #0x30]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl _f_sub
 	ldr r1, _02165A4C // =0x42F00000
 	bl _fdiv
@@ -353,7 +353,7 @@ _02165944:
 _0216599C:
 	ldr r1, _02165A44 // =_0217441C
 	ldr r0, [r1, #0x30]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl _f_sub
 	ldr r1, _02165A4C // =0x42F00000
 	bl _fdiv
@@ -364,7 +364,7 @@ _0216599C:
 	bl _f_sub
 _021659C8:
 	bl _f_ftoi
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r0, r1, r0
 	str r0, [r4]
 	b _021659EC
@@ -385,11 +385,11 @@ _021659EC:
 	ldr r2, [r4, #0x4e4]
 	ldr r2, [r2, #0x358]
 	str r2, [r4, #0x360]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	str r2, [r4, #0x370]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	str r2, [r4, #0x374]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	str r2, [r4, #0x378]
 	bl ovl09_2164034
 	bl GetExTaskCurrent

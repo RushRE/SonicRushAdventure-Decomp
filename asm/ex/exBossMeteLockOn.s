@@ -40,7 +40,7 @@ _0215C690:
 	mov r0, r4
 	bl ovl09_2161CB0
 	ldr r0, _0215C85C // =0x021761CC
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _0215C724
 	mov r1, #0x16
@@ -48,7 +48,7 @@ _0215C690:
 	sub r2, r1, #0x17
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0215C85C // =0x021761CC
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x3c]
@@ -151,7 +151,7 @@ _0215C7D0:
 	bic r2, r2, #3
 	orr r2, r2, #1
 	strb r2, [r4, #0x38c]
-	ldrsh r2, [r1]
+	ldrsh r2, [r1, #0]
 	add r2, r2, #1
 	strh r2, [r1]
 	add sp, sp, #4
@@ -221,7 +221,7 @@ ovl09_215C920: // 0x0215C920
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215C9AC // =0x021761CC
 	mov r4, r0
-	ldrsh r0, [r1]
+	ldrsh r0, [r1, #0]
 	cmp r0, #1
 	bgt _0215C990
 	ldr r0, [r1, #0x48]
@@ -254,7 +254,7 @@ _0215C990:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
 	ldr r0, _0215C9AC // =0x021761CC
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r4, pc}
@@ -348,7 +348,7 @@ ovl09_215CA94: // 0x0215CA94
 	ldmia sp!, {r4, pc}
 _0215CABC:
 	bl ovl09_217175C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r0, [r4, #0x360]
 	bl ovl09_217175C
 	ldr r1, [r0, #4]
@@ -438,7 +438,7 @@ ovl09_215CBE0: // 0x0215CBE0
 	ldmia sp!, {r4, pc}
 _0215CC08:
 	bl ovl09_217175C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r0, [r4, #0x360]
 	bl ovl09_217175C
 	ldr r1, [r0, #4]
@@ -536,11 +536,11 @@ ovl09_215CD3C: // 0x0215CD3C
 	bl ovl09_215CFB4
 	ldmia sp!, {r4, pc}
 _0215CD64:
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	cmp r0, #0
 	ble _0215CDF8
 	bl ovl09_217175C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr lr, [r4, #0x360]
 	ldr r0, _0215CED4 // =0x00000666
 	sub r2, r1, lr
@@ -574,13 +574,13 @@ _0215CD64:
 	mov r0, #0x41000
 	str r0, [r4, #0x368]
 _0215CDF8:
-	ldrsh r1, [r4]
+	ldrsh r1, [r4, #0]
 	mvn r0, #0x16
 	cmp r1, r0
 	movlt r0, #0xa
 	blt _0215CE9C
 	bl ovl09_217175C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr lr, [r4, #0x360]
 	mov r1, #0
 	sub r2, r0, lr
@@ -613,7 +613,7 @@ _0215CDF8:
 	str r0, [r4, #0x364]
 	mov r0, #0x41000
 	str r0, [r4, #0x368]
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	sub r0, r0, #1
 _0215CE9C:
 	strh r0, [r4]
@@ -672,7 +672,7 @@ ovl09_215CF40: // 0x0215CF40
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #0x354]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0xa000
 	bge _0215CF68
 	add r0, r4, #0x10

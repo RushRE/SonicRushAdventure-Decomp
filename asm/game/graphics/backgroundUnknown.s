@@ -307,7 +307,7 @@ _0204CDEC:
 	str r2, [r1, #0x14]
 	ldr r2, [r0, #4]
 	str r2, [r1, #0x18]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r0, [r1, #0x1c]
 	ldmia sp!, {r3, r4, r5, pc}
 _0204CE38:
@@ -445,7 +445,7 @@ _0204CFB0:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0204D02C:
 	ldr r0, _0204D2B4 // =0x02134448
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	tst r1, #1
 	ldreqh r0, [r0, #2]
 	cmpeq r0, #0
@@ -1431,7 +1431,7 @@ _0204DE88:
 	mov r1, r4, asr r1
 	and r8, r1, #0xf
 	ldr r1, _0204E0A8 // =0x02134448
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	tst r1, #1
 	beq _0204DED0
 	cmp r8, #0
@@ -1516,7 +1516,7 @@ _0204DFC4:
 	mov r1, r4, asr r1
 	and r11, r1, #0xf
 	ldr r1, _0204E0A8 // =0x02134448
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	tst r1, #1
 	beq _0204E00C
 	cmp r11, #0
@@ -1574,7 +1574,7 @@ BackgroundUnknown__Func_204E0AC: // 0x0204E0AC
 	sub sp, sp, #0x20
 	ldr r4, _0204E2F4 // =0x02134448
 	str r0, [sp]
-	ldrh r6, [r4]
+	ldrh r6, [r4, #0]
 	mov r0, r1, lsl #5
 	str r0, [sp, #0x14]
 	mov r0, r2, asr #3
@@ -1736,7 +1736,7 @@ BackgroundUnknown__Func_204E2F8: // 0x0204E2F8
 	sub sp, sp, #0x1c
 	ldr r6, _0204E504 // =0x02134448
 	ldrh r7, [sp, #0x4c]
-	ldrh r5, [r6]
+	ldrh r5, [r6, #0]
 	mov r1, r1, lsl #5
 	ldrh r9, [sp, #0x48]
 	str r1, [sp, #0x14]
@@ -1883,7 +1883,7 @@ BackgroundUnknown__Func_204E508: // 0x0204E508
 	ldr r5, _0204E72C // =0x02134448
 	ldrh r7, [sp, #0x54]
 	mov r1, r1, lsl #5
-	ldrh r4, [r5]
+	ldrh r4, [r5, #0]
 	str r1, [sp, #0x14]
 	mov r1, r9, lsl #5
 	str r1, [sp, #0x10]
@@ -2039,7 +2039,7 @@ BackgroundUnknown__Func_204E734: // 0x0204E734
 	mov r1, r9, lsl #5
 	str r1, [sp, #0xc]
 	mov r1, r2, asr #3
-	ldrh r7, [r4]
+	ldrh r7, [r4, #0]
 	str r1, [sp, #0x14]
 	and r1, r2, #4
 	str r1, [sp, #0x18]
@@ -2139,7 +2139,7 @@ _0204E87C:
 	add r1, r2, r1, lsl #5
 	add r4, r4, r1
 	ldr r1, _0204E9AC // =0x02134448
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	tst r2, #1
 	beq _0204E944
 	ldrh r9, [r1, #2]
@@ -2268,7 +2268,7 @@ _0204EA28:
 	b _0204EAD8
 _0204EAB0:
 	ldr r10, _0204EB04 // =0x02134448
-	ldrh r10, [r10]
+	ldrh r10, [r10, #0]
 	tst r10, #1
 	beq _0204EAD8
 	and r10, r1, #0xf
@@ -2375,7 +2375,7 @@ _0204EBC8:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0204EC3C:
 	ldr r0, _0204EDC4 // =0x02134448
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	tst r1, #1
 	ldreqh r0, [r0, #2]
 	cmpeq r0, #0
@@ -2908,7 +2908,7 @@ BackgroundUnknown__Func_204F3FC: // 0x0204F3FC
 	sub sp, sp, #0x28
 	ldr r5, _0204F6C8 // =0x02134448
 	ldrh r7, [sp, #0x58]
-	ldrh r4, [r5]
+	ldrh r4, [r5, #0]
 	str r0, [sp]
 	mov r0, r1, lsl #6
 	str r0, [sp, #0x1c]
@@ -3121,7 +3121,7 @@ BackgroundUnknown__Func_204F6CC: // 0x0204F6CC
 _0204F714:
 	ldr r4, _0204F960 // =0x02134448
 	ldrh r5, [sp, #0x6c]
-	ldrh r9, [r4]
+	ldrh r9, [r4, #0]
 	ldrh r6, [sp, #0x70]
 	mov lr, r5, lsl #6
 	tst r9, #1
@@ -3423,7 +3423,7 @@ _0204FB24:
 	mov r0, r0, lsl #2
 	ble _0204FBEC
 _0204FB7C:
-	ldr r4, [r2]
+	ldr r4, [r2, #0]
 	add r3, r3, #1
 	and r4, r4, r1, lsr r0
 	str r4, [r2]
@@ -3471,7 +3471,7 @@ _0204FBEC:
 	mov r0, r0, lsl #2
 	ble _0204FCA4
 _0204FC34:
-	ldr r4, [r2]
+	ldr r4, [r2, #0]
 	add r3, r3, #1
 	and r4, r4, r1, lsl r0
 	str r4, [r2]
@@ -3669,7 +3669,7 @@ _0204FEE0:
 	mov r10, r10, lsl #4
 	blo _0204FEE0
 _0204FF00:
-	ldr r8, [r1]
+	ldr r8, [r1, #0]
 	add r3, r3, #1
 	and r8, r8, r4
 	str r8, [r1]
@@ -4005,7 +4005,7 @@ _0205039C:
 	add r3, r3, r5, lsl #3
 	bhs _020503EC
 _020503BC:
-	ldr r11, [r3]
+	ldr r11, [r3, #0]
 	add r5, r5, #1
 	and r11, r11, r2, lsr r1
 	str r11, [r3]
@@ -4063,7 +4063,7 @@ _02050474:
 	add r6, r6, r3, lsl #3
 	bhs _020504BC
 _0205048C:
-	ldr r5, [r6]
+	ldr r5, [r6, #0]
 	add r3, r3, #1
 	and r5, r5, r2, lsl r1
 	str r5, [r6]
@@ -4285,7 +4285,7 @@ _020507C4:
 	mvn r2, #0
 	beq _0205080C
 _020507E0:
-	ldr r6, [r3]
+	ldr r6, [r3, #0]
 	sub r5, r5, #1
 	and r6, r6, r2, lsr r1
 	str r6, [r3]
@@ -4332,7 +4332,7 @@ _0205086C:
 	mov r2, r0, lsl #3
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02050884:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	sub r0, r9, #1
 	and r1, r1, r5, lsl r3
 	str r1, [r4]
@@ -4462,7 +4462,7 @@ _02050A48:
 	cmp r9, r4, lsr #16
 	bhs _02050A88
 _02050A58:
-	ldr r10, [r5]
+	ldr r10, [r5, #0]
 	add r3, r9, #1
 	and r9, r10, r7
 	str r9, [r5]
@@ -4560,7 +4560,7 @@ _02050BA8:
 	mvn r4, #0
 	cmp r6, r4
 	beq _02050C14
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	and r4, r4, r6
 	str r4, [r1]
 	ldr r4, [r1, #8]
@@ -4706,7 +4706,7 @@ _02050DB8:
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02050DCC:
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	add r0, r1, #1
 	and r1, r2, r5
 	str r1, [r3]
@@ -4830,7 +4830,7 @@ _02050F74:
 	cmp r7, r1, lsr #16
 	bhs _02050FB8
 _02050F88:
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	add r0, r7, #1
 	and r3, r3, r5
 	str r3, [r2]
@@ -4919,7 +4919,7 @@ _020510B0:
 	cmp r4, r5, lsr #16
 	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020510C4:
-	ldr r6, [r1]
+	ldr r6, [r1, #0]
 	add r0, r4, #1
 	and r4, r6, r3
 	str r4, [r1]
@@ -5023,7 +5023,7 @@ _0205121C:
 	cmp lr, r1, lsr #16
 	ldmhsia sp!, {r3, r4, r5, pc}
 _02051230:
-	ldr r4, [r2]
+	ldr r4, [r2, #0]
 	add r0, lr, #1
 	and r4, r4, ip
 	str r4, [r2]

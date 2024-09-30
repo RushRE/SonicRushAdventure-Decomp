@@ -55,7 +55,7 @@ CannonRing__Create: // 0x0217AECC
 	bl GetObjectFileWork
 	ldr r2, _0217B120 // =gameArchiveStage
 	ldr r1, _0217B124 // =aActAcGmkDashCt_0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	mov r4, r0
 	mov r0, #0x800
@@ -540,7 +540,7 @@ CannonField__OnDefend: // 0x0217B684
 	cmp r4, #0
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	cmp r2, #1
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r2, [r4, #0x48]
@@ -620,7 +620,7 @@ _0217B7A4: .word CannonField__State_217B17C
 	arm_func_start Cannon__State_217B7A8
 Cannon__State_217B7A8: // 0x0217B7A8
 	ldr r1, _0217B7D8 // =CannonPath__dword_218A394
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0x1f4000
 	ldreq r1, [r0, #0x20]
 	orreq r1, r1, #0x20
@@ -714,7 +714,7 @@ _0217B8C4: // jump table
 	b _0217BA8C // case 3
 	b _0217BA98 // case 4
 _0217B8D8:
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr r0, [r4, #0x380]
 	add r0, r1, r0
 	str r0, [r3]
@@ -736,7 +736,7 @@ _0217B8D8:
 	str r0, [r4, #0x28]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0217B92C:
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	ldr r1, [r4, #0x380]
 	ldr r0, _0217BBF8 // =CannonPath__dword_218A394
 	add r1, r2, r1
@@ -782,7 +782,7 @@ _0217B92C:
 	bl EffectUnknown202C414__Create
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0217B9E0:
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	add r0, r0, #0xc1
 	add r0, r0, #0x1600
 	str r0, [r3]
@@ -1044,7 +1044,7 @@ CannonRing__OnDefend_217BD90: // 0x0217BD90
 	cmp r4, #0
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
 	mov r0, r5
@@ -1085,7 +1085,7 @@ CannonRing__OnDefend_217BE24: // 0x0217BE24
 	cmp r4, #0
 	cmpne r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #1
 	ldmneia sp!, {r4, pc}
 	add r1, r4, #0x500

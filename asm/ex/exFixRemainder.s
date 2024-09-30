@@ -174,7 +174,7 @@ ovl09_2169F84: // 0x02169F84
 	bl ovl09_2161908
 	add r1, r5, r6
 	add r2, r1, #0x100
-	ldrsh r3, [r5]
+	ldrsh r3, [r5, #0]
 	add r1, r5, #0x198
 	add r0, r8, r6
 	strh r3, [r2, #0x80]
@@ -247,7 +247,7 @@ _0216A10C: .word exFixRemainderTask__Func8
 ovl09_216A110: // 0x0216A110
 	stmdb sp!, {r3, lr}
 	ldr r0, _0216A134 // =0x021766A8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTask

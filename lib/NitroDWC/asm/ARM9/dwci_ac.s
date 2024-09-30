@@ -14,7 +14,7 @@ CheckDuplicate: // 0x02086134
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	ldr r1, _020861CC // =_021438CC
 	ldr r0, _020861D0 // =0x00000474
-	ldr r10, [r1]
+	ldr r10, [r1, #0]
 	mov r4, #0xc0
 	ldrb r7, [r10, #0xd13]
 	add r5, r10, r0
@@ -63,12 +63,12 @@ Free_Disused: // 0x020861D4
 	sub sp, sp, #4
 	ldr r1, _0208620C // =0x021438D8
 	mov r0, #8
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0xc
 	bl DWCi_AC_Free
 	ldr r0, _02086210 // =_021438CC
 	ldr r2, _02086214 // =0x00000D18
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0x10
 	bl DWCi_AC_Free
 	add sp, sp, #4
@@ -93,7 +93,7 @@ DWCi_AC_SetApType: // 0x02086228
 	sub sp, sp, #4
 	bl DWCi_ConvConnectAPType
 	ldr r1, _02086248 // =0x021438DC
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	strb r0, [r1, #0x17]
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -104,7 +104,7 @@ _02086248: .word 0x021438DC
 	arm_func_start DWCi_AC_GetError
 DWCi_AC_GetError: // 0x0208624C
 	ldr r0, _0208625C // =0x021438DC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0xc]
 	bx lr
 	.align 2, 0
@@ -129,7 +129,7 @@ DWCi_AC_SetError: // 0x02086260
 	arm_func_start DWCi_AC_GetPhase
 DWCi_AC_GetPhase: // 0x0208628C
 	ldr r0, _0208629C // =0x021438DC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrb r0, [r0, #9]
 	bx lr
 	.align 2, 0
@@ -169,23 +169,23 @@ DWCi_AC_SetPhase: // 0x020862A0
 DWCi_AC_GetMemPtr: // 0x02086304
 	ands r1, r0, #1
 	ldrne r0, _02086358 // =0x021438DC
-	ldrne r0, [r0]
+	ldrne r0, [r0, #0]
 	bxne lr
 	ands r1, r0, #2
 	ldrne r0, _0208635C // =0x021438D0
-	ldrne r0, [r0]
+	ldrne r0, [r0, #0]
 	bxne lr
 	ands r1, r0, #4
 	ldrne r0, _02086360 // =0x021438D4
-	ldrne r0, [r0]
+	ldrne r0, [r0, #0]
 	bxne lr
 	ands r1, r0, #8
 	ldrne r0, _02086364 // =0x021438D8
-	ldrne r0, [r0]
+	ldrne r0, [r0, #0]
 	bxne lr
 	ands r0, r0, #0x10
 	ldrne r0, _02086368 // =_021438CC
-	ldrne r0, [r0]
+	ldrne r0, [r0, #0]
 	moveq r0, #0
 	bx lr
 	.align 2, 0
@@ -310,7 +310,7 @@ DWCi_AC_Alloc: // 0x020864C4
 	ldmneia sp!, {r4, r5, pc}
 	orr r1, r1, r5
 	strb r1, [r0, #8]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r5
 	mov r1, r4
 	blx r2
@@ -366,7 +366,7 @@ DWC_AC_GetApType: // 0x02086594
 	stmdb sp!, {r4, lr}
 	ldr r0, _020865D4 // =0x021438DC
 	mov r4, #0xff
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	moveq r0, r4
 	ldmeqia sp!, {r4, pc}
@@ -375,7 +375,7 @@ DWC_AC_GetApType: // 0x02086594
 	blo _020865CC
 	cmp r0, #0x10
 	ldrls r0, _020865D4 // =0x021438DC
-	ldrls r0, [r0]
+	ldrls r0, [r0, #0]
 	ldrlsb r4, [r0, #0x17]
 _020865CC:
 	mov r0, r4
@@ -497,7 +497,7 @@ _02086730:
 DWC_AC_Create: // 0x02086750
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	mov r0, #1
 	mov r1, #0x18
 	blx r2
@@ -508,8 +508,8 @@ DWC_AC_Create: // 0x02086750
 	str r1, [r3]
 	bl MIi_CpuClear32
 	ldr r0, _020868F8 // =0x021438DC
-	ldr r1, [r4]
-	ldr r3, [r0]
+	ldr r1, [r4, #0]
+	ldr r3, [r0, #0]
 	mov r2, #1
 	str r1, [r3]
 	ldr r0, [r4, #4]
@@ -538,28 +538,28 @@ DWC_AC_Create: // 0x02086750
 	ldr r2, _0208690C // =0x021438D8
 	ldr r1, _02086900 // =_021438CC
 	str r0, [r2]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r0, #0
 	ldr r2, _020868FC // =0x00000D18
 	bl MIi_CpuClear32
 	mov r0, #0
 	ldr r1, _02086904 // =0x021438D0
 	mov r2, #0x2300
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl MIi_CpuClear32
 	mov r0, #0
 	ldr r1, _02086908 // =0x021438D4
 	mov r2, #0x58
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl MIi_CpuClear32
 	mov r0, #0
 	ldr r1, _0208690C // =0x021438D8
 	mov r2, #0xc
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl MIi_CpuClear32
 	ldr r0, _02086900 // =_021438CC
 	ldrb r1, [r4, #8]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	strb r1, [r0, #0xd0a]
 	ldrb r2, [r0, #0xd0b]
 	ldrb r1, [r4, #9]
@@ -568,8 +568,8 @@ DWC_AC_Create: // 0x02086750
 	orr r1, r2, r1
 	strb r1, [r0, #0xd0b]
 	ldr r1, _0208690C // =0x021438D8
-	ldr r2, [r4]
-	ldr r3, [r1]
+	ldr r2, [r4, #0]
+	ldr r3, [r1, #0]
 	mov r1, #0
 	str r2, [r3]
 	ldr r2, [r4, #4]
@@ -590,7 +590,7 @@ DWC_AC_Create: // 0x02086750
 	bl sub_208E130
 	ldr r0, _02086904 // =0x021438D0
 	mov r1, #0x2300
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl WCM_Init
 	cmp r0, #1
 	beq _020868E4
@@ -1079,7 +1079,7 @@ sub_2086F3C: // 0x02086F3C
 	mov r4, r0
 	mov r0, #0x10
 	bl DWCi_AC_GetMemPtr
-	ldrsh r1, [r4]
+	ldrsh r1, [r4, #0]
 	cmp r1, #5
 	bne _02086FB4
 	ldrsh r1, [r4, #2]
@@ -1185,7 +1185,7 @@ _02087084:
 	add r1, r4, #2
 	bl sub_2089130
 _020870A8:
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	cmp r0, #0
 	movne r0, #1
 	moveq r0, #0
@@ -1277,11 +1277,11 @@ _020871A4:
 	ldreqb r0, [r6, #0x301]
 	streq r0, [sp]
 	beq _020871F8
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	bic r0, r0, #0xf0
 	orr r0, r0, #0x10
 	strb r0, [r4]
-	ldrb r0, [r11]
+	ldrb r0, [r11, #0]
 	bic r0, r0, #0xc0
 	orr r0, r0, #0x40
 	strb r0, [r11]
@@ -1305,7 +1305,7 @@ _0208721C:
 	mov r4, r10
 	add r5, r10, #0x300
 _02087238:
-	ldrb r0, [r5]
+	ldrb r0, [r5, #0]
 	mov r1, r0, lsl #0x18
 	mov r1, r1, lsr #0x1c
 	cmp r1, #1
@@ -1612,7 +1612,7 @@ _0208761C:
 DWCi_AC_CloseNetwork: // 0x02087628
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	cmp r0, #0xa
 	bhi _02087670
 	bl sub_2087588
@@ -2518,7 +2518,7 @@ _020881D4:
 	mov r0, r0, lsl #0x18
 	movs r0, r0, lsr #0x1f
 	beq _02088204
-	ldrb r0, [r1]
+	ldrb r0, [r1, #0]
 	add r0, r0, #1
 	strb r0, [r1]
 	ldrb r2, [r4, #0xd12]
@@ -2952,7 +2952,7 @@ _02088768:
 
 	arm_func_start sub_2088798
 sub_2088798: // 0x02088798
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	ldrb r2, [r0, #1]
 	mov r3, #0
 	orr r3, r3, r1, lsl #24
@@ -2985,7 +2985,7 @@ sub_20887EC: // 0x020887EC
 	mov r1, r4
 	mov r2, #0x58
 	bl MI_CpuCopy8
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	str r0, [r4, #4]
 	ldr r0, [r6, #4]
 	str r0, [r4, #8]
@@ -3448,7 +3448,7 @@ _02088DEC:
 	ldr r0, _02088F4C // =_0211ADC8
 	mov r3, #0
 _02088E18:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r2, [r4, r3]
 	ldrsb r1, [r1, r3]
 	eor r1, r2, r1
@@ -3465,7 +3465,7 @@ _02088E18:
 	mov r2, #0
 _02088E54:
 	ldrb r1, [ip]
-	ldrb r0, [r3]
+	ldrb r0, [r3, #0]
 	add r2, r2, #1
 	cmp r2, #0xd
 	strb r1, [r4, r0]
@@ -3475,7 +3475,7 @@ _02088E54:
 	ldr r0, _02088F54 // =_0211ADCC
 	mov r3, #0
 _02088E7C:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r2, [r4, r3]
 	ldrsb r1, [r1, r3]
 	eor r1, r2, r1
@@ -3581,7 +3581,7 @@ _02088FC0:
 	mov r3, #0
 	ldr r0, _020890A0 // =_0211ADD0
 _02088FF0:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r2, [r4, r3]
 	ldrsb r1, [r1, r3]
 	eor r1, r2, r1
@@ -3618,7 +3618,7 @@ _02089060:
 	ldr r0, _020890A4 // =_0211ADC4
 	mov r3, #0
 _02089074:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r2, [r4, r3]
 	ldrsb r1, [r1, r3]
 	eor r1, r2, r1

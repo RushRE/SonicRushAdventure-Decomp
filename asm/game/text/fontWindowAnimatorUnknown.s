@@ -99,10 +99,10 @@ FontWindowAnimator__Unknown__Load2: // 0x02054DA4
 	cmp r0, #0
 	ldrne r2, _02054EB8 // =0x04001000
 	ldrne r0, _02054EBC // =0x00300010
-	ldrne r2, [r2]
+	ldrne r2, [r2, #0]
 	bne _02054E64
 	mov r0, #0x4000000
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, _02054EBC // =0x00300010
 _02054E64:
 	and r2, r2, r0
@@ -223,7 +223,7 @@ FontWindowAnimator__Unknown__Func_2054FAC: // 0x02054FAC
 	add r3, sp, #0x22
 	and r1, r1, #0xff
 	bl GetVRAMTileConfig
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldrh ip, [r4, #0x2a]
 	ldrh r3, [r4, #0x28]
 	tst r0, #0x20
@@ -303,7 +303,7 @@ FontWindowAnimator__Unknown__DrawMappings: // 0x020550C8
 	ldrh r0, [r6, #0x22]
 	tst r0, #1
 	bne _0205513C
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	tst r0, #1
 	bne _0205513C
 	ldr r0, [r6, #0xc]
@@ -315,7 +315,7 @@ FontWindowAnimator__Unknown__DrawMappings: // 0x020550C8
 	cmp r1, #0
 	moveq r3, #0x5000000
 	ldrne r3, _020552C4 // =0x05000400
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r2, r3, r2, lsl #5
 	tst r1, #8
 	mov r1, #0
@@ -332,7 +332,7 @@ _0205513C:
 	ldrh r0, [r6, #0x22]
 	tst r0, #2
 	bne _020551D4
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	tst r0, #2
 	bne _020551D4
 	ldr r0, [r6, #0xc]
@@ -350,7 +350,7 @@ _0205513C:
 	movne r5, #0x6200000
 	bl GetVRAMCharacterConfig
 	ldrh r1, [sp, #0x20]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	ldrh r3, [sp, #0x22]
 	mov r2, r1, lsl #0xe
 	tst r0, #0x10
@@ -374,7 +374,7 @@ _020551D4:
 	tst r0, #4
 	addne sp, sp, #0x28
 	ldmneia sp!, {r4, r5, r6, pc}
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	tst r0, #4
 	addne sp, sp, #0x28
 	ldmneia sp!, {r4, r5, r6, pc}
@@ -386,7 +386,7 @@ _020551D4:
 	add r3, sp, #0x22
 	and r1, r1, #0xff
 	bl GetVRAMTileConfig
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r1, #0
 	tst r0, #0x20
 	ldrh r3, [r6, #0x28]
@@ -443,7 +443,7 @@ FontWindowAnimator__Unknown__DrawRaw: // 0x020552C8
 	ldrh r0, [r4, #0x24]
 	tst r0, #1
 	bne _02055338
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #1
 	bne _02055338
 	ldr r0, [r4, #0xc]
@@ -454,7 +454,7 @@ FontWindowAnimator__Unknown__DrawRaw: // 0x020552C8
 	ldrb r2, [r4, #0x22]
 	cmp r1, #0
 	ldreq r3, _02055390 // =0x05000200
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldrne r3, _02055394 // =0x05000600
 	tst r1, #8
 	add r2, r3, r2, lsl #5
@@ -472,7 +472,7 @@ _02055338:
 	ldrh r0, [r4, #0x24]
 	tst r0, #2
 	ldmneia sp!, {r4, pc}
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #2
 	ldmneia sp!, {r4, pc}
 	tst r0, #0x10
@@ -521,12 +521,12 @@ FontWindowAnimator__Unknown__DrawDynamic2: // 0x0205539C
 	mov r5, #0x4000000
 	sub r2, r2, #0x6400000
 	mov r3, r2, lsl #0xb
-	ldr r5, [r5]
+	ldr r5, [r5, #0]
 	b _020553F4
 _020553E4:
 	ldr r5, _02055560 // =0x04001000
 	sub r2, r2, #0x6600000
-	ldr r5, [r5]
+	ldr r5, [r5, #0]
 	mov r3, r2, lsl #0xb
 _020553F4:
 	ldr r2, _02055564 // =0x00300010
@@ -1122,7 +1122,7 @@ _02055C74:
 	strh r1, [r0, #2]
 	cmp r3, r2
 	beq _02055CD4
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r1, r3, lsl #0x19
 	orr r2, r2, #0x100
 	strh r2, [r0]
@@ -1325,7 +1325,7 @@ FontWindowAnimator__Unknown__InitDynamicBG: // 0x02055F7C
 	mov r5, r0
 	mov r0, r6
 	bl GetBackgroundPixels
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	mov r4, r0

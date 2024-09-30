@@ -486,9 +486,9 @@ NONMATCH_FUNC void WaterSurface_Process_Zone3(void)
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r0, =waterSurfaceWork
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, [r2, #0x9cc]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	str r0, [sp]
 	bic r0, r1, #0x40
 	str r0, [r2]
@@ -496,7 +496,7 @@ NONMATCH_FUNC void WaterSurface_Process_Zone3(void)
 	ldr r0, =mapCamera
 	mov r7, #0
 	ldr r2, [r0, #0x70]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r5, [sp]
 	mov r4, r7
 	mov r0, r5
@@ -560,7 +560,7 @@ _0200D86C:
 	beq _0200D8B0
 	ldr r2, =waterSurfaceWork
 	mov r0, r5
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r1, #0
 	add r2, r2, #0x210
 	bl SetPaletteAnimationTarget
@@ -569,8 +569,8 @@ _0200D86C:
 	mov r0, r6
 	bl DrawAnimatedPalette
 	ldr r0, =waterSurfaceWork
-	ldr r1, [r0]
-	ldr r0, [r1]
+	ldr r1, [r0, #0]
+	ldr r0, [r1, #0]
 	orr r0, r0, #0x40
 	str r0, [r1]
 _0200D8B0:
@@ -624,15 +624,15 @@ _0200D950:
 _0200D954:
 	cmp r7, #0
 	beq _0200D988
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r6
 	add r2, r1, #0x10
 	mov r1, #0
 	bl SetPaletteAnimationTarget
 	mov r0, r6
 	bl DrawAnimatedPalette
-	ldr r1, [r4]
-	ldr r0, [r1]
+	ldr r1, [r4, #0]
+	ldr r0, [r1, #0]
 	orr r0, r0, #0x40
 	str r0, [r1]
 _0200D988:

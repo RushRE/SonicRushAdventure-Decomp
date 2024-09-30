@@ -34,19 +34,19 @@ FontDMAControl__InitWithParams: // 0x02051B24
 	beq _02051B80
 	b _02051B90
 _02051B58:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	mov r4, #0x300
 	orr r0, r0, #1
 	str r0, [r7]
 	b _02051B90
 _02051B6C:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	mov r4, #0x300
 	orr r0, r0, #2
 	str r0, [r7]
 	b _02051B90
 _02051B80:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	mov r4, #0x600
 	orr r0, r0, #3
 	str r0, [r7]
@@ -98,7 +98,7 @@ FontDMAControl__Func_2051BF4: // 0x02051BF4
 	addeq sp, sp, #4
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	bl FontDMAControl__Func_2051C90
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldrb r3, [r8, #4]
 	ldr r1, _02051C8C // =_0211032C
 	ldrb r2, [r8, #5]
@@ -172,11 +172,11 @@ FontDMAControl__Func_2051CD8: // 0x02051CD8
 	ldrb r0, [r7, #6]
 	cmp r0, #4
 	ldmhsia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	tst r1, #1
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	bl RenderCore_GetDMASrc
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	mov r3, r0
 	tst r1, #2
 	beq _02051D44
@@ -212,11 +212,11 @@ FontDMAControl__Func_2051D60: // 0x02051D60
 	ldrb r0, [r7, #6]
 	cmp r0, #4
 	ldmhsia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	tst r1, #2
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	bl RenderCore_GetDMASrc
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	mov r3, r0
 	tst r1, #1
 	beq _02051DD4
@@ -254,7 +254,7 @@ FontDMAControl__Func_2051DF0: // 0x02051DF0
 	ldrb r0, [r8, #6]
 	cmp r0, #4
 	ldmhsia sp!, {r4, r5, r6, r7, r8, pc}
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	tst r1, #2
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
 	bl RenderCore_GetDMASrc
@@ -266,7 +266,7 @@ FontDMAControl__Func_2051DF0: // 0x02051DF0
 	mov r0, r0, lsl #0xc
 	add r1, r1, #1
 	bl FX_DivS32
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	mov r3, r5, lsl #0xc
 	tst r1, #1
 	beq _02051E8C
@@ -310,12 +310,12 @@ FontDMAControl__Func_2051EB4: // 0x02051EB4
 	ldrb r0, [r7, #6]
 	cmp r0, #4
 	ldmhsia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	tst r1, #2
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	bl RenderCore_GetDMASrc
 	sub r1, r6, r5
-	ldr r2, [r7]
+	ldr r2, [r7, #0]
 	mov r1, r1, lsl #0x10
 	tst r2, #1
 	mov r2, r1, asr #0x10
@@ -372,14 +372,14 @@ FontDMAControl__Func_2051F68: // 0x02051F68
 	cmp r0, #4
 	ldmhsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r1, [sp]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	tst r1, #1
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r1, _020520AC // =0x000FFFFF
 	and r5, r5, r1
 	bl RenderCore_GetDMASrc
 	ldr r1, [sp]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	tst r1, #2
 	beq _02052038
 	cmp r10, r9
@@ -464,7 +464,7 @@ _020520F4:
 	mov r0, r5, asr #0xc
 	bl FontDMAControl__Func_2052174
 	add r0, r0, r8, asr #12
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	mov r0, r0, lsl #0x10
 	add r5, r5, r6
 	add r0, r1, r0, lsr #16
@@ -486,7 +486,7 @@ _02052144:
 	mov r0, r8, asr #0xc
 	mov r0, r0, lsl #0x10
 _02052154:
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	add r10, r10, #1
 	cmp r10, r9
 	add r1, r1, r0, lsr #16

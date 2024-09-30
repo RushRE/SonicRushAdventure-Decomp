@@ -481,7 +481,7 @@ ViMapIcon__Func_21635DC: // 0x021635DC
 	ldrlo r0, _02163674 // =padInput
 	ldrloh r0, [r0, #4]
 	ldrhs r0, _02163674 // =padInput
-	ldrhsh r0, [r0]
+	ldrhsh r0, [r0, #0]
 	tst r0, #0x20
 	ldrne r5, _02163678 // =ViMapIcon__Func_2163904
 	bne _02163638
@@ -711,7 +711,7 @@ ViMapIcon__Func_21638D0: // 0x021638D0
 	mov r4, r2
 	bl ovl05_2152960
 	cmp r5, #0
-	ldrneh r1, [r0]
+	ldrneh r1, [r0, #0]
 	strneh r1, [r5]
 	cmp r4, #0
 	ldrneh r0, [r0, #2]
@@ -802,7 +802,7 @@ ViMapIcon__Func_21639A4: // 0x021639A4
 	bl ReadFileFromBundle
 	str r0, [r6, #0xdc]
 	ldr r1, [r6, #4]
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	add r0, r6, #8
 	bl ViMapIcon__Func_216400C
 	mov r0, r6
@@ -810,7 +810,7 @@ ViMapIcon__Func_21639A4: // 0x021639A4
 	strh r0, [r6, #0x1c]
 	ldr r1, [r6, #4]
 	ldr r2, [r6, #0xdc]
-	ldr r3, [r6]
+	ldr r3, [r6, #0]
 	add r0, r6, #0xbc
 	bl ViMapIcon__Func_21640F4
 	ldr r1, [r6, #4]
@@ -847,7 +847,7 @@ ViMapIcon__Func_2163A7C: // 0x02163A7C
 
 	arm_func_start ViMapIcon__Func_2163A84
 ViMapIcon__Func_2163A84: // 0x02163A84
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r2, [r0, #8]
 	ldr r2, [r1, #4]
 	str r2, [r0, #0xc]
@@ -867,7 +867,7 @@ ViMapIcon__Func_2163AA0: // 0x02163AA0
 	mov r2, #0x18
 	mov r5, r3
 	bl MIi_CpuCopy32
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, [sp, #0x24]
 	str r1, [r7, #0x30]
 	ldr r1, [r4, #4]
@@ -920,7 +920,7 @@ _02163B20:
 	ldrh r4, [r7, #0x5a]
 	cmp r0, #0
 	bge _02163C00
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl Math__Func_207B1A4
 	cmp r0, #0x4000
 	bhs _02163BD4
@@ -1000,7 +1000,7 @@ ViMapIcon__Func_2163C80: // 0x02163C80
 	add r1, r4, #0x60
 	mov r2, #0x18
 	bl MIi_CpuCopy32
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	bne _02163DC0
 	mov r0, r4
@@ -1018,7 +1018,7 @@ _02163CC4:
 	add r0, r4, #8
 	add r1, r4, #0x60
 	bl MIi_CpuCopy32
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	bne _02163D14
 	mov r0, r4
@@ -1174,7 +1174,7 @@ ViMapIcon__Func_2163EBC: // 0x02163EBC
 	mov r1, #0x1f
 	mov r3, r0
 	bl G3X_SetClearColor
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #1
 	addeq sp, sp, #0x54
 	ldmeqia sp!, {r4, r5, pc}
@@ -1250,7 +1250,7 @@ _02164030:
 	mov r0, r1, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ovl05_21529F8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #7
 	bge _02164090
 	mov r0, r0, lsl #0x10
@@ -1390,7 +1390,7 @@ ViMapIcon__Func_2164224: // 0x02164224
 	mov r0, r1, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ovl05_21529F8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #7
 	ldmgeia sp!, {r4, pc}
 	mov r0, r0, lsl #0x10
@@ -1428,8 +1428,8 @@ ViMapIcon__Func_21642AC: // 0x021642AC
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r9, r0
 	mov r8, r1
-	ldr r1, [r8]
-	ldr r0, [r9]
+	ldr r1, [r8, #0]
+	ldr r0, [r9, #0]
 	mov r7, r2
 	mov r6, r3
 	cmp r0, r1
@@ -1500,7 +1500,7 @@ _02164380:
 	arm_func_start ViMapIcon__Func_21643AC
 ViMapIcon__Func_21643AC: // 0x021643AC
 	ldr r2, [r0, #0x7c]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	cmp r3, r2
 	strlt r2, [r1]
 	blt _021643CC

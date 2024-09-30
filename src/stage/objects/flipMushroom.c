@@ -314,7 +314,7 @@ _02162F04:
 	ldr r3, =gameArchiveStage
 	mov r2, r0
 	ldr r1, [r1, r5, lsl #2]
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	mov r0, r9
 	bl ObjObjectCollisionDifSet
 	ldr r0, =collisionSizeTable
@@ -341,7 +341,7 @@ _02162F04:
 	mov r3, r0
 	ldr r0, =gameArchiveStage
 	mov r1, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r9
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -589,7 +589,7 @@ NONMATCH_FUNC void FlipMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *re
 	cmpne r4, #0
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #1
 	addne sp, sp, #0xc
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -650,7 +650,7 @@ _021633C4:
 _0216345C:
 	ldr r0, =_mt_math_rand
 	ldr r1, =0x00196225
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r0, =0x3C6EF35F
 	ldr ip, =0x00196225
 	mla r1, r3, r1, r0

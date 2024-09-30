@@ -117,7 +117,7 @@ CARDi_InitCommon: // 0x03803394
 	ldr r1, _0380343C // =CARDi_OnFifoRecv
 	bl PXI_SetFifoRecvCallback
 	ldr r0, _03803440 // =0x027FFC40
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #2
 	beq _03803420
 	mov r0, #1
@@ -144,7 +144,7 @@ CARDi_SetWriteProtectCore: // 0x03803444
 	cmp r0, #0
 	beq _038034CC
 	ldr r0, _038034D8 // =cardi_common
-	ldr r10, [r0]
+	ldr r10, [r0, #0]
 	mov r9, #0xa
 	mov r0, #1
 	strb r0, [sp]
@@ -166,7 +166,7 @@ _03803488:
 	mov r0, r4
 	mov r1, r6
 	bl CARDi_CommandEnd
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	cmp r0, #4
 	bne _038034CC
 	sub r9, r9, #1
@@ -188,7 +188,7 @@ CARDi_EraseChipCore: // 0x038034E0
 	cmp r0, #0
 	beq _03803524
 	ldr r0, _0380352C // =cardi_common
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	bl CARDi_WriteEnable
 	mov r0, #1
 	bl CARDi_CommandBegin
@@ -215,7 +215,7 @@ CARDi_EraseBackupSectorCore: // 0x03803538
 	mov r7, r0
 	mov r6, r1
 	ldr r0, _038035C8 // =cardi_common
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	ldr r4, [r5, #0x1c]
 	sub r1, r4, #1
 	orr r0, r7, r6
@@ -239,7 +239,7 @@ _0380357C:
 	ldr r0, [r5, #0x3c]
 	ldr r1, [r5, #0x40]
 	bl CARDi_CommandEnd
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	bne _038035C0
 	add r7, r7, r4
@@ -265,7 +265,7 @@ CARDi_VerifyBackupCore: // 0x038035CC
 	cmp r0, #0
 	beq _0380365C
 	ldr r0, _03803668 // =cardi_common
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	mov r1, #1
 	ldr r0, _0380366C // =cardi_param
 	str r1, [r0, #0xc]
@@ -284,7 +284,7 @@ CARDi_VerifyBackupCore: // 0x038035CC
 	mov r0, #0
 	mov r1, r0
 	bl CARDi_CommandEnd
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	bne _0380365C
 	ldr r0, _0380366C // =cardi_param
@@ -313,7 +313,7 @@ CARDi_WriteBackupCore: // 0x03803674
 	cmp r0, #0
 	beq _03803724
 	ldr r0, _03803730 // =cardi_common
-	ldr r7, [r0]
+	ldr r7, [r0, #0]
 	ldr r6, [r7, #0x20]
 	sub r4, r6, #1
 	mov r11, #0xa
@@ -341,7 +341,7 @@ _038036B4:
 	ldr r0, [r7, #0x2c]
 	ldr r1, [r7, #0x30]
 	bl CARDi_CommandEnd
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	cmp r0, #0
 	bne _03803724
 	add r9, r9, r5
@@ -370,7 +370,7 @@ CARDi_ProgramBackupCore: // 0x03803738
 	cmp r0, #0
 	beq _038037E8
 	ldr r0, _038037F4 // =cardi_common
-	ldr r7, [r0]
+	ldr r7, [r0, #0]
 	ldr r6, [r7, #0x20]
 	sub r4, r6, #1
 	mov r0, #2
@@ -398,7 +398,7 @@ _03803778:
 	ldr r0, [r7, #0x28]
 	mov r1, r11
 	bl CARDi_CommandEnd
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	cmp r0, #0
 	bne _038037E8
 	add r9, r9, r5
@@ -426,7 +426,7 @@ CARDi_ReadBackupCore: // 0x038037FC
 	cmp r0, #0
 	beq _0380385C
 	ldr r0, _03803864 // =cardi_common
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x24]
 	add r0, r0, #1
 	add r0, r0, r4
@@ -455,12 +455,12 @@ CARDi_InitStatusRegister: // 0x0380386C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r0, _03803908 // =cardi_common
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrb r4, [r0, #0x48]
 	cmp r4, #0xff
 	beq _038038FC
 	ldr r0, _0380390C // =status_checked_3333
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _038038FC
 	mov r0, #5
@@ -505,7 +505,7 @@ CARDi_SendSpiAddressingCommand: // 0x03803918
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r2, _038039BC // =cardi_common
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	ldr r2, [r2, #0x24]
 	cmp r2, #1
 	beq _03803948
@@ -581,19 +581,19 @@ CARDi_CommVerifyCore: // 0x03803A08
 	strh r2, [r1]
 	ldr r2, _03803A6C // =0x040001A0
 _03803A18:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ands r1, r1, #0x80
 	bne _03803A18
 	ldr r1, _03803A68 // =0x040001A2
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	and r2, r1, #0xff
 	ldr r1, [r0, #4]
-	ldrb r1, [r1]
+	ldrb r1, [r1, #0]
 	cmp r2, r1
 	beq _03803A58
 	mov r1, #0
 	str r1, [r0, #0xc]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #1
 	movhi r1, #1
 	strhi r1, [r0]
@@ -611,7 +611,7 @@ _03803A6C: .word 0x040001A0
 CARDi_CommWriteCore: // 0x03803A70
 	sub sp, sp, #8
 	ldr r1, [r0, #4]
-	ldrb r2, [r1]
+	ldrb r2, [r1, #0]
 	ldr r1, _03803AB4 // =0x040001A2
 	strh r2, [r1]
 	ldr r1, [r0, #4]
@@ -619,11 +619,11 @@ CARDi_CommWriteCore: // 0x03803A70
 	str r1, [r0, #4]
 	ldr r1, _03803AB8 // =0x040001A0
 _03803A94:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03803A94
 	ldr r0, _03803AB4 // =0x040001A2
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	strh r0, [sp]
 	add sp, sp, #8
 	bx lr
@@ -639,11 +639,11 @@ CARDi_CommReadCore: // 0x03803ABC
 	strh r2, [r1]
 	ldr r2, _03803AFC // =0x040001A0
 _03803ACC:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ands r1, r1, #0x80
 	bne _03803ACC
 	ldr r1, _03803AF8 // =0x040001A2
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	ldr r1, [r0, #8]
 	strb r2, [r1]
 	ldr r1, [r0, #8]
@@ -669,14 +669,14 @@ CARDi_CommArray: // 0x03803B00
 	mov r8, #0xa000
 	b _03803B60
 _03803B2C:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	sub r0, r0, #1
 	str r0, [r5]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	streqh r8, [r4]
 _03803B44:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ands r0, r0, #0x80
 	bne _03803B44
 	mov r0, r5
@@ -687,7 +687,7 @@ _3803B5C: // 0x03803B5C
 _03803B60:
 	cmp r7, #0
 	bne _03803B2C
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	moveq r1, #0
 	ldreq r0, _03803B8C // =0x040001A0
@@ -708,8 +708,8 @@ CARDi_WaitPrevCommand: // 0x03803B90
 	mov r1, #0x32
 	bl CARDi_CommandEnd
 	ldr r0, _03803BD0 // =cardi_common
-	ldr r1, [r0]
-	ldr r0, [r1]
+	ldr r1, [r0, #0]
+	ldr r0, [r1, #0]
 	cmp r0, #4
 	moveq r0, #6
 	streq r0, [r1]
@@ -788,7 +788,7 @@ _03803CA0:
 	cmp r0, #0
 	moveq r1, #4
 	ldreq r0, _03803CC0 // =cardi_common
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	streq r1, [r0]
 _03803CB8:
 	ldmia sp!, {r4, r5, r6, lr}
@@ -878,7 +878,7 @@ _03803D7C:
 	mov r8, r0
 	ldr r7, _03803E20 // =cardi_common
 	mov r1, #0
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	str r1, [r0]
 	ldr r6, [r7, #0x3c]
 	ldr r5, [r7, #0x40]
@@ -918,7 +918,7 @@ CARDi_ReadRomIDCore: // 0x03803E24
 	mov r1, #0
 	bl CARDi_SetRomOp
 	ldr r0, _03803E80 // =cardi_rom_header_addr
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x60]
 	bic r0, r0, #0x7000000
 	orr r1, r0, #0xa7000000
@@ -928,11 +928,11 @@ CARDi_ReadRomIDCore: // 0x03803E24
 	ldr r1, _03803E84 // =0x040001A4
 	str r0, [r1]
 _03803E60:
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ands r0, r0, #0x800000
 	beq _03803E60
 	ldr r0, _03803E88 // =0x04100010
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
@@ -951,7 +951,7 @@ CARDi_ReadCard: // 0x03803E8C
 CARDi_SetRomOp: // 0x03803E90
 	ldr r3, _03803F08 // =0x040001A4
 _03803E94:
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	ands r2, r2, #0x80000000
 	bne _03803E94
 	mov r3, #0xc0
@@ -1015,10 +1015,10 @@ _03803F60:
 	ldr r0, [r9, #0xfc]
 	ands r0, r0, #0x10
 	beq _03803FA4
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	orr r0, r0, #4
 	str r0, [r7]
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	bic r0, r0, #0x10
 	str r0, [r7]
 	mov r10, r6
@@ -1037,9 +1037,9 @@ _03803FB4:
 	bl OS_RestoreInterrupts
 	cmp r10, #0
 	beq _03804124
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	str r8, [r0]
-	ldr r2, [r9]
+	ldr r2, [r9, #0]
 	ldr r1, [r2, #0x4c]
 	ldr r0, [r9, #4]
 	mov r0, r6, lsl r0
@@ -1068,43 +1068,43 @@ _03804028:
 	b _038040D0
 _03804030:
 	bl CARDi_ReadRomIDCore
-	ldr r1, [r9]
+	ldr r1, [r9, #0]
 	str r0, [r1, #8]
 	b _038040D0
 _03804040:
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	str r4, [r0]
 	b _038040D0
 _0380404C:
-	ldr r2, [r9]
+	ldr r2, [r9, #0]
 	ldr r0, [r2, #0xc]
 	ldr r1, [r2, #0x10]
 	ldr r2, [r2, #0x14]
 	bl CARDi_ReadBackupCore
 	b _038040D0
 _03804064:
-	ldr r2, [r9]
+	ldr r2, [r9, #0]
 	ldr r0, [r2, #0x10]
 	ldr r1, [r2, #0xc]
 	ldr r2, [r2, #0x14]
 	bl CARDi_WriteBackupCore
 	b _038040D0
 _0380407C:
-	ldr r2, [r9]
+	ldr r2, [r9, #0]
 	ldr r0, [r2, #0x10]
 	ldr r1, [r2, #0xc]
 	ldr r2, [r2, #0x14]
 	bl CARDi_ProgramBackupCore
 	b _038040D0
 _03804094:
-	ldr r2, [r9]
+	ldr r2, [r9, #0]
 	ldr r0, [r2, #0x10]
 	ldr r1, [r2, #0xc]
 	ldr r2, [r2, #0x14]
 	bl CARDi_VerifyBackupCore
 	b _038040D0
 _038040AC:
-	ldr r1, [r9]
+	ldr r1, [r9, #0]
 	ldr r0, [r1, #0x10]
 	ldr r1, [r1, #0x14]
 	bl CARDi_EraseBackupSectorCore
@@ -1113,7 +1113,7 @@ _038040C0:
 	bl CARDi_EraseChipCore
 	b _038040D0
 _038040C8:
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	str r4, [r0]
 _038040D0:
 	mov r0, r11
@@ -1258,27 +1258,27 @@ CARD_CheckPullOut_Polling: // 0x0380428C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _03804360 // =isCardPullOut
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _03804354
 	ldr r0, _03804364 // =0x027FFC40
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #2
 	beq _03804354
 	ldr r1, _03804368 // =nextCount_3193
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mvn r0, #0
 	cmp r3, r0
 	ldreq r0, _0380436C // =0x027FFC3C
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	addeq r0, r0, #0xa
 	streq r0, [r1]
 	beq _03804354
 	ldr r2, _0380436C // =0x027FFC3C
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	cmp r0, r3
 	blo _03804354
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, #0xa
 	str r0, [r1]
 	bl CARD_IsPulledOut
@@ -1292,7 +1292,7 @@ CARD_CheckPullOut_Polling: // 0x0380428C
 	cmp r0, #0
 	bne _0380432C
 	ldr r0, _03804370 // =isFirstCheck_3202
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _03804354
 _0380432C:
@@ -1300,7 +1300,7 @@ _0380432C:
 	ldr r0, _03804370 // =isFirstCheck_3202
 	str r1, [r0]
 	ldr r0, _03804360 // =isCardPullOut
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _03804354
 	mov r0, #0x11
@@ -1323,7 +1323,7 @@ CARD_IsCardIreqLo: // 0x03804374
 	mov r2, #1
 	mov r0, r2
 	ldr r1, _03804398 // =0x04000214
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ands r1, r1, #0x100000
 	movne r0, #0
 	ldrne r1, _0380439C // =detectPullOut
@@ -1339,11 +1339,11 @@ CARD_CompareCardID: // 0x038043A0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _038043F8 // =0x027FFC10
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	ldreq r0, _038043FC // =0x027FF800
 	ldrne r0, _03804400 // =0x027FFC00
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r0, [sp]
 	bl CARDi_ReadRomID
 	ldr r1, [sp]
@@ -1370,11 +1370,11 @@ CARD_IsPulledOut: // 0x03804408
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _03804450 // =detectPullOut
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0380443C
 	ldr r0, _03804454 // =0x027FFC1F
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	ands r0, r0, #1
 	beq _03804438
 	bl CARD_CompareCardID
@@ -1383,7 +1383,7 @@ _03804438:
 	bl CARD_IsCardIreqLo
 _0380443C:
 	ldr r0, _03804450 // =detectPullOut
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
@@ -1414,7 +1414,7 @@ CARD_InitPulledOutCallback: // 0x03804484
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _038044DC // =isInitialized_3152
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _038044D0
 	mov r1, #1

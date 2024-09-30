@@ -71,7 +71,7 @@ _0216225C:
 	bl GetObjectFileWork
 	ldr r1, _021624A8 // =gameArchiveStage
 	mov r3, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r2, _021624AC // =aActAcGmkRopeTa
 	str r1, [sp]
 	mov r4, #0
@@ -131,7 +131,7 @@ _0216225C:
 	mov r0, r4
 	ldr r1, [r1, #0xa4]
 	mov r2, #1
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl AnimatorSpriteDS__Init
 	ldr r0, [r5, #0x128]
 	mov r6, #0x10
@@ -430,7 +430,7 @@ RopeTar__Collide_21627A4: // 0x021627A4
 	ldr r1, _0216289C // =gPlayer
 	add r6, r5, #0x4b0
 	tst r2, #0xc
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r1, _021628A0 // =g_obj
 	ldr r1, [r1, #0x28]
@@ -498,7 +498,7 @@ RopeTar__Func_21628A4: // 0x021628A4
 	cmp r2, #0
 	cmpne r4, #0
 	ldmeqia sp!, {r4, pc}
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #1
 	ldmneia sp!, {r4, pc}
 	str r4, [r2, #0x35c]

@@ -512,7 +512,7 @@ _0202C668:
 	mov r3, #1
 	ldr r8, =_mt_math_rand
 	strh r3, [lr]
-	ldr r5, [r8]
+	ldr r5, [r8, #0]
 	ldr r6, =0x00196225
 	ldr r7, =0x3C6EF35F
 	mov r1, #0
@@ -527,7 +527,7 @@ _0202C668:
 	str r2, [lr, #8]
 	str r1, [lr, #0xc]
 	str r1, [lr, #0x10]
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	rsb r3, r3, #0x400
 	mla r5, r2, r6, r7
 	mov r2, r5, lsr #0x10
@@ -536,7 +536,7 @@ _0202C668:
 	str r5, [r8]
 	add r2, r2, #0x1000
 	strh r2, [lr, #4]
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	mla r3, r2, r6, r7
 	str r3, [r8]
 	mov r2, r3, lsr #0x10
@@ -553,7 +553,7 @@ _0202C70C:
 	bge _0202C740
 	ldr r3, =_mt_math_rand
 	ldr r1, =0x00196225
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	ldr r2, =0x3C6EF35F
 	mla r2, r5, r1, r2
 	mov r1, r2, lsr #0x10
@@ -569,7 +569,7 @@ _0202C740:
 	mov r1, r7
 	mov r3, #0x1000
 _0202C754:
-	ldrh r2, [r6]
+	ldrh r2, [r6, #0]
 	cmp r2, #0
 	beq _0202C798
 	ldr r2, [r6, #0x14]
@@ -672,7 +672,7 @@ NONMATCH_FUNC void EffectUnknown202C414__Draw(void)
 	ldr r3, =0x000D3300
 	ldr r2, =0x02112D50
 	mov r8, r0
-	ldrsh r1, [r2]
+	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
 	add r0, sp, #0x50
 	str r3, [sp, #0x74]
@@ -681,7 +681,7 @@ NONMATCH_FUNC void EffectUnknown202C414__Draw(void)
 	bl MTX_RotX33_
 	ldr r2, =0x02116550
 	add r0, sp, #0x2c
-	ldrsh r1, [r2]
+	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
 	bl MTX_RotY33_
 	add r0, sp, #0x50
@@ -690,7 +690,7 @@ NONMATCH_FUNC void EffectUnknown202C414__Draw(void)
 	bl MTX_Concat33
 	ldr r2, =FX_SinCosTable_
 	add r0, sp, #0x2c
-	ldrsh r1, [r2]
+	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
 	bl MTX_RotZ33_
 	add r0, sp, #0x50
@@ -735,7 +735,7 @@ NONMATCH_FUNC void EffectUnknown202C414__Draw(void)
 	add r5, sp, #0x2c
 	mov r4, #0x1000
 _0202C8E4:
-	ldrh r0, [r9]
+	ldrh r0, [r9, #0]
 	cmp r0, #0
 	beq _0202CA18
 	mov r1, #0
@@ -972,7 +972,7 @@ _0202CE0C:
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
 	ldr r0, =EffectTask__sVars
 	ldr r1, =EffectHoverCrystalSparkle__Destructor
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskDestructorEvent
 	ldr r0, [r4, #0x1c]
 	ldr r1, =EffectTask__sVars
@@ -983,7 +983,7 @@ _0202CE0C:
 	bl GetObjectFileWork
 	ldr r1, =gameArchiveStage
 	mov r3, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r0, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1279,7 +1279,7 @@ NONMATCH_FUNC EffectMedal *EffectMedal__Create(StageTask *parent)
 	ldmeqia sp!, {r4, r5, pc}
 	ldr r0, =EffectTask__sVars
 	ldr r1, =EffectMedal__Destructor
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskDestructorEvent
 	ldr r0, =gameState
 	ldrh r0, [r0, #0x28]
@@ -1548,7 +1548,7 @@ NONMATCH_FUNC void EffectMedal__State_202D514(EffectMedal *work)
 	beq _0202D600
 	ldr r1, =mapCamera
 	add r0, r4, #0x218
-	ldr r7, [r1]
+	ldr r7, [r1, #0]
 	ldr r5, [r1, #0x70]
 	mov r6, #0
 	bl AnimatePalette
@@ -1711,7 +1711,7 @@ _0202D764:
 	bne _0202D7EC
 	ldr r5, =_obj_disp_rand
 	mov r2, #0
-	ldr r6, [r5]
+	ldr r6, [r5, #0]
 	ldr r0, =0x00196225
 	ldr r1, =0x3C6EF35F
 	mov r3, r2
@@ -1720,7 +1720,7 @@ _0202D764:
 	str r0, [r5]
 	str r2, [sp]
 	str r2, [sp, #4]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r5, ip, lsr #0x10
 	mov r1, r0, lsr #0x10
 	mov r0, r5, lsl #0x10
@@ -1788,7 +1788,7 @@ NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 
 	sub sp, sp, #8
 	ldr r4, =ringManagerWork
 	mov r8, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r7, r1
 	cmp r0, #0
 	mov r6, r2
@@ -1805,13 +1805,13 @@ NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
 	ldr r0, =EffectTask__sVars
 	ldr r1, =EffectRingSparkle__Destructor
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskDestructorEvent
 	mov r0, #0x99
 	bl GetObjectFileWork
 	ldr r1, =gameArchiveCommon
 	mov r3, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r0, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1821,12 +1821,12 @@ NONMATCH_FUNC EffectRingSparkle *EffectRingSparkle__Create(fx32 x, fx32 y, fx32 
 	bl ObjObjectAction2dBACLoad
 	ldr r1, =ringManagerWork
 	ldr r2, [r4, #0x128]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r3, #2
 	ldr ip, [r0, #0x130]
 	mov r0, r4
 	str ip, [r2, #0x78]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r2, [r4, #0x128]
 	ldr ip, [r1, #0x134]
 	mov r1, #1
@@ -1924,7 +1924,7 @@ NONMATCH_FUNC EffectButtonPrompt *EffectButtonPrompt__Create(StageTask *parent, 
 	bl GetObjectFileWork
 	ldr r1, =gameArchiveCommon
 	ldr ip, =0x0000FFFF
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r3, r0
 	stmia sp, {r1, ip}
 	ldr r2, =aAcFixKeyLittle

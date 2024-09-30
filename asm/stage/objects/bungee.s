@@ -44,7 +44,7 @@ Bungee__Create: // 0x02185768
 	mov r3, r0
 	ldr r0, _021858E4 // =gameArchiveStage
 	mov r1, #1
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -137,7 +137,7 @@ Bungee__OnDefend: // 0x02185934
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r0, [r4, #0x35c]
 	cmp r0, #0
-	ldreqh r0, [r5]
+	ldreqh r0, [r5, #0]
 	cmpeq r0, #1
 	ldmneia sp!, {r4, r5, r6, pc}
 	ldr r0, [r5, #0x1c]

@@ -103,11 +103,11 @@ TitleScreen__Func_215619C: // 0x0215619C
 	mov r2, r0
 	bl GX_SetGraphicsMode
 	mov r3, #0x4000000
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r0, #0
 	bic r1, r1, #0x38000000
 	str r1, [r3]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	ldr r1, _02156318 // =renderCoreGFXControlA
 	bic r2, r2, #0x7000000
 	str r2, [r3]
@@ -141,7 +141,7 @@ TitleScreen__Func_215619C: // 0x0215619C
 	bic ip, ip, #3
 	strh ip, [r3, #0xe]
 	ldr ip, [r3]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bic ip, ip, #0x1f00
 	orr ip, ip, #0x1500
 	str ip, [r3]
@@ -152,7 +152,7 @@ TitleScreen__Func_215619C: // 0x0215619C
 	strh r1, [r2, #0x58]
 	bl GXx_SetMasterBrightness_
 	ldr r1, _02156328 // =0x04001000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	str r0, [r1]
 	ldmia sp!, {r3, pc}
@@ -176,7 +176,7 @@ TitleScreen__LoadAssets: // 0x0215632C
 	mov r1, #0
 	bl FSRequestFileSync
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	str r0, [r5]
@@ -189,7 +189,7 @@ TitleScreen__LoadAssets: // 0x0215632C
 	mov r1, #0
 	bl FSRequestFileSync
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	str r0, [r5, #4]
@@ -236,7 +236,7 @@ _02156414: .word aNarcDmopPldmLz_0
 TitleScreen__Func_2156418: // 0x02156418
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	ldr r0, [r4, #4]
 	bl _FreeHEAP_USER
@@ -436,7 +436,7 @@ TitleScreen__Func_21566F0: // 0x021566F0
 	sub sp, sp, #0xc
 	mov r4, r0
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02156734
@@ -449,7 +449,7 @@ _02156710: // jump table
 	b _02156728 // case 5
 _02156728:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02156738
 _02156734:
 	mov r0, #1
@@ -465,13 +465,13 @@ _02156744: // jump table
 	b _02156770 // case 4
 	b _02156770 // case 5
 _0215675C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
 	bl FileUnknown__GetAOUFile
 	mov r5, r0
 	b _02156780
 _02156770:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #1
 	bl FileUnknown__GetAOUFile
 	mov r5, r0
@@ -613,7 +613,7 @@ TitleScreen__Func_215690C: // 0x0215690C
 	sub sp, sp, #4
 	ldr r1, _021569B8 // =_02162F8C
 	ldr r2, [r0, #4]
-	ldrh r5, [r1]
+	ldrh r5, [r1, #0]
 	ldr lr, [r2, #4]
 	ldr r3, _021569BC // =_02162E8C
 	cmp r5, #0
@@ -964,7 +964,7 @@ _02156D58: .word TitleScreenBackgroundView__Main_2156D5C
 TitleScreenBackgroundView__Main_2156D5C: // 0x02156D5C
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	add r0, r4, #0xdc
 	bl AnimatorMDL__ProcessAnimation
 	add r0, r4, #0xdc
@@ -1032,7 +1032,7 @@ TitleScreenCopyrightIcon__Create: // 0x02156E08
 	mov r2, #0xd0
 	bl MIi_CpuClear16
 	str r5, [r4]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #2
 	bl FileUnknown__GetAOUFile
 	mov r6, r0
@@ -1058,7 +1058,7 @@ TitleScreenCopyrightIcon__Create: // 0x02156E08
 	strh r0, [r4, #0x10]
 	mov r0, #0xb0
 	strh r0, [r4, #0x12]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #3
 	bl FileUnknown__GetAOUFile
 	mov r5, r0
@@ -1082,7 +1082,7 @@ TitleScreenCopyrightIcon__Create: // 0x02156E08
 	mov r0, #1
 	strh r0, [r4, #0xbc]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02156F58
@@ -1095,7 +1095,7 @@ _02156F34: // jump table
 	b _02156F4C // case 5
 _02156F4C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02156F5C
 _02156F58:
 	mov r0, #1
@@ -1137,11 +1137,11 @@ TitleScreenCopyrightIcon__Main: // 0x02156FBC
 	bl GetCurrentTaskWork_
 	mov r1, #0x3c
 	str r1, [r0, #4]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, [r2, #0x874]
 	orr r1, r1, #0x10
 	str r1, [r2, #0x874]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, _02156FF8 // =TitleScreenCopyrightIcon__Main_2156FFC
 	ldr r1, [r2, #0x874]
 	orr r1, r1, #0x20
@@ -1157,7 +1157,7 @@ TitleScreenCopyrightIcon__Main_2156FFC: // 0x02156FFC
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x874]
 	tst r0, #0x10
 	beq _0215703C
@@ -1171,7 +1171,7 @@ TitleScreenCopyrightIcon__Main_2156FFC: // 0x02156FFC
 	add r0, r4, #8
 	bl AnimatorSprite__DrawFrame
 _0215703C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x874]
 	tst r0, #0x20
 	beq _02157070
@@ -1185,7 +1185,7 @@ _0215703C:
 	add r0, r4, #0x6c
 	bl AnimatorSprite__DrawFrame
 _02157070:
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r1, [r2, #0x874]
 	tst r1, #4
 	ldmeqia sp!, {r4, pc}
@@ -1254,7 +1254,7 @@ TitleScreenPressStart__Create: // 0x02157104
 	bl MIi_CpuClear16
 	str r5, [r4]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02157190
@@ -1267,14 +1267,14 @@ _0215716C: // jump table
 	b _02157184 // case 5
 _02157184:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02157194
 _02157190:
 	mov r0, #1
 _02157194:
 	add r0, r0, #4
 	mov r1, r0, lsl #0x10
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, r1, lsr #0x10
 	bl FileUnknown__GetAOUFile
 	mov r6, r0
@@ -1347,11 +1347,11 @@ TitleScreenPressStart__Main_2157254: // 0x02157254
 	add r0, r4, #8
 	bl AnimatorSprite__DrawFrame
 _02157284:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl TitleScreen__Func_215685C
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x874]
 	tst r0, #0x80
 	ldmneia sp!, {r4, pc}
@@ -1360,7 +1360,7 @@ _02157284:
 	bl AnimatorSprite__SetAnimation
 	mov r0, #0x1e
 	str r0, [r4, #4]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	mov r0, #0
 	ldr r1, [r2, #0x874]
 	orr r1, r1, #1
@@ -1395,7 +1395,7 @@ _02157318:
 	subne r0, r0, #1
 	strne r0, [r4, #4]
 	ldmneia sp!, {r4, pc}
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r0, _02157348 // =TitleScreenPressStart__Main_215734C
 	ldr r1, [r2, #0x874]
 	orr r1, r1, #2

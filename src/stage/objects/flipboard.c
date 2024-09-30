@@ -127,7 +127,7 @@ NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, f
 	mov r3, r0
 	ldr r0, =gameArchiveStage
 	ldr r1, =0x0000FFFF
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -153,7 +153,7 @@ NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, f
 	mov r3, r0
 	ldr r1, =gameArchiveStage
 	mov r0, r5
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, =aActAcGmkFlipBo
 	str r2, [sp]
 	mov r2, #0x23

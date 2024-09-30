@@ -897,7 +897,7 @@ NONMATCH_FUNC u64 SaveGame__GetFriendKeyFromName_Internal(SavePlayerName *name)
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #0
 	ldreqh r2, [r0, #2]
 	ldreq r1, =0x0000FFFF
@@ -1326,21 +1326,21 @@ _0205FB5C:
 	beq _0205FBC0
 	ldmia sp!, {r4, r5, r6, pc}
 _0205FB90:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x1f
 	bic r1, r1, #0x1000000
 	orr r0, r1, r0, lsr #7
 	str r0, [r4]
 	ldmia sp!, {r4, r5, r6, pc}
 _0205FBA8:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x1f
 	bic r1, r1, #0x2000000
 	orr r0, r1, r0, lsr #6
 	str r0, [r4]
 	ldmia sp!, {r4, r5, r6, pc}
 _0205FBC0:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x1f
 	bic r1, r1, #0x4000000
 	orr r0, r1, r0, lsr #5
@@ -1477,35 +1477,35 @@ _0205FCB8: // jump table
 	b _0205FD14 // case 3
 	b _0205FD2C // case 4
 _0205FCCC:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x1f
 	bic r1, r1, #0x8000000
 	orr r0, r1, r0, lsr #4
 	str r0, [r4]
 	ldmia sp!, {r4, r5, r6, pc}
 _0205FCE4:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x1f
 	bic r1, r1, #0x10000000
 	orr r0, r1, r0, lsr #3
 	str r0, [r4]
 	ldmia sp!, {r4, r5, r6, pc}
 _0205FCFC:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x1f
 	bic r1, r1, #0x20000000
 	orr r0, r1, r0, lsr #2
 	str r0, [r4]
 	ldmia sp!, {r4, r5, r6, pc}
 _0205FD14:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x1f
 	bic r1, r1, #0x40000000
 	orr r0, r1, r0, lsr #1
 	str r0, [r4]
 	ldmia sp!, {r4, r5, r6, pc}
 _0205FD2C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bic r0, r0, #0x80000000
 	orr r0, r0, r5, lsl #31
 	str r0, [r4]

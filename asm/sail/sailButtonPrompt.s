@@ -16,7 +16,7 @@ SailButtonPromptHUD__Create: // 0x0218AA0C
 	mov r4, r0
 	mov r0, #0x4a
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0218AA64
 	ldr r0, _0218AAEC // =aBbSbBb_1

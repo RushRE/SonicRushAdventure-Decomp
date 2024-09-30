@@ -32,7 +32,7 @@ SOCL_LinkIsOn: // 0x020BB70C
 	arm_func_start SOCLi_DhcpTimeout
 SOCLi_DhcpTimeout: // 0x020BB730
 	ldr r0, _020BB744 // =0x02145644
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #2
 	str r1, [r0]
 	bx lr
@@ -47,7 +47,7 @@ SOCLi_SetMyIP: // 0x020BB748
 	ldr r1, _020BB7AC // =_02145638
 	ldr r0, _020BB7B0 // =0x02145644
 	ldr lr, [r1]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr ip, [lr, #4]
 	ldr r2, _020BB7B4 // =0x0214587C
 	ldr r1, _020BB7B8 // =0x02145848
@@ -82,7 +82,7 @@ SOCLi_StartupCPS: // 0x020BB7C4
 	sub sp, sp, #4
 	ldr r0, _020BB918 // =_02145638
 	ldr r5, _020BB91C // =0x0214564C
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	mov r0, r5
 	mov r1, #0
 	mov r2, #0x30
@@ -94,7 +94,7 @@ SOCLi_StartupCPS: // 0x020BB7C4
 	ldr ip, [r4, #0x1c]
 	mov r2, #0
 	ldr r3, _020BB924 // =SOCL_LinkIsOn
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str ip, [r1, #8]
 	str r3, [r1, #0x10]
 	str r2, [r1, #0x14]
@@ -111,7 +111,7 @@ SOCLi_StartupCPS: // 0x020BB7C4
 	bne _020BB858
 	ldr r1, _020BB918 // =_02145638
 	ldr r0, [r5, #0x20]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r1, [r1, #0x18]
 	blx r1
 	str r0, [r5, #0x1c]
@@ -132,7 +132,7 @@ _020BB858:
 	strh ip, [r1, #2]
 	strh r3, [r1, #4]
 	str r2, [r0]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	beq _020BB8CC
 	ldr r0, _020BB930 // =0x02145644
@@ -142,7 +142,7 @@ _020BB858:
 	str r2, [r5]
 	ldr r0, _020BB938 // =0x02145640
 	str r1, [r5, #0xc]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r0, [r5, #0x28]
 	b _020BB8E4
 _020BB8CC:
@@ -185,7 +185,7 @@ _020BB944: .word SOCLi_TrashSocket
 SOCLi_StartupSOCL: // 0x020BB948
 	stmdb sp!, {r4, lr}
 	ldr r0, _020BB980 // =_02145638
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x20]
 	bl SOCLi_StartupCommandPacketQueue
 	movs r4, r0
@@ -211,7 +211,7 @@ SOCL_Startup: // 0x020BB98C
 	ldr r0, _020BB9C8 // =_version_NINTENDO_WiFi
 	bl OSi_ReferSymbol
 	ldr r0, _020BB9CC // =_02145638
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	movne r0, #0
 	ldmneia sp!, {r4, lr}

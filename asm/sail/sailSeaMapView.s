@@ -96,7 +96,7 @@ _0218B568: .word SailSeaMapView__ButtonStates
 SailSeaMapView__Func_218B56C: // 0x0218B56C
 	stmdb sp!, {r3, lr}
 	ldr r0, _0218B588 // =0x02134178
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl DestroyTask
 	bl SeaMapEventManager__Destroy
 	bl SeaMapManager__Destroy
@@ -124,7 +124,7 @@ SailSeaMapView__GetPosition: // 0x0218B58C
 SailSeaMapView__GetWork: // 0x0218B5B8
 	ldr r0, _0218B5C8 // =0x02134178
 	ldr ip, _0218B5CC // =GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx ip
 	.align 2, 0
 _0218B5C8: .word 0x02134178

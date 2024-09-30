@@ -205,7 +205,7 @@ VSCharacterSelect__LoadAssets: // 0x021623F4
 	bl ArchiveFile__Load
 	str r0, [r4]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _02162434
 	add r0, r0, r0
@@ -223,7 +223,7 @@ _02162420: // jump table
 	.hword _0216242C - _02162420 - 2 // case 5
 _0216242C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02162436
 _02162434:
 	mov r0, #1
@@ -236,7 +236,7 @@ _02162436:
 	str r0, [sp]
 	mov r0, #0
 	str r0, [sp, #4]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r4, #8
 	mov r3, r4
 	bl StageClear__LoadFiles
@@ -252,7 +252,7 @@ _0216245C: .word aDmcsVsBac
 VSCharacterSelect__ReleaseAssets: // 0x02162460
 	push {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	mov r0, #0
 	mov r1, r4
@@ -279,7 +279,7 @@ _02162486:
 	mov r7, r0
 	b _0216249C
 _02162494:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	lsl r1, r0, #2
 	ldr r0, [sp, #0x18]
 	ldr r7, [r0, r1]
@@ -1195,7 +1195,7 @@ VSCharacterSelect__State_2162B48: // 0x02162B48
 	mov r7, #0
 	add r4, #0xc
 _02162B78:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl DestroyTask
 	stmia r5!, {r7}
 	cmp r5, r4

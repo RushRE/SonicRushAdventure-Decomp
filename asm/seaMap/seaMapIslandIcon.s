@@ -36,7 +36,7 @@ _02048444:
 	addeq sp, sp, #0x1c
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	add r1, r4, #8
 	cmp r0, #2
 	add r0, r4, #2
@@ -122,7 +122,7 @@ _02048580:
 	mov r0, r7
 	ldmia sp!, {r4, r5, r6, r7, pc}
 _02048594:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	add r1, r4, #8
 	cmp r0, #2
 	add r0, r4, #2

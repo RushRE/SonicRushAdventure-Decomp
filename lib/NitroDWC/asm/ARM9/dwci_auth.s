@@ -8,16 +8,16 @@ DWCi_Auth_SetError: // 0x02089190
 	stmdb sp!, {r4, lr}
 	ldr r2, _020891D0 // =0x021438E8
 	ldr r1, _020891D4 // =0x000013D8
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r4, r0
 	add r0, r2, r1
 	bl OS_LockMutex
 	ldr r2, _020891D0 // =0x021438E8
 	ldr r1, _020891D4 // =0x000013D8
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, #0x1000
 	str r4, [r0, #4]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, r1
 	bl OS_UnlockMutex
 	ldmia sp!, {r4, pc}
@@ -85,7 +85,7 @@ _02089290:
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r0, _0208936C // =0x02143908
 	add r1, sp, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r5
 	bl DWC_Auth_SetCalInfoToHttp
 	cmp r0, #0
@@ -93,7 +93,7 @@ _02089290:
 	moveq r0, #8
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r0, _02089370 // =0x021438E0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	bne _0208930C
 	ldr r0, _02089374 // =0x0211AEAC
@@ -147,7 +147,7 @@ DWCi_Auth_FillResult: // 0x02089380
 	sub sp, sp, #4
 	ldr r0, _02089634 // =0x021438E8
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [sp]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x314]
@@ -160,7 +160,7 @@ DWCi_Auth_FillResult: // 0x02089380
 _020893B8:
 	ldr r0, _02089634 // =0x021438E8
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _0208963C // =_02152920
 	str r2, [sp]
 	str r2, [r0]
@@ -170,12 +170,12 @@ _020893B8:
 	bl DWC_Http_GetResult
 	bl atoi
 	ldr r1, _0208963C // =_02152920
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0x22
 	bne _02089414
 	ldr r0, _02089634 // =0x021438E8
 	ldr r2, _02089644 // =0x00004E85
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add sp, sp, #4
 	add r1, r1, #0x1000
 	str r2, [r1, #8]
@@ -186,7 +186,7 @@ _02089414:
 	beq _02089440
 	ldr r2, _02089634 // =0x021438E8
 	ldr r1, _02089648 // =0x000059D8
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r1, r0, r1
 	add r0, r2, #0x1000
 	str r1, [r0, #8]
@@ -196,7 +196,7 @@ _02089414:
 _02089440:
 	ldr r0, _02089634 // =0x021438E8
 	ldr r2, _0208964C // =0x0000100C
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r1, _02089650 // =aReturncd
 	add r0, r3, #0x1000
 	ldr r0, [r0, #0x314]
@@ -207,7 +207,7 @@ _02089440:
 	bgt _0208948C
 	ldr r0, _02089634 // =0x021438E8
 	ldr r2, _02089644 // =0x00004E85
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add sp, sp, #4
 	add r1, r1, #0x1000
 	str r2, [r1, #8]
@@ -216,14 +216,14 @@ _02089440:
 _0208948C:
 	ldr r1, _02089634 // =0x021438E8
 	ldr r0, _0208964C // =0x0000100C
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, sp, #0
 	add r0, r2, r0
 	mov r2, #0xa
 	bl strtol
 	ldr r2, _02089634 // =0x021438E8
 	ldr r1, _0208964C // =0x0000100C
-	ldr r5, [r2]
+	ldr r5, [r2, #0]
 	mov r4, r0
 	add r0, r5, r1
 	bl strlen
@@ -271,7 +271,7 @@ _0208948C:
 	bl DWC_Http_GetBase64DecodedResult
 	ldr r0, _02089634 // =0x021438E8
 	ldr r2, _02089664 // =0x0000101F
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r1, _02089668 // =aLocator
 	add r0, r3, #0x1000
 	add r2, r3, r2
@@ -280,7 +280,7 @@ _0208948C:
 	bl DWC_Http_GetBase64DecodedResult
 	ldr r0, _02089634 // =0x021438E8
 	ldr r2, _0208966C // =0x0000117F
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r1, _02089670 // =aChallenge
 	add r0, r3, #0x1000
 	add r2, r3, r2
@@ -289,7 +289,7 @@ _0208948C:
 	bl DWC_Http_GetBase64DecodedResult
 	ldr r0, _02089634 // =0x021438E8
 	ldr r2, _02089674 // =0x00001010
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r1, _02089678 // =aDatetime
 	add r0, r3, #0x1000
 	add r2, r3, r2
@@ -298,7 +298,7 @@ _0208948C:
 	bl DWC_Http_GetBase64DecodedResult
 	ldr r0, _02089634 // =0x021438E8
 	ldr r2, _0208967C // =0x00001188
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r1, _02089680 // =aSetCookie
 	add r0, r3, #0x1000
 	add r2, r3, r2
@@ -307,7 +307,7 @@ _0208948C:
 	bl DWC_Http_GetRawResult
 	ldr r0, _02089634 // =0x021438E8
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r4, #0x28
 	add r0, r0, #0x1000
 	strb r1, [r0, #0x1b3]
@@ -351,7 +351,7 @@ DWCi_Auth_ParseHttp: // 0x02089688
 	sub sp, sp, #4
 	ldr r0, _0208986C // =0x021438E8
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r2, r0, #0x1000
 	ldr r0, [r2, #0x314]
 	ldr r5, [r2, #0x20c]
@@ -361,7 +361,7 @@ DWCi_Auth_ParseHttp: // 0x02089688
 	beq _020896D8
 	ldr r0, _0208986C // =0x021438E8
 	ldr r2, _02089870 // =0x00004E84
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add sp, sp, #4
 	add r1, r1, #0x1000
 	str r2, [r1, #8]
@@ -375,7 +375,7 @@ _020896D8:
 	ldmneia sp!, {r4, r5, pc}
 	ldr r0, _0208986C // =0x021438E8
 	ldr r1, _02089870 // =0x00004E84
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	ldr r2, [r0, #8]
 	cmp r2, r1
@@ -390,7 +390,7 @@ _020896D8:
 	bne _02089748
 	ldr r0, _0208986C // =0x021438E8
 	ldr r2, _02089870 // =0x00004E84
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add sp, sp, #4
 	add r1, r1, #0x1000
 	str r2, [r1, #8]
@@ -409,7 +409,7 @@ _02089748:
 	blx r4
 	ldr r0, _0208986C // =0x021438E8
 	ldr r2, _02089870 // =0x00004E84
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add sp, sp, #4
 	add r1, r1, #0x1000
 	str r2, [r1, #8]
@@ -437,7 +437,7 @@ _020897C8:
 	bl DWCi_AUTH_RemakeWiFiID
 	ldr r0, _0208986C // =0x021438E8
 	ldr r2, _02089888 // =0x00004E88
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add sp, sp, #4
 	add r1, r1, #0x1000
 	str r2, [r1, #8]
@@ -451,7 +451,7 @@ _020897F0:
 	bne _02089824
 	ldr r0, _0208986C // =0x021438E8
 	ldr r2, _0208988C // =0x00004E8C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add sp, sp, #4
 	add r1, r1, #0x1000
 	str r2, [r1, #8]
@@ -467,7 +467,7 @@ _02089824:
 	blx r4
 	ldr r0, _0208986C // =0x021438E8
 	ldr r2, _0208988C // =0x00004E8C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add sp, sp, #4
 	add r1, r1, #0x1000
 	str r2, [r1, #8]
@@ -504,7 +504,7 @@ DWCi_Auth_Thread: // 0x02089890
 	str r9, [sp, #0xc]
 	str r0, [sp, #4]
 _020898C0:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x314]
 	add r0, r1, #0x1000
@@ -515,7 +515,7 @@ _020898C0:
 	add r0, r1, r0
 	bl OS_JoinThread
 _020898E8:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r1, r0, #0x1000
 	ldr r0, [r1, #0x314]
 	add r0, r0, #0x1000
@@ -524,7 +524,7 @@ _020898E8:
 	beq _02089990
 	ldr r0, _02089B60 // =0x00004E84
 	str r0, [r1, #8]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x314]
 	add r0, r0, #0x1000
@@ -616,10 +616,10 @@ _02089A10:
 	cmpeq r0, r7
 	bhs _02089AD4
 _02089A4C:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, r4
 	bl OS_LockMutex
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	add r1, r2, #0x1000
 	ldr r0, [r1, #0x3f0]
 	cmp r0, #1
@@ -627,7 +627,7 @@ _02089A4C:
 	ldr r2, _02089B60 // =0x00004E84
 	ldr r0, _02089B58 // =0x000013D8
 	str r2, [r1, #8]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	add r0, r1, r0
 	bl OS_UnlockMutex
 	mov r0, #0x14
@@ -652,19 +652,19 @@ _02089A94:
 	cmpeq r0, r7
 	blo _02089A4C
 _02089AD4:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x314]
 	bl sub_208B2C4
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, r4
 	bl OS_LockMutex
 	ldr r0, [sp]
 	bl DWCi_Auth_Start
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	add r1, r1, #0x1000
 	str r0, [r1, #4]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	add r1, r2, #0x1000
 	ldr r0, [r1, #4]
 	cmp r0, #0
@@ -672,7 +672,7 @@ _02089AD4:
 	ldr r2, _02089B60 // =0x00004E84
 	ldr r0, _02089B58 // =0x000013D8
 	str r2, [r1, #8]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	add r0, r1, r0
 	bl OS_UnlockMutex
 	add sp, sp, #0x14
@@ -701,7 +701,7 @@ DWCi_Auth_Start: // 0x02089B64
 	stmdb sp!, {r4, lr}
 	ldr r1, _02089C58 // =_0211AE44
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r1, _02089C5C // =aHttpsNasNinten
 	bl strcmp
 	cmp r0, #0
@@ -710,7 +710,7 @@ DWCi_Auth_Start: // 0x02089B64
 	strne r1, [r0, #0x14]
 	ldr r0, _02089C60 // =0x021438E8
 	ldr r1, _02089C58 // =_0211AE44
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	ldr r2, [r0, #0x20c]
 	str r2, [r1, #0xc]
@@ -728,17 +728,17 @@ DWCi_Auth_Start: // 0x02089B64
 _02089BD0:
 	ldr r0, _02089C60 // =0x021438E8
 	ldr r2, _02089C68 // =0x000011CC
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	add r0, r3, #0x1000
 	ldr r0, [r0, #0x314]
 	add r1, r3, #0x1200
 	add r2, r3, r2
 	bl DWCi_Auth_Prepare_FirstPost
 	ldr r2, _02089C60 // =0x021438E8
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x1000
 	str r0, [r1, #4]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, #0x1000
 	ldr r1, [r0, #4]
 	cmp r1, #0
@@ -753,7 +753,7 @@ _02089BD0:
 	ldr r0, [r0, #4]
 	bl OS_GetThreadPriority
 	ldr r1, _02089C60 // =0x021438E8
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	sub r1, r0, #1
 	add r0, r2, #0x1000
 	ldr r0, [r0, #0x314]
@@ -774,7 +774,7 @@ DWC_Auth_GetResult: // 0x02089C70
 	stmdb sp!, {r4, lr}
 	ldr r1, _02089CEC // =0x021438E8
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	bne _02089C94
 	mov r1, #0
@@ -783,12 +783,12 @@ DWC_Auth_GetResult: // 0x02089C70
 _02089C94:
 	ldr r1, _02089CEC // =0x021438E8
 	ldr r0, _02089CF0 // =0x00001008
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r1, r4
 	add r0, r2, r0
 	mov r2, #0x1c4
 	bl MI_CpuCopy8
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02089CF4 // =0x00004E20
 	cmp r1, r0
 	blt _02089CCC
@@ -799,7 +799,7 @@ _02089CCC:
 	ldr r0, _02089CFC // =0x00005206
 	str r0, [r4]
 _02089CD4:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02089D00 // =0x00004E84
 	cmp r1, r0
 	rsbge r0, r1, #0
@@ -818,7 +818,7 @@ _02089D00: .word 0x00004E84
 DWC_Auth_GetError: // 0x02089D04
 	stmdb sp!, {r4, lr}
 	ldr r0, _02089D4C // =0x021438E8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	moveq r0, #0x16
 	ldmeqia sp!, {r4, pc}
@@ -827,7 +827,7 @@ DWC_Auth_GetError: // 0x02089D04
 	bl OS_LockMutex
 	ldr r1, _02089D4C // =0x021438E8
 	ldr r0, _02089D50 // =0x000013D8
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r2, #0x1000
 	add r0, r2, r0
 	ldr r4, [r1, #4]
@@ -844,7 +844,7 @@ DWC_Auth_Join: // 0x02089D54
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _02089D8C // =0x021438E8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0x384]
 	cmp r0, #0
@@ -864,7 +864,7 @@ _02089D90: .word 0x00001318
 DWC_Auth_Destroy: // 0x02089D94
 	stmdb sp!, {r4, lr}
 	ldr r0, _02089DE4 // =0x021438E8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	add r1, r0, #0x1000
@@ -876,7 +876,7 @@ DWC_Auth_Destroy: // 0x02089D94
 _02089DC0:
 	ldr r1, _02089DE4 // =0x021438E8
 	ldr r0, _02089DE8 // =aFreeDwcauth
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0
 	blx r4
 	ldr r0, _02089DE4 // =0x021438E8
@@ -893,7 +893,7 @@ DWC_Auth_Abort: // 0x02089DEC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _02089E84 // =0x021438E8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
@@ -902,15 +902,15 @@ DWC_Auth_Abort: // 0x02089DEC
 	bl OS_LockMutex
 	ldr r2, _02089E84 // =0x021438E8
 	mov r3, #1
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	ldr r1, _02089E88 // =0x000013D8
 	add r0, r0, #0x1000
 	str r3, [r0, #0x3f0]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, r1
 	bl OS_UnlockMutex
 	ldr r0, _02089E84 // =0x021438E8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x314]
 	cmp r0, #0
@@ -918,7 +918,7 @@ DWC_Auth_Abort: // 0x02089DEC
 	bl sub_208B8C0
 _02089E54:
 	ldr r0, _02089E84 // =0x021438E8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0x384]
 	cmp r0, #0
@@ -941,15 +941,15 @@ DWC_Auth_Create_WFCUtil: // 0x02089E90
 	sub sp, sp, #0xc
 	ldr r1, _02089F34 // =0x021438E8
 	ldr r0, _02089F38 // =0x000013D8
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r0, r1, r0
 	bl OS_InitMutex
 	ldr r1, _02089F34 // =0x021438E8
 	mov r2, #0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #0x1000
 	str r2, [r0, #0x3f0]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0x384]
 	cmp r0, #0
@@ -974,7 +974,7 @@ _02089EEC:
 	bl OS_CreateThread
 	ldr r1, _02089F34 // =0x021438E8
 	ldr r0, _02089F3C // =0x00001318
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r0, r1, r0
 	bl OS_WakeupThreadDirect
 	add sp, sp, #0xc
@@ -992,7 +992,7 @@ DWC_Auth_Create: // 0x02089F44
 	sub sp, sp, #4
 	ldr r2, _0208A074 // =0x021438E8
 	mov r5, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r4, r1
 	cmp r0, #0
 	addne sp, sp, #4
@@ -1013,11 +1013,11 @@ DWC_Auth_Create: // 0x02089F44
 	bl MI_CpuFill8
 	ldr r1, _0208A074 // =0x021438E8
 	ldr r2, _0208A080 // =0x00001008
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r3, _0208A084 // =0x021438E4
 	add r0, r0, #0x1000
 	str r4, [r0, #0x314]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r1, #0
 	add r0, r0, r2
 	mov r2, #0x1c4
@@ -1025,7 +1025,7 @@ DWC_Auth_Create: // 0x02089F44
 	bl MI_CpuFill8
 	ldr r2, _0208A074 // =0x021438E8
 	ldr r3, _0208A088 // =0x00004E84
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	ldr r1, _0208A08C // =0x000011CC
 	add r0, r0, #0x1000
 	str r3, [r0, #8]
@@ -1044,15 +1044,15 @@ _02089FF4:
 	strh r2, [r0, #0xfe]
 	ldr r1, _0208A074 // =0x021438E8
 	mov r0, #1
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r1, r1, #0x1000
 	strb r2, [r1, #0x20b]
 	bl DWCi_Auth_Start
 	ldr r2, _0208A074 // =0x021438E8
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x1000
 	str r0, [r1, #4]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #4]
 	cmp r0, #0
@@ -1311,7 +1311,7 @@ DWC_Auth_GetCalInfoFromWiFiInfo: // 0x0208A3F0
 	mov r2, #0x94
 	mov r4, r0
 	bl MI_CpuFill8
-	ldr r3, [r6]
+	ldr r3, [r6, #0]
 	ldr r5, [r6, #4]
 	mov r0, #0
 	cmp r5, r0
@@ -1338,7 +1338,7 @@ _0208A458:
 	mov r1, #7
 	bl OS_SNPrintf
 	ldr r0, _0208A698 // =0x027FFE0C
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #0
 	bne _0208A480
 	bl OS_Terminate
@@ -1348,7 +1348,7 @@ _0208A480:
 	mov r2, #4
 	bl MI_CpuCopy8
 	ldr r0, _0208A69C // =0x027FFE10
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #0
 	bne _0208A4A4
 	bl OS_Terminate
@@ -1366,7 +1366,7 @@ _0208A4A4:
 	add r6, r4, #0x1f
 	mov r8, #0
 _0208A4D4:
-	ldrb r2, [r7]
+	ldrb r2, [r7, #0]
 	mov r0, r6
 	mov r1, r5
 	bl OS_SPrintf
@@ -1706,7 +1706,7 @@ _0208A974:
 	bl strstr
 	movs r7, r0
 	beq _0208AA10
-	ldrsb r10, [r7]
+	ldrsb r10, [r7, #0]
 	add r8, r7, #2
 	ldr r1, _0208AAF4 // =0x0211B0F4
 	mov r0, r8
@@ -1715,7 +1715,7 @@ _0208A974:
 	movs r5, r0
 	streqb r10, [r7]
 	beq _0208AA10
-	ldrsb r4, [r5]
+	ldrsb r4, [r5, #0]
 	mov r0, r11
 	mov r2, r9
 	strb r6, [r5]
@@ -1735,7 +1735,7 @@ _0208A974:
 	strb r4, [r5]
 	add r9, r0, #2
 _0208A9F8:
-	ldrsb r0, [r9]
+	ldrsb r0, [r9, #0]
 	cmp r0, #0xd
 	beq _0208AA10
 	ldrsb r0, [r9, #1]
@@ -1754,7 +1754,7 @@ _0208AA28:
 	bl strstr
 	movs r10, r0
 	beq _0208AAD4
-	ldrsb r7, [r10]
+	ldrsb r7, [r10, #0]
 	add r9, r10, #1
 	ldr r1, _0208AB00 // =0x0211B100
 	mov r0, r9
@@ -1768,7 +1768,7 @@ _0208AA28:
 	mov r6, r0
 _0208AA6C:
 	cmp r6, #0
-	ldrnesb r4, [r6]
+	ldrnesb r4, [r6, #0]
 	mov r0, r11
 	mov r2, r8
 	add r1, sp, #8
@@ -1830,11 +1830,11 @@ sub_208AB04: // 0x0208AB04
 	ldr r0, _0208AC50 // =aAllocResultEnt
 	add r1, r1, #1
 	blx r5
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	ldr r1, [r8, #8]
 	str r0, [r2, r1, lsl #3]
 	ldr r3, [r8, #8]
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	ldr r0, [r2, r3, lsl #3]
 	cmp r0, #0
 	beq _0208ABE8
@@ -1844,12 +1844,12 @@ sub_208AB04: // 0x0208AB04
 	ldr r0, _0208AC54 // =aAllocResultEnt_0
 	add r1, r1, #1
 	blx r5
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	ldr r1, [r8, #8]
 	add r1, r2, r1, lsl #3
 	str r0, [r1, #4]
 	ldr r3, [r8, #8]
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	mov r1, r3, lsl #3
 	add r0, r2, r3, lsl #3
 	ldr r0, [r0, #4]
@@ -1858,7 +1858,7 @@ sub_208AB04: // 0x0208AB04
 	ldr r0, [r2, r1]
 	mov r1, r7
 	bl strcpy
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	ldr r0, [r8, #8]
 	mov r1, r6
 	add r0, r2, r0, lsl #3
@@ -1876,12 +1876,12 @@ _0208ABE8:
 	ldr r0, _0208AC58 // =aFreeResultEntr
 	mov r2, #0
 	blx r4
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	ldr r0, [r8, #8]
 	mov r2, #0
 	str r2, [r1, r0, lsl #3]
 _0208AC10:
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	ldr r0, [r8, #8]
 	add r0, r1, r0, lsl #3
 	ldr r1, [r0, #4]
@@ -1890,7 +1890,7 @@ _0208AC10:
 	ldr r0, _0208AC5C // =aFreeResultEntr_0
 	mov r2, #0
 	blx r4
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	ldr r0, [r8, #8]
 	mov r2, #0
 	add r0, r1, r0, lsl #3
@@ -2024,11 +2024,11 @@ sub_208ADC8: // 0x0208ADC8
 	addeq sp, sp, #4
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	ldr r2, [r6, #0xc]
 	mov r1, r4
 	bl MI_CpuCopy8
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr r0, _0208AE84 // =aFreeBufBuffer
 	mov r2, #0
 	blx r7
@@ -2036,7 +2036,7 @@ sub_208ADC8: // 0x0208ADC8
 	addeq sp, sp, #4
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	ldr r1, [r6, #4]
 	sub r0, r4, r0
 	add r0, r1, r0
@@ -2060,7 +2060,7 @@ _0208AE84: .word aFreeBufBuffer
 sub_208AE88: // 0x0208AE88
 	stmdb sp!, {r4, lr}
 	mov r4, r1
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r0, r0, #0x1000
 	cmp r1, #0
 	ldr r3, [r0, #0x14]
@@ -2093,14 +2093,14 @@ sub_208AEC8: // 0x0208AEC8
 	mov r1, r5
 	blx r2
 	str r0, [r4]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	addeq sp, sp, #4
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, pc}
 	str r0, [r4, #4]
 	str r5, [r4, #0xc]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r1, [r4, #0xc]
 	mov r0, #1
 	add r1, r2, r1
@@ -2281,7 +2281,7 @@ sub_208B110: // 0x0208B110
 	moveq r0, #1
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
 _0208B194:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0208B1FC // =0x0211B0D8
 	bl strstr
 	add r8, r0, #2
@@ -2509,9 +2509,9 @@ _0208B484:
 	moveq r1, #7
 	streq r1, [r0, #0x20]
 	beq _0208B68C
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	str r0, [r7, #4]
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	ldr r0, [r7, #0xc]
 	add r0, r1, r0
 	str r0, [r7, #8]
@@ -2523,7 +2523,7 @@ _0208B484:
 	mov r4, #0
 _0208B508:
 	ldr r0, _0208B6BC // =0x0214587C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addeq r0, r10, #0x1000
 	moveq r1, #5
@@ -2674,7 +2674,7 @@ sub_208B6C8: // 0x0208B6C8
 	str r2, [r0, #0xa34]
 	add r0, r5, r1
 	bl OS_UnlockMutex
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208B7C0 // =aContentLength
 	bl strstr
 	movs r4, r0
@@ -2689,7 +2689,7 @@ sub_208B6C8: // 0x0208B6C8
 	bl strstr
 	mov r4, r0
 	ldr r0, _0208B7BC // =0x00001A18
-	ldrsb r6, [r4]
+	ldrsb r6, [r4, #0]
 	mov r1, #0
 	add r0, r5, r0
 	strb r1, [r4]
@@ -2797,7 +2797,7 @@ sub_208B8C0: // 0x0208B8C0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x1000
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #0xff
 	ldmneia sp!, {r4, pc}
 	ldr r0, _0208B91C // =0x00001BF8
@@ -2973,7 +2973,7 @@ DWC_Http_Create: // 0x0208BA88
 	moveq r0, #1
 	streq r0, [r1, #0x20]
 	ldmeqia sp!, {r4, r5, r6, pc}
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, r6
 	bl sub_208AC60
 	cmp r0, #0
@@ -3007,16 +3007,16 @@ sub_208BBB0: // 0x0208BBB0
 	stmdb sp!, {r4, lr}
 	ldr r2, _0208BBF0 // =0x02143904
 	ldr r1, _0208BBF4 // =0x000011DC
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r4, r0
 	add r0, r2, r1
 	bl OS_LockMutex
 	ldr r2, _0208BBF0 // =0x02143904
 	ldr r1, _0208BBF4 // =0x000011DC
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, #0x1000
 	str r4, [r0]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, r1
 	bl OS_UnlockMutex
 	ldmia sp!, {r4, pc}
@@ -3032,7 +3032,7 @@ sub_208BBF8: // 0x0208BBF8
 	ldr r5, _0208CB0C // =0x02143904
 	mov r0, #0
 	str r0, [sp]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r7, [sp]
 	add r0, r0, #0x1000
 	ldr r9, [r0, #0x108]
@@ -3083,31 +3083,31 @@ _0208BCB0:
 	str r1, [r0, #0x18]
 	str r8, [r0, #0x10]
 	ldr r0, _0208CB1C // =0x0211B2FC
-	ldr r1, [r5]
-	ldr r2, [r0]
+	ldr r1, [r5, #0]
+	ldr r2, [r0, #0]
 	ldr r0, _0208CB14 // =0x02143918
 	add r1, r1, #0x1000
 	str r2, [r0]
 	ldr r0, [sp, #0x18]
 	str r0, [r1, #4]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB14 // =0x02143918
 	bl DWC_Http_Create
 	cmp r0, #0
 	beq _0208BD1C
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #1
 	bl sub_208BBB0
 	b _0208CAB0
 _0208BD1C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl DWC_Http_FinishHeader
 	cmp r0, #0
 	beq _0208BD44
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #1
 	bl sub_208BBB0
@@ -3117,9 +3117,9 @@ _0208BD44:
 	ldr r0, [r0, #4]
 	bl OS_GetThreadPriority
 	sub r1, r0, #1
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl DWC_Http_StartThread
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0xba4]
 	cmp r0, #0
@@ -3128,7 +3128,7 @@ _0208BD44:
 	add r0, r1, r0
 	bl OS_JoinThread
 _0208BD7C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r1, r0, #0x1000
 	ldr r1, [r1, #0x20]
 	cmp r1, #2
@@ -3139,12 +3139,12 @@ _0208BD7C:
 _0208BD9C:
 	ldr r0, _0208CB0C // =0x02143904
 	mvn r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	str r1, [r0, #4]
 _0208BDB0:
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #3
 	bl sub_208BBB0
@@ -3155,19 +3155,19 @@ _0208BDC8:
 	cmp r0, #1
 	beq _0208BDF0
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #2
 	bl sub_208BBB0
 	b _0208CAB0
 _0208BDF0:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB28 // =aHttpresult_1
 	bl DWC_Http_GetResult
 	bl atoi
 	mov r10, r0
 	ldr r0, _0208CB2C // =_02152920
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0x22
 	bne _0208BE20
 	mov r0, #2
@@ -3181,7 +3181,7 @@ _0208BE20:
 	beq _0208BE50
 	b _0208C138
 _0208BE38:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x12c]
 	ldr r0, _0208CB34 // =0x0214390C
@@ -3190,7 +3190,7 @@ _0208BE38:
 _0208BE50:
 	ldr r0, _0208CB38 // =0x02143908
 	str r6, [r0]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x118]
 	cmp r1, #0
@@ -3198,12 +3198,12 @@ _0208BE50:
 	ldr r1, _0208CB10 // =0x02143914
 	mvn r2, #5
 	str r2, [r0, #4]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl sub_208B2C4
 	ldr r2, _0208CB14 // =0x02143918
 	ldr r0, _0208CB3C // =_0211AE44
 	ldr r3, _0208CB18 // =0x00004E20
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r5, #0
 	mov r4, #0x200
 	ldr r1, _0208CB40 // =aHttpsNasNinten_0
@@ -3220,12 +3220,12 @@ _0208BE50:
 	strne r1, [r0, #0x14]
 	ldr r0, _0208CB10 // =0x02143914
 	ldr r1, _0208CB14 // =0x02143918
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl DWC_Http_Create
 	cmp r0, #0
 	beq _0208BEF8
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #1
 	bl sub_208BBB0
@@ -3237,14 +3237,14 @@ _0208BEF8:
 	beq _0208BF24
 	ldr r0, _0208CB10 // =0x02143914
 	add r1, sp, #0x240
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, #1
 	bl DWC_Auth_SetCalInfoToHttp
 	cmp r0, #0
 	bne _0208BF3C
 _0208BF24:
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #8
 	bl sub_208BBB0
@@ -3252,21 +3252,21 @@ _0208BF24:
 _0208BF3C:
 	ldr r0, _0208CB10 // =0x02143914
 	ldr r1, _0208CB44 // =aAction_0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, _0208CB48 // =aMessage
 	mov r3, #7
 	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	bne _0208BF94
 	ldr r0, _0208CB0C // =0x02143904
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	ldr r4, [r0, #0x118]
 	mov r0, r4
 	bl strlen
 	ldr r1, _0208CB10 // =0x02143914
 	mov r3, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r1, _0208CB4C // =aHotspotrespons
 	mov r2, r4
 	bl DWC_Http_Add_PostBase64Item
@@ -3274,7 +3274,7 @@ _0208BF3C:
 	beq _0208BFAC
 _0208BF94:
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #8
 	bl sub_208BBB0
@@ -3282,23 +3282,23 @@ _0208BF94:
 _0208BFAC:
 	ldr r1, _0208CB0C // =0x02143904
 	ldr r0, _0208CB50 // =aFreeDwcnetchec
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0
 	add r1, r1, #0x1000
 	ldr r1, [r1, #0x118]
 	blx r8
 	ldr r0, _0208CB0C // =0x02143904
 	mov r2, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, _0208CB10 // =0x02143914
 	add r0, r0, #0x1000
 	str r2, [r0, #0x118]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl DWC_Http_FinishHeader
 	cmp r0, #0
 	beq _0208C008
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #1
 	bl sub_208BBB0
@@ -3309,10 +3309,10 @@ _0208C008:
 	bl OS_GetThreadPriority
 	ldr r2, _0208CB10 // =0x02143914
 	sub r1, r0, #1
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	bl DWC_Http_StartThread
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0xba4]
 	cmp r0, #0
@@ -3322,7 +3322,7 @@ _0208C008:
 	bl OS_JoinThread
 _0208C048:
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r0, #0x1000
 	ldr r1, [r1, #0x20]
 	cmp r1, #2
@@ -3333,12 +3333,12 @@ _0208C048:
 _0208C06C:
 	ldr r0, _0208CB0C // =0x02143904
 	mvn r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	str r1, [r0, #4]
 _0208C080:
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #3
 	bl sub_208BBB0
@@ -3349,7 +3349,7 @@ _0208C098:
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C0A8:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r1, r0, #0x1000
 	ldr r11, [r1, #0xa08]
 	cmp r11, #0
@@ -3364,17 +3364,17 @@ _0208C0CC:
 	add r1, r0, #1
 	ldr r0, _0208CB54 // =aAllocDwcnetche
 	blx r9
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	add r1, r1, #0x1000
 	str r0, [r1, #0x114]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x114]
 	str r0, [sp, #0xc]
 	cmp r0, #0
 	bne _0208C11C
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #4
 	bl sub_208BBB0
@@ -3389,13 +3389,13 @@ _0208C11C:
 	b _0208C150
 _0208C138:
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #0xa
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C150:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl sub_208B2C4
 	add r0, sp, #0x68
 	bl DWCi_BM_GetWiFiInfo
@@ -3405,7 +3405,7 @@ _0208C150:
 	cmp r1, r0
 	cmpeq r2, r0
 	bne _0208C288
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	ldr r0, _0208CB58 // =0x02143934
 	add r2, r1, #0x1000
 	ldr r1, [sp, #0x20]
@@ -3414,8 +3414,8 @@ _0208C150:
 	mov r1, r0
 	strh r2, [r1]
 	strb r2, [r1, #0x34]
-	ldr r2, [r5]
-	ldr r1, [r4]
+	ldr r2, [r5, #0]
+	ldr r1, [r4, #0]
 	add r3, r2, #0x1000
 	ldr r11, [r3, #0x108]
 	mov r2, r0
@@ -3438,7 +3438,7 @@ _0208C1D4:
 	bne _0208C208
 	ldr r0, _0208CB0C // =0x02143904
 	mvn r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	str r1, [r0, #4]
 	b _0208C274
@@ -3446,7 +3446,7 @@ _0208C208:
 	add r0, sp, #0x7c
 	bl DWC_Auth_GetResult
 	ldr r0, _0208CB5C // =0x02143910
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	bne _0208C260
 	ldr r1, [sp, #0x7c]
@@ -3459,7 +3459,7 @@ _0208C208:
 _0208C23C:
 	ldr r0, _0208CB0C // =0x02143904
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	str r1, [r0, #4]
 	bl DWC_Auth_Destroy
@@ -3469,7 +3469,7 @@ _0208C23C:
 _0208C260:
 	ldr r0, _0208CB0C // =0x02143904
 	ldr r1, [sp, #0x7c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	str r1, [r0, #4]
 _0208C274:
@@ -3484,14 +3484,14 @@ _0208C288:
 	bne _0208C2B0
 	ldr r0, _0208CB0C // =0x02143904
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xb
 	add r1, r1, #0x1000
 	str r2, [r1, #4]
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C2B0:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0208CB40 // =aHttpsNasNinten_0
 	add r2, r0, #0x1000
 	ldr r0, [sp, #0x28]
@@ -3507,19 +3507,19 @@ _0208C2B0:
 	str r2, [r0, #0x18]
 	ldr r0, _0208CB3C // =_0211AE44
 	ldr r2, _0208CB14 // =0x02143918
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r0, [r2]
 	bl strcmp
 	cmp r0, #0
 	ldrne r0, _0208CB14 // =0x02143918
 	ldr r1, _0208CB14 // =0x02143918
 	strne r6, [r0, #0x14]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl DWC_Http_Create
 	cmp r0, #0
 	beq _0208C334
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #1
 	bl sub_208BBB0
@@ -3529,7 +3529,7 @@ _0208C334:
 	bl sub_208A6B0
 	cmp r0, #0
 	beq _0208C35C
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r1, sp, #0x240
 	mov r2, r6
 	bl DWC_Auth_SetCalInfoToHttp
@@ -3537,26 +3537,26 @@ _0208C334:
 	bne _0208C374
 _0208C35C:
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #8
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C374:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB44 // =aAction_0
 	ldr r2, _0208CB68 // =aParse
 	ldr r3, [sp, #0x30]
 	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
 	bne _0208C3C0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x1000
 	ldr r10, [r0, #0x114]
 	mov r0, r10
 	bl strlen
 	mov r3, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB6C // =0x0211B41C
 	mov r2, r10
 	bl DWC_Http_Add_PostBase64Item
@@ -3564,28 +3564,28 @@ _0208C374:
 	beq _0208C3D8
 _0208C3C0:
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #8
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C3D8:
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	ldr r0, _0208CB70 // =aFreeDwcnetchec_0
 	add r1, r1, #0x1000
 	ldr r2, [sp, #0x34]
 	ldr r1, [r1, #0x114]
 	blx r8
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r1, r0, #0x1000
 	ldr r0, [sp, #0x38]
 	str r0, [r1, #0x114]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl DWC_Http_FinishHeader
 	cmp r0, #0
 	beq _0208C428
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #1
 	bl sub_208BBB0
@@ -3595,9 +3595,9 @@ _0208C428:
 	ldr r0, [r0, #4]
 	bl OS_GetThreadPriority
 	sub r1, r0, #1
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl DWC_Http_StartThread
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0xba4]
 	cmp r0, #0
@@ -3606,7 +3606,7 @@ _0208C428:
 	add r0, r1, r0
 	bl OS_JoinThread
 _0208C460:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r1, r0, #0x1000
 	ldr r1, [r1, #0x20]
 	cmp r1, #2
@@ -3619,12 +3619,12 @@ _0208C460:
 _0208C488:
 	bl sub_208B2C4
 	ldr r0, _0208CB5C // =0x02143910
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	bne _0208C4BC
 	ldr r0, _0208CB0C // =0x02143904
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xb
 	add r1, r1, #0x1000
 	str r2, [r1, #4]
@@ -3637,12 +3637,12 @@ _0208C4BC:
 _0208C4C8:
 	ldr r0, _0208CB0C // =0x02143904
 	mvn r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	str r1, [r0, #4]
 _0208C4DC:
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #3
 	bl sub_208BBB0
@@ -3653,23 +3653,23 @@ _0208C4F4:
 	cmp r0, #1
 	beq _0208C51C
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #2
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C51C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB28 // =aHttpresult_1
 	bl DWC_Http_GetResult
 	bl atoi
 	mov r10, r0
 	ldr r0, _0208CB2C // =_02152920
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0x22
 	bne _0208C558
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #2
 	bl sub_208BBB0
@@ -3678,10 +3678,10 @@ _0208C558:
 	cmp r10, #0xc8
 	beq _0208C5B4
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	ldr r0, _0208CB5C // =0x02143910
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	bne _0208C5A8
 	ldr r0, _0208CB30 // =0x0000012E
@@ -3689,7 +3689,7 @@ _0208C558:
 	bne _0208C5A8
 	ldr r0, _0208CB0C // =0x02143904
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xb
 	add r1, r1, #0x1000
 	str r2, [r1, #4]
@@ -3700,7 +3700,7 @@ _0208C5A8:
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C5B4:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB74 // =aReturncd_0
 	ldr r3, [sp, #0x40]
 	add r2, sp, #0x64
@@ -3708,7 +3708,7 @@ _0208C5B4:
 	cmp r0, #0
 	bgt _0208C5E8
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #9
 	bl sub_208BBB0
@@ -3717,25 +3717,25 @@ _0208C5E8:
 	add r0, sp, #0x64
 	bl atoi
 	ldr r1, _0208CB2C // =_02152920
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0x22
 	bne _0208C618
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #9
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C618:
 	ldr r1, _0208CB5C // =0x02143910
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #1
 	bne _0208C650
 	cmp r0, #0x72
 	bne _0208C650
 	ldr r0, _0208CB0C // =0x02143904
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xb
 	add r1, r1, #0x1000
 	str r2, [r1, #4]
@@ -3745,14 +3745,14 @@ _0208C650:
 	cmp r0, #0x64
 	blt _0208C670
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #6
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C670:
 	ldr r2, [sp, #0x44]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB78 // =0x0211B430
 	mov r3, r2
 	bl DWC_Http_GetBase64DecodedResult
@@ -3760,14 +3760,14 @@ _0208C670:
 	cmp r11, #0
 	bgt _0208C6A8
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #9
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C6A8:
 	ldr r2, [sp, #0x48]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB7C // =0x0211B434
 	mov r3, r2
 	bl DWC_Http_GetBase64DecodedResult
@@ -3775,14 +3775,14 @@ _0208C6A8:
 	cmp r0, #0
 	bgt _0208C6E0
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #9
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C6E0:
 	ldr r2, [sp, #0x4c]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB80 // =0x0211B43C
 	mov r3, r2
 	bl DWC_Http_GetBase64DecodedResult
@@ -3794,7 +3794,7 @@ _0208C6E0:
 	cmp r0, #0
 	bne _0208C728
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #4
 	bl sub_208BBB0
@@ -3807,7 +3807,7 @@ _0208C728:
 	movs r7, r0
 	bne _0208C758
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #4
 	bl sub_208BBB0
@@ -3822,13 +3822,13 @@ _0208C758:
 	cmp r0, #0
 	bne _0208C790
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #4
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C790:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB78 // =0x0211B430
 	ldr r2, [sp]
 	add r3, r11, #1
@@ -3836,7 +3836,7 @@ _0208C790:
 	cmp r0, #0
 	bge _0208C7C4
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #9
 	bl sub_208BBB0
@@ -3847,14 +3847,14 @@ _0208C7C4:
 	add r3, r1, #1
 	ldr r1, [sp]
 	strb r2, [r1, r0]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB7C // =0x0211B434
 	mov r2, r7
 	bl DWC_Http_GetBase64DecodedResult
 	cmp r0, #0
 	bge _0208C808
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #9
 	bl sub_208BBB0
@@ -3865,7 +3865,7 @@ _0208C808:
 	strb r1, [r7, r0]
 	mov r11, r1
 	ble _0208C8A0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _0208CB80 // =0x0211B43C
 	ldr r2, [sp, #8]
 	add r3, r10, #1
@@ -3873,7 +3873,7 @@ _0208C808:
 	cmp r0, #0
 	bge _0208C850
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #9
 	bl sub_208BBB0
@@ -3885,11 +3885,11 @@ _0208C850:
 	mov r0, r1
 	bl atoi
 	ldr r1, _0208CB2C // =_02152920
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0x22
 	bne _0208C88C
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #9
 	bl sub_208BBB0
@@ -3901,9 +3901,9 @@ _0208C88C:
 	cmp r11, r0
 	movgt r11, r0
 _0208C8A0:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl sub_208B2C4
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0208CB14 // =0x02143918
 	add r2, r0, #0x1000
 	ldr r0, [sp, #0x5c]
@@ -3919,35 +3919,35 @@ _0208C8A0:
 	str r2, [r0, #8]
 	ldr r2, _0208CB94 // =0x0001D4C0
 	str r2, [r0, #0x18]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl DWC_Http_Create
 	cmp r0, #0
 	beq _0208C910
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #1
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C910:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, r7
 	bl sub_208AF44
 	cmp r0, #0
 	beq _0208C93C
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #8
 	bl sub_208BBB0
 	b _0208CAB0
 _0208C93C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl DWC_Http_FinishHeader
 	cmp r0, #0
 	beq _0208C964
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #1
 	bl sub_208BBB0
@@ -3957,9 +3957,9 @@ _0208C964:
 	ldr r0, [r0, #4]
 	bl OS_GetThreadPriority
 	sub r1, r0, #1
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl DWC_Http_StartThread
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0xba4]
 	cmp r0, #0
@@ -3968,7 +3968,7 @@ _0208C964:
 	add r0, r1, r0
 	bl OS_JoinThread
 _0208C99C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r1, r0, #0x1000
 	ldr r1, [r1, #0x20]
 	cmp r1, #2
@@ -3979,12 +3979,12 @@ _0208C99C:
 _0208C9BC:
 	ldr r0, _0208CB0C // =0x02143904
 	mvn r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	str r1, [r0, #4]
 _0208C9D0:
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #3
 	bl sub_208BBB0
@@ -3995,13 +3995,13 @@ _0208C9E8:
 	cmp r0, #1
 	beq _0208CA10
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #2
 	bl sub_208BBB0
 	b _0208CAB0
 _0208CA10:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r1, r0, #0x1000
 	ldr r10, [r1, #0xa08]
 	cmp r10, #0
@@ -4016,17 +4016,17 @@ _0208CA34:
 	add r1, r0, #1
 	ldr r0, _0208CB98 // =aAllocDwcnetche_0
 	blx r9
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	add r1, r1, #0x1000
 	str r0, [r1, #0x118]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x118]
 	str r0, [sp, #0x10]
 	cmp r0, #0
 	bne _0208CA84
 	ldr r0, _0208CB10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_208B2C4
 	mov r0, #4
 	bl sub_208BBB0
@@ -4038,7 +4038,7 @@ _0208CA84:
 	ldr r0, [sp, #0x10]
 	mov r1, r10
 	bl strncpy
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl sub_208B2C4
 	mov r0, r11
 	bl OS_Sleep
@@ -4116,7 +4116,7 @@ sub_208CBA8: // 0x0208CBA8
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r0, _0208CC28 // =0x02143904
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0x188]
 	cmp r0, #0
@@ -4130,7 +4130,7 @@ sub_208CBA8: // 0x0208CBA8
 _0208CBE0:
 	ldr r1, _0208CC28 // =0x02143904
 	ldr r0, _0208CC2C // =0x0000111C
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r3, #0x1000
 	ldr r1, _0208CC30 // =sub_208BBF8
 	str r3, [sp]
@@ -4141,7 +4141,7 @@ _0208CBE0:
 	bl OS_CreateThread
 	ldr r1, _0208CC28 // =0x02143904
 	ldr r0, _0208CC2C // =0x0000111C
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r0, r1, r0
 	bl OS_WakeupThreadDirect
 	add sp, sp, #0xc
@@ -4155,7 +4155,7 @@ _0208CC30: .word sub_208BBF8
 	arm_func_start sub_208CC34
 sub_208CC34: // 0x0208CC34
 	ldr r0, _0208CC48 // =0x02143904
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #4]
 	bx lr
@@ -4168,15 +4168,15 @@ sub_208CC4C: // 0x0208CC4C
 	stmdb sp!, {r4, lr}
 	ldr r1, _0208CC88 // =0x02143904
 	ldr r0, _0208CC8C // =0x000011DC
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r0, r1, r0
 	bl OS_LockMutex
 	ldr r1, _0208CC88 // =0x02143904
 	ldr r0, _0208CC8C // =0x000011DC
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r2, #0x1000
 	add r0, r2, r0
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	bl OS_UnlockMutex
 	mov r0, r4
 	ldmia sp!, {r4, pc}
@@ -4190,19 +4190,19 @@ sub_208CC90: // 0x0208CC90
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _0208CD04 // =0x02143904
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
 	ldr r0, _0208CD08 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _0208CCC0
 	bl sub_208B8C0
 _0208CCC0:
 	bl DWC_Auth_Abort
 	ldr r0, _0208CD04 // =0x02143904
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r1, #0x1000
 	ldr r0, [r0, #0x188]
 	cmp r0, #0
@@ -4213,7 +4213,7 @@ _0208CCC0:
 _0208CCE8:
 	ldr r0, _0208CD04 // =0x02143904
 	mvn r1, #6
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	str r1, [r0, #4]
 	add sp, sp, #4
@@ -4229,8 +4229,8 @@ sub_208CD10: // 0x0208CD10
 	stmdb sp!, {r4, lr}
 	ldr r1, _0208CDF8 // =0x02143904
 	ldr r0, _0208CDFC // =0x02143914
-	ldr r1, [r1]
-	ldr r0, [r0]
+	ldr r1, [r1, #0]
+	ldr r0, [r0, #0]
 	add r1, r1, #0x1000
 	cmp r0, #0
 	ldr r4, [r1, #0x10c]
@@ -4238,7 +4238,7 @@ sub_208CD10: // 0x0208CD10
 	bl sub_208B2C4
 	ldr r1, _0208CDFC // =0x02143914
 	ldr r0, _0208CE00 // =aFreeDwchttp
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0
 	blx r4
 	ldr r0, _0208CDFC // =0x02143914
@@ -4247,7 +4247,7 @@ sub_208CD10: // 0x0208CD10
 _0208CD58:
 	bl DWC_Auth_Destroy
 	ldr r0, _0208CDF8 // =0x02143904
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	add r0, r0, #0x1000
@@ -4259,12 +4259,12 @@ _0208CD58:
 	blx r4
 	ldr r0, _0208CDF8 // =0x02143904
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	str r1, [r0, #0x114]
 _0208CD9C:
 	ldr r0, _0208CDF8 // =0x02143904
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x118]
 	cmp r1, #0
@@ -4274,13 +4274,13 @@ _0208CD9C:
 	blx r4
 	ldr r0, _0208CDF8 // =0x02143904
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1000
 	str r1, [r0, #0x118]
 _0208CDD4:
 	ldr r1, _0208CDF8 // =0x02143904
 	ldr r0, _0208CE0C // =aFreeDwcnetchec_1
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0
 	blx r4
 	ldr r0, _0208CDF8 // =0x02143904
@@ -4302,8 +4302,8 @@ sub_208CE10: // 0x0208CE10
 	sub sp, sp, #4
 	ldr r1, _0208CEFC // =0x02143904
 	mov r5, r0
-	ldr r0, [r1]
-	ldr r4, [r5]
+	ldr r0, [r1, #0]
+	ldr r4, [r5, #0]
 	cmp r0, #0
 	addne sp, sp, #4
 	movne r0, #4
@@ -4322,7 +4322,7 @@ sub_208CE10: // 0x0208CE10
 	bl MI_CpuFill8
 	ldr r1, _0208CEFC // =0x02143904
 	ldr r2, _0208CF08 // =0xFFFE7961
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r3, _0208CF0C // =0x00001108
 	add r0, r0, #0x1000
 	str r2, [r0, #4]
@@ -4331,7 +4331,7 @@ sub_208CE10: // 0x0208CE10
 	add r3, ip, r3
 	stmia r3, {r0, r1, r2}
 	ldr r0, _0208CF10 // =0x02143914
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addne sp, sp, #4
 	movne r0, #4
@@ -4347,7 +4347,7 @@ sub_208CE10: // 0x0208CE10
 	ldmeqia sp!, {r4, r5, pc}
 	ldr r1, _0208CEFC // =0x02143904
 	ldr r0, _0208CF1C // =0x000011DC
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _0208CF20 // =0x02143908
 	mov r3, #0
 	add r0, r2, r0
@@ -4432,7 +4432,7 @@ DWC_Auth_SetNasTimeDiff: // 0x0208CF24
 	bl atoi
 	ldr r1, _0208D158 // =_02152920
 	str r0, [sp]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0x22
 	beq _0208D148
 	sub r1, r0, #0x7d0
@@ -4464,7 +4464,7 @@ _0208D064:
 	bl atoi
 	ldr r1, _0208D158 // =_02152920
 	str r0, [sp, #8]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0x22
 	beq _0208D148
 	mov r2, #0
@@ -4473,7 +4473,7 @@ _0208D064:
 	bl atoi
 	ldr r1, _0208D158 // =_02152920
 	str r0, [sp, #0x10]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0x22
 	beq _0208D148
 	mov r2, #0
@@ -4482,7 +4482,7 @@ _0208D064:
 	bl atoi
 	ldr r1, _0208D158 // =_02152920
 	str r0, [sp, #0x14]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0x22
 	beq _0208D148
 	mov r2, #0
@@ -4491,7 +4491,7 @@ _0208D064:
 	bl atoi
 	ldr r1, _0208D158 // =_02152920
 	str r0, [sp, #0x18]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0x22
 	beq _0208D148
 	add r0, sp, #0
@@ -4698,7 +4698,7 @@ _0208D37C:
 	bl MI_CpuCopy8
 	ldr r0, _0208D4A8 // =_0211B530
 	cmp r8, #2
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [sp, #8]
 	mov r0, r0, asr #2
 	ldrsb r0, [r1, r0]
@@ -4710,7 +4710,7 @@ _0208D37C:
 	ldrb r1, [sp, #9]
 	mov r2, r2, lsl #4
 	and r2, r2, #0x3f
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	orr r1, r2, r1, asr #4
 	ldrsb r0, [r0, r1]
 	strb r0, [r6, #1]
@@ -4723,7 +4723,7 @@ _0208D424:
 	ldrb r1, [sp, #0xa]
 	mov r2, r2, lsl #2
 	and r2, r2, #0x3f
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	orr r1, r2, r1, asr #6
 	ldrsb r0, [r0, r1]
 	strb r0, [r6, #2]
@@ -4733,7 +4733,7 @@ _0208D454:
 	blt _0208D478
 	ldr r0, _0208D4A8 // =_0211B530
 	ldrb r1, [sp, #0xa]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	and r0, r1, #0x3f
 	ldrsb r0, [r2, r0]
 	strb r0, [r6, #3]

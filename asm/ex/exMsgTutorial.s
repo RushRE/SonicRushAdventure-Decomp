@@ -7,7 +7,7 @@
 exMsgTutorialTask__GetLanguage: // 0x0216C538
 	stmdb sp!, {r3, lr}
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _0216C598
@@ -186,7 +186,7 @@ ovl09_216C744: // 0x0216C744
 	mla r0, r4, r0, r2
 	mov r1, r1, lsl #1
 	ldrh r9, [r1, r0]
-	ldrsh r1, [r8]
+	ldrsh r1, [r8, #0]
 	add r5, r8, #0x110
 	sub r0, r9, #0x80
 	rsb r0, r0, #0
@@ -197,7 +197,7 @@ ovl09_216C744: // 0x0216C744
 	mov r0, #0x88
 	mul r7, r4, r0
 	add r4, r8, #0x90
-	ldrsh r1, [r8]
+	ldrsh r1, [r8, #0]
 	add r6, r8, #0xf8
 	add r0, r4, r7
 	strh r1, [r6, r7]

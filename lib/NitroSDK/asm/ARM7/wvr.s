@@ -84,7 +84,7 @@ WVR_Shutdown: // 0x0380620C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _03806240 // =0x04000304
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #2
 	strh r0, [r1]
 	mov r0, #1

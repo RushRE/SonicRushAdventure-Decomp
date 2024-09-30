@@ -156,7 +156,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
 	bl GetObjectFileWork
 	ldr r2, =gameArchiveStage
 	ldr r1, =aActAcGmkDiveSt
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	str r0, [r6, #0x364]
 	mov r0, #0xac
@@ -208,7 +208,7 @@ _02169C60:
 	bl GetObjectFileWork
 	ldr r1, =gameArchiveStage
 	mov r3, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r2, =aActAcGmkDiveSt
 	str r1, [sp]
 	mov r4, #0
@@ -714,7 +714,7 @@ NONMATCH_FUNC void DiveStand__State_216A020(DiveStand *work)
 	sub sp, sp, #0x114
 	ldr r1, =gPlayer
 	mov r8, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r2, [r8, #0x354]
 	str r1, [sp, #8]
 	ldr r3, [r1, #0x44]
@@ -742,30 +742,30 @@ _0216A08C:
 	ldrh r9, [r6, #2]
 	cmp r9, #0x8f
 	bne _0216A0A8
-	ldr r6, [r2]
+	ldr r6, [r2, #0]
 	cmp r5, r6, lsl #3
 	ble _0216A0BC
 _0216A0A8:
 	cmp r9, #0x95
 	bne _0216A0D8
-	ldr r6, [r2]
+	ldr r6, [r2, #0]
 	cmp r5, r6, lsl #3
 	blt _0216A0D8
 _0216A0BC:
-	ldrh r6, [r1]
+	ldrh r6, [r1, #0]
 	add r6, r6, #0x10
 	strh r6, [r1]
-	ldrsh r6, [r1]
+	ldrsh r6, [r1, #0]
 	cmp r6, #0
 	strgth r7, [r1]
 	b _0216A108
 _0216A0D8:
-	ldrh r6, [r1]
+	ldrh r6, [r1, #0]
 	cmp r6, #0
 	beq _0216A0FC
 	add r6, r6, r4
 	strh r6, [r1]
-	ldrh r6, [r1]
+	ldrh r6, [r1, #0]
 	cmp r6, r3
 	strloh r3, [r1]
 	b _0216A108
@@ -844,12 +844,12 @@ _0216A1E0:
 	mov r2, r7
 	mov r4, #1
 _0216A204:
-	ldrh r3, [r6]
+	ldrh r3, [r6, #0]
 	cmp r3, #0
 	beq _0216A228
 	sub r0, r3, r1
 	strh r0, [r6]
-	ldrsh r3, [r6]
+	ldrsh r3, [r6, #0]
 	mov r0, r4
 	cmp r3, #0
 	strgth r2, [r6]
@@ -960,7 +960,7 @@ _0216A3B4:
 	mov r1, r4
 	mov r2, #0x30
 	bl MIi_CpuCopy32
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	add r0, sp, #0x108
 	add r1, sp, #0xb4
 	mov r3, r2, asr #4
@@ -1027,7 +1027,7 @@ _0216A4B8:
 	mov r1, r4
 	mov r2, #0x30
 	bl MIi_CpuCopy32
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	ldr r10, [sp, #0xc]
 	ldr ip, [sp, #0x18]
 	mov r3, r2, asr #4
@@ -1190,7 +1190,7 @@ _0216A708:
 	sub r2, r2, #0xc0
 	strh r2, [r4, #0x18]
 _0216A738:
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r5, r2, lsl #3
 	ble _0216A770
 	add r2, r8, r0, lsl #1
@@ -1208,7 +1208,7 @@ _0216A770:
 	cmp r0, #0x18
 	subge r6, r6, #0x18
 	subge r1, r1, #0x18
-	ldr r10, [r6]
+	ldr r10, [r6, #0]
 	ldmia r1, {r0, r3}
 	sub r1, r0, r10
 	ldr r2, [r6, #4]
@@ -1233,7 +1233,7 @@ _0216A7D0:
 	mov r2, r2, asr #9
 	strh r2, [r4, #0x18]
 _0216A7D8:
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r5, r2, lsl #3
 	bge _0216A810
 	add r2, r8, r0, lsl #1
@@ -1251,7 +1251,7 @@ _0216A810:
 	cmp r0, #0x18
 	subge r6, r6, #0x18
 	subge r1, r1, #0x18
-	ldr r10, [r6]
+	ldr r10, [r6, #0]
 	ldmia r1, {r0, r3}
 	sub r1, r0, r10
 	ldr r2, [r6, #4]

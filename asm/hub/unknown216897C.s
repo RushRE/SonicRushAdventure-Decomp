@@ -32,7 +32,7 @@ ovl05_21687B8: // 0x021687B8
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
 	bl ViHubAreaPreview__Func_215A888
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0
 	bne _02168848
 	bl ViDock__Func_215E0CC
@@ -78,7 +78,7 @@ _02168858:
 _021688A8:
 	cmp r1, #0
 	bne _02168948
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	mov r6, #0
 	cmp r0, #0
 	bne _021688DC

@@ -82,7 +82,7 @@ SeaMapStylusIcon__Func_2049204: // 0x02049204
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #8
 	ldr r0, _0204926C // =0x0210FF80
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	ldrh r1, [r0, #2]
 	ldrh r0, [r0, #4]
 	strh r2, [sp]

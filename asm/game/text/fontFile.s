@@ -162,7 +162,7 @@ _020523E0:
 	ldr r0, [r4, #0x84]
 	cmp r0, #0
 	beq _0205240C
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	cmp r1, #3
 	blt _02052400
 	bl _FreeHEAP_SYSTEM
@@ -223,7 +223,7 @@ FontFile__GetPixelWidth2: // 0x02052478
 	arm_func_start FontFile__GetPixels
 FontFile__GetPixels: // 0x0205248C
 	stmdb sp!, {r3, lr}
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #3
 	addls pc, pc, r2, lsl #2
 	b _020524C8
@@ -291,7 +291,7 @@ FontFile__GetPixels0: // 0x02052538
 	addne r4, r7, #0x6a
 	addeq r4, r7, #0x66
 	movne r5, r1
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ldreq r5, [r7, #0x70]
 	cmp r0, r6
 	moveq r0, r5
@@ -346,7 +346,7 @@ FontFile__GetPixels1: // 0x020525FC
 	addne r4, r0, #0x6a
 	addeq r4, r0, #0x66
 	movne r5, r1
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	ldreq r5, [r0, #0x70]
 	cmp r2, r6
 	moveq r0, r5
@@ -519,7 +519,7 @@ FontFile__LoadCharDataBlock: // 0x020527FC
 	ldr r0, [r7, #0x58]
 	mov r1, r1, lsl #3
 	bl DC_StoreRange
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	cmp r0, #3
 	addls pc, pc, r0, lsl #2
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
@@ -685,7 +685,7 @@ _02052A8C:
 	add r3, r3, r2
 	str r3, [r0, #0x58]
 	ldrh ip, [r1, #6]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	add r2, r2, ip, lsl #3
 	add r2, r2, #0x1f
 	cmp r3, #3
@@ -1171,7 +1171,7 @@ FontFile__Func_2053140: // 0x02053140
 	ldr r5, [sp, #0x668]
 	str r3, [sp, #0x66c]
 	bl MIi_CpuClear16
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #0x25
 	ldreqh r0, [r6, #2]
 	cmpeq r0, #0x73
@@ -1180,7 +1180,7 @@ FontFile__Func_2053140: // 0x02053140
 	bne _020531E4
 	ldr r0, [sp, #0x674]
 	add r1, sp, #0x400
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, _020534F0 // =0x000001FE
 	add r1, r1, #0x28
 	bl MIi_CpuCopy16
@@ -1299,7 +1299,7 @@ _02053364:
 	bl FontFile__GetTextWidth
 	sub r4, r8, r0
 _02053378:
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	ldr r5, [sp, #0x65c]
 	cmp r0, #0
 	beq _02053454
@@ -1448,7 +1448,7 @@ FontFile__Func_20534F8: // 0x020534F8
 	mov r3, r11
 	str ip, [sp, #0x24]
 	bl FontFile__Func_2053140
-	ldrsh r2, [r6]
+	ldrsh r2, [r6, #0]
 	ldrsh r3, [r6, #2]
 	ldrsh r0, [r6, #4]
 	cmp r2, #0
@@ -1512,12 +1512,12 @@ FontFile__GetTextHeight: // 0x02053668
 	bl FontFile__GetPixelHeight
 	mov r1, r0
 _02053680:
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	mov r0, r1
 	cmp r2, #0
 	ldmeqia sp!, {r4, pc}
 _02053690:
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	cmp r2, #0xa
 	addeq r0, r0, r1
 	moveq r0, r0, lsl #0x10
@@ -1536,13 +1536,13 @@ FontFile__GetLineLength: // 0x020536B4
 	mov r8, r0
 	mov r6, r5
 	cmp r1, #0
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	bne _0205372C
 	cmp r0, #0
 	beq _0205376C
 	mov r4, r5
 _020536E0:
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	cmp r0, #0xa
 	bne _020536FC
 	cmp r5, r6
@@ -1568,7 +1568,7 @@ _0205372C:
 	beq _0205376C
 	mov r2, r5
 _02053738:
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	cmp r0, #0xa
 	bne _02053754
 	cmp r5, r6
@@ -1597,12 +1597,12 @@ FontFile__GetTextWidth: // 0x0205377C
 	mov r6, r0
 	cmp r1, #0
 	mov r4, #0
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	bne _020537DC
 	cmp r0, #0
 	beq _02053808
 _020537A0:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #0xa
 	beq _02053808
 	bl GetFontCharacterFromUTF
@@ -1621,7 +1621,7 @@ _020537DC:
 	cmp r0, #0
 	beq _02053808
 _020537E4:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #0xa
 	beq _02053808
 	ldrh r2, [r5, #2]!

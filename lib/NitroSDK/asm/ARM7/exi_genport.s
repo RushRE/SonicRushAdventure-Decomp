@@ -19,7 +19,7 @@ _037FED18: .word EXIi_SetBitRcnt0L
 EXIi_SetBitRcnt0L: // 0x037FED1C
 	mvn r3, r0
 	ldr r2, _037FED38 // =0x04000134
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	and r0, r3, r0
 	orr r0, r1, r0
 	strh r0, [r2]

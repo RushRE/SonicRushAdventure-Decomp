@@ -85,7 +85,7 @@ _02179100:
 	ldr r0, _021795A0 // =_0218874C
 	orr r1, r1, #0x2100
 	str r1, [r4, #0x1c]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	ldrh r2, [r0, #2]
 	ldrh r1, [r0, #4]
 	mov r0, #0x5f
@@ -95,7 +95,7 @@ _02179100:
 	bl GetObjectFileWork
 	ldr r2, _021795A4 // =gameArchiveStage
 	ldr r1, _021795A8 // =aActAcGmkTrampo
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	mov r8, r0
 	mov r0, #0x61
@@ -145,7 +145,7 @@ _02179220:
 	bl GetObjectFileWork
 	ldr r1, _021795A4 // =gameArchiveStage
 	mov r3, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r2, _021795A8 // =aActAcGmkTrampo
 	str r1, [sp]
 	mov r6, #0
@@ -257,7 +257,7 @@ _021792B8:
 	ldrh r0, [r7, #2]
 	cmp r0, #0xc8
 	bne _02179414
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr r0, [r4, #0x5c4]
 	sub r0, r1, r0
 	str r0, [r3]
@@ -398,7 +398,7 @@ Trampoline3D__Destructor: // 0x021795C0
 	ldrh r0, [r5, #4]
 	cmp r0, #0
 	bne _02179618
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__FreePalette
 	mov r0, #0
 	str r0, [r5]
@@ -412,7 +412,7 @@ _02179618:
 	ldrh r0, [r5, #4]
 	cmp r0, #0
 	bne _0217964C
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__FreeTexture
 	mov r0, #0
 	str r0, [r5]
@@ -635,7 +635,7 @@ _02179954:
 	mov ip, r3
 	add r1, r1, r0
 	str r1, [r3, #4]
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	cmp r2, #0xb
 	str r1, [r3, #0xc]
 	ldr r1, [r3, #4]
@@ -717,7 +717,7 @@ Trampoline3D__Draw: // 0x02179A80
 	mov r3, #0x1000
 	ldr r1, _02179D48 // =g_obj
 	mov r6, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r3, [sp, #0x4c]
 	str r3, [sp, #0x50]
 	str r3, [sp, #0x54]
@@ -782,7 +782,7 @@ _02179AF4:
 	ldmia r7!, {r0, r1, r2, r3}
 	mov r4, r5
 	stmia r5!, {r0, r1, r2, r3}
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	mov r0, r4
 	str r1, [r5]
 	mov r1, #3
@@ -798,7 +798,7 @@ _02179AF4:
 	mov r4, r8
 	mov r11, #0x8000
 _02179BD0:
-	ldr r3, [r10]
+	ldr r3, [r10, #0]
 	mov r0, r5
 	sub r1, r3, r9
 	add r8, r8, r1
@@ -911,7 +911,7 @@ Trampoline3D__OnDefend: // 0x02179D5C
 	cmpne r4, #0
 	addeq sp, sp, #0x24
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	cmp r2, #1
 	addne sp, sp, #0x24
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -1073,7 +1073,7 @@ _02179FC4:
 Trampoline3D__Func_2179FD0: // 0x02179FD0
 	ldr r1, _02179FF4 // =_0218A390
 	mov r3, #1
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	tst r2, r3, lsl r0
 	movne r0, #0
 	orreq r2, r2, r3, lsl r0
@@ -1089,7 +1089,7 @@ Trampoline3D__Func_2179FF8: // 0x02179FF8
 	ldr r1, _0217A014 // =_0218A390
 	mov r2, #1
 	mvn r0, r2, lsl r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	and r0, r2, r0
 	str r0, [r1]
 	bx lr

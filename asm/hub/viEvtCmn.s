@@ -858,7 +858,7 @@ _0216C40C: .word padInput
 	arm_func_start ViEvtCmnMsg__Func_216C410
 ViEvtCmnMsg__Func_216C410: // 0x0216C410
 	ldr r1, _0216C444 // =padInput
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	tst r1, #2
 	beq _0216C434
 	ldr r0, [r0, #0x280]
@@ -2069,8 +2069,8 @@ ViEvtCmnAnnounce__Func_216D318: // 0x0216D318
 	add r0, r4, #0xe8
 	bl FontWindowAnimator__Func_20599B4
 	mov r2, #0x4000000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -2129,8 +2129,8 @@ ViEvtCmnAnnounce__Func_216D3CC: // 0x0216D3CC
 	mov r1, r1, asr #0x10
 	bl FontAnimator__AdvanceLine
 	mov r2, #0x4000000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -2212,8 +2212,8 @@ ViEvtCmnAnnounce__Func_216D4E8: // 0x0216D4E8
 	add r0, r4, #0x24
 	bl FontAnimator__Draw
 	mov r2, #0x4000000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -2254,8 +2254,8 @@ ViEvtCmnAnnounce__Func_216D598: // 0x0216D598
 	ldr r0, _0216D5D8 // =0x0000FFFF
 	mov r2, #0x4000000
 	strh r0, [r4, #0xa]
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -2547,8 +2547,8 @@ _0216D8F4:
 	str ip, [sp, #4]
 	bl ViEvtCmnMsg__Func_216BCA8
 	mov r2, #0x4000000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -2776,7 +2776,7 @@ ViEvtCmnTalk__Func_216DC0C: // 0x0216DC0C
 ViEvtCmnTalk__Func_216DC14: // 0x0216DC14
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x10
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r4, r2
 	cmp r1, #7
 	addne sp, sp, #0x10
@@ -2807,7 +2807,7 @@ ViEvtCmnTalk__Func_216DC14: // 0x0216DC14
 	arm_func_start ViEvtCmnTalk__Func_216DC84
 ViEvtCmnTalk__Func_216DC84: // 0x0216DC84
 	stmdb sp!, {r3, lr}
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0x400000
 	bhi _0216DCA4
 	bhs _0216DCCC

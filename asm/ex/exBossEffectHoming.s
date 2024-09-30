@@ -234,7 +234,7 @@ _02156DFC:
 	mov r0, r4
 	bl ovl09_2161CB0
 	ldr r0, _0215700C // =exBossEffectHomingTask__ActiveInstanceCount
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _02156EC0
 	mov r1, #0xe
@@ -242,7 +242,7 @@ _02156DFC:
 	sub r2, r1, #0xf
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0215700C // =exBossEffectHomingTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x7c]
@@ -362,7 +362,7 @@ _02156F94:
 	str ip, [r4, #0x10]
 	str ip, [r4, #0x14]
 	str r2, [r4, #0x18]
-	ldrsh r2, [r1]
+	ldrsh r2, [r1, #0]
 	add r2, r2, #1
 	strh r2, [r1]
 	add sp, sp, #4
@@ -442,7 +442,7 @@ ovl09_21570F8: // 0x021570F8
 	stmdb sp!, {r4, lr}
 	ldr r1, _021571AC // =exBossEffectHomingTask__ActiveInstanceCount
 	mov r4, r0
-	ldrsh r0, [r1]
+	ldrsh r0, [r1, #0]
 	cmp r0, #1
 	bgt _02157190
 	ldr r0, [r1, #0x6c]
@@ -487,7 +487,7 @@ _02157190:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
 	ldr r0, _021571AC // =exBossEffectHomingTask__ActiveInstanceCount
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r4, pc}

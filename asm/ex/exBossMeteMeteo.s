@@ -44,7 +44,7 @@ _0215D158:
 	sub r2, r1, #0x15
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0215D2D8 // =0x021761CC
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x20]
@@ -229,7 +229,7 @@ exBossMeteMeteoTask__Main: // 0x0215D360
 	strh r1, [r4, #0x28]
 	ldr r5, _0215D4DC // =_mt_math_rand
 	ldr ip, _0215D4E0 // =0x00196225
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldr lr, _0215D4E4 // =0x3C6EF35F
 	mov r0, #0
 	mla r3, r2, ip, lr
@@ -244,7 +244,7 @@ exBossMeteMeteoTask__Main: // 0x0215D360
 	strh r2, [r4, #0x2a]
 	strh r1, [r4, #0x2e]
 	strh r0, [r4, #0x34]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	ldr r3, _0215D4E8 // =0x55555556
 	mla r2, r1, ip, lr
 	str r2, [r5]
@@ -447,7 +447,7 @@ _0215D6E8:
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _0215D710:
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	cmp r0, #0
 	bgt _0215D754
 	mov ip, #0xc1
@@ -475,7 +475,7 @@ _0215D754:
 	bl ovl09_2164034
 	add r0, r4, #0x88
 	bl ovl09_216AE78
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	sub r0, r0, #1
 	strh r0, [r4]
 	add sp, sp, #8
@@ -498,7 +498,7 @@ ovl09_215D794: // 0x0215D794
 	strb r1, [r4, #0x8c]
 	str r0, [r4, #0x1c]
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0215D838
 	ldrsh r0, [r4, #0x90]
@@ -530,7 +530,7 @@ _0215D808:
 	b _0215D8AC
 _0215D838:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _0215D8AC
 	ldrsh r0, [r4, #0x90]

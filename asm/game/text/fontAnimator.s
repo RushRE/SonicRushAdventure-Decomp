@@ -270,10 +270,10 @@ FontAnimator__LoadFont2: // 0x020586F0
 	mul r1, r2, r0
 	ldrne r2, _020588A8 // =0x04001000
 	ldrne r0, _020588AC // =0x00300010
-	ldrne r2, [r2]
+	ldrne r2, [r2, #0]
 	bne _02058840
 	mov r0, #0x4000000
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, _020588AC // =0x00300010
 _02058840:
 	and r3, r2, r0
@@ -662,7 +662,7 @@ _02058C58:
 	mov r1, r5
 	mov r2, r0
 	bl FontField_9C__Func_2059670
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	tst r0, #0x40
 	bne _02058CEC
 	add r0, r6, #8
@@ -680,7 +680,7 @@ _02058CA0:
 	ldr r1, [r7, #0x94]
 	mov r0, r7
 	str r1, [sp]
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	add r1, r6, #0x14
 	bl FontAnimator__Apply0
 	b _02058CE4
@@ -693,7 +693,7 @@ _02058CBC:
 	str r2, [sp, #4]
 	ldrh r2, [r6, #6]
 	str r2, [sp, #8]
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	bl FontAnimator__Apply1
 _02058CE4:
 	add r0, r6, #8
@@ -791,10 +791,10 @@ FontUnknown2058D78__Init: // 0x02058D78
 	mul r1, r2, r0
 	ldrne r2, _02058E68 // =0x04001000
 	ldrne r0, _02058E6C // =0x00300010
-	ldrne r2, [r2]
+	ldrne r2, [r2, #0]
 	bne _02058E08
 	mov r0, #0x4000000
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, _02058E6C // =0x00300010
 _02058E08:
 	and r3, r2, r0
@@ -871,7 +871,7 @@ _02058EE4:
 
 	arm_func_start FontUnknown2058D78__EnableFlags
 FontUnknown2058D78__EnableFlags: // 0x02058EF0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	orr r1, r2, r1
 	str r1, [r0]
 	bx lr
@@ -879,7 +879,7 @@ FontUnknown2058D78__EnableFlags: // 0x02058EF0
 
 	arm_func_start FontUnknown2058D78__DisableFlags
 FontUnknown2058D78__DisableFlags: // 0x02058F00
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mvn r1, r1
 	and r1, r2, r1
 	str r1, [r0]
@@ -918,7 +918,7 @@ FontAnimator__Apply0: // 0x02058F38
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrh r1, [r3, #6]
 	ldrh r4, [r3, #4]
-	ldrh r5, [r3]
+	ldrh r5, [r3, #0]
 	ldrh r0, [r3, #2]
 	add r3, r1, #0xf
 	mov r6, r5, asr #5
@@ -986,7 +986,7 @@ FontAnimator__Apply1: // 0x02059030
 	ldrh r4, [r3, #4]
 	ldrh r1, [r3, #6]
 	ldrh r0, [r3, #2]
-	ldrh r5, [r3]
+	ldrh r5, [r3, #0]
 	add r4, r4, #0x1f
 	add r3, r1, #0xf
 	mov r1, r0, lsl #0xc
@@ -1037,7 +1037,7 @@ _02059104:
 	cmp r7, r4, lsr #16
 	blo _020590AC
 _02059118:
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	ldr r8, [sp, #0x40]
 	cmp r0, #0
 	ldr r0, [r9, #0xc]
@@ -1045,12 +1045,12 @@ _02059118:
 	mov r1, #0x4000000
 	sub r0, r0, #0x6400000
 	mov r0, r0, lsl #0xb
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	b _02059150
 _02059140:
 	ldr r1, _020592B8 // =0x04001000
 	sub r0, r0, #0x6600000
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r0, r0, lsl #0xb
 _02059150:
 	ldr r1, _020592BC // =0x00300010
@@ -1112,7 +1112,7 @@ _02059218:
 	ldr r0, [sp, #8]
 	ldrsh r2, [r9, #4]
 	add r1, r0, r6
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	add r1, r2, r1, lsl #3
 	mov r4, r1, lsl #0x10
 	ldrb r1, [r9, #9]
@@ -1171,7 +1171,7 @@ FontAnimator__LoadMappings: // 0x020592C8
 	add r0, sp, #0x20
 	str r0, [sp]
 	ldrb r1, [r5, #4]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r2, sp, #0x24
 	add r3, sp, #0x22
 	bl GetVRAMTileConfig
@@ -1223,7 +1223,7 @@ FontAnimator__LoadPalette: // 0x020593A8
 	stmdb sp!, {r3, lr}
 	tst r2, #1
 	ldmneia sp!, {r3, pc}
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r0, [r0, #0x1c]
 	cmp r3, #0
 	ldrb r3, [r1, #5]
@@ -1253,7 +1253,7 @@ FontAnimator__LoadPalette2: // 0x02059408
 	stmdb sp!, {r3, lr}
 	tst r2, #1
 	ldmneia sp!, {r3, pc}
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r0, [r0, #0x1c]
 	cmp r3, #0
 	ldrb r3, [r1, #0xa]

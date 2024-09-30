@@ -8,7 +8,7 @@ DWCi_RemoveAllDWCGHTTPParamEntry: // 0x0209C624
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	ldr r0, _0209C690 // =0x02144318
-	ldr r7, [r0]
+	ldr r7, [r0, #0]
 	cmp r7, #0
 	beq _0209C67C
 	mov r5, #4
@@ -42,7 +42,7 @@ _0209C690: .word 0x02144318
 	arm_func_start DWCi_FindDWCGHTTPParamEntryByReq
 DWCi_FindDWCGHTTPParamEntryByReq: // 0x0209C694
 	ldr r1, _0209C6C0 // =0x02144318
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	b _0209C6A4
 _0209C6A0:
 	ldr r2, [r2, #0x18]
@@ -63,7 +63,7 @@ _0209C6C0: .word 0x02144318
 DWCi_RemoveDWCGHTTPParamEntry: // 0x0209C6C4
 	stmdb sp!, {r4, lr}
 	ldr r1, _0209C744 // =0x02144318
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	ldmeqia sp!, {r4, pc}
 	cmp r1, r0
@@ -116,7 +116,7 @@ DWCi_AppendDWCGHTTPParam: // 0x0209C748
 	str r0, [ip, #0x18]
 	ldr r1, _0209C7A0 // =0x02144318
 	str r0, [ip, #0x10]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	moveq r0, ip
 	streq ip, [r1]
@@ -335,7 +335,7 @@ _0209CA3C:
 _0209CA40:
 	cmp r10, #0
 	beq _0209CA88
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	mov r1, #0
 	str r0, [sp]
 	str r1, [sp, #4]
@@ -431,7 +431,7 @@ GHTTPCompletedCallback: // 0x0209CB64
 	bne _0209CBA4
 	mov r1, r3
 	mov r0, r2
-	ldr r3, [r6]
+	ldr r3, [r6, #0]
 	mov r2, r7
 	blx r5
 	b _0209CBC0
@@ -439,7 +439,7 @@ _0209CBA4:
 	mov r0, r7
 	bl DWCi_HandleGHTTPError
 	mov r0, #0
-	ldr r3, [r6]
+	ldr r3, [r6, #0]
 	mov r1, r0
 	mov r2, r7
 	blx r5
@@ -486,14 +486,14 @@ DWC_ShutdownGHTTP: // 0x0209CC34
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _0209CC7C // =0x0214431C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addle sp, sp, #4
 	movle r0, #1
 	ldmleia sp!, {pc}
 	bl ghttpCleanup
 	ldr r0, _0209CC7C // =0x0214431C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	subs r1, r1, #1
 	str r1, [r0]
 	bne _0209CC70
@@ -513,7 +513,7 @@ DWC_InitGHTTP: // 0x0209CC80
 	bl ghttpStartup
 	ldr r1, _0209CCA8 // =0x0214431C
 	mov r0, #1
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r2, r2, #1
 	str r2, [r1]
 	add sp, sp, #4

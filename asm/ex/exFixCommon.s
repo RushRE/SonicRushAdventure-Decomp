@@ -8,7 +8,7 @@ ovl09_2168EA4: // 0x02168EA4
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x1c
 	mov r5, r0
-	ldrh r7, [r5]
+	ldrh r7, [r5, #0]
 	ldrh r4, [r5, #2]
 	bl ovl09_2161768
 	mov r0, #0

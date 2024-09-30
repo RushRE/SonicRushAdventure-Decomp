@@ -67,9 +67,9 @@ exPlayerScreenMoveTask__Main_216E478: // 0x0216E478
 	bl GetExTaskWorkCurrent_
 	ldr r1, _0216E4FC // =0x02177BA0
 	ldr lr, [r0, #4]
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldr r3, _0216E500 // =0x51EB851F
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldrh ip, [lr, #0xa2]
 	mov r1, r2, lsr #0x1f
 	smull r2, r4, r3, r2
@@ -88,7 +88,7 @@ _0216E4C4:
 	cmp r1, #1
 	bne _0216E4EC
 	ldr r1, _0216E4FC // =0x02177BA0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	strne r3, [r2, #0x70]
 	ldrne r0, [r0, #8]

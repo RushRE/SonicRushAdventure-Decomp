@@ -164,7 +164,7 @@ ViShadow__Func_2167F00: // 0x02167F00
 	ldr r2, [r1, #0xfc]
 	bic r2, r2, #0xa4
 	str r2, [r1, #0xfc]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r1, [r5, #0x10]
 	sub r1, r2, r1, asr #1
 	str r1, [sp, #0x1c]
@@ -341,7 +341,7 @@ _021681DC:
 	ldr r0, [r0, #0xe4]
 	mov r4, #0
 	cmp r0, #0
-	ldrne r4, [r0]
+	ldrne r4, [r0, #0]
 	ldr ip, [sp, #0x24]
 	mov r0, r6
 	mov r1, r5

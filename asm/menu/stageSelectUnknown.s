@@ -114,7 +114,7 @@ StageSelectMenu__Unknown__Release: // 0x02169B3C
 	beq _02169B6E
 	mov r6, #0
 _02169B5A:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	beq _02169B68
 	add r0, r5, #4
@@ -402,7 +402,7 @@ _02169D64:
 _02169D86:
 	ldr r0, _0216A010 // =0x0000090C
 	add r1, r5, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	beq _02169D9A
 	add r0, r1, #4
@@ -425,7 +425,7 @@ _02169D9A:
 _02169DB2:
 	mov r0, r4
 	add r0, #0xb4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r4
 	add r1, #0xb4
 	cmp r0, #0
@@ -448,12 +448,12 @@ _02169DCA:
 _02169DE0:
 	mov r0, r4
 	add r0, #0xac
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	cmp r3, #0
 	beq _02169DF6
 	mov r2, r4
 	add r2, #0xb0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #5
 	mov r1, r4
 	blx r3
@@ -465,12 +465,12 @@ _02169DF6:
 	bl AnimatorSprite__ProcessAnimation
 	mov r0, r4
 	add r0, #0xac
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	cmp r3, #0
 	beq _02169E18
 	mov r2, r4
 	add r2, #0xb0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #6
 	mov r1, r4
 	blx r3
@@ -484,7 +484,7 @@ _02169E22:
 	mov r0, #0x8a
 	lsl r0, r0, #4
 	add r1, r5, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	beq _02169E38
 	add r0, r1, #4
@@ -540,13 +540,13 @@ _02169E80:
 	mul r2, r0
 	add r0, r5, r2
 	add r0, #0xac
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	cmp r3, #0
 	beq _02169EA2
 	add r1, r5, r2
 	add r2, r5, r2
 	add r2, #0xb0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #3
 	blx r3
 _02169EA2:
@@ -641,7 +641,7 @@ _02169F38:
 	add r1, r5, r4
 	add r1, #0x9c
 	add r0, r5, r4
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	add r0, #0x38
 	bl AnimatorSprite__SetAnimation
 	add r0, r5, r4
@@ -655,13 +655,13 @@ _02169F38:
 	thumb_func_start StageSelectMenu__Unknown__Func_2169F6C
 StageSelectMenu__Unknown__Func_2169F6C: // 0x02169F6C
 	add r0, #0xac
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	cmp r3, #0
 	beq _02169F80
 	add r1, r5, r4
 	mov r2, r1
 	add r2, #0xb0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #0
 	blx r3
 _02169F80:
@@ -672,7 +672,7 @@ _02169F80:
 	add r1, r5, r4
 	add r1, #0x9e
 	add r0, r5, r4
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	add r0, #0x38
 	bl AnimatorSprite__SetAnimation
 	add r0, r5, r4
@@ -682,13 +682,13 @@ _02169F80:
 	bl AnimatorSprite__ProcessAnimation
 	add r0, r5, r4
 	add r0, #0xac
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	cmp r3, #0
 	beq _02169FB8
 	add r1, r5, r4
 	mov r2, r1
 	add r2, #0xb0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #1
 	blx r3
 _02169FB8:
@@ -844,7 +844,7 @@ _0216A0CE:
 	mov r0, r4
 	add r0, #0xb4
 	mov r1, r4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, #0xb4
 	cmp r0, #0
 	beq _0216A102
@@ -928,7 +928,7 @@ _0216A150:
 _0216A17C:
 	ldr r0, _0216A1B4 // =0x0000090C
 	add r1, r6, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r2, #0
 	beq _0216A1AE
 	sub r0, #0xe8
@@ -1258,7 +1258,7 @@ _0216A3FE:
 	mov r0, r4
 	add r0, #0xb4
 	mov r5, r4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r5, #0xb4
 	cmp r0, #0
 	beq _0216A420
@@ -1550,7 +1550,7 @@ _0216A630: .word 0x000007DF
 StageSelectMenu__Unknown__Func_216A634: // 0x0216A634
 	push {r3, r4, r5, lr}
 	mov r5, r1
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #1
 	lsl r0, r0, #0x12
 	mov r4, r2
@@ -1582,7 +1582,7 @@ StageSelectMenu__Unknown__Func_216A668: // 0x0216A668
 	add r2, #0xa8
 	mov r6, r0
 	mov r7, r1
-	ldr r5, [r2]
+	ldr r5, [r2, #0]
 	cmp r6, #5
 	bne _0216A6CE
 	ldr r0, _0216A6DC // =0x000007F2
@@ -1593,19 +1593,19 @@ StageSelectMenu__Unknown__Func_216A668: // 0x0216A668
 	mul r4, r0
 	add r1, r5, r4
 	add r1, #0x9c
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	add r0, r5, r4
 	add r0, #0x38
 	bl AnimatorSprite__SetAnimation
 	add r0, r5, r4
 	add r0, #0xac
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	cmp r3, #0
 	beq _0216A6A8
 	add r1, r5, r4
 	mov r2, r1
 	add r2, #0xb0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #0
 	blx r3
 _0216A6A8:
@@ -1647,7 +1647,7 @@ StageSelectMenu__Unknown__Func_216A6E4: // 0x0216A6E4
 	mov r0, r7
 	add r0, #0xa8
 	mov r6, r1
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	cmp r5, #5
 	bne _0216A744
 	ldr r1, _0216A750 // =0x000007F2
@@ -1661,13 +1661,13 @@ StageSelectMenu__Unknown__Func_216A6E4: // 0x0216A6E4
 	beq _0216A71E
 	add r0, r4, r2
 	add r0, #0xac
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	cmp r3, #0
 	beq _0216A71E
 	add r1, r4, r2
 	add r2, r4, r2
 	add r2, #0xb0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #4
 	blx r3
 _0216A71E:
@@ -1726,18 +1726,18 @@ StageSelectMenu__Unknown__Func_216A764: // 0x0216A764
 	add r1, r5, r4
 	add r1, #0xa0
 	add r0, r5, r4
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	add r0, #0x38
 	bl AnimatorSprite__SetAnimation
 	add r0, r5, r4
 	add r0, #0xac
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	cmp r3, #0
 	beq _0216A798
 	add r1, r5, r4
 	mov r2, r1
 	add r2, #0xb0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #2
 	blx r3
 _0216A798:
@@ -1782,18 +1782,18 @@ StageSelectMenu__Unknown__Func_216A7CC: // 0x0216A7CC
 	add r1, r5, r4
 	add r1, #0x9e
 	add r0, r5, r4
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	add r0, #0x38
 	bl AnimatorSprite__SetAnimation
 	add r0, r5, r4
 	add r0, #0xac
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	cmp r3, #0
 	beq _0216A800
 	add r1, r5, r4
 	mov r2, r1
 	add r2, #0xb0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #1
 	blx r3
 _0216A800:

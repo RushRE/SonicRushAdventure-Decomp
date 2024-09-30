@@ -59,7 +59,7 @@ DWC_ReallocEx: // 0x0208EE60
 	bl MI_CpuCopy8
 	ldr r1, _0208EED0 // =0x021439E8
 	mov r0, r8
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r1, r5
 	mov r2, r4
 	blx r3
@@ -90,7 +90,7 @@ DWC_Free: // 0x0208EEF0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
 	ldr r3, _0208EF18 // =0x021439E8
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	blx r3
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -103,7 +103,7 @@ DWC_AllocEx: // 0x0208EF1C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r3, _0208EF38 // =0x021439EC
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	blx r3
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -117,7 +117,7 @@ DWC_Alloc: // 0x0208EF3C
 	sub sp, sp, #4
 	ldr r3, _0208EF5C // =0x021439EC
 	mov r2, #0x20
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	blx r3
 	add sp, sp, #4
 	ldmia sp!, {pc}

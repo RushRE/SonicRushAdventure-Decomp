@@ -302,7 +302,7 @@ _020272F0:
 	ldrh r1, [r0, #4]
 	orr r1, r1, #0x2000
 	strh r1, [r0, #4]
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #0xff
 	bne _02027324
 	ldrh r1, [r0, #2]
@@ -336,7 +336,7 @@ _02027360:
 	mov r2, r7
 	mov r3, r7
 	bl PlaySfxEx
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl Player__GiveSlowdownEffect
 	b _0202726C
 _02027384:
@@ -346,7 +346,7 @@ _02027384:
 	mov r2, r7
 	mov r3, r7
 	bl PlaySfxEx
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl Player__GiveConfusionEffect
 	b _0202726C
 _020273A8:
@@ -356,7 +356,7 @@ _020273A8:
 	mov r2, r7
 	mov r3, r7
 	bl PlaySfxEx
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl Player__DepleteTension
 	b _0202726C
 _020273CC:
@@ -366,7 +366,7 @@ _020273CC:
 	mov r2, r7
 	mov r3, r7
 	bl PlaySfxEx
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl Player__ApplyWarpEfect
 	b _0202726C
 _020273F0:
@@ -434,7 +434,7 @@ _020274B4:
 	cmp r2, r1
 	bne _0202744C
 _020274C4:
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #0xff
 	beq _0202744C
 	ldrb r1, [r8, #4]
@@ -520,7 +520,7 @@ NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
 	stmia sp, {r4, r6}
 	bl PlaySfxEx
 	ldr r0, =mapCamera
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	tst r1, #0x1000000
 	beq _020276FC
 	ldr r1, [r5, #0x48]
@@ -531,7 +531,7 @@ NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
 	bge _020276FC
 	ldr r7, =_mt_math_rand
 	ldr r1, =0x00196225
-	ldr r3, [r7]
+	ldr r3, [r7, #0]
 	ldr r2, =0x3C6EF35F
 	mov r0, r5
 	mla r8, r3, r1, r2
@@ -552,7 +552,7 @@ NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
 	str r6, [r7]
 	bl CreateEffectWaterExplosion
 	ldr r0, =0x00196225
-	ldr r3, [r7]
+	ldr r3, [r7, #0]
 	ldr r1, =0x3C6EF35F
 	mov r2, #0x4000
 	mla r8, r3, r0, r1
@@ -575,7 +575,7 @@ NONMATCH_FUNC void GameObject__SpawnExplosion(GameObjectTask *work)
 	bl CreateEffectWaterExplosion
 	mov r6, r7
 	mov r3, #0x10000
-	ldr r7, [r6]
+	ldr r7, [r6, #0]
 	ldr r1, =0x00196225
 	ldr r2, =0x3C6EF35F
 	rsb r3, r3, #0
@@ -611,7 +611,7 @@ _020276FC:
 _02027710:
 	ldr r2, =_mt_math_rand
 	ldr r0, =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -805,7 +805,7 @@ NONMATCH_FUNC void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WOR
 _020278BC:
 	cmp r6, #0
 	beq _020279C0
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #1
 	bne _02027918
 	mov r0, r6
@@ -830,7 +830,7 @@ _02027918:
 	ldr r0, [r6, #0x11c]
 	cmp r0, #0
 	beq _020279C0
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r6, r0
 	cmp r1, #1
 	bne _020279C0
@@ -896,7 +896,7 @@ _020279F0:
 	bl CreateEffectBattleBurst
 	ldr r3, =_mt_math_rand
 	ldr r1, =0x00196225
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	ldr r2, =0x3C6EF35F
 	mov r0, r7
 	mla r9, r4, r1, r2
@@ -923,7 +923,7 @@ _020279F0:
 	bl CreateEffectBattleBurst
 	ldr r3, =_mt_math_rand
 	ldr r1, =0x00196225
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	ldr r2, =0x3C6EF35F
 	mov r0, r7
 	mla r9, r4, r1, r2
@@ -980,7 +980,7 @@ _020279F0:
 	bl GameObject__SendPacket
 	cmp r6, #0
 	beq _02027B8C
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #1
 	bne _02027B8C
 	mov r0, r6
@@ -991,7 +991,7 @@ _02027B8C:
 	cmp r6, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #1
 	addne sp, sp, #8
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
@@ -1179,7 +1179,7 @@ NONMATCH_FUNC void GameObject__ProcessRecievedPackets(GameObjectTask *work){
 	mov r6, #0
 _02028068:
 	ldr r0, =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrb r0, [r0, #0x5d2]
 	cmp r6, r0
 	beq _02028174
@@ -1198,7 +1198,7 @@ _02028088:
 	add r0, r2, r0
 	cmp r1, r0
 	bne _02028088
-	ldrb r0, [r5]
+	ldrb r0, [r5, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02028134
@@ -1241,7 +1241,7 @@ _02028134:
 	ldreq r0, [r8, #0x20]
 	cmpeq r0, #1
 	bne _02028088
-	ldrb r0, [r5]
+	ldrb r0, [r5, #0]
 	cmp r0, #7
 	blo _02028088
 	cmp r0, #0xa
@@ -1341,7 +1341,7 @@ _020282E4:
 	ldr r0, [r0, #0x30]
 	str r0, [sp, #0x14]
 _020282F4:
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldr r1, [sp, #0x18]
 	ldr r0, =g_obj
 	sub r1, r2, r1
@@ -1354,17 +1354,17 @@ _020282F4:
 	ldr r1, [r5, #8]
 	str r1, [r8, #8]
 	ldrsh r1, [r0, #0xc]
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	add r1, r2, r1, lsl #12
 	str r1, [r8]
 	ldrsh r1, [r0, #0xe]
 	ldr r2, [r8, #4]
 	add r1, r2, r1, lsl #12
 	str r1, [r8, #4]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0x1000
 	beq _02028374
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	sub r0, r0, #0x80000
 	smull r2, r1, r0, r1
 	adds r2, r2, #0x800
@@ -1397,7 +1397,7 @@ _020283B4:
 	ldr r0, =g_obj
 	ldr r2, =FX_SinCosTable_
 	ldr r6, [r0, #0x3c]
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	ldr r4, [r6, #4]
 	mov r0, r0, asr #4
 	mov r1, r0, lsl #1
@@ -1431,7 +1431,7 @@ _020283B4:
 	mov r10, r2, lsr #0xc
 	adc r1, r1, #0
 	orr r10, r10, r1, lsl #20
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	mov r1, #0x80000
 	str r1, [r8]
 	sub r1, r1, #0xe0000

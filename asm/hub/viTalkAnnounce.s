@@ -29,16 +29,16 @@ ViTalkAnnounce__Create: // 0x0216B6C0
 	mov r0, #0
 	mov r2, #0x20
 	bl MIi_CpuClearFast
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	bl ovl05_2152B64
 	mov r4, r0
 	bl HubControl__GetFileFrom_ViMsg
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	add r0, r5, #4
 	bl ViEvtCmnAnnounce__Func_216D088
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	bl ViTalkAnnounce__Func_216B92C
 	cmp r0, #0
 	beq _0216B778
@@ -112,7 +112,7 @@ ViTalkAnnounce__Main: // 0x0216B80C
 	bl ViEvtCmnAnnounce__Func_216D2E8
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0
 	bne _0216B850
 	mov r0, #0x11
@@ -134,7 +134,7 @@ _0216B86C:
 	mov r0, #0
 	bl ViDockNpcGroup__Func_2168754
 _0216B87C:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0x1d
 	blo _0216B8BC
 	cmp r0, #0x24
@@ -151,7 +151,7 @@ _0216B87C:
 	mov r1, r1, lsr #0x10
 	bl SaveGame__Func_205BDC8
 _0216B8BC:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ViTalkAnnounce__Func_216B92C
 	cmp r0, #0
 	beq _0216B8D8

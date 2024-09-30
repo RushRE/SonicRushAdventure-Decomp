@@ -46,7 +46,7 @@ ovl05_2154520: // 0x02154520
 	ldr r3, _021548C4 // =0x04000304
 	ldr r1, _021548C8 // =0xFFFFFDF1
 	bne _02154568
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	mov r0, #3
 	and r1, r2, r1
 	orr r1, r1, #2
@@ -57,7 +57,7 @@ ovl05_2154520: // 0x02154520
 	bl VRAMSystem__SetupBGExtPalBank
 	b _02154594
 _02154568:
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	mov r0, #2
 	and r1, r2, r1
 	orr r1, r1, #0xe
@@ -93,7 +93,7 @@ _02154594:
 	bl VRAMSystem__SetupSubOBJExtPalBank
 	ldr r3, _021548C4 // =0x04000304
 	ldr r0, _021548D0 // =renderCurrentDisplay
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	mov r1, #1
 	mov ip, #0
 	orr r2, r2, #0x8000
@@ -115,11 +115,11 @@ _02154594:
 	ldrsh r1, [r1, #0x58]
 	bl GXx_SetMasterBrightness_
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r5, #1
 	bic r0, r0, #0x38000000
 	str r0, [r1]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x7000000
 	str r0, [r1]
 	mov r0, #1
@@ -128,7 +128,7 @@ _02154594:
 	mov r2, r1
 	bl GX_SetGraphicsMode
 	ldr r1, _021548D8 // =0x04000008
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	and r0, r0, #0x43
 	orr r0, r0, #0x5a0
 	orr r0, r0, #0x2000
@@ -140,7 +140,7 @@ _02154698:
 _021546A0:
 	ldr r0, _021548DC // =0x0400000A
 	ldr r1, _021548D4 // =renderCoreGFXControlA
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r3, #0
 	cmp r4, #0
 	and r2, r2, #0x43
@@ -163,11 +163,11 @@ _021546A0:
 	strh r3, [r1, #8]
 	strh r3, [r1, #0xe]
 	strh r3, [r1, #0xc]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	orr r1, r1, #3
 	strh r1, [r2]
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	bic r1, r1, #3
 	orr r1, r1, #2
 	strh r1, [r0]
@@ -180,13 +180,13 @@ _021546A0:
 	strh r1, [r0, #4]
 	mov r1, #0x4000000
 	beq _0215475C
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1c00
 	str r0, [r1]
 	b _0215476C
 _0215475C:
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
 	str r0, [r1]
@@ -196,13 +196,13 @@ _0215476C:
 	bne _0215478C
 	ldr r1, _021548E0 // =VRAMSystem__VRAM_BG
 	mov r2, #0x40000
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl MIi_CpuClear16
 	b _0215479C
 _0215478C:
 	ldr r1, _021548E0 // =VRAMSystem__VRAM_BG
 	mov r2, #0x20000
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl MIi_CpuClear16
 _0215479C:
 	ldr r1, _021548E4 // =renderCoreGFXControlB
@@ -221,7 +221,7 @@ _0215479C:
 	bl GXS_SetGraphicsMode
 	ldr r0, _021548EC // =0x04001008
 	ldr r1, _021548E4 // =renderCoreGFXControlB
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	mov r2, r5
 	cmp r4, #0
 	and r3, r3, #0x43
@@ -248,7 +248,7 @@ _0215479C:
 	strh r2, [r1, #8]
 	strh r2, [r1, #0xe]
 	strh r2, [r1, #0xc]
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	bic r1, r1, #3
 	orr r1, r1, #3
 	strh r1, [r0]
@@ -265,12 +265,12 @@ _0215479C:
 	strh r1, [r0, #6]
 	sub r1, r0, #8
 	beq _0215489C
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	str r0, [r1]
 	b _021548AC
 _0215489C:
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
 	str r0, [r1]
@@ -304,7 +304,7 @@ TextCutscene__LoadAssets: // 0x021548F0
 	mov r1, #0
 	bl FSRequestFileSync
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	str r0, [r6]
@@ -327,7 +327,7 @@ _02154950:
 	mov r1, #0
 	bl FSRequestFileSync
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	str r0, [r6, #4]
@@ -351,7 +351,7 @@ _021549A0: .word aFntFontAllFnt_2_ovl05
 ovl05_21549A4: // 0x021549A4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	ldr r0, [r4, #0xc]
 	cmp r0, #4
@@ -376,18 +376,18 @@ ovl05_21549EC: // 0x021549EC
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FileUnknown__GetAOUFile
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r6, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r1, #1
 	bl FileUnknown__GetAOUFile
 	ldr r1, [r4], #4
 	mov r5, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r1, #2
 	bl FileUnknown__GetAOUFile
 	ldr r1, _02154AB8 // =0x001FFFFF
@@ -436,9 +436,9 @@ ovl05_2154ABC: // 0x02154ABC
 	mov r4, r0
 	add r0, r4, #4
 	bl AnimatorMDL__Release
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FileUnknown__GetAOUFile
 	bl NNS_G3dResDefaultRelease
 	ldmia sp!, {r4, pc}
@@ -457,7 +457,7 @@ ovl05_2154AE4: // 0x02154AE4
 	beq _02154BD0
 	b _02154C10
 _02154B0C:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #3
 	bl FileUnknown__GetAOUFile
 	mov r2, #1
@@ -475,7 +475,7 @@ _02154B0C:
 	bl DrawBackground
 	b _02154C10
 _02154B50:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0xf
 	bl FileUnknown__GetAOUFile
 	mov r3, #0
@@ -490,7 +490,7 @@ _02154B50:
 	bl InitBackground
 	add r0, sp, #0x12c
 	bl DrawBackground
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #3
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -508,7 +508,7 @@ _02154B50:
 	bl DrawBackground
 	b _02154C10
 _02154BD0:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0xe
 	bl FileUnknown__GetAOUFile
 	mov r2, #1
@@ -525,7 +525,7 @@ _02154BD0:
 	add r0, sp, #0x9c
 	bl DrawBackground
 _02154C10:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #4
 	bl FileUnknown__GetAOUFile
 	mov r2, #0
@@ -541,7 +541,7 @@ _02154C10:
 	bl InitBackground
 	add r0, sp, #0x54
 	bl DrawBackground
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #5
 	bl FileUnknown__GetAOUFile
 	mov r3, #1
@@ -567,8 +567,8 @@ _02154C10:
 _02154CAC:
 	ldr r4, _02154F44 // =0x04001000
 	ldr r1, _02154F48 // =0x0213D284
-	ldr r2, [r4]
-	ldr r0, [r4]
+	ldr r2, [r4, #0]
+	ldr r0, [r4, #0]
 	and r2, r2, #0x1f00
 	mov r3, r2, lsr #8
 	bic r2, r0, #0x1f00
@@ -600,8 +600,8 @@ _02154CAC:
 	b _02154D7C
 _02154D30:
 	ldr r2, _02154F44 // =0x04001000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -611,8 +611,8 @@ _02154D30:
 	b _02154D7C
 _02154D58:
 	ldr r2, _02154F44 // =0x04001000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -620,7 +620,7 @@ _02154D58:
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 _02154D7C:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #6
 	bl FileUnknown__GetAOUFile
 	mov r4, r0
@@ -648,7 +648,7 @@ _02154D7C:
 	mov r1, #9 // ROM DIFF: 9 = EU, 8 = US, 7 = JP
 	orr r0, r0, #3
 	str r0, [r5, #0x48]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl FileUnknown__GetAOUFile
 	mov r4, r0
 	bl GetBackgroundHeight
@@ -679,7 +679,7 @@ _02154D7C:
 	mov r1, #0xc // ROM DIFF: 12 = EU, 11 = US, 10 = JP
 	orr r0, r0, #3
 	str r0, [r5, #0xec]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl FileUnknown__GetAOUFile
 	mov r4, r0
 	bl GetBackgroundHeight
@@ -704,7 +704,7 @@ _02154D7C:
 	add r0, r5, #0x190
 	mov r2, #0xc0
 	bl InitBackgroundDS
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0xd
 	bl FileUnknown__GetAOUFile
 	mov r4, r0
@@ -810,7 +810,7 @@ ovl05_2155034: // 0x02155034
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	mov r10, r0
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	mov r1, #0x10
 	bl FileUnknown__GetAOUFile
 	mov r4, r0
@@ -824,7 +824,7 @@ ovl05_2155034: // 0x02155034
 	mov r3, r2
 	add r0, r10, #0x36c
 	bl ovl05_2154F50
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	mov r1, #0x11
 	bl FileUnknown__GetAOUFile
 	mov r2, #0
@@ -832,7 +832,7 @@ ovl05_2155034: // 0x02155034
 	add r0, r10, #0x410
 	mov r3, r2
 	bl ovl05_2154F50
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	mov r1, #0x12
 	bl FileUnknown__GetAOUFile
 	mov r7, #0
@@ -1166,7 +1166,7 @@ _021554A4:
 	arm_func_start ovl05_21554D4
 ovl05_21554D4: // 0x021554D4
 	ldr r2, _0215551C // =padInput
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	tst r2, #1
 	mov r2, #0xa4
 	mul r2, r1, r2

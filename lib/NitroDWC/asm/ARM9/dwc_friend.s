@@ -6,7 +6,7 @@
 	arm_func_start DWCi_GetPersCallbackLevel
 DWCi_GetPersCallbackLevel: // 0x02091D78
 	ldr r0, _02091D88 // =0x02143BA4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x20]
 	bx lr
 	.align 2, 0
@@ -18,7 +18,7 @@ DWCi_GPGetInfoCallback_RecvAuthMessage: // 0x02091D8C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	mov r10, r1
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	mov r8, #0
 	cmp r0, #0
 	mov r0, #1
@@ -27,7 +27,7 @@ DWCi_GPGetInfoCallback_RecvAuthMessage: // 0x02091D8C
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r4, _02091F34 // =0x02143BA4
 	mov r9, r8
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r1, [r2, #0x14]
 	cmp r1, #0
 	ble _02091EF4
@@ -42,7 +42,7 @@ _02091DDC:
 	cmp r0, #1
 	bne _02091E48
 	bl DWCi_GetUserData
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r2, sp, #8
 	ldr r1, [r1, #0x18]
 	add r1, r1, r7
@@ -52,32 +52,32 @@ _02091DDC:
 	bl strcmp
 	cmp r0, #0
 	bne _02091EDC
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, [r10, #4]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r7
 	bl DWC_SetGsProfileId
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r7
 	bl DWCi_SetBuddyFriendData
 	mov r8, r5
 	b _02091EDC
 _02091E48:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r7
 	bl DWC_GetFriendDataType
 	cmp r0, #3
 	beq _02091E78
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r7
 	bl DWC_GetFriendDataType
 	cmp r0, #2
 	bne _02091EDC
 _02091E78:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r7
 	bl DWC_IsBuddyFriendData
@@ -86,24 +86,24 @@ _02091E78:
 	beq _02091EDC
 	ldr r6, [r10, #4]
 	bl DWCi_GetUserData
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r1, [r1, #0x18]
 	add r1, r1, r7
 	bl DWC_GetGsProfileId
 	cmp r6, r0
 	bne _02091EDC
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, r6
 	ldr r0, [r0, #0x18]
 	add r0, r0, r7
 	bl DWC_SetGsProfileId
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r7
 	bl DWCi_SetBuddyFriendData
 	ldr r8, [sp, #4]
 _02091EDC:
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	add r9, r9, #1
 	ldr r1, [r2, #0x14]
 	add r7, r7, #0xc
@@ -123,7 +123,7 @@ _02091EF4:
 _02091F1C:
 	ldr r0, _02091F34 // =0x02143BA4
 	mov r1, #1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	strb r1, [r0, #0x1d]
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -136,7 +136,7 @@ DWCi_GPGetInfoCallback_RecvBuddyRequest: // 0x02091F38
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x34
 	mov r9, r1
-	ldr r1, [r9]
+	ldr r1, [r9, #0]
 	mov r10, r0
 	cmp r1, #0
 	mov r11, #0
@@ -144,7 +144,7 @@ DWCi_GPGetInfoCallback_RecvBuddyRequest: // 0x02091F38
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r4, _020920F0 // =0x02143BA4
 	mov r8, r11
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, [r1, #0x14]
 	cmp r0, #0
 	ble _020920C4
@@ -161,7 +161,7 @@ _02091F8C:
 	cmp r0, #1
 	bne _02091FF4
 	bl DWCi_GetUserData
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r2, sp, #0x19
 	ldr r1, [r1, #0x18]
 	add r1, r1, r7
@@ -174,7 +174,7 @@ _02091F8C:
 	ldr r1, [r9, #4]
 	mov r0, r10
 	bl gpAuthBuddyRequest
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, [r9, #4]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r7
@@ -182,13 +182,13 @@ _02091F8C:
 	mov r11, r5
 	b _020920AC
 _02091FF4:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r7
 	bl DWC_GetFriendDataType
 	cmp r0, #3
 	beq _02092024
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r7
 	bl DWC_GetFriendDataType
@@ -213,7 +213,7 @@ _02092024:
 	bl OS_SNPrintf
 	ldr r6, [r9, #4]
 	bl DWCi_GetUserData
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r1, [r1, #0x18]
 	add r1, r1, r7
 	bl DWC_GetGsProfileId
@@ -230,7 +230,7 @@ _02092024:
 	bl gpAuthBuddyRequest
 	mov r11, r5
 _020920AC:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r8, r8, #1
 	add r7, r7, #0xc
 	ldr r0, [r1, #0x14]
@@ -259,7 +259,7 @@ DWCi_GPProfileSearchCallback: // 0x020920F8
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	mov r9, r1
-	ldr r1, [r9]
+	ldr r1, [r9, #0]
 	mov r10, r0
 	mov r8, r2
 	cmp r1, #0
@@ -270,15 +270,15 @@ DWCi_GPProfileSearchCallback: // 0x020920F8
 	mov r0, #0xc
 	ldr r1, _02092354 // =0x02143BA4
 	mul r6, r8, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r6
 	bl DWC_GetFriendDataType
 	cmp r0, #0
 	beq _020922E0
 	ldr r7, _02092354 // =0x02143BA4
-	ldr r0, [r7]
-	ldr r0, [r0]
+	ldr r0, [r7, #0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	addne sp, sp, #4
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -288,7 +288,7 @@ DWCi_GPProfileSearchCallback: // 0x020920F8
 	ble _020921D8
 	mov r4, r5
 _02092174:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	ldr r1, [r9, #0xc]
 	ldr r0, [r0, #0x18]
 	ldr r2, [r1, r4]
@@ -298,13 +298,13 @@ _02092174:
 	beq _020921C4
 	ldr r0, _02092354 // =0x02143BA4
 	mov r2, #1
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	ldr r1, _02092358 // =0x00000601
 	ldrb r3, [r4, #0x1c]
 	add sp, sp, #4
 	add r3, r3, #1
 	strb r3, [r4, #0x1c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	strb r2, [r0, #0x1e]
 	str r1, [r9, #8]
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -338,13 +338,13 @@ _020921F0:
 _02092224:
 	ldr r0, _02092354 // =0x02143BA4
 	ldr r1, [r9, #0xc]
-	ldr r0, [r0]
-	ldr r1, [r1]
+	ldr r0, [r0, #0]
+	ldr r1, [r1, #0]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r6
 	bl DWC_SetGsProfileId
 	ldr r0, _02092354 // =0x02143BA4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x18]
 	add r0, r0, r6
 	bl DWCi_SetBuddyFriendData
@@ -352,16 +352,16 @@ _02092224:
 	bl DWCi_CallBuddyFriendCallback
 	ldr r0, _02092354 // =0x02143BA4
 	mov r3, #1
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	ldr r1, _02092358 // =0x00000601
 	ldrb r2, [r4, #0x1c]
 	add sp, sp, #4
 	add r2, r2, #1
 	strb r2, [r4, #0x1c]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	strb r3, [r2, #0x1e]
 	str r1, [r9, #8]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	strb r3, [r0, #0x1d]
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02092294:
@@ -377,16 +377,16 @@ _020922A8:
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, _02092354 // =0x02143BA4
 	mov r1, #1
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	add sp, sp, #4
 	ldrb r2, [r3, #0x1c]
 	add r2, r2, #1
 	strb r2, [r3, #0x1c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	strb r1, [r0, #0x1e]
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020922E0:
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	cmp r0, #0
 	beq _020922FC
 	bl DWCi_HandleGPError_2
@@ -395,8 +395,8 @@ _020922E0:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020922FC:
 	ldr r0, _02092354 // =0x02143BA4
-	ldr r1, [r0]
-	ldr r0, [r1]
+	ldr r1, [r0, #0]
+	ldr r0, [r1, #0]
 	cmp r0, #1
 	beq _0209232C
 	ldr r1, [r1, #0x18]
@@ -409,11 +409,11 @@ _020922FC:
 _0209232C:
 	ldr r0, _02092354 // =0x02143BA4
 	mov r1, #1
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldrb r2, [r3, #0x1c]
 	add r2, r2, #1
 	strb r2, [r3, #0x1c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	strb r1, [r0, #0x1e]
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -468,7 +468,7 @@ DWCi_GetFriendBuddyStatus: // 0x020923D0
 	sub sp, sp, #4
 	ldr r2, _0209249C // =0x02143BA4
 	mov r3, #0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r5, r0
 	mov r4, r1
 	str r3, [sp]
@@ -490,7 +490,7 @@ _02092410:
 	ble _02092450
 	ldr r0, _0209249C // =0x02143BA4
 	add r2, sp, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r5
 	ldr r0, [r0, #4]
 	bl gpGetBuddyIndex
@@ -512,7 +512,7 @@ _02092468:
 _02092474:
 	ldr r0, _0209249C // =0x02143BA4
 	mov r2, r4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #4]
 	bl gpGetBuddyStatus
 	cmp r0, #0
@@ -529,7 +529,7 @@ DWCi_GPSendBuddyRequest: // 0x020924A0
 	stmdb sp!, {r4, lr}
 	ldr r2, _020924CC // =0x02143BA4
 	mov r1, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	ldr r2, _020924D0 // =0x0211C210
 	ldr r0, [r0, #4]
 	bl sub_20A5678
@@ -600,7 +600,7 @@ _02092590:
 	mov r2, r8
 	bl DWCi_DeleteFriendFromList
 	ldr r0, _020925E0 // =0x02143BA4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [sp, #8]
 	strb r0, [r1, #0x1d]
 _020925B0:
@@ -662,7 +662,7 @@ _02092658:
 _02092668:
 	ldr r1, _02092698 // =0x02143BA4
 	mov r0, #1
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add sp, sp, #4
 	strb r0, [r1, #0x1d]
 	ldmia sp!, {r4, r5, r6, r7, pc}
@@ -684,7 +684,7 @@ DWCi_DeleteFriendFromList: // 0x0209269C
 	sub sp, sp, #4
 	ldr r3, _02092700 // =0x02143BA4
 	mov r5, r1
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r4, r2
 	cmp r1, #0
 	addeq sp, sp, #4
@@ -694,7 +694,7 @@ DWCi_DeleteFriendFromList: // 0x0209269C
 	mov r1, #0
 	bl MI_CpuFill8
 	ldr r0, _02092700 // =0x02143BA4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r3, [r0, #0x3c]
 	cmp r3, #0
 	addeq sp, sp, #4
@@ -715,14 +715,14 @@ DWCi_EndUpdateServers: // 0x02092704
 	sub sp, sp, #4
 	ldr r1, _02092740 // =0x02143BA4
 	mov r0, #0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldrb r1, [r3, #0x1d]
 	ldr r2, [r3, #0x30]
 	ldr r3, [r3, #0x2c]
 	blx r3
 	ldr r0, _02092740 // =0x02143BA4
 	mov r1, #2
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0]
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -736,7 +736,7 @@ DWCi_UpdateFriendReq: // 0x02092744
 	sub sp, sp, #0x24c
 	ldr r2, _020929A8 // =0x02143BA4
 	mov r6, r0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r5, r1
 	ldrb r0, [r2, #0x1e]
 	cmp r0, #0
@@ -754,7 +754,7 @@ DWCi_UpdateFriendReq: // 0x02092744
 	mov r9, #1
 	mov r7, #0xc
 _02092798:
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldr r1, [sp, #0x1c]
 	ldr r0, [r0, #4]
 	add r2, sp, #0x38
@@ -780,7 +780,7 @@ _020927BC:
 	bl DWC_SetGsProfileId
 	mov r0, r10
 	bl DWCi_SetBuddyFriendData
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	strb r9, [r0, #0x1d]
 	b _02092814
 _02092808:
@@ -790,7 +790,7 @@ _02092808:
 _02092814:
 	cmp r4, r5
 	bne _02092848
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldr r1, [sp, #0x38]
 	ldr r0, [r0, #4]
 	bl gpDeleteBuddy
@@ -811,11 +811,11 @@ _02092848:
 _02092860:
 	ldr r0, _020929A8 // =0x02143BA4
 	mov r1, #1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	strb r1, [r0, #0x1e]
 _02092870:
 	ldr r10, _020929A8 // =0x02143BA4
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	ldrb r0, [r0, #0x1c]
 	cmp r0, r5
 	addge sp, sp, #0x24c
@@ -827,14 +827,14 @@ _02092894:
 	bl DWCi_GetProfileIDFromList
 	movs r7, r0
 	beq _020928EC
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	mov r0, r6
 	ldrb r1, [r1, #0x1c]
 	mov r2, r7
 	bl DWCi_RefreshFriendListForth
 	cmp r0, #0
 	bne _02092980
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	mov r1, r7
 	ldr r0, [r0, #4]
 	mov r2, r4
@@ -848,7 +848,7 @@ _02092894:
 	b _02092980
 _020928EC:
 	bl DWCi_GetUserData
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	ldrb r2, [r1, #0x1c]
 	mla r1, r2, r8, r6
 	bl DWC_GetGsProfileId
@@ -857,14 +857,14 @@ _020928EC:
 	bl DWCi_GetUserData
 	ldr r2, _020929A8 // =0x02143BA4
 	mov r1, #0xc
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	add r2, sp, #0x20
 	ldrb r3, [r3, #0x1c]
 	mla r1, r3, r1, r6
 	bl DWC_LoginIdToUserName
 	ldr r0, _020929A8 // =0x02143BA4
 	mov r1, #0
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	add r2, sp, #0x20
 	str r1, [sp]
 	str r2, [sp, #4]
@@ -880,16 +880,16 @@ _020928EC:
 	bl gpProfileSearchA
 	ldr r0, _020929A8 // =0x02143BA4
 	mov r1, #2
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add sp, sp, #0x24c
 	strb r1, [r0, #0x1e]
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02092980:
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	ldrb r0, [r1, #0x1c]
 	add r0, r0, #1
 	strb r0, [r1, #0x1c]
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	ldrb r0, [r0, #0x1c]
 	cmp r0, r5
 	blt _02092894
@@ -903,14 +903,14 @@ _020929AC: .word DWCi_GPProfileSearchCallback
 	arm_func_start DWCi_CloseFriendProcess
 DWCi_CloseFriendProcess: // 0x020929B0
 	ldr r0, _020929DC // =0x02143BA4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	bxeq lr
 	mov r2, #0
 	str r2, [r1]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	strb r2, [r1, #0x1e]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	strb r2, [r0, #0x1f]
 	bx lr
 	.align 2, 0
@@ -923,7 +923,7 @@ DWCi_GPProcess: // 0x020929E0
 	sub sp, sp, #4
 	ldr r0, _02092A6C // =0x02143BA4
 	mov r5, #0
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	bl OS_GetTick
 	ldr r3, [r4, #0xc]
 	ldr r2, [r4, #0x10]
@@ -942,13 +942,13 @@ DWCi_GPProcess: // 0x020929E0
 	ldr r0, _02092A6C // =0x02143BA4
 	add r1, r1, #1
 	str r1, [r4, #8]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #4]
 	bl gpProcess
 	mov r5, r0
 	bl OS_GetTick
 	ldr r2, _02092A6C // =0x02143BA4
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	str r0, [r2, #0xc]
 	str r1, [r2, #0x10]
 _02092A60:
@@ -976,18 +976,18 @@ DWCi_CallBuddyFriendCallback: // 0x02092A88
 	sub sp, sp, #0x210
 	ldr r1, _02092B10 // =0x02143BA4
 	mov r4, r0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r2, [r3, #0x44]
 	cmp r2, #0
 	beq _02092ABC
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	cmp r1, #1
 	beq _02092ABC
 	ldr r1, [r3, #0x48]
 	blx r2
 _02092ABC:
 	ldr r0, _02092B10 // =0x02143BA4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x34]
 	cmp r0, #0
 	addeq sp, sp, #0x210
@@ -999,7 +999,7 @@ _02092ABC:
 	bl DWC_GetFriendStatus
 	ldr r2, _02092B10 // =0x02143BA4
 	mov r1, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r2, sp, #0x108
 	ldr r3, [r0, #0x38]
 	ldr ip, [r0, #0x34]
@@ -1016,7 +1016,7 @@ DWCi_SetGPStatus: // 0x02092B14
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r3, _02092BB4 // =0x02143BA4
 	mov r6, r0
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mov r5, r1
 	mov r4, r2
 	cmp r0, #0
@@ -1031,27 +1031,27 @@ _02092B48:
 	mvn r0, #0
 	cmp r6, r0
 	ldreq r0, _02092BB4 // =0x02143BA4
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	ldreq r0, [r0, #4]
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	ldreq r6, [r0, #0x214]
 	cmp r5, #0
 	ldreq r0, _02092BB4 // =0x02143BA4
 	mov r1, r6
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	ldreq r0, [r0, #4]
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	addeq r5, r0, #0x218
 	cmp r4, #0
 	ldreq r0, _02092BB4 // =0x02143BA4
 	mov r2, r5
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	ldreq r0, [r0, #4]
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	addeq r4, r0, #0x318
 	ldr r0, _02092BB4 // =0x02143BA4
 	mov r3, r4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #4]
 	bl sub_20A5014
 	ldmia sp!, {r4, r5, r6, pc}
@@ -1064,7 +1064,7 @@ DWCi_InitGPProcessCount: // 0x02092BB8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _02092BF8 // =0x02143BA4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
@@ -1072,7 +1072,7 @@ DWCi_InitGPProcessCount: // 0x02092BB8
 	str r0, [r1, #8]
 	bl OS_GetTick
 	ldr r2, _02092BF8 // =0x02143BA4
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	str r0, [r2, #0xc]
 	str r1, [r2, #0x10]
 	add sp, sp, #4
@@ -1086,7 +1086,7 @@ DWCi_GetFriendListIndex: // 0x02092BFC
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r4, _02092C64 // =0x02143BA4
 	mov r6, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	beq _02092C1C
 	cmp r6, #0
@@ -1105,7 +1105,7 @@ _02092C34:
 	cmp r6, r0
 	moveq r0, r5
 	ldmeqia sp!, {r4, r5, r6, pc}
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r5, r5, #1
 	ldr r0, [r0, #0x14]
 	cmp r5, r0
@@ -1123,7 +1123,7 @@ DWCi_GetProfileIDFromList: // 0x02092C68
 	sub sp, sp, #4
 	ldr r1, _02092CC4 // =0x02143BA4
 	mov r5, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r4, [r0, #0x18]
 	cmp r4, #0
 	addeq sp, sp, #4
@@ -1150,7 +1150,7 @@ _02092CC4: .word 0x02143BA4
 	arm_func_start DWCi_GetFriendListLen
 DWCi_GetFriendListLen: // 0x02092CC8
 	ldr r0, _02092CE0 // =0x02143BA4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldrne r0, [r0, #0x14]
 	moveq r0, #0
@@ -1165,13 +1165,13 @@ DWCi_GPRecvBuddyStatusCallback: // 0x02092CE4
 	sub sp, sp, #0x210
 	ldr r2, _02092D64 // =0x02143BA4
 	mov r6, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r5, r1
 	ldr r0, [r0, #0x34]
 	cmp r0, #0
 	addeq sp, sp, #0x210
 	ldmeqia sp!, {r4, r5, r6, pc}
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl DWCi_GetFriendListIndex
 	mov r4, r0
 	mvn r0, #0
@@ -1184,7 +1184,7 @@ DWCi_GPRecvBuddyStatusCallback: // 0x02092CE4
 	bl gpGetBuddyStatus
 	ldr r0, _02092D64 // =0x02143BA4
 	ldr r1, [sp, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r2, sp, #0x108
 	ldr r3, [r0, #0x38]
 	ldr ip, [r0, #0x34]
@@ -1214,7 +1214,7 @@ DWCi_GPRecvBuddyAuthCallback: // 0x02092D68
 	mov r2, #0
 	str r0, [sp]
 	str r2, [sp, #4]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r5
 	mov r3, r2
 	bl gpGetInfo
@@ -1231,7 +1231,7 @@ DWCi_GPRecvBuddyRequestCallback: // 0x02092DC8
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r2, _02092E0C // =0x02143BA4
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	ldr r2, [r2, #0x18]
 	cmp r2, #0
 	addeq sp, sp, #0xc
@@ -1240,7 +1240,7 @@ DWCi_GPRecvBuddyRequestCallback: // 0x02092DC8
 	mov r2, #0
 	str r3, [sp]
 	str r2, [sp, #4]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r3, r2
 	bl gpGetInfo
 	add sp, sp, #0xc
@@ -1255,15 +1255,15 @@ DWCi_StopFriendProcess: // 0x02092E14
 	stmdb sp!, {r4, lr}
 	ldr r2, _02092E70 // =0x02143BA4
 	mov r4, r0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	cmp r2, #0
 	ldmeqia sp!, {r4, pc}
 	cmp r4, #0
 	ldmeqia sp!, {r4, pc}
 	bl DWCi_SetError
 	ldr r0, _02092E70 // =0x02143BA4
-	ldr r3, [r0]
-	ldr r0, [r3]
+	ldr r3, [r0, #0]
+	ldr r0, [r3, #0]
 	cmp r0, #0
 	beq _02092E68
 	cmp r0, #2
@@ -1286,41 +1286,41 @@ DWCi_UpdateServersAsync: // 0x02092E74
 	sub sp, sp, #4
 	ldr r0, _02092F24 // =0x02143BA4
 	ldr r5, [sp, #0x10]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r4, [sp, #0x14]
 	str r2, [r1, #0x2c]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr lr, [sp, #0x18]
 	str r3, [r1, #0x30]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr ip, [sp, #0x1c]
 	str r5, [r1, #0x34]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r3, #0
 	str r4, [r1, #0x38]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r2, #1
 	str lr, [r1, #0x3c]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	str ip, [r1, #0x40]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	strb r3, [r1, #0x1d]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	strb r3, [r1, #0x1e]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	strb r3, [r1, #0x1f]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	strb r3, [r1, #0x1c]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	str r2, [r1]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x18]
 	cmp r0, #0
 	ldreqb r0, [r1, #0x1f]
 	addeq r0, r0, #1
 	streqb r0, [r1, #0x1f]
 	ldr r0, _02092F24 // =0x02143BA4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x1f]
 	add r0, r0, #1
 	strb r0, [r1, #0x1f]
@@ -1335,7 +1335,7 @@ DWCi_FriendProcess: // 0x02092F28
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _02093058 // =0x02143BA4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
@@ -1357,11 +1357,11 @@ _02092F7C:
 	bl DWC__PersistThink
 _02092F80:
 	ldr r0, _02093058 // =0x02143BA4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	beq _0209302C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _0209302C
 	bl DWCi_GPProcess
@@ -1369,8 +1369,8 @@ _02092F80:
 	addne sp, sp, #4
 	ldmneia sp!, {pc}
 	ldr r0, _02093058 // =0x02143BA4
-	ldr r3, [r0]
-	ldr r0, [r3]
+	ldr r3, [r0, #0]
+	ldr r0, [r3, #0]
 	cmp r0, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
@@ -1389,20 +1389,20 @@ _02092F80:
 	bl DWCi_UpdateFriendReq
 _02092FFC:
 	ldr r0, _02093058 // =0x02143BA4
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldrb r2, [r3, #0x1c]
 	ldr r1, [r3, #0x14]
 	cmp r2, r1
 	blt _0209302C
 	mov r1, #3
 	strb r1, [r3, #0x1e]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x1f]
 	add r0, r0, #1
 	strb r0, [r1, #0x1f]
 _0209302C:
 	ldr r0, _02093058 // =0x02143BA4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x1f]
 	cmp r0, #2
 	addlo sp, sp, #4
@@ -1484,7 +1484,7 @@ DWC_LogoutFromStorageServer: // 0x0209313C
 	bl CloseStatsConnection
 	ldr r0, _0209316C // =0x02143BA4
 	ldr r1, _02093170 // =0x02143BA8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, #0
 	str r2, [r1]
 	cmp r0, #0
@@ -1499,11 +1499,11 @@ _02093170: .word 0x02143BA8
 	arm_func_start DWC_SetBuddyFriendCallback
 DWC_SetBuddyFriendCallback: // 0x02093174
 	ldr r2, _02093198 // =0x02143BA4
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	cmp r3, #0
 	moveq r0, #0
 	strne r0, [r3, #0x44]
-	ldrne r2, [r2]
+	ldrne r2, [r2, #0]
 	movne r0, #1
 	strne r1, [r2, #0x48]
 	bx lr
@@ -1517,7 +1517,7 @@ DWC_DeleteBuddyFriendData: // 0x0209319C
 	sub sp, sp, #4
 	ldr r1, _02093238 // =0x02143BA4
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	beq _02093220
 	bl DWCi_CheckLogin
@@ -1536,14 +1536,14 @@ DWC_DeleteBuddyFriendData: // 0x0209319C
 	beq _02093220
 	ldr r0, _02093238 // =0x02143BA4
 	mov r1, r5
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #4]
 	bl gpIsBuddy
 	cmp r0, #0
 	beq _02093220
 	ldr r0, _02093238 // =0x02143BA4
 	mov r1, r5
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #4]
 	bl gpDeleteBuddy
 _02093220:

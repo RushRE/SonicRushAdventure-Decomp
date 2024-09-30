@@ -83,7 +83,7 @@ MainMenu__Func_2156714: // 0x02156714
 MainMenu__HandleBackgroundControl: // 0x02156728
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #1
 	bne _02156778
 	orr r0, r0, #1
@@ -344,7 +344,7 @@ MainMenu__VBlankCallback_2156A08: // 0x02156A08
 	ldmia r4, {r0, r1, r2, r3}
 	ldr r4, _02156B84 // =MainMenuBackgroundControl
 	stmia r5, {r0, r1, r2, r3}
-	ldr r7, [r4]
+	ldr r7, [r4, #0]
 	mov r6, #0
 	ldr r0, [r7, #8]
 	add r0, r0, #0x800

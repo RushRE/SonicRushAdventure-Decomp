@@ -42,7 +42,7 @@ CharacterSelectMenu__LoadAssets: // 0x0215FB04
 	bl ArchiveFile__Load
 	str r0, [r4, #8]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0215FB74
 	add r0, r0, r0
@@ -60,7 +60,7 @@ _0215FB60: // jump table
 	.hword _0215FB6C - _0215FB60 - 2 // case 5
 _0215FB6C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _0215FB76
 _0215FB74:
 	mov r1, #1
@@ -90,7 +90,7 @@ CharacterSelectMenu__ReleaseAssets: // 0x0215FB94
 	mov r6, #0
 	add r4, #0x10
 _0215FBA4:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl _FreeHEAP_USER
 	stmia r5!, {r6}
 	cmp r5, r4
@@ -122,7 +122,7 @@ CharacterSelectMenu__Create: // 0x0215FBB8
 	str r0, [r1]
 	mov r0, #0
 	str r0, [r5, #0x10]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r2, _0215FC08 // =0x0000041C
@@ -234,11 +234,11 @@ CharacterSelectMenu__Func_215FCA8: // 0x0215FCA8
 	push {r3, r4, r5, lr}
 	ldr r0, _0215FCF0 // =CharacterSelectMenu__Singleton
 	mov r4, r1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, r0
 	add r1, #0xec
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r2, #1
 	mov r1, r0
 	bic r3, r2
@@ -289,7 +289,7 @@ CharacterSelectMenu__Func_215FD14: // 0x0215FD14
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, _0215FD8C // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r2, #0x3f
 	mov r4, r0
@@ -308,7 +308,7 @@ _0215FD32:
 	bl SetCurrentTaskMainEvent
 	mov r0, #0
 	bl PlaySysMenuNavSfx
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r3, [r2, #0x14]
 	cmp r3, #0
 	beq _0215FD8A
@@ -319,7 +319,7 @@ _0215FD32:
 	pop {r3, r4, r5, pc}
 _0215FD56:
 	add r0, #0xec
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #1
 	mov r3, r1
 	mov r1, r4
@@ -333,7 +333,7 @@ _0215FD56:
 	orr r1, r0
 	str r1, [r4, r2]
 	bl PlaySysMenuNavSfx
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r3, [r2, #0x14]
 	cmp r3, #0
 	beq _0215FD86
@@ -354,7 +354,7 @@ _0215FD90: .word CharacterSelectMenu__Func_21609B0
 CharacterSelectMenu__Func_215FD94: // 0x0215FD94
 	push {r3, r4, r5, lr}
 	ldr r0, _0215FE7C // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	mov r0, #0x3f
@@ -483,7 +483,7 @@ Task__Unknown21606EC__Func_215FE88: // 0x0215FE88
 	sub sp, #0x18
 	str r0, [sp, #0x14]
 	ldr r0, _0215FF34 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r3, #0
 	mov r7, r0
@@ -573,7 +573,7 @@ CharacterSelectMenu__Func_215FF44: // 0x0215FF44
 	sub sp, #0x18
 	str r0, [sp, #0x14]
 	ldr r0, _02160004 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0
 	mov r7, r0
@@ -672,7 +672,7 @@ _02160010: .word VRAMSystem__GFXControl
 CharacterSelectMenu__TouchAreaFunc_2160014: // 0x02160014
 	push {r4, lr}
 	mov r3, #1
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	lsl r3, r3, #0x10
 	ldr r2, [r1, #0x14]
 	cmp r4, r3
@@ -726,7 +726,7 @@ _02160078:
 	thumb_func_start CharacterSelectMenu__TouchAreaFunc_216007C
 CharacterSelectMenu__TouchAreaFunc_216007C: // 0x0216007C
 	push {r4, lr}
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #1
 	lsl r0, r0, #0x12
 	mov r4, r2
@@ -744,7 +744,7 @@ _02160092:
 	pop {r4, pc}
 _021600A0:
 	ldr r0, _021600C8 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r2, _021600CC // =gameState
 	ldr r1, [r2, #4]
@@ -771,7 +771,7 @@ CharacterSelectMenu__Func_21600D4: // 0x021600D4
 	push {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r0, _02160164 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	ldr r0, _02160168 // =gameState
@@ -895,7 +895,7 @@ _021601D0: .word Task__OVL03Unknown216016C__Destructor
 Task__OVL03Unknown216016C__Destructor: // 0x021601D4
 	push {r3, lr}
 	bl GetTaskWork_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	beq _021601FA
 	mov r2, #4
@@ -926,7 +926,7 @@ _02160204:
 	thumb_func_start Task__Unknown216016C__Func_2160208
 Task__Unknown216016C__Func_2160208: // 0x02160208
 	ldr r0, _0216021C // =padInput
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, #3
 	tst r0, r1
 	beq _02160216
@@ -943,7 +943,7 @@ _0216021C: .word padInput
 CharacterSelectMenu__Main: // 0x02160220
 	push {r4, r5, r6, lr}
 	ldr r0, _02160338 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r3, r0
 	mov r0, #0xfd
@@ -953,7 +953,7 @@ CharacterSelectMenu__Main: // 0x02160220
 	beq _02160288
 	ldr r0, _0216033C // =0x0400000C
 	mov r1, #0x43
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r4, #0
 	and r2, r1
 	ldr r1, _02160340 // =0x00008604
@@ -968,24 +968,24 @@ CharacterSelectMenu__Main: // 0x02160220
 	strh r4, [r2, #2]
 	strh r4, [r2]
 	sub r2, r0, #4
-	ldrh r5, [r2]
+	ldrh r5, [r2, #0]
 	mov r4, #3
 	bic r5, r4
 	strh r5, [r2]
 	sub r5, r0, #2
-	ldrh r6, [r5]
+	ldrh r6, [r5, #0]
 	mov r2, #1
 	bic r6, r4
 	orr r2, r6
 	strh r2, [r5]
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	mov r2, #2
 	bic r5, r4
 	mov r4, r5
 	orr r4, r2
 	strh r4, [r0]
 	lsl r4, r1, #0x18
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02160348 // =0xFFFFE0FF
 	and r1, r0
 	lsl r0, r2, #0xa
@@ -995,7 +995,7 @@ CharacterSelectMenu__Main: // 0x02160220
 _02160288:
 	ldr r0, _0216034C // =0x0400100C
 	mov r1, #0x43
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	and r2, r1
 	ldr r1, _02160340 // =0x00008604
 	orr r1, r2
@@ -1010,24 +1010,24 @@ _02160288:
 	strh r2, [r1, #2]
 	strh r2, [r1]
 	sub r1, r0, #4
-	ldrh r4, [r1]
+	ldrh r4, [r1, #0]
 	mov r2, #3
 	bic r4, r2
 	strh r4, [r1]
 	sub r4, r0, #2
-	ldrh r5, [r4]
+	ldrh r5, [r4, #0]
 	mov r1, #1
 	bic r5, r2
 	orr r1, r5
 	strh r1, [r4]
-	ldrh r4, [r0]
+	ldrh r4, [r0, #0]
 	mov r1, #2
 	bic r4, r2
 	mov r2, r4
 	orr r2, r1
 	strh r2, [r0]
 	sub r0, #0xc
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	ldr r2, _02160348 // =0xFFFFE0FF
 	lsl r1, r1, #0xa
 	and r2, r4
@@ -1104,10 +1104,10 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x40
 	ldr r0, _021606B4 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
 	str r0, [sp, #0x24]
 	mov r0, #0x41
@@ -1125,7 +1125,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	strb r3, [r4, r0]
 	ldr r0, [sp, #0x24]
 	add r1, sp, #0x3c
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, #1
 	bl StageClear__LoadFiles
 	mov r3, #0xfd
@@ -1174,7 +1174,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	lsl r2, r5, #2
 	ldr r1, [r1, r2]
 	add r2, sp, #0x28
-	ldrh r3, [r2]
+	ldrh r3, [r2, #0]
 	ldrh r2, [r2, #2]
 	mov r0, #0
 	lsl r3, r3, #0x10
@@ -1249,7 +1249,7 @@ CharacterSelectMenu__Main_216035C: // 0x0216035C
 	bl AnimatorSprite__ProcessAnimation
 	ldr r0, [sp, #0x24]
 	mov r2, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, sp, #0x3c
 	mov r3, r2
 	bl StageClear__LoadFiles
@@ -1471,7 +1471,7 @@ _02160656:
 _02160660:
 	ldr r0, [sp, #0x24]
 	add r1, sp, #0x3c
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r2, r6, #2
 	mov r3, #0
 	bl StageClear__LoadFiles
@@ -1530,7 +1530,7 @@ Task__OVL03Unknown21606EC__Create: // 0x021606EC
 	push {lr}
 	sub sp, #0xc
 	ldr r0, _0216074C // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0xfd
 	lsl r1, r1, #2
@@ -1540,7 +1540,7 @@ Task__OVL03Unknown21606EC__Create: // 0x021606EC
 	beq _02160716
 	mov r2, #1
 	lsl r2, r2, #0x1a
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	and r1, r0
 	mov r0, #7
 	lsl r0, r0, #0xa
@@ -1549,7 +1549,7 @@ Task__OVL03Unknown21606EC__Create: // 0x021606EC
 	b _02160724
 _02160716:
 	ldr r2, _02160754 // =0x04001000
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	and r1, r0
 	mov r0, #7
 	lsl r0, r0, #0xa
@@ -1584,9 +1584,9 @@ Task__OVL03Unknown2160760__Create: // 0x02160760
 	push {lr}
 	sub sp, #0xc
 	ldr r0, _021607A0 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r3, [r2, #0x14]
 	cmp r3, #0
 	beq _0216077C
@@ -1620,7 +1620,7 @@ _021607AC: .word CharacterSelectMenu__Func_21607B0
 CharacterSelectMenu__Func_21607B0: // 0x021607B0
 	push {r4, lr}
 	ldr r0, _0216082C // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02160830 // =touchInput
@@ -1690,7 +1690,7 @@ _02160840: .word 0x00000414
 Task__OVL03Unknown2160760__Main: // 0x02160844
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _021608DC // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02160854
 	bl DestroyCurrentTask
@@ -1769,7 +1769,7 @@ Task__OVL03Unknown21606EC__Main: // 0x021608E4
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #8
 	ldr r0, _021609A4 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _021608F8
 	bl DestroyCurrentTask
@@ -1869,7 +1869,7 @@ _021609AC: .word 0x00000416
 CharacterSelectMenu__Func_21609B0: // 0x021609B0
 	push {r3, lr}
 	ldr r0, _021609D0 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x41
 	lsl r1, r1, #4
@@ -1890,7 +1890,7 @@ _021609D0: .word CharacterSelectMenu__Singleton
 CharacterSelectMenu__Func_21609D4: // 0x021609D4
 	push {r3, lr}
 	ldr r0, _021609E8 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, _021609EC // =CharacterSelectMenu__Func_21609F0
 	bl SetCurrentTaskMainEvent
@@ -1907,12 +1907,12 @@ CharacterSelectMenu__Func_21609F0: // 0x021609F0
 	cmp r0, #0
 	beq _02160A14
 	ldr r0, _02160A18 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
 	ldr r1, [r0, r1]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0x10]
 	bl DestroyDrawFadeTask
 	bl DestroyCurrentTask
@@ -1927,7 +1927,7 @@ Task__OVL03Unknown216016C__Main: // 0x02160A1C
 	push {r3, r4, lr}
 	sub sp, #4
 	ldr r0, _02160A88 // =CharacterSelectMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02160A30
 	bl DestroyCurrentTask
@@ -1956,13 +1956,13 @@ _02160A46:
 	ldrsh r1, [r4, r1]
 	cmp r1, #2
 	bne _02160A66
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	strh r0, [r1]
 	b _02160A6E
 _02160A66:
 	cmp r1, #4
 	bne _02160A6E
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	str r0, [r1]
 _02160A6E:
 	ldrh r0, [r4, #0xa]

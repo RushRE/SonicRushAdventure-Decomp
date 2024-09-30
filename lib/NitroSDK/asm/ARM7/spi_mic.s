@@ -103,7 +103,7 @@ _038063D0:
 	mov r0, #4
 	str r0, [r4, #0x20]
 	ldr r1, _038063FC // =0x0400010E
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #0x80
 	strh r0, [r1]
 _038063E8:
@@ -122,7 +122,7 @@ MIC_TimerHandler: // 0x03806400
 	sub sp, sp, #4
 	bl MicTimerHandler
 	ldr r1, _03806434 // =0x0380FFF8
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	orr r0, r0, #0x40
 	str r0, [r1]
 	mov r1, #0x40
@@ -252,7 +252,7 @@ _038065D0:
 	cmp r0, #1
 	bhi _03806650
 	ldr r1, _03806694 // =0x0400010E
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #0x80
 	strh r0, [r1]
 	bl OS_DisableInterrupts
@@ -375,7 +375,7 @@ _03806768:
 	strh r0, [r1, r2]
 	ands r0, r0, #0x1000000
 	beq _038069F4
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	and r0, r3, #0xff00
 	mov r0, r0, lsl #8
 	mov r4, r0, lsr #0x10
@@ -503,7 +503,7 @@ _03806940:
 	ldr r0, _038069FC // =micw
 	str r1, [r0, #0x20]
 	ldr r1, _03806A08 // =0x0400010E
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #0x80
 	strh r0, [r1]
 	b _038069F4
@@ -572,7 +572,7 @@ _03806A20:
 	cmp r3, #0x10
 	blt _03806A20
 	ldr r1, _03806A4C // =0x0400010E
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #0x80
 	strh r0, [r1]
 	bx lr
@@ -585,7 +585,7 @@ _03806A4C: .word 0x0400010E
 MIC_ExecSampling12: // 0x03806A50
 	ldr r1, _03806B04 // =0x040001C0
 _03806A54:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03806A54
 	ldr r0, _03806B08 // =0x00008A01
@@ -595,7 +595,7 @@ _03806A54:
 	strh r1, [r0]
 	ldr r1, _03806B04 // =0x040001C0
 _03806A78:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03806A78
 	mov r1, #0
@@ -603,11 +603,11 @@ _03806A78:
 	strh r1, [r0]
 	ldr r2, _03806B04 // =0x040001C0
 _03806A94:
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	ands r0, r0, #0x80
 	bne _03806A94
 	ldr r1, _03806B0C // =0x040001C2
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	and r0, r0, #0xff
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -619,11 +619,11 @@ _03806A94:
 	strh r0, [r1]
 	ldr r1, _03806B04 // =0x040001C0
 _03806AD0:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03806AD0
 	ldr r0, _03806B0C // =0x040001C2
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	and r0, r0, #0xff
 	mov r0, r0, lsl #0x10
 	orr r1, r3, r0, lsr #16
@@ -644,7 +644,7 @@ _03806B14: .word 0x00007FF8
 MIC_ExecSampling8: // 0x03806B18
 	ldr r1, _03806BCC // =0x040001C0
 _03806B1C:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03806B1C
 	ldr r0, _03806BD0 // =0x00008A01
@@ -654,7 +654,7 @@ _03806B1C:
 	strh r1, [r0]
 	ldr r1, _03806BCC // =0x040001C0
 _03806B40:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03806B40
 	mov r1, #0
@@ -662,11 +662,11 @@ _03806B40:
 	strh r1, [r0]
 	ldr r2, _03806BCC // =0x040001C0
 _03806B5C:
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	ands r0, r0, #0x80
 	bne _03806B5C
 	ldr r1, _03806BD4 // =0x040001C2
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	and r0, r0, #0xff
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -678,11 +678,11 @@ _03806B5C:
 	strh r0, [r1]
 	ldr r1, _03806BCC // =0x040001C0
 _03806B98:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03806B98
 	ldr r0, _03806BD4 // =0x040001C2
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	and r0, r0, #0xff
 	mov r0, r0, lsl #0x10
 	orr r1, r3, r0, lsr #16
@@ -703,7 +703,7 @@ _03806BDC: .word 0x00007F80
 MIC_IrqHandler: // 0x03806BE0
 	mov ip, #0x4000000
 	add r1, ip, #0x208
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	tst r0, r0
 	bxeq lr
 	ldr r3, [ip, #0x210]
@@ -732,7 +732,7 @@ MIC_IrqHandler: // 0x03806BE0
 	streq r0, [r1, #4]
 	stmdb sp!, {r3}
 	ldr r1, _03806D58 // =0x03807F60
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	tst r0, r2
 	strne r0, [ip, #0x214]
 	ldrne r0, [r1, #4]
@@ -753,7 +753,7 @@ _03806C7C:
 	ldr r2, _03806D50 // =OSi_ThreadInfo
 	ldrh r3, [r2, #2]
 	cmp r3, #1
-	ldreq r2, [r1]
+	ldreq r2, [r1, #0]
 	streq r2, [ip, #0x210]
 	moveq r2, #0x1f
 	msreq cpsr_c, r2
@@ -809,7 +809,7 @@ MIC_DisableMultipleInterrupt: // 0x03806D64
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _03806DA4 // =0x0380FFFC
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _03806DA8 // =MIC_IrqHandler
 	cmp r1, r0
 	bne _03806D98
@@ -834,7 +834,7 @@ MIC_EnableMultipleInterrupt: // 0x03806DB0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _03806E0C // =0x0380FFFC
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, _03806E10 // =MIC_IrqHandler
 	cmp r2, r0
 	beq _03806E00

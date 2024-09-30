@@ -48,7 +48,7 @@ _02156624:
 	sub r2, r1, #0x20
 	bl ReadFileFromBundle
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _02156838 // =0x02175FC4
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x30]

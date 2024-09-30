@@ -108,7 +108,7 @@ _02158250:
 	mov r0, r5
 	bl ovl09_2161CB0
 	ldr r0, _02158460 // =exBossFireBlueTask__ActiveInstanceCount
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _02158314
 	mov r1, #9
@@ -116,7 +116,7 @@ _02158250:
 	sub r2, r1, #0xa
 	bl ReadFileFromBundle
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _02158460 // =exBossFireBlueTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x2c]
@@ -236,7 +236,7 @@ _021583EC:
 	str r1, [r5, #0x14]
 	ldr r1, _02158460 // =exBossFireBlueTask__ActiveInstanceCount
 	str r2, [r5, #0x18]
-	ldrsh r2, [r1]
+	ldrsh r2, [r1, #0]
 	add r2, r2, #1
 	strh r2, [r1]
 	add sp, sp, #4
@@ -254,7 +254,7 @@ ovl09_2158474: // 0x02158474
 	stmdb sp!, {r4, lr}
 	ldr r1, _02158528 // =exBossFireBlueTask__ActiveInstanceCount
 	mov r4, r0
-	ldrsh r0, [r1]
+	ldrsh r0, [r1, #0]
 	cmp r0, #1
 	bgt _0215850C
 	ldr r0, [r1, #0x24]
@@ -299,7 +299,7 @@ _0215850C:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
 	ldr r0, _02158528 // =exBossFireBlueTask__ActiveInstanceCount
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r4, pc}
@@ -653,7 +653,7 @@ ovl09_21589B8: // 0x021589B8
 	strb r1, [r4, #0x30]
 	str r0, [r4, #4]
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02158A5C
 	ldrsh r0, [r4, #0x34]
@@ -685,7 +685,7 @@ _02158A2C:
 	b _02158AD0
 _02158A5C:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02158AD0
 	ldrsh r0, [r4, #0x34]

@@ -346,7 +346,7 @@ NONMATCH_FUNC void TitleCard__InitAnimators(TitleCard *work)
 	mov r4, r6
 	mov r11, #0xa10
 _0200762C:
-	ldrb r1, [r7]
+	ldrb r1, [r7, #0]
 	ldr r0, [r10, #4]
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
@@ -362,10 +362,10 @@ _0200762C:
 	mov r0, r8
 	mov r3, r11
 	str r1, [sp, #0x18]
-	ldrb r2, [r7]
+	ldrb r2, [r7, #0]
 	ldr r1, [r10, #4]
 	bl AnimatorSprite__Init
-	ldrb r1, [r7]
+	ldrb r1, [r7, #0]
 	ldrsh r2, [r7, #2]
 	ldr r0, [r10, #4]
 	bl ObjDrawAllocSpritePalette
@@ -394,7 +394,7 @@ _0200762C:
 	mov r4, r8
 	mov r11, #0xa10
 _020076E8:
-	ldrb r1, [r6]
+	ldrb r1, [r6, #0]
 	ldr r0, [r10, #4]
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
@@ -410,10 +410,10 @@ _020076E8:
 	mov r0, r7
 	mov r3, r11
 	str r1, [sp, #0x18]
-	ldrb r2, [r6]
+	ldrb r2, [r6, #0]
 	ldr r1, [r10, #4]
 	bl AnimatorSprite__Init
-	ldrb r1, [r6]
+	ldrb r1, [r6, #0]
 	ldrsh r2, [r6, #2]
 	ldr r0, [r10, #4]
 	bl ObjDrawAllocSpritePalette
@@ -458,7 +458,7 @@ _020077B8:
 	mov r5, r8
 _020077D8:
 	ldrb r1, [r6, r8, lsl #2]
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
 	mov r0, r11
@@ -475,12 +475,12 @@ _020077D8:
 	mov r3, #0xa10
 	str r1, [sp, #0x18]
 	ldrb r2, [r6, r8, lsl #2]
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	bl AnimatorSprite__Init
 	add r2, r6, r8, lsl #2
 	ldrb r1, [r6, r8, lsl #2]
 	ldrsh r2, [r2, #2]
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	bl ObjDrawAllocSpritePalette
 	strh r0, [r7, #0x50]
 	mov r0, #0
@@ -566,7 +566,7 @@ NONMATCH_FUNC void TitleCard__InitReadyGoAnimators(TitleCard *work)
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x1c
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r2, =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r1, #0
 	add r5, r4, #0x3b0
@@ -583,11 +583,11 @@ NONMATCH_FUNC void TitleCard__InitReadyGoAnimators(TitleCard *work)
 	str r6, [sp, #0x10]
 	str r2, [sp, #0x14]
 	str r2, [sp, #0x18]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r5
 	mov r3, #0xa10
 	bl AnimatorSprite__Init
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
 	mov r2, #0x77
 	bl ObjDrawAllocSpritePalette
@@ -605,7 +605,7 @@ NONMATCH_FUNC void TitleCard__InitReadyGoAnimators(TitleCard *work)
 	strh r0, [r5, #0xa]
 	add r0, r4, #0x14
 	add r5, r0, #0x400
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #1
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
@@ -620,11 +620,11 @@ NONMATCH_FUNC void TitleCard__InitReadyGoAnimators(TitleCard *work)
 	str r1, [sp, #0x14]
 	str r1, [sp, #0x18]
 	mov r0, r5
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r2, #1
 	mov r3, #0xa10
 	bl AnimatorSprite__Init
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #1
 	mov r2, #0x77
 	bl ObjDrawAllocSpritePalette

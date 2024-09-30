@@ -1449,7 +1449,7 @@ _02038270:
 	ldr r6, [r3, #4]
 	ldr r2, [r2, r1, lsl #2]
 	ldr r4, [r3, #0x24]
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	add r4, r6, r4, lsl #8
 	ldr r1, =Map__CreateObjectLists
 	rsb r3, r2, r6, asr #12
@@ -1574,7 +1574,7 @@ _02038458:
 	ldr r4, =Map__CreateObjectLists
 	ldr r1, [r1, r0, lsl #2]
 	ldr r0, [sp, #0x14]
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	ldr r3, [r0, #4]
 	ldr r1, [sp, #0x18]
 	rsb r3, r2, r3, asr #12
@@ -1709,7 +1709,7 @@ _02038640:
 	tst r0, #0x4000
 	beq _020387BC
 _02038658:
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	cmp r0, #0xff
 	beq _020387BC
 	add r5, r0, r10, lsl #8
@@ -1721,7 +1721,7 @@ _02038658:
 	ldr r0, =GameObject__ViewOffsetTable
 	ldrb r0, [r0, r1]
 	beq _020386C8
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	add r1, r1, r0
 	cmp r5, r1
 	blt _020387BC
@@ -1745,7 +1745,7 @@ _020386C8:
 	mov r1, #3
 	sub r0, r2, r0
 	bl FX_DivS32
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	sub r0, r1, r0
 	cmp r5, r0
 	ble _02038778
@@ -1791,7 +1791,7 @@ _02038778:
 	ldr r5, [r0, r1, lsl #2]
 	cmp r5, #0
 	beq _020387BC
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	ldrb r2, [r4, #1]
 	mov r0, r4
 	add r1, r1, r10, lsl #8
@@ -1845,11 +1845,11 @@ NONMATCH_FUNC void EventManager__CreateRingObjects(EventManager *evtMgr, s32 blo
 	ldmlsia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	mov r10, r6
 _02038854:
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	cmp r1, #0xff
 	beq _020388B8
 	ldrb r0, [r4, #1]
-	ldr r2, [r7]
+	ldr r2, [r7, #0]
 	add ip, r1, r9, lsl #8
 	cmp ip, r2
 	add r3, r0, r8, lsl #8
@@ -1933,7 +1933,7 @@ _02038958:
 	add ip, r0, r7, lsl #8
 	ldrb r10, [r1, r9]
 	beq _020389C8
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r1, r1, r10
 	cmp r3, r1
 	blt _02038A58
@@ -1955,7 +1955,7 @@ _020389C8:
 	beq _02038A20
 	ldr r1, =EventManager__sVars
 	ldrh r2, [r1, #4]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	sub r2, r2, r10
 	sub r1, r1, r2, asr #1
 	cmp r3, r1

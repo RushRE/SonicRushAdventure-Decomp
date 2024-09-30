@@ -115,7 +115,7 @@ NpcOptions__Main: // 0x0216DE2C
 	bl ovl05_2152B74
 	mov r4, r0
 	bl HubControl__GetFileFrom_ViMsgCtrl
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	ldrh r2, [r4, #2]
@@ -169,7 +169,7 @@ _0216DEF8:
 	ldrneh r4, [r6, #4]
 	ldreqh r4, [r6, #6]
 	bl HubControl__GetFileFrom_ViMsgCtrl
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	ldr r3, _0216DFD0 // =0x0000FFFF
@@ -190,7 +190,7 @@ _0216DF48:
 	ldrneh r4, [r6, #8]
 	ldreqh r4, [r6, #0xa]
 	bl HubControl__GetFileFrom_ViMsgCtrl
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	ldr r3, _0216DFD0 // =0x0000FFFF
@@ -205,7 +205,7 @@ _0216DF48:
 	ldmia sp!, {r4, r5, r6, pc}
 _0216DF98:
 	bl HubControl__GetFileFrom_ViMsgCtrl
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	ldrh r2, [r6, #0xc]
@@ -269,7 +269,7 @@ _0216E058:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0216E078:
 	bl HubControl__GetFileFrom_ViMsgCtrl
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	ldrh r2, [r6, #2]
@@ -331,7 +331,7 @@ _0216E130:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0216E150:
 	bl HubControl__GetFileFrom_ViMsgCtrl
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	ldrh r2, [r6, #2]
@@ -377,7 +377,7 @@ NpcOptions__Main_216E190: // 0x0216E190
 	ldmia sp!, {r4, r5, r6, pc}
 _0216E1F0:
 	bl HubControl__GetFileFrom_ViMsgCtrl
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	ldrh r2, [r6, #2]
@@ -533,7 +533,7 @@ NpcOptions__Func_216E390: // 0x0216E390
 	strh r0, [r10, #4]
 	ldr r0, _0216E874 // =0x04001000
 	strh r9, [r10, #6]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	sub r0, r1, #0x200000
 	and r2, r2, r1
 	cmp r2, r0
@@ -893,11 +893,11 @@ NpcOptions__Func_216E8F0: // 0x0216E8F0
 	sub sp, sp, #0x10
 	ldr r1, _0216EC40 // =0x021731B4
 	mov r10, r0
-	ldrh r4, [r1]
+	ldrh r4, [r1, #0]
 	ldrh r3, [r1, #2]
 	ldrh r2, [r1, #4]
 	ldrh r1, [r1, #6]
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	strh r4, [sp, #0xc]
 	strh r3, [sp, #0xe]
 	strh r2, [sp, #8]
@@ -1087,9 +1087,9 @@ _0216EBAC:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r4, _0216EC4C // =0x04001000
 	ldrh r0, [r10, #4]
-	ldr r3, [r4]
+	ldr r3, [r4, #0]
 	mov r1, #1
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	mvn r0, r1, lsl r0
 	and r3, r3, #0x1f00
 	bic r1, r2, #0x1f00
@@ -1128,9 +1128,9 @@ NpcOptions__Func_216EC50: // 0x0216EC50
 	bl FontWindowAnimator__Func_20599B4
 	ldr r5, _0216ED0C // =0x04001000
 	ldrh r0, [r4, #4]
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	mov r1, #1
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	mov r0, r1, lsl r0
 	and r3, r3, #0x1f00
 	orr r0, r0, r3, lsr #8
@@ -1175,7 +1175,7 @@ _0216ED0C: .word 0x04001000
 
 	arm_func_start NpcOptions__Func_216ED10
 NpcOptions__Func_216ED10: // 0x0216ED10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #3
 	moveq r0, #1
 	movne r0, #0
@@ -1203,7 +1203,7 @@ NpcOptions__Func_216ED24: // 0x0216ED24
 
 	arm_func_start NpcOptions__Func_216ED60
 NpcOptions__Func_216ED60: // 0x0216ED60
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	moveq r0, #1
 	movne r0, #0
@@ -1282,7 +1282,7 @@ NpcOptions__Func_216EDF8: // 0x0216EDF8
 	strh ip, [r5, #0xe]
 	ldrh r3, [r4, #0x22]
 	strh r3, [r5, #0x12]
-	ldr r3, [r4]
+	ldr r3, [r4, #0]
 	str r3, [r5, #0x50]
 	strh ip, [r5, #0x14]
 	bl MIi_CpuCopy16
@@ -3229,7 +3229,7 @@ NpcOptions__Func_2170830: // 0x02170830
 NpcOptions__Func_2170860: // 0x02170860
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #0x10
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	cmp r3, #7
 	addne sp, sp, #0x10
 	ldmneia sp!, {r3, pc}
@@ -3264,8 +3264,8 @@ NpcOptions__Func_21708D8: // 0x021708D8
 	cmp r1, #0
 	mov r2, #0x4000000
 	beq _02170908
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -3274,8 +3274,8 @@ NpcOptions__Func_21708D8: // 0x021708D8
 	str r0, [r2]
 	bx lr
 _02170908:
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -3290,8 +3290,8 @@ NpcOptions__Func_217092C: // 0x0217092C
 	cmp r1, #0
 	mov r2, #0x4000000
 	beq _0217095C
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -3300,8 +3300,8 @@ NpcOptions__Func_217092C: // 0x0217092C
 	str r0, [r2]
 	bx lr
 _0217095C:
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -3699,7 +3699,7 @@ NpcOptions__Func_2170EC8: // 0x02170EC8
 	bl NpcOptions__Func_217045C
 	mov r0, r4
 	bl NpcOptions__Func_2170530
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r0, r0, #1
 	cmp r0, #0x10
 	addlo sp, sp, #4

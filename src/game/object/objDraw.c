@@ -463,7 +463,7 @@ NONMATCH_FUNC GXRgb *ObjDrawGetPaletteForID(u8 id)
     // clang-format off
 	ldr r1, =objDrawManager
 	tst r0, #0x800
-	ldrsb r3, [r1]
+	ldrsb r3, [r1, #0]
 	ldrsb ip, [r1, #1]
 	beq _02075730
 	add r1, r3, #0x10

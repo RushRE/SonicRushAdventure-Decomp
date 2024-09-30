@@ -28,7 +28,7 @@ VSConnectionMenu__LoadAssets: // 0x0216A994
 	bl ArchiveFile__Load
 	str r0, [r4]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0216A9E4
 	add r0, r0, r0
@@ -46,7 +46,7 @@ _0216A9D0: // jump table
 	.hword _0216A9DC - _0216A9D0 - 2 // case 5
 _0216A9DC:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _0216A9E6
 _0216A9E4:
 	mov r1, #1
@@ -90,7 +90,7 @@ VSConnectionMenu__ReleaseAssets: // 0x0216AA24
 	mov r4, r6
 	add r4, #0xc
 _0216AA36:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl _FreeHEAP_USER
 	add r5, r5, #4
 	cmp r5, r4
@@ -159,7 +159,7 @@ _0216AA70:
 	bl VSConnectionMenu__Unknown__Init
 	ldr r2, _0216ABF8 // =0x0400000C
 	mov r0, #0x43
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	and r1, r0
 	ldr r0, _0216ABFC // =0x00000704
 	orr r1, r0
@@ -171,7 +171,7 @@ _0216AA70:
 	ldrh r3, [r1, #6]
 	add r6, r4, r0
 	strh r3, [r1, #4]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r7, [r1, #4]
 	mov r1, #1
 	mov r0, r7
@@ -197,9 +197,9 @@ _0216AA70:
 	strh r0, [r6, #8]
 	mov r0, #0x62
 	strh r0, [r6, #0xa]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #1
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	mov r2, #6
 	mov r0, r6
 	ldr r7, _0216AC08 // =0x000007B4
@@ -382,7 +382,7 @@ _0216AC74: .word VSConnectionMenu__Singleton
 	thumb_func_start VSConnectionMenu__VSStateCallback
 VSConnectionMenu__VSStateCallback: // 0x0216AC78
 	push {r4, lr}
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	cmp r0, #1
 	ldrh r4, [r1, #0x10]
 	bne _0216AD06
@@ -406,7 +406,7 @@ VSConnectionMenu__VSStateCallback: // 0x0216AC78
 	bl VSMenu__SetTouchCallback
 	ldr r0, _0216AD0C // =VSConnectionMenu__Singleton
 	ldr r1, _0216AD10 // =VSConnectionMenu__Main_216BFD0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r4, pc}
 _0216ACB8:
@@ -422,7 +422,7 @@ _0216ACB8:
 	bl VSMenu__SetTouchCallback
 	ldr r0, _0216AD0C // =VSConnectionMenu__Singleton
 	ldr r1, _0216AD14 // =VSConnectionMenu__Main_216C3D4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r4, pc}
 _0216ACDC:
@@ -438,7 +438,7 @@ _0216ACDC:
 	bl VSMenu__SetTouchCallback
 	ldr r0, _0216AD0C // =VSConnectionMenu__Singleton
 	ldr r1, _0216AD18 // =VSConnectionMenu__Main_216B144
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r4, pc}
 _0216AD00:
@@ -460,7 +460,7 @@ VSConnectionMenu__Func_216AD1C: // 0x0216AD1C
 	sub sp, #0x34
 	str r0, [sp, #0x24]
 	ldr r0, _0216AEB4 // =VSConnectionMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r0, [sp, #0x28]
 	bl GetTaskWork_
 	str r0, [sp, #0x30]
@@ -529,7 +529,7 @@ _0216AD58:
 	ldr r0, _0216AEC4 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, [sp, #0x30]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrh r6, [r0, #0x10]
 	mov r0, #3
 	mov r1, r6
@@ -629,14 +629,14 @@ _0216AE78:
 _0216AE7A:
 	ldr r0, [sp, #0x30]
 	mov r1, #6
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add sp, #0x34
 	str r1, [r0, #0xc]
 	pop {r4, r5, r6, r7, pc}
 _0216AE86:
 	ldr r0, [sp, #0x30]
 	mov r1, #7
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0xc]
 	mov r0, #2
 	tst r0, r6
@@ -647,14 +647,14 @@ _0216AE86:
 _0216AE9C:
 	ldr r0, [sp, #0x30]
 	mov r1, #8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add sp, #0x34
 	str r1, [r0, #0xc]
 	pop {r4, r5, r6, r7, pc}
 _0216AEA8:
 	ldr r0, [sp, #0x30]
 	mov r1, #9
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0xc]
 _0216AEB0:
 	add sp, #0x34
@@ -727,12 +727,12 @@ VSConnectionMenu__TouchAreaCallback1: // 0x0216AF30
 	mov r7, r0
 	ldr r0, _0216AFDC // =VSConnectionMenu__Singleton
 	mov r5, r2
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r6, r0
 	mov r0, #1
 	mov r4, r6
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	lsl r0, r0, #0x12
 	add r4, #0x40
 	cmp r1, r0
@@ -779,7 +779,7 @@ _0216AF9A:
 	bl VSMenu__SetTouchCallback
 	ldr r0, _0216AFDC // =VSConnectionMenu__Singleton
 	ldr r1, _0216AFE4 // =VSConnectionMenu__Main_216BBAC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r3, r4, r5, r6, r7, pc}
 _0216AFAE:
@@ -820,7 +820,7 @@ VSConnectionMenu__Func_216AFE8: // 0x0216AFE8
 	bne _0216AFFE
 	ldr r0, _0216B00C // =VSConnectionMenu__Singleton
 	ldr r1, _0216B010 // =VSConnectionMenu__Main_216B014
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 _0216AFFE:
 	mov r0, r5
@@ -864,7 +864,7 @@ _0216B044:
 	bl VSConnectionMenu__Unknown__Release
 	ldr r0, [r6, #4]
 	bl DestroyTask
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	ldr r1, [r0, #0xc]
 	cmp r1, #9
 	bhi _0216B0DA
@@ -916,7 +916,7 @@ _0216B09E: // jump table
 	.hword _0216B0DA - _0216B09E - 2 // case 7
 	.hword _0216B0C8 - _0216B09E - 2 // case 8
 _0216B0B0:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r1, #2
 	str r1, [r0, #0xc]
 	b _0216B0DA
@@ -925,12 +925,12 @@ _0216B0B8:
 	bl SetCurrentTaskMainEvent
 	pop {r3, r4, r5, r6, r7, pc}
 _0216B0C0:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r1, #3
 	str r1, [r0, #0xc]
 	b _0216B0DA
 _0216B0C8:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r1, #4
 	str r1, [r0, #0xc]
 	b _0216B0DA
@@ -974,7 +974,7 @@ _0216B104:
 	beq _0216B12C
 	pop {r4, pc}
 _0216B118:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #2
 	str r1, [r0, #0xc]
 	bl DestroyCurrentTask
@@ -1086,7 +1086,7 @@ _0216B1F8: .word VSConnectionMenu__Main_216B1FC
 VSConnectionMenu__Main_216B1FC: // 0x0216B1FC
 	push {r4, lr}
 	bl GetCurrentTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrh r4, [r0, #0x10]
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
@@ -1199,7 +1199,7 @@ VSConnectionMenu__Main_216B304: // 0x0216B304
 	push {r4, r5, r6, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldrh r5, [r0, #0x10]
 	bl VSState__ProcessAnimations
 	bl VSState__Draw
@@ -1358,7 +1358,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	bl MIi_CpuClear16
 	ldr r1, _0216B680 // =0x0400100C
 	mov r0, #0x43
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	and r2, r0
 	ldr r0, _0216B684 // =0x00000704
 	orr r0, r2
@@ -1369,11 +1369,11 @@ VSConnectionMenu__Main2: // 0x0216B458
 	ldrh r3, [r0, #6]
 	sub r1, #0xc
 	strh r3, [r0, #4]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r0, #0x1f
 	lsl r0, r0, #8
 	and r0, r3
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldr r3, _0216B68C // =0xFFFFE0FF
 	lsr r0, r0, #8
 	and r5, r3
@@ -1384,9 +1384,9 @@ VSConnectionMenu__Main2: // 0x0216B458
 	str r0, [r1]
 	ldr r0, [sp, #0x1c]
 	mov r5, #0x32
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	lsl r5, r5, #4
 	str r0, [sp, #0x24]
 	bl SpriteUnknown__Func_204C3CC
@@ -1529,7 +1529,7 @@ VSConnectionMenu__Main2: // 0x0216B458
 	bl AnimatorSprite__ProcessAnimation
 	ldr r0, [sp, #0x1c]
 	mov r2, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, sp, #0x24
 	ldr r0, [r0, #8]
 	mov r3, r2
@@ -1617,7 +1617,7 @@ VSConnectionMenu__Main_216B6A4: // 0x0216B6A4
 	str r0, [sp, #0x28]
 	add r0, #0x40
 	str r0, [sp, #0x28]
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	add r0, sp, #0x30
 	strh r2, [r0]
 	ldrh r2, [r1, #2]
@@ -2545,7 +2545,7 @@ _0216BE84:
 VSConnectionMenu__Main_216BE88: // 0x0216BE88
 	push {r4, lr}
 	ldr r0, _0216BEA0 // =VSConnectionMenu__Singleton
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	mov r0, r4
 	bl GetTaskWork_
 	mov r0, r4
@@ -2560,7 +2560,7 @@ _0216BEA0: .word VSConnectionMenu__Singleton
 VSConnectionMenu__Main_216BEA4: // 0x0216BEA4
 	push {r3, lr}
 	ldr r0, _0216BEDC // =VSConnectionMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	bl VSMenu__GetYesNoButton
 	bl SaveSpriteButton__RunState
@@ -2588,7 +2588,7 @@ _0216BEE4: .word VSConnectionMenu__Main_216B6A4
 VSConnectionMenu__Main_216BEE8: // 0x0216BEE8
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _0216BFB4 // =VSConnectionMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x32
@@ -2599,7 +2599,7 @@ VSConnectionMenu__Main_216BEE8: // 0x0216BEE8
 	mov r5, r4
 	str r0, [sp]
 _0216BF02:
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r6, r5
 	mov r2, r1
 	mov r0, #0x64
@@ -2790,7 +2790,7 @@ _0216C088: .word VSConnectionMenu__TouchCallback_None
 VSConnectionMenu__Main_216C08C: // 0x0216C08C
 	push {r4, lr}
 	bl GetCurrentTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrh r4, [r0, #0x10]
 	bl VSState__ProcessAnimations
 	bl VSState__Draw

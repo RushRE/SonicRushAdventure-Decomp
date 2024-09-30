@@ -324,7 +324,7 @@ _0208E5CC:
 	mov r7, r6, lsl r1
 	ands r2, r2, r7
 	beq _0208E604
-	ldrb r3, [r5]
+	ldrb r3, [r5, #0]
 	mvn r2, r7
 	mov r4, r6
 	and r2, r3, r2

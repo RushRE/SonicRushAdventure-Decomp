@@ -381,7 +381,7 @@ _0215F530:
 _0215F5A8:
 	ldr r2, _0215F7C0 // =_mt_math_rand
 	ldr r0, _0215F7C4 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0215F7C8 // =0x3C6EF35F
 	mla r0, r3, r0, r1
 	str r0, [r2]
@@ -603,7 +603,7 @@ ovl09_215F88C: // 0x0215F88C
 	strh r0, [r4, #0x60]
 	ldr r2, _0215FA00 // =_mt_math_rand
 	ldr r0, _0215FA04 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0215FA08 // =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
@@ -613,7 +613,7 @@ ovl09_215F88C: // 0x0215F88C
 	rsb r0, r1, r0, lsl #31
 	str ip, [r2]
 	adds r0, r1, r0, ror #31
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	orreq r0, r0, #4
 	biceq r0, r0, #8
 	beq _0215F900
@@ -624,7 +624,7 @@ _0215F900:
 	ldr r2, _0215FA00 // =_mt_math_rand
 	strb r0, [r4]
 	ldr r0, _0215FA04 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0215FA08 // =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
@@ -634,7 +634,7 @@ _0215F900:
 	rsb r0, r1, r0, lsl #31
 	str ip, [r2]
 	adds r0, r1, r0, ror #31
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	beq _0215F950
 	bic r1, r0, #1
 	and r0, r1, #0xff
@@ -701,7 +701,7 @@ ovl09_215FA10: // 0x0215FA10
 	ldr r0, _0215FA94 // =0x0217626C
 	ldr r0, [r0, #0xc]
 	bl GetExTaskWork_
-	ldrb r3, [r0]
+	ldrb r3, [r0, #0]
 	mov r1, r3, lsl #0x1d
 	movs r1, r1, lsr #0x1f
 	beq _0215FA60
@@ -741,7 +741,7 @@ ovl09_215FA98: // 0x0215FA98
 	ldr r0, _0215FB18 // =0x0217626C
 	ldr r0, [r0, #0xc]
 	bl GetExTaskWork_
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	mov r1, r2, lsl #0x1f
 	movs r1, r1, lsr #0x1f
 	beq _0215FAE0

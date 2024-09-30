@@ -817,7 +817,7 @@ _021599F0:
 	ldr r0, [r7, #0x18]
 	orr r0, r0, #2
 	str r0, [r7, #0x18]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0
 	beq _02159A60
 	cmp r0, #1
@@ -888,7 +888,7 @@ _02159AF8:
 	mov r2, #0
 	bl SailAudio__PlaySpatialSequence
 _02159B44:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	mov r2, #0
 	cmp r0, #3
 	bne _02159B64
@@ -936,7 +936,7 @@ NONMATCH_FUNC void SailPlayer__State_ReachedGoal(StageTask *work){
 	mov r1, #0x46
 	bl ObjSpdDownSet
 	str r0, [r4, #0x10]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #3
 	bne _02159C08
 	ldr r0, [r4, #0x10]
@@ -990,7 +990,7 @@ _02159C08:
 	ldrsh r0, [r2, #0xd0]
 	cmp r0, #0
 	bne _02159D28
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0
 	cmpne r0, #2
 	bne _02159D10
@@ -1021,7 +1021,7 @@ _02159D10:
 	ldrh r0, [r6, #0x32]
 	add r0, r0, #0xa0
 	strh r0, [r6, #0x32]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #1
 	streq r3, [r6, #0x28]
 _02159D28:
@@ -1029,7 +1029,7 @@ _02159D28:
 	add r0, r0, #1
 	str r0, [r6, #0x2c]
 _02159D34:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0
 	cmpne r0, #2
 	bne _02159E3C
@@ -1110,7 +1110,7 @@ _02159E3C:
 	strh r0, [r1, #0xcc]
 	ldrsh r0, [r1, #0xcc]
 	strh r0, [r6, #0x34]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #2
 	ldreqsh r0, [r6, #0x34]
 	moveq r0, r0, asr #2
@@ -1161,7 +1161,7 @@ _02159EF0:
 	ldreq r0, [r6, #0x24]
 	orreq r0, r0, #0x1000
 	streq r0, [r6, #0x24]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0
 	beq _02159F40
 	cmp r0, #1
@@ -1800,7 +1800,7 @@ _0215A844:
 	moveq r0, #0x800
 	streq r0, [r4, #0x14c]
 	ldr r0, =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -2275,7 +2275,7 @@ _0215B0A0:
 	mov r1, #0xe
 	mov r2, #0
 	bl SailAudio__PlaySpatialSequence
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	mov r2, #0
 	cmp r0, #2
 	ldr r0, [r6, #0x138]
@@ -2310,7 +2310,7 @@ NONMATCH_FUNC void SailPlayer__State_RetireJetHover(StageTask *work){
 	strh r0, [r1, #0xcc]
 	ldrsh r0, [r1, #0xcc]
 	strh r0, [r4, #0x34]
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #2
 	ldreqsh r0, [r4, #0x34]
 	moveq r0, r0, asr #2
@@ -2389,7 +2389,7 @@ NONMATCH_FUNC void SailPlayer__State_RivalReachedGoal(StageTask *work)
 	strh r0, [r1, #0xcc]
 	ldrsh r0, [r1, #0xcc]
 	strh r0, [r4, #0x34]
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #2
 	ldreqsh r0, [r4, #0x34]
 	moveq r0, r0, asr #2
@@ -2430,7 +2430,7 @@ NONMATCH_FUNC void SailPlayer__OnDefend_Boat(OBS_RECT_WORK *rect1, OBS_RECT_WORK
 	bl SailManager__GetWork
 	ldr r2, [r4, #0x6c]
 	mov r6, r0
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	mov r7, #0
 	mov r1, #0x4000
 	cmp r0, #0
@@ -2541,7 +2541,7 @@ NONMATCH_FUNC void SailPlayer__Action_SmallHurtBoat(StageTask *player){
 	bl SailAudio__PlaySpatialSequence
 	ldr r2, =_obj_disp_rand
 	ldr r0, =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -2786,7 +2786,7 @@ NONMATCH_FUNC void SailPlayer__Func_215B6B8(StageTask *player){
 	add r8, sp, #0x28
 _0215B6F0:
 	ldr r0, =_obj_disp_rand
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, sp, #4
 	mla r2, r1, r5, r6
 	mov r1, r2, lsr #0x10
@@ -2943,7 +2943,7 @@ NONMATCH_FUNC void SailPlayer__Action_HurtSubmarine(StageTask *player){
 	bl SailAudio__PlaySpatialSequence
 	ldr r2, =_obj_disp_rand
 	ldr r0, =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -3123,7 +3123,7 @@ NONMATCH_FUNC void SailPlayer__Func_215BAF0(StageTask *work){
 	bl SailManager__GetWork
 	ldr r7, =_obj_disp_rand
 	ldr r1, =0x00196225
-	ldr r3, [r7]
+	ldr r3, [r7, #0]
 	ldr r2, =0x3C6EF35F
 	ldr r6, =0x000007FF
 	mla r5, r3, r1, r2
@@ -3169,7 +3169,7 @@ NONMATCH_FUNC void SailPlayer__Func_215BAF0(StageTask *work){
 	add r0, sp, #0x24
 	bl EffectSailSmoke__Create
 	mov r6, r7
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr ip, =0x00196225
 	ldr lr, =0x3C6EF35F
 	mov r4, r0
@@ -3181,7 +3181,7 @@ NONMATCH_FUNC void SailPlayer__Func_215BAF0(StageTask *work){
 	str r2, [r6]
 	sub r1, r1, #0x200
 	str r1, [r4, #0x9c]
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	mla r2, r1, ip, lr
 	mov r1, r2, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -3190,7 +3190,7 @@ NONMATCH_FUNC void SailPlayer__Func_215BAF0(StageTask *work){
 	str r2, [r6]
 	add r1, r1, #8
 	str r1, [r4, #0xa8]
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	mla r2, r1, ip, lr
 	mov r1, r2, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -3199,7 +3199,7 @@ NONMATCH_FUNC void SailPlayer__Func_215BAF0(StageTask *work){
 	str r2, [r6]
 	rsb r1, r1, #0x80
 	str r1, [r4, #0x98]
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr r2, =0x000007FF
 	mla r3, r1, ip, lr
 	mov r1, r3, lsr #0x10
@@ -3209,7 +3209,7 @@ NONMATCH_FUNC void SailPlayer__Func_215BAF0(StageTask *work){
 	str r3, [r6]
 	rsb r1, r1, #4
 	str r1, [r4, #0xa4]
-	ldr r7, [r6]
+	ldr r7, [r6, #0]
 	mov r3, #0x800
 	mla r1, r7, ip, lr
 	mov r7, r1, lsr #0x10
@@ -3219,7 +3219,7 @@ NONMATCH_FUNC void SailPlayer__Func_215BAF0(StageTask *work){
 	str r1, [r6]
 	rsb r1, r7, #0x80
 	str r1, [r4, #0xa0]
-	ldr r8, [r6]
+	ldr r8, [r6, #0]
 	ldr r1, =0x00005294
 	mla r7, r8, ip, lr
 	mov r8, r7, lsr #0x10
@@ -3237,7 +3237,7 @@ NONMATCH_FUNC void SailPlayer__Func_215BAF0(StageTask *work){
 	ldr r5, [r5, #0x3c]
 	sub r5, r7, r5, asr #8
 	str r5, [r4, #0xac]
-	ldr r7, [r6]
+	ldr r7, [r6, #0]
 	mla r5, r7, ip, lr
 	mov r7, r5, lsr #0x10
 	mov r7, r7, lsl #0x10
@@ -3273,7 +3273,7 @@ NONMATCH_FUNC void SailPlayer__Func_215BD3C(StageTask *work){
 	mov r5, r0
 	ldr r4, [r5, #0x124]
 	bl SailManager__GetWork
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0
 	cmpne r0, #2
 	bne _0215BDD4
@@ -3318,7 +3318,7 @@ _0215BDD4:
 	ldr r3, =_obj_disp_rand
 	orr r0, r0, #1
 	str r0, [r4, #0x24]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	ldr r1, =0x00196225
 	ldr r2, =0x3C6EF35F
 	mov r6, #8
@@ -3334,7 +3334,7 @@ _0215BDD4:
 	str r6, [r4, #0xa8]
 	ldr r3, =_mt_math_rand
 	sub r6, r6, #0x18
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mla ip, r0, r1, r2
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3344,7 +3344,7 @@ _0215BDD4:
 	add r0, r0, #0x180
 	str r0, [r4, #0x98]
 	str r6, [r4, #0xa4]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mla r1, r0, r1, r2
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3361,7 +3361,7 @@ _0215BDD4:
 _0215BEA0:
 	ldr r3, =_obj_disp_rand
 	mov r2, #0x380
-	ldr r6, [r3]
+	ldr r6, [r3, #0]
 	ldr r0, =0x00196225
 	ldr r1, =0x3C6EF35F
 	rsb r2, r2, #0
@@ -3456,7 +3456,7 @@ NONMATCH_FUNC void SailPlayer__Func_215BFEC(StageTask *work)
 	mov r6, r0
 	tst r1, #0x10
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0
 	cmpne r0, #2
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
@@ -3595,7 +3595,7 @@ _0215C210:
 	ldrsh r0, [r0, #0xcc]
 	mov r1, #0x200
 	strh r0, [r5, #0x34]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #2
 	ldreqsh r0, [r5, #0x34]
 	moveq r0, r0, asr #2
@@ -3724,7 +3724,7 @@ _0215C3F4:
 	str r0, [r5, #0x4c]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0215C414:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0
 	bne _0215C494
 	ldrsh r0, [r1, #0xea]
@@ -4403,7 +4403,7 @@ _0215CC30:
 	ldrh r0, [r6, #2]
 	cmp r0, #0
 	bne _0215CC84
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #2
 	ldr r0, [r5, #0x138]
 	bne _0215CC7C
@@ -6248,7 +6248,7 @@ _0215EB30:
 	bl SailVoyageManager__Func_2157B04
 	add r0, r0, #0x8000
 	strh r0, [r4, #0x32]
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #2
 	bne _0215EB68
 	add r0, r5, #0x100
@@ -6267,7 +6267,7 @@ _0215EB68:
 	ldrnesh r0, [r0, #0xca]
 	strneh r0, [r1, #0x12]
 _0215EB8C:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #3
 	addls pc, pc, r0, lsl #2
 	b _0215EE94
@@ -6325,7 +6325,7 @@ _0215EC30:
 	bne _0215EC9C
 	ldr r2, =_obj_disp_rand
 	ldr r0, =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -6352,7 +6352,7 @@ _0215EC9C:
 	mov r0, r4
 	add r1, r5, #0x124
 	bl SailObject__Func_216524C
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #2
 	bne _0215EE94
 	mov r0, r4
@@ -6524,8 +6524,8 @@ _0215EF34:
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	ldr r1, =0x04000130
 	ldr r0, =0x027FFFA8
-	ldrh r3, [r1]
-	ldrh r2, [r0]
+	ldrh r3, [r1, #0]
+	ldrh r2, [r0, #0]
 	ldr r0, =0x00002FFF
 	ldr r1, =0x00000C0B
 	orr r2, r3, r2
@@ -6711,7 +6711,7 @@ NONMATCH_FUNC void SailPlayer__Func_215F154(StageTask *work)
 	sub sp, sp, #8
 	mov r5, r0
 	ldr r4, [r5, #0x124]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #1
 	ldrne r2, [r4, #0x1d0]
 	cmpne r2, #0

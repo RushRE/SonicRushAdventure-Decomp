@@ -31,8 +31,8 @@ FontField_9C__Func_2059670: // 0x02059670
 	bl FontField_9C__IsInvalid
 	cmp r0, #0
 	bne _02059700
-	ldrh r1, [r5]
-	ldrh r0, [r6]
+	ldrh r1, [r5, #0]
+	ldrh r0, [r6, #0]
 	cmp r0, r1
 	strloh r0, [sp]
 	strhsh r1, [sp]
@@ -84,7 +84,7 @@ _02059748:
 
 	arm_func_start FontField_9C__IsInvalid
 FontField_9C__IsInvalid: // 0x02059760
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	ldrh r1, [r0, #4]
 	cmp r2, r1
 	ldrloh r1, [r0, #2]

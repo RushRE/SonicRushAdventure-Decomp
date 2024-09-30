@@ -152,7 +152,7 @@ _02168F94:
 	bne _02169070
 	ldr r3, =_mt_math_rand
 	ldr r5, [r4, #0x340]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	ldr r1, =0x00196225
 	ldr r2, =0x3C6EF35F
 	ldrsb r5, [r5, #6]
@@ -192,7 +192,7 @@ _02168F94:
 	bl EffectIceSparkles__Create
 	ldr r2, =_mt_math_rand
 	ldr r0, =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10

@@ -226,14 +226,14 @@ _021653B0:
 	str r3, [sp]
 	ldr r1, =gameArchiveCommon
 	mov r0, r4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r4, #0x364
 	str r2, [sp, #4]
 	ldr r2, =aGmkGoalChestNs
 	bl ObjAction3dNNModelLoad
 	ldr r1, =gameArchiveCommon
 	mov r0, r4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r4, #0x364
 	str r2, [sp]
 	ldr r2, =aGmkGoalChestNs_0
@@ -252,7 +252,7 @@ _021653B0:
 	mov r0, #0
 	ldr r1, =aGmkChestEfectN
 	ldr r2, =gameArchiveCommon
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	mov r1, r0
 	mov r2, #0
@@ -263,7 +263,7 @@ _021653B0:
 	mov r0, #0
 	ldr r1, =aGmkChestEfectN_0
 	ldr r2, =gameArchiveCommon
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	mov r2, r0
 	mov r3, #0

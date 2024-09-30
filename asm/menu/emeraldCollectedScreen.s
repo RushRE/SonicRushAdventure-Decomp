@@ -87,12 +87,12 @@ EmeraldCollectedScreen__SetupDisplay: // 0x02154F58
 	sub sp, #4
 	mov r2, #1
 	lsl r2, r2, #0x1a
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, _021550B4 // =0xFFFFE0FF
 	and r1, r0
 	str r1, [r2]
 	ldr r2, _021550B8 // =0x04001000
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	and r0, r1
 	str r0, [r2]
 	mov r0, #1
@@ -139,7 +139,7 @@ EmeraldCollectedScreen__SetupDisplay: // 0x02154F58
 	bl VRAMSystem__SetupSubOBJExtPalBank
 	ldr r0, _021550C4 // =0x04000008
 	mov r5, #3
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r2, #1
 	mov r3, #2
 	bic r1, r5
@@ -158,7 +158,7 @@ EmeraldCollectedScreen__SetupDisplay: // 0x02154F58
 	orr r1, r4
 	strh r1, [r0, #6]
 	ldr r1, _021550C8 // =0x04001008
-	ldrh r6, [r1]
+	ldrh r6, [r1, #0]
 	bic r6, r5
 	strh r6, [r1]
 	ldrh r6, [r1, #2]
@@ -216,11 +216,11 @@ EmeraldCollectedScreen__SetupDisplay: // 0x02154F58
 	strh r0, [r1, #6]
 	lsl r0, r2, #0x18
 	mov r3, #0x1f
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r3, r3, #8
 	and r2, r3
 	lsr r6, r2, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r4, _021550B4 // =0xFFFFE0FF
 	mov r5, r2
 	mov r2, #0x1d
@@ -230,10 +230,10 @@ EmeraldCollectedScreen__SetupDisplay: // 0x02154F58
 	orr r2, r5
 	sub r1, #8
 	str r2, [r0]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	and r0, r3
 	lsr r3, r0, #8
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r2, r0
 	mov r0, #0x18
 	orr r0, r3
@@ -297,7 +297,7 @@ EmeraldCollectedScreen__Release: // 0x02155134
 	push {r4, lr}
 	mov r4, r0
 	bl ReleaseTouchInput
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl DestroyTask
 	ldr r0, [r4, #4]
 	bl DestroyTask
@@ -351,7 +351,7 @@ EmeraldCollectedScreen__ReleaseAssets: // 0x021551A8
 	mov r4, r0
 	ldr r0, [r4, #4]
 	bl _FreeHEAP_USER
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	mov r0, #0
 	mov r1, r4
@@ -386,7 +386,7 @@ EmeraldCollectedScreen__InitGraphics: // 0x021551C4
 	str r0, [sp, #0x20]
 	mov r2, #0
 	str r2, [sp, #0x24]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r1, sp, #0x30
 	add r3, sp, #0x34
 	bl StageClearEx__LoadAssets
@@ -402,7 +402,7 @@ EmeraldCollectedScreen__InitGraphics: // 0x021551C4
 	str r0, [sp, #8]
 	mov r0, #0
 	str r0, [sp, #0xc]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r2, #2
 	add r3, sp, #0x3c
 	bl StageClearEx__LoadAssets
@@ -416,7 +416,7 @@ _02155224:
 	str r0, [sp, #8]
 	mov r0, #0
 	str r0, [sp, #0xc]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r2, #5
 	add r3, sp, #0x3c
 	bl StageClearEx__LoadAssets
@@ -465,7 +465,7 @@ _0215523E:
 	mov r6, #0
 	add r4, #8
 _021552A0:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	ldrh r2, [r5, #2]
 	lsl r1, r0, #2
 	add r0, sp, #0x30
@@ -1864,7 +1864,7 @@ _02155D5E:
 	mov r2, r7
 	bl SpriteUnknown__Func_204C90C
 	ldr r0, _02155DC4 // =_mt_math_rand
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _02155DC8 // =0x00196225
 	mov r2, r1
 	mul r2, r0
@@ -1927,7 +1927,7 @@ EmeraldCollectedScreen__EnableSparkles: // 0x02155DF4
 	mov r6, #0
 	add r5, r0, r1
 _02155E04:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02155E74 // =0x00196225
 	mov r2, r1
 	mul r2, r0
@@ -1940,7 +1940,7 @@ _02155E04:
 	lsr r0, r0, #0x10
 	bl _s32_div_f
 	strb r1, [r5, #0x14]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02155E74 // =0x00196225
 	mov r2, r1
 	mul r2, r0
@@ -1954,7 +1954,7 @@ _02155E04:
 	bl _s32_div_f
 	add r0, r1, #1
 	strb r0, [r5, #0x15]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02155E74 // =0x00196225
 	mul r0, r1
 	add r0, r0, r7
@@ -2011,7 +2011,7 @@ _02155E9E:
 	ldrb r1, [r4, #0x15]
 	cmp r1, #0
 	bne _02155EF6
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, [r4, #8]
 	add r0, r1, r0
 	str r0, [r4]
@@ -2037,7 +2037,7 @@ _02155E9E:
 	beq _02155ED6
 	b _02155FFE
 _02155ED6:
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr r0, _0215602C // =0x00196225
 	mov r2, r1
 	mul r2, r0
@@ -2063,7 +2063,7 @@ _02155EF6:
 	ldrb r0, [r4, #0x15]
 	cmp r0, #0
 	bne _02155FFE
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr r0, _0215602C // =0x00196225
 	mov r2, r1
 	mul r2, r0
@@ -2074,7 +2074,7 @@ _02155EF6:
 	lsl r0, r0, #0x10
 	lsr r7, r0, #0x10
 	bl Task__Unknown204BE48__Rand
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr r0, _0215602C // =0x00196225
 	mov r2, r1
 	mul r2, r0
@@ -2094,7 +2094,7 @@ _02155EF6:
 	asr r0, r2, #0xc
 	add r0, r1, r0
 	str r0, [r4]
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr r0, _0215602C // =0x00196225
 	mov r2, r1
 	mul r2, r0
@@ -2154,7 +2154,7 @@ _02155EF6:
 	str r1, [r4, #0xc]
 	ldr r0, [r5, r0]
 	str r0, [r4, #0x10]
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr r0, _0215602C // =0x00196225
 	mov r2, r1
 	mul r2, r0
@@ -2167,7 +2167,7 @@ _02155EF6:
 	lsr r0, r0, #0x10
 	bl _s32_div_f
 	strb r1, [r4, #0x14]
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr r0, _0215602C // =0x00196225
 	mov r2, r1
 	mul r2, r0
@@ -2231,7 +2231,7 @@ _0215605A:
 	ldrb r1, [r5, #0x14]
 	mov r0, #0x64
 	mul r0, r1
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	add r0, r6, r0
 	asr r1, r1, #0xc
 	strh r1, [r0, #8]

@@ -8,13 +8,13 @@ DWC_NdCleanupAsync: // 0x0208F478
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _0208F4C8 // =0x021439F4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r2, #0
 	addeq sp, sp, #4
 	moveq r0, #0
 	ldmeqia sp!, {pc}
 	str r0, [r2, #4]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r0, [r0, #0x48]
 	cmp r0, #0
 	bne _0208F4B4
@@ -36,11 +36,11 @@ _0208F4CC: .word DWCi_NdCleanupCallback
 DWCi_NdCleanupCallback: // 0x0208F4D0
 	stmdb sp!, {r4, lr}
 	ldr r0, _0208F510 // =0x021439F4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x9c0
 	bl OS_JoinThread
 	ldr r0, _0208F510 // =0x021439F4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r4, [r0, #4]
 	bl DWCi_NdFree
 	ldr r0, _0208F510 // =0x021439F4

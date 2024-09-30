@@ -44,7 +44,7 @@ RotatingHanger__Create: // 0x02161E64
 	mov r3, r0
 	ldr r0, _02161FB8 // =gameArchiveStage
 	ldr r1, _02161FBC // =0x0000FFFF
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -210,7 +210,7 @@ RotatingHanger__OnDefend_2162138: // 0x02162138
 	cmp r1, #0
 	cmpne r0, #0
 	ldmeqia sp!, {r3, pc}
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	cmp r2, #1
 	ldmneia sp!, {r3, pc}
 	ldr r2, [r1, #0x354]

@@ -121,7 +121,7 @@ Unknown2051334__Func_2051450: // 0x02051450
 	arm_func_start Unknown2051334__Func_20514DC
 Unknown2051334__Func_20514DC: // 0x020514DC
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldr ip, [r2]
 	sub ip, ip, r5
 	smull r4, lr, ip, r3

@@ -209,7 +209,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
 	mov r3, r0
 	ldr r0, =gameArchiveStage
 	mov r1, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r8
 	str r2, [sp]
 	str r1, [sp, #4]

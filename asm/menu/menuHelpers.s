@@ -91,7 +91,7 @@ _0217CF68:
 _0217CF70:
 	cmp r4, lr
 	bhi _0217CF84
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #0x100
 	beq _0217D048
 _0217CF84:
@@ -100,7 +100,7 @@ _0217CF84:
 _0217CF8C:
 	cmp r5, ip
 	bhi _0217CFA0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #0x200
 	beq _0217D048
 _0217CFA0:
@@ -109,7 +109,7 @@ _0217CFA0:
 _0217CFA8:
 	cmp r1, r3
 	bhi _0217CFBC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #0x400
 	beq _0217D048
 _0217CFBC:
@@ -143,7 +143,7 @@ _0217D004:
 	cmp r6, #0
 	ldrne r2, _0217D060 // =0x0217E546
 	ldreq r2, _0217D064 // =0x0217E4DE
-	ldrb r0, [r2]
+	ldrb r0, [r2, #0]
 	cmp r4, r0
 	ldrhsb r0, [r2, #1]
 	cmphs r5, r0

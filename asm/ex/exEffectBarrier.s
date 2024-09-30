@@ -181,10 +181,10 @@ exEffectBarrierTask__Main: // 0x02164F5C
 	bl ovl09_21641E8
 	add r0, r4, #0x158
 	bl ovl09_21641F0
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	strh r0, [r4, #0x10]
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02164FD4
 	ldr r0, [r4, #0x2a8]
@@ -200,7 +200,7 @@ exEffectBarrierTask__Main: // 0x02164F5C
 	b _02165008
 _02164FD4:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	ldreq r0, [r4, #0x2a8]
 	ldreqsh r0, [r0, #8]
@@ -327,7 +327,7 @@ ovl09_2165150: // 0x02165150
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02165218
 	ldr r0, [r4, #0x2a8]
@@ -375,7 +375,7 @@ _021651F8:
 	b _021652CC
 _02165218:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _021652CC
 	ldr r0, [r4, #0x2a8]
@@ -444,7 +444,7 @@ ovl09_21652FC: // 0x021652FC
 	add r0, r4, #8
 	bl ovl09_2163ADC
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02165344
 	ldr r1, [r4, #0x2a8]
@@ -458,7 +458,7 @@ ovl09_21652FC: // 0x021652FC
 	b _02165370
 _02165344:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	ldreq r1, [r4, #0x2a8]
 	ldreqsh r0, [r1, #8]

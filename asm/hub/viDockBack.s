@@ -461,7 +461,7 @@ ViDockBack__Func_2164A38: // 0x02164A38
 	add r0, r0, #0x800
 	mov r4, r1
 	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r5, #0x128
 	str r1, [sp]
 	str r4, [sp, #4]
@@ -639,7 +639,7 @@ ViDockBack__Func_2164C44: // 0x02164C44
 	movne r1, #0
 	strne r1, [r5]
 	ldr ip, [r7]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, ip
 	ldreq r3, [r0, #4]
 	ldreq r1, [r7, #4]
@@ -897,8 +897,8 @@ _0216503C:
 	str r0, [r6, #4]
 	ldr r0, [sp, #0x10]
 	str r0, [r6, #8]
-	ldr r2, [r6]
-	ldr r0, [r7]
+	ldr r2, [r6, #0]
+	ldr r0, [r7, #0]
 	cmp r2, r0
 	ldreq r1, [r6, #4]
 	ldreq r0, [r7, #4]
@@ -936,7 +936,7 @@ ViDockBack__Func_216509C: // 0x0216509C
 	movne r1, #1
 	strne r1, [r5]
 	ldr ip, [r7]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, ip
 	ldreq r3, [r0, #4]
 	ldreq r2, [r7, #4]
@@ -1018,8 +1018,8 @@ _02165200:
 	str r0, [r6, #4]
 	ldr r0, [sp, #0x10]
 	str r0, [r6, #8]
-	ldr r2, [r6]
-	ldr r0, [r7]
+	ldr r2, [r6, #0]
+	ldr r0, [r7, #0]
 	cmp r2, r0
 	ldreq r1, [r6, #4]
 	ldreq r0, [r7, #4]
@@ -1058,8 +1058,8 @@ ViDockBack__Func_2165268: // 0x02165268
 	cmp r2, #0
 	movne r1, #2
 	strne r1, [r2]
-	ldr r1, [r9]
-	ldr r5, [r0]
+	ldr r1, [r9, #0]
+	ldr r5, [r0, #0]
 	cmp r5, r1
 	ldreq r3, [r0, #4]
 	ldreq r2, [r9, #4]
@@ -1171,8 +1171,8 @@ _02165438:
 	str r0, [r8, #4]
 	ldr r0, [sp, #0x10]
 	str r0, [r8, #8]
-	ldr r1, [r8]
-	ldr r0, [r9]
+	ldr r1, [r8, #0]
+	ldr r0, [r9, #0]
 	cmp r1, r0
 	ldreq r1, [r8, #4]
 	ldreq r0, [r9, #4]
@@ -1186,7 +1186,7 @@ _02165478:
 	cmp r0, #0x12000
 	bgt _021654B0
 	mov r0, #0xa000
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	rsb r0, r0, #0
 	cmp r1, r0
 	blt _021654B0
@@ -1223,8 +1223,8 @@ ViDockBack__Func_21654C8: // 0x021654C8
 	cmp r2, #0
 	movne r1, #3
 	strne r1, [r2]
-	ldr r9, [r8]
-	ldr r2, [r0]
+	ldr r9, [r8, #0]
+	ldr r2, [r0, #0]
 	cmp r2, r9
 	ldreq r3, [r0, #4]
 	ldreq r1, [r8, #4]
@@ -1473,8 +1473,8 @@ _021658A0:
 	str r0, [r7, #4]
 	ldr r0, [sp, #0x18]
 	str r0, [r7, #8]
-	ldr r1, [r7]
-	ldr r0, [r8]
+	ldr r1, [r7, #0]
+	ldr r0, [r8, #0]
 	cmp r1, r0
 	ldreq r1, [r7, #4]
 	ldreq r0, [r8, #4]
@@ -1518,8 +1518,8 @@ ViDockBack__Func_2165914: // 0x02165914
 	cmp r2, #0
 	movne r1, #4
 	strne r1, [r2]
-	ldr r9, [r8]
-	ldr r2, [r0]
+	ldr r9, [r8, #0]
+	ldr r2, [r0, #0]
 	cmp r2, r9
 	ldreq r3, [r0, #4]
 	ldreq r1, [r8, #4]
@@ -1768,8 +1768,8 @@ _02165CEC:
 	str r0, [r7, #4]
 	ldr r0, [sp, #0x18]
 	str r0, [r7, #8]
-	ldr r1, [r7]
-	ldr r0, [r8]
+	ldr r1, [r7, #0]
+	ldr r0, [r8, #0]
 	cmp r1, r0
 	ldreq r1, [r7, #4]
 	ldreq r0, [r8, #4]
@@ -1814,7 +1814,7 @@ ViDockBack__Func_2165D60: // 0x02165D60
 	movne r1, #5
 	strne r1, [r2]
 	ldr ip, [r8]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, ip
 	ldreq r3, [r0, #4]
 	ldreq r2, [r8, #4]
@@ -2043,8 +2043,8 @@ _021660E4:
 	str r0, [r7, #4]
 	ldr r0, [sp, #0x10]
 	str r0, [r7, #8]
-	ldr r1, [r7]
-	ldr r0, [r8]
+	ldr r1, [r7, #0]
+	ldr r0, [r8, #0]
 	cmp r1, r0
 	ldreq r1, [r7, #4]
 	ldreq r0, [r8, #4]
@@ -2089,7 +2089,7 @@ ViDockBack__Func_2166158: // 0x02166158
 	movne r1, #6
 	strne r1, [r2]
 	ldr ip, [r6]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, ip
 	ldreq r2, [r0, #4]
 	ldreq r1, [r6, #4]
@@ -2163,8 +2163,8 @@ _02166268:
 	str r0, [r5, #4]
 	ldr r0, [sp, #0x10]
 	str r0, [r5, #8]
-	ldr r1, [r5]
-	ldr r0, [r6]
+	ldr r1, [r5, #0]
+	ldr r0, [r6, #0]
 	cmp r1, r0
 	ldreq r1, [r5, #4]
 	ldreq r0, [r6, #4]

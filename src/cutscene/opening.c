@@ -298,11 +298,11 @@ NONMATCH_FUNC void SetupDisplayForOpening(void)
 	mov r2, r0
 	bl GX_SetGraphicsMode
 	mov r3, #0x4000000
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr r0, =0x00009980
 	bic r1, r1, #0x38000000
 	str r1, [r3]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	add r1, r0, #0x204
 	bic r2, r2, #0x7000000
 	str r2, [r3]
@@ -341,7 +341,7 @@ NONMATCH_FUNC void SetupDisplayForOpening(void)
 	orr ip, ip, #2
 	strh ip, [r3, #0xa]
 	ldrh ip, [r3, #0xc]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bic ip, ip, #3
 	orr ip, ip, #1
 	strh ip, [r3, #0xc]
@@ -359,7 +359,7 @@ NONMATCH_FUNC void SetupDisplayForOpening(void)
 	strh r1, [r2, #0x58]
 	bl GXx_SetMasterBrightness_
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x100
 	str r0, [r1]
@@ -598,7 +598,7 @@ NONMATCH_FUNC void OpeningRenderCallback(NNSG3dRS *rs)
 	sub sp, sp, #4
 	ldr r1, =Opening__RenderCallbackCount
 	ldr r2, [r0, #4]
-	ldrh r5, [r1]
+	ldrh r5, [r1, #0]
 	ldr lr, [r2, #4]
 	ldr r3, =Opening__RenderCallbackList
 	cmp r5, #0
@@ -1562,7 +1562,7 @@ NONMATCH_FUNC void CreateOpeningSonicNameSprite(Opening *parent)
 	ldr r1, [r9, #8]
 	mov r0, #2
 	bl SetOpeningBackgroundPos
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0
 	bl FileUnknown__GetAOUFile
 	mov r7, #0
@@ -1834,7 +1834,7 @@ NONMATCH_FUNC void CreateOpeningBlazeNameSprite(Opening *parent)
 	ldr r1, [r9, #8]
 	mov r0, #3
 	bl SetOpeningBackgroundPos
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0
 	bl FileUnknown__GetAOUFile
 	mov r7, #0

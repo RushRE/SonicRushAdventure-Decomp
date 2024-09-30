@@ -147,14 +147,14 @@ CameraBoundsTrigger__CameraState_ApplyBounds: // 0x021687FC
 	bne _02168860
 	ldr r1, [ip, #0x130]
 	str r1, [r2, #0x58]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	bic r1, r1, #0x10
 	str r1, [r2]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #1
 	str r1, [r0]
 _02168860:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	tst r1, #2
 	beq _021688A8
 	ldrsb r1, [r2, #0x69]
@@ -166,14 +166,14 @@ _02168860:
 	ldr r1, _02168944 // =mapCamera
 	ldr r1, [r1, #0x134]
 	str r1, [r2, #0x5c]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	bic r1, r1, #0x20
 	str r1, [r2]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #2
 	str r1, [r0]
 _021688A8:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	tst r1, #4
 	beq _021688F0
 	ldrsb r1, [r2, #0x6a]
@@ -185,14 +185,14 @@ _021688A8:
 	ldr r1, _02168944 // =mapCamera
 	ldr r1, [r1, #0x138]
 	str r1, [r2, #0x60]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	bic r1, r1, #0x10
 	str r1, [r2]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #4
 	str r1, [r0]
 _021688F0:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	tst r1, #8
 	beq _02168938
 	ldrsb r1, [r2, #0x6b]
@@ -204,10 +204,10 @@ _021688F0:
 	ldr r1, _02168944 // =mapCamera
 	ldr r1, [r1, #0x13c]
 	str r1, [r2, #0x64]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	bic r1, r1, #0x20
 	str r1, [r2]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #8
 	str r1, [r0]
 _02168938:
@@ -251,7 +251,7 @@ CameraBoundsTrigger__Func_2168974: // 0x02168974
 	ldrsb r1, [r2, #0x68]
 	add r1, r1, #1
 	strb r1, [r2, #0x68]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #1
 	str r1, [r0]
 _021689C0:
@@ -263,7 +263,7 @@ _021689C0:
 	ldrsb r1, [r2, #0x6a]
 	add r1, r1, #1
 	strb r1, [r2, #0x6a]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #4
 	str r1, [r0]
 _021689EC:
@@ -283,14 +283,14 @@ _021689EC:
 	addge r1, ip, #0x110000
 	strge r1, [r2, #0x5c]
 	bge _02168A38
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	orr r1, r1, #0x20
 	str r1, [r2]
 _02168A38:
 	ldrsb r1, [r2, #0x69]
 	add r1, r1, #1
 	strb r1, [r2, #0x69]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #2
 	str r1, [r0]
 _02168A50:
@@ -303,14 +303,14 @@ _02168A50:
 	cmp r1, r3
 	strle r3, [r2, #0x64]
 	ble _02168A80
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	orr r1, r1, #0x20
 	str r1, [r2]
 _02168A80:
 	ldrsb r1, [r2, #0x6b]
 	add r1, r1, #1
 	strb r1, [r2, #0x6b]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #8
 	str r1, [r0]
 	b _02168B84
@@ -322,14 +322,14 @@ _02168A9C:
 	cmp r1, ip
 	strge ip, [r2, #0x5c]
 	bge _02168AC4
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	orr r1, r1, #0x20
 	str r1, [r2]
 _02168AC4:
 	ldrsb r1, [r2, #0x69]
 	add r1, r1, #1
 	strb r1, [r2, #0x69]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #2
 	str r1, [r0]
 _02168ADC:
@@ -343,14 +343,14 @@ _02168ADC:
 	suble r1, r3, #0x1d0000
 	strle r1, [r2, #0x64]
 	ble _02168B10
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	orr r1, r1, #0x20
 	str r1, [r2]
 _02168B10:
 	ldrsb r1, [r2, #0x6b]
 	add r1, r1, #1
 	strb r1, [r2, #0x6b]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #8
 	str r1, [r0]
 	b _02168B84
@@ -363,7 +363,7 @@ _02168B2C:
 	ldrsb r1, [r2, #0x69]
 	add r1, r1, #1
 	strb r1, [r2, #0x69]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #2
 	str r1, [r0]
 _02168B58:
@@ -375,7 +375,7 @@ _02168B58:
 	ldrsb r1, [r2, #0x6b]
 	add r1, r1, #1
 	strb r1, [r2, #0x6b]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #8
 	str r1, [r0]
 _02168B84:

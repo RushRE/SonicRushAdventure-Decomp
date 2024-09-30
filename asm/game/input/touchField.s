@@ -30,7 +30,7 @@ TouchField__Process: // 0x0206E704
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	ldr r0, [r5, #4]
-	ldr r4, [r5]
+	ldr r4, [r5, #0]
 	tst r0, #1
 	movne r1, #2
 	moveq r1, #0
@@ -72,8 +72,8 @@ _0206E79C:
 	mov r1, r4
 	mov r2, r6
 	bl TouchField__ProcessSingle
-	ldr r4, [r4]
-	ldr r0, [r5]
+	ldr r4, [r4, #0]
+	ldr r0, [r5, #0]
 	cmp r0, r4
 	bne _0206E79C
 	ldmia sp!, {r4, r5, r6, pc}
@@ -83,14 +83,14 @@ _0206E7C0:
 	mov r2, r6
 	bl TouchField__ProcessSingle
 	cmp r0, #0
-	ldrne r4, [r4]
+	ldrne r4, [r4, #0]
 	bne _0206E7EC
-	ldr r4, [r4]
-	ldr r0, [r5]
+	ldr r4, [r4, #0]
+	ldr r0, [r5, #0]
 	cmp r0, r4
 	bne _0206E7C0
 _0206E7EC:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, r4
 	ldmeqia sp!, {r4, r5, r6, pc}
 	mov r6, #0
@@ -99,8 +99,8 @@ _0206E7FC:
 	mov r1, r4
 	mov r2, r6
 	bl TouchField__ProcessSingle
-	ldr r4, [r4]
-	ldr r0, [r5]
+	ldr r4, [r4, #0]
+	ldr r0, [r5, #0]
 	cmp r0, r4
 	bne _0206E7FC
 	ldmia sp!, {r4, r5, r6, pc}
@@ -121,7 +121,7 @@ TouchField__InitAreaShape: // 0x0206E824
 	cmp r7, #0
 	beq _0206E85C
 	ldrsh r1, [r7, #2]
-	ldrsh r0, [r7]
+	ldrsh r0, [r7, #0]
 	strh r0, [r4, #0x24]
 	strh r1, [r4, #0x26]
 _0206E85C:
@@ -236,7 +236,7 @@ _0206E98C:
 	str r0, [r1, #4]
 	str r1, [r0]
 	ldmia r1, {r0, r2}
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	str r1, [r0, #4]
 	ldmia sp!, {r3, pc}
 _0206E9B8:
@@ -259,7 +259,7 @@ _0206E9E8:
 	str r0, [r1, #4]
 	str r1, [r0]
 	ldmia r1, {r0, r2}
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	str r1, [r0, #4]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
@@ -270,13 +270,13 @@ _0206EA08: .word 0x0000FFFF
 TouchField__RemoveArea: // 0x0206EA0C
 	ldmia r1, {r2, r3}
 	str r3, [r2, #4]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r2, [r1, #4]
 	str r3, [r2]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, r1
 	bxne lr
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r1, r2
 	strne r2, [r0]
 	moveq r1, #0
@@ -463,7 +463,7 @@ TouchField__PointInAnimator: // 0x0206EC5C
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 _0206EC84:
 	ldr r1, _0206EE20 // =0x04000304
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	and r1, r1, #0x8000
 	mov r1, r1, asr #0xf
 	cmp r1, #1
@@ -473,7 +473,7 @@ _0206EC84:
 	bne _0206ECC8
 _0206ECA8:
 	ldr r1, _0206EE20 // =0x04000304
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	and r1, r1, #0x8000
 	movs r1, r1, asr #0xf
 	bne _0206ECD8

@@ -168,7 +168,7 @@ ovl09_215DDC0: // 0x0215DDC0
 	add r0, r4, #0x6c
 	bl ovl09_2162164
 	ldr r0, [r4, #0x3b0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0xf000
 	blt _0215DE1C
 	mov ip, #0xc9
@@ -205,7 +205,7 @@ ovl09_215DE40: // 0x0215DE40
 	add r0, r4, #0x6c
 	bl ovl09_2162164
 	ldr r0, [r4, #0x3b0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0x23000
 	bne _0215DE6C
 	bl ovl09_215DE88
@@ -310,9 +310,9 @@ exBossSysAdminTask__Main: // 0x0215DF3C
 	bl exBossSysAdminBiforTask__Create
 	ldr r1, _0215E02C // =0x0217431C
 	add r0, r5, #0x6c
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r2, [r5, #0x54c]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	str r1, [r5, #0x548]
 	bl ovl09_2154030
 	add r0, r5, #0x3f8
@@ -521,14 +521,14 @@ ovl09_215E1E8: // 0x0215E1E8
 	bl ovl09_2162164
 	bl ovl09_215F88C
 	ldr r0, _0215E290 // =exBossSysAdminTask__dword_217626C
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	cmp r1, #0xaf
 	bge _0215E22C
 	add r1, r1, #1
 	strh r1, [r0]
 	bl ovl09_215DF0C
 	ldr r1, _0215E290 // =exBossSysAdminTask__dword_217626C
-	ldrsh r1, [r1]
+	ldrsh r1, [r1, #0]
 	strh r1, [r0, #0x62]
 	b _0215E274
 _0215E22C:
@@ -602,7 +602,7 @@ ovl09_215E2D4: // 0x0215E2D4
 	bne _0215E3C8
 	ldr r1, _0215E408 // =_mt_math_rand
 	ldr r0, _0215E40C // =0x0217431C
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldr r2, _0215E410 // =0x00196225
 	ldr r3, _0215E414 // =0x3C6EF35F
 	ldr r6, _0215E418 // =0x51EB851F
@@ -712,7 +712,7 @@ ovl09_215E458: // 0x0215E458
 	bgt _0215E540
 	ldr r1, _0215E56C // =_mt_math_rand
 	ldr r0, _0215E570 // =0x0217431C
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldr r2, _0215E574 // =0x00196225
 	ldr r3, _0215E578 // =0x3C6EF35F
 	ldr r6, _0215E57C // =0x51EB851F
@@ -725,7 +725,7 @@ ovl09_215E458: // 0x0215E458
 	add r5, ip, r5, asr #5
 	mov lr, #0x64
 	smull r5, ip, lr, r5
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r2, [r1]
 	str r0, [r4, #0x548]
 	rsb r5, r5, r3, lsr #16
@@ -818,7 +818,7 @@ ovl09_215E5B8: // 0x0215E5B8
 	ldr ip, [r3]
 	ldr r0, _0215E67C // =0x00196225
 	ldr r1, _0215E680 // =0x3C6EF35F
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mla r0, ip, r0, r1
 	str r0, [r3]
 	str r2, [r4, #0x548]
@@ -900,7 +900,7 @@ ovl09_215E6C4: // 0x0215E6C4
 	bne _0215E7A4
 	ldr r1, _0215E7E4 // =_mt_math_rand
 	ldr r0, _0215E7E8 // =0x0217431C
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldr r2, _0215E7EC // =0x00196225
 	ldr r3, _0215E7F0 // =0x3C6EF35F
 	ldr r6, _0215E7F4 // =0x51EB851F
@@ -1000,7 +1000,7 @@ ovl09_215E834: // 0x0215E834
 	bgt _0215E95C
 	ldr r1, _0215E988 // =_mt_math_rand
 	ldr r0, _0215E98C // =0x0217431C
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldr r2, _0215E990 // =0x00196225
 	ldr r3, _0215E994 // =0x3C6EF35F
 	ldr r6, _0215E998 // =0x51EB851F
@@ -1206,7 +1206,7 @@ ovl09_215EAE0: // 0x0215EAE0
 	bne _0215EBC0
 	ldr r1, _0215EC00 // =_mt_math_rand
 	ldr r0, _0215EC04 // =0x0217431C
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldr r2, _0215EC08 // =0x00196225
 	ldr r3, _0215EC0C // =0x3C6EF35F
 	ldr r6, _0215EC10 // =0x51EB851F
@@ -1306,7 +1306,7 @@ ovl09_215EC50: // 0x0215EC50
 	bgt _0215EDB8
 	ldr r1, _0215EDE4 // =_mt_math_rand
 	ldr r0, _0215EDE8 // =0x0217431C
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldr r2, _0215EDEC // =0x00196225
 	ldr r3, _0215EDF0 // =0x3C6EF35F
 	ldr r6, _0215EDF4 // =0x51EB851F

@@ -58,7 +58,7 @@ Truck3D__Create: // 0x0216EAC4
 	mov r3, r0
 	ldr r0, _0216F2B4 // =gameArchiveStage
 	mov r1, #0x18
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r11
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -83,7 +83,7 @@ Truck3D__Create: // 0x0216EAC4
 	mov r4, r0
 	ldr r1, _0216F2B4 // =gameArchiveStage
 	str r4, [sp]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r0, r11
 	str r2, [sp, #4]
 	ldr r2, _0216F2BC // =aModGmkTruckNsb
@@ -107,7 +107,7 @@ _0216EC48:
 	mov r1, r6
 	bl AnimatorMDL__Init
 	str r5, [sp]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r9
 	mov r3, r5
 	add r2, r7, #1
@@ -122,7 +122,7 @@ _0216EC80:
 	blt _0216EC48
 	ldr r0, _0216F2B4 // =gameArchiveStage
 	ldr r1, _0216F2C4 // =aActAcItmRing3d_0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, #0
 	bl ObjDataLoad
 	mov r4, r0
@@ -187,7 +187,7 @@ _0216EC80:
 	ldr r0, _0216F2B4 // =gameArchiveStage
 	orr r1, r1, #0x18
 	str r1, [r6, #0xccc]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _0216F2CC // =aActAcGmkTruckC
 	mov r0, #0
 	bl ObjDataLoad
@@ -252,7 +252,7 @@ _0216EC80:
 	bl AnimatorSprite3D__ProcessAnimation
 	ldr r2, _0216F2B4 // =gameArchiveStage
 	ldr r1, _0216F2D0 // =aBpaGmkTruckCan
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #0
 	bl ObjDataLoad
 	mov r1, r0
@@ -643,7 +643,7 @@ TruckBarrier__Create: // 0x0216F3C4
 	mov r3, r0
 	ldr r0, _0216F568 // =gameArchiveStage
 	mov r1, #0x1a
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -1142,7 +1142,7 @@ _0216FB84:
 	mov r6, r7
 	mov r5, ip
 _0216FB98:
-	ldr r3, [r6]
+	ldr r3, [r6, #0]
 	cmp r3, #0
 	beq _0216FBB8
 	ldr r2, [r3, #0x18]
@@ -1314,7 +1314,7 @@ RingTruck3D__OnDefend_216FDE8: // 0x0216FDE8
 	ldmeqia sp!, {r4, pc}
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #1
 	ldreqb r1, [r0, #0x5d1]
 	cmpeq r1, #0
@@ -1378,7 +1378,7 @@ ItemBoxTruck3D__Create: // 0x0216FE38
 	bl GetObjectFileWork
 	ldr r2, _02170080 // =gameArchiveStage
 	ldr r1, _02170084 // =aActAcItmBox3dB
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	mov r4, r0
 	mov r0, #0x200
@@ -1596,7 +1596,7 @@ ItemBoxTruck3D__OnDefend_21701EC: // 0x021701EC
 	cmp r5, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldreqb r0, [r5, #0x5d1]
 	cmpeq r0, #0
@@ -1681,7 +1681,7 @@ TruckBomb3D__Create: // 0x02170290
 	str r0, [sp, #4]
 	ldr r1, _02170438 // =gameArchiveStage
 	mov r0, r4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r4, #0x370
 	str r2, [sp, #8]
 	ldr r2, _0217043C // =aActAcGmkTruckB_1
@@ -1879,7 +1879,7 @@ TruckSpike3D__Create: // 0x0217056C
 	str r0, [sp, #4]
 	ldr r1, _02170704 // =gameArchiveStage
 	mov r0, r4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r4, #0x370
 	str r2, [sp, #8]
 	ldr r2, _02170708 // =aActAcGmkTruckS
@@ -2027,7 +2027,7 @@ TruckLava3D__Create: // 0x0217078C
 	movne r1, #0
 	ldr r0, _02170AC4 // =gameArchiveStage
 	mov r3, r1, lsl #0x10
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _02170AC8 // =aActAcGmkTruckL
 	mov r0, #0
 	mov r6, r3, lsr #0x10
@@ -2057,7 +2057,7 @@ TruckLava3D__Create: // 0x0217078C
 	bl AnimatorSprite3D__ProcessAnimation
 	ldr r2, _02170AC4 // =gameArchiveStage
 	ldr r1, _02170ACC // =aBpaGmkTruckLav
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #0
 	bl ObjDataLoad
 	mov r1, r0
@@ -2746,7 +2746,7 @@ Truck3D__OnDefend_21712A4: // 0x021712A4
 	cmpne r2, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	cmp r0, #3
 	ldreq r0, [r2, #0x340]
 	ldreqh r0, [r0, #2]
@@ -3180,7 +3180,7 @@ _02171878:
 	and r4, r4, #7
 	cmp r4, r1
 	beq _02171AC8
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	add r1, r5, #0x284
 	sub r4, r4, #0x12c000
 	str r4, [r0]
@@ -3407,7 +3407,7 @@ _02171C40:
 	cmp r2, r1
 	mov r0, r0, asr #0x10
 	bne _02171E00
-	ldrb r2, [r7]
+	ldrb r2, [r7, #0]
 	cmp r2, #3
 	blo _02171CF8
 	add r1, r5, #0x3000
@@ -4126,7 +4126,7 @@ _021726C0:
 	ldr r1, [r1, #0x4c]
 	str r1, [sp, #0x14c]
 	ldr r1, [sp, #0x58]
-	ldrb r10, [r1]
+	ldrb r10, [r1, #0]
 	ldr r1, [sp, #0x74]
 	ldrh r3, [r1, #0x1e]
 	ldr r1, [sp, #0x68]
@@ -4243,7 +4243,7 @@ _021726C0:
 	str r0, [sp, #0xc]
 	ldr r0, [sp, #0x58]
 	mov r9, #0x144
-	ldrb r10, [r0]
+	ldrb r10, [r0, #0]
 	ldr r0, [sp, #0x68]
 	mla r0, r10, r9, r0
 	bl StageTask__Draw3DEx
@@ -4411,7 +4411,7 @@ _02172B4C:
 	ldr r0, [r10, #4]
 	cmp r0, #0
 	beq _02172E28
-	ldr r2, [r10]
+	ldr r2, [r10, #0]
 	ldr r0, [sp, #0x50]
 	ldr r1, [r10, #8]
 	sub r0, r2, r0
@@ -4738,7 +4738,7 @@ Object58__OnDefend_2173030: // 0x02173030
 	cmpne r5, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {r3, r4, r5, r6, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	addne sp, sp, #4
 	ldmneia sp!, {r3, r4, r5, r6, pc}
@@ -4746,7 +4746,7 @@ Object58__OnDefend_2173030: // 0x02173030
 	cmp r6, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {r3, r4, r5, r6, pc}
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #3
 	ldreq r0, [r6, #0x340]
 	ldreqh r0, [r0, #2]
@@ -4935,7 +4935,7 @@ Truck3D__Func_2173304: // 0x02173304
 	str r1, [sp, #8]
 	str r0, [sp, #4]
 	ldr r0, [sp, #8]
-	ldrb r9, [r2]
+	ldrb r9, [r2, #0]
 	ldrb r8, [r2, #1]
 	ldrb r7, [r2, #2]
 	ldrb r6, [r2, #3]
@@ -4945,7 +4945,7 @@ Truck3D__Func_2173304: // 0x02173304
 	ldrh r4, [r2, #6]
 	ldrh r3, [r2, #8]
 	ldrh r2, [r2, #0xa]
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	add r10, sp, #0x82
 	strb r9, [sp, #0x82]
 	ldr r8, [sp, #4]
@@ -5047,7 +5047,7 @@ _02173490:
 	adc r4, r5, #0
 	mov r5, r6, lsr #0xc
 	orr r5, r5, r4, lsl #20
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	add r4, r4, r5
 	str r4, [r3]
 _021734E0:
@@ -5066,7 +5066,7 @@ _021734E0:
 	str r0, [r8, #0x80]
 	ldr r0, [sp, #4]
 	ldr r4, _02173E84 // =0x00196225
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	add r0, sp, #0x82
 	ldr r5, _02173E88 // =0x3C6EF35F
 	ldrb r1, [r0, r1]
@@ -5127,7 +5127,7 @@ _021734E0:
 	str r0, [sp, #0x70]
 _02173608:
 	ldr r0, [sp, #4]
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	add r0, sp, #0x82
 	ldrb r2, [r0, r1]
 	ldr r0, [sp, #0x40]
@@ -5145,7 +5145,7 @@ _02173608:
 	ble _02173810
 	ldr r10, [sp, #0x30]
 _02173650:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5181,7 +5181,7 @@ _02173650:
 	mov r2, r7
 	add r0, r1, r0
 	str r0, [r10, #0x24]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r3, r11
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
@@ -5196,7 +5196,7 @@ _02173650:
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
 	str r0, [r10, #0x2c]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5236,7 +5236,7 @@ _02173650:
 	mov r0, r0, lsr #0x10
 	str r1, [r10, #0xfc]
 	str r0, [sp, #0x2c]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5277,7 +5277,7 @@ _0217382C:
 	blt _0217382C
 _0217384C:
 	ldr r0, [sp, #0x4c]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	orr r1, r0, #2
 	ldr r0, [sp, #0x4c]
 	strh r1, [r0]
@@ -5294,7 +5294,7 @@ _02173864:
 	ble _021739E8
 	ldr r10, [sp, #0x30]
 _0217388C:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5319,7 +5319,7 @@ _0217388C:
 	mov r2, r7
 	add r0, r1, r0
 	str r0, [r10]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5333,7 +5333,7 @@ _0217388C:
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
 	str r0, [r10, #8]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	str r1, [r6]
@@ -5360,7 +5360,7 @@ _0217388C:
 	str r0, [sp, #0x38]
 	add r0, r2, r1
 	str r0, [r10, #0xd8]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5409,7 +5409,7 @@ _02173A24:
 	ble _02173BA0
 	ldr r10, [sp, #0x30]
 _02173A44:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5434,7 +5434,7 @@ _02173A44:
 	mov r2, r7
 	add r0, r1, r0
 	str r0, [r10, #0x24]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5448,7 +5448,7 @@ _02173A44:
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
 	str r0, [r10, #0x2c]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	str r1, [r6]
 	mov r0, r1, lsr #0x10
@@ -5475,7 +5475,7 @@ _02173A44:
 	str r0, [sp, #0x18]
 	add r0, r2, r1
 	str r0, [r10, #0xfc]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5516,7 +5516,7 @@ _02173BBC:
 	blt _02173BBC
 _02173BDC:
 	ldr r0, [sp, #0x4c]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	orr r1, r0, #0xc
 	ldr r0, [sp, #0x4c]
 	strh r1, [r0]
@@ -5531,7 +5531,7 @@ _02173BF4:
 	ble _02173DD4
 	ldr r10, [sp, #0x30]
 _02173C14:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5567,7 +5567,7 @@ _02173C14:
 	mov r2, r7
 	add r0, r1, r0
 	str r0, [r10]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r3, r11
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
@@ -5582,7 +5582,7 @@ _02173C14:
 	ldr r0, [r8, #0x80]
 	add r0, r1, r0
 	str r0, [r10, #8]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5622,7 +5622,7 @@ _02173C14:
 	str r1, [r10, #0xd8]
 	mov r0, r0, lsr #0x10
 	str r0, [sp, #0x28]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla r1, r0, r4, r5
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5663,7 +5663,7 @@ _02173DF0:
 	blt _02173DF0
 _02173E10:
 	ldr r0, [sp, #0x4c]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	orr r1, r0, #0x10
 	ldr r0, [sp, #0x4c]
 	strh r1, [r0]

@@ -20,7 +20,7 @@ _037FBEB8: .word OS_UnlockCard
 	arm_func_start OS_GetLockID
 OS_GetLockID: // 0x037FBEBC
 	ldr r3, _037FBF4C // =0x027FFFB8
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r2, #0
 	mov r0, #0x80000000
 _037FBECC:
@@ -36,7 +36,7 @@ _037FBEE8:
 	movne r0, #0x80
 	bne _037FBF30
 	add r3, r3, #4
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r2, #0
 	mov r0, #0x80000000
 _037FBF04:
@@ -56,7 +56,7 @@ _037FBF30:
 	add r0, r0, r2
 	mov r1, #0x80000000
 	mov r1, r1, lsr r2
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	bic r2, r2, r1
 	str r2, [r3]
 	bx lr
@@ -74,7 +74,7 @@ OS_ReleaseLockID: // 0x037FBF54
 	submi r0, r0, #0x80
 	mov r1, #0x80000000
 	mov r1, r1, lsr r0
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	orr r2, r2, r1
 	str r2, [r3]
 	bx lr
@@ -262,7 +262,7 @@ OS_InitLock: // 0x037FC158
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _037FC1D0 // =isInitialized_3171
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _037FC1C4
 	mov r1, #1

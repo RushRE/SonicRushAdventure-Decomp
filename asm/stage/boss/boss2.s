@@ -165,7 +165,7 @@ _0215B09C:
 	blt _0215B09C
 	ldr r2, _0215B1D8 // =_mt_math_rand
 	ldr r0, _0215B1DC // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0215B1E0 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -185,7 +185,7 @@ _0215B09C:
 	bl ovl01_216009C
 	ldr r1, _0215B1E4 // =gameArchiveStage
 	add r0, sp, #0x14
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _0215B1E8 // =_0217A7FC
 	bl NNS_FndMountArchive
 	add r0, sp, #0x14
@@ -298,7 +298,7 @@ Boss2__Create: // 0x0215B1F0
 	mov r2, #0
 	ldr r0, _0215B498 // =bossAssetFiles
 	str r2, [sp]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r3, r2
 	add r0, r4, #0x400
 	bl AnimatorMDL__SetResource
@@ -341,7 +341,7 @@ Boss2__Create: // 0x0215B1F0
 	bl BossHelpers__Model__Init
 	ldr r2, _0215B4BC // =gameArchiveStage
 	ldr r1, _0215B4C0 // =_0217A7FC
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r0, sp, #0xc
 	bl NNS_FndMountArchive
 	add r0, r8, #0xa4
@@ -356,7 +356,7 @@ _0215B3F4:
 	add r1, r9, #0xc
 	bl NNS_FndGetArchiveFileByIndex
 	mov r7, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl NNS_G3dGetTex
 	ldr r1, [r6, r9, lsl #2]
 	bl Asset3DSetup__PaletteFromName
@@ -641,7 +641,7 @@ Boss2Ball__Create: // 0x0215B760
 	add r3, sp, #0x24
 	mov r2, #6
 _0215B838:
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	ldrh r0, [r4, #2]
 	add r4, r4, #4
 	strh r1, [r3]
@@ -794,7 +794,7 @@ _0215B838:
 	str r0, [r6, #0x85c]
 	ldr r0, _0215BB68 // =gameArchiveStage
 	str r4, [r6, #0x860]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _0215BB6C // =_0217A7FC
 	add r0, sp, #0x3c
 	bl NNS_FndMountArchive
@@ -1000,7 +1000,7 @@ Boss2Wave__Create: // 0x0215BD04
 	orr r2, r2, #0x8300
 	str r2, [r4, #0x1c]
 	ldr r2, _0215BE9C // =gameArchiveStage
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl NNS_FndMountArchive
 	add r0, r4, #0x364
 	mov r1, #0
@@ -1078,7 +1078,7 @@ ovl01_215BEA8: // 0x0215BEA8
 	mov r1, #0x40000
 	bl BossHelpers__Arena__Func_2038EBC
 	ldr r0, _0215BEE4 // =_0217AF80
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	blx r0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
@@ -1096,7 +1096,7 @@ ovl01_215BEE8: // 0x0215BEE8
 	str r0, [r4]
 	ldr r1, _0215BF40 // =gameArchiveStage
 	add r0, sp, #0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _0215BF44 // =_0217A7FC
 	bl NNS_FndMountArchive
 	add r0, sp, #0
@@ -1258,7 +1258,7 @@ ovl01_215C0A0: // 0x0215C0A0
 	mla r1, r0, r1, r2
 	add r1, r1, r6, lsl #2
 _0215C0E4:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	strh r0, [r5]
 	ldrh r0, [r1, #2]
 	strh r0, [r4]
@@ -1299,7 +1299,7 @@ _0215C14C:
 	mla lr, ip, r0, r1
 	mov r0, lr, lsr #0x10
 	mov r0, r0, lsl #0x10
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	and r0, r3, r0, lsr #16
 	str lr, [r2]
 	add r0, r1, r0
@@ -1347,7 +1347,7 @@ _0215C1F0:
 	mla lr, ip, r0, r1
 	mov r0, lr, lsr #0x10
 	mov r0, r0, lsl #0x10
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	and r0, r3, r0, lsr #16
 	str lr, [r2]
 	add r0, r1, r0
@@ -1413,7 +1413,7 @@ ovl01_215C2CC: // 0x0215C2CC
 	bl BossArena__GetCamera
 	ldr r1, _0215C5E4 // =gPlayer
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r2, _0215C5E8 // =0x00722543
 	ldr r0, [r0, #0x44]
 	mov r1, #0x40000
@@ -1728,7 +1728,7 @@ ovl01_215C730: // 0x0215C730
 	add r0, sp, #4
 	bl InitSpatialAudioMatrix
 	ldr r0, _0215C784 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1b0
 	bl SetSpatialAudioOriginPosition
 	add sp, sp, #0x34
@@ -1768,7 +1768,7 @@ _0215C7C8:
 	blt _0215C7C8
 	ldr r1, _0215C830 // =gameArchiveStage
 	add r0, sp, #0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _0215C834 // =_0217A7FC
 	bl NNS_FndMountArchive
 	add r0, sp, #0
@@ -1852,7 +1852,7 @@ ovl01_215C8F4: // 0x0215C8F4
 	stmdb sp!, {r4, lr}
 	ldr r0, [r0, #0x1c]
 	ldr r4, [r1, #0x1c]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #1
 	ldmneia sp!, {r4, pc}
 	ldr r0, [r4, #0x370]
@@ -1902,7 +1902,7 @@ ovl01_215C938: // 0x0215C938
 	bl BossArena__SetCameraConfig
 	ldr r1, _0215CCE8 // =gPlayer
 	mov r0, r4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0
 	mov r3, r1
 	bl BossArena__SetTracker1TargetWork
@@ -1937,7 +1937,7 @@ ovl01_215C938: // 0x0215C938
 	bl BossArena__ApplyAmplitudeYTarget
 	ldr r0, _0215CCE8 // =gPlayer
 	ldr r2, _0215CCEC // =0x00722543
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
 	bl BossHelpers__Arena__Func_2038DCC
@@ -1982,7 +1982,7 @@ ovl01_215C938: // 0x0215C938
 	bl BossArena__UpdateTracker0TargetPos
 	ldr r2, _0215CCF0 // =0x0400000A
 	mov r0, #2
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	and r1, r1, #0x43
 	orr r1, r1, #4
 	orr r1, r1, #0x6000
@@ -2000,23 +2000,23 @@ ovl01_215C938: // 0x0215C938
 	bl GetBackgroundPixels
 	ldr r2, _0215CCF4 // =VRAMSystem__VRAM_BG
 	mov r1, #0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r2, r2, #0x4000
 	bl LoadCompressedPixels
 	ldr r0, [r5, #0x364]
 	bl GetBackgroundPalette
 	ldr r2, _0215CCF8 // =VRAMSystem__VRAM_PALETTE_BG
 	mov r1, #0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl LoadCompressedPalette
 	mov r0, #0
 	sub r1, r0, #0xa0
 	bl BossArena__Func_2039A94
 	mov r2, #0x4000000
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	and r0, r0, #0x1f00
 	mov r0, r0, lsr #8
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	orr r0, r0, #2
 	bic r1, r1, #0x1f00
 	orr r0, r1, r0, lsl #8
@@ -2092,7 +2092,7 @@ ovl01_215C938: // 0x0215C938
 	add r0, r5, #0x300
 	str r4, [r1]
 	str r3, [ip, #0xfc]
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	ldr r1, [r2, #0x20]
 	orr r1, r1, #0x2000
 	str r1, [r2, #0x20]
@@ -2135,7 +2135,7 @@ ovl01_215CD08: // 0x0215CD08
 	bl BossArena__SetCameraType
 	ldr r1, _0215CE7C // =gPlayer
 	mov r0, r5
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0
 	mov r3, r1
 	bl BossArena__SetTracker1TargetWork
@@ -2170,7 +2170,7 @@ ovl01_215CD08: // 0x0215CD08
 	bl BossArena__ApplyAmplitudeYTarget
 	ldr r0, _0215CE7C // =gPlayer
 	ldr r2, _0215CE80 // =0x00722543
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
 	bl BossHelpers__Arena__Func_2038DCC
@@ -2601,7 +2601,7 @@ ovl01_215D334: // 0x0215D334
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215D4C4 // =gPlayer
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r2, _0215D4C8 // =0x00722543
 	ldr r0, [r0, #0x44]
 	mov r1, #0x40000
@@ -2676,7 +2676,7 @@ _0215D41C:
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r2, _0215D4D0 // =_mt_math_rand
 	ldr r0, _0215D4D4 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0215D4D8 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -3215,27 +3215,27 @@ ovl01_215DAD4: // 0x0215DAD4
 	ldr r0, _0215DC10 // =playerGameStatus
 	bic r1, r1, #4
 	str r1, [r6, #0x230]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #1
 	str r1, [r0]
 	bl StopStageBGM
 	ldr r0, _0215DC14 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Player__Action_Blank
 	ldr r0, _0215DC14 // =gPlayer
 	mov r1, #0x12
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r2, [r3, #0x1c]
 	orr r2, r2, #0x10
 	str r2, [r3, #0x1c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Player__ChangeAction
 	ldr r1, _0215DC14 // =gPlayer
 	mov r2, #0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #0x600
 	strh r2, [r0, #0x82]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl BossHelpers__Player__LockControl
 	mov r0, #0
 	str r0, [r6, #0x6bc]
@@ -3262,10 +3262,10 @@ _0215DB88:
 	bl ShakeScreenEx
 	ldr r1, _0215DC14 // =gPlayer
 	mov r3, #0x10000
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r0, #0
 	str r3, [r2, #4]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r1, [r3, #0x1b0]
 	ldr r2, [r3, #0x1b4]
 	ldr r3, [r3, #0x1b8]
@@ -3311,7 +3311,7 @@ ovl01_215DC20: // 0x0215DC20
 	str r3, [r2, #0x3d4]
 	ldr r1, _0215DDC4 // =gPlayer
 	add r3, sp, #0xc
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r4, r0
 	add r1, r1, #0x1b0
 	ldmia r1, {r0, r1, r2}
@@ -3334,7 +3334,7 @@ ovl01_215DC20: // 0x0215DC20
 	bl BossArena__SetTracker1TargetPos
 	ldr r0, _0215DDC4 // =gPlayer
 	add r3, sp, #0
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	add r0, r6, #0x1b0
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
@@ -3464,10 +3464,10 @@ _0215DE98:
 	ldrh r1, [r0, #0x24]
 	cmp r1, #0x10
 	bhs _0215DED0
-	ldrh r1, [r8]
+	ldrh r1, [r8, #0]
 	add r1, r1, #1
 	strh r1, [r8]
-	ldrh r1, [r8]
+	ldrh r1, [r8, #0]
 	cmp r1, #2
 	bls _0215DED0
 	mov r1, #0
@@ -3636,7 +3636,7 @@ _0215E0FC: .word ovl01_215E100
 	arm_func_start ovl01_215E100
 ovl01_215E100: // 0x0215E100
 	ldr r0, _0215E114 // =playerGameStatus
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #4
 	str r1, [r0]
 	bx lr
@@ -3762,7 +3762,7 @@ ovl01_215E248: // 0x0215E248
 	stmia r4!, {r0, r1, r2, r3}
 	ldmia r5!, {r0, r1, r2, r3}
 	stmia r4!, {r0, r1, r2, r3}
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, #0
 	str r1, [r4]
 	ldr r1, [ip, #0x3a8]
@@ -4542,7 +4542,7 @@ ovl01_215EC5C: // 0x0215EC5C
 	ldr r2, _0215ECCC // =0x00722543
 	bic r1, r1, #0x20
 	str r1, [r4, #0x20]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
 	bl BossHelpers__Arena__Func_2038DCC
@@ -4763,7 +4763,7 @@ ovl01_215EF50: // 0x0215EF50
 	str lr, [r7, #0x20]
 	str ip, [r5, #0x48]
 	ldr ip, [r6]
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	mla r0, ip, r0, r1
 	str r0, [r6]
 	mov r6, r0, lsr #0x10
@@ -4895,7 +4895,7 @@ ovl01_215F128: // 0x0215F128
 	bl PlaySfxEx
 	ldr r2, _0215F1F8 // =_mt_math_rand
 	ldr r0, _0215F1FC // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0215F200 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -5231,7 +5231,7 @@ ovl01_215F614: // 0x0215F614
 	mov r8, r0
 	ldr r5, [r8, #0x1c]
 	mov r7, r1
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	ldr r4, [r7, #0x1c]
 	cmp r0, #1
 	addne sp, sp, #0x1c
@@ -5681,7 +5681,7 @@ ovl01_215FC1C: // 0x0215FC1C
 	cmp r0, r1
 	ldr r0, [r7, #0x69c]
 	strlt r1, [r7, #0x594]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, [r7, #0x594]
 	add r1, r2, r1
 	str r1, [r0]
@@ -5689,7 +5689,7 @@ ovl01_215FC1C: // 0x0215FC1C
 	sub r1, r1, #0x66
 	sub r1, r1, #0x200
 	str r1, [r7, #0x594]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
 	bgt _0215FD24
 	ldr r3, [r7, #0x370]
@@ -5889,7 +5889,7 @@ ovl01_215FF00: // 0x0215FF00
 	str r0, [r4, #0x3bc]
 	ldr r2, _0215FFEC // =_mt_math_rand
 	ldr r0, _0215FFF0 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0215FFF4 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -5903,7 +5903,7 @@ ovl01_215FF00: // 0x0215FF00
 	strh r1, [r0, #0xc2]
 	ldr r2, _0215FFEC // =_mt_math_rand
 	ldr r0, _0215FFF0 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0215FFF4 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -6481,7 +6481,7 @@ ovl01_21606DC: // 0x021606DC
 	stmdb sp!, {r4, lr}
 	ldr r4, [r0, #0x1c]
 	ldr r0, [r1, #0x1c]
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	cmp r1, #1
 	ldmneia sp!, {r4, pc}
 	ldr r1, [r0, #0x230]
@@ -6723,18 +6723,18 @@ ovl01_21609AC: // 0x021609AC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x448]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0x1b000
 	blt _02160A04
 	cmp r0, #0x1d000
 	bge _02160A04
 	ldr r0, _02160A20 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl BossHelpers__Player__IsDead
 	cmp r0, #0
 	beq _02160A04
 	ldr r0, _02160A20 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r0, #0x1c]
 	tst r1, #0x10
 	addeq r1, r0, #0x600

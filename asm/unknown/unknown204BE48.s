@@ -113,7 +113,7 @@ Task__Unknown204BE48__LerpVec2: // 0x0204BF8C
 	mov r0, r3
 	bl Task__Unknown204BE48__GetPercent
 	ldr ip, [r5]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	sub r1, r1, ip
 	smull r3, r2, r1, r0
 	adds r3, r3, #0x800
@@ -145,7 +145,7 @@ Task__Unknown204BE48__LerpVec3: // 0x0204BFFC
 	mov r0, r3
 	bl Task__Unknown204BE48__GetPercent
 	ldr ip, [r5]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	sub r1, r1, ip
 	smull r3, r2, r1, r0
 	adds r3, r3, #0x800
@@ -263,7 +263,7 @@ _0204C190:
 	blx r5
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0204C1B0:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	ldrne r7, [r4, #0x18]
 	cmpne r7, #0
@@ -286,15 +286,15 @@ _0204C1F0: // jump table
 	b _0204C224 // case 3
 	b _0204C210 // case 4
 _0204C204:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	strh r0, [r1]
 	b _0204C224
 _0204C210:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	str r0, [r1]
 	b _0204C224
 _0204C21C:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	strb r0, [r1]
 _0204C224:
 	cmp r5, #0
@@ -340,7 +340,7 @@ Task__Unknown204BE48__Destructor: // 0x0204C2A8
 	stmdb sp!, {r3, lr}
 	bl GetTaskWork_
 	mov r1, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r2, #0
 	beq _0204C2E0
 	ldrsh r0, [r1, #0xc]

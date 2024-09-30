@@ -100,7 +100,7 @@ NONMATCH_FUNC void BreakableWall__OnDefend_2160518(OBS_RECT_WORK *rect1, OBS_REC
 	cmp r5, #0
 	ldr r7, [r1, #0x1c]
 	beq _02160564
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	cmp r2, #1
 	moveq r4, r5
 	beq _02160564
@@ -365,7 +365,7 @@ NONMATCH_FUNC void BreakableWall__OnDefend_21608E0(OBS_RECT_WORK *rect1, OBS_REC
 	cmp r3, #0
 	mov r4, #0
 	beq _02160908
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	cmp r2, #1
 	moveq r4, r3
 _02160908:
@@ -486,7 +486,7 @@ NONMATCH_FUNC void BreakableWall__OnDefend_2160A88(OBS_RECT_WORK *rect1, OBS_REC
 	cmp r3, #0
 	mov r4, #0
 	beq _02160AB0
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	cmp r2, #1
 	moveq r4, r3
 _02160AB0:
@@ -690,7 +690,7 @@ _02160D40:
 	ldr r10, =0x000001FF
 	b _02160E60
 _02160D74:
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldr r0, [r5, #4]
 	mov ip, r2, asr #0xc
 	add lr, r6, r2, asr #12
@@ -744,7 +744,7 @@ _02160E24:
 	and ip, ip, r9
 	orr r3, ip, r3
 	strh r3, [r1, #2]
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	bic r3, r3, #0xff
 	orr r2, r3, r2
 	strh r2, [r1]

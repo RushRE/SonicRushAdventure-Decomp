@@ -42,7 +42,7 @@ TimeAttackRankList__Create: // 0x0216F60C
 	mov r7, #0
 	str r0, [sp, #0x3c]
 _0216F658:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ldrh r2, [r4, #2]
 	lsl r0, r0, #2
 	add r1, r5, r0
@@ -65,7 +65,7 @@ _0216F658:
 	str r0, [sp, #0xc]
 	ldrb r0, [r4, #9]
 	str r0, [sp, #0x10]
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	mov r0, r6
 	lsl r1, r1, #2
 	add r2, r5, r1
@@ -165,7 +165,7 @@ _0216F74C:
 	mov r1, r6
 	lsl r2, r2, #6
 	bl MIi_CpuClearFast
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	cmp r0, #0
 	bne _0216F78C
 	mov r0, #0x1b
@@ -222,7 +222,7 @@ _0216F78C:
 	ldrh r0, [r0, #2]
 	str r0, [sp, #0x28]
 	add r0, sp, #0x4c
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	str r0, [sp, #0x2c]
 	ldr r0, [sp, #0x74]
 	bl FontFile__Func_2052F38
@@ -351,7 +351,7 @@ _0216F8E4:
 	mov r1, r4
 	lsl r2, r2, #6
 	bl MIi_CpuClearFast
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0
 	bne _0216F924
 	mov r0, #0x1b
@@ -408,7 +408,7 @@ _0216F924:
 	ldrh r0, [r0, #2]
 	str r0, [sp, #0x28]
 	add r0, sp, #0x38
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	str r0, [sp, #0x2c]
 	ldr r0, [sp, #0x30]
 	bl FontFile__Func_2052F38
@@ -651,7 +651,7 @@ _0216FB1C:
 	add r1, r4, r1
 	mov r2, #0x14
 	bl MIi_CpuClear32
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	beq _0216FB40
 	bl GetTaskWork_
@@ -676,7 +676,7 @@ _0216FB54: .word 0x00000598
 TimeAttackRankList__Main1: // 0x0216FB58
 	push {r3, r4, r5, r6, r7, lr}
 	bl GetCurrentTaskWork_
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	cmp r6, #0
 	bne _0216FB6A
 	bl DestroyCurrentTask
@@ -726,7 +726,7 @@ _0216FBB0: .word 0x00000524
 TimeAttackRankList__Main2: // 0x0216FBB4
 	push {r3, r4, r5, r6, r7, lr}
 	bl GetCurrentTaskWork_
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	cmp r6, #0
 	bne _0216FBC6
 	bl DestroyCurrentTask

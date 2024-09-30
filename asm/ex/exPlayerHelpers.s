@@ -22,7 +22,7 @@ ovl09_2152960: // 0x02152960
 	strh r3, [r0, #0x14]
 	mov r2, #0
 	strh r2, [r0, #0x16]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r2, [r0, #0x24]
 	ldr r2, [r1, #4]
 	str r2, [r0, #0x28]
@@ -109,18 +109,18 @@ ovl09_2152AB4: // 0x02152AB4
 	mov r1, #0xc
 	sub r0, r0, #1
 	mul r2, r0, r1
-	ldr r3, [r10]
+	ldr r3, [r10, #0]
 	mov r0, #1
 	ldr r2, [r3, r2]
 	str r2, [r10, #8]
 	ldrsh r2, [r10, #4]
-	ldr r4, [r10]
+	ldr r4, [r10, #0]
 	sub r3, r2, #1
 	mla r2, r3, r1, r4
 	ldr r2, [r2, #4]
 	str r2, [r10, #0xc]
 	ldrsh r2, [r10, #4]
-	ldr r3, [r10]
+	ldr r3, [r10, #0]
 	sub r2, r2, #1
 	mla r1, r2, r1, r3
 	ldr r1, [r1, #8]
@@ -156,7 +156,7 @@ _02152B68:
 	bl ovl09_21529C4
 	mov r1, #0xc
 	mul r3, r8, r1
-	ldr r8, [r10]
+	ldr r8, [r10, #0]
 	ldrsh r2, [r10, #4]
 	add r1, r8, r3
 	ldr r8, [r8, r3]
@@ -282,23 +282,23 @@ ovl09_2152D28: // 0x02152D28
 	beq _02152DDC
 	bx lr
 _02152D44:
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	cmp r1, #1
 	beq _02152D5C
 	cmp r1, #2
 	beq _02152D74
 	bx lr
 _02152D5C:
-	ldrh r3, [r0]
-	ldrh r2, [r2]
+	ldrh r3, [r0, #0]
+	ldrh r2, [r2, #0]
 	mov r1, #0xb6
 	mla r1, r2, r1, r3
 	strh r1, [r0]
 	bx lr
 _02152D74:
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	mov r1, #0xb6
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	mul r1, r2, r1
 	sub r1, r3, r1
 	strh r1, [r0]
@@ -401,7 +401,7 @@ ovl09_2152EA8: // 0x02152EA8
 	mov r4, r2, asr #0x10
 	bl ovl09_2152E28
 	ldr r3, _02152FAC // =0xB40B40B5
-	ldrsh r1, [r5]
+	ldrsh r1, [r5, #0]
 	smull r2, ip, r3, r0
 	add ip, r0, ip
 	mov r2, r0, lsr #0x1f
@@ -437,7 +437,7 @@ _02152F40:
 	ldrh r0, [sp, #0x10]
 	sub r0, r1, r0
 	strh r0, [r6, #2]
-	ldrsh r0, [r5]
+	ldrsh r0, [r5, #0]
 	sub r0, r0, r4
 	strh r0, [r5]
 	b _02152FA4
@@ -451,7 +451,7 @@ _02152F74:
 	ldrh r0, [sp, #0x10]
 	add r0, r1, r0
 	strh r0, [r6, #2]
-	ldrsh r0, [r5]
+	ldrsh r0, [r5, #0]
 	add r0, r0, r4
 	strh r0, [r5]
 _02152FA4:
@@ -504,9 +504,9 @@ _02153000:
 	str r0, [r7]
 	str r0, [r7, #4]
 	str r0, [r7, #8]
-	ldr r2, [r5]
-	ldr r0, [r6]
-	ldr r1, [r7]
+	ldr r2, [r5, #0]
+	ldr r0, [r6, #0]
+	ldr r1, [r7, #0]
 	sub r0, r2, r0
 	bl FX_Div
 	str r0, [r7, #0xc]
@@ -571,7 +571,7 @@ ovl09_21530FC: // 0x021530FC
 	sub r2, lr, r3
 _02153130:
 	str r2, [r0, #0x14]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r2, [r0, #0xc]
 	add r2, r3, r2
 	str r2, [r1]
@@ -606,7 +606,7 @@ ovl09_2153178: // 0x02153178
 	sub r2, r1, #5
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
@@ -781,7 +781,7 @@ ovl09_21533D0: // 0x021533D0
 	sub r2, r1, #7
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0

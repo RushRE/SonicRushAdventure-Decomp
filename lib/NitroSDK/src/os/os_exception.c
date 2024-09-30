@@ -70,7 +70,7 @@ asm void OSi_ExceptionHandler(void)
 {
     // clang-format off
     ldr r12, =OSi_DebuggerHandler
-	ldr r12, [r12]
+	ldr r12, [r12, #0]
 	cmp r12, #0
 	movne lr, pc
 	bxne r12
@@ -100,7 +100,7 @@ asm void OSi_ExceptionHandler(void)
 
 usr_return:
 	ldr r12, =OSi_DebuggerHandler
-	ldr r12, [r12]
+	ldr r12, [r12, #0]
 	cmp r12, #0
 
 @2:

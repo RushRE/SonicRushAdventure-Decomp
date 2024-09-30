@@ -779,13 +779,13 @@ NONMATCH_FUNC void StageTask__Draw2DEx(AnimatorSpriteDS *animator, VecFx32 *posi
 	str r5, [sp, #8]
 	cmp r0, #0
 	beq _02071E3C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, [r4, #0x3c]
 	str r0, [sp, #8]
 	bic r0, r2, #0x184
 	str r0, [r4, #0x3c]
 	ldr r0, [sp, #0x30]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, [sp, #8]
 	bic r2, r2, #8
 	tst r0, #4
@@ -828,7 +828,7 @@ _02071E80:
 	bne _02071F0C
 	cmp r1, #0
 	beq _02071EE0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add lr, r4, r7, lsl #2
 	rsb r2, r5, r2, asr #12
 	strh r2, [lr, #0x68]
@@ -896,7 +896,7 @@ _02071F70:
 	mov r1, r0
 	beq _02071FC4
 	ldr r1, [sp]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r1, [r1, #4]
 	smull r3, r5, r0, r3
 	adds r6, r3, #0x800
@@ -989,7 +989,7 @@ _020720C8:
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [sp, #0x30]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	orr r1, r0, #8
 	ldr r0, [sp, #0x30]
 	str r1, [r0]
@@ -1047,7 +1047,7 @@ NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, 
 	mov r0, r6
 	str r0, [sp, #0x1c]
 	ldr r0, [sp, #0x128]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	str r0, [sp, #0x128]
 	mov r7, r6
 	ldr r0, [sp, #0x128]
@@ -1058,7 +1058,7 @@ NONMATCH_FUNC void StageTask__Draw3DEx(Animator3D *animator, VecFx32 *position, 
 	addeq r7, r5, #0x90
 	streq r5, [sp, #0x1c]
 	cmp r0, #0
-	ldrne r8, [r0]
+	ldrne r8, [r0, #0]
 	mov r11, r3
 	cmp r7, #0
 	beq _020722A8
@@ -1201,7 +1201,7 @@ _02072448:
 	str r0, [sp, #0x3c]
 _02072458:
 	tst r8, #0x4000
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, [sp, #0x40]
 	sub r0, r1, r0
 	str r0, [r5, #0x48]
@@ -1296,7 +1296,7 @@ _02072568:
 	bl MTX_Concat33
 	ldr r0, [sp, #0x14]
 	ldr r3, =FX_SinCosTable_
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	add r0, sp, #0x44
 	rsb r1, r1, #0
 	mov r1, r1, lsl #0x10
@@ -1364,7 +1364,7 @@ _020726BC:
 	cmp r11, #0
 	beq _02072710
 	ldr r0, =obj_ptcb
-	ldr r2, [r11]
+	ldr r2, [r11, #0]
 	ldr r3, [r0, #4]
 	ldr r1, [r0, #8]
 	ldr r0, [r11, #4]
@@ -1407,7 +1407,7 @@ _02072710:
 	ldr r0, =obj_ptcb
 	ldr r2, =FX_SinCosTable_
 	ldr r4, [r0, #0x40]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ldr r9, [r4, #4]
 	mov r0, r0, asr #4
 	mov r1, r0, lsl #1
@@ -1595,7 +1595,7 @@ _02072A14:
 	bl AnimatorSprite3D__ProcessAnimation
 	b _02072AAC
 _02072A50:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #1
 	beq _02072A70
 	cmp r0, #2
@@ -1664,7 +1664,7 @@ _02072AE8:
 	add r1, r4, #0x24
 	bl MI_Copy36B
 _02072B44:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #1
 	beq _02072B64
 	cmp r0, #2
@@ -1687,7 +1687,7 @@ _02072B84:
 	ldr r4, [r4, #0xa0]
 	b _02072AE8
 _02072B8C:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #1
 	beq _02072BAC
 	cmp r0, #2

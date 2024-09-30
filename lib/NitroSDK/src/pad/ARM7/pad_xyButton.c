@@ -45,7 +45,7 @@ NONMATCH_FUNC void PADi_XYButton_Callback(void *arg)
 	mov r0, #EXI_GPIOIF_GPIO
 	bl EXIi_SelectRcnt
 	ldr r0, =REG_RCNT0_H_ADDR
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ands r0, r1, #EXI_GPIO_PADFOLD
 	movne r4, #PAD_DETECT_FOLD_MASK
 	and r0, r1, #PAD_XY_BUTTON_MASK

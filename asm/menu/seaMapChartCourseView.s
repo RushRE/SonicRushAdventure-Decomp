@@ -202,7 +202,7 @@ _0204093C: .word 0x0210FAD0
 SeaMapChartCourseView__Destroy: // 0x02040940
 	stmdb sp!, {r3, lr}
 	ldr r0, _02040974 // =0x02134178
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl DestroyTask
@@ -221,7 +221,7 @@ _02040974: .word 0x02134178
 SeaMapChartCourseView__Func_2040978: // 0x02040978
 	stmdb sp!, {r3, lr}
 	ldr r0, _020409A8 // =0x02134178
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
@@ -240,7 +240,7 @@ SeaMapChartCourseView__TouchAreaCallback: // 0x020409AC
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r4, r2
 	cmp r0, #0x400000
 	ldr r1, [r1, #0x14]
@@ -384,8 +384,8 @@ SeaMapChartCourseView__Func_2040B90: // 0x02040B90
 	mov r4, #4
 _02040BB8:
 	ldr r0, [r10, #0xc]
-	ldrb r1, [r9]
-	ldr r0, [r0]
+	ldrb r1, [r9, #0]
+	ldr r0, [r0, #0]
 	bl Sprite__GetSpriteSize1FromAnim
 	mov r1, r0
 	ldr r0, [r10, #4]
@@ -404,7 +404,7 @@ _02040BB8:
 	str r1, [sp, #0x18]
 	ldr r1, [r10, #0xc]
 	ldrb r2, [r9], #2
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl AnimatorSprite__Init
 	mov r1, #0
 	strh r4, [r8, #0x50]
@@ -501,7 +501,7 @@ SeaMapChartCourseView__Func_2040D28: // 0x02040D28
 	bl SeaMapManager__GetWork
 	bl SeaMapEventManager__GetWork2
 	mov r6, r0
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r4, #1
 	cmp r0, #0
 	bne _02040DC8
@@ -1147,21 +1147,21 @@ _020415B0:
 	str r0, [r1, #0x18]
 	str r2, [r1, #0x1c]
 _020415F4:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	tst r0, #0x8000
 	bne _020415F4
 	ldr r1, _020416D0 // =0x040002A0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	sub r1, r1, #0x20
 	mov r0, r0, lsl #0x10
 	mov r4, r0, lsr #0x10
 _02041614:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	tst r0, #0x8000
 	bne _02041614
 	ldr r0, _020416D4 // =0x040002A8
 	mov r1, #8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0xd
 	bl FX_DivS32
@@ -1494,7 +1494,7 @@ SeaMapChartCourseView__State_2041A18: // 0x02041A18
 	mov r0, r4
 	bl SeaMapView__ProcessButtons
 	bl SeaMapEventManager__GetWork2
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mvn r0, #0
 	cmp r1, r0
 	mov r0, r4
@@ -1823,7 +1823,7 @@ SeaMapChartCourseView__Func_2041E80: // 0x02041E80
 	stmdb sp!, {r4, r5, r6, lr}
 	add r6, r0, #0x1d4
 	add r0, r6, #0x900
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	mov r5, r1
 	mov r4, r2
 	add r1, r3, #1
@@ -1875,7 +1875,7 @@ SeaMapChartCourseView__Func_2041F20: // 0x02041F20
 	mov r7, #0
 	ldr r0, [r0, #0xc]
 	mov r8, r7
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	mov r4, r7
 _02041F44:
 	mov r9, r4
@@ -1903,7 +1903,7 @@ _02041F88: .word aGkosw
 	arm_func_start SeaMapChartCourseView__Func_2041F8C
 SeaMapChartCourseView__Func_2041F8C: // 0x02041F8C
 	stmdb sp!, {r3, lr}
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	add r0, r2, #0x1d4
 	cmp r3, #0x1000000
 	add r2, r0, #0x800
@@ -1959,7 +1959,7 @@ SeaMapChartCourseView__Func_204201C: // 0x0204201C
 	add r6, r5, #0x28
 	ldr r7, [r9, #4]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02042080
@@ -1972,7 +1972,7 @@ _0204205C: // jump table
 	b _02042074 // case 5
 _02042074:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02042084
 _02042080:
 	mov r0, #1
@@ -2006,7 +2006,7 @@ _02042090:
 	str r2, [sp, #0x18]
 	ldr r0, [r9, #0xc]
 	ldrh r2, [r6, #0xa2]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, r6
 	mov r3, #4
 	bl AnimatorSprite__Init
@@ -2946,7 +2946,7 @@ SeaMapChartCourseView__State_2042CB0: // 0x02042CB0
 	mov r0, r4
 	bl SeaMapView__ProcessButtons
 	bl SeaMapEventManager__GetWork2
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mvn r0, #0
 	cmp r1, r0
 	mov r0, r4

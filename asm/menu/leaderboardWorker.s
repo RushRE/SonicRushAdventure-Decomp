@@ -87,12 +87,12 @@ _02174958: .word LeaderboardWorker__Singleton
 LeaderboardWorker__GetFlags: // 0x0217495C
 	stmdb sp!, {r3, lr}
 	ldr r0, _02174980 // =LeaderboardWorker__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	moveq r0, #5
 	ldmeqia sp!, {r3, pc}
 	bl GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02174980: .word LeaderboardWorker__Singleton
@@ -102,7 +102,7 @@ _02174980: .word LeaderboardWorker__Singleton
 LeaderboardWorker__Destroy: // 0x02174984
 	stmdb sp!, {r3, lr}
 	ldr r0, _021749A4 // =LeaderboardWorker__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl DestroyTask
 	ldr r0, _021749A4 // =LeaderboardWorker__Singleton
 	mov r1, #0
@@ -584,7 +584,7 @@ LeaderboardWorker__GetRankData: // 0x02174F2C
 	mov r2, #0x14
 	bl MIi_CpuClear16
 	cmp r5, #0
-	ldrne r0, [r6]
+	ldrne r0, [r6, #0]
 	add r1, r6, #4
 	orrne r0, r0, #1
 	strne r0, [r6]
@@ -597,7 +597,7 @@ LeaderboardWorker__GetRankData: // 0x02174F2C
 	movhs r0, #0
 	ldmhsia sp!, {r4, r5, r6, pc}
 	cmp r0, #1
-	ldreq r0, [r6]
+	ldreq r0, [r6, #0]
 	orreq r0, r0, #2
 	streq r0, [r6]
 	mov r0, #1

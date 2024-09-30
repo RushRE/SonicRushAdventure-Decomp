@@ -89,7 +89,7 @@ exTimeGamePlayTask__Main_2173978: // 0x02173978
 	bl _fadd
 	bl _ll_ufrom_f_r
 	stmia r4, {r0, r1}
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r2, #0x3e8
 	mov r3, #0
 	bl _ll_udiv
@@ -99,7 +99,7 @@ exTimeGamePlayTask__Main_2173978: // 0x02173978
 	ldrh r0, [r0, #0xa]
 	cmp r0, #9
 	bls _02173B68
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r0, _02173B84 // =0x00002710
 	ldr r1, [r4, #4]
 	subs r2, r2, r0
@@ -288,7 +288,7 @@ _02173CA0: .word ExTask_State_Destroy
 	arm_func_start ovl09_2173CA4
 ovl09_2173CA4: // 0x02173CA4
 	ldr r0, _02173CB0 // =exTimeGamePlayTask__dword_2178674
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02173CB0: .word exTimeGamePlayTask__dword_2178674

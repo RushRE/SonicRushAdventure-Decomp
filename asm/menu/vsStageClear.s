@@ -112,56 +112,56 @@ VSStageClear__Func_215A9EC: // 0x0215A9EC
 	strh r1, [r0]
 	strh r1, [r0, #4]
 	strh r1, [r0, #2]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r1, #0xc0
 	bic r2, r1
 	mov r1, #0x40
 	orr r1, r2
 	strh r1, [r0]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r1, #1
 	bic r2, r1
 	mov r1, #1
 	orr r1, r2
 	strh r1, [r0]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r1, #2
 	orr r1, r2
 	strh r1, [r0]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r1, #4
 	orr r1, r2
 	strh r1, [r0]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r1, #8
 	orr r1, r2
 	strh r1, [r0]
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r2, #0x20
 	orr r1, r2
 	strh r1, [r0]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	mov r1, r2
 	add r1, #0xe0
 	orr r1, r3
 	strh r1, [r0]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	lsl r1, r2, #4
 	orr r1, r3
 	strh r1, [r0]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	lsl r1, r2, #5
 	orr r1, r3
 	strh r1, [r0]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	lsl r1, r2, #6
 	orr r1, r3
 	strh r1, [r0]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	lsl r1, r2, #7
 	orr r1, r3
 	strh r1, [r0]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	lsl r1, r2, #8
 	orr r1, r3
 	strh r1, [r0]
@@ -248,7 +248,7 @@ VSStageClear__Func_215AB9C: // 0x0215AB9C
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, _0215ABFC // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	lsl r0, r5, #0x10
@@ -264,7 +264,7 @@ VSStageClear__Func_215AB9C: // 0x0215AB9C
 _0215ABC0:
 	ldr r0, _0215ABFC // =VSStageClear__Singleton
 	ldr r1, _0215AC00 // =VSStageClear__Main_215C924
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r3, r4, r5, pc}
 _0215ABCC:
@@ -273,7 +273,7 @@ _0215ABCC:
 	str r1, [r4, r0]
 	ldr r0, _0215ABFC // =VSStageClear__Singleton
 	ldr r1, _0215AC08 // =VSStageClear__Main_215C8C0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r3, r4, r5, pc}
 _0215ABDE:
@@ -282,13 +282,13 @@ _0215ABDE:
 	str r1, [r4, r0]
 	ldr r0, _0215ABFC // =VSStageClear__Singleton
 	ldr r1, _0215AC0C // =VSStageClear__Main_215CB80
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r3, r4, r5, pc}
 _0215ABF0:
 	ldr r0, _0215ABFC // =VSStageClear__Singleton
 	ldr r1, _0215AC00 // =VSStageClear__Main_215C924
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r3, r4, r5, pc}
 	.align 2, 0
@@ -306,21 +306,21 @@ VSStageClear__LoadAssets: // 0x0215AC10
 	mov r4, r0
 	ldr r0, _0215AD78 // =playerWork
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r3, r2
 	str r1, [r4]
 	ldr r0, [r0, #8]
 	sub r1, r2, #1
 	str r0, [r4, #4]
 	ldr r0, _0215AD7C // =animationWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r0, [r4, #8]
 	ldr r0, _0215AD80 // =aNarcCldmVsNarc
 	str r2, [sp]
 	bl ArchiveFile__Load
 	str r0, [r4, #0x4c]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0215AC60
 	add r0, r0, r0
@@ -338,7 +338,7 @@ _0215AC4C: // jump table
 	.hword _0215AC58 - _0215AC4C - 2 // case 5
 _0215AC58:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _0215AC62
 _0215AC60:
 	mov r1, #1
@@ -379,7 +379,7 @@ _0215AC62:
 	bl ArchiveFile__Load
 	str r0, [r4, #0x18]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0215ACD6
 	add r0, r0, r0
@@ -397,7 +397,7 @@ _0215ACC2: // jump table
 	.hword _0215ACCE - _0215ACC2 - 2 // case 5
 _0215ACCE:
 	bl RenderCore_GetLanguagePtr
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	b _0215ACD8
 _0215ACD6:
 	mov r2, #1
@@ -442,7 +442,7 @@ _0215ACD8:
 	bl ArchiveFile__Load
 	str r0, [r4, #0x40]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0215AD54
 	add r0, r0, r0
@@ -460,7 +460,7 @@ _0215AD40: // jump table
 	.hword _0215AD4C - _0215AD40 - 2 // case 5
 _0215AD4C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _0215AD56
 _0215AD54:
 	mov r0, #1
@@ -560,7 +560,7 @@ _0215AE1C:
 	str r3, [r0]
 	mov r3, r2
 	add r3, #0x98
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	ldr r3, _0215AEAC // =0x00008C9F
 	cmp r4, r3
 	bls _0215AE2E
@@ -568,7 +568,7 @@ _0215AE1C:
 _0215AE2E:
 	str r4, [r0, #0xc]
 	add r2, #0x9c
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r2, _0215AEAC // =0x00008C9F
 	cmp r3, r2
 	bls _0215AE3C
@@ -660,7 +660,7 @@ VSStageClearModeHeader__Create: // 0x0215AEB4
 	bl GXS_SetGraphicsMode
 	ldr r5, _0215B1D8 // =0x0400000A
 	mov r0, #0x43
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	ldr r2, _0215B1DC // =0x00000E04
 	sub r3, r5, #2
 	and r1, r0
@@ -681,11 +681,11 @@ VSStageClearModeHeader__Create: // 0x0215AEB4
 	strh r0, [r1, #4]
 	strh r0, [r1, #2]
 	strh r0, [r1]
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	mov r1, #3
 	bic r0, r1
 	strh r0, [r5]
-	ldrh r7, [r3]
+	ldrh r7, [r3, #0]
 	mov r0, #1
 	bic r7, r1
 	orr r0, r7
@@ -701,7 +701,7 @@ VSStageClearModeHeader__Create: // 0x0215AEB4
 	orr r0, r3
 	strh r0, [r5, #4]
 	lsl r0, r2, #0x18
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	ldr r3, _0215B1E8 // =0xFFFFE0FF
 	sub r2, #0xfc
 	and r5, r3
@@ -711,7 +711,7 @@ VSStageClearModeHeader__Create: // 0x0215AEB4
 	str r3, [r0]
 	ldr r0, _0215B1EC // =0x04001008
 	mov r3, #0x43
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	and r5, r3
 	ldr r3, _0215B1E0 // =0x00002F0C
 	orr r3, r5
@@ -737,7 +737,7 @@ VSStageClearModeHeader__Create: // 0x0215AEB4
 	ldrh r2, [r3, #4]
 	strh r2, [r3, #2]
 	strh r2, [r3]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	bic r2, r1
 	strh r2, [r0]
 	ldrh r3, [r0, #4]
@@ -757,7 +757,7 @@ VSStageClearModeHeader__Create: // 0x0215AEB4
 	orr r1, r2
 	strh r1, [r0, #6]
 	sub r0, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _0215B1E8 // =0xFFFFE0FF
 	and r2, r1
 	mov r1, #0x17
@@ -1074,7 +1074,7 @@ VSStageClearPlayers__Create: // 0x0215B258
 	lsl r1, r1, #2
 	str r0, [sp, #0x1c]
 	add r4, r0, r1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r0, [sp, #0x34]
 	ldr r0, [sp, #0x1c]
 	ldr r0, [r0, #4]
@@ -1852,7 +1852,7 @@ _0215B8B2:
 	lsl r1, r1, #2
 	strh r1, [r0, #0xc]
 	strh r2, [r0, #0xe]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r6, #0x20
 	ldr r4, [r4, #0x2c]
 	cmp r0, #0
@@ -2246,7 +2246,7 @@ _0215BC08:
 	lsl r0, r0, #4
 	add r0, r6, r0
 	bl AnimatorSprite__Release
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0
 	beq _0215BC1C
 	bl DestroyTask
@@ -2311,7 +2311,7 @@ VSStageClearPlayerNames__Create: // 0x0215BC34
 	mov r1, r4
 	add r1, #0xc8
 	mov r2, #0x2a
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r0, #0
 	lsl r2, r2, #6
 	bl MIi_CpuClearFast
@@ -2324,7 +2324,7 @@ VSStageClearPlayerNames__Create: // 0x0215BC34
 	str r1, [sp, #0xc]
 	mov r1, r4
 	add r1, #0xc8
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	lsl r0, r0, #0xc
 	str r1, [sp, #0x10]
 	mov r1, #0
@@ -2493,7 +2493,7 @@ VSStageClearPlayerNames__Destroy: // 0x0215BE20
 	bl Unknown2056570__Func_2056670
 	mov r0, r4
 	add r0, #0xc8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl _FreeHEAP_USER
 	mov r0, r4
 	mov r1, #0
@@ -3149,7 +3149,7 @@ VSStageClear__Func_215C388: // 0x0215C388
 	add r3, sp, #0x20
 	bl AkUtilFrameToTime
 	add r0, sp, #0x20
-	ldrh r7, [r0]
+	ldrh r7, [r0, #0]
 	mov r0, #0
 	str r0, [sp, #0x1c]
 _0215C3BC:
@@ -3743,7 +3743,7 @@ VSStageClear__Main_215C864: // 0x0215C864
 	push {r4, lr}
 	sub sp, #0x10
 	ldr r0, _0215C8B8 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	bl MultibootManager__Func_2060CC8
 	cmp r0, #0
@@ -3819,7 +3819,7 @@ _0215C900:
 	bl MultibootManager__Func_2061A98
 	ldr r0, _0215C91C // =VSStageClear__Singleton
 	ldr r1, _0215C920 // =VSStageClear__Main_215C984
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 _0215C916:
 	add sp, #0x10
@@ -3866,7 +3866,7 @@ _0215C962:
 	bl MultibootManager__Func_2061A98
 	ldr r0, _0215C97C // =VSStageClear__Singleton
 	ldr r1, _0215C980 // =VSStageClear__Main_215C984
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 _0215C978:
 	add sp, #0x10
@@ -3914,7 +3914,7 @@ _0215C9BA:
 	beq _0215CA02
 _0215C9D0:
 	ldr r0, _0215CA08 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215CA0C // =0x0000169C
 	add r2, r0, r1
@@ -3932,7 +3932,7 @@ _0215C9F4:
 	bl MultibootManager__Func_206193C
 	ldr r0, _0215CA08 // =VSStageClear__Singleton
 	ldr r1, _0215CA10 // =VSStageClear__Main_215CA14
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 _0215CA02:
 	add sp, #0x10
@@ -4005,7 +4005,7 @@ _0215CA8C:
 	beq _0215CAA0
 	mov r0, r5
 	add r0, #0xd8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #1
 	orr r0, r1
 	add r5, #0xd8
@@ -4014,7 +4014,7 @@ _0215CA8C:
 _0215CAA0:
 	mov r0, r5
 	add r0, #0xd8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #1
 	bic r1, r0
 	add r5, #0xd8
@@ -4032,7 +4032,7 @@ _0215CAC2:
 _0215CAC6:
 	ldr r0, _0215CAF0 // =VSStageClear__Singleton
 	ldr r1, _0215CAF4 // =VSStageClear__Main_215CAFC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	add sp, #0x10
 	pop {r4, r5, r6, pc}
@@ -4043,7 +4043,7 @@ _0215CAD4:
 	bl CreateDrawFadeTask
 	ldr r0, _0215CAF0 // =VSStageClear__Singleton
 	ldr r1, _0215CAF8 // =VSStageClear__Main_215CB54
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 _0215CAE8:
 	add sp, #0x10
@@ -4086,7 +4086,7 @@ _0215CB1E:
 	bl CreateDrawFadeTask
 	ldr r0, _0215CB4C // =VSStageClear__Singleton
 	ldr r1, _0215CB50 // =VSStageClear__Main_215CB54
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r4, pc}
 	.align 2, 0
@@ -4099,14 +4099,14 @@ _0215CB50: .word VSStageClear__Main_215CB54
 VSStageClear__Main_215CB54: // 0x0215CB54
 	push {r3, lr}
 	ldr r0, _0215CB7C // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	beq _0215CB7A
 	bl DestroyDrawFadeTask
 	ldr r0, _0215CB7C // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl VSStageClear__Func_215AB08
 	bl NextSysEvent
 	bl DestroyCurrentTask
@@ -4125,7 +4125,7 @@ VSStageClear__Main_215CB80: // 0x0215CB80
 	bl CreateDrawFadeTask
 	ldr r0, _0215CB98 // =VSStageClear__Singleton
 	ldr r1, _0215CB9C // =VSStageClear__Main_215CB54
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
@@ -4137,7 +4137,7 @@ _0215CB9C: .word VSStageClear__Main_215CB54
 VSStageClearModeHeader__Main1: // 0x0215CBA0
 	push {r4, lr}
 	ldr r0, _0215CC10 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r1, #0x4d
@@ -4199,7 +4199,7 @@ _0215CC20: .word 0x00000FFF
 VSStageClearModeHeader__Main2: // 0x0215CC24
 	push {r4, lr}
 	ldr r0, _0215CC50 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	add r4, #0x64
@@ -4222,7 +4222,7 @@ _0215CC50: .word VSStageClear__Singleton
 VSStageClearPlayers__Main1: // 0x0215CC54
 	push {r4, lr}
 	ldr r0, _0215CC90 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x67
 	lsl r1, r1, #2
@@ -4259,7 +4259,7 @@ _0215CC98: .word VSStageClearPlayers__Main_215CC9C
 VSStageClearPlayers__Main_215CC9C: // 0x0215CC9C
 	push {r4, lr}
 	ldr r0, _0215CCCC // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x67
 	lsl r1, r1, #2
@@ -4284,7 +4284,7 @@ _0215CCCC: .word VSStageClear__Singleton
 VSStageClearPlayers__Main2: // 0x0215CCD0
 	push {r4, lr}
 	ldr r0, _0215CD10 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x67
 	lsl r1, r1, #2
@@ -4317,7 +4317,7 @@ _0215CD14: .word 0x00000438
 VSStageClearResults__Main1: // 0x0215CD18
 	push {r4, lr}
 	ldr r0, _0215CD5C // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215CD60 // =0x0000063C
 	add r4, r0, r1
@@ -4355,7 +4355,7 @@ _0215CD64: .word VSStageClearResults__Main_215CD68
 VSStageClearResults__Main_215CD68: // 0x0215CD68
 	push {r4, lr}
 	ldr r0, _0215CDE8 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215CDEC // =0x0000063C
 	add r4, r0, r1
@@ -4421,7 +4421,7 @@ _0215CDF4: .word VSStageClearResults__Main_215CDF8
 VSStageClearResults__Main_215CDF8: // 0x0215CDF8
 	push {r3, r4, r5, lr}
 	ldr r0, _0215CE70 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215CE74 // =0x0000063C
 	add r4, r0, r1
@@ -4479,7 +4479,7 @@ _0215CE74: .word 0x0000063C
 VSStageClearResults__Main2: // 0x0215CE78
 	push {r4, lr}
 	ldr r0, _0215CEDC // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215CEE0 // =0x0000063C
 	add r4, r0, r1
@@ -4531,7 +4531,7 @@ _0215CEE0: .word 0x0000063C
 VSStageClearScoreDisplay__Main1: // 0x0215CEE4
 	push {r3, lr}
 	ldr r0, _0215CF0C // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215CF10 // =0x000007E4
 	add r3, r0, r1
@@ -4558,7 +4558,7 @@ _0215CF18: .word VSStageClearScoreDisplay__Main_215CF1C
 VSStageClearScoreDisplay__Main_215CF1C: // 0x0215CF1C
 	push {r4, lr}
 	ldr r0, _0215CF88 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215CF8C // =0x000007E4
 	ldr r2, _0215CF90 // =0x00000B74
@@ -4617,7 +4617,7 @@ _0215CF98: .word VSStageClearScoreDisplay__Main_215CF9C
 VSStageClearScoreDisplay__Main_215CF9C: // 0x0215CF9C
 	push {r4, lr}
 	ldr r0, _0215CFE0 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215CFE4 // =0x000007E4
 	ldr r2, _0215CFE8 // =0x00000B74
@@ -4663,7 +4663,7 @@ _0215CFF0: .word VSStageClearScoreDisplay__Main_215CFF4
 VSStageClearScoreDisplay__Main_215CFF4: // 0x0215CFF4
 	push {r3, lr}
 	ldr r0, _0215D00C // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D010 // =0x000012F4
 	add r0, r0, r1
@@ -4681,7 +4681,7 @@ VSStageClearScoreDisplay__Main2: // 0x0215D014
 	push {r3, r4, r5, r6, lr}
 	sub sp, #0xc
 	ldr r0, _0215D188 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D18C // =0x000007E4
 	add r4, r0, r1
@@ -4885,7 +4885,7 @@ VSStageClearPlayerNames__Main1: // 0x0215D198
 VSStageClearPlayerNames__Main2: // 0x0215D19C
 	push {r4, lr}
 	ldr r0, _0215D1DC // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D1E0 // =0x00001364
 	add r4, r0, r1
@@ -4921,7 +4921,7 @@ VSStageClearButtons__Main1: // 0x0215D1E4
 	push {r3, r4, lr}
 	sub sp, #0x24
 	ldr r0, _0215D2C8 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D2CC // =0x00001428
 	add r4, r0, r1
@@ -5013,7 +5013,7 @@ VSStageClearButtons__Main1: // 0x0215D1E4
 	str r0, [r4, #0x44]
 	mov r0, r4
 	add r0, #0xa8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	bic r2, r1
 	add r0, #0xa8
@@ -5041,7 +5041,7 @@ _0215D2E0: .word VSStageClearButtons__Main_215D2E4
 VSStageClearButtons__Main_215D2E4: // 0x0215D2E4
 	push {r3, r4, r5, lr}
 	ldr r0, _0215D32C // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D330 // =0x00001428
 	mov r5, #0x27
@@ -5083,7 +5083,7 @@ _0215D334: .word VSStageClearButtons__Main_215D338
 VSStageClearButtons__Main_215D338: // 0x0215D338
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _0215D578 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r7, r0
 	ldr r0, _0215D57C // =0x00001428
@@ -5381,7 +5381,7 @@ _0215D590: .word 0x00000C01
 VSStageClearButtons__Main_215D594: // 0x0215D594
 	push {r4, lr}
 	ldr r0, _0215D64C // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D650 // =0x00001428
 	add r4, r0, r1
@@ -5475,7 +5475,7 @@ _0215D658: .word VSStageClearButtons__Main_215D65C
 VSStageClearButtons__Main_215D65C: // 0x0215D65C
 	push {r4, lr}
 	ldr r0, _0215D688 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D68C // =0x00001428
 	add r4, r0, r1
@@ -5501,7 +5501,7 @@ _0215D68C: .word 0x00001428
 VSStageClearButtons__Main2: // 0x0215D690
 	push {r4, lr}
 	ldr r0, _0215D774 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D778 // =0x00001428
 	mov r2, #0x9a
@@ -5614,7 +5614,7 @@ _0215D778: .word 0x00001428
 VSStageClearButtons__Main_Draw_215D77C: // 0x0215D77C
 	push {r4, lr}
 	ldr r0, _0215D7B8 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D7BC // =0x00001428
 	add r4, r0, r1
@@ -5647,7 +5647,7 @@ _0215D7BC: .word 0x00001428
 VSStageClearTimer__Main1: // 0x0215D7C0
 	push {r4, r5, r6, lr}
 	ldr r0, _0215D85C // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D860 // =0x0000169C
 	add r4, r0, r1
@@ -5722,7 +5722,7 @@ _0215D864: .word VSStageClearTimer__Main_215D868
 VSStageClearTimer__Main_215D868: // 0x0215D868
 	push {r4, r5, r6, lr}
 	ldr r0, _0215D8F8 // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D8FC // =0x0000169C
 	add r4, r0, r1
@@ -5791,7 +5791,7 @@ _0215D8FC: .word 0x0000169C
 VSStageClearTimer__Main2: // 0x0215D900
 	push {r4, lr}
 	ldr r0, _0215D93C // =VSStageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215D940 // =0x0000169C
 	add r4, r0, r1

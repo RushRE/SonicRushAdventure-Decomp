@@ -105,7 +105,7 @@ SeaMapManager__Destroy: // 0x02043684
 	ldmeqia sp!, {r3, pc}
 	bl SeaMapUnknown204A9E4__Func_204AA00
 	ldr r0, _020436AC // =0x02134188
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl DestroyTask
 	ldmia sp!, {r3, pc}
 	.align 2, 0
@@ -115,7 +115,7 @@ _020436AC: .word 0x02134188
 	arm_func_start SeaMapManager__IsActive
 SeaMapManager__IsActive: // 0x020436B0
 	ldr r0, _020436C8 // =0x02134188
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	movne r0, #1
 	moveq r0, #0
@@ -128,7 +128,7 @@ _020436C8: .word 0x02134188
 SeaMapManager__GetWork: // 0x020436CC
 	ldr r0, _020436DC // =0x02134188
 	ldr ip, _020436E0 // =GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx ip
 	.align 2, 0
 _020436DC: .word 0x02134188
@@ -174,7 +174,7 @@ SeaMapManager__SetZoomLevel: // 0x02043714
 SeaMapManager__GetZoomLevel: // 0x02043740
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldmia sp!, {r3, pc}
 	arm_func_end SeaMapManager__GetZoomLevel
 
@@ -182,7 +182,7 @@ SeaMapManager__GetZoomLevel: // 0x02043740
 SeaMapManager__GetZoomOutScale: // 0x02043750
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _02043768 // =0x0210FB1C
 	ldr r0, [r0, r1, lsl #2]
 	ldmia sp!, {r3, pc}
@@ -194,7 +194,7 @@ _02043768: .word 0x0210FB1C
 SeaMapManager__GetZoomInScale: // 0x0204376C
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _02043784 // =0x0210FB28
 	ldr r0, [r0, r1, lsl #2]
 	ldmia sp!, {r3, pc}
@@ -1299,7 +1299,7 @@ SeaMapManager__InitArchives: // 0x02044564
 	sub r2, r1, #1
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
@@ -1365,7 +1365,7 @@ _02044644:
 	mvn r2, #0
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
@@ -1494,7 +1494,7 @@ SeaMapManager__InitBackgrounds: // 0x02044810
 	sub sp, sp, #0x30
 	mov r5, r0
 	ldr r3, [r5, #0x158]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r3, #0
 	moveq ip, #1
 	movne ip, #0xd
@@ -1537,7 +1537,7 @@ _02044858:
 	add r0, r5, #0x14
 	bl InitBackgroundEx
 	ldr ip, [r5, #0x158]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp ip, #0
 	moveq lr, #1
 	movne lr, #0xd
@@ -1582,7 +1582,7 @@ _020448F8:
 	rsb r2, r2, #0x3c4
 	bl InitBackgroundEx
 	ldr r3, [r5, #0x158]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r3, #0
 	moveq ip, #1
 	movne ip, #0xd
@@ -1661,13 +1661,13 @@ SeaMapManager__SetupDisplay: // 0x02044A20
 	bl GX_SetGraphicsMode
 	ldr r0, _02044C18 // =0x04000008
 	ldr r1, _02044C1C // =0x00004014
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	add r1, r1, #0x1f0
 	and r2, r2, #0x43
 	orr r2, r2, #0x14
 	orr r2, r2, #0x4000
 	strh r2, [r0]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	bic r2, r2, #3
 	orr r2, r2, #1
 	strh r2, [r0]
@@ -1703,7 +1703,7 @@ SeaMapManager__SetupDisplay: // 0x02044A20
 	ldr r1, [sp, #8]
 	bl VRAMSystem__SetupOBJBank
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add sp, sp, #0xc
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
@@ -1714,13 +1714,13 @@ _02044B44:
 	bl GXS_SetGraphicsMode
 	ldr r0, _02044C20 // =0x04001008
 	ldr r1, _02044C1C // =0x00004014
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	add r1, r1, #0x1f0
 	and r2, r2, #0x43
 	orr r2, r2, #0x14
 	orr r2, r2, #0x4000
 	strh r2, [r0]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	bic r2, r2, #3
 	orr r2, r2, #1
 	strh r2, [r0]
@@ -1756,7 +1756,7 @@ _02044B44:
 	ldr r1, [sp, #8]
 	bl VRAMSystem__SetupSubOBJBank
 	ldr r1, _02044C24 // =0x04001000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
 	str r0, [r1]
@@ -2098,7 +2098,7 @@ SeaMapManager__ClearUnknownPtr: // 0x02045050
 	arm_func_start SeaMapManager__Func_204506C
 SeaMapManager__Func_204506C: // 0x0204506C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldmia r0, {ip, lr}
 	smull r5, r6, ip, r5
 	adds r7, r5, #0x800
@@ -2111,7 +2111,7 @@ SeaMapManager__Func_204506C: // 0x0204506C
 	adc r4, r4, #0
 	mov r5, r5, lsr #0xc
 	orr r5, r5, r4, lsl #20
-	ldr r6, [r2]
+	ldr r6, [r2, #0]
 	add r4, r7, r5
 	add r4, r6, r4
 	str r4, [r3]
@@ -2162,7 +2162,7 @@ SeaMapManager__Func_2045128: // 0x02045128
 	mov r7, #0x60
 _02045148:
 	ldrh lr, [r1]
-	ldrh r4, [r2]
+	ldrh r4, [r2, #0]
 	cmp lr, r4
 	bhi _02045184
 	mla r4, r3, r7, r0
@@ -2172,7 +2172,7 @@ _0204515C:
 	add r6, lr, #1
 	orr r8, r9, ip, lsl r8
 	strb r8, [r4, lr, asr #3]
-	ldrh r8, [r2]
+	ldrh r8, [r2, #0]
 	mov r6, r6, lsl #0x10
 	mov lr, r6, lsr #0x10
 	cmp r8, r6, lsr #16
@@ -2210,7 +2210,7 @@ SeaMapManager__Func_20451A4: // 0x020451A4
 	ldr r10, [sp, #0x34]
 	ldr r0, [r4, #4]
 	ldmia r10, {r2, r3}
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	sub r0, r3, r0
 	sub r1, r2, r1
 	bl FX_Atan2Idx
@@ -2227,7 +2227,7 @@ SeaMapManager__Func_20451A4: // 0x020451A4
 	ldrsh r2, [r3, r2]
 	add r0, sp, #0
 	bl MTX_Rot22_
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldmia r10, {r2, r3}
 	ldr r0, [r4, #4]
 	sub r1, r2, r1
@@ -2329,14 +2329,14 @@ SeaMapManager__Func_2045380: // 0x02045380
 	ldr r2, [r8, #4]
 	ldr r9, [r0, #4]
 	str r3, [sp, #8]
-	ldr r10, [r0]
+	ldr r10, [r0, #0]
 	str r1, [sp]
 	mov r4, r2, asr #0xc
 	mov r1, r10, asr #0xc
 	movs r5, r9, asr #0xc
 	ldr r7, [sp, #0x30]
 	ldr r6, [sp, #0x34]
-	ldr r3, [r8]
+	ldr r3, [r8, #0]
 	bmi _0204548C
 	subs r0, r4, r5
 	bne _02045404
@@ -2396,12 +2396,12 @@ _0204547C:
 _0204548C:
 	ldr r0, [sp, #8]
 	ldr r9, [r8, #4]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r1, [r0, #4]
 	mov r5, r9, asr #0xc
 	mov r2, r3, asr #0xc
 	movs r4, r1, asr #0xc
-	ldr r10, [r8]
+	ldr r10, [r8, #0]
 	bmi _0204557C
 	subs r0, r5, r4
 	bne _020454F0
@@ -2432,7 +2432,7 @@ _020454F0:
 	b _0204556C
 _02045514:
 	ldr r1, [r8, #4]
-	ldr r10, [r8]
+	ldr r10, [r8, #0]
 	sub r2, r11, r1
 	umull r9, r3, r2, r0
 	mla r3, r2, ip, r3
@@ -2461,14 +2461,14 @@ _0204556C:
 	blt _02045514
 _0204557C:
 	ldr r0, [sp, #4]
-	ldr r9, [r0]
+	ldr r9, [r0, #0]
 	ldr r3, [r0, #4]
 	ldr r0, [sp]
 	mov r8, r9, asr #0xc
 	ldr r1, [r0, #4]
 	mov r5, r3, asr #0xc
 	movs r4, r1, asr #0xc
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	bmi _02045674
 	subs r0, r5, r4
 	bne _020455E4
@@ -2501,7 +2501,7 @@ _020455E4:
 _0204560C:
 	ldr r2, [sp, #4]
 	ldr r3, [r2, #4]
-	ldr r9, [r2]
+	ldr r9, [r2, #0]
 	sub r3, r10, r3
 	umull r8, r5, r3, r0
 	mla r5, r3, r11, r5
@@ -2529,7 +2529,7 @@ _02045664:
 	blt _0204560C
 _02045674:
 	ldr r0, [sp, #8]
-	ldr r8, [r0]
+	ldr r8, [r0, #0]
 	ldr r3, [r0, #4]
 	ldr r0, [sp]
 	mov r7, r8, asr #0xc
@@ -2537,7 +2537,7 @@ _02045674:
 	mov r5, r3, asr #0xc
 	movs r4, r1, asr #0xc
 	addmi sp, sp, #0xc
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldmmiia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	subs r0, r5, r4
 	bne _020456F0
@@ -2575,7 +2575,7 @@ _020456F0:
 _0204571C:
 	ldr r3, [sp, #8]
 	ldr r5, [r3, #4]
-	ldr r9, [r3]
+	ldr r9, [r3, #0]
 	sub r5, r10, r5
 	umull r3, r7, r5, r0
 	adds r3, r3, lr

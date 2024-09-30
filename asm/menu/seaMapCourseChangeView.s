@@ -15,7 +15,7 @@ SeaMapCourseChangeView__Create: // 0x0204B51C
 	bl LoadAudioSndArc
 	ldr r1, _0204B6E8 // =audioManagerSndHeap
 	mov r0, #6
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadGroup
 	bl LoadSpriteButtonCursorSprite
 	bl LoadSpriteButtonTouchpadSprite
@@ -45,14 +45,14 @@ SeaMapCourseChangeView__Create: // 0x0204B51C
 	bl SeaMapManager__Func_20444E8
 	ldr r10, _0204B6FC // =0x02134184
 	ldr r9, _0204B700 // =0x02134174
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	add r8, sp, #0x14
 	add r7, sp, #0x18
 	add r6, sp, #0x10
 	add r5, sp, #0x12
 	mov r4, #1
 _0204B5C8:
-	ldr r3, [r9]
+	ldr r3, [r9, #0]
 	mov r1, r8
 	mov r2, r7
 	sub r0, r0, r3
@@ -68,8 +68,8 @@ _0204B5C8:
 	bl SeaMapCollision__Collide
 	cmp r0, #0
 	beq _0204B628
-	ldr r0, [r10]
-	ldr r1, [r9]
+	ldr r0, [r10, #0]
+	ldr r1, [r9, #0]
 	sub r0, r0, #0x800
 	str r0, [r10]
 	cmp r1, r0
@@ -79,8 +79,8 @@ _0204B5C8:
 _0204B628:
 	ldr r1, _0204B6FC // =0x02134184
 	ldr r0, _0204B700 // =0x02134174
-	ldr r3, [r1]
-	ldr r0, [r0]
+	ldr r3, [r1, #0]
+	ldr r0, [r0, #0]
 	ldr r1, _0204B704 // =0x02134440
 	ldr r2, _0204B708 // =0x02134444
 	sub r0, r3, r0
@@ -102,7 +102,7 @@ _0204B628:
 	ldr r1, _0204B70C // =0x02134440
 	str r3, [sp, #4]
 	ldr r2, [r1, #4]
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	mov r2, r2, lsl #4
 	mov r1, r4, lsl #4
 	mov r0, #9
@@ -143,7 +143,7 @@ SeaMapCourseChangeView__Main: // 0x0204B710
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	blx r1
 	ldr r0, [r4, #4]
 	cmp r0, #0

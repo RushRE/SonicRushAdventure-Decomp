@@ -69,7 +69,7 @@ SailJetRaceGoalHUD__Create: // 0x02188144
 	mov r4, r0
 	mov r0, #0x45
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #5
 	bl Sprite__GetSpriteSize2FromAnim
 	str r4, [sp]
@@ -187,7 +187,7 @@ SailJetRaceProgressMarkerHUD__Create: // 0x021882EC
 	mov r8, r0
 	mov r0, #0x45
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r5
 	bl Sprite__GetSpriteSize2FromAnim
 	str r8, [sp]
@@ -268,7 +268,7 @@ SailJetRaceProgressIconHUD__Create: // 0x02188410
 	mov r6, r0
 	mov r0, #0x45
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r5
 	bl Sprite__GetSpriteSize2FromAnim
 	str r6, [sp]
@@ -346,7 +346,7 @@ SailJetRaceOpponentWarningHUD__Create: // 0x02188550
 	mov r4, r0
 	mov r0, #0x46
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #6
 	bl Sprite__GetSpriteSize2FromAnim
 	str r4, [sp]
@@ -415,7 +415,7 @@ SailJetRaceCheckpointTextHUD__Create: // 0x02188630
 	mov r4, r0
 	mov r0, #0x46
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0
 	bl Sprite__GetSpriteSize2FromAnim
 	str r4, [sp]
@@ -496,7 +496,7 @@ SailJetRaceCheckpointIconHUD__Create: // 0x02188740
 	mov r4, r0
 	mov r0, #0x46
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #2
 	bl Sprite__GetSpriteSize2FromAnim
 	str r4, [sp]
@@ -710,7 +710,7 @@ SailChallengeHUD__Main: // 0x02188A90
 	ldr r0, [r7, #0xc]
 	cmp r0, #0
 	beq _02188CAC
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	tst r0, #0x40
 	andeq r0, r0, #0x3f
 	rsbeq r0, r0, #0x40
@@ -738,7 +738,7 @@ _02188AD8:
 	mov r1, #0x10
 	mov r2, #0
 	bl QueueUncompressedPalette
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	tst r0, #0x80
 	beq _02188BF4
 	and r9, r0, #0x7f
@@ -955,7 +955,7 @@ _02188E1C:
 	add r0, r4, #0x400
 	bl AnimatorSprite__DrawFrame
 _02188E44:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	add r0, r0, #1
 	str r0, [r6]
 	add sp, sp, #8
@@ -972,7 +972,7 @@ SailChallengeHUD__Func_2188E5C: // 0x02188E5C
 	mov r4, r0
 	mov r6, #0
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02188EA8
@@ -985,7 +985,7 @@ _02188E84: // jump table
 	b _02188E9C // case 5
 _02188E9C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02188EAC
 _02188EA8:
 	mov r0, #1
@@ -1439,7 +1439,7 @@ _021894F8:
 	b _02189608
 _0218954C:
 	ldr r1, [r5, #0x44]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r1, r0
 	blt _02189608
 	mov r0, r9
@@ -1475,7 +1475,7 @@ _021895B0:
 	b _02189608
 _021895D0:
 	ldr r1, [r5, #0x44]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r1, r0
 	blt _02189608
 	ldr r0, [r9, #0x20]
@@ -1493,7 +1493,7 @@ _02189608:
 	cmp r7, #0
 	beq _02189688
 	ldr r1, [r7, #0x25c]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r1, r0
 	blt _02189688
 	ldr r0, [r9, #0x24]

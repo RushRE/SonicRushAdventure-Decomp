@@ -99,7 +99,7 @@ _0215DB98: .word 0x00001BF8
 ViDock__Func_215DB9C: // 0x0215DB9C
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215DBC4 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl DestroyTask
@@ -116,7 +116,7 @@ ViDock__Func_215DBC8: // 0x0215DBC8
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215DC78 // =ViDock__TaskSingleton
 	mov r5, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl ViDock__Func_215EF3C
@@ -142,7 +142,7 @@ ViDock__Func_215DBC8: // 0x0215DBC8
 	bl ViDock__Func_215EA8C
 	mov r0, r4
 	bl ViDock__Func_215EB04
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ovl05_2152970
 	ldrh r2, [r0, #0x34]
 	add r0, r4, #0x1400
@@ -154,7 +154,7 @@ ViDock__Func_215DBC8: // 0x0215DBC8
 	bl ViMapIcon__Func_2163A7C
 	ldr r0, _0215DC78 // =ViDock__TaskSingleton
 	ldr r1, _0215DC7C // =ViDock__Func_215F9CC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
@@ -167,7 +167,7 @@ ViDock__Func_215DC80: // 0x0215DC80
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, _0215DCF4 // =ViDock__TaskSingleton
 	mov r6, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r5, r1
 	bl GetTaskWork_
 	mov r4, r0
@@ -190,7 +190,7 @@ ViDock__Func_215DC80: // 0x0215DC80
 	bl CreateThreadWorker
 	ldr r0, _0215DCF4 // =ViDock__TaskSingleton
 	ldr r1, _0215DCFC // =ViDock__Func_215FFC0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
@@ -203,7 +203,7 @@ _0215DCFC: .word ViDock__Func_215FFC0
 ViDock__Func_215DD00: // 0x0215DD00
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215DD28 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0xb28]
@@ -219,14 +219,14 @@ _0215DD28: .word ViDock__TaskSingleton
 ViDock__Func_215DD2C: // 0x0215DD2C
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215DD5C // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x18
 	mov r1, #0
 	bl ViMapIcon__Func_2163A7C
 	ldr r0, _0215DD5C // =ViDock__TaskSingleton
 	ldr r1, _0215DD60 // =ViDock__Func_215F9CC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
@@ -239,7 +239,7 @@ ViDock__Func_215DD64: // 0x0215DD64
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, _0215DE34 // =ViDock__TaskSingleton
 	mov r6, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r5, r1
 	bl GetTaskWork_
 	mov r4, r0
@@ -267,7 +267,7 @@ ViDock__Func_215DD64: // 0x0215DD64
 	mov r0, r4
 	bl ViDock__Func_215EA8C
 _0215DDDC:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ovl05_2152970
 	ldrh r3, [r0, #0x34]
 	add r2, r4, #0x1400
@@ -279,7 +279,7 @@ _0215DDDC:
 	beq _0215DE20
 	ldr r0, _0215DE34 // =ViDock__TaskSingleton
 	ldr r1, _0215DE38 // =ViDock__Func_215FE00
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	mov r0, #0
 	str r0, [r4, #0xc]
@@ -287,7 +287,7 @@ _0215DDDC:
 _0215DE20:
 	ldr r0, _0215DE34 // =ViDock__TaskSingleton
 	ldr r1, _0215DE3C // =ViDock__Func_215F998
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
@@ -301,7 +301,7 @@ ViDock__Func_215DE40: // 0x0215DE40
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215DEEC // =ViDock__TaskSingleton
 	mov r5, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl ViDock__Func_215EF3C
@@ -338,7 +338,7 @@ ViDock__Func_215DE40: // 0x0215DE40
 	bl ViMapIcon__Func_2163A7C
 	ldr r0, _0215DEEC // =ViDock__TaskSingleton
 	ldr r1, _0215DEF0 // =ViDock__Func_215FE68
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
@@ -350,7 +350,7 @@ _0215DEF0: .word ViDock__Func_215FE68
 ViDock__Func_215DEF4: // 0x0215DEF4
 	stmdb sp!, {r4, lr}
 	ldr r0, _0215DF60 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	add r1, r4, #0x1000
@@ -371,7 +371,7 @@ ViDock__Func_215DEF4: // 0x0215DEF4
 	strh r0, [r4, #2]
 	ldr r0, _0215DF60 // =ViDock__TaskSingleton
 	str r1, [r4, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -384,7 +384,7 @@ ViDock__Func_215DF64: // 0x0215DF64
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215DF80 // =ViDock__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	str r4, [r0, #8]
 	ldmia sp!, {r4, pc}
@@ -396,7 +396,7 @@ _0215DF80: .word ViDock__TaskSingleton
 ViDock__Func_215DF84: // 0x0215DF84
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215DF9C // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	bl ViDock__Func_215EE7C
 	ldmia sp!, {r3, pc}
@@ -408,7 +408,7 @@ _0215DF9C: .word ViDock__TaskSingleton
 ViDock__Func_215DFA0: // 0x0215DFA0
 	stmdb sp!, {r4, lr}
 	ldr r0, _0215DFE0 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, [r4, #0x14]
@@ -430,7 +430,7 @@ _0215DFE0: .word ViDock__TaskSingleton
 ViDock__Func_215DFE4: // 0x0215DFE4
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215DFFC // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #4]
 	ldmia sp!, {r3, pc}
@@ -442,7 +442,7 @@ _0215DFFC: .word ViDock__TaskSingleton
 ViDock__Func_215E000: // 0x0215E000
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215E028 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x460]
@@ -459,7 +459,7 @@ ViDock__Func_215E02C: // 0x0215E02C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _0215E068 // =ViDock__TaskSingleton
 	mov r5, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r4, r1
 	bl GetTaskWork_
 	cmp r5, #0
@@ -479,7 +479,7 @@ _0215E068: .word ViDock__TaskSingleton
 ViDock__Func_215E06C: // 0x0215E06C
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215E094 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x468]
@@ -495,7 +495,7 @@ _0215E094: .word ViDock__TaskSingleton
 ViDock__Func_215E098: // 0x0215E098
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215E0C8 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x1000
 	ldr r1, [r0, #0x468]
@@ -513,7 +513,7 @@ _0215E0C8: .word ViDock__TaskSingleton
 ViDock__Func_215E0CC: // 0x0215E0CC
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215E100 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	moveq r0, #0x17
 	ldmeqia sp!, {r3, pc}
@@ -533,7 +533,7 @@ ViDock__Func_215E104: // 0x0215E104
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, _0215E174 // =ViDock__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r1, r4, lsl #0x10
 	mov r5, r0
@@ -541,7 +541,7 @@ ViDock__Func_215E104: // 0x0215E104
 	bl ovl05_2152A0C
 	add r1, r5, #0x1000
 	ldr r1, [r1, #0x138]
-	ldrh r6, [r0]
+	ldrh r6, [r0, #0]
 	cmp r1, #0
 	moveq r1, #0
 	cmp r1, #0
@@ -568,7 +568,7 @@ ViDock__Func_215E178: // 0x0215E178
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x48
 	ldr r0, _0215E334 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	add r0, r4, #0x1f8
@@ -654,7 +654,7 @@ ViDock__Func_215E178: // 0x0215E178
 	bl CPPHelpers__VEC_Normalize
 	add r0, sp, #0x24
 	bl CPPHelpers__Func_2085F98
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	add r1, r4, #0x1000
 	str r2, [r1, #0x478]
 	ldr r2, [r0, #4]
@@ -663,7 +663,7 @@ ViDock__Func_215E178: // 0x0215E178
 	add r0, sp, #0x18
 	str r2, [r1, #0x480]
 	bl CPPHelpers__Func_2085F98
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	add r1, r4, #0x1000
 	str r2, [r1, #0x484]
 	ldr r2, [r0, #4]
@@ -673,7 +673,7 @@ ViDock__Func_215E178: // 0x0215E178
 _0215E31C:
 	ldr r0, _0215E334 // =ViDock__TaskSingleton
 	ldr r1, _0215E33C // =ViDock__Func_215FD48
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	add sp, sp, #0x48
 	ldmia sp!, {r3, r4, r5, pc}
@@ -689,7 +689,7 @@ ViDock__Func_215E340: // 0x0215E340
 	sub sp, sp, #8
 	ldr r2, _0215E40C // =ViDock__TaskSingleton
 	mov r6, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r5, r1
 	cmp r0, #0
 	addeq sp, sp, #8
@@ -706,7 +706,7 @@ ViDock__Func_215E340: // 0x0215E340
 	ldrh r0, [r4, #2]
 	cmp r0, #0
 	bne _0215E3B0
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #7
 	bhs _0215E3B0
 	bl ovl05_2152970
@@ -718,7 +718,7 @@ _0215E3B0:
 _0215E3B4:
 	cmp r6, #0
 	beq _0215E3F0
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ovl05_2152970
 	ldrsh r0, [r0, #0x40]
 	add r1, r4, #0x78
@@ -748,7 +748,7 @@ _0215E40C: .word ViDock__TaskSingleton
 ViDock__Func_215E410: // 0x0215E410
 	stmdb sp!, {r4, lr}
 	ldr r0, _0215E498 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	add r0, r4, #0x1000
@@ -778,7 +778,7 @@ _0215E45C:
 	bl ViDockPlayer__Func_2166B80
 	ldr r0, _0215E498 // =ViDock__TaskSingleton
 	ldr r1, _0215E49C // =ViDock__Func_215F9CC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -790,7 +790,7 @@ _0215E49C: .word ViDock__Func_215F9CC
 ViDock__Func_215E4A0: // 0x0215E4A0
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215E4B8 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0xc]
 	ldmia sp!, {r3, pc}
@@ -803,7 +803,7 @@ ViDock__Func_215E4BC: // 0x0215E4BC
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215E4D8 // =ViDock__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	str r4, [r0, #0x10]
 	ldmia sp!, {r4, pc}
@@ -815,7 +815,7 @@ _0215E4D8: .word ViDock__TaskSingleton
 ViDock__Func_215E4DC: // 0x0215E4DC
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	ldr r0, _0215E574 // =ViDock__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	add r0, r5, #0xe00
@@ -861,7 +861,7 @@ ViDock__Func_215E578: // 0x0215E578
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r1, _0215E654 // =ViDock__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	mov r0, #0
@@ -926,7 +926,7 @@ ViDock__Func_215E658: // 0x0215E658
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215E674 // =ViDock__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	str r4, [r0, #0x14]
 	ldmia sp!, {r4, pc}
@@ -1006,7 +1006,7 @@ ViDock__Func_215E754: // 0x0215E754
 	add r0, r0, #0xc00
 	mov r5, r1
 	bl ViDockPlayer__LoadAssets
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #7
 	addhs sp, sp, #0x10
 	ldmhsia sp!, {r3, r4, r5, pc}
@@ -1033,7 +1033,7 @@ _0215E7B4:
 	add r0, r0, #0xc00
 	mov r2, #1
 	bl ViDockPlayer__Func_21667A8
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ovl05_2152970
 	ldrsh r2, [r0, #0x40]
 	add r0, r4, #0x218
@@ -1043,7 +1043,7 @@ _0215E7B4:
 	str r2, [sp, #4]
 	add r0, r0, #0xc00
 	bl CPPHelpers__VEC_Copy_Alt
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ovl05_2152970
 	add r2, r4, #0x1f8
 	ldr r1, [r0, #0x38]
@@ -1125,7 +1125,7 @@ _0215E900:
 	add r1, sp, #0xc
 	bl CPPHelpers__VEC_Magnitude
 	add r0, sp, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r0, r0, asr #0xc
 	cmp r0, #4
 	blt _0215E93C
@@ -1140,7 +1140,7 @@ _0215E93C:
 	cmp r4, #0
 	bne _0215E9C0
 	ldr r0, _0215E9F0 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x40
 	beq _0215E970
 	tst r0, #0x20
@@ -1205,25 +1205,25 @@ ViDock__Func_215E9F4: // 0x0215E9F4
 	beq _0215EA54
 	b _0215EA68
 _0215EA24:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #7
 	bhs _0215EA68
 	bl ovl05_2152970
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	b _0215EA68
 _0215EA3C:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #8
 	bhs _0215EA68
 	bl ovl05_2152984
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	b _0215EA68
 _0215EA54:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #5
 	bhs _0215EA68
 	bl ovl05_2152994
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 _0215EA68:
 	mov r3, r4
 	add r0, r5, #0xf8
@@ -1249,11 +1249,11 @@ ViDock__Func_215EA8C: // 0x0215EA8C
 	mov r1, #9
 	cmp r0, #1
 	bne _0215EAC0
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #8
 	bhs _0215EAB8
 	bl ovl05_2152984
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 _0215EAB8:
 	mov r2, #1
 	b _0215EAE8
@@ -1262,11 +1262,11 @@ _0215EAC0:
 	moveq r1, #0
 	moveq r2, #2
 	beq _0215EAE8
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #7
 	bhs _0215EAE4
 	bl ovl05_2152970
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 _0215EAE4:
 	mov r2, #0
 _0215EAE8:
@@ -1289,7 +1289,7 @@ ViDock__Func_215EB04: // 0x0215EB04
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	mov r10, r0
-	ldrh r1, [r10]
+	ldrh r1, [r10, #0]
 	cmp r1, #7
 	bhs _0215EC28
 	ldr r0, _0215EC3C // =0x02172EBC
@@ -1344,7 +1344,7 @@ _0215EB48:
 	mov r1, r5
 	mov r0, r8
 	bl ViDockNpc__LoadAssets
-	ldrh r0, [r10]
+	ldrh r0, [r10, #0]
 	bl ovl05_2152970
 	ldrsh r2, [r0, #0x40]
 	add r0, r8, #0x20
@@ -1354,7 +1354,7 @@ _0215EB48:
 	str r2, [sp, #0x18]
 	bl CPPHelpers__VEC_Copy_Alt
 	ldrh r1, [r7, #2]
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	str r0, [r8, #0x304]
 	str r1, [r8, #0x308]
 _0215EC1C:
@@ -1386,7 +1386,7 @@ _0215EC54: .word ViDockNpcGroup__Func_2168424
 ViDock__Func_215EC58: // 0x0215EC58
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x38
-	ldrh r4, [r0]
+	ldrh r4, [r0, #0]
 	cmp r4, #7
 	addhs sp, sp, #0x38
 	movhs r0, #0
@@ -1464,7 +1464,7 @@ ViDock__Func_215ED0C: // 0x0215ED0C
 	mov r1, r5
 	add r0, r0, #0x1400
 	bl FontAnimator__LoadMPCFile
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ovl05_2152994
 	ldrh r1, [r0, #0x12]
 	add r0, r4, #0xf4
@@ -1722,7 +1722,7 @@ _0215F0AC:
 	ldrsh r0, [r1, #0x7c]
 	cmp r0, r2
 	blt _0215F10C
-	ldrsh r1, [r3]
+	ldrsh r1, [r3, #0]
 	add r0, r4, #0x1000
 	sub r1, r1, r2
 	strh r1, [r3]
@@ -2130,12 +2130,12 @@ ViDock__Func_215F6C8: // 0x0215F6C8
 	mov r4, r3
 	movls r5, #0
 	bls _0215F728
-	ldrh r0, [r10]
+	ldrh r0, [r10, #0]
 	cmp r0, #7
 	movhs r5, #0
 	bhs _0215F728
 	bl ovl05_2152970
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ovl05_21529F8
@@ -2165,7 +2165,7 @@ _0215F728:
 	add r0, r10, #0xf8
 	bl ViDockBack__Func_2164AB4
 _0215F784:
-	ldrh r0, [r10]
+	ldrh r0, [r10, #0]
 	bl ovl05_2152970
 	ldr r1, [sp, #4]
 	ldrsh r7, [r0, #0x40]
@@ -2200,7 +2200,7 @@ _0215F7EC:
 	ldr r1, [r6, #8]
 	mov r2, r8
 	str r1, [sp]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	add r0, r10, #0xf8
 	add r1, r4, #0x1400
 	bl ViDockBack__Func_2164BF4
@@ -2224,7 +2224,7 @@ _0215F838:
 	mov r4, #0
 	umull r8, r6, r7, r2
 	str r1, [sp]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	add r1, r10, #0x48
 	mla r6, r7, r4, r6
 	mov r5, r7, asr #0x1f
@@ -2266,7 +2266,7 @@ ViDock__Func_215F8E8: // 0x0215F8E8
 	mov r4, r0
 	ldrh r0, [r4, #2]
 	cmp r0, #0
-	ldreqh r0, [r4]
+	ldreqh r0, [r4, #0]
 	cmpeq r0, #6
 	ldmneia sp!, {r4, pc}
 	add r0, r4, #0x1000
@@ -2337,12 +2337,12 @@ ViDock__Func_215F9CC: // 0x0215F9CC
 	sub sp, sp, #0x30
 	bl GetCurrentTaskWork_
 	mov r7, r0
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	bl ovl05_2152970
 	mov r4, r0
 	mov r0, r7
 	bl ViDock__Func_215E830
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	bl ovl05_2152970
 	ldrsh r1, [r0, #0x40]
 	add r0, r7, #0x1f8
@@ -2406,7 +2406,7 @@ _0215FAB8:
 	add r0, r1, #0xc00
 	bl ViDockPlayer__Func_21667A0
 	mov r5, r0
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	bl ovl05_2152970
 	ldrsh r3, [r0, #0x40]
 	add r0, r7, #0x130
@@ -2429,13 +2429,13 @@ _0215FB20:
 	bl ViDockNpcGroup__Func_216854C
 	add r0, r7, #0xe00
 	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	str r1, [sp, #0x24]
 	ldr r1, [r0, #4]
 	str r1, [sp, #0x28]
 	ldr r0, [r0, #8]
 	str r0, [sp, #0x2c]
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	cmp r0, #7
 	bhs _0215FB70
 	add r0, sp, #0x24
@@ -2466,14 +2466,14 @@ _0215FB70:
 	beq _0215FBDC
 	mov r1, #1
 	str r1, [r0, #0x460]
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	add sp, sp, #0x30
 	str r1, [r0, #0x464]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0215FBDC:
 	ldr r1, [sp, #0x18]
 	cmp r1, #8
-	ldrneh r0, [r7]
+	ldrneh r0, [r7, #0]
 	cmpne r1, r0
 	addne sp, sp, #0x30
 	strne r1, [r7, #4]
@@ -2488,7 +2488,7 @@ _0215FC0C:
 	ldrh r10, [r11, #0x32]
 	bl ViDockPlayer__Func_21667A0
 	mov r6, r0
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	bl ovl05_2152970
 	add r3, sp, #0x14
 	stmia sp, {r3, r8}
@@ -2577,7 +2577,7 @@ ViDock__Func_215FD48: // 0x0215FD48
 	sub sp, sp, #0xc
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ovl05_2152970
 	ldr r1, [r4, #0x10]
 	mov r5, r0
@@ -2595,13 +2595,13 @@ _0215FD8C:
 	bl ViDockBack__Func_21649DC
 	add r0, r4, #0xe00
 	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	str r1, [sp]
 	ldr r1, [r0, #4]
 	str r1, [sp, #4]
 	ldr r0, [r0, #8]
 	str r0, [sp, #8]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #7
 	bhs _0215FDD0
 	add r0, sp, #0
@@ -2629,9 +2629,9 @@ ViDock__Func_215FE00: // 0x0215FE00
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	bl ViDock__Func_215EA8C
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ovl05_2152984
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r4, #0xf8
 	bl ViDockBack__Func_2164918
 	ldr r0, _0215FE30 // =ViDock__Func_215FE34
@@ -2665,7 +2665,7 @@ ViDock__Func_215FE68: // 0x0215FE68
 	sub sp, sp, #8
 	bl GetCurrentTaskWork_
 	mov r5, r0
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	bl ovl05_2152994
 	mov r4, r0
 	add r0, r5, #0x18
@@ -2780,7 +2780,7 @@ ViDock__Func_215FFC0: // 0x0215FFC0
 ViDock__Func_215FFF4: // 0x0215FFF4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	ldr r2, [r4, #4]
 	strh r2, [r4]
 	bl ViDock__Func_215E754
@@ -2791,7 +2791,7 @@ ViDock__Func_215FFF4: // 0x0215FFF4
 	bl ViDock__Func_215EA8C
 	mov r0, r4
 	bl ViDock__Func_215EB04
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ovl05_2152970
 	ldrh r1, [r0, #0x34]
 	add r0, r4, #0x1400

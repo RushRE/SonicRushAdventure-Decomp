@@ -313,12 +313,12 @@ NONMATCH_FUNC void SaveGame__Func_205BDC8(void){
 	mov r1, r2, lsl r0
 	ldr r2, =0x02134474
 	bne _0205BDF8
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	tst r0, r1, lsr #1
 	orreq r0, r0, r1, lsr #1
 	streq r0, [r2]
 _0205BDF8:
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	ldr ip, =SaveGame__Func_205CF9C
 	orr r0, r0, r1
 	str r0, [r2]
@@ -1449,10 +1449,10 @@ NONMATCH_FUNC void SaveGame__Func_205CF9C(void)
 	ldrb r0, [r5, #4]
 	cmp r0, r1
 	bhs _0205CFDC
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	strb r1, [r5, #4]
 	tst r0, #0x100
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	orrne r0, r0, #0x100
 	strne r0, [r5]
 	biceq r0, r0, #0x100
@@ -1460,9 +1460,9 @@ NONMATCH_FUNC void SaveGame__Func_205CF9C(void)
 	b _0205CFF4
 _0205CFDC:
 	bne _0205CFF4
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #0x100
-	ldrne r0, [r5]
+	ldrne r0, [r5, #0]
 	orrne r0, r0, #0x100
 	strne r0, [r5]
 _0205CFF4:
@@ -1473,9 +1473,9 @@ _0205CFF4:
 	strb r1, [r5, #5]
 	cmp r1, #2
 	bne _0205D024
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #0x200
-	ldrne r0, [r5]
+	ldrne r0, [r5, #0]
 	orrne r0, r0, #0x200
 	strne r0, [r5]
 _0205D024:
@@ -1486,15 +1486,15 @@ _0205D024:
 	strb r1, [r5, #6]
 	cmp r1, #4
 	bne _0205D054
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #0x400
-	ldrne r0, [r5]
+	ldrne r0, [r5, #0]
 	orrne r0, r0, #0x400
 	strne r0, [r5]
 _0205D054:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, =0x000FF8FE
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	and r0, r1, r0
 	orr r0, r2, r0
 	str r0, [r5]
@@ -1908,7 +1908,7 @@ NONMATCH_FUNC void SaveGame__Func_205D65C(void){
 	add r5, sp, #0
 	mov r4, #6
 _0205D694:
-	ldrh r0, [r9]
+	ldrh r0, [r9, #0]
 	cmp r10, r0
 	blt _0205D734
 	ldrh r0, [r9, #2]
@@ -1983,7 +1983,7 @@ NONMATCH_FUNC void SaveGame__Func_205D758(void){
 	add r4, sp, #0
 	mov r11, #6
 _0205D790:
-	ldrh r0, [r8]
+	ldrh r0, [r8, #0]
 	cmp r9, r0
 	blt _0205D848
 	ldrh r0, [r8, #2]

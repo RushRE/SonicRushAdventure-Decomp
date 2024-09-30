@@ -201,7 +201,7 @@ CreditsNotification__Main_2156A28: // 0x02156A28
 	bl CreditsNotification__Func_2156CD8
 	mov r0, r4
 	bl CreditsNotification__Func_2156C00
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, [r1, #0x14]
 	orr r0, r0, #0x40
 	str r0, [r1, #0x14]
@@ -216,7 +216,7 @@ CreditsNotification__Func_2156A58: // 0x02156A58
 	mov r4, r0
 	add r0, r4, #0x14
 	bl FontWindow__Init
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r0, r4, #0x14
 	ldr r1, [r1, #8]
 	mov r2, #1
@@ -262,7 +262,7 @@ CreditsNotification__Func_2156A58: // 0x02156A58
 	add r1, r4, #0x14
 	bl FontAnimator__LoadFont1
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02156B58
@@ -275,15 +275,15 @@ _02156B34: // jump table
 	b _02156B4C // case 5
 _02156B4C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02156B5C
 _02156B58:
 	mov r0, #1
 _02156B5C:
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	add r0, r0, #0x13
 	mov r1, r0, lsl #0x10
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r1, r1, lsr #0x10
 	bl FileUnknown__GetAOUFile
 	mov r1, r0

@@ -62,7 +62,7 @@ HubHUD__CreateInternal: // 0x021600A0
 HubHUD__Func_21600E4: // 0x021600E4
 	stmdb sp!, {r3, lr}
 	ldr r0, _0216010C // =HubHUD__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl DestroyTask
@@ -80,18 +80,18 @@ HubHUD__Func_2160110: // 0x02160110
 	movs r6, r0
 	ldr r0, _02160168 // =HubHUD__TaskSingleton
 	mov r5, r1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	moveq r5, #0
 	bl GetTaskWork_
 	mov r4, r0
 	cmp r6, #0
 	beq _02160148
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	orr r0, r0, #1
 	str r0, [r4]
 	b _02160158
 _02160148:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	bic r1, r1, #1
 	str r1, [r4]
 	bl HubHUD__Func_2160AE0
@@ -108,9 +108,9 @@ _02160168: .word HubHUD__TaskSingleton
 HubHUD__Func_216016C: // 0x0216016C
 	stmdb sp!, {r3, lr}
 	ldr r0, _02160190 // =HubHUD__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #2
 	movne r0, #1
 	moveq r0, #0
@@ -123,9 +123,9 @@ _02160190: .word HubHUD__TaskSingleton
 HubHUD__Func_2160194: // 0x02160194
 	stmdb sp!, {r3, lr}
 	ldr r0, _021601B8 // =HubHUD__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #2
 	str r1, [r0]
 	bl HubHUD__Func_2160AE0
@@ -138,14 +138,14 @@ _021601B8: .word HubHUD__TaskSingleton
 HubHUD__Func_21601BC: // 0x021601BC
 	stmdb sp!, {r3, lr}
 	ldr r0, _021601F4 // =HubHUD__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #2
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
 	ldr r0, _021601F8 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x20
 	movne r0, #1
 	moveq r0, #0
@@ -159,14 +159,14 @@ _021601F8: .word padInput
 HubHUD__Func_21601FC: // 0x021601FC
 	stmdb sp!, {r3, lr}
 	ldr r0, _02160234 // =HubHUD__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #2
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
 	ldr r0, _02160238 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x40
 	movne r0, #1
 	moveq r0, #0
@@ -180,14 +180,14 @@ _02160238: .word padInput
 HubHUD__Func_216023C: // 0x0216023C
 	stmdb sp!, {r3, lr}
 	ldr r0, _02160274 // =HubHUD__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #2
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
 	ldr r0, _02160278 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x10
 	movne r0, #1
 	moveq r0, #0
@@ -201,14 +201,14 @@ _02160278: .word padInput
 HubHUD__Func_216027C: // 0x0216027C
 	stmdb sp!, {r3, lr}
 	ldr r0, _021602B4 // =HubHUD__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #2
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
 	ldr r0, _021602B8 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x80
 	movne r0, #1
 	moveq r0, #0
@@ -222,7 +222,7 @@ _021602B8: .word padInput
 HubHUD__Func_21602BC: // 0x021602BC
 	stmdb sp!, {r3, lr}
 	ldr r0, _021602D4 // =HubHUD__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0x244]
 	ldmia sp!, {r3, pc}
@@ -235,7 +235,7 @@ HubHUD__Func_21602D8: // 0x021602D8
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _02160340 // =HubHUD__TaskSingleton
 	mov r5, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r4, r1
 	bl GetTaskWork_
 	ldr r1, [r0, #0x244]
@@ -268,7 +268,7 @@ HubHUD__Func_2160344: // 0x02160344
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _021603AC // =HubHUD__TaskSingleton
 	mov r5, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r4, r1
 	bl GetTaskWork_
 	ldr r1, [r0, #0x244]
@@ -302,7 +302,7 @@ HubHUD__Func_21603B0: // 0x021603B0
 	movs r5, r0
 	ldr r0, _021603EC // =HubHUD__TaskSingleton
 	mov r4, r1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	moveq r4, #0
 	bl GetTaskWork_
 	ldr r1, [r0, #0xcc]
@@ -321,7 +321,7 @@ _021603EC: .word HubHUD__TaskSingleton
 HubHUD__Func_21603F0: // 0x021603F0
 	stmdb sp!, {r3, lr}
 	ldr r0, _02160408 // =HubHUD__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0x238]
 	ldmia sp!, {r3, pc}
@@ -599,7 +599,7 @@ HubHUD__Main: // 0x02160788
 	mov r6, #0
 	str r6, [r4, #0x238]
 	str r6, [r4, #0x23c]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r5, r6
 	tst r0, #1
 	beq _02160804
@@ -655,7 +655,7 @@ _02160854:
 _02160868:
 	cmp r5, #0
 	beq _021608A4
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, #0
 	orr r2, r1, #2
 	mov r1, #1
@@ -693,7 +693,7 @@ HubHUD__Main_21608DC: // 0x021608DC
 	mov r4, r0
 	add r0, r4, #0x19c
 	bl TouchField__Process
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r5, #0
 	tst r0, #2
 	moveq r5, #1
@@ -713,7 +713,7 @@ _02160920:
 	movne r5, #1
 	cmp r5, #0
 	beq _02160978
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, #1
 	bic r2, r1, #2
 	mov r1, r0
@@ -854,7 +854,7 @@ HubHUD__Func_2160AF4: // 0x02160AF4
 	sub sp, sp, #8
 	mov r4, r0
 	str r4, [sp]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #1
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
@@ -864,7 +864,7 @@ HubHUD__Func_2160AF4: // 0x02160AF4
 	add r2, sp, #0
 	add r0, r4, #4
 	bl AnimatorSprite__ProcessAnimation
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #2
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
@@ -882,12 +882,12 @@ _02160B54: .word HubHUD__Func_2160FC0
 HubHUD__Func_2160B58: // 0x02160B58
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #1
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #4
 	bl AnimatorSprite__DrawFrame
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #2
 	ldmeqia sp!, {r4, pc}
 	mov r0, #8
@@ -932,7 +932,7 @@ HubHUD__Func_2160C08: // 0x02160C08
 	sub sp, sp, #8
 	ldr r1, _02160C60 // =renderCurrentDisplay
 	str r0, [sp]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #1
 	moveq r2, #1
 	ldr r1, [r0, #0xcc]
@@ -959,7 +959,7 @@ _02160C64: .word HubHUD__Func_2160FC0
 HubHUD__Func_2160C68: // 0x02160C68
 	stmdb sp!, {r3, lr}
 	ldr r1, _02160CA0 // =renderCurrentDisplay
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #1
 	moveq r2, #1
 	ldr r1, [r0, #0xcc]
@@ -1074,7 +1074,7 @@ HubHUD__Func_2160DCC: // 0x02160DCC
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, _02160EBC // =HubHUD__TaskSingleton
 	mov r6, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r5, r1
 	bl GetTaskWork_
 	mov r4, r0
@@ -1091,7 +1091,7 @@ _02160E00:
 	str r0, [r4, #0x224]
 	ldmia sp!, {r4, r5, r6, pc}
 _02160E14:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0x400000
 	bhi _02160E30
 	bhs _02160E68
@@ -1148,7 +1148,7 @@ HubHUD__Func_2160EC0: // 0x02160EC0
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, _02160FBC // =HubHUD__TaskSingleton
 	mov r6, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r5, r1
 	bl GetTaskWork_
 	mov r4, r0
@@ -1165,7 +1165,7 @@ _02160EF4:
 	str r0, [r4, #0x228]
 	ldmia sp!, {r4, r5, r6, pc}
 _02160F08:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0x400000
 	bhi _02160F24
 	bhs _02160F68
@@ -1223,7 +1223,7 @@ _02160FBC: .word HubHUD__TaskSingleton
 HubHUD__Func_2160FC0: // 0x02160FC0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x10
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r4, r2
 	cmp r1, #7
 	addne sp, sp, #0x10

@@ -1972,7 +1972,7 @@ _02003FA8:
 	b _02003FE8
 _02003FD8:
 	ldr r1, =0x0213640C
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	mov r1, r0
 	bl ObjPacket__Init
 _02003FE8:
@@ -3058,7 +3058,7 @@ _02004DCC:
 	ldr r0, =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #8
-	ldreq r0, [r5]
+	ldreq r0, [r5, #0]
 	cmpeq r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	mov r0, #1

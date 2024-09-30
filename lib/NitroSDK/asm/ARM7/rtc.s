@@ -123,17 +123,17 @@ _027F6AD8:
 	ldr r0, _027F6B70 // =0x027FFDE8
 	bl RTC_ReadDateTime
 	ldr r0, _027F6B70 // =0x027FFDE8
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	bl RtcBCD2HEX
 	mov r4, r0
 	ldr r0, _027F6B70 // =0x027FFDE8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r0, r0, lsl #0x13
 	mov r0, r0, lsr #0x1b
 	bl RtcBCD2HEX
 	mov r5, r0
 	ldr r0, _027F6B70 // =0x027FFDE8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r0, r0, lsl #0xa
 	mov r0, r0, lsr #0x1a
 	bl RtcBCD2HEX
@@ -142,7 +142,7 @@ _027F6AD8:
 	mov r1, r5
 	bl RtcGetDayOfWeek
 	ldr r2, _027F6B70 // =0x027FFDE8
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	mov r3, r1, lsl #5
 	mov r3, r3, lsr #0x1d
 	cmp r3, r0
@@ -314,7 +314,7 @@ _027F6D88:
 	bl RtcReturnResult
 	b _027F6CBC
 _027F6DA0:
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	mov r0, r0, lsl #0x1e
 	mov r0, r0, lsr #0x1f
 	bl RTC_SetHourFormat
@@ -660,7 +660,7 @@ RTC_Init: // 0x027F723C
 	sub sp, sp, #8
 	mov r4, r0
 	ldr r0, _027F7310 // =rtcInitialized
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #0
 	bne _027F7304
 	mov r1, #1
@@ -754,7 +754,7 @@ _027F7384:
 
 	arm_func_start RtcChangeAlarmFormat12to24
 RtcChangeAlarmFormat12to24: // 0x027F7394
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r1, r2, lsl #0x12
 	mov r3, r1, lsr #0x1a
 	cmp r3, #0x23
@@ -822,10 +822,10 @@ _027F7484:
 	str r1, [r0]
 	bx lr
 _027F7490:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #0x4000
 	str r1, [r0]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #0x3f00
 	str r1, [r0]
 	bx lr
@@ -833,7 +833,7 @@ _027F7490:
 
 	arm_func_start RtcChangeAlarmFormat24to12
 RtcChangeAlarmFormat24to12: // 0x027F74AC
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r2, r1, lsl #0x12
 	mov r2, r2, lsr #0x1a
 	cmp r2, #0x23
@@ -883,7 +883,7 @@ _027F7554:
 _027F7560:
 	orr r1, r1, #0x4000
 	str r1, [r0]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r2, r1, #0x3f00
 	mov r1, r1, lsl #0x12
 	mov r1, r1, lsr #0x1a
@@ -895,7 +895,7 @@ _027F7560:
 _027F758C:
 	orr r1, r1, #0x4000
 	str r1, [r0]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r2, r1, #0x3f00
 	mov r1, r1, lsl #0x12
 	mov r1, r1, lsr #0x1a
@@ -905,10 +905,10 @@ _027F758C:
 	str r1, [r0]
 	bx lr
 _027F75B8:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #0x4000
 	str r1, [r0]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #0x3f00
 	str r1, [r0]
 	bx lr
@@ -1435,7 +1435,7 @@ RTCi_GpioSendData: // 0x027F7C14
 _027F7C1C:
 	stmdb sp!, {r0, r1}
 	tst r0, #1
-	ldreqh r1, [r0]
+	ldreqh r1, [r0, #0]
 	ldrneh r1, [r0, #-1]
 	movne r1, r1, lsr #8
 	ldrh r0, [ip]
@@ -1517,7 +1517,7 @@ _027F7D04:
 	strh r3, [r0, #-1]
 	b _027F7D4C
 _027F7D3C:
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	bic r3, r3, #0xff
 	orr r3, r3, r2
 	strh r3, [r0]

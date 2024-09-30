@@ -25,7 +25,7 @@ BossHelpers__Unknown2038AEC__Init: // 0x02038AEC
 	str r5, [r6]
 	str r5, [r6, #4]
 	str r4, [r6, #0xc]
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	strh r0, [r6, #0x10]
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end BossHelpers__Unknown2038AEC__Init
@@ -53,7 +53,7 @@ BossHelpers__Unknown2038AEC__Func_2038B28: // 0x02038B28
 	ldr r1, [r0, #0xc]
 	add r1, r2, r1
 	str r1, [r0, #4]
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	strh r1, [r0, #0x10]
 	mov r0, #1
 	bx lr
@@ -73,7 +73,7 @@ BossHelpers__Palette__Func_2038B84: // 0x02038B84
 	mov r5, r0
 	mov r4, r2
 	bl SetPaletteAnimation
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r4, #0
 	orrne r0, r0, #2
 	biceq r0, r0, #2
@@ -355,7 +355,7 @@ BossHelpers__Arena__Func_2038EBC: // 0x02038EBC
 	stmia lr!, {r0, r1, r2, r3}
 	ldmia r5!, {r0, r1, r2, r3}
 	stmia lr!, {r0, r1, r2, r3}
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	add r0, r4, #0x1b0
 	str r1, [lr]
 	add r3, r4, #0x32c
@@ -435,7 +435,7 @@ BossHelpers__Model__RenderCallback: // 0x02038FF8
 	sub sp, sp, #4
 	ldr r1, _020390A4 // =mdlUnknownCount
 	ldr r2, [r0, #4]
-	ldrh r5, [r1]
+	ldrh r5, [r1, #0]
 	ldr lr, [r2, #4]
 	ldr r3, _020390A8 // =mdlUnknownList
 	cmp r5, #0
@@ -558,7 +558,7 @@ BossHelpers__Collision__Func_203919C: // 0x0203919C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x10
 	mov r4, r2
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	mov r7, r3
 	str r2, [sp]
 	ldr ip, [r4, #8]

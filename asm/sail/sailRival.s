@@ -48,7 +48,7 @@ SailRival__Create: // 0x02187D8C
 	mov r1, #0
 	bl FSRequestFileSync
 	str r0, [r4, #0x18]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	orr r0, r0, #1
 	str r0, [r4]
 _02187E44:
@@ -111,7 +111,7 @@ _02187F00: .word SailRival__Destructor
 SailRival__Destructor: // 0x02187F04
 	stmdb sp!, {r3, lr}
 	bl GetTaskWork_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	tst r1, #1
 	ldmeqia sp!, {r3, pc}
 	ldr r0, [r0, #0x18]

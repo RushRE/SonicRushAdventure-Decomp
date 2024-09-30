@@ -308,7 +308,7 @@ Task__OV05Unknown2168C48__Func_2168F4C: // 0x02168F4C
 	bl Task__OV05Unknown2168C48__Func_21696D8
 	cmp r0, #0
 	bne _02169064
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl Task__OV05Unknown2168C48__Func_21696F0
@@ -319,7 +319,7 @@ _02169064:
 	strh r0, [r4, #4]
 	b _02169098
 _02169070:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl Task__OV05Unknown2168C48__Func_2169754
@@ -601,7 +601,7 @@ Task__OV05Unknown2168C48__Func_2169424: // 0x02169424
 	bne _02169464
 	mov r0, #1
 	bl ViDockNpcGroup__Func_2168744
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl ViDockNpcGroup__Func_2168754
 	b _021694D8
 _02169464:
@@ -619,15 +619,15 @@ _02169478:
 _0216948C:
 	mov r0, #1
 	bl ViDockNpcGroup__Func_2168744
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl ViDockNpcGroup__Func_2168754
 	b _021694D8
 _021694A0:
 	mov r0, #2
 	bl ViDockNpcGroup__Func_2168744
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl ViDockNpcGroup__Func_2168754
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl Task__OV05Unknown2168C48__Func_2169754
@@ -731,8 +731,8 @@ Task__OV05Unknown2168C48__Func_21695E4: // 0x021695E4
 	cmp r0, #0
 	mov r2, #0x4000000
 	beq _02169614
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -741,8 +741,8 @@ Task__OV05Unknown2168C48__Func_21695E4: // 0x021695E4
 	str r0, [r2]
 	bx lr
 _02169614:
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -757,8 +757,8 @@ Task__OV05Unknown2168C48__Func_2169638: // 0x02169638
 	cmp r0, #0
 	mov r2, #0x4000000
 	beq _02169668
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -767,8 +767,8 @@ Task__OV05Unknown2168C48__Func_2169638: // 0x02169638
 	str r0, [r2]
 	bx lr
 _02169668:
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00

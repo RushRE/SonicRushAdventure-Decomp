@@ -53,7 +53,7 @@ OS_EnableScheduler: // 0x037FC1E8
 	bl OS_DisableInterrupts
 	mov r4, #0
 	ldr r1, _037FC21C // =OSi_RescheduleCount
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	cmp r3, #0
 	subne r2, r3, #1
 	strne r2, [r1]
@@ -71,7 +71,7 @@ OS_DisableScheduler: // 0x037FC220
 	stmdb sp!, {r4, lr}
 	bl OS_DisableInterrupts
 	ldr r2, _037FC254 // =OSi_RescheduleCount
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mvn r1, #0
 	cmp r3, r1
 	addlo r1, r3, #1
@@ -105,7 +105,7 @@ _037FC288: .word OSi_ThreadInfo
 
 	arm_func_start OSi_SleepAlarmCallback
 OSi_SleepAlarmCallback: // 0x037FC28C
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r1, #0
 	str r1, [r0]
 	str r1, [r2, #0x94]
@@ -124,8 +124,8 @@ OS_Sleep: // 0x037FC2AC
 	add r0, sp, #8
 	bl OS_CreateAlarm
 	ldr r0, _037FC344 // =OSi_CurrentThreadPtr
-	ldr r0, [r0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
+	ldr r0, [r0, #0]
 	str r0, [sp, #4]
 	bl OS_DisableInterrupts
 	mov r4, r0
@@ -274,7 +274,7 @@ OS_WakeupThread: // 0x037FC480
 	mov r5, r0
 	bl OS_DisableInterrupts
 	mov r4, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	beq _037FC4E8
 	mov r7, #1
@@ -289,7 +289,7 @@ _037FC4AC:
 	ldr r1, [r0, #0x64]
 	str r1, [r0, #0x60]
 _037FC4C8:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	bne _037FC4AC
 	mov r0, #0
@@ -312,8 +312,8 @@ OS_SleepThread: // 0x037FC4FC
 	bl OS_DisableInterrupts
 	mov r5, r0
 	ldr r0, _037FC54C // =OSi_CurrentThreadPtr
-	ldr r0, [r0]
-	ldr r4, [r0]
+	ldr r0, [r0, #0]
+	ldr r4, [r0, #0]
 	cmp r6, #0
 	beq _037FC530
 	str r6, [r4, #0x5c]
@@ -336,8 +336,8 @@ _037FC54C: .word OSi_CurrentThreadPtr
 OSi_ExitThread_Destroy: // 0x037FC550
 	stmdb sp!, {r4, lr}
 	ldr r0, _037FC5AC // =OSi_CurrentThreadPtr
-	ldr r0, [r0]
-	ldr r4, [r0]
+	ldr r0, [r0, #0]
+	ldr r4, [r0, #0]
 	bl OS_DisableScheduler
 	mov r0, r4
 	bl OSi_UnlockAllMutex
@@ -367,8 +367,8 @@ OSi_ExitThread: // 0x037FC5B0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _037FC5F4 // =OSi_CurrentThreadPtr
-	ldr r1, [r1]
-	ldr r3, [r1]
+	ldr r1, [r1, #0]
+	ldr r3, [r1, #0]
 	ldr r2, [r3, #0x98]
 	cmp r2, #0
 	beq _037FC5E4
@@ -394,13 +394,13 @@ OSi_ExitThread_ArgSpecified: // 0x037FC5F8
 	mov r5, r0
 	mov r4, r1
 	ldr r1, _037FC658 // =OSi_StackForDestructor
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r2, #0
 	beq _037FC644
 	ldr r1, _037FC65C // =OSi_ExitThread
 	bl OS_InitContext
 	str r4, [r5, #4]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	orr r0, r0, #0x80
 	str r0, [r5]
 	mov r0, #1
@@ -514,7 +514,7 @@ OS_InitThread: // 0x037FC79C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _037FC874 // =OSi_IsThreadInitialized
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _037FC868
 	mov r2, #1
@@ -585,7 +585,7 @@ _037FC8A0: .word 0x027FFFA4
 OSi_RescheduleThread: // 0x037FC8A4
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r0, _037FC974 // =OSi_RescheduleCount
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _037FC96C
 	ldr r4, _037FC978 // =OSi_ThreadInfo
@@ -601,8 +601,8 @@ _037FC8D4:
 	b _037FC96C
 _037FC8E0:
 	ldr r0, _037FC97C // =OSi_CurrentThreadPtr
-	ldr r0, [r0]
-	ldr r6, [r0]
+	ldr r0, [r0, #0]
+	ldr r6, [r0, #0]
 	bl OS_SelectThread
 	mov r5, r0
 	cmp r6, r5
@@ -618,7 +618,7 @@ _037FC8E0:
 	bne _037FC96C
 _037FC920:
 	ldr r0, _037FC980 // =OSi_SystemCallbackInSwitchThread
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
 	beq _037FC940
 	mov r0, r6
@@ -710,7 +710,7 @@ _037FCA30: .word OSi_ThreadInfo
 
 	arm_func_start OSi_RemoveMutexLinkFromQueue
 OSi_RemoveMutexLinkFromQueue: // 0x037FCA34
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
 	beq _037FCA5C
 	ldr r1, [r2, #0x10]
@@ -729,7 +729,7 @@ _037FCA5C:
 OSi_RemoveSpecifiedLinkFromQueue: // 0x037FCA64
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov lr, r2
 	b _037FCAAC
 _037FCA78:
@@ -759,7 +759,7 @@ _037FCAB4:
 
 	arm_func_start OSi_RemoveLinkFromQueue
 OSi_RemoveLinkFromQueue: // 0x037FCAC4
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
 	beq _037FCAF0
 	ldr r1, [r2, #0x64]
@@ -816,7 +816,7 @@ _037FCB50:
 	arm_func_start OSi_GetUnusedThreadId
 OSi_GetUnusedThreadId: // 0x037FCB70
 	ldr r1, _037FCB84 // =OSi_ThreadIdCount
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #1
 	str r0, [r1]
 	bx lr

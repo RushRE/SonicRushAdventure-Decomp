@@ -27,7 +27,7 @@ VSState__LoadAssets: // 0x02162C78
 	push {r4, lr}
 	sub sp, #0x10
 	ldr r4, _02162D08 // =VSLobbyMenu__sVars
-	ldr r4, [r4]
+	ldr r4, [r4, #0]
 	str r0, [r4, #4]
 	str r1, [r4, #8]
 	strb r2, [r4, #0xc]
@@ -54,7 +54,7 @@ _02162CA2:
 _02162CB0:
 	str r0, [r4, #0x14]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _02162CDC
 	add r0, r0, r0
@@ -72,7 +72,7 @@ _02162CC8: // jump table
 	.hword _02162CD4 - _02162CC8 - 2 // case 5
 _02162CD4:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _02162CDE
 _02162CDC:
 	mov r1, #1
@@ -109,7 +109,7 @@ _02162D18: .word aDmcmnTerMtBac
 VSState__ReleaseAssets: // 0x02162D1C
 	push {r4, lr}
 	ldr r0, _02162D74 // =VSLobbyMenu__sVars
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	mov r0, r4
 	bl VSState__Func_2163A88
 	cmp r0, #0
@@ -141,7 +141,7 @@ _02162D5E:
 	mov r0, #0
 	str r0, [r4, #0x14]
 	ldr r0, _02162D74 // =VSLobbyMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl _FreeHEAP_SYSTEM
 	ldr r0, _02162D74 // =VSLobbyMenu__sVars
 	mov r1, #0
@@ -156,7 +156,7 @@ VSState__InitSprites: // 0x02162D78
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x38
 	ldr r1, _021630D8 // =VSLobbyMenu__sVars
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	mov r1, #1
 	ldr r2, [r4, #4]
 	lsl r1, r1, #0x1e
@@ -585,7 +585,7 @@ VSState__Func_21630F0: // 0x021630F0
 	push {r4, r5, lr}
 	sub sp, #0x24
 	ldr r1, _02163228 // =VSLobbyMenu__sVars
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	mov r1, #1
 	ldr r2, [r4, #4]
 	lsl r1, r1, #0x1e
@@ -692,12 +692,12 @@ _021631AE:
 _021631C6:
 	mov r1, #1
 	lsl r1, r1, #0x1a
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r0, #0x1f
 	lsl r0, r0, #8
 	and r0, r2
 	lsr r2, r0, #8
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r0, _02163240 // =0xFFFFE0FF
 	mov r5, #1
 	and r0, r3
@@ -715,11 +715,11 @@ _021631C6:
 _021631F2:
 	ldr r1, _02163244 // =0x04001000
 	mov r0, #0x1f
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	lsl r0, r0, #8
 	and r0, r2
 	lsr r2, r0, #8
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r0, _02163240 // =0xFFFFE0FF
 	mov r5, #1
 	and r0, r3
@@ -754,8 +754,8 @@ _02163244: .word 0x04001000
 	thumb_func_start VSState__NotLoaded
 VSState__NotLoaded: // 0x02163248
 	ldr r0, _0216325C // =VSLobbyMenu__sVars
-	ldr r0, [r0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02163256
 	mov r0, #1
@@ -771,7 +771,7 @@ _0216325C: .word VSLobbyMenu__sVars
 VSState__ProcessAnimations: // 0x02163260
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _02163390 // =VSLobbyMenu__sVars
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	bl VSState__NotLoaded
 	cmp r0, #0
 	beq _02163270
@@ -933,7 +933,7 @@ VSState__Draw: // 0x02163398
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #8
 	ldr r0, _021634F0 // =VSLobbyMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r0, [sp]
 	bl VSState__NotLoaded
 	cmp r0, #0
@@ -1112,7 +1112,7 @@ _021634F4: .word 0x000005EC
 	thumb_func_start VSState__SetCallback
 VSState__SetCallback: // 0x021634F8
 	ldr r2, _02163508 // =VSLobbyMenu__sVars
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r2, _0216350C // =0x00000624
 	str r0, [r3, r2]
 	add r0, r2, #4
@@ -1130,7 +1130,7 @@ VSState__Func_2163510: // 0x02163510
 	mov r6, r1
 	ldr r1, _021635D4 // =VSLobbyMenu__sVars
 	mov r5, r2
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	ldr r1, _021635D8 // =0x000005EC
 	mov r7, r3
 	str r0, [r4, r1]
@@ -1235,7 +1235,7 @@ VSState__SetPlayerInfo_: // 0x021635EC
 	str r1, [sp, #0x20]
 	ldr r1, _021636F8 // =VSLobbyMenu__sVars
 	str r2, [sp, #0x24]
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	mov r1, #0xa
 	mov r2, r5
 	lsl r1, r1, #6
@@ -1425,7 +1425,7 @@ VSState__Func_2163768: // 0x02163768
 	push {r3, r4}
 	ldr r2, _02163780 // =VSLobbyMenu__sVars
 	mov r3, r0
-	ldr r4, [r2]
+	ldr r4, [r2, #0]
 	mov r2, #0xa
 	lsl r2, r2, #6
 	mul r3, r2
@@ -1444,7 +1444,7 @@ VSState__Func_2163784: // 0x02163784
 	mov r5, r1
 	ldr r1, _021639F0 // =VSLobbyMenu__sVars
 	mov r6, r2
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r1, #0xa
 	lsl r1, r1, #6
 	mov r2, r0
@@ -1500,7 +1500,7 @@ _021637D6: // jump table
 _021637F0:
 	mov r0, r4
 	add r0, #0xa4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #1
 	mov r2, r0
 	mov r0, r4
@@ -1696,7 +1696,7 @@ _02163974:
 _0216399A:
 	mov r0, r4
 	add r0, #0xa4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #1
 	mov r2, r0
 	mov r0, r4
@@ -1719,7 +1719,7 @@ _0216399A:
 _021639C6:
 	mov r0, r4
 	add r0, #0xa4
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r1, #1
 	mov r0, r4
 	bic r2, r1
@@ -1747,7 +1747,7 @@ _021639F0: .word VSLobbyMenu__sVars
 VSState__GetFlags: // 0x021639F4
 	push {r4, lr}
 	ldr r0, _02163A0C // =VSLobbyMenu__sVars
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	bl VSState__NotLoaded
 	cmp r0, #0
 	beq _02163A06
@@ -1863,12 +1863,12 @@ _02163AB6:
 _02163ACC:
 	mov r1, #1
 	lsl r1, r1, #0x1a
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r0, #0x1f
 	lsl r0, r0, #8
 	and r0, r2
 	lsr r2, r0, #8
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r0, _02163B24 // =0xFFFFE0FF
 	mov r5, #1
 	and r0, r3
@@ -1885,11 +1885,11 @@ _02163ACC:
 _02163AF6:
 	ldr r1, _02163B28 // =0x04001000
 	mov r0, #0x1f
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	lsl r0, r0, #8
 	and r0, r2
 	lsr r2, r0, #8
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r0, _02163B24 // =0xFFFFE0FF
 	mov r5, #1
 	and r0, r3

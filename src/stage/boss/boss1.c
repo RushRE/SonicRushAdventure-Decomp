@@ -888,7 +888,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 	str r1, [r8, #0x38]
 	str r1, [r8, #0x3c]
 	str r1, [r8, #0x40]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, [r0, #0x378]
 	mov r0, #0
@@ -1279,7 +1279,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 	strb r0, [r8, #0x9da]
 	ldr r1, =gameArchiveStage
 	strb r3, [r8, #0x9db]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r0, r8
 	str r2, [sp]
 	ldr r2, =aBoss1Nsbca
@@ -1287,7 +1287,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 	bl ObjAction3dNNMotionLoad
 	ldr r1, =gameArchiveStage
 	mov r0, r8
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r8, #0x9d0
 	str r2, [sp]
 	ldr r2, =aBoss1Nsbva
@@ -1345,7 +1345,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 	strb r2, [r4, #0xc0a]
 	ldr r2, =gameArchiveStage
 	ldr r1, =aExc_2
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r0, sp, #0xc
 	bl NNS_FndMountArchive
 	ldr r6, =Boss1__paletteNameTable
@@ -1359,7 +1359,7 @@ _02154E24:
 	add r1, r9, #9
 	bl NNS_FndGetArchiveFileByIndex
 	mov r7, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl NNS_G3dGetTex
 	ldr r1, [r6, r9, lsl #2]
 	bl Asset3DSetup__PaletteFromName
@@ -1617,7 +1617,7 @@ _02155384:
 	blt _02155384
 	ldr r0, =gameArchiveStage
 	add r5, r10, #0x164
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	ldr r2, =aBoss1Nsbca
 	mov r0, r10
 	mov r3, r4
@@ -1626,7 +1626,7 @@ _02155384:
 	bl ObjAction3dNNMotionLoad
 	ldr r0, =gameArchiveStage
 	ldr r2, =aBoss1Nsbva
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	mov r0, r10
 	add r1, r5, #0x400
 	mov r3, #0
@@ -1693,7 +1693,7 @@ _021554D4:
 	ldr r0, [r4, #4]
 	add r0, r0, r2
 	str r0, [r4, #4]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #3
 	bne _02155534
 	ldr r2, [r4, #4]
@@ -2023,7 +2023,7 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 	bl BossArena__SetCameraConfig
 	ldr r1, =gPlayer
 	mov r0, r4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0
 	mov r3, r1
 	bl BossArena__SetTracker1TargetWork
@@ -2079,7 +2079,7 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 	bl BossArena__SetCameraConfig
 	ldr r1, =gPlayer
 	mov r0, r4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0
 	mov r3, r1
 	bl BossArena__SetTracker1TargetWork
@@ -2126,7 +2126,7 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 	bl BossArena__UpdateTracker0TargetPos
 	ldr r2, =0x0400000A
 	mov r0, #2
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	and r1, r1, #0x43
 	orr r1, r1, #4
 	orr r1, r1, #0x6000
@@ -2144,18 +2144,18 @@ NONMATCH_FUNC void Boss1Stage__StageState_Init(Boss1Stage *work)
 	bl GetBackgroundPixels
 	ldr r2, =VRAMSystem__VRAM_BG
 	mov r1, #0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r2, r2, #0x4000
 	bl LoadCompressedPixels
 	ldr r0, [r5, #0x364]
 	bl GetBackgroundPalette
 	ldr r2, =VRAMSystem__VRAM_PALETTE_BG
 	mov r1, #0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl LoadCompressedPalette
 	mov r2, #0x4000000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -2632,7 +2632,7 @@ _02156254:
 	bne _021562DC
 	ldr r0, [r7, #0xab4]
 	ldr r1, [r7, #0xe48]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r0, r0, lsl #4
 	cmp r1, r0, lsr #16
 	mov r4, r0, lsr #0x10
@@ -2887,13 +2887,13 @@ _021565A0:
 	str r3, [sp, #4]
 	ldr r3, [r7, #0x6b8]
 	str r3, [sp, #8]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r3, [r7, #0x6ac]
 	ldr r1, [r1, #0x44]
 	bl BossHelpers__Math__Func_20392BC
 	ldr r1, =gPlayer
 	str r0, [r4, #0x404]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r0, [r0, #0x44]
 	subs r1, r0, r6
 	ldr r0, [r7, #0x6b8]
@@ -2915,7 +2915,7 @@ _02156600:
 	str r6, [sp, #8]
 	add r0, ip, r0
 	sub r6, r1, r0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	mov r0, r6
 	ldr r1, [r3, #0x44]
 	ldr r3, [r7, #0x6ac]
@@ -2924,7 +2924,7 @@ _02156600:
 	rsb r1, r0, #0
 	ldr r0, =gPlayer
 	str r1, [r4, #0x404]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x44]
 	subs r1, r0, r6
 	ldr r0, [r7, #0x6b8]
@@ -3025,7 +3025,7 @@ NONMATCH_FUNC void Boss1__NeckRenderCallback(s32 a1, void *param){
 	bl Unknown2066510__NormalizeScale
 	ldr r0, =gPlayer
 	add r1, sp, #0x9c
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r2, sp, #0x60
 	add r0, r0, #0x1b0
 	bl VEC_Subtract
@@ -3189,7 +3189,7 @@ NONMATCH_FUNC void Boss1__HandleCameraOrientation(Boss1 *work){
 	bl BossArena__GetAngleTarget
 	ldr r1, =gPlayer
 	ldr r2, [r6, #0x44]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r1, =0x00283764
 	ldr r3, [r3, #0x44]
 	mov r5, r0
@@ -3233,22 +3233,22 @@ _02156B74:
 	bhs _02156BAC
 	ldr r1, =gPlayer
 	mov r3, #0x20
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r2, #0x10
 	add r0, r0, #0x700
 	strh r3, [r0, #0x26]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #0x700
 	strh r2, [r0, #0x28]
 	b _02156BD0
 _02156BAC:
 	ldr r1, =gPlayer
 	mov r3, #0x10
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r2, #0x20
 	add r0, r0, #0x700
 	strh r3, [r0, #0x26]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #0x700
 	strh r2, [r0, #0x28]
 _02156BD0:
@@ -3261,7 +3261,7 @@ _02156BD0:
 	mov r1, r4
 	bl BossArena__SetAngleTarget
 	ldr r0, =Boss1Stage__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0x378]
 	ldr r2, [r6, #0x368]
@@ -4187,7 +4187,7 @@ NONMATCH_FUNC void Boss1__CreateBiteFX(Boss1 *work, struct Boss1ActionBite *conf
 	sub sp, sp, #0x24
 	ldr r2, =Boss1Stage__Singleton
 	mov r6, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r5, r1
 	bl GetTaskWork_
 	ldr r1, [r0, #0x378]
@@ -4199,7 +4199,7 @@ NONMATCH_FUNC void Boss1__CreateBiteFX(Boss1 *work, struct Boss1ActionBite *conf
 	mov r3, r0
 	add r2, r2, #0x32000
 	bl BossFX__CreateRexBite
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r4, r0
 	cmp r1, #3
 	bne _02158340
@@ -4220,14 +4220,14 @@ _02158340:
 _02158354:
 	ldr r2, =FX_SinCosTable_+0x3800
 	add r0, sp, #0
-	ldrsh r1, [r2]
+	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
 	bl MTX_RotZ33_
 	b _0215838C
 _0215836C:
 	ldr r2, =FX_SinCosTable_+0x800
 	add r0, sp, #0
-	ldrsh r1, [r2]
+	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
 	bl MTX_RotZ33_
 	b _0215838C
@@ -5428,7 +5428,7 @@ NONMATCH_FUNC BOOL Boss1__HandleDropCamera(Boss1 *work)
 	mov r0, r11
 	mov r2, #0
 	bl BossArena__GetTracker1TargetPos
-	ldrsh r0, [r5]
+	ldrsh r0, [r5, #0]
 	sub r2, r7, r10
 	ldr r1, [sp]
 	smull r3, r0, r2, r0
@@ -5441,7 +5441,7 @@ NONMATCH_FUNC BOOL Boss1__HandleDropCamera(Boss1 *work)
 	str r2, [sp, #4]
 	mov r0, r11
 	bl BossArena__SetTracker1TargetPos
-	ldrsh r7, [r5]
+	ldrsh r7, [r5, #0]
 	mov r1, #0x78000
 	mvn r2, #0
 	rsb r1, r1, #0
@@ -5461,7 +5461,7 @@ NONMATCH_FUNC BOOL Boss1__HandleDropCamera(Boss1 *work)
 	mov r2, #0
 	add r3, sp, #8
 	bl BossArena__GetTracker1TargetPos
-	ldrsh r2, [r5]
+	ldrsh r2, [r5, #0]
 	sub r3, r10, r8
 	ldr r1, [sp]
 	smull r7, r2, r3, r2
@@ -5475,7 +5475,7 @@ NONMATCH_FUNC BOOL Boss1__HandleDropCamera(Boss1 *work)
 	str r2, [sp, #4]
 	bl BossArena__SetTracker1TargetPos
 	mov r0, r6
-	ldrsh r6, [r5]
+	ldrsh r6, [r5, #0]
 	mov r1, #0x28000
 	rsb r1, r1, #0
 	mvn r2, #0
@@ -5489,7 +5489,7 @@ NONMATCH_FUNC BOOL Boss1__HandleDropCamera(Boss1 *work)
 	orr r2, r2, r1, lsl #20
 	add r1, r2, #0x14000
 	bl BossArena__SetAmplitudeYTarget
-	ldrsh r5, [r5]
+	ldrsh r5, [r5, #0]
 	mov r1, #0x320000
 	mov r2, #0
 	umull r7, r6, r5, r1
@@ -5597,7 +5597,7 @@ NONMATCH_FUNC void Boss1__BossState_Drop(Boss1 *work)
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	ldr r0, [r5, #0xab4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r4, r0, asr #0xc
 	cmp r4, #0x46
 	bgt _0215A054
@@ -5739,7 +5739,7 @@ _0215A22C:
 	bl BossArena__GetCameraConfig2
 	ldr r1, =Boss1Stage__Singleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	ldr r1, [r0, #0x378]
 	ldr r0, [r4, #0x20]
@@ -5750,7 +5750,7 @@ _0215A22C:
 	sub r1, r1, #0xf000
 	bl Boss1__CreateSmokeFX
 	ldr r0, =Boss1Stage__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, [r0, #0x378]
 	ldr r0, [r4, #0x20]

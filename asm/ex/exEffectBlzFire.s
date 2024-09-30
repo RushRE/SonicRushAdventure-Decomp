@@ -187,7 +187,7 @@ _02165C80:
 	mov r0, r4
 	bl ovl09_2161CB0
 	ldr r0, _02165E28 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _02165D04
 	mov r1, #0x11
@@ -195,7 +195,7 @@ _02165C80:
 	sub r2, r1, #0x12
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _02165E28 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x2c]
@@ -289,7 +289,7 @@ _02165D9C:
 	bic r2, r2, #3
 	orr r2, r2, #1
 	strb r2, [r4, #0x38c]
-	ldrsh r2, [r1]
+	ldrsh r2, [r1, #0]
 	add r2, r2, #1
 	strh r2, [r1]
 	ldmia sp!, {r3, r4, r5, pc}
@@ -305,7 +305,7 @@ ovl09_2165E38: // 0x02165E38
 	stmdb sp!, {r4, lr}
 	ldr r1, _02165EC4 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r4, r0
-	ldrsh r0, [r1]
+	ldrsh r0, [r1, #0]
 	cmp r0, #1
 	bgt _02165EA8
 	ldr r0, [r1, #0x24]
@@ -338,7 +338,7 @@ _02165EA8:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
 	ldr r0, _02165EC4 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r4, pc}
@@ -391,7 +391,7 @@ _02165F44:
 	sub r2, r1, #0x13
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0216616C // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x38]
@@ -680,7 +680,7 @@ ovl09_2166338: // 0x02166338
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02166658
 	ldr r0, [r4, #0x2b0]
@@ -689,12 +689,12 @@ ovl09_2166338: // 0x02166338
 	bge _02166454
 	ldr r0, _021669C8 // =_021744C0
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl _fgr
 	ldr r0, _021669CC // =0x45800000
 	bls _02166398
 	ldr r1, _021669C8 // =_021744C0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl _f_mul
 	mov r1, r0
 	mov r0, #0x3f000000
@@ -702,7 +702,7 @@ ovl09_2166338: // 0x02166338
 	b _021663AC
 _02166398:
 	ldr r1, _021669C8 // =_021744C0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl _f_mul
 	mov r1, #0x3f000000
 	bl _f_sub
@@ -898,7 +898,7 @@ _0216664C:
 	b _02166968
 _02166658:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02166968
 	ldr r0, [r4, #0x2b0]
@@ -907,12 +907,12 @@ _02166658:
 	bge _02166768
 	ldr r0, _021669C8 // =_021744C0
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl _fgr
 	ldr r0, _021669CC // =0x45800000
 	bls _021666AC
 	ldr r1, _021669C8 // =_021744C0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl _f_mul
 	mov r1, r0
 	mov r0, #0x3f000000
@@ -920,7 +920,7 @@ _02166658:
 	b _021666C0
 _021666AC:
 	ldr r1, _021669C8 // =_021744C0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl _f_mul
 	mov r1, #0x3f000000
 	bl _f_sub
@@ -1128,9 +1128,9 @@ _02166968:
 	ldr r1, [r1, #0x354]
 	add r1, r1, #0xa000
 	str r1, [r4, #0x140]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	str r1, [r4, #0x148]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	str r1, [r4, #0x14c]
 	str r0, [r4, #8]
 	bl GetExTaskCurrent
@@ -1354,7 +1354,7 @@ _02166C84:
 	bl _f_sub
 _02166C98:
 	bl _f_ftoi
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	cmp r1, r0
 	blt _02166CFC
 	ldr r0, _02166E10 // =_021744C0
@@ -1417,7 +1417,7 @@ _02166D54:
 	bl _f_sub
 _02166D80:
 	bl _f_ftoi
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r0, r1, r0
 	str r0, [r4]
 _02166D90:
@@ -1430,11 +1430,11 @@ _02166D90:
 	ldr r0, [r4, #0x4e4]
 	ldr r0, [r0, #0x358]
 	str r0, [r4, #0x360]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	str r0, [r4, #0x370]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	str r0, [r4, #0x374]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	str r0, [r4, #0x378]
 	ldr r0, [r4, #0x4e4]
 	ldrh r0, [r0, #0x1c]

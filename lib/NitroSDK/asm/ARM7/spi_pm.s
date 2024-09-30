@@ -364,7 +364,7 @@ PMi_GetRegister: // 0x03805B54
 	mov r4, r0
 	ldr r1, _03805BE0 // =0x040001C0
 _03805B60:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03805B60
 	bl PMi_ChangeSpiModeTP
@@ -377,7 +377,7 @@ _03805B60:
 	strh r1, [r0]
 	ldr r1, _03805BE0 // =0x040001C0
 _03805B90:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03805B90
 	mov r0, #0
@@ -387,11 +387,11 @@ _03805B90:
 	strh r1, [r0]
 	ldr r1, _03805BE0 // =0x040001C0
 _03805BB4:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03805BB4
 	ldr r0, _03805BE4 // =0x040001C2
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	and r0, r0, #0xff
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -411,7 +411,7 @@ PMi_SetRegister: // 0x03805BE8
 	mov r4, r1
 	ldr r1, _03805C54 // =0x040001C0
 _03805BFC:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03805BFC
 	bl PMi_ChangeSpiModeTP
@@ -423,7 +423,7 @@ _03805BFC:
 	strh r1, [r0]
 	ldr r1, _03805C54 // =0x040001C0
 _03805C28:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03805C28
 	mov r0, #0
@@ -600,7 +600,7 @@ PMi_DoSleep: // 0x03805E24
 	sub sp, sp, #4
 	mov r5, #0
 	ldr r0, _03805FE8 // =0x04000208
-	ldrh r4, [r0]
+	ldrh r4, [r0, #0]
 	strh r5, [r0]
 	bl OS_DisableInterrupts
 	mov r9, r0
@@ -620,11 +620,11 @@ PMi_DoSleep: // 0x03805E24
 	mov r0, #1
 	bl PMi_ResetControl
 	ldr r0, _03805FEC // =PMi_TriggerBL
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ands r0, r0, #1
 	beq _03805EAC
 	ldr r0, _03805FF0 // =PMi_KeyPattern
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	orr r1, r0, #0x4000
 	ldr r0, _03805FF4 // =0x04000132
 	strh r1, [r0]
@@ -632,18 +632,18 @@ PMi_DoSleep: // 0x03805E24
 	bl OS_EnableIrqMask
 _03805EAC:
 	ldr r0, _03805FEC // =PMi_TriggerBL
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ands r0, r0, #4
 	beq _03805EC4
 	mov r0, #0x400000
 	bl OS_EnableIrqMask
 _03805EC4:
 	ldr r0, _03805FEC // =PMi_TriggerBL
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ands r0, r0, #2
 	beq _03805F08
 	ldr r0, _03805FF8 // =0x04000134
-	ldrh r6, [r0]
+	ldrh r6, [r0, #0]
 	mov r5, #1
 	mov r0, #0x8000
 	bl EXIi_SelectRcnt
@@ -657,14 +657,14 @@ _03805EC4:
 	bl OS_EnableIrqMask
 _03805F08:
 	ldr r0, _03805FEC // =PMi_TriggerBL
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ands r0, r0, #8
 	beq _03805F20
 	mov r0, #0x100000
 	bl OS_EnableIrqMask
 _03805F20:
 	ldr r0, _03805FEC // =PMi_TriggerBL
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ands r0, r0, #0x10
 	beq _03805F38
 	mov r0, #0x2000
@@ -673,7 +673,7 @@ _03805F38:
 	mov r0, r9
 	bl OS_RestoreInterrupts
 	ldr r1, _03805FE8 // =0x04000208
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	mov r0, #1
 	strh r0, [r1]
 	bl _Ven__SVC_Sleep
@@ -681,7 +681,7 @@ _03805F38:
 	mov r1, r7
 	bl PMi_SetRegister
 	ldr r0, _03805FEC // =PMi_TriggerBL
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ands r0, r1, #0x20
 	movne r0, #6
 	moveq r0, #7
@@ -709,7 +709,7 @@ _03805F38:
 	mov r0, r9
 	bl OS_RestoreInterrupts
 	ldr r1, _03805FE8 // =0x04000208
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	strh r4, [r1]
 	add sp, sp, #4
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, lr}
@@ -734,7 +734,7 @@ _03806008: .word SVC_Stop
 	arm_func_start PM_GetLEDPattern
 PM_GetLEDPattern: // 0x0380600C
 	ldr r0, _03806018 // =PMi_BlinkPatternNo
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _03806018: .word PMi_BlinkPatternNo
@@ -758,7 +758,7 @@ _0380603C: .word PMi_BlinkCounter
 PM_SelfBlinkProc: // 0x03806040
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r0, _03806158 // =PMi_BlinkPatternNo
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	cmp r3, #0
 	bne _0380607C
 	mov r0, #3
@@ -775,7 +775,7 @@ _0380607C:
 	cmp r3, #4
 	bge _038060A8
 	ldr r0, _0380615C // =PMi_LEDStatus
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r3, r0
 	beq _03806150
 	mov r0, #3
@@ -790,7 +790,7 @@ _038060A8:
 	mul r5, r1, r0
 	add r4, r6, r5
 	ldr r0, _03806164 // =PMi_BlinkCounter
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrh r1, [r4, #0xa]
 	bl _u32_div_f
 	ldr r5, [r6, r5]
@@ -809,7 +809,7 @@ _038060A8:
 	movne r3, #1
 	moveq r3, #2
 	ldr r0, _03806164 // =PMi_BlinkCounter
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add ip, r1, #1
 	str ip, [r0]
 	ldrh r2, [r4, #8]
@@ -819,7 +819,7 @@ _038060A8:
 	movhs r1, #0
 	strhs r1, [r0]
 	ldr r0, _0380615C // =PMi_LEDStatus
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r3, r0
 	beq _03806150
 	mov r0, #3

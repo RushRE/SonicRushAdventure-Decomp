@@ -254,7 +254,7 @@ NONMATCH_FUNC void SetupDisplayForNavTails(BOOL useEngineB){
 	mov r0, #1
 	bl GX_SetGraphicsMode
 	ldr r0, =0x04000008
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	and r1, r1, #0x43
 	orr r1, r1, #0x2000
 	strh r1, [r0]
@@ -270,7 +270,7 @@ NONMATCH_FUNC void SetupDisplayForNavTails(BOOL useEngineB){
 	and r1, r1, #0x43
 	orr r1, r1, #0x308
 	strh r1, [r0, #6]
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	bic r1, r1, #3
 	strh r1, [r0]
 	ldrh r1, [r0, #2]
@@ -297,7 +297,7 @@ _0203C9E8:
 	mov r0, #0
 	bl GXS_SetGraphicsMode
 	ldr r0, =0x04001008
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	and r1, r1, #0x43
 	orr r1, r1, #0x2000
 	strh r1, [r0]
@@ -313,7 +313,7 @@ _0203C9E8:
 	and r1, r1, #0x43
 	orr r1, r1, #0x308
 	strh r1, [r0, #6]
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	bic r1, r1, #3
 	strh r1, [r0]
 	ldrh r1, [r0, #2]
@@ -355,14 +355,14 @@ _0203CA8C:
 	cmp r5, #0
 	bne _0203CAEC
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1c00
 	str r0, [r1]
 	ldmia sp!, {r3, r4, r5, pc}
 _0203CAEC:
 	ldr r1, =0x04001000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1c00
 	str r0, [r1]
@@ -382,7 +382,7 @@ NONMATCH_FUNC void InitNavTailsSprites(NavTails *work)
 	sub sp, sp, #0x1c
 	mov r10, r0
 	ldr r5, [r10, #8]
-	ldr r4, [r10]
+	ldr r4, [r10, #0]
 	mov r0, r5
 	mov r1, #8
 	add r6, r10, #0x4d0
@@ -395,7 +395,7 @@ NONMATCH_FUNC void InitNavTailsSprites(NavTails *work)
 	str r3, [sp, #4]
 	str r0, [sp, #8]
 	str r3, [sp, #0xc]
-	ldr r2, [r10]
+	ldr r2, [r10, #0]
 	ldr r0, =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r1, #3
 	ldr r2, [r0, r2, lsl #2]
@@ -430,7 +430,7 @@ NONMATCH_FUNC void InitNavTailsSprites(NavTails *work)
 	str r1, [sp, #4]
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
-	ldr r2, [r10]
+	ldr r2, [r10, #0]
 	ldr r0, =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r1, #3
 	ldr r2, [r0, r2, lsl #2]
@@ -479,7 +479,7 @@ _0203CC60:
 	str r3, [sp, #4]
 	str r0, [sp, #8]
 	str r3, [sp, #0xc]
-	ldr r2, [r10]
+	ldr r2, [r10, #0]
 	ldr r0, =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r1, #3
 	ldr r2, [r0, r2, lsl #2]
@@ -519,7 +519,7 @@ _0203CC60:
 	str r0, [sp, #8]
 	str r3, [sp, #0xc]
 	mov r2, r7
-	ldr r7, [r10]
+	ldr r7, [r10, #0]
 	ldr r0, =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r1, #3
 	ldr r7, [r0, r7, lsl #2]
@@ -545,7 +545,7 @@ _0203CC60:
 	add r9, r10, #0x660
 	mov r11, r7
 _0203CDA8:
-	ldrh r6, [r8]
+	ldrh r6, [r8, #0]
 	mov r0, r7, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl SaveGame__IsShipUnlocked
@@ -562,7 +562,7 @@ _0203CDA8:
 	stmia sp, {r4, r11}
 	str r0, [sp, #8]
 	str r11, [sp, #0xc]
-	ldr r3, [r10]
+	ldr r3, [r10, #0]
 	ldr r1, =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r2, r6
 	ldr r3, [r1, r3, lsl #2]
@@ -607,7 +607,7 @@ _0203CE78:
 	stmia sp, {r4, r6}
 	str r0, [sp, #8]
 	str r6, [sp, #0xc]
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	mov r0, r7
 	ldr r2, [r11, r1, lsl #2]
 	mov r1, r5
@@ -640,7 +640,7 @@ _0203CE78:
 	mov r6, r9
 	mov r11, r9
 _0203CF1C:
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	mov r0, r5
 	bl Sprite__GetSpriteSize1FromAnim
 	mov r1, r0
@@ -649,7 +649,7 @@ _0203CF1C:
 	stmia sp, {r4, r6}
 	str r0, [sp, #8]
 	str r6, [sp, #0xc]
-	ldr r2, [r10]
+	ldr r2, [r10, #0]
 	ldr r1, =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r0, r8
 	ldr r2, [r1, r2, lsl #2]
@@ -659,7 +659,7 @@ _0203CF1C:
 	str r2, [sp, #0x14]
 	mov r2, #0x10
 	str r2, [sp, #0x18]
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	mov r3, r6
 	bl AnimatorSprite__Init
 	ldrh r2, [r7, #2]
@@ -1013,7 +1013,7 @@ NONMATCH_FUNC void NavTails_FontCallback(u32 type, FontAnimator *animator, void 
 	mov r3, r0
 	mov r8, r1
 	cmp r3, #0xa
-	ldr r7, [r2]
+	ldr r7, [r2, #0]
 	ldr r4, [r2, #8]
 	blo _0203D898
 	cmp r3, #0xe
@@ -1061,7 +1061,7 @@ NONMATCH_FUNC void NavTails_FontCallback(u32 type, FontAnimator *animator, void 
 	add r2, r6, #0xa
 	bl FontAnimator__GetMsgPosition
 	ldrsh r2, [r6, #8]
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	mov r0, r8
 	sub r1, r2, r1
 	strh r1, [r6, #8]

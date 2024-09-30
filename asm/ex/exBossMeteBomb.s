@@ -81,7 +81,7 @@ ovl09_215BD7C: // 0x0215BD7C
 	mov r6, #0
 _0215BDCC:
 	strh r6, [r5, #0x66]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mla r2, r0, r7, r8
 	mov r0, r2, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -305,7 +305,7 @@ _0215C088:
 	sub r2, r1, #0x16
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0215C278 // =0x021761CC
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x58]
@@ -513,7 +513,7 @@ exBossMeteBombTask__Main: // 0x0215C34C
 	ldr r6, _0215C468 // =_mt_math_rand
 	str r1, [r4, #0x388]
 	str r0, [r4, #0x38c]
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr r3, _0215C46C // =0x00196225
 	ldr ip, _0215C470 // =0x3C6EF35F
 	ldr r5, _0215C474 // =0x55555556
@@ -527,7 +527,7 @@ exBossMeteBombTask__Main: // 0x0215C34C
 	add r1, r2, r1, ror #31
 	add r1, r1, #1
 	strh r1, [r4, #0x2a]
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	mov lr, #3
 	mla r2, r1, r3, ip
 	str r2, [r6]
@@ -674,7 +674,7 @@ exBossMeteBombTask__Create: // 0x0215C57C
 	mov r2, #0x510
 	mov r5, r0
 	bl MI_CpuFill8
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r6
 	str r1, [r5, #4]
 	ldr r1, [r4, #4]

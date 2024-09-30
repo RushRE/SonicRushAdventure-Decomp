@@ -25,13 +25,13 @@ MainMenu__Create: // 0x02152960
 	mov r1, r4
 	bl MIi_CpuClear32
 	ldr r0, _021529E8 // =0x04000204
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	lsr r1, r0, #0xb
 	and r1, r2
 	asr r2, r1, #0xf
 	ldr r1, _021529EC // =0x00002610
 	str r2, [r4, r1]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	lsr r1, r0, #0xb
 	orr r1, r2
 	strh r1, [r0]
@@ -122,7 +122,7 @@ MainMenu__InitAssets: // 0x02152A30
 	add r0, r4, r0
 	bl FontAnimator__Init
 	mov r0, r4
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r0, #0x1c
 	mov r2, #0
 	bl MainMenu__SetBackground
@@ -162,11 +162,11 @@ MainMenu__LoadArchives: // 0x02152AAC
 	mov r4, r0
 	ldr r0, _02152B60 // =_0217E560
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl ArchiveFileUnknown__LoadFile
 	str r0, [r4, #4]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _02152AE6
 	add r0, r0, r0
@@ -184,7 +184,7 @@ _02152AD2: // jump table
 	.hword _02152ADE - _02152AD2 - 2 // case 5
 _02152ADE:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02152AE8
 _02152AE6:
 	mov r0, #1
@@ -231,7 +231,7 @@ _02152B1E:
 	mvn r2, r2
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	lsr r0, r0, #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r4, #8]
@@ -274,7 +274,7 @@ _02152B7C:
 	bl ReleaseThreadWorker
 	mov r0, r4
 	add r0, #0xd0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02152B9A
 	bl CharacterSelectMenu__ReleaseAssets
@@ -285,7 +285,7 @@ _02152B7C:
 _02152B9A:
 	mov r0, r4
 	add r0, #0xcc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02152BB0
 	bl StageSelectMenu__ReleaseAssets
@@ -351,7 +351,7 @@ _02152BFC:
 _02152C2A:
 	ldr r2, _02152C50 // =0x04000204
 	ldr r0, _02152C4C // =0x00002610
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ldr r3, [r4, r0]
 	ldr r0, _02152C54 // =0xFFFF7FFF
 	and r1, r0
@@ -439,10 +439,10 @@ _02152CC6:
 	mov r3, r0
 	mov r5, r0
 _02152CCA:
-	ldr r6, [r4]
+	ldr r6, [r4, #0]
 	add r3, r3, #1
 	strh r1, [r6, r5]
-	ldr r6, [r4]
+	ldr r6, [r4, #0]
 	add r6, r6, r5
 	add r5, r5, #4
 	strh r1, [r6, #2]
@@ -454,7 +454,7 @@ _02152CCA:
 	blt _02152CC6
 	ldr r0, _02152D48 // =0x04000008
 	mov r4, #3
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	bic r2, r4
 	strh r2, [r0]
 	ldrh r3, [r0, #2]
@@ -473,12 +473,12 @@ _02152CCA:
 	orr r6, r5
 	strh r6, [r0, #6]
 	sub r0, #8
-	ldr r7, [r0]
+	ldr r7, [r0, #0]
 	ldr r6, _02152D4C // =0xFFFFE0FF
 	and r7, r6
 	str r7, [r0]
 	ldr r0, _02152D50 // =0x04001008
-	ldrh r7, [r0]
+	ldrh r7, [r0, #0]
 	bic r7, r4
 	strh r7, [r0]
 	ldrh r7, [r0, #2]
@@ -494,7 +494,7 @@ _02152CCA:
 	orr r2, r5
 	strh r2, [r0, #6]
 	sub r0, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	and r2, r6
 	str r2, [r0]
 	ldr r0, _02152D54 // =renderCurrentDisplay
@@ -514,21 +514,21 @@ MainMenu__SetupDisplay2: // 0x02152D58
 	sub sp, #4
 	ldr r1, _02152EB8 // =0x04000304
 	ldr r2, _02152EBC // =0xFFFFFDF1
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	and r3, r2
 	ldr r2, _02152EC0 // =0x0000020E
 	orr r2, r3
 	strh r2, [r1]
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	mov r2, #0xc
 	bic r3, r2
 	strh r3, [r1]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldr r0, _02152EC4 // =0xFFFFE0FF
 	bne _02152E24
 	lsl r3, r1, #0x18
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	and r2, r0
 	mov r0, #6
 	lsl r0, r0, #0xa
@@ -543,11 +543,11 @@ MainMenu__SetupDisplay2: // 0x02152D58
 	bl VRAMSystem__SetupOBJBank
 	mov r2, #1
 	lsl r2, r2, #0x1a
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, _02152ECC // =0xC7FFFFFF
 	and r1, r0
 	str r1, [r2]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	asr r0, r0, #3
 	and r0, r1
 	str r0, [r2]
@@ -557,7 +557,7 @@ MainMenu__SetupDisplay2: // 0x02152D58
 	bl GX_SetGraphicsMode
 	ldr r0, _02152ED0 // =0x04000008
 	mov r2, #0x43
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	add sp, #4
 	mov r3, r1
 	mov r1, #0x71
@@ -582,7 +582,7 @@ MainMenu__SetupDisplay2: // 0x02152D58
 	ldr r2, _02152EDC // =0x00004018
 	orr r2, r3
 	strh r2, [r0, #6]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r3, #3
 	bic r2, r3
 	strh r2, [r0]
@@ -603,7 +603,7 @@ MainMenu__SetupDisplay2: // 0x02152D58
 	orr r3, r2
 	strh r3, [r0, #6]
 	lsl r3, r1, #0x17
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr r0, _02152EC4 // =0xFFFFE0FF
 	and r1, r0
 	lsl r0, r2, #0xb
@@ -613,7 +613,7 @@ MainMenu__SetupDisplay2: // 0x02152D58
 _02152E24:
 	ldr r2, _02152EE0 // =0x04001000
 	mov r3, #0
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	and r1, r0
 	mov r0, #6
 	lsl r0, r0, #0xa
@@ -629,7 +629,7 @@ _02152E24:
 	bl GXS_SetGraphicsMode
 	ldr r0, _02152EE4 // =0x04001008
 	mov r2, #0x43
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r3, r1
 	mov r1, #0x71
 	and r3, r2
@@ -653,7 +653,7 @@ _02152E24:
 	ldr r1, _02152EDC // =0x00004018
 	orr r1, r2
 	strh r1, [r0, #6]
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r2, #3
 	bic r1, r2
 	strh r1, [r0]
@@ -674,7 +674,7 @@ _02152E24:
 	orr r2, r1
 	strh r2, [r0, #6]
 	sub r0, #8
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r2, _02152EC4 // =0xFFFFE0FF
 	lsl r1, r1, #0xb
 	and r2, r3
@@ -700,7 +700,7 @@ _02152EE4: .word 0x04001008
 	thumb_func_start MainMenu__SetWindowVisible
 MainMenu__SetWindowVisible: // 0x02152EE8
 	push {r3, r4}
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02152F40
 	cmp r2, #0
@@ -708,11 +708,11 @@ MainMenu__SetWindowVisible: // 0x02152EE8
 	mov r0, #1
 	lsl r0, r0, #0x1a
 	mov r2, #0x1f
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	lsl r2, r2, #8
 	and r2, r3
 	lsr r4, r2, #8
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r2, _02152F8C // =0xFFFFE0FF
 	and r3, r2
 	mov r2, #1
@@ -727,12 +727,12 @@ MainMenu__SetWindowVisible: // 0x02152EE8
 _02152F1A:
 	mov r2, #1
 	lsl r2, r2, #0x1a
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mov r0, #0x1f
 	lsl r0, r0, #8
 	and r0, r3
 	lsr r3, r0, #8
-	ldr r4, [r2]
+	ldr r4, [r2, #0]
 	ldr r0, _02152F8C // =0xFFFFE0FF
 	and r0, r4
 	mov r4, #1
@@ -749,11 +749,11 @@ _02152F40:
 	beq _02152F68
 	ldr r0, _02152F90 // =0x04001000
 	mov r2, #0x1f
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	lsl r2, r2, #8
 	and r2, r3
 	lsr r4, r2, #8
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r2, _02152F8C // =0xFFFFE0FF
 	and r3, r2
 	mov r2, #1
@@ -768,11 +768,11 @@ _02152F40:
 _02152F68:
 	ldr r2, _02152F90 // =0x04001000
 	mov r0, #0x1f
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	lsl r0, r0, #8
 	and r0, r3
 	lsr r3, r0, #8
-	ldr r4, [r2]
+	ldr r4, [r2, #0]
 	ldr r0, _02152F8C // =0xFFFFE0FF
 	and r0, r4
 	mov r4, #1
@@ -793,7 +793,7 @@ _02152F90: .word 0x04001000
 MainMenu__Func_2152F94: // 0x02152F94
 	push {r4, lr}
 	mov r2, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	cmp r0, #0
 	bne _02152FA2
 	mov r0, #1
@@ -834,7 +834,7 @@ MainMenu__Func_2152FD0: // 0x02152FD0
 	ldr r1, [r0, #0x14]
 	cmp r1, #0
 	bne _0215301A
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _02152FFC
 	ldr r2, _0215301C // =0x0213D2A4
@@ -888,7 +888,7 @@ MainMenu__Func_2153024: // 0x02153024
 
 	thumb_func_start MainMenu__Func_215302C
 MainMenu__Func_215302C: // 0x0215302C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _02153048
 	mov r1, #0x63
@@ -907,7 +907,7 @@ _02153048:
 	lsl r1, r1, #2
 	ldrsh r2, [r0, r1]
 	ldr r0, _02153064 // =VRAMSystem__GFXControl
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0x58
 	ldrsh r0, [r1, r0]
 	cmp r2, r0
@@ -926,7 +926,7 @@ MainMenu__Func_2153068: // 0x02153068
 	push {r3, r4, lr}
 	sub sp, #0xc
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	lsl r1, r0, #2
 	ldr r0, _02153128 // =VRAMSystem__GFXControl
 	ldr r2, [r0, r1]
@@ -956,7 +956,7 @@ _02153084:
 	mov r0, #0x18
 	str r0, [sp, #8]
 	ldr r0, _02153130 // =0x000022E4
-	ldr r3, [r4]
+	ldr r3, [r4, #0]
 	add r0, r4, r0
 	mov r2, #0
 	bl InitBackground
@@ -1076,7 +1076,7 @@ MainMenu__Func_21531B8: // 0x021531B8
 	ldr r0, [r4, #0x14]
 	cmp r0, #0
 	bne _021531E8
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	lsl r1, r0, #2
 	ldr r0, _02153230 // =VRAMSystem__GFXControl
 	ldr r0, [r0, r1]
@@ -1103,7 +1103,7 @@ _021531E8:
 	bl TouchField__Process
 	mov r0, r4
 	add r0, #0xc8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02153204
 	mov r0, r4
@@ -1168,7 +1168,7 @@ _0215325C: .word 0x000022CC
 MainMenu__Func_2153260: // 0x02153260
 	ldr r1, _0215327C // =0x000022CC
 	ldrsh r2, [r0, r1]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	lsl r1, r0, #2
 	ldr r0, _02153280 // =VRAMSystem__GFXControl
 	ldr r1, [r0, r1]
@@ -1215,7 +1215,7 @@ _021532A8:
 	ble _021532B2
 	mov r2, r3
 _021532B2:
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	lsl r3, r0, #2
 	ldr r0, _021532CC // =VRAMSystem__GFXControl
 	ldr r3, [r0, r3]
@@ -1310,7 +1310,7 @@ MainMenu__InitSprites: // 0x0215333C
 	ldrh r1, [r1, #0x34]
 	strh r2, [r0, #6]
 	strh r1, [r0, #8]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	bne _0215336A
 	ldr r0, _021536BC // =0x05000200
@@ -1366,13 +1366,13 @@ _02153372:
 	ldr r6, _021536C4 // =0x0217D11E
 	str r0, [sp, #0x3c]
 _021533D4:
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	mov r0, r4
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #4
 	str r1, [sp]
 	mov r1, #0
@@ -1386,7 +1386,7 @@ _021533D4:
 	mov r0, #1
 	str r0, [sp, #0x14]
 	str r0, [sp, #0x18]
-	ldrh r2, [r6]
+	ldrh r2, [r6, #0]
 	ldr r0, [sp, #0x3c]
 	bl AnimatorSprite__Init
 	ldr r1, [sp, #0x3c]
@@ -1410,11 +1410,11 @@ _021533D4:
 	ldr r6, _021536C8 // =0x0217D12A
 	str r0, [sp, #0x40]
 _02153430:
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	mov r0, r4
 	bl Sprite__GetSpriteSize3FromAnim
 	str r0, [sp, #0x28]
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	mov r0, r4
 	add r1, r1, #1
 	lsl r1, r1, #0x10
@@ -1425,7 +1425,7 @@ _02153430:
 	bls _02153450
 	str r0, [sp, #0x28]
 _02153450:
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	mov r0, r4
 	add r1, r1, #2
 	lsl r1, r1, #0x10
@@ -1436,10 +1436,10 @@ _02153450:
 	bls _02153466
 	str r0, [sp, #0x28]
 _02153466:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, [sp, #0x28]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #4
 	str r1, [sp]
 	mov r1, #0
@@ -1453,7 +1453,7 @@ _02153466:
 	mov r0, #1
 	str r0, [sp, #0x14]
 	str r0, [sp, #0x18]
-	ldrh r2, [r6]
+	ldrh r2, [r6, #0]
 	ldr r0, [sp, #0x40]
 	bl AnimatorSprite__Init
 	ldr r1, [sp, #0x40]
@@ -1474,9 +1474,9 @@ _02153466:
 	ldr r6, _021536CC // =0x000006A8
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r2, #0
 	str r1, [sp]
 	str r2, [sp, #4]
@@ -1500,9 +1500,9 @@ _02153466:
 	add r6, #0x64
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r2, #0
 	str r1, [sp]
 	str r2, [sp, #4]
@@ -1532,10 +1532,10 @@ _02153466:
 	bls _02153538
 	mov r6, r0
 _02153538:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, r6
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	str r3, [sp, #4]
@@ -1563,9 +1563,9 @@ _02153538:
 	ldr r6, _021536D0 // =0x000007D4
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	str r3, [sp, #4]
@@ -1589,9 +1589,9 @@ _02153538:
 	add r6, #0x64
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	str r3, [sp, #4]
@@ -1615,7 +1615,7 @@ _02153538:
 	str r0, [sp, #0x34]
 	add r6, sp, #0x84
 _021535EC:
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	mov r0, r4
 	bl Sprite__GetSpriteSize3FromAnim
 	ldr r1, [sp, #0x2c]
@@ -1629,10 +1629,10 @@ _021535FC:
 	str r0, [sp, #0x34]
 	cmp r0, #5
 	blt _021535EC
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, [sp, #0x2c]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	str r3, [sp, #4]
@@ -1659,9 +1659,9 @@ _021535FC:
 	lsl r4, r4, #8
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	str r3, [sp, #4]
@@ -1686,9 +1686,9 @@ _021535FC:
 	add r4, #0x64
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r2, #6
 	str r1, [sp]
 	mov r1, #0
@@ -1725,9 +1725,9 @@ _021536DC:
 	mov r1, #3
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	str r3, [sp, #4]
@@ -1756,10 +1756,10 @@ _021536DC:
 	mov r6, #0
 	add r4, r5, r0
 _0215372A:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, [sp, #0x44]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	lsl r2, r6, #0x10
 	str r1, [sp]
 	mov r1, #0
@@ -1793,10 +1793,10 @@ _0215372A:
 	mov r6, #0
 	add r4, r5, r0
 _02153778:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, [sp, #0x48]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r2, r6
 	str r1, [sp]
 	mov r1, #0
@@ -1829,9 +1829,9 @@ _02153778:
 	ldr r4, _02153B10 // =0x000011FC
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	str r3, [sp, #4]
@@ -1856,9 +1856,9 @@ _02153778:
 	ldr r4, _02153B14 // =0x00002264
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	str r3, [sp, #4]
@@ -1883,9 +1883,9 @@ _02153778:
 	ldr r4, _02153B18 // =0x00001260
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r2, #1
 	str r1, [sp]
 	mov r1, #0
@@ -1909,9 +1909,9 @@ _02153778:
 	add r4, #0x64
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	str r3, [sp, #4]
@@ -1936,9 +1936,9 @@ _02153778:
 	ldr r4, _02153B1C // =0x0000219C
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	str r3, [sp, #4]
@@ -1962,9 +1962,9 @@ _02153778:
 	add r4, #0x64
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	str r3, [sp, #4]
@@ -1994,9 +1994,9 @@ _02153926:
 	lsr r1, r1, #0x10
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	lsl r2, r6, #0x10
 	str r1, [sp]
 	mov r1, #0
@@ -2050,9 +2050,9 @@ _02153990:
 	mov r0, r7
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0
 	str r1, [sp]
 	mov r1, #0
@@ -2125,9 +2125,9 @@ _02153A2C:
 	mov r1, r7
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r1, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl VRAMSystem__AllocSpriteVram
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r2, r7
 	str r1, [sp]
 	mov r1, #0
@@ -2172,7 +2172,7 @@ _02153A2C:
 	str r1, [sp, #0xc]
 	mov r1, #0xb
 	str r1, [sp, #0x10]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r2, #0
 	str r1, [sp, #0x14]
 	str r0, [sp, #0x18]
@@ -2193,7 +2193,7 @@ _02153A2C:
 	str r0, [sp, #4]
 	mov r0, #2
 	str r0, [sp, #8]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, r5
 	str r0, [sp, #0xc]
 	mov r2, #0
@@ -2242,7 +2242,7 @@ _02153B3C: .word 0x00002390
 MainMenu__Func_2153B40: // 0x02153B40
 	push {r4, r5, r6, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	bne _02153B4E
 	mov r6, #2
@@ -2627,7 +2627,7 @@ MainMenu__Func_2153E8C: // 0x02153E8C
 	mov r6, #0
 	add r5, r0, r1
 _02153E9A:
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	mov r0, r5
 	bl AnimatorSprite__SetAnimation
 	add r6, r6, #1
@@ -2643,7 +2643,7 @@ _02153E9A:
 	add r6, r0, r1
 	mov r5, r0
 _02153EBA:
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	mov r0, r6
 	bl AnimatorSprite__SetAnimation
 	mov r0, #0x4a
@@ -2683,7 +2683,7 @@ _02153F0C: .word 0x0000070C
 	thumb_func_start MainMenu__Func_2153F10
 MainMenu__Func_2153F10: // 0x02153F10
 	push {r4, lr}
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _02153F1E
 	mov r4, #6
@@ -4290,7 +4290,7 @@ MainMenu__State_2154B40: // 0x02154B40
 MainMenu__Func_2154B54: // 0x02154B54
 	push {r3, r4, r5, lr}
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	bne _02154B64
 	mov r4, #6
@@ -4322,21 +4322,21 @@ _02154B68:
 	mov r1, #1
 	mov r2, #0
 	bl MainMenu__SetWindowVisible
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, #0
 	lsl r2, r1, #2
 	ldr r1, _02154C2C // =VRAMSystem__GFXControl
 	ldr r2, [r1, r2]
 	strh r0, [r2]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	lsl r2, r2, #2
 	ldr r2, [r1, r2]
 	strh r0, [r2, #2]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	lsl r2, r2, #2
 	ldr r2, [r1, r2]
 	strh r0, [r2, #4]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	lsl r2, r2, #2
 	ldr r1, [r1, r2]
 	mov r2, #2
@@ -7120,7 +7120,7 @@ MainMenu__Func_21560A8: // 0x021560A8
 	bl MainMenu__ReleaseSprites
 	bl LoadSpriteButtonCursorSprite
 	bl LoadSpriteButtonTouchpadSprite
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl SeaMapMenu__Create
 	ldr r1, _021560D4 // =MainMenu__Func_21560D8
 	mov r0, r4
@@ -7214,16 +7214,16 @@ MainMenu__Func_2156174: // 0x02156174
 	beq _02156196
 	mov r0, r4
 	add r0, #0xcc
-	ldr r0, [r0]
-	ldr r1, [r4]
+	ldr r0, [r0, #0]
+	ldr r1, [r4, #0]
 	mov r2, #0x27
 	bl StageSelectMenu__Create
 	b _021561A4
 _02156196:
 	mov r0, r4
 	add r0, #0xcc
-	ldr r0, [r0]
-	ldr r1, [r4]
+	ldr r0, [r0, #0]
+	ldr r1, [r4, #0]
 	mov r2, #0x26
 	bl StageSelectMenu__Create
 _021561A4:
@@ -7248,7 +7248,7 @@ MainMenu__State_21561C4: // 0x021561C4
 	push {r4, lr}
 	mov r4, r0
 	add r0, #0xcc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl StageSelectMenu__Func_215DA40
 	cmp r0, #0
 	beq _021561DE
@@ -7259,7 +7259,7 @@ MainMenu__State_21561C4: // 0x021561C4
 _021561DE:
 	mov r0, r4
 	add r0, #0xcc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl StageSelectMenu__Func_215DA68
 	lsl r0, r0, #0x10
 	lsr r1, r0, #0x10
@@ -7274,7 +7274,7 @@ _021561F8:
 _021561FA:
 	mov r2, r4
 	add r2, #0xd4
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	cmp r2, #0x2e
 	bhs _0215620C
 	lsl r3, r2, #1
@@ -7302,7 +7302,7 @@ MainMenu__Func_2156228: // 0x02156228
 	push {r4, lr}
 	mov r4, r0
 	add r0, #0xcc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl StageSelectMenu__Func_215DA54
 	cmp r0, #3
 	bhi _021562BC
@@ -7392,8 +7392,8 @@ MainMenu__Func_21562E4: // 0x021562E4
 	bl MainMenu__ReleaseSprites
 	mov r0, r4
 	add r0, #0xd0
-	ldr r0, [r0]
-	ldr r1, [r4]
+	ldr r0, [r0, #0]
+	ldr r1, [r4, #0]
 	mov r2, #0
 	bl CharacterSelectMenu__Create
 	mov r0, #7
@@ -7411,7 +7411,7 @@ MainMenu__Func_2156314: // 0x02156314
 	push {r4, lr}
 	mov r4, r0
 	add r0, #0xd0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl CharacterSelectMenu__Func_215FC18
 	cmp r0, #0
 	beq _0215632C
@@ -7429,7 +7429,7 @@ MainMenu__Func_2156334: // 0x02156334
 	push {r4, lr}
 	mov r4, r0
 	add r0, #0xd0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl CharacterSelectMenu__Func_215FC2C
 	cmp r0, #0
 	beq _0215637A
@@ -7744,7 +7744,7 @@ MainMenu__HasMedal: // 0x02156570
 	add r3, sp, #0
 	mov r2, #0xe
 _0215657A:
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	add r4, r4, #2
 	strh r1, [r3]
 	add r3, r3, #2

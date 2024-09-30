@@ -10,7 +10,7 @@ ovl09_2164310: // 0x02164310
 	mov r4, r0
 	bl ovl09_21636BC
 	ldr r0, _0216440C // =0x02176464
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _02164340
 	mov r0, #0
@@ -64,7 +64,7 @@ _02164340:
 	str r3, [r4, #0x10]
 	str r3, [r4, #0x14]
 	str r1, [r4, #0x18]
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	add r1, r1, #1
 	strh r1, [r0]
 	add sp, sp, #0xc
@@ -79,7 +79,7 @@ ovl09_2164410: // 0x02164410
 	add r0, r0, #0x20
 	bl AnimatorSprite3D__Release
 	ldr r0, _02164430 // =0x02176464
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r3, pc}
@@ -102,7 +102,7 @@ exEffectBigBombTask__Main: // 0x02164434
 	bl ovl09_21641E8
 	add r0, r4, #0x15c
 	bl ovl09_21641F0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	str r0, [r4, #0x138]
 	ldr r0, [r4, #4]
 	str r0, [r4, #0x13c]
@@ -197,7 +197,7 @@ exEffectBigBombTask__Create: // 0x0216453C
 	mov r2, #0x2ac
 	mov r5, r0
 	bl MI_CpuFill8
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r6
 	str r1, [r5]
 	ldr r1, [r4, #4]

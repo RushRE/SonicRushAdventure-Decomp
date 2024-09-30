@@ -16,29 +16,29 @@ exFixTimeTask__Main: // 0x02168F78
 	mov r0, #0x12
 	str r1, [r5]
 	strh r0, [r1, #0x18]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #2
 	strh r1, [r0, #0x1a]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x18
 	bl ovl09_2168EA4
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0xe000
 	add r0, r0, #0x98
 	bl ovl09_21641E8
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0
 	strh r1, [r0, #0x80]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	strh r1, [r0, #0x82]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	ldrb r0, [r1, #0x9a]
 	orr r0, r0, #0x20
 	strb r0, [r1, #0x9a]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x18
 	bl ovl09_2161B6C
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x98
 	bl ovl09_21641F0
 	mov r9, #0
@@ -46,50 +46,50 @@ _0216900C:
 	mov r0, #0x88
 	cmp r9, #0
 	muleq r4, r9, r0
-	ldreq r0, [r5]
+	ldreq r0, [r5, #0]
 	moveq r1, #0x29
 	beq _02169030
 	mul r4, r9, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0x35
 _02169030:
 	add r0, r0, r4
 	strh r1, [r0, #0xa0]
 	mov r0, #0x88
 	mul r6, r9, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #2
 	add r0, r0, r6
 	strh r1, [r0, #0xa2]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0xa0
 	add r0, r0, r6
 	bl ovl09_2168EA4
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0xe000
 	add r0, r0, #0x120
 	add r0, r0, r6
 	bl ovl09_21641E8
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0
 	add r0, r0, r6
 	add r0, r0, #0x100
 	strh r1, [r0, #8]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, r6
 	add r0, r0, #0x100
 	strh r1, [r0, #0xa]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x22
 	add r1, r0, #0x100
 	ldrb r0, [r1, r6]
 	orr r0, r0, #0x20
 	strb r0, [r1, r6]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0xa0
 	add r0, r0, r6
 	bl ovl09_2161B6C
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r9, #0
 	add r0, r0, #0x120
 	beq _021690DC
@@ -100,47 +100,47 @@ _021690DC:
 	add r0, r0, r4
 	bl ovl09_21641F0
 _021690E4:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r9, #0
 	movne r1, #0x36
 	add r0, r0, r4
 	moveq r1, #0x2a
 	add r0, r0, #0x100
 	strh r1, [r0, #0xb0]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #2
 	add r0, r0, r6
 	add r0, r0, #0x100
 	strh r1, [r0, #0xb2]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x1b0
 	add r0, r0, r6
 	bl ovl09_2168EA4
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0xe000
 	add r0, r0, #0x230
 	add r0, r0, r6
 	bl ovl09_21641E8
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0
 	add r0, r0, r6
 	add r0, r0, #0x200
 	strh r1, [r0, #0x18]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, r6
 	add r0, r0, #0x200
 	strh r1, [r0, #0x1a]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x32
 	add r1, r0, #0x200
 	ldrb r0, [r1, r6]
 	orr r0, r0, #0x20
 	strb r0, [r1, r6]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x1b0
 	add r0, r0, r6
 	bl ovl09_2161B6C
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r9, #0
 	add r0, r0, #0x230
 	beq _021691A0
@@ -161,7 +161,7 @@ _021691BC:
 	mul r7, r10, r0
 	cmp r9, #0
 	beq _021691EC
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, r10, lsl #1
 	add r0, r6, r0
 	add r0, r7, r0
@@ -170,7 +170,7 @@ _021691BC:
 	strh r1, [r0, #0xc0]
 	b _0216920C
 _021691EC:
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	ldr r0, _02169394 // =0x02175CF0
 	mov r2, r10, lsl #1
 	ldrh r2, [r0, r2]
@@ -181,46 +181,46 @@ _021691EC:
 _0216920C:
 	mov r0, #0x88
 	mul r8, r10, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r6, r0
 	add r0, r8, r0
 	add r1, r0, #0x200
 	mov r0, #2
 	strh r0, [r1, #0xc2]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x2c0
 	add r0, r0, r6
 	add r0, r0, r8
 	bl ovl09_2168EA4
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _02169398 // =0x0000E001
 	add r0, r0, #0x340
 	add r0, r0, r6
 	add r0, r0, r8
 	bl ovl09_21641E8
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r6, r0
 	add r0, r8, r0
 	add r0, r0, #0x300
 	strh r4, [r0, #0x28]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r6, r0
 	add r0, r8, r0
 	add r0, r0, #0x300
 	strh r4, [r0, #0x2a]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x42
 	add r0, r0, #0x300
 	add r1, r0, r6
 	ldrb r0, [r1, r8]
 	orr r0, r0, #0x20
 	strb r0, [r1, r8]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x2c0
 	add r0, r0, r6
 	add r0, r0, r8
 	bl ovl09_2161B6C
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r9, #0
 	add r0, r0, #0x340
 	beq _021692D0
@@ -243,34 +243,34 @@ _021692DC:
 	mov r9, r0, lsr #0x10
 	cmp r9, #2
 	blo _0216900C
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0
 	strh r1, [r0]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0xb3
 	strh r1, [r0, #2]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, #0xd
 	strh r0, [r1, #4]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r2, #0xc7
 	strh r2, [r1, #6]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r2, #0xd3
 	strh r0, [r1, #8]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r3, #0xe8
 	strh r2, [r1, #0xa]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r2, #0xf4
 	strh r0, [r1, #0xc]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	strh r3, [r1, #0xe]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	strh r0, [r1, #0x10]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	strh r2, [r1, #0x12]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	strh r0, [r1, #0x14]
 	bl GetExTaskCurrent
 	ldr r1, _0216939C // =ovl09_216944C
@@ -299,30 +299,30 @@ exFixTimeTask__Destructor: // 0x021693AC
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl exFixTimeTask__Func_2173C78
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r0, r0, #0x18
 	bl ovl09_2168F68
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r0, r0, #0xa0
 	bl ovl09_2168F68
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r0, r0, #0x128
 	bl ovl09_2168F68
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r0, r0, #0x1b0
 	bl ovl09_2168F68
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r0, r0, #0x238
 	bl ovl09_2168F68
 	mov r5, #0
 	mov r7, #0x88
 _02169400:
 	mul r6, r5, r7
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r0, r0, #0x2c0
 	add r0, r0, r6
 	bl ovl09_2168F68
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r0, r0, #0x810
 	add r0, r0, r6
 	bl ovl09_2168F68
@@ -347,21 +347,21 @@ ovl09_216944C: // 0x0216944C
 	bl exSysTask__GetStatus
 	mov r4, r0
 	ldrh r0, [r4, #0xa]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	cmp r0, #9
-	ldrh r8, [r1]
+	ldrh r8, [r1, #0]
 	blo _02169484
 	mov r0, #1
 	strh r0, [r1]
-	ldr r0, [r5]
-	ldrh r8, [r0]
+	ldr r0, [r5, #0]
+	ldrh r8, [r0, #0]
 _02169484:
 	mov r0, #0x550
 	mul r7, r8, r0
 	mov r6, #0
 	mov r9, #0x88
 _02169494:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x2c0
 	add r0, r0, r7
 	mla r0, r6, r9, r0
@@ -373,7 +373,7 @@ _02169494:
 	blo _02169494
 	mov r0, #0x550
 	mul r6, r8, r0
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	ldrh r2, [r4, #0xa]
 	add r0, r3, r6
 	mov r1, #0x88
@@ -381,14 +381,14 @@ _02169494:
 	ldrsh r2, [r3, #2]
 	add r0, r0, #0x300
 	strh r2, [r0, #0x28]
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	ldrh r2, [r4, #0xa]
 	add r0, r3, r6
 	ldrsh r3, [r3, #4]
 	mla r0, r2, r1, r0
 	add r0, r0, #0x300
 	strh r3, [r0, #0x2a]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldrh r3, [r4, #0xa]
 	add r2, r0, #0x2c0
 	add r0, r0, #0x340
@@ -398,7 +398,7 @@ _02169494:
 	add r0, r2, r7
 	add r1, r1, r7
 	bl ovl09_2164034
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	ldrh r2, [r4, #0xc]
 	add r0, r3, r6
 	mov r1, #0x88
@@ -406,14 +406,14 @@ _02169494:
 	ldrsh r2, [r3, #6]
 	add r0, r0, #0x300
 	strh r2, [r0, #0x28]
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	ldrh r2, [r4, #0xc]
 	add r0, r3, r6
 	ldrsh r3, [r3, #8]
 	mla r0, r2, r1, r0
 	add r0, r0, #0x300
 	strh r3, [r0, #0x2a]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldrh r3, [r4, #0xc]
 	add r2, r0, #0x2c0
 	add r0, r0, #0x340
@@ -423,7 +423,7 @@ _02169494:
 	add r0, r2, r7
 	add r1, r1, r7
 	bl ovl09_2164034
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	ldrh r2, [r4, #0xe]
 	add r0, r3, r6
 	mov r1, #0x88
@@ -431,14 +431,14 @@ _02169494:
 	ldrsh r2, [r3, #0xa]
 	add r0, r0, #0x300
 	strh r2, [r0, #0x28]
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	ldrh r2, [r4, #0xe]
 	add r0, r3, r6
 	ldrsh r3, [r3, #0xc]
 	mla r0, r2, r1, r0
 	add r0, r0, #0x300
 	strh r3, [r0, #0x2a]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldrh r3, [r4, #0xe]
 	add r2, r0, #0x2c0
 	add r0, r0, #0x340
@@ -448,7 +448,7 @@ _02169494:
 	add r0, r2, r7
 	add r1, r1, r7
 	bl ovl09_2164034
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	ldrh r2, [r4, #0x10]
 	add r0, r3, r6
 	mov r1, #0x88
@@ -456,7 +456,7 @@ _02169494:
 	ldrsh r2, [r3, #0xe]
 	add r0, r0, #0x300
 	strh r2, [r0, #0x28]
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	ldrh r2, [r4, #0x10]
 	add r0, r3, r6
 	ldrsh r3, [r3, #0x10]
@@ -464,7 +464,7 @@ _02169494:
 	add r0, r0, #0x300
 	strh r3, [r0, #0x2a]
 	ldrh r2, [r4, #0x10]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mul r3, r2, r1
 	add r1, r0, #0x2c0
 	add r0, r0, #0x340
@@ -473,7 +473,7 @@ _02169494:
 	add r0, r2, r3
 	add r1, r1, r3
 	bl ovl09_2164034
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	ldrh r2, [r4, #0x12]
 	add r0, r3, r6
 	mov r1, #0x88
@@ -481,14 +481,14 @@ _02169494:
 	ldrsh r2, [r3, #0x12]
 	add r0, r0, #0x300
 	strh r2, [r0, #0x28]
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	ldrh r2, [r4, #0x12]
 	add r0, r3, r6
 	ldrsh r3, [r3, #0x14]
 	mla r0, r2, r1, r0
 	add r0, r0, #0x300
 	strh r3, [r0, #0x2a]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldrh r3, [r4, #0x12]
 	add r2, r0, #0x2c0
 	add r0, r0, #0x340
@@ -498,7 +498,7 @@ _02169494:
 	add r0, r2, r4
 	add r1, r1, r4
 	bl ovl09_2164034
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, #0x88
 	mul r4, r8, r0
 	add r0, r1, #0xa0
@@ -506,24 +506,24 @@ _02169494:
 	add r0, r0, r4
 	add r1, r1, r4
 	bl ovl09_2164034
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	add r0, r1, #0x1b0
 	add r1, r1, #0x230
 	add r0, r0, r4
 	add r1, r1, r4
 	bl ovl09_2164034
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x18
 	bl ovl09_2161908
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	add r0, r1, #0x18
 	add r1, r1, #0x98
 	bl ovl09_2164034
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0xa0
 	add r0, r0, r4
 	bl ovl09_2161908
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r0, r0, #0x1b0
 	add r0, r0, r4
 	bl ovl09_2161908

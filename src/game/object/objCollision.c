@@ -1764,9 +1764,9 @@ NONMATCH_FUNC s32 ObjDiffCollision(OBS_COL_CHK_DATA *colWork)
 	sub sp, sp, #8
 	ldr r1, =_obj_fCol
 	mov r5, #0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r4, r0
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	mov r6, r5
 	mov r8, r5
 	mov r9, r5
@@ -1792,13 +1792,13 @@ _01FF9920:
 	sub r0, r1, r0
 	b _01FF994C
 _01FF9930:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, [r2, #0x1c]
 	sub r0, r1, r0
 	b _01FF994C
 _01FF9940:
 	ldr r1, [r2, #0x24]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	sub r0, r1, r0
 _01FF994C:
 	mvn r1, #0x1e
@@ -1813,12 +1813,12 @@ _01FF994C:
 _01FF9970:
 	ldr r3, [r4, #8]
 	cmp r3, #0
-	ldrneh r0, [r3]
+	ldrneh r0, [r3, #0]
 	strne r0, [sp, #4]
 	ldr r0, [r4, #0xc]
 	ldrh r1, [r4, #0x12]
 	cmp r0, #0
-	ldrne r11, [r0]
+	ldrne r11, [r0, #0]
 	ands r2, r1, #2
 	beq _01FF99A8
 	mov r9, #8
@@ -1833,7 +1833,7 @@ _01FF99B4:
 	cmp r2, #0
 	ldrne r1, [r4, #4]
 	ldrne r7, =objGetMapColDataY
-	ldreq r1, [r4]
+	ldreq r1, [r4, #0]
 	ldreq r7, =objGetMapColDataX
 	str r0, [sp]
 	and r1, r1, #7
@@ -1858,7 +1858,7 @@ _01FF99B4:
 	ldr r1, [r4, #0xc]
 	add r0, r5, r8
 	str r1, [sp]
-	ldr r5, [r4]
+	ldr r5, [r4, #0]
 	ldrh r2, [r4, #0x10]
 	add r6, r6, r9
 	ldmib r4, {r1, r3}
@@ -1957,12 +1957,12 @@ _01FF9B78:
 	ldr r3, [r4, #8]
 	sub r5, r5, r8
 	cmp r3, #0
-	ldrneh r0, [r3]
+	ldrneh r0, [r3, #0]
 	sub r6, r6, r9
 	strne r0, [sp, #4]
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
-	ldrne r11, [r0]
+	ldrne r11, [r0, #0]
 	str r0, [sp]
 	ldmia r4, {r0, r1}
 	ldrh r2, [r4, #0x10]
@@ -1974,12 +1974,12 @@ _01FF9B78:
 	ldr r3, [r4, #8]
 	sub ip, r5, r8
 	cmp r3, #0
-	ldrneh r0, [r3]
+	ldrneh r0, [r3, #0]
 	sub r5, r6, r9
 	strne r0, [sp, #4]
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
-	ldrne r11, [r0]
+	ldrne r11, [r0, #0]
 	str r0, [sp]
 	ldmia r4, {r0, r1}
 	ldrh r2, [r4, #0x10]
@@ -2122,7 +2122,7 @@ NONMATCH_FUNC u16 objGetMapBlockData(s32 pos_x, s32 pos_y, s32 suf)
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r3, =_obj_fCol
 	mov ip, r1, asr #3
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r3, ip, asr #2
 	ldrh lr, [r1, #0x18]
 	add r3, ip, r3, lsr #29
@@ -2325,7 +2325,7 @@ _01FF9ED8:
 	ldmia sp!, {r4, r5, r6, pc}
 _01FF9EE0:
 	ldr r1, =_obj_fCol
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, [r2, #0x1c]
 	cmp r0, r1
 	blt _01FF9F04
@@ -2357,9 +2357,9 @@ _01FF9F28:
 	mov r1, r0, lsr #0x10
 	ldr r0, =_obj_fCol
 	ands ip, r2, #0x800
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	rsbne r6, r6, #7
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	add r0, r0, r1, lsl #3
 	ldrsb r0, [r6, r0]
 	and r0, r0, #0xf
@@ -2426,7 +2426,7 @@ _01FFA040:
 	cmpne r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r2, =_obj_fCol
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	ldr r2, [r2, #0x14]
 	ldrb r1, [r2, r1]
 	str r1, [r3]
@@ -2501,7 +2501,7 @@ _01FFA138:
 	ldmia sp!, {r4, r5, r6, pc}
 _01FFA140:
 	ldr r0, =_obj_fCol
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, [r2, #0x1c]
 	cmp r6, r0
 	blt _01FFA164
@@ -2533,9 +2533,9 @@ _01FFA188:
 	mov r1, r0, lsr #0x10
 	ldr r0, =_obj_fCol
 	ands ip, r2, #0x400
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	rsbne r6, r6, #7
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	add r0, r0, r1, lsl #3
 	ldrsb r0, [r6, r0]
 	mov r0, r0, lsl #0x14
@@ -2601,7 +2601,7 @@ _01FFA29C:
 	cmpne r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r2, =_obj_fCol
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	ldr r2, [r2, #0x14]
 	ldrb r1, [r2, r1]
 	str r1, [r3]
@@ -3217,14 +3217,14 @@ NONMATCH_FUNC s32 objCollisionDiffObject(StageTaskCollisionObj *work, OBS_COL_CH
 	mov r4, #0
 	mov r11, r0
 	cmp r1, #0
-	ldrneh r0, [r1]
+	ldrneh r0, [r1, #0]
 	mov r5, r4
 	mov r7, r4
 	strne r0, [sp, #8]
 	ldr r0, [r10, #0xc]
 	mov r8, r4
 	cmp r0, #0
-	ldrne r2, [r0]
+	ldrne r2, [r0, #0]
 	strne r2, [sp, #0xc]
 	ldrh r2, [r10, #0x12]
 	ands r3, r2, #2
@@ -3239,7 +3239,7 @@ _01FFAE38:
 	subne r7, r7, #0x10
 _01FFAE44:
 	cmp r3, #0
-	ldreq r3, [r10]
+	ldreq r3, [r10, #0]
 	ldreq r2, [r11, #0x44]
 	ldreq r6, =objGetColDataX
 	beq _01FFAE64
@@ -3265,7 +3265,7 @@ _01FFAE64:
 	ldr r0, [r10, #0xc]
 	add r5, r5, r8
 	str r0, [sp, #4]
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	ldr r0, [r10, #4]
 	add r1, r1, r4
 	add r2, r0, r5
@@ -3280,7 +3280,7 @@ _01FFAE64:
 	ldr r0, [r10, #0xc]
 	add r2, r5, r8
 	str r0, [sp, #4]
-	ldr r5, [r10]
+	ldr r5, [r10, #0]
 	ldr r4, [r10, #4]
 	ldrh r3, [r10, #0x10]
 	mov r0, r11
@@ -3380,15 +3380,15 @@ _01FFB040:
 	ldr r1, [r10, #8]
 	sub r4, r4, r7
 	cmp r1, #0
-	ldrneh r0, [r1]
+	ldrneh r0, [r1, #0]
 	sub r5, r5, r8
 	strne r0, [sp, #8]
 	ldr r2, [r10, #0xc]
 	cmp r2, #0
-	ldrne r0, [r2]
+	ldrne r0, [r2, #0]
 	stmia sp, {r1, r2}
 	strne r0, [sp, #0xc]
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	ldr r0, [r10, #4]
 	ldrh r3, [r10, #0x10]
 	add r2, r0, r5
@@ -3400,12 +3400,12 @@ _01FFB040:
 	ldr r1, [r10, #8]
 	sub ip, r4, r7
 	cmp r1, #0
-	ldrneh r0, [r1]
+	ldrneh r0, [r1, #0]
 	sub r4, r5, r8
 	strne r0, [sp, #8]
 	ldr r2, [r10, #0xc]
 	cmp r2, #0
-	ldrne r0, [r2]
+	ldrne r0, [r2, #0]
 	stmia sp, {r1, r2}
 	ldmia r10, {r1, r2}
 	strne r0, [sp, #0xc]

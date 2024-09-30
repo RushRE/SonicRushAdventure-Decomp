@@ -44,7 +44,7 @@ SeaMapSkyBabylonIcon__Create: // 0x02049A3C
 	mov r0, r4
 	mov r3, r6
 	bl SeaMapEventManager__InitMapObject
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	ldr r0, [r5, #0x15c]
 	bl Sprite__GetSpriteSize1FromAnim
 	mov r1, r0
@@ -63,7 +63,7 @@ SeaMapSkyBabylonIcon__Create: // 0x02049A3C
 	str r2, [sp, #0x10]
 	str r3, [sp, #0x14]
 	str r1, [sp, #0x18]
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	ldr r1, [r5, #0x15c]
 	ldr r3, _02049BD4 // =0x00000804
 	bl AnimatorSprite__Init
@@ -150,7 +150,7 @@ SeaMapSkyBabylonIcon__Destructor: // 0x02049C20
 	mov r0, r4
 	bl SeaMapEventManager__DestroyObject
 	ldr r0, _02049C6C // =0x0213419C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	bl SeaMapEventManager__GetWork
@@ -283,7 +283,7 @@ SeaMapSkyBabylonIcon__Func_2049D8C: // 0x02049D8C
 	strh r3, [r4, #0x7e]
 	bl AnimatorSprite__ProcessAnimation
 	bl SeaMapManager__GetWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02049E24
 	add r0, r4, #0x10

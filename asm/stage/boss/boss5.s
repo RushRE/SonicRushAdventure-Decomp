@@ -113,7 +113,7 @@ Boss5Stage__Create: // _021739C4
 	lsl r0, r0, #2
 	str r1, [r4, r0]
 	ldr r0, _02173BE8 // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x39
 	lsl r1, r1, #4
@@ -126,7 +126,7 @@ Boss5Stage__Create: // _021739C4
 	mov r3, #0
 	ldr r0, _02173C0C // =gameArchiveStage
 	str r3, [r5, #0x50]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, _02173C10 // =aBoss5Nsbta
 	str r0, [sp]
 	mov r0, r4
@@ -164,7 +164,7 @@ Boss5Stage__Create: // _021739C4
 	str r0, [r5, #0x20]
 	ldr r0, _02173C0C // =gameArchiveStage
 	ldr r2, _02173C10 // =aBoss5Nsbta
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r5
 	str r0, [sp]
 	mov r0, r4
@@ -204,7 +204,7 @@ _02173B3C:
 	ldr r0, _02173C1C // =0x00000A14
 	add r6, r4, r0
 	ldr r0, _02173C20 // =VRAMSystem__VRAM_PALETTE_BG
-	ldr r7, [r0]
+	ldr r7, [r0, #0]
 _02173B68:
 	mov r0, #0
 	str r0, [sp]
@@ -310,7 +310,7 @@ Boss5__Create: // _02173C30
 	lsl r2, r2, #4
 	bl MIi_CpuClear16
 	ldr r0, _02173E94 // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0xdd
 	lsl r1, r1, #2
@@ -350,7 +350,7 @@ Boss5__Create: // _02173C30
 	str r0, [r4, #0x3c]
 	str r0, [r4, #0x40]
 	ldr r0, _02173E94 // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x39
 	lsl r1, r1, #4
@@ -477,7 +477,7 @@ Boss5__Create: // _02173C30
 	strb r0, [r5, #0xa]
 	ldr r0, _02173EC0 // =gameArchiveStage
 	strb r3, [r5, #0xb]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r5
 	str r0, [sp]
 	mov r0, r4
@@ -494,20 +494,20 @@ Boss5__Create: // _02173C30
 	mov r0, r5
 	str r3, [sp]
 	add r0, #0x94
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, _02173EC8 // =aBodyWeak
 	mov r2, #0x1e
 	bl BossHelpers__Model__Init
 	mov r3, #0
 	str r3, [sp]
 	add r5, #0x94
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _02173ECC // =aBodyCenter
 	mov r2, #0x1d
 	bl BossHelpers__Model__Init
 	ldr r2, _02173EC0 // =gameArchiveStage
 	ldr r1, _02173ED0 // =aExc_6
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r0, sp, #0x10
 	bl NNS_FndMountArchive
 	mov r0, #2
@@ -522,9 +522,9 @@ _02173E34:
 	bl NNS_FndGetArchiveFileByIndex
 	str r0, [sp, #0xc]
 	ldr r0, _02173EB0 // =bossAssetFiles
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl NNS_G3dGetTex
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	bl Asset3DSetup__PaletteFromName
 	mov r1, #5
 	str r1, [sp]
@@ -742,7 +742,7 @@ Boss5Sea__Create: // _0217400C
 	mov r1, r4
 	bl MIi_CpuClear16
 	ldr r0, _021740F4 // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0xdd
 	mov r3, #0x32
@@ -1273,7 +1273,7 @@ Boss5Missile__Create: // _02174424
 	beq _021744B8
 	mov r0, r4
 	add r0, #0x98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	neg r1, r0
 	mov r0, r4
 	add r0, #0x98
@@ -1966,7 +1966,7 @@ _021749B4:
 	str r0, [r5, #0x20]
 	ldr r0, _02174B24 // =gameArchiveStage
 	mov r1, r5
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r3, #0
 	str r0, [sp]
 	mov r0, r4
@@ -1983,7 +1983,7 @@ _021749B4:
 	bl BossHelpers__Animation__Func_2038BF0
 	ldr r0, _02174B24 // =gameArchiveStage
 	ldr r2, _02174B28 // =aBoss5Nsbma
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r5
 	str r0, [sp]
 	mov r0, r4
@@ -2000,7 +2000,7 @@ _021749B4:
 	bl BossHelpers__Animation__Func_2038BF0
 	ldr r0, _02174B24 // =gameArchiveStage
 	ldr r2, _02174B2C // =aBoss5Nsbta
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r5
 	str r0, [sp]
 	mov r0, r4
@@ -2111,7 +2111,7 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 	str r0, [r5, #0x20]
 	ldr r0, _02174C4C // =gameArchiveStage
 	mov r1, r5
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r3, #0
 	str r0, [sp]
 	mov r0, r4
@@ -2127,7 +2127,7 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 	bl BossHelpers__Animation__Func_2038BF0
 	ldr r0, _02174C4C // =gameArchiveStage
 	ldr r2, _02174C50 // =aBoss5Nsbva
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r5
 	str r0, [sp]
 	mov r0, r4
@@ -2309,7 +2309,7 @@ _02174C98:
 	str r0, [r5, #0x20]
 	ldr r0, _02174DDC // =gameArchiveStage
 	mov r1, r5
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r3, #0
 	str r0, [sp]
 	mov r0, r4
@@ -2456,7 +2456,7 @@ Boss5EnemyFish2__Create: // _02174DE0
 	str r0, [r5, #0x20]
 	ldr r0, _02174F3C // =gameArchiveStage
 	mov r1, r5
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r3, #0
 	str r0, [sp]
 	mov r0, r4
@@ -2786,7 +2786,7 @@ Boss5Shutter__Create: // _02175188
 	mov r6, r0
 	ldr r0, _021752A0 // =_0217AFB8
 	mov r5, r1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r7, r2
 	cmp r0, #0
 	bne _021751A0
@@ -2932,7 +2932,7 @@ ovl01_21752C0: // _021752C0
 	push {r3, r4, r5, lr}
 	ldr r1, _02175324 // =_0217AFB8
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	bne _021752D2
 	bl MTX_Identity43_
@@ -2989,7 +2989,7 @@ ovl01_2175328: // _02175328
 	str r0, [r4]
 	ldr r2, _02175368 // =gameArchiveStage
 	ldr r1, _0217536C // =aExc_6
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r0, sp, #0
 	bl NNS_FndMountArchive
 	add r0, sp, #0
@@ -3040,7 +3040,7 @@ _02175380:
 	add r0, r1, #4
 	add r4, r5, r0
 	ldr r0, _02175520 // =VRAMSystem__VRAM_PALETTE_OBJ
-	ldr r7, [r0]
+	ldr r7, [r0, #0]
 _021753A2:
 	mov r0, #0xda
 	lsl r0, r0, #2
@@ -3199,7 +3199,7 @@ _02175484:
 	add r0, #0x50
 	str r2, [sp]
 	str r0, [sp, #0x1c]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	mov r1, #0xdb
 	lsl r1, r1, #2
 	lsl r0, r0, #5
@@ -3238,7 +3238,7 @@ ovl01_217552C: // _0217552C
 _0217553E:
 	mov r0, r5
 	add r0, #0x50
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	lsl r0, r0, #0x18
 	lsr r0, r0, #0x18
 	bl ObjDrawReleaseSpritePalette
@@ -3252,7 +3252,7 @@ _0217553E:
 	lsl r4, r4, #4
 	add r0, r6, r4
 	add r0, #0x50
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	lsl r0, r0, #0x18
 	lsr r0, r0, #0x18
 	bl ObjDrawReleaseSpritePalette
@@ -3265,7 +3265,7 @@ _0217553E:
 _0217557A:
 	mov r0, r4
 	add r0, #0x50
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	lsl r0, r0, #0x18
 	lsr r0, r0, #0x18
 	bl ObjDrawReleaseSpritePalette
@@ -3338,7 +3338,7 @@ ovl01_21755B0: // _021755B0
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
 	add r0, sp, #0
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	mov r1, #0xa
 	bl FX_DivS32
 	lsl r0, r0, #0x10
@@ -3356,7 +3356,7 @@ ovl01_21755B0: // _021755B0
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
 	add r1, sp, #0
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	mov r1, #0xa
 	mul r1, r5
 	sub r1, r2, r1
@@ -3468,7 +3468,7 @@ ovl01_217571C: // _0217571C
 	lsl r5, r5, #8
 	mov r4, r2
 	str r1, [sp, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	lsl r2, r5, #4
 	mov r7, r3
 	mov r1, #0xc0
@@ -3690,7 +3690,7 @@ ovl01_21758A0: // _021758A0
 ovl01_21758CC: // _021758CC
 	push {r4, r5, r6, lr}
 	ldr r0, _0217591C // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl GetCurrentTaskWork_
@@ -3732,7 +3732,7 @@ _02175920: .word 0x000003C6
 ovl01_2175924: // _02175924
 	push {r4, r5, r6, lr}
 	ldr r0, _02175974 // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl GetCurrentTaskWork_
@@ -3774,7 +3774,7 @@ _02175978: .word 0x000003C6
 ovl01_217597C: // _0217597C
 	push {r3, lr}
 	ldr r0, _02175994 // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02175990
 	bl GetTaskWork_
@@ -3793,7 +3793,7 @@ ovl01_217599C: // _0217599C
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, _021759BC // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _021759AC
 	mov r0, #1
@@ -3817,7 +3817,7 @@ ovl01_21759C4: // _021759C4
 	mov r5, r0
 	ldr r0, _021759F8 // =_0217AFB8
 	mov r4, r1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _021759F4
 	bl GetTaskWork_
@@ -3848,7 +3848,7 @@ _021759FC: .word 0x00000D2C
 ovl01_2175A00: // _02175A00
 	push {r3, lr}
 	ldr r0, _02175A14 // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0xd3
 	lsl r1, r1, #4
@@ -3884,7 +3884,7 @@ _02175A34: .word gameState
 ovl01_2175A38: // _02175A38
 	push {r4, lr}
 	ldr r0, _02175A58 // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xe
@@ -3905,7 +3905,7 @@ _02175A5C: .word 0x00000382
 ovl01_2175A60: // _02175A60
 	push {r3, lr}
 	ldr r0, _02175A7C // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02175A78
 	bl GetTaskWork_
@@ -4057,7 +4057,7 @@ ovl01_2175B6C: // _02175B6C
 	push {r3, r4, r5, r6}
 	ldr r4, _02175BA4 // =_mt_math_rand
 	ldr r0, _02175BA8 // =gameState
-	ldr r5, [r4]
+	ldr r5, [r4, #0]
 	ldr r3, _02175BAC // =0x00196225
 	ldr r2, [r0, #0x18]
 	mov r6, r5
@@ -4112,7 +4112,7 @@ ovl01_2175BCC: // _02175BCC
 ovl01_2175BD0: // _02175BD0
 	push {r3, r4, r5, lr}
 	ldr r0, _02175C18 // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	bl GetCurrentTaskWork_
@@ -4309,7 +4309,7 @@ ovl01_2175D40: // _02175D40
 	sub sp, #8
 	ldr r3, [r0, #0x1c]
 	ldr r0, [r1, #0x1c]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #1
 	bne _02175D76
 	ldr r1, [r3, #0x18]
@@ -4399,11 +4399,11 @@ ovl01_2175DD0: // _02175DD0
 _02175DEC:
 	ldr r0, _02175F1C // =gPlayer
 	add r3, sp, #8
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	add r5, #0x44
 	ldmia r5!, {r0, r1}
 	stmia r3!, {r0, r1}
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	str r0, [r3]
 	mov r0, #0xd
 	lsl r0, r0, #6
@@ -4441,13 +4441,13 @@ _02175E2C:
 	add r0, #0x28
 	cmp r1, #0x10
 	bhs _02175E6E
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r1, #4
 	orr r1, r2
 	str r1, [r0]
 	ldr r2, _02175F20 // =_mt_math_rand
 	ldr r1, _02175F24 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	add sp, #0x14
 	mov r4, r3
 	mul r4, r1
@@ -4458,7 +4458,7 @@ _02175E2C:
 	lsl r1, r1, #0x10
 	lsr r1, r1, #0x10
 	lsl r1, r1, #0x1e
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsr r1, r1, #0x1a
 	eor r1, r2
 	str r1, [r0]
@@ -4566,7 +4566,7 @@ _02175F28: .word 0x3C6EF35F
 ovl01_2175F2C: // _02175F2C
 	push {r3, lr}
 	ldr r0, [r0, #0x1c]
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #1
 	bne _02175F42
 	ldr r1, _02175F44 // =0x00000682
@@ -4587,7 +4587,7 @@ ovl01_2175F48: // _02175F48
 	mov r5, r0
 	ldr r0, _02176080 // =gPlayer
 	mov r6, #0
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	mov r0, #0x10
 	ldr r1, [r4, #0x1c]
 	tst r0, r1
@@ -4597,7 +4597,7 @@ ovl01_2175F48: // _02175F48
 	ldmia r3!, {r0, r1}
 	add r2, sp, #0
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mov r1, #6
 	str r0, [r2]
 	mov r0, #0xd
@@ -4755,7 +4755,7 @@ ovl01_21760A0: // _021760A0
 	ldr r0, _02176228 // =gPlayer
 	mov r1, #0xd
 	lsl r1, r1, #6
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r4, r1
 	ldr r0, [r6, r1]
 	mov r5, #6
@@ -4807,7 +4807,7 @@ _021760F6:
 	ldr r3, _02176230 // =0x00196225
 	beq _0217615E
 	ldr r0, _02176234 // =_mt_math_rand
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mul r3, r2
 	ldr r2, _02176238 // =0x3C6EF35F
 	add r2, r3, r2
@@ -4833,7 +4833,7 @@ _02176132: // jump table
 _0217613A:
 	mov r0, r6
 	add r0, #0x9c
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r0, r1, #8
 	sub r1, r2, r0
 	mov r0, r6
@@ -4843,7 +4843,7 @@ _0217613A:
 _0217614C:
 	mov r1, r6
 	add r1, #0x9c
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	lsl r0, r0, #0xc
 	sub r1, r1, r0
 	mov r0, r6
@@ -4852,7 +4852,7 @@ _0217614C:
 	b _021761B0
 _0217615E:
 	ldr r0, _02176234 // =_mt_math_rand
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mul r3, r2
 	ldr r2, _02176238 // =0x3C6EF35F
 	add r2, r3, r2
@@ -4878,7 +4878,7 @@ _02176184: // jump table
 _0217618C:
 	mov r0, r6
 	add r0, #0x9c
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r0, r1, #8
 	sub r1, r2, r0
 	mov r0, r6
@@ -4888,7 +4888,7 @@ _0217618C:
 _0217619E:
 	mov r0, r6
 	add r0, #0x9c
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xa
 	lsl r0, r0, #0xa
 	sub r1, r1, r0
@@ -4919,7 +4919,7 @@ _021761C6:
 _021761D6:
 	ldr r2, _02176234 // =_mt_math_rand
 	ldr r1, _02176230 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mov r4, r3
 	mul r4, r1
 	ldr r1, _02176238 // =0x3C6EF35F
@@ -4976,7 +4976,7 @@ ovl01_217623C: // _0217623C
 	sub sp, #8
 	ldr r4, [r0, #0x1c]
 	ldr r3, [r1, #0x1c]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #1
 	bne _02176284
 	ldr r1, [r3, #0x18]
@@ -5015,7 +5015,7 @@ ovl01_2176288: // _02176288
 	push {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r0, _02176428 // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0xdd
 	lsl r1, r1, #2
@@ -5047,7 +5047,7 @@ _021762BE:
 	str r1, [r0]
 	mov r0, r4
 	add r0, #0xb8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _02176430 // =0xFFFFE000
 	cmp r1, r0
 	bge _021762DC
@@ -5075,7 +5075,7 @@ _021762EC:
 _021762FC:
 	mov r0, r4
 	add r0, #0x9c
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bgt _02176308
 	b _02176424
@@ -5103,7 +5103,7 @@ _02176322:
 	str r1, [r4, #0x1c]
 	ldr r2, _0217643C // =_mt_math_rand
 	ldr r1, _02176440 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mov r5, r3
 	mul r5, r1
 	ldr r1, _02176444 // =0x3C6EF35F
@@ -5130,7 +5130,7 @@ _0217635A: // jump table
 _02176362:
 	mov r1, r4
 	add r1, #0x9c
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	lsl r0, r0, #9
 	sub r1, r1, r0
 	mov r0, r4
@@ -5140,7 +5140,7 @@ _02176362:
 _02176374:
 	mov r0, r4
 	add r0, #0x9c
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r0, r1, #0xc
 	sub r1, r2, r0
 	mov r0, r4
@@ -5149,7 +5149,7 @@ _02176374:
 _02176384:
 	ldr r1, _0217643C // =_mt_math_rand
 	ldr r0, _02176440 // =0x00196225
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r3, r2
 	mul r3, r0
 	ldr r0, _02176444 // =0x3C6EF35F
@@ -5207,7 +5207,7 @@ _021763E2:
 _021763EA:
 	ldr r0, _0217644C // =gPlayer
 	ldr r1, [r4, #0x44]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x44]
 	cmp r1, r0
 	bge _02176400
@@ -5224,7 +5224,7 @@ _02176400:
 _02176408:
 	ldr r0, _0217644C // =gPlayer
 	ldr r1, [r4, #0x44]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x44]
 	cmp r1, r0
 	bge _0217641E
@@ -5268,7 +5268,7 @@ ovl01_2176460: // _02176460
 	sub sp, #8
 	ldr r4, [r0, #0x1c]
 	ldr r3, [r1, #0x1c]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #1
 	bne _021764A8
 	ldr r1, [r3, #0x18]
@@ -5308,7 +5308,7 @@ ovl01_21764AC: // _021764AC
 	sub sp, #0x14
 	mov r5, r0
 	ldr r0, _0217651C // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r3, #0
 	str r3, [sp]
@@ -5336,7 +5336,7 @@ ovl01_21764AC: // _021764AC
 	add r0, #0x9c
 	str r1, [r0]
 	ldr r0, _0217651C // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r2, #0x39
 	mov r3, r0
@@ -5407,7 +5407,7 @@ ovl01_2176560: // _02176560
 	ldmia r4!, {r0, r1}
 	add r3, sp, #0
 	stmia r3!, {r0, r1}
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	str r0, [r3]
 	mov r0, #0xd
 	lsl r0, r0, #6
@@ -5528,11 +5528,11 @@ ovl01_2176648: // _02176648
 	sub sp, #8
 	ldr r6, [r0, #0x1c]
 	ldr r5, [r1, #0x1c]
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #1
 	bne _021766C8
 	ldr r0, _021766CC // =_0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r1, [r5, #0x18]
@@ -5631,7 +5631,7 @@ ovl01_21766EC: // _021766EC
 _02176716:
 	ldr r1, _0217675C // =gPlayer
 	add r0, #0xf4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldrsh r0, [r1, r0]
 	cmp r0, #0x78
 	beq _0217673C
@@ -5650,14 +5650,14 @@ _02176716:
 _0217673C:
 	ldr r0, _0217675C // =gPlayer
 	mov r2, r4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0x1b
 	lsl r0, r0, #4
 	add r3, r1, r0
 	ldmia r3!, {r0, r1}
 	add r2, #0x44
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	str r0, [r2]
 	ldr r0, [r4, #0x48]
 	neg r0, r0
@@ -5846,7 +5846,7 @@ _021768B6:
 	add r3, #0x44
 	ldmia r3!, {r0, r1}
 	stmia r4!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	add r6, r6, #1
 	str r0, [r4]
 	mov r0, #0x17
@@ -5968,7 +5968,7 @@ ovl01_2176970: // 0x02176970
 ovl01_2176998: // 0x02176998
 	push {r3, r4, r5, lr}
 	ldr r0, _021769E8 // =0x0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl GetCurrentTaskWork_
@@ -6014,19 +6014,19 @@ ovl01_21769F0: // 0x021769F0
 	ldr r0, [r1, #0x1c]
 	ldr r4, [r7, #0x1c]
 	str r0, [sp, #0xc]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	str r1, [sp, #8]
 	cmp r0, #1
 	bne _02176ACA
 	ldr r0, _02176AD0 // =0x0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r6, r0
 	mov r0, #0xdd
 	lsl r0, r0, #2
 	ldr r5, [r6, r0]
 	ldr r0, _02176AD4 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl BossHelpers__Player__LockControl
 	mov r0, r4
 	bl Player__Action_AttackRecoil
@@ -6196,7 +6196,7 @@ ovl01_2176B64: // 0x02176B64
 	mov r4, r0
 	mov r0, r5
 	bl BossArena__GetCameraConfig
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	ldr r1, _02176BC0 // =FX_SinCosTable_
 	asr r0, r2, #4
 	asr r2, r2, #4
@@ -6670,7 +6670,7 @@ _02176F18:
 	ldmia r3!, {r0, r1}
 	add r2, #0x48
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	str r0, [r2]
 	add r0, r4, r6
 	bl AnimatorMDL__ProcessAnimation
@@ -6838,7 +6838,7 @@ ovl01_2177018: // 0x02177018
 	bl BossArena__UpdateTracker0TargetPos
 	ldr r2, _02177170 // =0x0400000A
 	mov r0, #0x43
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	and r1, r0
 	ldr r0, _02177174 // =0x00006004
 	orr r0, r1
@@ -6858,7 +6858,7 @@ ovl01_2177018: // 0x02177018
 	bl GetBackgroundPixels
 	ldr r2, _02177178 // =VRAMSystem__VRAM_BG
 	mov r1, #0
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mov r2, #1
 	lsl r2, r2, #0xe
 	add r2, r3, r2
@@ -6867,7 +6867,7 @@ ovl01_2177018: // 0x02177018
 	bl GetBackgroundPalette
 	ldr r2, _0217717C // =VRAMSystem__VRAM_PALETTE_BG
 	mov r1, #0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl LoadCompressedPalette
 	mov r1, #0xff
 	mov r0, #0
@@ -6876,11 +6876,11 @@ ovl01_2177018: // 0x02177018
 	mov r0, #1
 	lsl r0, r0, #0x1a
 	mov r1, #0x1f
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r1, r1, #8
 	and r1, r2
 	lsr r3, r1, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _02177180 // =0xFFFFE0FF
 	and r2, r1
 	mov r1, #2
@@ -7005,7 +7005,7 @@ _02177204:
 	sub r2, r1, r0
 	ldr r0, _021772B8 // =_mt_math_rand
 	ldr r1, _021772BC // =0x00196225
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mul r1, r0
 	ldr r0, _021772C0 // =0x3C6EF35F
 	add r1, r1, r0
@@ -7028,7 +7028,7 @@ _02177204:
 _02177254:
 	ldr r0, _021772C4 // =gPlayer
 	mov r7, r1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r3, [r0, #0x44]
 	mov r0, #0xa
 	lsl r0, r0, #0xe
@@ -7329,7 +7329,7 @@ ovl01_217746C: // 0x0217746C
 ovl01_2177490: // 0x02177490
 	ldr r1, _02177498 // =0x00000A84
 	ldr r0, [r0, r1]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02177498: .word 0x00000A84
@@ -7622,7 +7622,7 @@ _0217768E:
 	ldmia r6!, {r0, r1}
 	mov r2, r3
 	stmia r3!, {r0, r1}
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r1, r2
 	str r0, [r3]
 	mov r0, r2
@@ -7686,7 +7686,7 @@ _02177714:
 	ldmia r6!, {r0, r1}
 	mov r2, r3
 	stmia r3!, {r0, r1}
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r1, r2
 	str r0, [r3]
 	mov r0, r2
@@ -7751,7 +7751,7 @@ ovl01_21777A8: // 0x021777A8
 	mov r6, r0
 	ldr r5, [r6, #0x1c]
 	mov r7, r1
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	ldr r4, [r7, #0x1c]
 	cmp r0, #1
 	bne _02177846
@@ -7833,7 +7833,7 @@ ovl01_2177858: // 0x02177858
 	push {r3, lr}
 	ldr r0, [r0, #0x1c]
 	ldr r1, [r1, #0x1c]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #1
 	bne _0217786A
 	mov r0, r1
@@ -8303,7 +8303,7 @@ ovl01_2177BB4: // 0x02177BB4
 	ldmia r3!, {r0, r1}
 	add r2, sp, #0
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	add r1, sp, #0xc
 	str r0, [r2]
 	mov r0, #0
@@ -8339,7 +8339,7 @@ ovl01_2177BB4: // 0x02177BB4
 	bl ovl01_217746C
 	mov r4, r0
 	ldr r0, _02177C8C // =0x0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r2, #0x39
 	mov r3, r0
@@ -8401,7 +8401,7 @@ ovl01_2177C98: // 0x02177C98
 	ldmia r3!, {r0, r1}
 	add r2, sp, #0
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	add r1, sp, #0xc
 	str r0, [r2]
 	mov r0, #0
@@ -8437,7 +8437,7 @@ ovl01_2177C98: // 0x02177C98
 	bl ovl01_217746C
 	mov r4, r0
 	ldr r0, _02177D74 // =0x0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r2, #0x39
 	mov r3, r0
@@ -8505,7 +8505,7 @@ ovl01_2177D7C: // 0x02177D7C
 	ldmia r3!, {r0, r1}
 	add r2, #0x44
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	str r0, [r2]
 	mov r0, r4
 	bl ovl01_2177BB4
@@ -8594,7 +8594,7 @@ ovl01_2177E24: // 0x02177E24
 	bl ovl01_217746C
 	mov r6, r0
 	ldr r0, _02177EA0 // =0x0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r3, #0x19
 	lsl r3, r3, #0xe
@@ -8690,7 +8690,7 @@ ovl01_2177EFC: // 0x02177EFC
 	ldmia r3!, {r0, r1}
 	add r2, #0x44
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	str r0, [r2]
 	mov r0, r4
 	bl ovl01_2177870
@@ -8854,7 +8854,7 @@ _02178048:
 	ldr r0, [sp]
 	ldr r2, [r0, #0x44]
 	add r0, #0x98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	sub r0, r2, r0
 	cmp r1, r0
 	blt _02178078
@@ -8871,7 +8871,7 @@ _02178078:
 	mov r3, #0x7f
 	ldr r2, [r0, #0x44]
 	add r0, #0x98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	lsl r3, r3, #4
 	sub r0, r2, r0
 	ldr r2, [sp]
@@ -8952,7 +8952,7 @@ _021780E2:
 	bl ovl01_217746C
 	str r0, [sp, #0xc]
 	ldr r0, _02178218 // =0x0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r2, _0217821C // =0xFFFE2000
 	str r0, [sp, #0x10]
@@ -9077,7 +9077,7 @@ ovl01_217822C: // 0x0217822C
 	add r0, #0x98
 	str r1, [r0]
 	ldr r0, _02178394 // =0x0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x39
 	lsl r1, r1, #4
@@ -9098,7 +9098,7 @@ ovl01_217822C: // 0x0217822C
 	add r7, r5, r0
 _02178276:
 	ldr r0, _0217839C // =_mt_math_rand
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _021783A0 // =0x00196225
 	mov r2, r1
 	mul r2, r0
@@ -9172,7 +9172,7 @@ _021782FA:
 	bl BossFX__CreateWhaleIceB
 _0217830A:
 	ldr r1, _0217839C // =_mt_math_rand
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _021783A0 // =0x00196225
 	mov r3, r2
 	mul r3, r1
@@ -9423,7 +9423,7 @@ ovl01_2178500: // 0x02178500
 	ldmia r3!, {r0, r1}
 	add r2, #0x44
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	str r0, [r2]
 	mov r0, #1
 	bl BossArena__GetCamera
@@ -9436,7 +9436,7 @@ ovl01_2178500: // 0x02178500
 	bl ovl01_217746C
 	mov r6, r0
 	ldr r0, _02178594 // =0x0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r3, #0x19
 	lsl r3, r3, #0xe
@@ -9549,12 +9549,12 @@ ovl01_2178600: // 0x02178600
 	mov r1, #5
 	bl ovl01_21773FC
 	ldr r0, _02178670 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Player__Action_Die
 	add r0, sp, #8
 	bl ovl01_21752C0
 	ldr r0, _02178674 // =0x0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r3, r0
 	add r0, sp, #8
@@ -9781,7 +9781,7 @@ ovl01_21787DC: // 0x021787DC
 	bl ovl01_217749C
 	ldr r1, _021787FC // =playerGameStatus
 	mov r0, #1
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	bic r2, r0
 	str r2, [r1]
 	ldr r1, _02178800 // =ovl01_2178808
@@ -9815,12 +9815,12 @@ ovl01_2178820: // 0x02178820
 	push {r3, r4, r5, lr}
 	ldr r1, _02178860 // =playerGameStatus
 	mov r4, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r0, #1
 	bic r2, r0
 	ldr r0, _02178864 // =gPlayer
 	str r2, [r1]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl BossHelpers__Player__LockControl
 	mov r0, #1
 	bl BossArena__GetCamera
@@ -9850,7 +9850,7 @@ _02178874: .word 0x00000784
 	thumb_func_start ovl01_2178878
 ovl01_2178878: // 0x02178878
 	ldr r1, _0217888C // =gPlayer
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r2, [r1, #0x1c]
 	mov r1, #0x10
 	tst r1, r2
@@ -9955,7 +9955,7 @@ _0217891E:
 _02178940:
 	ldr r3, _02178978 // =gPlayer
 	mov r2, #0x72
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	lsl r2, r2, #4
 	ldrh r7, [r0, r2]
 	mov r1, #0x13
@@ -9966,13 +9966,13 @@ _02178940:
 	strh r0, [r4, #2]
 	cmp r1, #0
 	beq _02178964
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r4, #0
 	add r0, r2, #2
 	strh r4, [r1, r0]
 	b _0217896C
 _02178964:
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, r2, #2
 	ldrh r1, [r3, r2]
 	strh r1, [r3, r0]
@@ -10003,21 +10003,21 @@ ovl01_2178984: // 0x02178984
 	str r1, [r5, r0]
 	ldr r1, _02178B20 // =playerGameStatus
 	mov r0, #1
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	orr r0, r2
 	str r0, [r1]
 	ldr r0, _02178B24 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl BossHelpers__Player__UnlockControl
 	ldr r0, _02178B24 // =gPlayer
 	mov r1, #5
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, _02178B28 // =0x005AA000
 	lsl r1, r1, #0x10
 	bl BossPlayerHelpers_Action_TryBoss5Warp
 	ldr r0, _02178B24 // =gPlayer
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _02178B2C // =0x00000682
 	strh r2, [r1, r0]
 	mov r0, #1
@@ -10447,24 +10447,24 @@ ovl01_2178D38: // 0x02178D38
 	lsl r0, r0, #2
 	add r4, r5, r0
 	ldr r0, _02178D90 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl BossHelpers__Player__IsDead
 	cmp r0, #0
 	beq _02178D8C
 	ldr r1, _02178D94 // =playerGameStatus
 	mov r0, #1
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	bic r2, r0
 	ldr r0, _02178D90 // =gPlayer
 	str r2, [r1]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Player__Action_Intangible
 	ldr r0, _02178D90 // =gPlayer
 	mov r1, #0xe
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Player__ChangeAction
 	ldr r0, _02178D90 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl BossHelpers__Player__LockControl
 	bl Camera3D__GetWork
 	add r0, #0x7c
@@ -10513,15 +10513,15 @@ ovl01_2178DA0: // 0x02178DA0
 _02178DD0:
 	ldr r1, _02178DFC // =gPlayer
 	mov r0, #0x10
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r2, [r3, #0x1c]
 	orr r0, r2
 	str r0, [r3, #0x1c]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r2, _02178E00 // =0xFFFFE000
 	add r0, #0x98
 	str r2, [r0]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, #0x9c
 	str r2, [r0]
 	mov r0, #4
@@ -10595,14 +10595,14 @@ ovl01_2178E50: // 0x02178E50
 	sub r3, r2, r1
 	ldr r2, _02178F18 // =gPlayer
 	ldr r4, [r5, r0]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	str r3, [r1, #0x44]
 	ldr r3, [r5, #0x48]
 	ldr r1, _02178F1C // =0x00172000
 	sub r3, r3, r1
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	str r3, [r1, #0x48]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r2, _02178F20 // =0xFFF7FFFF
 	ldr r3, [r1, #0x1c]
 	and r2, r3
@@ -10652,7 +10652,7 @@ _02178EB8:
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	mov r0, #8
 	ldr r1, [r2, #0x18]
 	orr r0, r1
@@ -10705,7 +10705,7 @@ ovl01_2178F30: // 0x02178F30
 	bl BossArena__GetCamera
 	ldr r1, _02179084 // =gPlayer
 	mov r6, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, r1
 	mov r3, r1
 	bl BossArena__SetTracker1TargetWork
@@ -10739,7 +10739,7 @@ ovl01_2178F30: // 0x02178F30
 _02178FA4:
 	ldr r2, _02179084 // =gPlayer
 	ldr r1, _02179088 // =0xFFCE0000
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	ldr r3, [r0, #0x48]
 	cmp r3, r1
 	ble _02178FB8
@@ -10751,14 +10751,14 @@ _02178FB8:
 	mov r1, #0
 	add r0, #0x9c
 	str r1, [r0]
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, #0x80
 	ldr r1, [r2, #0x1c]
 	bic r1, r0
 	str r1, [r2, #0x1c]
 _02178FC8:
 	ldr r0, _02179084 // =gPlayer
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x44]
 	cmp r7, r0
 	bge _02178FD6
@@ -10770,14 +10770,14 @@ _02178FD8:
 	add r1, #0x98
 	str r0, [r1]
 	ldr r0, _02179084 // =gPlayer
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, r1
 	add r0, #0x98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0217907A
 	add r1, #0x9c
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	bne _0217907A
 	ldrh r0, [r4, #6]
@@ -10805,13 +10805,13 @@ _02178FD8:
 	mov r0, r6
 	bl BossArena__UpdateTracker0TargetPos
 	ldr r0, _02179084 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Player__RemoveCollideEvent
 	ldr r0, _02179084 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Player__OnLandGround
 	ldr r0, _02179084 // =gPlayer
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, #0x80
 	ldr r1, [r2, #0x1c]
 	orr r0, r1
@@ -10904,7 +10904,7 @@ _021790F6:
 	bl BossHelpers__Blend__Func_2039488
 _021790FC:
 	ldr r0, _02179110 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r0, #0x1c]
 	mov r0, #1
 	tst r0, r1
@@ -10928,10 +10928,10 @@ ovl01_217911C: // 0x0217911C
 	lsl r0, r0, #2
 	add r4, r5, r0
 	ldr r0, _02179190 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl BossHelpers__Player__UnlockControl
 	ldr r0, _02179190 // =gPlayer
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, #2
 	ldr r1, [r2, #0x1c]
 	lsl r0, r0, #0x12
@@ -10939,7 +10939,7 @@ ovl01_217911C: // 0x0217911C
 	str r0, [r2, #0x1c]
 	ldr r1, _02179194 // =playerGameStatus
 	mov r0, #1
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	orr r0, r2
 	str r0, [r1]
 	mov r0, #0xdd
@@ -10956,7 +10956,7 @@ ovl01_217911C: // 0x0217911C
 	ldmia r2!, {r0, r1}
 	add r3, #0x44
 	stmia r3!, {r0, r1}
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r2, #0
 	str r0, [r3]
 	ldr r1, [r5, #0x20]
@@ -10999,7 +10999,7 @@ ovl01_21791A0: // 0x021791A0
 	add r0, sp, #8
 	bl ovl01_21752C0
 	ldr r0, _02179214 // =0x0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r3, r0
 	add r0, sp, #8
@@ -11133,7 +11133,7 @@ _021792B4:
 	bl BossHelpers__Blend__Func_2039488
 _021792BA:
 	ldr r0, _021792D4 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r0, #0x1c]
 	mov r0, #1
 	tst r0, r1
@@ -11158,10 +11158,10 @@ ovl01_21792E0: // 0x021792E0
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, _0217932C // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl BossHelpers__Player__UnlockControl
 	ldr r0, _0217932C // =gPlayer
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, #2
 	ldr r1, [r2, #0x1c]
 	lsl r0, r0, #0x12
@@ -11169,7 +11169,7 @@ ovl01_21792E0: // 0x021792E0
 	str r0, [r2, #0x1c]
 	ldr r1, _02179330 // =playerGameStatus
 	mov r0, #1
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	orr r0, r2
 	str r0, [r1]
 	mov r0, #0
@@ -11377,7 +11377,7 @@ ovl01_2179480: // 0x02179480
 	ldmia r3!, {r0, r1}
 	add r2, #0x44
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	str r0, [r2]
 	ldr r1, [r4, #0x20]
 	mov r0, #0x20
@@ -11414,7 +11414,7 @@ ovl01_21794C4: // 0x021794C4
 	add r0, sp, #8
 	bl ovl01_21752C0
 	ldr r0, _02179538 // =0x0217AFB8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r3, r0
 	add r0, sp, #8
@@ -11489,7 +11489,7 @@ _02179552:
 	bl DC_StoreRange
 	ldr r3, _02179580 // =VRAMSystem__VRAM_PALETTE_BG
 	add r0, r4, r5
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	lsr r1, r5, #1
 	mov r2, #0
 	bl QueueUncompressedPalette
@@ -11514,23 +11514,23 @@ ovl01_2179584: // 0x02179584
 	bl MIi_CpuClear16
 	ldr r1, _02179620 // =playerGameStatus
 	mov r0, #1
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	bic r2, r0
 	str r2, [r1]
 	bl StopStageBGM
 	ldr r0, _02179624 // =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Player__Action_Blank
 	ldr r0, _02179624 // =gPlayer
 	mov r1, #0x12
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Player__ChangeAction
 	ldr r1, _02179624 // =gPlayer
 	ldr r0, _02179628 // =0x00000682
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r3, #0
 	strh r3, [r2, r0]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl BossHelpers__Player__LockControl
 	ldr r0, _0217962C // =0x00000524
 	mov r1, #0
@@ -11546,7 +11546,7 @@ ovl01_2179584: // 0x02179584
 	orr r0, r1
 	str r0, [r4, #0x18]
 	ldr r0, _02179624 // =gPlayer
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	mov r0, #0
 	ldr r2, [r3, #0x48]
 	ldr r1, [r3, #0x44]
@@ -11693,7 +11693,7 @@ ovl01_21796D0: // 0x021796D0
 	strh r0, [r5, #0x20]
 	ldr r0, _02179740 // =VRAMSystem__VRAM_PALETTE_BG
 	lsl r2, r2, #5
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl MIi_CpuCopyFast
 	ldr r0, _02179744 // =0x00000408
 	mov r1, #0
@@ -11772,7 +11772,7 @@ _021797BA:
 _021797C4:
 	ldr r0, _0217982C // =0x00000408
 	ldrh r1, [r6, r0]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r1, r0
 	bne _0217980A
 	ldr r1, _02179830 // =0x000007E4
@@ -11984,7 +11984,7 @@ _02179970: .word 0x00000784
 ovl01_2179974: // 0x02179974
 	ldr r1, _02179980 // =playerGameStatus
 	mov r0, #4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	orr r0, r2
 	str r0, [r1]
 	bx lr

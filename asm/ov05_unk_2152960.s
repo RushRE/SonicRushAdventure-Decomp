@@ -341,7 +341,7 @@ _02152B94: .word 0x0000FFFF
 
 	arm_func_start ovl05_2152B98
 ovl05_2152B98: // 0x02152B98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrh r0, [r0, #4]
 	bx lr
 	arm_func_end ovl05_2152B98
@@ -358,7 +358,7 @@ _02152BB4: .word 0x0000FFFF
 
 	arm_func_start ovl05_2152BB8
 ovl05_2152BB8: // 0x02152BB8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldrh r0, [r0, #4]
 	ldr r1, [r2, #0xc]
 	mov r3, #0
@@ -414,7 +414,7 @@ _02152C54: .word 0x0000FFFF
 
 	arm_func_start ovl05_2152C58
 ovl05_2152C58: // 0x02152C58
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldrh r0, [r0, #6]
 	ldr r2, [r3, #0x10]
 	mov r1, r0, lsl #4
@@ -425,7 +425,7 @@ ovl05_2152C58: // 0x02152C58
 
 	arm_func_start ovl05_2152C74
 ovl05_2152C74: // 0x02152C74
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldrh r1, [r0, #6]
 	ldr r0, [r2, #0x10]
 	add r0, r2, r0
@@ -436,7 +436,7 @@ ovl05_2152C74: // 0x02152C74
 
 	arm_func_start ovl05_2152C90
 ovl05_2152C90: // 0x02152C90
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldrh r2, [r0, #6]
 	ldr r1, [r3, #0x10]
 	ldr r0, _02152CBC // =0x0000FFFF
@@ -453,7 +453,7 @@ _02152CBC: .word 0x0000FFFF
 
 	arm_func_start ovl05_2152CC0
 ovl05_2152CC0: // 0x02152CC0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldrh r1, [r0, #6]
 	ldr r0, [r2, #0x10]
 	add r0, r2, r0
@@ -475,7 +475,7 @@ ovl05_2152CDC: // 0x02152CDC
 	add r6, r1, #8
 	bl ovl05_2152C90
 	cmp r0, #0
-	ldreqh r0, [r6]
+	ldreqh r0, [r6, #0]
 	movne r0, r4, lsl #1
 	ldrneh r0, [r6, r0]
 	strh r0, [r5, #6]
@@ -500,7 +500,7 @@ _02152D40: .word 0x0000FFFF
 	arm_func_start ovl05_2152D44
 ovl05_2152D44: // 0x02152D44
 	ldrh r1, [r0, #6]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	sub r0, r1, #0x8000
 	ldr r2, [r3, #0x14]
 	mov r0, r0, lsl #0x10
@@ -512,7 +512,7 @@ ovl05_2152D44: // 0x02152D44
 
 	arm_func_start ovl05_2152D68
 ovl05_2152D68: // 0x02152D68
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldrh r0, [r0, #6]
 	ldr r1, [r2, #0x14]
 	sub r0, r0, #0x8000
@@ -779,14 +779,14 @@ ovl05_2152FB0: // 0x02152FB0
 	ldrh r1, [sp, #0x1c]
 	ldr r0, [r6, #0x18]
 	bl ovl05_2153388
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	orr r0, r0, #0x10000
 	str r0, [r6]
 	ldr r0, [r6, #0x1c]
 	ldr r1, [r6, #0x20]
 	ldrsh r2, [r6, #0xe]
 	bl ovl05_21534E4
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	orr r0, r0, #0x20000
 	str r0, [r6]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -863,7 +863,7 @@ _02153110:
 	sub r0, r1, r0
 	strh r0, [r6, #0x16]
 	beq _021531DC
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	tst r0, #1
 	bne _021531DC
 	ldrh r1, [r7, #0x12]
@@ -882,7 +882,7 @@ _02153110:
 	ldr r0, [r7, #0x20]
 	add r4, r2, r1
 	bl GetBackgroundPixels
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	add r0, r0, #4
 	tst r1, #8
 	add r0, r0, r5, lsl #10
@@ -900,7 +900,7 @@ _021531CC:
 	mov r2, #0x40
 	bl MIi_CpuClear32
 _021531DC:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	tst r0, #0x10000
 	beq _021532A4
 	tst r0, #2
@@ -913,7 +913,7 @@ _021531DC:
 	add r3, sp, #0x26
 	and r1, r1, #0xff
 	bl GetVRAMTileConfig
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	mov r1, #0
 	tst r0, #0x10
 	mov r0, #1
@@ -949,11 +949,11 @@ _02153264:
 	ldr r0, [r7, #0x18]
 	bl Mappings__ReadMappingsCompressed
 _02153298:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	bic r0, r0, #0x10000
 	str r0, [r7]
 _021532A4:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	tst r0, #0x20000
 	beq _0215330C
 	tst r0, #4
@@ -964,7 +964,7 @@ _021532A4:
 	add r3, sp, #0x28
 	and r1, r1, #0xff
 	bl GetVRAMPaletteConfig
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	mov r1, #0x10
 	tst r0, #0x20
 	ldr r0, [r7, #0x1c]
@@ -978,7 +978,7 @@ _021532F4:
 	ldr r3, [sp, #0x28]
 	bl QueueUncompressedPalette
 _02153300:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	bic r0, r0, #0x20000
 	str r0, [r7]
 _0215330C:
@@ -1022,7 +1022,7 @@ ovl05_2153350: // 0x02153350
 	ldr r0, [r4, #0x1c]
 	ldr r1, [r4, #0x20]
 	bl ovl05_21534E4
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	orr r0, r0, #0x20000
 	str r0, [r4]
 	ldmia sp!, {r4, pc}
@@ -1215,7 +1215,7 @@ _02153610: .word 0x11111111
 ovl05_2153614: // 0x02153614
 	stmdb sp!, {r3, lr}
 	strh r1, [r0, #8]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	tst r1, #1
 	ldmneia sp!, {r3, pc}
 	tst r1, #2
@@ -1871,7 +1871,7 @@ ovl05_2153D48: // 0x02153D48
 	bl SaveGame__GetUnknownProgress1
 	mov r4, r0
 	bl SaveGame__GetUnknownProgress2
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	cmp r5, r1
 	ldrgeh r1, [r6, #2]
 	cmpge r4, r1
@@ -2400,12 +2400,12 @@ ovl05_215437C: // 0x0215437C
 	stmdb sp!, {r4, lr}
 	ldr r1, _021543C0 // =DockHelpers__SndHandle
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	beq _021543B0
 	bl ovl05_2154474
 	ldr r0, _021543C0 // =DockHelpers__SndHandle
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FreeSndHandle
 	ldr r0, _021543C0 // =DockHelpers__SndHandle
 	mov r1, #0
@@ -2450,13 +2450,13 @@ ovl05_21543EC: // 0x021543EC
 	bl ovl05_2154474
 	ldr r1, _02154428 // =audioManagerSndHeap
 	mov r0, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadSeq
 	mov r2, #0
 	sub r1, r2, #1
 	ldr r0, _0215442C // =DockHelpers__SndHandle
 	str r2, [sp]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, r1
 	mov r3, r1
 	bl PlayTrack
@@ -2472,13 +2472,13 @@ ovl05_2154430: // 0x02154430
 	bl ovl05_2154474
 	ldr r1, _0215446C // =audioManagerSndHeap
 	mov r0, #1
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadSeq
 	mov r2, #1
 	sub r1, r2, #2
 	ldr r0, _02154470 // =DockHelpers__SndHandle
 	str r2, [sp]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, r1
 	mov r3, r1
 	bl PlayTrack
@@ -2492,15 +2492,15 @@ _02154470: .word DockHelpers__SndHandle
 ovl05_2154474: // 0x02154474
 	stmdb sp!, {r3, lr}
 	ldr r0, _021544A8 // =DockHelpers__SndHandle
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
-	ldrne r1, [r0]
+	ldrne r1, [r0, #0]
 	cmpne r1, #0
 	ldmeqia sp!, {r3, pc}
 	mov r1, #0
 	bl NNS_SndPlayerStopSeq
 	ldr r0, _021544A8 // =DockHelpers__SndHandle
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl NNS_SndHandleReleaseSeq
 	ldmia sp!, {r3, pc}
 	.align 2, 0

@@ -108,7 +108,7 @@ SailTraining__Main: // 0x02189E28
 	strh r0, [r4, #8]
 	b _02189EBC
 _02189E8C:
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	cmp r1, #0
 	bne _02189EBC
 	ldr r0, [r5, #0x24]
@@ -116,7 +116,7 @@ _02189E8C:
 	bne _02189EBC
 	add r0, r1, #1
 	strh r0, [r4]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl SailTrainingDialog__Create
 	ldr r0, _02189F34 // =SailTraining__Main_2189F3C
 	bl SetCurrentTaskMainEvent
@@ -143,10 +143,10 @@ _02189EBC:
 	str r1, [r5, #4]
 	b _02189F24
 _02189F10:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	add r0, r0, #1
 	strh r0, [r4]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl SailTrainingDialog__Create
 _02189F24:
 	ldr r0, _02189F34 // =SailTraining__Main_2189F3C
@@ -180,7 +180,7 @@ SailTraining__Main_2189F3C: // 0x02189F3C
 	ldr r0, [r5, #0x24]
 	tst r0, #0x2000
 	bne _0218A048
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	cmp r3, #6
 	bhs _02189FC4
 	mov r0, #6
@@ -191,7 +191,7 @@ SailTraining__Main_2189F3C: // 0x02189F3C
 	ldrb r1, [r3, r1]
 	add r0, r0, r2
 	strh r1, [r6, #0x6c]
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	ldrb r0, [r1, r0]
 	strh r0, [r6, #0x6e]
 _02189FC4:
@@ -244,7 +244,7 @@ _0218A064:
 	ldr r1, _0218A10C // =_0218C8F4
 	mov r0, #6
 	mla r1, r9, r0, r1
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	ldrh r0, [r6, #0x24]
 	ldrb r1, [r2, r1]
 	cmp r1, r0
@@ -261,7 +261,7 @@ _0218A064:
 _0218A0B4:
 	add r0, r2, #1
 	strh r0, [r4]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl SailTrainingDialog__Create
 	ldr r0, [r5, #0x24]
 	bic r0, r0, #0x2000
@@ -313,7 +313,7 @@ SailTraining__State_Jet: // 0x0218A110
 	tst r0, #1
 	movne r0, #0
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _0218A398
@@ -495,7 +495,7 @@ SailTraining__State_Boat: // 0x0218A3A4
 	tst r2, #1
 	movne r0, #0
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	cmp r1, #4
 	addls pc, pc, r1, lsl #2
 	b _0218A664
@@ -687,7 +687,7 @@ SailTraining__State_Hover: // 0x0218A66C
 	tst r0, #1
 	movne r0, #0
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #4
 	addls pc, pc, r0, lsl #2
 	b _0218A850
@@ -822,7 +822,7 @@ SailTraining__State_Submarine: // 0x0218A85C
 	tst r0, #1
 	movne r0, #0
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #3
 	addls pc, pc, r0, lsl #2
 	b _0218A9CC

@@ -144,7 +144,7 @@ exEffectBiriBiriTask__Main: // 0x02164710
 	bl ovl09_21641E8
 	add r0, r4, #0x15c
 	bl ovl09_2164218
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	str r0, [r4, #0x138]
 	ldr r0, [r4, #4]
 	str r0, [r4, #0x13c]
@@ -288,7 +288,7 @@ exEffectBiriBiriTask__Create: // 0x0216489C
 	mov r2, #0x2ac
 	mov r5, r0
 	bl MI_CpuFill8
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r6
 	str r1, [r5]
 	ldr r1, [r4, #4]

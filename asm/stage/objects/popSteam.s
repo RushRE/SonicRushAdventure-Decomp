@@ -81,7 +81,7 @@ _02166454:
 	bl GetObjectFileWork
 	ldr r1, _02166888 // =gameArchiveStage
 	mov r3, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r2, _0216688C // =aActAcGmkPopSte
 	str r1, [sp]
 	mov r7, #0
@@ -120,7 +120,7 @@ _02166454:
 	bl GetObjectFileWork
 	ldr r1, _02166888 // =gameArchiveStage
 	mov r3, r0
-	ldr r8, [r1]
+	ldr r8, [r1, #0]
 	ldr r1, _0216688C // =aActAcGmkPopSte
 	ldr r2, _02166890 // =0x0000FFFF
 	mov r0, r7
@@ -474,7 +474,7 @@ _02166A48:
 	mov r4, r8
 	ldr r2, _02166B60 // =_mt_math_rand
 	str r4, [r9, #0x424]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r0, _02166B64 // =0x00196225
 	ldr r1, _02166B68 // =0x3C6EF35F
 	mla r1, r3, r0, r1
@@ -563,7 +563,7 @@ PopSteam__OnDefend_2166B6C: // 0x02166B6C
 	mov r3, r2
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	addne sp, sp, #8
 	ldmneia sp!, {r3, r4, r5, pc}
@@ -621,14 +621,14 @@ PopSteam__OnDefend_2166C34: // 0x02166C34
 	cmpne r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #5
 	bne _02166C90
 	ldr r1, [r0, #0x11c]
 	cmp r1, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	cmp r0, #1
 	addne sp, sp, #8
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}

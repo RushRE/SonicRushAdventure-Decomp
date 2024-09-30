@@ -16,7 +16,7 @@ DWCi_GT2SocketErrorCallback: // 0x0208F820
 	bl DWCi_SetError
 	ldr r0, _0208F864 // =0x02143A10
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0]
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -75,7 +75,7 @@ _0208F8D8:
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, _0208FBE4 // =0x02143A10
 	ldrb r8, [r7, #1]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r5, #1
 	mov r0, r5, lsl r8
 	ldr r1, [r1, #0x644]
@@ -84,7 +84,7 @@ _0208F8D8:
 	moveq r5, #0
 	bl DWCi_ClearTransConnection
 	ldr r0, _0208FBE4 // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x369]
 	cmp r0, #2
 	bne _0208F938
@@ -102,22 +102,22 @@ _0208F950:
 	mov r0, r8
 	bl DWCi_DeleteAID
 	ldr r1, _0208FBE4 // =0x02143A10
-	ldrb r7, [r7]
+	ldrb r7, [r7, #0]
 	ldr r2, _0208FBE8 // =0x02143A18
 	mov r11, #0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	str r11, [r2, r7, lsl #2]
 	ldrb r2, [r3, #0x361]
 	mov r7, r0
 	sub r0, r2, #1
 	strb r0, [r3, #0x361]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldrb r0, [r1, #0x368]
 	sub r0, r0, #1
 	strb r0, [r1, #0x368]
 _0208F990:
 	ldr r0, _0208FBE4 // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x2d]
 	cmp r0, #0
 	bne _0208F9E8
@@ -155,7 +155,7 @@ _0208F9E8:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0208FA20:
 	ldr r0, _0208FBE4 // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x2d]
 	cmp r0, #0
 	bne _0208FA94
@@ -167,7 +167,7 @@ _0208FA20:
 	bne _0208FA94
 _0208FA4C:
 	ldr r2, _0208FBE4 // =0x02143A10
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldrb r0, [r1, #0x361]
 	add r6, r0, #2
 	add r3, r1, r6, lsl #2
@@ -179,14 +179,14 @@ _0208FA4C:
 	add r0, r0, #1
 	add r0, r1, r0
 	strb r3, [r0, #0x624]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	ldrb r1, [r0, #0x361]
 	add r0, r1, #1
 	add r1, r1, #3
 	bl DWCi_DeleteHostByIndex
 _0208FA94:
 	ldr r0, _0208FBE4 // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x369]
 	cmp r0, #2
 	bne _0208FADC
@@ -214,7 +214,7 @@ _0208FADC:
 	bl DWCi_SetGPStatus
 _0208FAF8:
 	ldr r0, _0208FBE4 // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x369]
 	cmp r0, #0
 	beq _0208FB18
@@ -223,15 +223,15 @@ _0208FAF8:
 	bne _0208FB34
 _0208FB18:
 	ldr r0, _0208FBE4 // =0x02143A10
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldrb r1, [r2, #0x368]
 	strb r1, [r2, #0x36a]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x364]
 	bl qr2_send_statechanged
 _0208FB34:
 	ldr r0, _0208FBE4 // =0x02143A10
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	ldr r0, [r6, #0x90]
 	cmp r0, #0
 	beq _0208FB90
@@ -246,7 +246,7 @@ _0208FB34:
 	ldr r1, [r6, #0x94]
 	ldr r0, _0208FBE4 // =0x02143A10
 	str r1, [sp, #4]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, r4
 	ldr r4, [r1, #0x90]
 	mov r1, r5
@@ -255,7 +255,7 @@ _0208FB34:
 	blx r4
 _0208FB90:
 	ldr r0, _0208FBE4 // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x2d]
 	cmp r0, #0
 	bne _0208FBB4
@@ -357,7 +357,7 @@ DWCi_GPRecvBuddyMessageCallback: // 0x0208FBFC
 	addne sp, sp, #0xc
 	ldmneia sp!, {r4, r5, r6, r7, pc}
 	ldr r0, _0208FD60 // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x24]
 	cmp r0, #5
 	beq _0208FD38
@@ -375,7 +375,7 @@ _0208FD38:
 	ldr r0, _0208FD5C // =0x0211C1FC
 	bl strlen
 	add r2, r4, r0
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, r6
 	bl DWCi_MatchGPRecvBuddyMsgCallback
 	add sp, sp, #0xc
@@ -425,7 +425,7 @@ DWCi_MatchedCallback: // 0x0208FDBC
 	cmp r6, #0
 	beq _0208FE04
 	ldr r0, _0208FF3C // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x4f4]
 	cmp r0, #0
 	bne _0208FE68
@@ -440,7 +440,7 @@ _0208FE04:
 	bl DWCi_SetState
 	ldr r1, _0208FF3C // =0x02143A10
 	mov r0, #0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldrb r1, [r3, #0x361]
 	cmp r1, #0
 	blt _0208FE68
@@ -451,7 +451,7 @@ _0208FE30:
 	cmp r2, r1
 	bne _0208FE58
 	ldr r1, _0208FF3C // =0x02143A10
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r0, r1, r0
 	ldrb r0, [r0, #0x624]
 	strb r0, [r1, #0x2c]
@@ -464,17 +464,17 @@ _0208FE58:
 _0208FE68:
 	ldr r1, _0208FF3C // =0x02143A10
 	ldr r0, _0208FF40 // =0x00000624
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldrb r1, [r2, #0x361]
 	add r0, r2, r0
 	add r1, r1, #1
 	bl DWCi_GetAIDBitmapFromList
 	ldr r1, _0208FF3C // =0x02143A10
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	str r0, [r1, #0x644]
 	bl DWCi_SetNumValidConnection
 	ldr r0, _0208FF3C // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x369]
 	cmp r0, #2
 	beq _0208FEB4
@@ -484,7 +484,7 @@ _0208FE68:
 _0208FEB4:
 	ldr r0, _0208FF3C // =0x02143A10
 	ldr r1, [sp, #0x20]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	mov r0, r7
 	str r1, [sp]
 	ldr r2, [r3, #0x8c]
@@ -506,7 +506,7 @@ _0208FEFC:
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
 	ldr r0, _0208FF3C // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
@@ -529,7 +529,7 @@ DWCi_UpdateServersCallback: // 0x0208FF44
 	sub sp, sp, #4
 	ldr r2, _0208FF90 // =0x02143A10
 	mov r5, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r4, r1
 	ldr r0, [r0, #0x28]
 	cmp r0, #4
@@ -538,7 +538,7 @@ DWCi_UpdateServersCallback: // 0x0208FF44
 _0208FF6C:
 	ldr r1, _0208FF90 // =0x02143A10
 	mov r0, r5
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r1, r4
 	ldr r2, [r3, #0x7c]
 	ldr r3, [r3, #0x78]
@@ -558,7 +558,7 @@ DWCi_LoginCallback: // 0x0208FF94
 	bne _0208FFC4
 	ldr r1, _0208FFFC // =0x02143A10
 	mov r0, #3
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	str r4, [r1, #0x64]
 	bl DWCi_SetState
 	bl DWCi_InitGPProcessCount
@@ -568,7 +568,7 @@ _0208FFC4:
 	bl DWCi_SetState
 _0208FFCC:
 	ldr r0, _0208FFFC // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r3, [r0, #0x70]
 	cmp r3, #0
 	addeq sp, sp, #4
@@ -670,7 +670,7 @@ _020900F8:
 	mvn r5, #0x13
 _02090100:
 	ldr r0, _020901AC // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x24]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
@@ -761,7 +761,7 @@ DWCi_DeleteAID: // 0x020901FC
 	ble _02090240
 	ldr r3, [sp]
 _02090224:
-	ldrb r2, [r3]
+	ldrb r2, [r3, #0]
 	cmp r4, r2
 	beq _02090240
 	add r0, r0, #1
@@ -781,10 +781,10 @@ _02090240:
 	arm_func_start DWCi_SetState
 DWCi_SetState: // 0x0209025C
 	ldr r1, _02090278 // =0x02143A10
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r2, [r3, #0x24]
 	str r2, [r3, #0x28]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	str r0, [r1, #0x24]
 	bx lr
 	.align 2, 0
@@ -838,7 +838,7 @@ DWCi_GetGT2ConnectionByProfileID: // 0x020902D8
 	mov ip, #0
 	ble _02090314
 	ldr r2, _02090348 // =0x02143A10
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 _020902F4:
 	add r2, r3, ip, lsl #2
 	ldr r2, [r2, #0x448]
@@ -854,7 +854,7 @@ _02090314:
 	movge r0, #0
 	ldmgeia sp!, {pc}
 	ldr r0, _02090348 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, ip
 	ldrb r0, [r0, #0x624]
 	bl DWCi_GetGT2Connection
@@ -916,7 +916,7 @@ DWCi_GetConnectionIndex: // 0x020903C0
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	bl gt2GetConnectionData
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	add sp, sp, #4
 	ldmia sp!, {pc}
 	arm_func_end DWCi_GetConnectionIndex
@@ -936,7 +936,7 @@ DWCi_GetGT2Connection: // 0x020903F0
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, _0209044C // =0x02143A10
 	mov r6, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
@@ -968,8 +968,8 @@ DWCi_GT2Startup: // 0x02090454
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r0, _0209050C // =0x02143A10
-	ldr r0, [r0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addne sp, sp, #8
 	movne r0, #0
@@ -982,13 +982,13 @@ DWCi_GT2Startup: // 0x02090454
 	mov r0, #0
 	mov r2, r0
 	mov r1, r1, lsr #0x10
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	bl gt2AddressToString
 	ldr r1, _02090510 // =DWCi_GT2SocketErrorCallback
 	ldr r2, _0209050C // =0x02143A10
 	str r1, [sp]
 	mov r1, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	ldr r2, [r4, #0x14]
 	ldr r3, [r4, #0x18]
 	bl gt2CreateSocket
@@ -1000,13 +1000,13 @@ DWCi_GT2Startup: // 0x02090454
 	ldmneia sp!, {r4, pc}
 	ldr r0, _0209050C // =0x02143A10
 	ldr r1, _02090514 // =DWCi_GT2ConnectAttemptCallback
-	ldr r0, [r0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
+	ldr r0, [r0, #0]
 	bl gt2Listen
 	ldr r0, _0209050C // =0x02143A10
 	ldr r1, _02090518 // =DWCi_GT2UnrecognizedMessageCallback
-	ldr r0, [r0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
+	ldr r0, [r0, #0]
 	bl gt2SetUnrecognizedMessageCallback
 	mov r0, r4
 	add sp, sp, #8
@@ -1021,7 +1021,7 @@ _02090518: .word DWCi_GT2UnrecognizedMessageCallback
 	arm_func_start DWC_GetState
 DWC_GetState: // 0x0209051C
 	ldr r0, _02090534 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldrne r0, [r0, #0x24]
 	moveq r0, #0
@@ -1035,7 +1035,7 @@ DWC_IsValidAID: // 0x02090538
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _02090580 // =0x02143A10
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r2, #0
 	addeq sp, sp, #4
 	moveq r0, #0
@@ -1059,7 +1059,7 @@ DWC_GetAIDBitmap: // 0x02090584
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _020905C0 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #4
 	moveq r0, #0
@@ -1080,7 +1080,7 @@ DWC_GetAIDList: // 0x020905C4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r2, _02090624 // =0x02143A10
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	cmp r3, #0
 	addeq sp, sp, #4
 	moveq r0, #0
@@ -1088,7 +1088,7 @@ DWC_GetAIDList: // 0x020905C4
 	ldr r1, _02090628 // =0x00000624
 	add r1, r3, r1
 	str r1, [r0]
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	ldrb r1, [r2, #0x369]
 	cmp r1, #2
 	beq _0209060C
@@ -1111,7 +1111,7 @@ _02090628: .word 0x00000624
 	arm_func_start DWC_GetMyAID
 DWC_GetMyAID: // 0x0209062C
 	ldr r0, _02090644 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldrneb r0, [r0, #0x2c]
 	moveq r0, #0
@@ -1125,7 +1125,7 @@ DWC_GetNumConnectionHost: // 0x02090648
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _020906A0 // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	addeq sp, sp, #4
 	moveq r0, #0
@@ -1155,14 +1155,14 @@ DWC_CloseConnectionHard: // 0x020906A4
 	stmdb sp!, {r4, lr}
 	ldr r1, _0209070C // =0x02143A10
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	beq _020906E4
 	bl DWCi_IsError
 	cmp r0, #0
 	bne _020906E4
 	ldr r0, _0209070C // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x24]
 	cmp r0, #5
 	beq _020906EC
@@ -1189,14 +1189,14 @@ DWC_CloseConnectionsAsync: // 0x02090710
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _020907C0 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02090750
 	bl DWCi_IsError
 	cmp r0, #0
 	bne _02090750
 	ldr r0, _020907C0 // =0x02143A10
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, [r2, #0x24]
 	cmp r0, #5
 	beq _0209075C
@@ -1224,12 +1224,12 @@ _02090790:
 	mov r1, #1
 	ldr r0, _020907C0 // =0x02143A10
 	strb r1, [r2, #0x2d]
-	ldr r0, [r0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
+	ldr r0, [r0, #0]
 	bl gt2CloseAllConnections
 	ldr r1, _020907C0 // =0x02143A10
 	mov r0, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	strb r0, [r1, #0x2d]
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -1241,11 +1241,11 @@ _020907C4: .word 0x0211C1F0
 	arm_func_start DWC_SetConnectionClosedCallback
 DWC_SetConnectionClosedCallback: // 0x020907C8
 	ldr r2, _020907EC // =0x02143A10
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	cmp r3, #0
 	moveq r0, #0
 	strne r0, [r3, #0x90]
-	ldrne r2, [r2]
+	ldrne r2, [r2, #0]
 	movne r0, #1
 	strne r1, [r2, #0x94]
 	bx lr
@@ -1265,7 +1265,7 @@ DWC_ConnectToFriendsAsync: // 0x020907F0
 	cmp r0, #0
 	bne _02090828
 	ldr r0, _02090994 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x24]
 	cmp r0, #3
 	beq _02090834
@@ -1277,10 +1277,10 @@ _02090834:
 	bl DWCi_ClearGT2ConnectionList
 	ldr r0, _02090994 // =0x02143A10
 	ldr r3, [sp, #0xb8]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r2, [sp, #0xbc]
 	str r3, [r1, #0x80]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #5
 	str r2, [r1, #0x84]
 	bl DWCi_SetState
@@ -1387,7 +1387,7 @@ DWC_ConnectToAnybodyAsync: // 0x0209099C
 	cmp r0, #0
 	bne _020909D4
 	ldr r0, _02090A34 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x24]
 	cmp r0, #3
 	beq _020909E0
@@ -1399,9 +1399,9 @@ _020909E0:
 	bl DWCi_ClearGT2ConnectionList
 	ldr r1, _02090A34 // =0x02143A10
 	mov r0, #5
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r5, [r2, #0x80]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	str r4, [r1, #0x84]
 	bl DWCi_SetState
 	ldr r1, [sp, #0x20]
@@ -1433,7 +1433,7 @@ DWC_UpdateServersAsync: // 0x02090A3C
 	cmp r0, #0
 	bne _02090A78
 	ldr r0, _02090ADC // =0x02143A10
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, [r2, #0x24]
 	cmp r1, #3
 	blt _02090A78
@@ -1445,13 +1445,13 @@ _02090A78:
 	ldmia sp!, {r4, r5, r6, pc}
 _02090A84:
 	str r6, [r2, #0x78]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #4
 	str r5, [r1, #0x7c]
 	bl DWCi_SetState
 	ldr r0, _02090ADC // =0x02143A10
 	ldr r1, [sp, #0x20]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r0, [sp, #0x24]
 	str r4, [sp]
 	str r1, [sp, #4]
@@ -1483,7 +1483,7 @@ DWC_LoginAsync: // 0x02090AE4
 	cmp r0, #0
 	bne _02090B1C
 	ldr r0, _02090BEC // =0x02143A10
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, [r2, #0x24]
 	cmp r1, #0
 	beq _02090B24
@@ -1492,18 +1492,18 @@ _02090B1C:
 	ldmia sp!, {r4, r5, r6, pc}
 _02090B24:
 	str r6, [r2, #0x70]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r4, #0
 	str r5, [r1, #0x74]
 	beq _02090B44
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	cmp r1, #0
 	bne _02090B4C
 _02090B44:
 	mov r5, #0
 	b _02090B98
 _02090B4C:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0
 	add r1, r1, #0x2e
 	mov r2, #0x34
@@ -1519,14 +1519,14 @@ _02090B4C:
 _02090B80:
 	ldr r1, _02090BEC // =0x02143A10
 	mov r0, r4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, r5, lsl #1
 	add r1, r1, #0x2e
 	bl MIi_CpuCopy16
 _02090B98:
 	ldr r0, _02090BEC // =0x02143A10
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, r5, lsl #1
 	strh r1, [r0, #0x2e]
 	bl DWC_GetInetStatus
@@ -1541,7 +1541,7 @@ _02090BCC:
 	mov r0, #1
 	bl DWCi_SetState
 	ldr r0, _02090BEC // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x68]
 	bl GSIStartAvailableCheckA
 	mov r0, #1
@@ -1561,7 +1561,7 @@ DWC_ProcessFriendsMatch: // 0x02090BF4
 	bl DWCs_ForceShutdown
 _02090C0C:
 	ldr r0, _02090E64 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
@@ -1574,7 +1574,7 @@ _02090C0C:
 	addne sp, sp, #4
 	ldmneia sp!, {pc}
 	ldr r0, _02090E64 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x24]
 	cmp r0, #6
 	addls pc, pc, r0, lsl #2
@@ -1599,7 +1599,7 @@ _02090C74:
 _02090C94:
 	ldr r0, _02090E64 // =0x02143A10
 	mov r2, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r0, #0xa0]
 	add r0, r0, #0x1c
 	bl gpInitialize
@@ -1609,7 +1609,7 @@ _02090C94:
 	ldmneia sp!, {pc}
 	ldr r0, _02090E64 // =0x02143A10
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, _02090E68 // =DWCi_GPErrorCallback
 	mov r3, r1
 	add r0, r0, #0x1c
@@ -1620,7 +1620,7 @@ _02090C94:
 	ldmneia sp!, {pc}
 	ldr r0, _02090E64 // =0x02143A10
 	ldr r2, _02090E6C // =DWCi_GPRecvBuddyMessageCallback
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #3
 	add r0, r0, #0x1c
 	mov r3, #0
@@ -1631,7 +1631,7 @@ _02090C94:
 	ldmneia sp!, {pc}
 	ldr r0, _02090E64 // =0x02143A10
 	ldr r2, _02090E70 // =DWCi_GPRecvBuddyRequestCallback
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #1
 	add r0, r0, #0x1c
 	mov r3, #0
@@ -1642,7 +1642,7 @@ _02090C94:
 	ldmneia sp!, {pc}
 	ldr r0, _02090E64 // =0x02143A10
 	ldr r2, _02090E74 // =DWCi_GPRecvBuddyStatusCallback
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #2
 	add r0, r0, #0x1c
 	mov r3, #0
@@ -1684,7 +1684,7 @@ _02090DCC:
 	bl DWCi_TransportProcess
 	bl DWCi_FriendProcess
 	ldr r0, _02090E64 // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x369]
 	cmp r0, #2
 	beq _02090DF4
@@ -1696,14 +1696,14 @@ _02090DF4:
 	bl DWCi_MatchProcess
 	b _02090E14
 _02090E00:
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	beq _02090E14
 	mov r0, #0
 	bl DWCi_MatchProcess
 _02090E14:
 	ldr r0, _02090E64 // =0x02143A10
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #0x36c]
 	cmp r0, #1
 	addne sp, sp, #4
@@ -1714,12 +1714,12 @@ _02090E14:
 	bl qr2_shutdown
 	ldr r0, _02090E64 // =0x02143A10
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0x364]
 _02090E4C:
 	ldr r0, _02090E64 // =0x02143A10
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	strb r1, [r0, #0x36c]
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -1738,7 +1738,7 @@ DWC_ShutdownFriendsMatch: // 0x02090E80
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _02090FF0 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
@@ -1748,21 +1748,21 @@ DWC_ShutdownFriendsMatch: // 0x02090E80
 	bl qr2_shutdown
 	ldr r0, _02090FF0 // =0x02143A10
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0x364]
 _02090EBC:
 	ldr r0, _02090FF0 // =0x02143A10
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	strb r2, [r1, #0x36c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x438]
 	cmp r0, #0
 	beq _02090EF0
 	bl ServerBrowserFree
 	ldr r0, _02090FF0 // =0x02143A10
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0x438]
 _02090EF0:
 	bl NNFreeNegotiateList
@@ -1779,36 +1779,36 @@ _02090EF0:
 	bl gpSetCallback
 	ldr r0, _02090FF0 // =0x02143A10
 	mov r2, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r3, r2
 	add r0, r0, #0x1c
 	mov r1, #3
 	bl gpSetCallback
 	ldr r0, _02090FF0 // =0x02143A10
 	mov r2, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r3, r2
 	add r0, r0, #0x1c
 	mov r1, #1
 	bl gpSetCallback
 	ldr r0, _02090FF0 // =0x02143A10
 	mov r2, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #2
 	add r0, r0, #0x1c
 	mov r3, r2
 	bl gpSetCallback
 	ldr r0, _02090FF0 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1c
 	bl gpProcess
 	ldr r0, _02090FF0 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x1c
 	bl gpDestroy
 	mov r1, #0
 	ldr r0, _02090FF0 // =0x02143A10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0x1c]
 _02090FA4:
 	bl DWCi_ShutdownLogin
@@ -1816,14 +1816,14 @@ _02090FA4:
 	bl DWCi_ShutdownMatch
 	bl DWCi_ShutdownTransport
 	ldr r0, _02090FF0 // =0x02143A10
-	ldr r0, [r0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02090FDC
 	bl gt2CloseSocket
 	ldr r0, _02090FF0 // =0x02143A10
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0]
 _02090FDC:
 	ldr r0, _02090FF0 // =0x02143A10
@@ -1847,77 +1847,77 @@ DWC_InitFriendsMatch: // 0x02090FF4
 	bl DWC_ClearError
 	ldr r0, _02091258 // =0x02143A10
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r3, _0209125C // =DWCi_GT2ConnectedCallback
 	str r2, [r1]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r2, _02091260 // =DWCi_GT2ReceivedCallback
 	str r3, [r1, #4]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr ip, [sp, #0x24]
 	str r2, [r1, #8]
 	cmp ip, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r3, _02091264 // =DWCi_GT2ClosedCallback
 	ldr r1, _02091268 // =DWCi_GT2PingCallback
 	str r3, [r2, #0xc]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r3, [sp, #0x28]
 	str r1, [r0, #0x10]
 	ldr r0, _02091258 // =0x02143A10
 	moveq ip, #0x2000
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r3, #0
 	str ip, [r0, #0x14]
 	moveq r3, #0x2000
 	ldr r1, _02091258 // =0x02143A10
 	mov r0, #0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr ip, _0209126C // =0x02144E84
 	str r3, [r2, #0x18]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r3, _02091270 // =0x02144F84
 	str r0, [r2, #0x1c]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r6, [r2, #0x20]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x24]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x28]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	strb r0, [r2, #0x2c]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	strb r0, [r2, #0x2d]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x64]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str ip, [r2, #0x68]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r3, [r2, #0x6c]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x70]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x74]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x78]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x7c]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x80]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x84]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x88]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x8c]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x90]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	str r0, [r1, #0x94]
 	bl DWCi_ClearGT2ConnectionList
 	ldr r0, _02091258 // =0x02143A10
 	mov r3, r5
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, [r6, #0x24]
 	ldr r0, _02091274 // =DWCi_LoginCallback
 	str r1, [sp]
@@ -1932,7 +1932,7 @@ DWC_InitFriendsMatch: // 0x02090FF4
 	bl DWCi_LoginInit
 	ldr r0, _02091258 // =0x02143A10
 	ldr r2, [sp, #0x30]
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	ldr r3, [sp, #0x2c]
 	str r2, [sp]
 	add r0, r5, #0x2f8
@@ -1941,7 +1941,7 @@ DWC_InitFriendsMatch: // 0x02090FF4
 	bl DWCi_FriendInit
 	ldr r0, _02091258 // =0x02143A10
 	ldr r1, _0209126C // =0x02144E84
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, _02091270 // =0x02144F84
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -1955,7 +1955,7 @@ DWC_InitFriendsMatch: // 0x02090FF4
 	bl DWCi_MatchInit
 	ldr r1, _02091258 // =0x02143A10
 	ldr r0, _02091278 // =0x000007D8
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r0, r1, r0
 	bl DWCi_InitTransport
 	mov r0, r4

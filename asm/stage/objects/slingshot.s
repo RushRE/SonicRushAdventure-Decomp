@@ -47,7 +47,7 @@ Sling__Create: // 0x0217F45C
 	mov r3, r0
 	ldr r0, _0217F768 // =gameArchiveStage
 	mov r1, #0x30
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -75,7 +75,7 @@ Sling__Create: // 0x0217F45C
 	bl GetObjectFileWork
 	ldr r1, _0217F768 // =gameArchiveStage
 	mov r3, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _0217F76C // =aActAcGmkSlingB
 	str r2, [sp]
 	mov r0, r5
@@ -104,7 +104,7 @@ Sling__Create: // 0x0217F45C
 	bl GetObjectFileWork
 	ldr r1, _0217F768 // =gameArchiveStage
 	mov r3, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _0217F76C // =aActAcGmkSlingB
 	str r2, [sp]
 	mov r0, r5
@@ -260,7 +260,7 @@ SlingRock__Create: // 0x0217F784
 	mov r3, r0
 	ldr r0, _0217F938 // =gameArchiveStage
 	mov r1, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -495,7 +495,7 @@ Sling__OnDefend: // 0x0217FB60
 	cmpne r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #1
 	addne sp, sp, #8
 	ldmneia sp!, {r4, pc}
@@ -712,7 +712,7 @@ SlingRock__State_217FE64: // 0x0217FE64
 	orr r0, r0, #4
 	ldr r3, _0217FFF8 // =_mt_math_rand
 	str r0, [r4, #0x18]
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	ldr r0, _0217FFFC // =0x00196225
 	ldr r1, _02180000 // =0x3C6EF35F
 	sub r2, lr, #0x2000
@@ -720,7 +720,7 @@ SlingRock__State_217FE64: // 0x0217FE64
 	mla r0, ip, r0, r1
 	str r0, [r3]
 	str lr, [sp]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mov r3, ip, lsr #0x10
 	mov r1, r0, lsr #0x10
 	mov r0, r3, lsl #0x10
@@ -737,14 +737,14 @@ SlingRock__State_217FE64: // 0x0217FE64
 	bl EffectSlingDust__Create
 	ldr r2, _0217FFF8 // =_mt_math_rand
 	ldr r0, _0217FFFC // =0x00196225
-	ldr r5, [r2]
+	ldr r5, [r2, #0]
 	ldr r1, _02180000 // =0x3C6EF35F
 	mov r3, #1
 	mla ip, r5, r0, r1
 	mla r0, ip, r0, r1
 	str r0, [r2]
 	str r3, [sp]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r2, ip, lsr #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, r0, lsl #0x10
@@ -771,7 +771,7 @@ SlingRock__State_217FE64: // 0x0217FE64
 	mla r0, r5, r0, r1
 	str r0, [r3]
 	str ip, [sp]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mov r3, r5, lsr #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, r0, lsl #0x10

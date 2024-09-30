@@ -48,41 +48,41 @@ CPPHelpers__Alloc: // 0x02085D40
 CPPHelpers__Free: // 0x02085D48
 	stmdb sp!, {r3, lr}
 	ldr r1, _02085E1C // =heapSystem_StartAddr
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r0, r1
 	blo _02085D70
 	ldr r1, _02085E20 // =heapSystem_EndAddr
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r0, r1
 	movlo r1, #0
 	blo _02085DE0
 _02085D70:
 	ldr r1, _02085E24 // =heapUser_StartAddr
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r0, r1
 	blo _02085D94
 	ldr r1, _02085E28 // =heapUser_EndAddr
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r0, r1
 	movlo r1, #1
 	blo _02085DE0
 _02085D94:
 	ldr r1, _02085E2C // =heapDTCM_StartAddr
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r0, r1
 	blo _02085DB8
 	ldr r1, _02085E30 // =heapDTCM_EndAddr
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r0, r1
 	movlo r1, #3
 	blo _02085DE0
 _02085DB8:
 	ldr r1, _02085E34 // =heapITCM_StartAddr
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r0, r1
 	blo _02085DDC
 	ldr r1, _02085E38 // =heapITCM_EndAddr
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r0, r1
 	movlo r1, #2
 	blo _02085DE0
@@ -133,8 +133,8 @@ CPPHelpers__Func_2085E40: // 0x02085E40
 	arm_func_start CPPHelpers__MtxRotY33
 CPPHelpers__MtxRotY33: // 0x02085E44
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r5, [r2]
-	ldr r4, [r1]
+	ldr r5, [r2, #0]
+	ldr r4, [r1, #0]
 	mov r6, r0
 	bl CPPHelpers__Func_2085E6C
 	mov r1, r4
@@ -407,7 +407,7 @@ CPPHelpers__VEC_Subtract: // 0x020860C4
 
 	arm_func_start CPPHelpers__VEC_Multiply
 CPPHelpers__VEC_Multiply: // 0x020860DC
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	smull ip, r3, r2, r1
 	adds ip, ip, #0x800
 	adc r2, r3, #0

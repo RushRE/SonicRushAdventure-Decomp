@@ -54,9 +54,9 @@ _020CC09C:
 	strne r4, [r1, #0xc]
 	streq r4, [r0, #4]
 	cmp r3, #0
-	ldreq r1, [r0]
+	ldreq r1, [r0, #0]
 	streq r1, [r4, #4]
-	ldreq r1, [r0]
+	ldreq r1, [r0, #0]
 	addeq r1, r1, #1
 	streq r1, [r0]
 	ldmia sp!, {r4, lr}
@@ -175,7 +175,7 @@ WcmAllocApList: // 0x020CC210
 	movs r4, r4, lsr #6
 	ldmeqia sp!, {r4, lr}
 	bxeq lr
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r4, r2
 	ldmlsia sp!, {r4, lr}
 	bxls lr
@@ -199,7 +199,7 @@ _020CC29C:
 	bxhs lr
 	mov r2, #1
 	strb r2, [r0]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r2, #0
 	str r3, [r0, #4]
 	str r2, [r0, #0xc]
@@ -210,7 +210,7 @@ _020CC29C:
 	cmp r2, #0
 	strne r0, [r2, #0xc]
 	streq r0, [r1, #4]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r2, r2, #1
 	str r2, [r1]
 	ldmia sp!, {r4, lr}
@@ -378,7 +378,7 @@ _020CC500:
 	beq _020CC51C
 	ldr r0, [r0, #0x274]
 	cmp r0, #0xc
-	ldrhi r4, [r1]
+	ldrhi r4, [r1, #0]
 _020CC51C:
 	mov r0, r5
 	bl OS_RestoreInterrupts

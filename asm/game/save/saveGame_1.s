@@ -84,7 +84,7 @@ _0205E516:
 	mov r6, r4
 	str r0, [sp, #0x6c]
 _0205E52E:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r1, sp, #0xac
 	str r0, [sp, #0x5c]
 	ldr r0, [r5, #4]
@@ -358,7 +358,7 @@ _0205E720:
 	str r0, [sp, #0x30]
 	mov r6, r7
 _0205E72C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r1, sp, #0x94
 	str r0, [sp, #0x34]
 	ldr r0, [r4, #4]
@@ -512,7 +512,7 @@ _0205E83A:
 	str r0, [sp, #0x28]
 	mov r7, r6
 _0205E848:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r1, sp, #0x8c
 	str r0, [sp, #0x2c]
 	ldr r0, [r4, #4]
@@ -697,7 +697,7 @@ _0205E98C:
 _0205E9A2:
 	ldr r0, [sp, #0x48]
 	add r1, sp, #0x9c
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r2, sp, #0x98
 	str r0, [sp, #0x44]
 	ldr r0, [sp, #0x48]

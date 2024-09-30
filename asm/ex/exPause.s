@@ -30,7 +30,7 @@ exPauseTask__Main: // 0x0216D8D8
 	mov r3, r1
 	bl PlaySfxEx
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _0216D984
@@ -69,7 +69,7 @@ _0216D984:
 	mov r0, #1
 	strh r0, [r7]
 _0216D98C:
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	ldr r1, _0216DB84 // =_02175DEC
 	add r0, r7, #0x18
 	mov r2, r2, lsl #1
@@ -112,7 +112,7 @@ _0216DA20:
 	str r0, [sp, #8]
 	mov r0, #0x88
 	mul r9, r8, r0
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	ldr r1, _0216DB88 // =0x02175DF8
 	ldr r0, [sp, #8]
 	mov r2, r2, lsl #1
@@ -145,7 +145,7 @@ _0216DA20:
 	strb r1, [r11, r9]
 	mov r1, #0
 	strb r1, [r10, #0xfa]
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	add r0, r0, r9
 	mov r1, r1, lsl #1
 	ldrh r1, [r1, r3]
@@ -811,7 +811,7 @@ _0216E3E0: .word exPauseTask__word_2177B98
 	arm_func_start ovl09_216E3E4
 ovl09_216E3E4: // 0x0216E3E4
 	ldr r0, _0216E3F0 // =exPauseTask__word_2177B98
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _0216E3F0: .word exPauseTask__word_2177B98

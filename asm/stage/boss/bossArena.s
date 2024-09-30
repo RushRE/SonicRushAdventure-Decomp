@@ -54,10 +54,10 @@ _0203972C:
 	add ip, r0, #0x400
 	mov r3, #0
 	str r3, [ip, #0x10]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	str r3, [ip, #0x18]
 	str r0, [ip, #0x1c]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	str r3, [ip, #0x20]
 	str r0, [ip, #0x24]
 	mov r0, #1
@@ -84,7 +84,7 @@ _020397B4: .word VRAMSystem__VRAM_BG
 BossArena__Destroy: // 0x020397B8
 	stmdb sp!, {r3, lr}
 	ldr r0, _020397E0 // =_0213414C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl DestroyTask
@@ -100,7 +100,7 @@ _020397E0: .word _0213414C
 BossArena__Func_20397E4: // 0x020397E4
 	stmdb sp!, {r3, lr}
 	ldr r0, _020397FC // =_0213414C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	bl BossArena__CallFunction2
 	ldmia sp!, {r3, pc}
@@ -121,7 +121,7 @@ BossArena__SetType: // 0x02039800
 BossArena__GetType: // 0x02039814
 	stmdb sp!, {r3, lr}
 	bl BossArena__GetWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldmia sp!, {r3, pc}
 	arm_func_end BossArena__GetType
 
@@ -471,7 +471,7 @@ BossArena__Func_2039AD4: // 0x02039AD4
 	bl VEC_Normalize
 	mov r5, r4, asr #1
 	ldr r1, [sp, #0xc]
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	smull r2, r1, r5, r1
 	adds r2, r2, #0x800
 	adc r1, r1, #0
@@ -514,7 +514,7 @@ BossArena__Func_2039AD4: // 0x02039AD4
 	ldmia r9, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
 	ldr r1, [sp, #0xc]
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	smull r2, r1, r5, r1
 	adds r2, r2, #0x800
 	adc r1, r1, #0
@@ -628,7 +628,7 @@ BossArena__Func_2039CA4: // 0x02039CA4
 BossArena__GetWork: // 0x02039D8C
 	ldr r0, _02039D9C // =_0213414C
 	ldr ip, _02039DA0 // =GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx ip
 	.align 2, 0
 _02039D9C: .word _0213414C
@@ -779,7 +779,7 @@ _02039F90:
 
 	arm_func_start BossArena__Func_2039FA8
 BossArena__Func_2039FA8: // 0x02039FA8
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r2, [r0, #4]
 	ldrsh r1, [r0, #8]
 	sub r3, r3, r2
@@ -807,7 +807,7 @@ _02039FF0:
 	arm_func_start BossArena__Func_203A000
 BossArena__Func_203A000: // 0x0203A000
 	ldrh r3, [r0, #2]
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldrsh r2, [r0, #4]
 	sub r1, r1, r3
 	smulbb r1, r2, r1
@@ -890,7 +890,7 @@ BossArena__Main: // 0x0203A0E4
 BossArena__Destructor: // 0x0203A0F4
 	stmdb sp!, {r4, lr}
 	ldr r0, _0203A128 // =_0213414C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	add r0, r4, #0x364
@@ -908,7 +908,7 @@ _0203A128: .word _0213414C
 	arm_func_start BossArena__CallFunction2
 BossArena__CallFunction2: // 0x0203A12C
 	stmdb sp!, {r3, lr}
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _0203A144 // =_0210F5CC
 	ldr r1, [r1, r2, lsl #2]
 	blx r1
@@ -1115,7 +1115,7 @@ _0203A3E0:
 	arm_func_start BossArena__DrawBackground
 BossArena__DrawBackground: // 0x0203A3F0
 	stmdb sp!, {r3, lr}
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #1
 	beq _0203A40C
 	cmp r2, #2
@@ -1430,7 +1430,7 @@ BossArena__CallFunction1: // 0x0203A804
 	bl BossArena__TrackTarget1
 	mov r0, r4
 	bl BossArena__TrackTarget2
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r1, _0203A85C // =BossArena__FuncTable
 	mov r0, r5
 	ldr r2, [r1, r2, lsl #2]

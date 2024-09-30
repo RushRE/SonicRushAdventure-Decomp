@@ -217,7 +217,7 @@ MultibootManager__Func_2060CF0: // 0x02060CF0
 	ldr r0, _02060D08 // =MultibootManager__sVars
 	ldr r0, [r0, #4]
 	bl GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02060D08: .word MultibootManager__sVars
@@ -259,7 +259,7 @@ MultibootManager__Func_2060D4C: // 0x02060D4C
 	ldr r0, _02060D70 // =MultibootManager__sVars
 	ldr r0, [r0, #4]
 	bl GetTaskWork_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #3
 	movge r0, #0
 	addlt r0, r0, #0x3c
@@ -274,7 +274,7 @@ MultibootManager__Func_2060D74: // 0x02060D74
 	ldr r0, _02060D98 // =MultibootManager__sVars
 	ldr r0, [r0, #4]
 	bl GetTaskWork_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #3
 	movge r0, #0
 	ldrlth r0, [r0, #0x4c]
@@ -289,7 +289,7 @@ MultibootManager__Func_2060D9C: // 0x02060D9C
 	ldr r0, _02060DC0 // =MultibootManager__sVars
 	ldr r0, [r0, #4]
 	bl GetTaskWork_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #3
 	movge r0, #0
 	ldrlt r0, [r0, #0x54]
@@ -893,7 +893,7 @@ _02061534:
 	bl MultibootManager__Func_2061F20
 	ldmia sp!, {r4, pc}
 _0206154C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #2
 	beq _02061610
 	ldr r0, [r4, #0x10]
@@ -1031,7 +1031,7 @@ MultibootManager__Func_20616C4: // 0x020616C4
 	ldr r0, _020617EC // =mbRom
 	ldr r3, [r4, #0x38]
 	ldr r2, _020617F0 // =0x02119DB8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r2, [r2, r3, lsl #2]
 	mov r0, #0
 	bl DWC_AddMatchKeyString
@@ -1050,7 +1050,7 @@ MultibootManager__Func_20616C4: // 0x020616C4
 	bne _020617B4
 	ldr r1, _020617EC // =mbRom
 	add r0, sp, #8
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl STD_CopyString
 	ldr r1, _020617F4 // =_02119E6C
 	add r0, sp, #8
@@ -3011,13 +3011,13 @@ _020630DC:
 	strb r1, [r0, #1]
 	ldrh r0, [r4, #0x14]
 	bl WirelessManager__GetRecieveBuffer
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #0x78
 	ldreqb r0, [r0, #2]
 	streqb r0, [r4, #0x18]
 	ldrh r0, [r4, #0x16]
 	bl WirelessManager__GetRecieveBuffer
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #0x78
 	bne _02063178
 	ldrb r1, [r0, #2]
@@ -3193,13 +3193,13 @@ _02063348:
 _02063350:
 	ldrh r0, [r4, #0x14]
 	bl GetDataTransferRecieveBuffer
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #0x78
 	ldreqb r0, [r0, #2]
 	streqb r0, [r4, #0x18]
 	ldrh r0, [r4, #0x16]
 	bl GetDataTransferRecieveBuffer
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #0x78
 	bne _020633BC
 	ldrb r1, [r0, #2]
@@ -3284,7 +3284,7 @@ MultibootManager__Func_2063474: // 0x02063474
 	bl GetTaskWork_
 	ldr r1, _020634C4 // =mbRom
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r2, _020634C8 // =aNone
 	mov r0, r5
 	bl DWC_GetMatchStringValue
@@ -3609,7 +3609,7 @@ MultibootManager__Func_2063874: // 0x02063874
 	ldr r0, [r0, #8]
 	str r0, [r4, #0x1a4]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _020638D0
@@ -3622,7 +3622,7 @@ _020638AC: // jump table
 	b _020638C4 // case 5
 _020638C4:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _020638D4
 _020638D0:
 	mov r1, #1
@@ -3635,7 +3635,7 @@ _020638D4:
 	add r0, r4, #0x1e0
 	str r0, [r4, #0x1a8]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02063928
@@ -3648,7 +3648,7 @@ _02063904: // jump table
 	b _0206391C // case 5
 _0206391C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _0206392C
 _02063928:
 	mov r1, #1
@@ -3771,12 +3771,12 @@ MultibootManager__Func_2063A60: // 0x02063A60
 MultibootManager__Func_2063A74: // 0x02063A74
 	cmp r0, #0
 	ldreq r0, _02063AA0 // =MultibootManager__sVars
-	ldreq r1, [r0]
+	ldreq r1, [r0, #0]
 	biceq r1, r1, #1
 	streq r1, [r0]
 	bxeq lr
 	ldr r0, _02063AA0 // =MultibootManager__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #1
 	str r1, [r0]
 	bx lr
@@ -3787,7 +3787,7 @@ _02063AA0: .word MultibootManager__sVars
 	arm_func_start MultibootManager__CheckUsingNetwork
 MultibootManager__CheckUsingNetwork: // 0x02063AA4
 	ldr r0, _02063ABC // =MultibootManager__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #1
 	movne r0, #1
 	moveq r0, #0
@@ -3800,12 +3800,12 @@ _02063ABC: .word MultibootManager__sVars
 MultibootManager__Func_2063AC0: // 0x02063AC0
 	cmp r0, #0
 	ldreq r0, _02063AEC // =MultibootManager__sVars
-	ldreq r1, [r0]
+	ldreq r1, [r0, #0]
 	biceq r1, r1, #2
 	streq r1, [r0]
 	bxeq lr
 	ldr r0, _02063AEC // =MultibootManager__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #2
 	str r1, [r0]
 	bx lr
@@ -3816,7 +3816,7 @@ _02063AEC: .word MultibootManager__sVars
 	arm_func_start MultibootManager__Func_2063AF0
 MultibootManager__Func_2063AF0: // 0x02063AF0
 	ldr r0, _02063B08 // =MultibootManager__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #2
 	movne r0, #1
 	moveq r0, #0
@@ -3829,12 +3829,12 @@ _02063B08: .word MultibootManager__sVars
 MultibootManager__Func_2063B0C: // 0x02063B0C
 	cmp r0, #0
 	ldreq r0, _02063B38 // =MultibootManager__sVars
-	ldreq r1, [r0]
+	ldreq r1, [r0, #0]
 	biceq r1, r1, #4
 	streq r1, [r0]
 	bxeq lr
 	ldr r0, _02063B38 // =MultibootManager__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #4
 	str r1, [r0]
 	bx lr
@@ -3845,7 +3845,7 @@ _02063B38: .word MultibootManager__sVars
 	arm_func_start MultibootManager__Func_2063B3C
 MultibootManager__Func_2063B3C: // 0x02063B3C
 	ldr r0, _02063B54 // =MultibootManager__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #4
 	movne r0, #1
 	moveq r0, #0

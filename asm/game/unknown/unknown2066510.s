@@ -82,7 +82,7 @@ Unknown2066510__NormalizeScale: // 0x020665F8
 	mov r4, r1
 	bl VEC_Mag
 	bl FX_Inv
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	smull r3, r2, r1, r0
 	adds r3, r3, #0x800
 	adc r1, r2, #0
@@ -177,9 +177,9 @@ Unknown2066510__Func_2066724: // 0x02066724
 	mov r0, r6
 	mov r1, r4
 	bl MI_Copy36B
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl FX_Inv
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	smull r3, r2, r1, r0
 	adds r3, r3, #0x800
 	adc r1, r2, #0
@@ -277,8 +277,8 @@ Unknown2066510__Func_20668A8: // 0x020668A8
 	mov r0, r7
 	mov r1, r6
 	bl VEC_DotProduct
-	ldr r1, [r6]
-	ldr r3, [r7]
+	ldr r1, [r6, #0]
+	ldr r3, [r7, #0]
 	smull lr, ip, r1, r4
 	adds r1, lr, #0x800
 	mov r2, r8, lsl #1
@@ -389,7 +389,7 @@ Unknown2066510__Func_2066A4C: // 0x02066A4C
 	mov r1, r4
 	add r2, r4, #0xc
 	bl VEC_CrossProduct
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	str r0, [r4, #0x24]
 	ldr r0, [r6, #4]
 	str r0, [r4, #0x28]
@@ -517,8 +517,8 @@ Unknown2066510__Func_2066C24: // 0x02066C24
 	bl NNS_G3dGeBufferOP_N
 	add r0, sp, #0x10
 	bl MTX_Identity43_
-	ldr r2, [r5]
-	ldr r1, [r6]
+	ldr r2, [r5, #0]
+	ldr r1, [r6, #0]
 	mov r0, #0x19
 	sub r1, r2, r1
 	str r1, [sp, #0x10]
@@ -532,7 +532,7 @@ Unknown2066510__Func_2066C24: // 0x02066C24
 	mov r2, #0xc
 	sub r3, r5, r3
 	str r3, [sp, #0x30]
-	ldr r3, [r6]
+	ldr r3, [r6, #0]
 	str r3, [sp, #0x34]
 	ldr r3, [r6, #4]
 	str r3, [sp, #0x38]
@@ -589,7 +589,7 @@ Unknown2066510__Func_2066D18: // 0x02066D18
 	stmia r11, {r0, r1, r2}
 	bls _02066DE4
 _02066D6C:
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr r0, [sp, #0x18]
 	cmp r0, r1
 	strgt r1, [sp, #0x18]
@@ -675,7 +675,7 @@ _02066E7C:
 	mov r1, r4, asr #0x1f
 _02066EA0:
 	ldr r0, [sp]
-	ldr r3, [r8]
+	ldr r3, [r8, #0]
 	cmp r0, #0x1000
 	ldr r0, [r5, #0x24]
 	sub r0, r3, r0

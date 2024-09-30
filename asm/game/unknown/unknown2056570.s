@@ -437,7 +437,7 @@ _02056ABC:
 	mov r4, r11
 _02056B18:
 	ldrh r1, [r10, #0x14]
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	ldr ip, [r10, #0x2c]
 	mul r1, r9, r1
 	mla r3, r5, r8, r1
@@ -487,7 +487,7 @@ Unknown2056570__Func_2056B8C: // 0x02056B8C
 	cmp r0, #0
 	mul r1, r2, r1
 	moveq r3, #0x6000000
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	movne r3, #0x6200000
 	tst r0, #1
 	ldr r2, [r4, #0x20]

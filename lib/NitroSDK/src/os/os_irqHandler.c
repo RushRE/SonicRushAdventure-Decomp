@@ -96,7 +96,7 @@ asm void OS_IrqHandler_ThreadSwitch(void)
 
 @2:
 	ldr r12, =OSi_ThreadInfo
-	ldrh r1, [r12]
+	ldrh r1, [r12, #0]
 	cmp r1, #OS_THREADINFO_OFFSET_ISNEEDRESCHEDULING
 	ldreq pc, [sp], #4
 
@@ -107,7 +107,7 @@ asm void OS_IrqHandler_ThreadSwitch(void)
 	msr cpsr_c, r3
 
 	add r2, r12, #OS_THREADINFO_OFFSET_LIST
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 
 @3:
 	cmp r1, #0

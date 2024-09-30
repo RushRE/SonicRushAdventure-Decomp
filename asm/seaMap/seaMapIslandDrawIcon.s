@@ -669,7 +669,7 @@ SeaMapIslandDrawIcon__Func_20480D0: // 0x020480D0
 	bl SeaMapView__GetMode
 	cmp r0, #3
 	cmpne r0, #4
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	bne _02048148
 	cmp r0, #0x400000
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}

@@ -363,7 +363,7 @@ ViTalkPurchase__Main: // 0x02169C14
 	mov r5, r0
 	b _02169C9C
 _02169C4C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #5
 	bge _02169C64
 	bl ovl05_2152B1C
@@ -388,7 +388,7 @@ _02169C94:
 	mov r5, r0
 _02169C9C:
 	bl HubControl__GetFileFrom_ViMsgCtrl
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	ldrh r2, [r5, #2]
@@ -545,14 +545,14 @@ _02169E7C:
 	bl ViDockNpcGroup__Func_2168754
 	b _02169F98
 _02169EB0:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #5
 	bge _02169ED8
 	bl ovl05_21529BC
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #4
 	bl ViDockNpcGroup__Func_2168744
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl ViDockNpcGroup__Func_2168754
 	b _02169F98
 _02169ED8:
@@ -748,7 +748,7 @@ ViTalkPurchase__Func_216A0F0: // 0x0216A0F0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl ViTalkPurchase__Func_216A0E0
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	cmp r1, r0
 	movhi r0, #0
 	ldmhiia sp!, {r3, r4, r5, pc}
@@ -773,7 +773,7 @@ _0216A110:
 ViTalkPurchase__Func_216A144: // 0x0216A144
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	cmp r2, #0
 	beq _0216A168
 	ldr r0, _0216A19C // =saveGame

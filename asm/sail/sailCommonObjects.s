@@ -174,11 +174,11 @@ _0216493C:
 	bl SailObject__SetAnimSpeed
 	ldr r0, _021649D0 // =SailObject__DefaultIn
 	str r0, [r5, #0xf8]
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldreq r0, _021649D4 // =SailObject__DefaultLast
 	streq r0, [r5, #0x10c]
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	bne _021649B0
 	ldr r4, [r5, #0x124]
@@ -503,7 +503,7 @@ _02164DBC:
 	movne r0, #0
 	strne r0, [r1, #0x160]
 _02164DD8:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	bl SailManager__GetWork
@@ -589,7 +589,7 @@ SailObject__Func_2164F10: // 0x02164F10
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ldr r5, [r4, #0x124]
 	cmp r0, #0
 	beq _02164F40
@@ -703,7 +703,7 @@ SailObject__Func_2165038: // 0x02165038
 
 	arm_func_start SailObject__Func_21650B4
 SailObject__Func_21650B4: // 0x021650B4
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	ldr r3, [r0, #0x124]
 	cmp r2, #0
 	beq _021650D8
@@ -835,7 +835,7 @@ SailObject__DefaultOnCheck: // 0x02165250
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r3, [r0, #0x3c]
 	mov r0, #0
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	mov lr, r0
 	mov r4, r0
 	mov r5, r0
@@ -902,8 +902,8 @@ SailObject__CheckCollisions: // 0x02165318
 	mov r4, r1
 	ldr r3, [r5, #8]
 	ldr r2, [r4, #8]
-	ldr r1, [r5]
-	ldr r0, [r4]
+	ldr r1, [r5, #0]
+	ldr r0, [r4, #0]
 	sub r2, r3, r2
 	subs r1, r1, r0
 	rsbmi r1, r1, #0
@@ -1008,8 +1008,8 @@ _021654B8:
 	ldreq r0, [r4, #0x2c]
 	cmpeq r0, #0
 	beq _021655BC
-	ldr r3, [r4]
-	ldr r0, [r5]
+	ldr r3, [r4, #0]
+	ldr r0, [r5, #0]
 	ldr r2, [r4, #8]
 	ldr r1, [r5, #8]
 	sub r0, r3, r0
@@ -1234,7 +1234,7 @@ _02165804:
 	mov r1, #0x64
 	strh r1, [r0, #0x2e]
 _02165814:
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	cmp r1, #0
 	beq _02165830
 	cmp r1, #1
@@ -1279,7 +1279,7 @@ _021658A0: .word SailObject__OnDefend_2169BAC
 	arm_func_start SailObject__Func_21658A4
 SailObject__Func_21658A4: // 0x021658A4
 	stmdb sp!, {r3, lr}
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	cmp r2, #1
 	ldmneia sp!, {r3, pc}
 	bl StageTask__GetCollider
@@ -1421,7 +1421,7 @@ _02165A98: .word shipShiftUnknown
 
 	arm_func_start SailObject__Func_2165A9C
 SailObject__Func_2165A9C: // 0x02165A9C
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r3, r1
 	cmp r2, #0
 	beq _02165AB8
@@ -1450,7 +1450,7 @@ _02165AE0:
 
 	arm_func_start SailObject__Func_2165AF4
 SailObject__Func_2165AF4: // 0x02165AF4
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	cmp r2, #0
 	beq _02165B0C
 	cmp r2, #1
@@ -1775,7 +1775,7 @@ SailJetBoatCloud__CreateUnknown: // 0x02165F38
 	add r8, r4, #0x48000
 _02165F9C:
 	ldr r0, _021660B8 // =_obj_disp_rand
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mla r2, r0, r5, r6
 	mov r0, r2, lsr #0x10
 	mov r1, r0, lsl #0x10
@@ -1877,7 +1877,7 @@ SailJetBoatCloud__Create: // 0x021660BC
 	bl ObjObjectAction3dBACLoad
 	ldr r2, _02166300 // =_obj_disp_rand
 	ldr r0, _02166304 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02166308 // =0x3C6EF35F
 	mla r0, r3, r0, r1
 	str r0, [r2]
@@ -1947,7 +1947,7 @@ _0216619C:
 	ldr r0, [r4, #0x134]
 	mov r2, #0x800
 	strb ip, [r0, #0xb]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mla ip, r0, r3, r5
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -1964,7 +1964,7 @@ _0216619C:
 	str r2, [r4, #0x38]
 	str r2, [r4, #0x3c]
 	str r2, [r4, #0x40]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	ldr r2, _02166300 // =_obj_disp_rand
 	mla r1, r0, r3, r5
 	mov r0, r1, lsr #0x10
@@ -1977,7 +1977,7 @@ _0216619C:
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x3c]
 	ldr r0, _02166304 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -2034,7 +2034,7 @@ SailCloud__Create: // 0x02166314
 	bl ObjObjectAction3dBACLoad
 	ldr r2, _0216670C // =_obj_disp_rand
 	ldr r0, _02166710 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02166714 // =0x3C6EF35F
 	mla r0, r3, r0, r1
 	str r0, [r2]
@@ -2087,7 +2087,7 @@ _021663E4:
 	mov r1, #7
 	ldr r2, _0216670C // =_obj_disp_rand
 	strb r1, [r0, #0xb]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r0, _02166710 // =0x00196225
 	ldr r1, _02166714 // =0x3C6EF35F
 	mov ip, #0
@@ -2102,7 +2102,7 @@ _021663E4:
 	str ip, [r4, #0x2c]
 	cmp r6, #0
 	beq _02166580
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r6, _02166718 // =0x00001FFF
 	mla r7, r3, r0, r1
 	mov r3, r7, lsr #0x10
@@ -2123,7 +2123,7 @@ _021663E4:
 	str r3, [r2]
 	mov r3, r7, lsr #0x10
 	str r3, [r5, #0x138]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	sub r7, r6, #0x1000
 	mla lr, r3, r0, r1
 	mov r3, lr, lsr #0x10
@@ -2132,7 +2132,7 @@ _021663E4:
 	str lr, [r2]
 	sub r3, r3, #0x2000
 	str r3, [r4, #0x48]
-	ldr r7, [r2]
+	ldr r7, [r2, #0]
 	sub r3, r6, #0x1000
 	mla r0, r7, r0, r1
 	mov r1, r0, lsr #0x10
@@ -2177,7 +2177,7 @@ _02166580:
 	str r3, [r4, #0x44]
 	mov r3, #0x60000
 	str r3, [r4, #0x48]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	sub r6, ip, #0x370
 	mla r5, r3, r0, r1
 	mov r3, r5, lsr #0x10
@@ -2189,7 +2189,7 @@ _02166580:
 	rsb r3, r3, #0x3f
 	add r3, r5, r3, lsl #12
 	str r3, [r4, #0x44]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r5, _0216671C // =0x00003FFF
 	mla r7, r3, r0, r1
 	mov r3, r7, lsr #0x10
@@ -2202,7 +2202,7 @@ _02166580:
 	add r3, r7, r3, lsl #12
 	str r3, [r4, #0x48]
 	str r6, [r4, #0x4c]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r6, _02166720 // =0x00001FFE
 	mla r7, r3, r0, r1
 	mov r3, r7, lsr #0x10
@@ -2213,7 +2213,7 @@ _02166580:
 	str r3, [r4, #0x38]
 	str r3, [r4, #0x3c]
 	str r3, [r4, #0x40]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mov r5, #8
 	mla r7, r3, r0, r1
 	mov r3, r7, lsr #0x10
@@ -2222,7 +2222,7 @@ _02166580:
 	str r7, [r2]
 	rsb r3, r3, r6, lsr #1
 	str r3, [r4, #0x98]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -2234,7 +2234,7 @@ _02166580:
 _02166674:
 	ldr r2, _0216670C // =_obj_disp_rand
 	ldr r0, _02166710 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02166714 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -2247,7 +2247,7 @@ _02166674:
 	rsbne r0, r0, #0
 	strne r0, [r4, #0x3c]
 	ldr r0, _02166710 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02166714 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -2335,7 +2335,7 @@ SailObject__Func_21667BC: // 0x021667BC
 	ldmia r0, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
 	ldr r3, [r4, #0x15c]
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	cmp r0, #0
 	beq _021667F8
 	cmp r0, #1
@@ -2765,7 +2765,7 @@ _02166DA4:
 	tst r1, #0x80000
 	beq _02166EF4
 	ldr r7, [r0, #0x3c]
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	cmp r1, #1
 	beq _02166DEC
 	cmp r1, #2
@@ -3072,7 +3072,7 @@ _02167228:
 	bne _0216727C
 	ldr r2, _021672B8 // =_obj_disp_rand
 	ldr r0, _021672BC // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _021672C0 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -3372,7 +3372,7 @@ SailSeagull__CreateFromSegment: // 0x02167630
 _0216767C:
 	ldr r6, _02167820 // =_obj_disp_rand
 	ldr r0, _02167824 // =0x00196225
-	ldr r3, [r6]
+	ldr r3, [r6, #0]
 	ldr r2, _02167828 // =0x3C6EF35F
 	ldr r1, _0216782C // =0x0218B9AC
 	mla r5, r3, r0, r2
@@ -3411,7 +3411,7 @@ _021676EC:
 	adds r2, r7, #0x800
 	ldr r0, _02167820 // =_obj_disp_rand
 	ldr r6, _02167824 // =0x00196225
-	ldr r7, [r0]
+	ldr r7, [r0, #0]
 	ldr ip, _02167828 // =0x3C6EF35F
 	ldr r3, _0216782C // =0x0218B9AC
 	mla r6, r7, r6, ip
@@ -3558,7 +3558,7 @@ _021678F8:
 	ldr r1, _02168270 // =0x3C6EF35F
 	beq _02167950
 	ldr r2, _02168274 // =_obj_disp_rand
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -3568,7 +3568,7 @@ _021678F8:
 	b _02167994
 _02167950:
 	ldr r3, _02168274 // =_obj_disp_rand
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	mla r6, r2, r0, r1
 	mla r0, r6, r0, r1
 	mov r1, r6, lsr #0x10
@@ -3623,7 +3623,7 @@ _02167994:
 	mulne r0, r8, r0
 	movne r8, r0
 	smull r9, r1, r7, r8
-	ldr r7, [r11]
+	ldr r7, [r11, #0]
 	ldr r2, _02168270 // =0x3C6EF35F
 	ldr r3, _0216827C // =0x000001FE
 	mla r0, r7, lr, r2
@@ -3694,7 +3694,7 @@ _02167994:
 	str r0, [r4, #0x18]
 	b _02168230
 _02167B44:
-	ldr r5, [r11]
+	ldr r5, [r11, #0]
 	add r6, r3, #0x200
 	mla ip, r5, lr, r2
 	mov r5, ip, lsr #0x10
@@ -3713,7 +3713,7 @@ _02167B44:
 	mov r6, r8, lsr #0xc
 	orr r6, r6, r5, lsl #20
 	str r6, [r4, #0x38]
-	ldr r5, [r11]
+	ldr r5, [r11, #0]
 	add r6, r3, #0x200
 	mla r2, r5, lr, r2
 	mov r5, r2, lsr #0x10
@@ -3744,7 +3744,7 @@ _02167BE0:
 	beq _02167C2C
 	ldr r3, _02168274 // =_obj_disp_rand
 	ldr r0, _0216826C // =0x00196225
-	ldr r7, [r3]
+	ldr r7, [r3, #0]
 	ldr r1, _02168270 // =0x3C6EF35F
 	ldr r2, _02168284 // =0x000007FF
 	mla r1, r7, r0, r1
@@ -3761,7 +3761,7 @@ _02167C2C:
 	mov r0, #0x800
 	adds r2, r0, r1, lsl #10
 	orr r10, r10, r1, lsr #22
-	ldr r7, [r3]
+	ldr r7, [r3, #0]
 	ldr r0, _0216826C // =0x00196225
 	ldr r1, _02168270 // =0x3C6EF35F
 	adc r10, r10, #0
@@ -3802,7 +3802,7 @@ _02167C2C:
 	str lr, [r3]
 	orr r11, r11, ip, lsl #20
 	str r11, [r4, #0x3c]
-	ldr r11, [r3]
+	ldr r11, [r3, #0]
 	mla ip, r11, r0, r1
 	mov r11, ip, lsr #0x10
 	mov r11, r11, lsl #0x10
@@ -3819,7 +3819,7 @@ _02167C2C:
 	ldr r10, [r9, #0x38]
 	cmp r10, #0
 	beq _02167D94
-	ldr r10, [r3]
+	ldr r10, [r3, #0]
 	add r2, r2, #0x400
 	mla r1, r10, r0, r1
 	mov r0, r1, lsr #0x10
@@ -3913,7 +3913,7 @@ _02167E88:
 	ldr r0, [r5, #0x164]
 	ldr r3, _02168274 // =_obj_disp_rand
 	ldr r0, [r0, #0x34]
-	ldr r11, [r3]
+	ldr r11, [r3, #0]
 	ands r0, r0, #7
 	mulne r0, r8, r0
 	movne r8, r0
@@ -3938,7 +3938,7 @@ _02167E88:
 	str r9, [r3]
 	orr r10, r10, r6, lsl #20
 	str r10, [r4, #0x3c]
-	ldr r9, [r3]
+	ldr r9, [r3, #0]
 	add r10, r0, #0x200
 	mla r6, r9, r1, r2
 	mov r9, r6, lsr #0x10
@@ -3955,7 +3955,7 @@ _02167E88:
 	mov r10, r10, lsr #0xc
 	orr r10, r10, r9, lsl #20
 	str r10, [r4, #0x38]
-	ldr r9, [r3]
+	ldr r9, [r3, #0]
 	add r0, r0, #1
 	mla r1, r9, r1, r2
 	mov r2, r1, lsr #0x10
@@ -4028,7 +4028,7 @@ _02167E88:
 _02168054:
 	ldr r5, _02168274 // =_obj_disp_rand
 	mov r3, #0x800
-	ldr r10, [r5]
+	ldr r10, [r5, #0]
 	ldr r0, _0216826C // =0x00196225
 	ldr r1, _02168270 // =0x3C6EF35F
 	ldr r2, _02168290 // =0x00000FFE
@@ -4045,7 +4045,7 @@ _02168054:
 	str r8, [r5]
 	orr r11, r11, r10, lsl #20
 	str r11, [r4, #0x38]
-	ldr r10, [r5]
+	ldr r10, [r5, #0]
 	sub r11, r3, #2
 	mla r8, r10, r0, r1
 	mov r10, r8, lsr #0x10
@@ -4060,7 +4060,7 @@ _02168054:
 	str r8, [r5]
 	orr r11, r11, r10, lsl #20
 	str r11, [r4, #0x3c]
-	ldr r8, [r5]
+	ldr r8, [r5, #0]
 	sub r3, r3, #1
 	mla r0, r8, r0, r1
 	mov r1, r0, lsr #0x10
@@ -4082,7 +4082,7 @@ _02168054:
 	cmp r0, #0
 	beq _021681F4
 	mov r8, r5
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldr r3, _0216826C // =0x00196225
 	ldr r5, _02168270 // =0x3C6EF35F
 	ldr r1, _02168288 // =0x000003FE
@@ -4116,7 +4116,7 @@ _02168054:
 	mov r2, r2, lsr #0xc
 	orr r2, r2, r0, lsl #20
 	str r2, [r4, #0x40]
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	mla r2, r0, r3, r5
 	mov r0, r2, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -4151,7 +4151,7 @@ _02168224:
 _02168230:
 	ldr r3, _02168274 // =_obj_disp_rand
 	ldr r1, _0216826C // =0x00196225
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	ldr r2, _02168270 // =0x3C6EF35F
 	mov r0, r4
 	mla r1, r5, r1, r2
@@ -4206,7 +4206,7 @@ _021682E0: // jump table
 _021682F0:
 	ldr r1, _02168808 // =_obj_disp_rand
 	ldr r2, _0216880C // =0x00196225
-	ldr r8, [r1]
+	ldr r8, [r1, #0]
 	ldr r3, _02168810 // =0x3C6EF35F
 	ldr r5, _02168814 // =0x0218B9AC
 	mla r10, r8, r2, r3
@@ -4260,7 +4260,7 @@ _0216838C:
 	mla r2, r8, r5, r2
 	ldr r1, _02168808 // =_obj_disp_rand
 	mov r5, #0x800
-	ldr r10, [r1]
+	ldr r10, [r1, #0]
 	ldr r8, _0216880C // =0x00196225
 	ldr r9, _02168810 // =0x3C6EF35F
 	ldr r11, _02168814 // =0x0218B9AC
@@ -4299,7 +4299,7 @@ _0216838C:
 _0216845C:
 	ldr r1, _02168808 // =_obj_disp_rand
 	ldr r3, _0216880C // =0x00196225
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r10, _02168810 // =0x3C6EF35F
 	ldr r11, _02168814 // =0x0218B9AC
 	mla r9, r2, r3, r10
@@ -4363,7 +4363,7 @@ _02168538:
 	mla r2, r8, r5, r2
 	ldr r1, _02168808 // =_obj_disp_rand
 	mov r5, #0x800
-	ldr r10, [r1]
+	ldr r10, [r1, #0]
 	ldr r8, _0216880C // =0x00196225
 	ldr r9, _02168810 // =0x3C6EF35F
 	ldr r11, _02168814 // =0x0218B9AC
@@ -4395,7 +4395,7 @@ _02168538:
 	bl SailVoyageManager__Func_2157B14
 	ldr r2, _02168808 // =_obj_disp_rand
 	ldr r1, [r7, #0x24]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	add r8, r1, r0
 	ldr r0, _0216880C // =0x00196225
 	ldr r1, _02168810 // =0x3C6EF35F
@@ -4419,7 +4419,7 @@ _0216862C:
 	beq _021686AC
 	ldr r1, _02168808 // =_obj_disp_rand
 	mov r2, #0
-	ldr r10, [r1]
+	ldr r10, [r1, #0]
 	ldr r8, _0216880C // =0x00196225
 	ldr r9, _02168810 // =0x3C6EF35F
 	ldr r3, _02168814 // =0x0218B9AC
@@ -4450,7 +4450,7 @@ _0216862C:
 _021686AC:
 	ldr r1, _02168808 // =_obj_disp_rand
 	ldr r3, _0216880C // =0x00196225
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r11, _02168810 // =0x3C6EF35F
 	mov ip, r0, lsl #1
 	mla r10, r2, r3, r11
@@ -4514,7 +4514,7 @@ _02168788:
 	bne _021687DC
 	ldr r2, _02168808 // =_obj_disp_rand
 	ldr r0, _0216880C // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02168810 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -4577,7 +4577,7 @@ SailIce__Create: // 0x02168824
 	ble _021688B4
 	ldr r2, _02168C5C // =_obj_disp_rand
 	ldr r0, _02168C60 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02168C64 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -4627,7 +4627,7 @@ _021688B4:
 	ble _021689FC
 	ldr r8, _02168C5C // =_obj_disp_rand
 	ldr r5, _02168C6C // =0x000003FE
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	ldr r7, _02168C70 // =0x00000DFF
 	mla r0, r1, r2, r3
 	mov r1, r0, lsr #0x10
@@ -4641,7 +4641,7 @@ _021688B4:
 	str r0, [r8]
 	orr r9, r9, r1, lsl #20
 	str r9, [r4, #0x38]
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	mla r0, r1, r2, r3
 	mov r1, r0, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -4654,7 +4654,7 @@ _021688B4:
 	str r0, [r8]
 	orr r9, r9, r1, lsl #20
 	str r9, [r4, #0x3c]
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	mla r0, r1, r2, r3
 	mov r1, r0, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -4671,7 +4671,7 @@ _021688B4:
 _021689FC:
 	ldr r9, _02168C5C // =_obj_disp_rand
 	mov r0, r6, asr #0x1f
-	ldr r5, [r9]
+	ldr r5, [r9, #0]
 	mov ip, r0, lsl #0xa
 	mla r1, r5, r2, r3
 	mov r0, r1, lsr #0x10
@@ -4694,7 +4694,7 @@ _021689FC:
 	str r0, [r4, #0x38]
 	orr r8, r8, r1, lsl #20
 	str r8, [r4, #0x3c]
-	ldr r1, [r9]
+	ldr r1, [r9, #0]
 	mla r0, r1, r2, r3
 	mov r1, r0, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -4809,7 +4809,7 @@ _02168BC4:
 _02168C14:
 	ldr r3, _02168C5C // =_obj_disp_rand
 	ldr r1, _02168C60 // =0x00196225
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	ldr r2, _02168C64 // =0x3C6EF35F
 	mov r0, r4
 	mla r1, r5, r1, r2
@@ -4866,7 +4866,7 @@ _02168CD4:
 	beq _02168DA0
 	ldr r3, _02169034 // =_obj_disp_rand
 	ldr r2, _02169038 // =0x00196225
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	ldr r1, _0216903C // =0x0218B9AC
 	mla r11, r0, r2, r9
 	mla r10, r11, r2, r9
@@ -4915,7 +4915,7 @@ _02168CD4:
 _02168DA0:
 	ldr r10, _02169034 // =_obj_disp_rand
 	ldr r6, _02169038 // =0x00196225
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	ldr r0, _0216903C // =0x0218B9AC
 	mla r2, r1, r6, r9
 	mov r3, r2, lsr #0x10
@@ -4950,7 +4950,7 @@ _02168E18:
 	beq _02168EFC
 	ldr r1, _02169034 // =_obj_disp_rand
 	ldr r3, _02169038 // =0x00196225
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r11, _0216903C // =0x0218B9AC
 	mla r9, r0, r3, r10
 	mla r2, r9, r3, r10
@@ -5014,7 +5014,7 @@ _02168EFC:
 	adds r2, r9, #0x800
 	mov r6, r6, asr #0x1f
 	mla r0, r6, r3, r0
-	ldr r11, [r1]
+	ldr r11, [r1, #0]
 	ldr r9, _02169038 // =0x00196225
 	adc r0, r0, #0
 	mov r2, r2, lsr #0xc
@@ -5062,7 +5062,7 @@ _02168FB8:
 	bne _02169010
 	ldr r2, _02169034 // =_obj_disp_rand
 	ldr r0, _02169038 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02169030 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -5106,7 +5106,7 @@ SailSubFish__Create: // 0x0216904C
 	bl StageTask__AllocateWorker
 	ldr r3, _0216916C // =_obj_disp_rand
 	ldr r1, _02169170 // =0x00196225
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	ldr r2, _02169174 // =0x3C6EF35F
 	mov r0, #0x22
 	mla r7, r5, r1, r2
@@ -5142,7 +5142,7 @@ SailSubFish__Create: // 0x0216904C
 	orr r0, r0, #2
 	str r0, [r4, #0x18]
 	ldr r0, [r4, #0x38]
-	ldr r6, [r5]
+	ldr r6, [r5, #0]
 	ldr r1, _02169170 // =0x00196225
 	ldr r2, _02169174 // =0x3C6EF35F
 	ldr r3, _0216917C // =0x000001FE
@@ -5189,7 +5189,7 @@ SailSubFish2__Create: // 0x02169180
 	ldr r3, _021692B0 // =_obj_disp_rand
 	ldr r1, _021692B4 // =0x00196225
 _021691B0:
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	ldr r2, _021692B8 // =0x3C6EF35F
 	mov r0, #0x22
 	mla r7, r5, r1, r2
@@ -5278,7 +5278,7 @@ SailSubFish__CreateUnknown1: // 0x021692C4
 	bl SailManager__GetShipType
 	ldr r3, _02169400 // =_obj_disp_rand
 	ldr r1, _02169404 // =0x00196225
-	ldr r6, [r3]
+	ldr r6, [r3, #0]
 	ldr r2, _02169408 // =0x3C6EF35F
 	mov r0, r0, lsl #0x10
 	mla r7, r6, r1, r2
@@ -5325,7 +5325,7 @@ SailSubFish__CreateUnknown1: // 0x021692C4
 	bne _021693E0
 	ldr r2, _02169400 // =_obj_disp_rand
 	ldr r0, _02169404 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02169408 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -5360,7 +5360,7 @@ SailSubFish__CreateUnknown2: // 0x02169414
 	bl SailManager__GetWork
 	ldr r2, _0216947C // =_obj_disp_rand
 	ldr r0, _02169480 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02169484 // =0x3C6EF35F
 	mov r4, #0
 	mla r1, r3, r0, r1
@@ -5912,7 +5912,7 @@ SailObject__OnDefend_2169BAC: // 0x02169BAC
 	bl SailManager__GetShipType
 	cmp r0, #3
 	ldreq r1, [r5, #0x6c]
-	ldreqh r0, [r1]
+	ldreqh r0, [r1, #0]
 	cmpeq r0, #2
 	bne _02169C1C
 	ldr r0, [r1, #0x24]
@@ -5945,7 +5945,7 @@ _02169C4C:
 	ldrh r0, [r5, #0x74]
 	tst r0, #0x1000
 	ldreq r0, [r5, #0x6c]
-	ldreqh r0, [r0]
+	ldreqh r0, [r0, #0]
 	cmpeq r0, #1
 	bne _02169D54
 	ldr r0, [r8, #0x18]
@@ -6015,7 +6015,7 @@ _02169D54:
 	add r3, sp, #0x18
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #2
 	bne _02169DA4
 	add r0, r5, #0x54
@@ -6093,7 +6093,7 @@ _02169E4C:
 	str r1, [r6, #0x3c]
 	str r1, [r6, #0x40]
 _02169E84:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #2
 	ldreq r0, [r6, #0x24]
 	biceq r0, r0, #1
@@ -6265,7 +6265,7 @@ _0216A0D0:
 	bl SailManager__GetShipType
 	cmp r0, #2
 	ldreq r0, [r5, #0x6c]
-	ldreqh r0, [r0]
+	ldreqh r0, [r0, #0]
 	cmpeq r0, #2
 	bne _0216A108
 	ldr r0, [r4, #0x6c]
@@ -6308,14 +6308,14 @@ SailObject__Func_216A168: // 0x0216A168
 	ldr r0, [r0, #0x3c]
 	mov r3, #0
 	ldr r1, [r0, #0x6c]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	cmp r0, #0
 	ldreq r3, [r1, #0x124]
 	beq _0216A19C
 	ldr r1, [r1, #0x11c]
 	cmp r1, #0
 	beq _0216A19C
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	cmp r0, #0
 	ldreq r3, [r1, #0x124]
 _0216A19C:
@@ -6340,7 +6340,7 @@ SailObject__Func_216A1C4: // 0x0216A1C4
 	mov r4, r1
 	ldr r1, [r6, #0x6c]
 	ldr r5, [r4, #0x3c]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ldr r2, [r5, #0x6c]
 	mov r8, #0
 	cmp r0, #0
@@ -6350,7 +6350,7 @@ SailObject__Func_216A1C4: // 0x0216A1C4
 	ldr r1, [r1, #0x11c]
 	cmp r1, #0
 	beq _0216A210
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	cmp r0, #0
 	ldreq r8, [r1, #0x124]
 _0216A210:
@@ -7157,7 +7157,7 @@ _0216AD68:
 	stmia r8!, {r0, r1}
 	stmia r8, {r0, r1}
 	mov r8, #0x25
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r6, _0216AF54 // =0x00196225
 	ldr r7, _0216AF58 // =0x3C6EF35F
 	ldr lr, _0216AF5C // =0x0001FFFF
@@ -7440,7 +7440,7 @@ SailObject__Func_216B1A4: // 0x0216B1A4
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r6, _0216B270 // =_obj_disp_rand
 	ldr r2, [r0, #0x124]
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr r4, _0216B274 // =0x00196225
 	ldr r5, _0216B278 // =0x3C6EF35F
 	ldr lr, [r2, #0x15c]
@@ -7453,7 +7453,7 @@ SailObject__Func_216B1A4: // 0x0216B1A4
 	and r3, ip, r3, lsr #16
 	rsb r3, r3, #0x200
 	str r3, [r2, #0x138]
-	ldr r3, [r6]
+	ldr r3, [r6, #0]
 	mov lr, #0x200
 	mla r7, r3, r4, r5
 	mov r3, r7, lsr #0x10
@@ -7464,7 +7464,7 @@ SailObject__Func_216B1A4: // 0x0216B1A4
 	str r7, [r6]
 	sub r3, lr, r3
 	str r3, [r2, #0x13c]
-	ldr r3, [r6]
+	ldr r3, [r6, #0]
 	mov ip, lr, lsr #0x14
 	mla r4, r3, r4, r5
 	mov r3, r4, lsr #0x10
@@ -8337,7 +8337,7 @@ SailSeagull2__SetupObject: // 0x0216BDAC
 _0216BE7C:
 	ldr r5, _0216BEFC // =_mt_math_rand
 	ldr r2, _0216BEEC // =0x00196225
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r3, _0216BEF0 // =0x3C6EF35F
 	ldr r1, _0216BF00 // =0x000001FE
 	mla ip, r0, r2, r3
@@ -8350,7 +8350,7 @@ _0216BE7C:
 	mov r0, #0x10
 	ldr r1, _0216BEE8 // =_obj_disp_rand
 	str r0, [r4, #0x180]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mla r2, r0, r2, r3
 	mov r0, r2, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -8393,7 +8393,7 @@ SailSeagull3__State_216BF2C: // 0x0216BF2C
 	ldr r2, _0216C024 // =SailSeagull3__State_216C03C
 	ldr r5, _0216C028 // =_obj_disp_rand
 	str r2, [r0, #0xf4]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldr lr, _0216C02C // =0x00196225
 	ldr r4, _0216C030 // =0x3C6EF35F
 	ldr ip, _0216C034 // =0x00003FFE
@@ -8405,7 +8405,7 @@ SailSeagull3__State_216BF2C: // 0x0216BF2C
 	str r3, [r5]
 	mov r2, r2, lsl #2
 	str r2, [r0, #0x68]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	add r3, ip, #1
 	mla r6, r2, lr, r4
 	mov r2, r6, lsr #0x10
@@ -8416,7 +8416,7 @@ SailSeagull3__State_216BF2C: // 0x0216BF2C
 	add r2, r2, #0x6000
 	sub r2, r3, r2
 	str r2, [r0, #0x6c]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldr r3, _0216C038 // =0x0000027F
 	mla r6, r2, lr, r4
 	mov r2, r6, lsr #0x10
@@ -8426,7 +8426,7 @@ SailSeagull3__State_216BF2C: // 0x0216BF2C
 	str r6, [r5]
 	mov r2, r2, lsl #2
 	str r2, [r0, #0x70]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	mla ip, r2, lr, r4
 	mov r2, ip, lsr #0x10
 	mov r2, r2, lsl #0x10
@@ -8435,7 +8435,7 @@ SailSeagull3__State_216BF2C: // 0x0216BF2C
 	str ip, [r5]
 	sub r2, r3, r2
 	str r2, [r1, #0x134]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mla r2, r1, lr, r4
 	mov r1, r2, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -8444,7 +8444,7 @@ SailSeagull3__State_216BF2C: // 0x0216BF2C
 	str r2, [r5]
 	rsb r1, r1, #0xcf
 	str r1, [r0, #0x2c]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mla r2, r1, lr, r4
 	str r2, [r5]
 	mov r1, r2, lsr #0x10
@@ -8662,7 +8662,7 @@ SailSubFish2__SetupObject: // 0x0216C30C
 	ldr r1, _0216C43C // =SailSubFish2__State_216C458
 	ldr r5, _0216C440 // =_obj_disp_rand
 	str r1, [r0, #0xf4]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	ldr lr, _0216C444 // =0x00196225
 	ldr r4, _0216C448 // =0x3C6EF35F
 	ldr r3, _0216C44C // =0x00007FFF
@@ -8673,7 +8673,7 @@ SailSubFish2__SetupObject: // 0x0216C30C
 	str r2, [r5]
 	and r1, r1, #0x7f
 	str r1, [r0, #0x2c]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	ldr r2, _0216C450 // =0x00001FFE
 	mla r6, r1, lr, r4
 	mov r1, r6, lsr #0x10
@@ -8683,7 +8683,7 @@ SailSubFish2__SetupObject: // 0x0216C30C
 	str r6, [r5]
 	add r1, r1, #6
 	str r1, [r0, #0x28]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	sub ip, r3, #0x4000
 	mla r6, r1, lr, r4
 	mov r1, r6, lsr #0x10
@@ -8693,7 +8693,7 @@ SailSubFish2__SetupObject: // 0x0216C30C
 	str r6, [r5]
 	mov r1, r1, lsl #4
 	str r1, [r0, #0x68]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mla r2, r1, lr, r4
 	mov r1, r2, lsr #0x10
 	str r2, [r5]
@@ -8703,7 +8703,7 @@ SailSubFish2__SetupObject: // 0x0216C30C
 	ldr r3, _0216C454 // =0x000007FE
 	sub r1, r2, r1
 	str r1, [r0, #0x6c]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mla r2, r1, lr, r4
 	mov r1, r2, lsr #0x10
 	str r2, [r5]
@@ -8712,7 +8712,7 @@ SailSubFish2__SetupObject: // 0x0216C30C
 	and r1, ip, r1, lsr #16
 	sub r1, r2, r1
 	str r1, [r0, #0x70]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mla r2, r1, lr, r4
 	mov r1, r2, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -8724,7 +8724,7 @@ SailSubFish2__SetupObject: // 0x0216C30C
 	strh r1, [r0, #0x32]
 	ldr r4, _0216C440 // =_obj_disp_rand
 	ldr r1, _0216C444 // =0x00196225
-	ldr r5, [r4]
+	ldr r5, [r4, #0]
 	ldr r2, _0216C448 // =0x3C6EF35F
 	mla r2, r5, r1, r2
 	mov r1, r2, lsr #0x10
@@ -9117,7 +9117,7 @@ _0216C95C: .word _0218BC64
 SailItemBonus__GiveItem: // 0x0216C960
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	mov r7, r0
 	mov r5, #0
 	cmp r1, #0
@@ -9125,7 +9125,7 @@ SailItemBonus__GiveItem: // 0x0216C960
 	ldr r6, [r6, #0x11c]
 	cmp r6, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 _0216C994:

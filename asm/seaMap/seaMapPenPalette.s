@@ -110,14 +110,14 @@ SeaMapPenPalette__Main: // 0x020433F0
 	mov r4, r0
 	bl DC_StoreRange
 	add r0, r4, #8
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r1, _02043534 // =VRAMSystem__VRAM_PALETTE_BG
 	add r0, r0, #0x400
 	ldr r1, [r1, r2, lsl #2]
 	mov r2, #0x200
 	bl RenderCore_DMACopy
 	add r0, r4, #0x208
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r1, _02043538 // =VRAMSystem__VRAM_PALETTE_OBJ
 	add r0, r0, #0x400
 	ldr r1, [r1, r2, lsl #2]

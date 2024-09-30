@@ -2258,7 +2258,7 @@ _02181FBC:
 	str r0, [r5, #0xa0]
 	ldmia sp!, {r3, r4, r5, pc}
 _02182000:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	mov r1, #0x1000
 	mov r2, #1
 	cmp r0, #1
@@ -2330,8 +2330,8 @@ SailSubTargetHUD__Check_21820C8: // 0x021820C8
 	add r0, sp, #0
 	mov r1, r0
 	bl VEC_DotProduct
-	ldr r2, [r4]
-	ldr r1, [r5]
+	ldr r2, [r4, #0]
+	ldr r1, [r5, #0]
 	mov r4, #0
 	add r3, r2, r1
 	smull r2, r1, r3, r3

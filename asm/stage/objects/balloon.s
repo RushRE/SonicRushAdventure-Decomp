@@ -121,7 +121,7 @@ Balloon__Create: // 0x02182BD8
 	mov r3, r0
 	ldr r0, _02182F38 // =gameArchiveStage
 	mov r1, #0x10
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r5
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -146,7 +146,7 @@ Balloon__Create: // 0x02182BD8
 	bl GetObjectFileWork
 	ldr r1, _02182F38 // =gameArchiveStage
 	mov r3, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _02182F3C // =aActAcGmkBalloo
 	str r2, [sp]
 	mov r0, r4
@@ -158,7 +158,7 @@ Balloon__Create: // 0x02182BD8
 	str r0, [r4, #0x3c]
 	ldr r0, [r5, #0x20c]
 	mov r2, #0x61
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl ObjDrawAllocSpritePalette
 	strh r0, [r4, #0x50]
 	ldrh r0, [r4, #0x50]
@@ -182,7 +182,7 @@ Balloon__Create: // 0x02182BD8
 	bl GetObjectFileWork
 	ldr r1, _02182F38 // =gameArchiveStage
 	mov r3, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _02182F3C // =aActAcGmkBalloo
 	str r2, [sp]
 	mov r0, r4
@@ -190,7 +190,7 @@ Balloon__Create: // 0x02182BD8
 	bl ObjAction2dBACLoad
 	ldr r0, [r5, #0x20c]
 	mov r1, #1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, #0x61
 	bl ObjDrawAllocSpritePalette
 	strh r0, [r4, #0x50]
@@ -543,7 +543,7 @@ _021831B0:
 	bl AkMath__Func_2002C98
 	ldr r2, _02183364 // =_mt_math_rand
 	ldr r0, _02183368 // =0x00196225
-	ldr r4, [r2]
+	ldr r4, [r2, #0]
 	ldr r1, _0218336C // =0x3C6EF35F
 	mov r3, #0
 	mla r6, r4, r0, r1
@@ -557,7 +557,7 @@ _021831B0:
 	str r1, [r2]
 	mov r1, r4, asr #7
 	stmia sp, {r1, r3}
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r2, [r5, #0xbc]
 	mov r1, r1, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -700,7 +700,7 @@ Balloon__OnDefend: // 0x021834D4
 	cmpne r5, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	addne sp, sp, #8
 	ldmneia sp!, {r3, r4, r5, pc}

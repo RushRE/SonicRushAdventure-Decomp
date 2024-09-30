@@ -67,7 +67,7 @@ _02173C08:
 	mvn r1, #0
 	bl FSRequestFileSync
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r4, #4]
@@ -85,7 +85,7 @@ _02173C08:
 	bl FileUnknown__GetAOUFile
 	mov r6, r0
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02173CDC
@@ -98,7 +98,7 @@ _02173CB8: // jump table
 	b _02173CD0 // case 5
 _02173CD0:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02173CE0
 _02173CDC:
 	mov r0, #1
@@ -110,8 +110,8 @@ _02173CE0:
 	bl FileUnknown__GetAOUFile
 	ldr r2, _02174358 // =VRAMSystem__VRAM_BG
 	ldr r1, _0217435C // =VRAMSystem__VRAM_PALETTE_BG
-	ldr r7, [r2]
-	ldr r8, [r1]
+	ldr r7, [r2, #0]
+	ldr r8, [r1, #0]
 	mov r3, #0
 	str r3, [sp]
 	stmib sp, {r3, r8}
@@ -215,7 +215,7 @@ _02173E18:
 	bl FSRequestFileSync
 	str r0, [r4]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02173ED0
@@ -228,7 +228,7 @@ _02173EAC: // jump table
 	b _02173EC4 // case 5
 _02173EC4:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02173ED4
 _02173ED0:
 	mov r0, #1
@@ -241,7 +241,7 @@ _02173ED4:
 	str r0, [r4, #8]
 	add r0, r4, #0xc
 	bl FontWindow__Init
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r0, r4, #0xc
 	mov r2, #1
 	bl FontWindow__LoadFromMemory
@@ -509,12 +509,12 @@ _021741A0:
 	str r4, [sp, #8]
 	bl CreateConnectionStatusIcon
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r2, r1, #0x1000
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x300
 	str r0, [r1]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	mov r0, #4
 	bic r1, r1, #0x1f00
 	orr r1, r1, #0x1300
@@ -547,11 +547,11 @@ NetworkErrorMenu__Destructor: // 0x02174374
 	strh r2, [r1]
 	add r1, r1, #0x400
 	strh r2, [r1]
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	add r2, r3, #0x1000
 	bic r1, r1, #0x1f00
 	str r1, [r3]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	mov r4, r0
 	bic r0, r1, #0x1f00
 	str r0, [r2]
@@ -579,7 +579,7 @@ _021743F8:
 	bl FontWindowAnimator__Release
 	add r0, r4, #0xc
 	bl FontWindow__Release
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	beq _0217441C
 	bl _FreeHEAP_USER

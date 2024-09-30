@@ -37,7 +37,7 @@ ovl09_2168070: // 0x02168070
 	add r0, r4, #0x12c
 	ldr r1, _02168108 // =0x02176590
 	str r0, [r4, #0x18]
-	ldrsh r2, [r1]
+	ldrsh r2, [r1, #0]
 	mov r0, #1
 	add r2, r2, #1
 	strh r2, [r1]
@@ -95,7 +95,7 @@ ovl09_2168190: // 0x02168190
 	bl AnimatorSprite3D__Release
 _021681A8:
 	ldr r0, _021681BC // =0x02176590
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r3, pc}
@@ -200,7 +200,7 @@ ovl09_21682F4: // 0x021682F4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, _0216832C // =0x02176590
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	beq _0216831C
 	mov r1, #0

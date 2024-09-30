@@ -195,7 +195,7 @@ ovl09_2169A2C: // 0x02169A2C
 	ldrh r0, [r5, #6]
 	cmp r0, #0
 	beq _02169ACC
-	ldrsh r1, [r4]
+	ldrsh r1, [r4, #0]
 	sub r0, r1, #1
 	strh r0, [r4]
 	cmp r1, #0

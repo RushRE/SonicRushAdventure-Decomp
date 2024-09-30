@@ -44,7 +44,7 @@ SpringRope__Create: // 0x02185B4C
 	mov r3, r0
 	ldr r0, _02185D18 // =gameArchiveStage
 	ldr r1, _02185D1C // =0x0000FFFF
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -66,7 +66,7 @@ SpringRope__Create: // 0x02185B4C
 	str r0, [sp]
 	ldr r1, _02185D18 // =gameArchiveStage
 	mov r0, r4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r4, #0x364
 	str r2, [sp, #4]
 	ldr r2, _02185D24 // =aModGmkRopeCNsb
@@ -232,7 +232,7 @@ _02185E94:
 	bl MTX_Identity33_
 	ldr r2, _02185F14 // =0x02116550
 	add r0, sp, #4
-	ldrsh r1, [r2]
+	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
 	bl MTX_RotX33_
 	add r0, r4, #0x24
@@ -241,7 +241,7 @@ _02185E94:
 	bl MTX_Concat33
 	ldr r2, _02185F18 // =0x02113950
 	add r0, sp, #4
-	ldrsh r1, [r2]
+	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
 	bl MTX_RotY33_
 	add r0, r4, #0x24
@@ -269,7 +269,7 @@ SpringRope__OnDefend: // 0x02185F1C
 	cmp r4, #0
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldreq r0, [r4, #0x35c]
 	cmpeq r0, #0

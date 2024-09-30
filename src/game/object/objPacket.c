@@ -196,7 +196,7 @@ NONMATCH_FUNC void ObjPacket__Func_2074BB4(void)
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
 	ldr r8, =0x02136410
 	mov r6, #0
-	ldrh r0, [r8]
+	ldrh r0, [r8, #0]
 	add r0, r0, #1
 	cmp r0, #0
 	ldmleia sp!, {r4, r5, r6, r7, r8, pc}
@@ -207,14 +207,14 @@ _02074BF8:
 	ldr r1, [r7, #8]
 	mov r0, r6
 	blx r1
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #0x55
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
 	ldrb r1, [r0, #1]
 	cmp r1, #0xff
 	strneb r1, [r5, r6]
 	strb r4, [r0, #1]
-	ldrh r1, [r8]
+	ldrh r1, [r8, #0]
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
 	add r1, r1, #1
@@ -247,7 +247,7 @@ NONMATCH_FUNC BOOL ObjPacket__FillSendDataBuffer(void)
 	blx r0
 	bl ObjPacket__Func_2074BB4
 	ldr r0, =objPacketManager
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #0xff
 	bne _02074CA0
 	ldr r0, [r0, #0x10]
@@ -257,9 +257,9 @@ NONMATCH_FUNC BOOL ObjPacket__FillSendDataBuffer(void)
 _02074CA0:
 	ldr r1, =objPacketManager
 	ldr r0, =padInput
-	ldrb r3, [r1]
+	ldrb r3, [r1, #0]
 	ldr r2, =objPacketAIDList
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ldrb r2, [r2, r3]
 	mov r3, #0x55
 	strb r3, [sp]
@@ -353,7 +353,7 @@ NONMATCH_FUNC ObjRecievePacket *ObjPacket__GetRecievedPacket(s32 type, s32 id){
 	ldrb r0, [r4, r6]
 	ldr r1, [r2, #8]
 	blx r1
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #0x55
 	movne r0, #0
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
@@ -408,7 +408,7 @@ _02074E9C:
 	str r0, [r1, #4]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _02074ECC:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	mov r0, r0, lsl #0x18
 	cmp r7, r0, lsr #24
 	mov r0, r0, lsr #0x18

@@ -3123,11 +3123,11 @@ NONMATCH_FUNC StageDecoration *DecorationSys__CreateCommonDecor(MapDecor *mapDec
 	bne _02152C10
 	ldr r1, =gameArchiveStage
 	ldr r2, =0x0000FFFF
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr ip, =decorFileList
 	stmia sp, {r1, r2}
 	ldrh r3, [r6, #4]
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	add r1, r4, #0x22c
 	add r3, ip, r3, lsl #3
 	bl ObjObjectAction2dBACLoad
@@ -3144,11 +3144,11 @@ _02152C10:
 	bne _02152CDC
 	ldr r0, =gameArchiveStage
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr ip, =decorFileList
 	stmia sp, {r0, r1}
 	ldrh r3, [r6, #4]
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	mov r0, r4
 	add r1, r4, #0x22c
 	add r3, ip, r3, lsl #3
@@ -3159,7 +3159,7 @@ _02152C10:
 	bl ObjActionAllocSpritePalette
 	ldr r0, [r4, #0x2d0]
 	ldrb r1, [r5, #2]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
 	ldrb r2, [r5, #6]
@@ -3290,21 +3290,21 @@ NONMATCH_FUNC StageDecoration *DecorationSys__CreateUnknown2152D9C(MapDecor *map
 	add r1, r4, #0x2dc
 	add r9, ip, r9, lsl #3
 	str r9, [sp, #4]
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	str r2, [sp, #8]
-	ldr r2, [r7]
+	ldr r2, [r7, #0]
 	bl ObjObjectAction3dBACLoad
 	ldrb r1, [r5, #2]
 	mov r0, r4
 	bl StageTask__SetAnimation
 	ldr r0, =gameArchiveStage
 	ldr r1, =0x0000FFFF
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	ldrh r3, [r8, #4]
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	add r1, r4, #0x22c
 	ldr r7, =decorFileList
 	add r3, r7, r3, lsl #3
@@ -3325,19 +3325,19 @@ _02152EB8:
 	ldr r0, =gameArchiveStage
 	add r1, r2, r1, lsl #3
 	str r1, [sp, #4]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, r4
 	str r1, [sp, #8]
-	ldr r2, [r7]
+	ldr r2, [r7, #0]
 	add r1, r4, #0x2dc
 	bl ObjObjectAction3dBACLoad
 	ldr r0, [r4, #0x3e4]
 	ldrb r1, [r5, #2]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Sprite__GetTextureSizeFromAnim
 	ldr r1, [r4, #0x3e4]
 	mov r9, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldrb r1, [r5, #2]
 	bl Sprite__GetPaletteSizeFromAnim
 	mov r1, r9
@@ -3373,13 +3373,13 @@ _02152F80:
 	ldr r0, =gameArchiveStage
 	orr r1, r1, #0x18
 	str r1, [r9, #0xcc]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0
 	str r1, [sp]
 	str r0, [sp, #4]
 	ldrh r3, [r8, #4]
 	ldr r8, =decorFileList
-	ldr r2, [r7]
+	ldr r2, [r7, #0]
 	mov r0, r4
 	add r1, r4, #0x22c
 	add r3, r8, r3, lsl #3
@@ -3390,7 +3390,7 @@ _02152F80:
 	bl ObjActionAllocSpritePalette
 	ldr r0, [r4, #0x2d0]
 	ldrb r1, [r6, #2]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Sprite__GetSpriteSize2FromAnim
 	mov r1, r0
 	ldrb r2, [r6, #6]
@@ -3770,7 +3770,7 @@ NONMATCH_FUNC void DecorationSys__SpriteCallback_Default(BACFrameGroupBlock_Hitb
 #else
     // clang-format off
 	stmdb sp!, {r3, lr}
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #7
 	ldmneia sp!, {r3, pc}
 	ldrh r1, [r0, #4]
@@ -3947,7 +3947,7 @@ NONMATCH_FUNC void DecorationSys__OnDefend_21539B0(OBS_RECT_WORK *rect1, OBS_REC
 	cmpne r2, #0
 	addeq sp, sp, #0x24
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r3, [r2]
+	ldrh r3, [r2, #0]
 	cmp r3, #1
 	addne sp, sp, #0x24
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -3992,8 +3992,8 @@ _02153A30:
 	str r0, [sp, #4]
 	mov r5, #0
 _02153A74:
-	ldr r1, [r10]
-	ldr r2, [r9]
+	ldr r1, [r10, #0]
+	ldr r2, [r9, #0]
 	mla r0, r1, r7, r8
 	mla r3, r0, r7, r8
 	mla r1, r3, r7, r8
@@ -4014,8 +4014,8 @@ _02153A74:
 	str r11, [r9]
 	str r2, [r10]
 	str r0, [sp]
-	ldr r2, [r10]
-	ldr r0, [r9]
+	ldr r2, [r10, #0]
+	ldr r0, [r9, #0]
 	mov r11, r2, lsr #0x10
 	mov r2, r0, lsr #0x10
 	mov r0, r11, lsl #0x10
@@ -4054,7 +4054,7 @@ _02153B34:
 	mov r7, #0
 	str r0, [sp, #8]
 _02153B64:
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	mla r3, r0, r8, r9
 	mla r1, r3, r8, r9
 	mov r0, r3, lsr #0x10
@@ -4084,7 +4084,7 @@ _02153B64:
 	str r0, [sp]
 	and r0, ip, #7
 	sub r1, r0, #3
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	ldr ip, [r4, #0x48]
 	mov r0, r0, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -4118,8 +4118,8 @@ _02153C1C:
 	mov r5, r0, asr #1
 	rsb r11, r11, #0
 _02153C5C:
-	ldr r1, [r10]
-	ldr r2, [r9]
+	ldr r1, [r10, #0]
+	ldr r2, [r9, #0]
 	mla r0, r1, r7, r8
 	mla r3, r0, r7, r8
 	mla r1, r3, r7, r8
@@ -4141,8 +4141,8 @@ _02153C5C:
 	str ip, [r9]
 	str r2, [r10]
 	str r0, [sp]
-	ldr r2, [r10]
-	ldr r0, [r9]
+	ldr r2, [r10, #0]
+	ldr r0, [r9, #0]
 	mov ip, r2, lsr #0x10
 	mov r2, r0, lsr #0x10
 	mov r0, ip, lsl #0x10
@@ -4179,7 +4179,7 @@ _02153D1C:
 	str r0, [sp, #0x10]
 	rsb r9, r9, #0
 _02153D48:
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	mla r3, r0, r7, r8
 	mla r1, r3, r7, r8
 	mov r0, r3, lsr #0x10
@@ -4209,7 +4209,7 @@ _02153D48:
 	str r0, [sp]
 	and r0, ip, #7
 	sub r1, r0, #3
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	ldr ip, [r4, #0x48]
 	mov r0, r0, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -4239,8 +4239,8 @@ _02153E04:
 	ldr r9, =_obj_disp_rand
 	str r0, [sp, #0x18]
 _02153E30:
-	ldr r1, [r10]
-	ldr r2, [r9]
+	ldr r1, [r10, #0]
+	ldr r2, [r9, #0]
 	mla r0, r1, r7, r8
 	mla r3, r0, r7, r8
 	mla r1, r3, r7, r8
@@ -4261,8 +4261,8 @@ _02153E30:
 	str r11, [r9]
 	str r2, [r10]
 	str r0, [sp]
-	ldr r2, [r10]
-	ldr r0, [r9]
+	ldr r2, [r10, #0]
+	ldr r0, [r9, #0]
 	mov r11, r2, lsr #0x10
 	mov r2, r0, lsr #0x10
 	mov r0, r11, lsl #0x10
@@ -4301,7 +4301,7 @@ _02153EF4:
 	str r0, [sp, #0x1c]
 	rsb r9, r9, #0
 _02153F20:
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	mla r3, r0, r7, r8
 	mla r1, r3, r7, r8
 	mov r0, r3, lsr #0x10
@@ -4331,7 +4331,7 @@ _02153F20:
 	str r0, [sp]
 	and r0, ip, #7
 	sub r1, r0, #3
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	ldr ip, [r4, #0x48]
 	mov r0, r0, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -4490,7 +4490,7 @@ NONMATCH_FUNC void DecorationSys__State_21541C0(StageDecoration *work)
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, =gPlayer
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r2, [r4, #0x2c]
 	ldr r3, [r0, #0x44]
 	ldr r1, [r0, #0x48]
@@ -4827,7 +4827,7 @@ NONMATCH_FUNC void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_REC
 	cmpne r0, #0
 	addeq sp, sp, #0x24
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #1
 	addne sp, sp, #0x24
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -4859,7 +4859,7 @@ _02154934:
 	ldr r1, [sp, #0x14]
 	mov r2, #0x20
 	str r2, [r1, #0x2c]
-	ldr r1, [r11]
+	ldr r1, [r11, #0]
 	ldr r5, =0x00196225
 	ldr r6, =0x3C6EF35F
 	mla r3, r1, r5, r6
@@ -4909,7 +4909,7 @@ _02154934:
 	str r0, [sp, #0x18]
 _02154A34:
 	ldr r0, [sp, #4]
-	ldr r2, [r11]
+	ldr r2, [r11, #0]
 	ldrb r1, [r0], #1
 	str r0, [sp, #4]
 	mla r0, r2, r5, r6
@@ -4935,7 +4935,7 @@ _02154A34:
 	and r0, r1, r0, lsr #16
 	rsb r0, r0, r4, lsr #2
 	add r1, r8, r0
-	ldr r0, [r11]
+	ldr r0, [r11, #0]
 	mov r0, r0, lsr #0x10
 	mov r0, r0, lsl #0x10
 	and r0, r4, r0, lsr #16

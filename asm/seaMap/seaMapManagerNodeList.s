@@ -39,7 +39,7 @@ SeaMapManagerNodeList__GetNodeDistance: // 0x02045EB8
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
 	bge _02045F34
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	moveq r0, #0
 	streq r0, [r4, #0xc]
@@ -76,7 +76,7 @@ SeaMapManagerNodeList__CopyNodesEx: // 0x02045F3C
 	mov r8, r0
 	movs r6, r2
 	mov r7, r1
-	ldr r4, [r8]
+	ldr r4, [r8, #0]
 	mov r5, #0
 	beq _02045F90
 _02045F58:

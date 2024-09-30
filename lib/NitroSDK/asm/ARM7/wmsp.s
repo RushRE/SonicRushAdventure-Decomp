@@ -108,7 +108,7 @@ _038081E8:
 	mov r0, r5
 	bl _Ven_SVC_WaitByLoop
 _038081F0:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ands r1, r0, #1
 	bne _038081E8
 	orr r0, r0, #1

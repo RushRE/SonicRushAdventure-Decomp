@@ -8,7 +8,7 @@ VBlankIntr: // 0x037F8000
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _037F8028 // =PMi_Initialized
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _037F801C
 	bl PM_SelfBlinkProc
@@ -146,7 +146,7 @@ _037F81C0: .word SVC_GetCRC16
 GetRomValidLanguage: // 0x037F81C4
 	mov r0, #0
 	ldr r1, _037F81E4 // =0x027FFE1D
-	ldrb r1, [r1]
+	ldrb r1, [r1, #0]
 	cmp r1, #0x80
 	orreq r0, r0, #0x40
 	moveq r0, r0, lsl #0x10

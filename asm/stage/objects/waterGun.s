@@ -55,7 +55,7 @@ WaterGun__Create: // 0x02183A44
 	mov r3, r0
 	ldr r0, _02183C48 // =gameArchiveStage
 	mov r1, #0x31
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -118,7 +118,7 @@ WaterGun__Create: // 0x02183A44
 	ldr r3, _02183C48 // =gameArchiveStage
 	mov r2, r0
 	ldr r1, _02183C60 // =aDfGmkWaterGrai
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	mov r0, r4
 	bl ObjObjectCollisionDifSet
 	str r4, [r4, #0x2d8]
@@ -302,7 +302,7 @@ WaterGun__Destructor: // 0x02183DFC
 	and r1, r2, r1
 	str r1, [r0, #4]
 	ldr r1, [r4, #0x340]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldrsb r1, [r1, #6]
 	mvn r1, r3, lsl r1
 	and r1, r2, r1
@@ -413,7 +413,7 @@ _02184010:
 	ldmeqia sp!, {r4, pc}
 	ldr r3, _021840A8 // =_mt_math_rand
 	ldr r1, _021840AC // =0x00196225
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	ldr r2, _021840B0 // =0x3C6EF35F
 	mla ip, r0, r1, r2
 	mov r0, ip, lsr #0x10
@@ -424,7 +424,7 @@ _02184010:
 	str ip, [r3]
 	mov r0, r0, lsl #0xc
 	str r0, [r4, #0x50]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mla r1, r0, r1, r2
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -485,7 +485,7 @@ _02184124:
 	ldr r1, [r4, #0x340]
 	ldr r0, _02184234 // =_0218A3CC
 	ldrsb r1, [r1, #6]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	mov r2, #1
 	orr r1, r3, r2, lsl r1
 	str r1, [r0]
@@ -513,7 +513,7 @@ _02184124:
 	bl GetObjectFileWork
 	ldr r1, _02184238 // =gameArchiveStage
 	mov r2, r0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r1, _0218423C // =aDfGmkWaterGrai
 	mov r0, r4
 	bl ObjObjectCollisionDifSet
@@ -530,7 +530,7 @@ _021841B4:
 	bl GetObjectFileWork
 	ldr r1, _02184238 // =gameArchiveStage
 	mov r2, r0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r1, _02184240 // =aDfGmkWaterGrai_0
 	mov r0, r4
 	bl ObjObjectCollisionDifSet
@@ -582,7 +582,7 @@ _0218427C:
 	ldr r1, [r4, #0x340]
 	ldr r0, _021842A4 // =_0218A3CC
 	ldrsb r1, [r1, #6]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	mov r2, #1
 	eor r1, r3, r2, lsl r1
 	str r1, [r0]
@@ -614,7 +614,7 @@ WaterGun__State_21842A8: // 0x021842A8
 	and r1, r2, r1
 	str r1, [r0, #4]
 	ldr r1, [r4, #0x340]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldrsb r1, [r1, #6]
 	mvn r1, r3, lsl r1
 	and r1, r2, r1
@@ -633,7 +633,7 @@ WaterGun__State_21842A8: // 0x021842A8
 	bl GetObjectFileWork
 	ldr r1, _021843D0 // =gameArchiveStage
 	mov r2, r0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r1, _021843D4 // =aDfGmkWaterGrai
 	mov r0, r4
 	bl ObjObjectCollisionDifSet
@@ -733,7 +733,7 @@ WaterGun__Func_218448C: // 0x0218448C
 	add ip, sp, #0
 	ldmia r0, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr r0, [sp]
 	ldr r1, [r1, #0x44]
 	cmp r1, r0
@@ -1038,7 +1038,7 @@ WaterGrindTrigger__Draw: // 0x02184880
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r3, r4, r5, r6, pc}
 _021848E8:
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, r2, lsl r3
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r3, r4, r5, r6, pc}
@@ -1107,7 +1107,7 @@ WaterGrindTrigger__OnDefend: // 0x021849B8
 	cmp r4, #0
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r0, [r5, #0x18]
@@ -1274,7 +1274,7 @@ _02184B68:
 _02184C28:
 	mov r0, r11
 	bl GetObjectFileWork
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r3, r0
 	str r1, [sp]
 	ldr r1, _02184D2C // =aActAcGmkWaterG
@@ -1283,7 +1283,7 @@ _02184C28:
 	bl ObjAction2dBACLoad
 	mov r0, r8
 	bl GetObjectFileWork
-	ldrb r2, [r7]
+	ldrb r2, [r7, #0]
 	mov r1, #0
 	bl ObjActionAllocSprite
 	str r0, [r6, #0x78]

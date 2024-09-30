@@ -10,7 +10,7 @@ ArchiveFileUnknown__LoadFile: // 0x0205180C
 	mvn r1, #0
 	bl FSRequestFileSync
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r5, #0
 	mov r0, r0, lsr #8
 	bne _0205183C
@@ -56,7 +56,7 @@ ArchiveFileUnknown__GetFileFromMemArchive: // 0x020518A4
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0xb0
 	mov r6, r0
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r5, r1
 	mov r0, r0, lsr #8
 	mov r7, r2

@@ -50,7 +50,7 @@ PirateShip__Create: // 0x0217A018
 	mov r3, r0
 	ldr r0, _0217A1AC // =gameArchiveStage
 	mov r1, #0x77
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -157,7 +157,7 @@ PirateShipCannonBall__Create: // 0x0217A1BC
 	mov r3, r0
 	ldr r0, _0217A348 // =gameArchiveStage
 	mov r1, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -551,7 +551,7 @@ PirateShip__OnDefend_217A7E0: // 0x0217A7E0
 	cmp r4, #0
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r0, r5
@@ -686,7 +686,7 @@ PirateShipCannonBall__OnHit: // 0x0217A9C8
 	cmp r4, #0
 	cmpne r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #1
 	ldmneia sp!, {r4, pc}
 	mov r1, #0

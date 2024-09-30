@@ -17,7 +17,7 @@ SaveSpriteButton__LoadAssets: // 0x02064480
 	mov r2, #0xc8
 	bl MIi_CpuClear16
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _020644DC
@@ -30,7 +30,7 @@ _020644B8: // jump table
 	b _020644D0 // case 5
 _020644D0:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _020644E0
 _020644DC:
 	mov r0, #1
@@ -179,14 +179,14 @@ SaveSpriteButton__State_InitButtons: // 0x02064668
 	cmp r0, #0
 	bne _02064694
 	mov r0, #0x4000000
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _020649C8 // =0x00300010
 	ldr r5, _020649CC // =0x05000200
 	b _020646A4
 _02064694:
 	ldr r1, _020649D0 // =0x04001000
 	ldr r0, _020649C8 // =0x00300010
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r5, _020649D4 // =0x05000600
 _020646A4:
 	and r2, r1, r0
@@ -462,7 +462,7 @@ SaveSpriteButton__State_Selecting: // 0x02064A38
 	ldrh r2, [r0, #4]
 	tst r2, #1
 	beq _02064AB8
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #0
 	moveq r0, r4
 	movne r0, #1
@@ -504,7 +504,7 @@ _02064B18:
 	tst r0, #0x400000
 	beq _02064B6C
 _02064B28:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	beq _02064BBC
 	add r0, r5, #0x15c
@@ -527,7 +527,7 @@ _02064B6C:
 	tst r1, #0x400000
 	beq _02064BBC
 _02064B7C:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #0
 	beq _02064BBC
 	add r0, r5, #0x15c
@@ -546,7 +546,7 @@ _02064B7C:
 _02064BBC:
 	cmp r4, #0
 	bne _02064C0C
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	mov r3, #0x64
 	mov r1, #0
 	mla r0, r2, r3, r5
@@ -580,7 +580,7 @@ _02064C0C:
 	add r0, r5, #0x1c0
 	bl AnimatorSprite__DrawFrame
 _02064C44:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #0
 	ldr r0, [r5, #4]
 	bne _02064C68

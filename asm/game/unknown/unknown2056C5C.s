@@ -96,7 +96,7 @@ _02056D8C: .word 0x05000200
 Unknown2056C5C__Release: // 0x02056D90
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	tst r0, #0x40
 	ldrne r0, [r4, #0x1c]
 	cmpne r0, #0
@@ -105,7 +105,7 @@ Unknown2056C5C__Release: // 0x02056D90
 	mov r0, #0
 	str r0, [r4, #0x1c]
 _02056DB8:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	tst r0, #0x80
 	ldrne r1, [r4, #0x24]
 	cmpne r1, #0
@@ -115,7 +115,7 @@ _02056DB8:
 	mov r0, #0
 	str r0, [r4, #0x24]
 _02056DDC:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	tst r0, #0x100
 	ldrne r0, [r4, #0x28]
 	cmpne r0, #0
@@ -551,7 +551,7 @@ _020573D8:
 	mov r0, #0
 	str r0, [r4, #0x44]
 _020573F0:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	tst r0, #0x40
 	ldrne r0, [r4, #0x18]
 	cmpne r0, #0
@@ -560,7 +560,7 @@ _020573F0:
 	mov r0, #0
 	str r0, [r4, #0x18]
 _02057410:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	tst r0, #0x80
 	ldrne r1, [r4, #0x24]
 	cmpne r1, #0
@@ -570,7 +570,7 @@ _02057410:
 	mov r0, #0
 	str r0, [r4, #0x24]
 _02057434:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	tst r0, #0x100
 	ldrne r0, [r4, #0x28]
 	cmpne r0, #0
@@ -604,7 +604,7 @@ Unknown2056FDC__Func_2057484: // 0x02057484
 	ldrh r0, [r4, #2]
 	tst r0, #1
 	bne _0205751C
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	tst r1, #1
 	bne _02057510
 	ldr r0, [r4, #0x18]
@@ -644,7 +644,7 @@ _0205751C:
 	ldrh r3, [r4, #2]
 	tst r3, #2
 	bne _020575DC
-	ldrh r6, [r4]
+	ldrh r6, [r4, #0]
 	tst r6, #2
 	bne _020575D0
 	ldr r0, [r4, #0x28]
@@ -744,7 +744,7 @@ _02057670:
 	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r9, r6
 _0205768C:
-	ldrh r1, [r10]
+	ldrh r1, [r10, #0]
 	mov r0, r5, lsl #5
 	ldr r2, [r10, #0x44]
 	and r1, r1, #0x600
@@ -828,7 +828,7 @@ Unknown2056C5C__AllocSprite: // 0x0205777C
 	orr r2, r2, #0
 	strh r2, [r0]
 	cmp r1, #0
-	ldrneh r1, [r0]
+	ldrneh r1, [r0, #0]
 	ldr r3, _02057924 // =_02110410
 	ldr r2, _02057928 // =_02110430
 	orrne r1, r1, #0x1000
@@ -836,7 +836,7 @@ Unknown2056C5C__AllocSprite: // 0x0205777C
 	ldr r1, [sp, #0x14]
 	add r3, r3, r4, lsl #3
 	cmp r1, #0
-	ldrneh r1, [r0]
+	ldrneh r1, [r0, #0]
 	add r2, r2, r4, lsl #3
 	orrne r1, r1, #0x2000
 	strneh r1, [r0]
@@ -875,7 +875,7 @@ Unknown2056C5C__AllocSprite: // 0x0205777C
 	orr r2, ip, r3
 	strh r2, [r0, #4]
 	beq _020578D4
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	ldr r2, [sp, #0x40]
 	orr r3, r3, #0x100
 	strh r3, [r0]
@@ -911,7 +911,7 @@ _020578D4:
 	orrne r1, r1, #0x2000
 	strneh r1, [r0, #2]
 _020578FC:
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	and r2, r5, #0xff
 	ldr r1, _02057930 // =0x000001FF
 	orr r2, r3, r2
@@ -1018,7 +1018,7 @@ _02057A20:
 	str r0, [sp, #0x14]
 	str r1, [sp, #0x18]
 	str r1, [sp, #0x1c]
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	and r0, r0, #0x400
 	str r0, [sp, #0x20]
 	ldr r0, [r6, #0x3c]
@@ -1167,7 +1167,7 @@ _02057BA4:
 _02057C5C:
 	ldrsh r2, [r6, #4]
 	ldrsh r1, [r6, #6]
-	ldrh r3, [r6]
+	ldrh r3, [r6, #0]
 	add r2, r2, r7, asr #12
 	add r1, r1, r8, asr #12
 	sub r7, r2, lr, lsl r4
@@ -1222,10 +1222,10 @@ Unknown2056C5C__GetSpriteSize: // 0x02057D1C
 	cmp r0, #0
 	ldrne r2, _02057D94 // =0x04001000
 	ldrne r0, _02057D98 // =0x00300010
-	ldrne r2, [r2]
+	ldrne r2, [r2, #0]
 	bne _02057D3C
 	mov r0, #0x4000000
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, _02057D98 // =0x00300010
 _02057D3C:
 	and r3, r2, r0

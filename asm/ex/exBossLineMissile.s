@@ -100,7 +100,7 @@ ovl09_215A76C: // 0x0215A76C
 	add r0, r4, #0x6c
 	bl ovl09_2162164
 	ldr r0, [r4, #0x3b0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0x1e000
 	blt _0215A7C8
 	mov ip, #0xc9
@@ -184,7 +184,7 @@ ovl09_215A87C: // 0x0215A87C
 	add r0, r4, #0x6c
 	bl ovl09_2162164
 	ldr r0, [r4, #0x3b0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0xa000
 	blt _0215A8FC
 	mov r5, #0
@@ -345,7 +345,7 @@ _0215AAA0:
 	mov r0, r4
 	bl ovl09_2161CB0
 	ldr r0, _0215AC3C // =exBossLineNeedleTask__ActiveInstanceCount
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _0215AB1C
 	mov r1, #0x19
@@ -353,7 +353,7 @@ _0215AAA0:
 	sub r2, r1, #0x1a
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0215AC3C // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x2c]
@@ -444,7 +444,7 @@ _0215ABB4:
 	str r3, [r4, #0x14]
 	ldr r1, _0215AC3C // =exBossLineNeedleTask__ActiveInstanceCount
 	str r2, [r4, #0x18]
-	ldrsh r2, [r1]
+	ldrsh r2, [r1, #0]
 	add r2, r2, #1
 	strh r2, [r1]
 	ldmia sp!, {r3, r4, r5, pc}
@@ -459,7 +459,7 @@ ovl09_215AC48: // 0x0215AC48
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215ACC0 // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r4, r0
-	ldrsh r0, [r1]
+	ldrsh r0, [r1, #0]
 	cmp r0, #1
 	bgt _0215ACA4
 	ldr r0, [r1, #0x38]
@@ -486,7 +486,7 @@ _0215ACA4:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
 	ldr r0, _0215ACC0 // =exBossLineNeedleTask__ActiveInstanceCount
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r4, pc}
@@ -516,7 +516,7 @@ exBossLineNeedleTask__Main: // 0x0215ACC4
 	mov r6, r5
 	mov r7, r5
 _0215AD10:
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	mul r3, ip, lr
 	mla r0, r2, r5, r1
 	ldr r2, [r4, #0x20]
@@ -525,7 +525,7 @@ _0215AD10:
 	add r2, r4, r3
 	add r0, r8, r0
 	str r0, [r2, #0x530]
-	ldrh r9, [r4]
+	ldrh r9, [r4, #0]
 	ldr r0, [r4, #0x20]
 	add ip, ip, #1
 	mla r8, r9, r6, r1
@@ -535,7 +535,7 @@ _0215AD10:
 	mov ip, ip, lsl #0x10
 	add r0, r9, r0
 	str r0, [r2, #0x534]
-	ldrh r9, [r4]
+	ldrh r9, [r4, #0]
 	ldr r0, [r4, #0x20]
 	mov ip, ip, lsr #0x10
 	mla r8, r9, r7, r1
@@ -555,7 +555,7 @@ _0215AD10:
 	ldr r2, [r4, #0x530]
 	ldr r1, _0215AE54 // =0x3C6EF35F
 	str r2, [r4, #0x37c]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldr r3, _0215AE58 // =0x88888889
 	mla r0, r2, r0, r1
 	mov r1, r0, lsr #0x10
@@ -577,13 +577,13 @@ _0215AD10:
 	mov r2, #6
 	bl ovl09_2152960
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	moveq r0, #9
 	streqh r0, [r4, #0x2e]
 	beq _0215AE2C
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	moveq r0, #0xc
 	streqh r0, [r4, #0x2e]
@@ -917,7 +917,7 @@ _0215B260:
 	sub r2, r1, #0x19
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0215B3F8 // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x10]
@@ -1079,7 +1079,7 @@ exBossLineMissileTask__Main: // 0x0215B480
 	mov lr, r6
 	mov r7, r6
 _0215B4CC:
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	mul r3, ip, r5
 	mla r0, r2, r6, r1
 	ldr r2, [r4, #0x28]
@@ -1088,7 +1088,7 @@ _0215B4CC:
 	add r2, r4, r3
 	add r0, r8, r0
 	str r0, [r2, #0x538]
-	ldrh r9, [r4]
+	ldrh r9, [r4, #0]
 	ldr r0, [r4, #0x28]
 	add ip, ip, #1
 	mla r8, r9, lr, r1
@@ -1098,7 +1098,7 @@ _0215B4CC:
 	mov ip, ip, lsl #0x10
 	add r0, r9, r0
 	str r0, [r2, #0x53c]
-	ldrh r9, [r4]
+	ldrh r9, [r4, #0]
 	ldr r0, [r4, #0x28]
 	mov ip, ip, lsr #0x10
 	mla r8, r9, r7, r1
@@ -1118,7 +1118,7 @@ _0215B4CC:
 	ldr r1, [r4, #0x538]
 	ldr r0, _0215B610 // =_mt_math_rand
 	str r1, [r4, #0x384]
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	ldr r1, _0215B614 // =0x00196225
 	add r3, r4, #0x108
 	mla r1, r5, r1, r2
@@ -1142,13 +1142,13 @@ _0215B4CC:
 	mov r2, #6
 	bl ovl09_2152960
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	moveq r0, #9
 	streqh r0, [r4, #0x36]
 	beq _0215B5F0
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	moveq r0, #0xc
 	streqh r0, [r4, #0x36]
@@ -1445,7 +1445,7 @@ ovl09_215B998: // 0x0215B998
 	strb r1, [r4, #0x30]
 	str r0, [r4, #4]
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0215BA34
 	ldrsh r0, [r4, #0x34]
@@ -1475,7 +1475,7 @@ _0215BA0C:
 	b _0215BAA0
 _0215BA34:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _0215BAA0
 	ldrsh r0, [r4, #0x34]

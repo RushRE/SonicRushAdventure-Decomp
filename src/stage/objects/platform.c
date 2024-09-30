@@ -682,7 +682,7 @@ _02175CCC:
 	mov r2, #0xc0
 	b _02175D20
 _02175CD8:
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	mov r0, r10, lsl #0x10
 	ldrh r4, [r5, #2]
 	mov r2, r0, asr #0x10
@@ -690,7 +690,7 @@ _02175CD8:
 	and r1, r1, #0xff
 	mov r1, r1, lsl #0x10
 	and r0, r4, r0
-	ldr r3, [r8]
+	ldr r3, [r8, #0]
 	add r2, r2, r1, asr #16
 	mov r1, r3, lsl #4
 	mov r0, r0, lsl #0x10
@@ -708,7 +708,7 @@ _02175D20:
 	and r4, r4, r11
 	orr r3, r4, r3
 	strh r3, [r5, #2]
-	ldrh r3, [r5]
+	ldrh r3, [r5, #0]
 	mov r0, r9
 	mov r1, r5
 	bic r3, r3, #0xff

@@ -44,7 +44,7 @@ FallingAnchor__Create: // 0x02180DE8
 	mov r3, r0
 	ldr r0, _021810AC // =gameArchiveStage
 	mov r1, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -76,7 +76,7 @@ FallingAnchor__Create: // 0x02180DE8
 	mov r3, r0
 	ldr r1, _021810AC // =gameArchiveStage
 	mov r0, r5
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _021810B0 // =aActAcGmkAnchor_0
 	str r2, [sp]
 	mov r2, #0x1f
@@ -298,7 +298,7 @@ _02181234:
 	beq _02181418
 	ldr r3, _02181684 // =_mt_math_rand
 	mov r2, #0x2000
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	ldr r0, _02181688 // =0x00196225
 	ldr r1, _0218168C // =0x3C6EF35F
 	rsb r2, r2, #0
@@ -314,7 +314,7 @@ _02181234:
 	str r1, [sp]
 	mov r0, r0, lsl #0x10
 	mov lr, r0, lsr #0x10
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	ldr r1, [r4, #0x48]
 	mov r0, r0, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -365,7 +365,7 @@ _02181234:
 	mla r0, lr, r0, r1
 	str r0, [r2]
 	str r5, [sp]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r2, lr, lsr #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, r0, lsl #0x10
@@ -402,7 +402,7 @@ _02181234:
 	str r1, [sp]
 	mov r0, r0, lsr #0x10
 	mov ip, r0, lsl #0x19
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	ldr r1, [r4, #0x48]
 	mov r0, r0, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -436,7 +436,7 @@ _02181418:
 	bne _02181484
 	ldr r0, _02181694 // =gPlayer
 	ldr r1, [r4, #0x48]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	sub r1, r1, #0x3d000
 	ldr r0, [r0, #0x48]
 	cmp r1, r0
@@ -553,7 +553,7 @@ _0218160C:
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r3, _02181684 // =_mt_math_rand
 	ldr r1, _02181688 // =0x00196225
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	ldr r2, _0218168C // =0x3C6EF35F
 	mla ip, r0, r1, r2
 	mov r0, ip, lsr #0x10
@@ -564,7 +564,7 @@ _0218160C:
 	str ip, [r3]
 	mov r0, r0, lsl #0xc
 	str r0, [r4, #0x50]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mla r1, r0, r1, r2
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10

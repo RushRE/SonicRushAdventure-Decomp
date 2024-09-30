@@ -64,7 +64,7 @@ _03804628:
 	mov r2, r4
 	bl OS_ReceiveMessage
 	ldr r0, [sp]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #3
 	addls pc, pc, r1, lsl #2
 	b _03804628
@@ -202,7 +202,7 @@ _038047D4: .word spiWork
 	arm_func_start SPIi_CheckException
 SPIi_CheckException: // 0x038047D8
 	ldr r0, _038047F0 // =spiWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
@@ -283,7 +283,7 @@ SPI_Unlock: // 0x038048C8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _0380492C // =spiWork
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r2, #0
 	beq _03804920
 	ldr r2, [r1, #4]
@@ -321,7 +321,7 @@ SPI_Lock: // 0x03804934
 _03804948:
 	bl OS_DisableInterrupts
 	mov r6, r0
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	cmp r1, #0
 	beq _0380496C
 	bl OS_RestoreInterrupts
@@ -349,7 +349,7 @@ SPI_Init: // 0x03804998
 	sub sp, sp, #8
 	mov r4, r0
 	ldr r0, _03804A94 // =spiInitialized
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #0
 	bne _03804A88
 	mov r1, #1

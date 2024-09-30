@@ -28,7 +28,7 @@ _0203DCC0: .word 0x02134178
 	arm_func_start SeaMapView__IsActive
 SeaMapView__IsActive: // 0x0203DCC4
 	ldr r0, _0203DCDC // =0x02134178
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	movne r0, #1
 	moveq r0, #0
@@ -62,7 +62,7 @@ SeaMapView__Func_203DCE0: // 0x0203DCE0
 SeaMapView__GetTouchArea: // 0x0203DD24
 	stmdb sp!, {r3, lr}
 	ldr r0, _0203DD40 // =0x02134178
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x358
 	add r0, r0, #0x400
@@ -100,7 +100,7 @@ SeaMapView__CanZoomIn: // 0x0203DD84
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r0, [r5, #4]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldr r1, _0203DEA0 // =VRAMSystem__GFXControl
 	cmp r0, #0
 	ldr r4, [r1, r2, lsl #2]
@@ -154,17 +154,17 @@ _0203DDFC:
 	mov r0, #0
 	strb r1, [r4, #0x15]
 	bl RenderCore_DisableWindowPlaneUpdate
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	bne _0203DE80
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	str r0, [r1]
 	b _0203DE90
 _0203DE80:
 	ldr r1, _0203DEA4 // =0x04001000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	str r0, [r1]
 _0203DE90:
@@ -183,7 +183,7 @@ SeaMapView__HandleZoomIn: // 0x0203DEA8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r0, [r5, #4]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldr r1, _0203DFC4 // =VRAMSystem__GFXControl
 	cmp r0, #0
 	ldr r4, [r1, r2, lsl #2]
@@ -209,18 +209,18 @@ _0203DED8:
 	mov r1, #0xff
 	strb r1, [r4, #0x1a]
 	bl RenderCore_DisableWindowPlaneUpdate
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	bne _0203DF3C
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
 	str r0, [r1]
 	b _0203DF50
 _0203DF3C:
 	ldr r1, _0203DFC8 // =0x04001000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
 	str r0, [r1]
@@ -266,7 +266,7 @@ SeaMapView__CanZoomOut: // 0x0203DFCC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r0, [r5, #4]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldr r1, _0203E138 // =VRAMSystem__GFXControl
 	cmp r0, #0
 	ldr r4, [r1, r2, lsl #2]
@@ -341,17 +341,17 @@ _0203E0B8:
 	mov r1, #0xc0
 	strb r1, [r4, #0x14]
 	bl RenderCore_DisableWindowPlaneUpdate
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	bne _0203E118
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	str r0, [r1]
 	b _0203E128
 _0203E118:
 	ldr r1, _0203E13C // =0x04001000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	str r0, [r1]
 _0203E128:
@@ -370,7 +370,7 @@ SeaMapView__HandleZoomOut: // 0x0203E140
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldrh r0, [r5, #4]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldr r1, _0203E260 // =VRAMSystem__GFXControl
 	cmp r0, #0
 	ldr r4, [r1, r2, lsl #2]
@@ -397,18 +397,18 @@ _0203E170:
 	mov r1, #0
 	strb r1, [r4, #0x1a]
 	bl RenderCore_DisableWindowPlaneUpdate
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	bne _0203E1D8
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
 	str r0, [r1]
 	b _0203E1EC
 _0203E1D8:
 	ldr r1, _0203E264 // =0x04001000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
 	str r0, [r1]
@@ -453,7 +453,7 @@ _0203E264: .word 0x04001000
 SeaMapView__GetWork: // 0x0203E268
 	ldr r0, _0203E278 // =0x02134178
 	ldr ip, _0203E27C // =GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx ip
 	.align 2, 0
 _0203E278: .word 0x02134178
@@ -469,7 +469,7 @@ SeaMapView__InitView: // 0x0203E280
 	mov r4, r2
 	mov r5, r3
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _0203E2D4
@@ -482,7 +482,7 @@ _0203E2AC: // jump table
 	b _0203E2C4 // case 5
 _0203E2C4:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	str r0, [sp, #0x20]
 	b _0203E2DC
 _0203E2D4:
@@ -517,7 +517,7 @@ _0203E338:
 	bl SeaMapView__Func_203FE44
 	ldr r0, [r9, #0xc]
 	add r2, r9, #0x164
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0x26
 	add r4, r2, #0x400
 	bl Sprite__GetSpriteSize1FromAnim
@@ -539,7 +539,7 @@ _0203E338:
 	str r1, [sp, #0x18]
 	ldr r1, [r9, #0xc]
 	ldr r3, _0203E7CC // =0x00000814
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0x26
 	bl AnimatorSprite__Init
 	mov r0, #4
@@ -561,7 +561,7 @@ _0203E3E4:
 	mov r2, #0
 	cmp r0, #5
 	bhs _0203E484
-	ldrb r0, [r6]
+	ldrb r0, [r6, #0]
 	strh r0, [r5, #0xa2]
 _0203E3FC:
 	add r0, r6, r2
@@ -589,7 +589,7 @@ _0203E3FC:
 	str r1, [sp, #0x18]
 	ldr r1, [r9, #0xc]
 	ldrh r2, [r5, #0xa2]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl AnimatorSprite__Init
 	ldrh r0, [r5, #0x9c]
 	strh r0, [r5, #0x50]
@@ -614,7 +614,7 @@ _0203E49C:
 	cmp r2, #3
 	blo _0203E49C
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _0203E4F0
@@ -627,7 +627,7 @@ _0203E4CC: // jump table
 	b _0203E4E4 // case 5
 _0203E4E4:
 	bl RenderCore_GetLanguagePtr
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	b _0203E4F4
 _0203E4F0:
 	mov r2, #1
@@ -650,7 +650,7 @@ _0203E4F4:
 	str r1, [sp, #0x18]
 	ldrb r2, [r4, r2]
 	ldr r1, [r9, #0xc]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl AnimatorSprite__Init
 	ldrh r0, [r5, #0x9c]
 	strh r0, [r5, #0x50]
@@ -731,7 +731,7 @@ _0203E55C:
 	str r3, [sp, #0x14]
 	ldr r2, _0203E7E4 // =0x0210F774
 	str r3, [sp, #0x18]
-	ldrb r2, [r2]
+	ldrb r2, [r2, #0]
 	mov r1, r5
 	mov r0, r4
 	bl AnimatorSprite__Init
@@ -750,8 +750,8 @@ _0203E6B8:
 	bl GetSpriteButtonCursorSprite
 	ldr r1, [r9, #0xc]
 	mov r4, r0
-	ldr r0, [r1]
-	ldrb r1, [r5]
+	ldr r0, [r1, #0]
+	ldrb r1, [r5, #0]
 	bl Sprite__GetSpriteSize1FromAnim
 	mov r1, r0
 	mov r0, r8
@@ -762,7 +762,7 @@ _0203E6B8:
 	str r7, [sp, #0x10]
 	str r11, [sp, #0x14]
 	str r11, [sp, #0x18]
-	ldrb r2, [r5]
+	ldrb r2, [r5, #0]
 	mov r1, r4
 	mov r0, r6
 	mov r3, r11
@@ -780,7 +780,7 @@ _0203E6B8:
 	blo _0203E6B8
 	ldr r0, [r9, #0xc]
 	add r2, r9, #0x2f4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0x2e
 	add r4, r2, #0x400
 	bl Sprite__GetSpriteSize1FromAnim
@@ -799,7 +799,7 @@ _0203E6B8:
 	str r0, [sp, #0x18]
 	ldr r1, [r9, #0xc]
 	mov r0, r4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0x2e
 	bl AnimatorSprite__Init
 	mov r1, #0
@@ -836,7 +836,7 @@ SeaMapView__ReleaseAssets: // 0x0203E7EC
 	mov r4, r0
 	add r0, r1, #0x400
 	bl AnimatorSprite__Release
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	add r0, r5, #0x2f4
@@ -897,7 +897,7 @@ SeaMapView__Func_203E8A8: // 0x0203E8A8
 	bne _0203E8DC
 _0203E8CC:
 	ldr r0, _0203E910 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0xf0
 	beq _0203E8E8
 _0203E8DC:
@@ -1064,7 +1064,7 @@ SeaMapView__GetCursorSpriteSize: // 0x0203EB2C
 	stmdb sp!, {r3, lr}
 	bl GetSpriteButtonCursorSprite
 	ldr r1, _0203EB44 // =0x0210F774
-	ldrb r1, [r1]
+	ldrb r1, [r1, #0]
 	bl Sprite__GetSpriteSize1FromAnim
 	ldmia sp!, {r3, pc}
 	.align 2, 0
@@ -1187,14 +1187,14 @@ SeaMapView__Func_203ECA0: // 0x0203ECA0
 	ldr r4, _0203ECF0 // =0x0210F82C
 	mov r5, r1
 	ldrb r1, [r4, r5, lsl #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Sprite__GetSpriteSize1FromAnim
 	ldrb r1, [r4, r5, lsl #4]
 	mov r4, r0
 	ldr r2, [r6, #0xc]
 	add r0, r1, #1
 	mov r1, r0, lsl #0x10
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r1, r1, lsr #0x10
 	bl Sprite__GetSpriteSize1FromAnim
 	cmp r4, r0
@@ -1220,14 +1220,14 @@ _0203ED14:
 	ldr r2, [r7, #0xc]
 	add r0, r0, #1
 	mov r1, r0, lsl #0x10
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r1, r1, lsr #0x10
 	bl Sprite__GetSpriteSize1FromAnim
 	cmp r5, r0
 	movlo r5, r0
 	ldr r0, [r7, #0xc]
 	ldrb r1, [r4, r6]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl Sprite__GetSpriteSize1FromAnim
 	cmp r5, r0
 	add r6, r6, #1
@@ -1529,7 +1529,7 @@ _0203F114:
 	cmp r0, #0
 	beq _0203F1C8
 	ldr r0, _0203F33C // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0xf0
 	beq _0203F1C8
 	bl SeaMapManager__GetZoomInScale
@@ -1543,7 +1543,7 @@ _0203F114:
 	ldr r0, _0203F33C // =padInput
 	str r2, [r4, #0x20]
 	adds r5, r5, #0x800
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	adc r2, r3, #0
 	mov r0, r5, lsr #0xc
 	tst r1, #0x20
@@ -1552,19 +1552,19 @@ _0203F114:
 	subne r1, r1, r0
 	strne r1, [r4, #0x10]
 	ldr r1, _0203F33C // =padInput
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	tst r1, #0x10
 	ldrne r1, [r4, #0x10]
 	addne r1, r1, r0
 	strne r1, [r4, #0x10]
 	ldr r1, _0203F33C // =padInput
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	tst r1, #0x40
 	ldrne r1, [r4, #0x14]
 	subne r1, r1, r0
 	strne r1, [r4, #0x14]
 	ldr r1, _0203F33C // =padInput
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	tst r1, #0x80
 	ldrne r1, [r4, #0x14]
 	addne r0, r1, r0
@@ -1710,7 +1710,7 @@ SeaMapView__TouchAreaCallback2: // 0x0203F394
 	arm_func_start SeaMapView__TouchAreaCallback
 SeaMapView__TouchAreaCallback: // 0x0203F398
 	stmdb sp!, {r3, lr}
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r1, [r1, #0x14]
 	cmp r3, #0x400000
 	beq _0203F3C0
@@ -1776,7 +1776,7 @@ _0203F438:
 	arm_func_start SeaMapView__OnButtonPressed
 SeaMapView__OnButtonPressed: // 0x0203F484
 	stmdb sp!, {r3, lr}
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r1, #0x14]
 	cmp r0, #0x1000000
 	bhi _0203F4B8

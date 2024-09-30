@@ -58,7 +58,7 @@ ovl09_2159840: // 0x02159840
 	add r0, r4, #0x6c
 	bl ovl09_2162164
 	ldr r0, [r4, #0x3b0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0xf000
 	blt _0215989C
 	mov ip, #0xc9
@@ -144,7 +144,7 @@ ovl09_215995C: // 0x0215995C
 	add r0, r4, #0x6c
 	bl ovl09_2162164
 	bl ovl09_217175C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr ip, [r4, #0x48]
 	ldr r0, _02159A4C // =0x0000019A
 	sub r2, r1, ip
@@ -216,7 +216,7 @@ ovl09_2159A50: // 0x02159A50
 	bl exBossEffectFireBallShotTask__Create
 	ldr r2, _02159AC8 // =_mt_math_rand
 	ldr r0, _02159ACC // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02159AD0 // =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
@@ -252,7 +252,7 @@ ovl09_2159AD8: // 0x02159AD8
 	add r0, r4, #0x6c
 	bl ovl09_2162164
 	bl ovl09_217175C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr ip, [r4, #0x48]
 	ldr r0, _02159BC8 // =0x0000019A
 	sub r2, r1, ip
@@ -410,7 +410,7 @@ ovl09_2159CEC: // 0x02159CEC
 	mov r4, r0
 	bl ovl09_21636BC
 	ldr r0, _02159DEC // =exBossHomingLaserTask__ActiveInstanceCount
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _02159D1C
 	mov r0, #0
@@ -465,7 +465,7 @@ _02159D1C:
 	str r3, [r4, #0x14]
 	str r0, [r4, #0x18]
 	ldr r0, _02159DEC // =exBossHomingLaserTask__ActiveInstanceCount
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	add r1, r1, #1
 	strh r1, [r0]
 	add sp, sp, #0xc
@@ -480,7 +480,7 @@ ovl09_2159DF0: // 0x02159DF0
 	add r0, r0, #0x20
 	bl AnimatorSprite3D__Release
 	ldr r0, _02159E10 // =exBossHomingLaserTask__ActiveInstanceCount
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r3, pc}
@@ -530,7 +530,7 @@ exBossHomingLaserTask__Main: // 0x02159E24
 	ldr r5, [r4, #0x40]
 	ldr r5, [r5, #0x3f4]
 	str r5, [r4, #0x34]
-	ldrh r5, [r4]
+	ldrh r5, [r4, #0]
 	mov r5, r5, lsl #1
 	ldrh r5, [r3, r5]
 	smull r3, lr, ip, r5
@@ -549,7 +549,7 @@ exBossHomingLaserTask__Main: // 0x02159E24
 	strh r0, [r4, #4]
 	ldr r2, _02159F6C // =_mt_math_rand
 	ldr r0, _02159F70 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02159F74 // =0x3C6EF35F
 	ldr ip, _02159F78 // =0x51EB851F
 	mla r0, r3, r0, r1
@@ -700,7 +700,7 @@ _0215A0B8:
 	ldr r3, [r4, #0x30]
 	ldr r0, [r5, #4]
 	ldr r2, [r4, #0x2c]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	sub r0, r3, r0
 	sub r1, r2, r1
 	add r2, r4, #0x20
@@ -861,7 +861,7 @@ _0215A318:
 	ldr ip, [r5, #0x30]
 	ldr r0, [r4, #4]
 	ldr r3, [r5, #0x2c]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	sub r0, ip, r0
 	sub r1, r3, r1
 	add r3, r5, #0x26
@@ -894,7 +894,7 @@ ovl09_215A388: // 0x0215A388
 	mov r0, #1
 	ldr r2, _0215A41C // =_mt_math_rand
 	strh r0, [r4, #4]
-	ldr r5, [r2]
+	ldr r5, [r2, #0]
 	ldr r0, _0215A420 // =0x00196225
 	ldr r3, _0215A424 // =0x3C6EF35F
 	ldr r1, _0215A428 // =0x51EB851F
@@ -1008,7 +1008,7 @@ _0215A500:
 	ldr r3, [r4, #0x30]
 	ldr r0, [r5, #4]
 	ldr r2, [r4, #0x2c]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	sub r0, r3, r0
 	sub r1, r2, r1
 	add r2, r4, #0x20

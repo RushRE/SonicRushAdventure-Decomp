@@ -47,7 +47,7 @@ exGameSystemTask__Func8: // 0x0216AB1C
 	strh r1, [r0, #2]
 	ldrh r1, [r0, #2]
 	cmp r1, #0
-	ldreqh r1, [r0]
+	ldreqh r1, [r0, #0]
 	addeq r1, r1, #1
 	streqh r1, [r0]
 	ldmia sp!, {r3, pc}
@@ -249,7 +249,7 @@ _0216AD6C: .word exGameSystemTask__Func8
 ovl09_216AD70: // 0x0216AD70
 	stmdb sp!, {r3, lr}
 	ldr r0, _0216AD94 // =0x0217741C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTask

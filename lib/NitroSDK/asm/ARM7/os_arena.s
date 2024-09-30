@@ -122,7 +122,7 @@ OS_InitArena: // 0x037FD12C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _037FD1CC // =OSi_Initialized
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	bne _037FD1C0
 	mov r0, #1

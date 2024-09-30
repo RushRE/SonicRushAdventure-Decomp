@@ -12,7 +12,7 @@ ovl09_2154030: // 0x02154030
 	str r10, [r1, #0xc]
 	bl ovl09_2161CB0
 	ldr r0, _02154358 // =0x02175F54
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _021540DC
 	ldr r0, _0215435C // =aExtraExBb_0
@@ -20,7 +20,7 @@ ovl09_2154030: // 0x02154030
 	mov r2, #0
 	bl ReadFileFromBundle
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
@@ -206,7 +206,7 @@ _02154290:
 	bic r1, r1, #3
 	orr r1, r1, #2
 	strb r1, [r10, #0x38c]
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	add r1, r1, #1
 	strh r1, [r0]
 	add sp, sp, #8
@@ -238,7 +238,7 @@ ovl09_2154390: // 0x02154390
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, _02154418 // =0x02175F54
 	mov r4, r0
-	ldrsh r0, [r1]
+	ldrsh r0, [r1, #0]
 	cmp r0, #1
 	bgt _021543D4
 	ldr r0, [r1, #4]
@@ -268,7 +268,7 @@ _021543DC:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
 	ldr r0, _02154418 // =0x02175F54
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r4, r5, r6, pc}
@@ -817,7 +817,7 @@ _02154A74:
 	bl Camera3D__UseEngineA
 	cmp r0, #0
 	bne _02154AC0
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	mov r0, r1, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	add r0, r0, #1
@@ -876,7 +876,7 @@ _02154B28:
 	bl Camera3D__UseEngineA
 	cmp r0, #0
 	bne _02154B7C
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	mov r0, r1, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	add r0, r0, #1
@@ -926,7 +926,7 @@ ovl09_2154BB8: // 0x02154BB8
 	bl Camera3D__UseEngineA
 	cmp r0, #0
 	bne _02154C18
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	mov r0, r1, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	add r0, r0, #1
@@ -953,7 +953,7 @@ _02154C18:
 	arm_func_start ovl09_2154C28
 ovl09_2154C28: // 0x02154C28
 	ldr r0, _02154C34 // =0x02175FA0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02154C34: .word 0x02175FA0
@@ -1064,7 +1064,7 @@ _02154D78: .word 0x02175FA4
 	arm_func_start ovl09_2154D7C
 ovl09_2154D7C: // 0x02154D7C
 	ldr r0, _02154D88 // =0x02175FA4
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02154D88: .word 0x02175FA4

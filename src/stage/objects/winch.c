@@ -155,7 +155,7 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
 	mov r3, r0
 	ldr r0, =gameArchiveStage
 	mov r1, #0x20
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r5
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -184,7 +184,7 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
 	mov r3, r0
 	ldr r1, =gameArchiveStage
 	mov r0, r6
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, =aActAcGmkWinchB
 	str r2, [sp]
 	mov r2, #0xc
@@ -217,7 +217,7 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
 	bl GetObjectFileWork
 	ldr r1, =gameArchiveStage
 	mov r3, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, =aActAcGmkWinchB
 	str r2, [sp]
 	mov r0, r6

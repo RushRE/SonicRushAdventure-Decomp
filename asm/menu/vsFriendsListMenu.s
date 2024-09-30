@@ -23,7 +23,7 @@ _02171334: .word aNarcDmwfFlLz7N
 VSFriendListMenu__ReleaseAssets: // 0x02171338
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	bl _FreeHEAP_USER
@@ -84,7 +84,7 @@ VSFriendListMenu__Func_2171384: // 0x02171384
 	str r5, [r4]
 	str r0, [r5, #8]
 	bl SaveGame__RefreshFriendList
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	str r0, [r1, #8]
 	bl VSMenu__GetFontWindow
 	str r0, [r4, #0x30]
@@ -162,13 +162,13 @@ _021714F4: .word renderCoreGFXControlB
 VSFriendListMenu__LoadSprites: // 0x021714F8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FileUnknown__GetAOUFile
 	str r0, [r4, #0x690]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _0217154C
@@ -181,15 +181,15 @@ _02171528: // jump table
 	b _02171540 // case 5
 _02171540:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02171550
 _0217154C:
 	mov r0, #1
 _02171550:
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	add r0, r0, #1
 	mov r1, r0, lsl #0x10
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r1, r1, lsr #0x10
 	bl FileUnknown__GetAOUFile
 	str r0, [r4, #0x694]
@@ -362,7 +362,7 @@ VSFriendListMenu__Func_217178C: // 0x0217178C
 	bl VSFriendListMenu__Func_21717CC
 	mov r0, r4
 	bl VSFriendListMenu__Func_21717C8
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
 	str r1, [r0, #4]
 	ldmia sp!, {r4, pc}
@@ -701,7 +701,7 @@ VSFriendListMenu__Main_2171BE8: // 0x02171BE8
 	mov r0, r0, lsr #0x10
 	bl VSFriendListMenu__Func_217294C
 	mov r2, #1
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	rsb r1, r2, #0x10000
 	str r2, [r0, #8]
 	add r0, r4, #0x100
@@ -972,8 +972,8 @@ VSFriendListMenu__Func_2171FB0: // 0x02171FB0
 	cmp r1, #0
 	ldr r2, _02172004 // =0x04001000
 	beq _02171FE0
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -982,8 +982,8 @@ VSFriendListMenu__Func_2171FB0: // 0x02171FB0
 	str r0, [r2]
 	bx lr
 _02171FE0:
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00

@@ -24,19 +24,19 @@ NameMenu__LoadAssets: // 0x0215ED58
 	bl MIi_CpuClear32
 	ldr r0, _0215ED9C // =NameMenu__sVars
 	mov r1, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	str r1, [r2, #0xc]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, #0xe3
 	lsl r0, r0, #4
 	add r0, r2, r0
 	bl InitThreadWorker
 	ldr r0, _0215EDA0 // =_02162E14
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl BundleFileUnknown__LoadFile
 	ldr r1, _0215ED9C // =NameMenu__sVars
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r1, #0xdf
 	lsl r1, r1, #4
 	str r0, [r2, r1]
@@ -53,61 +53,61 @@ NameMenu__Create: // 0x0215EDA4
 	sub sp, #0xc
 	ldr r3, _0215EE50 // =NameMenu__sVars
 	mov r4, r1
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r5, #1
 	str r5, [r1, #0xc]
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r5, #4
 	str r0, [r1, #4]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	ldr r1, _0215EE54 // =0x00000DF4
 	str r2, [r0, r1]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	mov r0, #0
 	str r0, [r2, #0x10]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	sub r1, #0xd8
 	str r0, [r2, #0x14]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	str r5, [r2, #0x38]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	str r0, [r2, #0x34]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	str r0, [r2, #0x18]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	add r1, r2, r1
 	mov r2, #0x14
 	bl MIi_CpuClear32
 	ldr r1, _0215EE50 // =NameMenu__sVars
 	mov r0, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0xc
 	add r1, #0x3c
 	bl MIi_CpuClear32
 	ldr r1, _0215EE50 // =NameMenu__sVars
 	mov r2, #8
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r4, #0
 	str r2, [r0, #8]
 	beq _0215EE08
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r0, r4
 	add r1, #0x1c
 	mov r2, #0x10
 	bl MIi_CpuCopy16
 	b _0215EE14
 _0215EE08:
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r0, #0x20
 	add r1, #0x1c
 	mov r2, #0x10
 	bl MIi_CpuClear16
 _0215EE14:
 	ldr r0, _0215EE50 // =NameMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl NameMenu__SetupDisplay
 	ldr r0, _0215EE50 // =NameMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl NameMenu__InitFontWindow
 	mov r2, #0
 	str r2, [sp]
@@ -119,10 +119,10 @@ _0215EE14:
 	bl TaskCreate_
 	ldr r2, _0215EE50 // =NameMenu__sVars
 	ldr r1, _0215EE60 // =0x00000E2C
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	str r0, [r3, r1]
 	add r0, r1, #4
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	ldr r1, _0215EE64 // =NameMenu__ThreadFunc
 	add r0, r2, r0
 	mov r3, #0x18
@@ -141,7 +141,7 @@ _0215EE64: .word NameMenu__ThreadFunc
 	thumb_func_start NameMenu__IsFinished
 NameMenu__IsFinished: // 0x0215EE68
 	ldr r0, _0215EE7C // =NameMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	bne _0215EE76
@@ -157,7 +157,7 @@ _0215EE7C: .word NameMenu__sVars
 	thumb_func_start NameMenu__ShouldApplyName
 NameMenu__ShouldApplyName: // 0x0215EE80
 	ldr r0, _0215EE88 // =NameMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x10]
 	bx lr
 	.align 2, 0
@@ -167,7 +167,7 @@ _0215EE88: .word NameMenu__sVars
 	thumb_func_start NameMenu__GetName
 NameMenu__GetName: // 0x0215EE8C
 	ldr r0, _0215EE94 // =NameMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, #0x1c
 	bx lr
 	.align 2, 0
@@ -178,7 +178,7 @@ _0215EE94: .word NameMenu__sVars
 NameMenu__ReleaseAssets: // 0x0215EE98
 	push {r3, lr}
 	ldr r0, _0215EED8 // =NameMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xdf
 	lsl r0, r0, #4
 	ldr r0, [r1, r0]
@@ -187,19 +187,19 @@ NameMenu__ReleaseAssets: // 0x0215EE98
 	bl _FreeHEAP_USER
 	ldr r0, _0215EED8 // =NameMenu__sVars
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xdf
 	lsl r0, r0, #4
 	str r2, [r1, r0]
 _0215EEB8:
 	ldr r0, _0215EED8 // =NameMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xe3
 	lsl r0, r0, #4
 	add r0, r1, r0
 	bl ReleaseThreadWorker
 	ldr r0, _0215EED8 // =NameMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl _FreeHEAP_SYSTEM
 	ldr r0, _0215EED8 // =NameMenu__sVars
 	mov r1, #0
@@ -284,12 +284,12 @@ NameMenu__SetupDisplay: // 0x0215EF5C
 	ldr r0, _0215F068 // =0x0213D2A4
 	lsl r2, r2, #0x1a
 	strh r1, [r0, #0x18]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, _0215F06C // =0xFFFFE0FF
 	and r1, r0
 	str r1, [r2]
 	ldr r2, _0215F070 // =0x04001000
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	and r0, r1
 	str r0, [r2]
 	ldr r1, _0215F074 // =renderCurrentDisplay
@@ -302,7 +302,7 @@ NameMenu__SetupDisplay: // 0x0215EF5C
 	bl GXS_SetGraphicsMode
 	ldr r0, _0215F078 // =0x04000008
 	mov r2, #0x43
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r3, r1
 	and r3, r2
 	mov r1, #4
@@ -322,7 +322,7 @@ NameMenu__SetupDisplay: // 0x0215EF5C
 	orr r5, r3
 	strh r5, [r0, #6]
 	ldr r0, _0215F080 // =0x0400100A
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	and r5, r2
 	orr r5, r1
 	strh r5, [r0]
@@ -345,7 +345,7 @@ NameMenu__SetupDisplay: // 0x0215EF5C
 	bl MIi_CpuClear16
 	ldr r6, _0215F078 // =0x04000008
 	mov r2, #3
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	mov r1, #1
 	mov r3, #2
 	bic r0, r2
@@ -365,7 +365,7 @@ NameMenu__SetupDisplay: // 0x0215EF5C
 	orr r0, r5
 	strh r0, [r6, #6]
 	sub r6, #8
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r5, r0
 	mov r0, #0xb
 	and r5, r7
@@ -373,7 +373,7 @@ NameMenu__SetupDisplay: // 0x0215EF5C
 	orr r0, r5
 	str r0, [r6]
 	ldr r0, _0215F08C // =0x04001008
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	bic r5, r2
 	strh r5, [r0]
 	ldrh r5, [r0, #2]
@@ -390,7 +390,7 @@ NameMenu__SetupDisplay: // 0x0215EF5C
 	orr r1, r3
 	strh r1, [r0, #6]
 	sub r0, #8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r2, r1
 	mov r1, #0x1e
 	and r2, r7
@@ -427,7 +427,7 @@ NameMenu__InitAnimators: // 0x0215F090
 	bl FileUnknown__GetAOUFile
 	str r0, [sp, #0x30]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0215F0CE
 	add r0, r0, r0
@@ -445,7 +445,7 @@ _0215F0BA: // jump table
 	.hword _0215F0C6 - _0215F0BA - 2 // case 5
 _0215F0C6:
 	bl RenderCore_GetLanguagePtr
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	b _0215F0D0
 _0215F0CE:
 	mov r2, #1
@@ -461,7 +461,7 @@ _0215F0D0:
 	str r0, [sp, #0x2c]
 	ldr r0, _0215F388 // =0x04001000
 	ldr r1, _0215F38C // =0x00300010
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, r0
 	ldr r0, _0215F390 // =0x00100010
 	and r2, r1
@@ -508,7 +508,7 @@ _0215F12A:
 	str r7, [sp, #4]
 	lsr r0, r0, #0x10
 	str r0, [sp, #8]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ldr r1, [sp, #0x30]
 	mov r2, #1
 	str r0, [sp, #0xc]
@@ -1043,12 +1043,12 @@ _0215F566:
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
 	add r0, sp, #0x48
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	str r7, [sp, #0x10]
 	add r2, sp, #0x28
 	str r0, [sp, #0x14]
 	add r0, sp, #0x4c
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	ldr r1, [sp, #0x1c]
 	mov r3, r4
 	str r0, [sp, #0x18]
@@ -1120,7 +1120,7 @@ NameMenu__InitFontWindow: // 0x0215F5B4
 	add r0, sp, #0xec
 	bl FontWindowAnimator__Release
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0215F654
 	add r0, r0, r0
@@ -1138,7 +1138,7 @@ _0215F640: // jump table
 	.hword _0215F64C - _0215F640 - 2 // case 5
 _0215F64C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _0215F656
 _0215F654:
 	mov r1, #1
@@ -1416,7 +1416,7 @@ _0215F878: .word MIi_CpuClear16
 NameMenu__Main_Loading: // 0x0215F87C
 	push {r4, r5, r6, lr}
 	ldr r0, _0215F8CC // =NameMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xe3
 	lsl r0, r0, #4
 	add r0, r1, r0
@@ -1424,18 +1424,18 @@ NameMenu__Main_Loading: // 0x0215F87C
 	cmp r0, #0
 	beq _0215F8CA
 	ldr r0, _0215F8CC // =NameMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, #0x4c
 	bl DrawBackground
 	ldr r0, _0215F8CC // =NameMenu__sVars
 	mov r1, #2
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl NameMenu__SetTextPage
 	mov r5, #0
 	ldr r4, _0215F8CC // =NameMenu__sVars
 	mov r6, r5
 _0215F8AA:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, r5
 	mov r2, r6
 	bl NameMenu__SetUnknown
@@ -1444,7 +1444,7 @@ _0215F8AA:
 	blt _0215F8AA
 	ldr r0, _0215F8CC // =NameMenu__sVars
 	ldr r2, _0215F8D0 // =NameMenu__State_FadeIn
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _0215F8D4 // =0x00000D18
 	str r2, [r1, r0]
 	ldr r0, _0215F8D8 // =NameMenu__Main_Active
@@ -1462,7 +1462,7 @@ _0215F8D8: .word NameMenu__Main_Active
 NameMenu__Main_Active: // 0x0215F8DC
 	push {r3, lr}
 	ldr r0, _0215F90C // =NameMenu__sVars
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, _0215F910 // =0x00000D18
 	ldr r1, [r2, r0]
 	cmp r1, #0
@@ -1472,7 +1472,7 @@ NameMenu__Main_Active: // 0x0215F8DC
 	bl TouchField__Process
 	ldr r0, _0215F90C // =NameMenu__sVars
 	ldr r1, _0215F910 // =0x00000D18
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r0, r1]
 	blx r1
 	pop {r3, pc}
@@ -1480,7 +1480,7 @@ _0215F8FE:
 	bl DestroyCurrentTask
 	ldr r0, _0215F90C // =NameMenu__sVars
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0xc]
 	pop {r3, pc}
 	.align 2, 0
@@ -1492,7 +1492,7 @@ _0215F910: .word 0x00000D18
 NameMenu__Destructor: // 0x0215F914
 	ldr r0, _0215F91C // =NameMenu__sVars
 	ldr r3, _0215F920 // =NameMenu__Release
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx r3
 	.align 2, 0
 _0215F91C: .word NameMenu__sVars
@@ -1618,7 +1618,7 @@ _0215F9F8:
 	lsl r3, r2, #2
 	ldr r2, _0215FC78 // =_02161A60
 	ldrh r0, [r1, #2]
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	ldr r2, [r2, r3]
 	blx r2
 	str r0, [sp, #0xc]
@@ -1628,7 +1628,7 @@ _0215F9F8:
 	beq _0215FA46
 	add r2, sp, #0x10
 	ldrh r1, [r2, #2]
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	mov r0, r4
 	bl NameMenu__SetCharacterSelection
 	mov r0, #1
@@ -1673,7 +1673,7 @@ _0215FA74:
 	ldr r2, [r4, #8]
 	ldrh r0, [r5, #2]
 	lsl r2, r2, #2
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	ldr r2, [r7, r2]
 	blx r2
 	ldr r1, _0215FC68 // =0x0000FFFF
@@ -1703,7 +1703,7 @@ _0215FAAA:
 	ldr r2, [r4, #8]
 	ldrh r0, [r5, #2]
 	lsl r2, r2, #2
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	ldr r2, [r7, r2]
 	blx r2
 	ldr r1, _0215FC68 // =0x0000FFFF
@@ -1721,7 +1721,7 @@ _0215FAC2:
 	ldr r7, _0215FC68 // =0x0000FFFF
 	add r5, sp, #0x10
 _0215FAD2:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #0
 	bne _0215FAE0
 	mov r1, #5
@@ -1734,7 +1734,7 @@ _0215FAE0:
 	ldr r2, [r4, #8]
 	ldrh r0, [r5, #2]
 	lsl r2, r2, #2
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	ldr r2, [r6, r2]
 	blx r2
 	cmp r0, r7
@@ -1752,10 +1752,10 @@ _0215FAFA:
 	ldr r7, _0215FC68 // =0x0000FFFF
 	add r5, sp, #0x10
 _0215FB0A:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	add r0, r0, #1
 	strh r0, [r5]
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	cmp r1, #5
 	bhs _0215FB24
 	ldr r2, [r4, #8]
@@ -1770,7 +1770,7 @@ _0215FB24:
 	bl PlaySysMenuNavSfx
 _0215FB2A:
 	add r0, sp, #0x10
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	cmp r2, #5
 	bhs _0215FB4A
 	ldrh r1, [r0, #2]
@@ -1896,7 +1896,7 @@ _0215FBE2:
 	ldr r7, _0215FC78 // =_02161A60
 	add r6, sp, #0x10
 _0215FC0E:
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #0
 	beq _0215FC2A
 	sub r0, r0, #1
@@ -1904,7 +1904,7 @@ _0215FC0E:
 	ldr r2, [r4, #8]
 	ldrh r0, [r6, #2]
 	lsl r2, r2, #2
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	ldr r2, [r7, r2]
 	blx r2
 	ldr r1, _0215FC68 // =0x0000FFFF
@@ -1913,7 +1913,7 @@ _0215FC0E:
 _0215FC2A:
 	add r2, sp, #0x10
 	ldrh r1, [r2, #2]
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	mov r0, r4
 	bl NameMenu__SetCharacterSelection
 	mov r0, #2
@@ -1952,10 +1952,10 @@ _0215FC80:
 	add r5, sp, #0x10
 	mov r7, r1
 _0215FC84:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	add r0, r0, #1
 	strh r0, [r5]
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	cmp r1, #5
 	bhs _0215FC9E
 	ldr r2, [r4, #8]
@@ -1968,7 +1968,7 @@ _0215FC84:
 _0215FC9E:
 	add r2, sp, #0x10
 	ldrh r1, [r2, #2]
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	mov r0, r4
 	bl NameMenu__SetCharacterSelection
 	mov r0, #2
@@ -2217,7 +2217,7 @@ _0215FE94:
 	bl PlaySysMenuNavSfx
 _0215FEA0:
 	ldr r0, _0215FF00 // =NameMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl NameMenu__DrawMenu
 	ldr r0, [sp]
 	cmp r0, #0
@@ -2308,7 +2308,7 @@ _0215FF44:
 	pop {r4, pc}
 _0215FF58:
 	ldr r0, _0215FF74 // =NameMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl NameMenu__DrawMenu
 	pop {r4, pc}
 	nop
@@ -3860,7 +3860,7 @@ NameMenu__CheckPageChange: // 0x02160B0C
 	ldr r1, _02160BB8 // =_02161A28
 	ldr r6, _02160BBC // =padInput
 	ldr r4, [r1, r2]
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	lsl r3, r3, #8
 	mov r5, r4
 	mov r2, r1
@@ -4097,12 +4097,12 @@ NameMenu__SetupBlending: // 0x02160C98
 _02160CAE:
 	mov r0, #0
 	strh r0, [r2]
-	ldrh r4, [r2]
+	ldrh r4, [r2, #0]
 	mov r3, #1
 	lsl r3, r3, #0xa
 	orr r4, r3
 	strh r4, [r2]
-	ldrh r4, [r2]
+	ldrh r4, [r2, #0]
 	lsl r3, r3, #1
 	orr r3, r4
 	strh r3, [r2]
@@ -4343,7 +4343,7 @@ NameMenu__GetNameLength: // 0x02160E30
 	lsl r2, r4, #1
 	add r2, r0, r2
 _02160E3E:
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	cmp r0, #0
 	bne _02160E4A
 	sub r2, r2, #2

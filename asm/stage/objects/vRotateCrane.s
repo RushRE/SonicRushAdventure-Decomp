@@ -50,7 +50,7 @@ VRotateCrane__Create: // 0x0216D5A4
 	mov r3, r0
 	ldr r0, _0216D8F4 // =gameArchiveStage
 	mov r1, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -81,7 +81,7 @@ VRotateCrane__Create: // 0x0216D5A4
 	str r0, [sp]
 	ldr r1, _0216D8F4 // =gameArchiveStage
 	mov r0, r4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r4, #0x364
 	str r2, [sp, #4]
 	ldr r2, _0216D8FC // =aModGmkVrotCran
@@ -97,7 +97,7 @@ VRotateCrane__Create: // 0x0216D5A4
 	mov r3, r0
 	ldr r0, _0216D8F4 // =gameArchiveStage
 	ldr r1, _0216D8F8 // =aActAcGmkVrotCr
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	mov r0, r5
 	mov r2, #0
 	str r6, [sp]
@@ -723,7 +723,7 @@ VRotateCrane__OnDefend: // 0x0216DFE4
 	cmp r1, #0
 	cmpne r0, #0
 	ldmeqia sp!, {r3, pc}
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	cmp r2, #1
 	ldreqb r2, [r0, #0x5d1]
 	cmpeq r2, #0

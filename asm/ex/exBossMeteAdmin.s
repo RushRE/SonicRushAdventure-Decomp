@@ -177,7 +177,7 @@ _0215DAEC: .word ovl09_215DAF0
 ovl09_215DAF0: // 0x0215DAF0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _0215DB0C
 	bl ovl09_215DB1C

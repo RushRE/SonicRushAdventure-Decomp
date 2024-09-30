@@ -48,7 +48,7 @@ _02171C64:
 	sub r2, r1, #0x1b
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _02172248 // =0x021785D8
 	mov r0, r0, lsr #8
 	str r0, [r1, #0xc]
@@ -654,7 +654,7 @@ ovl09_21724F4: // 0x021724F4
 	mov r4, r0
 	bl ovl09_21636BC
 	ldr r0, _021725F0 // =0x021785D8
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _02172524
 	mov r0, #0
@@ -708,7 +708,7 @@ _02172524:
 	str r3, [r4, #0x10]
 	str r3, [r4, #0x14]
 	str r1, [r4, #0x18]
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	add r1, r1, #1
 	strh r1, [r0]
 	add sp, sp, #0xc
@@ -724,7 +724,7 @@ ovl09_21725F8: // 0x021725F8
 	add r0, r0, #0x20
 	bl AnimatorSprite3D__Release
 	ldr r0, _02172618 // =0x021785D8
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r3, pc}

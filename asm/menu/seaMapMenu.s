@@ -30,7 +30,7 @@ SeaMapMenu__Create: // 0x0203FECC
 	bl LoadAudioSndArc
 	ldr r1, _0203FFFC // =audioManagerSndHeap
 	mov r0, #6
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadGroup
 	mov r0, #0xff
 	str r0, [sp]
@@ -145,7 +145,7 @@ SeaMapMenu__Func_20400A0: // 0x020400A0
 	bl SeaMapManager__GetWork
 	bl SeaMapEventManager__GetWork2
 	mov r6, r0
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r4, #1
 	cmp r0, #0
 	bne _02040108
@@ -613,7 +613,7 @@ SeaMapMenu__State_204064C: // 0x0204064C
 	mov r0, r4
 	bl SeaMapView__ProcessButtons
 	bl SeaMapEventManager__GetWork2
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mvn r0, #0
 	cmp r1, r0
 	mov r0, r4

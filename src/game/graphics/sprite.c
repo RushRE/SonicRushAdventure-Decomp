@@ -627,7 +627,7 @@ NONMATCH_FUNC void AnimatorSprite__DrawFrame(AnimatorSprite *animator)
 	tst r2, #1
 	addne sp, sp, #0x28
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r3, [r5]
+	ldrh r3, [r5, #0]
 	cmp r3, #0
 	addeq sp, sp, #0x28
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -780,7 +780,7 @@ _0208089C:
 _020808F0:
 	ldrh r3, [r6, #2]
 	ldr r0, [sp, #8]
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	cmp r0, #0
 	and r0, r3, #0xc000
 	mov r0, r0, asr #0xe
@@ -793,7 +793,7 @@ _020808F0:
 	beq _02080944
 	ldrsh r9, [r10, #8]
 	ldrsh r8, [r5, #0xc]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	mov r2, r2, lsl #0x10
 	add r8, r9, r8
 	sub r2, r8, r2, asr #22
@@ -829,7 +829,7 @@ _020809A0:
 	ldr r1, [r10, #0x3c]
 	tst r1, #0x800
 	beq _02080A1C
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	add r2, r8, r1
 	add r1, r1, #0x100
 	cmp r2, r1
@@ -873,12 +873,12 @@ _02080A1C:
 	str r0, [r10, #0x60]
 	cmp r1, #0
 	streq r0, [r10, #0x5c]
-	ldrh r3, [r6]
+	ldrh r3, [r6, #0]
 	and r1, r9, #0xff
 	and r3, r3, r4
 	orr r1, r3, r1
 	strh r1, [r0]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	ldr r1, [sp, #0x18]
 	orr r1, r3, r1, lsr #16
 	strh r1, [r0]
@@ -931,7 +931,7 @@ _02080B14:
 	mov r1, r0, lsl #0x10
 	mov r0, r1, lsr #0x10
 	str r0, [sp, #0xc]
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, r1, lsr #16
 	bhi _020808F0
 	add sp, sp, #0x28
@@ -968,7 +968,7 @@ NONMATCH_FUNC void AnimatorSprite__DrawFrameRotoZoom(AnimatorSprite *animator, f
 	add r5, r5, r0
 	addne sp, sp, #0xe0
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r6, [r5]
+	ldrh r6, [r5, #0]
 	cmp r6, #0
 	addeq sp, sp, #0xe0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -1182,7 +1182,7 @@ _02080ED4:
 	ldr r0, [sp, #0x28]
 	mov r1, #1
 	mov r0, r1, lsl r0
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	sub r0, r0, #1
 	mov r0, r0, lsl #0x10
 	str r0, [sp, #0x44]
@@ -1210,7 +1210,7 @@ _02080F40:
 	ldr r0, [sp, #0x10]
 	ldrh r2, [r6, #2]
 	cmp r0, #0
-	ldrh r3, [r6]
+	ldrh r3, [r6, #0]
 	ldr r0, [sp, #0x30]
 	add r1, sp, #0xa0
 	ldr r9, [r1, r0, lsl #4]
@@ -1236,7 +1236,7 @@ _02080F40:
 	and r3, r3, #0x3000
 	mov r8, r3, asr #0xc
 	mov r1, r1, lsl #0x16
-	ldrh r3, [r6]
+	ldrh r3, [r6, #0]
 	mov r1, r1, lsr #0x10
 	mov r1, r1, lsl #0x10
 	rsb r0, r0, r1, asr #22
@@ -1375,13 +1375,13 @@ _02081190:
 	str r0, [r10, #0x60]
 	cmp r1, #0
 	streq r0, [r10, #0x5c]
-	ldrh r3, [r6]
+	ldrh r3, [r6, #0]
 	and r1, r9, #0xff
 	and r3, r3, r4
 	orr r1, r3, r1
 	orr r1, r1, #0x100
 	strh r1, [r0]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	ldr r1, [sp, #0x2c]
 	orr r1, r3, r1
 	strh r1, [r0]
@@ -1431,7 +1431,7 @@ _0208126C:
 	strh r1, [r0, #4]
 _02081294:
 	ldr r0, [sp, #0x20]
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	add r0, r0, #1
 	str r0, [sp, #0x20]
 	add r6, r6, #8
@@ -1622,7 +1622,7 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrame(AnimatorSpriteDS *animator)
 	tst r2, #1
 	addne sp, sp, #0x48
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r3, [r6]
+	ldrh r3, [r6, #0]
 	cmp r3, #0
 	addeq sp, sp, #0x48
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -1847,9 +1847,9 @@ _020818DC:
 	bne _02081980
 	ldr r4, =objBmpUse256K
 	ldr r2, =VRAMSystem__VRAM_OBJ
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ldr r8, [r10, #0x78]
-	ldr r5, [r2]
+	ldr r5, [r2, #0]
 	ldr r1, =0x000003FF
 	sub r8, r8, r5
 	add r5, r0, #7
@@ -1868,9 +1868,9 @@ _020818DC:
 _02081980:
 	ldr r0, =objBankShift
 	ldr r4, =VRAMSystem__VRAM_OBJ
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldr r8, [r10, #0x78]
-	ldr r5, [r4]
+	ldr r5, [r4, #0]
 	ldr r2, =0x000003FF
 	sub r8, r8, r5
 	add r5, r1, #5
@@ -1919,7 +1919,7 @@ _020819E8:
 	str r0, [sp, #8]
 _02081A48:
 	ldrh r4, [r7, #2]
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	ldr r3, =spriteShapeSizes2D
 	and r0, r4, #0xc000
 	and r2, r1, #0xc000
@@ -1935,7 +1935,7 @@ _02081A48:
 	mov r3, r2, lsl #0x10
 	ldr r2, [sp, #0x10]
 	ldrsh r4, [r6, #0xc]
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	sub r3, r4, r3, asr #22
 	sub r2, r3, r2
 	str r2, [sp, #4]
@@ -1987,7 +1987,7 @@ _02081B1C:
 	add r8, r0, r2
 	beq _02081BC4
 	ldr r0, [sp, #0x10]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	add r1, r11, r0
 	add r0, r0, #0x100
 	cmp r1, r0
@@ -2034,13 +2034,13 @@ _02081BC4:
 	str r0, [r2, #0x9c]
 	cmp r1, #0
 	streq r0, [r2, #0x94]
-	ldrh r3, [r7]
+	ldrh r3, [r7, #0]
 	and r1, r8, #0xff
 	and r2, r11, r4, lsr #23
 	and r3, r3, r4
 	orr r1, r3, r1
 	strh r1, [r0]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	ldr r1, [sp, #0x24]
 	orr r1, r3, r1, lsr #16
 	strh r1, [r0]
@@ -2099,7 +2099,7 @@ _02081CE0:
 	cmp r9, #2
 	blt _02081B1C
 	ldr r0, [sp, #0x14]
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	add r0, r0, #1
 	mov r0, r0, lsl #0x10
 	cmp r1, r0, lsr #16
@@ -2144,7 +2144,7 @@ NONMATCH_FUNC void AnimatorSpriteDS__DrawFrameRotoZoom(AnimatorSpriteDS *animato
 	str r1, [sp, #0x14]
 	addne sp, sp, #0x120
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r4, [r6]
+	ldrh r4, [r6, #0]
 	cmp r4, #0
 	addeq sp, sp, #0x120
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -2430,9 +2430,9 @@ _0208218C:
 	bne _02082228
 	ldr r3, =objBmpUse256K
 	ldr r2, =VRAMSystem__VRAM_OBJ
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	ldr r5, [r10, #0x78]
-	ldr r4, [r2]
+	ldr r4, [r2, #0]
 	ldr r1, =0x000003FF
 	sub r5, r5, r4
 	add r4, r0, #7
@@ -2451,9 +2451,9 @@ _0208218C:
 _02082228:
 	ldr r0, =objBankShift
 	ldr r3, =VRAMSystem__VRAM_OBJ
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldr r5, [r10, #0x78]
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	ldr r2, =0x000003FF
 	sub r5, r5, r4
 	add r4, r1, #5
@@ -2483,7 +2483,7 @@ _02082290:
 	mov r0, r2, lsl r0
 	sub r3, r1, #1
 	sub r1, r0, #1
-	ldrh r2, [r6]
+	ldrh r2, [r6, #0]
 	mov r0, r3, lsl #0x10
 	mov r3, r0, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -2519,7 +2519,7 @@ _02082310:
 	ldmia r9, {r0, r1, r2, r3}
 	stmia r8, {r0, r1, r2, r3}
 	ldrh r1, [r7, #2]
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	ldr r0, [sp, #0x10]
 	and r1, r1, #0xc000
 	add r4, sp, #0xe0
@@ -2547,7 +2547,7 @@ _02082310:
 	str r4, [sp, #0x28]
 	add r4, r1, r2, asr #1
 	mov r5, r2, asr #1
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	ldrh r1, [sp, #0x42]
 	ldrsh r9, [r6, #0xe]
 	mov r2, r2, lsl #0x17
@@ -2711,12 +2711,12 @@ _020825D4:
 	ldr r1, [sp, #0x1c]
 	streq r0, [r2, #0x94]
 	and r2, r1, r4, lsr #23
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	and r1, r1, r4
 	orr r1, r1, r3
 	orr r1, r1, #0x100
 	strh r1, [r0]
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	ldr r1, [sp, #0x34]
 	orr r1, r3, r1
 	strh r1, [r0]
@@ -2775,7 +2775,7 @@ _020826FC:
 	cmp r9, #2
 	blt _02082464
 	ldr r0, [sp, #0x2c]
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	add r0, r0, #1
 	str r0, [sp, #0x2c]
 	add r7, r7, #8
@@ -3269,7 +3269,7 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
 	tst r1, #1
 	addne sp, sp, #0x8c
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0
 	addeq sp, sp, #0x8c
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -3294,7 +3294,7 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
 	mov r2, #1
 	bl NNS_G3dGeBufferOP_N
 	add r0, r7, #0x100
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r0, #0x20
 	add r1, sp, #0x1c
 	str r2, [sp, #0x1c]
@@ -3336,7 +3336,7 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
 	mov r0, #0x40
 	add r1, sp, #0x10
 	bl NNS_G3dGeBufferOP_N
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	mov r7, #0
 	cmp r0, #0
 	bls _020833CC
@@ -3344,7 +3344,7 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
 	and r9, r9, #0x2000
 _0208315C:
 	ldrh r1, [r5, #2]
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	cmp r8, #0
 	and r0, r1, #0xc000
 	and r2, r2, #0xc000
@@ -3356,7 +3356,7 @@ _0208315C:
 	mov r1, r1, lsr #0x10
 	beq _020831AC
 	ldrsh ip, [r4, #0xc]
-	ldrh r3, [r2]
+	ldrh r3, [r2, #0]
 	mov r1, r1, lsl #0x10
 	sub r1, ip, r1, asr #22
 	sub r1, r1, r3
@@ -3373,7 +3373,7 @@ _020831C0:
 	cmp r9, #0
 	beq _020831F4
 	ldrsh r1, [r4, #0xe]
-	ldrh r3, [r5]
+	ldrh r3, [r5, #0]
 	ldrh ip, [r2, #2]
 	mov r3, r3, lsl #0x17
 	mov r3, r3, lsr #0x10
@@ -3384,7 +3384,7 @@ _020831C0:
 	str r1, [sp, #0x84]
 	b _02083214
 _020831F4:
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	ldrsh r3, [r4, #0xe]
 	mov r1, r1, lsl #0x17
 	mov r1, r1, lsr #0x10
@@ -3395,7 +3395,7 @@ _020831F4:
 _02083214:
 	cmp r8, #0
 	beq _0208323C
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	sub r3, r1, #1
 	mov r3, r3, lsl #0x10
 	str r3, [sp, #0x50]
@@ -3406,7 +3406,7 @@ _02083214:
 _0208323C:
 	mov r1, #0
 	str r1, [sp, #0x50]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	mov r1, r1, lsl #0xc
 	str r1, [sp, #0x2c]
 _02083250:
@@ -3427,7 +3427,7 @@ _02083278:
 	mov r1, r1, lsl #0xc
 	str r1, [sp, #0x3c]
 _0208328C:
-	ldrh r3, [r2]
+	ldrh r3, [r2, #0]
 	ldrh r1, [r2, #2]
 	mov r2, r3, lsl #0xc
 	str r2, [sp, #0x5c]
@@ -3504,7 +3504,7 @@ _020832E8:
 	bl NNS_G3dGeBufferOP_N
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	mov r7, r0, lsr #0x10
 	add r5, r5, #8
 	cmp r1, r0, lsr #16
@@ -3858,7 +3858,7 @@ _020839A0:
 	add r11, r5, r0
 _020839C8:
 	ldr r2, [r9, #0x14]
-	ldr r3, [r4]
+	ldr r3, [r4, #0]
 	ldr r0, [r2, #0x14]
 	ldr r1, [r9, #0x40]
 	add r0, r2, r0

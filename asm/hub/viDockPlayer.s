@@ -67,7 +67,7 @@ ViDockPlayer__LoadAssets: // 0x02166604
 	sub r2, r1, #1
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r4, #0x330]
@@ -81,7 +81,7 @@ ViDockPlayer__LoadAssets: // 0x02166604
 	sub r2, r1, #2
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r4, #0x334]
@@ -240,13 +240,13 @@ ViDockPlayer__Func_21667D4: // 0x021667D4
 	cmp r1, r0
 	strlt r0, [r5, #0x324]
 	blt _021668C4
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	cmp r1, r0
 	bge _021668AC
 	ldr r0, [r2, #8]
 	add r1, r1, r0
 	str r1, [r5, #0x324]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	cmp r1, r0
 	strgt r0, [r5, #0x324]
 	b _021668C4
@@ -254,7 +254,7 @@ _021668AC:
 	ble _021668C4
 	sub r1, r1, #0x80
 	str r1, [r5, #0x324]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	cmp r1, r0
 	strlt r0, [r5, #0x324]
 _021668C4:
@@ -419,7 +419,7 @@ _02166AFC:
 _02166B08:
 	add r0, r5, #8
 	bl CPPHelpers__Func_2085F9C
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	add r1, sp, #0x1c
 	str r2, [r5, #0x318]
 	ldr r3, [r0, #4]

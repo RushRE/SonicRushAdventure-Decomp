@@ -327,7 +327,7 @@ _0216CCF0: .word exMsgTitleTask__TaskSingleton
 ovl09_216CCF4: // 0x0216CCF4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	ldrsh r2, [r0]
+	ldrsh r2, [r0, #0]
 	sub r1, r2, #1
 	strh r1, [r0]
 	cmp r2, #0
@@ -1041,7 +1041,7 @@ _0216D71C: .word ovl09_216D720
 ovl09_216D720: // 0x0216D720
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	ldrsh r2, [r0]
+	ldrsh r2, [r0, #0]
 	sub r1, r2, #1
 	strh r1, [r0]
 	cmp r2, #0
@@ -1118,7 +1118,7 @@ _0216D800: .word ovl09_216D804
 ovl09_216D804: // 0x0216D804
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	ldrsh r2, [r0]
+	ldrsh r2, [r0, #0]
 	sub r1, r2, #1
 	strh r1, [r0]
 	cmp r2, #0
@@ -1177,7 +1177,7 @@ _0216D8C4: .word exMsgTitleTask__Func8
 	arm_func_start ovl09_216D8C8
 ovl09_216D8C8: // 0x0216D8C8
 	ldr r0, _0216D8D4 // =exMsgTitleTask__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _0216D8D4: .word exMsgTitleTask__TaskSingleton

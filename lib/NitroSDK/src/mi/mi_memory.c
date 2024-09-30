@@ -232,7 +232,7 @@ asm void MI_CpuFill8(register void *dstp, register u8 data, register u32 size)
 @_05:
 	tst r2, #1
 	bxeq lr
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	and r3, r3, #0xff00
 	and r1, r1, #0xff
 	orr r1, r1, r3
@@ -253,7 +253,7 @@ asm void MI_CpuCopy8(register const void *srcp, register void *dstp, register u3
 	tst r0, #1
 	ldrneh r3, [r0, #-1]
 	movne r3, r3, lsr #8
-	ldreqh r3, [r0]
+	ldreqh r3, [r0, #0]
 	orr r3, r12, r3, lsl #8
 	strh r3, [r1, #-1]
 	add r0, r0, #1
@@ -282,7 +282,7 @@ asm void MI_CpuCopy8(register const void *srcp, register void *dstp, register u3
 @_03:
 	tst r2, #1
 	bxeq lr
-	ldrh r12, [r1]
+	ldrh r12, [r1, #0]
 	and r12, r12, #0xff00
 	orr r12, r12, r3
 	strh r12, [r1]
@@ -333,8 +333,8 @@ asm void MI_CpuCopy8(register const void *srcp, register void *dstp, register u3
 @_10:
 	tst r2, #1
 	bxeq lr
-	ldrh r2, [r1]
-	ldrh r0, [r0]
+	ldrh r2, [r1, #0]
+	ldrh r0, [r0, #0]
 	and r2, r2, #0xff00
 	and r0, r0, #0xff
 	orr r0, r2, r0

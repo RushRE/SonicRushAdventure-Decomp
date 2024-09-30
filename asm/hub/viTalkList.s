@@ -392,7 +392,7 @@ _0216A714:
 	addeq r0, r0, r0, lsl #1
 	streqh r0, [r7, #2]
 	beq _0216A75C
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	orr r0, r0, #1
 	strh r0, [r7]
 	strh r9, [r7, #2]
@@ -400,13 +400,13 @@ _0216A75C:
 	mov r0, r10
 	bl ovl05_2153F24
 	cmp r0, #1
-	ldreqh r0, [r7]
+	ldreqh r0, [r7, #0]
 	orreq r0, r0, #2
 	streqh r0, [r7]
 	mov r0, r10
 	bl ovl05_2153EA4
 	cmp r0, #1
-	ldreqh r0, [r7]
+	ldreqh r0, [r7, #0]
 	add r6, r6, #1
 	add r8, r8, #4
 	orreq r0, r0, #4
@@ -1088,7 +1088,7 @@ ViTalkList__Func_216B094: // 0x0216B094
 	mov r5, r0
 	mov r2, #6
 _0216B0AC:
-	ldrb r1, [r3]
+	ldrb r1, [r3, #0]
 	ldrb r0, [r3, #1]
 	add r3, r3, #2
 	strb r1, [ip]
@@ -1096,13 +1096,13 @@ _0216B0AC:
 	add ip, ip, #2
 	subs r2, r2, #1
 	bne _0216B0AC
-	ldrb r0, [r3]
+	ldrb r0, [r3, #0]
 	ldr r4, _0216B3CC // =0x021731A5
 	add r3, sp, #0
 	strb r0, [ip]
 	mov r2, #6
 _0216B0E0:
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	ldrb r0, [r4, #1]
 	add r4, r4, #2
 	strb r1, [r3]
@@ -1110,7 +1110,7 @@ _0216B0E0:
 	add r3, r3, #2
 	subs r2, r2, #1
 	bne _0216B0E0
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	mvn r0, #0
 	strb r1, [r3]
 	ldr r1, [r5, #0x4d8]
@@ -1384,8 +1384,8 @@ ViTalkList__Func_216B4C4: // 0x0216B4C4
 	cmp r0, #0
 	mov r2, #0x4000000
 	beq _0216B4F4
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -1394,8 +1394,8 @@ ViTalkList__Func_216B4C4: // 0x0216B4C4
 	str r0, [r2]
 	bx lr
 _0216B4F4:
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -1410,8 +1410,8 @@ ViTalkList__Func_216B518: // 0x0216B518
 	cmp r0, #0
 	ldr r2, _0216B56C // =0x04001000
 	beq _0216B548
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -1420,8 +1420,8 @@ ViTalkList__Func_216B518: // 0x0216B518
 	str r0, [r2]
 	bx lr
 _0216B548:
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -1438,8 +1438,8 @@ ViTalkList__Func_216B570: // 0x0216B570
 	cmp r0, #0
 	mov r2, #0x4000000
 	beq _0216B5A0
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -1448,8 +1448,8 @@ ViTalkList__Func_216B570: // 0x0216B570
 	str r0, [r2]
 	bx lr
 _0216B5A0:
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -1464,8 +1464,8 @@ ViTalkList__Func_216B5C4: // 0x0216B5C4
 	cmp r0, #0
 	ldr r2, _0216B618 // =0x04001000
 	beq _0216B5F4
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -1474,8 +1474,8 @@ ViTalkList__Func_216B5C4: // 0x0216B5C4
 	str r0, [r2]
 	bx lr
 _0216B5F4:
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00

@@ -233,8 +233,8 @@ _02155C60:
 	ldmeqia sp!, {r4, pc}
 	ldr r3, _02155CA8 // =0x04001000
 	ldr r0, _02155CAC // =Task__OV05Unknown2155974__Main_2155CB0
-	ldr r2, [r3]
-	ldr r1, [r3]
+	ldr r2, [r3, #0]
+	ldr r1, [r3, #0]
 	and r2, r2, #0x1f00
 	mov ip, r2, lsr #8
 	bic r2, r1, #0x1f00

@@ -12,17 +12,17 @@ SeaMapCutscene__Create: // 0x0216FF90
 	bl LoadAudioSndArc
 	ldr r1, _02170264 // =audioManagerSndHeap
 	mov r0, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadSeqArc
 	ldr r1, _02170264 // =audioManagerSndHeap
 	mov r0, #1
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadBank
 	bl SeaMapCutscene__InitDisplay
 	ldr r0, _02170268 // =VRAMSystem__GFXControl
 	mov r2, #1
 	ldr r1, _0217026C // =renderCurrentDisplay
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	str r2, [r1]
 	sub r3, r2, #0x11
 	strh r3, [r5, #0x58]
@@ -66,7 +66,7 @@ SeaMapCutscene__Create: // 0x0216FF90
 	bl ReadFileFromBundle
 	str r0, [r4, #0x144]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _021700B8
@@ -79,7 +79,7 @@ _02170094: // jump table
 	b _021700AC // case 5
 _021700AC:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _021700BC
 _021700B8:
 	mov r1, #1
@@ -110,7 +110,7 @@ _021700BC:
 	bl GXS_SetGraphicsMode
 	ldr r5, _0217028C // =0x04001008
 	mov r2, #0
-	ldrh r3, [r5]
+	ldrh r3, [r5, #0]
 	mov r1, #0x20
 	mov r0, #0x18
 	and r3, r3, #0x43
@@ -211,7 +211,7 @@ _02170298: .word TouchField__PointInRect
 SeaMapCutscene__TouchCallback: // 0x0217029C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r4, r2
 	cmp r0, #0x40000
 	addne sp, sp, #8
@@ -260,12 +260,12 @@ SeaMapCutscene__InitDisplay: // 0x02170304
 	mov r3, #0
 	bl VRAMSystem__SetupSubOBJBank
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r2, r1, #0x1000
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1f00
 	str r0, [r1]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r1, #0
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1100
@@ -467,7 +467,7 @@ SeaMapCutscene__Func_2170600: // 0x02170600
 	bl SeaMapManager__GetWork
 	ldr r5, [r0, #0x160]
 	mov r6, #0
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #0
 	bls _0217066C
 	add r4, r5, #2
@@ -486,7 +486,7 @@ _02170624:
 	moveq r0, r8
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
 _02170654:
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
 	cmp r1, r0, lsr #16

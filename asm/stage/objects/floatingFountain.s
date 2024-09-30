@@ -50,7 +50,7 @@ FloatingFountain__Create: // 0x021809C8
 	mov r3, r0
 	ldr r0, _02180BF4 // =gameArchiveStage
 	ldr r1, _02180BF8 // =0x0000FFFF
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -72,7 +72,7 @@ FloatingFountain__Create: // 0x021809C8
 	bl GetObjectFileWork
 	ldr r1, _02180BF4 // =gameArchiveStage
 	mov r3, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _02180BFC // =aActAcGmkFloatF
 	str r2, [sp]
 	mov r0, r5
@@ -246,7 +246,7 @@ FloatingFountain__OnDefend: // 0x02180CF8
 	cmpne r5, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	addne sp, sp, #8
 	ldmneia sp!, {r3, r4, r5, pc}

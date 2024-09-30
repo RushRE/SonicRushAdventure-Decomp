@@ -76,7 +76,7 @@ sub_208D578: // 0x0208D578
 	movne r0, #0xff
 	strneh r0, [r3]
 	ldr r0, _0208D5A8 // =0x02143988
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _0208D5A8: .word 0x02143988
@@ -471,12 +471,12 @@ _0208DAF0:
 	b _0208D8D4
 _0208DB10:
 	ldr r0, _0208DC50 // =0x0214398C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	bne _0208D8D4
 	ldr r0, _0208DC60 // =0x02143988
 	ldr r8, [sp, #0xa8]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	bne _0208DC28
 	cmp r9, #7
@@ -507,7 +507,7 @@ _0208DB7C:
 	bl DC_InvalidateRange
 	cmp r9, #4
 	bne _0208DBAC
-	ldrb r0, [r10]
+	ldrb r0, [r10, #0]
 	ands r0, r0, #2
 	ldrne r9, [sp, #0xb0]
 	bne _0208D8D4
@@ -515,7 +515,7 @@ _0208DB7C:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0208DBAC:
-	ldrb r1, [r10]
+	ldrb r1, [r10, #0]
 	ands r0, r1, #1
 	addeq sp, sp, #0xc4
 	moveq r0, #1
@@ -572,7 +572,7 @@ _0208DC64: .word 0x000082EA
 
 	arm_func_start DWC_BACKUPlCheckAddress
 DWC_BACKUPlCheckAddress: // 0x0208DC68
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #0x7f
 	moveq r0, #0
 	bxeq lr
@@ -692,7 +692,7 @@ sub_208DDC4: // 0x0208DDC4
 	sub sp, sp, #4
 	ldr r1, _0208DE60 // =0x02143990
 	mov r10, r0
-	ldr r8, [r1]
+	ldr r8, [r1, #0]
 	mov r7, r10
 	mov r9, #0
 	add r4, r10, #0x400
@@ -739,7 +739,7 @@ sub_208DE64: // 0x0208DE64
 	sub sp, sp, #4
 	ldr r3, _0208DEEC // =0x02143990
 	mov r4, r0
-	ldr r6, [r3]
+	ldr r6, [r3, #0]
 	mov r9, r1
 	mov r8, r2
 	mov r7, #0
@@ -782,7 +782,7 @@ DWCi_BACKUPlRead: // 0x0208DEF0
 	sub sp, sp, #4
 	ldr r1, _0208DF20 // =0x02143990
 	mov r2, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r1, #0x400
 	bl sub_208D6E4
 	cmp r0, #0
@@ -805,7 +805,7 @@ DWCi_BACKUPlInit: // 0x0208DF24
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	ldr r1, _0208DF64 // =0x02143990
 	mov r0, #1
 	mov r2, r2, lsl #3
@@ -822,7 +822,7 @@ DWCi_BM_SetWiFiInfo: // 0x0208DF68
 	sub sp, sp, #4
 	ldr r2, _0208E044 // =0x02143990
 	mov r10, r1
-	ldr r8, [r2]
+	ldr r8, [r2, #0]
 	bl DWCi_BACKUPlConvWifiInfo
 	ldr r1, _0208E048 // =0x0000A001
 	add r0, r10, #0x200
@@ -890,7 +890,7 @@ DWCi_BM_GetWiFiInfo: // 0x0208E050
 	mov r1, r4
 	mov r2, #6
 	bl MI_CpuCopy8
-	ldr r3, [r4]
+	ldr r3, [r4, #0]
 	mvn r0, #0
 	ldr r2, [r4, #4]
 	ldr r1, _0208E11C // =0x000007FF
@@ -949,7 +949,7 @@ sub_208E130: // 0x0208E130
 	sub sp, sp, #4
 	ldr r1, _0208E160 // =0x02143990
 	mov r2, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r1, #0x300
 	bl sub_208D6E4
 	cmp r0, #0

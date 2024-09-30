@@ -342,7 +342,7 @@ NONMATCH_FUNC void CreateItemBoxReward(s32 type)
 	sub sp, sp, #0xc
 	ldr r1, =itemBoxRewardTask
 	mov r6, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	beq _02174518
 	bl GetTaskWork_
@@ -367,7 +367,7 @@ NONMATCH_FUNC void CreateItemBoxReward(s32 type)
 	mov r0, #0x46
 	bl GetObjectFileWork
 	mov r1, r7, lsl #0x10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, r6
 	mov r1, r1, lsr #0x10
 	bl ObjDrawAllocSpritePalette
@@ -400,7 +400,7 @@ _02174518:
 	mov r0, #0
 	bl OS_GetArenaLo
 	ldr r1, =itemBoxRewardTask
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, r0
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
@@ -426,7 +426,7 @@ _02174518:
 	mov r3, r0
 	ldr r0, =gameArchiveCommon
 	mov r1, #2
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]

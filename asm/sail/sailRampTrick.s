@@ -254,7 +254,7 @@ SailRampTrick__Func_2178408: // 0x02178408
 	bne _021784A0
 	ldr r3, _02178738 // =_mt_math_rand
 	ldr r0, _0217873C // =0x00196225
-	ldr r6, [r3]
+	ldr r6, [r3, #0]
 	ldr r2, _02178740 // =0x3C6EF35F
 	mov r1, #0x1e
 	mla r2, r6, r0, r2
@@ -348,7 +348,7 @@ _02178590:
 	add r0, ip, #1
 	mov r0, r0, lsl #0x10
 	strb r8, [r2, #0xb]
-	ldrb r8, [r1]
+	ldrb r8, [r1, #0]
 	cmp r3, #0
 	mov r8, r8, lsl #0x18
 	mov r8, r8, lsr #0x1c
@@ -359,13 +359,13 @@ _02178590:
 	add r0, r8, r6
 	add r0, r0, #0x80
 	strh r0, [r2]
-	ldrsh r8, [r2]
+	ldrsh r8, [r2, #0]
 	ldrsh r0, [r7, #0xe8]
 	add r0, r8, r0
 	strh r0, [r2]
 	ldrb r0, [r1, #2]
 	strh r0, [r2, #2]
-	ldrb r0, [r1]
+	ldrb r0, [r1, #0]
 	mov r0, r0, lsl #0x1c
 	mov r0, r0, lsr #0x1c
 	strb r0, [r2, #6]
@@ -390,7 +390,7 @@ _02178654:
 	strh r0, [r2, #2]
 	b _021786F0
 _02178664:
-	ldrb r0, [r1]
+	ldrb r0, [r1, #0]
 	mov r0, r0, lsl #0x1c
 	mov r0, r0, lsr #0x1c
 	and r0, r0, #3
@@ -420,7 +420,7 @@ _021786AC:
 	orrls r0, r0, #0x100
 	strls r0, [r2, #0xd8]
 _021786D4:
-	ldrb r0, [r1]
+	ldrb r0, [r1, #0]
 	mov r0, r0, lsl #0x1c
 	mov r0, r0, lsr #0x1c
 	cmp r0, #8
@@ -588,14 +588,14 @@ _021788FC:
 	ldrh r0, [r4, #0x3c]
 	tst r0, #1
 	bne _02178994
-	ldrsh r0, [r6]
+	ldrsh r0, [r6, #0]
 	sub r0, r0, #1
 	strh r0, [r6]
 	ldrsh r0, [r5, #0xe4]
 	cmp r0, #0
 	bne _0217899C
 	ldrsh r2, [r8, #2]
-	ldrsh r1, [r8]
+	ldrsh r1, [r8, #0]
 	add r0, sp, #0x44
 	mov r2, r2, lsl #0xc
 	mov r1, r1, lsl #0xc
@@ -603,7 +603,7 @@ _021788FC:
 	mov r1, #0
 	str r2, [sp, #0x48]
 	str r1, [sp, #0x4c]
-	ldrh r1, [r11]
+	ldrh r1, [r11, #0]
 	orr r1, r1, #8
 	strh r1, [r11]
 	bl SailJetHUDCross__Create
@@ -695,7 +695,7 @@ _02178A94:
 	ldrb r0, [r8, #8]
 	cmp r0, #0
 	beq _02178B98
-	ldrsh r1, [r8]
+	ldrsh r1, [r8, #0]
 	ldrsh r2, [r8, #2]
 	add r0, sp, #0x28
 	mov r1, r1, lsl #0xc
@@ -712,7 +712,7 @@ _02178A94:
 	strh r0, [r5, #0xe4]
 	ldr r0, [sp, #0x1c]
 	mov r1, #0x32
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	add r2, r0, #1
 	ldr r0, [sp, #0x1c]
 	strh r2, [r0]
@@ -830,7 +830,7 @@ SailRampTrick__Func_2178BCC: // 0x02178BCC
 	mov r10, r3, asr #0x1f
 	str r10, [sp, #0xc]
 	add r10, ip, r2
-	ldrsh r11, [r1]
+	ldrsh r11, [r1, #0]
 	add lr, r6, r4
 	str r10, [sp, #0x1c]
 	add r10, r11, lr
@@ -849,7 +849,7 @@ SailRampTrick__Func_2178BCC: // 0x02178BCC
 	str r10, [sp, #0x24]
 	add r11, r10, r4
 	smull r10, r4, r8, r5
-	ldrsh r8, [r1]
+	ldrsh r8, [r1, #0]
 	add r8, r8, r11
 	strh r8, [r0, #4]
 	adds r10, r10, #0x800
@@ -870,7 +870,7 @@ SailRampTrick__Func_2178BCC: // 0x02178BCC
 	adc r2, r2, #0
 	orr r3, r3, r2, lsl #20
 	ldr r2, [sp, #0x24]
-	ldrsh r5, [r1]
+	ldrsh r5, [r1, #0]
 	add r6, r6, r3
 	add r2, r2, r3
 	add r5, r5, r6
@@ -889,7 +889,7 @@ SailRampTrick__Func_2178BCC: // 0x02178BCC
 	add r3, r4, r3
 	add r4, r5, r6
 	strh r4, [r0, #0xa]
-	ldrsh r4, [r1]
+	ldrsh r4, [r1, #0]
 	add r2, r4, r2
 	strh r2, [r0, #0xc]
 	ldrsh r1, [r1, #2]
@@ -1180,7 +1180,7 @@ _02179198:
 	beq _02179264
 	tst r1, #8
 	bne _02179264
-	ldrsh r2, [r0]
+	ldrsh r2, [r0, #0]
 	ldr r1, [sp, #0x10]
 	mov r2, r2, lsl #0xc
 	str r2, [sp, #0x14]

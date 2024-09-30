@@ -96,7 +96,7 @@ ovl09_2163EC4: // 0x02163EC4
 	cmp r1, #0
 	beq _02163F74
 _02163EE4:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	cmp r0, #0
 	ldrneh r0, [r1, #2]
 	cmpne r0, #0
@@ -204,7 +204,7 @@ ovl09_2164034: // 0x02164034
 	cmp r0, #0
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
 	ldr r0, _02164168 // =0x0217644C
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #0xa0
 	ldmhsia sp!, {r4, r5, r6, r7, r8, pc}
 	ldrb r1, [r7, #1]
@@ -254,10 +254,10 @@ _021640E4:
 _02164100:
 	ldr r0, _02164168 // =0x0217644C
 	cmp r4, #0
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	add r1, r1, #1
 	strh r1, [r0]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	strh r0, [r6]
 	ldrh r0, [r7, #4]
 	strh r0, [r6, #2]
@@ -404,7 +404,7 @@ ovl09_2164288: // 0x02164288
 	movhi r0, #0
 	ldmhiia sp!, {r4, pc}
 	bl ovl09_2164260
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	mov r1, r4, lsl #0x1c
 	bic r2, r2, #0xf0
 	orr r1, r2, r1, lsr #24
@@ -415,7 +415,7 @@ ovl09_2164288: // 0x02164288
 
 	arm_func_start ovl09_21642BC
 ovl09_21642BC: // 0x021642BC
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	mov r1, r2, lsl #0x18
 	movs r1, r1, lsr #0x1c
 	moveq r0, #1

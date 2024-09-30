@@ -199,13 +199,13 @@ _02046978: .word VRAMSystem__VRAM_PALETTE_OBJ
 SeaMapEventManager__Destroy: // 0x0204697C
 	stmdb sp!, {r3, lr}
 	ldr r0, _020469A8 // =0x0213419C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	mov r0, #1
 	bl ClearTaskScope
 	ldr r0, _020469A8 // =0x0213419C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl DestroyTask
 	ldmia sp!, {r3, pc}
 	.align 2, 0
@@ -305,7 +305,7 @@ SeaMapEventManager__GetObjectFromID: // 0x02046AA8
 	bl SeaMapManager__GetWork
 	ldr r2, [r0, #0x160]
 	mov r0, #0x12
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	add r3, r2, #2
 	mov lr, #0
 	mul r0, r1, r0
@@ -429,19 +429,19 @@ _02046C68:
 	add r1, r10, r1
 	cmp r1, r0
 	bgt _02046CA0
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	str r9, [r5, r0, lsl #3]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	add r0, r5, r0, lsl #3
 	str r1, [r0, #4]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	add r0, r0, #1
 	strh r0, [r4]
 _02046CA0:
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
 	mov r8, r0, lsr #0x10
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	cmp r1, r0, lsr #16
 	bhi _02046B6C
 	add sp, sp, #0x10
@@ -453,14 +453,14 @@ _02046CC4: .word 0x0000065D
 
 	arm_func_start SeaMapEventManager__GetObjectType
 SeaMapEventManager__GetObjectType: // 0x02046CC8
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	bic r0, r0, #0x8000
 	bx lr
 	arm_func_end SeaMapEventManager__GetObjectType
 
 	arm_func_start SeaMapEventManager__ObjectIsActive
 SeaMapEventManager__ObjectIsActive: // 0x02046CD4
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x8000
 	moveq r0, #1
 	movne r0, #0
@@ -810,7 +810,7 @@ SeaMapEventManager__CreateStylusIcon: // 0x0204707C
 SeaMapEventManager__DestroyStylusIcon: // 0x020470D0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	bl DestroyTask
@@ -957,7 +957,7 @@ _02047288: .word 0x02110048
 SeaMapEventManager__GetWork: // 0x0204728C
 	ldr r0, _0204729C // =0x0213419C
 	ldr ip, _020472A0 // =GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx ip
 	.align 2, 0
 _0204729C: .word 0x0213419C
@@ -970,7 +970,7 @@ SeaMapEventManager__SpawnObjects1: // 0x020472A4
 	bl SeaMapManager__GetWork
 	ldr r6, [r0, #0x160]
 	mov r7, #0
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #0
 	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r4, _0204731C // =SeaMapEventManager__ObjectList
@@ -982,7 +982,7 @@ _020472CC:
 	bl SeaMapEventManager__ObjectIsActive
 	cmp r0, #0
 	beq _02047300
-	ldrh r0, [r8]
+	ldrh r0, [r8, #0]
 	ldrb r1, [r8, #6]
 	add r0, r4, r0, lsl #4
 	tst r1, #1
@@ -991,7 +991,7 @@ _020472CC:
 	mov r1, r8
 	blx r2
 _02047300:
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	cmp r1, r0, lsr #16
@@ -1010,7 +1010,7 @@ SeaMapEventManager__SpawnObjects2: // 0x02047320
 	bl SeaMapManager__GetWork
 	ldr r7, [r0, #0x160]
 	mov r8, #0
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	cmp r0, #0
 	bls _020473A8
 	ldr r5, _020473BC // =SeaMapEventManager__ObjectList
@@ -1022,7 +1022,7 @@ _02047350:
 	bl SeaMapEventManager__ObjectIsActive
 	cmp r0, #0
 	beq _02047390
-	ldrh r1, [r9]
+	ldrh r1, [r9, #0]
 	add r0, r9, #2
 	add r10, r5, r1, lsl #4
 	add r1, r10, #4
@@ -1034,7 +1034,7 @@ _02047350:
 	mov r1, r9
 	blx r2
 _02047390:
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
 	cmp r1, r0, lsr #16
@@ -1114,7 +1114,7 @@ SeaMapEventManager__ObjectInBounds: // 0x0204742C
 	mov r9, r2, lsl #0x10
 	mov r10, r0, lsl #0x10
 	bl SeaMapManager__GetZoomInScale
-	ldrsb r1, [r6]
+	ldrsb r1, [r6, #0]
 	mul r0, r1, r0
 	mov r0, r0, lsl #4
 	mov r4, r0, asr #0x10
@@ -1128,7 +1128,7 @@ SeaMapEventManager__ObjectInBounds: // 0x0204742C
 	sub r0, r5, r0, asr #16
 	mov r1, r0, lsl #0x10
 	add r3, r2, r10, asr #16
-	ldrsh r2, [r7]
+	ldrsh r2, [r7, #0]
 	mov r0, r6, lsl #0x10
 	mov r5, r1, asr #0x10
 	cmp r2, r0, asr #16
@@ -1156,7 +1156,7 @@ SeaMapEventManager__Func_20474FC: // 0x020474FC
 	bl SeaMapManager__GetZoomOutScale
 	mov r4, r0
 	bl SeaMapManager__GetXPos
-	ldrsh r1, [r6]
+	ldrsh r1, [r6, #0]
 	sub r0, r1, r0, asr #12
 	mul r0, r4, r0
 	mov r0, r0, asr #0xc
@@ -1173,7 +1173,7 @@ SeaMapEventManager__Func_20474FC: // 0x020474FC
 	arm_func_start SeaMapEventManager__SetObjectAsActive
 SeaMapEventManager__SetObjectAsActive: // 0x02047544
 	ldr r1, [r0, #8]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	orr r0, r0, #0x8000
 	strh r0, [r1]
 	bx lr
@@ -1182,7 +1182,7 @@ SeaMapEventManager__SetObjectAsActive: // 0x02047544
 	arm_func_start SeaMapEventManager__SetObjectAsInactive
 SeaMapEventManager__SetObjectAsInactive: // 0x02047558
 	ldr r1, [r0, #8]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #0x8000
 	strh r0, [r1]
 	bx lr
@@ -1223,7 +1223,7 @@ SeaMapEventManager__GetViewRect2: // 0x020475A8
 	sub r5, r5, lr
 	mov r5, r5, lsl #0xb
 	str r5, [r4]
-	ldrsh r4, [r0]
+	ldrsh r4, [r0, #0]
 	ldrsh lr, [r0, #4]
 	add r4, r4, lr
 	add r1, r1, r4, asr #1

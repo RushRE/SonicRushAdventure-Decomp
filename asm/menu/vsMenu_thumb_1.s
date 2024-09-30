@@ -9,7 +9,7 @@
 VSMenuBackground__Destroy: // 0x02167164
 	push {r3, r4, r5, lr}
 	ldr r0, _02167188 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, #0x8f
 	mov r4, r0
@@ -32,7 +32,7 @@ VSMenuNetworkMessage__Func_216718C: // 0x0216718C
 	push {r4, r5, lr}
 	sub sp, #0x14
 	ldr r0, _02167210 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r2, #0x93
 	mov r4, r0
@@ -93,12 +93,12 @@ _02167210: .word VSMenu__Singleton
 VSMenuNetworkMessage__Func_2167214: // 0x02167214
 	push {r4, lr}
 	ldr r0, _02167260 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
 	add r4, r0, r1
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	beq _0216722E
 	bl DestroyTask
@@ -133,19 +133,19 @@ VSMenuNetworkMessage__Create: // 0x02167264
 	sub sp, #0xc
 	mov r5, r0
 	ldr r0, _021672E0 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _021672E4 // =0x0400000A
 	mov r2, #0x93
 	lsl r2, r2, #2
 	add r4, r0, r2
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	mov r0, #0x43
 	add r2, #0xb4
 	and r0, r3
 	orr r0, r2
 	strh r0, [r1]
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	mov r2, #3
 	mov r0, #1
 	bic r3, r2
@@ -203,7 +203,7 @@ VSMenu__InitFontWindow: // 0x021672FC
 	sub sp, #0x30
 	mov r5, r0
 	ldr r0, _02167444 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r6, r0
 	mov r0, #0x93
@@ -274,7 +274,7 @@ _0216731A:
 	ldrh r1, [r1, #6]
 	ldr r0, _0216744C // =VRAMSystem__VRAM_BG
 	lsl r2, r2, #0x10
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	lsl r1, r1, #0xe
 	add r1, r2, r1
 	add r2, r5, r1
@@ -293,7 +293,7 @@ _0216731A:
 	add r3, sp, #0x24
 	bl GetVRAMTileConfig
 	add r1, sp, #0x24
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	ldrh r1, [r1, #2]
 	mov r0, #0
 	lsl r2, r2, #0x10
@@ -371,7 +371,7 @@ VSMenu__Func_2167464: // 0x02167464
 	push {r4, r5, lr}
 	sub sp, #0xc
 	ldr r0, _021674C0 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #1
 	ldr r5, _021674C4 // =0x0000091C
@@ -417,7 +417,7 @@ _021674C4: .word 0x0000091C
 VSMenu__Func_21674C8: // 0x021674C8
 	push {r3, lr}
 	ldr r0, _021674DC // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _021674E0 // =0x0000091C
 	add r0, r0, r1
@@ -434,7 +434,7 @@ VSMenuBackButton__TouchCallback: // 0x021674E4
 	mov r4, #1
 	ldr r3, [r1, #0x14]
 	mov r1, r2
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	lsl r4, r4, #0x10
 	add r1, #0x64
 	cmp r5, r4
@@ -498,7 +498,7 @@ _02167550:
 _02167558:
 	ldr r0, _02167598 // =VSMenu__Singleton
 	mov r1, r2
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	b _0216757C
 _02167564:
@@ -549,8 +549,8 @@ _021675B8:
 	pop {r3, pc}
 _021675C0:
 	ldr r0, _021675D0 // =VSMenu__Singleton
-	ldr r1, [r2]
-	ldr r0, [r0]
+	ldr r1, [r2, #0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
@@ -583,7 +583,7 @@ VSMenu__Main: // 0x021675F0
 	push {r3, r4, r5, lr}
 	sub sp, #0x20
 	ldr r0, _021676E4 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r5, _021676E8 // =0x0000091C
@@ -710,7 +710,7 @@ VSMenu__Main_216770C: // 0x0216770C
 	push {r4, r5, r6, lr}
 	sub sp, #0x20
 	ldr r0, _0216783C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	ldr r4, _02167840 // =0x0000091C
@@ -862,7 +862,7 @@ VSMenu__Func_2167860: // 0x02167860
 	push {r3, r4, r5, lr}
 	sub sp, #0x20
 	ldr r0, _0216792C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r5, _02167930 // =0x0000091C
@@ -967,7 +967,7 @@ _0216794C: .word VSMenu__Main_2167950
 VSMenu__Main_2167950: // 0x02167950
 	push {r4, lr}
 	ldr r0, _021679BC // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl MultibootManager__Func_2060CC8
@@ -995,7 +995,7 @@ _0216797C:
 	str r1, [r4, r0]
 	ldr r0, _021679BC // =VSMenu__Singleton
 	ldr r1, _021679C4 // =VSMenu__Main_21692B8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r4, pc}
 _02167994:
@@ -1007,7 +1007,7 @@ _02167994:
 	str r1, [r4, r0]
 	ldr r0, _021679BC // =VSMenu__Singleton
 	ldr r1, _021679C8 // =VSMenu__Main_2169324
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 _021679AA:
 	ldr r0, _021679CC // =0x0000091C
@@ -1048,7 +1048,7 @@ VSMenu__Main_GotoVSMenu: // 0x021679EC
 	beq _02167A0A
 	bl DestroyDrawFadeTask
 	ldr r0, _02167A0C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl VSMenu__Destroy
 	bl NextSysEvent
 	bl DestroyCurrentTask
@@ -1062,7 +1062,7 @@ _02167A0C: .word VSMenu__Singleton
 VSMenu__Main_2167A10: // 0x02167A10
 	push {r4, lr}
 	ldr r0, _02167A34 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xa
@@ -1084,7 +1084,7 @@ _02167A3C: .word VSMenu__Main_2167A40
 VSMenu__Main_2167A40: // 0x02167A40
 	push {r3, lr}
 	ldr r0, _02167A60 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _02167A64 // =0x00001874
 	add r0, r0, r1
@@ -1106,7 +1106,7 @@ VSMenu__Main_2167A6C: // 0x02167A6C
 	push {r4, r5, r6, lr}
 	sub sp, #0x20
 	ldr r0, _02167B3C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	ldr r4, _02167B40 // =0x0000091C
@@ -1213,7 +1213,7 @@ VSMenu__Main_2167B5C: // 0x02167B5C
 	push {r4, r5, r6, lr}
 	sub sp, #0x20
 	ldr r0, _02167C60 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	ldr r4, _02167C64 // =0x0000091C
@@ -1343,7 +1343,7 @@ VSMenu__Main_2167C80: // 0x02167C80
 	push {r3, r4, lr}
 	sub sp, #0xc
 	ldr r0, _02167CCC // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x11
@@ -1382,7 +1382,7 @@ VSMenu__Main_2167CD8: // 0x02167CD8
 	push {r3, r4, lr}
 	sub sp, #0xc
 	ldr r0, _02167D24 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x12
@@ -1421,7 +1421,7 @@ VSMenu__Main_2167D34: // 0x02167D34
 	push {r3, r4, lr}
 	sub sp, #0xc
 	ldr r0, _02167D80 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xf
@@ -1459,7 +1459,7 @@ _02167D88: .word VSMenu__Main_2167D8C
 VSMenu__Main_2167D8C: // 0x02167D8C
 	push {r4, lr}
 	ldr r0, _02167E10 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02167E14 // =0x00000918
@@ -1532,7 +1532,7 @@ VSMenu__Main_2167E28: // 0x02167E28
 	push {r4, r5, r6, lr}
 	sub sp, #0x20
 	ldr r0, _02167F2C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	ldr r4, _02167F30 // =0x0000091C
@@ -1662,7 +1662,7 @@ VSMenu__Main_2167F4C: // 0x02167F4C
 	push {r3, r4, lr}
 	sub sp, #0xc
 	ldr r0, _02167F9C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x11
@@ -1702,7 +1702,7 @@ VSMenu__Main_2167FAC: // 0x02167FAC
 	push {r3, r4, lr}
 	sub sp, #0xc
 	ldr r0, _02167FFC // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x12
@@ -1741,7 +1741,7 @@ _02168008: .word VSMenu__Main_216800C
 VSMenu__Main_216800C: // 0x0216800C
 	push {r4, lr}
 	ldr r0, _0216807C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02168080 // =0x00000918
@@ -1801,7 +1801,7 @@ _0216808C: .word VSMenu__Main_2169324
 VSMenu__Main_2168090: // 0x02168090
 	push {r4, lr}
 	ldr r0, _021680C4 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _021680C8 // =0x00001874
@@ -1830,7 +1830,7 @@ _021680D4: .word 0x00001294
 VSMenu__Main_21680D8: // 0x021680D8
 	push {r4, lr}
 	ldr r0, _0216810C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl VSMenu__Func_2167464
@@ -1983,7 +1983,7 @@ _02168220:
 	mov r0, #0x23
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _0216827C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _02168280 // =0x00001958
 	mov r2, #0
@@ -2043,7 +2043,7 @@ _021682BE:
 	ldr r0, _02168330 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168334 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _02168338 // =0x00001958
 	ldr r0, [r0, r1]
@@ -2158,7 +2158,7 @@ _021683B4:
 	mov r0, #0x23
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168410 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _02168414 // =0x00001958
 	mov r2, #1
@@ -2361,7 +2361,7 @@ _02168594:
 	mov r0, #0x23
 	bl VSMenu__SetNetworkMessageSequence
 	ldr r0, _02168608 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216860C // =0x00001958
 	mov r2, #1
@@ -2500,7 +2500,7 @@ VSMenu__Main_21686EC: // 0x021686EC
 	push {r3, r4, r5, lr}
 	sub sp, #0x20
 	ldr r0, _0216878C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r5, _02168790 // =0x0000091C
@@ -2584,7 +2584,7 @@ VSMenu__Main_21687AC: // 0x021687AC
 	push {r3, r4, r5, lr}
 	sub sp, #0x20
 	ldr r0, _0216884C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r5, _02168850 // =0x0000091C
@@ -2667,7 +2667,7 @@ _02168868: .word VSMenu__Main_2167950
 VSMenu__Main_216886C: // 0x0216886C
 	push {r4, lr}
 	ldr r0, _02168890 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x11
@@ -2690,7 +2690,7 @@ _0216889C: .word VSMenu__Main_2168AFC
 VSMenu__Main_21688A0: // 0x021688A0
 	push {r4, lr}
 	ldr r0, _021688C4 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x12
@@ -2714,7 +2714,7 @@ VSMenu__Main_21688D4: // 0x021688D4
 	push {r3, r4, r5, lr}
 	sub sp, #0x20
 	ldr r0, _021689A4 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r5, _021689A8 // =0x0000091C
@@ -2818,7 +2818,7 @@ _021689C4: .word VSMenu__Main_2168A30
 VSMenu__Main_21689C8: // 0x021689C8
 	push {r4, lr}
 	ldr r0, _021689EC // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x11
@@ -2841,7 +2841,7 @@ _021689F8: .word VSMenu__Main_2168AFC
 VSMenu__Main_21689FC: // 0x021689FC
 	push {r4, lr}
 	ldr r0, _02168A20 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x12
@@ -2943,7 +2943,7 @@ _02168AF8: .word VSMenu__Main_21686EC
 VSMenu__Main_2168AFC: // 0x02168AFC
 	push {r4, lr}
 	ldr r0, _02168B6C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02168B70 // =0x00000918
@@ -3203,7 +3203,7 @@ _02168D2C: .word VSMenu__Main_2168C0C
 VSMenu__Main_2168D30: // 0x02168D30
 	push {r4, lr}
 	ldr r0, _02168D54 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #7
@@ -3225,7 +3225,7 @@ _02168D5C: .word VSMenu__Main_2168D60
 VSMenu__Main_2168D60: // 0x02168D60
 	push {r4, lr}
 	ldr r0, _02168D94 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02168D98 // =0x00001294
@@ -3257,7 +3257,7 @@ _02168DA0: .word VSMenu__Func_2167860
 VSMenu__Main_2168DA4: // 0x02168DA4
 	push {r3, lr}
 	ldr r0, _02168DC8 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r0, #3
 	bl TrySaveGameData
@@ -3296,7 +3296,7 @@ _02168DF0: .word VSMenu__Main_2168DF4
 VSMenu__Main_2168DF4: // 0x02168DF4
 	push {r4, lr}
 	ldr r0, _02168E2C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl IsDrawFadeTaskFinished
@@ -3325,7 +3325,7 @@ _02168E34: .word VSMenu__Main_2168E38
 VSMenu__Main_2168E38: // 0x02168E38
 	push {r4, lr}
 	ldr r0, _02168E6C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02168E70 // =0x00001864
@@ -3357,7 +3357,7 @@ _02168E78: .word VSMenu__Main_2168EAC
 VSMenu__Main_2168E7C: // 0x02168E7C
 	push {r3, lr}
 	ldr r0, _02168EA0 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r0, #3
 	bl TrySaveGameData
@@ -3380,7 +3380,7 @@ _02168EA8: .word VSMenu__Main_2169324
 VSMenu__Main_2168EAC: // 0x02168EAC
 	push {r3, lr}
 	ldr r0, _02168F04 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r0, #3
 	bl VSMenu__Func_2166874
@@ -3392,7 +3392,7 @@ VSMenu__Main_2168EAC: // 0x02168EAC
 	bl VSMenuNetworkMessage__Create
 	ldr r0, _02168F08 // =0x04001008
 	mov r1, #3
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	bic r2, r1
 	strh r2, [r0]
 	ldrh r2, [r0, #6]
@@ -3401,7 +3401,7 @@ VSMenu__Main_2168EAC: // 0x02168EAC
 	orr r1, r2
 	strh r1, [r0, #6]
 	sub r0, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _02168F0C // =0xFFFFE0FF
 	and r2, r1
 	mov r1, #0x19
@@ -3440,7 +3440,7 @@ _02168F2C: .word VSMenu__Func_2167860
 VSMenu__Main_2168F30: // 0x02168F30
 	push {r4, lr}
 	ldr r0, _02168F54 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #9
@@ -3462,7 +3462,7 @@ _02168F5C: .word VSMenu__Main_2168F60
 VSMenu__Main_2168F60: // 0x02168F60
 	push {r3, lr}
 	ldr r0, _02168F80 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _02168F84 // =0x0000186C
 	add r0, r0, r1
@@ -3611,7 +3611,7 @@ VSMenu__Main_21690B4: // 0x021690B4
 	push {r3, lr}
 	sub sp, #8
 	ldr r0, _021690E8 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r0, #4
 	bl VSMenu__Func_21667F0
@@ -3687,7 +3687,7 @@ VSMenu__Main_2169154: // 0x02169154
 	cmp r0, #0
 	beq _02169178
 	ldr r0, _0216917C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _02169180 // =0x0000187C
 	mov r2, #0x18
@@ -3708,7 +3708,7 @@ _02169184: .word VSMenu__Main_2169188
 VSMenu__Main_2169188: // 0x02169188
 	push {r4, lr}
 	ldr r0, _021691C4 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _021691C8 // =0x0000187C
@@ -3744,7 +3744,7 @@ VSMenu__Main_21691D8: // 0x021691D8
 	push {r3, lr}
 	sub sp, #8
 	ldr r0, _02169230 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	bl MultibootManager__Func_2061638
 	cmp r0, #0
@@ -3824,7 +3824,7 @@ VSMenu__Main_2169288: // 0x02169288
 	cmp r0, #0
 	beq _021692B0
 	ldr r0, _021692B4 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl VSMenu__Destroy
 	bl MultibootManager__Func_2060C9C
 	bl ReleaseSysSound
@@ -3875,7 +3875,7 @@ VSMenu__Main_21692F0: // 0x021692F0
 	beq _0216931C
 	bl DestroyDrawFadeTask
 	ldr r0, _02169320 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl VSMenu__Destroy
 	bl MultibootManager__Func_2060C9C
 	bl ReleaseSysSound
@@ -3926,7 +3926,7 @@ VSMenu__Main_216935C: // 0x0216935C
 	beq _02169388
 	bl DestroyDrawFadeTask
 	ldr r0, _0216938C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl VSMenu__Destroy
 	bl MultibootManager__Func_2060C9C
 	bl ReleaseSysSound
@@ -3944,7 +3944,7 @@ _0216938C: .word VSMenu__Singleton
 VSMenuHeader__Main1: // 0x02169390
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _021693F8 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r6, r0
 	add r6, #0x30
@@ -4004,7 +4004,7 @@ _02169404: .word VSMenuHeader__Main_2169408
 VSMenuHeader__Main_2169408: // 0x02169408
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _02169480 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r6, r0
 	add r6, #0x30
@@ -4070,7 +4070,7 @@ _0216948C: .word VSMenuHeader__Main_2169490
 VSMenuHeader__Main_2169490: // 0x02169490
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _021694D4 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r6, r0
 	add r6, #0x30
@@ -4110,7 +4110,7 @@ _021694D8: .word VSMenuHeader__Main_21694DC
 VSMenuHeader__Main_21694DC: // 0x021694DC
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _02169554 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r6, r0
 	add r6, #0x30
@@ -4176,7 +4176,7 @@ _0216955C: .word VSMenuHeader__Main1
 VSMenuHeader__Main2: // 0x02169560
 	push {r3, r4, r5, lr}
 	ldr r0, _021695C0 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #5
@@ -4226,7 +4226,7 @@ _021695C0: .word VSMenu__Singleton
 VSMenuBackButton__Main1: // 0x021695C4
 	push {r3, r4, r5, lr}
 	ldr r0, _02169634 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x5d
 	lsl r1, r1, #2
@@ -4285,7 +4285,7 @@ _02169634: .word VSMenu__Singleton
 VSMenuBackButton__Main2: // 0x02169638
 	push {r3, lr}
 	ldr r0, _02169650 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x76
 	lsl r1, r1, #2
@@ -4306,7 +4306,7 @@ VSMenuBackground__Main1: // 0x02169654
 VSMenuBackground__VBlankCallback: // 0x02169658
 	push {r4, lr}
 	ldr r0, _021696BC // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r3, #0x8f
 	lsl r3, r3, #2
@@ -4326,11 +4326,11 @@ VSMenuBackground__VBlankCallback: // 0x02169658
 	beq _02169694
 	ldr r4, _021696C4 // =0x0213D2CE
 	sub r3, #0x3d
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	add r2, r2, r1
 	and r2, r3
 	strh r2, [r4]
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	ldr r2, _021696C8 // =0x0400001E
 	strh r3, [r2]
 _02169694:
@@ -4339,12 +4339,12 @@ _02169694:
 	tst r2, r3
 	beq _021696AE
 	ldr r3, _021696CC // =0x0213D272
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	add r2, r2, r1
 	ldr r1, _021696D0 // =0x000001FF
 	and r1, r2
 	strh r1, [r3]
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	ldr r1, _021696D4 // =0x0400101E
 	strh r2, [r1]
 _021696AE:
@@ -4371,7 +4371,7 @@ VSMenuNetworkMessage__Main1: // 0x021696DC
 	push {r3, r4, lr}
 	sub sp, #4
 	ldr r0, _02169724 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
@@ -4409,7 +4409,7 @@ _0216972C: .word VSMenuNetworkMessage__Main_2169730
 VSMenuNetworkMessage__Main_2169730: // 0x02169730
 	push {r4, lr}
 	ldr r0, _02169784 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
@@ -4421,11 +4421,11 @@ VSMenuNetworkMessage__Main_2169730: // 0x02169730
 	mov r0, #1
 	lsl r0, r0, #0x1a
 	mov r1, #0x1f
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r1, r1, #8
 	and r1, r2
 	lsr r3, r1, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _02169788 // =0xFFFFE0FF
 	and r2, r1
 	mov r1, #2
@@ -4454,7 +4454,7 @@ VSMenuNetworkMessage__Main_2169790: // 0x02169790
 	push {r3, r4, lr}
 	sub sp, #4
 	ldr r0, _02169860 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
@@ -4553,7 +4553,7 @@ _02169870: .word VSMenuNetworkMessage__Main_21699D8
 VSMenuNetworkMessage__Main_2169874: // 0x02169874
 	push {r3, r4, r5, lr}
 	ldr r0, _021698EC // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
@@ -4615,7 +4615,7 @@ _021698F0: .word VSMenuNetworkMessage__Main_21698F4
 VSMenuNetworkMessage__Main_21698F4: // 0x021698F4
 	push {r3, r4, r5, lr}
 	ldr r0, _021699C8 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
@@ -4718,7 +4718,7 @@ _021699D4: .word VSMenuNetworkMessage__Main_2169874
 VSMenuNetworkMessage__Main_21699D8: // 0x021699D8
 	push {r4, lr}
 	ldr r0, _02169A44 // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2
@@ -4740,11 +4740,11 @@ VSMenuNetworkMessage__Main_21699D8: // 0x021699D8
 	mov r0, #1
 	lsl r0, r0, #0x1a
 	mov r1, #0x1f
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r1, r1, #8
 	and r1, r2
 	lsr r3, r1, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _02169A48 // =0xFFFFE0FF
 	and r2, r1
 	mov r1, #2
@@ -4773,7 +4773,7 @@ _02169A4C: .word VSMenuNetworkMessage__Main1
 VSMenuNetworkMessage__Main2: // 0x02169A50
 	push {r4, lr}
 	ldr r0, _02169A7C // =VSMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x93
 	lsl r1, r1, #2

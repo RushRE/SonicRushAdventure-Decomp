@@ -46,7 +46,7 @@ VSLobbyMenu__Create: // 0x02163B54
 	ldr r0, _02163BD4 // =VSLobbyMenu__sVars
 	ldr r2, [r0, #8]
 	mov r0, #2
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	lsl r0, r0, #0xe
 	orr r0, r1
 	str r0, [r2]
@@ -293,7 +293,7 @@ _02163D4C:
 _02163D4E:
 	ldr r0, _02163D84 // =_mt_math_rand
 	mov r7, #1
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 _02163D54:
 	ldr r0, _02163D88 // =0x00196225
 	mov r1, r4
@@ -330,7 +330,7 @@ _02163D8C: .word 0x3C6EF35F
 VSLobbyMenu__Func_2163D90: // 0x02163D90
 	ldr r0, _02163DA8 // =VSLobbyMenu__sVars
 	ldr r0, [r0, #8]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #2
 	lsl r0, r0, #0xe
 	tst r0, r1
@@ -373,7 +373,7 @@ _02163DCC: .word VSLobbyMenu__sVars
 VSLobbyMenu__SetFlag: // 0x02163DD0
 	ldr r1, _02163DDC // =VSLobbyMenu__sVars
 	ldr r2, [r1, #8]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	orr r0, r1
 	str r0, [r2]
 	bx lr
@@ -386,7 +386,7 @@ VSLobbyMenu__RemoveFlag: // 0x02163DE0
 	ldr r1, _02163DF0 // =VSLobbyMenu__sVars
 	mvn r0, r0
 	ldr r2, [r1, #8]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	and r0, r1
 	str r0, [r2]
 	bx lr
@@ -468,7 +468,7 @@ _02163E54:
 	mov r5, #1
 	ldr r3, _02163F40 // =0x04000008
 	str r5, [r0]
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	mov r1, #0x43
 	mov r4, #0
 	mov r2, r0
@@ -501,7 +501,7 @@ _02163E54:
 	mov r0, #3
 	bic r6, r0
 	strh r6, [r3, #2]
-	ldrh r6, [r3]
+	ldrh r6, [r3, #0]
 	bic r6, r0
 	orr r6, r5
 	strh r6, [r3]
@@ -516,7 +516,7 @@ _02163E54:
 	orr r6, r7
 	strh r6, [r3, #6]
 	lsl r3, r2, #0x17
-	ldr r7, [r3]
+	ldr r7, [r3, #0]
 	ldr r6, _02163F54 // =0xFFFFE0FF
 	and r7, r6
 	mov r6, #0x17
@@ -524,7 +524,7 @@ _02163E54:
 	orr r6, r7
 	str r6, [r3]
 	ldr r3, _02163F58 // =0x0400100A
-	ldrh r6, [r3]
+	ldrh r6, [r3, #0]
 	mov r7, r6
 	ldr r6, _02163F48 // =0x00002D04
 	and r7, r1
@@ -545,11 +545,11 @@ _02163E54:
 	strh r2, [r1, #4]
 	strh r2, [r1, #2]
 	strh r2, [r1]
-	ldrh r1, [r3]
+	ldrh r1, [r3, #0]
 	bic r1, r0
 	strh r1, [r3]
 	sub r1, r3, #2
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	bic r2, r0
 	orr r2, r5
 	strh r2, [r1]
@@ -564,7 +564,7 @@ _02163E54:
 	orr r0, r1
 	strh r0, [r3, #4]
 	sub r3, #0xa
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr r0, _02163F54 // =0xFFFFE0FF
 	and r1, r0
 	mov r0, #0x16
@@ -591,7 +591,7 @@ VSLobbyMenu__Func_2163F60: // 0x02163F60
 	mov r0, #0xe3
 	lsl r0, r0, #2
 	add r4, r5, r0
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, #1
 	tst r0, r1
 	beq _02163FDA
@@ -610,7 +610,7 @@ _02163F82:
 	ldrh r1, [r0, #0xe]
 	orr r1, r2
 	strh r1, [r4, #0xe]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	str r1, [r4]
 	mov r1, #0xe2
 	lsl r1, r1, #2
@@ -646,7 +646,7 @@ _02163FC0:
 	bic r1, r0
 	strb r1, [r4, #7]
 _02163FDA:
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, #2
 	tst r0, r1
 	beq _0216402C
@@ -683,7 +683,7 @@ _02164010:
 	lsr r1, r1, #0x1c
 	bl VSState__Func_2163784
 _0216402C:
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, #4
 	tst r0, r1
 	beq _0216406C
@@ -716,7 +716,7 @@ _0216402C:
 	and r0, r2
 	str r0, [r5, r1]
 _0216406C:
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, #8
 	tst r0, r1
 	beq _02164092
@@ -737,7 +737,7 @@ _0216408E:
 	cmp r4, r6
 	bne _02164082
 _02164092:
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, #0x10
 	tst r0, r1
 	beq _0216409E
@@ -951,7 +951,7 @@ VSLobbyMenu__LoadAssets: // 0x02164230
 	bl ArchiveFile__Load
 	str r0, [r4]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _02164270
 	add r0, r0, r0
@@ -969,7 +969,7 @@ _0216425C: // jump table
 	.hword _02164268 - _0216425C - 2 // case 5
 _02164268:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _02164272
 _02164270:
 	mov r1, #1
@@ -1010,7 +1010,7 @@ _02164272:
 	str r1, [sp, #0x30]
 	str r0, [sp, #0x34]
 	mov r1, r4
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r4, #0x1c
 	add r1, #0x18
 	mov r3, r4
@@ -1030,7 +1030,7 @@ _021642E0: .word aDmvsBtnBac
 VSLobbyMenu__ReleaseAssets: // 0x021642E4
 	push {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	mov r0, #0
 	mov r1, r4
@@ -1051,7 +1051,7 @@ VSLobbyMenu__Func_21642FC: // 0x021642FC
 	mov r6, r4
 	mov r7, #1
 _0216430E:
-	ldrb r0, [r5]
+	ldrb r0, [r5, #0]
 	mov r1, #0
 	mov r2, #1
 	bl MenuHelpers__CheckProgress
@@ -1071,7 +1071,7 @@ _0216432C:
 	mov r5, r4
 	mov r7, #1
 _02164332:
-	ldrb r0, [r6]
+	ldrb r0, [r6, #0]
 	mov r1, #0
 	mov r2, #1
 	bl MenuHelpers__CheckProgress
@@ -1256,7 +1256,7 @@ _02164476:
 	orr r0, r1
 	str r0, [r5, #8]
 	bl Task__Unknown204BE48__Rand
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	eor r0, r1
 	str r0, [r5]
 	mov r0, r5
@@ -1354,7 +1354,7 @@ _02164568:
 	bl DestroyCurrentTask
 	pop {r3, r4, r5, pc}
 _02164586:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, #0x1f
 	orr r0, r1
 	str r0, [r4]
@@ -1530,7 +1530,7 @@ VSLobbyMenu__InitAssets: // 0x02164664
 	mov r6, #0
 	add r5, #0x34
 _02164706:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ldr r7, [r4, #4]
 	lsl r1, r0, #2
 	ldr r0, [sp, #0x24]
@@ -1658,7 +1658,7 @@ _021647F8:
 	bl VSState__InitSprites
 	bl VSStageSelectMenu__Alloc
 	ldr r0, [sp, #0x24]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #1
 	lsl r0, r0, #0xe
 	orr r1, r0
@@ -1677,7 +1677,7 @@ _021647F8:
 	bl CreateConnectionStatusIcon
 	bl VSCharacterSelect__Alloc
 	ldr r0, [sp, #0x24]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #2
 	lsl r0, r0, #0xc
 	orr r1, r0
@@ -1790,7 +1790,7 @@ _02164924:
 	cmp r0, #0
 	beq _0216495A
 	bl VSCharacterSelect__Free
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02164960 // =0xFFFFBFFF
 	and r0, r1
 	str r0, [r4]
@@ -2048,7 +2048,7 @@ _02164B1A:
 _02164B2E:
 	ldr r1, _02164C04 // =_mt_math_rand
 	ldr r0, _02164C08 // =0x00196225
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r3, r2
 	mul r3, r0
 	ldr r0, _02164C0C // =0x3C6EF35F
@@ -2254,7 +2254,7 @@ _02164CD0:
 	mov r0, #0xc
 	bl FadeSysTrack
 	mov r0, #1
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	lsl r0, r0, #0xc
 	orr r0, r1
 	str r0, [r4]
@@ -2262,7 +2262,7 @@ _02164CD0:
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _02164CF2:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02164D10 // =0xFFFFEFFF
 	and r0, r1
 	str r0, [r4]
@@ -2342,24 +2342,24 @@ VSLobbyMenu__Main_2164D84: // 0x02164D84
 	str r1, [r4, r0]
 	bl StopSamplingTouchInput
 	mov r0, #1
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	lsl r0, r0, #0xe
 	tst r0, r1
 	beq _02164DB0
 	bl VSCharacterSelect__Free
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02164E58 // =0xFFFFBFFF
 	and r0, r1
 	str r0, [r4]
 _02164DB0:
 	bl ReleaseConnectionStatusIconAssets
 	mov r0, #2
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	lsl r0, r0, #0xc
 	tst r0, r1
 	beq _02164DCA
 	bl VSStageSelectMenu__Release
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02164E5C // =0xFFFFDFFF
 	and r0, r1
 	str r0, [r4]
@@ -2387,7 +2387,7 @@ _02164DCA:
 	cmp r0, #0
 	bne _02164E46
 	mov r0, #1
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	lsl r0, r0, #0xc
 	tst r0, r1
 	beq _02164E28
@@ -2440,14 +2440,14 @@ VSLobbyMenu__Main_2164E64: // 0x02164E64
 	mov r0, #3
 	bl VSLobbyMenu__RemoveFlag
 	mov r0, #1
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	lsl r0, r0, #0xe
 	tst r0, r1
 	beq _02164E8E
 	bl VSCharacterSelect__Func_2162364
 _02164E8E:
 	mov r0, #2
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	lsl r0, r0, #0xc
 	tst r0, r1
 	beq _02164E9C
@@ -2478,7 +2478,7 @@ VSLobbyMenu__Main_2164EB4: // 0x02164EB4
 	mov r0, r4
 	bl VSLobbyMenu__Func_21640E0
 	mov r0, #2
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	lsl r0, r0, #0xc
 	tst r0, r1
 	beq _02164EE2
@@ -2487,7 +2487,7 @@ VSLobbyMenu__Main_2164EB4: // 0x02164EB4
 	beq _02164F08
 _02164EE2:
 	mov r0, #1
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	lsl r0, r0, #0xe
 	tst r0, r1
 	beq _02164EF4

@@ -326,7 +326,7 @@ NONMATCH_FUNC void SpringCrystal_HandleInteractions(OBS_RECT_WORK *rect1, OBS_RE
 	cmpne r5, #0
 	addeq sp, sp, #0x50
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	addne sp, sp, #0x50
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}

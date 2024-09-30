@@ -1577,7 +1577,7 @@ _02030414:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	ldr r0, =EffectTask__sVars
 	ldr r2, =0x02133F44
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, =EffectPlayerTrail_Destructor
 	str r0, [r2, r4, lsl #2]
 	bl SetTaskDestructorEvent
@@ -1837,12 +1837,12 @@ NONMATCH_FUNC void HandlePlayerTrailOffset(EffectPlayerTrail *work)
 	mov ip, #0
 _020309F0:
 	ldr r3, [lr]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add ip, ip, #1
 	add r2, r3, r2
 	str r2, [lr]
 	ldr r3, [lr, #0xc]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp ip, #0xb
 	add r2, r3, r2
 	str r2, [lr, #0xc]
@@ -1982,7 +1982,7 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
 	cmp r0, #0
 	addeq sp, sp, #0x84
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	cmp r0, #1
 	bne _02030A8C
 	ldr r0, [r1, #0x5dc]
@@ -2109,7 +2109,7 @@ _02030C18:
 	ldr r2, [r5, #0x14]
 	add r1, sp, #0x28
 	str r2, [sp, #0x5c]
-	ldr r10, [r5]
+	ldr r10, [r5, #0]
 	mov r2, #1
 	str r10, [sp, #0x60]
 	ldr r10, [r5, #4]
@@ -2122,7 +2122,7 @@ _02030C18:
 	str r5, [sp, #0x70]
 	ldr r5, [r7, #0x14]
 	str r5, [sp, #0x74]
-	ldr r5, [r7]
+	ldr r5, [r7, #0]
 	str r5, [sp, #0x78]
 	ldr r5, [r7, #4]
 	str r5, [sp, #0x7c]
@@ -2325,7 +2325,7 @@ NONMATCH_FUNC void EffectRegularShield_State_Active(EffectShield *work)
 	ldr r1, =0x02116550
 	add r0, sp, #0
 	ldrsh r7, [r1, #2]
-	ldrsh r8, [r1]
+	ldrsh r8, [r1, #0]
 	mov r2, r7
 	mov r1, r8
 	bl MTX_RotZ33_
@@ -2583,7 +2583,7 @@ _02031270:
 	bl MTX_RotY33_
 	ldr r2, =0x02116550
 	add r0, sp, #0
-	ldrsh r1, [r2]
+	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
 	bl MTX_RotZ33_
 	add r0, r6, #0x24
@@ -2623,7 +2623,7 @@ _02031388:
 	add r0, r0, #0xaa
 	add r0, r0, #0x2a00
 	strh r0, [r2, #0x9c]
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	ldr r0, =0x3C6EF35F
 	mla r0, r5, r1, r0
 	str r0, [r3]

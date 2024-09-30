@@ -198,7 +198,7 @@ _02008740:
 	ldrsb r0, [r5, #0x46]
 	cmp r0, #1
 	beq _020087AC
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	and r0, r0, r6
 	str r0, [r5]
 	ldr r0, [r7, #0x150]
@@ -212,7 +212,7 @@ _02008740:
 	bl GetCurrentZoneID
 	cmp r0, #0
 	bne _02008794
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bic r0, r0, #0x3000000
 	str r0, [r5]
 	strh r9, [r5, #0x6e]
@@ -280,7 +280,7 @@ _0200884C:
 	ldr r1, _02008878 // =mapSystemTask
 	ldr r0, _0200887C // =0x02133BA8
 	ldr r2, [r1, #0x14]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	mov r1, r1, lsl #6
 	strh r1, [r0, #0x4a]
 	ldrh r1, [r2, #2]
@@ -378,7 +378,7 @@ MapSys__DrawLayout: // 0x0200895C
 	str r0, [sp, #0x24]
 _02008974:
 	ldr r0, [sp, #0x24]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #0x10000000
 	bne _02008B18
 	ldr r0, [sp, #0x24]
@@ -453,7 +453,7 @@ _02008A74:
 	ldr r0, _02008EB0 // =mapSystemTask
 	add r7, r10, r5, lsl #4
 	ldr r2, [r0, #0x10]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	mov r6, #0
 	mla r1, r0, r9, r1
 	add r0, r4, r1, lsl #1
@@ -505,7 +505,7 @@ _02008B18:
 	mov r4, r9
 	mov r11, #4
 _02008B4C:
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	cmp r9, #0
 	moveq r10, #0xa
 	movne r10, #0x16
@@ -552,7 +552,7 @@ _02008B4C:
 	mov r3, #0x28
 	bl Mappings__ReadMappingsCompressed
 _02008C04:
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	tst r0, #2
 	beq _02008C80
 	ldr r0, [r8, #0x28]
@@ -624,13 +624,13 @@ _02008C80:
 	bl FX_Div
 	ldr r1, _02008EAC // =mapCamera
 	mov r0, r0, lsl #4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r5, r0, asr #0x10
 	tst r1, #1
 	beq _02008D5C
 	ldr r0, _02008EB8 // =VRAMSystem__GFXControl
 	add r1, sp, #0x40
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r6, #0
 	add r7, r0, #0x28
 	ldmia r1, {r0, r1, r2, r3}
@@ -641,12 +641,12 @@ _02008C80:
 	strh r5, [r7, #0x16]
 _02008D5C:
 	ldr r0, _02008EAC // =mapCamera
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #2
 	beq _02008D98
 	ldr r0, _02008EB8 // =VRAMSystem__GFXControl
 	add r1, sp, #0x40
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r6, #0
 	add r7, r0, #0x40
 	ldmia r1, {r0, r1, r2, r3}
@@ -736,7 +736,7 @@ _02008EB8: .word VRAMSystem__GFXControl
 	arm_func_start MapSys__GetDispSelect
 MapSys__GetDispSelect: // 0x02008EBC
 	ldr r0, _02008EDC // =0x04000304
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	and r0, r0, #0x8000
 	mov r0, r0, asr #0xf
 	cmp r0, #1
@@ -1024,7 +1024,7 @@ MapSys__GetScreenSwapPos: // 0x02009210
 	movle r5, r0
 _02009244:
 	ldrh lr, [r1, #2]
-	ldrh r4, [r1]
+	ldrh r4, [r1, #0]
 	mov r0, #0
 	cmp lr, #0
 	ble _020092D0
@@ -1321,7 +1321,7 @@ MapSys__LoadCollision: // 0x02009528
 	mov r1, #3
 	bl NNS_FndGetArchiveFileByIndex
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_ITCM
 	mov r1, r0
@@ -1333,7 +1333,7 @@ MapSys__LoadCollision: // 0x02009528
 	mov r1, #0
 	bl NNS_FndGetArchiveFileByIndex
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_ITCM
 	mov r1, r0
@@ -1345,7 +1345,7 @@ MapSys__LoadCollision: // 0x02009528
 	mov r1, #4
 	bl NNS_FndGetArchiveFileByIndex
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_ITCM
 	mov r1, r0
@@ -1357,7 +1357,7 @@ MapSys__LoadCollision: // 0x02009528
 	mov r1, #1
 	bl NNS_FndGetArchiveFileByIndex
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
@@ -1386,7 +1386,7 @@ MapSys__LoadTileLayout: // 0x02009618
 	mov r1, #2
 	bl NNS_FndGetArchiveFileByIndex
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
@@ -1398,7 +1398,7 @@ MapSys__LoadTileLayout: // 0x02009618
 	mov r1, #3
 	bl NNS_FndGetArchiveFileByIndex
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
@@ -1410,7 +1410,7 @@ MapSys__LoadTileLayout: // 0x02009618
 	mov r1, #0
 	bl NNS_FndGetArchiveFileByIndex
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
@@ -1539,7 +1539,7 @@ _02009860:
 	mov r3, #0
 	mov r2, #0x1000
 _02009870:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r3, r3, #1
 	orr r1, r1, #0xf
 	orr r1, r1, #0x30000
@@ -1590,7 +1590,7 @@ MapSys__InitBoundsForVSRings: // 0x020098D4
 	str r0, [r2, #0x10c]
 	str r0, [r2, #0x110]
 _02009924:
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	add r0, r0, #1
 	orr r1, r1, #0xf
 	orr r1, r1, #0x30000
@@ -1655,7 +1655,7 @@ MapSys__SetupBoss_Zone5: // 0x020099C0
 	str r0, [r2, #0x10c]
 	str r0, [r2, #0x110]
 _02009A10:
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	add r0, r0, #1
 	orr r1, r1, #0xf
 	orr r1, r1, #0x30000
@@ -1896,7 +1896,7 @@ _02009D10:
 _02009D54:
 	bl MapSys__HandleHBounds
 _02009D58:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
 	tst r0, #0x280
 	mov r0, r6
@@ -1910,14 +1910,14 @@ _02009D80:
 	bl MapSys__HandleVBounds
 _02009D84:
 	ldr r4, _02009E38 // =0x02133B38
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #0x140
 	bne _02009DA0
 	mov r0, r6
 	mov r1, #1
 	bl MapSys__Func_200A8D8
 _02009DA0:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #0x280
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
 	mov r0, r6
@@ -2318,7 +2318,7 @@ _0200A2F8:
 	str r0, [r4, #0xf0]
 	b _0200A440
 _0200A350:
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	ldr r0, _0200A45C // =0x00004020
 	tst r1, r0
 	bne _0200A440
@@ -2357,7 +2357,7 @@ _0200A39C:
 	str r0, [r4, #0xf0]
 	b _0200A440
 _0200A3E0:
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	ldr r0, _0200A45C // =0x00004020
 	tst r1, r0
 	bne _0200A440
@@ -2553,7 +2553,7 @@ MapSys__HandleHBounds: // 0x0200A658
 	mla r3, r1, r0, r2
 	ldr r0, _0200A698 // =0x02133BF8
 	ldr r2, [r3, #4]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r2, r1
 	blt _0200A68C
 	ldr r1, [r0, #8]
@@ -2920,13 +2920,13 @@ MapSys__Func_200AAF8: // 0x0200AAF8
 	bne _0200ABAC
 	ands r3, r2, #0x20000
 	bne _0200AB30
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	tst r2, #2
 	bne _0200AB44
 _0200AB30:
 	cmp r3, #0
 	beq _0200AB60
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #4
 	beq _0200AB60
 _0200AB44:
@@ -2961,13 +2961,13 @@ _0200ABA4:
 _0200ABAC:
 	ands r3, r2, #0x20000
 	bne _0200ABC0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	tst r2, #2
 	bne _0200ABD4
 _0200ABC0:
 	cmp r3, #0
 	beq _0200AC28
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #4
 	beq _0200AC28
 _0200ABD4:
@@ -3025,13 +3025,13 @@ MapSys__Func_200AC64: // 0x0200AC64
 	ldr r1, [ip, #0x48]
 	ands ip, r3, #0x20000
 	bne _0200AC9C
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	tst r3, #2
 	bne _0200ACB0
 _0200AC9C:
 	cmp ip, #0
 	beq _0200ACEC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #4
 	beq _0200ACEC
 _0200ACB0:
@@ -3112,7 +3112,7 @@ MapSys__HandleCameraLookUpDown: // 0x0200AD64
 	mov r2, r2, lsr #0x10
 	cmp r2, #1
 	bhi _0200ADD0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r3, #0
 	orr r2, r2, #2
 	str r2, [r0]
@@ -3136,7 +3136,7 @@ _0200ADD0:
 	mov r1, r1, lsr #0x10
 	cmp r1, #1
 	bxhi lr
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r2, #0
 	orr r1, r1, #4
 	str r1, [r0]
@@ -3207,7 +3207,7 @@ _0200AEE0:
 	ldmltia sp!, {r3, pc}
 	mov ip, #0
 	strh ip, [r0, #6]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	tst r1, #2
 	beq _0200AF2C
 	ldr r1, _0200AF4C // =mapSystemTask
@@ -3402,7 +3402,7 @@ MapSys__Func_200B170: // 0x0200B170
 	bic ip, ip, #0x10000
 	bic ip, ip, #0x20000
 	str ip, [r1, #0x100]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #2
 	bic r1, r1, #4
 	str r1, [r0]

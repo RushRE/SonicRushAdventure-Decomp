@@ -52,7 +52,7 @@ CannonField__Create: // 0x0217AA10
 	bl GetObjectFileWork
 	ldr r2, _0217ABE0 // =gameArchiveStage
 	ldr r1, _0217ABE4 // =aModGmkCannonNs
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	mov r8, #0
 	mov r10, r0
@@ -183,7 +183,7 @@ Cannon__Create: // 0x0217ABFC
 	str r0, [sp]
 	ldr r1, _0217AD74 // =gameArchiveStage
 	mov r0, r4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r4, #0x364
 	str r2, [sp, #4]
 	ldr r2, _0217AD78 // =aModGmkCannonNs

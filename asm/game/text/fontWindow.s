@@ -50,10 +50,10 @@ _02058044:
 	beq _02058098
 	ldr r0, _020580A4 // =0x0211997C
 	mvn r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FSRequestFileSync
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r4, #0xa8]
@@ -96,10 +96,10 @@ _020580E0:
 	beq _02058134
 	ldr r0, _02058140 // =0x0211997C
 	mvn r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FSRequestFileSync
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r4, #0xa8]
@@ -124,7 +124,7 @@ FontWindow__Load_mw_frame: // 0x02058144
 	mov r1, #0
 	bl FSRequestFileSync
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r5, #0xac]
@@ -202,10 +202,10 @@ FontWindow__LoadWinSimple: // 0x02058228
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r0, _02058278 // =0x0211997C
 	mvn r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FSRequestFileSync
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r5, #0xa8]

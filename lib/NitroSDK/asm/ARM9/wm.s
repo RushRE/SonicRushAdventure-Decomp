@@ -15,7 +15,7 @@ WMi_GetMPReadyAIDs: // 0x020F130C
 	bl OS_DisableInterrupts
 	ldr r1, _020F135C // =0x0215094C
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	moveq r5, #0
 	beq _020F1344
@@ -40,7 +40,7 @@ WM_GetConnectedAIDs: // 0x020F1360
 	stmdb sp!, {r4, lr}
 	bl OS_DisableInterrupts
 	ldr r1, _020F1390 // =0x0215094C
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	ldrne r4, [r1, #0x14c]
 	moveq r4, #0
@@ -58,7 +58,7 @@ WM_GetAID: // 0x020F1394
 	stmdb sp!, {r4, lr}
 	bl OS_DisableInterrupts
 	ldr r1, _020F13C4 // =0x0215094C
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	addne r1, r1, #0x100
 	ldrneh r4, [r1, #0x50]
@@ -79,7 +79,7 @@ WMi_GetStatusAddress: // 0x020F13C8
 	cmp r0, #0
 	movne r0, #0
 	ldreq r0, _020F13F4 // =0x0215094C
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	ldreq r0, [r0, #4]
 	add sp, sp, #4
 	ldmia sp!, {lr}
@@ -91,7 +91,7 @@ _020F13F4: .word 0x0215094C
 	arm_func_start WmClearFifoRecvFlag
 WmClearFifoRecvFlag: // 0x020F13F8
 	ldr r1, _020F1410 // =0x027FFF96
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r2, r0, #1
 	bicne r0, r0, #1
 	strneh r0, [r1]
@@ -106,7 +106,7 @@ WmReceiveFifo: // 0x020F1414
 	sub sp, sp, #0xc
 	ldr r0, _020F17DC // =0x0215094C
 	cmp r2, #0
-	ldr r8, [r0]
+	ldr r8, [r0, #0]
 	mov r10, r1
 	addne sp, sp, #0xc
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -128,7 +128,7 @@ _020F145C:
 	mov r1, #0x100
 	bl DC_InvalidateRange
 _020F1474:
-	ldrh r0, [r10]
+	ldrh r0, [r10, #0]
 	cmp r0, #0x2c
 	blo _020F152C
 	cmp r0, #0x80
@@ -195,7 +195,7 @@ _020F152C:
 	ldrh r1, [r1, #0x72]
 	bl DC_InvalidateRange
 _020F156C:
-	ldrh r1, [r10]
+	ldrh r1, [r10, #0]
 	cmp r1, #2
 	bne _020F15B4
 	ldrh r0, [r10, #2]
@@ -221,13 +221,13 @@ _020F15B4:
 	mov r0, r10
 	blx r1
 	ldr r0, _020F17E4 // =_02150948
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxeq lr
 _020F15E4:
-	ldrh r0, [r10]
+	ldrh r0, [r10, #0]
 	cmp r0, #8
 	beq _020F15F8
 	cmp r0, #0xc
@@ -353,7 +353,7 @@ _020F1794:
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bxeq lr
-	ldrh r2, [r10]
+	ldrh r2, [r10, #0]
 	mov r0, r10
 	mov r1, #0x100
 	orr r2, r2, #0x8000
@@ -385,19 +385,19 @@ WMi_CheckStateEx: // 0x020F17F8
 	bxne lr
 	ldr r0, _020F189C // =0x0215094C
 	mov r1, #2
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #4]
 	bl DC_InvalidateRange
 	ldr r0, _020F189C // =0x0215094C
 	add r1, sp, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, [sp, #8]
 	ldr r2, [r2, #4]
 	cmp r0, #0
 	bic r1, r1, #3
 	addeq sp, sp, #4
 	add ip, r1, #4
-	ldrh r3, [r2]
+	ldrh r3, [r2, #0]
 	mov r0, #3
 	ldmeqia sp!, {lr}
 	addeq sp, sp, #0x10
@@ -431,13 +431,13 @@ WMi_CheckIdle: // 0x020F18A0
 	bxne lr
 	ldr r0, _020F18F8 // =0x0215094C
 	mov r1, #2
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #4]
 	bl DC_InvalidateRange
 	ldr r0, _020F18F8 // =0x0215094C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #4]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #1
 	movls r0, #3
 	movhi r0, #0
@@ -451,7 +451,7 @@ _020F18F8: .word 0x0215094C
 	arm_func_start WMi_CheckInitialized
 WMi_CheckInitialized: // 0x020F18FC
 	ldr r0, _020F1914 // =_02150948
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	movne r0, #0
 	moveq r0, #3
@@ -463,7 +463,7 @@ _020F1914: .word _02150948
 	arm_func_start WMi_GetSystemWork
 WMi_GetSystemWork: // 0x020F1918
 	ldr r0, _020F1924 // =0x0215094C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _020F1924: .word 0x0215094C
@@ -574,7 +574,7 @@ WmGetCommandBuffer4Arm7: // 0x020F1A58
 	mov r1, #2
 	bl DC_InvalidateRange
 	ldr r1, [sp]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x8000
 	addne sp, sp, #4
 	movne r0, r1
@@ -594,7 +594,7 @@ _020F1AC8: .word 0x02150950
 	arm_func_start WMi_SetCallbackTable
 WMi_SetCallbackTable: // 0x020F1ACC
 	ldr r2, _020F1AE0 // =0x0215094C
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r0, r2, r0, lsl #2
 	str r1, [r0, #0x18]
 	bx lr
@@ -650,7 +650,7 @@ WmInitCore: // 0x020F1B68
 	bl OS_DisableInterrupts
 	ldr r1, _020F1D48 // =_02150948
 	mov r4, r0
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	cmp r1, #0
 	beq _020F1BA0
 	bl OS_RestoreInterrupts
@@ -703,34 +703,34 @@ _020F1C14:
 	add r1, r6, #0x200
 	str r6, [r0]
 	str r1, [r6]
-	ldr r2, [r0]
-	ldr r1, [r2]
+	ldr r2, [r0, #0]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x300
 	str r1, [r2, #4]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, [r2, #4]
 	add r1, r1, #0x800
 	str r1, [r2, #0xc]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0xc]
 	add r0, r0, #0x100
 	str r0, [r1, #0x10]
 	bl WmClearFifoRecvFlag
 	ldr r1, _020F1D4C // =0x0215094C
 	mov r3, #0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	strh r5, [r0, #0x14]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	str r3, [r0, #0x14c]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #0x100
 	strh r3, [r0, #0x50]
 	mov r2, r3
 _020F1CA0:
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, r3, lsl #2
 	str r2, [r0, #0xcc]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, r3, lsl #2
 	add r3, r3, #1
 	str r2, [r0, #0x10c]
@@ -788,7 +788,7 @@ WM_Init: // 0x020F1D60
 	cmp r0, #0
 	ldreq r1, _020F1D90 // =0x0215094C
 	moveq r2, #0
-	ldreq r1, [r1]
+	ldreq r1, [r1, #0]
 	streqh r2, [r1, #0x16]
 	add sp, sp, #4
 	ldmia sp!, {lr}
@@ -802,7 +802,7 @@ WM_GetNextTgid: // 0x020F1D94
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r0, _020F1E08 // _0211F9B8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0x10000
 	bne _020F1DDC
 	bl RTC_Init
@@ -819,7 +819,7 @@ WM_GetNextTgid: // 0x020F1D94
 	str r0, [r1]
 _020F1DDC:
 	ldr r1, _020F1E08 // _0211F9B8
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #1
 	mov r0, r0, lsl #0x10
 	mov r2, r0, lsr #0x10
@@ -850,7 +850,7 @@ _020F1E34:
 	stmia lr!, {r0, r1, r2, r3}
 	subs r4, r4, #1
 	bne _020F1E34
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add sp, sp, #0x88
 	str r0, [lr]
 	ldmia sp!, {r4, r5, r6, lr}
@@ -868,7 +868,7 @@ _020F1E74:
 	stmia lr!, {r0, r1, r2, r3}
 	subs r4, r4, #1
 	bne _020F1E74
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add sp, sp, #0x88
 	str r0, [lr]
 	ldmia sp!, {r4, r5, r6, lr}
@@ -877,7 +877,7 @@ _020F1E98:
 	cmp r0, #0x10
 	movhi r0, #0x10
 	strhib r0, [sp]
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	ldrb r3, [sp]
 	mov r0, #0
 	mov r2, r2, lsl #1
@@ -889,7 +889,7 @@ _020F1E98:
 	ble _020F1F4C
 	add ip, sp, #0
 _020F1ED0:
-	ldrb r5, [r3]
+	ldrb r5, [r3, #0]
 	add r6, ip, r2, lsl #3
 	add r4, r3, #2
 	strb r5, [r6, #4]
@@ -930,7 +930,7 @@ _020F1F54:
 	stmia lr!, {r0, r1, r2, r3}
 	subs ip, ip, #1
 	bne _020F1F54
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	str r0, [lr]
 	add sp, sp, #0x88
 	ldmia sp!, {r4, r5, r6, lr}
@@ -947,7 +947,7 @@ WM_GetDispersionScanPeriod: // 0x020F1F78
 	add r1, sp, #0
 	mov r3, r2
 _020F1F94:
-	ldrb r0, [r1]
+	ldrb r0, [r1, #0]
 	add r2, r2, #1
 	cmp r2, #6
 	add r0, r3, r0
@@ -957,7 +957,7 @@ _020F1F94:
 	blt _020F1F94
 	ldr r0, _020F2010 // =0x027FFC3C
 	mov r1, #0xd
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, _020F2014 // =0x66666667
 	add r0, r3, r0
 	mov r0, r0, lsl #0x10
@@ -994,7 +994,7 @@ WM_GetDispersionBeaconPeriod: // 0x020F201C
 	add r1, sp, #0
 	mov r3, r2
 _020F2038:
-	ldrb r0, [r1]
+	ldrb r0, [r1, #0]
 	add r2, r2, #1
 	cmp r2, #6
 	add r0, r3, r0
@@ -1004,7 +1004,7 @@ _020F2038:
 	blt _020F2038
 	ldr r0, _020F20B4 // =0x027FFC3C
 	mov r1, #7
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, _020F20B8 // =0x66666667
 	add r0, r3, r0
 	mov r0, r0, lsl #0x10
@@ -1045,7 +1045,7 @@ WM_GetLinkLevel: // 0x020F20C0
 	mov r1, #2
 	bl DC_InvalidateRange
 	ldr r2, [r4, #4]
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	cmp r0, #9
 	beq _020F2110
 	cmp r0, #0xa
@@ -1089,7 +1089,7 @@ WM_GetAllowedChannel: // 0x020F2168
 	cmp r0, #0
 	movne r0, #0x8000
 	ldreq r0, _020F2190 // =0x027FFCFA
-	ldreqh r0, [r0]
+	ldreqh r0, [r0, #0]
 	add sp, sp, #4
 	ldmia sp!, {lr}
 	bx lr
@@ -1406,7 +1406,7 @@ WM_Disconnect: // 0x020F258C
 	ldmneia sp!, {r4, r5, r6, lr}
 	bxne lr
 	ldr r2, [r4, #4]
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	cmp r0, #7
 	beq _020F25F0
 	cmp r0, #9
@@ -1480,7 +1480,7 @@ WM_StartConnectEx: // 0x020F2694
 	moveq r0, #6
 	ldmeqia sp!, {r4, r5, r6, r7, lr}
 	bxeq lr
-	ldrh r1, [r6]
+	ldrh r1, [r6, #0]
 	mov r0, r6
 	mov r1, r1, lsl #1
 	bl DC_StoreRange
@@ -1563,7 +1563,7 @@ WM_StartScanEx: // 0x020F27B8
 	moveq r0, #6
 	ldmeqia sp!, {r4, r5, lr}
 	bxeq lr
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	addeq sp, sp, #0x3c
 	moveq r0, #6
@@ -1616,7 +1616,7 @@ _020F28A8:
 	add r1, sp, #0xc
 	add r0, r4, #0xa
 	strh r2, [sp, #2]
-	ldr r3, [r4]
+	ldr r3, [r4, #0]
 	mov r2, #6
 	str r3, [sp, #4]
 	ldrh r3, [r4, #4]
@@ -1666,7 +1666,7 @@ WM_StartScan: // 0x020F2938
 	moveq r0, #6
 	ldmeqia sp!, {r4, r5, lr}
 	bxeq lr
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	addeq sp, sp, #0x14
 	moveq r0, #6
@@ -1692,7 +1692,7 @@ _020F29BC:
 	add r0, sp, #0
 	mov r1, #0x10
 	strh r2, [sp, #2]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	str r2, [sp, #4]
 	ldrh r2, [r4, #6]
 	strh r2, [sp, #8]
@@ -1828,7 +1828,7 @@ WM_SetParentParameter: // 0x020F2B50
 	ldrh r0, [r4, #4]
 	cmp r0, #0
 	beq _020F2BB4
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	addeq sp, sp, #4
 	moveq r0, #6
@@ -1867,7 +1867,7 @@ _020F2C00:
 	ldrh r1, [r4, #4]
 	cmp r1, #0
 	beq _020F2C34
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl DC_StoreRange
 _020F2C34:
 	mov r2, r4
@@ -1942,7 +1942,7 @@ WM_Initialize: // 0x020F2CE0
 	ldr r1, [r3, #0x10]
 	mov r0, #0
 	str r1, [sp]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	ldr r3, [r3, #4]
 	mov r1, #3
 	bl WMi_SendCommand
@@ -2039,7 +2039,7 @@ WM_Enable: // 0x020F2E20
 	ldr r1, [r3, #0x10]
 	mov r0, #3
 	str r1, [sp]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	ldr r3, [r3, #4]
 	mov r1, r0
 	bl WMi_SendCommand
@@ -2543,7 +2543,7 @@ WM_GetSharedDataAddress: // 0x020F3574
 	mov r3, r2
 	mov r1, #1
 	mov ip, r1, lsl r3
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	moveq r0, #0
 	ldmeqia sp!, {r4, lr}
 	bxeq lr
@@ -2781,7 +2781,7 @@ _020F38C0:
 _020F38F0:
 	ldr r4, [r8, #0xc]
 	ldrh r6, [r8, #0x10]
-	ldrh r5, [r4]
+	ldrh r5, [r4, #0]
 	bl WM_GetAID
 	add r1, r7, #0x800
 	ldrh r1, [r1, #0x14]
@@ -3126,7 +3126,7 @@ _020F3D9C:
 	mov r4, #0
 	add r0, r10, r0, lsl #1
 	add r0, r0, #0x800
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	strh r0, [r1, #0x1a]
 	ldrh r0, [r1, #0xc]
 	add r0, r0, #1
@@ -3191,7 +3191,7 @@ _020F3E78:
 	mov r4, #0
 	add r1, r10, r1, lsl #1
 	add r1, r1, #0x800
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	strh r1, [r2, #0x1a]
 	ldrh r1, [r2, #0xc]
 	add r1, r1, #1
@@ -3705,7 +3705,7 @@ sub_20F45E8: // 0x020F45E8
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #8
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r4, r1
 	cmp r0, #0
 	mov r6, #0
@@ -3714,7 +3714,7 @@ sub_20F45E8: // 0x020F45E8
 	movne r0, r6
 	ldmneia sp!, {r4, r5, r6, r7, r8, lr}
 	bxne lr
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	cmp r0, #0
 	addeq sp, sp, #8
 	moveq r0, r6
@@ -3722,7 +3722,7 @@ sub_20F45E8: // 0x020F45E8
 	bxeq lr
 	bl sub_20F6D20
 	bl sub_20F6D48
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	mov r7, r0
 	cmp r1, #0xa
 	addls pc, pc, r1, lsl #2
@@ -3780,7 +3780,7 @@ _020F46FC:
 	cmp r7, #0x10
 	add r6, r6, #0x6c
 	blt _020F46D4
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	cmp r0, #4
 	bne _020F473C
 	mov r0, #0
@@ -3825,7 +3825,7 @@ _020F47A0:
 	cmp r6, #0x10
 	add r7, r7, #0x6c
 	blt _020F4778
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	cmp r0, #4
 	bne _020F47E0
 	mov r0, #0
@@ -3875,7 +3875,7 @@ sub_20F4850: // 0x020F4850
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
 	mov r5, r0
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	mov r4, r1
 	cmp r2, #0xa
 	mov r0, #0
@@ -3930,7 +3930,7 @@ _020F48E0:
 	bl sub_20F5B5C
 	b _020F4960
 _020F4924:
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldrh r1, [r5, #8]
 	cmp r2, #4
 	bne _020F494C
@@ -4433,7 +4433,7 @@ _020F5020:
 	mov r6, r4
 	b _020F53D0
 _020F5028:
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	cmp r0, #0xa
 	bne _020F5040
 	mov r0, r9
@@ -4518,7 +4518,7 @@ _020F512C:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 _020F5154:
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	cmp r0, #2
 	bne _020F516C
 	mov r0, r9
@@ -4573,7 +4573,7 @@ _020F51F0:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bx lr
 _020F5218:
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	cmp r0, #4
 	bne _020F5248
 	ldr r1, [r9, #0x14]
@@ -4640,7 +4640,7 @@ _020F52E8:
 	bx lr
 _020F5300:
 	str r8, [r5, #0x20]
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	cmp r0, #4
 	beq _020F5318
 	cmp r0, #6
@@ -4884,7 +4884,7 @@ sub_20F5624: // 0x020F5624
 	sub r0, r1, #1
 	cmp r7, r0
 	bne _020F5690
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	mov r1, r4
 	bl _s32_div_f
 	movs r2, r1
@@ -5061,7 +5061,7 @@ _020F588C:
 	cmp r4, #0
 	beq _020F58C0
 _020F5894:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, r6
 	bne _020F58B4
 	ldr r4, [r4, #0x2c]
@@ -5095,11 +5095,11 @@ sub_20F58CC: // 0x020F58CC
 	cmp r7, #0
 	beq _020F59BC
 _020F5900:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	cmp r0, r10
 	bne _020F59B0
 	ldr r0, _020F59CC // _0211F9C0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r10, r0
 	bne _020F5984
 	mov r8, #0
@@ -5124,16 +5124,16 @@ _020F5930:
 	cmp r8, #2
 	bgt _020F5984
 _020F596C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r9, r0
 	beq _020F5930
-	ldr r0, [r11]
+	ldr r0, [r11, #0]
 	cmp r9, r0
 	beq _020F5930
 _020F5984:
 	ldr r2, _020F59D4 // _0211F9BC
 	ldr r3, _020F59CC // _0211F9C0
-	ldr r4, [r2]
+	ldr r4, [r2, #0]
 	ldr r1, _020F59D0 // _0211F9C4
 	add sp, sp, #4
 	mov r0, r9
@@ -5711,7 +5711,7 @@ WBT_End: // 0x020F6158
 	bl OS_DisableInterrupts
 	ldr r1, _020F621C // =0x02151460
 	mov r4, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r2, #0
 	bne _020F6188
 	bl OS_RestoreInterrupts
@@ -5769,7 +5769,7 @@ WBT_InitChild: // 0x020F6220
 	bl OS_DisableInterrupts
 	ldr r1, _020F62E8 // =0x02151460
 	mov r4, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r2, #1
 	bne _020F6254
 	bl OS_RestoreInterrupts
@@ -5829,7 +5829,7 @@ WBT_InitParent: // 0x020F62EC
 	bl OS_DisableInterrupts
 	ldr r1, _020F63BC // =0x02151460
 	mov r4, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r2, #1
 	bne _020F6328
 	bl OS_RestoreInterrupts
@@ -6000,7 +6000,7 @@ sub_20F654C: // 0x020F654C
 	bl sub_20F6CC0
 	ldr r8, _020F6718 // _0211F9C8
 	mov r5, r0
-	ldr r4, [r8]
+	ldr r4, [r8, #0]
 	mov r9, #1
 _020F6570:
 	add r4, r4, #1
@@ -6050,7 +6050,7 @@ _020F6570:
 	strne r4, [r1]
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxne lr
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	cmp r4, r0
 	bne _020F6570
 	mov r0, r5
@@ -6070,7 +6070,7 @@ _020F6570:
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxne lr
 	ldr r8, _020F6718 // _0211F9C8
-	ldr r4, [r8]
+	ldr r4, [r8, #0]
 	mov r9, #1
 _020F6684:
 	add r4, r4, #1
@@ -6087,7 +6087,7 @@ _020F6684:
 	strne r4, [r1]
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, lr}
 	bxne lr
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	cmp r4, r0
 	bne _020F6684
 	mov r4, #1
@@ -6125,12 +6125,12 @@ WBT_CancelCurrentCommand: // 0x020F6720
 	bl OS_DisableInterrupts
 	ldr r1, _020F67E4 // =0x02151460
 	mov r11, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #1
 	bne _020F67CC
 	bl sub_20F6CC0
 	mov r7, r0
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	cmp r0, #0
 	beq _020F67CC
 	mov r9, r8
@@ -6145,7 +6145,7 @@ _020F676C:
 	and r1, r2, r1, lsr #16
 	ands r1, r10, r1
 	beq _020F67B8
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	mvn r1, r0
 	mov r8, r6
 	and r1, r2, r1
@@ -6283,7 +6283,7 @@ WBT_UnregisterBlock: // 0x020F6910
 	ldmia sp!, {r4, r5, r6, r7, lr}
 	bx lr
 _020F6948:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, r7
 	bne _020F6974
 	ldr r0, [r5, #0x28]
@@ -6299,7 +6299,7 @@ _020F6974:
 	cmp r6, #0
 	beq _020F69BC
 _020F6980:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, r7
 	bne _020F69AC
 	ldr r1, [r6, #0x28]
@@ -6409,7 +6409,7 @@ WBT_SetPacketSize: // 0x020F6ACC
 	mov r5, r0
 	mov r4, r1
 	bl sub_20F6CC0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #4
 	beq _020F6AF4
 	cmp r0, #6
@@ -6473,7 +6473,7 @@ _020F6B7C:
 	arm_func_start sub_20F6BA0
 sub_20F6BA0: // 0x020F6BA0
 	ldr r0, _020F6BAC // _0211F9CC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _020F6BAC: .word _0211F9CC
@@ -6496,7 +6496,7 @@ sub_20F6BC0: // 0x020F6BC0
 	cmp r0, #0
 	beq _020F6BF0
 _020F6BD4:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, r4
 	ldmeqia sp!, {r4, lr}
 	bxeq lr
@@ -6521,7 +6521,7 @@ _020F6C08: .word 0x02151470
 	arm_func_start sub_20F6C0C
 sub_20F6C0C: // 0x020F6C0C
 	ldr r0, _020F6C18 // =0x02151470
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _020F6C18: .word 0x02151470
@@ -6535,7 +6535,7 @@ sub_20F6C1C: // 0x020F6C1C
 	bl OS_DisableInterrupts
 	ldr r1, _020F6CAC // =0x02151460
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #1
 	beq _020F6C54
 	bl OS_RestoreInterrupts
@@ -6547,7 +6547,7 @@ _020F6C54:
 	bl sub_20F6CB4
 	cmp r0, #0
 	beq _020F6C6C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _020F6C84
 _020F6C6C:
@@ -6610,7 +6610,7 @@ _020F6CE8: .word 0x02151468
 	arm_func_start sub_20F6CEC
 sub_20F6CEC: // 0x020F6CEC
 	ldr r0, _020F6CF8 // =0x0215146C
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _020F6CF8: .word 0x0215146C
@@ -6619,7 +6619,7 @@ _020F6CF8: .word 0x0215146C
 	arm_func_start sub_20F6CFC
 sub_20F6CFC: // 0x020F6CFC
 	ldr r0, _020F6D08 // =0x02151468
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _020F6D08: .word 0x02151468
@@ -6638,10 +6638,10 @@ _020F6D1C: .word 0x02151464
 	arm_func_start sub_20F6D20
 sub_20F6D20: // 0x020F6D20
 	ldr r0, _020F6D44 // =0x02151464
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	add r1, r1, #1
 	strb r1, [r0]
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #0
 	addeq r1, r1, #1
 	streqb r1, [r0]
@@ -6653,7 +6653,7 @@ _020F6D44: .word 0x02151464
 	arm_func_start sub_20F6D48
 sub_20F6D48: // 0x020F6D48
 	ldr r0, _020F6D54 // =0x02151464
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _020F6D54: .word 0x02151464

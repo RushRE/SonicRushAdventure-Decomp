@@ -50,7 +50,7 @@ DWCs_RecvDataBody: // 0x0209BA9C
 	sub sp, sp, #4
 	ldr r3, _0209BB94 // =0x02144314
 	mov r7, r0
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	mov r3, #0x30
 	mla r4, r7, r3, r4
 	mov r6, r1
@@ -88,7 +88,7 @@ _0209BB08:
 	str r1, [r4, #0x10]
 	ldr r0, _0209BB94 // =0x02144314
 	str r1, [r4, #0x18]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r3, [r0, #0x604]
 	cmp r3, #0
 	beq _0209BB58
@@ -97,7 +97,7 @@ _0209BB08:
 	blx r3
 _0209BB58:
 	ldr r0, _0209BB94 // =0x02144314
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x608]
 	cmp r0, #0
 	addeq sp, sp, #4
@@ -122,7 +122,7 @@ DWCs_RecvDataHeader: // 0x0209BB9C
 	sub sp, sp, #0xc
 	ldr r4, _0209BC60 // =0x02144314
 	mov r3, #0x30
-	ldr r4, [r4]
+	ldr r4, [r4, #0]
 	mov r7, r1
 	mla r5, r0, r3, r4
 	mov r6, r2
@@ -185,7 +185,7 @@ DWCs_HandleUnreliableMessage: // 0x0209BC64
 	bl DWCi_GetConnectionAID
 	ldr r1, _0209BD18 // =0x02144314
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r0, #0x30
 	mla r5, r4, r0, r1
 	ldr r1, [r5, #4]
@@ -200,7 +200,7 @@ DWCs_HandleUnreliableMessage: // 0x0209BC64
 	mov r2, r6
 	bl MI_CpuCopy8
 	ldr r0, _0209BD18 // =0x02144314
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r3, [r0, #0x604]
 	cmp r3, #0
 	beq _0209BCDC
@@ -210,7 +210,7 @@ DWCs_HandleUnreliableMessage: // 0x0209BC64
 	blx r3
 _0209BCDC:
 	ldr r0, _0209BD18 // =0x02144314
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x608]
 	cmp r0, #0
 	addeq sp, sp, #4
@@ -280,14 +280,14 @@ _0209BDBC:
 	mul ip, r4, r0
 	ldr r0, _0209BE08 // =0x02144314
 	mov r3, #1
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r2, #0
 	add r1, r1, ip
 	strb r3, [r1, #0x1d]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r1, r1, ip
 	str r2, [r1, #0x10]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, ip
 	str r2, [r0, #0x18]
 	ldmia sp!, {r4, r5, r6, pc}
@@ -319,7 +319,7 @@ DWCs_Send: // 0x0209BE10
 DWCs_GetRecvState: // 0x0209BE38
 	ldr r2, _0209BE50 // =0x02144314
 	mov r1, #0x30
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mla r1, r0, r1, r2
 	ldrb r0, [r1, #0x1d]
 	bx lr
@@ -331,7 +331,7 @@ _0209BE50: .word 0x02144314
 DWCs_GetSendState: // 0x0209BE54
 	ldr r2, _0209BE6C // =0x02144314
 	mov r1, #0x30
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mla r1, r0, r1, r2
 	ldrb r0, [r1, #0x1c]
 	bx lr
@@ -343,7 +343,7 @@ _0209BE6C: .word 0x02144314
 DWCs_GetTransConnection: // 0x0209BE70
 	ldr r2, _0209BE84 // =0x02144314
 	mov r1, #0x30
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mla r0, r1, r0, r2
 	bx lr
 	.align 2, 0
@@ -363,7 +363,7 @@ _0209BE98: .word 0x02144314
 	arm_func_start DWCi_ClearTransConnection
 DWCi_ClearTransConnection: // 0x0209BE9C
 	ldr r2, _0209BF24 // =0x02144314
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	cmp r3, #0
 	bxeq lr
 	mov r1, #0x30
@@ -371,19 +371,19 @@ DWCi_ClearTransConnection: // 0x0209BE9C
 	add r0, r3, r1
 	mov r3, #0
 	str r3, [r0, #0xc]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, r1
 	str r3, [r0, #0x10]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, r1
 	str r3, [r0, #0x14]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, r1
 	str r3, [r0, #0x18]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, r1
 	strb r3, [r0, #0x1c]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r2, r0, #0x1d
 	ldrb r0, [r2, r1]
 	add r2, r2, r1
@@ -392,7 +392,7 @@ DWCi_ClearTransConnection: // 0x0209BE9C
 	strneb r0, [r2]
 	ldr r0, _0209BF24 // =0x02144314
 	mov r2, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, r1
 	strh r2, [r0, #0x22]
 	bx lr
@@ -405,7 +405,7 @@ DWCi_TransportProcess: // 0x0209BF28
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	ldr r0, _0209C0D8 // =0x02144314
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -429,7 +429,7 @@ _0209BF70:
 	beq _0209C008
 	mov r0, r7
 	bl DWCs_GetTransConnection
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r6, r0
 	ldr r0, [r1, #0x608]
 	cmp r0, #0
@@ -453,7 +453,7 @@ _0209BF70:
 	ldr r1, [r6, #0x2c]
 	cmp r0, r1
 	bls _0209C008
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r7
 	ldr r1, [r1, #0x608]
 	blx r1
@@ -470,7 +470,7 @@ _0209C008:
 	mov r0, r7
 	bl DWCs_GetTransConnection
 	mov r5, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r2, [r5, #0x14]
 	add r0, r0, #0x600
 	ldr r1, [r5, #0xc]
@@ -482,7 +482,7 @@ _0209C008:
 	bl DWCs_GetOutgoingBufferFreeSize
 	cmp r0, r6
 	blt _0209C0C4
-	ldr r3, [r5]
+	ldr r3, [r5, #0]
 	ldr r1, [r5, #0xc]
 	mov r0, r7
 	mov r2, r6
@@ -501,7 +501,7 @@ _0209C008:
 	str r1, [r5]
 	str r1, [r5, #0xc]
 	str r1, [r5, #0x14]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r2, [r1, #0x600]
 	cmp r2, #0
 	beq _0209C0C4
@@ -523,14 +523,14 @@ DWCi_PingCallback: // 0x0209C0E0
 	stmdb sp!, {r4, lr}
 	ldr r2, _0209C11C // =0x02144314
 	mov r4, r1
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r1, [r1, #0x60c]
 	cmp r1, #0
 	ldmeqia sp!, {r4, pc}
 	bl DWCi_GetConnectionAID
 	ldr r2, _0209C11C // =0x02144314
 	mov r1, r0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r0, r4
 	ldr r2, [r2, #0x60c]
 	blx r2
@@ -578,7 +578,7 @@ DWCi_InitTransport: // 0x0209C178
 	bl MI_CpuFill8
 	ldr r0, _0209C1B0 // =0x02144314
 	ldr r1, _0209C1B8 // =0x000005B9
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x600
 	strh r1, [r0, #0x10]
 	add sp, sp, #4
@@ -593,7 +593,7 @@ _0209C1B8: .word 0x000005B9
 DWC_SetRecvTimeoutTime: // 0x0209C1BC
 	stmdb sp!, {r4, lr}
 	ldr r2, _0209C204 // =0x02144314
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	cmp r3, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
@@ -603,7 +603,7 @@ DWC_SetRecvTimeoutTime: // 0x0209C1BC
 	str r1, [r0, #0x2c]
 	bl OS_GetTick
 	ldr r2, _0209C204 // =0x02144314
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r2, r2, r4
 	str r0, [r2, #0x24]
 	str r1, [r2, #0x28]
@@ -669,7 +669,7 @@ _0209C298: .word _0211C38C
 	arm_func_start DWC_SetUserRecvTimeoutCallback
 DWC_SetUserRecvTimeoutCallback: // 0x0209C29C
 	ldr r1, _0209C2B8 // =0x02144314
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	moveq r0, #0
 	strne r0, [r1, #0x608]
@@ -682,7 +682,7 @@ _0209C2B8: .word 0x02144314
 	arm_func_start DWC_SetUserRecvCallback
 DWC_SetUserRecvCallback: // 0x0209C2BC
 	ldr r1, _0209C2D8 // =0x02144314
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	moveq r0, #0
 	strne r0, [r1, #0x604]
@@ -769,7 +769,7 @@ DWC_SendUnreliable: // 0x0209C3A8
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r0, _0209C434 // =0x02144314
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x600
 	ldrh r0, [r0, #0x10]
 	cmp r4, r0
@@ -781,7 +781,7 @@ DWC_SendUnreliable: // 0x0209C3A8
 	mov r3, #0
 	bl DWCs_Send
 	ldr r0, _0209C434 // =0x02144314
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, [r0, #0x600]
 	cmp r2, #0
 	beq _0209C42C
@@ -829,7 +829,7 @@ DWCi_SendReliable: // 0x0209C438
 	mov r3, #1
 	bl DWCs_Send
 	ldr r0, _0209C558 // =0x02144314
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x600
 	ldrh r9, [r0, #0x10]
 	mov r0, r7
@@ -858,7 +858,7 @@ DWCi_SendReliable: // 0x0209C438
 	str r2, [r4, #0xc]
 	ldr r1, _0209C558 // =0x02144314
 	str r2, [r4, #0x14]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r2, [r1, #0x600]
 	cmp r2, #0
 	beq _0209C54C

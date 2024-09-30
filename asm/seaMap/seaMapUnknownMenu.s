@@ -12,7 +12,7 @@ SeaMapUnknown__Create: // 0x0216FC98
 	bl LoadAudioSndArc
 	ldr r1, _0216FD80 // =audioManagerSndHeap
 	mov r0, #6
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadGroup
 	bl LoadSpriteButtonCursorSprite
 	bl LoadSpriteButtonTouchpadSprite
@@ -76,7 +76,7 @@ SeaMapUnknown__Main: // 0x0216FD94
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	blx r1
 	ldr r0, [r4, #4]
 	cmp r0, #0

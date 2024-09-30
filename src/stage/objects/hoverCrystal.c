@@ -105,7 +105,7 @@ NONMATCH_FUNC void HoverCrystal_State_Active(HoverCrystal *work)
 	ldmgtia sp!, {r3, r4, r5, pc}
 	ldr r3, =_mt_math_rand
 	ldr r0, =0x00196225
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	ldr r1, =0x3C6EF35F
 	mla r2, r5, r0, r1
 	str r2, [r3]
@@ -146,7 +146,7 @@ NONMATCH_FUNC void HoverCrystal_State_Active(HoverCrystal *work)
 	bl EffectHoverCrystalSparkle__Create
 	ldr r2, =_mt_math_rand
 	ldr r0, =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10

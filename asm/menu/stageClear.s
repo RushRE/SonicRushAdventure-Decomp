@@ -102,7 +102,7 @@ _02156C30: // jump table
 	.hword _02156CF6 - _02156C30 - 2 // case 4
 	.hword _02156C3C - _02156C30 - 2 // case 5
 _02156C3C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _02156C60
@@ -130,7 +130,7 @@ _02156C60:
 	bl PlaySysTrack
 	b _02156D0E
 _02156C7A:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _02156C9E
@@ -158,7 +158,7 @@ _02156C9E:
 	bl PlaySysTrack
 	b _02156D0E
 _02156CB8:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _02156CDC
@@ -197,7 +197,7 @@ _02156CF6:
 	mov r1, #1
 	bl PlaySysTrack
 _02156D0E:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsMissionMode
 	cmp r0, #0
 	beq _02156D1C
@@ -214,7 +214,7 @@ _02156D1C:
 	bl StageClearPlayer__Create
 	mov r0, r4
 	bl StageClearHeader__Create
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _02156D4E
@@ -223,11 +223,11 @@ _02156D1C:
 	mov r0, r4
 	bl Task__Unknown2158C6C__LoadAssets
 _02156D4E:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	bne _02156D74
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #2
 	beq _02156D6C
 	mov r0, r4
@@ -245,11 +245,11 @@ _02156D74:
 	mov r0, r4
 	bl StageClearTARank__Create
 _02156D80:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	bne _02156D9A
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsMissionMode
 	cmp r0, #0
 	bne _02156D9A
@@ -271,7 +271,7 @@ StageClear__Destroy: // 0x02156DB0
 	bl GetTaskWork_
 	mov r4, r0
 	bl ReleaseTouchInput
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _02156DD2
@@ -280,18 +280,18 @@ StageClear__Destroy: // 0x02156DB0
 	mov r0, r4
 	bl Task__Unknown2158C6C__ReleaseAssets
 _02156DD2:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	bne _02156DE2
 	mov r0, r4
 	bl StageClearMaterialReward__Destroy
 _02156DE2:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	bne _02156E08
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #2
 	beq _02156E00
 	mov r0, r4
@@ -329,7 +329,7 @@ StageClear__Func_2156E34: // 0x02156E34
 	mov r1, #0
 	str r1, [r0]
 	lsl r2, r2, #0x1a
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, _02156E60 // =0xFFFFE0FF
 	mov r3, r1
 	mov r1, #0x13
@@ -338,7 +338,7 @@ StageClear__Func_2156E34: // 0x02156E34
 	orr r3, r1
 	str r3, [r2]
 	ldr r3, _02156E64 // =0x04001000
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	and r0, r2
 	orr r0, r1
 	str r0, [r3]
@@ -355,12 +355,12 @@ StageClear__StartFadeOut: // 0x02156E68
 	mov r4, r0
 	ldr r0, _02156F9C // =StageClear__Singleton
 	ldr r6, _02156FA0 // =gameState
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	mov r0, #8
 	str r0, [r5, #4]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl StageClear__IsMissionMode
 	cmp r0, #0
 	beq _02156E9C
@@ -374,7 +374,7 @@ StageClear__StartFadeOut: // 0x02156E68
 	bl RequestNewSysEventChange
 	b _02156F8A
 _02156E9C:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _02156EDC
@@ -487,7 +487,7 @@ _02156F8A:
 	bl FadeSysTrack
 	ldr r0, _02156F9C // =StageClear__Singleton
 	ldr r1, _02156FAC // =StageClear__Main_2159608
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r4, r5, r6, pc}
 	.align 2, 0
@@ -506,7 +506,7 @@ StageClear__LoadAssets: // 0x02156FB0
 	ldr r0, _021570FC // =gameArchiveCommon
 	mov r5, r4
 	add r5, #0xc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r3, r5
 	str r0, [r5, #0xc]
 	ldr r0, [r4, #8]
@@ -519,7 +519,7 @@ StageClear__LoadAssets: // 0x02156FB0
 	str r0, [r4, #0xc]
 	ldr r0, _02157108 // =animationWork
 	add r1, #0x10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r0, [r5, #4]
 	ldr r0, _0215710C // =aCldmCldmBaseBb
 	str r0, [sp]
@@ -532,7 +532,7 @@ StageClear__LoadAssets: // 0x02156FB0
 	str r0, [sp, #0xc]
 	ldr r0, [r5, #0xc]
 	bl StageClear__LoadFiles
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _0215709A
@@ -550,7 +550,7 @@ StageClear__LoadAssets: // 0x02156FB0
 	mov r3, r2
 	bl StageClear__LoadFiles
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _02157044
 	add r0, r0, r0
@@ -568,7 +568,7 @@ _02157030: // jump table
 	.hword _0215703C - _02157030 - 2 // case 5
 _0215703C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _02157046
 _02157044:
 	mov r1, #1
@@ -580,7 +580,7 @@ _02157046:
 	bl ArchiveFile__Load
 	str r0, [r6, #8]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0215707E
 	add r0, r0, r0
@@ -598,7 +598,7 @@ _0215706A: // jump table
 	.hword _02157076 - _0215706A - 2 // case 5
 _02157076:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _02157080
 _0215707E:
 	mov r1, #1
@@ -615,7 +615,7 @@ _02157080:
 	mov r3, #0
 	bl StageClear__LoadFiles
 _0215709A:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	bne _021570DA
@@ -702,7 +702,7 @@ StageClear__ReleaseAssets: // 0x02157148
 	beq _0215715A
 	bl _FreeHEAP_USER
 _0215715A:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _0215717E
@@ -717,7 +717,7 @@ _0215715A:
 	ldr r0, [r4, #0xc]
 	bl _FreeHEAP_USER
 _0215717E:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	bne _02157192
@@ -914,7 +914,7 @@ StageClearPlayer__Func_2157300: // 0x02157300
 	cmp r3, r0
 	beq _02157318
 _0215730A:
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	cmp r2, #0
 	beq _02157312
 	str r1, [r2]
@@ -1183,7 +1183,7 @@ StageClearStageScoreTally__Create: // 0x02157520
 	str r2, [r4, r1]
 	ldr r1, [sp, #0x1c]
 	ldr r7, _021578A0 // =gameState
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r5, _021578A4 // =playerGameStatus
 	cmp r1, #0
 	beq _0215754C
@@ -1468,7 +1468,7 @@ _021576C0:
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
 	ldr r0, [sp, #0x1c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	bne _021577DA
 	mov r0, r4
@@ -1689,7 +1689,7 @@ StageClearStageScoreTally__Func_2157958: // 0x02157958
 	beq _02157986
 	mov r7, #0
 _0215796E:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	beq _02157978
 	bl DestroyTask
@@ -1718,7 +1718,7 @@ _0215799C: .word 0x000006D8
 StageClearStageScoreTally__Destructor: // 0x021579A0
 	push {r3, lr}
 	ldr r0, _021579BC // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _021579B8
 	bl GetTaskWork_
@@ -2109,7 +2109,7 @@ StageClearStageScoreTally__Func_2157CD8: // 0x02157CD8
 	cmp r4, r5
 	beq _02157CFC
 _02157CEC:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	beq _02157CF6
 	bl DestroyTask
@@ -2130,17 +2130,17 @@ StageClearStageScoreTally__MoverCallback_Total: // 0x02157D04
 	mov r6, r0
 	ldr r0, _02157D58 // =StageClear__Singleton
 	mov r7, r1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02157D52
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02157D58 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _02157D5C // =0x000006B8
 	add r5, r0, r1
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	bne _02157D46
@@ -2411,7 +2411,7 @@ _02157F32:
 	strh r0, [r1]
 	mov r0, r4
 	add r0, #0xe4
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #1
 	bne _02157F84
 	ldr r5, _021580F4 // =playerGameStatus
@@ -2443,7 +2443,7 @@ _02157F84:
 	strh r1, [r0]
 	mov r0, r4
 	add r0, #0xe4
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	bne _02157FA2
 	mov r5, #2
@@ -2491,7 +2491,7 @@ _02157FA8:
 	bl AnimatorSprite__ProcessAnimation
 	mov r0, r4
 	add r0, #0xe4
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	bne _0215800A
 	ldr r1, [r4, #0x3c]
@@ -2501,7 +2501,7 @@ _02157FA8:
 _0215800A:
 	mov r0, r4
 	add r0, #0xe4
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	mov r5, r4
 	add r5, #0xec
 	cmp r0, #0
@@ -2646,11 +2646,11 @@ _02158138: .word 0x00000D98
 StageClearStageRank__Destructor: // 0x0215813C
 	push {r3, lr}
 	ldr r0, _0215816C // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02158168
 	bl GetTaskWork_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	beq _02158158
 	cmp r1, #1
@@ -2680,7 +2680,7 @@ StageClear__PlayRankVoiceClip: // 0x02158174
 	push {r4, lr}
 	sub sp, #8
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r2, _021582F4 // =0x00020001
 	lsl r1, r0, #0x10
 	ldr r0, [r4, #8]
@@ -2856,7 +2856,7 @@ _021582C4:
 	ldrh r0, [r4, r0]
 	cmp r0, #1
 	bne _021582EE
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #3
 	beq _021582DA
 	cmp r0, #4
@@ -2889,7 +2889,7 @@ _02158308: .word 0x00000E7C
 StageClear__PlayRankGetSfx: // 0x0215830C
 	push {r3, lr}
 	sub sp, #8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #4
 	bhi _0215835C
 	add r1, r1, r1
@@ -2939,11 +2939,11 @@ _02158360: .word 0x00002CBC
 StageClear__GetRankAnim: // 0x02158364
 	push {r3, lr}
 	ldr r0, _021583BC // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _021583C0 // =0x00000D88
 	ldr r1, [r0, r1]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	bne _0215839A
 	ldr r0, _021583C4 // =0x0000C350
@@ -3004,7 +3004,7 @@ StageClearBackground__Init: // 0x021583D4
 	ldr r5, _02158544 // =0x0400100C
 	str r0, [sp, #0xc]
 	ldr r6, [r0, #0x20]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	mov r7, #0x43
 	sub r4, r5, #4
 	mov r2, r0
@@ -3012,17 +3012,17 @@ StageClearBackground__Init: // 0x021583D4
 	and r2, r7
 	orr r0, r2
 	strh r0, [r1]
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	mov r1, #3
 	bic r0, r1
 	strh r0, [r5]
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	mov r0, #1
 	bic r2, r1
 	orr r0, r2
 	strh r0, [r4]
 	sub r2, r5, #2
-	ldrh r3, [r2]
+	ldrh r3, [r2, #0]
 	mov r0, #2
 	bic r3, r1
 	orr r0, r3
@@ -3032,13 +3032,13 @@ StageClearBackground__Init: // 0x021583D4
 	mov r1, #3
 	orr r0, r1
 	strh r0, [r5, #2]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	mov r1, r0
 	ldr r0, _0215854C // =0x00002E08
 	and r1, r7
 	orr r0, r1
 	strh r0, [r4]
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	mov r1, r0
 	ldr r0, _02158548 // =0x00002F08
 	and r1, r7
@@ -3135,7 +3135,7 @@ _021584D0:
 	add r5, sp, #0x10
 	mov r7, r6
 _021584E4:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, r7
 	mov r2, r4
 	bl QueueCompressedPalette
@@ -3154,7 +3154,7 @@ _021584E4:
 	mov r0, #1
 	lsl r0, r0, #0xc
 _0215850A:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	add r2, r2, #2
 	add r1, r1, r0
 	strh r1, [r4]
@@ -3371,7 +3371,7 @@ _0215865E:
 	mov r6, #0x88
 _021586E0:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0215870A
 	add r0, r0, r0
@@ -3389,7 +3389,7 @@ _021586F6: // jump table
 	.hword _02158702 - _021586F6 - 2 // case 5
 _02158702:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _0215870C
 _0215870A:
 	mov r0, #1
@@ -3555,8 +3555,8 @@ _0215883E:
 _02158844:
 	mov r0, r5
 	add r0, #0xb0
-	ldr r1, [r4]
-	ldrh r0, [r0]
+	ldr r1, [r4, #0]
+	ldrh r0, [r0, #0]
 	lsl r1, r1, #0x18
 	lsr r1, r1, #0x18
 	bl StageClear__GiveMaterial
@@ -3632,7 +3632,7 @@ StageClear__MaterialRewardFX__Func_21588D4: // 0x021588D4
 	sub sp, #8
 	mov r5, r0
 	ldr r0, _02158958 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215895C // =0x00000EEC
 	add r4, r0, r1
@@ -3855,7 +3855,7 @@ _02158A88: .word 0x0217D315
 StageClear__MaterialRewardFX__Func_2158A8C: // 0x02158A8C
 	push {r3, lr}
 	ldr r0, _02158AE0 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, _02158AE4 // =gameState
 	ldrh r1, [r0, #0x28]
@@ -4089,7 +4089,7 @@ Task__Unknown2158C6C__ReleaseAssets: // 0x02158C40
 	push {r4, lr}
 	ldr r1, _02158C68 // =0x000027B0
 	add r4, r0, r1
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	beq _02158C56
 	bl GetTaskWork_
@@ -4255,7 +4255,7 @@ StageClear__Func_2158D54: // 0x02158D54
 	add r3, sp, #0x10
 	bl AkUtilFrameToTime
 	add r0, sp, #0x10
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	mov r0, #0
 	str r0, [sp, #0xc]
 _02158D84:
@@ -4396,7 +4396,7 @@ _02158E98: .word StageClearMover__Destructor
 StageClearMover__Destructor: // 0x02158E9C
 	push {r3, lr}
 	bl GetTaskWork_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	beq _02158EC2
 	mov r2, #4
@@ -4441,7 +4441,7 @@ StageClearStageScoreTally__MoverCallback_Bonus: // 0x02158EDC
 	sub sp, #8
 	ldr r0, _02158F0C // =StageClear__Singleton
 	mov r4, r1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _02158F10 // =0x00002CBC
 	ldr r0, [r0, r1]
@@ -4609,9 +4609,9 @@ _02158FB8:
 	mov r0, #3
 	strh r0, [r1]
 	ldr r0, _02159064 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #2
 	bne _02159044
 	ldr r1, [r4, #0x64]
@@ -4720,7 +4720,7 @@ _021590E0:
 	beq _02159124
 	mov r0, r4
 	add r0, #0xb5
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #0
 	bne _0215910E
 	ldrh r1, [r4, #0xc]
@@ -4741,7 +4741,7 @@ _0215910E:
 	bl AnimatorSpriteDS__SetAnimation
 	mov r0, r4
 	add r0, #0xb5
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	sub r1, r0, #1
 	mov r0, r4
 	add r0, #0xb5
@@ -4749,7 +4749,7 @@ _0215910E:
 _02159124:
 	mov r0, r4
 	add r0, #0xb4
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #0
 	bne _02159186
 	mov r1, #0
@@ -4758,27 +4758,27 @@ _02159124:
 	bl AnimatorSpriteDS__ProcessAnimation
 	mov r0, r4
 	add r0, #0xa4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, r4
 	add r0, #0xac
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r1, r0
 	mov r0, r4
 	add r0, #0xa4
 	str r1, [r0]
 	mov r0, r4
 	add r0, #0xa8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, r4
 	add r0, #0xb0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r1, r0
 	mov r0, r4
 	add r0, #0xa8
 	str r1, [r0]
 	mov r0, r4
 	add r0, #0xac
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _02159264 // =0x00000E74
 	ldr r0, [r5, r0]
 	add r1, r1, r0
@@ -4787,7 +4787,7 @@ _02159124:
 	str r1, [r0]
 	mov r0, r4
 	add r0, #0xb0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _02159268 // =0x00000E78
 	ldr r0, [r5, r0]
 	add r1, r1, r0
@@ -4803,18 +4803,18 @@ _02159186:
 	beq _02159254
 	mov r0, r4
 	add r0, #0xb4
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	sub r1, r0, #1
 	mov r0, r4
 	add r0, #0xb4
 	strb r1, [r0]
 	mov r0, r4
 	add r0, #0xb4
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #0
 	bne _02159254
 	ldr r0, _0215926C // =_mt_math_rand
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _02159270 // =0x00196225
 	mov r2, r1
 	mul r2, r0
@@ -4929,19 +4929,19 @@ StageClear__Func_2159288: // 0x02159288
 _02159298:
 	mov r0, r5
 	add r0, #0xb4
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #0
 	bne _021592E2
 	mov r0, r5
 	add r0, #0xa4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	asr r1, r0, #0xc
 	mov r0, r5
 	add r0, #0x68
 	strh r1, [r0]
 	mov r0, r5
 	add r0, #0xa8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	asr r0, r0, #0xc
 	sub r1, r0, r6
 	mov r0, r5
@@ -4949,14 +4949,14 @@ _02159298:
 	strh r1, [r0]
 	mov r0, r5
 	add r0, #0xa4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	asr r1, r0, #0xc
 	mov r0, r5
 	add r0, #0x6c
 	strh r1, [r0]
 	mov r0, r5
 	add r0, #0xa8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	asr r1, r0, #0xc
 	mov r0, r5
 	add r0, #0x6e
@@ -4981,7 +4981,7 @@ StageClear__GetTrickBonus: // 0x021592EC
 	mov r4, #0
 	add r2, r3, r2
 _021592F8:
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	cmp r1, r0
 	bhs _02159308
 	ldr r0, _0215931C // =0x0217D248
@@ -5026,7 +5026,7 @@ _02159342:
 	ldrb r1, [r0, r7]
 	mov r0, #0x3c
 _0215934A:
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	mov r3, r2
 	mul r3, r0
 	cmp r3, r6
@@ -5153,7 +5153,7 @@ StageClearMissionClearText__Create: // 0x02159420
 	add r5, r0, r1
 	mov r1, #0
 	str r1, [r5]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl StageClear__IsMissionMode
 	cmp r0, #0
 	beq _0215943C
@@ -5263,7 +5263,7 @@ StageClearMissionClearText__Func_215950C: // 0x0215950C
 	add r4, r0, r1
 	mov r0, r4
 	add r0, #0xcc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02159528
 	bl DestroyTask
@@ -5274,7 +5274,7 @@ StageClearMissionClearText__Func_215950C: // 0x0215950C
 _02159528:
 	mov r0, r4
 	add r0, #0xd0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _0215953E
 	bl DestroyTask
@@ -5317,7 +5317,7 @@ _02159560: .word gameState
 StageClear__Main: // 0x02159564
 	push {r4, lr}
 	ldr r0, _021595F8 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _021595FC // =0x00002CB8
@@ -5352,7 +5352,7 @@ _0215959C:
 	mov r1, #0
 	strh r1, [r4, r0]
 _021595AA:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #2
 	bne _021595F6
 	mov r0, #5
@@ -5370,7 +5370,7 @@ _021595B6:
 	strh r1, [r4, r0]
 	pop {r4, pc}
 _021595CA:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	bne _021595E6
@@ -5404,7 +5404,7 @@ _02159604: .word 0x00000C03
 StageClear__Main_2159608: // 0x02159608
 	push {r4, lr}
 	ldr r0, _0215963C // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _02159640 // =0x00002CB8
 	ldrh r2, [r0, r1]
@@ -5431,7 +5431,7 @@ _02159640: .word 0x00002CB8
 StageClearPlayer__Main1: // 0x02159644
 	push {r4, r5, r6, lr}
 	ldr r0, _021596C0 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159654
 	bl DestroyCurrentTask
@@ -5440,7 +5440,7 @@ _02159654:
 	bl GetTaskWork_
 	mov r5, r0
 	ldr r0, _021596C0 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r1, [r5, #4]
@@ -5500,7 +5500,7 @@ _021596C4: .word 0x00002CB8
 StageClearPlayer__Main2: // 0x021596C8
 	push {r3, r4, r5, lr}
 	ldr r0, _02159710 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _021596D8
 	bl DestroyCurrentTask
@@ -5509,7 +5509,7 @@ _021596D8:
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _02159710 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	ldr r0, [r4, #8]
@@ -5539,7 +5539,7 @@ _02159710: .word StageClear__Singleton
 StageClearHeader__Main1: // 0x02159714
 	push {r4, lr}
 	ldr r0, _021597BC // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159724
 	bl DestroyCurrentTask
@@ -5628,7 +5628,7 @@ _021597BC: .word StageClear__Singleton
 StageClearHeader__Main2: // 0x021597C0
 	push {r4, lr}
 	ldr r0, _02159864 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _021597D0
 	bl DestroyCurrentTask
@@ -5711,7 +5711,7 @@ StageClearStageScoreTally__Main1: // 0x02159868
 	push {r3, r4, r5, lr}
 	sub sp, #8
 	ldr r0, _02159908 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215987C
 	bl DestroyCurrentTask
@@ -5797,7 +5797,7 @@ StageClearStageScoreTally__Main2: // 0x02159920
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x14
 	ldr r0, _02159A54 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159934
 	bl DestroyCurrentTask
@@ -5954,7 +5954,7 @@ _02159A64: .word 0x000006DC
 StageClearStageScoreTally__Main3: // 0x02159A68
 	push {r3, lr}
 	ldr r0, _02159A9C // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159A78
 	bl DestroyCurrentTask
@@ -5987,7 +5987,7 @@ StageClearStageScoreTally__Main4: // 0x02159AA4
 	push {r4, r5, r6, lr}
 	sub sp, #8
 	ldr r0, _02159B38 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159AB8
 	bl DestroyCurrentTask
@@ -6062,7 +6062,7 @@ StageClearStageRank__Main: // 0x02159B44
 	push {r4, r5, lr}
 	sub sp, #0xc
 	ldr r0, _02159BF4 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159B58
 	bl DestroyCurrentTask
@@ -6122,7 +6122,7 @@ _02159B94:
 	mov r1, #0
 	add r0, #0xcc
 	str r1, [r0]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _02159BF0
@@ -6156,7 +6156,7 @@ StageClearStageRank__Main_Invisible: // 0x02159C14
 	push {r4, r5, r6, lr}
 	ldr r0, _02159CD0 // =StageClear__Singleton
 	mov r6, #0x1e
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159C26
 	bl DestroyCurrentTask
@@ -6164,7 +6164,7 @@ StageClearStageRank__Main_Invisible: // 0x02159C14
 _02159C26:
 	bl GetTaskWork_
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r4, _02159CD4 // =0x00000D98
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
@@ -6176,14 +6176,14 @@ _02159C3A:
 	bne _02159C72
 	add r0, r5, r4
 	add r0, #0xe0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, _02159CD8 // =StageClear__RankDisplay__Main_Idle
 	bl SetTaskMainEvent
 	mov r0, r5
 	bl StageClear__PlayRankVoiceClip
 	mov r0, r5
 	bl StageClear__PlayRankGetSfx
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _02159C6C
@@ -6197,15 +6197,15 @@ _02159C6C:
 _02159C72:
 	add r0, r5, r4
 	add r0, #0xcc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r6, r0
 	bhi _02159CBE
 	ldr r0, _02159CD0 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r0, r5
 	bl StageClear__PlayRankVoiceClip
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _02159C9E
@@ -6232,7 +6232,7 @@ _02159C9E:
 _02159CBE:
 	add r0, r5, r4
 	add r0, #0xcc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r0, #1
 	add r0, r5, r4
 	add r0, #0xcc
@@ -6250,7 +6250,7 @@ _02159CE0: .word StageClear__Rank__Main_Appearing
 StageClear__Rank__Main_Appearing: // 0x02159CE4
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _02159DB8 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159CF4
 	bl DestroyCurrentTask
@@ -6262,7 +6262,7 @@ _02159CF4:
 	mov r1, #2
 	add r0, r5, r0
 	add r0, #0xcc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	lsl r1, r1, #0x10
 	lsl r0, r0, #0xc
 	bl FX_Div
@@ -6306,7 +6306,7 @@ _02159D18:
 	ldr r1, _02159DC4 // =StageClear__RankDisplay__Main_Idle
 	add r0, r5, r0
 	add r0, #0xe0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	mov r0, r5
 	bl StageClear__PlayRankGetSfx
@@ -6315,7 +6315,7 @@ _02159D6C:
 	ldr r0, _02159DBC // =0x00000D98
 	add r0, r5, r0
 	add r0, #0xcc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0x20
 	blo _02159DA2
 	mov r0, r5
@@ -6324,7 +6324,7 @@ _02159D6C:
 	ldr r1, _02159DC4 // =StageClear__RankDisplay__Main_Idle
 	add r0, r5, r0
 	add r0, #0xe0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	mov r0, #6
 	bl ShakeScreen
@@ -6339,7 +6339,7 @@ _02159DA2:
 	ldr r0, _02159DBC // =0x00000D98
 	add r0, r5, r0
 	add r0, #0xcc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r0, #1
 	ldr r0, _02159DBC // =0x00000D98
 	add r0, r5, r0
@@ -6358,7 +6358,7 @@ _02159DC8: .word StageClear__Rank__Main_RankGet
 StageClear__Rank__Main_RankGet: // 0x02159DCC
 	push {r4, r5, r6, lr}
 	ldr r0, _02159E58 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159DDC
 	bl DestroyCurrentTask
@@ -6399,7 +6399,7 @@ _02159DDC:
 	bne _02159E38
 	mov r0, r4
 	add r0, #0xe0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, _02159E60 // =StageClear__RankDisplay__Main_Idle
 	bl SetTaskMainEvent
 	bl DestroyCurrentTask
@@ -6413,7 +6413,7 @@ _02159E38:
 _02159E48:
 	mov r0, r4
 	add r0, #0xcc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r4, #0xcc
 	add r0, r0, #1
 	str r0, [r4]
@@ -6428,7 +6428,7 @@ _02159E60: .word StageClear__RankDisplay__Main_Idle
 StageClear__RankDisplay__Main_Appear: // 0x02159E64
 	push {r3, r4, r5, lr}
 	ldr r0, _02159EBC // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159E74
 	bl DestroyCurrentTask
@@ -6442,23 +6442,23 @@ _02159E74:
 	bl AnimatorSprite__DrawFrame
 	add r0, r5, r4
 	add r0, #0xdc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02159EBA
 	add r0, r5, r4
 	add r0, #0xd0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r5, r4
 	mov r2, r1
 	mov r3, #0
 	bl AnimatorSprite__DrawFrameRotoZoom
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _02159EBA
 	add r0, r5, r4
 	add r0, #0xd0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r5, r4
 	add r0, #0xec
 	mov r2, r1
@@ -6475,7 +6475,7 @@ _02159EC0: .word 0x00000D98
 StageClear__RankDisplay__Main_Idle: // 0x02159EC4
 	push {r3, r4, r5, lr}
 	ldr r0, _02159F00 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159ED4
 	bl DestroyCurrentTask
@@ -6489,7 +6489,7 @@ _02159ED4:
 	bl AnimatorSprite__DrawFrame
 	add r0, r5, r4
 	bl AnimatorSprite__DrawFrame
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl StageClear__IsTimeAttack
 	cmp r0, #0
 	beq _02159EFC
@@ -6508,7 +6508,7 @@ StageClearMaterialRewardFX__Create: // 0x02159F08
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x10
 	ldr r0, _02159FF8 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02159F1C
 	bl DestroyCurrentTask
@@ -6633,7 +6633,7 @@ _0215A010: .word 0x00002CBC
 StageClear__MaterialRewardFX__Main_215A014: // 0x0215A014
 	push {r3, lr}
 	ldr r0, _0215A060 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A024
 	bl DestroyCurrentTask
@@ -6677,7 +6677,7 @@ _0215A06C: .word StageClear__MaterialRewardFX__Main_215A070
 StageClear__MaterialRewardFX__Main_215A070: // 0x0215A070
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _0215A148 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A080
 	bl DestroyCurrentTask
@@ -6686,7 +6686,7 @@ _0215A080:
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0215A148 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215A14C // =0x00000EEC
 	add r7, r0, r1
@@ -6792,7 +6792,7 @@ _0215A158: .word 0x00000236
 StageClear__MaterialRewardFX__Main_215A15C: // 0x0215A15C
 	push {r3, r4, r5, lr}
 	ldr r0, _0215A1BC // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A16C
 	bl DestroyCurrentTask
@@ -6801,7 +6801,7 @@ _0215A16C:
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0215A1BC // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0215A1C0 // =0x00000EEC
 	add r5, r0, r1
@@ -6817,7 +6817,7 @@ _0215A18C:
 	cmp r0, #0x28
 	blo _0215A1A8
 	ldr r0, _0215A1BC // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #7
 	str r1, [r0, #4]
@@ -6844,7 +6844,7 @@ _0215A1C4: .word 0x0000126C
 StageClear__MaterialRewardFX__Main_215A1C8: // 0x0215A1C8
 	push {r3, lr}
 	ldr r0, _0215A1FC // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A1D8
 	bl DestroyCurrentTask
@@ -6879,7 +6879,7 @@ StageClear__MaterialRewardFX__Main_215A20C: // 0x0215A20C
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _0215A298 // =StageClear__Singleton
 	mov r7, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A21E
 	bl DestroyCurrentTask
@@ -6961,7 +6961,7 @@ _0215A2AC: .word StageClear__MaterialRewardFX__Main_215A1C8
 Task__OVL03Unknown215896C__Main: // 0x0215A2B0
 	push {r3, lr}
 	ldr r0, _0215A2F4 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A2C0
 	bl DestroyCurrentTask
@@ -7003,7 +7003,7 @@ _0215A2FC: .word 0x000003AA
 StageClearMaterialRewardFX__Main2: // 0x0215A300
 	push {r4, lr}
 	ldr r0, _0215A34C // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A310
 	bl DestroyCurrentTask
@@ -7046,7 +7046,7 @@ StageClearMaterialRewardFX__Main1: // 0x0215A358
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x20
 	ldr r0, _0215A564 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A36C
 	bl DestroyCurrentTask
@@ -7091,7 +7091,7 @@ _0215A39C:
 	mov r0, r6
 	add r0, #0x6e
 	strh r1, [r0]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, #1
 	orr r1, r0
 	ldr r0, [sp, #0xc]
@@ -7112,7 +7112,7 @@ _0215A3C6:
 	mov r0, r6
 	add r0, #0x6a
 	strh r1, [r0]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, [sp, #0x10]
 	bic r1, r0
 	mov r0, #2
@@ -7120,17 +7120,17 @@ _0215A3C6:
 	str r0, [r4]
 _0215A3EC:
 	ldr r0, [sp, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #2
 	bne _0215A3FC
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, #1
 	orr r0, r1
 	str r0, [r4]
 _0215A3FC:
 	mov r0, r6
 	bl AnimatorSpriteDS__DrawFrame
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, [sp, #0x18]
 	add r7, r7, #1
 	bic r1, r0
@@ -7198,7 +7198,7 @@ _0215A44E:
 	bl AnimatorSprite__DrawFrameRotoZoom
 	mov r0, r5
 	add r0, #0x57
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	mov r3, #6
 	mov r2, r4
 	add r1, r0, #3
@@ -7217,7 +7217,7 @@ _0215A44E:
 	bl AnimatorSprite__DrawFrameRotoZoom
 	mov r0, r5
 	add r0, #0x57
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	sub r1, r0, #3
 	mov r0, r5
 	add r0, #0x57
@@ -7318,7 +7318,7 @@ _0215A574: .word FX_SinCosTable_
 StageClearTimeAttackRankList__Main: // 0x0215A578
 	push {r4, lr}
 	ldr r0, _0215A5B8 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A588
 	bl DestroyCurrentTask
@@ -7356,7 +7356,7 @@ _0215A5C0: .word StageClearTimeAttackRankList__Main_215A5C4
 StageClearTimeAttackRankList__Main_215A5C4: // 0x0215A5C4
 	push {r3, lr}
 	ldr r0, _0215A608 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A5D4
 	bl DestroyCurrentTask
@@ -7399,7 +7399,7 @@ _0215A618: .word StageClearTimeAttackRankList__Main_215A61C
 StageClearTimeAttackRankList__Main_215A61C: // 0x0215A61C
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _0215A6A4 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A62C
 	bl DestroyCurrentTask
@@ -7492,12 +7492,12 @@ _0215A6D8:
 	add sp, #0x1c
 	pop {r3, r4, pc}
 _0215A6E8:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	sub r0, r0, #1
 	str r0, [r4]
 	bne _0215A73C
 	ldr r0, _0215A744 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r2, #0
 	str r2, [sp]
@@ -7591,7 +7591,7 @@ StageClearMissionClearText__Main1: // 0x0215A7B0
 	push {r4, r5, lr}
 	sub sp, #0x14
 	ldr r0, _0215A83C // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A7C4
 	bl DestroyCurrentTask
@@ -7665,7 +7665,7 @@ _0215A848: .word StageClearMissionClearText__Main_215A84C
 StageClearMissionClearText__Main_215A84C: // 0x0215A84C
 	push {r3, lr}
 	ldr r0, _0215A884 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A85C
 	bl DestroyCurrentTask
@@ -7697,7 +7697,7 @@ _0215A888: .word 0x00002CB4
 StageClearMissionClearText__Main2: // 0x0215A88C
 	push {r4, lr}
 	ldr r0, _0215A8B4 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A89C
 	bl DestroyCurrentTask
@@ -7722,7 +7722,7 @@ StageClearMover__Main: // 0x0215A8BC
 	push {r4, r5, r6, lr}
 	sub sp, #8
 	ldr r0, _0215A984 // =StageClear__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0215A8D0
 	bl DestroyCurrentTask
@@ -7796,13 +7796,13 @@ _0215A94E:
 	ldrsh r1, [r4, r1]
 	cmp r1, #2
 	bne _0215A95C
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	strh r0, [r1]
 	b _0215A964
 _0215A95C:
 	cmp r1, #4
 	bne _0215A964
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	str r0, [r1]
 _0215A964:
 	ldrh r0, [r4, #0xa]

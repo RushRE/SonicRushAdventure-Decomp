@@ -6,7 +6,7 @@
 	arm_func_start DWCi_SetMatchStatus
 DWCi_SetMatchStatus: // 0x02093370
 	ldr r1, _02093380 // =0x02143BB0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	str r0, [r1, #0x1a0]
 	bx lr
 	.align 2, 0
@@ -16,7 +16,7 @@ _02093380: .word 0x02143BB0
 	arm_func_start DWCi_GetMatchCnt
 DWCi_GetMatchCnt: // 0x02093384
 	ldr r0, _02093390 // =0x02143BB0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02093390: .word 0x02143BB0
@@ -100,7 +100,7 @@ _0209345C:
 	add r1, r1, #1
 	strb r1, [r0, #0x14]
 	bl DWCi_GetMatchCnt
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	ldrb r5, [r0, #0x14]
 	cmp r1, #0
 	beq _020935F0
@@ -174,7 +174,7 @@ _02093520:
 	str r1, [sp, #0xc]
 	ldr r0, [r4, #4]
 	add r3, sp, #0x10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_20B2220
 	cmp r0, #1
 	bne _020935C8
@@ -234,7 +234,7 @@ _02093658:
 	addne sp, sp, #0x20
 	ldmneia sp!, {r4, r5, r6, pc}
 _02093688:
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	cmp r0, #0
 	bne _02093714
 	cmp r6, #1
@@ -535,7 +535,7 @@ _02093A28:
 	ldr r4, _02093AAC // =0x02143BDC
 	mov r5, #0
 _02093A84:
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	cmp r1, #0
 	beq _02093A98
 	mov r0, r6
@@ -651,7 +651,7 @@ _02093BE4:
 	ldr r1, _02093C04 // =0x02143BE4
 	mov r0, r4
 	ldr r1, [r1, r2]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl qr2_buffer_add_int
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -1487,11 +1487,11 @@ DWCi_ProcessOptMinComp: // 0x020946E8
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
 	ldr r0, _02094B14 // =0x02143BAC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
@@ -1512,7 +1512,7 @@ DWCi_ProcessOptMinComp: // 0x020946E8
 	mov r0, #0
 	bl DWCi_GetAIDBitmask
 	ldr r1, _02094B14 // =0x02143BAC
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldr r1, [r5, #8]
 	cmp r1, r0
 	bne _02094824
@@ -1607,7 +1607,7 @@ _020948B4:
 	bl DWCi_GetMatchCnt
 	add r0, r0, r7
 	ldrb r0, [r0, #0x2d0]
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	mov r0, r6, lsl r0
 	ldr r1, [r1, #8]
 	ands r0, r1, r0
@@ -1640,7 +1640,7 @@ _02094920:
 _02094934:
 	ldr r0, _02094B14 // =0x02143BAC
 	add sp, sp, #8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldrb r0, [r1, #2]
 	add r0, r0, #1
 	strb r0, [r1, #2]
@@ -1657,7 +1657,7 @@ _02094950:
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _02094974:
 	ldr r0, _02094B14 // =0x02143BAC
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	bl DWCi_GetMatchCnt
 	ldrb r1, [r4, #1]
 	ldrb r2, [r0, #0xd]
@@ -1669,7 +1669,7 @@ _02094974:
 	cmp r0, #0
 	bne _020949E8
 	ldr r0, _02094B14 // =0x02143BAC
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	bl OS_GetTick
 	ldr r3, [r4, #0x10]
 	ldr r2, [r4, #0x14]
@@ -1691,7 +1691,7 @@ _020949E8:
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	ldr r0, _02094B14 // =0x02143BAC
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	bl OS_GetTick
 	ldr r3, [r4, #0x18]
 	ldr r2, [r4, #0x1c]
@@ -1757,7 +1757,7 @@ _02094A90:
 	ble _02094A90
 _02094AF0:
 	ldr r0, _02094B14 // =0x02143BAC
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	bl OS_GetTick
 	str r0, [r4, #0x18]
 	str r1, [r4, #0x1c]
@@ -1776,28 +1776,28 @@ DWCi_InitOptMinCompParam: // 0x02094B20
 	stmdb sp!, {r4, lr}
 	ldr r1, _02094B90 // =0x02143BAC
 	mov r4, r0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	cmp r3, #0
 	ldmeqia sp!, {r4, pc}
-	ldrb r0, [r3]
+	ldrb r0, [r3, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r2, #0
 	str r2, [r3, #8]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	str r2, [r0, #0xc]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	strb r2, [r0, #2]
 	bl OS_GetTick
 	ldr r2, _02094B90 // =0x02143BAC
 	cmp r4, #0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	str r0, [r2, #0x18]
 	str r1, [r2, #0x1c]
 	ldmneia sp!, {r4, pc}
 	bl OS_GetTick
 	ldr r2, _02094B90 // =0x02143BAC
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	str r0, [r2, #0x10]
 	str r1, [r2, #0x14]
 	ldmia sp!, {r4, pc}
@@ -2767,7 +2767,7 @@ DWCi_CloseAllConnectionsByTimeout: // 0x02095878
 	strb r1, [r0, #0x1a8]
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2CloseAllConnections
 	bl DWCi_GetMatchCnt
 	mov r1, #0
@@ -2793,7 +2793,7 @@ DWCi_CloseCancelHostAsync: // 0x020958B0
 	bl DWCi_GetMatchCnt
 	mov r1, #2
 	strb r1, [r0, #0x1a8]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl gt2CloseConnectionHard
 	bl DWCi_GetMatchCnt
 	mov r1, #0
@@ -3105,7 +3105,7 @@ _02095CFC:
 	beq _02095D48
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2CloseAllConnections
 	b _02095D64
 _02095D48:
@@ -3184,7 +3184,7 @@ _02095E38:
 	strb r1, [r0, #0x1a9]
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2CloseAllConnections
 _02095E64:
 	bl DWCi_FinishCancelMatching
@@ -3640,7 +3640,7 @@ _020964B8:
 	addne sp, sp, #0x20
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	ldr r0, _02096558 // =0x02143BB4
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #1
 	moveq r1, #1
 	streqb r1, [r0, #1]
@@ -3730,7 +3730,7 @@ _020965F4:
 	strb r1, [r0, #0x1a8]
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2CloseAllConnections
 	bl DWCi_GetMatchCnt
 	mov r1, #0
@@ -4181,13 +4181,13 @@ _02096C54:
 	cmp r6, r0
 	ble _02096AEC
 	bl DWCi_GetMatchCnt
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r10
 	add r2, sp, #0x18
 	bl gpGetBuddyIndex
 	mov r6, r0
 	bl DWCi_GetMatchCnt
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [sp, #0x18]
 	add r2, sp, #0x28
 	bl gpGetBuddyStatus
@@ -4390,7 +4390,7 @@ _02096F48:
 DWCi_MakeBackupServerData: // 0x02096F54
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r1
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r6, r0
 	add r4, r1, #2
 	cmp r4, #2
@@ -4547,7 +4547,7 @@ DWCi_CheckResvCommand: // 0x02097160
 	b _0209745C
 _02097198:
 	bl DWCi_GetMatchCnt
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r7
 	bl gpIsBuddy
 	cmp r0, #0
@@ -4693,7 +4693,7 @@ _020973A0:
 	b _0209745C
 _020973A8:
 	bl DWCi_GetMatchCnt
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r7
 	bl gpIsBuddy
 	cmp r0, #0
@@ -4713,7 +4713,7 @@ _020973E8:
 	b _0209745C
 _020973F0:
 	ldr r0, _02097464 // =0x02143BB4
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #1
 	bne _02097410
 	ldrb r0, [r0, #1]
@@ -4842,7 +4842,7 @@ _0209758C:
 	moveq r0, #1
 	movne r0, #0
 	str r0, [sp]
-	ldr r3, [r6]
+	ldr r3, [r6, #0]
 	mov r0, r8
 	mov r1, r7
 	mov r2, r10
@@ -4973,22 +4973,22 @@ _02097758:
 	mov r1, #0
 	str r1, [r0, #0x1bc]
 	bl DWCi_GetMatchCnt
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r1, r6, r1, lsl #2
 	ldr r1, [r1, #4]
 	str r1, [r0, #0x24]
 	bl DWCi_GetMatchCnt
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r1, r6, r1, lsl #2
 	ldr r1, [r1, #8]
 	strh r1, [r0, #0xa4]
 	bl DWCi_GetMatchCnt
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r1, r6, r1, lsl #2
 	ldr r1, [r1, #4]
 	str r1, [r0, #0x1b8]
 	bl DWCi_GetMatchCnt
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r0, r0, #0x100
 	add r1, r6, r1, lsl #2
 	ldr r1, [r1, #8]
@@ -4997,7 +4997,7 @@ _02097758:
 	ldrb r0, [r0, #0x15]
 	cmp r0, #1
 	bne _02097884
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r0, r6, #4
 	bl DWCi_AreAllBuddies
 	cmp r0, #0
@@ -5085,7 +5085,7 @@ _02097930:
 	bne _02098340
 	cmp r5, #0
 	ble _0209797C
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0x10
 	bne _0209797C
 	mov r0, #0xd
@@ -5200,7 +5200,7 @@ _02097AB0:
 	bne _02097B10
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2CloseAllConnections
 _02097B10:
 	mov r0, r8
@@ -5212,7 +5212,7 @@ _02097B10:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _02097B2C:
 	ldr r0, [r6, #4]
-	ldr r4, [r6]
+	ldr r4, [r6, #0]
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10
 	bl DWCi_GetMatchCnt
@@ -5269,7 +5269,7 @@ _02097BD4:
 	strb r1, [r0, #0x194]
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2GetSocketSOCKET
 	mov r4, r0
 	bl DWCi_GetMatchCnt
@@ -5292,7 +5292,7 @@ _02097C3C:
 	ldr r0, [r0, #0xf4]
 	cmp r8, r0
 	bne _02098340
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	str r0, [sp, #8]
 	ldr r0, [r6, #4]
 	and r4, r0, #0xff
@@ -5364,7 +5364,7 @@ _02097D54:
 	ldr r0, [r0, #0xf4]
 	cmp r8, r0
 	bne _02098340
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	str r0, [sp, #8]
 	cmp r0, #0
 	bne _02097DBC
@@ -5463,7 +5463,7 @@ _02097ED4:
 	mov r4, r0
 	bl DWCi_GetMatchCnt
 	ldrb r0, [r0, #0x1a4]
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r0, r0, #1
 	add r0, r4, r0, lsl #2
 	ldr r0, [r0, #0xf4]
@@ -5490,7 +5490,7 @@ _02097F48:
 	ldrb r0, [r0, #0x15]
 	cmp r0, #0
 	beq _02097F6C
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r0, r6, #4
 	bl DWCi_AreAllBuddies
 	cmp r0, #0
@@ -5514,7 +5514,7 @@ _02097F94:
 	beq _02097FB8
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2CloseAllConnections
 	b _02098340
 _02097FB8:
@@ -5557,7 +5557,7 @@ _0209801C:
 	bl DWCi_RestartFromCancel
 	b _02098340
 _02098044:
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	mov r0, r8
 	mov r1, r9
 	bl DWCi_ProcessCancelMatchSynCommand
@@ -5591,10 +5591,10 @@ _020980A8:
 	b _02098340
 _020980B8:
 	ldr r0, _0209834C // =0x02143BAC
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	cmp r4, #0
 	beq _02098118
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	cmp r0, #0
 	beq _02098118
 	bl OS_GetTick
@@ -5645,14 +5645,14 @@ _0209815C:
 	beq _02098340
 	ldr r1, _0209834C // =0x02143BAC
 	mov r4, #1
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r5, r4, lsl r0
 	ldr r2, [r3, #8]
 	orr r0, r2, r4, lsl r0
 	str r0, [r3, #8]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0
-	ldrne r1, [r1]
+	ldrne r1, [r1, #0]
 	ldrne r0, [r1, #0xc]
 	orrne r0, r0, r5
 	strne r0, [r1, #0xc]
@@ -5684,7 +5684,7 @@ _02098204:
 	ldr r0, [r0, #0xf4]
 	cmp r8, r0
 	bne _020982B4
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0
 	bne _0209828C
 	bl DWCi_GetMatchCnt
@@ -5893,7 +5893,7 @@ _020984E0:
 _020984E4:
 	ldr r6, _020985B8 // =0x0211C258
 	add r9, sp, #4
-	ldrb r3, [r6]
+	ldrb r3, [r6, #0]
 	ldrb r2, [r6, #1]
 	mov r0, r4, lsl #2
 	mov r1, #3
@@ -5989,7 +5989,7 @@ _02098638:
 	beq _020986B0
 	cmp r9, #0
 	beq _020986B0
-	ldr r3, [r10]
+	ldr r3, [r10, #0]
 	ldr r2, _02098774 // =0x0211C254
 	add r0, sp, #0x20
 	mov r1, #0x200
@@ -6021,7 +6021,7 @@ _020986B0:
 	mov r1, #0
 	strb r1, [r0, r8]
 	bl DWCi_GetMatchCnt
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, [sp, #4]
 	add r3, sp, #0x20
 	mov r1, r11
@@ -6079,7 +6079,7 @@ DWCi_DoNatNegotiationAsync: // 0x0209877C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r7, r0
-	ldrb r0, [r7]
+	ldrb r0, [r7, #0]
 	cmp r0, #0
 	bne _020987D4
 	bl DWCi_GetMatchCnt
@@ -6105,11 +6105,11 @@ _020987D4:
 _020987E0:
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2GetSocketSOCKET
 	str r5, [sp]
 	str r7, [sp, #4]
-	ldrb r2, [r7]
+	ldrb r2, [r7, #0]
 	ldr r1, [r7, #8]
 	mov r3, r4
 	bl NNBeginNegotiationWithSocket
@@ -6233,7 +6233,7 @@ _020989AC:
 	str r0, [sp, #8]
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2GetLocalPort
 	str r0, [sp, #0xc]
 	bl DWCi_GetMatchCnt
@@ -6311,7 +6311,7 @@ _02098AC0:
 _02098ADC:
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2GetSocketSOCKET
 	mov r5, r0
 	bl DWCi_GetMatchCnt
@@ -6398,7 +6398,7 @@ _02098BFC:
 	add r1, r1, #0x13
 	mov r3, #0
 _02098C0C:
-	ldrb r0, [r2]
+	ldrb r0, [r2, #0]
 	add r3, r3, #1
 	add r2, r2, #0xc
 	cmp r0, #0
@@ -6435,7 +6435,7 @@ _02098C58:
 	add r0, sp, #0xc
 	bl DWCi_GetDefaultMatchFilter
 	ldr r0, _02098D80 // =0x02143BB8
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	cmp r5, #0
 	beq _02098CE4
 	add r0, sp, #0xc
@@ -6531,7 +6531,7 @@ _02098DD4:
 	mov r0, #0
 	bl DWCi_SetMatchStatus
 	ldr r0, _02098E20 // =0x02143BB8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	beq _02098E08
 	mov r0, #4
@@ -6865,7 +6865,7 @@ DWCi_ShutdownMatch: // 0x020992AC
 	mov r0, #0
 	bl DWCi_SetMatchCnt
 	ldr r0, _02099328 // =0x02143BB8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	beq _020992E4
 	mov r0, #4
@@ -6877,7 +6877,7 @@ DWCi_ShutdownMatch: // 0x020992AC
 _020992E4:
 	bl DWCi_ClearGameMatchKeys
 	ldr r0, _0209932C // =0x02143BAC
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	beq _02099310
 	mov r0, #4
@@ -7314,7 +7314,7 @@ _020998A4:
 	strb r1, [r0, #0x1a8]
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2CloseAllConnections
 	b _02099954
 _020998E4:
@@ -7375,7 +7375,7 @@ _02099990:
 	ldr r0, [r0, #0x1a0]
 	cmp r0, #1
 	bne _02099A2C
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	cmp r0, #1
 	bne _020999B8
 	bl DWCi_GetMatchCnt
@@ -7428,7 +7428,7 @@ _02099A3C:
 	mov r1, #1
 	orr r1, r2, r1, lsl r5
 	str r1, [r0, #0x1d4]
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	ldrb r0, [r4, #1]
 	orr r4, r1, r0, lsl #8
 	bl DWCi_GetMatchCnt
@@ -7605,7 +7605,7 @@ _02099CB8:
 	add r0, sp, #0x1c
 	str r0, [sp]
 	str r10, [sp, #4]
-	ldrb r0, [r11]
+	ldrb r0, [r11, #0]
 	mov r2, #0
 	ldr r1, [sp, #8]
 	mov r3, r2
@@ -7699,7 +7699,7 @@ _02099D90:
 	str r1, [sp, #0xc]
 	ldr r0, [r4, #4]
 	add r3, sp, #0x10
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl sub_20B2220
 	cmp r0, #1
 	bne _02099E40
@@ -7846,7 +7846,7 @@ _02099FF0:
 	beq _0209A0C4
 _0209A034:
 	ldr r0, [sp, #0x24]
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #0
 	beq _0209A0AC
 	mov r1, #0
@@ -7982,7 +7982,7 @@ _0209A1F8:
 	strb r2, [sp, #1]
 	strh r0, [sp, #2]
 	str r5, [sp, #4]
-	ldrb r5, [r4]
+	ldrb r5, [r4, #0]
 	cmp r5, #0xfe
 	bne _0209A244
 	ldrb r0, [r4, #1]
@@ -8059,7 +8059,7 @@ _0209A318:
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2Think
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
@@ -8623,7 +8623,7 @@ _0209AB7C:
 	beq _0209ABAC
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2Think
 _0209ABAC:
 	bl DWCi_GetMatchCnt
@@ -8799,10 +8799,10 @@ DWCi_ConnectToFriendsAsync: // 0x0209AD94
 	cmp r7, #0
 	bne _0209AE64
 	ldr r0, _0209AFDC // =0x02143BAC
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	beq _0209AE50
-	ldrb r0, [r1]
+	ldrb r0, [r1, #0]
 	cmp r0, #0
 	beq _0209AE50
 	ldrb r0, [r1, #1]
@@ -8930,7 +8930,7 @@ DWCi_ConnectToAnybodyAsync: // 0x0209AFFC
 	sub sp, sp, #0x118
 	ldr r4, _0209B1D4 // =0x02143BB8
 	mov r7, r1
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r8, r0
 	mov r6, r2
 	mov r5, r3
@@ -8973,7 +8973,7 @@ _0209B09C:
 	bl MI_CpuCopy8
 	ldr r0, _0209B1D4 // =0x02143BB8
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, r4
 	strb r1, [r0, #-1]
 _0209B0BC:
@@ -9080,12 +9080,12 @@ _0209B224:
 	mov r9, r0
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2GetSocketSOCKET
 	mov r8, r0
 	bl DWCi_GetMatchCnt
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl gt2GetLocalPort
 	mov r7, r0
 	bl DWCi_GetMatchCnt
@@ -9292,7 +9292,7 @@ _0209B534:
 	addeq sp, sp, #4
 	moveq r0, #1
 	ldmeqia sp!, {r4, r5, pc}
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	cmp r0, #0
 	beq _0209B56C
 	ldrb r0, [r4, #1]
@@ -9302,7 +9302,7 @@ _0209B534:
 	ldmlsia sp!, {r4, r5, pc}
 _0209B56C:
 	ldr r0, _0209B65C // =0x02143BAC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0209B5A0
 	mov r0, #4
@@ -9315,39 +9315,39 @@ _0209B56C:
 	moveq r0, #4
 	ldmeqia sp!, {r4, r5, pc}
 _0209B5A0:
-	ldrb r2, [r4]
+	ldrb r2, [r4, #0]
 	ldr r1, _0209B65C // =0x02143BAC
 	mov r3, #0
 	strb r2, [r0]
 	ldrb r2, [r4, #1]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	strb r2, [r0, #1]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	strb r3, [r0, #2]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	strb r3, [r0, #3]
 	ldr r2, [r4, #4]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	str r2, [r0, #4]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	str r3, [r0, #8]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	str r3, [r0, #0xc]
 	bl OS_GetTick
 	ldr r2, _0209B65C // =0x02143BAC
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	str r0, [r2, #0x10]
 	str r1, [r2, #0x14]
 	bl OS_GetTick
 	ldr r2, _0209B65C // =0x02143BAC
 	add sp, sp, #4
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	str r0, [r2, #0x18]
 	str r1, [r2, #0x1c]
 	mov r0, #0
 	ldmia sp!, {r4, r5, pc}
 _0209B61C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add sp, sp, #4
 	cmp r0, #0
 	ldrne r0, _0209B660 // =0x02143BB4

@@ -320,7 +320,7 @@ _0208EA98:
 	bne _0208EAF4
 	add r5, r8, #0x12
 _0208EAB8:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	mov r1, r6
 	mov r2, r7
 	add r0, r0, #1
@@ -374,7 +374,7 @@ DWCi_Util_WiFiId_scrambleUid: // 0x0208EB10
 	str r1, [sp]
 	str r0, [sp, #4]
 _0208EB74:
-	ldrb r0, [r2]
+	ldrb r0, [r2, #0]
 	add lr, lr, #1
 	cmp lr, #6
 	eor r0, r0, #0xd6
@@ -384,7 +384,7 @@ _0208EB74:
 	add r5, sp, #0
 	mov r4, #0
 _0208EB98:
-	ldrb r3, [r5]
+	ldrb r3, [r5, #0]
 	add r4, r4, #1
 	cmp r4, #5
 	mov r0, r3, asr #4
@@ -404,8 +404,8 @@ _0208EB98:
 	mov r3, #0
 	add r1, sp, #0
 _0208EBE4:
-	ldrb r2, [r5]
-	ldrb r0, [r4]
+	ldrb r2, [r5, #0]
+	ldrb r0, [r4, #0]
 	add r3, r3, #1
 	cmp r3, #5
 	strb r2, [r1, r0]
@@ -432,7 +432,7 @@ _0208EBE4:
 	orr r2, r3, r2
 	strb r2, [sp]
 _0208EC50:
-	ldrb r2, [r1]
+	ldrb r2, [r1, #0]
 	add r0, r0, #1
 	cmp r0, #6
 	eor r2, r2, #0x67

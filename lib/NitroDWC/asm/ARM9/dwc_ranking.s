@@ -53,7 +53,7 @@ DWC_RnkResGetOrder: // 0x0209CD00
 	cmp r0, #0
 	ldreq r1, [sp, #8]
 	movne r0, #0xf
-	ldreq r1, [r1]
+	ldreq r1, [r1, #0]
 	moveq r0, #0
 	streq r1, [r4]
 	add sp, sp, #0x10
@@ -95,7 +95,7 @@ _0209CDCC:
 _0209CDD8:
 	ldr r1, [sp, #8]
 	mov r0, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	str r1, [r4]
 	add sp, sp, #0x10
 	ldmia sp!, {r4, pc}
@@ -136,7 +136,7 @@ _0209CE54:
 	moveq r0, #2
 	ldmeqia sp!, {r4, r5, pc}
 	ldr r2, [sp, #8]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	cmp r4, r0
 	addhs sp, sp, #0xc
 	movhs r0, #2
@@ -176,7 +176,7 @@ _0209CEA4:
 	arm_func_start DWC_RnkGetState
 DWC_RnkGetState: // 0x0209CEEC
 	ldr r0, _0209CEF8 // =0x02144320
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _0209CEF8: .word 0x02144320
@@ -192,7 +192,7 @@ DWC_RnkProcess: // 0x0209CEFC
 	movne r0, #1
 	ldmneia sp!, {pc}
 	ldr r0, _0209CFA4 // =0x02144320
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #2
 	beq _0209CF38
 	cmp r0, #3
@@ -246,7 +246,7 @@ DWC_RnkCancelProcess: // 0x0209CFA8
 	movne r0, #1
 	ldmneia sp!, {pc}
 	ldr r0, _0209D000 // =0x02144320
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #2
 	beq _0209CFE4
 	cmp r0, #3
@@ -279,7 +279,7 @@ DWC_RnkGetScoreAsync: // 0x0209D004
 	movne r0, #1
 	ldmneia sp!, {r4, r5, r6, r7, pc}
 	ldr r0, _0209D208 // =0x02144320
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	beq _0209D050
 	cmp r0, #4
@@ -305,7 +305,7 @@ _0209D078: // jump table
 	b _0209D10C // case 2
 	b _0209D15C // case 3
 _0209D088:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #8
 	addne sp, sp, #4
 	movne r0, #2
@@ -319,7 +319,7 @@ _0209D088:
 	mov r0, #2
 	ldmia sp!, {r4, r5, r6, r7, pc}
 _0209D0BC:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0xc
 	addne sp, sp, #4
 	movne r0, #2
@@ -342,7 +342,7 @@ _0209D100:
 	mov r0, #2
 	ldmia sp!, {r4, r5, r6, r7, pc}
 _0209D10C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0xc
 	addne sp, sp, #4
 	movne r0, #2
@@ -365,7 +365,7 @@ _0209D150:
 	mov r0, #2
 	ldmia sp!, {r4, r5, r6, r7, pc}
 _0209D15C:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0x10c
 	addne sp, sp, #4
 	movne r0, #2
@@ -431,7 +431,7 @@ DWC_RnkPutScoreAsync: // 0x0209D20C
 	movne r0, #1
 	ldmneia sp!, {r4, r5, r6, r7, pc}
 	ldr r0, _0209D2F4 // =0x02144320
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	beq _0209D258
 	cmp r0, #4
@@ -524,7 +524,7 @@ DWC_RnkInitialize: // 0x0209D31C
 	movne r0, #1
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
 	ldr r0, _0209D4D8 // =0x02144320
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addne sp, sp, #0x28
 	movne r0, #3
@@ -599,7 +599,7 @@ _0209D3B0:
 	ldr r0, _0209D4DC // =_0211AE44
 	ldr r3, [r4, #0x1c]
 	ldr r2, _0209D4D8 // =0x02144320
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, _0209D4E0 // =aHttpsNasNinten_2
 	str r3, [r2, #4]
 	bl strcmp
@@ -635,7 +635,7 @@ DWCi_RankingGetResponse: // 0x0209D4E4
 	movne r0, #1
 	ldmneia sp!, {r4, pc}
 	ldr r0, _0209D54C // =0x02144320
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #4
 	addne sp, sp, #8
 	movne r0, #0x10

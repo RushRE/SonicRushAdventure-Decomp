@@ -430,7 +430,7 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
 	str r0, [sp, #0x2c]
 	mov r2, #5
 _02034468:
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	ldrh r0, [r4, #2]
 	add r4, r4, #4
 	strh r1, [r3]
@@ -442,7 +442,7 @@ _02034468:
 	add r3, sp, #0x38
 	mov r2, #5
 _02034494:
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	ldrh r0, [r4, #2]
 	add r4, r4, #4
 	strh r1, [r3]
@@ -452,7 +452,7 @@ _02034494:
 	bne _02034494
 	ldr r0, =gameArchiveCommon
 	ldr r1, =aAcFixBac
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, #0
 	bl ObjDataLoad
 	mov r7, r0
@@ -464,7 +464,7 @@ _02034494:
 	bne _020344FC
 	ldr r0, =gameArchiveCommon
 	ldr r1, =0x02119530 // aAcFixContBac_0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, #0
 	bl ObjDataLoad
 	str r0, [sp, #0x2c]
@@ -496,7 +496,7 @@ _02034538:
 	bl VRAMSystem__AllocSpriteVram
 	str r0, [r9]
 	mov r10, r6, lsl #6
-	ldr r1, [r9]
+	ldr r1, [r9, #0]
 	mov r0, #0
 	mov r2, r10
 	bl MIi_CpuClear32
@@ -516,7 +516,7 @@ _02034538:
 _020345A8:
 	mov r0, #0x10
 	stmia sp, {r0, r4}
-	ldr r1, [r9]
+	ldr r1, [r9, #0]
 	add r0, sp, #0x60
 	str r1, [sp, #8]
 	ldr r1, =0x05000200
@@ -672,7 +672,7 @@ _02034684:
 _02034808:
 	ldr r0, =gPlayer
 	add r8, r5, #0x670
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrb r0, [r0, #0x5d0]
 	cmp r0, #0
 	movne r0, #0x1d
@@ -775,7 +775,7 @@ _0203492C:
 _02034998:
 	ldr r0, =gPlayer
 	add r2, r5, #0x3b8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r7, r2, #0x400
 	ldrb r0, [r0, #0x5d0]
 	cmp r0, #0
@@ -1547,7 +1547,7 @@ NONMATCH_FUNC void HUD_Main(void)
 	sub sp, sp, #0x18
 	bl GetCurrentTaskWork_
 	mov r5, r0
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, #1
 	str r0, [sp]
 	cmp r1, #0
@@ -1586,7 +1586,7 @@ _02035748:
 	ldr r3, =gPlayer
 	add r4, sp, #0xc
 	ldmia r0, {r0, r1, r2}
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	stmia r4, {r0, r1, r2}
 	add r0, r3, #0x600
 	ldrsh r8, [r0, #0x7e]
@@ -1886,7 +1886,7 @@ _02035BAC:
 	bne _02035C74
 	ldr r0, =gPlayer
 	add r4, r5, #0x900
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetVSBattlePosition
 	mvn r1, #0
 	cmp r0, r1
@@ -2538,7 +2538,7 @@ _0203636C:
 	cmp r0, #0x21
 	bne _020363F8
 	ldr r0, =gPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x600
 	ldrsh r0, [r0, #0x86]
 	cmp r0, #0

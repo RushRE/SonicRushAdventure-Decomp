@@ -59,7 +59,7 @@ _02177534:
 	bl GetObjectFileWork
 	ldr r1, _0217778C // =gameArchiveStage
 	mov r3, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r5, _02177790 // =0x0000FFFF
 	str r0, [sp]
 	ldr r2, _02177794 // =aActAcGmkBarrel
@@ -85,7 +85,7 @@ _02177534:
 	bl GetObjectFileWork
 	ldr r1, _0217778C // =gameArchiveStage
 	mov r3, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _02177794 // =aActAcGmkBarrel
 	str r2, [sp]
 	mov r0, r5
@@ -111,7 +111,7 @@ _02177534:
 	bl GetObjectFileWork
 	ldr r1, _0217778C // =gameArchiveStage
 	mov r3, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _02177794 // =aActAcGmkBarrel
 	str r2, [sp]
 	mov r0, r5
@@ -664,7 +664,7 @@ _02177DF4:
 	ldr r2, _02177FE8 // =_mt_math_rand
 	orr r0, r0, #1
 	str r0, [r4, #0x354]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r0, _02177FEC // =0x00196225
 	ldr r1, _02177FF0 // =0x3C6EF35F
 	mla ip, r3, r0, r1
@@ -689,7 +689,7 @@ _02177DF4:
 	bl CreateEffectBattleBurst
 	ldr r3, _02177FE8 // =_mt_math_rand
 	ldr r0, _02177FEC // =0x00196225
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	ldr r1, _02177FF0 // =0x3C6EF35F
 	mla ip, r2, r0, r1
 	mov r2, ip, lsr #0x10
@@ -911,7 +911,7 @@ Barrel__OnDefend_2178178: // 0x02178178
 	cmp r1, #0
 	cmpne r0, #0
 	ldmeqia sp!, {r3, pc}
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, pc}
 	mov r0, r1
@@ -927,7 +927,7 @@ Barrel__OnDefend_21781A8: // 0x021781A8
 	cmp r4, #0
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r0, [r4, #0x35c]

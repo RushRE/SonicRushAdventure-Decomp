@@ -62,7 +62,7 @@ Task__OV05Unknown21566A4__Main_2156734: // 0x02156734
 	bl AnimatorMDL__ProcessAnimation
 	add r0, r4, #4
 	bl AnimatorMDL__Draw
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x14]
 	tst r0, #2
 	ldmeqia sp!, {r4, pc}

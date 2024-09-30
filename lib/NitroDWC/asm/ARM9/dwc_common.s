@@ -5,7 +5,7 @@
 
 	arm_func_start DWCi_WStrLen
 DWCi_WStrLen: // 0x0208F52C
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r2, #0
 	cmp r1, #0
 	beq _0208F550
@@ -74,7 +74,7 @@ DWCi_GetMathRand32: // 0x0208F558
 _0208F61C:
 	ldr r1, _0208F674 // =0x021439F8
 	ldr r3, [r1, #8]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r0, [r1, #4]
 	umull lr, ip, r3, r2
 	mla ip, r3, r0, ip

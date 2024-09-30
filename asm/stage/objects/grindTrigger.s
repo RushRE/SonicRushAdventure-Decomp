@@ -107,7 +107,7 @@ _02160FF4:
 	ldr r0, [r0, #0x1c]
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	cmp r5, #1
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r6, [r0, #0x648]

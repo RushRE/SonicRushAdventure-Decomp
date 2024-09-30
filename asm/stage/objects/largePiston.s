@@ -57,7 +57,7 @@ _0216765C:
 	str r0, [sp]
 	ldr r1, _02167C70 // =gameArchiveStage
 	mov r0, r4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r4, #0x364
 	str r2, [sp, #4]
 	ldr r2, _02167C74 // =aModGmkLPistonN
@@ -77,7 +77,7 @@ _0216765C:
 	bl GetObjectFileWork
 	ldr r1, _02167C70 // =gameArchiveStage
 	mov r3, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r2, _02167C78 // =aActAcGmkLPisto
 	mov r0, r4
 	str r1, [sp]
@@ -386,7 +386,7 @@ _02167A40:
 	ldrh r0, [r7, #2]
 	cmp r0, #0x58
 	bne _02167C34
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	add r0, r0, r6
 	str r0, [r8]
 	ldr r0, [lr]
@@ -476,7 +476,7 @@ _02167D18:
 	beq _02167D90
 	ldr r3, _02167F1C // =_mt_math_rand
 	ldr r1, _02167F20 // =0x00196225
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	ldr r2, _02167F24 // =0x3C6EF35F
 	mla ip, r0, r1, r2
 	mov r0, ip, lsr #0x10
@@ -487,7 +487,7 @@ _02167D18:
 	str ip, [r3]
 	mov r0, r0, lsl #0xc
 	str r0, [r4, #0x4f8]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mla r1, r0, r1, r2
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -541,7 +541,7 @@ _02167E1C:
 	beq _02167E88
 	ldr r3, _02167F1C // =_mt_math_rand
 	ldr r1, _02167F20 // =0x00196225
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	ldr r2, _02167F24 // =0x3C6EF35F
 	mla ip, r0, r1, r2
 	mov r0, ip, lsr #0x10
@@ -552,7 +552,7 @@ _02167E1C:
 	str ip, [r3]
 	mov r0, r0, lsl #0xc
 	str r0, [r4, #0x4f8]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mla r1, r0, r1, r2
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -793,7 +793,7 @@ _021681C0:
 	cmpne r5, #0
 	addeq sp, sp, #0x14
 	ldmeqia sp!, {r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldreqb r0, [r5, #0x5d1]
 	cmpeq r0, #0
@@ -892,7 +892,7 @@ _0216832C:
 	cmpne r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, pc}
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	cmp r2, #1
 	ldreqb r2, [r0, #0x5d1]
 	cmpeq r2, #0
@@ -949,7 +949,7 @@ LargePiston__OnDefend_21683F0: // 0x021683F0
 	cmp r3, #0
 	cmpne r1, #0
 	bxeq lr
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	cmp r0, #1
 	ldreqb r0, [r1, #0x5d1]
 	cmpeq r0, #0

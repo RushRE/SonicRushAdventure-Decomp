@@ -27,7 +27,7 @@ ovl09_217261C: // 0x0217261C
 	mov r2, #0
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
@@ -49,10 +49,10 @@ ovl09_217261C: // 0x0217261C
 	bl ovl09_21733D4
 	ldr r1, _021727CC // =exStageTask__dword_217862C
 	str r0, [r1, #0x14]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl NNS_G3dResDefaultSetup
 	ldr r0, _021727CC // =exStageTask__dword_217862C
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	mov r0, r5
 	bl Asset3DSetup__GetTexSize
 	bl _AllocHeadHEAP_USER
@@ -71,7 +71,7 @@ ovl09_217261C: // 0x0217261C
 	add r0, r4, #0x20
 	ldr r1, _021727CC // =exStageTask__dword_217862C
 	mov r2, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl AnimatorMDL__SetResource
 	mov r1, #0
 	str r1, [sp]
@@ -139,7 +139,7 @@ ovl09_21727D4: // 0x021727D4
 	stmdb sp!, {r4, lr}
 	ldr r1, _02172854 // =exStageTask__dword_217862C
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	beq _021727F0
 	bl NNS_G3dResDefaultRelease
@@ -163,7 +163,7 @@ _02172818:
 	bl NNS_G3dResDefaultRelease
 _0217282C:
 	ldr r1, _02172854 // =exStageTask__dword_217862C
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	moveq r0, #0
 	streq r0, [r1]

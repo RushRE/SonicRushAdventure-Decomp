@@ -272,7 +272,7 @@ _0204A904: .word _0211021C
 
 	arm_func_start SeaMapCollision__GetCollision
 SeaMapCollision__GetCollision: // 0x0204A908
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	add ip, r0, #4
 	tst r1, #1
 	mov r0, r3, asr #1

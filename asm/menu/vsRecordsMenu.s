@@ -44,7 +44,7 @@ _02173200: .word VSRecordsMenu__Func_2173218
 
 	arm_func_start VSRecordsMenu__Func_2173204
 VSRecordsMenu__Func_2173204: // 0x02173204
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
@@ -68,7 +68,7 @@ VSRecordsMenu__Func_2173218: // 0x02173218
 	str r0, [r5]
 	ldr r0, _021732B4 // =0x0000FFFF
 	bl VSMenu__SetNetworkMessageSequence
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r1, r4
@@ -133,7 +133,7 @@ VSRecordsMenu__Func_2173320: // 0x02173320
 	sub sp, sp, #0x1c
 	mov r4, r0
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02173364
@@ -146,12 +146,12 @@ _02173340: // jump table
 	b _02173358 // case 5
 _02173358:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _02173368
 _02173364:
 	mov r1, #1
 _02173368:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, r1, lsl #0x10
 	ldr r0, [r0, #4]
 	mov r1, r1, lsr #0x10
@@ -324,7 +324,7 @@ VSRecordsMenu__Func_21735CC: // 0x021735CC
 	bl VSRecordsMenu__Func_217361C
 	mov r0, r4
 	bl VSRecordsMenu__Func_21735F8
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
@@ -584,8 +584,8 @@ VSRecordsMenu__Func_2173940: // 0x02173940
 	cmp r0, #0
 	mov r2, #0x4000000
 	beq _02173970
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -594,8 +594,8 @@ VSRecordsMenu__Func_2173940: // 0x02173940
 	str r0, [r2]
 	bx lr
 _02173970:
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00

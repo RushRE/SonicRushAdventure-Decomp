@@ -36,7 +36,7 @@ _021670C0:
 	mov r0, r4
 	bl ovl09_2161CB0
 	ldr r0, _021671C0 // =0x02176550
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _02167128
 	mov r1, #0xb
@@ -44,7 +44,7 @@ _021670C0:
 	sub r2, r1, #0xc
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _021671C0 // =0x02176550
 	mov r0, r0, lsr #8
 	str r0, [r1, #8]
@@ -93,7 +93,7 @@ _02167128:
 	str r1, [r4, #0x14]
 	ldr r1, _021671C0 // =0x02176550
 	str r0, [r4, #0x18]
-	ldrsh r2, [r1]
+	ldrsh r2, [r1, #0]
 	mov r0, #1
 	add r2, r2, #1
 	strh r2, [r1]
@@ -110,7 +110,7 @@ ovl09_21671D0: // 0x021671D0
 	stmdb sp!, {r4, lr}
 	ldr r1, _02167234 // =0x02176550
 	mov r4, r0
-	ldrsh r0, [r1]
+	ldrsh r0, [r1, #0]
 	cmp r0, #1
 	bgt _02167218
 	ldr r0, [r1, #0x2c]
@@ -131,7 +131,7 @@ _02167218:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
 	ldr r0, _02167234 // =0x02176550
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r4, pc}
@@ -180,7 +180,7 @@ _021672A4:
 	sub r2, r1, #0xd
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0216745C // =0x02176550
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x10]
@@ -339,7 +339,7 @@ _021674F8: .word 0x02176550
 exEffectMeteoTask__Main: // 0x021674FC
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	bl GetExTaskWorkCurrent_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _02167520
 	bl GetExTaskCurrent
@@ -598,7 +598,7 @@ ovl09_2167864: // 0x02167864
 	bic r0, r0, #1
 	strb r0, [r4, #0x22]
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _021678F4
 	ldrsh r0, [r4, #0x24]
@@ -630,7 +630,7 @@ _021678C4:
 	b _02167968
 _021678F4:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02167968
 	ldrsh r0, [r4, #0x24]

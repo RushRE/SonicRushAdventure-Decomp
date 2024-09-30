@@ -46,7 +46,7 @@ SeaMapTraining__Create: // 0x02170ADC
 	bl LoadAudioSndArc
 	mov r0, #6
 	ldr r1, _02170BC0 // =audioManagerSndHeap
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadGroup
 	mov r0, #7
 	str r0, [sp]
@@ -71,7 +71,7 @@ SeaMapTraining__Main: // 0x02170BC4
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	blx r1
 	ldr r0, [r4, #4]
 	cmp r0, #0
@@ -156,7 +156,7 @@ SeaMapTraining__LoadAssets: // 0x02170CA4
 	sub r2, r1, #7
 	bl ReadFileFromBundle
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r5]
@@ -166,7 +166,7 @@ SeaMapTraining__LoadAssets: // 0x02170CA4
 	mov r0, r4
 	bl _FreeHEAP_USER
 	ldr r1, _02170D3C // =_0217EE74
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	add r0, sp, #0
 	bl NNS_FndMountArchive
 	add r0, sp, #0
@@ -190,7 +190,7 @@ _02170D3C: .word _0217EE74
 SeaMapTraining__ReleaseAssets: // 0x02170D40
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	mov r1, r4
 	mov r0, #0
@@ -224,7 +224,7 @@ SeaMapTraining__SetupDisplay: // 0x02170D64
 	bl VRAMSystem__SetupSubOBJBank
 	ldr r1, _02170E5C // =VRAMSystem__GFXControl
 	mov r0, #1
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	mov r1, #0
 	mov r2, r1
 	bl GX_SetGraphicsMode
@@ -254,7 +254,7 @@ SeaMapTraining__SetupDisplay: // 0x02170D64
 	mov r2, #2
 	bl MIi_CpuClear16
 	mov r2, #0x4000000
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r1, #0
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1800
@@ -317,7 +317,7 @@ SeaMapTraining__InitSprites: // 0x02170ED8
 	add r5, r6, #0x34
 	ldr r4, _0217100C // =0x0217E104
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02170F24
@@ -330,7 +330,7 @@ _02170F00: // jump table
 	b _02170F18 // case 5
 _02170F18:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02170F28
 _02170F24:
 	mov r0, #1
@@ -357,7 +357,7 @@ _02170F34:
 	str r0, [sp, #8]
 	ldr r1, _02171010 // =VRAMSystem__VRAM_PALETTE_OBJ
 	str r3, [sp, #0xc]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	str r0, [sp, #0x10]
 	str r3, [sp, #0x14]
 	str r3, [sp, #0x18]
@@ -451,7 +451,7 @@ _021710AC: .word 0x0217E104
 	arm_func_start SeaMapTraining__Func_21710B0
 SeaMapTraining__Func_21710B0: // 0x021710B0
 	stmdb sp!, {r3, lr}
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r1, #0x14]
 	cmp r0, #0x1000000
 	bhi _021710E8
@@ -567,7 +567,7 @@ _02171210: .word SeaMapTraining__State_2171214
 SeaMapTraining__State_2171214: // 0x02171214
 	ldr r2, _0217123C // =VRAMSystem__GFXControl
 	mvn r1, #0xf
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldrsh r2, [r3, #0x58]
 	cmp r2, r1
 	subgt r0, r2, #1

@@ -98,7 +98,7 @@ _0215FB98:
 	mov r0, r4
 	bl ovl09_2161CB0
 	ldr r0, _0215FD4C // =exBossMagmaAttackTask__ActiveInstanceCount
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _0215FC2C
 	mov r1, #0xf
@@ -106,7 +106,7 @@ _0215FB98:
 	sub r2, r1, #0x10
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _0215FD4C // =exBossMagmaAttackTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x2c]
@@ -203,7 +203,7 @@ _0215FCD8:
 	str ip, [r4, #0x14]
 	ldr r1, _0215FD4C // =exBossMagmaAttackTask__ActiveInstanceCount
 	str r2, [r4, #0x18]
-	ldrsh r2, [r1]
+	ldrsh r2, [r1, #0]
 	add r2, r2, #1
 	strh r2, [r1]
 	add sp, sp, #4
@@ -272,7 +272,7 @@ ovl09_215FE0C: // 0x0215FE0C
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215FE98 // =exBossMagmaAttackTask__ActiveInstanceCount
 	mov r4, r0
-	ldrsh r0, [r1]
+	ldrsh r0, [r1, #0]
 	cmp r0, #1
 	bgt _0215FE7C
 	ldr r0, [r1, #0x20]
@@ -305,7 +305,7 @@ _0215FE7C:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
 	ldr r0, _0215FE98 // =exBossMagmaAttackTask__ActiveInstanceCount
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r4, pc}
@@ -478,7 +478,7 @@ ovl09_2160094: // 0x02160094
 	ldr r0, [r4, #8]
 	sub r0, r1, r0
 	str r0, [r4, #0x368]
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	cmp r0, #0
 	bgt _021600EC
 	mov r1, #0

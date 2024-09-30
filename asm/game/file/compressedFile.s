@@ -77,9 +77,9 @@ _0205B7E4:
 	ldr r1, [sp]
 	mov r2, r6
 	bl CompressedFile__HandleDecompression2
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	ldr r1, [sp]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	eor r2, r2, r1
 	eor r1, r0, r2
 	eor r0, r2, r1
@@ -103,7 +103,7 @@ _0205B82C:
 
 	arm_func_start CompressedFile__IsVisAnim
 CompressedFile__IsVisAnim: // 0x0205B844
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _0205B85C // =0x00534956
 	cmp r1, r0
 	moveq r0, #1
@@ -130,7 +130,7 @@ CompressedFile__GetCompressedSize: // 0x0205B874
 	cmp r0, #0
 	ldrne r0, [r4, #4]
 	movne r0, r0, lsl #8
-	ldreq r0, [r4]
+	ldreq r0, [r4, #0]
 	mov r0, r0, lsr #8
 	ldmia sp!, {r4, pc}
 	arm_func_end CompressedFile__GetCompressedSize
@@ -245,7 +245,7 @@ _0205B9B8:
 _0205B9C8:
 	tst r4, #2
 	ldmneia sp!, {r4, r5, r6, pc}
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	mov r0, r5
 	mov r1, r1, lsr #8
 	bl DC_StoreRange

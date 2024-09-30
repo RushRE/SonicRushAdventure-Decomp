@@ -1039,7 +1039,7 @@ SailShell3__Create: // 0x0217A3DC
 	rsb r0, r0, #0
 	ldr r3, _0217A618 // =_mt_math_rand
 	str r0, [r5, #0x9c]
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	ldr r0, _0217A61C // =0x00196225
 	ldr r1, _0217A620 // =0x3C6EF35F
 	ldr r2, _0217A624 // =0x000003FF
@@ -2462,7 +2462,7 @@ SailSailerBoat__Func_217B960: // 0x0217B960
 	ldr ip, _0217BA4C // =0x00196225
 	bic r2, r2, #0xf
 	strh r2, [r3, #0x2c]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr lr, _0217BA50 // =0x3C6EF35F
 	mla r5, r2, ip, lr
 	mov r2, r5, lsr #0x10
@@ -2474,7 +2474,7 @@ SailSailerBoat__Func_217B960: // 0x0217B960
 	mov r2, r2, lsl #0x10
 	orr r2, r5, r2, lsr #16
 	strh r2, [r3, #0x2c]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	mla r3, r2, ip, lr
 	mov r2, r3, lsr #0x10
 	mov r2, r2, lsl #0x10
@@ -2483,7 +2483,7 @@ SailSailerBoat__Func_217B960: // 0x0217B960
 	str r3, [r4]
 	rsb r2, r2, #0x30
 	str r2, [r0, #0x28]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r3, _0217BA48 // =_mt_math_rand
 	mla r2, r0, ip, lr
 	mov r0, r2, lsr #0x10
@@ -2495,7 +2495,7 @@ SailSailerBoat__Func_217B960: // 0x0217B960
 	moveq r0, #0x1c00
 	str r0, [r1, #0x144]
 	ldr r0, _0217BA4C // =0x00196225
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	ldr r2, _0217BA50 // =0x3C6EF35F
 	mla r2, r4, r0, r2
 	mov r0, r2, lsr #0x10
@@ -2764,7 +2764,7 @@ _0217BDCC:
 	ldmplia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r2, _0217BE30 // =_mt_math_rand
 	ldr r0, _0217BE34 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0217BE38 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -3311,7 +3311,7 @@ SailSailerBoat__Func_217C508: // 0x0217C508
 	ldr r0, [r0, #0x3c]
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0
 	subs r0, r0, #0x80
 	rsbmi r0, r0, #0
@@ -3449,7 +3449,7 @@ SailSailerBoat__Func_217C720: // 0x0217C720
 	str r0, [r5, #0x28]
 	ldr r0, [r4, #0x164]
 	ldr r0, [r0, #0x3c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	subs r3, r0, #0x80
 	rsbmi r3, r3, #0
 	mov r0, r3, asr #0x1f
@@ -4225,7 +4225,7 @@ SailSailerBoat__Func_217D1B4: // 0x0217D1B4
 	bne _0217D3EC
 	ldr r3, _0217D6C4 // =_mt_math_rand
 	ldr r0, [r4, #0x148]
-	ldr r6, [r3]
+	ldr r6, [r3, #0]
 	ldr r1, _0217D6C8 // =0x00196225
 	ldr r2, _0217D6CC // =0x3C6EF35F
 	mov r0, r0, lsl #0x10
@@ -4295,7 +4295,7 @@ _0217D2B0:
 	ldr r2, _0217D6CC // =0x3C6EF35F
 	bic r6, r6, #0x20
 	strh r6, [r0, #0x2c]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mla r1, r0, r1, r2
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -4712,7 +4712,7 @@ _0217D8A0:
 _0217D8C0:
 	ldr r2, _0217DB74 // =_mt_math_rand
 	ldr r0, _0217DB78 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0217DB7C // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -4761,7 +4761,7 @@ _0217D96C:
 	bne _0217D9D0
 	ldr r6, _0217DB74 // =_mt_math_rand
 	ldr r0, _0217DB78 // =0x00196225
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	ldr r1, _0217DB7C // =0x3C6EF35F
 	mla ip, r2, r0, r1
 	mov r2, ip, lsr #0x10
@@ -4910,7 +4910,7 @@ SailSailerBoat__Func_217DB84: // 0x0217DB84
 	bne _0217DCFC
 	ldr r3, _0217E3DC // =_mt_math_rand
 	ldr r0, [r4, #0x148]
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	ldr r1, _0217E3E0 // =0x00196225
 	ldr r2, _0217E3E4 // =0x3C6EF35F
 	mov r0, r0, lsl #0x10
@@ -4981,7 +4981,7 @@ _0217DC84:
 	ldr r2, _0217E3E4 // =0x3C6EF35F
 	bic r5, r5, #0x20
 	strh r5, [r0, #0x2c]
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mla r1, r0, r1, r2
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -5132,7 +5132,7 @@ _0217DECC:
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r2, _0217E3DC // =_mt_math_rand
 	ldr r0, _0217E3E0 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0217E3E4 // =0x3C6EF35F
 	mov r5, #0xf
 	mla r1, r3, r0, r1
@@ -5193,7 +5193,7 @@ _0217DFB4:
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r2, _0217E3DC // =_mt_math_rand
 	ldr r0, _0217E3E0 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0217E3E4 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -5253,7 +5253,7 @@ _0217E098:
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r2, _0217E3DC // =_mt_math_rand
 	ldr r0, _0217E3E0 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0217E3E4 // =0x3C6EF35F
 	mov r5, #0x1e
 	mla r1, r3, r0, r1
@@ -5835,7 +5835,7 @@ _0217E8E8:
 	bne _0217E954
 	ldr r7, _0217EA98 // =_mt_math_rand
 	ldr r1, _0217EA9C // =0x00196225
-	ldr r8, [r7]
+	ldr r8, [r7, #0]
 	ldr r2, _0217EAA0 // =0x3C6EF35F
 	ldr r3, _0217EAA4 // =0x00000FFE
 	mla r1, r8, r1, r2
@@ -6524,7 +6524,7 @@ _0217F2D8:
 	bne _0217F378
 	bl SailVoyageManager__Func_2157AF4
 	ldr r2, [r4, #0x148]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	sub r1, r2, r1
 	str r1, [r4, #0x148]
 	ldr r2, [r4, #0x14c]
@@ -6536,7 +6536,7 @@ _0217F2D8:
 	sub r1, r2, r1
 	str r1, [r4, #0x150]
 	ldr r2, [r4, #0x13c]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	sub r1, r2, r1
 	str r1, [r4, #0x13c]
 	ldr r2, [r4, #0x140]
@@ -6721,7 +6721,7 @@ SailMissile__Func_217F568: // 0x0217F568
 	str r0, [r6, #0x48]
 	ldr r7, _0217F698 // =_mt_math_rand
 	str r1, [r6, #0x4c]
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	ldr r3, _0217F69C // =0x00196225
 	ldr ip, _0217F6A0 // =0x3C6EF35F
 	ldr lr, _0217F6A4 // =0x000007FE
@@ -6734,7 +6734,7 @@ SailMissile__Func_217F568: // 0x0217F568
 	rsb r0, r0, lr, lsr #1
 	add r0, r2, r0
 	str r0, [r6, #0x44]
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	ldr r2, _0217F6A8 // =FX_SinCosTable_
 	mla r3, r0, r3, ip
 	mov r0, r3, lsr #0x10
@@ -6887,7 +6887,7 @@ _0217F7FC:
 	ldr r2, [r0, #0x1c]
 	cmp r2, #0
 	beq _0217F844
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	cmp r1, #1
 	bne _0217F844
 	ldr r1, [r2, #0x18]

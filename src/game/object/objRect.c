@@ -735,7 +735,7 @@ NONMATCH_FUNC BOOL ObjRect__RectCheck(OBS_RECT *rect1, OBS_RECT *rect2){
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	ldrsh r8, [r0]
+	ldrsh r8, [r0, #0]
 	ldrsh r3, [r0, #6]
 	ldr r9, [r0, #0xc]
 	ldrsh r7, [r0, #2]
@@ -842,7 +842,7 @@ NONMATCH_FUNC BOOL ObjRect__RectPointCheck(OBS_RECT_WORK *work, s32 x, s32 y, s3
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldrsh r8, [r0]
+	ldrsh r8, [r0, #0]
 	ldrsh r6, [r0, #6]
 	ldr r4, [r0, #0xc]
 	ldrsh lr, [r0, #2]

@@ -89,7 +89,7 @@ _02178A28: .word 0x00000B58
 
 	thumb_func_start TimeAttackRecordsMenu__Func_2178A2C
 TimeAttackRecordsMenu__Func_2178A2C: // 0x02178A2C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02178A36
 	mov r0, #1
@@ -146,7 +146,7 @@ TimeAttackRecordsMenu__SetupDisplay: // 0x02178A8C
 	push {r3, lr}
 	mov r2, #1
 	lsl r2, r2, #0x1a
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, _02178BAC // =0xFFFFE0FF
 	mov r3, r1
 	mov r1, #6
@@ -155,7 +155,7 @@ TimeAttackRecordsMenu__SetupDisplay: // 0x02178A8C
 	orr r3, r1
 	str r3, [r2]
 	ldr r3, _02178BB0 // =0x04001000
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	and r0, r2
 	orr r0, r1
 	mov r1, #0
@@ -165,7 +165,7 @@ TimeAttackRecordsMenu__SetupDisplay: // 0x02178A8C
 	bl GX_SetGraphicsMode
 	ldr r2, _02178BB4 // =0x0400000A
 	mov r1, #0x43
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	mov r3, r0
 	ldr r0, _02178BB8 // =0x00004A0C
 	and r3, r1
@@ -199,7 +199,7 @@ TimeAttackRecordsMenu__SetupDisplay: // 0x02178A8C
 	bl MIi_CpuClear16
 	ldr r0, _02178BD4 // =0x04000008
 	mov r2, #3
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	bic r1, r2
 	strh r1, [r0]
 	ldrh r3, [r0, #2]
@@ -221,7 +221,7 @@ TimeAttackRecordsMenu__SetupDisplay: // 0x02178A8C
 	bl GXS_SetGraphicsMode
 	ldr r2, _02178BD8 // =0x0400100A
 	mov r0, #0x43
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	mov r3, r1
 	ldr r1, _02178BB8 // =0x00004A0C
 	and r3, r0
@@ -255,7 +255,7 @@ TimeAttackRecordsMenu__SetupDisplay: // 0x02178A8C
 	bl MIi_CpuClear16
 	ldr r0, _02178BF0 // =0x04001008
 	mov r2, #3
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	bic r1, r2
 	strh r1, [r0]
 	ldrh r3, [r0, #2]
@@ -300,13 +300,13 @@ TimeAttackRecordsMenu__InitSprites: // 0x02178BF4
 	push {r3, r4, r5, r6, r7, lr}
 	sub sp, #0x40
 	str r0, [sp, #0x1c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0
 	ldr r0, [r0, #8]
 	bl FileUnknown__GetAOUFile
 	str r0, [sp, #0x34]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _02178C30
 	add r0, r0, r0
@@ -324,14 +324,14 @@ _02178C1C: // jump table
 	.hword _02178C28 - _02178C1C - 2 // case 5
 _02178C28:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _02178C32
 _02178C30:
 	mov r1, #1
 _02178C32:
 	ldr r0, [sp, #0x1c]
 	add r1, r1, #1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	lsl r1, r1, #0x10
 	ldr r0, [r0, #8]
 	lsr r1, r1, #0x10
@@ -339,7 +339,7 @@ _02178C32:
 	str r0, [sp, #0x38]
 	ldr r0, [sp, #0x1c]
 	ldr r4, [sp, #0x1c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r5, _02178DBC // =0x0217E244
 	ldr r0, [r0, #0xc]
 	mov r7, #0
@@ -357,7 +357,7 @@ _02178C60:
 	mov r6, #1
 	str r0, [sp, #0x20]
 _02178C66:
-	ldrb r0, [r5]
+	ldrb r0, [r5, #0]
 	lsl r1, r0, #2
 	add r0, sp, #0x34
 	ldr r0, [r0, r1]
@@ -379,7 +379,7 @@ _02178C66:
 	str r0, [sp, #0x14]
 	mov r0, r1
 	str r0, [sp, #0x18]
-	ldrb r1, [r5]
+	ldrb r1, [r5, #0]
 	mov r0, r4
 	lsl r2, r1, #2
 	add r1, sp, #0x34
@@ -568,7 +568,7 @@ TimeAttackRecordsMenu__Func_2178DE4: // 0x02178DE4
 	mov r0, #0
 	lsl r2, r2, #8
 	bl MIi_CpuClear32
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #8
 	ldr r0, [r0, #8]
 	bl FileUnknown__GetAOUFile
@@ -606,7 +606,7 @@ TimeAttackRecordsMenu__Func_2178DE4: // 0x02178DE4
 	mov r1, #0
 	lsr r6, r7, #1
 _02178E8C:
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	lsl r3, r0, #4
 	lsr r3, r3, #0x10
 	cmp r3, #1
@@ -629,7 +629,7 @@ _02178EAA:
 	add r2, r2, #2
 	cmp r1, r0
 	blt _02178E8C
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #7
 	ldr r0, [r0, #8]
 	bl FileUnknown__GetAOUFile
@@ -670,7 +670,7 @@ _02178EAA:
 	lsl r1, r1, #0xc
 	lsl r7, r7, #8
 _02178F12:
-	ldrh r3, [r5]
+	ldrh r3, [r5, #0]
 	asr r2, r3, #0xc
 	cmp r2, #1
 	bne _02178F22
@@ -709,7 +709,7 @@ _02178F22:
 	ldr r0, [r4, r0]
 	lsl r1, r1, #8
 	bl DC_StoreRange
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0xd
 	ldr r0, [r0, #8]
 	bl FileUnknown__GetAOUFile
@@ -978,7 +978,7 @@ _0217912A:
 	blt _02179118
 	ldr r0, [sp, #0x1c]
 	mov r1, #0xb
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #8]
 	bl FileUnknown__GetAOUFile
 	bl GetBackgroundPalette
@@ -1204,7 +1204,7 @@ TimeAttackRecordsMenu__Destructor: // 0x021793AC
 	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackRecordsMenu__Func_2179208
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
 	str r1, [r0]
 	pop {r4, pc}
@@ -1224,23 +1224,23 @@ _021793D0:
 	mov r2, #1
 	lsl r2, r2, #0x1a
 	mov r7, #0x1f
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	lsl r7, r7, #8
 	and r1, r7
 	lsr r6, r1, #8
 	mov r5, #6
 	orr r6, r5
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r3, _02179418 // =0xFFFFE0FF
 	lsl r6, r6, #8
 	and r1, r3
 	orr r1, r6
 	str r1, [r2]
 	ldr r2, _0217941C // =0x04001000
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	and r1, r7
 	lsr r6, r1, #8
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	and r1, r3
 	mov r3, r6
 	orr r3, r5
@@ -1273,11 +1273,11 @@ TimeAttackRecordsMenu__State_2179428: // 0x02179428
 	str r1, [sp, #0x20]
 	mov r1, r5
 	add r1, #0x66
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	lsl r1, r1, #1
 	add r1, r5, r1
 	add r1, #0x68
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	str r1, [sp, #0x1c]
 	lsl r1, r1, #1
 	add r1, r5, r1
@@ -1286,7 +1286,7 @@ TimeAttackRecordsMenu__State_2179428: // 0x02179428
 	cmp r1, #1
 	bls _0217948E
 	ldr r1, _02179734 // =padInput
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	mov r1, #0x20
 	tst r1, r2
 	bne _02179464
@@ -1321,7 +1321,7 @@ _0217948E:
 	cmp r0, #1
 	bls _021794CE
 	ldr r0, _02179734 // =padInput
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, #0x10
 	tst r0, r1
 	bne _021794A8
@@ -1368,7 +1368,7 @@ _021794E0:
 _021794EC:
 	mov r0, r5
 	add r0, #0x6c
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	bne _02179560
 	bl TimeAttackRecordsMenu__CheckProgressUnknown
@@ -1392,8 +1392,8 @@ _02179512:
 	mov r2, r5
 	add r1, #0x66
 	add r2, #0x6c
-	ldrh r1, [r1]
-	ldrh r2, [r2]
+	ldrh r1, [r1, #0]
+	ldrh r2, [r2, #0]
 	mov r0, r5
 	bl TimeAttackRecordsMenu__Func_217A538
 	mov r6, #0
@@ -1401,7 +1401,7 @@ _02179512:
 _02179530:
 	mov r2, r5
 	add r2, #0x6c
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	lsl r1, r6, #0x10
 	mov r0, r7
 	lsr r1, r1, #0x10
@@ -1413,7 +1413,7 @@ _02179530:
 	blt _02179530
 	mov r2, r5
 	add r2, #0x66
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	mov r0, r5
 	add r1, sp, #0x30
 	bl TimeAttackRecordsMenu__Func_217A25C
@@ -1423,7 +1423,7 @@ _02179530:
 _02179560:
 	mov r0, r5
 	add r0, #0x6c
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #1
 	bne _021795D4
 	bl TimeAttackRecordsMenu__CheckProgressUnknown
@@ -1447,8 +1447,8 @@ _02179586:
 	mov r2, r5
 	add r1, #0x66
 	add r2, #0x6c
-	ldrh r1, [r1]
-	ldrh r2, [r2]
+	ldrh r1, [r1, #0]
+	ldrh r2, [r2, #0]
 	mov r0, r5
 	bl TimeAttackRecordsMenu__Func_217A538
 	mov r4, #0
@@ -1456,7 +1456,7 @@ _02179586:
 _021795A4:
 	mov r2, r5
 	add r2, #0x6c
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	lsl r1, r4, #0x10
 	mov r0, r7
 	lsr r1, r1, #0x10
@@ -1468,7 +1468,7 @@ _021795A4:
 	blt _021795A4
 	mov r2, r5
 	add r2, #0x66
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	mov r0, r5
 	add r1, sp, #0x30
 	bl TimeAttackRecordsMenu__Func_217A25C
@@ -1606,11 +1606,11 @@ _021796F0:
 _021796F8:
 	mov r0, r5
 	add r0, #0x66
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	lsl r0, r0, #1
 	add r0, r5, r0
 	add r0, #0x68
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldrh r0, [r5, #8]
 	cmp r1, r0
 	bhs _02179726
@@ -1660,20 +1660,20 @@ TimeAttackRecordsMenu__State_217974C: // 0x0217974C
 	bne _021797BA
 	mov r0, r4
 	add r0, #0x66
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	lsl r0, r0, #1
 	add r0, r4, r0
 	add r0, #0x68
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	lsl r0, r0, #1
 	add r0, r4, r0
 	ldrh r1, [r0, #0xa]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	strh r1, [r0, #4]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldrh r0, [r0, #4]
 	bl TimeAttackRecordsMenu__Func_217A96C
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	strh r0, [r1, #4]
 	ldr r1, _021797C8 // =0x0000FFFF
 	mov r0, r4
@@ -1740,11 +1740,11 @@ _0217980A:
 	blo _02179846
 	mov r0, r4
 	add r0, #0x66
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	lsl r0, r0, #1
 	add r0, r4, r0
 	add r0, #0x68
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldr r0, _02179850 // =0x0000FFFF
 	cmp r1, r0
 	bne _0217983C
@@ -1775,7 +1775,7 @@ TimeAttackRecordsMenu__Func_217985C: // 0x0217985C
 	sub sp, #0x10
 	mov r7, r0
 	add r0, #0x66
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r0, #1
 	sub r0, r0, r2
 	lsl r0, r0, #0x10
@@ -1807,7 +1807,7 @@ _02179888:
 	bl TimeAttackRecordsMenu__Func_217A3C4
 	mov r2, r7
 	add r2, #0x6c
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	ldr r1, [sp]
 	mov r0, r7
 	bl TimeAttackRecordsMenu__Func_217A4B0
@@ -1830,7 +1830,7 @@ _021798C4:
 	bl TimeAttackRecordsMenu__GetSaveNameLength
 	add r2, sp, #4
 	mov r1, r0
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	ldr r3, [sp]
 	mov r0, r7
 	bl TimeAttackRecordsMenu__Func_2179D30
@@ -1892,7 +1892,7 @@ _02179942:
 _0217994E:
 	mov r2, r7
 	add r2, #0x6c
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	lsl r1, r4, #0x10
 	mov r0, r6
 	lsr r1, r1, #0x10
@@ -1923,7 +1923,7 @@ _02179984: .word 0x0000FFFF
 TimeAttackRecordsMenu__Func_2179988: // 0x02179988
 	mov r2, r0
 	add r2, #0x66
-	ldrh r3, [r2]
+	ldrh r3, [r2, #0]
 	mov r2, #1
 	sub r3, r2, r3
 	mov r2, r0
@@ -1941,7 +1941,7 @@ TimeAttackRecordsMenu__Func_217999C: // 0x0217999C
 	lsl r0, r1, #8
 	mov r1, r5
 	add r1, #0x66
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	asr r0, r0, #0xc
 	cmp r1, #0
 	bne _021799B6
@@ -1991,7 +1991,7 @@ _021799F2:
 _02179A00:
 	mov r0, r5
 	add r0, #0x68
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0x2e
 	blo _02179A10
 	mov r0, #1
@@ -2000,7 +2000,7 @@ _02179A00:
 _02179A10:
 	mov r0, r5
 	add r0, #0x6a
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0x2e
 	blo _02179A20
 	mov r0, #1
@@ -2009,12 +2009,12 @@ _02179A10:
 _02179A20:
 	mov r0, r5
 	add r0, #0x68
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #0x2e
 	bhs _02179A38
 	mov r0, r5
 	add r0, #0x6a
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0x2e
 	bhs _02179A38
 	mov r2, #0
@@ -2027,7 +2027,7 @@ _02179A38:
 _02179A40:
 	mov r0, r5
 	add r0, #0x6a
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0x2e
 	bhs _02179A4C
 	ldr r2, [sp, #0x1c]
@@ -2116,7 +2116,7 @@ _02179A6A:
 _02179AF4:
 	mov r0, r6
 	add r0, #0x68
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldrh r0, [r5, #8]
 	cmp r1, r0
 	bhs _02179B22
@@ -2130,7 +2130,7 @@ _02179AF4:
 	mov r1, #0x64
 	mul r1, r0
 	ldr r0, [sp, #0x10]
-	ldr r3, [r4]
+	ldr r3, [r4, #0]
 	add r0, r0, r1
 	mov r1, #0x80
 	mov r2, #0x8a
@@ -2162,14 +2162,14 @@ _02179B22:
 _02179B52:
 	mov r0, r6
 	add r0, #0x68
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0x2e
 	bhs _02179B78
 	mov r0, r5
 	add r0, #0x6c
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, #0x64
-	ldr r3, [r4]
+	ldr r3, [r4, #0]
 	add r1, #0xb
 	mov r2, r1
 	mul r2, r0
@@ -2192,7 +2192,7 @@ _02179B78:
 	add r0, #0x64
 	add r4, r5, r0
 	add r5, #0x6c
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #0
 	ldrh r0, [r6, #0xc]
 	bne _02179BC8
@@ -2350,7 +2350,7 @@ TimeAttackRecordsMenu__Func_2179CC0: // 0x02179CC0
 	mov r5, r0
 	add r0, #0x68
 	mov r4, r1
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldrh r0, [r5, #8]
 	mov r6, r2
 	mov r7, r3
@@ -2377,7 +2377,7 @@ _02179CE8:
 _02179CFA:
 	mov r0, r5
 	add r0, #0x6a
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldrh r0, [r5, #8]
 	cmp r1, r0
 	bhs _02179D2C
@@ -2444,7 +2444,7 @@ _02179D78:
 	ble _02179D92
 	add r4, sp, #0x2c
 _02179D80:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	bl GetFontCharacterFromUTF
 	strh r0, [r4]
 	add r7, r7, #1
@@ -2470,7 +2470,7 @@ _02179D9E:
 	str r7, [sp, #0x10]
 	str r7, [sp, #0x14]
 	str r7, [sp, #0x18]
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	ldr r0, [sp, #0x20]
 	ldr r3, [sp, #0x1c]
 	mov r2, r7
@@ -2510,7 +2510,7 @@ TimeAttackRecordsMenu__Func_2179DF4: // 0x02179DF4
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x3c
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r4, r1
 	ldr r0, [r0, #8]
 	mov r1, #0xb
@@ -2574,17 +2574,17 @@ _02179E4C:
 	strh r0, [r2, #0xc]
 	mov r0, #0xb
 	strh r0, [r2, #0xe]
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	bl _s32_div_f
 	add r1, sp, #0x28
 	strh r0, [r1, #0x10]
 	ldrh r2, [r1, #0x10]
 	mov r0, #0xa
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	mul r0, r2
 	sub r0, r3, r0
 	strh r0, [r1]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	strh r0, [r1, #0x12]
 _02179E9E:
 	mov r4, #0
@@ -2604,7 +2604,7 @@ _02179EA6:
 	str r0, [sp, #0x14]
 	mov r0, #0
 	str r0, [sp, #0x18]
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	ldr r0, [sp, #0x1c]
 	mov r1, #0xd
 	lsl r2, r2, #0x13
@@ -2652,7 +2652,7 @@ TimeAttackRecordsMenu__Func_2179F14: // 0x02179F14
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x4c
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	str r1, [sp]
 	ldr r0, [r0, #8]
 	mov r1, #0xc
@@ -2774,7 +2774,7 @@ TimeAttackRecordsMenu__Func_2179F14: // 0x02179F14
 	bl _u32_div_f
 	add r1, sp, #0x14
 	strb r0, [r1]
-	ldrb r2, [r1]
+	ldrb r2, [r1, #0]
 	mov r0, #0xa
 	ldr r3, [sp, #0x24]
 	mul r0, r2
@@ -2813,7 +2813,7 @@ _0217A042:
 	bl MI_CpuFill8
 _0217A078:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0217A0A2
 	add r0, r0, r0
@@ -2831,7 +2831,7 @@ _0217A08E: // jump table
 	.hword _0217A09A - _0217A08E - 2 // case 5
 _0217A09A:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _0217A0A4
 _0217A0A2:
 	mov r0, #1
@@ -2878,7 +2878,7 @@ _0217A0A4:
 	b _0217A1D8
 _0217A0FE:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0217A128
 	add r0, r0, r0
@@ -2896,7 +2896,7 @@ _0217A114: // jump table
 	.hword _0217A120 - _0217A114 - 2 // case 5
 _0217A120:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _0217A12A
 _0217A128:
 	mov r0, #1
@@ -2984,7 +2984,7 @@ _0217A1D8:
 	mov r6, r4
 	add r5, sp, #0x3c
 _0217A1DE:
-	ldrb r1, [r5]
+	ldrb r1, [r5, #0]
 	cmp r1, #0xff
 	beq _0217A1EE
 	ldr r2, [sp, #8]
@@ -3095,7 +3095,7 @@ _0217A2A8:
 	mov r6, r0
 	ldr r0, [sp, #0x1c]
 	ldr r1, _0217A398 // =0x0000FFFF
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, r1
 	beq _0217A332
 	add r2, sp, #0x30
@@ -3120,17 +3120,17 @@ _0217A2A8:
 	strh r0, [r2, #2]
 	ldrh r0, [r2, #2]
 	strh r0, [r2, #0xc]
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	bl _s32_div_f
 	add r1, sp, #0x30
 	strh r0, [r1, #0x10]
 	ldrh r0, [r1, #0x10]
 	mov r2, #0xa
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	mul r2, r0
 	sub r2, r3, r2
 	strh r2, [r1]
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	strh r2, [r1, #0x12]
 	ldrh r3, [r1, #6]
 	ldr r2, [sp, #0x28]
@@ -3177,7 +3177,7 @@ _0217A34A:
 	str r0, [sp, #0x10]
 	str r0, [sp, #0x14]
 	str r0, [sp, #0x18]
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	mov r0, r7
 	mov r2, #0
 	mov r3, r6
@@ -3873,7 +3873,7 @@ _0217A848:
 	lsl r0, r0, #1
 	add r0, r5, r0
 	strh r4, [r0, #0xa]
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	add r0, r0, #1
 	strh r0, [r6]
 _0217A85A:

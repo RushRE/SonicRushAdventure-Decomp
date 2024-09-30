@@ -44,7 +44,7 @@ SeaMapDSPopup__Create: // 0x0204953C
 	bl GetSpriteButtonTouchpadSprite
 	mov r8, r0
 	bl GetSpriteButtonTouchpadSprite
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	bl Sprite__GetSpriteSize1FromAnim
 	mov r1, r0
 	ldr r0, [r5, #0x158]
@@ -62,7 +62,7 @@ SeaMapDSPopup__Create: // 0x0204953C
 	str r2, [sp, #0x10]
 	str ip, [sp, #0x14]
 	str ip, [sp, #0x18]
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	mov r3, #4
 	bl AnimatorSprite__Init
 	ldrsh r1, [r6, #2]
@@ -150,7 +150,7 @@ SeaMapDSPopup__Destructor: // 0x0204970C
 	mov r0, r4
 	bl SeaMapEventManager__DestroyObject
 	ldr r0, _02049760 // =0x0213419C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	bl SeaMapEventManager__GetWork

@@ -44,7 +44,7 @@ SeaMapCoralCaveIcon__Create: // 0x02049764
 	mov r0, r4
 	mov r3, r6
 	bl SeaMapEventManager__InitMapObject
-	ldrh r1, [r7]
+	ldrh r1, [r7, #0]
 	ldr r0, [r5, #0x15c]
 	bl Sprite__GetSpriteSize1FromAnim
 	mov r1, r0
@@ -63,7 +63,7 @@ SeaMapCoralCaveIcon__Create: // 0x02049764
 	str r2, [sp, #0x10]
 	str r3, [sp, #0x14]
 	str r1, [sp, #0x18]
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	ldr r1, [r5, #0x15c]
 	ldr r3, _02049898 // =0x00000804
 	bl AnimatorSprite__Init
@@ -120,7 +120,7 @@ SeaMapCoralCaveIcon__Destructor: // 0x020498D8
 	mov r0, r4
 	bl SeaMapEventManager__DestroyObject
 	ldr r0, _0204991C // =0x0213419C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	bl SeaMapEventManager__GetWork
@@ -208,7 +208,7 @@ SeaMapCoralCaveIcon__Func_20499D8: // 0x020499D8
 	add r0, r5, #0x10
 	bl AnimatorSprite__ProcessAnimation
 	bl SeaMapManager__GetWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02049A18
 	add r0, r5, #0x10

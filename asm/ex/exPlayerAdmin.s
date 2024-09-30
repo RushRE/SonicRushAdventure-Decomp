@@ -1650,7 +1650,7 @@ ovl09_216FAAC: // 0x0216FAAC
 	movs r0, r0, lsr #0x1f
 	bne _0216FC2C
 	ldr r0, _0216FC34 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x400
 	bne _0216FAFC
 	tst r0, #0x800
@@ -1690,7 +1690,7 @@ _0216FB68:
 	strh r1, [r0, #0x44]
 _0216FB74:
 	ldr r0, _0216FC34 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x400
 	bne _0216FC2C
 	tst r0, #0x800
@@ -1704,7 +1704,7 @@ _0216FB74:
 	cmp r0, #0x78
 	bne _0216FBEC
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0216FBCC
 	ldr r0, [r4, #8]
@@ -1713,7 +1713,7 @@ _0216FB74:
 	b _0216FC24
 _0216FBCC:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _0216FC24
 	ldr r0, [r4, #8]
@@ -1722,7 +1722,7 @@ _0216FBCC:
 	b _0216FC24
 _0216FBEC:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0216FC0C
 	ldr r0, [r4, #8]
@@ -1731,7 +1731,7 @@ _0216FBEC:
 	b _0216FC24
 _0216FC0C:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	ldreq r0, [r4, #8]
 	moveq r1, #7
@@ -1959,7 +1959,7 @@ ovl09_216FEAC: // 0x0216FEAC
 	cmp r0, #1
 	bne _0217007C
 	ldr r0, _02170084 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x400
 	bne _0216FF00
 	tst r0, #0x800
@@ -1999,7 +1999,7 @@ _0216FF6C:
 	strh r1, [r0, #0x46]
 _0216FF78:
 	ldr r0, _02170084 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x400
 	bne _0217007C
 	tst r0, #0x800
@@ -2013,7 +2013,7 @@ _0216FF78:
 	cmp r0, #0x50
 	ble _0216FFF0
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0216FFD0
 	ldr r0, [r4, #0xc]
@@ -2022,7 +2022,7 @@ _0216FF78:
 	b _02170074
 _0216FFD0:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02170074
 	ldr r0, [r4, #0xc]
@@ -2034,7 +2034,7 @@ _0216FFF0:
 	cmp r0, #0x28
 	bgt _0217003C
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0217001C
 	ldr r0, [r4, #0xc]
@@ -2043,7 +2043,7 @@ _0216FFF0:
 	b _02170074
 _0217001C:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02170074
 	ldr r0, [r4, #0xc]
@@ -2052,7 +2052,7 @@ _0217001C:
 	b _02170074
 _0217003C:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0217005C
 	ldr r0, [r4, #0xc]
@@ -2061,7 +2061,7 @@ _0217003C:
 	b _02170074
 _0217005C:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	ldreq r0, [r4, #0xc]
 	moveq r1, #7
@@ -2109,11 +2109,11 @@ ovl09_21700D4: // 0x021700D4
 	bl ovl09_2171624
 	ldr r0, [r4, #0xc]
 	ldr r0, [r0, #0x348]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0x5000
 	blt _02170218
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02170180
 	ldr r0, [r4, #0xc]
@@ -2149,7 +2149,7 @@ _02170164:
 	b _02170200
 _02170180:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02170200
 	ldr r0, [r4, #0xc]
@@ -2453,7 +2453,7 @@ ovl09_2170548: // 0x02170548
 	movs r1, r0, lsr #0x1f
 	bne _021705A0
 	ldr r0, _021705D4 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x400
 	bne _02170594
 	tst r0, #0x800
@@ -2466,7 +2466,7 @@ _021705A0:
 	cmp r1, #1
 	bne _021705CC
 	ldr r0, _021705D4 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x400
 	bne _021705C0
 	tst r0, #0x800
@@ -2565,7 +2565,7 @@ ovl09_2170664: // 0x02170664
 	str r2, [r1, #8]
 	ldr r1, [r5, #4]
 	str r2, [r1, #0xc]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x20
 	beq _02170744
 	ldr r1, [r5, #4]
@@ -2629,7 +2629,7 @@ _021707B8:
 	strlsh r0, [r1, #0x4e]
 _021707F0:
 	ldr r0, _02170B64 // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x80
 	beq _02170840
 	ldr r1, [r5, #4]
@@ -2712,7 +2712,7 @@ _02170910:
 	ldr r0, _02170B70 // =FX_SinCosTable_+0x800
 	adc r1, r1, #0
 	mov r2, r2, lsr #0xc
-	ldrsh r8, [r0]
+	ldrsh r8, [r0, #0]
 	orr r2, r2, r1, lsl #20
 	str r2, [r6, #8]
 	ldr r6, [r5, #4]
@@ -3060,7 +3060,7 @@ _02170E18:
 	ldr r0, _02170FC8 // =FX_SinCosTable_+0x800
 	adc r1, r1, #0
 	mov r2, r2, lsr #0xc
-	ldrsh r8, [r0]
+	ldrsh r8, [r0, #0]
 	orr r2, r2, r1, lsl #20
 	str r2, [r6, #8]
 	ldr r6, [r5, #4]
@@ -3162,7 +3162,7 @@ _02170F7C:
 	str r0, [r4, #0x354]
 _02170FA4:
 	ldr r0, _02170FC4 // =0x02175E34
-	ldrsh r2, [r0]
+	ldrsh r2, [r0, #0]
 	sub r1, r2, #1
 	strh r1, [r0]
 	cmp r2, #0
@@ -3727,7 +3727,7 @@ ovl09_217176C: // 0x0217176C
 	sub r2, r1, #4
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
@@ -3904,7 +3904,7 @@ ovl09_21719CC: // 0x021719CC
 	sub r2, r1, #6
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0

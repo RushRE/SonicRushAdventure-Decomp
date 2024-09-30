@@ -336,7 +336,7 @@ NONMATCH_FUNC void PlaneSwitchSpring_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WOR
 	cmp r4, #0
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r1, [r4, #0x28]

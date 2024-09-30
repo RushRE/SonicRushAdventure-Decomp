@@ -29,11 +29,11 @@ SailDemoPlayer__Create: // 0x0218B028
 	str r2, [r4, #0x1c]
 	str r1, [r4, #0xf4]
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0218B0F4
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _0218B0CC
@@ -46,7 +46,7 @@ _0218B0A8: // jump table
 	b _0218B0C0 // case 5
 _0218B0C0:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _0218B0D0
 _0218B0CC:
 	mov r0, #1
@@ -168,8 +168,8 @@ _0218B258:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	ldr r1, _0218B314 // =0x04000130
 	ldr r0, _0218B318 // =0x027FFFA8
-	ldrh r3, [r1]
-	ldrh r2, [r0]
+	ldrh r3, [r1, #0]
+	ldrh r2, [r0, #0]
 	ldr r0, _0218B31C // =0x00002FFF
 	ldr r1, _0218B320 // =0x00000C0B
 	orr r2, r3, r2

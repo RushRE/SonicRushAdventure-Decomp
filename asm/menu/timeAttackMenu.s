@@ -41,7 +41,7 @@ TimeAttackMenu__Func_216C57C: // 0x0216C57C
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, _0216C590 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x6b
 	lsl r1, r1, #2
@@ -55,7 +55,7 @@ _0216C590: .word TimeAttackMenu__Singleton
 TimeAttackMenu__Func_216C594: // 0x0216C594
 	push {r3, lr}
 	ldr r0, _0216C5B4 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
@@ -78,7 +78,7 @@ _0216C5B8: .word TimeAttackMessageWindow__Main1
 TimeAttackMenu__Func_216C5BC: // 0x0216C5BC
 	push {r3, lr}
 	ldr r0, _0216C5DC // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
@@ -101,7 +101,7 @@ _0216C5E0: .word TimeAttackMessageWindow__Main_SetNextSequence
 TimeAttackMenu__Func_216C5E4: // 0x0216C5E4
 	push {r3, lr}
 	ldr r0, _0216C5F8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x86
 	lsl r1, r1, #2
@@ -115,7 +115,7 @@ _0216C5F8: .word TimeAttackMenu__Singleton
 TimeAttackMenu__Func_216C5FC: // 0x0216C5FC
 	push {r3, lr}
 	ldr r0, _0216C60C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r0, [r0, #0xc]
 	pop {r3, pc}
@@ -129,7 +129,7 @@ TimeAttackMenu__Func_216C610: // 0x0216C610
 	mov r5, r0
 	ldr r0, _0216C63C // =TimeAttackMenu__Singleton
 	mov r4, r1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, #0xdc
 	str r5, [r0, #0xc]
@@ -154,7 +154,7 @@ _0216C63C: .word TimeAttackMenu__Singleton
 TimeAttackMenu__Func_216C640: // 0x0216C640
 	push {r3, lr}
 	ldr r0, _0216C654 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x47
 	lsl r1, r1, #2
@@ -168,7 +168,7 @@ _0216C654: .word TimeAttackMenu__Singleton
 TimeAttackMenu__GetSpriteButton1: // 0x0216C658
 	push {r3, lr}
 	ldr r0, _0216C668 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216C66C // =0x00000E54
 	add r0, r0, r1
@@ -182,7 +182,7 @@ _0216C66C: .word 0x00000E54
 TimeAttackMenu__Func_216C670: // 0x0216C670
 	push {r3, lr}
 	ldr r0, _0216C680 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216C684 // =0x00001098
 	add r0, r0, r1
@@ -204,7 +204,7 @@ TimeAttackMenu__Func_216C688: // 0x0216C688
 	strh r1, [r0]
 	strh r1, [r0, #2]
 	ldr r0, _0216C708 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216C70C // =0x00000DB8
 	mov r3, #0x43
@@ -221,24 +221,24 @@ TimeAttackMenu__Func_216C688: // 0x0216C688
 	strh r0, [r1, #6]
 	ldr r1, _0216C714 // =0x0400000E
 	ldr r2, _0216C718 // =0x00004018
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	and r0, r3
 	orr r0, r2
 	strh r0, [r1]
 	ldr r0, _0216C71C // =0x0400100E
-	ldrh r4, [r0]
+	ldrh r4, [r0, #0]
 	and r4, r3
 	orr r2, r4
 	sub r4, r1, #6
 	strh r2, [r0]
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	mov r5, r2
 	and r5, r3
 	lsl r2, r3, #3
 	orr r2, r5
 	strh r2, [r4]
 	sub r2, r1, #4
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	mov r4, r1
 	mov r1, #0xc6
 	and r4, r3
@@ -246,7 +246,7 @@ TimeAttackMenu__Func_216C688: // 0x0216C688
 	orr r1, r4
 	strh r1, [r2]
 	sub r1, r0, #4
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	mov r2, r0
 	ldr r0, _0216C720 // =0x0000821C
 	and r2, r3
@@ -279,7 +279,7 @@ TimeAttackMenu__Func_216C730: // 0x0216C730
 	push {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, _0216C7BC // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	cmp r5, #0
@@ -337,7 +337,7 @@ _0216C7A6:
 	bl TimeAttackMenu__Func_216C610
 	ldr r0, _0216C7BC // =TimeAttackMenu__Singleton
 	ldr r1, _0216C7D0 // =TimeAttackMenu__Main_216D7E8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r3, r4, r5, pc}
 	nop
@@ -660,26 +660,26 @@ TimeAttackMenu__SetupDisplay: // 0x0216CA7C
 	str r1, [r0]
 	ldr r0, _0216CAF8 // =0x0400000E
 	mov r2, #0x43
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldr r4, _0216CAFC // =0x0400100E
 	mov r3, r1
 	ldr r1, _0216CB00 // =0x00004018
 	and r3, r2
 	orr r3, r1
 	strh r3, [r0]
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	and r3, r2
 	orr r1, r3
 	sub r3, r0, #6
 	strh r1, [r4]
-	ldrh r1, [r3]
+	ldrh r1, [r3, #0]
 	mov r4, r1
 	and r4, r2
 	lsl r1, r2, #3
 	orr r1, r4
 	strh r1, [r3]
 	sub r1, r0, #4
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	and r2, r0
 	mov r0, #0xc6
 	lsl r0, r0, #2
@@ -693,7 +693,7 @@ TimeAttackMenu__SetupDisplay: // 0x0216CA7C
 	bl BackgroundUnknown__Func_204CA00
 	ldr r2, _0216CB04 // =0x0400100A
 	mov r0, #0x43
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	and r1, r0
 	ldr r0, _0216CB08 // =0x0000821C
 	orr r0, r1
@@ -713,7 +713,7 @@ TimeAttackMenu__ResetDisplay: // 0x0216CB0C
 	push {r4, r5, r6, r7}
 	ldr r0, _0216CB7C // =0x04000008
 	mov r4, #3
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r2, #1
 	mov r3, #2
 	bic r1, r4
@@ -733,7 +733,7 @@ TimeAttackMenu__ResetDisplay: // 0x0216CB0C
 	orr r1, r5
 	strh r1, [r0, #6]
 	sub r0, #8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r7, r1
 	mov r1, #0x19
 	and r7, r6
@@ -741,7 +741,7 @@ TimeAttackMenu__ResetDisplay: // 0x0216CB0C
 	orr r1, r7
 	str r1, [r0]
 	ldr r0, _0216CB84 // =0x04001008
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	bic r1, r4
 	strh r1, [r0]
 	ldrh r1, [r0, #2]
@@ -757,7 +757,7 @@ TimeAttackMenu__ResetDisplay: // 0x0216CB0C
 	orr r1, r5
 	strh r1, [r0, #6]
 	sub r0, #8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r2, r1
 	and r2, r6
 	lsl r1, r5, #0xb
@@ -776,7 +776,7 @@ TimeAttackMenu__LoadArchives: // 0x0216CB88
 	push {r4, lr}
 	sub sp, #0x10
 	ldr r0, _0216CC5C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r2, #0
@@ -797,12 +797,12 @@ TimeAttackMenu__LoadArchives: // 0x0216CB88
 	str r0, [sp, #8]
 	mov r2, #0
 	str r2, [sp, #0xc]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r1, #0x18
 	add r3, #0x28
 	bl StageClear__LoadFiles
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0216CBF0
 	add r0, r0, r0
@@ -820,7 +820,7 @@ _0216CBDC: // jump table
 	.hword _0216CBE8 - _0216CBDC - 2 // case 5
 _0216CBE8:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _0216CBF2
 _0216CBF0:
 	mov r1, #1
@@ -882,7 +882,7 @@ _0216CC68: .word aFntFontAllFnt_4_ovl03
 TimeAttackMenu__ReleaseArchives: // 0x0216CC6C
 	push {r4, lr}
 	ldr r0, _0216CCA0 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, [r4, #8]
@@ -895,7 +895,7 @@ TimeAttackMenu__ReleaseArchives: // 0x0216CC6C
 	bl _FreeHEAP_USER
 	ldr r0, [r4, #4]
 	bl _FreeHEAP_USER
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	pop {r4, pc}
 	nop
@@ -907,7 +907,7 @@ TimeAttackMenuBG__Create: // 0x0216CCA4
 	push {r4, r5, lr}
 	sub sp, #0xc
 	ldr r0, _0216CCF8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216CCFC // =gameState
@@ -954,7 +954,7 @@ _0216CD04: .word TimeAttackMenuBG__Main
 TimeAttackMenu__Func_216CD08: // 0x0216CD08
 	push {r4, lr}
 	ldr r0, _0216CD24 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, [r0, #0x2c]
@@ -972,7 +972,7 @@ TimeAttackMenu__InitTextWorker: // 0x0216CD28
 	push {r4, r5, lr}
 	sub sp, #0x14
 	ldr r0, _0216CDAC // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r2, #0x69
 	mov r4, r0
@@ -1033,12 +1033,12 @@ _0216CDAC: .word TimeAttackMenu__Singleton
 TimeAttackMenu__ReleaseTextWorker: // 0x0216CDB0
 	push {r4, lr}
 	ldr r0, _0216CDFC // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
 	add r4, r0, r1
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	beq _0216CDCA
 	bl DestroyTask
@@ -1072,7 +1072,7 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	push {r4, r5, lr}
 	sub sp, #0x34
 	ldr r0, _0216CF40 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216CF44 // =renderCoreGFXControlA
 	mov r2, #0
@@ -1130,7 +1130,7 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	ldrh r1, [r1, #6]
 	ldr r0, _0216CF48 // =VRAMSystem__VRAM_BG
 	lsl r2, r2, #0x10
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	lsl r1, r1, #0xe
 	add r1, r2, r1
 	add r2, r4, r1
@@ -1149,7 +1149,7 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	add r3, sp, #0x28
 	bl GetVRAMTileConfig
 	add r1, sp, #0x28
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	ldrh r1, [r1, #2]
 	mov r0, #0
 	lsl r2, r2, #0x10
@@ -1244,7 +1244,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	push {r4, r5, r6, r7, lr}
 	sub sp, #0x1c
 	ldr r0, _0216D08C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x3f
@@ -1275,7 +1275,7 @@ TimeAttackMenuHeader__Create: // 0x0216CF74
 	ldr r1, _0216D090 // =VRAMSystem__VRAM_BG
 	add r3, sp, #0x14
 	ldr r2, [r1, #4]
-	ldrh r1, [r3]
+	ldrh r1, [r3, #0]
 	ldrh r3, [r3, #2]
 	mov r0, #0
 	lsl r1, r1, #0x10
@@ -1382,7 +1382,7 @@ _0216D0A8: .word TimeAttackMenuHeader__Main2
 TimeAttackMenu__Func_216D0AC: // 0x0216D0AC
 	push {r3, r4, r5, lr}
 	ldr r0, _0216D0E0 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x3f
@@ -1411,7 +1411,7 @@ TimeAttackBackButton__Create: // 0x0216D0E8
 	push {r3, r4, r5, r6, lr}
 	sub sp, #0x14
 	ldr r0, _0216D1A4 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r6, r0
 	mov r4, r6
@@ -1507,7 +1507,7 @@ _0216D1BC: .word TimeAttackBackButton__Main2
 TimeAttackMenu__Func_216D1C0: // 0x0216D1C0
 	push {r3, r4, r5, lr}
 	ldr r0, _0216D1E8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r5, r4
@@ -1515,7 +1515,7 @@ TimeAttackMenu__Func_216D1C0: // 0x0216D1C0
 	ldr r0, [r5, #4]
 	bl DestroyTask
 	add r4, #0xdc
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl DestroyTask
 	add r5, #0x64
 	mov r0, r5
@@ -1531,7 +1531,7 @@ TimeAttackMenu__SetState: // 0x0216D1EC
 	mov r5, r0
 	ldr r0, _0216D218 // =TimeAttackMenu__Singleton
 	mov r6, r1
-	ldr r7, [r0]
+	ldr r7, [r0, #0]
 	mov r0, r7
 	bl GetTaskWork_
 	mov r4, r0
@@ -1556,7 +1556,7 @@ TimeAttackMenu__Func_216D224: // 0x0216D224
 	mov r5, r0
 	ldr r0, _0216D258 // =TimeAttackMenu__Singleton
 	mov r4, r1
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	mov r0, r6
 	bl GetTaskWork_
 	ldr r1, _0216D25C // =0x000014F8
@@ -1589,7 +1589,7 @@ TimeAttackMenu__Func_216D264: // 0x0216D264
 	push {r4, lr}
 	mov r4, r0
 	ldr r0, _0216D278 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216D27C // =0x00000E1C
 	strh r4, [r0, r1]
@@ -1603,7 +1603,7 @@ _0216D27C: .word 0x00000E1C
 TimeAttackMenu__Func_216D280: // 0x0216D280
 	push {r3, lr}
 	ldr r0, _0216D2A0 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
@@ -1628,7 +1628,7 @@ TimeAttackBackButton__TouchCallback: // 0x0216D2A8
 	mov r4, #1
 	ldr r3, [r1, #0x14]
 	mov r1, r2
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	lsl r4, r4, #0x10
 	add r1, #0x64
 	cmp r5, r4
@@ -1902,7 +1902,7 @@ _0216D488:
 _0216D490:
 	ldr r0, _0216D4A0 // =TimeAttackMenu__Singleton
 	ldr r1, _0216D4A4 // =TimeAttackMenu__Main_InitCharacterSelect
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
@@ -1932,7 +1932,7 @@ _0216D4C0:
 _0216D4C8:
 	ldr r0, _0216D4D8 // =TimeAttackMenu__Singleton
 	ldr r1, _0216D4DC // =TimeAttackMenu__Main_216E180
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
@@ -2012,7 +2012,7 @@ TimeAttackMenu__Func_216D550: // 0x0216D550
 	mov r5, r0
 	ldr r0, _0216D570 // =TimeAttackMenu__Singleton
 	mov r4, r2
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
@@ -2076,7 +2076,7 @@ _0216D5AC: .word TimeAttackMenu__Func_216C730
 TimeAttackMenu__Main: // 0x0216D5B0
 	push {r3, lr}
 	ldr r0, _0216D5C8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216D5CC // =0x000014F4
 	mov r2, #4
@@ -2094,7 +2094,7 @@ _0216D5D0: .word TimeAttackMenu__Main_216D5D4
 TimeAttackMenu__Main_216D5D4: // 0x0216D5D4
 	push {r3, lr}
 	ldr r0, _0216D5F8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216D5FC // =0x000014F4
 	ldr r2, [r0, r1]
@@ -2117,7 +2117,7 @@ _0216D5FC: .word 0x000014F4
 TimeAttackMenu__Main_216D600: // 0x0216D600
 	push {r4, lr}
 	ldr r0, _0216D650 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216D654 // =0x000014F4
@@ -2162,7 +2162,7 @@ _0216D65C: .word TimeAttackMenu__Main_216D660
 TimeAttackMenu__Main_216D660: // 0x0216D660
 	push {r4, lr}
 	ldr r0, _0216D680 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__Func_216D280
@@ -2183,7 +2183,7 @@ TimeAttackMenu__Func_216D688: // 0x0216D688
 	push {r4, r5, r6, lr}
 	sub sp, #0x20
 	ldr r0, _0216D7B8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xfe
@@ -2333,7 +2333,7 @@ _0216D7D4: .word TimeAttackMenu__Main_216D7D8
 TimeAttackMenu__Main_216D7D8: // 0x0216D7D8
 	ldr r0, _0216D7E0 // =TimeAttackMenu__Singleton
 	ldr r3, _0216D7E4 // =GetTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx r3
 	.align 2, 0
 _0216D7E0: .word TimeAttackMenu__Singleton
@@ -2348,7 +2348,7 @@ TimeAttackMenu__Main_216D7E8: // 0x0216D7E8
 	beq _0216D806
 	bl DestroyDrawFadeTask
 	ldr r0, _0216D808 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl TimeAttackMenu__Destroy
 	bl NextSysEvent
 	bl DestroyCurrentTask
@@ -2476,7 +2476,7 @@ TimeAttackMenu__Main_216D910: // 0x0216D910
 	push {r3, r4, lr}
 	sub sp, #0xc
 	ldr r0, _0216D994 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
@@ -2539,7 +2539,7 @@ TimeAttackMenu__Main_216D9A8: // 0x0216D9A8
 	push {r4, lr}
 	sub sp, #8
 	ldr r0, _0216DA54 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl MultibootManager__Func_2060CC8
@@ -2630,7 +2630,7 @@ _0216DA6C: .word TimeAttackMenu__Main_FadeToCorruptSave
 TimeAttackMenu__Main_216DA70: // 0x0216DA70
 	push {r4, lr}
 	ldr r0, _0216DAB4 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
@@ -2665,7 +2665,7 @@ TimeAttackMenu__Main_216DAC4: // 0x0216DAC4
 	push {r3, r4, lr}
 	sub sp, #0xc
 	ldr r0, _0216DB48 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
@@ -2843,7 +2843,7 @@ TimeAttackMenu__Main_216DC68: // 0x0216DC68
 	push {r3, lr}
 	sub sp, #8
 	ldr r0, _0216DCC4 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	bl TimeAttackMenu__GetSpriteButton1
 	bl SaveSpriteButton__RunState
@@ -2885,7 +2885,7 @@ TimeAttackMenu__Main_216DCCC: // 0x0216DCCC
 	push {r3, r4, lr}
 	sub sp, #0xc
 	ldr r0, _0216DD78 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
@@ -3001,7 +3001,7 @@ _0216DDDC: .word TimeAttackMenu__Main_216DE48
 TimeAttackMenu__Main_216DDE0: // 0x0216DDE0
 	push {r4, lr}
 	ldr r0, _0216DE18 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
@@ -3028,7 +3028,7 @@ _0216DE1C: .word 0x000014F8
 TimeAttackMenu__Main_216DE20: // 0x0216DE20
 	push {r4, lr}
 	ldr r0, _0216DE40 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__Func_216C594
@@ -3059,7 +3059,7 @@ _0216DE58: .word TimeAttackMenu__Main_216DE5C
 TimeAttackMenu__Main_216DE5C: // 0x0216DE5C
 	push {r4, lr}
 	ldr r0, _0216DEA8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl MultibootManager__Func_2060CC8
@@ -3115,7 +3115,7 @@ TimeAttackMenu__Main_216DEC4: // 0x0216DEC4
 	cmp r0, #0
 	beq _0216DF02
 	ldr r0, _0216DF04 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, #0x30
 	mov r1, #1
@@ -3147,7 +3147,7 @@ TimeAttackMenu__Main_216DF0C: // 0x0216DF0C
 	push {r4, lr}
 	sub sp, #8
 	ldr r0, _0216DFD0 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl MultibootManager__Func_2060CC8
@@ -3268,7 +3268,7 @@ TimeAttackMenu__Main_216E01C: // 0x0216E01C
 	cmp r0, #0
 	bne _0216E036
 	ldr r0, _0216E038 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216E03C // =0x000014F8
 	ldr r0, [r0, r1]
@@ -3284,7 +3284,7 @@ _0216E03C: .word 0x000014F8
 TimeAttackMenu__Main_216E040: // 0x0216E040
 	push {r3, lr}
 	ldr r0, _0216E070 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0xe5
 	mov r2, #1
@@ -3314,11 +3314,11 @@ _0216E07C: .word TimeAttackMenu__Main_216E180
 TimeAttackMenu__Main_InitCharacterSelect: // 0x0216E080
 	push {r4, lr}
 	ldr r0, _0216E0C8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r2, _0216E0CC // =0x04001000
 	mov r4, r0
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, _0216E0D0 // =0xFFFFE0FF
 	and r1, r0
 	lsr r0, r2, #0xf
@@ -3356,7 +3356,7 @@ _0216E0D8: .word TimeAttackMenu__Main_216E0DC
 TimeAttackMenu__Main_216E0DC: // 0x0216E0DC
 	push {r4, lr}
 	ldr r0, _0216E164 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl GetSysEventList
@@ -3428,11 +3428,11 @@ _0216E17C: .word TimeAttackMenu__Func_216D688
 TimeAttackMenu__Main_216E180: // 0x0216E180
 	push {r4, lr}
 	ldr r0, _0216E1BC // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r2, _0216E1C0 // =0x04001000
 	mov r4, r0
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, _0216E1C4 // =0xFFFFE0FF
 	and r1, r0
 	lsr r0, r2, #0xf
@@ -3464,7 +3464,7 @@ _0216E1D0: .word TimeAttackMenu__Main_216E1D4
 TimeAttackMenu__Main_216E1D4: // 0x0216E1D4
 	push {r4, lr}
 	ldr r0, _0216E234 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216E238 // =0x00000E28
@@ -3598,7 +3598,7 @@ TimeAttackMenu__Main_216E2E8: // 0x0216E2E8
 	cmp r0, #0
 	beq _0216E30C
 	ldr r0, _0216E310 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216E314 // =0x00001418
 	mov r2, #0x18
@@ -3619,7 +3619,7 @@ _0216E318: .word TimeAttackMenu__Main_216E31C
 TimeAttackMenu__Main_216E31C: // 0x0216E31C
 	push {r4, lr}
 	ldr r0, _0216E358 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216E35C // =0x00001418
@@ -3655,7 +3655,7 @@ TimeAttackMenu__Main_216E36C: // 0x0216E36C
 	push {r3, lr}
 	sub sp, #8
 	ldr r0, _0216E3D4 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	bl MultibootManager__Func_2061638
 	cmp r0, #0
@@ -3737,7 +3737,7 @@ TimeAttackMenu__Main_216E42C: // 0x0216E42C
 	cmp r0, #0
 	beq _0216E44C
 	ldr r0, _0216E450 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl TimeAttackMenu__Destroy
 	mov r0, #0x21
 	bl RequestNewSysEventChange
@@ -3753,7 +3753,7 @@ _0216E450: .word TimeAttackMenu__Singleton
 TimeAttackMenu__Main_216E454: // 0x0216E454
 	push {r4, lr}
 	ldr r0, _0216E488 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r1, _0216E48C // =0x00000E1E
@@ -3785,7 +3785,7 @@ _0216E498: .word TimeAttackMenu__Main_216E49C
 TimeAttackMenu__Main_216E49C: // 0x0216E49C
 	push {r3, r4, r5, lr}
 	ldr r0, _0216E4F0 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x3f
@@ -3835,7 +3835,7 @@ _0216E508: .word TimeAttackMenu__Main_216EB64
 TimeAttackMenu__Main_216E50C: // 0x0216E50C
 	push {r4, lr}
 	ldr r0, _0216E540 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r1, _0216E544 // =0x00000E1E
@@ -3867,7 +3867,7 @@ _0216E550: .word TimeAttackMenu__Main_216E554
 TimeAttackMenu__Main_216E554: // 0x0216E554
 	push {r3, r4, r5, lr}
 	ldr r0, _0216E59C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x3f
@@ -3914,7 +3914,7 @@ _0216E5B4: .word TimeAttackMenu__Main_216DEB0
 TimeAttackMenu__Main_216E5B8: // 0x0216E5B8
 	push {r3, lr}
 	ldr r0, _0216E5E0 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r2, _0216E5E4 // =0x00000E1E
 	mov r1, #1
@@ -3938,7 +3938,7 @@ _0216E5E8: .word TimeAttackMenu__Main_216E5EC
 TimeAttackMenu__Main_216E5EC: // 0x0216E5EC
 	push {r3, r4, r5, lr}
 	ldr r0, _0216E648 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x3f
@@ -3991,7 +3991,7 @@ TimeAttackMenu__Main_216E660: // 0x0216E660
 	push {r3, r4, r5, lr}
 	sub sp, #0x20
 	ldr r0, _0216E81C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0xfe
@@ -4173,7 +4173,7 @@ _0216E794:
 	orr r0, r1
 	str r0, [r4, #0x3c]
 	add r4, #0x50
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	add r0, #0x10
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
@@ -4223,7 +4223,7 @@ _0216E84C: .word TimeAttackMenu__Main_216D7D8
 TimeAttackMenu__Main_216E850: // 0x0216E850
 	push {r4, lr}
 	ldr r0, _0216E88C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #5
@@ -4260,7 +4260,7 @@ TimeAttackMenu__Main_216E8A4: // 0x0216E8A4
 	push {r3, lr}
 	sub sp, #8
 	ldr r0, _0216E8E0 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r0, #0xb
 	bl TimeAttackMenu__Func_216C57C
@@ -4290,7 +4290,7 @@ _0216E8E4: .word TimeAttackMenu__Main_216E8E8
 TimeAttackMenu__Main_216E8E8: // 0x0216E8E8
 	push {r4, lr}
 	ldr r0, _0216E94C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl TimeAttackMenu__GetSpriteButton1
@@ -4349,7 +4349,7 @@ _0216E964: .word TimeAttackMenu__Main_216D80C
 TimeAttackMenu__Main_216E968: // 0x0216E968
 	push {r4, lr}
 	ldr r0, _0216E998 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	add r0, #0x30
@@ -4376,7 +4376,7 @@ _0216E9A0: .word TimeAttackMenu__Main_216E9A4
 TimeAttackMenu__Main_216E9A4: // 0x0216E9A4
 	push {r4, lr}
 	ldr r0, _0216EA4C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl MultibootManager__Func_2060CC8
@@ -4476,7 +4476,7 @@ TimeAttackMenu__Main_216EA78: // 0x0216EA78
 	cmp r0, #0
 	beq _0216EA9C
 	ldr r0, _0216EAA0 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216EAA4 // =0x00001418
 	mov r2, #0x18
@@ -4497,7 +4497,7 @@ _0216EAA8: .word TimeAttackMenu__Main_216EAAC
 TimeAttackMenu__Main_216EAAC: // 0x0216EAAC
 	push {r4, lr}
 	ldr r0, _0216EAE8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216EAEC // =0x00001418
@@ -4589,7 +4589,7 @@ _0216EB60: .word TimeAttackMenu__Main_FadeToCorruptSave
 TimeAttackMenu__Main_216EB64: // 0x0216EB64
 	push {r3, lr}
 	ldr r0, _0216EB84 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r2, _0216EB88 // =TimeAttackMenu__Main_216EB98
 	ldr r1, _0216EB8C // =0x000014F8
@@ -4612,7 +4612,7 @@ _0216EB94: .word TimeAttackMenu__Main_216D80C
 TimeAttackMenu__Main_216EB98: // 0x0216EB98
 	push {r4, lr}
 	ldr r0, _0216EBC8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	add r0, #0x30
@@ -4638,7 +4638,7 @@ _0216EBD0: .word TimeAttackMenu__Main_216EBD4
 TimeAttackMenu__Main_216EBD4: // 0x0216EBD4
 	push {r4, lr}
 	ldr r0, _0216EC88 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl MultibootManager__Func_2060CC8
@@ -4744,7 +4744,7 @@ TimeAttackMenu__Main_216ECB4: // 0x0216ECB4
 	cmp r0, #0
 	beq _0216ECD8
 	ldr r0, _0216ECDC // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216ECE0 // =0x00001418
 	mov r2, #0x18
@@ -4765,7 +4765,7 @@ _0216ECE4: .word TimeAttackMenu__Main_216ECE8
 TimeAttackMenu__Main_216ECE8: // 0x0216ECE8
 	push {r4, lr}
 	ldr r0, _0216ED24 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, _0216ED28 // =0x00001418
@@ -4946,7 +4946,7 @@ TimeAttackMenu__Main_216EE54: // 0x0216EE54
 	bl DestroyDrawFadeTask
 	bl ReleaseGameState
 	ldr r0, _0216EE80 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl TimeAttackMenu__Destroy
 	mov r0, #0x1a
 	bl RequestNewSysEventChange
@@ -4999,7 +4999,7 @@ TimeAttackMenu__Main_ShowCorruptSave: // 0x0216EEC4
 	bl DestroyDrawFadeTask
 	bl ReleaseGameState
 	ldr r0, _0216EEF0 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl TimeAttackMenu__Destroy
 	mov r0, #0x20
 	bl RequestNewSysEventChange
@@ -5015,7 +5015,7 @@ _0216EEF0: .word TimeAttackMenu__Singleton
 TimeAttackMenuBG__Main: // 0x0216EEF4
 	push {r3, lr}
 	ldr r0, _0216EF08 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, #0x30
 	bl MainMenu__HandleBackgroundControl
@@ -5029,7 +5029,7 @@ TimeAttackMessageWindow__Main1: // 0x0216EF0C
 	push {r3, r4, lr}
 	sub sp, #4
 	ldr r0, _0216EF54 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
@@ -5067,19 +5067,19 @@ _0216EF5C: .word TimeAttackMessageWindow__Main_PrepareWindow
 TimeAttackMessageWindow__Main_PrepareWindow: // 0x0216EF60
 	push {r3, r4, r5, lr}
 	ldr r0, _0216EFA8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x69
 	mov r2, #1
 	lsl r1, r1, #2
 	add r4, r0, r1
 	lsl r2, r2, #0x1a
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mov r0, #0x1f
 	lsl r0, r0, #8
 	and r0, r3
 	lsr r3, r0, #8
-	ldr r5, [r2]
+	ldr r5, [r2, #0]
 	ldr r0, _0216EFAC // =0xFFFFE0FF
 	add r1, #0x44
 	and r0, r5
@@ -5107,7 +5107,7 @@ TimeAttackMessageWindow__Main_WindowAnimate: // 0x0216EFB4
 	push {r3, r4, lr}
 	sub sp, #4
 	ldr r0, _0216F084 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
@@ -5206,7 +5206,7 @@ _0216F094: .word TimeAttackMessageWindow__Main_SequenceFinished
 TimeAttackMessageWindow__Main_LoadSequence: // 0x0216F098
 	push {r3, r4, r5, lr}
 	ldr r0, _0216F110 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
@@ -5267,7 +5267,7 @@ _0216F114: .word TimeAttackMessageWindow__Main_SetNextSequence
 TimeAttackMessageWindow__Main_SetNextSequence: // 0x0216F118
 	push {r3, r4, r5, lr}
 	ldr r0, _0216F1EC // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
@@ -5370,7 +5370,7 @@ _0216F1F8: .word TimeAttackMessageWindow__Main_LoadSequence
 TimeAttackMessageWindow__Main_SequenceFinished: // 0x0216F1FC
 	push {r4, lr}
 	ldr r0, _0216F25C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
@@ -5387,11 +5387,11 @@ TimeAttackMessageWindow__Main_SequenceFinished: // 0x0216F1FC
 	mov r0, #1
 	lsl r0, r0, #0x1a
 	mov r1, #0x1f
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r1, r1, #8
 	and r1, r2
 	lsr r3, r1, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _0216F260 // =0xFFFFE0FF
 	and r2, r1
 	mov r1, #2
@@ -5420,7 +5420,7 @@ _0216F264: .word TimeAttackMessageWindow__Main1
 TimeAttackMessageWindow__Main2: // 0x0216F268
 	push {r4, lr}
 	ldr r0, _0216F294 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x69
 	lsl r1, r1, #2
@@ -5445,7 +5445,7 @@ TimeAttackMenuHeader__Main1: // 0x0216F298
 	push {r4, r5, lr}
 	sub sp, #0x24
 	ldr r0, _0216F31C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
@@ -5464,11 +5464,11 @@ TimeAttackMenuHeader__Main1: // 0x0216F298
 	bl AnimatorSprite__ProcessAnimation
 	ldr r2, _0216F328 // =0x04001000
 	mov r0, #0x1f
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	lsl r0, r0, #8
 	and r0, r1
 	lsr r3, r0, #8
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, _0216F32C // =0xFFFFE0FF
 	and r0, r1
 	mov r1, #2
@@ -5521,7 +5521,7 @@ _0216F340: .word TimeAttackMenuHeader__Main_Animate
 TimeAttackMenuHeader__Main_Animate: // 0x0216F344
 	push {r3, lr}
 	ldr r0, _0216F35C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216F360 // =0x00000DB8
 	add r0, r0, r1
@@ -5539,7 +5539,7 @@ TimeAttackMenuHeader__Main_216F364: // 0x0216F364
 	push {r4, r5, lr}
 	sub sp, #0x24
 	ldr r0, _0216F3E8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
@@ -5615,7 +5615,7 @@ _0216F40C: .word 0x000009C8
 TimeAttackMenuHeader__Main_216F410: // 0x0216F410
 	push {r3, lr}
 	ldr r0, _0216F428 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, _0216F42C // =0x00000DB8
 	add r0, r0, r1
@@ -5632,7 +5632,7 @@ _0216F42C: .word 0x00000DB8
 TimeAttackMenuHeader__Main2: // 0x0216F430
 	push {r3, r4, r5, lr}
 	ldr r0, _0216F47C // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #0x3f
 	lsl r1, r1, #4
@@ -5675,7 +5675,7 @@ _0216F488: .word renderCoreGFXControlB
 TimeAttackBackButton__Main1: // 0x0216F48C
 	push {r3, r4, r5, lr}
 	ldr r0, _0216F4F8 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	add r4, #0xdc
@@ -5733,7 +5733,7 @@ _0216F4F8: .word TimeAttackMenu__Singleton
 TimeAttackBackButton__Main2: // 0x0216F4FC
 	push {r3, lr}
 	ldr r0, _0216F514 // =TimeAttackMenu__Singleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #5
 	lsl r1, r1, #6
@@ -5806,7 +5806,7 @@ _0216F57E:
 	mov r0, #1
 	tst r0, r1
 	beq _0216F600
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	beq _0216F596
 	bl GetTaskWork_
@@ -5829,7 +5829,7 @@ _0216F5A6:
 	cmp r4, r6
 	beq _0216F5C2
 _0216F5B2:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	beq _0216F5BC
 	bl DestroyTask
@@ -5859,7 +5859,7 @@ _0216F5DC:
 	add r0, r5, r0
 	cmp r4, r0
 	beq _0216F5F8
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	beq _0216F5F8
 	bl _FreeHEAP_USER

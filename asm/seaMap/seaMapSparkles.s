@@ -38,7 +38,7 @@ SeaMapSparkles__Create: // 0x02049E6C
 	bl SeaMapEventManager__InitMapObject
 	ldr r0, [r7, #0x158]
 	str r0, [r6, #0x10]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #0xc
 	add r0, r6, #0x1000
 	bne _02049F20
@@ -188,7 +188,7 @@ _0204A0E8:
 	cmp r5, #0x40
 	blt _0204A0E8
 _0204A108:
-	ldr r2, [r11]
+	ldr r2, [r11, #0]
 	ldr r1, _0204A4E8 // =0x00196225
 	ldr r0, _0204A4EC // =0x3C6EF35F
 	mla r0, r2, r1, r0
@@ -201,7 +201,7 @@ _0204A108:
 	add r2, r4, r5, lsl #1
 	add r1, r2, #0x1d00
 	strh r0, [r1, #0x24]
-	ldr r7, [r11]
+	ldr r7, [r11, #0]
 	ldr r1, _0204A4E8 // =0x00196225
 	ldr r0, _0204A4EC // =0x3C6EF35F
 	add r3, r4, r5, lsl #3

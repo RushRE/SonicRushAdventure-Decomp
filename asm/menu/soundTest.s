@@ -36,12 +36,12 @@ SoundTest__Func_215C77C: // 0x0215C77C
 	bl MIi_CpuClear32
 	ldr r3, _0215C874 // =0x04000204
 	mov r0, r4
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	mov r1, #0
 	and r2, r2, #0x8000
 	mov r2, r2, asr #0xf
 	str r2, [r4, #0xb84]
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	orr r2, r2, #0x8000
 	strh r2, [r3]
 	strh r1, [r4, #2]
@@ -51,11 +51,11 @@ SoundTest__Func_215C77C: // 0x0215C77C
 	ldr r0, [r4, #0x44]
 	bl SoundTest__Func_215ECAC
 	strh r0, [r4]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	mov r0, r0, lsl #2
 	bl _AllocHeadHEAP_SYSTEM
 	str r0, [r4, #0x48]
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	ldr r1, [r4, #0x48]
 	mov r0, #0
 	mov r2, r2, lsl #2
@@ -71,7 +71,7 @@ SoundTest__Func_215C77C: // 0x0215C77C
 	bl SoundTest__Func_215CF30
 	mov r0, r4
 	bl SoundTest__Func_215E588
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	mov r6, #0
 	cmp r0, #0
 	ldmleia sp!, {r4, r5, r6, pc}
@@ -85,7 +85,7 @@ _0215C83C:
 	cmp r0, #0
 	ldrne r0, [r4, #0x48]
 	strne r5, [r0, r6, lsl #2]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	add r6, r6, #1
 	cmp r6, r0
 	blt _0215C83C
@@ -113,12 +113,12 @@ SoundTest__Func_215C878: // 0x0215C878
 	bl GXx_SetMasterBrightness_
 	ldr r2, _0215CB60 // =0x04000304
 	ldr r0, _0215CB64 // =0xFFFFFDF1
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	and r0, r1, r0
 	orr r0, r0, #0xe
 	orr r0, r0, #0x200
 	strh r0, [r2]
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	orr r0, r0, #0xc
 	strh r0, [r2]
 	bl VRAMSystem__Reset
@@ -157,18 +157,18 @@ SoundTest__Func_215C878: // 0x0215C878
 	mov r0, #1
 	bl VRAMSystem__InitSpriteBuffer
 	mov r3, #0x4000000
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r0, #1
 	bic r1, r1, #0x38000000
 	str r1, [r3]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	mov r1, #0
 	bic r2, r2, #0x7000000
 	str r2, [r3]
 	mov r2, r0
 	bl GX_SetGraphicsMode
 	ldr r3, _0215CB6C // =0x0400000A
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	and r0, r0, #0x43
 	orr r0, r0, #4
 	strh r0, [r3]
@@ -230,22 +230,22 @@ SoundTest__Func_215C878: // 0x0215C878
 	strh ip, [r3, #6]
 	bl MIi_CpuClear32
 	ldr r2, _0215CB74 // =0x0400100E
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	sub r1, r2, #2
 	bic r0, r0, #3
 	strh r0, [r2]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #3
 	orr r0, r0, #1
 	strh r0, [r1]
 	sub r1, r2, #4
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	sub r3, r2, #6
 	sub ip, r2, #0xe
 	bic r0, r0, #3
 	orr r0, r0, #2
 	strh r0, [r1]
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	mov r0, #0
 	mov r1, #0x6200000
 	bic r2, r2, #3
@@ -307,7 +307,7 @@ SoundTest__LoadAssets: // 0x0215CB84
 	bl FileUnknown__GetAOUFile
 	str r0, [r4, #8]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _0215CBE0
@@ -320,7 +320,7 @@ _0215CBBC: // jump table
 	b _0215CBD4 // case 5
 _0215CBD4:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _0215CBE4
 _0215CBE0:
 	mov r0, #1
@@ -773,7 +773,7 @@ _0215D268:
 	cmpne r0, #0
 	movne r0, #0
 	strne r0, [r4, #0xb84]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ldr r2, [r4, #0xb84]
 	bic r0, r0, #0x8000
 	orr r0, r0, r2, lsl #15
@@ -1257,7 +1257,7 @@ _0215D8CC:
 	ble _0215D924
 _0215D8EC:
 	and r5, lr, #7
-	ldr r7, [r1]
+	ldr r7, [r1, #0]
 	ldr r6, [r1, #0x20]
 	cmp r5, #7
 	add r5, lr, #1
@@ -1462,7 +1462,7 @@ SoundTest__Func_215DB88: // 0x0215DB88
 	add r6, r5, #0x580
 	beq _0215DBC8
 	ldr r0, _0215DD9C // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #1
 	bne _0215DBC0
 	add r0, r5, #0x204
@@ -1491,7 +1491,7 @@ _0215DBE0:
 	cmp r0, #0
 	beq _0215DC10
 	ldr r0, _0215DD9C // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #2
 	bne _0215DC24
 _0215DC10:
@@ -1517,7 +1517,7 @@ _0215DC44:
 	add r6, r0, #0x400
 	beq _0215DC80
 	ldr r0, _0215DD9C // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x10
 	bne _0215DC78
 	add r0, r5, #0x274
@@ -1542,7 +1542,7 @@ _0215DC98:
 	add r6, r0, #0x400
 	beq _0215DCD0
 	ldr r1, _0215DD9C // =padInput
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	tst r1, #0x20
 	bne _0215DCC8
 	add r0, r0, #0x800
@@ -1770,7 +1770,7 @@ SoundTest__Func_215DFB0: // 0x0215DFB0
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215E04C // =padInput
 	mov r4, r0
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	tst r0, #0x10
 	bne _0215DFDC
 	add r0, r4, #0x274
@@ -1791,7 +1791,7 @@ _0215DFF4:
 	strh r1, [r0, #0x50]
 _0215E000:
 	ldr r0, _0215E04C // =padInput
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x20
 	bne _0215E024
 	add r0, r4, #0x2ac
@@ -2291,7 +2291,7 @@ SoundTest__Func_215E618: // 0x0215E618
 	bl LoadAudioSndArc
 	ldr r1, _0215E828 // =audioManagerSndHeap
 	mov r0, r6
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl NNS_SndArcLoadGroup
 	b _0215E6E4
 _0215E6D4:
@@ -2347,7 +2347,7 @@ _0215E75C:
 _0215E77C:
 	ldr r1, _0215E828 // =audioManagerSndHeap
 	mov r0, #0xa
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl NNS_SndArcStrmInit
 	mov r1, r7
 	add r0, r9, #0xe8
@@ -2466,21 +2466,21 @@ _0215E8FC: // jump table
 	b _0215E954 // case 3
 _0215E90C:
 	ldr r0, _0215E974 // =defaultTrackPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	movne r5, #1
 	moveq r5, #0
 	b _0215E964
 _0215E924:
 	ldr r0, _0215E978 // =defaultSfxPlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	movne r5, #1
 	moveq r5, #0
 	b _0215E964
 _0215E93C:
 	ldr r0, _0215E97C // =defaultVoicePlayer
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	movne r5, #1
 	moveq r5, #0
@@ -2689,7 +2689,7 @@ SoundTest__Func_215EBB4: // 0x0215EBB4
 	arm_func_start SoundTest__Func_215EBC8
 SoundTest__Func_215EBC8: // 0x0215EBC8
 	stmdb sp!, {r3, lr}
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	ldr lr, [r0, #0x48]
 	mov r3, r1
 	sub ip, r2, #1
@@ -2718,7 +2718,7 @@ SoundTest__Func_215EC14: // 0x0215EC14
 	mov r3, r1
 _0215EC1C:
 	cmp r1, #0
-	ldreqh r1, [r0]
+	ldreqh r1, [r0, #0]
 	sub r1, r1, #1
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
@@ -2773,7 +2773,7 @@ _0215EC98:
 
 	arm_func_start SoundTest__Func_215ECAC
 SoundTest__Func_215ECAC: // 0x0215ECAC
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	bx lr
 	arm_func_end SoundTest__Func_215ECAC
 
@@ -2829,7 +2829,7 @@ SoundTest__Func_215ED04: // 0x0215ED04
 SoundTest__Func_215ED14: // 0x0215ED14
 	stmdb sp!, {r3, lr}
 	bl SoundTest__Func_215ED4C
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	ldmia sp!, {r3, pc}
 	arm_func_end SoundTest__Func_215ED14
 

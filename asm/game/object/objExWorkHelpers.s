@@ -364,10 +364,10 @@ ExWork__Func_20778C0: // 0x020778C0
 	mov r6, r0
 	cmp r1, #0
 	bne _0207799C
-	ldrsh r0, [r5]
+	ldrsh r0, [r5, #0]
 	add r0, r0, #1
 	strh r0, [r5]
-	ldrsh r0, [r5]
+	ldrsh r0, [r5, #0]
 	add r0, r4, r0, lsl #2
 	ldrb r0, [r0, #2]
 	strh r0, [r5, #8]
@@ -386,12 +386,12 @@ ExWork__Func_20778C0: // 0x020778C0
 	strh r0, [r5, #8]
 	b _0207794C
 _0207793C:
-	ldrsh r0, [r5]
+	ldrsh r0, [r5, #0]
 	sub r0, r0, #1
 	strh r0, [r5]
 	ldmia sp!, {r4, r5, r6, pc}
 _0207794C:
-	ldrsh r1, [r5]
+	ldrsh r1, [r5, #0]
 	add r0, r4, r1, lsl #2
 	ldrb r0, [r0, #3]
 	tst r0, #1
@@ -399,12 +399,12 @@ _0207794C:
 	ldr r0, [r5, #0x10]
 	tst r0, #0x1000000
 	bne _0207799C
-	ldrsh r1, [r5]
+	ldrsh r1, [r5, #0]
 	mov r0, r6
 	mov r1, r1, lsl #2
 	ldrh r1, [r4, r1]
 	bl StageTask__SetAnimation
-	ldrsh r0, [r5]
+	ldrsh r0, [r5, #0]
 	add r0, r4, r0, lsl #2
 	ldrb r0, [r0, #3]
 	tst r0, #2

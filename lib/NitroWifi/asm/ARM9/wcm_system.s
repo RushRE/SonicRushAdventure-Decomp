@@ -32,13 +32,13 @@ WcmWmcbReset: // 0x020C9AD4
 	bne _020C9DDC
 	ldr r2, _020C9E04 // =0x021471EC
 	mov r0, #0
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x2000
 	strb r0, [r1, #0x26b]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x2200
 	strh r0, [r1, #0x82]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	add r1, r3, #0x2000
 	ldr r1, [r1, #0x260]
 	cmp r1, #0xd
@@ -87,7 +87,7 @@ _020C9BA8:
 	strh r0, [r1, #0xf8]
 	cmp r4, #0x12
 	bne _020C9CA0
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x2100
 	ldrh r3, [r1, #0x70]
 	and ip, r3, #0x24
@@ -95,7 +95,7 @@ _020C9BA8:
 	beq _020C9CA0
 	orr r3, r3, #0x24
 	strh r3, [r1, #0x70]
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r1, r2, #0x2000
 	ldr r3, [r1, #0x264]
 	and r1, r3, #0xc0000
@@ -124,7 +124,7 @@ _020C9BA8:
 	bl WcmSetPhase
 	ldr r0, _020C9E04 // =0x021471EC
 	ldr r3, _020C9E14 // =0x0000091C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, r4
 	add r1, r0, #0x2140
 	mov r0, #1
@@ -137,7 +137,7 @@ _020C9C70:
 	bl WcmSetPhase
 	ldr r0, _020C9E04 // =0x021471EC
 	ldr r3, _020C9E18 // =0x00000925
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, r4
 	add r1, r0, #0x2140
 	mov r0, #7
@@ -150,7 +150,7 @@ _020C9CA0:
 	bl WcmSetPhase
 	ldr r0, _020C9E04 // =0x021471EC
 	ldr r3, _020C9E1C // =0x0000092D
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, r4
 	add r1, r0, #0x2140
 	mov r0, #1
@@ -163,7 +163,7 @@ _020C9CD0:
 	bl WcmSetPhase
 	ldr r0, _020C9E04 // =0x021471EC
 	ldr r3, _020C9E20 // =0x00000935
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0
 	add r1, r1, #0x2140
 	mov r2, #1
@@ -176,7 +176,7 @@ _020C9D00:
 	bl WcmSetPhase
 	ldr r1, _020C9E04 // =0x021471EC
 	mov r0, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r3, _020C9E24 // =0x0000093C
 	mov r2, r0
 	add r1, r1, #0x2140
@@ -221,7 +221,7 @@ _020C9DA8:
 	bl WcmSetPhase
 	ldr r0, _020C9E04 // =0x021471EC
 	ldr r3, _020C9E34 // =0x00000959
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #7
 	add r1, r1, #0x2000
 	ldr r2, [r1, #0x260]
@@ -273,7 +273,7 @@ _020C9E50: // jump table
 	b _020C9F50 // case 4
 _020C9E64:
 	ldr r0, _020C9F80 // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2000
 	ldr r0, [r0, #0x260]
 	cmp r0, #0xc
@@ -300,7 +300,7 @@ _020C9E94:
 	bl WcmSetPhase
 	ldr r0, _020C9F80 // =0x021471EC
 	ldr r3, _020C9F88 // =0x000008B4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #1
 	add r1, r1, #0x2140
 	mov r2, #0
@@ -320,7 +320,7 @@ _020C9F08:
 	bl WcmSetPhase
 	ldr r1, _020C9F80 // =0x021471EC
 	mov r0, #7
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0
 	add r1, r1, #0x2140
 	mov r3, #0x8c0
@@ -340,7 +340,7 @@ _020C9F50:
 	bl WcmSetPhase
 	ldr r0, _020C9F80 // =0x021471EC
 	ldr r3, _020C9F8C // =0x000008D3
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #7
 	add r1, r1, #0x2140
 	mov r2, #0
@@ -373,7 +373,7 @@ _020C9FAC:
 	b _020CA04C
 _020C9FC4:
 	ldr r0, _020CA0A4 // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2000
 	ldr r0, [r0, #0x260]
 	cmp r0, #0xc
@@ -388,7 +388,7 @@ _020C9FF0:
 	bl WcmSetPhase
 	ldr r1, _020CA0A4 // =0x021471EC
 	mov r0, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r3, _020CA0A8 // =0x00000872
 	mov r2, r0
 	add r1, r1, #0x2140
@@ -413,7 +413,7 @@ _020CA04C:
 	bl WcmSetPhase
 	ldr r0, _020CA0A4 // =0x021471EC
 	ldrh r2, [r4, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r3, _020CA0AC // =0x00000881
 	add r1, r0, #0x2140
 	mov r0, #7
@@ -425,7 +425,7 @@ _020CA078:
 	bl WcmSetPhase
 	ldr r0, _020CA0A4 // =0x021471EC
 	ldr r3, _020CA0B0 // =0x0000088C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #7
 	add r1, r1, #0x2140
 	mov r2, #0
@@ -455,7 +455,7 @@ _020CA0CC: // jump table
 	b _020CA164 // case 4
 _020CA0E0:
 	ldr r0, _020CA194 // =0x021471EC
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r1, #0x2000
 	ldr r0, [r0, #0x260]
 	cmp r0, #0xc
@@ -474,7 +474,7 @@ _020CA110:
 	bl WcmSetPhase
 	ldr r1, _020CA194 // =0x021471EC
 	mov r0, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r3, _020CA198 // =0x0000083D
 	mov r2, r0
 	add r1, r1, #0x2140
@@ -494,7 +494,7 @@ _020CA164:
 	bl WcmSetPhase
 	ldr r0, _020CA194 // =0x021471EC
 	ldr r3, _020CA19C // =0x0000084F
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #7
 	add r1, r1, #0x2140
 	mov r2, #0
@@ -555,7 +555,7 @@ _020CA22C:
 	b _020CA394
 _020CA23C:
 	ldr r1, _020CA414 // =0x021471EC
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r0, r2, #0x2000
 	ldr r0, [r0, #0x260]
 	sub r0, r0, #8
@@ -581,7 +581,7 @@ _020CA28C:
 	add r0, r2, #0x2200
 	mov r2, #0
 	strh r2, [r0, #0x82]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r1, #6
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x80]
@@ -591,7 +591,7 @@ _020CA2A8:
 	bx lr
 _020CA2B4:
 	ldr r1, _020CA414 // =0x021471EC
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	add r0, r3, #0x2000
 	ldr r0, [r0, #0x260]
 	cmp r0, #0xc
@@ -610,7 +610,7 @@ _020CA2E0:
 	bhi _020CA388
 	add r0, r3, #0x2200
 	strh r2, [r0, #0x82]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r0, _020CA41C // =WcmWmcbStartDCF
 	add r1, r1, #0x1500
 	mov r2, #0x620
@@ -626,7 +626,7 @@ _020CA2E0:
 	bl WcmSetPhase
 	ldr r0, _020CA414 // =0x021471EC
 	ldr r3, _020CA420 // =0x000007ED
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #1
 	add r1, r1, #0x2140
 	mov r2, #0
@@ -638,7 +638,7 @@ _020CA35C:
 	bl WcmSetPhase
 	ldr r0, _020CA414 // =0x021471EC
 	ldr r3, _020CA424 // =0x000007F6
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #7
 	add r1, r1, #0x2140
 	mov r2, #0
@@ -654,7 +654,7 @@ _020CA394:
 	bl WcmSetPhase
 	ldr r0, _020CA414 // =0x021471EC
 	ldrh r2, [r4, #8]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r3, _020CA428 // =0x00000804
 	add r1, r0, #0x2140
 	mov r0, #7
@@ -664,7 +664,7 @@ _020CA394:
 _020CA3C0:
 	ldr r0, _020CA414 // =0x021471EC
 	ldrh r1, [r4, #0xe]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0xf8]
 _020CA3D4:
@@ -678,7 +678,7 @@ _020CA3E8:
 	bl WcmSetPhase
 	ldr r0, _020CA414 // =0x021471EC
 	ldr r3, _020CA42C // =0x0000081B
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #7
 	add r1, r1, #0x2140
 	mov r2, #0
@@ -760,7 +760,7 @@ _020CA4E4: // jump table
 	b _020CA770 // case 4
 _020CA4F8:
 	ldr r0, _020CA798 // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2000
 	ldr r0, [r0, #0x260]
 	cmp r0, #5
@@ -774,7 +774,7 @@ _020CA4F8:
 	bl WcmNotify
 _020CA52C:
 	ldr r1, _020CA798 // =0x021471EC
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r0, r2, #0x2000
 	ldr r0, [r0, #0x260]
 	cmp r0, #6
@@ -791,7 +791,7 @@ _020CA558:
 	ldrh r0, [r5, #8]
 	cmp r0, #5
 	bne _020CA5E4
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r1, r0, #0x2200
 	add r0, r0, #0x2000
 	ldrh r1, [r1, #0x8c]
@@ -823,7 +823,7 @@ _020CA5A4:
 	blt _020CA5A4
 _020CA5E4:
 	ldr r0, _020CA798 // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2000
 	ldr r1, [r0, #0x264]
 	and r0, r1, #0xc00000
@@ -835,7 +835,7 @@ _020CA5E4:
 	movs r1, r0
 	beq _020CA650
 	ldr r0, _020CA798 // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2000
 	ldr r6, [r0, #0x284]
 	mov r0, r6
@@ -859,11 +859,11 @@ _020CA650:
 	ldr r1, _020CA798 // =0x021471EC
 	mov r2, #1
 	mov r2, r2, lsl r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r2, r2, asr #1
 	add r0, r0, #0x2200
 	strh r2, [r0, #0x8e]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r1, r0, #0x2200
 	add r0, r0, #0x2000
 	ldrh r1, [r1, #0x8c]
@@ -871,13 +871,13 @@ _020CA650:
 	bl DC_InvalidateRange
 	ldr r3, _020CA798 // =0x021471EC
 	ldr r2, _020CA7AC // =0x00002288
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr r0, _020CA7B0 // =WcmWmcbScanEx
 	add r1, r1, #0x2000
 	ldr r4, [r1, #0x284]
 	add r4, r4, #1
 	str r4, [r1, #0x284]
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	add r1, r1, r2
 	bl WM_StartScanEx
 	mov r4, r0
@@ -968,7 +968,7 @@ _020CA7E0: // jump table
 	b _020CAA68 // case 3
 	b _020CAA68 // case 4
 _020CA7F4:
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0x19
 	bgt _020CA830
 	cmp r0, #0x19
@@ -1052,7 +1052,7 @@ _020CA8FC:
 _020CA910:
 	ldr r1, _020CAAB8 // =0x021471EC
 	ldr r0, _020CAAA8 // =WcmWmcbCommon
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	add r2, r3, #0x2000
 	ldrb r1, [r2, #0x250]
 	ldrb r2, [r2, #0x251]
@@ -1062,7 +1062,7 @@ _020CA910:
 	b _020CA988
 _020CA938:
 	ldr r0, _020CAAB8 // =0x021471EC
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	add r0, r2, #0x2000
 	ldr r1, [r0, #0x264]
 	and r0, r1, #0xc0000
@@ -1094,7 +1094,7 @@ _020CA988:
 	bl WcmSetPhase
 	ldr r0, _020CAAB8 // =0x021471EC
 	ldr r3, _020CAAC0 // =0x000006AF
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r2, #0
 	add r0, r1, #0x2200
 	ldrsh r0, [r0, #0x80]
@@ -1111,7 +1111,7 @@ _020CA9E8:
 	bl WcmSetPhase
 	ldr r0, _020CAAB8 // =0x021471EC
 	ldr r3, _020CAAC4 // =0x000006B8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r2, #0
 	add r0, r1, #0x2200
 	ldrsh r0, [r0, #0x80]
@@ -1128,7 +1128,7 @@ _020CAA28:
 	bl WcmSetPhase
 	ldr r0, _020CAAB8 // =0x021471EC
 	ldr r3, _020CAAC8 // =0x000006DE
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r2, #0
 	add r0, r1, #0x2200
 	ldrsh r0, [r0, #0x80]
@@ -1145,7 +1145,7 @@ _020CAA68:
 	bl WcmSetPhase
 	ldr r0, _020CAAB8 // =0x021471EC
 	ldr r3, _020CAACC // =0x000006E8
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r2, #0
 	add r0, r1, #0x2200
 	ldrsh r0, [r0, #0x80]
@@ -1190,7 +1190,7 @@ WcmWmcbIndication: // 0x020CAAD0
 	ldmneia sp!, {lr}
 	bxne lr
 	ldr r0, _020CAB80 // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2000
 	ldr r0, [r0, #0x260]
 	sub r0, r0, #8
@@ -1230,7 +1230,7 @@ WcmWmReset: // 0x020CAB84
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _020CABF4 // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r0, #0x2000
 	ldrb r0, [r1, #0x26b]
 	cmp r0, #0
@@ -1278,7 +1278,7 @@ WCMi_ResetKeepAliveAlarm: // 0x020CAC18
 	bl OS_DisableInterrupts
 	ldr r2, _020CAC84 // =0x021471EC
 	ldr r1, _020CAC88 // =0x000022CC
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r4, r0
 	add r0, r2, r1
 	bl OS_CancelAlarm
@@ -1316,7 +1316,7 @@ WcmSetPhase: // 0x020CAC94
 	bl OS_DisableInterrupts
 	ldr r1, _020CAD2C // =0x021471EC
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r0, r1, #0x2000
 	ldr r0, [r0, #0x260]
 	cmp r0, #9
@@ -1328,7 +1328,7 @@ WcmSetPhase: // 0x020CAC94
 	bl OS_CancelAlarm
 _020CACD4:
 	ldr r0, _020CAD2C // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2000
 	ldr r1, [r0, #0x260]
 	cmp r1, #0xb
@@ -1338,7 +1338,7 @@ _020CACD4:
 	mov r2, #0
 	ldr r0, _020CAD2C // =0x021471EC
 	str r2, [sp]
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	ldr r0, _020CAD30 // =0x000022CC
 	ldr r1, _020CAD34 // =0x022F5341
 	ldr r3, _020CAD38 // =WcmKeepAliveAlarm
@@ -1415,7 +1415,7 @@ WcmGetNextScanChannel: // 0x020CADE8
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, _020CAE80 // =0x021471EC
 	mov r2, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r3, #0
 	add r1, r1, #0x2000
 	ldr r1, [r1, #0x264]
@@ -1462,7 +1462,7 @@ _020CAE88: .word 0x0000000D
 WcmInitOption: // 0x020CAE8C
 	ldr r0, _020CAEA4 // =0x021471EC
 	ldr r1, _020CAEA8 // =0x00AAA082
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2000
 	str r1, [r0, #0x264]
 	bx lr
@@ -1481,23 +1481,23 @@ WcmEditScanExParam: // 0x020CAEAC
 	bl WCM_UpdateOption
 	ldr r2, _020CB050 // =0x021471EC
 	mov r3, #0x400
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	mov r0, #0
 	add ip, r1, #0x1500
 	add r1, r1, #0x2000
 	str ip, [r1, #0x288]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x2200
 	strh r3, [r1, #0x8c]
 	bl WcmGetNextScanChannel
 	ldr r1, _020CB050 // =0x021471EC
 	mov r2, #1
 	mov r2, r2, lsl r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r2, r2, asr #1
 	add r0, r0, #0x2200
 	strh r2, [r0, #0x8e]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #0x2200
 	ldrh r0, [r0, #0x68]
 	cmp r0, #0
@@ -1505,10 +1505,10 @@ WcmEditScanExParam: // 0x020CAEAC
 	bl WM_GetDispersionScanPeriod
 _020CAF24:
 	ldr r2, _020CB050 // =0x021471EC
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x2200
 	strh r0, [r1, #0x90]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r0, r1, #0x2000
 	ldr r0, [r0, #0x264]
 	and r0, r0, #0x300000
@@ -1521,7 +1521,7 @@ _020CAF24:
 	bne _020CAF80
 	ldr r0, _020CB050 // =0x021471EC
 	ldr r1, _020CB054 // =0x00002292
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, _020CB058 // =0x0211279C
 	add r1, r2, r1
 	mov r2, #6
@@ -1530,7 +1530,7 @@ _020CAF24:
 _020CAF80:
 	ldr r0, _020CB050 // =0x021471EC
 	ldr r1, _020CB054 // =0x00002292
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r5
 	add r1, r2, r1
 	mov r2, #6
@@ -1544,28 +1544,28 @@ _020CAF9C:
 _020CAFB0:
 	ldr r0, _020CB050 // =0x021471EC
 	ldr r1, _020CB060 // =0x0000229C
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r0, _020CB05C // =0x021127A4
 	add r1, r2, r1
 	mov r2, #0x20
 	bl MI_CpuCopy8
 	ldr r0, _020CB050 // =0x021471EC
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x9a]
 	b _020CB030
 _020CAFE4:
 	ldr r0, _020CB050 // =0x021471EC
 	ldr r1, _020CB060 // =0x0000229C
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	add r1, r2, r1
 	mov r2, #0x20
 	bl MI_CpuCopy8
 	mov r1, #0
 _020CB004:
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	cmp r0, #0
 	beq _020CB020
 	add r1, r1, #1
@@ -1574,13 +1574,13 @@ _020CB004:
 	blt _020CB004
 _020CB020:
 	ldr r0, _020CB050 // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x9a]
 _020CB030:
 	ldr r0, _020CB050 // =0x021471EC
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2000
 	str r1, [r0, #0x284]
 	add sp, sp, #4
@@ -1603,24 +1603,24 @@ WcmConfigure: // 0x020CB064
 	bne _020CB0B8
 	ldr r1, _020CB190 // =0x021471EC
 	mov r3, #3
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r2, #0
 	add r0, r0, #0x2000
 	str r3, [r0, #0x26c]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #0x2000
 	str r2, [r0, #0x270]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #0x2000
 	str r2, [r0, #0x274]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #0x2000
 	str r2, [r0, #0x278]
 	b _020CB174
 _020CB0B8:
 	ldr r1, _020CB190 // =0x021471EC
-	ldr r2, [r5]
-	ldr r0, [r1]
+	ldr r2, [r5, #0]
+	ldr r0, [r1, #0]
 	and r2, r2, #3
 	add r0, r0, #0x2000
 	str r2, [r0, #0x26c]
@@ -1632,22 +1632,22 @@ _020CB0B8:
 	add r2, r2, #0xc
 	cmp r2, r0
 	bls _020CB110
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r2, #0
 	add r0, r0, #0x2000
 	str r2, [r0, #0x270]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r0, r0, #0x2000
 	str r2, [r0, #0x274]
 	b _020CB160
 _020CB110:
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r2, r3, #3
 	bic r2, r2, #3
 	add r0, r0, #0x2000
 	str r2, [r0, #0x270]
 	ldr r2, [r5, #4]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	and r2, r2, #3
 	rsb r2, r2, #4
 	ldr r3, [r5, #8]
@@ -1655,7 +1655,7 @@ _020CB110:
 	sub r2, r3, r2
 	add r0, r0, #0x2000
 	str r2, [r0, #0x274]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r1, #0
 	add r2, r0, #0x2000
 	ldr r0, [r2, #0x270]
@@ -1664,12 +1664,12 @@ _020CB110:
 _020CB160:
 	ldr r0, _020CB190 // =0x021471EC
 	ldr r1, [r5, #0xc]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2000
 	str r1, [r0, #0x278]
 _020CB174:
 	ldr r0, _020CB190 // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2000
 	str r4, [r0, #0x27c]
 	add sp, sp, #4
@@ -1682,7 +1682,7 @@ _020CB190: .word 0x021471EC
 	arm_func_start WCMi_GetSystemWork
 WCMi_GetSystemWork: // 0x020CB194
 	ldr r0, _020CB1A0 // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _020CB1A0: .word 0x021471EC
@@ -1696,7 +1696,7 @@ WCM_UpdateOption: // 0x020CB1A4
 	bl OS_DisableInterrupts
 	ldr r1, _020CB248 // =0x021471EC
 	mov r2, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r3, r1, #0x2000
 	cmp r1, #0
 	ldr r4, [r3, #0x264]
@@ -1745,7 +1745,7 @@ WCM_GetPhase: // 0x020CB254
 	bl OS_DisableInterrupts
 	ldr r1, _020CB284 // =0x021471EC
 	mov r4, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	addne r1, r1, #0x2000
 	ldrne r4, [r1, #0x260]
@@ -1764,7 +1764,7 @@ WCM_TerminateAsync: // 0x020CB288
 	bl OS_DisableInterrupts
 	ldr r1, _020CB4D8 // =0x021471EC
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	bne _020CB2BC
 	bl OS_RestoreInterrupts
@@ -1810,7 +1810,7 @@ _020CB330:
 	bl WcmSetPhase
 	ldr r1, _020CB4D8 // =0x021471EC
 	mov r0, r4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #9
 	add r1, r1, #0x2200
 	strh r2, [r1, #0x80]
@@ -1834,7 +1834,7 @@ _020CB37C:
 	bl WcmSetPhase
 	ldr r0, _020CB4D8 // =0x021471EC
 	mov r1, #9
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x80]
 	b _020CB4C0
@@ -1843,7 +1843,7 @@ _020CB3A8:
 	mov r5, r0
 	mov r1, #2
 	bl DC_InvalidateRange
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #0
 	beq _020CB3D8
 	cmp r0, #1
@@ -1859,7 +1859,7 @@ _020CB3D8:
 	bl WcmSetPhase
 	ldr r1, _020CB4D8 // =0x021471EC
 	mov r0, r4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0
 	add r1, r1, #0x2200
 	strh r2, [r1, #0x80]
@@ -1879,7 +1879,7 @@ _020CB424:
 _020CB430:
 	ldr r1, _020CB4D8 // =0x021471EC
 	ldr r0, _020CB4E0 // =WcmWmcbReset
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #1
 	add r1, r1, #0x2000
 	strb r2, [r1, #0x26b]
@@ -1897,7 +1897,7 @@ _020CB468:
 	bl WcmSetPhase
 	ldr r0, _020CB4D8 // =0x021471EC
 	mov r1, #9
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x80]
 	b _020CB4C0
@@ -1936,7 +1936,7 @@ WCM_DisconnectAsync: // 0x020CB4E4
 	bl OS_DisableInterrupts
 	ldr r1, _020CB614 // =0x021471EC
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	bne _020CB510
 	bl OS_RestoreInterrupts
@@ -1974,7 +1974,7 @@ _020CB560:
 	bl WcmSetPhase
 	ldr r0, _020CB614 // =0x021471EC
 	mov r1, #6
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x80]
 	b _020CB600
@@ -1993,7 +1993,7 @@ _020CB5B0:
 	bl WcmSetPhase
 	ldr r0, _020CB614 // =0x021471EC
 	mov r1, #6
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x80]
 	b _020CB600
@@ -2070,7 +2070,7 @@ _020CB69C:
 _020CB6BC:
 	cmp r6, #0
 	beq _020CB744
-	ldrb r3, [r6]
+	ldrb r3, [r6, #0]
 	cmp r3, #4
 	bhs _020CB6DC
 	ldrb r0, [r6, #1]
@@ -2085,11 +2085,11 @@ _020CB6DC:
 	bx lr
 _020CB6F4:
 	strb r3, [r1, #0x250]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	ldrb r1, [r6, #1]
 	add r0, r0, #0x2000
 	strb r1, [r0, #0x251]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r0, r1, #0x2000
 	ldrb r0, [r0, #0x250]
 	cmp r0, #0
@@ -2113,13 +2113,13 @@ _020CB744:
 _020CB754:
 	ldr r1, _020CB870 // =0x021471EC
 	mov r0, r7
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, #0xc0
 	add r1, r1, #0x2140
 	bl MI_CpuCopy8
 	ldr r1, _020CB870 // =0x021471EC
 	mov r0, r5
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r1, r1, #0x2100
 	ldrh r2, [r1, #0x6e]
 	orr r2, r2, #3
@@ -2163,7 +2163,7 @@ _020CB800:
 	bl WcmSetPhase
 	ldr r0, _020CB870 // =0x021471EC
 	mov r1, #5
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x80]
 	b _020CB858
@@ -2202,7 +2202,7 @@ WCM_EndSearchAsync: // 0x020CB87C
 	bl OS_DisableInterrupts
 	ldr r1, _020CB930 // =0x021471EC
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	bne _020CB8A8
 	bl OS_RestoreInterrupts
@@ -2224,7 +2224,7 @@ _020CB8CC:
 	bl WcmSetPhase
 	ldr r0, _020CB930 // =0x021471EC
 	mov r1, #4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x80]
 	b _020CB91C
@@ -2263,7 +2263,7 @@ WCM_BeginSearchAsync: // 0x020CB934
 	bl OS_DisableInterrupts
 	ldr r1, _020CBAE0 // =0x021471EC
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	bne _020CB974
 	bl OS_RestoreInterrupts
@@ -2315,7 +2315,7 @@ _020CB9FC:
 	mov r2, r5
 	bl WcmEditScanExParam
 	ldr r0, _020CBAE0 // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r0, #0x2200
 	add r0, r0, #0x2000
 	ldrh r1, [r1, #0x8c]
@@ -2323,13 +2323,13 @@ _020CB9FC:
 	bl DC_InvalidateRange
 	ldr r3, _020CBAE0 // =0x021471EC
 	ldr r2, _020CBAE4 // =0x00002288
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr r0, _020CBAE8 // =WcmWmcbScanEx
 	add r1, r1, #0x2000
 	ldr r5, [r1, #0x284]
 	add r5, r5, #1
 	str r5, [r1, #0x284]
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	add r1, r1, r2
 	bl WM_StartScanEx
 	cmp r0, #2
@@ -2344,7 +2344,7 @@ _020CBA70:
 	bl WcmSetPhase
 	ldr r0, _020CBAE0 // =0x021471EC
 	mov r1, #3
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x80]
 	b _020CBAC8
@@ -2403,7 +2403,7 @@ WCM_CleanupAsync: // 0x020CBB24
 	bl OS_DisableInterrupts
 	ldr r1, _020CBC28 // =0x021471EC
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	bne _020CBB50
 	bl OS_RestoreInterrupts
@@ -2448,7 +2448,7 @@ _020CBBC4:
 	bl WcmSetPhase
 	ldr r0, _020CBC28 // =0x021471EC
 	mov r1, #2
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x80]
 	b _020CBC14
@@ -2485,7 +2485,7 @@ WCM_StartupAsync: // 0x020CBC30
 	bl OS_DisableInterrupts
 	ldr r1, _020CBE5C // =0x021471EC
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	bne _020CBC64
 	bl OS_RestoreInterrupts
@@ -2524,7 +2524,7 @@ _020CBCB8:
 	bx lr
 _020CBCC8:
 	ldr r0, _020CBE5C // =0x021471EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r0, #0x2000
 	ldr r1, [r1, #0x26c]
 	mov r1, r1, lsl #0x10
@@ -2610,7 +2610,7 @@ _020CBDF0:
 	bl WcmSetPhase
 	ldr r0, _020CBE5C // =0x021471EC
 	mov r1, #1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x2200
 	strh r1, [r0, #0x80]
 	b _020CBE48
@@ -2648,7 +2648,7 @@ WCM_Finish: // 0x020CBE68
 	sub sp, sp, #4
 	bl OS_DisableInterrupts
 	ldr r2, _020CBED8 // =0x021471EC
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	cmp r1, #0
 	bne _020CBE98
 	bl OS_RestoreInterrupts
@@ -2686,7 +2686,7 @@ WCM_Init: // 0x020CBEDC
 	bl OS_DisableInterrupts
 	ldr r2, _020CC004 // =0x021471EC
 	mov r4, r0
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	cmp r1, #0
 	beq _020CBF10
 	bl OS_RestoreInterrupts
@@ -2719,23 +2719,23 @@ _020CBF58:
 	add r0, r6, #0x2000
 	mov r1, #1
 	str r1, [r0, #0x260]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	mov r0, #0
 	add r1, r1, #0x2200
 	strh r0, [r1, #0x80]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x2200
 	strh r0, [r1, #0x68]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x2000
 	strb r0, [r1, #0x26a]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x2000
 	strb r0, [r1, #0x26b]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x2200
 	strh r0, [r1, #0x82]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x2200
 	strh r0, [r1, #0xf8]
 	bl WcmInitOption
@@ -2752,7 +2752,7 @@ _020CBFCC:
 _020CBFDC:
 	ldr r1, _020CC004 // =0x021471EC
 	ldr r0, _020CC008 // =0x000022CC
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r0, r1, r0
 	bl OS_CreateAlarm
 	mov r0, r4

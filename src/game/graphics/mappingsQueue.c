@@ -864,7 +864,7 @@ NONMATCH_FUNC static void Mappings__ReadMappingsFunc2(MappingsQueueEntry *entry)
     stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r1, r0
 	ldr r0, [r1, #0x14]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	tst r2, #0xf0
 	beq _0207CE38
 	ldr r2, [r1, #0xc]

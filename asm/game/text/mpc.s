@@ -259,7 +259,7 @@ MPC__GetCharacters: // 0x02053B04
 	sub r5, r2, #1
 	ldr r5, [r0, r5, lsl #2]
 _02053B34:
-	ldr r8, [r1]
+	ldr r8, [r1, #0]
 	rsb r7, lr, #0x20
 	and ip, r5, r8, lsr lr
 	sub lr, r2, r7

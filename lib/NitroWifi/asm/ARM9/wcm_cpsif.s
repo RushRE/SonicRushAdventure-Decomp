@@ -70,7 +70,7 @@ _020CC648: .word 0x021471FC
 WcmCpsifWmCallback: // 0x020CC64C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #0x12
 	addne sp, sp, #4
 	ldmneia sp!, {lr}
@@ -344,7 +344,7 @@ WCMi_InitCpsif: // 0x020CC9D8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _020CCA24 // =0x021471F0
-	ldrb r0, [r1]
+	ldrb r0, [r1, #0]
 	cmp r0, #0
 	addne sp, sp, #4
 	ldmneia sp!, {lr}

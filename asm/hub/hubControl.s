@@ -414,11 +414,11 @@ _02157284: .word HubControl__sVars
 HubControl__Func_2157288: // 0x02157288
 	ldr r2, _021572B0 // =0x04000204
 	ldr r0, _021572B4 // =HubControl__sVars
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	and r1, r1, #0x8000
 	mov r1, r1, asr #0xf
 	str r1, [r0]
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	orr r0, r0, #0x8000
 	strh r0, [r2]
 	bx lr
@@ -431,14 +431,14 @@ _021572B4: .word HubControl__sVars
 HubControl__Func_21572B8: // 0x021572B8
 	ldr r0, _021572F0 // =HubControl__sVars
 	ldr r2, _021572F4 // =0x04000204
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #1
 	cmpne r1, #0
 	movne r1, #0
 	strne r1, [r0]
 	ldr r0, _021572F0 // =HubControl__sVars
-	ldrh r1, [r2]
-	ldr r3, [r0]
+	ldrh r1, [r2, #0]
+	ldr r3, [r0, #0]
 	bic r0, r1, #0x8000
 	orr r0, r0, r3, lsl #15
 	strh r0, [r2]
@@ -749,7 +749,7 @@ HubControl__Main1: // 0x02157708
 	bl ViHubAreaPreview__Func_215AEE0
 	cmp r0, #0
 	bne _021577E8
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bic r0, r0, #0x10000
 	str r0, [r4]
 	ldr r0, [r4, #0x114]
@@ -813,7 +813,7 @@ _021577E8:
 	mov r0, #5
 	bl ovl05_21544AC
 	str r5, [r4, #0x14]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x10
 	orr r1, r1, #0x10000
 	str r1, [r4]
@@ -943,7 +943,7 @@ _021579B0:
 	mov r0, #5
 	bl ovl05_21544AC
 	str r5, [r4, #0x14]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x10
 	orr r1, r1, #0x10000
 	str r1, [r4]
@@ -1118,7 +1118,7 @@ HubControl__Main_2157C0C: // 0x02157C0C
 	ldr r0, _02157C7C // =renderCurrentDisplay
 	mov r1, #0
 	str r1, [r0]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02157C80 // =HubControl__Main2
 	orr r1, r1, #0x10000
 	str r1, [r4]
@@ -1151,7 +1151,7 @@ HubControl__Main2: // 0x02157C84
 	str r0, [r4, #0x120]
 	add r0, r4, #0x100
 	strh r1, [r0, #0x38]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02157F20 // =HubControl__Main_2158AB4
 	bic r1, r1, #0x10000
 	str r1, [r4]
@@ -1305,7 +1305,7 @@ _02157EE0:
 	bl ViHubAreaPreview__Func_2159810
 	b _02157F10
 _02157EFC:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02157F28 // =HubControl__Main_2157F2C
 	bic r1, r1, #0x10000
 	str r1, [r4]
@@ -1354,7 +1354,7 @@ HubControl__Main_2157F64: // 0x02157F64
 	mov r0, #0
 	mov r1, r0
 	bl HubHUD__Func_21603B0
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _021580B0 // =HubControl__Main_21587D8
 	orr r1, r1, #0x10000
 	str r1, [r4]
@@ -1372,7 +1372,7 @@ _02157FB4:
 	mov r0, #0
 	mov r1, r0
 	bl HubHUD__Func_21603B0
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _021580B4 // =HubControl__Main_21580C0
 	orr r1, r1, #0x10000
 	str r1, [r4]
@@ -1748,7 +1748,7 @@ _02158504:
 	mov r0, #1
 	str r0, [r4, #0x114]
 	bl ViDock__Func_215E410
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _021587D4 // =HubControl__Main_21587D8
 	orr r1, r1, #0x10000
 	str r1, [r4]
@@ -1974,7 +1974,7 @@ HubControl__Main_21587D8: // 0x021587D8
 	bl ViHubAreaPreview__Create
 	mov r0, #1
 	bl ViMap__Func_215C84C
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02158860 // =HubControl__Main1
 	orr r1, r1, #0x10000
 	str r1, [r4]
@@ -2099,7 +2099,7 @@ _021589AC:
 	mov r1, #0
 	str r1, [r4, #0x104]
 	str r1, [r4, #0x108]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	orr r1, r1, #0x10000
 	str r1, [r4]
 	bl ViHubAreaPreview__Func_21598B4
@@ -2107,7 +2107,7 @@ _021589AC:
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 _021589DC:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02158A00 // =HubControl__Main1
 	orr r1, r1, #0x10000
 	str r1, [r4]
@@ -2142,7 +2142,7 @@ HubControl__Main_2158A04: // 0x02158A04
 	str r0, [r4, #0x104]
 	mov r0, #0x39
 	str r0, [r4, #0x108]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r4
 	orr r1, r1, #0x10000
 	str r1, [r4]
@@ -2157,7 +2157,7 @@ _02158A70:
 	mov r0, #0
 	str r0, [r4, #0x104]
 	str r0, [r4, #0x108]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r4
 	orr r1, r1, #0x10000
 	str r1, [r4]
@@ -2206,7 +2206,7 @@ _02158B18:
 	ldrh r0, [r1, #0x38]
 	str r0, [r4, #0x108]
 _02158B28:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r4
 	orr r1, r1, #0x10000
 	str r1, [r4]

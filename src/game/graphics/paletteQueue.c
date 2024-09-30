@@ -449,7 +449,7 @@ NONMATCH_FUNC void Palette__UnknownFunc9(u16 *colorPtr, u16 *palettePtr, u32 cou
 	mov ip, #0x3e0
 	mov r3, #0x7c00
 _0207C258:
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	add r0, r0, #2
 	and r4, r5, #0x1f
 	add r9, r4, r6, lsr #16
@@ -497,7 +497,7 @@ NONMATCH_FUNC void Palette__UnknownFunc10(u16 *colorPtr, u16 *palettePtr, u32 co
 	mov r6, r7
 	mov r5, r7
 _0207C2F0:
-	ldrh r11, [r0]
+	ldrh r11, [r0, #0]
 	add r0, r0, #2
 	and r8, r11, #0x1f
 	and r9, r11, #0x3e0
@@ -542,8 +542,8 @@ NONMATCH_FUNC void Palette__UnknownFunc11(u16 *result, u16 *colorPtr, u16 *palet
 	mov r3, r4, lsr #0x10
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 _0207C37C:
-	ldrh r4, [r0]
-	ldrh r5, [r1]
+	ldrh r4, [r0, #0]
+	ldrh r5, [r1, #0]
 	and ip, r4, #0x1f
 	and r9, r5, #0x1f
 	cmp ip, r9

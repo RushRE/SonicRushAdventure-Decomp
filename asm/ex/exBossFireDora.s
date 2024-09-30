@@ -87,7 +87,7 @@ _02154DF8:
 	mov r0, r4
 	bl ovl09_2161CB0
 	ldr r0, _02154EEC // =exBossFireDoraTask__ActiveInstanceCount
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _02154E60
 	mov r1, #0x17
@@ -95,7 +95,7 @@ _02154DF8:
 	sub r2, r1, #0x18
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _02154EEC // =exBossFireDoraTask__ActiveInstanceCount
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x14]
@@ -142,7 +142,7 @@ _02154E60:
 	str r1, [r4, #0x14]
 	ldr r1, _02154EEC // =exBossFireDoraTask__ActiveInstanceCount
 	str r2, [r4, #0x18]
-	ldrsh r2, [r1]
+	ldrsh r2, [r1, #0]
 	add r2, r2, #1
 	strh r2, [r1]
 	ldmia sp!, {r3, r4, r5, pc}
@@ -157,7 +157,7 @@ ovl09_2154EF8: // 0x02154EF8
 	stmdb sp!, {r4, lr}
 	ldr r1, _02154F5C // =exBossFireDoraTask__ActiveInstanceCount
 	mov r4, r0
-	ldrsh r0, [r1]
+	ldrsh r0, [r1, #0]
 	cmp r0, #1
 	bgt _02154F40
 	ldr r0, [r1, #0x10]
@@ -178,7 +178,7 @@ _02154F40:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
 	ldr r0, _02154F5C // =exBossFireDoraTask__ActiveInstanceCount
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r4, pc}
@@ -224,7 +224,7 @@ exBossFireDoraTask__Main: // 0x02154F60
 	add ip, r4, #0x300
 	str r2, [r4, #0x38c]
 	str r0, [r4, #0x390]
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	add r0, r4, #0x3b8
 	mov lr, #4
 	mov r2, r2, lsl #1
@@ -248,7 +248,7 @@ exBossFireDoraTask__Main: // 0x02154F60
 	bl ovl09_21641E8
 	ldr r2, _02155118 // =_mt_math_rand
 	ldr r0, _0215511C // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02155120 // =0x3C6EF35F
 	ldr ip, _02155124 // =0x51EB851F
 	mla r0, r3, r0, r1
@@ -272,13 +272,13 @@ exBossFireDoraTask__Main: // 0x02154F60
 	bl _fadd
 	str r0, [r4, #0x28]
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	moveq r0, #9
 	streqh r0, [r4, #0x42]
 	beq _021550D8
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	moveq r0, #0xc
 	streqh r0, [r4, #0x42]
@@ -462,7 +462,7 @@ _021552FC:
 	ldr r3, [r4, #0x38c]
 	ldr r0, [r5, #4]
 	ldr r2, [r4, #0x388]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	sub r0, r3, r0
 	sub r1, r2, r1
 	add r2, r4, #0x20
@@ -552,7 +552,7 @@ ovl09_2155450: // 0x02155450
 	str r1, [r4, #8]
 	str r0, [r4, #0xc]
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _021554FC
 	ldrsh r0, [r4, #0x40]
@@ -584,7 +584,7 @@ _021554CC:
 	b _02155570
 _021554FC:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02155570
 	ldrsh r0, [r4, #0x40]

@@ -57,7 +57,7 @@ _02172A24: .word 0x0217862C
 	arm_func_start ovl09_2172A28
 ovl09_2172A28: // 0x02172A28
 	ldr r0, _02172A34 // =exSysTask__Value_2178644
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02172A34: .word exSysTask__Value_2178644
@@ -66,7 +66,7 @@ _02172A34: .word exSysTask__Value_2178644
 	arm_func_start ovl09_2172A38
 ovl09_2172A38: // 0x02172A38
 	ldr r0, _02172A4C // =exSysTask__Value_2178644
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	sub r1, r1, #1
 	strb r1, [r0]
 	bx lr
@@ -271,7 +271,7 @@ exSysTask__Destructor: // 0x02172CE4
 	mov r4, r0
 	bl ovl09_216AA78
 	bl ovl09_216AD70
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	ldr r0, [r4, #4]
 	bl _FreeHEAP_USER
@@ -839,7 +839,7 @@ _02173420: .word aEx
 ovl09_2173424: // 0x02173424
 	ldr r0, _02173434 // =exSysTask__Value_2178644
 	ldr r0, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02173434: .word exSysTask__Value_2178644
@@ -859,7 +859,7 @@ ovl09_2173438: // 0x02173438
 	sub r2, r1, #2
 	bl ReadFileFromBundle
 	mov r4, r0
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	and r0, r1, #0xf0
 	cmp r0, #0x20
 	bhi _02173488
@@ -885,7 +885,7 @@ _021734B8:
 	mov r2, #0
 	ldr r0, _021734F4 // =audioManagerSndHeap
 	str r2, [sp]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, _021734F8 // =0x00057800
 	mov r3, r2
 	bl NNS_SndHeapAlloc
@@ -929,7 +929,7 @@ ovl09_2173500: // 0x02173500
 	mov r2, r0
 	bl GX_SetGraphicsMode
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r2, r5
 	bic r0, r0, #0x38000000
 	str r0, [r1]
@@ -957,7 +957,7 @@ ovl09_2173500: // 0x02173500
 	bic r2, r2, #3
 	orr r2, r2, #3
 	strh r2, [r1, #0xe]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	bic r2, r2, #0x1f00
 	orr r2, r2, r3, lsl #8
 	str r2, [r1]
@@ -967,7 +967,7 @@ ovl09_2173500: // 0x02173500
 	str r1, [r0, #0x1c]
 	ldr r2, _02173660 // =0x04001000
 	ldr r0, _02173664 // =0x0213D284
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	bic r1, r1, #0x1f00
 	str r1, [r2]
 	bl RenderCore_DisableBlending
@@ -976,14 +976,14 @@ ovl09_2173500: // 0x02173500
 	str r1, [r0, #0x1c]
 	ldr r3, _0217366C // =0x04000304
 	ldr r0, _02173670 // =0xFFFFFDF1
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	ldr r1, _02173674 // =0xBFFF0000
 	and r0, r2, r0
 	orr r0, r0, #0xe
 	orr r0, r0, #0x200
 	strh r0, [r3]
 	str r1, [r3, #0x27c]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, _02173678 // =0x001FFFF8
 	bl LoadDrawState
 	bl ReleaseAudioSystem

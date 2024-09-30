@@ -40,7 +40,7 @@ _021649CC:
 	mov r0, r4
 	bl ovl09_2161CB0
 	ldr r0, _02164BB4 // =0x02176484
-	ldrsh r0, [r0]
+	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _02164A78
 	mov r1, #0xa
@@ -48,7 +48,7 @@ _021649CC:
 	sub r2, r1, #0xb
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _02164BB4 // =0x02176484
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x3c]
@@ -158,7 +158,7 @@ _02164B24:
 	bic r2, r2, #3
 	orr r2, r2, #1
 	strb r2, [r4, #0x38c]
-	ldrsh r2, [r1]
+	ldrsh r2, [r1, #0]
 	add r2, r2, #1
 	strh r2, [r1]
 	add sp, sp, #4
@@ -177,7 +177,7 @@ ovl09_2164BCC: // 0x02164BCC
 	stmdb sp!, {r4, lr}
 	ldr r1, _02164C6C // =0x02176484
 	mov r4, r0
-	ldrsh r0, [r1]
+	ldrsh r0, [r1, #0]
 	cmp r0, #1
 	bgt _02164C50
 	ldr r0, [r1, #0x1c]
@@ -216,7 +216,7 @@ _02164C50:
 	add r0, r4, #0x20
 	bl AnimatorMDL__Release
 	ldr r0, _02164C6C // =0x02176484
-	ldrsh r1, [r0]
+	ldrsh r1, [r0, #0]
 	sub r1, r1, #1
 	strh r1, [r0]
 	ldmia sp!, {r4, pc}
@@ -336,7 +336,7 @@ exEffectBarrierHitTask__Create: // 0x02164D74
 	ldr r2, _02164E08 // =0x000004EC
 	mov r5, r0
 	bl MI_CpuFill8
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r6
 	str r1, [r5, #4]
 	ldr r1, [r4, #4]

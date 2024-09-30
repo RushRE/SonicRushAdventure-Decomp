@@ -305,9 +305,9 @@ _0207E884:
 	bne _0207E8D0
 	ldr r1, =VRAMSystem__BGControllers
 	ldr r0, [r1, r0, lsl #4]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x2000
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	movne r2, #0x4000
 	add r0, r0, r2
 	str r0, [r3]
@@ -317,16 +317,16 @@ _0207E8D0:
 	bne _0207E900
 	ldr r1, =0x02111FBC
 	ldr r0, [r1, r0, lsl #4]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	tst r0, #0x2000
 	movne r1, #0x6000
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	moveq r1, #0x2000
 	add r0, r0, r1
 	str r0, [r3]
 	ldmia sp!, {r3, r4, r5, pc}
 _0207E900:
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	add r0, r0, r1, lsl #13
 	str r0, [r3]
 	ldmia sp!, {r3, r4, r5, pc}
@@ -810,7 +810,7 @@ NONMATCH_FUNC void GetVRAMPixelConfig(BOOL useEngineB, u8 bgID, PixelMode *pixel
 	and ip, lr, #0x1f00
 	mov ip, ip, asr #8
 	strh ip, [r3]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	and r0, r0, #7
 	cmp r0, #6
 	addls pc, pc, r0, lsl #2
@@ -1214,7 +1214,7 @@ _0207F600:
 	cmp r2, r0, lsr #20
 	movgt r2, r0, lsr #0x14
 _0207F620:
-	ldrsh r1, [r4]
+	ldrsh r1, [r4, #0]
 	mov r0, #0x1000
 	rsb r0, r0, #0
 	cmp r1, r0
@@ -1469,7 +1469,7 @@ NONMATCH_FUNC u32 Asset3DSetup__PaletteFromName(const NNSG3dResTex *tex, const c
 	add r0, r6, r0
 	bl NNS_G3dGetResDataByName
 	ldr r2, [r6, #0x2c]
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, r2, lsl #0x10
 	add r0, r1, r0, lsr #16
 	mov r0, r0, lsl #3
@@ -1607,7 +1607,7 @@ NONMATCH_FUNC void DrawReqTask__Main_207FB88(void){
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	add r6, r4, #0x10
@@ -1766,7 +1766,7 @@ NONMATCH_FUNC void SysPauseDrawControl__Main(void)
     // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl RenderCore_DisableSwapBuffers
 	bl DestroyCurrentTask
 	ldmia sp!, {r3, pc}
@@ -1828,7 +1828,7 @@ _0207FDEC:
 	bl OAMSystem__PrepareNewFrame
 	ldr r1, =0x04000304
 	ldr r0, =0x0000020E
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	and r0, r1, r0
 	tst r0, #0xc
 	ldmeqia sp!, {r3, r4, r5, pc}
@@ -1915,7 +1915,7 @@ NONMATCH_FUNC void Camera3D__VBlankCallback(void){
 	cmp r0, #0
 	ble _02080130
 	ldr r0, =0x04000006
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0xc1
 	bgt _0207FF6C
 	mov r0, #0x310
@@ -1946,32 +1946,32 @@ _0207FFAC:
 _0207FFC0:
 	ldr r2, =0x04000600
 	strh r1, [r0, #0x58]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	tst r0, #0x8000000
 	addne sp, sp, #8
 	ldmneia sp!, {r4, pc}
 	ldr r0, =renderDmaNo
 	ldr r1, =renderCoreGFXControlA
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	sub r2, r2, #0x5f0
 	mov r3, #0x10
 	bl MI_DmaCopy32
 	ldr r0, =renderDmaNo
 	ldr r1, =0x0213D2D0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, =0x04000040
 	mov r3, #0xc
 	bl MI_DmaCopy32
 	mov r2, #0x4000000
 	ldr r0, =renderCoreGFXControlA
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, [r0, #0x1c]
 	bic r1, r1, #0xe000
 	orr r1, r1, r0, lsl #13
 	str r1, [r2], #0x50
 	ldr r0, =renderDmaNo
 	ldr r1, =0x0213D2E0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r3, #6
 	bl MI_DmaCopy16
 	ldr r3, =renderCoreGFXControlA
@@ -2044,7 +2044,7 @@ _02080130:
 	addge sp, sp, #8
 	ldmgeia sp!, {r4, pc}
 	ldr r0, =0x04000006
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0xc1
 	bgt _02080150
 	mov r0, #0x310
@@ -2068,31 +2068,31 @@ _02080174:
 _02080188:
 	ldr r2, =0x04000600
 	strh r1, [r0, #0x58]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	tst r0, #0x8000000
 	bne _02080268
 	ldr r0, =renderDmaNo
 	ldr r1, =renderCoreGFXControlA
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	sub r2, r2, #0x5f0
 	mov r3, #0x10
 	bl MI_DmaCopy32
 	ldr r0, =renderDmaNo
 	ldr r1, =0x0213D2D0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r2, =0x04000040
 	mov r3, #0xc
 	bl MI_DmaCopy32
 	mov r2, #0x4000000
 	ldr r0, =renderCoreGFXControlA
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, [r0, #0x1c]
 	bic r1, r1, #0xe000
 	orr r1, r1, r0, lsl #13
 	str r1, [r2], #0x50
 	ldr r0, =renderDmaNo
 	ldr r1, =0x0213D2E0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r3, #6
 	bl MI_DmaCopy16
 	ldr r3, =renderCoreGFXControlA
@@ -2143,7 +2143,7 @@ NONMATCH_FUNC void Camera3D__InitMode1(void){
 	mov ip, #1
 	ldr r3, =0x04000304
 	str ip, [r0]
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	mov r0, #0
 	ldr r1, =0x00200010
 	bic r2, r2, #0x8000
@@ -2163,7 +2163,7 @@ NONMATCH_FUNC void Camera3D__InitMode1(void){
 	str r2, [r1]
 	bl GXS_SetGraphicsMode
 	ldr r1, =0x04001000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x400
 	str r0, [r1]
@@ -2192,7 +2192,7 @@ NONMATCH_FUNC void Camera3D__InitMode2(void)
 	mov r0, #0
 	ldr r2, =0x04000304
 	str r0, [r1]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #0x8000
 	orr r1, r1, r0, lsl #15
 	strh r1, [r2]
@@ -2211,7 +2211,7 @@ NONMATCH_FUNC void Camera3D__InitMode2(void)
 	str r2, [r1]
 	bl GXS_SetGraphicsMode
 	ldr r1, =0x04001000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1000
 	str r0, [r1]

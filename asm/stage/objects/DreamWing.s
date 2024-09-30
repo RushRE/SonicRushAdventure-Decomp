@@ -50,7 +50,7 @@ DreamWing__Create: // 0x02166E80
 	mov r3, r0
 	ldr r0, _02166FE8 // =gameArchiveStage
 	ldr r1, _02166FEC // =0x0000FFFF
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -159,7 +159,7 @@ DreamWingPart__Create: // 0x02166FFC
 	bl GetObjectFileWork
 	ldr r1, _021671BC // =gameArchiveStage
 	mov r3, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r2, _021671C0 // =aActAcGmkDreamW
 	str r1, [sp]
 	mov r5, #0
@@ -378,7 +378,7 @@ DreamWing__OnDefend: // 0x021673F0
 	cmp r4, #0
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	cmp r2, #1
 	ldreqb r2, [r5, #0x5d1]
 	cmpeq r2, #0

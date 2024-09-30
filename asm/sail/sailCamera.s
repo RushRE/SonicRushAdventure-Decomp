@@ -296,7 +296,7 @@ _0215F604:
 	mov r0, r6, lsl #0x10
 	str r1, [sp, #0x10]
 	ldr r3, [r7, #0x34]
-	ldr r2, [r7]
+	ldr r2, [r7, #0]
 	ldr r6, [r7, #8]
 	add r2, r3, r2
 	add r2, r6, r2
@@ -306,7 +306,7 @@ _0215F604:
 	str r3, [sp, #0x18]
 	mov r0, r0, asr #4
 	ldr r9, [r7, #0x28]
-	ldr r6, [r7]
+	ldr r6, [r7, #0]
 	mov ip, r0, lsl #1
 	add r0, r9, r6
 	ldr r10, [r7, #0x10]

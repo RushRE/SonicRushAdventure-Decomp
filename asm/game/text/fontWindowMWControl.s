@@ -69,14 +69,14 @@ FontWindowMWControl__Load: // 0x0205A33C
 	ldrh r0, [r9, #0x2c]
 	bne _0205A408
 	mov r1, #0x4000000
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _0205A4D4 // =0x00300010
 	mov r4, #0x6400000
 	b _0205A418
 _0205A408:
 	ldr r2, _0205A4D8 // =0x04001000
 	ldr r1, _0205A4D4 // =0x00300010
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r4, #0x6600000
 _0205A418:
 	and r2, r2, r1
@@ -285,7 +285,7 @@ FontWindowMWControl__WindowFunc_205A66C: // 0x0205A66C
 	mov r6, r0
 	mov r0, r5
 	bl GetBackgroundPixels
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	mov r4, r0
@@ -337,7 +337,7 @@ FontWindowMWControl__WindowFunc_205A72C: // 0x0205A72C
 	mov r6, r0
 	mov r0, r5
 	bl GetBackgroundPixels
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	mov r4, r0
@@ -395,7 +395,7 @@ FontWindowMWControl__WindowFunc_205A804: // 0x0205A804
 	mov r6, r0
 	mov r0, r5
 	bl GetBackgroundPixels
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	mov r4, r0
@@ -1364,14 +1364,14 @@ FontWindowMWControl__SetSprite: // 0x0205B560
 _0205B5E4:
 	cmp r4, #2
 	bne _0205B5FC
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	orr r1, r1, #0x4000
 	strh r1, [r0]
 	b _0205B610
 _0205B5FC:
 	ldrh r1, [sp, #0x18]
 	cmp r1, #2
-	ldreqh r1, [r0]
+	ldreqh r1, [r0, #0]
 	orreq r1, r1, #0x8000
 	streqh r1, [r0]
 _0205B610:

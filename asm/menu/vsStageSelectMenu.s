@@ -27,10 +27,10 @@ _02160AA4: .word VSStageSelect__sVars
 VSStageSelectMenu__Release: // 0x02160AA8
 	push {r3, lr}
 	ldr r0, _02160AC4 // =VSStageSelect__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl VSStageSelectMenu__Free
 	ldr r0, _02160AC4 // =VSStageSelect__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl _FreeHEAP_SYSTEM
 	ldr r0, _02160AC4 // =VSStageSelect__sVars
 	mov r1, #0
@@ -46,7 +46,7 @@ VSStageSelectMenu__Create: // 0x02160AC8
 	sub sp, #0xc
 	mov r6, r0
 	ldr r0, _02160C04 // =VSStageSelect__sVars
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	mov r4, r5
 	ldr r0, [r5, #0x18]
 	add r4, #0x20
@@ -135,7 +135,7 @@ _02160B84:
 	lsl r3, r1
 	tst r3, r5
 	beq _02160B96
-	ldrb r3, [r2]
+	ldrb r3, [r2, #0]
 	add r6, r4, r3
 	ldrb r3, [r6, #0x14]
 	add r3, r3, #1
@@ -159,7 +159,7 @@ _02160BAE:
 	lsl r3, r2
 	tst r3, r5
 	beq _02160BC0
-	ldrb r3, [r1]
+	ldrb r3, [r1, #0]
 	add r6, r4, r3
 	ldrb r3, [r6, #0x14]
 	add r3, r3, #1
@@ -220,7 +220,7 @@ _02160C28: .word 0x0217DD54
 VSStageSelectMenu__Func_2160C2C: // 0x02160C2C
 	ldr r0, _02160C38 // =VSStageSelect__sVars
 	mov r1, #1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0x18]
 	bx lr
 	nop
@@ -230,7 +230,7 @@ _02160C38: .word VSStageSelect__sVars
 	thumb_func_start VSStageSelectMenu__Func_2160C3C
 VSStageSelectMenu__Func_2160C3C: // 0x02160C3C
 	ldr r0, _02160C50 // =VSStageSelect__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x20]
 	cmp r0, #1
 	bne _02160C4A
@@ -246,7 +246,7 @@ _02160C50: .word VSStageSelect__sVars
 	thumb_func_start VSStageSelectMenu__Func_2160C54
 VSStageSelectMenu__Func_2160C54: // 0x02160C54
 	ldr r0, _02160C5C // =VSStageSelect__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x20]
 	bx lr
 	.align 2, 0
@@ -368,7 +368,7 @@ VSStageSelectMenu__LoadAssets: // 0x02160D0C
 	bl ArchiveFile__Load
 	str r0, [r4]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _02160D4C
 	add r0, r0, r0
@@ -386,7 +386,7 @@ _02160D38: // jump table
 	.hword _02160D44 - _02160D38 - 2 // case 5
 _02160D44:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02160D4E
 _02160D4C:
 	mov r0, #1
@@ -404,7 +404,7 @@ _02160D4E:
 	str r0, [sp, #8]
 	mov r0, #0
 	str r0, [sp, #0xc]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r4, #8
 	mov r3, r4
 	bl StageClear__LoadFiles
@@ -421,7 +421,7 @@ _02160D84: .word aDmasVsArrowBac
 VSStageSelectMenu__ReleaseAssets: // 0x02160D88
 	push {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	mov r0, #0
 	mov r1, r4
@@ -476,7 +476,7 @@ _02160DE0:
 	bl SpriteUnknown__Func_204C3CC
 	b _02160E4E
 _02160DF2:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	mov r2, #0xe
 	mov r3, #0x14
 	lsl r1, r0, #2
@@ -489,7 +489,7 @@ _02160DF2:
 _02160E08:
 	bl VSStageSelectMenu__IsRace
 	cmp r0, #0
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	beq _02160E24
 	lsl r1, r0, #2
 	ldr r0, [sp, #0x18]
@@ -513,7 +513,7 @@ _02160E38:
 	ldr r0, [sp, #0x28]
 	str r0, [sp, #0x20]
 _02160E3C:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	mov r2, r7
 	lsl r1, r0, #2
 	ldr r0, [sp, #0x18]
@@ -606,7 +606,7 @@ _02160EE2:
 	str r0, [r4, #0x3c]
 	mov r0, r4
 	add r0, #0x50
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	add r0, #0x10
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
@@ -646,7 +646,7 @@ _02160F14:
 	add r4, r0, r1
 	add r7, sp, #0x2c
 _02160F40:
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	mov r0, #0x64
 	mov r1, r2
 	mul r1, r0
@@ -663,7 +663,7 @@ _02160F58:
 	mov r0, #0xe2
 _02160F5A:
 	strh r0, [r7]
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	mov r0, #0xc
 	add r3, r5, #2
 	mov r2, r1
@@ -2322,7 +2322,7 @@ _02161BF8:
 	mov r6, r7
 	add r6, #0xc
 _02161C12:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	bl DestroyTask
 	mov r0, #0
 	stmia r5!, {r0}
@@ -3138,7 +3138,7 @@ _0216224C:
 VSStageSelectMenu__Main1: // 0x02162250
 	push {r3, lr}
 	ldr r0, _02162260 // =VSStageSelect__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r0, #0xc]
 	cmp r1, #0
 	beq _0216225E
@@ -3153,7 +3153,7 @@ _02162260: .word VSStageSelect__sVars
 VSStageSelectMenu__Main2: // 0x02162264
 	push {r3, lr}
 	ldr r0, _02162280 // =VSStageSelect__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r0, #0x10]
 	add r1, r1, #1
 	str r1, [r0, #0x10]
@@ -3173,7 +3173,7 @@ VSStageSelectMenu__Main3: // 0x02162284
 	push {r3, lr}
 	ldr r0, _02162298 // =VSStageSelect__sVars
 	mov r1, #6
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrh r2, [r0, #0x14]
 	tst r1, r2
 	beq _02162296

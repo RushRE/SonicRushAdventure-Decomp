@@ -123,7 +123,7 @@ NONMATCH_FUNC void StarCombo__PerformTrick(Player *player)
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, =trickAsset
 	mov r5, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	ldrb r1, [r5, #0x5d1]
@@ -308,7 +308,7 @@ NONMATCH_FUNC void StarCombo__InitScoreBonus(Player *player, s32 score)
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, =trickAsset
 	mov r5, r0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r4, r1
 	cmp r2, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
@@ -333,7 +333,7 @@ _02032A2C:
 	cmp r4, #0
 	str r0, [r1, #8]
 	bne _02032A58
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r0, #0
 	orr r2, r2, #1
 	str r2, [r1]
@@ -1048,7 +1048,7 @@ NONMATCH_FUNC void ScoreBonus__Main(void)
 	sub sp, sp, #0x50
 	bl GetCurrentTaskWork_
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r4, #1
 	tst r0, #1
 	beq _02033B94
@@ -1139,7 +1139,7 @@ _02033CB0:
 	ldmia r4!, {r0, r1, r2, r3}
 	add r6, sp, #0x18
 	stmia r6!, {r0, r1, r2, r3}
-	ldr r4, [r4]
+	ldr r4, [r4, #0]
 	mov r8, #0x800
 	str r4, [r6]
 	ldr r1, [r5, #0x14]

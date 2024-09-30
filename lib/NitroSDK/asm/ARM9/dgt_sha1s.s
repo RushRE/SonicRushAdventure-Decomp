@@ -47,7 +47,7 @@ _020ECF14:
 	mov r7, #0
 	mov r6, sp
 _020ECF74:
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	ldr r5, [r6, #8]
 	ldr r4, [r6, #0x20]
 	ldr lr, [r6, #0x34]
@@ -76,7 +76,7 @@ _020ECF74:
 	ldr r8, _020ECEE8 // =0x6ED9EBA1
 	mov r7, #0
 _020ECFE4:
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	ldr r4, [r6, #8]
 	ldr lr, [r6, #0x20]
 	ldr r5, [r6, #0x34]
@@ -106,7 +106,7 @@ _020ECFE4:
 	ldr r8, _020ECEEC // =0x8F1BBCDC
 	mov r7, #0
 _020ED058:
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	ldr lr, [r6, #8]
 	ldr r5, [r6, #0x20]
 	ldr r4, [r6, #0x34]
@@ -138,7 +138,7 @@ _020ED058:
 	ldr r8, _020ECEF0 // =0xCA62C1D6
 	mov r7, #0
 _020ED0D4:
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	ldr r5, [r6, #8]
 	ldr r4, [r6, #0x20]
 	ldr lr, [r6, #0x34]

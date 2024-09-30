@@ -48,7 +48,7 @@ Dolphin__Create: // 0x021817E0
 	str r0, [sp]
 	ldr r1, _0218197C // =gameArchiveStage
 	mov r0, r4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r4, #0x364
 	str r2, [sp, #4]
 	ldr r2, _02181980 // =aModGmkDolphinN
@@ -59,7 +59,7 @@ Dolphin__Create: // 0x021817E0
 	mov r3, r0
 	ldr r1, _0218197C // =gameArchiveStage
 	mov r0, r4
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r1, r4, #0x364
 	str r2, [sp]
 	ldr r2, _02181984 // =aModGmkDolphinN_0
@@ -168,7 +168,7 @@ DolphinHoop__Create: // 0x02181994
 	mov r3, r0
 	ldr r0, _02181C7C // =gameArchiveStage
 	ldr r1, _02181C80 // =0x0000FFFF
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -217,7 +217,7 @@ DolphinHoop__Create: // 0x02181994
 	bl GetObjectFileWork
 	ldr r1, _02181C7C // =gameArchiveStage
 	mov r3, r0
-	ldr r6, [r1]
+	ldr r6, [r1, #0]
 	ldr r1, _02181C84 // =aActAcGmkDolphi
 	ldr r2, _02181C80 // =0x0000FFFF
 	mov r0, r5
@@ -543,7 +543,7 @@ Dolphin__OnDefend: // 0x02181F9C
 	cmpne r5, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	addne sp, sp, #8
 	ldmneia sp!, {r3, r4, r5, pc}
@@ -603,7 +603,7 @@ DolphinHoop__State_218206C: // 0x0218206C
 	ldr r2, [r4, #0x340]
 	ldr r1, _02182180 // =gPlayer
 	ldrh r2, [r2, #2]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	sub r1, r2, #0xd8
 	ldr r5, [r3, #0x4c]
 	cmp r1, #7
@@ -691,7 +691,7 @@ DolphinHoop__OnDefend: // 0x02182184
 	cmpne r5, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldreq r1, [r5, #0xf4]
 	ldreq r0, _0218222C // =Player__State_2023A4C

@@ -79,7 +79,7 @@ _020CE068:
 	mov r1, r8, lsl r4
 	add r2, r11, r1, lsl #3
 	ldr r1, _020CE278 // =0x000001FF
-	ldr r3, [r7]
+	ldr r3, [r7, #0]
 	and ip, r2, r1
 	ldr r1, _020CE27C // =0xFE00FF00
 	and r2, lr, #0xff
@@ -87,7 +87,7 @@ _020CE068:
 	orr r1, r1, r2
 	orr r1, r1, ip, lsl #16
 	str r1, [r7]
-	ldr r3, [r7]
+	ldr r3, [r7, #0]
 	ldr r1, _020CE280 // =0x3FFF3FFF
 	mov r2, #0x400
 	and r1, r3, r1
@@ -99,7 +99,7 @@ _020CE068:
 	and r1, r2, r1
 	orr r1, r1, r5
 	strh r1, [r7, #4]
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	add r5, r5, r9
 	bic r1, r1, #0x2000
 	orr r1, r1, r6, lsl #13
@@ -409,13 +409,13 @@ NNS_G2dCharCanvasDrawChar: // 0x020CE4D0
 	ldr r1, _020CE588 // =0x0000FFFF
 	mov r4, r0
 	cmp r4, r1
-	ldreq r0, [r7]
+	ldreq r0, [r7, #0]
 	ldreqh r4, [r0, #2]
 	mov r0, r7
 	mov r1, r4
 	bl NNS_G2dFontGetCharWidthsFromIndex
 	str r0, [sp, #8]
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	ldr r2, [sp, #0x28]
 	ldr r0, [r0, #8]
 	add r1, sp, #8
@@ -428,7 +428,7 @@ NNS_G2dCharCanvasDrawChar: // 0x020CE4D0
 	str r1, [sp, #4]
 	ldr r1, [sp, #8]
 	ldr r4, [r8, #0x14]
-	ldrsb r2, [r1]
+	ldrsb r2, [r1, #0]
 	mov r1, r7
 	mov r3, r5
 	add r2, r6, r2
@@ -436,7 +436,7 @@ NNS_G2dCharCanvasDrawChar: // 0x020CE4D0
 	ldrh r0, [r7, #8]
 	cmp r0, #0
 	ldrne r0, [sp, #8]
-	ldrnesb r1, [r0]
+	ldrnesb r1, [r0, #0]
 	ldrneb r0, [r0, #1]
 	addne r0, r1, r0
 	ldreq r0, [sp, #8]
@@ -530,7 +530,7 @@ _020CE62C:
 	ldr r1, [r0, #4]
 	str r1, [sp, #0x40]
 	ldr r1, [r0, #8]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [sp, #0x3c]
 	str r0, [sp, #0x28]
 	ldrb r0, [sp, #0x4c]
@@ -657,7 +657,7 @@ _020CE840:
 	ldr r3, [sp, #0x1c]
 	add r1, r1, r5, asr #3
 	add r4, r3, #7
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r0, [sp, #0x18]
 	add r5, r0, #7
 	ldr r0, [sp, #0x30]
@@ -753,7 +753,7 @@ ClearContinuous: // 0x020CE9B0
 	mov r2, r0, asr #3
 	mov r0, r1
 	mul r2, lr, r2
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	bl MIi_CpuClearFast
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -765,8 +765,8 @@ DrawGlyph1D: // 0x020CEA0C
 	sub sp, sp, #0x4c
 	ldr r7, [sp, #0x74]
 	ldrb r5, [r0, #0xc]
-	ldr r6, [r1]
-	ldr r4, [r7]
+	ldr r6, [r1, #0]
+	ldr r4, [r7, #0]
 	ldr r9, [r6, #8]
 	mov r8, r5, lsl #6
 	ldrb r4, [r4, #1]
@@ -815,7 +815,7 @@ DrawGlyph1D: // 0x020CEA0C
 	addlt sp, sp, #0x4c
 	ldmltia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r2, [sp, #8]
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	cmp r2, #0
 	andge r2, r2, #7
 	strge r2, [sp, #8]
@@ -835,7 +835,7 @@ DrawGlyph1D: // 0x020CEA0C
 	str r2, [sp, #0x48]
 	str r9, [sp, #0x38]
 	str r4, [sp, #0x34]
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	ldr r2, [sp, #0x14]
 	mov r3, r11
 	cmp r3, r2
@@ -844,9 +844,9 @@ DrawGlyph1D: // 0x020CEA0C
 	str r3, [sp, #0x40]
 	ldrb r2, [r0, #0xc]
 	str r2, [sp, #0x44]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r1, [r1, #8]
-	ldrb r1, [r1]
+	ldrb r1, [r1, #0]
 	mul r1, r3, r1
 	str r1, [sp, #0x3c]
 	ldr r1, [r0, #0x10]
@@ -903,8 +903,8 @@ DrawGlyphLine: // 0x020CEC14
 	ldr r4, [sp, #0x54]
 	ldrb r5, [r0, #0xc]
 	str r4, [sp, #0x54]
-	ldr r4, [r4]
-	ldr r6, [r1]
+	ldr r4, [r4, #0]
+	ldr r6, [r1, #0]
 	mov r7, r5, lsl #6
 	ldrb r4, [r4, #1]
 	mov r5, r7, asr #2
@@ -966,7 +966,7 @@ DrawGlyphLine: // 0x020CEC14
 	str r4, [sp, #0x14]
 	str r8, [sp, #0x28]
 	str r3, [sp, #0x18]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	cmp r9, r11
 	ldr r2, [r3, #8]
 	sub r7, r10, r7, lsl #3
@@ -974,9 +974,9 @@ DrawGlyphLine: // 0x020CEC14
 	str r2, [sp, #0x20]
 	ldrb r0, [r0, #0xc]
 	str r0, [sp, #0x24]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r0, [r0, #8]
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	mul r0, r2, r0
 	str r0, [sp, #0x1c]
 	addle sp, sp, #0x2c
@@ -1049,7 +1049,7 @@ LetterChar: // 0x020CEDB0
 	ldr r1, [r0, #4]
 	str r1, [sp, #4]
 	bne _020CEF28
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r7, [r0, #0x24]
 	add r0, r1, r2, lsl #2
 	str r0, [sp, #0xc]
@@ -1066,7 +1066,7 @@ LetterChar: // 0x020CEDB0
 _020CEE8C:
 	ldr r0, [sp, #0xc]
 	mov r1, r11, lsr #0x1f
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	ldr r0, [sp, #4]
 	rsb r2, r1, r11, lsl #29
 	add r0, r0, r11, lsr #3
@@ -1106,7 +1106,7 @@ _020CEEFC:
 	add sp, sp, #0x34
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _020CEF28:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r9, [r0, #0x24]
 	add r0, r1, r2, lsl #3
 	str r0, [sp, #0x14]
@@ -1124,7 +1124,7 @@ _020CEF5C:
 	rsb r0, r1, r11, lsl #29
 	add r1, r1, r0, ror #29
 	ldr r0, [sp, #0x14]
-	ldr r8, [r0]
+	ldr r8, [r0, #0]
 	ldr r7, [r0, #4]
 	ldr r0, [sp, #4]
 	add r0, r0, r11, lsr #3
@@ -1207,7 +1207,7 @@ _020CF050:
 	mvn r1, r3, lsr r4
 	ldmhsia sp!, {r4, r5, r6, pc}
 _020CF094:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	and r0, r0, r1
 	orr r0, r6, r0
 	str r0, [r5], #4
@@ -1244,7 +1244,7 @@ _020CF0B0:
 	mvn r1, r6
 	ldmhsia sp!, {r4, r5, r6, pc}
 _020CF120:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	and r0, r0, r2
 	orr r0, lr, r0
 	str r0, [r5]
@@ -1262,7 +1262,7 @@ _020CF120:
 OBJSizeToShape: // 0x020CF150
 	ldrb r3, [r0, #1]
 	ldr r2, _020CF168 // =shape
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	add r0, r2, r3, lsl #4
 	ldr r0, [r0, r1, lsl #2]
 	bx lr

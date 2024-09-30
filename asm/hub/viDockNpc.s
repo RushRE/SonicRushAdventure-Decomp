@@ -69,7 +69,7 @@ ViDockNpc__LoadAssets: // 0x02166C30
 	str r4, [r7, #0x300]
 	mov r0, r0, lsr #0x10
 	bl ovl05_2152A0C
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	add r0, r7, #0x300
 	mov r1, #0xc
 	strh r2, [r0, #0x12]
@@ -403,7 +403,7 @@ _02167108: .word 0x021730B0
 ViDockNpc__Func_216710C: // 0x0216710C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	mov r5, r2
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	mov r4, r3
 	str r2, [r4]
 	ldr r2, [r5, #4]
@@ -412,8 +412,8 @@ ViDockNpc__Func_216710C: // 0x0216710C
 	ldr r1, [r5, #8]
 	mov r7, r0
 	str r1, [r4, #8]
-	ldr r1, [r6]
-	ldr r0, [r5]
+	ldr r1, [r6, #0]
+	ldr r0, [r5, #0]
 	cmp r1, r0
 	ldreq r1, [r6, #4]
 	ldreq r0, [r5, #4]
@@ -438,11 +438,11 @@ ViDockNpc__Func_216710C: // 0x0216710C
 	orr r9, r9, r3, lsl #20
 	orr r8, r8, r1, lsl #20
 	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r7, #8
 	sub r10, r1, r9
 	bl CPPHelpers__Func_2085F9C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r7, #8
 	add r9, r9, r1
 	bl CPPHelpers__Func_2085F9C
@@ -451,7 +451,7 @@ ViDockNpc__Func_216710C: // 0x0216710C
 	sub r7, r1, r8
 	bl CPPHelpers__Func_2085F9C
 	ldr r1, [r0, #8]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r1, r8, r1
 	cmp r0, r10
 	ble _02167200
@@ -466,7 +466,7 @@ _02167200:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 _02167208:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, r10
 	strle r10, [r4]
 	ble _0216723C
@@ -494,8 +494,8 @@ ViDockNpc__Func_2167244: // 0x02167244
 	mov r6, r3
 	ldr r5, [sp, #0x20]
 	bl CPPHelpers__Func_2085F9C
-	ldr r2, [r0]
-	ldr r1, [r8]
+	ldr r2, [r0, #0]
+	ldr r1, [r8, #0]
 	add r0, r9, #8
 	sub r4, r2, r1
 	bl CPPHelpers__Func_2085F9C

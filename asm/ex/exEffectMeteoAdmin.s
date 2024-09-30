@@ -64,7 +64,7 @@ exEffectMeteoAdminTask__Main: // 0x02167B48
 	mov r0, #0
 	strh r0, [r4, #2]
 	strh r0, [r4, #4]
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	ldr r0, _02167BBC // =_021745AC
 	ldrh r1, [r4, #2]
 	ldr r2, [r0, r2, lsl #2]
@@ -73,7 +73,7 @@ exEffectMeteoAdminTask__Main: // 0x02167B48
 	add r3, r4, #8
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	ldr r0, _02167BC0 // =_021745A8
 	mov r1, r1, lsl #1
 	ldrh r0, [r0, r1]
@@ -166,7 +166,7 @@ _02167C90:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x28000
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -181,7 +181,7 @@ _02167CD8:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x1e000
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -196,7 +196,7 @@ _02167D10:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x14000
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -211,7 +211,7 @@ _02167D48:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0xa000
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -227,7 +227,7 @@ _02167D80:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0xa000
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -243,7 +243,7 @@ _02167DBC:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x14000
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -259,7 +259,7 @@ _02167DF8:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x1e000
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -275,7 +275,7 @@ _02167E34:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x28000
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -288,7 +288,7 @@ _02167E70:
 	ldrh r0, [r4, #6]
 	cmp ip, r0
 	bhs _02167EB0
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	ldr r1, _02167F00 // =_021745AC
 	mov r0, #0xc
 	ldr r1, [r1, r2, lsl #2]
@@ -304,7 +304,7 @@ _02167EB0:
 	add r0, r0, #1
 	strh r0, [r4, #4]
 	strh ip, [r4, #2]
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	mov r0, #0xc
 	add r3, r4, #8
 	ldr r1, [r1, r2, lsl #2]
@@ -330,7 +330,7 @@ ovl09_2167F04: // 0x02167F04
 	mov r4, r0
 	mov r5, #0
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02167F78
 	bl exSysTask__GetStatus

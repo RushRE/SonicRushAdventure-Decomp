@@ -49,7 +49,7 @@ AnchorRope__Create: // 0x0217690C
 	bl GetObjectFileWork
 	ldr r2, _02176BE0 // =gameArchiveStage
 	ldr r1, _02176BE4 // =aModGmkAnchorRo
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	mov r8, #0
 	ldr r5, _02176BE8 // =0x021897E8
@@ -78,7 +78,7 @@ _021769E4:
 	mov r3, r0
 	ldr r0, _02176BE0 // =gameArchiveStage
 	mov r2, r8, lsl #1
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, r10
 	str r1, [sp]
 	ldrh r2, [r11, r2]
@@ -90,7 +90,7 @@ _021769E4:
 	ldr r2, _02176BF8 // =0x021897EC
 	mov r3, r8, lsl #1
 	ldrsh r2, [r2, r3]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r1, lsr #0x10
 	bl ObjDrawAllocSpritePalette
 	strh r0, [r10, #0x50]
@@ -602,7 +602,7 @@ AnchorRope__OnDefend: // 0x021771C8
 	cmp r4, #0
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r0, [r4, #0x35c]

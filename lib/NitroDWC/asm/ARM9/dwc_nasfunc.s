@@ -9,7 +9,7 @@ DWC_GetDateTime: // 0x0208F390
 	sub sp, sp, #4
 	ldr r2, _0208F45C // =0x0214397C
 	mov r5, r0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r4, r1
 	cmp r2, #0
 	addeq sp, sp, #4
@@ -69,7 +69,7 @@ _0208F464: .word 0xBC19137F
 	arm_func_start DWC_GetIngamesnCheckResult
 DWC_GetIngamesnCheckResult: // 0x0208F468
 	ldr r0, _0208F474 // =0x021438E4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _0208F474: .word 0x021438E4

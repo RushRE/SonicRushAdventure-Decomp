@@ -72,7 +72,7 @@ EffectSailWaterSprayFront__Create: // 0x021607C8
 	mov r2, #0
 	bl StageTask__SetParent
 	ldr r0, [r5, #0x124]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	beq _021608F0
 	cmp r0, #1
@@ -174,7 +174,7 @@ EffectSailWaterSprayBack__Create: // 0x0216094C
 	mov r2, #0
 	bl StageTask__SetParent
 	ldr r0, [r5, #0x124]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	beq _02160A68
 	cmp r0, #1
@@ -284,7 +284,7 @@ EffectSailSubmarineWater__Create: // 0x02160AE4
 	mov r2, #0
 	bl StageTask__SetParent
 	ldr r0, [r5, #0x124]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #3
 	bne _02160C1C
 	mov r1, #0x1400
@@ -967,7 +967,7 @@ EffectUnknown2161544__Create: // 0x02161544
 	addeq sp, sp, #0xc
 	str r6, [r4]
 	ldmeqia sp!, {r3, r4, r5, r6, pc}
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, r5
 	add r0, r0, #0x44
 	add r2, r4, #4
@@ -1119,7 +1119,7 @@ EffectSailBoost__Create: // 0x02161698
 	mov r2, #0
 	bl StageTask__SetParent
 	ldr r0, [r6, #0x124]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	cmpne r0, #2
 	moveq r0, #0
@@ -1206,7 +1206,7 @@ EffectSailBoost02__Create: // 0x02161808
 	mov r2, #0
 	bl StageTask__SetParent
 	ldr r0, [r5, #0x124]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	cmpne r0, #2
 	bne _02161938
@@ -1498,7 +1498,7 @@ EffectSailWaterSplash2__Create: // 0x02161C5C
 	mov r2, #0
 	bl StageTask__SetParent
 	ldr r0, [r6, #0x124]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	cmpne r0, #2
 	moveq r0, #0x400
@@ -1870,8 +1870,8 @@ EffectSailShell__Create: // 0x02162164
 	str r0, [r5, #0xd8]
 	mov r0, #0x3000
 	str r0, [r5, #0xdc]
-	ldr r1, [r8]
-	ldr r0, [r7]
+	ldr r1, [r8, #0]
+	ldr r0, [r7, #0]
 	ldr r3, [r8, #8]
 	ldr r2, [r7, #8]
 	sub r1, r1, r0
@@ -1892,8 +1892,8 @@ EffectSailShell__Create: // 0x02162164
 	bl FX_Div
 	mov r4, r0
 	cmp r4, #0x6000
-	ldr r3, [r7]
-	ldr r0, [r8]
+	ldr r3, [r7, #0]
+	ldr r0, [r8, #0]
 	ldr r2, [r7, #8]
 	ldr r1, [r8, #8]
 	sub r0, r3, r0
@@ -3696,13 +3696,13 @@ _02163CF8:
 	ldr r0, [r5, #4]
 	cmp r0, #0
 	beq _02163EEC
-	ldrsh r0, [r5]
+	ldrsh r0, [r5, #0]
 	mov r0, r0, asr #1
 	cmp r0, r6, asr #2
 	bne _02163EEC
 	ldr r0, _02163F74 // =_obj_disp_rand
 	ldr r2, _02163F78 // =0x00196225
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr r1, _02163F7C // =0x3C6EF35F
 	add r0, r5, r6, lsl #1
 	mla r2, r3, r2, r1
@@ -3822,10 +3822,10 @@ _02163EEC:
 	mov r6, r0, lsr #0x10
 	cmp r6, #0x40
 	blo _02163CF8
-	ldrsh r0, [r5]
+	ldrsh r0, [r5, #0]
 	add r0, r0, #1
 	strh r0, [r5]
-	ldrsh r0, [r5]
+	ldrsh r0, [r5, #0]
 	cmp r0, #0x10
 	movge r0, #0
 	strgeh r0, [r5]
@@ -3862,7 +3862,7 @@ _02163F7C: .word 0x3C6EF35F
 EffectUnknown21615C8__Main: // 0x02163F80
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	sub r1, r1, #1
 	str r1, [r0]
 	cmp r1, #0
@@ -3877,7 +3877,7 @@ EffectUnknown21614E4__Main: // 0x02163FA8
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldrh r5, [r4, #4]
 	add r0, r0, #0x44
 	bl EffectSailSmoke__Create
@@ -3914,7 +3914,7 @@ EffectUnknown21614E4__Main: // 0x02163FA8
 	orr r7, r7, r5, lsl #20
 	mla r1, r6, lr, r1
 	str r7, [r0, #0x9c]
-	ldr r5, [r4]
+	ldr r5, [r4, #0]
 	mov lr, r6, asr #0x1f
 	ldrh r5, [r5, #0x32]
 	adds r2, r2, #0x800
@@ -3967,7 +3967,7 @@ EffectUnknown21614E4__Main: // 0x02163FA8
 	ldrh r0, [r4, #4]
 	cmp r0, #0x10
 	bhs _0216412C
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #0x18]
 	tst r0, #4
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
@@ -3993,7 +3993,7 @@ EffectUnknown2161544__Main: // 0x0216413C
 	ldrh r0, [r4, #0x10]
 	cmp r0, #0x40
 	bhi _0216417C
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r1, [r0, #0x18]
 	tst r1, #4
 	beq _02164188
@@ -4022,7 +4022,7 @@ _021641C0:
 	addne sp, sp, #0xc
 	ldmneia sp!, {r4, r5, r6, r7, pc}
 _021641CC:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r2, sp, #0
 	add r0, r0, #0x44
 	add r1, r4, #4
@@ -4031,7 +4031,7 @@ _021641CC:
 	bl EffectSailSmoke__Create
 	ldr r1, _02164320 // =_obj_disp_rand
 	ldr r6, _02164324 // =0x00196225
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r7, _02164328 // =0x3C6EF35F
 	ldr r3, _0216432C // =0x000001FE
 	mla lr, r2, r6, r7
@@ -4043,7 +4043,7 @@ _021641CC:
 	mov r4, r0
 	sub r2, ip, r2
 	str r2, [r4, #0x9c]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	rsb lr, ip, #0x3d
 	mla r2, r3, r6, r7
 	mov r3, r2, lsr #0x10
@@ -4053,7 +4053,7 @@ _021641CC:
 	str r2, [r1]
 	sub r2, r3, lr
 	str r2, [r4, #0x98]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	rsb r3, ip, #0x3d
 	mla r6, r2, r6, r7
 	mov r2, r6, lsr #0x10
@@ -4086,7 +4086,7 @@ _021641CC:
 	bl SailObject__Func_2164D10
 	ldr r3, _02164320 // =_obj_disp_rand
 	ldr r0, _02164324 // =0x00196225
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	mov r1, r7
 	mla r1, r5, r0, r1
 	mov r0, r1, lsr #0x10

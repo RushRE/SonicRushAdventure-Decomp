@@ -134,7 +134,7 @@ _02171214:
 	cmp r0, #0
 	streqh r11, [r7, #2]
 	beq _0217124C
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	orr r0, r0, #1
 	strh r0, [r7]
 	ldrh r0, [r9, #2]
@@ -403,7 +403,7 @@ _0217156C:
 	ldr r1, _021715C4 // =0x02173220
 	mov r2, #0
 _02171590:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	cmp ip, r0
 	moveq r0, r2, lsl #0x10
 	moveq r0, r0, lsr #0x10

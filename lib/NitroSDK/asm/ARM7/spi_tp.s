@@ -183,7 +183,7 @@ _03804DA4: .word 0x54505641
 TP_AutoAdjustRange: // 0x03804DA8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, r0, lsl #7
 	movs r2, r2, lsr #0x1f
 	bne _03804DD8
@@ -201,10 +201,10 @@ _03804DD8:
 	ldr r0, _03804E94 // =valid_cnt_3256
 	strb r2, [r0]
 	ldr r0, _03804E90 // =invalid_cnt_3255
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	add r1, r1, #1
 	strb r1, [r0]
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #4
 	blo _03804E84
 	strb r2, [r0]
@@ -225,10 +225,10 @@ _03804E28:
 	strgeb lr, [r0]
 	bge _03804E84
 	ldr r0, _03804E94 // =valid_cnt_3256
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	add r1, r1, #1
 	strb r1, [r0]
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	cmp r1, #4
 	blo _03804E84
 	strb lr, [r0]
@@ -271,7 +271,7 @@ _03804ECC:
 	strh r0, [r2, r1]
 	ands r0, r0, #0x1000000
 	beq _03805048
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	and r0, r1, #0xff00
 	mov r0, r0, lsl #8
 	mov r4, r0, lsr #0x10
@@ -416,7 +416,7 @@ _038050B0:
 	blt _038050B0
 	ldr r1, _0380515C // =0x040001C0
 _038050D8:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _038050D8
 	ldr r0, _03805160 // =0x00008A01
@@ -426,7 +426,7 @@ _038050D8:
 	strh r1, [r0]
 	ldr r1, _0380515C // =0x040001C0
 _038050FC:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _038050FC
 	mov r1, #0
@@ -434,7 +434,7 @@ _038050FC:
 	strh r1, [r0]
 	ldr r1, _0380515C // =0x040001C0
 _03805118:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03805118
 	ldr r0, _03805168 // =0x00008201
@@ -444,7 +444,7 @@ _03805118:
 	strh r1, [r0]
 	ldr r1, _0380515C // =0x040001C0
 _0380513C:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _0380513C
 	ldmia sp!, {r4, r5, r6, r7, r8, lr}
@@ -472,19 +472,19 @@ TP_ExecSampling: // 0x0380516C
 	bl TPi_DetectTouch
 	movs r4, r0
 	bne _038051E8
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	mov r0, #0x1000
 	rsb r0, r0, #0
 	and r0, r1, r0
 	str r0, [r7]
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	ldr r0, _038053A0 // =0xFF000FFF
 	and r0, r1, r0
 	str r0, [r7]
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	bic r0, r0, #0x1000000
 	str r0, [r7]
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	bic r0, r0, #0x6000000
 	orr r0, r0, #0x6000000
 	str r0, [r7]
@@ -498,12 +498,12 @@ _038051E8:
 	mov r2, #0
 	add r3, sp, #2
 	bl TPi_DetectPos
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	bic r1, r1, #0x6000000
 	and r0, r0, #3
 	orr r0, r1, r0, lsl #25
 	str r0, [r7]
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	mov r0, #0x1000
 	rsb r0, r0, #0
 	and r2, r1, r0
@@ -519,7 +519,7 @@ _038051E8:
 	bl TPi_DetectPos
 	cmp r0, #2
 	bne _03805270
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	bic r1, r0, #0x6000000
 	mov r0, r0, lsl #5
 	mov r0, r0, lsr #0x1e
@@ -528,7 +528,7 @@ _038051E8:
 	orr r0, r1, r0, lsl #25
 	str r0, [r7]
 _03805270:
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	ldr r0, _038053A0 // =0xFF000FFF
 	and r2, r1, r0
 	ldrh r1, [sp]
@@ -545,7 +545,7 @@ _03805270:
 _038052A8:
 	strh r2, [r1]
 _038052AC:
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	ands r0, r0, #0x80
 	bne _038052AC
 	add r6, r6, #1
@@ -558,11 +558,11 @@ _038052AC:
 	strh r1, [r0]
 	ldr r1, _038053B0 // =0x040001C0
 _038052DC:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _038052DC
 	cmp r4, #2
-	ldreq r0, [r7]
+	ldreq r0, [r7, #0]
 	biceq r0, r0, #0x6000000
 	orreq r0, r0, #0x6000000
 	streq r0, [r7]
@@ -573,10 +573,10 @@ _038052DC:
 	beq _03805344
 	cmp r0, #2
 	bne _03805390
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	orr r0, r0, #0x1000000
 	str r0, [r7]
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	bic r0, r0, #0x6000000
 	orr r0, r0, #0x6000000
 	str r0, [r7]
@@ -585,7 +585,7 @@ _038052DC:
 	strh r1, [r0]
 	b _03805394
 _03805344:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	orr r0, r0, #0x1000000
 	str r0, [r7]
 	mov r1, #1
@@ -598,7 +598,7 @@ _03805344:
 	strh r1, [r5]
 	b _03805394
 _03805374:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	bic r0, r0, #0x1000000
 	str r0, [r7]
 	mov r1, #0
@@ -632,7 +632,7 @@ TPi_DetectPos: // 0x038053BC
 	movne r6, #2
 _038053D8:
 	ldr r4, _038055A0 // =0x040001C0
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	ands r2, r2, #0x80
 	bne _038053D8
 	ldr r2, _038055A4 // =0x00008A01
@@ -641,7 +641,7 @@ _038053D8:
 	ldr r2, _038055A8 // =0x040001C2
 	strh r5, [r2]
 _038053FC:
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	ands r2, r2, #0x80
 	bne _038053FC
 	mov r7, #0
@@ -685,7 +685,7 @@ _03805448:
 	strh r2, [lr]
 	ldr r4, _038055A0 // =0x040001C0
 _0380549C:
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	ands r2, r2, #0x80
 	bne _0380549C
 	mov r8, #0
@@ -778,7 +778,7 @@ TPi_DetectTouch: // 0x038055B4
 	bl EXIi_SelectRcnt
 	ldr r1, _038056F8 // =0x040001C0
 _038055C8:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _038055C8
 	ldr r0, _038056FC // =0x00008A01
@@ -788,7 +788,7 @@ _038055C8:
 	strh r1, [r0]
 	ldr r1, _038056F8 // =0x040001C0
 _038055EC:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _038055EC
 	mov r1, #0
@@ -796,7 +796,7 @@ _038055EC:
 	strh r1, [r0]
 	ldr r1, _038056F8 // =0x040001C0
 _03805608:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _03805608
 	ldr r0, _03805704 // =0x00008201
@@ -806,22 +806,22 @@ _03805608:
 	strh r1, [r0]
 	ldr r1, _038056F8 // =0x040001C0
 _0380562C:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _0380562C
 	ldr r0, _03805708 // =last_touch_flg
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	bne _03805660
 	ldr r0, _0380570C // =0x04000136
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ands r0, r0, #0x40
 	moveq r0, #1
 	movne r0, #0
 	b _038056EC
 _03805660:
 	ldr r0, _0380570C // =0x04000136
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ands r0, r0, #0x40
 	moveq r0, #1
 	beq _038056EC
@@ -832,7 +832,7 @@ _03805660:
 	strh r1, [r0]
 	ldr r1, _038056F8 // =0x040001C0
 _0380568C:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _0380568C
 	mov r1, #0
@@ -840,7 +840,7 @@ _0380568C:
 	strh r1, [r0]
 	ldr r1, _038056F8 // =0x040001C0
 _038056A8:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _038056A8
 	ldr r0, _03805704 // =0x00008201
@@ -850,11 +850,11 @@ _038056A8:
 	strh r1, [r0]
 	ldr r1, _038056F8 // =0x040001C0
 _038056CC:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bne _038056CC
 	ldr r0, _0380570C // =0x04000136
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ands r0, r0, #0x40
 	movne r0, #0
 	moveq r0, #2

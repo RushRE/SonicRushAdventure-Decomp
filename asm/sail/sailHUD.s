@@ -359,7 +359,7 @@ _0216EAEC:
 	bl SailHUDReadyText__Create
 _0216EB00:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _0216EB38
@@ -372,7 +372,7 @@ _0216EB14: // jump table
 	b _0216EB2C // case 5
 _0216EB2C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _0216EB3C
 _0216EB38:
 	mov r0, #1
@@ -388,7 +388,7 @@ _0216EB4C: .word SailHUDInitEvent__State_Finished
 	arm_func_start SailHUDInitEvent__State_Finished
 SailHUDInitEvent__State_Finished: // 0x0216EB50
 	stmdb sp!, {r3, lr}
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	subs r1, r1, #1
 	str r1, [r0]
 	ldmplia sp!, {r3, pc}
@@ -2948,7 +2948,7 @@ SailHUDFinishText__Create: // 0x02170D04
 	bne _02170D94
 	mov r0, #0x2a
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02170E30
 	ldr r0, _02170E88 // =aBbSbBb
@@ -2974,7 +2974,7 @@ _02170D94:
 	bne _02170DF8
 	mov r0, #0x2b
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02170E30
 	ldr r0, _02170E88 // =aBbSbBb
@@ -3142,7 +3142,7 @@ SailRetireEvent__Main: // 0x02170FE8
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	bl SailManager__GetWork
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r1, _02171350 // =padInput
 	add r2, r2, #1
 	str r2, [r4]
@@ -3160,12 +3160,12 @@ SailRetireEvent__Main: // 0x02170FE8
 	tst r0, #0x800000
 	beq _02171050
 _02171040:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0x63
 	movlt r0, #0x64
 	strlt r0, [r4]
 _02171050:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0x64
 	bne _0217107C
 	ldr r0, [r4, #4]
@@ -3181,7 +3181,7 @@ _0217107C:
 	ldr r0, [r4, #4]
 	tst r0, #1
 	beq _021710B4
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0x64
 	ble _021710B4
 	ldr r0, [r5, #0x24]
@@ -3193,7 +3193,7 @@ _0217107C:
 	mov r1, #0x1000
 	bl CreateDrawFadeTask
 _021710B4:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0x78
 	addle sp, sp, #8
 	ldmleia sp!, {r4, r5, r6, pc}
@@ -3403,7 +3403,7 @@ SailHUDRetireText__Create: // 0x02171364
 	beq _021713F4
 	mov r0, #0x71
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _021713C8
 	ldr r0, _02171474 // =aBbSbBb
@@ -3543,7 +3543,7 @@ SailHUDNewRecordIcon__Create: // 0x02171558
 	mov r4, r0
 	mov r0, #0x52
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _021715B0
 	ldr r0, _02171628 // =aBbSbBb
@@ -3595,7 +3595,7 @@ SailHUDNewRecordIcon__SetupObject: // 0x02171630
 	stmdb sp!, {r4, lr}
 	ldr r1, _02171690 // =VRAMSystem__GFXControl
 	mov r2, #0x10
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	str r2, [r0, #0x28]
 	ldrh r1, [r4, #0x20]
 	mov r3, #2
@@ -3629,7 +3629,7 @@ SailHUDNewRecordIcon__State_2171698: // 0x02171698
 	ldr r1, [r5, #0x2c]
 	ldr r0, _0217173C // =VRAMSystem__GFXControl
 	cmp r1, #0
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	beq _021716E8
 	subs r0, r1, #1
 	str r0, [r5, #0x2c]
@@ -3698,7 +3698,7 @@ SailMessageCommon__Init: // 0x02171744
 	str r0, [sp, #0x24]
 	mov r7, r1
 	ldr r0, [r4, #4]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r3, r2
 	bl FontWindowAnimator__Load1
 	ldr r0, [r4, #8]
@@ -3721,7 +3721,7 @@ SailMessageCommon__Init: // 0x02171744
 	mov r1, #0x40
 	mov r2, #0
 	str r1, [sp, #0x24]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r3, r2
 	bl FontWindowAnimator__Load1
 _02171810:
@@ -3738,7 +3738,7 @@ _02171810:
 	str r2, [sp, #0x18]
 	ldrh r3, [sp, #0x48]
 	ldr r0, [r4, #0xc]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	bl FontAnimator__LoadFont2
 	ldr r0, [r4, #0x10]
 	cmp r0, #0
@@ -3766,7 +3766,7 @@ _02171880:
 	mov r3, #1
 	str r3, [sp, #0x10]
 	str r3, [sp, #0x14]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	bl FontWindowMWControl__Load
 	ldr r0, [r4, #0x14]
 	mov r1, #0x2000
@@ -3824,7 +3824,7 @@ SailMessageCommon__LoadMPC: // 0x02171968
 	sub sp, sp, #0x20
 	mov r5, r0
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _021719AC
@@ -3837,7 +3837,7 @@ _02171988: // jump table
 	b _021719A0 // case 5
 _021719A0:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _021719B0
 _021719AC:
 	mov r0, #1
@@ -3854,7 +3854,7 @@ _021719B0:
 	bl STD_ConcatenateString
 	ldr r1, _02171A08 // =_0218D444
 	add r0, sp, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	bl STD_ConcatenateString
 	bl SailManager__GetArchive
 	mov r2, r0
@@ -3872,7 +3872,7 @@ _02171A08: .word _0218D444
 SailMessageCommon__LoadTutorialText: // 0x02171A0C
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
-	ldr r6, [r5]
+	ldr r6, [r5, #0]
 	mov r4, r1
 	cmp r6, #0
 	beq _02171A30
@@ -3881,7 +3881,7 @@ SailMessageCommon__LoadTutorialText: // 0x02171A0C
 	b _02171AB0
 _02171A30:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02171A68
@@ -3894,7 +3894,7 @@ _02171A44: // jump table
 	b _02171A5C // case 5
 _02171A5C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02171A6C
 _02171A68:
 	mov r0, #1
@@ -6016,7 +6016,7 @@ _02173808:
 	cmp r0, #0
 	addne sp, sp, #4
 	ldmneia sp!, {r3, r4, r5, r6, pc}
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl FontWindow__PrepareSwapBuffer
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
@@ -6046,8 +6046,8 @@ SailMessageCommon__Func_2173828: // 0x02173828
 	mov r1, #0x40
 	bl FontAnimator__DisableFlags
 	mov r2, #0x4000000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -6060,8 +6060,8 @@ _021738A4:
 	mov r1, #0x40
 	bl FontAnimator__EnableFlags
 	mov r2, #0x4000000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -6088,8 +6088,8 @@ _021738D4:
 	mov r1, #0x40
 	bl FontUnknown2058D78__DisableFlags
 	ldr r2, _021739D0 // =0x04001000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -6101,8 +6101,8 @@ _02173944:
 	mov r1, #0x40
 	bl FontUnknown2058D78__EnableFlags
 	ldr r2, _021739D0 // =0x04001000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -6132,7 +6132,7 @@ _021739B0:
 	ldr r0, [r5, #0x11c]
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl FontWindow__PrepareSwapBuffer
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
@@ -6524,7 +6524,7 @@ SailBoatWeaponIconHUD__Create: // 0x02173E9C
 	strne r0, [r4, #0x18]
 	mov r0, #0x4c
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02173F30
 	ldr r0, _02173F9C // =aBbSbBb
@@ -6646,7 +6646,7 @@ SailJetBoostHUD__Create: // 0x02174040
 	strne r0, [r4, #0x18]
 	mov r0, #0x4d
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _021740D4
 	ldr r0, _02174140 // =aBbSbBb
@@ -6719,7 +6719,7 @@ SailHoverChargeHUD__Create: // 0x02174150
 	strne r0, [r4, #0x18]
 	mov r0, #0x4e
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _021741E0
 	ldr r0, _0217424C // =aBbSbBb
@@ -6793,7 +6793,7 @@ SailSubReticleHUD__Create: // 0x0217425C
 	strne r0, [r4, #0x18]
 	mov r0, #0x4f
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _021742F0
 	ldr r0, _0217435C // =aBbSbBb
@@ -6870,22 +6870,22 @@ _021743C8: // jump table
 	b _021743F8 // case 2
 	b _02174408 // case 3
 _021743D8:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	orr r0, r0, #0x40
 	str r0, [r4]
 	b _02174414
 _021743E8:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	orr r0, r0, #0xa0
 	str r0, [r4]
 	b _02174414
 _021743F8:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	orr r0, r0, #0x1c0
 	str r0, [r4]
 	b _02174414
 _02174408:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	orr r0, r0, #0x4e0
 	str r0, [r4]
 _02174414:
@@ -6917,7 +6917,7 @@ _02174414:
 	sub r0, r0, #0x10000
 	str r0, [r4, #0x8c]
 	str r0, [r4, #0x7c]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r3, #0
 	orr r0, r0, #2
 	str r0, [r4]
@@ -7236,7 +7236,7 @@ SailScoreBonus__CreateScreen: // 0x0217489C
 	strh r0, [r4, #4]
 	ldr r3, _02174978 // =_obj_disp_rand
 	ldr r1, _0217497C // =0x00196225
-	ldr r5, [r3]
+	ldr r5, [r3, #0]
 	ldr r2, _02174980 // =0x3C6EF35F
 	mov r0, r4
 	mla r1, r5, r1, r2
@@ -7288,7 +7288,7 @@ _021749D4:
 	mov r1, r6
 	bl FX_DivS32
 	mul r1, r0, r6
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	sub r7, r7, r1
 	orr r0, r2, r0, lsl r5
 	str r0, [r4]
@@ -7304,7 +7304,7 @@ _021749FC:
 	mov r6, r0
 	b _021749D4
 _02174A24:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r3, r5
 	orr r0, r0, r7, lsl r5
 	str r0, [r4]
@@ -7313,7 +7313,7 @@ _02174A24:
 	ldmltia sp!, {r4, r5, r6, r7, r8, pc}
 	mov r0, #0xf
 _02174A44:
-	ldr r8, [r4]
+	ldr r8, [r4, #0]
 	sub r1, r3, r5
 	and r6, r8, r0, lsl r5
 	and ip, r8, r0, lsl r1
@@ -7418,7 +7418,7 @@ SailHUD__Func_2174BA4: // 0x02174BA4
 	bl SailManager__GetWork
 	ldr r1, [r0, #0xa4]
 	cmp r4, #0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bicne r0, r0, #0x200
 	orreq r0, r0, #0x200
 	str r0, [r1]
@@ -7439,7 +7439,7 @@ SailHUD__Destructor: // 0x02174BCC
 	mov r0, #0x27
 	bl GetObjectFileWork
 	bl ObjDataRelease
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #0x40
 	bne _02174C20
 	mov r0, #0x42
@@ -7449,7 +7449,7 @@ SailHUD__Destructor: // 0x02174BCC
 	bl GetObjectFileWork
 	bl ObjDataRelease
 _02174C20:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #0x400
 	beq _02174C38
 	mov r0, #0x59
@@ -7601,7 +7601,7 @@ SailHUD__InitCommonSprites: // 0x02174D98
 	mov r2, #4
 	mov r3, r4
 	bl SailHUD__InitAnimator
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	tst r0, #0x20
 	bne _02174E80
 	mov r1, #1
@@ -7717,7 +7717,7 @@ _02174E80:
 	mov r2, #0xb
 	mov r3, r4
 	bl SailHUD__InitAnimator
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	tst r0, #0x20
 	bne _02175084
 	mov r1, #1
@@ -8030,7 +8030,7 @@ SailHUD__InitBoatSprites: // 0x021754B4
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	mov r10, r0
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	tst r0, #0x40
 	addne sp, sp, #0x1c
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -8346,7 +8346,7 @@ SailHUD__InitSubmarineSprites: // 0x0217597C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x14
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #0x400
 	addeq sp, sp, #0x14
 	ldmeqia sp!, {r4, r5, pc}
@@ -8422,7 +8422,7 @@ SailHUD__Func_2175A58: // 0x02175A58
 	str r0, [r10, #0x14]
 	ldr r0, [r8, #0x1b8]
 	str r0, [r10, #0x10]
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	tst r0, #0x100
 	ldrne r0, [r8, #0x1fc]
 	ldreq r0, [r8, #0x1bc]
@@ -8437,7 +8437,7 @@ SailHUD__Func_2175A58: // 0x02175A58
 	mov r0, #0x10
 	strh r0, [r10, #0x32]
 _02175ADC:
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	tst r0, #1
 	bne _02175B0C
 	ldr r0, [r10, #0x10]
@@ -8446,7 +8446,7 @@ _02175ADC:
 	str r0, [r10, #0x28]
 	ldr r0, [r10, #0x18]
 	str r0, [r10, #0xc]
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	orr r0, r0, #1
 	str r0, [r10]
 _02175B0C:
@@ -8459,14 +8459,14 @@ _02175B0C:
 	ldr r2, _02175FA0 // =0x05F5E100
 	add r0, r10, #0x88
 	bl SailHUD__GetScore
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	tst r0, #0x80
 	bne _02175B48
 	ldr r1, [r4, #0x20]
 	add r0, r10, #0x90
 	bl MultibootManager__Func_2063CF4
 _02175B48:
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	tst r0, #0x40
 	bne _02175F3C
 	add r5, r8, #0x200
@@ -8741,7 +8741,7 @@ _02175F14:
 	cmp r9, #3
 	blo _02175E78
 _02175F3C:
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	tst r0, #0x100
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -8791,7 +8791,7 @@ SailHUD__Func_2175FA4: // 0x02175FA4
 	ldr r0, [r0, #0x24]
 	tst r0, #1
 	bne _021760F8
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	tst r0, #2
 	beq _021760F8
 	mov r7, #0
@@ -8860,7 +8860,7 @@ _021760C0:
 	cmp r7, #0x64
 	blo _02176014
 	cmp r8, #0
-	ldrne r0, [r9]
+	ldrne r0, [r9, #0]
 	bicne r0, r0, #2
 	strne r0, [r9]
 _021760F8:
@@ -8912,7 +8912,7 @@ _02176198:
 	ldr r0, [r9, #0x24]
 	cmp r1, r0
 	bge _02176210
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	bic r0, r0, #8
 	orr r0, r0, #0x10
 	str r0, [r9]
@@ -8923,7 +8923,7 @@ _02176198:
 	bl GetObjectFileWork
 	add r1, r9, #0x300
 	ldrh r2, [r1, #0x3c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0xa
 	and r2, r2, #0xff
 	mov r3, #0
@@ -8933,7 +8933,7 @@ _021761EC:
 	bl GetObjectFileWork
 	add r1, r9, #0x300
 	ldrh r2, [r1, #0x3c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #9
 	and r2, r2, #0xff
 	mov r3, #0
@@ -8942,7 +8942,7 @@ _021761EC:
 _02176210:
 	ldr r0, [r9, #0x20]
 	cmp r1, r0
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	bge _02176260
 	bic r0, r0, #0x10
 	str r0, [r9]
@@ -8954,7 +8954,7 @@ _02176210:
 	bl GetObjectFileWork
 	add r1, r9, #0x300
 	ldrh r2, [r1, #0x3c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #9
 	and r2, r2, #0xff
 	mov r3, #0
@@ -8967,17 +8967,17 @@ _02176260:
 	bl GetObjectFileWork
 	add r1, r9, #0x300
 	ldrh r2, [r1, #0x3c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #8
 	and r2, r2, #0xff
 	mov r3, #0
 	bl ObjDraw__TintSprite
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	bic r0, r0, #0x10
 	bic r0, r0, #8
 	str r0, [r9]
 _0217629C:
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	tst r0, #0x20
 	addne sp, sp, #0x14
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -9020,7 +9020,7 @@ _02176328:
 	ldrnesh r0, [r0, #0xee]
 	cmpne r0, #0
 	bne _02176358
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	ands r1, r0, #0x100
 	beq _02176400
 	ldr r0, [r9, #0xc]
@@ -9035,7 +9035,7 @@ _02176358:
 	beq _021763D4
 	mov r3, r1
 	bl ObjDraw__TintPaletteRow
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	mov r1, #1
 	tst r0, #0x100
 	mov r2, #3
@@ -9090,7 +9090,7 @@ _02176428:
 	beq _0217645C
 	bl GetObjectFileWork
 	ldrh r2, [r4, #0x50]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #4
 	and r2, r2, #0xff
 	mov r3, #0
@@ -9100,7 +9100,7 @@ _02176428:
 _0217645C:
 	bl GetObjectFileWork
 	ldrh r2, [r4, #0x50]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0x1b
 	and r2, r2, #0xff
 	mov r3, #0
@@ -9111,7 +9111,7 @@ _02176480:
 	mov r0, #0x26
 	bl GetObjectFileWork
 	ldrh r2, [r4, #0x50]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #4
 	and r2, r2, #0xff
 	mov r3, #0
@@ -9157,7 +9157,7 @@ _0217651C:
 	cmp r0, #0
 	subne r0, r0, #1
 	strneh r0, [r4, #0x32]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #0x100
 	beq _02176550
 	ldr r1, [r4, #0x18]
@@ -9193,7 +9193,7 @@ SailHUD__Func_2176578: // 0x02176578
 	strh r6, [r1, #2]
 	mov r5, r0
 	cmp r7, #0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldrne r6, [r7, #0x124]
 	tst r0, #4
 	addne sp, sp, #0x18
@@ -9235,7 +9235,7 @@ _02176630: // jump table
 	b _02176640 // case 2
 	b _0217667C // case 3
 _02176640:
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #0x200
 	bne _02176690
 	add r0, r6, #0x100
@@ -9271,7 +9271,7 @@ _021766B8:
 	ldr r0, [r5, #0x24]
 	tst r0, #2
 	bne _0217671C
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	tst r0, #0x80
 	bne _0217671C
 	mov r0, #5
@@ -9527,7 +9527,7 @@ SailHUD__Func_2176A74: // 0x02176A74
 	mov r8, r0
 	strh r1, [r2]
 	strh r1, [r2, #2]
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	tst r0, #4
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	tst r0, #0x20
@@ -9662,7 +9662,7 @@ SailHUD__Func_2176C6C: // 0x02176C6C
 	mov r9, r0
 	strh r1, [r2]
 	strh r1, [r2, #2]
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	tst r0, #4
 	addne sp, sp, #0xc
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -10266,7 +10266,7 @@ SailHUD__Func_2177560: // 0x02177560
 	mov r1, #0
 	strh r1, [r2]
 	strh r1, [r2, #2]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	tst r1, #4
 	ldmneia sp!, {r3, r4, r5, pc}
 	tst r1, #0x400
@@ -10457,14 +10457,14 @@ SailBoatWeaponHUD__Main: // 0x02177830
 	sub sp, sp, #0x14
 	bl GetCurrentTaskWork_
 	mov r7, r0
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	ldr r1, [r7, #8]
 	ldr r5, [r0, #0x124]
 	ldr r0, [r5, #0x11c]
 	bl FX_Div
 	mov r0, r0, asr #0xc
 	strh r0, [r7, #6]
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	ldr r0, [r0, #0x18]
 	tst r0, #4
 	bne _02177878
@@ -10487,7 +10487,7 @@ _02177880:
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 _021778AC:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	ldrsh r4, [r7, #6]
 	add r0, r0, #0x44
 	add r3, sp, #8
@@ -10589,7 +10589,7 @@ _02177A08:
 	ldrh r1, [r4, #6]
 	str r1, [sp, #8]
 	ldrh r2, [r4, #8]
-	ldrsh r3, [r4]
+	ldrsh r3, [r4, #0]
 	ldr r0, [r0, #0xa4]
 	ldr r1, [r4, #0xc]
 	bl SailHUD__DrawNumbers

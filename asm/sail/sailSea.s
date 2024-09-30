@@ -88,7 +88,7 @@ SailSea__Func_215F9D8: // 0x0215F9D8
 	add r0, #0x94
 	orr r3, r1
 	mov r1, #2
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	mov r0, #0
 	lsl r2, r5, #0x12
 	lsl r1, r1, #0xa
@@ -142,7 +142,7 @@ SailSea__Func_215FA54: // 0x0215FA54
 	mov r4, r0
 	bl SailManager__GetWork
 	add r0, #0x94
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	strh r4, [r1, #0x10]
 	ldrh r0, [r1, #0x10]
 	strh r0, [r1, #0x10]
@@ -170,7 +170,7 @@ SailSea__Main: // 0x0215FA74
 _0215FA8A:
 	mov r0, r4
 	bl SailSea__Draw
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r0, r0, #1
 	str r0, [r4]
 	pop {r4, pc}
@@ -241,7 +241,7 @@ _0215FAF4:
 	beq _0215FB64
 	add r0, r5, r6
 	add r0, #0x90
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #1
 	beq _0215FB42
 	cmp r0, #2
@@ -534,7 +534,7 @@ SailSea__Func_215FD68: // 0x0215FD68
 	mov r0, #0
 	str r0, [sp, #0x1c]
 _0215FD72:
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	ldr r0, [r6, #0x14]
 	mov r2, r1
 	mul r2, r0
@@ -732,7 +732,7 @@ SailSea__Draw: // 0x0215FEE4
 	ldmia r3!, {r0, r1}
 	add r2, sp, #0xb8
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	str r0, [r2]
 	add r0, sp, #0x94
 	bl MTX_Identity33_
@@ -961,7 +961,7 @@ SailSea__Func_2160104: // 0x02160104
 	add r2, sp, #0x20
 	mov r1, #0x1c
 _02160116:
-	ldrb r0, [r3]
+	ldrb r0, [r3, #0]
 	add r3, r3, #1
 	strb r0, [r2]
 	add r2, r2, #1
@@ -1127,8 +1127,8 @@ _021601D2:
 	mov r0, r1
 	add r4, #0x48
 	add r0, #0x46
-	ldrh r4, [r4]
-	ldrh r0, [r0]
+	ldrh r4, [r4, #0]
+	ldrh r0, [r0, #0]
 	add r1, #0x4a
 	lsl r4, r4, #0x10
 	orr r4, r0
@@ -1137,7 +1137,7 @@ _021601D2:
 	add r0, r2, #1
 	lsl r0, r0, #0x10
 	lsr r0, r0, #0x10
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	lsl r1, r0, #2
 	add r0, r0, #1
 	lsl r0, r0, #0x10
@@ -1331,9 +1331,9 @@ SailSea__Func_21603E8: // 0x021603E8
 	str r3, [sp]
 	bl SailManager__GetWork
 	add r0, #0x94
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	ldr r0, [r5, #8]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	str r0, [sp, #4]
 	mov r0, #3
 	lsl r0, r0, #0x10
@@ -1463,7 +1463,7 @@ SailSea__GetSurfacePosition: // 0x021604DC
 	add r3, sp, #0
 	mov r2, r3
 	stmia r3!, {r0, r1}
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	str r0, [r3]
 	mov r0, #1
 	ldr r1, [sp, #4]
@@ -1501,7 +1501,7 @@ SailSea__Func_2160534: // 0x02160534
 	str r0, [sp, #8]
 	bl SailManager__GetWork
 	add r0, #0x98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r4, #0
 	str r0, [sp, #4]
 	beq _02160556
@@ -1553,7 +1553,7 @@ _021605A0:
 	beq _02160688
 	add r0, #0xbc
 	str r0, [sp, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02160688
 	ldr r2, [sp, #0x14]

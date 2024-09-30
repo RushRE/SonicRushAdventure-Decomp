@@ -97,7 +97,7 @@ _0216A26C:
 	ldrsh r2, [r4, #6]
 	mov r0, r8
 	strh r2, [r1, #0x16]
-	ldrb r1, [r10]
+	ldrb r1, [r10, #0]
 	orr r1, r1, #0x20
 	strb r1, [r10], #0x88
 	bl ovl09_2161B80
@@ -114,20 +114,20 @@ _0216A26C:
 	ldrsh r1, [r0, #0x8c]
 	mvn r0, #0xf
 	sub r2, r0, r2
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	add r1, r2, r1
 	strh r1, [r0, #0x64]
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	mov r1, #0
 	ldrsh r0, [r2, #0x64]
 	strh r0, [r2, #0x62]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldrsh r2, [r0, #0x62]
 	mov r0, r2, asr #2
 	add r0, r2, r0, lsr #29
 	mov r0, r0, asr #3
 	strh r0, [r5, #4]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldrsh r0, [r0, #0x64]
 	strh r0, [r5, #0xa]
 	strh r1, [r5, #0xc]
@@ -210,16 +210,16 @@ ovl09_216A3B8: // 0x0216A3B8
 _0216A420:
 	mov r0, #0
 	strh r0, [r8, #0xc]
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldrsh r0, [r0, #0x62]
 	strh r0, [r8, #0xa]
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldrsh r1, [r0, #0x62]
 	mov r0, r1, asr #2
 	add r0, r1, r0, lsr #29
 	mov r0, r0, asr #3
 	strh r0, [r8, #6]
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldrsh r0, [r0, #0x62]
 	mov r1, r0, lsr #0x1f
 	rsb r0, r1, r0, lsl #29
@@ -227,14 +227,14 @@ _0216A420:
 	strh r0, [r8, #8]
 	b _0216A4D8
 _0216A468:
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	ldrsh r0, [r8, #0xa]
 	ldrsh r1, [r1, #0x62]
 	cmp r0, r1
 	beq _0216A4B0
 	sub r0, r0, r1
 	strh r0, [r8, #0xc]
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldrsh r0, [r0, #0x62]
 	strh r0, [r8, #0xa]
 	ldrsh r0, [r8, #0xc]
@@ -250,7 +250,7 @@ _0216A4B0:
 	add r0, r1, r0, lsr #29
 	mov r0, r0, asr #3
 	strh r0, [r8, #6]
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldrsh r0, [r0, #0x62]
 	mov r1, r0, lsr #0x1f
 	rsb r0, r1, r0, lsl #29
@@ -380,7 +380,7 @@ _0216A66C:
 	ldr r0, [r8, #0x10]
 	bl _f_ftoi
 	strh r0, [r8, #0xc]
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	ldrsh r0, [r8, #0xc]
 	ldrsh r1, [r1, #0x62]
 	add r1, r1, r0
@@ -388,7 +388,7 @@ _0216A66C:
 	add r0, r1, r0, lsr #29
 	mov r0, r0, asr #3
 	strh r0, [r8, #6]
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	ldrsh r0, [r8, #0xc]
 	ldrsh r1, [r1, #0x62]
 	add r0, r1, r0
@@ -400,7 +400,7 @@ _0216A66C:
 _0216A6D8:
 	mov r0, #0
 	strh r0, [r8, #0xc]
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldrsh r0, [r0, #0x62]
 	strh r0, [r8, #0xa]
 _0216A6EC:

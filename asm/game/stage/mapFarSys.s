@@ -26,7 +26,7 @@ _0200B240: .word MapFarSys__sVars
 	arm_func_start MapFarSys__GetAsset
 MapFarSys__GetAsset: // 0x0200B244
 	ldr r0, _0200B250 // =MapFarSys__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _0200B250: .word MapFarSys__sVars
@@ -36,7 +36,7 @@ _0200B250: .word MapFarSys__sVars
 MapFarSys__Release: // 0x0200B254
 	stmdb sp!, {r3, lr}
 	ldr r0, _0200B27C // =MapFarSys__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl _FreeHEAP_USER
@@ -270,7 +270,7 @@ MapFarSys__Func_200B524: // 0x0200B524
 	strh r2, [r0, #0x38]
 	ldr r2, [r1, #8]
 	mov r0, #1
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	orr r0, r1, r0, lsl r3
 	str r0, [r2]
 	bx lr
@@ -401,7 +401,7 @@ MapFarSys__Func_200B718: // 0x0200B718
 	tst r2, #1
 	beq _0200B748
 	ldr r0, _0200B7D8 // =mapCamera
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	orr r1, r1, #4
 	str r1, [r0]
 	ldr r1, [r0, #0x70]
@@ -410,7 +410,7 @@ MapFarSys__Func_200B718: // 0x0200B718
 	b _0200B768
 _0200B748:
 	ldr r0, _0200B7D8 // =mapCamera
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	bic r1, r1, #4
 	str r1, [r0]
 	ldr r1, [r0, #0x70]
@@ -421,26 +421,26 @@ _0200B768:
 	tst r2, #2
 	ldr r2, _0200B7DC // =0x0400000A
 	beq _0200B7A4
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	add r1, r2, #0x1000
 	and r0, r0, #0x43
 	orr r0, r0, #8
 	orr r0, r0, #0xe800
 	strh r0, [r2]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	and r0, r0, #0x43
 	orr r0, r0, #8
 	orr r0, r0, #0xe800
 	strh r0, [r1]
 	bx lr
 _0200B7A4:
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	add r1, r2, #0x1000
 	and r0, r0, #0x43
 	orr r0, r0, #0x88
 	orr r0, r0, #0xe800
 	strh r0, [r2]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	and r0, r0, #0x43
 	orr r0, r0, #0x88
 	orr r0, r0, #0xe800
@@ -1113,7 +1113,7 @@ MapFarSys__Process_Z2: // 0x0200C0E8
 	mov ip, #1
 _0200C10C:
 	ldr r7, [r6, #8]
-	ldr r5, [r7]
+	ldr r5, [r7, #0]
 	tst r5, ip, lsl lr
 	beq _0200C17C
 	add r5, r7, lr, lsl #1
@@ -1140,7 +1140,7 @@ _0200C154:
 _0200C168:
 	ldr r8, [r6, #8]
 	mvn r5, ip, lsl lr
-	ldr r7, [r8]
+	ldr r7, [r8, #0]
 	and r5, r7, r5
 	str r5, [r8]
 _0200C17C:
@@ -1529,7 +1529,7 @@ MapFarSys__Process_Z6: // 0x0200C6C0
 	str r0, [sp]
 	mov r2, #4
 _0200C6E0:
-	ldrh r1, [r3]
+	ldrh r1, [r3, #0]
 	ldrh r0, [r3, #2]
 	add r3, r3, #4
 	strh r1, [r5]
@@ -1537,13 +1537,13 @@ _0200C6E0:
 	add r5, r5, #4
 	subs r2, r2, #1
 	bne _0200C6E0
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	ldr r4, _0200C8A0 // =0x0210E0C6
 	add r3, sp, #4
 	strh r0, [r5]
 	mov r2, #4
 _0200C714:
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	ldrh r0, [r4, #2]
 	add r4, r4, #4
 	strh r1, [r3]
@@ -1551,7 +1551,7 @@ _0200C714:
 	add r3, r3, #4
 	subs r2, r2, #1
 	bne _0200C714
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	mov r0, #0xe
 	strh r1, [r3]
 	bl MapFarSys__Func_200CE58
@@ -2211,7 +2211,7 @@ _0200D060:
 _0200D074:
 	add r0, sp, #8
 	ldr r3, [r0, r4, lsl #2]
-	ldrh r2, [r8]
+	ldrh r2, [r8, #0]
 	sub r6, r3, r1
 	and r0, r4, #0xff
 	sub r1, r6, r2
@@ -2230,7 +2230,7 @@ _0200D0B0:
 	sub r10, r0, r7
 	add r0, r5, r10
 	cmp r0, #0xc0
-	ldrh r0, [r8]
+	ldrh r0, [r8, #0]
 	rsbge r10, r5, #0xc0
 	mov r2, r10, lsl #1
 	add r0, r6, r0
@@ -2283,7 +2283,7 @@ MapFarSys__Func_200D144: // 0x0200D144
 	addgt sp, sp, #8
 	ldmgtia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0200D180:
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	ldr r0, [sp, #4]
 	ldrh r1, [r4, #4]
 	cmp r9, r0
@@ -2345,7 +2345,7 @@ _0200D240:
 	bl FX_DivS32
 	ldrh r3, [r4, #4]
 	ldrh r2, [r4, #6]
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	mul r6, r3, r0
 	mov r3, r2, lsl #0xc
 	sub r2, r1, r0

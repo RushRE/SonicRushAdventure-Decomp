@@ -132,7 +132,7 @@ VSConnectionMenu__Unknown__Func_216A908: // 0x0216A908
 	bic r3, r0
 	add r0, r3, #4
 	str r0, [sp, #0x1c]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	add r3, r4, #4
 	bl FontFile__Func_20534F8
 	add sp, #0x20
@@ -152,12 +152,12 @@ VSConnectionMenu__Unknown__Func_216A948: // 0x0216A948
 	mov r3, #1
 	lsl r3, r3, #0x1a
 	ldr r2, _0216A988 // =VSMenuBackground__UpdateMain
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	b _0216A960
 _0216A95A:
 	ldr r3, _0216A98C // =0x04001000
 	ldr r2, _0216A990 // =VSMenuBackground__UpdateSub
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 _0216A960:
 	mov r3, #0x1f
 	lsl r3, r3, #8

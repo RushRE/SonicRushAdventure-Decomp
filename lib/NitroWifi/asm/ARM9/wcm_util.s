@@ -67,13 +67,13 @@ WCMi_GetRssiAverage: // 0x020CCAEC
 	sub sp, sp, #4
 	ldr r1, _020CCB7C // =0x0214721C
 	mov r0, #0
-	ldrb r1, [r1]
+	ldrb r1, [r1, #0]
 	cmp r1, #0x10
 	bls _020CCB38
 	ldr r2, _020CCB80 // =0x02147220
 	mov r3, r0
 _020CCB10:
-	ldrb r1, [r2]
+	ldrb r1, [r2, #0]
 	add r3, r3, #1
 	cmp r3, #0x10
 	add r0, r0, r1

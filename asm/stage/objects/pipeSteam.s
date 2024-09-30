@@ -44,7 +44,7 @@ PipeFlow__Create: // 0x021610CC
 	mov r3, r0
 	ldr r0, _021613FC // =gameArchiveStage
 	ldr r1, _02161400 // =0x0000FFFF
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -267,7 +267,7 @@ PipeSteam__Create: // 0x02161424
 	mov r3, r0
 	ldr r0, _02161700 // =gameArchiveStage
 	ldr r1, _02161704 // =0x0000FFFF
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -458,7 +458,7 @@ PipeFlow__OnDefend_216174C: // 0x0216174C
 	cmp r1, #0
 	cmpne r0, #0
 	ldmeqia sp!, {r3, pc}
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	cmp r2, #1
 	ldmneia sp!, {r3, pc}
 	ldr r3, [r1, #0x28]
@@ -488,7 +488,7 @@ PipeSteam__OnDefend_21617B0: // 0x021617B0
 	cmp r4, #0
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r0, [r5, #0x6d8]
@@ -534,7 +534,7 @@ PipeFlow__OnDefend_2161854: // 0x02161854
 	cmp r1, #0
 	cmpne r2, #0
 	bxeq lr
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	cmp r0, #1
 	bxne lr
 	ldr r1, [r1, #0x24]
@@ -554,7 +554,7 @@ PipeFlow__OnDefend_216188C: // 0x0216188C
 	cmp r2, #0
 	cmpne r1, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldr r0, [r1, #0x6d8]
@@ -575,7 +575,7 @@ PipeFlow__OnDefend_216188C: // 0x0216188C
 	ldr r11, _02161B50 // =_mt_math_rand
 	mov r4, r5
 _021618F4:
-	ldr r3, [r11]
+	ldr r3, [r11, #0]
 	ldr r2, _02161B54 // =0x00196225
 	ldr r0, _02161B58 // =0x3C6EF35F
 	mov r1, r7
@@ -585,7 +585,7 @@ _021618F4:
 	mla r2, r0, r3, r2
 	str r2, [r11]
 	str r5, [sp]
-	ldr r2, [r11]
+	ldr r2, [r11, #0]
 	mov r0, r0, lsr #0x10
 	mov r2, r2, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -616,7 +616,7 @@ _021618F4:
 	sub r9, r10, #0x2400
 	rsb r4, r4, #0
 _02161994:
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	ldr r0, _02161B54 // =0x00196225
 	mov r1, r7
 	mla r0, r2, r0, r11
@@ -625,7 +625,7 @@ _02161994:
 	mla r2, r0, r2, r11
 	str r2, [r8]
 	str r5, [sp]
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	mov r0, r2, lsr #0x10
 	mov r2, r0, lsl #0x10
 	mov r0, r3, lsl #0x10
@@ -654,7 +654,7 @@ _02161A14:
 	ldr r11, _02161B50 // =_mt_math_rand
 	mov r9, r5
 _02161A24:
-	ldr r3, [r11]
+	ldr r3, [r11, #0]
 	ldr r2, _02161B54 // =0x00196225
 	ldr r1, _02161B58 // =0x3C6EF35F
 	mov r0, r6
@@ -664,7 +664,7 @@ _02161A24:
 	mla r2, r1, r3, r2
 	str r2, [r11]
 	str r5, [sp]
-	ldr r2, [r11]
+	ldr r2, [r11, #0]
 	mov r1, r1, lsr #0x10
 	mov r2, r2, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -695,7 +695,7 @@ _02161A24:
 	sub r9, r10, #0x2400
 	rsb r4, r4, #0
 _02161AC4:
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	ldr r0, _02161B54 // =0x00196225
 	mov r1, r7
 	mla r0, r2, r0, r11
@@ -703,7 +703,7 @@ _02161AC4:
 	mla r2, r0, r2, r11
 	str r2, [r8]
 	str r5, [sp]
-	ldr r2, [r8]
+	ldr r2, [r8, #0]
 	mov r0, r0, lsr #0x10
 	mov r2, r2, lsr #0x10
 	mov r2, r2, lsl #0x10
@@ -915,7 +915,7 @@ PipeSteam__OnDefend_2161DA0: // 0x02161DA0
 	cmp r4, #0
 	cmpne r2, #0
 	ldmeqia sp!, {r4, pc}
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	cmp r2, #1
 	ldmneia sp!, {r4, pc}
 	bl PipeFlow__OnDefend_216174C
@@ -936,7 +936,7 @@ PipeSteam__OnDefend_2161DE0: // 0x02161DE0
 	cmp r4, #0
 	cmpne r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r1, [r4, #0x24]

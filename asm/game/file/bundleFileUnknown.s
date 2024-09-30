@@ -12,7 +12,7 @@ BundleFileUnknown__LoadFile: // 0x02051264
 	mov r4, r0
 	cmp r5, #0
 	bne _02051294
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r5, r0
@@ -21,7 +21,7 @@ _02051294:
 	mvn r0, #0
 	cmp r5, r0
 	bne _020512B0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	mov r5, r0
@@ -44,7 +44,7 @@ BundleFileUnknown__LoadFileFromBundle: // 0x020512CC
 	mov r4, r0
 	cmp r5, #0
 	bne _020512FC
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r5, r0
@@ -53,7 +53,7 @@ _020512FC:
 	mvn r0, #0
 	cmp r5, r0
 	bne _02051318
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	mov r5, r0

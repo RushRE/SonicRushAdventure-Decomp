@@ -66,11 +66,11 @@ SailAssetLoader__ReleaseSprite3D: // 0x021538CC
 	mov r0, r4
 	str r1, [sp]
 	bl GetObjectFileWork
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r4, #1
 	str r1, [sp, #0xd4]
 	bl GetObjectFileWork
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, r4
 	str r1, [sp, #0xdc]
 	bl GetObjectFileWork

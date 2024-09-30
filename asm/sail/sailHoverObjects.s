@@ -462,8 +462,8 @@ _02183B74:
 _02183B90:
 	ldr r3, [r8, #8]
 	ldr r2, [r7, #8]
-	ldr r1, [r8]
-	ldr r0, [r7]
+	ldr r1, [r8, #0]
+	ldr r0, [r7, #0]
 	sub r6, r3, r2
 	sub r1, r1, r0
 	smull r0, r2, r1, r1
@@ -480,8 +480,8 @@ _02183B90:
 	bl FX_Sqrt
 	mov r1, r4, lsl #0xc
 	bl FX_Div
-	ldr r6, [r7]
-	ldr r3, [r8]
+	ldr r6, [r7, #0]
+	ldr r3, [r8, #0]
 	mov r4, r0
 	ldr r2, [r7, #8]
 	ldr r1, [r8, #8]
@@ -1144,7 +1144,7 @@ _02184524:
 	mov r0, #0x16
 	mov r10, #0x1500
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r5, #0x18c
 	bl ObjDraw__PaletteTex__Init
 	ldr r0, [r5, #0x194]
@@ -2531,7 +2531,7 @@ _02185884:
 	bne _02185944
 	ldr r2, _02185950 // =_mt_math_rand
 	ldr r0, _02185954 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02185958 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -3059,7 +3059,7 @@ SailHoverBobBird__State_2185FA0: // 0x02185FA0
 	str r0, [r4, #0x13c]
 	ldr r2, _021861E0 // =_mt_math_rand
 	ldr r0, _021861E4 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _021861E8 // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -3779,7 +3779,7 @@ _021869A8:
 	bls _02186B38
 	ldr r3, _02186B84 // =_mt_math_rand
 	mov r8, #0
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	ldr r0, _02186B88 // =0x00196225
 	ldr r1, _02186B8C // =0x3C6EF35F
 	str r8, [sp, #0x20]
@@ -4233,7 +4233,7 @@ SailHoverEnemyHover__State_2186F88: // 0x02186F88
 	bne _0218709C
 	ldr r2, _02187124 // =_mt_math_rand
 	ldr r0, _02187128 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _0218712C // =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
@@ -4887,7 +4887,7 @@ _02187964:
 _02187A24:
 	ldr r2, _02187CB4 // =_mt_math_rand
 	ldr r0, _02187CB8 // =0x00196225
-	ldr r5, [r2]
+	ldr r5, [r2, #0]
 	ldr r1, _02187CBC // =0x3C6EF35F
 	mov r3, #0x1300
 	mla r0, r5, r0, r1

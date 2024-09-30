@@ -21,12 +21,12 @@ NitroSpMain: // 0x037F8468
 	mov r0, #1
 	bl OS_EnableIrqMask
 	ldr r1, _037F8524 // =0x04000004
-	ldrh r0, [r1]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
+	ldrh r0, [r1, #0]
 	orr r0, r0, #8
 	strh r0, [r1]
 	ldr r1, _037F8528 // =0x04000208
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	mov r0, #1
 	strh r0, [r1]
 	bl OS_EnableInterrupts
@@ -72,7 +72,7 @@ MainTaskRoutine: // 0x037F8538
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
 	ldr r8, _037F85EC // =0x0380FFF4
-	ldr r9, [r8]
+	ldr r9, [r8, #0]
 	mov r7, #0
 	strh r7, [r9, #0x10]
 	strh r7, [r9, #0x14]
@@ -81,7 +81,7 @@ MainTaskRoutine: // 0x037F8538
 	add r4, r9, #0x10
 	ldr r10, _037F85F4 // =0x0000FFFF
 _037F8564:
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldr r0, [r0, #0x308]
 	mov r1, r6
 	mov r2, r7
@@ -100,7 +100,7 @@ _037F8588:
 	ldrh r1, [r9, r1]
 	cmp r1, r10
 	bne _037F85C0
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	add r1, r1, #1
 	strh r1, [r4]
 	bl OS_EnableIrqMask
@@ -131,7 +131,7 @@ AddTask: // 0x037F85F8
 	mov r7, r0
 	mov r6, r1
 	ldr r0, _037F86AC // =0x0380FFF4
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	add r4, r5, #0xbc
 	ldr r0, _037F86B0 // =0x01000010
 	bl OS_DisableIrqMask
@@ -164,7 +164,7 @@ _037F8670:
 	cmp r0, #3
 	bne _037F86A0
 	ldr r0, _037F86AC // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x308]
 	mov r1, #0
 	mov r2, r1
@@ -184,7 +184,7 @@ DeleteTask: // 0x037F86B8
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r0, _037F8724 // =0x0380FFF4
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	ldr r0, _037F8728 // =0x01000010
 	bl OS_DisableIrqMask
 	mov r6, r4, lsl #1
@@ -220,7 +220,7 @@ LowestIdleTask: // 0x037F8730
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _037F8770 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x308]
 	add r1, sp, #0
 	mov r2, #1
@@ -241,11 +241,11 @@ _037F8770: .word 0x0380FFF4
 ExecuteMessage: // 0x037F8774
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	beq _037F87A4
 	ldr r0, _037F87B0 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x200
 	bl NewHeapBuf
 	mov r0, #2
@@ -321,31 +321,31 @@ DeleteHeapBuf: // 0x037F882C
 	streq r1, [r5]
 	streq r1, [r5, #4]
 	beq _037F88F0
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	cmp r4, r1
 	bne _037F88B4
 	ldr r1, [r4, #4]
 	str r1, [r5]
 	mvn r2, #0
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	str r2, [r1]
 	b _037F88F0
 _037F88B4:
 	ldr r1, [r5, #4]
 	cmp r4, r1
 	bne _037F88D8
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	str r1, [r5, #4]
 	mvn r2, #0
 	ldr r1, [r5, #4]
 	str r2, [r1, #4]
 	b _037F88F0
 _037F88D8:
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r1, [r4, #4]
 	str r2, [r1]
 	ldr r2, [r4, #4]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	str r2, [r1, #4]
 _037F88F0:
 	mov r1, #0
@@ -366,13 +366,13 @@ AllocateHeapBuf: // 0x037F8910
 	sub sp, sp, #4
 	mov r5, r0
 	ldr r0, _037F89B0 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r3, r0, #0x17c
 	cmp r1, #0
 	moveq r0, #0
 	beq _037F89A4
 	add r2, r1, #0xc
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	cmp r0, #0
 	beq _037F8950
 	cmp r0, #1
@@ -417,7 +417,7 @@ ReleaseHeapBuf: // 0x037F89B8
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r1
 	ldr r2, _037F8A34 // =0x0380FFF4
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r6, r2, #0x17c
 	ldrh r3, [r4, #0xa]
 	ldr r2, _037F8A38 // =0x0000BF1D
@@ -427,7 +427,7 @@ ReleaseHeapBuf: // 0x037F89B8
 	bl DeleteHeapBuf
 	movs r5, r0
 	bne _037F8A28
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0
 	beq _037F8A04
 	cmp r0, #1
@@ -544,7 +544,7 @@ RequestCmdTask: // 0x037F8B4C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	ldr r1, _037F8E40 // =0x0380FFF4
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r0, _037F8E44 // =0x00000424
 	add r6, r3, r0
 	mov r2, #0
@@ -554,14 +554,14 @@ RequestCmdTask: // 0x037F8B4C
 	bne _037F8E34
 	ldr r0, [r3, #0x200]
 	str r0, [r6]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mvn r3, #0
 	cmp r0, r3
 	beq _037F8E34
 	ldrh r3, [r0, #0xe]
 	add r3, r0, r3, lsl #1
 	add r5, r3, #0x10
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add lr, r1, #0x300
 	ldrh r1, [lr, #0x3e]
 	cmp r1, #0
@@ -571,7 +571,7 @@ RequestCmdTask: // 0x037F8B4C
 	strneh r0, [r5, #4]
 	bne _037F8DEC
 	ldrh r3, [r0, #0xc]
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	cmp r3, r1
 	movne r0, #0xd
 	strneh r0, [r5, #4]
@@ -729,13 +729,13 @@ _037F8DEC:
 	and r0, r1, r0
 	strh r0, [r6, #4]
 	ldr r0, _037F8E40 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x200
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	bl SendMessageToWmDirect
 _037F8E10:
 	ldr r0, _037F8E40 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x200
 	ldrh r0, [r0, #8]
 	cmp r0, #0
@@ -766,7 +766,7 @@ SendMessageToWmDirect: // 0x037F8E64
 	mov r5, r0
 	mov r4, r1
 	ldr r2, _037F8EF0 // =0x0380FFF4
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	add r2, r3, #0x100
 	ldrh r2, [r2, #0xfc]
 	cmp r2, #0
@@ -791,7 +791,7 @@ _037F8EA8:
 _037F8ECC:
 	mov r0, r5
 	ldr r1, _037F8EF0 // =0x0380FFF4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r1, r1, #0x1f4
 	mov r2, r4
 	bl MoveHeapBuf
@@ -808,15 +808,15 @@ WStart: // 0x037F8EF4
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	ldr r0, _037F9308 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r7, r0, #0x344
 	add r4, r0, #0x31c
 	bl WStop
 	ldr r2, _037F930C // =0x04808044
-	ldrh r1, [r2]
-	ldrh r0, [r2]
+	ldrh r1, [r2, #0]
+	ldrh r0, [r2, #0]
 	add r0, r1, r0, lsl #8
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bl RND_init
 	mov r0, #1
 	strh r0, [r7, #0x7c]
@@ -861,7 +861,7 @@ WStart: // 0x037F8EF4
 	ldr r0, _037F9334 // =0x048081AE
 	strh r1, [r0]
 	ldr r0, _037F9308 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x600
 	ldrh r0, [r0, #0x90]
 	ands r0, r0, #8
@@ -924,16 +924,16 @@ _037F9078:
 	strh r1, [r0]
 	add r6, sp, #0
 	ldr r0, _037F9360 // =0x048080F8
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	strh r0, [r6]
 	ldr r0, _037F9364 // =0x048080FA
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	strh r0, [r6, #2]
 	ldr r0, _037F9368 // =0x048080FC
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	strh r0, [r6, #4]
 	ldr r0, _037F936C // =0x048080FE
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	strh r0, [r6, #6]
 	ldrh r0, [r7, #0x6e]
 	mov r4, r0, lsl #0xa
@@ -963,7 +963,7 @@ _037F9078:
 	ldrh r1, [r6, #2]
 	ldr r0, _037F9378 // =0x048080F2
 	strh r1, [r0]
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	orr r1, r0, #1
 	ldr r0, _037F937C // =0x048080F0
 	strh r1, [r0]
@@ -983,16 +983,16 @@ _037F919C:
 	ldr r1, _037F9344 // =0x04808012
 	strh r0, [r1]
 	ldr r0, _037F9308 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x600
 	ldrh r0, [r0, #0x90]
 	ands r0, r0, #0x20
 	beq _037F91DC
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	orr r0, r0, #0x40
 	strh r0, [r1]
 	ldr r1, _037F9338 // =0x048081AA
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	orr r0, r0, #0x68
 	strh r0, [r1]
 _037F91DC:
@@ -1120,7 +1120,7 @@ _037F939C: .word 0x04808048
 WStop: // 0x037F93A0
 	stmdb sp!, {r4, lr}
 	ldr r0, _037F9430 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r4, r0, #0x344
 	bl ClearPeriodicTimeOut
 	bl ClearTimeOut
@@ -1174,7 +1174,7 @@ WSetStaState: // 0x037F9458
 	sub sp, sp, #4
 	mov r5, r0
 	ldr r0, _037F94EC // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r4, r0, #0x344
 	ldrh r0, [r4, #8]
 	cmp r0, r5
@@ -1227,8 +1227,8 @@ WlIntr: // 0x037F94F4
 	ldr r5, _037F95CC // =0x04808010
 	ldr r4, _037F95D0 // =0x04808012
 _037F9508:
-	ldrh r1, [r5]
-	ldrh r0, [r4]
+	ldrh r1, [r5, #0]
+	ldrh r0, [r4, #0]
 	ands r6, r1, r0
 	beq _037F95B0
 	ands r0, r6, #0x80
@@ -1282,7 +1282,7 @@ _037F959C:
 	b _037F9508
 _037F95B0:
 	ldr r1, _037F95D4 // =0x0380FFF8
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	orr r0, r0, #0x1000000
 	str r0, [r1]
 	add sp, sp, #4
@@ -1298,7 +1298,7 @@ _037F95D4: .word 0x0380FFF8
 WlIntrPreTbtt: // 0x037F95D8
 	stmdb sp!, {r4, lr}
 	ldr r0, _037F965C // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r4, r0, #0x344
 	mov r1, #0x8000
 	ldr r0, _037F9660 // =0x04808010
@@ -1340,7 +1340,7 @@ WlIntrTbtt: // 0x037F9664
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	ldr r0, _037F9934 // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r10, r1, #0x344
 	add r4, r1, #0x31c
 	ldr r0, _037F9938 // =0x0000042C
@@ -1363,7 +1363,7 @@ _037F96B0:
 	add r0, r1, r0
 	add r6, r0, #8
 	ldr r0, _037F9940 // =0x0380FFF0
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	mov r0, r6
 	and r1, r5, #0xff
 	bl WL_WriteByte
@@ -1376,13 +1376,13 @@ _037F96B0:
 	bne _037F970C
 	ldrh r2, [r4, #0x20]
 	ldr r1, _037F9944 // =0x04808134
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	add r0, r2, r0
 	add r0, r0, #1
 	strh r0, [r1]
 _037F970C:
 	ldr r0, _037F9934 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x500
 	ldrh r1, [r0, #0x2e]
 	mvn r2, r1
@@ -1390,7 +1390,7 @@ _037F970C:
 	orr r1, r2, r1
 	strh r1, [r0, #0x30]
 	ldr r0, _037F9948 // =0x048080B6
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ands r0, r1, #0x18
 	bne _037F9748
 	and r0, r1, #6
@@ -1416,7 +1416,7 @@ _037F976C:
 	beq _037F979C
 	ldrh r2, [r4, #0x20]
 	ldr r1, _037F9944 // =0x04808134
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	add r0, r2, r0
 	add r0, r0, #1
 	strh r0, [r1]
@@ -1451,15 +1451,15 @@ _037F97FC:
 _037F9800:
 	cmp r1, #0
 	ldrne r1, _037F9950 // =0x04808038
-	ldrneh r0, [r1]
+	ldrneh r0, [r1, #0]
 	orrne r0, r0, #1
 	strneh r0, [r1]
 	ldreq r1, _037F9950 // =0x04808038
-	ldreqh r0, [r1]
+	ldreqh r0, [r1, #0]
 	biceq r0, r0, #1
 	streqh r0, [r1]
 	ldr r0, _037F9954 // =0x04808118
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0xa
 	movhi r1, #0
 	ldrhi r0, _037F9958 // =0x04808048
@@ -1548,7 +1548,7 @@ _037F995C: .word 0x048080AE
 	arm_func_start WlIntrActEnd
 WlIntrActEnd: // 0x037F9960
 	ldr r0, _037F99CC // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r2, r0, #0x344
 	mov r1, #0x2000
 	ldr r0, _037F99D0 // =0x04808010
@@ -1609,22 +1609,22 @@ WlIntrTxErr: // 0x037F9A18
 	ldr r0, _037F9B2C // =0x04808010
 	strh r1, [r0]
 	ldr r0, _037F9B30 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x300
 	ldrh r0, [r0, #0x3a]
 	mov r0, r0, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	beq _037F9A64
 	ldr r0, _037F9B34 // =0x0480819C
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ands r0, r0, #1
 	ldreq r1, _037F9B38 // =0x04808290
-	ldreqh r0, [r1]
+	ldreqh r0, [r1, #0]
 	eoreq r0, r0, #1
 	streqh r0, [r1]
 _037F9A64:
 	ldr r0, _037F9B30 // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r0, r1, #0x600
 	ldrh r0, [r0, #0x90]
 	ands r0, r0, #8
@@ -1656,7 +1656,7 @@ _037F9AA0:
 	add r6, r7, r6
 	sub r6, r6, #7
 	bic r7, r6, #1
-	ldrh r6, [r7]
+	ldrh r6, [r7, #0]
 	cmp r6, #0
 	bne _037F9B14
 	ldrh r6, [r7, #2]
@@ -1689,7 +1689,7 @@ _037F9B40: .word 0x04808032
 WlIntrRxCntup: // 0x037F9B44
 	stmdb sp!, {r4, lr}
 	ldr r4, _037F9CCC // =0x0380FFF4
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _037F9CD0 // =0x000004DC
 	add r2, r1, r0
 	ldr r0, _037F9CD4 // =0x0000042C
@@ -1698,8 +1698,8 @@ WlIntrRxCntup: // 0x037F9B44
 	ldr r0, _037F9CD8 // =0x04808010
 	strh r3, [r0]
 	ldr r0, _037F9CDC // =0x048081A8
-	ldrh r0, [r0]
-	ldr r3, [r4]
+	ldrh r0, [r0, #0]
+	ldr r3, [r4, #0]
 	add r3, r3, #0x600
 	ldrh r3, [r3, #0x90]
 	ands r3, r3, #8
@@ -1707,10 +1707,10 @@ WlIntrRxCntup: // 0x037F9B44
 	ands r3, r0, #0x400
 	beq _037F9C44
 	ldr r3, _037F9CE0 // =0x048080B0
-	ldrh r4, [r3]
+	ldrh r4, [r3, #0]
 	ands r3, r4, #1
 	beq _037F9BAC
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	cmp r3, #0
 	bne _037F9C00
 _037F9BAC:
@@ -1727,7 +1727,7 @@ _037F9BC0:
 	bne _037F9C00
 _037F9BD4:
 	ldr r1, _037F9CE4 // =0x0480819C
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	ands r1, r1, #1
 	bne _037F9C00
 	mov r4, #0
@@ -1750,14 +1750,14 @@ _037F9C00:
 	mov r1, #0x8000
 	strh r1, [r2]
 	ldr r1, _037F9CCC // =0x0380FFF4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r1, r1, #0x300
 	ldrh r2, [r1, #0xfe]
 	add r2, r2, #1
 	strh r2, [r1, #0xfe]
 _037F9C44:
 	ldr r1, _037F9CCC // =0x0380FFF4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r1, r1, #0x600
 	ldrh r1, [r1, #0x90]
 	ands r1, r1, #1
@@ -1765,16 +1765,16 @@ _037F9C44:
 	ands r0, r0, #0x60
 	beq _037F9CC4
 	ldr r0, _037F9CEC // =0x04808054
-	ldrh r4, [r0]
+	ldrh r4, [r0, #0]
 	ldr r0, _037F9CF0 // =0x04808052
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	sub r0, r0, #0x4000
 	mov r1, #2
 	bl _s32_div_f
 	cmp r4, r0
 	bge _037F9CA4
 	ldr r0, _037F9CF4 // =0x04808050
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	sub r0, r0, #0x4000
 	mov r1, #2
 	bl _s32_div_f
@@ -1782,7 +1782,7 @@ _037F9C44:
 	bge _037F9CC0
 _037F9CA4:
 	ldr r0, _037F9CF8 // =0x0480805A
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldr r0, _037F9CFC // =0x04808056
 	strh r1, [r0]
 	ldr r1, _037F9D00 // =0x00008001
@@ -1816,13 +1816,13 @@ WlIntrTxEnd: // 0x037F9D08
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r2, _037F9F74 // =0x0380FFF4
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, _037F9F78 // =0x0000042C
 	add r5, r1, r0
 	mov r0, #2
 	ldr r1, _037F9F7C // =0x04808010
 	strh r0, [r1]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r1, r1, #0x300
 	ldrh r1, [r1, #0x4c]
 	cmp r1, #0x12
@@ -1831,7 +1831,7 @@ WlIntrTxEnd: // 0x037F9D08
 	b _037F9F68
 _037F9D48:
 	ldr r1, _037F9F80 // =0x048080B8
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	and r4, r1, #0xf00
 	cmp r4, #0x300
 	beq _037F9D70
@@ -1847,7 +1847,7 @@ _037F9D70:
 	bl SetParentTbttTxq
 _037F9D80:
 	ldr r0, _037F9F74 // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x558]
 	add r0, r0, #1
 	str r0, [r1, #0x558]
@@ -1905,14 +1905,14 @@ _037F9E40:
 	cmp r1, #1
 	bls _037F9E94
 	ldr r3, _037F9F74 // =0x0380FFF4
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r3, r3, #0x300
 	ldrh r3, [r3, #0x3a]
 	mov r3, r3, lsl #0x1b
 	movs r3, r3, lsr #0x1f
 	beq _037F9E94
 	ldr r3, _037F9F9C // =0x0480819C
-	ldrh r3, [r3]
+	ldrh r3, [r3, #0]
 	ands r3, r3, #1
 	ldreq ip, _037F9FA0 // =0x04808290
 	ldreqh r3, [ip]
@@ -1920,7 +1920,7 @@ _037F9E40:
 	streqh r3, [ip]
 _037F9E94:
 	ldr r3, _037F9F74 // =0x0380FFF4
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r3, r3, #0x600
 	ldrh r3, [r3, #0x90]
 	ands r3, r3, #0x40
@@ -1946,7 +1946,7 @@ _037F9EE8:
 	cmp r4, #0x800
 	beq _037F9F5C
 	ldr r0, _037F9FA4 // =0x048080B0
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ands r0, r0, #2
 	bne _037F9F5C
 	ldrh r0, [r5, #0x3c]
@@ -1959,7 +1959,7 @@ _037F9EE8:
 	ldr r1, _037F9FAC // =0x04808048
 	strh r2, [r1]
 	ldr r1, _037F9F7C // =0x04808010
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	ands r1, r1, #0x1000
 	ldrneh r0, [r5, #0xac]
 	addne r0, r0, #1
@@ -2006,7 +2006,7 @@ WlIntrRxEnd: // 0x037F9FB4
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	ldr r0, _037FA3F0 // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r10, r1, #0x344
 	ldr r0, _037FA3F4 // =0x000004DC
 	add r9, r1, r0
@@ -2018,7 +2018,7 @@ WlIntrRxEnd: // 0x037F9FB4
 	ldrh r0, [r10, #0xc]
 	cmp r0, #0
 	ldreq r0, _037FA3FC // =0x04808054
-	ldreqh r1, [r0]
+	ldreqh r1, [r0, #0]
 	ldreq r0, _037FA400 // =0x0480805A
 	streqh r1, [r0]
 	and r5, r2, #1
@@ -2029,17 +2029,17 @@ WlIntrRxEnd: // 0x037F9FB4
 _037FA010:
 	ldrh r7, [r9, #4]
 	ldr r0, _037FA3FC // =0x04808054
-	ldrh r6, [r0]
+	ldrh r6, [r0, #0]
 	cmp r7, r6
 	beq _037FA38C
 	ldr r0, _037FA404 // =0x048080F8
-	ldrh r4, [r0]
+	ldrh r4, [r0, #0]
 	ldr r0, _037FA408 // =0x048080FA
-	ldrh r3, [r0]
+	ldrh r3, [r0, #0]
 	ldr r0, _037FA404 // =0x048080F8
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	ldr r0, _037FA408 // =0x048080FA
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r4, r2
 	movhi r0, r2, lsr #4
 	orrhi r11, r0, r1, lsl #12
@@ -2072,8 +2072,8 @@ _037FA074:
 	ldr r0, [sp, #8]
 	add r0, r0, #0x4800000
 	add r0, r0, #0x4000
-	ldrh r2, [r0]
-	ldrh r1, [r4]
+	ldrh r2, [r0, #0]
+	ldrh r1, [r4, #0]
 	mov r1, r1, lsl #1
 	and r1, r1, #0x400
 	orr r1, r2, r1
@@ -2081,7 +2081,7 @@ _037FA074:
 	ldr r0, [sp, #0xc]
 	strh r11, [r0]
 	ldr r0, [sp, #0x10]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	add r0, r2, r7, lsl #1
 	add r0, r0, #0xf
 	mov r0, r0, lsr #2
@@ -2109,7 +2109,7 @@ _037FA12C:
 	add r0, r0, r7, lsl #1
 	add r1, r1, #0x4800000
 	add r1, r1, #0x4000
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	ldr r3, _037FA420 // =0x04805F5A
 	cmp r0, r3
 	ldrloh r0, [r0, #6]
@@ -2141,23 +2141,23 @@ _037FA19C:
 	strh r0, [r4]
 	b _037FA38C
 _037FA1C4:
-	ldrh r0, [r8]
+	ldrh r0, [r8, #0]
 	and r0, r0, #0xf
 	cmp r0, #0xc
 	bne _037FA320
 	add r0, r8, #0xc
 	bl AdjustRingPointer
-	ldrh r11, [r0]
+	ldrh r11, [r0, #0]
 	add r0, r8, #0x22
 	bl AdjustRingPointer
-	ldrh r6, [r0]
-	ldrh r0, [r9]
+	ldrh r6, [r0, #0]
+	ldrh r0, [r9, #0]
 	cmp r0, r6
 	bne _037FA220
 	ands r0, r11, #0x800
 	beq _037FA220
 	ldr r0, _037FA3F0 // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x57c]
 	add r0, r0, #1
 	str r0, [r1, #0x57c]
@@ -2166,7 +2166,7 @@ _037FA1C4:
 	b _037FA2F8
 _037FA220:
 	ldr r0, _037FA3F0 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r0, #0x300
 	ldrh r2, [r1, #0x3a]
 	mov r2, r2, lsl #0x18
@@ -2176,17 +2176,17 @@ _037FA220:
 	cmp r1, #0x40
 	bne _037FA2F8
 	ldr r1, _037FA428 // =0x04808028
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	cmp r1, #0
 	beq _037FA2D0
 	ldr r1, _037FA42C // =0x04808098
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	ands r1, r1, #0x8000
 	beq _037FA2D0
 	add r0, r0, #0x660
 	bl OS_CancelAlarm
 	ldr r0, [sp, #4]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r1, #0
 	ldr r0, _037FA430 // =0x000082EA
 	umull r8, r3, r2, r0
@@ -2203,7 +2203,7 @@ _037FA220:
 	ldr r0, [sp, #0x18]
 	str r0, [sp]
 	ldr r0, _037FA3F0 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x660
 	mov r1, r3
 	ldr r3, _037FA434 // =WClearKSID
@@ -2226,7 +2226,7 @@ _037FA2F8:
 	cmp r0, #0
 	bne _037FA378
 	ldr r0, _037FA3F0 // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x5a8]
 	add r0, r0, #1
 	str r0, [r1, #0x5a8]
@@ -2235,7 +2235,7 @@ _037FA320:
 	cmp r0, #0xd
 	bne _037FA378
 	ldr r0, _037FA3F0 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x300
 	ldrh r1, [r0, #0x3a]
 	mov r1, r1, lsl #0x18
@@ -2245,11 +2245,11 @@ _037FA320:
 	cmp r0, #0x40
 	bne _037FA378
 	ldr r0, _037FA428 // =0x04808028
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	beq _037FA370
 	ldr r0, _037FA42C // =0x04808098
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ands r0, r0, #0x8000
 	bne _037FA378
 _037FA370:
@@ -2265,21 +2265,21 @@ _037FA38C:
 	cmp r5, #0
 	beq _037FA3C0
 	ldr r0, _037FA3FC // =0x04808054
-	ldrh r4, [r0]
+	ldrh r4, [r0, #0]
 	bl CheckKeyTxEnd
 	cmp r0, #0
 	beq _037FA3C0
 	ldr r0, _037FA3FC // =0x04808054
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r4, r0
 	bne _037FA3C0
 	mov r0, #0x20
 	bl SetFatalErr
 _037FA3C0:
 	ldr r0, _037FA400 // =0x0480805A
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldr r0, _037FA3FC // =0x04808054
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r1, r0
 	beq _037FA3E4
 	mov r0, #0
@@ -2335,9 +2335,9 @@ WlIntrMpEnd: // 0x037FA444
 	cmp r0, #0
 	beq _037FA524
 	ldr r0, _037FA548 // =0x048080B6
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	ldr r0, _037FA54C // =0x04808214
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #3
 	beq _037FA4B0
 	cmp r0, #5
@@ -2368,9 +2368,9 @@ _037FA4D8:
 	ldr r1, _037FA550 // =MacBugTxMp
 	bl SetupUsTimeOut
 	ldr r0, _037FA53C // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x400
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	add r1, r1, #1
 	strh r1, [r0]
 	b _037FA530
@@ -2396,24 +2396,24 @@ WlIntrStartTx: // 0x037FA554
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r3, _037FA664 // =0x0380FFF4
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr r0, _037FA668 // =0x0000042C
 	add r0, r1, r0
 	mov r2, #0x80
 	ldr r1, _037FA66C // =0x04808010
 	strh r2, [r1]
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	add r1, r1, #0x600
 	ldrh r1, [r1, #0x90]
 	ands r1, r1, #0x20
 	beq _037FA5F8
 	ldr r1, _037FA670 // =0x04808214
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	and r1, r1, #0xff
 	mov r1, r1, lsl #0x10
 	mov r2, r1, lsr #0x10
 	ldr r1, _037FA674 // =0x04808268
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	cmp r2, #3
 	blo _037FA5F8
 	cmp r2, #5
@@ -2428,24 +2428,24 @@ WlIntrStartTx: // 0x037FA554
 	cmp r3, r0
 	bhi _037FA5F8
 	ldr r1, _037FA67C // =0x04808244
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	orr r0, r0, #0x80
 	strh r0, [r1]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #0x80
 	strh r0, [r1]
 _037FA5F8:
 	ldr r0, _037FA680 // =0x04808000
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0x1440
 	beq _037FA658
 	ldr r0, _037FA684 // =0x0480819C
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	and r0, r0, #0x42
 	cmp r0, #0x42
 	bne _037FA658
 	ldr r1, _037FA688 // =0x048082B8
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	cmp r2, #0
 	beq _037FA658
 	mov r3, #0
@@ -2458,7 +2458,7 @@ _037FA634:
 	bl SetFatalErr
 	b _037FA658
 _037FA64C:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	cmp r2, r0
 	beq _037FA634
 _037FA658:
@@ -2482,14 +2482,14 @@ _037FA688: .word 0x048082B8
 WlIntrStartRx: // 0x037FA68C
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	ldr r2, _037FA8BC // =0x0380FFF4
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r5, r1, #0x344
 	ldr r0, _037FA8C0 // =0x0000042C
 	add r4, r1, r0
 	mov r1, #0x40
 	ldr r0, _037FA8C4 // =0x04808010
 	strh r1, [r0]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r0, r0, #0x600
 	ldrh r0, [r0, #0x90]
 	ands r0, r0, #0x20
@@ -2499,27 +2499,27 @@ WlIntrStartRx: // 0x037FA68C
 	cmp r1, r0
 	bne _037FA8B4
 	ldr r0, _037FA8CC // =0x0480819C
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	and r0, r0, #3
 	cmp r0, #3
 	bne _037FA8B4
 	ldr r0, _037FA8D0 // =0x04808268
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	ldr r0, _037FA8D4 // =0x04808050
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldr r0, _037FA8D8 // =0x00000FFF
 	and r0, r0, r1, lsr #1
 	cmp r2, r0
 	blt _037FA8B4
 	ldr r0, _037FA8DC // =0x04808054
-	ldrh r6, [r0]
+	ldrh r6, [r0, #0]
 	ldr r0, _037FA8E0 // =0x04804000
 	add r0, r0, r6, lsl #1
 	add r0, r0, #8
 	bl AdjustRingPointer
 	add r0, r0, #4
 	bl AdjustRingPointer
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	ldr r1, _037FA8E4 // =0x0000E7FF
 	and r1, r2, r1
 	cmp r1, #0x228
@@ -2527,11 +2527,11 @@ WlIntrStartRx: // 0x037FA68C
 	add r0, r0, #2
 	bl AdjustRingPointer
 	ldr r2, _037FA8E8 // =0x048080F8
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	sub r7, r1, #0x10000
 	ldr r1, _037FA8D0 // =0x04808268
 _037FA754:
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	sub r3, r3, r6
 	mov r3, r3, lsl #0x10
 	mov r8, r3, lsr #0x10
@@ -2542,7 +2542,7 @@ _037FA754:
 	movne r8, r3, lsr #0x10
 	cmp r8, #0xe
 	bhi _037FA79C
-	ldrh r3, [r2]
+	ldrh r3, [r2, #0]
 	sub r3, r3, r7
 	mov r3, r3, lsl #0x10
 	mov r3, r3, lsr #0x10
@@ -2557,7 +2557,7 @@ _037FA7A8:
 	bl AdjustRingPointer
 	mov r1, r0
 	add r0, r1, #2
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	add r1, r5, r8, lsl #1
 	ldrh r1, [r1, #0x64]
 	cmp r2, r1
@@ -2571,7 +2571,7 @@ _037FA7CC:
 	ldr r3, _037FA8E8 // =0x048080F8
 	ldr r1, _037FA8D0 // =0x04808268
 _037FA7E4:
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	sub r2, r2, r6
 	mov r2, r2, lsl #0x10
 	mov r8, r2, lsr #0x10
@@ -2582,7 +2582,7 @@ _037FA7E4:
 	movne r8, r2, lsr #0x10
 	cmp r8, #0x14
 	bhi _037FA82C
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	sub r2, r2, r7
 	mov r2, r2, lsl #0x10
 	mov r2, r2, lsr #0x10
@@ -2590,15 +2590,15 @@ _037FA7E4:
 	bls _037FA7E4
 	b _037FA8B4
 _037FA82C:
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r1, #1
 	ldr r0, _037FA8EC // =0x04808028
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	mov r0, r1, lsl r0
 	ands r0, r2, r0
 	bne _037FA8B4
 	ldr r0, _037FA8F0 // =0x04808098
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	strh r0, [r4, #0xa4]
 	mov r1, #0x40
 	ldr r0, _037FA8F4 // =0x048080B4
@@ -2608,15 +2608,15 @@ _037FA82C:
 	strh r0, [r5, #0xbe]
 	ldr r1, _037FA8CC // =0x0480819C
 _037FA870:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	and r0, r0, #3
 	cmp r0, #3
 	beq _037FA870
 	ldr r1, _037FA8F8 // =0x04808244
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	orr r0, r0, #0x40
 	strh r0, [r1]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #0x40
 	strh r0, [r1]
 	mov r0, #8
@@ -2653,7 +2653,7 @@ SetParentTbttTxq: // 0x037FA900
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #4
 	ldr r0, _037FA9CC // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _037FA9D0 // =0x0000042C
 	add r5, r1, r0
 	mov r4, #0
@@ -2667,7 +2667,7 @@ SetParentTbttTxq: // 0x037FA900
 	cmp r0, #0
 	beq _037FA958
 	ldr r0, [r5, #0x30]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	movne r4, #1
 	moveq r0, r4
@@ -2677,17 +2677,17 @@ _037FA958:
 	cmp r0, #0
 	beq _037FA97C
 	ldr r0, [r5, #0x1c]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	movne r4, #1
 	moveq r0, #0
 	streqh r0, [r5, #0x14]
 _037FA97C:
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	cmp r0, #0
 	beq _037FA9A0
 	ldr r0, [r5, #8]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	movne r4, #1
 	moveq r0, #0
@@ -2717,14 +2717,14 @@ MacBugTxMp: // 0x037FA9D4
 	bl OS_DisableIrqMask
 	mov r4, r0
 	ldr r2, _037FAA38 // =0x04808210
-	ldrh r3, [r2]
+	ldrh r3, [r2, #0]
 	mov r1, #0x1000
 	ldr r0, _037FAA3C // =0x04808244
 	strh r1, [r0]
 	mov r1, #0x64
 	b _037FAA10
 _037FAA00:
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	cmp r3, r0
 	bne _037FAA18
 	sub r1, r1, #1
@@ -2750,7 +2750,7 @@ AdjustRingPointer: // 0x037FAA40
 	ldr r1, _037FAA60 // =0x04805F60
 	cmp r0, r1
 	ldrhs r1, _037FAA64 // =0x0380FFF4
-	ldrhs r1, [r1]
+	ldrhs r1, [r1, #0]
 	addhs r1, r1, #0x300
 	ldrhsh r1, [r1, #0xde]
 	subhs r0, r0, r1
@@ -2764,7 +2764,7 @@ _037FAA64: .word 0x0380FFF4
 CheckKeyTxEnd: // 0x037FAA68
 	stmdb sp!, {r4, lr}
 	ldr r0, _037FAAAC // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _037FAAB0 // =0x0000042C
 	add r4, r1, r0
 	add r0, r4, #0x50
@@ -2790,7 +2790,7 @@ WlIntrTxBeaconTask: // 0x037FAAB4
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _037FAB04 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x300
 	ldrh r0, [r0, #0xe8]
 	cmp r0, #0
@@ -2798,7 +2798,7 @@ WlIntrTxBeaconTask: // 0x037FAAB4
 	bl UpdateGameInfoElement
 _037FAAD8:
 	ldr r0, _037FAB04 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x300
 	ldrh r0, [r0, #0x3a]
 	mov r0, r0, lsl #0x19
@@ -2818,7 +2818,7 @@ WlIntrTxEndTask: // 0x037FAB08
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #4
 	ldr r0, _037FAD00 // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r10, r1, #0x344
 	ldr r0, _037FAD04 // =0x0000042C
 	add r9, r1, r0
@@ -2840,14 +2840,14 @@ _037FAB40:
 	ldrh r0, [r0, #0xa0]
 	ands r0, r0, #0x8000
 	bne _037FACEC
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	cmp r0, #0
 	beq _037FACEC
 	ldr r3, [r2, #0xc]
 	cmp r3, #0
 	beq _037FACCC
 	ldr r0, [r2, #8]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	strh r0, [r3, #8]
 	ldr r0, [r2, #8]
 	ldrh r3, [r0, #0xc]
@@ -2858,7 +2858,7 @@ _037FAB40:
 	ands r0, r0, #0x4000
 	beq _037FAC98
 	ldr r0, _037FAD00 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x600
 	ldrh r0, [r0, #0x90]
 	ands r0, r0, #8
@@ -2907,7 +2907,7 @@ _37FAC60: // 0x037FAC60
 _037FAC64:
 	ldr r0, [r2, #0xc]
 	strh r7, [r0, #0xc]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	orr r0, r0, #0x8000
 	strh r0, [r1]
 	b _037FACEC
@@ -2962,7 +2962,7 @@ WlIntrRxEndTask: // 0x037FAD10
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x34
 	ldr r10, _037FB0C0 // =0x0380FFF4
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	ldr r0, _037FB0C4 // =0x000004DC
 	add r7, r1, r0
 	add r6, r1, #0x17c
@@ -2991,7 +2991,7 @@ WlIntrRxEndTask: // 0x037FAD10
 	str r0, [sp, #4]
 _037FAD88:
 	ldr r0, _037FB0C8 // =0x0480805A
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	ldrh r0, [r7, #4]
 	cmp r5, r0
 	beq _037FB0B4
@@ -3005,10 +3005,10 @@ _037FADAC:
 	add r5, r0, r5, lsl #1
 	add r0, r5, #2
 	bl AdjustRingPointer
-	ldrh r9, [r0]
+	ldrh r9, [r0, #0]
 	add r0, r4, #0x4800000
 	add r0, r0, #0x4000
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldr r0, _037FB0D4 // =0x0000FFFF
 	cmp r1, r0
 	ldreq r0, _037FB0C8 // =0x0480805A
@@ -3016,14 +3016,14 @@ _037FADAC:
 	beq _037FB0A4
 	add r0, r5, #8
 	bl AdjustRingPointer
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl TakeoutRxFrame
 	movs r4, r0
 	ldr r0, _037FB0C8 // =0x0480805A
 	strh r9, [r0]
 	bne _037FAE30
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	and r0, r0, #0xf
 	cmp r0, #0xc
 	bne _037FAE24
@@ -3035,7 +3035,7 @@ _037FAE24:
 	bl SetFatalErr
 	b _037FB0A4
 _037FAE30:
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	add r0, r0, #0x600
 	ldrh r0, [r0, #0x90]
 	ands r0, r0, #8
@@ -3154,13 +3154,13 @@ _037FAFD0:
 	and r0, r1, r0
 	cmp r0, #0x228
 	bne _037FB04C
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	add r0, r0, #0x300
 	ldrh r0, [r0, #0x54]
 	cmp r0, #0
 	ldreq r0, _037FB0E0 // =0x0480803C
 	streqh r8, [r0]
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	ldr r0, [r1, #0x5ac]
 	add r0, r0, #1
 	str r0, [r1, #0x5ac]
@@ -3174,7 +3174,7 @@ _037FB01C:
 	and r0, r1, r0
 	cmp r0, #0x218
 	bne _037FB04C
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	ldr r0, [r1, #0x5b0]
 	add r0, r0, #1
 	str r0, [r1, #0x5b0]
@@ -3188,7 +3188,7 @@ _037FB04C:
 	sub r1, r4, #0x10
 	bl ReleaseHeapBuf
 _037FB060:
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	add r0, r0, #0x600
 	ldrh r0, [r0, #0x90]
 	ands r0, r0, #1
@@ -3197,7 +3197,7 @@ _037FB060:
 _037FB078:
 	ldr r0, _037FB0E4 // =0x04805F60
 	cmp r5, r0
-	ldrhs r0, [r10]
+	ldrhs r0, [r10, #0]
 	addhs r0, r0, #0x300
 	ldrhsh r0, [r0, #0xde]
 	subhs r5, r5, r0
@@ -3232,7 +3232,7 @@ _037FB0E4: .word 0x04805F60
 WlIntrMpEndTask: // 0x037FB0E8
 	stmdb sp!, {r4, lr}
 	ldr r0, _037FB1CC // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _037FB1D0 // =0x0000042C
 	add r4, r1, r0
 	ldrh r0, [r4, #0x3c]
@@ -3250,13 +3250,13 @@ _037FB124:
 	ldrh r0, [r0, #4]
 	ands r2, r0, #0xff
 	ldreq r0, _037FB1CC // =0x0380FFF4
-	ldreq r1, [r0]
+	ldreq r1, [r0, #0]
 	ldreq r0, [r1, #0x5a0]
 	addeq r0, r0, #1
 	streq r0, [r1, #0x5a0]
 	beq _037FB15C
 	ldr r0, _037FB1CC // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x5a0]
 	add r0, r0, r2
 	str r0, [r1, #0x5a0]
@@ -3276,7 +3276,7 @@ _037FB15C:
 	mov r0, #0
 	strh r0, [r4, #0x3c]
 	ldr r0, _037FB1CC // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x300
 	ldrh r0, [r0, #0xea]
 	cmp r0, #0
@@ -3284,7 +3284,7 @@ _037FB15C:
 	bl WDisableTmpttPowerSave
 _037FB1B0:
 	ldr r0, _037FB1CC // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x188
 	ldr r1, [r4, #0x90]
 	bl SendMessageToWmDirect
@@ -3300,10 +3300,10 @@ _037FB1D0: .word 0x0000042C
 SetParentTbttTxqTask: // 0x037FB1D4
 	stmdb sp!, {r4, lr}
 	ldr r0, _037FB28C // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r4, r1, #0x17c
 	ldr r0, _037FB290 // =0x04808088
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	bne _037FB218
 	ldrh r0, [r4, #0x38]
@@ -3360,7 +3360,7 @@ TakeoutRxFrame: // 0x037FB298
 	mov r6, r0
 	mov r5, r1
 	ldr r0, _037FB308 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x188
 	add r1, r5, #0x22
 	bl AllocateHeapBuf
@@ -3394,7 +3394,7 @@ InitTxCtrl: // 0x037FB30C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #4
 	ldr r0, _037FB600 // =0x0380FFF4
-	ldr r7, [r0]
+	ldr r7, [r0, #0]
 	ldr r0, _037FB604 // =0x0000042C
 	add r6, r7, r0
 	add r5, r7, #0x344
@@ -3639,7 +3639,7 @@ _037FB6B4: .word 0x04804BFA
 InitRxCtrl: // 0x037FB6B8
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r0, _037FB7D0 // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r6, r1, #0x344
 	ldr r0, _037FB7D4 // =0x000004DC
 	add r5, r1, r0
@@ -3651,7 +3651,7 @@ InitRxCtrl: // 0x037FB6B8
 	ldr r0, _037FB7D8 // =0x04808030
 	strh r1, [r0]
 	ldr r0, _037FB7D0 // =0x0380FFF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x300
 	ldrh r0, [r0, #0x50]
 	cmp r0, #3
@@ -3745,7 +3745,7 @@ WaitLoop_Rxpe: // 0x037FB82C
 	ldr r1, _037FB854 // =0x0480819C
 	b _037FB848
 _037FB838:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #0x80
 	bxne lr
 	sub r2, r2, #1
@@ -3779,7 +3779,7 @@ WaitLoop_Waitus: // 0x037FB858
 	add r0, sp, #4
 	str r0, [sp]
 	ldr r0, _037FB8DC // =0x0380FFF4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _037FB8E0 // =0x00000634
 	add r0, r1, r0
 	mov r1, r3
@@ -3812,11 +3812,11 @@ WaitLoop_ClrAid: // 0x037FB8E4
 _037FB908:
 	ldrh r5, [lr]
 	strh ip, [lr]
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	and r0, r0, #3
 	cmp r0, #3
 	beq _037FB940
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	cmp r0, #5
 	beq _037FB940
 	cmp r0, #7
@@ -3846,7 +3846,7 @@ WaitLoop_BbpAccess: // 0x037FB96C
 	ldr r1, _037FB99C // =0x0480815E
 	b _037FB98C
 _037FB978:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #1
 	moveq r0, #0
 	bxeq lr
@@ -3866,7 +3866,7 @@ WaitLoop_RfAccess: // 0x037FB9A0
 	ldr r1, _037FB9D0 // =0x04808180
 	b _037FB9C0
 _037FB9AC:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ands r0, r0, #1
 	moveq r0, #0
 	bxeq lr

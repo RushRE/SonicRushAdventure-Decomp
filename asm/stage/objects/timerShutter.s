@@ -76,7 +76,7 @@ _021800D4:
 	mov r3, r0
 	ldr r0, _0218039C // =gameArchiveStage
 	mov r1, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r8
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -107,7 +107,7 @@ _021800D4:
 	bl GetObjectFileWork
 	ldr r1, _0218039C // =gameArchiveStage
 	mov r3, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _021803A0 // =aActAcGmkTimerS
 	str r2, [sp]
 	mov r0, r9
@@ -151,7 +151,7 @@ _021800D4:
 _02180238:
 	mov r0, r7
 	bl GetObjectFileWork
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r3, r0
 	str r1, [sp]
 	mov r0, r9
@@ -161,7 +161,7 @@ _02180238:
 	ldr r0, [r8, #0x20c]
 	mov r1, r10, lsl #1
 	ldrh r1, [r5, r1]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, #0x5f
 	bl ObjDrawAllocSpritePalette
 	strh r0, [r9, #0x50]
@@ -298,7 +298,7 @@ TimerShutterWater__Create: // 0x021803B8
 	mov r3, r0
 	ldr r0, _021805C0 // =gameArchiveStage
 	mov r1, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
@@ -326,7 +326,7 @@ TimerShutterWater__Create: // 0x021803B8
 	bl GetObjectFileWork
 	ldr r1, _021805C0 // =gameArchiveStage
 	mov r3, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _021805C4 // =aActAcGmkTimerS
 	str r2, [sp]
 	mov r0, r5
@@ -652,7 +652,7 @@ TimerShutterWater__OnDefend: // 0x02180944
 	cmp r2, #0
 	cmpne r4, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r0, [r2, #0x44]

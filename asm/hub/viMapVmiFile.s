@@ -67,7 +67,7 @@ ViMapVmiFile__Func_2161084: // 0x02161084
 	arm_func_start ViMapVmiFile__Func_21610A4
 ViMapVmiFile__Func_21610A4: // 0x021610A4
 	ldr r0, [r0, #4]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	bx lr
 	arm_func_end ViMapVmiFile__Func_21610A4
 

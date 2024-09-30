@@ -42,7 +42,7 @@ _0208EFDC: .word WCM_GetLinkLevel
 	arm_func_start DWCi_CheckDisconnected
 DWCi_CheckDisconnected: // 0x0208EFE0
 	ldr r0, _0208F008 // =0x021439F0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _0208F000
 	ldrh r0, [r0, #4]
@@ -60,7 +60,7 @@ _0208F008: .word 0x021439F0
 DWC_CleanupInet: // 0x0208F00C
 	stmdb sp!, {r4, lr}
 	ldr r0, _0208F068 // =0x021439F0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	ldmeqia sp!, {r4, pc}
 	ldrh r1, [r1, #4]
@@ -92,7 +92,7 @@ DWC_GetInetStatus: // 0x0208F06C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _0208F134 // =0x021439F0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #4
 	moveq r0, #0
@@ -107,10 +107,10 @@ DWC_GetInetStatus: // 0x0208F06C
 	bne _0208F0D0
 	ldr r1, _0208F134 // =0x021439F0
 	mov r0, #4
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r2, #1
 	strh r0, [r3, #4]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add sp, sp, #4
 	strh r2, [r1, #6]
 	ldmia sp!, {pc}
@@ -125,7 +125,7 @@ _0208F0D0:
 	bl DWCi_SetError
 	ldr r1, _0208F134 // =0x021439F0
 	mov r0, #8
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add sp, sp, #4
 	strh r0, [r1, #4]
 	ldmia sp!, {pc}
@@ -134,7 +134,7 @@ _0208F108:
 	bl DWCi_SetError
 	ldr r1, _0208F134 // =0x021439F0
 	mov r0, #7
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add sp, sp, #4
 	strh r0, [r1, #4]
 	ldmia sp!, {pc}
@@ -151,7 +151,7 @@ DWC_ProcessInet: // 0x0208F138
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _0208F1C8 // =0x021439F0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
@@ -161,7 +161,7 @@ DWC_ProcessInet: // 0x0208F138
 	bl DWC_AC_Process
 	ldr r1, _0208F1C8 // =0x021439F0
 	add sp, sp, #4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	str r0, [r1]
 	ldmia sp!, {pc}
 _0208F178:
@@ -178,10 +178,10 @@ _0208F178:
 	ldmeqia sp!, {pc}
 	ldr r0, _0208F1C8 // =0x021439F0
 	mov r3, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r1, #6
 	strh r3, [r2, #6]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	strh r1, [r0, #4]
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -194,12 +194,12 @@ DWC_CheckInet: // 0x0208F1CC
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _0208F218 // =0x021439F0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	addeq sp, sp, #4
 	moveq r0, #0
 	ldmeqia sp!, {pc}
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	addeq sp, sp, #4
 	moveq r0, #0
@@ -219,7 +219,7 @@ DWC_ConnectInetAsync: // 0x0208F21C
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r0, _0208F2C0 // =0x021439F0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _0208F2AC
 	ldrh r0, [r0, #4]
@@ -302,7 +302,7 @@ DWC_InitInetEx: // 0x0208F330
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r2, _0208F38C // =0x021439F0
 	mov r6, r0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mov r5, r1
 	mov r4, r3
 	cmp r2, #0

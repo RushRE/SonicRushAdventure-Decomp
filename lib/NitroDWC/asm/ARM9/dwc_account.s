@@ -826,7 +826,7 @@ DWCi_Acc_GetFlag_DataType: // 0x0209DF8C
 
 	arm_func_start DWCi_Acc_GetFlags
 DWCi_Acc_GetFlags: // 0x0209DFA4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _0209DFB4 // =0x001FFFFF
 	and r0, r0, r1, lsr #11
 	bx lr
@@ -894,7 +894,7 @@ DWCi_Acc_GetPlayerId: // 0x0209E024
 
 	arm_func_start DWCi_Acc_GetUserId
 DWCi_Acc_GetUserId: // 0x0209E02C
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _0209E048 // =0x000007FF
 	ldr r0, [r0, #4]
 	and r1, r2, r1

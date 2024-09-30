@@ -11,8 +11,8 @@ DWCi_SVLTokenWaitThread: // 0x0209E078
 	bl sub_209E258
 	ldr r0, _0209E0B4 // =0x02144338
 	ldr r1, _0209E0B8 // =0x0214432C
-	ldr r0, [r0]
-	ldr r1, [r1]
+	ldr r0, [r0, #0]
+	ldr r1, [r1, #0]
 	blx r1
 	bl sub_209E2B0
 	ldr r0, _0209E0BC // =0x02144328
@@ -53,13 +53,13 @@ _0209E104: .word 0x02144C00
 sub_209E108: // 0x0209E108
 	stmdb sp!, {r4, lr}
 	ldr r4, _0209E134 // =0x0214433C
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 _0209E11C:
 	ldr r0, [r0, #8]
 	bl sub_209E138
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	bne _0209E11C
 	ldmia sp!, {r4, pc}
@@ -76,17 +76,17 @@ sub_209E138: // 0x0209E138
 	movs r4, r0
 	beq _0209E1D0
 	ldr r0, _0209E1DC // =0x0214433C
-	ldr r2, [r0]
-	ldr r1, [r2]
+	ldr r2, [r0, #0]
+	ldr r1, [r2, #0]
 	cmp r2, r1
 	beq _0209E190
 	ldr r2, [r4, #4]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	str r2, [r1, #4]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r1, [r4, #4]
 	str r2, [r1]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, r4
 	ldreq r1, [r4, #4]
 	streq r1, [r0]
@@ -102,7 +102,7 @@ _0209E198:
 	bl sub_209E310
 	ldr r1, _0209E1E0 // =0x0214432C
 	mov r0, r4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	blx r1
 	mov r1, r6
 	mov r2, r5
@@ -122,7 +122,7 @@ _0209E1E0: .word 0x0214432C
 sub_209E1E4: // 0x0209E1E4
 	ldr r1, _0209E238 // =0x0214433C
 	mov ip, #0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	cmp r3, #0
 	beq _0209E230
 	ldr r1, [r3, #8]
@@ -207,7 +207,7 @@ sub_209E2B4: // 0x0209E2B4
 	sub sp, sp, #4
 	bl sub_209E29C
 	ldr r0, _0209E30C // =0x02144330
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
 	beq _0209E2FC
 	ldr r1, [r2, #0xc]
@@ -217,7 +217,7 @@ sub_209E2B4: // 0x0209E2B4
 	ldr r1, [r2, #0xc]
 	mov r2, #1
 	str r2, [r1, #4]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0xc]
 	ldr r1, [r1, #0x10]
 	bl sub_209E3E8
@@ -245,21 +245,21 @@ sub_209E310: // 0x0209E310
 	cmp r0, #0
 	beq _0209E34C
 	ldr r1, _0209E384 // =0x0214432C
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	blx r1
 _0209E34C:
 	ldr r1, _0209E384 // =0x0214432C
 	ldr r0, [r4, #0x20]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	blx r1
 _0209E35C:
 	ldr r1, _0209E384 // =0x0214432C
 	ldr r0, [r4, #0x24]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	blx r1
 	ldr r1, _0209E384 // =0x0214432C
 	mov r0, r4
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	blx r1
 	mov r0, #1
 	ldmia sp!, {r4, pc}
@@ -277,16 +277,16 @@ sub_209E388: // 0x0209E388
 	ldr r4, _0209E3E4 // =0x0214432C
 	mov r5, #0
 _0209E3A4:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	cmp r7, r0
 	beq _0209E3C4
-	ldr r6, [r0]
-	ldr r1, [r4]
+	ldr r6, [r0, #0]
+	ldr r1, [r4, #0]
 	blx r1
 	str r6, [r7]
 	b _0209E3D4
 _0209E3C4:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r7
 	blx r1
 	mov r7, r5
@@ -325,7 +325,7 @@ _0209E428:
 	ldr r0, [r6, r7, lsl #2]
 	cmp r0, #0
 	beq _0209E440
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	blx r1
 	str r5, [r6, r7, lsl #2]
 _0209E440:
@@ -365,16 +365,16 @@ sub_209E48C: // 0x0209E48C
 	bl sub_209E4EC
 	ldr r0, _0209E4DC // =0x02144CFC
 	ldr r1, _0209E4E0 // =0x02144D08
-	ldr r0, [r0]
-	ldr r1, [r1]
+	ldr r0, [r0, #0]
+	ldr r1, [r1, #0]
 	blx r1
 	ldr r0, _0209E4E4 // =0x02144D00
 	ldr r1, _0209E4E0 // =0x02144D08
-	ldr r0, [r0]
-	ldr r1, [r1]
+	ldr r0, [r0, #0]
+	ldr r1, [r1, #0]
 	blx r1
 	ldr r0, _0209E4E8 // =0x02144CF8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	blx r0
 	add sp, sp, #4
 	ldmia sp!, {pc}

@@ -44,7 +44,7 @@ SpringRopeSpring__Create: // 0x0218604C
 	mov r3, r0
 	ldr r0, _02186170 // =gameArchiveStage
 	mov r1, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]

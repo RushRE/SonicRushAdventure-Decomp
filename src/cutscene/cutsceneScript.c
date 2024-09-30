@@ -317,7 +317,7 @@ NONMATCH_FUNC void CutsceneFadeTask__Destructor(Task *task){
     // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetTaskWork_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	movne r0, #0
 	strne r0, [r1]
@@ -352,7 +352,7 @@ _02152C4C: // jump table
 	b _02152C90 // case 4
 _02152C60:
 	ldr r0, =padInput
-	ldrh r6, [r0]
+	ldrh r6, [r0, #0]
 	b _02152C98
 _02152C6C:
 	ldr r0, =padInput
@@ -433,7 +433,7 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152D3C(S
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02152D7C
@@ -446,7 +446,7 @@ _02152D58: // jump table
 	b _02152D70 // case 5
 _02152D70:
 	bl RenderCore_GetLanguagePtr
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	b _02152D80
 _02152D7C:
 	mov r2, #1
@@ -468,7 +468,7 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SystemCommand__Func_2152D94(S
     // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, =0x04000006
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	cmp r2, #0xc0
 	ble _02152DC4
 	ldr r1, =0xFFFFFEAA
@@ -1036,8 +1036,8 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21532F0(S
 	orr r5, r7, r0
 	bne _0215341C
 	mov r3, #0x4000000
-	ldr r0, [r3]
-	ldr r2, [r3]
+	ldr r0, [r3, #0]
+	ldr r2, [r3, #0]
 	and r4, r0, #0x1f00
 	mvn r0, r5
 	and r0, r0, r4, lsr #8
@@ -1049,8 +1049,8 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_21532F0(S
 _0215341C:
 	ldr r4, =0x04001000
 	mvn r0, r5
-	ldr r3, [r4]
-	ldr r2, [r4]
+	ldr r3, [r4, #0]
+	ldr r2, [r4, #0]
 	and r3, r3, #0x1f00
 	and r0, r0, r3, lsr #8
 	bic r2, r2, #0x1f00
@@ -1096,7 +1096,7 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153450(S
 	cmp r4, r1
 	beq _021534C8
 	ldr r2, =0x04000008
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	orr r1, r1, r4
 	strh r1, [r2]
@@ -1105,7 +1105,7 @@ _021534C8:
 	cmp r5, r1
 	beq _021534E8
 	ldr r2, =0x0400000A
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	orr r1, r1, r5
 	strh r1, [r2]
@@ -1114,7 +1114,7 @@ _021534E8:
 	cmp r6, r1
 	beq _02153508
 	ldr r2, =0x0400000C
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	orr r1, r1, r6
 	strh r1, [r2]
@@ -1123,7 +1123,7 @@ _02153508:
 	cmp r0, r1
 	beq _021535A8
 	ldr r2, =0x0400000E
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	orr r0, r1, r0
 	strh r0, [r2]
@@ -1132,7 +1132,7 @@ _0215352C:
 	cmp r4, r1
 	beq _02153548
 	ldr r2, =0x04001008
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	orr r1, r1, r4
 	strh r1, [r2]
@@ -1141,7 +1141,7 @@ _02153548:
 	cmp r5, r1
 	beq _02153568
 	ldr r2, =0x0400100A
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	orr r1, r1, r5
 	strh r1, [r2]
@@ -1150,7 +1150,7 @@ _02153568:
 	cmp r6, r1
 	beq _02153588
 	ldr r2, =0x0400100C
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	orr r1, r1, r6
 	strh r1, [r2]
@@ -1159,7 +1159,7 @@ _02153588:
 	cmp r0, r1
 	beq _021535A8
 	ldr r2, =0x0400100E
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	orr r0, r1, r0
 	strh r0, [r2]
@@ -1720,7 +1720,7 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ScreenCommand__Func_2153C48(S
 	bl ShakeScreen
 	cmp r0, #0
 	beq _02153C84
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, r4
 	bl _u32_div_f
 	mov r2, r0
@@ -2300,7 +2300,7 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__SpriteCommand__Func_2154240(S
 	mov r1, r5
 	add r0, r2, #0x1000
 	bl CutsceneSpriteButtonManager__Func_2156E70
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r4, #0
 	bicne r1, r1, #1
 	orreq r1, r1, #1
@@ -2601,7 +2601,7 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BackgroundCommand__Func_21545
 	mov r1, r5
 	add r0, r2, #0x1000
 	bl CutsceneBackgroundManager__Func_2157174
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r4, #0
 	bicne r1, r1, #1
 	orreq r1, r1, #1
@@ -2637,7 +2637,7 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BackgroundCommand__Func_21545
 	mov r1, r5
 	mov r2, r6
 	bl CutsceneBackgroundManager__Func_215718C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r4, #0
 	bicne r1, r1, #1
 	orreq r1, r1, #1
@@ -3126,7 +3126,7 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ModelCommand__Func_2154B64(Sc
 	cmp r2, r1
 	beq _02154BF0
 _02154BB8:
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	orr r0, r0, #2
 	strh r0, [r2], #2
 	cmp r2, r1
@@ -3137,7 +3137,7 @@ _02154BD0:
 	cmp r2, r1
 	beq _02154BF0
 _02154BDC:
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	bic r0, r0, #2
 	strh r0, [r2], #2
 	cmp r2, r1
@@ -3734,7 +3734,7 @@ _02155688:
 	mov r0, r9
 	mov r1, r7
 	bl CutsceneScript__GetRegister
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, r10
 	str r2, [sp]
 	mov r1, r9
@@ -3746,7 +3746,7 @@ _02155688:
 	mov r0, r9
 	mov r1, r6
 	bl CutsceneScript__GetRegister
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r1, r1, #3
 	str r1, [r0]
 	b _02155710
@@ -3757,18 +3757,18 @@ _021556D4:
 	beq _021556FC
 	mov r1, r5
 	bl CutsceneScript__GetRegister
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r1, r1, #2
 	str r1, [r0]
 	b _02155710
 _021556FC:
 	mov r1, r11
 	bl CutsceneScript__GetRegister
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	add r1, r1, #1
 	str r1, [r0]
 _02155710:
-	ldrb r3, [r8]
+	ldrb r3, [r8, #0]
 	mov r0, r10
 	mov r1, r9
 	mov ip, r3, asr #4
@@ -4005,12 +4005,12 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__ArithmeticCommand_Divide(Cuts
 	mov r1, #0xd
 	bl CutsceneScript__GetRegister
 	mov r4, r0
-	ldr r0, [r6]
-	ldr r1, [r5]
+	ldr r0, [r6, #0]
+	ldr r1, [r5, #0]
 	bl _s32_div_f
 	str r1, [r4]
-	ldr r1, [r5]
-	ldr r0, [r6]
+	ldr r1, [r5, #0]
+	ldr r0, [r6, #0]
 	bl _s32_div_f
 	str r0, [r6]
 	mov r0, #1
@@ -4175,8 +4175,8 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BitwiseCommand_Func_215600C(C
 	add r1, r5, #8
 	mov r2, #0xf
 	bl CutsceneScript__GetScriptParam
-	ldr r2, [r0]
-	ldr r1, [r4]
+	ldr r2, [r0, #0]
+	ldr r1, [r4, #0]
 	rsb r0, r2, #0x20
 	mov r0, r1, lsr r0
 	orr r0, r0, r1, lsl r2
@@ -4218,8 +4218,8 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__BitwiseCommand_Func_2156078(C
 	add r1, r5, #8
 	mov r2, #0xf
 	bl CutsceneScript__GetScriptParam
-	ldr r2, [r0]
-	ldr r1, [r4]
+	ldr r2, [r0, #0]
+	ldr r1, [r4, #0]
 	rsb r0, r2, #0x20
 	mov r0, r1, lsl r0
 	orr r0, r0, r1, lsr r2
@@ -4460,8 +4460,8 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__FunctionCommand_CallFunctionA
 	mov r0, r5
 	mov r1, #0xf
 	bl CutsceneScript__GetRegister
-	ldr r1, [r0]
-	ldr r2, [r4]
+	ldr r1, [r0, #0]
+	ldr r2, [r4, #0]
 	mov r0, r6
 	add r1, r2, r1
 	str r1, [sp, #4]
@@ -4638,7 +4638,7 @@ _02156A48:
 	ldr r2, [r2, #0xc]
 	bl NNS_FndMountArchive
 	ldr r0, [r6, #4]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	ldr r0, [r0, #4]
 	add r0, r0, r4
 	ldr r0, [r0, #0x14]
@@ -4736,7 +4736,7 @@ _02156BB0:
 	bls _02156BDC
 	ldr r4, [r5, #4]
 _02156BC0:
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	cmp r2, #0
 	beq _02156BDC
 	add r6, r6, #1
@@ -4837,8 +4837,8 @@ NONMATCH_FUNC void CutsceneFileSystemManager__Func_2156C88(void)
 	cmp r0, #0x3a
 	bne _02156D8C
 	ldr r2, [r10, #4]
-	ldr r0, [r8]
-	ldr r1, [r2]
+	ldr r0, [r8, #0]
+	ldr r1, [r2, #0]
 	str r0, [sp, #4]
 	mov r0, r5
 	strb r0, [sp, #7]
@@ -4930,7 +4930,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_2156E2C(void){
 #else
     // clang-format off
 	ldr r0, [r0, #8]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 
 // clang-format on
@@ -4998,7 +4998,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__LoadSprite2(void){
 	bls _02156EE4
 	ldr r4, [r2, #4]
 _02156EC8:
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	cmp r2, #0
 	beq _02156EE4
 	add lr, lr, #1
@@ -5466,7 +5466,7 @@ NONMATCH_FUNC void CutsceneModelManager__Func_2157460(void){
 #else
     // clang-format off
 	ldr r0, [r0, #0x10]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx lr
 
 // clang-format on
@@ -5498,7 +5498,7 @@ NONMATCH_FUNC s32 CutsceneModelManager__TryLoadModel(CutsceneSystemManager *work
 	bls _021574D8
 	ldr r4, [r2, #4]
 _021574BC:
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	cmp r2, #0
 	beq _021574D8
 	add ip, ip, #1
@@ -5555,7 +5555,7 @@ NONMATCH_FUNC void CutsceneModelManager__LoadModel(void){
 	mov r0, r7
 	bl CutsceneFileSystemManager__GetArchive
 	mov r4, r0
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	mov r0, r7
 	bl CutsceneFileSystemManager__Func_21569A4
 	cmp r0, #0
@@ -5670,7 +5670,7 @@ _021576D0:
 	bl NNS_G3dResDefaultSetup
 	b _02157714
 _02157700:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r8
 	bl CutsceneFileSystemManager__GetArchive
 	bl NNS_G3dGetTex
@@ -5974,7 +5974,7 @@ NONMATCH_FUNC s32 CutsceneAudioManager__AllocSoundHandle(CutsceneSystemManager *
     // clang-format off
 	ldr r0, [r0, #0x14]
 	mov r1, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
 	bls _02157B00
 	ldr r3, [r0, #4]
@@ -6003,7 +6003,7 @@ NONMATCH_FUNC void CutsceneAudioManager__Func_2157B08(CutsceneSystemManager *wor
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r1, [r5, #0x14]
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	bl CutsceneAudioManager__Release
 	mov r0, r5
 	mov r1, r4
@@ -6023,7 +6023,7 @@ NONMATCH_FUNC void CutsceneAudioManager__StopAllSeq(CutsceneSystemManager *work,
 	ldr r0, [r0, #0x14]
 	mov r6, r1
 	ldr r4, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r5, r4, r0, lsl #3
 	cmp r4, r5
 	ldmeqia sp!, {r4, r5, r6, pc}
@@ -6241,7 +6241,7 @@ NONMATCH_FUNC void CutsceneModelManager__Func_2157D6C(void)
 	str r0, [r4, #0x38]
 	ldr r0, [sp, #0x3c]
 	str r0, [r4, #0x3c]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #2
 	bne _02157E40
 	bl Camera3D__UseEngineA
@@ -6275,7 +6275,7 @@ NONMATCH_FUNC void CutsceneFadeManager__Release(CutsceneSystemManager *work){
     // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_SYSTEM
 	mov r0, #0
 	str r0, [r4]
@@ -6291,7 +6291,7 @@ NONMATCH_FUNC void CutsceneFadeManager__Process(CutsceneSystemManager *work){
 #else
     // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	mov r0, r4
 	bl CutsceneFadeManager__Draw
 	mov r0, r4
@@ -6360,11 +6360,11 @@ _02157F38:
 	bl _FreeHEAP_USER
 	b _02157F70
 _02157F50:
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	sub r0, r0, #1
 	str r0, [r1]
 	ldr r0, [r4, #0x10]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _02157F70
 	bl CutsceneFileSystemManager__ReleaseArchive2
@@ -6398,21 +6398,21 @@ _02157FAC:
 	add r0, r4, #0x14
 	bl ArchiveFile__Release
 	ldr r0, [r4, #4]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	mov r1, #0x18
 	muls r1, r2, r1
 	mov r7, r0
 	beq _02157FFC
 	mov r6, #0x18
 _02157FD0:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	cmp r0, #0
 	beq _02157FE4
 	mov r0, r7
 	bl CutsceneFileSystemManager__ReleaseArchive2
 _02157FE4:
 	ldr r0, [r4, #4]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r7, r7, #0x18
 	mla r2, r1, r6, r0
 	cmp r7, r2
@@ -6507,13 +6507,13 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__Func_21580E0(void){
     // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r4, r1
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	add r0, r5, #4
 	bl AnimatorSprite__Release
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, r4
 	bl CutsceneFileSystemManager__Func_2156BEC
 	ldr r0, [r5, #0x68]
@@ -6543,7 +6543,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__Release(CutsceneSystemManager *w
 	ldr r4, [r5, #8]
 	cmp r4, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, #0x70
 	muls r0, r1, r0
 	ldr r0, [r4, #4]
@@ -6551,7 +6551,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__Release(CutsceneSystemManager *w
 	beq _02158198
 	mov r6, #0x70
 _02158168:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	cmp r0, #0
 	beq _02158180
 	mov r0, r7
@@ -6559,7 +6559,7 @@ _02158168:
 	bl CutsceneSpriteButtonManager__Func_21580E0
 _02158180:
 	ldr r0, [r4, #4]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r7, r7, #0x70
 	mla r2, r1, r6, r0
 	cmp r7, r2
@@ -6599,7 +6599,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__Process(CutsceneSystemManager *w
 	mov r4, r0, asr #0x13
 	mov r0, #0x11
 	bl ShakeScreen
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r8, #1
 	smull r1, r0, r2, r4
 	adds r1, r1, #0x800
@@ -6608,7 +6608,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__Process(CutsceneSystemManager *w
 	orr r1, r1, r0, lsl #20
 	mov r10, r1, asr #0xc
 _02158218:
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	mov r0, #0x70
 	muls r0, r1, r0
 	ldr r7, [r6, #4]
@@ -6616,7 +6616,7 @@ _02158218:
 	mov r5, #0
 	mov r4, #0x70
 _02158234:
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	cmp r0, #0
 	beq _021582A8
 	mov r1, r5
@@ -6690,7 +6690,7 @@ NONMATCH_FUNC void CutsceneBackgroundManager__Func_21582F4(void){
     // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	cmp r2, #0
 	beq _02158314
 	mov r0, r1
@@ -6764,7 +6764,7 @@ NONMATCH_FUNC void CutsceneBackgroundManager__Process(CutsceneSystemManager *wor
 	mov r4, r0, asr #0x13
 	mov r0, #0x11
 	bl ShakeScreen
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r11, #1
 	smull r1, r0, r2, r4
 	adds r1, r1, #0x800
@@ -6908,7 +6908,7 @@ NONMATCH_FUNC void CutsceneModelManager__Func_215858C(void){
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	mov r6, r1
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
@@ -6917,19 +6917,19 @@ NONMATCH_FUNC void CutsceneModelManager__Func_215858C(void){
 	cmp r5, r4
 	beq _021585F8
 _021585B4:
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	cmp r1, #0
 	beq _021585EC
 	mov r0, r6
 	bl CutsceneFileSystemManager__Func_21569A4
 	cmp r0, #0
 	beq _021585E0
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, r6
 	bl CutsceneFileSystemManager__GetArchive
 	bl NNS_G3dResDefaultRelease
 _021585E0:
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, r6
 	bl CutsceneFileSystemManager__Func_2156BEC
 _021585EC:
@@ -6953,17 +6953,17 @@ _02158624:
 	mov r0, r6
 	bl CutsceneFileSystemManager__Func_2156BEC
 _02158630:
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	mov r0, r6
 	bl CutsceneFileSystemManager__Func_21569A4
 	cmp r0, #0
 	beq _02158654
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	mov r0, r6
 	bl CutsceneFileSystemManager__GetArchive
 	bl NNS_G3dResDefaultRelease
 _02158654:
-	ldr r1, [r7]
+	ldr r1, [r7, #0]
 	mov r0, r6
 	bl CutsceneFileSystemManager__Func_2156BEC
 	add r0, r7, #0x1c
@@ -6988,14 +6988,14 @@ NONMATCH_FUNC void CutsceneModelManager__Release(CutsceneSystemManager *work){
 	ldr r4, [r6, #0x10]
 	cmp r4, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, #0x164
 	muls r0, r1, r0
 	ldr r5, [r4, #4]
 	beq _021586D4
 	mov r7, #0x164
 _021586A8:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	beq _021586C0
 	mov r0, r5
@@ -7043,13 +7043,13 @@ NONMATCH_FUNC void CutsceneModelManager__Process(CutsceneSystemManager *work){
 	cmp r0, #0
 	mov r0, #0x164
 	bne _0215877C
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r6, [r4, #4]
 	muls r0, r1, r0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	mov r5, #0x164
 _02158748:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0
 	beq _02158764
 	add r0, r6, #0x1c
@@ -7077,7 +7077,7 @@ _0215877C:
 	cmp r6, r5
 	beq _021587D4
 _021587AC:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0
 	beq _021587C8
 	add r0, r6, #0x1c
@@ -7098,7 +7098,7 @@ _021587D4:
 	ldmeqia sp!, {r4, r5, r6, pc}
 	mov r6, #0x164
 _021587F4:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #0
 	beq _02158810
 	add r0, r5, #0x1c
@@ -7167,7 +7167,7 @@ NONMATCH_FUNC void CutsceneAudioManager__Func_21588A8(void){
     // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	ldr r0, [r4, #4]
@@ -7243,7 +7243,7 @@ _02158970:
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	beq _02158994
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02158994
 	mov r0, r4
@@ -7357,7 +7357,7 @@ _02158AFC:
 _02158B20:
 	ldr lr, =VRAMSystem__DisplayControllers
 	ldr r0, [lr, r0, lsl #2]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	and r0, r0, #7
 	cmp r0, #1
 	ble _02158B40
@@ -7388,7 +7388,7 @@ _02158B64:
 _02158B90:
 	ldr lr, =VRAMSystem__DisplayControllers
 	ldr r0, [lr, r0, lsl #2]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	and r0, r0, #7
 	cmp r0, #0
 	bgt _02158BCC
@@ -7436,7 +7436,7 @@ _02158C1C:
 _02158C40:
 	ldr lr, =VRAMSystem__DisplayControllers
 	ldr r0, [lr, r0, lsl #2]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	and r0, r0, #7
 	cmp r0, #1
 	ble _02158C60
@@ -7467,7 +7467,7 @@ _02158C84:
 _02158CB0:
 	ldr lr, =VRAMSystem__DisplayControllers
 	ldr r0, [lr, r0, lsl #2]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	and r0, r0, #7
 	cmp r0, #0
 	bgt _02158CEC
@@ -7512,7 +7512,7 @@ NONMATCH_FUNC void CutsceneUnknown__Func_2158D3C(void){
 	ldr lr, [sp, #0x10]
 	ldr ip, [sp, #0x14]
 	ldr r2, [sp, #0x18]
-	ldr r4, [r6]
+	ldr r4, [r6, #0]
 	bgt _02158DBC
 	cmp r5, #0x120
 	bge _02158F04
@@ -7564,7 +7564,7 @@ _02158E00:
 	b _02158FD8
 _02158E10:
 	ldr r5, =0x0400000C
-	ldrh r4, [r5]
+	ldrh r4, [r5, #0]
 	and r4, r4, #0x43
 	orr r3, r4, r3, lsl #14
 	orr r2, r3, r2, lsl #2
@@ -7574,7 +7574,7 @@ _02158E10:
 	b _02158FD8
 _02158E34:
 	ldr r4, =0x0400000C
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	and r2, r2, #0x43
 	orr r2, r2, r3, lsl #14
 	orr r2, r2, #0x80
@@ -7584,7 +7584,7 @@ _02158E34:
 	b _02158FD8
 _02158E58:
 	ldr r4, =0x0400000C
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	and r2, r2, #0x43
 	orr r2, r2, r3, lsl #14
 	orr r2, r2, #0x84
@@ -7594,7 +7594,7 @@ _02158E58:
 	b _02158FD8
 _02158E7C:
 	ldr r4, =0x0400000C
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	and r2, r2, #0x43
 	orr r2, r2, r3, lsl #14
 	orr r2, r2, lr, lsl #13
@@ -7602,7 +7602,7 @@ _02158E7C:
 	b _02158FD8
 _02158E98:
 	ldr r5, =0x0400000E
-	ldrh r4, [r5]
+	ldrh r4, [r5, #0]
 	and r4, r4, #0x43
 	orr r3, r4, r3, lsl #14
 	orr r2, r3, r2, lsl #2
@@ -7612,7 +7612,7 @@ _02158E98:
 	b _02158FD8
 _02158EBC:
 	ldr r4, =0x0400000E
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	and r2, r2, #0x43
 	orr r2, r2, r3, lsl #14
 	orr r2, r2, #0x80
@@ -7622,7 +7622,7 @@ _02158EBC:
 	b _02158FD8
 _02158EE0:
 	ldr r4, =0x0400000E
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	and r2, r2, #0x43
 	orr r2, r2, r3, lsl #14
 	orr r2, r2, #0x84
@@ -7632,7 +7632,7 @@ _02158EE0:
 	b _02158FD8
 _02158F04:
 	ldr r5, =0x0400100C
-	ldrh r4, [r5]
+	ldrh r4, [r5, #0]
 	and r4, r4, #0x43
 	orr r3, r4, r3, lsl #14
 	orr r2, r3, r2, lsl #2
@@ -7642,7 +7642,7 @@ _02158F04:
 	b _02158FD8
 _02158F28:
 	ldr r4, =0x0400100C
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	and r2, r2, #0x43
 	orr r2, r2, r3, lsl #14
 	orr r2, r2, #0x80
@@ -7652,7 +7652,7 @@ _02158F28:
 	b _02158FD8
 _02158F4C:
 	ldr r4, =0x0400100C
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	and r2, r2, #0x43
 	orr r2, r2, r3, lsl #14
 	orr r2, r2, #0x84
@@ -7662,7 +7662,7 @@ _02158F4C:
 	b _02158FD8
 _02158F70:
 	ldr r5, =0x0400100E
-	ldrh r4, [r5]
+	ldrh r4, [r5, #0]
 	and r4, r4, #0x43
 	orr r3, r4, r3, lsl #14
 	orr r2, r3, r2, lsl #2
@@ -7672,7 +7672,7 @@ _02158F70:
 	b _02158FD8
 _02158F94:
 	ldr r4, =0x0400100E
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	and r2, r2, #0x43
 	orr r2, r2, r3, lsl #14
 	orr r2, r2, #0x80
@@ -7682,7 +7682,7 @@ _02158F94:
 	b _02158FD8
 _02158FB8:
 	ldr r4, =0x0400100E
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	and r2, r2, #0x43
 	orr r2, r2, r3, lsl #14
 	orr r2, r2, #0x84
@@ -7924,7 +7924,7 @@ _021592B8:
 	sub r3, r1, #1
 	cmp r3, #1
 	bhi _02159320
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	tst r3, #1
 	beq _02159314
 	ldrsb r3, [r0, #8]
@@ -7955,7 +7955,7 @@ _02159320:
 	cmp r1, #1
 	cmpne r1, #3
 	bxne lr
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	tst r1, #2
 	beq _0215937C
 	ldrsb r1, [r0, #0x10]
@@ -8001,12 +8001,12 @@ NONMATCH_FUNC void CutsceneFadeManager__Draw(CutsceneFadeManager *work, s32 mode
 
 #else
     // clang-format off
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	tst r1, #1
 	ldrnesb r2, [r0, #8]
 	ldrne r1, =renderCoreGFXControlA
 	strneh r2, [r1, #0x58]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	tst r1, #2
 	ldrnesb r2, [r0, #0x10]
 	ldrne r1, =renderCoreGFXControlB
@@ -8232,7 +8232,7 @@ NONMATCH_FUNC void CutsceneSpriteButtonManager__TouchAreaCallback(void){
 #else
     // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	ldr ip, [r1, #0x14]
 	cmp r3, #0x10000
 	ldr r0, [r1, #0x3c]
@@ -8398,7 +8398,7 @@ NONMATCH_FUNC void CutsceneTextWorker__Release(CutsceneTextWorker *work){
 	ldmeqia sp!, {r4, r5, r6, pc}
 	mov r4, #0
 _02159880:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0
 	beq _02159894
 	bl _FreeHEAP_USER
@@ -8593,7 +8593,7 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__Func_2159B14(Cut
 	beq _02159B78
 	mov r4, #0
 _02159B58:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #0
 	beq _02159B6C
 	bl _FreeHEAP_USER
@@ -9035,7 +9035,7 @@ NONMATCH_FUNC void CutsceneAssetSystem__Func_215A124(void){
 	mov r4, r0
 	str r4, [sp]
 	mov r6, r1
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ldrb r1, [r4, #6]
 	mov r5, r2
 	mov r4, r3
@@ -9047,7 +9047,7 @@ NONMATCH_FUNC void CutsceneAssetSystem__Func_215A124(void){
 	bl _s32_div_f
 	ldr r1, [sp]
 	strh r0, [sp, #0x1e]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	ldrb r1, [r1, #7]
 	bl _s32_div_f
 	strh r0, [sp, #0x20]
@@ -9168,7 +9168,7 @@ NONMATCH_FUNC void CutsceneAssetSystem__Func_215A2F0(void){
 
 #else
     // clang-format off
-	ldrsh r2, [r0]
+	ldrsh r2, [r0, #0]
 	strh r2, [r1]
 	ldrsh r2, [r0, #4]
 	strh r2, [r1, #2]
@@ -9496,7 +9496,7 @@ NONMATCH_FUNC void CutsceneAssetSystem__Func_215A738(void){
     // clang-format off
 	stmdb sp!, {r4, lr}
 	ldrsh ip, [r0, #2]
-	ldrsh r2, [r0]
+	ldrsh r2, [r0, #0]
 	ldrsh r4, [r0, #4]
 	ldrsh lr, [r0, #6]
 	add r3, r2, ip
@@ -9693,29 +9693,29 @@ NONMATCH_FUNC void CutsceneAssetSystem__Func_215A9A8(void){
 	str r3, [sp, #4]
 	ldr r11, [r6, #0x18]
 	bl MIi_CpuClear16
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	ldrh r3, [r6, #0x1c]
 	ldrh r1, [r6, #0x1e]
 	ldrb r2, [r0, #4]
 	ldr r0, [sp, #8]
 	mul r1, r3, r1
 	bl CutsceneAssetSystem__Func_215AB20
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	ldrh r3, [r6, #0x20]
 	ldrh r1, [r6, #0x22]
 	ldrb r2, [r2, #5]
 	ldr r0, [sp, #4]
 	mul r1, r3, r1
 	bl CutsceneAssetSystem__Func_215AB20
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	ldrh r3, [r6, #0x20]
 	ldrh r1, [r6, #0x22]
 	ldrb r2, [r2, #5]
 	mov r0, r11
 	mul r1, r3, r1
 	bl CutsceneAssetSystem__Func_215AB20
-	ldr r1, [r6]
-	ldrh r0, [r1]
+	ldr r1, [r6, #0]
+	ldrh r0, [r1, #0]
 	ldrh r1, [r1, #2]
 	cmp r4, r0
 	movhi r4, r0
@@ -9729,7 +9729,7 @@ NONMATCH_FUNC void CutsceneAssetSystem__Func_215A9A8(void){
 	addls sp, sp, #0x10
 	ldmlsia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0215AA74:
-	ldr r7, [r6]
+	ldr r7, [r6, #0]
 	ldr r0, [sp, #0xc]
 	ldrb r1, [r7, #6]
 	bl _u32_div_f
@@ -9742,7 +9742,7 @@ _0215AA74:
 	cmp r4, #0
 	bls _0215AB00
 _0215AAA4:
-	ldr r10, [r6]
+	ldr r10, [r6, #0]
 	mov r0, r7
 	ldrb r1, [r10, #7]
 	bl _u32_div_f
@@ -10221,7 +10221,7 @@ _0215B0D4:
 	mov r0, r4
 	bl CutsceneAssetSystem__Func_215B180
 	cmp r0, #0
-	ldrne r0, [r7]
+	ldrne r0, [r7, #0]
 	add r6, r6, #1
 	orrne r0, r0, r5
 	strne r0, [r7]
@@ -10313,7 +10313,7 @@ NONMATCH_FUNC void CutsceneAssetSystem__Func_215B180(void)
 
 #else
     // clang-format off
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldmib r0, {r1, r3}
 	ldr r1, [r2, r1, lsl #2]
 	mov r2, #1

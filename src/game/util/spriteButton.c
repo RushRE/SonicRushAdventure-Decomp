@@ -157,7 +157,7 @@ _02002710:
 	movs r5, r0
 	bne _0200276C
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02002754
@@ -170,7 +170,7 @@ _02002730: // jump table
 	b _02002748 // case 5
 _02002748:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02002758
 _02002754:
 	mov r0, #1
@@ -189,7 +189,7 @@ _02002778:
 	mov r0, #1
 	tst r1, r0, lsl r6
 	beq _02002880
-	ldrb r0, [r7]
+	ldrb r0, [r7, #0]
 	mov r2, #0
 	strh r0, [r8, #0xa2]
 _02002794:
@@ -209,16 +209,16 @@ _02002794:
 	mov r1, r1, lsr #0x10
 	bl GetSpriteButtonSpriteAllocSize
 	mov r1, r0
-	ldr r0, [r9]
+	ldr r0, [r9, #0]
 	bl VRAMSystem__AllocSpriteVram
 _020027DC:
-	ldr r2, [r9]
+	ldr r2, [r9, #0]
 	mov r1, #0
 	str r2, [sp]
 	str r1, [sp, #4]
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
-	ldr r2, [r9]
+	ldr r2, [r9, #0]
 	ldr r1, =VRAMSystem__VRAM_PALETTE_OBJ
 	mov r0, r8
 	ldr r2, [r1, r2, lsl #2]

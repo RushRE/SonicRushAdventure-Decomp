@@ -83,7 +83,7 @@ SailJetJumpRamp__Create: // 0x0216CD68
 	mov r6, r0
 	mov r2, #0xf
 _0216CD80:
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	ldrb r0, [r4, #1]
 	add r4, r4, #2
 	strb r1, [r3]
@@ -91,7 +91,7 @@ _0216CD80:
 	add r3, r3, #2
 	subs r2, r2, #1
 	bne _0216CD80
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	strb r0, [r3]
 	bl CreateStageTask_
 	mov r4, r0

@@ -53,7 +53,7 @@ _021566E4:
 	mov r0, #0
 	mov r2, #0x1c
 	bl MIi_CpuClear16
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	add r3, r4, #4
 	orr r0, r0, #1
 	strh r0, [r4]
@@ -70,7 +70,7 @@ _021566E4:
 	sub r1, r1, #0x10000
 	str r1, [r4, #8]
 	strh r0, [r4, #2]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	orr r0, r0, #0x24
 	strh r0, [r4]
 _02156758:
@@ -105,7 +105,7 @@ _02156798:
 	mov r0, #0
 	mov r2, #0x1c
 	bl MIi_CpuClear16
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	add r3, r4, #4
 	add ip, r4, #0x10
 	orr r0, r0, #1
@@ -116,7 +116,7 @@ _02156798:
 	mov r3, #0x3c
 	sub r0, r0, #0x800
 	str r0, [r4, #8]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	orr r0, r0, #0x20
 	strh r0, [r4]
 	ldmia r5, {r0, r1, r2}
@@ -137,14 +137,14 @@ _02156808:
 	arm_func_start SailRingManager_CollectSailRing
 SailRingManager_CollectSailRing: // 0x02156824
 	stmdb sp!, {r3, lr}
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	bic r1, r1, #1
 	strh r1, [r0]
 	bl SailManager__GetWork
 	ldr r1, [r0, #0x70]
 	cmp r1, #0
 	ldmeqia sp!, {r3, pc}
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
 	ldr r0, [r1, #0x124]
@@ -277,7 +277,7 @@ _02156998:
 _02156A08:
 	ldrsh r0, [r3, #2]
 	cmp r0, #9
-	ldreqh r0, [r3]
+	ldreqh r0, [r3, #0]
 	biceq r0, r0, #4
 	streqh r0, [r3]
 	ldrsh r0, [r3, #2]
@@ -355,7 +355,7 @@ _02156B0C:
 	add sp, sp, #0x44
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 _02156B20:
-	ldrh r0, [r9]
+	ldrh r0, [r9, #0]
 	cmp r0, #0
 	addne sp, sp, #0x44
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
@@ -420,7 +420,7 @@ SailRingManager_CheckCollisions: // 0x02156BCC
 	stmia r2!, {r0, r1}
 	stmia r2!, {r0, r1}
 	str r0, [r2]
-	ldrh r0, [r9]
+	ldrh r0, [r9, #0]
 	cmp r0, #0
 	addeq sp, sp, #0x44
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -459,7 +459,7 @@ _02156C48:
 	mov r0, r5
 	orr r1, r1, #0x10
 	str r1, [r9, #0x24]
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	mov r1, r6
 	bic r2, r2, #0x20
 	strh r2, [r5]
@@ -498,7 +498,7 @@ _02156CD8:
 	mov r0, r8
 	orr r1, r1, #0x10
 	str r1, [r9, #0x24]
-	ldrh r2, [r8]
+	ldrh r2, [r8, #0]
 	mov r1, r6
 	bic r2, r2, #0x20
 	strh r2, [r8]
@@ -527,7 +527,7 @@ SailRingManager_GivePlayerRing: // 0x02156D64
 	rsb r1, r1, #0
 	ldr r4, [r7, #0x124]
 	bl SailPlayer__RemoveHealth
-	ldrh r2, [r8]
+	ldrh r2, [r8, #0]
 	mov r1, #0
 	ldr r0, _02156EFC // =0x0000270F
 	orr r2, r2, #0xc
@@ -670,7 +670,7 @@ _02156F74:
 	stmia r4!, {r0, r1, r2, r3}
 	ldmia r7!, {r0, r1, r2, r3}
 	stmia r4!, {r0, r1, r2, r3}
-	ldr r0, [r7]
+	ldr r0, [r7, #0]
 	mov r9, #0
 	str r0, [r4]
 	add r0, r10, #0x900
@@ -700,7 +700,7 @@ _02156FB4:
 	mov r1, r1, asr #1
 	mla r0, r1, r0, r8
 	str r0, [r6, #0xd4]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	cmp r0, #1
 	beq _0215702C
 	cmp r0, #2
@@ -726,7 +726,7 @@ _0215704C:
 	ldrsh r0, [r7, #2]
 	cmp r0, #0xc
 	blt _02157198
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	bic r0, r0, #1
 	strh r0, [r7]
 	b _02157198
@@ -749,7 +749,7 @@ _02157074:
 	bge _02157100
 	tst r0, #1
 	beq _02157140
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #1
 	beq _021570DC
 	cmp r0, #2
@@ -770,7 +770,7 @@ _021570F4:
 	bl AnimatorSprite3D__Draw
 	b _02157140
 _02157100:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #1
 	beq _02157120
 	cmp r0, #2
@@ -797,7 +797,7 @@ _02157140:
 	bl SailRingManager_CollectSailRing
 	b _02157198
 _02157158:
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	cmp r0, #1
 	beq _02157178
 	cmp r0, #2

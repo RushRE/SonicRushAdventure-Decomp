@@ -176,7 +176,7 @@ _02161508:
 	bl Sprite__GetSpriteSize3FromAnim
 	mov r6, r0
 _02161510:
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	mov r1, r6
 	tst r0, #1
 	mov r0, #1
@@ -193,7 +193,7 @@ _02161510:
 	str r0, [sp, #0x10]
 	mov r0, #2
 	str r0, [sp, #0x14]
-	ldrb r2, [r8]
+	ldrb r2, [r8, #0]
 	mov r0, r9
 	mov r1, r4
 	str r2, [sp, #0x18]
@@ -222,7 +222,7 @@ _02161590:
 	str r0, [sp, #0x10]
 	mov r0, #2
 	str r0, [sp, #0x14]
-	ldrb r2, [r8]
+	ldrb r2, [r8, #0]
 	mov r0, r9
 	mov r3, #4
 	str r2, [sp, #0x18]
@@ -231,7 +231,7 @@ _02161590:
 	mov r0, #8
 	strh r0, [r10, #0xdc]
 _021615E4:
-	ldrh r0, [r7]
+	ldrh r0, [r7, #0]
 	add r5, r5, #1
 	add r8, r8, #1
 	tst r0, #2
@@ -786,7 +786,7 @@ _02161D44:
 	beq _02161D7C
 	mov r3, r2
 _02161D58:
-	ldrb r0, [r6]
+	ldrb r0, [r6, #0]
 	add r6, r6, #1
 	cmp r0, #0
 	ldrne r0, [r8, #0x40]
@@ -1126,7 +1126,7 @@ _021621B8:
 	mov r0, r9, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ovl05_2152A40
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, #0x64
 	cmp r11, #0
 	mla r8, r1, r0, r7
@@ -1242,7 +1242,7 @@ ViMapBack__Func_216233C: // 0x0216233C
 	ldmneia sp!, {r4, r5, r6, r7, pc}
 	mov r0, r4
 	bl ovl05_2152A20
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	add r0, r7, r5, lsl #2
 	ldr r0, [r0, #0x50]
 	tst r0, #1
@@ -1250,7 +1250,7 @@ ViMapBack__Func_216233C: // 0x0216233C
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
 	mov r0, r5
 	bl ovl05_2152A40
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	add r2, r7, #0x8c
 	mov r0, #0x64
 	mla r4, r1, r0, r2
@@ -1366,7 +1366,7 @@ ViMapBack__Func_2162508: // 0x02162508
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r0, r7
 	bl ovl05_2152A20
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	add r0, r6, r2, lsl #2
 	ldr r0, [r0, #0x50]
 	tst r0, #1
@@ -1826,7 +1826,7 @@ ViMapBack__Func_2162B90: // 0x02162B90
 	bl ViMapBack__Func_2162BD8
 	ldr r0, [r5, #0x30]
 	ldr r0, [r0, r4, lsl #2]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	str r0, [r5, #0x28]
@@ -1888,7 +1888,7 @@ ViMapBack__Func_2162C50: // 0x02162C50
 	sub r3, ip, r3
 	strh r3, [r1]
 	ldrsh r0, [r0, #0xb6]
-	ldrsh r1, [r2]
+	ldrsh r1, [r2, #0]
 	sub r0, r0, #0x10
 	sub r0, r1, r0
 	strh r0, [r2]
@@ -1906,7 +1906,7 @@ ViMapBack__Func_2162C80: // 0x02162C80
 	sub r3, ip, r3
 	strh r3, [r1]
 	ldrsh r0, [r0, #0xb6]
-	ldrsh r1, [r2]
+	ldrsh r1, [r2, #0]
 	add r0, r0, r0, lsl #1
 	sub r0, r1, r0, asr #2
 	strh r0, [r2]

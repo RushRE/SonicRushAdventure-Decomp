@@ -307,7 +307,7 @@ Task__Unknown20674C4__Create: // 0x020674C4
 	rsb r2, r0, #0x10000
 	mov r0, #2
 	str r0, [r4, #8]
-	ldrh r1, [r8]
+	ldrh r1, [r8, #0]
 	mov r3, #0x19
 	add r0, r4, #0x1900
 	strh r1, [r4, #0x10]
@@ -479,7 +479,7 @@ WirelessManager__Create3: // 0x02067738
 	add r1, r4, #0x2c
 	mov r2, #6
 	bl MI_CpuCopy8
-	ldrh r2, [r8]
+	ldrh r2, [r8, #0]
 	mov r1, #0
 	add r0, r4, #0x1900
 	strh r2, [r4, #0x5e]
@@ -828,7 +828,7 @@ WirelessManager__Create4: // 0x02067B6C
 	str r1, [r4]
 	str r0, [r4, #4]
 	str r0, [r4, #8]
-	ldrh r0, [r8]
+	ldrh r0, [r8, #0]
 	mov r3, #0x19
 	ldr r2, _02067CA8 // =0x0000FFFF
 	strh r0, [r4, #0x10]
@@ -923,7 +923,7 @@ WirelessManager__Create5: // 0x02067CB8
 	add r1, r4, #0x2c
 	mov r2, #6
 	bl MI_CpuCopy8
-	ldrh r1, [r8]
+	ldrh r1, [r8, #0]
 	mov r2, #0
 	add r0, r4, #0x1900
 	strh r1, [r4, #0x5e]
@@ -1401,7 +1401,7 @@ WirelessManager__StartMBP: // 0x020682D4
 	strh r1, [r0]
 	b _02068334
 _02068320:
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	ldr r0, _0206835C // =0x000003FF
 	add r2, r2, #1
 	and r0, r2, r0
@@ -1409,7 +1409,7 @@ _02068320:
 _02068334:
 	ldr r0, _02068358 // =WirelessManager__sVars
 	and r1, r4, #0x1f
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	mov r0, r0, lsl #0x16
 	orr r0, r1, r0, lsr #17
 	mov r0, r0, lsl #0x10
@@ -1605,7 +1605,7 @@ _020685A0:
 	mov r0, r8
 	bl WH_GetSharedDataAdr
 	cmp r0, #0
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	beq _020685C0
 	ldr r1, [r5, r8, lsl #2]
 	bl MI_CpuCopy8
@@ -1619,7 +1619,7 @@ _020685CC:
 	mov r0, r0, lsl #0x10
 	mov r8, r0, lsr #0x10
 _020685D8:
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	add r0, r0, #1
 	cmp r8, r0
 	blt _020685A0
@@ -1681,7 +1681,7 @@ WirelessManager__Main1: // 0x02068678
 	mov r4, r0
 	mov r0, #0
 	bl WirelessManager__GetRecieveBuffer
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	strh r0, [r4, #0x14]
 	ldrh r0, [r4, #0x1a]
 	cmp r0, #0xf0
@@ -1695,7 +1695,7 @@ _020686B4:
 	addlo r0, r0, #1
 	strloh r0, [r4, #0x1a]
 _020686BC:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r4
 	blx r1
 	ldmia sp!, {r4, pc}
@@ -1718,7 +1718,7 @@ _020686F8:
 	addlo r0, r0, #1
 	strloh r0, [r4, #0x1a]
 _02068700:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r4
 	blx r1
 	ldmia sp!, {r4, pc}
@@ -1919,7 +1919,7 @@ WirelessManager__SendDataCB_206896C: // 0x0206896C
 WirelessManager__ReceiverCB_2068970: // 0x02068970
 	cmp r2, #4
 	bxne lr
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	ldrh r1, [r1, #2]
 	ldr r0, _02068990 // =word_21361C0
 	strh r2, [r0]
@@ -2253,7 +2253,7 @@ WirelessManager__State_2068D94: // 0x02068D94
 	ldr r1, _02068DC8 // =word_21361C0
 	ldr r2, _02068DCC // =WirelessManager__sendBuffer
 	ldrh r1, [r1, #2]
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	orr r1, r1, #1
 	cmp r2, r1
 	bxne lr
@@ -2422,7 +2422,7 @@ WirelessManager__State_2068FD8: // 0x02068FD8
 	ldr r1, _02069018 // =word_21361C0
 	ldr r2, _0206901C // =WirelessManager__sendBuffer
 	ldrh r1, [r1, #2]
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	mov r3, #0
 	orr r1, r1, #1
 	cmp r2, r1
@@ -2470,7 +2470,7 @@ WirelessManager__State_2069054: // 0x02069054
 	ldr r2, _020690D8 // =_021116C0
 	ldr r0, _020690DC // =Task__Unknown20673B0__byte_2135F20
 	ldrb r1, [r2, #1]
-	ldrb r3, [r2]
+	ldrb r3, [r2, #0]
 	ldrb ip, [r2, #2]
 	strb r1, [sp, #1]
 	strb r3, [sp]
@@ -2888,7 +2888,7 @@ _020695D0:
 	ldrh r1, [r0, #2]
 	tst r1, #2
 	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r0, #4
 	mov r1, #0
 	strh r2, [r4, #0x14]
@@ -2911,7 +2911,7 @@ _02069608:
 	bl WH_SendData
 	mov r0, #0
 	bl WH_SetReceiver
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	mov r0, #4
 	mov r1, #0
 	strh r2, [r4, #0x14]
@@ -3112,7 +3112,7 @@ _02069898:
 	addlo r0, r0, #1
 	strloh r0, [r4, #0x1a]
 _020698A0:
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r0, r4
 	blx r1
 	mov r0, #0
@@ -3222,7 +3222,7 @@ _020699D0:
 	add ip, r1, #0x1b00
 	mov r3, #7
 _020699F0:
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
 	subs r3, r3, #1
@@ -3230,7 +3230,7 @@ _020699F0:
 	strh r1, [ip, #2]
 	add ip, ip, #4
 	bne _020699F0
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	strh r0, [ip]
 	b _02069A28
 _02069A1C:
@@ -3445,7 +3445,7 @@ _02069C9C: .word whConfig
 	arm_func_start WH_Free
 WH_Free: // 0x02069CA0
 	stmdb sp!, {r3, lr}
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #0xe
 	ldmneia sp!, {r3, pc}
 	ldrh r0, [r0, #4]
@@ -4069,7 +4069,7 @@ _0206A478:
 	ldrh r2, [r5, #2]
 	cmp r6, #7
 	strh r2, [r0, #0x8a]
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	strh r2, [r0, #0x88]
 	str r6, [r0, #0x2c]
 	str r7, [r0, #0x28]
@@ -4133,7 +4133,7 @@ _0206A558:
 	strh r1, [r0, #0x8c]
 	ldrh r1, [r4, #2]
 	strh r1, [r0, #0x8a]
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	strh r1, [r0, #0x88]
 	bl WH_StateInStartScan
 	cmp r0, #0
@@ -5208,7 +5208,7 @@ WH_StartMeasureChannel: // 0x0206B2C4
 	bl OS_GetMacAddress
 	ldr r1, _0206B378 // =0x027FFC3C
 	ldrh r0, [sp]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldrh r1, [sp, #2]
 	add r0, r0, r2
 	ldrh r2, [sp, #4]
@@ -5325,7 +5325,7 @@ _0206B444:
 _0206B464:
 	ldr r0, _0206B4E4 // =whConfig
 	ldrh r3, [r4, #0xa]
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldrh ip, [r4, #8]
 	cmp r1, r3
 	bls _0206B494
@@ -6176,7 +6176,7 @@ WFSi_RomArchiveProc: // 0x0206BF1C
 	b _0206BF7C
 _0206BF34:
 	ldr r1, _0206BF84 // =wfsi_work
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	beq _0206BF50
 	ldr r1, [r1, #0xc]
@@ -6326,7 +6326,7 @@ _0206C118:
 	bl OS_DisableInterrupts
 	ldr r1, _0206C2E8 // =wfsi_work
 	mov r5, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, [sp, #4]
 	ldr r0, [r2, #0x18]
 	ldr r3, [r2, #0x14]
@@ -6352,7 +6352,7 @@ _0206C188:
 	mov r2, #0
 	add r1, r6, r1
 	bl FS_SeekFile
-	ldr r2, [r9]
+	ldr r2, [r9, #0]
 	mov r0, r11
 	add r1, r9, #4
 	bl FS_ReadFile
@@ -6367,7 +6367,7 @@ _0206C188:
 	beq _0206C2AC
 	ldr r2, [sp, #0xc]
 	ldr r0, [r7, #0x48]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	add r11, r4, r0
 	mov r0, #2
 	add r5, r2, #4
@@ -6380,7 +6380,7 @@ _0206C208:
 	ldr r0, [r1, r0, lsl #2]
 	mov r9, #0
 	add r7, r0, #4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r8, r0, lsr #5
 	cmp r8, #0
 	ble _0206C28C
@@ -6427,9 +6427,9 @@ _0206C2AC:
 	bl FS_CloseFile
 	ldr r1, _0206C2E8 // =wfsi_work
 	ldr r0, [sp, #8]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r0, [r2, #0x20]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r0, [sp, #4]
 	str r0, [r1, #0x24]
 	add sp, sp, #0xf4
@@ -6458,7 +6458,7 @@ WFSi_ReplaceRomArchive: // 0x0206C2EC
 _0206C328:
 	add r0, r6, #4
 	str r0, [r2, r3, lsl #3]
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r0, r2, r3, lsl #3
 	str r1, [r0, #4]
 	add r0, r1, #0x1f
@@ -6495,11 +6495,11 @@ _0206C3A4: .word WFSi_WriteRomCallback
 WFSi_OnSendMessageDone: // 0x0206C3A8
 	stmdb sp!, {r3, lr}
 	ldr r1, _0206C3EC // =wfsi_work
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	cmp r2, #0
 	ldrne r1, [r2, #0xc]
 	cmpne r1, #0
-	ldrne r1, [r2]
+	ldrne r1, [r2, #0]
 	cmpne r1, #0
 	ldmeqia sp!, {r3, pc}
 	ldrh r0, [r0, #8]
@@ -6526,7 +6526,7 @@ WFSi_SendMessage: // 0x0206C3F0
 	orr ip, ip, r3, lsl #8
 	ldr r0, _0206C460 // =wfsi_work
 	str r2, [sp, #4]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	str ip, [sp]
 	ldr r0, [r3, #0x28]
 	bic r2, ip, #0xf0
@@ -6553,9 +6553,9 @@ _0206C464: .word WFSi_OnSendMessageDone
 WFSi_SendAck: // 0x0206C468
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	ldr r0, _0206C6E4 // =wfsi_work
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
-	ldrne r0, [r2]
+	ldrne r0, [r2, #0]
 	add r4, r2, #0x440
 	cmpne r0, #0
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
@@ -6641,7 +6641,7 @@ _0206C5A0:
 	cmp r1, #0
 	moveq r1, lr
 	beq _0206C5EC
-	ldr r8, [r1]
+	ldr r8, [r1, #0]
 	ldr r7, [lr]
 	mov r8, r8, lsl #0x1c
 	mov r8, r8, lsr #0x1c
@@ -6664,7 +6664,7 @@ _0206C5F8:
 	strne r2, [r0, #0x750]
 	cmp r1, #0
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r2, r0, lsl #0x1c
 	movs r2, r2, lsr #0x1c
 	beq _0206C630
@@ -6702,7 +6702,7 @@ _0206C684:
 	cmp r6, #0x10
 	blo _0206C668
 _0206C698:
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r3, r5, lsl #0x10
 	mov r0, r0, lsl #0x1c
 	mov r0, r0, lsr #0x1c
@@ -6734,7 +6734,7 @@ WFSi_SendOpenAck: // 0x0206C6E8
 	bl OS_DisableInterrupts
 	ldr r1, _0206C7C8 // =wfsi_work
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	ldrne r0, [r0, #0xc]
 	cmpne r0, #0
@@ -6807,7 +6807,7 @@ _0206C7E0:
 	subeq r3, r3, ip
 	cmpeq r2, r3
 	bxeq lr
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0206C7E0
 	bx lr
@@ -6830,7 +6830,7 @@ _0206C82C:
 	ldreq r1, [r4, #0x94]
 	cmpeq r1, r5
 	beq _0206C854
-	ldr r4, [r4]
+	ldr r4, [r4, #0]
 	cmp r4, #0
 	bne _0206C82C
 _0206C854:
@@ -6860,7 +6860,7 @@ _0206C890:
 	ldreq r2, [r0, #4]
 	cmpeq r2, r1
 	bxeq lr
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0206C890
 	bx lr
@@ -6873,21 +6873,21 @@ WFSi_MoveList: // 0x0206C8B4
 	mov r5, r1
 	mov r4, r2
 	bl OS_DisableInterrupts
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	cmp r1, #0
 	beq _0206C924
 _0206C8D4:
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	cmp r2, r4
 	bne _0206C914
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	str r1, [r6]
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	cmp r1, #0
 	beq _0206C904
 _0206C8F4:
 	mov r5, r1
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	bne _0206C8F4
 _0206C904:
@@ -6896,7 +6896,7 @@ _0206C904:
 	str r1, [r4]
 	b _0206C924
 _0206C914:
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	mov r6, r2
 	cmp r1, #0
 	bne _0206C8D4
@@ -6982,13 +6982,13 @@ WFSi_ReadRequest: // 0x0206CA0C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0206CA60 // =wfsi_work
 	mov r5, r0
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	ldr r1, [r5, #0x38]
 	add r0, r4, #0x440
 	bl WFSi_ReallocBitmap
 	ldr r1, _0206CA60 // =wfsi_work
 	mov r0, #0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r1, #1
 	str r5, [r2, #0x1c]
 	ldr ip, [r4, #0xf44]
@@ -7013,8 +7013,8 @@ WFSi_SetMPData: // 0x0206CA64
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	ldr r0, _0206CB18 // =wfsi_work
-	ldr r4, [r0]
-	ldr r2, [r4]
+	ldr r4, [r0, #0]
+	ldr r2, [r4, #0]
 	cmp r2, #0
 	ldrne r0, [r4, #0x28]
 	ldreq r0, [r4, #0x2c]
@@ -7049,7 +7049,7 @@ _0206CAB4:
 	movne r1, #0
 	ldr r0, _0206CB18 // =wfsi_work
 	str r1, [r4, #8]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #8]
 	cmp r0, #0
 	moveq r0, #1
@@ -7067,7 +7067,7 @@ _0206CB20: .word WFSi_OnSetMPDataDone
 WFSi_OnSetMPDataDone: // 0x0206CB24
 	stmdb sp!, {r3, lr}
 	ldr r0, _0206CB54 // =wfsi_work
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	ldrne r0, [r1, #0xc]
 	cmpne r0, #0
@@ -7085,7 +7085,7 @@ _0206CB54: .word wfsi_work
 WFSi_PortCallback: // 0x0206CB58
 	stmdb sp!, {r3, lr}
 	ldr r1, _0206CC74 // =wfsi_work
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	cmp r3, #0
 	ldrne r2, [r3, #0xc]
 	add ip, r3, #0x440
@@ -7111,7 +7111,7 @@ _0206CBA8:
 	cmpne r1, #0x1a
 	ldmia sp!, {r3, pc}
 _0206CBC0:
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	cmp r2, #2
@@ -7121,7 +7121,7 @@ _0206CBC0:
 	bl WFSi_SetMPData
 	ldmia sp!, {r3, pc}
 _0206CBE4:
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	cmp r1, #0
 	ldmeqia sp!, {r3, pc}
 	cmp r2, #2
@@ -7139,7 +7139,7 @@ _0206CBE4:
 	bl WBT_CancelCurrentCommand
 	ldmia sp!, {r3, pc}
 _0206CC28:
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	ldr lr, [r0, #0xc]
 	cmp r1, #0
 	ldrh r1, [r0, #0x10]
@@ -7169,7 +7169,7 @@ WFSi_OnParentSystemCallback: // 0x0206CC78
 	mov r4, r0
 	ldrh r0, [r4, #0xa]
 	bl WBT_AidbitmapToAid
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r5, r0
 	cmp r1, #0xc
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
@@ -7189,7 +7189,7 @@ WFSi_OnParentSystemCallback: // 0x0206CC78
 _0206CCCC:
 	ldr r3, _0206CFBC // =wfsi_work
 	add r6, r4, #0x14
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r0, #0xc
 	mla r0, r5, r0, r1
 	add r7, r0, #0x440
@@ -7203,7 +7203,7 @@ _0206CCCC:
 	beq _0206CDEC
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0206CD08:
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r3, r4, lsl #0x18
 	add r7, r1, #0x440
 	add r0, r7, #0x10000
@@ -7264,7 +7264,7 @@ _0206CDD4:
 	str r1, [r0, #0x75c]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0206CDEC:
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	add r4, r0, #0x440
 	bl OS_DisableInterrupts
 	add r1, r4, #0x10000
@@ -7298,7 +7298,7 @@ _0206CE58:
 _0206CE64:
 	ldr r0, _0206CFBC // =wfsi_work
 	ldr r1, [r4, #0x14]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, #0
 	add r0, r0, #0x440
 	str r2, [r4, #0x1c]
@@ -7414,7 +7414,7 @@ WFSi_ReallocBitmap: // 0x0206CFC0
 	bl OS_DisableInterrupts
 	ldr r1, _0206D088 // =wfsi_work
 	mov r5, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, r6
 	ldr r0, [r1, #0x18]
 	ldr r3, [r1, #0x14]
@@ -7425,7 +7425,7 @@ WFSi_ReallocBitmap: // 0x0206CFC0
 _0206D020:
 	ldr r0, _0206D088 // =wfsi_work
 	ldr r2, [r4, #0xb08]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x28]
 	sub r1, r0, #0xe
 	add r0, r2, r1
@@ -7437,7 +7437,7 @@ _0206D020:
 	bl OS_DisableInterrupts
 	ldr r1, _0206D088 // =wfsi_work
 	mov r6, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r1, r5
 	ldr r0, [r2, #0x18]
 	ldr r3, [r2, #0x14]
@@ -7461,8 +7461,8 @@ WFSi_OnChildSystemCallback: // 0x0206D08C
 	ldrh r0, [r6, #0xa]
 	bl WBT_AidbitmapToAid
 	ldr r1, _0206D38C // =wfsi_work
-	ldr r3, [r6]
-	ldr r2, [r1]
+	ldr r3, [r6, #0]
+	ldr r2, [r1, #0]
 	mov r4, r0
 	cmp r3, #6
 	add r5, r2, #0x440
@@ -7491,10 +7491,10 @@ _0206D0F4:
 	add r0, r0, #0xe
 	str r0, [r2, #0x28]
 	ldrsh r2, [r6, #0x18]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r2, r2, #0xe
 	str r2, [r0, #0x2c]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r0, [r1, #0x20]
 	cmp r0, #0
 	bne _0206D14C
@@ -7514,7 +7514,7 @@ _0206D14C:
 	mvn r1, #0
 	bl WFSi_ReallocBitmap
 	ldr r0, _0206D38C // =wfsi_work
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x1c]
 	bl WFSi_ReadRequest
 	add sp, sp, #8
@@ -7523,12 +7523,12 @@ _0206D180:
 	ldr r0, [r5, r4, lsl #2]
 	ldr r0, [r0, #4]
 	str r0, [r2, #0x24]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r6, [r0, #0x24]
 	bl OS_DisableInterrupts
 	ldr r1, _0206D38C // =wfsi_work
 	mov r7, r0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r1, r6
 	ldr r0, [r2, #0x18]
 	ldr r3, [r2, #0x14]
@@ -7539,14 +7539,14 @@ _0206D180:
 	bl OS_RestoreInterrupts
 	ldr r1, _0206D38C // =wfsi_work
 	mov r0, r5
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	str r6, [r2, #0x20]
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldr r1, [r1, #0x24]
 	bl WFSi_ReallocBitmap
 	ldr r1, _0206D38C // =wfsi_work
 	add r6, r5, r4, lsl #2
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r4, r5, #0x80
 	add r2, r5, #0x40
 	ldr r5, [r0, #0x20]
@@ -7554,7 +7554,7 @@ _0206D180:
 	str r5, [r6, #0x40]
 	str r4, [sp]
 	str r3, [sp, #4]
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r0, #1
 	ldr r3, [r3, #0x24]
 	mov r1, #0x20000
@@ -7573,15 +7573,15 @@ _0206D224:
 	ldr r1, [r2, #0x24]
 	bl DC_FlushRange
 	ldr r0, _0206D38C // =wfsi_work
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x20]
 	bl WFSi_ReplaceRomArchive
 	ldr r1, _0206D38C // =wfsi_work
 	str r0, [r5, #0xb04]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r2, #2
 	str r2, [r0, #0xc]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r1, [r0, #0x10]
 	cmp r1, #0
 	addeq sp, sp, #8
@@ -7628,7 +7628,7 @@ _0206D310:
 	ldr r0, [r6, #0x18]
 	add r4, r5, r4, lsl #2
 	str r0, [r5, #0xb0c]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	add r3, r5, #0x80
 	ldr r2, [r0, #0x1c]
 	ldr r0, _0206D390 // =WFSi_OnChildSystemCallback
@@ -7637,7 +7637,7 @@ _0206D310:
 	str r6, [r4, #0x40]
 	str r3, [sp]
 	str r0, [sp, #4]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r1, [r5, #0xb0c]
 	ldr r3, [r0, #0x1c]
 	mov r0, #1
@@ -7734,7 +7734,7 @@ WFS_InitParent: // 0x0206D43C
 	mov r0, r4
 	bl OS_RestoreInterrupts
 	mov r0, r9
-	ldr r8, [r0]
+	ldr r8, [r0, #0]
 	mov r3, r10
 	add r9, r8, #0x440
 	ldr r2, _0206D658 // =0x000107B0
@@ -7769,7 +7769,7 @@ _0206D4E4:
 	str r7, [r10, #0x80]
 	add r2, r0, r2, asr #11
 	str r2, [r10, #0x8c]
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	cmp r0, r5
 	strhs r7, [r10]
 	bhs _0206D534
@@ -7811,7 +7811,7 @@ _0206D534:
 	add r2, r9, #0x10000
 	ldr r5, [r2, #0x740]
 	mov r3, #1
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, r5
 	str r1, [r2, #0x740]
 	ldr r4, [r2, #0x744]
@@ -7824,7 +7824,7 @@ _0206D534:
 	add r0, r5, #4
 	ldr r1, _0206D654 // =wfsi_work
 	mov r3, #0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r1, #0x20000
 	ldr r4, [r2, #0x24]
 	ldr r2, _0206D664 // =wfsi_def_user_data
@@ -7882,7 +7882,7 @@ WFS_InitChild: // 0x0206D668
 	bl OS_RestoreInterrupts
 	ldr r0, _0206D760 // =wfsi_work
 	mov r2, #0
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	mov r1, #0xb10
 	add r5, r4, #0x440
 	mov r0, r5
@@ -7940,16 +7940,16 @@ WFS_Start: // 0x0206D768
 	beq _0206D794
 	ldr r0, _0206D808 // =wfsi_work
 	mov r1, #1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #4]
 	b _0206D7FC
 _0206D794:
 	ldr r0, _0206D808 // =wfsi_work
 	mov r2, #1
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	str r2, [r1, #4]
-	ldr r5, [r0]
-	ldr r1, [r5]
+	ldr r5, [r0, #0]
+	ldr r1, [r5, #0]
 	cmp r1, #0
 	bne _0206D7D8
 	add r0, r5, #0x780
@@ -7964,7 +7964,7 @@ _0206D794:
 _0206D7D8:
 	mov r1, #2
 	str r1, [r5, #0xc]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r0, #0x10]
 	cmp r1, #0
 	beq _0206D7F8
@@ -7985,7 +7985,7 @@ _0206D80C: .word WFSi_OnChildSystemCallback
 WFS_End: // 0x0206D810
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r0, _0206D968 // =wfsi_work
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	bl OS_DisableInterrupts
 	ldr r1, _0206D968 // =wfsi_work
 	mov r5, r0
@@ -7999,7 +7999,7 @@ WFS_End: // 0x0206D810
 	bl OS_DisableInterrupts
 	ldr r1, _0206D968 // =wfsi_work
 	mov r6, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, r7
 	ldr r0, [r1, #0x18]
 	ldr r3, [r1, #0x14]
@@ -8015,8 +8015,8 @@ _0206D87C:
 	mov r2, #0
 	ldr r0, _0206D968 // =wfsi_work
 	str r2, [r4, #0xc]
-	ldr r0, [r0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0206D8F0
 	ldr r0, [r4, #0x1c]
@@ -8033,7 +8033,7 @@ _0206D8B4:
 	bl OS_DisableInterrupts
 	ldr r1, _0206D968 // =wfsi_work
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, r6
 	ldr r0, [r1, #0x18]
 	ldr r3, [r1, #0x14]
@@ -8048,18 +8048,18 @@ _0206D8F4:
 	bl WBT_End
 	ldr r0, _0206D968 // =wfsi_work
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, r1
 	ldrh r0, [r0, #0x30]
 	bl WM_SetPortCallback
 	ldr r0, _0206D968 // =wfsi_work
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	cmp r6, #0
 	beq _0206D94C
 	bl OS_DisableInterrupts
 	ldr r1, _0206D968 // =wfsi_work
 	mov r4, r0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, r6
 	ldr r0, [r1, #0x18]
 	ldr r3, [r1, #0x14]
@@ -8083,7 +8083,7 @@ _0206D968: .word wfsi_work
 	arm_func_start WFS_GetStatus
 WFS_GetStatus: // 0x0206D96C
 	ldr r0, _0206D984 // =wfsi_work
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldrne r0, [r0, #0xc]
 	moveq r0, #0
@@ -8097,8 +8097,8 @@ WFS_GetBusyBitmap: // 0x0206D988
 	ldr r0, _0206D9B0 // =wfsi_work
 	ldr r1, [r0, #4]
 	cmp r1, #0
-	ldrne r1, [r0]
-	ldrne r0, [r1]
+	ldrne r1, [r0, #0]
+	ldrne r0, [r1, #0]
 	cmpne r0, #0
 	moveq r0, #0
 	addne r0, r1, #0x10000
@@ -8115,8 +8115,8 @@ WFS_Func_206D9B4: // 0x0206D9B4
 	mvn r4, #0
 	ldr r1, [r0, #4]
 	cmp r1, #0
-	ldrne r0, [r0]
-	ldrne r0, [r0]
+	ldrne r0, [r0, #0]
+	ldrne r0, [r0, #0]
 	cmpne r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
@@ -8124,7 +8124,7 @@ WFS_Func_206D9B4: // 0x0206D9B4
 	ldr r1, _0206DA24 // =wfsi_work
 	mov ip, #1
 	mov r3, ip
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	b _0206DA14
 _0206D9F4:
 	tst r0, r3, lsl ip
@@ -8152,7 +8152,7 @@ WFS_EnableSync: // 0x0206DA28
 	bl OS_DisableInterrupts
 	ldr r1, _0206DA50 // =wfsi_work
 	bic r2, r4, #1
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r1, r1, #0x10000
 	str r2, [r1, #0xb90]
 	bl OS_RestoreInterrupts
@@ -8184,7 +8184,7 @@ _0206DA74: .word 0x021391AC
 WFSi_TaskThread: // 0x0206DA78
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	ldr r0, _0206DBA0 // =wfsi_work
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r4, r0, #0x440
 _0206DA88:
 	bl OS_DisableInterrupts
@@ -8196,7 +8196,7 @@ _0206DA88:
 	ldr r8, _0206DBA0 // =wfsi_work
 	mov r9, #0
 _0206DAA8:
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	bne _0206DAC4
@@ -8361,7 +8361,7 @@ _0206DCAC:
 	bne _0206DCAC
 	ldr r0, _0206DD3C // =0x02139274
 	ldrh r2, [ip]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xc000
 	strh r2, [r3]
 	blx r1
@@ -8425,14 +8425,14 @@ MBP_RegistFile: // 0x0206DD8C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x48
 	mov r6, r0
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r5, #0
 	cmp r0, #0
 	moveq r4, r5
 	beq _0206DDD4
 	add r0, sp, #0
 	bl FS_InitFile
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r0, sp, #0
 	bl FS_OpenFile
 	cmp r0, #0
@@ -8446,7 +8446,7 @@ _0206DDD4:
 	movs r7, r0
 	beq _0206DE40
 	ldr r1, _0206DE5C // =0x02139274
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	blx r1
 	movs r1, r0
 	ldr r0, _0206DE5C // =0x02139274
@@ -8977,7 +8977,7 @@ _0206E4F8:
 	str r1, [r0, #0xc]
 	ldmia sp!, {r3, r4, r5, pc}
 _0206E520:
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	cmp r0, #8
 	bgt _0206E54C
 	ldmgeia sp!, {r3, r4, r5, pc}
@@ -9032,7 +9032,7 @@ _0206E5A8: .word 0x02139274
 MBP_GetChildBmp: // 0x0206E5AC
 	ldr r1, _0206E5BC // =0x0211AB20
 	ldr r0, [r1, r0, lsl #2]
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _0206E5BC: .word 0x0211AB20

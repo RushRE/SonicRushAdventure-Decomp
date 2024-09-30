@@ -86,7 +86,7 @@ _0217AAD4:
 	add r0, r6, r0, lsl #1
 	add r0, r0, #0x800
 	strh r7, [r0, #0x28]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	add r0, r0, #1
 	strh r0, [r4]
 _0217AB04:
@@ -161,7 +161,7 @@ _0217ABF0: .word VikingCupStageSelectMenu__State_217B230
 
 	arm_func_start VikingCupStageSelectMenu__OptionsFinished
 VikingCupStageSelectMenu__OptionsFinished: // 0x0217ABF4
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
@@ -233,7 +233,7 @@ VikingCupStageSelectMenu__SetupDisplay: // 0x0217AC40
 	bl MIi_CpuClear16
 	ldr r2, _0217AE30 // =0x04000008
 	mov r0, #0
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	strh r1, [r2]
 	ldrh r1, [r2, #2]
@@ -256,7 +256,7 @@ _0217AD28:
 
 	arm_func_start VikingCupStageSelectMenu__Func_217AD2C
 VikingCupStageSelectMenu__Func_217AD2C: // 0x0217AD2C
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	sub r0, r0, #0x104
 	and r1, r1, #0x43
 	orr r1, r1, #0x10c
@@ -288,7 +288,7 @@ VikingCupStageSelectMenu__Func_217AD2C: // 0x0217AD2C
 	bl MIi_CpuClear16
 	ldr r3, _0217AE4C // =0x04001008
 	mov r2, #0x4000000
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	add r1, r2, #0x1000
 	bic r0, r0, #3
 	strh r0, [r3]
@@ -304,11 +304,11 @@ VikingCupStageSelectMenu__Func_217AD2C: // 0x0217AD2C
 	bic r0, r0, #3
 	orr r0, r0, #3
 	strh r0, [r3, #6]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1e00
 	str r0, [r2]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1e00
 	str r0, [r1]
@@ -337,13 +337,13 @@ VikingCupStageSelectMenu__Func_217AE50: // 0x0217AE50
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
 	ldr r0, [r0, #8]
 	bl FileUnknown__GetAOUFile
 	str r0, [sp, #0x1c]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _0217AEA8
@@ -356,12 +356,12 @@ _0217AE84: // jump table
 	b _0217AE9C // case 5
 _0217AE9C:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _0217AEAC
 _0217AEA8:
 	mov r0, #1
 _0217AEAC:
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	add r0, r0, #1
 	mov r1, r0, lsl #0x10
 	ldr r0, [r2, #8]
@@ -380,7 +380,7 @@ VikingCupStageSelectMenu__Func_217AEBC: // 0x0217AEBC
 	add r11, sp, #0x1c
 	mov r4, r8
 _0217AEE4:
-	ldrb r0, [r10]
+	ldrb r0, [r10, #0]
 	cmp r8, #2
 	ldrb r1, [r10, #1]
 	movlt r6, #0
@@ -400,7 +400,7 @@ _0217AEE4:
 	mov r0, #2
 	str r0, [sp, #0x14]
 	str r4, [sp, #0x18]
-	ldrb r1, [r10]
+	ldrb r1, [r10, #0]
 	ldrb r2, [r10, #1]
 	mov r0, r9
 	ldr r1, [r11, r1, lsl #2]
@@ -425,7 +425,7 @@ VikingCupStageSelectMenu__Func_217AF78: // 0x0217AF78
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x54
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #7
 	ldr r0, [r0, #8]
 	bl FileUnknown__GetAOUFile
@@ -442,7 +442,7 @@ VikingCupStageSelectMenu__Func_217AF78: // 0x0217AF78
 	bl InitBackground
 	add r0, sp, #0xc
 	bl DrawBackground
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #8
 	ldr r0, [r0, #8]
 	bl FileUnknown__GetAOUFile
@@ -459,7 +459,7 @@ VikingCupStageSelectMenu__Func_217AF78: // 0x0217AF78
 	bl InitBackground
 	add r0, sp, #0xc
 	bl DrawBackground
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #9
 	ldr r0, [r0, #8]
 	bl FileUnknown__GetAOUFile
@@ -484,7 +484,7 @@ VikingCupStageSelectMenu__Func_217B048: // 0x0217B048
 	add r0, r10, #0x28c
 	add r0, r0, #0x400
 	bl FontFile__Init
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	add r0, r10, #0x28c
 	ldr r1, [r1, #0xc]
 	add r0, r0, #0x400
@@ -630,7 +630,7 @@ VikingCupStageSelectMenu__Destructor: // 0x0217B210
 	bl GetTaskWork_
 	mov r4, r0
 	bl VikingCupStageSelectMenu__Func_217B124
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
@@ -685,7 +685,7 @@ _0217B2C8: .word VikingCupStageSelectMenu__State_217B364
 VikingCupStageSelectMenu__State_217B2CC: // 0x0217B2CC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _0217B358 // =0x0000FFFF
 	ldrh r1, [r1, #4]
 	cmp r1, r0
@@ -975,7 +975,7 @@ _0217B6D8:
 	bl VikingCupStageSelectMenu__Func_217B8C0
 	cmp r6, #0
 	beq _0217B73C
-	ldr r2, [r10]
+	ldr r2, [r10, #0]
 	ldr r3, _0217B7A4 // =0x0000FFFF
 	mov r0, r10
 	mov r1, #0
@@ -1000,7 +1000,7 @@ _0217B73C:
 	cmp r5, #0
 	addeq r0, r10, #0x800
 	ldreqh r0, [r0, #0x20]
-	ldr r2, [r10]
+	ldr r2, [r10, #0]
 	mov r1, #0
 	cmpeq r0, #1
 	moveq r4, #1
@@ -1127,7 +1127,7 @@ VikingCupStageSelectMenu__Func_217B8C0: // 0x0217B8C0
 	mov r3, #0x28
 	bl VikingCupStageSelectMenu__Func_217BBF4
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _0217B934
@@ -1140,7 +1140,7 @@ _0217B910: // jump table
 	b _0217B928 // case 5
 _0217B928:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _0217B938
 _0217B934:
 	mov r0, #1
@@ -1439,7 +1439,7 @@ _0217BD4C:
 	ldr r0, _0217C038 // =VikingCupStageSelectMenu__State_217B230
 	cmp r2, r0
 	beq _0217BD94
-	ldr r1, [r10]
+	ldr r1, [r10, #0]
 	ldr r0, _0217C03C // =0x0000FFFF
 	ldrh r1, [r1, #4]
 	cmp r1, r0
@@ -2219,7 +2219,7 @@ VikingCupStageSelectMenu__GetRecord: // 0x0217C7EC
 	mov r5, #0
 	mov ip, #0xf
 _0217C804:
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	ldrh r2, [r4, #2]
 	add r4, r4, #4
 	strh r3, [lr]
@@ -2347,14 +2347,14 @@ VikingCupMenu__SetupDisplay: // 0x0217C978
 	bl GX_SetGraphicsMode
 	ldr r3, _0217CAA8 // =0x0400000E
 	mov ip, #0x4000000
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	sub r2, r3, #6
 	sub r5, r3, #4
 	and r0, r0, #0x43
 	orr r0, r0, #0x18
 	orr r0, r0, #0x4000
 	strh r0, [r3]
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	sub r4, r3, #2
 	ldr r1, _0217CAAC // =renderCoreGFXControlA
 	bic r0, r0, #3
@@ -2381,7 +2381,7 @@ VikingCupMenu__SetupDisplay: // 0x0217C978
 	mov r0, #0
 	bl GXS_SetGraphicsMode
 	ldr r0, _0217CAB0 // =0x0400100E
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	sub lr, r0, #6
 	sub ip, r0, #4
 	and r1, r1, #0x43
@@ -2397,15 +2397,15 @@ VikingCupMenu__SetupDisplay: // 0x0217C978
 	bic r2, r2, #3
 	orr r2, r2, #1
 	strh r2, [ip]
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	bic r2, r2, #3
 	orr r2, r2, #2
 	strh r2, [r3]
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	bic r2, r2, #3
 	orr r2, r2, #3
 	strh r2, [r0]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x800
 	str r0, [r1]

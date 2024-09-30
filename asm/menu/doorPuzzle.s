@@ -107,7 +107,7 @@ DoorPuzzle__Func_215743C: // 0x0215743C
 	bl GX_SetGraphicsMode
 	ldr r1, _0215768C // =0x04000008
 	ldr r2, _02157684 // =renderCoreGFXControlA
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	mov r0, #0
 	and r3, r3, #0x43
 	orr r3, r3, #0x84
@@ -128,7 +128,7 @@ DoorPuzzle__Func_215743C: // 0x0215743C
 	strh r0, [r2, #8]
 	strh r0, [r2, #0xe]
 	strh r0, [r2, #0xc]
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	bic r2, r2, #3
 	orr r2, r2, #3
 	strh r2, [r1]
@@ -150,7 +150,7 @@ DoorPuzzle__Func_215743C: // 0x0215743C
 	bic r1, r1, #0x1f00
 	orr r1, r1, #0x1700
 	str r1, [ip]
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	bl MIi_CpuClear16
 	mov ip, #0
 	ldr r1, _02157694 // =renderCoreGFXControlB
@@ -168,7 +168,7 @@ DoorPuzzle__Func_215743C: // 0x0215743C
 	bl GXS_SetGraphicsMode
 	ldr r1, _0215769C // =0x04001008
 	ldr r2, _02157694 // =renderCoreGFXControlB
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	mov r0, #0
 	and r3, r3, #0x43
 	orr r3, r3, #0x84
@@ -185,7 +185,7 @@ DoorPuzzle__Func_215743C: // 0x0215743C
 	strh r0, [r2, #8]
 	strh r0, [r2, #0xe]
 	strh r0, [r2, #0xc]
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	bic r2, r2, #3
 	orr r2, r2, #3
 	strh r2, [r1]
@@ -201,7 +201,7 @@ DoorPuzzle__Func_215743C: // 0x0215743C
 	bic r2, r2, #3
 	strh r2, [r1, #6]
 	sub r3, r1, #8
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	ldr r1, _02157690 // =VRAMSystem__VRAM_BG
 	bic r2, r2, #0x1f00
 	orr r2, r2, #0x1100
@@ -230,7 +230,7 @@ DoorPuzzle__LoadArchives: // 0x021576A0
 	mov r1, #0
 	bl FSRequestFileSync
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	str r0, [r5]
@@ -243,7 +243,7 @@ DoorPuzzle__LoadArchives: // 0x021576A0
 	mov r1, #0
 	bl FSRequestFileSync
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	str r0, [r5, #4]
@@ -262,7 +262,7 @@ _02157718: .word aNarcTkdmLz7Nar_ovl04
 DoorPuzzle__Func_215771C: // 0x0215771C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	ldr r0, [r4, #4]
 	bl _FreeHEAP_USER
@@ -274,7 +274,7 @@ DoorPuzzle__LoadAssets: // 0x02157738
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #9
 	bl FileUnknown__GetAOUFile
 	mov r3, #0
@@ -289,7 +289,7 @@ DoorPuzzle__LoadAssets: // 0x02157738
 	bl InitBackground
 	add r0, r4, #0x10
 	bl DrawBackground
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #8
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -324,7 +324,7 @@ DoorPuzzle__Func_21577C8: // 0x021577C8
 	bl _AllocTailHEAP_USER
 	str r0, [r4, #8]
 	ldr r0, _02157894 // =0x00001111
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r2, #0x20
 	bl MIi_CpuClear16
 	mov r0, #0
@@ -335,7 +335,7 @@ DoorPuzzle__Func_21577C8: // 0x021577C8
 	ldr r1, [r4, #8]
 	mov r2, #0x20
 	bl MIi_CpuClear16
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0x20
 	mov r2, #0
 	ldr r3, _02157898 // =0x06210000
@@ -372,7 +372,7 @@ _0215789C: .word 0x05000400
 DoorPuzzle__Func_21578A0: // 0x021578A0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	ldr r0, [r4, #4]
 	bl _FreeHEAP_USER
@@ -431,7 +431,7 @@ Task__Unknown215790C__Create: // 0x0215790C
 	mov r0, #0
 	mov r2, #0xcc
 	bl MIi_CpuClear16
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #5
 	bl FileUnknown__GetAOUFile
 	mov r6, r0
@@ -459,7 +459,7 @@ Task__Unknown215790C__Create: // 0x0215790C
 	strh r0, [r4, #0xc]
 	mov r0, #0x10
 	strh r0, [r4, #0xe]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #5
 	bl FileUnknown__GetAOUFile
 	mov r5, r0
@@ -576,7 +576,7 @@ DoorPuzzleDoor__Create: // 0x02157AC8
 _02157B4C:
 	mov r0, r7, lsl #1
 	ldrh r1, [r11, r0]
-	ldr r0, [r10]
+	ldr r0, [r10, #0]
 	bl FileUnknown__GetAOUFile
 	mov r6, r0
 	bl Sprite__GetSpriteSize3
@@ -610,7 +610,7 @@ _02157B4C:
 	mov r2, r1
 	bl ReadFileFromBundle
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r0, r0, lsr #8
 	bl _AllocTailHEAP_USER
 	str r0, [r10, #0xc]
@@ -1466,7 +1466,7 @@ DoorPuzzleDoor__Func_21585FC: // 0x021585FC
 	mov r3, #0xb
 	bl FontAnimator__LoadFont1
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _021586FC
@@ -1479,7 +1479,7 @@ _021586D8: // jump table
 	b _021586F0 // case 5
 _021586F0:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02158700
 _021586FC:
 	mov r0, #1
@@ -1487,7 +1487,7 @@ _02158700:
 	ldr r2, [r4, #0x1dc]
 	add r0, r0, #0xa
 	mov r1, r0, lsl #0x10
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r1, r1, lsr #0x10
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -1864,7 +1864,7 @@ _02158BC0:
 	add r0, r0, #0xa0
 	blt _02158BC0
 	ldr r0, [r4, #8]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
 	beq _02158BF0
 	bl NNS_SndPlayerStopSeq
@@ -1888,7 +1888,7 @@ _02158C14:
 	add r0, r0, #0xa0
 	blt _02158C14
 	ldr r0, [r4, #8]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
 	beq _02158C44
 	bl NNS_SndPlayerStopSeq
@@ -1951,7 +1951,7 @@ Task__Unknown215898C__Func_2158CAC: // 0x02158CAC
 	mov r1, #0
 	strh r0, [r5, #4]
 	ldr r0, [r8, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FileUnknown__GetAOUFile
 	mov r9, r0
 	bl Sprite__GetSpriteSize3
@@ -1983,7 +1983,7 @@ Task__Unknown215898C__Func_2158CAC: // 0x02158CAC
 	ldrsh r0, [r5, #2]
 	strh r0, [r5, #0x26]
 	ldr r0, [r8, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FileUnknown__GetAOUFile
 	add r2, r8, #0x8c
 	mov r1, r0
@@ -2132,7 +2132,7 @@ Task__Unknown215898C__Func_2158F14: // 0x02158F14
 	sub sp, sp, #0x20
 	mov r5, r0
 	ldr r0, [r5, #0x10]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	tst r0, #1
 	addeq sp, sp, #0x20
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
@@ -2163,7 +2163,7 @@ _02158F6C:
 	str r2, [sp, #0x18]
 	str r4, [sp, #0x1c]
 	ldrsh r3, [r5, #2]
-	ldrsh r2, [r5]
+	ldrsh r2, [r5, #0]
 	mov r3, r3, lsl #0xc
 	mov r2, r2, lsl #0xc
 	str r2, [sp, #8]
@@ -2206,7 +2206,7 @@ _0215902C:
 	ldr r0, [r5, #0x10]
 	ldr r0, [r0, #8]
 	beq _02159074
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _02159094
 	mov ip, #3
@@ -2219,7 +2219,7 @@ _0215902C:
 	bl PlaySfxEx
 	b _02159094
 _02159074:
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	beq _02159094
 	mov r1, #0
@@ -2236,7 +2236,7 @@ _02159094:
 _021590A8:
 	ldr r0, [r5, #0x10]
 	ldr r0, [r0, #8]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	addeq sp, sp, #0x20
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
@@ -2319,7 +2319,7 @@ Task__Unknown21590E0__Destructor: // 0x021591C8
 	stmdb sp!, {r4, lr}
 	bl GetTaskWork_
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldr r0, [r0, #4]
 	add r0, r0, #0xa0
 	bl DoorPuzzle__Func_21578A0
@@ -2346,7 +2346,7 @@ _02159210: .word Task__Unknown21590E0__Main_2159214
 Task__Unknown21590E0__Main_2159214: // 0x02159214
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r1, [r1, #4]
 	ldr r1, [r1, #0xb0]
 	tst r1, #4
@@ -2395,9 +2395,9 @@ _021592B0:
 	ldmloia sp!, {r4, pc}
 	mov r0, #0
 	bl PlaySysSfx
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	ldr r0, _021592E4 // =Task__Unknown21590E0__Main_21592E8
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	orr r1, r1, #1
 	str r1, [r2]
 	bl SetCurrentTaskMainEvent
@@ -2507,7 +2507,7 @@ Task__Unknown21590E0__Func_2159414: // 0x02159414
 _0215942C:
 	ldr r5, _021594FC // =0x04001000
 	ldr r2, [r0, #8]
-	ldr r4, [r5]
+	ldr r4, [r5, #0]
 	sub r2, r3, r2
 	and r4, r4, #0x1f00
 	mov r4, r4, lsr #8
@@ -2591,7 +2591,7 @@ Task__Unknown2159504__Create: // 0x02159504
 	bl MIi_CpuClear16
 	ldr r0, [r5, #4]
 	mov r1, #7
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
 	mov r0, r4

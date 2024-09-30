@@ -38,7 +38,7 @@ exEffectRingAdminTask__Main: // 0x021686F0
 	mov r0, #0
 	strh r0, [r4, #2]
 	strh r0, [r4, #4]
-	ldrb r2, [r4]
+	ldrb r2, [r4, #0]
 	ldr r0, _02168768 // =exEffectRingAdmin__UnknownTable
 	ldrh r1, [r4, #2]
 	ldr r2, [r0, r2, lsl #2]
@@ -47,7 +47,7 @@ exEffectRingAdminTask__Main: // 0x021686F0
 	add r3, r4, #8
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	ldr r0, _0216876C // =0x021746FA
 	mov r1, r1, lsl #1
 	ldrh r0, [r0, r1]
@@ -140,7 +140,7 @@ _0216883C:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x25800
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -155,7 +155,7 @@ _02168884:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x20800
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -170,7 +170,7 @@ _021688BC:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x1b800
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -185,7 +185,7 @@ _021688F4:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x16800
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -200,7 +200,7 @@ _0216892C:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x11800
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -215,7 +215,7 @@ _02168964:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0xc800
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -230,7 +230,7 @@ _0216899C:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x7800
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -245,7 +245,7 @@ _021689D4:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x2800
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -261,7 +261,7 @@ _02168A0C:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x2800
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -277,7 +277,7 @@ _02168A48:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x7800
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -293,7 +293,7 @@ _02168A84:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0xc800
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -309,7 +309,7 @@ _02168AC0:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x11800
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -325,7 +325,7 @@ _02168AFC:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x16800
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -341,7 +341,7 @@ _02168B38:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x1b800
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -357,7 +357,7 @@ _02168B74:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x20800
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -373,7 +373,7 @@ _02168BB0:
 	stmia r3, {r0, r1, r2}
 	mov r1, #0x25800
 	rsb r1, r1, #0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	add r0, sp, #0x14
 	str r1, [sp, #0x14]
 	ldmia r0, {r0, r1, r2}
@@ -386,7 +386,7 @@ _02168BEC:
 	ldrh r0, [r4, #6]
 	cmp ip, r0
 	bhs _02168C2C
-	ldrb r2, [r4]
+	ldrb r2, [r4, #0]
 	ldr r1, _02168C90 // =exEffectRingAdmin__UnknownTable
 	mov r0, #0xc
 	ldr r1, [r1, r2, lsl #2]
@@ -402,14 +402,14 @@ _02168C2C:
 	add r0, r0, #1
 	strh r0, [r4, #4]
 	strh ip, [r4, #2]
-	ldrb r2, [r4]
+	ldrb r2, [r4, #0]
 	mov r0, #0xc
 	add r3, r4, #8
 	ldr r1, [r1, r2, lsl #2]
 	mla r0, ip, r0, r1
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	ldr r0, _02168C94 // =0x021746FA
 	mov r1, r1, lsl #1
 	ldrh r0, [r0, r1]
@@ -434,7 +434,7 @@ ovl09_2168C98: // 0x02168C98
 	mov r4, r0
 	mov r5, #1
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02168D20
 	bl exSysTask__GetStatus
@@ -472,7 +472,7 @@ _02168D18:
 	b _02168D9C
 _02168D20:
 	bl exSysTask__GetStatus
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02168D9C
 	bl exSysTask__GetStatus
@@ -511,13 +511,13 @@ _02168D98:
 	mov r5, #0xb
 _02168D9C:
 	ldr r3, _02168DF8 // =exEffectRingAdmin__UnknownTable2
-	ldrb r0, [r3]
+	ldrb r0, [r3, #0]
 	cmp r0, r5
 	beq _02168DF0
 	mov r2, #0
 	strb r5, [r4]
 	strh r2, [r4, #2]
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	ldr r0, _02168DFC // =exEffectRingAdmin__UnknownTable
 	add ip, r4, #8
 	ldr r1, [r0, r1, lsl #2]
@@ -525,7 +525,7 @@ _02168D9C:
 	mla r0, r2, r0, r1
 	ldmia r0, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	ldr r0, _02168E00 // =0x021746FA
 	strb r5, [r3]
 	mov r1, r1, lsl #1

@@ -125,7 +125,7 @@ _02002DBC:
 	and r1, r1, #0x7c00
 	mov r7, r1, asr #0xa
 	mla r1, r7, lr, r6
-	ldrsh r9, [r2]
+	ldrsh r9, [r2, #0]
 	mov r8, #0
 	sub r7, r2, #0x20
 	strh r8, [ip]
@@ -135,7 +135,7 @@ _02002DBC:
 	stmia r4, {r3, r5}
 	mov r4, r6, lsr #0x10
 _02002E08:
-	ldrh r2, [r7]
+	ldrh r2, [r7, #0]
 	tst r2, #0x8000
 	bne _02002E08
 	ldr lr, _02002E84 // =0x040002A0
@@ -153,12 +153,12 @@ _02002E08:
 	strh r1, [r0]
 	sub r2, lr, #0x20
 _02002E4C:
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	tst r1, #0x8000
 	bne _02002E4C
 	ldr r1, _02002E84 // =0x040002A0
-	ldrh r2, [r0]
-	ldrsh r1, [r1]
+	ldrh r2, [r0, #0]
+	ldrsh r1, [r1, #0]
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #6
 	and r1, r1, #0x7c00

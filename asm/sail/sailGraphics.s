@@ -9,7 +9,7 @@ SailGraphics__SetupDisplay: // 0x02154450
 	sub sp, sp, #0x14
 	ldr r4, _02154920 // =0x04000304
 	ldr r0, _02154924 // =0xFFFFFDF1
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	ldr r1, _02154928 // =renderCurrentDisplay
 	mov r2, #0
 	and r0, r3, r0
@@ -103,23 +103,23 @@ SailGraphics__SetupDisplay: // 0x02154450
 	ldr r0, _02154940 // =0xBFFF0000
 	sub r3, r4, #2
 	str r0, [r1, #0x40]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ldr r2, _02154944 // =renderCoreGFXControlA
 	mov r1, #0x10
 	and r0, r0, #0x43
 	strh r0, [r4]
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	bic r0, r0, #3
 	orr r0, r0, #1
 	strh r0, [r3]
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	add r0, r4, #0x62
 	bic r3, r3, #3
 	strh r3, [r4]
 	strh r1, [r2, #0x58]
 	bl GXx_SetMasterBrightness_
 	mov r1, #0x4000000
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r2, _02154944 // =renderCoreGFXControlA
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1300
@@ -134,7 +134,7 @@ SailGraphics__SetupDisplay: // 0x02154450
 	bl GetVRAMCharacterConfig
 	ldr r1, _02154948 // =VRAMSystem__VRAM_BG
 	ldrh r3, [sp, #0xa]
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	ldrh r1, [sp, #8]
 	mov r0, #0
 	mov r2, #0x4000
@@ -169,7 +169,7 @@ SailGraphics__SetupDisplay: // 0x02154450
 	bl GXS_SetGraphicsMode
 	ldr r2, _02154950 // =0x0400100A
 	ldr r3, _02154954 // =renderCoreGFXControlB
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	sub r4, r2, #0xa
 	mov r1, #0x10
 	and r0, r0, #0x43
@@ -196,7 +196,7 @@ SailGraphics__SetupDisplay: // 0x02154450
 	bic ip, ip, #3
 	orr ip, ip, #2
 	strh ip, [r2, #4]
-	ldr r2, [r4]
+	ldr r2, [r4, #0]
 	bic r2, r2, #0x1f00
 	orr r2, r2, #0x1e00
 	str r2, [r4]

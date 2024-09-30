@@ -85,7 +85,7 @@ ovl09_2155A18: // 0x02155A18
 	add r0, r4, #0x6c
 	bl ovl09_2162164
 	ldr r0, [r4, #0x3b0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0xf000
 	blt _02155AEC
 	ldr ip, _02155B28 // =_mt_math_rand
@@ -283,7 +283,7 @@ _02155CA4:
 	sub r2, r1, #0x22
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	ldr r1, _02155E5C // =0x02175FC4
 	mov r0, r0, lsr #8
 	str r0, [r1, #0x5c]

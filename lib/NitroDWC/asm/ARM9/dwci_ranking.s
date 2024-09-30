@@ -104,7 +104,7 @@ DWCi_RankingSessionGetAsync: // 0x0209E608
 	mov r1, #0
 	str r1, [r0, #0x50]
 _0209E660:
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	add r0, r0, #0x18
 	bl sub_209F0A8
 	mov r5, r0
@@ -130,7 +130,7 @@ _0209E660:
 	bl strlen
 	str r0, [sp, #0x1c]
 	ldr r0, _0209E854 // =0x02144D1C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl strlen
 	str r0, [sp, #0x20]
 	ldr r0, _0209E858 // =0x0211C3F8
@@ -165,7 +165,7 @@ _0209E660:
 	ldr r2, _0209E85C // =_0211C4C4
 	ldr r1, _0209E854 // =0x02144D1C
 	str r2, [sp, #0xc]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _0209E860 // =aSSSPidDHashSDa
 	ldr r3, _0209E858 // =0x0211C3F8
 	bl sprintf
@@ -190,10 +190,10 @@ _0209E660:
 	str r9, [sp, #0x2c]
 	str r10, [sp, #0x30]
 	str r0, [r5, #0x54]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	add r1, sp, #0x24
 	str r0, [sp, #0x34]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r2, #0x14
 	str r0, [sp]
 	ldr r0, [r5, #0x58]
@@ -287,7 +287,7 @@ _0209E8B8:
 	bl strlen
 	str r0, [sp, #0x18]
 	ldr r0, _0209EAA4 // =0x02144D1C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl strlen
 	str r0, [sp, #0x1c]
 	ldr r0, _0209EAA8 // =0x0211C3F8
@@ -321,7 +321,7 @@ _0209E8B8:
 	ldr r2, _0209EAAC // =_0211C4C4
 	ldr r1, _0209EAA4 // =0x02144D1C
 	str r2, [sp, #0xc]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _0209EAB0 // =aSSSPidDHashSDa
 	ldr r3, _0209EAA8 // =0x0211C3F8
 	bl sprintf
@@ -464,7 +464,7 @@ DWCi_RankingSessionProcess: // 0x0209EB78
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	ldr r0, _0209EC74 // =_0211C3EC
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #8
 	addls pc, pc, r1, lsl #2
 	b _0209EC64
@@ -527,7 +527,7 @@ _0209EC50:
 	streq r1, [r0]
 _0209EC64:
 	ldr r0, _0209EC74 // =_0211C3EC
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
 	.align 2, 0
@@ -676,7 +676,7 @@ sub_209EE48: // 0x0209EE48
 	ldr r0, _0209EE8C // =0x02144D18
 	ldr r3, [r1, #0x44]
 	ldr r2, [r1, #0x40]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r1, #0x48]
 	mla r0, r2, r0, r3
 	bl _u32_div_f
@@ -707,7 +707,7 @@ DWCi_RankingSessionCompleteCallback: // 0x0209EEA4
 	sub sp, sp, #0x48
 	ldr r3, _0209F090 // =_0211C3EC
 	mvn ip, #0
-	ldr r6, [r3]
+	ldr r6, [r3, #0]
 	mov r5, r0
 	cmp r6, #1
 	mov r4, r1
@@ -737,7 +737,7 @@ _0209EF0C:
 	strb r1, [ip], #1
 	strb r0, [ip], #1
 	bne _0209EF0C
-	ldrb r0, [r3]
+	ldrb r0, [r3, #0]
 	ldr r3, _0209F098 // =0x0211C418
 	add r6, sp, #0
 	strb r0, [ip]

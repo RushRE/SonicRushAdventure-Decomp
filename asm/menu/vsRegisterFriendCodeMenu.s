@@ -63,7 +63,7 @@ _02172A00: .word VSRegisterFriendCodeMenu__Destructor
 
 	arm_func_start VSRegisterFriendCodeMenu__IsActive
 VSRegisterFriendCodeMenu__IsActive: // 0x02172A04
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
@@ -97,7 +97,7 @@ _02172A4C: .word aNarcDmwfFcLz7N
 VSViewFriendCodeMenu__ReleaseAssets: // 0x02172A50
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	bl _FreeHEAP_USER
@@ -165,7 +165,7 @@ VSRegisterFriendCodeMenu__ReleaseAssets: // 0x02172B18
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl FriendCodeMenu__Func_216508C
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	mov r1, #0
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
@@ -191,7 +191,7 @@ VSRegisterFriendCodeMenu__Main: // 0x02172B34
 	beq _02172B8C
 	mov r1, r0
 	bl FriendCodeMenu__Func_216504C
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #1
 	str r1, [r0, #4]
 	b _02172BA4
@@ -272,9 +272,9 @@ VSViewFriendCodeMenu__InitSprites: // 0x02172C3C
 	ldr r1, [sp, #0x1c]
 	str r0, [r1, #0x4b8]
 	mov r0, r1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FileUnknown__GetAOUFile
 	str r0, [sp, #0x20]
 	bl Sprite__GetSpriteSize3
@@ -306,7 +306,7 @@ _02172CA0:
 	mov r0, r1
 	str r0, [sp, #0x14]
 	str r0, [sp, #0x18]
-	ldrb r2, [r5]
+	ldrb r2, [r5, #0]
 	ldr r1, [sp, #0x20]
 	mov r0, r6
 	bl AnimatorSprite__Init
@@ -361,7 +361,7 @@ _02172D84:
 	cmp r6, #0xc
 	add r7, r7, #0x64
 	blt _02172D84
-	ldr r0, [r8]
+	ldr r0, [r8, #0]
 	mov r1, #0
 	str r1, [r0, #4]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}

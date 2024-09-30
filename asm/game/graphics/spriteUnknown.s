@@ -9,10 +9,10 @@ SpriteUnknown__Func_204C3CC: // 0x0204C3CC
 	cmp r1, #0
 	ldrne r3, _0204C46C // =0x04001000
 	ldrne r1, _0204C470 // =0x00300010
-	ldrne r3, [r3]
+	ldrne r3, [r3, #0]
 	bne _0204C3F0
 	mov r1, #0x4000000
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r1, _0204C470 // =0x00300010
 _0204C3F0:
 	and ip, r3, r1
@@ -65,10 +65,10 @@ SpriteUnknown__GetSpriteSize: // 0x0204C478
 	cmp r1, #0
 	ldrne r2, _0204C508 // =0x04001000
 	ldrne r1, _0204C50C // =0x00300010
-	ldrne r2, [r2]
+	ldrne r2, [r2, #0]
 	bne _0204C49C
 	mov r1, #0x4000000
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _0204C50C // =0x00300010
 _0204C49C:
 	and r3, r2, r1
@@ -389,10 +389,10 @@ SpriteUnknown__Func_204C860: // 0x0204C860
 	cmp r1, #0
 	ldrne r3, _0204C900 // =0x04001000
 	ldrne r1, _0204C904 // =0x00300010
-	ldrne r3, [r3]
+	ldrne r3, [r3, #0]
 	bne _0204C884
 	mov r1, #0x4000000
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldr r1, _0204C904 // =0x00300010
 _0204C884:
 	and ip, r3, r1

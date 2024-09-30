@@ -14,7 +14,7 @@ SailStylusPromptHUD2__Create: // 0x0218ADE8
 	mov r4, r0
 	mov r0, #0x4a
 	bl GetObjectFileWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _0218AE38
 	ldr r0, _0218AEC4 // =aBbSbBb_1

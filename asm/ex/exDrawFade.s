@@ -179,7 +179,7 @@ ovl09_2160904: // 0x02160904
 	str r0, [r4, #0x3c0]
 _0216094C:
 	ldr r0, [r4, #0x3b0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0xf000
 	blt _02160990
 	mov r4, #0xc9
@@ -239,7 +239,7 @@ ovl09_21609D8: // 0x021609D8
 	str r0, [r4, #0x3c0]
 _02160A1C:
 	ldr r0, [r4, #0x3b0]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0x25000
 	blt _02160A44
 	bl exBossMagmeWaveTask__Create
@@ -300,7 +300,7 @@ ovl09_2160AD4: // 0x02160AD4
 	bl GetExTaskWorkCurrent_
 	ldr r1, _02160CA8 // =_mt_math_rand
 	ldr r2, _02160CAC // =0x00196225
-	ldr r5, [r1]
+	ldr r5, [r1, #0]
 	ldr r3, _02160CB0 // =0x3C6EF35F
 	mov r4, r0
 	mla r0, r5, r2, r3
@@ -385,7 +385,7 @@ _02160C0C:
 	str r6, [r4, #0x4c]
 	ldr r2, _02160CA8 // =_mt_math_rand
 	str r6, [r4, #0x50]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r0, _02160CAC // =0x00196225
 	ldr r1, _02160CB0 // =0x3C6EF35F
 	mla r5, r3, r0, r1
@@ -401,7 +401,7 @@ _02160C0C:
 	streq r0, [r4, #0xc]
 	ldr r2, _02160CA8 // =_mt_math_rand
 	ldr r0, _02160CAC // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02160CB0 // =0x3C6EF35F
 	mla r5, r3, r0, r1
 	mov r0, r5, lsr #0x10
@@ -1214,7 +1214,7 @@ ovl09_21616BC: // 0x021616BC
 	arm_func_start ovl09_21616F4
 ovl09_21616F4: // 0x021616F4
 	stmdb sp!, {r4, lr}
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	mov r1, #0
 	bic r4, r2, #3
 	and r2, r4, #0xff
@@ -1286,7 +1286,7 @@ ovl09_21617DC: // 0x021617DC
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _021618FC // =_mt_math_rand
 	mov r5, r0
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r0, _02161900 // =0x00196225
 	ldr r1, _02161904 // =0x3C6EF35F
 	ldrb ip, [r5, #0x80]
@@ -1314,7 +1314,7 @@ ovl09_21617DC: // 0x021617DC
 	ldmeqia sp!, {r3, r4, r5, pc}
 	ldr r2, _021618FC // =_mt_math_rand
 	ldr r0, _02161900 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02161904 // =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
@@ -1331,7 +1331,7 @@ ovl09_21617DC: // 0x021617DC
 	subeq r0, r0, r4, asr #16
 	strh r0, [r5, #0xc]
 	ldr r0, _02161900 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -1611,7 +1611,7 @@ ovl09_2161BC0: // 0x02161BC0
 	arm_func_start ovl09_2161C24
 ovl09_2161C24: // 0x02161C24
 	stmdb sp!, {r4, lr}
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	mov r1, #0
 	bic r3, r2, #3
 	and r2, r3, #0xff
@@ -1866,7 +1866,7 @@ ovl09_2161FAC: // 0x02161FAC
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _02162158 // =_mt_math_rand
 	mov r5, r0
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r0, _0216215C // =0x00196225
 	ldr r1, _02162160 // =0x3C6EF35F
 	ldrb ip, [r5, #0x38c]
@@ -1885,14 +1885,14 @@ ovl09_2161FAC: // 0x02161FAC
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
 	bl ovl09_2164260
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	mov r0, r0, lsl #0x18
 	movs r0, r0, lsr #0x1c
 	beq _02162080
 	bl ovl09_2164260
 	bl ovl09_21642BC
 	bl ovl09_2164260
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	ldrb r1, [r5, #0x38c]
 	ldr r2, _02162158 // =_mt_math_rand
 	mov r0, r0, lsl #0x18
@@ -1901,7 +1901,7 @@ ovl09_2161FAC: // 0x02161FAC
 	mov r0, r0, lsl #0x1c
 	orr r4, r1, r0, lsr #24
 	strb r4, [r5, #0x38c]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r0, _0216215C // =0x00196225
 	ldr r1, _02162160 // =0x3C6EF35F
 	and ip, r4, #0xff
@@ -1923,7 +1923,7 @@ _02162080:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	ldr r2, _02162158 // =_mt_math_rand
 	ldr r0, _0216215C // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02162160 // =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
@@ -1939,7 +1939,7 @@ _02162080:
 	subeq r0, r0, r4
 	str r0, [r5, #0x68]
 	ldr r0, _0216215C // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02162160 // =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
@@ -1955,7 +1955,7 @@ _02162080:
 	subeq r0, r0, r4
 	str r0, [r5, #0x6c]
 	ldr r0, _0216215C // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02162160 // =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
@@ -2049,7 +2049,7 @@ ovl09_2162230: // 0x02162230
 	strneb r0, [r5, #0x38c]
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r2, _02162398 // =0x04000060
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #0x3000
 	orr r1, r1, #8
 	strh r1, [r2]
@@ -2271,7 +2271,7 @@ _02162538:
 	cmp r5, #0x1e
 	blo _02162538
 	str r4, [ip, #0x24c]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r3, _02162720 // =FX_SinCosTable_
 	str r2, [ip, #0x224]
 	ldr r2, [r1, #4]
@@ -2285,7 +2285,7 @@ _02162538:
 	strh r2, [ip, #4]
 	ldrh r5, [ip, #4]
 	ldr r4, [ip, #0x23c]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r5, r5, asr #4
 	mov r5, r5, lsl #1
 	add r5, r5, #1
@@ -2315,7 +2315,7 @@ _02162538:
 	str r2, [ip, #0x10]
 	ldrh r5, [ip, #4]
 	ldr r4, [ip, #0x23c]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r5, r5, asr #4
 	mov r5, r5, lsl #1
 	add r5, r5, #1
@@ -2344,7 +2344,7 @@ _02162538:
 	ldr r2, [r1, #8]
 	str r2, [ip, #0x1c]
 	ldr r3, [ip, #8]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	sub r2, r3, r2
 	str r2, [ip, #0x230]
 	ldr r3, [ip, #0xc]
@@ -2408,7 +2408,7 @@ _0216274C:
 _02162754:
 	mov r5, #0x3000
 _02162758:
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	mov r0, #0x1d
 	str r1, [r4, #0x224]
 	ldr r1, [r6, #4]
@@ -2459,7 +2459,7 @@ _02162778:
 	strh r2, [r4, #4]
 	ldrh ip, [r4, #4]
 	ldr r8, [r4, #0x23c]
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	mov ip, ip, asr #4
 	mov ip, ip, lsl #1
 	add ip, ip, #1
@@ -2490,7 +2490,7 @@ _02162778:
 	str r7, [r4, #0x1cc]
 	ldrh lr, [r4, #4]
 	ldr ip, [r4, #0x23c]
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	mov lr, lr, asr #4
 	mov lr, lr, lsl #1
 	add lr, lr, #1
@@ -2521,7 +2521,7 @@ _02162778:
 	ldr r2, [r4, #0x1cc]
 	str r2, [r4, #0x1d0]
 	bl FX_Div
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	mov r2, #0x1f
 	add r0, r1, r0
 	str r0, [r4, #8]
@@ -2534,7 +2534,7 @@ _02162778:
 	str r3, [r4, #0x10]
 	str r2, [r4, #0x1ac]
 	bl FX_Div
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	mov r2, #0x1f
 	sub r0, r1, r0
 	str r0, [r4, #0x14]
@@ -2546,7 +2546,7 @@ _02162778:
 	mov r1, #0x2000
 	str r3, [r4, #0x1c]
 	str r2, [r4, #0x1b0]
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	add r2, r2, r5
 	str r2, [r4, #0x20]
 	bl FX_Div
@@ -2558,7 +2558,7 @@ _02162778:
 	mov r0, r5
 	str r2, [r4, #0x28]
 	str r1, [r4, #0x1b4]
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	mov r1, #0x2000
 	sub r2, r2, r5
 	str r2, [r4, #0x2c]
@@ -2571,7 +2571,7 @@ _02162778:
 	mov r0, r5
 	str r2, [r4, #0x34]
 	str r1, [r4, #0x1b8]
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	mov r1, #0x2000
 	add r2, r2, r5
 	str r2, [r4, #0x38]
@@ -2584,7 +2584,7 @@ _02162778:
 	mov r0, r5
 	str r2, [r4, #0x40]
 	str r1, [r4, #0x1bc]
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	mov r1, #0x2000
 	sub r2, r2, r5
 	str r2, [r4, #0x44]
@@ -2599,7 +2599,7 @@ _02162778:
 	str r1, [r4, #0x1c0]
 	mov r1, #0x2000
 	bl FX_Div
-	ldr r1, [r6]
+	ldr r1, [r6, #0]
 	add r0, r1, r0
 	str r0, [r4, #0x50]
 	ldr r0, [r6, #4]
@@ -2612,7 +2612,7 @@ _02162778:
 	str r1, [r4, #0x1c4]
 	mov r1, #0x2000
 	bl FX_Div
-	ldr r2, [r6]
+	ldr r2, [r6, #0]
 	mov r1, #0x1f
 	sub r0, r2, r0
 	str r0, [r4, #0x5c]
@@ -2650,7 +2650,7 @@ _02162AD4:
 	blo _02162AD4
 	mov r4, #0
 	str r4, [ip, #0x24c]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r3, _02162CC4 // =FX_SinCosTable_
 	str r2, [ip, #0x224]
 	ldr r2, [r1, #4]
@@ -2664,7 +2664,7 @@ _02162AD4:
 	strh r2, [ip, #4]
 	ldrh r5, [ip, #4]
 	ldr r4, [ip, #0x23c]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r5, r5, asr #4
 	mov r5, r5, lsl #1
 	add r5, r5, #1
@@ -2694,7 +2694,7 @@ _02162AD4:
 	str r2, [ip, #0x10]
 	ldrh r5, [ip, #4]
 	ldr r4, [ip, #0x23c]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r5, r5, asr #4
 	mov r5, r5, lsl #1
 	add r5, r5, #1
@@ -2723,7 +2723,7 @@ _02162AD4:
 	ldr r2, [r1, #8]
 	str r2, [ip, #0x1c]
 	ldr r3, [ip, #8]
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	sub r2, r3, r2
 	str r2, [ip, #0x230]
 	ldr r3, [ip, #0xc]
@@ -2770,7 +2770,7 @@ _02162CC4: .word FX_SinCosTable_
 	arm_func_start ovl09_2162CC8
 ovl09_2162CC8: // 0x02162CC8
 	stmdb sp!, {r4, lr}
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	add r3, r0, #0x1c
 	str r2, [r3, #0x224]
 	ldr r0, [r1, #4]
@@ -2821,7 +2821,7 @@ _02162CF0:
 	strh r0, [r3, #4]
 	ldrh ip, [r3, #4]
 	ldr r4, [r3, #0x23c]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov ip, ip, asr #4
 	mov ip, ip, lsl #1
 	add ip, ip, #1
@@ -2851,7 +2851,7 @@ _02162CF0:
 	str r0, [r3, #0x10]
 	ldrh lr, [r3, #4]
 	ldr ip, [r3, #0x23c]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov lr, lr, asr #4
 	mov lr, lr, lsl #1
 	add lr, lr, #1
@@ -2912,7 +2912,7 @@ _02162EB8:
 	blo _02162EB8
 	mov r0, #1
 	str r0, [r4, #0x24c]
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r1, #0x2000
 	str r0, [r4, #0x224]
 	ldr r0, [r5, #4]
@@ -2921,7 +2921,7 @@ _02162EB8:
 	str r0, [r4, #0x22c]
 	ldr r0, [r4, #0x23c]
 	bl FX_Div
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	mov r1, #0x2000
 	sub r0, r2, r0
 	str r0, [r4, #8]
@@ -2933,7 +2933,7 @@ _02162EB8:
 	str r0, [r4, #0x10]
 	ldr r0, [r4, #0x23c]
 	bl FX_Div
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	mov r1, #2
 	add r0, r2, r0
 	str r0, [r4, #0x14]
@@ -2981,7 +2981,7 @@ _02162FD8: .word 0x000003FF
 ovl09_2162FDC: // 0x02162FDC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r1
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	add r4, r0, #0x1c
 	str r1, [r4, #0x224]
 	ldr r0, [r5, #4]
@@ -3118,7 +3118,7 @@ _02163138:
 	str r2, [r4, #0x1ac]
 	ldr r0, [r4, #0x23c]
 	bl FX_Div
-	ldr r2, [r5]
+	ldr r2, [r5, #0]
 	mov r1, #0x2000
 	sub r0, r2, r0
 	str r0, [r4, #8]
@@ -3130,7 +3130,7 @@ _02163138:
 	str r0, [r4, #0x10]
 	ldr r0, [r4, #0x23c]
 	bl FX_Div
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	add r0, r1, r0
 	str r0, [r4, #0x14]
 	ldr r1, [r5, #4]
@@ -3153,7 +3153,7 @@ ovl09_2163238: // 0x02163238
 	sub sp, sp, #0x118
 	ldr r1, _021635D8 // =0x02176444
 	mov r4, r0
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	add r9, r4, #0x1c
 	cmp r0, #0xa
 	addlo r0, r0, #1
@@ -3427,7 +3427,7 @@ ovl09_21635E0: // 0x021635E0
 	arm_func_start ovl09_216363C
 ovl09_216363C: // 0x0216363C
 	stmdb sp!, {r3, lr}
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	mov r1, #0
 	bic r3, r2, #3
 	and r2, r3, #0xff
@@ -3641,7 +3641,7 @@ ovl09_2163924: // 0x02163924
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _02163AD0 // =_mt_math_rand
 	mov r5, r0
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r0, _02163AD4 // =0x00196225
 	ldr r1, _02163AD8 // =0x3C6EF35F
 	ldrb ip, [r5, #0x150]
@@ -3660,14 +3660,14 @@ ovl09_2163924: // 0x02163924
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
 	bl ovl09_2164260
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	mov r0, r0, lsl #0x18
 	movs r0, r0, lsr #0x1c
 	beq _021639F8
 	bl ovl09_2164260
 	bl ovl09_21642BC
 	bl ovl09_2164260
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	ldrb r1, [r5, #0x150]
 	ldr r2, _02163AD0 // =_mt_math_rand
 	mov r0, r0, lsl #0x18
@@ -3676,7 +3676,7 @@ ovl09_2163924: // 0x02163924
 	mov r0, r0, lsl #0x1c
 	orr r4, r1, r0, lsr #24
 	strb r4, [r5, #0x150]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r0, _02163AD4 // =0x00196225
 	ldr r1, _02163AD8 // =0x3C6EF35F
 	and ip, r4, #0xff
@@ -3698,7 +3698,7 @@ _021639F8:
 	ldmeqia sp!, {r3, r4, r5, pc}
 	ldr r2, _02163AD0 // =_mt_math_rand
 	ldr r0, _02163AD4 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02163AD8 // =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
@@ -3714,7 +3714,7 @@ _021639F8:
 	subeq r0, r0, r4
 	str r0, [r5, #0x68]
 	ldr r0, _02163AD4 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02163AD8 // =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
@@ -3730,7 +3730,7 @@ _021639F8:
 	subeq r0, r0, r4
 	str r0, [r5, #0x6c]
 	ldr r0, _02163AD4 // =0x00196225
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r1, _02163AD8 // =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mov r0, ip, lsr #0x10
@@ -3803,7 +3803,7 @@ ovl09_2163B64: // 0x02163B64
 	ldmneia sp!, {r4, pc}
 	ldr r2, _02163BBC // =0x04000060
 	add r0, r4, #0x20
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #0x3000
 	orr r1, r1, #8
 	strh r1, [r2]
@@ -3888,7 +3888,7 @@ ovl09_2163C48: // 0x02163C48
 	ldrh r0, [r4, #0xc]
 	subs r5, r1, r0
 	ldmmiia sp!, {r4, r5, r6, pc}
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	ldrsh r6, [r4, #6]
 	cmp r0, #0
 	moveq r0, #1

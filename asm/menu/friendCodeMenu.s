@@ -24,30 +24,30 @@ FriendCodeMenu__LoadAssets: // 0x02164F38
 	bl MIi_CpuClear32
 	ldr r0, _02164F94 // =FriendCodeMenu__sVars
 	mov r1, #0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	str r1, [r2, #4]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r0, #0x2e
 	lsl r0, r0, #6
 	add r0, r2, r0
 	bl InitThreadWorker
 	ldr r0, _02164F94 // =FriendCodeMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _02164F98 // =0x00000A4C
 	add r0, r1, r0
 	bl FontAnimator__Init
 	ldr r0, _02164F94 // =FriendCodeMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r1, r0
 	bl FontWindowAnimator__Init
 	ldr r0, _02164F9C // =_0217ED0C
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl BundleFileUnknown__LoadFile
 	ldr r1, _02164F94 // =FriendCodeMenu__sVars
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, _02164FA0 // =0x00000B78
 	str r0, [r2, r1]
 	pop {r3, pc}
@@ -64,49 +64,49 @@ FriendCodeMenu__Create: // 0x02164FA4
 	sub sp, #0xc
 	ldr r3, _0216502C // =FriendCodeMenu__sVars
 	mov r5, #1
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	str r5, [r4, #4]
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	str r0, [r4]
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	ldr r0, _02165030 // =0x00000B74
 	str r2, [r4, r0]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	mov r0, #0
 	str r0, [r2, #0x18]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	mov r4, #0xb
 	str r0, [r2, #0x1c]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	str r0, [r2, #0x20]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	str r0, [r2, #0x24]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	str r0, [r2, #0x2c]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	str r4, [r2, #0x30]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	str r0, [r2, #0x34]
 	mov r2, #4
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	cmp r1, #0
 	str r2, [r0, #0x38]
 	beq _02164FF2
 	mov r0, r1
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r2, #0xc
 	add r1, #8
 	bl MI_CpuCopy8
 	b _02164FFE
 _02164FF2:
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mov r1, #0x20
 	add r0, #8
 	mov r2, #0xc
 	bl MI_CpuFill8
 _02164FFE:
 	ldr r0, _0216502C // =FriendCodeMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl FriendCodeMenu__SetupDisplay
 	mov r2, #0
 	str r2, [sp]
@@ -118,9 +118,9 @@ _02164FFE:
 	bl TaskCreate_
 	ldr r2, _0216502C // =FriendCodeMenu__sVars
 	ldr r1, _0216503C // =0x00000B7C
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	str r0, [r3, r1]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	bl FriendCodeMenu__Func_21650D0
 	add sp, #0xc
 	pop {r4, r5, pc}
@@ -135,7 +135,7 @@ _0216503C: .word 0x00000B7C
 	thumb_func_start FriendCodeMenu__Func_2165040
 FriendCodeMenu__Func_2165040: // 0x02165040
 	ldr r0, _02165048 // =FriendCodeMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #4]
 	bx lr
 	.align 2, 0
@@ -147,11 +147,11 @@ FriendCodeMenu__Func_216504C: // 0x0216504C
 	push {r3, r4}
 	ldr r2, _02165064 // =FriendCodeMenu__sVars
 	mov r4, #0
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	str r4, [r3, #0x20]
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	str r0, [r3, #0x24]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	str r1, [r0, #0x28]
 	pop {r3, r4}
 	bx lr
@@ -162,7 +162,7 @@ _02165064: .word FriendCodeMenu__sVars
 	thumb_func_start FriendCodeMenu__Func_2165068
 FriendCodeMenu__Func_2165068: // 0x02165068
 	ldr r0, _0216507C // =FriendCodeMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	bne _02165076
@@ -178,7 +178,7 @@ _0216507C: .word FriendCodeMenu__sVars
 	thumb_func_start FriendCodeMenu__GetFriendKey
 FriendCodeMenu__GetFriendKey: // 0x02165080
 	ldr r0, _02165088 // =FriendCodeMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, #8
 	bx lr
 	.align 2, 0
@@ -189,7 +189,7 @@ _02165088: .word FriendCodeMenu__sVars
 FriendCodeMenu__Func_216508C: // 0x0216508C
 	push {r3, lr}
 	ldr r0, _021650C8 // =FriendCodeMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _021650CC // =0x00000B78
 	ldr r0, [r1, r0]
 	cmp r0, #0
@@ -197,18 +197,18 @@ FriendCodeMenu__Func_216508C: // 0x0216508C
 	bl _FreeHEAP_USER
 	ldr r0, _021650C8 // =FriendCodeMenu__sVars
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _021650CC // =0x00000B78
 	str r2, [r1, r0]
 _021650A8:
 	ldr r0, _021650C8 // =FriendCodeMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0x2e
 	lsl r0, r0, #6
 	add r0, r1, r0
 	bl ReleaseThreadWorker
 	ldr r0, _021650C8 // =FriendCodeMenu__sVars
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl _FreeHEAP_SYSTEM
 	ldr r0, _021650C8 // =FriendCodeMenu__sVars
 	mov r1, #0
@@ -279,12 +279,12 @@ FriendCodeMenu__SetupDisplay: // 0x02165134
 	ldr r0, _02165248 // =0x0213D2A4
 	lsl r2, r2, #0x1a
 	strh r1, [r0, #0x18]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	ldr r0, _0216524C // =0xFFFFE0FF
 	and r1, r0
 	str r1, [r2]
 	ldr r2, _02165250 // =0x04001000
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	and r0, r1
 	str r0, [r2]
 	ldr r1, _02165254 // =renderCurrentDisplay
@@ -297,7 +297,7 @@ FriendCodeMenu__SetupDisplay: // 0x02165134
 	bl GXS_SetGraphicsMode
 	ldr r2, _02165258 // =0x04000008
 	mov r5, #0x81
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	mov r0, #0x43
 	mov r3, #4
 	and r1, r0
@@ -315,7 +315,7 @@ FriendCodeMenu__SetupDisplay: // 0x02165134
 	orr r6, r1
 	strh r6, [r2, #6]
 	ldr r2, _02165260 // =0x04001008
-	ldrh r6, [r2]
+	ldrh r6, [r2, #0]
 	and r6, r0
 	orr r3, r6
 	strh r3, [r2]
@@ -343,7 +343,7 @@ FriendCodeMenu__SetupDisplay: // 0x02165134
 	bl MIi_CpuClear16
 	ldr r6, _02165258 // =0x04000008
 	mov r2, #3
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	mov r3, #1
 	bic r0, r2
 	strh r0, [r6]
@@ -363,7 +363,7 @@ FriendCodeMenu__SetupDisplay: // 0x02165134
 	orr r0, r7
 	strh r0, [r6, #6]
 	sub r6, #8
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r5, r0
 	mov r0, #0xb
 	and r5, r1
@@ -371,7 +371,7 @@ FriendCodeMenu__SetupDisplay: // 0x02165134
 	orr r0, r5
 	str r0, [r6]
 	ldr r0, _02165260 // =0x04001008
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	bic r5, r2
 	strh r5, [r0]
 	ldrh r5, [r0, #2]
@@ -389,7 +389,7 @@ FriendCodeMenu__SetupDisplay: // 0x02165134
 	orr r2, r7
 	strh r2, [r0, #6]
 	sub r0, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	and r2, r1
 	mov r1, #7
 	lsl r1, r1, #0xa
@@ -423,7 +423,7 @@ FriendCodeMenu__Func_216526C: // 0x0216526C
 	bl FileUnknown__GetAOUFile
 	str r0, [sp, #0x28]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _021652A8
 	add r0, r0, r0
@@ -441,7 +441,7 @@ _02165294: // jump table
 	.hword _021652A0 - _02165294 - 2 // case 5
 _021652A0:
 	bl RenderCore_GetLanguagePtr
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	b _021652AA
 _021652A8:
 	mov r2, #1
@@ -456,7 +456,7 @@ _021652AA:
 	str r0, [sp, #0x24]
 	ldr r0, _02165418 // =0x04001000
 	ldr r1, _0216541C // =0x00300010
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mov r2, r0
 	ldr r0, _02165420 // =0x00100010
 	and r2, r1
@@ -501,7 +501,7 @@ _021652FE:
 	str r7, [sp, #4]
 	lsr r0, r0, #0x10
 	str r0, [sp, #8]
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	ldr r1, [sp, #0x28]
 	mov r2, #1
 	str r0, [sp, #0xc]
@@ -899,7 +899,7 @@ FriendCodeMenu__Func_21655F4: // 0x021655F4
 	mov r3, #2
 	bl FontAnimator__LoadFont1
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _0216567A
 	add r0, r0, r0
@@ -917,7 +917,7 @@ _02165666: // jump table
 	.hword _02165672 - _02165666 - 2 // case 5
 _02165672:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _0216567C
 _0216567A:
 	mov r1, #1
@@ -981,12 +981,12 @@ _021656CE:
 	str r0, [sp, #8]
 	str r1, [sp, #0xc]
 	add r0, sp, #0x48
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	str r7, [sp, #0x10]
 	add r2, sp, #0x28
 	str r0, [sp, #0x14]
 	add r0, sp, #0x4c
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	ldr r1, [sp, #0x1c]
 	mov r3, r4
 	str r0, [sp, #0x18]
@@ -1057,7 +1057,7 @@ FriendCodeMenu__Func_216571C: // 0x0216571C
 	add r0, sp, #0xec
 	bl FontWindowAnimator__Release
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	bhi _021657BA
 	add r0, r0, r0
@@ -1075,7 +1075,7 @@ _021657A6: // jump table
 	.hword _021657B2 - _021657A6 - 2 // case 5
 _021657B2:
 	bl RenderCore_GetLanguagePtr
-	ldrb r1, [r0]
+	ldrb r1, [r0, #0]
 	b _021657BC
 _021657BA:
 	mov r1, #1
@@ -1297,33 +1297,33 @@ _0216596C: .word 0x00000A4C
 FriendCodeMenu__Main: // 0x02165970
 	push {r3, lr}
 	ldr r0, _021659C0 // =FriendCodeMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0x6e
 	lsl r0, r0, #4
 	add r0, r1, r0
 	bl DrawBackground
 	ldr r0, _021659C0 // =FriendCodeMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xb1
 	lsl r0, r0, #4
 	add r0, r1, r0
 	bl FontWindowAnimator__Func_20599B4
 	ldr r0, _021659C0 // =FriendCodeMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _021659C4 // =0x00000A4C
 	add r0, r1, r0
 	bl FontAnimator__LoadMappingsFunc
 	ldr r0, _021659C0 // =FriendCodeMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _021659C4 // =0x00000A4C
 	add r0, r1, r0
 	bl FontAnimator__LoadPaletteFunc
 	ldr r1, _021659C0 // =FriendCodeMenu__sVars
 	ldr r3, _021659C8 // =FriendCodeMenu__State_2165A20
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r0, _021659CC // =0x00000C4C
 	str r3, [r2, r0]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	mov r2, #0
 	str r2, [r0, #0x2c]
 	ldr r0, _021659D0 // =FriendCodeMenu__Main_21659D4
@@ -1341,7 +1341,7 @@ _021659D0: .word FriendCodeMenu__Main_21659D4
 FriendCodeMenu__Main_21659D4: // 0x021659D4
 	push {r3, lr}
 	ldr r0, _02165A08 // =FriendCodeMenu__sVars
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _02165A0C // =0x00000C4C
 	ldr r0, [r1, r0]
 	cmp r0, #0
@@ -1352,7 +1352,7 @@ FriendCodeMenu__Main_21659D4: // 0x021659D4
 	bl TouchField__Process
 	ldr r0, _02165A08 // =FriendCodeMenu__sVars
 	ldr r1, _02165A0C // =0x00000C4C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r0, r1]
 	blx r1
 	pop {r3, pc}
@@ -1360,7 +1360,7 @@ _021659F8:
 	bl DestroyCurrentTask
 	ldr r0, _02165A08 // =FriendCodeMenu__sVars
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #4]
 	pop {r3, pc}
 	nop
@@ -1372,7 +1372,7 @@ _02165A0C: .word 0x00000C4C
 FriendCodeMenu__Destructor: // 0x02165A10
 	ldr r0, _02165A18 // =FriendCodeMenu__sVars
 	ldr r3, _02165A1C // =FriendCodeMenu__Func_2165864
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bx r3
 	.align 2, 0
 _02165A18: .word FriendCodeMenu__sVars
@@ -1828,7 +1828,7 @@ _02165D52:
 	ldr r0, [sp, #4]
 	cmp r0, #0
 	beq _02165D8C
-	ldr r1, [r5]
+	ldr r1, [r5, #0]
 	mov r0, #2
 	tst r1, r0
 	beq _02165D78
@@ -1934,11 +1934,11 @@ FriendCodeMenu__State_2165E28: // 0x02165E28
 	mov r4, r0
 	ldr r0, _02165EE0 // =0x04001000
 	mov r1, #0x1f
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r1, r1, #8
 	and r1, r2
 	lsr r3, r1, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _02165EE4 // =0xFFFFE0FF
 	and r2, r1
 	mov r1, #2
@@ -2027,11 +2027,11 @@ FriendCodeMenu__State_2165EF4: // 0x02165EF4
 	mov r4, r0
 	ldr r0, _02165F98 // =0x04001000
 	mov r1, #0x1f
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r1, r1, #8
 	and r1, r2
 	lsr r3, r1, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _02165F9C // =0xFFFFE0FF
 	and r2, r1
 	mov r1, #1
@@ -2069,11 +2069,11 @@ _02165F4C:
 _02165F54:
 	ldr r0, _02165F98 // =0x04001000
 	mov r1, #0x1f
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r1, r1, #8
 	and r1, r2
 	lsr r3, r1, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _02165F9C // =0xFFFFE0FF
 	and r2, r1
 	mov r1, #1
@@ -2131,11 +2131,11 @@ FriendCodeMenu__State_2165FB4: // 0x02165FB4
 	beq _02166018
 	ldr r0, _0216601C // =0x04001000
 	mov r1, #0x1f
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r1, r1, #8
 	and r1, r2
 	lsr r3, r1, #8
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, _02166020 // =0xFFFFE0FF
 	and r2, r1
 	mov r1, #2
@@ -2167,7 +2167,7 @@ _02166028: .word 0x00000C4C
 	thumb_func_start FriendCodeMenu__State_216602C
 FriendCodeMenu__State_216602C: // 0x0216602C
 	push {r4, lr}
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r1, #1
 	tst r2, r1
 	beq _02166048
@@ -2434,7 +2434,7 @@ _021661FC:
 	lsl r0, r0, #0x10
 	lsr r7, r0, #0x10
 	ldr r0, [sp, #0x10]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	sub r1, r0, #1
 	ldr r0, [sp, #0x10]
 	str r1, [r0]
@@ -2539,7 +2539,7 @@ _021662E6:
 	mov r1, #0xa0
 	strh r6, [r4, #8]
 	strh r1, [r4, #0xa]
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	cmp r1, #2
 	beq _0216631A
 	mov r1, #2
@@ -2556,11 +2556,11 @@ _02166316:
 	mov r0, #0
 	strh r0, [r5]
 _0216631A:
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	ldr r0, [sp, #4]
 	add r0, r1, r0
 	strh r0, [r5]
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	ldrh r0, [r4, #0xc]
 	cmp r0, r1
 	beq _02166330
@@ -2709,7 +2709,7 @@ FriendCodeMenu__Func_2166434: // 0x02166434
 	add r2, sp, #0x10
 	mov r1, #0xa
 _02166446:
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	add r3, r3, #2
 	strh r0, [r2]
 	add r2, r2, #2
@@ -2732,7 +2732,7 @@ _02166462:
 	asr r7, r0, #0x10
 	mov r6, #0x34
 _02166470:
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	ldr r0, [sp]
 	cmp r1, r0
 	bhi _021664C8
@@ -2755,7 +2755,7 @@ _0216648A:
 	mov r0, r5
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	ldr r0, [sp]
 	sub r0, r0, r1
 	cmp r0, #0x14
@@ -2919,55 +2919,55 @@ _021665B2:
 FriendCodeMenu__SetupBlending: // 0x021665C8
 	push {r3, r4, r5, r6, r7, lr}
 	ldr r0, _021666B8 // =VRAMSystem__GFXControl
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r4, [r0, #4]
 	add r2, #0x20
 	add r4, #0x20
 	cmp r1, #0
 	beq _021666A0
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	mov r3, #1
 	mov r0, #1
 	bic r1, r3
 	orr r0, r1
 	strh r0, [r2]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	mov r0, #2
 	mov r5, #8
 	orr r0, r1
 	strh r0, [r2]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	mov r0, #4
 	ldr r6, _021666BC // =0xFFFFFBFF
 	orr r0, r1
 	strh r0, [r2]
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	orr r0, r5
 	strh r0, [r2]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	mov r0, #0x10
 	orr r0, r1
 	strh r0, [r2]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ldr r0, _021666C0 // =0xFFFFFEFF
 	and r0, r1
 	strh r0, [r2]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ldr r0, _021666C4 // =0xFFFFFDFF
 	and r0, r1
 	strh r0, [r2]
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	and r0, r6
 	strh r0, [r2]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ldr r0, _021666C8 // =0xFFFFF7FF
 	and r0, r1
 	strh r0, [r2]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ldr r0, _021666CC // =0xFFFFEFFF
 	and r0, r1
 	strh r0, [r2]
-	ldrh r7, [r2]
+	ldrh r7, [r2, #0]
 	mov r0, #0xc0
 	mov r1, #0xc0
 	bic r7, r0
@@ -2978,44 +2978,44 @@ FriendCodeMenu__SetupBlending: // 0x021665C8
 	bic r7, r1
 	orr r7, r5
 	strh r7, [r2, #4]
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	bic r2, r3
 	strh r2, [r4]
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	mov r2, #2
 	bic r3, r2
 	strh r3, [r4]
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	mov r2, #4
 	orr r2, r3
 	strh r2, [r4]
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	orr r2, r5
 	strh r2, [r4]
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	mov r2, #0x10
 	orr r2, r3
 	strh r2, [r4]
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	asr r2, r6, #2
 	and r2, r3
 	strh r2, [r4]
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	asr r2, r6, #1
 	and r2, r3
 	strh r2, [r4]
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	and r2, r6
 	strh r2, [r4]
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	ldr r2, _021666C8 // =0xFFFFF7FF
 	and r2, r3
 	strh r2, [r4]
-	ldrh r3, [r4]
+	ldrh r3, [r4, #0]
 	ldr r2, _021666CC // =0xFFFFEFFF
 	and r2, r3
 	strh r2, [r4]
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	bic r2, r0
 	mov r0, #0xc0
 	orr r0, r2

@@ -46,7 +46,7 @@ _02157416:
 	mov r1, r5
 	add r1, #0xc0
 	mov r2, #0xa
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r0, #0
 	lsl r2, r2, #0xa
 	bl MIi_CpuClear16
@@ -69,7 +69,7 @@ _02157446:
 	pop {r3, r4, r5, r6, pc}
 _0215744C:
 	add r6, #0x8c
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #0
 	beq _0215746A
 	mov r1, r5
@@ -103,7 +103,7 @@ SailVoyageManager__Destructor: // 0x02157480
 	bl GetTaskWork_
 	mov r5, r0
 	add r0, #0xc0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _021574AA
 	ldr r1, [r4, #0xc]
@@ -145,7 +145,7 @@ SailVoyageManager__Func_21574B4: // 0x021574B4
 	cmp r0, #0
 	beq _021574E8
 	add r1, #0xa8
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 _021574E8:
 	mov r0, r4
 	add r1, sp, #8
@@ -206,14 +206,14 @@ _02157540:
 	mov r1, #0x28
 	lsl r0, r0, #0x10
 	asr r0, r0, #0x10
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mul r1, r6
 	sub r0, r0, r7
 	add r2, r2, r1
 	strh r0, [r2, #4]
 	mov r0, r5
 	add r0, #0xc0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r2, r0, r1
 	mov r0, #4
 	ldrsh r3, [r2, r0]
@@ -228,7 +228,7 @@ _02157540:
 _0215758A:
 	mov r0, r5
 	add r0, #0xc0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, r1
 	mov r1, #4
 	ldrsh r2, [r0, r1]
@@ -251,12 +251,12 @@ _021575AC:
 	bl SailVoyageManager__Func_2157628
 	mov r0, r5
 	add r0, #0xb8
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #0
 	beq _02157614
 	mov r0, r5
 	add r0, #0xc0
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	sub r0, r1, #1
 	mov r2, #0x28
 	mov r1, r0
@@ -268,20 +268,20 @@ _021575AC:
 	strb r0, [r3, r1]
 	mov r0, r5
 	add r0, #0xc0
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	mov r0, r5
 	add r0, #0xb8
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	mov r4, #0x15
 	mov r1, r0
 	mul r1, r2
 	strb r4, [r3, r1]
 	mov r1, r5
 	add r1, #0xc0
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	mov r1, r5
 	add r1, #0xb8
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	mov r0, #0
 	sub r1, r1, #1
 	mov r3, r1
@@ -291,8 +291,8 @@ _021575AC:
 	mov r1, r5
 	add r1, #0xc0
 	add r5, #0xb8
-	ldr r3, [r1]
-	ldrh r1, [r5]
+	ldr r3, [r1, #0]
+	ldrh r1, [r5, #0]
 	mul r2, r1
 	add r1, r3, r2
 	strh r0, [r1, #0xa]
@@ -323,7 +323,7 @@ SailVoyageManager__Func_2157628: // 0x02157628
 	str r0, [sp]
 	bl SailManager__GetWork
 	add r0, #0x98
-	ldr r5, [r0]
+	ldr r5, [r0, #0]
 	mov r4, r7
 	ldr r0, [sp, #0x10]
 	str r4, [sp, #8]
@@ -332,12 +332,12 @@ SailVoyageManager__Func_2157628: // 0x02157628
 	bne _02157672
 	ldr r0, _02157768 // =gameState
 	add r0, #0xa8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02157672
 	ldr r1, _02157768 // =gameState
 	add r1, #0xb6
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	cmp r1, #0
 	beq _02157672
 	str r1, [sp, #8]
@@ -369,12 +369,12 @@ _021576A2:
 	mov r2, r5
 	add r2, #0xc0
 	mov r0, r4
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	mul r0, r3
 	strb r6, [r2, r0]
 	mov r2, r5
 	add r2, #0xc0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r0, r2, r0
 	strb r7, [r0, #1]
 	add r0, r4, #1
@@ -388,12 +388,12 @@ _021576C2:
 	mov r1, r5
 	add r1, #0xc0
 	mov r0, #0x28
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mul r0, r4
 	strb r6, [r1, r0]
 	mov r1, r5
 	add r1, #0xc0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r0, r1, r0
 	strb r7, [r0, #1]
 _021576DC:
@@ -483,21 +483,21 @@ SailVoyageManager__Func_215776C: // 0x0215776C
 	mov r6, r0
 	bl SailManager__GetWork
 	add r0, #0x98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r4, #1
 	bhi _021577A2
 	mov r2, r0
 	add r2, #0xc0
 	mov r1, #0x28
 	mul r1, r4
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mov r4, #2
 	ldrb r2, [r3, r1]
 	add r3, #0x28
 	strb r2, [r3]
 	mov r2, r0
 	add r2, #0xc0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	ldrb r1, [r2, r1]
 	add r2, #0x50
 	strb r1, [r2]
@@ -517,7 +517,7 @@ _021577B2:
 	strh r4, [r1]
 	add r2, #0xc0
 	sub r3, r4, #1
-	ldr r7, [r2]
+	ldr r7, [r2, #0]
 	mov r2, #0x28
 	mov r6, r3
 	mov r1, #0x1a
@@ -525,7 +525,7 @@ _021577B2:
 	strb r1, [r7, r6]
 	mov r1, r0
 	add r1, #0xc0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r1, r4
 	mov r6, #0x1b
 	mul r1, r2
@@ -539,7 +539,7 @@ _021577DE:
 	strh r4, [r1]
 	mov r1, r0
 	add r1, #0xc0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	sub r7, r4, #1
 	mov r3, #0x28
 	mov r2, #0xe
@@ -547,7 +547,7 @@ _021577DE:
 	strb r2, [r1, r3]
 	mov r2, r0
 	add r2, #0xc0
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mov r2, #0x28
 	mov r1, #0xf
 	mul r2, r4
@@ -568,7 +568,7 @@ _0215780C:
 	mul r5, r1
 	mov r1, r0
 	add r1, #0xc0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	ldrb r1, [r3, r5]
 	cmp r1, #5
 	bhi _02157840
@@ -601,7 +601,7 @@ _0215784A:
 	strb r1, [r3, r6]
 	mov r1, r0
 	add r1, #0xc0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	strb r2, [r1, r5]
 _0215785C:
 	sub r1, r4, #1
@@ -609,7 +609,7 @@ _0215785C:
 	mov r1, r0
 	add r1, #0xc0
 	mov r5, #0x28
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mul r3, r5
 	mov r2, #0
 	add r1, r1, r3
@@ -617,17 +617,17 @@ _0215785C:
 	mov r1, r4
 	mov r4, r0
 	add r4, #0xc0
-	ldr r4, [r4]
+	ldr r4, [r4, #0]
 	mul r1, r5
 	add r4, r4, r1
 	strh r2, [r4, #0xa]
 	mov r4, r0
 	add r4, #0xc0
-	ldr r4, [r4]
+	ldr r4, [r4, #0]
 	add r0, #0xc0
 	add r3, r4, r3
 	strh r2, [r3, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, r1
 	strh r2, [r0, #4]
 	pop {r3, r4, r5, r6, r7, pc}
@@ -643,7 +643,7 @@ SailVoyageManager__Func_2157894: // 0x02157894
 	mov r6, r0
 	bl SailManager__GetWork
 	add r0, #0x98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r4, #1
 	bhi _021578AE
 	mov r4, #2
@@ -660,7 +660,7 @@ _021578BA:
 	strh r4, [r1]
 	mov r1, r0
 	add r1, #0xc0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	sub r7, r4, #1
 	mov r3, #0x28
 	mov r2, #0x16
@@ -668,7 +668,7 @@ _021578BA:
 	strb r2, [r1, r3]
 	mov r2, r0
 	add r2, #0xc0
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mov r2, #0x28
 	mov r1, #0x17
 	mul r2, r4
@@ -687,7 +687,7 @@ _021578EC:
 	strh r4, [r1]
 	add r2, #0xc0
 	sub r3, r4, #1
-	ldr r7, [r2]
+	ldr r7, [r2, #0]
 	mov r2, #0x28
 	mov r6, r3
 	mov r1, #0x18
@@ -695,7 +695,7 @@ _021578EC:
 	strb r1, [r7, r6]
 	mov r1, r0
 	add r1, #0xc0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r1, r4
 	mov r6, #0x19
 	mul r1, r2
@@ -708,7 +708,7 @@ _02157916:
 	mov r1, r0
 	add r1, #0xc0
 	mov r5, #0x28
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mul r3, r5
 	mov r2, #0
 	add r1, r1, r3
@@ -716,17 +716,17 @@ _02157916:
 	mov r1, r4
 	mov r4, r0
 	add r4, #0xc0
-	ldr r4, [r4]
+	ldr r4, [r4, #0]
 	mul r1, r5
 	add r4, r4, r1
 	strh r2, [r4, #0xa]
 	mov r4, r0
 	add r4, #0xc0
-	ldr r4, [r4]
+	ldr r4, [r4, #0]
 	add r0, #0xc0
 	add r3, r4, r3
 	strh r2, [r3, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, r1
 	strh r2, [r0, #4]
 	pop {r3, r4, r5, r6, r7, pc}
@@ -829,7 +829,7 @@ SailVoyageManager__SetupVoyage: // 0x021579D8
 	ldr r6, _02157ADC // =gameState
 	bl SailManager__GetWork
 	add r0, #0x98
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	ldr r0, [r5, #0xc]
 	cmp r0, #0
 	bne _02157A04
@@ -837,7 +837,7 @@ SailVoyageManager__SetupVoyage: // 0x021579D8
 	cmp r0, #0
 	bne _02157A04
 	add r6, #0x8c
-	ldrh r0, [r6]
+	ldrh r0, [r6, #0]
 	cmp r0, #0
 	beq _02157A04
 	mov r0, r4
@@ -868,7 +868,7 @@ _02157A22:
 _02157A32:
 	mov r0, r4
 	add r0, #0xb8
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r6, #0
 	add r0, r1, #1
 	cmp r0, #0
@@ -878,7 +878,7 @@ _02157A32:
 _02157A44:
 	mov r1, r4
 	add r1, #0xc0
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mov r1, r6
 	mul r1, r0
 	ldr r3, [r5, r7]
@@ -889,7 +889,7 @@ _02157A44:
 	lsr r6, r1, #0x10
 	mov r1, r4
 	add r1, #0xb8
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	add r2, r1, #1
 	cmp r6, r2
 	blt _02157A44
@@ -897,7 +897,7 @@ _02157A66:
 	mov r2, r4
 	add r2, #0xc0
 	sub r1, r1, #1
-	ldr r5, [r2]
+	ldr r5, [r2, #0]
 	mov r3, r1
 	mov r2, #0x28
 	mov r1, r4
@@ -905,10 +905,10 @@ _02157A66:
 	mul r3, r2
 	strb r0, [r5, r3]
 	add r1, #0xc0
-	ldr r3, [r1]
+	ldr r3, [r1, #0]
 	mov r1, r4
 	add r1, #0xb8
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	mov r0, #0x1b
 	mul r2, r1
 	strb r0, [r3, r2]
@@ -927,7 +927,7 @@ _02157A8A:
 _02157AA2:
 	mov r2, r4
 	add r2, #0xc0
-	ldr r5, [r2]
+	ldr r5, [r2, #0]
 	mov r2, r1
 	mul r2, r3
 	add r2, r5, r2
@@ -936,7 +936,7 @@ _02157AA2:
 	add r2, #0xb8
 	add r1, r1, #1
 	lsl r1, r1, #0x10
-	ldrh r2, [r2]
+	ldrh r2, [r2, #0]
 	lsr r1, r1, #0x10
 	cmp r1, r2
 	bls _02157AA2
@@ -961,7 +961,7 @@ SailVoyageManager__Func_2157AE4: // 0x02157AE4
 	push {r3, lr}
 	bl SailManager__GetWork
 	add r0, #0x98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x44]
 	pop {r3, pc}
 	.align 2, 0
@@ -972,7 +972,7 @@ SailVoyageManager__Func_2157AF4: // 0x02157AF4
 	push {r3, lr}
 	bl SailManager__GetWork
 	add r0, #0x98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, #0x28
 	pop {r3, pc}
 	.align 2, 0
@@ -983,7 +983,7 @@ SailVoyageManager__Func_2157B04: // 0x02157B04
 	push {r3, lr}
 	bl SailManager__GetWork
 	add r0, #0x98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrh r0, [r0, #0x34]
 	pop {r3, pc}
 	.align 2, 0
@@ -1008,12 +1008,12 @@ SailVoyageManager__Main: // 0x02157B1C
 	bl SailVoyageManager__Func_2157C34
 	mov r0, r4
 	add r0, #0xbc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _02157B5E
 	mov r0, r4
 	add r0, #0xbc
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #1
 	lsl r0, r0, #0xa
 	sub r1, r1, r0
@@ -1022,7 +1022,7 @@ SailVoyageManager__Main: // 0x02157B1C
 	str r1, [r0]
 	mov r0, r4
 	add r0, #0xbc
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bge _02157B5E
 	mov r0, r4
@@ -1042,7 +1042,7 @@ _02157B5E:
 	mul r1, r2
 	mov r2, r4
 	add r2, #0xc0
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	asr r0, r0, #0x13
 	lsl r0, r0, #0x10
 	ldrb r2, [r3, r1]
@@ -1073,7 +1073,7 @@ _02157BA6:
 _02157BAA:
 	mov r0, r4
 	add r0, #0xba
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r0, #2
 	orr r2, r0
 	mov r0, r4
@@ -1083,7 +1083,7 @@ _02157BAA:
 _02157BBC:
 	mov r0, r5
 	add r0, #0x5a
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #3
 	bne _02157BE6
 	mov r0, #2
@@ -1107,13 +1107,13 @@ _02157BE0:
 _02157BE6:
 	mov r0, r4
 	add r0, #0xc0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldrb r0, [r0, r1]
 	cmp r0, #0
 	bne _02157C02
 	mov r0, r4
 	add r0, #0xba
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, #2
 	bic r1, r0
 	mov r0, r4
@@ -1122,13 +1122,13 @@ _02157BE6:
 _02157C02:
 	mov r0, r4
 	add r0, #0xba
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	mov r1, #2
 	tst r0, r1
 	beq _02157C30
 	mov r0, r4
 	add r0, #0xbc
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	lsl r0, r1, #0xa
 	add r1, r2, r0
 	mov r0, r4
@@ -1136,7 +1136,7 @@ _02157C02:
 	str r1, [r0]
 	mov r0, r4
 	add r0, #0xbc
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0xa
 	lsl r0, r0, #0xc
 	cmp r1, r0
@@ -1168,7 +1168,7 @@ SailVoyageManager__Func_2157C34: // 0x02157C34
 	ldmia r3!, {r0, r1}
 	add r2, sp, #0x14
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	str r0, [r2]
 	ldr r0, [sp, #0xc]
 	cmp r0, #0
@@ -1181,7 +1181,7 @@ SailVoyageManager__Func_2157C34: // 0x02157C34
 _02157C74:
 	mov r0, r5
 	add r0, #0xc0
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldrh r1, [r5, #0x24]
 	mov r0, #0x28
 	mul r0, r1
@@ -1219,7 +1219,7 @@ _02157CA6:
 	str r0, [r5, #0x4c]
 	ldmia r3!, {r0, r1}
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	str r0, [r2]
 	mov r0, #0
 	str r0, [r5, #0x70]
@@ -1265,7 +1265,7 @@ _02157CFC:
 	add r0, #0xc0
 	asr r2, r1, #0x13
 	mov r1, #0x28
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mul r1, r2
 	ldrb r0, [r0, r1]
 	cmp r0, #0xe
@@ -1309,7 +1309,7 @@ _02157D30:
 _02157D74:
 	mov r0, r5
 	add r0, #0xb8
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldrh r0, [r5, #0x24]
 	cmp r1, r0
 	bls _02157D8C
@@ -1328,7 +1328,7 @@ _02157D8E:
 	str r0, [r5, #0x4c]
 	mov r0, r5
 	add r0, #0x6e
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #0
 	beq _02157E0E
 	ldrh r0, [r5, #0x24]
@@ -1351,11 +1351,11 @@ _02157D8E:
 	str r0, [sp, #0x18]
 	mov r0, r5
 	add r0, #0x6c
-	ldrh r2, [r0]
+	ldrh r2, [r0, #0]
 	mov r0, r5
 	add r0, #0xc0
 	strh r2, [r5, #0x24]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0x28
 	mul r0, r2
 	add r4, r1, r0
@@ -1363,10 +1363,10 @@ _02157D8E:
 	bl SailVoyageManager__Func_2157B14
 	mov r1, r5
 	add r1, #0x6e
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	mov r1, r5
 	add r1, #0x6c
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	sub r1, r2, r1
 	neg r1, r1
 	mov r2, r1
@@ -1399,7 +1399,7 @@ _02157E16:
 	strh r0, [r5, #0x3a]
 	ldmia r3!, {r0, r1}
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	str r0, [r2]
 	mov r0, #0x3c
 	ldrsh r0, [r5, r0]
@@ -1407,7 +1407,7 @@ _02157E16:
 	mov r0, #0xa
 	ldrsh r0, [r4, r0]
 	strh r0, [r5, #0x3c]
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	cmp r1, #0xe
 	blo _02157E78
 	ldr r0, [sp, #0xc]
@@ -1427,7 +1427,7 @@ _02157E16:
 	strh r1, [r0]
 	mov r0, r6
 	add r0, #0x60
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	add r1, r0, #1
 	mov r0, r6
 	add r0, #0x60
@@ -1463,7 +1463,7 @@ _02157EA6:
 	strh r1, [r0]
 	mov r0, r6
 	add r0, #0x60
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	add r1, r0, #1
 	mov r0, r6
 	add r0, #0x60
@@ -1471,7 +1471,7 @@ _02157EA6:
 _02157EBC:
 	mov r0, r5
 	add r0, #0x6e
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	cmp r1, #0
 	beq _02157EF4
 	ldrh r0, [r5, #0x24]
@@ -1482,16 +1482,16 @@ _02157EBC:
 	bl SailVoyageManager__Func_2157B14
 	mov r1, r5
 	add r1, #0x6e
-	ldrh r2, [r1]
+	ldrh r2, [r1, #0]
 	mov r1, r5
 	add r1, #0x6c
-	ldrh r1, [r1]
+	ldrh r1, [r1, #0]
 	sub r1, r2, r1
 	mul r0, r1
 	str r0, [r5, #0x70]
 	mov r0, r5
 	add r0, #0x6c
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ldr r1, [r5, #0x44]
 	bl SailEventManager__LoadMapObjects
 	b _02157F02
@@ -1560,14 +1560,14 @@ _02157F6A:
 	bne _0215801E
 	ldr r0, [sp, #8]
 	add r0, #0x8c
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	beq _0215801E
 	ldr r1, [r6, #0x24]
 	mov r0, #8
 	tst r0, r1
 	bne _0215801E
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	cmp r1, #0xe
 	blo _02157FA0
 	mov r0, #1
@@ -1600,7 +1600,7 @@ _02157FA0:
 	add r0, #0xa8
 	str r1, [r5, #0x54]
 	str r0, [sp, #8]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r2, #0x60
 	add r0, r1, r0
 	mov r1, r5
@@ -1705,7 +1705,7 @@ _0215809C:
 	add r2, sp, #0xc
 	ldmia r3!, {r0, r1}
 	stmia r2!, {r0, r1}
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	ldr r3, _02158228 // =FX_SinCosTable_
 	str r0, [r2]
 	ldrh r0, [r5, #0x34]
@@ -1727,7 +1727,7 @@ _0215809C:
 	ldmia r6!, {r0, r1}
 	mov r2, r3
 	stmia r3!, {r0, r1}
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	add r1, sp, #0xc
 	str r0, [r3]
 	mov r0, r2
@@ -1868,14 +1868,14 @@ _021581E6:
 	beq _02158212
 	mov r0, r7
 	add r0, #0xb8
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	bne _02158212
 	cmp r6, #0
 	beq _02158212
 	mov r0, r7
 	add r0, #0xac
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r7, #0xac
 	str r0, [r4, #0x2c]
 	mov r0, #0x6e
@@ -1918,7 +1918,7 @@ SailVoyageManager__Func_2158234: // 0x02158234
 	bne _02158340
 	mov r1, r5
 	add r1, #0xfe
-	ldrh r4, [r1]
+	ldrh r4, [r1, #0]
 	mov r0, #0
 	cmp r4, #0
 	bls _02158288
@@ -1927,7 +1927,7 @@ _02158266:
 	lsl r1, r0, #3
 	add r1, r5, r1
 	add r1, #0xcc
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	ldrsh r3, [r1, r2]
 	lsl r1, r0, #1
 	add r1, r5, r1
@@ -1937,7 +1937,7 @@ _02158266:
 	add r1, #0xfe
 	add r0, r0, #1
 	lsl r0, r0, #0x10
-	ldrh r4, [r1]
+	ldrh r4, [r1, #0]
 	lsr r0, r0, #0x10
 	cmp r0, r4
 	blo _02158266
@@ -1960,7 +1960,7 @@ _02158288:
 	str r0, [sp, #4]
 	mov r0, r5
 	add r0, #0xfe
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	cmp r0, #0
 	bls _02158340
 _021582B4:
@@ -1973,7 +1973,7 @@ _021582B4:
 	lsl r2, r2, #3
 	add r2, r5, r2
 	add r2, #0xcc
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	mov r2, #0x10
 	ldrsh r2, [r3, r2]
 	ldr r3, [sp, #8]
@@ -1982,7 +1982,7 @@ _021582D0:
 	lsl r6, r0, #1
 	add r6, r5, r6
 	add r6, #0xf4
-	ldrh r6, [r6]
+	ldrh r6, [r6, #0]
 	cmp r6, r2
 	bne _021582DE
 	mov r1, r7
@@ -2009,7 +2009,7 @@ _021582EE:
 	ldmia r6!, {r0, r1}
 	mov r2, r3
 	stmia r3!, {r0, r1}
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	mov r1, #6
 	str r0, [r3]
 	add r0, sp, #0xc
@@ -2020,7 +2020,7 @@ _021582EE:
 	lsl r0, r0, #3
 	add r0, r5, r0
 	add r0, #0xcc
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #0x10
 	ldrsh r0, [r1, r0]
 	str r0, [sp, #0x2c]
@@ -2034,7 +2034,7 @@ _0215832A:
 	str r0, [sp, #4]
 	mov r0, r5
 	add r0, #0xfe
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	ldr r0, [sp, #4]
 	cmp r0, r1
 	blo _021582B4
@@ -2057,7 +2057,7 @@ SailVoyageManager__LinkSegments: // 0x02158344
 	str r0, [r1, #4]
 	ldr r1, [sp, #4]
 	add r1, #0xc0
-	ldr r4, [r1]
+	ldr r4, [r1, #0]
 	ldr r1, [sp, #4]
 	ldr r1, [r1, #0x18]
 	str r1, [r4, #0xc]
@@ -2144,7 +2144,7 @@ _02158408:
 	sub r2, r6, #1
 	add r0, #0xc0
 	mov r1, #0x28
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mul r1, r2
 	add r4, r0, r1
 	mov r1, #0x28
@@ -2429,7 +2429,7 @@ _0215855A:
 _02158664:
 	ldr r0, [sp, #4]
 	add r0, #0xb8
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	add r0, r0, #1
 	cmp r6, r0
 	beq _02158680
@@ -2455,7 +2455,7 @@ SailVoyageManager__Func_215868C: // 0x0215868C
 	sub sp, #0x48
 	mov r6, r2
 	ldr r2, [r0, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	asr r5, r2, #4
 	ldr r2, [r1, #4]
 	str r3, [sp]
@@ -2463,7 +2463,7 @@ SailVoyageManager__Func_215868C: // 0x0215868C
 	sub r2, r2, r5
 	str r2, [sp, #0x20]
 	asr r2, r0, #4
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	asr r3, r2, #0x1f
 	asr r0, r0, #4
 	sub r0, r2, r0
@@ -2509,11 +2509,11 @@ SailVoyageManager__Func_215868C: // 0x0215868C
 	asr r0, r0, #4
 	sub r0, r0, r5
 	str r0, [sp, #0x1c]
-	ldr r0, [r6]
+	ldr r0, [r6, #0]
 	asr r2, r0, #4
 	ldr r0, [sp]
 	asr r3, r2, #0x1f
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	asr r0, r0, #4
 	sub r6, r2, r0
 	ldr r0, [sp, #0x1c]
@@ -2656,7 +2656,7 @@ SailVoyageManager__Func_215868C: // 0x0215868C
 	ldr r1, [sp, #0x14]
 	bl FX_Div
 	str r0, [r4, #4]
-	ldr r0, [r4]
+	ldr r0, [r4, #0]
 	lsl r0, r0, #4
 	str r0, [r4]
 	ldr r0, [r4, #4]

@@ -6,7 +6,7 @@
 	arm_func_start DWCi_CheckLogin
 DWCi_CheckLogin: // 0x0209127C
 	ldr r0, _020912A4 // =0x02143B9C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _0209129C
 	ldr r0, [r0, #4]
@@ -25,13 +25,13 @@ DWCi_GPGetInfoCallback: // 0x020912A8
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x4c
 	mov r4, r1
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	mov r5, r0
 	cmp r1, #0
 	addne sp, sp, #0x4c
 	ldmneia sp!, {r4, r5, pc}
 	ldr r1, _0209144C // =0x02143B9C
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	ldr r1, [r2, #4]
 	cmp r1, #3
 	bne _02091384
@@ -53,7 +53,7 @@ DWCi_GPGetInfoCallback: // 0x020912A8
 	ldmneia sp!, {r4, r5, pc}
 	ldr r0, _0209144C // =0x02143B9C
 	mov r3, #4
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, _02091454 // =DWCi_GPGetInfoCallback
 	str r3, [r1, #4]
 	mov r2, #0
@@ -74,7 +74,7 @@ _0209135C:
 	bl DWCi_RemoteLogin
 	ldr r0, _0209144C // =0x02143B9C
 	mov r1, #1
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add sp, sp, #0x4c
 	str r1, [r0, #4]
 	ldmia sp!, {r4, r5, pc}
@@ -94,13 +94,13 @@ _02091384:
 	bne _0209141C
 	ldr r0, _0209144C // =0x02143B9C
 	add r2, sp, #0x32
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r1, [r0, #0xc]
 	add r0, r0, #0x3c
 	bl DWCi_Acc_LoginIdToUserName
 	ldr r0, _0209144C // =0x02143B9C
 	ldr r2, [r4, #4]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x1c]
 	add r1, r1, #0x3c
 	bl DWCi_Acc_SetLoginIdToUserData
@@ -108,10 +108,10 @@ _02091384:
 	bl gpDisconnect
 	ldr r0, _0209144C // =0x02143B9C
 	ldr r1, _0209145C // =0x02143B98
-	ldr r4, [r0]
+	ldr r4, [r0, #0]
 	ldr r0, _02091460 // =0x02143BA0
-	ldr r2, [r1]
-	ldr r3, [r0]
+	ldr r2, [r1, #0]
+	ldr r3, [r0, #0]
 	add r0, r4, #0x48
 	add r1, r4, #0x148
 	blx r3
@@ -150,27 +150,27 @@ DWCi_RemoteLoginProcess: // 0x02091464
 	bl DWC_Auth_GetResult
 	ldr r0, _0209165C // =0x02143B9C
 	add r1, sp, #0x4a
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x48
 	bl strcpy
 	ldr r0, _0209165C // =0x02143B9C
 	add r1, sp, #0x100
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r1, #0x77
 	add r0, r0, #0x148
 	bl strcpy
 	bl DWC_Auth_Destroy
 	ldr r1, _0209165C // =0x02143B9C
 	mov r0, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, r0
 	ldr r1, [r1, #0x24]
 	bl DWC_Free
 	ldr r0, _0209165C // =0x02143B9C
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	str r2, [r1, #0x24]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x1c]
 	bl DWCi_Acc_IsAuthentic
 	cmp r0, #0
@@ -179,8 +179,8 @@ DWCi_RemoteLoginProcess: // 0x02091464
 	ldr r1, _02091660 // =0x02143B98
 	ldr ip, [r0]
 	ldr r0, _02091664 // =0x02143BA0
-	ldr r2, [r1]
-	ldr r3, [r0]
+	ldr r2, [r1, #0]
+	ldr r3, [r0, #0]
 	add r0, ip, #0x48
 	add r1, ip, #0x148
 	blx r3
@@ -189,7 +189,7 @@ DWCi_RemoteLoginProcess: // 0x02091464
 _02091518:
 	ldr r0, _0209165C // =0x02143B9C
 	ldr r2, _02091668 // =DWCi_GPConnectCallback
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r3, #3
 	add r0, r1, #0x48
 	add r1, r1, #0x148
@@ -223,13 +223,13 @@ _0209153C:
 	bl DWC_Auth_Destroy
 	ldr r1, _0209165C // =0x02143B9C
 	mov r0, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, r0
 	ldr r1, [r1, #0x24]
 	bl DWC_Free
 	ldr r0, _0209165C // =0x02143B9C
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, #2
 	str r2, [r1, #0x24]
 	ldr r1, [sp, #0x1c4]
@@ -243,19 +243,19 @@ _020915D8:
 	mov r2, #0x48
 	bl MI_CpuFill8
 	ldr r0, _0209165C // =0x02143B9C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x10]
 	bl DWCi_WStrLen
 	ldr r1, _0209165C // =0x02143B9C
 	mov r2, r0, lsl #1
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r2, r2, #2
 	ldr r0, [r1, #0x10]
 	add r1, sp, #0x388
 	bl MI_CpuCopy8
 	ldr r0, _0209165C // =0x02143B9C
 	ldr r1, _02091674 // =0x00000251
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	add r0, sp, #0x3bc
 	add r1, r2, r1
 	bl strcpy
@@ -263,7 +263,7 @@ _020915D8:
 	ldr r0, _0209165C // =0x02143B9C
 	str r2, [sp, #0x3c8]
 	ldr r2, _0209167C // =DWC_Free
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	str r2, [sp, #0x3cc]
 	ldr r1, [r1, #0x24]
 	add r0, sp, #0x388
@@ -295,7 +295,7 @@ DWCi_RemoteLogin: // 0x02091680
 	ldr r0, _02091838 // =0x02143B9C
 	ldr r2, _0209183C // =0x02143BA0
 	ldr r1, _02091840 // =0x02143B98
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r5, [r2]
 	str r4, [r1]
 	ldr r0, [r0, #0x1c]
@@ -303,7 +303,7 @@ DWCi_RemoteLogin: // 0x02091680
 	cmp r0, #0
 	beq _020916E8
 	ldr r0, _02091838 // =0x02143B9C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x1c]
 	add r2, r1, #0x248
 	ldr r1, [r0, #0x24]
@@ -312,20 +312,20 @@ DWCi_RemoteLogin: // 0x02091680
 	b _0209179C
 _020916E8:
 	ldr r0, _02091838 // =0x02143B9C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x3c
 	bl DWCi_Acc_IsValidLoginId
 	cmp r0, #0
 	bne _02091750
 	ldr r0, _02091838 // =0x02143B9C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x1c]
 	add r0, r0, #4
 	bl DWCi_Acc_CheckConsoleUserId
 	cmp r0, #0
 	beq _0209173C
 	ldr r0, _02091838 // =0x02143B9C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x1c]
 	add r3, r1, #0x3c
 	add r0, r0, #4
@@ -334,7 +334,7 @@ _020916E8:
 	b _02091784
 _0209173C:
 	ldr r0, _02091838 // =0x02143B9C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x3c
 	bl DWCi_Acc_CreateTempLoginId
 	b _02091784
@@ -348,32 +348,32 @@ _02091750:
 	ldr r0, _0209184C // =0x00269EC3
 	mla r4, r1, r2, r4
 	adds r0, ip, r0
-	ldr r3, [r3]
+	ldr r3, [r3, #0]
 	adc r1, r4, #0
 	add r0, r3, #0x3c
 	bl DWCi_Acc_SetPlayerId
 _02091784:
 	ldr r0, _02091838 // =0x02143B9C
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	ldr r1, [r2, #0xc]
 	add r0, r2, #0x3c
 	add r2, r2, #0x248
 	bl DWCi_Acc_LoginIdToUserName
 _0209179C:
 	ldr r0, _02091838 // =0x02143B9C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x10]
 	bl DWCi_WStrLen
 	ldr r1, _02091838 // =0x02143B9C
 	mov r2, r0, lsl #1
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	add r2, r2, #2
 	ldr r0, [r1, #0x10]
 	add r1, sp, #0
 	bl MI_CpuCopy8
 	ldr r0, _02091838 // =0x02143B9C
 	ldr r1, _02091850 // =0x00000251
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	add r0, sp, #0x34
 	add r1, r2, r1
 	bl strcpy
@@ -387,11 +387,11 @@ _0209179C:
 	bl DWC_AllocEx
 	ldr r1, _02091838 // =0x02143B9C
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	str r4, [r0, #0x24]
 	bl OS_GetTick
 	ldr r2, _02091838 // =0x02143B9C
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	str r0, [r2, #0x28]
 	str r1, [r2, #0x2c]
 	mov r1, r4
@@ -418,7 +418,7 @@ DWCi_GPConnect: // 0x02091860
 	sub sp, sp, #0x10
 	ldr r4, _020918FC // =0x02143B9C
 	mov r6, r1
-	ldr r4, [r4]
+	ldr r4, [r4, #0]
 	mov r1, r0
 	add r0, r4, #0x48
 	mov r5, r2
@@ -426,30 +426,30 @@ DWCi_GPConnect: // 0x02091860
 	bl strcpy
 	ldr r0, _020918FC // =0x02143B9C
 	mov r1, r6
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r0, r0, #0x148
 	bl strcpy
 	ldr r0, _020918FC // =0x02143B9C
-	ldr r6, [r0]
+	ldr r6, [r0, #0]
 	bl OS_GetTick
 	str r0, [r6, #0x34]
 	str r1, [r6, #0x38]
 	mov r3, #1
 	ldr r0, _020918FC // =0x02143B9C
 	str r3, [r6, #0x30]
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r1, #0
 	str r1, [sp]
 	str r5, [sp, #4]
 	str r1, [sp, #8]
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	add r1, r2, #0x48
 	add r2, r2, #0x148
 	bl gpConnectPreAuthenticatedA
 	bl DWCi_HandleGPError
 	cmp r0, #0
 	ldreq r0, _020918FC // =0x02143B9C
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	streq r4, [r0, #4]
 	add sp, sp, #0x10
 	ldmia sp!, {r4, r5, r6, pc}
@@ -477,7 +477,7 @@ DWCi_GPConnectCallback: // 0x02091918
 	ldr ip, [r3]
 	mov r4, r1
 	str r2, [ip, #0x30]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	cmp r1, #0
 	bne _02091A10
 	ldr ip, [r3]
@@ -500,7 +500,7 @@ DWCi_GPConnectCallback: // 0x02091918
 	ldmneia sp!, {r4, pc}
 	ldr r0, _02091A20 // =0x02143B9C
 	ldr r1, [r4, #4]
-	ldr r3, [r0]
+	ldr r3, [r0, #0]
 	mov r0, #0
 	ldr r2, [r3, #0x18]
 	ldr r3, [r3, #0x14]
@@ -589,11 +589,11 @@ _02091AA0: .word 0xFFFF11B8
 	arm_func_start DWCi_CloseLogin
 DWCi_CloseLogin: // 0x02091AA4
 	ldr r0, _02091AC4 // =0x02143B9C
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
 	movne r1, #0
 	strne r1, [r2, #4]
-	ldrne r0, [r0]
+	ldrne r0, [r0, #0]
 	strne r1, [r0, #0x30]
 	bx lr
 	.align 2, 0
@@ -605,7 +605,7 @@ DWCi_ShutdownLogin: // 0x02091AC8
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _02091B28 // =0x02143B9C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x24]
 	cmp r0, #0
 	beq _02091B14
@@ -613,13 +613,13 @@ DWCi_ShutdownLogin: // 0x02091AC8
 	bl DWC_Auth_Destroy
 	ldr r1, _02091B28 // =0x02143B9C
 	mov r0, #0
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	mov r2, r0
 	ldr r1, [r1, #0x24]
 	bl DWC_Free
 	ldr r0, _02091B28 // =0x02143B9C
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0x24]
 _02091B14:
 	ldr r0, _02091B28 // =0x02143B9C
@@ -636,14 +636,14 @@ DWCi_StopLogin: // 0x02091B2C
 	stmdb sp!, {r4, lr}
 	ldr r2, _02091B7C // =0x02143B9C
 	mov r4, r0
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	cmp r2, #0
 	ldmeqia sp!, {r4, pc}
 	cmp r4, #0
 	ldmeqia sp!, {r4, pc}
 	bl DWCi_SetError
 	ldr r0, _02091B7C // =0x02143B9C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r3, [r0, #0x14]
 	cmp r3, #0
 	beq _02091B74
@@ -661,7 +661,7 @@ _02091B7C: .word 0x02143B9C
 	arm_func_start DWCi_GetUserData
 DWCi_GetUserData: // 0x02091B80
 	ldr r0, _02091B98 // =0x02143B9C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldrne r0, [r0, #0x1c]
 	moveq r0, #0
@@ -675,7 +675,7 @@ DWCi_LoginProcess: // 0x02091B9C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r0, _02091CA4 // =0x02143B9C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	addeq sp, sp, #4
 	ldmeqia sp!, {pc}
@@ -684,7 +684,7 @@ DWCi_LoginProcess: // 0x02091B9C
 	addne sp, sp, #4
 	ldmneia sp!, {pc}
 	ldr r0, _02091CA4 // =0x02143B9C
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r0, [r1, #4]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
@@ -701,16 +701,16 @@ _02091BF8:
 	add sp, sp, #4
 	ldmia sp!, {pc}
 _02091C04:
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	cmp r0, #0
 	beq _02091C20
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	beq _02091C20
 	bl gpProcess
 _02091C20:
 	ldr r0, _02091CA4 // =0x02143B9C
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x30]
 	cmp r0, #0
 	addeq sp, sp, #4
@@ -738,7 +738,7 @@ _02091C20:
 	bl DWCi_StopLogin
 	ldr r0, _02091CA4 // =0x02143B9C
 	mov r1, #0
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0x30]
 _02091C9C:
 	add sp, sp, #4
@@ -759,10 +759,10 @@ DWCi_LoginAsync: // 0x02091CB4
 	bl DWCi_RemoteLogin
 	ldr r0, _02091CF0 // =0x02143B9C
 	mov r3, #1
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	mov r1, #0
 	str r3, [r2, #4]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r1, [r0, #0x30]
 	add sp, sp, #4
 	ldmia sp!, {pc}
@@ -784,25 +784,25 @@ DWCi_LoginInit: // 0x02091CF4
 	bl MI_CpuFill8
 	ldr r0, _02091D74 // =0x02143B9C
 	mov r2, #0
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr ip, [sp, #0x10]
 	str r5, [r1]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r5, [sp, #0x14]
 	str r2, [r1, #4]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r3, [sp, #0x18]
 	str r4, [r1, #8]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	ldr r2, [sp, #0x1c]
 	str ip, [r1, #0xc]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	str r5, [r1, #0x10]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	str r3, [r1, #0x14]
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	str r2, [r1, #0x18]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	str r6, [r0, #0x1c]
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0

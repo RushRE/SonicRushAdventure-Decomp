@@ -106,7 +106,7 @@ SND_EndSleep: // 0x037FEE64
 	stmdb sp!, {lr}
 	sub sp, sp, #4
 	ldr r1, _037FEEA4 // =0x04000304
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	orr r0, r0, #1
 	strh r0, [r1]
 	mov r0, #1
@@ -144,7 +144,7 @@ SND_BeginSleep: // 0x037FEEB8
 	mov r0, #1
 	bl PMi_ResetControl
 	ldr r1, _037FEEF8 // =0x04000304
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #1
 	strh r0, [r1]
 	add sp, sp, #4
@@ -192,7 +192,7 @@ _037FEF58: .word 0x04000509
 	arm_func_start SND_Disable
 SND_Disable: // 0x037FEF5C
 	ldr r1, _037FEF70 // =0x04000501
-	ldrb r0, [r1]
+	ldrb r0, [r1, #0]
 	bic r0, r0, #0x80
 	strb r0, [r1]
 	bx lr
@@ -203,7 +203,7 @@ _037FEF70: .word 0x04000501
 	arm_func_start SND_Enable
 SND_Enable: // 0x037FEF74
 	ldr r1, _037FEF88 // =0x04000501
-	ldrb r0, [r1]
+	ldrb r0, [r1, #0]
 	orr r0, r0, #0x80
 	strb r0, [r1]
 	bx lr
@@ -216,7 +216,7 @@ SND_CalcSurroundDecay: // 0x037FEF8C
 	cmp r1, #0x18
 	bge _037FEFBC
 	ldr r2, _037FEFF0 // =sSurroundDecay
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r2, _037FEFF4 // =0x00007FFF
 	sub r2, r2, r3
 	add r1, r1, #0x28
@@ -334,14 +334,14 @@ SND_SetChannelPan: // 0x037FF0EC
 	ldr r2, _037FF154 // =sOrgPan
 	strb r1, [r2, r0]
 	ldr r2, _037FF158 // =sMasterPan
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	cmp r2, #0
 	movge r1, r2
 	mov r4, r0, lsl #4
 	add r2, r4, #0x4000000
 	strb r1, [r2, #0x402]
 	ldr r2, _037FF15C // =sSurroundDecay
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	cmp r2, #0
 	ble _037FF14C
 	mov r2, #1
@@ -384,7 +384,7 @@ SND_SetChannelVolume: // 0x037FF180
 	ldr r0, _037FF1F8 // =sOrgVolume
 	strb r1, [r0, r5]
 	ldr r0, _037FF1FC // =sSurroundDecay
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ble _037FF1D8
 	mov r0, #1
@@ -441,13 +441,13 @@ SND_SetupChannelNoise: // 0x037FF230
 	ldr r2, _037FF2CC // =sOrgPan
 	strb r5, [r2, r0]
 	ldr r2, _037FF2D0 // =sMasterPan
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	cmp r2, #0
 	movge r5, r2
 	ldr r2, _037FF2D4 // =sOrgVolume
 	strb r1, [r2, r0]
 	ldr r2, _037FF2D8 // =sSurroundDecay
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	cmp r2, #0
 	ble _037FF29C
 	mov r2, #1
@@ -491,13 +491,13 @@ SND_SetupChannelPsg: // 0x037FF2E0
 	ldr r1, _037FF384 // =sOrgPan
 	strb r5, [r1, r0]
 	ldr r1, _037FF388 // =sMasterPan
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	movge r5, r1
 	ldr r1, _037FF38C // =sOrgVolume
 	strb r2, [r1, r0]
 	ldr r1, _037FF390 // =sSurroundDecay
-	ldr r1, [r1]
+	ldr r1, [r1, #0]
 	cmp r1, #0
 	ble _037FF34C
 	mov r1, #1
@@ -544,13 +544,13 @@ SND_SetupChannelPcm: // 0x037FF398
 	ldr r2, _037FF454 // =sOrgPan
 	strb r5, [r2, r0]
 	ldr r2, _037FF458 // =sMasterPan
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	cmp r2, #0
 	movge r5, r2
 	ldr r2, _037FF45C // =sOrgVolume
 	strb r1, [r2, r0]
 	ldr r2, _037FF460 // =sSurroundDecay
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	cmp r2, #0
 	ble _037FF408
 	mov r2, #1
@@ -593,7 +593,7 @@ _037FF464: .word 0x0000FFF5
 	arm_func_start SND_CalcRandom
 SND_CalcRandom: // 0x037FF468
 	ldr r2, _037FF490 // =u_3210
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldr r0, _037FF494 // =0x0019660D
 	ldr r1, _037FF498 // =0x3C6EF35F
 	mla r0, r3, r0, r1
@@ -955,7 +955,7 @@ SND_Init: // 0x037FF898
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, _037FF8CC // =initialized_3150
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _037FF8C4
 	mov r1, #1
@@ -1341,9 +1341,9 @@ _037FFD70: .word SNDi_Work
 SND_GetLockedChannel: // 0x037FFD74
 	ands r0, r0, #1
 	ldrne r0, _037FFD8C // =sWeakLockChannel
-	ldrne r0, [r0]
+	ldrne r0, [r0, #0]
 	ldreq r0, _037FFD90 // =sLockChannel
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _037FFD8C: .word sWeakLockChannel
@@ -1354,13 +1354,13 @@ _037FFD90: .word sLockChannel
 SND_UnlockChannel: // 0x037FFD94
 	ands r1, r1, #1
 	ldreq r1, _037FFDC8 // =sLockChannel
-	ldreq r2, [r1]
+	ldreq r2, [r1, #0]
 	mvneq r0, r0
 	andeq r0, r2, r0
 	streq r0, [r1]
 	bxeq lr
 	ldr r1, _037FFDCC // =sWeakLockChannel
-	ldr r2, [r1]
+	ldr r2, [r1, #0]
 	mvn r0, r0
 	and r0, r2, r0
 	str r0, [r1]
@@ -1390,7 +1390,7 @@ _037FFDFC:
 	ldr r0, _037FFEBC // =SNDi_Work
 	mla r8, r6, r1, r0
 	ldr r0, _037FFEC0 // =sLockChannel
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, r5, lsl r6
 	ands r0, r1, r0
 	bne _037FFE74
@@ -1426,11 +1426,11 @@ _037FFE7C:
 _037FFE8C:
 	ands r0, r9, #1
 	ldrne r0, _037FFEC4 // =sWeakLockChannel
-	ldrne r1, [r0]
+	ldrne r1, [r0, #0]
 	orrne r1, r1, r10
 	strne r1, [r0]
 	ldreq r0, _037FFEC0 // =sLockChannel
-	ldreq r1, [r0]
+	ldreq r1, [r0, #0]
 	orreq r1, r1, r10
 	streq r1, [r0]
 	add sp, sp, #4
@@ -1460,7 +1460,7 @@ _037FFEF0:
 	mov r0, #0x54
 	mla r9, r8, r0, r11
 	ldr r0, _037FFF8C // =sLockChannel
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	mov r0, r7, lsl r8
 	ands r0, r1, r0
 	bne _037FFF64
@@ -1519,12 +1519,12 @@ SND_AllocExChannel: // 0x037FFFA4
 	mov r9, r1
 	mov r11, r3
 	ldr r0, _038000CC // =sLockChannel
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	mvn r0, r0
 	and r10, r10, r0
 	cmp r2, #0
 	ldreq r0, _038000D0 // =sWeakLockChannel
-	ldreq r0, [r0]
+	ldreq r0, [r0, #0]
 	mvneq r0, r0
 	andeq r10, r10, r0
 	mov r8, #0
@@ -1715,7 +1715,7 @@ _0380020C: .word 0x03807E2C
 SND_StartExChannelNoise: // 0x03800210
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	cmp r2, #0xe
 	movlo r0, #0
 	blo _0380024C
@@ -1740,7 +1740,7 @@ _03800258: .word 0x00001F46
 SND_StartExChannelPsg: // 0x0380025C
 	stmdb sp!, {lr}
 	sub sp, sp, #4
-	ldrb r3, [r0]
+	ldrb r3, [r0, #0]
 	cmp r3, #8
 	movlo r0, #0
 	blo _038002A0
@@ -2180,24 +2180,24 @@ _03800864: // jump table
 	b _03800894 // case 2
 	b _038008AC // case 3
 _03800874:
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	bic r0, r0, #4
 	strb r0, [r4]
 	b _038008C8
 _03800884:
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	orr r0, r0, #4
 	strb r0, [r4]
 	b _038008C8
 _03800894:
-	ldrb r2, [r4]
+	ldrb r2, [r4, #0]
 	orr r2, r2, #4
 	strb r2, [r4]
 	mvn r2, #0
 	bl ReleaseTrackChannelAll
 	b _038008C8
 _038008AC:
-	ldrb r2, [r4]
+	ldrb r2, [r4, #0]
 	orr r2, r2, #4
 	strb r2, [r4]
 	mov r2, #0x7f
@@ -2236,7 +2236,7 @@ _03800910: .word 0x03809384
 	arm_func_start GetVariablePtr
 GetVariablePtr: // 0x03800914
 	ldr r2, _03800954 // =SNDi_SharedWork
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	cmp r2, #0
 	moveq r0, #0
 	bxeq lr
@@ -2321,7 +2321,7 @@ _03800A28:
 _03800A2C:
 	cmp r2, #0
 	bne _038009F4
-	ldrb r1, [r9]
+	ldrb r1, [r9, #0]
 	mov r0, r1, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	beq _03800A5C
@@ -2376,7 +2376,7 @@ _03800AC4:
 	ldr r0, [r9, #0x28]
 	add r0, r0, #1
 	str r0, [r9, #0x28]
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	mov r0, r0, lsl #0x19
 	mov r6, r0, lsr #0x1f
 _03800B10:
@@ -2410,7 +2410,7 @@ _03800B68:
 	bl GetByteCache
 	str r0, [sp, #0xc]
 	ldr r0, [sp, #0x1c]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	add r1, r0, #1
 	ldr r0, [sp, #0x1c]
 	str r1, [r0]
@@ -2431,7 +2431,7 @@ _03800B68:
 	cmp r4, #0x7f
 	ldrgt r4, [sp, #0x24]
 _03800BD0:
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	mov r0, r0, lsl #0x1d
 	movs r0, r0, lsr #0x1f
 	bne _03800C10
@@ -2449,13 +2449,13 @@ _03800BD0:
 	bl NoteOnCommandProc
 _03800C10:
 	strb r4, [r9, #0x14]
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1f
 	beq _03801374
 	str r5, [r9, #0x20]
 	cmp r5, #0
-	ldreqb r0, [r9]
+	ldreqb r0, [r9, #0]
 	orreq r0, r0, #0x10
 	streqb r0, [r9]
 	b _03801374
@@ -2629,7 +2629,7 @@ _03800E8C:
 	strb r0, [r9, #0x12]
 	b _03801374
 _03800E98:
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	bic r1, r0, #2
 	ldrb r0, [sp, #0x2c]
 	and r0, r0, #1
@@ -2688,7 +2688,7 @@ _03800F20:
 	strb r0, [r9, #0x3b]
 	b _03801374
 _03800F58:
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	bic r1, r0, #8
 	ldrb r0, [sp, #0x2c]
 	and r0, r0, #1
@@ -2712,12 +2712,12 @@ _03800FA0:
 	ldrsb r0, [r9, #0x13]
 	add r0, r1, r0
 	strb r0, [r9, #0x14]
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	orr r0, r0, #0x20
 	strb r0, [r9]
 	b _03801374
 _03800FC0:
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	bic r1, r0, #0x20
 	ldrb r0, [sp, #0x2c]
 	and r0, r0, #1
@@ -2739,7 +2739,7 @@ _03800FF4:
 	b _03801374
 _03801004:
 	ldr r0, _038013A0 // =sMmlPrintEnable
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _03801374
 	mov r0, r8
@@ -2816,34 +2816,34 @@ _03801118:
 	strh r5, [r4]
 	b _03801374
 _03801120:
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	add r0, r0, r5
 	strh r0, [r4]
 	b _03801374
 _03801130:
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	sub r0, r0, r5
 	strh r0, [r4]
 	b _03801374
 _03801140:
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	mul r1, r0, r5
 	strh r1, [r4]
 	b _03801374
 _03801150:
 	cmp r5, #0
 	beq _03801374
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	mov r1, r5
 	bl _s32_div_f
 	strh r0, [r4]
 	b _03801374
 _0380116C:
 	cmp r5, #0
-	ldrgesh r0, [r4]
+	ldrgesh r0, [r4, #0]
 	movge r0, r0, lsl r5
 	strgeh r0, [r4]
-	ldrltsh r1, [r4]
+	ldrltsh r1, [r4, #0]
 	rsblt r0, r5, #0
 	movlt r0, r1, asr r0
 	strlth r0, [r4]
@@ -2864,11 +2864,11 @@ _03801190:
 	strh r0, [r4]
 	b _03801374
 _038011C8:
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	cmp r0, r5
 	moveq r2, r10
 	movne r2, r11
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	bic r1, r0, #0x40
 	and r0, r2, #0xff
 	and r0, r0, #1
@@ -2876,11 +2876,11 @@ _038011C8:
 	strb r0, [r9]
 	b _03801374
 _038011F4:
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	cmp r0, r5
 	movge r2, r10
 	movlt r2, r11
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	bic r1, r0, #0x40
 	and r0, r2, #0xff
 	and r0, r0, #1
@@ -2888,11 +2888,11 @@ _038011F4:
 	strb r0, [r9]
 	b _03801374
 _03801220:
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	cmp r0, r5
 	movgt r2, r10
 	movle r2, r11
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	bic r1, r0, #0x40
 	and r0, r2, #0xff
 	and r0, r0, #1
@@ -2900,11 +2900,11 @@ _03801220:
 	strb r0, [r9]
 	b _03801374
 _0380124C:
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	cmp r0, r5
 	movle r2, r10
 	movgt r2, r11
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	bic r1, r0, #0x40
 	and r0, r2, #0xff
 	and r0, r0, #1
@@ -2912,11 +2912,11 @@ _0380124C:
 	strb r0, [r9]
 	b _03801374
 _03801278:
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	cmp r0, r5
 	movlt r2, r10
 	movge r2, r11
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	bic r1, r0, #0x40
 	and r0, r2, #0xff
 	and r0, r0, #1
@@ -2924,11 +2924,11 @@ _03801278:
 	strb r0, [r9]
 	b _03801374
 _038012A4:
-	ldrsh r0, [r4]
+	ldrsh r0, [r4, #0]
 	cmp r0, r5
 	movne r2, r10
 	moveq r2, r11
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	bic r1, r0, #0x40
 	and r0, r2, #0xff
 	and r0, r0, #1
@@ -2986,7 +2986,7 @@ _03801374:
 	ldr r0, [r9, #0x20]
 	cmp r0, #0
 	bne _03801390
-	ldrb r0, [r9]
+	ldrb r0, [r9, #0]
 	mov r0, r0, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	beq _03800AC4
@@ -3009,7 +3009,7 @@ NoteOnCommandProc: // 0x038013A4
 	mov r6, r2
 	mov r5, r3
 	mov r4, #0
-	ldrb r0, [r8]
+	ldrb r0, [r8, #0]
 	mov r0, r0, lsl #0x1c
 	movs r0, r0, lsr #0x1f
 	beq _038013E0
@@ -3055,14 +3055,14 @@ _03801444:
 	ldrb r2, [r7, #4]
 	ldrb r1, [r8, #0x12]
 	add r1, r2, r1
-	ldrb r2, [r8]
+	ldrb r2, [r8, #0]
 	mov r2, r2, lsl #0x18
 	mov r2, r2, lsr #0x1f
 	ldr r3, _038015AC // =ChannelCallback
 	bl SND_AllocExChannel
 	movs r4, r0
 	beq _0380159C
-	ldrb r0, [r8]
+	ldrb r0, [r8, #0]
 	mov r0, r0, lsl #0x1c
 	movs r0, r0, lsr #0x1f
 	mvnne r3, #0
@@ -3113,7 +3113,7 @@ _03801510:
 _03801524:
 	ldrsh r0, [r8, #0x16]
 	strh r0, [r4, #0x32]
-	ldrb r0, [r8]
+	ldrb r0, [r8, #0]
 	mov r0, r0, lsl #0x1a
 	movs r0, r0, lsr #0x1f
 	beq _03801554
@@ -3320,7 +3320,7 @@ _038017CC:
 	add r4, r4, #1
 	cmp r4, #0x10
 	blt _038017CC
-	ldrb r0, [r5]
+	ldrb r0, [r5, #0]
 	bic r0, r0, #1
 	strb r0, [r5]
 	add sp, sp, #4
@@ -3392,7 +3392,7 @@ PlayerTempoMain: // 0x0380189C
 	add r1, r6, #0x1c
 	b _038018C4
 _038018B4:
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	sub r0, r0, #0xf0
 	strh r0, [r1]
 	add r5, r5, #1
@@ -3419,7 +3419,7 @@ _03801900:
 	blt _038018DC
 _03801908:
 	ldr r0, _03801958 // =SNDi_SharedWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _03801934
 	add r3, r0, #0x40
@@ -3503,7 +3503,7 @@ _038019F4:
 	arm_func_start InitPlayer
 InitPlayer: // 0x03801A08
 	stmdb sp!, {r4, lr}
-	ldrb r2, [r0]
+	ldrb r2, [r0, #0]
 	bic r2, r2, #4
 	strb r2, [r0]
 	str r1, [r0, #0x20]
@@ -3527,7 +3527,7 @@ _03801A50:
 	cmp r3, #0x10
 	blt _03801A50
 	ldr r2, _03801AB4 // =SNDi_SharedWork
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	cmp r3, #0
 	beq _03801AAC
 	mov r4, #0
@@ -3537,7 +3537,7 @@ _03801A50:
 	str r4, [r3, #0x40]
 	mvn lr, #0
 _03801A8C:
-	ldr r3, [r2]
+	ldr r3, [r2, #0]
 	ldrb ip, [r0, #1]
 	mla r3, ip, r1, r3
 	add r3, r3, r4, lsl #1
@@ -3568,25 +3568,25 @@ InitTrack: // 0x03801ACC
 	mov r0, #0
 	str r0, [r4, #0x24]
 	str r0, [r4, #0x28]
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	orr r1, r1, #2
 	strb r1, [r4]
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	bic r1, r1, #4
 	strb r1, [r4]
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	bic r1, r1, #8
 	strb r1, [r4]
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	bic r1, r1, #0x10
 	strb r1, [r4]
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	bic r1, r1, #0x20
 	strb r1, [r4]
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	orr r1, r1, #0x40
 	strb r1, [r4]
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	bic r1, r1, #0x80
 	strb r1, [r4]
 	strb r0, [r4, #0x3b]
@@ -3667,7 +3667,7 @@ _03801C20:
 	mov r0, r6
 	bl GetVariablePtr
 	cmp r0, #0
-	ldrnesh r5, [r0]
+	ldrnesh r5, [r0, #0]
 	b _03801C7C
 _03801C4C:
 	bl Read16
@@ -3697,7 +3697,7 @@ ReadVar: // 0x03801C88
 _03801C98:
 	ldr r0, [r6, #0x28]
 	bl GetByteCache
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	add r1, r1, #1
 	str r1, [r4]
 	and r1, r0, #0x7f
@@ -3766,7 +3766,7 @@ GetByteCache: // 0x03801D78
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, _03801DC0 // =seqCache
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	cmp r4, r1
 	blo _03801D9C
 	ldr r0, [r0, #4]
@@ -3777,7 +3777,7 @@ _03801D9C:
 	bl InitCache
 _03801DA4:
 	ldr r0, _03801DC0 // =seqCache
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	sub r1, r4, r0
 	ldr r0, _03801DC4 // =0x03808BF0
 	ldrb r0, [r0, r1]
@@ -3795,7 +3795,7 @@ InitCache: // 0x03801DC8
 	str r2, [r0]
 	add r1, r2, #0x10
 	str r1, [r0, #4]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	str r1, [r0, #8]
 	ldr r1, [r2, #4]
 	str r1, [r0, #0xc]
@@ -3987,7 +3987,7 @@ _03802018:
 	bl GetPlayerTrack
 	cmp r0, #0
 	strneh r7, [r0, #0x1e]
-	ldrneb r1, [r0]
+	ldrneb r1, [r0, #0]
 	orrne r1, r1, #0x80
 	strneb r1, [r0]
 _03802040:
@@ -4089,7 +4089,7 @@ _03802160:
 _03802168:
 	bl SND_StartIntervalTimer
 	ldr r0, _038021A4 // =SNDi_SharedWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _03802198
 	add r3, r0, #0x40
@@ -4162,7 +4162,7 @@ SND_StopSeq: // 0x0380222C
 	beq _03802278
 	bl FinishPlayer
 	ldr r0, _03802284 // =SNDi_SharedWork
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
 	ldrne r1, [r2, #4]
 	movne r0, #1
@@ -4244,7 +4244,7 @@ _03802304:
 	add r1, r1, #1
 	str r1, [r5, #0x28]
 	cmp r0, #0xfe
-	ldrne r0, [r2]
+	ldrne r0, [r2, #0]
 	subne r0, r0, #1
 	strne r0, [r2]
 	bne _038023C8
@@ -4273,15 +4273,15 @@ _038023C0:
 	cmp r5, #0
 	bne _03802390
 _038023C8:
-	ldrb r0, [r7]
+	ldrb r0, [r7, #0]
 	bic r0, r0, #1
 	orr r0, r0, #1
 	strb r0, [r7]
-	ldrb r0, [r7]
+	ldrb r0, [r7, #0]
 	bic r0, r0, #2
 	strb r0, [r7]
 	ldr r0, _03802414 // =SNDi_SharedWork
-	ldr r2, [r0]
+	ldr r2, [r0, #0]
 	cmp r2, #0
 	ldrne r1, [r2, #4]
 	movne r0, #1
@@ -4327,7 +4327,7 @@ _03802474:
 	mov r0, r7
 	bl UpdatePlayerChannel
 _0380247C:
-	ldrb r0, [r7]
+	ldrb r0, [r7, #0]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
 	orrne r5, r5, r10, lsl r6
@@ -4336,7 +4336,7 @@ _0380248C:
 	cmp r6, #0x10
 	blt _03802434
 	ldr r0, _038024B4 // =SNDi_SharedWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	strne r5, [r0, #4]
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
@@ -4414,7 +4414,7 @@ SND_NoteOn: // 0x03802564
 	cmp r4, #0xff
 	mvneq r6, #0
 	moveq r4, #0
-	ldrb r0, [r5]
+	ldrb r0, [r5, #0]
 	cmp r0, #4
 	addls pc, pc, r0, lsl #2
 	b _03802620
@@ -4532,7 +4532,7 @@ _03802710:
 	add r0, r6, r7, lsl #2
 	ldr r3, [r0, #0x3c]
 	strb r3, [r4]
-	ldrb r0, [r4]
+	ldrb r0, [r4, #0]
 	cmp r0, #0x11
 	addls pc, pc, r0, lsl #2
 	b _03802838
@@ -4634,7 +4634,7 @@ SND_UpdateSharedWork: // 0x03802858
 	mov r5, #0
 	mov r4, r5
 	ldr r0, _038028F4 // =SNDi_SharedWork
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _038028E8
 	mov r7, r5
@@ -4662,9 +4662,9 @@ _03802880:
 	movne r0, r0, lsl #0x10
 	movne r4, r0, lsr #0x10
 	ldr r0, _038028F4 // =SNDi_SharedWork
-	ldr r1, [r0]
+	ldr r1, [r0, #0]
 	strh r5, [r1, #8]
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	strh r4, [r0, #0xa]
 _038028E8:
 	add sp, sp, #4
@@ -4677,7 +4677,7 @@ _038028F4: .word SNDi_SharedWork
 	arm_func_start SND_SetPlayerGlobalVariable
 SND_SetPlayerGlobalVariable: // 0x038028F8
 	ldr r2, _03802910 // =SNDi_SharedWork
-	ldr r2, [r2]
+	ldr r2, [r2, #0]
 	add r0, r2, r0, lsl #1
 	add r0, r0, #0x200
 	strh r1, [r0, #0x60]
@@ -4967,12 +4967,12 @@ _03802C78:
 	beq _03802CB0
 	ands r0, r6, #2
 	ldreq r1, _03802D0C // =0x04000508
-	ldreqb r0, [r1]
+	ldreqb r0, [r1, #0]
 	orreq r0, r0, #0x80
 	streqb r0, [r1]
 	beq _03802CC4
 	ldr r2, _03802D0C // =0x04000508
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	ldr r0, _03802D10 // =0x00008080
 	orr r0, r1, r0
 	strh r0, [r2]
@@ -4980,7 +4980,7 @@ _03802C78:
 _03802CB0:
 	ands r0, r6, #2
 	ldrne r1, _03802D14 // =0x04000509
-	ldrneb r0, [r1]
+	ldrneb r0, [r1, #0]
 	orrne r0, r0, #0x80
 	strneb r0, [r1]
 _03802CC4:
@@ -5443,8 +5443,8 @@ _03803294:
 _03803298:
 	cmp lr, #0
 	bne _03802E98
-	ldr r1, [r7]
-	ldr r0, [r1]
+	ldr r1, [r7, #0]
+	ldr r0, [r1, #0]
 	add r0, r0, #1
 	str r0, [r1]
 _038032B0:

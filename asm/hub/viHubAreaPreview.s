@@ -648,7 +648,7 @@ ViHubAreaPreview__LoadArchives: // 0x021593F4
 	bl ArchiveFileUnknown__LoadFile
 	str r0, [r4, #0x34]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02159444
@@ -661,7 +661,7 @@ _02159420: // jump table
 	b _02159438 // case 5
 _02159438:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02159448
 _02159444:
 	mov r0, #1
@@ -672,7 +672,7 @@ _02159448:
 	mvn r2, #0
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r4, #0x38]
@@ -686,7 +686,7 @@ _02159448:
 	bl ArchiveFileUnknown__LoadFile
 	str r0, [r4, #0x3c]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _021594CC
@@ -699,7 +699,7 @@ _021594A8: // jump table
 	b _021594C0 // case 5
 _021594C0:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _021594D0
 _021594CC:
 	mov r0, #1
@@ -710,7 +710,7 @@ _021594D0:
 	mvn r2, #0
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r4, #0x40]
@@ -720,7 +720,7 @@ _021594D0:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02159544
@@ -733,7 +733,7 @@ _02159520: // jump table
 	b _02159538 // case 5
 _02159538:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02159548
 _02159544:
 	mov r0, #1
@@ -744,7 +744,7 @@ _02159548:
 	mvn r2, #0
 	bl ReadFileFromBundle
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r4, #0x44]
@@ -757,7 +757,7 @@ _02159548:
 	mvn r1, #0
 	bl FSRequestFileSync
 	mov r5, r0
-	ldr r0, [r5]
+	ldr r0, [r5, #0]
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	str r0, [r4, #0x48]
@@ -771,7 +771,7 @@ _02159548:
 	bl FSRequestFileSync
 	str r0, [r4, #0x4c]
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02159600
@@ -784,7 +784,7 @@ _021595DC: // jump table
 	b _021595F4 // case 5
 _021595F4:
 	bl RenderCore_GetLanguagePtr
-	ldrb r0, [r0]
+	ldrb r0, [r0, #0]
 	b _02159604
 _02159600:
 	mov r0, #1
@@ -940,7 +940,7 @@ _021597E4:
 	str r0, [r4, #0x120]
 	add r0, r4, #0x100
 	strh r6, [r0, #0x38]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _0215980C // =HubControl__Main_2158AB4
 	bic r1, r1, #0x10000
 	str r1, [r4]
@@ -961,7 +961,7 @@ ViHubAreaPreview__Func_2159810: // 0x02159810
 	str r0, [r4, #0x120]
 	add r0, r4, #0x100
 	strh r1, [r0, #0x38]
-	ldr r1, [r4]
+	ldr r1, [r4, #0]
 	ldr r0, _02159850 // =HubControl__Main_2158AB4
 	bic r1, r1, #0x10000
 	str r1, [r4]
@@ -1361,7 +1361,7 @@ ViHubAreaPreview__Func_2159D84: // 0x02159D84
 	mov r9, r1
 	mov r2, #6
 _02159DA0:
-	ldrb r1, [r3]
+	ldrb r1, [r3, #0]
 	ldrb r0, [r3, #1]
 	add r3, r3, #2
 	strb r1, [r5]
@@ -1369,13 +1369,13 @@ _02159DA0:
 	add r5, r5, #2
 	subs r2, r2, #1
 	bne _02159DA0
-	ldrb r0, [r3]
+	ldrb r0, [r3, #0]
 	ldr r4, _0215A008 // =0x02172D14
 	add r3, sp, #0x30
 	strb r0, [r5]
 	mov r2, #4
 _02159DD4:
-	ldrb r1, [r4]
+	ldrb r1, [r4, #0]
 	ldrb r0, [r4, #1]
 	add r4, r4, #2
 	strb r1, [r3]
@@ -1420,7 +1420,7 @@ _02159E5C:
 	beq _02159EB0
 	mov r0, r8
 	bl ovl05_2152A0C
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	ldrb r2, [r11, r0]
 	cmp r2, #0xff
 	beq _02159EB0
@@ -1428,7 +1428,7 @@ _02159E5C:
 	mov r1, r0, lsl #1
 	add r0, sp, #0x46
 	strh r2, [r0, r1]
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	add r0, r0, #1
 	strh r0, [r5]
 _02159EB0:
@@ -1483,13 +1483,13 @@ _02159F58:
 	cmp r9, #7
 	mov r1, #0x4000000
 	bne _02159F78
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1e00
 	str r0, [r1]
 	b _02159F88
 _02159F78:
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1500
 	str r0, [r1]
@@ -1927,21 +1927,21 @@ ViHubAreaPreview__Func_215A520: // 0x0215A520
 	bl GXx_SetMasterBrightness_
 	ldr r2, _0215A850 // =0x04000304
 	ldr r0, _0215A854 // =0xFFFFFDF1
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	and r0, r1, r0
 	orr r0, r0, #0xe
 	orr r0, r0, #0x200
 	strh r0, [r2]
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	orr r0, r0, #0xc
 	strh r0, [r2]
 	bl ViHubAreaPreview__Func_215B3D0
 	mov r3, #0x4000000
-	ldr r1, [r3]
+	ldr r1, [r3, #0]
 	mov r0, #1
 	bic r1, r1, #0x38000000
 	str r1, [r3]
-	ldr r2, [r3]
+	ldr r2, [r3, #0]
 	mov r1, #0
 	bic r2, r2, #0x7000000
 	str r2, [r3]
@@ -1991,7 +1991,7 @@ ViHubAreaPreview__Func_215A520: // 0x0215A520
 	ldr r0, _0215A874 // =0xBFFF0000
 	str r3, [r2]
 	str r0, [r2, #0x40]
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	ldr r2, _0215A840 // =renderCoreGFXControlA
 	mov r0, #0
 	and r3, r3, #0x43
@@ -2012,7 +2012,7 @@ ViHubAreaPreview__Func_215A520: // 0x0215A520
 	bic r3, r3, #3
 	orr r3, r3, #3
 	strh r3, [ip]
-	ldrh r3, [r1]
+	ldrh r3, [r1, #0]
 	bic r3, r3, #3
 	orr r3, r3, #1
 	strh r3, [r1]
@@ -2023,7 +2023,7 @@ ViHubAreaPreview__Func_215A520: // 0x0215A520
 	ldrh r3, [r1, #4]
 	bic r3, r3, #3
 	strh r3, [r1, #4]
-	ldr r1, [r2]
+	ldr r1, [r2, #0]
 	bic r1, r1, #0x1f00
 	orr r1, r1, #0x1100
 	str r1, [r2]
@@ -2137,7 +2137,7 @@ ViHubAreaPreview__Func_215A888: // 0x0215A888
 	strh r1, [r0, #0xc]
 	ldr r3, _0215A960 // =0x04000008
 	strh r1, [r0, #0xe]
-	ldrh r1, [r3]
+	ldrh r1, [r3, #0]
 	mov r4, #0x4000000
 	ldr r0, _0215A964 // =0x03FF03FF
 	bic r1, r1, #3
@@ -2193,7 +2193,7 @@ _0215A968: .word 0x06007FE0
 ViHubAreaPreview__Func_215A96C: // 0x0215A96C
 	ldr r1, _0215A9D4 // =0x04000008
 	mov r2, #0x4000000
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #3
 	orr r0, r0, #3
 	strh r0, [r1]
@@ -2208,8 +2208,8 @@ ViHubAreaPreview__Func_215A96C: // 0x0215A96C
 	ldrh r0, [r1, #6]
 	bic r0, r0, #3
 	strh r0, [r1, #6]
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -2236,24 +2236,24 @@ ViHubAreaPreview__Func_215A9D8: // 0x0215A9D8
 	sub r4, ip, #6
 	bic r0, r0, #3
 	strh r0, [ip]
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	sub r6, ip, #4
 	sub r5, ip, #0xe
 	bic r0, r0, #3
 	orr r0, r0, #1
 	strh r0, [r3]
-	ldrh r2, [r4]
+	ldrh r2, [r4, #0]
 	ldr r0, _0215AAAC // =0x03FF03FF
 	mov r1, #0x6200000
 	bic r2, r2, #3
 	orr r2, r2, #2
 	strh r2, [r4]
-	ldrh r4, [r6]
+	ldrh r4, [r6, #0]
 	mov r2, #0x1000
 	bic r4, r4, #3
 	orr r4, r4, #3
 	strh r4, [r6]
-	ldr r4, [r5]
+	ldr r4, [r5, #0]
 	ldr lr, [r5]
 	and r4, r4, #0x1f00
 	mov r6, r4, lsr #8
@@ -2291,18 +2291,18 @@ ViHubAreaPreview__Func_215AAB4: // 0x0215AAB4
 	ldr r1, _0215AB78 // =0x0400100E
 	strh r2, [r0, #0xc]
 	strh r2, [r0, #0xe]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	sub r3, r1, #2
 	sub r5, r1, #6
 	bic r0, r0, #3
 	strh r0, [r1]
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	sub ip, r1, #4
 	sub r4, r1, #0xe
 	bic r0, r0, #3
 	orr r0, r0, #1
 	strh r0, [r3]
-	ldrh r2, [r5]
+	ldrh r2, [r5, #0]
 	ldr r0, _0215AB7C // =0x03FF03FF
 	mov r1, #0x6200000
 	bic r2, r2, #3
@@ -2351,16 +2351,16 @@ ViHubAreaPreview__Func_215AB84: // 0x0215AB84
 	bic r0, r0, #3
 	orr r0, r0, #1
 	strh r0, [ip, #2]
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	bic r0, r0, #3
 	orr r0, r0, #2
 	strh r0, [r3]
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #3
 	orr r0, r0, #3
 	strh r0, [r1]
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -2389,7 +2389,7 @@ ViHubAreaPreview__Func_215ABF8: // 0x0215ABF8
 	sub r3, ip, #2
 	bic r2, r2, #3
 	strh r2, [ip]
-	ldrh r2, [r3]
+	ldrh r2, [r3, #0]
 	sub r6, ip, #4
 	mov r5, #0x4000000
 	bic r2, r2, #3
@@ -2401,16 +2401,16 @@ ViHubAreaPreview__Func_215ABF8: // 0x0215ABF8
 	bic r2, r2, #3
 	orr r2, r2, #2
 	strh r2, [ip, #2]
-	ldrh r4, [r6]
+	ldrh r4, [r6, #0]
 	mov r2, #0x800
 	bic r4, r4, #3
 	orr r4, r4, #3
 	strh r4, [r6]
-	ldr r4, [r5]
+	ldr r4, [r5, #0]
 	bic r4, r4, #0x1f00
 	orr r4, r4, #0x1500
 	str r4, [r5]
-	ldrh r4, [r3]
+	ldrh r4, [r3, #0]
 	and r4, r4, #0x43
 	orr r4, r4, #0x184
 	orr r4, r4, #0x400
@@ -2460,7 +2460,7 @@ _0215AD30: .word 0x06001000
 ViHubAreaPreview__Func_215AD34: // 0x0215AD34
 	ldr r1, _0215AD9C // =0x04000008
 	mov r2, #0x4000000
-	ldrh r0, [r1]
+	ldrh r0, [r1, #0]
 	bic r0, r0, #3
 	orr r0, r0, #3
 	strh r0, [r1]
@@ -2475,8 +2475,8 @@ ViHubAreaPreview__Func_215AD34: // 0x0215AD34
 	ldrh r0, [r1, #6]
 	bic r0, r0, #3
 	strh r0, [r1, #6]
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -2497,7 +2497,7 @@ ViHubAreaPreview__Func_215ADA0: // 0x0215ADA0
 	ldr r3, _0215AE7C // =0x0400000A
 	strh r2, [r0, #4]
 	strh r2, [r0, #6]
-	ldrh r0, [r3]
+	ldrh r0, [r3, #0]
 	sub lr, r3, #2
 	mov ip, #0x4000000
 	bic r0, r0, #3
@@ -2520,7 +2520,7 @@ ViHubAreaPreview__Func_215ADA0: // 0x0215ADA0
 	bic r4, r4, #0x1f00
 	orr r4, r4, #0x200
 	str r4, [ip]
-	ldrh r4, [r3]
+	ldrh r4, [r3, #0]
 	and r4, r4, #0x43
 	orr r4, r4, #0x104
 	orr r4, r4, #0x400
@@ -2554,7 +2554,7 @@ _0215AE80: .word aBbTkdmDownBb_ovl05
 ViHubAreaPreview__Func_215AE84: // 0x0215AE84
 	ldr r2, _0215AEDC // =0x04000008
 	mov r1, #0x4000000
-	ldrh r0, [r2]
+	ldrh r0, [r2, #0]
 	bic r0, r0, #3
 	orr r0, r0, #3
 	strh r0, [r2]
@@ -2569,7 +2569,7 @@ ViHubAreaPreview__Func_215AE84: // 0x0215AE84
 	ldrh r0, [r2, #6]
 	bic r0, r0, #3
 	strh r0, [r2, #6]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bic r0, r0, #0x1f00
 	orr r0, r0, #0x1100
 	str r0, [r1]
@@ -2710,12 +2710,12 @@ ViHubAreaPreview__Func_215B03C: // 0x0215B03C
 	bic r1, r1, #3
 	orr r1, r1, #2
 	strh r1, [ip]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	orr r1, r1, #3
 	strh r1, [r2]
-	ldr r2, [r3]
-	ldr r1, [r3]
+	ldr r2, [r3, #0]
+	ldr r1, [r3, #0]
 	and r2, r2, #0x1f00
 	mov ip, r2, lsr #8
 	bic r2, r1, #0x1f00
@@ -2786,12 +2786,12 @@ ViHubAreaPreview__Func_215B168: // 0x0215B168
 	bic r1, r1, #3
 	orr r1, r1, #2
 	strh r1, [ip]
-	ldrh r1, [r2]
+	ldrh r1, [r2, #0]
 	bic r1, r1, #3
 	orr r1, r1, #3
 	strh r1, [r2]
-	ldr r2, [r3]
-	ldr r1, [r3]
+	ldr r2, [r3, #0]
+	ldr r1, [r3, #0]
 	and r2, r2, #0x1f00
 	mov ip, r2, lsr #8
 	bic r2, r1, #0x1f00
@@ -2838,7 +2838,7 @@ ViHubAreaPreview__Func_215B250: // 0x0215B250
 	mov r0, #0
 	strh r0, [r1, #8]
 	strh r0, [r1, #0xa]
-	ldrh r1, [r3]
+	ldrh r1, [r3, #0]
 	sub lr, r3, #4
 	sub ip, r3, #2
 	bic r1, r1, #3
@@ -3029,7 +3029,7 @@ ViHubAreaPreview__Func_215B4E0: // 0x0215B4E0
 	ldr r3, _0215B518 // =0x02172D68
 	mov r0, #0
 _0215B4F4:
-	ldrb r2, [r3]
+	ldrb r2, [r3, #0]
 	cmp r2, r1, lsr #16
 	ldmeqia sp!, {r3, pc}
 	add r0, r0, #1

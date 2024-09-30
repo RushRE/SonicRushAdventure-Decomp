@@ -94,12 +94,12 @@ _0215BAEC: .word 0x00000FB4
 ViMap__Func_215BAF0: // 0x0215BAF0
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215BB24 // =ViMap__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetTaskWork_
 	ldr r0, _0215BB24 // =ViMap__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl DestroyTask
 	ldr r0, _0215BB24 // =ViMap__TaskSingleton
 	mov r1, #0
@@ -114,7 +114,7 @@ ViMap__Func_215BB28: // 0x0215BB28
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215BB9C // =ViMap__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	cmp r4, #0
 	beq _0215BB58
@@ -126,20 +126,20 @@ ViMap__Func_215BB28: // 0x0215BB28
 _0215BB58:
 	ldr r0, _0215BB9C // =ViMap__TaskSingleton
 	ldr r1, _0215BBA0 // =ViMap__Func_215CC94
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
 _0215BB6C:
 	ldr r0, _0215BB9C // =ViMap__TaskSingleton
 	ldr r1, _0215BBA4 // =ViMap__Main
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
 _0215BB80:
 	ldr r1, _0215BB9C // =ViMap__TaskSingleton
 	mov r2, #6
 	str r2, [r0, #0x7d8]
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	ldr r1, _0215BBA8 // =ViMap__Func_215CDE0
 	bl SetTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -155,7 +155,7 @@ ViMap__Func_215BBAC: // 0x0215BBAC
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _0215BBF0 // =ViMap__TaskSingleton
 	mov r5, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r4, r1
 	bl GetTaskWork_
 	add r0, r0, #0x700
@@ -178,7 +178,7 @@ ViMap__Func_215BBF4: // 0x0215BBF4
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r3, _0215BC3C // =ViMap__TaskSingleton
 	mov r6, r0
-	ldr r0, [r3]
+	ldr r0, [r3, #0]
 	mov r5, r1
 	mov r4, r2
 	bl GetTaskWork_
@@ -202,7 +202,7 @@ ViMap__Func_215BC40: // 0x0215BC40
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _0215BC7C // =ViMap__TaskSingleton
 	mov r5, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r4, r1
 	bl GetTaskWork_
 	cmp r5, #0
@@ -222,7 +222,7 @@ _0215BC7C: .word ViMap__TaskSingleton
 ViMap__Func_215BC80: // 0x0215BC80
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215BC9C // =ViMap__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x5d0
 	bl ViMapIcon__Func_21634F4
@@ -236,7 +236,7 @@ ViMap__Func_215BCA0: // 0x0215BCA0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215BCE0 // =ViMap__TaskSingleton
 	mov r5, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	cmp r5, #0
@@ -260,7 +260,7 @@ ViMap__Func_215BCE4: // 0x0215BCE4
 	sub sp, sp, #4
 	ldr r2, _0215BDC8 // =ViMap__TaskSingleton
 	mov r6, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r5, r1
 	bl GetTaskWork_
 	mov r4, r0
@@ -347,7 +347,7 @@ ViMap__Func_215BE14: // 0x0215BE14
 	sub sp, sp, #0xc
 	ldr r1, _0215BFBC // =ViMap__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r8, r0
 	str r4, [r8, #0x7dc]
@@ -441,8 +441,8 @@ _0215BEF8:
 	str r2, [sp, #4]
 	bl ovl05_2152FB0
 	ldr r2, _0215BFC0 // =0x04001000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -462,7 +462,7 @@ ViMap__Func_215BFC4: // 0x0215BFC4
 	sub sp, sp, #0xc
 	ldr r1, _0215C0CC // =ViMap__TaskSingleton
 	mov r5, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #6
@@ -479,7 +479,7 @@ ViMap__Func_215BFC4: // 0x0215BFC4
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ovl05_2152A20
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 _0215C01C:
 	add r0, r4, #0x700
 	strh r1, [r0, #0xe8]
@@ -515,8 +515,8 @@ _0215C01C:
 	str r2, [sp, #4]
 	bl ovl05_2152FB0
 	ldr r2, _0215C0D4 // =0x04001000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -537,7 +537,7 @@ ViMap__Func_215C0D8: // 0x0215C0D8
 	sub sp, sp, #0xc
 	ldr r1, _0215C27C // =ViMap__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r8, r0
 	mov r1, #6
@@ -630,8 +630,8 @@ _0215C1B8:
 	str r2, [sp, #4]
 	bl ovl05_2152FB0
 	ldr r2, _0215C280 // =0x04001000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
@@ -651,7 +651,7 @@ ViMap__Func_215C284: // 0x0215C284
 	sub sp, sp, #0xc
 	ldr r1, _0215C400 // =ViMap__TaskSingleton
 	mov r5, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	mov r0, #0x20
@@ -672,7 +672,7 @@ ViMap__Func_215C284: // 0x0215C284
 	cmp r0, r1
 	beq _0215C32C
 	bl ovl05_2152A30
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	add r2, sp, #0xa
 	add r3, sp, #8
 	mov r0, r4
@@ -694,7 +694,7 @@ _0215C32C:
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ovl05_2152A20
-	ldrh r0, [r0]
+	ldrh r0, [r0, #0]
 	add r1, sp, #0xa
 	add r2, sp, #8
 	bl ViMapBack__Func_2162798
@@ -754,7 +754,7 @@ _0215C404: .word 0x0000FFFF
 ViMap__Func_215C408: // 0x0215C408
 	stmdb sp!, {r4, lr}
 	ldr r0, _0215C488 // =ViMap__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	ldr r0, [r4, #0x7dc]
@@ -794,7 +794,7 @@ _0215C488: .word ViMap__TaskSingleton
 ViMap__Func_215C48C: // 0x0215C48C
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215C4C8 // =ViMap__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	ldr r1, [r0, #0x7dc]
 	add r0, r0, #0x700
@@ -815,7 +815,7 @@ _0215C4C8: .word ViMap__TaskSingleton
 ViMap__Func_215C4CC: // 0x0215C4CC
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215C4F4 // =ViMap__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r1, #3
 	str r1, [r0, #0x7d8]
@@ -831,7 +831,7 @@ _0215C4F4: .word ViMap__TaskSingleton
 ViMap__Func_215C4F8: // 0x0215C4F8
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215C520 // =ViMap__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x700
 	ldrh r0, [r0, #0xea]
@@ -848,18 +848,18 @@ ViMap__Func_215C524: // 0x0215C524
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215C584 // =ViMap__TaskSingleton
 	mov r5, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl ViMap__Func_215D374
 	mov r0, r5
 	bl ovl05_2152A30
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, r4
 	bl ViMapBack__Func_21619B0
 	mov r0, r5
 	bl ovl05_2152A30
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, r4
 	bl ViMapBack__Func_2161ADC
 	ldr r1, _0215C588 // =0x0620C040
@@ -879,7 +879,7 @@ ViMap__Func_215C58C: // 0x0215C58C
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r1, _0215C630 // =ViMap__TaskSingleton
 	mov r6, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	mov r0, r6
@@ -891,14 +891,14 @@ ViMap__Func_215C58C: // 0x0215C58C
 	beq _0215C620
 	mov r0, r5
 	bl ViMap__Func_215D374
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ovl05_2152A30
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl ViMapBack__Func_21619B0
-	ldrh r0, [r4]
+	ldrh r0, [r4, #0]
 	bl ovl05_2152A30
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl ViMapBack__Func_2161ADC
 	ldr r1, _0215C634 // =0x0620C040
@@ -914,7 +914,7 @@ ViMap__Func_215C58C: // 0x0215C58C
 	bl ViMapBack__Func_21620FC
 	ldmia sp!, {r4, r5, r6, pc}
 _0215C620:
-	ldrh r1, [r4]
+	ldrh r1, [r4, #0]
 	mov r0, r5
 	bl ViMapBack__Func_21620FC
 	ldmia sp!, {r4, r5, r6, pc}
@@ -928,7 +928,7 @@ ViMap__Func_215C638: // 0x0215C638
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215C6A8 // =ViMap__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	add r0, r5, #0x338
@@ -962,7 +962,7 @@ _0215C6A8: .word ViMap__TaskSingleton
 ViMap__Func_215C6AC: // 0x0215C6AC
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r0, _0215C768 // =ViMap__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	add r0, r4, #0x338
@@ -989,7 +989,7 @@ _0215C6D8:
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
 	bl ovl05_2152A20
-	ldrh r5, [r0]
+	ldrh r5, [r0, #0]
 	mov r0, r4
 	mov r1, r5
 	bl ViMap__Func_215D7D8
@@ -1019,7 +1019,7 @@ ViMap__Func_215C76C: // 0x0215C76C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215C7DC // =ViMap__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r5, r0
 	add r0, r5, #0x338
@@ -1053,7 +1053,7 @@ _0215C7DC: .word ViMap__TaskSingleton
 ViMap__Func_215C7E0: // 0x0215C7E0
 	stmdb sp!, {r4, lr}
 	ldr r0, _0215C828 // =ViMap__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	mov r4, r0
 	bl ViMap__Func_215D9C4
@@ -1077,7 +1077,7 @@ _0215C828: .word ViMap__TaskSingleton
 ViMap__Func_215C82C: // 0x0215C82C
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215C848 // =ViMap__TaskSingleton
-	ldr r0, [r0]
+	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x5d0
 	bl ViMapIcon__Func_21636A0
@@ -1091,7 +1091,7 @@ ViMap__Func_215C84C: // 0x0215C84C
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215C874 // =ViMap__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	mov r2, r4
 	add r0, r0, #0x5d0
@@ -1107,7 +1107,7 @@ ViMap__Func_215C878: // 0x0215C878
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r2, _0215C8A4 // =ViMap__TaskSingleton
 	mov r5, r0
-	ldr r0, [r2]
+	ldr r0, [r2, #0]
 	mov r4, r1
 	bl GetTaskWork_
 	mov r1, r5
@@ -1192,7 +1192,7 @@ ViMap__Func_215C98C: // 0x0215C98C
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215C9B0 // =ViMap__TaskSingleton
 	mov r4, r0
-	ldr r0, [r1]
+	ldr r0, [r1, #0]
 	bl GetTaskWork_
 	add r1, r0, #0x810
 	mov r0, #0x64
@@ -1947,7 +1947,7 @@ _0215D394:
 	bl ovl05_2152960
 	ldrh r0, [r0, #0x3c]
 	bl ovl05_2152A30
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, r4
 	bl ViMapBack__Func_21619B0
 _0215D3D4:
@@ -1969,14 +1969,14 @@ _0215D3E4:
 	bl ovl05_2152A60
 	cmp r0, #0
 	beq _0215D430
-	ldrh r0, [r5]
+	ldrh r0, [r5, #0]
 	bl ovl05_2152A30
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, r4
 	bl ViMapBack__Func_21619B0
 	b _0215D43C
 _0215D430:
-	ldrh r1, [r5]
+	ldrh r1, [r5, #0]
 	mov r0, r4
 	bl ViMapBack__Func_21620FC
 _0215D43C:
@@ -2123,7 +2123,7 @@ _0215D610:
 	bne _0215D718
 	ldr r3, _0215D728 // =_mt_math_rand
 	add r0, r6, #0x3f8
-	ldr r4, [r3]
+	ldr r4, [r3, #0]
 	ldr r1, _0215D72C // =0x00196225
 	ldr r2, _0215D730 // =0x3C6EF35F
 	add r7, r0, #0x800
@@ -2142,7 +2142,7 @@ _0215D610:
 	bl AnimatorSprite__SetAnimation
 	ldr r8, _0215D728 // =_mt_math_rand
 	add r0, r6, r5, lsl #2
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	ldr r2, _0215D72C // =0x00196225
 	ldr r3, _0215D730 // =0x3C6EF35F
 	add r7, r0, #0xf00
@@ -2154,7 +2154,7 @@ _0215D610:
 	str r0, [r8]
 	sub r0, r1, #0x20
 	strh r0, [r7, #0x18]
-	ldr r1, [r8]
+	ldr r1, [r8, #0]
 	add ip, r6, #0x318
 	mla r2, r1, r2, r3
 	mov r1, r2, lsr #0x10
@@ -2256,12 +2256,12 @@ ViMap__Func_215D7D8: // 0x0215D7D8
 	bl ViMap__Func_215D374
 	mov r0, r4
 	bl ovl05_2152A30
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl ViMapBack__Func_21619B0
 	mov r0, r4
 	bl ovl05_2152A30
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, r5
 	bl ViMapBack__Func_2161BE4
 	mov r0, r4
@@ -2270,7 +2270,7 @@ ViMap__Func_215D7D8: // 0x0215D7D8
 	str r2, [sp]
 	add r1, sp, #0x10
 	str r1, [sp, #4]
-	ldrh r1, [r0]
+	ldrh r1, [r0, #0]
 	mov r0, r5
 	add r2, sp, #0x16
 	add r3, sp, #0x14
@@ -2406,8 +2406,8 @@ ViMap__Func_215D9EC: // 0x0215D9EC
 	str r1, [sp]
 	bl ovl05_215354C
 	ldr r2, _0215DA34 // =0x04001000
-	ldr r1, [r2]
-	ldr r0, [r2]
+	ldr r1, [r2, #0]
+	ldr r0, [r2, #0]
 	and r1, r1, #0x1f00
 	mov r3, r1, lsr #8
 	bic r1, r0, #0x1f00
