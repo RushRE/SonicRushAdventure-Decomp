@@ -747,7 +747,7 @@ void HandleStageClearExAnimations(StageClearEx *work)
 
 NONMATCH_FUNC void HandleStageClearExDrawing(StageClearEx *work)
 {
-    // https:///scratch/3JkJ6 -> 94.68%
+    // https://decomp.me/scratch/3JkJ6 -> 94.68%
 #ifdef NON_MATCHING
     StageClearExGraphics3D *graphics3D = &work->graphics3D;
 
@@ -1491,8 +1491,7 @@ void StageClearEx_State_RevealTotalScore(StageClearEx *work)
 
     if (graphics2D->scoreRandDigitCount >= 6)
     {
-        PlaySfxEx(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQARC_ARC_CLEAR_E,
-                  SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_SUM_INDICATION);
+        PlaySystemSfx(SND_SYS_SEQARC_ARC_CLEAR_E, SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_SUM_INDICATION);
         StopStageSfx(graphics2D->seqPlayer);
         graphics2D->showAllScoreDigits = FALSE;
 
@@ -1531,7 +1530,7 @@ void StageClearEx_State_RankAppear(StageClearEx *work)
     if (work->timer > 32)
     {
         graphics2D->rankScale = FLOAT_TO_FX32(1.0);
-        PlaySfxEx(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQARC_ARC_CLEAR_E, SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_RANKING);
+        PlaySystemSfx(SND_SYS_SEQARC_ARC_CLEAR_E, SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_RANKING);
         ShakeScreen(SCREENSHAKE_A_LONG);
         SetStageClearExState(work, StageClearEx_State_RankGet);
     }
@@ -1594,8 +1593,6 @@ void StageClearEx_State_FadeOut(StageClearEx *work)
 
 void DrawNumberForStageClearEx(AnimatorSprite *aniNumbers, s16 x, s16 y, u16 spacing, u16 digitCount, BOOL showAll, u32 number)
 {
-    // https://decomp.me/scratch/u0Uxv -> 87.40%
-#ifndef NON_MATCHING
     u32 i;
     AnimatorSprite *aniDigit;
 
@@ -1604,7 +1601,7 @@ void DrawNumberForStageClearEx(AnimatorSprite *aniNumbers, s16 x, s16 y, u16 spa
     for (i = 0; i < digitCount; i++)
     {
         aniDigit = &aniNumbers[number % 10];
-        
+
         x -= spacing;
 
         aniDigit->pos.x = x;
@@ -1615,64 +1612,6 @@ void DrawNumberForStageClearEx(AnimatorSprite *aniNumbers, s16 x, s16 y, u16 spa
         if (!showAll && number == 0)
             break;
     }
-#else
-    // clang-format off
-	push {r4, r5, r6, r7, lr}
-	sub sp, #0xc
-	str r0, [sp]
-	ldr r0, [sp, #0x24]
-	str r2, [sp, #4]
-	str r0, [sp, #0x24]
-	str r3, [sp, #8]
-	add r0, sp, #0x10
-	ldrh r7, [r0, #0x10]
-	ldr r0, [sp, #8]
-	mov r5, r1
-	mov r1, r0
-	mul r1, r7
-	add r0, r5, r1
-	lsl r0, r0, #0x10
-	ldr r4, [sp, #0x28]
-	asr r5, r0, #0x10
-	mov r6, #0
-	cmp r7, #0
-	bls _02154DCE
-_02154D90:
-	mov r0, r4
-	mov r1, #0xa
-	bl _u32_div_f
-	mov r2, r1
-	ldr r1, [sp, #8]
-	mov r0, #0x64
-	mul r2, r0
-	ldr r0, [sp]
-	sub r1, r5, r1
-	lsl r1, r1, #0x10
-	add r0, r0, r2
-	asr r5, r1, #0x10
-	strh r5, [r0, #8]
-	ldr r1, [sp, #4]
-	strh r1, [r0, #0xa]
-	bl AnimatorSprite__DrawFrame
-	mov r0, r4
-	mov r1, #0xa
-	bl _u32_div_f
-	mov r4, r0
-	ldr r0, [sp, #0x24]
-	cmp r0, #0
-	bne _02154DC8
-	cmp r4, #0
-	beq _02154DCE
-_02154DC8:
-	add r6, r6, #1
-	cmp r6, r7
-	blo _02154D90
-_02154DCE:
-	add sp, #0xc
-	pop {r4, r5, r6, r7, pc}
-
-// clang-format on
-#endif
 }
 
 u32 CalcStageClearExTimeBonus(u32 time)
@@ -1701,8 +1640,7 @@ void Lerp_StageClearExScoreBonus(s32 type, TaskUnknown204BE48 *work, void *arg)
 {
     if (type == 4)
     {
-        PlaySfxEx(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQARC_ARC_CLEAR_E,
-                  SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_FLAME_INDICATION);
+        PlaySystemSfx(SND_SYS_SEQARC_ARC_CLEAR_E, SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_FLAME_INDICATION);
     }
 }
 
@@ -1712,11 +1650,8 @@ void Lerp_StageClearExScoreTotal(s32 type, TaskUnknown204BE48 *work, void *arg)
 
     if (type == 4)
     {
-        PlaySfxEx(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQARC_ARC_CLEAR_E,
-                  SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_FLAME_INDICATION);
-
-        PlaySfxEx(stageClear->graphics2D.seqPlayer, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQARC_ARC_CLEAR_E,
-                  SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_SCORE_INDICATION);
+        PlaySystemSfx(SND_SYS_SEQARC_ARC_CLEAR_E, SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_FLAME_INDICATION);
+        PlayHandleSystemSfx(stageClear->graphics2D.seqPlayer, SND_SYS_SEQARC_ARC_CLEAR_E, SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_SCORE_INDICATION);
     }
 }
 

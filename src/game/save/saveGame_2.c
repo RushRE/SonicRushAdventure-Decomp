@@ -303,12 +303,12 @@ void SaveGame__GiveRings(SaveBlockStage *work, s32 amount)
         work->ringCount = SAVEGAME_RING_MAX;
 }
 
-BOOL SaveGame__HasChaosEmerald(SaveBlockChart *work, u32 id)
+BOOL SaveGame__HasChaosEmerald(SaveBlockChart *work, u8 id)
 {
     return SeaMapManager__GetSaveFlag_(work->flags, id + 57);
 }
 
-void SaveGame__SetChaosEmeraldCollected(SaveBlockChart *work, u32 id)
+void SaveGame__SetChaosEmeraldCollected(SaveBlockChart *work, u8 id)
 {
     return SeaMapManager__SetSaveFlag_(work->flags, id + 57, TRUE);
 }
@@ -327,7 +327,7 @@ u32 SaveGame__GetChaosEmeraldCount(SaveBlockChart *work)
     return count;
 }
 
-NONMATCH_FUNC BOOL SaveGame__HasSolEmerald(SaveBlockStage *work, u32 id)
+NONMATCH_FUNC BOOL SaveGame__HasSolEmerald(SaveBlockStage *work, u8 id)
 {
 #ifdef NON_MATCHING
     return ((saveGame.stage.missionState[missionForSolEmerald[id] / 4] >> ((missionForSolEmerald[id] % 4) << 1)) & 3) >= MISSION_STATE_COMPLETED;
@@ -380,7 +380,7 @@ u32 SaveGame__GetSolEmeraldCount(SaveBlockStage *work)
     return count;
 }
 
-NONMATCH_FUNC void SaveGame__SetSolEmeraldCollected(SaveBlockStage *work, u32 id)
+NONMATCH_FUNC void SaveGame__SetSolEmeraldCollected(SaveBlockStage *work, u8 id)
 {
 #ifdef NON_MATCHING
     u32 shift = (missionForSolEmerald[id] % 4) << 1;

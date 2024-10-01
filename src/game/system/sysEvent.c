@@ -464,7 +464,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_EMERALD_COLLECTED
     {
-        .initFunc    = EmeraldCollectedScreen__Create,
+        .initFunc    = CreateEmeraldCollectedScreen,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

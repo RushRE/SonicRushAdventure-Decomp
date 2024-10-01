@@ -43,8 +43,8 @@ NOT_DECOMPILED void Task__Unknown204BE48__Create(void *data, u16 varSize, s32 st
 NOT_DECOMPILED void Task__Unknown204BE48__Func_204BF04(Task *task, Unknown204BE48Callback callback, void *arg);
 NOT_DECOMPILED void Task__Unknown204BE48__Func_204BF20(void);
 NOT_DECOMPILED fx32 Task__Unknown204BE48__LerpValue(s32 start, s32 end, s16 a3, s32 a4);
-NOT_DECOMPILED void Task__Unknown204BE48__LerpVec2(Vec2Fx32 *result, Vec2Fx32 *start, Vec2Fx32 *end, s32 a4, u16 a5);
-NOT_DECOMPILED void Task__Unknown204BE48__LerpVec3(VecFx32 *result, VecFx32 *start, VecFx32 *end, s32 a4, u16 a5);
+NOT_DECOMPILED void Task__Unknown204BE48__LerpVec2(Vec2Fx32 *result, Vec2Fx32 *start, Vec2Fx32 *end, fx32 a4, fx32 a5);
+NOT_DECOMPILED void Task__Unknown204BE48__LerpVec3(VecFx32 *result, VecFx32 *start, VecFx32 *end, fx32 a4, fx32 a5);
 NOT_DECOMPILED u32 Task__Unknown204BE48__Rand(void);
 NOT_DECOMPILED s32 Task__Unknown204BE48__Func_204C104(u32 seed);
 NOT_DECOMPILED void Task__Unknown204BE48__Main(void);
