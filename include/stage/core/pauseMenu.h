@@ -43,7 +43,23 @@ typedef u8 PauseMenuButtonAction;
 
 typedef struct PauseMenu_
 {
-    AnimatorSpriteDS animators[PAUSEMENU_ANIMATOR_COUNT];
+
+    // allow each array index to be named
+    union
+    {
+        struct
+        {
+            AnimatorSpriteDS aniBackplate1;
+            AnimatorSpriteDS aniBackplate2;
+            AnimatorSpriteDS aniPausedText;
+            AnimatorSpriteDS aniContinueText;
+            AnimatorSpriteDS aniRestartText;
+            AnimatorSpriteDS aniBackText;
+        };
+
+        AnimatorSpriteDS animators[PAUSEMENU_ANIMATOR_COUNT];
+    };
+
     PauseMenuButtonAction buttonAction[PAUSEMENU_MAX_BUTTON_COUNT];
     u16 buttonCount;
     Vec2Fx32 buttonPosition[PAUSEMENU_MAX_BUTTON_COUNT];

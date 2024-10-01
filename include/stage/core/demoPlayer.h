@@ -40,7 +40,19 @@ typedef struct DemoPlayer_
 {
     s32 timer;
     void *sprDemoPlay;
-    AnimatorSpriteDS aniDemoPlay[DEMOPLAY_ANIMATOR_COUNT];
+
+    // allow each array index to be named
+    union
+    {
+        struct
+        {
+            AnimatorSpriteDS aniDemoPlay;
+            AnimatorSpriteDS aniPressStart;
+        };
+
+        AnimatorSpriteDS animators[DEMOPLAY_ANIMATOR_COUNT];
+    };
+
     u32 flashTimer;
 } DemoPlayer;
 

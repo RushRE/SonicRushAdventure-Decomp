@@ -305,7 +305,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_STAGE_CLEAR_EX
     {
-        .initFunc    = StageClearEx__Create,
+        .initFunc    = CreateStageClearEx,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

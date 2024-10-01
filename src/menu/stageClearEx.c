@@ -9,595 +9,364 @@
 #include <game/save/saveGame.h>
 #include <game/stage/gameSystem.h>
 #include <game/file/archiveFile.h>
-#include <game/util/unknown204BE48.h>
+
+// files
+#include <resources/narc/cldm_ex_lz7.h>
+#include <resources/narc/pldm_67_00_lz7.h>
 
 #include <nitro/code16.h>
+
+// --------------------
+// TEMP
+// --------------------
+
+NOT_DECOMPILED void _u32_div_f(void);
 
 // --------------------
 // VARIABLES
 // --------------------
 
-static Task *StageClearEx__Singleton;
+static Task *singleton;
 
-NOT_DECOMPILED void *_02161514;
-NOT_DECOMPILED void *_0216151C;
-NOT_DECOMPILED void *_02161524;
-NOT_DECOMPILED void *_02161548;
+static const u8 timeBonusThreshold[8] = { 190, 180, 170, 160, 150, 140, 130, 120 };
+static const u8 ringBonusThreshold[8] = { 15, 20, 25, 30, 35, 40, 45, 50 };
+static const u32 timeBonusScore[9]    = { 10000, 15000, 20000, 25000, 30000, 34000, 38000, 42000, 45000 };
+static const u32 ringBonusScore[9]    = { 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000 };
 
-NOT_DECOMPILED void *aNarcPldm6700Lz;
-NOT_DECOMPILED void *aNarcCldmExLz7N;
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void StageClearEx_Destructor(Task *task);
+static void SetStageClearExState(StageClearEx *work, void (*state)(StageClearEx *work));
+static void CreateStageClearExAnimationManager(StageClearEx *parent);
+static void CreateStageClearExDrawManager(StageClearEx *parent);
+
+static void InitStageClearEx(StageClearEx *work);
+static void DestroyStageClearEx(StageClearEx *work);
+static void InitStageClearExAssets(StageClearExAssets *work);
+static void ReleaseStageClearExAssets(StageClearExAssets *work);
+static void InitStageClearExGraphics3D(StageClearExGraphics3D *work, StageClearExAssets *assets);
+static void ReleaseStageClearExGraphics3D(StageClearExGraphics3D *work);
+static void InitStageClearExGraphics2D(StageClearExGraphics2D *work, StageClearExAssets *assets);
+static void ReleaseStageClearExGraphics2D(StageClearExGraphics2D *work);
+
+static void HandleStageClearExAnimations(StageClearEx *work);
+static void HandleStageClearExDrawing(StageClearEx *work);
+
+static void StageClearEx_State_Init(StageClearEx *work);
+static void StageClearEx_State_FadeIn(StageClearEx *work);
+static void StageClearEx_State_IntroDelay(StageClearEx *work);
+static void StageClearEx_State_InitText(StageClearEx *work);
+static void StageClearEx_State_DisplayText(StageClearEx *work);
+static void StageClearEx_State_InitScore(StageClearEx *work);
+static void StageClearEx_State_EnterScores(StageClearEx *work);
+static void StageClearEx_State_RevealTotalScore(StageClearEx *work);
+static void StageClearEx_State_ShowTotalScore(StageClearEx *work);
+static void StageClearEx_State_InitRank(StageClearEx *work);
+static void StageClearEx_State_RankAppear(StageClearEx *work);
+static void StageClearEx_State_RankGet(StageClearEx *work);
+static void StageClearEx_State_ShowRank(StageClearEx *work);
+static void StageClearEx_State_DisplayResults(StageClearEx *work);
+static void StageClearEx_State_FadeOut(StageClearEx *work);
+
+static void DrawNumberForStageClearEx(AnimatorSprite *aniNumbers, s16 x, s16 y, u16 spacing, u16 digitCount, BOOL showAll, u32 number);
+static u32 CalcStageClearExTimeBonus(u32 time);
+static u32 CalcStageClearExRingBonus(u32 rings);
+static void Lerp_StageClearExScoreBonus(s32 type, TaskUnknown204BE48 *work, void *arg);
+static void Lerp_StageClearExScoreTotal(s32 type, TaskUnknown204BE48 *work, void *arg);
+
+static void StageClearEx_Main_Core(void);
+static void StageClearEx_Main_AnimationManager(void);
+static void StageClearEx_Main_DrawManager(void);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void _ull_mul(void);
-NOT_DECOMPILED void _u32_div_f(void);
-
-NONMATCH_FUNC void StageClearEx__Create(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {lr}
-	sub sp, #0xc
-	mov r0, #1
-	str r0, [sp]
-	mov r2, #0
-	ldr r0, =0x00001178
-	str r2, [sp, #4]
-	str r0, [sp, #8]
-	ldr r0, =StageClearEx__Main_Core
-	ldr r1, =StageClearEx__Destructor
-	mov r3, r2
-	bl TaskCreate_
-	ldr r1, =StageClearEx__Singleton
-	str r0, [r1]
-	bl GetTaskWork_
-	bl StageClearEx__Init
-	add sp, #0xc
-	pop {pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__Destructor(Task *task){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r0, =StageClearEx__Singleton
-	mov r1, #0
-	str r1, [r0]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__SetState(StageClearEx *work, void (*state)(StageClearEx *work)){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	mov r2, #0
-	str r2, [r0, #0xc]
-	str r1, [r0, #8]
-	bx lr
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__CreateAnimationManager(StageClearEx *parent){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r3, r4, lr}
-	sub sp, #0xc
-	mov r4, r0
-	mov r1, #0
-	mov r0, #0x61
-	str r0, [sp]
-	ldr r0, =0x00001178
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	ldr r0, =StageClearEx__Main_AnimationManager
-	mov r2, r1
-	mov r3, r1
-	bl TaskCreate_
-	str r0, [r4]
-	add sp, #0xc
-	pop {r3, r4, pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__CreateDrawManager(StageClearEx *parent){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r3, r4, lr}
-	sub sp, #0xc
-	mov r4, r0
-	mov r1, #0
-	mov r0, #0x81
-	str r0, [sp]
-	ldr r0, =0x00001178
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	ldr r0, =StageClearEx__Main_DrawManager
-	mov r2, r1
-	mov r3, r1
-	bl TaskCreate_
-	str r0, [r4, #4]
-	add sp, #0xc
-	pop {r3, r4, pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__Init(StageClearEx *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r2, =0x00001178
-	mov r0, #0
-	mov r1, r5
-	bl MIi_CpuClear32
-	mov r2, #1
-	lsl r2, r2, #0x1a
-	ldr r1, [r2, #0]
-	ldr r0, =0xFFFFE0FF
-	and r1, r0
-	str r1, [r2, #0]
-	ldr r2, =0x04001000
-	ldr r1, [r2, #0]
-	and r0, r1
-	str r0, [r2, #0]
-	mov r0, #1
-	mov r1, #0
-	mov r2, r0
-	bl GX_SetGraphicsMode
-	mov r0, #0
-	bl GXS_SetGraphicsMode
-	bl VRAMSystem__Reset
-	mov r0, #3
-	bl VRAMSystem__SetupTextureBank
-	mov r0, #0x40
-	bl VRAMSystem__SetupTexturePalBank
-	mov r0, #0x20
-	bl VRAMSystem__SetupBGBank
-	mov r0, #1
-	lsl r0, r0, #0xa
-	str r0, [sp]
-	ldr r1, =0x00100010
-	mov r0, #0x10
-	mov r2, #0x40
-	mov r3, #0
-	bl VRAMSystem__SetupOBJBank
-	mov r4, r5
-	add r4, #0x14
-	mov r0, r4
-	bl StageClearEx__LoadArchives
-	bl ReleaseAudioSystem
-	mov r0, #0xf
-	bl LoadSysSound
-	mov r0, r5
-	add r0, #0x1c
-	mov r1, r4
-	bl StageClearEx__InitGraphics3D
-	ldr r0, =0x00000958
-	mov r1, r4
-	add r0, r5, r0
-	bl StageClearEx__InitGraphics2D
-	mov r0, #1
-	str r0, [r5, #0x10]
-	mov r0, r5
-	bl StageClearEx__CreateAnimationManager
-	ldr r1, =StageClearEx__State_21548C0
-	mov r0, r5
-	bl StageClearEx__SetState
-	pop {r3, r4, r5, pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__Destroy(StageClearEx *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0]
-	cmp r0, #0
-	beq _02153E22
-	bl DestroyTask
-_02153E22:
-	ldr r0, [r4, #4]
-	cmp r0, #0
-	beq _02153E2C
-	bl DestroyTask
-_02153E2C:
-	mov r0, #0
-	str r0, [r4, #0x10]
-	bl Camera3D__Destroy
-	ldr r0, =0x00000958
-	add r0, r4, r0
-	bl StageClearEx__ReleaseGraphics2D
-	mov r0, r4
-	add r0, #0x1c
-	bl StageClearEx__ReleaseGraphics3D
-	bl ReleaseSysSound
-	add r4, #0x14
-	mov r0, r4
-	bl StageClearEx__ReleaseAssets
-	bl DestroyCurrentTask
-	pop {r4, pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__LoadArchives(StageClearExAssets *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r3, r4, lr}
-	sub sp, #4
-	mov r2, #0
-	mov r4, r0
-	ldr r0, =aNarcPldm6700Lz
-	str r2, [sp]
-	sub r1, r2, #1
-	mov r3, #1
-	bl ArchiveFile__Load
-	str r0, [r4]
-	mov r2, #0
-	ldr r0, =aNarcCldmExLz7N
-	sub r1, r2, #1
-	mov r3, #1
-	str r2, [sp]
-	bl ArchiveFile__Load
-	str r0, [r4, #4]
-	add sp, #4
-	pop {r3, r4, pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__ReleaseAssets(StageClearEx *work)
+void CreateStageClearEx(void)
 {
-#ifdef NON_MATCHING
+    singleton = TaskCreate(StageClearEx_Main_Core, StageClearEx_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_SCOPE_0, StageClearEx);
 
-#else
-    // clang-format off
-	push {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #4]
-	bl _FreeHEAP_USER
-	ldr r0, [r4, #0]
-	bl _FreeHEAP_USER
-	pop {r4, pc}
-
-// clang-format on
-#endif
+    StageClearEx *work = TaskGetWork(singleton, StageClearEx);
+    InitStageClearEx(work);
 }
 
-NONMATCH_FUNC void StageClearEx__InitGraphics3D(StageClearExGraphics3D *work, StageClearExAssets *assets){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r3, r4, r5, r6, r7, lr}
-	sub sp, #0x20
-	mov r5, r0
-	mov r0, #1
-	str r0, [sp]
-	mov r0, r5
-	add r0, #8
-	str r0, [sp, #4]
-	mov r0, #4
-	str r0, [sp, #8]
-	add r0, sp, #0x1c
-	str r0, [sp, #0xc]
-	mov r0, #0xb
-	str r0, [sp, #0x10]
-	mov r2, #0
-	str r2, [sp, #0x14]
-	ldr r0, [r1, #0]
-	mov r1, r5
-	add r3, r5, #4
-	bl StageClearEx__LoadAssets
-	ldr r0, [sp, #0x1c]
-	ldr r1, =0x001FFFFF
-	bl LoadDrawState
-	ldr r0, =0x000008E8
-	add r4, r5, r0
-	ldr r0, [sp, #0x1c]
-	mov r1, r4
-	bl GetDrawStateCameraView
-	ldr r0, [sp, #0x1c]
-	mov r1, r4
-	bl GetDrawStateCameraProjection
-	ldr r4, [r4, #0x10]
-	mov r2, #0x41
-	asr r1, r4, #0x1f
-	mov r0, r4
-	lsl r2, r2, #2
-	mov r3, #0
-	bl _ull_mul
-	mov r2, #2
-	mov r3, #0
-	lsl r2, r2, #0xa
-	add r2, r0, r2
-	adc r1, r3
-	lsl r0, r1, #0x14
-	lsr r1, r2, #0xc
-	orr r1, r0
-	ldr r0, =0x00000938
-	add r1, r4, r1
-	str r1, [r5, r0]
-	ldr r0, [r5, #8]
-	ldr r6, [r5, #0]
-	str r0, [sp, #0x18]
-	mov r0, r6
-	ldr r7, [r5, #4]
-	bl NNS_G3dResDefaultSetup
-	mov r4, r5
-	add r4, #0xc
-	mov r0, r4
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r3, #0
-	mov r0, r4
-	mov r1, r6
-	mov r2, #1
-	str r3, [sp]
-	bl AnimatorMDL__SetResource
-	mov r1, #0
-	mov r0, r4
-	mov r2, r7
-	mov r3, #0x26
-	str r1, [sp]
-	bl AnimatorMDL__SetAnimation
-	mov r1, #0x43
-	lsl r1, r1, #2
-	ldrh r2, [r4, r1]
-	mov r0, #2
-	orr r0, r2
-	strh r0, [r4, r1]
-	add r1, #0x44
-	add r4, r5, r1
-	mov r0, r4
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r3, #0
-	mov r0, r4
-	mov r1, r6
-	mov r2, #2
-	str r3, [sp]
-	bl AnimatorMDL__SetResource
-	mov r1, #0
-	mov r0, r4
-	mov r2, r7
-	mov r3, #0x27
-	str r1, [sp]
-	bl AnimatorMDL__SetAnimation
-	mov r1, #0x43
-	lsl r1, r1, #2
-	ldrh r2, [r4, r1]
-	mov r0, #2
-	orr r0, r2
-	strh r0, [r4, r1]
-	mov r0, #0xa5
-	lsl r0, r0, #2
-	add r4, r5, r0
-	mov r0, r4
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r3, #0
-	mov r0, r4
-	mov r1, r6
-	mov r2, #0x10
-	str r3, [sp]
-	bl AnimatorMDL__SetResource
-	mov r1, #0
-	mov r0, r4
-	mov r2, r7
-	mov r3, #0x29
-	str r1, [sp]
-	bl AnimatorMDL__SetAnimation
-	mov r1, #0x43
-	lsl r1, r1, #2
-	ldrh r2, [r4, r1]
-	mov r0, #2
-	orr r0, r2
-	strh r0, [r4, r1]
-	mov r0, #0xf6
-	lsl r0, r0, #2
-	add r4, r5, r0
-	mov r0, r4
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r3, #0
-	mov r0, r4
-	mov r1, r6
-	mov r2, #7
-	str r3, [sp]
-	bl AnimatorMDL__SetResource
-	mov r1, #0
-	mov r0, r4
-	mov r2, r7
-	mov r3, #0x28
-	str r1, [sp]
-	bl AnimatorMDL__SetAnimation
-	mov r1, #0x43
-	lsl r1, r1, #2
-	ldrh r2, [r4, r1]
-	mov r0, #2
-	orr r0, r2
-	strh r0, [r4, r1]
-	ldr r0, =0x0000051C
-	mov r1, #0
-	add r4, r5, r0
-	mov r0, r4
-	bl AnimatorMDL__Init
-	mov r2, #0
-	mov r0, r4
-	mov r1, r6
-	mov r3, r2
-	str r2, [sp]
-	bl AnimatorMDL__SetResource
-	mov r1, #0
-	mov r0, r4
-	mov r2, r7
-	mov r3, #0x25
-	str r1, [sp]
-	bl AnimatorMDL__SetAnimation
-	mov r0, #0
-	str r0, [sp]
-	ldr r2, [sp, #0x18]
-	mov r0, r4
-	mov r1, #3
-	mov r3, #0xc
-	bl AnimatorMDL__SetAnimation
-	mov r0, #0x43
-	lsl r0, r0, #2
-	ldrh r1, [r4, r0]
-	mov r2, #2
-	orr r1, r2
-	strh r1, [r4, r0]
-	add r1, r0, #6
-	ldrh r1, [r4, r1]
-	add r0, r0, #6
-	orr r1, r2
-	strh r1, [r4, r0]
-	mov r4, #0x66
-	lsl r4, r4, #4
-	add r0, r5, r4
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r3, #0
-	add r0, r5, r4
-	mov r1, r6
-	mov r2, #6
-	str r3, [sp]
-	bl AnimatorMDL__SetResource
-	mov r1, #0
-	add r0, r5, r4
-	mov r2, r7
-	mov r3, #0x2a
-	str r1, [sp]
-	bl AnimatorMDL__SetAnimation
-	ldr r4, =0x000007A4
-	mov r1, #0
-	add r0, r5, r4
-	bl AnimatorMDL__Init
-	mov r3, #0
-	add r0, r5, r4
-	mov r1, r6
-	mov r2, #0x11
-	str r3, [sp]
-	bl AnimatorMDL__SetResource
-	mov r1, #0
-	add r0, r5, r4
-	mov r2, r7
-	mov r3, #0x2b
-	str r1, [sp]
-	bl AnimatorMDL__SetAnimation
-	add sp, #0x20
-	pop {r3, r4, r5, r6, r7, pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__LoadAssets(void *archive, ...){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r0, r1, r2, r3}
-	push {r3, lr}
-	add r2, sp, #8
-	mov r1, #3
-	bic r2, r1
-	ldr r0, [sp, #8]
-	add r1, r2, #4
-	bl ArchiveFile__LoadFiles
-	pop {r3}
-	pop {r3}
-	add sp, #0x10
-	bx r3
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__ReleaseGraphics3D(StageClearExGraphics3D *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r4, lr}
-	mov r4, r0
-	add r0, #0xc
-	bl AnimatorMDL__Release
-	mov r0, #0x15
-	lsl r0, r0, #4
-	add r0, r4, r0
-	bl AnimatorMDL__Release
-	mov r0, #0xa5
-	lsl r0, r0, #2
-	add r0, r4, r0
-	bl AnimatorMDL__Release
-	mov r0, #0xf6
-	lsl r0, r0, #2
-	add r0, r4, r0
-	bl AnimatorMDL__Release
-	ldr r0, =0x0000051C
-	add r0, r4, r0
-	bl AnimatorMDL__Release
-	mov r0, #0x66
-	lsl r0, r0, #4
-	add r0, r4, r0
-	bl AnimatorMDL__Release
-	ldr r0, =0x000007A4
-	add r0, r4, r0
-	bl AnimatorMDL__Release
-	ldr r0, [r4, #0]
-	bl NNS_G3dResDefaultRelease
-	pop {r4, pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__InitGraphics2D(StageClearExGraphics2D *work, StageClearExAssets *assets)
+void StageClearEx_Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    singleton = NULL;
+}
 
+void SetStageClearExState(StageClearEx *work, void (*state)(StageClearEx *work))
+{
+    work->timer = 0;
+    work->state = state;
+}
+
+void CreateStageClearExAnimationManager(StageClearEx *parent)
+{
+    // BUG/OVERSIGHT:
+    // this uses 'StageClearEx' work struct instead of allocating nothing (since it doesn't use it's own work struct)
+    // causing slightly more memory to be allocated than needed!
+
+    parent->taskAnimationManager = TaskCreate(StageClearEx_Main_AnimationManager, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x61, TASK_SCOPE_0, StageClearEx);
+}
+
+void CreateStageClearExDrawManager(StageClearEx *parent)
+{
+    // BUG/OVERSIGHT:
+    // this uses 'StageClearEx' work struct instead of allocating nothing (since it doesn't use it's own work struct)
+    // causing slightly more memory to be allocated than needed!
+
+    parent->taskDrawManager = TaskCreate(StageClearEx_Main_DrawManager, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x81, TASK_SCOPE_0, StageClearEx);
+}
+
+void InitStageClearEx(StageClearEx *work)
+{
+    TaskInitWork32(work);
+
+    GX_SetVisiblePlane(GX_PLANEMASK_NONE);
+    GXS_SetVisiblePlane(GX_PLANEMASK_NONE);
+
+    GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
+    GXS_SetGraphicsMode(GX_BGMODE_0);
+
+    VRAMSystem__Reset();
+    VRAMSystem__SetupTextureBank(GX_VRAM_TEX_01_AB);
+    VRAMSystem__SetupTexturePalBank(GX_VRAM_TEXPLTT_0_G);
+    VRAMSystem__SetupBGBank(GX_VRAM_BG_16_F);
+    VRAMSystem__SetupOBJBank(GX_VRAM_OBJ_64_E, GX_OBJVRAMMODE_CHAR_1D_64K, GX_OBJVRAMMODE_BMP_1D_128K, 0, 0x400);
+
+    StageClearExAssets *assets = &work->assets;
+    InitStageClearExAssets(assets);
+
+    ReleaseAudioSystem();
+    LoadSysSound(SYSSOUND_GROUP_CLEAR_E);
+
+    InitStageClearExGraphics3D(&work->graphics3D, assets);
+    InitStageClearExGraphics2D(&work->graphics2D, assets);
+    work->isActive = TRUE;
+
+    CreateStageClearExAnimationManager(work);
+    SetStageClearExState(work, StageClearEx_State_Init);
+}
+
+void DestroyStageClearEx(StageClearEx *work)
+{
+    if (work->taskAnimationManager != NULL)
+        DestroyTask(work->taskAnimationManager);
+
+    if (work->taskDrawManager != NULL)
+        DestroyTask(work->taskDrawManager);
+
+    work->isActive = FALSE;
+    Camera3D__Destroy();
+    ReleaseStageClearExGraphics2D(&work->graphics2D);
+    ReleaseStageClearExGraphics3D(&work->graphics3D);
+    ReleaseSysSound();
+
+    ReleaseStageClearExAssets(&work->assets);
+
+    DestroyCurrentTask();
+}
+
+void InitStageClearExAssets(StageClearExAssets *work)
+{
+    work->archivePldm6700 = ArchiveFile__Load("/narc/pldm_67_00_lz7.narc", ARCHIVEFILE_ID_NONE, ARCHIVEFILE_AUTO_ALLOC_HEAD_USER, ARCHIVEFILE_FLAG_IS_COMPRESSED, NULL);
+    work->archiveCldmEx   = ArchiveFile__Load("/narc/cldm_ex_lz7.narc", ARCHIVEFILE_ID_NONE, ARCHIVEFILE_AUTO_ALLOC_HEAD_USER, ARCHIVEFILE_FLAG_IS_COMPRESSED, NULL);
+}
+
+void ReleaseStageClearExAssets(StageClearExAssets *work)
+{
+    HeapFree(HEAP_USER, work->archiveCldmEx);
+    HeapFree(HEAP_USER, work->archivePldm6700);
+}
+
+void InitStageClearExGraphics3D(StageClearExGraphics3D *work, StageClearExAssets *assets)
+{
+    AnimatorMDL *aniSonic;
+    void *drawState;
+
+    LoadAssetsForStageClearEx(assets->archivePldm6700, &work->mdlCharacters, ARCHIVE_PLDM_67_00_LZ7_FILE_MD, &work->jntAniCharacters, ARCHIVE_PLDM_67_00_LZ7_FILE_CA,
+                              &work->texAniCharacters, ARCHIVE_PLDM_67_00_LZ7_FILE_TA, &drawState, ARCHIVE_PLDM_67_00_LZ7_FILE_SD7, NULL);
+
+    LoadDrawState(drawState, DRAWSTATE_CLEARCOLOR | DRAWSTATE_DISPLAY1DOTDEPTH | DRAWSTATE_ANTIALIASING | DRAWSTATE_EDGECOLORTABLE | DRAWSTATE_EDGEMARKING | DRAWSTATE_FOGTABLE
+                                 | DRAWSTATE_FOGCOLOR | DRAWSTATE_FOGOFFSET | DRAWSTATE_SWAPSORTMODE | DRAWSTATE_ALPHABLEND | DRAWSTATE_ALPHATEST | DRAWSTATE_TOONTABLE
+                                 | DRAWSTATE_SHADING_STYLE | DRAWSTATE_SHININESS | DRAWSTATE_LIGHT3 | DRAWSTATE_LIGHT2 | DRAWSTATE_LIGHT1 | DRAWSTATE_LIGHT0
+                                 | DRAWSTATE_SWAPBUFFERMODE | DRAWSTATE_PROJECTION | DRAWSTATE_LOOKAT);
+
+    Camera3D *cameraConfig = &work->cameraConfig;
+    GetDrawStateCameraView(drawState, cameraConfig);
+    GetDrawStateCameraProjection(drawState, cameraConfig);
+
+    work->projectionY = cameraConfig->config.projScaleW + MultiplyFX(cameraConfig->config.projScaleW, 260);
+
+    void *mdlCharacters    = work->mdlCharacters;
+    void *texAniCharacters = work->texAniCharacters;
+    void *jntAniCharacters = work->jntAniCharacters;
+    NNS_G3dResDefaultSetup(work->mdlCharacters);
+
+    aniSonic = &work->aniSonic;
+    AnimatorMDL__Init(aniSonic, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(aniSonic, mdlCharacters, 1, FALSE, FALSE);
+    AnimatorMDL__SetAnimation(aniSonic, B3D_ANIM_JOINT_ANIM, jntAniCharacters, 38, NULL);
+    aniSonic->animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_CAN_LOOP;
+
+    AnimatorMDL *aniBlaze = &work->aniBlaze;
+    AnimatorMDL__Init(aniBlaze, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(aniBlaze, mdlCharacters, 2, FALSE, FALSE);
+    AnimatorMDL__SetAnimation(aniBlaze, B3D_ANIM_JOINT_ANIM, jntAniCharacters, 39, NULL);
+    aniBlaze->animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_CAN_LOOP;
+
+    AnimatorMDL *aniTails = &work->aniTails;
+    AnimatorMDL__Init(aniTails, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(aniTails, mdlCharacters, 16, FALSE, FALSE);
+    AnimatorMDL__SetAnimation(aniTails, B3D_ANIM_JOINT_ANIM, jntAniCharacters, 41, NULL);
+    aniTails->animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_CAN_LOOP;
+
+    AnimatorMDL *aniMarine = &work->aniMarine;
+    AnimatorMDL__Init(aniMarine, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(aniMarine, mdlCharacters, 7, FALSE, FALSE);
+    AnimatorMDL__SetAnimation(aniMarine, B3D_ANIM_JOINT_ANIM, jntAniCharacters, 40, NULL);
+    aniMarine->animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_CAN_LOOP;
+
+    AnimatorMDL *aniStage = &work->aniStage;
+    AnimatorMDL__Init(aniStage, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(aniStage, mdlCharacters, 0, FALSE, FALSE);
+    AnimatorMDL__SetAnimation(aniStage, B3D_ANIM_JOINT_ANIM, jntAniCharacters, 37, NULL);
+    AnimatorMDL__SetAnimation(aniStage, B3D_ANIM_TEX_ANIM, texAniCharacters, 12, NULL);
+    aniStage->animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_CAN_LOOP;
+    aniStage->animFlags[B3D_ANIM_TEX_ANIM] |= ANIMATORMDL_FLAG_CAN_LOOP;
+
+    AnimatorMDL *aniPillar = &work->aniPillar;
+    AnimatorMDL__Init(aniPillar, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(aniPillar, mdlCharacters, 6, FALSE, FALSE);
+    AnimatorMDL__SetAnimation(aniPillar, B3D_ANIM_JOINT_ANIM, jntAniCharacters, 42, NULL);
+
+    AnimatorMDL *aniSmokeCloud = &work->aniSmokeCloud;
+    AnimatorMDL__Init(aniSmokeCloud, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(aniSmokeCloud, mdlCharacters, 17, FALSE, FALSE);
+    AnimatorMDL__SetAnimation(aniSmokeCloud, B3D_ANIM_JOINT_ANIM, jntAniCharacters, 43, NULL);
+}
+
+void LoadAssetsForStageClearEx(void *archive, ...)
+{
+    va_list assetList;
+
+    va_start(assetList, archive);
+    ArchiveFile__LoadFiles(archive, assetList);
+}
+
+void ReleaseStageClearExGraphics3D(StageClearExGraphics3D *work)
+{
+    AnimatorMDL__Release(&work->aniSonic);
+    AnimatorMDL__Release(&work->aniBlaze);
+    AnimatorMDL__Release(&work->aniTails);
+    AnimatorMDL__Release(&work->aniMarine);
+    AnimatorMDL__Release(&work->aniStage);
+    AnimatorMDL__Release(&work->aniPillar);
+    AnimatorMDL__Release(&work->aniSmokeCloud);
+
+    NNS_G3dResDefaultRelease(work->mdlCharacters);
+}
+
+NONMATCH_FUNC void InitStageClearExGraphics2D(StageClearExGraphics2D *work, StageClearExAssets *assets)
+{
+    // https://decomp.me/scratch/s8dpa -> 91.41%
+#ifdef NON_MATCHING
+    AnimatorSprite *animator;
+    void *sprHUD;
+
+    work->ringBonus  = StageClearEx__CalcRingBonus(playerGameStatus.ringBonus);
+    work->timeBonus  = StageClearEx__CalcTimeBonus(playerGameStatus.stageTimer);
+    work->totalScore = work->ringBonus + work->timeBonus;
+
+    StageClearEx__LoadAssets(assets->archiveCldmEx, &sprHUD, ARCHIVE_CLDM_EX_LZ7_FILE_CLDM_EX_BAC, NULL);
+
+    animator = &work->aniScorePlates[0];
+    SpriteUnknown__Func_204C90C(animator, sprHUD, 10, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE,
+                                SpriteUnknown__Func_204C3CC(sprHUD, FALSE, 10), PALETTE_ROW_1, SPRITE_PRIORITY_0, SPRITE_ORDER_14);
+
+    animator = &work->aniScorePlates[1];
+    SpriteUnknown__Func_204C90C(animator, sprHUD, 11, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE,
+                                SpriteUnknown__Func_204C3CC(sprHUD, FALSE, 11), PALETTE_ROW_1, SPRITE_PRIORITY_0, SPRITE_ORDER_14);
+
+    animator = &work->aniScoreBonusText[0];
+    SpriteUnknown__Func_204C90C(animator, sprHUD, 23, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE,
+                                SpriteUnknown__Func_204C3CC(sprHUD, FALSE, 23), PALETTE_ROW_4, SPRITE_PRIORITY_0, SPRITE_ORDER_10);
+    animator->pos.x = -160;
+    animator->pos.y = 132;
+
+    animator = &work->aniScoreBonusText[1];
+    SpriteUnknown__Func_204C90C(animator, sprHUD, 25, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE,
+                                SpriteUnknown__Func_204C3CC(sprHUD, FALSE, 25), PALETTE_ROW_4, SPRITE_PRIORITY_0, SPRITE_ORDER_10);
+    animator->pos.x = -160;
+    animator->pos.y = 152;
+
+    animator = &work->aniScoreBonusText[2];
+    SpriteUnknown__Func_204C90C(animator, sprHUD, 27, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE,
+                                SpriteUnknown__Func_204C3CC(sprHUD, FALSE, 27), PALETTE_ROW_4, SPRITE_PRIORITY_0, SPRITE_ORDER_10);
+    work->scoreTotalPos.x = -160;
+    work->scoreTotalPos.y = 172;
+
+    work->showAllScoreDigits = TRUE;
+    animator                 = &work->aniNumbers[0];
+    for (u32 i = 0; i < 10; i++)
+    {
+        SpriteUnknown__Func_204C90C(animator, sprHUD, i, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE,
+                                    SpriteUnknown__Func_204C3CC(sprHUD, FALSE, i), PALETTE_ROW_5, SPRITE_PRIORITY_0, SPRITE_ORDER_12);
+
+        animator++;
+    }
+
+    animator = &work->aniNameBackdrop;
+    SpriteUnknown__Func_204C90C(animator, sprHUD, 12, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE,
+                                SpriteUnknown__Func_204C3CC(sprHUD, FALSE, 12), PALETTE_ROW_6, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
+
+    animator = &work->aniPlayerName;
+    SpriteUnknown__Func_204C90C(animator, sprHUD, 33, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE,
+                                SpriteUnknown__Func_204C3CC(sprHUD, FALSE, 33), PALETTE_ROW_1, SPRITE_PRIORITY_0, SPRITE_ORDER_4);
+
+    animator = &work->aniZoneName;
+    SpriteUnknown__Func_204C90C(animator, sprHUD, 32, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE,
+                                SpriteUnknown__Func_204C3CC(sprHUD, FALSE, 32), PALETTE_ROW_1, SPRITE_PRIORITY_0, SPRITE_ORDER_4);
+    work->namePos.x = 0;
+    work->namePos.y = -0x16000;
+
+    animator = &work->aniRankBorder;
+    SpriteUnknown__Func_204C90C(animator, sprHUD, 13, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_DRAW, FALSE,
+                                SpriteUnknown__Func_204C3CC(sprHUD, FALSE, 13), PALETTE_ROW_2, SPRITE_PRIORITY_0, SPRITE_ORDER_12);
+    animator->pos.x = 192;
+    animator->pos.y = 96;
+
+    u16 rankAnim;
+    if (work->totalScore >= 50000)
+    {
+        rankAnim = 28;
+    }
+    else if (work->totalScore >= 40000)
+    {
+        rankAnim = 29;
+    }
+    else if (work->totalScore >= 20000)
+    {
+        rankAnim = 30;
+    }
+    else
+    {
+        rankAnim = 31;
+    }
+
+    animator = &work->aniRank;
+    SpriteUnknown__Func_204C90C(animator, sprHUD, rankAnim,
+                                ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_DRAW, FALSE,
+                                SpriteUnknown__Func_204C3CC(sprHUD, FALSE, rankAnim), PALETTE_ROW_3, SPRITE_PRIORITY_0, SPRITE_ORDER_10);
+    animator->pos.x = 192;
+    animator->pos.y = 96;
+
+    work->seqPlayer = AllocSndHandle();
+
+    SaveGame__UpdateStageRecord(22, work->totalScore, rankAnim - 28);
 #else
     // clang-format off
 	push {r3, r4, r5, r6, r7, lr}
@@ -606,12 +375,12 @@ NONMATCH_FUNC void StageClearEx__InitGraphics2D(StageClearExGraphics2D *work, St
 	ldr r0, =playerGameStatus
 	mov r4, r1
 	ldr r0, [r0, #0x1c]
-	bl StageClearEx__CalcRingBonus
+	bl CalcStageClearExRingBonus
 	ldr r1, =0x00000808
 	str r0, [r5, r1]
 	ldr r0, =playerGameStatus
 	ldr r0, [r0, #0xc]
-	bl StageClearEx__CalcTimeBonus
+	bl CalcStageClearExTimeBonus
 	ldr r1, =0x0000080C
 	str r0, [r5, r1]
 	sub r0, r1, #4
@@ -624,7 +393,7 @@ NONMATCH_FUNC void StageClearEx__InitGraphics2D(StageClearExGraphics2D *work, St
 	ldr r0, [r4, #4]
 	add r1, sp, #0x14
 	mov r3, r2
-	bl StageClearEx__LoadAssets
+	bl LoadAssetsForStageClearEx
 	ldr r0, [sp, #0x14]
 	mov r1, #0
 	mov r2, #0xa
@@ -915,198 +684,208 @@ _02154362:
 #endif
 }
 
-NONMATCH_FUNC void StageClearEx__ReleaseGraphics2D(StageClearExGraphics2D *work)
+void ReleaseStageClearExGraphics2D(StageClearExGraphics2D *work)
 {
-#ifdef NON_MATCHING
+    FreeSndHandle(work->seqPlayer);
 
-#else
-    // clang-format off
-	push {r4, r5, r6, lr}
-	mov r6, r0
-	ldr r0, [r6, #4]
-	bl FreeSndHandle
-	mov r0, #0x79
-	lsl r0, r0, #4
-	add r0, r6, r0
-	bl AnimatorSprite__Release
-	ldr r0, =0x0000072C
-	add r0, r6, r0
-	bl AnimatorSprite__Release
-	ldr r0, =0x000006B8
-	add r0, r6, r0
-	bl AnimatorSprite__Release
-	ldr r0, =0x00000654
-	add r0, r6, r0
-	bl AnimatorSprite__Release
-	mov r0, #0x5f
-	lsl r0, r0, #4
-	add r0, r6, r0
-	bl AnimatorSprite__Release
-	mov r0, #0x3f
-	mov r5, r6
-	lsl r0, r0, #4
-	add r5, #8
-	add r4, r6, r0
-	cmp r5, r4
-	beq _0215443C
-_02154430:
-	mov r0, r5
-	bl AnimatorSprite__Release
-	add r5, #0x64
-	cmp r5, r4
-	bne _02154430
-_0215443C:
-	mov r0, #0x3f
-	lsl r0, r0, #4
-	add r5, r6, r0
-	ldr r0, =0x0000051C
-	add r4, r6, r0
-	cmp r5, r4
-	beq _02154456
-_0215444A:
-	mov r0, r5
-	bl AnimatorSprite__Release
-	add r5, #0x64
-	cmp r5, r4
-	bne _0215444A
-_02154456:
-	ldr r0, =0x0000058C
-	add r0, r6, r0
-	bl AnimatorSprite__Release
-	ldr r0, =0x00000528
-	add r0, r6, r0
-	bl AnimatorSprite__Release
-	pop {r4, r5, r6, pc}
+    AnimatorSprite__Release(&work->aniRank);
+    AnimatorSprite__Release(&work->aniRankBorder);
+    AnimatorSprite__Release(&work->aniZoneName);
+    AnimatorSprite__Release(&work->aniPlayerName);
+    AnimatorSprite__Release(&work->aniNameBackdrop);
 
-// clang-format on
-#endif
+    for (AnimatorSprite *ani = &work->aniNumbers[0]; ani != &work->aniNumbers[10]; ani++)
+    {
+        AnimatorSprite__Release(ani);
+    }
+
+    for (AnimatorSprite *ani = &work->aniScoreBonusText[0]; ani != &work->aniScoreBonusText[3]; ani++)
+    {
+        AnimatorSprite__Release(ani);
+    }
+
+    AnimatorSprite__Release(&work->aniScoreTotalPlate);
+    AnimatorSprite__Release(&work->aniScoreBonusPlate);
 }
 
-NONMATCH_FUNC void StageClearEx__HandleAnimations(StageClearEx *work)
+void HandleStageClearExAnimations(StageClearEx *work)
 {
-#ifdef NON_MATCHING
+    StageClearExGraphics3D *graphics3D = &work->graphics3D;
+    StageClearExGraphics2D *graphics2D = &work->graphics2D;
 
-#else
-    // clang-format off
-	push {r3, r4, r5, r6, r7, lr}
-	mov r2, r0
-	ldr r1, =0x00000958
-	add r2, #0x1c
-	add r4, r0, r1
-	mov r5, r2
-	sub r1, #0x70
-	add r5, #0xc
-	add r6, r2, r1
-	cmp r5, r6
-	beq _021544A6
-	mov r7, #0x51
-	lsl r7, r7, #2
-_0215449A:
-	mov r0, r5
-	bl AnimatorMDL__ProcessAnimation
-	add r5, r5, r7
-	cmp r5, r6
-	bne _0215449A
-_021544A6:
-	ldr r0, =0x000006B8
-	mov r1, #0
-	add r0, r4, r0
-	mov r2, r1
-	bl AnimatorSprite__ProcessAnimation
-	ldr r0, =0x00000654
-	mov r1, #0
-	add r0, r4, r0
-	mov r2, r1
-	bl AnimatorSprite__ProcessAnimation
-	mov r0, #0x5f
-	lsl r0, r0, #4
-	mov r1, #0
-	add r0, r4, r0
-	mov r2, r1
-	bl AnimatorSprite__ProcessAnimation
-	mov r1, #0x72
-	lsl r1, r1, #4
-	mov r0, r1
-	add r0, #8
-	ldr r2, [r4, r1]
-	ldr r0, [r4, r0]
-	add r0, r2, r0
-	str r0, [r4, r1]
-	mov r0, #1
-	ldr r2, [r4, r1]
-	lsl r0, r0, #0x14
-	cmp r2, r0
-	blt _021544F0
-	sub r0, r2, r0
-	str r0, [r4, r1]
-	mov r2, #1
-	sub r0, r1, #4
-	str r2, [r4, r0]
-_021544F0:
-	mov r0, #0x3f
-	mov r5, r4
-	lsl r0, r0, #4
-	add r5, #8
-	add r6, r4, r0
-	cmp r5, r6
-	beq _02154510
-	mov r7, #0
-_02154500:
-	mov r0, r5
-	mov r1, r7
-	mov r2, r7
-	bl AnimatorSprite__ProcessAnimation
-	add r5, #0x64
-	cmp r5, r6
-	bne _02154500
-_02154510:
-	mov r0, #0x3f
-	lsl r0, r0, #4
-	add r5, r4, r0
-	ldr r0, =0x0000051C
-	add r6, r4, r0
-	cmp r5, r6
-	beq _02154530
-	mov r7, #0
-_02154520:
-	mov r0, r5
-	mov r1, r7
-	mov r2, r7
-	bl AnimatorSprite__ProcessAnimation
-	add r5, #0x64
-	cmp r5, r6
-	bne _02154520
-_02154530:
-	ldr r0, =0x0000058C
-	mov r1, #0
-	add r0, r4, r0
-	mov r2, r1
-	bl AnimatorSprite__ProcessAnimation
-	ldr r0, =0x00000528
-	mov r1, #0
-	add r0, r4, r0
-	mov r2, r1
-	bl AnimatorSprite__ProcessAnimation
-	mov r0, #0x79
-	lsl r0, r0, #4
-	mov r1, #0
-	add r0, r4, r0
-	mov r2, r1
-	bl AnimatorSprite__ProcessAnimation
-	ldr r0, =0x0000072C
-	mov r1, #0
-	add r0, r4, r0
-	mov r2, r1
-	bl AnimatorSprite__ProcessAnimation
-	pop {r3, r4, r5, r6, r7, pc}
+    for (AnimatorMDL *ani = &graphics3D->aniModels[0]; ani != &graphics3D->aniModels[7]; ani++)
+    {
+        AnimatorMDL__ProcessAnimation(ani);
+    }
 
-// clang-format on
-#endif
+    AnimatorSprite__ProcessAnimationFast(&graphics2D->aniZoneName);
+    AnimatorSprite__ProcessAnimationFast(&graphics2D->aniPlayerName);
+    AnimatorSprite__ProcessAnimationFast(&graphics2D->aniNameBackdrop);
+
+    graphics2D->namePos.x += graphics2D->nameMoveSpeed;
+    if (graphics2D->namePos.x >= FLOAT_TO_FX32(HW_LCD_WIDTH))
+    {
+        graphics2D->namePos.x -= FLOAT_TO_FX32(HW_LCD_WIDTH);
+        graphics2D->showPlayerName = TRUE;
+    }
+
+    for (AnimatorSprite *ani = &graphics2D->aniNumbers[0]; ani != &graphics2D->aniNumbers[10]; ani++)
+    {
+        AnimatorSprite__ProcessAnimationFast(ani);
+    }
+
+    for (AnimatorSprite *ani = &graphics2D->aniScoreBonusText[0]; ani != &graphics2D->aniScoreBonusText[3]; ani++)
+    {
+        AnimatorSprite__ProcessAnimationFast(ani);
+    }
+
+    AnimatorSprite__ProcessAnimationFast(&graphics2D->aniScoreTotalPlate);
+    AnimatorSprite__ProcessAnimationFast(&graphics2D->aniScoreBonusPlate);
+    AnimatorSprite__ProcessAnimationFast(&graphics2D->aniRank);
+    AnimatorSprite__ProcessAnimationFast(&graphics2D->aniRankBorder);
 }
 
-NONMATCH_FUNC void StageClearEx__HandleDrawing(StageClearEx *work){
+NONMATCH_FUNC void HandleStageClearExDrawing(StageClearEx *work)
+{
+    // https:///scratch/3JkJ6 -> 94.68%
 #ifdef NON_MATCHING
+    StageClearExGraphics3D *graphics3D = &work->graphics3D;
 
+    Camera3D *camera = &graphics3D->cameraConfig;
+    if (Camera3D__UseEngineA())
+    {
+        camera->config.matProjPosition.y = -graphics3D->projectionY;
+        Camera3D__LoadState(&graphics3D->cameraConfig);
+    }
+    else
+    {
+        camera->config.matProjPosition.y = graphics3D->projectionY;
+        Camera3D__LoadState(&graphics3D->cameraConfig);
+    }
+
+    for (AnimatorMDL *ani = &graphics3D->aniModels[0]; ani != &graphics3D->aniModels[7]; ani++)
+    {
+        AnimatorMDL__Draw(ani);
+    }
+
+    StageClearExGraphics2D *graphics2D = &work->graphics2D;
+    if (Camera3D__UseEngineA())
+    {
+        AnimatorSprite *aniNameBackdrop = &graphics2D->aniNameBackdrop;
+        aniNameBackdrop->pos.x          = FX32_TO_WHOLE(graphics2D->namePos.x);
+        aniNameBackdrop->pos.y          = FX32_TO_WHOLE(graphics2D->namePos.y);
+        AnimatorSprite__DrawFrame(aniNameBackdrop);
+
+        AnimatorSprite *aniZoneName = &graphics2D->aniZoneName;
+        aniZoneName->pos32          = aniNameBackdrop->pos32;
+        if (graphics2D->showPlayerName)
+            AnimatorSprite__DrawFrame(aniZoneName);
+
+        aniNameBackdrop->pos.x -= HW_LCD_WIDTH;
+        AnimatorSprite__DrawFrame(aniNameBackdrop);
+
+        aniZoneName->pos.x -= HW_LCD_WIDTH;
+        AnimatorSprite__DrawFrame(aniZoneName);
+
+        AnimatorSprite *aniScoreBonusPlate = &graphics2D->aniScoreBonusPlate;
+        Vec2Fx16 *scoreBonusPos            = &graphics2D->scoreBonusPos[0];
+        aniScoreBonusPlate->pos.x          = scoreBonusPos->x + 8;
+        aniScoreBonusPlate->pos.y          = scoreBonusPos->y;
+        AnimatorSprite__DrawFrame(aniScoreBonusPlate);
+
+        AnimatorSprite *aniTimeBonus = &graphics2D->aniScoreBonusText[0];
+        aniTimeBonus->pos.x          = scoreBonusPos->x;
+        aniTimeBonus->pos.y          = scoreBonusPos->y - 8;
+        AnimatorSprite__DrawFrame(graphics2D->aniScoreBonusText);
+
+        DrawNumberForStageClearEx(graphics2D->aniNumbers, scoreBonusPos->x + 88, scoreBonusPos->y - 2, 8, 6u, 0, graphics2D->ringBonus);
+
+        scoreBonusPos             = &graphics2D->scoreBonusPos[1];
+        aniScoreBonusPlate->pos.x = scoreBonusPos->x + 8;
+        aniScoreBonusPlate->pos.y = scoreBonusPos->y;
+        AnimatorSprite__DrawFrame(aniScoreBonusPlate);
+
+        AnimatorSprite *aniRingBonus = &graphics2D->aniScoreBonusText[1];
+        aniRingBonus->pos.x          = scoreBonusPos->x;
+        aniRingBonus->pos.y          = scoreBonusPos->y - 48;
+        AnimatorSprite__DrawFrame(&graphics2D->aniScoreBonusText[1]);
+
+        DrawNumberForStageClearEx(graphics2D->aniNumbers, scoreBonusPos->x + 88, scoreBonusPos->y - 2, 8, 6u, 0, graphics2D->timeBonus);
+
+        u32 i;
+        u32 hiddenDigitCount = graphics2D->scoreRandDigitCount;
+        u32 hiddenDigitBase  = 1;
+        i                    = 0;
+        while (i < hiddenDigitCount)
+        {
+            i++;
+            hiddenDigitBase *= 10;
+        }
+
+        u32 trueScore = graphics2D->totalScore;
+        u32 scoreMask = graphics2D->scoreRandDisplay;
+        s32 score     = (trueScore / hiddenDigitBase);
+        score += (scoreMask / hiddenDigitBase) * hiddenDigitBase;
+
+        AnimatorSprite *aniScoreTotalPlate = &graphics2D->aniScoreTotalPlate;
+        Vec2Fx16 *scoreTotalPos            = &graphics2D->scoreTotalPos;
+        aniScoreTotalPlate->pos.x          = scoreTotalPos->x + 8;
+        aniScoreTotalPlate->pos.y          = scoreTotalPos->y;
+        AnimatorSprite__DrawFrame(aniScoreTotalPlate);
+
+        AnimatorSprite *aniScoreTotal = &graphics2D->aniScoreBonusText[2];
+        aniScoreTotal->pos.x          = scoreTotalPos->x;
+        aniScoreTotal->pos.y          = scoreTotalPos->y - 88;
+        AnimatorSprite__DrawFrame(aniScoreTotal);
+
+        DrawNumberForStageClearEx(graphics2D->aniNumbers, scoreTotalPos->x + 88, scoreTotalPos->y - 2, 8, 6, graphics2D->showAllScoreDigits, score);
+    }
+    else
+    {
+        AnimatorSprite *aniNameBackdrop = &graphics2D->aniNameBackdrop;
+
+        aniNameBackdrop->pos.x = HW_LCD_WIDTH - FX32_TO_WHOLE(graphics2D->namePos.x);
+        aniNameBackdrop->pos.y = HW_LCD_HEIGHT - FX32_TO_WHOLE(graphics2D->namePos.y);
+        AnimatorSprite__DrawFrame(aniNameBackdrop);
+
+        AnimatorSprite *aniPlayerName = &graphics2D->aniPlayerName;
+        aniPlayerName->pos32          = aniNameBackdrop->pos32;
+        AnimatorSprite__DrawFrame(aniPlayerName);
+
+        aniNameBackdrop->pos.x -= HW_LCD_WIDTH;
+        AnimatorSprite__DrawFrame(aniNameBackdrop);
+
+        if (graphics2D->showPlayerName)
+        {
+            aniPlayerName->pos.x -= HW_LCD_WIDTH;
+            AnimatorSprite__DrawFrame(aniPlayerName);
+        }
+
+        if (graphics2D->rankScale != FLOAT_TO_FX32(1.0))
+        {
+            AnimatorSprite *aniRankBorder = &graphics2D->aniRankBorder;
+            AnimatorSprite__DrawFrame(aniRankBorder);
+
+            AnimatorSprite *aniRank = &graphics2D->aniRank;
+            AnimatorSprite__DrawFrameRotoZoom(aniRank, graphics2D->rankScale, graphics2D->rankScale, 0);
+        }
+        else
+        {
+            AnimatorSprite *aniRankBorder = &graphics2D->aniRankBorder;
+            aniRankBorder->pos.x += graphics2D->rankPos.x;
+            aniRankBorder->pos.y += graphics2D->rankPos.y;
+            AnimatorSprite__DrawFrame(&graphics2D->aniRankBorder);
+            aniRankBorder->pos.x -= graphics2D->rankPos.x;
+            aniRankBorder->pos.y -= graphics2D->rankPos.y;
+
+            AnimatorSprite *aniRank = &graphics2D->aniRank;
+            aniRank->pos.x -= graphics2D->rankPos.x;
+            aniRank->pos.y -= graphics2D->rankPos.y;
+            AnimatorSprite__DrawFrame(&graphics2D->aniRank);
+            aniRank->pos.x += graphics2D->rankPos.x;
+            aniRank->pos.y += graphics2D->rankPos.y;
+        }
+    }
 #else
     // clang-format off
 	push {r4, r5, r6, r7, lr}
@@ -1239,7 +1018,7 @@ _02154612:
 	asr r1, r1, #0x10
 	asr r2, r2, #0x10
 	mov r3, #8
-	bl StageClearEx__DrawNumber
+	bl DrawNumberForStageClearEx
 	mov r0, #0x52
 	lsl r0, r0, #4
 	add r6, r4, r0
@@ -1282,7 +1061,7 @@ _02154612:
 	asr r1, r1, #0x10
 	asr r2, r2, #0x10
 	mov r3, #8
-	bl StageClearEx__DrawNumber
+	bl DrawNumberForStageClearEx
 	ldr r0, =0x00000818
 	mov r5, #1
 	ldrh r2, [r4, r0]
@@ -1349,7 +1128,7 @@ _02154704:
 	asr r1, r1, #0x10
 	asr r2, r2, #0x10
 	mov r3, #8
-	bl StageClearEx__DrawNumber
+	bl DrawNumberForStageClearEx
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 _0215477E:
@@ -1479,213 +1258,104 @@ _02154804:
 #endif
 }
 
-NONMATCH_FUNC void StageClearEx__State_21548C0(StageClearEx *work)
+void StageClearEx_State_Init(StageClearEx *work)
 {
-#ifdef NON_MATCHING
+    Camera3D__Create();
 
-#else
-    // clang-format off
-	push {r4, lr}
-	mov r4, r0
-	bl Camera3D__Create
-	bl Camera3D__GetWork
-	ldr r1, =0x0213D300
-	mov r2, #0x18
-	ldrsh r3, [r1, r2]
-	mov r1, r0
-	add r1, #0x58
-	strh r3, [r1]
-	ldr r1, =0x0213D2A4
-	add r0, #0xb4
-	ldrsh r1, [r1, r2]
-	strh r1, [r0]
-	mov r0, r4
-	bl StageClearEx__CreateDrawManager
-	ldr r0, =0x04000008
-	mov r2, #3
-	ldrh r1, [r0, #0]
-	bic r1, r2
-	strh r1, [r0]
-	ldrh r3, [r0, #2]
-	mov r1, #1
-	bic r3, r2
-	orr r1, r3
-	strh r1, [r0, #2]
-	ldrh r3, [r0, #4]
-	mov r1, #2
-	bic r3, r2
-	orr r1, r3
-	strh r1, [r0, #4]
-	ldrh r3, [r0, #6]
-	mov r1, #3
-	bic r3, r2
-	orr r1, r3
-	strh r1, [r0, #6]
-	sub r0, #8
-	ldr r2, [r0, #0]
-	ldr r1, =0xFFFFE0FF
-	and r2, r1
-	mov r1, #0x11
-	lsl r1, r1, #8
-	orr r1, r2
-	str r1, [r0]
-	ldr r1, =StageClearEx__State_FadeIn
-	mov r0, r4
-	bl StageClearEx__SetState
-	pop {r4, pc}
+    Camera3DTask *camera3D             = Camera3D__GetWork();
+    camera3D->gfxControl[0].brightness = renderCoreGFXControlA.brightness;
+    camera3D->gfxControl[1].brightness = renderCoreGFXControlB.brightness;
 
-// clang-format on
-#endif
+    CreateStageClearExDrawManager(work);
+
+    G2_SetBG0Priority(0);
+    G2_SetBG1Priority(1);
+    G2_SetBG2Priority(2);
+    G2_SetBG3Priority(3);
+
+    GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_OBJ);
+
+    SetStageClearExState(work, StageClearEx_State_FadeIn);
 }
 
-NONMATCH_FUNC void StageClearEx__State_FadeIn(StageClearEx *work)
+void StageClearEx_State_FadeIn(StageClearEx *work)
 {
-#ifdef NON_MATCHING
+    Camera3DTask *camera             = Camera3D__GetWork();
+    RenderCoreGFXControl *gfxControl = &camera->gfxControl[0];
 
-#else
-    // clang-format off
-	push {r3, r4, r5, r6, r7, lr}
-	mov r6, r0
-	bl Camera3D__GetWork
-	mov r4, r0
-	ldr r0, =0x0213D300
-	mov r5, #0x18
-	ldrsh r0, [r0, r5]
-	cmp r0, #0
-	ble _02154954
-	mov r5, #0x10
-	b _0215495C
-_02154954:
-	bge _0215495A
-	sub r5, #0x28
-	b _0215495C
-_0215495A:
-	mov r5, #0x10
-_0215495C:
-	mov r0, #0xb8
-	beq _02154980
-	mov r7, r4
-	add r7, #0xb8
-_02154964:
-	ldr r2, [r6, #0xc]
-	mov r1, #0
-	lsl r2, r2, #0x16
-	mov r0, r5
-	asr r2, r2, #0x10
-	mov r3, r1
-	bl Task__Unknown204BE48__LerpValue
-	mov r1, r4
-	add r1, #0x58
-	add r4, #0x5c
-	strh r0, [r1]
-	cmp r4, r7
-	bne _02154964
-_02154980:
-	ldr r0, [r6, #0xc]
-	cmp r0, #0x40
-	bne _0215498E
-	ldr r1, =StageClearEx__State_2154998
-	mov r0, r6
-	bl StageClearEx__SetState
-_0215498E:
-	pop {r3, r4, r5, r6, r7, pc}
+    s32 startBrightness;
+    if (renderCoreGFXControlA.brightness > 0)
+    {
+        startBrightness = RENDERCORE_BRIGHTNESS_WHITE;
+    }
+    else if (renderCoreGFXControlA.brightness < 0)
+    {
+        startBrightness = RENDERCORE_BRIGHTNESS_BLACK;
+    }
+    else
+    {
+        startBrightness = RENDERCORE_BRIGHTNESS_WHITE;
+    }
 
-// clang-format on
-#endif
+    for (; gfxControl != &camera->gfxControl[2]; gfxControl++)
+    {
+        gfxControl->brightness = Task__Unknown204BE48__LerpValue(startBrightness, RENDERCORE_BRIGHTNESS_DEFAULT, (work->timer << 6), 0);
+    }
+
+    if (work->timer == 64)
+    {
+        SetStageClearExState(work, StageClearEx_State_IntroDelay);
+    }
 }
 
-NONMATCH_FUNC void StageClearEx__State_2154998(StageClearEx *work)
+void StageClearEx_State_IntroDelay(StageClearEx *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r4, lr}
-	mov r4, r0
-	ldr r0, [r4, #0xc]
-	cmp r0, #0xb4
-	bls _021549B2
-	mov r0, #0xd
-	mov r1, #1
-	bl PlaySysTrack
-	ldr r1, =StageClearEx__State_21549B8
-	mov r0, r4
-	bl StageClearEx__SetState
-_021549B2:
-	pop {r4, pc}
-
-// clang-format on
-#endif
+    if (work->timer > 180)
+    {
+        PlaySysTrack(SND_SYS_SEQ_SEQ_EXTRA_CLEAR, TRUE);
+        SetStageClearExState(work, StageClearEx_State_InitText);
+    }
 }
 
-NONMATCH_FUNC void StageClearEx__State_21549B8(StageClearEx *work)
+void StageClearEx_State_InitText(StageClearEx *work)
 {
-#ifdef NON_MATCHING
+    StageClearExGraphics2D *graphics2D = &work->graphics2D;
 
-#else
-    // clang-format off
-	push {r3, r4, lr}
-	sub sp, #0x24
-	mov r4, r0
-	ldr r0, =0x00000958
-	mov r2, #6
-	ldr r1, =0x00000728
-	add r0, r4, r0
-	lsl r2, r2, #0xa
-	str r2, [r0, r1]
-	mov r3, #0
-	str r3, [sp]
-	mov r2, #0x10
-	str r2, [sp, #4]
-	ldr r2, =Task__Unknown204BE48__LerpValue
-	sub r1, r1, #4
-	str r2, [sp, #8]
-	str r3, [sp, #0xc]
-	str r3, [sp, #0x10]
-	str r3, [sp, #0x14]
-	add r0, r0, r1
-	str r3, [sp, #0x18]
-	mov r2, #0x62
-	str r2, [sp, #0x1c]
-	str r3, [sp, #0x20]
-	mov r3, #0x16
-	ldr r2, =0xFFFEA000
-	mov r1, #4
-	lsl r3, r3, #0xc
-	bl Task__Unknown204BE48__Create
-	ldr r1, =StageClearEx__State_2154A14
-	mov r0, r4
-	bl StageClearEx__SetState
-	add sp, #0x24
-	pop {r3, r4, pc}
+    graphics2D->nameMoveSpeed = FLOAT_TO_FX32(1.5);
+    Task__Unknown204BE48__Create(&graphics2D->namePos.y, 4, -FLOAT_TO_FX32(22.0), FLOAT_TO_FX32(22.0), 0, 16, Task__Unknown204BE48__LerpValue, 0, 0, 0, 0,
+                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_SCOPE_0);
 
-// clang-format on
-#endif
+    SetStageClearExState(work, StageClearEx_State_DisplayText);
 }
 
-NONMATCH_FUNC void StageClearEx__State_2154A14(StageClearEx *work)
+void StageClearEx_State_DisplayText(StageClearEx *work)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r3, lr}
-	ldr r1, [r0, #0xc]
-	cmp r1, #0x78
-	bls _02154A22
-	ldr r1, =StageClearEx__State_2154A28
-	bl StageClearEx__SetState
-_02154A22:
-	pop {r3, pc}
-
-// clang-format on
-#endif
+    if (work->timer > 120)
+    {
+        SetStageClearExState(work, StageClearEx_State_InitScore);
+    }
 }
 
-NONMATCH_FUNC void StageClearEx__State_2154A28(StageClearEx *work)
+NONMATCH_FUNC void StageClearEx_State_InitScore(StageClearEx *work)
 {
+    // https://decomp.me/scratch/brIFL -> 84.87%
 #ifdef NON_MATCHING
+    StageClearExGraphics2D *graphics2D = &work->graphics2D;
 
+    graphics2D->scoreRandDigitCount = 0;
+
+    u32 value                    = (mtMathRand() & 0xF);
+    u32 value2                   = (mtMathRand());
+    graphics2D->scoreRandDisplay = value2 | value;
+
+    Task__Unknown204BE48__Create(&graphics2D->scoreBonusPos[0], 2, -160, 0, 0, 16, Task__Unknown204BE48__LerpValue, -FLOAT_TO_FX32(1.0), Lerp_StageClearExScoreBonus, work, 0,
+                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_SCOPE_0);
+    Task__Unknown204BE48__Create(&graphics2D->scoreBonusPos[1], 2, -160, 0, 16, 16, Task__Unknown204BE48__LerpValue, -FLOAT_TO_FX32(1.0), Lerp_StageClearExScoreBonus, work, 0,
+                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_SCOPE_0);
+    Task__Unknown204BE48__Create(&graphics2D->scoreTotalPos, 2, -160, 0, 32, 16, Task__Unknown204BE48__LerpValue, -FLOAT_TO_FX32(1.0), Lerp_StageClearExScoreTotal, work, 0,
+                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_SCOPE_0);
+
+    SetStageClearExState(work, StageClearEx_State_EnterScores);
 #else
     // clang-format off
 	push {r4, r5, r6, r7, lr}
@@ -1729,7 +1399,7 @@ NONMATCH_FUNC void StageClearEx__State_2154A28(StageClearEx *work)
 	str r0, [sp, #8]
 	ldr r0, =0xFFFFF000
 	str r0, [sp, #0xc]
-	ldr r0, =StageClearEx__LerpCB_ScoreBonus
+	ldr r0, =Lerp_StageClearExScoreBonus
 	str r0, [sp, #0x10]
 	str r5, [sp, #0x14]
 	str r3, [sp, #0x18]
@@ -1748,7 +1418,7 @@ NONMATCH_FUNC void StageClearEx__State_2154A28(StageClearEx *work)
 	ldr r0, =0xFFFFF000
 	mov r2, r1
 	str r0, [sp, #0xc]
-	ldr r0, =StageClearEx__LerpCB_ScoreBonus
+	ldr r0, =Lerp_StageClearExScoreBonus
 	mov r3, #0
 	str r0, [sp, #0x10]
 	str r5, [sp, #0x14]
@@ -1771,7 +1441,7 @@ NONMATCH_FUNC void StageClearEx__State_2154A28(StageClearEx *work)
 	ldr r0, =0xFFFFF000
 	mov r2, r1
 	str r0, [sp, #0xc]
-	ldr r0, =StageClearEx__LerpCB_ScoreTotal
+	ldr r0, =Lerp_StageClearExScoreTotal
 	mov r3, #0
 	str r0, [sp, #0x10]
 	str r5, [sp, #0x14]
@@ -1783,9 +1453,9 @@ NONMATCH_FUNC void StageClearEx__State_2154A28(StageClearEx *work)
 	add r0, r4, r0
 	str r3, [sp, #0x20]
 	bl Task__Unknown204BE48__Create
-	ldr r1, =StageClearEx__State_2154B28
+	ldr r1, =StageClearEx_State_EnterScores
 	mov r0, r5
-	bl StageClearEx__SetState
+	bl SetStageClearExState
 	add sp, #0x24
 	pop {r4, r5, r6, r7, pc}
 
@@ -1793,329 +1463,158 @@ NONMATCH_FUNC void StageClearEx__State_2154A28(StageClearEx *work)
 #endif
 }
 
-NONMATCH_FUNC void StageClearEx__State_2154B28(StageClearEx *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r0, =0x00000958
-	ldr r1, [r5, #0xc]
-	add r4, r5, r0
-	mov r0, #1
-	tst r0, r1
-	beq _02154B46
-	bl Task__Unknown204BE48__Rand
-	ldr r1, =0x000F4240
-	bl _u32_div_f
-	ldr r0, =0x00000814
-	str r1, [r4, r0]
-_02154B46:
-	ldr r0, [r5, #0xc]
-	cmp r0, #0x5a
-	bls _02154B54
-	ldr r1, =StageClearEx__State_2154B68
-	mov r0, r5
-	bl StageClearEx__SetState
-_02154B54:
-	pop {r3, r4, r5, pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__State_2154B68(StageClearEx *work)
+void StageClearEx_State_EnterScores(StageClearEx *work)
 {
-#ifdef NON_MATCHING
+    StageClearExGraphics2D *graphics2D = &work->graphics2D;
 
-#else
-    // clang-format off
-	push {r3, r4, r5, lr}
-	sub sp, #8
-	mov r5, r0
-	ldr r0, =0x00000958
-	ldr r1, [r5, #0xc]
-	add r4, r5, r0
-	mov r0, #1
-	tst r0, r1
-	beq _02154B88
-	bl Task__Unknown204BE48__Rand
-	ldr r1, =0x000F4240
-	bl _u32_div_f
-	ldr r0, =0x00000814
-	str r1, [r4, r0]
-_02154B88:
-	ldr r0, [r5, #0xc]
-	lsr r1, r0, #4
-	ldr r0, =0x00000818
-	strh r1, [r4, r0]
-	ldrh r0, [r4, r0]
-	cmp r0, #6
-	blo _02154BC0
-	mov r0, #6
-	str r0, [sp]
-	mov r0, #2
-	str r0, [sp, #4]
-	mov r0, #0
-	sub r1, r0, #1
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	ldr r0, [r4, #4]
-	mov r1, #0
-	bl NNS_SndPlayerStopSeq
-	ldr r0, =0x0000081C
-	mov r1, #0
-	str r1, [r4, r0]
-	ldr r1, =StageClearEx__State_2154BDC
-	mov r0, r5
-	bl StageClearEx__SetState
-_02154BC0:
-	add sp, #8
-	pop {r3, r4, r5, pc}
+    if ((work->timer & 1) != 0)
+    {
+        graphics2D->scoreRandDisplay = Task__Unknown204BE48__Rand() % 1000000;
+    }
 
-// clang-format on
-#endif
+    if (work->timer > 90)
+    {
+        SetStageClearExState(work, StageClearEx_State_RevealTotalScore);
+    }
 }
 
-NONMATCH_FUNC void StageClearEx__State_2154BDC(StageClearEx *work)
+void StageClearEx_State_RevealTotalScore(StageClearEx *work)
 {
-#ifdef NON_MATCHING
+    StageClearExGraphics2D *graphics2D = &work->graphics2D;
 
-#else
-    // clang-format off
-	push {r3, lr}
-	ldr r1, [r0, #0xc]
-	cmp r1, #0x20
-	bls _02154BF6
-	mov r2, #0x43
-	lsl r2, r2, #6
-	ldr r3, [r0, r2]
-	mov r1, #1
-	bic r3, r1
-	ldr r1, =StageClearEx__State_2154BFC
-	str r3, [r0, r2]
-	bl StageClearEx__SetState
-_02154BF6:
-	pop {r3, pc}
+    if ((work->timer & 1) != 0)
+    {
+        graphics2D->scoreRandDisplay = Task__Unknown204BE48__Rand() % 1000000;
+    }
 
-// clang-format on
-#endif
+    graphics2D->scoreRandDigitCount = work->timer >> 4;
+
+    if (graphics2D->scoreRandDigitCount >= 6)
+    {
+        PlaySfxEx(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQARC_ARC_CLEAR_E,
+                  SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_SUM_INDICATION);
+        StopStageSfx(graphics2D->seqPlayer);
+        graphics2D->showAllScoreDigits = FALSE;
+
+        SetStageClearExState(work, StageClearEx_State_ShowTotalScore);
+    }
 }
 
-NONMATCH_FUNC void StageClearEx__State_2154BFC(StageClearEx *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r4, lr}
-	ldr r1, [r0, #0xc]
-	cmp r1, #0x1e
-	bls _02154C20
-	ldr r1, =0x00000958
-	ldr r2, =0x000007CC
-	add r4, r0, r1
-	ldr r3, [r4, r2]
-	mov r1, #1
-	bic r3, r1
-	mov r1, #6
-	str r3, [r4, r2]
-	lsl r1, r1, #0xa
-	add r2, #0x28
-	str r1, [r4, r2]
-	ldr r1, =StageClearEx__State_2154C30
-	bl StageClearEx__SetState
-_02154C20:
-	pop {r4, pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__State_2154C30(StageClearEx *work)
+void StageClearEx_State_ShowTotalScore(StageClearEx *work)
 {
-#ifdef NON_MATCHING
+    if (work->timer > 32)
+    {
+        StageClearExGraphics2D *graphics2D = &work->graphics2D;
 
-#else
-    // clang-format off
-	push {r3, r4, r5, lr}
-	sub sp, #8
-	mov r5, r0
-	ldr r0, =0x00000958
-	ldr r2, [r5, #0xc]
-	add r4, r5, r0
-	mov r0, #6
-	mov r1, #1
-	lsl r2, r2, #0x17
-	ldr r3, =0xFFFFD000
-	lsl r0, r0, #0xa
-	lsl r1, r1, #0xc
-	asr r2, r2, #0x10
-	bl Task__Unknown204BE48__LerpValue
-	ldr r1, =0x000007F4
-	str r0, [r4, r1]
-	ldr r0, [r5, #0xc]
-	cmp r0, #0x20
-	bls _02154C80
-	mov r0, #1
-	lsl r0, r0, #0xc
-	str r0, [r4, r1]
-	mov r0, #6
-	str r0, [sp]
-	mov r0, #3
-	str r0, [sp, #4]
-	mov r0, #0
-	sub r1, r0, #1
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	mov r0, #6
-	bl ShakeScreen
-	ldr r1, =StageClearEx__State_2154C94
-	mov r0, r5
-	bl StageClearEx__SetState
-_02154C80:
-	add sp, #8
-	pop {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+        graphics2D->aniRankBorder.flags &= ~ANIMATOR_FLAG_DISABLE_DRAW;
+        SetStageClearExState(work, StageClearEx_State_InitRank);
+    }
 }
 
-NONMATCH_FUNC void StageClearEx__State_2154C94(StageClearEx *work)
+void StageClearEx_State_InitRank(StageClearEx *work)
 {
-#ifdef NON_MATCHING
+    if (work->timer > 30)
+    {
+        StageClearExGraphics2D *graphics2D = &work->graphics2D;
 
-#else
-    // clang-format off
-	push {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r0, =0x00000958
-	add r4, r5, r0
-	bl GetScreenShakeOffsetX
-	asr r1, r0, #0xc
-	ldr r0, =0x000007F8
-	strh r1, [r4, r0]
-	bl GetScreenShakeOffsetY
-	asr r1, r0, #0xc
-	ldr r0, =0x000007FA
-	strh r1, [r4, r0]
-	mov r0, #0x11
-	bl ShakeScreen
-	cmp r0, #0
-	bne _02154CC2
-	ldr r1, =StageClearEx__State_2154CD4
-	mov r0, r5
-	bl StageClearEx__SetState
-_02154CC2:
-	pop {r3, r4, r5, pc}
-
-// clang-format on
-#endif
+        graphics2D->aniRank.flags &= ~ANIMATOR_FLAG_DISABLE_DRAW;
+        graphics2D->rankScale = FLOAT_TO_FX32(1.5);
+        SetStageClearExState(work, StageClearEx_State_RankAppear);
+    }
 }
 
-NONMATCH_FUNC void StageClearEx__State_2154CD4(StageClearEx *work)
+void StageClearEx_State_RankAppear(StageClearEx *work)
 {
-#ifdef NON_MATCHING
+    StageClearExGraphics2D *graphics2D = &work->graphics2D;
 
-#else
-    // clang-format off
-	push {r3, lr}
-	ldr r1, [r0, #0xc]
-	cmp r1, #0x10
-	bls _02154CE2
-	ldr r1, =StageClearEx__State_2154CE8
-	bl StageClearEx__SetState
-_02154CE2:
-	pop {r3, pc}
-
-// clang-format on
-#endif
+    graphics2D->rankScale = Task__Unknown204BE48__LerpValue(FLOAT_TO_FX32(1.5), FLOAT_TO_FX32(1.0), (work->timer << 7), -FLOAT_TO_FX32(3.0));
+    if (work->timer > 32)
+    {
+        graphics2D->rankScale = FLOAT_TO_FX32(1.0);
+        PlaySfxEx(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQARC_ARC_CLEAR_E, SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_RANKING);
+        ShakeScreen(SCREENSHAKE_A_LONG);
+        SetStageClearExState(work, StageClearEx_State_RankGet);
+    }
 }
 
-NONMATCH_FUNC void StageClearEx__State_2154CE8(StageClearEx *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r3, lr}
-	ldr r1, =padInput
-	ldrh r2, [r1, #4]
-	ldr r1, =0x00000C0B
-	tst r1, r2
-	beq _02154CFC
-	ldr r1, =StageClearEx__State_FadeOut
-	bl StageClearEx__SetState
-	pop {r3, pc}
-_02154CFC:
-	ldr r1, [r0, #0xc]
-	cmp r1, #0x78
-	bls _02154D08
-	ldr r1, =StageClearEx__State_FadeOut
-	bl StageClearEx__SetState
-_02154D08:
-	pop {r3, pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__State_FadeOut(StageClearEx *work)
+void StageClearEx_State_RankGet(StageClearEx *work)
 {
-#ifdef NON_MATCHING
+    StageClearExGraphics2D *graphics2D = &work->graphics2D;
 
-#else
-    // clang-format off
-	push {r3, r4, r5, r6, r7, lr}
-	mov r5, r0
-	bl Camera3D__GetWork
-	mov r4, r0
-	mov r0, #0xb8
-	beq _02154D4A
-	mov r6, r4
-	mov r7, #0
-	add r6, #0xb8
-_02154D2C:
-	ldr r2, [r5, #0xc]
-	mov r1, #0xf
-	lsl r2, r2, #0x17
-	mov r0, r7
-	mvn r1, r1
-	asr r2, r2, #0x10
-	mov r3, r7
-	bl Task__Unknown204BE48__LerpValue
-	mov r1, r4
-	add r1, #0x58
-	add r4, #0x5c
-	strh r0, [r1]
-	cmp r4, r6
-	bne _02154D2C
-_02154D4A:
-	ldr r0, [r5, #0xc]
-	cmp r0, #0x20
-	bne _02154D66
-	mov r0, #9
-	bl SaveGame__Func_205B9F0
-	mov r0, #0
-	bl RequestSysEventChange
-	bl NextSysEvent
-	mov r0, r5
-	bl StageClearEx__Destroy
-_02154D66:
-	pop {r3, r4, r5, r6, r7, pc}
+    graphics2D->rankPos.x = FX32_TO_WHOLE(GetScreenShakeOffsetX());
+    graphics2D->rankPos.y = FX32_TO_WHOLE(GetScreenShakeOffsetY());
 
-// clang-format on
-#endif
+    if (!ShakeScreen(SCREENSHAKE_CUSTOM))
+    {
+        SetStageClearExState(work, StageClearEx_State_ShowRank);
+    }
 }
 
-NONMATCH_FUNC void StageClearEx__DrawNumber(AnimatorSprite *aniNumbers, s16 x, s16 y, s32 spacing, u16 digitCount, BOOL showAll, s32 value)
+void StageClearEx_State_ShowRank(StageClearEx *work)
 {
-#ifdef NON_MATCHING
+    if (work->timer > 16)
+    {
+        SetStageClearExState(work, StageClearEx_State_DisplayResults);
+    }
+}
 
+void StageClearEx_State_DisplayResults(StageClearEx *work)
+{
+    if ((padInput.btnPress & (PAD_BUTTON_Y | PAD_BUTTON_X | PAD_BUTTON_START | PAD_BUTTON_B | PAD_BUTTON_A)) != 0)
+    {
+        SetStageClearExState(work, StageClearEx_State_FadeOut);
+        return;
+    }
+
+    if (work->timer > 120)
+    {
+        SetStageClearExState(work, StageClearEx_State_FadeOut);
+        return;
+    }
+}
+
+void StageClearEx_State_FadeOut(StageClearEx *work)
+{
+    Camera3DTask *camera             = Camera3D__GetWork();
+    RenderCoreGFXControl *gfxControl = &camera->gfxControl[0];
+
+    for (; gfxControl != &camera->gfxControl[2]; gfxControl++)
+    {
+        gfxControl->brightness = Task__Unknown204BE48__LerpValue(RENDERCORE_BRIGHTNESS_DEFAULT, RENDERCORE_BRIGHTNESS_BLACK, (work->timer << 7), FLOAT_TO_FX32(0.0));
+    }
+
+    if (work->timer == 32)
+    {
+        SaveGame__Func_205B9F0(9);
+        RequestSysEventChange(0); // SYSEVENT_UPDATE_PROGRESS
+        NextSysEvent();
+        DestroyStageClearEx(work);
+    }
+}
+
+void DrawNumberForStageClearEx(AnimatorSprite *aniNumbers, s16 x, s16 y, u16 spacing, u16 digitCount, BOOL showAll, u32 number)
+{
+    // https://decomp.me/scratch/u0Uxv -> 87.40%
+#ifndef NON_MATCHING
+    u32 i;
+    AnimatorSprite *aniDigit;
+
+    x += (spacing * digitCount);
+
+    for (i = 0; i < digitCount; i++)
+    {
+        aniDigit = &aniNumbers[number % 10];
+        
+        x -= spacing;
+
+        aniDigit->pos.x = x;
+        aniDigit->pos.y = y;
+        AnimatorSprite__DrawFrame(aniDigit);
+
+        number /= 10;
+        if (!showAll && number == 0)
+            break;
+    }
 #else
     // clang-format off
 	push {r4, r5, r6, r7, lr}
@@ -2176,185 +1675,73 @@ _02154DCE:
 #endif
 }
 
-NONMATCH_FUNC u32 StageClearEx__CalcTimeBonus(u32 time){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r4, r5}
-	ldr r5, =_02161514
-	mov r4, #0
-	mov r1, #0x3c
-_02154DDC:
-	ldrb r2, [r5, #0]
-	mov r3, r2
-	mul r3, r1
-	cmp r3, r0
-	bhi _02154DF0
-	ldr r0, =_02161524
-	lsl r1, r4, #2
-	ldr r0, [r0, r1]
-	pop {r4, r5}
-	bx lr
-_02154DF0:
-	add r4, r4, #1
-	add r5, r5, #1
-	cmp r4, #8
-	blo _02154DDC
-	ldr r0, =0x0000AFC8
-	pop {r4, r5}
-	bx lr
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC u32 StageClearEx__CalcRingBonus(u32 rings){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr r3, =_0216151C
-	mov r2, #0
-_02154E10:
-	ldrb r1, [r3, #0]
-	cmp r0, r1
-	bhs _02154E1E
-	ldr r0, =_02161548
-	lsl r1, r2, #2
-	ldr r0, [r0, r1]
-	bx lr
-_02154E1E:
-	add r2, r2, #1
-	add r3, r3, #1
-	cmp r2, #8
-	blo _02154E10
-	ldr r0, =0x00001388
-	bx lr
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__LerpCB_ScoreBonus(s32 a1, void *a2, StageClearEx *work)
+u32 CalcStageClearExTimeBonus(u32 time)
 {
-#ifdef NON_MATCHING
+    for (u32 i = 0; i < 8; i++)
+    {
+        if (60 * timeBonusThreshold[i] <= time)
+            return timeBonusScore[i];
+    }
 
-#else
-    // clang-format off
-	push {r3, lr}
-	sub sp, #8
-	cmp r0, #4
-	bne _02154E52
-	mov r0, #6
-	str r0, [sp]
-	mov r0, #0
-	sub r1, r0, #1
-	mov r2, r1
-	mov r3, r1
-	str r0, [sp, #4]
-	bl PlaySfxEx
-_02154E52:
-	add sp, #8
-	pop {r3, pc}
-
-// clang-format on
-#endif
+    return 45000;
 }
 
-NONMATCH_FUNC void StageClearEx__LerpCB_ScoreTotal(s32 a1, void *a2, StageClearEx *work){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r4, lr}
-	sub sp, #8
-	mov r4, r2
-	cmp r0, #4
-	bne _02154E8A
-	mov r0, #6
-	str r0, [sp]
-	mov r0, #0
-	sub r1, r0, #1
-	mov r2, r1
-	mov r3, r1
-	str r0, [sp, #4]
-	bl PlaySfxEx
-	mov r0, #6
-	str r0, [sp]
-	mov r1, #1
-	str r1, [sp, #4]
-	sub r1, r1, #2
-	ldr r0, =0x0000095C
-	mov r2, r1
-	ldr r0, [r4, r0]
-	mov r3, r1
-	bl PlaySfxEx
-_02154E8A:
-	add sp, #8
-	pop {r4, pc}
-	nop
-
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void StageClearEx__Main_Core(void)
+u32 CalcStageClearExRingBonus(u32 rings)
 {
-#ifdef NON_MATCHING
+    for (u32 i = 0; i < 8; i++)
+    {
+        if (rings < ringBonusThreshold[i])
+            return ringBonusScore[i];
+    }
 
-#else
-    // clang-format off
-	push {r3, lr}
-	bl GetCurrentTaskWork_
-	ldr r1, [r0, #0xc]
-	add r1, r1, #1
-	str r1, [r0, #0xc]
-	ldr r1, [r0, #8]
-	cmp r1, #0
-	beq _02154EA8
-	blx r1
-_02154EA8:
-	pop {r3, pc}
-
-// clang-format on
-#endif
+    return 5000;
 }
 
-NONMATCH_FUNC void StageClearEx__Main_AnimationManager(void)
+void Lerp_StageClearExScoreBonus(s32 type, TaskUnknown204BE48 *work, void *arg)
 {
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	push {r3, lr}
-	ldr r0, =StageClearEx__Singleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	bl StageClearEx__HandleAnimations
-	pop {r3, pc}
-
-// clang-format on
-#endif
+    if (type == 4)
+    {
+        PlaySfxEx(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQARC_ARC_CLEAR_E,
+                  SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_FLAME_INDICATION);
+    }
 }
 
-NONMATCH_FUNC void StageClearEx__Main_DrawManager(void)
+void Lerp_StageClearExScoreTotal(s32 type, TaskUnknown204BE48 *work, void *arg)
 {
-#ifdef NON_MATCHING
+    StageClearEx *stageClear = (StageClearEx *)arg;
 
-#else
-    // clang-format off
-	push {r3, lr}
-	ldr r0, =StageClearEx__Singleton
-	ldr r0, [r0, #0]
-	bl GetTaskWork_
-	bl StageClearEx__HandleDrawing
-	pop {r3, pc}
+    if (type == 4)
+    {
+        PlaySfxEx(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQARC_ARC_CLEAR_E,
+                  SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_FLAME_INDICATION);
 
-// clang-format on
-#endif
+        PlaySfxEx(stageClear->graphics2D.seqPlayer, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQARC_ARC_CLEAR_E,
+                  SND_SYS_SEQARC_ARC_CLEAR_E_SEQ_SE_SCORE_INDICATION);
+    }
+}
+
+void StageClearEx_Main_Core(void)
+{
+    StageClearEx *work = TaskGetWorkCurrent(StageClearEx);
+
+    work->timer++;
+
+    if (work->state != NULL)
+        work->state(work);
+}
+
+void StageClearEx_Main_AnimationManager(void)
+{
+    StageClearEx *work = TaskGetWork(singleton, StageClearEx);
+
+    HandleStageClearExAnimations(work);
+}
+
+void StageClearEx_Main_DrawManager(void)
+{
+    StageClearEx *work = TaskGetWork(singleton, StageClearEx);
+
+    HandleStageClearExDrawing(work);
 }
 
 #include <nitro/codereset.h>

@@ -34,30 +34,32 @@ NONMATCH_FUNC void SaveGame__SaveClearCallback_Common(SaveGame *save, SaveBlockF
 {
     // https://decomp.me/scratch/JxrCv -> 56.98%
 #ifdef NON_MATCHING
+    s32 i;
+    
     if ((blockFlags & SAVE_BLOCK_FLAG_ONLINE_PROFILE) != 0)
     {
         DWC_CreateUserData(&save->onlineProfile.userData, 'A3YJ');
 
-        for (s32 f = 0; f < SAVEGAME_MAX_FRIEND_COUNT; f++)
+        for (i = 0; i < SAVEGAME_MAX_FRIEND_COUNT; i++)
         {
-            DWC_DeleteBuddyFriendData(&save->onlineProfile.friendList[f]);
+            DWC_DeleteBuddyFriendData(&save->onlineProfile.friendList[i]);
         }
     }
 
     if ((blockFlags & SAVE_BLOCK_FLAG_STAGE) != 0)
     {
-        for (s32 m = 0; m < SAVEGAME_MATERIAL_TYPE_COUNT; m++)
+        for (i = 0; i < SAVEGAME_MATERIAL_TYPE_COUNT; i++)
         {
-            save->stage.materialCount[m] = SAVEGAME_MATERIAL_NONE;
+            save->stage.materialCount[i] = SAVEGAME_MATERIAL_NONE;
         }
 
-        for (s32 s = 0; s < STAGE_HIDDEN_ISLAND_R1; s++)
+        for (i = 0; i < STAGE_HIDDEN_ISLAND_R1; i++)
         {
-            saveGame.stage.stageRecords[DIFFICULTY_EASY][s].score = 0;
-            saveGame.stage.stageRecords[DIFFICULTY_EASY][s].rank  = 3;
+            save->stage.stageRecords[DIFFICULTY_EASY][i].score = 0;
+            save->stage.stageRecords[DIFFICULTY_EASY][i].rank  = 3;
 
-            saveGame.stage.stageRecords[DIFFICULTY_NORMAL][s].score = 0;
-            saveGame.stage.stageRecords[DIFFICULTY_NORMAL][s].rank  = 3;
+            save->stage.stageRecords[DIFFICULTY_NORMAL][i].score = 0;
+            save->stage.stageRecords[DIFFICULTY_NORMAL][i].rank  = 3;
         }
     }
 
@@ -77,7 +79,7 @@ NONMATCH_FUNC void SaveGame__SaveClearCallback_Common(SaveGame *save, SaveBlockF
         else if (ownerInfo.nickNameLength >= SAVEGAME_MAX_NAME_LEN + 1)
         {
             SaveGame__SetPlayerName(&save->system.name, ownerInfo.nickName, SAVEGAME_MAX_NAME_LEN - 1);
-            save->system.saveName.text[7] = 0x2026; // '…'
+            save->system.name.text[7] = 0x2026; // '…'
         }
         else
         {

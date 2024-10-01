@@ -374,10 +374,10 @@ void PauseMenu_Main_DoAction(void)
 void PauseMenu_Draw(PauseMenu *work)
 {
     // Draw paused text
-    AnimatorSpriteDS__ProcessAnimationFast(&work->animators[PAUSEMENU_ANIMATOR_PAUSED]);
-    work->animators[PAUSEMENU_ANIMATOR_PAUSED].position[0].x = FX32_TO_WHOLE(work->buttonPosition[PAUSEMENU_ACTION_PAUSE - 2].x);
-    work->animators[PAUSEMENU_ANIMATOR_PAUSED].position[0].y = FX32_TO_WHOLE(work->buttonPosition[PAUSEMENU_ACTION_PAUSE - 2].y);
-    AnimatorSpriteDS__DrawFrame(&work->animators[PAUSEMENU_ANIMATOR_PAUSED]);
+    AnimatorSpriteDS__ProcessAnimationFast(&work->aniPausedText);
+    work->aniPausedText.position[0].x = FX32_TO_WHOLE(work->buttonPosition[PAUSEMENU_ACTION_PAUSE - 2].x);
+    work->aniPausedText.position[0].y = FX32_TO_WHOLE(work->buttonPosition[PAUSEMENU_ACTION_PAUSE - 2].y);
+    AnimatorSpriteDS__DrawFrame(&work->aniPausedText);
 
     // Draw buttons
     for (s32 i = 1; i < work->buttonCount; i++)
@@ -390,7 +390,7 @@ void PauseMenu_Draw(PauseMenu *work)
         AnimatorSpriteDS *backplateAnimator;
         if (work->selectedButton + 1 == i)
         {
-            backplateAnimator = &work->animators[PAUSEMENU_ANIMATOR_BACKPLATE2];
+            backplateAnimator = &work->aniBackplate2;
 
             backplateAnimator->position[0].x = textAnimator->position[0].x;
             backplateAnimator->position[0].y = textAnimator->position[0].y;
@@ -400,7 +400,7 @@ void PauseMenu_Draw(PauseMenu *work)
         }
         else
         {
-            backplateAnimator = &work->animators[PAUSEMENU_ANIMATOR_BACKPLATE1];
+            backplateAnimator = &work->aniBackplate1;
 
             backplateAnimator->position[0].x = textAnimator->position[0].x;
             backplateAnimator->position[0].y = textAnimator->position[0].y;

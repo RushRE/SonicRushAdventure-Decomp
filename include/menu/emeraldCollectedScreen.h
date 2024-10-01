@@ -59,7 +59,7 @@ typedef struct EmeraldCollectedScreen_
     s32 flags;
     EmeraldCollectedScreenAssets assets;
     EmeraldCollectedScreenWorker process;
-    NNSSndSeqPlayer *seqPlayer;
+    NNSSndHandle *seqPlayer;
 } EmeraldCollectedScreen;
 
 // --------------------

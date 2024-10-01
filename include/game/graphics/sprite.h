@@ -323,7 +323,11 @@ struct AnimatorSprite_
 {
     Animator2DTypes type;
     u32 useEngineB;
-    Vec2Fx16 pos;
+    union
+    {
+        Vec2Fx16 pos;
+        u32 pos32;
+    };
     u16 animID;
     u16 animFrameIndex;
     u16 animFrameCount;

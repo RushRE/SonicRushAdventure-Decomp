@@ -389,7 +389,7 @@ EmeraldCollectedScreen__InitGraphics: // 0x021551C4
 	ldr r0, [r4, #0]
 	add r1, sp, #0x30
 	add r3, sp, #0x34
-	bl StageClearEx__LoadAssets
+	bl LoadAssetsForStageClearEx
 	bl EmeraldCollectedScreen__IsChaosEmeralds
 	cmp r0, #0
 	add r1, sp, #0x38
@@ -405,7 +405,7 @@ EmeraldCollectedScreen__InitGraphics: // 0x021551C4
 	ldr r0, [r4, #0]
 	mov r2, #2
 	add r3, sp, #0x3c
-	bl StageClearEx__LoadAssets
+	bl LoadAssetsForStageClearEx
 	b _0215523E
 _02155224:
 	mov r0, #6
@@ -419,7 +419,7 @@ _02155224:
 	ldr r0, [r4, #0]
 	mov r2, #5
 	add r3, sp, #0x3c
-	bl StageClearEx__LoadAssets
+	bl LoadAssetsForStageClearEx
 _0215523E:
 	ldr r1, [sp, #0x38]
 	mov r0, #3
@@ -1188,7 +1188,7 @@ EmeraldCollectedScreen__State_2155858: // 0x02155858
 	mov r2, #9
 	mov r3, #0
 	add r4, #0x1c
-	bl StageClearEx__LoadAssets
+	bl LoadAssetsForStageClearEx
 	ldr r0, _021558CC // =padInput
 	ldrh r1, [r0, #4]
 	mov r0, #1

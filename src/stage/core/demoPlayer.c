@@ -122,7 +122,7 @@ void CreateDemoPlayer(void)
 
     work->sprDemoPlay = ReadFileFromBundle("/bb/gm_demoplay.bb", BUNDLE_GM_DEMOPLAY_FILE_RESOURCES_BB_GM_DEMOPLAY_JPN_BAC + GetGameLanguage(), NULL);
 
-    AnimatorSpriteDS *animator = work->aniDemoPlay;
+    AnimatorSpriteDS *animator = work->animators;
     for (u16 i = 0; i < DEMOPLAY_ANIMATOR_COUNT; i++, animator++)
     {
         u32 size        = Sprite__GetSpriteSize2FromAnim(work->sprDemoPlay, i);
@@ -142,17 +142,17 @@ void CreateDemoPlayer(void)
             flags           = ANIMATOR_FLAG_DISABLE_PALETTES;
         }
 
-        AnimatorSpriteDS__Init(animator, work->sprDemoPlay, i, screensToDraw, flags, PIXEL_MODE_SPRITE, pixelKeys[i][0], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
-                               pixelKeys[i][1], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+        AnimatorSpriteDS__Init(animator, work->sprDemoPlay, i, screensToDraw, flags, PIXEL_MODE_SPRITE, pixelKeys[i][GRAPHICS_ENGINE_A], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
+                               pixelKeys[i][GRAPHICS_ENGINE_B], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
 
         animator->cParam[0].palette = animator->cParam[1].palette = PALETTE_ROW_2;
         AnimatorSpriteDS__ProcessAnimationFast(animator);
 
-        animator->position[0].x = 128;
-        animator->position[0].y = 96;
+        animator->position[GRAPHICS_ENGINE_A].x = 128;
+        animator->position[GRAPHICS_ENGINE_A].y = 96;
 
-        animator->position[1].x = 128;
-        animator->position[1].y = 96;
+        animator->position[GRAPHICS_ENGINE_B].x = 128;
+        animator->position[GRAPHICS_ENGINE_B].y = 96;
     }
 }
 
@@ -168,7 +168,7 @@ void DemoPlayer_Destructor(Task *task)
 
     for (i = 0; i < DEMOPLAY_ANIMATOR_COUNT; i++)
     {
-        AnimatorSpriteDS__Release(&work->aniDemoPlay[i]);
+        AnimatorSpriteDS__Release(&work->animators[i]);
     }
 
     HeapFree(HEAP_USER, work->sprDemoPlay);
@@ -242,28 +242,28 @@ void DemoPlayer_Draw(DemoPlayer *work)
 
     if (!IsBossStage())
     {
-        work->aniDemoPlay[DEMOPLAY_ANIMATOR_DEMO_PLAY].screensToDraw &= ~3;
-        work->aniDemoPlay[DEMOPLAY_ANIMATOR_PRESS_START].screensToDraw &= ~3;
+        work->aniDemoPlay.screensToDraw &= ~(SCREEN_DRAW_A | SCREEN_DRAW_B);
+        work->aniPressStart.screensToDraw &= ~(SCREEN_DRAW_A | SCREEN_DRAW_B);
 
         if (MapSys__GetDispSelect() == GX_DISP_SELECT_SUB_MAIN)
         {
-            work->aniDemoPlay[DEMOPLAY_ANIMATOR_DEMO_PLAY].screensToDraw |= SCREEN_DRAW_B;
-            work->aniDemoPlay[DEMOPLAY_ANIMATOR_PRESS_START].screensToDraw |= SCREEN_DRAW_A;
+            work->aniDemoPlay.screensToDraw |= SCREEN_DRAW_B;
+            work->aniPressStart.screensToDraw |= SCREEN_DRAW_A;
         }
         else
         {
-            work->aniDemoPlay[DEMOPLAY_ANIMATOR_DEMO_PLAY].screensToDraw |= SCREEN_DRAW_A;
-            work->aniDemoPlay[DEMOPLAY_ANIMATOR_PRESS_START].screensToDraw |= SCREEN_DRAW_B;
+            work->aniDemoPlay.screensToDraw |= SCREEN_DRAW_A;
+            work->aniPressStart.screensToDraw |= SCREEN_DRAW_B;
         }
 
-        AnimatorSpriteDS__DrawFrame(&work->aniDemoPlay[DEMOPLAY_ANIMATOR_DEMO_PLAY]);
-        AnimatorSpriteDS__DrawFrame(&work->aniDemoPlay[DEMOPLAY_ANIMATOR_PRESS_START]);
+        AnimatorSpriteDS__DrawFrame(&work->aniDemoPlay);
+        AnimatorSpriteDS__DrawFrame(&work->aniPressStart);
     }
     else
     {
         if (Camera3D__UseEngineA())
-            AnimatorSpriteDS__DrawFrame(&work->aniDemoPlay[DEMOPLAY_ANIMATOR_DEMO_PLAY]);
+            AnimatorSpriteDS__DrawFrame(&work->aniDemoPlay);
         else
-            AnimatorSpriteDS__DrawFrame(&work->aniDemoPlay[DEMOPLAY_ANIMATOR_PRESS_START]);
+            AnimatorSpriteDS__DrawFrame(&work->aniPressStart);
     }
 }
