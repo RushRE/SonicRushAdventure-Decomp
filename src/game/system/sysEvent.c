@@ -123,7 +123,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_TITLE
     {
-        .initFunc    = TitleScreen__Init,
+        .initFunc    = InitTitleScreen,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

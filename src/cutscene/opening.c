@@ -221,10 +221,8 @@ void CreateOpening(void)
     LoadSysSound(SYSSOUND_GROUP_TITLE_1);
 }
 
-NONMATCH_FUNC void SetupDisplayForOpening(void)
+void SetupDisplayForOpening(void)
 {
-    // https://decomp.me/scratch/QqIzz -> 95.53%
-#ifdef NON_MATCHING
     VRAMSystem__Reset();
     VRAMSystem__SetupTextureBank(GX_VRAM_TEX_01_AB);
     VRAMSystem__SetupTexturePalBank(GX_VRAM_TEXPLTT_0_G);
@@ -232,10 +230,12 @@ NONMATCH_FUNC void SetupDisplayForOpening(void)
     VRAMSystem__SetupOBJBank(GX_VRAM_OBJ_16_F, GX_OBJVRAMMODE_CHAR_1D_64K, GX_OBJVRAMMODE_BMP_1D_128K, 0, 0x400);
 
     GX_SetPower(GX_POWER_ALL);
+
     GX_SetDispSelect(GX_DISP_SELECT_MAIN_SUB);
     renderCurrentDisplay = GX_DISP_SELECT_MAIN_SUB;
 
     GX_SetMasterBrightness(renderCoreGFXControlA.brightness = RENDERCORE_BRIGHTNESS_WHITE);
+
     GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
     GX_SetBGScrOffset(GX_BGSCROFFSET_0x00000);
     GX_SetBGCharOffset(GX_BGCHAROFFSET_0x00000);
@@ -243,130 +243,24 @@ NONMATCH_FUNC void SetupDisplayForOpening(void)
     G2_SetBG1Control(GX_BG_SCRSIZE_TEXT_256x512, GX_BG_COLORMODE_256, GX_BG_SCRBASE_0xc800, GX_BG_CHARBASE_0x00000, GX_BG_EXTPLTT_01);
     G2_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_256x512, GX_BG_COLORMODE_256, GX_BG_SCRBASE_0xd800, GX_BG_CHARBASE_0x04000);
     G2_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x512, GX_BG_COLORMODE_256, GX_BG_SCRBASE_0xe800, GX_BG_CHARBASE_0x08000);
-    renderCoreGFXControlA.bgPosition[0].x = renderCoreGFXControlA.bgPosition[0].y = 0;
-    renderCoreGFXControlA.bgPosition[1].x = renderCoreGFXControlA.bgPosition[1].y = 0;
-    renderCoreGFXControlA.bgPosition[2].x = renderCoreGFXControlA.bgPosition[2].y = 0;
-    renderCoreGFXControlA.bgPosition[3].x = renderCoreGFXControlA.bgPosition[3].y = 0;
+
+    renderCoreGFXControlA.bgPosition[BACKGROUND_0].x = renderCoreGFXControlA.bgPosition[BACKGROUND_0].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_1].x = renderCoreGFXControlA.bgPosition[BACKGROUND_1].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_2].x = renderCoreGFXControlA.bgPosition[BACKGROUND_2].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_3].x = renderCoreGFXControlA.bgPosition[BACKGROUND_3].y = 0;
 
     G2_SetBG0Priority(3);
     G2_SetBG1Priority(2);
+    void *vramPtr = VRAMSystem__VRAM_BG[0];
     G2_SetBG2Priority(1);
     G2_SetBG3Priority(0);
+
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1);
-    MI_CpuClear16(VRAMSystem__VRAM_BG[0], 0x10000);
+    MI_CpuClear16(vramPtr, 0x10000);
 
     GXS_SetMasterBrightness(renderCoreGFXControlB.brightness = RENDERCORE_BRIGHTNESS_WHITE);
 
     GX_SetVisiblePlane(GX_PLANEMASK_BG0);
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl VRAMSystem__Reset
-	mov r0, #3
-	bl VRAMSystem__SetupTextureBank
-	mov r0, #0x40
-	bl VRAMSystem__SetupTexturePalBank
-	mov r0, #0x10
-	bl VRAMSystem__SetupBGBank
-	mov r0, #0x400
-	str r0, [sp]
-	ldr r1, =0x00100010
-	mov r0, #0x20
-	mov r2, #0x40
-	mov r3, #0
-	bl VRAMSystem__SetupOBJBank
-	ldr lr, =0x04000304
-	ldr r0, =0xFFFFFDF1
-	ldrh r1, [lr]
-	ldr r2, =renderCurrentDisplay
-	mov r3, #1
-	and r0, r1, r0
-	orr r0, r0, #0xe
-	orr r0, r0, #0x200
-	strh r0, [lr]
-	ldrh ip, [lr]
-	ldr r0, =renderCoreGFXControlA
-	mov r1, #0x10
-	orr ip, ip, #0x8000
-	strh ip, [lr]
-	str r3, [r2]
-	strh r1, [r0, #0x58]
-	sub r0, lr, #0x298
-	bl GXx_SetMasterBrightness_
-	mov r0, #1
-	mov r1, #0
-	mov r2, r0
-	bl GX_SetGraphicsMode
-	mov r3, #0x4000000
-	ldr r1, [r3, #0]
-	ldr r0, =0x00009980
-	bic r1, r1, #0x38000000
-	str r1, [r3]
-	ldr r2, [r3, #0]
-	add r1, r0, #0x204
-	bic r2, r2, #0x7000000
-	str r2, [r3]
-	ldrh ip, [r3, #0xa]
-	ldr r2, =renderCoreGFXControlA
-	mov r0, #0
-	and ip, ip, #0x43
-	orr ip, ip, #0x1980
-	orr ip, ip, #0x8000
-	strh ip, [r3, #0xa]
-	ldrh ip, [r3, #0xc]
-	and ip, ip, #0x43
-	orr r1, ip, r1
-	strh r1, [r3, #0xc]
-	ldrh r1, [r3, #0xe]
-	and r1, r1, #0x43
-	orr r1, r1, #0x188
-	orr r1, r1, #0x9c00
-	strh r1, [r3, #0xe]
-	strh r0, [r2, #2]
-	strh r0, [r2]
-	strh r0, [r2, #6]
-	strh r0, [r2, #4]
-	strh r0, [r2, #0xa]
-	strh r0, [r2, #8]
-	strh r0, [r2, #0xe]
-	strh r0, [r2, #0xc]
-	ldrh r1, [r3, #8]
-	bic r1, r1, #3
-	orr r1, r1, #3
-	strh r1, [r3, #8]
-	ldrh ip, [r3, #0xa]
-	ldr r1, =VRAMSystem__VRAM_BG
-	mov r2, #0x10000
-	bic ip, ip, #3
-	orr ip, ip, #2
-	strh ip, [r3, #0xa]
-	ldrh ip, [r3, #0xc]
-	ldr r1, [r1, #0]
-	bic ip, ip, #3
-	orr ip, ip, #1
-	strh ip, [r3, #0xc]
-	ldrh ip, [r3, #0xe]
-	bic ip, ip, #3
-	strh ip, [r3, #0xe]
-	ldr ip, [r3]
-	bic ip, ip, #0x1f00
-	orr ip, ip, #0x300
-	str ip, [r3]
-	bl MIi_CpuClear16
-	ldr r2, =renderCoreGFXControlB
-	mov r1, #0x10
-	ldr r0, =0x0400106C
-	strh r1, [r2, #0x58]
-	bl GXx_SetMasterBrightness_
-	mov r1, #0x4000000
-	ldr r0, [r1, #0]
-	bic r0, r0, #0x1f00
-	orr r0, r0, #0x100
-	str r0, [r1]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
 }
 
 void LoadOpeningAssets(Opening *work)
@@ -457,17 +351,20 @@ void ReleaseOpeningAnimators(Opening *work)
 
 void LoadOpeningBackgrounds(Opening *work)
 {
-    InitBackground(&work->worldControl.bgBase, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BASE_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, FALSE,
-              BACKGROUND_1, 32, 64);
+    InitBackground(&work->worldControl.bgBase, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BASE_BBG),
+                   BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, FALSE, BACKGROUND_1, 32, 64);
     DrawBackground(&work->worldControl.bgBase);
 
-    InitPaletteAnimator(&work->worldControl.aniPalette, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BASE_BPA), 0, ANIMATORBPA_FLAG_CAN_LOOP, 0, VRAM_BG_PLTT);
+    InitPaletteAnimator(&work->worldControl.aniPalette, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BASE_BPA), 0, ANIMATORBPA_FLAG_CAN_LOOP, 0,
+                        VRAM_BG_PLTT);
 
-    InitBackground(&work->worldControl.bgSonic, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_SON_BBG), BACKGROUND_FLAG_DISABLE_PALETTE, FALSE, BACKGROUND_2, 32, 64);
+    InitBackground(&work->worldControl.bgSonic, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_SON_BBG), BACKGROUND_FLAG_DISABLE_PALETTE, FALSE, BACKGROUND_2,
+                   32, 64);
     DrawBackground(&work->worldControl.bgSonic);
     work->worldControl.bgSonic.flags |= BACKGROUND_FLAG_DISABLE_PIXELS;
 
-    InitBackground(&work->worldControl.bgBlaze, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BLZ_BBG), BACKGROUND_FLAG_DISABLE_PALETTE, FALSE, BACKGROUND_3, 32, 64);
+    InitBackground(&work->worldControl.bgBlaze, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BLZ_BBG), BACKGROUND_FLAG_DISABLE_PALETTE, FALSE, BACKGROUND_3,
+                   32, 64);
     DrawBackground(&work->worldControl.bgBlaze);
     work->worldControl.bgBlaze.flags |= BACKGROUND_FLAG_DISABLE_PIXELS;
 }
@@ -526,9 +423,9 @@ void InitOpeningCameraForScene(Opening *work, s32 id)
 
     void *drawState = control->drawStateCutscene[id];
     LoadDrawState(drawState, DRAWSTATE_CLEARCOLOR | DRAWSTATE_DISPLAY1DOTDEPTH | DRAWSTATE_ANTIALIASING | DRAWSTATE_EDGECOLORTABLE | DRAWSTATE_EDGEMARKING | DRAWSTATE_FOGTABLE
-                                   | DRAWSTATE_FOGCOLOR | DRAWSTATE_FOGOFFSET | DRAWSTATE_SWAPSORTMODE | DRAWSTATE_ALPHABLEND | DRAWSTATE_ALPHATEST | DRAWSTATE_TOONTABLE
-                                   | DRAWSTATE_SHADING_STYLE | DRAWSTATE_SHININESS | DRAWSTATE_LIGHT3 | DRAWSTATE_LIGHT2 | DRAWSTATE_LIGHT1 | DRAWSTATE_LIGHT0
-                                   | DRAWSTATE_SWAPBUFFERMODE | DRAWSTATE_PROJECTION);
+                                 | DRAWSTATE_FOGCOLOR | DRAWSTATE_FOGOFFSET | DRAWSTATE_SWAPSORTMODE | DRAWSTATE_ALPHABLEND | DRAWSTATE_ALPHATEST | DRAWSTATE_TOONTABLE
+                                 | DRAWSTATE_SHADING_STYLE | DRAWSTATE_SHININESS | DRAWSTATE_LIGHT3 | DRAWSTATE_LIGHT2 | DRAWSTATE_LIGHT1 | DRAWSTATE_LIGHT0
+                                 | DRAWSTATE_SWAPBUFFERMODE | DRAWSTATE_PROJECTION);
     GetDrawStateCameraView(drawState, &control->camera);
     GetDrawStateCameraProjection(drawState, &control->camera);
 

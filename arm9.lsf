@@ -617,7 +617,8 @@ Overlay Menus2
     Object src/menu/deleteSaveDataMenu.o
     Object src/menu/stageClearEx.o
     Object src/menu/emeraldCollectedScreen.o
-    Object asm/menu/titleScreen.o
+    Object asm/menu/titleScreen_vars.o
+    Object src/menu/titleScreen.o
     Object asm/menu/doorPuzzle.o
     Object src/cutscene/opening.o
     Object asm/cutscene/opening_vars.o

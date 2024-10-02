@@ -4,6 +4,26 @@
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
 #include <game/graphics/background.h>
+#include <game/graphics/drawReqTask.h>
+
+// --------------------
+// ENUMS
+// --------------------
+
+enum TitleScreenFlags_
+{
+    TITLESCREEN_FLAG_NONE = 0x00,
+
+    TITLESCREEN_FLAG_START_PRESSED         = 1 << 0,
+    TITLESCREEN_FLAG_BEGIN_FADE_OUT        = 1 << 1,
+    TITLESCREEN_FLAG_USE_PRESS_START_TIMER = 1 << 2,
+    TITLESCREEN_FLAG_CREATE_PRESS_START    = 1 << 3,
+    TITLESCREEN_FLAG_SHOW_COPYRIGHT        = 1 << 4,
+    TITLESCREEN_FLAG_SHOW_TRADEMARK        = 1 << 5,
+    TITLESCREEN_FLAG_INIT_DEMO             = 1 << 6,
+    TITLESCREEN_FLAG_DISABLE_PRESS_START   = 1 << 7,
+};
+typedef u32 TitleScreenFlags;
 
 // --------------------
 // STRUCTS
@@ -14,17 +34,33 @@ typedef struct TitleScreenWorldControl_
     void *mdlCutscene[2];
     void *jntAniCutscene;
     void *matAniCutscene;
-    s32 field_18;
+    void *unknown;
     void *texAniCutscene;
     void *visAniCutscene;
     void *drawStateCutscene;
-    MtxFx43 mat1;
-    MtxFx43 mat2;
+    MtxFx43 mtxCamera;
+    MtxFx43 mtxTarget;
     Camera3D cameraConfig;
-    s32 matrixID;
-    AnimatorMDL animators[6];
-    s32 flags;
-    s32 brightness;
+    fx32 matProjPositionY;
+
+    // allow each array index to be named
+    union
+    {
+        struct
+        {
+            AnimatorMDL aniCamera;
+            AnimatorMDL aniSea;
+            AnimatorMDL aniSkybox;
+            AnimatorMDL aniIsland;
+            AnimatorMDL aniLensFlare;
+            AnimatorMDL aniSparkles;
+        };
+
+        AnimatorMDL animators[6];
+    };
+
+    TitleScreenFlags flags;
+    fx32 brightness;
     s32 timer;
     s32 touchSkipDelay;
     Background background;
@@ -37,6 +73,11 @@ typedef struct TitleScreen_
     TitleScreenWorldControl worldControl;
 } TitleScreen;
 
+typedef struct TitleScreenBackgroundView_
+{
+    TitleScreen *parent;
+} TitleScreenBackgroundView;
+
 typedef struct TitleScreenCopyrightIcon_
 {
     TitleScreen *parent;
@@ -48,7 +89,7 @@ typedef struct TitleScreenCopyrightIcon_
 typedef struct TitleScreenPressStart_
 {
     TitleScreen *parent;
-    int timer;
+    s32 timer;
     AnimatorSprite aniButton;
 } TitleScreenPressStart;
 
@@ -56,48 +97,6 @@ typedef struct TitleScreenPressStart_
 // FUNCTIONS
 // --------------------
 
-void TitleScreen__Init(void);
-void TitleScreen__Create(void);
-void TitleScreen__Func_215619C(void);
-void TitleScreen__LoadAssets(void);
-void TitleScreen__Func_2156418(void);
-void TitleScreen__Func_2156434(void);
-void TitleScreen__Func_21566AC(void);
-void TitleScreen__Func_21566F0(void);
-void TitleScreen__Func_21567C4(void);
-void TitleScreen__Func_21567C8(void);
-void TitleScreen__Func_21567E0(void);
-void TitleScreen__Func_2156818(void);
-void TitleScreen__Func_215685C(void);
-void TitleScreen__Func_21568B8(void);
-void TitleScreen__Func_215690C(void);
-void TitleScreen__Func_21569C0(void);
-void TitleScreen__Func_2156A10(void);
-void TitleScreen__Func_2156A50(void);
-void TitleScreen__Destructor(Task *task);
-void TitleScreen__Main(void);
-void TitleScreen__Main_2156B40(void);
-void TitleScreen__Main_2156BA0(void);
-void TitleScreen__Main_2156C10(void);
-void TitleScreen__Main_2156C38(void);
-void TitleScreen__Main_2156CA4(void);
-
-void TitleScreenBackgroundView__Create(void);
-void TitleScreenBackgroundView__Destructor(Task *task);
-void TitleScreenBackgroundView__Main(void);
-void TitleScreenBackgroundView__Main_2156D5C(void);
-
-void TitleScreenCopyrightIcon__Create(void);
-void TitleScreenCopyrightIcon__Destructor(Task *task);
-void TitleScreenCopyrightIcon__Main(void);
-void TitleScreenCopyrightIcon__Main_2156FFC(void);
-void TitleScreenCopyrightIcon__Main_21570AC(void);
-
-void TitleScreenPressStart__Create(void);
-void TitleScreenPressStart__Destructor(Task *task);
-void TitleScreenPressStart__Main(void);
-void TitleScreenPressStart__Main_2157254(void);
-void TitleScreenPressStart__Main_21572E8(void);
-void TitleScreenPressStart__Main_215734C(void);
+void InitTitleScreen(void);
 
 #endif // RUSH2_TITLESCREEN_H

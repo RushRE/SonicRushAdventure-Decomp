@@ -18,9 +18,9 @@ typedef struct StageClearExAssets_
 
 typedef struct StageClearExGraphics3D_
 {
-    NNSG3dResFileHeader *mdlCharacters;
-    NNSG3dResFileHeader *jntAniCharacters;
-    NNSG3dResFileHeader *texAniCharacters;
+    void *mdlCharacters;
+    void *jntAniCharacters;
+    void *texAniCharacters;
 
     // allow each array index to be named
     union
