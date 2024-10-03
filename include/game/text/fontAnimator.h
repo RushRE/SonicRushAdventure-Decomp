@@ -5,8 +5,12 @@
 #include <game/text/messageController.h>
 
 // --------------------
-// CONSTANTS
+// TYPES
 // --------------------
+
+typedef struct FontAnimator_ FontAnimator;
+
+typedef void (*FontCallback)(u32 type, struct FontAnimator_ *animator, void *context);
 
 // --------------------
 // STRUCTS
@@ -33,7 +37,7 @@ typedef struct FontUnknown2058D78_
     struct FontAnimator_ *parent;
 } FontUnknown2058D78;
 
-typedef struct FontAnimator_
+struct FontAnimator_
 {
     FontAnimatorCore base;
     u32 flags;
@@ -52,18 +56,20 @@ typedef struct FontAnimator_
     FontField_9C field_9C;
     u32 applyMode;
     FontAnimatorPalette paletteControl;
-    void (*callback)(u32 type, struct FontAnimator_ *animator, void *context);
+    FontCallback callback;
     void *callbackContext;
     FontUnknown2058D78 *unknownList;
-} FontAnimator;
+};
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
 NOT_DECOMPILED void FontAnimator__Init(FontAnimator *work);
-NOT_DECOMPILED void FontAnimator__LoadFont1(FontAnimator *work, struct FontWindow_ *window, u32 flags, u16 a4, u16 a5, u16 width, u16 height, BOOL useEngineB, u8 bgID, u8 a10, u32 a11);
-NOT_DECOMPILED void FontAnimator__LoadFont2(FontAnimator *work, struct FontWindow_ *window, u32 flags, u16 a4, u16 a5, u16 width, u16 height, BOOL useEngineB, u8 bgID, u8 a10, u32 a11);
+NOT_DECOMPILED void FontAnimator__LoadFont1(FontAnimator *work, struct FontWindow_ *window, u32 flags, u16 a4, u16 a5, u16 width, u16 height, BOOL useEngineB, u8 bgID, u8 a10,
+                                            u32 a11);
+NOT_DECOMPILED void FontAnimator__LoadFont2(FontAnimator *work, struct FontWindow_ *window, u32 flags, u16 a4, u16 a5, u16 width, u16 height, BOOL useEngineB, u8 bgID, u8 a10,
+                                            u32 a11);
 NOT_DECOMPILED void FontAnimator__Release(FontAnimator *work);
 NOT_DECOMPILED void FontAnimator__EnableFlags(FontAnimator *work, u32 flags);
 NOT_DECOMPILED void FontAnimator__DisableFlags(FontAnimator *work, u32 flags);
@@ -73,7 +79,7 @@ NOT_DECOMPILED void FontAnimator__InitStartPos(FontAnimator *work, s32 x, u16 al
 NOT_DECOMPILED void FontAnimator__AdvanceLine(FontAnimator *work, s16 a2);
 NOT_DECOMPILED void FontAnimator__AdvanceXPos(FontAnimator *work, u16 a2);
 NOT_DECOMPILED void FontAnimator__GetMsgPosition(FontAnimator *work, s16 *x, s16 *y);
-NOT_DECOMPILED void FontAnimator__SetCallback(FontAnimator *work, void (*callback)(u32 type, FontAnimator *animator, void *context), void *context);
+NOT_DECOMPILED void FontAnimator__SetCallback(FontAnimator *work, FontCallback callback, void *context);
 NOT_DECOMPILED void FontAnimator__SetMsgSequence(FontAnimator *work, u16 id);
 NOT_DECOMPILED u32 FontAnimator__GetCurrentSequence(FontAnimator *work);
 NOT_DECOMPILED u32 FontAnimator__GetSequenceDialogCount(FontAnimator *work);

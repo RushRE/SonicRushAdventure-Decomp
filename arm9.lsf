@@ -619,7 +619,7 @@ Overlay Menus2
     Object src/menu/emeraldCollectedScreen.o
     Object asm/menu/titleScreen_vars.o
     Object src/menu/titleScreen.o
-    Object asm/menu/doorPuzzle.o
+    Object src/menu/doorPuzzle.o
     Object src/cutscene/opening.o
     Object asm/cutscene/opening_vars.o
     Object src/menu/splashScreen.o

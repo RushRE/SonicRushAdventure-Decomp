@@ -54,19 +54,19 @@ void SetupDisplayForSplashScreen(void)
     GX_SetDispSelect(GX_DISP_SELECT_MAIN_SUB);
     renderCurrentDisplay = GX_DISP_SELECT_MAIN_SUB;
 
-    renderCoreGFXControlA.windowManager.visible = GX_PLANEMASK_NONE;
+    renderCoreGFXControlA.windowManager.visible            = GX_PLANEMASK_NONE;
     renderCoreGFXControlA.blendManager.blendControl.effect = BLENDTYPE_NONE;
-    renderCoreGFXControlA.brightness = RENDERCORE_BRIGHTNESS_BLACK;
-    renderCoreGFXControlA.mosaicSize = 0;
+    renderCoreGFXControlA.brightness                       = RENDERCORE_BRIGHTNESS_BLACK;
+    renderCoreGFXControlA.mosaicSize                       = 0;
     GX_SetMasterBrightness(renderCoreGFXControlA.brightness);
     GX_SetBGScrOffset(GX_BGSCROFFSET_0x00000);
     GX_SetBGCharOffset(GX_BGCHAROFFSET_0x00000);
     GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
     G2_SetBG0Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x04000, GX_BG_EXTPLTT_01);
-    renderCoreGFXControlA.bgPosition[0].x = renderCoreGFXControlA.bgPosition[0].y = 0;
-    renderCoreGFXControlA.bgPosition[1].x = renderCoreGFXControlA.bgPosition[1].y = 0;
-    renderCoreGFXControlA.bgPosition[2].x = renderCoreGFXControlA.bgPosition[2].y = 0;
-    renderCoreGFXControlA.bgPosition[3].x = renderCoreGFXControlA.bgPosition[3].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_0].x = renderCoreGFXControlA.bgPosition[BACKGROUND_0].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_1].x = renderCoreGFXControlA.bgPosition[BACKGROUND_1].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_2].x = renderCoreGFXControlA.bgPosition[BACKGROUND_2].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_3].x = renderCoreGFXControlA.bgPosition[BACKGROUND_3].y = 0;
 
     G2_SetBG0Priority(3);
     G2_SetBG1Priority(2);
@@ -75,10 +75,10 @@ void SetupDisplayForSplashScreen(void)
     GX_SetVisiblePlane(GX_PLANEMASK_BG0);
     MI_CpuClear16(VRAMSystem__VRAM_BG[0], 0x20000);
 
-    renderCoreGFXControlB.windowManager.visible = GX_PLANEMASK_NONE;
+    renderCoreGFXControlB.windowManager.visible            = GX_PLANEMASK_NONE;
     renderCoreGFXControlB.blendManager.blendControl.effect = BLENDTYPE_NONE;
-    renderCoreGFXControlB.brightness = RENDERCORE_BRIGHTNESS_BLACK;
-    renderCoreGFXControlB.mosaicSize = 0;
+    renderCoreGFXControlB.brightness                       = RENDERCORE_BRIGHTNESS_BLACK;
+    renderCoreGFXControlB.mosaicSize                       = 0;
     GXS_SetMasterBrightness(renderCoreGFXControlB.brightness);
     GXS_SetGraphicsMode(GX_BGMODE_0);
     G2S_SetBG0Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x04000, GX_BG_EXTPLTT_01);
@@ -107,12 +107,12 @@ void FreeSplashScreenArchive(SplashScreen *work)
 
 void LoadSplashScreenBackgrounds(SplashScreen *work)
 {
-    InitBackground(&work->bgSega, FileUnknown__GetAOUFile(work->archiveLogos, ARCHIVE_DMLG_LZ7_FILE_CORP_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, FALSE,
-                   BACKGROUND_0, 32, 24);
+    InitBackground(&work->bgSega, FileUnknown__GetAOUFile(work->archiveLogos, ARCHIVE_DMLG_LZ7_FILE_CORP_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS_PALETTE, FALSE, BACKGROUND_0,
+                   BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&work->bgSega);
 
-    InitBackground(&work->bgSonicTeam, FileUnknown__GetAOUFile(work->archiveLogos, ARCHIVE_DMLG_LZ7_FILE_TEAM_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, TRUE,
-                   BACKGROUND_0, 32, 24);
+    InitBackground(&work->bgSonicTeam, FileUnknown__GetAOUFile(work->archiveLogos, ARCHIVE_DMLG_LZ7_FILE_TEAM_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS_PALETTE, TRUE, BACKGROUND_0,
+                   BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&work->bgSonicTeam);
 }
 

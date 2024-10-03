@@ -337,8 +337,8 @@ void InitStageBGM(void)
 void ReleaseStageBGM(void)
 {
     StopStageBGM();
-    NNS_SndHandleReleaseSeq(&bgmHandle);
-    NNS_SndHandleReleaseSeq(&pinchBGMHandle);
+    ReleaseStageSfx(&bgmHandle);
+    ReleaseStageSfx(&pinchBGMHandle);
 }
 
 void StartStageBGM(BOOL inWater)
@@ -348,17 +348,17 @@ void StartStageBGM(BOOL inWater)
 
     if (IsBossStage())
     {
-        NNS_SndPlayerStopSeq(&defaultTrackPlayer, 0);
-        NNS_SndPlayerStopSeq(&bgmHandle, 0);
-        NNS_SndPlayerStopSeq(&pinchBGMHandle, 0);
+        StopStageSfx(&defaultTrackPlayer);
+        StopStageSfx(&bgmHandle);
+        StopStageSfx(&pinchBGMHandle);
         PlayTrack(&bgmHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, trackForStage[stage].trackID[character][0]);
     }
     else
     {
         s32 volume = GetMusicVolume();
 
-        NNS_SndPlayerStopSeq(&bgmHandle, 0);
-        NNS_SndPlayerStopSeq(&pinchBGMHandle, 0);
+        StopStageSfx(&bgmHandle);
+        StopStageSfx(&pinchBGMHandle);
         NNS_SndArcPlayerStartSeq(&bgmHandle, trackForStage[stage].trackID[character][0]);
         NNS_SndPlayerSetVolume(&bgmHandle, volume);
 
@@ -376,8 +376,8 @@ void StopStageBGM(void)
 
 void FadeOutStageBGM(s32 fadeFrames)
 {
-    NNS_SndPlayerStopSeq(&bgmHandle, fadeFrames);
-    NNS_SndPlayerStopSeq(&pinchBGMHandle, fadeFrames);
+    FadeOutStageSfx(&bgmHandle, fadeFrames);
+    FadeOutStageSfx(&pinchBGMHandle, fadeFrames);
 }
 
 void ChangeStageBGMVariant(BOOL isInWater)
@@ -406,13 +406,13 @@ void ChangeBossBGMVariant(BOOL pinchTrack)
     {
         if (pinchTrack)
         {
-            NNS_SndPlayerStopSeq(&bgmHandle, 0);
+            StopStageSfx(&bgmHandle);
             PlayTrack(&pinchBGMHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO,
                       trackForStage[gameState.stageID].trackID[gameState.characterID[0]][1]);
         }
         else
         {
-            NNS_SndPlayerStopSeq(&pinchBGMHandle, 0);
+            StopStageSfx(&pinchBGMHandle);
             PlayTrack(&bgmHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO,
                       trackForStage[gameState.stageID].trackID[gameState.characterID[0]][0]);
         }
@@ -572,9 +572,9 @@ void ManagedSfx_Destructor(Task *task)
     if (work->sndHandle != NULL)
     {
         if ((work->flags & MANAGEDSFX_FLAG_HAS_DURATION) != 0)
-            NNS_SndPlayerStopSeq(work->sndHandle, 0);
+            StopStageSfx(work->sndHandle);
 
-        NNS_SndHandleReleaseSeq(work->sndHandle);
+        ReleaseStageSfx(work->sndHandle);
 
         FreeSndHandle(work->sndHandle);
     }
@@ -591,7 +591,7 @@ void ManagedSfx_Main(void)
         if ((work->flags & MANAGEDSFX_FLAG_DESTROY_WITH_PARENT) != 0 && (parent->flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) != 0)
         {
             if ((work->flags & MANAGEDSFX_FLAG_HAS_DURATION) == 0)
-                NNS_SndPlayerStopSeq(work->sndHandle, 0);
+                StopStageSfx(work->sndHandle);
 
             DestroyCurrentTask();
             return;

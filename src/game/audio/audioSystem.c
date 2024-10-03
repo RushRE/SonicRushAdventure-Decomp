@@ -98,12 +98,12 @@ BOOL PlayTrack(NNSSndHandle *handle, s32 playerNo, s32 bankNo, s32 playerPrio, s
 
     if (defaultTrackPlayer.player != NULL)
     {
-        NNS_SndPlayerStopSeq(&defaultTrackPlayer, 0);
-        NNS_SndHandleReleaseSeq(&defaultTrackPlayer);
+        StopStageSfx(&defaultTrackPlayer);
+        ReleaseStageSfx(&defaultTrackPlayer);
     }
 
     if (handlePtr != &defaultTrackPlayer)
-        NNS_SndHandleReleaseSeq(handlePtr);
+        ReleaseStageSfx(handlePtr);
 
     NNS_SndHandleInit(handlePtr);
     NNS_SndArcPlayerStartSeqEx(handlePtr, playerNo, bankNo, playerPrio, seqNo);
@@ -118,12 +118,12 @@ BOOL PlayTrackEx(NNSSndHandle *handle, s32 playerNo, s32 bankNo, s32 playerPrio,
 
     if (defaultTrackPlayer.player != NULL)
     {
-        NNS_SndPlayerStopSeq(&defaultTrackPlayer, 0);
-        NNS_SndHandleReleaseSeq(&defaultTrackPlayer);
+        StopStageSfx(&defaultTrackPlayer);
+        ReleaseStageSfx(&defaultTrackPlayer);
     }
 
     if (handlePtr != &defaultTrackPlayer)
-        NNS_SndHandleReleaseSeq(handlePtr);
+        ReleaseStageSfx(handlePtr);
 
     NNS_SndHandleInit(handlePtr);
     NNS_SndArcPlayerStartSeqArcEx(handlePtr, playerNo, bankNo, playerPrio, seqArcNo, seqNo);

@@ -20,8 +20,8 @@ void SailAudio__PlaySpatialSequenceEx(NNSSndHandle *handle, s32 playerNo, s32 ba
 
 void SailAudio__FadeSequence(NNSSndHandle *handle)
 {
-    NNS_SndPlayerStopSeq(handle, 16);
-    NNS_SndHandleReleaseSeq(handle);
+    FadeOutStageSfx(handle, 16);
+    ReleaseStageSfx(handle);
 }
 
 void SailAudio__PlaySequence(s32 id)

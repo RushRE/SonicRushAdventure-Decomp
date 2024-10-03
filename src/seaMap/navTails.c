@@ -845,7 +845,7 @@ void LoadNavTailsAssets(NavTailsAssets *assets)
 
     MI_CpuClear16(assets, sizeof(*assets));
 
-    GetArchiveFromBundle("bb/nv.bb", BUNDLE_NV_FILE_RESOURCES_BB_NV_NAV_ASSETS_NARC, &assets->archiveNv, TRUE);
+    GetCompressedFileFromBundle("bb/nv.bb", BUNDLE_NV_FILE_RESOURCES_BB_NV_NAV_ASSETS_NARC, &assets->archiveNv, TRUE);
     NNS_FndMountArchive(&arc, "nv", assets->archiveNv);
 
     assets->sprNav = NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_NAV_ASSETS_FILE_NV_BAC);
@@ -925,7 +925,7 @@ void InitNavTailsBG_Nav(NavTails *work)
     Background background;
 
     void *bgAsset = work->assets.bgNav;
-    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PIXELS | BACKGROUND_FLAG_LOAD_PALETTE, work->useEngineB, BACKGROUND_3,
+    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_ALL, work->useEngineB, BACKGROUND_3,
                    GetBackgroundWidth(bgAsset), GetBackgroundHeight(bgAsset));
     DrawBackground(&background);
 }
@@ -935,7 +935,7 @@ void InitNavTailsBG_Tails(NavTails *work)
     Background background;
 
     void *bgAsset = work->assets.bgTails;
-    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PIXELS | BACKGROUND_FLAG_DISABLE_PALETTE, work->useEngineB, BACKGROUND_2,
+    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_MAPPINGS_PIXELS | BACKGROUND_FLAG_DISABLE_PALETTE, work->useEngineB, BACKGROUND_2,
                    GetBackgroundWidth(bgAsset), GetBackgroundHeight(bgAsset));
     DrawBackground(&background);
 }
@@ -952,7 +952,7 @@ void InitNavTailsBG_MsgWindow(NavTails *work, s32 id)
     Background background;
 
     void *bgAsset = work->assets.bgMsgWindow[id];
-    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PIXELS | BACKGROUND_FLAG_DISABLE_PALETTE, work->useEngineB, BACKGROUND_1,
+    InitBackground(&background, bgAsset, BACKGROUND_FLAG_LOAD_MAPPINGS_PIXELS | BACKGROUND_FLAG_DISABLE_PALETTE, work->useEngineB, BACKGROUND_1,
                    GetBackgroundWidth(bgAsset), GetBackgroundHeight(bgAsset));
     background.vramPixels = background.vramPixels + 0x2000;
     DrawBackground(&background);

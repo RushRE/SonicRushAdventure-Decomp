@@ -365,8 +365,8 @@ void StopSysTrack(void)
 
     if (sysSoundManager->trackHandle->player != NULL)
     {
-        NNS_SndPlayerStopSeq(sysSoundManager->trackHandle, 0);
-        NNS_SndHandleReleaseSeq(sysSoundManager->trackHandle);
+        StopStageSfx(sysSoundManager->trackHandle);
+        ReleaseStageSfx(sysSoundManager->trackHandle);
     }
 
     sysSoundManager->seqNo = SYSSOUND_ID_NONE;
@@ -379,7 +379,7 @@ void FadeSysTrack(s32 fadeFrame)
 
     if (sysSoundManager->trackHandle->player != NULL)
     {
-        NNS_SndPlayerStopSeq(sysSoundManager->trackHandle, fadeFrame);
+        FadeOutStageSfx(sysSoundManager->trackHandle, fadeFrame);
     }
 
     sysSoundManager->seqNo = SYSSOUND_ID_NONE;
@@ -428,8 +428,8 @@ void StopSysSfx(void)
     if (sysSoundManager->sfxHandle->player == NULL)
         return;
 
-    NNS_SndPlayerStopSeq(sysSoundManager->sfxHandle, 0);
-    NNS_SndHandleReleaseSeq(sysSoundManager->sfxHandle);
+    StopStageSfx(sysSoundManager->sfxHandle);
+    ReleaseStageSfx(sysSoundManager->sfxHandle);
 }
 
 // Unknown
@@ -441,8 +441,8 @@ void StopSysVoice(void)
     if (sysSoundManager->voiceHandle->player == NULL)
         return;
 
-    NNS_SndPlayerStopSeq(sysSoundManager->voiceHandle, 0);
-    NNS_SndHandleReleaseSeq(sysSoundManager->voiceHandle);
+    StopStageSfx(sysSoundManager->voiceHandle);
+    ReleaseStageSfx(sysSoundManager->voiceHandle);
 }
 
 // Streams

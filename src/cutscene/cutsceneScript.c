@@ -3431,7 +3431,7 @@ CutsceneScriptResult CutsceneScript__SoundCommand_FadeSeq(ScriptThread *thread, 
 
     NNSSndHandle *handle = CutsceneAudioManager__GetSoundHandle(&work->systemManager, id);
 
-    NNS_SndPlayerStopSeq(handle, fadeFrame);
+    FadeOutStageSfx(handle, fadeFrame);
 
     return CUTSCENESCRIPT_RESULT_CONTINUE;
 }

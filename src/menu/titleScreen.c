@@ -296,7 +296,7 @@ void InitTitleScreenBackgrounds(TitleScreen *work)
             break;
     }
 
-    InitBackground(&work->worldControl.background, bgFile, BACKGROUND_FLAG_LOAD_PALETTE | BACKGROUND_FLAG_LOAD_MAPPINGS, FALSE, BACKGROUND_2, 32, 24);
+    InitBackground(&work->worldControl.background, bgFile, BACKGROUND_FLAG_LOAD_MAPPINGS_PALETTE, FALSE, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&work->worldControl.background);
 }
 

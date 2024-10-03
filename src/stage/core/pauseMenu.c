@@ -39,7 +39,8 @@ void TryOpenPauseMenu(void)
         if (gfxControl->brightness != 0)
             return;
 
-        if ((gfxControl->blendManager.blendControl.effect & BLENDTYPE_FADEIN) != 0 && gfxControl->blendManager.brightness != 0 && gfxControl->blendManager.blendControl.plane1_OBJ != 0)
+        if ((gfxControl->blendManager.blendControl.effect & BLENDTYPE_FADEIN) != 0 && gfxControl->blendManager.brightness != RENDERCORE_BRIGHTNESS_DEFAULT
+            && gfxControl->blendManager.blendControl.plane1_OBJ != FALSE)
             return;
     }
     else

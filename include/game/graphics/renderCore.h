@@ -147,7 +147,7 @@ typedef struct BlendController_
             u16 plane1_OBJ : 1;
             u16 plane1_Backdrop : 1;
 
-            u16 effect : 2;
+            u16 effect : 2; // See 'RenderCoreBlendType' for types
 
             u16 plane2_BG0 : 1;
             u16 plane2_BG1 : 1;

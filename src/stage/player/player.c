@@ -7374,7 +7374,7 @@ void PlayPlayerJingle(Player *player, s16 nextTrack)
     work->player = player;
 
     if (work->nextTrack != 0)
-        NNS_SndPlayerStopSeq(work->sndHandle, 0);
+        StopStageSfx(work->sndHandle);
 
     work->nextTrack = nextTrack;
 
@@ -7388,7 +7388,7 @@ void PlayerJingle_Destructor(Task *task)
     PlayerJingle *work = TaskGetWork(task, PlayerJingle);
 
     if (work->sndHandle != NULL)
-        NNS_SndHandleReleaseSeq(work->sndHandle);
+        ReleaseStageSfx(work->sndHandle);
 
     if (work->sndHandle != NULL)
         FreeSndHandle(work->sndHandle);
@@ -7405,8 +7405,8 @@ void PlayerJingle_Main(void)
         case SND_ZONE_SEQ_SEQ_MUTEKI:
             if (work->player->invincibleTimer == 90)
             {
-                NNS_SndPlayerStopSeq(work->sndHandle, 90);
-                NNS_SndHandleReleaseSeq(work->sndHandle);
+                FadeOutStageSfx(work->sndHandle, 90);
+                ReleaseStageSfx(work->sndHandle);
 
                 FadeStageBGMToTargetVolume(GetMusicVolume(), 90, FALSE);
 
@@ -7414,7 +7414,7 @@ void PlayerJingle_Main(void)
             }
             else if (work->player->invincibleTimer == 0)
             {
-                NNS_SndPlayerStopSeq(work->sndHandle, 0);
+                StopStageSfx(work->sndHandle);
 
                 FadeStageBGMToTargetVolume(GetMusicVolume(), 0, FALSE);
 
@@ -7430,7 +7430,7 @@ void PlayerJingle_Main(void)
 
             if (work->player->waterTimer == 0)
             {
-                NNS_SndPlayerStopSeq(work->sndHandle, 0);
+                StopStageSfx(work->sndHandle);
 
                 StartStageBGM(FALSE);
                 ChangeStageBGMVariant((work->player->playerFlag & PLAYER_FLAG_IN_WATER) != 0);

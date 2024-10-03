@@ -351,20 +351,20 @@ void ReleaseOpeningAnimators(Opening *work)
 
 void LoadOpeningBackgrounds(Opening *work)
 {
-    InitBackground(&work->worldControl.bgBase, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BASE_BBG),
-                   BACKGROUND_FLAG_LOAD_MAPPINGS | BACKGROUND_FLAG_LOAD_PALETTE, FALSE, BACKGROUND_1, 32, 64);
+    InitBackground(&work->worldControl.bgBase, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BASE_BBG), BACKGROUND_FLAG_LOAD_MAPPINGS_PALETTE, FALSE,
+                   BACKGROUND_1, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_DOUBLE_HEIGHT);
     DrawBackground(&work->worldControl.bgBase);
 
     InitPaletteAnimator(&work->worldControl.aniPalette, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BASE_BPA), 0, ANIMATORBPA_FLAG_CAN_LOOP, 0,
                         VRAM_BG_PLTT);
 
     InitBackground(&work->worldControl.bgSonic, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_SON_BBG), BACKGROUND_FLAG_DISABLE_PALETTE, FALSE, BACKGROUND_2,
-                   32, 64);
+                   BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_DOUBLE_HEIGHT);
     DrawBackground(&work->worldControl.bgSonic);
     work->worldControl.bgSonic.flags |= BACKGROUND_FLAG_DISABLE_PIXELS;
 
     InitBackground(&work->worldControl.bgBlaze, FileUnknown__GetAOUFile(work->archiveSprites, ARCHIVE_DMOP_LZ7_FILE_BLZ_BBG), BACKGROUND_FLAG_DISABLE_PALETTE, FALSE, BACKGROUND_3,
-                   32, 64);
+                   BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_DOUBLE_HEIGHT);
     DrawBackground(&work->worldControl.bgBlaze);
     work->worldControl.bgBlaze.flags |= BACKGROUND_FLAG_DISABLE_PIXELS;
 }

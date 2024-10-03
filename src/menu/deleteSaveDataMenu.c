@@ -242,10 +242,10 @@ void InitDeleteSaveDataMenuBackground(DeleteSaveDataMenu *work)
 
     void *bgMenu = ArchiveFileUnknown__LoadFileFromArchive("narc/dmni_lz7.narc", ARCHIVE_DMNI_LZ7_FILE_DMNI_NAME_BASE_UP_BBG, FILEUNKNOWN_AUTO_ALLOC_HEAD);
 
-    InitBackground(&background, bgMenu, 56, FALSE, BACKGROUND_3, 32, 24);
+    InitBackground(&background, bgMenu, BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_3, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&background);
 
-    InitBackground(&background, bgMenu, 56, TRUE, BACKGROUND_3, 32, 24);
+    InitBackground(&background, bgMenu, BACKGROUND_FLAG_LOAD_ALL, TRUE, BACKGROUND_3, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&background);
 
     HeapFree(HEAP_USER, bgMenu);

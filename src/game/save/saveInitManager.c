@@ -3,6 +3,7 @@
 #include <game/system/sysEvent.h>
 #include <game/save/saveGame.h>
 #include <game/graphics/renderCore.h>
+#include <game/graphics/background.h>
 #include <game/game/gameState.h>
 
 // --------------------
@@ -29,7 +30,7 @@ void CreateSaveInitManager(void)
 {
     SetupDisplayForSaveInitManager();
 
-    Task *task = TaskCreate(SaveInitManager_Main_InitSave, SaveInitManager_Destructor, TASK_FLAG_NONE, 0, 0x2000, TASK_SCOPE_0, SaveInitManager);
+    Task *task = TaskCreate(SaveInitManager_Main_InitSave, SaveInitManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_SCOPE_0, SaveInitManager);
     // no null checks, this task is that important!!
 
     SaveInitManager *work = (SaveInitManager *)TaskGetWork(task, SaveInitManager);
@@ -51,12 +52,12 @@ void SetupDisplayForSaveInitManager(void)
 
     renderCurrentDisplay = GX_DISP_SELECT_SUB_MAIN;
 
-    ((GXRgb *)VRAM_BG_PLTT)[0]    = 0;
-    ((GXRgb *)VRAM_DB_BG_PLTT)[0] = 0;
+    ((GXRgb *)VRAM_BG_PLTT)[0]    = GX_RGB_888(0x00, 0x00, 0x00);
+    ((GXRgb *)VRAM_DB_BG_PLTT)[0] = GX_RGB_888(0x00, 0x00, 0x00);
 
-    renderCoreGFXControlA.windowManager.visible = 0;
+    renderCoreGFXControlA.windowManager.visible = GX_PLANEMASK_NONE;
     renderCoreGFXControlA.blendManager.blendControl.effect = BLENDTYPE_NONE;
-    renderCoreGFXControlA.brightness = 0;
+    renderCoreGFXControlA.brightness = RENDERCORE_BRIGHTNESS_DEFAULT;
     renderCoreGFXControlA.mosaicSize = 0;
 
     GX_SetMasterBrightness(renderCoreGFXControlA.brightness);
@@ -67,10 +68,10 @@ void SetupDisplayForSaveInitManager(void)
     G2_SetBG0Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x04000, GX_BG_EXTPLTT_01);
     G2_SetBG1Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x0800, GX_BG_CHARBASE_0x08000, GX_BG_EXTPLTT_01);
 
-    renderCoreGFXControlA.bgPosition[0].x = renderCoreGFXControlA.bgPosition[0].y = 0;
-    renderCoreGFXControlA.bgPosition[1].x = renderCoreGFXControlA.bgPosition[1].y = 0;
-    renderCoreGFXControlA.bgPosition[2].x = renderCoreGFXControlA.bgPosition[2].y = 0;
-    renderCoreGFXControlA.bgPosition[3].x = renderCoreGFXControlA.bgPosition[3].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_0].x = renderCoreGFXControlA.bgPosition[BACKGROUND_0].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_1].x = renderCoreGFXControlA.bgPosition[BACKGROUND_1].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_2].x = renderCoreGFXControlA.bgPosition[BACKGROUND_2].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_3].x = renderCoreGFXControlA.bgPosition[BACKGROUND_3].y = 0;
 
     G2_SetBG0Priority(3);
     G2_SetBG1Priority(2);
@@ -80,7 +81,7 @@ void SetupDisplayForSaveInitManager(void)
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_OBJ);
     MI_CpuClear16(VRAMSystem__VRAM_BG[0], HW_VRAM_A_SIZE);
 
-    renderCoreGFXControlB.windowManager.visible = 0;
+    renderCoreGFXControlB.windowManager.visible = FALSE;
     renderCoreGFXControlB.blendManager.blendControl.effect = BLENDTYPE_NONE;
     renderCoreGFXControlB.brightness = RENDERCORE_BRIGHTNESS_BLACK;
     renderCoreGFXControlB.mosaicSize = 0;

@@ -185,7 +185,7 @@ void GameObject__Destructor(Task *task)
 
     if (work->sndHandle != NULL)
     {
-        NNS_SndHandleReleaseSeq(work->sndHandle);
+        ReleaseStageSfx(work->sndHandle);
         FreeSndHandle(work->sndHandle);
     }
 
@@ -697,7 +697,7 @@ NONMATCH_FUNC void GameObject__OnDefend_Enemy(OBS_RECT_WORK *rect1, OBS_RECT_WOR
         enemy->colliders[2].flag |= OBS_RECT_WORK_FLAG_800;
 
         if (enemy->objWork.sequencePlayerPtr != NULL)
-            NNS_SndPlayerStopSeq(enemy->objWork.sequencePlayerPtr, 0);
+            StopStageSfx(enemy->objWork.sequencePlayerPtr);
 
         if (player != NULL)
         {

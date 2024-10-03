@@ -52,8 +52,8 @@ void RingButtonSfxManager_Destructor(Task *task)
 
     if (work->sndHandle != NULL)
     {
-        NNS_SndPlayerStopSeq(work->sndHandle, 0);
-        NNS_SndHandleReleaseSeq(work->sndHandle);
+        StopStageSfx(work->sndHandle);
+        ReleaseStageSfx(work->sndHandle);
         FreeSndHandle(work->sndHandle);
     }
 

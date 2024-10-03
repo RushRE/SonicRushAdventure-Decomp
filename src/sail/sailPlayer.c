@@ -580,7 +580,7 @@ void SailPlayer__ReachedGoal(StageTask *player)
 
     if (worker->shipType == SHIP_HOVER)
     {
-        NNS_SndPlayerStopSeq(worker->shipSndHandles[0], 0);
+        StopStageSfx(worker->shipSndHandles[0]);
         SailAudio__StopSequence(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_CHARGING);
     }
 
@@ -1308,13 +1308,13 @@ void SailPlayer__Destructor(Task *task)
     SailPlayer *worker = GetStageTaskWorker(work, SailPlayer);
 
     if (worker->shipSndHandles[0] != NULL)
-        NNS_SndHandleReleaseSeq(worker->shipSndHandles[0]);
+        ReleaseStageSfx(worker->shipSndHandles[0]);
 
     if (worker->shipSndHandles[1] != NULL)
-        NNS_SndHandleReleaseSeq(worker->shipSndHandles[1]);
+        ReleaseStageSfx(worker->shipSndHandles[1]);
 
-    NNS_SndHandleReleaseSeq(worker->sndHandles[0]);
-    NNS_SndHandleReleaseSeq(worker->sndHandles[1]);
+    ReleaseStageSfx(worker->sndHandles[0]);
+    ReleaseStageSfx(worker->sndHandles[1]);
 
     ObjDraw__PaletteTex__Release(&worker->paletteTex);
 
@@ -5407,7 +5407,7 @@ void SailPlayer__HandleHoverControl1(StageTask *work)
             SailAudio__StopSequence(SND_SAIL_SEQARC_ARC_VOYAGE_SE_SEQ_SE_CHARGING);
             worker->field_1F6   = 0;
             worker->chargeTimer = SAILPLAYER_CHARGE_MIN;
-            NNS_SndPlayerStopSeq(worker->shipSndHandles[0], 0);
+            StopStageSfx(worker->shipSndHandles[0]);
         }
 
         worker->field_1F6++;

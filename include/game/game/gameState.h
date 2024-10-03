@@ -290,7 +290,7 @@ typedef struct GameState_
     struct GameCutsceneState cutscene;
     struct GameTalkState talk;
     struct GameSaveInfo saveFile;
-    u32 doorPuzzleState;
+    u32 doorPuzzleEvent;
     u32 creditsMode;
     int lastDWCError;
     BOOL displayDWCErrorCode;

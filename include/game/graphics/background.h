@@ -8,6 +8,18 @@
 #include <game/math/mtMath.h>
 
 // --------------------
+// CONSTANTS
+// --------------------
+
+#define BG_DISPLAY_FULL_WIDTH       (HW_LCD_WIDTH / 8)                // cover entire screen horizontally
+#define BG_DISPLAY_SINGLE_HEIGHT    (HW_LCD_HEIGHT / 8)               // cover one entire screen vertically
+#define BG_DISPLAY_SINGLE_HEIGHT_EX ((HW_LCD_HEIGHT + 64) / 8)        // cover one entire screen vertically + 64 padding pixels
+#define BG_DISPLAY_DOUBLE_HEIGHT    (BG_DISPLAY_SINGLE_HEIGHT_EX * 2) // cover both screens vertically
+
+#define BG_DISPLAY_SINGLE_TILE_SIZE (BG_DISPLAY_FULL_WIDTH * BG_DISPLAY_SINGLE_HEIGHT_EX) // amount of tiles needed for single (ex) displays
+#define BG_DISPLAY_DOUBLE_TILE_SIZE (BG_DISPLAY_FULL_WIDTH * BG_DISPLAY_DOUBLE_HEIGHT)    // amount of tiles needed for double displays
+
+// --------------------
 // ENUMS
 // --------------------
 
@@ -25,6 +37,13 @@ enum BackgroundFlags_
     BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT = 1 << 7,
     BACKGROUND_FLAG_SET_BG_X          = 1 << 8,
     BACKGROUND_FLAG_SET_BG_Y          = 1 << 9,
+
+    // helpers
+
+    // Load all graphics data
+    BACKGROUND_FLAG_LOAD_MAPPINGS_PALETTE = BACKGROUND_FLAG_LOAD_PALETTE | BACKGROUND_FLAG_LOAD_MAPPINGS,
+    BACKGROUND_FLAG_LOAD_MAPPINGS_PIXELS  = BACKGROUND_FLAG_LOAD_PIXELS | BACKGROUND_FLAG_LOAD_MAPPINGS,
+    BACKGROUND_FLAG_LOAD_ALL              = BACKGROUND_FLAG_LOAD_PALETTE | BACKGROUND_FLAG_LOAD_PIXELS | BACKGROUND_FLAG_LOAD_MAPPINGS,
 };
 typedef u32 BackgroundFlags;
 

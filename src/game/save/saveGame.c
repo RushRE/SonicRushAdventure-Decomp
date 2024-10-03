@@ -4,6 +4,7 @@
 #include <game/file/cardBackup.h>
 #include <game/graphics/renderCore.h>
 #include <game/cutscene/script.h>
+#include <menu/doorPuzzle.h>
 
 // --------------------
 // TEMP
@@ -1364,14 +1365,14 @@ void SaveGame__StartDoorPuzzle(BOOL flag)
 {
     if (flag == FALSE)
     {
-        gameState.doorPuzzleState = 0;
+        gameState.doorPuzzleEvent = DOORPUZZLE_EVENT_DISCOVERY;
     }
     else
     {
         if (SaveGame__GetGameProgress() <= SAVE_PROGRESS_31)
-            gameState.doorPuzzleState = 1;
+            gameState.doorPuzzleEvent = DOORPUZZLE_EVENT_NO_ACCESS;
         else
-            gameState.doorPuzzleState = 2;
+            gameState.doorPuzzleEvent = DOORPUZZLE_EVENT_HAVE_KEYS;
     }
 
     SaveGame__Func_205B9F0(10);

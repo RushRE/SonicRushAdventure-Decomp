@@ -483,7 +483,7 @@ void ReleaseEmeraldCollectedScreen(EmeraldCollectedScreen *work)
     ReleaseEmeraldCollectedScreenGraphics(&work->process);
 
     StopStageSfx(work->seqPlayer);
-    NNS_SndHandleReleaseSeq(work->seqPlayer);
+    ReleaseStageSfx(work->seqPlayer);
     ReleaseSysSound();
 
     ReleaseEmeraldCollectedScreenAssets(&work->assets);
@@ -534,13 +534,13 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenGraphics(EmeraldCollectedScreenWork
     }
 
     Background background;
-    InitBackground(&background, bgUp, BACKGROUND_FLAG_LOAD_PALETTE | BACKGROUND_FLAG_LOAD_PIXELS | BACKGROUND_FLAG_LOAD_MAPPINGS, TRUE, BACKGROUND_3, 32, 24);
+    InitBackground(&background, bgUp, BACKGROUND_FLAG_LOAD_ALL, TRUE, BACKGROUND_3, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&background);
 
-    InitBackground(&background, bgDown00, BACKGROUND_FLAG_LOAD_PALETTE | BACKGROUND_FLAG_LOAD_PIXELS | BACKGROUND_FLAG_LOAD_MAPPINGS, FALSE, BACKGROUND_2, 32, 24);
+    InitBackground(&background, bgDown00, BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&background);
 
-    InitBackground(&background, bgDown01, BACKGROUND_FLAG_LOAD_PALETTE | BACKGROUND_FLAG_LOAD_PIXELS | BACKGROUND_FLAG_LOAD_MAPPINGS, FALSE, BACKGROUND_3, 32, 24);
+    InitBackground(&background, bgDown01, BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_3, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&background);
 
     const EmeraldCollectedScreenAnimConfig *animConfig = decorationConfig;

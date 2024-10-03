@@ -41,9 +41,9 @@ void *ReadFileFromBundle(const char *path, u16 id, void *memory);
 // INLINE FUNCTIONS
 // --------------------
 
-RUSH_INLINE void GetArchiveFromBundle(const char *bundlePath, u16 archiveFileID, void **memory, BOOL fromTail)
+RUSH_INLINE void GetCompressedFileFromBundle(const char *bundlePath, u16 fileID, void **memory, BOOL fromTail)
 {
-    void *compressedData = ReadFileFromBundle(bundlePath, archiveFileID, fromTail ? BINARYBUNDLE_AUTO_ALLOC_TAIL : BINARYBUNDLE_AUTO_ALLOC_HEAD);
+    void *compressedData = ReadFileFromBundle(bundlePath, fileID, fromTail ? BINARYBUNDLE_AUTO_ALLOC_TAIL : BINARYBUNDLE_AUTO_ALLOC_HEAD);
     if (fromTail)
     {
         (*memory) = (NNSiFndArchiveHeader *)HeapAllocHead(HEAP_USER, MI_GetUncompressedSize(compressedData));

@@ -386,7 +386,7 @@ void StageTask_Destructor(Task *task)
     StageTask *work = TaskGetWork(task, StageTask);
 
     if (work->sequencePlayerPtr != NULL)
-        NNS_SndHandleReleaseSeq(work->sequencePlayerPtr);
+        ReleaseStageSfx(work->sequencePlayerPtr);
 
     if (work->sequencePlayerPtr != NULL)
         FreeSndHandle(work->sequencePlayerPtr);
@@ -399,7 +399,7 @@ void StageTask_Destructor(Task *task)
             ReleaseScreenUnknown(work->obj_2d->ani.cParam[0].palette);
 
         if ((work->flag & STAGE_TASK_FLAG_ALLOCATED_SPRITE_PALETTE) != 0)
-            ObjDrawReleaseSpritePalette((work->obj_2d->ani.cParam[0].palette + 16));
+            ObjDrawReleaseSpritePalette(work->obj_2d->ani.cParam[0].palette + 16);
         else
             ObjDrawReleaseSpritePalette(work->obj_2d->ani.cParam[0].palette);
 
@@ -2311,7 +2311,7 @@ void *StageTask__AllocateWorker(StageTask *work, size_t size)
 void StageTask__InitSeqPlayer(StageTask *work)
 {
     if (work->sequencePlayerPtr != NULL)
-        NNS_SndHandleReleaseSeq(work->sequencePlayerPtr);
+        ReleaseStageSfx(work->sequencePlayerPtr);
 
     if (work->sequencePlayerPtr != NULL)
         FreeSndHandle(work->sequencePlayerPtr);

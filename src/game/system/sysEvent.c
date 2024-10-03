@@ -20,6 +20,8 @@
 #include <menu/stageClearEx.h>
 #include <menu/emeraldCollectedScreen.h>
 #include <menu/titleScreen.h>
+#include <menu/doorPuzzle.h>
+#include <menu/soundTest.h>
 
 // --------------------
 // TEMP
@@ -39,8 +41,6 @@ NOT_DECOMPILED void SeaMapUnknown__Create(void);
 NOT_DECOMPILED void SeaMapCourseChangeView__Create(void);
 NOT_DECOMPILED void SeaMapTraining__Create(void);
 NOT_DECOMPILED void SeaMapCutscene__Create(void);
-NOT_DECOMPILED void SoundTest__Create(void);
-NOT_DECOMPILED void DoorPuzzle__Init(void);
 NOT_DECOMPILED void VikingCupMenu__Create(void);
 
 // --------------------
@@ -596,7 +596,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_DOOR_PUZZLE
     {
-        .initFunc    = DoorPuzzle__Init,
+        .initFunc    = InitDoorPuzzle,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

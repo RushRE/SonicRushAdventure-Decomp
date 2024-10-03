@@ -884,22 +884,22 @@ RUSH_INLINE BOOL CheckIsPlayer1(Player *player)
 
 RUSH_INLINE void PlayPlayerSfx(Player *player, u32 seqPlayerID, enum SND_ZONE_SEQARC_GAME_SE sfxID)
 {
-    PlaySfxEx(&player->seqPlayers[seqPlayerID], AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_ZONE_SEQARC_GAME_SE, sfxID);
+    PlayHandleStageSfx(&player->seqPlayers[seqPlayerID], sfxID);
 }
 
 RUSH_INLINE void StopPlayerSfx(Player *player, u32 seqPlayerID)
 {
-    NNS_SndPlayerStopSeq(&player->seqPlayers[seqPlayerID], 0);
+    StopStageSfx(&player->seqPlayers[seqPlayerID]);
 }
 
 RUSH_INLINE void FadeOutPlayerSfx(Player *player, u32 seqPlayerID, u32 frames)
 {
-    NNS_SndPlayerStopSeq(&player->seqPlayers[seqPlayerID], frames);
+    FadeOutStageSfx(&player->seqPlayers[seqPlayerID], frames);
 }
 
 RUSH_INLINE void ReleasePlayerSfx(Player *player, u32 seqPlayerID)
 {
-    NNS_SndHandleReleaseSeq(&player->seqPlayers[seqPlayerID]);
+    ReleaseStageSfx(&player->seqPlayers[seqPlayerID]);
 }
 
 #endif // RUSH2_PLAYER_H
