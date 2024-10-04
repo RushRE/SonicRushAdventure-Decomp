@@ -108,7 +108,7 @@ Static arm9
     Object src/game/file/bundleFileUnknown.o
     Object asm/unknown/unknown2051334.o
     Object asm/game/file/archiveFileUnknown.o
-    Object asm/game/graphics/bankUnknown.o
+    Object src/game/graphics/bankUnknown.o
     Object asm/game/text/fontDMAControl.o
     Object asm/game/text/fontFile.o
     Object asm/game/text/MPC.o
