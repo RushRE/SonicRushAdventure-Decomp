@@ -584,7 +584,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_SOUND_TEST
     {
-        .initFunc    = SoundTest__Create,
+        .initFunc    = CreateSoundTest,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

@@ -1438,6 +1438,7 @@ _0205964C:
 
     .rodata
 
+.public FontAnimator__Palettes
 FontAnimator__Palettes: // 0x02110458
 	.hword 0x3E74, 0x1D4C, 0, 0 // colors
 	.hword 0x6BFF, 0x1A34, 0, 0 // colors

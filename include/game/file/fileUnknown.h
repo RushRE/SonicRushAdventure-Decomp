@@ -20,7 +20,7 @@ NOT_DECOMPILED void *ArchiveFileUnknown__LoadFile(const char *filePath, void *me
 NOT_DECOMPILED void *ArchiveFileUnknown__LoadFileFromArchive(const char *filePath, u32 id, void *memory);
 NOT_DECOMPILED void *ArchiveFileUnknown__GetFileFromMemArchive(void *archive, u32 id, void *memory);
 
-NOT_DECOMPILED void *FileUnknown__GetAOUFile(NNSiFndArchiveHeader *archive, u16 id);
-NOT_DECOMPILED size_t FileUnknown__GetAOUFileSize(NNSiFndArchiveHeader *archive, u16 id);
+NOT_DECOMPILED void *FileUnknown__GetAOUFile(void *archive, u16 id);
+NOT_DECOMPILED size_t FileUnknown__GetAOUFileSize(void *archive, u16 id);
 
 #endif // RUSH2_FILEUNKNOWN_H

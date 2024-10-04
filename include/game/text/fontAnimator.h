@@ -62,6 +62,12 @@ struct FontAnimator_
 };
 
 // --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED GXRgb FontAnimator__Palettes[9][4];
+
+// --------------------
 // FUNCTIONS
 // --------------------
 

@@ -33,9 +33,9 @@ typedef struct Unknown2056570_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void Unknown2056570__Init(Unknown2056570 *work, BOOL useEngineB, u16 a3, s32 a4, u16 a5, u16 a6, u16 a7, u16 a8, s32 a9, s32 a10, s32 a11);
+NOT_DECOMPILED void Unknown2056570__Init(Unknown2056570 *work, BOOL useEngineB, u16 bgID, s32 a4, u16 a5, u16 a6, u16 a7, u16 a8, void *a9, s32 a10, s32 a11);
 NOT_DECOMPILED void Unknown2056570__Func_2056670(Unknown2056570 *work);
-NOT_DECOMPILED void Unknown2056570__Func_2056688(Unknown2056570 *work, void *a2);
+NOT_DECOMPILED void Unknown2056570__Func_2056688(Unknown2056570 *work, s32 a2);
 NOT_DECOMPILED u16 Unknown2056570__Func_2056824(Unknown2056570 *work);
 NOT_DECOMPILED u16 Unknown2056570__Func_205682C(Unknown2056570 *work);
 NOT_DECOMPILED void *Unknown2056570__Func_2056834(Unknown2056570 *work);

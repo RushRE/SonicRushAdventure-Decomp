@@ -3,6 +3,7 @@
 #define RUSH2_FONTFILE_H
 
 #include <global.h>
+#include <game/graphics/unknown2056570.h>
 
 // --------------------
 // TYPES
@@ -58,7 +59,7 @@ typedef struct FontFile_
 
 NOT_DECOMPILED void FontFile__Init(FontFile *work);
 NOT_DECOMPILED void FontFile__InitFromPath(FontFile *work, const char *filePath, s32 mode);
-NOT_DECOMPILED void FontFile__InitFromHeader(struct FontWindow_ *fontFile, FontHeader *fontHeader);
+NOT_DECOMPILED void FontFile__InitFromHeader(FontFile *work, void *filePtr);
 NOT_DECOMPILED void FontFile__Release(FontFile *work);
 NOT_DECOMPILED s32 FontFile__GetPixelWidth(FontFile *work);
 NOT_DECOMPILED s32 FontFile__GetPixelHeight(FontFile *work);
@@ -74,17 +75,17 @@ NOT_DECOMPILED void FontFile__ReadHeaderFromFile(FSFile *file, void *bytes);
 NOT_DECOMPILED void FontFile__LoadXAdvanceBlock(FontFile *work);
 NOT_DECOMPILED void FontFile__LoadBlock3(FontFile *work);
 NOT_DECOMPILED void FontFile__LoadCharDataBlock(FontFile *work);
-NOT_DECOMPILED u32 FontFile__GetFileSize(FontHeader *header, int mode);
-NOT_DECOMPILED void FontFile__InitFromBuffer(FontFile *this, FontHeader *header);
+NOT_DECOMPILED u32 FontFile__GetFileSize(void *filePtr, int mode);
+NOT_DECOMPILED void FontFile__InitFromBuffer(FontFile *work, void *filePtr);
 NOT_DECOMPILED void FontFile__Func_2052B7C(void);
 NOT_DECOMPILED void FontFile__Func_2052DD0(void);
 NOT_DECOMPILED void FontFile__Func_2052F38(void);
-NOT_DECOMPILED void FontFile__Func_2053010(void);
+NOT_DECOMPILED void FontFile__Func_2053010(FontFile *work, s32 a2, s32 a3, Unknown2056570 *unknown, u16 a5, s16 a6, u16 a7, s32 a8, u16 a9, void *a10, char *a1, ...);
 NOT_DECOMPILED void FontFile__Func_20530D8(void);
 NOT_DECOMPILED void FontFile__Func_2053140(void);
 NOT_DECOMPILED void FontFile__Func_20534F8(void);
-NOT_DECOMPILED void FontFile__GetTextHeight(struct FontWindow_ *this, s32 height, u16 *text);
-NOT_DECOMPILED void FontFile__GetLineLength(struct FontWindow_ *this, s32 height, u16 *text);
-NOT_DECOMPILED void FontFile__GetTextWidth(struct FontWindow_ *this, s32 height, u16 *text);
+NOT_DECOMPILED void FontFile__GetTextHeight(FontFile *work, s32 height, u16 *text);
+NOT_DECOMPILED void FontFile__GetLineLength(FontFile *work, s32 height, u16 *text);
+NOT_DECOMPILED void FontFile__GetTextWidth(FontFile *work, s32 height, u16 *text);
 
 #endif // RUSH2_FONTFILE_H

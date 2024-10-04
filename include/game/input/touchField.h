@@ -64,6 +64,23 @@ enum TouchAreaResponseFlags_
 // STRUCTS
 // --------------------
 
+typedef struct TouchRect_
+{
+    union
+    {
+        struct
+        {
+            u16 id;
+            u16 flags;
+        };
+
+        u32 id_flags_value;
+    };
+    
+    HitboxRect box;
+    s32 unknown;
+} TouchRect;
+
 struct TouchAreaResponse_
 {
     TouchAreaResponseFlags flags;
@@ -126,7 +143,7 @@ typedef struct TouchField_
 
 NOT_DECOMPILED void TouchField__Init(TouchField *field);
 NOT_DECOMPILED void TouchField__Process(TouchField *field);
-NOT_DECOMPILED void TouchField__InitAreaShape(TouchArea *area, Vec2Fx16 *pos, TouchAreaBoundsCheckFunc boundsCheckFunc, void *a4, TouchAreaCallback callback, void *context);
+NOT_DECOMPILED void TouchField__InitAreaShape(TouchArea *area, Vec2Fx16 *pos, TouchAreaBoundsCheckFunc boundsCheckFunc, TouchRect *rect, TouchAreaCallback callback, void *context);
 NOT_DECOMPILED void TouchField__ResetArea(TouchArea *area);
 NOT_DECOMPILED void TouchField__SetHitbox(TouchArea *area, void *a2);
 NOT_DECOMPILED void TouchField__InitAreaSprite(TouchArea *area, void *animatorPtr, s32 hitboxID, s16 aniFlags, TouchAreaCallback callback, void *context);
