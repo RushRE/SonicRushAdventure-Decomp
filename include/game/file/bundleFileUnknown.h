@@ -16,7 +16,7 @@
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void *BundleFileUnknown__LoadFile(const char *path, void *memory);
-NOT_DECOMPILED void *BundleFileUnknown__LoadFileFromBundle(const char *path, u32 id, void *memory);
+void *BundleFileUnknown__LoadFile(const char *path, void *memory);
+void *BundleFileUnknown__LoadFileFromBundle(const char *bundlePath, u16 id, void *memory);
 
 #endif // RUSH2_BUNDLEFILEUNKNOWN_H
