@@ -374,7 +374,7 @@ void AnimatorSprite__Init(AnimatorSprite *animator, void *fileData, u16 animID, 
     animator->animHeaders        = &((u8 *)fileData)[GetFile(fileData)->animHeaderOffset];
     animator->frameAssembly      = &((u8 *)fileData)[GetFile(fileData)->frameAssemblyOffset];
     animator->animSequences      = &((u8 *)fileData)[GetFile(fileData)->animSequenceOffset];
-    animator->animAdvance        = FX_ONE;
+    animator->animAdvance        = FLOAT_TO_FX32(1.0);
     animator->animID             = animID;
     animator->flags              = flags;
     animator->useEngineB         = useEngineB;
@@ -1495,7 +1495,7 @@ void AnimatorSpriteDS__Init(AnimatorSpriteDS *animator, void *fileData, u16 anim
     animator->work.animHeaders   = &((u8 *)fileData)[GetFile(fileData)->animHeaderOffset];
     animator->work.frameAssembly = &((u8 *)fileData)[GetFile(fileData)->frameAssemblyOffset];
     animator->work.animSequences = &((u8 *)fileData)[GetFile(fileData)->animSequenceOffset];
-    animator->work.animAdvance   = FX_ONE;
+    animator->work.animAdvance   = FLOAT_TO_FX32(1.0);
     animator->work.flags         = flags;
     animator->work.animID        = animID;
     animator->work.oamPriority   = oamPriority;

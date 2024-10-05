@@ -756,248 +756,138 @@ void StageTask__Draw2D(StageTask *work, AnimatorSpriteDS *animator)
     StageTask__Draw2DEx(animator, &position, &direction, &work->scale, &work->displayFlag, (SpriteFrameCallback)StageTask__SpriteBlockCallback_Hitbox, work);
 }
 
-NONMATCH_FUNC void StageTask__Draw2DEx(AnimatorSpriteDS *animator, VecFx32 *position, VecU16 *direction, VecFx32 *scale, StageDisplayFlags *displayFlagPtr,
-                                       SpriteFrameCallback callback, void *userData)
+void StageTask__Draw2DEx(AnimatorSpriteDS *animator, VecFx32 *position, VecU16 *direction, VecFx32 *scale, StageDisplayFlags *displayFlagPtr, SpriteFrameCallback callback,
+                         void *userData)
 {
-#ifdef NON_MATCHING
+    s32 cameraX;
+    s32 cameraY;
+    fx32 backupAnimAdvance;
+    StageDisplayFlags copyDisplayFlagPtr;
+    fx32 scaleX, scaleY;
+    u16 rotation;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0xc
-	mov r5, #0
-	mov r4, r0
-	ldr r0, [sp, #0x30]
-	str r5, [sp, #4]
-	cmp r2, #0
-	str r0, [sp, #0x30]
-	ldrneh r0, [r2, #4]
-	str r3, [sp]
-	mov r6, r5
-	strne r0, [sp, #4]
-	ldr r0, [sp, #0x30]
-	str r5, [sp, #8]
-	cmp r0, #0
-	beq _02071E3C
-	ldr r0, [r0, #0]
-	ldr r2, [r4, #0x3c]
-	str r0, [sp, #8]
-	bic r0, r2, #0x184
-	str r0, [r4, #0x3c]
-	ldr r0, [sp, #0x30]
-	ldr r2, [r0, #0]
-	ldr r0, [sp, #8]
-	bic r2, r2, #8
-	tst r0, #4
-	ldr r0, [sp, #0x30]
-	str r2, [r0]
-	ldrne r0, [r4, #0x3c]
-	orrne r0, r0, #4
-	strne r0, [r4, #0x3c]
-	ldr r0, [sp, #8]
-	tst r0, #1
-	ldrne r0, [r4, #0x3c]
-	orrne r0, r0, #0x80
-	strne r0, [r4, #0x3c]
-	ldr r0, [sp, #8]
-	tst r0, #2
-	ldrne r0, [r4, #0x3c]
-	orrne r0, r0, #0x100
-	strne r0, [r4, #0x3c]
-_02071E3C:
-	ldr r0, [sp, #8]
-	mov r7, #0
-	and r11, r0, #0x80
-	and r8, r0, #0x2000
-	and r9, r0, #0x4000
-	ldr r0, =obj_ptcb
-_02071E54:
-	ldr r2, [r0, #0x2c]
-	tst r2, #8
-	beq _02071E80
-	cmp r11, #0
-	bne _02071E80
-	ldr r2, =g_obj
-	add r2, r2, r7, lsl #3
-	ldr r3, [r2, #0x2c]
-	ldr r2, [r2, #0x30]
-	mov r5, r3, asr #0xc
-	mov r6, r2, asr #0xc
-_02071E80:
-	cmp r8, #0
-	bne _02071F0C
-	cmp r1, #0
-	beq _02071EE0
-	ldr r2, [r1, #0]
-	add lr, r4, r7, lsl #2
-	rsb r2, r5, r2, asr #12
-	strh r2, [lr, #0x68]
-	ldr r2, [r1, #4]
-	rsb r2, r6, r2, asr #12
-	strh r2, [lr, #0x6a]
-	ldr r2, [r0, #0x2c]
-	tst r2, #0x400
-	beq _02071EE0
-	ldr r10, [r1, #8]
-	ldr r2, [r0, #0x20]
-	ldrsh ip, [lr, #0x6a]
-	smull r3, r2, r10, r2
-	adds r10, r3, #0x800
-	adc r2, r2, #0
-	mov r3, r10, lsr #0xc
-	orr r3, r3, r2, lsl #20
-	add r2, ip, r3, asr #12
-	strh r2, [lr, #0x6a]
-_02071EE0:
-	cmp r9, #0
-	bne _02071F0C
-	add r2, r4, r7, lsl #2
-	ldrsh r10, [r2, #0x68]
-	ldrsh r3, [r0, #0x10]
-	add r3, r10, r3
-	strh r3, [r2, #0x68]
-	ldrsh r10, [r2, #0x6a]
-	ldrsh r3, [r0, #0x12]
-	add r3, r10, r3
-	strh r3, [r2, #0x6a]
-_02071F0C:
-	add r2, r7, #1
-	mov r2, r2, lsl #0x10
-	mov r7, r2, lsr #0x10
-	cmp r7, #2
-	blo _02071E54
-	ldr r0, =obj_ptcb
-	ldr r5, [r4, #0x38]
-	ldr r0, [r0, #0x14]
-	mov r1, #0
-	smull r2, r0, r5, r0
-	adds r2, r2, #0x800
-	adc r0, r0, #0
-	mov r2, r2, lsr #0xc
-	orr r2, r2, r0, lsl #20
-	ldr r0, [sp, #8]
-	str r2, [r4, #0x38]
-	tst r0, #0x10
-	ldr r0, [sp, #8]
-	strne r1, [r4, #0x38]
-	tst r0, #0x1000
-	bne _02071F70
-	ldr r1, [sp, #0x34]
-	ldr r2, [sp, #0x38]
-	mov r0, r4
-	bl AnimatorSpriteDS__ProcessAnimation
-_02071F70:
-	ldr r2, =obj_ptcb
-	str r5, [r4, #0x38]
-	ldr r0, [r2, #4]
-	ldr r1, [sp]
-	ldr r2, [r2, #8]
-	cmp r1, #0
-	mov r1, r0
-	beq _02071FC4
-	ldr r1, [sp]
-	ldr r3, [r1, #0]
-	ldr r1, [r1, #4]
-	smull r3, r5, r0, r3
-	adds r6, r3, #0x800
-	smull r1, r3, r2, r1
-	adc r5, r5, #0
-	adds r2, r1, #0x800
-	mov r1, r6, lsr #0xc
-	adc r3, r3, #0
-	mov r2, r2, lsr #0xc
-	orr r1, r1, r5, lsl #20
-	orr r2, r2, r3, lsl #20
-_02071FC4:
-	cmp r0, #0x1000
-	beq _0207201C
-	ldrsh r5, [r4, #0x68]
-	ldr r3, =obj_ptcb
-	sub r5, r5, #0x80
-	smull r6, r0, r5, r0
-	adds r5, r6, #0x800
-	adc r0, r0, #0
-	mov r5, r5, lsr #0xc
-	orr r5, r5, r0, lsl #20
-	add r0, r5, #0x80
-	strh r0, [r4, #0x68]
-	ldrsh r5, [r4, #0x6c]
-	ldr r0, [r3, #4]
-	sub r3, r5, #0x80
-	smull r5, r0, r3, r0
-	adds r3, r5, #0x800
-	adc r0, r0, #0
-	mov r3, r3, lsr #0xc
-	orr r3, r3, r0, lsl #20
-	add r0, r3, #0x80
-	strh r0, [r4, #0x6c]
-_0207201C:
-	ldr r0, =obj_ptcb
-	ldr r5, [r0, #8]
-	cmp r5, #0x1000
-	beq _02072078
-	ldrsh r3, [r4, #0x6a]
-	sub r3, r3, #0x60
-	smull r6, r5, r3, r5
-	adds r6, r6, #0x800
-	adc r3, r5, #0
-	mov r5, r6, lsr #0xc
-	orr r5, r5, r3, lsl #20
-	add r3, r5, #0x60
-	strh r3, [r4, #0x6a]
-	ldrsh r3, [r4, #0x6e]
-	ldr r0, [r0, #8]
-	sub r3, r3, #0x60
-	smull r5, r0, r3, r0
-	adds r3, r5, #0x800
-	adc r0, r0, #0
-	mov r3, r3, lsr #0xc
-	orr r3, r3, r0, lsl #20
-	add r0, r3, #0x60
-	strh r0, [r4, #0x6e]
-_02072078:
-	ldr r0, [sp, #8]
-	tst r0, #0x20
-	bne _020720C8
-	tst r0, #0x100
-	bne _02072098
-	ldr r0, [sp, #4]
-	cmp r0, #0
-	bne _020720B0
-_02072098:
-	cmp r1, #0x1000
-	cmpeq r2, #0x1000
-	beq _020720C0
-	ldr r0, [sp, #8]
-	tst r0, #0x10000
-	bne _020720C0
-_020720B0:
-	ldr r3, [sp, #4]
-	mov r0, r4
-	bl AnimatorSpriteDS__DrawFrameRotoZoom
-	b _020720C8
-_020720C0:
-	mov r0, r4
-	bl AnimatorSpriteDS__DrawFrame
-_020720C8:
-	ldr r0, [sp, #8]
-	tst r0, #0x8000
-	addne sp, sp, #0xc
-	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, [r4, #0x3c]
-	tst r0, #0x40000000
-	addeq sp, sp, #0xc
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, [sp, #0x30]
-	ldr r0, [r0, #0]
-	orr r1, r0, #8
-	ldr r0, [sp, #0x30]
-	str r1, [r0]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    cameraX            = 0;
+    cameraY            = 0;
+    copyDisplayFlagPtr = DISPLAY_FLAG_NONE;
 
-// clang-format on
-#endif
+    rotation = FLOAT_DEG_TO_IDX(0.0);
+    if (direction != NULL)
+    {
+        rotation = direction->z;
+    }
+
+    if (displayFlagPtr != NULL)
+    {
+        copyDisplayFlagPtr = *displayFlagPtr;
+        animator->work.flags &= ~(ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_FLIP_X | ANIMATOR_FLAG_FLIP_Y);
+        *displayFlagPtr &= ~DISPLAY_FLAG_DID_FINISH;
+
+        if (copyDisplayFlagPtr & DISPLAY_FLAG_DISABLE_LOOPING)
+        {
+            animator->work.flags |= ANIMATOR_FLAG_DISABLE_LOOPING;
+        }
+
+        if (copyDisplayFlagPtr & DISPLAY_FLAG_FLIP_X)
+        {
+            animator->work.flags |= ANIMATOR_FLAG_FLIP_X;
+        }
+
+        if (copyDisplayFlagPtr & DISPLAY_FLAG_FLIP_Y)
+        {
+            animator->work.flags |= ANIMATOR_FLAG_FLIP_Y;
+        }
+    }
+
+    for (u16 c = 0; c < 2; c++)
+    {
+        if ((g_obj.flag & OBJECTMANAGER_FLAG_8) != 0 && ((copyDisplayFlagPtr & DISPLAY_FLAG_SCREEN_RELATIVE) == 0))
+        {
+            cameraX = FX_Whole(g_obj.camera[c].x);
+            cameraY = FX_Whole(g_obj.camera[c].y);
+        }
+
+        if ((copyDisplayFlagPtr & DISPLAY_FLAG_DISABLE_POSITION) == 0)
+        {
+            if (position != NULL)
+            {
+                animator->position[c].x = FX_Whole(position->x) - cameraX;
+                animator->position[c].y = FX_Whole(position->y) - cameraY;
+
+                if ((g_obj.flag & OBJECTMANAGER_FLAG_400) != 0)
+                {
+                    const fx32 z = MultiplyFX(position->z, g_obj.depth);
+
+                    animator->position[c].y = animator->position[c].y + FX_Whole(z);
+                }
+            }
+
+            if ((copyDisplayFlagPtr & DISPLAY_FLAG_DISABLE_POSITION_OFFSETS) == 0)
+            {
+                animator->position[c].x += g_obj.offset[0];
+                animator->position[c].y += g_obj.offset[1];
+            }
+        }
+    }
+
+    backupAnimAdvance          = animator->work.animAdvance;
+    animator->work.animAdvance = MultiplyFX(animator->work.animAdvance, g_obj.speed);
+
+    if (copyDisplayFlagPtr & DISPLAY_FLAG_PAUSED)
+    {
+        animator->work.animAdvance = FLOAT_TO_FX32(0.0);
+    }
+
+    if ((copyDisplayFlagPtr & DISPLAY_FLAG_NO_ANIMATE_CB) == 0)
+    {
+        AnimatorSpriteDS__ProcessAnimation(animator, callback, userData);
+    }
+    animator->work.animAdvance = backupAnimAdvance;
+
+    scaleX = g_obj.scale.x;
+    scaleY = g_obj.scale.y;
+
+    if (scale != NULL)
+    {
+        scaleX = MultiplyFX(g_obj.scale.x, scale->x);
+        scaleY = MultiplyFX(g_obj.scale.y, scale->y);
+    }
+
+    if (g_obj.scale.x != FLOAT_TO_FX32(1.0))
+    {
+        animator->position[0].x = MultiplyFX(animator->position[0].x - 128, g_obj.scale.x) + 128;
+        animator->position[1].x = MultiplyFX(animator->position[1].x - 128, g_obj.scale.x) + 128;
+    }
+
+    if (g_obj.scale.y != FLOAT_TO_FX32(1.0))
+    {
+        animator->position[0].y = MultiplyFX(animator->position[0].y - 96, g_obj.scale.y) + 96;
+        animator->position[1].y = MultiplyFX(animator->position[1].y - 96, g_obj.scale.y) + 96;
+    }
+
+    if ((copyDisplayFlagPtr & DISPLAY_FLAG_NO_DRAW) == 0)
+    {
+        if ((((copyDisplayFlagPtr & DISPLAY_FLAG_DISABLE_ROTATION) == 0) && (rotation != FLOAT_DEG_TO_IDX(0.0)))
+            || ((scaleX != FLOAT_TO_FX32(1.0) || scaleY != FLOAT_TO_FX32(1.0)) && ((copyDisplayFlagPtr & DISPLAY_FLAG_DISABLE_SCALE) == 0)))
+        {
+            AnimatorSpriteDS__DrawFrameRotoZoom(animator, scaleX, scaleY, rotation);
+        }
+        else
+        {
+            AnimatorSpriteDS__DrawFrame(animator);
+        }
+    }
+
+    if ((copyDisplayFlagPtr & DISPLAY_FLAG_DISABLE_FINISH_EVENT) != 0)
+    {
+        return;
+    }
+
+    if ((animator->work.flags & ANIMATOR_FLAG_DID_FINISH) == 0)
+    {
+        return;
+    }
+
+    *displayFlagPtr |= DISPLAY_FLAG_DID_FINISH;
 }
 
 void StageTask__Draw3D(StageTask *work, Animator3D *animator)
@@ -2023,7 +1913,8 @@ void StageTask__HandleRide(StageTask *work)
 
 void StageTask__HandleCollider(StageTask *work, OBS_RECT_WORK *rect)
 {
-    if ((work->flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0 && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0 && (work->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
+    if ((work->flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0 && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0
+        && (work->flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
     {
         rect->parent = work;
 

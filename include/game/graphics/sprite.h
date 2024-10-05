@@ -339,8 +339,8 @@ struct AnimatorSprite_
     u32 prevAnimSequenceOffset;
     u32 assemblyOffset;
     u32 frameTimer;
-    s32 frameRemainder;
-    s32 animAdvance;
+    fx32 frameRemainder;
+    fx32 animAdvance;
     AnimatorFlags flags;
     PixelMode pixelMode;
     VRAMPixelKey vramPixels;
