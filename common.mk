@@ -103,6 +103,7 @@ LIB_ASM_BUILDDIR          := $(addprefix $(BUILD_DIR)/,$(LIB_ASM_SUBDIR))
 ifeq ($(BUILD_MODE),ARM7)
 
 C_SRCS                    := 
+CXX_SRCS                  := 
 ASM_SRCS                  := 
 GLOBAL_ASM_SRCS           != grep -rl 'GLOBAL_ASM(' $(C_SRCS)
 LIB_C_SRCS                := $(foreach dname,$(LIB_SRC_SUBDIR),$(wildcard $(dname)/*.c))
@@ -121,18 +122,20 @@ ALL_OBJS                  := $(ALL_GAME_OBJS) $(ALL_LIB_OBJS)
 else
 
 C_SRCS                    := $(call rwildcard,$(SRC_SUBDIR),*.c)
+CXX_SRCS                  := $(call rwildcard,$(SRC_SUBDIR),*.cpp)
 ASM_SRCS                  ?= $(call rwildcard,$(ASM_SUBDIR),*.s)
-GLOBAL_ASM_SRCS           != grep -rl 'GLOBAL_ASM(' $(C_SRCS)
+GLOBAL_ASM_SRCS           != grep -rl 'GLOBAL_ASM(' $(C_SRCS) $(CXX_SRCS)
 LIB_C_SRCS                := $(foreach dname,$(LIB_SRC_SUBDIR),$(wildcard $(dname)/*.c))
 LIB_ASM_SRCS              ?= $(foreach dname,$(LIB_ASM_SUBDIR),$(wildcard $(dname)/*.s))
-ALL_SRCS                  := $(C_SRCS) $(ASM_SRCS) $(GLOBAL_ASM_SRCS) $(LIB_C_SRCS) $(LIB_ASM_SRCS)
+ALL_SRCS                  := $(C_SRCS) $(CXX_SRCS) $(ASM_SRCS) $(GLOBAL_ASM_SRCS) $(LIB_C_SRCS) $(LIB_ASM_SRCS)
 
 C_OBJS                    := $(C_SRCS:%.c=$(BUILD_DIR)/%.o)
+CXX_OBJS                  := $(CXX_SRCS:%.cpp=$(BUILD_DIR)/%.o)
 ASM_OBJS                  := $(ASM_SRCS:%.s=$(BUILD_DIR)/%.o)
 GLOBAL_ASM_OBJS           := $(GLOBAL_ASM_SRCS:%.c=$(BUILD_DIR)/%.o)
 LIB_C_OBJS                := $(LIB_C_SRCS:%.c=$(BUILD_DIR)/%.o)
 LIB_ASM_OBJS              := $(LIB_ASM_SRCS:%.s=$(BUILD_DIR)/%.o)
-ALL_GAME_OBJS             := $(C_OBJS) $(ASM_OBJS) $(GLOBAL_ASM_OBJS)
+ALL_GAME_OBJS             := $(C_OBJS) $(CXX_OBJS) $(ASM_OBJS) $(GLOBAL_ASM_OBJS)
 ALL_LIB_OBJS              := $(LIB_C_OBJS) $(LIB_ASM_OBJS)
 ALL_OBJS                  := $(ALL_GAME_OBJS) $(ALL_LIB_OBJS)
 
@@ -227,7 +230,13 @@ lib/NitroWiFi/%.c: MWCCVER := 1.2/sp4
 lib/NitroWiFi/%.s: MWCCVER := 1.2/sp4
 
 $(BUILD_DIR)/%.o: $(ROOT_DIR)%.c
+$(BUILD_DIR)/%.o: $(ROOT_DIR)%.cpp
+
 $(BUILD_DIR)/%.o: $(ROOT_DIR)%.c $(BUILD_DIR)/%.d
+	$(BUILD_C) $@ $<
+	@$(call fixdep,$(BUILD_DIR)/$*.d)
+
+$(BUILD_DIR)/%.o: $(ROOT_DIR)%.cpp $(BUILD_DIR)/%.d
 	$(BUILD_C) $@ $<
 	@$(call fixdep,$(BUILD_DIR)/$*.d)
 
@@ -242,6 +251,9 @@ $(GLOBAL_ASM_OBJS): BUILD_C := $(ASM_PROCESSOR) "$(MW_COMPILE)" "$(MW_ASSEMBLE)"
 BUILD_C ?= $(MW_COMPILE) -c -o
 
 $(BUILD_DIR)/%.o: $(ROOT_DIR)%.c
+	$(BUILD_C) $@ $<
+
+$(BUILD_DIR)/%.o: $(ROOT_DIR)%.cpp
 	$(BUILD_C) $@ $<
 
 $(BUILD_DIR)/%.o: $(ROOT_DIR)%.s

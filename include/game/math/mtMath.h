@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // MACROS
 // --------------------
@@ -17,8 +22,8 @@
 
 #define MATH_SQUARED(x) ((x) * (x))
 
-#define MT_MATH_MIN(a,b) (((a) < (b)) ? (a) : (b))
-#define MT_MATH_MAX(a,b) (((a) > (b)) ? (a) : (b))
+#define MT_MATH_MIN(a, b) (((a) < (b)) ? (a) : (b))
+#define MT_MATH_MAX(a, b) (((a) > (b)) ? (a) : (b))
 
 #define VOID_TO_INT(x) (size_t)(void *)(x)
 #define INT_TO_VOID(x) (void *)(size_t)(x)
@@ -263,5 +268,9 @@ SDK_INLINE void VEC2_Fx16Set(Vec2Fx16 *a, fx16 x, fx16 y)
     a->x = x;
     a->y = y;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH2_MTMATH_H

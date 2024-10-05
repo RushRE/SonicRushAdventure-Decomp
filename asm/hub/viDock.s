@@ -587,14 +587,14 @@ ViDock__Func_215E178: // 0x0215E178
 	bl CPPHelpers__Func_2085F9C
 	mov r1, r0
 	add r0, sp, #0x3c
-	bl CPPHelpers__Func_2085F34
+	bl CPPHelpers__VEC_SetFromVec_2
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0x468]
 	add r0, r0, #8
 	bl CPPHelpers__Func_2085F9C
 	mov r1, r0
 	add r0, sp, #0x30
-	bl CPPHelpers__Func_2085F34
+	bl CPPHelpers__VEC_SetFromVec_2
 	add r0, sp, #0x24
 	bl CPPHelpers__Func_2085EE8
 	add r0, sp, #0x18
@@ -1335,7 +1335,7 @@ _0215EB48:
 	mov r1, r1, lsl #0xc
 	mov r3, r3, lsl #0xc
 	movls r9, #0
-	bl CPPHelpers__Func_2085EEC
+	bl CPPHelpers__VEC_Set
 	add r0, sp, #0xc
 	bl CPPHelpers__Func_2085F98
 	str r9, [sp]

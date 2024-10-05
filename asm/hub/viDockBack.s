@@ -335,7 +335,7 @@ _021648C0:
 	ldr r2, [r4, #0x14]
 	add r0, sp, #0x1c
 	mov r3, r1
-	bl CPPHelpers__Func_2085EEC
+	bl CPPHelpers__VEC_Set
 	add r0, sp, #0x1c
 	bl CPPHelpers__Func_2085F98
 	add r2, r9, #0x128

@@ -23,7 +23,7 @@ Vi3dObject__Constructor: // 0x021674AC
 	mov r2, r1
 	mov r3, r1
 	str r1, [r4, #4]
-	bl CPPHelpers__Func_2085EEC
+	bl CPPHelpers__VEC_Set
 	add r0, r4, #8
 	add r1, sp, #0xc
 	bl CPPHelpers__Func_2085FA8
@@ -34,7 +34,7 @@ Vi3dObject__Constructor: // 0x021674AC
 	add r0, sp, #0
 	mov r2, r1
 	mov r3, r1
-	bl CPPHelpers__Func_2085EEC
+	bl CPPHelpers__VEC_Set
 	add r0, r4, #0x20
 	add r1, sp, #0
 	bl CPPHelpers__Func_2085FA8
@@ -265,7 +265,7 @@ _02167828:
 	mov r2, r1
 	mov r3, r1
 	str r1, [r4, #4]
-	bl CPPHelpers__Func_2085EEC
+	bl CPPHelpers__VEC_Set
 	add r1, sp, #0xc
 	add r0, r4, #8
 	bl CPPHelpers__Func_2085FA8
@@ -276,7 +276,7 @@ _02167828:
 	add r0, sp, #0
 	mov r2, r1
 	mov r3, r1
-	bl CPPHelpers__Func_2085EEC
+	bl CPPHelpers__VEC_Set
 	add r0, r4, #0x20
 	add r1, sp, #0
 	bl CPPHelpers__Func_2085FA8

@@ -86,7 +86,7 @@ ViDockNpcGroup__Func_216846C: // 0x0216846C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #0x340
-	bl CPPHelpers__AllocMain1
+	bl CPPHelpers__HeapAllocHead_System
 	movs r4, r0
 	beq _02168488
 	bl ViDockNpc__Constructor

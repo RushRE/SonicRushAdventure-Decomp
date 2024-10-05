@@ -189,7 +189,7 @@ Static arm9
     Object src/game/unknown/unknown2085404.o
     Object src/game/audio/spatialAudio.o
     Object src/game/graphics/paletteAnimation.o
-    Object asm/game/util/cppHelpers.o
+    Object src/game/util/cppHelpers.o
     
     ### NitroDWC ###
     Object lib/NitroDWC/asm/ARM9/dwci_ac.o # TODO: split asm blob into proper files

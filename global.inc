@@ -3449,7 +3449,7 @@
 .public CPPHelpers__Func_2085D28
 .public CPPHelpers__Func_2085D2C
 .public CPPHelpers__Func_2085D30
-.public CPPHelpers__AllocMain1
+.public CPPHelpers__HeapAllocHead_System
 .public CPPHelpers__Alloc
 .public CPPHelpers__Free
 .public CPPHelpers__Func_2085E3C
@@ -3463,9 +3463,9 @@
 .public CPPHelpers__Func_2085EE0
 .public CPPHelpers__Func_2085EE4
 .public CPPHelpers__Func_2085EE8
-.public CPPHelpers__Func_2085EEC
-.public CPPHelpers__Func_2085F18
-.public CPPHelpers__Func_2085F34
+.public CPPHelpers__VEC_Set
+.public CPPHelpers__VEC_SetFromVec
+.public CPPHelpers__VEC_SetFromVec_2
 .public CPPHelpers__VEC_Normalize
 .public CPPHelpers__VEC_Magnitude
 .public CPPHelpers__Func_2085F98

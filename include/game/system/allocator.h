@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -78,5 +83,9 @@ void _FreeHEAP_ITCM(void *memory);
 void *_AllocHeadHEAP_DTCM(u32 size);
 void *_AllocTailHEAP_DTCM(u32 size);
 void _FreeHEAP_DTCM(void *memory);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH2_ALLOCATOR_H

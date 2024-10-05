@@ -10,12 +10,7 @@
 #include <game/audio/spatialAudio.h>
 #include <game/unknown/unknown2085404.h>
 #include <game/file/fsRequest.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void CPPHelpers__InitSystem(void);
+#include <game/util/cppHelpers.hpp>
 
 // --------------------
 // VARIABLES
