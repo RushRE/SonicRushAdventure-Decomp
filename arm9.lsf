@@ -142,7 +142,7 @@ Static arm9
     Object asm/network/wirelessManager.o
     
     ## GAME ENGINE ##
-    Object asm/game/input/touchField.o
+    Object src/game/input/touchField.o
     Object src/game/game/gameState.o
     Object src/game/system/sysEvent.o
     Object src/game/system/system.o

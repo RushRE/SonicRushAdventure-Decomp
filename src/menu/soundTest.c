@@ -179,7 +179,7 @@ static BOOL CheckSoundTestDigitsIdle(SoundTest *work);
 static void ProcessSoundTestAnimations(SoundTest *work, BOOL flag);
 static void SoundTest_Draw(SoundTest *work);
 static void SetSoundTestSelectedSongName(SoundTest *work);
-static void InitSoundTestTouchAreas(SoundTest *work, BOOL setFlag);
+static void InitSoundTestTouchAreas(SoundTest *work, BOOL disableInteractions);
 static void ProcessSoundTestBtnRepeatTimers(SoundTest *work);
 static BOOL CheckSoundTestRightBtnDown(SoundTest *work);
 static BOOL CheckSoundTestLeftBtnDown(SoundTest *work);
@@ -450,7 +450,7 @@ void SetupSoundTestBackgrounds(SoundTest *work)
             TouchField__InitAreaSprite(&work->touchAreas[i], &work->animators[SoundTest__touchAreaTable[i]], 0, 0x00, NULL, NULL);
         }
 
-        TouchField__AddArea(&work->touchField, &work->touchAreas[i], 0xFFFF);
+        TouchField__AddArea(&work->touchField, &work->touchAreas[i], TOUCHAREA_PRIORITY_FIRST);
     }
 
     work->selectedTrackTextRenderer_data = HeapAllocHead(HEAP_USER, 2304);
@@ -1275,25 +1275,25 @@ void SetSoundTestSelectedSongName(SoundTest *work)
     Unknown2056570__Func_2056B8C(&work->selectedTrackTextRenderer);
 }
 
-void InitSoundTestTouchAreas(SoundTest *work, BOOL setFlag)
+void InitSoundTestTouchAreas(SoundTest *work, BOOL disableInteractions)
 {
     for (s32 i = 0; i < 5; i++)
     {
         TouchField__ResetArea(&work->touchAreas[i]);
     }
 
-    if (setFlag)
+    if (disableInteractions)
     {
         for (s32 i = 0; i < 5; i++)
         {
-            work->touchAreas[i].responseFlags |= TOUCHAREA_RESPONSE_40;
+            work->touchAreas[i].responseFlags |= TOUCHAREA_RESPONSE_DISABLED;
         }
     }
     else
     {
         for (s32 i = 0; i < 5; i++)
         {
-            work->touchAreas[i].responseFlags &= ~TOUCHAREA_RESPONSE_40;
+            work->touchAreas[i].responseFlags &= ~TOUCHAREA_RESPONSE_DISABLED;
         }
     }
 }

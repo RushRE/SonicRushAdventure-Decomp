@@ -252,4 +252,16 @@ RUSH_INLINE void VEC_SetFromArray(VecFx32 *vec, fx32 *values)
     *vec = *(VecFx32 *)values;
 }
 
+SDK_INLINE void VEC2_Set(Vec2Fx32 *a, fx32 x, fx32 y)
+{
+    a->x = x;
+    a->y = y;
+}
+
+SDK_INLINE void VEC2_Fx16Set(Vec2Fx16 *a, fx16 x, fx16 y)
+{
+    a->x = x;
+    a->y = y;
+}
+
 #endif // RUSH2_MTMATH_H
