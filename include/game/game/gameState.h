@@ -4,6 +4,11 @@
 #include <global.h>
 #include <game/math/mtMath.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -376,5 +381,9 @@ RUSH_INLINE BOOL gmCheckVsBattleFlag(void)
 {
     return gmCheckFlag(GAME_FLAG_IS_VS_BATTLE);
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH2_GAMESTATE_H

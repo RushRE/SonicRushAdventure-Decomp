@@ -48,7 +48,7 @@ ViEvtCmnMsg__VTableFunc_216B9AC: // 0x0216B9AC
 	str r1, [r4]
 	bl ViEvtCmnMsg__Func_216BC08
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -1006,7 +1006,7 @@ ViEvtCmnSelect__VTableFunc_216C598: // 0x0216C598
 	str r1, [r4]
 	bl ViEvtCmnSelect__Func_216C70C
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -1854,7 +1854,7 @@ ViEvtCmnAnnounce__VTableFunc_216D060: // 0x0216D060
 	str r1, [r4]
 	bl ViEvtCmnAnnounce__Func_216D194
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -2323,7 +2323,7 @@ ViEvtCmnTalk__VTableFunc_216D648: // 0x0216D648
 	add r0, r4, #0x20
 	bl ViEvtCmnMsg__VTableFunc_216B98C
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0

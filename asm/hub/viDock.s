@@ -1,6 +1,8 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+.public _ZN15CViDockNpcGroupD1Ev
+
 	.bss
 	
 ViDock__TaskSingleton: // 0x02173A54
@@ -73,7 +75,7 @@ ViDock__CreateInternal: // 0x0215DB20
 	bl GetTaskWork_
 	mov r1, r0
 	mov r0, r4
-	bl CPPHelpers__Alloc
+	bl _ZnwmPv
 	movs r4, r0
 	beq _0215DB8C
 	add r0, r4, #0xf8
@@ -83,7 +85,7 @@ ViDock__CreateInternal: // 0x0215DB20
 	bl ViDockPlayer__Constructor
 	add r0, r4, #0x130
 	add r0, r0, #0x1000
-	bl ViDockNpcGroup__Constructor
+	bl _ZN15CViDockNpcGroupC1Ev
 	add r0, r4, #0x48
 	add r0, r0, #0x1400
 	bl ViShadow__Constructor
@@ -555,7 +557,7 @@ _0215E148:
 	streq r1, [r0, #0x468]
 	ldmeqia sp!, {r4, r5, r6, pc}
 	add r0, r4, #0x1000
-	bl ViDockNpcGroup__Func_216852C
+	bl _ZN15CViDockNpcGroup10GetNextNpcEP10CViDockNpc
 	movs r1, r0
 	bne _0215E148
 	ldmia sp!, {r4, r5, r6, pc}
@@ -845,7 +847,7 @@ _0215E52C:
 	bl ovl05_2152EB8
 	mov r1, r4
 	add r0, r5, #0x1000
-	bl ViDockNpcGroup__Func_216852C
+	bl _ZN15CViDockNpcGroup10GetNextNpcEP10CViDockNpc
 	add r1, r6, #1
 	movs r4, r0
 	mov r0, r1, lsl #0x10
@@ -910,7 +912,7 @@ _0215E624:
 _0215E630:
 	mov r1, r7
 	add r0, r5, #0x1000
-	bl ViDockNpcGroup__Func_216852C
+	bl _ZN15CViDockNpcGroup10GetNextNpcEP10CViDockNpc
 	add r1, r6, #1
 	movs r7, r0
 	mov r0, r1, lsl #0x10
@@ -1323,7 +1325,7 @@ _0215EB48:
 	mov r7, r0
 	ldr r0, [sp, #8]
 	add r0, r0, #0x1000
-	bl ViDockNpcGroup__Func_216846C
+	bl _ZN15CViDockNpcGroup6AddNpcEv
 	ldrsh r1, [r6, #4]
 	ldrsh r3, [r6, #6]
 	mov r8, r0
@@ -1364,7 +1366,7 @@ _0215EC1C:
 _0215EC28:
 	add r0, r10, #0x130
 	add r0, r0, #0x1000
-	bl ViDockNpcGroup__Func_216853C
+	bl _ZN15CViDockNpcGroup10LoadAssetsEv
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
@@ -1374,12 +1376,12 @@ _0215EC40: .word 0x02172ECA
 
 	arm_func_start ViDock__Func_215EC44
 ViDock__Func_215EC44: // 0x0215EC44
-	ldr ip, _0215EC54 // =ViDockNpcGroup__Func_2168424
+	ldr ip, _0215EC54 // =_ZN15CViDockNpcGroup12ClearNpcListEv
 	add r0, r0, #0x130
 	add r0, r0, #0x1000
 	bx ip
 	.align 2, 0
-_0215EC54: .word ViDockNpcGroup__Func_2168424
+_0215EC54: .word _ZN15CViDockNpcGroup12ClearNpcListEv
 	arm_func_end ViDock__Func_215EC44
 
 	arm_func_start ViDock__Func_215EC58
@@ -2205,10 +2207,10 @@ _0215F7EC:
 	add r1, r4, #0x1400
 	bl ViDockBack__Func_2164BF4
 	mov r0, r9
-	bl Vi3dObject__Func_2167B98
+	bl Vi3dObject__Draw
 	add r0, r5, #0x1000
 	mov r1, r9
-	bl ViDockNpcGroup__Func_216852C
+	bl _ZN15CViDockNpcGroup10GetNextNpcEP10CViDockNpc
 	movs r9, r0
 	bne _0215F7EC
 _0215F838:
@@ -2238,7 +2240,7 @@ _0215F838:
 	bl ViDockBack__Func_2164BF4
 	add r0, r10, #0x1f8
 	add r0, r0, #0xc00
-	bl Vi3dObject__Func_2167B98
+	bl Vi3dObject__Draw
 _0215F8A4:
 	ldr r0, [sp, #4]
 	cmp r0, #0
@@ -2249,7 +2251,7 @@ _0215F8A4:
 	add r2, r10, #0x130
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl ViDockNpcGroup__Func_2168590
+	bl _ZN15CViDockNpcGroup12Func_2168590El
 _0215F8CC:
 	mov r2, #1
 	add r1, sp, #8
@@ -2415,7 +2417,7 @@ _0215FAB8:
 	mov r2, r6
 	add r0, r0, #0x1000
 	add r3, sp, #0x24
-	bl ViDockNpcGroup__Func_2168608
+	bl _ZN15CViDockNpcGroup12Func_2168608EP7VecFx32S1_S1_l
 	cmp r0, #0
 	beq _0215FB20
 	add r1, sp, #0x24
@@ -2426,7 +2428,7 @@ _0215FB20:
 	bl ViDockBack__Func_21649DC
 	add r0, r7, #0x130
 	add r0, r0, #0x1000
-	bl ViDockNpcGroup__Func_216854C
+	bl _ZN15CViDockNpcGroup12Func_216854CEv
 	add r0, r7, #0xe00
 	bl CPPHelpers__Func_2085F9C
 	ldr r1, [r0, #0]
@@ -2496,7 +2498,7 @@ _0215FC0C:
 	mov r1, r6
 	mov r2, r10
 	add r0, r5, #0x1000
-	bl ViDockNpcGroup__Func_2168674
+	bl _ZN15CViDockNpcGroup12Func_2168674EP7VecFx32llPiP10CViDockNpc
 	movs r8, r0
 	beq _0215FCF0
 	ldr r0, [sp, #0x14]
@@ -2589,7 +2591,7 @@ ViDock__Func_215FD48: // 0x0215FD48
 	bl ViDockPlayer__Func_21667D4
 	add r0, r4, #0x130
 	add r0, r0, #0x1000
-	bl ViDockNpcGroup__Func_216854C
+	bl _ZN15CViDockNpcGroup12Func_216854CEv
 _0215FD8C:
 	add r0, r4, #0xf8
 	bl ViDockBack__Func_21649DC
@@ -2745,14 +2747,14 @@ ViDock__Func_215FF6C: // 0x0215FF6C
 	bl ViShadow__VTableFunc_2167DA0
 	add r0, r4, #0x130
 	add r0, r0, #0x1000
-	bl ViDockNpcGroup__VTableFunc_21683CC
+	bl _ZN15CViDockNpcGroupD1Ev
 	add r0, r4, #0x1f8
 	add r0, r0, #0xc00
 	bl ViDockPlayer__VTableFunc_21665AC
 	add r0, r4, #0xf8
 	bl ViDockBack__VTableFunc_21644C0
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 _0215FFB4:
 	mov r0, #0
 	str r0, [r5, #0x10]

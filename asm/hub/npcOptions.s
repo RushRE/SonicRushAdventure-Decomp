@@ -52,7 +52,7 @@ NpcOptions__CreateInternal: // 0x0216DD8C
 	bl GetTaskWork_
 	mov r1, r0
 	ldr r0, _0216DDD8 // =0x00000584
-	bl CPPHelpers__Alloc
+	bl _ZnwmPv
 	cmp r0, #0
 	beq _0216DDCC
 	bl ViEvtCmnTalk__Constructor
@@ -156,9 +156,9 @@ NpcOptions__Main_216DE94: // 0x0216DE94
 	bne _0216DEF8
 _0216DEE0:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, r5, r6, pc}
 _0216DEF8:
@@ -262,9 +262,9 @@ _0216E058:
 	cmp r7, #0
 	beq _0216E078
 	mov r0, #0x1e
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	bl DestroyCurrentTask
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0216E078:
@@ -324,9 +324,9 @@ _0216E130:
 	cmp r7, #0
 	beq _0216E150
 	mov r0, #0x1e
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	bl DestroyCurrentTask
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0216E150:
@@ -370,9 +370,9 @@ NpcOptions__Main_216E190: // 0x0216E190
 	cmpeq r0, #1
 	bne _0216E1F0
 	mov r0, #0xe
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, r5, r6, pc}
 _0216E1F0:
@@ -416,7 +416,7 @@ NpcOptions__Func_216E24C: // 0x0216E24C
 	mov r0, r4
 	bl ViEvtCmnTalk__VTableFunc_216D618
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 _0216E270:
 	mov r0, #0
 	str r0, [r5, #0x10]

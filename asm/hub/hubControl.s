@@ -132,7 +132,7 @@ _02156F64:
 	ldr r0, [r0, #0x7c]
 	cmp r0, #0
 	beq _02156FC4
-	bl ovl05_2154014
+	bl MissionHelpers__GetMissionID
 	bl ovl05_21542E8
 	mov r4, r0
 	cmp r4, #7
@@ -567,7 +567,7 @@ HubControl__CreateInternal: // 0x0215747C
 	bl GetTaskWork_
 	mov r1, r0
 	mov r0, #0x590
-	bl CPPHelpers__Alloc
+	bl _ZnwmPv
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
@@ -1171,7 +1171,7 @@ _02157CE0:
 	bl HubHUD__Func_21603B0
 	mov r0, #7
 	mov r1, #0
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	ldr r0, _02157F24 // =HubControl__Main_2158160
 	bl SetCurrentTaskMainEvent
 	b _02157F10
@@ -1193,7 +1193,7 @@ _02157D4C:
 	bl HubHUD__Func_21603B0
 	mov r0, #8
 	mov r1, #0
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	ldr r0, _02157F24 // =HubControl__Main_2158160
 	bl SetCurrentTaskMainEvent
 	b _02157F10
@@ -1211,7 +1211,7 @@ _02157D74:
 	bl HubHUD__Func_21603B0
 	mov r0, #4
 	mov r1, #0
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	ldr r0, _02157F24 // =HubControl__Main_2158160
 	bl SetCurrentTaskMainEvent
 	b _02157F10
@@ -1230,11 +1230,11 @@ _02157DB8:
 	mov r0, #9
 	beq _02157DF8
 	mov r1, #1
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _02157E00
 _02157DF8:
 	mov r1, #0
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 _02157E00:
 	ldr r0, _02157F24 // =HubControl__Main_2158160
 	bl SetCurrentTaskMainEvent
@@ -1400,7 +1400,7 @@ _02158028:
 	bl HubHUD__Func_21603B0
 	ldr r0, [sp, #4]
 	ldr r1, [sp]
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	ldr r0, _021580B8 // =HubControl__Main_2158160
 	bl SetCurrentTaskMainEvent
 	b _021580A0
@@ -1493,7 +1493,7 @@ HubControl__Main_2158160: // 0x02158160
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl ViDockNpcGroup__Func_2168724
+	bl _ZN15CViDockNpcGroup12Func_2168724Ev
 	cmp r0, #0x20
 	addls pc, pc, r0, lsl #2
 	b _021587A8
@@ -1562,7 +1562,7 @@ _02158250:
 	bl ViHubAreaPreview__Func_215A2E0
 	mov r0, #1
 	str r0, [r4, #0x104]
-	bl ViDockNpcGroup__Func_2168734
+	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	str r0, [r4, #0x108]
 	mov r0, #0
 	bl ViDock__Func_215DF64
@@ -1574,10 +1574,10 @@ _02158250:
 _02158294:
 	mov r0, #2
 	mov r1, #0
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _021587B4
 _021582A4:
-	bl ViDockNpcGroup__Func_2168734
+	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	str r0, [r4, #0x1c]
 	cmp r0, #0
 	bne _021582B8
@@ -1597,10 +1597,10 @@ _021582B8:
 _021582E4:
 	mov r0, #2
 	mov r1, #1
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _021587B4
 _021582F4:
-	bl ViDockNpcGroup__Func_2168734
+	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	str r0, [r4, #0x20]
 	bl ViDock__Func_215E0CC
 	str r0, [r4, #0x28]
@@ -1615,15 +1615,15 @@ _021582F4:
 	bl ViHubAreaPreview__Func_2159758
 	b _021587B4
 _0215832C:
-	bl ViDockNpcGroup__Func_2168734
+	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	mov r1, r0
 	mov r0, #5
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _021587B4
 _02158340:
 	mov r0, #3
 	mov r1, #0
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _021587B4
 _02158350:
 	mov r0, r4
@@ -1631,7 +1631,7 @@ _02158350:
 	bl ViHubAreaPreview__Func_2159758
 	mov r0, #9
 	str r0, [r4, #0x104]
-	bl ViDockNpcGroup__Func_2168734
+	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	str r0, [r4, #0x108]
 	mov r0, #0
 	bl ViDock__Func_215DF64
@@ -1641,17 +1641,17 @@ _02158350:
 	bl SetCurrentTaskMainEvent
 	b _021587B4
 _02158388:
-	bl ViDockNpcGroup__Func_2168734
+	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	bl ovl05_2153DC0
 	mov r0, #5
 	mov r1, #0x1c
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _021587B4
 _021583A0:
-	bl ViDockNpcGroup__Func_2168734
+	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	cmp r0, #0x64
 	bhs _02158410
-	bl ViDockNpcGroup__Func_2168734
+	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	mov r5, r0
 	bl ovl05_2154094
 	cmp r0, #0x16
@@ -1686,7 +1686,7 @@ _02158410:
 _02158424:
 	mov r0, #7
 	mov r1, #0
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _021587B4
 _02158434:
 	mov r0, r4
@@ -1769,7 +1769,7 @@ _02158530:
 _02158554:
 	mov r0, #8
 	mov r1, #0
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _021587B4
 _02158564:
 	mov r0, r4
@@ -1777,7 +1777,7 @@ _02158564:
 	bl ViHubAreaPreview__Func_2159758
 	mov r0, #7
 	str r0, [r4, #0x104]
-	bl ViDockNpcGroup__Func_2168734
+	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	str r0, [r4, #0x108]
 	mov r0, #0
 	bl ViDock__Func_215DF64
@@ -1792,7 +1792,7 @@ _0215859C:
 	bl ViHubAreaPreview__Func_2159758
 	mov r0, #8
 	str r0, [r4, #0x104]
-	bl ViDockNpcGroup__Func_2168734
+	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	str r0, [r4, #0x108]
 	mov r0, #0
 	bl ViDock__Func_215DF64
@@ -1813,12 +1813,12 @@ _021585D4:
 _021585F4:
 	mov r0, #0
 	mov r1, #0x26
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _021587B4
 _02158604:
 	mov r0, #2
 	mov r1, #3
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _021587B4
 _02158614:
 	mov r0, r4
@@ -1859,10 +1859,10 @@ _02158690:
 	mov r0, r0, lsr #0x10
 	bl ovl05_2153AE8
 	mov r5, r0
-	bl ovl05_2154014
+	bl MissionHelpers__GetMissionID
 	cmp r5, r0
 	bne _021586B8
-	bl ovl05_2154014
+	bl MissionHelpers__GetMissionID
 	mov r6, r0
 	b _021586C8
 _021586B8:
@@ -1881,7 +1881,7 @@ _021586C8:
 	bl ovl05_2153EC4
 	mov r0, #5
 	mov r1, #0x1b
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _021587B4
 _021586F8:
 	bl ViDock__Func_215E410
@@ -1905,10 +1905,10 @@ _02158708:
 _0215873C:
 	mov r0, #2
 	mov r1, r0
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	b _021587B4
 _0215874C:
-	bl ViDockNpcGroup__Func_2168734
+	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	str r0, [r4, #0x24]
 	bl ViDock__Func_215E0CC
 	str r0, [r4, #0x28]
@@ -2243,7 +2243,7 @@ HubControl__Func_2158B84: // 0x02158B84
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x10]
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, #0
 	str r0, [r4, #0x10]
 	ldmia sp!, {r4, pc}

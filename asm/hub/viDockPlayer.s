@@ -50,7 +50,7 @@ ViDockPlayer__VTableFunc_21665D4: // 0x021665D4
 	mov r0, r4
 	bl Vi3dObject__Func_216761C
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -438,7 +438,7 @@ _02166B08:
 	add r0, r5, #8
 	bl CPPHelpers__VEC_Copy_Alt
 	mov r0, r5
-	bl Vi3dObject__Func_2167ADC
+	bl Vi3dObject__ProcessAnimation
 	ldr r1, [r5, #0x30c]
 	mov r0, #0
 	add r1, r1, #1

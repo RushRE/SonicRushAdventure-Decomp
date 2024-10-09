@@ -588,7 +588,7 @@ _02159330:
 	bl ViDock__Func_215E178
 	mov r1, r5
 	mov r0, #0
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	ldr r0, _021593F0 // =HubControl__Main_2158160
 	bl SetCurrentTaskMainEvent
 	b _021593CC
@@ -602,7 +602,7 @@ _02159354:
 	ldr r1, [r4, #0x20]
 	mov r0, #0
 	add r1, r1, #8
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	ldr r0, _021593F0 // =HubControl__Main_2158160
 	bl SetCurrentTaskMainEvent
 	b _021593CC
@@ -621,7 +621,7 @@ _02159388:
 	mov r0, #0
 	add r2, r2, #0x1d
 	add r1, r2, r1, lsl #1
-	bl ViDockNpcGroup__Func_21686F8
+	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
 	ldr r0, _021593F0 // =HubControl__Main_2158160
 	bl SetCurrentTaskMainEvent
 _021593CC:
@@ -3481,9 +3481,25 @@ aBbTkdmDownBb_ovl05: // 0x0217361C
 // TODO: add labels for these so we're not using raw addresses
 .public _0217362C
 _0217362C: // 0x0217362C
-    .word 0x2172D80, 0x2172E68, 0x2172DB0, 0x2172E48
-	.word 0x2172E58, 0x2172D90, 0x2172E78, 0x2172DE0
-	.word 0x2172D88, 0x2172DF8, 0x2172E08, 0x2172E98
-	.word 0x2172DA4, 0x2172E38, 0x2172DBC, 0x2172DD4
-	.word 0x2172DEC, 0x2172E18, 0x2172E28, 0x2172DC8
-	.word 0x2172E88, 0x2172D98
+    .word 0x2172D80
+	.word 0x2172E68
+	.word 0x2172DB0
+	.word 0x2172E48
+	.word 0x2172E58
+	.word 0x2172D90
+	.word 0x2172E78
+	.word 0x2172DE0
+	.word 0x2172D88
+	.word 0x2172DF8
+	.word 0x2172E08
+	.word 0x2172E98
+	.word 0x2172DA4
+	.word 0x2172E38
+	.word 0x2172DBC
+	.word 0x2172DD4
+	.word 0x2172DEC
+	.word 0x2172E18
+	.word 0x2172E28
+	.word 0x2172DC8
+	.word 0x2172E88
+	.word 0x2172D98

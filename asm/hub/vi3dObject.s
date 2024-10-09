@@ -106,7 +106,7 @@ Vi3dObject__VTableFunc_21675F4: // 0x021675F4
 	str r1, [r4]
 	bl Vi3dObject__Func_21677C4
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -459,8 +459,8 @@ Vi3dObject__Func_2167A80: // 0x02167A80
 	ldmia sp!, {r3, pc}
 	arm_func_end Vi3dObject__Func_2167A80
 
-	arm_func_start Vi3dObject__Func_2167ADC
-Vi3dObject__Func_2167ADC: // 0x02167ADC
+	arm_func_start Vi3dObject__ProcessAnimation
+Vi3dObject__ProcessAnimation: // 0x02167ADC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #4]
@@ -515,10 +515,10 @@ _02167B6C:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02167B94: .word 0x0000FFFF
-	arm_func_end Vi3dObject__Func_2167ADC
+	arm_func_end Vi3dObject__ProcessAnimation
 
-	arm_func_start Vi3dObject__Func_2167B98
-Vi3dObject__Func_2167B98: // 0x02167B98
+	arm_func_start Vi3dObject__Draw
+Vi3dObject__Draw: // 0x02167B98
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x48
 	mov r4, r0
@@ -640,7 +640,7 @@ _02167CF8:
 	.align 2, 0
 _02167D68: .word FX_SinCosTable_
 _02167D6C: .word 0x0000FFFF
-	arm_func_end Vi3dObject__Func_2167B98
+	arm_func_end Vi3dObject__Draw
 
 	arm_func_start ViShadow__Constructor
 ViShadow__Constructor: // 0x02167D70
@@ -680,7 +680,7 @@ ViShadow__VTableFunc_2167DC0: // 0x02167DC0
 	str r1, [r4]
 	bl ViShadow__Func_2167E9C
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -1043,7 +1043,7 @@ Vi3dArrow__VTableFunc_2168290: // 0x02168290
 	mov r0, r4
 	bl Vi3dObject__Func_216761C
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0

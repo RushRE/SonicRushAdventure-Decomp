@@ -50,7 +50,7 @@ NpcViking__CreateInternal: // 0x02171108
 	bl GetTaskWork_
 	mov r1, r0
 	ldr r0, _0217114C // =0x0000055C
-	bl CPPHelpers__Alloc
+	bl _ZnwmPv
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
@@ -314,15 +314,15 @@ _02171470:
 	cmp r4, r0
 	beq _02171494
 	mov r0, #0x14
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, r4
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	ldmia sp!, {r4, pc}
 _02171494:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021714A8: .word 0x02173220
@@ -346,7 +346,7 @@ NpcViking__Func_21714D0: // 0x021714D0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x10]
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, #0
 	str r0, [r4, #0x10]
 	ldmia sp!, {r4, pc}

@@ -1949,8 +1949,8 @@ _02153E24:
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ovl05_2153E18
 
-	arm_func_start ovl05_2153E4C
-ovl05_2153E4C: // 0x02153E4C
+	arm_func_start MissionHelpers__Func_2153E4C
+MissionHelpers__Func_2153E4C: // 0x02153E4C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ovl05_2153EA4
@@ -1975,7 +1975,7 @@ _02153E90:
 	mov r0, #0x63
 	bl ovl05_2153DC0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl05_2153E4C
+	arm_func_end MissionHelpers__Func_2153E4C
 
 	arm_func_start ovl05_2153EA4
 ovl05_2153EA4: // 0x02153EA4
@@ -2100,14 +2100,14 @@ _0215400C: .word gameState
 _02154010: .word 0x02172C3C
 	arm_func_end ovl05_2153F38
 
-	arm_func_start ovl05_2154014
-ovl05_2154014: // 0x02154014
+	arm_func_start MissionHelpers__GetMissionID
+MissionHelpers__GetMissionID: // 0x02154014
 	ldr r0, _02154020 // =gameState
 	ldr r0, [r0, #0x144]
 	bx lr
 	.align 2, 0
 _02154020: .word gameState
-	arm_func_end ovl05_2154014
+	arm_func_end MissionHelpers__GetMissionID
 
 	arm_func_start ovl05_2154024
 ovl05_2154024: // 0x02154024

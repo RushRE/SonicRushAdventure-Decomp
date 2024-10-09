@@ -600,15 +600,15 @@ Task__OV05Unknown2168C48__Func_2169424: // 0x02169424
 	cmp r0, #0
 	bne _02169464
 	mov r0, #1
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	ldr r0, [r4, #0]
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _021694D8
 _02169464:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _021694D8
 _02169478:
 	cmp r0, #0
@@ -618,15 +618,15 @@ _02169478:
 	b _021694C8
 _0216948C:
 	mov r0, #1
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	ldr r0, [r4, #0]
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _021694D8
 _021694A0:
 	mov r0, #2
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	ldr r0, [r4, #0]
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	ldr r0, [r4, #0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -635,9 +635,9 @@ _021694A0:
 	b _021694D8
 _021694C8:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 _021694D8:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}

@@ -17040,7 +17040,7 @@ _ZN10__cxxabiv117__class_type_infoD0Ev: // 0x0210BB00
 	mov r4, r0
 	bl _ZNSt9type_infoD2Ev
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end _ZN10__cxxabiv117__class_type_infoD0Ev
@@ -17069,7 +17069,7 @@ _ZN10__cxxabiv120__si_class_type_infoD0Ev: // 0x0210BB44
 	mov r4, r0
 	bl _ZN10__cxxabiv117__class_type_infoD2Ev
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	arm_func_end _ZN10__cxxabiv120__si_class_type_infoD0Ev

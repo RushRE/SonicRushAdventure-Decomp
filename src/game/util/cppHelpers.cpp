@@ -44,17 +44,17 @@ void CPPHelpers__Func_2085D30(void)
     // nothing?
 }
 
-void *CPPHelpers__HeapAllocHead_System(u32 size)
+void *operator new(size_t size)
 {
     return HeapAllocHead(HEAP_SYSTEM, size);
 }
 
-void *CPPHelpers__Alloc(u32 size, void *memory)
+void *operator new(size_t, void *memory)
 {
     return memory;
 }
 
-void CPPHelpers__Free(void *memory)
+void operator delete(void *memory)
 {
     u32 heap;
 
@@ -154,11 +154,13 @@ void CPPHelpers__Func_2085EE4(void)
     // nothing?
 }
 
+// TODO: figure what operator/function this _really_ is
 VecFx32 *CPPHelpers__Func_2085EE8(VecFx32 *vec)
 {
     return vec;
 }
 
+// TODO: figure what operator/function this _really_ is
 VecFx32 *CPPHelpers__VEC_Set(VecFx32 *vec, fx32 x, fx32 y, fx32 z)
 {
     VecFx32 *vecPtr = CPPHelpers__Func_2085FA0(vec);
@@ -170,6 +172,7 @@ VecFx32 *CPPHelpers__VEC_Set(VecFx32 *vec, fx32 x, fx32 y, fx32 z)
     return vec;
 }
 
+// TODO: figure what operator/function this _really_ is
 VecFx32 *CPPHelpers__VEC_SetFromVec(VecFx32 *lhs, VecFx32 *rhs)
 {
     fx32 x = rhs->x;
@@ -185,6 +188,7 @@ VecFx32 *CPPHelpers__VEC_SetFromVec(VecFx32 *lhs, VecFx32 *rhs)
     return lhs;
 }
 
+// TODO: figure what operator/function this _really_ is
 VecFx32 *CPPHelpers__VEC_SetFromVec_2(VecFx32 *lhs, VecFx32 *rhs)
 {
     fx32 x = rhs->x;
@@ -200,6 +204,7 @@ VecFx32 *CPPHelpers__VEC_SetFromVec_2(VecFx32 *lhs, VecFx32 *rhs)
     return lhs;
 }
 
+// TODO: figure what operator/function this _really_ is
 VecFx32 *CPPHelpers__VEC_Normalize(VecFx32 *vec)
 {
     VecFx32 *v    = CPPHelpers__Func_2085FA0(vec);
@@ -210,6 +215,7 @@ VecFx32 *CPPHelpers__VEC_Normalize(VecFx32 *vec)
     return vec;
 }
 
+// TODO: figure what operator/function this _really_ is
 s32 CPPHelpers__VEC_Magnitude(s32 *magnitude, VecFx32 *vec)
 {
     VecFx32 *v = CPPHelpers__Func_2085FA4(vec);
@@ -219,70 +225,88 @@ s32 CPPHelpers__VEC_Magnitude(s32 *magnitude, VecFx32 *vec)
     return *magnitude;
 }
 
+// TODO: figure what operator this is
 VecFx32 *CPPHelpers__Func_2085F98(VecFx32 *vec)
 {
     return vec;
 }
 
+// TODO: figure what operator this is
 VecFx32 *CPPHelpers__Func_2085F9C(VecFx32 *vec)
 {
     return vec;
 }
 
+// TODO: figure what operator this is
 VecFx32 *CPPHelpers__Func_2085FA0(VecFx32 *vec)
 {
     return vec;
 }
 
+// TODO: figure what operator this is
 VecFx32 *CPPHelpers__Func_2085FA4(VecFx32 *vec)
 {
     return vec;
 }
 
+// TODO: figure what operator this is
 VecFx32 *CPPHelpers__Func_2085FA8(VecFx32 *lhs, VecFx32 *rhs)
 {
     CPPHelpers__VEC_Copy(CPPHelpers__Func_2085F98(lhs), CPPHelpers__Func_2085F9C(rhs));
     return lhs;
 }
 
+// TODO: figure what operator this is
 VecFx32 *CPPHelpers__VEC_Copy_Alt(VecFx32 *lhs, VecFx32 *rhs)
 {
     CPPHelpers__VEC_Copy(CPPHelpers__Func_2085F98(lhs), rhs);
     return lhs;
 }
 
+// TODO: figure what operator this is
 VecFx32 *CPPHelpers__VEC_Add_Alt(VecFx32 *lhs, VecFx32 *rhs)
 {
     CPPHelpers__VEC_Add(CPPHelpers__Func_2085F98(lhs), CPPHelpers__Func_2085F9C(rhs));
     return lhs;
 }
 
+// TODO: figure what operator this is
 VecFx32 *CPPHelpers__VEC_Multiply_Alt(VecFx32 *lhs, fx32 value)
 {
     CPPHelpers__VEC_Multiply(CPPHelpers__Func_2085F98(lhs), value);
     return lhs;
 }
 
+// TODO: figure what operator this is
 void CPPHelpers__VEC_Add_Alt2(VecFx32 *lhs, VecFx32 *rhs, VecFx32 *dest)
 {
     CPPHelpers__VEC_SetFromVec(lhs, rhs);
     CPPHelpers__VEC_Add(CPPHelpers__Func_2085F98(lhs), dest);
 }
 
+// TODO: figure what operator this is
 void CPPHelpers__VEC_Subtract_Alt(VecFx32 *lhs, VecFx32 *rhs, VecFx32 *dest)
 {
     CPPHelpers__VEC_SetFromVec(lhs, rhs);
     CPPHelpers__VEC_Subtract(CPPHelpers__Func_2085F98(lhs), CPPHelpers__Func_2085F9C(dest));
 }
 
+// TODO: figure what operator this is
 void CPPHelpers__VEC_Copy(VecFx32 *lhs, VecFx32 *rhs)
 {
     VEC_Set(lhs, rhs->x, rhs->y, rhs->z);
 }
 
-VecFx32 *CPPHelpers__VEC_Add(VecFx32 *lhs, VecFx32 *rhs)
+VecFx32 *CPPHelpers__VEC_Add(const VecFx32 *lhs, const VecFx32 *rhs)
 {
-    VEC_Add(lhs, rhs, lhs);
+    VEC_Add(lhs, rhs, (VecFx32 *)lhs);
+    return (VecFx32 *)lhs;
+}
+
+// TODO: replace CPPHelpers__VEC_Add with this
+VecFx32 &operator+(VecFx32 &lhs, VecFx32 &rhs)
+{
+    VEC_Add(&lhs, &rhs, &lhs);
     return lhs;
 }
 
@@ -292,9 +316,24 @@ VecFx32 *CPPHelpers__VEC_Subtract(VecFx32 *lhs, VecFx32 *rhs)
     return lhs;
 }
 
+// TODO: replace CPPHelpers__VEC_Subtract with this
+VecFx32 &operator-(VecFx32 &lhs, VecFx32 &rhs)
+{
+    VEC_Subtract(&lhs, &rhs, &lhs);
+    return lhs;
+}
+
 void CPPHelpers__VEC_Multiply(VecFx32 *lhs, fx32 value)
 {
     lhs->x = MultiplyFX(lhs->x, value);
     lhs->y = MultiplyFX(lhs->y, value);
     lhs->z = MultiplyFX(lhs->z, value);
+}
+
+// TODO: replace CPPHelpers__VEC_Multiply with this
+void operator*=(VecFx32 &lhs, fx32 value)
+{
+    lhs.x = MultiplyFX(lhs.x, value);
+    lhs.y = MultiplyFX(lhs.y, value);
+    lhs.z = MultiplyFX(lhs.z, value);
 }

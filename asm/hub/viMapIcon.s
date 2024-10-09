@@ -58,7 +58,7 @@ ViMapIcon__VTableFunc_2163030: // 0x02163030
 	str r1, [r4]
 	bl ViMapIcon__Func_2163294
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0

@@ -40,7 +40,7 @@ ViMapVmiFile__VTableFunc_216104C: // 0x0216104C
 	str r1, [r4]
 	bl ViMapVmiFile__Func_2161074
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -197,7 +197,7 @@ ViMapVmpFile__VTableFunc_21611C4: // 0x021611C4
 	str r1, [r4]
 	bl ViMapVmpFile__Func_21611EC
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -261,7 +261,7 @@ ViMapVmcFile__VTableFunc_2161258: // 0x02161258
 	str r1, [r4]
 	bl ViMapVmcFile__Func_2161280
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -361,7 +361,7 @@ ViMapBack__VTableFunc_2161364: // 0x02161364
 	add r0, r4, #4
 	bl ViMapVmiFile__VTableFunc_216102C
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0

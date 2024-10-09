@@ -3,13 +3,13 @@
 
 	.text
 
-	arm_func_start Task__OV05Unknown216897C__Create
-Task__OV05Unknown216897C__Create: // 0x021687AC
+	arm_func_start CreateViDockNpcTalk
+CreateViDockNpcTalk: // 0x021687AC
 	ldr ip, _021687B4 // =ovl05_21687B8
 	bx ip
 	.align 2, 0
 _021687B4: .word ovl05_21687B8
-	arm_func_end Task__OV05Unknown216897C__Create
+	arm_func_end CreateViDockNpcTalk
 
 	arm_func_start ovl05_21687B8
 ovl05_21687B8: // 0x021687B8
@@ -149,7 +149,7 @@ Task__OV05Unknown216897C__CreateInternal: // 0x0216897C
 	bl GetTaskWork_
 	mov r1, r0
 	ldr r0, _021689CC // =0x000004BC
-	bl CPPHelpers__Alloc
+	bl _ZnwmPv
 	cmp r0, #0
 	beq _021689C0
 	add r0, r0, #4
@@ -184,7 +184,7 @@ Task__OV05Unknown216897C__Main: // 0x021689E4
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #4
 	bl ViEvtCmnTalk__Func_216D8A4
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	add r0, r4, #4
 	bl ViEvtCmnTalk__Func_216D89C
 	cmp r0, #0x16
@@ -216,99 +216,99 @@ _02168A28: // jump table
 	b _02168BB4 // case 22
 _02168A84:
 	mov r0, #3
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168A90:
 	mov r0, #4
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	bl ViHubAreaPreview__Func_215B4E0
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02168BE8
 _02168AAC:
 	mov r0, #7
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168AB8:
 	mov r0, #8
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168AC4:
 	mov r0, #0xc
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168AD0:
 	mov r0, #0xd
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168ADC:
 	mov r0, #0x13
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168AE8:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168AF4:
 	mov r0, #0x16
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168B00:
 	mov r0, #5
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168B0C:
 	mov r0, #0x17
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168B18:
 	mov r0, #0x18
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168B24:
 	mov r0, #0x19
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168B30:
 	mov r0, #7
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	add r0, r4, #4
 	bl ViEvtCmnTalk__Func_216D8A4
 	add r0, r0, #5
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02168BE8
 _02168B4C:
 	mov r0, #0xa
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168B58:
 	mov r0, #0xb
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168B64:
 	mov r0, #0x1a
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168B70:
 	mov r0, #0x1c
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168B7C:
 	mov r0, #0x1d
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	bl ViHubAreaPreview__Func_215B978
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02168BE8
 _02168B98:
 	mov r0, #7
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	add r0, r4, #4
 	bl ViEvtCmnTalk__Func_216D8A4
 	add r0, r0, #0x1d
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02168BE8
 _02168BB4:
 	add r0, r4, #4
@@ -321,11 +321,11 @@ _02168BB4:
 	bl SaveGame__SetProgressFlags_0x100000
 _02168BD4:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _02168BE8
 _02168BE0:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 _02168BE8:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}
@@ -352,7 +352,7 @@ Task__OV05Unknown216897C__Func_2168C0C: // 0x02168C0C
 	add r0, r4, #4
 	bl ViEvtCmnTalk__VTableFunc_216D618
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 _02168C30:
 	mov r0, #0
 	str r0, [r5, #0x10]

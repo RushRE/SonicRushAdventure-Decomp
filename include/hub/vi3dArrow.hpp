@@ -7,7 +7,12 @@
 // STRUCTS
 // --------------------
 
-class Vi3dArrow : Vi3dObject
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+class Vi3dArrow : public Vi3dObject
 {
 
 public:
@@ -19,10 +24,16 @@ public:
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void Vi3dArrow__Constructor(void);
-NOT_DECOMPILED void Vi3dArrow__VTableFunc_2168268(void);
-NOT_DECOMPILED void Vi3dArrow__VTableFunc_2168290(void);
-NOT_DECOMPILED void Vi3dArrow__LoadAssets(void);
-NOT_DECOMPILED void Vi3dArrow__Func_2168358(void);
+NOT_DECOMPILED void Vi3dArrow__Constructor(Vi3dArrow *work);
+NOT_DECOMPILED void Vi3dArrow__VTableFunc_2168268(Vi3dArrow *work);
+NOT_DECOMPILED void Vi3dArrow__VTableFunc_2168290(Vi3dArrow *work);
+NOT_DECOMPILED void Vi3dArrow__LoadAssets(Vi3dArrow *work);
+NOT_DECOMPILED void Vi3dArrow__Func_2168358(Vi3dArrow *work);
+
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH2_VI3DARROW_HPP

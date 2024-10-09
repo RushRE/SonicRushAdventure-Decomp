@@ -13,12 +13,31 @@ extern "C"
 #endif
 
 void CPPHelpers__InitSystem(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+#ifdef __cplusplus
+
+void *operator new(size_t size);
+void *operator new(size_t, void *memory);
+void operator delete(void *memory);
+
+// "Allocate" memory where the address is already known
+#define PlacementNew(memory, type) new (memory) type
+
+VecFx32 &operator+(VecFx32 &lhs, VecFx32 &rhs);
+VecFx32 &operator-(VecFx32 &lhs, VecFx32 &rhs);
+void operator*=(VecFx32 &lhs, fx32 value);
+
+extern "C"
+{
+
 void CPPHelpers__Func_2085D28(void);
 void CPPHelpers__Func_2085D2C(void);
 void CPPHelpers__Func_2085D30(void);
-void *CPPHelpers__HeapAllocHead_System(u32 size);
 void *CPPHelpers__Alloc(u32 size, void *memory);
-void CPPHelpers__Free(void *memory);
 void CPPHelpers__Func_2085E3C(void);
 void CPPHelpers__Func_2085E40(void);
 MtxFx33 *CPPHelpers__MtxRotY33(MtxFx33 *mtx, fx32 *sin, fx32 *cos);
@@ -46,11 +65,9 @@ VecFx32 *CPPHelpers__VEC_Multiply_Alt(VecFx32 *lhs, fx32 value);
 void CPPHelpers__VEC_Add_Alt2(VecFx32 *lhs, VecFx32 *rhs, VecFx32 *dest);
 void CPPHelpers__VEC_Subtract_Alt(VecFx32 *lhs, VecFx32 *rhs, VecFx32 *dest);
 void CPPHelpers__VEC_Copy(VecFx32 *lhs, VecFx32 *rhs);
-VecFx32 *CPPHelpers__VEC_Add(VecFx32 *lhs, VecFx32 *rhs);
+VecFx32 *CPPHelpers__VEC_Add(const VecFx32 *lhs, const VecFx32 *rhs);
 VecFx32 *CPPHelpers__VEC_Subtract(VecFx32 *lhs, VecFx32 *rhs);
 void CPPHelpers__VEC_Multiply(VecFx32 *lhs, fx32 value);
-
-#ifdef __cplusplus
 }
 #endif
 

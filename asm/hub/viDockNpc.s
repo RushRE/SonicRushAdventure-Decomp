@@ -52,7 +52,7 @@ ViDockNpc__VTableFunc_2166C00: // 0x02166C00
 	mov r0, r4
 	bl Vi3dObject__Func_216761C
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0

@@ -661,7 +661,8 @@ Overlay Hub
     Object asm/hub/viDockPlayer.o
     Object asm/hub/viDockNpc.o
     Object asm/hub/vi3dObject.o
-    Object asm/hub/viDockNpcGroup.o
+    Object src/hub/cviDockNpcGroup.o
+    Object asm/hub/viDockNpcGroup_vars.o
     Object asm/hub/unknown216897C.o
     Object asm/hub/unknown2168C48.o
     Object asm/hub/viTalkPurchase.o

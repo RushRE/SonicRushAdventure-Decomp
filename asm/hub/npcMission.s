@@ -61,7 +61,7 @@ NpcMission__CreateInternal: // 0x02171658
 	bl GetTaskWork_
 	mov r1, r0
 	ldr r0, _021716A4 // =0x00000588
-	bl CPPHelpers__Alloc
+	bl _ZnwmPv
 	cmp r0, #0
 	beq _02171698
 	bl ViEvtCmnTalk__Constructor
@@ -163,20 +163,20 @@ NpcMission__Main_2171768: // 0x02171768
 	cmp r0, #0
 	bne _021717B4
 	mov r0, #0x1b
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	b _021717D0
 _021717B4:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
 	bl SaveGame__GsExit
 	b _021717D0
 _021717C8:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 _021717D0:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}
 	arm_func_end NpcMission__Main_2171768
@@ -202,7 +202,7 @@ NpcMission__Func_21717FC: // 0x021717FC
 	mov r0, r4
 	bl ViEvtCmnTalk__VTableFunc_216D618
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 _02171820:
 	mov r0, #0
 	str r0, [r5, #0x10]

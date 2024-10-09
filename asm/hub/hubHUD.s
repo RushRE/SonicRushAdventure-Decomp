@@ -52,7 +52,7 @@ HubHUD__CreateInternal: // 0x021600A0
 	bl GetTaskWork_
 	mov r1, r0
 	mov r0, #0x254
-	bl CPPHelpers__Alloc
+	bl _ZnwmPv
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
@@ -832,7 +832,7 @@ HubHUD__Func_2160AC4: // 0x02160AC4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x10]
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, #0
 	str r0, [r4, #0x10]
 	ldmia sp!, {r4, pc}

@@ -76,7 +76,7 @@ ViMap__CreateInternal: // 0x0215BA94
 	bl GetTaskWork_
 	mov r1, r0
 	mov r0, r4
-	bl CPPHelpers__Alloc
+	bl _ZnwmPv
 	movs r4, r0
 	beq _0215BAE0
 	bl ViMapBack__Constructor
@@ -1767,7 +1767,7 @@ ViMap__Func_215D150: // 0x0215D150
 	mov r0, r4
 	bl ViMapBack__VTableFunc_216132C
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 _0215D17C:
 	mov r0, #0
 	str r0, [r5, #0x10]

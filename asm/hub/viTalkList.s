@@ -51,7 +51,7 @@ ViTalkList__CreateInternal: // 0x0216A218
 	bl GetTaskWork_
 	mov r1, r0
 	ldr r0, _0216A264 // =0x00000DE4
-	bl CPPHelpers__Alloc
+	bl _ZnwmPv
 	cmp r0, #0
 	beq _0216A258
 	bl ViEvtCmnTalk__Constructor
@@ -930,9 +930,9 @@ ViTalkList__Destructor: // 0x0216AE54
 	bl ovl05_2153F0C
 _0216AE88:
 	mov r0, #0xb
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0x63
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _0216AEF0
 _0216AE9C:
 	ldr r0, [r4, #0x4c0]
@@ -949,15 +949,15 @@ _0216AE9C:
 	bl ovl05_2153F0C
 _0216AECC:
 	mov r0, #9
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, r5
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _0216AEF0
 _0216AEE0:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 _0216AEF0:
 	mov r0, r4
 	bl ViTalkList__Func_216A848
@@ -976,7 +976,7 @@ ViTalkList__Func_216AF04: // 0x0216AF04
 	mov r0, r4
 	bl ViEvtCmnTalk__VTableFunc_216D618
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 _0216AF28:
 	mov r0, #0
 	str r0, [r5, #0x10]

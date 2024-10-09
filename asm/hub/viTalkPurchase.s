@@ -124,7 +124,7 @@ ViTalkPurchase__CreateInternal: // 0x02169918
 	bl GetTaskWork_
 	mov r1, r0
 	ldr r0, _02169968 // =0x000011FC
-	bl CPPHelpers__Alloc
+	bl _ZnwmPv
 	cmp r0, #0
 	beq _0216995C
 	add r0, r0, #0x14
@@ -537,12 +537,12 @@ _02169E7C:
 	bl ovl05_21529D8
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #6
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	ldr r1, [r4, #4]
 	ldr r0, _02169FA0 // =0x02173190
 	mov r1, r1, lsl #1
 	ldrh r0, [r0, r1]
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02169F98
 _02169EB0:
 	ldr r0, [r4, #0]
@@ -551,9 +551,9 @@ _02169EB0:
 	bl ovl05_21529BC
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #4
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	ldr r0, [r4, #0]
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02169F98
 _02169ED8:
 	ldr r0, [r4, #8]
@@ -562,17 +562,17 @@ _02169ED8:
 	bl ovl05_21529E8
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #0x1d
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	ldr r0, [r4, #8]
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02169F98
 _02169F00:
 	bl ovl05_21529CC
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #6
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #7
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02169F98
 _02169F1C:
 	ldr r0, [r4, #8]
@@ -581,15 +581,15 @@ _02169F1C:
 	bl ovl05_21529E8
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #0x1d
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	ldr r0, [r4, #8]
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02169F98
 _02169F44:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02169F98
 _02169F58:
 	mov r0, #0
@@ -601,15 +601,15 @@ _02169F58:
 	bl SaveGame__UseRingsForPurchase
 _02169F74:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02169F98
 _02169F88:
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168744
+	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	mov r0, #0
-	bl ViDockNpcGroup__Func_2168754
+	bl _ZN15CViDockNpcGroup12Func_2168754El
 _02169F98:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}
@@ -638,7 +638,7 @@ ViTalkPurchase__Func_2169FC0: // 0x02169FC0
 	add r0, r4, #0x14
 	bl ViEvtCmnTalk__VTableFunc_216D618
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 _02169FE4:
 	mov r0, #0
 	str r0, [r5, #0x10]

@@ -124,7 +124,7 @@ ViDockBack__VTableFunc_2164540: // 0x02164540
 	add r0, r4, #8
 	bl Vi3dObject__VTableFunc_21675D4
 	mov r0, r4
-	bl CPPHelpers__Free
+	bl _ZdlPv
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -435,15 +435,15 @@ ViDockBack__Func_21649DC: // 0x021649DC
 	cmp r0, #0
 	beq _02164A18
 	add r0, r4, #8
-	bl Vi3dObject__Func_2167ADC
+	bl Vi3dObject__ProcessAnimation
 	ldr r0, [r4, #4]
 	cmp r0, #6
 	bne _02164A18
 	add r0, r4, #0x308
-	bl Vi3dObject__Func_2167ADC
+	bl Vi3dObject__ProcessAnimation
 	add r0, r4, #0x208
 	add r0, r0, #0x400
-	bl Vi3dObject__Func_2167ADC
+	bl Vi3dObject__ProcessAnimation
 _02164A18:
 	ldr r0, [r4, #0x91c]
 	cmp r0, #0
@@ -451,7 +451,7 @@ _02164A18:
 	cmpne r0, #0
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #0x920
-	bl Vi3dObject__Func_2167ADC
+	bl Vi3dObject__ProcessAnimation
 	ldmia sp!, {r4, pc}
 	arm_func_end ViDockBack__Func_21649DC
 
@@ -508,7 +508,7 @@ ViDockBack__Func_2164AB4: // 0x02164AB4
 	strh r5, [r7, #0x48]
 	strh r4, [r7, #0x4a]
 	add r0, r7, #8
-	bl Vi3dObject__Func_2167B98
+	bl Vi3dObject__Draw
 	ldr r0, [r7, #4]
 	cmp r0, #6
 	bne _02164B28
@@ -517,14 +517,14 @@ ViDockBack__Func_2164AB4: // 0x02164AB4
 	strh r5, [r1, #0x48]
 	add r0, r7, #0x308
 	strh r4, [r1, #0x4a]
-	bl Vi3dObject__Func_2167B98
+	bl Vi3dObject__Draw
 	add r1, r7, #0x600
 	strh r6, [r1, #0x40]
 	add r0, r7, #0x208
 	strh r5, [r1, #0x48]
 	add r0, r0, #0x400
 	strh r4, [r1, #0x4a]
-	bl Vi3dObject__Func_2167B98
+	bl Vi3dObject__Draw
 _02164B28:
 	ldr r0, [r7, #0x91c]
 	cmp r0, #0
@@ -536,7 +536,7 @@ _02164B28:
 	strh r5, [r1, #0x60]
 	add r0, r7, #0x920
 	strh r4, [r1, #0x62]
-	bl Vi3dObject__Func_2167B98
+	bl Vi3dObject__Draw
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	arm_func_end ViDockBack__Func_2164AB4
 
