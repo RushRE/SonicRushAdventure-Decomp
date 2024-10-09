@@ -35,7 +35,7 @@ NOT_DECOMPILED void FontWindow__Clear(FontWindow *work);
 NOT_DECOMPILED void FontWindow__LoadWinSimple(FontWindow *window);
 NOT_DECOMPILED void FontWindow__SetDMA(FontWindow *result, u16 id);
 NOT_DECOMPILED void FontWindow__PrepareSwapBuffer(FontWindow *work);
-NOT_DECOMPILED void FontWindow__GetFont(FontWindow *result);
+NOT_DECOMPILED void *FontWindow__GetFont(FontWindow *result);
 NOT_DECOMPILED FontDMAControl *FontWindow__Func_20582AC(FontWindow *work);
 NOT_DECOMPILED void *FontWindow__GetFileFromArchive(FontWindow *work, u32 archiveID, u32 fileID);
 NOT_DECOMPILED void *FontWindow__GetMWBackground(FontWindow *work, u32 fileID);

@@ -29,7 +29,7 @@ s32 GetFontCharacterFromUTF(u32 character)
     s32 count = 56;
     while (page < count)
     {
-        s32 nextID = ((page + count) & 1) + ((page + count) >> 1);
+        s32 nextID = ((page + count) >> 1) + ((page + count) & 1);
         if (utfCharOffset[nextID] <= character)
             page = nextID;
         else

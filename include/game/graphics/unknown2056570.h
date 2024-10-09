@@ -41,7 +41,7 @@ NOT_DECOMPILED u16 Unknown2056570__Func_205682C(Unknown2056570 *work);
 NOT_DECOMPILED void *Unknown2056570__Func_2056834(Unknown2056570 *work);
 NOT_DECOMPILED void Unknown2056570__Func_205683C(Unknown2056570 *work);
 NOT_DECOMPILED void Unknown2056570__Func_20568B0(Unknown2056570 *work, s32 a2, s32 a3, s32 a4, u16 a5);
-NOT_DECOMPILED void Unknown2056570__Func_2056958(Unknown2056570 *work, u32 a2, u32 a3, u32 a4, u16 a5);
+NOT_DECOMPILED void Unknown2056570__Func_2056958(Unknown2056570 *work, u16 a2, u32 a3, u16 a4, u16 a5);
 NOT_DECOMPILED void Unknown2056570__Func_20569C4(Unknown2056570 *work);
 NOT_DECOMPILED void Unknown2056570__Func_2056A58(Unknown2056570 *work);
 NOT_DECOMPILED void Unknown2056570__Func_2056A94(Unknown2056570 *work);

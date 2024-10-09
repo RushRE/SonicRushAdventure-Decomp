@@ -77,7 +77,7 @@ NOT_DECOMPILED void FontFile__LoadBlock3(FontFile *work);
 NOT_DECOMPILED void FontFile__LoadCharDataBlock(FontFile *work);
 NOT_DECOMPILED u32 FontFile__GetFileSize(void *filePtr, int mode);
 NOT_DECOMPILED void FontFile__InitFromBuffer(FontFile *work, void *filePtr);
-NOT_DECOMPILED void FontFile__Func_2052B7C(void);
+NOT_DECOMPILED void FontFile__Func_2052B7C(FontFile *work, s32 character, s32 a3, void *a4, u16 a5, s16 a6, s16 a7, s32 a8, s16 a9, s32 a10, s32 a11);
 NOT_DECOMPILED void FontFile__Func_2052DD0(void);
 NOT_DECOMPILED void FontFile__Func_2052F38(void);
 NOT_DECOMPILED void FontFile__Func_2053010(FontFile *work, s32 a2, s32 a3, Unknown2056570 *unknown, u16 a5, s16 a6, u16 a7, s32 a8, u16 a9, void *a10, char *a1, ...);

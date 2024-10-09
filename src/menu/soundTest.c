@@ -20,7 +20,7 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void BackgroundUnknown__CopyPixels(void);
+NOT_DECOMPILED void BackgroundUnknown__CopyPixels(void *pixels, s32 unitWidth, s32 pivotX, s32 pivotY, u16 xAdvance, u16 lineSize, void *pixels2, u16 pixelWidth, u16 x, u16 y, s16 a11);
 
 // --------------------
 // ENUMS
