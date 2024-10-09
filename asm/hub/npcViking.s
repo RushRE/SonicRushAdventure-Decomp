@@ -235,19 +235,19 @@ NpcViking__Main: // 0x02171360
 	bl IsThreadWorkerFinished
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldr r1, _021713A8 // =0x02139554
+	ldr r1, _021713A8 // =gameState+0x00000100
 	mov r0, r4
 	ldrh r1, [r1, #0x40]
 	mov r2, #1
 	bl NpcOptions__Func_216EEC0
-	ldr r1, _021713A8 // =0x02139554
+	ldr r1, _021713A8 // =gameState+0x00000100
 	mov r2, #0
 	ldr r0, _021713AC // =NpcViking__Func_21713B0
 	strh r2, [r1, #0x40]
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021713A8: .word 0x02139554
+_021713A8: .word gameState+0x00000100
 _021713AC: .word NpcViking__Func_21713B0
 	arm_func_end NpcViking__Main
 
@@ -300,11 +300,11 @@ NpcViking__Func_2171404: // 0x02171404
 	mov r0, r4
 	ldrh r4, [r1, r2]
 	bl NpcOptions__Func_216EFDC
-	ldr r1, _021714AC // =0x02139554
+	ldr r1, _021714AC // =gameState+0x00000100
 	strh r0, [r1, #0x40]
 	b _02171470
 _02171460:
-	ldr r0, _021714AC // =0x02139554
+	ldr r0, _021714AC // =gameState+0x00000100
 	mov r1, #0
 	ldr r4, _021714B0 // =0x0000FFFF
 	strh r1, [r0, #0x40]
@@ -326,7 +326,7 @@ _02171494:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021714A8: .word 0x02173220
-_021714AC: .word 0x02139554
+_021714AC: .word gameState+0x00000100
 _021714B0: .word 0x0000FFFF
 	arm_func_end NpcViking__Func_2171404
 

@@ -57,9 +57,9 @@ MenuHelpers__CheckProgress: // 0x0217CEF0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r3, r0
 	cmp r2, #0
-	ldrne r0, _0217D050 // =0x0213445C
+	ldrne r0, _0217D050 // =saveGame+0x00000010
 	mov r6, r1
-	ldreq r0, _0217D054 // =0x02134474
+	ldreq r0, _0217D054 // =saveGame+0x00000028
 	cmp r3, #0x18
 	ldrb r4, [r0, #4]
 	ldrb r5, [r0, #5]
@@ -155,8 +155,8 @@ _0217D048:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0217D050: .word 0x0213445C
-_0217D054: .word 0x02134474
+_0217D050: .word saveGame+0x00000010
+_0217D054: .word saveGame+0x00000028
 _0217D058: .word 0x0217E4E2
 _0217D05C: .word 0x0217E47A
 _0217D060: .word 0x0217E546

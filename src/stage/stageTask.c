@@ -1327,7 +1327,7 @@ _02072710:
 	ldr r1, [r1, #0x28]
 	bl FX_Div
 	ldr r1, [r5, #0x4c]
-	ldr r10, =0x02147248
+	ldr r10, =NNS_G3dGlb+0x00000008
 	add r1, r1, #0x60000
 	smull r2, r1, r0, r1
 	adds r2, r2, #0x800
@@ -1369,7 +1369,7 @@ _02072710:
 	str r4, [sp, #8]
 	mov r4, #0
 	str r4, [sp, #0xc]
-	ldr r4, =0x02147248
+	ldr r4, =NNS_G3dGlb+0x00000008
 	sub r0, r0, ip
 	rsb r1, r1, #0
 	sub r2, lr, r2
@@ -1600,7 +1600,7 @@ _02072BCC:
 	ldr r0, [sp, #0x18]
 	cmp r0, #0
 	beq _02072C00
-	ldr r4, =0x02147248
+	ldr r4, =NNS_G3dGlb+0x00000008
 	add r9, sp, #0x74
 	ldmia r9!, {r0, r1, r2, r3}
 	stmia r4!, {r0, r1, r2, r3}

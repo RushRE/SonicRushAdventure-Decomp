@@ -761,7 +761,7 @@ _02179AF4:
 	bl GameObject__Func_20282A8
 	add r0, sp, #0x4c
 	bl NNS_G3dGlbSetBaseScale
-	ldr r1, _02179D4C // =0x021472FC
+	ldr r1, _02179D4C // =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0x1c
 	bl MI_Copy36B
 	ldr r1, _02179D50 // =NNS_G3dGlb
@@ -895,7 +895,7 @@ _02179CF8:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02179D48: .word g_obj
-_02179D4C: .word 0x021472FC
+_02179D4C: .word NNS_G3dGlb+0x000000BC
 _02179D50: .word NNS_G3dGlb
 _02179D54: .word 0x00007FFF
 _02179D58: .word _021898E0

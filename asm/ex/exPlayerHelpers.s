@@ -255,7 +255,7 @@ ovl09_2152CB4: // 0x02152CB4
 	bl MTX_Identity33_
 	add r0, sp, #0x24
 	bl NNS_G3dGlbSetBaseScale
-	ldr r1, _02152D20 // =0x021472FC
+	ldr r1, _02152D20 // =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0
 	bl MI_Copy36B
 	ldr r1, _02152D24 // =NNS_G3dGlb
@@ -268,7 +268,7 @@ ovl09_2152CB4: // 0x02152CB4
 	ldmia sp!, {pc}
 	.align 2, 0
 _02152D1C: .word _02173E14
-_02152D20: .word 0x021472FC
+_02152D20: .word NNS_G3dGlb+0x000000BC
 _02152D24: .word NNS_G3dGlb
 	arm_func_end ovl09_2152CB4
 

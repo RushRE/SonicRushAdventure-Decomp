@@ -293,7 +293,7 @@ _0216C748:
 	cmp r0, #3
 	beq _0216C75A
 	bl ReleaseGameState
-	ldr r0, _0216C7C4 // =0x02139514
+	ldr r0, _0216C7C4 // =gameState+0x000000C0
 	mov r1, #1
 	strb r1, [r0, #0x1c]
 _0216C75A:
@@ -302,7 +302,7 @@ _0216C75A:
 	ldr r0, _0216C7C8 // =0x00001510
 	mov r1, #0
 	str r1, [r4, r0]
-	ldr r1, _0216C7CC // =0x0213D300
+	ldr r1, _0216C7CC // =renderCoreGFXControlA+0x00000040
 	mov r0, #0x18
 	ldrsh r1, [r1, r0]
 	sub r0, #0x28
@@ -317,7 +317,7 @@ _0216C75A:
 _0216C780:
 	mov r0, #1
 	bl RequestSysEventChange
-	ldr r1, _0216C7CC // =0x0213D300
+	ldr r1, _0216C7CC // =renderCoreGFXControlA+0x00000040
 	mov r0, #0x18
 	ldrsh r1, [r1, r0]
 	sub r0, #0x28
@@ -343,9 +343,9 @@ _0216C7A6:
 	nop
 _0216C7BC: .word TimeAttackMenu__Singleton
 _0216C7C0: .word gameState
-_0216C7C4: .word 0x02139514
+_0216C7C4: .word gameState+0x000000C0
 _0216C7C8: .word 0x00001510
-_0216C7CC: .word 0x0213D300
+_0216C7CC: .word renderCoreGFXControlA+0x00000040
 _0216C7D0: .word TimeAttackMenu__Main_216D7E8
 	thumb_func_end TimeAttackMenu__Func_216C730
 
@@ -388,7 +388,7 @@ _0216C818:
 	str r0, [r7, #0x14]
 _0216C81C:
 	bl TimeAttackMenu__SetupDisplay
-	ldr r1, _0216C9B8 // =0x0213D300
+	ldr r1, _0216C9B8 // =renderCoreGFXControlA+0x00000040
 	mov r0, #0x18
 	ldrsh r0, [r1, r0]
 	cmp r0, #0
@@ -573,7 +573,7 @@ _0216C9A8:
 _0216C9AC: .word 0x00001518
 _0216C9B0: .word gameState
 _0216C9B4: .word 0x00001504
-_0216C9B8: .word 0x0213D300
+_0216C9B8: .word renderCoreGFXControlA+0x00000040
 _0216C9BC: .word 0x00001510
 _0216C9C0: .word 0x00000E54
 _0216C9C4: .word 0x00001098
@@ -1184,7 +1184,7 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 	mov r3, r2
 	str r2, [sp, #0x24]
 	bl FontWindowAnimator__Load1
-	ldr r0, _0216CF4C // =0x02110460
+	ldr r0, _0216CF4C // =FontAnimator__Palettes+0x00000008
 	ldr r3, _0216CF50 // =0x05000182
 	mov r1, #4
 	mov r2, #0
@@ -1219,7 +1219,7 @@ TimeAttackMessageWindow__Create: // 0x0216CE00
 _0216CF40: .word TimeAttackMenu__Singleton
 _0216CF44: .word renderCoreGFXControlA
 _0216CF48: .word VRAMSystem__VRAM_BG
-_0216CF4C: .word 0x02110460
+_0216CF4C: .word FontAnimator__Palettes+0x00000008
 _0216CF50: .word 0x05000182
 _0216CF54: .word 0x0000FFFF
 _0216CF58: .word 0x00002045
@@ -4060,7 +4060,7 @@ _0216E6B4:
 	ldr r0, [r0, #0x60]
 	cmp r0, #0
 	beq _0216E72E
-	ldr r1, _0216E830 // =0x02139494
+	ldr r1, _0216E830 // =gameState+0x00000040
 	mov r0, #0x1a
 	ldrsh r1, [r1, r0]
 	sub r0, #0x1b
@@ -4209,7 +4209,7 @@ _0216E820: .word gameState
 _0216E824: .word TimeAttackMenu__Main_FadeToCorruptSave
 _0216E828: .word 0xFFFFEFFF
 _0216E82C: .word TimeAttackMenu__Func_216D408
-_0216E830: .word 0x02139494
+_0216E830: .word gameState+0x00000040
 _0216E834: .word TimeAttackMenu__Func_216D434
 _0216E838: .word TimeAttackMenu__Func_216D470
 _0216E83C: .word TimeAttackMenu__Func_216D4A8
@@ -4908,14 +4908,14 @@ _0216EE10: .word TimeAttackMenu__Main_216E554
 	thumb_func_start TimeAttackMenu__Main_216EE14
 TimeAttackMenu__Main_216EE14: // 0x0216EE14
 	push {r3, lr}
-	ldr r1, _0216EE44 // =0x0213D300
+	ldr r1, _0216EE44 // =renderCoreGFXControlA+0x00000040
 	mov r0, #0x18
 	ldrsh r2, [r1, r0]
 	mov r1, r0
 	sub r1, #0x28
 	cmp r2, r1
 	bne _0216EE2E
-	ldr r1, _0216EE48 // =0x0213D2A4
+	ldr r1, _0216EE48 // =renderCoreGFXControlB+0x00000040
 	ldrsh r1, [r1, r0]
 	sub r0, #0x28
 	cmp r1, r0
@@ -4931,8 +4931,8 @@ _0216EE36:
 	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
-_0216EE44: .word 0x0213D300
-_0216EE48: .word 0x0213D2A4
+_0216EE44: .word renderCoreGFXControlA+0x00000040
+_0216EE48: .word renderCoreGFXControlB+0x00000040
 _0216EE4C: .word 0x0000FFFF
 _0216EE50: .word TimeAttackMenu__Main_216EE54
 	thumb_func_end TimeAttackMenu__Main_216EE14
@@ -4961,14 +4961,14 @@ _0216EE80: .word TimeAttackMenu__Singleton
 	thumb_func_start TimeAttackMenu__Main_FadeToCorruptSave
 TimeAttackMenu__Main_FadeToCorruptSave: // 0x0216EE84
 	push {r3, lr}
-	ldr r1, _0216EEB4 // =0x0213D300
+	ldr r1, _0216EEB4 // =renderCoreGFXControlA+0x00000040
 	mov r0, #0x18
 	ldrsh r2, [r1, r0]
 	mov r1, r0
 	sub r1, #0x28
 	cmp r2, r1
 	bne _0216EE9E
-	ldr r1, _0216EEB8 // =0x0213D2A4
+	ldr r1, _0216EEB8 // =renderCoreGFXControlB+0x00000040
 	ldrsh r1, [r1, r0]
 	sub r0, #0x28
 	cmp r1, r0
@@ -4984,8 +4984,8 @@ _0216EEA6:
 	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	.align 2, 0
-_0216EEB4: .word 0x0213D300
-_0216EEB8: .word 0x0213D2A4
+_0216EEB4: .word renderCoreGFXControlA+0x00000040
+_0216EEB8: .word renderCoreGFXControlB+0x00000040
 _0216EEBC: .word 0x0000FFFF
 _0216EEC0: .word TimeAttackMenu__Main_ShowCorruptSave
 	thumb_func_end TimeAttackMenu__Main_FadeToCorruptSave

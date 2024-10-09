@@ -30,7 +30,7 @@ HubControl__ReturnToHub: // 0x02156DD0
 	bl MIi_CpuClear16
 	bl ovl05_2152F88
 	cmp r0, #7
-	ldrne r0, _02156FFC // =0x02139554
+	ldrne r0, _02156FFC // =gameState+0x00000100
 	movne r1, #0
 	strneh r1, [r0, #0x52]
 	bl SaveGame__Func_205BC7C
@@ -142,7 +142,7 @@ _02156F64:
 	mov r1, #0xff
 	strb r1, [r2, #0x150]
 	and r1, r4, #0xff
-	ldr r0, _02157004 // =0x02134474
+	ldr r0, _02157004 // =saveGame+0x00000028
 	strb r1, [r2, #0x151]
 	bl SaveGame__SetSolEmeraldCollected
 	mov r0, #0x1f
@@ -159,17 +159,17 @@ _02156FC4:
 	bl HubControl__Func_215701C
 	ldmia sp!, {r4, pc}
 _02156FE4:
-	ldr r1, _02157008 // =0x02139530
+	ldr r1, _02157008 // =gameState+0xDC
 	mov r0, #0
 	mov r2, #0x6c
 	bl MIi_CpuClear32
 	bl HubControl__Func_215700C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02156FFC: .word 0x02139554
+_02156FFC: .word gameState+0x00000100
 _02157000: .word gameState
-_02157004: .word 0x02134474
-_02157008: .word 0x02139530
+_02157004: .word saveGame+0x00000028
+_02157008: .word gameState+0xDC
 	arm_func_end HubControl__ReturnToHub
 
 	arm_func_start HubControl__Func_215700C

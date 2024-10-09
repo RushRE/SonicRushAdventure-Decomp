@@ -315,7 +315,7 @@ _0207E884:
 _0207E8D0:
 	cmp r1, #1
 	bne _0207E900
-	ldr r1, =0x02111FBC
+	ldr r1, =VRAMSystem__BGControllers+0x00000004
 	ldr r0, [r1, r0, lsl #4]
 	ldrh r0, [r0, #0]
 	tst r0, #0x2000
@@ -1032,7 +1032,7 @@ NONMATCH_FUNC void Camera3D__Create(void){
 	bl RenderCore_DisableOAMReset
 	ldr r0, =Camera3D__VBlankCallback
 	bl RenderCore_SetVBlankCallback
-	ldr r0, =0x0213D28C
+	ldr r0, =renderCoreGFXControlB+0x00000028
 	bl MTX_Identity22_
 	ldr r0, =renderCoreGFXControlB
 	mov r1, #0
@@ -1109,26 +1109,26 @@ NONMATCH_FUNC void Camera3D__LoadState(Camera3D *camera){
 	sub sp, sp, #0x50
 	mov r4, r0
 	add r5, r4, #0x20
-	ldr r3, =0x02147480
+	ldr r3, =NNS_G3dGlb+0x00000240
 	ldmia r5, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	add lr, r4, #0x38
-	ldr r3, =0x0214748C
+	ldr r3, =NNS_G3dGlb+0x0000024C
 	ldmia lr, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	add ip, r4, #0x2c
-	ldr r3, =0x02147498
+	ldr r3, =NNS_G3dGlb+0x00000258
 	ldmia ip, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 	mov r2, ip
-	ldr ip, =0x0214728C
+	ldr ip, =NNS_G3dGlb+0x0000004C
 	mov r0, r5
 	mov r1, lr
 	mov r3, #0
 	str ip, [sp]
 	bl G3i_LookAt_
 	ldr r1, =NNS_G3dGlb
-	ldr r0, =0x0214728C
+	ldr r0, =NNS_G3dGlb+0x0000004C
 	ldr r2, [r1, #0xfc]
 	mov r3, #0
 	bic r2, r2, #0xe8
@@ -1143,7 +1143,7 @@ NONMATCH_FUNC void Camera3D__LoadState(Camera3D *camera){
 	add r1, r2, r1
 	str r1, [r0, #0x28]
 	ldr r2, [r4, #0x4c]
-	ldr r1, =0x02147248
+	ldr r1, =NNS_G3dGlb+0x00000008
 	add r2, ip, r2
 	str r2, [r0, #0x2c]
 	ldrh ip, [r4]
@@ -1165,7 +1165,7 @@ NONMATCH_FUNC void Camera3D__LoadState(Camera3D *camera){
 	ldr r3, [r4, #4]
 	bl G3i_PerspectiveW_
 	ldr r1, =NNS_G3dGlb
-	ldr r5, =0x02147248
+	ldr r5, =NNS_G3dGlb+0x00000008
 	ldr r2, [r1, #0xfc]
 	add r0, sp, #0x10
 	bic r2, r2, #0x50
@@ -1270,7 +1270,7 @@ NONMATCH_FUNC void Camera3D__FlushP(void){
 	ldr r0, [r1], #4
 	bl NNS_G3dGeBufferOP_N
 	ldr r0, =0x00001B19
-	ldr r1, =0x021472FC
+	ldr r1, =NNS_G3dGlb+0x000000BC
 	mov r2, #0xf
 	bl NNS_G3dGeBufferOP_N
 	ldr r0, =NNS_G3dGlb
@@ -1291,10 +1291,10 @@ NONMATCH_FUNC void Camera3D__FlushVP(void){
     // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r0, =0x00001610
-	ldr r1, =0x02147244
+	ldr r1, =NNS_G3dGlb+0x00000004
 	mov r2, #0x11
 	bl NNS_G3dGeBufferOP_N
-	ldr r1, =0x0214728C
+	ldr r1, =NNS_G3dGlb+0x0000004C
 	mov r0, #0x19
 	mov r2, #0xc
 	bl NNS_G3dGeBufferOP_N
@@ -1305,7 +1305,7 @@ NONMATCH_FUNC void Camera3D__FlushVP(void){
 	str r3, [sp]
 	bl NNS_G3dGeBufferOP_N
 	ldr r0, =0x00001B17
-	ldr r1, =0x021472FC
+	ldr r1, =NNS_G3dGlb+0x000000BC
 	mov r2, #0xf
 	bl NNS_G3dGeBufferOP_N
 	ldr r0, =NNS_G3dGlb
@@ -1327,15 +1327,15 @@ NONMATCH_FUNC void Camera3D__FlushWVP(void)
     // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r0, =0x00001610
-	ldr r1, =0x02147244
+	ldr r1, =NNS_G3dGlb+0x00000004
 	mov r2, #0x11
 	bl NNS_G3dGeBufferOP_N
-	ldr r1, =0x0214728C
+	ldr r1, =NNS_G3dGlb+0x0000004C
 	mov r0, #0x19
 	mov r2, #0xc
 	bl NNS_G3dGeBufferOP_N
 	ldr r0, =0x00001B19
-	ldr r1, =0x021472FC
+	ldr r1, =NNS_G3dGlb+0x000000BC
 	mov r2, #0xf
 	bl NNS_G3dGeBufferOP_N
 	mov r3, #2
@@ -1957,7 +1957,7 @@ _0207FFC0:
 	mov r3, #0x10
 	bl MI_DmaCopy32
 	ldr r0, =renderDmaNo
-	ldr r1, =0x0213D2D0
+	ldr r1, =renderCoreGFXControlA+0x00000010
 	ldr r0, [r0, #0]
 	ldr r2, =0x04000040
 	mov r3, #0xc
@@ -1970,7 +1970,7 @@ _0207FFC0:
 	orr r1, r1, r0, lsl #13
 	str r1, [r2], #0x50
 	ldr r0, =renderDmaNo
-	ldr r1, =0x0213D2E0
+	ldr r1, =renderCoreGFXControlA+0x00000020
 	ldr r0, [r0, #0]
 	mov r3, #6
 	bl MI_DmaCopy16
@@ -1978,7 +1978,7 @@ _0207FFC0:
 	ldr r2, =0x0400004C
 	ldrh ip, [r3, #0x5a]
 	sub r0, r2, #0x2c
-	ldr r1, =0x0213D2E8
+	ldr r1, =renderCoreGFXControlA+0x00000028
 	strh ip, [r2]
 	ldrsh r2, [r3, #0x3c]
 	str r2, [sp]
@@ -1990,7 +1990,7 @@ _0207FFC0:
 	ldr r3, =renderCoreGFXControlA
 	ldr r0, =0x04000030
 	ldrsh r2, [r3, #0x54]
-	ldr r1, =0x0213D300
+	ldr r1, =renderCoreGFXControlA+0x00000040
 	str r2, [sp]
 	ldrsh r2, [r3, #0x56]
 	str r2, [sp, #4]
@@ -2078,7 +2078,7 @@ _02080188:
 	mov r3, #0x10
 	bl MI_DmaCopy32
 	ldr r0, =renderDmaNo
-	ldr r1, =0x0213D2D0
+	ldr r1, =renderCoreGFXControlA+0x00000010
 	ldr r0, [r0, #0]
 	ldr r2, =0x04000040
 	mov r3, #0xc
@@ -2091,7 +2091,7 @@ _02080188:
 	orr r1, r1, r0, lsl #13
 	str r1, [r2], #0x50
 	ldr r0, =renderDmaNo
-	ldr r1, =0x0213D2E0
+	ldr r1, =renderCoreGFXControlA+0x00000020
 	ldr r0, [r0, #0]
 	mov r3, #6
 	bl MI_DmaCopy16
@@ -2099,7 +2099,7 @@ _02080188:
 	ldr r2, =0x0400004C
 	ldrh r4, [r3, #0x5a]
 	sub r0, r2, #0x2c
-	ldr r1, =0x0213D2E8
+	ldr r1, =renderCoreGFXControlA+0x00000028
 	strh r4, [r2]
 	ldrsh r2, [r3, #0x3c]
 	str r2, [sp]
@@ -2111,7 +2111,7 @@ _02080188:
 	ldr r3, =renderCoreGFXControlA
 	ldr r0, =0x04000030
 	ldrsh r2, [r3, #0x54]
-	ldr r1, =0x0213D300
+	ldr r1, =renderCoreGFXControlA+0x00000040
 	str r2, [sp]
 	ldrsh r2, [r3, #0x56]
 	str r2, [sp, #4]

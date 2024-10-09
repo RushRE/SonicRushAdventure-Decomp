@@ -756,10 +756,10 @@ SailSea__Draw: // 0x0215FEE4
 	ldrsh r2, [r3, r2]
 	add r0, sp, #0x94
 	bl MTX_RotY33_
-	ldr r1, _021600CC // =0x021472FC
+	ldr r1, _021600CC // =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0x94
 	bl MI_Copy36B
-	ldr r1, _021600D0 // =0x021472C0
+	ldr r1, _021600D0 // =NNS_G3dGlb+0x00000080
 	mov r0, #0xa4
 	ldr r2, [r1, #0x7c]
 	bic r2, r0
@@ -933,8 +933,8 @@ _0216002C:
 	.align 2, 0
 _021600C4: .word _0218BC18
 _021600C8: .word FX_SinCosTable_
-_021600CC: .word 0x021472FC
-_021600D0: .word 0x021472C0
+_021600CC: .word NNS_G3dGlb+0x000000BC
+_021600D0: .word NNS_G3dGlb+0x00000080
 _021600D4: .word 0x00000488
 _021600D8: .word 0x1F0C8880
 _021600DC: .word 0x00000A5C

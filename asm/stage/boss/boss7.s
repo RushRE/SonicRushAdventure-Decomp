@@ -1355,7 +1355,7 @@ _0215DCE4:
 	movle r5, #0xfa000
 	movgt r5, #0x17c000
 _0215DD08:
-	ldr r1, _0215DED4 // =0x02113750
+	ldr r1, _0215DED4 // =FX_SinCosTable_+0x00000E00
 	ldrsh r0, [r1, #0x38]
 	ldrsh r1, [r1, #0x3a]
 	bl FX_Div
@@ -1477,7 +1477,7 @@ _0215DE60:
 	.align 2, 0
 _0215DECC: .word gPlayer
 _0215DED0: .word 0x00001555
-_0215DED4: .word 0x02113750
+_0215DED4: .word FX_SinCosTable_+0x00000E00
 _0215DED8: .word 0x00000355
 _0215DEDC: .word 0x3EB33333
 	arm_func_end ovl02_215DB80
@@ -8267,7 +8267,7 @@ _02163508:
 	ldrsh r2, [r2, r0]
 	add r0, r4, #0x3d8
 	bl MTX_RotZ33_
-	ldr r2, _0216363C // =0x02114950
+	ldr r2, _0216363C // =FX_SinCosTable_+0x00002000
 	add r0, sp, #0x24
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
@@ -8315,7 +8315,7 @@ _02163598:
 	ldr r0, [r4, #0x374]
 	cmp r0, #0
 	bne _02163620
-	ldr r2, _0216363C // =0x02114950
+	ldr r2, _0216363C // =FX_SinCosTable_+0x00002000
 	add r0, sp, #0
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
@@ -8333,7 +8333,7 @@ _02163620:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02163638: .word FX_SinCosTable_
-_0216363C: .word 0x02114950
+_0216363C: .word FX_SinCosTable_+0x00002000
 	arm_func_end ovl02_2163458
 
 	arm_func_start ovl02_2163640

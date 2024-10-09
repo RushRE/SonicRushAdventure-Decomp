@@ -273,10 +273,10 @@ FriendCodeMenu__SetupDisplay: // 0x02165134
 	mov r4, r0
 	mov r1, #0xf
 	mov r2, #1
-	ldr r0, _02165244 // =0x0213D300
+	ldr r0, _02165244 // =renderCoreGFXControlA+0x00000040
 	mvn r1, r1
 	strh r1, [r0, #0x18]
-	ldr r0, _02165248 // =0x0213D2A4
+	ldr r0, _02165248 // =renderCoreGFXControlB+0x00000040
 	lsl r2, r2, #0x1a
 	strh r1, [r0, #0x18]
 	ldr r1, [r2, #0]
@@ -400,8 +400,8 @@ FriendCodeMenu__SetupDisplay: // 0x02165134
 	bl FriendCodeMenu__SetupBlending
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
-_02165244: .word 0x0213D300
-_02165248: .word 0x0213D2A4
+_02165244: .word renderCoreGFXControlA+0x00000040
+_02165248: .word renderCoreGFXControlB+0x00000040
 _0216524C: .word 0xFFFFE0FF
 _02165250: .word 0x04001000
 _02165254: .word renderCurrentDisplay
@@ -713,7 +713,7 @@ FriendCodeMenu__Func_2165484: // 0x02165484
 	mov r1, #2
 	add r0, r5, r0
 	bl Unknown2056570__Func_2056688
-	ldr r0, _02165514 // =0x02110460
+	ldr r0, _02165514 // =FontAnimator__Palettes+0x00000008
 	ldr r1, _02165518 // =0x05000442
 	mov r2, #8
 	bl MIi_CpuCopy16
@@ -742,7 +742,7 @@ _02165500:
 	nop
 _0216550C: .word 0x00000A48
 _02165510: .word 0x00000A18
-_02165514: .word 0x02110460
+_02165514: .word FontAnimator__Palettes+0x00000008
 _02165518: .word 0x05000442
 	thumb_func_end FriendCodeMenu__Func_2165484
 
@@ -1382,7 +1382,7 @@ _02165A1C: .word FriendCodeMenu__Func_2165864
 	thumb_func_start FriendCodeMenu__State_2165A20
 FriendCodeMenu__State_2165A20: // 0x02165A20
 	push {r4, lr}
-	ldr r1, _02165A70 // =0x0213D300
+	ldr r1, _02165A70 // =renderCoreGFXControlA+0x00000040
 	mov r4, r0
 	mov r0, #0x18
 	ldrsh r0, [r1, r0]
@@ -1396,10 +1396,10 @@ _02165A34:
 	sub r0, r0, #1
 	strh r0, [r1, #0x18]
 _02165A3A:
-	ldr r1, _02165A70 // =0x0213D300
+	ldr r1, _02165A70 // =renderCoreGFXControlA+0x00000040
 	mov r0, #0x18
 	ldrsh r1, [r1, r0]
-	ldr r0, _02165A74 // =0x0213D2A4
+	ldr r0, _02165A74 // =renderCoreGFXControlB+0x00000040
 	strh r1, [r0, #0x18]
 	ldr r1, [r4, #0x2c]
 	mov r0, r4
@@ -1424,8 +1424,8 @@ _02165A68:
 	str r0, [r4, #0x2c]
 	pop {r4, pc}
 	.align 2, 0
-_02165A70: .word 0x0213D300
-_02165A74: .word 0x0213D2A4
+_02165A70: .word renderCoreGFXControlA+0x00000040
+_02165A74: .word renderCoreGFXControlB+0x00000040
 _02165A78: .word VRAMSystem__GFXControl
 _02165A7C: .word FriendCodeMenu__State_2165A84
 _02165A80: .word 0x00000C4C
@@ -2171,7 +2171,7 @@ FriendCodeMenu__State_216602C: // 0x0216602C
 	mov r1, #1
 	tst r2, r1
 	beq _02166048
-	ldr r3, _02166078 // =0x0213D300
+	ldr r3, _02166078 // =renderCoreGFXControlA+0x00000040
 	mov r2, #0x18
 	ldrsh r2, [r3, r2]
 	cmp r2, #0x10
@@ -2181,7 +2181,7 @@ FriendCodeMenu__State_216602C: // 0x0216602C
 	mov r1, #0
 	b _0216605A
 _02166048:
-	ldr r3, _02166078 // =0x0213D300
+	ldr r3, _02166078 // =renderCoreGFXControlA+0x00000040
 	mov r2, #0x18
 	ldrsh r4, [r3, r2]
 	sub r2, #0x28
@@ -2191,10 +2191,10 @@ _02166048:
 	strh r1, [r3, #0x18]
 	mov r1, #0
 _0216605A:
-	ldr r3, _02166078 // =0x0213D300
+	ldr r3, _02166078 // =renderCoreGFXControlA+0x00000040
 	mov r2, #0x18
 	ldrsh r3, [r3, r2]
-	ldr r2, _0216607C // =0x0213D2A4
+	ldr r2, _0216607C // =renderCoreGFXControlB+0x00000040
 	cmp r1, #0
 	strh r3, [r2, #0x18]
 	beq _02166070
@@ -2206,8 +2206,8 @@ _02166070:
 	bl FriendCodeMenu__Func_21661B0
 	pop {r4, pc}
 	nop
-_02166078: .word 0x0213D300
-_0216607C: .word 0x0213D2A4
+_02166078: .word renderCoreGFXControlA+0x00000040
+_0216607C: .word renderCoreGFXControlB+0x00000040
 _02166080: .word 0x00000C4C
 	thumb_func_end FriendCodeMenu__State_216602C
 

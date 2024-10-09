@@ -156,7 +156,7 @@ ViShadow__Func_2167F00: // 0x02167F00
 	bl NNS_G3dGlbSetBaseScale
 	add r0, sp, #0x28
 	bl MTX_Identity33_
-	ldr r1, _0216809C // =0x021472FC
+	ldr r1, _0216809C // =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0x28
 	bl MI_Copy36B
 	ldr r1, _021680A0 // =NNS_G3dGlb
@@ -236,7 +236,7 @@ ViShadow__Func_2167F00: // 0x02167F00
 	add sp, sp, #0x7c
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
-_0216809C: .word 0x021472FC
+_0216809C: .word NNS_G3dGlb+0x000000BC
 _021680A0: .word NNS_G3dGlb
 _021680A4: .word 0x0007FFFF
 _021680A8: .word 0x69B00000

@@ -1141,7 +1141,7 @@ NONMATCH_FUNC void EventManager__CreateEventsUnknown(u16 left, u16 top, u16 righ
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
-	ldr r8, =0x02133BC8
+	ldr r8, =mapCamera+0x00000100
 	ldr r4, =EventManager__sVars
 	ldrh r9, [r8, #0x2a]
 	mov r7, r0
@@ -1331,7 +1331,7 @@ NONMATCH_FUNC void EventManager__CreateAllEvents(EventManager *work)
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
-	ldr r1, =0x02133BC8
+	ldr r1, =mapCamera+0x00000100
 	mov r10, r0
 	ldrh r0, [r1, #0x2a]
 	ldrh r1, [r1, #0x2c]
@@ -1421,7 +1421,7 @@ NONMATCH_FUNC void EventManager__CreateEventsInRect(EventManager *work, s32 id, 
 	add r1, r3, r1, lsl #8
 	mov r5, r1, asr #0xc
 	mov r3, r4, asr #0xc
-	ldr r1, =0x02133BC8
+	ldr r1, =mapCamera+0x00000100
 	str r7, [sp, #0x20]
 	str r6, [sp, #0x24]
 	str r5, [sp, #0x28]
@@ -1535,7 +1535,7 @@ NONMATCH_FUNC void EventManager__CreateEventLCD(EventManager *work, s32 id, s32 
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x40
-	ldr r1, =0x02133BC8
+	ldr r1, =mapCamera+0x00000100
 	mov r10, r0
 	mov r9, r2
 	ldrh r4, [r1, #0x2a]
@@ -1669,7 +1669,7 @@ NONMATCH_FUNC void EventManager__CreateStageObjects(EventManager *evtMgr, s32 bl
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x14
-	ldr r0, =0x02133BC8
+	ldr r0, =mapCamera+0x00000100
 	mov r10, r1
 	ldrh r0, [r0, #0x2a]
 	mov r9, r2
@@ -1823,7 +1823,7 @@ NONMATCH_FUNC void EventManager__CreateRingObjects(EventManager *evtMgr, s32 blo
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	ldr r0, =0x02133BC8
+	ldr r0, =mapCamera+0x00000100
 	mov r9, r1
 	ldrh r0, [r0, #0x2a]
 	ldr r4, =EventManager__sVars
@@ -1891,7 +1891,7 @@ NONMATCH_FUNC void EventManager__CreateDecorObjects(EventManager *evtMgr, s32 bl
     // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
-	ldr r0, =0x02133BC8
+	ldr r0, =mapCamera+0x00000100
 	mov r8, r1
 	ldrh r0, [r0, #0x2a]
 	mov r7, r2

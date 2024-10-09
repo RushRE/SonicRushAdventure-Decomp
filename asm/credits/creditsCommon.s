@@ -566,7 +566,7 @@ _02154C10:
 	b _02154D7C
 _02154CAC:
 	ldr r4, _02154F44 // =0x04001000
-	ldr r1, _02154F48 // =0x0213D284
+	ldr r1, _02154F48 // =renderCoreGFXControlB+0x00000020
 	ldr r2, [r4, #0]
 	ldr r0, [r4, #0]
 	and r2, r2, #0x1f00
@@ -736,7 +736,7 @@ _02154D7C:
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _02154F44: .word 0x04001000
-_02154F48: .word 0x0213D284
+_02154F48: .word renderCoreGFXControlB+0x00000020
 _02154F4C: .word renderCoreGFXControlB
 	arm_func_end ovl05_2154AE4
 
@@ -905,11 +905,11 @@ _0215516C:
 	arm_func_start ovl05_2155188
 ovl05_2155188: // 0x02155188
 	stmdb sp!, {r3, lr}
-	ldr r0, _021551C0 // =0x0213D2D0
+	ldr r0, _021551C0 // =renderCoreGFXControlA+0x00000010
 	mov r1, #0
 	mov r2, #0x10
 	bl MI_CpuFill8
-	ldr r0, _021551C4 // =0x0213D274
+	ldr r0, _021551C4 // =renderCoreGFXControlB+0x00000010
 	mov r1, #0
 	mov r2, #0x10
 	bl MI_CpuFill8
@@ -919,8 +919,8 @@ ovl05_2155188: // 0x02155188
 	bl ClearTaskScope
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_021551C0: .word 0x0213D2D0
-_021551C4: .word 0x0213D274
+_021551C0: .word renderCoreGFXControlA+0x00000010
+_021551C4: .word renderCoreGFXControlB+0x00000010
 	arm_func_end ovl05_2155188
 
 	arm_func_start ovl05_21551C8
@@ -1015,7 +1015,7 @@ _021552B8:
 	and r1, r1, #7
 	strh r1, [r0, r2]
 	ldr r1, [r7, #0x4c]
-	ldr r0, _0215539C // =0x0213D2C2
+	ldr r0, _0215539C // =renderCoreGFXControlA+0x00000002
 	and r1, r1, #7
 	strh r1, [r0, r2]
 	b _02155300
@@ -1041,7 +1041,7 @@ _02155300:
 	and r1, r1, #7
 	strh r1, [r0, r2]
 	ldr r1, [r7, #0x54]
-	ldr r0, _021553A4 // =0x0213D266
+	ldr r0, _021553A4 // =renderCoreGFXControlB+0x00000002
 	and r1, r1, #7
 	strh r1, [r0, r2]
 	b _02155360
@@ -1067,9 +1067,9 @@ _02155360:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02155398: .word renderCoreGFXControlA
-_0215539C: .word 0x0213D2C2
+_0215539C: .word renderCoreGFXControlA+0x00000002
 _021553A0: .word renderCoreGFXControlB
-_021553A4: .word 0x0213D266
+_021553A4: .word renderCoreGFXControlB+0x00000002
 	arm_func_end ovl05_2155244
 
 	arm_func_start ovl05_21553A8

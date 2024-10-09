@@ -228,7 +228,7 @@ VSMenu__ChangeEvent: // 0x02166914
 	beq _0216694A
 	pop {r4, pc}
 _02166932:
-	ldr r0, _02166964 // =0x02139514
+	ldr r0, _02166964 // =gameState+0x000000C0
 	mov r1, #1
 	strb r1, [r0, #0x1c]
 	mov r0, #0
@@ -238,7 +238,7 @@ _02166932:
 	bl SetCurrentTaskMainEvent
 	pop {r4, pc}
 _0216694A:
-	ldr r1, _02166964 // =0x02139514
+	ldr r1, _02166964 // =gameState+0x000000C0
 	mov r0, #1
 	strb r0, [r1, #0x1c]
 	bl RequestSysEventChange
@@ -248,7 +248,7 @@ _0216694A:
 	pop {r4, pc}
 	.align 2, 0
 _02166960: .word VSMenu__Singleton
-_02166964: .word 0x02139514
+_02166964: .word gameState+0x000000C0
 _02166968: .word VSMenu__Main_GotoHubMenu
 _0216696C: .word VSMenu__Main_GotoVSMenu
 	thumb_func_end VSMenu__ChangeEvent
@@ -303,7 +303,7 @@ VSMenu__LoadAssets: // 0x02166970
 	orr r0, r2
 	strh r0, [r1, #2]
 	ldrh r0, [r1, #4]
-	ldr r2, _02166B20 // =0x0213D300
+	ldr r2, _02166B20 // =renderCoreGFXControlA+0x00000040
 	bic r0, r6
 	orr r0, r3
 	strh r0, [r1, #4]
@@ -416,7 +416,7 @@ _02166AC8:
 	add sp, #0xc
 	pop {r4, r5, r6, r7, pc}
 _02166AE4:
-	ldr r0, _02166B4C // =0x021394D4
+	ldr r0, _02166B4C // =gameState+0x00000080
 	ldr r1, [r0, #0x58]
 	mov r0, #1
 	tst r0, r1
@@ -441,7 +441,7 @@ _02166B10: .word 0x0000195C
 _02166B14: .word renderCurrentDisplay
 _02166B18: .word 0x04000008
 _02166B1C: .word 0x04001008
-_02166B20: .word 0x0213D300
+_02166B20: .word renderCoreGFXControlA+0x00000040
 _02166B24: .word 0x80000003
 _02166B28: .word 0x000014E4
 _02166B2C: .word 0x00000918
@@ -452,7 +452,7 @@ _02166B3C: .word 0x00001874
 _02166B40: .word VSMenu__Main_21692B8
 _02166B44: .word VSMenu__Main_2169324
 _02166B48: .word VSMenu__Main_216770C
-_02166B4C: .word 0x021394D4
+_02166B4C: .word gameState+0x00000080
 _02166B50: .word VSMenu__Main_2168F8C
 _02166B54: .word VSMenu__Main_21686EC
 	thumb_func_end VSMenu__LoadAssets

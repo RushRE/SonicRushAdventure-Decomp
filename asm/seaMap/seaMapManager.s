@@ -1203,11 +1203,11 @@ SeaMapManager__Func_204449C: // 0x0204449C
 	arm_func_start SeaMapManager__ClearGlobalNodeList
 SeaMapManager__ClearGlobalNodeList: // 0x020444A4
 	ldr ip, _020444B0 // =SeaMapManagerNodeList__Release
-	ldr r0, _020444B4 // =0x021394D8
+	ldr r0, _020444B4 // =gameState+0x00000084
 	bx ip
 	.align 2, 0
 _020444B0: .word SeaMapManagerNodeList__Release
-_020444B4: .word 0x021394D8
+_020444B4: .word gameState+0x00000084
 	arm_func_end SeaMapManager__ClearGlobalNodeList
 
 	arm_func_start SeaMapManager__UpdateGlobalNodeList
@@ -1215,7 +1215,7 @@ SeaMapManager__UpdateGlobalNodeList: // 0x020444B8
 	stmdb sp!, {r3, r4, r5, lr}
 	bl SeaMapManager__GetWork
 	ldr r0, [r0, #0x138]
-	ldr r5, _020444E4 // =0x021394D8
+	ldr r5, _020444E4 // =gameState+0x00000084
 	add r4, r0, #0x2080
 	mov r0, r5
 	bl SeaMapManagerNodeList__Release
@@ -1224,7 +1224,7 @@ SeaMapManager__UpdateGlobalNodeList: // 0x020444B8
 	bl SeaMapManagerNodeList__CopyNodes
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_020444E4: .word 0x021394D8
+_020444E4: .word gameState+0x00000084
 	arm_func_end SeaMapManager__UpdateGlobalNodeList
 
 	arm_func_start SeaMapManager__Func_20444E8
@@ -1235,12 +1235,12 @@ SeaMapManager__Func_20444E8: // 0x020444E8
 	add r4, r0, #0x2080
 	add r0, r4, #0x8000
 	bl SeaMapManagerNodeList__Release
-	ldr r0, _02044510 // =0x021394D8
+	ldr r0, _02044510 // =gameState+0x00000084
 	add r1, r4, #0x8000
 	bl SeaMapManagerNodeList__CopyNodes
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02044510: .word 0x021394D8
+_02044510: .word gameState+0x00000084
 	arm_func_end SeaMapManager__Func_20444E8
 
 	arm_func_start SeaMapManager__SetUnknown1
@@ -1274,18 +1274,18 @@ _02044548: .word MIi_CpuClear32
 
 	arm_func_start SeaMapManager__GetSaveBlockFlags
 SeaMapManager__GetSaveBlockFlags: // 0x0204454C
-	ldr r0, _02044554 // =0x02134CDC
+	ldr r0, _02044554 // =saveGame+0x00000890
 	bx lr
 	.align 2, 0
-_02044554: .word 0x02134CDC
+_02044554: .word saveGame+0x00000890
 	arm_func_end SeaMapManager__GetSaveBlockFlags
 
 	arm_func_start SeaMapManager__GetSaveMap
 SeaMapManager__GetSaveMap: // 0x02044558
-	ldr r0, _02044560 // =0x0213461C
+	ldr r0, _02044560 // =saveGame+0x000001D0
 	bx lr
 	.align 2, 0
-_02044560: .word 0x0213461C
+_02044560: .word saveGame+0x000001D0
 	arm_func_end SeaMapManager__GetSaveMap
 
 	arm_func_start SeaMapManager__InitArchives

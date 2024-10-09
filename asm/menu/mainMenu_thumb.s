@@ -35,7 +35,7 @@ MainMenu__Create: // 0x02152960
 	lsr r1, r0, #0xb
 	orr r1, r2
 	strh r1, [r0]
-	ldr r0, _021529F0 // =0x02139594
+	ldr r0, _021529F0 // =gameState+0x00000140
 	ldrh r0, [r0, #0x14]
 	cmp r0, #0
 	beq _021529B2
@@ -53,7 +53,7 @@ _021529BE:
 	mov r0, #1
 	str r0, [r4, #0x18]
 _021529C2:
-	ldr r0, _021529F0 // =0x02139594
+	ldr r0, _021529F0 // =gameState+0x00000140
 	mov r1, #0
 	strh r1, [r0, #0x14]
 	mov r0, r4
@@ -69,7 +69,7 @@ _021529E0: .word MainMenu__Main
 _021529E4: .word MainMenu__Destructor
 _021529E8: .word 0x04000204
 _021529EC: .word 0x00002610
-_021529F0: .word 0x02139594
+_021529F0: .word gameState+0x00000140
 _021529F4: .word gameState
 	thumb_func_end MainMenu__Create
 
@@ -395,7 +395,7 @@ MainMenu__Func_2152C6C: // 0x02152C6C
 _02152C74:
 	cmp r0, #3
 	bne _02152C7E
-	ldr r1, _02152C8C // =0x02139514
+	ldr r1, _02152C8C // =gameState+0x000000C0
 	mov r2, #1
 	strb r2, [r1, #0x1c]
 _02152C7E:
@@ -405,7 +405,7 @@ _02152C7E:
 	bl NextSysEvent
 	pop {r3, pc}
 	.align 2, 0
-_02152C8C: .word 0x02139514
+_02152C8C: .word gameState+0x000000C0
 	thumb_func_end MainMenu__Func_2152C6C
 
 	thumb_func_start MainMenu__Func_2152C90
@@ -837,7 +837,7 @@ MainMenu__Func_2152FD0: // 0x02152FD0
 	ldr r1, [r0, #0]
 	cmp r1, #0
 	bne _02152FFC
-	ldr r2, _0215301C // =0x0213D2A4
+	ldr r2, _0215301C // =renderCoreGFXControlB+0x00000040
 	mov r1, #0x18
 	ldrsh r3, [r2, r1]
 	mov r1, #0x63
@@ -855,7 +855,7 @@ _02152FF2:
 	strh r0, [r2, #0x18]
 	bx lr
 _02152FFC:
-	ldr r2, _02153020 // =0x0213D300
+	ldr r2, _02153020 // =renderCoreGFXControlA+0x00000040
 	mov r1, #0x18
 	ldrsh r3, [r2, r1]
 	mov r1, #0x63
@@ -874,8 +874,8 @@ _02153012:
 _0215301A:
 	bx lr
 	.align 2, 0
-_0215301C: .word 0x0213D2A4
-_02153020: .word 0x0213D300
+_0215301C: .word renderCoreGFXControlB+0x00000040
+_02153020: .word renderCoreGFXControlA+0x00000040
 	thumb_func_end MainMenu__Func_2152FD0
 
 	thumb_func_start MainMenu__Func_2153024
@@ -1003,7 +1003,7 @@ _02153084:
 	mov r0, r4
 	bl MainMenu__SetState
 _0215311E:
-	ldr r0, _02153148 // =0x02139594
+	ldr r0, _02153148 // =gameState+0x00000140
 	mov r1, #0
 	strh r1, [r0, #0x14]
 	add sp, #0xc
@@ -1017,7 +1017,7 @@ _02153138: .word 0x00002458
 _0215313C: .word 0x0000245C
 _02153140: .word MainMenu__State_21548A4
 _02153144: .word MainMenu__Func_2156174
-_02153148: .word 0x02139594
+_02153148: .word gameState+0x00000140
 	thumb_func_end MainMenu__Func_2153068
 
 	thumb_func_start MainMenu__Func_215314C
@@ -4215,12 +4215,12 @@ _02154AB8:
 	mvn r1, r1
 	bl MainMenu__Func_2153024
 	mov r0, #0xf
-	ldr r1, _02154AEC // =0x0213D2A4
+	ldr r1, _02154AEC // =renderCoreGFXControlB+0x00000040
 	mvn r0, r0
 	strh r0, [r1, #0x18]
 	mov r0, #0x18
 	ldrsh r1, [r1, r0]
-	ldr r0, _02154AF0 // =0x0213D300
+	ldr r0, _02154AF0 // =renderCoreGFXControlA+0x00000040
 	strh r1, [r0, #0x18]
 _02154ADA:
 	pop {r4, pc}
@@ -4229,8 +4229,8 @@ _02154ADC: .word 0x00002534
 _02154AE0: .word 0x00002464
 _02154AE4: .word MainMenu__State_2154B00
 _02154AE8: .word MainMenu__State_2154B40
-_02154AEC: .word 0x0213D2A4
-_02154AF0: .word 0x0213D300
+_02154AEC: .word renderCoreGFXControlB+0x00000040
+_02154AF0: .word renderCoreGFXControlA+0x00000040
 	thumb_func_end MainMenu__State_WaitSaveComplete
 
 	thumb_func_start MainMenu__Func_2154AF4
@@ -7692,22 +7692,22 @@ _02156524: .word 0x00001CE7
 MainMenu__HasMaterial: // 0x02156528
 	ldr r3, _02156530 // =SaveGame__HasMaterial
 	mov r1, r0
-	ldr r0, _02156534 // =0x02134474
+	ldr r0, _02156534 // =saveGame+0x00000028
 	bx r3
 	.align 2, 0
 _02156530: .word SaveGame__HasMaterial
-_02156534: .word 0x02134474
+_02156534: .word saveGame+0x00000028
 	thumb_func_end MainMenu__HasMaterial
 
 	thumb_func_start MainMenu__GetMaterialCount
 MainMenu__GetMaterialCount: // 0x02156538
 	ldr r3, _02156540 // =SaveGame__GetMaterialCount
 	mov r1, r0
-	ldr r0, _02156544 // =0x02134474
+	ldr r0, _02156544 // =saveGame+0x00000028
 	bx r3
 	.align 2, 0
 _02156540: .word SaveGame__GetMaterialCount
-_02156544: .word 0x02134474
+_02156544: .word saveGame+0x00000028
 	thumb_func_end MainMenu__GetMaterialCount
 
 	thumb_func_start MainMenu__HasChaosEmerald
@@ -7715,12 +7715,12 @@ MainMenu__HasChaosEmerald: // 0x02156548
 	mov r1, r0
 	lsl r1, r1, #0x18
 	ldr r3, _02156554 // =SaveGame__HasChaosEmerald
-	ldr r0, _02156558 // =0x0213461C
+	ldr r0, _02156558 // =saveGame+0x000001D0
 	lsr r1, r1, #0x18
 	bx r3
 	.align 2, 0
 _02156554: .word SaveGame__HasChaosEmerald
-_02156558: .word 0x0213461C
+_02156558: .word saveGame+0x000001D0
 	thumb_func_end MainMenu__HasChaosEmerald
 
 	thumb_func_start MainMenu__HasSolEmerald
@@ -7728,12 +7728,12 @@ MainMenu__HasSolEmerald: // 0x0215655C
 	mov r1, r0
 	lsl r1, r1, #0x18
 	ldr r3, _02156568 // =SaveGame__HasSolEmerald
-	ldr r0, _0215656C // =0x02134474
+	ldr r0, _0215656C // =saveGame+0x00000028
 	lsr r1, r1, #0x18
 	bx r3
 	.align 2, 0
 _02156568: .word SaveGame__HasSolEmerald
-_0215656C: .word 0x02134474
+_0215656C: .word saveGame+0x00000028
 	thumb_func_end MainMenu__HasSolEmerald
 
 	thumb_func_start MainMenu__HasMedal
@@ -7797,11 +7797,11 @@ _021565C6:
 
 	thumb_func_start MainMenu__GetRingCount
 MainMenu__GetRingCount: // 0x021565CC
-	ldr r0, _021565D4 // =0x021345CC
+	ldr r0, _021565D4 // =saveGame+0x00000180
 	ldr r0, [r0, #0x3c]
 	bx lr
 	nop
-_021565D4: .word 0x021345CC
+_021565D4: .word saveGame+0x00000180
 	thumb_func_end MainMenu__GetRingCount
 
 	thumb_func_start MainMenu__CheckItemUnlocked

@@ -1796,7 +1796,7 @@ ViDock__Func_215F1A8: // 0x0215F1A8
 	bl NNS_G3dGlbSetBaseTrans
 	add r0, sp, #0x88
 	bl NNS_G3dGlbSetBaseScale
-	ldr r1, _0215F6BC // =0x021472FC
+	ldr r1, _0215F6BC // =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0x64
 	bl MI_Copy36B
 	ldr r0, _0215F6C0 // =NNS_G3dGlb
@@ -2109,7 +2109,7 @@ _0215F690:
 	add sp, sp, #0xa0
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0215F6BC: .word 0x021472FC
+_0215F6BC: .word NNS_G3dGlb+0x000000BC
 _0215F6C0: .word NNS_G3dGlb
 _0215F6C4: .word 0x001F00C0
 	arm_func_end ViDock__Func_215F1A8

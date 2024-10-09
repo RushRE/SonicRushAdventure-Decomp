@@ -896,7 +896,7 @@ Boss4Pulley__Create: // 0x0216C1D8
 	ldr r1, _0216C3FC // =aCenter2
 	mov r2, #0x1e
 	bl BossHelpers__Model__Init
-	ldr r2, _0216C400 // =0x02115950
+	ldr r2, _0216C400 // =FX_SinCosTable_+0x00003000
 	add r0, r4, #0x3e4
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
@@ -920,7 +920,7 @@ _0216C3F0: .word _0217ACD8
 _0216C3F4: .word 0x000034CC
 _0216C3F8: .word BossHelpers__Model__RenderCallback
 _0216C3FC: .word aCenter2
-_0216C400: .word 0x02115950
+_0216C400: .word FX_SinCosTable_+0x00003000
 	arm_func_end Boss4Pulley__Create
 
 	arm_func_start Boss4FireColumn__Create
@@ -2827,7 +2827,7 @@ ovl01_216DDE0: // 0x0216DDE0
 	tst r0, #0x20
 	addne sp, sp, #0x24
 	ldmneia sp!, {r3, r4, pc}
-	ldr r2, _0216DE9C // =0x02115950
+	ldr r2, _0216DE9C // =FX_SinCosTable_+0x00003000
 	add r0, r4, #0x3e4
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
@@ -2867,7 +2867,7 @@ ovl01_216DDE0: // 0x0216DDE0
 	add sp, sp, #0x24
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_0216DE9C: .word 0x02115950
+_0216DE9C: .word FX_SinCosTable_+0x00003000
 _0216DEA0: .word FX_SinCosTable_
 	arm_func_end ovl01_216DDE0
 
@@ -3103,7 +3103,7 @@ ovl01_216E170: // 0x0216E170
 	tst r0, #0x20
 	addne sp, sp, #0x24
 	ldmneia sp!, {r4, r5, pc}
-	ldr r2, _0216E238 // =0x02115950
+	ldr r2, _0216E238 // =FX_SinCosTable_+0x00003000
 	add r0, r4, #0x84
 	ldrsh r1, [r2, #0]
 	add r5, r0, #0x400
@@ -3146,7 +3146,7 @@ ovl01_216E170: // 0x0216E170
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
-_0216E238: .word 0x02115950
+_0216E238: .word FX_SinCosTable_+0x00003000
 _0216E23C: .word FX_SinCosTable_
 	arm_func_end ovl01_216E170
 
@@ -3680,7 +3680,7 @@ ovl01_216E8EC: // 0x0216E8EC
 	bl ovl01_216E850
 	mov r0, r4
 	bl ovl01_216E880
-	ldr r2, _0216E96C // =0x02114950
+	ldr r2, _0216E96C // =FX_SinCosTable_+0x00002000
 	ldr r1, [r4, #0x20]
 	add r0, r4, #0x3ec
 	orr r3, r1, #0x100
@@ -3705,7 +3705,7 @@ _0216E958:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216E968: .word ovl01_216EBC0
-_0216E96C: .word 0x02114950
+_0216E96C: .word FX_SinCosTable_+0x00002000
 	arm_func_end ovl01_216E8EC
 
 	arm_func_start ovl01_216E970
@@ -3722,7 +3722,7 @@ ovl01_216E970: // 0x0216E970
 	str r2, [r4, #0x78c]
 	strh r1, [r0, #0x96]
 _0216E99C:
-	ldr r2, _0216EA00 // =0x02114950
+	ldr r2, _0216EA00 // =FX_SinCosTable_+0x00002000
 	mov r0, #2
 	str r0, [r4, #0x790]
 	ldr r1, [r4, #0x20]
@@ -3748,7 +3748,7 @@ _0216E99C:
 	.align 2, 0
 _0216E9F8: .word ovl01_216EC08
 _0216E9FC: .word ovl01_216EBD8
-_0216EA00: .word 0x02114950
+_0216EA00: .word FX_SinCosTable_+0x00002000
 _0216EA04: .word 0x00006999
 	arm_func_end ovl01_216E970
 
@@ -3766,7 +3766,7 @@ ovl01_216EA08: // 0x0216EA08
 	str r2, [r4, #0x78c]
 	strh r1, [r0, #0x96]
 _0216EA34:
-	ldr r2, _0216EA94 // =0x02114950
+	ldr r2, _0216EA94 // =FX_SinCosTable_+0x00002000
 	mov r0, #3
 	str r0, [r4, #0x790]
 	ldr r1, [r4, #0x20]
@@ -3791,7 +3791,7 @@ _0216EA34:
 	.align 2, 0
 _0216EA8C: .word ovl01_216EE98
 _0216EA90: .word ovl01_216EE48
-_0216EA94: .word 0x02114950
+_0216EA94: .word FX_SinCosTable_+0x00002000
 	arm_func_end ovl01_216EA08
 
 	arm_func_start ovl01_216EA98
@@ -4903,7 +4903,7 @@ ovl01_216F9E4: // 0x0216F9E4
 	ldr r3, [r4, #0x4c]
 	mov r0, #0
 	bl BossFX__CreatePirateExplode1
-	ldr r2, _0216FA94 // =0x02112E50
+	ldr r2, _0216FA94 // =FX_SinCosTable_+0x00000500
 	mov ip, #0x2000
 	str ip, [r0, #0x38]
 	str ip, [r0, #0x3c]
@@ -4939,7 +4939,7 @@ ovl01_216F9E4: // 0x0216F9E4
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216FA94: .word 0x02112E50
+_0216FA94: .word FX_SinCosTable_+0x00000500
 _0216FA98: .word 0x00000555
 _0216FA9C: .word ovl01_216FAA0
 	arm_func_end ovl01_216F9E4
@@ -5580,22 +5580,22 @@ ovl01_217027C: // _0217027C
 	ldr r0, [r0, #0x20]
 	tst r0, #1
 	beq _021702A4
-	ldr r2, _021702BC // =0x02115950
+	ldr r2, _021702BC // =FX_SinCosTable_+0x00003000
 	mov r0, r1
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
 	bl MTX_RotY33_
 	ldmia sp!, {r3, pc}
 _021702A4:
-	ldr r2, _021702C0 // =0x02113950
+	ldr r2, _021702C0 // =FX_SinCosTable_+0x00001000
 	mov r0, r1
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
 	bl MTX_RotY33_
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_021702BC: .word 0x02115950
-_021702C0: .word 0x02113950
+_021702BC: .word FX_SinCosTable_+0x00003000
+_021702C0: .word FX_SinCosTable_+0x00001000
 	arm_func_end ovl01_217027C
 
 	arm_func_start ovl01_21702C4

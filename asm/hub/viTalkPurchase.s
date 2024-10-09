@@ -727,11 +727,11 @@ ViTalkPurchase__Func_216A0BC: // 0x0216A0BC
 	cmp r1, #9
 	movhs r0, #0
 	ldmhsia sp!, {r3, pc}
-	ldr r0, _0216A0DC // =0x02134474
+	ldr r0, _0216A0DC // =saveGame+0x00000028
 	bl SaveGame__GetMaterialCount
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216A0DC: .word 0x02134474
+_0216A0DC: .word saveGame+0x00000028
 	arm_func_end ViTalkPurchase__Func_216A0BC
 
 	arm_func_start ViTalkPurchase__Func_216A0E0
@@ -781,7 +781,7 @@ ViTalkPurchase__Func_216A144: // 0x0216A144
 	sub r1, r1, r2
 	str r1, [r0, #0x1bc]
 _0216A168:
-	ldr r5, _0216A1A0 // =0x02134474
+	ldr r5, _0216A1A0 // =saveGame+0x00000028
 	mov r6, #0
 _0216A170:
 	add r0, r4, r6
@@ -798,5 +798,5 @@ _0216A18C:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0216A19C: .word saveGame
-_0216A1A0: .word 0x02134474
+_0216A1A0: .word saveGame+0x00000028
 	arm_func_end ViTalkPurchase__Func_216A144

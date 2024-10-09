@@ -1217,11 +1217,11 @@ NpcOptions__Func_216ED74: // 0x0216ED74
 	cmp r1, #9
 	movhs r0, #0
 	ldmhsia sp!, {r3, pc}
-	ldr r0, _0216ED94 // =0x02134474
+	ldr r0, _0216ED94 // =saveGame+0x00000028
 	bl SaveGame__HasMaterial
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216ED94: .word 0x02134474
+_0216ED94: .word saveGame+0x00000028
 	arm_func_end NpcOptions__Func_216ED74
 
 	arm_func_start NpcOptions__Func_216ED98
@@ -1231,11 +1231,11 @@ NpcOptions__Func_216ED98: // 0x0216ED98
 	cmp r1, #9
 	movhs r0, #0
 	ldmhsia sp!, {r3, pc}
-	ldr r0, _0216EDB8 // =0x02134474
+	ldr r0, _0216EDB8 // =saveGame+0x00000028
 	bl SaveGame__GetMaterialCount
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216EDB8: .word 0x02134474
+_0216EDB8: .word saveGame+0x00000028
 	arm_func_end NpcOptions__Func_216ED98
 
 	arm_func_start NpcOptions__Func_216EDBC
@@ -2665,7 +2665,7 @@ _0217012C:
 	cmp r7, #0
 	mov r1, #4
 	beq _021701B0
-	ldr r0, _02170214 // =0x02110460
+	ldr r0, _02170214 // =FontAnimator__Palettes+0x00000008
 	mov r2, #0
 	bl QueueUncompressedPalette
 	ldr r3, _02170218 // =0x05000022
@@ -2686,7 +2686,7 @@ _0217012C:
 	add sp, sp, #0x20
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _021701B0:
-	ldr r0, _02170214 // =0x02110460
+	ldr r0, _02170214 // =FontAnimator__Palettes+0x00000008
 	mov r2, #0
 	bl LoadUncompressedPalette
 	ldr r3, _02170218 // =0x05000022
@@ -2712,7 +2712,7 @@ _02170204: .word 0x021731DC
 _02170208: .word 0x021731E2
 _0217020C: .word 0x021731E8
 _02170210: .word 0x021731EE
-_02170214: .word 0x02110460
+_02170214: .word FontAnimator__Palettes+0x00000008
 _02170218: .word 0x05000022
 _0217021C: .word 0x05000042
 _02170220: .word 0x050000A0

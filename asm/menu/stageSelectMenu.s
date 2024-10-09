@@ -1320,14 +1320,14 @@ StageSelectMenu__Func_215E2F8: // 0x0215E2F8
 	lsl r1, r5, #0x18
 	lsl r3, r3, #0x18
 	ldrb r2, [r2, r4]
-	ldr r0, _0215E320 // =0x02134CE4
+	ldr r0, _0215E320 // =saveGame+0x00000898
 	lsr r1, r1, #0x18
 	lsr r3, r3, #0x18
 	bl SaveGame__GetTimeAttackRecord
 	pop {r3, r4, r5, pc}
 	nop
 _0215E31C: .word 0x0217DBDA
-_0215E320: .word 0x02134CE4
+_0215E320: .word saveGame+0x00000898
 	thumb_func_end StageSelectMenu__Func_215E2F8
 
 	thumb_func_start StageSelectMenu__Func_215E324

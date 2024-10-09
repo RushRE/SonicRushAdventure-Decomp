@@ -3050,7 +3050,7 @@ _02013670:
 	beq _020136B4
 	ldrb r2, [r5, #0x5d3]
 	mov r0, #0x70
-	ldr r1, =0x02133ACC
+	ldr r1, =mapCamera+0x00000004
 	smulbb r0, r2, r0
 	str r4, [r1, r0]
 	b _020137B8
@@ -3064,7 +3064,7 @@ _020136B4:
 	str r0, [sp]
 	ldrb r2, [r5, #0x5d3]
 	mov r0, #0x70
-	ldr r1, =0x02133ACC
+	ldr r1, =mapCamera+0x00000004
 	smulbb r0, r2, r0
 	ldr r0, [r1, r0]
 	mov r1, r4
@@ -3072,21 +3072,21 @@ _020136B4:
 	bl ObjShiftSet
 	ldrb r3, [r5, #0x5d3]
 	mov r1, #0x70
-	ldr r2, =0x02133ACC
+	ldr r2, =mapCamera+0x00000004
 	b _02013734
 _02013700:
 	mov r0, #0x1000
 	str r0, [sp]
 	ldrb r2, [r5, #0x5d3]
 	mov r0, #0x70
-	ldr r1, =0x02133ACC
+	ldr r1, =mapCamera+0x00000004
 	smulbb r0, r2, r0
 	ldr r0, [r1, r0]
 	mov r1, r4
 	mov r2, #4
 	bl ObjShiftSet
 	ldrb r3, [r5, #0x5d3]
-	ldr r2, =0x02133ACC
+	ldr r2, =mapCamera+0x00000004
 	mov r1, #0x70
 _02013734:
 	smulbb r1, r3, r1
@@ -3095,7 +3095,7 @@ _02013734:
 	mov r0, #0x70
 	mov r1, #0x2000
 	smulbb r2, r2, r0
-	ldr r0, =0x02133ACC
+	ldr r0, =mapCamera+0x00000004
 	rsb r1, r1, #0
 	ldr r0, [r0, r2]
 	and r2, r4, r1
@@ -3150,7 +3150,7 @@ _020137E4:
 	beq _02013828
 	ldrb r2, [r5, #0x5d3]
 	mov r0, #0x70
-	ldr r1, =0x02133AD0
+	ldr r1, =mapCamera+0x00000008
 	smulbb r0, r2, r0
 	str r4, [r1, r0]
 	ldmia sp!, {r3, r4, r5, pc}
@@ -3159,7 +3159,7 @@ _02013828:
 	str r0, [sp]
 	ldrb r2, [r5, #0x5d3]
 	mov r0, #0x70
-	ldr r1, =0x02133AD0
+	ldr r1, =mapCamera+0x00000008
 	smulbb r0, r2, r0
 	ldr r0, [r1, r0]
 	mov r1, r4
@@ -3168,7 +3168,7 @@ _02013828:
 	bl ObjShiftSet
 	ldrb r2, [r5, #0x5d3]
 	mov r1, #0x70
-	ldr r3, =0x02133AD0
+	ldr r3, =mapCamera+0x00000008
 	smulbb r2, r2, r1
 	str r0, [r3, r2]
 	ldrb r2, [r5, #0x5d3]
@@ -6238,7 +6238,7 @@ NONMATCH_FUNC void Player__HandleTensionDrain(Player *player)
 	ldrne ip, [r0]
 	ldrne r3, [ip, #0x44]
 	bne _02018E28
-	ldr r1, =0x02133BC8
+	ldr r1, =mapCamera+0x00000100
 	ldr r2, =gPlayerList
 	ldr r0, =playerGameStatus
 	ldrh r3, [r1, #0x2a]

@@ -106,7 +106,7 @@ Task__OV05Unknown2155974__Main_2155AA0: // 0x02155AA0
 	subne r1, r1, #1
 	strne r1, [r0, #0x1c]
 	ldmneia sp!, {r3, pc}
-	ldr r1, _02155B2C // =0x0213D2E0
+	ldr r1, _02155B2C // =renderCoreGFXControlA+0x00000020
 	mov r0, #0
 	mov r2, #6
 	bl MIi_CpuClear16
@@ -135,7 +135,7 @@ Task__OV05Unknown2155974__Main_2155AA0: // 0x02155AA0
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02155B2C: .word 0x0213D2E0
+_02155B2C: .word renderCoreGFXControlA+0x00000020
 _02155B30: .word renderCoreGFXControlA
 _02155B34: .word Task__OV05Unknown2155974__Main_2155B38
 	arm_func_end Task__OV05Unknown2155974__Main_2155AA0

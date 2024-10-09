@@ -472,7 +472,7 @@ MapFarSys__Build_Z1: // 0x0200B7E0
 _0200B81C:
 	mov r2, #0
 	str r2, [r0, #0x38]
-	ldr r1, _0200B93C // =0x02133B38
+	ldr r1, _0200B93C // =mapCamera+0x00000070
 	str r2, [r0, #0x3c]
 	str r2, [r1, #0x38]
 	str r2, [r1, #0x3c]
@@ -546,7 +546,7 @@ _0200B904:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0200B938: .word mapCamera
-_0200B93C: .word 0x02133B38
+_0200B93C: .word mapCamera+0x00000070
 _0200B940: .word MapFarSys__sVars
 _0200B944: .word gameState
 _0200B948: .word 0x04000016
@@ -576,7 +576,7 @@ MapFarSys__Build_Z2: // 0x0200B95C
 _0200B998:
 	mov r2, #0
 	str r2, [r0, #0x38]
-	ldr r1, _0200BA30 // =0x02133B38
+	ldr r1, _0200BA30 // =mapCamera+0x00000070
 	str r2, [r0, #0x3c]
 	str r2, [r1, #0x38]
 	str r2, [r1, #0x3c]
@@ -614,7 +614,7 @@ _0200B9B0:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0200BA2C: .word mapCamera
-_0200BA30: .word 0x02133B38
+_0200BA30: .word mapCamera+0x00000070
 _0200BA34: .word MapFarSys__sVars
 _0200BA38: .word 0x04000016
 _0200BA3C: .word 0x04001016
@@ -642,7 +642,7 @@ MapFarSys__Build_Z3: // 0x0200BA44
 _0200BA84:
 	mov r2, #0
 	str r2, [r0, #0x38]
-	ldr r1, _0200BB1C // =0x02133B38
+	ldr r1, _0200BB1C // =mapCamera+0x00000070
 	str r2, [r0, #0x3c]
 	str r2, [r1, #0x38]
 	str r2, [r1, #0x3c]
@@ -680,7 +680,7 @@ _0200BA9C:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _0200BB18: .word mapCamera
-_0200BB1C: .word 0x02133B38
+_0200BB1C: .word mapCamera+0x00000070
 _0200BB20: .word MapFarSys__sVars
 _0200BB24: .word 0x00000C04
 _0200BB28: .word 0x04000014
@@ -708,7 +708,7 @@ MapFarSys__Build_Z4: // 0x0200BB30
 _0200BB70:
 	mov r2, #0
 	str r2, [r0, #0x38]
-	ldr r1, _0200BC04 // =0x02133B38
+	ldr r1, _0200BC04 // =mapCamera+0x00000070
 	str r2, [r0, #0x3c]
 	str r2, [r1, #0x38]
 	str r2, [r1, #0x3c]
@@ -745,7 +745,7 @@ _0200BB88:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _0200BC00: .word mapCamera
-_0200BC04: .word 0x02133B38
+_0200BC04: .word mapCamera+0x00000070
 _0200BC08: .word MapFarSys__sVars
 _0200BC0C: .word 0x00000604
 _0200BC10: .word 0x04000014
@@ -772,7 +772,7 @@ MapFarSys__Build_Z5: // 0x0200BC18
 _0200BC54:
 	mov r2, #0
 	str r2, [r0, #0x38]
-	ldr r1, _0200BC90 // =0x02133B38
+	ldr r1, _0200BC90 // =mapCamera+0x00000070
 	str r2, [r0, #0x3c]
 	str r2, [r1, #0x38]
 	str r2, [r1, #0x3c]
@@ -787,7 +787,7 @@ _0200BC6C:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0200BC8C: .word mapCamera
-_0200BC90: .word 0x02133B38
+_0200BC90: .word mapCamera+0x00000070
 _0200BC94: .word MapFarSys__sVars
 	arm_func_end MapFarSys__Build_Z5
 
@@ -812,7 +812,7 @@ MapFarSys__Build_Z6: // 0x0200BC98
 _0200BCD8:
 	mov r2, #0
 	str r2, [r0, #0x38]
-	ldr r1, _0200BD70 // =0x02133B38
+	ldr r1, _0200BD70 // =mapCamera+0x00000070
 	str r2, [r0, #0x3c]
 	str r2, [r1, #0x38]
 	str r2, [r1, #0x3c]
@@ -850,7 +850,7 @@ _0200BCF0:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _0200BD6C: .word mapCamera
-_0200BD70: .word 0x02133B38
+_0200BD70: .word mapCamera+0x00000070
 _0200BD74: .word MapFarSys__sVars
 _0200BD78: .word 0x00000604
 _0200BD7C: .word 0x04000014
@@ -878,7 +878,7 @@ MapFarSys__Build_Z7: // 0x0200BD84
 _0200BDC4:
 	mov r2, #0
 	str r2, [r0, #0x38]
-	ldr r1, _0200BE60 // =0x02133B38
+	ldr r1, _0200BE60 // =mapCamera+0x00000070
 	str r2, [r0, #0x3c]
 	str r2, [r1, #0x38]
 	str r2, [r1, #0x3c]
@@ -917,7 +917,7 @@ _0200BDDC:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _0200BE5C: .word mapCamera
-_0200BE60: .word 0x02133B38
+_0200BE60: .word mapCamera+0x00000070
 _0200BE64: .word MapFarSys__sVars
 _0200BE68: .word 0x00000C04
 _0200BE6C: .word 0x04000014
@@ -945,7 +945,7 @@ MapFarSys__Build_Z9: // 0x0200BE74
 _0200BEB4:
 	mov r2, #0
 	str r2, [r0, #0x38]
-	ldr r1, _0200BF4C // =0x02133B38
+	ldr r1, _0200BF4C // =mapCamera+0x00000070
 	str r2, [r0, #0x3c]
 	str r2, [r1, #0x38]
 	str r2, [r1, #0x3c]
@@ -983,7 +983,7 @@ _0200BECC:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _0200BF48: .word mapCamera
-_0200BF4C: .word 0x02133B38
+_0200BF4C: .word mapCamera+0x00000070
 _0200BF50: .word MapFarSys__sVars
 _0200BF54: .word 0x00000604
 _0200BF58: .word 0x04000014
@@ -1200,7 +1200,7 @@ _0200C234:
 	sub r8, r9, r8
 	cmp r8, r10
 	bge _0200C290
-	ldr r0, _0200C498 // =0x02133BC8
+	ldr r0, _0200C498 // =mapCamera+0x00000100
 	ldrh r0, [r0, #0x2c]
 	sub r0, r0, r10
 	sub r1, r9, r0
@@ -1362,7 +1362,7 @@ _0200C474:
 	.align 2, 0
 _0200C490: .word mapCamera
 _0200C494: .word MapFarSys__sVars
-_0200C498: .word 0x02133BC8
+_0200C498: .word mapCamera+0x00000100
 _0200C49C: .word 0x0210E140
 _0200C4A0: .word 0x0210E0A4
 _0200C4A4: .word 0x0210E0D8
@@ -1687,7 +1687,7 @@ _0200C8F4:
 	mov r7, #0x1d0
 	b _0200C92C
 _0200C91C:
-	ldr r0, _0200CC98 // =0x02133B38
+	ldr r0, _0200CC98 // =mapCamera+0x00000070
 	str r1, [sp, #0x38]
 	str r0, [sp, #0x3c]
 	mov r7, #0xc0
@@ -1724,13 +1724,13 @@ _0200C984:
 	cmp r9, #0
 	sub r8, r3, r0
 	beq _0200C9BC
-	ldr r2, _0200CC9C // =0x02133BC8
+	ldr r2, _0200CC9C // =mapCamera+0x00000100
 	sub r1, r9, #8
 	ldrh r2, [r2, #0x2c]
 	sub r2, r2, r1
 	b _0200C9CC
 _0200C9BC:
-	ldr r1, _0200CC9C // =0x02133BC8
+	ldr r1, _0200CC9C // =mapCamera+0x00000100
 	ldr r9, _0200CCA0 // =0x0000FFFF
 	ldrh r1, [r1, #0x2c]
 	mov r2, #0
@@ -1927,8 +1927,8 @@ _0200CC88: .word 0x0210E108
 _0200CC8C: .word 0x0210E184
 _0200CC90: .word 0x0210E0F0
 _0200CC94: .word mapCamera
-_0200CC98: .word 0x02133B38
-_0200CC9C: .word 0x02133BC8
+_0200CC98: .word mapCamera+0x00000070
+_0200CC9C: .word mapCamera+0x00000100
 _0200CCA0: .word 0x0000FFFF
 _0200CCA4: .word 0x017F4000
 	arm_func_end MapFarSys__Process_Z7
@@ -2068,7 +2068,7 @@ MapFarSys__Func_200CE58: // 0x0200CE58
 	bl _s32_div_f
 	str r0, [r4, #0x38]
 _0200CE8C:
-	ldr r4, _0200CEB4 // =0x02133B38
+	ldr r4, _0200CEB4 // =mapCamera+0x00000070
 	ldr r0, [r4, #0x40]
 	tst r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
@@ -2079,7 +2079,7 @@ _0200CE8C:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0200CEB0: .word mapCamera
-_0200CEB4: .word 0x02133B38
+_0200CEB4: .word mapCamera+0x00000070
 	arm_func_end MapFarSys__Func_200CE58
 
 	arm_func_start MapFarSys__Func_200CEB8
@@ -2101,7 +2101,7 @@ MapFarSys__Func_200CEB8: // 0x0200CEB8
 	bne _0200CF14
 	ldr r2, [r5, #8]
 	sub r0, r4, #0x1d0
-	ldr r1, _0200CFC8 // =0x02133BC8
+	ldr r1, _0200CFC8 // =mapCamera+0x00000100
 	mul r0, r2, r0
 	ldrh r1, [r1, #0x2c]
 	sub r1, r1, #0xc0
@@ -2113,7 +2113,7 @@ _0200CF14:
 	ldmneia sp!, {r4, r5, r6, pc}
 	ldr r2, [r5, #8]
 	sub r0, r4, #0x1d0
-	ldr r1, _0200CFC8 // =0x02133BC8
+	ldr r1, _0200CFC8 // =mapCamera+0x00000100
 	mul r0, r2, r0
 	ldrh r1, [r1, #0x2c]
 	sub r1, r1, #0xc0
@@ -2130,14 +2130,14 @@ _0200CF48:
 	bne _0200CF80
 	ldr r2, [r4, #8]
 	sub r0, r0, #0x1d0
-	ldr r1, _0200CFC8 // =0x02133BC8
+	ldr r1, _0200CFC8 // =mapCamera+0x00000100
 	mul r0, r2, r0
 	ldrh r1, [r1, #0x2c]
 	sub r1, r1, #0xc0
 	bl FX_DivS32
 	str r0, [r4, #0x3c]
 _0200CF80:
-	ldr r4, _0200CFCC // =0x02133B38
+	ldr r4, _0200CFCC // =mapCamera+0x00000070
 	ldr r0, _0200CFC4 // =MapFarSys__sVars
 	ldr r1, [r4, #0x40]
 	ldr r0, [r0, #8]
@@ -2146,7 +2146,7 @@ _0200CF80:
 	ldmneia sp!, {r4, r5, r6, pc}
 	ldr r2, [r4, #8]
 	sub r0, r0, #0x1d0
-	ldr r1, _0200CFC8 // =0x02133BC8
+	ldr r1, _0200CFC8 // =mapCamera+0x00000100
 	mul r0, r2, r0
 	ldrh r1, [r1, #0x2c]
 	sub r1, r1, #0xc0
@@ -2156,8 +2156,8 @@ _0200CF80:
 	.align 2, 0
 _0200CFC0: .word mapCamera
 _0200CFC4: .word MapFarSys__sVars
-_0200CFC8: .word 0x02133BC8
-_0200CFCC: .word 0x02133B38
+_0200CFC8: .word mapCamera+0x00000100
+_0200CFCC: .word mapCamera+0x00000070
 	arm_func_end MapFarSys__Func_200CEB8
 
 	arm_func_start MapFarSys__ProcessScroll

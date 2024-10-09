@@ -1296,13 +1296,13 @@ _02159CC4:
 	bl ViHubAreaPreview__Func_215AD34
 	mov r0, r4
 	bl ViHubAreaPreview__ClearAnimators
-	ldr r1, _02159D04 // =0x0213D2E0
+	ldr r1, _02159D04 // =renderCoreGFXControlA+0x00000020
 	mov r0, #0
 	mov r2, #6
 	bl MIi_CpuClear16
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02159D04: .word 0x0213D2E0
+_02159D04: .word renderCoreGFXControlA+0x00000020
 	arm_func_end ViHubAreaPreview__ReleaseAnimators
 
 	arm_func_start ViHubAreaPreview__Func_2159D08
@@ -1535,7 +1535,7 @@ _0215A010: .word 0x02172D3A
 	arm_func_start ViHubAreaPreview__Func_215A014
 ViHubAreaPreview__Func_215A014: // 0x0215A014
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	ldr r1, _0215A2D8 // =0x0213D2E0
+	ldr r1, _0215A2D8 // =renderCoreGFXControlA+0x00000020
 	mov r10, r0
 	mov r0, #0
 	mov r2, #6
@@ -1719,7 +1719,7 @@ _0215A2C4:
 	strh r1, [r0, #0x40]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0215A2D8: .word 0x0213D2E0
+_0215A2D8: .word renderCoreGFXControlA+0x00000020
 _0215A2DC: .word renderCoreGFXControlA
 	arm_func_end ViHubAreaPreview__Func_215A014
 
@@ -1847,7 +1847,7 @@ _0215A45C:
 	bl SaveGame__Func_205B9F0
 	b _0215A4B8
 _0215A468:
-	ldr r0, _0215A514 // =0x02139554
+	ldr r0, _0215A514 // =gameState+0x00000100
 	mov r1, #0
 	strh r1, [r0, #0x54]
 	b _0215A4B8
@@ -1899,7 +1899,7 @@ _0215A508:
 	add sp, sp, #0x20
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215A514: .word 0x02139554
+_0215A514: .word gameState+0x00000100
 _0215A518: .word gameState
 _0215A51C: .word 0x02172D4A
 	arm_func_end ViHubAreaPreview__Func_215A400
@@ -2077,11 +2077,11 @@ ViHubAreaPreview__Func_215A520: // 0x0215A520
 	mov r1, #0x6200000
 	mov r2, #0x20000
 	bl MIi_CpuClearFast
-	ldr r1, _0215A880 // =0x0213D2E0
+	ldr r1, _0215A880 // =renderCoreGFXControlA+0x00000020
 	mov r0, #0
 	mov r2, #6
 	bl MIi_CpuClear16
-	ldr r1, _0215A884 // =0x0213D284
+	ldr r1, _0215A884 // =renderCoreGFXControlB+0x00000020
 	mov r0, #0
 	mov r2, #6
 	bl MIi_CpuClear16
@@ -2123,8 +2123,8 @@ _0215A870: .word 0x0400000A
 _0215A874: .word 0xBFFF0000
 _0215A878: .word 0x04001008
 _0215A87C: .word 0x0000548C
-_0215A880: .word 0x0213D2E0
-_0215A884: .word 0x0213D284
+_0215A880: .word renderCoreGFXControlA+0x00000020
+_0215A884: .word renderCoreGFXControlB+0x00000020
 	arm_func_end ViHubAreaPreview__Func_215A520
 
 	arm_func_start ViHubAreaPreview__Func_215A888
@@ -2724,7 +2724,7 @@ ViHubAreaPreview__Func_215B03C: // 0x0215B03C
 	str r1, [r3]
 	bl GXS_SetGraphicsMode
 	ldr ip, _0215B15C // =0x0400100C
-	ldr r1, _0215B160 // =0x0213D2E0
+	ldr r1, _0215B160 // =renderCoreGFXControlA+0x00000020
 	ldrh r3, [ip]
 	mov r0, #0
 	mov r2, #6
@@ -2733,7 +2733,7 @@ ViHubAreaPreview__Func_215B03C: // 0x0215B03C
 	orr r3, r3, #0x4000
 	strh r3, [ip]
 	bl MIi_CpuClear16
-	ldr r1, _0215B164 // =0x0213D284
+	ldr r1, _0215B164 // =renderCoreGFXControlB+0x00000020
 	mov r0, #0
 	mov r2, #6
 	bl MIi_CpuClear16
@@ -2763,8 +2763,8 @@ ViHubAreaPreview__Func_215B03C: // 0x0215B03C
 	.align 2, 0
 _0215B158: .word renderCoreGFXControlB
 _0215B15C: .word 0x0400100C
-_0215B160: .word 0x0213D2E0
-_0215B164: .word 0x0213D284
+_0215B160: .word renderCoreGFXControlA+0x00000020
+_0215B164: .word renderCoreGFXControlB+0x00000020
 	arm_func_end ViHubAreaPreview__Func_215B03C
 
 	arm_func_start ViHubAreaPreview__Func_215B168
@@ -2799,11 +2799,11 @@ ViHubAreaPreview__Func_215B168: // 0x0215B168
 	orr r1, r2, r1, lsl #8
 	str r1, [r3]
 	bl GXS_SetGraphicsMode
-	ldr r1, _0215B244 // =0x0213D2E0
+	ldr r1, _0215B244 // =renderCoreGFXControlA+0x00000020
 	mov r0, #0
 	mov r2, #6
 	bl MIi_CpuClear16
-	ldr r1, _0215B248 // =0x0213D284
+	ldr r1, _0215B248 // =renderCoreGFXControlB+0x00000020
 	mov r0, #0
 	mov r2, #6
 	bl MIi_CpuClear16
@@ -2825,8 +2825,8 @@ ViHubAreaPreview__Func_215B168: // 0x0215B168
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215B240: .word 0x0400100C
-_0215B244: .word 0x0213D2E0
-_0215B248: .word 0x0213D284
+_0215B244: .word renderCoreGFXControlA+0x00000020
+_0215B248: .word renderCoreGFXControlB+0x00000020
 _0215B24C: .word renderCoreGFXControlB
 	arm_func_end ViHubAreaPreview__Func_215B168
 
@@ -2845,7 +2845,7 @@ ViHubAreaPreview__Func_215B250: // 0x0215B250
 	strh r1, [r3]
 	ldrh r2, [r3, #2]
 	sub r4, r3, #0xc
-	ldr r1, _0215B3AC // =0x0213D2E0
+	ldr r1, _0215B3AC // =renderCoreGFXControlA+0x00000020
 	bic r2, r2, #3
 	orr r2, r2, #1
 	strh r2, [r3, #2]
@@ -2871,7 +2871,7 @@ ViHubAreaPreview__Func_215B250: // 0x0215B250
 	orr ip, ip, #4
 	strh ip, [r3]
 	bl MIi_CpuClear16
-	ldr r1, _0215B3B0 // =0x0213D284
+	ldr r1, _0215B3B0 // =renderCoreGFXControlB+0x00000020
 	mov r0, #0
 	mov r2, #6
 	bl MIi_CpuClear16
@@ -2920,8 +2920,8 @@ ViHubAreaPreview__Func_215B250: // 0x0215B250
 	.align 2, 0
 _0215B3A4: .word renderCoreGFXControlB
 _0215B3A8: .word 0x0400100C
-_0215B3AC: .word 0x0213D2E0
-_0215B3B0: .word 0x0213D284
+_0215B3AC: .word renderCoreGFXControlA+0x00000020
+_0215B3B0: .word renderCoreGFXControlB+0x00000020
 	arm_func_end ViHubAreaPreview__Func_215B250
 
 	arm_func_start ViHubAreaPreview__Func_215B3B4
@@ -3360,7 +3360,7 @@ _0215B8F8: .word _0217362C
 
 	arm_func_start ViHubAreaPreview__Func_215B8FC
 ViHubAreaPreview__Func_215B8FC: // 0x0215B8FC
-	ldr ip, _0215B924 // =0x02139520
+	ldr ip, _0215B924 // =gameState+0x000000CC
 	mov r3, #0x1c
 	mov r2, #1
 	ldr r1, _0215B928 // =gameState
@@ -3371,13 +3371,13 @@ ViHubAreaPreview__Func_215B8FC: // 0x0215B8FC
 	strb r0, [r1, #0xdc]
 	bx lr
 	.align 2, 0
-_0215B924: .word 0x02139520
+_0215B924: .word gameState+0x000000CC
 _0215B928: .word gameState
 	arm_func_end ViHubAreaPreview__Func_215B8FC
 
 	arm_func_start ViHubAreaPreview__Func_215B92C
 ViHubAreaPreview__Func_215B92C: // 0x0215B92C
-	ldr ip, _0215B950 // =0x02139520
+	ldr ip, _0215B950 // =gameState+0x000000CC
 	mov r3, #0x1c
 	mov r2, #1
 	ldr r1, _0215B954 // =gameState
@@ -3387,7 +3387,7 @@ ViHubAreaPreview__Func_215B92C: // 0x0215B92C
 	strb r2, [r1, #0xdc]
 	bx lr
 	.align 2, 0
-_0215B950: .word 0x02139520
+_0215B950: .word gameState+0x000000CC
 _0215B954: .word gameState
 	arm_func_end ViHubAreaPreview__Func_215B92C
 

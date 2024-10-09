@@ -2033,7 +2033,7 @@ _02030A8C:
 	str r2, [sp, #0x44]
 	bl NNS_G3dGlbSetBaseScale
 	ldr r0, =PlayerTrail__mtxIdentity
-	ldr r1, =0x021472FC
+	ldr r1, =NNS_G3dGlb+0x000000BC
 	bl MI_Copy36B
 	ldr r1, =NNS_G3dGlb
 	add r0, sp, #0x3c
@@ -2322,7 +2322,7 @@ NONMATCH_FUNC void EffectRegularShield_State_Active(EffectShield *work)
 	ldrsh r2, [r2, r0]
 	add r0, r5, #0x24
 	bl MTX_RotY33_
-	ldr r1, =0x02116550
+	ldr r1, =FX_SinCosTable_+0x00003C00
 	add r0, sp, #0
 	ldrsh r7, [r1, #2]
 	ldrsh r8, [r1, #0]
@@ -2581,7 +2581,7 @@ _02031270:
 	ldrsh r2, [r3, r2]
 	add r0, r6, #0x24
 	bl MTX_RotY33_
-	ldr r2, =0x02116550
+	ldr r2, =FX_SinCosTable_+0x00003C00
 	add r0, sp, #0
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]

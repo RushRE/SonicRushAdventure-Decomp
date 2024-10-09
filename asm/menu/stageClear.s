@@ -61,7 +61,7 @@ StageClear__InitComponents: // 0x02156BDC
 	lsl r2, r2, #6
 	ldr r5, _02156DA0 // =gameState
 	bl MIi_CpuClear16
-	ldr r1, _02156DA4 // =0x0213D300
+	ldr r1, _02156DA4 // =renderCoreGFXControlA+0x00000040
 	mov r0, #0x18
 	ldrsh r0, [r1, r0]
 	cmp r0, #0
@@ -260,7 +260,7 @@ _02156D9A:
 	pop {r3, r4, r5, pc}
 	.align 2, 0
 _02156DA0: .word gameState
-_02156DA4: .word 0x0213D300
+_02156DA4: .word renderCoreGFXControlA+0x00000040
 _02156DA8: .word 0x0217DB58
 _02156DAC: .word 0x00002CBC
 	thumb_func_end StageClear__InitComponents
@@ -364,7 +364,7 @@ StageClear__StartFadeOut: // 0x02156E68
 	bl StageClear__IsMissionMode
 	cmp r0, #0
 	beq _02156E9C
-	ldr r0, _02156FA4 // =0x02139514
+	ldr r0, _02156FA4 // =gameState+0x000000C0
 	mov r1, #5
 	strb r1, [r0, #0x1c]
 	mov r0, #4
@@ -394,7 +394,7 @@ _02156EBA:
 	bl CreateDrawFadeTask
 	b _02156ED2
 _02156EC4:
-	ldr r0, _02156FA4 // =0x02139514
+	ldr r0, _02156FA4 // =gameState+0x000000C0
 	mov r1, #1
 	strb r1, [r0, #0x1c]
 	mov r0, #5
@@ -493,7 +493,7 @@ _02156F8A:
 	.align 2, 0
 _02156F9C: .word StageClear__Singleton
 _02156FA0: .word gameState
-_02156FA4: .word 0x02139514
+_02156FA4: .word gameState+0x000000C0
 _02156FA8: .word 0x0217DB58
 _02156FAC: .word StageClear__Main_2159608
 	thumb_func_end StageClear__StartFadeOut
@@ -1664,7 +1664,7 @@ _02157926:
 	add r0, r6, r0
 	bl AnimatorSprite__Release
 	ldr r1, _02157950 // =playerGameStatus
-	ldr r0, _02157954 // =0x02134474
+	ldr r0, _02157954 // =saveGame+0x00000028
 	ldr r1, [r1, #0x1c]
 	bl SaveGame__GiveRings
 	pop {r4, r5, r6, pc}
@@ -1672,7 +1672,7 @@ _02157926:
 _02157948: .word 0x000006B8
 _0215794C: .word 0x000006AC
 _02157950: .word playerGameStatus
-_02157954: .word 0x02134474
+_02157954: .word saveGame+0x00000028
 	thumb_func_end StageClearStageScoreTally__Destroy
 
 	thumb_func_start StageClearStageScoreTally__Func_2157958
@@ -2379,7 +2379,7 @@ _02157F06:
 	ldr r1, [r6, #8]
 	mov r2, r0
 	lsl r1, r1, #0x18
-	ldr r0, _021580FC // =0x02134CE4
+	ldr r0, _021580FC // =saveGame+0x00000898
 	lsr r1, r1, #0x18
 	mov r3, r5
 	bl SaveGame__GetTimeAttackRecord
@@ -2402,7 +2402,7 @@ _02157F32:
 	mov r2, r0
 	lsl r1, r1, #0x18
 	lsl r3, r7, #0x10
-	ldr r0, _021580FC // =0x02134CE4
+	ldr r0, _021580FC // =saveGame+0x00000898
 	lsr r1, r1, #0x18
 	lsr r3, r3, #0x10
 	bl SaveGame__AddTimeAttackRecord
@@ -2419,7 +2419,7 @@ _02157F32:
 	mov r1, r0
 	cmp r1, #0xe
 	beq _02157F84
-	ldr r0, _021580FC // =0x02134CE4
+	ldr r0, _021580FC // =saveGame+0x00000898
 	ldr r2, [r5, #0x10]
 	ldr r3, [r5, #0x1c]
 	bl SaveGame__AddTimeAttackUnknown
@@ -2612,7 +2612,7 @@ _0215802C:
 _021580F0: .word 0x00000D98
 _021580F4: .word playerGameStatus
 _021580F8: .word gameState
-_021580FC: .word 0x02134CE4
+_021580FC: .word saveGame+0x00000898
 _02158100: .word 0x05000200
 _02158104: .word StageClearStageRank__Main
 _02158108: .word StageClearStageRank__Destructor
@@ -3957,11 +3957,11 @@ _02158B34:
 	mov r1, #0
 _02158B36:
 	ldr r3, _02158B3C // =SaveGame__GiveMaterial
-	ldr r0, _02158B40 // =0x02134474
+	ldr r0, _02158B40 // =saveGame+0x00000028
 	bx r3
 	.align 2, 0
 _02158B3C: .word SaveGame__GiveMaterial
-_02158B40: .word 0x02134474
+_02158B40: .word saveGame+0x00000028
 	thumb_func_end StageClear__GiveMaterial
 
 	thumb_func_start StageClearTimeAttackRankList__Create
@@ -3995,7 +3995,7 @@ _02158B7A:
 	add r3, r5, #1
 	mov r2, r0
 	lsl r3, r3, #0x18
-	ldr r0, _02158BEC // =0x02134CE4
+	ldr r0, _02158BEC // =saveGame+0x00000898
 	mov r1, r7
 	lsr r3, r3, #0x18
 	bl SaveGame__GetTimeAttackRecord
@@ -4041,7 +4041,7 @@ _02158B7A:
 	nop
 _02158BE4: .word 0x0000215C
 _02158BE8: .word aFntFontIplFnt_0
-_02158BEC: .word 0x02134CE4
+_02158BEC: .word saveGame+0x00000898
 _02158BF0: .word StageClearTimeAttackRankList__Main
 	thumb_func_end StageClearTimeAttackRankList__Create
 
@@ -7440,7 +7440,7 @@ _0215A668:
 	add r3, r5, #1
 	mov r2, r0
 	lsl r3, r3, #0x18
-	ldr r0, _0215A6BC // =0x02134CE4
+	ldr r0, _0215A6BC // =saveGame+0x00000898
 	mov r1, r7
 	lsr r3, r3, #0x18
 	bl SaveGame__GetTimeAttackRecord
@@ -7468,7 +7468,7 @@ _0215A6AC: .word padInput
 _0215A6B0: .word 0x00000C03
 _0215A6B4: .word 0x00000E7C
 _0215A6B8: .word 0x00000564
-_0215A6BC: .word 0x02134CE4
+_0215A6BC: .word saveGame+0x00000898
 	thumb_func_end StageClearTimeAttackRankList__Main_215A61C
 
 	thumb_func_start Task__OVL03Unknown2158C6C__Main

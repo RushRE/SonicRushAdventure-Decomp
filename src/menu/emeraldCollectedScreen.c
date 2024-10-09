@@ -1496,8 +1496,8 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenEmeraldConfig(EmeraldCollectedScree
 	strh r4, [r5, #4]
 	sub r0, r4, #1
 	strh r0, [r5, #6]
-	ldr r0, =0x02139594
-	ldr r7, =0x0213461C
+	ldr r0, =gameState+0x00000140
+	ldr r7, =saveGame+0x000001D0
 	ldrb r0, [r0, #0x10]
 	cmp r0, #0xff
 	beq _02155C80
@@ -1547,7 +1547,7 @@ _02155C80:
 	mov r6, #1
 _02155C8E:
 	lsl r1, r4, #0x18
-	ldr r0, =0x02134474
+	ldr r0, =saveGame+0x00000028
 	lsr r1, r1, #0x18
 	bl SaveGame__HasSolEmerald
 	cmp r0, #0

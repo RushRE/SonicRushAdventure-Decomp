@@ -332,7 +332,7 @@ _021716F0:
 	add r8, r8, #3
 	add r9, r9, #0x30
 	blt _021716F0
-	ldr r0, _0217177C // =0x02110460
+	ldr r0, _0217177C // =FontAnimator__Palettes+0x00000008
 	ldr r1, _02171780 // =0x05000402
 	mov r2, #8
 	bl MIi_CpuCopy16
@@ -343,7 +343,7 @@ _021716F0:
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0217177C: .word 0x02110460
+_0217177C: .word FontAnimator__Palettes+0x00000008
 _02171780: .word 0x05000402
 _02171784: .word 0x02110458
 _02171788: .word 0x0500040A

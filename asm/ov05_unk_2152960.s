@@ -535,7 +535,7 @@ ovl05_2152D8C: // 0x02152D8C
 	arm_func_start ovl05_2152DA0
 ovl05_2152DA0: // 0x02152DA0
 	stmdb sp!, {r4, lr}
-	ldr r4, _02152DD0 // =0x02139530
+	ldr r4, _02152DD0 // =gameState+0xDC
 	mov r0, #0
 	mov r1, r4
 	mov r2, #0x64
@@ -547,7 +547,7 @@ ovl05_2152DA0: // 0x02152DA0
 	strb r0, [r4, #2]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02152DD0: .word 0x02139530
+_02152DD0: .word gameState+0xDC
 	arm_func_end ovl05_2152DA0
 
 	arm_func_start ovl05_2152DD4
@@ -589,7 +589,7 @@ _02152E10: .word gameState
 	arm_func_start ovl05_2152E14
 ovl05_2152E14: // 0x02152E14
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r3, _02152E68 // =0x02139534
+	ldr r3, _02152E68 // =gameState+0x000000E0
 	mov r6, r0
 	mov r5, r1
 	mov r4, r2
@@ -597,12 +597,12 @@ ovl05_2152E14: // 0x02152E14
 	mov r0, #0
 	mov r2, #0x10
 	bl MIi_CpuClear32
-	ldr r0, _02152E68 // =0x02139534
-	ldr r2, _02152E6C // =0x02139542
+	ldr r0, _02152E68 // =gameState+0x000000E0
+	ldr r2, _02152E6C // =gameState+0x000000EE
 	mov ip, r6, lsl #4
 	ldrh r1, [r2, ip]
 	add r6, r0, r6, lsl #4
-	ldr r3, _02152E70 // =0x02139540
+	ldr r3, _02152E70 // =gameState+0x000000EC
 	orr r0, r1, #1
 	strh r0, [r2, ip]
 	ldmia r5, {r0, r1, r2}
@@ -610,14 +610,14 @@ ovl05_2152E14: // 0x02152E14
 	strh r4, [r3, ip]
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02152E68: .word 0x02139534
-_02152E6C: .word 0x02139542
-_02152E70: .word 0x02139540
+_02152E68: .word gameState+0x000000E0
+_02152E6C: .word gameState+0x000000EE
+_02152E70: .word gameState+0x000000EC
 	arm_func_end ovl05_2152E14
 
 	arm_func_start ovl05_2152E74
 ovl05_2152E74: // 0x02152E74
-	ldr r1, _02152E90 // =0x02139542
+	ldr r1, _02152E90 // =gameState+0x000000EE
 	mov r0, r0, lsl #4
 	ldrh r0, [r1, r0]
 	tst r0, #1
@@ -625,26 +625,26 @@ ovl05_2152E74: // 0x02152E74
 	moveq r0, #0
 	bx lr
 	.align 2, 0
-_02152E90: .word 0x02139542
+_02152E90: .word gameState+0x000000EE
 	arm_func_end ovl05_2152E74
 
 	arm_func_start ovl05_2152E94
 ovl05_2152E94: // 0x02152E94
-	ldr r1, _02152EA0 // =0x02139534
+	ldr r1, _02152EA0 // =gameState+0x000000E0
 	add r0, r1, r0, lsl #4
 	bx lr
 	.align 2, 0
-_02152EA0: .word 0x02139534
+_02152EA0: .word gameState+0x000000E0
 	arm_func_end ovl05_2152E94
 
 	arm_func_start ovl05_2152EA4
 ovl05_2152EA4: // 0x02152EA4
-	ldr r1, _02152EB4 // =0x02139540
+	ldr r1, _02152EB4 // =gameState+0x000000EC
 	mov r0, r0, lsl #4
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
-_02152EB4: .word 0x02139540
+_02152EB4: .word gameState+0x000000EC
 	arm_func_end ovl05_2152EA4
 
 	arm_func_start ovl05_2152EB8
@@ -653,16 +653,16 @@ ovl05_2152EB8: // 0x02152EB8
 	mov r6, r2
 	mov r2, #0x14
 	mul r4, r0, r2
-	ldr r0, _02152F10 // =0x02139544
+	ldr r0, _02152F10 // =gameState+0x000000F0
 	mov r7, r1
 	add r5, r0, r4
 	mov r1, r5
 	mov r0, #0
 	bl MIi_CpuClear32
-	ldr r1, _02152F14 // =0x02139552
-	ldr lr, _02152F18 // =0x02139550
+	ldr r1, _02152F14 // =gameState+0x000000FE
+	ldr lr, _02152F18 // =gameState+0x000000FC
 	ldrh r0, [r1, r4]
-	ldr r3, _02152F1C // =0x02139554
+	ldr r3, _02152F1C // =gameState+0x00000100
 	mvn ip, #0
 	orr r0, r0, #1
 	strh r0, [r1, r4]
@@ -672,56 +672,56 @@ ovl05_2152EB8: // 0x02152EB8
 	str ip, [r3, r4]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_02152F10: .word 0x02139544
-_02152F14: .word 0x02139552
-_02152F18: .word 0x02139550
-_02152F1C: .word 0x02139554
+_02152F10: .word gameState+0x000000F0
+_02152F14: .word gameState+0x000000FE
+_02152F18: .word gameState+0x000000FC
+_02152F1C: .word gameState+0x00000100
 	arm_func_end ovl05_2152EB8
 
 	arm_func_start ovl05_2152F20
 ovl05_2152F20: // 0x02152F20
 	mov r1, #0x14
 	mul r1, r0, r1
-	ldr r0, _02152F40 // =0x02139552
+	ldr r0, _02152F40 // =gameState+0x000000FE
 	ldrh r0, [r0, r1]
 	tst r0, #1
 	movne r0, #1
 	moveq r0, #0
 	bx lr
 	.align 2, 0
-_02152F40: .word 0x02139552
+_02152F40: .word gameState+0x000000FE
 	arm_func_end ovl05_2152F20
 
 	arm_func_start ovl05_2152F44
 ovl05_2152F44: // 0x02152F44
-	ldr r2, _02152F54 // =0x02139544
+	ldr r2, _02152F54 // =gameState+0x000000F0
 	mov r1, #0x14
 	mla r0, r1, r0, r2
 	bx lr
 	.align 2, 0
-_02152F54: .word 0x02139544
+_02152F54: .word gameState+0x000000F0
 	arm_func_end ovl05_2152F44
 
 	arm_func_start ovl05_2152F58
 ovl05_2152F58: // 0x02152F58
 	mov r1, #0x14
 	mul r1, r0, r1
-	ldr r0, _02152F6C // =0x02139550
+	ldr r0, _02152F6C // =gameState+0x000000FC
 	ldrh r0, [r0, r1]
 	bx lr
 	.align 2, 0
-_02152F6C: .word 0x02139550
+_02152F6C: .word gameState+0x000000FC
 	arm_func_end ovl05_2152F58
 
 	arm_func_start ovl05_2152F70
 ovl05_2152F70: // 0x02152F70
 	mov r1, #0x14
 	mul r1, r0, r1
-	ldr r0, _02152F84 // =0x02139554
+	ldr r0, _02152F84 // =gameState+0x00000100
 	ldr r0, [r0, r1]
 	bx lr
 	.align 2, 0
-_02152F84: .word 0x02139554
+_02152F84: .word gameState+0x00000100
 	arm_func_end ovl05_2152F70
 
 	arm_func_start ovl05_2152F88
@@ -1890,7 +1890,7 @@ ovl05_2153D88: // 0x02153D88
 	cmp r1, r2
 	moveq r0, #1
 	ldmeqia sp!, {r3, pc}
-	ldr r0, _02153DBC // =0x02134474
+	ldr r0, _02153DBC // =saveGame+0x00000028
 	bl SaveGame__GetIslandProgress
 	cmp r0, #2
 	movge r0, #1
@@ -1898,7 +1898,7 @@ ovl05_2153D88: // 0x02153D88
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02153DB8: .word 0x0000FFFF
-_02153DBC: .word 0x02134474
+_02153DBC: .word saveGame+0x00000028
 	arm_func_end ovl05_2153D88
 
 	arm_func_start ovl05_2153DC0
@@ -2248,7 +2248,7 @@ ovl05_21541A0: // 0x021541A0
 	bl ovl05_2153AB0
 	cmp r0, #0
 	ble _02154234
-	ldr r7, _02154288 // =0x02134474
+	ldr r7, _02154288 // =saveGame+0x00000028
 	ldr r5, _0215428C // =0x0000FFFF
 	mov r6, #1
 _021541D0:
@@ -2305,7 +2305,7 @@ _02154280:
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
-_02154288: .word 0x02134474
+_02154288: .word saveGame+0x00000028
 _0215428C: .word 0x0000FFFF
 	arm_func_end ovl05_21541A0
 

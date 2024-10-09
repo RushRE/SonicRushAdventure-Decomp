@@ -1980,7 +1980,7 @@ _02170048:
 	ldrb r1, [r1, #0x150]
 	cmp r1, #6
 	bhi _0217006C
-	ldr r0, _02170098 // =0x0213461C
+	ldr r0, _02170098 // =saveGame+0x000001D0
 	bl SaveGame__HasChaosEmerald
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
@@ -1997,7 +1997,7 @@ _0217006C:
 _0217008C: .word gameState
 _02170090: .word padInput
 _02170094: .word touchInput
-_02170098: .word 0x0213461C
+_02170098: .word saveGame+0x000001D0
 	arm_func_end SailHUDClearText__State_216FFA8
 
 	arm_func_start SailHUDClearScoreText__Create
@@ -3322,7 +3322,7 @@ _02171248:
 	cmp r1, #0
 	beq _02171294
 	ldr r1, [r1, #0x1a4]
-	ldr r0, _02171360 // =0x02134474
+	ldr r0, _02171360 // =saveGame+0x00000028
 	bl SaveGame__GiveRings
 _02171294:
 	ldr r0, [r5, #0x24]
@@ -3384,7 +3384,7 @@ _02171350: .word padInput
 _02171354: .word 0x00000C03
 _02171358: .word gameState
 _0217135C: .word touchInput
-_02171360: .word 0x02134474
+_02171360: .word saveGame+0x00000028
 	arm_func_end SailRetireEvent__Main
 
 	arm_func_start SailHUDRetireText__Create

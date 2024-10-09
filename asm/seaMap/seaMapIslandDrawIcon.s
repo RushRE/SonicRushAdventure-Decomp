@@ -115,7 +115,7 @@ _0204794C:
 	movlt r0, #0
 	ldmia sp!, {r4, pc}
 _02047960:
-	ldr r0, _0204797C // =0x02134474
+	ldr r0, _0204797C // =saveGame+0x00000028
 	mov r1, #0xd
 	bl SaveGame__GetIslandProgress
 	cmp r0, #2
@@ -123,7 +123,7 @@ _02047960:
 	movlt r0, #0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0204797C: .word 0x02134474
+_0204797C: .word saveGame+0x00000028
 	arm_func_end SeaMapIslandDrawIcon__CanDrawFrom
 
 	arm_func_start SeaMapIslandDrawIcon__Func_2047980

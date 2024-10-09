@@ -985,12 +985,12 @@ _0217912A:
 	ldr r2, _021791F8 // =0x05000140
 	mov r1, #0
 	bl QueueCompressedPalette
-	ldr r0, _021791FC // =0x02110460
+	ldr r0, _021791FC // =FontAnimator__Palettes+0x00000008
 	ldr r3, _02179200 // =0x05000162
 	mov r1, #4
 	mov r2, #0
 	bl QueueUncompressedPalette
-	ldr r0, _021791FC // =0x02110460
+	ldr r0, _021791FC // =FontAnimator__Palettes+0x00000008
 	ldr r3, _02179204 // =0x05000562
 	mov r1, #4
 	mov r2, #0
@@ -1006,7 +1006,7 @@ _021791EC: .word 0x00000B14
 _021791F0: .word 0x00000924
 _021791F4: .word 0x00000B1C
 _021791F8: .word 0x05000140
-_021791FC: .word 0x02110460
+_021791FC: .word FontAnimator__Palettes+0x00000008
 _02179200: .word 0x05000162
 _02179204: .word 0x05000562
 	thumb_func_end TimeAttackRecordsMenu__InitBackgrounds
@@ -3937,7 +3937,7 @@ TimeAttackRecordsMenu__GetTimeAttackRecord: // 0x0217A8A4
 	pop {r4, pc}
 _0217A8BA:
 	lsl r1, r1, #0x18
-	ldr r0, _0217A8D0 // =0x02134CE4
+	ldr r0, _0217A8D0 // =saveGame+0x00000898
 	lsr r1, r1, #0x18
 	mov r2, r4
 	mov r3, #1
@@ -3945,7 +3945,7 @@ _0217A8BA:
 	pop {r4, pc}
 	nop
 _0217A8CC: .word 0x0000FFFF
-_0217A8D0: .word 0x02134CE4
+_0217A8D0: .word saveGame+0x00000898
 	thumb_func_end TimeAttackRecordsMenu__GetTimeAttackRecord
 
 	thumb_func_start TimeAttackRecordsMenu__GetTimeFromRecord
@@ -3962,12 +3962,12 @@ TimeAttackRecordsMenu__GetRecordUnknown: // 0x0217A8DC
 	bne _0217A8E8
 	mov r2, #0xa
 	mul r2, r0
-	ldr r0, _0217A8FC // =0x02134CE4
+	ldr r0, _0217A8FC // =saveGame+0x00000898
 	b _0217A8EE
 _0217A8E8:
 	mov r2, #0xa
 	mul r2, r0
-	ldr r0, _0217A900 // =0x02134EB0
+	ldr r0, _0217A900 // =saveGame+0x00000A64
 _0217A8EE:
 	lsl r1, r1, #1
 	add r0, r0, r2
@@ -3978,8 +3978,8 @@ _0217A8EE:
 _0217A8FA:
 	bx lr
 	.align 2, 0
-_0217A8FC: .word 0x02134CE4
-_0217A900: .word 0x02134EB0
+_0217A8FC: .word saveGame+0x00000898
+_0217A900: .word saveGame+0x00000A64
 _0217A904: .word 0x0000FFFF
 	thumb_func_end TimeAttackRecordsMenu__GetRecordUnknown
 

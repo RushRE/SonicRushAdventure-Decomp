@@ -1727,7 +1727,7 @@ _021648B0:
 	mov r1, #0
 	lsl r0, r0, #2
 	str r1, [r4, r0]
-	ldr r1, _02164904 // =0x0213D300
+	ldr r1, _02164904 // =renderCoreGFXControlA+0x00000040
 	mov r0, #0x18
 	ldrsh r0, [r1, r0]
 	cmp r0, #0
@@ -1761,7 +1761,7 @@ _021648FE:
 	pop {r4, pc}
 	.align 2, 0
 _02164900: .word VSLobbyMenu__Main_2164E64
-_02164904: .word 0x0213D300
+_02164904: .word renderCoreGFXControlA+0x00000040
 _02164908: .word VSLobbyMenu__Main_216490C
 	thumb_func_end VSLobbyMenu__Main_2164898
 
@@ -2293,7 +2293,7 @@ VSLobbyMenu__Main_2164D18: // 0x02164D18
 	beq _02164D44
 	cmp r0, #0x16
 _02164D38:
-	ldr r0, _02164D48 // =0x02139554
+	ldr r0, _02164D48 // =gameState+0x00000100
 	mov r1, #0
 	str r1, [r0, #0x64]
 	ldr r0, _02164D4C // =VSLobbyMenu__Main_2164E64
@@ -2301,7 +2301,7 @@ _02164D38:
 _02164D44:
 	pop {r4, pc}
 	nop
-_02164D48: .word 0x02139554
+_02164D48: .word gameState+0x00000100
 _02164D4C: .word VSLobbyMenu__Main_2164E64
 	thumb_func_end VSLobbyMenu__Main_2164D18
 

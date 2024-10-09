@@ -1181,21 +1181,21 @@ _020618EC: .word MultibootManager__Main_2062CCC
 	arm_func_start MultibootManager__Func_20618F0
 MultibootManager__Func_20618F0: // 0x020618F0
 	ldr ip, _020618FC // =DWC_CheckHasProfile
-	ldr r0, _02061900 // =0x0213529C
+	ldr r0, _02061900 // =saveGame+0x00000E50
 	bx ip
 	.align 2, 0
 _020618FC: .word DWC_CheckHasProfile
-_02061900: .word 0x0213529C
+_02061900: .word saveGame+0x00000E50
 	arm_func_end MultibootManager__Func_20618F0
 
 	arm_func_start MultibootManager__Func_2061904
 MultibootManager__Func_2061904: // 0x02061904
 	ldr ip, _02061910 // =DWC_CheckValidConsole
-	ldr r0, _02061914 // =0x0213529C
+	ldr r0, _02061914 // =saveGame+0x00000E50
 	bx ip
 	.align 2, 0
 _02061910: .word DWC_CheckValidConsole
-_02061914: .word 0x0213529C
+_02061914: .word saveGame+0x00000E50
 	arm_func_end MultibootManager__Func_2061904
 
 	arm_func_start MultibootManager__Func_2061918
@@ -2336,8 +2336,8 @@ MultibootManager__Main_2062814: // 0x02062814
 	mov r2, #0x10
 	bl MIi_CpuCopy16
 	mov ip, #0
-	ldr r0, _020628F4 // =0x0213529C
-	ldr r1, _020628F8 // =0x021352DC
+	ldr r0, _020628F4 // =saveGame+0x00000E50
+	ldr r1, _020628F8 // =saveGame+0x00000E90
 	add r3, sp, #0
 	mov r2, #0x1e
 	strh ip, [sp, #0x10]
@@ -2385,8 +2385,8 @@ _020628DC:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _020628F0: .word saveGame
-_020628F4: .word 0x0213529C
-_020628F8: .word 0x021352DC
+_020628F4: .word saveGame+0x00000E50
+_020628F8: .word saveGame+0x00000E90
 _020628FC: .word SaveGame__DeleteFriendCallback
 _02062900: .word MultibootManager__Main_2062FB8
 	arm_func_end MultibootManager__Main_2062814
@@ -3412,7 +3412,7 @@ MultibootManager__Func_20635FC: // 0x020635FC
 	mov r4, r1
 	ldr r2, _020636F8 // =gameState
 	mov r3, #1
-	ldr r0, _020636FC // =0x021395B4
+	ldr r0, _020636FC // =gameState+0x00000160
 	add r1, sp, #0
 	str r3, [r2, #0x164]
 	bl DWC_GetLastErrorEx
@@ -3474,7 +3474,7 @@ _020636E0:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _020636F8: .word gameState
-_020636FC: .word 0x021395B4
+_020636FC: .word gameState+0x00000160
 _02063700: .word MultibootManager__sVars
 _02063704: .word MultibootManager__Main_Error
 	arm_func_end MultibootManager__Func_20635FC
@@ -3486,7 +3486,7 @@ MultibootManager__Func_2063708: // 0x02063708
 	str r1, [r0, #8]
 	ldr r2, _02063768 // =gameState
 	mov r3, #1
-	ldr r0, _0206376C // =0x021395B4
+	ldr r0, _0206376C // =gameState+0x00000160
 	add r1, sp, #0
 	str r3, [r2, #0x164]
 	bl DWC_GetLastErrorEx
@@ -3507,7 +3507,7 @@ MultibootManager__Func_2063708: // 0x02063708
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02063768: .word gameState
-_0206376C: .word 0x021395B4
+_0206376C: .word gameState+0x00000160
 _02063770: .word MultibootManager__sVars
 _02063774: .word MultibootManager__Main_Error
 	arm_func_end MultibootManager__Func_2063708
@@ -3589,12 +3589,12 @@ MultibootManager__Func_2063834: // 0x02063834
 	str r0, [r4, #0x1c]
 	bl SaveGame__GetOnlineScore
 	str r0, [r4, #0x20]
-	ldr r0, _02063870 // =0x0213529C
+	ldr r0, _02063870 // =saveGame+0x00000E50
 	add r1, r4, #0x24
 	bl DWC_CreateExchangeToken
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02063870: .word 0x0213529C
+_02063870: .word saveGame+0x00000E50
 	arm_func_end MultibootManager__Func_2063834
 
 	arm_func_start MultibootManager__Func_2063874

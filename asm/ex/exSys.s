@@ -942,7 +942,7 @@ ovl09_2173500: // 0x02173500
 	str r2, [r0, #8]
 	ldrh r2, [r1, #8]
 	orr r3, r5, #0x11
-	ldr r0, _02173658 // =0x0213D2E0
+	ldr r0, _02173658 // =renderCoreGFXControlA+0x00000020
 	bic r2, r2, #3
 	strh r2, [r1, #8]
 	ldrh r2, [r1, #0xa]
@@ -966,7 +966,7 @@ ovl09_2173500: // 0x02173500
 	mov r1, r5
 	str r1, [r0, #0x1c]
 	ldr r2, _02173660 // =0x04001000
-	ldr r0, _02173664 // =0x0213D284
+	ldr r0, _02173664 // =renderCoreGFXControlB+0x00000020
 	ldr r1, [r2, #0]
 	bic r1, r1, #0x1f00
 	str r1, [r2]
@@ -992,10 +992,10 @@ ovl09_2173500: // 0x02173500
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02173654: .word renderCoreSwapBuffer
-_02173658: .word 0x0213D2E0
+_02173658: .word renderCoreGFXControlA+0x00000020
 _0217365C: .word renderCoreGFXControlA
 _02173660: .word 0x04001000
-_02173664: .word 0x0213D284
+_02173664: .word renderCoreGFXControlB+0x00000020
 _02173668: .word renderCoreGFXControlB
 _0217366C: .word 0x04000304
 _02173670: .word 0xFFFFFDF1

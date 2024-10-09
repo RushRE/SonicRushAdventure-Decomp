@@ -1058,11 +1058,11 @@ _02168A40:
 	cmp r0, #0
 	add r0, sp, #0xc
 	beq _02168B98
-	ldr r1, _02168C30 // =0x02113950
+	ldr r1, _02168C30 // =FX_SinCosTable_+0x00001000
 	ldrsh r2, [r1, #2]
 	ldrsh r1, [r1, #0]
 	bl MTX_RotY33_
-	ldr r1, _02168C34 // =0x02112A50
+	ldr r1, _02168C34 // =FX_SinCosTable_+0x00000100
 	add r0, sp, #0x30
 	ldrsh r2, [r1, #0xc2]
 	ldrsh r1, [r1, #0xc0]
@@ -1073,11 +1073,11 @@ _02168A40:
 	bl MTX_Concat33
 	b _02168BCC
 _02168B98:
-	ldr r1, _02168C38 // =0x02115950
+	ldr r1, _02168C38 // =FX_SinCosTable_+0x00003000
 	ldrsh r2, [r1, #2]
 	ldrsh r1, [r1, #0]
 	bl MTX_RotY33_
-	ldr r1, _02168C34 // =0x02112A50
+	ldr r1, _02168C34 // =FX_SinCosTable_+0x00000100
 	add r0, sp, #0x30
 	ldrsh r2, [r1, #0xc2]
 	ldrsh r1, [r1, #0xc0]
@@ -1113,9 +1113,9 @@ _02168C20: .word aBarrel_0
 _02168C24: .word 0x00000102
 _02168C28: .word ovl02_21727C4
 _02168C2C: .word ovl02_2172AD8
-_02168C30: .word 0x02113950
-_02168C34: .word 0x02112A50
-_02168C38: .word 0x02115950
+_02168C30: .word FX_SinCosTable_+0x00001000
+_02168C34: .word FX_SinCosTable_+0x00000100
+_02168C38: .word FX_SinCosTable_+0x00003000
 	arm_func_end BossFShipCannon__Create
 
 	arm_func_start BossFMissileGreen__Create
@@ -14917,7 +14917,7 @@ ovl02_2174F10: // _02174F10
 	addne sp, sp, #0x4c
 	str r0, [r4, #0x2c]
 	ldmneia sp!, {r4, r5, pc}
-	ldr r2, _02175168 // =0x02113950
+	ldr r2, _02175168 // =FX_SinCosTable_+0x00001000
 	add r0, sp, #0x28
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
@@ -15064,7 +15064,7 @@ _02175138:
 	add sp, sp, #0x4c
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
-_02175168: .word 0x02113950
+_02175168: .word FX_SinCosTable_+0x00001000
 _0217516C: .word ovl02_2176A1C
 _02175170: .word 0x00000126
 _02175174: .word FX_SinCosTable_
@@ -18065,7 +18065,7 @@ ovl02_2177B94: // _02177B94
 	orr r0, r0, #2
 	str r0, [r4, #0x18]
 	ldr r1, [r4, #0x20]
-	ldr r0, _02177CC0 // =0x02114950
+	ldr r0, _02177CC0 // =FX_SinCosTable_+0x00002000
 	orr r1, r1, #0x180
 	str r1, [r4, #0x20]
 	ldr r2, [r4, #0x1c]
@@ -18102,7 +18102,7 @@ _02177CB0: .word gameArchiveStage
 _02177CB4: .word aBsef8BFlash2Ns_1
 _02177CB8: .word aBsef8BFlash2Ns_2
 _02177CBC: .word 0x000034CC
-_02177CC0: .word 0x02114950
+_02177CC0: .word FX_SinCosTable_+0x00002000
 _02177CC4: .word ovl02_2177CC8
 	arm_func_end ovl02_2177B94
 

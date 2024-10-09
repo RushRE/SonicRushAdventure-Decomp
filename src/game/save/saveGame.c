@@ -79,7 +79,7 @@ NONMATCH_FUNC void SaveGame__SetGameProgress(SaveProgress progress){
 	stmdb sp!, {r4, lr}
 	ldr r1, =saveGame
 	mov r4, r0
-	ldr r0, =0x02139554
+	ldr r0, =gameState+0x00000100
 	strb r4, [r1, #0x2c]
 	mov r2, #0
 	strh r2, [r0, #0x4c]
@@ -257,7 +257,7 @@ NONMATCH_FUNC void SaveGame__SetMissionStatus(u8 id, MissionState status)
 	stmdb sp!, {r3, lr}
 	mov r3, r0, lsr #0x1f
 	rsb r2, r3, r0, lsl #30
-	ldr lr, =0x02134480
+	ldr lr, =saveGame+0x00000034
 	add r2, r3, r2, ror #30
 	mov r3, r2, lsl #1
 	mov r2, #3
@@ -312,7 +312,7 @@ NONMATCH_FUNC void SaveGame__Func_205BDC8(void){
 	sub r0, r1, #1
 	cmp r1, #2
 	mov r1, r2, lsl r0
-	ldr r2, =0x02134474
+	ldr r2, =saveGame+0x00000028
 	bne _0205BDF8
 	ldr r0, [r2, #0]
 	tst r0, r1, lsr #1
@@ -886,12 +886,12 @@ NONMATCH_FUNC void SaveGame__UnknownTable2Func_205C720(void)
 	ldrb r4, [r0, #0x150]
 	cmp r4, #7
 	bhs _0205C770
-	ldr r0, =0x0213461C
+	ldr r0, =saveGame+0x000001D0
 	mov r1, r4
 	bl SaveGame__HasChaosEmerald
 	cmp r0, #0
 	bne _0205C770
-	ldr r0, =0x0213461C
+	ldr r0, =saveGame+0x000001D0
 	mov r1, r4
 	bl SaveGame__SetChaosEmeraldCollected
 	ldr r0, =gameState
@@ -931,7 +931,7 @@ NONMATCH_FUNC void SaveGame__UnknownTable2Func_205C7E8(void)
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r0, =0x02139554
+	ldr r0, =gameState+0x00000100
 	ldrh r0, [r0, #0x52]
 	cmp r0, #1
 	bne _0205C834
@@ -944,7 +944,7 @@ NONMATCH_FUNC void SaveGame__UnknownTable2Func_205C7E8(void)
 	ldmia sp!, {r3, r4, r5, pc}
 _0205C818:
 	bl SaveGame__ResetUnknownCounter
-	ldr r1, =0x02139554
+	ldr r1, =gameState+0x00000100
 	mov r2, #1
 	mov r0, #0x1d
 	strh r2, [r1, #0x54]
@@ -980,7 +980,7 @@ _0205C870:
 	bl SaveGame__GetGameProgress
 	cmp r0, #0x27
 	movge r3, #1
-	ldr r2, =0x02139520
+	ldr r2, =gameState+0x000000CC
 	movlt r3, #0
 	mov r1, #0x28
 	mov r0, #0x22
@@ -1068,7 +1068,7 @@ _0205C99C:
 	bl SaveGame__StartCutscene
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0205C9D4:
-	ldr r5, =0x02134474
+	ldr r5, =saveGame+0x00000028
 	ldr r6, =SaveGame__hiddenIslandList
 	mov r7, #0
 _0205C9E0:
@@ -1081,7 +1081,7 @@ _0205C9E0:
 	bl SaveGame__GetIslandProgress
 	cmp r0, #1
 	bge _0205CA1C
-	ldr r0, =0x02134474
+	ldr r0, =saveGame+0x00000028
 	mov r1, r7
 	mov r2, #1
 	bl SaveGame__SetIslandProgress
@@ -1444,8 +1444,8 @@ NONMATCH_FUNC void SaveGame__Func_205CF9C(void)
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r4, =0x02134474
-	ldr r5, =0x0213445C
+	ldr r4, =saveGame+0x00000028
+	ldr r5, =saveGame+0x00000010
 	ldrb r1, [r4, #4]
 	ldrb r0, [r5, #4]
 	cmp r0, r1

@@ -766,12 +766,12 @@ _02176040:
 	ldr r2, _021760FC // =0x05000140
 	mov r1, #0
 	bl QueueCompressedPalette
-	ldr r0, _02176100 // =0x02110460
+	ldr r0, _02176100 // =FontAnimator__Palettes+0x00000008
 	ldr r3, _02176104 // =0x05000162
 	mov r1, #4
 	mov r2, #0
 	bl QueueUncompressedPalette
-	ldr r0, _02176100 // =0x02110460
+	ldr r0, _02176100 // =FontAnimator__Palettes+0x00000008
 	mov r1, #4
 	mov r2, #0
 	ldr r3, _02176108 // =0x05000562
@@ -780,7 +780,7 @@ _02176040:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021760FC: .word 0x05000140
-_02176100: .word 0x02110460
+_02176100: .word FontAnimator__Palettes+0x00000008
 _02176104: .word 0x05000162
 _02176108: .word 0x05000562
 	arm_func_end TimeAttackLeaderboardsMenu__Func_2175DE4
@@ -3411,7 +3411,7 @@ TimeAttackLeaderboardsMenu__Func_217852C: // 0x0217852C
 	cmp r1, #2
 	ldrhs r0, _02178560 // =0x0000FFFF
 	ldmhsia sp!, {r4, pc}
-	ldr r0, _02178564 // =0x02134CE4
+	ldr r0, _02178564 // =saveGame+0x00000898
 	mov r2, r4
 	and r1, r1, #0xff
 	mov r3, #1
@@ -3419,7 +3419,7 @@ TimeAttackLeaderboardsMenu__Func_217852C: // 0x0217852C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02178560: .word 0x0000FFFF
-_02178564: .word 0x02134CE4
+_02178564: .word saveGame+0x00000898
 	arm_func_end TimeAttackLeaderboardsMenu__Func_217852C
 
 	arm_func_start TimeAttackLeaderboardsMenu__Func_2178568

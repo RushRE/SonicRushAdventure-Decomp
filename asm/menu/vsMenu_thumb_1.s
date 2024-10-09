@@ -339,7 +339,7 @@ _0216731A:
 	add r0, r4, r0
 	mov r1, #0x40
 	bl FontWindowAnimator__EnableFlags
-	ldr r0, _02167450 // =0x02110460
+	ldr r0, _02167450 // =FontAnimator__Palettes+0x00000008
 	ldr r3, _02167454 // =0x050000C2
 	mov r1, #4
 	mov r2, #0
@@ -351,7 +351,7 @@ _0216743E:
 _02167444: .word VSMenu__Singleton
 _02167448: .word aFntFontAllFnt_3_ovl03
 _0216744C: .word VRAMSystem__VRAM_BG
-_02167450: .word 0x02110460
+_02167450: .word FontAnimator__Palettes+0x00000008
 _02167454: .word 0x050000C2
 	thumb_func_end VSMenu__InitFontWindow
 
@@ -3841,14 +3841,14 @@ _021692B4: .word VSMenu__Singleton
 	thumb_func_start VSMenu__Main_21692B8
 VSMenu__Main_21692B8: // 0x021692B8
 	push {r3, lr}
-	ldr r1, _021692E4 // =0x0213D300
+	ldr r1, _021692E4 // =renderCoreGFXControlA+0x00000040
 	mov r0, #0x18
 	ldrsh r2, [r1, r0]
 	mov r1, r0
 	sub r1, #0x28
 	cmp r2, r1
 	bne _021692D2
-	ldr r1, _021692E8 // =0x0213D2A4
+	ldr r1, _021692E8 // =renderCoreGFXControlB+0x00000040
 	ldrsh r1, [r1, r0]
 	sub r0, #0x28
 	cmp r1, r0
@@ -3862,8 +3862,8 @@ _021692DA:
 	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
-_021692E4: .word 0x0213D300
-_021692E8: .word 0x0213D2A4
+_021692E4: .word renderCoreGFXControlA+0x00000040
+_021692E8: .word renderCoreGFXControlB+0x00000040
 _021692EC: .word VSMenu__Main_21692F0
 	thumb_func_end VSMenu__Main_21692B8
 
@@ -3892,14 +3892,14 @@ _02169320: .word VSMenu__Singleton
 	thumb_func_start VSMenu__Main_2169324
 VSMenu__Main_2169324: // 0x02169324
 	push {r3, lr}
-	ldr r1, _02169350 // =0x0213D300
+	ldr r1, _02169350 // =renderCoreGFXControlA+0x00000040
 	mov r0, #0x18
 	ldrsh r2, [r1, r0]
 	mov r1, r0
 	sub r1, #0x28
 	cmp r2, r1
 	bne _0216933E
-	ldr r1, _02169354 // =0x0213D2A4
+	ldr r1, _02169354 // =renderCoreGFXControlB+0x00000040
 	ldrsh r1, [r1, r0]
 	sub r0, #0x28
 	cmp r1, r0
@@ -3913,8 +3913,8 @@ _02169346:
 	bl SetCurrentTaskMainEvent
 	pop {r3, pc}
 	nop
-_02169350: .word 0x0213D300
-_02169354: .word 0x0213D2A4
+_02169350: .word renderCoreGFXControlA+0x00000040
+_02169354: .word renderCoreGFXControlB+0x00000040
 _02169358: .word VSMenu__Main_216935C
 	thumb_func_end VSMenu__Main_2169324
 
@@ -4324,7 +4324,7 @@ VSMenuBackground__VBlankCallback: // 0x02169658
 	mov r2, #1
 	tst r2, r4
 	beq _02169694
-	ldr r4, _021696C4 // =0x0213D2CE
+	ldr r4, _021696C4 // =renderCoreGFXControlA+0x0000000E
 	sub r3, #0x3d
 	ldrh r2, [r4, #0]
 	add r2, r2, r1
@@ -4338,7 +4338,7 @@ _02169694:
 	mov r2, #2
 	tst r2, r3
 	beq _021696AE
-	ldr r3, _021696CC // =0x0213D272
+	ldr r3, _021696CC // =renderCoreGFXControlB+0x0000000E
 	ldrh r2, [r3, #0]
 	add r2, r2, r1
 	ldr r1, _021696D0 // =0x000001FF
@@ -4358,9 +4358,9 @@ _021696B8:
 	nop
 _021696BC: .word VSMenu__Singleton
 _021696C0: .word 0x00000555
-_021696C4: .word 0x0213D2CE
+_021696C4: .word renderCoreGFXControlA+0x0000000E
 _021696C8: .word 0x0400001E
-_021696CC: .word 0x0213D272
+_021696CC: .word renderCoreGFXControlB+0x0000000E
 _021696D0: .word 0x000001FF
 _021696D4: .word 0x0400101E
 _021696D8: .word 0x00000FFF

@@ -1180,7 +1180,7 @@ ViMapIcon__Func_2163EBC: // 0x02163EBC
 	ldmeqia sp!, {r4, r5, pc}
 	ldr r0, [r4, #0x94]
 	ldr ip, _02163FFC // =NNS_G3dGlb
-	ldr lr, _02164008 // =0x0214728C
+	ldr lr, _02164008 // =NNS_G3dGlb+0x0000004C
 	str r0, [ip, #0x240]
 	ldr r1, [r4, #0x98]
 	add r0, r4, #0x94
@@ -1230,7 +1230,7 @@ _02163FF8: .word 0xBFFF0000
 _02163FFC: .word NNS_G3dGlb
 _02164000: .word 0x001FFFF8
 _02164004: .word 0x00007FFF
-_02164008: .word 0x0214728C
+_02164008: .word NNS_G3dGlb+0x0000004C
 	arm_func_end ViMapIcon__Func_2163EBC
 
 	arm_func_start ViMapIcon__Func_216400C

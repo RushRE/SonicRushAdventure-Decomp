@@ -22,14 +22,14 @@ mapCamera: // mapCamera
 	arm_func_start MapSys__Init
 MapSys__Init: // 0x020084D8
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r0, _02008514 // =0x02133BA8
+	ldr r0, _02008514 // =mapCamera+0x000000E0
 	ldr r1, _02008518 // =mapCamera
 	ldrh r4, [r0, #0x4a]
 	ldrh r5, [r0, #0x4c]
 	mov r0, #0
 	mov r2, #0x140
 	bl MIi_CpuClear16
-	ldr r1, _02008514 // =0x02133BA8
+	ldr r1, _02008514 // =mapCamera+0x000000E0
 	ldr r0, _0200851C // =mapSystemTask
 	strh r4, [r1, #0x4a]
 	strh r5, [r1, #0x4c]
@@ -37,7 +37,7 @@ MapSys__Init: // 0x020084D8
 	str r1, [r0]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02008514: .word 0x02133BA8
+_02008514: .word mapCamera+0x000000E0
 _02008518: .word mapCamera
 _0200851C: .word mapSystemTask
 	arm_func_end MapSys__Init
@@ -278,7 +278,7 @@ _02008834:
 	blx r1
 _0200884C:
 	ldr r1, _02008878 // =mapSystemTask
-	ldr r0, _0200887C // =0x02133BA8
+	ldr r0, _0200887C // =mapCamera+0x000000E0
 	ldr r2, [r1, #0x14]
 	ldrh r1, [r2, #0]
 	mov r1, r1, lsl #6
@@ -290,7 +290,7 @@ _0200884C:
 	.align 2, 0
 _02008874: .word MapSys__ZoneLoadBossMapTable
 _02008878: .word mapSystemTask
-_0200887C: .word 0x02133BA8
+_0200887C: .word mapCamera+0x000000E0
 	arm_func_end MapSys__LoadArchive_MAP
 
 	arm_func_start MapSys__Flush
@@ -752,12 +752,12 @@ MapSys__GetCameraA: // 0x02008EE0
 	ldr r0, _02008EF8 // =mapSystemTask
 	ldr r0, [r0, #0x100]
 	tst r0, #2
-	ldrne r0, _02008EFC // =0x02133B38
+	ldrne r0, _02008EFC // =mapCamera+0x00000070
 	ldreq r0, _02008F00 // =mapCamera
 	bx lr
 	.align 2, 0
 _02008EF8: .word mapSystemTask
-_02008EFC: .word 0x02133B38
+_02008EFC: .word mapCamera+0x00000070
 _02008F00: .word mapCamera
 	arm_func_end MapSys__GetCameraA
 
@@ -767,12 +767,12 @@ MapSys__GetCameraB: // 0x02008F04
 	ldr r0, [r0, #0x100]
 	tst r0, #2
 	ldrne r0, _02008F20 // =mapCamera
-	ldreq r0, _02008F24 // =0x02133B38
+	ldreq r0, _02008F24 // =mapCamera+0x00000070
 	bx lr
 	.align 2, 0
 _02008F1C: .word mapSystemTask
 _02008F20: .word mapCamera
-_02008F24: .word 0x02133B38
+_02008F24: .word mapCamera+0x00000070
 	arm_func_end MapSys__GetCameraB
 
 	arm_func_start MapSys__Func_2008F28
@@ -806,7 +806,7 @@ _02008F64:
 	str r0, [r1, #0x100]
 _02008F90:
 	ldr r2, _02009090 // =mapCamera
-	ldr r3, _02009094 // =0x02133B38
+	ldr r3, _02009094 // =mapCamera+0x00000070
 	mov ip, #0
 _02008F9C:
 	add r1, r2, ip, lsl #2
@@ -872,7 +872,7 @@ _02008F9C:
 _02009088: .word mapSystemTask
 _0200908C: .word renderCurrentDisplay
 _02009090: .word mapCamera
-_02009094: .word 0x02133B38
+_02009094: .word mapCamera+0x00000070
 	arm_func_end MapSys__Func_2008F28
 
 	arm_func_start MapSys__GetPosition
@@ -932,8 +932,8 @@ MapSys__SetTargetOffset: // 0x02009134
 	stmdb sp!, {r3, lr}
 	mov r3, #0x70
 	mul lr, r0, r3
-	ldr ip, _0200917C // =0x02133B18
-	ldr r3, _02009180 // =0x02133B1C
+	ldr ip, _0200917C // =mapCamera+0x00000050
+	ldr r3, _02009180 // =mapCamera+0x00000054
 	str r1, [ip, lr]
 	ldr r0, _02009184 // =mapCamera
 	str r2, [r3, lr]
@@ -941,18 +941,18 @@ MapSys__SetTargetOffset: // 0x02009134
 	tst r0, #0x3000
 	ldmneia sp!, {r3, pc}
 	ldr r2, [ip, lr]
-	ldr r1, _02009188 // =0x02133B10
-	ldr r0, _0200918C // =0x02133B14
+	ldr r1, _02009188 // =mapCamera+0x00000048
+	ldr r0, _0200918C // =mapCamera+0x0000004C
 	str r2, [r1, lr]
 	ldr r1, [r3, lr]
 	str r1, [r0, lr]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0200917C: .word 0x02133B18
-_02009180: .word 0x02133B1C
+_0200917C: .word mapCamera+0x00000050
+_02009180: .word mapCamera+0x00000054
 _02009184: .word mapCamera
-_02009188: .word 0x02133B10
-_0200918C: .word 0x02133B14
+_02009188: .word mapCamera+0x00000048
+_0200918C: .word mapCamera+0x0000004C
 	arm_func_end MapSys__SetTargetOffset
 
 	arm_func_start MapSys__Func_2009190
@@ -1016,7 +1016,7 @@ MapSys__GetScreenSwapPos: // 0x02009210
 	ldr r1, [r1, #0x1c]
 	movlt r5, r3
 	blt _02009244
-	ldr r4, _020092E0 // =0x02133BA8
+	ldr r4, _020092E0 // =mapCamera+0x000000E0
 	ldrh r4, [r4, #0x4a]
 	mov r4, r4, lsl #0xc
 	sub r5, r4, #1
@@ -1066,7 +1066,7 @@ _020092D0:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _020092DC: .word mapSystemTask
-_020092E0: .word 0x02133BA8
+_020092E0: .word mapCamera+0x000000E0
 	arm_func_end MapSys__GetScreenSwapPos
 
 	arm_func_start MapSys__GetCameraPositionCB
@@ -1431,7 +1431,7 @@ _020096D4: .word mapSystemTask
 MapSys__InitStageBounds: // 0x020096D8
 	stmdb sp!, {r4, lr}
 	ldr r2, _0200976C // =mapSystemTask
-	ldr r1, _02009770 // =0x02133BA8
+	ldr r1, _02009770 // =mapCamera+0x000000E0
 	ldr lr, [r2, #0x14]
 	mov r3, #0x8000
 	ldrh ip, [lr]
@@ -1457,7 +1457,7 @@ MapSys__InitStageBounds: // 0x020096D8
 	mov r0, #0xa00
 	bl _AllocHeadHEAP_USER
 	ldr r1, _0200976C // =mapSystemTask
-	ldr r4, _02009774 // =0x02133B38
+	ldr r4, _02009774 // =mapCamera+0x00000070
 	str r0, [r1, #0x54]
 	mov r0, #0xa00
 	bl _AllocHeadHEAP_USER
@@ -1468,8 +1468,8 @@ MapSys__InitStageBounds: // 0x020096D8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0200976C: .word mapSystemTask
-_02009770: .word 0x02133BA8
-_02009774: .word 0x02133B38
+_02009770: .word mapCamera+0x000000E0
+_02009774: .word mapCamera+0x00000070
 	arm_func_end MapSys__InitStageBounds
 
 	arm_func_start MapSys__InitBoundsForStage
@@ -1615,7 +1615,7 @@ _02009924:
 	str r1, [r0, #0x6c]
 	mov r2, #0x1000
 	str r2, [r0, #0x44]
-	ldr r1, _020099BC // =0x02133B38
+	ldr r1, _020099BC // =mapCamera+0x00000070
 	str r2, [r0, #0x48]
 	mov r0, #0x58000
 	strb ip, [r1, #0x46]
@@ -1629,7 +1629,7 @@ _020099AC: .word mapSystemTask
 _020099B0: .word 0x04000304
 _020099B4: .word renderCurrentDisplay
 _020099B8: .word mapCamera
-_020099BC: .word 0x02133B38
+_020099BC: .word mapCamera+0x00000070
 	arm_func_end MapSys__InitBoundsForVSRings
 
 	arm_func_start MapSys__SetupBoss_Zone5
@@ -1680,7 +1680,7 @@ _02009A10:
 	str r1, [r0, #0x6c]
 	mov r2, #0x1000
 	str r2, [r0, #0x44]
-	ldr r1, _02009AA8 // =0x02133B38
+	ldr r1, _02009AA8 // =mapCamera+0x00000070
 	str r2, [r0, #0x48]
 	mov r0, #0x58000
 	strb ip, [r1, #0x46]
@@ -1694,7 +1694,7 @@ _02009A98: .word mapSystemTask
 _02009A9C: .word 0x04000304
 _02009AA0: .word renderCurrentDisplay
 _02009AA4: .word mapCamera
-_02009AA8: .word 0x02133B38
+_02009AA8: .word mapCamera+0x00000070
 	arm_func_end MapSys__SetupBoss_Zone5
 
 	arm_func_start MapSys__Destructor
@@ -1909,7 +1909,7 @@ _02009D58:
 _02009D80:
 	bl MapSys__HandleVBounds
 _02009D84:
-	ldr r4, _02009E38 // =0x02133B38
+	ldr r4, _02009E38 // =mapCamera+0x00000070
 	ldr r0, [r4, #0]
 	tst r0, #0x140
 	bne _02009DA0
@@ -1962,7 +1962,7 @@ _02009E20:
 	.align 2, 0
 _02009E30: .word mapSystemTask
 _02009E34: .word mapCamera
-_02009E38: .word 0x02133B38
+_02009E38: .word mapCamera+0x00000070
 	arm_func_end MapSys__HandleCamera
 
 	arm_func_start MapSys__Func_2009E3C
@@ -2551,7 +2551,7 @@ MapSys__HandleHBounds: // 0x0200A658
 	ldr r2, _0200A694 // =mapCamera
 	mov r0, #0x70
 	mla r3, r1, r0, r2
-	ldr r0, _0200A698 // =0x02133BF8
+	ldr r0, _0200A698 // =mapCamera+0x00000130
 	ldr r2, [r3, #4]
 	ldr r1, [r0, #0]
 	cmp r2, r1
@@ -2566,7 +2566,7 @@ _0200A68C:
 	bx lr
 	.align 2, 0
 _0200A694: .word mapCamera
-_0200A698: .word 0x02133BF8
+_0200A698: .word mapCamera+0x00000130
 	arm_func_end MapSys__HandleHBounds
 
 	arm_func_start MapSys__HandleVBounds
@@ -2576,7 +2576,7 @@ MapSys__HandleVBounds: // 0x0200A69C
 	mov r0, #0x70
 	mla r2, r1, r0, r2
 	ldr r3, _0200A778 // =mapSystemTask
-	ldr r0, _0200A77C // =0x02133BF8
+	ldr r0, _0200A77C // =mapCamera+0x00000130
 	ldr r1, [r3, #0x100]
 	tst r1, #0x200
 	ldmneia sp!, {r3, pc}
@@ -2633,7 +2633,7 @@ _0200A76C:
 	.align 2, 0
 _0200A774: .word mapCamera
 _0200A778: .word mapSystemTask
-_0200A77C: .word 0x02133BF8
+_0200A77C: .word mapCamera+0x00000130
 	arm_func_end MapSys__HandleVBounds
 
 	arm_func_start MapSys__Func_200A780
@@ -2750,7 +2750,7 @@ MapSys__Func_200A8D8: // 0x0200A8D8
 	ldr r2, _0200A908 // =mapSystemTask
 	mul r3, r1, r0
 	smulbb r0, ip, r0
-	ldr r1, _0200A90C // =0x02133ACC
+	ldr r1, _0200A90C // =mapCamera+0x00000004
 	ldr r2, [r2, #0x10c]
 	ldr r0, [r1, r0]
 	add r0, r2, r0
@@ -2758,7 +2758,7 @@ MapSys__Func_200A8D8: // 0x0200A8D8
 	bx lr
 	.align 2, 0
 _0200A908: .word mapSystemTask
-_0200A90C: .word 0x02133ACC
+_0200A90C: .word mapCamera+0x00000004
 	arm_func_end MapSys__Func_200A8D8
 
 	arm_func_start MapSys__Func_200A910
@@ -2769,7 +2769,7 @@ MapSys__Func_200A910: // 0x0200A910
 	ldr r2, _0200A940 // =mapSystemTask
 	mul r3, r1, r0
 	smulbb r0, ip, r0
-	ldr r1, _0200A944 // =0x02133AD0
+	ldr r1, _0200A944 // =mapCamera+0x00000008
 	ldr r2, [r2, #0x110]
 	ldr r0, [r1, r0]
 	add r0, r2, r0
@@ -2777,7 +2777,7 @@ MapSys__Func_200A910: // 0x0200A910
 	bx lr
 	.align 2, 0
 _0200A940: .word mapSystemTask
-_0200A944: .word 0x02133AD0
+_0200A944: .word mapCamera+0x00000008
 	arm_func_end MapSys__Func_200A910
 
 	arm_func_start MapSys__Func_200A948

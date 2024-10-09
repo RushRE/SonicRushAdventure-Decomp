@@ -3622,7 +3622,7 @@ EffectUnknown2161638__Main: // 0x02163B90
 	bl MTX_Identity33_
 	add r0, sp, #0x64
 	bl NNS_G3dGlbSetBaseScale
-	ldr r1, _02163F68 // =0x021472FC
+	ldr r1, _02163F68 // =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0x40
 	bl MI_Copy36B
 	ldr r1, _02163F6C // =NNS_G3dGlb
@@ -3850,7 +3850,7 @@ _02163F4C:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02163F64: .word _0218BC4C
-_02163F68: .word 0x021472FC
+_02163F68: .word NNS_G3dGlb+0x000000BC
 _02163F6C: .word NNS_G3dGlb
 _02163F70: .word FX_SinCosTable_
 _02163F74: .word _obj_disp_rand

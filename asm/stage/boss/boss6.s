@@ -2687,7 +2687,7 @@ ovl02_2155EB4: // 0x02155EB4
 	ldr r1, [r5, #0x38c]
 	mov r0, r4
 	add r2, r1, #0x1f4000
-	ldr r1, _02155FA8 // =0x02133BC8
+	ldr r1, _02155FA8 // =mapCamera+0x00000100
 	mov r3, #0
 	ldrh r1, [r1, #0x2a]
 	mov r1, r1, lsl #0xc
@@ -2730,7 +2730,7 @@ ovl02_2155EB4: // 0x02155EB4
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _02155FA4: .word _02178848
-_02155FA8: .word 0x02133BC8
+_02155FA8: .word mapCamera+0x00000100
 	arm_func_end ovl02_2155EB4
 
 	arm_func_start ovl02_2155FAC
@@ -2754,7 +2754,7 @@ ovl02_2155FAC: // 0x02155FAC
 	ldr r1, [r5, #0x38c]
 	mov r0, r4
 	add r2, r1, #0x50000
-	ldr r1, _0215609C // =0x02133BC8
+	ldr r1, _0215609C // =mapCamera+0x00000100
 	mov r3, #0
 	ldrh r1, [r1, #0x2a]
 	mov r1, r1, lsl #0xc
@@ -2796,7 +2796,7 @@ ovl02_2155FAC: // 0x02155FAC
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _02156098: .word _0217886C
-_0215609C: .word 0x02133BC8
+_0215609C: .word mapCamera+0x00000100
 	arm_func_end ovl02_2155FAC
 
 	arm_func_start ovl02_21560A0
@@ -2805,7 +2805,7 @@ ovl02_21560A0: // 0x021560A0
 	mov r5, r0
 	mov r0, #1
 	bl BossArena__GetCamera
-	ldr r1, _0215613C // =0x02133BC8
+	ldr r1, _0215613C // =mapCamera+0x00000100
 	ldr r2, [r5, #0x38c]
 	ldrh r1, [r1, #0x2a]
 	mov r4, r0
@@ -2841,7 +2841,7 @@ ovl02_21560A0: // 0x021560A0
 	bl BossArena__SetAngleSpeed
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215613C: .word 0x02133BC8
+_0215613C: .word mapCamera+0x00000100
 _02156140: .word 0x00001555
 _02156144: .word 0x0000EAAB
 	arm_func_end ovl02_21560A0
@@ -2898,7 +2898,7 @@ ovl02_2156148: // 0x02156148
 	ldr r1, [r7, #0x38c]
 	mov r0, r5
 	add r2, r1, #0x230000
-	ldr r1, _02156270 // =0x02133BC8
+	ldr r1, _02156270 // =mapCamera+0x00000100
 	mov r3, #0
 	ldrh r1, [r1, #0x2a]
 	mov r7, #0x14000
@@ -2924,7 +2924,7 @@ _0215624C:
 	.align 2, 0
 _02156268: .word FX_SinCosTable_
 _0215626C: .word 0x00001555
-_02156270: .word 0x02133BC8
+_02156270: .word mapCamera+0x00000100
 	arm_func_end ovl02_2156148
 
 	arm_func_start ovl02_2156274
@@ -10264,7 +10264,7 @@ _0215C57C:
 	add r0, sp, #0
 	add r1, r4, #0x380
 	bl VEC_DotProduct
-	ldr r1, _0215C69C // =0x02113350
+	ldr r1, _0215C69C // =FX_SinCosTable_+0x00000A00
 	ldrsh r1, [r1, #0xaa]
 	cmp r1, r0
 	bgt _0215C5EC
@@ -10333,7 +10333,7 @@ _0215C68C: .word gPlayer
 _0215C690: .word _mt_math_rand
 _0215C694: .word 0x00196225
 _0215C698: .word 0x3C6EF35F
-_0215C69C: .word 0x02113350
+_0215C69C: .word FX_SinCosTable_+0x00000A00
 	arm_func_end ovl02_215C4C4
 
 	arm_func_start ovl02_215C6A0

@@ -304,14 +304,14 @@ _021734F4:
 	add r0, r0, #0x120
 	str r0, [sp, #0x20]
 	blt _021734C4
-	ldr r0, _021735C4 // =0x02110460
+	ldr r0, _021735C4 // =FontAnimator__Palettes+0x00000008
 	ldr r1, _021735C8 // =0x05000002
 	mov r2, #8
 	bl MIi_CpuCopy16
 	add sp, sp, #0x34
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_021735C4: .word 0x02110460
+_021735C4: .word FontAnimator__Palettes+0x00000008
 _021735C8: .word 0x05000002
 	arm_func_end VSRecordsMenu__Func_2173474
 

@@ -661,7 +661,7 @@ _02156F64:
 	mov r2, r1
 	bl AnimatorSprite3D__ProcessAnimation
 _02156F74:
-	ldr r0, _021571C0 // =0x0214728C
+	ldr r0, _021571C0 // =NNS_G3dGlb+0x0000004C
 	add r1, r5, #0x24
 	bl Camera3D__CopyMatrix3x3
 	add r7, r5, #0x24
@@ -829,7 +829,7 @@ _021571A4:
 	str r8, [r6, #0xd4]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_021571C0: .word 0x0214728C
+_021571C0: .word NNS_G3dGlb+0x0000004C
 	arm_func_end SailRingManager_DrawRings
 
 	arm_func_start SailRingManager_Func_21571C4

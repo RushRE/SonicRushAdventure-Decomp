@@ -230,7 +230,7 @@ _02185E94:
 	bic r1, r1, #1
 	str r1, [r6, #0x354]
 	bl MTX_Identity33_
-	ldr r2, _02185F14 // =0x02116550
+	ldr r2, _02185F14 // =FX_SinCosTable_+0x00003C00
 	add r0, sp, #4
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
@@ -239,7 +239,7 @@ _02185E94:
 	add r1, sp, #4
 	mov r2, r0
 	bl MTX_Concat33
-	ldr r2, _02185F18 // =0x02113950
+	ldr r2, _02185F18 // =FX_SinCosTable_+0x00001000
 	add r0, sp, #4
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
@@ -257,8 +257,8 @@ _02185E94:
 	.align 2, 0
 _02185F0C: .word FX_SinCosTable_
 _02185F10: .word 0x000034CC
-_02185F14: .word 0x02116550
-_02185F18: .word 0x02113950
+_02185F14: .word FX_SinCosTable_+0x00003C00
+_02185F18: .word FX_SinCosTable_+0x00001000
 	arm_func_end SpringRope__State_2185D38
 
 	arm_func_start SpringRope__OnDefend

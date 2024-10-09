@@ -670,7 +670,7 @@ NONMATCH_FUNC void EffectUnknown202C414__Draw(void)
 	sub sp, sp, #0x8c
 	bl GetCurrentTaskWork_
 	ldr r3, =0x000D3300
-	ldr r2, =0x02112D50
+	ldr r2, =FX_SinCosTable_+0x00000400
 	mov r8, r0
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
@@ -679,7 +679,7 @@ NONMATCH_FUNC void EffectUnknown202C414__Draw(void)
 	str r3, [sp, #0x78]
 	str r3, [sp, #0x7c]
 	bl MTX_RotX33_
-	ldr r2, =0x02116550
+	ldr r2, =FX_SinCosTable_+0x00003C00
 	add r0, sp, #0x2c
 	ldrsh r1, [r2, #0]
 	ldrsh r2, [r2, #2]
@@ -712,7 +712,7 @@ NONMATCH_FUNC void EffectUnknown202C414__Draw(void)
 	bl GameObject__Func_20282A8
 	add r0, sp, #0x74
 	bl NNS_G3dGlbSetBaseScale
-	ldr r1, =0x021472FC
+	ldr r1, =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0x50
 	bl MI_Copy36B
 	ldr r1, =NNS_G3dGlb

@@ -247,7 +247,7 @@ _0217A390:
 _0217A3A8:
 	ldrb r2, [r4, #0x5d3]
 	mov r0, #0x70
-	ldr r1, _0217A438 // =0x02133ACC
+	ldr r1, _0217A438 // =mapCamera+0x00000004
 	smulbb r0, r2, r0
 	ldr r0, [r1, r0]
 	ldr r1, [r6, #0x44]
@@ -283,7 +283,7 @@ _0217A408:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0217A434: .word PirateShip__State_217A714
-_0217A438: .word 0x02133ACC
+_0217A438: .word mapCamera+0x00000004
 _0217A43C: .word playerGameStatus
 _0217A440: .word PirateShip__State_217A444
 	arm_func_end PirateShip__State_217A358
@@ -315,7 +315,7 @@ _0217A47C:
 _0217A498:
 	ldrb r2, [r4, #0x5d3]
 	mov r1, #0x70
-	ldr r0, _0217A6FC // =0x02133ACC
+	ldr r0, _0217A6FC // =mapCamera+0x00000004
 	smulbb r2, r2, r1
 	ldr r0, [r0, r2]
 	ldr r3, [r9, #0x44]
@@ -476,7 +476,7 @@ _0217A6A0:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0217A6F8: .word PirateShip__State_217A714
-_0217A6FC: .word 0x02133ACC
+_0217A6FC: .word mapCamera+0x00000004
 _0217A700: .word _02189904
 _0217A704: .word 0x02189906
 _0217A708: .word 0x00000147
@@ -509,7 +509,7 @@ _0217A74C:
 	str r0, [r4, #0x98]
 	ldrb r2, [r5, #0x5d3]
 	mov r0, #0x70
-	ldr r1, _0217A7DC // =0x02133ACC
+	ldr r1, _0217A7DC // =mapCamera+0x00000004
 	smulbb r0, r2, r0
 	ldr r1, [r1, r0]
 	ldr r0, [r4, #0x44]
@@ -538,7 +538,7 @@ _0217A74C:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0217A7D8: .word PirateShip__State_217A358
-_0217A7DC: .word 0x02133ACC
+_0217A7DC: .word mapCamera+0x00000004
 	arm_func_end PirateShip__State_217A714
 
 	arm_func_start PirateShip__OnDefend_217A7E0
@@ -581,7 +581,7 @@ _0217A82C:
 	str ip, [r4, #0x354]
 	str r2, [r4, #0x234]
 	ldr ip, [r4, #0x230]
-	ldr r2, _0217A8B8 // =0x02133ACC
+	ldr r2, _0217A8B8 // =mapCamera+0x00000004
 	orr ip, ip, #0x800
 	str ip, [r4, #0x230]
 	str r5, [r4, #0x35c]
@@ -599,7 +599,7 @@ _0217A82C:
 	str r1, [r4, #0xf4]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_0217A8B8: .word 0x02133ACC
+_0217A8B8: .word mapCamera+0x00000004
 _0217A8BC: .word PirateShip__State_217A358
 	arm_func_end PirateShip__OnDefend_217A7E0
 

@@ -8073,7 +8073,7 @@ _02023DB0:
 _02023DE8:
 	ldrb r2, [r5, #0x5d3]
 	mov r0, #0x70
-	ldr r1, =0x02133B36
+	ldr r1, =mapCamera+0x0000006E
 	smulbb r0, r2, r0
 	ldrh r0, [r1, r0]
 	ldr r1, [r5, #0x48]

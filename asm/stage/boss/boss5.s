@@ -2732,7 +2732,7 @@ _0217510E: // jump table
 	.hword _0217512A - _0217510E - 2 // case 2
 	.hword _0217513E - _0217510E - 2 // case 3
 _02175116:
-	ldr r3, _0217517C // =0x02114950
+	ldr r3, _0217517C // =FX_SinCosTable_+0x00002000
 	mov r1, #0
 	mov r2, #2
 	add r5, #0x24
@@ -2742,7 +2742,7 @@ _02175116:
 	bl MTX_RotZ33_
 	b _02175150
 _0217512A:
-	ldr r3, _02175180 // =0x02113950
+	ldr r3, _02175180 // =FX_SinCosTable_+0x00001000
 	mov r1, #0
 	mov r2, #2
 	add r5, #0x24
@@ -2752,7 +2752,7 @@ _0217512A:
 	bl MTX_RotZ33_
 	b _02175150
 _0217513E:
-	ldr r3, _02175184 // =0x02115950
+	ldr r3, _02175184 // =FX_SinCosTable_+0x00003000
 	mov r1, #0
 	mov r2, #2
 	add r5, #0x24
@@ -2774,9 +2774,9 @@ _0217516C: .word ovl01_2176648
 _02175170: .word 0x02133A10
 _02175174: .word _0217AEF4
 _02175178: .word 0x000034CC
-_0217517C: .word 0x02114950
-_02175180: .word 0x02113950
-_02175184: .word 0x02115950
+_0217517C: .word FX_SinCosTable_+0x00002000
+_02175180: .word FX_SinCosTable_+0x00001000
+_02175184: .word FX_SinCosTable_+0x00003000
 	thumb_func_end Boss5LifeSupport__Create
 
 	thumb_func_start Boss5Shutter__Create
@@ -2904,7 +2904,7 @@ _02175258:
 	mov r0, #1
 	tst r0, r1
 	beq _02175298
-	ldr r3, _021752BC // =0x02113950
+	ldr r3, _021752BC // =FX_SinCosTable_+0x00001000
 	mov r1, #0
 	mov r2, #2
 	add r5, #0x24
@@ -2924,7 +2924,7 @@ _021752AC: .word ovl01_21758A0
 _021752B0: .word ovl01_2175924
 _021752B4: .word 0x02133A10
 _021752B8: .word _0217AEF4
-_021752BC: .word 0x02113950
+_021752BC: .word FX_SinCosTable_+0x00001000
 	thumb_func_end Boss5Shutter__Create
 
 	thumb_func_start ovl01_21752C0
@@ -11856,7 +11856,7 @@ ovl01_2179848: // 0x02179848
 	str r2, [r0, r1]
 	sub r1, #0xf4
 	add r0, r0, r1
-	ldr r3, _021798D4 // =0x02112E90
+	ldr r3, _021798D4 // =FX_SinCosTable_+0x00000540
 	mov r1, #0x14
 	mov r2, #0x16
 	ldrsh r1, [r3, r1]
@@ -11896,7 +11896,7 @@ ovl01_2179848: // 0x02179848
 	.align 2, 0
 _021798CC: .word 0x000007E4
 _021798D0: .word 0x00000555
-_021798D4: .word 0x02112E90
+_021798D4: .word FX_SinCosTable_+0x00000540
 _021798D8: .word 0x00000524
 _021798DC: .word ovl01_21798E0
 	thumb_func_end ovl01_2179848

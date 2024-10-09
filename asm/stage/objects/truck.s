@@ -2284,7 +2284,7 @@ _02170BB4:
 	ldr r1, [r4, #0x4c]
 	str r1, [sp, #0x38]
 	bl NNS_G3dGlbSetBaseScale
-	ldr r1, _02170C94 // =0x021472FC
+	ldr r1, _02170C94 // =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0xc
 	bl MI_Copy36B
 	ldr r1, _02170C98 // =NNS_G3dGlb
@@ -2312,7 +2312,7 @@ _02170BB4:
 _02170C88: .word Truck__stru_21885B0
 _02170C8C: .word g_obj
 _02170C90: .word FX_SinCosTable_
-_02170C94: .word 0x021472FC
+_02170C94: .word NNS_G3dGlb+0x000000BC
 _02170C98: .word NNS_G3dGlb
 	arm_func_end TruckLava3D__Draw_2170B24
 
@@ -4673,7 +4673,7 @@ _02172F0C:
 	bl MTX_Identity33_
 	add r0, sp, #0xcc
 	bl NNS_G3dGlbSetBaseScale
-	ldr r1, _02173028 // =0x021472FC
+	ldr r1, _02173028 // =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0x9c
 	bl MI_Copy36B
 	ldr r1, _0217302C // =NNS_G3dGlb
@@ -4724,7 +4724,7 @@ _02173018: .word Truck3D__State_2171F98
 _0217301C: .word FX_SinCosTable_
 _02173020: .word 0x000BF153
 _02173024: .word 0xFFF40EAD
-_02173028: .word 0x021472FC
+_02173028: .word NNS_G3dGlb+0x000000BC
 _0217302C: .word NNS_G3dGlb
 	arm_func_end Truck3D__Draw_21724F4
 

@@ -140,7 +140,7 @@ _0216F6E8:
 	add r1, #2
 	mov r2, #0xa
 	bl MIi_CpuClear16
-	ldr r0, _0216F878 // =0x02110460
+	ldr r0, _0216F878 // =FontAnimator__Palettes+0x00000008
 	add r1, sp, #0x54
 	mov r2, #8
 	bl MIi_CpuCopy16
@@ -295,7 +295,7 @@ _0216F868: .word 0x00000594
 _0216F86C: .word 0x0000058E
 _0216F870: .word 0x00000566
 _0216F874: .word 0x00000568
-_0216F878: .word 0x02110460
+_0216F878: .word FontAnimator__Palettes+0x00000008
 _0216F87C: .word 0x00000524
 _0216F880: .word asc_217EDF8
 _0216F884: .word aD02d02d
@@ -331,7 +331,7 @@ TimeAttackRankList__InitRecords: // 0x0216F8B0
 	add r1, #2
 	mov r2, #0xa
 	bl MIi_CpuClear16
-	ldr r0, _0216F9B0 // =0x02110460
+	ldr r0, _0216F9B0 // =FontAnimator__Palettes+0x00000008
 	add r1, sp, #0x40
 	mov r2, #8
 	bl MIi_CpuCopy16
@@ -444,7 +444,7 @@ _0216F96E:
 	add sp, #0x48
 	pop {r3, r4, r5, r6, r7, pc}
 	nop
-_0216F9B0: .word 0x02110460
+_0216F9B0: .word FontAnimator__Palettes+0x00000008
 _0216F9B4: .word 0x00000524
 _0216F9B8: .word asc_217EDF8
 _0216F9BC: .word aD02d02d

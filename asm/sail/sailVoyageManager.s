@@ -139,7 +139,7 @@ SailVoyageManager__Func_21574B4: // 0x021574B4
 	ldr r0, [r6, #0xc]
 	cmp r0, #0
 	bne _021574E8
-	ldr r0, _0215761C // =0x021394D4
+	ldr r0, _0215761C // =gameState+0x00000080
 	ldr r1, _02157620 // =gameState
 	ldr r0, [r0, #0x28]
 	cmp r0, #0
@@ -301,7 +301,7 @@ _02157614:
 	pop {r4, r5, r6, r7, pc}
 	.align 2, 0
 _02157618: .word _0218BBC0
-_0215761C: .word 0x021394D4
+_0215761C: .word gameState+0x00000080
 _02157620: .word gameState
 _02157624: .word 0xFFFFE000
 	thumb_func_end SailVoyageManager__Func_21574B4

@@ -73,7 +73,7 @@ VikingCupStageSelectMenu__Create: // 0x0217AA60
 	strh r7, [r8, #0x20]
 	strh r7, [r8, #0x22]
 	strh r7, [r8, #0x26]
-	ldr r5, _0217ABEC // =0x0213461C
+	ldr r5, _0217ABEC // =saveGame+0x000001D0
 	strh r7, [r8, #0x24]
 	add r4, r0, #0x800
 _0217AAD4:
@@ -155,7 +155,7 @@ _0217ABDC: .word 0x00000838
 _0217ABE0: .word VikingCupStageSelectMenu__Main
 _0217ABE4: .word VikingCupStageSelectMenu__Destructor
 _0217ABE8: .word 0x0000FFFF
-_0217ABEC: .word 0x0213461C
+_0217ABEC: .word saveGame+0x000001D0
 _0217ABF0: .word VikingCupStageSelectMenu__State_217B230
 	arm_func_end VikingCupStageSelectMenu__Create
 
@@ -525,7 +525,7 @@ _0217B094:
 	add r9, r9, #0x30
 	cmp r6, #5
 	blt _0217B094
-	ldr r0, _0217B11C // =0x02110460
+	ldr r0, _0217B11C // =FontAnimator__Palettes+0x00000008
 	ldr r3, _0217B120 // =0x05000082
 	mov r1, #4
 	mov r2, #0
@@ -533,7 +533,7 @@ _0217B094:
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0217B11C: .word 0x02110460
+_0217B11C: .word FontAnimator__Palettes+0x00000008
 _0217B120: .word 0x05000082
 	arm_func_end VikingCupStageSelectMenu__Func_217B048
 

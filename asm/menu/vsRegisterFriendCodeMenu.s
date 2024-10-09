@@ -225,12 +225,12 @@ VSRegisterFriendCodeMenu__Func_2172BC8: // 0x02172BC8
 	bl DWC_Acc_NumericKeyToFriendKey
 	mov r3, r0
 	mov r2, r1
-	ldr r0, _02172BE8 // =0x0213529C
+	ldr r0, _02172BE8 // =saveGame+0x00000E50
 	mov r1, r3
 	bl DWC_CheckFriendKey
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02172BE8: .word 0x0213529C
+_02172BE8: .word saveGame+0x00000E50
 	arm_func_end VSRegisterFriendCodeMenu__Func_2172BC8
 
 	arm_func_start VSRegisterFriendCodeMenu__Func_2172BEC
@@ -601,7 +601,7 @@ VSViewFriendCodeMenu__Func_21730CC: // 0x021730CC
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x10
 	mov r6, r0
-	ldr r0, _02173150 // =0x0213529C
+	ldr r0, _02173150 // =saveGame+0x00000E50
 	bl DWC_CreateFriendKey
 	mov r5, r1
 	mov r4, r0
@@ -635,7 +635,7 @@ _02173138:
 	add sp, sp, #0x10
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02173150: .word 0x0213529C
+_02173150: .word saveGame+0x00000E50
 	arm_func_end VSViewFriendCodeMenu__Func_21730CC
 
 	arm_func_start VSViewFriendCodeMenu__Func_2173154

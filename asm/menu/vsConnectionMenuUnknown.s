@@ -94,7 +94,7 @@ _0216A890:
 	bl Unknown2056570__Func_2056B8C
 	add r3, sp, #0x28
 	ldrh r3, [r3, #0x10]
-	ldr r0, _0216A900 // =0x02110460
+	ldr r0, _0216A900 // =FontAnimator__Palettes+0x00000008
 	mov r1, #4
 	lsl r4, r3, #5
 	ldr r3, _0216A904 // =0x05000402
@@ -104,7 +104,7 @@ _0216A890:
 	add sp, #0x24
 	pop {r4, r5, r6, r7, pc}
 	nop
-_0216A900: .word 0x02110460
+_0216A900: .word FontAnimator__Palettes+0x00000008
 _0216A904: .word 0x05000402
 	thumb_func_end VSConnectionMenu__Unknown__Setup
 

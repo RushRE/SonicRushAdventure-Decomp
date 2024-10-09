@@ -107,7 +107,7 @@ VSStageClear__Func_215A9EC: // 0x0215A9EC
 	bl StartSamplingTouchInput
 	mov r0, #0
 	bl LoadSysSound
-	ldr r0, _0215AB04 // =0x0213D2E0
+	ldr r0, _0215AB04 // =renderCoreGFXControlA+0x00000020
 	mov r1, #0
 	strh r1, [r0]
 	strh r1, [r0, #4]
@@ -177,7 +177,7 @@ VSStageClear__Func_215A9EC: // 0x0215A9EC
 _0215AAF8: .word 0x000018CC
 _0215AAFC: .word 0x0000183C
 _0215AB00: .word aFntFontIplFnt_1
-_0215AB04: .word 0x0213D2E0
+_0215AB04: .word renderCoreGFXControlA+0x00000020
 	thumb_func_end VSStageClear__Func_215A9EC
 
 	thumb_func_start VSStageClear__Func_215AB08
@@ -185,7 +185,7 @@ VSStageClear__Func_215AB08: // 0x0215AB08
 	push {r4, lr}
 	bl GetTaskWork_
 	mov r4, r0
-	ldr r1, _0215AB84 // =0x0213D2E0
+	ldr r1, _0215AB84 // =renderCoreGFXControlA+0x00000020
 	mov r0, #0
 	strh r0, [r1]
 	strh r0, [r1, #2]
@@ -228,7 +228,7 @@ _0215AB74:
 	bl VSStageClear__Func_215ADB8
 	pop {r4, pc}
 	nop
-_0215AB84: .word 0x0213D2E0
+_0215AB84: .word renderCoreGFXControlA+0x00000020
 _0215AB88: .word 0x0000183C
 _0215AB8C: .word 0x000018C8
 	thumb_func_end VSStageClear__Func_215AB08
@@ -1302,7 +1302,7 @@ _0215B430:
 	lsl r1, r1, #0xa
 	str r1, [r0, #0x4c]
 	ldr r1, _0215B58C // =0xFFFFACCD
-	ldr r3, _0215B590 // =0x02112B10
+	ldr r3, _0215B590 // =FX_SinCosTable_+0x000001C0
 	str r1, [r0, #0x50]
 	mov r1, #4
 	mov r2, #6
@@ -1319,7 +1319,7 @@ _0215B430:
 	lsl r1, r1, #0xa
 	str r1, [r0, #0x4c]
 	ldr r1, _0215B594 // =0x00005333
-	ldr r3, _0215B598 // =0x02116750
+	ldr r3, _0215B598 // =FX_SinCosTable_+0x00003E00
 	str r1, [r0, #0x50]
 	mov r1, #0x38
 	mov r2, #0x3a
@@ -1370,7 +1370,7 @@ _0215B4BC:
 	lsl r1, r1, #0xa
 	str r1, [r0, #0x4c]
 	ldr r1, _0215B594 // =0x00005333
-	ldr r3, _0215B598 // =0x02116750
+	ldr r3, _0215B598 // =FX_SinCosTable_+0x00003E00
 	str r1, [r0, #0x50]
 	mov r1, #0x38
 	mov r2, #0x3a
@@ -1387,7 +1387,7 @@ _0215B4BC:
 	lsl r1, r1, #0xa
 	str r1, [r0, #0x4c]
 	ldr r1, _0215B58C // =0xFFFFACCD
-	ldr r3, _0215B590 // =0x02112B10
+	ldr r3, _0215B590 // =FX_SinCosTable_+0x000001C0
 	str r1, [r0, #0x50]
 	mov r1, #4
 	mov r2, #6
@@ -1458,9 +1458,9 @@ _0215B580: .word 0x05000200
 _0215B584: .word 0x00000438
 _0215B588: .word gameState
 _0215B58C: .word 0xFFFFACCD
-_0215B590: .word 0x02112B10
+_0215B590: .word FX_SinCosTable_+0x000001C0
 _0215B594: .word 0x00005333
-_0215B598: .word 0x02116750
+_0215B598: .word FX_SinCosTable_+0x00003E00
 _0215B59C: .word 0x00002043
 _0215B5A0: .word VSStageClearPlayers__Main1
 _0215B5A4: .word 0x00002083
@@ -2339,7 +2339,7 @@ VSStageClearPlayerNames__Create: // 0x0215BC34
 	add r0, #0x98
 	mov r1, #0
 	bl Unknown2056570__Func_2056688
-	ldr r0, _0215BDFC // =0x02110460
+	ldr r0, _0215BDFC // =FontAnimator__Palettes+0x00000008
 	ldr r3, _0215BE00 // =0x05000002
 	mov r1, #4
 	mov r2, #0
@@ -2471,7 +2471,7 @@ _0215BD0A:
 	nop
 _0215BDF4: .word 0x0000135C
 _0215BDF8: .word saveGame
-_0215BDFC: .word 0x02110460
+_0215BDFC: .word FontAnimator__Palettes+0x00000008
 _0215BE00: .word 0x05000002
 _0215BE04: .word 0x0217E968
 _0215BE08: .word 0x0000183C
@@ -3541,7 +3541,7 @@ _0215C6A0:
 	mov r0, #2
 	bl RequestSysEventChange
 	bl NextSysEvent
-	ldr r0, _0215C6F4 // =0x02139554
+	ldr r0, _0215C6F4 // =gameState+0x00000100
 	mov r1, #1
 	str r1, [r0, #0x64]
 	mov r1, #0
@@ -3570,7 +3570,7 @@ _0215C6E6:
 _0215C6F0:
 	pop {r3, pc}
 	nop
-_0215C6F4: .word 0x02139554
+_0215C6F4: .word gameState+0x00000100
 _0215C6F8: .word VSStageClear__Main_215C6FC
 	thumb_func_end VSStageClear__Main
 
@@ -3709,7 +3709,7 @@ _0215C826:
 	bl MultibootManager__Func_20619B4
 	cmp r0, #0
 	beq _0215C85A
-	ldr r1, _0215C85C // =0x0213D300
+	ldr r1, _0215C85C // =renderCoreGFXControlA+0x00000040
 	mov r0, #0x18
 	ldrsh r0, [r1, r0]
 	cmp r0, #0
@@ -3734,7 +3734,7 @@ _0215C84C:
 _0215C85A:
 	pop {r3, pc}
 	.align 2, 0
-_0215C85C: .word 0x0213D300
+_0215C85C: .word renderCoreGFXControlA+0x00000040
 _0215C860: .word VSStageClear__Main_215C864
 	thumb_func_end VSStageClear__Main_215C814
 
@@ -4945,7 +4945,7 @@ VSStageClearButtons__Main1: // 0x0215D1E4
 	str r1, [sp, #0x18]
 	str r0, [sp, #0x1c]
 	str r1, [sp, #0x20]
-	ldr r0, _0215D2D8 // =0x0213D2E2
+	ldr r0, _0215D2D8 // =renderCoreGFXControlA+0x00000022
 	mov r1, #2
 	mov r3, #0xc
 	bl Task__Unknown204BE48__Create
@@ -5032,7 +5032,7 @@ _0215D2C8: .word VSStageClear__Singleton
 _0215D2CC: .word 0x00001428
 _0215D2D0: .word Task__Unknown204BE48__LerpValue
 _0215D2D4: .word 0x00002050
-_0215D2D8: .word 0x0213D2E2
+_0215D2D8: .word renderCoreGFXControlA+0x00000022
 _0215D2DC: .word VSStageClearButtons__Func_215C510
 _0215D2E0: .word VSStageClearButtons__Main_215D2E4
 	thumb_func_end VSStageClearButtons__Main1

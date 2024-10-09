@@ -920,7 +920,7 @@ _02188D24:
 	mov r0, r4
 	bl AnimatorSprite__DrawFrame
 	mov r10, #0
-	ldr r9, _02188E58 // =0x0213461C
+	ldr r9, _02188E58 // =saveGame+0x000001D0
 	add r8, r6, #0x22c
 	mov r11, r10
 	mov r4, #0x64
@@ -961,7 +961,7 @@ _02188E44:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02188E58: .word 0x0213461C
+_02188E58: .word saveGame+0x000001D0
 	arm_func_end SailChallengeHUD__Main
 
 	arm_func_start SailChallengeHUD__Func_2188E5C

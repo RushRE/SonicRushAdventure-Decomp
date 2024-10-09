@@ -17921,3 +17921,4 @@
 .public ov09_02175F00
 .public disableExTaskUpdate
 .public currentExTask
+.public FontAnimator__Palettes

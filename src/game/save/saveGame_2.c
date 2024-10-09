@@ -695,18 +695,18 @@ NONMATCH_FUNC void SaveGame__MoveFriendToFront(u16 id)
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x30
-	ldr r1, =0x021352DC
+	ldr r1, =saveGame+0x00000E90
 	mov r4, r0
 	mov r2, #0xc
 	mla r0, r4, r2, r1
 	add r1, sp, #0x24
 	bl RenderCore_CPUCopy
-	ldr r0, =0x02135444
+	ldr r0, =saveGame+0x00000FF8
 	add r1, sp, #0
 	add r0, r0, r4, lsl #1
 	mov r2, #2
 	bl RenderCore_CPUCopy
-	ldr r0, =0x02135480
+	ldr r0, =saveGame+0x00001034
 	add r1, sp, #0x14
 	add r0, r0, r4, lsl #4
 	mov r2, #0x10
@@ -736,13 +736,13 @@ NONMATCH_FUNC void SaveGame__MoveFriendToFront(u16 id)
 	orr r1, r2, r1, lsr #21
 	strh r1, [sp]
 	ldrh r1, [sp]
-	ldr r9, =0x021352DC
-	ldr r7, =0x02135444
+	ldr r9, =saveGame+0x00000E90
+	ldr r7, =saveGame+0x00000FF8
 	bic r1, r1, #0xf800
 	orr r0, r1, r0, lsr #16
 	strh r0, [sp]
 	mov r11, #2
-	ldr r6, =0x02135480
+	ldr r6, =saveGame+0x00001034
 	mov r4, r8
 	mov r5, r8
 	b _0205F2C0
@@ -766,15 +766,15 @@ _0205F280:
 _0205F2C0:
 	cmp r10, #0
 	bge _0205F280
-	ldr r1, =0x021352DC
+	ldr r1, =saveGame+0x00000E90
 	add r0, sp, #0x24
 	mov r2, #0xc
 	bl RenderCore_CPUCopy
-	ldr r1, =0x02135444
+	ldr r1, =saveGame+0x00000FF8
 	add r0, sp, #0
 	mov r2, #2
 	bl RenderCore_CPUCopy
-	ldr r1, =0x02135480
+	ldr r1, =saveGame+0x00001034
 	add r0, sp, #0x14
 	mov r2, #0x10
 	bl RenderCore_CPUCopy
@@ -922,7 +922,7 @@ NONMATCH_FUNC u64 SaveGame__GetFriendKeyFromName_Internal(SavePlayerName *name)
 	orr r2, ip, r3
 	orr r1, r2, r1
 	orr r5, r1, r0, lsl #16
-	ldr r0, =0x0213529C
+	ldr r0, =saveGame+0x00000E50
 	mov r1, r4
 	mov r2, r5
 	bl DWC_CheckFriendKey
@@ -1114,7 +1114,7 @@ NONMATCH_FUNC void SaveGame__Block4__GetLastUsedCharacter(void){
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r5, =0x02134CE4
+	ldr r5, =saveGame+0x00000898
 	mov r4, r0
 	mov r0, r5
 	mov r2, r4
@@ -1265,7 +1265,7 @@ NONMATCH_FUNC void SaveGame__SaveLeaderboardRank_Top(s32 stage, u16 rank, char16
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r6, =0x02135664
+	ldr r6, =saveGame+0x00001218
 	mov r4, #0x98
 	mla r4, r0, r4, r6
 	ldrh r5, [sp, #0x10]
@@ -1414,7 +1414,7 @@ NONMATCH_FUNC void SaveGame__SaveLeaderboardRank_Near(s32 stage, u16 rank, char1
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r6, =0x02135664
+	ldr r6, =saveGame+0x00001218
 	mov r4, #0x98
 	mla r4, r0, r4, r6
 	ldrh r5, [sp, #0x10]
@@ -1542,7 +1542,7 @@ NONMATCH_FUNC void SaveGame__SetLeaderboardLastUpdatedTime(u32 stage)
 	mov r0, #0x98
 	ldr r2, [sp, #0xc]
 	mul r0, r4, r0
-	ldr r1, =0x021356F8
+	ldr r1, =saveGame+0x000012AC
 	mov r2, r2, lsl #0x10
 	mov r4, r2, lsr #0x10
 	ldr r2, [sp, #0x10]
@@ -1570,7 +1570,7 @@ NONMATCH_FUNC void SaveGame__SetLeaderboardLastUpdatedTime(u32 stage)
 	mov ip, ip, lsl #0x1b
 	orr ip, lr, ip, lsr #16
 	mov r2, r2, lsl #0x10
-	ldr r4, =0x021356FA
+	ldr r4, =saveGame+0x000012AE
 	strh ip, [r1, r0]
 	mov r2, r2, lsr #0x10
 	ldrh ip, [r4, r0]

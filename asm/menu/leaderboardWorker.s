@@ -833,10 +833,10 @@ _02175284: .word saveGame
 
 	arm_func_start LeaderboardWorker__GetUserProfile
 LeaderboardWorker__GetUserProfile: // 0x02175288
-	ldr r0, _02175290 // =0x0213529C
+	ldr r0, _02175290 // =saveGame+0x00000E50
 	bx lr
 	.align 2, 0
-_02175290: .word 0x0213529C
+_02175290: .word saveGame+0x00000E50
 	arm_func_end LeaderboardWorker__GetUserProfile
 
 	arm_func_start LeaderboardWorker__Func_2175294
@@ -985,7 +985,7 @@ LeaderboardWorker__GetRankScore_Internal: // 0x02175468
 	cmp r1, #2
 	mvnhs r0, #0
 	ldmhsia sp!, {r3, r4, r5, pc}
-	ldr r0, _021754DC // =0x02134CE4
+	ldr r0, _021754DC // =saveGame+0x00000898
 	mov r2, r4
 	and r1, r1, #0xff
 	mov r3, #1
@@ -995,7 +995,7 @@ LeaderboardWorker__GetRankScore_Internal: // 0x02175468
 	movlt r0, #1
 	cmp r0, r1
 	movgt r0, r1
-	ldr r2, _021754E4 // =0x0213513C
+	ldr r2, _021754E4 // =saveGame+0x00000CF0
 	mov r3, r5, lsl #1
 	ldr r1, _021754E0 // =0x00008C9F
 	ldrh r3, [r2, r3]
@@ -1005,9 +1005,9 @@ LeaderboardWorker__GetRankScore_Internal: // 0x02175468
 	orr r0, r0, r1, lsl #15
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_021754DC: .word 0x02134CE4
+_021754DC: .word saveGame+0x00000898
 _021754E0: .word 0x00008C9F
-_021754E4: .word 0x0213513C
+_021754E4: .word saveGame+0x00000CF0
 	arm_func_end LeaderboardWorker__GetRankScore_Internal
 
 	arm_func_start LeaderboardWorker__Func_21754E8
@@ -1031,7 +1031,7 @@ LeaderboardWorker__GetCharacterID: // 0x02175514
 	stmdb sp!, {r4, r5, r6, lr}
 	bl LeaderboardWorker__GetStageID
 	mov r4, r0
-	ldr r5, _021755A8 // =0x02134CE4
+	ldr r5, _021755A8 // =saveGame+0x00000898
 	mov r2, r4
 	mov r0, r5
 	mov r1, #0
@@ -1067,7 +1067,7 @@ _0217558C:
 	ldreq r0, _021755AC // =0x0000FFFF
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_021755A8: .word 0x02134CE4
+_021755A8: .word saveGame+0x00000898
 _021755AC: .word 0x0000FFFF
 	arm_func_end LeaderboardWorker__GetCharacterID
 

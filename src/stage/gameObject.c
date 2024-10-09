@@ -1439,7 +1439,7 @@ _020283B4:
 	rsb r2, r2, #0x80000
 	smull r2, r1, r0, r2
 	adds r2, r2, #0x800
-	ldr r8, =0x02147248
+	ldr r8, =NNS_G3dGlb+0x00000008
 	adc r0, r1, #0
 	mov r9, r2, lsr #0xc
 	orr r9, r9, r0, lsl #20
@@ -1460,7 +1460,7 @@ _020283B4:
 	ldr r4, [r6, #8]
 	mov r11, #0
 	stmib sp, {r4, lr}
-	ldr r4, =0x02147248
+	ldr r4, =NNS_G3dGlb+0x00000008
 	str r11, [sp, #0xc]
 	rsb r1, ip, #0
 	str r4, [sp, #0x10]

@@ -1189,7 +1189,7 @@ _0216352E:
 _02163594:
 	ldr r3, _021635DC // =0x05000002
 	lsl r5, r5, #5
-	ldr r0, _021635E0 // =0x02110460
+	ldr r0, _021635E0 // =FontAnimator__Palettes+0x00000008
 	mov r1, #4
 	mov r2, #0
 	add r3, r5, r3
@@ -1198,7 +1198,7 @@ _02163594:
 _021635A6:
 	ldr r3, _021635E4 // =0x05000402
 	lsl r5, r5, #5
-	ldr r0, _021635E0 // =0x02110460
+	ldr r0, _021635E0 // =FontAnimator__Palettes+0x00000008
 	mov r1, #4
 	mov r2, #0
 	add r3, r5, r3
@@ -1223,7 +1223,7 @@ _021635B6:
 _021635D4: .word VSLobbyMenu__sVars
 _021635D8: .word 0x000005EC
 _021635DC: .word 0x05000002
-_021635E0: .word 0x02110460
+_021635E0: .word FontAnimator__Palettes+0x00000008
 _021635E4: .word 0x05000402
 _021635E8: .word VRAMSystem__GFXControl
 	thumb_func_end VSState__Func_2163510
