@@ -39,7 +39,7 @@ void SailExitEvent__Main(void)
     NextSysEvent();
 }
 
-BOOL SailExitEvent__Func_218B400(void)
+BOOL SailExitEvent__IsForceQuitting(void)
 {
     return GetPadReplayState() == REPLAY_MODE_FORCE_QUIT;
 }
