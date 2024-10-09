@@ -1,6 +1,9 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.public _ZTVN10__cxxabiv117__class_type_infoE
+	.public _ZTVN10__cxxabiv120__si_class_type_infoE
+
 	.bss
 	
 ViNpcGroup__Value_2173A5C: // 0x02173A5C
@@ -12,7 +15,7 @@ ViNpcGroup__Value_2173A5C: // 0x02173A5C
 ViDockNpcGroup__Constructor: // 0x02168398
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r1, _021683C8 // =0x02173948
+	ldr r1, _021683C8 // =_ZTV15CViDockNpcGroup+0x08
 	add r0, r4, #0x10
 	str r1, [r4]
 	bl Vi3dArrow__Constructor
@@ -23,13 +26,13 @@ ViDockNpcGroup__Constructor: // 0x02168398
 	str r1, [r4, #0xc]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021683C8: .word 0x02173948
+_021683C8: .word _ZTV15CViDockNpcGroup+0x08
 	arm_func_end ViDockNpcGroup__Constructor
 
 	arm_func_start ViDockNpcGroup__VTableFunc_21683CC
 ViDockNpcGroup__VTableFunc_21683CC: // 0x021683CC
 	stmdb sp!, {r4, lr}
-	ldr r1, _021683F0 // =0x02173948
+	ldr r1, _021683F0 // =_ZTV15CViDockNpcGroup+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViDockNpcGroup__Func_2168424
@@ -38,13 +41,13 @@ ViDockNpcGroup__VTableFunc_21683CC: // 0x021683CC
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021683F0: .word 0x02173948
+_021683F0: .word _ZTV15CViDockNpcGroup+0x08
 	arm_func_end ViDockNpcGroup__VTableFunc_21683CC
 
 	arm_func_start ViDockNpcGroup__VTableFunc_21683F4
 ViDockNpcGroup__VTableFunc_21683F4: // 0x021683F4
 	stmdb sp!, {r4, lr}
-	ldr r1, _02168420 // =0x02173948
+	ldr r1, _02168420 // =_ZTV15CViDockNpcGroup+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViDockNpcGroup__Func_2168424
@@ -55,7 +58,7 @@ ViDockNpcGroup__VTableFunc_21683F4: // 0x021683F4
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02168420: .word 0x02173948
+_02168420: .word _ZTV15CViDockNpcGroup+0x08
 	arm_func_end ViDockNpcGroup__VTableFunc_21683F4
 
 	arm_func_start ViDockNpcGroup__Func_2168424
@@ -293,26 +296,26 @@ _021686F0:
 	arm_func_start ViDockNpcGroup__Func_21686F8
 ViDockNpcGroup__Func_21686F8: // 0x021686F8
 	stmdb sp!, {r3, lr}
-	ldr r2, _0216871C // =0x02173968
+	ldr r2, _0216871C // =_02173968
 	mov ip, #0x20
 	ldr r3, [r2, r0, lsl #2]
-	ldr r2, _02168720 // =0x02173964
+	ldr r2, _02168720 // =ViDockNpcGroup__talkAction
 	mov r0, r1
 	str ip, [r2]
 	blx r3
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216871C: .word 0x02173968
-_02168720: .word 0x02173964
+_0216871C: .word _02173968
+_02168720: .word ViDockNpcGroup__talkAction
 	arm_func_end ViDockNpcGroup__Func_21686F8
 
 	arm_func_start ViDockNpcGroup__Func_2168724
 ViDockNpcGroup__Func_2168724: // 0x02168724
-	ldr r0, _02168730 // =0x02173964
+	ldr r0, _02168730 // =ViDockNpcGroup__talkAction
 	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
-_02168730: .word 0x02173964
+_02168730: .word ViDockNpcGroup__talkAction
 	arm_func_end ViDockNpcGroup__Func_2168724
 
 	arm_func_start ViDockNpcGroup__Func_2168734
@@ -326,11 +329,11 @@ _02168740: .word ViNpcGroup__Value_2173A5C
 
 	arm_func_start ViDockNpcGroup__Func_2168744
 ViDockNpcGroup__Func_2168744: // 0x02168744
-	ldr r1, _02168750 // =0x02173964
+	ldr r1, _02168750 // =ViDockNpcGroup__talkAction
 	str r0, [r1]
 	bx lr
 	.align 2, 0
-_02168750: .word 0x02173964
+_02168750: .word ViDockNpcGroup__talkAction
 	arm_func_end ViDockNpcGroup__Func_2168744
 
 	arm_func_start ViDockNpcGroup__Func_2168754
@@ -368,9 +371,43 @@ ViDockNpcGroup__Func_2168798: // 0x02168798
 
 	arm_func_start ViDockNpcGroup__Func_216879C
 ViDockNpcGroup__Func_216879C: // 0x0216879C
-	ldr r1, _021687A8 // =0x02173964
+	ldr r1, _021687A8 // =ViDockNpcGroup__talkAction
 	str r0, [r1]
 	bx lr
 	.align 2, 0
-_021687A8: .word 0x02173964
+_021687A8: .word ViDockNpcGroup__talkAction
 	arm_func_end ViDockNpcGroup__Func_216879C
+
+	.data
+
+.public _ZTI15CViDockNpcGroup
+_ZTI15CViDockNpcGroup: // 0x02173938
+    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS15CViDockNpcGroup
+	
+.public _ZTV15CViDockNpcGroup
+_ZTV15CViDockNpcGroup: // 0x02173940
+    .word 0, _ZTI15CViDockNpcGroup
+    .word ViDockNpcGroup__VTableFunc_21683CC, ViDockNpcGroup__VTableFunc_21683F4
+
+.public _ZTS15CViDockNpcGroup
+_ZTS15CViDockNpcGroup: // 0x02173950
+	.asciz "15CViDockNpcGroup"
+	.align 4
+
+.public ViDockNpcGroup__talkAction
+ViDockNpcGroup__talkAction:
+	.word 0x20
+	
+.public _02173968
+_02173968:
+	.word Task__OV05Unknown216897C__Create
+	.word Task__OV05Unknown2168C48__Create
+	.word ViTalkPurchase__Create
+	.word ViTalkList__Create
+	.word ViDockNpcGroup__Func_2168764
+	.word ViTalkList__Func_216B6B4
+	.word ViDockNpcGroup__Func_2168798
+	.word NpcOptions__Create
+	.word NpcViking__Create
+	.word NpcMission__Create
+	.word ViDockNpcGroup__Func_216879C

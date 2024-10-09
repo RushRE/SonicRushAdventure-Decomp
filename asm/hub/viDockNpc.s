@@ -1,6 +1,9 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.public _ZTVN10__cxxabiv117__class_type_infoE
+	.public _ZTVN10__cxxabiv120__si_class_type_infoE
+
 	.text
 
 	arm_func_start ViDockNpc__Constructor
@@ -8,7 +11,7 @@ ViDockNpc__Constructor: // 0x02166B98
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ViDockNpc__Func_2167384
-	ldr r0, _02166BD4 // =0x021738A0
+	ldr r0, _02166BD4 // =_ZTV10CViDockNpc+0x08
 	mov r1, #0
 	str r0, [r4]
 	str r1, [r4, #0x314]
@@ -21,13 +24,13 @@ ViDockNpc__Constructor: // 0x02166B98
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02166BD4: .word 0x021738A0
+_02166BD4: .word _ZTV10CViDockNpc+0x08
 	arm_func_end ViDockNpc__Constructor
 
 	arm_func_start ViDockNpc__VTableFunc_2166BD8
 ViDockNpc__VTableFunc_2166BD8: // 0x02166BD8
 	stmdb sp!, {r4, lr}
-	ldr r1, _02166BFC // =0x021738A0
+	ldr r1, _02166BFC // =_ZTV10CViDockNpc+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViDockNpc__Func_2166F10
@@ -36,13 +39,13 @@ ViDockNpc__VTableFunc_2166BD8: // 0x02166BD8
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02166BFC: .word 0x021738A0
+_02166BFC: .word _ZTV10CViDockNpc+0x08
 	arm_func_end ViDockNpc__VTableFunc_2166BD8
 
 	arm_func_start ViDockNpc__VTableFunc_2166C00
 ViDockNpc__VTableFunc_2166C00: // 0x02166C00
 	stmdb sp!, {r4, lr}
-	ldr r1, _02166C2C // =0x021738A0
+	ldr r1, _02166C2C // =_ZTV10CViDockNpc+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViDockNpc__Func_2166F10
@@ -53,7 +56,7 @@ ViDockNpc__VTableFunc_2166C00: // 0x02166C00
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02166C2C: .word 0x021738A0
+_02166C2C: .word _ZTV10CViDockNpc+0x08
 	arm_func_end ViDockNpc__VTableFunc_2166C00
 
 	arm_func_start ViDockNpc__LoadAssets
@@ -654,3 +657,23 @@ ViDockNpc__Func_2167384: // 0x02167384
 _021674A4: .word 0x021738E8
 _021674A8: .word 0x0000FFFF
 	arm_func_end ViDockNpc__Func_2167384
+
+	.data
+
+.public _ZTI11CVi3dObject_0
+_ZTI11CVi3dObject_0: // 0x02173874
+    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS11CVi3dObject
+
+.public _ZTI10CViDockNpc
+_ZTI10CViDockNpc: // 0x0217387C
+    .word _ZTVN10__cxxabiv120__si_class_type_infoE+8, _ZTS10CViDockNpc, _ZTI11CVi3dObject
+
+.public _ZTS10CViDockNpc
+_ZTS10CViDockNpc: // 0x02173888
+	.asciz "10CViDockNpc"
+	.align 4
+
+.public _ZTV10CViDockNpc
+_ZTV10CViDockNpc: // 0x02173898
+    .word 0, _ZTI10CViDockNpc
+    .word ViDockNpc__VTableFunc_2166BD8, ViDockNpc__VTableFunc_2166C00

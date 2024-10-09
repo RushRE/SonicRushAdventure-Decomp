@@ -1,12 +1,15 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.public _ZTVN10__cxxabiv117__class_type_infoE
+	.public _ZTVN10__cxxabiv120__si_class_type_infoE
+
 	.text
 
 	arm_func_start ViMapIcon__Constructor
 ViMapIcon__Constructor: // 0x02162FA8
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216300C // =0x02173754
+	ldr r1, _0216300C // =_ZTV10CViMapIcon+0x08
 	mov r4, r0
 	str r1, [r4]
 	mov r0, #0
@@ -31,26 +34,26 @@ ViMapIcon__Constructor: // 0x02162FA8
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216300C: .word 0x02173754
+_0216300C: .word _ZTV10CViMapIcon+0x08
 	arm_func_end ViMapIcon__Constructor
 
 	arm_func_start ViMapIcon__VTableFunc_2163010
 ViMapIcon__VTableFunc_2163010: // 0x02163010
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216302C // =0x02173754
+	ldr r1, _0216302C // =_ZTV10CViMapIcon+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViMapIcon__Func_2163294
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216302C: .word 0x02173754
+_0216302C: .word _ZTV10CViMapIcon+0x08
 	arm_func_end ViMapIcon__VTableFunc_2163010
 
 	arm_func_start ViMapIcon__VTableFunc_2163030
 ViMapIcon__VTableFunc_2163030: // 0x02163030
 	stmdb sp!, {r4, lr}
-	ldr r1, _02163054 // =0x02173754
+	ldr r1, _02163054 // =_ZTV10CViMapIcon+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViMapIcon__Func_2163294
@@ -59,7 +62,7 @@ ViMapIcon__VTableFunc_2163030: // 0x02163030
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02163054: .word 0x02173754
+_02163054: .word _ZTV10CViMapIcon+0x08
 	arm_func_end ViMapIcon__VTableFunc_2163030
 
 	arm_func_start ViMapIcon__Func_2163058
@@ -1527,3 +1530,23 @@ _021643EC:
 	strgt r0, [r1, #8]
 	bx lr
 	arm_func_end ViMapIcon__Func_21643AC
+
+	.data
+
+.public _ZTI10CViMapIcon
+_ZTI10CViMapIcon: // 0x02173734
+    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS10CViMapIcon
+
+.public _ZTS10CViMapIcon
+_ZTS10CViMapIcon: // 0x0217373C
+	.asciz "10CViMapIcon"
+	.align 4
+
+.public _ZTV10CViMapIcon
+_ZTV10CViMapIcon: // 0x0217374C
+    .word 0, _ZTI10CViMapIcon
+    .word ViMapIcon__VTableFunc_2163010, ViMapIcon__VTableFunc_2163030
+
+aBbViDockBb: // 0x0217375C
+	.asciz "bb/vi_dock.bb"
+	.align 4

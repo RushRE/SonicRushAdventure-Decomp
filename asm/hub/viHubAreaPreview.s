@@ -3439,3 +3439,51 @@ _0215B9C8:
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	arm_func_end ViHubAreaPreview__Func_215B978
+
+	.data
+
+aNarcViActLz7Na: // 0x0217357C
+	.asciz "narc/vi_act_lz7.narc"
+	.align 4
+
+aBbViActLocBb: // 0x02173594
+	.asciz "bb/vi_act_loc.bb"
+	.align 4
+
+aNarcViBgLz7Nar_ovl05: // 0x021735A8
+	.asciz "narc/vi_bg_lz7.narc"
+	.align 4
+
+aBbViBgUpBb: // 0x021735BC
+	.asciz "bb/vi_bg_up.bb"
+	.align 4
+
+aBbViMsgBb: // 0x021735CC
+	.asciz "bb/vi_msg.bb"
+	.align 4
+
+aNarcViMsgCtrlL: // 0x021735DC
+	.asciz "narc/vi_msg_ctrl_lz7.narc"
+	.align 4
+
+aFntFontAllFnt_3_ovl05: // 0x021735F8
+	.asciz "fnt/font_all.fnt"
+	.align 4
+
+aBbTkdmNameBb: // 0x0217360C
+	.asciz "bb/tkdm_name.bb"
+	.align 4
+
+aBbTkdmDownBb_ovl05: // 0x0217361C
+	.asciz "bb/tkdm_down.bb"
+	.align 4
+
+// TODO: add labels for these so we're not using raw addresses
+.public _0217362C
+_0217362C: // 0x0217362C
+    .word 0x2172D80, 0x2172E68, 0x2172DB0, 0x2172E48
+	.word 0x2172E58, 0x2172D90, 0x2172E78, 0x2172DE0
+	.word 0x2172D88, 0x2172DF8, 0x2172E08, 0x2172E98
+	.word 0x2172DA4, 0x2172E38, 0x2172DBC, 0x2172DD4
+	.word 0x2172DEC, 0x2172E18, 0x2172E28, 0x2172DC8
+	.word 0x2172E88, 0x2172D98

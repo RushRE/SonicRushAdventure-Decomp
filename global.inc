@@ -17922,3 +17922,5 @@
 .public disableExTaskUpdate
 .public currentExTask
 .public FontAnimator__Palettes
+.public _ZTS11CVi3dObject
+.public _ZTI11CVi3dObject

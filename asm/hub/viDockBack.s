@@ -1,13 +1,16 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.public _ZTVN10__cxxabiv117__class_type_infoE
+	.public _ZTVN10__cxxabiv120__si_class_type_infoE
+
 	.text
 
 	arm_func_start ViDockBack__Constructor
 ViDockBack__Constructor: // 0x02164410
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r1, _021644BC // =0x02173818
+	ldr r1, _021644BC // =_ZTV11CViDockBack+0x08
 	add r0, r4, #8
 	str r1, [r4]
 	bl Vi3dObject__Constructor
@@ -49,13 +52,13 @@ ViDockBack__Constructor: // 0x02164410
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021644BC: .word 0x02173818
+_021644BC: .word _ZTV11CViDockBack+0x08
 	arm_func_end ViDockBack__Constructor
 
 	arm_func_start ViDockBack__VTableFunc_21644C0
 ViDockBack__VTableFunc_21644C0: // 0x021644C0
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216453C // =0x02173818
+	ldr r1, _0216453C // =_ZTV11CViDockBack+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViDockBack__Func_2164968
@@ -86,13 +89,13 @@ ViDockBack__VTableFunc_21644C0: // 0x021644C0
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216453C: .word 0x02173818
+_0216453C: .word _ZTV11CViDockBack+0x08
 	arm_func_end ViDockBack__VTableFunc_21644C0
 
 	arm_func_start ViDockBack__VTableFunc_2164540
 ViDockBack__VTableFunc_2164540: // 0x02164540
 	stmdb sp!, {r4, lr}
-	ldr r1, _021645C4 // =0x02173818
+	ldr r1, _021645C4 // =_ZTV11CViDockBack+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViDockBack__Func_2164968
@@ -125,7 +128,7 @@ ViDockBack__VTableFunc_2164540: // 0x02164540
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021645C4: .word 0x02173818
+_021645C4: .word _ZTV11CViDockBack+0x08
 	arm_func_end ViDockBack__VTableFunc_2164540
 
 	arm_func_start ViDockBack__LoadAssets
@@ -546,7 +549,7 @@ ViDockBack__Func_2164B58: // 0x02164B58
 	str lr, [sp]
 	str ip, [sp, #4]
 	ldr lr, [r0, #4]
-	ldr ip, _02164B98 // =0x02173774
+	ldr ip, _02164B98 // =_02173774
 	mov r0, r1
 	mov r1, r2
 	mov r2, r3
@@ -556,7 +559,7 @@ ViDockBack__Func_2164B58: // 0x02164B58
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02164B98: .word 0x02173774
+_02164B98: .word _02173774
 	arm_func_end ViDockBack__Func_2164B58
 
 	arm_func_start ViDockBack__Func_2164B9C
@@ -564,7 +567,7 @@ ViDockBack__Func_2164B9C: // 0x02164B9C
 	stmdb sp!, {r0, r1, r2, r3}
 	stmdb sp!, {r3, lr}
 	ldr r2, [r0, #4]
-	ldr r1, _02164BC4 // =0x02173790
+	ldr r1, _02164BC4 // =_02173790
 	add r0, sp, #0xc
 	ldr r1, [r1, r2, lsl #2]
 	blx r1
@@ -572,7 +575,7 @@ ViDockBack__Func_2164B9C: // 0x02164B9C
 	add sp, sp, #0x10
 	bx lr
 	.align 2, 0
-_02164BC4: .word 0x02173790
+_02164BC4: .word _02173790
 	arm_func_end ViDockBack__Func_2164B9C
 
 	arm_func_start ViDockBack__Func_2164BC8
@@ -580,7 +583,7 @@ ViDockBack__Func_2164BC8: // 0x02164BC8
 	stmdb sp!, {r0, r1, r2, r3}
 	stmdb sp!, {r3, lr}
 	ldr r2, [r0, #4]
-	ldr r1, _02164BF0 // =0x021737C8
+	ldr r1, _02164BF0 // =_021737C8
 	add r0, sp, #0xc
 	ldr r1, [r1, r2, lsl #2]
 	blx r1
@@ -588,14 +591,14 @@ ViDockBack__Func_2164BC8: // 0x02164BC8
 	add sp, sp, #0x10
 	bx lr
 	.align 2, 0
-_02164BF0: .word 0x021737C8
+_02164BF0: .word _021737C8
 	arm_func_end ViDockBack__Func_2164BC8
 
 	arm_func_start ViDockBack__Func_2164BF4
 ViDockBack__Func_2164BF4: // 0x02164BF4
 	stmdb sp!, {r3, lr}
 	ldr lr, [r0, #4]
-	ldr ip, _02164C1C // =0x021737E4
+	ldr ip, _02164C1C // =_021737E4
 	mov r0, r1
 	mov r1, r2
 	mov r2, r3
@@ -604,13 +607,13 @@ ViDockBack__Func_2164BF4: // 0x02164BF4
 	blx ip
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02164C1C: .word 0x021737E4
+_02164C1C: .word _021737E4
 	arm_func_end ViDockBack__Func_2164BF4
 
 	arm_func_start ViDockBack__Func_2164C20
 ViDockBack__Func_2164C20: // 0x02164C20
 	stmdb sp!, {r3, lr}
-	ldr ip, _02164C40 // =0x021737AC
+	ldr ip, _02164C40 // =_021737AC
 	ldr ip, [ip, r0, lsl #2]
 	mov r0, r1
 	mov r1, r2
@@ -618,7 +621,7 @@ ViDockBack__Func_2164C20: // 0x02164C20
 	blx ip
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02164C40: .word 0x021737AC
+_02164C40: .word _021737AC
 	arm_func_end ViDockBack__Func_2164C20
 
 	arm_func_start ViDockBack__Func_2164C44
@@ -2418,3 +2421,49 @@ ViDockBack__Func_2166540: // 0x02166540
 	bl CARD_SetThreadPriority
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ViDockBack__Func_2166540
+
+	.data
+
+.public _ZTI11CViDockBack
+_ZTI11CViDockBack: // 0x0217376C
+    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS11CViDockBack
+
+_02173774: // 0x02173774
+    .word ViDockBack__Func_2164C44, ViDockBack__Func_216509C
+	.word ViDockBack__Func_2165268, ViDockBack__Func_21654C8
+	.word ViDockBack__Func_2165914, ViDockBack__Func_2165D60
+	.word ViDockBack__Func_2166158
+
+_02173790: // 0x02173790
+    .word ViDockBack__Func_21662E8, ViDockBack__Func_21662FC
+	.word ViDockBack__Func_2166304, ViDockBack__Func_2166318
+	.word ViDockBack__Func_216632C, ViDockBack__Func_2166340
+	.word ViDockBack__Func_2166354
+
+_021737AC: // 0x021737AC
+    .word ViDockBack__Func_2166368, ViDockBack__Func_21663B4
+	.word ViDockBack__Func_21663D8, ViDockBack__Func_2166400
+	.word ViDockBack__Func_2166420, ViDockBack__Func_2166440
+	.word ViDockBack__Func_2166460
+
+_021737C8: // 0x021737C8
+    .word ViDockBack__Func_2166480, ViDockBack__Func_2166480
+	.word ViDockBack__Func_2166480, ViDockBack__Func_2166480
+	.word ViDockBack__Func_2166480, ViDockBack__Func_2166488
+	.word ViDockBack__Func_2166480
+
+_021737E4: // 0x021737E4
+    .word ViDockBack__Func_21664C0, ViDockBack__Func_21664C0
+	.word ViDockBack__Func_21664C0, ViDockBack__Func_21664C0
+	.word ViDockBack__Func_21664C0, ViDockBack__Func_2166500
+	.word ViDockBack__Func_21664C0
+
+.public _ZTS11CViDockBack
+_ZTS11CViDockBack: // 0x02173800
+	.asciz "11CViDockBack"
+	.align 4
+
+.public _ZTV11CViDockBack
+_ZTV11CViDockBack: // 0x02173810
+    .word 0, _ZTI11CViDockBack
+    .word ViDockBack__VTableFunc_21644C0, ViDockBack__VTableFunc_2164540

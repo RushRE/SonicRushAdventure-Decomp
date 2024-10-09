@@ -1,13 +1,301 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.public _ZTVN10__cxxabiv117__class_type_infoE
+	.public _ZTVN10__cxxabiv120__si_class_type_infoE
+
 	.text
+
+	arm_func_start ViMapVmiFile__Constructor
+ViMapVmiFile__Constructor: // 0x0216100C
+	stmdb sp!, {r4, lr}
+	ldr r1, _02161028 // =_ZTV13CViMapVmiFile+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl ViMapVmiFile__Func_2161074
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_02161028: .word _ZTV13CViMapVmiFile+0x08
+	arm_func_end ViMapVmiFile__Constructor
+
+	arm_func_start ViMapVmiFile__VTableFunc_216102C
+ViMapVmiFile__VTableFunc_216102C: // 0x0216102C
+	stmdb sp!, {r4, lr}
+	ldr r1, _02161048 // =_ZTV13CViMapVmiFile+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl ViMapVmiFile__Func_2161074
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_02161048: .word _ZTV13CViMapVmiFile+0x08
+	arm_func_end ViMapVmiFile__VTableFunc_216102C
+
+	arm_func_start ViMapVmiFile__VTableFunc_216104C
+ViMapVmiFile__VTableFunc_216104C: // 0x0216104C
+	stmdb sp!, {r4, lr}
+	ldr r1, _02161070 // =_ZTV13CViMapVmiFile+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl ViMapVmiFile__Func_2161074
+	mov r0, r4
+	bl CPPHelpers__Free
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_02161070: .word _ZTV13CViMapVmiFile+0x08
+	arm_func_end ViMapVmiFile__VTableFunc_216104C
+
+	arm_func_start ViMapVmiFile__Func_2161074
+ViMapVmiFile__Func_2161074: // 0x02161074
+	mov r1, #0
+	str r1, [r0, #4]
+	str r1, [r0, #8]
+	bx lr
+	arm_func_end ViMapVmiFile__Func_2161074
+
+	arm_func_start ViMapVmiFile__Func_2161084
+ViMapVmiFile__Func_2161084: // 0x02161084
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r0
+	mov r4, r1
+	bl ViMapVmiFile__Func_2161074
+	str r4, [r5, #4]
+	add r0, r4, #4
+	str r0, [r5, #8]
+	ldmia sp!, {r3, r4, r5, pc}
+	arm_func_end ViMapVmiFile__Func_2161084
+
+	arm_func_start ViMapVmiFile__Func_21610A4
+ViMapVmiFile__Func_21610A4: // 0x021610A4
+	ldr r0, [r0, #4]
+	ldrh r0, [r0, #0]
+	bx lr
+	arm_func_end ViMapVmiFile__Func_21610A4
+
+	arm_func_start ViMapVmiFile__Func_21610B0
+ViMapVmiFile__Func_21610B0: // 0x021610B0
+	mov r2, #0xc
+	mul r2, r1, r2
+	ldr r0, [r0, #8]
+	ldrh r0, [r0, r2]
+	mov r0, r0, lsl #0x13
+	mov r0, r0, lsr #0x10
+	bx lr
+	arm_func_end ViMapVmiFile__Func_21610B0
+
+	arm_func_start ViMapVmiFile__Func_21610CC
+ViMapVmiFile__Func_21610CC: // 0x021610CC
+	ldr r2, [r0, #8]
+	mov r0, #0xc
+	mla r0, r1, r0, r2
+	ldrh r0, [r0, #2]
+	mov r0, r0, lsl #0x13
+	mov r0, r0, lsr #0x10
+	bx lr
+	arm_func_end ViMapVmiFile__Func_21610CC
+
+	arm_func_start ViMapVmiFile__Func_21610E8
+ViMapVmiFile__Func_21610E8: // 0x021610E8
+	mov r2, #0xc
+	mul r2, r1, r2
+	ldr r0, [r0, #8]
+	ldrh r0, [r0, r2]
+	bx lr
+	arm_func_end ViMapVmiFile__Func_21610E8
+
+	arm_func_start ViMapVmiFile__Func_21610FC
+ViMapVmiFile__Func_21610FC: // 0x021610FC
+	ldr r2, [r0, #8]
+	mov r0, #0xc
+	mla r0, r1, r0, r2
+	ldrh r0, [r0, #2]
+	bx lr
+	arm_func_end ViMapVmiFile__Func_21610FC
+
+	arm_func_start ViMapVmiFile__Func_2161110
+ViMapVmiFile__Func_2161110: // 0x02161110
+	ldr r2, [r0, #8]
+	mov r0, #0xc
+	mla r0, r1, r0, r2
+	ldrh r0, [r0, #4]
+	mov r0, r0, lsl #0x13
+	mov r0, r0, lsr #0x10
+	bx lr
+	arm_func_end ViMapVmiFile__Func_2161110
+
+	arm_func_start ViMapVmiFile__Func_216112C
+ViMapVmiFile__Func_216112C: // 0x0216112C
+	ldr r2, [r0, #8]
+	mov r0, #0xc
+	mla r0, r1, r0, r2
+	ldrh r0, [r0, #6]
+	mov r0, r0, lsl #0x13
+	mov r0, r0, lsr #0x10
+	bx lr
+	arm_func_end ViMapVmiFile__Func_216112C
+
+	arm_func_start ViMapVmiFile__Func_2161148
+ViMapVmiFile__Func_2161148: // 0x02161148
+	ldr r2, [r0, #8]
+	mov r0, #0xc
+	mla r0, r1, r0, r2
+	ldrh r0, [r0, #4]
+	bx lr
+	arm_func_end ViMapVmiFile__Func_2161148
+
+	arm_func_start ViMapVmiFile__Func_216115C
+ViMapVmiFile__Func_216115C: // 0x0216115C
+	ldr r2, [r0, #8]
+	mov r0, #0xc
+	mla r0, r1, r0, r2
+	ldrh r0, [r0, #6]
+	bx lr
+	arm_func_end ViMapVmiFile__Func_216115C
+
+	arm_func_start ViMapVmiFile__Func_2161170
+ViMapVmiFile__Func_2161170: // 0x02161170
+	ldr r2, [r0, #8]
+	mov r0, #0xc
+	mla r0, r1, r0, r2
+	ldrh r0, [r0, #8]
+	bx lr
+	arm_func_end ViMapVmiFile__Func_2161170
+
+	arm_func_start ViMapVmpFile__Constructor
+ViMapVmpFile__Constructor: // 0x02161184
+	stmdb sp!, {r4, lr}
+	ldr r1, _021611A0 // =_ZTV13CViMapVmpFile+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl ViMapVmpFile__Func_21611EC
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_021611A0: .word _ZTV13CViMapVmpFile+0x08
+	arm_func_end ViMapVmpFile__Constructor
+
+	arm_func_start ViMapVmpFile__VTableFunc_21611A4
+ViMapVmpFile__VTableFunc_21611A4: // 0x021611A4
+	stmdb sp!, {r4, lr}
+	ldr r1, _021611C0 // =_ZTV13CViMapVmpFile+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl ViMapVmpFile__Func_21611EC
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_021611C0: .word _ZTV13CViMapVmpFile+0x08
+	arm_func_end ViMapVmpFile__VTableFunc_21611A4
+
+	arm_func_start ViMapVmpFile__VTableFunc_21611C4
+ViMapVmpFile__VTableFunc_21611C4: // 0x021611C4
+	stmdb sp!, {r4, lr}
+	ldr r1, _021611E8 // =_ZTV13CViMapVmpFile+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl ViMapVmpFile__Func_21611EC
+	mov r0, r4
+	bl CPPHelpers__Free
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_021611E8: .word _ZTV13CViMapVmpFile+0x08
+	arm_func_end ViMapVmpFile__VTableFunc_21611C4
+
+	arm_func_start ViMapVmpFile__Func_21611EC
+ViMapVmpFile__Func_21611EC: // 0x021611EC
+	mov r1, #0
+	str r1, [r0, #4]
+	bx lr
+	arm_func_end ViMapVmpFile__Func_21611EC
+
+	arm_func_start ViMapVmpFile__Func_21611F8
+ViMapVmpFile__Func_21611F8: // 0x021611F8
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r0
+	mov r4, r1
+	bl ViMapVmpFile__Func_21611EC
+	str r4, [r5, #4]
+	ldmia sp!, {r3, r4, r5, pc}
+	arm_func_end ViMapVmpFile__Func_21611F8
+
+	arm_func_start ViMapVmpFile__Func_2161210
+ViMapVmpFile__Func_2161210: // 0x02161210
+	ldr r0, [r0, #4]
+	bx lr
+	arm_func_end ViMapVmpFile__Func_2161210
+
+	arm_func_start ViMapVmcFile__Constructor
+ViMapVmcFile__Constructor: // 0x02161218
+	stmdb sp!, {r4, lr}
+	ldr r1, _02161234 // =_ZTV13CViMapVmcFile+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl ViMapVmcFile__Func_2161280
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_02161234: .word _ZTV13CViMapVmcFile+0x08
+	arm_func_end ViMapVmcFile__Constructor
+
+	arm_func_start ViMapVmcFile__VTableFunc_2161238
+ViMapVmcFile__VTableFunc_2161238: // 0x02161238
+	stmdb sp!, {r4, lr}
+	ldr r1, _02161254 // =_ZTV13CViMapVmcFile+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl ViMapVmcFile__Func_2161280
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_02161254: .word _ZTV13CViMapVmcFile+0x08
+	arm_func_end ViMapVmcFile__VTableFunc_2161238
+
+	arm_func_start ViMapVmcFile__VTableFunc_2161258
+ViMapVmcFile__VTableFunc_2161258: // 0x02161258
+	stmdb sp!, {r4, lr}
+	ldr r1, _0216127C // =_ZTV13CViMapVmcFile+0x08
+	mov r4, r0
+	str r1, [r4]
+	bl ViMapVmcFile__Func_2161280
+	mov r0, r4
+	bl CPPHelpers__Free
+	mov r0, r4
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_0216127C: .word _ZTV13CViMapVmcFile+0x08
+	arm_func_end ViMapVmcFile__VTableFunc_2161258
+
+	arm_func_start ViMapVmcFile__Func_2161280
+ViMapVmcFile__Func_2161280: // 0x02161280
+	mov r1, #0
+	str r1, [r0, #4]
+	bx lr
+	arm_func_end ViMapVmcFile__Func_2161280
+
+	arm_func_start ViMapVmcFile__Func_216128C
+ViMapVmcFile__Func_216128C: // 0x0216128C
+	stmdb sp!, {r3, r4, r5, lr}
+	mov r5, r0
+	mov r4, r1
+	bl ViMapVmcFile__Func_2161280
+	str r4, [r5, #4]
+	ldmia sp!, {r3, r4, r5, pc}
+	arm_func_end ViMapVmcFile__Func_216128C
+
+	arm_func_start ViMapVmcFile__Func_21612A4
+ViMapVmcFile__Func_21612A4: // 0x021612A4
+	ldr r0, [r0, #4]
+	bx lr
+	arm_func_end ViMapVmcFile__Func_21612A4
 
 	arm_func_start ViMapBack__Constructor
 ViMapBack__Constructor: // 0x021612AC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r1, _02161324 // =0x0217371C
+	ldr r1, _02161324 // =_ZTV10CViMapBack+0x08
 	add r0, r4, #4
 	str r1, [r4]
 	bl ViMapVmiFile__Constructor
@@ -36,14 +324,14 @@ ViMapBack__Constructor: // 0x021612AC
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02161324: .word 0x0217371C
+_02161324: .word _ZTV10CViMapBack+0x08
 _02161328: .word 0x00000514
 	arm_func_end ViMapBack__Constructor
 
 	arm_func_start ViMapBack__VTableFunc_216132C
 ViMapBack__VTableFunc_216132C: // 0x0216132C
 	stmdb sp!, {r4, lr}
-	ldr r1, _02161360 // =0x0217371C
+	ldr r1, _02161360 // =_ZTV10CViMapBack+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViMapBack__Func_2161680
@@ -56,13 +344,13 @@ ViMapBack__VTableFunc_216132C: // 0x0216132C
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02161360: .word 0x0217371C
+_02161360: .word _ZTV10CViMapBack+0x08
 	arm_func_end ViMapBack__VTableFunc_216132C
 
 	arm_func_start ViMapBack__VTableFunc_2161364
 ViMapBack__VTableFunc_2161364: // 0x02161364
 	stmdb sp!, {r4, lr}
-	ldr r1, _021613A0 // =0x0217371C
+	ldr r1, _021613A0 // =_ZTV10CViMapBack+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViMapBack__Func_2161680
@@ -77,7 +365,7 @@ ViMapBack__VTableFunc_2161364: // 0x02161364
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021613A0: .word 0x0217371C
+_021613A0: .word _ZTV10CViMapBack+0x08
 	arm_func_end ViMapBack__VTableFunc_2161364
 
 	arm_func_start ViMapBack__LoadAssets
@@ -2125,3 +2413,66 @@ ViMapBack__Func_2162F2C: // 0x02162F2C
 	.align 2, 0
 _02162FA4: .word 0x0000FFFF
 	arm_func_end ViMapBack__Func_2162F2C
+
+	.data
+
+aBpaViMapBpa: // 0x02173684
+	.asciz "bpa/vi_map.bpa"
+	.align 4
+
+.public _ZTI13CViMapVmiFile
+_ZTI13CViMapVmiFile: // 0x02173694
+    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS13CViMapVmiFile
+	
+.public _ZTI13CViMapVmcFile
+_ZTI13CViMapVmcFile: // 0x0217369C
+    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS13CViMapVmcFile
+	
+.public _ZTI13CViMapVmpFile
+_ZTI13CViMapVmpFile: // 0x021736A4
+    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS13CViMapVmpFile
+	
+.public _ZTI10CViMapBack
+_ZTI10CViMapBack: // 0x021736AC
+    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS10CViMapBack
+
+.public _ZTS10CViMapBack
+_ZTS10CViMapBack: // 0x021736B4
+	.asciz "10CViMapBack"
+	.align 4
+
+.public _ZTV13CViMapVmcFile
+_ZTV13CViMapVmcFile: // 0x021736C4
+    .word 0, _ZTI13CViMapVmcFile
+    .word ViMapVmcFile__VTableFunc_2161238, ViMapVmcFile__VTableFunc_2161258
+
+.public _ZTS13CViMapVmcFile
+_ZTS13CViMapVmcFile: // 0x021736D4
+	.asciz "13CViMapVmcFile"
+	.align 4
+
+.public _ZTV13CViMapVmpFile
+_ZTV13CViMapVmpFile: // 0x021736E4
+    .word 0, _ZTI13CViMapVmpFile
+    .word ViMapVmpFile__VTableFunc_21611A4, ViMapVmpFile__VTableFunc_21611C4
+
+.public _ZTI13CViMapVmcFile
+_ZTS13CViMapVmpFile: // 0x021736F4
+	.asciz "13CViMapVmpFile"
+	.align 4
+
+.public _ZTV13CViMapVmiFile
+_ZTV13CViMapVmiFile: // 0x02173704
+    .word 0, _ZTI13CViMapVmiFile
+    .word ViMapVmiFile__VTableFunc_216102C, ViMapVmiFile__VTableFunc_216104C
+
+.public _ZTV10CViMapBack
+_ZTV10CViMapBack: // 0x02173714
+    .word 0, _ZTI10CViMapBack
+    .word ViMapBack__VTableFunc_216132C, ViMapBack__VTableFunc_2161364
+
+.public _ZTS13CViMapVmiFile
+_ZTS13CViMapVmiFile: // 0x02173724
+	.asciz "13CViMapVmiFile"
+	.align 4
+

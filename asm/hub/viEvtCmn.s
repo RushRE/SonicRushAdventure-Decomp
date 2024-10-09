@@ -1,13 +1,16 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.public _ZTVN10__cxxabiv117__class_type_infoE
+	.public _ZTVN10__cxxabiv120__si_class_type_infoE
+
 	.text
 
 	arm_func_start ViEvtCmnMsg__Constructor
 ViEvtCmnMsg__Constructor: // 0x0216B94C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r1, _0216B988 // =0x021739DC
+	ldr r1, _0216B988 // =_ZTV12CViEvtCmnMsg+0x08
 	add r0, r4, #0x20
 	str r1, [r4]
 	bl FontAnimator__Init
@@ -21,26 +24,26 @@ ViEvtCmnMsg__Constructor: // 0x0216B94C
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216B988: .word 0x021739DC
+_0216B988: .word _ZTV12CViEvtCmnMsg+0x08
 	arm_func_end ViEvtCmnMsg__Constructor
 
 	arm_func_start ViEvtCmnMsg__VTableFunc_216B98C
 ViEvtCmnMsg__VTableFunc_216B98C: // 0x0216B98C
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216B9A8 // =0x021739DC
+	ldr r1, _0216B9A8 // =_ZTV12CViEvtCmnMsg+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViEvtCmnMsg__Func_216BC08
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216B9A8: .word 0x021739DC
+_0216B9A8: .word _ZTV12CViEvtCmnMsg+0x08
 	arm_func_end ViEvtCmnMsg__VTableFunc_216B98C
 
 	arm_func_start ViEvtCmnMsg__VTableFunc_216B9AC
 ViEvtCmnMsg__VTableFunc_216B9AC: // 0x0216B9AC
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216B9D0 // =0x021739DC
+	ldr r1, _0216B9D0 // =_ZTV12CViEvtCmnMsg+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViEvtCmnMsg__Func_216BC08
@@ -49,7 +52,7 @@ ViEvtCmnMsg__VTableFunc_216B9AC: // 0x0216B9AC
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216B9D0: .word 0x021739DC
+_0216B9D0: .word _ZTV12CViEvtCmnMsg+0x08
 	arm_func_end ViEvtCmnMsg__VTableFunc_216B9AC
 
 	arm_func_start ViEvtCmnMsg__Func_216B9D4
@@ -959,7 +962,7 @@ ViEvtCmnMsg__Func_216C510: // 0x0216C510
 	arm_func_start ViEvtCmnSelect__Constructor
 ViEvtCmnSelect__Constructor: // 0x0216C524
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216C574 // =0x021739CC
+	ldr r1, _0216C574 // =_ZTV15CViEvtCmnSelect+0x08
 	mov r4, r0
 	str r1, [r4]
 	mov r1, #0
@@ -979,26 +982,26 @@ ViEvtCmnSelect__Constructor: // 0x0216C524
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216C574: .word 0x021739CC
+_0216C574: .word _ZTV15CViEvtCmnSelect+0x08
 	arm_func_end ViEvtCmnSelect__Constructor
 
 	arm_func_start ViEvtCmnSelect__VTableFunc_216C578
 ViEvtCmnSelect__VTableFunc_216C578: // 0x0216C578
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216C594 // =0x021739CC
+	ldr r1, _0216C594 // =_ZTV15CViEvtCmnSelect+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViEvtCmnSelect__Func_216C70C
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216C594: .word 0x021739CC
+_0216C594: .word _ZTV15CViEvtCmnSelect+0x08
 	arm_func_end ViEvtCmnSelect__VTableFunc_216C578
 
 	arm_func_start ViEvtCmnSelect__VTableFunc_216C598
 ViEvtCmnSelect__VTableFunc_216C598: // 0x0216C598
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216C5BC // =0x021739CC
+	ldr r1, _0216C5BC // =_ZTV15CViEvtCmnSelect+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViEvtCmnSelect__Func_216C70C
@@ -1007,7 +1010,7 @@ ViEvtCmnSelect__VTableFunc_216C598: // 0x0216C598
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216C5BC: .word 0x021739CC
+_0216C5BC: .word _ZTV15CViEvtCmnSelect+0x08
 	arm_func_end ViEvtCmnSelect__VTableFunc_216C598
 
 	arm_func_start ViEvtCmnSelect__Func_216C5C0
@@ -1816,7 +1819,7 @@ _0216D008: .word touchInput
 ViEvtCmnAnnounce__Constructor: // 0x0216D00C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r1, _0216D03C // =0x021739FC
+	ldr r1, _0216D03C // =_ZTV17CViEvtCmnAnnounce+0x08
 	add r0, r4, #0x24
 	str r1, [r4]
 	bl FontAnimator__Init
@@ -1827,26 +1830,26 @@ ViEvtCmnAnnounce__Constructor: // 0x0216D00C
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216D03C: .word 0x021739FC
+_0216D03C: .word _ZTV17CViEvtCmnAnnounce+0x08
 	arm_func_end ViEvtCmnAnnounce__Constructor
 
 	arm_func_start ViEvtCmnAnnounce__VTableFunc_216D040
 ViEvtCmnAnnounce__VTableFunc_216D040: // 0x0216D040
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216D05C // =0x021739FC
+	ldr r1, _0216D05C // =_ZTV17CViEvtCmnAnnounce+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViEvtCmnAnnounce__Func_216D194
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216D05C: .word 0x021739FC
+_0216D05C: .word _ZTV17CViEvtCmnAnnounce+0x08
 	arm_func_end ViEvtCmnAnnounce__VTableFunc_216D040
 
 	arm_func_start ViEvtCmnAnnounce__VTableFunc_216D060
 ViEvtCmnAnnounce__VTableFunc_216D060: // 0x0216D060
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216D084 // =0x021739FC
+	ldr r1, _0216D084 // =_ZTV17CViEvtCmnAnnounce+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViEvtCmnAnnounce__Func_216D194
@@ -1855,7 +1858,7 @@ ViEvtCmnAnnounce__VTableFunc_216D060: // 0x0216D060
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216D084: .word 0x021739FC
+_0216D084: .word _ZTV17CViEvtCmnAnnounce+0x08
 	arm_func_end ViEvtCmnAnnounce__VTableFunc_216D060
 
 	arm_func_start ViEvtCmnAnnounce__Func_216D088
@@ -2277,7 +2280,7 @@ ViEvtCmnAnnounce__Func_216D5DC: // 0x0216D5DC
 ViEvtCmnTalk__Constructor: // 0x0216D5E4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r1, _0216D614 // =0x02173A0C
+	ldr r1, _0216D614 // =_ZTV13CViEvtCmnTalk+0x08
 	add r0, r4, #0x20
 	str r1, [r4]
 	bl ViEvtCmnMsg__Constructor
@@ -2288,13 +2291,13 @@ ViEvtCmnTalk__Constructor: // 0x0216D5E4
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216D614: .word 0x02173A0C
+_0216D614: .word _ZTV13CViEvtCmnTalk+0x08
 	arm_func_end ViEvtCmnTalk__Constructor
 
 	arm_func_start ViEvtCmnTalk__VTableFunc_216D618
 ViEvtCmnTalk__VTableFunc_216D618: // 0x0216D618
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216D644 // =0x02173A0C
+	ldr r1, _0216D644 // =_ZTV13CViEvtCmnTalk+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViEvtCmnTalk__Func_216D72C
@@ -2305,13 +2308,13 @@ ViEvtCmnTalk__VTableFunc_216D618: // 0x0216D618
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216D644: .word 0x02173A0C
+_0216D644: .word _ZTV13CViEvtCmnTalk+0x08
 	arm_func_end ViEvtCmnTalk__VTableFunc_216D618
 
 	arm_func_start ViEvtCmnTalk__VTableFunc_216D648
 ViEvtCmnTalk__VTableFunc_216D648: // 0x0216D648
 	stmdb sp!, {r4, lr}
-	ldr r1, _0216D67C // =0x02173A0C
+	ldr r1, _0216D67C // =_ZTV13CViEvtCmnTalk+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViEvtCmnTalk__Func_216D72C
@@ -2324,7 +2327,7 @@ ViEvtCmnTalk__VTableFunc_216D648: // 0x0216D648
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216D67C: .word 0x02173A0C
+_0216D67C: .word _ZTV13CViEvtCmnTalk+0x08
 	arm_func_end ViEvtCmnTalk__VTableFunc_216D648
 
 	arm_func_start ViEvtCmnTalk__Func_216D680
@@ -2849,3 +2852,65 @@ _0216DCF8:
 	bl ViEvtCmnMsg__Func_216BF00
 	ldmia sp!, {r3, pc}
 	arm_func_end ViEvtCmnTalk__Func_216DC84
+
+	.data
+
+.public _ZTI15CViEvtCmnSelect
+_ZTI15CViEvtCmnSelect: // 0x02173994
+	.word _ZTVN10__cxxabiv117__class_type_infoE+8
+	.word _ZTS15CViEvtCmnSelect // reference to type's name
+
+.public _ZTI17CViEvtCmnAnnounce
+_ZTI17CViEvtCmnAnnounce: // 0x0217399C
+	.word _ZTVN10__cxxabiv117__class_type_infoE+8
+	.word _ZTS17CViEvtCmnAnnounce // reference to type's name
+
+.public _ZTI12CViEvtCmnMsg
+_ZTI12CViEvtCmnMsg: // 0x021739A4
+	.word _ZTVN10__cxxabiv117__class_type_infoE+8
+	.word _ZTS12CViEvtCmnMsg  // reference to type's name
+
+.public _ZTI13CViEvtCmnTalk
+_ZTI13CViEvtCmnTalk: // 0x021739AC
+	.word _ZTVN10__cxxabiv117__class_type_infoE+8
+	.word _ZTS13CViEvtCmnTalk // reference to type's name
+
+.public _ZTS12CViEvtCmnMsg
+_ZTS12CViEvtCmnMsg: // 0x021739B4
+	.asciz "12CViEvtCmnMsg"
+	.align 4
+
+.public _ZTV15CViEvtCmnSelect
+_ZTV15CViEvtCmnSelect: // 0x021739C4
+    .word 0, _ZTI15CViEvtCmnSelect
+    .word ViEvtCmnSelect__VTableFunc_216C578, ViEvtCmnSelect__VTableFunc_216C598
+
+.public _ZTV12CViEvtCmnMsg
+_ZTV12CViEvtCmnMsg: // 0x021739D4
+    .word 0, _ZTI12CViEvtCmnMsg
+    .word ViEvtCmnMsg__VTableFunc_216B98C, ViEvtCmnMsg__VTableFunc_216B9AC
+
+.public _ZTS13CViEvtCmnTalk
+_ZTS13CViEvtCmnTalk: // 0x021739E4
+	.asciz "13CViEvtCmnTalk"
+	.align 4
+
+.public _ZTV17CViEvtCmnAnnounce
+_ZTV17CViEvtCmnAnnounce: // 0x021739F4
+    .word 0, _ZTI17CViEvtCmnAnnounce
+    .word ViEvtCmnAnnounce__VTableFunc_216D040, ViEvtCmnAnnounce__VTableFunc_216D060
+
+.public _ZTV13CViEvtCmnTalk
+_ZTV13CViEvtCmnTalk: // 0x02173A04
+    .word 0, _ZTI13CViEvtCmnTalk
+    .word ViEvtCmnTalk__VTableFunc_216D618, ViEvtCmnTalk__VTableFunc_216D648
+
+.public _ZTS15CViEvtCmnSelect
+_ZTS15CViEvtCmnSelect: // 0x02173A14
+	.asciz "15CViEvtCmnSelect"
+	.align 4
+
+.public _ZTS17CViEvtCmnAnnounce
+_ZTS17CViEvtCmnAnnounce: // 0x02173A28
+	.asciz "17CViEvtCmnAnnounce"
+	.align 4

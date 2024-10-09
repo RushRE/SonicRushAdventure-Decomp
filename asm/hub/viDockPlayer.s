@@ -1,6 +1,9 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.public _ZTVN10__cxxabiv117__class_type_infoE
+	.public _ZTVN10__cxxabiv120__si_class_type_infoE
+
 	.text
 
 	arm_func_start ViDockPlayer__Constructor
@@ -8,7 +11,7 @@ ViDockPlayer__Constructor: // 0x02166574
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl ViDockNpc__Func_2167384
-	ldr r0, _021665A8 // =0x0217384C
+	ldr r0, _021665A8 // =_ZTV13CViDockPlayer+0x08
 	mov r1, #0
 	str r0, [r4]
 	str r1, [r4, #0x330]
@@ -19,13 +22,13 @@ ViDockPlayer__Constructor: // 0x02166574
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021665A8: .word 0x0217384C
+_021665A8: .word _ZTV13CViDockPlayer+0x08
 	arm_func_end ViDockPlayer__Constructor
 
 	arm_func_start ViDockPlayer__VTableFunc_21665AC
 ViDockPlayer__VTableFunc_21665AC: // 0x021665AC
 	stmdb sp!, {r4, lr}
-	ldr r1, _021665D0 // =0x0217384C
+	ldr r1, _021665D0 // =_ZTV13CViDockPlayer+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViDockPlayer__Func_2166748
@@ -34,13 +37,13 @@ ViDockPlayer__VTableFunc_21665AC: // 0x021665AC
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021665D0: .word 0x0217384C
+_021665D0: .word _ZTV13CViDockPlayer+0x08
 	arm_func_end ViDockPlayer__VTableFunc_21665AC
 
 	arm_func_start ViDockPlayer__VTableFunc_21665D4
 ViDockPlayer__VTableFunc_21665D4: // 0x021665D4
 	stmdb sp!, {r4, lr}
-	ldr r1, _02166600 // =0x0217384C
+	ldr r1, _02166600 // =_ZTV13CViDockPlayer+0x08
 	mov r4, r0
 	str r1, [r4]
 	bl ViDockPlayer__Func_2166748
@@ -51,7 +54,7 @@ ViDockPlayer__VTableFunc_21665D4: // 0x021665D4
 	mov r0, r4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02166600: .word 0x0217384C
+_02166600: .word _ZTV13CViDockPlayer+0x08
 	arm_func_end ViDockPlayer__VTableFunc_21665D4
 
 	arm_func_start ViDockPlayer__LoadAssets
@@ -463,3 +466,32 @@ ViDockPlayer__Func_2166B90: // 0x02166B90
 	str r1, [r0, #0x32c]
 	bx lr
 	arm_func_end ViDockPlayer__Func_2166B90
+
+	.data
+	
+.public _ZTI11CVi3dObject
+_ZTI11CVi3dObject: // 0x02173820
+    .word _ZTVN10__cxxabiv117__class_type_infoE+8, _ZTS11CVi3dObject
+
+.public _ZTI13CViDockPlayer
+_ZTI13CViDockPlayer: // 0x02173828
+    .word _ZTVN10__cxxabiv120__si_class_type_infoE+8, _ZTS13CViDockPlayer, _ZTI11CVi3dObject
+
+.public _ZTS11CVi3dObject
+_ZTS11CVi3dObject: // 0x02173834
+	.asciz "11CVi3dObject"
+	.align 4
+
+.public _ZTV13CViDockPlayer
+_ZTV13CViDockPlayer: // 0x02173844
+    .word 0, _ZTI13CViDockPlayer
+    .word ViDockPlayer__VTableFunc_21665AC, ViDockPlayer__VTableFunc_21665D4
+
+.public _ZTS13CViDockPlayer
+_ZTS13CViDockPlayer: // 0x02173854
+	.asciz "13CViDockPlayer"
+	.align 4
+
+aBbViSonBb: // 0x02173864
+	.asciz "bb/vi_son.bb"
+	.align 4

@@ -655,17 +655,12 @@ Overlay Hub
     Object asm/hub/viMap.o
     Object asm/hub/viDock.o
     Object asm/hub/hubHUD.o
-    Object asm/hub/viMapVmiFile.o
-    Object asm/hub/viMapVmpFile.o
-    Object asm/hub/viMapVmcFile.o
     Object asm/hub/viMapBack.o
     Object asm/hub/viMapIcon.o
     Object asm/hub/viDockBack.o
     Object asm/hub/viDockPlayer.o
     Object asm/hub/viDockNpc.o
     Object asm/hub/vi3dObject.o
-    Object asm/hub/viShadow.o
-    Object asm/hub/vi3dArrow.o
     Object asm/hub/viDockNpcGroup.o
     Object asm/hub/unknown216897C.o
     Object asm/hub/unknown2168C48.o
