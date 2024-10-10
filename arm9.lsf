@@ -662,7 +662,7 @@ Overlay Hub
     Object asm/hub/viDockNpc.o
     Object asm/hub/vi3dObject.o
     Object src/hub/cviDockNpcGroup.o
-    Object asm/hub/viDockNpcGroup_vars.o
+    Object src/hub/cviDockNpcGroup_vars.o #TODO: figure if these can be merged into the above file
     Object asm/hub/unknown216897C.o
     Object asm/hub/unknown2168C48.o
     Object asm/hub/viTalkPurchase.o
