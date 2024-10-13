@@ -52,7 +52,7 @@ Boss7Stage__Create: // 0x0215C8E4
 	bl ovl02_215DAB8
 	ldr r0, [sp, #0x14]
 	add r0, r0, #0x3a8
-	bl BossHelpers__Light__Init
+	bl BossHelpers__InitLights
 	bl BossHelpers__Model__InitSystem
 	mov r0, #0x400000
 	bl SetSpatialAudioDropoffRate
@@ -705,7 +705,7 @@ _0215D2E4:
 	str r0, [sp, #4]
 	add r0, r5, #0x400
 	mov r3, r1
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #0xc
 	mov r1, #0x1b
 	bl NNS_FndGetArchiveFileByIndex
@@ -721,7 +721,7 @@ _0215D2E4:
 	add r0, r5, #0x400
 	mov r1, #2
 	mov r3, #0
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _0215D428 // =0x000034CC
 	str r0, [r5, #0x418]
 	str r0, [r5, #0x41c]
@@ -1074,7 +1074,7 @@ Boss7Johnny__Create: // 0x0215D5BC
 	str r0, [sp, #4]
 	add r0, r6, #0xc00
 	mov r3, r1
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #0xc
 	mov r1, #0xc
 	bl NNS_FndGetArchiveFileByIndex
@@ -1084,7 +1084,7 @@ Boss7Johnny__Create: // 0x0215D5BC
 	mov r1, #1
 	add r0, r6, #0xc00
 	str r1, [sp, #4]
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #0xc
 	mov r1, #0xd
 	bl NNS_FndGetArchiveFileByIndex
@@ -1095,7 +1095,7 @@ Boss7Johnny__Create: // 0x0215D5BC
 	str r0, [sp, #4]
 	add r0, r6, #0xc00
 	mov r1, #4
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _0215DAA0 // =0x000034CC
 	add r5, r4, #0x338
 	str r0, [r6, #0xc18]
@@ -1123,7 +1123,7 @@ Boss7Johnny__Create: // 0x0215D5BC
 	str r0, [sp, #4]
 	add r0, r5, #0x800
 	mov r3, r1
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #0xc
 	mov r1, #0x10
 	bl NNS_FndGetArchiveFileByIndex
@@ -1139,7 +1139,7 @@ Boss7Johnny__Create: // 0x0215D5BC
 	add r0, r5, #0x800
 	mov r1, #2
 	mov r3, #0
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, _0215DAA0 // =0x000034CC
 	add r0, sp, #0xc
 	str r1, [r5, #0x818]
@@ -2858,7 +2858,7 @@ ovl02_215EF6C: // 0x0215EF6C
 	ldrb r3, [r3, r4]
 	ldr r2, [r5, #0x368]
 	add r0, r0, #0x800
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, #0
 	stmia sp, {r0, r6}
 	ldr r1, _0215EFD8 // =_02178FBC
@@ -2867,7 +2867,7 @@ ovl02_215EF6C: // 0x0215EF6C
 	ldr r2, [r5, #0x36c]
 	add r0, r0, #0x800
 	mov r1, #4
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
@@ -2877,13 +2877,13 @@ _0215EFD8: .word _02178FBC
 
 	arm_func_start ovl02_215EFDC
 ovl02_215EFDC: // 0x0215EFDC
-	ldr ip, _0215EFF0 // =BossHelpers__Animation__Func_2038C44
+	ldr ip, _0215EFF0 // =BossHelpers__IsAnimFinished
 	add r0, r0, #0x24c
 	add r0, r0, #0x800
 	mov r1, #0
 	bx ip
 	.align 2, 0
-_0215EFF0: .word BossHelpers__Animation__Func_2038C44
+_0215EFF0: .word BossHelpers__IsAnimFinished
 	arm_func_end ovl02_215EFDC
 
 	arm_func_start ovl02_215EFF4
@@ -2901,7 +2901,7 @@ ovl02_215EFF4: // 0x0215EFF4
 	ldrb r3, [r3, r5]
 	ldr r2, [r4, #0x368]
 	add r0, ip, #0x800
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	cmp r5, #0x15
 	bgt _0215F05C
 	bge _0215F070
@@ -2943,7 +2943,7 @@ _0215F07C:
 	str r1, [sp]
 	mov r5, #1
 	str r5, [sp, #4]
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #8
 	mov r1, #0x10
 	bl NNS_FndGetArchiveFileByIndex
@@ -2960,7 +2960,7 @@ _0215F07C:
 	mov r2, r5
 	mov r3, r6
 	mov r1, #2
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #8
 	bl NNS_FndUnmountArchive
 	add sp, sp, #0x70
@@ -2973,13 +2973,13 @@ _0215F11C: .word _02179768
 
 	arm_func_start ovl02_215F120
 ovl02_215F120: // 0x0215F120
-	ldr ip, _0215F134 // =BossHelpers__Animation__Func_2038C44
+	ldr ip, _0215F134 // =BossHelpers__IsAnimFinished
 	add r0, r0, #0x1f4
 	add r0, r0, #0x800
 	mov r1, #0
 	bx ip
 	.align 2, 0
-_0215F134: .word BossHelpers__Animation__Func_2038C44
+_0215F134: .word BossHelpers__IsAnimFinished
 	arm_func_end ovl02_215F120
 
 	arm_func_start ovl02_215F138
@@ -3462,7 +3462,7 @@ ovl02_215F744: // 0x0215F744
 	mov r4, r0
 	bl ovl02_2160414
 	add r0, r4, #0x3a8
-	bl BossHelpers__Light__Func_203954C
+	bl BossHelpers__ProcessLights
 	ldr r0, [r4, #0x370]
 	cmp r0, #0
 	ldrne r1, [r4, #0x374]
@@ -3565,11 +3565,11 @@ ovl02_215F898: // 0x0215F898
 	tst r0, #0x20
 	ldmneia sp!, {r4, pc}
 	add r0, r4, #0x3a8
-	bl BossHelpers__Light__SetLights2
+	bl BossHelpers__RevertModifiedLights
 	mov r0, r4
 	bl ovl02_21604FC
 	add r0, r4, #0x3a8
-	bl BossHelpers__Light__SetLights1
+	bl BossHelpers__ApplyModifiedLights
 	ldmia sp!, {r4, pc}
 	arm_func_end ovl02_215F898
 
@@ -3591,7 +3591,7 @@ _0215F8EC:
 	ldr r2, [r4, #0x48]
 	ldr r3, [r4, #0x4c]
 	mov r0, r6
-	bl BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__HandleColliderSimple
 _0215F90C:
 	add r5, r5, #1
 	cmp r5, #3
@@ -4105,7 +4105,7 @@ ovl02_216002C: // 0x0216002C
 	and r3, r2, #0xff
 	add r1, r4, #0x200
 	mov r2, #0x100
-	bl Palette__UnknownFunc10
+	bl DarkenColors
 	add r0, r4, #0x200
 	mov r1, #0x200
 	bl DC_StoreRange
@@ -4570,7 +4570,7 @@ ovl02_2160610: // 0x02160610
 	ldr r2, [r0, #0x48]
 	ldr r3, [r0, #0x4c]
 	add r0, r0, #0x258
-	bl BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__HandleColliderSimple
 	ldmia sp!, {r3, pc}
 	arm_func_end ovl02_2160610
 
@@ -5093,7 +5093,7 @@ _02160CF8:
 	ldr r3, [r4, #0x9e8]
 	mov r0, r6
 	rsb r2, r2, #0
-	bl BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__HandleColliderSimple
 _02160D1C:
 	ldr r0, [r7, #0x18]
 	tst r0, #4
@@ -5103,7 +5103,7 @@ _02160D1C:
 	ldr r3, [r4, #0x9b8]
 	mov r0, r7
 	rsb r2, r2, #0
-	bl BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__HandleColliderSimple
 _02160D40:
 	add r5, r5, #1
 	cmp r5, #3
@@ -8356,7 +8356,7 @@ _02163668:
 	ldr r2, [r4, #0x48]
 	ldr r3, [r4, #0x4c]
 	mov r0, r6
-	bl BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__HandleColliderSimple
 _02163688:
 	add r5, r5, #1
 	cmp r5, #3
@@ -8769,7 +8769,7 @@ _02163BB4:
 	ldr r2, [sp, #4]
 	ldr r3, [sp, #8]
 	mov r0, r6
-	bl BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__HandleColliderSimple
 _02163BE0:
 	add r5, r5, #1
 	cmp r5, #0xf
@@ -9924,7 +9924,7 @@ _02164B4C:
 	ldr r3, [r7, #0x808]
 	mov r0, r5
 	rsb r2, r2, #0
-	bl BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__HandleColliderSimple
 _02164B70:
 	ldr r0, [r6, #0x18]
 	tst r0, #4
@@ -9934,7 +9934,7 @@ _02164B70:
 	ldr r3, [r8, #0x808]
 	mov r0, r6
 	rsb r2, r2, #0
-	bl BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__HandleColliderSimple
 _02164B94:
 	add r4, r4, #1
 	cmp r4, #3

@@ -35,9 +35,9 @@ void QueueCompressedPalette(void *srcPalettePtr, PaletteMode mode, size_t dstPal
 void LoadCompressedPalette(void *srcPalettePtr, PaletteMode mode, size_t dstPalettePtr);
 void ClearPaletteQueue(void);
 
-// Unknown
-void Palette__UnknownFunc9(u16 *colorPtr, u16 *palettePtr, u32 count, u16 a4);
-void Palette__UnknownFunc10(u16 *colorPtr, u16 *palettePtr, u32 count, s32 a4);
-void Palette__UnknownFunc11(u16 *result, u16 *colorPtr, u16 *palettePtr, s32 count, u8 a5);
+// Color modification
+void BrightenColors(GXRgb *srcColors, GXRgb *dstColors, u16 colorCount, u8 brightness);
+void DarkenColors(GXRgb *srcColors, GXRgb *dstColors, u16 colorCount, u8 brightness);
+void LerpColors(GXRgb *startColors, GXRgb *targetColors, GXRgb *dstColors, u16 colorCount, u8 speed);
 
 #endif // RUSH2_PALETTE_QUEUE_H

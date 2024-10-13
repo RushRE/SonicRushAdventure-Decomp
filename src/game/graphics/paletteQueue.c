@@ -407,209 +407,139 @@ void ClearPaletteQueue(void)
     backgroundListEnd = NULL;
 }
 
-NONMATCH_FUNC void Palette__UnknownFunc9(u16 *colorPtr, u16 *palettePtr, u32 count, u16 a4)
+void BrightenColors(GXRgb *srcColors, GXRgb *dstColors, u16 colorCount, u8 brightness)
 {
-    // https://decomp.me/scratch/HPqmJ -> 66.76%
-#ifdef NON_MATCHING
-    u16 ar = (u16)(a4 << GX_RGB_R_SHIFT);
-    u16 ag = (u16)(a4 << GX_RGB_G_SHIFT);
-    u16 ab = (u16)(a4 << GX_RGB_B_SHIFT);
+    u16 br = (u16)(brightness << GX_RGB_R_SHIFT);
+    u16 bg = (u16)(brightness << GX_RGB_G_SHIFT);
+    u16 bb = (u16)(brightness << GX_RGB_B_SHIFT);
 
-    for (u16 i = count - 1; i != 0; i--)
+    while (colorCount-- != 0)
     {
-        u16 color = *colorPtr++;
-        s32 r     = (color & GX_RGB_R_MASK) + ar;
+        GXRgb color = *srcColors;
+
+        s32 r = (color & GX_RGB_R_MASK) + br;
 
         if (r > GX_RGB_R_MASK)
-            r = (u16)GX_RGB_R_MASK;
+            r = GX_RGB_R_MASK;
 
-        s32 g = (color & GX_RGB_G_MASK) + ag;
+        s32 g = (color & GX_RGB_G_MASK) + bg;
         if (g > GX_RGB_G_MASK)
-            g = (u16)GX_RGB_G_MASK;
+            g = GX_RGB_G_MASK;
 
-        s32 b = (color & GX_RGB_B_MASK) + ab;
+        s32 b = (color & GX_RGB_B_MASK) + bb;
         if (b > GX_RGB_B_MASK)
-            b = (u16)GX_RGB_B_MASK;
+            b = GX_RGB_B_MASK;
 
-        *palettePtr = r | g | b | (color & 0x8000);
-        palettePtr++;
+        *dstColors = r | g | b | (color & GX_RGB_A_MASK);
+
+        srcColors++;
+        dstColors++;
     }
-#else
-    // clang-format off
-    stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	sub r4, r2, #1
-	mov r4, r4, lsl #0x10
-	cmp r2, #0
-	mov r6, r3, lsl #0x10
-	mov r7, r3, lsl #0x15
-	mov r8, r3, lsl #0x1a
-	mov r2, r4, lsr #0x10
-	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	mov lr, #0x1f
-	mov ip, #0x3e0
-	mov r3, #0x7c00
-_0207C258:
-	ldrh r5, [r0, #0]
-	add r0, r0, #2
-	and r4, r5, #0x1f
-	add r9, r4, r6, lsr #16
-	and r4, r5, #0x3e0
-	add r10, r4, r7, lsr #16
-	and r4, r5, #0x7c00
-	cmp r9, #0x1f
-	movgt r9, lr
-	cmp r10, #0x3e0
-	movgt r10, ip
-	add r4, r4, r8, lsr #16
-	cmp r4, #0x7c00
-	movgt r4, r3
-	orr r10, r9, r10
-	sub r9, r2, #1
-	orr r4, r4, r10
-	and r5, r5, #0x8000
-	orr r5, r5, r4
-	mov r4, r9, lsl #0x10
-	cmp r2, #0
-	strh r5, [r1], #2
-	mov r2, r4, lsr #0x10
-	bne _0207C258
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC void Palette__UnknownFunc10(u16 *colorPtr, u16 *palettePtr, u32 count, s32 a4){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-    stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub r4, r2, #1
-	mov r5, r4, lsl #0x10
-	cmp r2, #0
-	mov r4, r3, lsl #0x1a
-	mov ip, r3, lsl #0x10
-	mov lr, r3, lsl #0x15
-	mov r2, r5, lsr #0x10
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	mov r7, #0
-	ldr r3, =0x000003FF
-	mov r6, r7
-	mov r5, r7
-_0207C2F0:
-	ldrh r11, [r0, #0]
-	add r0, r0, #2
-	and r8, r11, #0x1f
-	and r9, r11, #0x3e0
-	subs r8, r8, ip, lsr #16
-	and r10, r11, #0x7c00
-	sub r9, r9, lr, lsr #16
-	movmi r8, r7
-	cmp r9, #0x1f
-	movlt r9, r6
-	sub r10, r10, r4, lsr #16
-	cmp r10, r3
-	movlt r10, r5
-	orr r9, r8, r9
-	sub r8, r2, #1
-	orr r9, r10, r9
-	and r10, r11, #0x8000
-	orr r9, r10, r9
-	mov r8, r8, lsl #0x10
-	cmp r2, #0
-	strh r9, [r1], #2
-	mov r2, r8, lsr #0x10
-	bne _0207C2F0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-// clang-format on
-#endif
-}
-
-NONMATCH_FUNC void Palette__UnknownFunc11(u16 *result, u16 *colorPtr, u16 *palettePtr, s32 count, u8 a5)
+void DarkenColors(GXRgb *srcColors, GXRgb *dstColors, u16 colorCount, u8 brightness)
 {
-#ifdef NON_MATCHING
+    u16 dr = (u16)(brightness << GX_RGB_R_SHIFT);
+    u16 dg = (u16)(brightness << GX_RGB_G_SHIFT);
+    u16 db = (u16)(brightness << GX_RGB_B_SHIFT);
 
-#else
-    // clang-format off
-    stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldrb r5, [sp, #0x20]
-	sub r4, r3, #1
-	mov r4, r4, lsl #0x10
-	cmp r3, #0
-	mov r6, r5, lsl #0x10
-	mov r7, r5, lsl #0x15
-	mov r8, r5, lsl #0x1a
-	mov r3, r4, lsr #0x10
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-_0207C37C:
-	ldrh r4, [r0, #0]
-	ldrh r5, [r1, #0]
-	and ip, r4, #0x1f
-	and r9, r5, #0x1f
-	cmp ip, r9
-	bge _0207C3A4
-	add ip, ip, r6, lsr #16
-	cmp ip, r9
-	movgt ip, r9
-	b _0207C3BC
-_0207C3A4:
-	ble _0207C3B8
-	sub ip, ip, r6, lsr #16
-	cmp ip, r9
-	movlt ip, r9
-	b _0207C3BC
-_0207C3B8:
-	mov ip, r9
-_0207C3BC:
-	and lr, r4, #0x3e0
-	and r9, r5, #0x3e0
-	cmp lr, r9
-	bge _0207C3DC
-	add lr, lr, r7, lsr #16
-	cmp lr, r9
-	movgt lr, r9
-	b _0207C3F4
-_0207C3DC:
-	ble _0207C3F0
-	sub lr, lr, r7, lsr #16
-	cmp lr, r9
-	movlt lr, r9
-	b _0207C3F4
-_0207C3F0:
-	mov lr, r9
-_0207C3F4:
-	and r4, r4, #0x7c00
-	and r9, r5, #0x7c00
-	cmp r4, r9
-	bge _0207C414
-	add r4, r4, r8, lsr #16
-	cmp r4, r9
-	movgt r4, r9
-	b _0207C42C
-_0207C414:
-	ble _0207C428
-	sub r4, r4, r8, lsr #16
-	cmp r4, r9
-	movlt r4, r9
-	b _0207C42C
-_0207C428:
-	mov r4, r9
-_0207C42C:
-	orr lr, ip, lr
-	sub ip, r3, #1
-	and r5, r5, #0x8000
-	orr r4, r4, lr
-	orr r4, r5, r4
-	mov ip, ip, lsl #0x10
-	cmp r3, #0
-	strh r4, [r2], #2
-	add r0, r0, #2
-	add r1, r1, #2
-	mov r3, ip, lsr #0x10
-	bne _0207C37C
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-// clang-format on
-#endif
+    while (colorCount-- != 0)
+    {
+        GXRgb color = *srcColors;
+
+        s32 r = (color & GX_RGB_R_MASK) - dr;
+        if (r < ((1 << GX_RGB_R_SHIFT) - 1))
+            r = 0x00;
+
+        s32 g = (color & GX_RGB_G_MASK) - dg;
+        if (g < ((1 << GX_RGB_G_SHIFT) - 1))
+            g = 0x00;
+
+        s32 b = (color & GX_RGB_B_MASK) - db;
+        if (b < ((1 << GX_RGB_B_SHIFT) - 1))
+            b = 0x00;
+
+        *dstColors = r | g | b | (color & GX_RGB_A_MASK);
+
+        srcColors++;
+        dstColors++;
+    }
+}
+
+void LerpColors(GXRgb *startColors, GXRgb *targetColors, GXRgb *dstColors, u16 colorCount, u8 speed)
+{
+    u16 sr = (u16)(speed << GX_RGB_R_SHIFT);
+    u16 sg = (u16)(speed << GX_RGB_G_SHIFT);
+    u16 sb = (u16)(speed << GX_RGB_B_SHIFT);
+
+    while (colorCount-- != 0)
+    {
+        GXRgb startColor  = *startColors;
+        GXRgb targetColor = *targetColors;
+
+        s32 r       = (startColor & GX_RGB_R_MASK);
+        s32 targetR = (targetColor & GX_RGB_R_MASK);
+        if (r < targetR)
+        {
+            r += sr;
+            if (r > targetR)
+                r = targetR;
+        }
+        else if (r > targetR)
+        {
+            r -= sr;
+            if (r < targetR)
+                r = targetR;
+        }
+        else
+        {
+            r = targetR;
+        }
+
+        s32 g       = (startColor & GX_RGB_G_MASK);
+        s32 targetG = (targetColor & GX_RGB_G_MASK);
+        if (g < targetG)
+        {
+            g += sg;
+            if (g > targetG)
+                g = targetG;
+        }
+        else if (g > targetG)
+        {
+            g -= sg;
+            if (g < targetG)
+                g = targetG;
+        }
+        else
+        {
+            g = targetG;
+        }
+
+        s32 b       = (startColor & GX_RGB_B_MASK);
+        s32 targetB = (targetColor & GX_RGB_B_MASK);
+        if (b < targetB)
+        {
+            b += sb;
+            if (b > targetB)
+                b = targetB;
+        }
+        else if (b > targetB)
+        {
+            b -= sb;
+            if (b < targetB)
+                b = targetB;
+        }
+        else
+        {
+            b = targetB;
+        }
+
+        *dstColors = r | g | b | (targetColor & GX_RGB_A_MASK);
+
+        startColors++;
+        targetColors++;
+        dstColors++;
+    }
 }
 
 static PaletteQueueEntry *AddPaletteQueueEntry(PaletteMode mode)

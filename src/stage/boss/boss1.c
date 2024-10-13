@@ -659,7 +659,7 @@ Boss1Stage *Boss1Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 
     Boss1Stage__GetBackground(&work->background);
     Boss1Stage__SetupAnimators(work);
-    BossHelpers__Light__Init(&work->lightConfig);
+    BossHelpers__InitLights(&work->lightConfig);
     BossHelpers__Model__InitSystem();
 
     work->boss        = SpawnStageObject(MAPOBJECT_277, x, y, Boss1);
@@ -830,7 +830,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
         InitPaletteAnimator(&work->aniPalette[i], NNS_FndGetArchiveFileByIndex(&arc, i + ARCHIVE_Z1BOSS_ACT_LZ7_FILE_BOSS1_Z1_AGO_BPA), 0, ANIMATORBPA_FLAG_NONE, PALETTE_MODE_TEXTURE,
                             VRAMKEY_TO_ADDR(Asset3DSetup__PaletteFromName(NNS_G3dGetTex(bossAssetFiles[0].fileData), Boss1__paletteNameTable[i])));
     }
-    BossHelpers__Palette__Func_2038BAC(work->aniPalette, 24, 0, 0);
+    BossHelpers__SetPaletteAnimations(work->aniPalette, 24, 0, 0);
     NNS_FndUnmountArchive(&arc);
 
     renderCoreSwapBuffer.sortMode = GX_SORTMODE_MANUAL;
@@ -1378,7 +1378,7 @@ _02154E24:
 	mov r3, r2
 	add r0, r8, #0x6d0
 	mov r1, #0x18
-	bl BossHelpers__Palette__Func_2038BAC
+	bl BossHelpers__SetPaletteAnimations
 	add r0, sp, #0xc
 	bl NNS_FndUnmountArchive
 	ldr r1, =renderCoreSwapBuffer
@@ -1575,8 +1575,8 @@ NONMATCH_FUNC void Boss1Stage__SetupAnimators(Boss1Stage *work)
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, "/boss1.nsbca", NULL, gameArchiveStage);
     ObjAction3dNNMotionLoad(&work->gameWork.objWork, animator, "/boss1.nsbva", NULL, gameArchiveStage);
 
-    BossHelpers__Animation__Func_2038BF0(animator, B3D_ANIM_JOINT_ANIM, animator->resources[B3D_RESOURCE_JOINT_ANIM], ANI_bs1_stage_01, NULL, FALSE);
-    BossHelpers__Animation__Func_2038BF0(animator, B3D_ANIM_VIS_ANIM, animator->resources[B3D_RESOURCE_VIS_ANIM], ANI_bs1_stage_01, NULL, FALSE);
+    BossHelpers__SetAnimation(animator, B3D_ANIM_JOINT_ANIM, animator->resources[B3D_RESOURCE_JOINT_ANIM], ANI_bs1_stage_01, NULL, FALSE);
+    BossHelpers__SetAnimation(animator, B3D_ANIM_VIS_ANIM, animator->resources[B3D_RESOURCE_VIS_ANIM], ANI_bs1_stage_01, NULL, FALSE);
 
     control->meshParts[0] = BOSS1STAGE_PART_STAGE_1;
     for (s32 i = 1; i < 7; i++)
@@ -1638,7 +1638,7 @@ _02155384:
 	ldr r2, [r5, #0x548]
 	add r0, r5, #0x400
 	mov r3, #0x46
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, #0
 	str r0, [sp]
 	str r0, [sp, #4]
@@ -1646,7 +1646,7 @@ _02155384:
 	add r0, r5, #0x400
 	mov r1, #4
 	mov r3, #0x46
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, #0
 	str r0, [r7, #0x18]
 	mov r2, #1
@@ -1861,7 +1861,7 @@ void Boss1Stage__State_Active(Boss1Stage *work)
     Boss1Stage__HandleDrop(work);
     Boss1Stage__HandlePlayer(work);
     Boss1Stage__Func_21556F8(work);
-    BossHelpers__Light__Func_203954C(&work->lightConfig);
+    BossHelpers__ProcessLights(&work->lightConfig);
     Boss1Stage__HandleCamera(work);
 
     work->stageState(work);
@@ -1873,7 +1873,7 @@ void Boss1Stage__Destructor(Task *task)
 
     for (s32 i = 0; i < BOSS1STAGE_MESH_COUNT; i++)
     {
-        BossHelpers__Animation__Func_2038C58(&work->dropControl.aniStage[i]);
+        BossHelpers__ReleaseAnimation(&work->dropControl.aniStage[i]);
         AnimatorMDL__Release(&work->dropControl.aniStage[i].ani);
     }
 
@@ -1888,9 +1888,9 @@ void Boss1Stage__Draw(void)
 
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_NO_DRAW) == 0)
     {
-        BossHelpers__Light__SetLights2(&work->lightConfig);
+        BossHelpers__RevertModifiedLights(&work->lightConfig);
         Boss1Stage__DrawStage(work);
-        BossHelpers__Light__SetLights1(&work->lightConfig);
+        BossHelpers__ApplyModifiedLights(&work->lightConfig);
     }
 }
 
@@ -3111,8 +3111,8 @@ void Boss1__SetAnimation(Boss1 *work, u16 animID, BOOL playOnce)
     else
         work->gameWork.objWork.displayFlag &= ~DISPLAY_FLAG_DISABLE_LOOPING;
 
-    BossHelpers__Animation__Func_2038BF0(&work->aniBossMain, B3D_ANIM_JOINT_ANIM, work->aniBossMain.resources[B3D_RESOURCE_JOINT_ANIM], animID, NULL, FALSE);
-    BossHelpers__Animation__Func_2038BF0(&work->aniBossMain, B3D_ANIM_VIS_ANIM, work->aniBossMain.resources[B3D_RESOURCE_VIS_ANIM], animID, NULL, FALSE);
+    BossHelpers__SetAnimation(&work->aniBossMain, B3D_ANIM_JOINT_ANIM, work->aniBossMain.resources[B3D_RESOURCE_JOINT_ANIM], animID, NULL, FALSE);
+    BossHelpers__SetAnimation(&work->aniBossMain, B3D_ANIM_VIS_ANIM, work->aniBossMain.resources[B3D_RESOURCE_VIS_ANIM], animID, NULL, FALSE);
 
     work->aniBossMain.ani.speedMultiplier = FLOAT_TO_FX32(1.0);
     work->animID                          = animID;
@@ -3400,7 +3400,7 @@ void Boss1__ConfigureNeck(Boss1 *work, BOOL enabled)
 
 void Boss1__Action_Hit(Boss1 *work)
 {
-    BossHelpers__Palette__Func_2038BAC(work->aniPalette, 24, 1, TRUE);
+    BossHelpers__SetPaletteAnimations(work->aniPalette, 24, 1, TRUE);
     work->paletteFlashTimer = 120;
 }
 
@@ -3410,7 +3410,7 @@ void Boss1__HandlePalette(Boss1 *work)
     {
         work->paletteFlashTimer--;
         if (work->paletteFlashTimer == 0)
-            BossHelpers__Palette__Func_2038BAC(work->aniPalette, 24, 0, FALSE);
+            BossHelpers__SetPaletteAnimations(work->aniPalette, 24, 0, FALSE);
     }
 }
 
@@ -3436,13 +3436,13 @@ void Boss1__Destructor(Task *task)
 {
     Boss1 *work = TaskGetWork(task, Boss1);
 
-    BossHelpers__Animation__Func_2038C58(&work->aniBossMain);
+    BossHelpers__ReleaseAnimation(&work->aniBossMain);
     AnimatorMDL__Release(&work->aniBossMain.ani);
 
-    BossHelpers__Animation__Func_2038C58(&work->aniBossSub1);
+    BossHelpers__ReleaseAnimation(&work->aniBossSub1);
     AnimatorMDL__Release(&work->aniBossSub1.ani);
 
-    BossHelpers__Animation__Func_2038C58(&work->aniBossSub2);
+    BossHelpers__ReleaseAnimation(&work->aniBossSub2);
     AnimatorMDL__Release(&work->aniBossSub2.ani);
 
     renderCoreSwapBuffer.sortMode = GX_SORTMODE_AUTO;
@@ -3504,19 +3504,19 @@ void Boss1__Collide(void)
 
         OBS_RECT_WORK *collider = &work->bossColliders[0];
         if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
-            BossHelpers__Collision__Func_20390AC(collider, x, y, z);
+            BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[1];
         if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
-            BossHelpers__Collision__Func_20390AC(collider, x, y, z);
+            BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[2];
         if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
-            BossHelpers__Collision__Func_20390AC(collider, x, y, z);
+            BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[3];
         if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
-            BossHelpers__Collision__Func_20390AC(collider, x, y, z);
+            BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[4];
         if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
@@ -3524,19 +3524,19 @@ void Boss1__Collide(void)
 
         collider = &work->bossColliders[5];
         if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
-            BossHelpers__Collision__Func_20390AC(collider, x, y, z);
+            BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[6];
         if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
-            BossHelpers__Collision__Func_20390AC(collider, x, y, z);
+            BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[7];
         if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
-            BossHelpers__Collision__Func_20390AC(collider, x, y, z);
+            BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[8];
         if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)
-            BossHelpers__Collision__Func_20390AC(collider, x, y, z);
+            BossHelpers__Collision__HandleColliderSimple(collider, x, y, z);
 
         collider = &work->bossColliders[9];
         if ((collider->flag & OBS_RECT_WORK_FLAG_IS_ACTIVE) != 0)

@@ -71,7 +71,7 @@ Boss4Stage__Create: // 0x0216B638
 	add r0, r4, #0x364
 	bl ovl01_216C920
 	add r0, r4, #0x39c
-	bl BossHelpers__Light__Init
+	bl BossHelpers__InitLights
 	bl BossHelpers__Model__InitSystem
 	ldr r1, _0216B89C // =0x02133A18
 	mov r0, #0
@@ -100,7 +100,7 @@ Boss4Stage__Create: // 0x0216B638
 	ldr r2, [r4, #0x528]
 	add r0, r4, #0x3d4
 	mov r1, #3
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r3, #0
 	str r3, [sp]
 	str r3, [sp, #4]
@@ -404,7 +404,7 @@ _0216BBD0:
 	mov r3, r2
 	add r0, r0, #0x400
 	mov r1, #0x10
-	bl BossHelpers__Palette__Func_2038BAC
+	bl BossHelpers__SetPaletteAnimations
 	add r0, sp, #0xc
 	bl NNS_FndUnmountArchive
 	mov r0, r8
@@ -576,7 +576,7 @@ Boss4Core__Create: // 0x0216BCA0
 	ldr r2, [r4, #0x914]
 	add r0, r0, #0x400
 	mov r1, #1
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r2, _0216BF90 // =gameArchiveStage
 	ldr r1, _0216BF98 // =aExc_5
 	ldr r2, [r2, #0]
@@ -606,7 +606,7 @@ Boss4Core__Create: // 0x0216BCA0
 	add r0, r0, #0x400
 	mov r1, #1
 	mov r3, r2
-	bl BossHelpers__Palette__Func_2038BAC
+	bl BossHelpers__SetPaletteAnimations
 	add r0, sp, #0xc
 	bl NNS_FndUnmountArchive
 	mov r0, r4
@@ -1217,21 +1217,21 @@ _0216C7E0:
 	add r0, r4, #0x370
 	ldr r2, [r4, #0x4b8]
 	mov r3, r1
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r3, #0
 	str r3, [sp]
 	str r3, [sp, #4]
 	add r0, r4, #0x370
 	mov r1, #1
 	ldr r2, [r4, #0x4bc]
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r3, #0
 	str r3, [sp]
 	str r3, [sp, #4]
 	add r0, r4, #0x370
 	mov r1, #3
 	ldr r2, [r4, #0x4c4]
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, [r4, #0x4b4]
 	bl NNS_G3dGetTex
 	str r0, [sp]
@@ -1240,7 +1240,7 @@ _0216C7E0:
 	add r0, r4, #0x370
 	mov r1, #2
 	ldr r2, [r4, #0x4c0]
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x20]
 	mov r0, r4
 	orr r1, r1, #4
@@ -1895,7 +1895,7 @@ ovl01_216D0C8: // 0x0216D0C8
 	mov r4, r0
 	bl ovl01_216CE80
 	add r0, r4, #0x39c
-	bl BossHelpers__Light__Func_203954C
+	bl BossHelpers__ProcessLights
 	ldr r1, _0216D14C // =gPlayer
 	mov r0, r4
 	ldr r1, [r1, #0]
@@ -1957,7 +1957,7 @@ ovl01_216D150: // 0x0216D150
 	bl NNS_FndUnmountArchive
 _0216D1B4:
 	add r0, r4, #0x3d4
-	bl BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__ReleaseAnimation
 	add r0, r4, #0x3d4
 	bl AnimatorMDL__Release
 	ldr r1, _0216D1F0 // =_0217AFB0
@@ -1987,12 +1987,12 @@ ovl01_216D1F4: // 0x0216D1F4
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
 	add r0, r4, #0x39c
-	bl BossHelpers__Light__SetLights2
+	bl BossHelpers__RevertModifiedLights
 	mov r0, r4
 	add r1, r4, #0x3d4
 	bl StageTask__Draw3D
 	add r0, r4, #0x39c
-	bl BossHelpers__Light__SetLights1
+	bl BossHelpers__ApplyModifiedLights
 	ldmia sp!, {r4, pc}
 	arm_func_end ovl01_216D1F4
 
@@ -2416,7 +2416,7 @@ _0216D854:
 	ldr r2, [r5, #0x4b8]
 	add r0, r5, #0x370
 	mov r3, #1
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, #0
 	str r0, [sp]
 	str r0, [sp, #4]
@@ -2424,7 +2424,7 @@ _0216D854:
 	ldr r2, [r5, #0x4bc]
 	mov r3, r1
 	add r0, r5, #0x370
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, #0
 	str r0, [sp]
 	str r0, [sp, #4]
@@ -2432,7 +2432,7 @@ _0216D854:
 	add r0, r5, #0x370
 	mov r1, #3
 	mov r3, #1
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, [r5, #0x4b4]
 	bl NNS_G3dGetTex
 	str r0, [sp]
@@ -2442,7 +2442,7 @@ _0216D854:
 	mov r1, #2
 	ldr r2, [r5, #0x4c0]
 	mov r3, #1
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r5, #0x20]
 	mov r0, #0
 	bic r1, r1, #4
@@ -2486,7 +2486,7 @@ ovl01_216D93C: // 0x0216D93C
 	bl NNS_G3dResDefaultRelease
 _0216D960:
 	add r0, r4, #0x370
-	bl BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__ReleaseAnimation
 	add r0, r4, #0x370
 	bl AnimatorMDL__Release
 	mov r0, r5
@@ -2632,7 +2632,7 @@ ovl01_216DB28: // 0x0216DB28
 	bl NNS_G3dResDefaultRelease
 _0216DB4C:
 	add r0, r4, #0x36c
-	bl BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__ReleaseAnimation
 	add r0, r4, #0x36c
 	bl AnimatorMDL__Release
 	mov r0, r5
@@ -2669,7 +2669,7 @@ ovl01_216DB88: // 0x0216DB88
 	ldr r2, [r5, #0x4b4]
 	mov r3, r4
 	add r0, r5, #0x36c
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, #0
 	str r0, [sp]
 	str r0, [sp, #4]
@@ -2677,7 +2677,7 @@ ovl01_216DB88: // 0x0216DB88
 	mov r3, r4
 	add r0, r5, #0x36c
 	mov r1, #1
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, #0
 	str r0, [sp]
 	str r0, [sp, #4]
@@ -2685,7 +2685,7 @@ ovl01_216DB88: // 0x0216DB88
 	mov r3, r4
 	add r0, r5, #0x36c
 	mov r1, #3
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, [r5, #0x400]
 	bl NNS_G3dGetTex
 	str r0, [sp]
@@ -2695,7 +2695,7 @@ ovl01_216DB88: // 0x0216DB88
 	add r0, r5, #0x36c
 	mov r1, #2
 	mov r3, r4
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, #0
 	str r0, [sp]
 	str r0, [sp, #4]
@@ -2703,7 +2703,7 @@ ovl01_216DB88: // 0x0216DB88
 	mov r3, r4
 	add r0, r5, #0x36c
 	mov r1, #4
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, #0x1000
 	str r0, [r5, #0x484]
 	add sp, sp, #8
@@ -2809,7 +2809,7 @@ ovl01_216DDB4: // 0x0216DDB4
 	bl GetTaskWork_
 	mov r4, r0
 	add r0, r4, #0x3c0
-	bl BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__ReleaseAnimation
 	add r0, r4, #0x3c0
 	bl AnimatorMDL__Release
 	mov r0, r5
@@ -2854,13 +2854,13 @@ ovl01_216DDE0: // 0x0216DDE0
 	bl MTX_Concat33
 	ldr r0, [r4, #0x37c]
 	add r0, r0, #0x39c
-	bl BossHelpers__Light__SetLights2
+	bl BossHelpers__RevertModifiedLights
 	mov r0, r4
 	add r1, r4, #0x3c0
 	bl StageTask__Draw3D
 	ldr r0, [r4, #0x37c]
 	add r0, r0, #0x39c
-	bl BossHelpers__Light__SetLights1
+	bl BossHelpers__ApplyModifiedLights
 	add r1, r4, #0x384
 	mov r0, #0x1e
 	bl BossHelpers__Model__SetMatrixMode
@@ -2888,7 +2888,7 @@ ovl01_216DEA4: // 0x0216DEA4
 	ldr r3, [r0, #0x3b0]
 	add r0, r0, #0x218
 	rsb r2, r2, #0
-	bl BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__HandleColliderSimple
 	ldmia sp!, {r3, pc}
 	arm_func_end ovl01_216DEA4
 
@@ -3084,7 +3084,7 @@ ovl01_216E13C: // 0x0216E13C
 	mov r4, r0
 	add r0, r4, #0x84
 	add r0, r0, #0x400
-	bl BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__ReleaseAnimation
 	add r0, r4, #0x84
 	add r0, r0, #0x400
 	bl AnimatorMDL__Release
@@ -3132,13 +3132,13 @@ ovl01_216E170: // 0x0216E170
 	bl MTX_Concat33
 	ldr r0, [r4, #0x37c]
 	add r0, r0, #0x39c
-	bl BossHelpers__Light__SetLights2
+	bl BossHelpers__RevertModifiedLights
 	mov r0, r4
 	mov r1, r5
 	bl StageTask__Draw3D
 	ldr r0, [r4, #0x37c]
 	add r0, r0, #0x39c
-	bl BossHelpers__Light__SetLights1
+	bl BossHelpers__ApplyModifiedLights
 	add r0, r4, #0x48
 	add r1, r0, #0x400
 	mov r0, #0x1e
@@ -3273,7 +3273,7 @@ ovl01_216E394: // 0x0216E394
 	mov r2, r1
 	mov r3, r1
 	add r0, r0, #0x400
-	bl BossHelpers__Palette__Func_2038BAC
+	bl BossHelpers__SetPaletteAnimations
 	add r0, r4, #0x700
 	mov r1, #0x3c
 	strh r1, [r0, #0xc4]
@@ -3297,7 +3297,7 @@ ovl01_216E3C4: // 0x0216E3C4
 	mov r3, r2
 	add r0, r0, #0x400
 	mov r1, #1
-	bl BossHelpers__Palette__Func_2038BAC
+	bl BossHelpers__SetPaletteAnimations
 	ldmia sp!, {r3, pc}
 	arm_func_end ovl01_216E3C4
 
@@ -3350,7 +3350,7 @@ ovl01_216E498: // 0x0216E498
 	mov r4, r0
 	add r0, r4, #0x3c8
 	add r0, r0, #0x400
-	bl BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__ReleaseAnimation
 	add r0, r4, #0x3c8
 	add r0, r0, #0x400
 	bl AnimatorMDL__Release
@@ -4597,7 +4597,7 @@ ovl01_216F590: // 0x0216F590
 	rsblt r2, r2, #0
 	and r3, r2, #0xff
 	mov r2, #0x100
-	bl Palette__UnknownFunc10
+	bl DarkenColors
 	add r0, r4, #0x580
 	mov r1, #0x200
 	bl DC_StoreRange
@@ -5018,7 +5018,7 @@ ovl01_216FB74: // 0x0216FB74
 	mov r3, r2
 	add r0, r0, #0x400
 	mov r1, #0x10
-	bl BossHelpers__Palette__Func_2038BAC
+	bl BossHelpers__SetPaletteAnimations
 	add r0, r4, #0x600
 	mov r1, #0x3c
 	strh r1, [r0, #4]
@@ -5042,7 +5042,7 @@ ovl01_216FBA4: // 0x0216FBA4
 	mov r3, r2
 	add r0, r0, #0x400
 	mov r1, #0x10
-	bl BossHelpers__Palette__Func_2038BAC
+	bl BossHelpers__SetPaletteAnimations
 	ldmia sp!, {r3, pc}
 	arm_func_end ovl01_216FBA4
 
@@ -5073,7 +5073,7 @@ ovl01_216FC24: // 0x0216FC24
 	mov r4, r0
 	add r0, r4, #0x208
 	add r0, r0, #0x400
-	bl BossHelpers__Animation__Func_2038C58
+	bl BossHelpers__ReleaseAnimation
 	add r0, r4, #0x208
 	add r0, r0, #0x400
 	bl AnimatorMDL__Release
@@ -5106,14 +5106,14 @@ ovl01_216FC8C: // 0x0216FC8C
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r0, [r4, #0x37c]
 	add r0, r0, #0x39c
-	bl BossHelpers__Light__SetLights2
+	bl BossHelpers__RevertModifiedLights
 	add r1, r4, #0x208
 	mov r0, r4
 	add r1, r1, #0x400
 	bl StageTask__Draw3D
 	ldr r0, [r4, #0x37c]
 	add r0, r0, #0x39c
-	bl BossHelpers__Light__SetLights1
+	bl BossHelpers__ApplyModifiedLights
 	add r1, r4, #0x3d4
 	mov r0, #0x1e
 	bl BossHelpers__Model__SetMatrixMode
@@ -5157,7 +5157,7 @@ _0216FD40:
 	ldr r3, [r4, #0x400]
 	add r0, r4, #0x258
 	rsb r2, r2, #0
-	bl BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__HandleColliderSimple
 _0216FD64:
 	ldr r0, [r4, #0x2b0]
 	tst r0, #4
@@ -5524,7 +5524,7 @@ ovl01_21701CC: // _021701CC
 	add r0, r4, #0x208
 	ldr r2, [r4, #0x750]
 	add r0, r0, #0x400
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, #0x1000
 	str r0, [r4, #0x720]
 	add sp, sp, #8
@@ -9195,7 +9195,7 @@ ovl01_2173174: // _02173174
 	mov r4, r0
 	ldr r0, [r2, #0]
 	mov r6, r1
-	bl BossHelpers__Player__IsDead
+	bl BossHelpers__Player__IsAlive
 	cmp r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
 	ldr r0, _0217332C // =gPlayer

@@ -139,13 +139,13 @@ _02043468:
 	add r1, r1, #0x400
 	mov r2, #0x100
 	mov r3, #1
-	bl Palette__UnknownFunc10
+	bl DarkenColors
 	add r1, r4, #0x208
 	add r0, r1, #0x400
 	add r1, r1, #0x400
 	mov r2, #0xf0
 	mov r3, #1
-	bl Palette__UnknownFunc10
+	bl DarkenColors
 	add r0, r4, #0x800
 	ldrh r1, [r0, #8]
 	add r1, r1, #1
@@ -166,14 +166,14 @@ _020434CC:
 	mov r2, r0
 	mov r3, #0x100
 	str ip, [sp]
-	bl Palette__UnknownFunc11
+	bl LerpColors
 	add r1, r4, #0x208
 	add r0, r1, #0x400
 	mov ip, #1
 	mov r2, r0
 	mov r3, #0xf0
 	str ip, [sp]
-	bl Palette__UnknownFunc11
+	bl LerpColors
 	add r0, r4, #0x800
 	ldrh r1, [r0, #8]
 	add r1, r1, #1

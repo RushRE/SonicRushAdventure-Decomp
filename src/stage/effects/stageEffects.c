@@ -399,7 +399,7 @@ NONMATCH_FUNC EffectBrakeDust3D *CreateEffectBrakeDust3DForPlayer(Player *parent
         work->animator.ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
         work->animator.ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
 
-        u16 angle = -BossHelpers__Arena__Func_2038CDC(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight,
+        u16 angle = -BossHelpers__Arena__GetDrawPosition(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight,
                                                       mapCamera.camControl.bossArenaRadius, &work->objWork.position.x, &work->objWork.position.z);
 
         fx32 vel                 = work->objWork.velocity.x;
@@ -432,7 +432,7 @@ NONMATCH_FUNC EffectBrakeDust3D *CreateEffectBrakeDust3DForPlayer(Player *parent
 	ldr r1, [r3, #0xfc]
 	ldr r2, [r3, #0x100]
 	ldr r3, [r3, #0xf8]
-	bl BossHelpers__Arena__Func_2038CDC
+	bl BossHelpers__Arena__GetDrawPosition
 	rsb r0, r0, #0
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -654,7 +654,7 @@ EffectSpindashDust3D *CreateEffectSpindashDust3DForBossArena(Player *player, fx3
         work->animator.ani.work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
         work->animator.ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
 
-        BossHelpers__Arena__Func_2038CDC(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
+        BossHelpers__Arena__GetDrawPosition(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
                                          &work->objWork.position.x, &work->objWork.position.z);
     }
 
@@ -1131,7 +1131,7 @@ EffectFlameJet3D *CreateEffectFlameJet3DForPlayer(Player *player, fx32 velX, fx3
 
     if (work)
     {
-        BossHelpers__Arena__Func_2038CDC(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
+        BossHelpers__Arena__GetDrawPosition(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
                                          &work->objWork.position.x, &work->objWork.position.z);
 
         SetTaskState(&work->objWork, EffectFlameJet3D_State_Active3D);
@@ -1143,7 +1143,7 @@ void EffectFlameJet3D_State_Active3D(EffectFlameJet3D *work)
 {
     EffectFlameJet_State_Active((EffectFlameJet *)work);
 
-    BossHelpers__Arena__Func_2038CDC(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
+    BossHelpers__Arena__GetDrawPosition(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
                                      &work->objWork.position.x, &work->objWork.position.z);
 }
 

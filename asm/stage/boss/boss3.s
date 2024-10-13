@@ -68,7 +68,7 @@ Boss3Stage__Create: // 0x02160A70
 	str r0, [r5, #0x414]
 	add r0, r5, #0x24
 	add r0, r0, #0x400
-	bl BossHelpers__Light__Init
+	bl BossHelpers__InitLights
 	add r0, r5, #0x364
 	bl ovl01_2161BD0
 	mov r0, r5
@@ -153,7 +153,7 @@ Boss3Stage__Create: // 0x02160A70
 	ldr r2, [r5, #0x36c]
 	mov r0, r4
 	mov r1, #3
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, r5, #0x550
 	add r8, r4, #0x48
 	ldmia r0, {r0, r1, r2}
@@ -168,7 +168,7 @@ Boss3Stage__Create: // 0x02160A70
 	ldr r2, [r5, #0x368]
 	mov r3, #2
 	add r0, r5, #0x790
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r4, r5, #0x108
 	mov r0, #4
 	strb r0, [r4, #0x40a]
@@ -1223,7 +1223,7 @@ ovl01_2161C40: // 0x02161C40
 	ldr r0, [r2, #0x44]
 	ldr r2, _02161D58 // =0x006BAA99
 	mov r1, #0x40000
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	sub r0, r5, r0
 	mov r0, r0, lsl #0x10
 	mov r5, r0, asr #0x10
@@ -1317,12 +1317,12 @@ _02161DC0:
 	ldr r3, _02161E24 // =0x00107FC0
 	mov r0, r4
 	mov r1, #0x40000
-	bl BossHelpers__Arena__Func_2038EBC
+	bl BossHelpers__Arena__GetPlayerDrawMtx
 	mov r4, r0
 	bl ovl01_2161E28
 	add r0, r5, #0x24
 	add r0, r0, #0x400
-	bl BossHelpers__Light__SetLights1
+	bl BossHelpers__ApplyModifiedLights
 	ldr r0, [r5, #0x41c]
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, pc}
@@ -1604,7 +1604,7 @@ ovl01_216208C: // 0x0216208C
 	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	mov r1, r0
 	mov r0, r5
 	bl BossArena__SetAngleTarget
@@ -1666,7 +1666,7 @@ ovl01_216208C: // 0x0216208C
 	ldr r0, [r0, #0]
 	ldr r2, _021622AC // =0x006BAA99
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	mov r1, r0
 	mov r0, r5
 	bl BossArena__SetAngleTarget
@@ -2168,7 +2168,7 @@ _02162960:
 _02162980:
 	add r0, r4, #0x56
 	add r0, r0, #0x400
-	bl BossHelpers__Light__SetLights2
+	bl BossHelpers__RevertModifiedLights
 	ldmia sp!, {r4, r5, r6, pc}
 	arm_func_end ovl01_2162918
 
@@ -2648,7 +2648,7 @@ ovl01_2162F18: // 0x02162F18
 _02162F38:
 	add r0, r4, #0x24
 	add r0, r0, #0x400
-	bl BossHelpers__Light__Func_203954C
+	bl BossHelpers__ProcessLights
 	ldr r1, [r4, #0x3b4]
 	mov r0, r4
 	blx r1
@@ -2725,7 +2725,7 @@ ovl01_2163028: // 0x02163028
 	ldmneia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	add r0, r7, #0x24
 	add r0, r0, #0x400
-	bl BossHelpers__Light__SetLights2
+	bl BossHelpers__RevertModifiedLights
 	mov r0, r7
 	bl ovl01_2162918
 	ldr r2, [r7, #0x3c4]
@@ -2825,7 +2825,7 @@ _021631AC:
 _021631C0:
 	add r0, r7, #0x24
 	add r0, r0, #0x400
-	bl BossHelpers__Light__SetLights1
+	bl BossHelpers__ApplyModifiedLights
 	add r1, r7, #0x3dc
 	mov r0, #0x1e
 	bl BossHelpers__Model__SetMatrixMode
@@ -3406,7 +3406,7 @@ _021639BC:
 	ldr r0, [r5, #0xa3c]
 	add r0, r0, #0x24
 	add r0, r0, #0x400
-	bl BossHelpers__Light__SetLights1
+	bl BossHelpers__ApplyModifiedLights
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _021639F0: .word FX_SinCosTable_
@@ -3515,7 +3515,7 @@ ovl01_2163B44: // 0x02163B44
 	ldr r1, _02163CB8 // =gPlayer
 	mov r4, r0
 	ldr r0, [r1, #0]
-	bl BossHelpers__Player__IsDead
+	bl BossHelpers__Player__IsAlive
 	cmp r0, #0
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
@@ -3524,7 +3524,7 @@ ovl01_2163B44: // 0x02163B44
 	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	add r1, r4, #0xa00
 	mov r0, r0, lsl #0x10
 	ldrsh r2, [r1, #0xd6]
@@ -3545,7 +3545,7 @@ ovl01_2163B44: // 0x02163B44
 	ldr r2, [r4, #0xa30]
 	add r0, r4, #0xf10
 	mov r3, #0x29
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02163CB8 // =gPlayer
 	mov r3, #0xa000
 	rsb r3, r3, #0
@@ -3569,7 +3569,7 @@ _02163BFC:
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0x1000
 	mov r3, #0x29
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02163CB8 // =gPlayer
 	mov r3, #0xa000
 	ldr r2, [r0, #0]
@@ -3589,7 +3589,7 @@ _02163C50:
 	ldr r2, [r4, #0xa30]
 	add r0, r4, #0xf10
 	mov r3, #0x27
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 _02163C7C:
 	add r0, r4, #0x1100
 	ldrh r0, [r0, #0x60]
@@ -3603,7 +3603,7 @@ _02163C7C:
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0x1000
 	mov r3, #0x27
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -3761,7 +3761,7 @@ ovl01_2163E64: // 0x02163E64
 	ldr r0, [r1, #0x44]
 	ldr r2, _02163EAC // =0x006BAA99
 	mov r1, #0x40000
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	add r2, r5, #0xa00
 	mov r1, r0
 	ldrh r0, [r2, #0xd4]
@@ -3798,7 +3798,7 @@ _02163EE4:
 	add r0, r0, #0x800
 	mov r2, r1, lsr #0x10
 	mov r1, #0x10
-	bl BossHelpers__Palette__Func_2038BAC
+	bl BossHelpers__SetPaletteAnimations
 	ldmia sp!, {r3, pc}
 	arm_func_end ovl01_2163EB0
 
@@ -3829,14 +3829,14 @@ ovl01_2163F24: // 0x02163F24
 	ldr r2, [r4, #0xa30]
 	mov r3, r1
 	add r0, r0, #0xc00
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r1, #0
 	str r1, [sp]
 	mov r3, #1
 	str r3, [sp, #4]
 	ldr r2, [r4, #0xa30]
 	add r0, r4, #0xf10
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r1, #0
 	add r0, r4, #0x54
 	str r1, [sp]
@@ -3844,7 +3844,7 @@ ovl01_2163F24: // 0x02163F24
 	str r3, [sp, #4]
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0x1000
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x384]
 	add r0, r4, #0xa00
 	orr r1, r1, #0x20
@@ -4546,7 +4546,7 @@ ovl01_21648B0: // 0x021648B0
 	ldr r3, [r3, #0x3c4]
 	add r0, r0, #0x400
 	add r1, r1, #0x400
-	bl BossHelpers__Collision__Func_2039120
+	bl BossHelpers__Collision__InitArenaCollider
 _02164910:
 	ldr r2, [r9, #0xa3c]
 	mov r1, #0
@@ -4737,7 +4737,7 @@ ovl01_2164B80: // 0x02164B80
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x22
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, r4, #0xa00
 	mov r2, #0
 	ldr r1, _02164BD8 // =ovl01_2164BDC
@@ -4764,7 +4764,7 @@ ovl01_2164BDC: // 0x02164BDC
 	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	add r1, r4, #0xa00
 	ldr r2, _02164C30 // =ovl01_2164C34
 	strh r0, [r1, #0xf0]
@@ -4792,7 +4792,7 @@ ovl01_2164C34: // 0x02164C34
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x23
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02164C80 // =ovl01_2164C84
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -4836,7 +4836,7 @@ ovl01_2164CC4: // 0x02164CC4
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x24
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02164D08 // =ovl01_2164D0C
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -4904,7 +4904,7 @@ ovl01_2164DA8: // 0x02164DA8
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x25
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02164DE4 // =ovl01_2164DE8
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -4931,7 +4931,7 @@ ovl01_2164DE8: // 0x02164DE8
 	ldr r2, [r4, #0xa30]
 	mov r3, r1
 	add r0, r0, #0xc00
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02164E3C // =ovl01_2164E40
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -5128,7 +5128,7 @@ ovl01_2165084: // 0x02165084
 	ldr r2, [r4, #0xa30]
 	mov r3, r1
 	add r0, r0, #0xc00
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r1, #0
 	str r1, [sp]
 	mov r0, #1
@@ -5136,7 +5136,7 @@ ovl01_2165084: // 0x02165084
 	ldr r2, [r4, #0xa30]
 	add r0, r4, #0xf10
 	mov r3, #0x27
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r1, #0
 	add r0, r4, #0x54
 	str r1, [sp]
@@ -5145,7 +5145,7 @@ ovl01_2165084: // 0x02165084
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0x1000
 	mov r3, #0x27
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x384]
 	add r0, r4, #0xa00
 	bic r1, r1, #0x20
@@ -5505,7 +5505,7 @@ ovl01_21655B0: // 0x021655B0
 	ldr r2, _021656AC // =0x006BAA99
 	ldr r0, [r0, #0x44]
 	mov r1, #0x40000
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	add r1, r4, #0xa00
 	mov r0, r0, lsl #0x10
 	ldrh r1, [r1, #0xd6]
@@ -5729,7 +5729,7 @@ ovl01_21658B8: // 0x021658B8
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x22
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r1, #1
 	ldr r0, _021658FC // =ovl01_2165900
 	str r1, [r4, #0xaec]
@@ -5772,7 +5772,7 @@ ovl01_216592C: // 0x0216592C
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x23
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02165978 // =ovl01_216597C
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -5810,7 +5810,7 @@ ovl01_21659AC: // 0x021659AC
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x24
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _021659E8 // =ovl01_21659EC
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -5862,7 +5862,7 @@ ovl01_2165A50: // 0x02165A50
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x25
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02165A8C // =ovl01_2165A90
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -5896,7 +5896,7 @@ ovl01_2165AAC: // 0x02165AAC
 	ldr r2, [r4, #0xa30]
 	mov r3, r1
 	add r0, r0, #0xc00
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02165AEC // =ovl01_2165AF0
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -5935,7 +5935,7 @@ ovl01_2165B2C: // 0x02165B2C
 	ldr r2, [r4, #0xa30]
 	add r0, r4, #0xf10
 	mov r3, #0x26
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r1, #0
 	str r1, [sp]
 	str r1, [sp, #4]
@@ -5943,7 +5943,7 @@ ovl01_2165B2C: // 0x02165B2C
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0x1000
 	mov r3, #0x26
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x384]
 	ldr r0, _02165C00 // =gPlayer
 	bic r1, r1, #0x20
@@ -5955,7 +5955,7 @@ ovl01_2165B2C: // 0x02165B2C
 	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	add r1, r4, #0xa00
 	strh r0, [r1, #0xd6]
 	mov r0, #0
@@ -5999,7 +5999,7 @@ ovl01_2165C0C: // 0x02165C0C
 	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	mov r1, #0x16
 	str r1, [sp]
 	add r1, r1, #0x20c
@@ -6174,7 +6174,7 @@ ovl01_2165E5C: // 0x02165E5C
 	ldr r2, [r4, #0xa30]
 	add r0, r4, #0xf10
 	mov r3, #0x28
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r1, #0
 	str r1, [sp]
 	str r1, [sp, #4]
@@ -6182,7 +6182,7 @@ ovl01_2165E5C: // 0x02165E5C
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0x1000
 	mov r3, #0x28
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r1, #0
 	ldr r0, _02165EBC // =ovl01_2165EC0
 	str r1, [r4, #0xae8]
@@ -6207,7 +6207,7 @@ ovl01_2165EC0: // 0x02165EC0
 	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	mov r1, #0x16
 	str r1, [sp]
 	add r1, r1, #0x20c
@@ -6314,7 +6314,7 @@ ovl01_216603C: // 0x0216603C
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x1f
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, r4
 	mov r1, #1
 	bl ovl01_2163EB0
@@ -6366,7 +6366,7 @@ ovl01_21660DC: // 0x021660DC
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x20
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0xa3c]
 	mov r0, r4
 	add r1, r1, #0x300
@@ -6398,7 +6398,7 @@ ovl01_2166130: // 0x02166130
 	ldr r2, [r4, #0xa30]
 	mov r3, r1
 	add r0, r0, #0xc00
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r0, #0
 	str r0, [r4, #0xa44]
 	add sp, sp, #8
@@ -6479,7 +6479,7 @@ _0216625C:
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x1f
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _0216628C // =ovl01_2166290
 	str r0, [r4, #0xa48]
 	add sp, sp, #8
@@ -6517,7 +6517,7 @@ _021662C8:
 	ldr r2, [r6, #0xa30]
 	mov r3, r1
 	add r0, r0, #0xc00
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r5, #1
 _02166300:
 	cmp r4, #0
@@ -6747,7 +6747,7 @@ ovl01_21665CC: // 0x021665CC
 	ldr r2, [r4, #0xa30]
 	add r0, r4, #0xf10
 	mov r3, #0x28
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r1, #0
 	str r1, [sp]
 	str r1, [sp, #4]
@@ -6755,7 +6755,7 @@ ovl01_21665CC: // 0x021665CC
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0x1000
 	mov r3, #0x28
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	mov r1, #0
 	ldr r0, _0216662C // =ovl01_2166630
 	str r1, [r4, #0xae8]
@@ -6780,7 +6780,7 @@ ovl01_2166630: // 0x02166630
 	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	mov r1, #0x16
 	str r1, [sp]
 	add r1, r1, #0x20c
@@ -6875,7 +6875,7 @@ ovl01_216678C: // 0x0216678C
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x22
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _021667C8 // =ovl01_21667CC
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -6916,7 +6916,7 @@ ovl01_21667F8: // 0x021667F8
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x23
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02166844 // =ovl01_2166848
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -6958,7 +6958,7 @@ ovl01_2166888: // 0x02166888
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x24
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _021668C4 // =ovl01_21668C8
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -7049,7 +7049,7 @@ ovl01_21669B4: // 0x021669B4
 	ldr r2, [r4, #0xa30]
 	add r0, r0, #0xc00
 	mov r3, #0x25
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _021669F0 // =ovl01_21669F4
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -7078,7 +7078,7 @@ ovl01_21669F4: // 0x021669F4
 	ldr r2, [r4, #0xa30]
 	mov r3, r1
 	add r0, r0, #0xc00
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02166A50 // =ovl01_2166A54
 	str r0, [r4, #0xa40]
 	add sp, sp, #8
@@ -7902,7 +7902,7 @@ _0216753C:
 	mov r2, r6
 	mov r3, r11
 	str r4, [sp, #4]
-	bl BossHelpers__Collision__Func_203919C
+	bl BossHelpers__Collision__HandleArenaCollider
 _02167578:
 	add r8, r8, #1
 	cmp r8, #2
@@ -7981,7 +7981,7 @@ ovl01_216760C: // 0x0216760C
 	str r0, [sp, #4]
 	mov r3, r1
 	add r0, r4, #0x410
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #8
 	bl NNS_FndUnmountArchive
 	add sp, sp, #0x70
@@ -8104,7 +8104,7 @@ ovl01_2167784: // 0x02167784
 	add r0, r1, #0x400
 	mov r1, #1
 	str r3, [sp, #4]
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #8
 	bl NNS_FndUnmountArchive
 	ldr r0, _021677F0 // =ovl01_21677F4
@@ -8351,7 +8351,7 @@ ovl01_2167B08: // 0x02167B08
 	str r0, [r4, #0x48]
 	ldr r0, [r3, #0]
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	add r1, r4, #0x300
 	strh r0, [r1, #0x7c]
 	ldmia sp!, {r4, pc}
@@ -8459,7 +8459,7 @@ ovl01_2167C44: // 0x02167C44
 	mov r3, r1
 	add r0, ip, #0x400
 	str r1, [sp, #4]
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #8
 	mov r1, #0x1e
 	bl NNS_FndGetArchiveFileByIndex
@@ -8470,7 +8470,7 @@ ovl01_2167C44: // 0x02167C44
 	add r0, r0, #0x400
 	mov r1, #3
 	str r3, [sp, #4]
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #8
 	bl NNS_FndUnmountArchive
 	ldr r0, _02167CF8 // =ovl01_2167CFC
@@ -8518,7 +8518,7 @@ ovl01_2167D18: // 0x02167D18
 	mov r3, #1
 	add r0, ip, #0x400
 	str r3, [sp, #4]
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #8
 	mov r1, #0x1e
 	bl NNS_FndGetArchiveFileByIndex
@@ -8530,7 +8530,7 @@ ovl01_2167D18: // 0x02167D18
 	add r0, r0, #0x400
 	mov r1, #3
 	str r3, [sp, #4]
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, sp, #8
 	bl NNS_FndUnmountArchive
 	mov r1, #0x78
@@ -9248,7 +9248,7 @@ _021686D8:
 	ldr r0, [r4, #0x374]
 	add r0, r0, #0x24
 	add r0, r0, #0x400
-	bl BossHelpers__Light__SetLights1
+	bl BossHelpers__ApplyModifiedLights
 	add r0, r4, #0x9c
 	add r1, r0, #0x400
 	mov r0, #0x1d
@@ -9306,7 +9306,7 @@ _021687A4:
 	mov r3, r11
 	add r2, r7, #0x4c0
 	str r5, [sp, #4]
-	bl BossHelpers__Collision__Func_203919C
+	bl BossHelpers__Collision__HandleArenaCollider
 _021687C0:
 	add r8, r8, #1
 	cmp r8, #3
@@ -10057,7 +10057,7 @@ ovl01_2169194: // 0x02169194
 	add r0, r4, #0xcc
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, [r4, #0x20]
 	mov r2, #0x78000
 	orr r0, r0, #0x20
@@ -10203,7 +10203,7 @@ ovl01_216937C: // 0x0216937C
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #3
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, [r4, #0x20]
 	bic r0, r0, #0x20
 	str r0, [r4, #0x20]
@@ -10234,7 +10234,7 @@ _021693FC:
 	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	add r1, r4, #0x400
 	strh r0, [r1, #0x44]
 	ldr r2, [r4, #0x374]
@@ -10285,7 +10285,7 @@ ovl01_2169494: // 0x02169494
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #4
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _021694D4 // =ovl01_21694D8
 	str r0, [r4, #0x378]
 	add sp, sp, #8
@@ -10316,7 +10316,7 @@ ovl01_21694E8: // 0x021694E8
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #4
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, r4, #0x400
 	mov r1, #0
 	strh r1, [r0, #0x46]
@@ -10346,7 +10346,7 @@ ovl01_2169540: // 0x02169540
 	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	ldr r1, _021697C4 // =gPlayer
 	mov r4, r0
 	ldr r1, [r1, #0]
@@ -10534,7 +10534,7 @@ ovl01_2169800: // 0x02169800
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #5
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, [r4, #0x374]
 	ldr r0, [r0, #0x374]
 	ldr r0, [r0, #0xa50]
@@ -10626,7 +10626,7 @@ ovl01_2169934: // 0x02169934
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #6
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r0, _02169974 // =ovl01_2169978
 	str r0, [r4, #0x378]
 	add sp, sp, #8
@@ -10652,7 +10652,7 @@ ovl01_216997C: // 0x0216997C
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #7
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _021699DC // =ovl01_21699E0
 	bic r1, r1, #4
@@ -10717,7 +10717,7 @@ ovl01_2169A5C: // 0x02169A5C
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #8
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _02169ABC // =ovl01_2169AC0
 	bic r1, r1, #4
@@ -10851,7 +10851,7 @@ ovl01_2169C18: // 0x02169C18
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #9
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x20]
 	mov r0, r4
 	bic r1, r1, #0x20
@@ -10872,7 +10872,7 @@ ovl01_2169C18: // 0x02169C18
 	ldr r0, [r0, #0]
 	mov r1, #0x40000
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	add r1, r4, #0x400
 	strh r0, [r1, #0x44]
 	ldrh r3, [r1, #0x44]
@@ -10939,7 +10939,7 @@ ovl01_2169D4C: // 0x02169D4C
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0xa
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, r4, #0x400
 	mov r1, #0
 	strh r1, [r0, #0x78]
@@ -11008,7 +11008,7 @@ ovl01_2169E14: // 0x02169E14
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0xb
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _02169E74 // =ovl01_2169E78
 	bic r1, r1, #4
@@ -11082,7 +11082,7 @@ ovl01_2169F14: // 0x02169F14
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0xc
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _02169F74 // =ovl01_2169F78
 	bic r1, r1, #4
@@ -11144,7 +11144,7 @@ ovl01_2169FE4: // 0x02169FE4
 	str r3, [sp, #4]
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x20]
 	add r0, r4, #0x400
 	orr r1, r1, #0x20
@@ -11214,7 +11214,7 @@ ovl01_216A0B4: // 0x0216A0B4
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #9
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _0216A124 // =ovl01_216A128
 	bic r1, r1, #4
@@ -11320,7 +11320,7 @@ ovl01_216A210: // 0x0216A210
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0xd
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	b _0216A274
 _0216A24C:
 	cmp r0, #1
@@ -11332,7 +11332,7 @@ _0216A24C:
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0x14
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 _0216A274:
 	ldr r1, [r4, #0x20]
 	mov r0, r4
@@ -11354,7 +11354,7 @@ _0216A274:
 	str r3, [r4, #0x2b0]
 	ldr r0, [r0, #0]
 	ldr r0, [r0, #0x44]
-	bl BossHelpers__Arena__Func_2038DCC
+	bl BossHelpers__Arena__GetAngle
 	add r1, r4, #0x400
 	strh r0, [r1, #0x7c]
 	ldrh ip, [r1, #0x7c]
@@ -11447,7 +11447,7 @@ ovl01_216A3C4: // 0x0216A3C4
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0xe
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	b _0216A430
 _0216A404:
 	cmp r0, #1
@@ -11460,7 +11460,7 @@ _0216A404:
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0x15
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 _0216A430:
 	ldr r0, [r4, #0x374]
 	bl ovl01_2162AE8
@@ -11570,7 +11570,7 @@ ovl01_216A574: // 0x0216A574
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0xf
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	b _0216A5D8
 _0216A5B0:
 	cmp r0, #1
@@ -11582,7 +11582,7 @@ _0216A5B0:
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0x16
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 _0216A5D8:
 	ldr r1, [r4, #0x230]
 	ldr r0, _0216A60C // =ovl01_216A610
@@ -11629,7 +11629,7 @@ ovl01_216A62C: // 0x0216A62C
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0x10
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	b _0216A698
 _0216A66C:
 	cmp r0, #1
@@ -11642,7 +11642,7 @@ _0216A66C:
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0x17
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 _0216A698:
 	ldr r0, [r4, #0x380]
 	cmp r0, #1
@@ -11707,7 +11707,7 @@ ovl01_216A734: // 0x0216A734
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0x11
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	b _0216A798
 _0216A770:
 	cmp r0, #1
@@ -11719,7 +11719,7 @@ _0216A770:
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0x18
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 _0216A798:
 	ldr r0, _0216A7A8 // =ovl01_216A7AC
 	str r0, [r4, #0x378]
@@ -11745,11 +11745,11 @@ ovl01_216A7AC: // 0x0216A7AC
 	str r1, [sp, #4]
 	add r0, sp, #8
 	mov r1, #0x40000
-	bl BossHelpers__Arena__Func_2038D88
+	bl BossHelpers__Arena__GetPosition
 	ldr r1, [r4, #0x4c4]
 	ldr r0, [r4, #0x480]
 	rsb r5, r1, #0
-	bl BossHelpers__Player__IsDead
+	bl BossHelpers__Player__IsAlive
 	cmp r0, #0
 	beq _0216A81C
 	ldr r1, [sp, #8]
@@ -11772,7 +11772,7 @@ _0216A81C:
 	orr r0, r0, #4
 	str r0, [r1, #0x4a0]
 	ldr r0, [r4, #0x480]
-	bl BossHelpers__Player__IsDead
+	bl BossHelpers__Player__IsAlive
 	cmp r0, #0
 	beq _0216A870
 	ldr r0, [r4, #0x480]
@@ -11817,7 +11817,7 @@ ovl01_216A8B0: // 0x0216A8B0
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0x12
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	b _0216A914
 _0216A8EC:
 	cmp r0, #1
@@ -11829,7 +11829,7 @@ _0216A8EC:
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0x19
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 _0216A914:
 	ldr r1, [r4, #0x230]
 	ldr r0, _0216A948 // =ovl01_216A94C
@@ -11898,7 +11898,7 @@ ovl01_216A9C8: // 0x0216A9C8
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0x13
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	b _0216AA2C
 _0216AA04:
 	cmp r0, #1
@@ -11910,7 +11910,7 @@ _0216AA04:
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0x1a
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 _0216AA2C:
 	mov r0, r4
 	mov r1, #0
@@ -12048,7 +12048,7 @@ ovl01_216ABD0: // 0x0216ABD0
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #3
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x20]
 	mov r0, r4
 	bic r2, r1, #0x20
@@ -12100,7 +12100,7 @@ ovl01_216AC78: // 0x0216AC78
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #5
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _0216ACD8 // =ovl01_216ACDC
 	bic r1, r1, #4
@@ -12164,7 +12164,7 @@ ovl01_216AD50: // 0x0216AD50
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #6
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _0216ADB4 // =ovl01_216ADB8
 	orr r1, r1, #4
@@ -12199,7 +12199,7 @@ ovl01_216ADBC: // 0x0216ADBC
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #7
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _0216AE1C // =ovl01_216AE20
 	bic r1, r1, #4
@@ -12259,7 +12259,7 @@ ovl01_216AE88: // 0x0216AE88
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #8
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _0216AEE8 // =ovl01_216AEEC
 	bic r1, r1, #4
@@ -12399,7 +12399,7 @@ ovl01_216B054: // 0x0216B054
 	ldr r2, [r5, #0x368]
 	add r0, r0, #0x400
 	mov r3, #9
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r5, #0x20]
 	mov r0, r5
 	bic r1, r1, #0x20
@@ -12474,7 +12474,7 @@ ovl01_216B154: // 0x0216B154
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0xa
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	add r0, r4, #0x400
 	mov r1, #0
 	strh r1, [r0, #0x78]
@@ -12534,7 +12534,7 @@ ovl01_216B220: // 0x0216B220
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0xb
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _0216B280 // =ovl01_216B284
 	bic r1, r1, #4
@@ -12585,7 +12585,7 @@ ovl01_216B2C8: // 0x0216B2C8
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #0xc
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _0216B328 // =ovl01_216B32C
 	bic r1, r1, #4
@@ -12713,7 +12713,7 @@ ovl01_216B430: // 0x0216B430
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #3
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x20]
 	mov r0, r4
 	bic r2, r1, #0x20
@@ -12752,7 +12752,7 @@ ovl01_216B4A4: // 0x0216B4A4
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #5
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x270]
 	ldr r0, _0216B4EC // =ovl01_216B4F0
 	orr r1, r1, #4
@@ -12803,7 +12803,7 @@ ovl01_216B548: // 0x0216B548
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #6
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _0216B5AC // =ovl01_216B5B0
 	orr r1, r1, #4
@@ -12838,7 +12838,7 @@ ovl01_216B5B4: // 0x0216B5B4
 	ldr r2, [r4, #0x368]
 	add r0, r0, #0x400
 	mov r3, #7
-	bl BossHelpers__Animation__Func_2038BF0
+	bl BossHelpers__SetAnimation
 	ldr r1, [r4, #0x230]
 	ldr r0, _0216B614 // =ovl01_216B618
 	bic r1, r1, #4

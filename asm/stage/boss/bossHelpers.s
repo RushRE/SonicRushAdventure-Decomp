@@ -67,8 +67,8 @@ BossHelpers__Unknown2038AEC__Func_2038B7C: // 0x02038B7C
 	bx lr
 	arm_func_end BossHelpers__Unknown2038AEC__Func_2038B7C
 
-	arm_func_start BossHelpers__Palette__Func_2038B84
-BossHelpers__Palette__Func_2038B84: // 0x02038B84
+	arm_func_start BossHelpers__SetPaletteAnimation
+BossHelpers__SetPaletteAnimation: // 0x02038B84
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r2
@@ -79,10 +79,10 @@ BossHelpers__Palette__Func_2038B84: // 0x02038B84
 	biceq r0, r0, #2
 	strh r0, [r5]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end BossHelpers__Palette__Func_2038B84
+	arm_func_end BossHelpers__SetPaletteAnimation
 
-	arm_func_start BossHelpers__Palette__Func_2038BAC
-BossHelpers__Palette__Func_2038BAC: // 0x02038BAC
+	arm_func_start BossHelpers__SetPaletteAnimations
+BossHelpers__SetPaletteAnimations: // 0x02038BAC
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	movs r7, r1
 	mov r8, r0
@@ -94,17 +94,17 @@ _02038BC8:
 	mov r1, r6
 	mov r2, r5
 	add r0, r8, r4, lsl #5
-	bl BossHelpers__Palette__Func_2038B84
+	bl BossHelpers__SetPaletteAnimation
 	add r0, r4, #1
 	mov r0, r0, lsl #0x10
 	cmp r7, r0, lsr #16
 	mov r4, r0, lsr #0x10
 	bhi _02038BC8
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end BossHelpers__Palette__Func_2038BAC
+	arm_func_end BossHelpers__SetPaletteAnimations
 
-	arm_func_start BossHelpers__Animation__Func_2038BF0
-BossHelpers__Animation__Func_2038BF0: // 0x02038BF0
+	arm_func_start BossHelpers__SetAnimation
+BossHelpers__SetAnimation: // 0x02038BF0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr ip, [sp, #0x10]
 	mov r5, r0
@@ -127,19 +127,19 @@ _02038C30:
 	mov r1, #0x1000
 	str r1, [r0, #0x11c]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end BossHelpers__Animation__Func_2038BF0
+	arm_func_end BossHelpers__SetAnimation
 
-	arm_func_start BossHelpers__Animation__Func_2038C44
-BossHelpers__Animation__Func_2038C44: // 0x02038C44
+	arm_func_start BossHelpers__IsAnimFinished
+BossHelpers__IsAnimFinished: // 0x02038C44
 	add r0, r0, r1, lsl #1
 	add r0, r0, #0x100
 	ldrh r0, [r0, #0xc]
 	and r0, r0, #0x8000
 	bx lr
-	arm_func_end BossHelpers__Animation__Func_2038C44
+	arm_func_end BossHelpers__IsAnimFinished
 
-	arm_func_start BossHelpers__Animation__Func_2038C58
-BossHelpers__Animation__Func_2038C58: // 0x02038C58
+	arm_func_start BossHelpers__ReleaseAnimation
+BossHelpers__ReleaseAnimation: // 0x02038C58
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0x15c]
@@ -164,7 +164,7 @@ _02038C9C:
 	cmp r5, #5
 	blt _02038C80
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end BossHelpers__Animation__Func_2038C58
+	arm_func_end BossHelpers__ReleaseAnimation
 
 	arm_func_start BossHelpers__Arena__WrapBounds
 BossHelpers__Arena__WrapBounds: // 0x02038CAC
@@ -184,8 +184,8 @@ _02038CC8:
 	bx lr
 	arm_func_end BossHelpers__Arena__WrapBounds
 
-	arm_func_start BossHelpers__Arena__Func_2038CDC
-BossHelpers__Arena__Func_2038CDC: // 0x02038CDC
+	arm_func_start BossHelpers__Arena__GetDrawPosition
+BossHelpers__Arena__GetDrawPosition: // 0x02038CDC
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	mov r6, r1
@@ -201,13 +201,13 @@ BossHelpers__Arena__Func_2038CDC: // 0x02038CDC
 	ldr r3, [sp, #0x1c]
 	mov r0, r4
 	mov r1, r5
-	bl BossHelpers__Arena__Func_2038D24
+	bl BossHelpers__Arena__GetXZPos
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end BossHelpers__Arena__Func_2038CDC
+	arm_func_end BossHelpers__Arena__GetDrawPosition
 
-	arm_func_start BossHelpers__Arena__Func_2038D24
-BossHelpers__Arena__Func_2038D24: // 0x02038D24
+	arm_func_start BossHelpers__Arena__GetXZPos
+BossHelpers__Arena__GetXZPos: // 0x02038D24
 	stmdb sp!, {r4, lr}
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -234,10 +234,10 @@ BossHelpers__Arena__Func_2038D24: // 0x02038D24
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02038D84: .word FX_SinCosTable_
-	arm_func_end BossHelpers__Arena__Func_2038D24
+	arm_func_end BossHelpers__Arena__GetXZPos
 
-	arm_func_start BossHelpers__Arena__Func_2038D88
-BossHelpers__Arena__Func_2038D88: // 0x02038D88
+	arm_func_start BossHelpers__Arena__GetPosition
+BossHelpers__Arena__GetPosition: // 0x02038D88
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r5, r0
 	mov r4, r1
@@ -255,10 +255,10 @@ BossHelpers__Arena__Func_2038D88: // 0x02038D88
 	add r0, r4, r1
 	str r0, [r5]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end BossHelpers__Arena__Func_2038D88
+	arm_func_end BossHelpers__Arena__GetPosition
 
-	arm_func_start BossHelpers__Arena__Func_2038DCC
-BossHelpers__Arena__Func_2038DCC: // 0x02038DCC
+	arm_func_start BossHelpers__Arena__GetAngle
+BossHelpers__Arena__GetAngle: // 0x02038DCC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r1
 	mov r4, r2
@@ -269,7 +269,7 @@ BossHelpers__Arena__Func_2038DCC: // 0x02038DCC
 	mov r0, r0, lsl #0x14
 	mov r0, r0, lsr #0x10
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end BossHelpers__Arena__Func_2038DCC
+	arm_func_end BossHelpers__Arena__GetAngle
 
 	arm_func_start BossHelpers__Arena__ATan2
 BossHelpers__Arena__ATan2: // 0x02038DF4
@@ -279,8 +279,8 @@ BossHelpers__Arena__ATan2: // 0x02038DF4
 _02038DFC: .word FX_Atan2Idx
 	arm_func_end BossHelpers__Arena__ATan2
 
-	arm_func_start BossHelpers__Arena__Func_2038E00
-BossHelpers__Arena__Func_2038E00: // 0x02038E00
+	arm_func_start BossHelpers__Arena__GetObjectDrawMtx
+BossHelpers__Arena__GetObjectDrawMtx: // 0x02038E00
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #8
 	mov r6, r0
@@ -300,7 +300,7 @@ BossHelpers__Arena__Func_2038E00: // 0x02038E00
 	ldr r3, [sp, #0x20]
 	mov r1, r7
 	mov r2, r4
-	bl BossHelpers__Arena__Func_2038CDC
+	bl BossHelpers__Arena__GetDrawPosition
 	ldr r1, [r6, #0x48]
 	mov r4, r0
 	rsb r0, r1, #0
@@ -329,10 +329,10 @@ BossHelpers__Arena__Func_2038E00: // 0x02038E00
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02038EB8: .word FX_SinCosTable_
-	arm_func_end BossHelpers__Arena__Func_2038E00
+	arm_func_end BossHelpers__Arena__GetObjectDrawMtx
 
-	arm_func_start BossHelpers__Arena__Func_2038EBC
-BossHelpers__Arena__Func_2038EBC: // 0x02038EBC
+	arm_func_start BossHelpers__Arena__GetPlayerDrawMtx
+BossHelpers__Arena__GetPlayerDrawMtx: // 0x02038EBC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r2
 	str r3, [sp]
@@ -340,7 +340,7 @@ BossHelpers__Arena__Func_2038EBC: // 0x02038EBC
 	mov r2, r1
 	mov r3, r5
 	add r1, r4, #0x168
-	bl BossHelpers__Arena__Func_2038E00
+	bl BossHelpers__Arena__GetObjectDrawMtx
 	ldr r1, [r4, #0x5d8]
 	mov ip, r0
 	tst r1, #0x200
@@ -368,7 +368,7 @@ BossHelpers__Arena__Func_2038EBC: // 0x02038EBC
 _02038F3C:
 	mov r0, ip
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end BossHelpers__Arena__Func_2038EBC
+	arm_func_end BossHelpers__Arena__GetPlayerDrawMtx
 
 	arm_func_start BossHelpers__Model__InitSystem
 BossHelpers__Model__InitSystem: // 0x02038F44
@@ -392,7 +392,7 @@ BossHelpers__Model__Init: // 0x02038F58
 	strh r2, [ip]
 	mov r9, r3
 	add r8, r6, r7, lsl #4
-	bl BossHelpers__Model__FindJointByName
+	bl BossHelpers__FindJointByName
 	str r5, [r6, r7, lsl #4]
 	strh r0, [r8, #4]
 	strh r4, [r8, #6]
@@ -483,8 +483,8 @@ _020390A4: .word mdlUnknownCount
 _020390A8: .word mdlUnknownList
 	arm_func_end BossHelpers__Model__RenderCallback
 
-	arm_func_start BossHelpers__Collision__Func_20390AC
-BossHelpers__Collision__Func_20390AC: // 0x020390AC
+	arm_func_start BossHelpers__Collision__HandleColliderSimple
+BossHelpers__Collision__HandleColliderSimple: // 0x020390AC
 	stmdb sp!, {r3, lr}
 	mov ip, r0
 	ldr r0, [ip, #0x1c]
@@ -516,10 +516,10 @@ _0203910C:
 	mov r1, ip
 	bl StageTask__HandleCollider
 	ldmia sp!, {r3, pc}
-	arm_func_end BossHelpers__Collision__Func_20390AC
+	arm_func_end BossHelpers__Collision__HandleColliderSimple
 
-	arm_func_start BossHelpers__Collision__Func_2039120
-BossHelpers__Collision__Func_2039120: // 0x02039120
+	arm_func_start BossHelpers__Collision__InitArenaCollider
+BossHelpers__Collision__InitArenaCollider: // 0x02039120
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r2
 	mov r4, r1
@@ -527,7 +527,7 @@ BossHelpers__Collision__Func_2039120: // 0x02039120
 	mov r1, r6
 	mov r3, #0
 	mov r7, r0
-	bl BossHelpers__Collision__Func_20390AC
+	bl BossHelpers__Collision__HandleColliderSimple
 	mov r5, r4
 	ldmia r7!, {r0, r1, r2, r3}
 	stmia r5!, {r0, r1, r2, r3}
@@ -551,10 +551,10 @@ BossHelpers__Collision__Func_2039120: // 0x02039120
 	mov r1, r4
 	bl StageTask__HandleCollider
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end BossHelpers__Collision__Func_2039120
+	arm_func_end BossHelpers__Collision__InitArenaCollider
 
-	arm_func_start BossHelpers__Collision__Func_203919C
-BossHelpers__Collision__Func_203919C: // 0x0203919C
+	arm_func_start BossHelpers__Collision__HandleArenaCollider
+BossHelpers__Collision__HandleArenaCollider: // 0x0203919C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x10
 	mov r4, r2
@@ -569,7 +569,7 @@ BossHelpers__Collision__Func_203919C: // 0x0203919C
 	add r0, sp, #0xc
 	mov r1, r7
 	str ip, [sp, #4]
-	bl BossHelpers__Arena__Func_2038D88
+	bl BossHelpers__Arena__GetPosition
 	ldr r1, [sp, #0x28]
 	str r7, [sp]
 	str r1, [sp, #4]
@@ -580,13 +580,13 @@ BossHelpers__Collision__Func_203919C: // 0x0203919C
 	ldr r2, [sp, #0xc]
 	mov r0, r6
 	rsb r3, r3, #0
-	bl BossHelpers__Collision__Func_2039120
+	bl BossHelpers__Collision__InitArenaCollider
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end BossHelpers__Collision__Func_203919C
+	arm_func_end BossHelpers__Collision__HandleArenaCollider
 
-	arm_func_start BossHelpers__Player__IsDead
-BossHelpers__Player__IsDead: // 0x0203920C
+	arm_func_start BossHelpers__Player__IsAlive
+BossHelpers__Player__IsAlive: // 0x0203920C
 	add r0, r0, #0x500
 	ldrsh r0, [r0, #0xd4]
 	cmp r0, #0x10
@@ -597,7 +597,7 @@ BossHelpers__Player__IsDead: // 0x0203920C
 _02039228:
 	mov r0, #1
 	bx lr
-	arm_func_end BossHelpers__Player__IsDead
+	arm_func_end BossHelpers__Player__IsAlive
 
 	arm_func_start BossHelpers__Player__LockControl
 BossHelpers__Player__LockControl: // 0x02039230
@@ -782,8 +782,8 @@ _0203947C:
 	ldmia sp!, {r3, pc}
 	arm_func_end BossHelpers__Math__Func_2039360
 
-	arm_func_start BossHelpers__Blend__Func_2039488
-BossHelpers__Blend__Func_2039488: // 0x02039488
+	arm_func_start BossHelpers__InitBoss5Blending
+BossHelpers__InitBoss5Blending: // 0x02039488
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl Camera3D__GetWork
@@ -806,10 +806,10 @@ BossHelpers__Blend__Func_2039488: // 0x02039488
 	orr r0, r0, #0x1000
 	strh r0, [r1, #0x20]
 	ldmia sp!, {r4, pc}
-	arm_func_end BossHelpers__Blend__Func_2039488
+	arm_func_end BossHelpers__InitBoss5Blending
 
-	arm_func_start BossHelpers__Light__Init
-BossHelpers__Light__Init: // 0x020394E0
+	arm_func_start BossHelpers__InitLights
+BossHelpers__InitLights: // 0x020394E0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	mov r1, r6
@@ -838,10 +838,10 @@ _02039500:
 	strh r0, [r2, #0x1e]
 	blt _02039500
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end BossHelpers__Light__Init
+	arm_func_end BossHelpers__InitLights
 
-	arm_func_start BossHelpers__Light__Func_203954C
-BossHelpers__Light__Func_203954C: // 0x0203954C
+	arm_func_start BossHelpers__ProcessLights
+BossHelpers__ProcessLights: // 0x0203954C
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r4, r0
 	ldrsh r0, [r4, #0x30]
@@ -857,7 +857,7 @@ _02039570:
 	mov r2, r5
 	add r0, r8, #6
 	and r3, r3, #0xff
-	bl Palette__UnknownFunc9
+	bl BrightenColors
 	add r6, r6, #1
 	cmp r6, #3
 	add r7, r7, #8
@@ -877,7 +877,7 @@ _020395B4:
 	rsb r3, r0, #0
 	add r0, r7, #6
 	and r3, r3, #0xff
-	bl Palette__UnknownFunc10
+	bl DarkenColors
 	add r8, r8, #1
 	cmp r8, #3
 	add r6, r6, #8
@@ -901,10 +901,10 @@ _020395EC:
 	strh r0, [r2, #0x1e]
 	blt _020395EC
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end BossHelpers__Light__Func_203954C
+	arm_func_end BossHelpers__ProcessLights
 
-	arm_func_start BossHelpers__Light__SetLights1
-BossHelpers__Light__SetLights1: // 0x02039624
+	arm_func_start BossHelpers__ApplyModifiedLights
+BossHelpers__ApplyModifiedLights: // 0x02039624
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, #0
@@ -917,10 +917,10 @@ _02039630:
 	add r5, r5, #8
 	blt _02039630
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end BossHelpers__Light__SetLights1
+	arm_func_end BossHelpers__ApplyModifiedLights
 
-	arm_func_start BossHelpers__Light__SetLights2
-BossHelpers__Light__SetLights2: // 0x02039650
+	arm_func_start BossHelpers__RevertModifiedLights
+BossHelpers__RevertModifiedLights: // 0x02039650
 	stmdb sp!, {r3, r4, r5, lr}
 	add r5, r0, #0x18
 	mov r4, #0
@@ -933,10 +933,10 @@ _0203965C:
 	add r5, r5, #8
 	blt _0203965C
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end BossHelpers__Light__SetLights2
+	arm_func_end BossHelpers__RevertModifiedLights
 
-	arm_func_start BossHelpers__Model__FindJointByName
-BossHelpers__Model__FindJointByName: // 0x0203967C
+	arm_func_start BossHelpers__FindJointByName
+BossHelpers__FindJointByName: // 0x0203967C
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x10
 	mov r5, r0
@@ -953,4 +953,4 @@ BossHelpers__Model__FindJointByName: // 0x0203967C
 	bl NNS_G3dGetResDictIdxByName
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end BossHelpers__Model__FindJointByName
+	arm_func_end BossHelpers__FindJointByName
