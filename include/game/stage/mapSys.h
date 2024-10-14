@@ -11,6 +11,11 @@
 
 #define MAPOBJECT_DESTROYED (0xFF)
 
+// offset of bottom screen camera
+#define BOTTOM_SCREEN_CAMERA_OFFSET (HW_LCD_HEIGHT + 80)
+
+#define MAPSYS_WATERLEVEL_NONE (0xFFFF)
+
 // --------------------
 // MACROS
 // --------------------
@@ -20,6 +25,16 @@
 // --------------------
 // ENUMS
 // --------------------
+
+enum MapSysFlags_
+{
+    MAPSYS_FLAG_NONE = 0x00,
+
+    MAPSYS_FLAG_UNKNOWN      = 1 << 0,
+    MAPSYS_FLAG_LOOKING_UP   = 1 << 1,
+    MAPSYS_FLAG_LOOKING_DOWN = 1 << 2,
+};
+typedef u32 MapSysFlags;
 
 enum MapSysCameraControlFlags_
 {
@@ -828,20 +843,26 @@ typedef struct MapLayout_
     u16 blocks[1]; // C-styled variable length array (width x height blocks)
 } MapLayout;
 
-struct MapSysCamera
+typedef struct MapCameraZones_
+{
+    u16 width;
+    u16 height;
+    u8 data[1];
+} MapCameraZones;
+
+typedef struct MapSysCamera_
 {
     MapSysCameraFlags flags;
     Vec2Fx32 disp_pos;
     Vec2Fx32 prev_disp_pos;
-    Vec2Fx32 pos;
+    Vec2Fx32 velocity;
     Vec2Fx16 offset;
     Vec2Fx16 disp_offset;
     Vec2Fx32 scale;
     u16 angle;
-    u16 field_2E;
     void *screenMappings[2];
     Vec2Fx32 bgPos;
-    s32 flags2;
+    u32 flags2;
     u8 field_44;
     u8 field_45;
     s8 targetPlayerID;
@@ -858,141 +879,152 @@ struct MapSysCamera
     u8 field_6C;
     u8 field_6D;
     u16 waterLevel;
-};
+} MapSysCamera;
 
-struct MapSysCameraControl
+typedef struct MapSysCameraControl_
 {
     MapSysCameraControlFlags flags;
-    int field_4;
-    int field_8;
-    int field_C;
-    int field_10;
+    MapSysCameraControlFlags prevFlags;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
     fx32 screenSwapOverride;
     u32 bossArenaRadius;
     u32 bossArenaLeft;
     u32 bossArenaRight;
-    int field_24;
-    int field_28;
-    int field_2C;
-    int field_30;
-    int field_34;
-    int field_38;
-    int field_3C;
-    int field_40;
-    int field_44;
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
+    s32 field_30;
+    s32 field_34;
+    s32 field_38;
+    s32 field_3C;
+    s32 field_40;
+    s32 field_44;
     s16 field_48;
     u16 width;
     u16 height;
     ViewRect bounds;
-};
+} MapSysCameraControl;
 
-struct MapSysUnknown
+typedef struct MapSysCameraSys_
 {
-    struct MapSysCamera camera[2];
-    struct MapSysCameraControl camControl;
-};
+    MapSysCamera camera[2];
+    MapSysCameraControl camControl;
+} MapSysCameraSys;
 
-struct MapFiles
+typedef struct MapSysFiles_
 {
     void *collisionHeightMasks;
     void *collisionAttributes;
     void *collisionAngles;
     void *blockset;
     MapLayout *mapLayout[2];
-    void *mapCameraZones;
-};
+    MapCameraZones *mapCameraZones;
+} MapSysFiles;
+
+// --------------------
+// STRUCTS
+// --------------------
+
+typedef struct MapSys_
+{
+    MapSysFlags flags;
+    s16 field_4;
+    s16 timer;
+    s32 field_8;
+    void (*stateCamLook)(struct MapSys_ *work);
+} MapSys;
 
 // --------------------
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED Task *mapSystemTask;
-NOT_DECOMPILED struct MapFiles MapSys__files;
-NOT_DECOMPILED struct MapSysUnknown mapCamera;
+extern MapSysFiles mapSysFiles;
+extern MapSysCameraSys mapCamera;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
 // MapSys
-// TODO: MOST OF THESE FUNC SIGNATURES AREN'T RIGHT... decompile them
-NOT_DECOMPILED void MapSys__Init(void);
-NOT_DECOMPILED void MapSys__Create(void);
-NOT_DECOMPILED void MapSys__Func_2008714(void);
-NOT_DECOMPILED void MapSys__LoadArchive_RAW(void *file);
-NOT_DECOMPILED void MapSys__LoadArchive_MAP(void *file);
-NOT_DECOMPILED void MapSys__Flush(void);
-NOT_DECOMPILED void MapSys__BuildData(void);
-NOT_DECOMPILED void MapSys__Release(void);
-NOT_DECOMPILED void MapSys__DrawLayout(void);
-NOT_DECOMPILED GXDispSelect MapSys__GetDispSelect(void);
-NOT_DECOMPILED struct MapSysCamera *MapSys__GetCameraA(void);
-NOT_DECOMPILED struct MapSysCamera *MapSys__GetCameraB(void);
-NOT_DECOMPILED void MapSys__Func_2008F28(void);
-NOT_DECOMPILED void MapSys__GetPosition(void);
-NOT_DECOMPILED void MapSys__Func_20090D0(struct MapSysCamera *camera, fx32 offsetX, fx32 offsetY, fx16 *x, fx16 *y);
-NOT_DECOMPILED void MapSys__SetTargetOffsetA(fx32 x, fx32 y);
-NOT_DECOMPILED void MapSys__SetTargetOffset(s32 id, fx32 x, fx32 y);
-NOT_DECOMPILED void MapSys__Func_2009190(s32 id);
-NOT_DECOMPILED void MapSys__Func_20091B0(s32 id);
-NOT_DECOMPILED void MapSys__Func_20091D0(BOOL useEngineB);
-NOT_DECOMPILED void MapSys__Func_20091F0(BOOL useEngineB);
-NOT_DECOMPILED s32 MapSys__GetScreenSwapPos(fx32 x);
-NOT_DECOMPILED void MapSys__GetCameraPositionCB(fx32 *x, fx32 *y);
-NOT_DECOMPILED void MapSys__LoadZoneTiles(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadZoneMap(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossTiles_Zone1(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossTiles_Zone2(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossTiles_Zone3(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossTiles_Zone4(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossTiles_Zone5(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossTiles_Zone6(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossTiles_Zone7(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossTiles_ZoneF(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossMap_Zone1(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossMap_Zone2(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossMap_Zone3(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossMap_Zone4(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossMap_Zone5(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossMap_Zone6(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossMap_Zone7(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadBossMap_ZoneF(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadCollision(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__LoadTileLayout(NNSiFndArchiveHeader *archive);
-NOT_DECOMPILED void MapSys__Func_20096D8(void);
-NOT_DECOMPILED void MapSys__Func_2009778(void);
-NOT_DECOMPILED void MapSys__Func_20098D4(void);
-NOT_DECOMPILED void MapSys__Func_20099C0(void);
-NOT_DECOMPILED void MapSys__Destructor(void);
-NOT_DECOMPILED void MapSys__Main_Zone(void);
-NOT_DECOMPILED void MapSys__Main_Boss(void);
-NOT_DECOMPILED void MapSys__Func_2009CF4(void);
-NOT_DECOMPILED void MapSys__Func_2009E3C(void);
-NOT_DECOMPILED void MapSys__Func_2009E80(void);
-NOT_DECOMPILED void MapSys__Func_200A460(void);
-NOT_DECOMPILED void MapSys__HandleCamBoundsX(void);
-NOT_DECOMPILED void MapSys__Func_200A580(void);
-NOT_DECOMPILED void MapSys__HandleHBounds(void);
-NOT_DECOMPILED void MapSys__HandleVBounds(void);
-NOT_DECOMPILED void MapSys__Func_200A780(void);
-NOT_DECOMPILED void MapSys__Func_200A7E8(void);
-NOT_DECOMPILED void MapSys__FollowTargetX(void);
-NOT_DECOMPILED void MapSys__FollowTargetY(void);
-NOT_DECOMPILED void MapSys__Func_200A8D8(void);
-NOT_DECOMPILED void MapSys__Func_200A910(void);
-NOT_DECOMPILED void MapSys__Func_200A948(void);
-NOT_DECOMPILED void MapSys__Func_200AA18(void);
-NOT_DECOMPILED void MapSys__Func_200AA84(void);
-NOT_DECOMPILED void MapSys__Func_200AAF8(void);
-NOT_DECOMPILED void MapSys__Func_200AC64(void);
-NOT_DECOMPILED void MapSys__HandleCamLook(void);
-NOT_DECOMPILED void MapSys__HandleCameraLookUpDown(void);
-NOT_DECOMPILED void MapSys__Func_200AE40(void);
-NOT_DECOMPILED void MapSys__Func_200AF60(void);
-NOT_DECOMPILED void MapSys__Func_200B028(void);
-NOT_DECOMPILED void MapSys__Func_200B068(void);
-NOT_DECOMPILED void MapSys__Func_200B12C(void);
-NOT_DECOMPILED void MapSys__Func_200B170(void);
-NOT_DECOMPILED void MapSys__Func_200B1B4(void);
+void MapSys__Init(void);
+void MapSys__Create(void);
+void MapSys__Func_2008714(void);
+void MapSys__LoadArchive_RAW(void *archive);
+void MapSys__LoadArchive_MAP(void *archive);
+void MapSys__Flush(void);
+void MapSys__BuildData(void);
+void MapSys__Release(void);
+void MapSys__DrawLayout(void);
+BOOL MapSys__GetDispSelect(void);
+MapSysCamera *MapSys__GetCameraA(void);
+MapSysCamera *MapSys__GetCameraB(void);
+void MapSys__Func_2008F28(s32 id);
+void MapSys__GetPosition(MapSysCamera *camera, fx32 *x, fx32 *y);
+void MapSys__Func_20090D0(MapSysCamera *camera, fx32 offsetX, fx32 offsetY, fx16 *x, fx16 *y);
+void MapSys__SetTargetOffsetA(fx32 x, fx32 y);
+void MapSys__SetTargetOffset(s32 id, fx32 x, fx32 y);
+void MapSys__Func_2009190(s32 id);
+void MapSys__Func_20091B0(s32 id);
+void MapSys__Func_20091D0(s32 id);
+void MapSys__Func_20091F0(s32 id);
+s32 MapSys__GetScreenSwapPos(fx32 x);
+void MapSys__GetCameraPositionCB(fx32 *x, fx32 *y);
+void MapSys__LoadZoneTiles(void *archive);
+void MapSys__LoadZoneMap(void *archive);
+void MapSys__LoadBossTiles_Zone1(void *archive);
+void MapSys__LoadBossTiles_Zone2(void *archive);
+void MapSys__LoadBossTiles_Zone3(void *archive);
+void MapSys__LoadBossTiles_Zone4(void *archive);
+void MapSys__LoadBossTiles_Zone5(void *archive);
+void MapSys__LoadBossTiles_Zone6(void *archive);
+void MapSys__LoadBossTiles_Zone7(void *archive);
+void MapSys__LoadBossTiles_ZoneF(void *archive);
+void MapSys__LoadBossMap_Zone1(void *archive);
+void MapSys__LoadBossMap_Zone2(void *archive);
+void MapSys__LoadBossMap_Zone3(void *archive);
+void MapSys__LoadBossMap_Zone4(void *archive);
+void MapSys__LoadBossMap_Zone5(void *archive);
+void MapSys__LoadBossMap_Zone6(void *archive);
+void MapSys__LoadBossMap_Zone7(void *archive);
+void MapSys__LoadBossMap_ZoneF(void *archive);
+void MapSys__LoadCollision(void *archive);
+void MapSys__LoadTileLayout(void *archive);
+void MapSys__InitStageBounds(void);
+void MapSys__InitBoundsForStage(void);
+void MapSys__InitBoundsForVSRings(void);
+void MapSys__SetupBoss_Zone5(void);
+void MapSys__Destructor(Task *task);
+void MapSys__Main_Zone(void);
+void MapSys__Main_Boss(void);
+void MapSys__HandleCamera(MapSys *work);
+void MapSys__Func_2009E3C(MapSys *work, s32 id);
+void MapSys__Func_2009E80(MapSys *work, s32 id);
+void MapSys__Func_200A460(MapSys *work, s32 id);
+void MapSys__HandleCamBoundsX(MapSys *work, s32 id);
+void MapSys__Func_200A580(MapSys *work, s32 id);
+void MapSys__HandleHBounds(MapSys *work, s32 id);
+void MapSys__HandleVBounds(MapSys *work, s32 id);
+void MapSys__Func_200A780(MapSys *work, s32 id);
+void MapSys__Func_200A7E8(MapSys *work, s32 id);
+void MapSys__FollowTargetX(MapSys *work, s32 id);
+void MapSys__FollowTargetY(MapSys *work, s32 id);
+void MapSys__Func_200A8D8(MapSys *work, s32 id);
+void MapSys__Func_200A910(MapSys *work, s32 id);
+void MapSys__Func_200A948(MapSys *work);
+BOOL MapSys__Func_200AA18(MapSys *work);
+BOOL MapSys__Func_200AA84(MapSys *work, s32 id);
+void MapSys__Func_200AAF8(MapSys *work);
+void MapSys__Func_200AC64(MapSys *work, s32 id);
+void MapSys__HandleCamLook(MapSys *work);
+void MapSys__HandleCameraLookUpDown(MapSys *work);
+void MapSys__CamLook_HandlePlayerLookUpDown(MapSys *work);
+void MapSys__CamLook_LookingUp(MapSys *work);
+void MapSys__CamLook_LookUpIdle(MapSys *work);
+void MapSys__CamLook_LookingDown(MapSys *work);
+void MapSys__CamLook_LookDownIdle(MapSys *work);
+void MapSys__CamLook_Reset(MapSys *work);
+void MapSys__HandleCameraScreenSwap(void);
 
 #endif // RUSH2_MAP_SYS_H

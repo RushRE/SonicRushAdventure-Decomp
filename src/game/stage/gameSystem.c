@@ -1673,14 +1673,14 @@ void GameDataRequest_Main_BuildArea(void)
 
 void InitStageCollision(void)
 {
-    stageCollision.diffCollision = MapSys__files.collisionHeightMasks;
-    stageCollision.dirCollision  = MapSys__files.collisionAngles;
-    stageCollision.mapBlockset   = MapSys__files.blockset;
-    stageCollision.mapLayout[0]  = MapSys__files.mapLayout[0]->blocks;
-    stageCollision.mapLayout[1]  = MapSys__files.mapLayout[1]->blocks;
-    stageCollision.attrCollision = MapSys__files.collisionAttributes;
-    stageCollision.blockWidth    = MapSys__files.mapLayout[0]->width;
-    stageCollision.blockHeight   = MapSys__files.mapLayout[0]->height;
+    stageCollision.diffCollision = mapSysFiles.collisionHeightMasks;
+    stageCollision.dirCollision  = mapSysFiles.collisionAngles;
+    stageCollision.mapBlockset   = mapSysFiles.blockset;
+    stageCollision.mapLayout[0]  = mapSysFiles.mapLayout[0]->blocks;
+    stageCollision.mapLayout[1]  = mapSysFiles.mapLayout[1]->blocks;
+    stageCollision.attrCollision = mapSysFiles.collisionAttributes;
+    stageCollision.blockWidth    = mapSysFiles.mapLayout[0]->width;
+    stageCollision.blockHeight   = mapSysFiles.mapLayout[0]->height;
 
     stageCollision.left   = 0;
     stageCollision.top    = 0;

@@ -29,8 +29,9 @@ Static arm9
     Object asm/stage/core/titleCard_vars.o
     Object src/stage/core/titleCard.o
     Object src/stage/core/stageStart.o
-    Object asm/game/stage/mapSys.o
-    Object asm/game/stage/mapFarSys.o
+    Object src/game/stage/mapSys.o
+    Object asm/game/stage/mapFarSys_vars.o
+    Object src/game/stage/mapFarSys.o
     Object src/stage/core/waterSurface.o
     Object src/stage/player/player.o # Player core functions
     Object src/stage/player/playerAction.o # Player actions & physics variables

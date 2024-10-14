@@ -7,6 +7,7 @@
 #include <game/audio/sysSound.h>
 #include <game/system/sysEvent.h>
 #include <game/math/mtMath.h>
+#include <game/stage/mapSys.h>
 
 // files
 #include <resources/narc/dmop_lz7.h>
@@ -766,7 +767,7 @@ void ConfigureOpeningWindowForSonic(fx32 y)
     if (y > HW_LCD_HEIGHT)
     {
         RenderCore_SetWindow0Position(&camera3DWork->gfxControl[0].windowManager, 144, 0, 224, HW_LCD_HEIGHT);
-        RenderCore_SetWindow0Position(&camera3DWork->gfxControl[1].windowManager, 144, 0, 224, MTM_MATH_CLIP(y - 272, 0, HW_LCD_HEIGHT));
+        RenderCore_SetWindow0Position(&camera3DWork->gfxControl[1].windowManager, 144, 0, 224, MTM_MATH_CLIP(y - BOTTOM_SCREEN_CAMERA_OFFSET, 0, HW_LCD_HEIGHT));
     }
     else
     {
@@ -781,7 +782,8 @@ void ConfigureOpeningWindowForBlaze(fx32 y)
 
     if (y > HW_LCD_HEIGHT)
     {
-        RenderCore_SetWindow1Position(&camera3DWork->gfxControl[0].windowManager, 32, MTM_MATH_CLIP(HW_LCD_HEIGHT - (y - 272), 0, HW_LCD_HEIGHT), 112, HW_LCD_HEIGHT);
+        RenderCore_SetWindow1Position(&camera3DWork->gfxControl[0].windowManager, 32, MTM_MATH_CLIP(HW_LCD_HEIGHT - (y - BOTTOM_SCREEN_CAMERA_OFFSET), 0, HW_LCD_HEIGHT), 112,
+                                      HW_LCD_HEIGHT);
         RenderCore_SetWindow1Position(&camera3DWork->gfxControl[1].windowManager, 32, 0, 112, HW_LCD_HEIGHT);
     }
     else
@@ -807,7 +809,7 @@ void SetOpeningBackgroundPos(s32 id, fx32 x, fx32 y)
     camera3DWork->gfxControl[0].bgPosition[id].y = MTM_MATH_CLIP_2(FX32_TO_WHOLE(y), -HW_LCD_WIDTH, HW_LCD_WIDTH);
 
     camera3DWork->gfxControl[1].bgPosition[id].x = FX32_TO_WHOLE(x);
-    camera3DWork->gfxControl[1].bgPosition[id].y = MTM_MATH_CLIP_2(FX32_TO_WHOLE(y) + 272, -HW_LCD_WIDTH, HW_LCD_WIDTH);
+    camera3DWork->gfxControl[1].bgPosition[id].y = MTM_MATH_CLIP_2(FX32_TO_WHOLE(y) + BOTTOM_SCREEN_CAMERA_OFFSET, -HW_LCD_WIDTH, HW_LCD_WIDTH);
 }
 
 void DrawOpeningSprite(AnimatorSprite *animator)
@@ -820,7 +822,7 @@ void DrawOpeningSprite(AnimatorSprite *animator)
     {
         fx32 y = animator->pos.y;
 
-        animator->pos.y = y - 272;
+        animator->pos.y = y - BOTTOM_SCREEN_CAMERA_OFFSET;
         AnimatorSprite__DrawFrame(animator);
 
         animator->pos.y = y;
@@ -1165,7 +1167,7 @@ void Opening_StateScene_ProcessCutInScene(Opening *work)
         camera3DWork->gfxControl[0].bgPosition[i].y = 0;
 
         camera3DWork->gfxControl[1].bgPosition[i].x = 0;
-        camera3DWork->gfxControl[1].bgPosition[i].y = 272;
+        camera3DWork->gfxControl[1].bgPosition[i].y = BOTTOM_SCREEN_CAMERA_OFFSET;
     }
 
     AnimatePalette(&work->worldControl.aniPalette);

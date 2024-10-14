@@ -63,7 +63,7 @@ static void GoalChest_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 NONMATCH_FUNC GoalChest *CreateGoalChest(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // https://decomp.me/scratch/PWzHO -> 97.73%
+    // https://decomp.me/scratch/IBXHO -> 97.73%
     // issue with '(gameState.gameMode == GAMEMODE_MISSION)'
 #ifdef NON_MATCHING
     switch (type)

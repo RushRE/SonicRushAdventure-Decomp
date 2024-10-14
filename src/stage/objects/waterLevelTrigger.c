@@ -48,8 +48,8 @@ WaterLevelTrigger *CreateWaterLevelTrigger(MapObject *mapObject, fx32 x, fx32 y,
     WaterLevelTrigger *work;
 
     u32 waterLevel = 10000 * mapObjectParam_waterLevelDigit1 + 100 * mapObjectParam_waterLevelDigit2 + mapObjectParam_waterLevelDigit3;
-    if (waterLevel > 0xFFFF)
-        waterLevel = 0xFFFF;
+    if (waterLevel > MAPSYS_WATERLEVEL_NONE)
+        waterLevel = MAPSYS_WATERLEVEL_NONE;
 
     s8 targetPlayers[2];
     if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
@@ -91,7 +91,7 @@ void WaterLevelTrigger_State_Active(WaterLevelTrigger *work)
 {
     for (s32 i = 0; i < GRAPHICS_ENGINE_COUNT; i++)
     {
-        struct MapSysCamera *camera = &mapCamera.camera[i];
+        MapSysCamera *camera = &mapCamera.camera[i];
 
         if (work->targetPlayers[i] >= 0)
         {
@@ -126,7 +126,7 @@ void WaterLevelTrigger_State_Active(WaterLevelTrigger *work)
                     if ((work->gameWork.mapObject->flags & WATERLEVELTRIGGER_OBJFLAG_20) == 0)
                     {
                         camera->flags &= ~(MAPSYS_CAMERA_FLAG_1000000 | MAPSYS_CAMERA_FLAG_2000000);
-                        camera->waterLevel = 0xFFFF;
+                        camera->waterLevel = MAPSYS_WATERLEVEL_NONE;
                     }
                     break;
             }
@@ -138,7 +138,7 @@ void WaterLevelTrigger_SetupWaterLevel(fx32 x, u16 waterLevel, u16 flags, s8 *ta
 {
     for (s32 i = 0; i < 2; i++)
     {
-        struct MapSysCamera *camera = &mapCamera.camera[i];
+        MapSysCamera *camera = &mapCamera.camera[i];
 
         s8 targetPlayer = targetPlayers[i];
         if (targetPlayer >= 0)

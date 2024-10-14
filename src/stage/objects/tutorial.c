@@ -2,6 +2,7 @@
 #include <stage/objects/checkpoint.h>
 #include <game/game/gameState.h>
 #include <game/stage/gameSystem.h>
+#include <game/stage/mapSys.h>
 #include <game/save/saveGame.h>
 #include <game/graphics/drawFadeTask.h>
 #include <game/input/padInput.h>
@@ -651,7 +652,7 @@ void Tutorial_State_Active(Tutorial *work)
                     FontWindowAnimator__Draw(&work->fontWindowAnimator[i]);
                 }
 
-                offset += 272;
+                offset += BOTTOM_SCREEN_CAMERA_OFFSET;
             }
         }
 
@@ -670,7 +671,7 @@ void Tutorial_Draw(void)
         aniCharacter->position[0].x = work->characterIconPos.x;
         aniCharacter->position[0].y = work->characterIconPos.y;
         aniCharacter->position[1].x = work->characterIconPos.x;
-        aniCharacter->position[1].y = work->characterIconPos.y + 272;
+        aniCharacter->position[1].y = work->characterIconPos.y + BOTTOM_SCREEN_CAMERA_OFFSET;
         AnimatorSpriteDS__ProcessAnimationFast(aniCharacter);
         AnimatorSpriteDS__DrawFrame(aniCharacter);
     }
@@ -772,8 +773,8 @@ void Tutorial_Draw(void)
 // Scroll States & actions
 void UpdateTutorialBounds(Tutorial *work, fx32 nextSectionWidth)
 {
-    struct MapSysCamera *cameraA = &mapCamera.camera[0];
-    struct MapSysCamera *cameraB = &mapCamera.camera[1];
+    MapSysCamera *cameraA = &mapCamera.camera[0];
+    MapSysCamera *cameraB = &mapCamera.camera[1];
 
     if (work->boundsL == FLOAT_TO_FX32(8.0))
     {
@@ -800,8 +801,8 @@ void UpdateTutorialBounds(Tutorial *work, fx32 nextSectionWidth)
 
 void Tutorial_StateScroll_Scrolling(Tutorial *work)
 {
-    struct MapSysCamera *cameraA = &mapCamera.camera[0];
-    struct MapSysCamera *cameraB = &mapCamera.camera[1];
+    MapSysCamera *cameraA = &mapCamera.camera[0];
+    MapSysCamera *cameraB = &mapCamera.camera[1];
 
     cameraA->boundsL += FLOAT_TO_FX32(8.0);
     cameraA->boundsR += FLOAT_TO_FX32(8.0);
@@ -1157,8 +1158,8 @@ void Tutorial_StateTalk_SkipTutorial(Tutorial *work)
     FontWindowAnimator__ProcessWindowAnim(&work->fontWindowAnimator[0]);
     if (FontWindowAnimator__IsFinishedAnimating(&work->fontWindowAnimator[0]))
     {
-        struct MapSysCamera *cameraA = &mapCamera.camera[0];
-        struct MapSysCamera *cameraB = &mapCamera.camera[1];
+        MapSysCamera *cameraA = &mapCamera.camera[0];
+        MapSysCamera *cameraB = &mapCamera.camera[1];
 
         FontWindowAnimator__SetWindowOpen(&work->fontWindowAnimator[0]);
 
@@ -1464,9 +1465,9 @@ _0217D9E0:
 void Tutorial_StateTalk_NextSection(Tutorial *work)
 {
     work->characterIconPos.y -= 16;
-    if (work->characterIconPos.y <= -272)
+    if (work->characterIconPos.y <= -BOTTOM_SCREEN_CAMERA_OFFSET)
     {
-        work->characterIconPos.y = -272;
+        work->characterIconPos.y = -BOTTOM_SCREEN_CAMERA_OFFSET;
 
         gPlayer->playerFlag &= ~(PLAYER_FLAG_DISABLE_INPUT_READ | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
 
@@ -1975,7 +1976,7 @@ NONMATCH_FUNC void HandleTutorialNextPrompt(Tutorial *work)
             FontAnimator__Func_2058D48(&work->fontAnimator, x, y);
         }
 
-        y += 272;
+        y += BOTTOM_SCREEN_CAMERA_OFFSET;
         if (x <= -HW_LCD_WIDTH || x >= HW_LCD_WIDTH || y < -64 || y >= HW_LCD_HEIGHT)
         {
             FontUnknown2058D78__EnableFlags(&work->fontUnknown, 0x40);

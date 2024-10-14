@@ -2,6 +2,7 @@
 #include <stage/player/player.h>
 #include <game/game/gameState.h>
 #include <game/stage/gameSystem.h>
+#include <game/stage/mapSys.h>
 #include <game/object/objectManager.h>
 #include <game/util/akUtil.h>
 #include <game/graphics/drawReqTask.h>
@@ -924,7 +925,7 @@ AnimatorSpriteDS *GetHUDTimeNumAnimator(u16 num, BOOL useAltPalette)
     if (hudWork == NULL || !hudWork->loadedSprites)
         return NULL;
 
-	AnimatorSpriteDS *digitAnimator;
+    AnimatorSpriteDS *digitAnimator;
     if (num < 10)
     {
         digitAnimator = &hudWork->digitsAnimator;
@@ -947,8 +948,9 @@ AnimatorSpriteDS *GetHUDTimeNumAnimator(u16 num, BOOL useAltPalette)
         digitAnimator->cParam[0].palette = PALETTE_ROW_1;
         digitAnimator->cParam[1].palette = PALETTE_ROW_1;
     }
-	
-    digitAnimator->work.flags &= ~(ANIMATOR_FLAG_DISABLE_DRAW | ANIMATOR_FLAG_FLIP_X | ANIMATOR_FLAG_FLIP_Y | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_ENABLE_MOSAIC | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_FORCE_AFFINE);
+
+    digitAnimator->work.flags &= ~(ANIMATOR_FLAG_DISABLE_DRAW | ANIMATOR_FLAG_FLIP_X | ANIMATOR_FLAG_FLIP_Y | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_ENABLE_MOSAIC
+                                   | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_FORCE_AFFINE);
     return digitAnimator;
 }
 
@@ -974,7 +976,7 @@ AnimatorSpriteDS *GetHUDLifeNumAnimator(u16 num, BOOL useAltPalette)
     }
 
     digitAnimator->work.flags &= ~(ANIMATOR_FLAG_DISABLE_DRAW | ANIMATOR_FLAG_FLIP_X | ANIMATOR_FLAG_FLIP_Y | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_ENABLE_MOSAIC
-                                     | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_FORCE_AFFINE);
+                                   | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_FORCE_AFFINE);
     return digitAnimator;
 }
 
@@ -1119,8 +1121,8 @@ void SetActiveBossHealthbar(s32 id)
     if (hudWork->bossManager.activeHealthbar != id)
     {
         hudWork->bossManager.displayHealth[hudWork->bossManager.activeHealthbar] = hudWork->bossManager.targetHealth;
-        hudWork->bossManager.targetHealth          = MTM_MATH_CLIP(hudWork->bossManager.displayHealth[id], HUD_BOSS_HEALTH_MIN, HUD_BOSS_HEALTH_MAX);
-        hudWork->bossManager.activeHealthbar = id;
+        hudWork->bossManager.targetHealth                                        = MTM_MATH_CLIP(hudWork->bossManager.displayHealth[id], HUD_BOSS_HEALTH_MIN, HUD_BOSS_HEALTH_MAX);
+        hudWork->bossManager.activeHealthbar                                     = id;
     }
 }
 
@@ -1135,8 +1137,8 @@ void CreateCheckpointTimeHUD(u32 time)
         if (task == HeapNull)
             return;
 
-        CheckpointTimeHUD *work   = TaskGetWork(task, CheckpointTimeHUD);
-        checkpointTime = work;
+        CheckpointTimeHUD *work = TaskGetWork(task, CheckpointTimeHUD);
+        checkpointTime          = work;
         TaskInitWork16(work);
     }
 
@@ -1159,8 +1161,8 @@ void CreateLapTimeHUD(void)
     if (task == HeapNull)
         return;
 
-    LapTimeHUD *work    = TaskGetWork(task, LapTimeHUD);
-    lapTimes = work;
+    LapTimeHUD *work = TaskGetWork(task, LapTimeHUD);
+    lapTimes         = work;
     TaskInitWork16(work);
 }
 
@@ -2930,8 +2932,8 @@ void TargetIndicatorHUD_Main(void)
 
     if (CheckHUDVisible())
     {
-        struct MapSysCamera *camera = &mapCamera.camera[0];
-        player                      = gPlayer;
+        MapSysCamera *camera = &mapCamera.camera[0];
+        player               = gPlayer;
 
         fx32 originY;
         if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
@@ -2944,7 +2946,7 @@ void TargetIndicatorHUD_Main(void)
             originY = FLOAT_TO_FX32(192.0);
         }
 
-        if ((camera->disp_pos.x - FLOAT_TO_FX32(16.0) > target->position.x || target->position.x > camera->disp_pos.x + FLOAT_TO_FX32(272.0))
+        if ((camera->disp_pos.x - FLOAT_TO_FX32(16.0) > target->position.x || target->position.x > camera->disp_pos.x + FLOAT_TO_FX32(BOTTOM_SCREEN_CAMERA_OFFSET))
             || (camera->disp_pos.y - FLOAT_TO_FX32(16.0) > target->position.y || target->position.y > camera->disp_pos.y + originY + FLOAT_TO_FX32(16.0)))
         {
             fx32 distX = target->position.x - player->objWork.position.x;

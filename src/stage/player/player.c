@@ -5023,10 +5023,10 @@ void Player__State_DeathReset(Player *player)
         if (GetCurrentZoneID() == ZONE_PLANT_KINGDOM)
         {
             mapCamera.camera[0].flags &= ~(MAPSYS_CAMERA_FLAG_1000000 | MAPSYS_CAMERA_FLAG_2000000);
-            mapCamera.camera[0].waterLevel = 0xFFFF;
+            mapCamera.camera[0].waterLevel = MAPSYS_WATERLEVEL_NONE;
 
             mapCamera.camera[1].flags &= ~(MAPSYS_CAMERA_FLAG_1000000 | MAPSYS_CAMERA_FLAG_2000000);
-            mapCamera.camera[1].waterLevel = 0xFFFF;
+            mapCamera.camera[1].waterLevel = MAPSYS_WATERLEVEL_NONE;
         }
         CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_FADE_TO_BLACK, FLOAT_TO_FX32(1.0));
 
@@ -5109,10 +5109,10 @@ void Player__State_Warp(Player *work)
                 if (GetCurrentZoneID() == ZONE_PLANT_KINGDOM)
                 {
                     mapCamera.camera[0].flags &= ~(MAPSYS_CAMERA_FLAG_1000000 | MAPSYS_CAMERA_FLAG_2000000);
-                    mapCamera.camera[0].waterLevel = 0xFFFF;
+                    mapCamera.camera[0].waterLevel = MAPSYS_WATERLEVEL_NONE;
 
                     mapCamera.camera[1].flags &= ~(MAPSYS_CAMERA_FLAG_1000000 | MAPSYS_CAMERA_FLAG_2000000);
-                    mapCamera.camera[1].waterLevel = 0xFFFF;
+                    mapCamera.camera[1].waterLevel = MAPSYS_WATERLEVEL_NONE;
                 }
 
                 work->objWork.userWork++;
@@ -5124,10 +5124,10 @@ void Player__State_Warp(Player *work)
             if (GetCurrentZoneID() == ZONE_PLANT_KINGDOM)
             {
                 mapCamera.camera[0].flags &= ~(MAPSYS_CAMERA_FLAG_1000000 | MAPSYS_CAMERA_FLAG_2000000);
-                mapCamera.camera[0].waterLevel = 0xFFFF;
+                mapCamera.camera[0].waterLevel = MAPSYS_WATERLEVEL_NONE;
 
                 mapCamera.camera[1].flags &= ~(MAPSYS_CAMERA_FLAG_1000000 | MAPSYS_CAMERA_FLAG_2000000);
-                mapCamera.camera[1].waterLevel = 0xFFFF;
+                mapCamera.camera[1].waterLevel = MAPSYS_WATERLEVEL_NONE;
             }
 
             CreateDrawFadeTask(DRAW_FADE_TASK_FLAG_FADE_TO_BLACK, FLOAT_TO_FX32(8.0));

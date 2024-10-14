@@ -397,11 +397,11 @@ NONMATCH_FUNC void WaterSurface_Process_Zone3(void)
 
     BOOL flag = FALSE;
 
-    struct MapSysCamera *cameraA = &mapCamera.camera[0];
+    MapSysCamera *cameraA = &mapCamera.camera[0];
     BOOL flagA1                  = cameraA->flags & MAPSYS_CAMERA_FLAG_1000000;
     BOOL flagA2                  = cameraA->flags & MAPSYS_CAMERA_FLAG_2000000;
 
-    struct MapSysCamera *cameraB = &mapCamera.camera[1];
+    MapSysCamera *cameraB = &mapCamera.camera[1];
     BOOL flagB1                  = cameraB->flags & MAPSYS_CAMERA_FLAG_1000000;
     BOOL flagB2                  = cameraB->flags & MAPSYS_CAMERA_FLAG_2000000;
 
@@ -841,7 +841,7 @@ void WaterSurface_Main(void)
 {
     u32 i;
     fx32 vAlarmCount;
-    struct MapSysCamera *camera = mapCamera.camera;
+    MapSysCamera *camera = mapCamera.camera;
 
     for (i = 0; i < 2; i++)
     {

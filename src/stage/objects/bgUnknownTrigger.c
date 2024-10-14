@@ -32,7 +32,7 @@ enum Unknown1ObjectFlags
 // --------------------
 
 static void BGUnknownTrigger_State_Active(BGUnknownTrigger *work);
-static BOOL BGUnknownTrigger_CheckBounds(BGUnknownTrigger *work, struct MapSysCamera *camera);
+static BOOL BGUnknownTrigger_CheckBounds(BGUnknownTrigger *work, MapSysCamera *camera);
 
 // --------------------
 // FUNCTIONS
@@ -140,7 +140,7 @@ void BGUnknownTrigger_State_Active(BGUnknownTrigger *work)
     }
 }
 
-BOOL BGUnknownTrigger_CheckBounds(BGUnknownTrigger *work, struct MapSysCamera *camera)
+BOOL BGUnknownTrigger_CheckBounds(BGUnknownTrigger *work, MapSysCamera *camera)
 {
     BOOL inBounds = FALSE;
 
