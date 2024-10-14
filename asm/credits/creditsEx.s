@@ -9,7 +9,7 @@ CreditsEx__Create: // 0x02155EF0
 	sub sp, sp, #0xc
 	mov r0, #1
 	mov r1, #0
-	bl ovl05_2154520
+	bl CreditsCommon__Func_2154520
 	mov r0, #0x2000
 	mov r2, #0
 	str r0, [sp]
@@ -46,9 +46,9 @@ CreditsEx__Destructor: // 0x02155F6C
 	mov r4, r0
 	bl ReleaseSysSound
 	mov r0, r4
-	bl ovl05_2155138
+	bl CreditsCommon__Func_2155138
 	mov r0, r4
-	bl ovl05_21549A4
+	bl CreditsCommon__ReleaseAssets
 	ldmia sp!, {r4, pc}
 	arm_func_end CreditsEx__Destructor
 
@@ -58,11 +58,11 @@ CreditsEx__Main: // 0x02155F90
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r1, [r4, #0xc]
-	bl ovl05_2154AE4
+	bl CreditsCommon__LoadCreditsBG
 	mov r0, r4
-	bl ovl05_2155034
-	bl ovl05_2155520
-	ldr r2, _02155FDC // =ovl05_2155600
+	bl CreditsCommon__InitSprites
+	bl CreditsCommon__Func_2155520
+	ldr r2, _02155FDC // =CreditsCommon__Scroll_Screen1
 	mov r0, #2
 	mov r1, #0x800
 	str r2, [r4, #0x10]
@@ -74,7 +74,7 @@ CreditsEx__Main: // 0x02155F90
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155FDC: .word ovl05_2155600
+_02155FDC: .word CreditsCommon__Scroll_Screen1
 _02155FE0: .word CreditsEx__Main_2155FE4
 	arm_func_end CreditsEx__Main
 
@@ -292,7 +292,7 @@ CreditsEx__Main_215627C: // 0x0215627C
 	strne r1, [r0, #0x34]
 	ldmneia sp!, {r3, pc}
 	mov r0, #1
-	bl ovl05_21551D8
-	bl ovl05_2155188
+	bl CreditsCommon__NextEvent
+	bl CreditsCommon__Cleanup
 	ldmia sp!, {r3, pc}
 	arm_func_end CreditsEx__Main_215627C

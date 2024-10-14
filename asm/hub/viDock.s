@@ -145,7 +145,7 @@ ViDock__Func_215DBC8: // 0x0215DBC8
 	mov r0, r4
 	bl ViDock__Func_215EB04
 	ldrh r0, [r4, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldrh r2, [r0, #0x34]
 	add r0, r4, #0x1400
 	mov r1, #0
@@ -270,7 +270,7 @@ ViDock__Func_215DD64: // 0x0215DD64
 	bl ViDock__Func_215EA8C
 _0215DDDC:
 	ldrh r0, [r4, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldrh r3, [r0, #0x34]
 	add r2, r4, #0x1400
 	add r0, r4, #0x18
@@ -540,7 +540,7 @@ ViDock__Func_215E104: // 0x0215E104
 	mov r1, r4, lsl #0x10
 	mov r5, r0
 	mov r0, r1, lsr #0x10
-	bl ovl05_2152A0C
+	bl DockHelpers__GetNpcConfig
 	add r1, r5, #0x1000
 	ldr r1, [r1, #0x138]
 	ldrh r6, [r0, #0]
@@ -711,7 +711,7 @@ ViDock__Func_215E340: // 0x0215E340
 	ldrh r0, [r4, #0]
 	cmp r0, #7
 	bhs _0215E3B0
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldr r0, [r0, #0x3c]
 	cmp r0, #0
 	bne _0215E3B4
@@ -721,7 +721,7 @@ _0215E3B4:
 	cmp r6, #0
 	beq _0215E3F0
 	ldrh r0, [r4, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldrsh r0, [r0, #0x40]
 	add r1, r4, #0x78
 	add r2, r4, #0x84
@@ -826,7 +826,7 @@ ViDock__Func_215E4DC: // 0x0215E4DC
 	mov r1, r0
 	mov r2, r4
 	mov r0, #0
-	bl ovl05_2152E14
+	bl TalkHelpers__Func_2152E14
 	add r0, r5, #0x1000
 	ldr r4, [r0, #0x138]
 	mov r6, #0
@@ -844,7 +844,7 @@ _0215E52C:
 	mov r0, r6
 	mov r2, r7
 	mov r3, r8
-	bl ovl05_2152EB8
+	bl TalkHelpers__Func_2152EB8
 	mov r1, r4
 	add r0, r5, #0x1000
 	bl _ZN15CViDockNpcGroup10GetNextNpcEP10CViDockNpc
@@ -867,16 +867,16 @@ ViDock__Func_215E578: // 0x0215E578
 	bl GetTaskWork_
 	mov r5, r0
 	mov r0, #0
-	bl ovl05_2152E74
+	bl TalkHelpers__Func_2152E74
 	cmp r0, #0
 	beq _0215E5CC
 	mov r0, #0
-	bl ovl05_2152E94
+	bl TalkHelpers__GetPlayerInfo
 	mov r1, r0
 	add r0, r5, #0xe00
 	bl CPPHelpers__VEC_Copy_Alt
 	mov r0, #0
-	bl ovl05_2152EA4
+	bl TalkHelpers__Func_2152EA4
 	add r1, r5, #0xe00
 	strh r0, [r1, #0x30]
 	ldrh r0, [r1, #0x30]
@@ -892,22 +892,22 @@ _0215E5CC:
 	add r5, r5, #0x130
 _0215E5EC:
 	mov r0, r6
-	bl ovl05_2152F20
+	bl TalkHelpers__Func_2152F20
 	cmp r0, #0
 	beq _0215E630
 	mov r0, r6
-	bl ovl05_2152F44
+	bl TalkHelpers__GetNpcInfo
 	mov r1, r0
 	add r0, r7, #8
 	bl CPPHelpers__VEC_Copy_Alt
 	cmp r4, #0
 	beq _0215E624
 	mov r0, r6
-	bl ovl05_2152F58
+	bl TalkHelpers__Func_2152F58
 	strh r0, [r7, #0x38]
 _0215E624:
 	mov r0, r6
-	bl ovl05_2152F70
+	bl TalkHelpers__Func_2152F70
 	str r0, [r7, #0x30c]
 _0215E630:
 	mov r1, r7
@@ -1036,7 +1036,7 @@ _0215E7B4:
 	mov r2, #1
 	bl ViDockPlayer__Func_21667A8
 	ldrh r0, [r4, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldrsh r2, [r0, #0x40]
 	add r0, r4, #0x218
 	add r1, sp, #4
@@ -1046,7 +1046,7 @@ _0215E7B4:
 	add r0, r0, #0xc00
 	bl CPPHelpers__VEC_Copy_Alt
 	ldrh r0, [r4, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	add r2, r4, #0x1f8
 	ldr r1, [r0, #0x38]
 	add r0, r2, #0xc00
@@ -1210,21 +1210,21 @@ _0215EA24:
 	ldrh r0, [r5, #0]
 	cmp r0, #7
 	bhs _0215EA68
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldr r1, [r0, #0]
 	b _0215EA68
 _0215EA3C:
 	ldrh r0, [r5, #0]
 	cmp r0, #8
 	bhs _0215EA68
-	bl ovl05_2152984
+	bl DockHelpers__Func_2152984
 	ldr r1, [r0, #0]
 	b _0215EA68
 _0215EA54:
 	ldrh r0, [r5, #0]
 	cmp r0, #5
 	bhs _0215EA68
-	bl ovl05_2152994
+	bl DockHelpers__Func_2152994
 	ldr r1, [r0, #0]
 _0215EA68:
 	mov r3, r4
@@ -1254,7 +1254,7 @@ ViDock__Func_215EA8C: // 0x0215EA8C
 	ldrh r0, [r4, #0]
 	cmp r0, #8
 	bhs _0215EAB8
-	bl ovl05_2152984
+	bl DockHelpers__Func_2152984
 	ldr r1, [r0, #0]
 _0215EAB8:
 	mov r2, #1
@@ -1267,7 +1267,7 @@ _0215EAC0:
 	ldrh r0, [r4, #0]
 	cmp r0, #7
 	bhs _0215EAE4
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldr r1, [r0, #0]
 _0215EAE4:
 	mov r2, #0
@@ -1318,7 +1318,7 @@ _0215EB48:
 	beq _0215EC1C
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152A0C
+	bl DockHelpers__GetNpcConfig
 	mov r6, r0
 	ldr r0, [r6, #8]
 	blx r0
@@ -1347,7 +1347,7 @@ _0215EB48:
 	mov r0, r8
 	bl ViDockNpc__LoadAssets
 	ldrh r0, [r10, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldrsh r2, [r0, #0x40]
 	add r0, r8, #0x20
 	add r1, sp, #0x18
@@ -1467,7 +1467,7 @@ ViDock__Func_215ED0C: // 0x0215ED0C
 	add r0, r0, #0x1400
 	bl FontAnimator__LoadMPCFile
 	ldrh r0, [r4, #0]
-	bl ovl05_2152994
+	bl DockHelpers__Func_2152994
 	ldrh r1, [r0, #0x12]
 	add r0, r4, #0xf4
 	add r0, r0, #0x1400
@@ -2136,11 +2136,11 @@ ViDock__Func_215F6C8: // 0x0215F6C8
 	cmp r0, #7
 	movhs r5, #0
 	bhs _0215F728
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldr r0, [r0, #0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_21529F8
+	bl DockHelpers__GetDockBackInfo
 	ldrh r5, [r0, #0x18]
 _0215F728:
 	mov r3, #2
@@ -2168,7 +2168,7 @@ _0215F728:
 	bl ViDockBack__Func_2164AB4
 _0215F784:
 	ldrh r0, [r10, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldr r1, [sp, #4]
 	ldrsh r7, [r0, #0x40]
 	cmp r1, #0
@@ -2276,7 +2276,7 @@ ViDock__Func_215F8E8: // 0x0215F8E8
 	cmp r1, #0x8c
 	bne _0215F920
 	mov r0, #7
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	b _0215F92C
 _0215F920:
 	cmp r1, #0
@@ -2340,12 +2340,12 @@ ViDock__Func_215F9CC: // 0x0215F9CC
 	bl GetCurrentTaskWork_
 	mov r7, r0
 	ldrh r0, [r7, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	mov r4, r0
 	mov r0, r7
 	bl ViDock__Func_215E830
 	ldrh r0, [r7, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldrsh r1, [r0, #0x40]
 	add r0, r7, #0x1f8
 	add r0, r0, #0xc00
@@ -2409,7 +2409,7 @@ _0215FAB8:
 	bl ViDockPlayer__Func_21667A0
 	mov r5, r0
 	ldrh r0, [r7, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldrsh r3, [r0, #0x40]
 	add r0, r7, #0x130
 	mov r1, r5
@@ -2491,7 +2491,7 @@ _0215FC0C:
 	bl ViDockPlayer__Func_21667A0
 	mov r6, r0
 	ldrh r0, [r7, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	add r3, sp, #0x14
 	stmia sp, {r3, r8}
 	ldrsh r3, [r0, #0x40]
@@ -2580,7 +2580,7 @@ ViDock__Func_215FD48: // 0x0215FD48
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldrh r0, [r4, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldr r1, [r4, #0x10]
 	mov r5, r0
 	cmp r1, #0
@@ -2632,7 +2632,7 @@ ViDock__Func_215FE00: // 0x0215FE00
 	mov r4, r0
 	bl ViDock__Func_215EA8C
 	ldrh r0, [r4, #0]
-	bl ovl05_2152984
+	bl DockHelpers__Func_2152984
 	ldr r1, [r0, #0]
 	add r0, r4, #0xf8
 	bl ViDockBack__Func_2164918
@@ -2668,7 +2668,7 @@ ViDock__Func_215FE68: // 0x0215FE68
 	bl GetCurrentTaskWork_
 	mov r5, r0
 	ldrh r0, [r5, #0]
-	bl ovl05_2152994
+	bl DockHelpers__Func_2152994
 	mov r4, r0
 	add r0, r5, #0x18
 	bl ViMapIcon__Func_2163C80
@@ -2794,7 +2794,7 @@ ViDock__Func_215FFF4: // 0x0215FFF4
 	mov r0, r4
 	bl ViDock__Func_215EB04
 	ldrh r0, [r4, #0]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldrh r1, [r0, #0x34]
 	add r0, r4, #0x1400
 	strh r1, [r0, #0x5c]

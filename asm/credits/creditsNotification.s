@@ -11,7 +11,7 @@ CreditsNotification__Create: // 0x021567C4
 	mov r6, r1
 	mov r0, #0
 	mov r1, #1
-	bl ovl05_2154520
+	bl CreditsCommon__Func_2154520
 	mov r0, #0x3000
 	mov r2, #0
 	str r0, [sp]

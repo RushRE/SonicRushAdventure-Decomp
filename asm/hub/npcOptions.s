@@ -112,7 +112,7 @@ NpcOptions__Main: // 0x0216DE2C
 	bl IsThreadWorkerFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
-	bl ovl05_2152B74
+	bl DockHelpers__GetOptionsMessageInfo
 	mov r4, r0
 	bl HubControl__GetFileFrom_ViMsgCtrl
 	ldrh r1, [r4, #0]
@@ -143,7 +143,7 @@ NpcOptions__Main_216DE94: // 0x0216DE94
 	bl ViEvtCmnTalk__Func_216D888
 	cmp r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
-	bl ovl05_2152B74
+	bl DockHelpers__GetOptionsMessageInfo
 	mov r6, r0
 	mov r0, r5
 	bl ViEvtCmnTalk__Func_216D89C
@@ -236,7 +236,7 @@ NpcOptions__Main_216DFE0: // 0x0216DFE0
 	bl ViEvtCmnTalk__Func_216D888
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	bl ovl05_2152B74
+	bl DockHelpers__GetOptionsMessageInfo
 	mov r6, r0
 	mov r0, r5
 	bl ViEvtCmnTalk__Func_216D89C
@@ -298,7 +298,7 @@ NpcOptions__Main_216E0B8: // 0x0216E0B8
 	bl ViEvtCmnTalk__Func_216D888
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	bl ovl05_2152B74
+	bl DockHelpers__GetOptionsMessageInfo
 	mov r6, r0
 	mov r0, r5
 	bl ViEvtCmnTalk__Func_216D89C
@@ -359,7 +359,7 @@ NpcOptions__Main_216E190: // 0x0216E190
 	bl ViEvtCmnTalk__Func_216D888
 	cmp r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
-	bl ovl05_2152B74
+	bl DockHelpers__GetOptionsMessageInfo
 	mov r6, r0
 	mov r0, r5
 	bl ViEvtCmnTalk__Func_216D89C
@@ -1357,7 +1357,7 @@ _0216EF34:
 	ldr r1, _0216EF4C // =NpcOptions__Func_2170A10
 	mov r0, #4
 	str r1, [r5, #0x478]
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0216EF48: .word 0x0000FFFF
@@ -3577,7 +3577,7 @@ _02170D08:
 	strh r2, [r10, #0x14]
 	bl NpcOptions__Func_21706C0
 	mov r0, #1
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	mov r1, #0
 	mov r0, r10
 	str r1, [r10]
@@ -3614,7 +3614,7 @@ _02170D5C:
 	mov r0, r10
 	bl NpcOptions__Func_21706C0
 	mov r0, #2
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	ldr r0, _02170EC0 // =NpcOptions__Func_2170F6C
 	str r0, [r10, #0x478]
 	b _02170E54
@@ -3628,7 +3628,7 @@ _02170DD8:
 	mov r0, r10
 	bl NpcOptions__Func_2170448
 	mov r0, #3
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	mov r0, r10
 	mov r1, r4
 	mvn r2, #0

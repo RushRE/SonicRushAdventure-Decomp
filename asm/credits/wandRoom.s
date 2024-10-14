@@ -27,7 +27,7 @@ WandRoom__Create: // 0x021566A4
 	bl MIi_CpuClear16
 	mov r0, r4
 	str r5, [r4]
-	bl ovl05_21549EC
+	bl CreditsCommon__LoadWandroom
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
@@ -39,7 +39,7 @@ _0215670C: .word WandRoom__Destructor
 WandRoom__Destructor: // 0x02156710
 	stmdb sp!, {r3, lr}
 	bl GetTaskWork_
-	bl ovl05_2154ABC
+	bl CreditsCommon__Func_2154ABC
 	ldmia sp!, {r3, pc}
 	arm_func_end WandRoom__Destructor
 

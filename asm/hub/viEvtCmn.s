@@ -1397,7 +1397,7 @@ ViEvtCmnSelect__Func_216CAAC: // 0x0216CAAC
 	add r0, r4, #0xf8
 	bl FontWindowAnimator__Draw
 	mov r0, #4
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	arm_func_end ViEvtCmnSelect__Func_216CAAC
@@ -1479,7 +1479,7 @@ ViEvtCmnSelect__Func_216CBA0: // 0x0216CBA0
 	mov r1, r5
 	bl AnimatorSprite__SetAnimation
 	mov r0, r4
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	ldr r0, _0216CD58 // =0x0000FFFF
 	strh r7, [r6, #0x1c]
 	strh r0, [r6, #0x20]
@@ -1510,7 +1510,7 @@ _0216CC10:
 	bne _0216CC4C
 	mov r5, #1
 	mov r0, r5
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 _0216CC4C:
 	mov r0, r6
 	bl ViEvtCmnSelect__Func_216CE7C
@@ -1518,7 +1518,7 @@ _0216CC4C:
 	beq _0216CC6C
 	mov r5, #1
 	mov r0, r5
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	b _0216CCAC
 _0216CC6C:
 	mov r0, r6
@@ -1532,12 +1532,12 @@ _0216CC6C:
 	bne _0216CCA0
 	mov r0, #2
 	mov r5, #1
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	b _0216CCAC
 _0216CCA0:
 	mov r0, #3
 	strh r1, [r6, #0x1c]
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 _0216CCAC:
 	add r0, r6, #0x15c
 	bl FontWindowMWControl__Draw
@@ -2084,7 +2084,7 @@ ViEvtCmnAnnounce__Func_216D318: // 0x0216D318
 	cmp r0, #8
 	addge sp, sp, #4
 	ldmgeia sp!, {r3, r4, pc}
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	arm_func_end ViEvtCmnAnnounce__Func_216D318
@@ -2341,20 +2341,20 @@ ViEvtCmnTalk__Func_216D680: // 0x0216D680
 	mov r1, r7
 	add r0, r4, #0x18
 	str r7, [r4, #0x14]
-	bl ovl05_2152B80
+	bl viMessageController__SetCtrlFile
 	ldr r0, _0216D728 // =0x0000FFFF
 	cmp r5, r0
 	beq _0216D6CC
 	mov r1, r5
 	add r0, r4, #0x18
-	bl ovl05_2152BA4
+	bl viMessageController__SetInteractionID
 	ldr r0, _0216D728 // =0x0000FFFF
 	strh r6, [r4, #0xa]
 	b _0216D6E0
 _0216D6CC:
 	mov r1, r6
 	add r0, r4, #0x18
-	bl ovl05_2152BA4
+	bl viMessageController__SetInteractionID
 	ldr r0, _0216D728 // =0x0000FFFF
 	strh r0, [r4, #0xa]
 _0216D6E0:
@@ -2362,7 +2362,7 @@ _0216D6E0:
 	bl HubControl__GetFileFrom_ViMsg
 	mov r5, r0
 	add r0, r4, #0x18
-	bl ovl05_2152B98
+	bl viMessageController__GetMPCFile
 	mov r1, r0
 	mov r0, r5
 	bl FileUnknown__GetAOUFile
@@ -2415,17 +2415,17 @@ ViEvtCmnTalk__Func_216D778: // 0x0216D778
 	beq _0216D7BC
 	ldr r1, [r4, #0x14]
 	add r0, sp, #0
-	bl ovl05_2152B80
+	bl viMessageController__SetCtrlFile
 	ldrh r1, [r4, #0xa]
 	add r0, sp, #0
-	bl ovl05_2152BA4
+	bl viMessageController__SetInteractionID
 	add r0, sp, #0
-	bl ovl05_2152BB8
+	bl viMessageController__GetPageCount
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _0216D7BC:
 	add r0, r4, #0x18
-	bl ovl05_2152BB8
+	bl viMessageController__GetPageCount
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -2443,11 +2443,11 @@ ViEvtCmnTalk__Func_216D7D0: // 0x0216D7D0
 	add r0, r5, #0x18
 	beq _0216D800
 	mov r1, #0
-	bl ovl05_2152C00
+	bl viMessageController__SetPageID
 	strh r4, [r5, #0xc]
 	b _0216D80C
 _0216D800:
-	bl ovl05_2152C00
+	bl viMessageController__SetPageID
 	ldr r0, _0216D818 // =0x0000FFFF
 	strh r0, [r5, #0xc]
 _0216D80C:
@@ -2531,15 +2531,15 @@ ViEvtCmnTalk__Func_216D8BC: // 0x0216D8BC
 	sub sp, sp, #8
 	mov r5, r0
 	add r0, r5, #0x18
-	bl ovl05_2152C74
+	bl viMessageController__GetPageSequence
 	mov r4, r0
 	add r0, r5, #0x18
-	bl ovl05_2152C28
+	bl viMessageController__HasName
 	cmp r0, #0
 	ldreq r2, _0216D940 // =0x0000FFFF
 	beq _0216D8F4
 	add r0, r5, #0x18
-	bl ovl05_2152C58
+	bl viMessageController__GetNameAnim
 	mov r2, r0
 _0216D8F4:
 	ldr r3, _0216D940 // =0x0000FFFF
@@ -2575,11 +2575,11 @@ ViEvtCmnTalk__Func_216D944: // 0x0216D944
 	cmp r0, #0
 	beq _0216D9F8
 	add r0, r6, #0x18
-	bl ovl05_2152D8C
+	bl viMessageController__Entry3Enabled
 	cmp r0, #0
 	bne _0216D9F8
 	add r0, r6, #0x18
-	bl ovl05_2152C90
+	bl viMessageController__IsDialogIDValid
 	cmp r0, #0
 	mov r1, #0
 	beq _0216D990
@@ -2588,9 +2588,9 @@ ViEvtCmnTalk__Func_216D944: // 0x0216D944
 	b _0216D9F8
 _0216D990:
 	add r0, r6, #0x18
-	bl ovl05_2152CDC
+	bl viMessageController__IsDialogIDValid_2
 	add r0, r6, #0x18
-	bl ovl05_2152D8C
+	bl viMessageController__Entry3Enabled
 	cmp r0, #0
 	add r0, r6, #0x20
 	beq _0216D9B8
@@ -2601,15 +2601,15 @@ _0216D9B8:
 	mov r1, #0
 	bl ViEvtCmnMsg__Func_216BD98
 	add r0, r6, #0x18
-	bl ovl05_2152C74
+	bl viMessageController__GetPageSequence
 	mov r5, r0
 	add r0, r6, #0x18
-	bl ovl05_2152C28
+	bl viMessageController__HasName
 	cmp r0, #0
 	ldreq r2, _0216DA60 // =0x0000FFFF
 	beq _0216D9EC
 	add r0, r6, #0x18
-	bl ovl05_2152C58
+	bl viMessageController__GetNameAnim
 	mov r2, r0
 _0216D9EC:
 	mov r1, r5
@@ -2625,17 +2625,17 @@ _0216D9F8:
 	cmp r0, #0
 	beq _0216DA58
 	add r0, r6, #0x18
-	bl ovl05_2152D8C
+	bl viMessageController__Entry3Enabled
 	cmp r0, #0
 	movne r4, #4
 	bne _0216DA58
 	add r0, r6, #0x18
-	bl ovl05_2152C90
+	bl viMessageController__IsDialogIDValid
 	cmp r0, #0
 	moveq r4, #4
 	beq _0216DA58
 	add r0, r6, #0x18
-	bl ovl05_2152CC0
+	bl viMessageController__GetDialogID
 	mov r1, r0
 	add r0, r6, #0x2a4
 	bl ViEvtCmnSelect__Func_216C79C
@@ -2665,9 +2665,9 @@ ViEvtCmnTalk__Func_216DA64: // 0x0216DA64
 	bl ViEvtCmnSelect__Func_216C940
 	mov r1, r0
 	add r0, r4, #0x18
-	bl ovl05_2152CDC
+	bl viMessageController__IsDialogIDValid_2
 	add r0, r4, #0x18
-	bl ovl05_2152D8C
+	bl viMessageController__Entry3Enabled
 	cmp r0, #0
 	beq _0216DB6C
 	ldrh r1, [r4, #0xa]
@@ -2675,28 +2675,28 @@ ViEvtCmnTalk__Func_216DA64: // 0x0216DA64
 	cmp r1, r0
 	beq _0216DB48
 	add r0, r4, #0x18
-	bl ovl05_2152D44
+	bl viMessageController__GetEntry3ValueFromID
 	cmp r0, #9
 	bne _0216DB48
 	ldrh r1, [r4, #0xa]
 	add r0, r4, #0x18
-	bl ovl05_2152BA4
+	bl viMessageController__SetInteractionID
 	ldrh r1, [r4, #0xc]
 	add r0, r4, #0x18
-	bl ovl05_2152C00
+	bl viMessageController__SetPageID
 	ldr r1, _0216DBC4 // =0x0000FFFF
 	add r0, r4, #0x18
 	strh r1, [r4, #0xa]
 	strh r1, [r4, #0xc]
-	bl ovl05_2152C74
+	bl viMessageController__GetPageSequence
 	mov r5, r0
 	add r0, r4, #0x18
-	bl ovl05_2152C28
+	bl viMessageController__HasName
 	cmp r0, #0
 	ldreq r2, _0216DBC4 // =0x0000FFFF
 	beq _0216DB28
 	add r0, r4, #0x18
-	bl ovl05_2152C58
+	bl viMessageController__GetNameAnim
 	mov r2, r0
 _0216DB28:
 	ldr r3, _0216DBC4 // =0x0000FFFF
@@ -2719,15 +2719,15 @@ _0216DB48:
 	b _0216DBB4
 _0216DB6C:
 	add r0, r4, #0x18
-	bl ovl05_2152C74
+	bl viMessageController__GetPageSequence
 	mov r5, r0
 	add r0, r4, #0x18
-	bl ovl05_2152C28
+	bl viMessageController__HasName
 	cmp r0, #0
 	ldreq r2, _0216DBC4 // =0x0000FFFF
 	beq _0216DB98
 	add r0, r4, #0x18
-	bl ovl05_2152C58
+	bl viMessageController__GetNameAnim
 	mov r2, r0
 _0216DB98:
 	ldr r3, _0216DBC4 // =0x0000FFFF
@@ -2752,17 +2752,17 @@ ViEvtCmnTalk__Func_216DBC8: // 0x0216DBC8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x18
-	bl ovl05_2152D1C
+	bl viMessageController__Entry3Enabled2
 	cmp r0, #0
 	moveq r0, #0x18
 	streqh r0, [r4, #6]
 	moveq r0, #0
 	beq _0216DC00
 	add r0, r4, #0x18
-	bl ovl05_2152D44
+	bl viMessageController__GetEntry3ValueFromID
 	strh r0, [r4, #6]
 	add r0, r4, #0x18
-	bl ovl05_2152D68
+	bl viMessageController__GetEntry3Value2
 _0216DC00:
 	strh r0, [r4, #8]
 	mov r0, #5

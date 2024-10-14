@@ -3,7 +3,6 @@
 
 	.bss
 	
-
 .public HubControl__sVars
 HubControl__sVars: // 0x02173A44
 	.space 0x04
@@ -12,6 +11,7 @@ HubControl__TaskSingleton: // 0x02173A48
 	.space 0x04
 
 	.text
+
 	arm_func_start HubControl__ReturnToHub
 HubControl__ReturnToHub: // 0x02156DD0
 	stmdb sp!, {r4, lr}
@@ -28,7 +28,7 @@ HubControl__ReturnToHub: // 0x02156DD0
 	mov r0, #0x200
 	mov r2, #0x400
 	bl MIi_CpuClear16
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #7
 	ldrne r0, _02156FFC // =gameState+0x00000100
 	movne r1, #0
@@ -45,7 +45,7 @@ HubControl__ReturnToHub: // 0x02156DD0
 	bl NextSysEvent
 	ldmia sp!, {r4, pc}
 _02156E48:
-	bl ovl05_21541A0
+	bl MissionHelpers__CheckPostGameMissionUnlock
 	cmp r0, #0
 	beq _02156E74
 	bl HubControl__Func_21572B8
@@ -99,7 +99,7 @@ _02156EF8:
 	bl HubControl__Func_215710C
 	ldmia sp!, {r4, pc}
 _02156F04:
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #4
 	bne _02156F58
 	ldr r0, _02157000 // =gameState
@@ -125,7 +125,7 @@ _02156F58:
 	mov r1, #0
 	str r1, [r0, #0xcc]
 _02156F64:
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #5
 	bne _02156FC4
 	ldr r0, _02157000 // =gameState
@@ -133,7 +133,7 @@ _02156F64:
 	cmp r0, #0
 	beq _02156FC4
 	bl MissionHelpers__GetMissionID
-	bl ovl05_21542E8
+	bl MissionHelpers__GetBlazeMissionCount
 	mov r4, r0
 	cmp r4, #7
 	bhs _02156FC4
@@ -184,14 +184,14 @@ _02157018: .word HubControl__Create
 	arm_func_start HubControl__Func_215701C
 HubControl__Func_215701C: // 0x0215701C
 	stmdb sp!, {r4, lr}
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #6
 	beq _02157038
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #7
 	bne _02157074
 _02157038:
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #7
 	mov r0, #0
 	moveq r4, #1
@@ -207,17 +207,17 @@ _02157038:
 	str r4, [r0, #0x134]
 	ldmia sp!, {r4, pc}
 _02157074:
-	bl ovl05_2152DE4
+	bl TalkHelpers__Func_2152DE4
 	cmp r0, #0
 	bne _0215708C
-	bl ovl05_2152E04
+	bl TalkHelpers__Func_2152E04
 	bl HubControl__Create
 	ldmia sp!, {r4, pc}
 _0215708C:
-	bl ovl05_2152DE4
+	bl TalkHelpers__Func_2152DE4
 	cmp r0, #1
 	bne _021570AC
-	bl ovl05_2152E04
+	bl TalkHelpers__Func_2152E04
 	mov r1, #1
 	mov r2, #0
 	bl HubControl__Create2
@@ -234,10 +234,10 @@ HubControl__Func_21570B8: // 0x021570B8
 	stmdb sp!, {r4, lr}
 	movs r4, r0
 	beq _021570F4
-	bl ovl05_2152DE4
+	bl TalkHelpers__Func_2152DE4
 	cmp r0, #1
 	bne _021570F4
-	bl ovl05_2152E04
+	bl TalkHelpers__Func_2152E04
 	ldr r1, _02157108 // =gameState
 	cmp r0, #0
 	cmpne r0, #1
@@ -479,7 +479,7 @@ HubControl__Create: // 0x021572F8
 	mov r1, #8
 	str r1, [r4, #0xc]
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	ldr r0, [r0, #8]
 	mov r1, #9
 	str r0, [r4, #0x10]
@@ -539,9 +539,9 @@ _021573EC:
 	str r0, [r4, #0x12c]
 	str r0, [r4, #0x130]
 	str r0, [r4, #0x134]
-	bl ovl05_2152DA0
+	bl TalkHelpers__Func_2152DA0
 	bl DockHelpers__LoadVillageTrack
-	bl ovl05_21543C4
+	bl HubAudio__PlayVillageTrack
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
@@ -607,7 +607,7 @@ HubControl__Create2: // 0x021574C0
 	mov r1, #9
 	mov r0, r0, lsr #0x10
 	str r1, [r4, #0x10]
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldr r1, [r0, #4]
 	mov r0, #6
 	str r1, [r4, #0x14]
@@ -633,13 +633,13 @@ HubControl__Create2: // 0x021574C0
 	cmp r6, #0
 	beq _021575D8
 	mov r7, #1
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #1
 	beq _021575CC
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #3
 	beq _021575CC
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #5
 	bne _021575D0
 _021575CC:
@@ -677,24 +677,24 @@ _021575D8:
 	str r1, [r4, #0x130]
 	str r1, [r4, #0x134]
 	beq _02157684
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #2
 	moveq r0, #1
 	streq r0, [r4, #0x124]
 	beq _02157684
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #4
 	moveq r0, #1
 	streq r0, [r4, #0x128]
 	beq _02157684
-	bl ovl05_2152F88
+	bl TalkHelpers__Func_2152F88
 	cmp r0, #5
 	moveq r0, #1
 	streq r0, [r4, #0x12c]
 _02157684:
-	bl ovl05_2152DA0
+	bl TalkHelpers__Func_2152DA0
 	bl DockHelpers__LoadVillageTrack
-	bl ovl05_21543C4
+	bl HubAudio__PlayVillageTrack
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -733,7 +733,7 @@ HubControl__Func_21576CC: // 0x021576CC
 	bl ViHubAreaPreview__Func_215966C
 	ldr r0, [r4, #0x104]
 	bl ViHubAreaPreview__Func_2159854
-	bl ovl05_215437C
+	bl HubAudio__Release
 	ldmia sp!, {r4, pc}
 	arm_func_end HubControl__Func_21576CC
 
@@ -811,14 +811,14 @@ _021577E8:
 	mov r1, #1
 	bl HubHUD__Func_21603B0
 	mov r0, #5
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	str r5, [r4, #0x14]
 	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x10
 	orr r1, r1, #0x10000
 	str r1, [r4]
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	ldr r0, [r0, #4]
 	cmp r0, #7
 	bge _02157868
@@ -826,7 +826,7 @@ _021577E8:
 	bl ViDock__Func_215E658
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	ldr r1, [r0, #4]
 	ldr r0, _021578C4 // =HubControl__Main_2157C0C
 	str r1, [r4, #0xc]
@@ -900,7 +900,7 @@ _02157934:
 	mov r1, #1
 	bl ViHubAreaPreview__Func_2159758
 	mov r0, r5
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	mov r0, #2
 	str r0, [r4, #0x104]
 	mov r1, r5
@@ -941,20 +941,20 @@ _021579B0:
 	mov r1, #1
 	bl HubHUD__Func_21603B0
 	mov r0, #5
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	str r5, [r4, #0x14]
 	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x10
 	orr r1, r1, #0x10000
 	str r1, [r4]
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	ldr r0, [r0, #4]
 	cmp r0, #7
 	bge _02157A38
 	mov r0, r5, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	ldr r1, [r0, #4]
 	ldr r0, _02157A90 // =HubControl__Main_2157C0C
 	str r1, [r4, #0xc]
@@ -1360,7 +1360,7 @@ HubControl__Main_2157F64: // 0x02157F64
 	str r1, [r4]
 	bl SetCurrentTaskMainEvent
 	mov r0, #6
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	b _021580A0
 _02157FB4:
 	bl ViDock__Func_215DFE4
@@ -1378,7 +1378,7 @@ _02157FB4:
 	str r1, [r4]
 	bl SetCurrentTaskMainEvent
 	mov r0, #6
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	b _021580A0
 _02157FF8:
 	bl ViDock__Func_215E000
@@ -1392,7 +1392,7 @@ _02157FF8:
 	cmpne r0, #0xa
 	bne _02158028
 	mov r0, #1
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 _02158028:
 	bl ViDock__Func_215E178
 	mov r0, #0
@@ -1412,7 +1412,7 @@ _02158050:
 	mov r1, #0
 	bl ViHubAreaPreview__Func_2159758
 	mov r0, #0
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	mov r0, #0
 	bl ViDock__Func_215DF64
 	mov r0, #2
@@ -1471,7 +1471,7 @@ HubControl__Main_2158108: // 0x02158108
 	ldr r0, [r4, #0xc]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldr r0, [r0, #4]
 	ldr r1, [r4, #0x14]
 	cmp r0, r1
@@ -1590,7 +1590,7 @@ _021582B8:
 	str r1, [r4, #8]
 	bl SetCurrentTaskMainEvent
 	mov r0, #0xc
-	bl ovl05_21543E0
+	bl HubAudio__FadeTrack
 	mov r0, #0
 	bl ViDock__Func_215DF64
 	b _021587B4
@@ -1642,7 +1642,7 @@ _02158350:
 	b _021587B4
 _02158388:
 	bl _ZN15CViDockNpcGroup12Func_2168734Ev
-	bl ovl05_2153DC0
+	bl MissionHelpers__GetPostGameMission
 	mov r0, #5
 	mov r1, #0x1c
 	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
@@ -1653,11 +1653,11 @@ _021583A0:
 	bhs _02158410
 	bl _ZN15CViDockNpcGroup12Func_2168734Ev
 	mov r5, r0
-	bl ovl05_2154094
+	bl MissionHelpers__GetMissionFromSelection
 	cmp r0, #0x16
 	mov r0, r5
 	bhs _021583FC
-	bl ovl05_2154094
+	bl MissionHelpers__GetMissionFromSelection
 	str r0, [r4, #0x20]
 	bl ViDock__Func_215E0CC
 	str r0, [r4, #0x28]
@@ -1672,13 +1672,13 @@ _021583A0:
 	bl ViHubAreaPreview__Func_2159758
 	b _021587B4
 _021583FC:
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	bl ViDock__Func_215E410
 	ldr r0, _021587C8 // =HubControl__Main_2157F2C
 	bl SetCurrentTaskMainEvent
 	b _021587B4
 _02158410:
-	bl ovl05_2154038
+	bl MissionHelpers__HandlePostGameMissionBeaten
 	bl ViDock__Func_215E410
 	ldr r0, _021587C8 // =HubControl__Main_2157F2C
 	bl SetCurrentTaskMainEvent
@@ -1754,7 +1754,7 @@ _02158504:
 	str r1, [r4]
 	bl SetCurrentTaskMainEvent
 	mov r0, #6
-	bl ovl05_21544AC
+	bl HubAudio__PlaySfx
 	b _021587B4
 _02158530:
 	mov r0, #0
@@ -1851,13 +1851,13 @@ _02158648:
 _0215867C:
 	mov r6, #0x65
 	mov r7, #0
-	bl ovl05_2153AE0
+	bl MissionHelpers__PostGameMissionCount2
 	cmp r0, #0
 	ble _021586C8
 _02158690:
 	mov r0, r7, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2153AE8
+	bl MissionHelpers__GetPostGameMission2
 	mov r5, r0
 	bl MissionHelpers__GetMissionID
 	cmp r5, r0
@@ -1867,18 +1867,18 @@ _02158690:
 	b _021586C8
 _021586B8:
 	add r7, r7, #1
-	bl ovl05_2153AE0
+	bl MissionHelpers__PostGameMissionCount2
 	cmp r7, r0
 	blt _02158690
 _021586C8:
 	cmp r6, #0x65
 	beq _021586F8
 	mov r0, r6
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	cmp r0, #0
 	bne _021586F8
 	mov r0, r6
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	mov r0, #5
 	mov r1, #0x1b
 	bl _ZN15CViDockNpcGroup12Func_21686F8Ell
@@ -1917,7 +1917,7 @@ _0215874C:
 	str r1, [r4, #8]
 	bl SetCurrentTaskMainEvent
 	mov r0, #0xc
-	bl ovl05_21543E0
+	bl HubAudio__FadeTrack
 	mov r0, #0
 	bl ViDock__Func_215DF64
 	b _021587B4
@@ -1963,7 +1963,7 @@ HubControl__Main_21587D8: // 0x021587D8
 	ldr r0, [r4, #0x14]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	ldr r0, [r0, #8]
 	mov r1, #0
 	str r0, [r4, #0x10]

@@ -5,14 +5,14 @@
 
 	arm_func_start CreateViDockNpcTalk
 CreateViDockNpcTalk: // 0x021687AC
-	ldr ip, _021687B4 // =ovl05_21687B8
+	ldr ip, _021687B4 // =ViDockNpcTalk__Create
 	bx ip
 	.align 2, 0
-_021687B4: .word ovl05_21687B8
+_021687B4: .word ViDockNpcTalk__Create
 	arm_func_end CreateViDockNpcTalk
 
-	arm_func_start ovl05_21687B8
-ovl05_21687B8: // 0x021687B8
+	arm_func_start ViDockNpcTalk__Create
+ViDockNpcTalk__Create: // 0x021687B8
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x10
 	ldr r4, _0216896C // =0x00001010
@@ -37,20 +37,20 @@ ovl05_21687B8: // 0x021687B8
 	bne _02168848
 	bl ViDock__Func_215E0CC
 	mov r5, r0
-	bl ovl05_2153650
+	bl TalkHelpers__Func_2153650
 	strh r0, [sp, #8]
 	mov r0, r5
-	bl ovl05_2153664
+	bl TalkHelpers__GetInteractionID_2
 	strh r0, [sp, #0xa]
 	mov r0, r5
-	bl ovl05_2153688
+	bl TalkHelpers__GetInteractionID2
 	strh r0, [sp, #0xc]
 	mov r0, r5
-	bl ovl05_21536B0
+	bl TalkHelpers__GetInteractionID
 	strh r0, [sp, #0xe]
 	b _02168858
 _02168848:
-	bl ovl05_2152B0C
+	bl DockHelpers__GetNpcMessageInfo
 	add r1, sp, #8
 	mov r2, #8
 	bl MIi_CpuCopy16
@@ -83,7 +83,7 @@ _021688A8:
 	cmp r0, #0
 	bne _021688DC
 	mov r0, r5
-	bl ovl05_21536D8
+	bl TalkHelpers__Func_21536D8
 	strh r0, [sp, #0xe]
 	ldrh r1, [sp, #0xe]
 	ldr r0, _02168978 // =0x0000FFFF
@@ -133,7 +133,7 @@ _0216896C: .word 0x00001010
 _02168970: .word Task__OV05Unknown216897C__Main
 _02168974: .word Task__OV05Unknown216897C__Destructor
 _02168978: .word 0x0000FFFF
-	arm_func_end ovl05_21687B8
+	arm_func_end ViDockNpcTalk__Create
 
 	arm_func_start Task__OV05Unknown216897C__CreateInternal
 Task__OV05Unknown216897C__CreateInternal: // 0x0216897C

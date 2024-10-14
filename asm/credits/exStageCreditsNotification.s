@@ -9,7 +9,7 @@ ExStageCreditsNotification__Create: // 0x0215644C
 	sub sp, sp, #0xc
 	mov r0, #0
 	mov r1, #1
-	bl ovl05_2154520
+	bl CreditsCommon__Func_2154520
 	mov r0, #0x2000
 	mov r2, #0
 	str r0, [sp]
@@ -46,7 +46,7 @@ ExStageCreditsNotification__Destructor: // 0x021564C8
 	mov r4, r0
 	bl ReleaseSysSound
 	mov r0, r4
-	bl ovl05_21549A4
+	bl CreditsCommon__ReleaseAssets
 	ldmia sp!, {r4, pc}
 	arm_func_end ExStageCreditsNotification__Destructor
 
@@ -100,7 +100,7 @@ ExStageCreditsNotification__Main_2156548: // 0x02156548
 	strne r1, [r0, #0x34]
 	ldmneia sp!, {r3, pc}
 	mov r0, #2
-	bl ovl05_21551D8
-	bl ovl05_2155188
+	bl CreditsCommon__NextEvent
+	bl CreditsCommon__Cleanup
 	ldmia sp!, {r3, pc}
 	arm_func_end ExStageCreditsNotification__Main_2156548

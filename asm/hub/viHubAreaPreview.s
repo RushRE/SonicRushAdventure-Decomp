@@ -84,7 +84,7 @@ ViHubAreaPreview__Main: // 0x02158C44
 _02158CA0:
 	mov r0, r4, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	ldr r0, [r0, #8]
 	str r0, [r5, #0x10]
 	cmp r0, #8
@@ -145,7 +145,7 @@ ViHubAreaPreview__Func_2158D28: // 0x02158D28
 	cmp r0, #5
 	bge _02158D88
 	mov r0, #1
-	bl ovl05_215437C
+	bl HubAudio__Release
 	mov r0, #9
 	bl LoadSysSound
 	mov r0, #0x27
@@ -158,17 +158,17 @@ _02158D88:
 	ldr r0, [r4, #0x20]
 	cmp r0, #0x16
 	bge _02158DB4
-	bl ovl05_2154430
+	bl HubAudio__PlayDecorationJingle
 	ldr r0, [r4, #0x20]
 	bl ViMap__Func_215BFC4
 	mov r0, #0x7f
 	add r1, r4, #0x100
 	strh r0, [r1, #0x3a]
-	bl ovl05_21543D4
+	bl HubAudio__SetTrackVolume
 	b _02158DD8
 _02158DB4:
 	mov r0, #1
-	bl ovl05_215437C
+	bl HubAudio__Release
 	mov r0, #0xa
 	bl LoadSysSound
 	mov r0, #0x28
@@ -211,7 +211,7 @@ ViHubAreaPreview__Func_2158E14: // 0x02158E14
 	sub r1, r1, #1
 	strh r1, [r0, #0x3a]
 	ldrh r0, [r0, #0x3a]
-	bl ovl05_21543D4
+	bl HubAudio__SetTrackVolume
 _02158E4C:
 	ldmib r4, {r0, r1}
 	sub r0, r1, r0
@@ -243,7 +243,7 @@ _02158E88:
 	cmp r0, #0x16
 	bge _02158EC4
 	mov r0, #0x3f
-	bl ovl05_21543D4
+	bl HubAudio__SetTrackVolume
 _02158EC4:
 	ldr r0, [r4, #0x1c]
 	cmp r0, #5
@@ -341,11 +341,11 @@ _02158FD4:
 	bge _0215903C
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152994
+	bl DockHelpers__Func_2152994
 	ldr r0, [r0, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	ldrh r5, [r0, #0x3c]
 	mov r0, r5
 	bl ViMap__Func_215C524
@@ -359,11 +359,11 @@ _0215903C:
 	ldr r0, [r4, #0x24]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_21529A8
+	bl DockHelpers__Func_21529A8
 	ldr r0, [r0, #4]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	ldrh r0, [r0, #0x3c]
 	bl ViMap__Func_215C76C
 _02159064:
@@ -536,16 +536,16 @@ _02159290:
 	ldr r0, [r4, #0x20]
 	cmp r0, #0x16
 	bge _021592AC
-	bl ovl05_2154474
+	bl HubAudio__StopSoundHandle
 	mov r0, #0x7f
-	bl ovl05_21543D4
+	bl HubAudio__SetTrackVolume
 	b _021592C0
 _021592AC:
 	bl ReleaseSysSound
 	bl DockHelpers__LoadVillageTrack
-	bl ovl05_21543C4
+	bl HubAudio__PlayVillageTrack
 	mov r0, #0x7f
-	bl ovl05_21543D4
+	bl HubAudio__SetTrackVolume
 _021592C0:
 	ldr r1, [r4, #4]
 	ldr r0, _021592DC // =ViHubAreaPreview__Func_21592E0
@@ -897,21 +897,21 @@ ViHubAreaPreview__Func_2159758: // 0x02159758
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r1
 	mov r5, r0
-	bl ovl05_2152DA0
+	bl TalkHelpers__Func_2152DA0
 	cmp r4, #0
 	beq _02159788
 	mov r0, #0
-	bl ovl05_2152DD4
+	bl TalkHelpers__Func_2152DD4
 	ldr r0, [r5, #0x14]
 	and r0, r0, #0xff
-	bl ovl05_2152DF4
+	bl TalkHelpers__Func_2152DF4
 	ldmia sp!, {r3, r4, r5, pc}
 _02159788:
 	mov r0, #1
-	bl ovl05_2152DD4
+	bl TalkHelpers__Func_2152DD4
 	ldr r0, [r5, #0xc]
 	and r0, r0, #0xff
-	bl ovl05_2152DF4
+	bl TalkHelpers__Func_2152DF4
 	bl ViDock__Func_215E4DC
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ViHubAreaPreview__Func_2159758
@@ -923,18 +923,18 @@ ViHubAreaPreview__Func_21597A4: // 0x021597A4
 	mov r5, r1
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl ovl05_2152DA0
+	bl TalkHelpers__Func_2152DA0
 	mov r0, #1
-	bl ovl05_2152DD4
+	bl TalkHelpers__Func_2152DD4
 	cmp r5, #7
 	bge _021597D8
 	and r0, r5, #0xff
-	bl ovl05_2152DF4
+	bl TalkHelpers__Func_2152DF4
 	b _021597E4
 _021597D8:
 	ldr r0, [r4, #0xc]
 	and r0, r0, #0xff
-	bl ovl05_2152DF4
+	bl TalkHelpers__Func_2152DF4
 _021597E4:
 	mov r0, #0
 	str r0, [r4, #0x120]
@@ -955,7 +955,7 @@ ViHubAreaPreview__Func_2159810: // 0x02159810
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl ovl05_2152DA0
+	bl TalkHelpers__Func_2152DA0
 	mov r0, #0
 	ldr r1, _0215984C // =0x0000FFFE
 	str r0, [r4, #0x120]
@@ -1419,7 +1419,7 @@ _02159E5C:
 	cmp r0, #0
 	beq _02159EB0
 	mov r0, r8
-	bl ovl05_2152A0C
+	bl DockHelpers__GetNpcConfig
 	ldrh r0, [r0, #0]
 	ldrb r2, [r11, r0]
 	cmp r2, #0xff
@@ -1863,7 +1863,7 @@ _0215A488:
 	b _0215A4B8
 _0215A498:
 	mov r0, r1
-	bl ovl05_2153F38
+	bl MissionHelpers__StartMission
 	b _0215A4B8
 _0215A4A4:
 	bl ViHubAreaPreview__Func_215B958
@@ -3125,55 +3125,55 @@ _0215B61C:
 	ldmia sp!, {r3, pc}
 _0215B628:
 	mov r0, #0x53
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B634:
 	mov r0, #0x27
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B640:
 	mov r0, #0x5b
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B64C:
 	mov r0, #0x63
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B658:
 	mov r0, #0x4f
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B664:
 	mov r0, #0x59
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B670:
 	mov r0, #0x5d
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B67C:
 	mov r0, #0x3b
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B688:
 	mov r0, #9
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B694:
 	mov r0, #0x58
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B6A0:
 	mov r0, #0x31
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B6AC:
 	mov r0, #0x54
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 _0215B6B8:
 	mov r0, #0x55
-	bl ovl05_2153EC4
+	bl MissionHelpers__BeatMission
 	ldmia sp!, {r3, pc}
 	arm_func_end ViHubAreaPreview__Func_215B588
 
@@ -3235,67 +3235,67 @@ _0215B774:
 	ldmia sp!, {r3, pc}
 _0215B780:
 	mov r0, #0x53
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B78C:
 	mov r0, #0x27
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B798:
 	mov r0, #0x5b
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B7A4:
 	mov r0, #0x4f
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B7B0:
 	mov r0, #0x59
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B7BC:
 	mov r0, #0x5d
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B7C8:
 	mov r0, #0x3b
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B7D4:
 	mov r0, #0x58
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	cmp r0, #0
 	moveq r0, #1
 	movne r0, #0
 	ldmia sp!, {r3, pc}
 _0215B7EC:
 	mov r0, #0x58
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B7F8:
 	mov r0, #9
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B804:
 	mov r0, #0x31
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B810:
 	mov r0, #0x55
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	cmp r0, #0
 	movne r0, #0
 	ldmneia sp!, {r3, pc}
 	mov r0, #0x54
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B830:
 	mov r0, #0x55
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B83C:
 	mov r0, #0x63
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	ldmia sp!, {r3, pc}
 _0215B848:
 	mov r0, #0

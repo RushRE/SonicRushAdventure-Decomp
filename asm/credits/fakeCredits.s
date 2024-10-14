@@ -9,7 +9,7 @@ FakeCredits__Create: // 0x021562A8
 	sub sp, sp, #0xc
 	mov r0, #2
 	mov r1, #0
-	bl ovl05_2154520
+	bl CreditsCommon__Func_2154520
 	mov r0, #0x2000
 	mov r2, #0
 	str r0, [sp]
@@ -42,9 +42,9 @@ FakeCredits__Destructor: // 0x0215631C
 	stmdb sp!, {r4, lr}
 	bl GetTaskWork_
 	mov r4, r0
-	bl ovl05_2155138
+	bl CreditsCommon__Func_2155138
 	mov r0, r4
-	bl ovl05_21549A4
+	bl CreditsCommon__ReleaseAssets
 	ldmia sp!, {r4, pc}
 	arm_func_end FakeCredits__Destructor
 
@@ -54,9 +54,9 @@ FakeCredits__Main: // 0x02156338
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r1, [r4, #0xc]
-	bl ovl05_2154AE4
+	bl CreditsCommon__LoadCreditsBG
 	mov r0, r4
-	bl ovl05_2155034
+	bl CreditsCommon__InitSprites
 	mov r0, #2
 	mov r1, #0x800
 	bl CreateDrawFadeTask
@@ -141,7 +141,7 @@ FakeCredits__Main_2156420: // 0x02156420
 	strne r1, [r0, #0x34]
 	ldmneia sp!, {r3, pc}
 	mov r0, #0
-	bl ovl05_21551D8
-	bl ovl05_2155188
+	bl CreditsCommon__NextEvent
+	bl CreditsCommon__Cleanup
 	ldmia sp!, {r3, pc}
 	arm_func_end FakeCredits__Main_2156420

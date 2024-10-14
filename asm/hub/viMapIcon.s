@@ -712,7 +712,7 @@ ViMapIcon__Func_21638D0: // 0x021638D0
 	mov r5, r1
 	mov r0, r0, lsr #0x10
 	mov r4, r2
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	cmp r5, #0
 	ldrneh r1, [r0, #0]
 	strneh r1, [r5]
@@ -728,7 +728,7 @@ ViMapIcon__Func_2163904: // 0x02163904
 	mov r0, r0, lsl #0x10
 	mov r4, r1
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	cmp r4, #3
 	movhs r0, #9
 	addlo r0, r0, r4, lsl #2
@@ -742,7 +742,7 @@ ViMapIcon__Func_216392C: // 0x0216392C
 	mov r0, r0, lsl #0x10
 	mov r4, r1
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	cmp r4, #3
 	movhs r0, #9
 	addlo r0, r0, r4, lsl #2
@@ -756,7 +756,7 @@ ViMapIcon__Func_2163954: // 0x02163954
 	mov r0, r0, lsl #0x10
 	mov r4, r1
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	cmp r4, #3
 	movhs r0, #9
 	addlo r0, r0, r4, lsl #2
@@ -770,7 +770,7 @@ ViMapIcon__Func_216397C: // 0x0216397C
 	mov r0, r0, lsl #0x10
 	mov r4, r1
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152960
+	bl DockHelpers__Func_2152960
 	cmp r4, #3
 	movhs r0, #9
 	addlo r0, r0, r4, lsl #2
@@ -798,7 +798,7 @@ ViMapIcon__Func_21639A4: // 0x021639A4
 	ldmgeia sp!, {r4, r5, r6, pc}
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_21529F8
+	bl DockHelpers__GetDockBackInfo
 	ldrh r1, [r0, #0x10]
 	ldr r0, _02163A4C // =aBbViDockBb
 	mov r2, #0
@@ -1252,13 +1252,13 @@ _02164030:
 	beq _021640C0
 	mov r0, r1, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_21529F8
+	bl DockHelpers__GetDockBackInfo
 	ldr r0, [r0, #0]
 	cmp r0, #7
 	bge _02164090
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldr r2, [r0, #0x14]
 	mov r1, #0
 	str r2, [r4, #0xc]
@@ -1335,7 +1335,7 @@ ViMapIcon__Func_21640F4: // 0x021640F4
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
 	mov r0, r6, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_21529F8
+	bl DockHelpers__GetDockBackInfo
 	ldrh r1, [r0, #0x18]
 	ldr r3, _02164220 // =FX_SinCosTable_
 	add r0, sp, #0xc
@@ -1392,13 +1392,13 @@ ViMapIcon__Func_2164224: // 0x02164224
 	ldmgeia sp!, {r4, pc}
 	mov r0, r1, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_21529F8
+	bl DockHelpers__GetDockBackInfo
 	ldr r0, [r0, #0]
 	cmp r0, #7
 	ldmgeia sp!, {r4, pc}
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152970
+	bl DockHelpers__Func_2152970
 	ldr r1, [r0, #0x1c]
 	str r1, [r4]
 	ldr r1, [r0, #0x20]

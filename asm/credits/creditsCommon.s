@@ -36,8 +36,8 @@ _02154514:
 _0215451C: .word gameState
 	arm_func_end InitCreditsEvent
 
-	arm_func_start ovl05_2154520
-ovl05_2154520: // 0x02154520
+	arm_func_start CreditsCommon__Func_2154520
+CreditsCommon__Func_2154520: // 0x02154520
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -293,7 +293,7 @@ _021548E0: .word VRAMSystem__VRAM_BG
 _021548E4: .word renderCoreGFXControlB
 _021548E8: .word 0x0400106C
 _021548EC: .word 0x04001008
-	arm_func_end ovl05_2154520
+	arm_func_end CreditsCommon__Func_2154520
 
 	arm_func_start TextCutscene__LoadAssets
 TextCutscene__LoadAssets: // 0x021548F0
@@ -347,8 +347,8 @@ _0215499C: .word aNarcTkdmLz7Nar_ovl05
 _021549A0: .word aFntFontAllFnt_2_ovl05
 	arm_func_end TextCutscene__LoadAssets
 
-	arm_func_start ovl05_21549A4
-ovl05_21549A4: // 0x021549A4
+	arm_func_start CreditsCommon__ReleaseAssets
+CreditsCommon__ReleaseAssets: // 0x021549A4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0]
@@ -369,10 +369,10 @@ _021549D8:
 	ldr r0, [r4, #8]
 	bl _FreeHEAP_USER
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl05_21549A4
+	arm_func_end CreditsCommon__ReleaseAssets
 
-	arm_func_start ovl05_21549EC
-ovl05_21549EC: // 0x021549EC
+	arm_func_start CreditsCommon__LoadWandroom
+CreditsCommon__LoadWandroom: // 0x021549EC
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -428,10 +428,10 @@ _02154AA4:
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
 _02154AB8: .word 0x001FFFFF
-	arm_func_end ovl05_21549EC
+	arm_func_end CreditsCommon__LoadWandroom
 
-	arm_func_start ovl05_2154ABC
-ovl05_2154ABC: // 0x02154ABC
+	arm_func_start CreditsCommon__Func_2154ABC
+CreditsCommon__Func_2154ABC: // 0x02154ABC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #4
@@ -442,10 +442,10 @@ ovl05_2154ABC: // 0x02154ABC
 	bl FileUnknown__GetAOUFile
 	bl NNS_G3dResDefaultRelease
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl05_2154ABC
+	arm_func_end CreditsCommon__Func_2154ABC
 
-	arm_func_start ovl05_2154AE4
-ovl05_2154AE4: // 0x02154AE4
+	arm_func_start CreditsCommon__LoadCreditsBG
+CreditsCommon__LoadCreditsBG: // 0x02154AE4
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x1bc
 	mov r5, r0
@@ -738,10 +738,10 @@ _02154D7C:
 _02154F44: .word 0x04001000
 _02154F48: .word renderCoreGFXControlB+0x00000020
 _02154F4C: .word renderCoreGFXControlB
-	arm_func_end ovl05_2154AE4
+	arm_func_end CreditsCommon__LoadCreditsBG
 
-	arm_func_start ovl05_2154F50
-ovl05_2154F50: // 0x02154F50
+	arm_func_start CreditsCommon__InitAnimator
+CreditsCommon__InitAnimator: // 0x02154F50
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x30
 	mov r9, r1
@@ -803,10 +803,10 @@ _02154FAC:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _02155030: .word 0x05000200
-	arm_func_end ovl05_2154F50
+	arm_func_end CreditsCommon__InitAnimator
 
-	arm_func_start ovl05_2155034
-ovl05_2155034: // 0x02155034
+	arm_func_start CreditsCommon__InitSprites
+CreditsCommon__InitSprites: // 0x02155034
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
 	mov r10, r0
@@ -818,12 +818,12 @@ ovl05_2155034: // 0x02155034
 	mov r1, r4
 	mov r3, r2
 	add r0, r10, #0x2c8
-	bl ovl05_2154F50
+	bl CreditsCommon__InitAnimator
 	mov r2, #1
 	mov r1, r4
 	mov r3, r2
 	add r0, r10, #0x36c
-	bl ovl05_2154F50
+	bl CreditsCommon__InitAnimator
 	ldr r0, [r10, #0]
 	mov r1, #0x11
 	bl FileUnknown__GetAOUFile
@@ -831,7 +831,7 @@ ovl05_2155034: // 0x02155034
 	mov r1, r0
 	add r0, r10, #0x410
 	mov r3, r2
-	bl ovl05_2154F50
+	bl CreditsCommon__InitAnimator
 	ldr r0, [r10, #0]
 	mov r1, #0x12
 	bl FileUnknown__GetAOUFile
@@ -874,10 +874,10 @@ _021550C4:
 	.align 2, 0
 _02155130: .word 0x05000200
 _02155134: .word 0x00000801
-	arm_func_end ovl05_2155034
+	arm_func_end CreditsCommon__InitSprites
 
-	arm_func_start ovl05_2155138
-ovl05_2155138: // 0x02155138
+	arm_func_start CreditsCommon__Func_2155138
+CreditsCommon__Func_2155138: // 0x02155138
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	add r5, r6, #0x2c8
@@ -900,10 +900,10 @@ _0215516C:
 	add r4, r4, #0x64
 	blt _0215516C
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl05_2155138
+	arm_func_end CreditsCommon__Func_2155138
 
-	arm_func_start ovl05_2155188
-ovl05_2155188: // 0x02155188
+	arm_func_start CreditsCommon__Cleanup
+CreditsCommon__Cleanup: // 0x02155188
 	stmdb sp!, {r3, lr}
 	ldr r0, _021551C0 // =renderCoreGFXControlA+0x00000010
 	mov r1, #0
@@ -921,27 +921,27 @@ ovl05_2155188: // 0x02155188
 	.align 2, 0
 _021551C0: .word renderCoreGFXControlA+0x00000010
 _021551C4: .word renderCoreGFXControlB+0x00000010
-	arm_func_end ovl05_2155188
+	arm_func_end CreditsCommon__Cleanup
 
-	arm_func_start ovl05_21551C8
-ovl05_21551C8: // 0x021551C8
+	arm_func_start CreditsCommon__Func_21551C8
+CreditsCommon__Func_21551C8: // 0x021551C8
 	ldr ip, _021551D4 // =ClearTaskScope
 	mov r0, #1
 	bx ip
 	.align 2, 0
 _021551D4: .word ClearTaskScope
-	arm_func_end ovl05_21551C8
+	arm_func_end CreditsCommon__Func_21551C8
 
-	arm_func_start ovl05_21551D8
-ovl05_21551D8: // 0x021551D8
+	arm_func_start CreditsCommon__NextEvent
+CreditsCommon__NextEvent: // 0x021551D8
 	stmdb sp!, {r3, lr}
 	bl RequestSysEventChange
 	bl NextSysEvent
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl05_21551D8
+	arm_func_end CreditsCommon__NextEvent
 
-	arm_func_start ovl05_21551E8
-ovl05_21551E8: // 0x021551E8
+	arm_func_start CreditsCommon__Func_21551E8
+CreditsCommon__Func_21551E8: // 0x021551E8
 	cmp r0, #0
 	ldr r1, _02155240 // =renderCoreGFXControlB
 	movlt r0, #0
@@ -967,10 +967,10 @@ _02155200:
 	bx lr
 	.align 2, 0
 _02155240: .word renderCoreGFXControlB
-	arm_func_end ovl05_21551E8
+	arm_func_end CreditsCommon__Func_21551E8
 
-	arm_func_start ovl05_2155244
-ovl05_2155244: // 0x02155244
+	arm_func_start CreditsCommon__DrawScrollText
+CreditsCommon__DrawScrollText: // 0x02155244
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r8, #0
 	mov r4, r0
@@ -1003,7 +1003,7 @@ _0215527C:
 	ble _021552B8
 	mov r1, r9
 	mov r0, #0
-	bl ovl05_21555BC
+	bl CreditsCommon__Func_21555BC
 _021552B8:
 	mov r0, #0
 	str r0, [r7, #0x48]
@@ -1023,7 +1023,7 @@ _021552F0:
 	mov r1, r9
 	mov r0, #0
 	mov r8, #1
-	bl ovl05_2155578
+	bl CreditsCommon__Func_2155578
 _02155300:
 	add r5, r4, #0x40
 	ldr r1, [r6, r10]
@@ -1049,7 +1049,7 @@ _02155350:
 	mov r11, #1
 	mov r0, r11
 	mov r1, r9
-	bl ovl05_2155578
+	bl CreditsCommon__Func_2155578
 _02155360:
 	mov r0, r7
 	bl DrawBackgroundDS
@@ -1070,10 +1070,10 @@ _02155398: .word renderCoreGFXControlA
 _0215539C: .word renderCoreGFXControlA+0x00000002
 _021553A0: .word renderCoreGFXControlB
 _021553A4: .word renderCoreGFXControlB+0x00000002
-	arm_func_end ovl05_2155244
+	arm_func_end CreditsCommon__DrawScrollText
 
-	arm_func_start ovl05_21553A8
-ovl05_21553A8: // 0x021553A8
+	arm_func_start CreditsCommon__Func_21553A8
+CreditsCommon__Func_21553A8: // 0x021553A8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r2, #0xa4
 	mul r4, r1, r2
@@ -1087,10 +1087,10 @@ ovl05_21553A8: // 0x021553A8
 	orr r0, r0, #3
 	str r0, [r5, r4]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl05_21553A8
+	arm_func_end CreditsCommon__Func_21553A8
 
-	arm_func_start ovl05_21553DC
-ovl05_21553DC: // 0x021553DC
+	arm_func_start CreditsCommon__DrawLogo
+CreditsCommon__DrawLogo: // 0x021553DC
 	stmdb sp!, {r4, r5, r6, lr}
 	mov ip, #0xa4
 	mla lr, r2, ip, r0
@@ -1115,10 +1115,10 @@ ovl05_21553DC: // 0x021553DC
 	add r0, r4, r5
 	bl AnimatorSpriteDS__DrawFrame
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end ovl05_21553DC
+	arm_func_end CreditsCommon__DrawLogo
 
-	arm_func_start ovl05_215543C
-ovl05_215543C: // 0x0215543C
+	arm_func_start CreditsCommon__DrawThanksText
+CreditsCommon__DrawThanksText: // 0x0215543C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r3, [r0, #0x2c]
 	mov r4, #0
@@ -1161,10 +1161,10 @@ _021554A4:
 	blt _021554A4
 	mov r0, r4
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ovl05_215543C
+	arm_func_end CreditsCommon__DrawThanksText
 
-	arm_func_start ovl05_21554D4
-ovl05_21554D4: // 0x021554D4
+	arm_func_start CreditsCommon__Scroll
+CreditsCommon__Scroll: // 0x021554D4
 	ldr r2, _0215551C // =padInput
 	ldrh r2, [r2, #0]
 	tst r2, #1
@@ -1186,10 +1186,10 @@ _02155504:
 	bx lr
 	.align 2, 0
 _0215551C: .word padInput
-	arm_func_end ovl05_21554D4
+	arm_func_end CreditsCommon__Scroll
 
-	arm_func_start ovl05_2155520
-ovl05_2155520: // 0x02155520
+	arm_func_start CreditsCommon__Func_2155520
+CreditsCommon__Func_2155520: // 0x02155520
 	ldr r0, _02155574 // =VRAMSystem__GFXControl
 	mov r3, #0
 	ldr ip, [r0]
@@ -1213,10 +1213,10 @@ ovl05_2155520: // 0x02155520
 	bx lr
 	.align 2, 0
 _02155574: .word VRAMSystem__GFXControl
-	arm_func_end ovl05_2155520
+	arm_func_end CreditsCommon__Func_2155520
 
-	arm_func_start ovl05_2155578
-ovl05_2155578: // 0x02155578
+	arm_func_start CreditsCommon__Func_2155578
+CreditsCommon__Func_2155578: // 0x02155578
 	ldr r3, _021555B8 // =VRAMSystem__GFXControl
 	mov r2, #1
 	ldr r3, [r3, r0, lsl #2]
@@ -1235,10 +1235,10 @@ ovl05_2155578: // 0x02155578
 	bx lr
 	.align 2, 0
 _021555B8: .word VRAMSystem__GFXControl
-	arm_func_end ovl05_2155578
+	arm_func_end CreditsCommon__Func_2155578
 
-	arm_func_start ovl05_21555BC
-ovl05_21555BC: // 0x021555BC
+	arm_func_start CreditsCommon__Func_21555BC
+CreditsCommon__Func_21555BC: // 0x021555BC
 	ldr r3, _021555FC // =VRAMSystem__GFXControl
 	mov r2, #1
 	ldr r3, [r3, r0, lsl #2]
@@ -1257,32 +1257,32 @@ ovl05_21555BC: // 0x021555BC
 	bx lr
 	.align 2, 0
 _021555FC: .word VRAMSystem__GFXControl
-	arm_func_end ovl05_21555BC
+	arm_func_end CreditsCommon__Func_21555BC
 
-	arm_func_start ovl05_2155600
-ovl05_2155600: // 0x02155600
+	arm_func_start CreditsCommon__Scroll_Screen1
+CreditsCommon__Scroll_Screen1: // 0x02155600
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
 	mov r1, #0
-	bl ovl05_21554D4
+	bl CreditsCommon__Scroll
 	mov r0, r4
 	mov r1, #0
-	bl ovl05_2155244
+	bl CreditsCommon__DrawScrollText
 	mov r1, #0
 	mov ip, #0x1f8
 	mov r0, r4
 	mov r2, r1
 	mov r3, #0x40
 	str ip, [sp]
-	bl ovl05_21553DC
+	bl CreditsCommon__DrawLogo
 	ldr r1, _02155698 // =0x00000638
 	mov r0, r4
 	str r1, [sp]
 	mov r1, #1
 	mov r2, #0
 	mov r3, #0x40
-	bl ovl05_21553DC
+	bl CreditsCommon__DrawLogo
 	ldr r0, [r4, #0x14]
 	tst r0, #4
 	addeq sp, sp, #4
@@ -1291,31 +1291,31 @@ ovl05_2155600: // 0x02155600
 	mov r0, #0
 	mov r1, #3
 	str r2, [r4, #0x14]
-	bl ovl05_2155578
+	bl CreditsCommon__Func_2155578
 	mov r0, #1
 	mov r1, #3
-	bl ovl05_21555BC
-	ldr r0, _0215569C // =ovl05_21556A0
+	bl CreditsCommon__Func_21555BC
+	ldr r0, _0215569C // =CreditsCommon__Scroll_Screen1Into2
 	str r0, [r4, #0x10]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _02155698: .word 0x00000638
-_0215569C: .word ovl05_21556A0
-	arm_func_end ovl05_2155600
+_0215569C: .word CreditsCommon__Scroll_Screen1Into2
+	arm_func_end CreditsCommon__Scroll_Screen1
 
-	arm_func_start ovl05_21556A0
-ovl05_21556A0: // 0x021556A0
+	arm_func_start CreditsCommon__Scroll_Screen1Into2
+CreditsCommon__Scroll_Screen1Into2: // 0x021556A0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
-	bl ovl05_21554D4
+	bl CreditsCommon__Scroll
 	mov r0, r4
 	mov r1, #1
-	bl ovl05_21554D4
+	bl CreditsCommon__Scroll
 	mov r0, r4
 	mov r1, #0
-	bl ovl05_2155244
+	bl CreditsCommon__DrawScrollText
 	cmp r0, #0
 	beq _021556FC
 	ldr r1, [r4, #0x14]
@@ -1323,30 +1323,30 @@ ovl05_21556A0: // 0x021556A0
 	bic r2, r1, #4
 	mov r1, #2
 	str r2, [r4, #0x14]
-	bl ovl05_2155578
+	bl CreditsCommon__Func_2155578
 	mov r0, #1
 	mov r1, #2
-	bl ovl05_2155578
-	ldr r0, _0215570C // =ovl05_2155710
+	bl CreditsCommon__Func_2155578
+	ldr r0, _0215570C // =CreditsCommon__Scroll_Screen2
 	str r0, [r4, #0x10]
 _021556FC:
 	mov r0, r4
 	mov r1, #1
-	bl ovl05_2155244
+	bl CreditsCommon__DrawScrollText
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215570C: .word ovl05_2155710
-	arm_func_end ovl05_21556A0
+_0215570C: .word CreditsCommon__Scroll_Screen2
+	arm_func_end CreditsCommon__Scroll_Screen1Into2
 
-	arm_func_start ovl05_2155710
-ovl05_2155710: // 0x02155710
+	arm_func_start CreditsCommon__Scroll_Screen2
+CreditsCommon__Scroll_Screen2: // 0x02155710
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #1
-	bl ovl05_21554D4
+	bl CreditsCommon__Scroll
 	mov r0, r4
 	mov r1, #1
-	bl ovl05_2155244
+	bl CreditsCommon__DrawScrollText
 	ldr r0, [r4, #0x14]
 	tst r0, #4
 	ldmeqia sp!, {r4, pc}
@@ -1354,32 +1354,32 @@ ovl05_2155710: // 0x02155710
 	mov r0, r4
 	mov r1, #2
 	str r2, [r4, #0x14]
-	bl ovl05_21553A8
+	bl CreditsCommon__Func_21553A8
 	mov r0, #0
 	mov r1, #2
-	bl ovl05_2155578
+	bl CreditsCommon__Func_2155578
 	mov r0, #1
 	mov r1, #2
-	bl ovl05_21555BC
-	ldr r0, _02155770 // =ovl05_2155774
+	bl CreditsCommon__Func_21555BC
+	ldr r0, _02155770 // =CreditsCommon__Scroll_Screen2Into3
 	str r0, [r4, #0x10]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155770: .word ovl05_2155774
-	arm_func_end ovl05_2155710
+_02155770: .word CreditsCommon__Scroll_Screen2Into3
+	arm_func_end CreditsCommon__Scroll_Screen2
 
-	arm_func_start ovl05_2155774
-ovl05_2155774: // 0x02155774
+	arm_func_start CreditsCommon__Scroll_Screen2Into3
+CreditsCommon__Scroll_Screen2Into3: // 0x02155774
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #1
-	bl ovl05_21554D4
+	bl CreditsCommon__Scroll
 	mov r0, r4
 	mov r1, #2
-	bl ovl05_21554D4
+	bl CreditsCommon__Scroll
 	mov r0, r4
 	mov r1, #1
-	bl ovl05_2155244
+	bl CreditsCommon__DrawScrollText
 	cmp r0, #0
 	beq _021557D0
 	ldr r1, [r4, #0x14]
@@ -1387,30 +1387,30 @@ ovl05_2155774: // 0x02155774
 	bic r2, r1, #4
 	mov r1, #3
 	str r2, [r4, #0x14]
-	bl ovl05_2155578
+	bl CreditsCommon__Func_2155578
 	mov r0, #1
 	mov r1, #3
-	bl ovl05_2155578
-	ldr r0, _021557E0 // =ovl05_21557E4
+	bl CreditsCommon__Func_2155578
+	ldr r0, _021557E0 // =CreditsCommon__Scroll_Screen3
 	str r0, [r4, #0x10]
 _021557D0:
 	mov r0, r4
 	mov r1, #2
-	bl ovl05_2155244
+	bl CreditsCommon__DrawScrollText
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021557E0: .word ovl05_21557E4
-	arm_func_end ovl05_2155774
+_021557E0: .word CreditsCommon__Scroll_Screen3
+	arm_func_end CreditsCommon__Scroll_Screen2Into3
 
-	arm_func_start ovl05_21557E4
-ovl05_21557E4: // 0x021557E4
+	arm_func_start CreditsCommon__Scroll_Screen3
+CreditsCommon__Scroll_Screen3: // 0x021557E4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #2
-	bl ovl05_21554D4
+	bl CreditsCommon__Scroll
 	mov r0, r4
 	mov r1, #2
-	bl ovl05_2155244
+	bl CreditsCommon__DrawScrollText
 	ldr r0, [r4, #0x14]
 	tst r0, #4
 	ldmeqia sp!, {r4, pc}
@@ -1418,32 +1418,32 @@ ovl05_21557E4: // 0x021557E4
 	mov r0, r4
 	mov r1, #3
 	str r2, [r4, #0x14]
-	bl ovl05_21553A8
+	bl CreditsCommon__Func_21553A8
 	mov r0, #0
 	mov r1, #3
-	bl ovl05_2155578
+	bl CreditsCommon__Func_2155578
 	mov r0, #1
 	mov r1, #3
-	bl ovl05_21555BC
-	ldr r0, _02155844 // =ovl05_2155848
+	bl CreditsCommon__Func_21555BC
+	ldr r0, _02155844 // =CreditsCommon__Scroll_Screen3Into4
 	str r0, [r4, #0x10]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155844: .word ovl05_2155848
-	arm_func_end ovl05_21557E4
+_02155844: .word CreditsCommon__Scroll_Screen3Into4
+	arm_func_end CreditsCommon__Scroll_Screen3
 
-	arm_func_start ovl05_2155848
-ovl05_2155848: // 0x02155848
+	arm_func_start CreditsCommon__Scroll_Screen3Into4
+CreditsCommon__Scroll_Screen3Into4: // 0x02155848
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #2
-	bl ovl05_21554D4
+	bl CreditsCommon__Scroll
 	mov r0, r4
 	mov r1, #3
-	bl ovl05_21554D4
+	bl CreditsCommon__Scroll
 	mov r0, r4
 	mov r1, #2
-	bl ovl05_2155244
+	bl CreditsCommon__DrawScrollText
 	cmp r0, #0
 	beq _021558A4
 	ldr r1, [r4, #0x14]
@@ -1451,23 +1451,23 @@ ovl05_2155848: // 0x02155848
 	bic r2, r1, #4
 	mov r1, #2
 	str r2, [r4, #0x14]
-	bl ovl05_2155578
+	bl CreditsCommon__Func_2155578
 	mov r0, #1
 	mov r1, #2
-	bl ovl05_2155578
-	ldr r0, _021558B4 // =ovl05_21558B8
+	bl CreditsCommon__Func_2155578
+	ldr r0, _021558B4 // =CreditsCommon__Scroll_Screen4
 	str r0, [r4, #0x10]
 _021558A4:
 	mov r0, r4
 	mov r1, #3
-	bl ovl05_2155244
+	bl CreditsCommon__DrawScrollText
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021558B4: .word ovl05_21558B8
-	arm_func_end ovl05_2155848
+_021558B4: .word CreditsCommon__Scroll_Screen4
+	arm_func_end CreditsCommon__Scroll_Screen3Into4
 
-	arm_func_start ovl05_21558B8
-ovl05_21558B8: // 0x021558B8
+	arm_func_start CreditsCommon__Scroll_Screen4
+CreditsCommon__Scroll_Screen4: // 0x021558B8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r2, [r4, #0x230]
@@ -1475,30 +1475,30 @@ ovl05_21558B8: // 0x021558B8
 	sub r2, r2, #0xaf
 	mov r2, r2, lsl #0x10
 	mov r5, r2, asr #0x10
-	bl ovl05_21554D4
+	bl CreditsCommon__Scroll
 	mov r0, r4
 	mov r1, #2
 	mov r2, #3
 	mov r3, #0x80
 	str r5, [sp]
-	bl ovl05_21553DC
+	bl CreditsCommon__DrawLogo
 	mov r0, r4
 	mov r1, #3
-	bl ovl05_2155244
+	bl CreditsCommon__DrawScrollText
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	ldr r1, [r4, #0x14]
-	ldr r0, _0215591C // =ovl05_2155920
+	ldr r0, _0215591C // =CreditsCommon__Scroll_Thanks
 	orr r1, r1, #8
 	str r1, [r4, #0x14]
 	str r0, [r4, #0x10]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215591C: .word ovl05_2155920
-	arm_func_end ovl05_21558B8
+_0215591C: .word CreditsCommon__Scroll_Thanks
+	arm_func_end CreditsCommon__Scroll_Screen4
 
-	arm_func_start ovl05_2155920
-ovl05_2155920: // 0x02155920
+	arm_func_start CreditsCommon__Scroll_Thanks
+CreditsCommon__Scroll_Thanks: // 0x02155920
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -1514,13 +1514,13 @@ ovl05_2155920: // 0x02155920
 	tst r0, #0x10
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl ovl05_215543C
+	bl CreditsCommon__DrawThanksText
 	cmp r0, #0
 	ldrne r0, [r4, #0x14]
 	orrne r0, r0, #0x20
 	strne r0, [r4, #0x14]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl05_2155920
+	arm_func_end CreditsCommon__Scroll_Thanks
 
     .data
 

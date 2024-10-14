@@ -382,11 +382,11 @@ _0216A714:
 	ldr r5, [r11, #0xd14]
 	mov r0, r0, lsr #0x10
 	add r7, r5, r8
-	bl ovl05_2154024
+	bl MissionHelpers__GetMissionFromSelection_REAL
 	mov r1, #0
 	strh r1, [r5, r8]
 	mov r10, r0
-	bl ovl05_2153DF8
+	bl MissionHelpers__IsMissionUnlocked
 	cmp r0, #0
 	ldreqh r0, [r4, #0xbc]
 	addeq r0, r0, r0, lsl #1
@@ -398,13 +398,13 @@ _0216A714:
 	strh r9, [r7, #2]
 _0216A75C:
 	mov r0, r10
-	bl ovl05_2153F24
+	bl MissionHelpers__GetMissionAttempted
 	cmp r0, #1
 	ldreqh r0, [r7, #0]
 	orreq r0, r0, #2
 	streqh r0, [r7]
 	mov r0, r10
-	bl ovl05_2153EA4
+	bl MissionHelpers__IsMissionComplete
 	cmp r0, #1
 	ldreqh r0, [r7, #0]
 	add r6, r6, #1
@@ -701,7 +701,7 @@ ViTalkList__Main_216AB10: // 0x0216AB10
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, #0x63
-	bl ovl05_2153EEC
+	bl MissionHelpers__IsMissionBeaten
 	cmp r0, #0
 	beq _0216ABB0
 	bl HubControl__GetFileFrom_ViMsgCtrl
@@ -923,11 +923,11 @@ ViTalkList__Destructor: // 0x0216AE54
 	cmp r0, #0
 	beq _0216AE9C
 	mov r0, #0x63
-	bl ovl05_2153F24
+	bl MissionHelpers__GetMissionAttempted
 	cmp r0, #0
 	beq _0216AE88
 	mov r0, #0x63
-	bl ovl05_2153F0C
+	bl MissionHelpers__ResetMissionAttempted
 _0216AE88:
 	mov r0, #0xb
 	bl _ZN15CViDockNpcGroup12Func_2168744Em
@@ -940,13 +940,13 @@ _0216AE9C:
 	beq _0216AEE0
 	add r0, r4, #0x400
 	ldrh r0, [r0, #0xbe]
-	bl ovl05_2154024
+	bl MissionHelpers__GetMissionFromSelection_REAL
 	mov r5, r0
-	bl ovl05_2153F24
+	bl MissionHelpers__GetMissionAttempted
 	cmp r0, #0
 	beq _0216AECC
 	mov r0, r5
-	bl ovl05_2153F0C
+	bl MissionHelpers__ResetMissionAttempted
 _0216AECC:
 	mov r0, #9
 	bl _ZN15CViDockNpcGroup12Func_2168744Em
@@ -1202,7 +1202,7 @@ _0216B1E4:
 	beq _0216B35C
 	mov r0, r2, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl ovl05_2154350
+	bl MissionHelpers__GetUnknown2172B10
 	add r1, r5, #0x368
 	add r6, r1, #0x400
 	mov r4, r0

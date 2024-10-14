@@ -141,7 +141,7 @@ _02169968: .word 0x000011FC
 ViTalkPurchase__Func_216996C: // 0x0216996C
 	stmdb sp!, {r3, lr}
 	mov r0, #0
-	bl ovl05_21529BC
+	bl DockHelpers__GetShipBuildCost
 	bl ViTalkPurchase__Func_216A144
 	ldmia sp!, {r3, pc}
 	arm_func_end ViTalkPurchase__Func_216996C
@@ -359,32 +359,32 @@ ViTalkPurchase__Main: // 0x02169C14
 	ldr r0, [r4, #4]
 	cmp r0, #3
 	bge _02169C4C
-	bl ovl05_2152B38
+	bl DockHelpers__Func_2152B38
 	mov r5, r0
 	b _02169C9C
 _02169C4C:
 	ldr r0, [r4, #0]
 	cmp r0, #5
 	bge _02169C64
-	bl ovl05_2152B1C
+	bl DockHelpers__Func_2152B1C
 	mov r5, r0
 	b _02169C9C
 _02169C64:
 	ldr r0, [r4, #8]
 	cmp r0, #8
 	bge _02169C7C
-	bl ovl05_2152B48
+	bl DockHelpers__Func_2152B48
 	mov r5, r0
 	b _02169C9C
 _02169C7C:
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
 	beq _02169C94
-	bl ovl05_2152B58
+	bl DockHelpers__Func_2152B58
 	mov r5, r0
 	b _02169C9C
 _02169C94:
-	bl ovl05_2152B2C
+	bl DockHelpers__Func_2152B2C
 	mov r5, r0
 _02169C9C:
 	bl HubControl__GetFileFrom_ViMsgCtrl
@@ -534,7 +534,7 @@ _02169E7C:
 	ldr r0, [r4, #4]
 	cmp r0, #3
 	bge _02169EB0
-	bl ovl05_21529D8
+	bl DockHelpers__GetInfoPurchaseCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #6
 	bl _ZN15CViDockNpcGroup12Func_2168744Em
@@ -548,7 +548,7 @@ _02169EB0:
 	ldr r0, [r4, #0]
 	cmp r0, #5
 	bge _02169ED8
-	bl ovl05_21529BC
+	bl DockHelpers__GetShipBuildCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #4
 	bl _ZN15CViDockNpcGroup12Func_2168744Em
@@ -559,7 +559,7 @@ _02169ED8:
 	ldr r0, [r4, #8]
 	cmp r0, #8
 	bge _02169F00
-	bl ovl05_21529E8
+	bl DockHelpers__GetShipUpgradeCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #0x1d
 	bl _ZN15CViDockNpcGroup12Func_2168744Em
@@ -567,7 +567,7 @@ _02169ED8:
 	bl _ZN15CViDockNpcGroup12Func_2168754El
 	b _02169F98
 _02169F00:
-	bl ovl05_21529CC
+	bl DockHelpers__GetUnknownPurchaseCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #6
 	bl _ZN15CViDockNpcGroup12Func_2168744Em
@@ -578,7 +578,7 @@ _02169F1C:
 	ldr r0, [r4, #8]
 	cmp r0, #8
 	bge _02169F44
-	bl ovl05_21529E8
+	bl DockHelpers__GetShipUpgradeCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #0x1d
 	bl _ZN15CViDockNpcGroup12Func_2168744Em
@@ -691,7 +691,7 @@ _0216A078: .word 0x0000FFFF
 	arm_func_start ViTalkPurchase__Func_216A07C
 ViTalkPurchase__Func_216A07C: // 0x0216A07C
 	stmdb sp!, {r3, lr}
-	bl ovl05_21529BC
+	bl DockHelpers__GetShipBuildCost
 	bl ViTalkPurchase__Func_216A0F0
 	ldmia sp!, {r3, pc}
 	arm_func_end ViTalkPurchase__Func_216A07C
@@ -699,7 +699,7 @@ ViTalkPurchase__Func_216A07C: // 0x0216A07C
 	arm_func_start ViTalkPurchase__Func_216A08C
 ViTalkPurchase__Func_216A08C: // 0x0216A08C
 	stmdb sp!, {r3, lr}
-	bl ovl05_21529CC
+	bl DockHelpers__GetUnknownPurchaseCost
 	bl ViTalkPurchase__Func_216A0F0
 	ldmia sp!, {r3, pc}
 	arm_func_end ViTalkPurchase__Func_216A08C
@@ -707,7 +707,7 @@ ViTalkPurchase__Func_216A08C: // 0x0216A08C
 	arm_func_start ViTalkPurchase__Func_216A09C
 ViTalkPurchase__Func_216A09C: // 0x0216A09C
 	stmdb sp!, {r3, lr}
-	bl ovl05_21529D8
+	bl DockHelpers__GetInfoPurchaseCost
 	bl ViTalkPurchase__Func_216A0F0
 	ldmia sp!, {r3, pc}
 	arm_func_end ViTalkPurchase__Func_216A09C
@@ -715,7 +715,7 @@ ViTalkPurchase__Func_216A09C: // 0x0216A09C
 	arm_func_start ViTalkPurchase__Func_216A0AC
 ViTalkPurchase__Func_216A0AC: // 0x0216A0AC
 	stmdb sp!, {r3, lr}
-	bl ovl05_21529E8
+	bl DockHelpers__GetShipUpgradeCost
 	bl ViTalkPurchase__Func_216A0F0
 	ldmia sp!, {r3, pc}
 	arm_func_end ViTalkPurchase__Func_216A0AC

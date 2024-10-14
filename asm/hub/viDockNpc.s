@@ -71,7 +71,7 @@ ViDockNpc__LoadAssets: // 0x02166C30
 	mov r0, r4, lsl #0x10
 	str r4, [r7, #0x300]
 	mov r0, r0, lsr #0x10
-	bl ovl05_2152A0C
+	bl DockHelpers__GetNpcConfig
 	ldrh r2, [r0, #0]
 	add r0, r7, #0x300
 	mov r1, #0xc

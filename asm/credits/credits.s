@@ -9,7 +9,7 @@ Credits__Create: // 0x02155974
 	sub sp, sp, #0xc
 	mov r0, #0
 	mov r1, r0
-	bl ovl05_2154520
+	bl CreditsCommon__Func_2154520
 	mov r0, #0x2000
 	mov r2, #0
 	str r0, [sp]
@@ -48,9 +48,9 @@ Credits__Destructor: // 0x021559F8
 	mov r4, r0
 	bl ReleaseSysSound
 	mov r0, r4
-	bl ovl05_2155138
+	bl CreditsCommon__Func_2155138
 	mov r0, r4
-	bl ovl05_21549A4
+	bl CreditsCommon__ReleaseAssets
 	ldmia sp!, {r4, pc}
 	arm_func_end Credits__Destructor
 
@@ -60,11 +60,11 @@ Credits__Main: // 0x02155A1C
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	ldr r1, [r4, #0xc]
-	bl ovl05_2154AE4
+	bl CreditsCommon__LoadCreditsBG
 	mov r0, r4
-	bl ovl05_2155034
-	bl ovl05_2155520
-	ldr r2, _02155A68 // =ovl05_2155600
+	bl CreditsCommon__InitSprites
+	bl CreditsCommon__Func_2155520
+	ldr r2, _02155A68 // =CreditsCommon__Scroll_Screen1
 	mov r0, #2
 	mov r1, #0x800
 	str r2, [r4, #0x10]
@@ -76,7 +76,7 @@ Credits__Main: // 0x02155A1C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155A68: .word ovl05_2155600
+_02155A68: .word CreditsCommon__Scroll_Screen1
 _02155A6C: .word Credits__Main_2155A70
 	arm_func_end Credits__Main
 
@@ -264,7 +264,7 @@ _02155CCC:
 	ldr r0, [r4, #0x30]
 	add r0, r0, #0x200
 	str r0, [r4, #0x30]
-	bl ovl05_21551E8
+	bl CreditsCommon__Func_21551E8
 	ldr r0, [r4, #0x30]
 	cmp r0, #0x10000
 	ldmltia sp!, {r4, pc}
@@ -349,7 +349,7 @@ Credits__Main_2155DD4: // 0x02155DD4
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl ovl05_21551C8
+	bl CreditsCommon__Func_21551C8
 	mov r0, r4
 	mov r1, #0
 	bl CreditsNotification__Create
@@ -368,7 +368,7 @@ Credits__Main_2155E00: // 0x02155E00
 	ldr r0, [r4, #0x14]
 	tst r0, #0x40
 	ldmeqia sp!, {r4, pc}
-	bl ovl05_21541A0
+	bl MissionHelpers__CheckPostGameMissionUnlock
 	cmp r0, #0
 	beq _02155E3C
 	ldr r1, [r4, #0x14]
@@ -440,7 +440,7 @@ Credits__Main_2155EC4: // 0x02155EC4
 	strne r1, [r0, #0x34]
 	ldmneia sp!, {r3, pc}
 	mov r0, #0
-	bl ovl05_21551D8
-	bl ovl05_2155188
+	bl CreditsCommon__NextEvent
+	bl CreditsCommon__Cleanup
 	ldmia sp!, {r3, pc}
 	arm_func_end Credits__Main_2155EC4
