@@ -42,7 +42,7 @@ SeaMapMenu__Create: // 0x0203FECC
 	ldr r1, _02040004 // =SeaMapMenu_Destructor
 	mov r3, r2
 	bl TaskCreate_
-	ldr r1, _02040008 // =0x02134178
+	ldr r1, _02040008 // =SeaMapView__sVars
 	str r0, [r1]
 	bl GetTaskWork_
 	mov r5, r0
@@ -89,7 +89,7 @@ _0203FFF8: .word aSndSysSoundDat
 _0203FFFC: .word audioManagerSndHeap
 _02040000: .word SeaMapMenu_Main
 _02040004: .word SeaMapMenu_Destructor
-_02040008: .word 0x02134178
+_02040008: .word SeaMapView__sVars
 _0204000C: .word SeaMapMenu__State_20405D4
 _02040010: .word gameState
 _02040014: .word 0x0210F87C
@@ -322,13 +322,13 @@ SeaMapMenu_Destructor: // 0x020402E8
 	bl ReleaseAudioSystem
 	ldr r1, _02040310 // =0x0213417C
 	mov r2, #0
-	ldr r0, _02040314 // =0x02134178
+	ldr r0, _02040314 // =SeaMapView__sVars
 	str r2, [r1]
 	str r2, [r0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02040310: .word 0x0213417C
-_02040314: .word 0x02134178
+_02040314: .word SeaMapView__sVars
 	arm_func_end SeaMapMenu_Destructor
 
 	arm_func_start SeaMapMenu__Draw

@@ -3,6 +3,12 @@
 
 .public VRAMSystem__VRAM_PALETTE_OBJ
 
+	.bss
+	
+.public SeaMapEventManager__Singleton
+SeaMapEventManager__Singleton: // 0x0213419C
+	.space 0x04
+
 	.text
 
 	arm_func_start SeaMapEventManager__CheckFeatureUnlocked
@@ -71,7 +77,7 @@ SeaMapEventManager__Create: // 0x0204676C
 	mov r4, #0x260
 	str r4, [sp, #8]
 	bl TaskCreate_
-	ldr r1, _02046970 // =0x0213419C
+	ldr r1, _02046970 // =SeaMapEventManager__Singleton
 	str r0, [r1]
 	bl GetTaskWork_
 	mov r5, r0
@@ -190,7 +196,7 @@ _020467CC:
 	.align 2, 0
 _02046968: .word SeaMapEventManager__SpawnObjects2
 _0204696C: .word SeaMapEventManager__Func_20473C0
-_02046970: .word 0x0213419C
+_02046970: .word SeaMapEventManager__Singleton
 _02046974: .word 0x0000FFFF
 _02046978: .word VRAMSystem__VRAM_PALETTE_OBJ
 	arm_func_end SeaMapEventManager__Create
@@ -198,18 +204,18 @@ _02046978: .word VRAMSystem__VRAM_PALETTE_OBJ
 	arm_func_start SeaMapEventManager__Destroy
 SeaMapEventManager__Destroy: // 0x0204697C
 	stmdb sp!, {r3, lr}
-	ldr r0, _020469A8 // =0x0213419C
+	ldr r0, _020469A8 // =SeaMapEventManager__Singleton
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	mov r0, #1
 	bl ClearTaskScope
-	ldr r0, _020469A8 // =0x0213419C
+	ldr r0, _020469A8 // =SeaMapEventManager__Singleton
 	ldr r0, [r0, #0]
 	bl DestroyTask
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_020469A8: .word 0x0213419C
+_020469A8: .word SeaMapEventManager__Singleton
 	arm_func_end SeaMapEventManager__Destroy
 
 	arm_func_start SeaMapEventManager__CreateObject
@@ -955,12 +961,12 @@ _02047288: .word 0x02110048
 
 	arm_func_start SeaMapEventManager__GetWork
 SeaMapEventManager__GetWork: // 0x0204728C
-	ldr r0, _0204729C // =0x0213419C
+	ldr r0, _0204729C // =SeaMapEventManager__Singleton
 	ldr ip, _020472A0 // =GetTaskWork_
 	ldr r0, [r0, #0]
 	bx ip
 	.align 2, 0
-_0204729C: .word 0x0213419C
+_0204729C: .word SeaMapEventManager__Singleton
 _020472A0: .word GetTaskWork_
 	arm_func_end SeaMapEventManager__GetWork
 
@@ -1061,12 +1067,12 @@ SeaMapEventManager__Func_20473C0: // 0x020473C0
 	bl AnimatorSprite__Release
 	add r0, r4, #0x1f0
 	bl AnimatorSprite__Release
-	ldr r0, _020473F4 // =0x0213419C
+	ldr r0, _020473F4 // =SeaMapEventManager__Singleton
 	mov r1, #0
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_020473F4: .word 0x0213419C
+_020473F4: .word SeaMapEventManager__Singleton
 	arm_func_end SeaMapEventManager__Func_20473C0
 
 	arm_func_start SeaMapEventManager__InitMapObject

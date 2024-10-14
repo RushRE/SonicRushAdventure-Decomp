@@ -3024,7 +3024,7 @@ _02095C00:
 DWCi_FinishCancelMatching: // 0x02095C0C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
-	ldr r1, _02095CC8 // =0x0211C2B0
+	ldr r1, _02095CC8 // =_0211C2B0
 	mov r0, #1
 	mov r2, #0
 	bl DWCi_SetGPStatus
@@ -3071,7 +3071,7 @@ _02095C60:
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
-_02095CC8: .word 0x0211C2B0
+_02095CC8: .word _0211C2B0
 	arm_func_end DWCi_FinishCancelMatching
 
 	arm_func_start DWCi_DoCancelMatching
@@ -3580,7 +3580,7 @@ _020963F4:
 	ldrb r0, [r0, #0x15]
 	cmp r0, #2
 	beq _02096414
-	ldr r1, _02096554 // =0x0211C2B0
+	ldr r1, _02096554 // =_0211C2B0
 	mov r0, #2
 	mov r2, r4
 	bl DWCi_SetGPStatus
@@ -3673,7 +3673,7 @@ _02096520:
 	add sp, sp, #0x20
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
-_02096554: .word 0x0211C2B0
+_02096554: .word _0211C2B0
 _02096558: .word 0x02143BB4
 	arm_func_end DWCi_PostProcessConnection
 
@@ -7522,7 +7522,7 @@ DWCi_StopMatching: // 0x02099B68
 	mov r0, r4
 	mov r1, r5
 	bl DWCi_SetError
-	ldr r1, _02099C28 // =0x0211C2B0
+	ldr r1, _02099C28 // =_0211C2B0
 	mov r0, #1
 	mov r2, #0
 	bl DWCi_SetGPStatus
@@ -7556,7 +7556,7 @@ DWCi_StopMatching: // 0x02099B68
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
-_02099C28: .word 0x0211C2B0
+_02099C28: .word _0211C2B0
 	arm_func_end DWCi_StopMatching
 
 	arm_func_start DWCi_StopResendingMatchCommand
@@ -9027,7 +9027,7 @@ _0209B158:
 	addne sp, sp, #0x118
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
 _0209B17C:
-	ldr r1, _0209B1E4 // =0x0211C2B0
+	ldr r1, _0209B1E4 // =_0211C2B0
 	mov r0, #3
 	mov r2, #0
 	bl DWCi_SetGPStatus
@@ -9055,7 +9055,7 @@ _0209B1D4: .word 0x02143BB8
 _0209B1D8: .word aAnd
 _0209B1DC: .word 0xFFFEC77F
 _0209B1E0: .word DWCi_SBCallback
-_0209B1E4: .word 0x0211C2B0
+_0209B1E4: .word _0211C2B0
 	arm_func_end DWCi_ConnectToAnybodyAsync
 
 	arm_func_start DWCi_QR2Startup

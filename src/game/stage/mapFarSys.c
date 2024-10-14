@@ -1563,7 +1563,7 @@ NONMATCH_FUNC void MapFarSys__Func_200B578(void *bgFile)
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x48
-	ldr r5, =0x0210E120
+	ldr r5, =_0210E120
 	add r4, sp, #0x28
 	mov r10, r0
 	ldmia r5!, {r0, r1, r2, r3}
@@ -1770,7 +1770,7 @@ _0200B834:
 	cmp r0, #0x420
 	bne _0200B8E8
 	ldr r0, =MapFarSys__sVars
-	ldr r2, =0x0210E23C
+	ldr r2, =_0210E23C
 	ldr r1, [r0, #8]
 	str r2, [r1, #0x620]
 	ldr r0, [r0, #8]
@@ -1778,7 +1778,7 @@ _0200B834:
 	ldmia sp!, {r3, pc}
 _0200B8E8:
 	ldr r0, =MapFarSys__sVars
-	ldr r2, =0x0210E1D4
+	ldr r2, =_0210E1D4
 	ldr r1, [r0, #8]
 	str r2, [r1, #0x620]
 	ldr r0, [r0, #8]
@@ -1786,7 +1786,7 @@ _0200B8E8:
 	ldmia sp!, {r3, pc}
 _0200B904:
 	ldr r0, =MapFarSys__sVars
-	ldr r3, =0x0210E30C
+	ldr r3, =_0210E30C
 	ldr r1, [r0, #8]
 	mov r2, #0x1d0
 	str r3, [r1, #0x620]
@@ -1857,7 +1857,7 @@ _0200B9B0:
 	str ip, [sp]
 	bl RenderCore_PrepareDMA
 	ldr r0, =MapFarSys__sVars
-	ldr r2, =0x0210E160
+	ldr r2, =_0210E160
 	ldr r1, [r0, #8]
 	str r2, [r1, #0x620]
 	ldr r0, [r0, #8]
@@ -2259,7 +2259,7 @@ NONMATCH_FUNC void MapFarSys__Process_Z1(void)
 	beq _0200C03C
 	cmp r1, #0x600000
 	blt _0200BFF0
-	ldr r2, =0x0210E2A4
+	ldr r2, =_0210E2A4
 	ldr r1, =MapFarSys__sVars
 	str r2, [r0, #0x62c]
 	ldr r1, [r1, #8]
@@ -2272,7 +2272,7 @@ _0200BFF0:
 	and r1, r1, #0x420
 	cmp r1, #0x420
 	bne _0200C020
-	ldr r2, =0x0210E23C
+	ldr r2, =_0210E23C
 	ldr r1, =MapFarSys__sVars
 	str r2, [r0, #0x62c]
 	ldr r1, [r1, #8]
@@ -2280,7 +2280,7 @@ _0200BFF0:
 	str r0, [r1, #0x620]
 	b _0200C0C8
 _0200C020:
-	ldr r2, =0x0210E1D4
+	ldr r2, =_0210E1D4
 	ldr r1, =MapFarSys__sVars
 	str r2, [r0, #0x62c]
 	ldr r1, [r1, #8]
@@ -2289,16 +2289,16 @@ _0200C020:
 	b _0200C0C8
 _0200C03C:
 	cmp r1, #0x600000
-	ldrge r1, =0x0210E2A4
+	ldrge r1, =_0210E2A4
 	strge r1, [r0, #0x620]
 	bge _0200C06C
 	ldr r1, =gameState
 	ldr r1, [r1, #0x10]
 	and r1, r1, #0x420
 	cmp r1, #0x420
-	ldreq r1, =0x0210E23C
+	ldreq r1, =_0210E23C
 	streq r1, [r0, #0x620]
-	ldrne r1, =0x0210E1D4
+	ldrne r1, =_0210E1D4
 	strne r1, [r0, #0x620]
 _0200C06C:
 	ldr r0, =mapCamera
@@ -2306,7 +2306,7 @@ _0200C06C:
 	cmp r0, #0x600000
 	blt _0200C090
 	ldr r0, =MapFarSys__sVars
-	ldr r1, =0x0210E2A4
+	ldr r1, =_0210E2A4
 	ldr r0, [r0, #8]
 	str r1, [r0, #0x62c]
 	b _0200C0C8
@@ -2317,13 +2317,13 @@ _0200C090:
 	cmp r0, #0x420
 	bne _0200C0B8
 	ldr r0, =MapFarSys__sVars
-	ldr r1, =0x0210E23C
+	ldr r1, =_0210E23C
 	ldr r0, [r0, #8]
 	str r1, [r0, #0x62c]
 	b _0200C0C8
 _0200C0B8:
 	ldr r0, =MapFarSys__sVars
-	ldr r1, =0x0210E1D4
+	ldr r1, =_0210E1D4
 	ldr r0, [r0, #8]
 	str r1, [r0, #0x62c]
 _0200C0C8:
@@ -2343,8 +2343,8 @@ NONMATCH_FUNC void MapFarSys__Process_Z2(void)
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov lr, #0
 	mov r0, #0x1d0
-	ldr r1, =0x0210E094
-	ldr r3, =0x0210E160
+	ldr r1, =_0210E094
+	ldr r3, =_0210E160
 	ldr r6, =MapFarSys__sVars
 	mov r4, lr
 	mov r2, r0
@@ -2497,7 +2497,7 @@ _0200C2DC:
 	str r1, [sp, #4]
 	mov r1, #0
 	str r1, [sp, #8]
-	ldr r1, =0x0210E140
+	ldr r1, =_0210E140
 	movgt r2, #0xbf
 	movle r0, r0, lsl #0x10
 	movle r2, r0, lsr #0x10
@@ -2521,7 +2521,7 @@ _0200C334:
 	str r3, [sp, #4]
 	mov r3, #0
 	str r3, [sp, #8]
-	ldr r3, =0x0210E0A4
+	ldr r3, =_0210E0A4
 	movlt r1, #0
 	movge r0, r8, lsl #0x10
 	movge r1, r0, lsr #0x10
@@ -2546,7 +2546,7 @@ _0200C39C:
 	str r2, [sp, #4]
 	mov r2, #0x200
 	str r2, [sp, #8]
-	ldr r2, =0x0210E0D8
+	ldr r2, =_0210E0D8
 	mov r3, r9, lsl #0x10
 	str r2, [sp, #0xc]
 	movlt r1, #0
@@ -2753,7 +2753,7 @@ NONMATCH_FUNC void MapFarSys__Process_Z6(void)
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x3c
 	ldr r0, =MapFarSys__sVars
-	ldr r3, =0x0210E0B4
+	ldr r3, =_0210E0B4
 	ldr r0, [r0, #8]
 	add r5, sp, #0x16
 	str r0, [sp]
@@ -2768,7 +2768,7 @@ _0200C6E0:
 	subs r2, r2, #1
 	bne _0200C6E0
 	ldrh r0, [r3, #0]
-	ldr r4, =0x0210E0C6
+	ldr r4, =_0210E0C6
 	add r3, sp, #4
 	strh r0, [r5]
 	mov r2, #4
@@ -2897,15 +2897,15 @@ NONMATCH_FUNC void MapFarSys__Process_Z7(void)
 	and r0, r2, #0x420
 	cmp r0, #0x420
 	bne _0200C8E4
-	ldr r0, =0x0210E1AC
+	ldr r0, =_0210E1AC
 	str r0, [sp, #0x28]
-	ldr r0, =0x0210E108
+	ldr r0, =_0210E108
 	str r0, [sp, #0x24]
 	b _0200C8F4
 _0200C8E4:
-	ldr r0, =0x0210E184
+	ldr r0, =_0210E184
 	str r0, [sp, #0x28]
-	ldr r0, =0x0210E0F0
+	ldr r0, =_0210E0F0
 	str r0, [sp, #0x24]
 _0200C8F4:
 	ldr r1, =mapCamera

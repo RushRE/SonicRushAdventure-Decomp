@@ -149,7 +149,7 @@ SeaMapDSPopup__Destructor: // 0x0204970C
 	bl SeaMapEventManager__SetObjectAsInactive
 	mov r0, r4
 	bl SeaMapEventManager__DestroyObject
-	ldr r0, _02049760 // =0x0213419C
+	ldr r0, _02049760 // =SeaMapEventManager__Singleton
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
@@ -158,5 +158,5 @@ SeaMapDSPopup__Destructor: // 0x0204970C
 	str r1, [r0, #0x254]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02049760: .word 0x0213419C
+_02049760: .word SeaMapEventManager__Singleton
 	arm_func_end SeaMapDSPopup__Destructor

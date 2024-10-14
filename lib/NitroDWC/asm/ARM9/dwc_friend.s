@@ -530,7 +530,7 @@ DWCi_GPSendBuddyRequest: // 0x020924A0
 	ldr r2, _020924CC // =0x02143BA4
 	mov r1, r0
 	ldr r0, [r2, #0]
-	ldr r2, _020924D0 // =0x0211C210
+	ldr r2, _020924D0 // =_0211C210
 	ldr r0, [r0, #4]
 	bl sub_20A5678
 	mov r4, r0
@@ -539,7 +539,7 @@ DWCi_GPSendBuddyRequest: // 0x020924A0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _020924CC: .word 0x02143BA4
-_020924D0: .word 0x0211C210
+_020924D0: .word _0211C210
 	arm_func_end DWCi_GPSendBuddyRequest
 
 	arm_func_start DWCi_RefreshFriendListAll
@@ -1573,7 +1573,7 @@ DWC_GetFriendStatusSC: // 0x0209323C
 	bne _020932F0
 	cmp r6, #0
 	beq _020932AC
-	ldr r0, _02093350 // =0x0211C24C
+	ldr r0, _02093350 // =_0211C24C
 	add r1, sp, #0
 	add r2, sp, #0xc
 	mov r3, #0x2f
@@ -1634,7 +1634,7 @@ _0209332C:
 	add sp, sp, #0x218
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02093350: .word 0x0211C24C
+_02093350: .word _0211C24C
 _02093354: .word 0x0211C250
 	arm_func_end DWC_GetFriendStatusSC
 

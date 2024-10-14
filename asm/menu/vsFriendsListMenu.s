@@ -336,7 +336,7 @@ _021716F0:
 	ldr r1, _02171780 // =0x05000402
 	mov r2, #8
 	bl MIi_CpuCopy16
-	ldr r0, _02171784 // =0x02110458
+	ldr r0, _02171784 // =FontAnimator__Palettes
 	ldr r1, _02171788 // =0x0500040A
 	mov r2, #8
 	bl MIi_CpuCopy16
@@ -345,7 +345,7 @@ _021716F0:
 	.align 2, 0
 _0217177C: .word FontAnimator__Palettes+0x00000008
 _02171780: .word 0x05000402
-_02171784: .word 0x02110458
+_02171784: .word FontAnimator__Palettes
 _02171788: .word 0x0500040A
 	arm_func_end VSFriendListMenu__InitUnknown
 

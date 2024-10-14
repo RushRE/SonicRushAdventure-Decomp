@@ -3,77 +3,8 @@
 
 .public VRAMSystem__GFXControl
 .public VRAMSystem__VRAM_PALETTE_OBJ
-
-	.bss
-	
-_02134174: // 0x02134174
-    .space 0x04
-
-_02134178: // 0x02134178
-    .space 0x04
-
-_0213417C: // 0x0213417C
-    .space 0x04
-	
-_02134180: // 0x02134180
-    .space 0x04
-	
-_02134184: // 0x02134184
-    .space 0x04
-	
-_02134188: // 0x02134188
-	.space 0x04
-	
-_0213418C: // 0x0213418C
-    .space 0x04
-	
-_02134190: // 0x02134190
-    .space 0x04
-	
-_02134194: // 0x02134194
-    .space 0x04
-	
-_02134198: // 0x02134198
-    .space 0x04
-	
-SeaMapEventManagerPtr: // 0x0213419C
-	.space 0x04
-	
-_021341A0: // 0x021341A0
-    .space 0x04
-	
-_021341A4: // 0x021341A4
-    .space 0x0C
-	
-_021341B0: // 0x021341B0
-    .space 0x01 * 512
-
-_021343B0: // 0x021343B0
-    .space 0x01 * 128
-
-_02134430: // 0x02134430
-    .space 0x04
-	
-_02134434: // 0x02134434
-    .space 0x04
-	
-_02134438: // 0x02134438
-    .space 0x04
-	
-_0213443C: // 0x0213443C
-    .space 0x04
-	
-_02134440: // 0x02134440
-    .space 0x04
-	
-_02134444: // 0x02134444
-    .space 0x04
-	
-_02134448: // 0x02134448
-    .space 0x02
-	
-_0213444A: // 0x0213444A
-    .space 0x02
+.public SeaMapView__sVars
+.public SeaMapCourseChangeView__02134174
 
 	.text
 
@@ -106,7 +37,7 @@ SeaMapChartCourseView__Create: // 0x02040788
 	ldr r1, _02040918 // =SeaMapChartCourseView__Destructor
 	mov r3, r2
 	bl TaskCreate_
-	ldr r1, _0204091C // =0x02134178
+	ldr r1, _0204091C // =SeaMapView__sVars
 	str r0, [r1]
 	bl GetTaskWork_
 	mov r4, r0
@@ -118,7 +49,7 @@ SeaMapChartCourseView__Create: // 0x02040788
 	beq _02040838
 	ldr r2, _02040920 // =0x02134184
 	mov r3, #0
-	ldr r1, _02040924 // =_02134174
+	ldr r1, _02040924 // =SeaMapCourseChangeView__02134174
 	ldr r0, _02040928 // =gameState
 	str r3, [r2]
 	str r3, [r1]
@@ -187,9 +118,9 @@ _0204090C: .word 0x02134180
 _02040910: .word 0x00000ADC
 _02040914: .word SeaMapChartCourseView__Main
 _02040918: .word SeaMapChartCourseView__Destructor
-_0204091C: .word 0x02134178
+_0204091C: .word SeaMapView__sVars
 _02040920: .word 0x02134184
-_02040924: .word _02134174
+_02040924: .word SeaMapCourseChangeView__02134174
 _02040928: .word gameState
 _0204092C: .word SeaMapChartCourseView__State_2041978
 _02040930: .word SeaMapChartCourseView__Draw_2041440
@@ -201,12 +132,12 @@ _0204093C: .word 0x0210FAD0
 	arm_func_start SeaMapChartCourseView__Destroy
 SeaMapChartCourseView__Destroy: // 0x02040940
 	stmdb sp!, {r3, lr}
-	ldr r0, _02040974 // =0x02134178
+	ldr r0, _02040974 // =SeaMapView__sVars
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl DestroyTask
-	ldr r0, _02040974 // =0x02134178
+	ldr r0, _02040974 // =SeaMapView__sVars
 	mov r1, #0
 	str r1, [r0]
 	bl SeaMapEventManager__Destroy
@@ -214,13 +145,13 @@ SeaMapChartCourseView__Destroy: // 0x02040940
 	bl DestroyNavTails
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02040974: .word 0x02134178
+_02040974: .word SeaMapView__sVars
 	arm_func_end SeaMapChartCourseView__Destroy
 
 	arm_func_start SeaMapChartCourseView__Func_2040978
 SeaMapChartCourseView__Func_2040978: // 0x02040978
 	stmdb sp!, {r3, lr}
-	ldr r0, _020409A8 // =0x02134178
+	ldr r0, _020409A8 // =SeaMapView__sVars
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	moveq r0, #0
@@ -232,7 +163,7 @@ SeaMapChartCourseView__Func_2040978: // 0x02040978
 	movne r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_020409A8: .word 0x02134178
+_020409A8: .word SeaMapView__sVars
 	arm_func_end SeaMapChartCourseView__Func_2040978
 
 	arm_func_start SeaMapChartCourseView__TouchAreaCallback
@@ -1013,13 +944,13 @@ _02041418:
 	bl SeaMapView__ReleaseAssets
 	ldr r1, _02041438 // =0x0213417C
 	mov r2, #0
-	ldr r0, _0204143C // =0x02134178
+	ldr r0, _0204143C // =SeaMapView__sVars
 	str r2, [r1]
 	str r2, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02041438: .word 0x0213417C
-_0204143C: .word 0x02134178
+_0204143C: .word SeaMapView__sVars
 	arm_func_end SeaMapChartCourseView__Destructor
 
 	arm_func_start SeaMapChartCourseView__Draw_2041440

@@ -72,33 +72,33 @@ Credits__Main: // 0x02155A1C
 	mov r0, #0x22
 	mov r1, #1
 	bl PlaySysTrack
-	ldr r0, _02155A6C // =Task__OV05Unknown2155974__Main_2155A70
+	ldr r0, _02155A6C // =Credits__Main_2155A70
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02155A68: .word ovl05_2155600
-_02155A6C: .word Task__OV05Unknown2155974__Main_2155A70
+_02155A6C: .word Credits__Main_2155A70
 	arm_func_end Credits__Main
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155A70
-Task__OV05Unknown2155974__Main_2155A70: // 0x02155A70
+	arm_func_start Credits__Main_2155A70
+Credits__Main_2155A70: // 0x02155A70
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldr r0, _02155A9C // =Task__OV05Unknown2155974__Main_2155AA0
+	ldr r0, _02155A9C // =Credits__Main_2155AA0
 	mov r1, #0x3c
 	str r1, [r4, #0x1c]
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155A9C: .word Task__OV05Unknown2155974__Main_2155AA0
-	arm_func_end Task__OV05Unknown2155974__Main_2155A70
+_02155A9C: .word Credits__Main_2155AA0
+	arm_func_end Credits__Main_2155A70
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155AA0
-Task__OV05Unknown2155974__Main_2155AA0: // 0x02155AA0
+	arm_func_start Credits__Main_2155AA0
+Credits__Main_2155AA0: // 0x02155AA0
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x1c]
@@ -111,7 +111,7 @@ Task__OV05Unknown2155974__Main_2155AA0: // 0x02155AA0
 	mov r2, #6
 	bl MIi_CpuClear16
 	ldr r1, _02155B30 // =renderCoreGFXControlA
-	ldr r0, _02155B34 // =Task__OV05Unknown2155974__Main_2155B38
+	ldr r0, _02155B34 // =Credits__Main_2155B38
 	ldrh r2, [r1, #0x20]
 	bic r2, r2, #0xc0
 	orr r2, r2, #0xc0
@@ -137,11 +137,11 @@ Task__OV05Unknown2155974__Main_2155AA0: // 0x02155AA0
 	.align 2, 0
 _02155B2C: .word renderCoreGFXControlA+0x00000020
 _02155B30: .word renderCoreGFXControlA
-_02155B34: .word Task__OV05Unknown2155974__Main_2155B38
-	arm_func_end Task__OV05Unknown2155974__Main_2155AA0
+_02155B34: .word Credits__Main_2155B38
+	arm_func_end Credits__Main_2155AA0
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155B38
-Task__OV05Unknown2155974__Main_2155B38: // 0x02155B38
+	arm_func_start Credits__Main_2155B38
+Credits__Main_2155B38: // 0x02155B38
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x24]
@@ -159,16 +159,16 @@ Task__OV05Unknown2155974__Main_2155B38: // 0x02155B38
 	strh r1, [r2, #0x24]
 	mov r1, #0x5a
 	str r1, [r0, #0x1c]
-	ldr r0, _02155B8C // =Task__OV05Unknown2155974__Main_2155B90
+	ldr r0, _02155B8C // =Credits__Main_2155B90
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02155B88: .word renderCoreGFXControlA
-_02155B8C: .word Task__OV05Unknown2155974__Main_2155B90
-	arm_func_end Task__OV05Unknown2155974__Main_2155B38
+_02155B8C: .word Credits__Main_2155B90
+	arm_func_end Credits__Main_2155B38
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155B90
-Task__OV05Unknown2155974__Main_2155B90: // 0x02155B90
+	arm_func_start Credits__Main_2155B90
+Credits__Main_2155B90: // 0x02155B90
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x1c]
@@ -180,15 +180,15 @@ Task__OV05Unknown2155974__Main_2155B90: // 0x02155B90
 	str r1, [r0, #0x1c]
 	mov r1, #0x3c
 	str r1, [r0, #0x20]
-	ldr r0, _02155BC8 // =Task__OV05Unknown2155974__Main_2155BCC
+	ldr r0, _02155BC8 // =Credits__Main_2155BCC
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02155BC8: .word Task__OV05Unknown2155974__Main_2155BCC
-	arm_func_end Task__OV05Unknown2155974__Main_2155B90
+_02155BC8: .word Credits__Main_2155BCC
+	arm_func_end Credits__Main_2155B90
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155BCC
-Task__OV05Unknown2155974__Main_2155BCC: // 0x02155BCC
+	arm_func_start Credits__Main_2155BCC
+Credits__Main_2155BCC: // 0x02155BCC
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -232,7 +232,7 @@ _02155C60:
 	tst r0, #0x20
 	ldmeqia sp!, {r4, pc}
 	ldr r3, _02155CA8 // =0x04001000
-	ldr r0, _02155CAC // =Task__OV05Unknown2155974__Main_2155CB0
+	ldr r0, _02155CAC // =Credits__Main_2155CB0
 	ldr r2, [r3, #0]
 	ldr r1, [r3, #0]
 	and r2, r2, #0x1f00
@@ -248,11 +248,11 @@ _02155C60:
 	.align 2, 0
 _02155CA4: .word renderCoreGFXControlA
 _02155CA8: .word 0x04001000
-_02155CAC: .word Task__OV05Unknown2155974__Main_2155CB0
-	arm_func_end Task__OV05Unknown2155974__Main_2155BCC
+_02155CAC: .word Credits__Main_2155CB0
+	arm_func_end Credits__Main_2155BCC
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155CB0
-Task__OV05Unknown2155974__Main_2155CB0: // 0x02155CB0
+	arm_func_start Credits__Main_2155CB0
+Credits__Main_2155CB0: // 0x02155CB0
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -268,17 +268,17 @@ _02155CCC:
 	ldr r0, [r4, #0x30]
 	cmp r0, #0x10000
 	ldmltia sp!, {r4, pc}
-	ldr r0, _02155CFC // =Task__OV05Unknown2155974__Main_2155D00
+	ldr r0, _02155CFC // =Credits__Main_2155D00
 	mov r1, #0x168
 	str r1, [r4, #0x34]
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155CFC: .word Task__OV05Unknown2155974__Main_2155D00
-	arm_func_end Task__OV05Unknown2155974__Main_2155CB0
+_02155CFC: .word Credits__Main_2155D00
+	arm_func_end Credits__Main_2155CB0
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155D00
-Task__OV05Unknown2155974__Main_2155D00: // 0x02155D00
+	arm_func_start Credits__Main_2155D00
+Credits__Main_2155D00: // 0x02155D00
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -308,16 +308,16 @@ _02155D44:
 	mov r0, #4
 	mov r1, #0x800
 	bl CreateDrawFadeTask
-	ldr r0, _02155D7C // =Task__OV05Unknown2155974__Main_2155D80
+	ldr r0, _02155D7C // =Credits__Main_2155D80
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02155D78: .word 0x0000014A
-_02155D7C: .word Task__OV05Unknown2155974__Main_2155D80
-	arm_func_end Task__OV05Unknown2155974__Main_2155D00
+_02155D7C: .word Credits__Main_2155D80
+	arm_func_end Credits__Main_2155D00
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155D80
-Task__OV05Unknown2155974__Main_2155D80: // 0x02155D80
+	arm_func_start Credits__Main_2155D80
+Credits__Main_2155D80: // 0x02155D80
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x10]
@@ -332,20 +332,20 @@ _02155D98:
 	bl SaveGame__CheckProgress37
 	cmp r0, #0
 	beq _02155DC0
-	ldr r0, _02155DCC // =Task__OV05Unknown2155974__Main_2155EA4
+	ldr r0, _02155DCC // =Credits__Main_2155EA4
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 _02155DC0:
-	ldr r0, _02155DD0 // =Task__OV05Unknown2155974__Main_2155DD4
+	ldr r0, _02155DD0 // =Credits__Main_2155DD4
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02155DCC: .word Task__OV05Unknown2155974__Main_2155EA4
-_02155DD0: .word Task__OV05Unknown2155974__Main_2155DD4
-	arm_func_end Task__OV05Unknown2155974__Main_2155D80
+_02155DCC: .word Credits__Main_2155EA4
+_02155DD0: .word Credits__Main_2155DD4
+	arm_func_end Credits__Main_2155D80
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155DD4
-Task__OV05Unknown2155974__Main_2155DD4: // 0x02155DD4
+	arm_func_start Credits__Main_2155DD4
+Credits__Main_2155DD4: // 0x02155DD4
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -353,15 +353,15 @@ Task__OV05Unknown2155974__Main_2155DD4: // 0x02155DD4
 	mov r0, r4
 	mov r1, #0
 	bl CreditsNotification__Create
-	ldr r0, _02155DFC // =Task__OV05Unknown2155974__Main_2155E00
+	ldr r0, _02155DFC // =Credits__Main_2155E00
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155DFC: .word Task__OV05Unknown2155974__Main_2155E00
-	arm_func_end Task__OV05Unknown2155974__Main_2155DD4
+_02155DFC: .word Credits__Main_2155E00
+	arm_func_end Credits__Main_2155DD4
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155E00
-Task__OV05Unknown2155974__Main_2155E00: // 0x02155E00
+	arm_func_start Credits__Main_2155E00
+Credits__Main_2155E00: // 0x02155E00
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -372,22 +372,22 @@ Task__OV05Unknown2155974__Main_2155E00: // 0x02155E00
 	cmp r0, #0
 	beq _02155E3C
 	ldr r1, [r4, #0x14]
-	ldr r0, _02155E48 // =Task__OV05Unknown2155974__Main_2155E50
+	ldr r0, _02155E48 // =Credits__Main_2155E50
 	bic r1, r1, #0x40
 	str r1, [r4, #0x14]
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 _02155E3C:
-	ldr r0, _02155E4C // =Task__OV05Unknown2155974__Main_2155EA4
+	ldr r0, _02155E4C // =Credits__Main_2155EA4
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155E48: .word Task__OV05Unknown2155974__Main_2155E50
-_02155E4C: .word Task__OV05Unknown2155974__Main_2155EA4
-	arm_func_end Task__OV05Unknown2155974__Main_2155E00
+_02155E48: .word Credits__Main_2155E50
+_02155E4C: .word Credits__Main_2155EA4
+	arm_func_end Credits__Main_2155E00
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155E50
-Task__OV05Unknown2155974__Main_2155E50: // 0x02155E50
+	arm_func_start Credits__Main_2155E50
+Credits__Main_2155E50: // 0x02155E50
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	mov r1, #1
@@ -396,42 +396,42 @@ Task__OV05Unknown2155974__Main_2155E50: // 0x02155E50
 	mov r0, #0
 	mov r1, #1
 	bl PlaySysTrack
-	ldr r0, _02155E7C // =Task__OV05Unknown2155974__Main_2155E80
+	ldr r0, _02155E7C // =Credits__Main_2155E80
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02155E7C: .word Task__OV05Unknown2155974__Main_2155E80
-	arm_func_end Task__OV05Unknown2155974__Main_2155E50
+_02155E7C: .word Credits__Main_2155E80
+	arm_func_end Credits__Main_2155E50
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155E80
-Task__OV05Unknown2155974__Main_2155E80: // 0x02155E80
+	arm_func_start Credits__Main_2155E80
+Credits__Main_2155E80: // 0x02155E80
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r0, [r0, #0x14]
 	tst r0, #0x40
 	ldmeqia sp!, {r3, pc}
-	ldr r0, _02155EA0 // =Task__OV05Unknown2155974__Main_2155EA4
+	ldr r0, _02155EA0 // =Credits__Main_2155EA4
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02155EA0: .word Task__OV05Unknown2155974__Main_2155EA4
-	arm_func_end Task__OV05Unknown2155974__Main_2155E80
+_02155EA0: .word Credits__Main_2155EA4
+	arm_func_end Credits__Main_2155E80
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155EA4
-Task__OV05Unknown2155974__Main_2155EA4: // 0x02155EA4
+	arm_func_start Credits__Main_2155EA4
+Credits__Main_2155EA4: // 0x02155EA4
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	mov r1, #0x3c
 	str r1, [r0, #0x34]
-	ldr r0, _02155EC0 // =Task__OV05Unknown2155974__Main_2155EC4
+	ldr r0, _02155EC0 // =Credits__Main_2155EC4
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02155EC0: .word Task__OV05Unknown2155974__Main_2155EC4
-	arm_func_end Task__OV05Unknown2155974__Main_2155EA4
+_02155EC0: .word Credits__Main_2155EC4
+	arm_func_end Credits__Main_2155EA4
 
-	arm_func_start Task__OV05Unknown2155974__Main_2155EC4
-Task__OV05Unknown2155974__Main_2155EC4: // 0x02155EC4
+	arm_func_start Credits__Main_2155EC4
+Credits__Main_2155EC4: // 0x02155EC4
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x34]
@@ -443,4 +443,4 @@ Task__OV05Unknown2155974__Main_2155EC4: // 0x02155EC4
 	bl ovl05_21551D8
 	bl ovl05_2155188
 	ldmia sp!, {r3, pc}
-	arm_func_end Task__OV05Unknown2155974__Main_2155EC4
+	arm_func_end Credits__Main_2155EC4

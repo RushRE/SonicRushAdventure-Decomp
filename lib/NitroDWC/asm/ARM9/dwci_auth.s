@@ -96,11 +96,11 @@ _02089290:
 	ldr r0, [r0, #0]
 	cmp r0, #1
 	bne _0208930C
-	ldr r0, _02089374 // =0x0211AEAC
+	ldr r0, _02089374 // =_0211AEAC
 	bl strlen
 	mov r3, r0
 	ldr r1, _02089378 // =aIswfc
-	ldr r2, _02089374 // =0x0211AEAC
+	ldr r2, _02089374 // =_0211AEAC
 	mov r0, r5
 	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
@@ -136,7 +136,7 @@ _02089364: .word aLogin
 _02089368: .word aGsbrcd
 _0208936C: .word 0x02143908
 _02089370: .word 0x021438E0
-_02089374: .word 0x0211AEAC
+_02089374: .word _0211AEAC
 _02089378: .word aIswfc
 _0208937C: .word aIngamesn
 	arm_func_end DWCi_Auth_Prepare_FirstPost
@@ -151,7 +151,7 @@ DWCi_Auth_FillResult: // 0x02089380
 	str r1, [sp]
 	add r0, r0, #0x1000
 	ldr r0, [r0, #0x314]
-	ldr r1, _02089638 // =0x0211AEC4
+	ldr r1, _02089638 // =_0211AEC4
 	bl DWC_Http_GetResult
 	str r0, [sp]
 	cmp r0, #0
@@ -323,7 +323,7 @@ _02089628:
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _02089634: .word 0x021438E8
-_02089638: .word 0x0211AEC4
+_02089638: .word _0211AEC4
 _0208963C: .word _02152920
 _02089640: .word aHttpresult
 _02089644: .word 0x00004E85
@@ -1201,7 +1201,7 @@ DWC_Auth_SetCalInfoToHttp: // 0x0208A0A4
 	add r0, r5, #0x2c
 	bl strlen
 	mov r3, r0
-	ldr r1, _0208A3D0 // =0x0211AFC8
+	ldr r1, _0208A3D0 // =_0211AFC8
 	mov r0, r6
 	add r2, r5, #0x2c
 	bl DWC_Http_Add_PostBase64Item
@@ -1292,7 +1292,7 @@ _0208A3C0: .word aGamecd
 _0208A3C4: .word aMakercd
 _0208A3C8: .word aUnitcd
 _0208A3CC: .word aMacadr
-_0208A3D0: .word 0x0211AFC8
+_0208A3D0: .word _0211AFC8
 _0208A3D4: .word aBirth
 _0208A3D8: .word aDevtime
 _0208A3DC: .word aDevname
@@ -1641,7 +1641,7 @@ DWC_Http_ParseResult: // 0x0208A854
 	bl MI_CpuFill8
 	add r0, r11, #0x1000
 	ldr r5, [r0, #0xa08]
-	ldr r1, _0208AAE4 // =0x0211B0D8
+	ldr r1, _0208AAE4 // =_0211B0D8
 	mov r0, r5
 	bl strstr
 	str r0, [sp]
@@ -1679,7 +1679,7 @@ DWC_Http_ParseResult: // 0x0208A854
 	strb r7, [r8, #3]
 	cmp r6, #1
 	beq _0208A940
-	ldr r1, _0208AAF0 // =0x0211B0F0
+	ldr r1, _0208AAF0 // =_0211B0F0
 	mov r0, r8
 	mov r2, #3
 	bl strncmp
@@ -1800,10 +1800,10 @@ _0208AAD4:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0208AAE0: .word 0x00001A38
-_0208AAE4: .word 0x0211B0D8
+_0208AAE4: .word _0211B0D8
 _0208AAE8: .word 0x0211B0E0
 _0208AAEC: .word aHttpresult_0
-_0208AAF0: .word 0x0211B0F0
+_0208AAF0: .word _0211B0F0
 _0208AAF4: .word 0x0211B0F4
 _0208AAF8: .word 0x0211B0F8
 _0208AAFC: .word 0x0211B0FC
@@ -1965,7 +1965,7 @@ _0208ACFC:
 _0208AD38:
 	add r0, r5, #0x1000
 	ldr r0, [r0, #0x124]
-	ldr r1, _0208ADC0 // =0x0211B190
+	ldr r1, _0208ADC0 // =_0211B190
 	bl strstr
 	cmp r0, #0
 	movne r1, #0
@@ -1999,7 +1999,7 @@ _0208ADB0: .word aHttp
 _0208ADB4: .word 0x0000102B
 _0208ADB8: .word aHttps
 _0208ADBC: .word 0x000001BB
-_0208ADC0: .word 0x0211B190
+_0208ADC0: .word _0211B190
 _0208ADC4: .word 0x0211B194
 	arm_func_end sub_208AC60
 
@@ -2147,7 +2147,7 @@ sub_208AF44: // 0x0208AF44
 	ldr r1, [r4, #8]
 	sub r1, r1, r0
 _0208AFAC:
-	ldr r2, _0208AFDC // =0x0211B1D0
+	ldr r2, _0208AFDC // =_0211B1D0
 	mov r3, r6
 	bl OS_SNPrintf
 	cmp r0, r5
@@ -2160,7 +2160,7 @@ _0208AFAC:
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
 _0208AFD8: .word 0x000019F8
-_0208AFDC: .word 0x0211B1D0
+_0208AFDC: .word _0211B1D0
 	arm_func_end sub_208AF44
 
 	arm_func_start DWC_Http_Add_PostBase64Item
@@ -2282,7 +2282,7 @@ sub_208B110: // 0x0208B110
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, pc}
 _0208B194:
 	ldr r0, [r5, #0]
-	ldr r1, _0208B1FC // =0x0211B0D8
+	ldr r1, _0208B1FC // =_0211B0D8
 	bl strstr
 	add r8, r0, #2
 	ldrsb r9, [r0, #2]
@@ -2308,7 +2308,7 @@ _0208B194:
 	.align 2, 0
 _0208B1F4: .word 0x000019F8
 _0208B1F8: .word aSS
-_0208B1FC: .word 0x0211B0D8
+_0208B1FC: .word _0211B0D8
 	arm_func_end sub_208B110
 
 	arm_func_start sub_208B200
@@ -2652,7 +2652,7 @@ sub_208B6C8: // 0x0208B6C8
 	add r0, r5, #0x1000
 	ldr r6, [r0, #0xa08]
 	ldr r2, _0208B7B4 // =0x00001A08
-	ldr r1, _0208B7B8 // =0x0211B0D8
+	ldr r1, _0208B7B8 // =_0211B0D8
 	mov r0, r6
 	add r4, r5, r2
 	bl strstr
@@ -2660,7 +2660,7 @@ sub_208B6C8: // 0x0208B6C8
 	addeq sp, sp, #4
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	ldr r1, _0208B7B8 // =0x0211B0D8
+	ldr r1, _0208B7B8 // =_0211B0D8
 	mov r0, r6
 	bl strstr
 	ldr r1, _0208B7BC // =0x00001A18
@@ -2707,7 +2707,7 @@ sub_208B6C8: // 0x0208B6C8
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
 _0208B7B4: .word 0x00001A08
-_0208B7B8: .word 0x0211B0D8
+_0208B7B8: .word _0211B0D8
 _0208B7BC: .word 0x00001A18
 _0208B7C0: .word aContentLength
 _0208B7C4: .word 0x0211B0F4
@@ -2893,13 +2893,13 @@ DWC_Http_FinishHeader: // 0x0208B9F0
 	ldmneia sp!, {r4, pc}
 	add r0, r4, #0x1000
 	ldr r0, [r0, #0x9f8]
-	ldr r1, _0208BA7C // =0x0211B0D8
+	ldr r1, _0208BA7C // =_0211B0D8
 	bl strstr
 	add r0, r0, #4
 	bl strlen
 	movs r3, r0
 	beq _0208BA68
-	ldr r2, _0208BA80 // =0x0211B2B8
+	ldr r2, _0208BA80 // =_0211B2B8
 	add r0, sp, #0
 	mov r1, #7
 	bl OS_SNPrintf
@@ -2918,8 +2918,8 @@ _0208BA68:
 	.align 2, 0
 _0208BA74: .word aConnection
 _0208BA78: .word aClose
-_0208BA7C: .word 0x0211B0D8
-_0208BA80: .word 0x0211B2B8
+_0208BA7C: .word _0211B0D8
+_0208BA80: .word _0211B2B8
 _0208BA84: .word aContentLength_0
 	arm_func_end DWC_Http_FinishHeader
 
@@ -3557,7 +3557,7 @@ _0208C374:
 	bl strlen
 	mov r3, r0
 	ldr r0, [r4, #0]
-	ldr r1, _0208CB6C // =0x0211B41C
+	ldr r1, _0208CB6C // =_0211B41C
 	mov r2, r10
 	bl DWC_Http_Add_PostBase64Item
 	cmp r0, #0
@@ -3753,7 +3753,7 @@ _0208C650:
 _0208C670:
 	ldr r2, [sp, #0x44]
 	ldr r0, [r4, #0]
-	ldr r1, _0208CB78 // =0x0211B430
+	ldr r1, _0208CB78 // =_0211B430
 	mov r3, r2
 	bl DWC_Http_GetBase64DecodedResult
 	mov r11, r0
@@ -3829,7 +3829,7 @@ _0208C758:
 	b _0208CAB0
 _0208C790:
 	ldr r0, [r4, #0]
-	ldr r1, _0208CB78 // =0x0211B430
+	ldr r1, _0208CB78 // =_0211B430
 	ldr r2, [sp]
 	add r3, r11, #1
 	bl DWC_Http_GetBase64DecodedResult
@@ -4094,10 +4094,10 @@ _0208CB5C: .word 0x02143910
 _0208CB60: .word 0xFFFFA4FA
 _0208CB64: .word 0x00009C40
 _0208CB68: .word aParse
-_0208CB6C: .word 0x0211B41C
+_0208CB6C: .word _0211B41C
 _0208CB70: .word aFreeDwcnetchec_0
 _0208CB74: .word aReturncd_0
-_0208CB78: .word 0x0211B430
+_0208CB78: .word _0211B430
 _0208CB7C: .word 0x0211B434
 _0208CB80: .word 0x0211B43C
 _0208CB84: .word aAllocUrl

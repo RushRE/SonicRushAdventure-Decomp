@@ -32,7 +32,7 @@ SailSeaMapView__Create: // 0x0218B41C
 	ldr r1, _0218B55C // =SailSeaMapView__Destructor
 	mov r3, r2
 	bl TaskCreate_
-	ldr r1, _0218B560 // =0x02134178
+	ldr r1, _0218B560 // =SeaMapView__sVars
 	str r0, [r1]
 	bl GetTaskWork_
 	mov r4, r0
@@ -87,7 +87,7 @@ _0218B550: .word VRAMSystem__GFXControl
 _0218B554: .word 0x000007CC
 _0218B558: .word SailSeaMapView__Main
 _0218B55C: .word SailSeaMapView__Destructor
-_0218B560: .word 0x02134178
+_0218B560: .word SeaMapView__sVars
 _0218B564: .word SailSeaMapView__State_218B940
 _0218B568: .word SailSeaMapView__ButtonStates
 	arm_func_end SailSeaMapView__Create
@@ -95,14 +95,14 @@ _0218B568: .word SailSeaMapView__ButtonStates
 	arm_func_start SailSeaMapView__Func_218B56C
 SailSeaMapView__Func_218B56C: // 0x0218B56C
 	stmdb sp!, {r3, lr}
-	ldr r0, _0218B588 // =0x02134178
+	ldr r0, _0218B588 // =SeaMapView__sVars
 	ldr r0, [r0, #0]
 	bl DestroyTask
 	bl SeaMapEventManager__Destroy
 	bl SeaMapManager__Destroy
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0218B588: .word 0x02134178
+_0218B588: .word SeaMapView__sVars
 	arm_func_end SailSeaMapView__Func_218B56C
 
 	arm_func_start SailSeaMapView__GetPosition
@@ -122,12 +122,12 @@ SailSeaMapView__GetPosition: // 0x0218B58C
 
 	arm_func_start SailSeaMapView__GetWork
 SailSeaMapView__GetWork: // 0x0218B5B8
-	ldr r0, _0218B5C8 // =0x02134178
+	ldr r0, _0218B5C8 // =SeaMapView__sVars
 	ldr ip, _0218B5CC // =GetTaskWork_
 	ldr r0, [r0, #0]
 	bx ip
 	.align 2, 0
-_0218B5C8: .word 0x02134178
+_0218B5C8: .word SeaMapView__sVars
 _0218B5CC: .word GetTaskWork_
 	arm_func_end SailSeaMapView__GetWork
 
@@ -242,13 +242,13 @@ SailSeaMapView__Destructor: // 0x0218B724
 	bl SeaMapView__ReleaseAssets
 	ldr r1, _0218B754 // =0x0213417C
 	mov r2, #0
-	ldr r0, _0218B758 // =0x02134178
+	ldr r0, _0218B758 // =SeaMapView__sVars
 	str r2, [r1]
 	str r2, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0218B754: .word 0x0213417C
-_0218B758: .word 0x02134178
+_0218B758: .word SeaMapView__sVars
 	arm_func_end SailSeaMapView__Destructor
 
 	arm_func_start SailSeaMapView__Func_218B75C

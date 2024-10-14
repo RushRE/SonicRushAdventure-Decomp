@@ -1229,7 +1229,7 @@ FontAnimator__LoadPalette: // 0x020593A8
 	ldrb r3, [r1, #5]
 	moveq ip, #0x5000000
 	ldrne ip, _02059400 // =0x05000400
-	ldr r1, _02059404 // =0x02110458
+	ldr r1, _02059404 // =FontAnimator__Palettes
 	mov r3, r3, lsl #5
 	tst r2, #8
 	add r2, r3, #2
@@ -1258,7 +1258,7 @@ FontAnimator__LoadPalette2: // 0x02059408
 	cmp r3, #0
 	ldrb r3, [r1, #0xa]
 	ldreq ip, _02059460 // =0x05000200
-	ldr r1, _02059464 // =0x02110458
+	ldr r1, _02059464 // =FontAnimator__Palettes
 	ldrne ip, _02059468 // =0x05000600
 	add r0, r1, r0, lsl #3
 	mov r3, r3, lsl #5
@@ -1377,7 +1377,7 @@ _020595A0:
 	mov r1, r1, lsl #5
 	add r1, r1, #2
 	add r2, r2, r1
-	ldr r1, _020595E4 // =0x02110458
+	ldr r1, _020595E4 // =FontAnimator__Palettes
 	tst r0, #8
 	add r0, r1, r4, lsl #3
 	add r3, r2, #0xa
@@ -1439,7 +1439,7 @@ _0205964C:
     .rodata
 
 .public FontAnimator__Palettes
-FontAnimator__Palettes: // 0x02110458
+FontAnimator__Palettes: // FontAnimator__Palettes
 	.hword 0x3E74, 0x1D4C, 0, 0 // colors
 	.hword 0x6BFF, 0x1A34, 0, 0 // colors
 	.hword 0x209F, 0x17, 0, 0   // colors

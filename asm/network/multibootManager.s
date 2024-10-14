@@ -1,10 +1,5 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
-	
-.public gameState
-
-.public _02133988
-.public _02133990
 
 	.bss
 	

@@ -4,6 +4,12 @@
 .public VRAMSystem__GFXControl
 .public VRAMSystem__VRAM_BG
 
+	.bss
+	
+.public SeaMapCourseChangeView__stru_2134440
+SeaMapCourseChangeView__stru_2134440: // 0x02134440
+    .space 0x04 * 2
+
 	.text
 
 	arm_func_start SeaMapCourseChangeView__Create
@@ -44,7 +50,7 @@ SeaMapCourseChangeView__Create: // 0x0204B51C
 	bl SeaMapChartCourseView__Create
 	bl SeaMapManager__Func_20444E8
 	ldr r10, _0204B6FC // =0x02134184
-	ldr r9, _0204B700 // =0x02134174
+	ldr r9, _0204B700 // =SeaMapCourseChangeView__02134174
 	ldr r0, [r10, #0]
 	add r8, sp, #0x14
 	add r7, sp, #0x18
@@ -78,18 +84,18 @@ _0204B5C8:
 	str r1, [r0]
 _0204B628:
 	ldr r1, _0204B6FC // =0x02134184
-	ldr r0, _0204B700 // =0x02134174
+	ldr r0, _0204B700 // =SeaMapCourseChangeView__02134174
 	ldr r3, [r1, #0]
 	ldr r0, [r0, #0]
-	ldr r1, _0204B704 // =0x02134440
+	ldr r1, _0204B704 // =SeaMapCourseChangeView__stru_2134440
 	ldr r2, _0204B708 // =0x02134444
 	sub r0, r3, r0
 	bl SeaMapManager__Func_2045BF8
 	bl SeaMapManager__RemoveAllNodes
-	ldr r1, _0204B70C // =0x02134440
+	ldr r1, _0204B70C // =SeaMapCourseChangeView__stru_2134440
 	ldmia r1, {r0, r1}
 	bl SeaMapView__Func_203DCE0
-	ldr r1, _0204B70C // =0x02134440
+	ldr r1, _0204B70C // =SeaMapCourseChangeView__stru_2134440
 	add r2, sp, #0xc
 	add r3, sp, #0xe
 	ldmia r1, {r0, r1}
@@ -99,7 +105,7 @@ _0204B628:
 	bl SeaMapManager__AddNode
 	mov r3, #0
 	str r3, [sp]
-	ldr r1, _0204B70C // =0x02134440
+	ldr r1, _0204B70C // =SeaMapCourseChangeView__stru_2134440
 	str r3, [sp, #4]
 	ldr r2, [r1, #4]
 	ldr r4, [r1, #0]
@@ -132,10 +138,10 @@ _0204B6F0: .word SeaMapCourseChangeView__Destructor
 _0204B6F4: .word SeaMapCourseChangeView__State_Setup
 _0204B6F8: .word gameState
 _0204B6FC: .word 0x02134184
-_0204B700: .word 0x02134174
-_0204B704: .word 0x02134440
+_0204B700: .word SeaMapCourseChangeView__02134174
+_0204B704: .word SeaMapCourseChangeView__stru_2134440
 _0204B708: .word 0x02134444
-_0204B70C: .word 0x02134440
+_0204B70C: .word SeaMapCourseChangeView__stru_2134440
 	arm_func_end SeaMapCourseChangeView__Create
 
 	arm_func_start SeaMapCourseChangeView__Main

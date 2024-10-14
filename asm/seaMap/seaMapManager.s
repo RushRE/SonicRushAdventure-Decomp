@@ -1,9 +1,11 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
-.public VRAMSystem__GFXControl
-.public VRAMSystem__VRAM_BG
-.public VRAMSystem__VRAM_PALETTE_BG
+	.bss
+	
+.public SeaMapManager__sVars
+SeaMapManager__sVars: // 0x02134188
+	.space 0x14
 
 	.text
 
@@ -40,7 +42,7 @@ SeaMapManager__Create: // 0x0204356C
 	ldr r1, _02043674 // =SeaMapManager__Destructor
 	mov r3, r2
 	bl TaskCreate_
-	ldr r1, _02043678 // =0x02134188
+	ldr r1, _02043678 // =SeaMapManager__sVars
 	str r0, [r1]
 	bl GetTaskWork_
 	mov r6, r0
@@ -91,7 +93,7 @@ _02043660:
 	.align 2, 0
 _02043670: .word SeaMapManager__Main
 _02043674: .word SeaMapManager__Destructor
-_02043678: .word 0x02134188
+_02043678: .word SeaMapManager__sVars
 _0204367C: .word 0x0000A098
 _02043680: .word SeaMapManager__Func_2044DC8
 	arm_func_end SeaMapManager__Create
@@ -104,34 +106,34 @@ SeaMapManager__Destroy: // 0x02043684
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl SeaMapUnknown204A9E4__Func_204AA00
-	ldr r0, _020436AC // =0x02134188
+	ldr r0, _020436AC // =SeaMapManager__sVars
 	ldr r0, [r0, #0]
 	bl DestroyTask
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_020436AC: .word 0x02134188
+_020436AC: .word SeaMapManager__sVars
 	arm_func_end SeaMapManager__Destroy
 
 	arm_func_start SeaMapManager__IsActive
 SeaMapManager__IsActive: // 0x020436B0
-	ldr r0, _020436C8 // =0x02134188
+	ldr r0, _020436C8 // =SeaMapManager__sVars
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	movne r0, #1
 	moveq r0, #0
 	bx lr
 	.align 2, 0
-_020436C8: .word 0x02134188
+_020436C8: .word SeaMapManager__sVars
 	arm_func_end SeaMapManager__IsActive
 
 	arm_func_start SeaMapManager__GetWork
 SeaMapManager__GetWork: // 0x020436CC
-	ldr r0, _020436DC // =0x02134188
+	ldr r0, _020436DC // =SeaMapManager__sVars
 	ldr ip, _020436E0 // =GetTaskWork_
 	ldr r0, [r0, #0]
 	bx ip
 	.align 2, 0
-_020436DC: .word 0x02134188
+_020436DC: .word SeaMapManager__sVars
 _020436E0: .word GetTaskWork_
 	arm_func_end SeaMapManager__GetWork
 
@@ -705,7 +707,7 @@ _02043D34:
 	add r0, r6, #4
 	mov r1, #0x6c00
 	bl DC_StoreRange
-	ldr r0, _02043FA8 // =0x02134188
+	ldr r0, _02043FA8 // =SeaMapManager__sVars
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	addne sp, sp, #8
@@ -848,7 +850,7 @@ _02043E88:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02043FA8: .word 0x02134188
+_02043FA8: .word SeaMapManager__sVars
 	arm_func_end SeaMapManager__Func_2043D08
 
 	arm_func_start SeaMapManager__GetMapPixel
@@ -902,7 +904,7 @@ SeaMapManager__Func_2043FDC: // 0x02043FDC
 	mov r1, #2
 	strh r2, [r4, r3]
 	bl DC_StoreRange
-	ldr r0, _02044264 // =0x02134188
+	ldr r0, _02044264 // =SeaMapManager__sVars
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	addne sp, sp, #8
@@ -1033,7 +1035,7 @@ _02044120:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02044264: .word 0x02134188
+_02044264: .word SeaMapManager__sVars
 	arm_func_end SeaMapManager__Func_2043FDC
 
 	arm_func_start SeaMapManager__Func_2044268
@@ -1245,20 +1247,20 @@ _02044510: .word gameState+0x00000084
 
 	arm_func_start SeaMapManager__SetUnknown1
 SeaMapManager__SetUnknown1: // 0x02044514
-	ldr r1, _02044520 // =0x02134188
+	ldr r1, _02044520 // =SeaMapManager__sVars
 	str r0, [r1, #8]
 	bx lr
 	.align 2, 0
-_02044520: .word 0x02134188
+_02044520: .word SeaMapManager__sVars
 	arm_func_end SeaMapManager__SetUnknown1
 
 	arm_func_start SeaMapManager__GetUnknown1
 SeaMapManager__GetUnknown1: // 0x02044524
-	ldr r0, _02044530 // =0x02134188
+	ldr r0, _02044530 // =SeaMapManager__sVars
 	ldr r0, [r0, #8]
 	bx lr
 	.align 2, 0
-_02044530: .word 0x02134188
+_02044530: .word SeaMapManager__sVars
 	arm_func_end SeaMapManager__GetUnknown1
 
 	arm_func_start SeaMapManager__ClearSeaMap
@@ -1303,7 +1305,7 @@ SeaMapManager__InitArchives: // 0x02044564
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
-	ldr r2, _02044690 // =0x02134188
+	ldr r2, _02044690 // =SeaMapManager__sVars
 	mov r0, r5
 	str r1, [r2, #4]
 	bl RenderCore_CPUCopyCompressed
@@ -1369,48 +1371,48 @@ _02044644:
 	mov r0, r0, lsr #8
 	bl _AllocHeadHEAP_USER
 	mov r1, r0
-	ldr r2, _02044690 // =0x02134188
+	ldr r2, _02044690 // =SeaMapManager__sVars
 	mov r0, r5
 	str r1, [r2, #0x10]
 	bl RenderCore_CPUCopyCompressed
 	mov r0, r5
 	bl _FreeHEAP_USER
-	ldr r0, _02044690 // =0x02134188
+	ldr r0, _02044690 // =SeaMapManager__sVars
 	str r4, [r0, #0xc]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0204468C: .word aBbChBb
-_02044690: .word 0x02134188
+_02044690: .word SeaMapManager__sVars
 	arm_func_end SeaMapManager__InitArchives
 
 	arm_func_start SeaMapManager__Release
 SeaMapManager__Release: // 0x02044694
 	stmdb sp!, {r3, lr}
-	ldr r1, _020446D8 // =0x02134188
+	ldr r1, _020446D8 // =SeaMapManager__sVars
 	ldr r0, [r1, #4]
 	cmp r0, #0
 	ldreq r1, [r1, #0x10]
 	cmpeq r1, #0
 	ldmeqia sp!, {r3, pc}
 	bl _FreeHEAP_USER
-	ldr r0, _020446D8 // =0x02134188
+	ldr r0, _020446D8 // =SeaMapManager__sVars
 	mov r1, #0
 	str r1, [r0, #4]
 	ldr r0, [r0, #0x10]
 	bl _FreeHEAP_USER
-	ldr r0, _020446D8 // =0x02134188
+	ldr r0, _020446D8 // =SeaMapManager__sVars
 	mov r1, #0
 	str r1, [r0, #0x10]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_020446D8: .word 0x02134188
+_020446D8: .word SeaMapManager__sVars
 	arm_func_end SeaMapManager__Release
 
 	arm_func_start SeaMapManager__LoadAssets
 SeaMapManager__LoadAssets: // 0x020446DC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x68
-	ldr r1, _02044808 // =0x02134188
+	ldr r1, _02044808 // =SeaMapManager__sVars
 	mov r4, r0
 	ldr r2, [r1, #4]
 	ldr r1, _0204480C // =aCh
@@ -1434,7 +1436,7 @@ SeaMapManager__LoadAssets: // 0x020446DC
 	str r0, [r4, #0xc]
 	add r0, sp, #0
 	bl NNS_FndUnmountArchive
-	ldr r2, _02044808 // =0x02134188
+	ldr r2, _02044808 // =SeaMapManager__sVars
 	ldr r1, _0204480C // =aCh
 	ldr r2, [r2, #0x10]
 	add r0, sp, #0
@@ -1484,7 +1486,7 @@ SeaMapManager__LoadAssets: // 0x020446DC
 	add sp, sp, #0x68
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02044808: .word 0x02134188
+_02044808: .word SeaMapManager__sVars
 _0204480C: .word aCh
 	arm_func_end SeaMapManager__LoadAssets
 
@@ -1891,12 +1893,12 @@ SeaMapManager__Destructor: // 0x02044D8C
 	ldr r0, [r4, #0x138]
 	bl _FreeHEAP_USER
 	mov r1, #0
-	ldr r0, _02044DC4 // =0x02134188
+	ldr r0, _02044DC4 // =SeaMapManager__sVars
 	str r1, [r4, #0x138]
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02044DC4: .word 0x02134188
+_02044DC4: .word SeaMapManager__sVars
 	arm_func_end SeaMapManager__Destructor
 
 	arm_func_start SeaMapManager__Func_2044DC8

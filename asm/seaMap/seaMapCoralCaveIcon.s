@@ -119,7 +119,7 @@ SeaMapCoralCaveIcon__Destructor: // 0x020498D8
 	bl SeaMapEventManager__SetObjectAsInactive
 	mov r0, r4
 	bl SeaMapEventManager__DestroyObject
-	ldr r0, _0204991C // =0x0213419C
+	ldr r0, _0204991C // =SeaMapEventManager__Singleton
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
@@ -128,7 +128,7 @@ SeaMapCoralCaveIcon__Destructor: // 0x020498D8
 	str r1, [r0, #0x258]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0204991C: .word 0x0213419C
+_0204991C: .word SeaMapEventManager__Singleton
 	arm_func_end SeaMapCoralCaveIcon__Destructor
 
 	arm_func_start SeaMapCoralCaveIcon__Func_2049920

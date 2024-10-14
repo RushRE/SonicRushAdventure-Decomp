@@ -70,16 +70,16 @@ CreditsEx__Main: // 0x02155F90
 	mov r0, #0x22
 	mov r1, #1
 	bl PlaySysTrack
-	ldr r0, _02155FE0 // =Task__OV05Unknown2155EF0__Main_2155FE4
+	ldr r0, _02155FE0 // =CreditsEx__Main_2155FE4
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02155FDC: .word ovl05_2155600
-_02155FE0: .word Task__OV05Unknown2155EF0__Main_2155FE4
+_02155FE0: .word CreditsEx__Main_2155FE4
 	arm_func_end CreditsEx__Main
 
-	arm_func_start Task__OV05Unknown2155EF0__Main_2155FE4
-Task__OV05Unknown2155EF0__Main_2155FE4: // 0x02155FE4
+	arm_func_start CreditsEx__Main_2155FE4
+CreditsEx__Main_2155FE4: // 0x02155FE4
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -87,18 +87,18 @@ Task__OV05Unknown2155EF0__Main_2155FE4: // 0x02155FE4
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r1, #0xf0
-	ldr r0, _02156018 // =Task__OV05Unknown2155EF0__Main_215601C
+	ldr r0, _02156018 // =CreditsEx__Main_215601C
 	str r1, [r4, #0x34]
 	mov r1, #0x3c
 	str r1, [r4, #0x1c]
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02156018: .word Task__OV05Unknown2155EF0__Main_215601C
-	arm_func_end Task__OV05Unknown2155EF0__Main_2155FE4
+_02156018: .word CreditsEx__Main_215601C
+	arm_func_end CreditsEx__Main_2155FE4
 
-	arm_func_start Task__OV05Unknown2155EF0__Main_215601C
-Task__OV05Unknown2155EF0__Main_215601C: // 0x0215601C
+	arm_func_start CreditsEx__Main_215601C
+CreditsEx__Main_215601C: // 0x0215601C
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x1c]
@@ -111,7 +111,7 @@ Task__OV05Unknown2155EF0__Main_215601C: // 0x0215601C
 	mov r2, #6
 	bl MIi_CpuClear16
 	ldr r1, _021560AC // =renderCoreGFXControlA
-	ldr r0, _021560B0 // =Task__OV05Unknown2155EF0__Main_21560B4
+	ldr r0, _021560B0 // =CreditsEx__Main_21560B4
 	ldrh r2, [r1, #0x20]
 	bic r2, r2, #0xc0
 	orr r2, r2, #0xc0
@@ -137,11 +137,11 @@ Task__OV05Unknown2155EF0__Main_215601C: // 0x0215601C
 	.align 2, 0
 _021560A8: .word renderCoreGFXControlA+0x00000020
 _021560AC: .word renderCoreGFXControlA
-_021560B0: .word Task__OV05Unknown2155EF0__Main_21560B4
-	arm_func_end Task__OV05Unknown2155EF0__Main_215601C
+_021560B0: .word CreditsEx__Main_21560B4
+	arm_func_end CreditsEx__Main_215601C
 
-	arm_func_start Task__OV05Unknown2155EF0__Main_21560B4
-Task__OV05Unknown2155EF0__Main_21560B4: // 0x021560B4
+	arm_func_start CreditsEx__Main_21560B4
+CreditsEx__Main_21560B4: // 0x021560B4
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x24]
@@ -159,16 +159,16 @@ Task__OV05Unknown2155EF0__Main_21560B4: // 0x021560B4
 	strh r1, [r2, #0x24]
 	mov r1, #0x5a
 	str r1, [r0, #0x1c]
-	ldr r0, _02156108 // =Task__OV05Unknown2155EF0__Main_215610C
+	ldr r0, _02156108 // =CreditsEx__Main_215610C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02156104: .word renderCoreGFXControlA
-_02156108: .word Task__OV05Unknown2155EF0__Main_215610C
-	arm_func_end Task__OV05Unknown2155EF0__Main_21560B4
+_02156108: .word CreditsEx__Main_215610C
+	arm_func_end CreditsEx__Main_21560B4
 
-	arm_func_start Task__OV05Unknown2155EF0__Main_215610C
-Task__OV05Unknown2155EF0__Main_215610C: // 0x0215610C
+	arm_func_start CreditsEx__Main_215610C
+CreditsEx__Main_215610C: // 0x0215610C
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x1c]
@@ -180,15 +180,15 @@ Task__OV05Unknown2155EF0__Main_215610C: // 0x0215610C
 	str r1, [r0, #0x1c]
 	mov r1, #0x3c
 	str r1, [r0, #0x20]
-	ldr r0, _02156144 // =Task__OV05Unknown2155EF0__Main_2156148
+	ldr r0, _02156144 // =CreditsEx__Main_2156148
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02156144: .word Task__OV05Unknown2155EF0__Main_2156148
-	arm_func_end Task__OV05Unknown2155EF0__Main_215610C
+_02156144: .word CreditsEx__Main_2156148
+	arm_func_end CreditsEx__Main_215610C
 
-	arm_func_start Task__OV05Unknown2155EF0__Main_2156148
-Task__OV05Unknown2155EF0__Main_2156148: // 0x02156148
+	arm_func_start CreditsEx__Main_2156148
+CreditsEx__Main_2156148: // 0x02156148
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -241,16 +241,16 @@ _021561DC:
 	mov r0, #4
 	mov r1, #0x800
 	bl CreateDrawFadeTask
-	ldr r0, _02156220 // =Task__OV05Unknown2155EF0__Main_2156224
+	ldr r0, _02156220 // =CreditsEx__Main_2156224
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215621C: .word renderCoreGFXControlA
-_02156220: .word Task__OV05Unknown2155EF0__Main_2156224
-	arm_func_end Task__OV05Unknown2155EF0__Main_2156148
+_02156220: .word CreditsEx__Main_2156224
+	arm_func_end CreditsEx__Main_2156148
 
-	arm_func_start Task__OV05Unknown2155EF0__Main_2156224
-Task__OV05Unknown2155EF0__Main_2156224: // 0x02156224
+	arm_func_start CreditsEx__Main_2156224
+CreditsEx__Main_2156224: // 0x02156224
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x10]
@@ -262,28 +262,28 @@ _0215623C:
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl DestroyDrawFadeTask
-	ldr r0, _02156258 // =Task__OV05Unknown2155EF0__Main_215625C
+	ldr r0, _02156258 // =CreditsEx__Main_215625C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02156258: .word Task__OV05Unknown2155EF0__Main_215625C
-	arm_func_end Task__OV05Unknown2155EF0__Main_2156224
+_02156258: .word CreditsEx__Main_215625C
+	arm_func_end CreditsEx__Main_2156224
 
-	arm_func_start Task__OV05Unknown2155EF0__Main_215625C
-Task__OV05Unknown2155EF0__Main_215625C: // 0x0215625C
+	arm_func_start CreditsEx__Main_215625C
+CreditsEx__Main_215625C: // 0x0215625C
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	mov r1, #0x3c
 	str r1, [r0, #0x34]
-	ldr r0, _02156278 // =Task__OV05Unknown2155EF0__Main_215627C
+	ldr r0, _02156278 // =CreditsEx__Main_215627C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02156278: .word Task__OV05Unknown2155EF0__Main_215627C
-	arm_func_end Task__OV05Unknown2155EF0__Main_215625C
+_02156278: .word CreditsEx__Main_215627C
+	arm_func_end CreditsEx__Main_215625C
 
-	arm_func_start Task__OV05Unknown2155EF0__Main_215627C
-Task__OV05Unknown2155EF0__Main_215627C: // 0x0215627C
+	arm_func_start CreditsEx__Main_215627C
+CreditsEx__Main_215627C: // 0x0215627C
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x34]
@@ -295,4 +295,4 @@ Task__OV05Unknown2155EF0__Main_215627C: // 0x0215627C
 	bl ovl05_21551D8
 	bl ovl05_2155188
 	ldmia sp!, {r3, pc}
-	arm_func_end Task__OV05Unknown2155EF0__Main_215627C
+	arm_func_end CreditsEx__Main_215627C

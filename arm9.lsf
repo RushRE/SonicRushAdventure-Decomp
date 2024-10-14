@@ -22,7 +22,6 @@ Static arm9
     Object src/game/util/akUtil.o
     Object asm/game/math/akMath.o
     Object src/game/stage/gameSystem.o
-    Object asm/game/stage/gmGameData_vars.o
     Object asm/game/stage/stageAssets_vars.o
     Object src/game/stage/stageAssets.o
     Object src/stage/core/bgmManager.o

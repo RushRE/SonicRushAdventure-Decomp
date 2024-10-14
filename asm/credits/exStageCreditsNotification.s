@@ -56,42 +56,42 @@ ExStageCreditsNotification__Main: // 0x021564E4
 	bl GetCurrentTaskWork_
 	mov r1, #2
 	bl CreditsNotification__Create
-	ldr r0, _02156500 // =Task__OV05Unknown215644C__Main_2156504
+	ldr r0, _02156500 // =ExStageCreditsNotification__Main_2156504
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02156500: .word Task__OV05Unknown215644C__Main_2156504
+_02156500: .word ExStageCreditsNotification__Main_2156504
 	arm_func_end ExStageCreditsNotification__Main
 
-	arm_func_start Task__OV05Unknown215644C__Main_2156504
-Task__OV05Unknown215644C__Main_2156504: // 0x02156504
+	arm_func_start ExStageCreditsNotification__Main_2156504
+ExStageCreditsNotification__Main_2156504: // 0x02156504
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r0, [r0, #0x14]
 	tst r0, #0x40
 	ldmeqia sp!, {r3, pc}
-	ldr r0, _02156524 // =Task__OV05Unknown215644C__Main_2156528
+	ldr r0, _02156524 // =ExStageCreditsNotification__Main_2156528
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02156524: .word Task__OV05Unknown215644C__Main_2156528
-	arm_func_end Task__OV05Unknown215644C__Main_2156504
+_02156524: .word ExStageCreditsNotification__Main_2156528
+	arm_func_end ExStageCreditsNotification__Main_2156504
 
-	arm_func_start Task__OV05Unknown215644C__Main_2156528
-Task__OV05Unknown215644C__Main_2156528: // 0x02156528
+	arm_func_start ExStageCreditsNotification__Main_2156528
+ExStageCreditsNotification__Main_2156528: // 0x02156528
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	mov r1, #0x14
 	str r1, [r0, #0x34]
-	ldr r0, _02156544 // =Task__OV05Unknown215644C__Main_2156548
+	ldr r0, _02156544 // =ExStageCreditsNotification__Main_2156548
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02156544: .word Task__OV05Unknown215644C__Main_2156548
-	arm_func_end Task__OV05Unknown215644C__Main_2156528
+_02156544: .word ExStageCreditsNotification__Main_2156548
+	arm_func_end ExStageCreditsNotification__Main_2156528
 
-	arm_func_start Task__OV05Unknown215644C__Main_2156548
-Task__OV05Unknown215644C__Main_2156548: // 0x02156548
+	arm_func_start ExStageCreditsNotification__Main_2156548
+ExStageCreditsNotification__Main_2156548: // 0x02156548
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x34]
@@ -103,4 +103,4 @@ Task__OV05Unknown215644C__Main_2156548: // 0x02156548
 	bl ovl05_21551D8
 	bl ovl05_2155188
 	ldmia sp!, {r3, pc}
-	arm_func_end Task__OV05Unknown215644C__Main_2156548
+	arm_func_end ExStageCreditsNotification__Main_2156548

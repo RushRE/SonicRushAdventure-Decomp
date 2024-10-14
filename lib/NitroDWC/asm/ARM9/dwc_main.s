@@ -199,7 +199,7 @@ _0208FABC:
 	ldrb r0, [r1, #0x361]
 	cmp r0, #0
 	bne _0208FAF8
-	ldr r1, _0208FBEC // =0x0211C1F0
+	ldr r1, _0208FBEC // =_0211C1F0
 	mov r0, #1
 	mov r2, #0
 	bl DWCi_SetGPStatus
@@ -208,7 +208,7 @@ _0208FADC:
 	ldrb r0, [r1, #0x361]
 	cmp r0, #0
 	bne _0208FAF8
-	ldr r1, _0208FBEC // =0x0211C1F0
+	ldr r1, _0208FBEC // =_0211C1F0
 	mov r0, #1
 	mov r2, #0
 	bl DWCi_SetGPStatus
@@ -279,7 +279,7 @@ _0208FBDC: .word 0xFFFFE250
 _0208FBE0: .word 0xFFFFE24F
 _0208FBE4: .word 0x02143A10
 _0208FBE8: .word 0x02143A18
-_0208FBEC: .word 0x0211C1F0
+_0208FBEC: .word _0211C1F0
 	arm_func_end DWCi_GT2ClosedCallback
 
 	arm_func_start DWCi_GT2ReceivedCallback
@@ -1210,7 +1210,7 @@ _0209075C:
 	ldrb r0, [r2, #0x361]
 	cmp r0, #0
 	bne _02090790
-	ldr r1, _020907C4 // =0x0211C1F0
+	ldr r1, _020907C4 // =_0211C1F0
 	mov r0, #1
 	mov r2, #0
 	bl DWCi_SetGPStatus
@@ -1235,7 +1235,7 @@ _02090790:
 	ldmia sp!, {pc}
 	.align 2, 0
 _020907C0: .word 0x02143A10
-_020907C4: .word 0x0211C1F0
+_020907C4: .word _0211C1F0
 	arm_func_end DWC_CloseConnectionsAsync
 
 	arm_func_start DWC_SetConnectionClosedCallback

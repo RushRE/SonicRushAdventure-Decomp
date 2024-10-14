@@ -5,36 +5,46 @@
 .public VRAMSystem__VRAM_PALETTE_OBJ
 .public VRAMSystem__VRAM_PALETTE_BG
 
+	.bss
+	
+.public SeaMapCourseChangeView__02134174
+SeaMapCourseChangeView__02134174: // 0x02134174
+    .space 0x04
+
+.public SeaMapView__sVars
+SeaMapView__sVars: // 0x02134178
+    .space 0x10
+
 	.text
     
 	arm_func_start SeaMapView__GetMode
 SeaMapView__GetMode: // 0x0203DCA4
-	ldr r0, _0203DCB0 // =0x02134178
+	ldr r0, _0203DCB0 // =SeaMapView__sVars
 	ldr r0, [r0, #4]
 	bx lr
 	.align 2, 0
-_0203DCB0: .word 0x02134178
+_0203DCB0: .word SeaMapView__sVars
 	arm_func_end SeaMapView__GetMode
 
 	arm_func_start SeaMapView__Func_203DCB4
 SeaMapView__Func_203DCB4: // 0x0203DCB4
-	ldr r0, _0203DCC0 // =0x02134178
+	ldr r0, _0203DCC0 // =SeaMapView__sVars
 	ldr r0, [r0, #8]
 	bx lr
 	.align 2, 0
-_0203DCC0: .word 0x02134178
+_0203DCC0: .word SeaMapView__sVars
 	arm_func_end SeaMapView__Func_203DCB4
 
 	arm_func_start SeaMapView__IsActive
 SeaMapView__IsActive: // 0x0203DCC4
-	ldr r0, _0203DCDC // =0x02134178
+	ldr r0, _0203DCDC // =SeaMapView__sVars
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	movne r0, #1
 	moveq r0, #0
 	bx lr
 	.align 2, 0
-_0203DCDC: .word 0x02134178
+_0203DCDC: .word SeaMapView__sVars
 	arm_func_end SeaMapView__IsActive
 
 	arm_func_start SeaMapView__Func_203DCE0
@@ -61,14 +71,14 @@ SeaMapView__Func_203DCE0: // 0x0203DCE0
 	arm_func_start SeaMapView__GetTouchArea
 SeaMapView__GetTouchArea: // 0x0203DD24
 	stmdb sp!, {r3, lr}
-	ldr r0, _0203DD40 // =0x02134178
+	ldr r0, _0203DD40 // =SeaMapView__sVars
 	ldr r0, [r0, #0]
 	bl GetTaskWork_
 	add r0, r0, #0x358
 	add r0, r0, #0x400
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0203DD40: .word 0x02134178
+_0203DD40: .word SeaMapView__sVars
 	arm_func_end SeaMapView__GetTouchArea
 
 	arm_func_start SeaMapView__Func_203DD44
@@ -451,12 +461,12 @@ _0203E264: .word 0x04001000
 
 	arm_func_start SeaMapView__GetWork
 SeaMapView__GetWork: // 0x0203E268
-	ldr r0, _0203E278 // =0x02134178
+	ldr r0, _0203E278 // =SeaMapView__sVars
 	ldr ip, _0203E27C // =GetTaskWork_
 	ldr r0, [r0, #0]
 	bx ip
 	.align 2, 0
-_0203E278: .word 0x02134178
+_0203E278: .word SeaMapView__sVars
 _0203E27C: .word GetTaskWork_
 	arm_func_end SeaMapView__GetWork
 
@@ -2544,7 +2554,7 @@ SeaMapView__Func_203FE44: // 0x0203FE44
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SeaMapManager__RemoveAllNodes
-	ldr r0, _0203FE7C // =0x02134178
+	ldr r0, _0203FE7C // =SeaMapView__sVars
 	ldr r1, [r4, #0x798]
 	ldr r0, [r0, #0xc]
 	subs r0, r1, r0
@@ -2556,7 +2566,7 @@ SeaMapView__Func_203FE44: // 0x0203FE44
 	strh r1, [r0, #0x94]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0203FE7C: .word 0x02134178
+_0203FE7C: .word SeaMapView__sVars
 	arm_func_end SeaMapView__Func_203FE44
 
 	arm_func_start SeaMapView__Func_203FE80
@@ -2570,7 +2580,7 @@ SeaMapView__Func_203FE80: // 0x0203FE80
 	add r1, r4, #0x700
 	strh r0, [r1, #0x94]
 	bl SeaMapManager__GetTotalDistance
-	ldr r1, _0203FEC8 // =0x02134178
+	ldr r1, _0203FEC8 // =SeaMapView__sVars
 	ldr r2, [r4, #0x798]
 	ldr r1, [r1, #0xc]
 	sub r1, r2, r1
@@ -2580,7 +2590,7 @@ SeaMapView__Func_203FE80: // 0x0203FE80
 	strmi r0, [r4, #0x79c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0203FEC8: .word 0x02134178
+_0203FEC8: .word SeaMapView__sVars
 	arm_func_end SeaMapView__Func_203FE80
 
 	.rodata

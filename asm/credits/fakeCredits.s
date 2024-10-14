@@ -60,32 +60,32 @@ FakeCredits__Main: // 0x02156338
 	mov r0, #2
 	mov r1, #0x800
 	bl CreateDrawFadeTask
-	ldr r0, _0215636C // =Task__OV05Unknown21562A8__Main_2156370
+	ldr r0, _0215636C // =FakeCredits__Main_2156370
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215636C: .word Task__OV05Unknown21562A8__Main_2156370
+_0215636C: .word FakeCredits__Main_2156370
 	arm_func_end FakeCredits__Main
 
-	arm_func_start Task__OV05Unknown21562A8__Main_2156370
-Task__OV05Unknown21562A8__Main_2156370: // 0x02156370
+	arm_func_start FakeCredits__Main_2156370
+FakeCredits__Main_2156370: // 0x02156370
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	ldr r0, _0215639C // =Task__OV05Unknown21562A8__Main_21563A0
+	ldr r0, _0215639C // =FakeCredits__Main_21563A0
 	mov r1, #0x168
 	str r1, [r4, #0x34]
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215639C: .word Task__OV05Unknown21562A8__Main_21563A0
-	arm_func_end Task__OV05Unknown21562A8__Main_2156370
+_0215639C: .word FakeCredits__Main_21563A0
+	arm_func_end FakeCredits__Main_2156370
 
-	arm_func_start Task__OV05Unknown21562A8__Main_21563A0
-Task__OV05Unknown21562A8__Main_21563A0: // 0x021563A0
+	arm_func_start FakeCredits__Main_21563A0
+FakeCredits__Main_21563A0: // 0x021563A0
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x34]
@@ -96,43 +96,43 @@ Task__OV05Unknown21562A8__Main_21563A0: // 0x021563A0
 	mov r0, #4
 	mov r1, #0x800
 	bl CreateDrawFadeTask
-	ldr r0, _021563D4 // =Task__OV05Unknown21562A8__Main_21563D8
+	ldr r0, _021563D4 // =FakeCredits__Main_21563D8
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_021563D4: .word Task__OV05Unknown21562A8__Main_21563D8
-	arm_func_end Task__OV05Unknown21562A8__Main_21563A0
+_021563D4: .word FakeCredits__Main_21563D8
+	arm_func_end FakeCredits__Main_21563A0
 
-	arm_func_start Task__OV05Unknown21562A8__Main_21563D8
-Task__OV05Unknown21562A8__Main_21563D8: // 0x021563D8
+	arm_func_start FakeCredits__Main_21563D8
+FakeCredits__Main_21563D8: // 0x021563D8
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	bl IsDrawFadeTaskFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl DestroyDrawFadeTask
-	ldr r0, _021563FC // =Task__OV05Unknown21562A8__Main_2156400
+	ldr r0, _021563FC // =FakeCredits__Main_2156400
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_021563FC: .word Task__OV05Unknown21562A8__Main_2156400
-	arm_func_end Task__OV05Unknown21562A8__Main_21563D8
+_021563FC: .word FakeCredits__Main_2156400
+	arm_func_end FakeCredits__Main_21563D8
 
-	arm_func_start Task__OV05Unknown21562A8__Main_2156400
-Task__OV05Unknown21562A8__Main_2156400: // 0x02156400
+	arm_func_start FakeCredits__Main_2156400
+FakeCredits__Main_2156400: // 0x02156400
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	mov r1, #0x3c
 	str r1, [r0, #0x34]
-	ldr r0, _0215641C // =Task__OV05Unknown21562A8__Main_2156420
+	ldr r0, _0215641C // =FakeCredits__Main_2156420
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215641C: .word Task__OV05Unknown21562A8__Main_2156420
-	arm_func_end Task__OV05Unknown21562A8__Main_2156400
+_0215641C: .word FakeCredits__Main_2156420
+	arm_func_end FakeCredits__Main_2156400
 
-	arm_func_start Task__OV05Unknown21562A8__Main_2156420
-Task__OV05Unknown21562A8__Main_2156420: // 0x02156420
+	arm_func_start FakeCredits__Main_2156420
+FakeCredits__Main_2156420: // 0x02156420
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x34]
@@ -144,4 +144,4 @@ Task__OV05Unknown21562A8__Main_2156420: // 0x02156420
 	bl ovl05_21551D8
 	bl ovl05_2155188
 	ldmia sp!, {r3, pc}
-	arm_func_end Task__OV05Unknown21562A8__Main_2156420
+	arm_func_end FakeCredits__Main_2156420

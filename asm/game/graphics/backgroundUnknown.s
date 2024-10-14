@@ -1,6 +1,14 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.bss
+	
+_02134448: // 0x02134448
+    .space 0x02
+	
+_0213444A: // 0x0213444A
+    .space 0x02
+
 	.text
 
 	arm_func_start BackgroundUnknown__Func_204CA00
@@ -47,7 +55,7 @@ _0204CA88: .word VRAMSystem__VRAM_BG
 BackgroundUnknown__CopyPixels: // 0x0204CA8C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x1c
-	ldr ip, _0204CAE0 // =0x02134448
+	ldr ip, _0204CAE0 // =_02134448
 	mov lr, #0
 	strh lr, [ip]
 	ldrh r4, [sp, #0x28]
@@ -67,7 +75,7 @@ BackgroundUnknown__CopyPixels: // 0x0204CA8C
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_0204CAE0: .word 0x02134448
+_0204CAE0: .word _02134448
 	arm_func_end BackgroundUnknown__CopyPixels
 
 	arm_func_start BackgroundUnknown__Func_204CAE4
@@ -75,7 +83,7 @@ BackgroundUnknown__Func_204CAE4: // 0x0204CAE4
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x1c
 	mov lr, #0
-	ldr ip, _0204CB3C // =0x02134448
+	ldr ip, _0204CB3C // =_02134448
 	orr lr, lr, #1
 	strh lr, [ip]
 	ldrh r4, [sp, #0x28]
@@ -95,14 +103,14 @@ BackgroundUnknown__Func_204CAE4: // 0x0204CAE4
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_0204CB3C: .word 0x02134448
+_0204CB3C: .word _02134448
 	arm_func_end BackgroundUnknown__Func_204CAE4
 
 	arm_func_start BackgroundUnknown__Func_204CB40
 BackgroundUnknown__Func_204CB40: // 0x0204CB40
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x1c
-	ldr ip, _0204CB94 // =0x02134448
+	ldr ip, _0204CB94 // =_02134448
 	mov lr, #0
 	strh lr, [ip]
 	ldrh r4, [sp, #0x28]
@@ -122,7 +130,7 @@ BackgroundUnknown__Func_204CB40: // 0x0204CB40
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_0204CB94: .word 0x02134448
+_0204CB94: .word _02134448
 	arm_func_end BackgroundUnknown__Func_204CB40
 
 	arm_func_start BackgroundUnknown__Func_204CB98
@@ -130,7 +138,7 @@ BackgroundUnknown__Func_204CB98: // 0x0204CB98
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x1c
 	mov lr, #0
-	ldr ip, _0204CBF0 // =0x02134448
+	ldr ip, _0204CBF0 // =_02134448
 	orr lr, lr, #1
 	strh lr, [ip]
 	ldrh r4, [sp, #0x28]
@@ -150,7 +158,7 @@ BackgroundUnknown__Func_204CB98: // 0x0204CB98
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_0204CBF0: .word 0x02134448
+_0204CBF0: .word _02134448
 	arm_func_end BackgroundUnknown__Func_204CB98
 
 	arm_func_start BackgroundUnknown__Func_204CBF4
@@ -327,7 +335,7 @@ BackgroundUnknown__Func_204CE44: // 0x0204CE44
 	ldr r8, [sp, #0x5c]
 	ldr r6, [sp, #0x64]
 	ldr r4, [sp, #0x6c]
-	ldr r7, _0204D2B4 // =0x02134448
+	ldr r7, _0204D2B4 // =_02134448
 	and r11, r10, #7
 	strh ip, [r7, #2]
 	and lr, r5, #7
@@ -444,7 +452,7 @@ _0204CFB0:
 	addeq sp, sp, #0x30
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0204D02C:
-	ldr r0, _0204D2B4 // =0x02134448
+	ldr r0, _0204D2B4 // =_02134448
 	ldrh r1, [r0, #0]
 	tst r1, #1
 	ldreqh r0, [r0, #2]
@@ -614,7 +622,7 @@ _0204D290:
 	add sp, sp, #0x30
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0204D2B4: .word 0x02134448
+_0204D2B4: .word _02134448
 	arm_func_end BackgroundUnknown__Func_204CE44
 
 	arm_func_start BackgroundUnknown__Func_204D2B8
@@ -1378,7 +1386,7 @@ _0204DDA0:
 BackgroundUnknown__Func_204DDE8: // 0x0204DDE8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x30
-	ldr r4, _0204E0A8 // =0x02134448
+	ldr r4, _0204E0A8 // =_02134448
 	ldrh r5, [sp, #0x64]
 	ldrh r4, [r4, #2]
 	mov r1, r1, lsl #5
@@ -1430,7 +1438,7 @@ _0204DE88:
 	mov r1, r1, lsr #0x1c
 	mov r1, r4, asr r1
 	and r8, r1, #0xf
-	ldr r1, _0204E0A8 // =0x02134448
+	ldr r1, _0204E0A8 // =_02134448
 	ldrh r1, [r1, #0]
 	tst r1, #1
 	beq _0204DED0
@@ -1515,7 +1523,7 @@ _0204DFC4:
 	mov r1, r1, lsr #0x1c
 	mov r1, r4, asr r1
 	and r11, r1, #0xf
-	ldr r1, _0204E0A8 // =0x02134448
+	ldr r1, _0204E0A8 // =_02134448
 	ldrh r1, [r1, #0]
 	tst r1, #1
 	beq _0204E00C
@@ -1524,7 +1532,7 @@ _0204DFC4:
 _0204E00C:
 	cmp r11, #0
 	beq _0204E028
-	ldr r1, _0204E0A8 // =0x02134448
+	ldr r1, _0204E0A8 // =_02134448
 	ldrh r1, [r1, #2]
 	add r1, r11, r1
 	mov r1, r1, lsl #0x10
@@ -1565,14 +1573,14 @@ _0204E078:
 	add sp, sp, #0x30
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0204E0A8: .word 0x02134448
+_0204E0A8: .word _02134448
 	arm_func_end BackgroundUnknown__Func_204DDE8
 
 	arm_func_start BackgroundUnknown__Func_204E0AC
 BackgroundUnknown__Func_204E0AC: // 0x0204E0AC
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
-	ldr r4, _0204E2F4 // =0x02134448
+	ldr r4, _0204E2F4 // =_02134448
 	str r0, [sp]
 	ldrh r6, [r4, #0]
 	mov r0, r1, lsl #5
@@ -1637,7 +1645,7 @@ _0204E198:
 	addle sp, sp, #0x20
 	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrh r0, [sp, #0x58]
-	ldr r1, _0204E2F4 // =0x02134448
+	ldr r1, _0204E2F4 // =_02134448
 	str r0, [sp, #0x10]
 	ldr r0, [sp, #0x4c]
 	ldrh lr, [r1, #2]
@@ -1727,14 +1735,14 @@ _0204E2E0:
 	add sp, sp, #0x20
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0204E2F4: .word 0x02134448
+_0204E2F4: .word _02134448
 	arm_func_end BackgroundUnknown__Func_204E0AC
 
 	arm_func_start BackgroundUnknown__Func_204E2F8
 BackgroundUnknown__Func_204E2F8: // 0x0204E2F8
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x1c
-	ldr r6, _0204E504 // =0x02134448
+	ldr r6, _0204E504 // =_02134448
 	ldrh r7, [sp, #0x4c]
 	ldrh r5, [r6, #0]
 	mov r1, r1, lsl #5
@@ -1799,7 +1807,7 @@ _0204E3DC:
 	cmp r1, #0
 	addle sp, sp, #0x1c
 	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r2, _0204E504 // =0x02134448
+	ldr r2, _0204E504 // =_02134448
 	and r1, r5, #1
 	mvn r7, #0xff000000
 	str r1, [sp, #0xc]
@@ -1872,7 +1880,7 @@ _0204E4C8:
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0204E504: .word 0x02134448
+_0204E504: .word _02134448
 	arm_func_end BackgroundUnknown__Func_204E2F8
 
 	arm_func_start BackgroundUnknown__Func_204E508
@@ -1880,7 +1888,7 @@ BackgroundUnknown__Func_204E508: // 0x0204E508
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	ldrh r9, [sp, #0x50]
-	ldr r5, _0204E72C // =0x02134448
+	ldr r5, _0204E72C // =_02134448
 	ldrh r7, [sp, #0x54]
 	mov r1, r1, lsl #5
 	ldrh r4, [r5, #0]
@@ -1947,7 +1955,7 @@ _0204E5F8:
 	cmp r1, #0
 	addle sp, sp, #0x20
 	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r2, _0204E72C // =0x02134448
+	ldr r2, _0204E72C // =_02134448
 	and r1, r4, #1
 	ldr r5, _0204E730 // =0x0000FFFF
 	str r1, [sp, #0xc]
@@ -2023,7 +2031,7 @@ _0204E6F0:
 	add sp, sp, #0x20
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0204E72C: .word 0x02134448
+_0204E72C: .word _02134448
 _0204E730: .word 0x0000FFFF
 	arm_func_end BackgroundUnknown__Func_204E508
 
@@ -2033,7 +2041,7 @@ BackgroundUnknown__Func_204E734: // 0x0204E734
 	sub sp, sp, #0x24
 	ldrh r9, [sp, #0x50]
 	mov r1, r1, lsl #5
-	ldr r4, _0204E9AC // =0x02134448
+	ldr r4, _0204E9AC // =_02134448
 	ldrh r6, [sp, #0x54]
 	str r1, [sp, #0x10]
 	mov r1, r9, lsl #5
@@ -2138,7 +2146,7 @@ _0204E87C:
 	ldr r1, [sp, #0x1c]
 	add r1, r2, r1, lsl #5
 	add r4, r4, r1
-	ldr r1, _0204E9AC // =0x02134448
+	ldr r1, _0204E9AC // =_02134448
 	ldrh r2, [r1, #0]
 	tst r2, #1
 	beq _0204E944
@@ -2196,7 +2204,7 @@ _0204E970:
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0204E9AC: .word 0x02134448
+_0204E9AC: .word _02134448
 	arm_func_end BackgroundUnknown__Func_204E734
 
 	arm_func_start BackgroundUnknown__Func_204E9B0
@@ -2260,14 +2268,14 @@ _0204EA28:
 	mov r1, r8, asr r4
 	and r1, r1, #0xf
 	beq _0204EAB0
-	ldr r1, _0204EB04 // =0x02134448
+	ldr r1, _0204EB04 // =_02134448
 	ldrh r1, [r1, #2]
 	add r1, r9, r1
 	mov r1, r1, lsl #0x10
 	mov r9, r1, lsr #0x10
 	b _0204EAD8
 _0204EAB0:
-	ldr r10, _0204EB04 // =0x02134448
+	ldr r10, _0204EB04 // =_02134448
 	ldrh r10, [r10, #0]
 	tst r10, #1
 	beq _0204EAD8
@@ -2290,7 +2298,7 @@ _0204EAD8:
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0204EB04: .word 0x02134448
+_0204EB04: .word _02134448
 _0204EB08: .word 0x0000FFF0
 	arm_func_end BackgroundUnknown__Func_204E9B0
 
@@ -2309,7 +2317,7 @@ BackgroundUnknown__Func_204EB0C: // 0x0204EB0C
 	ldr r8, [sp, #0x54]
 	ldr r6, [sp, #0x5c]
 	ldr r4, [sp, #0x64]
-	ldr ip, _0204EDC4 // =0x02134448
+	ldr ip, _0204EDC4 // =_02134448
 	str r0, [sp, #0x18]
 	strh r7, [ip, #2]
 	str r1, [sp, #0x1c]
@@ -2374,7 +2382,7 @@ _0204EBC8:
 	addeq sp, sp, #0x28
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0204EC3C:
-	ldr r0, _0204EDC4 // =0x02134448
+	ldr r0, _0204EDC4 // =_02134448
 	ldrh r1, [r0, #0]
 	tst r1, #1
 	ldreqh r0, [r0, #2]
@@ -2477,7 +2485,7 @@ _0204EDA0:
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0204EDC4: .word 0x02134448
+_0204EDC4: .word _02134448
 	arm_func_end BackgroundUnknown__Func_204EB0C
 
 	arm_func_start BackgroundUnknown__Func_204EDC8
@@ -2906,7 +2914,7 @@ _0204F348:
 BackgroundUnknown__Func_204F3FC: // 0x0204F3FC
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x28
-	ldr r5, _0204F6C8 // =0x02134448
+	ldr r5, _0204F6C8 // =_02134448
 	ldrh r7, [sp, #0x58]
 	ldrh r4, [r5, #0]
 	str r0, [sp]
@@ -2974,7 +2982,7 @@ _0204F4F0:
 	addle sp, sp, #0x28
 	ldmleia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	ldrh r0, [sp, #0x60]
-	ldr r2, _0204F6C8 // =0x02134448
+	ldr r2, _0204F6C8 // =_02134448
 	str r0, [sp, #0x14]
 	ldrh r0, [r2, #2]
 	ldr r2, [sp, #0x54]
@@ -3095,7 +3103,7 @@ _0204F6B0:
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0204F6C8: .word 0x02134448
+_0204F6C8: .word _02134448
 	arm_func_end BackgroundUnknown__Func_204F3FC
 
 	arm_func_start BackgroundUnknown__Func_204F6CC
@@ -3119,7 +3127,7 @@ BackgroundUnknown__Func_204F6CC: // 0x0204F6CC
 	add sp, sp, #0x38
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0204F714:
-	ldr r4, _0204F960 // =0x02134448
+	ldr r4, _0204F960 // =_02134448
 	ldrh r5, [sp, #0x6c]
 	ldrh r9, [r4, #0]
 	ldrh r6, [sp, #0x70]
@@ -3203,7 +3211,7 @@ _0204F828:
 	add r6, r6, r1
 	and r1, r9, #1
 	add r4, r2, r5
-	ldr r7, _0204F960 // =0x02134448
+	ldr r7, _0204F960 // =_02134448
 	str r1, [sp, #0x1c]
 	ldrh r5, [r7, #2]
 	ldr r1, [sp, #0x68]
@@ -3276,7 +3284,7 @@ _0204F930:
 	add sp, sp, #0x38
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0204F960: .word 0x02134448
+_0204F960: .word _02134448
 	arm_func_end BackgroundUnknown__Func_204F6CC
 
 	arm_func_start BackgroundUnknown__Func_204F964

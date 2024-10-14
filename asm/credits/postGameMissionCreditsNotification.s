@@ -58,42 +58,42 @@ PostGameMissionCreditsNotification__Main: // 0x02156608
 	mov r0, #0
 	mov r1, #1
 	bl PlaySysTrack
-	ldr r0, _02156630 // =Task__OV05Unknown2156574__Main_2156634
+	ldr r0, _02156630 // =PostGameMissionCreditsNotification__Main_2156634
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02156630: .word Task__OV05Unknown2156574__Main_2156634
+_02156630: .word PostGameMissionCreditsNotification__Main_2156634
 	arm_func_end PostGameMissionCreditsNotification__Main
 
-	arm_func_start Task__OV05Unknown2156574__Main_2156634
-Task__OV05Unknown2156574__Main_2156634: // 0x02156634
+	arm_func_start PostGameMissionCreditsNotification__Main_2156634
+PostGameMissionCreditsNotification__Main_2156634: // 0x02156634
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r0, [r0, #0x14]
 	tst r0, #0x40
 	ldmeqia sp!, {r3, pc}
-	ldr r0, _02156654 // =Task__OV05Unknown2156574__Main_2156658
+	ldr r0, _02156654 // =PostGameMissionCreditsNotification__Main_2156658
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02156654: .word Task__OV05Unknown2156574__Main_2156658
-	arm_func_end Task__OV05Unknown2156574__Main_2156634
+_02156654: .word PostGameMissionCreditsNotification__Main_2156658
+	arm_func_end PostGameMissionCreditsNotification__Main_2156634
 
-	arm_func_start Task__OV05Unknown2156574__Main_2156658
-Task__OV05Unknown2156574__Main_2156658: // 0x02156658
+	arm_func_start PostGameMissionCreditsNotification__Main_2156658
+PostGameMissionCreditsNotification__Main_2156658: // 0x02156658
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	mov r1, #0x14
 	str r1, [r0, #0x34]
-	ldr r0, _02156674 // =Task__OV05Unknown2156574__Main_2156678
+	ldr r0, _02156674 // =PostGameMissionCreditsNotification__Main_2156678
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02156674: .word Task__OV05Unknown2156574__Main_2156678
-	arm_func_end Task__OV05Unknown2156574__Main_2156658
+_02156674: .word PostGameMissionCreditsNotification__Main_2156678
+	arm_func_end PostGameMissionCreditsNotification__Main_2156658
 
-	arm_func_start Task__OV05Unknown2156574__Main_2156678
-Task__OV05Unknown2156574__Main_2156678: // 0x02156678
+	arm_func_start PostGameMissionCreditsNotification__Main_2156678
+PostGameMissionCreditsNotification__Main_2156678: // 0x02156678
 	stmdb sp!, {r3, lr}
 	bl GetCurrentTaskWork_
 	ldr r1, [r0, #0x34]
@@ -105,4 +105,4 @@ Task__OV05Unknown2156574__Main_2156678: // 0x02156678
 	bl ovl05_21551D8
 	bl ovl05_2155188
 	ldmia sp!, {r3, pc}
-	arm_func_end Task__OV05Unknown2156574__Main_2156678
+	arm_func_end PostGameMissionCreditsNotification__Main_2156678
