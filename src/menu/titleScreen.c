@@ -314,7 +314,7 @@ void ChangeEventForTitleScreen(TitleScreenNextEvent id)
     {
         case TITLESCREEN_NEXTEVENT_HUB:
             gameState.talk.field_DC = 0;
-            SaveGame__Func_205B9F0(0);
+            SaveGame__SetUnknown1(0);
             // fallthrough
 
         case TITLESCREEN_NEXTEVENT_DEMO:

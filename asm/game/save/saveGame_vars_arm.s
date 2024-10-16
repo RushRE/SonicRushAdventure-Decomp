@@ -137,14 +137,14 @@ SaveGame__hiddenIslandList: // 0x02110958
 
 .public SaveGame__UnknownTable1
 SaveGame__UnknownTable1: // 0x02110974
-    .word SaveGame__UnknownTable1Func_205CB60
-    .word SaveGame__UnknownTable1Func_205CBC4
-    .word SaveGame__UnknownTable1Func_205CBD0
-    .word SaveGame__UnknownTable1Func_205CBDC
-    .word SaveGame__UnknownTable1Func_205CBE8
-    .word SaveGame__UnknownTable1Func_205CBF4
-    .word SaveGame__UnknownTable1Func_205CC04
-    .word SaveGame__UnknownTable1Func_205CC3C
+    .word SaveGame__UpdateProgress1_Func_205CB60
+    .word SaveGame__UpdateProgress1_Func_205CBC4
+    .word SaveGame__UpdateProgress1_Func_205CBD0
+    .word SaveGame__UpdateProgress1_Func_205CBDC
+    .word SaveGame__UpdateProgress1_Func_205CBE8
+    .word SaveGame__UpdateProgress1_Func_205CBF4
+    .word SaveGame__UpdateProgress1_Func_205CC04
+    .word SaveGame__UpdateProgress1_Func_205CC3C
 
 .public _02110994
 _02110994: // 0x02110994
@@ -154,18 +154,18 @@ _02110994: // 0x02110994
 
 .public SaveGame__UnknownTable2
 SaveGame__UnknownTable2: // 0x021109B8
-    .word SaveGame__UnknownTable2Func_205C28C
-    .word SaveGame__UnknownTable2Func_205C29C
-    .word SaveGame__UnknownTable2Func_205C2A8
-    .word SaveGame__UnknownTable2Func_205C344
-    .word SaveGame__UnknownTable2Func_205C39C
-    .word SaveGame__UnknownTable2Func_205C3A8
-    .word SaveGame__UnknownTable2Func_205C700
-    .word SaveGame__UnknownTable2Func_205C720
-    .word SaveGame__UnknownTable2Func_205C780
-    .word SaveGame__UnknownTable2Func_205C7E8
-    .word SaveGame__UnknownTable2Func_205C904
-    .word SaveGame__UnknownTable2Func_205C91C
+    .word SaveGame__UpdateProgress2_Func_205C28C
+    .word SaveGame__UpdateProgress2_Func_205C29C
+    .word SaveGame__UpdateProgress2_Func_205C2A8
+    .word SaveGame__UpdateProgress2_Func_205C344
+    .word SaveGame__UpdateProgress2_Func_205C39C
+    .word SaveGame__UpdateProgress2_Func_205C3A8
+    .word SaveGame__UpdateProgress2_Func_205C700
+    .word SaveGame__UpdateProgress2_Func_205C720
+    .word SaveGame__UpdateProgress2_Func_205C780
+    .word SaveGame__UpdateProgress2_Func_205C7E8
+    .word SaveGame__UpdateProgress2_Func_205C904
+    .word SaveGame__UpdateProgress2_Func_205C91C
 
 .public SaveGame__ProgressCheckTable
 SaveGame__ProgressCheckTable: // 0x021109E8
@@ -301,16 +301,16 @@ _02110D48: // 0x02110D48
 
 	.data
 	
-.public _02119C9C
-_02119C9C:
+.public SaveGame__unknownProgress1Unknown
+SaveGame__unknownProgress1Unknown:
 	.word 0x00000000, 0x021108A0, 0x021108D0, 0x021107D4, 0x00000000
 
-.public _02119CB0
-_02119CB0:
+.public SaveGame__unknownProgress2Unknown
+SaveGame__unknownProgress2Unknown:
 	.word 0x00000000, 0x21108AC, 0x211087C, 0x2110A18, 0x211084C, 0x2110858, 0x00000000
 
-.public _02119CCC
-_02119CCC:
+.public SaveGame__gameProgressUnknown
+SaveGame__gameProgressUnknown:
 	.word 0x02110C84, 0x02110940, 0x02110A48, 0x021107C8
 	.word 0x02110834, 0x02110870, 0x021107EC, 0x02110840
 	.word 0x00000000, 0x00000000, 0x021107F8, 0x0211081C

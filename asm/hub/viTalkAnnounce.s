@@ -149,7 +149,7 @@ _0216B87C:
 	mov r1, r1, lsl #0x10
 	mov r0, r0, lsr #0x10
 	mov r1, r1, lsr #0x10
-	bl SaveGame__Func_205BDC8
+	bl SaveGame__UnlockShip
 _0216B8BC:
 	ldrh r0, [r4, #0]
 	bl ViTalkAnnounce__Func_216B92C

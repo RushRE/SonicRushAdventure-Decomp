@@ -185,7 +185,7 @@ SeaMapCourseChangeView__Destroy: // 0x0204B754
 	b _0204B7AC
 _0204B780:
 	mov r0, #2
-	bl SaveGame__Func_205B9F0
+	bl SaveGame__SetUnknown1
 	mov r0, #0
 	bl RequestSysEventChange
 	b _0204B7AC

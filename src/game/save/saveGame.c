@@ -8,23 +8,42 @@
 #include <menu/credits.h>
 
 // --------------------
+// STRUCTS
+// --------------------
+
+typedef struct SaveGameUnknown205D150_
+{
+    u8 gameProgress;
+    u8 unknownProgress1;
+    u8 unknownProgress2;
+    u8 mode;
+} SaveGameUnknown205D150;
+
+typedef struct SaveGameUnknown205D65C_
+{
+    u16 gameProgress;
+    u16 unknownProgress1;
+    u16 unknownProgress2;
+} SaveGameUnknown205D65C;
+
+// --------------------
 // TEMP
 // --------------------
 
 NOT_DECOMPILED void SeaMapManager__SetUnknown1(s32 a1);
 
 NOT_DECOMPILED void (*SaveGame__UnknownTable2[])(void);
-NOT_DECOMPILED void *_02119CB0;
 NOT_DECOMPILED u16 SaveGame_cutsceneIDList[];
 NOT_DECOMPILED BOOL (*SaveGame__ProgressCheckTable[])(s32 id);
 NOT_DECOMPILED void (*SaveGame__SaveDataCallbacks[])(SaveGame *saveGame, SaveBlockFlags blockFlags);
 NOT_DECOMPILED void *SaveGame__LoadDataCallbacks;
 NOT_DECOMPILED void (*SaveGame__ClearDataCallbacks[])(SaveGame *saveGame, SaveBlockFlags blockFlags);
 NOT_DECOMPILED void *_02110DDC;
-NOT_DECOMPILED void (*SaveGame__UnknownTable1[])(SaveGameUnknown2119CCC *state);
-NOT_DECOMPILED void *_02119C9C;
+NOT_DECOMPILED void (*SaveGame__UnknownTable1[])(SaveGameNextAction *state);
 NOT_DECOMPILED const char *aSonicRush2;
-NOT_DECOMPILED void *_02119CCC;
+NOT_DECOMPILED SaveGameNextAction *SaveGame__gameProgressUnknown[40];
+NOT_DECOMPILED SaveGameNextAction *SaveGame__unknownProgress1Unknown[5];
+NOT_DECOMPILED SaveGameNextAction *SaveGame__unknownProgress2Unknown[7];
 NOT_DECOMPILED size_t savedataBlockSizes[9];
 NOT_DECOMPILED size_t savedataBlockOffsets[9];
 NOT_DECOMPILED u16 _021108DC[];
@@ -34,15 +53,15 @@ NOT_DECOMPILED u16 SaveGame__hiddenIslandList[];
 NOT_DECOMPILED u16 SaveGame__nextStage[];
 NOT_DECOMPILED u16 _021107AE[];
 
-NOT_DECOMPILED void *_021107BE;
-NOT_DECOMPILED void *_021107B4;
-NOT_DECOMPILED void *_02110B70;
-NOT_DECOMPILED void *_02110C20;
-NOT_DECOMPILED void *_02110D00;
-NOT_DECOMPILED void *_02110D12;
-NOT_DECOMPILED void *_02110D2A;
-NOT_DECOMPILED void *_02110B20;
-NOT_DECOMPILED void *_02110D48;
+NOT_DECOMPILED u16 _021107BE[5];
+NOT_DECOMPILED u16 _021107B4[5];
+NOT_DECOMPILED u16 _02110B70[42];
+NOT_DECOMPILED SaveGameUnknown205D150 _02110C20[];
+NOT_DECOMPILED SaveGameUnknown205D65C _02110D00[];
+NOT_DECOMPILED u16 _02110D12[];
+NOT_DECOMPILED u16 _02110D2A[];
+NOT_DECOMPILED u16 _02110B20[];
+NOT_DECOMPILED u16 _02110D48[];
 
 // --------------------
 // VARIABLES
@@ -62,9 +81,9 @@ void SaveGame__UpdateProgressEvent(void)
     SaveGame__UpdateProgress();
 }
 
-void SaveGame__Func_205B9F0(s32 value)
+void SaveGame__SetUnknown1(s32 value)
 {
-    gameState.saveFile.field_48 = value;
+    gameState.saveFile.unknown1 = value;
 }
 
 SaveProgress SaveGame__GetGameProgress(void)
@@ -72,89 +91,59 @@ SaveProgress SaveGame__GetGameProgress(void)
     return saveGame.stage.progress.gameProgress;
 }
 
-NONMATCH_FUNC void SaveGame__SetGameProgress(SaveProgress progress){
-#ifdef NON_MATCHING
+void SaveGame__SetGameProgress(SaveProgress progress)
+{
+    saveGame.stage.progress.gameProgress = progress;
+    gameState.saveFile.unknown2          = 0;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, =saveGame
-	mov r4, r0
-	ldr r0, =gameState+0x00000100
-	strb r4, [r1, #0x2c]
-	mov r2, #0
-	strh r2, [r0, #0x4c]
-	cmp r4, #0x18
-	strltb r2, [r1, #0x2d]
-	strltb r2, [r1, #0x2e]
-	blt _0205BA7C
-	cmp r4, #0x19
-	blt _0205BA58
-	mov r0, #4
-	strb r0, [r1, #0x2d]
-	mov r0, #6
-	strb r0, [r1, #0x2e]
-	b _0205BA7C
-_0205BA58:
-	ldrb r0, [r1, #0x2d]
-	cmp r0, #0
-	moveq r0, #1
-	streqb r0, [r1, #0x2d]
-	ldr r0, =saveGame
-	ldrb r1, [r0, #0x2e]
-	cmp r1, #0
-	moveq r1, #1
-	streqb r1, [r0, #0x2e]
-_0205BA7C:
-	cmp r4, #0x1d
-	bge _0205BA98
-	ldr r0, =saveGame
-	ldr r1, [r0, #0x28]
-	bic r1, r1, #0xe
-	str r1, [r0, #0x28]
-	b _0205BAB0
-_0205BA98:
-	cmp r4, #0x1e
-	blt _0205BAB0
-	ldr r0, =saveGame
-	ldr r1, [r0, #0x28]
-	orr r1, r1, #0xe
-	str r1, [r0, #0x28]
-_0205BAB0:
-	cmp r4, #0x11
-	bgt _0205BAC8
-	ldr r0, =saveGame
-	ldr r1, [r0, #0x28]
-	bic r1, r1, #0x10
-	str r1, [r0, #0x28]
-_0205BAC8:
-	bl SaveGame__RemoveProgressFlags_0x100
-	bl SaveGame__RemoveProgressFlags_0x200
-	bl SaveGame__RemoveProgressFlags_0x400
-	cmp r4, #2
-	ldrlt r0, =saveGame
-	ldrlt r1, [r0, #0x28]
-	biclt r1, r1, #0x80000
-	blt _0205BAF4
-	ldr r0, =saveGame
-	ldr r1, [r0, #0x28]
-	orr r1, r1, #0x80000
-_0205BAF4:
-	str r1, [r0, #0x28]
-	ldr r0, =saveGame
-	ldr r1, [r0, #0x28]
-	bic r1, r1, #0x700000
-	str r1, [r0, #0x28]
-	bl SaveGame__Func_205CF9C
-	ldmia sp!, {r4, pc}
+    if (progress < SAVE_PROGRESS_24)
+    {
+        saveGame.stage.progress.unknownProgress1 = 0;
+        saveGame.stage.progress.unknownProgress2 = 0;
+    }
+    else if (progress >= SAVE_PROGRESS_25)
+    {
+        saveGame.stage.progress.unknownProgress1 = 4;
+        saveGame.stage.progress.unknownProgress2 = 6;
+    }
+    else
+    {
+        if (saveGame.stage.progress.unknownProgress1 == 0)
+            saveGame.stage.progress.unknownProgress1 = 1;
 
-// clang-format on
-#endif
+        if (saveGame.stage.progress.unknownProgress2 == 0)
+            saveGame.stage.progress.unknownProgress2 = 1;
+    }
+
+    if (progress < SAVE_PROGRESS_29)
+    {
+        saveGame.stage.progress.flags &= ~(2 | 4 | 8);
+    }
+    else if (progress >= SAVE_PROGRESS_30)
+    {
+        saveGame.stage.progress.flags |= (2 | 4 | 8);
+    }
+
+    if (progress <= SAVE_PROGRESS_17)
+        saveGame.stage.progress.flags &= ~0x10;
+
+    SaveGame__RemoveProgressFlags_0x100();
+    SaveGame__RemoveProgressFlags_0x200();
+    SaveGame__RemoveProgressFlags_0x400();
+
+    if (progress >= SAVE_PROGRESS_2)
+        saveGame.stage.progress.flags |= 0x80000;
+    else
+        saveGame.stage.progress.flags &= ~0x80000;
+
+    saveGame.stage.progress.flags &= ~(0x100000 | 0x200000 | 0x400000);
+
+    SaveGame__ApplySystemProgress();
 }
 
-u8 SaveGame__Func_205BB18(void)
+u8 SaveGame__GetUnknown2(void)
 {
-    return gameState.saveFile.field_4C;
+    return gameState.saveFile.unknown2;
 }
 
 s32 SaveGame__GetUnknownProgress1(void)
@@ -165,11 +154,11 @@ s32 SaveGame__GetUnknownProgress1(void)
 void SaveGame__SetUnknownProgress1(s32 progress)
 {
     saveGame.stage.progress.unknownProgress1 = progress;
-    gameState.saveFile.field_4C              = 0;
+    gameState.saveFile.unknown2              = 0;
     saveGame.stage.progress.flags &= ~1;
 
     SaveGame__RemoveProgressFlags_0x200();
-    SaveGame__Func_205CF9C();
+    SaveGame__ApplySystemProgress();
 }
 
 s32 SaveGame__GetUnknownProgress2(void)
@@ -180,27 +169,27 @@ s32 SaveGame__GetUnknownProgress2(void)
 void SaveGame__SetUnknownProgress2(s32 progress)
 {
     saveGame.stage.progress.unknownProgress2 = progress;
-    gameState.saveFile.field_4C              = 0;
+    gameState.saveFile.unknown2              = 0;
     saveGame.stage.progress.flags |= 1;
 
     SaveGame__RemoveProgressFlags_0x400();
-    SaveGame__Func_205CF9C();
+    SaveGame__ApplySystemProgress();
 }
 
 void SaveGame__Func_205BBBC(void)
 {
-    gameState.saveFile.field_4C++;
+    gameState.saveFile.unknown2++;
 }
 
-BOOL SaveGame__HasDoorPuzzlePiece(u32 id)
+BOOL SaveGame__HasDoorPuzzlePiece(u16 id)
 {
     return (saveGame.stage.progress.flags & (2 << id)) != 0;
 }
 
-void SaveGame__GetPuzzlePiece(u32 id)
+void SaveGame__GetPuzzlePiece(u16 id)
 {
     saveGame.stage.progress.flags |= (2 << id);
-    SaveGame__Func_205CF9C();
+    SaveGame__ApplySystemProgress();
 }
 
 void SaveGame__Func_205BC18(void)
@@ -248,29 +237,13 @@ BOOL SaveGame__Func_205BC7C(void)
     return FALSE;
 }
 
-NONMATCH_FUNC void SaveGame__SetMissionStatus(u8 id, MissionState status)
+void SaveGame__SetMissionStatus(u8 id, MissionState status)
 {
-    // https://decomp.me/scratch/cZorQ -> 95.71%
-#ifdef NON_MATCHING
-    saveGame.stage.missionState[id / 4] = (saveGame.stage.missionState[id / 4] & ~(MISSION_STATE_COMPLETED << ((id % 4) << 1))) | (status << ((id % 4) << 1));
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	mov r3, r0, lsr #0x1f
-	rsb r2, r3, r0, lsl #30
-	ldr lr, =saveGame+0x00000034
-	add r2, r3, r2, ror #30
-	mov r3, r2, lsl #1
-	mov r2, #3
-	ldrb ip, [lr, r0, lsr #2]
-	mvn r2, r2, lsl r3
-	and r2, ip, r2
-	orr r1, r2, r1, lsl r3
-	strb r1, [lr, r0, lsr #2]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    u32 state = saveGame.stage.missionState[id / 4];
+    u32 shift = (id % 4) << 1;
+    
+    state &= ~(MISSION_STATE_COMPLETED << shift);
+    saveGame.stage.missionState[id / 4] = state | (status << shift);
 }
 
 MissionState SaveGame__GetMissionStatus(u8 id)
@@ -292,7 +265,7 @@ BOOL SaveGame__GetMissionAttempted(u8 id)
     return (saveGame.stage.missionAttemptState[id / 8] & (1 << (id % 8))) != 0;
 }
 
-u16 SaveGame__GetBlock1GameProgress(void)
+u16 SaveGame__GetSystemGameProgress(void)
 {
     return saveGame.system.progress.gameProgress;
 }
@@ -302,112 +275,77 @@ void SaveGame__GsExit(u16 value)
     gameState.saveFile.field_52 = value;
 }
 
-NONMATCH_FUNC void SaveGame__Func_205BDC8(void){
-#ifdef NON_MATCHING
+void SaveGame__UnlockShip(u8 shipID, s32 shipLevel)
+{
+    u32 id = 0x800 << (2 * shipID) << (shipLevel - 1);
 
-#else
-    // clang-format off
-	mov r0, r0, lsl #1
-	mov r2, #0x800
-	mov r2, r2, lsl r0
-	sub r0, r1, #1
-	cmp r1, #2
-	mov r1, r2, lsl r0
-	ldr r2, =saveGame+0x00000028
-	bne _0205BDF8
-	ldr r0, [r2, #0]
-	tst r0, r1, lsr #1
-	orreq r0, r0, r1, lsr #1
-	streq r0, [r2]
-_0205BDF8:
-	ldr r0, [r2, #0]
-	ldr ip, =SaveGame__Func_205CF9C
-	orr r0, r0, r1
-	str r0, [r2]
-	bx ip
+    SaveGameProgress *progress = &saveGame.stage.progress;
 
-// clang-format on
-#endif
+    if (shipLevel == SHIP_LEVEL_2 && (progress->flags & (id >> 1)) == 0)
+        progress->flags |= id >> 1;
+
+    progress->flags |= id;
+
+    SaveGame__ApplySystemProgress();
 }
 
-NONMATCH_FUNC BOOL SaveGame__GetNextShipUpgrade(u16 *ship, u16 *level){
-#ifdef NON_MATCHING
+BOOL SaveGame__GetNextShipUpgrade(u16 *ship, u16 *level)
+{
+    if (SaveGame__GetGameProgress() < SAVE_PROGRESS_36)
+        return FALSE;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	mov r5, r1
-	bl SaveGame__GetGameProgress
-	cmp r0, #0x24
-	movlt r0, #0
-	ldmltia sp!, {r4, r5, r6, pc}
-	mov r0, #3
-	bl SaveGame__GetShipUpgradeStatus
-	cmp r0, #2
-	movhs r0, #0
-	ldmhsia sp!, {r4, r5, r6, pc}
-	mov r0, #3
-	bl SaveGame__GetShipUpgradeStatus
-	cmp r0, #0
-	mov r4, #0
-	bne _0205BE98
-_0205BE58:
-	mov r0, r4, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl SaveGame__GetShipUpgradeStatus
-	cmp r0, #0
-	bne _0205BE88
-	cmp r6, #0
-	strneh r4, [r6]
-	cmp r5, #0
-	movne r0, #1
-	strneh r0, [r5]
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
-_0205BE88:
-	add r4, r4, #1
-	cmp r4, #4
-	blt _0205BE58
-	b _0205BED4
-_0205BE98:
-	mov r0, r4, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl SaveGame__GetShipUpgradeStatus
-	cmp r0, #1
-	bne _0205BEC8
-	cmp r6, #0
-	strneh r4, [r6]
-	cmp r5, #0
-	movne r0, #2
-	strneh r0, [r5]
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
-_0205BEC8:
-	add r4, r4, #1
-	cmp r4, #4
-	blt _0205BE98
-_0205BED4:
-	mov r0, #0
-	ldmia sp!, {r4, r5, r6, pc}
+    if (SaveGame__GetShipUpgradeStatus(SHIP_SUBMARINE) >= 2)
+        return FALSE;
 
-// clang-format on
-#endif
+    if (SaveGame__GetShipUpgradeStatus(SHIP_SUBMARINE) == 0)
+    {
+        for (s32 id = 0; id < SHIP_COUNT; id++)
+        {
+            if (SaveGame__GetShipUpgradeStatus(id) == SHIP_LEVEL_0)
+            {
+                if (ship != NULL)
+                    *ship = id;
+
+                if (level != NULL)
+                    *level = SHIP_LEVEL_1;
+
+                return TRUE;
+            }
+        }
+    }
+    else
+    {
+        for (s32 id = 0; id < SHIP_COUNT; id++)
+        {
+            if (SaveGame__GetShipUpgradeStatus(id) == SHIP_LEVEL_1)
+            {
+                if (ship != NULL)
+                    *ship = id;
+
+                if (level != NULL)
+                    *level = SHIP_LEVEL_2;
+
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
 }
 
 BOOL SaveGame__Func_205BEDC(void)
 {
-    if (!SaveGame__Func_205CF4C(2))
+    if (!SaveGame__GetStateFlag(2))
         return FALSE;
 
-    SaveGame__Func_205CF80(2);
+    SaveGame__DisableStateFlags(2);
     return TRUE;
 }
 
 void SaveGame__Block1__SetFlags1_0x80000(void)
 {
     saveGame.stage.progress.flags |= 0x80000;
-    SaveGame__Func_205CF9C();
+    SaveGame__ApplySystemProgress();
 }
 
 BOOL SaveGame__Func_205BF24(void)
@@ -423,7 +361,7 @@ BOOL SaveGame__Func_205BF24(void)
 
 void SaveGame__Func_205BF5C(s32 id)
 {
-    SaveGame__Func_205CF68(4 << id);
+    SaveGame__EnableStateFlags(4 << id);
 }
 
 BOOL SaveGame__Func_205BF78(s32 id)
@@ -431,7 +369,7 @@ BOOL SaveGame__Func_205BF78(s32 id)
     if (id == 0)
         return TRUE;
 
-    return SaveGame__Func_205CF4C(4 << id);
+    return SaveGame__GetStateFlag(4 << id);
 }
 
 void SaveGame__SaveClearCallback_Stage(SaveGame *save, SaveBlockFlags blockFlags)
@@ -446,212 +384,191 @@ void SaveGame__SaveClearCallback_Stage(SaveGame *save, SaveBlockFlags blockFlags
 
 void SaveGame__UpdateProgress(void)
 {
-    SaveGameUnknown2119CCC *state = SaveGame__Func_205C00C();
-    if (state != NULL && state->field_4 < 8)
+    SaveGameNextAction *state = SaveGame__GetNextActionFromProgress();
+    if (state != NULL && state->table1Pos < 8)
     {
-        SaveGame__UnknownTable1[state->field_4](state);
+        SaveGame__UnknownTable1[state->table1Pos](state);
     }
     else
     {
-        SaveGame__UnknownTable2[SaveGame__Func_205CF3C()]();
+        SaveGame__UnknownTable2[SaveGame__GetUnknown1()]();
     }
 }
 
-NONMATCH_FUNC SaveGameUnknown2119CCC *SaveGame__Func_205C00C(void)
+SaveGameNextAction *SaveGame__GetNextActionFromProgress(void)
 {
-#ifdef NON_MATCHING
+    SaveGameNextAction *config;
+	
+    u16 gameProgress;
+    u16 unknownProgress1;
+    u16 unknownProgress2;
+    u16 unknown1;
+    u16 unknown2;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	bl SaveGame__GetGameProgress
-	mov r0, r0, lsl #0x10
-	mov r5, r0, lsr #0x10
-	bl SaveGame__GetUnknownProgress1
-	mov r0, r0, lsl #0x10
-	mov r6, r0, lsr #0x10
-	bl SaveGame__GetUnknownProgress2
-	mov r0, r0, lsl #0x10
-	mov r7, r0, lsr #0x10
-	bl SaveGame__Func_205BB18
-	mov r8, r0
-	bl SaveGame__Func_205CF3C
-	mov r0, r0, lsl #0x10
-	mov r9, r0, lsr #0x10
-	cmp r9, #4
-	moveq r9, #3
-	cmp r9, #5
-	bne _0205C078
-	ldr r0, =gameState
-	ldrh r0, [r0, #0x28]
-	bl SaveGame__Func_205D150
-	cmp r0, #0
-	beq _0205C094
-	mov r0, #0
-	bl SaveGame__GsExit
-	b _0205C094
-_0205C078:
-	cmp r9, #9
-	bne _0205C094
-	bl SaveGame__GetGameProgress
-	cmp r0, #0x27
-	bge _0205C094
-	mov r0, #0
-	bl SaveGame__GsExit
-_0205C094:
-	cmp r5, #0x18
-	mov r4, #0
-	beq _0205C134
-	ldr r0, =_02110B20
-	mov r1, r5, lsl #1
-	ldrh r10, [r0, r1]
-	cmp r8, r10
-	bhs _0205C134
-	ldr r0, =_02119CCC
-	ldr r4, [r0, r5, lsl #2]
-	cmp r4, #0
-	beq _0205C264
-	mov r0, #0xc
-	mul r0, r8, r0
-	ldrh r0, [r4, r0]!
-	cmp r0, #0xc
-	bhs _0205C100
-	cmp r0, r9
-	bne _0205C0F8
-	ldr r1, =SaveGame__ProgressCheckTable
-	ldrh r0, [r4, #2]
-	ldr r1, [r1, r9, lsl #2]
-	blx r1
-	cmp r0, #0
-	bne _0205C100
-_0205C0F8:
-	mov r4, #0
-	b _0205C264
-_0205C100:
-	ldrh r0, [r4, #0xa]
-	cmp r0, #0
-	beq _0205C128
-	add r0, r8, #1
-	cmp r0, r10
-	bge _0205C120
-	bl SaveGame__IncrementUnknownCounter
-	b _0205C128
-_0205C120:
-	bl SaveGame__IncrementGameProgress
-	bl SaveGame__ResetUnknownCounter
-_0205C128:
-	mov r0, #0
-	bl SaveGame__GsExit
-	b _0205C264
-_0205C134:
-	movs r0, #0
-	bne _0205C1CC
-	ldr r0, =_021107BE
-	mov r1, r6, lsl #1
-	ldrh r5, [r0, r1]
-	cmp r8, r5
-	bhs _0205C1CC
-	ldr r0, =_02119C9C
-	ldr r4, [r0, r6, lsl #2]
-	cmp r4, #0
-	beq _0205C1CC
-	mov r0, #0xc
-	mul r0, r8, r0
-	ldrh r0, [r4, r0]!
-	cmp r0, #0xc
-	bhs _0205C19C
-	cmp r0, r9
-	bne _0205C194
-	ldr r1, =SaveGame__ProgressCheckTable
-	ldrh r0, [r4, #2]
-	ldr r1, [r1, r9, lsl #2]
-	blx r1
-	cmp r0, #0
-	bne _0205C19C
-_0205C194:
-	mov r4, #0
-	b _0205C1CC
-_0205C19C:
-	ldrh r0, [r4, #0xa]
-	cmp r0, #0
-	beq _0205C1C4
-	add r0, r8, #1
-	cmp r0, r5
-	bge _0205C1BC
-	bl SaveGame__IncrementUnknownCounter
-	b _0205C1C4
-_0205C1BC:
-	bl SaveGame__IncrementUnknownProgress1
-	bl SaveGame__ResetUnknownCounter
-_0205C1C4:
-	mov r0, #0
-	bl SaveGame__GsExit
-_0205C1CC:
-	cmp r4, #0
-	bne _0205C264
-	ldr r0, =_021108DC
-	mov r1, r7, lsl #1
-	ldrh r5, [r0, r1]
-	cmp r8, r5
-	bhs _0205C264
-	ldr r0, =_02119CB0
-	ldr r4, [r0, r7, lsl #2]
-	cmp r4, #0
-	beq _0205C264
-	mov r0, #0xc
-	mul r0, r8, r0
-	ldrh r0, [r4, r0]!
-	cmp r0, #0xc
-	bhs _0205C234
-	cmp r0, r9
-	bne _0205C22C
-	ldr r1, =SaveGame__ProgressCheckTable
-	ldrh r0, [r4, #2]
-	ldr r1, [r1, r9, lsl #2]
-	blx r1
-	cmp r0, #0
-	bne _0205C234
-_0205C22C:
-	mov r4, #0
-	b _0205C264
-_0205C234:
-	ldrh r0, [r4, #0xa]
-	cmp r0, #0
-	beq _0205C25C
-	add r0, r8, #1
-	cmp r0, r5
-	bge _0205C254
-	bl SaveGame__IncrementUnknownCounter
-	b _0205C25C
-_0205C254:
-	bl SaveGame__IncrementUnknownProgress2
-	bl SaveGame__ResetUnknownCounter
-_0205C25C:
-	mov r0, #0
-	bl SaveGame__GsExit
-_0205C264:
-	mov r0, r4
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+    gameProgress     = SaveGame__GetGameProgress();
+    unknownProgress1 = SaveGame__GetUnknownProgress1();
+    unknownProgress2 = SaveGame__GetUnknownProgress2();
 
-// clang-format on
-#endif
+    unknown1         = SaveGame__GetUnknown2();
+    unknown2         = SaveGame__GetUnknown1();
+
+    if (unknown2 == 4)
+        unknown2 = 3;
+
+    if (unknown2 == 5)
+    {
+        if (SaveGame__Func_205D150(gameState.stageID))
+        {
+            SaveGame__GsExit(0);
+        }
+    }
+    else if (unknown2 == 9)
+    {
+        if (SaveGame__GetGameProgress() < SAVE_PROGRESS_39)
+        {
+            SaveGame__GsExit(0);
+        }
+    }
+
+    config = NULL;
+    u16 count;
+    switch (gameProgress)
+    {
+        default:
+            count = _02110B20[gameProgress];
+            if (unknown1 < count)
+            {
+                config = SaveGame__gameProgressUnknown[gameProgress];
+
+                if (config != NULL)
+                {
+                    config += unknown1;
+
+                    if (config->field_0 < 12 && (config->field_0 != unknown2 || !SaveGame__ProgressCheckTable[unknown2](config->progressCheckValue)))
+                    {
+                        config = NULL;
+                    }
+                    else
+                    {
+                        if (config->allowProgressIncrement)
+                        {
+                            if (unknown1 + 1 < count)
+                            {
+                                SaveGame__IncrementUnknown2();
+                            }
+                            else
+                            {
+                                SaveGame__IncrementGameProgress();
+                                SaveGame__ResetUnknown2();
+                            }
+                        }
+
+                        SaveGame__GsExit(0);
+                    }
+                }
+                break;
+            }
+            else
+            {
+                config = NULL;
+            }
+            // fallthrough
+
+        case SAVE_PROGRESS_24:
+            // this was probably an inline function?
+            if (0 == NULL)
+            {
+                count = _021107BE[unknownProgress1];
+
+                if (unknown1 < count)
+                {
+                    config = SaveGame__unknownProgress1Unknown[unknownProgress1];
+
+                    if (config != NULL)
+                    {
+                        config += unknown1;
+
+                        if (config->field_0 < 12 && (config->field_0 != unknown2 || !SaveGame__ProgressCheckTable[unknown2](config->progressCheckValue)))
+                        {
+                            config = NULL;
+                        }
+                        else
+                        {
+                            if (config->allowProgressIncrement)
+                            {
+                                if (unknown1 + 1 < count)
+                                {
+                                    SaveGame__IncrementUnknown2();
+                                }
+                                else
+                                {
+                                    SaveGame__IncrementUnknownProgress1();
+                                    SaveGame__ResetUnknown2();
+                                }
+                            }
+
+                            SaveGame__GsExit(0);
+                        }
+                    }
+                }
+            }
+
+            if (config == NULL)
+            {
+                count = _021108DC[unknownProgress2];
+
+                if (unknown1 < count)
+                {
+                    config = SaveGame__unknownProgress2Unknown[unknownProgress2];
+                    if (config != NULL)
+                    {
+                        config += unknown1;
+
+                        if (config->field_0 < 12 && (config->field_0 != unknown2 || !SaveGame__ProgressCheckTable[unknown2](config->progressCheckValue)))
+                        {
+                            config = NULL;
+                        }
+                        else
+                        {
+                            if (config->allowProgressIncrement)
+                            {
+                                if (unknown1 + 1 < count)
+                                {
+                                    SaveGame__IncrementUnknown2();
+                                }
+                                else
+                                {
+                                    SaveGame__IncrementUnknownProgress2();
+                                    SaveGame__ResetUnknown2();
+                                }
+                            }
+
+                            SaveGame__GsExit(0);
+                        }
+                    }
+                }
+            }
+            break;
+    }
+
+    return config;
 }
 
-void SaveGame__UnknownTable2Func_205C28C(void)
+void SaveGame__UpdateProgress2_Func_205C28C(void)
 {
     SaveGame__ChangeEvent(SYSEVENT_RETURN_TO_HUB);
 }
 
-void SaveGame__UnknownTable2Func_205C29C(void)
+void SaveGame__UpdateProgress2_Func_205C29C(void)
 {
     SaveGame__StartEvent35();
 }
 
-void SaveGame__UnknownTable2Func_205C2A8(void)
+void SaveGame__UpdateProgress2_Func_205C2A8(void)
 {
-    if (SaveGame__Func_205CF4C(1) || gameState.sailUnknown1 != 0)
+    if (SaveGame__GetStateFlag(1) || gameState.sailUnknown1 != 0)
     {
-        SaveGame__Func_205CF80(1);
+        SaveGame__DisableStateFlags(1);
         SaveGame__StartSailing();
     }
     else
@@ -680,13 +597,13 @@ void SaveGame__UnknownTable2Func_205C2A8(void)
                 break;
         }
 
-        SaveGame__Func_205B9F0(2);
-        SaveGame__Func_205CF68(1);
+        SaveGame__SetUnknown1(2);
+        SaveGame__EnableStateFlags(1);
         SaveGame__StartCutscene(cutscene, SYSEVENT_UPDATE_PROGRESS, TRUE);
     }
 }
 
-void SaveGame__UnknownTable2Func_205C344(void)
+void SaveGame__UpdateProgress2_Func_205C344(void)
 {
     if (gameState.stageID == STAGE_Z71 && SaveGame__GetGameProgress() < SAVE_PROGRESS_33)
     {
@@ -703,12 +620,12 @@ void SaveGame__UnknownTable2Func_205C344(void)
     }
 }
 
-void SaveGame__UnknownTable2Func_205C39C(void)
+void SaveGame__UpdateProgress2_Func_205C39C(void)
 {
     SaveGame__StartStoryMode();
 }
 
-void SaveGame__UnknownTable2Func_205C3A8(void)
+void SaveGame__UpdateProgress2_Func_205C3A8(void)
 {
     u32 stageID = gameState.stageID;
     if (stageID == STAGE_Z11)
@@ -756,7 +673,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
         }
     }
 
-    SaveGame__Func_205CF9C();
+    SaveGame__ApplySystemProgress();
 
     if (gameState.saveFile.field_52 == 1)
     {
@@ -769,17 +686,17 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
         if (stageID != nextStage)
         {
             gameState.stageID = nextStage;
-            SaveGame__Func_205B9F0(4);
+            SaveGame__SetUnknown1(4);
         }
         else if (stageID == STAGE_BOSS_FINAL)
         {
             static const u16 cutsceneIDList[] = { CUTSCENE_GHOST_TITANS_IMPACT, CUTSCENE_ENDING, CUTSCENE_INVALID };
 
-            u16 cutsceneID = cutsceneIDList[SaveGame__Func_205BB18()];
+            u16 cutsceneID = cutsceneIDList[SaveGame__GetUnknown2()];
             SaveGame__Func_205BBBC();
-            if (SaveGame__Func_205BB18() >= 3)
+            if (SaveGame__GetUnknown2() >= 3)
             {
-                SaveGame__ResetUnknownCounter();
+                SaveGame__ResetUnknown2();
                 if (SaveGame__GetGameProgress() <= SAVE_PROGRESS_35)
                     SaveGame__SetGameProgress(SAVE_PROGRESS_36);
             }
@@ -808,7 +725,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
             {
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
-                    SaveGame__Func_205B9F0(0);
+                    SaveGame__SetUnknown1(0);
                     SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -817,7 +734,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
                     if (!SaveGame__HasDoorPuzzlePiece(0))
                     {
                         SaveGame__GetPuzzlePiece(0);
-                        SaveGame__Func_205B9F0(0);
+                        SaveGame__SetUnknown1(0);
                         SaveGame__StartCutscene(CUTSCENE_CLUE_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                         return;
                     }
@@ -827,7 +744,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
             {
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
-                    SaveGame__Func_205B9F0(0);
+                    SaveGame__SetUnknown1(0);
                     SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_2, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -835,7 +752,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
                 if (!SaveGame__HasDoorPuzzlePiece(1))
                 {
                     SaveGame__GetPuzzlePiece(1);
-                    SaveGame__Func_205B9F0(0);
+                    SaveGame__SetUnknown1(0);
                     SaveGame__StartCutscene(CUTSCENE_CLUE_NO_2, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -844,7 +761,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
             {
                 if (SaveGame__GetGameProgress() < SAVE_PROGRESS_29)
                 {
-                    SaveGame__Func_205B9F0(0);
+                    SaveGame__SetUnknown1(0);
                     SaveGame__StartCutscene(CUTSCENE_MYSTERIOUS_MARKER_NO_1, SYSEVENT_UPDATE_PROGRESS, TRUE);
                     return;
                 }
@@ -853,262 +770,174 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
                     if (!SaveGame__HasDoorPuzzlePiece(2))
                     {
                         SaveGame__GetPuzzlePiece(2);
-                        SaveGame__Func_205B9F0(0);
+                        SaveGame__SetUnknown1(0);
                         SaveGame__StartCutscene(CUTSCENE_CLUE_NO_3, SYSEVENT_UPDATE_PROGRESS, TRUE);
                         return;
                     }
                 }
             }
 
-            SaveGame__Func_205B9F0(0);
+            SaveGame__SetUnknown1(0);
         }
 
         SaveGame__RestartEvent();
     }
 }
 
-void SaveGame__UnknownTable2Func_205C700(void)
+void SaveGame__UpdateProgress2_Func_205C700(void)
 {
-    gameState.saveFile.field_50 = -1;
-    gameState.saveFile.field_51 = -1;
+    gameState.saveFile.chaosEmeraldID = -1;
+    gameState.saveFile.solEmeraldID = -1;
     SaveGame__StartSailRivalRace();
 }
 
-NONMATCH_FUNC void SaveGame__UnknownTable2Func_205C720(void)
+void SaveGame__UpdateProgress2_Func_205C720(void)
 {
-#ifdef NON_MATCHING
+    gameState.sailShipType = gameState.sailStoredShipType;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r0, =gameState
-	ldr r1, [r0, #0xb8]
-	str r1, [r0, #0xa0]
-	ldrb r4, [r0, #0x150]
-	cmp r4, #7
-	bhs _0205C770
-	ldr r0, =saveGame+0x000001D0
-	mov r1, r4
-	bl SaveGame__HasChaosEmerald
-	cmp r0, #0
-	bne _0205C770
-	ldr r0, =saveGame+0x000001D0
-	mov r1, r4
-	bl SaveGame__SetChaosEmeraldCollected
-	ldr r0, =gameState
-	mov r1, #0xff
-	strb r1, [r0, #0x151]
-	bl SaveGame__StartEmeraldCollected
-	ldmia sp!, {r4, pc}
-_0205C770:
-	bl SaveGame__StartSailing
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    u8 emerald = gameState.saveFile.chaosEmeraldID;
+    if (emerald < 7 && !SaveGame__HasChaosEmerald(&saveGame.chart, emerald))
+    {
+        SaveGame__SetChaosEmeraldCollected(&saveGame.chart, emerald);
+        gameState.saveFile.solEmeraldID = -1;
+        SaveGame__StartEmeraldCollected();
+    }
+    else
+    {
+        SaveGame__StartSailing();
+    }
 }
 
-void SaveGame__UnknownTable2Func_205C780(void)
+void SaveGame__UpdateProgress2_Func_205C780(void)
 {
-    if (SaveGame__Func_205BB18() >= 7)
+    if (SaveGame__GetUnknown2() >= 7)
     {
-        SaveGame__ResetUnknownCounter();
+        SaveGame__ResetUnknown2();
         if (SaveGame__GetGameProgress() <= SAVE_PROGRESS_37)
             SaveGame__SetGameProgress(SAVE_PROGRESS_38);
         SaveGame__StartExBoss();
     }
     else
     {
-        u16 id = _021108EA[SaveGame__Func_205BB18()];
+        u16 id = _021108EA[SaveGame__GetUnknown2()];
         SaveGame__Func_205BBBC();
         SaveGame__StartCutscene(id, SYSEVENT_UPDATE_PROGRESS, SaveGame__GetGameProgress() >= SAVE_PROGRESS_38);
     }
 }
 
-NONMATCH_FUNC void SaveGame__UnknownTable2Func_205C7E8(void)
+void SaveGame__UpdateProgress2_Func_205C7E8(void)
 {
-#ifdef NON_MATCHING
+    if (gameState.saveFile.field_52 == 1)
+    {
+        if (!SaveGame__GetUnknown2())
+        {
+            SaveGame__Func_205BBBC();
+            SaveGame__ChangeEvent(SYSEVENT_STAGE_CLEAR_EX);
+        }
+        else
+        {
+            SaveGame__ResetUnknown2();
+            gameState.saveFile.field_54 = 1;
+            SaveGame__ChangeEvent(SYSEVENT_MAIN_MENU);
+        }
+    }
+    else if (SaveGame__GetUnknown2() >= 5)
+    {
+        SaveGame__ResetUnknown2();
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r0, =gameState+0x00000100
-	ldrh r0, [r0, #0x52]
-	cmp r0, #1
-	bne _0205C834
-	bl SaveGame__Func_205BB18
-	cmp r0, #0
-	bne _0205C818
-	bl SaveGame__Func_205BBBC
-	mov r0, #0x12
-	bl SaveGame__ChangeEvent
-	ldmia sp!, {r3, r4, r5, pc}
-_0205C818:
-	bl SaveGame__ResetUnknownCounter
-	ldr r1, =gameState+0x00000100
-	mov r2, #1
-	mov r0, #0x1d
-	strh r2, [r1, #0x54]
-	bl SaveGame__ChangeEvent
-	ldmia sp!, {r3, r4, r5, pc}
-_0205C834:
-	bl SaveGame__Func_205BB18
-	cmp r0, #5
-	blo _0205C870
-	bl SaveGame__ResetUnknownCounter
-	bl SaveGame__GetGameProgress
-	cmp r0, #0x26
-	bgt _0205C858
-	mov r0, #0x27
-	bl SaveGame__SetGameProgress
-_0205C858:
-	ldr r1, =gameState
-	mov r2, #2
-	mov r0, #6
-	str r2, [r1, #0x15c]
-	bl SaveGame__ChangeEvent
-	ldmia sp!, {r3, r4, r5, pc}
-_0205C870:
-	bl SaveGame__Func_205BB18
-	mov r4, r0
-	ldr r0, =_021107B4
-	mov r1, r4, lsl #1
-	ldrh r5, [r0, r1]
-	bl SaveGame__Func_205BBBC
-	ldr r0, =0x0000FFFF
-	cmp r5, r0
-	beq _0205C8C4
-	bl SaveGame__GetGameProgress
-	cmp r0, #0x27
-	movge r3, #1
-	ldr r2, =gameState+0x000000CC
-	movlt r3, #0
-	mov r1, #0x28
-	mov r0, #0x22
-	strh r1, [r2, #4]
-	str r3, [r2, #8]
-	str r5, [r2]
-	bl SaveGame__ChangeEvent
-	ldmia sp!, {r3, r4, r5, pc}
-_0205C8C4:
-	cmp r4, #1
-	bne _0205C8D8
-	mov r0, #0x12
-	bl SaveGame__ChangeEvent
-	ldmia sp!, {r3, r4, r5, pc}
-_0205C8D8:
-	ldr r1, =gameState
-	mov r2, #1
-	mov r0, #6
-	str r2, [r1, #0x15c]
-	bl SaveGame__ChangeEvent
-	ldmia sp!, {r3, r4, r5, pc}
+        if (SaveGame__GetGameProgress() <= SAVE_PROGRESS_38)
+            SaveGame__SetGameProgress(SAVE_PROGRESS_39);
 
-// clang-format on
-#endif
+        gameState.creditsMode = CREDITS_MODE_EXTRA_BOSS_STAGE_SELECT;
+        SaveGame__ChangeEvent(SYSEVENT_CREDITS);
+    }
+    else
+    {
+        u32 id       = SaveGame__GetUnknown2();
+        u16 cutscene = _021107B4[id];
+
+        SaveGame__Func_205BBBC();
+
+        if (cutscene != CUTSCENE_INVALID)
+        {
+            BOOL canSkip;
+            if (SaveGame__GetGameProgress() >= SAVE_PROGRESS_39)
+                canSkip = TRUE;
+            else
+                canSkip = FALSE;
+
+            struct GameCutsceneState *cutsceneState = &gameState.cutscene;
+            cutsceneState->nextSysEvent             = SYSEVENT_UPDATE_PROGRESS;
+            cutsceneState->canSkip                  = canSkip;
+            cutsceneState->cutsceneID               = cutscene;
+
+            SaveGame__ChangeEvent(SYSEVENT_CUTSCENE);
+        }
+        else
+        {
+            if (id == 1)
+            {
+                SaveGame__ChangeEvent(SYSEVENT_STAGE_CLEAR_EX);
+            }
+            else
+            {
+                gameState.creditsMode = CREDITS_MODE_EXTRA_BOSS;
+                SaveGame__ChangeEvent(SYSEVENT_CREDITS);
+            }
+        }
+    }
 }
 
-void SaveGame__UnknownTable2Func_205C904(void)
+void SaveGame__UpdateProgress2_Func_205C904(void)
 {
     SaveGame__Func_205BBBC();
-    SaveGame__Func_205B9F0(3);
+    SaveGame__SetUnknown1(3);
     SaveGame__RestartEvent();
 }
 
-NONMATCH_FUNC void SaveGame__UnknownTable2Func_205C91C(void){
-#ifdef NON_MATCHING
+void SaveGame__UpdateProgress2_Func_205C91C(void)
+{
+    u16 stage = _02110B70[gameState.field_80];
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r0, =gameState
-	ldr r1, =_02110B70
-	ldr r2, [r0, #0x80]
-	mov r0, r2, lsl #1
-	cmp r2, #0xe
-	ldrh r4, [r1, r0]
-	bne _0205C964
-	bl SaveGame__GetGameProgress
-	cmp r0, #0x11
-	bge _0205C964
-	mov r0, #0
-	bl SaveGame__Func_205B9F0
-	mov r0, #0x1d
-	mov r1, #0x28
-	mov r2, #1
-	bl SaveGame__StartCutscene
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0205C964:
-	ldr r0, =gameState
-	ldr r0, [r0, #0x80]
-	cmp r0, #0xe
-	bne _0205C99C
-	bl SaveGame__GetGameProgress
-	cmp r0, #0x11
-	ble _0205C99C
-	mov r0, #0
-	bl SaveGame__Func_205B9F0
-	mov r0, #0x1f
-	mov r1, #0x28
-	mov r2, #1
-	bl SaveGame__StartCutscene
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0205C99C:
-	ldr r0, =gameState
-	ldr r0, [r0, #0x80]
-	cmp r0, #0xc
-	bne _0205C9D4
-	bl SaveGame__GetUnknownProgress2
-	cmp r0, #1
-	ble _0205C9D4
-	mov r0, #0
-	bl SaveGame__Func_205B9F0
-	mov r0, #0x1f
-	mov r1, #0x28
-	mov r2, #1
-	bl SaveGame__StartCutscene
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0205C9D4:
-	ldr r5, =saveGame+0x00000028
-	ldr r6, =SaveGame__hiddenIslandList
-	mov r7, #0
-_0205C9E0:
-	mov r0, r7, lsl #1
-	ldrh r0, [r6, r0]
-	cmp r4, r0
-	bne _0205CA1C
-	mov r0, r5
-	mov r1, r7
-	bl SaveGame__GetIslandProgress
-	cmp r0, #1
-	bge _0205CA1C
-	ldr r0, =saveGame+0x00000028
-	mov r1, r7
-	mov r2, #1
-	bl SaveGame__SetIslandProgress
-	bl SaveGame__Func_205CF9C
-	b _0205CA28
-_0205CA1C:
-	add r7, r7, #1
-	cmp r7, #0xe
-	blt _0205C9E0
-_0205CA28:
-	cmp r4, #0x2e
-	bhs _0205CA48
-	ldr r1, =gameState
-	mov r0, #3
-	strh r4, [r1, #0x28]
-	bl SaveGame__Func_205B9F0
-	bl SaveGame__RestartEvent
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-_0205CA48:
-	mov r0, #0
-	bl SaveGame__Func_205B9F0
-	bl SaveGame__RestartEvent
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    if (gameState.field_80 == 14 && SaveGame__GetGameProgress() < SAVE_PROGRESS_17)
+    {
+        SaveGame__SetUnknown1(0);
+        SaveGame__StartCutscene(CUTSCENE_KYLOK_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
+    }
+    else if (gameState.field_80 == 14 && SaveGame__GetGameProgress() > SAVE_PROGRESS_17)
+    {
+        SaveGame__SetUnknown1(0);
+        SaveGame__StartCutscene(CUTSCENE_DAIKUN_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
+    }
+    else if (gameState.field_80 == 12 && SaveGame__GetUnknownProgress2() > 1)
+    {
+        SaveGame__SetUnknown1(0);
+        SaveGame__StartCutscene(CUTSCENE_DAIKUN_ISLAND_EMPTY, SYSEVENT_UPDATE_PROGRESS, TRUE);
+    }
+    else
+    {
+        for (s32 i = 0; i < 14; i++)
+        {
+            if (stage == SaveGame__hiddenIslandList[i] && SaveGame__GetIslandProgress(&saveGame.stage.progress, i) < 1)
+            {
+                SaveGame__SetIslandProgress(&saveGame.stage.progress, i, 1);
+                SaveGame__ApplySystemProgress();
+                break;
+            }
+        }
 
-// clang-format on
-#endif
+        if (stage < STAGE_COUNT)
+        {
+            gameState.stageID = stage;
+            SaveGame__SetUnknown1(3);
+            SaveGame__RestartEvent();
+        }
+        else
+        {
+            SaveGame__SetUnknown1(0);
+            SaveGame__RestartEvent();
+        }
+    }
 }
 
 BOOL SaveGame__ProgressCheckFunc_205CA68(s32 id)
@@ -1183,88 +1012,72 @@ BOOL SaveGame__ProgressCheckFunc_205CB44(s32 id)
     return id == gameState.field_80;
 }
 
-NONMATCH_FUNC void SaveGame__UnknownTable1Func_205CB60(SaveGameUnknown2119CCC *a1)
+void SaveGame__UpdateProgress1_Func_205CB60(SaveGameNextAction *a1)
 {
-#ifdef NON_MATCHING
+    u16 cutscene = a1->id;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldrh r4, [r5, #6]
-	cmp r4, #0x28
-	bne _0205CB84
-	bl SaveGame__GetUnknownProgress2
-	cmp r0, #6
-	moveq r4, #0x29
-	b _0205CBB0
-_0205CB84:
-	cmp r4, #0x2d
-	bne _0205CB9C
-	bl SaveGame__GetUnknownProgress1
-	cmp r0, #4
-	movne r4, #0x2e
-	b _0205CBB0
-_0205CB9C:
-	cmp r4, #0x1e
-	cmpne r4, #0x2a
-	bne _0205CBB0
-	mov r0, #0
-	bl SaveGame__Func_205B9F0
-_0205CBB0:
-	ldrh r1, [r5, #8]
-	mov r0, r4
-	mov r2, #0
-	bl SaveGame__StartCutscene
-	ldmia sp!, {r3, r4, r5, pc}
+    if (cutscene == CUTSCENE_LEGENDARY_ANCIENT_RUINS_1)
+    {
+        if (SaveGame__GetUnknownProgress2() == 6)
+            cutscene = CUTSCENE_PIRATE_HIDEOUT_IN_DEPTHS_1;
+    }
+    else if (cutscene == CUTSCENE_LEGENDARY_ANCIENT_RUINS_2)
+    {
+        if (SaveGame__GetUnknownProgress1() != 4)
+            cutscene = CUTSCENE_PIRATE_HIDEOUT_IN_DEPTHS_2;
+    }
+    else
+    {
+        if (cutscene == CUTSCENE_KYLOK_FOUND || cutscene == CUTSCENE_DAIKUN_DISCOVERED)
+            SaveGame__SetUnknown1(0);
+    }
 
-// clang-format on
-#endif
+    SaveGame__StartCutscene(cutscene, a1->nextSysEvent, FALSE);
 }
 
-void SaveGame__UnknownTable1Func_205CBC4(SaveGameUnknown2119CCC *a1)
+void SaveGame__UpdateProgress1_Func_205CBC4(SaveGameNextAction *a1)
 {
     SaveGame__StartTutorial();
 }
 
-void SaveGame__UnknownTable1Func_205CBD0(SaveGameUnknown2119CCC *a1)
+void SaveGame__UpdateProgress1_Func_205CBD0(SaveGameNextAction *a1)
 {
     SaveGame__StartEvent37();
 }
 
-void SaveGame__UnknownTable1Func_205CBDC(SaveGameUnknown2119CCC *a1)
+void SaveGame__UpdateProgress1_Func_205CBDC(SaveGameNextAction *a1)
 {
     SaveGame__StartSailJetTraining();
 }
 
-void SaveGame__UnknownTable1Func_205CBE8(SaveGameUnknown2119CCC *a1)
+void SaveGame__UpdateProgress1_Func_205CBE8(SaveGameNextAction *a1)
 {
     SaveGame__StartHubMenu();
 }
 
-void SaveGame__UnknownTable1Func_205CBF4(SaveGameUnknown2119CCC *a1)
+void SaveGame__UpdateProgress1_Func_205CBF4(SaveGameNextAction *a1)
 {
     SaveGame__StartDoorPuzzle(a1->id);
 }
 
-void SaveGame__UnknownTable1Func_205CC04(SaveGameUnknown2119CCC *a1)
+void SaveGame__UpdateProgress1_Func_205CC04(SaveGameNextAction *a1)
 {
     if (a1->id == 0)
         SeaMapManager__SetUnknown1(0);
     else
         SeaMapManager__SetUnknown1(1);
 
-    SaveGame__Func_205B9F0(5);
+    SaveGame__SetUnknown1(5);
     SaveGame__ChangeEvent(SYSEVENT_38);
 }
 
-void SaveGame__UnknownTable1Func_205CC3C(SaveGameUnknown2119CCC *a1)
+void SaveGame__UpdateProgress1_Func_205CC3C(SaveGameNextAction *a1)
 {
     if (a1->id == 24)
-        SaveGame__Func_205CF68(2);
+        SaveGame__EnableStateFlags(2);
 
     gameState.stageID = a1->id;
-    SaveGame__Func_205B9F0(3);
+    SaveGame__SetUnknown1(3);
     SaveGame__RestartEvent();
 }
 
@@ -1295,7 +1108,7 @@ void SaveGame__StartCutscene(u16 cutsceneID, s32 nextEvent, BOOL flag)
     {
         if (cutsceneID == cutsceneIDList[i])
         {
-            SaveGame__Func_205CF68(1);
+            SaveGame__EnableStateFlags(1);
             break;
         }
     }
@@ -1376,7 +1189,7 @@ void SaveGame__StartDoorPuzzle(BOOL flag)
             gameState.doorPuzzleEvent = DOORPUZZLE_EVENT_HAVE_KEYS;
     }
 
-    SaveGame__Func_205B9F0(10);
+    SaveGame__SetUnknown1(10);
     SaveGame__ChangeEvent(SYSEVENT_DOOR_PUZZLE);
 }
 
@@ -1389,7 +1202,7 @@ void SaveGame__StartStageSelect(void)
 
 void SaveGame__StartEmeraldCollected(void)
 {
-    SaveGame__Func_205B9F0(7);
+    SaveGame__SetUnknown1(7);
     SaveGame__ChangeEvent(SYSEVENT_EMERALD_COLLECTED);
 }
 
@@ -1408,121 +1221,80 @@ void SaveGame__IncrementUnknownProgress2(void)
     SaveGame__SetUnknownProgress2(saveGame.stage.progress.unknownProgress2 + 1);
 }
 
-void SaveGame__IncrementUnknownCounter(void)
+void SaveGame__IncrementUnknown2(void)
 {
-    gameState.saveFile.field_4C++;
+    gameState.saveFile.unknown2++;
 }
 
-void SaveGame__ResetUnknownCounter(void)
+void SaveGame__ResetUnknown2(void)
 {
-    gameState.saveFile.field_4C = 0;
+    gameState.saveFile.unknown2 = 0;
 }
 
-s32 SaveGame__Func_205CF3C(void)
+s32 SaveGame__GetUnknown1(void)
 {
-    return gameState.saveFile.field_48;
+    return gameState.saveFile.unknown1;
 }
 
-BOOL SaveGame__Func_205CF4C(u16 id)
+BOOL SaveGame__GetStateFlag(u16 id)
 {
     return (id & gameState.saveFile.flags) != 0;
 }
 
-void SaveGame__Func_205CF68(u16 mask)
+void SaveGame__EnableStateFlags(u16 mask)
 {
     gameState.saveFile.flags |= mask;
 }
 
-void SaveGame__Func_205CF80(u16 mask)
+void SaveGame__DisableStateFlags(u16 mask)
 {
     gameState.saveFile.flags &= ~mask;
 }
 
-NONMATCH_FUNC void SaveGame__Func_205CF9C(void)
+void SaveGame__ApplySystemProgress(void)
 {
-#ifdef NON_MATCHING
+    SaveGameProgress *stageProgress  = &saveGame.stage.progress;
+    SaveGameProgress *systemProgress = &saveGame.system.progress;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	ldr r4, =saveGame+0x00000028
-	ldr r5, =saveGame+0x00000010
-	ldrb r1, [r4, #4]
-	ldrb r0, [r5, #4]
-	cmp r0, r1
-	bhs _0205CFDC
-	ldr r0, [r4, #0]
-	strb r1, [r5, #4]
-	tst r0, #0x100
-	ldr r0, [r5, #0]
-	orrne r0, r0, #0x100
-	strne r0, [r5]
-	biceq r0, r0, #0x100
-	streq r0, [r5]
-	b _0205CFF4
-_0205CFDC:
-	bne _0205CFF4
-	ldr r0, [r4, #0]
-	tst r0, #0x100
-	ldrne r0, [r5, #0]
-	orrne r0, r0, #0x100
-	strne r0, [r5]
-_0205CFF4:
-	ldrb r1, [r4, #5]
-	ldrb r0, [r5, #5]
-	cmp r0, r1
-	bhi _0205D024
-	strb r1, [r5, #5]
-	cmp r1, #2
-	bne _0205D024
-	ldr r0, [r4, #0]
-	tst r0, #0x200
-	ldrne r0, [r5, #0]
-	orrne r0, r0, #0x200
-	strne r0, [r5]
-_0205D024:
-	ldrb r1, [r4, #6]
-	ldrb r0, [r5, #6]
-	cmp r0, r1
-	bhi _0205D054
-	strb r1, [r5, #6]
-	cmp r1, #4
-	bne _0205D054
-	ldr r0, [r4, #0]
-	tst r0, #0x400
-	ldrne r0, [r5, #0]
-	orrne r0, r0, #0x400
-	strne r0, [r5]
-_0205D054:
-	ldr r1, [r4, #0]
-	ldr r0, =0x000FF8FE
-	ldr r2, [r5, #0]
-	and r0, r1, r0
-	orr r0, r2, r0
-	str r0, [r5]
-	mov r7, #0
-_0205D070:
-	mov r0, r4
-	mov r1, r7
-	bl SaveGame__GetIslandProgress
-	mov r6, r0
-	mov r0, r5
-	mov r1, r7
-	bl SaveGame__GetIslandProgress
-	cmp r0, r6
-	bge _0205D0A4
-	mov r0, r5
-	mov r1, r7
-	mov r2, r6
-	bl SaveGame__SetIslandProgress
-_0205D0A4:
-	add r7, r7, #1
-	cmp r7, #0xe
-	blt _0205D070
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    if (systemProgress->gameProgress < stageProgress->gameProgress)
+    {
+        systemProgress->gameProgress = stageProgress->gameProgress;
 
-// clang-format on
-#endif
+        if ((stageProgress->flags & 0x100) != 0)
+            systemProgress->flags |= 0x100;
+        else
+            systemProgress->flags &= ~0x100;
+    }
+    else
+    {
+        if (systemProgress->gameProgress == stageProgress->gameProgress && (stageProgress->flags & 0x100) != 0)
+            systemProgress->flags |= 0x100;
+    }
+
+    if (systemProgress->unknownProgress1 <= stageProgress->unknownProgress1)
+    {
+        systemProgress->unknownProgress1 = stageProgress->unknownProgress1;
+
+        if (stageProgress->unknownProgress1 == 2 && (stageProgress->flags & 0x200) != 0)
+            systemProgress->flags |= 0x200;
+    }
+
+    if (systemProgress->unknownProgress2 <= stageProgress->unknownProgress2)
+    {
+        systemProgress->unknownProgress2 = stageProgress->unknownProgress2;
+
+        if (stageProgress->unknownProgress2 == 4 && (stageProgress->flags & 0x400) != 0)
+            systemProgress->flags |= 0x400;
+    }
+
+    systemProgress->flags |= stageProgress->flags & ~0xFFF00701;
+
+    for (s32 i = 0; i < 14; i++)
+    {
+        s32 islandProgress = SaveGame__GetIslandProgress(stageProgress, i);
+        if (SaveGame__GetIslandProgress(systemProgress, i) < islandProgress)
+            SaveGame__SetIslandProgress(systemProgress, i, islandProgress);
+    }
 }
 
 void SaveGame__SetProgressFlags_0x100(void)
@@ -1555,110 +1327,92 @@ void SaveGame__RemoveProgressFlags_0x400(void)
     saveGame.stage.progress.flags &= ~0x400;
 }
 
-NONMATCH_FUNC void SaveGame__Func_205D150(void){
-#ifdef NON_MATCHING
+BOOL SaveGame__Func_205D150(s32 stageID)
+{
+    u8 gameProgress     = SaveGame__GetGameProgress();
+    u8 unknownProgress1 = SaveGame__GetUnknownProgress1();
+    u8 unknownProgress2 = SaveGame__GetUnknownProgress2();
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	bl SaveGame__GetGameProgress
-	and r4, r0, #0xff
-	bl SaveGame__GetUnknownProgress1
-	and r5, r0, #0xff
-	bl SaveGame__GetUnknownProgress2
-	ldr r1, =saveGame
-	and lr, r0, #0xff
-	ldr r2, [r1, #0x28]
-	tst r2, #0x100
-	movne r0, #1
-	moveq r0, #0
-	tst r2, #0x200
-	movne r1, #1
-	moveq r1, #0
-	tst r2, #0x400
-	movne r2, #1
-	moveq r2, #0
-	cmp r6, #0x18
-	bgt _0205D278
-	ldr ip, =_02110C20
-	ldrb r3, [ip, r6, lsl #2]
-	add r6, ip, r6, lsl #2
-	cmp r3, #0xff
-	cmpne r3, r4
-	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, pc}
-	ldrb r3, [r6, #1]
-	cmp r3, #0xff
-	cmpne r3, r5
-	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, pc}
-	ldrb r3, [r6, #2]
-	cmp r3, #0xff
-	cmpne r3, lr
-	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, pc}
-	ldrb r3, [r6, #3]
-	cmp r3, #6
-	addls pc, pc, r3, lsl #2
-	b _0205D270
-_0205D1F8: // jump table
-	b _0205D270 // case 0
-	b _0205D214 // case 1
-	b _0205D224 // case 2
-	b _0205D234 // case 3
-	b _0205D244 // case 4
-	b _0205D254 // case 5
-	b _0205D264 // case 6
-_0205D214:
-	cmp r0, #0
-	beq _0205D270
-	mov r0, #0
-	ldmia sp!, {r4, r5, r6, pc}
-_0205D224:
-	cmp r0, #0
-	bne _0205D270
-	mov r0, #0
-	ldmia sp!, {r4, r5, r6, pc}
-_0205D234:
-	cmp r1, #0
-	beq _0205D270
-	mov r0, #0
-	ldmia sp!, {r4, r5, r6, pc}
-_0205D244:
-	cmp r1, #0
-	bne _0205D270
-	mov r0, #0
-	ldmia sp!, {r4, r5, r6, pc}
-_0205D254:
-	cmp r2, #0
-	beq _0205D270
-	mov r0, #0
-	ldmia sp!, {r4, r5, r6, pc}
-_0205D264:
-	cmp r2, #0
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, pc}
-_0205D270:
-	mov r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
-_0205D278:
-	cmp r6, #0x1b
-	bgt _0205D2A0
-	sub r0, r6, #0x19
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl SaveGame__HasDoorPuzzlePiece
-	cmp r0, #0
-	moveq r0, #1
-	movne r0, #0
-	ldmia sp!, {r4, r5, r6, pc}
-_0205D2A0:
-	mov r0, #0
-	ldmia sp!, {r4, r5, r6, pc}
+    BOOL flag100;
+    if ((saveGame.stage.progress.flags & 0x100) != 0)
+        flag100 = TRUE;
+    else
+        flag100 = FALSE;
 
-// clang-format on
-#endif
+    BOOL flag200;
+    if ((saveGame.stage.progress.flags & 0x200) != 0)
+        flag200 = TRUE;
+    else
+        flag200 = FALSE;
+
+    BOOL flag400;
+    if ((saveGame.stage.progress.flags & 0x400) != 0)
+        flag400 = TRUE;
+    else
+        flag400 = FALSE;
+
+    BOOL result = FALSE;
+    if (stageID <= STAGE_BOSS_FINAL)
+    {
+        SaveGameUnknown205D150 *progress = &_02110C20[stageID];
+
+        if (progress->gameProgress != 0xFF && progress->gameProgress != gameProgress)
+        {
+            return FALSE;
+        }
+
+        if (progress->unknownProgress1 != 0xFF && progress->unknownProgress1 != unknownProgress1)
+        {
+            return FALSE;
+        }
+
+        if (progress->unknownProgress2 != 0xFF && progress->unknownProgress2 != unknownProgress2)
+        {
+            return FALSE;
+        }
+
+        switch (progress->mode)
+        {
+            case 1:
+                if (flag100)
+                    return FALSE;
+                break;
+
+            case 2:
+                if (!flag100)
+                    return FALSE;
+                break;
+
+            case 3:
+                if (flag200)
+                    return FALSE;
+                break;
+
+            case 4:
+                if (!flag200)
+                    return FALSE;
+                break;
+
+            case 5:
+                if (flag400)
+                    return FALSE;
+                break;
+
+            case 6:
+                if (!flag400)
+                    return FALSE;
+                break;
+        }
+
+        return TRUE;
+    }
+    else
+    {
+        if (stageID <= STAGE_HIDDEN_ISLAND_5)
+            return !SaveGame__HasDoorPuzzlePiece(stageID - STAGE_HIDDEN_ISLAND_3);
+        else
+            return FALSE;
+    }
 }
 
 NONMATCH_FUNC BOOL SaveGame__IsShipUnlocked(ShipType ship)
@@ -1785,7 +1539,7 @@ BOOL SaveGame__CheckProgress30(void)
 
 BOOL SaveGame__CheckProgress15(void)
 {
-    return SaveGame__GetGameProgress() == SAVE_PROGRESS_15 && SaveGame__Func_205BB18() >= 1;
+    return SaveGame__GetGameProgress() == SAVE_PROGRESS_15 && SaveGame__GetUnknown2() >= 1;
 }
 
 BOOL SaveGame__CheckProgressForShip(u32 id)
@@ -1819,35 +1573,16 @@ void SaveGame__SetProgressFlags_0x10(void)
     saveGame.stage.progress.flags |= 0x10;
 }
 
-NONMATCH_FUNC void SaveGame__Func_205D520(void){
-#ifdef NON_MATCHING
+BOOL SaveGame__Func_205D520(s32 id)
+{
+    s32 gameProgress     = SaveGame__GetGameProgress();
+    s32 unknownProgress1 = SaveGame__GetUnknownProgress1();
+    s32 unknownProgress2 = SaveGame__GetUnknownProgress2();
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	mov r6, r0
-	bl SaveGame__GetGameProgress
-	mov r5, r0
-	bl SaveGame__GetUnknownProgress1
-	mov r4, r0
-	bl SaveGame__GetUnknownProgress2
-	mov r1, #6
-	mul r2, r6, r1
-	ldr r1, =_02110D00
-	ldrh r1, [r1, r2]
-	cmp r5, r1
-	ldrge r1, =0x02110D02
-	ldrgeh r1, [r1, r2]
-	cmpge r4, r1
-	ldrge r1, =0x02110D04
-	ldrgeh r1, [r1, r2]
-	cmpge r0, r1
-	movge r0, #1
-	movlt r0, #0
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
+    if (gameProgress >= _02110D00[id].gameProgress && unknownProgress1 >= _02110D00[id].unknownProgress1 && unknownProgress2 >= _02110D00[id].unknownProgress2)
+        return TRUE;
+    else
+        return FALSE;
 }
 
 BOOL SaveGame__GetBoughtInfo(u8 id)
@@ -1890,7 +1625,8 @@ BOOL SaveGame__CheckProgress37(void)
     return SaveGame__GetGameProgress() >= SAVE_PROGRESS_37;
 }
 
-NONMATCH_FUNC void SaveGame__Func_205D65C(void){
+NONMATCH_FUNC void SaveGame__Func_205D65C(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1965,7 +1701,8 @@ _0205D734:
 #endif
 }
 
-NONMATCH_FUNC void SaveGame__Func_205D758(void){
+NONMATCH_FUNC void SaveGame__Func_205D758(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2046,30 +1783,20 @@ _0205D848:
 #endif
 }
 
-BOOL SaveGame__GetShipUpgradeStatus(u16 id)
+ShipLevel SaveGame__GetShipUpgradeStatus(u16 id)
 {
     return SaveGame__GetShipUpgradeStatus_(id, saveGame.stage.progress.flags);
 }
 
-NONMATCH_FUNC BOOL SaveGame__GetShipUpgradeStatus_(u16 id, u32 flags)
+ShipLevel SaveGame__GetShipUpgradeStatus_(u16 id, u32 flags)
 {
-#ifdef NON_MATCHING
+    if ((flags & (0x800 << (2 * id))) == 0)
+        return SHIP_LEVEL_0;
 
-#else
-    // clang-format off
-	mov r0, r0, lsl #1
-	mov r2, #0x800
-	tst r1, r2, lsl r0
-	mov r0, r2, lsl r0
-	moveq r0, #0
-	bxeq lr
-	tst r1, r0, lsl #1
-	movne r0, #2
-	moveq r0, #1
-	bx lr
+    if ((flags & ((0x800 << (2 * id)) << 1)) != 0)
+        return SHIP_LEVEL_2;
 
-// clang-format on
-#endif
+    return SHIP_LEVEL_1;
 }
 
 #include <nitro/code16.h>
@@ -2154,7 +1881,8 @@ _0205D904:
 #endif
 }
 
-NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData(SaveGame *work, SaveBlockFlags flags){
+NONMATCH_FUNC SaveErrorTypes SaveGame__SaveData(SaveGame *work, SaveBlockFlags flags)
+{
 #ifdef NON_MATCHING
 
 #else

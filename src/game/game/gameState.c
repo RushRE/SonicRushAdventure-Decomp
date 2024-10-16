@@ -92,7 +92,7 @@ void ChangeEventForStageFinish(BOOL flag)
                 {
                     nextEvent               = 3; // SYSEVENT_UPDATE_PROGRESS
                     gameState.talk.field_DC = 7;
-                    SaveGame__Func_205B9F0(0);
+                    SaveGame__SetUnknown1(0);
                 }
             }
             else
@@ -129,7 +129,7 @@ void ChangeEventForStageFinish(BOOL flag)
             {
                 nextEvent               = 5; // SYSEVENT_21
                 gameState.talk.field_DC = 5;
-                SaveGame__Func_205B9F0(0);
+                SaveGame__SetUnknown1(0);
             }
             else
             {
@@ -163,7 +163,7 @@ void ChangeEventForPauseMenuAction(BOOL isRestart)
             case GAMEMODE_MISSION:
                 gameState.talk.field_DC = 5;
                 nextEvent               = 3; // SYSEVENT_UPDATE_PROGRESS
-                SaveGame__Func_205B9F0(0);
+                SaveGame__SetUnknown1(0);
                 break;
 
             // case GAMEMODE_STORY:
@@ -171,7 +171,7 @@ void ChangeEventForPauseMenuAction(BOOL isRestart)
             // case GAMEMODE_DEMO:
             default:
                 nextEvent = 3; // SYSEVENT_UPDATE_PROGRESS
-                SaveGame__Func_205B9F0(0);
+                SaveGame__SetUnknown1(0);
                 break;
         }
     }

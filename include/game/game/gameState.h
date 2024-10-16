@@ -182,6 +182,16 @@ enum ShipType_
 };
 typedef u32 ShipType;
 
+enum ShipLevel_
+{
+    SHIP_LEVEL_0,
+    SHIP_LEVEL_1,
+    SHIP_LEVEL_2,
+
+    SHIP_LEVEL_MAX = SHIP_LEVEL_2,
+};
+typedef u32 ShipLevel;
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -197,11 +207,11 @@ struct GameSaveInfo
 {
     s32 field_40;
     s32 field_44;
-    s32 field_48;
-    u16 field_4C;
+    s32 unknown1;
+    u16 unknown2;
     u16 flags;
-    u8 field_50;
-    u8 field_51;
+    u8 chaosEmeraldID;
+    u8 solEmeraldID;
     u16 field_52;
     u16 field_54;
     u16 field_56;

@@ -2177,7 +2177,7 @@ VikingCupStageSelectMenu__Func_217C744: // 0x0217C744
 VikingCupStageSelectMenu__CheckShipUnlocked: // 0x0217C780
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl SaveGame__GetBlock1GameProgress
+	bl SaveGame__GetSystemGameProgress
 	cmp r4, #3
 	addls pc, pc, r4, lsl #2
 	b _0217C7E4

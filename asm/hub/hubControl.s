@@ -60,7 +60,7 @@ _02156E74:
 	bl SaveGame__GetGameProgress
 	mov r0, r0, lsl #0x10
 	mov r4, r0, lsr #0x10
-	bl SaveGame__Func_205BB18
+	bl SaveGame__GetUnknown2
 	cmp r4, #0
 	bne _02156EA4
 	cmp r0, #6

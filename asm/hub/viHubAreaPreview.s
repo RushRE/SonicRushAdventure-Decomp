@@ -1844,7 +1844,7 @@ _0215A420: // jump table
 	b _0215A4B8 // case 14
 _0215A45C:
 	mov r0, r1
-	bl SaveGame__Func_205B9F0
+	bl SaveGame__SetUnknown1
 	b _0215A4B8
 _0215A468:
 	ldr r0, _0215A514 // =gameState+0x00000100
@@ -3005,7 +3005,7 @@ ViHubAreaPreview__Func_215B498: // 0x0215B498
 	bl SaveGame__GetGameProgress
 	cmp r0, #1
 	bne _0215B4C0
-	bl SaveGame__Func_205BB18
+	bl SaveGame__GetUnknown2
 	cmp r0, #1
 	movhs r0, #1
 	ldmhsia sp!, {r4, pc}
@@ -3050,7 +3050,7 @@ ViHubAreaPreview__Func_215B51C: // 0x0215B51C
 	bl SaveGame__GetGameProgress
 	cmp r0, #0
 	bne _0215B544
-	bl SaveGame__Func_205BB18
+	bl SaveGame__GetUnknown2
 	cmp r0, #6
 	movls r0, #0
 	ldmlsia sp!, {r4, pc}
@@ -3060,7 +3060,7 @@ _0215B544:
 	bl SaveGame__GetGameProgress
 	cmp r0, #1
 	bne _0215B568
-	bl SaveGame__Func_205BB18
+	bl SaveGame__GetUnknown2
 	cmp r0, #1
 	movhs r0, #1
 	ldmhsia sp!, {r4, pc}

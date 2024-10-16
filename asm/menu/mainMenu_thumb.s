@@ -7161,7 +7161,7 @@ MainMenu__Func_21560F4: // 0x021560F4
 	b _02156154
 _02156110:
 	mov r0, #0xb
-	bl SaveGame__Func_205B9F0
+	bl SaveGame__SetUnknown1
 	mov r0, r4
 	mov r1, #4
 	bl MainMenu__Func_2152C64

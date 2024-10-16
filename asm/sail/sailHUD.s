@@ -3219,7 +3219,7 @@ _02171100:
 	ldr r1, [r5, #4]
 	mov r0, #0xb
 	str r1, [r2, #0x80]
-	bl SaveGame__Func_205B9F0
+	bl SaveGame__SetUnknown1
 	bl MultibootManager__Func_2063C40
 	mov r0, #0
 	str r0, [r6, #0xb0]
@@ -3227,7 +3227,7 @@ _02171100:
 	b _02171248
 _0217112C:
 	mov r0, #0
-	bl SaveGame__Func_205B9F0
+	bl SaveGame__SetUnknown1
 	ldrh r0, [r5, #0x12]
 	cmp r0, #6
 	bne _02171150
@@ -3267,14 +3267,14 @@ _02171188:
 	mov r0, #6
 	sub r1, r1, #0x39
 	strh r1, [r6, #0xb4]
-	bl SaveGame__Func_205B9F0
+	bl SaveGame__SetUnknown1
 	b _02171248
 _021711C8:
 	mov r1, #0
 	mov r0, #7
 	str r1, [r6, #0xa4]
 	strh r1, [r6, #0xb4]
-	bl SaveGame__Func_205B9F0
+	bl SaveGame__SetUnknown1
 	b _02171248
 _021711E0:
 	bl SailManager__GetWork

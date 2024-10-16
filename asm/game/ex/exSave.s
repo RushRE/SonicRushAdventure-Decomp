@@ -51,7 +51,7 @@ _02173CFC:
 	bic r3, r3, #0x3f8
 	orr r2, r3, r2, lsr #22
 	str r2, [r1, #0x1c0]
-	bl SaveGame__Func_205B9F0
+	bl SaveGame__SetUnknown1
 	mov r0, #0
 	bl RequestSysEventChange
 	b _02173E00

@@ -35,7 +35,7 @@ NONMATCH_FUNC void SaveGame__SaveClearCallback_Common(SaveGame *save, SaveBlockF
     // https://decomp.me/scratch/JxrCv -> 56.98%
 #ifdef NON_MATCHING
     s32 i;
-    
+
     if ((blockFlags & SAVE_BLOCK_FLAG_ONLINE_PROFILE) != 0)
     {
         DWC_CreateUserData(&save->onlineProfile.userData, 'A3YJ');
@@ -219,7 +219,7 @@ void SaveGame__SaveSaveCallback_OnlineProfile(SaveGame *save, SaveBlockFlags blo
 
 void SaveGame__SaveLoadCallback_Unknown(SaveGame *save)
 {
-	UNUSED(save);
+    UNUSED(save);
     // Nothin'
 }
 
@@ -270,35 +270,12 @@ s32 SaveGame__GetIslandProgress(SaveGameProgress *progress, s32 id)
     return (progress->islandProgress[id >> 2] >> ((u8)(id << 6) / 32)) & 3;
 }
 
-NONMATCH_FUNC void SaveGame__SetIslandProgress(SaveGameProgress *progress, s32 id, u8 state)
+void SaveGame__SetIslandProgress(SaveGameProgress *progress, s32 id, s32 state)
 {
-#ifdef NON_MATCHING
-    u32 shift = (2 * id) & 7;
+    u32 shift = (id & 3) << 1;
+    
     progress->islandProgress[id >> 2] &= ~(3 << shift);
     progress->islandProgress[id >> 2] |= (state << shift);
-#else
-    // clang-format off
-	push {r4, r5}
-	lsl r3, r1, #0x1e
-	lsr r4, r3, #0x1d
-	add r3, r0, #7
-	asr r0, r1, #2
-	mov r1, #3
-	lsl r1, r4
-	ldrb r5, [r3, r0]
-	mvn r1, r1
-	and r1, r5
-	strb r1, [r3, r0]
-	mov r1, r2
-	ldrb r5, [r3, r0]
-	lsl r1, r4
-	orr r1, r5
-	strb r1, [r3, r0]
-	pop {r4, r5}
-	bx lr
-
-// clang-format on
-#endif
 }
 
 void SaveGame__GiveRings(SaveBlockStage *work, s32 amount)
@@ -333,43 +310,11 @@ u32 SaveGame__GetChaosEmeraldCount(SaveBlockChart *work)
     return count;
 }
 
-NONMATCH_FUNC BOOL SaveGame__HasSolEmerald(SaveBlockStage *work, u8 id)
+BOOL SaveGame__HasSolEmerald(SaveBlockStage *work, u8 id)
 {
-#ifdef NON_MATCHING
-    return ((saveGame.stage.missionState[missionForSolEmerald[id] / 4] >> ((missionForSolEmerald[id] % 4) << 1)) & 3) >= MISSION_STATE_COMPLETED;
-#else
-    // clang-format off
-	push {r3, r4}
-	ldr r2, =missionForSolEmerald
-	ldrb r4, [r2, r1]
-	lsr r1, r4, #2
-	add r0, r0, r1
-	ldrb r3, [r0, #0xc]
-	lsr r2, r4, #0x1f
-	lsl r1, r4, #0x1e
-	sub r1, r1, r2
-	mov r0, #0x1e
-	ror r1, r0
-	add r0, r2, r1
-	lsl r0, r0, #1
-	mov r1, r3
-	asr r1, r0
-	mov r0, #3
-	and r0, r1
-	lsl r0, r0, #0x18
-	lsr r0, r0, #0x18
-	cmp r0, #2
-	blo _0205ED20
-	mov r0, #1
-	pop {r3, r4}
-	bx lr
-_0205ED20:
-	mov r0, #0
-	pop {r3, r4}
-	bx lr
-
-// clang-format on
-#endif
+    u8 missionState = (work->missionState[missionForSolEmerald[id] / 4] >> ((missionForSolEmerald[id] % 4) << 1)) & 3;
+    
+    return missionState >= MISSION_STATE_BEATEN;
 }
 
 u32 SaveGame__GetSolEmeraldCount(SaveBlockStage *work)
@@ -388,12 +333,17 @@ u32 SaveGame__GetSolEmeraldCount(SaveBlockStage *work)
 
 NONMATCH_FUNC void SaveGame__SetSolEmeraldCollected(SaveBlockStage *work, u8 id)
 {
+    // https://decomp.me/scratch/U8DdT -> 52.44%
 #ifdef NON_MATCHING
     u32 shift = (missionForSolEmerald[id] % 4) << 1;
-    if (((work->missionState[missionForSolEmerald[id] / 4] >> shift) & 3) < MISSION_STATE_COMPLETED)
+    u8 missionState = (work->missionState[missionForSolEmerald[id] / 4] >> shift) & 3;
+    
+    if (missionState < MISSION_STATE_BEATEN)
     {
-        work->missionState[missionForSolEmerald[id] / 4] &= ~(3 << shift);
-        work->missionState[missionForSolEmerald[id] / 4] |= MISSION_STATE_COMPLETED << shift;
+        u8 newState = missionState & ~(3 << shift);
+        
+        work->missionState[missionForSolEmerald[id] / 4] = newState;
+        work->missionState[missionForSolEmerald[id] / 4] |= MISSION_STATE_BEATEN << shift;
     }
 #else
     // clang-format off
@@ -448,7 +398,7 @@ BOOL SaveGame__HasMaterial(SaveBlockStage *work, u32 type)
 
 NONMATCH_FUNC void SaveGame__GiveMaterial(SaveBlockStage *work, u32 type, s32 amount)
 {
-    // https://decomp.me/scratch/YZxL8 -> 99.35%
+    // https://decomp.me/scratch/3aPPJ -> 99.35%
     // minor register issue near 'count'
 #ifdef NON_MATCHING
     if (amount == 0)
@@ -867,7 +817,7 @@ BOOL SaveGame__RefreshFriendList(void)
 
 void SaveGame__DeleteFriendCallback(int deletedIndex, int srcIndex, void *param)
 {
-	UNUSED(param);
+    UNUSED(param);
 
     SavePlayerName *friendNames = saveGame.onlineProfile.friendNames;
 
@@ -891,7 +841,7 @@ void SaveGame__SetNameToFriendKey(SavePlayerName *name, u64 friendKey)
 
 NONMATCH_FUNC u64 SaveGame__GetFriendKeyFromName_Internal(SavePlayerName *name)
 {
-	// https://decomp.me/scratch/jaq8d -> 81.39%
+    // https://decomp.me/scratch/jaq8d -> 81.39%
 #ifdef NON_MATCHING
     if (name->text[0] != 0 || name->text[1] != 0xFFFF)
         return 0; // this is a string, not a numeric key
@@ -1114,51 +1064,23 @@ s64 SaveGame__GetTimeFromTimeAttackRecord(u32 stage)
     return RTC_ConvertDateTimeToSecond(&date, &time);
 }
 
-NONMATCH_FUNC void SaveGame__Block4__GetLastUsedCharacter(void){
-#ifdef NON_MATCHING
+u16 SaveGame__Block4__GetLastUsedCharacter(s32 stage)
+{
+    SaveBlockTimeAttack *timeAttack = &saveGame.timeAttack;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r5, =saveGame+0x00000898
-	mov r4, r0
-	mov r0, r5
-	mov r2, r4
-	mov r1, #0
-	mov r3, #1
-	bl SaveGame__GetTimeAttackRecord
-	mov r1, #1
-	mov r6, r0
-	mov r0, r5
-	mov r2, r4
-	mov r3, r1
-	bl SaveGame__GetTimeAttackRecord
-	cmp r6, #0
-	cmpne r0, #0
-	beq _0205F948
-	mov r0, r4, asr #3
-	add r0, r4, r0, lsr #28
-	mov r0, r0, asr #4
-	add r0, r5, r0, lsl #1
-	add r0, r0, #0x400
-	mov r2, r4, lsr #0x1f
-	ldrh r3, [r0, #0x50]
-	rsb r1, r2, r4, lsl #28
-	add r0, r2, r1, ror #28
-	mov r0, r3, asr r0
-	and r0, r0, #1
-	ldmia sp!, {r4, r5, r6, pc}
-_0205F948:
-	cmp r6, #0
-	movne r0, #0
-	ldmneia sp!, {r4, r5, r6, pc}
-	cmp r0, #0
-	movne r0, #1
-	ldreq r0, =0x0000FFFF
-	ldmia sp!, {r4, r5, r6, pc}
+    u32 recordSonic = SaveGame__GetTimeAttackRecord(timeAttack, CHARACTER_SONIC, stage, 1);
+    u32 recordBlaze = SaveGame__GetTimeAttackRecord(timeAttack, CHARACTER_BLAZE, stage, 1);
+    
+    if (recordSonic != 0 && recordBlaze != 0)
+        return (timeAttack->recordBitfield[stage / 16] >> (stage % 16)) & 1;
 
-// clang-format on
-#endif
+    if (recordSonic != 0)
+        return CHARACTER_SONIC;
+
+    if (recordBlaze != 0)
+        return CHARACTER_BLAZE;
+
+    return 0xFFFF;
 }
 
 u32 SaveGame__SetVikingCupJetskiRecord(u32 actID, u32 time)

@@ -1450,7 +1450,7 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenEmeraldConfig(EmeraldCollectedScree
 
     SaveBlockStage *stageSaveGame = &saveGame.stage;
     SaveBlockChart *chartSaveGame = &saveGame.chart;
-    if (gameState.saveFile.field_50 != 0xFF)
+    if (gameState.saveFile.chaosEmeraldID != 0xFF)
     {
         work->isChaosEmeralds = TRUE;
 
@@ -1462,12 +1462,12 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenEmeraldConfig(EmeraldCollectedScree
             e++;
         }
 
-        work->currentEmerald        = gameState.saveFile.field_50;
-        gameState.saveFile.field_50 = 0xFF;
+        work->currentEmerald              = gameState.saveFile.chaosEmeraldID;
+        gameState.saveFile.chaosEmeraldID = 0xFF;
 
         work->emeraldFlags &= ~(1 << work->currentEmerald);
     }
-    else if (gameState.saveFile.field_51 != 0xFF)
+    else if (gameState.saveFile.solEmeraldID != 0xFF)
     {
         work->isChaosEmeralds = FALSE;
 
@@ -1479,15 +1479,15 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenEmeraldConfig(EmeraldCollectedScree
             e++;
         }
 
-        work->currentEmerald        = gameState.saveFile.field_51;
-        gameState.saveFile.field_51 = 0xFF;
+        work->currentEmerald            = gameState.saveFile.solEmeraldID;
+        gameState.saveFile.solEmeraldID = 0xFF;
 
         work->emeraldFlags &= ~(1 << work->currentEmerald);
     }
     else
     {
-        gameState.saveFile.field_50 = 0xFF;
-        gameState.saveFile.field_51 = 0xFF;
+        gameState.saveFile.chaosEmeraldID = 0xFF;
+        gameState.saveFile.solEmeraldID   = 0xFF;
     }
 #else
     // clang-format off

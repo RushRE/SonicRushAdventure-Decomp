@@ -3986,7 +3986,7 @@ _0217A904: .word 0x0000FFFF
 	thumb_func_start TimeAttackRecordsMenu__CheckProgressUnknown
 TimeAttackRecordsMenu__CheckProgressUnknown: // 0x0217A908
 	push {r3, lr}
-	bl SaveGame__GetBlock1GameProgress
+	bl SaveGame__GetSystemGameProgress
 	cmp r0, #0x10
 	blt _0217A916
 	mov r0, #1

@@ -257,7 +257,7 @@ void LoadSysSoundVillage(void)
     {
         id = SYSSOUND_GROUP_VILLAGE2_1;
     }
-    else if (SaveGame__GetGameProgress() >= SAVE_PROGRESS_2 || (SaveGame__GetGameProgress() >= SAVE_PROGRESS_1 && SaveGame__Func_205BB18() >= 1))
+    else if (SaveGame__GetGameProgress() >= SAVE_PROGRESS_2 || (SaveGame__GetGameProgress() >= SAVE_PROGRESS_1 && SaveGame__GetUnknown2() >= 1))
     {
         id = SYSSOUND_GROUP_VILLAGE1_2;
     }
