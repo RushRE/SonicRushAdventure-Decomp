@@ -641,7 +641,7 @@ Overlay Hub
     Object asm/hub/viMessageController.o
     Object asm/hub/hubTalkHelpers.o
     Object asm/hub/hubMissionHelpers.o
-    Object asm/hub/hubAudio.o
+    Object src/hub/hubAudio.o
 
     ## CREDITS ##
     Object src/menu/credits.o
