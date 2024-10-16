@@ -540,8 +540,8 @@ _021573EC:
 	str r0, [r4, #0x130]
 	str r0, [r4, #0x134]
 	bl TalkHelpers__Func_2152DA0
-	bl DockHelpers__LoadVillageTrack
-	bl HubAudio__PlayVillageTrack
+	bl InitHubAudio
+	bl PlayHubBGM
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
@@ -693,8 +693,8 @@ _021575D8:
 	streq r0, [r4, #0x12c]
 _02157684:
 	bl TalkHelpers__Func_2152DA0
-	bl DockHelpers__LoadVillageTrack
-	bl HubAudio__PlayVillageTrack
+	bl InitHubAudio
+	bl PlayHubBGM
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
@@ -733,7 +733,7 @@ HubControl__Func_21576CC: // 0x021576CC
 	bl ViHubAreaPreview__Func_215966C
 	ldr r0, [r4, #0x104]
 	bl ViHubAreaPreview__Func_2159854
-	bl HubAudio__Release
+	bl ReleaseHubAudio
 	ldmia sp!, {r4, pc}
 	arm_func_end HubControl__Func_21576CC
 
@@ -811,7 +811,7 @@ _021577E8:
 	mov r1, #1
 	bl HubHUD__Func_21603B0
 	mov r0, #5
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	str r5, [r4, #0x14]
 	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x10
@@ -900,7 +900,7 @@ _02157934:
 	mov r1, #1
 	bl ViHubAreaPreview__Func_2159758
 	mov r0, r5
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	mov r0, #2
 	str r0, [r4, #0x104]
 	mov r1, r5
@@ -941,7 +941,7 @@ _021579B0:
 	mov r1, #1
 	bl HubHUD__Func_21603B0
 	mov r0, #5
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	str r5, [r4, #0x14]
 	ldr r1, [r4, #0]
 	mov r0, r5, lsl #0x10
@@ -1360,7 +1360,7 @@ HubControl__Main_2157F64: // 0x02157F64
 	str r1, [r4]
 	bl SetCurrentTaskMainEvent
 	mov r0, #6
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	b _021580A0
 _02157FB4:
 	bl ViDock__Func_215DFE4
@@ -1378,7 +1378,7 @@ _02157FB4:
 	str r1, [r4]
 	bl SetCurrentTaskMainEvent
 	mov r0, #6
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	b _021580A0
 _02157FF8:
 	bl ViDock__Func_215E000
@@ -1392,7 +1392,7 @@ _02157FF8:
 	cmpne r0, #0xa
 	bne _02158028
 	mov r0, #1
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 _02158028:
 	bl ViDock__Func_215E178
 	mov r0, #0
@@ -1412,7 +1412,7 @@ _02158050:
 	mov r1, #0
 	bl ViHubAreaPreview__Func_2159758
 	mov r0, #0
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	mov r0, #0
 	bl ViDock__Func_215DF64
 	mov r0, #2
@@ -1590,7 +1590,7 @@ _021582B8:
 	str r1, [r4, #8]
 	bl SetCurrentTaskMainEvent
 	mov r0, #0xc
-	bl HubAudio__FadeTrack
+	bl FadeOutHubBGM
 	mov r0, #0
 	bl ViDock__Func_215DF64
 	b _021587B4
@@ -1754,7 +1754,7 @@ _02158504:
 	str r1, [r4]
 	bl SetCurrentTaskMainEvent
 	mov r0, #6
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	b _021587B4
 _02158530:
 	mov r0, #0
@@ -1917,7 +1917,7 @@ _0215874C:
 	str r1, [r4, #8]
 	bl SetCurrentTaskMainEvent
 	mov r0, #0xc
-	bl HubAudio__FadeTrack
+	bl FadeOutHubBGM
 	mov r0, #0
 	bl ViDock__Func_215DF64
 	b _021587B4

@@ -161,7 +161,7 @@ Task__OV05Unknown2168C48__Main: // 0x02168D74
 	ldr r0, _02168E3C // =Task__OV05Unknown2168C48__Func_2168E40
 	bl SetCurrentTaskMainEvent
 	mov r0, #4
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
@@ -366,7 +366,7 @@ Task__OV05Unknown2168C48__Func_21690CC: // 0x021690CC
 	mov r6, r0, lsr #0x10
 	mov r0, #3
 	strh r1, [r4, #8]
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 _02169118:
 	ldr r0, _02169334 // =padInput
 	ldrh r0, [r0, #8]
@@ -385,7 +385,7 @@ _0216914C:
 	ldr r1, _02169330 // =0x0000FFFF
 	mov r0, #3
 	strh r1, [r4, #8]
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 _0216915C:
 	ldr r0, _02169330 // =0x0000FFFF
 	cmp r6, r0
@@ -410,7 +410,7 @@ _0216915C:
 	bne _021691BC
 	mov r5, #1
 	mov r0, r5
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 _021691BC:
 	ldrh r0, [r4, #6]
 	cmp r6, r0
@@ -431,7 +431,7 @@ _021691EC:
 	beq _02169208
 	mov r5, #1
 	mov r0, r5
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 _02169208:
 	cmp r5, #0
 	bne _02169284
@@ -448,12 +448,12 @@ _02169208:
 	mov r1, #1
 	mov r0, #3
 	strh r1, [r4, #4]
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	b _02169284
 _0216924C:
 	mov r0, #2
 	mov r5, #1
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	b _02169284
 _0216925C:
 	cmp r0, #2
@@ -461,12 +461,12 @@ _0216925C:
 	mov r1, #2
 	mov r0, #3
 	strh r1, [r4, #4]
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	b _02169284
 _02169278:
 	mov r0, #2
 	mov r5, #1
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 _02169284:
 	ldrh r2, [r4, #4]
 	add r0, r4, #0x138

@@ -1397,7 +1397,7 @@ ViEvtCmnSelect__Func_216CAAC: // 0x0216CAAC
 	add r0, r4, #0xf8
 	bl FontWindowAnimator__Draw
 	mov r0, #4
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	arm_func_end ViEvtCmnSelect__Func_216CAAC
@@ -1479,7 +1479,7 @@ ViEvtCmnSelect__Func_216CBA0: // 0x0216CBA0
 	mov r1, r5
 	bl AnimatorSprite__SetAnimation
 	mov r0, r4
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	ldr r0, _0216CD58 // =0x0000FFFF
 	strh r7, [r6, #0x1c]
 	strh r0, [r6, #0x20]
@@ -1510,7 +1510,7 @@ _0216CC10:
 	bne _0216CC4C
 	mov r5, #1
 	mov r0, r5
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 _0216CC4C:
 	mov r0, r6
 	bl ViEvtCmnSelect__Func_216CE7C
@@ -1518,7 +1518,7 @@ _0216CC4C:
 	beq _0216CC6C
 	mov r5, #1
 	mov r0, r5
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	b _0216CCAC
 _0216CC6C:
 	mov r0, r6
@@ -1532,12 +1532,12 @@ _0216CC6C:
 	bne _0216CCA0
 	mov r0, #2
 	mov r5, #1
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	b _0216CCAC
 _0216CCA0:
 	mov r0, #3
 	strh r1, [r6, #0x1c]
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 _0216CCAC:
 	add r0, r6, #0x15c
 	bl FontWindowMWControl__Draw
@@ -2084,7 +2084,7 @@ ViEvtCmnAnnounce__Func_216D318: // 0x0216D318
 	cmp r0, #8
 	addge sp, sp, #4
 	ldmgeia sp!, {r3, r4, pc}
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	arm_func_end ViEvtCmnAnnounce__Func_216D318

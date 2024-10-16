@@ -145,7 +145,7 @@ ViHubAreaPreview__Func_2158D28: // 0x02158D28
 	cmp r0, #5
 	bge _02158D88
 	mov r0, #1
-	bl HubAudio__Release
+	bl ReleaseHubAudio
 	mov r0, #9
 	bl LoadSysSound
 	mov r0, #0x27
@@ -158,17 +158,17 @@ _02158D88:
 	ldr r0, [r4, #0x20]
 	cmp r0, #0x16
 	bge _02158DB4
-	bl HubAudio__PlayDecorationJingle
+	bl PlayHubDecorationJingle
 	ldr r0, [r4, #0x20]
 	bl ViMap__Func_215BFC4
 	mov r0, #0x7f
 	add r1, r4, #0x100
 	strh r0, [r1, #0x3a]
-	bl HubAudio__SetTrackVolume
+	bl SetHubBGMVolume
 	b _02158DD8
 _02158DB4:
 	mov r0, #1
-	bl HubAudio__Release
+	bl ReleaseHubAudio
 	mov r0, #0xa
 	bl LoadSysSound
 	mov r0, #0x28
@@ -211,7 +211,7 @@ ViHubAreaPreview__Func_2158E14: // 0x02158E14
 	sub r1, r1, #1
 	strh r1, [r0, #0x3a]
 	ldrh r0, [r0, #0x3a]
-	bl HubAudio__SetTrackVolume
+	bl SetHubBGMVolume
 _02158E4C:
 	ldmib r4, {r0, r1}
 	sub r0, r1, r0
@@ -243,7 +243,7 @@ _02158E88:
 	cmp r0, #0x16
 	bge _02158EC4
 	mov r0, #0x3f
-	bl HubAudio__SetTrackVolume
+	bl SetHubBGMVolume
 _02158EC4:
 	ldr r0, [r4, #0x1c]
 	cmp r0, #5
@@ -536,16 +536,16 @@ _02159290:
 	ldr r0, [r4, #0x20]
 	cmp r0, #0x16
 	bge _021592AC
-	bl HubAudio__StopSoundHandle
+	bl ReleaseHubBGM
 	mov r0, #0x7f
-	bl HubAudio__SetTrackVolume
+	bl SetHubBGMVolume
 	b _021592C0
 _021592AC:
 	bl ReleaseSysSound
-	bl DockHelpers__LoadVillageTrack
-	bl HubAudio__PlayVillageTrack
+	bl InitHubAudio
+	bl PlayHubBGM
 	mov r0, #0x7f
-	bl HubAudio__SetTrackVolume
+	bl SetHubBGMVolume
 _021592C0:
 	ldr r1, [r4, #4]
 	ldr r0, _021592DC // =ViHubAreaPreview__Func_21592E0

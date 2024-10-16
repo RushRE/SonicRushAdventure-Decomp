@@ -43,8 +43,8 @@ ViTalkAnnounce__Create: // 0x0216B6C0
 	cmp r0, #0
 	beq _0216B778
 	mov r0, #0x3f
-	bl HubAudio__SetTrackVolume
-	bl HubAudio__PlayItemJingle
+	bl SetHubBGMVolume
+	bl PlayHubItemJingle
 	ldrh r1, [r4, #2]
 	add r0, r5, #4
 	mov r2, #9
@@ -155,9 +155,9 @@ _0216B8BC:
 	bl ViTalkAnnounce__Func_216B92C
 	cmp r0, #0
 	beq _0216B8D8
-	bl HubAudio__StopSoundHandle
+	bl ReleaseHubBGM
 	mov r0, #0x7f
-	bl HubAudio__SetTrackVolume
+	bl SetHubBGMVolume
 _0216B8D8:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}

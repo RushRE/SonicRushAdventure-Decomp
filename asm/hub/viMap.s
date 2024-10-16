@@ -1461,7 +1461,7 @@ _0215CCD4:
 	mov r2, #0x20
 	bl ViMap__Func_215BBF4
 	mov r0, #3
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 _0215CD50:
 	mov r0, r4
 	bl ViMap__Func_215D2B4

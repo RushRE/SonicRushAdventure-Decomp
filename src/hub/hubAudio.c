@@ -12,70 +12,72 @@ static NNSSndHandle *bgmHandle;
 // FUNCTIONS
 // --------------------
 
-void DockHelpers__LoadVillageTrack(void)
+void InitHubAudio(void)
 {
     LoadSysSoundVillage();
 
     bgmHandle = AllocSndHandle();
 }
 
-void HubAudio__Release(BOOL releaseAudio)
+void ReleaseHubAudio(BOOL releaseAudio)
 {
     if (bgmHandle != NULL)
     {
-        HubAudio__StopSoundHandle();
+        ReleaseHubBGM();
 
         FreeSndHandle(bgmHandle);
         bgmHandle = NULL;
     }
 
     if (releaseAudio)
+    {
         ReleaseSysSound();
+    }
 }
 
-void HubAudio__PlayVillageTrack(void)
+void PlayHubBGM(void)
 {
     PlaySysVillageTrack(FALSE);
 }
 
-void HubAudio__SetTrackVolume(u8 volume)
+void SetHubBGMVolume(u8 volume)
 {
     SetSysTrackVolume(volume);
 }
 
-void HubAudio__FadeTrack(s32 fadeFrame)
+void FadeOutHubBGM(s32 fadeFrame)
 {
     FadeSysTrack(fadeFrame);
 }
 
-void HubAudio__PlayItemJingle(void)
+void PlayHubItemJingle(void)
 {
-    HubAudio__StopSoundHandle();
+    ReleaseHubBGM();
 
     NNS_SndArcLoadSeq(SND_SYS_SEQ_SEQ_J_ITEM, audioManagerSndHeap);
     PlayTrack(bgmHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQ_SEQ_J_ITEM);
 }
 
-void HubAudio__PlayDecorationJingle(void)
+void PlayHubDecorationJingle(void)
 {
-    HubAudio__StopSoundHandle();
+    ReleaseHubBGM();
 
     NNS_SndArcLoadSeq(SND_SYS_SEQ_SEQ_J_DECORATION, audioManagerSndHeap);
     PlayTrack(bgmHandle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_SYS_SEQ_SEQ_J_DECORATION);
 }
 
-void HubAudio__StopSoundHandle(void)
+void ReleaseHubBGM(void)
 {
     if (bgmHandle != NULL && bgmHandle->player != NULL)
     {
-        NNS_SndPlayerStopSeq(bgmHandle, 0);
-        NNS_SndHandleReleaseSeq(bgmHandle);
+        StopStageSfx(bgmHandle);
+        ReleaseStageSfx(bgmHandle);
     }
 }
 
-void HubAudio__PlaySfx(HubSfxIDs id)
+void PlayHubSfx(HubSfxIDs id)
 {
-    static const u16 sfxList[] = {
+    static const u16 sfxList[HUB_SFX_COUNT] = {
         [HUB_SFX_PAUSE] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_PAUSE,         [HUB_SFX_V_DECIDE] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_V_DECIDE,
         [HUB_SFX_V_CANCELL] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_V_CANCELL, [HUB_SFX_CURSOL] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_CURSOL,
         [HUB_SFX_V_POPUP] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_V_POPUP,     [HUB_SFX_D_DECISION] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_D_DECISION,

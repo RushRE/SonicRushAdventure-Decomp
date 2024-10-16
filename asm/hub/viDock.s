@@ -2276,7 +2276,7 @@ ViDock__Func_215F8E8: // 0x0215F8E8
 	cmp r1, #0x8c
 	bne _0215F920
 	mov r0, #7
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	b _0215F92C
 _0215F920:
 	cmp r1, #0

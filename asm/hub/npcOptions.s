@@ -1357,7 +1357,7 @@ _0216EF34:
 	ldr r1, _0216EF4C // =NpcOptions__Func_2170A10
 	mov r0, #4
 	str r1, [r5, #0x478]
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0216EF48: .word 0x0000FFFF
@@ -3577,7 +3577,7 @@ _02170D08:
 	strh r2, [r10, #0x14]
 	bl NpcOptions__Func_21706C0
 	mov r0, #1
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	mov r1, #0
 	mov r0, r10
 	str r1, [r10]
@@ -3614,7 +3614,7 @@ _02170D5C:
 	mov r0, r10
 	bl NpcOptions__Func_21706C0
 	mov r0, #2
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	ldr r0, _02170EC0 // =NpcOptions__Func_2170F6C
 	str r0, [r10, #0x478]
 	b _02170E54
@@ -3628,7 +3628,7 @@ _02170DD8:
 	mov r0, r10
 	bl NpcOptions__Func_2170448
 	mov r0, #3
-	bl HubAudio__PlaySfx
+	bl PlayHubSfx
 	mov r0, r10
 	mov r1, r4
 	mvn r2, #0
