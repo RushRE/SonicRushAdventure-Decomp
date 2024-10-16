@@ -37,8 +37,8 @@ void InitGameState(void)
     GX_DispOn();
     GXS_DispOn();
 
-    renderCoreGFXControlA.bgPosition[1].x = 0;
-    renderCoreGFXControlA.bgPosition[1].y = 0;
+    renderCoreGFXControlA.bgPosition[GRAPHICS_ENGINE_B].x = 0;
+    renderCoreGFXControlA.bgPosition[GRAPHICS_ENGINE_B].y = 0;
 
     InitReplaySystem();
 

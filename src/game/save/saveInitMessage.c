@@ -9,7 +9,7 @@
 #include <game/game/gameState.h>
 #include <game/input/padInput.h>
 
-// files
+// resources
 #include <resources/bb/dmwf_lang.h>
 #include <resources/bb/dmwf_lang/cmn.h>
 #include <resources/narc/dmbl_lz7.h>

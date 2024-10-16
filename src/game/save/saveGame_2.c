@@ -178,7 +178,13 @@ _0205EB88:
 	bne _0205EBAA
 	ldr r1, =aSonic
 	mov r0, r5
-	mov r2, #5 // ROM DIFF: international = 5, JP = 4
+    
+#if defined(RUSH2_JAPAN)
+	mov r2, #4
+#else
+    mov r2, #5
+#endif
+
 	bl SaveGame__SetPlayerName
 	b _0205EBC4
 _0205EBAA:

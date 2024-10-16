@@ -5,6 +5,7 @@
 #include <game/graphics/renderCore.h>
 #include <game/cutscene/script.h>
 #include <menu/doorPuzzle.h>
+#include <menu/credits.h>
 
 // --------------------
 // TEMP
@@ -795,7 +796,7 @@ void SaveGame__UnknownTable2Func_205C3A8(void)
             }
             else
             {
-                gameState.creditsMode = 0;
+                gameState.creditsMode = CREDITS_MODE_FINAL_BOSS;
                 SaveGame__ChangeEvent(SYSEVENT_CREDITS);
             }
 

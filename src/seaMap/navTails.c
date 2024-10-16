@@ -8,7 +8,7 @@
 #include <game/graphics/drawReqTask.h>
 #include <game/save/saveGame.h>
 
-// files
+// resources
 #include <resources/bb/nv.h>
 #include <resources/bb/nv/nav_assets.h>
 
@@ -959,8 +959,8 @@ void InitNavTailsBG_MsgWindow(NavTails *work, s32 id)
 
     RenderCoreGFXControl *gfxControl = VRAMSystem__GFXControl[work->useEngineB];
 
-    gfxControl->bgPosition[0].x = messageWindowPos[id].x;
-    gfxControl->bgPosition[0].y = messageWindowPos[id].y;
+    gfxControl->bgPosition[BACKGROUND_0].x = messageWindowPos[id].x;
+    gfxControl->bgPosition[BACKGROUND_0].y = messageWindowPos[id].y;
     work->messageWindowID       = id;
 }
 

@@ -6,7 +6,7 @@
 #include <network/wirelessManager.h>
 #include <network/networkHandler.h>
 
-// files
+// resources
 #include <resources/narc/dmcmn_antenna_lz7.h>
 
 // --------------------

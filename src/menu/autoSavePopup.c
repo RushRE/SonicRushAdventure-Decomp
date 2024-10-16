@@ -6,7 +6,7 @@
 #include <game/save/saveManager.h>
 #include <game/graphics/renderCore.h>
 
-// files
+// resources
 #include <resources/bb/dmta_menu.h>
 #include <resources/bb/dmta_menu/eng.h>
 

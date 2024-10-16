@@ -9,7 +9,7 @@
 #include <game/math/mtMath.h>
 #include <game/stage/mapSys.h>
 
-// files
+// resources
 #include <resources/narc/dmop_lz7.h>
 #include <resources/narc/dmop_pldm_lz7.h>
 
@@ -423,10 +423,7 @@ void InitOpeningCameraForScene(Opening *work, s32 id)
     OpeningWorldControl *control = &work->worldControl;
 
     void *drawState = control->drawStateCutscene[id];
-    LoadDrawState(drawState, DRAWSTATE_CLEARCOLOR | DRAWSTATE_DISPLAY1DOTDEPTH | DRAWSTATE_ANTIALIASING | DRAWSTATE_EDGECOLORTABLE | DRAWSTATE_EDGEMARKING | DRAWSTATE_FOGTABLE
-                                 | DRAWSTATE_FOGCOLOR | DRAWSTATE_FOGOFFSET | DRAWSTATE_SWAPSORTMODE | DRAWSTATE_ALPHABLEND | DRAWSTATE_ALPHATEST | DRAWSTATE_TOONTABLE
-                                 | DRAWSTATE_SHADING_STYLE | DRAWSTATE_SHININESS | DRAWSTATE_LIGHT3 | DRAWSTATE_LIGHT2 | DRAWSTATE_LIGHT1 | DRAWSTATE_LIGHT0
-                                 | DRAWSTATE_SWAPBUFFERMODE | DRAWSTATE_PROJECTION);
+    LoadDrawState(drawState, DRAWSTATE_ALL & ~(DRAWSTATE_LOOKAT));
     GetDrawStateCameraView(drawState, &control->camera);
     GetDrawStateCameraProjection(drawState, &control->camera);
 
@@ -797,19 +794,19 @@ void ClearOpeningWindowConfig(void)
 {
     Camera3DTask *camera3DWork = Camera3D__GetWork();
 
-    MI_CpuClear16(&camera3DWork->gfxControl[0].windowManager, sizeof(camera3DWork->gfxControl[0].windowManager));
-    MI_CpuClear16(&camera3DWork->gfxControl[1].windowManager, sizeof(camera3DWork->gfxControl[1].windowManager));
+    MI_CpuClear16(&camera3DWork->gfxControl[GRAPHICS_ENGINE_A].windowManager, sizeof(camera3DWork->gfxControl[GRAPHICS_ENGINE_A].windowManager));
+    MI_CpuClear16(&camera3DWork->gfxControl[GRAPHICS_ENGINE_B].windowManager, sizeof(camera3DWork->gfxControl[GRAPHICS_ENGINE_B].windowManager));
 }
 
 void SetOpeningBackgroundPos(s32 id, fx32 x, fx32 y)
 {
     Camera3DTask *camera3DWork = Camera3D__GetWork();
 
-    camera3DWork->gfxControl[0].bgPosition[id].x = FX32_TO_WHOLE(x);
-    camera3DWork->gfxControl[0].bgPosition[id].y = MTM_MATH_CLIP_2(FX32_TO_WHOLE(y), -HW_LCD_WIDTH, HW_LCD_WIDTH);
+    camera3DWork->gfxControl[GRAPHICS_ENGINE_A].bgPosition[id].x = FX32_TO_WHOLE(x);
+    camera3DWork->gfxControl[GRAPHICS_ENGINE_A].bgPosition[id].y = MTM_MATH_CLIP_2(FX32_TO_WHOLE(y), -HW_LCD_WIDTH, HW_LCD_WIDTH);
 
-    camera3DWork->gfxControl[1].bgPosition[id].x = FX32_TO_WHOLE(x);
-    camera3DWork->gfxControl[1].bgPosition[id].y = MTM_MATH_CLIP_2(FX32_TO_WHOLE(y) + BOTTOM_SCREEN_CAMERA_OFFSET, -HW_LCD_WIDTH, HW_LCD_WIDTH);
+    camera3DWork->gfxControl[GRAPHICS_ENGINE_B].bgPosition[id].x = FX32_TO_WHOLE(x);
+    camera3DWork->gfxControl[GRAPHICS_ENGINE_B].bgPosition[id].y = MTM_MATH_CLIP_2(FX32_TO_WHOLE(y) + BOTTOM_SCREEN_CAMERA_OFFSET, -HW_LCD_WIDTH, HW_LCD_WIDTH);
 }
 
 void DrawOpeningSprite(AnimatorSprite *animator)
@@ -1163,11 +1160,11 @@ void Opening_StateScene_ProcessCutInScene(Opening *work)
 
     for (s32 i = 0; i < 4; i++)
     {
-        camera3DWork->gfxControl[0].bgPosition[i].x = 0;
-        camera3DWork->gfxControl[0].bgPosition[i].y = 0;
+        camera3DWork->gfxControl[GRAPHICS_ENGINE_A].bgPosition[i].x = 0;
+        camera3DWork->gfxControl[GRAPHICS_ENGINE_A].bgPosition[i].y = 0;
 
-        camera3DWork->gfxControl[1].bgPosition[i].x = 0;
-        camera3DWork->gfxControl[1].bgPosition[i].y = BOTTOM_SCREEN_CAMERA_OFFSET;
+        camera3DWork->gfxControl[GRAPHICS_ENGINE_B].bgPosition[i].x = 0;
+        camera3DWork->gfxControl[GRAPHICS_ENGINE_B].bgPosition[i].y = BOTTOM_SCREEN_CAMERA_OFFSET;
     }
 
     AnimatePalette(&work->worldControl.aniPalette);

@@ -32,7 +32,7 @@
 #include <stage/gameObject.h>
 #include <network/wirelessManager.h>
 
-// files
+// resources
 #include <resources/narc/act_com_lz7.h>
 
 // acts
@@ -845,9 +845,7 @@ void BuildStageCommonAssets(void)
     }
     NNS_FndUnmountArchive(&arc);
 
-    LoadDrawState(GetStageDrawState(), DRAWSTATE_SWAPBUFFERMODE | DRAWSTATE_SHININESS | DRAWSTATE_SHADING_STYLE | DRAWSTATE_TOONTABLE | DRAWSTATE_ALPHATEST | DRAWSTATE_ALPHABLEND
-                                             | DRAWSTATE_SWAPSORTMODE | DRAWSTATE_FOGOFFSET | DRAWSTATE_FOGCOLOR | DRAWSTATE_FOGTABLE | DRAWSTATE_EDGEMARKING
-                                             | DRAWSTATE_ANTIALIASING | DRAWSTATE_DISPLAY1DOTDEPTH | DRAWSTATE_CLEARCOLOR);
+    LoadDrawState(GetStageDrawState(), DRAWSTATE_ALL & ~(DRAWSTATE_LOOKAT | DRAWSTATE_PROJECTION | DRAWSTATE_LIGHT_ALL | DRAWSTATE_EDGECOLORTABLE));
 }
 
 void BuildStageArea(void)
@@ -906,7 +904,7 @@ void *GetStageDrawState(void)
 void InitStageLightConfig(void)
 {
     void *drawState = GetStageDrawState();
-    LoadDrawState(drawState, DRAWSTATE_LIGHT3 | DRAWSTATE_LIGHT2 | DRAWSTATE_LIGHT1 | DRAWSTATE_LIGHT0);
+    LoadDrawState(drawState, DRAWSTATE_LIGHT_ALL);
 }
 
 void InitStageEdgeConfig(void)

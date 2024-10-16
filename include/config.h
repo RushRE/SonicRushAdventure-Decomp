@@ -6,4 +6,9 @@
 #define DEFAULT_LANGUAGE OS_LANGUAGE_ENGLISH
 #endif
 
+// Default to european version in the event the region isn't specified
+#if !defined(RUSH2_EUROPE) && !defined(RUSH2_USA) && !defined(RUSH2_JAPAN)
+#define RUSH2_EUROPE
+#endif
+
 #endif // RUSH2_CONFIG_H

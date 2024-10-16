@@ -12,7 +12,7 @@
 #include <game/util/spriteButton.h>
 #include <game/graphics/drawFadeTask.h>
 
-// files
+// resources
 #include <resources/narc/dmpz_lz7.h>
 #include <resources/narc/tkdm_lz7.h>
 #include <resources/bb/tkdm_cutin.h>

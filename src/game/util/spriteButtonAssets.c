@@ -2,7 +2,7 @@
 #include <game/file/binaryBundle.h>
 #include <game/graphics/renderCore.h>
 
-// files
+// resources
 #include <resources/bb/nl.h>
 
 // --------------------

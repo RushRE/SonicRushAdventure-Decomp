@@ -9,7 +9,7 @@
 #include <game/math/mtMath.h>
 #include <game/save/saveGame.h>
 
-// files
+// resources
 #include <resources/narc/dmti_lz7.h>
 #include <resources/narc/dmop_pldm_lz7.h>
 
@@ -207,10 +207,7 @@ void InitTitleScreenAnimators(TitleScreen *work)
     TitleScreenWorldControl *control = &work->worldControl;
 
     void *drawState = control->drawStateCutscene;
-    LoadDrawState(drawState, DRAWSTATE_CLEARCOLOR | DRAWSTATE_DISPLAY1DOTDEPTH | DRAWSTATE_ANTIALIASING | DRAWSTATE_EDGECOLORTABLE | DRAWSTATE_EDGEMARKING | DRAWSTATE_FOGTABLE
-                                 | DRAWSTATE_FOGCOLOR | DRAWSTATE_FOGOFFSET | DRAWSTATE_SWAPSORTMODE | DRAWSTATE_ALPHABLEND | DRAWSTATE_ALPHATEST | DRAWSTATE_TOONTABLE
-                                 | DRAWSTATE_SHADING_STYLE | DRAWSTATE_SHININESS | DRAWSTATE_LIGHT3 | DRAWSTATE_LIGHT2 | DRAWSTATE_LIGHT1 | DRAWSTATE_LIGHT0
-                                 | DRAWSTATE_SWAPBUFFERMODE | DRAWSTATE_PROJECTION);
+    LoadDrawState(drawState, DRAWSTATE_ALL & ~(DRAWSTATE_LOOKAT));
     GetDrawStateCameraView(drawState, &control->cameraConfig);
     GetDrawStateCameraProjection(drawState, &control->cameraConfig);
     control->matProjPositionY = control->cameraConfig.config.projScaleW + MultiplyFX(FLOAT_TO_FX32(0.3125), control->cameraConfig.config.projScaleW);

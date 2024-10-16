@@ -10,7 +10,7 @@
 #include <game/stage/gameSystem.h>
 #include <game/file/archiveFile.h>
 
-// files
+// resources
 #include <resources/narc/cldm_ex_lz7.h>
 #include <resources/narc/pldm_67_00_lz7.h>
 
@@ -190,10 +190,7 @@ void InitStageClearExGraphics3D(StageClearExGraphics3D *work, StageClearExAssets
     LoadAssetsForStageClearEx(assets->archivePldm6700, &work->mdlCharacters, ARCHIVE_PLDM_67_00_LZ7_FILE_MD, &work->jntAniCharacters, ARCHIVE_PLDM_67_00_LZ7_FILE_CA,
                               &work->texAniCharacters, ARCHIVE_PLDM_67_00_LZ7_FILE_TA, &drawState, ARCHIVE_PLDM_67_00_LZ7_FILE_SD7, NULL);
 
-    LoadDrawState(drawState, DRAWSTATE_CLEARCOLOR | DRAWSTATE_DISPLAY1DOTDEPTH | DRAWSTATE_ANTIALIASING | DRAWSTATE_EDGECOLORTABLE | DRAWSTATE_EDGEMARKING | DRAWSTATE_FOGTABLE
-                                 | DRAWSTATE_FOGCOLOR | DRAWSTATE_FOGOFFSET | DRAWSTATE_SWAPSORTMODE | DRAWSTATE_ALPHABLEND | DRAWSTATE_ALPHATEST | DRAWSTATE_TOONTABLE
-                                 | DRAWSTATE_SHADING_STYLE | DRAWSTATE_SHININESS | DRAWSTATE_LIGHT3 | DRAWSTATE_LIGHT2 | DRAWSTATE_LIGHT1 | DRAWSTATE_LIGHT0
-                                 | DRAWSTATE_SWAPBUFFERMODE | DRAWSTATE_PROJECTION | DRAWSTATE_LOOKAT);
+    LoadDrawState(drawState, DRAWSTATE_ALL);
 
     Camera3D *cameraConfig = &work->cameraConfig;
     GetDrawStateCameraView(drawState, cameraConfig);

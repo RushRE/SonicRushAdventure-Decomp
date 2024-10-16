@@ -8,7 +8,7 @@
 #include <game/graphics/drawFadeTask.h>
 #include <game/graphics/renderCore.h>
 
-// files
+// resources
 #include <resources/narc/dmlg_lz7.h>
 
 // --------------------
@@ -82,10 +82,10 @@ void SetupDisplayForSplashScreen(void)
     GXS_SetMasterBrightness(renderCoreGFXControlB.brightness);
     GXS_SetGraphicsMode(GX_BGMODE_0);
     G2S_SetBG0Control(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256, GX_BG_SCRBASE_0x0000, GX_BG_CHARBASE_0x04000, GX_BG_EXTPLTT_01);
-    renderCoreGFXControlB.bgPosition[0].x = renderCoreGFXControlB.bgPosition[0].y = 0;
-    renderCoreGFXControlB.bgPosition[1].x = renderCoreGFXControlB.bgPosition[1].y = 0;
-    renderCoreGFXControlB.bgPosition[2].x = renderCoreGFXControlB.bgPosition[2].y = 0;
-    renderCoreGFXControlB.bgPosition[3].x = renderCoreGFXControlB.bgPosition[3].y = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_0].x = renderCoreGFXControlB.bgPosition[BACKGROUND_0].y = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_1].x = renderCoreGFXControlB.bgPosition[BACKGROUND_1].y = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_2].x = renderCoreGFXControlB.bgPosition[BACKGROUND_2].y = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_3].x = renderCoreGFXControlB.bgPosition[BACKGROUND_3].y = 0;
 
     G2S_SetBG0Priority(3);
     G2S_SetBG1Priority(2);

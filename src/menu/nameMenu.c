@@ -14,7 +14,7 @@
 #include <game/text/fontWindowAnimator.h>
 #include <game/graphics/unknown2056570.h>
 
-// files
+// resources
 #include <resources/narc/dmni_lz7.h>
 
 #include <nitro/code16.h>

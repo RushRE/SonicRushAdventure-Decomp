@@ -96,7 +96,7 @@ def ParseCFiles(includeLib = True):
 def PrintProgress():
     # calculate config
     version = "eu"
-    includeLib = True
+    includeLib = False # don't include libraries for now, just focus on the actual game logic!
     
     ReadXMAP("build/rush2.{0}/arm9.elf.xMAP".format(version))
         

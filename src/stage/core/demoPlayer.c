@@ -9,7 +9,7 @@
 #include <game/graphics/drawFadeTask.h>
 #include <game/graphics/drawReqTask.h>
 
-// files
+// resources
 #include <resources/bb/gm_demoplay.h>
 
 // --------------------

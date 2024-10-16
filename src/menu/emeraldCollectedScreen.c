@@ -16,7 +16,7 @@
 #include <game/file/fileUnknown.h>
 #include <game/util/unknown204BE48.h>
 
-// files
+// resources
 #include <resources/narc/emdm_lz7.h>
 #include <resources/narc/act_com_b_lz7.h>
 
@@ -438,10 +438,14 @@ void SetupDisplayForEmeraldCollectedScreen(void)
     G2S_SetBG3Priority(3);
 
     // clang-format off
-    renderCoreGFXControlA.bgPosition[0].x = renderCoreGFXControlA.bgPosition[0].y = renderCoreGFXControlA.bgPosition[1].x = renderCoreGFXControlA.bgPosition[1].y =
-    renderCoreGFXControlA.bgPosition[2].x = renderCoreGFXControlA.bgPosition[2].y = renderCoreGFXControlA.bgPosition[3].x = renderCoreGFXControlA.bgPosition[3].y =
-    renderCoreGFXControlB.bgPosition[0].x = renderCoreGFXControlB.bgPosition[0].y = renderCoreGFXControlB.bgPosition[1].x = renderCoreGFXControlB.bgPosition[1].y =
-    renderCoreGFXControlB.bgPosition[2].x = renderCoreGFXControlB.bgPosition[2].y = renderCoreGFXControlB.bgPosition[3].x = renderCoreGFXControlB.bgPosition[3].y = 0;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_0].x = renderCoreGFXControlA.bgPosition[BACKGROUND_0].y = 
+    renderCoreGFXControlA.bgPosition[BACKGROUND_1].x = renderCoreGFXControlA.bgPosition[BACKGROUND_1].y =
+    renderCoreGFXControlA.bgPosition[BACKGROUND_2].x = renderCoreGFXControlA.bgPosition[BACKGROUND_2].y = 
+    renderCoreGFXControlA.bgPosition[BACKGROUND_3].x = renderCoreGFXControlA.bgPosition[BACKGROUND_3].y =
+    renderCoreGFXControlB.bgPosition[BACKGROUND_0].x = renderCoreGFXControlB.bgPosition[BACKGROUND_0].y = 
+    renderCoreGFXControlB.bgPosition[BACKGROUND_1].x = renderCoreGFXControlB.bgPosition[BACKGROUND_1].y =
+    renderCoreGFXControlB.bgPosition[BACKGROUND_2].x = renderCoreGFXControlB.bgPosition[BACKGROUND_2].y = 
+    renderCoreGFXControlB.bgPosition[BACKGROUND_3].x = renderCoreGFXControlB.bgPosition[BACKGROUND_3].y = 0;
     // clang-format on
 
     G2_SetBG2ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE_0x3800, GX_BG_CHARBASE_0x04000);
@@ -594,10 +598,7 @@ NONMATCH_FUNC void InitEmeraldCollectedScreenGraphics(EmeraldCollectedScreenWork
         id++;
     }
 
-    LoadDrawState(drawState, DRAWSTATE_CLEARCOLOR | DRAWSTATE_DISPLAY1DOTDEPTH | DRAWSTATE_ANTIALIASING | DRAWSTATE_EDGECOLORTABLE | DRAWSTATE_EDGEMARKING | DRAWSTATE_FOGTABLE
-                                 | DRAWSTATE_FOGCOLOR | DRAWSTATE_FOGOFFSET | DRAWSTATE_SWAPSORTMODE | DRAWSTATE_ALPHABLEND | DRAWSTATE_ALPHATEST | DRAWSTATE_TOONTABLE
-                                 | DRAWSTATE_SHADING_STYLE | DRAWSTATE_SHININESS | DRAWSTATE_LIGHT3 | DRAWSTATE_LIGHT2 | DRAWSTATE_LIGHT1 | DRAWSTATE_LIGHT0
-                                 | DRAWSTATE_SWAPBUFFERMODE | DRAWSTATE_PROJECTION | DRAWSTATE_LOOKAT);
+    LoadDrawState(drawState, DRAWSTATE_ALL);
 
     Camera3D camera;
     MI_CpuClear16(&camera, sizeof(camera));
@@ -1068,8 +1069,8 @@ void HandleEmeraldCollectedScreenUpdating(EmeraldCollectedScreen *work)
     EmeraldCollectedScreenWorker *process       = &work->process;
     EmeraldCollectedScreenSparkles *sparkleWork = &process->sparkleManager;
 
-    renderCoreGFXControlA.bgPosition[2].x -= 2;
-    renderCoreGFXControlA.bgPosition[3].x += 2;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_2].x -= 2;
+    renderCoreGFXControlA.bgPosition[BACKGROUND_3].x += 2;
 
     for (AnimatorSprite *ani = &process->animators[0]; ani != &process->animators[16]; ani++)
     {

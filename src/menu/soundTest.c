@@ -11,7 +11,7 @@
 #include <game/save/saveGame.h>
 #include <game/text/fontAnimator.h>
 
-// files
+// resources
 #include <resources/narc/dmsou_lz7.h>
 #include <resources/bb/vi_npc.h>
 #include <resources/narc/vi_bg_lz7.h>
@@ -650,10 +650,7 @@ void SoundTest_StateDraw3D_DrawStage(SoundTest *work)
 {
     NNS_G3dGlbSetViewPort(0, 0, HW_LCD_WIDTH - 1, HW_LCD_HEIGHT - 1);
 
-    LoadDrawState(work->assets.drawState, DRAWSTATE_CLEARCOLOR | DRAWSTATE_DISPLAY1DOTDEPTH | DRAWSTATE_ANTIALIASING | DRAWSTATE_EDGECOLORTABLE | DRAWSTATE_EDGEMARKING
-                                              | DRAWSTATE_FOGTABLE | DRAWSTATE_FOGCOLOR | DRAWSTATE_FOGOFFSET | DRAWSTATE_SWAPSORTMODE | DRAWSTATE_ALPHABLEND | DRAWSTATE_ALPHATEST
-                                              | DRAWSTATE_TOONTABLE | DRAWSTATE_SHADING_STYLE | DRAWSTATE_SHININESS | DRAWSTATE_LIGHT3 | DRAWSTATE_LIGHT2 | DRAWSTATE_LIGHT1
-                                              | DRAWSTATE_LIGHT0 | DRAWSTATE_SWAPBUFFERMODE | DRAWSTATE_PROJECTION | DRAWSTATE_LOOKAT);
+    LoadDrawState(work->assets.drawState, DRAWSTATE_ALL);
 
     G3X_SetClearColor(GX_RGB_888(0x00, 0x00, 0x00), GX_COLOR_FROM_888(0x00), 0x7FFF, 0, FALSE);
 

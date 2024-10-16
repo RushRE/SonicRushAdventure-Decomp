@@ -14,7 +14,7 @@
 #include <game/graphics/background.h>
 #include <game/object/objectManager.h>
 
-// files
+// resources
 #include <resources/narc/z1boss_act_lz7.h>
 
 // --------------------

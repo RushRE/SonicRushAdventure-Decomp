@@ -22,13 +22,13 @@
 #include <menu/titleScreen.h>
 #include <menu/doorPuzzle.h>
 #include <menu/soundTest.h>
+#include <menu/credits.h>
 
 // --------------------
 // TEMP
 // --------------------
 
 // Note: function params not decompiled yet! these are just here for the addresses!
-NOT_DECOMPILED void InitCreditsEvent(void);
 NOT_DECOMPILED void TimeAttackMenu__Create(void);
 NOT_DECOMPILED void StageClear__Create(void);
 NOT_DECOMPILED void VSStageClear__Create(void);

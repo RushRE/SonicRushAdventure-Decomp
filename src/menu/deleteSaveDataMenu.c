@@ -12,7 +12,7 @@
 #include <game/file/bundleFileUnknown.h>
 #include <game/system/sysEvent.h>
 
-// files
+// resources
 #include <resources/narc/dm_sd_act_lz7.h>
 #include <resources/narc/dmni_lz7.h>
 #include <resources/bb/dm_save_del.h>

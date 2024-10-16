@@ -9,7 +9,7 @@
 #include <game/game/gameState.h>
 #include <game/input/padInput.h>
 
-// files
+// resources
 #include <resources/narc/dm_save_error_lz7.h>
 
 // --------------------

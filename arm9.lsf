@@ -636,7 +636,7 @@ Overlay Hub
 {
     After arm9
 
-    ## UNKNOWN ##
+    ## HUB HELPERS ##
     Object asm/hub/hubDockHelpers.o
     Object asm/hub/viMessageController.o
     Object asm/hub/hubTalkHelpers.o
@@ -644,14 +644,7 @@ Overlay Hub
     Object asm/hub/hubAudio.o
 
     ## CREDITS ##
-    Object asm/credits/creditsCommon.o
-    Object asm/credits/credits.o
-    Object asm/credits/creditsEx.o
-    Object asm/credits/fakeCredits.o
-    Object asm/credits/exStageCreditsNotification.o
-    Object asm/credits/postGameMissionCreditsNotification.o
-    Object asm/credits/wandRoom.o
-    Object asm/credits/creditsNotification.o
+    Object src/menu/credits.o
     
     ## HUB/SOUTHERN ISLAND ##
     Object asm/hub/hubControl.o
