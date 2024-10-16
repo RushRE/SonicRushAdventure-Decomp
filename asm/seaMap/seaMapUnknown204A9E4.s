@@ -47,7 +47,7 @@ SeaMapUnknown204A9E4__AddObject: // 0x0204AA1C
 	mov r4, r0
 	ldrh r2, [r2, #0xc]
 	ldr r3, _0204AA64 // =SeaMapUnknown204A9E4__objectListUnknown
-	ldr r0, _0204AA68 // =0x021341A4
+	ldr r0, _0204AA68 // =SeaMapUnknown204A9E4__sVars+0x00000004
 	rsb ip, r2, #0x1f
 	ldr r5, [r3, ip, lsl #2]
 	mov r6, r1
@@ -62,14 +62,14 @@ SeaMapUnknown204A9E4__AddObject: // 0x0204AA1C
 	.align 2, 0
 _0204AA60: .word SeaMapUnknown204A9E4__sVars
 _0204AA64: .word SeaMapUnknown204A9E4__objectListUnknown
-_0204AA68: .word 0x021341A4
+_0204AA68: .word SeaMapUnknown204A9E4__sVars+0x00000004
 	arm_func_end SeaMapUnknown204A9E4__AddObject
 
 	arm_func_start SeaMapUnknown204A9E4__RemoveObject
 SeaMapUnknown204A9E4__RemoveObject: // 0x0204AA6C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	ldr r0, _0204AAA8 // =0x021341A4
+	ldr r0, _0204AAA8 // =SeaMapUnknown204A9E4__sVars+0x00000004
 	mov r1, r4
 	bl NNS_FndRemoveListObject
 	ldr r0, _0204AAAC // =SeaMapUnknown204A9E4__sVars
@@ -83,7 +83,7 @@ SeaMapUnknown204A9E4__RemoveObject: // 0x0204AA6C
 	bl MIi_CpuClear16
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0204AAA8: .word 0x021341A4
+_0204AAA8: .word SeaMapUnknown204A9E4__sVars+0x00000004
 _0204AAAC: .word SeaMapUnknown204A9E4__sVars
 _0204AAB0: .word SeaMapUnknown204A9E4__objectListUnknown
 	arm_func_end SeaMapUnknown204A9E4__RemoveObject
@@ -92,7 +92,7 @@ _0204AAB0: .word SeaMapUnknown204A9E4__objectListUnknown
 SeaMapUnknown204A9E4__RunCallbacks: // 0x0204AAB4
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	ldr r3, _0204AB08 // =SeaMapUnknown204A9E4__sVars
-	ldr r4, _0204AB0C // =0x021341A4
+	ldr r4, _0204AB0C // =SeaMapUnknown204A9E4__sVars+0x00000004
 	ldr r5, [r3, #4]
 	mov r8, r0
 	mov r7, r1
@@ -114,17 +114,17 @@ _0204AAD8:
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _0204AB08: .word SeaMapUnknown204A9E4__sVars
-_0204AB0C: .word 0x021341A4
+_0204AB0C: .word SeaMapUnknown204A9E4__sVars+0x00000004
 	arm_func_end SeaMapUnknown204A9E4__RunCallbacks
 
 	arm_func_start SeaMapUnknown204A9E4__InitList
 SeaMapUnknown204A9E4__InitList: // 0x0204AB10
 	stmdb sp!, {r3, lr}
-	ldr r0, _0204AB58 // =0x021341A4
+	ldr r0, _0204AB58 // =SeaMapUnknown204A9E4__sVars+0x00000004
 	mov r1, #0
 	bl NNS_FndInitList
 	ldr r3, _0204AB5C // =SeaMapUnknown204A9E4__objectList
-	ldr r1, _0204AB58 // =0x021341A4
+	ldr r1, _0204AB58 // =SeaMapUnknown204A9E4__sVars+0x00000004
 	mov r2, #0
 _0204AB2C:
 	add r0, r1, r2, lsl #2
@@ -139,6 +139,6 @@ _0204AB2C:
 	bl MIi_CpuClear16
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0204AB58: .word 0x021341A4
+_0204AB58: .word SeaMapUnknown204A9E4__sVars+0x00000004
 _0204AB5C: .word SeaMapUnknown204A9E4__objectList
 	arm_func_end SeaMapUnknown204A9E4__InitList

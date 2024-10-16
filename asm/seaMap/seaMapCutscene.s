@@ -92,8 +92,8 @@ _021700BC:
 	bl ReadFileFromBundle
 	str r0, [r4, #0x148]
 	mov r0, #0
-	ldr r1, _02170284 // =0x02134180
-	ldr r3, _02170288 // =0x0213417C
+	ldr r1, _02170284 // =SeaMapView__sVars+0x00000008
+	ldr r3, _02170288 // =SeaMapView__sVars+0x00000004
 	mov ip, #2
 	str r0, [r1]
 	mov r2, r0
@@ -199,8 +199,8 @@ _02170274: .word SeaMapCutscene__Destructor
 _02170278: .word 0x0217E0EC
 _0217027C: .word aBbTkdmDownBb_ovl03
 _02170280: .word 0x0217E0F4
-_02170284: .word 0x02134180
-_02170288: .word 0x0213417C
+_02170284: .word SeaMapView__sVars+0x00000008
+_02170288: .word SeaMapView__sVars+0x00000004
 _0217028C: .word 0x04001008
 _02170290: .word VRAMSystem__VRAM_PALETTE_OBJ
 _02170294: .word SeaMapCutscene__TouchCallback

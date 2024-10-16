@@ -73,7 +73,7 @@ Boss4Stage__Create: // 0x0216B638
 	add r0, r4, #0x39c
 	bl BossHelpers__InitLights
 	bl BossHelpers__Model__InitSystem
-	ldr r1, _0216B89C // =0x02133A18
+	ldr r1, _0216B89C // =bossAssetFiles+0x00000010
 	mov r0, #0
 	str r1, [sp]
 	str r0, [sp, #4]
@@ -170,7 +170,7 @@ _0216B88C: .word _0217AFB0
 _0216B890: .word ovl01_216D0C8
 _0216B894: .word ovl01_216D1F4
 _0216B898: .word 0x000034CC
-_0216B89C: .word 0x02133A18
+_0216B89C: .word bossAssetFiles+0x00000010
 _0216B8A0: .word _0217ACD8
 _0216B8A4: .word gameArchiveStage
 _0216B8A8: .word aBoss4Nsbta
@@ -546,7 +546,7 @@ Boss4Core__Create: // 0x0216BCA0
 	add r5, r4, #0x3c8
 	orr r0, r0, #0x400
 	str r0, [r4, #0x270]
-	ldr r0, _0216BF84 // =0x02133A10
+	ldr r0, _0216BF84 // =bossAssetFiles+0x00000008
 	mov r3, #0
 	stmia sp, {r0, r3}
 	ldr r2, _0216BF88 // =_0217ACD8
@@ -623,7 +623,7 @@ _0216BF74: .word ovl01_216E408
 _0216BF78: .word ovl01_216E4E0
 _0216BF7C: .word ovl01_216E594
 _0216BF80: .word ovl01_216E7F4
-_0216BF84: .word 0x02133A10
+_0216BF84: .word bossAssetFiles+0x00000008
 _0216BF88: .word _0217ACD8
 _0216BF8C: .word 0x000034CC
 _0216BF90: .word gameArchiveStage
@@ -727,7 +727,7 @@ Boss4Ship__Create: // 0x0216BFA4
 	mov r0, #1
 	strh r0, [r2, #0x22]
 	ldr r0, [r2, #0x1c]
-	ldr r1, _0216C1C0 // =0x02133A18
+	ldr r1, _0216C1C0 // =bossAssetFiles+0x00000010
 	orr r0, r0, #4
 	str r0, [r2, #0x1c]
 	ldr r2, _0216C1C4 // =_0217ACD8
@@ -771,7 +771,7 @@ _0216C1B0: .word ovl01_216E118
 _0216C1B4: .word ovl01_216E170
 _0216C1B8: .word 0x00000222
 _0216C1BC: .word StageTask__DefaultDiffData
-_0216C1C0: .word 0x02133A18
+_0216C1C0: .word bossAssetFiles+0x00000010
 _0216C1C4: .word _0217ACD8
 _0216C1C8: .word 0x000034CC
 _0216C1CC: .word BossHelpers__Model__RenderCallback
@@ -861,7 +861,7 @@ Boss4Pulley__Create: // 0x0216C1D8
 	str r4, [r4, #0x234]
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
-	ldr r1, _0216C3EC // =0x02133A18
+	ldr r1, _0216C3EC // =bossAssetFiles+0x00000010
 	orr r0, r0, #4
 	str r0, [r4, #0x230]
 	ldr r0, [r4, #0x380]
@@ -915,7 +915,7 @@ _0216C3DC: .word ovl01_216DC60
 _0216C3E0: .word ovl01_216DDE0
 _0216C3E4: .word ovl01_216DEA4
 _0216C3E8: .word ovl01_216DEE8
-_0216C3EC: .word 0x02133A18
+_0216C3EC: .word bossAssetFiles+0x00000010
 _0216C3F0: .word _0217ACD8
 _0216C3F4: .word 0x000034CC
 _0216C3F8: .word BossHelpers__Model__RenderCallback

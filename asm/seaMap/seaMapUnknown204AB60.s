@@ -56,7 +56,7 @@ _0204ABC8: .word SeaMapUnknown204AB60__sVars
 	arm_func_start SeaMapUnknown204AB60__Func_204ABCC
 SeaMapUnknown204AB60__Func_204ABCC: // 0x0204ABCC
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r4, _0204AC00 // =0x02134434
+	ldr r4, _0204AC00 // =SeaMapUnknown204AB60__sVars+0x00000004
 	mov r5, r0
 	mov r1, #0
 _0204ABDC:
@@ -70,7 +70,7 @@ _0204ABDC:
 	bne _0204ABDC
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0204AC00: .word 0x02134434
+_0204AC00: .word SeaMapUnknown204AB60__sVars+0x00000004
 	arm_func_end SeaMapUnknown204AB60__Func_204ABCC
 
 	arm_func_start SeaMapUnknown204AB60__Func_204AC04
@@ -546,12 +546,12 @@ _0204B28C:
 	arm_func_start SeaMapUnknown204AB60__InitList
 SeaMapUnknown204AB60__InitList: // 0x0204B298
 	ldr ip, _0204B2A8 // =NNS_FndInitList
-	ldr r0, _0204B2AC // =0x02134434
+	ldr r0, _0204B2AC // =SeaMapUnknown204AB60__sVars+0x00000004
 	mov r1, #0
 	bx ip
 	.align 2, 0
 _0204B2A8: .word NNS_FndInitList
-_0204B2AC: .word 0x02134434
+_0204B2AC: .word SeaMapUnknown204AB60__sVars+0x00000004
 	arm_func_end SeaMapUnknown204AB60__InitList
 
 	arm_func_start SeaMapUnknown204AB60__AddObject
@@ -560,7 +560,7 @@ SeaMapUnknown204AB60__AddObject: // 0x0204B2B0
 	ldr r1, _0204B300 // =SeaMapUnknown204AB60__sVars
 	mov r6, r0
 	ldrh r0, [r1, #0xc]
-	ldr r4, _0204B304 // =0x02134434
+	ldr r4, _0204B304 // =SeaMapUnknown204AB60__sVars+0x00000004
 	cmp r0, #0x100
 	ldrhs r5, [r4, #4]
 	bhs _0204B2E8
@@ -579,14 +579,14 @@ _0204B2E8:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0204B300: .word SeaMapUnknown204AB60__sVars
-_0204B304: .word 0x02134434
+_0204B304: .word SeaMapUnknown204AB60__sVars+0x00000004
 	arm_func_end SeaMapUnknown204AB60__AddObject
 
 	arm_func_start SeaMapUnknown204AB60__RemoveAllObjects
 SeaMapUnknown204AB60__RemoveAllObjects: // 0x0204B308
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r0, _0204B344 // =SeaMapUnknown204AB60__sVars
-	ldr r4, _0204B348 // =0x02134434
+	ldr r4, _0204B348 // =SeaMapUnknown204AB60__sVars+0x00000004
 	ldr r5, [r0, #4]
 	cmp r5, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
@@ -602,7 +602,7 @@ _0204B320:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0204B344: .word SeaMapUnknown204AB60__sVars
-_0204B348: .word 0x02134434
+_0204B348: .word SeaMapUnknown204AB60__sVars+0x00000004
 	arm_func_end SeaMapUnknown204AB60__RemoveAllObjects
 
 	arm_func_start SeaMapUnknown204AB60__FindObject
@@ -611,7 +611,7 @@ SeaMapUnknown204AB60__FindObject: // 0x0204B34C
 	ldr r1, _0204B38C // =SeaMapUnknown204AB60__sVars
 	mov r5, r0
 	ldr r1, [r1, #8]
-	ldr r4, _0204B390 // =0x02134434
+	ldr r4, _0204B390 // =SeaMapUnknown204AB60__sVars+0x00000004
 	cmp r1, #0
 	beq _0204B384
 _0204B368:
@@ -627,7 +627,7 @@ _0204B384:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0204B38C: .word SeaMapUnknown204AB60__sVars
-_0204B390: .word 0x02134434
+_0204B390: .word SeaMapUnknown204AB60__sVars+0x00000004
 	arm_func_end SeaMapUnknown204AB60__FindObject
 
 	arm_func_start SeaMapUnknown204AB60__FindObject2
@@ -638,7 +638,7 @@ SeaMapUnknown204AB60__FindObject2: // 0x0204B394
 	ldr r1, [r2, #8]
 	mov r6, r0
 	cmp r1, #0
-	ldr r4, _0204B3EC // =0x02134434
+	ldr r4, _0204B3EC // =SeaMapUnknown204AB60__sVars+0x00000004
 	beq _0204B3E0
 _0204B3B4:
 	ldr r0, [r1, #0xc]
@@ -657,7 +657,7 @@ _0204B3E0:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0204B3E8: .word SeaMapUnknown204AB60__sVars
-_0204B3EC: .word 0x02134434
+_0204B3EC: .word SeaMapUnknown204AB60__sVars+0x00000004
 	arm_func_end SeaMapUnknown204AB60__FindObject2
 
 	arm_func_start SeaMapManager__GetAttribute
@@ -741,7 +741,7 @@ _0204B4E8:
 	arm_func_start SeaMapUnknown204AB60__Func_204B4F0
 SeaMapUnknown204AB60__Func_204B4F0: // 0x0204B4F0
 	ldr ip, _0204B510 // =SeaMapCourseChangeView__stru_2134440
-	ldr r3, _0204B514 // =0x02134184
+	ldr r3, _0204B514 // =SeaMapView__sVars+0x0000000C
 	stmia ip, {r0, r1}
 	ldr r1, [r3, #0]
 	ldr r0, _0204B518 // =SeaMapCourseChangeView__02134174
@@ -750,6 +750,6 @@ SeaMapUnknown204AB60__Func_204B4F0: // 0x0204B4F0
 	bx lr
 	.align 2, 0
 _0204B510: .word SeaMapCourseChangeView__stru_2134440
-_0204B514: .word 0x02134184
+_0204B514: .word SeaMapView__sVars+0x0000000C
 _0204B518: .word SeaMapCourseChangeView__02134174
 	arm_func_end SeaMapUnknown204AB60__Func_204B4F0

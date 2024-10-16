@@ -1355,7 +1355,7 @@ _02159D7C:
 ViHubAreaPreview__Func_2159D84: // 0x02159D84
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x98
-	ldr r3, _0215A004 // =0x02172D1C
+	ldr r3, _0215A004 // =ViHubAreaPreview__npcAnimIDList
 	add r5, sp, #0x38
 	mov r10, r0
 	mov r9, r1
@@ -1370,7 +1370,7 @@ _02159DA0:
 	subs r2, r2, #1
 	bne _02159DA0
 	ldrb r0, [r3, #0]
-	ldr r4, _0215A008 // =0x02172D14
+	ldr r4, _0215A008 // =ViHubAreaPreview__backgroundFileList
 	add r3, sp, #0x30
 	strb r0, [r5]
 	mov r2, #4
@@ -1399,10 +1399,10 @@ _02159DD4:
 	addge sp, sp, #0x98
 	strh r7, [r4, #0x3e]
 	ldmgeia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, _0215A00C // =0x02172D2A
+	ldr r0, _0215A00C // =ViHubAreaPreview__npcCount
 	mov r1, r9, lsl #1
 	ldrh r6, [r0, r1]
-	ldr r0, _0215A010 // =0x02172D3A
+	ldr r0, _0215A010 // =ViHubAreaPreview__npcStartID
 	cmp r6, #0
 	ldrh r8, [r0, r1]
 	ble _02159EC8
@@ -1526,10 +1526,10 @@ _02159F88:
 	add sp, sp, #0x98
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0215A004: .word 0x02172D1C
-_0215A008: .word 0x02172D14
-_0215A00C: .word 0x02172D2A
-_0215A010: .word 0x02172D3A
+_0215A004: .word ViHubAreaPreview__npcAnimIDList
+_0215A008: .word ViHubAreaPreview__backgroundFileList
+_0215A00C: .word ViHubAreaPreview__npcCount
+_0215A010: .word ViHubAreaPreview__npcStartID
 	arm_func_end ViHubAreaPreview__Func_2159D84
 
 	arm_func_start ViHubAreaPreview__Func_215A014
@@ -2984,7 +2984,7 @@ _0215B46C: .word 0x00200010
 	arm_func_start ViHubAreaPreview__Func_215B470
 ViHubAreaPreview__Func_215B470: // 0x0215B470
 	stmdb sp!, {r3, lr}
-	ldr r1, _0215B494 // =0x02172D70
+	ldr r1, _0215B494 // =ovl05_02172D70
 	cmp r0, #0
 	ldrb r0, [r1, r0]
 	bne _0215B48C
@@ -2994,7 +2994,7 @@ _0215B48C:
 	bl SaveGame__SetGameProgress
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215B494: .word 0x02172D70
+_0215B494: .word ovl05_02172D70
 	arm_func_end ViHubAreaPreview__Func_215B470
 
 	arm_func_start ViHubAreaPreview__Func_215B498
@@ -3011,14 +3011,14 @@ ViHubAreaPreview__Func_215B498: // 0x0215B498
 	ldmhsia sp!, {r4, pc}
 _0215B4C0:
 	bl SaveGame__GetGameProgress
-	ldr r1, _0215B4DC // =0x02172D70
+	ldr r1, _0215B4DC // =ovl05_02172D70
 	ldrb r1, [r1, r4]
 	cmp r0, r1
 	movge r0, #1
 	movlt r0, #0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215B4DC: .word 0x02172D70
+_0215B4DC: .word ovl05_02172D70
 	arm_func_end ViHubAreaPreview__Func_215B498
 
 	arm_func_start ViHubAreaPreview__Func_215B4E0
@@ -3026,7 +3026,7 @@ ViHubAreaPreview__Func_215B4E0: // 0x0215B4E0
 	stmdb sp!, {r3, lr}
 	bl SaveGame__GetGameProgress
 	mov r1, r0, lsl #0x10
-	ldr r3, _0215B518 // =0x02172D68
+	ldr r3, _0215B518 // =ovl05_02172D68
 	mov r0, #0
 _0215B4F4:
 	ldrb r2, [r3, #0]
@@ -3039,7 +3039,7 @@ _0215B4F4:
 	mov r0, #6
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215B518: .word 0x02172D68
+_0215B518: .word ovl05_02172D68
 	arm_func_end ViHubAreaPreview__Func_215B4E0
 
 	arm_func_start ViHubAreaPreview__Func_215B51C
@@ -3066,14 +3066,14 @@ _0215B544:
 	ldmhsia sp!, {r4, pc}
 _0215B568:
 	bl SaveGame__GetGameProgress
-	ldr r1, _0215B584 // =0x02172D78
+	ldr r1, _0215B584 // =ovl05_02172D78
 	ldrb r1, [r1, r4]
 	cmp r0, r1
 	movge r0, #1
 	movlt r0, #0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215B584: .word 0x02172D78
+_0215B584: .word ovl05_02172D78
 	arm_func_end ViHubAreaPreview__Func_215B51C
 
 	arm_func_start ViHubAreaPreview__Func_215B588
@@ -3443,19 +3443,19 @@ _0215B9C8:
 	.rodata
 
 .public ViHubAreaPreview__backgroundFileList
-ViHubAreaPreview__backgroundFileList: // 0x02172D14
+ViHubAreaPreview__backgroundFileList: // ViHubAreaPreview__backgroundFileList
 	.byte 1, 3, 4, 5, 6, 8, 7, 2
 
 .public ViHubAreaPreview__npcAnimIDList
-ViHubAreaPreview__npcAnimIDList: // 0x02172D1C
+ViHubAreaPreview__npcAnimIDList: // ViHubAreaPreview__npcAnimIDList
 	.byte 10, 8, 9, 11, 1, 2, 3, 4, 5, 6, 7, 255, 255, 0
 
 .public ViHubAreaPreview__npcCount
-ViHubAreaPreview__npcCount: // 0x02172D2A
+ViHubAreaPreview__npcCount: // ViHubAreaPreview__npcCount
 	.hword 9, 4, 3, 2, 2, 2, 0, 0
 
 .public ViHubAreaPreview__npcStartID
-ViHubAreaPreview__npcStartID: // 0x02172D3A
+ViHubAreaPreview__npcStartID: // ViHubAreaPreview__npcStartID
 	.hword 0, 9, 13, 16, 18, 20, 0, 0
 
 .public HubControl__EventList

@@ -1418,12 +1418,12 @@ _021621B8:
 	mov r0, #0x64
 	cmp r11, #0
 	mla r8, r1, r0, r7
-	ldrne r0, _0216232C // =0x02172FD0
-	ldreq r0, _02162330 // =0x02172F94
+	ldrne r0, _0216232C // =ovl05_02172FD0
+	ldreq r0, _02162330 // =ovl05_02172F94
 	ldr ip, [r0, r9, lsl #2]
 	cmp ip, #0
 	bne _02162234
-	ldr r0, _02162334 // =0x02172F1C
+	ldr r0, _02162334 // =ovl05_02172F1C
 	mov r1, r9, lsl #2
 	ldrsh r2, [r0, r1]
 	add r0, r0, r9, lsl #2
@@ -1510,9 +1510,9 @@ _02162318:
 	add sp, sp, #0x2c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0216232C: .word 0x02172FD0
-_02162330: .word 0x02172F94
-_02162334: .word 0x02172F1C
+_0216232C: .word ovl05_02172FD0
+_02162330: .word ovl05_02172F94
+_02162334: .word ovl05_02172F1C
 _02162338: .word 0x0000FFFF
 	arm_func_end ViMapBack__Func_2162158
 
@@ -1543,12 +1543,12 @@ ViMapBack__Func_216233C: // 0x0216233C
 	mov r0, #0x64
 	mla r4, r1, r0, r2
 	cmp r6, #0
-	ldrne r0, _021624F4 // =0x02172FD0
-	ldreq r0, _021624F8 // =0x02172F94
+	ldrne r0, _021624F4 // =ovl05_02172FD0
+	ldreq r0, _021624F8 // =ovl05_02172F94
 	ldr ip, [r0, r5, lsl #2]
 	cmp ip, #0
 	bne _021623EC
-	ldr r1, _021624FC // =0x02172F1C
+	ldr r1, _021624FC // =ovl05_02172F1C
 	mov r2, r5, lsl #2
 	ldrsh r5, [r1, r2]
 	ldr r0, _02162500 // =0x02172F1E
@@ -1632,9 +1632,9 @@ _021624A8:
 	add sp, sp, #0x2c
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
-_021624F4: .word 0x02172FD0
-_021624F8: .word 0x02172F94
-_021624FC: .word 0x02172F1C
+_021624F4: .word ovl05_02172FD0
+_021624F8: .word ovl05_02172F94
+_021624FC: .word ovl05_02172F1C
 _02162500: .word 0x02172F1E
 _02162504: .word 0x0000FFFF
 	arm_func_end ViMapBack__Func_216233C
@@ -1662,18 +1662,18 @@ ViMapBack__Func_2162508: // 0x02162508
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
 	ldr r0, [sp, #0x40]
 	cmp r0, #0
-	ldrne r0, _02162630 // =0x02172FD0
-	ldreq r0, _02162634 // =0x02172F94
+	ldrne r0, _02162630 // =ovl05_02172FD0
+	ldreq r0, _02162634 // =ovl05_02172F94
 	ldr ip, [r0, r2, lsl #2]
 	cmp ip, #0
 	bne _021625BC
 	ldr r0, [sp, #0x44]
 	cmp r0, #0
-	ldreq r1, _02162638 // =0x02172F1C
+	ldreq r1, _02162638 // =ovl05_02172F1C
 	moveq r2, r2, lsl #2
 	ldreq r0, _0216263C // =0x02172F1E
 	beq _02162594
-	ldr r1, _02162640 // =0x02172F58
+	ldr r1, _02162640 // =ovl05_02172F58
 	ldr r0, _02162644 // =0x02172F5A
 	mov r2, r2, lsl #2
 _02162594:
@@ -1719,11 +1719,11 @@ _02162620:
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_02162630: .word 0x02172FD0
-_02162634: .word 0x02172F94
-_02162638: .word 0x02172F1C
+_02162630: .word ovl05_02172FD0
+_02162634: .word ovl05_02172F94
+_02162638: .word ovl05_02172F1C
 _0216263C: .word 0x02172F1E
-_02162640: .word 0x02172F58
+_02162640: .word ovl05_02172F58
 _02162644: .word 0x02172F5A
 	arm_func_end ViMapBack__Func_2162508
 
@@ -1826,7 +1826,7 @@ ViMapBack__Func_2162774: // 0x02162774
 ViMapBack__Func_2162798: // 0x02162798
 	cmp r1, #0
 	beq _021627B0
-	ldr r3, _021627CC // =0x02172F58
+	ldr r3, _021627CC // =ovl05_02172F58
 	mov ip, r0, lsl #2
 	ldrsh r3, [r3, ip]
 	strh r3, [r1]
@@ -1839,7 +1839,7 @@ _021627B0:
 	strh r0, [r2]
 	bx lr
 	.align 2, 0
-_021627CC: .word 0x02172F58
+_021627CC: .word ovl05_02172F58
 _021627D0: .word 0x02172F5A
 	arm_func_end ViMapBack__Func_2162798
 

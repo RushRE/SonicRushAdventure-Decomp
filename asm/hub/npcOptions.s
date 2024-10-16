@@ -891,7 +891,7 @@ _0216E8C4:
 NpcOptions__Func_216E8F0: // 0x0216E8F0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
-	ldr r1, _0216EC40 // =0x021731B4
+	ldr r1, _0216EC40 // =ovl05_021731B4
 	mov r10, r0
 	ldrh r4, [r1, #0]
 	ldrh r3, [r1, #2]
@@ -1113,7 +1113,7 @@ _0216EC1C:
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0216EC40: .word 0x021731B4
+_0216EC40: .word ovl05_021731B4
 _0216EC44: .word 0x0000FFFF
 _0216EC48: .word 0x00003DEF
 _0216EC4C: .word 0x04001000
@@ -2658,10 +2658,10 @@ _0217012C:
 	mov r4, r0
 	ldr r3, _02170200 // =0x05000002
 	cmp r1, #2
-	ldreq r5, _02170204 // =0x021731DC
-	ldreq r6, _02170208 // =0x021731E2
-	ldrne r5, _0217020C // =0x021731E8
-	ldrne r6, _02170210 // =0x021731EE
+	ldreq r5, _02170204 // =ovl05_021731DC
+	ldreq r6, _02170208 // =ovl05_021731E2
+	ldrne r5, _0217020C // =ovl05_021731E8
+	ldrne r6, _02170210 // =ovl05_021731EE
 	cmp r7, #0
 	mov r1, #4
 	beq _021701B0
@@ -2708,10 +2708,10 @@ _021701B0:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02170200: .word 0x05000002
-_02170204: .word 0x021731DC
-_02170208: .word 0x021731E2
-_0217020C: .word 0x021731E8
-_02170210: .word 0x021731EE
+_02170204: .word ovl05_021731DC
+_02170208: .word ovl05_021731E2
+_0217020C: .word ovl05_021731E8
+_02170210: .word ovl05_021731EE
 _02170214: .word FontAnimator__Palettes+0x00000008
 _02170218: .word 0x05000022
 _0217021C: .word 0x05000042

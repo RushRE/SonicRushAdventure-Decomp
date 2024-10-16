@@ -93,7 +93,7 @@ Boss6Stage__Create: // 0x021539C4
 	bl BossHelpers__Model__InitSystem
 	mov r9, #0
 	add r0, r8, #0x158
-	ldr r7, _02153E00 // =0x02133A18
+	ldr r7, _02153E00 // =bossAssetFiles+0x00000010
 	ldr r4, _02153E04 // =_02179680
 	add r10, r0, #0x400
 	mov r6, r9
@@ -289,7 +289,7 @@ _02153DF0: .word ovl02_2156834
 _02153DF4: .word 0x00083FE0
 _02153DF8: .word 0x001EEF88
 _02153DFC: .word _02178CCC
-_02153E00: .word 0x02133A18
+_02153E00: .word bossAssetFiles+0x00000010
 _02153E04: .word _02179680
 _02153E08: .word bossAssetFiles
 _02153E0C: .word gameArchiveStage
@@ -896,7 +896,7 @@ _02154704:
 	ldr r0, [r4, #0x378]
 	cmp r0, #0
 	bne _02154754
-	ldr r1, _021547C0 // =0x02133A10
+	ldr r1, _021547C0 // =bossAssetFiles+0x00000008
 	ldr r2, _021547C4 // =_02179680
 	mov r0, r4
 	str r1, [sp]
@@ -935,7 +935,7 @@ _021547B0: .word StageTask_Main
 _021547B4: .word GameObject__Destructor
 _021547B8: .word ovl02_215B928
 _021547BC: .word ovl02_2155270
-_021547C0: .word 0x02133A10
+_021547C0: .word bossAssetFiles+0x00000008
 _021547C4: .word _02179680
 _021547C8: .word bossAssetFiles
 _021547CC: .word 0x000034CC
@@ -1029,7 +1029,7 @@ Boss6EnemyB__Create: // 0x021547D0
 	orr r1, r1, #4
 	str r1, [r4, #0x230]
 	bl ovl02_2154F7C
-	ldr r1, _021549EC // =0x02133A10
+	ldr r1, _021549EC // =bossAssetFiles+0x00000008
 	ldr r2, _021549F0 // =_02179680
 	str r1, [sp]
 	mov r5, #0
@@ -1046,7 +1046,7 @@ Boss6EnemyB__Create: // 0x021547D0
 	str r0, [r4, #0x418]
 	mov r0, #8
 	strb r0, [r4, #0x402]
-	ldr r0, _021549EC // =0x02133A10
+	ldr r0, _021549EC // =bossAssetFiles+0x00000008
 	strb r5, [r4, #0x403]
 	str r0, [sp]
 	ldr r2, _021549F0 // =_02179680
@@ -1056,7 +1056,7 @@ Boss6EnemyB__Create: // 0x021547D0
 	str r5, [sp, #4]
 	bl ObjAction3dNNModelLoad
 	mov r2, r5
-	ldr r1, _021549EC // =0x02133A10
+	ldr r1, _021549EC // =bossAssetFiles+0x00000008
 	str r2, [r4, #0x12c]
 	stmia sp, {r1, r2}
 	ldr r2, _021549F0 // =_02179680
@@ -1079,7 +1079,7 @@ _021549DC: .word ovl02_215BB18
 _021549E0: .word ovl02_215BA88
 _021549E4: .word ovl02_215BB70
 _021549E8: .word ovl02_2155270
-_021549EC: .word 0x02133A10
+_021549EC: .word bossAssetFiles+0x00000008
 _021549F0: .word _02179680
 _021549F4: .word 0x000034CC
 	arm_func_end Boss6EnemyB__Create

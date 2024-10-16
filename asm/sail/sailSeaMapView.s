@@ -7,10 +7,10 @@
 SailSeaMapView__Create: // 0x0218B41C
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
-	ldr r3, _0218B548 // =0x0213417C
+	ldr r3, _0218B548 // =SeaMapView__sVars+0x00000004
 	mov r5, #5
 	str r5, [r3]
-	ldr r2, _0218B54C // =0x02134180
+	ldr r2, _0218B54C // =SeaMapView__sVars+0x00000008
 	mov r4, #0
 	ldr r1, _0218B550 // =VRAMSystem__GFXControl
 	str r4, [r2]
@@ -81,8 +81,8 @@ SailSeaMapView__Create: // 0x0218B41C
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
-_0218B548: .word 0x0213417C
-_0218B54C: .word 0x02134180
+_0218B548: .word SeaMapView__sVars+0x00000004
+_0218B54C: .word SeaMapView__sVars+0x00000008
 _0218B550: .word VRAMSystem__GFXControl
 _0218B554: .word 0x000007CC
 _0218B558: .word SailSeaMapView__Main
@@ -240,14 +240,14 @@ SailSeaMapView__Destructor: // 0x0218B724
 	bl SeaMapUnknown204AB60__Func_204ABB0
 	mov r0, r4
 	bl SeaMapView__ReleaseAssets
-	ldr r1, _0218B754 // =0x0213417C
+	ldr r1, _0218B754 // =SeaMapView__sVars+0x00000004
 	mov r2, #0
 	ldr r0, _0218B758 // =SeaMapView__sVars
 	str r2, [r1]
 	str r2, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0218B754: .word 0x0213417C
+_0218B754: .word SeaMapView__sVars+0x00000004
 _0218B758: .word SeaMapView__sVars
 	arm_func_end SailSeaMapView__Destructor
 

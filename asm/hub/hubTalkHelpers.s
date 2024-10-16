@@ -299,7 +299,7 @@ TalkHelpers__Func_21530A8: // 0x021530A8
 	bl FX_DivS32
 	mov r1, #6
 	bl FX_ModS32
-	ldr r1, _02153320 // =0x02172420
+	ldr r1, _02153320 // =ovl05_02172420
 	mov r0, r0, lsl #1
 	ldrh r5, [r1, r0]
 	ldrh r0, [r7, #0x14]
@@ -459,7 +459,7 @@ _0215330C:
 	add sp, sp, #0x34
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
-_02153320: .word 0x02172420
+_02153320: .word ovl05_02172420
 _02153324: .word VRAMSystem__GFXControl
 _02153328: .word VRAMSystem__VRAM_BG
 	arm_func_end TalkHelpers__Func_21530A8
@@ -704,12 +704,12 @@ _02153648:
 
 	arm_func_start TalkHelpers__Func_2153650
 TalkHelpers__Func_2153650: // 0x02153650
-	ldr r1, _02153660 // =0x021725E0
+	ldr r1, _02153660 // =TalkHelpers__MesssageControlList
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
-_02153660: .word 0x021725E0
+_02153660: .word TalkHelpers__MesssageControlList
 	arm_func_end TalkHelpers__Func_2153650
 
 	arm_func_start TalkHelpers__GetInteractionID_2
@@ -951,10 +951,10 @@ _021538EC: .word 0x0000FFFF
 DockHelpers__Func_21538F0: // 0x021538F0
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
-	ldr ip, _02153944 // =0x02172524
-	ldr r1, _02153948 // =0x0217248C
-	ldr r2, _0215394C // =0x02172592
-	ldr r3, _02153950 // =0x02172468
+	ldr ip, _02153944 // =ovl05_02172524
+	ldr r1, _02153948 // =ovl05_0217248C
+	ldr r2, _0215394C // =ovl05_02172592
+	ldr r3, _02153950 // =ovl05_02172468
 	mov r0, #6
 	str ip, [sp]
 	bl MissionHelpers__Func_2153B18
@@ -972,101 +972,101 @@ _02153938:
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_02153944: .word 0x02172524
-_02153948: .word 0x0217248C
-_0215394C: .word 0x02172592
-_02153950: .word 0x02172468
+_02153944: .word ovl05_02172524
+_02153948: .word ovl05_0217248C
+_0215394C: .word ovl05_02172592
+_02153950: .word ovl05_02172468
 _02153954: .word 0x0000FFFF
 	arm_func_end DockHelpers__Func_21538F0
 
 	arm_func_start DockHelpers__Func_2153958
 DockHelpers__Func_2153958: // 0x02153958
 	stmdb sp!, {r3, lr}
-	ldr ip, _0215397C // =0x02172480
-	ldr r1, _02153980 // =0x0217243E
-	ldr r2, _02153984 // =0x021724D4
-	ldr r3, _02153988 // =0x02172438
+	ldr ip, _0215397C // =ovl05_02172480
+	ldr r1, _02153980 // =ovl05_0217243E
+	ldr r2, _02153984 // =ovl05_021724D4
+	ldr r3, _02153988 // =ovl05_02172438
 	mov r0, #3
 	str ip, [sp]
 	bl MissionHelpers__Func_2153B18
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215397C: .word 0x02172480
-_02153980: .word 0x0217243E
-_02153984: .word 0x021724D4
-_02153988: .word 0x02172438
+_0215397C: .word ovl05_02172480
+_02153980: .word ovl05_0217243E
+_02153984: .word ovl05_021724D4
+_02153988: .word ovl05_02172438
 	arm_func_end DockHelpers__Func_2153958
 
 	arm_func_start DockHelpers__Func_215398C
 DockHelpers__Func_215398C: // 0x0215398C
 	stmdb sp!, {r3, lr}
-	ldr ip, _021539B0 // =0x021724F8
-	ldr r1, _021539B4 // =0x0217245E
-	ldr r2, _021539B8 // =0x02172574
-	ldr r3, _021539BC // =0x02172454
+	ldr ip, _021539B0 // =ovl05_021724F8
+	ldr r1, _021539B4 // =ovl05_0217245E
+	ldr r2, _021539B8 // =ovl05_02172574
+	ldr r3, _021539BC // =ovl05_02172454
 	mov r0, #5
 	str ip, [sp]
 	bl MissionHelpers__Func_2153B18
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_021539B0: .word 0x021724F8
-_021539B4: .word 0x0217245E
-_021539B8: .word 0x02172574
-_021539BC: .word 0x02172454
+_021539B0: .word ovl05_021724F8
+_021539B4: .word ovl05_0217245E
+_021539B8: .word ovl05_02172574
+_021539BC: .word ovl05_02172454
 	arm_func_end DockHelpers__Func_215398C
 
 	arm_func_start DockHelpers__Func_21539C0
 DockHelpers__Func_21539C0: // 0x021539C0
 	stmdb sp!, {r3, lr}
-	ldr ip, _021539E4 // =0x0217253C
+	ldr ip, _021539E4 // =ovl05_0217253C
 	ldr r1, _021539E8 // =DockHelpers__BlazeMissionIDs
-	ldr r2, _021539EC // =0x021725B6
-	ldr r3, _021539F0 // =0x02172498
+	ldr r2, _021539EC // =ovl05_021725B6
+	ldr r3, _021539F0 // =ovl05_02172498
 	mov r0, #7
 	str ip, [sp]
 	bl MissionHelpers__Func_2153B18
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_021539E4: .word 0x0217253C
+_021539E4: .word ovl05_0217253C
 _021539E8: .word DockHelpers__BlazeMissionIDs
-_021539EC: .word 0x021725B6
-_021539F0: .word 0x02172498
+_021539EC: .word ovl05_021725B6
+_021539F0: .word ovl05_02172498
 	arm_func_end DockHelpers__Func_21539C0
 
 	arm_func_start DockHelpers__Func_21539F4
 DockHelpers__Func_21539F4: // 0x021539F4
 	stmdb sp!, {r3, lr}
-	ldr ip, _02153A18 // =0x02172474
-	ldr r1, _02153A1C // =0x02172432
-	ldr r2, _02153A20 // =0x021724E6
-	ldr r3, _02153A24 // =0x0217242C
+	ldr ip, _02153A18 // =ovl05_02172474
+	ldr r1, _02153A1C // =ovl05_02172432
+	ldr r2, _02153A20 // =ovl05_021724E6
+	ldr r3, _02153A24 // =ovl05_0217242C
 	mov r0, #3
 	str ip, [sp]
 	bl MissionHelpers__Func_2153B18
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02153A18: .word 0x02172474
-_02153A1C: .word 0x02172432
-_02153A20: .word 0x021724E6
-_02153A24: .word 0x0217242C
+_02153A18: .word ovl05_02172474
+_02153A1C: .word ovl05_02172432
+_02153A20: .word ovl05_021724E6
+_02153A24: .word ovl05_0217242C
 	arm_func_end DockHelpers__Func_21539F4
 
 	arm_func_start DockHelpers__Func_2153A28
 DockHelpers__Func_2153A28: // 0x02153A28
 	stmdb sp!, {r3, lr}
-	ldr ip, _02153A4C // =0x021724B4
-	ldr r1, _02153A50 // =0x0217244C
-	ldr r2, _02153A54 // =0x0217250C
-	ldr r3, _02153A58 // =0x02172444
+	ldr ip, _02153A4C // =ovl05_021724B4
+	ldr r1, _02153A50 // =ovl05_0217244C
+	ldr r2, _02153A54 // =ovl05_0217250C
+	ldr r3, _02153A58 // =ovl05_02172444
 	mov r0, #4
 	str ip, [sp]
 	bl MissionHelpers__Func_2153B18
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02153A4C: .word 0x021724B4
-_02153A50: .word 0x0217244C
-_02153A54: .word 0x0217250C
-_02153A58: .word 0x02172444
+_02153A4C: .word ovl05_021724B4
+_02153A50: .word ovl05_0217244C
+_02153A54: .word ovl05_0217250C
+_02153A58: .word ovl05_02172444
 	arm_func_end DockHelpers__Func_2153A28
 
 	.rodata
@@ -1202,7 +1202,7 @@ ovl05_021725B6: // 0x021725B6
 	.hword 0x24, 4, 6
 
 .public TalkHelpers__MesssageControlList
-TalkHelpers__MesssageControlList: // 0x021725E0
+TalkHelpers__MesssageControlList: // TalkHelpers__MesssageControlList
 	.hword 0x00, 0x01, 0x02, 0x04
 	.hword 0x05, 0x03, 0x05, 0xFFFF
 	.hword 0xFFFF, 0x00, 0x01

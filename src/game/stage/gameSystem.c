@@ -1974,7 +1974,7 @@ _02003FA8:
 	bl ObjPacket__Init
 	b _02003FE8
 _02003FD8:
-	ldr r1, =0x0213640C
+	ldr r1, =whConfig+0x0000000C
 	ldrh r2, [r1, #0]
 	mov r1, r0
 	bl ObjPacket__Init

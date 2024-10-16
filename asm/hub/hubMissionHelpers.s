@@ -6,7 +6,7 @@
 	arm_func_start MissionHelpers__Func_2153A5C
 MissionHelpers__Func_2153A5C: // 0x02153A5C
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r4, _02153AA8 // =0x02172A9E
+	ldr r4, _02153AA8 // =Mission__PostGameMissionList1
 	mov r5, #0
 _02153A68:
 	mov r0, r5, lsl #1
@@ -27,7 +27,7 @@ _02153A94:
 	ldr r0, _02153AAC // =0x0000FFFF
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02153AA8: .word 0x02172A9E
+_02153AA8: .word Mission__PostGameMissionList1
 _02153AAC: .word 0x0000FFFF
 	arm_func_end MissionHelpers__Func_2153A5C
 
@@ -39,22 +39,22 @@ MissionHelpers__PostGameMissionCount1: // 0x02153AB0
 
 	arm_func_start MissionHelpers__GetPostGameMission1
 MissionHelpers__GetPostGameMission1: // 0x02153AB8
-	ldr r1, _02153AC8 // =0x02172A9E
+	ldr r1, _02153AC8 // =Mission__PostGameMissionList1
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
-_02153AC8: .word 0x02172A9E
+_02153AC8: .word Mission__PostGameMissionList1
 	arm_func_end MissionHelpers__GetPostGameMission1
 
 	arm_func_start MissionHelpers__GetPostGameMissionFlag1
 MissionHelpers__GetPostGameMissionFlag1: // 0x02153ACC
-	ldr r1, _02153ADC // =0x02172A2C
+	ldr r1, _02153ADC // =Mission__PostGameMissionFlagList1
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
-_02153ADC: .word 0x02172A2C
+_02153ADC: .word Mission__PostGameMissionFlagList1
 	arm_func_end MissionHelpers__GetPostGameMissionFlag1
 
 	arm_func_start MissionHelpers__PostGameMissionCount2
@@ -65,12 +65,12 @@ MissionHelpers__PostGameMissionCount2: // 0x02153AE0
 
 	arm_func_start MissionHelpers__GetPostGameMission2
 MissionHelpers__GetPostGameMission2: // 0x02153AE8
-	ldr r1, _02153AF8 // =0x02172558
+	ldr r1, _02153AF8 // =DockHelpers__PostGameMissionList2
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
-_02153AF8: .word 0x02172558
+_02153AF8: .word DockHelpers__PostGameMissionList2
 	arm_func_end MissionHelpers__GetPostGameMission2
 
 	arm_func_start MissionHelpers__BlazeMissionCount
@@ -81,12 +81,12 @@ MissionHelpers__BlazeMissionCount: // 0x02153AFC
 
 	arm_func_start MissionHelpers__IsBlazeMission
 MissionHelpers__IsBlazeMission: // 0x02153B04
-	ldr r1, _02153B14 // =0x021724A6
+	ldr r1, _02153B14 // =DockHelpers__BlazeMissionIDs
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
-_02153B14: .word 0x021724A6
+_02153B14: .word DockHelpers__BlazeMissionIDs
 	arm_func_end MissionHelpers__IsBlazeMission
 
 	arm_func_start MissionHelpers__Func_2153B18
@@ -160,7 +160,7 @@ _02153BF4: .word 0x0000FFFF
 MissionHelpers__Func_2153BF8: // 0x02153BF8
 	stmdb sp!, {lr}
 	sub sp, sp, #0x14
-	ldr ip, _02153CE4 // =0x021724C4
+	ldr ip, _02153CE4 // =ovl05_021724C4
 	add r3, sp, #4
 	mov r2, #4
 _02153C0C:
@@ -225,7 +225,7 @@ _02153CA4:
 	add sp, sp, #0x14
 	ldmia sp!, {pc}
 	.align 2, 0
-_02153CE4: .word 0x021724C4
+_02153CE4: .word ovl05_021724C4
 _02153CE8: .word 0x0000FFFF
 	arm_func_end MissionHelpers__Func_2153BF8
 
@@ -516,12 +516,12 @@ _02154020: .word gameState
 
 	arm_func_start MissionHelpers__GetMissionFromSelection_REAL
 MissionHelpers__GetMissionFromSelection_REAL: // 0x02154024
-	ldr r1, _02154034 // =0x02172B74
+	ldr r1, _02154034 // =MissionHelpers__missionIndexFromSelection
 	mov r0, r0, lsl #1
 	ldrh r0, [r1, r0]
 	bx lr
 	.align 2, 0
-_02154034: .word 0x02172B74
+_02154034: .word MissionHelpers__missionIndexFromSelection
 	arm_func_end MissionHelpers__GetMissionFromSelection_REAL
 
 	arm_func_start MissionHelpers__HandlePostGameMissionBeaten
@@ -781,17 +781,17 @@ _0215434C: .word 0x0000FFFF
 
 	arm_func_start MissionHelpers__GetUnknown2172B10
 MissionHelpers__GetUnknown2172B10: // 0x02154350
-	ldr r1, _0215435C // =0x02172B10
+	ldr r1, _0215435C // =Mission__unknown2172B10
 	ldrb r0, [r1, r0]
 	bx lr
 	.align 2, 0
-_0215435C: .word 0x02172B10
+_0215435C: .word Mission__unknown2172B10
 	arm_func_end MissionHelpers__GetUnknown2172B10
 	
 	.rodata
 
 .public Mission__PostGameMissionFlagList1
-Mission__PostGameMissionFlagList1: // 0x02172A2C
+Mission__PostGameMissionFlagList1: // Mission__PostGameMissionFlagList1
 	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
 	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
 	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
@@ -802,7 +802,7 @@ Mission__PostGameMissionFlagList1: // 0x02172A2C
 	.hword 0xFFFF, 3, 4, 5, 9, 0xB, 0xC, 0xD
 
 .public Mission__PostGameMissionList1
-Mission__PostGameMissionList1: // 0x02172A9E
+Mission__PostGameMissionList1: // Mission__PostGameMissionList1
 	.hword 0, 1, 3, 4, 5, 8, 0xA, 0xB, 0xC, 0xE, 0xF, 0x12, 0x14
 	.hword 0x15, 0x16, 0x18, 0x19, 0x1C, 0x1E, 0x1F, 0x20, 0x22
 	.hword 0x23, 0x26, 0x28, 0x29, 0x2A, 0x2C, 0x2D, 0x2E, 0x32
@@ -811,7 +811,7 @@ Mission__PostGameMissionList1: // 0x02172A9E
 	.hword 0x4C, 0x4E, 0x50, 0x52, 0x57, 0x5A, 0x5C, 0x5E
 	
 .public Mission__unknown2172B10
-Mission__unknown2172B10: // 0x02172B10
+Mission__unknown2172B10: // Mission__unknown2172B10
 	.byte 5, 4, 4, 7, 4, 9, 7, 4, 9, 7, 8, 9, 7, 8, 4, 5, 7
 	.byte 4, 9, 5, 8, 10, 10, 2, 10, 10, 10, 2, 10, 10, 10, 10
 	.byte 2, 10, 10, 2, 10, 10, 10, 10, 2, 10, 10, 2, 10, 10
@@ -821,7 +821,7 @@ Mission__unknown2172B10: // 0x02172B10
 	.byte 10, 10, 10, 10, 10, 10, 10, 3, 3, 3, 3, 2
 
 .public MissionHelpers__missionIndexFromSelection
-MissionHelpers__missionIndexFromSelection: // 0x02172B74
+MissionHelpers__missionIndexFromSelection: // MissionHelpers__missionIndexFromSelection
 	.hword 9, 83, 84, 19, 79, 6, 77, 89, 16, 29, 39, 26, 86, 88
 	.hword 93, 59, 81, 85, 36, 49, 91, 0, 1, 2, 3, 4, 5, 7, 8
 	.hword 10, 11, 12, 13, 14, 15, 17, 18, 20, 21, 22, 23, 24

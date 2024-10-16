@@ -26,42 +26,42 @@ _02067154: // jump table
 	b _020671E4 // case 7
 _02067174:
 	ldr r3, _02067370 // =_AllocHeadHEAP_SYSTEM
-	ldr r2, _02067374 // =0x02136420
+	ldr r2, _02067374 // =whConfig+0x00000020
 	str r3, [r2]
 	b _020671F0
 _02067184:
 	ldr r3, _02067378 // =_AllocTailHEAP_SYSTEM
-	ldr r2, _02067374 // =0x02136420
+	ldr r2, _02067374 // =whConfig+0x00000020
 	str r3, [r2]
 	b _020671F0
 _02067194:
 	ldr r3, _0206737C // =_AllocHeadHEAP_USER
-	ldr r2, _02067374 // =0x02136420
+	ldr r2, _02067374 // =whConfig+0x00000020
 	str r3, [r2]
 	b _020671F0
 _020671A4:
 	ldr r3, _02067380 // =_AllocTailHEAP_USER
-	ldr r2, _02067374 // =0x02136420
+	ldr r2, _02067374 // =whConfig+0x00000020
 	str r3, [r2]
 	b _020671F0
 _020671B4:
 	ldr r3, _02067384 // =_AllocHeadHEAP_ITCM
-	ldr r2, _02067374 // =0x02136420
+	ldr r2, _02067374 // =whConfig+0x00000020
 	str r3, [r2]
 	b _020671F0
 _020671C4:
 	ldr r3, _02067388 // =_AllocTailHEAP_ITCM
-	ldr r2, _02067374 // =0x02136420
+	ldr r2, _02067374 // =whConfig+0x00000020
 	str r3, [r2]
 	b _020671F0
 _020671D4:
 	ldr r3, _0206738C // =_AllocHeadHEAP_DTCM
-	ldr r2, _02067374 // =0x02136420
+	ldr r2, _02067374 // =whConfig+0x00000020
 	str r3, [r2]
 	b _020671F0
 _020671E4:
 	ldr r3, _02067390 // =_AllocTailHEAP_DTCM
-	ldr r2, _02067374 // =0x02136420
+	ldr r2, _02067374 // =whConfig+0x00000020
 	str r3, [r2]
 _020671F0:
 	cmp r0, #7
@@ -78,22 +78,22 @@ _020671FC: // jump table
 	b _0206724C // case 7
 _0206721C:
 	ldr r2, _02067394 // =_FreeHEAP_SYSTEM
-	ldr r0, _02067398 // =0x02136440
+	ldr r0, _02067398 // =whConfig+0x00000040
 	str r2, [r0]
 	b _02067258
 _0206722C:
 	ldr r2, _0206739C // =_FreeHEAP_USER
-	ldr r0, _02067398 // =0x02136440
+	ldr r0, _02067398 // =whConfig+0x00000040
 	str r2, [r0]
 	b _02067258
 _0206723C:
 	ldr r2, _020673A0 // =_FreeHEAP_ITCM
-	ldr r0, _02067398 // =0x02136440
+	ldr r0, _02067398 // =whConfig+0x00000040
 	str r2, [r0]
 	b _02067258
 _0206724C:
 	ldr r2, _020673A4 // =_FreeHEAP_DTCM
-	ldr r0, _02067398 // =0x02136440
+	ldr r0, _02067398 // =whConfig+0x00000040
 	str r2, [r0]
 _02067258:
 	cmp r1, #7
@@ -110,42 +110,42 @@ _02067264: // jump table
 	b _020672F4 // case 7
 _02067284:
 	ldr r2, _02067370 // =_AllocHeadHEAP_SYSTEM
-	ldr r0, _020673A8 // =0x02139274
+	ldr r0, _020673A8 // =wfsi_task+0x000004C8
 	str r2, [r0]
 	b _02067300
 _02067294:
 	ldr r2, _02067378 // =_AllocTailHEAP_SYSTEM
-	ldr r0, _020673A8 // =0x02139274
+	ldr r0, _020673A8 // =wfsi_task+0x000004C8
 	str r2, [r0]
 	b _02067300
 _020672A4:
 	ldr r2, _0206737C // =_AllocHeadHEAP_USER
-	ldr r0, _020673A8 // =0x02139274
+	ldr r0, _020673A8 // =wfsi_task+0x000004C8
 	str r2, [r0]
 	b _02067300
 _020672B4:
 	ldr r2, _02067380 // =_AllocTailHEAP_USER
-	ldr r0, _020673A8 // =0x02139274
+	ldr r0, _020673A8 // =wfsi_task+0x000004C8
 	str r2, [r0]
 	b _02067300
 _020672C4:
 	ldr r2, _02067384 // =_AllocHeadHEAP_ITCM
-	ldr r0, _020673A8 // =0x02139274
+	ldr r0, _020673A8 // =wfsi_task+0x000004C8
 	str r2, [r0]
 	b _02067300
 _020672D4:
 	ldr r2, _02067388 // =_AllocTailHEAP_ITCM
-	ldr r0, _020673A8 // =0x02139274
+	ldr r0, _020673A8 // =wfsi_task+0x000004C8
 	str r2, [r0]
 	b _02067300
 _020672E4:
 	ldr r2, _0206738C // =_AllocHeadHEAP_DTCM
-	ldr r0, _020673A8 // =0x02139274
+	ldr r0, _020673A8 // =wfsi_task+0x000004C8
 	str r2, [r0]
 	b _02067300
 _020672F4:
 	ldr r2, _02067390 // =_AllocTailHEAP_DTCM
-	ldr r0, _020673A8 // =0x02139274
+	ldr r0, _020673A8 // =wfsi_task+0x000004C8
 	str r2, [r0]
 _02067300:
 	cmp r1, #7
@@ -183,7 +183,7 @@ _0206735C:
 	.align 2, 0
 _0206736C: .word WirelessManager__sVars
 _02067370: .word _AllocHeadHEAP_SYSTEM
-_02067374: .word 0x02136420
+_02067374: .word whConfig+0x00000020
 _02067378: .word _AllocTailHEAP_SYSTEM
 _0206737C: .word _AllocHeadHEAP_USER
 _02067380: .word _AllocTailHEAP_USER
@@ -192,11 +192,11 @@ _02067388: .word _AllocTailHEAP_ITCM
 _0206738C: .word _AllocHeadHEAP_DTCM
 _02067390: .word _AllocTailHEAP_DTCM
 _02067394: .word _FreeHEAP_SYSTEM
-_02067398: .word 0x02136440
+_02067398: .word whConfig+0x00000040
 _0206739C: .word _FreeHEAP_USER
 _020673A0: .word _FreeHEAP_ITCM
 _020673A4: .word _FreeHEAP_DTCM
-_020673A8: .word 0x02139274
+_020673A8: .word wfsi_task+0x000004C8
 _020673AC: .word dword_213927C
 	arm_func_end WirelessManager__InitAllocator
 
@@ -1598,8 +1598,8 @@ _02068588:
 	mov r8, #0
 	ldr r5, _020685F4 // =WirelessManager__sendBufferQueue
 	mov r4, r8
-	ldr r7, _020685F8 // =0x0213640C
-	ldr r6, _020685FC // =0x02136410
+	ldr r7, _020685F8 // =whConfig+0x0000000C
+	ldr r6, _020685FC // =whConfig+0x00000010
 	b _020685D8
 _020685A0:
 	mov r0, r8
@@ -1628,8 +1628,8 @@ _020685D8:
 _020685EC: .word WirelessManager__sendBuffer
 _020685F0: .word WirelessManager__sVars
 _020685F4: .word WirelessManager__sendBufferQueue
-_020685F8: .word 0x0213640C
-_020685FC: .word 0x02136410
+_020685F8: .word whConfig+0x0000000C
+_020685FC: .word whConfig+0x00000010
 	arm_func_end Task__Unknown2068430__Main
 
 	arm_func_start Task__Unknown2068430__Destructor
@@ -4059,7 +4059,7 @@ _0206A45C:
 _0206A478:
 	mov r0, #2
 	bl WH_ChangeSysState
-	ldr r0, _0206A524 // =0x02136500
+	ldr r0, _0206A524 // =sBssDesc+0x00000020
 	mov r3, #1
 	strh r3, [r0, #0x16]
 	ldrh r2, [r5, #4]
@@ -4103,7 +4103,7 @@ _0206A4F8:
 _0206A518: .word whConfig
 _0206A51C: .word aRecvBufferSize
 _0206A520: .word aSendBufferSize
-_0206A524: .word 0x02136500
+_0206A524: .word sBssDesc+0x00000020
 _0206A528: .word aWfsInitchildCa
 _0206A52C: .word WH_Alloc
 	arm_func_end WH_ChildConnectAuto
@@ -8173,11 +8173,11 @@ _0206DA60: .word wfsi_work
 	arm_func_start WFSi_NotifyBusy
 WFSi_NotifyBusy: // 0x0206DA64
 	ldr ip, _0206DA70 // =OS_WakeupThreadDirect
-	ldr r0, _0206DA74 // =0x021391AC
+	ldr r0, _0206DA74 // =wfsi_task+0x00000400
 	bx ip
 	.align 2, 0
 _0206DA70: .word OS_WakeupThreadDirect
-_0206DA74: .word 0x021391AC
+_0206DA74: .word wfsi_task+0x00000400
 	arm_func_end WFSi_NotifyBusy
 
 	arm_func_start WFSi_TaskThread
@@ -8359,13 +8359,13 @@ _0206DCAC:
 	add r3, r3, #4
 	subs r2, r2, #1
 	bne _0206DCAC
-	ldr r0, _0206DD3C // =0x02139274
+	ldr r0, _0206DD3C // =wfsi_task+0x000004C8
 	ldrh r2, [ip]
 	ldr r1, [r0, #0]
 	mov r0, #0xc000
 	strh r2, [r3]
 	blx r1
-	ldr r1, _0206DD3C // =0x02139274
+	ldr r1, _0206DD3C // =wfsi_task+0x000004C8
 	mov r2, #2
 	str r0, [r1, #0xc]
 	str r2, [sp]
@@ -8389,7 +8389,7 @@ _0206DD14:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0206DD38: .word mbpState
-_0206DD3C: .word 0x02139274
+_0206DD3C: .word wfsi_task+0x000004C8
 _0206DD40: .word MBPi_ParentStateCallback
 	arm_func_end MBP_Init
 
@@ -8445,11 +8445,11 @@ _0206DDD4:
 	bl MB_GetSegmentLength
 	movs r7, r0
 	beq _0206DE40
-	ldr r1, _0206DE5C // =0x02139274
+	ldr r1, _0206DE5C // =wfsi_task+0x000004C8
 	ldr r1, [r1, #0]
 	blx r1
 	movs r1, r0
-	ldr r0, _0206DE5C // =0x02139274
+	ldr r0, _0206DE5C // =wfsi_task+0x000004C8
 	str r1, [r0, #4]
 	beq _0206DE40
 	mov r0, r4
@@ -8457,7 +8457,7 @@ _0206DDD4:
 	bl MB_ReadSegment
 	cmp r0, #0
 	beq _0206DE2C
-	ldr r1, _0206DE5C // =0x02139274
+	ldr r1, _0206DE5C // =wfsi_task+0x000004C8
 	mov r0, r6
 	ldr r1, [r1, #4]
 	bl MB_UnregisterFile
@@ -8466,7 +8466,7 @@ _0206DDD4:
 _0206DE2C:
 	cmp r5, #0
 	bne _0206DE40
-	ldr r1, _0206DE5C // =0x02139274
+	ldr r1, _0206DE5C // =wfsi_task+0x000004C8
 	ldmib r1, {r0, r1}
 	blx r1
 _0206DE40:
@@ -8479,7 +8479,7 @@ _0206DE50:
 	add sp, sp, #0x48
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_0206DE5C: .word 0x02139274
+_0206DE5C: .word wfsi_task+0x000004C8
 	arm_func_end MBP_RegistFile
 
 	arm_func_start MBP_AcceptChild
@@ -8494,7 +8494,7 @@ MBP_AcceptChild: // 0x0206DE60
 	mvn r0, r0, lsl r4
 	mov r5, r0, lsl #0x10
 	bl OS_DisableInterrupts
-	ldr r1, _0206DEE4 // =0x02139274
+	ldr r1, _0206DEE4 // =wfsi_task+0x000004C8
 	ldrh r2, [r1, #0x12]
 	and r2, r2, r5, lsr #16
 	strh r2, [r1, #0x12]
@@ -8518,7 +8518,7 @@ MBP_AcceptChild: // 0x0206DE60
 	bl MB_DisconnectChild
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0206DEE4: .word 0x02139274
+_0206DEE4: .word wfsi_task+0x000004C8
 	arm_func_end MBP_AcceptChild
 
 	arm_func_start MBP_KickChild
@@ -8533,7 +8533,7 @@ MBP_KickChild: // 0x0206DEE8
 	mvn r0, r0, lsl r4
 	mov r5, r0, lsl #0x10
 	bl OS_DisableInterrupts
-	ldr r1, _0206DF9C // =0x02139274
+	ldr r1, _0206DF9C // =wfsi_task+0x000004C8
 	ldrh r2, [r1, #0x12]
 	and r2, r2, r5, lsr #16
 	strh r2, [r1, #0x12]
@@ -8558,7 +8558,7 @@ MBP_KickChild: // 0x0206DEE8
 	ldmia sp!, {r3, r4, r5, pc}
 _0206DF6C:
 	bl OS_DisableInterrupts
-	ldr r1, _0206DF9C // =0x02139274
+	ldr r1, _0206DF9C // =wfsi_task+0x000004C8
 	mov r3, #1
 	ldrh r2, [r1, #0x14]
 	mvn r3, r3, lsl r4
@@ -8570,7 +8570,7 @@ _0206DF6C:
 	bl OS_RestoreInterrupts
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0206DF9C: .word 0x02139274
+_0206DF9C: .word wfsi_task+0x000004C8
 	arm_func_end MBP_KickChild
 
 	arm_func_start MBP_StartDownload
@@ -8585,7 +8585,7 @@ MBP_StartDownload: // 0x0206DFA0
 	mvn r0, r0, lsl r4
 	mov r5, r0, lsl #0x10
 	bl OS_DisableInterrupts
-	ldr r1, _0206E054 // =0x02139274
+	ldr r1, _0206E054 // =wfsi_task+0x000004C8
 	ldrh r2, [r1, #0x12]
 	and r2, r2, r5, lsr #16
 	strh r2, [r1, #0x12]
@@ -8610,7 +8610,7 @@ MBP_StartDownload: // 0x0206DFA0
 	ldmia sp!, {r3, r4, r5, pc}
 _0206E024:
 	bl OS_DisableInterrupts
-	ldr r1, _0206E054 // =0x02139274
+	ldr r1, _0206E054 // =wfsi_task+0x000004C8
 	mov r5, #1
 	ldrh r3, [r1, #0x16]
 	mvn r2, r5, lsl r4
@@ -8622,7 +8622,7 @@ _0206E024:
 	bl OS_RestoreInterrupts
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0206E054: .word 0x02139274
+_0206E054: .word wfsi_task+0x000004C8
 	arm_func_end MBP_StartDownload
 
 	arm_func_start MBP_StartDownloadAll
@@ -8631,7 +8631,7 @@ MBP_StartDownloadAll: // 0x0206E058
 	mov r0, #3
 	bl MBP_ChangeState
 	mov r5, #1
-	ldr r7, _0206E104 // =0x02139274
+	ldr r7, _0206E104 // =wfsi_task+0x000004C8
 	mov r4, r5
 _0206E070:
 	ldrh r0, [r7, #0x12]
@@ -8673,13 +8673,13 @@ _0206E0EC:
 	blo _0206E070
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_0206E104: .word 0x02139274
+_0206E104: .word wfsi_task+0x000004C8
 	arm_func_end MBP_StartDownloadAll
 
 	arm_func_start MBP_IsBootableAll
 MBP_IsBootableAll: // 0x0206E108
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r4, _0206E164 // =0x02139274
+	ldr r4, _0206E164 // =wfsi_task+0x000004C8
 	ldrh r0, [r4, #0x12]
 	cmp r0, #0
 	moveq r0, #0
@@ -8704,14 +8704,14 @@ _0206E148:
 	mov r0, #1
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0206E164: .word 0x02139274
+_0206E164: .word wfsi_task+0x000004C8
 	arm_func_end MBP_IsBootableAll
 
 	arm_func_start MBP_StartRebootAll
 MBP_StartRebootAll: // 0x0206E168
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r7, #1
-	ldr r4, _0206E240 // =0x02139274
+	ldr r4, _0206E240 // =wfsi_task+0x000004C8
 	mov r8, #0
 	mov r5, #3
 	mov r6, r7
@@ -8767,7 +8767,7 @@ _0206E234:
 	bl MBP_ChangeState
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
-_0206E240: .word 0x02139274
+_0206E240: .word wfsi_task+0x000004C8
 	arm_func_end MBP_StartRebootAll
 
 	arm_func_start MBP_Cancel
@@ -8782,7 +8782,7 @@ MBP_Cancel: // 0x0206E244
 	arm_func_start MBPi_CheckAllReboot
 MBPi_CheckAllReboot: // 0x0206E258
 	stmdb sp!, {r3, lr}
-	ldr r0, _0206E280 // =0x02139274
+	ldr r0, _0206E280 // =wfsi_task+0x000004C8
 	ldrh r1, [r0, #0x10]
 	cmp r1, #4
 	ldreqh r1, [r0, #0x12]
@@ -8792,7 +8792,7 @@ MBPi_CheckAllReboot: // 0x0206E258
 	bl MB_End
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206E280: .word 0x02139274
+_0206E280: .word wfsi_task+0x000004C8
 	arm_func_end MBPi_CheckAllReboot
 
 	arm_func_start MBPi_ParentStateCallback
@@ -8824,7 +8824,7 @@ _0206E2D8:
 	cmp r0, #2
 	ldmneia sp!, {r3, r4, r5, pc}
 	bl OS_DisableInterrupts
-	ldr r1, _0206E568 // =0x02139274
+	ldr r1, _0206E568 // =wfsi_task+0x000004C8
 	mov r2, #1
 	ldrh r3, [r1, #0x12]
 	orr r2, r3, r2, lsl r5
@@ -8834,19 +8834,19 @@ _0206E2D8:
 	mov r0, #0x1e
 	mul r0, r1, r0
 	ldrb r3, [r4, #0xa]
-	ldr r1, _0206E56C // =0x021392A8
-	ldr r2, _0206E570 // =0x021392A9
+	ldr r1, _0206E56C // =childInfo+0x00000016
+	ldr r2, _0206E570 // =childInfo+0x00000017
 	strb r3, [r1, r0]
 	ldrb r3, [r4, #0xb]
-	ldr r1, _0206E574 // =0x021392AA
-	ldr ip, _0206E578 // =0x021392AB
+	ldr r1, _0206E574 // =childInfo+0x00000018
+	ldr ip, _0206E578 // =childInfo+0x00000019
 	strb r3, [r2, r0]
 	ldrb lr, [r4, #0xc]
-	ldr r3, _0206E57C // =0x021392AC
-	ldr r2, _0206E580 // =0x021392AD
+	ldr r3, _0206E57C // =childInfo+0x0000001A
+	ldr r2, _0206E580 // =childInfo+0x0000001B
 	strb lr, [r1, r0]
 	ldrb lr, [r4, #0xd]
-	ldr r1, _0206E584 // =0x021392AE
+	ldr r1, _0206E584 // =childInfo+0x0000001C
 	strb lr, [ip, r0]
 	ldrb ip, [r4, #0xe]
 	strb ip, [r3, r0]
@@ -8862,7 +8862,7 @@ _0206E360:
 	mvn r0, r0, lsl r5
 	mov r4, r0, lsl #0x10
 	bl OS_DisableInterrupts
-	ldr r1, _0206E568 // =0x02139274
+	ldr r1, _0206E568 // =wfsi_task+0x000004C8
 	ldrh r2, [r1, #0x12]
 	and r2, r2, r4, lsr #16
 	strh r2, [r1, #0x12]
@@ -8892,7 +8892,7 @@ _0206E3D4:
 	bl MBP_KickChild
 	ldmia sp!, {r3, r4, r5, pc}
 _0206E3EC:
-	ldr r1, _0206E568 // =0x02139274
+	ldr r1, _0206E568 // =wfsi_task+0x000004C8
 	mov r2, #1
 	ldrh r3, [r1, #0x14]
 	mov r0, r5
@@ -8911,7 +8911,7 @@ _0206E3EC:
 	bl MI_CpuCopy8
 	ldmia sp!, {r3, r4, r5, pc}
 _0206E434:
-	ldr r1, _0206E568 // =0x02139274
+	ldr r1, _0206E568 // =wfsi_task+0x000004C8
 	mov r4, #1
 	ldrh r3, [r1, #0x14]
 	mvn r2, r4, lsl r5
@@ -8923,7 +8923,7 @@ _0206E434:
 	bl MBP_StartDownload
 	ldmia sp!, {r3, r4, r5, pc}
 _0206E460:
-	ldr r0, _0206E568 // =0x02139274
+	ldr r0, _0206E568 // =wfsi_task+0x000004C8
 	mov r3, #1
 	ldrh r2, [r0, #0x18]
 	mvn r1, r3, lsl r5
@@ -8934,7 +8934,7 @@ _0206E460:
 	strh r1, [r0, #0x1a]
 	ldmia sp!, {r3, r4, r5, pc}
 _0206E488:
-	ldr r0, _0206E568 // =0x02139274
+	ldr r0, _0206E568 // =wfsi_task+0x000004C8
 	mov r3, #1
 	ldrh r2, [r0, #0x1a]
 	mvn r1, r3, lsl r5
@@ -8956,23 +8956,23 @@ _0206E4CC:
 	mov r0, #0
 	bl MBP_ChangeState
 _0206E4D4:
-	ldr r1, _0206E568 // =0x02139274
+	ldr r1, _0206E568 // =wfsi_task+0x000004C8
 	ldr r0, [r1, #4]
 	cmp r0, #0
 	beq _0206E4F8
 	ldr r1, [r1, #8]
 	blx r1
-	ldr r0, _0206E568 // =0x02139274
+	ldr r0, _0206E568 // =wfsi_task+0x000004C8
 	mov r1, #0
 	str r1, [r0, #4]
 _0206E4F8:
-	ldr r1, _0206E568 // =0x02139274
+	ldr r1, _0206E568 // =wfsi_task+0x000004C8
 	ldr r0, [r1, #0xc]
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
 	ldr r1, [r1, #8]
 	blx r1
-	ldr r0, _0206E568 // =0x02139274
+	ldr r0, _0206E568 // =wfsi_task+0x000004C8
 	mov r1, #0
 	str r1, [r0, #0xc]
 	ldmia sp!, {r3, r4, r5, pc}
@@ -8999,33 +8999,33 @@ _0206E560:
 	bl OS_Terminate
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0206E568: .word 0x02139274
-_0206E56C: .word 0x021392A8
-_0206E570: .word 0x021392A9
-_0206E574: .word 0x021392AA
-_0206E578: .word 0x021392AB
-_0206E57C: .word 0x021392AC
-_0206E580: .word 0x021392AD
-_0206E584: .word 0x021392AE
+_0206E568: .word wfsi_task+0x000004C8
+_0206E56C: .word childInfo+0x00000016
+_0206E570: .word childInfo+0x00000017
+_0206E574: .word childInfo+0x00000018
+_0206E578: .word childInfo+0x00000019
+_0206E57C: .word childInfo+0x0000001A
+_0206E580: .word childInfo+0x0000001B
+_0206E584: .word childInfo+0x0000001C
 _0206E588: .word childInfo
 	arm_func_end MBPi_ParentStateCallback
 
 	arm_func_start MBP_ChangeState
 MBP_ChangeState: // 0x0206E58C
-	ldr r1, _0206E598 // =0x02139274
+	ldr r1, _0206E598 // =wfsi_task+0x000004C8
 	strh r0, [r1, #0x10]
 	bx lr
 	.align 2, 0
-_0206E598: .word 0x02139274
+_0206E598: .word wfsi_task+0x000004C8
 	arm_func_end MBP_ChangeState
 
 	arm_func_start MBP_GetState
 MBP_GetState: // 0x0206E59C
-	ldr r0, _0206E5A8 // =0x02139274
+	ldr r0, _0206E5A8 // =wfsi_task+0x000004C8
 	ldrh r0, [r0, #0x10]
 	bx lr
 	.align 2, 0
-_0206E5A8: .word 0x02139274
+_0206E5A8: .word wfsi_task+0x000004C8
 	arm_func_end MBP_GetState
 
 	arm_func_start MBP_GetChildBmp
@@ -9044,7 +9044,7 @@ MBP_GetChildState: // 0x0206E5C0
 	sub sp, sp, #0x10
 	mov r4, r0
 	bl OS_DisableInterrupts
-	ldr r1, _0206E680 // =0x02139274
+	ldr r1, _0206E680 // =wfsi_task+0x000004C8
 	mov r2, #1
 	mov r2, r2, lsl r4
 	ldrh r1, [r1, #0x12]
@@ -9090,13 +9090,13 @@ _0206E600:
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0206E680: .word 0x02139274
+_0206E680: .word wfsi_task+0x000004C8
 _0206E684: .word mbpState
 	arm_func_end MBP_GetChildState
 
 	arm_func_start MBP_GetChildInfo
 MBP_GetChildInfo: // 0x0206E688
-	ldr r1, _0206E6B4 // =0x02139274
+	ldr r1, _0206E6B4 // =wfsi_task+0x000004C8
 	mov r2, #1
 	ldrh r1, [r1, #0x12]
 	tst r1, r2, lsl r0
@@ -9108,7 +9108,7 @@ MBP_GetChildInfo: // 0x0206E688
 	mla r0, r1, r0, r2
 	bx lr
 	.align 2, 0
-_0206E6B4: .word 0x02139274
+_0206E6B4: .word wfsi_task+0x000004C8
 _0206E6B8: .word childInfo
 	arm_func_end MBP_GetChildInfo
 
@@ -9613,12 +9613,12 @@ aMbCommPstateKi: // 0x0211AB08
 	.align 4
 
 _0211AB20:
-	.word 0x02139286
-	.word 0x02139288
-	.word 0x0213928A
-	.word 0x0213928C
-	.word 0x0213928E
-	.word 0x02139290
+	.word mbpState+0x02
+	.word mbpState+0x04
+	.word mbpState+0x06
+	.word mbpState+0x08
+	.word mbpState+0x0A
+	.word mbpState+0x0C
 
 _0211AB38: // 0x0211AB38
 	.word aMbpStateStop       // "MBP_STATE_STOP"

@@ -235,7 +235,7 @@ ViDockPlayer__Func_21667D4: // 0x021667D4
 	ldr r3, [r5, #0x328]
 	cmp r3, #2
 	bhs _021668E4
-	ldr r1, _02166B7C // =0x02173040
+	ldr r1, _02166B7C // =ovl05_02173040
 	mov r0, #0xc
 	mla r2, r3, r0, r1
 	ldr r0, [r2, #4]
@@ -450,7 +450,7 @@ _02166B08:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02166B78: .word FX_SinCosTable_
-_02166B7C: .word 0x02173040
+_02166B7C: .word ovl05_02173040
 	arm_func_end ViDockPlayer__Func_21667D4
 
 	arm_func_start ViDockPlayer__Func_2166B80

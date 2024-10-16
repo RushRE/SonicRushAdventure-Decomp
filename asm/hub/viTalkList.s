@@ -1083,7 +1083,7 @@ _0216B088:
 ViTalkList__Func_216B094: // 0x0216B094
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x1c
-	ldr r3, _0216B3C8 // =0x02173198
+	ldr r3, _0216B3C8 // =ovl05_02173198
 	add ip, sp, #0xd
 	mov r5, r0
 	mov r2, #6
@@ -1300,7 +1300,7 @@ _0216B3B8:
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
-_0216B3C8: .word 0x02173198
+_0216B3C8: .word ovl05_02173198
 _0216B3CC: .word ovl05_021731A5
 _0216B3D0: .word ViTalkList__Func_216B448
 	arm_func_end ViTalkList__Func_216B094

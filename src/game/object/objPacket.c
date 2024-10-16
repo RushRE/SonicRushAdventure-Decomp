@@ -194,7 +194,7 @@ NONMATCH_FUNC void ObjPacket__Func_2074BB4(void)
 	ldrb r0, [r0, #1]
 	cmp r0, #0xff
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	ldr r8, =0x02136410
+	ldr r8, =whConfig+0x00000010
 	mov r6, #0
 	ldrh r0, [r8, #0]
 	add r0, r0, #1

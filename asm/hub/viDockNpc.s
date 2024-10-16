@@ -81,7 +81,7 @@ ViDockNpc__LoadAssets: // 0x02166C30
 	sub r2, r1, #0xd
 	add r4, r3, r0
 	ldrb r3, [r3, r0]
-	ldr r1, _02166EF8 // =0x02173074
+	ldr r1, _02166EF8 // =ViDockNpc__ModelList
 	ldr r0, _02166EFC // =aBbViNpcBb_ovl05
 	mov r3, r3, lsl #1
 	ldrh r1, [r1, r3]
@@ -98,7 +98,7 @@ ViDockNpc__LoadAssets: // 0x02166C30
 	ldrb r1, [r4, #2]
 	cmp r1, #0xff
 	beq _02166CE0
-	ldr r0, _02166F04 // =0x02173058
+	ldr r0, _02166F04 // =ViDockNpc__MaterialAnimlList
 	mov r1, r1, lsl #1
 	ldrh r1, [r0, r1]
 	ldr r0, _02166EFC // =aBbViNpcBb_ovl05
@@ -109,7 +109,7 @@ _02166CE0:
 	ldrb r1, [r4, #3]
 	cmp r1, #0xff
 	beq _02166D08
-	ldr r0, _02166F04 // =0x02173058
+	ldr r0, _02166F04 // =ViDockNpc__MaterialAnimlList
 	mov r1, r1, lsl #1
 	ldrh r1, [r0, r1]
 	ldr r0, _02166EFC // =aBbViNpcBb_ovl05
@@ -120,7 +120,7 @@ _02166D08:
 	ldrb r1, [r4, #4]
 	cmp r1, #0xff
 	beq _02166D30
-	ldr r0, _02166F04 // =0x02173058
+	ldr r0, _02166F04 // =ViDockNpc__MaterialAnimlList
 	mov r1, r1, lsl #1
 	ldrh r1, [r0, r1]
 	ldr r0, _02166EFC // =aBbViNpcBb_ovl05
@@ -130,7 +130,7 @@ _02166D08:
 _02166D30:
 	ldrb r1, [r4, #7]
 	mov r0, #0xc
-	ldr r2, _02166F08 // =0x0217305C
+	ldr r2, _02166F08 // =ovl05_0217305C
 	smulbb r1, r1, r0
 	ldr r0, [r2, r1]
 	add r1, r2, r1
@@ -248,11 +248,11 @@ _02166EB0:
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
 _02166EF4: .word ViDockNpc__AssetInfoList
-_02166EF8: .word 0x02173074
+_02166EF8: .word ViDockNpc__ModelList
 _02166EFC: .word aBbViNpcBb_ovl05
 _02166F00: .word ViDockNpc__JointAnimList
-_02166F04: .word 0x02173058
-_02166F08: .word 0x0217305C
+_02166F04: .word ViDockNpc__MaterialAnimlList
+_02166F08: .word ovl05_0217305C
 _02166F0C: .word 0x0000FFFF
 	arm_func_end ViDockNpc__LoadAssets
 
@@ -518,7 +518,7 @@ ViDockNpc__Func_2167244: // 0x02167244
 	adc r2, r1, #0
 	adds r1, lr, #0x800
 	smulbb r8, r8, r9
-	ldr r9, _02167374 // =0x0217305C
+	ldr r9, _02167374 // =ovl05_0217305C
 	adc r10, r0, #0
 	mov r1, r1, lsr #0xc
 	add lr, r9, r8
@@ -569,7 +569,7 @@ _02167368:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02167370: .word 0x021730AF
-_02167374: .word 0x0217305C
+_02167374: .word ovl05_0217305C
 _02167378: .word FX_SinCosTable_
 	arm_func_end ViDockNpc__Func_2167244
 
@@ -666,7 +666,7 @@ ovl05_02173040: // 0x02173040
 	.word 0x2000, 0x800, 0x100
 
 .public ViDockNpc__MaterialAnimlList
-ViDockNpc__MaterialAnimlList: // 0x02173058
+ViDockNpc__MaterialAnimlList: // ViDockNpc__MaterialAnimlList
 	.hword 0x1B, 0x00
 	
 .public ovl05_0217305C
@@ -675,7 +675,7 @@ ovl05_0217305C: // 0x0217305C
 	.word 0xC000, 0x8000, 0xC000
 
 .public ViDockNpc__ModelList
-ViDockNpc__ModelList: // 0x02173074
+ViDockNpc__ModelList: // ViDockNpc__ModelList
 	.hword 0x00
 	.hword 0x02
 	.hword 0x04

@@ -15,9 +15,9 @@ SeaMapChartCourseView__Create: // 0x02040788
 	ldr r4, _02040904 // =VRAMSystem__GFXControl
 	mov r7, r0
 	mov r5, r2
-	ldr r6, _02040908 // =0x0213417C
+	ldr r6, _02040908 // =SeaMapView__sVars+0x00000004
 	mov ip, #3
-	ldr r3, _0204090C // =0x02134180
+	ldr r3, _0204090C // =SeaMapView__sVars+0x00000008
 	mov r2, #0
 	ldr r4, [r4, r7, lsl #2]
 	str ip, [r6]
@@ -47,7 +47,7 @@ SeaMapChartCourseView__Create: // 0x02040788
 	bl MIi_CpuClear16
 	cmp r5, #1
 	beq _02040838
-	ldr r2, _02040920 // =0x02134184
+	ldr r2, _02040920 // =SeaMapView__sVars+0x0000000C
 	mov r3, #0
 	ldr r1, _02040924 // =SeaMapCourseChangeView__02134174
 	ldr r0, _02040928 // =gameState
@@ -113,13 +113,13 @@ _020408E4:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _02040904: .word VRAMSystem__GFXControl
-_02040908: .word 0x0213417C
-_0204090C: .word 0x02134180
+_02040908: .word SeaMapView__sVars+0x00000004
+_0204090C: .word SeaMapView__sVars+0x00000008
 _02040910: .word 0x00000ADC
 _02040914: .word SeaMapChartCourseView__Main
 _02040918: .word SeaMapChartCourseView__Destructor
 _0204091C: .word SeaMapView__sVars
-_02040920: .word 0x02134184
+_02040920: .word SeaMapView__sVars+0x0000000C
 _02040924: .word SeaMapCourseChangeView__02134174
 _02040928: .word gameState
 _0204092C: .word SeaMapChartCourseView__State_2041978
@@ -394,7 +394,7 @@ _02040CAC:
 	mov r3, r1
 	str ip, [sp, #4]
 	bl PlaySfxEx
-	ldr r0, _02040D1C // =0x02134180
+	ldr r0, _02040D1C // =SeaMapView__sVars+0x00000008
 	mov r1, #2
 	str r1, [r0]
 	ldr r0, [r5, #0x7b4]
@@ -419,7 +419,7 @@ _02040D08:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02040D1C: .word 0x02134180
+_02040D1C: .word SeaMapView__sVars+0x00000008
 _02040D20: .word SeaMapChartCourseView__State_20431D4
 _02040D24: .word SeaMapChartCourseView__State_2041E30
 	arm_func_end SeaMapChartCourseView__Func_2040C7C
@@ -593,7 +593,7 @@ _02040F4C:
 	mov r3, r1
 	str r0, [sp, #4]
 	bl PlaySfxEx
-	ldr r0, _02040FA0 // =0x02134180
+	ldr r0, _02040FA0 // =SeaMapView__sVars+0x00000008
 	mov r2, #2
 	ldr r1, _02040FA4 // =SeaMapChartCourseView__State_2041E30
 	str r2, [r0]
@@ -609,7 +609,7 @@ _02040F88:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02040F9C: .word SeaMapChartCourseView__State_2041A68
-_02040FA0: .word 0x02134180
+_02040FA0: .word SeaMapView__sVars+0x00000008
 _02040FA4: .word SeaMapChartCourseView__State_2041E30
 	arm_func_end SeaMapChartCourseView__State_2040EEC
 
@@ -942,14 +942,14 @@ SeaMapChartCourseView__Destructor: // 0x020413EC
 _02041418:
 	mov r0, r4
 	bl SeaMapView__ReleaseAssets
-	ldr r1, _02041438 // =0x0213417C
+	ldr r1, _02041438 // =SeaMapView__sVars+0x00000004
 	mov r2, #0
 	ldr r0, _0204143C // =SeaMapView__sVars
 	str r2, [r1]
 	str r2, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02041438: .word 0x0213417C
+_02041438: .word SeaMapView__sVars+0x00000004
 _0204143C: .word SeaMapView__sVars
 	arm_func_end SeaMapChartCourseView__Destructor
 
@@ -1389,7 +1389,7 @@ _020419AC: .word SeaMapChartCourseView__State_20419B0
 	arm_func_start SeaMapChartCourseView__State_20419B0
 SeaMapChartCourseView__State_20419B0: // 0x020419B0
 	stmdb sp!, {r4, lr}
-	ldr r1, _02041A0C // =0x0213417C
+	ldr r1, _02041A0C // =SeaMapView__sVars+0x00000004
 	mov r2, #3
 	mov r4, r0
 	str r2, [r1]
@@ -1412,7 +1412,7 @@ SeaMapChartCourseView__State_20419B0: // 0x020419B0
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02041A0C: .word 0x0213417C
+_02041A0C: .word SeaMapView__sVars+0x00000004
 _02041A10: .word 0x0210FAD0
 _02041A14: .word SeaMapChartCourseView__State_2041A18
 	arm_func_end SeaMapChartCourseView__State_20419B0
@@ -1445,7 +1445,7 @@ _02041A60:
 	arm_func_start SeaMapChartCourseView__State_2041A68
 SeaMapChartCourseView__State_2041A68: // 0x02041A68
 	stmdb sp!, {r4, lr}
-	ldr r1, _02041AD0 // =0x0213417C
+	ldr r1, _02041AD0 // =SeaMapView__sVars+0x00000004
 	mov r2, #4
 	mov r4, r0
 	str r2, [r1]
@@ -1471,7 +1471,7 @@ SeaMapChartCourseView__State_2041A68: // 0x02041A68
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02041AD0: .word 0x0213417C
+_02041AD0: .word SeaMapView__sVars+0x00000004
 _02041AD4: .word 0x0210FAF0
 _02041AD8: .word SeaMapChartCourseView__State_2041ADC
 	arm_func_end SeaMapChartCourseView__State_2041A68
@@ -1652,7 +1652,7 @@ _02041D2C:
 	str r0, [sp, #4]
 	bl PlaySfxEx
 	bl SeaMapManager__UpdateGlobalNodeList
-	ldr r0, _02041DC4 // =0x02134180
+	ldr r0, _02041DC4 // =SeaMapView__sVars+0x00000008
 	mov r2, #1
 	ldr r1, _02041DC8 // =SeaMapChartCourseView__State_2041E30
 	str r2, [r0]
@@ -1682,7 +1682,7 @@ _02041D70:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02041DC4: .word 0x02134180
+_02041DC4: .word SeaMapView__sVars+0x00000008
 _02041DC8: .word SeaMapChartCourseView__State_2041E30
 _02041DCC: .word SeaMapChartCourseView__State_2041A68
 	arm_func_end SeaMapChartCourseView__State_2041D04
@@ -2850,7 +2850,7 @@ _02042C68: .word SeaMapChartCourseView__State_2042C6C
 	arm_func_start SeaMapChartCourseView__State_2042C6C
 SeaMapChartCourseView__State_2042C6C: // 0x02042C6C
 	stmdb sp!, {r4, lr}
-	ldr r1, _02042CA8 // =0x0213417C
+	ldr r1, _02042CA8 // =SeaMapView__sVars+0x00000004
 	mov r2, #3
 	mov r4, r0
 	str r2, [r1]
@@ -2865,7 +2865,7 @@ SeaMapChartCourseView__State_2042C6C: // 0x02042C6C
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02042CA8: .word 0x0213417C
+_02042CA8: .word SeaMapView__sVars+0x00000004
 _02042CAC: .word SeaMapChartCourseView__State_2042CB0
 	arm_func_end SeaMapChartCourseView__State_2042C6C
 
@@ -2904,7 +2904,7 @@ _02042D10: .word 0x0210FA0C
 	arm_func_start SeaMapChartCourseView__State_2042D14
 SeaMapChartCourseView__State_2042D14: // 0x02042D14
 	stmdb sp!, {r4, lr}
-	ldr r1, _02042D8C // =0x0213417C
+	ldr r1, _02042D8C // =SeaMapView__sVars+0x00000004
 	mov r2, #4
 	mov r4, r0
 	str r2, [r1]
@@ -2934,7 +2934,7 @@ SeaMapChartCourseView__State_2042D14: // 0x02042D14
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02042D8C: .word 0x0213417C
+_02042D8C: .word SeaMapView__sVars+0x00000004
 _02042D90: .word 0x0210FAF0
 _02042D94: .word SeaMapChartCourseView__State_2042D98
 	arm_func_end SeaMapChartCourseView__State_2042D14
@@ -3164,7 +3164,7 @@ _020430A8:
 	mov r3, r1
 	str r0, [sp, #4]
 	bl PlaySfxEx
-	ldr r0, _0204313C // =0x02134180
+	ldr r0, _0204313C // =SeaMapView__sVars+0x00000008
 	mov r2, #1
 	ldr r1, _02043140 // =SeaMapChartCourseView__State_2043148
 	str r2, [r0]
@@ -3194,7 +3194,7 @@ _020430E8:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0204313C: .word 0x02134180
+_0204313C: .word SeaMapView__sVars+0x00000008
 _02043140: .word SeaMapChartCourseView__State_2043148
 _02043144: .word SeaMapChartCourseView__State_2042D14
 	arm_func_end SeaMapChartCourseView__State_2043080

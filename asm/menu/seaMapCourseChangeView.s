@@ -49,7 +49,7 @@ SeaMapCourseChangeView__Create: // 0x0204B51C
 	ldr r1, [r1, #0xa0]
 	bl SeaMapChartCourseView__Create
 	bl SeaMapManager__Func_20444E8
-	ldr r10, _0204B6FC // =0x02134184
+	ldr r10, _0204B6FC // =SeaMapView__sVars+0x0000000C
 	ldr r9, _0204B700 // =SeaMapCourseChangeView__02134174
 	ldr r0, [r10, #0]
 	add r8, sp, #0x14
@@ -80,15 +80,15 @@ _0204B5C8:
 	str r0, [r10]
 	cmp r1, r0
 	ble _0204B5C8
-	ldr r0, _0204B6FC // =0x02134184
+	ldr r0, _0204B6FC // =SeaMapView__sVars+0x0000000C
 	str r1, [r0]
 _0204B628:
-	ldr r1, _0204B6FC // =0x02134184
+	ldr r1, _0204B6FC // =SeaMapView__sVars+0x0000000C
 	ldr r0, _0204B700 // =SeaMapCourseChangeView__02134174
 	ldr r3, [r1, #0]
 	ldr r0, [r0, #0]
 	ldr r1, _0204B704 // =SeaMapCourseChangeView__stru_2134440
-	ldr r2, _0204B708 // =0x02134444
+	ldr r2, _0204B708 // =SeaMapCourseChangeView__stru_2134440+0x00000004
 	sub r0, r3, r0
 	bl SeaMapManager__Func_2045BF8
 	bl SeaMapManager__RemoveAllNodes
@@ -137,10 +137,10 @@ _0204B6EC: .word SeaMapCourseChangeView__Main
 _0204B6F0: .word SeaMapCourseChangeView__Destructor
 _0204B6F4: .word SeaMapCourseChangeView__State_Setup
 _0204B6F8: .word gameState
-_0204B6FC: .word 0x02134184
+_0204B6FC: .word SeaMapView__sVars+0x0000000C
 _0204B700: .word SeaMapCourseChangeView__02134174
 _0204B704: .word SeaMapCourseChangeView__stru_2134440
-_0204B708: .word 0x02134444
+_0204B708: .word SeaMapCourseChangeView__stru_2134440+0x00000004
 _0204B70C: .word SeaMapCourseChangeView__stru_2134440
 	arm_func_end SeaMapCourseChangeView__Create
 

@@ -1294,10 +1294,10 @@ ViDock__Func_215EB04: // 0x0215EB04
 	ldrh r1, [r10, #0]
 	cmp r1, #7
 	bhs _0215EC28
-	ldr r0, _0215EC3C // =0x02172EBC
+	ldr r0, _0215EC3C // =ovl05_02172EBC
 	mov r1, r1, lsl #1
 	ldrh r11, [r0, r1]
-	ldr r0, _0215EC40 // =0x02172ECA
+	ldr r0, _0215EC40 // =ovl05_02172ECA
 	mov r4, #0
 	ldrh r0, [r0, r1]
 	cmp r11, #0
@@ -1370,8 +1370,8 @@ _0215EC28:
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0215EC3C: .word 0x02172EBC
-_0215EC40: .word 0x02172ECA
+_0215EC3C: .word ovl05_02172EBC
+_0215EC40: .word ovl05_02172ECA
 	arm_func_end ViDock__Func_215EB04
 
 	arm_func_start ViDock__Func_215EC44
@@ -1624,7 +1624,7 @@ _0215EF60:
 	add r0, r4, #0x1600
 	mov r1, #0x1000
 	strh r1, [r0, #0x92]
-	ldr r7, _0215F198 // =0x02172EB4
+	ldr r7, _0215F198 // =ovl05_02172EB4
 	mov r0, #1
 	add r1, r4, #0x1000
 _0215EFA0:
@@ -1770,7 +1770,7 @@ _0215F138:
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0215F198: .word 0x02172EB4
+_0215F198: .word ovl05_02172EB4
 _0215F19C: .word 0x00007BF7
 _0215F1A0: .word 0x00006FE0
 _0215F1A4: .word 0x00007FFF

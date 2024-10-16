@@ -54,12 +54,12 @@ _0218B3FC: .word gameState
 
 	arm_func_start SailExitEvent__Func_218B400
 SailExitEvent__Func_218B400: // 0x0218B400
-	ldr r0, _0218B418 // =0x0213417C
+	ldr r0, _0218B418 // =SeaMapView__sVars+0x00000004
 	ldr r0, [r0, #0]
 	cmp r0, #5
 	moveq r0, #1
 	movne r0, #0
 	bx lr
 	.align 2, 0
-_0218B418: .word 0x0213417C
+_0218B418: .word SeaMapView__sVars+0x00000004
 	arm_func_end SailExitEvent__Func_218B400

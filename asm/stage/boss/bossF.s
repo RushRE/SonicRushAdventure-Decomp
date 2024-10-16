@@ -496,7 +496,7 @@ BossFArm__Create: // 0x02168274
 	mov r1, #0
 	cmp r0, #0
 	bne _02168338
-	ldr r0, _02168638 // =0x02133A10
+	ldr r0, _02168638 // =bossAssetFiles+0x00000008
 	ldr r2, _0216863C // =aBossfArmLNsbmd_0
 	str r0, [sp]
 	mov r0, r6
@@ -514,7 +514,7 @@ BossFArm__Create: // 0x02168274
 	mov r0, #0x16
 	b _02168378
 _02168338:
-	ldr r0, _02168648 // =0x02133A18
+	ldr r0, _02168648 // =bossAssetFiles+0x00000010
 	ldr r2, _0216864C // =aBossfArmRNsbmd_0
 	str r0, [sp]
 	mov r0, r6
@@ -712,11 +712,11 @@ _021685F0:
 	.align 2, 0
 _02168630: .word StageTask_Main
 _02168634: .word GameObject__Destructor
-_02168638: .word 0x02133A10
+_02168638: .word bossAssetFiles+0x00000008
 _0216863C: .word aBossfArmLNsbmd_0
 _02168640: .word gameArchiveStage
 _02168644: .word aBossfArmLNsbca_0
-_02168648: .word 0x02133A18
+_02168648: .word bossAssetFiles+0x00000010
 _0216864C: .word aBossfArmRNsbmd_0
 _02168650: .word aBossfArmRNsbca_0
 _02168654: .word 0x000034CC

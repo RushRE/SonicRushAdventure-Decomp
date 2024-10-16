@@ -13,9 +13,9 @@ SeaMapMenu__Create: // 0x0203FECC
 	sub sp, sp, #0xc
 	ldr r5, _0203FFEC // =VRAMSystem__GFXControl
 	mov r4, r0
-	ldr r3, _0203FFF0 // =0x0213417C
+	ldr r3, _0203FFF0 // =SeaMapView__sVars+0x00000004
 	mov ip, #1
-	ldr r1, _0203FFF4 // =0x02134180
+	ldr r1, _0203FFF4 // =SeaMapView__sVars+0x00000008
 	mov r2, #0
 	str r2, [r1]
 	ldr r6, [r5, r4, lsl #2]
@@ -83,8 +83,8 @@ SeaMapMenu__Create: // 0x0203FECC
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
 _0203FFEC: .word VRAMSystem__GFXControl
-_0203FFF0: .word 0x0213417C
-_0203FFF4: .word 0x02134180
+_0203FFF0: .word SeaMapView__sVars+0x00000004
+_0203FFF4: .word SeaMapView__sVars+0x00000008
 _0203FFF8: .word aSndSysSoundDat
 _0203FFFC: .word audioManagerSndHeap
 _02040000: .word SeaMapMenu_Main
@@ -190,7 +190,7 @@ SeaMapMenu__Func_204011C: // 0x0204011C
 	beq _02040198
 	b _020401A0
 _0204014C:
-	ldr r2, _020401B0 // =0x02134180
+	ldr r2, _020401B0 // =SeaMapView__sVars+0x00000008
 	mov r3, #2
 	mov r0, #7
 	mov r1, #0x10
@@ -220,7 +220,7 @@ _020401A4:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_020401B0: .word 0x02134180
+_020401B0: .word SeaMapView__sVars+0x00000008
 _020401B4: .word SeaMapMenu__State_Close
 	arm_func_end SeaMapMenu__Func_204011C
 
@@ -242,7 +242,7 @@ _020401E4:
 	mov r0, #0
 	ldrsh lr, [r1, #0x10]
 	ldr r3, _02040298 // =gameState
-	ldr r2, _0204029C // =0x02134180
+	ldr r2, _0204029C // =SeaMapView__sVars+0x00000008
 	sub r1, r0, #1
 	mov ip, #1
 	str lr, [r3, #0x80]
@@ -288,7 +288,7 @@ _0204028C:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02040298: .word gameState
-_0204029C: .word 0x02134180
+_0204029C: .word SeaMapView__sVars+0x00000008
 _020402A0: .word SeaMapMenu__State_FadeOut
 _020402A4: .word SeaMapView__TouchAreaCallback
 _020402A8: .word SeaMapMenu__State_20405F4
@@ -320,14 +320,14 @@ SeaMapMenu_Destructor: // 0x020402E8
 	bl GetTaskWork_
 	bl SeaMapView__ReleaseAssets
 	bl ReleaseAudioSystem
-	ldr r1, _02040310 // =0x0213417C
+	ldr r1, _02040310 // =SeaMapView__sVars+0x00000004
 	mov r2, #0
 	ldr r0, _02040314 // =SeaMapView__sVars
 	str r2, [r1]
 	str r2, [r0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02040310: .word 0x0213417C
+_02040310: .word SeaMapView__sVars+0x00000004
 _02040314: .word SeaMapView__sVars
 	arm_func_end SeaMapMenu_Destructor
 

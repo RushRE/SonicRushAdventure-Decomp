@@ -101,7 +101,7 @@ Boss5Stage__Create: // _021739C4
 	ldr r0, _02173C00 // =0x0000040C
 	ldr r2, _02173C04 // =_0217AEF4
 	add r5, r4, r0
-	ldr r0, _02173C08 // =0x02133A18
+	ldr r0, _02173C08 // =bossAssetFiles+0x00000010
 	mov r3, #0
 	str r0, [sp]
 	mov r0, r4
@@ -145,7 +145,7 @@ Boss5Stage__Create: // _021739C4
 	ldr r0, _02173C14 // =0x00000898
 	ldr r2, _02173C04 // =_0217AEF4
 	add r5, r4, r0
-	ldr r0, _02173C08 // =0x02133A18
+	ldr r0, _02173C08 // =bossAssetFiles+0x00000010
 	mov r1, r5
 	str r0, [sp]
 	mov r0, #0
@@ -184,7 +184,7 @@ Boss5Stage__Create: // _021739C4
 	add r7, r4, r0
 	mov r5, r6
 _02173B3C:
-	ldr r0, _02173C08 // =0x02133A18
+	ldr r0, _02173C08 // =bossAssetFiles+0x00000010
 	ldr r2, _02173C04 // =_0217AEF4
 	str r0, [sp]
 	mov r0, #0
@@ -270,7 +270,7 @@ _02173BF8: .word 0x000034CC
 _02173BFC: .word 0x000003C6
 _02173C00: .word 0x0000040C
 _02173C04: .word _0217AEF4
-_02173C08: .word 0x02133A18
+_02173C08: .word bossAssetFiles+0x00000010
 _02173C0C: .word gameArchiveStage
 _02173C10: .word aBoss5Nsbta
 _02173C14: .word 0x00000898
@@ -685,7 +685,7 @@ _02173F0E:
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r5, r4, r0
-	ldr r0, _02174000 // =0x02133A10
+	ldr r0, _02174000 // =bossAssetFiles+0x00000008
 	ldr r2, _02174004 // =_0217AEF4
 	str r0, [sp]
 	mov r3, #0
@@ -711,7 +711,7 @@ _02173FF0: .word ovl01_2176970
 _02173FF4: .word ovl01_217696C
 _02173FF8: .word ovl01_2176998
 _02173FFC: .word ovl01_21769F0
-_02174000: .word 0x02133A10
+_02174000: .word bossAssetFiles+0x00000008
 _02174004: .word _0217AEF4
 _02174008: .word 0x000034CC
 	thumb_func_end Boss5Core__Create
@@ -802,7 +802,7 @@ Boss5Sea__Create: // _0217400C
 	sub r1, #0xd0
 	strh r1, [r3, #0x18]
 	strh r2, [r3, #0x1a]
-	ldr r0, _02174104 // =0x02133A18
+	ldr r0, _02174104 // =bossAssetFiles+0x00000010
 	mov r1, r5
 	str r0, [sp]
 	str r2, [sp, #4]
@@ -829,7 +829,7 @@ _021740F4: .word _0217AFB8
 _021740F8: .word ovl01_21772D8
 _021740FC: .word ovl01_21773A0
 _02174100: .word StageTask__DefaultDiffData
-_02174104: .word 0x02133A18
+_02174104: .word bossAssetFiles+0x00000010
 _02174108: .word _0217AEF4
 _0217410C: .word 0x000034CC
 	thumb_func_end Boss5Sea__Create
@@ -917,7 +917,7 @@ _02174146:
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r6, r4, r0
-	ldr r0, _021741F8 // =0x02133A20
+	ldr r0, _021741F8 // =bossAssetFiles+0x00000018
 	mov r3, #6
 	str r0, [sp]
 	mov r0, #0
@@ -942,7 +942,7 @@ _021741E8: .word GameObject__Destructor
 _021741EC: .word ovl01_2175BCC
 _021741F0: .word ovl01_2175BD0
 _021741F4: .word ovl01_21758A0
-_021741F8: .word 0x02133A20
+_021741F8: .word bossAssetFiles+0x00000018
 _021741FC: .word _0217AEF4
 	thumb_func_end Boss5MapChunk__Create
 
@@ -1177,7 +1177,7 @@ _021743CE:
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r5, r4, r0
-	ldr r0, _02174418 // =0x02133A10
+	ldr r0, _02174418 // =bossAssetFiles+0x00000008
 	ldr r2, _0217441C // =_0217AEF4
 	str r0, [sp]
 	mov r0, #0
@@ -1202,7 +1202,7 @@ _02174408: .word ovl01_2175CA8
 _0217440C: .word ovl01_21758A0
 _02174410: .word ovl01_2175924
 _02174414: .word 0x000004E4
-_02174418: .word 0x02133A10
+_02174418: .word bossAssetFiles+0x00000008
 _0217441C: .word _0217AEF4
 _02174420: .word 0x000034CC
 	thumb_func_end Boss5Battery__Create
@@ -1334,7 +1334,7 @@ _021744C0:
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r5, r4, r0
-	ldr r0, _0217456C // =0x02133A10
+	ldr r0, _0217456C // =bossAssetFiles+0x00000008
 	ldr r2, _02174570 // =_0217AEF4
 	str r0, [sp]
 	mov r0, #0
@@ -1359,7 +1359,7 @@ _0217455C: .word _0217A1B8
 _02174560: .word StageTask__DefaultDiffData
 _02174564: .word 0x0000FFFF
 _02174568: .word ovl01_2175D40
-_0217456C: .word 0x02133A10
+_0217456C: .word bossAssetFiles+0x00000008
 _02174570: .word _0217AEF4
 _02174574: .word 0x000034CC
 	thumb_func_end Boss5Missile__Create
@@ -1573,7 +1573,7 @@ CreateBoss5Icicle: // _02174668
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r5, r4, r0
-	ldr r0, _0217476C // =0x02133A10
+	ldr r0, _0217476C // =bossAssetFiles+0x00000008
 	ldr r2, _02174770 // =_0217AEF4
 	str r0, [sp]
 	mov r0, #0
@@ -1597,7 +1597,7 @@ _0217475C: .word ovl01_2175924
 _02174760: .word 0x00009F80
 _02174764: .word _0217A1C8
 _02174768: .word 0x0000FFFF
-_0217476C: .word 0x02133A10
+_0217476C: .word bossAssetFiles+0x00000008
 _02174770: .word _0217AEF4
 _02174774: .word 0x000034CC
 	thumb_func_end CreateBoss5Icicle
@@ -1723,7 +1723,7 @@ _021747BC:
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r5, r4, r0
-	ldr r0, _021748B8 // =0x02133A10
+	ldr r0, _021748B8 // =bossAssetFiles+0x00000008
 	ldr r2, _021748BC // =_0217AEF4
 	str r0, [sp]
 	mov r0, #0
@@ -1748,7 +1748,7 @@ _021748A8: .word ovl01_2175DD0
 _021748AC: .word ovl01_21758A0
 _021748B0: .word ovl01_2175924
 _021748B4: .word 0x0000FFFF
-_021748B8: .word 0x02133A10
+_021748B8: .word bossAssetFiles+0x00000008
 _021748BC: .word _0217AEF4
 _021748C0: .word 0x000034CC
 	thumb_func_end Boss5Icicle2__Create
@@ -1951,7 +1951,7 @@ _021749B4:
 	lsl r0, r0, #2
 	str r4, [r5, #0x1c]
 	add r5, r4, r0
-	ldr r0, _02174B18 // =0x02133A10
+	ldr r0, _02174B18 // =bossAssetFiles+0x00000008
 	mov r1, r5
 	str r0, [sp]
 	mov r0, #0
@@ -2028,7 +2028,7 @@ _02174B08: .word ovl01_21758A0
 _02174B0C: .word ovl01_2175924
 _02174B10: .word ovl01_2175F2C
 _02174B14: .word _0217AEF4
-_02174B18: .word 0x02133A10
+_02174B18: .word bossAssetFiles+0x00000008
 _02174B1C: .word 0x000034CC
 _02174B20: .word aBoss5Nsbca
 _02174B24: .word gameArchiveStage
@@ -2095,7 +2095,7 @@ Boss5PlayerFreezeEffect__Create: // _02174B30
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r5, r4, r0
-	ldr r0, _02174C3C // =0x02133A10
+	ldr r0, _02174C3C // =bossAssetFiles+0x00000008
 	ldr r2, _02174C40 // =_0217AEF4
 	str r0, [sp]
 	mov r0, #0
@@ -2157,7 +2157,7 @@ _02174C2C: .word StageTask_Main
 _02174C30: .word GameObject__Destructor
 _02174C34: .word ovl01_21766EC
 _02174C38: .word ovl01_2175924
-_02174C3C: .word 0x02133A10
+_02174C3C: .word bossAssetFiles+0x00000008
 _02174C40: .word _0217AEF4
 _02174C44: .word 0x000034CC
 _02174C48: .word aBoss5Nsbca
@@ -2293,7 +2293,7 @@ _02174C98:
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r5, r4, r0
-	ldr r0, _02174DCC // =0x02133A10
+	ldr r0, _02174DCC // =bossAssetFiles+0x00000008
 	ldr r2, _02174DD0 // =_0217AEF4
 	str r0, [sp]
 	mov r0, #0
@@ -2336,7 +2336,7 @@ _02174DBC: .word ovl01_2175924
 _02174DC0: .word ovl01_21758A0
 _02174DC4: .word 0x00008280
 _02174DC8: .word ovl01_217623C
-_02174DCC: .word 0x02133A10
+_02174DCC: .word bossAssetFiles+0x00000008
 _02174DD0: .word _0217AEF4
 _02174DD4: .word 0x000034CC
 _02174DD8: .word aBoss5Nsbca
@@ -2440,7 +2440,7 @@ Boss5EnemyFish2__Create: // _02174DE0
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r5, r4, r0
-	ldr r0, _02174F2C // =0x02133A10
+	ldr r0, _02174F2C // =bossAssetFiles+0x00000008
 	ldr r2, _02174F30 // =_0217AEF4
 	str r0, [sp]
 	mov r0, #0
@@ -2492,7 +2492,7 @@ _02174F1C: .word ovl01_2176288
 _02174F20: .word ovl01_21758CC
 _02174F24: .word 0x00088280
 _02174F28: .word ovl01_2176460
-_02174F2C: .word 0x02133A10
+_02174F2C: .word bossAssetFiles+0x00000008
 _02174F30: .word _0217AEF4
 _02174F34: .word 0x000034CC
 _02174F38: .word aBoss5Nsbca
@@ -2703,7 +2703,7 @@ _021750CA:
 	mov r0, #0xd9
 	lsl r0, r0, #2
 	add r5, r4, r0
-	ldr r0, _02175170 // =0x02133A10
+	ldr r0, _02175170 // =bossAssetFiles+0x00000008
 	ldr r2, _02175174 // =_0217AEF4
 	str r0, [sp]
 	mov r0, #0
@@ -2771,7 +2771,7 @@ _02175160: .word ovl01_2176528
 _02175164: .word ovl01_2175924
 _02175168: .word ovl01_21758A0
 _0217516C: .word ovl01_2176648
-_02175170: .word 0x02133A10
+_02175170: .word bossAssetFiles+0x00000008
 _02175174: .word _0217AEF4
 _02175178: .word 0x000034CC
 _0217517C: .word FX_SinCosTable_+0x00002000
@@ -2886,7 +2886,7 @@ _02175258:
 	lsl r0, r0, #2
 	strh r1, [r5, #0x1a]
 	add r5, r4, r0
-	ldr r0, _021752B4 // =0x02133A10
+	ldr r0, _021752B4 // =bossAssetFiles+0x00000008
 	ldr r2, _021752B8 // =_0217AEF4
 	str r0, [sp]
 	mov r0, #0
@@ -2922,7 +2922,7 @@ _021752A4: .word StageTask_Main
 _021752A8: .word ovl01_21766D4
 _021752AC: .word ovl01_21758A0
 _021752B0: .word ovl01_2175924
-_021752B4: .word 0x02133A10
+_021752B4: .word bossAssetFiles+0x00000008
 _021752B8: .word _0217AEF4
 _021752BC: .word FX_SinCosTable_+0x00001000
 	thumb_func_end Boss5Shutter__Create
@@ -7275,7 +7275,7 @@ _02177420:
 	bl BossHelpers__ReleaseAnimation
 	mov r0, r6
 	bl AnimatorMDL__Release
-	ldr r0, _02177460 // =0x02133A18
+	ldr r0, _02177460 // =bossAssetFiles+0x00000010
 	ldr r2, _02177464 // =0x0217AEF4
 	str r0, [sp]
 	mov r0, #0
@@ -7300,7 +7300,7 @@ _0217745C:
 	add sp, #8
 	pop {r4, r5, r6, pc}
 	.align 2, 0
-_02177460: .word 0x02133A18
+_02177460: .word bossAssetFiles+0x00000010
 _02177464: .word 0x0217AEF4
 _02177468: .word 0x000034CC
 	thumb_func_end ovl01_21773FC
