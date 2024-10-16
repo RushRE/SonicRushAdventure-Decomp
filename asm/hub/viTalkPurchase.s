@@ -539,7 +539,7 @@ _02169E7C:
 	mov r0, #6
 	bl _ZN15CViDockNpcGroup12Func_2168744Em
 	ldr r1, [r4, #4]
-	ldr r0, _02169FA0 // =0x02173190
+	ldr r0, _02169FA0 // =ovl05_02173190
 	mov r1, r1, lsl #1
 	ldrh r0, [r0, r1]
 	bl _ZN15CViDockNpcGroup12Func_2168754El
@@ -614,7 +614,7 @@ _02169F98:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02169FA0: .word 0x02173190
+_02169FA0: .word ovl05_02173190
 	arm_func_end ViTalkPurchase__Func_2169E4C
 
 	arm_func_start ViTalkPurchase__Destructor
@@ -800,3 +800,9 @@ _0216A18C:
 _0216A19C: .word saveGame
 _0216A1A0: .word saveGame+0x00000028
 	arm_func_end ViTalkPurchase__Func_216A144
+	
+	.rodata
+
+.public ovl05_02173190
+ovl05_02173190: // 0x02173190
+    .hword 5, 8, 0x11, 0

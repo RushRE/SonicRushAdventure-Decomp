@@ -451,7 +451,7 @@ MissionHelpers__StartMission: // 0x02153F38
 	strb r0, [r1, #0xdc]
 	cmp r4, #0x5f
 	bge _02153FF0
-	ldr r0, _02154010 // =0x02172C3C
+	ldr r0, _02154010 // =DockHelpers__MissionForID
 	mov r1, r4, lsl #1
 	ldrh r0, [r0, r1]
 	bl InitStageMission
@@ -493,7 +493,7 @@ _02153FDC:
 	bl RequestNewSysEventChange
 	ldmia sp!, {r4, pc}
 _02153FF0:
-	ldr r0, _02154010 // =0x02172C3C
+	ldr r0, _02154010 // =DockHelpers__MissionForID
 	mov r1, r4, lsl #1
 	ldrh r0, [r0, r1]
 	bl MultibootManager__Func_2063C60
@@ -502,7 +502,7 @@ _02153FF0:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215400C: .word gameState
-_02154010: .word 0x02172C3C
+_02154010: .word DockHelpers__MissionForID
 	arm_func_end MissionHelpers__StartMission
 
 	arm_func_start MissionHelpers__GetMissionID
@@ -787,3 +787,59 @@ MissionHelpers__GetUnknown2172B10: // 0x02154350
 	.align 2, 0
 _0215435C: .word 0x02172B10
 	arm_func_end MissionHelpers__GetUnknown2172B10
+	
+	.rodata
+
+.public Mission__PostGameMissionFlagList1
+Mission__PostGameMissionFlagList1: // 0x02172A2C
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 3, 4, 5, 9, 0xB, 0xC, 0xD
+
+.public Mission__PostGameMissionList1
+Mission__PostGameMissionList1: // 0x02172A9E
+	.hword 0, 1, 3, 4, 5, 8, 0xA, 0xB, 0xC, 0xE, 0xF, 0x12, 0x14
+	.hword 0x15, 0x16, 0x18, 0x19, 0x1C, 0x1E, 0x1F, 0x20, 0x22
+	.hword 0x23, 0x26, 0x28, 0x29, 0x2A, 0x2C, 0x2D, 0x2E, 0x32
+	.hword 0x33, 0x34, 0x36, 0x37, 0x38, 0x3A, 0x3C, 0x3D, 0x3E
+	.hword 0x40, 0x41, 0x42, 0x44, 0x46, 0x48, 0x49, 0x4A, 0x4B
+	.hword 0x4C, 0x4E, 0x50, 0x52, 0x57, 0x5A, 0x5C, 0x5E
+	
+.public Mission__unknown2172B10
+Mission__unknown2172B10: // 0x02172B10
+	.byte 5, 4, 4, 7, 4, 9, 7, 4, 9, 7, 8, 9, 7, 8, 4, 5, 7
+	.byte 4, 9, 5, 8, 10, 10, 2, 10, 10, 10, 2, 10, 10, 10, 10
+	.byte 2, 10, 10, 2, 10, 10, 10, 10, 2, 10, 10, 2, 10, 10
+	.byte 10, 10, 2, 10, 10, 2, 10, 10, 10, 10, 2, 10, 10, 10
+	.byte 9, 2, 10, 10, 10, 2, 10, 10, 10, 2, 10, 10, 10, 10
+	.byte 10, 10, 10, 10, 10, 2, 10, 10, 10, 2, 10, 7, 10, 7
+	.byte 10, 10, 10, 10, 10, 10, 10, 3, 3, 3, 3, 2
+
+.public MissionHelpers__missionIndexFromSelection
+MissionHelpers__missionIndexFromSelection: // 0x02172B74
+	.hword 9, 83, 84, 19, 79, 6, 77, 89, 16, 29, 39, 26, 86, 88
+	.hword 93, 59, 81, 85, 36, 49, 91, 0, 1, 2, 3, 4, 5, 7, 8
+	.hword 10, 11, 12, 13, 14, 15, 17, 18, 20, 21, 22, 23, 24
+	.hword 25, 27, 28, 30, 31, 32, 33, 34, 35, 37, 38, 40, 41
+	.hword 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55
+	.hword 56, 57, 58, 60, 72, 73, 74, 75, 76, 61, 62, 63, 64
+	.hword 65, 66, 67, 68, 69, 70, 71, 78, 80, 82, 87, 90, 92
+	.hword 94, 95, 96, 97, 98, 99
+
+.public DockHelpers__MissionForID
+DockHelpers__MissionForID: // 0x02172C3C
+	.hword 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+	.hword 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+	.hword 20, 21, 22, 23, 24, 25, 26, 27, 28, 29
+	.hword 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+	.hword 40, 41, 42, 43, 44, 45, 46, 47, 48, 49
+	.hword 50, 51, 52, 53, 54, 55, 56, 57, 58, 59
+	.hword 60, 61, 62, 63, 64, 65, 66, 67, 68, 69
+	.hword 70, 71, 72, 73, 74, 75, 76, 77, 78, 79
+	.hword 80, 81, 82, 83, 84, 85, 86, 87, 88, 89
+	.hword 90, 91, 92, 93, 94, 5, 6, 7, 8, 65535

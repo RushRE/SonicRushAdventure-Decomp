@@ -864,7 +864,7 @@ ViShadow__Func_2167F00: // 0x02167F00
 	mov r2, #1
 	str r3, [sp, #4]
 	bl NNS_G3dGeBufferOP_N
-	ldr r0, _021680B4 // =0x02173158
+	ldr r0, _021680B4 // =viShadow__dlList
 	mov r1, #0x38
 	bl NNS_G3dGeSendDL
 	mov r2, #1
@@ -881,7 +881,7 @@ _021680A4: .word 0x0007FFFF
 _021680A8: .word 0x69B00000
 _021680AC: .word 0x0001FFFF
 _021680B0: .word 0x00007FFF
-_021680B4: .word 0x02173158
+_021680B4: .word viShadow__dlList
 	arm_func_end ViShadow__Func_2167F00
 
 	arm_func_start ViShadow__Func_21680B8
@@ -1113,6 +1113,16 @@ _0216837C:
 	str r0, [r4, #0x300]
 	ldmia sp!, {r4, pc}
 	arm_func_end Vi3dArrow__Func_2168358
+	
+	.rodata
+
+.public viShadow__dlList
+viShadow__dlList: // 0x02173158
+	.byte 0x40, 0, 0x22, 0x24, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.byte 0, 0, 0, 0, 0, 0, 0x22, 0x24, 0x22, 0x24, 0, 0, 0x10
+	.byte 0, 0, 0, 0, 4, 0x10, 0, 0x10, 0, 0x40, 0, 0, 4, 0x22
+	.byte 0x24, 0, 0, 0x10, 0, 0, 0, 0x40, 0, 0, 0, 0, 0, 0
+	.byte 0
 	
 	.data
 

@@ -77,7 +77,7 @@ ViDockNpc__LoadAssets: // 0x02166C30
 	mov r1, #0xc
 	strh r2, [r0, #0x12]
 	mul r0, r2, r1
-	ldr r3, _02166EF4 // =0x021730A8
+	ldr r3, _02166EF4 // =ViDockNpc__AssetInfoList
 	sub r2, r1, #0xd
 	add r4, r3, r0
 	ldrb r3, [r3, r0]
@@ -88,7 +88,7 @@ ViDockNpc__LoadAssets: // 0x02166C30
 	bl BundleFileUnknown__LoadFileFromBundle
 	str r0, [r7, #0x314]
 	ldrb r3, [r4, #1]
-	ldr r1, _02166F00 // =0x0217308E
+	ldr r1, _02166F00 // =ViDockNpc__JointAnimList
 	ldr r0, _02166EFC // =aBbViNpcBb_ovl05
 	mov r3, r3, lsl #1
 	ldrh r1, [r1, r3]
@@ -247,10 +247,10 @@ _02166EB0:
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
-_02166EF4: .word 0x021730A8
+_02166EF4: .word ViDockNpc__AssetInfoList
 _02166EF8: .word 0x02173074
 _02166EFC: .word aBbViNpcBb_ovl05
-_02166F00: .word 0x0217308E
+_02166F00: .word ViDockNpc__JointAnimList
 _02166F04: .word 0x02173058
 _02166F08: .word 0x0217305C
 _02166F0C: .word 0x0000FFFF
@@ -657,6 +657,78 @@ ViDockNpc__Func_2167384: // 0x02167384
 _021674A4: .word 0x021738E8
 _021674A8: .word 0x0000FFFF
 	arm_func_end ViDockNpc__Func_2167384
+	
+	.rodata
+
+.public ovl05_02173040
+ovl05_02173040: // 0x02173040
+    .word 0x2000, 0x800, 0x20
+	.word 0x2000, 0x800, 0x100
+
+.public ViDockNpc__MaterialAnimlList
+ViDockNpc__MaterialAnimlList: // 0x02173058
+	.hword 0x1B, 0x00
+	
+.public ovl05_0217305C
+ovl05_0217305C: // 0x0217305C
+    .word 0x6000, 0x6000, 0x6000
+	.word 0xC000, 0x8000, 0xC000
+
+.public ViDockNpc__ModelList
+ViDockNpc__ModelList: // 0x02173074
+	.hword 0x00
+	.hword 0x02
+	.hword 0x04
+	.hword 0x06
+	.hword 0x08
+	.hword 0x0A
+	.hword 0x0C
+	.hword 0x0E
+	.hword 0x10
+	.hword 0x12
+	.hword 0x14
+	.hword 0x16
+	.hword 0x19
+	
+.public ViDockNpc__JointAnimList
+ViDockNpc__JointAnimList: // 0x0217308E
+	.hword 0x01
+	.hword 0x03
+	.hword 0x05
+	.hword 0x07
+	.hword 0x09
+	.hword 0x0B
+	.hword 0x0D
+	.hword 0x0F
+	.hword 0x11
+	.hword 0x13
+	.hword 0x15
+	.hword 0x17
+	.hword 0x1A
+
+.public ViDockNpc__AssetInfoList
+ViDockNpc__AssetInfoList: // 0x021730A8
+	.byte 0, 0, 0xFF, 0xFF, 0xFF, 0, 1, 0, 2, 3, 0, 0
+	.byte 1, 1, 0xFF, 0xFF, 0xFF, 0, 1, 0, 0xFF, 0xFF, 0, 0
+	.byte 2, 2, 0xFF, 0xFF, 0xFF, 0, 1, 0, 0xFF, 0xFF, 0, 0
+	.byte 3, 3, 0xFF, 0xFF, 0xFF, 0, 0, 1, 0xFF, 0xFF, 0, 0
+	.byte 4, 4, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
+	.byte 5, 5, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
+	.byte 6, 6, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
+	.byte 7, 7, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
+	.byte 8, 8, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
+	.byte 9, 9, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
+	.byte 0xA, 0xA, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
+	.byte 0xB, 0xB, 0xFF, 0, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
+	.byte 0xC, 0xC, 0, 0xFF, 0xFF, 0, 0, 0, 0xFF, 0xFF, 0, 0
+
+aBbViNpcBb_ovl05: // 0x02173144
+	.asciz "bb/vi_npc.bb"
+	.align 4
+
+.public ovl05_02173154
+ovl05_02173154: // 0x02173154                     
+	.word 0x400
 
 	.data
 

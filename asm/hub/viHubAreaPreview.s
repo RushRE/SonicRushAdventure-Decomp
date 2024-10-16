@@ -1874,7 +1874,7 @@ _0215A4AC:
 	str r1, [r0, #0xc4]
 _0215A4B8:
 	bl HubControl__Func_21572B8
-	ldr ip, _0215A51C // =0x02172D4A
+	ldr ip, _0215A51C // =HubControl__EventList
 	add r3, sp, #0
 	mov r2, #7
 _0215A4C8:
@@ -1901,7 +1901,7 @@ _0215A508:
 	.align 2, 0
 _0215A514: .word gameState+0x00000100
 _0215A518: .word gameState
-_0215A51C: .word 0x02172D4A
+_0215A51C: .word HubControl__EventList
 	arm_func_end ViHubAreaPreview__Func_215A400
 
 	arm_func_start ViHubAreaPreview__Func_215A520
@@ -3439,6 +3439,198 @@ _0215B9C8:
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	arm_func_end ViHubAreaPreview__Func_215B978
+	
+	.rodata
+
+.public ViHubAreaPreview__backgroundFileList
+ViHubAreaPreview__backgroundFileList: // 0x02172D14
+	.byte 1, 3, 4, 5, 6, 8, 7, 2
+
+.public ViHubAreaPreview__npcAnimIDList
+ViHubAreaPreview__npcAnimIDList: // 0x02172D1C
+	.byte 10, 8, 9, 11, 1, 2, 3, 4, 5, 6, 7, 255, 255, 0
+
+.public ViHubAreaPreview__npcCount
+ViHubAreaPreview__npcCount: // 0x02172D2A
+	.hword 9, 4, 3, 2, 2, 2, 0, 0
+
+.public ViHubAreaPreview__npcStartID
+ViHubAreaPreview__npcStartID: // 0x02172D3A
+	.hword 0, 9, 13, 16, 18, 20, 0, 0
+
+.public HubControl__EventList
+HubControl__EventList: // 0x02172D4A
+	.hword 40 		// SYSEVENT_UPDATE_PROGRESS
+	.hword 27 		// SYSEVENT_SAILING
+	.hword 29 		// SYSEVENT_MAIN_MENU
+	.hword 39 		// SYSEVENT_DELETE_SAVE_MENU
+	.hword 30 		// SYSEVENT_PLAYER_NAME_MENU
+	.hword 23 		// SYSEVENT_VS_JOIN_MENU
+	.hword 24 		// SYSEVENT_24
+	.hword 34 		// SYSEVENT_CUTSCENE
+	.hword 34 		// SYSEVENT_CUTSCENE
+	.hword 65535 	// SYSEVENT_INVALID
+	.hword 8 		// SYSEVENT_LOAD_STAGE
+	.hword 41 		// SYSEVENT_SOUND_TEST
+	.hword 43 		// SYSEVENT_VIKING_CUP
+	.hword 8 		// SYSEVENT_LOAD_STAGE
+	.hword 32 		// SYSEVENT_CORRUPT_SAVE_WARNING
+
+.public ovl05_02172D68
+ovl05_02172D68: // 0x02172D68
+    .byte 1, 8, 21, 25, 255
+	.align 4
+	
+.public ovl05_02172D70
+ovl05_02172D70: // 0x02172D70
+    .byte 2, 9, 22, 26, 38, 0, 0, 0
+	
+.public ovl05_02172D78
+ovl05_02172D78: // 0x02172D78
+    .byte 0, 2, 9, 22, 26, 0, 38, 0
+	
+.public ovl05_02172D80
+ovl05_02172D80: // 0x02172D80
+    .hword 0, 1                // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172D88
+ovl05_02172D88: // 0x02172D88
+    .hword 0, 1                // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172D90
+ovl05_02172D90: // 0x02172D90
+    .hword 0, 1                // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172D98
+ovl05_02172D98: // 0x02172D98
+    .hword 0, 0                // gameProgress
+	.hword 36, 1               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172DA4
+ovl05_02172DA4: // 0x02172DA4
+    .hword 0, 0                // gameProgress
+	.hword 18, 1               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172DB0
+ovl05_02172DB0: // 0x02172DB0
+    .hword 0, 0                // gameProgress
+	.hword 16, 1               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172DBC
+ovl05_02172DBC: // 0x02172DBC
+    .hword 0, 0                // gameProgress
+	.hword 16, 1               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172DC8
+ovl05_02172DC8: // 0x02172DC8
+    .hword 0, 0                // gameProgress
+	.hword 36, 1               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172DD4
+ovl05_02172DD4: // 0x02172DD4
+    .hword 0, 0                // gameProgress
+	.hword 24, 1               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172DE0
+ovl05_02172DE0: // 0x02172DE0
+    .hword 0, 0                // gameProgress
+	.hword 3, 1                // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172DEC
+ovl05_02172DEC: // 0x02172DEC
+    .hword 0, 0                // gameProgress
+	.hword 36, 1               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172DF8
+ovl05_02172DF8: // 0x02172DF8
+    .hword 0, 0                // gameProgress
+	.hword 2, 1                // gameProgress
+	.hword 3, 0                // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172E08
+ovl05_02172E08: // 0x02172E08
+    .hword 0, 0                // gameProgress
+	.hword 2, 1                // gameProgress
+	.hword 3, 0                // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172E18
+ovl05_02172E18: // 0x02172E18
+    .hword 0, 0                // gameProgress
+	.hword 24, 1               // gameProgress
+	.hword 36, 0               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172E28
+ovl05_02172E28: // 0x02172E28
+    .hword 0, 0                // gameProgress
+	.hword 26, 1               // gameProgress
+	.hword 36, 0               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172E38
+ovl05_02172E38: // 0x02172E38
+    .hword 0, 0                // gameProgress
+	.hword 11, 1               // gameProgress
+	.hword 16, 0               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172E48
+ovl05_02172E48: // 0x02172E48
+    .hword 0, 0                // gameProgress
+	.hword 5, 1                // gameProgress
+	.hword 6, 0                // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172E58
+ovl05_02172E58: // 0x02172E58
+    .hword 0, 0                // gameProgress
+	.hword 10, 1               // gameProgress
+	.hword 11, 0               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172E68
+ovl05_02172E68: // 0x02172E68
+    .hword 0, 1                // gameProgress
+	.hword 31, 0               // gameProgress
+	.hword 36, 1               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172E78
+ovl05_02172E78: // 0x02172E78
+    .hword 0, 0                // gameProgress
+	.hword 21, 1               // gameProgress
+	.hword 26, 0               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172E88
+ovl05_02172E88: // 0x02172E88
+    .hword 0, 0                // gameProgress
+	.hword 26, 1               // gameProgress
+	.hword 36, 0               // gameProgress
+	.hword 41, 0               // gameProgress
+
+.public ovl05_02172E98
+ovl05_02172E98: // 0x02172E98
+    .hword 0, 0                // gameProgress
+	.hword 6, 1                // gameProgress
+	.hword 21, 0               // gameProgress
+	.hword 36, 1               // gameProgress
+	.hword 41, 0               // gameProgress
+	.hword 140, 0              // gameProgress
+	.hword 200, 0              // gameProgress
 
 	.data
 
@@ -3478,28 +3670,27 @@ aBbTkdmDownBb_ovl05: // 0x0217361C
 	.asciz "bb/tkdm_down.bb"
 	.align 4
 
-// TODO: add labels for these so we're not using raw addresses
 .public _0217362C
 _0217362C: // 0x0217362C
-    .word 0x2172D80
-	.word 0x2172E68
-	.word 0x2172DB0
-	.word 0x2172E48
-	.word 0x2172E58
-	.word 0x2172D90
-	.word 0x2172E78
-	.word 0x2172DE0
-	.word 0x2172D88
-	.word 0x2172DF8
-	.word 0x2172E08
-	.word 0x2172E98
-	.word 0x2172DA4
-	.word 0x2172E38
-	.word 0x2172DBC
-	.word 0x2172DD4
-	.word 0x2172DEC
-	.word 0x2172E18
-	.word 0x2172E28
-	.word 0x2172DC8
-	.word 0x2172E88
-	.word 0x2172D98
+    .word ovl05_02172D80
+	.word ovl05_02172E68
+	.word ovl05_02172DB0
+	.word ovl05_02172E48
+	.word ovl05_02172E58
+	.word ovl05_02172D90
+	.word ovl05_02172E78
+	.word ovl05_02172DE0
+	.word ovl05_02172D88
+	.word ovl05_02172DF8
+	.word ovl05_02172E08
+	.word ovl05_02172E98
+	.word ovl05_02172DA4
+	.word ovl05_02172E38
+	.word ovl05_02172DBC
+	.word ovl05_02172DD4
+	.word ovl05_02172DEC
+	.word ovl05_02172E18
+	.word ovl05_02172E28
+	.word ovl05_02172DC8
+	.word ovl05_02172E88
+	.word ovl05_02172D98

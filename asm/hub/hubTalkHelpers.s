@@ -1019,7 +1019,7 @@ _021539BC: .word 0x02172454
 DockHelpers__Func_21539C0: // 0x021539C0
 	stmdb sp!, {r3, lr}
 	ldr ip, _021539E4 // =0x0217253C
-	ldr r1, _021539E8 // =0x021724A6
+	ldr r1, _021539E8 // =DockHelpers__BlazeMissionIDs
 	ldr r2, _021539EC // =0x021725B6
 	ldr r3, _021539F0 // =0x02172498
 	mov r0, #7
@@ -1028,7 +1028,7 @@ DockHelpers__Func_21539C0: // 0x021539C0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021539E4: .word 0x0217253C
-_021539E8: .word 0x021724A6
+_021539E8: .word DockHelpers__BlazeMissionIDs
 _021539EC: .word 0x021725B6
 _021539F0: .word 0x02172498
 	arm_func_end DockHelpers__Func_21539C0
@@ -1069,50 +1069,331 @@ _02153A54: .word 0x0217250C
 _02153A58: .word 0x02172444
 	arm_func_end DockHelpers__Func_2153A28
 
+	.rodata
+
+.public ovl05_02172420
+ovl05_02172420: // 0x02172420
+    .hword 0, 1, 2, 3, 4, 5
+	
+.public ovl05_0217242C
+ovl05_0217242C: // 0x0217242C
+    .hword 0xFFFF, 0xA, 0xC
+	
+.public ovl05_02172432
+ovl05_02172432: // 0x02172432
+    .hword 0x27, 0x58, 0x5B
+	
+.public ovl05_02172438
+ovl05_02172438: // 0x02172438
+    .hword 0xFFFF, 0xFFFF, 0xFFFF
+	
+.public ovl05_0217243E
+ovl05_0217243E: // 0x0217243E
+    .hword 9, 0x3B, 0x31
+	
+.public ovl05_02172444
+ovl05_02172444: // 0x02172444
+    .hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	
+.public ovl05_0217244C
+ovl05_0217244C: // 0x0217244C
+    .hword 0x5F, 0x60, 0x61, 0x62
+	
+.public ovl05_02172454
+ovl05_02172454: // 0x02172454
+    .hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	
+.public ovl05_0217245E
+ovl05_0217245E: // 0x0217245E
+    .hword 6, 0x10, 0x1A, 0x24, 0x2F
+	
+.public ovl05_02172468
+ovl05_02172468: // 0x02172468
+    .hword 6, 7, 4, 0xB, 0xD, 8
+	
+.public ovl05_02172474
+ovl05_02172474: // 0x02172474
+    .hword 7, 8, 0xA, 0xB, 0xD, 0xE
+	
+.public ovl05_02172480
+ovl05_02172480: // 0x02172480
+    .hword 0xA, 0xB, 0xD, 0xE, 0x10, 0x11
+	
+.public ovl05_0217248C
+ovl05_0217248C: // 0x0217248C
+    .hword 0x53, 0x54, 0x4F, 0x59, 0x5D, 0x55
+	
+.public ovl05_02172498
+ovl05_02172498: // 0x02172498
+    .hword 0xFFFF, 3, 0xFFFF, 9, 5, 0xFFFF, 0xFFFF
+	
+.public DockHelpers__BlazeMissionIDs
+DockHelpers__BlazeMissionIDs: // 0x021724A6
+	.hword 19, 77, 29, 86, 81, 69, 71
+	
+.public ovl05_021724B4
+ovl05_021724B4: // 0x021724B4
+    .hword 7, 8, 9, 0xA, 0xB, 0xC, 0xD, 0xE
+	
+.public ovl05_021724C4
+ovl05_021724C4: // 0x021724C4
+    .byte 36, 0, 37, 0, 38, 0, 39, 0, 40, 0, 41, 0, 42, 0, 43, 0
+
+.public ovl05_021724D4
+ovl05_021724D4: // 0x021724D4
+    .hword 5, 0, 0
+	.hword 0x1A, 4, 6
+	.hword 0x23, 0, 0
+
+.public ovl05_021724E6
+ovl05_021724E6: // 0x021724E6
+	.hword 0x18, 4, 0
+	.hword 0x18, 0, 6
+	.hword 0x23, 4, 6
+	
+.public ovl05_021724F8
+ovl05_021724F8: // 0x021724F8
+    .hword 5, 6, 7, 8, 9, 0xA, 0xB, 0xC, 0xD, 0xE
+	
+.public ovl05_0217250C
+ovl05_0217250C: // 0x0217250C
+    .hword 0x24, 4, 6
+	.hword 0x24, 4, 6
+	.hword 0x24, 4, 6
+	.hword 0x24, 4, 6
+
+.public ovl05_02172524
+ovl05_02172524: // 0x02172524
+    .hword 8, 9, 0xB, 0xC, 0xE, 0xF, 0x11, 0x12, 0x14, 0x15, 0x17, 0x18
+
+.public ovl05_0217253C
+ovl05_0217253C: // 0x0217253C
+    .hword 0xA, 0xB, 0xC, 0xD, 0xE, 0xF, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17
+
+.public DockHelpers__PostGameMissionList2
+DockHelpers__PostGameMissionList2: // 0x02172558
+	.hword 2, 7, 13, 17, 23, 27, 33, 37, 43, 48, 53, 57, 63, 67
+	
+.public ovl05_02172574
+ovl05_02172574: // 0x02172574
+    .hword 0x15, 0, 0
+	.hword 0x18, 4, 0
+	.hword 0x18, 4, 6
+	.hword 0x23, 4, 6
+	.hword 0x24, 4, 6
+
+.public ovl05_02172592
+ovl05_02172592: // 0x02172592
+    .hword 8, 0, 0
+	.hword 9, 0, 0
+	.hword 0x10, 0, 0
+	.hword 0x18, 1, 6
+	.hword 0x18, 1, 6
+	.hword 0x1E, 4, 6
+
+.public ovl05_021725B6
+ovl05_021725B6: // 0x021725B6
+    .hword 0x10, 0, 0
+	.hword 0x15, 0, 0
+	.hword 0x18, 4, 0
+	.hword 0x18, 4, 6
+	.hword 0x1E, 4, 6
+	.hword 0x24, 4, 6
+	.hword 0x24, 4, 6
+
+.public TalkHelpers__MesssageControlList
+TalkHelpers__MesssageControlList: // 0x021725E0
+	.hword 0x00, 0x01, 0x02, 0x04
+	.hword 0x05, 0x03, 0x05, 0xFFFF
+	.hword 0xFFFF, 0x00, 0x01
+	.hword 0x04, 0x08, 0x05, 0x06
+	.hword 0x0A, 0x05, 0x07, 0x05
+	.hword 0x07, 0x04, 0x09
+
+.public ovl05_0217260C
+ovl05_0217260C: // 0x0217260C
+    .hword 0xFFFF, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 7, 8, 8, 9, 9
+	.hword 0xA, 0xB, 0xB, 0xC, 0xC, 0xD, 0xE, 0xF, 0xF, 0x10
+	.hword 0x10, 0x11, 0xE, 0xE, 0x12, 0x12, 0x13, 0x14, 0x15
+	.hword 0x15, 0x15, 0x16, 0x16, 0x16, 0x16, 0x16, 0x16, 0x16
+	.hword 0x17, 0x17, 0x17, 0x17
+
+.public ovl05_0217266C
+ovl05_0217266C: // 0x0217266C
+    .hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0, 1, 1, 2, 2, 3, 4, 5, 5, 6, 6, 7
+	.hword 5, 5, 8, 8, 9, 0xA, 0xB, 0xB, 0xB, 0xC, 0xC, 0xD, 0xD
+	.hword 0xD, 0xD, 0xE, 0x10, 0x10, 0x10, 0x10
+
+.public ovl05_021726CC
+ovl05_021726CC: // 0x021726CC
+    .hword 0xFFFF, 1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4
+	.hword 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5
+	.hword 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7
+
+.public ovl05_0217272C
+ovl05_0217272C: // 0x0217272C
+    .hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0, 1, 1, 2
+	.hword 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4
+	.hword 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 7
+	.hword 7, 9, 9, 9, 9
+
+.public ovl05_0217278C
+ovl05_0217278C: // 0x0217278C
+    .hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 3, 3, 4, 4, 4, 4, 4, 4, 4
+	.hword 4, 4, 5, 6, 6, 6, 7, 7, 7, 6, 6, 8, 8, 8, 8, 9, 9
+	.hword 9, 0xA, 0xA, 0xB, 0xB, 0xB, 0xB, 0xB, 0xC, 0xC, 0xC
+	.hword 0xC
+.public ovl05_021727EC
+ovl05_021727EC: // 0x021727EC
+    .hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3
+	.hword 2, 2, 4, 4, 4, 5, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 9
+	.hword 9, 9, 9
+
+.public ovl05_0217284C
+ovl05_0217284C: // 0x0217284C
+    .hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0, 0, 0, 0, 0, 1, 1
+	.hword 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 4, 4, 6, 6, 6, 6
+
+.public ovl05_021728AC
+ovl05_021728AC: // 0x021728AC
+    .hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 2, 2, 2, 2, 2, 2, 2
+	.hword 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3
+	.hword 3, 3, 4, 4, 4, 4
+
+.public ovl05_0217290C
+ovl05_0217290C: // 0x0217290C
+    .hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 1, 1, 1, 1
+
+.public ovl05_0217296C
+ovl05_0217296C: // 0x0217296C
+    .hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 1
+	.hword 1, 1, 1, 1, 1, 2, 3, 3, 3, 4, 4, 5, 5, 5, 5, 5, 6
+	.hword 6, 6, 6
+
+.public ovl05_021729CC
+ovl05_021729CC: // 0x021729CC
+    .hword 65535, 9, 7, 10, 10, 11, 12, 12, 13, 14, 14, 15, 16
+	.hword 16, 17, 17, 18, 19, 19, 20, 20, 21, 22, 22, 23, 24
+	.hword 24, 25, 22, 22, 26, 26, 27, 28, 29, 29, 30, 31, 31
+	.hword 32, 32, 32, 32, 33, 34, 34, 34, 34
+
 	.data
 
 .public _021733E0
 _021733E0: // 0x021733E0
-	.word TalkHelpers__Func_21537BC, DockHelpers__Func_2153824, 0, 0, DockHelpers__Func_2153848, DockHelpers__Func_2153840
-	.word DockHelpers__Func_2153848, 0, 0, TalkHelpers__Func_21537BC, DockHelpers__Func_2153824, 0, DockHelpers__Func_21538CC
-	.word DockHelpers__Func_2153848, 0, DockHelpers__Func_21538DC, DockHelpers__Func_2153848, 0, DockHelpers__Func_2153848
-	.word 0, 0, DockHelpers__Func_21538D4
+	.word TalkHelpers__Func_21537BC
+	.word DockHelpers__Func_2153824
+	.word 0
+	.word 0
+	.word DockHelpers__Func_2153848
+	.word DockHelpers__Func_2153840
+	.word DockHelpers__Func_2153848
+	.word 0
+	.word 0
+	.word TalkHelpers__Func_21537BC
+	.word DockHelpers__Func_2153824
+	.word 0
+	.word DockHelpers__Func_21538CC
+	.word DockHelpers__Func_2153848
+	.word 0
+	.word DockHelpers__Func_21538DC
+	.word DockHelpers__Func_2153848
+	.word 0
+	.word DockHelpers__Func_2153848
+	.word 0
+	.word 0
+	.word DockHelpers__Func_21538D4
 
 .public _02173438
 _02173438: // 0x02173438
-	.word MissionHelpers__Func_2153BF8, 0, 0, MissionHelpers__Func_2153CEC, 0, 0, 0, 0, 0, 0, 0
-	.word MissionHelpers__Func_2153CEC, MissionHelpers__Func_2153D08, 0, 0, 0, 0, MissionHelpers__Func_2153D2C
-	.word 0, MissionHelpers__Func_2153D2C, MissionHelpers__Func_2153CEC, 0
+	.word MissionHelpers__Func_2153BF8
+	.word 0
+	.word 0
+	.word MissionHelpers__Func_2153CEC
+	.word 0
+	.word 0
+	.word 0
+	.word 0
+	.word 0
+	.word 0
+	.word 0
+	.word MissionHelpers__Func_2153CEC
+	.word MissionHelpers__Func_2153D08
+	.word 0
+	.word 0
+	.word 0
+	.word 0
+	.word MissionHelpers__Func_2153D2C
+	.word 0
+	.word MissionHelpers__Func_2153D2C
+	.word MissionHelpers__Func_2153CEC
+	.word 0
 
 .public _02173490
 _02173490: // 0x02173490
-	.word 0, DockHelpers__Func_21538E4, 0, DockHelpers__Func_2153958, 0, DockHelpers__Func_21538F0, 0
-	.word 0, 0, 0, DockHelpers__Func_21538E4, DockHelpers__Func_2153958, DockHelpers__Func_215398C, 0
-	.word DockHelpers__Func_21539C0, DockHelpers__Func_2153A28, 0, DockHelpers__Func_21539F4, 0, DockHelpers__Func_21539F4
-	.word DockHelpers__Func_2153958, MissionHelpers__Func_2153A5C
+	.word 0
+	.word DockHelpers__Func_21538E4
+	.word 0
+	.word DockHelpers__Func_2153958
+	.word 0
+	.word DockHelpers__Func_21538F0
+	.word 0
+	.word 0
+	.word 0
+	.word 0
+	.word DockHelpers__Func_21538E4
+	.word DockHelpers__Func_2153958
+	.word DockHelpers__Func_215398C
+	.word 0
+	.word DockHelpers__Func_21539C0
+	.word DockHelpers__Func_2153A28
+	.word 0
+	.word DockHelpers__Func_21539F4
+	.word 0
+	.word DockHelpers__Func_21539F4
+	.word DockHelpers__Func_2153958
+	.word MissionHelpers__Func_2153A5C
 
-// TODO: add labels for these so we're not using raw addresses
 .public _021734E8
 _021734E8: // 0x021734E8
-	.word 0x021729CC
-	.word 0x0217260C
-	.word 0x0217266C
-	.word 0x0217272C
-	.word 0x0217278C
-	.word 0x021726CC
-	.word 0x0217278C
+	.word ovl05_021729CC
+	.word ovl05_0217260C
+	.word ovl05_0217266C
+	.word ovl05_0217272C
+	.word ovl05_0217278C
+	.word ovl05_021726CC
+	.word ovl05_0217278C
 	.word 0
 	.word 0
-	.word 0x021729CC
-	.word 0x0217260C
-	.word 0x0217272C
-	.word 0x021728AC
-	.word 0x0217278C
-	.word 0x021727EC
-	.word 0x0217296C
-	.word 0x0217278C
-	.word 0x0217284C
-	.word 0x0217278C
-	.word 0x0217284C
-	.word 0x0217272C
-	.word 0x0217290C
+	.word ovl05_021729CC
+	.word ovl05_0217260C
+	.word ovl05_0217272C
+	.word ovl05_021728AC
+	.word ovl05_0217278C
+	.word ovl05_021727EC
+	.word ovl05_0217296C
+	.word ovl05_0217278C
+	.word ovl05_0217284C
+	.word ovl05_0217278C
+	.word ovl05_0217284C
+	.word ovl05_0217272C
+	.word ovl05_0217290C

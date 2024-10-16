@@ -2421,6 +2421,12 @@ ViDockBack__Func_2166540: // 0x02166540
 	bl CARD_SetThreadPriority
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end ViDockBack__Func_2166540
+	
+	.rodata
+
+aBbViDockBb_0: // 0x02173030
+	.asciz "bb/vi_dock.bb"
+	.align 4
 
 	.data
 

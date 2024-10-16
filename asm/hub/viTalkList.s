@@ -1097,7 +1097,7 @@ _0216B0AC:
 	subs r2, r2, #1
 	bne _0216B0AC
 	ldrb r0, [r3, #0]
-	ldr r4, _0216B3CC // =0x021731A5
+	ldr r4, _0216B3CC // =ovl05_021731A5
 	add r3, sp, #0
 	strb r0, [ip]
 	mov r2, #6
@@ -1301,7 +1301,7 @@ _0216B3B8:
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
 _0216B3C8: .word 0x02173198
-_0216B3CC: .word 0x021731A5
+_0216B3CC: .word ovl05_021731A5
 _0216B3D0: .word ViTalkList__Func_216B448
 	arm_func_end ViTalkList__Func_216B094
 
@@ -1537,3 +1537,18 @@ ViTalkList__Func_216B6B4: // 0x0216B6B4
 	.align 2, 0
 _0216B6BC: .word ViTalkAnnounce__Create
 	arm_func_end ViTalkList__Func_216B6B4
+	
+	.rodata
+	
+.public ovl05_02173198
+ovl05_02173198: // 0x02173198
+    .byte 2
+	
+.public ovl05_02173199
+ovl05_02173199: // 0x02173199
+    .byte 1, 6, 7, 8, 9, 10, 12, 11, 13, 14, 255, 255
+	
+.public ovl05_021731A5
+ovl05_021731A5: // 0x021731A5
+    .byte 10, 8, 9, 11, 1, 2, 3, 4, 5, 6, 7, 255, 255
+	.align 4

@@ -3785,7 +3785,7 @@ NpcOptions__Func_2170FF4: // 0x02170FF4
 NpcOptions__Func_2170FF8: // 0x02170FF8
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #0x30
-	ldr lr, _02171090 // =0x021731F4
+	ldr lr, _02171090 // =NpcUnknown__keyRepeatInitialTime
 	add ip, sp, #0x18
 	mov r3, #6
 _0217100C:
@@ -3797,7 +3797,7 @@ _0217100C:
 	add ip, ip, #4
 	subs r3, r3, #1
 	bne _0217100C
-	ldr lr, _02171094 // =0x021731C4
+	ldr lr, _02171094 // =NpcUnknown__keyRepeatRepeatTime
 	add ip, sp, #0
 	mov r3, #6
 _02171038:
@@ -3825,7 +3825,36 @@ _02171078:
 	add sp, sp, #0x30
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02171090: .word 0x021731F4
-_02171094: .word 0x021731C4
+_02171090: .word NpcUnknown__keyRepeatInitialTime
+_02171094: .word NpcUnknown__keyRepeatRepeatTime
 _02171098: .word padInput
 	arm_func_end NpcOptions__Func_2170FF8
+	
+	.rodata
+
+.public ovl05_021731B4
+ovl05_021731B4: // 0x021731B4
+    .hword 0x10, 0x10, 0x1A, 0xC, 0x28, 0xB8, 0x28C0, 0x14B
+
+.public NpcUnknown__keyRepeatRepeatTime
+NpcUnknown__keyRepeatRepeatTime: // 0x021731C4
+	.hword 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+
+.public ovl05_021731DC
+ovl05_021731DC: // 0x021731DC
+    .hword 0x662E, 0x4147, 0x1C60
+	
+.public ovl05_021731E2
+ovl05_021731E2: // 0x021731E2
+    .hword 0x37F, 0x278, 0x144 
+	
+.public ovl05_021731E8
+ovl05_021731E8: // 0x021731E8
+    .hword 0x178, 0x1EF, 0xC7 
+	
+.public ovl05_021731EE
+ovl05_021731EE: // 0x021731EE
+    .hword 0x178, 0x1EF, 0xC7
+	
+NpcUnknown__keyRepeatInitialTime: // 0x021731F4
+	.hword 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20

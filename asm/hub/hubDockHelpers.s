@@ -256,11 +256,11 @@ _02152B08: .word 0x02171830
 
 	arm_func_start DockHelpers__GetNpcMessageInfo
 DockHelpers__GetNpcMessageInfo: // 0x02152B0C
-	ldr r1, _02152B18 // =0x021722E0
+	ldr r1, _02152B18 // =DockHelpers__NpcMsgInfo
 	add r0, r1, r0, lsl #3
 	bx lr
 	.align 2, 0
-_02152B18: .word 0x021722E0
+_02152B18: .word DockHelpers__NpcMsgInfo
 	arm_func_end DockHelpers__GetNpcMessageInfo
 
 	arm_func_start DockHelpers__Func_2152B1C
@@ -322,3 +322,510 @@ DockHelpers__GetOptionsMessageInfo: // 0x02152B74
 	.align 2, 0
 _02152B7C: .word 0x02172208
 	arm_func_end DockHelpers__GetOptionsMessageInfo
+	
+	.rodata
+
+.public ovl05_0217182C
+ovl05_0217182C: // 0x0217182C
+    .hword 0xA, 0x10
+	
+.public ovl05_02171830
+ovl05_02171830: // 0x02171830
+    .hword 0xA, 0xF
+	
+.public ovl05_02171834
+ovl05_02171834: // 0x02171834
+    .hword 0, 0
+	
+.public ovl05_02171838
+ovl05_02171838: // 0x02171838
+    .word 1000                		// ringCost
+	.byte 0, 0, 5, 5, 0, 0, 0, 0, 0 // materialCost
+	.align 4
+
+.public ovl05_02171848
+ovl05_02171848: // 0x02171848
+    .hword 0, 1, 4, 3, 5, 2, 0xA, 6, 7, 8, 9, 0xB, 0xC, 0xD
+	
+.public ovl05_02171864
+ovl05_02171864: // 0x02171864
+    .hword 0, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+	
+.public ovl05_02171882
+ovl05_02171882: // 0x02171882
+    .hword 7, 8, 9, 10, 11, 12, 13, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 0
+	
+.public DockHelpers__infoPurchaseCost
+DockHelpers__infoPurchaseCost: // 0x021718B0
+	.word 600                   	// ringCost
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0	// materialCost
+	.align 4
+	
+	.word 800                   	// ringCost
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0	// materialCost
+	.align 4
+	
+	.word 1200                   	// ringCost
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0	// materialCost
+	.align 4
+	
+.public ovl05_021718E0
+ovl05_021718E0: // 0x021718E0
+    .hword 0, 0
+	.hword 0, 1
+	.hword 0, 2
+	.hword 0, 3
+	.hword 0, 4
+	.hword 2, 7
+	.hword 0, 8
+	.hword 0, 9
+	.hword 0, 10
+	.hword 1, 11
+	.hword 1, 12
+	.hword 1, 13
+	.hword 1, 14
+
+.public DockHelpers__dockUnknownConfig
+DockHelpers__dockUnknownConfig: // 0x02171914
+	.word 0, 0 // DOCKAREA_BASE
+	.word 2, 2 // DOCKAREA_JET
+	.word 3, 3 // DOCKAREA_SHIP
+	.word 4, 4 // DOCKAREA_BOAT
+	.word 5, 5 // DOCKAREA_SUBMARINE
+	.word 6, 6 // DOCKAREA_BEACH
+	.word 7, 8 // DOCKAREA_DRILL
+
+.public DockHelpers__shipBuildCost
+DockHelpers__shipBuildCost: // 0x0217194C
+	.word 0                   		// ringCost
+	.byte 1, 1, 0, 0, 0, 0, 0, 0, 0	// materialCost
+	.align 4
+
+	.word 0                   		// ringCost
+	.byte 0, 0, 5, 5, 0, 0, 0, 0, 0	// materialCost
+	.align 4
+
+	.word 0                   		// ringCost
+	.byte 1, 1, 2, 2, 5, 5, 0, 0, 0	// materialCost
+	.align 4
+
+	.word 0                   		// ringCost
+	.byte 1, 1, 1, 1, 2, 2, 5, 5, 0	// materialCost
+	.align 4
+
+	.word 0                   		// ringCost
+	.byte 0, 0, 0, 0, 0, 0, 0, 0, 1	// materialCost
+	.align 4
+
+.public DockHelpers__shipUpgradeCost
+DockHelpers__shipUpgradeCost: // 0x0217199C
+	.word 0                   		// ringCost
+	.byte 3, 3, 0, 0, 0, 0, 0, 0, 3	// materialCost
+	.align 4
+
+	.word 0                   		// ringCost
+	.byte 5, 5, 0, 0, 0, 0, 0, 0, 5	// materialCost
+	.align 4
+
+	.word 0                   		// ringCost
+	.byte 0, 0, 3, 3, 0, 0, 0, 0, 3	// materialCost
+	.align 4
+
+	.word 0                   		// ringCost
+	.byte 0, 0, 5, 5, 0, 0, 0, 0, 5	// materialCost
+	.align 4
+
+	.word 0                   		// ringCost
+	.byte 0, 0, 3, 3, 3, 3, 0, 0, 3	// materialCost
+	.align 4
+
+	.word 0                   		// ringCost
+	.byte 0, 0, 5, 5, 5, 5, 0, 0, 5	// materialCost
+	.align 4
+
+	.word 0                   		// ringCost
+	.byte 0, 0, 0, 0, 3, 3, 3, 3, 3	// materialCost
+	.align 4
+
+	.word 0                   		// ringCost
+	.byte 0, 0, 0, 0, 5, 5, 5, 5, 5	// materialCost
+	.align 4
+
+.public DockHelpers__dockMapConfig
+DockHelpers__dockMapConfig: // 0x02171A1C
+	.word 2, 1, 0x3000, 0 // DOCKAREA_JET
+	.hword 0x71C, 0
+	.word 2, 0x10000, 0, 0, 0
+
+	.word 3, 2, 0x800, 0 // DOCKAREA_SHIP
+	.hword 0xE38, 1
+	.word 2, 0x30002, 0, 0, 0
+
+	.word 4, 3, 0x800, 0 // DOCKAREA_BOAT
+	.hword 0xE38, 2, 
+	.word 6, 0x10000, 0x30002, 0x50004, 0
+
+	.word 5, 4, 0x800, 0 // DOCKAREA_SUBMARINE
+	.hword 0xE38, 3
+	.word 8, 0x10000, 0x30002, 0x50004, 0x70006
+
+	.word 7, 6, 0x800, 0 // DOCKAREA_DRILL
+	.hword 0xE38, 4
+	.word 1, 8, 0, 0, 0
+
+.public DockHelpers__DockBackInfo
+DockHelpers__DockBackInfo: // 0x02171AE4
+	.word 0
+	.hword 0xFFFF, 0xFFFF, 0x00, 0xFFFF, 0xFFFF, 0xFFFF, 1, 0xFFFF
+	.word 0xFFFFC000, 0
+
+	.word 1,
+	.hword 0xFFFF, 0xFFFF, 0x02, 0xFFFF, 0xFFFF, 0xFFFF, 3, 0xFFFF
+	.word 0xFFFFC000, 0
+
+	.word 2
+	.hword 0x08, 0x09, 0x0A, 0xFFFF, 0x0B, 0xFFFF, 0xC, 0xFFFF
+	.word 0xFFFFC000, 0xC000
+	
+	.word 3
+	.hword 0x0D, 0x0E, 0x0F, 0xFFFF, 0x10, 0xFFFF, 0x11, 0xFFFF
+	.word 0xFFFF6000, 0xC000
+	
+	.word 4
+	.hword 0x12, 0x13, 0x14, 0xFFFF,  0x15, 0xFFFF, 0x16, 0xFFFF
+	.word 0, 0xC000
+	
+	.word 5
+	.hword 0x17, 0x18, 0x19, 0xFFFF,  0x1A, 0xFFFF, 0x1B, 0xFFFF
+	.word 0, 0xC000
+	
+	.word 6
+	.hword 0xFFFF, 0xFFFF, 0x04, 0x05, 0xFFFF, 0x06, 7, 0xFFFF
+	.word 0xFFFFC000, 0
+	
+	.word 8
+	.hword 0x1C, 0xFFFF, 0x1D, 0xFFFF, 0xFFFF, 0xFFFF, 0x1E, 0xFFFF
+	.word 0xFFFF6000, 0
+
+.public DockHelpers__npcConfig
+DockHelpers__npcConfig: // 0x02171BC4
+	.hword 1, 0, 9, 0
+	.word DockHelpers__Func_2152A70			
+
+	.hword 2, 0x4000, 0xFFF1, 0x12
+	.word DockHelpers__Func_2152A7C
+
+	.hword 0, 0, 0xFFF7, 0
+	.word DockHelpers__Func_2152A88
+
+	.hword 5, 0, 0xFFF7, 0
+	.word DockHelpers__Func_2152AA0
+
+	.hword 6, 0, 0xFFF7, 0
+	.word DockHelpers__Func_2152AAC
+
+	.hword 4, 0xC000, 0xB, 8
+	.word DockHelpers__Func_2152A94
+
+	.hword 6, 0x4000, 0xFFF5, 8
+	.word DockHelpers__Func_2152AAC
+
+	.hword 0xB, 0, 0xFFF9, 0xFFF5
+	.word DockHelpers__Func_2152AF4
+
+	.hword 0xC, 0, 7, 0xFFF5
+	.word DockHelpers__Func_2152B00
+
+	.hword 1, 0xE38E, 0x20, 0x21
+	.word DockHelpers__Func_2152A70
+
+	.hword 2, 0xC000, 0x10, 0x2D
+	.word DockHelpers__Func_2152A7C
+
+	.hword 5, 0x4000, 0x20, 0x2D
+	.word DockHelpers__Func_2152AA0
+
+	.hword 9, 0, 0xC, 0x2D
+	.word DockHelpers__Func_2152AD0
+
+	.hword 6, 0, 0xFFEB, 0x54
+	.word DockHelpers__Func_2152AAC
+
+	.hword 7, 0, 0x15, 0x54
+	.word DockHelpers__Func_2152AB8
+
+	.hword 3, 0, 0xFFEB, 0x54
+	.word DockHelpers__Func_2152AE8
+
+	.hword 6, 0, 0x15, 0x54
+	.word DockHelpers__Func_2152AAC
+
+	.hword 8, 0, 0xFFEB, 0x54
+	.word DockHelpers__Func_2152AC4
+
+	.hword 6, 0, 0x15, 0x54
+	.word DockHelpers__Func_2152AAC
+
+	.hword 8, 0, 0xFFEB, 0x54
+	.word DockHelpers__Func_2152AC4
+
+	.hword 5, 0, 0xFFFB, 0x1B
+	.word DockHelpers__Func_2152AA0
+
+	.hword 0xA, 0, 0xFFFB, 0x1B
+	.word DockHelpers__Func_2152ADC
+	
+.public ovl05_02171CCC
+ovl05_02171CCC: // 0x02171CCC
+    .word 9, 1, 0, 0, 0, 3, 0x10000, 8, 0, 0
+	.word 9, 1, 0, 0, 0, 3, 0x10000, 8, 0, 0
+	.word 9, 2, 0, 0, 0, 3, 0x30002, 8, 0, 0
+	.word 9, 2, 0, 0, 0, 3, 0x30002, 8, 0, 0
+	.word 9, 3, 0, 0, 0, 5, 0x30002, 0x50004, 8, 0
+	.word 9, 3, 0, 0, 0, 5, 0x30002, 0x50004, 8, 0
+	.word 9, 4, 0, 0, 0, 5, 0x50004, 0x70006, 8, 0
+	.word 9, 4, 0, 0, 0, 5, 0x50004, 0x70006, 8, 0
+
+.public DockHelpers__dockStageConfig
+DockHelpers__dockStageConfig: // 0x02171E0C
+	.word 0x00, 0x00
+	.word 0, 0, 0xFFFE9000
+	.word 0x3C000, 0xF1C8, 0, 0x3000, 0xFFFFC000, 0, 0x3000, 0x4000, 8, 0x800, 0
+	.hword 0x1000, 0
+
+	.word 0x01, 0x00
+	.word 0, 0, 0xFFFE9000
+	.word 0x3C000, 0xF1C8, 0, 0x3000, 0xFFFFC000, 0, 0x3000, 0x4000, 8, 0x800, 0
+	.hword 0x1000, 0
+
+	.word 0x02, 0x01
+	.word 0, 0, 0xFFFF1000
+	.word 0x50000, 0xF1C8, 0xFFFEC000, 0, 0x20000, 0x14000, 0, 0x32000, 0x10, 0x1000, 1
+	.hword 0x1000, 0
+
+	.word 0x03, 0x02
+	.word 0, 0, 0xFFFE2000
+	.word 0x80000, 0xEAAB, 0xFFF97000, 0, 0, 0x69000, 0, 0x4C000, 0xC, 0x2000, 1
+	.hword 0x1800, 0
+
+	.word 0x04, 0x03
+	.word 0, 0, 0xFFFE2000
+	.word 0x80000, 0xEAAB, 0xFFFAB000, 0, 0, 0x2D000, 0, 0x4C000, 0xC, 0x2000, 1
+	.hword 0x1800, 0
+
+	.word 0x05, 0x04
+	.word 0, 0, 0xFFFE2000
+	.word 0x80000, 0xEAAB, 0xFFFD3000, 0, 0, 0x2D000, 0,  0x4C000, 0xC, 0x2000, 1
+	.hword 0x1800, 0
+
+	.word 0x06, 0x05
+	.word 0, 0, 0xFFFF8000
+	.word 0x64000, 0xE38F, 0xFFFF5000, 0, 0xFFF00000, 0xB000, 0, 0x21000, 0x10, 0x2000, 1
+	.hword 0x1000, 0
+
+.public ovl05_02171FE8
+ovl05_02171FE8: // 0x02171FE8
+    .hword 0x90               // field_0
+	.hword 0x94               // field_2
+	.word 0                   // field_4
+	.word 0                   // field_8
+	.word 3, 4, 5             // field_C
+	.word 6, 4, 7             // field_18
+	.word 2, 7, 9             // field_24
+	.word 1, 9, 9             // field_30
+	.hword 1                  // field_3C
+	.hword 0                  // field_3E
+	.hword 0x78               // field_0
+	.hword 0xD4               // field_2
+	.word 2                   // field_4
+	.word 1                   // field_8
+	.word 5, 3, 4             // field_C
+	.word 0, 9, 9             // field_18
+	.word 2, 0, 9             // field_24
+	.word 9, 9, 9             // field_30
+	.hword 2                  // field_3C
+	.hword 0                  // field_3E
+	.hword 0x104              // field_0
+	.hword 0xBE               // field_2
+	.word 3                   // field_4
+	.word 2                   // field_8
+	.word 0, 9, 9             // field_C
+	.word 7, 9, 9             // field_18
+	.word 9, 9, 9             // field_24
+	.word 1, 9, 9             // field_30
+	.hword 3                  // field_3C
+	.hword 0                  // field_3E
+	.hword 0x3C               // field_0
+	.hword 0x9E               // field_2
+	.word 4                   // field_4
+	.word 3                   // field_8
+	.word 9, 9, 9             // field_C
+	.word 4, 9, 9             // field_18
+	.word 0, 9, 9             // field_24
+	.word 5, 1, 9             // field_30
+	.hword 4                  // field_3C
+	.hword 0                  // field_3E
+	.hword 0x50               // field_0
+	.hword 0x64               // field_2
+	.word 5                   // field_4
+	.word 4                   // field_8
+	.word 3, 9, 9             // field_C
+	.word 6, 9, 9             // field_18
+	.word 6, 0, 9             // field_24
+	.word 3, 0, 1             // field_30
+	.hword 5                  // field_3C
+	.hword 0                  // field_3E
+	.hword 0x2C               // field_0
+	.hword 0xCC               // field_2
+	.word 6                   // field_4
+	.word 5                   // field_8
+	.word 9, 9, 9             // field_C
+	.word 3, 9, 9             // field_18
+	.word 1, 0, 9             // field_24
+	.word 1, 9, 9             // field_30
+	.hword 0xFFFF             // field_3C
+	.hword 0                  // field_3E
+	.hword 0x9A               // field_0
+	.hword 0x50               // field_2
+	.word 8                   // field_4
+	.word 6                   // field_8
+	.word 4, 9, 9             // field_C
+	.word 9, 9, 9             // field_18
+	.word 7, 9, 9             // field_24
+	.word 0, 9, 9             // field_30
+	.hword 6                  // field_3C
+	.hword 0                  // field_3E
+	.hword 0x114              // field_0
+	.hword 0x68               // field_2
+	.word 8                   // field_4
+	.word 7                   // field_8
+	.word 6, 0, 9             // field_C
+	.word 6, 9, 9             // field_18
+	.word 9, 9, 9             // field_24
+	.word 2, 0, 9             // field_30
+	.hword 0xFFFF             // field_3C
+	.hword 0                  // field_3E
+
+.public ovl05_021721E8
+ovl05_021721E8: // 0x021721E8
+    .hword 0xF, 0x06
+	
+.public ovl05_021721EC
+ovl05_021721EC: // 0x021721EC
+    .hword 0xB, 0x09
+	.hword 0xC, 0x00
+	.hword 0xC, 0x01
+	.hword 0xC, 0x02
+
+.public ovl05_021721FC
+ovl05_021721FC: // 0x021721FC
+    .hword 0xF, 0x00
+	.hword 0xF, 0x02
+	.hword 0xF, 0x04
+	
+.public DockHelpers__optionsMessageInfo
+DockHelpers__optionsMessageInfo: // 0x02172208
+	.hword 0x0D
+	.hword 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x00
+
+.public ovl05_02172218
+ovl05_02172218: // 0x02172218
+    .hword 0xFFFF, 0xFFFF
+	.hword 0xB, 0x01
+	.hword 0xB, 0x03
+	.hword 0xB, 0x05
+	.hword 0xB, 0x07
+	
+.public ovl05_0217222C
+ovl05_0217222C: // 0x0217222C
+    .hword 0x10, 0x00
+	.hword 0x10, 0x02
+	.hword 0x10, 0x04
+	.hword 0x10, 0x06
+	.hword 0x10, 0x08
+	.hword 0x10, 0x0A
+	.hword 0x10, 0x0C
+	.hword 0x10, 0x0E
+
+.public DockHelpers__announceConfig
+DockHelpers__announceConfig: // 0x0217224C
+	.hword 0xC, 5
+	.hword 0xC, 9
+	.hword 0xC, 0xD
+	.hword 0xC, 0x11
+	.hword 0xC, 0x15
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0x13, 8
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xC, 0x19
+	.hword 0x13, 0xC
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0x13, 0x10
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF
+	.hword 0xE, 9
+	.hword 0xE, 0xA
+	.hword 0x14, 9
+	.hword 0x14, 9
+	.hword 0x14, 0xE
+	.hword 0x14, 0xE
+	.hword 0x14, 0x13
+	.hword 0x14, 0x13
+	.hword 0x14, 0x18
+	.hword 0x14, 0x18
+
+.public DockHelpers__NpcMsgInfo
+DockHelpers__NpcMsgInfo: // 0x021722E0
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0x0B, 0x00, 0xFFFF, 0xFFFF
+	.hword 0x0B, 0x02, 0xFFFF, 0xFFFF
+	.hword 0x0B, 0x04, 0xFFFF, 0xFFFF
+	.hword 0x0B, 0x06, 0xFFFF, 0xFFFF
+	.hword 0x0B, 0x08, 0xFFFF, 0xFFFF
+	.hword 0x0C, 0x03, 0xFFFF, 0xFFFF
+	.hword 0x0C, 0x04, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0x03, 0x0A, 0xFFFF, 0xFFFF
+	.hword 0x07, 0x09, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0x07, 0x0F, 0xFFFF, 0xFFFF
+	.hword 0x0F, 0x01, 0xFFFF, 0xFFFF
+	.hword 0x01, 0x19, 0xFFFF, 0xFFFF
+	.hword 0x0B, 0x0A, 0xFFFF, 0xFFFF
+	.hword 0x0F, 0x03, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0x03, 0x10, 0xFFFF, 0xFFFF
+	.hword 0x03, 0x13, 0xFFFF, 0xFFFF
+	.hword 0x03, 0x16, 0xFFFF, 0xFFFF
+	.hword 0x04, 0x12, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF
+	.hword 0x04, 0x0C, 0xFFFF, 0xFFFF
+	.hword 0x0F, 0x05, 0xFFFF, 0xFFFF
+	.hword 0x07, 0x0C, 0xFFFF, 0xFFFF
+	.hword 0x04, 0x0F, 0xFFFF, 0xFFFF
+	.hword 0x03, 0x0D, 0xFFFF, 0xFFFF
+	.hword 0x03, 0x19, 0xFFFF, 0xFFFF
+	.hword 0x10, 0x01, 0xFFFF, 0xFFFF
+	.hword 0x10, 0x03, 0xFFFF, 0xFFFF
+	.hword 0x10, 0x05, 0xFFFF, 0xFFFF
+	.hword 0x10, 0x07, 0xFFFF, 0xFFFF
+	.hword 0x10, 0x09, 0xFFFF, 0xFFFF
+	.hword 0x10, 0x0B, 0xFFFF, 0xFFFF
+	.hword 0x10, 0x0D, 0xFFFF, 0xFFFF
+	.hword 0x10, 0x0F, 0xFFFF, 0xFFFF
+	.hword 0x0F, 0x07, 0xFFFF, 0xFFFF
+	.hword 0x00, 0x07, 0xFFFF, 0xFFFF

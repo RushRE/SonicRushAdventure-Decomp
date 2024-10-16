@@ -1393,7 +1393,7 @@ ViDock__Func_215EC58: // 0x0215EC58
 	addhs sp, sp, #0x38
 	movhs r0, #0
 	ldmhsia sp!, {r4, r5, r6, pc}
-	ldr r6, _0215ED08 // =0x02172ED8
+	ldr r6, _0215ED08 // =ovl05_02172ED8
 	add r5, sp, #0
 	mov r4, #0xe
 _0215EC80:
@@ -1433,7 +1433,7 @@ _0215ECFC:
 	add sp, sp, #0x38
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0215ED08: .word 0x02172ED8
+_0215ED08: .word ovl05_02172ED8
 	arm_func_end ViDock__Func_215EC58
 
 	arm_func_start ViDock__Func_215ED0C
@@ -2800,3 +2800,37 @@ ViDock__Func_215FFF4: // 0x0215FFF4
 	strh r1, [r0, #0x5c]
 	ldmia sp!, {r4, pc}
 	arm_func_end ViDock__Func_215FFF4
+	
+	.rodata
+
+.public ovl05_02172EB4
+ovl05_02172EB4: // 0x02172EB4
+    .byte 224, 111, 247, 123, 255, 127, 247, 123
+	
+.public ovl05_02172EBC
+ovl05_02172EBC: // 0x02172EBC
+    .hword 5, 4, 4, 3, 2, 2, 2
+	
+.public ovl05_02172ECA
+ovl05_02172ECA: // 0x02172ECA
+    .hword 0, 5, 9, 0xD, 0x10, 0x12, 0x14
+	
+.public ovl05_02172ED8
+ovl05_02172ED8: // 0x02172ED8
+    .hword 0xFFF0, 0xFFE0
+	.hword 0x10, 8
+	.hword 0xFFF0, 0xFFE0
+	.hword 0x10, 8
+	.hword 0xFFF0, 0xFFE0
+	.hword 0x10, 8
+	.hword 0xFFF4, 0xFFE8
+	.hword 0xC, 4
+	.hword 0xFFF4, 0xFFE8
+	.hword 0xC, 4
+	.hword 0xFFF4, 0xFFE8
+	.hword 0xC, 4
+	.hword 0xFFF4, 0xFFE8
+	.hword 0xC, 4
+	.hword 0x32, 0x10
+	.hword 8, 0
+	.hword 0x64, 0

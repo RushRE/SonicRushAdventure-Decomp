@@ -73,23 +73,14 @@ void HubAudio__StopSoundHandle(void)
     }
 }
 
-NONMATCH_FUNC void HubAudio__PlaySfx(HubSfxIDs id)
+void HubAudio__PlaySfx(HubSfxIDs id)
 {
-#ifdef NON_MATCHING
     static const u16 sfxList[] = {
-        DCW SEQ_ARC_VILLAGE_SE_PAUSE, SEQ_ARC_VILLAGE_SE_V_DECIDE,   SEQ_ARC_VILLAGE_SE_V_CANCELL, SEQ_ARC_VILLAGE_SE_CURSOL,
-        SEQ_ARC_VILLAGE_SE_V_POPUP,   SEQ_ARC_VILLAGE_SE_D_DECISION, SEQ_ARC_VILLAGE_SE_V_CHANGE,  SEQ_ARC_VILLAGE_SE_WAVE,
+        [HUB_SFX_PAUSE] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_PAUSE,         [HUB_SFX_V_DECIDE] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_V_DECIDE,
+        [HUB_SFX_V_CANCELL] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_V_CANCELL, [HUB_SFX_CURSOL] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_CURSOL,
+        [HUB_SFX_V_POPUP] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_V_POPUP,     [HUB_SFX_D_DECISION] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_D_DECISION,
+        [HUB_SFX_V_CHANGE] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_V_CHANGE,   [HUB_SFX_WAVE] = SND_SYS_SEQARC_ARC_VILLAGE_SEQ_SE_WAVE,
     };
 
-    PlaySysSfx(HubAudio__sfxList[id]);
-#else
-    // clang-format off
-	ldr r1, =0x02172D04
-	mov r0, r0, lsl #1
-	ldr ip, =PlaySysSfx
-	ldrh r0, [r1, r0]
-	bx ip
-
-// clang-format on
-#endif
+    PlaySysSfx(sfxList[id]);
 }

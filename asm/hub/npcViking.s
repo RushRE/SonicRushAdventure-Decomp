@@ -1,6 +1,8 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
 
+	.public NpcCutsceneViewer__entryList
+
 	.text
 
 	arm_func_start NpcViking__Create
@@ -60,7 +62,7 @@ _0217114C: .word 0x0000055C
 
 	arm_func_start NpcViking__Func_2171150
 NpcViking__Func_2171150: // 0x02171150
-	ldr r2, _02171184 // =0x0217320C
+	ldr r2, _02171184 // =ovl05_0217320C
 	mov ip, #0
 _02171158:
 	mov r3, ip, lsl #2
@@ -75,7 +77,7 @@ _02171158:
 	mov r0, #0
 	bx lr
 	.align 2, 0
-_02171184: .word 0x0217320C
+_02171184: .word ovl05_0217320C
 _02171188: .word 0x0217320E
 	arm_func_end NpcViking__Func_2171150
 
@@ -120,7 +122,7 @@ NpcViking__Func_21711D0: // 0x021711D0
 	mov r6, #0
 	cmp r0, #0
 	ble _02171264
-	ldr r9, _02171304 // =0x02173220
+	ldr r9, _02171304 // =NpcCutsceneViewer__entryList
 	mov r8, r6
 	mov r11, #0x46
 	mov r5, r6
@@ -188,7 +190,7 @@ _02171264:
 	add sp, sp, #0x2c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02171304: .word 0x02173220
+_02171304: .word NpcCutsceneViewer__entryList
 	arm_func_end NpcViking__Func_21711D0
 
 	arm_func_start NpcViking__Func_2171308
@@ -296,7 +298,7 @@ NpcViking__Func_2171404: // 0x02171404
 	bl NpcOptions__Func_216EFDC
 	mov r1, #6
 	mul r2, r0, r1
-	ldr r1, _021714A8 // =0x02173220
+	ldr r1, _021714A8 // =NpcCutsceneViewer__entryList
 	mov r0, r4
 	ldrh r4, [r1, r2]
 	bl NpcOptions__Func_216EFDC
@@ -325,7 +327,7 @@ _02171494:
 	bl _ZN15CViDockNpcGroup12Func_2168754El
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021714A8: .word 0x02173220
+_021714A8: .word NpcCutsceneViewer__entryList
 _021714AC: .word gameState+0x00000100
 _021714B0: .word 0x0000FFFF
 	arm_func_end NpcViking__Func_2171404
@@ -390,7 +392,7 @@ NpcViking__Func_217154C: // 0x0217154C
 	movs ip, r0, lsr #0x10
 	moveq r0, #0
 	bxeq lr
-	ldr r1, _021715C0 // =0x0217320C
+	ldr r1, _021715C0 // =ovl05_0217320C
 	mov r3, #4
 _0217156C:
 	add r0, r1, r3, lsl #2
@@ -400,7 +402,7 @@ _0217156C:
 	ldreqh ip, [r1, r2]
 	subs r3, r3, #1
 	bpl _0217156C
-	ldr r1, _021715C4 // =0x02173220
+	ldr r1, _021715C4 // =NpcCutsceneViewer__entryList
 	mov r2, #0
 _02171590:
 	ldrh r0, [r1, #0]
@@ -416,6 +418,84 @@ _02171590:
 	bx lr
 	.align 2, 0
 _021715BC: .word gameState
-_021715C0: .word 0x0217320C
-_021715C4: .word 0x02173220
+_021715C0: .word ovl05_0217320C
+_021715C4: .word NpcCutsceneViewer__entryList
 	arm_func_end NpcViking__Func_217154C
+	
+	.rodata
+
+ovl05_0217320C: // 0x0217320C
+    .hword 18, 19, 19, 20, 34, 35, 59, 60, 60, 61
+	
+.public NpcCutsceneViewer__entryList
+NpcCutsceneViewer__entryList: // 0x02173220
+	.hword 1, 0, 0xFFFF
+	.hword 2, 1, 6
+	.hword 3, 2, 6
+	.hword 4, 3, 6
+	.hword 5, 4, 6
+	.hword 6, 5, 6
+	.hword 7, 6, 6
+	.hword 8, 7, 6
+	.hword 9, 8, 6
+	.hword 10, 9, 6
+	.hword 11, 10, 6
+	.hword 12, 11, 16
+	.hword 13, 12, 16
+	.hword 14, 13, 16
+	.hword 15, 14, 16
+	.hword 16, 15, 16
+	.hword 17, 16, 16
+	.hword 18, 17, 16
+	.hword 21, 18, 16
+	.hword 22, 19, 16
+	.hword 24, 20, 16
+	.hword 26, 21, 16
+	.hword 27, 22, 16
+	.hword 28, 23, 16
+	.hword 29, 24, 16
+	.hword 30, 25, 16
+	.hword 32, 26, 26
+	.hword 33, 27, 26
+	.hword 34, 28, 26
+	.hword 36, 29, 26
+	.hword 37, 30, 26
+	.hword 38, 31, 26
+	.hword 39, 32, 26
+	.hword 40, 33, 26
+	.hword 41, 34, 26
+	.hword 42, 35, 26
+	.hword 31, 36, 26
+	.hword 43, 37, 26
+	.hword 44, 38, 26
+	.hword 45, 39, 26
+	.hword 46, 40, 26
+	.hword 47, 41, 36
+	.hword 48, 42, 36
+	.hword 49, 43, 36
+	.hword 50, 44, 36
+	.hword 51, 45, 36
+	.hword 52, 46, 36
+	.hword 53, 47, 36
+	.hword 54, 48, 36
+	.hword 55, 49, 36
+	.hword 56, 50, 36
+	.hword 57, 51, 36
+	.hword 58, 52, 36
+	.hword 59, 53, 36
+	.hword 62, 54, 36
+	.hword 63, 55, 47
+	.hword 64, 56, 47
+	.hword 65, 57, 47
+	.hword 66, 58, 47
+	.hword 67, 59, 47
+	.hword 68, 60, 0xFFFE
+	.hword 69, 61, 0xFFFE
+	.hword 71, 62, 0xFFFE
+	.hword 72, 63, 0xFFFE
+	.hword 73, 64, 0xFFFE
+	.hword 75, 65, 0xFFFE
+	.hword 76, 66, 0xFFFE
+	.hword 77, 67, 0xFFFE
+	.hword 78, 68, 0xFFFE
+	.hword 79, 69, 0xFFFE
