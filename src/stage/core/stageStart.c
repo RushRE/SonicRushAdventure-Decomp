@@ -17,7 +17,7 @@ static void StageStart_Main(void);
 
 void CreateStageStart(void)
 {
-    Task *task = TaskCreate(StageStart_Main, NULL, TASK_FLAG_NONE, 2, TASK_PRIORITY_UPDATE_LIST_START + 0x109D, TASK_SCOPE_3, StageStart);
+    Task *task = TaskCreate(StageStart_Main, NULL, TASK_FLAG_NONE, 2, TASK_PRIORITY_UPDATE_LIST_START + 0x109D, TASK_GROUP(3), StageStart);
 
     StageStart *work = TaskGetWork(task, StageStart);
     TaskInitWork16(work);

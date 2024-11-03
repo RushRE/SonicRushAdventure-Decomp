@@ -3372,7 +3372,7 @@ _0217132C:
 	mov r4, #0
 _02171330:
 	mov r0, r4
-	bl ClearTaskScope
+	bl DestroyTaskGroup
 	add r0, r4, #1
 	and r4, r0, #0xff
 	cmp r4, #6

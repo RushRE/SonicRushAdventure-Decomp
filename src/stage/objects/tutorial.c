@@ -389,7 +389,7 @@ RUSH_INLINE BOOL CheckAdvancePress(Tutorial *work)
 
 Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(Tutorial_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F0, TASK_SCOPE_2, Tutorial);
+    Task *task = CreateStageTask(Tutorial_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F0, TASK_GROUP(2), Tutorial);
     if (task == HeapNull)
         return NULL;
 
@@ -497,7 +497,7 @@ TutorialCheckpoint *CreateTutorialCheckpoint(MapObject *mapObject, fx32 x, fx32 
     if (CheckTutorialInactive())
         return NULL;
 
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, TutorialCheckpoint);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), TutorialCheckpoint);
     if (task == HeapNull)
         return NULL;
 

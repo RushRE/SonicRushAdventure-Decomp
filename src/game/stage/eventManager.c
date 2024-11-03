@@ -974,7 +974,7 @@ void EventManager__Init(void)
 
 void EventManager__Create(void)
 {
-    Task *task = TaskCreate(EventManager__Main, EventManager__Destructor, TASK_FLAG_NONE, 0, 0x1090, TASK_SCOPE_3, EventManager);
+    Task *task = TaskCreate(EventManager__Main, EventManager__Destructor, TASK_FLAG_NONE, 0, 0x1090, TASK_GROUP(3), EventManager);
 
     EventManager *work = TaskGetWork(task, EventManager);
 

@@ -68,7 +68,7 @@ BGUnknownTrigger *CreateBGUnknownTrigger(MapObject *mapObject, fx32 x, fx32 y, f
         return NULL;
     }
 
-    task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, BGUnknownTrigger);
+    task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), BGUnknownTrigger);
     if (task == HeapNull)
         return NULL;
 

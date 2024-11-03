@@ -104,7 +104,7 @@ void NameMenu__Create(u32 flags, SavePlayerName *name, FontWindow *fontWindow)
     NameMenu__SetupDisplay(NameMenu__sVars);
     NameMenu__InitFontWindow(NameMenu__sVars);
 
-    NameMenu__sVars->task = TaskCreateNoWork(NameMenu__Main_Loading, NameMenu__Destructor, TASK_FLAG_NONE, 0, 0, TASK_SCOPE_0, "NameMenu");
+    NameMenu__sVars->task = TaskCreateNoWork(NameMenu__Main_Loading, NameMenu__Destructor, TASK_FLAG_NONE, 0, 0, TASK_GROUP(0), "NameMenu");
 
     CreateThreadWorker(&NameMenu__sVars->thread, NameMenu__ThreadFunc, NameMenu__sVars, 24);
 }

@@ -38,7 +38,7 @@ Platform *Platform__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     if ((s32)mapObject->id == MAPOBJECT_190 || mapObject->id == MAPOBJECT_191)
         structSize = sizeof(Platform2);
 
-    task = TaskCreate_(StageTask_Main, Platform__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_SCOPE_2, structSize);
+    task = TaskCreate_(StageTask_Main, Platform__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), structSize);
     if (task == HeapNull)
         return NULL;
 

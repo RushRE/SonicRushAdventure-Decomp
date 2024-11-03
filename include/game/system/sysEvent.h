@@ -136,7 +136,7 @@ extern const struct SysEvent sysEventList[SYSEVENT_COUNT];
 // FUNCTIONS
 // --------------------
 
-void CreateSysEventEx(const struct SysEvent *eventList, u32 eventCount, u32 eventID, BOOL createTask, u16 priority, TaskScope scope);
+void CreateSysEventEx(const struct SysEvent *eventList, u32 eventCount, u32 eventID, BOOL createTask, u16 priority, TaskGroup group);
 SysEventList *GetSysEventList(void);
 void RequestSysEventChange(s32 id);    // pick an event using current event's "next events" list
 void RequestNewSysEventChange(s32 id); // pick a sys event manually
@@ -146,9 +146,9 @@ void NextSysEvent(void);
 // INLINE FUNCTIONS
 // --------------------
 
-RUSH_INLINE void CreateSysEvent(u32 eventID, BOOL createTask, u16 priority, TaskScope scope)
+RUSH_INLINE void CreateSysEvent(u32 eventID, BOOL createTask, u16 priority, TaskGroup group)
 {
-    CreateSysEventEx(sysEventList, ARRAY_COUNT(sysEventList), eventID, createTask, priority, scope);
+    CreateSysEventEx(sysEventList, ARRAY_COUNT(sysEventList), eventID, createTask, priority, group);
 }
 
 RUSH_INLINE EventID GetCurSysEvent(void)

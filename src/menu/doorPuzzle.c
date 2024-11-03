@@ -315,7 +315,7 @@ void CreateDoorPuzzle(DoorPuzzleEvent event)
 {
     SetupDisplayForDoorPuzzle();
 
-    Task *task = TaskCreate(DoorPuzzle_Main_Init, DoorPuzzle_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_SCOPE_0, DoorPuzzle);
+    Task *task = TaskCreate(DoorPuzzle_Main_Init, DoorPuzzle_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(0), DoorPuzzle);
 
     DoorPuzzle *work = TaskGetWork(task, DoorPuzzle);
     TaskInitWork16(work);
@@ -331,9 +331,9 @@ void CreateDoorPuzzle(DoorPuzzleEvent event)
 
 void ClearDoorPuzzleTasks(void)
 {
-    ClearTaskScope(TASK_SCOPE_2);
-    ClearTaskScope(TASK_SCOPE_1);
-    ClearTaskScope(TASK_SCOPE_0);
+    DestroyTaskGroup(TASK_GROUP(2));
+    DestroyTaskGroup(TASK_GROUP(1));
+    DestroyTaskGroup(TASK_GROUP(0));
 }
 
 void SetupDisplayForDoorPuzzle(void)
@@ -461,7 +461,7 @@ void ChangeEventForDoorPuzzle(DoorPuzzle *work)
 // DoorPuzzleBGPillarFlame
 void CreateDoorPuzzleBGPillarFlame(DoorPuzzle *parent)
 {
-    Task *task = TaskCreate(DoorPuzzleBGPillarFlame_Main_Init, DoorPuzzleBGPillarFlame_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_SCOPE_2,
+    Task *task = TaskCreate(DoorPuzzleBGPillarFlame_Main_Init, DoorPuzzleBGPillarFlame_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(2),
                             DoorPuzzleBGPillarFlame);
 
     DoorPuzzleBGPillarFlame *work = TaskGetWork(task, DoorPuzzleBGPillarFlame);
@@ -511,7 +511,7 @@ void DoorPuzzleDialogue_Create(DoorPuzzle *parent)
 {
     s32 i;
 
-    Task *task = TaskCreate(DoorPuzzleDialogue_Main_Init, (TaskDestructor)DoorPuzzleDialogue_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_SCOPE_1,
+    Task *task = TaskCreate(DoorPuzzleDialogue_Main_Init, (TaskDestructor)DoorPuzzleDialogue_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(1),
                             DoorPuzzleDialogue);
 
     DoorPuzzleDialogue *work = TaskGetWork(task, DoorPuzzleDialogue);
@@ -1062,7 +1062,7 @@ void AdvanceDoorPuzzleDialogue(DoorPuzzleDialogue *work)
 void CreateDoorPuzzleKeySys(DoorPuzzle *parent)
 {
     Task *task =
-        TaskCreate(DoorPuzzleKeySys_Main_InitKeys, DoorPuzzleKeySys_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_SCOPE_1, DoorPuzzleKeySys);
+        TaskCreate(DoorPuzzleKeySys_Main_InitKeys, DoorPuzzleKeySys_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(1), DoorPuzzleKeySys);
 
     DoorPuzzleKeySys *work = TaskGetWork(task, DoorPuzzleKeySys);
     TaskInitWork16(work);
@@ -1402,7 +1402,7 @@ void DoorPuzzleKeySys_KeyState_Active(DoorPuzzleKey *work)
 // DoorPuzzleTouchPrompt
 void CreateDoorPuzzleTouchPrompt(DoorPuzzleKeySys *parent)
 {
-    Task *task = TaskCreate(DoorPuzzleTouchPrompt_Main_Init, DoorPuzzleTouchPrompt_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_SCOPE_2,
+    Task *task = TaskCreate(DoorPuzzleTouchPrompt_Main_Init, DoorPuzzleTouchPrompt_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(2),
                             DoorPuzzleTouchPrompt);
 
     DoorPuzzleTouchPrompt *work = TaskGetWork(task, DoorPuzzleTouchPrompt);
@@ -1588,7 +1588,7 @@ BOOL HandleDoorPuzzleTouchPromptAlpha(DoorPuzzleTouchPrompt *work, fx32 changeSp
 void CreateDoorPuzzleCompleteActivateEffect(DoorPuzzleKeySys *parent)
 {
     Task *task = TaskCreate(DoorPuzzleCompleteActivateEffect_Main_Init, DoorPuzzleCompleteActivateEffect_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000,
-                            TASK_SCOPE_2, DoorPuzzleCompleteActivateEffect);
+                            TASK_GROUP(2), DoorPuzzleCompleteActivateEffect);
 
     DoorPuzzleCompleteActivateEffect *work = TaskGetWork(task, DoorPuzzleCompleteActivateEffect);
     TaskInitWork16(work);

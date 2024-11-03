@@ -52,7 +52,7 @@ EnemyFireSkull *CreateFireSkull(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             return NULL;
     }
 
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyFireSkull);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemyFireSkull);
     if (task == HeapNull)
         return NULL;
 

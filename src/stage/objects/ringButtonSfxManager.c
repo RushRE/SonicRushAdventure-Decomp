@@ -34,7 +34,7 @@ RUSH_INLINE BOOL CheckPlayerActive(RingButtonSfxManager *work)
 void RingButtonSfxManager__Create(s16 type, BOOL allocSndHandle)
 {
     Task *task =
-        TaskCreate(RingButtonSfxManager_Main, RingButtonSfxManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, RingButtonSfxManager);
+        TaskCreate(RingButtonSfxManager_Main, RingButtonSfxManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), RingButtonSfxManager);
     if (task == HeapNull)
         return;
 

@@ -201,7 +201,7 @@ void CreateOpening(void)
 {
     SetupDisplayForOpening();
 
-    Task *task = TaskCreate(Opening_Main_Init, Opening_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_SCOPE_0, Opening);
+    Task *task = TaskCreate(Opening_Main_Init, Opening_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(0), Opening);
 
     Opening *work = TaskGetWork(task, Opening);
     TaskInitWork16(work);
@@ -377,8 +377,8 @@ void ReleaseOpeningPaletteAnimations(Opening *work)
 
 void ClearOpeningTasks(void)
 {
-    ClearTaskScope(TASK_SCOPE_1);
-    ClearTaskScope(TASK_SCOPE_0);
+    DestroyTaskGroup(TASK_GROUP(1));
+    DestroyTaskGroup(TASK_GROUP(0));
 }
 
 void ChangeEventForOpening(Opening *work)
@@ -997,7 +997,7 @@ void Opening_StateSequence_WaitCutInCompleted(Opening *work)
 {
     if ((work->flags & OPENING_FLAG_ALL_CUTIN_DONE) != 0)
     {
-        ClearTaskScope(TASK_SCOPE_1);
+        DestroyTaskGroup(TASK_GROUP(1));
         CompleteOpeningCutInScene(work);
 
         SetOpeningState(work->stateSequence, Opening_StateSequence_InitNextScene);
@@ -1239,7 +1239,7 @@ void Opening_InitScene_JetSkiSkid(Opening *work)
 void CreateOpeningBorderSprite(Opening *parent)
 {
     Task *task =
-        TaskCreate(OpeningBorderSprite_Main_Init, OpeningBorderSprite_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_SCOPE_1, OpeningBorderSprite);
+        TaskCreate(OpeningBorderSprite_Main_Init, OpeningBorderSprite_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(1), OpeningBorderSprite);
 
     OpeningBorderSprite *work = TaskGetWork(task, OpeningBorderSprite);
     TaskInitWork16(work);
@@ -1403,7 +1403,7 @@ NONMATCH_FUNC void CreateOpeningSonicNameSprite(Opening *parent)
     Camera3DTask *camera3D = Camera3D__GetWork();
     UNUSED(camera3D);
 
-    Task *task = TaskCreate(OpeningSonicNameSprite_Main_Init, OpeningSonicNameSprite_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4000, TASK_SCOPE_1,
+    Task *task = TaskCreate(OpeningSonicNameSprite_Main_Init, OpeningSonicNameSprite_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4000, TASK_GROUP(1),
                             OpeningSonicNameSprite);
 
     OpeningSonicNameSprite *work = TaskGetWork(task, OpeningSonicNameSprite);
@@ -1676,7 +1676,7 @@ NONMATCH_FUNC void CreateOpeningBlazeNameSprite(Opening *parent)
 {
     // https://decomp.me/scratch/52dcF -> 98.75%
 #ifdef NON_MATCHING
-    Task *task = TaskCreate(OpeningBlazeNameSprite_Main_Init, OpeningBlazeNameSprite_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4000, TASK_SCOPE_1,
+    Task *task = TaskCreate(OpeningBlazeNameSprite_Main_Init, OpeningBlazeNameSprite_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4000, TASK_GROUP(1),
                             OpeningBlazeNameSprite);
 
     OpeningBlazeNameSprite *work = TaskGetWork(task, OpeningBlazeNameSprite);

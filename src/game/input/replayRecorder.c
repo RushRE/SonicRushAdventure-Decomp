@@ -60,7 +60,7 @@ void CreateReplayRecorderPad(ReplayRecorderType type, PadInputState *inputState,
 
 void CreateReplayRecorderPadEx(ReplayRecorderType type, PadInputState *inputState, const char *path, KeyDataPad *keyDataFile, s32 keyDataFileSize, u8 pauseLevel, u16 priority)
 {
-    Task *task = TaskCreate(ReplayRecorderPad_Main, ReplayRecorderPad_Destructor, TASK_FLAG_NONE, pauseLevel, priority, TASK_SCOPE_0, ReplayRecorderPad);
+    Task *task = TaskCreate(ReplayRecorderPad_Main, ReplayRecorderPad_Destructor, TASK_FLAG_NONE, pauseLevel, priority, TASK_GROUP(0), ReplayRecorderPad);
 
     if (task != HeapNull)
     {
@@ -250,7 +250,7 @@ void CreateReplayRecorderTouch(ReplayRecorderType type, TouchInputState *inputSt
 void CreateReplayRecorderTouchEx(ReplayRecorderType type, TouchInputState *inputState, const char *path, KeyDataTouch *keyDataFile, s32 keyDataFileSize, u8 pauseLevel,
                                  u16 priority)
 {
-    Task *task = TaskCreate(ReplayRecorderTouch_Main, ReplayRecorderTouch_Destructor, TASK_FLAG_NONE, pauseLevel, priority, TASK_SCOPE_0, ReplayRecorderTouch);
+    Task *task = TaskCreate(ReplayRecorderTouch_Main, ReplayRecorderTouch_Destructor, TASK_FLAG_NONE, pauseLevel, priority, TASK_GROUP(0), ReplayRecorderTouch);
 
     if (task != HeapNull)
     {

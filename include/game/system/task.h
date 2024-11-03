@@ -16,11 +16,11 @@
 // --------------------
 
 #ifdef RUSH_DEBUG
-#define TaskCreate(taskMain, taskDestructor, flags, pauseLevel, priority, scope, name)       TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, scope, sizeof(name), #name)
-#define TaskCreateNoWork(taskMain, taskDestructor, flags, pauseLevel, priority, scope, name) TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, scope, 0, #name)
+#define TaskCreate(taskMain, taskDestructor, flags, pauseLevel, priority, group, name)       TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, group, sizeof(name), #name)
+#define TaskCreateNoWork(taskMain, taskDestructor, flags, pauseLevel, priority, group, name) TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, group, 0, #name)
 #else
-#define TaskCreate(taskMain, taskDestructor, flags, pauseLevel, priority, scope, name)       TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, scope, sizeof(name))
-#define TaskCreateNoWork(taskMain, taskDestructor, flags, pauseLevel, priority, scope, name) TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, scope, 0)
+#define TaskCreate(taskMain, taskDestructor, flags, pauseLevel, priority, group, name)       TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, group, sizeof(name))
+#define TaskCreateNoWork(taskMain, taskDestructor, flags, pauseLevel, priority, group, name) TaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, group, 0)
 #endif
 
 #define TaskGetWork(task, type)  ((type *)GetTaskWork_(task))
@@ -42,18 +42,15 @@ typedef void (*TaskDestructor)(Task *task);
 // ENUMS
 // --------------------
 
-enum TaskScope_
-{
-    TASK_SCOPE_0 = 0x0,
-    TASK_SCOPE_1 = 0x1,
-    TASK_SCOPE_2 = 0x2,
-    TASK_SCOPE_3 = 0x3,
-    TASK_SCOPE_4 = 0x4,
-    TASK_SCOPE_5 = 0x5,
+// just a simple macro to visualize task groups better
+#define TASK_GROUP(num) (num)
 
-    TASK_SCOPE_HIGHEST = 0xFF
+enum TaskGroup_
+{
+    TASK_GROUP_LOWEST  = 0x00,
+    TASK_GROUP_HIGHEST = 0xFF
 };
-typedef u8 TaskScope;
+typedef u8 TaskGroup;
 
 enum TaskPauseLevel_
 {
@@ -103,7 +100,7 @@ struct Task_
     TaskFlags sysFlags;
     TaskFlags usrFlags;
     u16 priority;
-    TaskScope scope;
+    TaskGroup group;
     TaskPauseLevel pauseLevel;
     
 #ifdef RUSH_DEBUG
@@ -142,14 +139,14 @@ void RunUpdateTaskList(void);
 void RunRenderTaskList(void);
 void ClearTaskLists(void);
 #ifdef RUSH_DEBUG
-Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskScope scope, size_t workSize, const char* name);
+Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group, size_t workSize, const char* name);
 #else
-Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskScope scope, size_t workSize);
+Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group, size_t workSize);
 #endif
 void DestroyTask(Task *task);
 void DestroyCurrentTask(void);
 void CloseTaskSystem(void);
-void ClearTaskScope(s32 scope);
+void DestroyTaskGroup(s32 group);
 void SetTaskMainEvent(Task *task, TaskMain main);
 void SetCurrentTaskMainEvent(TaskMain main);
 void SetTaskDestructorEvent(Task *task, TaskDestructor destructor);

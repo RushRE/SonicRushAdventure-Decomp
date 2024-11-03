@@ -80,7 +80,7 @@ void TitleCard__ReleaseStageArchive(void)
 // Titlecard
 void TitleCard__Create(void)
 {
-    Task *task    = TaskCreate(TitleCard__Main, TitleCard__Destructor, TASK_FLAG_NONE, 2, TASK_PRIORITY_UPDATE_LIST_START + 0x109E, TASK_SCOPE_3, TitleCard);
+    Task *task    = TaskCreate(TitleCard__Main, TitleCard__Destructor, TASK_FLAG_NONE, 2, TASK_PRIORITY_UPDATE_LIST_START + 0x109E, TASK_GROUP(3), TitleCard);
     titleCardTask = task;
 
     TitleCard *work = TaskGetWork(task, TitleCard);

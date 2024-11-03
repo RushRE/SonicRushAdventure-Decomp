@@ -45,7 +45,7 @@ void InitTaskSystem(void)
     taskList.updateListStart->dtor       = NULL;
     taskList.updateListStart->usrFlags   = TASK_FLAG_DISABLE_DESTROY;
     taskList.updateListStart->priority   = TASK_PRIORITY_UPDATE_LIST_START;
-    taskList.updateListStart->scope      = TASK_SCOPE_HIGHEST;
+    taskList.updateListStart->group      = TASK_GROUP_HIGHEST;
     taskList.updateListStart->pauseLevel = TASK_PAUSE_HIGHEST;
 
     taskList.updateListEnd->prev       = taskList.updateListStart;
@@ -54,7 +54,7 @@ void InitTaskSystem(void)
     taskList.updateListEnd->dtor       = NULL;
     taskList.updateListEnd->usrFlags   = TASK_FLAG_DISABLE_DESTROY;
     taskList.updateListEnd->priority   = TASK_PRIORITY_UPDATE_LIST_END;
-    taskList.updateListEnd->scope      = TASK_SCOPE_HIGHEST;
+    taskList.updateListEnd->group      = TASK_GROUP_HIGHEST;
     taskList.updateListEnd->pauseLevel = TASK_PAUSE_HIGHEST;
 
     taskList.renderListStart->prev       = taskList.updateListEnd;
@@ -63,7 +63,7 @@ void InitTaskSystem(void)
     taskList.renderListStart->dtor       = NULL;
     taskList.renderListStart->usrFlags   = TASK_FLAG_DISABLE_DESTROY;
     taskList.renderListStart->priority   = TASK_PRIORITY_RENDER_LIST_START;
-    taskList.renderListStart->scope      = TASK_SCOPE_HIGHEST;
+    taskList.renderListStart->group      = TASK_GROUP_HIGHEST;
     taskList.renderListStart->pauseLevel = TASK_PAUSE_HIGHEST;
 
     taskList.renderListEnd->prev       = taskList.renderListStart;
@@ -72,7 +72,7 @@ void InitTaskSystem(void)
     taskList.renderListEnd->dtor       = NULL;
     taskList.renderListEnd->usrFlags   = TASK_FLAG_DISABLE_DESTROY;
     taskList.renderListEnd->priority   = TASK_PRIORITY_RENDER_LIST_END;
-    taskList.renderListEnd->scope      = TASK_SCOPE_HIGHEST;
+    taskList.renderListEnd->group      = TASK_GROUP_HIGHEST;
     taskList.renderListEnd->pauseLevel = TASK_PAUSE_HIGHEST;
 
     taskList.curTask = taskList.updateListStart;
@@ -116,9 +116,9 @@ void ClearTaskLists(void)
 }
 
 #ifdef RUSH_DEBUG
-Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskScope scope, size_t workSize, const char* name)
+Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group, size_t workSize, const char* name)
 #else
-Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskScope scope, size_t workSize)
+Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags flags, u8 pauseLevel, u32 priority, TaskGroup group, size_t workSize)
 #endif
 {
     Task *task = AllocTask();
@@ -130,7 +130,7 @@ Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags fl
     task->sysFlags   = TASK_FLAG_NONE;
     task->usrFlags   = flags;
     task->priority   = priority;
-    task->scope      = scope;
+    task->group      = group;
     task->pauseLevel = pauseLevel;
     task->workPtr    = NULL;
     if (workSize != 0)
@@ -223,12 +223,12 @@ void CloseTaskSystem(void)
     }
 }
 
-void ClearTaskScope(s32 scope)
+void DestroyTaskGroup(s32 group)
 {
     Task *task = NULL;
     for (task = taskList.updateListStart->next; task != taskList.renderListEnd; task = task->next)
     {
-        if (scope == task->scope)
+        if (group == task->group)
             DestroyTask(task);
     }
 }

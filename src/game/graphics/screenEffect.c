@@ -42,7 +42,7 @@ void CreateScreenEffect(const ScreenEffectEvent *controller)
     }
     else
     {
-        Task *task = TaskCreate(ScreenEffect_Main, ScreenEffect_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3E00, TASK_SCOPE_3, ScreenEffect);
+        Task *task = TaskCreate(ScreenEffect_Main, ScreenEffect_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3E00, TASK_GROUP(3), ScreenEffect);
         if (task == HeapNull)
             return;
 

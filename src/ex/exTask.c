@@ -113,7 +113,7 @@ void ExTask_Destructor1_Regular(Task *task)
 // ExTask
 // ======
 
-Task *ExTaskCreate_(ExTaskMain main, ExTaskDestructor destructor, u16 priority, TaskScope scope, u8 pauseLevel, size_t workSize, const char *name, ExTaskType type)
+Task *ExTaskCreate_(ExTaskMain main, ExTaskDestructor destructor, u16 priority, TaskGroup group, u8 pauseLevel, size_t workSize, const char *name, ExTaskType type)
 {
 #ifndef RUSH_DEBUG
     UNUSED(name); // probably used in debug builds
@@ -125,15 +125,15 @@ Task *ExTaskCreate_(ExTaskMain main, ExTaskDestructor destructor, u16 priority, 
     switch (type)
     {
         case EXTASK_TYPE_REGULAR:
-            task = TaskCreate_(ExTask_Main_Regular, ExTask_Destructor1_Regular, TASK_FLAG_NONE, pauseLevel, priority, scope, memSize);
+            task = TaskCreate_(ExTask_Main_Regular, ExTask_Destructor1_Regular, TASK_FLAG_NONE, pauseLevel, priority, group, memSize);
             break;
 
         case EXTASK_TYPE_ALWAYSUPDATE:
-            task = TaskCreate_(ExTask_Main_AlwaysUpdate, ExTask_Destructor_AlwaysUpdate, TASK_FLAG_NONE, pauseLevel, priority, scope, memSize);
+            task = TaskCreate_(ExTask_Main_AlwaysUpdate, ExTask_Destructor_AlwaysUpdate, TASK_FLAG_NONE, pauseLevel, priority, group, memSize);
             break;
 
         default:
-            task = TaskCreate_(ExTask_Main_Regular, ExTask_Destructor1_Regular, TASK_FLAG_NONE, pauseLevel, priority, scope, memSize);
+            task = TaskCreate_(ExTask_Main_Regular, ExTask_Destructor1_Regular, TASK_FLAG_NONE, pauseLevel, priority, group, memSize);
             break;
     }
 
@@ -146,7 +146,7 @@ Task *ExTaskCreate_(ExTaskMain main, ExTaskDestructor destructor, u16 priority, 
     exTask->main          = main;
     exTask->dtor          = destructor;
     exTask->priority      = priority;
-    exTask->scope         = scope;
+    exTask->group         = group;
     exTask->delayCallback = NULL;
 
 #ifdef RUSH_DEBUG

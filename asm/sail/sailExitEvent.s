@@ -37,7 +37,7 @@ SailExitEvent__Main: // 0x0218B3A4
 	mov r4, #0
 _0218B3CC:
 	mov r0, r4
-	bl ClearTaskScope
+	bl DestroyTaskGroup
 	add r0, r4, #1
 	and r4, r0, #0xff
 	cmp r4, #6

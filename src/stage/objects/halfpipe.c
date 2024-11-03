@@ -39,7 +39,7 @@ Halfpipe *CreateHalfpipe(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     u32 halfpipeType = mapObject->id - MAPOBJECT_145;
 
-    task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, Halfpipe);
+    task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), Halfpipe);
     if (task == HeapNull)
         return NULL;
 

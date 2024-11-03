@@ -38,7 +38,7 @@ NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, f
 {
 	// https://decomp.me/scratch/1zLJf -> 96.41%
 #ifdef NON_MATCHING
-    Task *task = CreateStageTask(Flipboard_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, Flipboard);
+    Task *task = CreateStageTask(Flipboard_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), Flipboard);
     if (task == HeapNull)
         return NULL;
 

@@ -101,7 +101,7 @@ void MapSys__Create(void)
 
     if (!IsBossStage())
     {
-        mapSystemTask = TaskCreate(MapSys__Main_Zone, MapSys__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1080, TASK_SCOPE_3, MapSys);
+        mapSystemTask = TaskCreate(MapSys__Main_Zone, MapSys__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1080, TASK_GROUP(3), MapSys);
 
         work = TaskGetWork(mapSystemTask, MapSys);
         TaskInitWork16(work);
@@ -110,7 +110,7 @@ void MapSys__Create(void)
     }
     else
     {
-        mapSystemTask = TaskCreate(MapSys__Main_Boss, MapSys__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1080, TASK_SCOPE_3, MapSys);
+        mapSystemTask = TaskCreate(MapSys__Main_Boss, MapSys__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1080, TASK_GROUP(3), MapSys);
 
         work = TaskGetWork(mapSystemTask, MapSys);
         TaskInitWork16(work);

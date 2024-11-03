@@ -11,8 +11,8 @@
 // MACROS
 // --------------------
 
-#define ExTaskCreate(taskMain, taskDestructor, priority, scope, pauseLevel, workSize, name, type)                                                                                  \
-    ExTaskCreate_(taskMain, taskDestructor, priority, scope, pauseLevel, workSize, name, type)
+#define ExTaskCreate(taskMain, taskDestructor, priority, group, pauseLevel, workSize, name, type)                                                                                  \
+    ExTaskCreate_(taskMain, taskDestructor, priority, group, pauseLevel, workSize, name, type)
 #define ExTaskGetWork(task, type)  ((type *)GetExTaskWork_(task))
 #define ExTaskGetWorkCurrent(type) ((type *)GetExTaskWorkCurrent_())
 #define ExTaskInitWork8(work)      MI_CpuClear8(work, sizeof(*work))
@@ -51,7 +51,7 @@ struct ExTask_
     void (*delayCallback)(void);
     s32 field_14;
     u16 priority;
-    TaskScope scope;
+    TaskGroup group;
     s16 timer;
 
 #ifdef RUSH_DEBUG
@@ -70,7 +70,7 @@ extern struct ExTaskStaticVars ExTask__sVars;
 // --------------------
 
 // ExTask
-Task *ExTaskCreate_(ExTaskMain main, ExTaskDestructor destructor, u16 priority, TaskScope scope, u8 pauseLevel, size_t workSize, const char *name, ExTaskType type);
+Task *ExTaskCreate_(ExTaskMain main, ExTaskDestructor destructor, u16 priority, TaskGroup group, u8 pauseLevel, size_t workSize, const char *name, ExTaskType type);
 ExTask *GetExTaskCurrent(void);
 void *GetExTaskWorkCurrent_(void);
 ExTask *GetExTask(Task *task);

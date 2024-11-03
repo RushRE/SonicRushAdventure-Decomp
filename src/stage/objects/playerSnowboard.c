@@ -181,7 +181,7 @@ static u16 const initialAnimList[CHARACTER_COUNT][2] = {
 
     Player *player = gPlayer;
 
-    Task *task = CreateStageTask(PlayerSnowboard_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, PlayerSnowboard);
+    Task *task = CreateStageTask(PlayerSnowboard_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), PlayerSnowboard);
     if (task == HeapNull)
         return NULL;
 
@@ -235,7 +235,7 @@ void LosePlayerSnowboard(Player *player, fx32 velX)
 
 LoseSnowboardTrigger *CreateLoseSnowboardTrigger(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, LoseSnowboardTrigger);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), LoseSnowboardTrigger);
     if (task == HeapNull)
         return NULL;
 

@@ -392,7 +392,7 @@ void ChangeStageBGMVariant(BOOL isInWater)
         {
             if (bgmManagerTask == NULL)
                 bgmManagerTask =
-                    TaskCreate(StageBGMManager_Main, StageBGMManager_Destructor, TASK_FLAG_NONE, 3, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_SCOPE_3, StageBGMManager);
+                    TaskCreate(StageBGMManager_Main, StageBGMManager_Destructor, TASK_FLAG_NONE, 3, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_GROUP(3), StageBGMManager);
 
             StageBGMManager *work    = TaskGetWork(bgmManagerTask, StageBGMManager);
             work->usingUnderwaterBGM = isInWater;
@@ -446,7 +446,7 @@ void FadeStageBGMToTargetVolume(s32 volume, s32 duration, BOOL isInWater)
 
 void CreateManagedSfx(s32 seqArcNo, s32 soundID, ManagedSfxFlags flags, StageTask *parent, s32 duration, s32 delay)
 {
-    Task *task = TaskCreate(ManagedSfx_Main, ManagedSfx_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1A00, TASK_SCOPE_3, ManagedSfx);
+    Task *task = TaskCreate(ManagedSfx_Main, ManagedSfx_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1A00, TASK_GROUP(3), ManagedSfx);
 
     ManagedSfx *work = TaskGetWork(task, ManagedSfx);
     TaskInitWork16(work);

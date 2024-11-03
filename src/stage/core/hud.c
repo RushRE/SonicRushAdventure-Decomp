@@ -119,7 +119,7 @@ void CreateHUD(BOOL forStage)
     HUD *work;
     GameState *state = GetGameState();
 
-    Task *task = TaskCreate(HUD_Main, HUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_SCOPE_3, HUD);
+    Task *task = TaskCreate(HUD_Main, HUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), HUD);
     if (task == HeapNull)
         return;
 
@@ -1133,7 +1133,7 @@ void CreateCheckpointTimeHUD(u32 time)
 
     if (checkpointTime == NULL)
     {
-        Task *task = TaskCreate(CheckpointTimeHUD_Main, CheckpointTimeHUD_Destructor, TASK_FLAG_NONE, 0, 0x4800u, TASK_SCOPE_3, CheckpointTimeHUD);
+        Task *task = TaskCreate(CheckpointTimeHUD_Main, CheckpointTimeHUD_Destructor, TASK_FLAG_NONE, 0, 0x4800u, TASK_GROUP(3), CheckpointTimeHUD);
         if (task == HeapNull)
             return;
 
@@ -1157,7 +1157,7 @@ void CreateLapTimeHUD(void)
     if (!gmCheckGameMode(GAMEMODE_TIMEATTACK) || lapTimes != NULL)
         return;
 
-    Task *task = TaskCreate(LapTimeHUD_Main, LapTimeHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_SCOPE_3, LapTimeHUD);
+    Task *task = TaskCreate(LapTimeHUD_Main, LapTimeHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), LapTimeHUD);
     if (task == HeapNull)
         return;
 
@@ -1179,7 +1179,7 @@ void AddLapTimeToHUD(u32 id, u32 time)
 void CreateConnectionStatusHUD(BOOL useDWC)
 {
     Task *task =
-        TaskCreate(ConnectionStatusHUD_Main, ConnectionStatusHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_SCOPE_3, ConnectionStatusHUD);
+        TaskCreate(ConnectionStatusHUD_Main, ConnectionStatusHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), ConnectionStatusHUD);
     if (task == HeapNull)
         return;
 
@@ -1231,7 +1231,7 @@ void CreateConnectionStatusHUD(BOOL useDWC)
 
 void CreateTargetIndicatorHUD(StageTask *target)
 {
-    Task *task = TaskCreate(TargetIndicatorHUD_Main, TargetIndicatorHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_SCOPE_3, TargetIndicatorHUD);
+    Task *task = TaskCreate(TargetIndicatorHUD_Main, TargetIndicatorHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), TargetIndicatorHUD);
     if (task == HeapNull)
         return;
 
@@ -1251,7 +1251,7 @@ void CreateRaceProgressHUD(s32 characterID)
     u8 animIDs[RACEPROGRESSHUD_ANIMATOR_COUNT] = { HUD_CONTANI_19, HUD_CONTANI_20, HUD_CONTANI_21, HUD_CONTANI_22, HUD_CONTANI_23 };
 
     s32 i;
-    Task *task = TaskCreate(RaceProgressHUD_Main, RaceProgressHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_SCOPE_3, RaceProgressHUD);
+    Task *task = TaskCreate(RaceProgressHUD_Main, RaceProgressHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), RaceProgressHUD);
     if (task == HeapNull)
         return;
 
@@ -3029,7 +3029,7 @@ void CreatePassFlagMissionHUD(void)
 {
     static const u8 spriteSize[] = { 1, 2 };
 
-    Task *task = TaskCreate(PassFlagMissionHUD_Main, PassFlagMissionHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_SCOPE_3, PassFlagMissionHUD);
+    Task *task = TaskCreate(PassFlagMissionHUD_Main, PassFlagMissionHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), PassFlagMissionHUD);
     if (task == HeapNull)
         return;
 
@@ -3119,7 +3119,7 @@ void PassFlagMissionHUD_Main(void)
 // CollectRingsMissionHUD
 void CreateCollectRingsMissionHUD(void)
 {
-    Task *task = TaskCreate(CollectRingsMissionHUD_Main, CollectRingsMissionHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_SCOPE_3,
+    Task *task = TaskCreate(CollectRingsMissionHUD_Main, CollectRingsMissionHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3),
                             CollectRingsMissionHUD);
     if (task == HeapNull)
         return;
@@ -3179,7 +3179,7 @@ void CollectRingsMissionHUD_Main(void)
 // GenericQuotaMissionHUD
 void CreateGenericQuotaMissionHUD(void)
 {
-    Task *task = TaskCreate(GenericQuotaMissionHUD_Main, GenericQuotaMissionHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_SCOPE_3,
+    Task *task = TaskCreate(GenericQuotaMissionHUD_Main, GenericQuotaMissionHUD_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3),
                             GenericQuotaMissionHUD);
     if (task == HeapNull)
         return;
@@ -3303,7 +3303,7 @@ void GenericQuotaMissionHUD_Main(void)
 // TimeAttackReplayHUD
 void CreateTimeAttackReplayHUD(void)
 {
-    Task *task = TaskCreate(TimeAttackReplayHUD_Main, TimeAttackReplayHUD_Destructor, TASK_FLAG_NONE, 0, 0x4800, TASK_SCOPE_3, TimeAttackReplayHUD);
+    Task *task = TaskCreate(TimeAttackReplayHUD_Main, TimeAttackReplayHUD_Destructor, TASK_FLAG_NONE, 0, 0x4800, TASK_GROUP(3), TimeAttackReplayHUD);
     if (task == HeapNull)
         return;
 

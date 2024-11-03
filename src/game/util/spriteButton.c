@@ -52,7 +52,7 @@ NONMATCH_FUNC void CreateSpriteButton(SpriteButtonConfig *config)
     // https://decomp.me/scratch/NyJfr -> 96.94%
     // registers and such are busted around VRAMSystem__VRAM_PALETTE_OBJ
 #ifdef NON_MATCHING
-    Task *task       = TaskCreate(SpriteButton_Main, SpriteButton_Destructor, TASK_FLAG_NONE, 0, 0x64, TASK_SCOPE_0, SpriteButton);
+    Task *task       = TaskCreate(SpriteButton_Main, SpriteButton_Destructor, TASK_FLAG_NONE, 0, 0x64, TASK_GROUP(0), SpriteButton);
     spriteButtonTask = task;
 
     SpriteButton *work = TaskGetWork(task, SpriteButton);

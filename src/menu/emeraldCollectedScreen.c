@@ -382,15 +382,15 @@ static void EmeraldCollectedScreen_Main_DrawManager(void);
 
 void CreateEmeraldCollectedScreen(void)
 {
-    sVars.singleton = TaskCreate(EmeraldCollectedScreen_Main_Core, EmeraldCollectedScreen_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x41, TASK_SCOPE_0,
+    sVars.singleton = TaskCreate(EmeraldCollectedScreen_Main_Core, EmeraldCollectedScreen_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x41, TASK_GROUP(0),
                                  EmeraldCollectedScreen);
 
     EmeraldCollectedScreen *work = TaskGetWork(sVars.singleton, EmeraldCollectedScreen);
     InitEmeraldCollectedScreen(work);
 
-    work->taskUpdateManager = TaskCreateNoWork(EmeraldCollectedScreen_Main_UpdateManager, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x21, TASK_SCOPE_0,
+    work->taskUpdateManager = TaskCreateNoWork(EmeraldCollectedScreen_Main_UpdateManager, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x21, TASK_GROUP(0),
                                                "EmeraldCollectedScreenUpdateManager");
-    work->taskDrawManager   = TaskCreateNoWork(EmeraldCollectedScreen_Main_DrawManager, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x81, TASK_SCOPE_0,
+    work->taskDrawManager   = TaskCreateNoWork(EmeraldCollectedScreen_Main_DrawManager, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x81, TASK_GROUP(0),
                                                "EmeraldCollectedScreenDrawManager");
 }
 

@@ -247,7 +247,7 @@ EnemyPirate *CreatePirate(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             return NULL;
     }
 
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyPirate);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemyPirate);
     if (task == HeapNull)
         return NULL;
 
@@ -445,7 +445,7 @@ EnemyPirate *CreatePirate(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
 EnemyBazookaPirateShot *CreateBazookaPirateShot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyBazookaPirateShot);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemyBazookaPirateShot);
     if (task == HeapNull)
         return NULL;
 
@@ -477,7 +477,7 @@ EnemyBazookaPirateShot *CreateBazookaPirateShot(MapObject *mapObject, fx32 x, fx
 
 EnemyBallChainPirateBall *CreateBallChainPirateBall(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(EnemyBallChainPirateBall_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyBallChainPirateBall);
+    Task *task = CreateStageTask(EnemyBallChainPirateBall_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemyBallChainPirateBall);
     if (task == HeapNull)
         return NULL;
 
@@ -510,7 +510,7 @@ EnemyBallChainPirateBall *CreateBallChainPirateBall(MapObject *mapObject, fx32 x
 
 EnemyBombPirateBomb *CreateBombPirateBomb(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyBombPirateBomb);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemyBombPirateBomb);
     if (task == HeapNull)
         return NULL;
 
@@ -542,7 +542,7 @@ EnemyBombPirateBomb *CreateBombPirateBomb(MapObject *mapObject, fx32 x, fx32 y, 
 
 EnemySkeletonPirateBone *CreateSkeletonPirateBone(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemySkeletonPirateBone);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemySkeletonPirateBone);
     if (task == HeapNull)
         return NULL;
 
@@ -574,7 +574,7 @@ EnemySkeletonPirateBone *CreateSkeletonPirateBone(MapObject *mapObject, fx32 x, 
 
 EnemyHoverBomberPirateBomb *CreateHoverBomberPirateBomb(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyHoverBomberPirateBomb);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemyHoverBomberPirateBomb);
     if (task == HeapNull)
         return NULL;
 
@@ -606,7 +606,7 @@ EnemyHoverBomberPirateBomb *CreateHoverBomberPirateBomb(MapObject *mapObject, fx
 
 EnemyHoverGunnerPirateShot *CreateHoverGunnerPirateShot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyHoverGunnerPirateShot);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemyHoverGunnerPirateShot);
     if (task == HeapNull)
         return NULL;
 

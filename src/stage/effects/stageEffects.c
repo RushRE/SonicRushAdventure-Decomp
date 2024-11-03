@@ -2805,7 +2805,7 @@ EffectTrickSparkle *CreateEffectTrickSparkle(Player *parent, fx32 offsetX, fx32 
 
 void CreateEffectInvincible(Player *parent)
 {
-    Task *task = CreateStageTaskFast(TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1A00, TASK_SCOPE_4, EffectInvincible);
+    Task *task = CreateStageTaskFast(TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1A00, TASK_GROUP(4), EffectInvincible);
     if (task == HeapNull)
         return;
 

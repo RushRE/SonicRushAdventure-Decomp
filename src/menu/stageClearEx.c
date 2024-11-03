@@ -86,7 +86,7 @@ static void StageClearEx_Main_DrawManager(void);
 
 void CreateStageClearEx(void)
 {
-    singleton = TaskCreate(StageClearEx_Main_Core, StageClearEx_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_SCOPE_0, StageClearEx);
+    singleton = TaskCreate(StageClearEx_Main_Core, StageClearEx_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_GROUP(0), StageClearEx);
 
     StageClearEx *work = TaskGetWork(singleton, StageClearEx);
     InitStageClearEx(work);
@@ -109,7 +109,7 @@ void CreateStageClearExAnimationManager(StageClearEx *parent)
     // this uses 'StageClearEx' work struct instead of allocating nothing (since it doesn't use it's own work struct)
     // causing slightly more memory to be allocated than needed!
 
-    parent->taskAnimationManager = TaskCreate(StageClearEx_Main_AnimationManager, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x61, TASK_SCOPE_0, StageClearEx);
+    parent->taskAnimationManager = TaskCreate(StageClearEx_Main_AnimationManager, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x61, TASK_GROUP(0), StageClearEx);
 }
 
 void CreateStageClearExDrawManager(StageClearEx *parent)
@@ -118,7 +118,7 @@ void CreateStageClearExDrawManager(StageClearEx *parent)
     // this uses 'StageClearEx' work struct instead of allocating nothing (since it doesn't use it's own work struct)
     // causing slightly more memory to be allocated than needed!
 
-    parent->taskDrawManager = TaskCreate(StageClearEx_Main_DrawManager, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x81, TASK_SCOPE_0, StageClearEx);
+    parent->taskDrawManager = TaskCreate(StageClearEx_Main_DrawManager, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x81, TASK_GROUP(0), StageClearEx);
 }
 
 void InitStageClearEx(StageClearEx *work)
@@ -1320,7 +1320,7 @@ void StageClearEx_State_InitText(StageClearEx *work)
 
     graphics2D->nameMoveSpeed = FLOAT_TO_FX32(1.5);
     Task__Unknown204BE48__Create(&graphics2D->namePos.y, 4, -FLOAT_TO_FX32(22.0), FLOAT_TO_FX32(22.0), 0, 16, Task__Unknown204BE48__LerpValue, 0, 0, 0, 0,
-                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_SCOPE_0);
+                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_GROUP(0));
 
     SetStageClearExState(work, StageClearEx_State_DisplayText);
 }
@@ -1346,11 +1346,11 @@ NONMATCH_FUNC void StageClearEx_State_InitScore(StageClearEx *work)
     graphics2D->scoreRandDisplay = value2 | value;
 
     Task__Unknown204BE48__Create(&graphics2D->scoreBonusPos[0], 2, -160, 0, 0, 16, Task__Unknown204BE48__LerpValue, -FLOAT_TO_FX32(1.0), Lerp_StageClearExScoreBonus, work, 0,
-                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_SCOPE_0);
+                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_GROUP(0));
     Task__Unknown204BE48__Create(&graphics2D->scoreBonusPos[1], 2, -160, 0, 16, 16, Task__Unknown204BE48__LerpValue, -FLOAT_TO_FX32(1.0), Lerp_StageClearExScoreBonus, work, 0,
-                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_SCOPE_0);
+                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_GROUP(0));
     Task__Unknown204BE48__Create(&graphics2D->scoreTotalPos, 2, -160, 0, 32, 16, Task__Unknown204BE48__LerpValue, -FLOAT_TO_FX32(1.0), Lerp_StageClearExScoreTotal, work, 0,
-                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_SCOPE_0);
+                                 TASK_PRIORITY_UPDATE_LIST_START + 0x62, TASK_GROUP(0));
 
     SetStageClearExState(work, StageClearEx_State_EnterScores);
 #else

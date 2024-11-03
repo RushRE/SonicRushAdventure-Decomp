@@ -122,7 +122,7 @@ EnemyDiveBat *CreateDiveBat(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     else
         priority = 0x1500;
 
-    Task *task = CreateStageTask(EnemyDiveBat_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + priority, TASK_SCOPE_2, EnemyDiveBat);
+    Task *task = CreateStageTask(EnemyDiveBat_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + priority, TASK_GROUP(2), EnemyDiveBat);
     if (task == HeapNull)
         return NULL;
 

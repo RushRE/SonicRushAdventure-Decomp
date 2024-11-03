@@ -311,7 +311,7 @@ struct StageTask_
 // --------------------
 
 StageTask *CreateStageTask_(void);
-StageTask *CreateStageTaskEx_(u32 priority, TaskScope scope);
+StageTask *CreateStageTaskEx_(u32 priority, TaskGroup group);
 void StageTask__SetType(StageTask *work, u16 type);
 void StageTask__SetParent(StageTask *work, StageTask *parent, u16 ulFlag);
 void StageTask__Draw(StageTask *work);
@@ -353,9 +353,9 @@ fx32 StageTask__DecrementBySpeed(fx32 value);
 // INLINE FUNCTIONS
 // --------------------
 
-#define CreateStageTaskFast(flags, pauseLevel, priority, scope, name)                         TaskCreate(StageTask_Main, StageTask_Destructor, flags, pauseLevel, priority, scope, name)
-#define CreateStageTask(taskDestructor, flags, pauseLevel, priority, scope, name)             TaskCreate(StageTask_Main, taskDestructor, flags, pauseLevel, priority, scope, name)
-#define CreateStageTaskEx(taskMain, taskDestructor, flags, pauseLevel, priority, scope, name) TaskCreate(taskMain, taskDestructor, flags, pauseLevel, priority, scope, name)
+#define CreateStageTaskFast(flags, pauseLevel, priority, group, name)                         TaskCreate(StageTask_Main, StageTask_Destructor, flags, pauseLevel, priority, group, name)
+#define CreateStageTask(taskDestructor, flags, pauseLevel, priority, group, name)             TaskCreate(StageTask_Main, taskDestructor, flags, pauseLevel, priority, group, name)
+#define CreateStageTaskEx(taskMain, taskDestructor, flags, pauseLevel, priority, group, name) TaskCreate(taskMain, taskDestructor, flags, pauseLevel, priority, group, name)
 
 #define CreateStageTaskSimple() CreateStageTask_()
 

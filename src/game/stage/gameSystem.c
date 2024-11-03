@@ -1298,9 +1298,9 @@ void InitStageMission(s32 id)
 void CreateGameDataRequest(GameDataLoadProc load_proc)
 {
     if (load_proc != GAMEDATA_LOADPROC_NONE)
-        gameDataTask = TaskCreate(GameDataRequest_Main_TryLoadCommonAssets, NULL, TASK_FLAG_NONE, 0, 0x1000, TASK_SCOPE_3, GameDataRequest);
+        gameDataTask = TaskCreate(GameDataRequest_Main_TryLoadCommonAssets, NULL, TASK_FLAG_NONE, 0, 0x1000, TASK_GROUP(3), GameDataRequest);
     else
-        gameDataTask = TaskCreate(GameDataRequest_Main_BuildArea, NULL, TASK_FLAG_NONE, 0, 0x1000, TASK_SCOPE_3, GameDataRequest);
+        gameDataTask = TaskCreate(GameDataRequest_Main_BuildArea, NULL, TASK_FLAG_NONE, 0, 0x1000, TASK_GROUP(3), GameDataRequest);
 
     TaskGetWork(gameDataTask, GameDataRequest)->load_proc = load_proc;
 }
@@ -1707,9 +1707,9 @@ NONMATCH_FUNC void CreateGameSystem(void)
     Player **playerList;
     GameState *state = GetGameState();
 
-    playerGameStatus.gameOnlineSysTask = TaskCreateNoWork(GameOnlineSystem_Main, NULL, TASK_FLAG_NONE, 0, 0x1000, TASK_SCOPE_3, "GameOnlineSysTask");
+    playerGameStatus.gameOnlineSysTask = TaskCreateNoWork(GameOnlineSystem_Main, NULL, TASK_FLAG_NONE, 0, 0x1000, TASK_GROUP(3), "GameOnlineSysTask");
 
-    playerGameStatus.gameOfflineSysTask = TaskCreate(GameOfflineSystem_Main, NULL, TASK_FLAG_NONE, 0, 0x8000, TASK_SCOPE_3, GameOfflineSysTask);
+    playerGameStatus.gameOfflineSysTask = TaskCreate(GameOfflineSystem_Main, NULL, TASK_FLAG_NONE, 0, 0x8000, TASK_GROUP(3), GameOfflineSysTask);
     GameOfflineSysTask *work            = TaskGetWork(playerGameStatus.gameOfflineSysTask, GameOfflineSysTask);
     TaskInitWork16(work);
 
@@ -2276,9 +2276,9 @@ void CreateGameSystemEx(void)
 
 void ShutdownGameSystemTasks(void)
 {
-    for (u8 i = TASK_SCOPE_1; i < 6; i++)
+    for (u8 i = TASK_GROUP(1); i < 6; i++)
     {
-        ClearTaskScope(i);
+        DestroyTaskGroup(i);
     }
 }
 
@@ -3324,7 +3324,7 @@ void HandleNetworkError(void)
 
 void CreateReplayViewer(void)
 {
-    TaskCreateNoWork(ReplayViewer_Main, 0, TASK_FLAG_NONE, 0, 0xFFF, TASK_SCOPE_3, "ReplayViewer");
+    TaskCreateNoWork(ReplayViewer_Main, 0, TASK_FLAG_NONE, 0, 0xFFF, TASK_GROUP(3), "ReplayViewer");
     gameState.gameFlag &= ~GAME_FLAG_REPLAY_FINISHED;
 }
 

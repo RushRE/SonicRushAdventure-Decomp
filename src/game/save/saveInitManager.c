@@ -30,7 +30,7 @@ void CreateSaveInitManager(void)
 {
     SetupDisplayForSaveInitManager();
 
-    Task *task = TaskCreate(SaveInitManager_Main_InitSave, SaveInitManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_SCOPE_0, SaveInitManager);
+    Task *task = TaskCreate(SaveInitManager_Main_InitSave, SaveInitManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(0), SaveInitManager);
     // no null checks, this task is that important!!
 
     SaveInitManager *work = (SaveInitManager *)TaskGetWork(task, SaveInitManager);
@@ -39,8 +39,8 @@ void CreateSaveInitManager(void)
 
 void DestroySaveInitManager(void)
 {
-    ClearTaskScope(TASK_SCOPE_1);
-    ClearTaskScope(TASK_SCOPE_0);
+    DestroyTaskGroup(TASK_GROUP(1));
+    DestroyTaskGroup(TASK_GROUP(0));
 }
 
 void SetupDisplayForSaveInitManager(void)

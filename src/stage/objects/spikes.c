@@ -63,7 +63,7 @@ NONMATCH_FUNC Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 ty
 #ifdef NON_MATCHING
     OBS_SPRITE_REF *spriteRef;
 
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, Spikes);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), Spikes);
     if (task == HeapNull)
         return NULL;
 
@@ -388,7 +388,7 @@ _0215F744:
 
 Spikes *CreateSpikes2(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, Spikes);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), Spikes);
     if (task == HeapNull)
         return NULL;
 

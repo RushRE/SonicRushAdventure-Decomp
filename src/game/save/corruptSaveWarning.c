@@ -43,7 +43,7 @@ void CreateCorruptSaveWarning(void)
         RenderCore_DisableSoftReset(TRUE);
     }
 
-    Task *task               = TaskCreate(mainFunc, CorruptSaveWarning_Destructor, TASK_FLAG_NONE, 0, 0x1000, TASK_SCOPE_1, CorruptSaveWarning);
+    Task *task               = TaskCreate(mainFunc, CorruptSaveWarning_Destructor, TASK_FLAG_NONE, 0, 0x1000, TASK_GROUP(1), CorruptSaveWarning);
     CorruptSaveWarning *work = TaskGetWork(task, CorruptSaveWarning);
     TaskInitWork16(work);
 

@@ -209,7 +209,7 @@ SeaMapEventManager__Destroy: // 0x0204697C
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	mov r0, #1
-	bl ClearTaskScope
+	bl DestroyTaskGroup
 	ldr r0, _020469A8 // =SeaMapEventManager__Singleton
 	ldr r0, [r0, #0]
 	bl DestroyTask

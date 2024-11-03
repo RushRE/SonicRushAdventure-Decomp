@@ -68,7 +68,7 @@ JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 z)
     s16 left;
     s16 right;
 
-    task = CreateStageTask(JumpBox_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, JumpBox);
+    task = CreateStageTask(JumpBox_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), JumpBox);
     if (task == HeapNull)
         return NULL;
 
@@ -128,7 +128,7 @@ JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 z)
 
 PlaneSwitchSpring *CreatePlaneSwitchSpring(MapObject *mapObject, fx32 x, fx32 y, fx32 z)
 {
-    Task *task = CreateStageTask(PlaneSwitchSpring_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, PlaneSwitchSpring);
+    Task *task = CreateStageTask(PlaneSwitchSpring_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), PlaneSwitchSpring);
     if (task == HeapNull)
         return NULL;
 

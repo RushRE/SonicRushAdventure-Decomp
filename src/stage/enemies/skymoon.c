@@ -58,7 +58,7 @@ EnemySkymoon *CreateSkymoon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             return NULL;
     }
 
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemySkymoon);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemySkymoon);
     if (task == HeapNull)
         return NULL;
 
@@ -111,7 +111,7 @@ EnemySkymoon *CreateSkymoon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
 EnemySkymoonLaser *CreateSkymoonLaser(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemySkymoonLaser);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemySkymoonLaser);
     if (task == HeapNull)
         return NULL;
 

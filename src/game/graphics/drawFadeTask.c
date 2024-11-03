@@ -40,7 +40,7 @@ DrawFadeTask *CreateDrawFadeTask(DrawFadeTaskFlags flags, fx32 fadeSpeed)
     }
     else
     {
-        task = TaskCreate(DrawFadeTask_Main, DrawFadeTask_Destructor, taskFlag, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3E00, TASK_SCOPE_3, DrawFadeTask);
+        task = TaskCreate(DrawFadeTask_Main, DrawFadeTask_Destructor, taskFlag, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3E00, TASK_GROUP(3), DrawFadeTask);
         if (task == HeapNull)
             return NULL;
 

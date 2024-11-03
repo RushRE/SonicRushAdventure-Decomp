@@ -2942,7 +2942,7 @@ void DecorationSys__Create(void)
     if (DecorationSys__WorkSingleton != NULL)
         return;
 
-    Task *task = TaskCreate(DecorationSys__Main, DecorationSys__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_3, DecorationSys);
+    Task *task = TaskCreate(DecorationSys__Main, DecorationSys__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(3), DecorationSys);
     if (task == HeapNull)
         return;
 

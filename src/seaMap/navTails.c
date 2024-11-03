@@ -87,7 +87,7 @@ static void NavTails_StateDMA_EndChange(NavTails *work);
 
 void CreateNavTails(BOOL useEngineB, s32 a2, FontWindow *window)
 {
-    Task *task   = TaskCreate(NavTails_Main, NavTails_Destructor, TASK_FLAG_NONE, 0, 0x100, TASK_SCOPE_0, NavTails);
+    Task *task   = TaskCreate(NavTails_Main, NavTails_Destructor, TASK_FLAG_NONE, 0, 0x100, TASK_GROUP(0), NavTails);
     navTailsTask = task;
 
     NavTails *work = TaskGetWork(task, NavTails);

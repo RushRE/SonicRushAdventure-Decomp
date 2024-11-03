@@ -200,7 +200,7 @@ SailManager *SailManager__Create(void)
     SailManager *work;
     GameState *state = GetGameState();
 
-    sailManagerTask = TaskCreate(SailManager__Main, SailManager__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xEFFA, TASK_SCOPE_5, SailManager);
+    sailManagerTask = TaskCreate(SailManager__Main, SailManager__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xEFFA, TASK_GROUP(5), SailManager);
 
     work = TaskGetWork(sailManagerTask, SailManager);
     TaskInitWork16(work);
@@ -530,7 +530,7 @@ void SailManager__Main(void)
 SailUnknown2153770 *SailUnknown2153770__Create(void)
 {
     sailUnknownTask =
-        TaskCreate(SailUnknown2153770__Main, SailUnknown2153770__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xEFFF, TASK_SCOPE_4, SailUnknown2153770);
+        TaskCreate(SailUnknown2153770__Main, SailUnknown2153770__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xEFFF, TASK_GROUP(4), SailUnknown2153770);
 
     SailUnknown2153770 *work = TaskGetWork(sailUnknownTask, SailUnknown2153770);
     TaskInitWork16(work);

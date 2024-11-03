@@ -108,7 +108,7 @@ s32 GetScreenShakeOffsetY(void)
 
 void CreateScreenShake(void)
 {
-    Task *task = TaskCreate(ScreenShake_Main, ScreenShake_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3E00, TASK_SCOPE_3, ScreenShake);
+    Task *task = TaskCreate(ScreenShake_Main, ScreenShake_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3E00, TASK_GROUP(3), ScreenShake);
     if (task == HeapNull)
         return;
 

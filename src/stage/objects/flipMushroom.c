@@ -176,7 +176,7 @@ NONMATCH_FUNC FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx3
 
     u32 mushroomType = mapObject->id - MAPOBJECT_81;
 
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, FlipMushroom);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), FlipMushroom);
     if (task == HeapNull)
         return NULL;
 

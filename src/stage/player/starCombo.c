@@ -424,7 +424,7 @@ StarCombo *StarCombo__Create(void)
     else
         screensToDraw = SCREEN_DRAW_B;
 
-    Task *task = TaskCreate(StarCombo__Main, StarCombo__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_SCOPE_3, StarCombo);
+    Task *task = TaskCreate(StarCombo__Main, StarCombo__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), StarCombo);
     if (task == HeapNull)
         return NULL;
 
@@ -909,7 +909,7 @@ void StarCombo__StateStar_ComboFailFall(StarCombo *work, s32 id)
 
 ScoreBonus *ScoreBonus__Create(void)
 {
-    Task *task = TaskCreate(ScoreBonus__Main, ScoreBonus__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_SCOPE_3, ScoreBonus);
+    Task *task = TaskCreate(ScoreBonus__Main, ScoreBonus__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), ScoreBonus);
     if (task == HeapNull)
         return NULL;
 
@@ -1261,7 +1261,7 @@ void TrickConfetti__Create(void)
 
     s32 i;
 
-    Task *task = TaskCreate(TrickConfetti__Main, 0, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_SCOPE_3, TrickConfetti);
+    Task *task = TaskCreate(TrickConfetti__Main, 0, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4800, TASK_GROUP(3), TrickConfetti);
     if (task != HeapNull)
     {
         trickConfetti = task;

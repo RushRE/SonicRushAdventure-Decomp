@@ -113,7 +113,7 @@ void CreateDemoPlayer(void)
 {
     VRAMPaletteKey pixelKeys[2][2] = { { NULL, NULL }, { NULL, NULL } };
 
-    Task *task = TaskCreate(DemoPlayer_Main_PlaybackActive, DemoPlayer_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xFFF, TASK_SCOPE_3, DemoPlayer);
+    Task *task = TaskCreate(DemoPlayer_Main_PlaybackActive, DemoPlayer_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xFFF, TASK_GROUP(3), DemoPlayer);
     if (task == HeapNull)
         return;
 

@@ -89,7 +89,7 @@ NONMATCH_FUNC GoalChest *CreateGoalChest(MapObject *mapObject, fx32 x, fx32 y, f
             break;
     }
 
-    Task *task = CreateStageTask(GoalChest_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, GoalChest);
+    Task *task = CreateStageTask(GoalChest_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), GoalChest);
     if (task == HeapNull)
         return NULL;
 

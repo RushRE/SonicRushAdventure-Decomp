@@ -42,7 +42,7 @@ static void SteamFan_Draw(void);
 
 SteamFan *CreateSteamFan(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(SteamFan_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, SteamFan);
+    Task *task = CreateStageTask(SteamFan_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), SteamFan);
     if (task == HeapNull)
         return NULL;
 

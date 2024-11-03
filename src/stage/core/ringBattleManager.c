@@ -47,7 +47,7 @@ void CreateRingBattleManager(void)
     if (ringBattleManagerTask != NULL)
         return;
 
-    Task *task = TaskCreate(RingBattleManager_Main, RingBattleManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xFFF, TASK_SCOPE_3, RingBattleManager);
+    Task *task = TaskCreate(RingBattleManager_Main, RingBattleManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xFFF, TASK_GROUP(3), RingBattleManager);
     if (task == HeapNull)
         return;
 

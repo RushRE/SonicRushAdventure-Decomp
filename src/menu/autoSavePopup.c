@@ -33,7 +33,7 @@ static void AutoSavePopup_Destructor(Task *task);
 
 void CreateAutoSavePopup(void)
 {
-    Task *task = TaskCreate(AutoSavePopup_Main_OpenWindow, AutoSavePopup_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_SCOPE_0, AutoSavePopup);
+    Task *task = TaskCreate(AutoSavePopup_Main_OpenWindow, AutoSavePopup_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(0), AutoSavePopup);
 
     AutoSavePopup *work = TaskGetWork(task, AutoSavePopup);
     TaskInitWork32(work);

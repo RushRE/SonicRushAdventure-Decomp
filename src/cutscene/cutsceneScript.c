@@ -207,7 +207,7 @@ NOT_DECOMPILED CutsceneScriptControlCommand CutsceneScript__BitwiseCommands[];
 
 void CutsceneScript__Create(CutsceneAssetSystem *parent, u32 priority)
 {
-    Task *task           = TaskCreate(CutsceneScript__Main, CutsceneScript__Destructor, TASK_FLAG_NONE, 0, priority, TASK_SCOPE_0, CutsceneScript);
+    Task *task           = TaskCreate(CutsceneScript__Main, CutsceneScript__Destructor, TASK_FLAG_NONE, 0, priority, TASK_GROUP(0), CutsceneScript);
     parent->cutsceneTask = task;
 
     parent->cutscene = TaskGetWork(task, CutsceneScript);
@@ -8896,7 +8896,7 @@ NONMATCH_FUNC CutsceneScriptResult CutsceneScript__TextCommand__Draw(CutsceneTex
 void CutsceneAssetSystem__Create(void)
 {
     cutsceneAssetSystemTask =
-        TaskCreate(CutsceneAssetSystem__Main, CutsceneAssetSystem__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_SCOPE_0, CutsceneAssetSystem);
+        TaskCreate(CutsceneAssetSystem__Main, CutsceneAssetSystem__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_GROUP(0), CutsceneAssetSystem);
 
     CutsceneAssetSystem__Func_2159E28(cutsceneAssetSystemTask);
 }

@@ -34,7 +34,7 @@ void CreatePlayerNameMenu(void)
 {
     SavePlayerName name;
 
-    Task *task = TaskCreate(PlayerNameMenu_Main, PlayerNameMenu_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_SCOPE_0, PlayerNameMenu);
+    Task *task = TaskCreate(PlayerNameMenu_Main, PlayerNameMenu_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0, TASK_GROUP(0), PlayerNameMenu);
 
     PlayerNameMenu *work = TaskGetWork(task, PlayerNameMenu);
     TaskInitWork16(work);

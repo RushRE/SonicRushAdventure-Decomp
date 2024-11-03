@@ -47,7 +47,7 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
 {
     // https://decomp.me/scratch/YwBsC -> 96.48%
 #ifdef NON_MATCHING
-    Task *task = CreateStageTask(Winch_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_SCOPE_2, Winch);
+    Task *task = CreateStageTask(Winch_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), Winch);
     if (task == HeapNull)
         return NULL;
 

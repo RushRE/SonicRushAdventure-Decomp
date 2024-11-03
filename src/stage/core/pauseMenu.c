@@ -76,7 +76,7 @@ BOOL CreatePauseMenu(void)
 
     u32 language = GetGameLanguage();
 
-    Task *task = TaskCreate(PauseMenu_Main_Appear, PauseMenu_Destructor, TASK_FLAG_NONE, 3, 0x7100u, TASK_SCOPE_4 | TASK_SCOPE_2, PauseMenu);
+    Task *task = TaskCreate(PauseMenu_Main_Appear, PauseMenu_Destructor, TASK_FLAG_NONE, 3, 0x7100u, TASK_GROUP(4) | TASK_GROUP(2), PauseMenu);
     if (task == HeapNull)
         return FALSE;
 

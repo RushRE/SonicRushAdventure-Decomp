@@ -77,7 +77,7 @@ EnemyGhost *CreateGhost(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
             return NULL;
     }
 
-    Task *task = CreateStageTask(EnemyGhost_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyGhost);
+    Task *task = CreateStageTask(EnemyGhost_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemyGhost);
     if (task == HeapNull)
         return NULL;
 
@@ -133,7 +133,7 @@ EnemyGhost *CreateGhost(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
 EnemyGhostBomb *CreateGhostBomb(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, EnemyGhostBomb);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), EnemyGhostBomb);
     if (task == HeapNull)
         return NULL;
 

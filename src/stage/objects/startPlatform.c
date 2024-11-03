@@ -49,7 +49,7 @@ RUSH_INLINE s32 Lerp(s32 start, s32 end, s32 percent)
 
 StartPlatform *CreateStartPlatform(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(StartPlatform_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, StartPlatform);
+    Task *task = CreateStageTask(StartPlatform_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), StartPlatform);
     // No null check
 
     StartPlatform *work = TaskGetWork(task, StartPlatform);

@@ -37,7 +37,7 @@ static void SplashScreen_Main_StartOpening(void);
 void CreateSplashScreen(void)
 {
     SetupDisplayForSplashScreen();
-    Task *task = TaskCreate(SplashScreen_Main_StartFadeIn, SplashScreen_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x0000, TASK_SCOPE_0, SplashScreen);
+    Task *task = TaskCreate(SplashScreen_Main_StartFadeIn, SplashScreen_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x0000, TASK_GROUP(0), SplashScreen);
 
     SplashScreen *work = TaskGetWork(task, SplashScreen);
     TaskInitWork16(work);

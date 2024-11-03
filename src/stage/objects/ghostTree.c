@@ -36,7 +36,7 @@ static void GhostTree_OnDefend_Hand(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 GhostTree *CreateGhostTree(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_SCOPE_2, GhostTree);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), GhostTree);
     if (task == HeapNull)
         return NULL;
 

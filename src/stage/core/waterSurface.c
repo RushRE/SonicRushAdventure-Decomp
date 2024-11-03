@@ -785,7 +785,7 @@ void CreateWaterSurface(void)
     if ((waterSurfaceWork->flags & (WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2))
         != 0)
     {
-        waterSurfaceWork->task = TaskCreateNoWork(WaterSurface_Main, 0, TASK_FLAG_NONE, 3, TASK_PRIORITY_RENDER_LIST_START + 0x0200, TASK_SCOPE_3, "WaterSurface");
+        waterSurfaceWork->task = TaskCreateNoWork(WaterSurface_Main, 0, TASK_FLAG_NONE, 3, TASK_PRIORITY_RENDER_LIST_START + 0x0200, TASK_GROUP(3), "WaterSurface");
     }
 }
 

@@ -55,7 +55,7 @@ void CreateObjectManager(void)
     ObjDrawInit();
 
     if (obj_ptcb == NULL)
-        obj_ptcb = TaskCreateNoWork(ObjectManager_Main, ObjectManager_Destructor, TASK_FLAG_NONE, 0, 0xEFFD, TASK_SCOPE_5, "ObjectManager");
+        obj_ptcb = TaskCreateNoWork(ObjectManager_Main, ObjectManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_END - 2, TASK_GROUP(5), "ObjectManager");
 }
 
 void ObjectManager_Main(void)
@@ -155,12 +155,12 @@ void SetObjCameraPosition(fx32 x1, fx32 y1, fx32 x2, fx32 y2)
 
 StageTask *CreateStageTask_(void)
 {
-    CreateStageTaskEx_(0x1000, TASK_SCOPE_1);
+    CreateStageTaskEx_(0x1000, TASK_GROUP(1));
 }
 
-StageTask *CreateStageTaskEx_(u32 priority, TaskScope scope)
+StageTask *CreateStageTaskEx_(u32 priority, TaskGroup group)
 {
-    Task *task = TaskCreate(StageTask_Main, StageTask_Destructor, TASK_FLAG_NONE, 0, priority, scope, StageTask);
+    Task *task = TaskCreate(StageTask_Main, StageTask_Destructor, TASK_FLAG_NONE, 0, priority, group, StageTask);
     if (task == HeapNull)
         return NULL;
 

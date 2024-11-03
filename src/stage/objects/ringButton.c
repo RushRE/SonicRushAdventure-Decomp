@@ -65,7 +65,7 @@ static void UpdateRingButtonPalette(RingButton *work, BOOL activated);
 
 RingButton *CreateRingButton(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(RingButton_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, RingButton);
+    Task *task = CreateStageTask(RingButton_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), RingButton);
     if (task == HeapNull)
         return NULL;
 

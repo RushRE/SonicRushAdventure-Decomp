@@ -135,7 +135,7 @@ ItemBox *CreateItemBox(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         return NULL;
     }
 
-    task = CreateStageTask(ItemBox_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, ItemBox);
+    task = CreateStageTask(ItemBox_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), ItemBox);
     if (task == HeapNull)
         return NULL;
 
@@ -309,7 +309,7 @@ NONMATCH_FUNC void CreateItemBoxReward(s32 type)
     }
     else
     {
-        itemBoxRewardTask = CreateStageTask(ItemBoxReward_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, ItemBoxReward);
+        itemBoxRewardTask = CreateStageTask(ItemBoxReward_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), ItemBoxReward);
         if (itemBoxRewardTask == HeapNull)
             return;
 

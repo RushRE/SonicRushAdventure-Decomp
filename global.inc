@@ -3200,7 +3200,7 @@
 .public DestroyTask
 .public DestroyCurrentTask
 .public CloseTaskSystem
-.public ClearTaskScope
+.public DestroyTaskGroup
 .public SetTaskMainEvent
 .public SetCurrentTaskMainEvent
 .public SetTaskDestructorEvent

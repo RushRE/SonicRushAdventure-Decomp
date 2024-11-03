@@ -707,7 +707,7 @@ BossFX3D *BossFX3D__Create(size_t size, BossFX3DState state, const char *path, u
     Task *task;
     BossFX3D *work;
 
-    task = TaskCreate_(StageTask_Main, BossFX3D__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1A00, TASK_SCOPE_4, size);
+    task = TaskCreate_(StageTask_Main, BossFX3D__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1A00, TASK_GROUP(4), size);
     if (task == HeapNull)
         return NULL;
 
@@ -898,7 +898,7 @@ void BossFX3D__State_CondorTackle(BossFX3D *work)
 // Boss 2D FX
 BossFX2D *BossFX2D__Create(size_t size, BossFX2DState state, const char *path, u16 animID, BossFX3DFlags flags, s32 timer, fx32 x, fx32 y, fx32 z)
 {
-    Task *task = TaskCreate_(StageTask_Main, BossFX2D__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1A00, TASK_SCOPE_4, size);
+    Task *task = TaskCreate_(StageTask_Main, BossFX2D__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1A00, TASK_GROUP(4), size);
     if (task == HeapNull)
         return NULL;
 

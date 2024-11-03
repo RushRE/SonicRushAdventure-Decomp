@@ -271,7 +271,7 @@ Player *Player__Create(CharacterID characterID, u16 aidIndex)
     idx   = 0;
     state = GetGameState();
 
-    task = CreateStageTask(Player__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1100, TASK_SCOPE_1, Player);
+    task = CreateStageTask(Player__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1100, TASK_GROUP(1), Player);
     if (task == HeapNull)
         return NULL;
 
@@ -2654,7 +2654,7 @@ void Player__Action_StopSuperBoost(Player *player)
 
 PlayerBoost *CreatePlayerBoostCollider(Player *player, s16 left, s16 top, s16 right, s16 bottom, s16 timer)
 {
-    Task *task = CreateStageTaskFast(TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1101, TASK_SCOPE_1, PlayerBoost);
+    Task *task = CreateStageTaskFast(TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1101, TASK_GROUP(1), PlayerBoost);
     if (task == HeapNull)
         return NULL;
 
@@ -5071,7 +5071,7 @@ void Player__State_Warp(Player *work)
                     {
                         if (!gmCheckRaceStage())
                         {
-                            ClearTaskScope(TASK_SCOPE_2);
+                            DestroyTaskGroup(TASK_GROUP(2));
                             DecorationSys__Release();
                         }
                     }
@@ -7356,7 +7356,7 @@ void PlayPlayerJingle(Player *player, s16 nextTrack)
 
     if (curJingle == NULL)
     {
-        Task *task = TaskCreate(PlayerJingle_Main, PlayerJingle_Destructor, TASK_FLAG_NONE, 3, TASK_PRIORITY_UPDATE_LIST_START + 12, TASK_SCOPE_4, PlayerJingle);
+        Task *task = TaskCreate(PlayerJingle_Main, PlayerJingle_Destructor, TASK_FLAG_NONE, 3, TASK_PRIORITY_UPDATE_LIST_START + 12, TASK_GROUP(4), PlayerJingle);
         if (task == HeapNull)
             return;
 

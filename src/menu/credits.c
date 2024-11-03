@@ -905,13 +905,13 @@ void ReleaseCredits(void)
     MI_CpuClear8(&renderCoreGFXControlA.windowManager, sizeof(renderCoreGFXControlA.windowManager));
     MI_CpuClear8(&renderCoreGFXControlB.windowManager, sizeof(renderCoreGFXControlB.windowManager));
 
-    ClearTaskScope(1);
-    ClearTaskScope(0);
+    DestroyTaskGroup(TASK_GROUP(1));
+    DestroyTaskGroup(TASK_GROUP(0));
 }
 
 void ClearCreditsChildTasks(void)
 {
-    ClearTaskScope(1);
+    DestroyTaskGroup(TASK_GROUP(1));
 }
 
 void GoToNextCreditsEvent(s32 id)
@@ -1294,7 +1294,7 @@ void CreateCredits(void)
 {
     SetupDisplayForCredits(CREDITS_DISPLAY_CREDITS, FALSE);
 
-    Task *task = TaskCreate(Credits_Main_Init, Credits_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_SCOPE_0, Credits);
+    Task *task = TaskCreate(Credits_Main_Init, Credits_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(0), Credits);
 
     Credits *work = TaskGetWork(task, Credits);
     TaskInitWork16(work);
@@ -1576,7 +1576,7 @@ void CreateCreditsEx(void)
 {
     SetupDisplayForCredits(CREDITS_DISPLAY_CREDITS_EX, FALSE);
 
-    Task *task = TaskCreate(CreditsEx_Main_Init, CreditsEx_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_SCOPE_0, Credits);
+    Task *task = TaskCreate(CreditsEx_Main_Init, CreditsEx_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(0), Credits);
 
     Credits *work = TaskGetWork(task, Credits);
     TaskInitWork16(work);
@@ -1775,7 +1775,7 @@ void CreateFakeCredits(void)
 {
     SetupDisplayForCredits(CREDITS_DISPLAY_FAKE_CREDITS, FALSE);
 
-    Task *task = TaskCreate(FakeCredits_Main_Init, FakeCredits_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_SCOPE_0, Credits);
+    Task *task = TaskCreate(FakeCredits_Main_Init, FakeCredits_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(0), Credits);
 
     Credits *work = TaskGetWork(task, Credits);
     TaskInitWork16(work);
@@ -1869,7 +1869,7 @@ void CreateExStageCreditsNotification(void)
     SetupDisplayForCredits(CREDITS_DISPLAY_CREDITS, TRUE);
 
     Task *task =
-        TaskCreate(ExStageCreditsNotification_Main_Init, ExStageCreditsNotification_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_SCOPE_0, Credits);
+        TaskCreate(ExStageCreditsNotification_Main_Init, ExStageCreditsNotification_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(0), Credits);
 
     Credits *work = TaskGetWork(task, Credits);
     TaskInitWork16(work);
@@ -1933,7 +1933,7 @@ void CreatePostGameMissionCreditsNotification(void)
     SetupDisplayForCredits(CREDITS_DISPLAY_CREDITS, TRUE);
 
     Task *task = TaskCreate(PostGameMissionCreditsNotification_Main_Init, PostGameMissionCreditsNotification__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000,
-                            TASK_SCOPE_0, Credits);
+                            TASK_GROUP(0), Credits);
 
     Credits *work = TaskGetWork(task, Credits);
     TaskInitWork16(work);
@@ -1996,7 +1996,7 @@ void PostGameMissionCreditsNotification_Main_Exit(void)
 
 void CreateWandRoom(Credits *parent)
 {
-    Task *task = TaskCreate(WandRoom_Main_Init, WandRoom_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_SCOPE_1, WandRoom);
+    Task *task = TaskCreate(WandRoom_Main_Init, WandRoom_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(1), WandRoom);
 
     WandRoom *work = TaskGetWork(task, WandRoom);
     TaskInitWork16(work);
@@ -2049,7 +2049,7 @@ void CreateCreditsNotification(Credits *parent, CreditsNotificationType type)
     SetupDisplayForCredits(CREDITS_DISPLAY_CREDITS, TRUE);
 
     Task *task =
-        TaskCreate(CreditsNotification_Main_InitWindowOpen, CreditsNotification_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_SCOPE_1, CreditsNotification);
+        TaskCreate(CreditsNotification_Main_InitWindowOpen, CreditsNotification_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(1), CreditsNotification);
 
     CreditsNotification *work = TaskGetWork(task, CreditsNotification);
     TaskInitWork16(work);

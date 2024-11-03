@@ -57,7 +57,7 @@ void DashRing_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 DashRing *CreateDashRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(DashRing_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, DashRing);
+    Task *task = CreateStageTask(DashRing_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), DashRing);
     if (task == HeapNull)
         return NULL;
 
@@ -185,7 +185,7 @@ DashRing *CreateDashRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
 DashRing *CreateDashRingRainbow(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(DashRing_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_SCOPE_2, DashRing);
+    Task *task = CreateStageTask(DashRing_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), DashRing);
     if (task == HeapNull)
         return NULL;
 

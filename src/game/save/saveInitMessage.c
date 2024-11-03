@@ -43,7 +43,7 @@ static void SaveInitMessage_Main_Finished(void);
 
 void CreateSaveInitMessage(SaveInitManager *parent, GameInitMessageTypes type)
 {
-    Task *task = TaskCreate(SaveInitMessage_Main_PrepareOpenWindow, SaveInitMessage_Destructor, TASK_FLAG_NONE, 0, 0x3000, TASK_SCOPE_1, SaveInitMessage);
+    Task *task = TaskCreate(SaveInitMessage_Main_PrepareOpenWindow, SaveInitMessage_Destructor, TASK_FLAG_NONE, 0, 0x3000, TASK_GROUP(1), SaveInitMessage);
     // no null checks, this task is that important!!
 
     SaveInitMessage *work = TaskGetWork(task, SaveInitMessage);

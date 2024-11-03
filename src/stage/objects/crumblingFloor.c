@@ -64,7 +64,7 @@ CrumblingFloor *CreateCrumblingFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 
     };
     static const u16 spriteSizeTable[CRUMBLINGFLOOR_TYPE_COUNT] = { [CRUMBLINGFLOOR_TYPE_FLAT] = 0x10, [CRUMBLINGFLOOR_TYPE_SLOPE] = 0x20 };
 
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_SCOPE_2, CrumblingFloor);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), CrumblingFloor);
     if (task == HeapNull)
         return NULL;
 

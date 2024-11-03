@@ -638,7 +638,7 @@ RUSH_INLINE void CreateStompSmokeFX(Camera3D *config)
 
 Boss1Stage *Boss1Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type)
 {
-    Boss1Stage__Singleton = CreateStageTask(Boss1Stage__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, Boss1Stage);
+    Boss1Stage__Singleton = CreateStageTask(Boss1Stage__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), Boss1Stage);
 
     Boss1Stage *work = TaskGetWork(Boss1Stage__Singleton, Boss1Stage);
     TaskInitWork16(work);
@@ -675,7 +675,7 @@ NONMATCH_FUNC Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 typ
 {
     // https://decomp.me/scratch/oipYc -> 97.32%
 #ifdef NON_MATCHING
-    Task *task = CreateStageTask(Boss1__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_SCOPE_2, Boss1);
+    Task *task = CreateStageTask(Boss1__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1500, TASK_GROUP(2), Boss1);
 
     Boss1 *work = TaskGetWork(task, Boss1);
     TaskInitWork16(work);

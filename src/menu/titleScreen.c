@@ -125,7 +125,7 @@ void CreateTitleScreen(void)
 {
     SetupDisplayForTitleScreen();
 
-    Task *task = TaskCreate(TitleScreen_Main_Init, TitleScreen_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_SCOPE_0, TitleScreen);
+    Task *task = TaskCreate(TitleScreen_Main_Init, TitleScreen_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(0), TitleScreen);
 
     TitleScreen *work = TaskGetWork(task, TitleScreen);
     TaskInitWork16(work);
@@ -304,8 +304,8 @@ void ReleaseTitleScreenBackgrounds(TitleScreen *work)
 
 void ClearTitleScreenTasks(void)
 {
-    ClearTaskScope(1);
-    ClearTaskScope(0);
+    DestroyTaskGroup(TASK_GROUP(1));
+    DestroyTaskGroup(TASK_GROUP(0));
 }
 
 void ChangeEventForTitleScreen(TitleScreenNextEvent id)
@@ -626,7 +626,7 @@ void TitleScreen_Main_ChangeEvent(void)
 
 void CreateTitleScreenBackgroundView(TitleScreen *parent)
 {
-    Task *task = TaskCreate(TitleScreenBackgroundView_Main_Init, TitleScreenBackgroundView_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_SCOPE_1,
+    Task *task = TaskCreate(TitleScreenBackgroundView_Main_Init, TitleScreenBackgroundView_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(1),
                             TitleScreenBackgroundView);
 
     TitleScreenBackgroundView *work = TaskGetWork(task, TitleScreenBackgroundView);
@@ -691,7 +691,7 @@ void TitleScreenBackgroundView_Main_Active(void)
 
 void CreateTitleScreenCopyrightIcon(TitleScreen *parent)
 {
-    Task *task = TaskCreate(TitleScreenCopyrightIcon_Main_Init, TitleScreenCopyrightIcon_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_SCOPE_1,
+    Task *task = TaskCreate(TitleScreenCopyrightIcon_Main_Init, TitleScreenCopyrightIcon_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(1),
                             TitleScreenCopyrightIcon);
 
     TitleScreenCopyrightIcon *work = TaskGetWork(task, TitleScreenCopyrightIcon);
@@ -789,7 +789,7 @@ void TitleScreenCopyrightIcon_Main_Idle(void)
 
 void CreateTitleScreenPressStart(TitleScreen *parent)
 {
-    Task *task = TaskCreate(TitleScreenPressStart_Main_Init, TitleScreenPressStart_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_SCOPE_1,
+    Task *task = TaskCreate(TitleScreenPressStart_Main_Init, TitleScreenPressStart_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(1),
                             TitleScreenPressStart);
 
     TitleScreenPressStart *work = TaskGetWork(task, TitleScreenPressStart);

@@ -24,7 +24,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
 {
     // https://decomp.me/scratch/KuNjX -> 84.77%
 #ifdef NON_MATCHING
-    Task *task = CreateStageTask(DiveStand__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_SCOPE_2, DiveStand);
+    Task *task = CreateStageTask(DiveStand__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), DiveStand);
     if (task == HeapNull)
         return NULL;
 

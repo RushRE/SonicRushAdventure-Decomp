@@ -58,7 +58,7 @@ static fx32 stageRingScale = FLOAT_TO_FX32(1.0);
 
 RingManager *CreateRingManager(void)
 {
-    Task *task = TaskCreate(RingManager_Main, RingManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4000, TASK_SCOPE_3, RingManager);
+    Task *task = TaskCreate(RingManager_Main, RingManager_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x4000, TASK_GROUP(3), RingManager);
     if (task == HeapNull)
         return NULL;
 
