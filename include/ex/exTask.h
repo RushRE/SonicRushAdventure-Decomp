@@ -11,8 +11,8 @@
 // MACROS
 // --------------------
 
-#define ExTaskCreate(taskMain, taskDestructor, priority, scope, pauseLevel, workSize, name, flag)                                                                                  \
-    ExTaskCreate_(taskMain, taskDestructor, flags, pauseLevel, priority, scope, workSize, name, flag)
+#define ExTaskCreate(taskMain, taskDestructor, priority, scope, pauseLevel, workSize, name, type)                                                                                  \
+    ExTaskCreate_(taskMain, taskDestructor, priority, scope, pauseLevel, workSize, name, type)
 #define ExTaskGetWork(task, type)  ((type *)GetExTaskWork_(task))
 #define ExTaskGetWorkCurrent(type) ((type *)GetExTaskWorkCurrent_())
 #define ExTaskInitWork8(work)      MI_CpuClear8(work, sizeof(*work))
