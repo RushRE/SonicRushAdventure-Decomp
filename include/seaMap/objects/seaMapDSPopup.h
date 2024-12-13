@@ -23,8 +23,8 @@ typedef struct SeaMapDSPopup_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED SeaMapObject *SeaMapDSPopup__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
-NOT_DECOMPILED void SeaMapDSPopup__Main(void);
-NOT_DECOMPILED void SeaMapDSPopup__Destructor(Task *task);
+SeaMapObject *SeaMapDSPopup__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
+void SeaMapDSPopup__Main(void);
+void SeaMapDSPopup__Destructor(Task *task);
 
 #endif // RUSH2_SEAMAPDSPOPUP_H

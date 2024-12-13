@@ -20,8 +20,8 @@ typedef struct SeaMapTargetFlagIcon_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED SeaMapObject *SeaMapTargetFlagIcon__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
-NOT_DECOMPILED void SeaMapTargetFlagIcon__Main(void);
-NOT_DECOMPILED void SeaMapTargetFlagIcon__Destructor(Task *task);
+SeaMapObject *SeaMapTargetFlagIcon__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
+void SeaMapTargetFlagIcon__Main(void);
+void SeaMapTargetFlagIcon__Destructor(Task *task);
 
 #endif // RUSH2_SEAMAPTARGETFLAGICON_H

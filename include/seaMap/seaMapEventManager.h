@@ -66,6 +66,12 @@ typedef struct SeaMapEventManager_
 } SeaMapEventManager;
 
 // --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED Task *SeaMapEventManager__Singleton;
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
