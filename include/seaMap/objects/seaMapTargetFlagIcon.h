@@ -4,10 +4,6 @@
 #include <seaMap/seaMapEventManager.h>
 
 // --------------------
-// ENUMS
-// --------------------
-
-// --------------------
 // STRUCTS
 // --------------------
 
@@ -20,8 +16,6 @@ typedef struct SeaMapTargetFlagIcon_
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *SeaMapTargetFlagIcon__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
-void SeaMapTargetFlagIcon__Main(void);
-void SeaMapTargetFlagIcon__Destructor(Task *task);
+SeaMapObject *CreateSeaMapTargetFlagIcon(CHEVObjectType *objectType, CHEVObject *mapObject);
 
 #endif // RUSH2_SEAMAPTARGETFLAGICON_H

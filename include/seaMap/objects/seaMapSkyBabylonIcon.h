@@ -5,10 +5,6 @@
 #include <game/graphics/sprite.h>
 
 // --------------------
-// ENUMS
-// --------------------
-
-// --------------------
 // STRUCTS
 // --------------------
 
@@ -25,13 +21,9 @@ typedef struct SeaMapSkyBabylonIcon_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED SeaMapObject *SeaMapSkyBabylonIcon__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
-NOT_DECOMPILED void SeaMapSkyBabylonIcon__Main(void);
-NOT_DECOMPILED void SeaMapSkyBabylonIcon__Destructor(Task *task);
-NOT_DECOMPILED void SeaMapSkyBabylonIcon__State_2049C70(SeaMapSkyBabylonIcon *work);
-NOT_DECOMPILED void SeaMapSkyBabylonIcon__State_2049C74(SeaMapSkyBabylonIcon *work);
-NOT_DECOMPILED void SeaMapSkyBabylonIcon__State_2049CAC(SeaMapSkyBabylonIcon *work);
-NOT_DECOMPILED void SeaMapSkyBabylonIcon__State_2049D54(SeaMapSkyBabylonIcon *work);
-NOT_DECOMPILED void SeaMapSkyBabylonIcon__State_2049D8C(SeaMapSkyBabylonIcon *work);
+SeaMapObject *CreateSeaMapSkyBabylonIcon(CHEVObjectType *objectType, CHEVObject *mapObject);
+
+// States
+void SeaMapSkyBabylonIcon_State_BeginAppear(SeaMapSkyBabylonIcon *work);
 
 #endif // RUSH2_SEAMAPSKYBABYLONICON_H

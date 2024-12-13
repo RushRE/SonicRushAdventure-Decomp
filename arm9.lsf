@@ -93,7 +93,7 @@ Static arm9
     Object asm/seaMap/seaMapStylusIcon.o
     Object src/seaMap/objects/seaMapDSPopup.o
     Object asm/seaMap/seaMapCoralCaveIcon.o
-    Object asm/seaMap/seaMapSkyBabylonIcon.o
+    Object src/seaMap/objects/seaMapSkyBabylonIcon.o
     Object asm/seaMap/seaMapSparkles.o
     Object asm/seaMap/seaMapCollision.o
     Object asm/seaMap/seaMapUnknown204A9E4.o

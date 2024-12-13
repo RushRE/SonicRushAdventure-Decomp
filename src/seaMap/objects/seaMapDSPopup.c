@@ -5,14 +5,21 @@
 #include <game/util/spriteButton.h>
 
 // --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void SeaMapDSPopup_Main(void);
+static void SeaMapDSPopup_Destructor(Task *task);
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *SeaMapDSPopup__Create(CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapDSPopup(CHEVObjectType *objectType, CHEVObject *mapObject)
 {
     SeaMapManager *manager = SeaMapManager__GetWork();
 
-    Task *task = TaskCreate(SeaMapDSPopup__Main, SeaMapDSPopup__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x111, TASK_GROUP(1), SeaMapDSPopup);
+    Task *task = TaskCreate(SeaMapDSPopup_Main, SeaMapDSPopup_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x111, TASK_GROUP(1), SeaMapDSPopup);
     SeaMapEventManager__GetWork()->dsPopup = task;
 
     SeaMapDSPopup *work = TaskGetWork(task, SeaMapDSPopup);
@@ -33,7 +40,7 @@ SeaMapObject *SeaMapDSPopup__Create(CHEVObjectType *objectType, CHEVObject *mapO
     return &work->objWork;
 }
 
-void SeaMapDSPopup__Main(void)
+void SeaMapDSPopup_Main(void)
 {
     SeaMapDSPopup *work = TaskGetWorkCurrent(SeaMapDSPopup);
 
@@ -54,7 +61,7 @@ void SeaMapDSPopup__Main(void)
     }
 }
 
-void SeaMapDSPopup__Destructor(Task *task)
+void SeaMapDSPopup_Destructor(Task *task)
 {
     SeaMapDSPopup *work = TaskGetWork(task, SeaMapDSPopup);
 

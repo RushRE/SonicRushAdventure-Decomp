@@ -3,10 +3,17 @@
 #include <game/save/saveGame.h>
 
 // --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void SeaMapTargetFlagIcon_Main(void);
+static void SeaMapTargetFlagIcon_Destructor(Task *task);
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *SeaMapTargetFlagIcon__Create(CHEVObjectType *objectType, CHEVObject *mapObject)
+SeaMapObject *CreateSeaMapTargetFlagIcon(CHEVObjectType *objectType, CHEVObject *mapObject)
 {
     SeaMapManager *manager = SeaMapManager__GetWork();
 
@@ -33,7 +40,7 @@ SeaMapObject *SeaMapTargetFlagIcon__Create(CHEVObjectType *objectType, CHEVObjec
         return NULL;
 
     Task *task =
-        TaskCreate(SeaMapTargetFlagIcon__Main, SeaMapTargetFlagIcon__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x111, TASK_GROUP(1), SeaMapTargetFlagIcon);
+        TaskCreate(SeaMapTargetFlagIcon_Main, SeaMapTargetFlagIcon_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x111, TASK_GROUP(1), SeaMapTargetFlagIcon);
 
     SeaMapTargetFlagIcon *work = TaskGetWork(task, SeaMapTargetFlagIcon);
     TaskInitWork16(work);
@@ -44,7 +51,7 @@ SeaMapObject *SeaMapTargetFlagIcon__Create(CHEVObjectType *objectType, CHEVObjec
     return &work->objWork;
 }
 
-void SeaMapTargetFlagIcon__Main(void)
+void SeaMapTargetFlagIcon_Main(void)
 {
     SeaMapTargetFlagIcon *work = TaskGetWorkCurrent(SeaMapTargetFlagIcon);
 
@@ -61,7 +68,7 @@ void SeaMapTargetFlagIcon__Main(void)
     }
 }
 
-void SeaMapTargetFlagIcon__Destructor(Task *task)
+void SeaMapTargetFlagIcon_Destructor(Task *task)
 {
     SeaMapTargetFlagIcon *work = TaskGetWork(task, SeaMapTargetFlagIcon);
 

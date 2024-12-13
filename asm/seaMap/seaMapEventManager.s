@@ -885,11 +885,11 @@ SeaMapEventManager__UnlockSkyBabylon: // 0x02047188
 	bl SeaMapEventManager__GetWork
 	ldr r0, [r0, #0x25c]
 	bl GetTaskWork_
-	ldr r1, _020471B4 // =SeaMapSkyBabylonIcon__State_2049C74
+	ldr r1, _020471B4 // =SeaMapSkyBabylonIcon_State_BeginAppear
 	str r1, [r0, #0xdc]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_020471B4: .word SeaMapSkyBabylonIcon__State_2049C74
+_020471B4: .word SeaMapSkyBabylonIcon_State_BeginAppear
 	arm_func_end SeaMapEventManager__UnlockSkyBabylon
 
 	arm_func_start SeaMapEventManager__Func_20471B8
@@ -1439,14 +1439,14 @@ SeaMapEventManager__ObjectList: // 0x021100FC
     .hword 9                            // palette
     .byte 0x1C, 0x24                    // viewBounds
     .byte 0, 0
-    .word SeaMapSkyBabylonIcon__Create  // createFunc
+    .word CreateSeaMapSkyBabylonIcon  // createFunc
     .word 0                             // viewCheckFunc
     
     .hword 0x8B                         // animID
     .hword 4                            // palette
     .byte 0x20, 0x20                    // viewBounds
     .byte 0, 0
-    .word SeaMapTargetFlagIcon__Create  // createFunc
+    .word CreateSeaMapTargetFlagIcon  // createFunc
     .word 0                             // viewCheckFunc
     
     .hword 0                            // animID
@@ -1467,7 +1467,7 @@ SeaMapEventManager__ObjectList: // 0x021100FC
     .hword 2                            // palette
     .byte 0x00, 0x00                    // viewBounds
     .byte 0, 0
-    .word SeaMapDSPopup__Create         // createFunc
+    .word CreateSeaMapDSPopup         // createFunc
     .word 0                             // viewCheckFunc
     
     .hword 0                            // animID

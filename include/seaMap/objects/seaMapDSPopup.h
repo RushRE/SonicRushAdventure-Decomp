@@ -5,10 +5,6 @@
 #include <game/graphics/sprite.h>
 
 // --------------------
-// ENUMS
-// --------------------
-
-// --------------------
 // STRUCTS
 // --------------------
 
@@ -23,8 +19,6 @@ typedef struct SeaMapDSPopup_
 // FUNCTIONS
 // --------------------
 
-SeaMapObject *SeaMapDSPopup__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
-void SeaMapDSPopup__Main(void);
-void SeaMapDSPopup__Destructor(Task *task);
+SeaMapObject *CreateSeaMapDSPopup(CHEVObjectType *objectType, CHEVObject *mapObject);
 
 #endif // RUSH2_SEAMAPDSPOPUP_H
