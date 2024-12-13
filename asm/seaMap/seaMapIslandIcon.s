@@ -31,7 +31,7 @@ SeaMapIslandIcon__Create: // 0x020483E4
 	bl SeaMapUnknown204A9E4__RunCallbacks
 _02048444:
 	ldrsh r0, [r4, #0x10]
-	bl SeaMapIslandIcon__IsEnabled
+	bl SeaMapEventManager__IslandEnabled
 	cmp r0, #0
 	addeq sp, sp, #0x1c
 	moveq r0, #0
@@ -41,10 +41,10 @@ _02048444:
 	cmp r0, #2
 	add r0, r4, #2
 	bne _02048478
-	bl SeaMapIslandDrawIcon__Func_20481FC
+	bl SeaMapIslandDrawIcon__RectCheck1
 	b _0204847C
 _02048478:
-	bl SeaMapIslandDrawIcon__Func_20482E8
+	bl SeaMapIslandDrawIcon__RectCheck2
 _0204847C:
 	add r0, sp, #0xc
 	bl SeaMapEventManager__SetObjectAsActive
@@ -127,10 +127,10 @@ _02048594:
 	cmp r0, #2
 	add r0, r4, #2
 	bne _020485B0
-	bl SeaMapIslandDrawIcon__Func_20481FC
+	bl SeaMapIslandDrawIcon__RectCheck1
 	b _020485B4
 _020485B0:
-	bl SeaMapIslandDrawIcon__Func_20482E8
+	bl SeaMapIslandDrawIcon__RectCheck2
 _020485B4:
 	add r0, sp, #0xc
 	bl SeaMapEventManager__SetObjectAsActive
@@ -219,10 +219,10 @@ _0204864C:
 	addeq sp, sp, #0x34
 	ldmeqia sp!, {r4, r5, pc}
 	mov r0, r5
-	bl SeaMapIslandDrawIcon__Func_204839C
+	bl SeaMapIslandDrawIcon__CreateSparkles
 	add r0, r5, #2
 	add r1, r5, #8
-	bl SeaMapIslandDrawIcon__Func_20481FC
+	bl SeaMapIslandDrawIcon__RectCheck1
 	ldrsh r0, [r5, #0x10]
 	mov r1, #1
 	bl SeaMapManager__SetSaveFlag
@@ -256,10 +256,10 @@ _02048710:
 	addeq sp, sp, #0x34
 	ldmeqia sp!, {r4, r5, pc}
 	mov r0, r5
-	bl SeaMapIslandDrawIcon__Func_204839C
+	bl SeaMapIslandDrawIcon__CreateSparkles
 	add r0, r5, #2
 	add r1, r5, #8
-	bl SeaMapIslandDrawIcon__Func_20482E8
+	bl SeaMapIslandDrawIcon__RectCheck2
 	ldrsh r0, [r5, #0x10]
 	mov r1, #1
 	bl SeaMapManager__SetSaveFlag
@@ -340,7 +340,7 @@ _0204887C:
 	ldrh r1, [r6, #0xa]
 	mov r2, r5
 	mov r3, r4
-	bl SeaMapManager__Func_2043B44
+	bl SeaMapManager__GetPosition2
 	ldr r0, [sp, #0x14]
 	str r0, [sp]
 	ldr r0, [sp, #0x18]
@@ -375,7 +375,7 @@ _02048900:
 	ldrh r1, [r6, #0xa]
 	mov r2, r5
 	mov r3, r4
-	bl SeaMapManager__Func_2043B44
+	bl SeaMapManager__GetPosition2
 	ldr r0, [sp, #0xc]
 	str r0, [sp]
 	ldr r0, [sp, #0x10]

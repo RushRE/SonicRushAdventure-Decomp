@@ -7,6 +7,7 @@
 #include <game/text/fontWindow.h>
 #include <game/graphics/sprite.h>
 #include <game/graphics/background.h>
+#include <game/input/touchField.h>
 
 // --------------------
 // TYPES
@@ -493,7 +494,7 @@ void CutsceneFadeManager__Draw(CutsceneFadeManager *work, s32 mode, s32 timer);
 // SpriteButton touch area
 void CutsceneSpriteButtonManager__AddTouchArea(void);
 void CutsceneSpriteButtonManager__RemoveTouchArea(void);
-void CutsceneSpriteButtonManager__TouchAreaCallback(void);
+void CutsceneSpriteButtonManager__TouchAreaCallback(TouchAreaResponse *responce, TouchArea *area, void *userData);
 
 void CutsceneTextWorker__Init(CutsceneTextWorker *work);
 void CutsceneTextWorker__Draw(CutsceneTextWorker *work);

@@ -23,6 +23,7 @@
 #include <menu/doorPuzzle.h>
 #include <menu/soundTest.h>
 #include <menu/credits.h>
+#include <seaMap/seaMapCourseChangeView.h>
 
 // --------------------
 // TEMP
@@ -38,7 +39,6 @@ NOT_DECOMPILED void InitNetworkErrorMenu(void);
 NOT_DECOMPILED void HubControl__ReturnToHub(void);
 NOT_DECOMPILED void MainMenu__Create(void);
 NOT_DECOMPILED void SeaMapUnknown__Create(void);
-NOT_DECOMPILED void SeaMapCourseChangeView__Create(void);
 NOT_DECOMPILED void SeaMapTraining__Create(void);
 NOT_DECOMPILED void SeaMapCutscene__Create(void);
 NOT_DECOMPILED void VikingCupMenu__Create(void);

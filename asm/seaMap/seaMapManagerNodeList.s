@@ -260,12 +260,12 @@ SeaMapManagerNodeList__Func_2046154: // 0x02046154
 	mov r4, r3
 	add r2, sp, #0xc
 	add r3, sp, #0x10
-	bl SeaMapManager__Func_2043B44
+	bl SeaMapManager__GetPosition2
 	add r2, sp, #4
 	add r3, sp, #8
 	mov r0, r5
 	mov r1, r4
-	bl SeaMapManager__Func_2043B44
+	bl SeaMapManager__GetPosition2
 	ldr r0, [sp, #0xc]
 	ldr r1, [sp, #4]
 	mov r2, r0, asr #0xf

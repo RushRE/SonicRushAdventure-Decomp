@@ -3,14 +3,11 @@
 #include <game/system/sysEvent.h>
 #include <game/file/cardBackup.h>
 #include <game/graphics/renderCore.h>
+#include <seaMap/seaMapManager.h>
 
 // --------------------
 // TEMP
 // --------------------
-
-NOT_DECOMPILED void SeaMapManager__SetUnknown1(void);
-NOT_DECOMPILED BOOL SeaMapManager__GetSaveFlag_(u8 *flags, u32 id);
-NOT_DECOMPILED void SeaMapManager__SetSaveFlag_(u8 *flags, u32 id, BOOL state);
 
 NOT_DECOMPILED void *aSonic;
 

@@ -777,15 +777,15 @@ _0204705C:
 	bx lr
 	arm_func_end SeaMapEventManager__Func_2046EEC
 
-	arm_func_start SeaMapEventManager__Func_2047064
-SeaMapEventManager__Func_2047064: // 0x02047064
+	arm_func_start SeaMapEventManager__SetBoatFlipX
+SeaMapEventManager__SetBoatFlipX: // 0x02047064
 	cmp r1, #0
 	ldr r1, [r0, #0x4c]
 	bicne r1, r1, #0x80
 	orreq r1, r1, #0x80
 	str r1, [r0, #0x4c]
 	bx lr
-	arm_func_end SeaMapEventManager__Func_2047064
+	arm_func_end SeaMapEventManager__SetBoatFlipX
 
 	arm_func_start SeaMapEventManager__CreateStylusIcon
 SeaMapEventManager__CreateStylusIcon: // 0x0204707C
@@ -868,11 +868,11 @@ SeaMapEventManager__UnlockCoralCave: // 0x02047158
 	bl SeaMapEventManager__GetWork
 	ldr r0, [r0, #0x258]
 	bl GetTaskWork_
-	ldr r1, _02047184 // =SeaMapCoralCaveIcon__Func_2049924
+	ldr r1, _02047184 // =SeaMapCoralCaveIcon__State_2049924
 	str r1, [r0, #0x74]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02047184: .word SeaMapCoralCaveIcon__Func_2049924
+_02047184: .word SeaMapCoralCaveIcon__State_2049924
 	arm_func_end SeaMapEventManager__UnlockCoralCave
 
 	arm_func_start SeaMapEventManager__UnlockSkyBabylon
@@ -885,11 +885,11 @@ SeaMapEventManager__UnlockSkyBabylon: // 0x02047188
 	bl SeaMapEventManager__GetWork
 	ldr r0, [r0, #0x25c]
 	bl GetTaskWork_
-	ldr r1, _020471B4 // =SeaMapSkyBabylonIcon__Func_2049C74
+	ldr r1, _020471B4 // =SeaMapSkyBabylonIcon__State_2049C74
 	str r1, [r0, #0xdc]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_020471B4: .word SeaMapSkyBabylonIcon__Func_2049C74
+_020471B4: .word SeaMapSkyBabylonIcon__State_2049C74
 	arm_func_end SeaMapEventManager__UnlockSkyBabylon
 
 	arm_func_start SeaMapEventManager__Func_20471B8
@@ -919,8 +919,8 @@ _020471E8:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	arm_func_end SeaMapEventManager__Func_20471B8
 
-	arm_func_start SeaMapIslandIcon__IsEnabled
-SeaMapIslandIcon__IsEnabled: // 0x02047210
+	arm_func_start SeaMapEventManager__IslandEnabled
+SeaMapEventManager__IslandEnabled: // 0x02047210
 	stmdb sp!, {r4, lr}
 	ldr r2, _02047288 // =0x02110048
 	sub r1, r0, #0x17
@@ -957,7 +957,7 @@ _02047274:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02047288: .word 0x02110048
-	arm_func_end SeaMapIslandIcon__IsEnabled
+	arm_func_end SeaMapEventManager__IslandEnabled
 
 	arm_func_start SeaMapEventManager__GetWork
 SeaMapEventManager__GetWork: // 0x0204728C

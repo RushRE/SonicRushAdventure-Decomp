@@ -88,7 +88,7 @@ Static arm9
     Object asm/seaMap/seaMapIslandIcon.o
     Object asm/seaMap/seaMapJohnnyIcon.o
     Object asm/seaMap/seaMapUnknown5.o
-    Object asm/seaMap/seaMapTargetFlagIcon.o
+    Object src/seaMap/objects/seaMapTargetFlagIcon.o
     Object asm/seaMap/seaMapBoatIcon.o
     Object asm/seaMap/seaMapStylusIcon.o
     Object asm/seaMap/seaMapDSPopup.o

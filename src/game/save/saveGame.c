@@ -6,6 +6,7 @@
 #include <game/cutscene/script.h>
 #include <menu/doorPuzzle.h>
 #include <menu/credits.h>
+#include <seaMap/seaMapManager.h>
 
 // --------------------
 // STRUCTS
@@ -29,8 +30,6 @@ typedef struct SaveGameUnknown205D65C_
 // --------------------
 // TEMP
 // --------------------
-
-NOT_DECOMPILED void SeaMapManager__SetUnknown1(s32 a1);
 
 NOT_DECOMPILED void (*SaveGame__UnknownTable2[])(void);
 NOT_DECOMPILED u16 SaveGame_cutsceneIDList[];
@@ -1625,7 +1624,7 @@ BOOL SaveGame__CheckProgress37(void)
     return SaveGame__GetGameProgress() >= SAVE_PROGRESS_37;
 }
 
-NONMATCH_FUNC void SaveGame__Func_205D65C(void)
+NONMATCH_FUNC s32 SaveGame__Func_205D65C(s32 id)
 {
 #ifdef NON_MATCHING
 
@@ -1701,7 +1700,7 @@ _0205D734:
 #endif
 }
 
-NONMATCH_FUNC void SaveGame__Func_205D758(void)
+NONMATCH_FUNC s32 SaveGame__Func_205D758(s32 id)
 {
 #ifdef NON_MATCHING
 

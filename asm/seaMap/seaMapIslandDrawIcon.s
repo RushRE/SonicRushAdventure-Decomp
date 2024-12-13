@@ -126,8 +126,8 @@ _02047960:
 _0204797C: .word saveGame+0x00000028
 	arm_func_end SeaMapIslandDrawIcon__CanDrawFrom
 
-	arm_func_start SeaMapIslandDrawIcon__Func_2047980
-SeaMapIslandDrawIcon__Func_2047980: // 0x02047980
+	arm_func_start SeaMapIslandDrawIcon__IsActive
+SeaMapIslandDrawIcon__IsActive: // 0x02047980
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #8]
@@ -140,7 +140,7 @@ SeaMapIslandDrawIcon__Func_2047980: // 0x02047980
 	moveq r0, #1
 	movne r0, #0
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapIslandDrawIcon__Func_2047980
+	arm_func_end SeaMapIslandDrawIcon__IsActive
 
 	arm_func_start SeaMapIslandDrawIcon__IsEnabled
 SeaMapIslandDrawIcon__IsEnabled: // 0x020479B0
@@ -546,7 +546,7 @@ _02047E88:
 	bl AnimatorSprite__GetBlockData
 	ldrsh r3, [sp, #0x24]
 	ldrsh r2, [sp, #0x20]
-	ldr r1, _02047FB8 // =SeaMapIslandDrawIcon__Func_20480D0
+	ldr r1, _02047FB8 // =SeaMapIslandDrawIcon__TouchAreaCallback
 	add r0, r7, #0x64
 	sub r2, r3, r2
 	mov r2, r2, asr #1
@@ -575,7 +575,7 @@ _02047FA8: .word 0x00000111
 _02047FAC: .word SeaMapIslandDrawIcon__Main
 _02047FB0: .word SeaMapIslandDrawIcon__Destructor
 _02047FB4: .word VRAMSystem__VRAM_PALETTE_OBJ
-_02047FB8: .word SeaMapIslandDrawIcon__Func_20480D0
+_02047FB8: .word SeaMapIslandDrawIcon__TouchAreaCallback
 _02047FBC: .word TouchField__PointInCircle
 	arm_func_end SeaMapIslandDrawIcon__Create
 
@@ -607,7 +607,7 @@ _02048000:
 	str r0, [r4, #0x88]
 _0204801C:
 	mov r0, r4
-	bl SeaMapIslandDrawIcon__Func_2047980
+	bl SeaMapIslandDrawIcon__IsActive
 	cmp r0, #0
 	bne _02048050
 	ldr r1, [r4, #4]
@@ -659,8 +659,8 @@ _020480BC:
 	ldmia sp!, {r4, pc}
 	arm_func_end SeaMapIslandDrawIcon__Destructor
 
-	arm_func_start SeaMapIslandDrawIcon__Func_20480D0
-SeaMapIslandDrawIcon__Func_20480D0: // 0x020480D0
+	arm_func_start SeaMapIslandDrawIcon__TouchAreaCallback
+SeaMapIslandDrawIcon__TouchAreaCallback: // 0x020480D0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	mov r7, r0
@@ -716,7 +716,7 @@ _0204818C:
 	tst r4, #0x800
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r0, r5
-	bl SeaMapIslandDrawIcon__Func_2047980
+	bl SeaMapIslandDrawIcon__IsActive
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	add r0, r5, #0x10
@@ -727,7 +727,7 @@ _020481B4:
 	tst r4, #0x800
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	mov r0, r5
-	bl SeaMapIslandDrawIcon__Func_2047980
+	bl SeaMapIslandDrawIcon__IsActive
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
 	add r0, r5, #0x10
@@ -743,10 +743,10 @@ _020481DC:
 	bl SeaMapEventManager__GetObjectType
 	stmia r4, {r0, r5}
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end SeaMapIslandDrawIcon__Func_20480D0
+	arm_func_end SeaMapIslandDrawIcon__TouchAreaCallback
 
-	arm_func_start SeaMapIslandDrawIcon__Func_20481FC
-SeaMapIslandDrawIcon__Func_20481FC: // 0x020481FC
+	arm_func_start SeaMapIslandDrawIcon__RectCheck1
+SeaMapIslandDrawIcon__RectCheck1: // 0x020481FC
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
 	ldrsh lr, [r1]
@@ -806,10 +806,10 @@ SeaMapIslandDrawIcon__Func_20481FC: // 0x020481FC
 	bl SeaMapManager__EnableDrawFlags
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapIslandDrawIcon__Func_20481FC
+	arm_func_end SeaMapIslandDrawIcon__RectCheck1
 
-	arm_func_start SeaMapIslandDrawIcon__Func_20482E8
-SeaMapIslandDrawIcon__Func_20482E8: // 0x020482E8
+	arm_func_start SeaMapIslandDrawIcon__RectCheck2
+SeaMapIslandDrawIcon__RectCheck2: // 0x020482E8
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
 	ldrsh lr, [r1]
@@ -855,10 +855,10 @@ SeaMapIslandDrawIcon__Func_20482E8: // 0x020482E8
 	bl SeaMapManager__EnableDrawFlags
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapIslandDrawIcon__Func_20482E8
+	arm_func_end SeaMapIslandDrawIcon__RectCheck2
 
-	arm_func_start SeaMapIslandDrawIcon__Func_204839C
-SeaMapIslandDrawIcon__Func_204839C: // 0x0204839C
+	arm_func_start SeaMapIslandDrawIcon__CreateSparkles
+SeaMapIslandDrawIcon__CreateSparkles: // 0x0204839C
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
 	mov r2, r0
@@ -879,4 +879,4 @@ _020483C4:
 	bl SeaMapEventManager__CreateObject
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapIslandDrawIcon__Func_204839C
+	arm_func_end SeaMapIslandDrawIcon__CreateSparkles

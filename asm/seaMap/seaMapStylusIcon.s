@@ -36,11 +36,11 @@ SeaMapStylusIcon__Create: // 0x020490F8
 	mov r3, r6
 	mov r0, r4
 	bl SeaMapEventManager__InitMapObject
-	ldr r1, _020491F8 // =SeaMapStylusIcon__Func_20492D4
+	ldr r1, _020491F8 // =SeaMapStylusIcon__State_20492D4
 	mov r0, #0x22
 	str r1, [r4, #0x10]
 	strh r0, [r4, #0x88]
-	bl SeaMapStylusIcon__Func_2049204
+	bl SeaMapStylusIcon__State_2049204
 	mov r1, r0
 	ldr r0, [r5, #0x158]
 	bl VRAMSystem__AllocSpriteVram
@@ -72,13 +72,13 @@ SeaMapStylusIcon__Create: // 0x020490F8
 _020491EC: .word 0x00000111
 _020491F0: .word SeaMapStylusIcon__Main
 _020491F4: .word SeaMapStylusIcon__Destructor
-_020491F8: .word SeaMapStylusIcon__Func_20492D4
+_020491F8: .word SeaMapStylusIcon__State_20492D4
 _020491FC: .word VRAMSystem__VRAM_PALETTE_OBJ
 _02049200: .word 0x00000804
 	arm_func_end SeaMapStylusIcon__Create
 
-	arm_func_start SeaMapStylusIcon__Func_2049204
-SeaMapStylusIcon__Func_2049204: // 0x02049204
+	arm_func_start SeaMapStylusIcon__State_2049204
+SeaMapStylusIcon__State_2049204: // 0x02049204
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #8
 	ldr r0, _0204926C // =0x0210FF80
@@ -108,7 +108,7 @@ _0204923C:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0204926C: .word 0x0210FF80
-	arm_func_end SeaMapStylusIcon__Func_2049204
+	arm_func_end SeaMapStylusIcon__State_2049204
 
 	arm_func_start SeaMapStylusIcon__Main
 SeaMapStylusIcon__Main: // 0x02049270
@@ -143,8 +143,8 @@ SeaMapStylusIcon__Destructor: // 0x020492AC
 	ldmia sp!, {r4, pc}
 	arm_func_end SeaMapStylusIcon__Destructor
 
-	arm_func_start SeaMapStylusIcon__Func_20492D4
-SeaMapStylusIcon__Func_20492D4: // 0x020492D4
+	arm_func_start SeaMapStylusIcon__State_20492D4
+SeaMapStylusIcon__State_20492D4: // 0x020492D4
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x78]
@@ -167,43 +167,43 @@ SeaMapStylusIcon__Func_20492D4: // 0x020492D4
 	mov r1, #0
 	orr r0, r0, #2
 	str r0, [r4, #0x50]
-	ldr r0, _0204933C // =SeaMapStylusIcon__Func_2049340
+	ldr r0, _0204933C // =SeaMapStylusIcon__State_2049340
 	strh r1, [r4, #0x8c]
 	str r0, [r4, #0x10]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0204933C: .word SeaMapStylusIcon__Func_2049340
-	arm_func_end SeaMapStylusIcon__Func_20492D4
+_0204933C: .word SeaMapStylusIcon__State_2049340
+	arm_func_end SeaMapStylusIcon__State_20492D4
 
-	arm_func_start SeaMapStylusIcon__Func_2049340
-SeaMapStylusIcon__Func_2049340: // 0x02049340
+	arm_func_start SeaMapStylusIcon__State_2049340
+SeaMapStylusIcon__State_2049340: // 0x02049340
 	ldrh r2, [r0, #0x8c]
 	add r1, r2, #1
 	strh r1, [r0, #0x8c]
 	cmp r2, #0x3c
-	ldrhi r1, _0204935C // =SeaMapStylusIcon__Func_2049360
+	ldrhi r1, _0204935C // =SeaMapStylusIcon__State_2049360
 	strhi r1, [r0, #0x10]
 	bx lr
 	.align 2, 0
-_0204935C: .word SeaMapStylusIcon__Func_2049360
-	arm_func_end SeaMapStylusIcon__Func_2049340
+_0204935C: .word SeaMapStylusIcon__State_2049360
+	arm_func_end SeaMapStylusIcon__State_2049340
 
-	arm_func_start SeaMapStylusIcon__Func_2049360
-SeaMapStylusIcon__Func_2049360: // 0x02049360
+	arm_func_start SeaMapStylusIcon__State_2049360
+SeaMapStylusIcon__State_2049360: // 0x02049360
 	ldr r1, [r0, #0x50]
 	mov r2, #0
 	bic r1, r1, #2
 	str r1, [r0, #0x50]
-	ldr r1, _02049380 // =SeaMapStylusIcon__Func_2049384
+	ldr r1, _02049380 // =SeaMapStylusIcon__State_2049384
 	strh r2, [r0, #0x8c]
 	str r1, [r0, #0x10]
 	bx lr
 	.align 2, 0
-_02049380: .word SeaMapStylusIcon__Func_2049384
-	arm_func_end SeaMapStylusIcon__Func_2049360
+_02049380: .word SeaMapStylusIcon__State_2049384
+	arm_func_end SeaMapStylusIcon__State_2049360
 
-	arm_func_start SeaMapStylusIcon__Func_2049384
-SeaMapStylusIcon__Func_2049384: // 0x02049384
+	arm_func_start SeaMapStylusIcon__State_2049384
+SeaMapStylusIcon__State_2049384: // 0x02049384
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x50]
@@ -226,26 +226,26 @@ _020493BC:
 	ldmlsia sp!, {r4, pc}
 	ldrh r0, [r4, #0x20]
 	cmp r0, #0x7d
-	ldrne r0, _020493E4 // =SeaMapStylusIcon__Func_20493E8
+	ldrne r0, _020493E4 // =SeaMapStylusIcon__State_20493E8
 	strne r0, [r4, #0x10]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_020493E4: .word SeaMapStylusIcon__Func_20493E8
-	arm_func_end SeaMapStylusIcon__Func_2049384
+_020493E4: .word SeaMapStylusIcon__State_20493E8
+	arm_func_end SeaMapStylusIcon__State_2049384
 
-	arm_func_start SeaMapStylusIcon__Func_20493E8
-SeaMapStylusIcon__Func_20493E8: // 0x020493E8
+	arm_func_start SeaMapStylusIcon__State_20493E8
+SeaMapStylusIcon__State_20493E8: // 0x020493E8
 	mov r2, #0
-	ldr r1, _020493FC // =SeaMapStylusIcon__Func_2049400
+	ldr r1, _020493FC // =SeaMapStylusIcon__State_2049400
 	strh r2, [r0, #0x8a]
 	str r1, [r0, #0x10]
 	bx lr
 	.align 2, 0
-_020493FC: .word SeaMapStylusIcon__Func_2049400
-	arm_func_end SeaMapStylusIcon__Func_20493E8
+_020493FC: .word SeaMapStylusIcon__State_2049400
+	arm_func_end SeaMapStylusIcon__State_20493E8
 
-	arm_func_start SeaMapStylusIcon__Func_2049400
-SeaMapStylusIcon__Func_2049400: // 0x02049400
+	arm_func_start SeaMapStylusIcon__State_2049400
+SeaMapStylusIcon__State_2049400: // 0x02049400
 	stmdb sp!, {r3, lr}
 	ldrsh r3, [r0, #0x8a]
 	ldrsh r2, [r0, #0x88]
@@ -281,40 +281,40 @@ SeaMapStylusIcon__Func_2049400: // 0x02049400
 	add r2, lr, r3
 	mov r2, r2, asr #0xc
 	cmp r1, #0
-	ldrne r1, _0204949C // =SeaMapStylusIcon__Func_20494A0
+	ldrne r1, _0204949C // =SeaMapStylusIcon__State_20494A0
 	strh r2, [r0, #0xe]
 	strne r1, [r0, #0x10]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0204949C: .word SeaMapStylusIcon__Func_20494A0
-	arm_func_end SeaMapStylusIcon__Func_2049400
+_0204949C: .word SeaMapStylusIcon__State_20494A0
+	arm_func_end SeaMapStylusIcon__State_2049400
 
-	arm_func_start SeaMapStylusIcon__Func_20494A0
-SeaMapStylusIcon__Func_20494A0: // 0x020494A0
+	arm_func_start SeaMapStylusIcon__State_20494A0
+SeaMapStylusIcon__State_20494A0: // 0x020494A0
 	mov r2, #0
-	ldr r1, _020494B4 // =SeaMapStylusIcon__Func_20494B8
+	ldr r1, _020494B4 // =SeaMapStylusIcon__State_20494B8
 	strh r2, [r0, #0x8c]
 	str r1, [r0, #0x10]
 	bx lr
 	.align 2, 0
-_020494B4: .word SeaMapStylusIcon__Func_20494B8
-	arm_func_end SeaMapStylusIcon__Func_20494A0
+_020494B4: .word SeaMapStylusIcon__State_20494B8
+	arm_func_end SeaMapStylusIcon__State_20494A0
 
-	arm_func_start SeaMapStylusIcon__Func_20494B8
-SeaMapStylusIcon__Func_20494B8: // 0x020494B8
+	arm_func_start SeaMapStylusIcon__State_20494B8
+SeaMapStylusIcon__State_20494B8: // 0x020494B8
 	ldrh r2, [r0, #0x8c]
 	add r1, r2, #1
 	strh r1, [r0, #0x8c]
 	cmp r2, #0x3c
-	ldrhi r1, _020494D4 // =SeaMapStylusIcon__Func_20494D8
+	ldrhi r1, _020494D4 // =SeaMapStylusIcon__State_20494D8
 	strhi r1, [r0, #0x10]
 	bx lr
 	.align 2, 0
-_020494D4: .word SeaMapStylusIcon__Func_20494D8
-	arm_func_end SeaMapStylusIcon__Func_20494B8
+_020494D4: .word SeaMapStylusIcon__State_20494D8
+	arm_func_end SeaMapStylusIcon__State_20494B8
 
-	arm_func_start SeaMapStylusIcon__Func_20494D8
-SeaMapStylusIcon__Func_20494D8: // 0x020494D8
+	arm_func_start SeaMapStylusIcon__State_20494D8
+SeaMapStylusIcon__State_20494D8: // 0x020494D8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x14
@@ -324,16 +324,16 @@ SeaMapStylusIcon__Func_20494D8: // 0x020494D8
 	mov r1, #0
 	bic r0, r0, #4
 	str r0, [r4, #0x50]
-	ldr r0, _0204950C // =SeaMapStylusIcon__Func_2049510
+	ldr r0, _0204950C // =SeaMapStylusIcon__State_2049510
 	strh r1, [r4, #0x8c]
 	str r0, [r4, #0x10]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0204950C: .word SeaMapStylusIcon__Func_2049510
-	arm_func_end SeaMapStylusIcon__Func_20494D8
+_0204950C: .word SeaMapStylusIcon__State_2049510
+	arm_func_end SeaMapStylusIcon__State_20494D8
 
-	arm_func_start SeaMapStylusIcon__Func_2049510
-SeaMapStylusIcon__Func_2049510: // 0x02049510
+	arm_func_start SeaMapStylusIcon__State_2049510
+SeaMapStylusIcon__State_2049510: // 0x02049510
 	ldrh r2, [r0, #0x8c]
 	add r1, r2, #1
 	strh r1, [r0, #0x8c]
@@ -341,9 +341,9 @@ SeaMapStylusIcon__Func_2049510: // 0x02049510
 	bxls lr
 	ldr r1, [r0, #0x50]
 	tst r1, #0x40000000
-	ldrne r1, _02049538 // =SeaMapStylusIcon__Func_20492D4
+	ldrne r1, _02049538 // =SeaMapStylusIcon__State_20492D4
 	strne r1, [r0, #0x10]
 	bx lr
 	.align 2, 0
-_02049538: .word SeaMapStylusIcon__Func_20492D4
-	arm_func_end SeaMapStylusIcon__Func_2049510
+_02049538: .word SeaMapStylusIcon__State_20492D4
+	arm_func_end SeaMapStylusIcon__State_2049510

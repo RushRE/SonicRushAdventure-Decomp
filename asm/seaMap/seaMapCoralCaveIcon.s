@@ -36,9 +36,9 @@ SeaMapCoralCaveIcon__Create: // 0x02049764
 	bl MIi_CpuClear16
 	bl SaveGame__GetGameProgress
 	cmp r0, #0xe
-	ldrge r0, _0204988C // =SeaMapCoralCaveIcon__Func_20499A0
+	ldrge r0, _0204988C // =SeaMapCoralCaveIcon__State_20499A0
 	mov r1, r8
-	ldrlt r0, _02049890 // =SeaMapCoralCaveIcon__Func_2049920
+	ldrlt r0, _02049890 // =SeaMapCoralCaveIcon__State_2049920
 	mov r2, r7
 	str r0, [r4, #0x74]
 	mov r0, r4
@@ -82,8 +82,8 @@ SeaMapCoralCaveIcon__Create: // 0x02049764
 _02049880: .word 0x00000111
 _02049884: .word SeaMapCoralCaveIcon__Main
 _02049888: .word SeaMapCoralCaveIcon__Destructor
-_0204988C: .word SeaMapCoralCaveIcon__Func_20499A0
-_02049890: .word SeaMapCoralCaveIcon__Func_2049920
+_0204988C: .word SeaMapCoralCaveIcon__State_20499A0
+_02049890: .word SeaMapCoralCaveIcon__State_2049920
 _02049894: .word VRAMSystem__VRAM_PALETTE_OBJ
 _02049898: .word 0x00000804
 	arm_func_end SeaMapCoralCaveIcon__Create
@@ -131,20 +131,20 @@ SeaMapCoralCaveIcon__Destructor: // 0x020498D8
 _0204991C: .word SeaMapEventManager__Singleton
 	arm_func_end SeaMapCoralCaveIcon__Destructor
 
-	arm_func_start SeaMapCoralCaveIcon__Func_2049920
-SeaMapCoralCaveIcon__Func_2049920: // 0x02049920
+	arm_func_start SeaMapCoralCaveIcon__State_2049920
+SeaMapCoralCaveIcon__State_2049920: // 0x02049920
 	bx lr
-	arm_func_end SeaMapCoralCaveIcon__Func_2049920
+	arm_func_end SeaMapCoralCaveIcon__State_2049920
 
-	arm_func_start SeaMapCoralCaveIcon__Func_2049924
-SeaMapCoralCaveIcon__Func_2049924: // 0x02049924
+	arm_func_start SeaMapCoralCaveIcon__State_2049924
+SeaMapCoralCaveIcon__State_2049924: // 0x02049924
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x10
 	mov r1, #0x81
 	bl AnimatorSprite__SetAnimation
 	ldr r0, [r4, #0x4c]
-	ldr r1, _02049958 // =SeaMapCoralCaveIcon__Func_204995C
+	ldr r1, _02049958 // =SeaMapCoralCaveIcon__State_204995C
 	bic r0, r0, #4
 	str r0, [r4, #0x4c]
 	mov r0, r4
@@ -152,11 +152,11 @@ SeaMapCoralCaveIcon__Func_2049924: // 0x02049924
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02049958: .word SeaMapCoralCaveIcon__Func_204995C
-	arm_func_end SeaMapCoralCaveIcon__Func_2049924
+_02049958: .word SeaMapCoralCaveIcon__State_204995C
+	arm_func_end SeaMapCoralCaveIcon__State_2049924
 
-	arm_func_start SeaMapCoralCaveIcon__Func_204995C
-SeaMapCoralCaveIcon__Func_204995C: // 0x0204995C
+	arm_func_start SeaMapCoralCaveIcon__State_204995C
+SeaMapCoralCaveIcon__State_204995C: // 0x0204995C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0xc
@@ -170,22 +170,22 @@ SeaMapCoralCaveIcon__Func_204995C: // 0x0204995C
 	bl AnimatorSprite__DrawFrame
 	ldr r0, [r4, #0x4c]
 	tst r0, #0x40000000
-	ldrne r0, _0204999C // =SeaMapCoralCaveIcon__Func_20499A0
+	ldrne r0, _0204999C // =SeaMapCoralCaveIcon__State_20499A0
 	strne r0, [r4, #0x74]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0204999C: .word SeaMapCoralCaveIcon__Func_20499A0
-	arm_func_end SeaMapCoralCaveIcon__Func_204995C
+_0204999C: .word SeaMapCoralCaveIcon__State_20499A0
+	arm_func_end SeaMapCoralCaveIcon__State_204995C
 
-	arm_func_start SeaMapCoralCaveIcon__Func_20499A0
-SeaMapCoralCaveIcon__Func_20499A0: // 0x020499A0
+	arm_func_start SeaMapCoralCaveIcon__State_20499A0
+SeaMapCoralCaveIcon__State_20499A0: // 0x020499A0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x10
 	mov r1, #0x80
 	bl AnimatorSprite__SetAnimation
 	ldr r0, [r4, #0x4c]
-	ldr r1, _020499D4 // =SeaMapCoralCaveIcon__Func_20499D8
+	ldr r1, _020499D4 // =SeaMapCoralCaveIcon__State_20499D8
 	orr r0, r0, #4
 	str r0, [r4, #0x4c]
 	mov r0, r4
@@ -193,11 +193,11 @@ SeaMapCoralCaveIcon__Func_20499A0: // 0x020499A0
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_020499D4: .word SeaMapCoralCaveIcon__Func_20499D8
-	arm_func_end SeaMapCoralCaveIcon__Func_20499A0
+_020499D4: .word SeaMapCoralCaveIcon__State_20499D8
+	arm_func_end SeaMapCoralCaveIcon__State_20499A0
 
-	arm_func_start SeaMapCoralCaveIcon__Func_20499D8
-SeaMapCoralCaveIcon__Func_20499D8: // 0x020499D8
+	arm_func_start SeaMapCoralCaveIcon__State_20499D8
+SeaMapCoralCaveIcon__State_20499D8: // 0x020499D8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	add r0, r5, #0xc
@@ -224,4 +224,4 @@ _02049A18:
 	mov r3, #0
 	bl AnimatorSprite__DrawFrameRotoZoom
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SeaMapCoralCaveIcon__Func_20499D8
+	arm_func_end SeaMapCoralCaveIcon__State_20499D8

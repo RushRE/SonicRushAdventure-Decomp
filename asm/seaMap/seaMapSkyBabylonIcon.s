@@ -36,9 +36,9 @@ SeaMapSkyBabylonIcon__Create: // 0x02049A3C
 	bl MIi_CpuClear16
 	bl SaveGame__GetUnknownProgress2
 	cmp r0, #4
-	ldrge r0, _02049BC8 // =SeaMapSkyBabylonIcon__Func_2049D54
+	ldrge r0, _02049BC8 // =SeaMapSkyBabylonIcon__State_2049D54
 	mov r1, r8
-	ldrlt r0, _02049BCC // =SeaMapSkyBabylonIcon__Func_2049C70
+	ldrlt r0, _02049BCC // =SeaMapSkyBabylonIcon__State_2049C70
 	mov r2, r7
 	str r0, [r4, #0xdc]
 	mov r0, r4
@@ -107,8 +107,8 @@ SeaMapSkyBabylonIcon__Create: // 0x02049A3C
 _02049BBC: .word 0x00000111
 _02049BC0: .word SeaMapSkyBabylonIcon__Main
 _02049BC4: .word SeaMapSkyBabylonIcon__Destructor
-_02049BC8: .word SeaMapSkyBabylonIcon__Func_2049D54
-_02049BCC: .word SeaMapSkyBabylonIcon__Func_2049C70
+_02049BC8: .word SeaMapSkyBabylonIcon__State_2049D54
+_02049BCC: .word SeaMapSkyBabylonIcon__State_2049C70
 _02049BD0: .word VRAMSystem__VRAM_PALETTE_OBJ
 _02049BD4: .word 0x00000804
 	arm_func_end SeaMapSkyBabylonIcon__Create
@@ -161,20 +161,20 @@ SeaMapSkyBabylonIcon__Destructor: // 0x02049C20
 _02049C6C: .word SeaMapEventManager__Singleton
 	arm_func_end SeaMapSkyBabylonIcon__Destructor
 
-	arm_func_start SeaMapSkyBabylonIcon__Func_2049C70
-SeaMapSkyBabylonIcon__Func_2049C70: // 0x02049C70
+	arm_func_start SeaMapSkyBabylonIcon__State_2049C70
+SeaMapSkyBabylonIcon__State_2049C70: // 0x02049C70
 	bx lr
-	arm_func_end SeaMapSkyBabylonIcon__Func_2049C70
+	arm_func_end SeaMapSkyBabylonIcon__State_2049C70
 
-	arm_func_start SeaMapSkyBabylonIcon__Func_2049C74
-SeaMapSkyBabylonIcon__Func_2049C74: // 0x02049C74
+	arm_func_start SeaMapSkyBabylonIcon__State_2049C74
+SeaMapSkyBabylonIcon__State_2049C74: // 0x02049C74
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x10
 	mov r1, #0x83
 	bl AnimatorSprite__SetAnimation
 	ldr r0, [r4, #0x4c]
-	ldr r1, _02049CA8 // =SeaMapSkyBabylonIcon__Func_2049CAC
+	ldr r1, _02049CA8 // =SeaMapSkyBabylonIcon__State_2049CAC
 	bic r0, r0, #4
 	str r0, [r4, #0x4c]
 	mov r0, r4
@@ -182,11 +182,11 @@ SeaMapSkyBabylonIcon__Func_2049C74: // 0x02049C74
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02049CA8: .word SeaMapSkyBabylonIcon__Func_2049CAC
-	arm_func_end SeaMapSkyBabylonIcon__Func_2049C74
+_02049CA8: .word SeaMapSkyBabylonIcon__State_2049CAC
+	arm_func_end SeaMapSkyBabylonIcon__State_2049C74
 
-	arm_func_start SeaMapSkyBabylonIcon__Func_2049CAC
-SeaMapSkyBabylonIcon__Func_2049CAC: // 0x02049CAC
+	arm_func_start SeaMapSkyBabylonIcon__State_2049CAC
+SeaMapSkyBabylonIcon__State_2049CAC: // 0x02049CAC
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -223,24 +223,24 @@ SeaMapSkyBabylonIcon__Func_2049CAC: // 0x02049CAC
 	bl AnimatorSprite__DrawFrame
 	ldr r0, [r4, #0x4c]
 	tst r0, #0x40000000
-	ldrne r0, _02049D50 // =SeaMapSkyBabylonIcon__Func_2049D54
+	ldrne r0, _02049D50 // =SeaMapSkyBabylonIcon__State_2049D54
 	strne r0, [r4, #0xdc]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _02049D4C: .word FX_SinCosTable_
-_02049D50: .word SeaMapSkyBabylonIcon__Func_2049D54
-	arm_func_end SeaMapSkyBabylonIcon__Func_2049CAC
+_02049D50: .word SeaMapSkyBabylonIcon__State_2049D54
+	arm_func_end SeaMapSkyBabylonIcon__State_2049CAC
 
-	arm_func_start SeaMapSkyBabylonIcon__Func_2049D54
-SeaMapSkyBabylonIcon__Func_2049D54: // 0x02049D54
+	arm_func_start SeaMapSkyBabylonIcon__State_2049D54
+SeaMapSkyBabylonIcon__State_2049D54: // 0x02049D54
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x10
 	mov r1, #0x82
 	bl AnimatorSprite__SetAnimation
 	ldr r0, [r4, #0x4c]
-	ldr r1, _02049D88 // =SeaMapSkyBabylonIcon__Func_2049D8C
+	ldr r1, _02049D88 // =SeaMapSkyBabylonIcon__State_2049D8C
 	orr r0, r0, #4
 	str r0, [r4, #0x4c]
 	mov r0, r4
@@ -248,11 +248,11 @@ SeaMapSkyBabylonIcon__Func_2049D54: // 0x02049D54
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02049D88: .word SeaMapSkyBabylonIcon__Func_2049D8C
-	arm_func_end SeaMapSkyBabylonIcon__Func_2049D54
+_02049D88: .word SeaMapSkyBabylonIcon__State_2049D8C
+	arm_func_end SeaMapSkyBabylonIcon__State_2049D54
 
-	arm_func_start SeaMapSkyBabylonIcon__Func_2049D8C
-SeaMapSkyBabylonIcon__Func_2049D8C: // 0x02049D8C
+	arm_func_start SeaMapSkyBabylonIcon__State_2049D8C
+SeaMapSkyBabylonIcon__State_2049D8C: // 0x02049D8C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldrh r2, [r4, #0xd8]
@@ -311,4 +311,4 @@ _02049E24:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02049E68: .word FX_SinCosTable_
-	arm_func_end SeaMapSkyBabylonIcon__Func_2049D8C
+	arm_func_end SeaMapSkyBabylonIcon__State_2049D8C

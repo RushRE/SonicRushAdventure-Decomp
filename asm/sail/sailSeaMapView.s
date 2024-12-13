@@ -57,7 +57,7 @@ SailSeaMapView__Create: // 0x0218B41C
 	ldrh r1, [r1, #0xa]
 	add r2, r2, #0x400
 	add r3, r3, #0x400
-	bl SeaMapManager__Func_2043B44
+	bl SeaMapManager__GetPosition2
 	ldr r1, _0218B568 // =SailSeaMapView__ButtonStates
 	mov r0, r4
 	bl SeaMapView__EnableMultipleButtons
@@ -311,7 +311,7 @@ _0218B804:
 	ldrh r1, [sp, #0xa]
 	add r2, r2, #0x400
 	add r3, r3, #0x400
-	bl SeaMapManager__Func_2043B44
+	bl SeaMapManager__GetPosition2
 	ldrh r0, [sp, #8]
 	ldrh r1, [sp, #0xa]
 	add r2, sp, #4
@@ -341,13 +341,13 @@ _0218B804:
 	bhs _0218B8A0
 	ldr r0, [r4, #0x7b4]
 	mov r1, #1
-	bl SeaMapEventManager__Func_2047064
+	bl SeaMapEventManager__SetBoatFlipX
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, pc}
 _0218B8A0:
 	ldr r0, [r4, #0x7b4]
 	mov r1, #0
-	bl SeaMapEventManager__Func_2047064
+	bl SeaMapEventManager__SetBoatFlipX
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, pc}
 	arm_func_end SailSeaMapView__HandleProgress

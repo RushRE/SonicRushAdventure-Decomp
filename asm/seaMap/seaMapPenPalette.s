@@ -70,24 +70,24 @@ _020433A0: .word VRAMSystem__VRAM_PALETTE_BG
 _020433A4: .word VRAMSystem__VRAM_PALETTE_OBJ
 	arm_func_end SeaMapPenPalette__Create
 
-	arm_func_start SeaMapPenPalette__Func_20433A8
-SeaMapPenPalette__Func_20433A8: // 0x020433A8
+	arm_func_start SeaMapPenPalette__Destroy
+SeaMapPenPalette__Destroy: // 0x020433A8
 	ldr ip, _020433B0 // =DestroyTask
 	bx ip
 	.align 2, 0
 _020433B0: .word DestroyTask
-	arm_func_end SeaMapPenPalette__Func_20433A8
+	arm_func_end SeaMapPenPalette__Destroy
 
-	arm_func_start SeaMapPenPalette__Func_20433B4
-SeaMapPenPalette__Func_20433B4: // 0x020433B4
+	arm_func_start SeaMapPenPalette__GetMode
+SeaMapPenPalette__GetMode: // 0x020433B4
 	stmdb sp!, {r3, lr}
 	bl GetTaskWork_
 	ldr r0, [r0, #4]
 	ldmia sp!, {r3, pc}
-	arm_func_end SeaMapPenPalette__Func_20433B4
+	arm_func_end SeaMapPenPalette__GetMode
 
-	arm_func_start SeaMapPenPalette__Func_20433C4
-SeaMapPenPalette__Func_20433C4: // 0x020433C4
+	arm_func_start SeaMapPenPalette__SetMode
+SeaMapPenPalette__SetMode: // 0x020433C4
 	stmdb sp!, {r4, lr}
 	mov r4, r1
 	bl GetTaskWork_
@@ -99,7 +99,7 @@ SeaMapPenPalette__Func_20433C4: // 0x020433C4
 	strh r2, [r1, #8]
 	str r4, [r0, #4]
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapPenPalette__Func_20433C4
+	arm_func_end SeaMapPenPalette__SetMode
 
 	arm_func_start SeaMapPenPalette__Main
 SeaMapPenPalette__Main: // 0x020433F0

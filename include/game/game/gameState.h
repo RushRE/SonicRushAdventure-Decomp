@@ -3,6 +3,7 @@
 
 #include <global.h>
 #include <game/math/mtMath.h>
+#include <seaMap/seaMapManager.h>
 
 #ifdef __cplusplus
 extern "C"
@@ -169,39 +170,9 @@ enum VSBattleType_
 };
 typedef u32 VSBattleType;
 
-enum ShipType_
-{
-    SHIP_JET,
-    SHIP_BOAT,
-    SHIP_HOVER,
-    SHIP_SUBMARINE,
-
-    SHIP_COUNT,
-
-    SHIP_MENU = SHIP_COUNT, // SeaMap menu
-};
-typedef u32 ShipType;
-
-enum ShipLevel_
-{
-    SHIP_LEVEL_0,
-    SHIP_LEVEL_1,
-    SHIP_LEVEL_2,
-
-    SHIP_LEVEL_MAX = SHIP_LEVEL_2,
-};
-typedef u32 ShipLevel;
-
 // --------------------
 // STRUCTS
 // --------------------
-
-// TODO: move to sea map manager header when it's made
-typedef struct SeaMapManagerNodeList_
-{
-    NNSFndList nodes;
-    NNSFndList groups;
-} SeaMapManagerNodeList;
 
 struct GameSaveInfo
 {

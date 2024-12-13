@@ -60,7 +60,7 @@ SeaMapManager__Create: // 0x0204356C
 	str r5, [r6, #0x158]
 	mov r0, #0
 	str r0, [r6]
-	ldr r1, _02043680 // =SeaMapManager__Func_2044DC8
+	ldr r1, _02043680 // =SeaMapManager__State_2044DC8
 	add r0, r6, #0x13c
 	str r1, [r6, #0x198]
 	str r4, [r6, #0x194]
@@ -95,7 +95,7 @@ _02043670: .word SeaMapManager__Main
 _02043674: .word SeaMapManager__Destructor
 _02043678: .word SeaMapManager__sVars
 _0204367C: .word 0x0000A098
-_02043680: .word SeaMapManager__Func_2044DC8
+_02043680: .word SeaMapManager__State_2044DC8
 	arm_func_end SeaMapManager__Create
 
 	arm_func_start SeaMapManager__Destroy
@@ -229,7 +229,7 @@ _020437C8:
 	tst r0, #8
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl SeaMapManager__Func_20438E8
+	bl SeaMapManager__Draw3
 	ldmia sp!, {r4, pc}
 	arm_func_end SeaMapManager__Draw
 
@@ -311,8 +311,8 @@ SeaMapManager__Draw2: // 0x02043890
 	ldmia sp!, {r4, pc}
 	arm_func_end SeaMapManager__Draw2
 
-	arm_func_start SeaMapManager__Func_20438E8
-SeaMapManager__Func_20438E8: // 0x020438E8
+	arm_func_start SeaMapManager__Draw3
+SeaMapManager__Draw3: // 0x020438E8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x138]
@@ -349,7 +349,7 @@ SeaMapManager__Func_20438E8: // 0x020438E8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02043970: .word VRAMSystem__VRAM_BG
-	arm_func_end SeaMapManager__Func_20438E8
+	arm_func_end SeaMapManager__Draw3
 
 	arm_func_start SeaMapManager__Func_2043974
 SeaMapManager__Func_2043974: // 0x02043974
@@ -476,7 +476,7 @@ SeaMapManager__Func_2043AD4: // 0x02043AD4
 	mov r4, r3
 	add r2, sp, #4
 	add r3, sp, #0
-	bl SeaMapManager__Func_2043B44
+	bl SeaMapManager__GetPosition2
 	ldr r0, [sp, #4]
 	ldr r1, [sp]
 	mov r2, r5
@@ -508,8 +508,8 @@ SeaMapManager__Func_2043B28: // 0x02043B28
 	bx lr
 	arm_func_end SeaMapManager__Func_2043B28
 
-	arm_func_start SeaMapManager__Func_2043B44
-SeaMapManager__Func_2043B44: // 0x02043B44
+	arm_func_start SeaMapManager__GetPosition2
+SeaMapManager__GetPosition2: // 0x02043B44
 	cmp r2, #0
 	movne r0, r0, lsl #0xd
 	strne r0, [r2]
@@ -517,7 +517,7 @@ SeaMapManager__Func_2043B44: // 0x02043B44
 	movne r0, r1, lsl #0xd
 	strne r0, [r3]
 	bx lr
-	arm_func_end SeaMapManager__Func_2043B44
+	arm_func_end SeaMapManager__GetPosition2
 
 	arm_func_start SeaMapManager__Func_2043B60
 SeaMapManager__Func_2043B60: // 0x02043B60
@@ -1194,13 +1194,10 @@ _02044464:
 	cmp r9, r4, asr #16
 	ble _02044464
 	b _02044398
-	arm_func_end SeaMapManager__Func_20442C8
-
-	arm_func_start SeaMapManager__Func_204449C
-SeaMapManager__Func_204449C: // 0x0204449C
+_204449C: // 0x0204449C
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end SeaMapManager__Func_204449C
+	arm_func_end SeaMapManager__Func_20442C8
 
 	arm_func_start SeaMapManager__ClearGlobalNodeList
 SeaMapManager__ClearGlobalNodeList: // 0x020444A4
@@ -1901,10 +1898,10 @@ SeaMapManager__Destructor: // 0x02044D8C
 _02044DC4: .word SeaMapManager__sVars
 	arm_func_end SeaMapManager__Destructor
 
-	arm_func_start SeaMapManager__Func_2044DC8
-SeaMapManager__Func_2044DC8: // 0x02044DC8
+	arm_func_start SeaMapManager__State_2044DC8
+SeaMapManager__State_2044DC8: // 0x02044DC8
 	bx lr
-	arm_func_end SeaMapManager__Func_2044DC8
+	arm_func_end SeaMapManager__State_2044DC8
 
 	arm_func_start SeaMapManager__Func_2044DCC
 SeaMapManager__Func_2044DCC: // 0x02044DCC
@@ -2933,7 +2930,7 @@ SeaMapManager__Func_2045BF8: // 0x02045BF8
 	ldrh r1, [r4, #0xa]
 	mov r2, r6
 	mov r3, r5
-	bl SeaMapManager__Func_2043B44
+	bl SeaMapManager__GetPosition2
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 _02045C3C:
 	mov r0, r7
@@ -2971,7 +2968,7 @@ _02045C3C:
 	mov r3, r5
 	mov r0, r0, lsr #0x10
 	mov r1, r1, lsr #0x10
-	bl SeaMapManager__Func_2043B44
+	bl SeaMapManager__GetPosition2
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 _02045CD0:
 	mov r4, r7
@@ -2983,7 +2980,7 @@ _02045CD0:
 	ldrh r1, [r4, #0xa]
 	mov r2, r6
 	mov r3, r5
-	bl SeaMapManager__Func_2043B44
+	bl SeaMapManager__GetPosition2
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	arm_func_end SeaMapManager__Func_2045BF8
 

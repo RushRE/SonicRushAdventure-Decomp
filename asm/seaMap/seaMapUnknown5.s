@@ -75,9 +75,6 @@ _02048D2C:
 	add r0, sp, #8
 	add r1, sp, #0xc
 	bl SailSeaMapView__GetPosition
-	arm_func_end SeaMapUnknown5__Main
-
-	arm_func_start SeaMapUnknown5__Func_2048D4C
 SeaMapUnknown5__Func_2048D4C: // 0x02048D4C
 	ldr r0, [sp, #8]
 	str r0, [sp]
@@ -97,7 +94,7 @@ SeaMapUnknown5__Func_2048D4C: // 0x02048D4C
 	bl SeaMapUnknown204A9E4__RunCallbacks
 	add sp, sp, #0x20
 	ldmia sp!, {r4, pc}
-	arm_func_end SeaMapUnknown5__Func_2048D4C
+	arm_func_end SeaMapUnknown5__Main
 
 	arm_func_start SeaMapUnknown5__Destructor
 SeaMapUnknown5__Destructor: // 0x02048D94
