@@ -1618,10 +1618,10 @@
 .public SeaMapJohnnyIcon__Main
 .public SeaMapJohnnyIcon__Destructor
 .public SeaMapJohnnyIcon__ViewCheck
-.public SeaMapUnknown5__Create
-.public SeaMapUnknown5__Main
-.public SeaMapUnknown5__Destructor
-.public SeaMapUnknown5__ViewCheck
+.public CreateSeaMapUnknown5
+.public SeaMapUnknown5_Main
+.public SeaMapUnknown5_Destructor
+.public SeaMapUnknown5_ViewCheck
 .public CreateSeaMapTargetFlagIcon
 .public SeaMapTargetFlagIcon_Main
 .public SeaMapTargetFlagIcon_Destructor

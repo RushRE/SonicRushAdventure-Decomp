@@ -1425,8 +1425,8 @@ SeaMapEventManager__ObjectList: // 0x021100FC
     .hword 0                            // palette
     .byte 0x10, 0x10                    // viewBounds
     .byte 0, 0
-    .word SeaMapUnknown5__Create        // createFunc
-    .word SeaMapUnknown5__ViewCheck     // viewCheckFunc
+    .word CreateSeaMapUnknown5        // createFunc
+    .word SeaMapUnknown5_ViewCheck     // viewCheckFunc
     
     .hword 0x80                         // animID
     .hword 8                            // palette
