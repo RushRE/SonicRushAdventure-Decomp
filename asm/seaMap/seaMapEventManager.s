@@ -868,11 +868,11 @@ SeaMapEventManager__UnlockCoralCave: // 0x02047158
 	bl SeaMapEventManager__GetWork
 	ldr r0, [r0, #0x258]
 	bl GetTaskWork_
-	ldr r1, _02047184 // =SeaMapCoralCaveIcon__State_2049924
+	ldr r1, _02047184 // =SeaMapCoralCaveIcon_State_BeginAppearing
 	str r1, [r0, #0x74]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02047184: .word SeaMapCoralCaveIcon__State_2049924
+_02047184: .word SeaMapCoralCaveIcon_State_BeginAppearing
 	arm_func_end SeaMapEventManager__UnlockCoralCave
 
 	arm_func_start SeaMapEventManager__UnlockSkyBabylon
@@ -1432,7 +1432,7 @@ SeaMapEventManager__ObjectList: // 0x021100FC
     .hword 8                            // palette
     .byte 0x1C, 0x24                    // viewBounds
     .byte 0, 0
-    .word SeaMapCoralCaveIcon__Create   // createFunc
+    .word CreateSeaMapCoralCaveIcon   // createFunc
     .word 0                             // viewCheckFunc
     
     .hword 0x82                         // animID
