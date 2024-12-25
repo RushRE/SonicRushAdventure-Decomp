@@ -302,7 +302,7 @@ void StartPlatform_StateCamera_IntroShot(StartPlatform *work)
         }
     }
 
-    camConfig->lerpPercent += work->skippedTitleCard ? FLOAT_TO_FX32(0.033203125) : FLOAT_TO_FX32(0.00830078125);
+    camConfig->lerpPercent += work->skippedTitleCard ? FLOAT_TO_FX32(1.0f / 30.0f) : FLOAT_TO_FX32(1.0f / 120.0f);
 
     if (camConfig->lerpPercent >= FLOAT_TO_FX32(1.0))
     {

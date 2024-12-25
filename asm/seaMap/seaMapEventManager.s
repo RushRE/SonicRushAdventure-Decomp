@@ -1384,8 +1384,8 @@ SeaMapEventManager__ViewRectCheck2: // 0x02047780
 
 	.rodata
 	
-.public SeaMapStylusIcon__AnimIDs
-SeaMapStylusIcon__AnimIDs: // 0x0210FF80
+.public SeaMapStylusIcon_AnimIDs
+SeaMapStylusIcon_AnimIDs: // 0x0210FF80
 	.hword 125, 126, 127
 
 .public SeaMapSparkles__AnimIDs1
@@ -1490,7 +1490,7 @@ SeaMapEventManager__ObjectList: // 0x021100FC
     .hword 0xE                          // palette
     .byte 0x00, 0x00                    // viewBounds
     .byte 0, 0
-    .word SeaMapStylusIcon__Create      // createFunc
+    .word CreateSeaMapStylusIcon      // createFunc
     .word 0                             // viewCheckFunc
     
     .hword 0                            // animID

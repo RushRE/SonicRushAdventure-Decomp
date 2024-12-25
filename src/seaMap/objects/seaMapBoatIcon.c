@@ -4,6 +4,12 @@
 #include <game/save/saveGame.h>
 
 // --------------------
+// TEMP
+// --------------------
+
+NOT_DECOMPILED void *SeaMapStylusIcon_AnimIDs;
+
+// --------------------
 // FUNCTION DECLS
 // --------------------
 
@@ -14,10 +20,10 @@ static void SeaMapBoatIcon_Destructor(Task *task);
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void *SeaMapStylusIcon__AnimIDs;
-
 NONMATCH_FUNC SeaMapObject *CreateSeaMapBoatIcon(CHEVObjectType *objectType, CHEVObject *mapObject)
 {
+    // https://decomp.me/scratch/SdnL9 -> 99.67%
+    // should match when 'SeaMapStylusIcon_AnimIDs' is properly decompiled, as 'SeaMapBoatIcon__shipAnimIDs' is needed here
 #ifdef NON_MATCHING
     SeaMapBoatIcon *work;
 
@@ -32,7 +38,7 @@ NONMATCH_FUNC SeaMapObject *CreateSeaMapBoatIcon(CHEVObjectType *objectType, CHE
 
     u16 shipAnimIDs[SHIP_COUNT + 1] = { 0, 1, 2, 3, 0 };
 
-    u16 shipType = SeaMapManager__GetWork()->shipType;
+    s32 shipType = SeaMapManager__GetWork()->shipType;
     if (shipType >= SHIP_MENU)
         shipType = mapObject->unlockID;
     u16 animID = shipAnimIDs[shipType];
@@ -82,7 +88,7 @@ NONMATCH_FUNC SeaMapObject *CreateSeaMapBoatIcon(CHEVObjectType *objectType, CHE
 	mov r2, r7
 	mov r3, r6
 	bl SeaMapEventManager__InitMapObject
-	ldr r0, =SeaMapStylusIcon__AnimIDs
+	ldr r0, =SeaMapStylusIcon_AnimIDs
 	ldrh r1, [r0, #0x1a]
 	ldrh r3, [r0, #0x16]
 	ldrh r2, [r0, #0x18]

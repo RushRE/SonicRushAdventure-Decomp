@@ -5374,7 +5374,7 @@ NONMATCH_FUNC BOOL Boss1__HandleDropCamera(Boss1 *work)
     cameraYMid   = stage->field_378 + FLOAT_TO_FX32(680.0);
     cameraYEnd   = stage->field_378 - FLOAT_TO_FX32(520.0);
 
-    action->lerpPercent += FLOAT_TO_FX32(0.003173828125);
+    action->lerpPercent += FLOAT_TO_FX32(1.0f / 315.0f);
     if (action->lerpPercent >= FLOAT_TO_FX32(1.0))
     {
         action->lerpPercent = FLOAT_TO_FX32(1.0);
