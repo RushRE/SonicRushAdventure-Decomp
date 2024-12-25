@@ -1453,7 +1453,7 @@ SeaMapEventManager__ObjectList: // 0x021100FC
     .hword 0xE                          // palette
     .byte 0x00, 0x00                    // viewBounds
     .byte 0, 0
-    .word SeaMapBoatIcon__Create        // createFunc
+    .word CreateSeaMapBoatIcon        // createFunc
     .word 0                             // viewCheckFunc
     
     .hword 0                            // animID

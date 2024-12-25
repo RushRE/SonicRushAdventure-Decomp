@@ -5,10 +5,6 @@
 #include <game/graphics/sprite.h>
 
 // --------------------
-// ENUMS
-// --------------------
-
-// --------------------
 // STRUCTS
 // --------------------
 
@@ -22,8 +18,6 @@ typedef struct SeaMapBoatIcon_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED SeaMapObject *SeaMapBoatIcon__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
-NOT_DECOMPILED void SeaMapBoatIcon__Main(void);
-NOT_DECOMPILED void SeaMapBoatIcon__Destructor(Task *task);
+SeaMapObject *CreateSeaMapBoatIcon(CHEVObjectType *objectType, CHEVObject *mapObject);
 
 #endif // RUSH2_SEAMAPBOATICON_H

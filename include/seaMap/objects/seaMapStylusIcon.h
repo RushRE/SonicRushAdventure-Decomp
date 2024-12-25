@@ -29,7 +29,7 @@ typedef struct SeaMapStylusIcon_
 // --------------------
 
 NOT_DECOMPILED SeaMapObject *SeaMapStylusIcon__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
-NOT_DECOMPILED void SeaMapStylusIcon__State_2049204(void);
+NOT_DECOMPILED u32 SeaMapStylusIcon_GetSpriteSize(void);
 NOT_DECOMPILED void SeaMapStylusIcon__Main(void);
 NOT_DECOMPILED void SeaMapStylusIcon__Destructor(Task *task);
 NOT_DECOMPILED void SeaMapStylusIcon__State_20492D4(SeaMapStylusIcon *work);

@@ -1625,11 +1625,11 @@
 .public CreateSeaMapTargetFlagIcon
 .public SeaMapTargetFlagIcon_Main
 .public SeaMapTargetFlagIcon_Destructor
-.public SeaMapBoatIcon__Create
-.public SeaMapBoatIcon__Main
-.public SeaMapBoatIcon__Destructor
+.public CreateSeaMapBoatIcon
+.public SeaMapBoatIcon_Main
+.public SeaMapBoatIcon_Destructor
 .public SeaMapStylusIcon__Create
-.public SeaMapStylusIcon__State_2049204
+.public SeaMapStylusIcon_GetSpriteSize
 .public SeaMapStylusIcon__Main
 .public SeaMapStylusIcon__Destructor
 .public SeaMapStylusIcon__State_20492D4
@@ -6688,8 +6688,8 @@
 .public NavTails__ShipAniInfo
 .public NavTails__ChartAniInfo
 .public _0210F708
-.public a8ajs
-.public aGkosw
+.public stru_210F7E4
+.public byte_210FA78
 .public SeaMapEventManager__ObjectList
 .public MPC__decodeShiftTable
 .public FontAnimator__Palettes

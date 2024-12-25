@@ -1800,7 +1800,7 @@ _02041F18:
 	arm_func_start SeaMapChartCourseView__Func_2041F20
 SeaMapChartCourseView__Func_2041F20: // 0x02041F20
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	ldr r3, _02041F88 // =aGkosw
+	ldr r3, _02041F88 // =byte_210FA78
 	mov r2, #0xb
 	mla r5, r1, r2, r3
 	mov r7, #0
@@ -1828,7 +1828,7 @@ _02041F48:
 	mov r0, r7
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
-_02041F88: .word aGkosw
+_02041F88: .word byte_210FA78
 	arm_func_end SeaMapChartCourseView__Func_2041F20
 
 	arm_func_start SeaMapChartCourseView__Func_2041F8C
@@ -1883,7 +1883,7 @@ SeaMapChartCourseView__Func_204201C: // 0x0204201C
 	mov r9, r0
 	add r0, r9, #0x1d4
 	add r5, r0, #0x800
-	ldr r2, _02042168 // =aGkosw
+	ldr r2, _02042168 // =byte_210FA78
 	mov r8, r1
 	mov r0, #0xb
 	mla r4, r8, r0, r2
@@ -1967,7 +1967,7 @@ _02042090:
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
-_02042168: .word aGkosw
+_02042168: .word byte_210FA78
 _0204216C: .word VRAMSystem__VRAM_PALETTE_OBJ
 _02042170: .word SeaMapChartCourseView__Func_2041F8C
 _02042174: .word TouchField__PointInRect
