@@ -65,7 +65,7 @@ SeaMapMenu__Create: // 0x0203FECC
 	mov r1, r1, lsl #0xc
 	mov r0, r2, lsl #0xc
 	bl SeaMapView__Func_203DCE0
-	ldr r1, _02040014 // =0x0210F87C
+	ldr r1, _02040014 // =dword_210F87C
 	mov r0, r5
 	bl SeaMapView__EnableMultipleButtons
 	mov r0, r5
@@ -92,7 +92,7 @@ _02040004: .word SeaMapMenu_Destructor
 _02040008: .word SeaMapView__sVars
 _0204000C: .word SeaMapMenu__State_20405D4
 _02040010: .word gameState
-_02040014: .word 0x0210F87C
+_02040014: .word dword_210F87C
 	arm_func_end SeaMapMenu__Create
 
 	arm_func_start SeaMapMenu__GetIslandInfoText
@@ -117,24 +117,24 @@ _02040048:
 	movlt r0, #0x19
 	ldmia sp!, {r4, pc}
 _0204005C:
-	ldr r0, _02040094 // =0x0210F964
+	ldr r0, _02040094 // =dword_210F964
 	mov r1, #1
 	ldr r0, [r0, r4, lsl #2]
 	mov r2, #0
 	bl MenuHelpers__CheckProgress
 	cmp r0, #0
-	ldreq r0, _02040098 // =0x0210F910
+	ldreq r0, _02040098 // =SeaMapView__IslandInfoText2
 	moveq r1, r4, lsl #1
 	ldreqh r0, [r0, r1]
 	ldmeqia sp!, {r4, pc}
-	ldr r0, _0204009C // =0x0210F8BC
+	ldr r0, _0204009C // =SeaMapView__IslandInfoText1
 	mov r1, r4, lsl #1
 	ldrh r0, [r0, r1]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02040094: .word 0x0210F964
-_02040098: .word 0x0210F910
-_0204009C: .word 0x0210F8BC
+_02040094: .word dword_210F964
+_02040098: .word SeaMapView__IslandInfoText2
+_0204009C: .word SeaMapView__IslandInfoText1
 	arm_func_end SeaMapMenu__GetIslandInfoText
 
 	arm_func_start SeaMapMenu__Func_20400A0
@@ -584,7 +584,7 @@ SeaMapMenu__State_20405F4: // 0x020405F4
 	mov r4, r0
 	bl SeaMapView__Func_203E898
 	mov r2, #1
-	ldr r1, _02040644 // =0x0210F87C
+	ldr r1, _02040644 // =dword_210F87C
 	mov r0, r4
 	str r2, [r4, #0x7cc]
 	bl SeaMapView__EnableMultipleButtons
@@ -601,7 +601,7 @@ SeaMapMenu__State_20405F4: // 0x020405F4
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02040644: .word 0x0210F87C
+_02040644: .word dword_210F87C
 _02040648: .word SeaMapMenu__State_204064C
 	arm_func_end SeaMapMenu__State_20405F4
 
@@ -631,7 +631,7 @@ _02040684:
 	arm_func_start SeaMapMenu__State_2040690
 SeaMapMenu__State_2040690: // 0x02040690
 	stmdb sp!, {r4, lr}
-	ldr r1, _02040728 // =0x0210F89C
+	ldr r1, _02040728 // =dword_210F89C
 	mov r4, r0
 	bl SeaMapView__EnableMultipleButtons
 	ldr r0, [r4, #0x7c8]
@@ -671,7 +671,7 @@ _020406CC:
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02040728: .word 0x0210F89C
+_02040728: .word dword_210F89C
 _0204072C: .word SeaMapMenu__State_2040734
 _02040730: .word SeaMapView__TouchAreaCallback2
 	arm_func_end SeaMapMenu__State_2040690
@@ -709,6 +709,37 @@ SeaMapMenu__State_FadeOut: // 0x0204075C
 	strne r0, [r5, #0x7c4]
 	ldmia sp!, {r3, r4, r5, pc}
 	arm_func_end SeaMapMenu__State_FadeOut
+
+	.rodata
+	
+.public dword_210F87C
+dword_210F87C: // 0x0210F87C
+   .word 1, 1, 1, 0, 0, 0, 0, 0
+
+.public dword_210F89C
+dword_210F89C: // 0x0210F89C
+	.word 0, 0, 0, 0, 0, 0, 1, 0
+
+.public SeaMapView__IslandInfoText1
+SeaMapView__IslandInfoText1: // 0x0210F8BC
+	.hword 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22
+	.hword 23, 24, 26, 27, 28, 23, 23, 23, 23, 29, 30, 31, 32
+	.hword 33, 34, 35, 36, 37, 38, 39, 23, 23, 23, 23, 23, 23
+	.hword 23, 23, 23
+
+.public SeaMapView__IslandInfoText2
+SeaMapView__IslandInfoText2: // 0x0210F910
+	.hword 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22
+	.hword 23, 24, 26, 27, 28, 23, 23, 23, 23, 29, 30, 31, 32
+	.hword 33, 34, 35, 36, 37, 38, 39, 23, 23, 23, 23, 23, 23
+	.hword 23, 23, 23
+
+.public dword_210F964
+dword_210F964: // 0x0210F964
+	.word 0, 0, 4, 7, 0xB, 0xE, 0x11, 0x15, 0x18, 0, 9, 0x13
+	.word 0, 0, 0, 0x19, 0x1A, 0x1B, 0, 0, 0, 0, 0x1C, 0x1D
+	.word 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26
+	.word 0x26, 0x26, 0x26, 0x26, 0x26, 0x26, 0x26, 0x26, 0x26
 
 	.data
 

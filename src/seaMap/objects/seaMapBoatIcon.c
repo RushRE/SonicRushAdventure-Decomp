@@ -14,6 +14,8 @@ static void SeaMapBoatIcon_Destructor(Task *task);
 // FUNCTIONS
 // --------------------
 
+NOT_DECOMPILED void *SeaMapStylusIcon__AnimIDs;
+
 NONMATCH_FUNC SeaMapObject *CreateSeaMapBoatIcon(CHEVObjectType *objectType, CHEVObject *mapObject)
 {
 #ifdef NON_MATCHING
@@ -80,7 +82,7 @@ NONMATCH_FUNC SeaMapObject *CreateSeaMapBoatIcon(CHEVObjectType *objectType, CHE
 	mov r2, r7
 	mov r3, r6
 	bl SeaMapEventManager__InitMapObject
-	ldr r0, =0x0210FF80
+	ldr r0, =SeaMapStylusIcon__AnimIDs
 	ldrh r1, [r0, #0x1a]
 	ldrh r3, [r0, #0x16]
 	ldrh r2, [r0, #0x18]

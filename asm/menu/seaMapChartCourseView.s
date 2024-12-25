@@ -75,7 +75,7 @@ _02040870:
 	mov r0, r4
 	str r5, [r4, #0x7b4]
 	bl SeaMapChartCourseView__Func_2040B90
-	ldr r1, _0204093C // =0x0210FAD0
+	ldr r1, _0204093C // =dword_210FAD0
 	mov r0, r4
 	bl SeaMapView__EnableMultipleButtons
 	cmp r5, #1
@@ -126,7 +126,7 @@ _0204092C: .word SeaMapChartCourseView__State_2041978
 _02040930: .word SeaMapChartCourseView__Draw_2041440
 _02040934: .word SeaMapChartCourseView__State_2042524
 _02040938: .word SeaMapChartCourseView__Draw_20414A0
-_0204093C: .word 0x0210FAD0
+_0204093C: .word dword_210FAD0
 	arm_func_end SeaMapChartCourseView__Create
 
 	arm_func_start SeaMapChartCourseView__Destroy
@@ -307,7 +307,7 @@ SeaMapChartCourseView__Func_2040B90: // 0x02040B90
 	sub sp, sp, #0x1c
 	mov r10, r0
 	mov r7, #0
-	ldr r9, _02040C4C // =0x0210FA4C
+	ldr r9, _02040C4C // =byte_210FA4C
 	ldr r5, _02040C50 // =VRAMSystem__VRAM_PALETTE_OBJ
 	add r8, r10, #0x7d0
 	mov r6, r7
@@ -352,7 +352,7 @@ _02040BB8:
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02040C4C: .word 0x0210FA4C
+_02040C4C: .word byte_210FA4C
 _02040C50: .word VRAMSystem__VRAM_PALETTE_OBJ
 	arm_func_end SeaMapChartCourseView__Func_2040B90
 
@@ -693,7 +693,7 @@ _02041094:
 	mov r0, #0
 	str r0, [r4, #0x9c4]
 	bl SeaMapEventManager__Func_2046A78
-	ldr r1, _020410F4 // =0x0210FAD0
+	ldr r1, _020410F4 // =dword_210FAD0
 	mov r0, r4
 	bl SeaMapView__EnableMultipleButtons
 	mov r0, r4
@@ -713,7 +713,7 @@ _02041094:
 	str r0, [r4, #0x7c4]
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_020410F4: .word 0x0210FAD0
+_020410F4: .word dword_210FAD0
 _020410F8: .word SeaMapView__TouchAreaCallback
 _020410FC: .word SeaMapChartCourseView__State_20419B0
 _02041100: .word SeaMapChartCourseView__State_2042C6C
@@ -1394,7 +1394,7 @@ SeaMapChartCourseView__State_20419B0: // 0x020419B0
 	mov r4, r0
 	str r2, [r1]
 	bl SeaMapView__Func_203E898
-	ldr r1, _02041A10 // =0x0210FAD0
+	ldr r1, _02041A10 // =dword_210FAD0
 	mov r0, r4
 	bl SeaMapView__EnableMultipleButtons
 	bl SeaMapManager__GetZoomLevel
@@ -1413,7 +1413,7 @@ SeaMapChartCourseView__State_20419B0: // 0x020419B0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02041A0C: .word SeaMapView__sVars+0x00000004
-_02041A10: .word 0x0210FAD0
+_02041A10: .word dword_210FAD0
 _02041A14: .word SeaMapChartCourseView__State_2041A18
 	arm_func_end SeaMapChartCourseView__State_20419B0
 
@@ -1451,7 +1451,7 @@ SeaMapChartCourseView__State_2041A68: // 0x02041A68
 	str r2, [r1]
 	bl SeaMapView__Func_203E898
 	mov r2, #1
-	ldr r1, _02041AD4 // =0x0210FAF0
+	ldr r1, _02041AD4 // =dword_210FAF0
 	mov r0, r4
 	str r2, [r4, #0x9cc]
 	bl SeaMapView__EnableMultipleButtons
@@ -1472,7 +1472,7 @@ SeaMapChartCourseView__State_2041A68: // 0x02041A68
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02041AD0: .word SeaMapView__sVars+0x00000004
-_02041AD4: .word 0x0210FAF0
+_02041AD4: .word dword_210FAF0
 _02041AD8: .word SeaMapChartCourseView__State_2041ADC
 	arm_func_end SeaMapChartCourseView__State_2041A68
 
@@ -1590,7 +1590,7 @@ SeaMapChartCourseView__State_2041C64: // 0x02041C64
 	sub sp, sp, #0x20
 	mov r4, r0
 	mov r2, #0
-	ldr r1, _02041CFC // =0x0210FA90
+	ldr r1, _02041CFC // =dword_210FA90
 	str r2, [r4, #0x9cc]
 	bl SeaMapView__EnableMultipleButtons
 	ldr r1, [r4, #4]
@@ -1625,7 +1625,7 @@ SeaMapChartCourseView__State_2041C64: // 0x02041C64
 	add sp, sp, #0x20
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02041CFC: .word 0x0210FA90
+_02041CFC: .word dword_210FA90
 _02041D00: .word SeaMapChartCourseView__State_2041D04
 	arm_func_end SeaMapChartCourseView__State_2041C64
 
@@ -1690,7 +1690,7 @@ _02041DCC: .word SeaMapChartCourseView__State_2041A68
 	arm_func_start SeaMapChartCourseView__State_2041DD0
 SeaMapChartCourseView__State_2041DD0: // 0x02041DD0
 	stmdb sp!, {r4, lr}
-	ldr r1, _02041E18 // =0x0210FAB0
+	ldr r1, _02041E18 // =dword_210FAB0
 	mov r4, r0
 	mov r2, #0
 	str r2, [r4, #0x9cc]
@@ -1708,7 +1708,7 @@ SeaMapChartCourseView__State_2041DD0: // 0x02041DD0
 	str r0, [r4, #0x7c4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02041E18: .word 0x0210FAB0
+_02041E18: .word dword_210FAB0
 _02041E1C: .word SeaMapView__TouchAreaCallback2
 _02041E20: .word SeaMapChartCourseView__State_2041E24
 	arm_func_end SeaMapChartCourseView__State_2041DD0
@@ -2258,7 +2258,7 @@ SeaMapChartCourseView__State_20424DC: // 0x020424DC
 	arm_func_start SeaMapChartCourseView__State_2042524
 SeaMapChartCourseView__State_2042524: // 0x02042524
 	stmdb sp!, {r4, lr}
-	ldr r1, _02042584 // =0x0210FAD0
+	ldr r1, _02042584 // =dword_210FAD0
 	mov r4, r0
 	bl SeaMapView__EnableMultipleButtons
 	bl SeaMapManager__GetZoomLevel
@@ -2282,7 +2282,7 @@ SeaMapChartCourseView__State_2042524: // 0x02042524
 	blx r1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02042584: .word 0x0210FAD0
+_02042584: .word dword_210FAD0
 _02042588: .word SeaMapChartCourseView__State_204258C
 	arm_func_end SeaMapChartCourseView__State_2042524
 
@@ -2331,14 +2331,14 @@ _020425F4: .word SeaMapChartCourseView__State_20425F8
 	arm_func_start SeaMapChartCourseView__State_20425F8
 SeaMapChartCourseView__State_20425F8: // 0x020425F8
 	stmdb sp!, {r3, lr}
-	ldr r1, _02042614 // =0x0210FA1C
+	ldr r1, _02042614 // =stru_210FA1C
 	mov r2, #1
 	ldr r3, _02042618 // =SeaMapChartCourseView__State_204261C
 	str r2, [sp]
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02042614: .word 0x0210FA1C
+_02042614: .word stru_210FA1C
 _02042618: .word SeaMapChartCourseView__State_204261C
 	arm_func_end SeaMapChartCourseView__State_20425F8
 
@@ -2478,7 +2478,7 @@ _020427AC: .word SeaMapChartCourseView__State_20427B0
 	arm_func_start SeaMapChartCourseView__State_20427B0
 SeaMapChartCourseView__State_20427B0: // 0x020427B0
 	stmdb sp!, {r3, lr}
-	ldr r1, _020427D0 // =0x0210FA58
+	ldr r1, _020427D0 // =stru_210FA58
 	mov ip, #1
 	ldr r3, _020427D4 // =SeaMapChartCourseView__State_20427D8
 	mov r2, #2
@@ -2486,7 +2486,7 @@ SeaMapChartCourseView__State_20427B0: // 0x020427B0
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_020427D0: .word 0x0210FA58
+_020427D0: .word stru_210FA58
 _020427D4: .word SeaMapChartCourseView__State_20427D8
 	arm_func_end SeaMapChartCourseView__State_20427B0
 
@@ -2535,7 +2535,7 @@ SeaMapChartCourseView__State_2042844: // 0x02042844
 	mov r0, r5
 	bl SeaMapChartCourseView__Func_2040DE0
 	mov r0, r5
-	ldr r1, _0204292C // =0x0210FA16
+	ldr r1, _0204292C // =word_210FA16
 	mov r2, #3
 	bl SeaMapChartCourseView__Func_2041E80
 	bl SeaMapManager__GetZoomLevel
@@ -2584,7 +2584,7 @@ _020428F8:
 	str r0, [r5, #0x7c4]
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0204292C: .word 0x0210FA16
+_0204292C: .word word_210FA16
 _02042930: .word SeaMapChartCourseView__State_2042934
 	arm_func_end SeaMapChartCourseView__State_2042844
 
@@ -2598,7 +2598,7 @@ SeaMapChartCourseView__State_2042934: // 0x02042934
 	mov r0, #0
 	bl SeaMapManager__EnableTouchField
 	mov r2, #1
-	ldr r1, _02042970 // =0x0210FA3C
+	ldr r1, _02042970 // =stru_210FA3C
 	ldr r3, _02042974 // =SeaMapChartCourseView__State_2042978
 	mov r0, r4
 	str r2, [sp]
@@ -2606,7 +2606,7 @@ SeaMapChartCourseView__State_2042934: // 0x02042934
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_02042970: .word 0x0210FA3C
+_02042970: .word stru_210FA3C
 _02042974: .word SeaMapChartCourseView__State_2042978
 	arm_func_end SeaMapChartCourseView__State_2042934
 
@@ -2814,7 +2814,7 @@ _02042C00: .word SeaMapChartCourseView__State_2042C04
 	arm_func_start SeaMapChartCourseView__State_2042C04
 SeaMapChartCourseView__State_2042C04: // 0x02042C04
 	stmdb sp!, {r3, lr}
-	ldr r1, _02042C24 // =0x0210FA68
+	ldr r1, _02042C24 // =stru_210FA68
 	mov ip, #1
 	ldr r3, _02042C28 // =SeaMapChartCourseView__State_2042C2C
 	mov r2, #2
@@ -2822,7 +2822,7 @@ SeaMapChartCourseView__State_2042C04: // 0x02042C04
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02042C24: .word 0x0210FA68
+_02042C24: .word stru_210FA68
 _02042C28: .word SeaMapChartCourseView__State_2042C2C
 	arm_func_end SeaMapChartCourseView__State_2042C04
 
@@ -2892,13 +2892,13 @@ SeaMapChartCourseView__State_2042CB0: // 0x02042CB0
 _02042CF8:
 	bl SeaMapChartCourseView__Func_2040C7C
 _02042CFC:
-	ldr r1, _02042D10 // =0x0210FA0C
+	ldr r1, _02042D10 // =word_210FA0C
 	mov r0, r4
 	mov r2, #2
 	bl SeaMapChartCourseView__Func_2041E80
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02042D10: .word 0x0210FA0C
+_02042D10: .word word_210FA0C
 	arm_func_end SeaMapChartCourseView__State_2042CB0
 
 	arm_func_start SeaMapChartCourseView__State_2042D14
@@ -2910,7 +2910,7 @@ SeaMapChartCourseView__State_2042D14: // 0x02042D14
 	str r2, [r1]
 	bl SeaMapView__Func_203E898
 	mov r2, #1
-	ldr r1, _02042D90 // =0x0210FAF0
+	ldr r1, _02042D90 // =dword_210FAF0
 	mov r0, r4
 	str r2, [r4, #0x9cc]
 	bl SeaMapView__EnableMultipleButtons
@@ -2935,7 +2935,7 @@ SeaMapChartCourseView__State_2042D14: // 0x02042D14
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02042D8C: .word SeaMapView__sVars+0x00000004
-_02042D90: .word 0x0210FAF0
+_02042D90: .word dword_210FAF0
 _02042D94: .word SeaMapChartCourseView__State_2042D98
 	arm_func_end SeaMapChartCourseView__State_2042D14
 
@@ -3036,7 +3036,7 @@ _02042ED8:
 	str r1, [r5, #0x8ec]
 	bl SeaMapManager__EnableTouchField
 	mov r2, #1
-	ldr r1, _02042F94 // =0x0210FA2C
+	ldr r1, _02042F94 // =stru_210FA2C
 	ldr r3, _02042F98 // =SeaMapChartCourseView__State_2042D14
 	mov r0, r4
 	str r2, [sp]
@@ -3057,14 +3057,14 @@ _02042F1C:
 	str r1, [r5, #0x8e8]
 	bl SeaMapManager__EnableTouchField
 	mov r2, #1
-	ldr r1, _02042FA0 // =0x0210FA24
+	ldr r1, _02042FA0 // =stru_210FA24
 	ldr r3, _02042F98 // =SeaMapChartCourseView__State_2042D14
 	mov r0, r4
 	str r2, [sp]
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	ldmia sp!, {r3, r4, r5, pc}
 _02042F6C:
-	ldr r1, _02042FA4 // =0x0210FA10
+	ldr r1, _02042FA4 // =word_210FA10
 	mov r0, r4
 	mov r2, #3
 	bl SeaMapChartCourseView__Func_2041E80
@@ -3075,11 +3075,11 @@ _02042F6C:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02042F90: .word touchInput
-_02042F94: .word 0x0210FA2C
+_02042F94: .word stru_210FA2C
 _02042F98: .word SeaMapChartCourseView__State_2042D14
 _02042F9C: .word 0x00000199
-_02042FA0: .word 0x0210FA24
-_02042FA4: .word 0x0210FA10
+_02042FA0: .word stru_210FA24
+_02042FA4: .word word_210FA10
 	arm_func_end SeaMapChartCourseView__State_2042D98
 
 	arm_func_start SeaMapChartCourseView__State_2042FA8
@@ -3093,7 +3093,7 @@ SeaMapChartCourseView__State_2042FA8: // 0x02042FA8
 	cmp r0, #0
 	beq _02043050
 	mov r2, #0
-	ldr r1, _02043070 // =0x0210FA90
+	ldr r1, _02043070 // =dword_210FA90
 	mov r0, r4
 	str r2, [r4, #0x9cc]
 	bl SeaMapView__EnableMultipleButtons
@@ -3127,7 +3127,7 @@ SeaMapChartCourseView__State_2042FA8: // 0x02042FA8
 	str r0, [r4, #0x7c4]
 	ldmia sp!, {r3, r4, r5, r6, pc}
 _02043050:
-	ldr r1, _02043078 // =0x0210FA34
+	ldr r1, _02043078 // =stru_210FA34
 	mov r2, #1
 	ldr r3, _0204307C // =SeaMapChartCourseView__State_2042D14
 	mov r0, r4
@@ -3136,9 +3136,9 @@ _02043050:
 	add sp, sp, #0x24
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
-_02043070: .word 0x0210FA90
+_02043070: .word dword_210FA90
 _02043074: .word SeaMapChartCourseView__State_2043080
-_02043078: .word 0x0210FA34
+_02043078: .word stru_210FA34
 _0204307C: .word SeaMapChartCourseView__State_2042D14
 	arm_func_end SeaMapChartCourseView__State_2042FA8
 
@@ -3238,14 +3238,14 @@ _020431AC: .word SeaMapChartCourseView__State_20431B0
 	arm_func_start SeaMapChartCourseView__State_20431B0
 SeaMapChartCourseView__State_20431B0: // 0x020431B0
 	stmdb sp!, {r3, lr}
-	ldr r1, _020431CC // =0x0210FA44
+	ldr r1, _020431CC // =stru_210FA44
 	mov r2, #1
 	ldr r3, _020431D0 // =SeaMapChartCourseView__State_20431D4
 	str r2, [sp]
 	bl SeaMapChartCourseView__StartNavTailsTalk
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_020431CC: .word 0x0210FA44
+_020431CC: .word stru_210FA44
 _020431D0: .word SeaMapChartCourseView__State_20431D4
 	arm_func_end SeaMapChartCourseView__State_20431B0
 
@@ -3313,3 +3313,111 @@ _0204325C:
 	.align 2, 0
 _020432B8: .word VRAMSystem__GFXControl
 	arm_func_end SeaMapChartCourseView__State_20431D4
+
+	.rodata
+	
+.public word_210FA0C
+word_210FA0C: // 0x0210FA0C
+	.hword 51, 52
+
+.public word_210FA10
+word_210FA10: // 0x0210FA10
+	.hword 54, 51, 55
+
+.public word_210FA16
+word_210FA16: // 0x0210FA16
+	.hword 49, 46, 47
+
+.public stru_210FA1C
+stru_210FA1C: // 0x0210FA1C
+	.hword 0x2E // navTailsSequence
+	.align 4
+	.word 1                   // dword4
+
+.public stru_210FA24
+stru_210FA24: // 0x0210FA24
+	.hword 0x37 // navTailsSequence
+	.align 4
+	.word 1                   // dword4
+
+.public stru_210FA2C
+stru_210FA2C: // 0x0210FA2C
+	.hword 0x39 // navTailsSequence
+	.align 4
+	.word 1                   // dword4
+
+.public stru_210FA34
+stru_210FA34: // 0x0210FA34
+	.hword 0x38 // navTailsSequence
+	.align 4
+	.word 1                   // dword4
+
+.public stru_210FA3C
+stru_210FA3C: // 0x0210FA3C
+	.hword 0x32 // navTailsSequence
+	.align 4
+	.word 1                   // dword4
+
+.public stru_210FA44
+stru_210FA44: // 0x0210FA44
+	.hword 0x3A // navTailsSequence
+	.align 4
+	.word 2                   // dword4
+
+.public byte_210FA4C
+byte_210FA4C: // 0x0210FA4C
+	.byte 0x19
+
+.public byte_210FA4D
+byte_210FA4D: // 0x0210FA4D
+	.byte 3  
+	.byte 0x1A
+	.byte    3
+	.byte 0x1B
+	.byte    3
+	.byte 0x1C
+	.byte    2
+	.byte 0x1C
+	.byte    2
+	.byte    0
+	.byte    0
+
+.public stru_210FA58
+stru_210FA58: // 0x0210FA58
+	.hword 0x2F // navTailsSequence
+	.align 4
+	.word 0 // dword4
+	.hword 0x30 // navTailsSequence
+	.align 4
+	.word 1 // dword4
+
+.public stru_210FA68
+stru_210FA68: // 0x0210FA68
+	.hword 0x33 // navTailsSequence
+	.align 4
+	.word 0 // dword4
+	.hword 0x34 // navTailsSequence
+	.align 4
+	.word 1 // dword4
+
+.public byte_210FA78
+byte_210FA78: // 0x0210FA78
+	.byte 0x67, 0x6B, 0x6F, 0x73, 0x77, 0x7B, 0, 0, 0xF, 0xF, 0xF
+	.byte 0x65, 0x69, 0x6D, 0x71, 0x75, 0x79, 0, 0, 0xF, 0xF, 0xF
+	.align 4
+
+.public dword_210FA90
+dword_210FA90: // 0x0210FA90
+	.word 0, 0, 0, 0, 0, 0, 0, 0
+
+.public dword_210FAB0
+dword_210FAB0: // 0x0210FAB0
+	.word 0, 0, 0, 0, 0, 0, 1, 1
+
+.public dword_210FAD0
+dword_210FAD0: // 0x0210FAD0
+	.word 1, 1, 1, 0, 0, 0, 0, 0
+
+.public dword_210FAF0
+dword_210FAF0: // 0x0210FAF0
+	.word 0, 1, 1, 1, 1, 0, 0, 0, 0x2400600, 0x1200300, 0xC00200

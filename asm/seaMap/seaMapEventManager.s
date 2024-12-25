@@ -28,7 +28,7 @@ _020466DC: // jump table
 	b _02046700 // case 7
 	b _02046754 // case 8
 _02046700:
-	ldr r1, _02046768 // =0x0210FFA0
+	ldr r1, _02046768 // =SeaMapEventManager__FeatureUnlockList
 	ldr r0, [r1, r0, lsl #2]
 	bl SeaMapManager__GetSaveFlag
 	ldmia sp!, {r3, pc}
@@ -60,7 +60,7 @@ _02046754:
 	movlt r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02046768: .word 0x0210FFA0
+_02046768: .word SeaMapEventManager__FeatureUnlockList
 	arm_func_end SeaMapEventManager__CheckFeatureUnlocked
 
 	arm_func_start SeaMapEventManager__Create
@@ -922,7 +922,7 @@ _020471E8:
 	arm_func_start SeaMapEventManager__IslandEnabled
 SeaMapEventManager__IslandEnabled: // 0x02047210
 	stmdb sp!, {r4, lr}
-	ldr r2, _02047288 // =0x02110048
+	ldr r2, _02047288 // =SeaMapEventManager__ProgressUnlockList
 	sub r1, r0, #0x17
 	ldr r4, [r2, r0, lsl #2]
 	cmp r1, #7
@@ -956,7 +956,7 @@ _02047274:
 	movgt r0, #0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02047288: .word 0x02110048
+_02047288: .word SeaMapEventManager__ProgressUnlockList
 	arm_func_end SeaMapEventManager__IslandEnabled
 
 	arm_func_start SeaMapEventManager__GetWork
@@ -1383,6 +1383,36 @@ SeaMapEventManager__ViewRectCheck2: // 0x02047780
 	arm_func_end SeaMapEventManager__ViewRectCheck2
 
 	.rodata
+	
+.public SeaMapStylusIcon__AnimIDs
+SeaMapStylusIcon__AnimIDs: // 0x0210FF80
+	.hword 125, 126, 127
+
+.public SeaMapSparkles__AnimIDs1
+SeaMapSparkles__AnimIDs1: // 0x0210FF86
+	.hword 140, 143, 144, 147
+
+.public SeaMapSparkles__AnimIDs2
+SeaMapSparkles__AnimIDs2: // 0x0210FF8E
+	.hword 141, 142, 145, 146
+
+.public SeaMapBoatIcon__shipAnimIDs
+SeaMapBoatIcon__shipAnimIDs: // 0x0210FF96
+	.hword 0, 1, 2, 3, 0
+
+.public SeaMapEventManager__FeatureUnlockList
+SeaMapEventManager__FeatureUnlockList: // 0x0210FFA0
+	.word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xA, 0xB, 0xC, 0xD, 0xE
+	.word 0xF, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17
+	.word 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20
+	.word 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29
+
+.public SeaMapEventManager__ProgressUnlockList
+SeaMapEventManager__ProgressUnlockList: // 0x02110048
+	.word 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 14
+	.word 15, 16, 17, 19, 20, 21, 23, 24, 2, 3, 4, 3, 4, 4, 5
+	.word 6, 25, 27, 28, 29, 30, 31, 33, 34, 35, 35, 36, 37
+	.word 38, 39
 
 .public SeaMapEventManager__ObjectList
 SeaMapEventManager__ObjectList: // 0x021100FC

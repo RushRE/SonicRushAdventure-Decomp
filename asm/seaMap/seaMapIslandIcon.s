@@ -431,7 +431,7 @@ _020489BC:
 _020489C8:
 	bl SaveGame__GetGameProgress
 	ldrsh r2, [r6, #0x10]
-	ldr r1, _02048A18 // =0x02110048
+	ldr r1, _02048A18 // =SeaMapEventManager__ProgressUnlockList
 	ldr r1, [r1, r2, lsl #2]
 	cmp r1, r0
 	bgt _02048A10
@@ -452,5 +452,5 @@ _02048A10:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_02048A18: .word 0x02110048
+_02048A18: .word SeaMapEventManager__ProgressUnlockList
 	arm_func_end SeaMapIslandIcon__ViewCheck

@@ -68,9 +68,9 @@ _02049F40:
 	bl SeaMapEventManager__GetObjectType
 	cmp r0, #0xc
 	add r4, r6, #0x1d00
-	ldreq r10, _0204A034 // =0x0210FF8E
+	ldreq r10, _0204A034 // =SeaMapSparkles__AnimIDs2
 	ldrh r0, [r4, #0xae]
-	ldrne r10, _0204A038 // =0x0210FF86
+	ldrne r10, _0204A038 // =SeaMapSparkles__AnimIDs1
 	mov r8, #0
 	cmp r0, #0
 	ble _0204A010
@@ -126,8 +126,8 @@ _0204A024: .word 0x00000111
 _0204A028: .word 0x00001DB4
 _0204A02C: .word SeaMapSparkles__Main
 _0204A030: .word SeaMapSparkles__Destructor
-_0204A034: .word 0x0210FF8E
-_0204A038: .word 0x0210FF86
+_0204A034: .word SeaMapSparkles__AnimIDs2
+_0204A038: .word SeaMapSparkles__AnimIDs1
 _0204A03C: .word VRAMSystem__VRAM_PALETTE_OBJ
 	arm_func_end SeaMapSparkles__Create
 
@@ -298,12 +298,12 @@ _0204A108:
 	add r0, r0, #0x1d00
 	bne _0204A2CC
 	ldrh r3, [r0, #0x24]
-	ldr r0, _0204A4F4 // =0x0210FF8E
+	ldr r0, _0204A4F4 // =SeaMapSparkles__AnimIDs2
 	mov r1, r3, lsl #1
 	b _0204A2D8
 _0204A2CC:
 	ldrh r3, [r0, #0x24]
-	ldr r0, _0204A4F8 // =0x0210FF86
+	ldr r0, _0204A4F8 // =SeaMapSparkles__AnimIDs1
 	mov r1, r3, lsl #1
 _0204A2D8:
 	ldrh r2, [r0, r1]
@@ -448,8 +448,8 @@ _0204A4E4: .word _mt_math_rand
 _0204A4E8: .word 0x00196225
 _0204A4EC: .word 0x3C6EF35F
 _0204A4F0: .word FX_SinCosTable_
-_0204A4F4: .word 0x0210FF8E
-_0204A4F8: .word 0x0210FF86
+_0204A4F4: .word SeaMapSparkles__AnimIDs2
+_0204A4F8: .word SeaMapSparkles__AnimIDs1
 _0204A4FC: .word VRAMSystem__VRAM_PALETTE_OBJ
 _0204A500: .word 0x00000199
 	arm_func_end SeaMapSparkles__Main

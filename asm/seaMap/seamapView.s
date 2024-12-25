@@ -517,7 +517,7 @@ _0203E2DC:
 	cmp r4, #4
 	strh r0, [r9, #8]
 	bge _0203E338
-	ldr r0, _0203E7C4 // =0x0210F794
+	ldr r0, _0203E7C4 // =SeaMapView__VoyageDistance
 	ldr r0, [r0, r4, lsl #2]
 	mov r0, r0, lsl #0xc
 	str r0, [r9, #0x798]
@@ -561,8 +561,8 @@ _0203E338:
 	mov r0, r9
 	bl SeaMapView__AllocateSprites
 	mov r0, #0
-	ldr r6, _0203E7D0 // =0x0210F82C
-	ldr r10, _0203E7D4 // =0x0210F7A4
+	ldr r6, _0203E7D0 // =stru_210F82C
+	ldr r10, _0203E7D4 // =stru_210F7A4
 	str r0, [sp, #0x24]
 	mov r11, r0
 	add r5, r9, #0x44
@@ -739,13 +739,13 @@ _0203E55C:
 	str r3, [sp, #0xc]
 	str r0, [sp, #0x10]
 	str r3, [sp, #0x14]
-	ldr r2, _0203E7E4 // =0x0210F774
+	ldr r2, _0203E7E4 // =byte_210F774
 	str r3, [sp, #0x18]
 	ldrb r2, [r2, #0]
 	mov r1, r5
 	mov r0, r4
 	bl AnimatorSprite__Init
-	ldr r1, _0203E7E4 // =0x0210F774
+	ldr r1, _0203E7E4 // =byte_210F774
 	mov r0, r9
 	ldrb r2, [r1, #1]
 	mvn r1, #0
@@ -825,15 +825,15 @@ _0203E6B8:
 	.align 2, 0
 _0203E7BC: .word 0x000007B4
 _0203E7C0: .word VRAMSystem__GFXControl
-_0203E7C4: .word 0x0210F794
+_0203E7C4: .word SeaMapView__VoyageDistance
 _0203E7C8: .word VRAMSystem__VRAM_PALETTE_OBJ
 _0203E7CC: .word 0x00000814
-_0203E7D0: .word 0x0210F82C
-_0203E7D4: .word 0x0210F7A4
+_0203E7D0: .word stru_210F82C
+_0203E7D4: .word stru_210F7A4
 _0203E7D8: .word stru_210F7E4
 _0203E7DC: .word TouchField__PointInRect
 _0203E7E0: .word SeaMapView__TouchAreaCallback
-_0203E7E4: .word 0x0210F774
+_0203E7E4: .word byte_210F774
 _0203E7E8: .word 0x0210F776
 	arm_func_end SeaMapView__InitView
 
@@ -953,7 +953,7 @@ SeaMapView__Func_203E914: // 0x0203E914
 	mov r1, r6
 	sub r0, r4, r0
 	bl FX_Div
-	ldr r1, _0203EB18 // =0x0210F77C
+	ldr r1, _0203EB18 // =byte_210F77C
 	mov r2, r7, lsl #1
 	ldrh r6, [r1, r2]
 	ldr r1, _0203EB1C // =0x0210F77A
@@ -1062,7 +1062,7 @@ _0203EA40:
 	str r0, [r5, #0x59c]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
-_0203EB18: .word 0x0210F77C
+_0203EB18: .word byte_210F77C
 _0203EB1C: .word 0x0210F77A
 _0203EB20: .word VRAMSystem__VRAM_PALETTE_BG
 _0203EB24: .word VRAMSystem__VRAM_PALETTE_OBJ
@@ -1073,12 +1073,12 @@ _0203EB28: .word 0x00000B34
 SeaMapView__GetCursorSpriteSize: // 0x0203EB2C
 	stmdb sp!, {r3, lr}
 	bl GetSpriteButtonCursorSprite
-	ldr r1, _0203EB44 // =0x0210F774
+	ldr r1, _0203EB44 // =byte_210F774
 	ldrb r1, [r1, #0]
 	bl Sprite__GetSpriteSize1FromAnim
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0203EB44: .word 0x0210F774
+_0203EB44: .word byte_210F774
 	arm_func_end SeaMapView__GetCursorSpriteSize
 
 	arm_func_start SeaMapView__InitTouchCursor
@@ -1094,7 +1094,7 @@ SeaMapView__InitTouchCursor: // 0x0203EB48
 	str r0, [r4, #0x3c]
 	ldmia sp!, {r3, r4, r5, pc}
 _0203EB70:
-	ldr r2, _0203EBAC // =0x0210F774
+	ldr r2, _0203EBAC // =byte_210F774
 	mov r0, r4
 	add r5, r2, r1, lsl #1
 	ldrb r1, [r2, r1, lsl #1]
@@ -1110,7 +1110,7 @@ _0203EB70:
 	bl AnimatorSprite__ProcessAnimation
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0203EBAC: .word 0x0210F774
+_0203EBAC: .word byte_210F774
 	arm_func_end SeaMapView__InitTouchCursor
 
 	arm_func_start SeaMapView__AllocateSprites
@@ -1122,7 +1122,7 @@ SeaMapView__AllocateSprites: // 0x0203EBB0
 	mov r2, #0x14
 	bl MIi_CpuClear32
 	mov r5, #0
-	ldr r6, _0203EC58 // =0x0210F82C
+	ldr r6, _0203EC58 // =stru_210F82C
 	ldr r4, _0203EC5C // =dword_210F76C
 	mov r7, r5
 _0203EBD8:
@@ -1163,7 +1163,7 @@ _0203EC48:
 	blo _0203EC28
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
-_0203EC58: .word 0x0210F82C
+_0203EC58: .word stru_210F82C
 _0203EC5C: .word dword_210F76C
 	arm_func_end SeaMapView__AllocateSprites
 
@@ -1194,7 +1194,7 @@ SeaMapView__Func_203ECA0: // 0x0203ECA0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r0, [r6, #0xc]
-	ldr r4, _0203ECF0 // =0x0210F82C
+	ldr r4, _0203ECF0 // =stru_210F82C
 	mov r5, r1
 	ldrb r1, [r4, r5, lsl #4]
 	ldr r0, [r0, #0]
@@ -1212,7 +1212,7 @@ SeaMapView__Func_203ECA0: // 0x0203ECA0
 	mov r0, r4
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0203ECF0: .word 0x0210F82C
+_0203ECF0: .word stru_210F82C
 	arm_func_end SeaMapView__Func_203ECA0
 
 	arm_func_start SeaMapView__Func_203ECF4
@@ -1306,7 +1306,7 @@ SeaMapView__EnableButton: // 0x0203EDEC
 	beq _0203EE50
 	cmp r1, #5
 	bge _0203EE20
-	ldr r0, _0203EE78 // =0x0210F82C
+	ldr r0, _0203EE78 // =stru_210F82C
 	add r0, r0, r1, lsl #4
 	ldrsh r5, [r0, #8]
 	ldrsh r6, [r0, #0xa]
@@ -1338,7 +1338,7 @@ _0203EE64:
 	bl SetSpriteButtonPosition
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0203EE78: .word 0x0210F82C
+_0203EE78: .word stru_210F82C
 _0203EE7C: .word stru_210F7E4
 _0203EE80: .word 0x000003E7
 	arm_func_end SeaMapView__EnableButton
@@ -1439,7 +1439,7 @@ _0203EFB8:
 	ldr r0, [r0, #0x154]
 	cmp r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r6, _0203F028 // =0x0210F782
+	ldr r6, _0203F028 // =word_210F782
 	ldr r5, _0203F02C // =padInput
 	mov r7, #0
 _0203EFD4:
@@ -1466,7 +1466,7 @@ _0203F014:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0203F024: .word touchInput
-_0203F028: .word 0x0210F782
+_0203F028: .word word_210F782
 _0203F02C: .word padInput
 	arm_func_end SeaMapView__ProcessButtons
 
@@ -2600,24 +2600,24 @@ dword_210F76C: // 0x0210F76C
 	.word 0x1F, 0x20
 
 .public byte_210F774
-byte_210F774: // 0x0210F774
+byte_210F774: // byte_210F774
 	.byte 0, 0, 1, 0, 2, 0, 0x1F, 0
 
 .public byte_210F77C
-byte_210F77C: // 0x0210F77C
+byte_210F77C: // byte_210F77C
 	.byte 0x1F, 2, 0xFF, 3, 0xE0, 3
 
 .public word_210F782
-word_210F782: // 0x0210F782
+word_210F782: // word_210F782
 	// .hword PAD_BUTTON_B, PAD_BUTTON_R, PAD_BUTTON_L, 0, 0, 0, 0, 0, 0
 	.hword 2, 0x100, 0x200, 0x000, 0x000, 0x000, 0x000, 0x000, 0x000
 
 .public SeaMapView__VoyageDistance
-SeaMapView__VoyageDistance: // 0x0210F794
+SeaMapView__VoyageDistance: // SeaMapView__VoyageDistance
 	.word 0x58, 0xB0, 0x90, 0xB0
 
 .public stru_210F7A4
-stru_210F7A4: // 0x0210F7A4
+stru_210F7A4: // stru_210F7A4
     .hword 0                   			// priority
 	.align 4
 	.word SeaMapView__ButtonCallback1	// callback
@@ -2689,7 +2689,7 @@ stru_210F7E4: // 0x0210F7E4
 	.byte 0
 
 .public stru_210F82C
-stru_210F82C: // 0x0210F82C
+stru_210F82C: // stru_210F82C
     .byte 4                   // animID
 	.byte 4                   // oamOrder
 	.align 4
@@ -2734,222 +2734,3 @@ stru_210F82C: // 0x0210F82C
 	.hword 0xB4               // y
 	.byte 1, 2, 3             // paletteRows
 	.byte 0
-
-.public dword_210F87C
-dword_210F87C: // 0x0210F87C
-   .word 1, 1, 1, 0, 0, 0, 0, 0
-
-.public dword_210F89C
-dword_210F89C: // 0x0210F89C
-	.word 0, 0, 0, 0, 0, 0, 1, 0
-
-.public SeaMapView__IslandInfoText1
-SeaMapView__IslandInfoText1: // 0x0210F8BC
-	.hword 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22
-	.hword 23, 24, 26, 27, 28, 23, 23, 23, 23, 29, 30, 31, 32
-	.hword 33, 34, 35, 36, 37, 38, 39, 23, 23, 23, 23, 23, 23
-	.hword 23, 23, 23
-
-.public SeaMapView__IslandInfoText2
-SeaMapView__IslandInfoText2: // 0x0210F910
-	.hword 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22
-	.hword 23, 24, 26, 27, 28, 23, 23, 23, 23, 29, 30, 31, 32
-	.hword 33, 34, 35, 36, 37, 38, 39, 23, 23, 23, 23, 23, 23
-	.hword 23, 23, 23
-
-.public dword_210F964
-dword_210F964: // 0x0210F964
-	.word 0, 0, 4, 7, 0xB, 0xE, 0x11, 0x15, 0x18, 0, 9, 0x13
-	.word 0, 0, 0, 0x19, 0x1A, 0x1B, 0, 0, 0, 0, 0x1C, 0x1D
-	.word 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26
-	.word 0x26, 0x26, 0x26, 0x26, 0x26, 0x26, 0x26, 0x26, 0x26
-
-.public word_210FA0C
-word_210FA0C: // 0x0210FA0C
-	.hword 51, 52
-
-.public word_210FA10
-word_210FA10: // 0x0210FA10
-	.hword 54, 51, 55
-
-.public word_210FA16
-word_210FA16: // 0x0210FA16
-	.hword 49, 46, 47
-
-.public stru_210FA1C
-stru_210FA1C: // 0x0210FA1C
-	.hword 0x2E // navTailsSequence
-	.align 4
-	.word 1                   // dword4
-
-.public stru_210FA24
-stru_210FA24: // 0x0210FA24
-	.hword 0x37 // navTailsSequence
-	.align 4
-	.word 1                   // dword4
-
-.public stru_210FA2C
-stru_210FA2C: // 0x0210FA2C
-	.hword 0x39 // navTailsSequence
-	.align 4
-	.word 1                   // dword4
-
-.public stru_210FA34
-stru_210FA34: // 0x0210FA34
-	.hword 0x38 // navTailsSequence
-	.align 4
-	.word 1                   // dword4
-
-.public stru_210FA3C
-stru_210FA3C: // 0x0210FA3C
-	.hword 0x32 // navTailsSequence
-	.align 4
-	.word 1                   // dword4
-
-.public stru_210FA44
-stru_210FA44: // 0x0210FA44
-	.hword 0x3A // navTailsSequence
-	.align 4
-	.word 2                   // dword4
-
-.public byte_210FA4C
-byte_210FA4C: // 0x0210FA4C
-	.byte 0x19
-
-.public byte_210FA4D
-byte_210FA4D: // 0x0210FA4D
-	.byte 3  
-	.byte 0x1A
-	.byte    3
-	.byte 0x1B
-	.byte    3
-	.byte 0x1C
-	.byte    2
-	.byte 0x1C
-	.byte    2
-	.byte    0
-	.byte    0
-
-.public stru_210FA58
-stru_210FA58: // 0x0210FA58
-	.hword 0x2F // navTailsSequence
-	.align 4
-	.word 0 // dword4
-	.hword 0x30 // navTailsSequence
-	.align 4
-	.word 1 // dword4
-
-.public stru_210FA68
-stru_210FA68: // 0x0210FA68
-	.hword 0x33 // navTailsSequence
-	.align 4
-	.word 0 // dword4
-	.hword 0x34 // navTailsSequence
-	.align 4
-	.word 1 // dword4
-
-.public byte_210FA78
-byte_210FA78: // 0x0210FA78
-	.byte 0x67, 0x6B, 0x6F, 0x73, 0x77, 0x7B, 0, 0, 0xF, 0xF, 0xF
-	.byte 0x65, 0x69, 0x6D, 0x71, 0x75, 0x79, 0, 0, 0xF, 0xF, 0xF
-	.align 4
-
-.public dword_210FA90
-dword_210FA90: // 0x0210FA90
-	.word 0, 0, 0, 0, 0, 0, 0, 0
-
-.public dword_210FAB0
-dword_210FAB0: // 0x0210FAB0
-	.word 0, 0, 0, 0, 0, 0, 1, 1
-
-.public dword_210FAD0
-dword_210FAD0: // 0x0210FAD0
-	.word 1, 1, 1, 0, 0, 0, 0, 0
-
-.public dword_210FAF0
-dword_210FAF0: // 0x0210FAF0
-	.word 0, 1, 1, 1, 1, 0, 0, 0, 0x2400600, 0x1200300, 0xC00200
-
-.public SeaMapManager__ZoomOutScaleTable
-SeaMapManager__ZoomOutScaleTable: // 0x0210FB1C
-	.word 0x1000, 0x800, 0x555
-
-.public SeaMapManager__ZoomInScaleTable
-SeaMapManager__ZoomInScaleTable: // 0x0210FB28
-	.word 0x1000, 0x2000, 0x3000
-
-_0210FB34:
-	.word 0x00, 0x00, 0x00
-	// .align 0x10
-
-
-.public dword_210FB40
-dword_210FB40: // 0x0210FB40 
-	.word 0, 0xFF, 0xFF00, 0xFFFF, 0xFF0000, 0xFF00FF, 0xFFFF00
-	.word 0xFFFFFF, 0xFF000000, 0xFF0000FF, 0xFF00FF00, 0xFF00FFFF
-	.word 0xFFFF0000, 0xFFFF00FF, 0xFFFFFF00, 0xFFFFFFFF
-
-.public byte_210FB80
-byte_210FB80: // 0x0210FB80
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1
-	.byte 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-	.byte 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0
-	.byte 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1
-	.byte 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0
-	.byte 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0
-	.byte 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1
-	.byte 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	.byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-
-.public SeaMapStylusIcon__AnimIDs
-SeaMapStylusIcon__AnimIDs: // 0x0210FF80
-	.hword 125, 126, 127
-
-.public SeaMapSparkles__AnimIDs1
-SeaMapSparkles__AnimIDs1: // 0x0210FF86
-	.hword 140, 143, 144, 147
-
-.public SeaMapSparkles__AnimIDs2
-SeaMapSparkles__AnimIDs2: // 0x0210FF8E
-	.hword 141, 142, 145, 146
-
-.public SeaMapBoatIcon__shipAnimIDs
-SeaMapBoatIcon__shipAnimIDs: // 0x0210FF96
-	.hword 0, 1, 2, 3, 0
-
-.public dword_210FFA0
-dword_210FFA0: // 0x0210FFA0
-	.word 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xA, 0xB, 0xC, 0xD, 0xE
-	.word 0xF, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17
-	.word 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20
-	.word 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29
-
-.public dword_2110048
-dword_2110048: // 0x02110048
-	.word 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 14
-	.word 15, 16, 17, 19, 20, 21, 23, 24, 2, 3, 4, 3, 4, 4, 5
-	.word 6, 25, 27, 28, 29, 30, 31, 33, 34, 35, 35, 36, 37
-	.word 38, 39

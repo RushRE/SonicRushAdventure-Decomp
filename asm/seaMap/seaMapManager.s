@@ -185,11 +185,11 @@ SeaMapManager__GetZoomOutScale: // 0x02043750
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r1, [r0, #0]
-	ldr r0, _02043768 // =0x0210FB1C
+	ldr r0, _02043768 // =SeaMapManager__ZoomOutScaleTable
 	ldr r0, [r0, r1, lsl #2]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02043768: .word 0x0210FB1C
+_02043768: .word SeaMapManager__ZoomOutScaleTable
 	arm_func_end SeaMapManager__GetZoomOutScale
 
 	arm_func_start SeaMapManager__GetZoomInScale
@@ -197,11 +197,11 @@ SeaMapManager__GetZoomInScale: // 0x0204376C
 	stmdb sp!, {r3, lr}
 	bl SeaMapManager__GetWork
 	ldr r1, [r0, #0]
-	ldr r0, _02043784 // =0x0210FB28
+	ldr r0, _02043784 // =SeaMapManager__ZoomInScaleTable
 	ldr r0, [r0, r1, lsl #2]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02043784: .word 0x0210FB28
+_02043784: .word SeaMapManager__ZoomInScaleTable
 	arm_func_end SeaMapManager__GetZoomInScale
 
 	arm_func_start SeaMapManager__Draw
@@ -2016,7 +2016,7 @@ _02044F44:
 	mov r0, #0x60
 	mla r0, r6, r0, r1
 	mov r2, #0
-	ldr r7, _0204504C // =0x0210FB40
+	ldr r7, _0204504C // =dword_210FB40
 	b _02045034
 _02044F64:
 	add r6, r5, r2
@@ -2080,7 +2080,7 @@ _02045040:
 	blt _02044F44
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0204504C: .word 0x0210FB40
+_0204504C: .word dword_210FB40
 	arm_func_end SeaMapManager__Func_2044F24
 
 	arm_func_start SeaMapManager__ClearUnknownPtr
@@ -3126,6 +3126,27 @@ SeaMapManager__Func_2045E58: // 0x02045E58
 	bl SeaMapManagerNodeList__Func_204611C
 	ldmia sp!, {r4, pc}
 	arm_func_end SeaMapManager__Func_2045E58
+
+	.rodata
+
+.public SeaMapManager__ZoomOutScaleTable
+SeaMapManager__ZoomOutScaleTable: // 0x0210FB1C
+	.word 0x1000, 0x800, 0x555
+
+.public SeaMapManager__ZoomInScaleTable
+SeaMapManager__ZoomInScaleTable: // 0x0210FB28
+	.word 0x1000, 0x2000, 0x3000
+
+_0210FB34:
+	.word 0x00, 0x00, 0x00
+	// .align 0x10
+
+
+.public dword_210FB40
+dword_210FB40: // 0x0210FB40 
+	.word 0, 0xFF, 0xFF00, 0xFFFF, 0xFF0000, 0xFF00FF, 0xFFFF00
+	.word 0xFFFFFF, 0xFF000000, 0xFF0000FF, 0xFF00FF00, 0xFF00FFFF
+	.word 0xFFFF0000, 0xFFFF00FF, 0xFFFFFF00, 0xFFFFFFFF
 
 	.data
 	

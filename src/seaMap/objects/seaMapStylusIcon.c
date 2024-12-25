@@ -11,6 +11,8 @@
 // FUNCTIONS
 // --------------------
 
+NOT_DECOMPILED void *SeaMapStylusIcon__AnimIDs;
+
 NONMATCH_FUNC SeaMapObject *SeaMapStylusIcon__Create(CHEVObjectType *objectType, CHEVObject *mapObject)
 {
 #ifdef NON_MATCHING
@@ -103,7 +105,7 @@ NONMATCH_FUNC u32 SeaMapStylusIcon_GetSpriteSize(void)
     // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #8
-	ldr r0, =0x0210FF80
+	ldr r0, =SeaMapStylusIcon__AnimIDs
 	ldrh r2, [r0, #0]
 	ldrh r1, [r0, #2]
 	ldrh r0, [r0, #4]
