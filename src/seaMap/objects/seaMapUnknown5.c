@@ -5,10 +5,17 @@
 #include <game/save/saveGame.h>
 
 // --------------------
-// FUNCTION DECLS
+// TEMP
 // --------------------
 
 NOT_DECOMPILED void SailSeaMapView__GetPosition(fx32 *x, fx32 *y);
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void SeaMapUnknown5_Main(void);
+static void SeaMapUnknown5_Destructor(Task *task);
 
 // --------------------
 // FUNCTIONS

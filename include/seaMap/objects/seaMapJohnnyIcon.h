@@ -20,9 +20,9 @@ typedef struct SeaMapJohnnyIcon_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED SeaMapObject *SeaMapJohnnyIcon__Create(CHEVObjectType *objectType, CHEVObject *mapObject);
-NOT_DECOMPILED void SeaMapJohnnyIcon__Main(void);
-NOT_DECOMPILED void SeaMapJohnnyIcon__Destructor(Task *task);
-NOT_DECOMPILED BOOL SeaMapJohnnyIcon__ViewCheck(CHEVObject *mapObject, fx32 x, fx32 y, BOOL flag);
+SeaMapObject *CreateSeaMapJohnnyIcon(CHEVObjectType *objectType, CHEVObject *mapObject);
+
+// View Check
+BOOL SeaMapJohnnyIcon_ViewCheck(CHEVObject *mapObject, fx32 x, fx32 y, BOOL flag);
 
 #endif // RUSH2_SEAMAPMJOHNNYICON_H

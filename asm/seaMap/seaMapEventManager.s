@@ -1418,8 +1418,8 @@ SeaMapEventManager__ObjectList: // 0x021100FC
     .hword 0                            // palette
     .byte 0x10, 0x10                    // viewBounds
     .byte 0, 0
-    .word SeaMapJohnnyIcon__Create      // createFunc
-    .word SeaMapJohnnyIcon__ViewCheck   // viewCheckFunc
+    .word CreateSeaMapJohnnyIcon      // createFunc
+    .word SeaMapJohnnyIcon_ViewCheck   // viewCheckFunc
     
     .hword 0                            // animID
     .hword 0                            // palette

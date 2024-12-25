@@ -30,7 +30,8 @@ struct CHEVObject_
 {
     u16 type;
     Vec2Fx16 position;
-    u16 flags;
+    u8 flags1;
+    u8 flags2;
     HitboxRect box;
     s16 unlockID;
 };
@@ -107,7 +108,7 @@ NOT_DECOMPILED BOOL SeaMapEventManager__ObjectInBounds(Vec2Fx16 *objPos, u8 *a2)
 NOT_DECOMPILED void SeaMapEventManager__Func_20474FC(Vec2Fx16 *a1, Vec2Fx16 *a2);
 NOT_DECOMPILED void SeaMapEventManager__SetObjectAsActive(SeaMapObject *work);
 NOT_DECOMPILED void SeaMapEventManager__SetObjectAsInactive(SeaMapObject *work);
-NOT_DECOMPILED BOOL SeaMapEventManager__Func_204756C(CHEVObject *object, s32 a2);
+NOT_DECOMPILED BOOL SeaMapEventManager__Func_204756C(CHEVObject *object);
 NOT_DECOMPILED void SeaMapEventManager__GetViewRect2(HitboxRect *rect, fx32 x, fx32 y, s32 *right, s32 *bottom, s32 *left, s32 *top);
 NOT_DECOMPILED void SeaMapEventManager__GetViewRect(HitboxRect *rect, fx32 x, fx32 y, ViewRect *viewRect);
 NOT_DECOMPILED BOOL SeaMapEventManager__PointInViewRect2(s32 left, s32 top, s32 right, s32 bottom, fx32 x, fx32 y);

@@ -1614,10 +1614,10 @@
 .public SeaMapIslandIcon__Destructor1
 .public SeaMapIslandIcon__Func_2048824
 .public SeaMapIslandIcon__ViewCheck
-.public SeaMapJohnnyIcon__Create
-.public SeaMapJohnnyIcon__Main
-.public SeaMapJohnnyIcon__Destructor
-.public SeaMapJohnnyIcon__ViewCheck
+.public CreateSeaMapJohnnyIcon
+.public SeaMapJohnnyIcon_Main
+.public SeaMapJohnnyIcon_Destructor
+.public SeaMapJohnnyIcon_ViewCheck
 .public CreateSeaMapUnknown5
 .public SeaMapUnknown5_Main
 .public SeaMapUnknown5_Destructor
