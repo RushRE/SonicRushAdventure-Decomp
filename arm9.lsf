@@ -465,7 +465,6 @@ Overlay ZoneAct
     Object src/stage/objects/spring.o
     Object src/stage/objects/dashPanel.o
     Object src/stage/objects/dashRing.o
-    Object asm/stage/objects/springboard_vars.o
     Object src/stage/objects/springboard.o
     Object src/stage/objects/spikes.o
     Object asm/stage/objects/spikes_vars.o
@@ -476,7 +475,6 @@ Overlay ZoneAct
     Object asm/stage/objects/rotatingHanger.o
     Object asm/stage/objects/ropeTar.o
     Object src/stage/objects/flipMushroom.o
-    Object asm/stage/objects/flipMushroom_vars.o
     Object asm/stage/objects/grind3Line.o
     Object src/stage/objects/waterLevelTrigger.o
     Object src/stage/objects/waterRunTrigger.o

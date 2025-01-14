@@ -465,15 +465,19 @@ void InitOpeningCameraForScene(Opening *work, s32 id)
 
 NONMATCH_FUNC void OpeningRenderCallback(NNSG3dRS *rs)
 {
-    // https://decomp.me/scratch/EVtsS -> 91.22%
+    // https://decomp.me/scratch/TwBoK -> 95.89%
 #ifdef NON_MATCHING
     u16 c;
     OpeningRenderCallbackConfig *callback;
 
+    NNSG3dRenderObj *renderObj;
+    renderObj = rs->pRenderObj;
+
+    void *resMdl = renderObj->resMdl;
     for (c = 0; c < Opening__RenderCallbackCount; c++)
     {
         callback = &Opening__RenderCallbackList[c];
-        if (callback->resMdl == rs->pRenderObj->resMdl)
+        if (callback->resMdl == resMdl)
         {
             if (callback->nodeDesc == NNS_G3dRSGetCurrentNodeDescID(rs))
                 break;

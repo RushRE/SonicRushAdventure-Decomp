@@ -4143,7 +4143,7 @@ void Boss1__BossState_IdleChooseAttack(Boss1 *work)
 
 NONMATCH_FUNC void Boss1__CreateBiteFX(Boss1 *work, struct Boss1ActionBite *config)
 {
-    // https://decomp.me/scratch/sbRQa
+    // https://decomp.me/scratch/sbRQa -> 89.73%
 #ifdef NON_MATCHING
     Boss1Stage *stage = TaskGetWork(Boss1Stage__Singleton, Boss1Stage);
 

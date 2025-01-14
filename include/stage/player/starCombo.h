@@ -103,7 +103,7 @@ void StarCombo__InitScoreBonus(Player *player, s32 score);
 void StarCombo__DisplayConfetti(Player *player);
 void StarCombo__SetStarAnimation(AnimatorSpriteDS *work, u16 anim);
 
-StarCombo *StarCombo__Create(void);
+StarCombo *StarCombo__Create(Player *player);
 void StarCombo__Destructor(Task *task);
 void StarCombo__Main(void);
 void StarCombo__UpdateCombo(StarCombo *work);

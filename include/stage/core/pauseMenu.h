@@ -16,8 +16,8 @@
 
 enum PauseMenuAnimatorID_
 {
-    PAUSEMENU_ANIMATOR_BACKPLATE1,
-    PAUSEMENU_ANIMATOR_BACKPLATE2,
+    PAUSEMENU_ANIMATOR_BACKPLATE,
+    PAUSEMENU_ANIMATOR_SELECTED_BACKPLATE,
     PAUSEMENU_ANIMATOR_PAUSED,
     PAUSEMENU_ANIMATOR_CONTINUE,
     PAUSEMENU_ANIMATOR_RESTART,
@@ -49,8 +49,8 @@ typedef struct PauseMenu_
     {
         struct
         {
-            AnimatorSpriteDS aniBackplate1;
-            AnimatorSpriteDS aniBackplate2;
+            AnimatorSpriteDS aniBackplate;
+            AnimatorSpriteDS aniSelectedBackplate;
             AnimatorSpriteDS aniPausedText;
             AnimatorSpriteDS aniContinueText;
             AnimatorSpriteDS aniRestartText;

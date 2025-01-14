@@ -115,7 +115,7 @@ BOOL CreatePauseMenu(void)
     {
         u8 size = *(locSpriteSizes++);
         s32 aniID;
-        if (i <= PAUSEMENU_ANIMATOR_BACKPLATE2)
+        if (i <= PAUSEMENU_ANIMATOR_SELECTED_BACKPLATE)
             aniID = i;
         else
             aniID = textAnim;
@@ -391,7 +391,7 @@ void PauseMenu_Draw(PauseMenu *work)
         AnimatorSpriteDS *backplateAnimator;
         if (work->selectedButton + 1 == i)
         {
-            backplateAnimator = &work->aniBackplate2;
+            backplateAnimator = &work->aniSelectedBackplate;
 
             backplateAnimator->position[0].x = textAnimator->position[0].x;
             backplateAnimator->position[0].y = textAnimator->position[0].y;
@@ -401,7 +401,7 @@ void PauseMenu_Draw(PauseMenu *work)
         }
         else
         {
-            backplateAnimator = &work->aniBackplate1;
+            backplateAnimator = &work->aniBackplate;
 
             backplateAnimator->position[0].x = textAnimator->position[0].x;
             backplateAnimator->position[0].y = textAnimator->position[0].y;

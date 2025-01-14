@@ -316,7 +316,7 @@ NONMATCH_FUNC void PlaneSwitchSpring_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WOR
     StageTask__SetAnimation(&planeSwitchSpring->gameWork.objWork, PLANESWITCHSPRING_ANI_NEAR_ACTIVE + planeSwitchSpring->gameWork.objWork.userWork);
     SetTaskState(&planeSwitchSpring->gameWork.objWork, PlaneSwitchSpring_State_Active);
 
-    fx32 power = MTM_MATH_CLIP(planeSwitchSpring->gameWork.mapObject->value3, 0, 5);
+    fx32 power = MTM_MATH_CLIP(planeSwitchSpring->gameWork.mapObject->left, 0, 5);
     fx32 force = FLOAT_TO_FX32(7.5);
     force += FLOAT_TO_FX32(1.5) * power;
 

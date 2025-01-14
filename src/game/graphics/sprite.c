@@ -2868,14 +2868,12 @@ void AnimatorMDL__SetResource(AnimatorMDL *animator, const NNSG3dResFileHeader *
 
     if (setJoint)
     {
-        animator->renderObj.recJntAnm = animator->jntAnimResult =
-            NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx));
+        animator->renderObj.recJntAnm = animator->jntAnimResult = NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx));
     }
 
     if (setMaterial)
     {
-        animator->renderObj.recMatAnm = animator->matAnimResult =
-            NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx));
+        animator->renderObj.recMatAnm = animator->matAnimResult = NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(resource), idx));
     }
 }
 
@@ -3771,38 +3769,45 @@ s32 BAC_FrameGroupFunc_FrameAssembly(BACFrameGroupBlock_FrameAssembly *block, An
 
 NONMATCH_FUNC s32 BAC_FrameGroupFunc_SpriteParts(BACFrameGroupBlock_SpriteParts *block, AnimatorSprite *animator, SpriteFrameCallback callback, void *userData)
 {
-    // https://decomp.me/scratch/Wdqks -> 95.88%
+    // https://decomp.me/scratch/Xytta -> 99.19%
+    // register mismatch near GetSpritePixelsBlock()
 #ifdef NON_MATCHING
-    typedef void (*PixelsFunc)(void *pixels, s32 mode, VRAMPixelKey vramPixels);
+    typedef void (*PixelsFunc)(void *pixels, PixelMode mode, void *vramPixels);
 
-    if (((u32)animator->flags & ANIMATOR_FLAG_DISABLE_SPRITE_PARTS) == 0)
+    struct BACFrameSpritePart *part;
+    s32 offsetThing;
+    u16 pos;
+
+    if ((animator->flags & ANIMATOR_FLAG_DISABLE_SPRITE_PARTS) == 0)
     {
-        u8 *fileData = animator->fileData;
+        VRAMPixelKey pixelPos;
+        PixelsFunc pixelsFunc = ((animator->flags & ANIMATOR_FLAG_UNCOMPRESSED_PIXELS) != 0) ? LoadCompressedPixels : QueueCompressedPixels;
 
-        PixelsFunc pixelsFunc           = ((animator->flags & ANIMATOR_FLAG_UNCOMPRESSED_PIXELS) != 0) ? LoadCompressedPixels : QueueCompressedPixels;
-        struct BACFrameSpritePart *part = (struct BACFrameSpritePart *)((u8 *)block + sizeof(BACFrameGroupBlockHeader));
-        VRAMPixelKey pixelPos           = animator->vramPixels;
-        u16 pos                         = sizeof(BACFrameGroupBlockHeader);
+        part     = (struct BACFrameSpritePart *)((u8 *)block + sizeof(BACFrameGroupBlockHeader));
+        pixelPos = animator->vramPixels;
+        pos      = sizeof(BACFrameGroupBlockHeader);
 
-        u16 offsetThing;
-        if (animator->pixelMode == PIXEL_MODE_SPRITE)
+        switch (animator->pixelMode)
         {
-            if ((GetFrameAssemblyFromAnimator(animator)->spriteList[0].attr0 & GX_OAM_ATTR01_MODE_MASK) == (GX_OAM_MODE_BITMAPOBJ << GX_OAM_ATTR01_MODE_SHIFT))
-                offsetThing = vramManager.objBmpUse256K[animator->useEngineB]; // bitmap
-            else
-                offsetThing = vramManager.objBankShift[animator->useEngineB]; // non-bitmap
-        }
-        else
-        {
-            offsetThing = 0;
+            case PIXEL_MODE_SPRITE:
+                if ((GetFrameAssemblyFromAnimator(animator)->spriteList[0].attr0 & GX_OAM_ATTR01_MODE_MASK) == (GX_OAM_MODE_BITMAPOBJ << GX_OAM_ATTR01_MODE_SHIFT))
+                    offsetThing = objBmpUse256K[animator->useEngineB]; // bitmap
+                else
+                    offsetThing = objBankShift[animator->useEngineB]; // non-bitmap
+                break;
+
+            default:
+                offsetThing = 0;
+                break;
         }
 
         u32 tileSizeShift = offsetThing + pixelFormatShift[GetAnimHeaderBlockFromAnimator(animator)->anims[animator->animID].format];
 
         for (; pos < block->header.blockSize; pos += sizeof(struct BACFrameSpritePart))
         {
-            pixelsFunc(&GetSpritePixelsBlock(animator->fileData)[part->dataOffset], animator->pixelMode, pixelPos);
-            pixelPos += ((u32)part->tileCount + (1 << offsetThing) - 1) >> offsetThing << tileSizeShift;
+            pixelsFunc(GetSpritePixelsBlock(animator->fileData, part->dataOffset), animator->pixelMode, pixelPos);
+
+            pixelPos += (((((u32)part->tileCount) + (1 << offsetThing)) - 1) >> offsetThing) << (tileSizeShift & 0xFFFFFFFFFFFFFFFF);
             part++;
         }
     }
@@ -3891,20 +3896,27 @@ _02083A1C:
 
 NONMATCH_FUNC s32 BAC_FrameGroupFunc_Palette(BACFrameGroupBlock_Palette *block, AnimatorSprite *animator, SpriteFrameCallback callback, void *userData)
 {
-    // https://decomp.me/scratch/Z0fp8 -> 99.08%
+    // https://decomp.me/scratch/hlf1C -> 99.50%
     // register mismatch near GetPaletteBlock()
 #ifdef NON_MATCHING
     typedef void (*PaletteFunc)(void *srcPalettePtr, u16 colorCount, PaletteMode mode, size_t dstPalettePtr);
 
+    u8 *paletteData;
+    size_t aniPaletteOffset;
+    AnimatorFlags *aniFlags;
+
+    aniFlags = &animator->flags;
     if ((animator->flags & ANIMATOR_FLAG_DISABLE_PALETTES) == 0)
     {
         PaletteFunc paletteFunc;
-        if ((animator->flags & ANIMATOR_FLAG_UNCOMPRESSED_PALETTES) != 0)
+        aniPaletteOffset = animator->paletteOffset;
+        paletteData      = (u8 *)GetPaletteBlock(animator->fileData, block->paletteOffset);
+        if (((*aniFlags) & ANIMATOR_FLAG_UNCOMPRESSED_PALETTES) != 0)
             paletteFunc = LoadUncompressedPalette;
         else
             paletteFunc = QueueUncompressedPalette;
 
-        u16 *srcPalettePtr = &GetPaletteBlock(animator->fileData, block->paletteOffset)->colors[animator->paletteOffset];
+        u16 *srcPalettePtr = &((struct BACPaletteBlock *)paletteData)->colors[aniPaletteOffset];
 
         u16 colorCount = animator->colorCount;
         u16 *destPalettePtr;

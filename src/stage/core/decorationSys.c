@@ -3474,7 +3474,7 @@ _021530E8:
 StageDecoration *DecorationSys__CreateUnknown2153118(MapDecor *mapDecor, fx32 x, fx32 y, s32 type)
 {
     StageDecoration *work = DecorationSys__Construct(sizeof(StageDecoration), mapDecor, x, y, 0);
-    
+
     work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
     work->objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
@@ -3755,42 +3755,18 @@ void DecorationSys__RemoveEntry(StageDecoration *work)
         DecorationSys__WorkSingleton->listEnd = work->prev;
 }
 
-NONMATCH_FUNC void DecorationSys__SpriteCallback_Default(BACFrameGroupBlock_Hitbox *block, AnimatorSprite *animator, StageDecoration *work)
+void DecorationSys__SpriteCallback_Default(BACFrameGroupBlock_Hitbox *block, AnimatorSprite *animator, StageDecoration *work)
 {
-    // https://decomp.me/scratch/2lTX6 -> 73.68%
-#ifdef NON_MATCHING
     if (block->header.blockID == SPRITE_BLOCK_CALLBACK2)
     {
-        if (block->id == 0)
+        switch (block->id)
         {
-            work->rect[block->id].parent = &work->objWork;
-            ObjRect__SetBox(&work->rect[block->id], block->hitbox.left, block->hitbox.top, block->hitbox.right, block->hitbox.bottom);
+            case 0:
+                work->rect[block->id].parent = &work->objWork;
+                ObjRect__SetBox2D(&work->rect[block->id].rect, block->hitbox.left, block->hitbox.top, block->hitbox.right, block->hitbox.bottom);
+                break;
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldrh r1, [r0, #0]
-	cmp r1, #7
-	ldmneia sp!, {r3, pc}
-	ldrh r1, [r0, #4]
-	cmp r1, #0
-	ldmneia sp!, {r3, pc}
-	add r1, r2, r1, lsl #6
-	str r2, [r1, #0x184]
-	ldrsh r1, [r0, #0xe]
-	add lr, r2, #0x168
-	str r1, [sp]
-	ldrh ip, [r0, #4]
-	ldrsh r1, [r0, #8]
-	ldrsh r2, [r0, #0xa]
-	ldrsh r3, [r0, #0xc]
-	add r0, lr, ip, lsl #6
-	bl ObjRect__SetBox2D
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
 }
 
 void DecorationSys__Collide_Default(StageDecoration *work)

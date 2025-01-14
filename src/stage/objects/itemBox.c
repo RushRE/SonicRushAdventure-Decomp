@@ -275,12 +275,10 @@ void BreakItemBox(ItemBox *work, Player *player, s32 type)
     }
 }
 
-NONMATCH_FUNC void CreateItemBoxReward(s32 type)
+void CreateItemBoxReward(s32 type)
 {
-    // https://decomp.me/scratch/qxW4i -> 96.59%
-    // register issue near CreateStageTask
-#ifdef NON_MATCHING
     ItemBoxReward *work;
+    void *nullValue;
     OBS_ACTION2D_BAC_WORK *aniWork;
     u8 value;
     s32 id;
@@ -310,7 +308,9 @@ NONMATCH_FUNC void CreateItemBoxReward(s32 type)
     else
     {
         itemBoxRewardTask = CreateStageTask(ItemBoxReward_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), ItemBoxReward);
-        if (itemBoxRewardTask == HeapNull)
+        
+        nullValue = HeapNull;
+        if (itemBoxRewardTask == nullValue)
             return;
 
         work = TaskGetWork(itemBoxRewardTask, ItemBoxReward);
@@ -336,135 +336,6 @@ NONMATCH_FUNC void CreateItemBoxReward(s32 type)
     work->objWork.velocity.y = FLOAT_TO_FX32(2.0);
 
     SetTaskState(&work->objWork, ItemBoxReward_State_Active);
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, lr}
-	sub sp, sp, #0xc
-	ldr r1, =itemBoxRewardTask
-	mov r6, r0
-	ldr r0, [r1, #0]
-	cmp r0, #0
-	beq _02174518
-	bl GetTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0x18]
-	add r7, r6, #1
-	bic r0, r0, #4
-	str r0, [r4, #0x18]
-	ldr r5, [r4, #0x128]
-	ldrh r0, [r5, #0xc]
-	cmp r0, r7
-	beq _02174508
-	ldr r1, =rewardDrawFlagTable
-	sub r0, r0, #1
-	ldrb r6, [r1, r6]
-	ldrb r0, [r1, r0]
-	cmp r0, r6
-	beq _02174508
-	ldrh r0, [r5, #0x50]
-	and r0, r0, #0xff
-	bl ObjDrawReleaseSpritePalette
-	mov r0, #0x46
-	bl GetObjectFileWork
-	mov r1, r7, lsl #0x10
-	ldr r0, [r0, #0]
-	mov r2, r6
-	mov r1, r1, lsr #0x10
-	bl ObjDrawAllocSpritePalette
-	strh r0, [r5, #0x50]
-	ldrh r0, [r5, #0x50]
-	strh r0, [r5, #0x92]
-	strh r0, [r5, #0x90]
-	ldr r0, [r5, #0x3c]
-	orr r0, r0, #0x10
-	str r0, [r5, #0x3c]
-_02174508:
-	ldr r0, [r4, #0x20]
-	bic r0, r0, #0x20
-	str r0, [r4, #0x20]
-	b _02174610
-_02174518:
-	mov r0, #0x1800
-	mov r2, #0
-	str r0, [sp]
-	mov r4, #2
-	str r4, [sp, #4]
-	mov r4, #0x218
-	ldr r0, =StageTask_Main
-	ldr r1, =ItemBoxReward_Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	ldr r1, =itemBoxRewardTask
-	str r0, [r1]
-	mov r0, #0
-	bl OS_GetArenaLo
-	ldr r1, =itemBoxRewardTask
-	ldr r1, [r1, #0]
-	cmp r1, r0
-	addeq sp, sp, #0xc
-	ldmeqia sp!, {r4, r5, r6, r7, pc}
-	mov r0, r1
-	bl GetTaskWork_
-	mov r4, r0
-	mov r1, #0
-	mov r2, #0x218
-	bl MI_CpuFill8
-	ldr r1, [r4, #0x18]
-	mov r0, #0x46
-	orr r1, r1, #0x12
-	orr r1, r1, #0x800000
-	str r1, [r4, #0x18]
-	ldr r1, [r4, #0x1c]
-	orr r1, r1, #0x100
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x20]
-	orr r1, r1, #0x180
-	orr r1, r1, #0x10000
-	str r1, [r4, #0x20]
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveCommon
-	mov r1, #2
-	ldr r2, [r0, #0]
-	mov r0, r4
-	str r2, [sp]
-	str r1, [sp, #4]
-	add r1, r4, #0x168
-	ldr r2, =0x02189738 // aAcItmBoxBac
-	bl ObjObjectAction2dBACLoad
-	add r7, r6, #1
-	mov r0, r4
-	mov r1, r7, lsl #0x10
-	mov r1, r1, lsr #0x10
-	ldr r2, =rewardDrawFlagTable
-	ldrb r2, [r2, r6]
-	bl ObjActionAllocSpritePalette
-	mov r0, r4
-	mov r1, #6
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #0
-	bl StageTask__SetAnimatorPriority
-_02174610:
-	mov r1, r7, lsl #0x10
-	mov r0, r4
-	mov r1, r1, lsr #0x10
-	bl StageTask__SetAnimation
-	mov r0, #0x80
-	str r0, [r4, #0x2c]
-	mov r0, #0x80000
-	str r0, [r4, #0x44]
-	mov r0, #0xa7000
-	str r0, [r4, #0x48]
-	mov r1, #0x2000
-	ldr r0, =ItemBoxReward_State_Active
-	str r1, [r4, #0x9c]
-	str r0, [r4, #0xf4]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, r6, r7, pc}
-// clang-format on
-#endif
 }
 
 void ItemBox_Destructor(Task *task)

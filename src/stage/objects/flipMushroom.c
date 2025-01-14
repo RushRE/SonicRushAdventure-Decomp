@@ -52,7 +52,7 @@ static const Vec2Fx16 collisionOffsetTable[FLIPMUSHROOM_TYPE_COUNT] = {
     [FLIPMUSHROOM_TYPE_UR] = { -72, -80 },
 };
 
-static const Vec2Fx16 collisionSizeTable[FLIPMUSHROOM_TYPE_COUNT] = {
+static const Vec2U16 collisionSizeTable[FLIPMUSHROOM_TYPE_COUNT] = {
     [FLIPMUSHROOM_TYPE_U]  = { 192, 24 },
     [FLIPMUSHROOM_TYPE_UL] = { 152, 152 },
     [FLIPMUSHROOM_TYPE_UR] = { 152, 152 },
@@ -136,8 +136,6 @@ static const char *flipMushCollisionList[FLIPMUSHROOM_TYPE_COUNT] = {
     [FLIPMUSHROOM_TYPE_UR] = "/df/gmk_flipmush_ur.df",
 };
 
-NOT_DECOMPILED const char *aActAcGmkFlipmu_0;
-
 // --------------------
 // FUNCTION DECLS
 // --------------------
@@ -153,26 +151,11 @@ static void FlipMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    // https://decomp.me/scratch/TfyST -> 99.55%
-    // small issue with "aniFlags = ANIMATOR_FLAG_ENABLE_SCALE"
-#ifdef NON_MATCHING
-    static const Vec2Fx16 collisionOffset[3] = {
-        { 0xFFA0, 0xFFF2 },
-        { 0xFFB2, 0xFFB0 },
-        { 0xFFB8, 0xFFB0 },
-    };
-
-    static const Vec2U16 collisionSize[3] = {
-        { 0xC0, 0x18 },
-        { 0x98, 0x98 },
-        { 0x98, 0x98 },
-    };
-
     s32 i;
     AnimatorFlags aniFlags;
-    StageDisplayFlags displayFlag;
+    u16 displayFlag;
 
     u32 mushroomType = mapObject->id - MAPOBJECT_81;
 
@@ -208,10 +191,10 @@ NONMATCH_FUNC FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx3
 
     ObjObjectCollisionDifSet(&work->gameWork.objWork, flipMushCollisionList[mushroomType], GetObjectDataWork(mushroomType + OBJDATAWORK_173), gameArchiveStage);
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
-    work->gameWork.collisionObject.work.width  = collisionSize[mushroomType].x;
-    work->gameWork.collisionObject.work.height = collisionSize[mushroomType].y;
-    work->gameWork.collisionObject.work.ofst_x = collisionOffset[mushroomType].x;
-    work->gameWork.collisionObject.work.ofst_y = collisionOffset[mushroomType].y;
+    work->gameWork.collisionObject.work.width  = collisionSizeTable[mushroomType].x;
+    work->gameWork.collisionObject.work.height = collisionSizeTable[mushroomType].y;
+    work->gameWork.collisionObject.work.ofst_x = collisionOffsetTable[mushroomType].x;
+    work->gameWork.collisionObject.work.ofst_y = collisionOffsetTable[mushroomType].y;
     work->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_20;
 
     ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_flipmush.bac", GetObjectDataWork(OBJDATAWORK_166), gameArchiveStage,
@@ -247,201 +230,6 @@ NONMATCH_FUNC FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx3
     SetTaskCollideFunc(&work->gameWork.objWork, FlipMushroom_Collide);
 
     return work;
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x10
-	mov r7, r0
-	ldrh r8, [r7, #2]
-	mov r0, #0x1800
-	mov r6, r1
-	str r0, [sp]
-	mov r0, #2
-	mov r4, r2
-	mov r2, #0
-	str r0, [sp, #4]
-	ldr r5, =0x00000474
-	ldr r0, =StageTask_Main
-	str r5, [sp, #8]
-	ldr r1, =GameObject__Destructor
-	mov r3, r2
-	sub r5, r8, #0x51
-	bl TaskCreate_
-	mov r8, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r8, r0
-	addeq sp, sp, #0x10
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	mov r0, r8
-	bl GetTaskWork_
-	ldr r2, =0x00000474
-	mov r9, r0
-	mov r1, #0
-	bl MI_CpuFill8
-	mov r0, r9
-	mov r1, r7
-	mov r2, r6
-	mov r3, r4
-	bl GameObject__InitFromObject
-	ldrh r0, [r7, #2]
-	cmp r0, #0x51
-	add r0, r9, #0x400
-	bne _02162ED8
-	mov r1, #1
-	strh r1, [r0, #0x64]
-	mov r0, #0x100
-	str r0, [sp, #0xc]
-	mov r4, #0
-	b _02162F04
-_02162ED8:
-	mov r1, #4
-	strh r1, [r0, #0x64]
-	ldrh r1, [r7, #2]
-	mov r0, #0
-	mov r4, #0x200
-	str r0, [sp, #0xc]
-	cmp r1, #0x52
-	moveq r0, #0xe000
-	streqh r0, [r9, #0x34]
-	movne r0, #0x2000
-	strneh r0, [r9, #0x34]
-_02162F04:
-	add r0, r5, #0xad
-	bl GetObjectFileWork
-	ldr r1, =flipMushCollisionList
-	ldr r3, =gameArchiveStage
-	mov r2, r0
-	ldr r1, [r1, r5, lsl #2]
-	ldr r3, [r3, #0]
-	mov r0, r9
-	bl ObjObjectCollisionDifSet
-	ldr r0, =collisionSizeTable
-	mov r1, r5, lsl #2
-	ldrh r3, [r0, r1]
-	ldr r2, =0x021883FE
-	str r9, [r9, #0x2d8]
-	add r0, r9, #0x300
-	ldrh r6, [r2, r1]
-	strh r3, [r0, #8]
-	ldr r3, =collisionOffsetTable
-	strh r6, [r0, #0xa]
-	ldrsh r6, [r3, r1]
-	ldr r3, =0x021883F2
-	add r2, r9, #0x200
-	ldrsh r1, [r3, r1]
-	strh r6, [r2, #0xf0]
-	mov r0, #0xa6
-	strh r1, [r2, #0xf2]
-	ldr r1, [r9, #0x2f4]
-	orr r1, r1, #0x20
-	str r1, [r9, #0x2f4]
-	bl GetObjectFileWork
-	mov r3, r0
-	ldr r0, =gameArchiveStage
-	mov r1, #0
-	ldr r2, [r0, #0]
-	mov r0, r9
-	str r2, [sp]
-	str r1, [sp, #4]
-	ldr r2, =aActAcGmkFlipmu_0
-	add r1, r9, #0x168
-	bl ObjObjectAction2dBACLoad
-	mov r0, #0xa7
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r0, r9
-	mov r1, #0x30
-	bl ObjObjectActionAllocSprite
-	mov r0, r9
-	mov r1, #0
-	bl StageTask__SetAnimation
-	ldr r0, [r9, #0x1a4]
-	orr r0, r0, r4
-	str r0, [r9, #0x1a4]
-	ldrh r0, [r7, #4]
-	tst r0, #1
-	mov r0, r9
-	beq _02162FF4
-	mov r1, #4
-	mov r2, #0x1d
-	bl ObjActionAllocSpritePalette
-	b _02163000
-_02162FF4:
-	mov r1, #0
-	mov r2, #0xe
-	bl ObjActionAllocSpritePalette
-_02163000:
-	mov r0, r9
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r9
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	add r4, r9, #0x400
-	ldrsh r0, [r4, #0x64]
-	mov r8, #0
-	cmp r0, #0
-	ble _021630BC
-	ldr r0, =hitboxTable
-	ldr r11, =0x0000FFFE
-	add r7, r0, r5, lsl #5
-	ldr r6, =0x00000102
-	ldr r5, =FlipMushroom_OnDefend
-	add r10, r9, #0x364
-_02163044:
-	mov r1, #0
-	mov r0, r10
-	mov r2, r1
-	bl ObjRect__SetAttackStat
-	mov r0, r10
-	mov r1, r11
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	add r3, r7, r8, lsl #3
-	ldrsh r1, [r3, #6]
-	mov r2, r8, lsl #3
-	mov r0, r10
-	str r1, [sp]
-	ldrsh r1, [r2, r7]
-	ldrsh r2, [r3, #2]
-	ldrsh r3, [r3, #4]
-	bl ObjRect__SetBox2D
-	add r1, r9, r8, lsl #6
-	add r0, r1, #0x300
-	strh r6, [r0, #0x98]
-	str r9, [r1, #0x380]
-	str r5, [r1, #0x388]
-	ldr r0, [r1, #0x37c]
-	add r8, r8, #1
-	orr r0, r0, #0x400
-	str r0, [r1, #0x37c]
-	ldrsh r0, [r4, #0x64]
-	add r10, r10, #0x40
-	cmp r8, r0
-	blt _02163044
-_021630BC:
-	ldr r1, [r9, #0x1c]
-	ldr r0, [sp, #0xc]
-	orr r1, r1, #0x2100
-	str r1, [r9, #0x1c]
-	ldr r2, [r9, #0x20]
-	orr r0, r0, #0x10
-	orr r0, r2, r0
-	str r0, [r9, #0x20]
-	ldr r1, =FlipMushroom_State_Idle
-	ldr r0, =FlipMushroom_Draw
-	str r1, [r9, #0xf4]
-	str r0, [r9, #0xfc]
-	ldr r1, =FlipMushroom_Collide
-	mov r0, r9
-	str r1, [r9, #0x108]
-	add sp, sp, #0x10
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-
-// clang-format on
-#endif
 }
 
 void FlipMushroom_State_Idle(FlipMushroom *work)

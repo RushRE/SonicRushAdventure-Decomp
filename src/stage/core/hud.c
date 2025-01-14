@@ -10,8 +10,14 @@
 #include <network/wirelessManager.h>
 
 // --------------------
-// TEMP
+// STRUCTS
 // --------------------
+
+struct HUDDigitVRAMPixels
+{
+    VRAMPixelKey engineA;
+    VRAMPixelKey engineB;
+};
 
 // --------------------
 // VARIABLES
@@ -103,10 +109,15 @@ static void TimeAttackReplayHUD_Main(void);
 // INLINE FUNCTIONS
 // --------------------
 
-RUSH_INLINE CheckHUDVisible(void)
+RUSH_INLINE BOOL CheckHUDVisible(void)
 {
     HUD *hud = hudWork;
     return hud == NULL || (hud->flags & HUD_FLAG_VISIBLE) == 0;
+}
+
+RUSH_INLINE AnimatorSpriteDS *GetHUDAnimator(HUD *work, s32 id)
+{
+    return &work->animators[id];
 }
 
 // --------------------
@@ -191,12 +202,23 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
 #ifdef NON_MATCHING
     HUD *work = hudWork;
 
+    VRAMPixelKey vramPixelsA;
+    VRAMPixelKey vramPixelsB;
+
+    void *spriteFile;
+    AnimatorSpriteDS *animator;
+    u32 spriteSize;
+
+    s32 i;
+
     void *contSpriteFile = NULL;
+    s32 new_var;
+    u32 screenFlags;
 
     u16 HUD__uiElementAnimID[HUD_ANIMATOR_COUNT_MAIN]     = { HUD_ANI_1, HUD_ANI_2, HUD_ANI_30, HUD_ANI_34, HUD_ANI_35, HUD_ANI_36, HUD_ANI_37, HUD_ANI_38, HUD_ANI_3, HUD_ANI_4 };
     u16 HUD__uiElementPaletteRow[HUD_ANIMATOR_COUNT_MAIN] = { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 };
 
-    void *spriteFile = ObjDataLoad(NULL, "/ac_fix.bac", gameArchiveCommon);
+    spriteFile = ObjDataLoad(NULL, "/ac_fix.bac", gameArchiveCommon);
 
     if (!IsBossStage() && gmCheckGameMode(GAMEMODE_VS_BATTLE))
         contSpriteFile = ObjDataLoad(NULL, "/ac_fix_cont.bac", gameArchiveCommon);
@@ -207,25 +229,24 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
     else
         numberCount = 21;
 
-    s32 i;
+    // load all 10 digit sprites
     struct HUDDigitVRAMPixels *vramPixels = (struct HUDDigitVRAMPixels *)work->vramPixels;
     for (i = 0; i < numberCount; i++, vramPixels++)
     {
         AnimatorSpriteDS animator;
 
-        u32 size            = Sprite__GetSpriteSize2FromAnim(spriteFile, i + 5);
-        vramPixels->engineA = VRAMSystem__AllocSpriteVram(FALSE, size);
-        MI_CpuClear32(vramPixels->engineA, size << 6);
+        spriteSize          = Sprite__GetSpriteSize2FromAnim(spriteFile, i + 5);
+        vramPixels->engineA = VRAMSystem__AllocSpriteVram(FALSE, spriteSize);
+        MI_CpuClear32(vramPixels->engineA, spriteSize << 6);
 
-        u32 screenFlags;
         if (IsBossStage())
         {
             screenFlags = SCREEN_DRAW_B;
         }
         else
         {
-            vramPixels->engineB = VRAMSystem__AllocSpriteVram(TRUE, size);
-            MI_CpuClear32(vramPixels->engineB, size << 6);
+            vramPixels->engineB = VRAMSystem__AllocSpriteVram(TRUE, spriteSize);
+            MI_CpuClear32(vramPixels->engineB, spriteSize << 6);
 
             screenFlags = SCREEN_DRAW_NONE;
         }
@@ -235,17 +256,15 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
         AnimatorSpriteDS__ProcessAnimationFast(&animator);
     }
 
-    for (s32 d = 0; d < 10; d++)
+    // load all 10 digit sprites
+    for (i = 0; i < 10; i++)
     {
-        AnimatorSpriteDS *digitAnimator = &work->animators[d];
+        animator = GetHUDAnimator(work, i);
 
-        u16 anim = HUD__uiElementAnimID[d];
-        u32 size = Sprite__GetSpriteSize2FromAnim(spriteFile, anim);
+        spriteSize = Sprite__GetSpriteSize2FromAnim(spriteFile, HUD__uiElementAnimID[i]);
 
-        VRAMPixelKey vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, size);
-        VRAMPixelKey vramPixelsB;
+        vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, spriteSize);
 
-        u32 screenFlags;
         if (IsBossStage())
         {
             vramPixelsB = NULL;
@@ -253,19 +272,20 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
         }
         else
         {
-            vramPixelsB = VRAMSystem__AllocSpriteVram(TRUE, size);
+            vramPixelsB = VRAMSystem__AllocSpriteVram(TRUE, spriteSize);
             screenFlags = SCREEN_DRAW_NONE;
         }
-        AnimatorSpriteDS__Init(digitAnimator, spriteFile, anim, screenFlags, 0, PIXEL_MODE_SPRITE, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, vramPixelsB,
-                               PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
+        AnimatorSpriteDS__Init(animator, spriteFile, HUD__uiElementAnimID[i], screenFlags, 0, PIXEL_MODE_SPRITE, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
+                               vramPixelsB, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
 
-        digitAnimator->cParam[0].palette = HUD__uiElementPaletteRow[d];
-        digitAnimator->cParam[1].palette = HUD__uiElementPaletteRow[d];
+        animator->cParam[0].palette = HUD__uiElementPaletteRow[i];
+        animator->cParam[1].palette = HUD__uiElementPaletteRow[i];
 
-        AnimatorSpriteDS__ProcessAnimationFast(digitAnimator);
-        digitAnimator->screensToDraw |= SCREEN_DRAW_B;
+        AnimatorSpriteDS__ProcessAnimationFast(animator);
+        animator->screensToDraw |= SCREEN_DRAW_B;
     }
 
+    // prepare digits animator
     AnimatorSpriteDS *userDigitsAnimator = &work->digitsAnimator;
     AnimatorSpriteDS__Init(userDigitsAnimator, spriteFile, HUD_ANI_5, 0, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS, PIXEL_MODE_SPRITE,
                            work->vramPixels[0][0], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, work->vramPixels[0][1], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
@@ -274,67 +294,66 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
     userDigitsAnimator->cParam[1].palette = 0;
     AnimatorSpriteDS__ProcessAnimationFast(userDigitsAnimator);
 
+    // life count
+    u16 playerBorderAniA;
+    u16 playerBorderAniB;
     if (!gmCheckGameMode(GAMEMODE_VS_BATTLE) && !gmCheckGameMode(GAMEMODE_MISSION))
     {
-        AnimatorSpriteDS *lifeNumAnimator = &work->lifeNumAnimator;
+        animator = &work->lifeNumAnimator;
 
-        AnimatorSpriteDS__Init(lifeNumAnimator, spriteFile, HUD_ANI_15, 0, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS, PIXEL_MODE_SPRITE,
-                               work->vramPixels[10][0], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, work->vramPixels[10][1], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
-                               SPRITE_PRIORITY_0, SPRITE_ORDER_6);
-        lifeNumAnimator->cParam[0].palette = 0;
-        lifeNumAnimator->cParam[1].palette = 0;
-        AnimatorSpriteDS__ProcessAnimationFast(lifeNumAnimator);
+        AnimatorSpriteDS__Init(animator, spriteFile, HUD_ANI_15, 0, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS, PIXEL_MODE_SPRITE, work->vramPixels[10][0],
+                               PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, work->vramPixels[10][1], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0,
+                               SPRITE_ORDER_6);
+        animator->cParam[0].palette = 0;
+        animator->cParam[1].palette = 0;
+        AnimatorSpriteDS__ProcessAnimationFast(animator);
     }
 
+    // Life icon
+    s32 lifeIconAnim;
+    u16 lifeIconAnim2;
+
+    animator = GetHUDAnimator(work, HUD_ANIMATOR_PLAYER_ICON);
+
+    if (gPlayer->characterID != CHARACTER_SONIC)
     {
-        AnimatorSpriteDS *playerIconAnimator = &work->animators[HUD_ANIMATOR_PLAYER_ICON];
+        lifeIconAnim = HUD_ANI_29;
+    }
+    else
+    {
+        lifeIconAnim = HUD_ANI_28;
+    }
+    lifeIconAnim2 = lifeIconAnim;
 
-        s32 lifeIconAnim;
-        switch (gPlayer->characterID)
-        {
-            // case CHARACTER_SONIC:
-            default:
-                lifeIconAnim = HUD_ANI_29;
-                break;
+    spriteSize  = Sprite__GetSpriteSize2FromAnim(spriteFile, lifeIconAnim2);
+    vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, spriteSize);
 
-            case CHARACTER_BLAZE:
-                lifeIconAnim = HUD_ANI_28;
-                break;
-        }
-        u16 lifeIconAnim2 = lifeIconAnim;
-
-        u32 lifeIconGfxSize      = Sprite__GetSpriteSize2FromAnim(spriteFile, lifeIconAnim2);
-        VRAMPixelKey vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, lifeIconGfxSize);
-        VRAMPixelKey vramPixelsB;
-
-        u32 lifeIconScreenFlags;
-        if (IsBossStage())
-        {
-            vramPixelsB         = NULL;
-            lifeIconScreenFlags = SCREEN_DRAW_B;
-        }
-        else
-        {
-            vramPixelsB         = VRAMSystem__AllocSpriteVram(TRUE, lifeIconGfxSize);
-            lifeIconScreenFlags = SCREEN_DRAW_NONE;
-        }
-
-        AnimatorSpriteDS__Init(playerIconAnimator, spriteFile, lifeIconAnim2, lifeIconScreenFlags, 0, PIXEL_MODE_SPRITE, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
-                               PIXEL_MODE_SPRITE, vramPixelsB, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
-        playerIconAnimator->cParam[0].palette = 0;
-        playerIconAnimator->cParam[1].palette = 0;
-        AnimatorSpriteDS__ProcessAnimationFast(playerIconAnimator);
-        playerIconAnimator->screensToDraw = SCREEN_DRAW_B;
+    if (IsBossStage())
+    {
+        vramPixelsB = NULL;
+        screenFlags = SCREEN_DRAW_B;
+    }
+    else
+    {
+        vramPixelsB = VRAMSystem__AllocSpriteVram(TRUE, spriteSize);
+        screenFlags = SCREEN_DRAW_NONE;
     }
 
+    AnimatorSpriteDS__Init(animator, spriteFile, lifeIconAnim2, screenFlags, 0, PIXEL_MODE_SPRITE, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, vramPixelsB,
+                           PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
+    animator->cParam[0].palette = 0;
+    animator->cParam[1].palette = 0;
+    AnimatorSpriteDS__ProcessAnimationFast(animator);
+    animator->screensToDraw = SCREEN_DRAW_B;
+
+    // load ring display
+    spriteSize = 16;
     if (!gmCheckRingBattle())
     {
-        AnimatorSpriteDS *animator = &work->animators[HUD_ANIMATOR_RING_PANEL];
+        animator = GetHUDAnimator(work, HUD_ANIMATOR_RING_PANEL);
 
-        VRAMPixelKey vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, 16);
-        VRAMPixelKey vramPixelsB;
+        vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, spriteSize);
 
-        u32 screenFlags;
         if (IsBossStage())
         {
             vramPixelsB = NULL;
@@ -342,7 +361,7 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
         }
         else
         {
-            vramPixelsB = VRAMSystem__AllocSpriteVram(TRUE, 16);
+            vramPixelsB = VRAMSystem__AllocSpriteVram(TRUE, spriteSize);
             screenFlags = SCREEN_DRAW_NONE;
         }
 
@@ -355,10 +374,7 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
     }
     else
     {
-        AnimatorSpriteDS *playerBorderAnimatorA = &work->animators[HUD_ANIMATOR_PLAYER_BORDER];
-
-        u16 playerBorderAniA;
-        u16 playerBorderAniB;
+        animator = GetHUDAnimator(work, HUD_ANIMATOR_PLAYER_BORDER);
 
         if (gPlayer->characterID == CHARACTER_SONIC)
         {
@@ -371,30 +387,32 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
             playerBorderAniB = HUD_CONTANI_2;
         }
 
+        new_var = PIXEL_MODE_SPRITE;
         work->animators[0].screensToDraw &= ~SCREEN_DRAW_B;
-        AnimatorSpriteDS__Init(playerBorderAnimatorA, contSpriteFile, playerBorderAniA, SCREEN_DRAW_B, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE,
-                               VRAMSystem__AllocSpriteVram(FALSE, 16), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
-                               SPRITE_PRIORITY_0, SPRITE_ORDER_6);
-        playerBorderAnimatorA->cParam[0].palette = 0;
-        playerBorderAnimatorA->cParam[1].palette = 0;
-        AnimatorSpriteDS__ProcessAnimationFast(playerBorderAnimatorA);
+        vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, spriteSize);
+        AnimatorSpriteDS__Init(animator, contSpriteFile, playerBorderAniA, SCREEN_DRAW_B, ANIMATOR_FLAG_DISABLE_PALETTES, new_var, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
+                               new_var, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
+        animator->cParam[0].palette = 0;
+        animator->cParam[1].palette = 0;
+        AnimatorSpriteDS__ProcessAnimationFast(animator);
 
-        AnimatorSpriteDS *playerBorderAnimatorB = &work->animators[HUD_ANIMATOR_PLAYER_BORDER2];
-        AnimatorSpriteDS__Init(playerBorderAnimatorB, contSpriteFile, playerBorderAniB, SCREEN_DRAW_A, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE,
-                               VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(TRUE, 16), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
+        AnimatorSpriteDS *playerBorderAnimatorB = GetHUDAnimator(work, HUD_ANIMATOR_PLAYER_BORDER2);
+        vramPixelsB                             = VRAMSystem__AllocSpriteVram(TRUE, spriteSize);
+        AnimatorSpriteDS__Init(playerBorderAnimatorB, contSpriteFile, playerBorderAniB, SCREEN_DRAW_A, ANIMATOR_FLAG_DISABLE_PALETTES, new_var, 0, PALETTE_MODE_SPRITE,
+                               VRAM_OBJ_PLTT, new_var, vramPixelsB, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
         playerBorderAnimatorB->cParam[0].palette = 0;
         playerBorderAnimatorB->cParam[1].palette = 0;
         AnimatorSpriteDS__ProcessAnimationFast(playerBorderAnimatorB);
     }
 
+    // load race position sprites
+    spriteSize = 4;
     if (gmCheckGameMode(GAMEMODE_VS_BATTLE))
     {
-        AnimatorSpriteDS *animator = &work->animators[HUD_ANIMATOR_VS_POSITION];
+        animator = GetHUDAnimator(work, HUD_ANIMATOR_VS_POSITION);
 
-        VRAMPixelKey vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, 4);
-        VRAMPixelKey vramPixelsB;
+        vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, spriteSize);
 
-        u32 screenFlags;
         if (IsBossStage())
         {
             vramPixelsB = NULL;
@@ -402,18 +420,19 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
         }
         else
         {
-            vramPixelsB = VRAMSystem__AllocSpriteVram(TRUE, 4);
+            vramPixelsB = VRAMSystem__AllocSpriteVram(TRUE, spriteSize);
             screenFlags = SCREEN_DRAW_NONE;
         }
 
-        AnimatorSpriteDS__Init(animator, contSpriteFile, HUD_CONTANI_7, screenFlags, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, vramPixelsA, PALETTE_MODE_SPRITE,
-                               VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, vramPixelsB, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
+        AnimatorSpriteDS__Init(animator, contSpriteFile, HUD_CONTANI_7, screenFlags, ANIMATOR_FLAG_DISABLE_PALETTES, new_var, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
+                               new_var, vramPixelsB, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
         animator->cParam[0].palette = 1;
         animator->cParam[1].palette = 1;
         AnimatorSpriteDS__ProcessAnimationFast(animator);
         animator->screensToDraw = SCREEN_DRAW_B;
     }
 
+    // load boss sprites
     if (IsBossStage())
         LoadBossGaugeAssets(&work->bossManager);
 

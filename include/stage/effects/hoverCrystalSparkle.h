@@ -13,12 +13,12 @@
 // STRUCTS
 // --------------------
 
-struct EffectAirEffectParticle
+struct EffectHoverCrystalParticle
 {
-  Vec2Fx32 position;
-  Vec2Fx32 velocity;
-  Vec2Fx32 acceleration;
-  u16 timer;
+    Vec2Fx32 position;
+    Vec2Fx32 velocity;
+    Vec2Fx32 acceleration;
+    u16 timer;
 };
 
 typedef struct EffectHoverCrystalSparkle_
@@ -28,7 +28,7 @@ typedef struct EffectHoverCrystalSparkle_
     OBS_ACTION2D_BAC_WORK ani;
     s16 listCount;
     s16 listStartSlot;
-    struct EffectAirEffectParticle list[EFFECT_HOVERCRYSTALSPARKLE_PARTICLE_COUNT];
+    struct EffectHoverCrystalParticle list[EFFECT_HOVERCRYSTALSPARKLE_PARTICLE_COUNT];
 } EffectHoverCrystalSparkle;
 
 // --------------------

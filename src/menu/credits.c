@@ -398,50 +398,45 @@ void ReleaseWandRoomAssets(WandRoom *work)
     NNS_G3dResDefaultRelease(FileUnknown__GetAOUFile(work->parent->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_WANDROOM_NSBMD));
 }
 
-NONMATCH_FUNC void LoadCreditsBackgrounds(Credits *work, CreditsAssetType type)
+void LoadCreditsBackgrounds(Credits *work, CreditsAssetType type)
 {
-    // https://decomp.me/scratch/zVkbw -> 99.19%
-    // minor instruction order issues
-#ifdef NON_MATCHING
+    BackgroundDS *bgScreen1;
+    s32 screen1Height;
+    
     switch (type)
     {
         case CREDITS_ASSET_CREDITS:
             Background bgUpFrame1;
-            InitBackground(&bgUpFrame1, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_UP_FLAME_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1,
-                           BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+            InitBackground(&bgUpFrame1, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_UP_FLAME_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
             DrawBackground(&bgUpFrame1);
             break;
 
         case CREDITS_ASSET_CREDITS_EX:
             Background bgExtraCap;
-            InitBackground(&bgExtraCap, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_EXTRA_CAP_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_0,
-                           BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+            InitBackground(&bgExtraCap, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_EXTRA_CAP_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_0, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
             DrawBackground(&bgExtraCap);
 
             Background bgUpFrame2;
-            InitBackground(&bgUpFrame2, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_UP_FLAME_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1,
-                           BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+            InitBackground(&bgUpFrame2, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_UP_FLAME_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
             DrawBackground(&bgUpFrame2);
             break;
 
         case CREDITS_ASSET_FAKE_CREDITS:
             Background bgExtraEnd;
-            InitBackground(&bgExtraEnd, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_EXTRA_END_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1,
-                           BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+            InitBackground(&bgExtraEnd, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_EXTRA_END_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
             DrawBackground(&bgExtraEnd);
             break;
     }
 
     Background bgDownBase;
-    InitBackground(&bgDownBase, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_DOWN_BASE_BBG), BACKGROUND_FLAG_LOAD_ALL, TRUE, BACKGROUND_0,
-                   BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+    InitBackground(&bgDownBase, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_DOWN_BASE_BBG), BACKGROUND_FLAG_LOAD_ALL, TRUE, BACKGROUND_0, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&bgDownBase);
 
     Background bgSegaLogo;
-    InitBackground(&bgSegaLogo, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_LOGO_SEGA_BBG), BACKGROUND_FLAG_LOAD_ALL, TRUE, BACKGROUND_1,
-                   BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+    InitBackground(&bgSegaLogo, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_LOGO_SEGA_BBG), BACKGROUND_FLAG_LOAD_ALL, TRUE, BACKGROUND_1, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&bgSegaLogo);
 
+    bgScreen1 = &work->screens[1].background;
     switch (work->assets.type)
     {
         case CREDITS_ASSET_CREDITS:
@@ -470,8 +465,7 @@ NONMATCH_FUNC void LoadCreditsBackgrounds(Credits *work, CreditsAssetType type)
     work->screens[0].height     = 8 * GetBackgroundHeight(bgFile);
     work->screens[0].stopBottom = work->screens[0].height - HW_LCD_HEIGHT;
     work->screens[0].stopTop    = work->screens[0].height - (HW_LCD_HEIGHT + BOTTOM_SCREEN_CAMERA_OFFSET);
-    InitBackgroundDS(&work->screens[0].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_2, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH,
-                     BG_DISPLAY_SINGLE_HEIGHT);
+    InitBackgroundDS(&work->screens[0].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_2, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackgroundDS(&work->screens[0].background);
     work->screens[0].background.work.flags |= BACKGROUND_FLAG_DISABLE_PALETTE | BACKGROUND_FLAG_DISABLE_PIXELS;
 
@@ -483,15 +477,15 @@ NONMATCH_FUNC void LoadCreditsBackgrounds(Credits *work, CreditsAssetType type)
 #elif defined(RUSH2_JAPAN)
     fileID = ARCHIVE_DMSR_LZ7_FILE_STUFF_01_JPN_BBG;
 #endif
-
+    
     bgFile                      = FileUnknown__GetAOUFile(work->assets.dmsrArchive, fileID);
     work->screens[1].height     = 8 * GetBackgroundHeight(bgFile);
+    screen1Height = BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT;
     work->screens[1].scrollPos  = -BOTTOM_SCREEN_CAMERA_OFFSET;
     work->screens[1].stopBottom = work->screens[1].height - HW_LCD_HEIGHT;
     work->screens[1].stopTop    = work->screens[1].height - (HW_LCD_HEIGHT + BOTTOM_SCREEN_CAMERA_OFFSET);
-    InitBackgroundDS(&work->screens[1].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_3, BACKGROUND_3, BG_DISPLAY_FULL_WIDTH,
-                     BG_DISPLAY_SINGLE_HEIGHT);
-    DrawBackgroundDS(&work->screens[1].background);
+    InitBackgroundDS(bgScreen1, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | screen1Height, BACKGROUND_3, BACKGROUND_3, 256 / 8, 192 / 8);
+    DrawBackgroundDS(bgScreen1);
     work->screens[1].background.work.flags |= BACKGROUND_FLAG_DISABLE_PALETTE | BACKGROUND_FLAG_DISABLE_PIXELS;
 
 #if defined(RUSH2_EUROPE)
@@ -501,333 +495,22 @@ NONMATCH_FUNC void LoadCreditsBackgrounds(Credits *work, CreditsAssetType type)
 #elif defined(RUSH2_JAPAN)
     fileID = ARCHIVE_DMSR_LZ7_FILE_STUFF_02_JPN_BBG;
 #endif
-
+    
     bgFile                      = FileUnknown__GetAOUFile(work->assets.dmsrArchive, fileID);
     work->screens[2].height     = 8 * GetBackgroundHeight(bgFile);
     work->screens[2].scrollPos  = -BOTTOM_SCREEN_CAMERA_OFFSET;
     work->screens[2].stopBottom = work->screens[2].height - HW_LCD_HEIGHT;
     work->screens[2].stopTop    = work->screens[2].height - (HW_LCD_HEIGHT + BOTTOM_SCREEN_CAMERA_OFFSET);
-    InitBackgroundDS(&work->screens[2].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_2, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH,
-                     BG_DISPLAY_SINGLE_HEIGHT);
+    InitBackgroundDS(&work->screens[2].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_2, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
 
     bgFile                      = FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_STUFF_03_BBG);
     work->screens[3].height     = 8 * GetBackgroundHeight(bgFile);
     work->screens[3].scrollPos  = -BOTTOM_SCREEN_CAMERA_OFFSET;
     work->screens[3].stopBottom = work->screens[3].height - HW_LCD_HEIGHT;
     work->screens[3].stopTop    = work->screens[3].height - (HW_LCD_HEIGHT + BOTTOM_SCREEN_CAMERA_OFFSET);
-    InitBackgroundDS(&work->screens[3].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_3, BACKGROUND_3, BG_DISPLAY_FULL_WIDTH,
-                     BG_DISPLAY_SINGLE_HEIGHT);
+    InitBackgroundDS(&work->screens[3].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_3, BACKGROUND_3, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
 
     work->scrollSpeed = 1;
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0x1bc
-	mov r5, r0
-	cmp r1, #0
-	beq _02154B0C
-	cmp r1, #1
-	beq _02154B50
-	cmp r1, #2
-	beq _02154BD0
-	b _02154C10
-_02154B0C:
-	ldr r0, [r5, #0]
-	mov r1, #3
-	bl FileUnknown__GetAOUFile
-	mov r2, #1
-	str r2, [sp]
-	mov r2, #0x20
-	mov r1, r0
-	str r2, [sp, #4]
-	mov r4, #0x18
-	add r0, sp, #0x174
-	mov r2, #0x38
-	mov r3, #0
-	str r4, [sp, #8]
-	bl InitBackground
-	add r0, sp, #0x174
-	bl DrawBackground
-	b _02154C10
-_02154B50:
-	ldr r0, [r5, #0]
-	mov r1, #0xf
-	bl FileUnknown__GetAOUFile
-	mov r3, #0
-	mov r1, r0
-	str r3, [sp]
-	mov r2, #0x20
-	str r2, [sp, #4]
-	mov r4, #0x18
-	add r0, sp, #0x12c
-	mov r2, #0x38
-	str r4, [sp, #8]
-	bl InitBackground
-	add r0, sp, #0x12c
-	bl DrawBackground
-	ldr r0, [r5, #0]
-	mov r1, #3
-	bl FileUnknown__GetAOUFile
-	mov r1, r0
-	mov r0, #1
-	str r0, [sp]
-	mov r0, #0x20
-	str r0, [sp, #4]
-	mov r0, r4
-	str r0, [sp, #8]
-	add r0, sp, #0xe4
-	mov r2, #0x38
-	mov r3, #0
-	bl InitBackground
-	add r0, sp, #0xe4
-	bl DrawBackground
-	b _02154C10
-_02154BD0:
-	ldr r0, [r5, #0]
-	mov r1, #0xe
-	bl FileUnknown__GetAOUFile
-	mov r2, #1
-	str r2, [sp]
-	mov r2, #0x20
-	mov r1, r0
-	str r2, [sp, #4]
-	mov r4, #0x18
-	add r0, sp, #0x9c
-	mov r2, #0x38
-	mov r3, #0
-	str r4, [sp, #8]
-	bl InitBackground
-	add r0, sp, #0x9c
-	bl DrawBackground
-_02154C10:
-	ldr r0, [r5, #0]
-	mov r1, #4
-	bl FileUnknown__GetAOUFile
-	mov r2, #0
-	str r2, [sp]
-	mov r2, #0x20
-	mov r1, r0
-	str r2, [sp, #4]
-	mov r4, #0x18
-	add r0, sp, #0x54
-	mov r2, #0x38
-	mov r3, #1
-	str r4, [sp, #8]
-	bl InitBackground
-	add r0, sp, #0x54
-	bl DrawBackground
-	ldr r0, [r5, #0]
-	mov r1, #5
-	bl FileUnknown__GetAOUFile
-	mov r3, #1
-	mov r1, r0
-	str r3, [sp]
-	mov r0, #0x20
-	str r0, [sp, #4]
-	mov r0, r4
-	str r0, [sp, #8]
-	add r0, sp, #0xc
-	mov r2, #0x38
-	bl InitBackground
-	add r0, sp, #0xc
-	bl DrawBackground
-	ldr r0, [r5, #0xc]
-	cmp r0, #0
-	beq _02154CAC
-	cmp r0, #1
-	beq _02154D30
-	cmp r0, #2
-	beq _02154D58
-	b _02154D7C
-_02154CAC:
-	ldr r4, =0x04001000
-	ldr r1, =renderCoreGFXControlB+0x00000020
-	ldr r2, [r4, #0]
-	ldr r0, [r4, #0]
-	and r2, r2, #0x1f00
-	mov r3, r2, lsr #8
-	bic r2, r0, #0x1f00
-	bic r0, r3, #2
-	orr r3, r2, r0, lsl #8
-	mov r0, #0
-	mov r2, #6
-	str r3, [r4]
-	bl MIi_CpuClear16
-	ldr r0, =renderCoreGFXControlB
-	ldrh r1, [r0, #0x20]
-	bic r1, r1, #0xc0
-	orr r1, r1, #0x40
-	strh r1, [r0, #0x20]
-	ldrh r1, [r0, #0x20]
-	orr r1, r1, #0x100
-	strh r1, [r0, #0x20]
-	ldrh r1, [r0, #0x20]
-	orr r1, r1, #2
-	orr r1, r1, #0x1000
-	strh r1, [r0, #0x20]
-	ldrh r1, [r0, #0x22]
-	bic r1, r1, #0x1f
-	strh r1, [r0, #0x22]
-	ldrh r1, [r0, #0x22]
-	bic r1, r1, #0x1f00
-	orr r1, r1, #0x1000
-	strh r1, [r0, #0x22]
-	b _02154D7C
-_02154D30:
-	ldr r2, =0x04001000
-	ldr r1, [r2, #0]
-	ldr r0, [r2, #0]
-	and r1, r1, #0x1f00
-	mov r3, r1, lsr #8
-	bic r1, r0, #0x1f00
-	bic r0, r3, #2
-	orr r0, r1, r0, lsl #8
-	str r0, [r2]
-	b _02154D7C
-_02154D58:
-	ldr r2, =0x04001000
-	ldr r1, [r2, #0]
-	ldr r0, [r2, #0]
-	and r1, r1, #0x1f00
-	mov r3, r1, lsr #8
-	bic r1, r0, #0x1f00
-	orr r0, r3, #2
-	orr r0, r1, r0, lsl #8
-	str r0, [r2]
-_02154D7C:
-	ldr r0, [r5, #0]
-	mov r1, #6
-	bl FileUnknown__GetAOUFile
-	mov r4, r0
-	bl GetBackgroundHeight
-	mov r0, r0, lsl #3
-	str r0, [r5, #0x44]
-	sub r0, r0, #0xc0
-	str r0, [r5, #0x3c]
-	ldr r0, [r5, #0x44]
-	mov r1, r4
-	sub r0, r0, #0x1d0
-	str r0, [r5, #0x40]
-	mov r3, #2
-	str r3, [sp]
-	mov r0, #0x20
-	str r0, [sp, #4]
-	mov r4, #0x18
-	add r0, r5, #0x48
-	mov r2, #0xc0
-	str r4, [sp, #8]
-	bl InitBackgroundDS
-	add r0, r5, #0x48
-	bl DrawBackgroundDS
-	ldr r0, [r5, #0x48]
-    
-#if defined(RUSH2_EUROPE)
-    mov r1, #9
-#elif defined(RUSH2_USA)
-    mov r1, #8
-#elif defined(RUSH2_JAPAN)
-    mov r1, #7
-#endif
-
-	orr r0, r0, #3
-	str r0, [r5, #0x48]
-	ldr r0, [r5, #0]
-	bl FileUnknown__GetAOUFile
-	mov r4, r0
-	bl GetBackgroundHeight
-	mov r0, r0, lsl #3
-	str r0, [r5, #0xe8]
-	mov r0, #0x110
-	rsb r0, r0, #0
-	str r0, [r5, #0xdc]
-	ldr r0, [r5, #0xe8]
-	mov r3, #3
-	sub r0, r0, #0xc0
-	str r0, [r5, #0xe0]
-	ldr r2, [r5, #0xe8]
-	mov r0, #0x20
-	sub r2, r2, #0x1d0
-	str r2, [r5, #0xe4]
-	str r3, [sp]
-	str r0, [sp, #4]
-	mov r0, #0x18
-	str r0, [sp, #8]
-	mov r1, r4
-	add r0, r5, #0xec
-	mov r2, #0xc0
-	bl InitBackgroundDS
-	add r0, r5, #0xec
-	bl DrawBackgroundDS
-	ldr r0, [r5, #0xec]
-
-#if defined(RUSH2_EUROPE)
-    mov r1, #12
-#elif defined(RUSH2_USA)
-    mov r1, #11
-#elif defined(RUSH2_JAPAN)
-    mov r1, #10
-#endif
-	
-	orr r0, r0, #3
-	str r0, [r5, #0xec]
-	ldr r0, [r5, #0]
-	bl FileUnknown__GetAOUFile
-	mov r4, r0
-	bl GetBackgroundHeight
-	mov r0, r0, lsl #3
-	str r0, [r5, #0x18c]
-	mov r0, #0x110
-	rsb r0, r0, #0
-	str r0, [r5, #0x180]
-	ldr r0, [r5, #0x18c]
-	sub r0, r0, #0xc0
-	str r0, [r5, #0x184]
-	ldr r0, [r5, #0x18c]
-	mov r3, #2
-	sub r0, r0, #0x1d0
-	str r0, [r5, #0x188]
-	str r3, [sp]
-	mov r0, #0x20
-	str r0, [sp, #4]
-	mov r0, #0x18
-	mov r1, r4
-	str r0, [sp, #8]
-	add r0, r5, #0x190
-	mov r2, #0xc0
-	bl InitBackgroundDS
-	ldr r0, [r5, #0]
-	mov r1, #0xd
-	bl FileUnknown__GetAOUFile
-	mov r4, r0
-	bl GetBackgroundHeight
-	mov r0, r0, lsl #3
-	str r0, [r5, #0x230]
-	mov r0, #0x110
-	mov r1, r4
-	rsb r0, r0, #0
-	str r0, [r5, #0x224]
-	ldr r0, [r5, #0x230]
-	mov r3, #3
-	sub r0, r0, #0xc0
-	str r0, [r5, #0x228]
-	ldr r2, [r5, #0x230]
-	mov r0, #0x20
-	sub r2, r2, #0x1d0
-	str r2, [r5, #0x22c]
-	str r3, [sp]
-	str r0, [sp, #4]
-	mov r0, #0x18
-	str r0, [sp, #8]
-	add r0, r5, #0x234
-	mov r2, #0xc0
-	bl InitBackgroundDS
-	mov r0, #1
-	str r0, [r5, #0x18]
-	add sp, sp, #0x1bc
-	ldmia sp!, {r4, r5, pc}
-
-// clang-format on
-#endif
 }
 
 void InitCreditsAnimator(AnimatorSpriteDS *animator, void *file, u16 anim, u16 palette)

@@ -78,17 +78,15 @@ void StarCombo__Destroy(void)
     }
 }
 
-NONMATCH_FUNC void StarCombo__PerformTrick(Player *player)
+void StarCombo__PerformTrick(Player *player)
 {
-    // https://decomp.me/scratch/oXA48 -> 99.33%
-#ifdef NON_MATCH
     if (trickAsset == NULL || !CheckIsPlayer1(player) || (player->gimmickFlag & PLAYER_GIMMICK_ALLOW_TRICK_COMBO) == 0)
         return;
 
     StarCombo *manager = player->starComboManager;
     if (manager == NULL)
     {
-        manager = StarCombo__Create();
+        manager = StarCombo__Create(player);
         if (manager == NULL)
             return;
 
@@ -118,78 +116,6 @@ NONMATCH_FUNC void StarCombo__PerformTrick(Player *player)
         // completion requirement is to perform [x] tricks in a row
         playerGameStatus.missionStatus.totalStarCount = manager->starCount;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, =trickAsset
-	mov r5, r0
-	ldr r1, [r1, #0]
-	cmp r1, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldrb r1, [r5, #0x5d1]
-	cmp r1, #0
-	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r1, [r5, #0x5dc]
-	tst r1, #0x1000000
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r4, [r5, #0x6c0]
-	cmp r4, #0
-	bne _02032838
-	bl StarCombo__Create
-	movs r4, r0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	str r4, [r5, #0x6c0]
-	str r5, [r4, #4]
-	ldr r1, [r5, #0x6c4]
-	cmp r1, #0
-	beq _02032838
-	ldr r0, [r1, #8]
-	cmp r0, #0
-	streq r4, [r1, #8]
-_02032838:
-	add r0, r4, #0x300
-	ldrh r1, [r0, #0xe0]
-	cmp r1, #6
-	bhs _02032850
-	mov r0, r4
-	bl StarCombo__InsertStar
-_02032850:
-	add r1, r4, #0x300
-	ldrh r0, [r1, #0xe0]
-	cmp r0, #0x63
-	bhs _02032870
-	add r2, r0, #1
-	mov r0, r4
-	strh r2, [r1, #0xe0]
-	bl StarCombo__UpdateCombo
-_02032870:
-	ldr r0, =gameState
-	mov r1, #0
-	ldr r2, [r0, #0x14]
-	cmp r2, #3
-	ldreq r0, [r0, #0x70]
-	cmpeq r0, #0xd
-	moveq r1, #1
-	cmp r1, #0
-	beq _020328A8
-	ldr r0, =playerGameStatus
-	ldrsh r1, [r0, #0xca]
-	add r1, r1, #1
-	strh r1, [r0, #0xca]
-	ldmia sp!, {r3, r4, r5, pc}
-_020328A8:
-	cmp r2, #3
-	ldreq r0, =gameState
-	ldreq r0, [r0, #0x70]
-	cmpeq r0, #5
-	ldmneia sp!, {r3, r4, r5, pc}
-	add r0, r4, #0x300
-	ldrh r1, [r0, #0xe0]
-	ldr r0, =playerGameStatus
-	strh r1, [r0, #0xca]
-	ldmia sp!, {r3, r4, r5, pc}
-// clang-format on
-#endif
 }
 
 void StarCombo__FinishTrickCombo(Player *player, BOOL performTrick)
@@ -249,7 +175,7 @@ void StarCombo__FailCombo(Player *player)
 NONMATCH_FUNC void StarCombo__InitScoreBonus(Player *player, s32 score)
 {
     // https://decomp.me/scratch/LJJxd -> 93.10%
-#ifdef NON_MATCH
+#ifdef NON_MATCHING
     ScoreBonus *scoreBonus;
     s32 d;
     s32 delay;
@@ -396,7 +322,7 @@ void StarCombo__DisplayConfetti(Player *player)
             particle->position.x = (u16)(mtMathRand() << 8) << 4; // Rand(0, HW_LCD_WIDTH) << 4
             particle->position.y = FLOAT_TO_FX32(HW_LCD_HEIGHT);
 
-            particle->velocity.x = velX - (0x7FFF & mtMathRand()); // 4.0 - Rand(0.0, 8.0)
+            particle->velocity.x = velX - (0x7FFF & mtMathRand());             // 4.0 - Rand(0.0, 8.0)
             particle->velocity.y = (velY & mtMathRand()) - FLOAT_TO_FX32(7.5); // Rand(0.0, 1.5) - 7.5;
 
             particle->animID        = StarCombo__ConfettiAnimIDs[mtMathRand() & 0xF];
@@ -416,7 +342,7 @@ void StarCombo__SetStarAnimation(AnimatorSpriteDS *work, u16 anim)
     AnimatorSpriteDS__SetAnimation(work, anim);
 }
 
-StarCombo *StarCombo__Create(void)
+StarCombo *StarCombo__Create(Player *player)
 {
     u32 screensToDraw;
     if ((mapCamera.camControl.flags & MAPSYS_CAMERACTRL_FLAG_USE_TWO_SCREENS) != 0)
@@ -1318,7 +1244,7 @@ void TrickConfetti__Main(void)
 
         // apply gravity
         particle->velocity.y += FLOAT_TO_FX32(0.1875);
-        
+
         // apply a bit more gravity when falling downwards
         if (particle->velocity.y > 0)
             particle->velocity.y += FLOAT_TO_FX32(0.09375);

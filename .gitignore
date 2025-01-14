@@ -54,6 +54,12 @@ build-cmake-*
 # For decomp.me
 ctx.c
 
+# For decomp-permuter
+permute.c
+permute.s
+permuter*.c
+nonmatchings/*
+
 *.lcf.template
 *.lcf
 *.response.template

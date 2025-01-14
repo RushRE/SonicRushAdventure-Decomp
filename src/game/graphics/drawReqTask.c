@@ -35,10 +35,8 @@ void InitDrawReqSystem(void)
     DrawReqTask__sVars.cam3DTask   = NULL;
 }
 
-NONMATCH_FUNC void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *paletteMode, void **palettePtr)
+void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *paletteMode, void **palettePtr)
 {
-    // https://decomp.me/scratch/xzfLI -> 99.69%
-#ifdef NON_MATCHING
     u32 displayControl = *(u32 *)VRAMSystem__DisplayControllers[useEngineB];
     u32 mode           = 0;
 
@@ -153,9 +151,9 @@ NONMATCH_FUNC void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *p
             mode = PALETTE_MODE_BG;
         else
             mode = PALETTE_MODE_SUB_BG;
-        
+
         *paletteMode = mode;
-        *palettePtr = NULL;
+        *palettePtr  = NULL;
         if (bgID == BACKGROUND_0)
         {
             bgControl = *(u16 *)VRAMSystem__BGControllers[useEngineB][BACKGROUND_0];
@@ -173,173 +171,11 @@ NONMATCH_FUNC void GetVRAMPaletteConfig(BOOL useEngineB, u8 bgID, PaletteMode *p
     }
     else
     {
-        void *vramPalette = VRAMSystem__VRAM_PALETTE_BG[useEngineB];
+        void *vramPalette = VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_BG[useEngineB]);
 
         *paletteMode = PALETTE_MODE_SPRITE;
         *palettePtr  = vramPalette;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr ip, =VRAMSystem__DisplayControllers
-	mov r4, #0
-	ldr ip, [ip, r0, lsl #2]
-	ldr lr, [ip]
-	and ip, lr, #7
-	cmp ip, #5
-	addls pc, pc, ip, lsl #2
-	b _0207E838
-_0207E750: // jump table
-	b _0207E768 // case 0
-	b _0207E76C // case 1
-	b _0207E794 // case 2
-	b _0207E7BC // case 3
-	b _0207E7E4 // case 4
-	b _0207E814 // case 5
-_0207E768:
-	b _0207E838
-_0207E76C:
-	cmp r1, #3
-	addls pc, pc, r1, lsl #2
-	b _0207E838
-_0207E778: // jump table
-	b _0207E788 // case 0
-	b _0207E788 // case 1
-	b _0207E788 // case 2
-	b _0207E78C // case 3
-_0207E788:
-	b _0207E838
-_0207E78C:
-	mov r4, #2
-	b _0207E838
-_0207E794:
-	cmp r1, #3
-	addls pc, pc, r1, lsl #2
-	b _0207E838
-_0207E7A0: // jump table
-	b _0207E7B0 // case 0
-	b _0207E7B0 // case 1
-	b _0207E7B4 // case 2
-	b _0207E7B4 // case 3
-_0207E7B0:
-	b _0207E838
-_0207E7B4:
-	mov r4, #2
-	b _0207E838
-_0207E7BC:
-	cmp r1, #3
-	addls pc, pc, r1, lsl #2
-	b _0207E838
-_0207E7C8: // jump table
-	b _0207E7D8 // case 0
-	b _0207E7D8 // case 1
-	b _0207E7D8 // case 2
-	b _0207E7DC // case 3
-_0207E7D8:
-	b _0207E838
-_0207E7DC:
-	mov r4, #1
-	b _0207E838
-_0207E7E4:
-	cmp r1, #3
-	addls pc, pc, r1, lsl #2
-	b _0207E838
-_0207E7F0: // jump table
-	b _0207E800 // case 0
-	b _0207E800 // case 1
-	b _0207E804 // case 2
-	b _0207E80C // case 3
-_0207E800:
-	b _0207E838
-_0207E804:
-	mov r4, #2
-	b _0207E838
-_0207E80C:
-	mov r4, #1
-	b _0207E838
-_0207E814:
-	cmp r1, #3
-	addls pc, pc, r1, lsl #2
-	b _0207E838
-_0207E820: // jump table
-	b _0207E830 // case 0
-	b _0207E830 // case 1
-	b _0207E834 // case 2
-	b _0207E834 // case 3
-_0207E830:
-	b _0207E838
-_0207E834:
-	mov r4, #1
-_0207E838:
-	ldr ip, =VRAMSystem__BGControllers
-	cmp r4, #0
-	add ip, ip, r0, lsl #4
-	ldr ip, [ip, r1, lsl #2]
-	mov r5, #0
-	ldrh ip, [ip]
-	beq _0207E860
-	cmp r4, #1
-	beq _0207E874
-	b _0207E884
-_0207E860:
-	tst ip, #0x80
-	beq _0207E884
-	tst lr, #0x40000000
-	movne r5, #1
-	b _0207E884
-_0207E874:
-	tst lr, #0x40000000
-	beq _0207E884
-	tst ip, #0x80
-	moveq r5, #1
-_0207E884:
-	cmp r5, #0
-	beq _0207E910
-	cmp r0, #0
-	moveq r4, #1
-	movne r4, #3
-	str r4, [r2]
-	mov r2, #0
-	str r2, [r3]
-	cmp r1, #0
-	bne _0207E8D0
-	ldr r1, =VRAMSystem__BGControllers
-	ldr r0, [r1, r0, lsl #4]
-	ldrh r0, [r0, #0]
-	tst r0, #0x2000
-	ldr r0, [r3, #0]
-	movne r2, #0x4000
-	add r0, r0, r2
-	str r0, [r3]
-	ldmia sp!, {r3, r4, r5, pc}
-_0207E8D0:
-	cmp r1, #1
-	bne _0207E900
-	ldr r1, =VRAMSystem__BGControllers+0x00000004
-	ldr r0, [r1, r0, lsl #4]
-	ldrh r0, [r0, #0]
-	tst r0, #0x2000
-	movne r1, #0x6000
-	ldr r0, [r3, #0]
-	moveq r1, #0x2000
-	add r0, r0, r1
-	str r0, [r3]
-	ldmia sp!, {r3, r4, r5, pc}
-_0207E900:
-	ldr r0, [r3, #0]
-	add r0, r0, r1, lsl #13
-	str r0, [r3]
-	ldmia sp!, {r3, r4, r5, pc}
-_0207E910:
-	ldr r1, =VRAMSystem__VRAM_PALETTE_BG
-	mov ip, #0
-	ldr r0, [r1, r0, lsl #2]
-	str ip, [r2]
-	str r0, [r3]
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
 }
 
 void GetVRAMCharacterConfig(BOOL useEngineB, u8 bgID, u16 *characterBaseA, u16 *characterBaseBlock)
@@ -659,10 +495,8 @@ void GetVRAMTileConfig(BOOL useEngineB, u8 bgID, s32 *mappingsMode, u16 *screenB
     }
 }
 
-NONMATCH_FUNC void GetVRAMPixelConfig(BOOL useEngineB, u8 bgID, PixelMode *pixelMode, u16 *screenBaseBlock)
+void GetVRAMPixelConfig(BOOL useEngineB, u8 bgID, PixelMode *pixelMode, u16 *screenBaseBlock)
 {
-    // https://decomp.me/scratch/HU0uA -> 99.69%
-#ifdef NON_MATCHING
 #define bg3_256ColorChar04000 ((GX_BG_COLORMODE_256 << REG_G2_BG3CNT_COLORMODE_SHIFT) | (GX_BG_CHARBASE_0x04000 << REG_G2_BG3CNT_CHARBASE_SHIFT))
 
     s32 bgControl = *(u16 *)VRAMSystem__BGControllers[useEngineB][bgID];
@@ -798,163 +632,8 @@ NONMATCH_FUNC void GetVRAMPixelConfig(BOOL useEngineB, u8 bgID, PixelMode *pixel
             }
             break;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	ldr lr, =VRAMSystem__BGControllers
-	ldr ip, =VRAMSystem__DisplayControllers
-	add lr, lr, r0, lsl #4
-	ldr lr, [lr, r1, lsl #2]
-	ldr r0, [ip, r0, lsl #2]
-	ldrh lr, [lr]
-	and ip, lr, #0x1f00
-	mov ip, ip, asr #8
-	strh ip, [r3]
-	ldr r0, [r0, #0]
-	and r0, r0, #7
-	cmp r0, #6
-	addls pc, pc, r0, lsl #2
-	ldmia sp!, {r3, pc}
-_0207F058: // jump table
-	ldmia sp!, {r3, pc} // case 0
-	ldmia sp!, {r3, pc} // case 1
-	ldmia sp!, {r3, pc} // case 2
-	b _0207F074 // case 3
-	b _0207F074 // case 4
-	b _0207F128 // case 5
-	b _0207F1E0 // case 6
-_0207F074:
-	cmp r1, #3
-	ldmneia sp!, {r3, pc}
-	and r0, lr, #0x84
-	cmp r0, #0x84
-	and r0, lr, #0xc000
-	mov r0, r0, asr #0xe
-	bne _0207F0DC
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	ldmia sp!, {r3, pc}
-_0207F09C: // jump table
-	b _0207F0AC // case 0
-	b _0207F0B8 // case 1
-	b _0207F0C4 // case 2
-	b _0207F0D0 // case 3
-_0207F0AC:
-	mov r0, #8
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F0B8:
-	mov r0, #9
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F0C4:
-	mov r0, #0xa
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F0D0:
-	mov r0, #0xb
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F0DC:
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	ldmia sp!, {r3, pc}
-_0207F0E8: // jump table
-	b _0207F0F8 // case 0
-	b _0207F104 // case 1
-	b _0207F110 // case 2
-	b _0207F11C // case 3
-_0207F0F8:
-	mov r0, #2
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F104:
-	mov r0, #3
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F110:
-	mov r0, #4
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F11C:
-	mov r0, #5
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F128:
-	cmp r1, #2
-	cmpne r1, #3
-	ldmneia sp!, {r3, pc}
-	and r0, lr, #0x84
-	cmp r0, #0x84
-	and r0, lr, #0xc000
-	mov r0, r0, asr #0xe
-	bne _0207F194
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	ldmia sp!, {r3, pc}
-_0207F154: // jump table
-	b _0207F164 // case 0
-	b _0207F170 // case 1
-	b _0207F17C // case 2
-	b _0207F188 // case 3
-_0207F164:
-	mov r0, #8
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F170:
-	mov r0, #9
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F17C:
-	mov r0, #0xa
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F188:
-	mov r0, #0xb
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F194:
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	ldmia sp!, {r3, pc}
-_0207F1A0: // jump table
-	b _0207F1B0 // case 0
-	b _0207F1BC // case 1
-	b _0207F1C8 // case 2
-	b _0207F1D4 // case 3
-_0207F1B0:
-	mov r0, #2
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F1BC:
-	mov r0, #3
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F1C8:
-	mov r0, #4
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F1D4:
-	mov r0, #5
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F1E0:
-	cmp r1, #2
-	ldmneia sp!, {r3, pc}
-	and r0, lr, #0xc000
-	movs r0, r0, asr #0xe
-	beq _0207F204
-	cmp r0, #1
-	moveq r0, #7
-	streq r0, [r2]
-	ldmia sp!, {r3, pc}
-_0207F204:
-	mov r0, #6
-	str r0, [r2]
-	ldmia sp!, {r3, pc}
 
-// clang-format on
-#endif
+#undef bg3_256ColorChar04000
 }
 
 void DrawReqTask__Create(u8 pausePriority, BOOL canDrawA, BOOL canDrawB, BOOL createPauseDrawControl)
@@ -997,7 +676,8 @@ BOOL DrawReqTask__GetEnabled(void)
 }
 
 // Camera3D
-NONMATCH_FUNC void Camera3D__Create(void){
+NONMATCH_FUNC void Camera3D__Create(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1048,7 +728,8 @@ NONMATCH_FUNC void Camera3D__Create(void){
 #endif
 }
 
-NONMATCH_FUNC void Camera3D__Destroy(void){
+NONMATCH_FUNC void Camera3D__Destroy(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1100,7 +781,8 @@ Camera3DTask *Camera3D__GetWork(void)
     return TaskGetWork(DrawReqTask__sVars.cam3DTask, Camera3DTask);
 }
 
-NONMATCH_FUNC void Camera3D__LoadState(Camera3D *camera){
+NONMATCH_FUNC void Camera3D__LoadState(Camera3D *camera)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1259,7 +941,8 @@ static const u32 sz = (sizeof(NNS_G3dGlb.cmd1) +
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
 }
 
-NONMATCH_FUNC void Camera3D__FlushP(void){
+NONMATCH_FUNC void Camera3D__FlushP(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1284,7 +967,8 @@ NONMATCH_FUNC void Camera3D__FlushP(void){
 #endif
 }
 
-NONMATCH_FUNC void Camera3D__FlushVP(void){
+NONMATCH_FUNC void Camera3D__FlushVP(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1482,7 +1166,8 @@ NONMATCH_FUNC u32 Asset3DSetup__PaletteFromName(const NNSG3dResTex *tex, const c
 }
 
 // DrawReqTask (Part 2)
-NONMATCH_FUNC void DrawReqTask__Main(void){
+NONMATCH_FUNC void DrawReqTask__Main(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1599,7 +1284,8 @@ _0207FB68:
 #endif
 }
 
-NONMATCH_FUNC void DrawReqTask__Main_207FB88(void){
+NONMATCH_FUNC void DrawReqTask__Main_207FB88(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1644,7 +1330,8 @@ _0207FBE8:
 #endif
 }
 
-NONMATCH_FUNC void DrawReqTask__Func_207FC10(BOOL useEngineB){
+NONMATCH_FUNC void DrawReqTask__Func_207FC10(BOOL useEngineB)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1730,7 +1417,8 @@ _0207FD10:
 }
 
 // SysPauseDrawControl
-NONMATCH_FUNC void SysPauseDrawControl__Create(BOOL enabled){
+NONMATCH_FUNC void SysPauseDrawControl__Create(BOOL enabled)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1785,7 +1473,8 @@ void Asset3DSetup__Main(void)
 }
 
 // Camera3D (Part 2)
-NONMATCH_FUNC void Camera3D__Main(void){
+NONMATCH_FUNC void Camera3D__Main(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1858,7 +1547,8 @@ _0207FE70:
 #endif
 }
 
-NONMATCH_FUNC void Camera3D__ProcessOAMList(void){
+NONMATCH_FUNC void Camera3D__ProcessOAMList(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -1899,7 +1589,8 @@ _0207FEE4:
 #endif
 }
 
-NONMATCH_FUNC void Camera3D__VBlankCallback(void){
+NONMATCH_FUNC void Camera3D__VBlankCallback(void)
+{
 #ifdef NON_MATCHING
 
 #else
@@ -2133,7 +1824,8 @@ _02080268:
 #endif
 }
 
-NONMATCH_FUNC void Camera3D__InitMode1(void){
+NONMATCH_FUNC void Camera3D__InitMode1(void)
+{
 #ifdef NON_MATCHING
 
 #else

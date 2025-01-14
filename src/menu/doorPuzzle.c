@@ -1089,11 +1089,8 @@ void DoorPuzzleKeySys_Destructor(Task *task)
     }
 }
 
-NONMATCH_FUNC void DoorPuzzleKeySys_Main_InitKeys(void)
+void DoorPuzzleKeySys_Main_InitKeys(void)
 {
-    // https://decomp.me/scratch/EmMS4 -> 99.44%
-    // small register mismatch at the start of function
-#ifdef NON_MATCHING
     DoorPuzzleKeySys *work;
     s32 i;
 
@@ -1101,7 +1098,7 @@ NONMATCH_FUNC void DoorPuzzleKeySys_Main_InitKeys(void)
 
     if (work->parent->eventID == DOORPUZZLE_EVENT_HAVE_KEYS)
     {
-        DoorPuzzleKeySys_StartTouchInput();
+        DoorPuzzleKeySys_StartTouchInput(work);
         CreateDoorPuzzleTouchPrompt(work);
 
         for (i = 0; i < DOORPUZZLE_STONE_KEY_COUNT; i++)
@@ -1112,7 +1109,7 @@ NONMATCH_FUNC void DoorPuzzleKeySys_Main_InitKeys(void)
     }
     else
     {
-        DoorPuzzleKeySys_StopTouchInput();
+        DoorPuzzleKeySys_StopTouchInput(work);
 
         for (i = 0; i < DOORPUZZLE_STONE_KEY_COUNT; i++)
         {
@@ -1122,48 +1119,6 @@ NONMATCH_FUNC void DoorPuzzleKeySys_Main_InitKeys(void)
     }
 
     SetCurrentTaskMainEvent(DoorPuzzleKeySys_Main_ProcessKeys);
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetCurrentTaskWork_
-	mov r4, r0
-	ldr r1, [r4, #4]
-	ldr r1, [r1, #0xac]
-	cmp r1, #2
-	bne _02158AC4
-	bl DoorPuzzleKeySys_StartTouchInput
-	mov r0, r4
-	bl CreateDoorPuzzleTouchPrompt
-	ldr r1, =DoorPuzzleKeySys_KeyState_Init
-	ldr r0, =DoorPuzzleKeySys_KeyStateDraw_Init
-	mov r2, #0
-_02158AA8:
-	str r1, [r4, #0x20]
-	add r2, r2, #1
-	str r0, [r4, #0x24]
-	cmp r2, #3
-	add r4, r4, #0xa0
-	blt _02158AA8
-	b _02158AEC
-_02158AC4:
-	bl DoorPuzzleKeySys_StopTouchInput
-	mov r2, #0
-	ldr r0, =DoorPuzzleKeySys_KeyStateDraw_Init
-	mov r1, r2
-_02158AD4:
-	str r1, [r4, #0x20]
-	add r2, r2, #1
-	str r0, [r4, #0x24]
-	cmp r2, #3
-	add r4, r4, #0xa0
-	blt _02158AD4
-_02158AEC:
-	ldr r0, =DoorPuzzleKeySys_Main_ProcessKeys
-	bl SetCurrentTaskMainEvent
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void DoorPuzzleKeySys_Main_ProcessKeys(void)
@@ -1282,7 +1237,7 @@ void DoorPuzzleKeySys_DrawKey(DoorPuzzleKey *work)
     AnimatorSprite__DrawFrameRotoZoom(&work->aniSprite, FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), work->angle);
 }
 
-void DoorPuzzleKeySys_StartTouchInput(DoorPuzzleKeySys *workid)
+void DoorPuzzleKeySys_StartTouchInput(DoorPuzzleKeySys *work)
 {
     StartSamplingTouchInput(4);
 }

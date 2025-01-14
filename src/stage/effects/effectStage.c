@@ -934,7 +934,7 @@ NONMATCH_FUNC EffectHoverCrystalSparkle *EffectHoverCrystalSparkle__Create(fx32 
         SetTaskOutFunc(&work->objWork, EffectHoverCrystalSparkle__Draw);
     }
 
-    struct EffectAirEffectParticle *particle = &work->list[(work->listStartSlot + work->listCount) & 0x1F];
+    struct EffectHoverCrystalParticle *particle = &work->list[(work->listStartSlot + work->listCount) & 0x1F];
     particle->position.x                     = x;
     particle->position.y                     = y;
     particle->velocity.x                     = velX;
@@ -1073,7 +1073,7 @@ void EffectHoverCrystalSparkle__State_202CFB8(EffectHoverCrystalSparkle *work)
 
     for (; i < work->listCount; i++)
     {
-        struct EffectAirEffectParticle *particle = &work->list[(work->listStartSlot + i) & 0x1F];
+        struct EffectHoverCrystalParticle *particle = &work->list[(work->listStartSlot + i) & 0x1F];
 
         particle->timer++;
         if (particle->timer >= 36)
@@ -1105,7 +1105,7 @@ void EffectHoverCrystalSparkle__Draw(void)
 {
     s32 i;
     s32 lastTime;
-    struct EffectAirEffectParticle *particle;
+    struct EffectHoverCrystalParticle *particle;
     u32 displayFlag = DISPLAY_FLAG_NO_ANIMATE_CB;
 
     EffectHoverCrystalSparkle *work = TaskGetWorkCurrent(EffectHoverCrystalSparkle);

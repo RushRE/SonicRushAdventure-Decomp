@@ -222,12 +222,12 @@ void SaveGame__SaveLoadCallback_Unknown(SaveGame *save)
 
 NONMATCH_FUNC size_t SaveGame__GetPlayerNameLength(SaveBlockSystem *work)
 {
-    // https://decomp.me/scratch/xIBYe -> 80%
+    // https://decomp.me/scratch/xIBYe -> 98.64%
 #ifdef NON_MATCHING
     size_t len = 0;
-    while (len < SAVEGAME_MAX_NAME_LEN && work->saveName.text[len] != 0)
+    while ((len < SAVEGAME_MAX_NAME_LEN) && (work->name.text[(s32)len] != 0))
     {
-        len++;
+        len++;    
     }
 
     return len;

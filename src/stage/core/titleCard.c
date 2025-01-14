@@ -94,12 +94,13 @@ void TitleCard__Create(void)
     InitGameSystemForStage();
     TitleCard__InitAnimators(work);
 
+    StartPlatform *platform;
     switch (GetStageStartType())
     {
         case STAGESTART_STARTPLATFORM:
             // spawn a start platform
-            StartPlatform *platform = SpawnStageObject(MAPOBJECT_319, playerGameStatus.spawnPosition.x, playerGameStatus.spawnPosition.y, StartPlatform);
-            UNUSED(platform);
+            platform = SpawnStageObject(MAPOBJECT_319, playerGameStatus.spawnPosition.x, playerGameStatus.spawnPosition.y, StartPlatform);
+            // UNUSED(platform);
             break;
 
         case STAGESTART_GROUND:
@@ -540,7 +541,7 @@ NONMATCH_FUNC void TitleCard__InitReadyGoAnimators(TitleCard *work)
     // https://decomp.me/scratch/ANVxl -> 99.40%
 #ifdef NON_MATCHING
     AnimatorSprite *aniGo = &work->aniGo;
-    void *vramLocation    = VRAMSystem__VRAM_PALETTE_OBJ[GRAPHICS_ENGINE_A];
+    void *vramLocation    = VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[GRAPHICS_ENGINE_A]);
 
     AnimatorSprite__Init(aniGo, work->commonSprites, TITLECARD_ANI_GO_TEXT, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_ENABLE_SCALE | ANIMATOR_FLAG_DISABLE_PALETTES,
                          0, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2FromAnim(work->commonSprites, 0)), PALETTE_MODE_SPRITE, vramLocation,

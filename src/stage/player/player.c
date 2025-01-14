@@ -6175,29 +6175,28 @@ void Player__HandleGroundCollisions(Player *player)
         PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOARD_LANDING);
 }
 
-NONMATCH_FUNC void Player__HandleTensionDrain(Player *player)
+void Player__HandleTensionDrain(Player *player)
 {
-    // https://decomp.me/scratch/81yow -> 99.04%
-#ifdef NON_MATCHING
+    fx32 posX;
     if (GetVSBattlePosition(player) == 1)
     {
         Player *rival;
-
+        
         fx32 playerX;
         fx32 playerY;
-
+        
         if (gmCheckRaceBattle())
-            playerX = (FX32_FROM_WHOLE(mapCamera.camControl.width) - FLOAT_TO_FX32(512.0)) * (playerGameStatus.playerLapCounter[0] - playerGameStatus.playerLapCounter[1])
-                      + gPlayerList[0]->objWork.position.x;
+            playerX = (FX32_FROM_WHOLE(mapCamera.camControl.width) - FLOAT_TO_FX32(512.0)) * (playerGameStatus.playerLapCounter[0] - playerGameStatus.playerLapCounter[1]) + gPlayerList[0]->objWork.position.x;
         else
             playerX = gPlayerList[0]->objWork.position.x;
 
         playerY = gPlayerList[0]->objWork.position.y;
-
-        rival              = gPlayerList[1];
-        fx32 x             = MATH_SQUARED(FX32_TO_WHOLE(playerX - rival->objWork.position.x));
-        fx32 y             = MATH_SQUARED(FX32_TO_WHOLE(playerY - rival->objWork.position.y));
-        fx32 rivalDistance = x + y;
+        
+        rival = gPlayerList[1];
+        fx32 x = MATH_SQUARED(FX32_TO_WHOLE(playerX - rival->objWork.position.x));
+        posX = x;
+        fx32 y = MATH_SQUARED(FX32_TO_WHOLE(playerY - rival->objWork.position.y));
+        fx32 rivalDistance = posX + y;
 
         fx32 tensionPityBonus;
         if (rivalDistance <= FLOAT_TO_FX32(16.0))
@@ -6222,84 +6221,6 @@ NONMATCH_FUNC void Player__HandleTensionDrain(Player *player)
     {
         Player__GiveTension(player, -PLAYER_SUPERBOOST_DRAIN_SPEED);
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	bl GetVSBattlePosition
-	cmp r0, #1
-	bne _02018E88
-	ldr r0, =gameState
-	ldr r1, [r0, #0x14]
-	cmp r1, #1
-	ldreq r0, [r0, #0x20]
-	cmpeq r0, #0
-	ldrne r0, =gPlayerList
-	ldrne ip, [r0]
-	ldrne r3, [ip, #0x44]
-	bne _02018E28
-	ldr r1, =mapCamera+0x00000100
-	ldr r2, =gPlayerList
-	ldr r0, =playerGameStatus
-	ldrh r3, [r1, #0x2a]
-	ldr ip, [r2]
-	ldr r1, [r0, #0xa8]
-	mov r2, r3, lsl #0xc
-	ldr r0, [r0, #0xac]
-	ldr r3, [ip, #0x44]
-	sub r2, r2, #0x200000
-	sub r0, r1, r0
-	mla r3, r2, r0, r3
-_02018E28:
-	ldr r0, =gPlayerList
-	ldr r1, [ip, #0x48]
-	ldr r2, [r0, #4]
-	ldr r0, [r2, #0x48]
-	ldr r2, [r2, #0x44]
-	sub r0, r1, r0
-	mov r1, r0, asr #0xc
-	mul r0, r1, r1
-	sub r1, r3, r2
-	mov r1, r1, asr #0xc
-	mla r0, r1, r1, r0
-	cmp r0, #0x10000
-	movle r1, #1
-	ble _02018E6C
-	cmp r0, #0x40000
-	movle r1, #2
-	movgt r1, #3
-_02018E6C:
-	add r0, r4, #0x500
-	ldrsh r2, [r0, #0xf8]
-	rsb r0, r1, #0x12c0
-	cmp r2, r0
-	bge _02018E88
-	mov r0, r4
-	bl Player__GiveTension
-_02018E88:
-	ldr r1, [r4, #0x5d8]
-	tst r1, #0x80
-	ldmeqia sp!, {r4, pc}
-	add r0, r4, #0x600
-	ldrsh r0, [r0, #0x86]
-	cmp r0, #0
-	ldmneia sp!, {r4, pc}
-	ldr r0, [r4, #0x6d8]
-	cmp r0, #0
-	beq _02018EBC
-	ldr r0, [r4, #0x5dc]
-	tst r0, #8
-	ldmeqia sp!, {r4, pc}
-_02018EBC:
-	tst r1, #0x100000
-	ldmneia sp!, {r4, pc}
-	mov r0, r4
-	mvn r1, #7
-	bl Player__GiveTension
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
 }
 
 void Player__GiveScore(Player *player, u32 score)
