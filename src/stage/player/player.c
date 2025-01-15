@@ -1728,7 +1728,7 @@ void Player__Action_AttackRecoil(Player *player)
     Player__Action_DestroyAttackRecoil(player);
 }
 
-void Player__Action_HurtAlt(Player *player, fx32 velX, fx32 velY)
+void Player__Action_Knockback_NoHurt(Player *player, fx32 velX, fx32 velY)
 {
     Player__InitState(player);
     Player__ChangeAction(player, PLAYER_ACTION_HURT_KNOCKBACK);

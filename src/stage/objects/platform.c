@@ -7,6 +7,15 @@
 #include <game/audio/spatialAudio.h>
 
 // --------------------
+// MAPOBJECT PARAMS
+// --------------------
+
+#define mapObjectParam_startX mapObject->left
+#define mapObjectParam_startY mapObject->top
+#define mapObjectParam_sizeX  mapObject->width
+#define mapObjectParam_sizeY  mapObject->height
+
+// --------------------
 // VARIABLES
 // --------------------
 
@@ -210,23 +219,23 @@ void Platform__State_Move(Platform *work)
 
 void Platform__Action_Init(Platform *work)
 {
-    work->gameWork.objWork.prevPosition.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x) + work->gameWork.mapObject->left + (work->gameWork.mapObject->width >> 1);
-    work->gameWork.objWork.prevPosition.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y) + work->gameWork.mapObject->top + (work->gameWork.mapObject->height >> 1);
+    work->gameWork.objWork.prevPosition.x = FX32_TO_WHOLE(work->gameWork.objWork.position.x) + work->gameWork.mapObjectParam_startX + (work->gameWork.mapObjectParam_sizeX >> 1);
+    work->gameWork.objWork.prevPosition.y = FX32_TO_WHOLE(work->gameWork.objWork.position.y) + work->gameWork.mapObjectParam_startY + (work->gameWork.mapObjectParam_sizeY >> 1);
 
-    if ((work->gameWork.mapObject->width | work->gameWork.mapObject->height) != 0)
+    if ((work->gameWork.mapObjectParam_sizeX | work->gameWork.mapObjectParam_sizeY) != 0)
     {
         s32 size;
         fx32 curPos;
         fx32 prevPos;
-        if (work->gameWork.mapObject->height < (u32)work->gameWork.mapObject->width)
+        if (work->gameWork.mapObjectParam_sizeY < (u32)work->gameWork.mapObjectParam_sizeX)
         {
-            size    = work->gameWork.mapObject->width >> 1;
+            size    = work->gameWork.mapObjectParam_sizeX >> 1;
             curPos  = FX32_TO_WHOLE(work->gameWork.objWork.position.x);
             prevPos = work->gameWork.objWork.prevPosition.x;
         }
         else
         {
-            size    = work->gameWork.mapObject->height >> 1;
+            size    = work->gameWork.mapObjectParam_sizeY >> 1;
             curPos  = FX32_TO_WHOLE(work->gameWork.objWork.position.y);
             prevPos = work->gameWork.objWork.prevPosition.y;
         }
@@ -249,8 +258,8 @@ NONMATCH_FUNC void Platform__HandleMovement(Platform *work)
     // https://decomp.me/scratch/t395t -> 52.41%
 #ifdef NON_MATCHING
     u16 timer = work->gameWork.objWork.userTimer;
-    s16 sizeX = work->gameWork.mapObject->width >> 1;
-    s16 sizeY = work->gameWork.mapObject->height >> 1;
+    s16 sizeX = work->gameWork.mapObjectParam_sizeX >> 1;
+    s16 sizeY = work->gameWork.mapObjectParam_sizeY >> 1;
 
     fx32 prevPosX = work->gameWork.objWork.prevPosition.x;
     fx32 prevPosY = work->gameWork.objWork.prevPosition.y;
@@ -390,11 +399,11 @@ NONMATCH_FUNC void Platform__State_Collapse(Platform2 *work)
     s8 width = 10;
     if (work->gameWork.mapObject->id == MAPOBJECT_191)
     {
-        if (work->gameWork.mapObject->top != 0)
-            top = work->gameWork.mapObject->top;
+        if (work->gameWork.mapObjectParam_startY != 0)
+            top = work->gameWork.mapObjectParam_startY;
 
-        if (work->gameWork.mapObject->width != 0)
-            width = work->gameWork.mapObject->width;
+        if (work->gameWork.mapObjectParam_sizeX != 0)
+            width = work->gameWork.mapObjectParam_sizeX;
     }
 
     if (work->gameWork.objWork.collisionObj->work.riderObj != NULL && (Platform2 *)work->gameWork.objWork.collisionObj->work.riderObj->rideObj == work)

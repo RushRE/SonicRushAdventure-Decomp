@@ -48,6 +48,11 @@
 #include <stage/objects/avalanche.h>
 #include <stage/objects/ghostTree.h>
 #include <stage/objects/stalactite.h>
+#include <stage/objects/timerShutter.h>
+#include <stage/objects/slingshot.h>
+#include <stage/objects/fallingAnchor.h>
+#include <stage/objects/floatingFountain.h>
+#include <stage/objects/dolphin.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -81,23 +86,12 @@ NOT_DECOMPILED GameObjectTask *Boss2Stage__Create(MapObject *mapObject, fx32 x, 
 NOT_DECOMPILED GameObjectTask *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *GrindTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *GrindTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *RotatingHanger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PipeFlow__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PipeFlow__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *PipeFlow__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *RopeTar__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Grind3LineSpring__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Grind3Line__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Grind3LineSpikeBall__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Grind3LineSpikeBall__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DreamWing__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *DreamWingPart__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -116,12 +110,6 @@ NOT_DECOMPILED GameObjectTask *CannonField__Create(MapObject *mapObject, fx32 x,
 NOT_DECOMPILED GameObjectTask *Cannon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CannonRing__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *AnchorRope__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *TimerShutter__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Sling__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *FallingAnchor__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Dolphin__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *FloatingFountain__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *DolphinHoop__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *BalloonSpawner__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *WaterGun__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *WaterGrindTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -186,8 +174,6 @@ NOT_DECOMPILED GameObjectTask *TruckSpike3D__Create(MapObject *mapObject, fx32 x
 NOT_DECOMPILED GameObjectTask *TruckLava3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *PirateShipCannonBall__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CannonPath__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *SlingRock__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *TimerShutterWater__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *SpringRopeSpring__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *SpringRopeBase__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Balloon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -751,20 +737,20 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_207] = (CreateObjectFunc)Breakable__Create,
     [MAPOBJECT_208] = (CreateObjectFunc)AnchorRope__Create,
     [MAPOBJECT_209] = (CreateObjectFunc)CreateJumpBox,
-    [MAPOBJECT_210] = (CreateObjectFunc)TimerShutter__Create,
-    [MAPOBJECT_211] = (CreateObjectFunc)Sling__Create,
-    [MAPOBJECT_212] = (CreateObjectFunc)Sling__Create,
-    [MAPOBJECT_213] = (CreateObjectFunc)FallingAnchor__Create,
-    [MAPOBJECT_214] = (CreateObjectFunc)Dolphin__Create,
-    [MAPOBJECT_215] = (CreateObjectFunc)FloatingFountain__Create,
-    [MAPOBJECT_216] = (CreateObjectFunc)DolphinHoop__Create,
-    [MAPOBJECT_217] = (CreateObjectFunc)DolphinHoop__Create,
-    [MAPOBJECT_218] = (CreateObjectFunc)DolphinHoop__Create,
-    [MAPOBJECT_219] = (CreateObjectFunc)DolphinHoop__Create,
-    [MAPOBJECT_220] = (CreateObjectFunc)DolphinHoop__Create,
-    [MAPOBJECT_221] = (CreateObjectFunc)DolphinHoop__Create,
-    [MAPOBJECT_222] = (CreateObjectFunc)DolphinHoop__Create,
-    [MAPOBJECT_223] = (CreateObjectFunc)DolphinHoop__Create,
+    [MAPOBJECT_210] = (CreateObjectFunc)CreateTimerShutter,
+    [MAPOBJECT_211] = (CreateObjectFunc)CreateSlingshot,
+    [MAPOBJECT_212] = (CreateObjectFunc)CreateSlingshot,
+    [MAPOBJECT_213] = (CreateObjectFunc)CreateFallingAnchor,
+    [MAPOBJECT_214] = (CreateObjectFunc)CreateDolphin,
+    [MAPOBJECT_215] = (CreateObjectFunc)CreateFloatingFountain,
+    [MAPOBJECT_216] = (CreateObjectFunc)CreateDolphinHoop,
+    [MAPOBJECT_217] = (CreateObjectFunc)CreateDolphinHoop,
+    [MAPOBJECT_218] = (CreateObjectFunc)CreateDolphinHoop,
+    [MAPOBJECT_219] = (CreateObjectFunc)CreateDolphinHoop,
+    [MAPOBJECT_220] = (CreateObjectFunc)CreateDolphinHoop,
+    [MAPOBJECT_221] = (CreateObjectFunc)CreateDolphinHoop,
+    [MAPOBJECT_222] = (CreateObjectFunc)CreateDolphinHoop,
+    [MAPOBJECT_223] = (CreateObjectFunc)CreateDolphinHoop,
     [MAPOBJECT_224] = (CreateObjectFunc)CreateFireFloor,
     [MAPOBJECT_225] = (CreateObjectFunc)CreateFireFloor,
     [MAPOBJECT_226] = (CreateObjectFunc)CreateFireFloor,
@@ -873,8 +859,8 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_327] = (CreateObjectFunc)PirateShipCannonBall__Create,
     [MAPOBJECT_328] = (CreateObjectFunc)CannonPath__Create,
     [MAPOBJECT_329] = (CreateObjectFunc)NULL,
-    [MAPOBJECT_330] = (CreateObjectFunc)SlingRock__Create,
-    [MAPOBJECT_331] = (CreateObjectFunc)TimerShutterWater__Create,
+    [MAPOBJECT_330] = (CreateObjectFunc)CreateSlingshotRock,
+    [MAPOBJECT_331] = (CreateObjectFunc)CreateTimerShutterWater,
     [MAPOBJECT_332] = (CreateObjectFunc)Platform__Create,
     [MAPOBJECT_333] = (CreateObjectFunc)CreateDashPanel,
     [MAPOBJECT_334] = (CreateObjectFunc)CreateDashPanel,

@@ -196,9 +196,9 @@ s32 ObjRoopMove16(u32 dir, u32 targetDir, fx32 speed)
 
     s32 targetPos;
     if (dir > targetDir)
-        targetPos = (u16)(FLOAT_TO_FX32(16.0) - dir + targetDir);
+        targetPos = (u16)(FLOAT_DEG_TO_IDX(360.0) - dir + targetDir);
     else
-        targetPos = (u16)(FLOAT_TO_FX32(16.0) - targetDir + dir);
+        targetPos = (u16)(FLOAT_DEG_TO_IDX(360.0) - targetDir + dir);
 
     if (dist <= targetPos)
     {
@@ -233,7 +233,7 @@ s32 ObjRoopMove16(u32 dir, u32 targetDir, fx32 speed)
     {
         if (dir > targetDir)
         {
-            if ((s32)targetDir + FLOAT_TO_FX32(16.0) < (s32)dir + speed)
+            if ((s32)targetDir + FLOAT_DEG_TO_IDX(360.0) < (s32)dir + speed)
             {
                 dir = targetDir;
             }
@@ -245,7 +245,7 @@ s32 ObjRoopMove16(u32 dir, u32 targetDir, fx32 speed)
         }
         else if (dir < targetDir)
         {
-            if ((s32)targetDir > (s32)dir - speed + FLOAT_TO_FX32(16.0))
+            if ((s32)targetDir > (s32)dir - speed + FLOAT_DEG_TO_IDX(360.0))
             {
                 dir = targetDir;
             }
@@ -269,9 +269,9 @@ s32 ObjRoopDiff16(u32 dir1, u32 dir2)
 
     s16 num2;
     if (dir1 > dir2)
-        num2 = (FLOAT_TO_FX32(16.0) - dir1 + dir2);
+        num2 = (FLOAT_DEG_TO_IDX(360.0) - dir1 + dir2);
     else
-        num2 = (FLOAT_TO_FX32(16.0) - dir2 + dir1);
+        num2 = (FLOAT_DEG_TO_IDX(360.0) - dir2 + dir1);
 
     return MATH_ABS(num1) > MATH_ABS(num2) ? num2 : num1;
 }
@@ -286,13 +286,13 @@ BOOL ObjTouchCheck(StageTask *work, OBS_RECT_WORK *rect)
         fx32 y;
         if (g_obj.camera[0].y > g_obj.camera[1].y)
         {
-            x = g_obj.camera[0].x >> FX32_SHIFT;
-            y = g_obj.camera[0].y >> FX32_SHIFT;
+            x = FX32_TO_WHOLE(g_obj.camera[0].x);
+            y = FX32_TO_WHOLE(g_obj.camera[0].y);
         }
         else
         {
-            x = g_obj.camera[1].x >> FX32_SHIFT;
-            y = g_obj.camera[1].y >> FX32_SHIFT;
+            x = FX32_TO_WHOLE(g_obj.camera[1].x);
+            y = FX32_TO_WHOLE(g_obj.camera[1].y);
         }
 
         return ObjRect__PointCheck(rect, touchInput.on.x + x, touchInput.on.y + y, 0);
@@ -311,13 +311,13 @@ BOOL ObjTouchCheckPush(StageTask *work, OBS_RECT_WORK *rect)
         fx32 y;
         if (g_obj.camera[0].y > g_obj.camera[1].y)
         {
-            x = g_obj.camera[0].x >> FX32_SHIFT;
-            y = g_obj.camera[0].y >> FX32_SHIFT;
+            x = FX32_TO_WHOLE(g_obj.camera[0].x);
+            y = FX32_TO_WHOLE(g_obj.camera[0].y);
         }
         else
         {
-            x = g_obj.camera[1].x >> FX32_SHIFT;
-            y = g_obj.camera[1].y >> FX32_SHIFT;
+            x = FX32_TO_WHOLE(g_obj.camera[1].x);
+            y = FX32_TO_WHOLE(g_obj.camera[1].y);
         }
 
         // despite checking for push, it actually compares with touch.on?

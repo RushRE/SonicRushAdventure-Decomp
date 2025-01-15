@@ -515,11 +515,14 @@ Overlay ZoneAct
     Object asm/stage/objects/cannonRing.o
     Object src/stage/objects/tutorial.o
     Object src/stage/objects/jumpbox.o
-    Object asm/stage/objects/slingshot.o
-    Object asm/stage/objects/timerShutter.o
-    Object asm/stage/objects/floatingFountain.o
-    Object asm/stage/objects/fallingAnchor.o
-    Object asm/stage/objects/dolphin.o
+    Object src/stage/objects/slingshot.o
+    Object asm/stage/objects/timerShutter_vars.o
+    Object src/stage/objects/timerShutter.o
+    Object src/stage/objects/floatingFountain.o
+    Object asm/stage/objects/fallingAnchor_vars.o
+    Object src/stage/objects/fallingAnchor.o
+    Object src/stage/objects/dolphin.o
+    Object asm/stage/objects/dolphin_vars.o
     Object src/stage/objects/fireFloor.o
     Object src/stage/objects/hoverCrystal.o
     Object asm/stage/objects/balloon.o

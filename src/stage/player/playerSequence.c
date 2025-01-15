@@ -7743,7 +7743,7 @@ _02023918:
 #endif
 }
 
-NONMATCH_FUNC void Player__Gimmick_2023944(Player *player, GameObjectTask *other)
+NONMATCH_FUNC void Player__Action_RideDolphin(Player *player, GameObjectTask *dolphin)
 {
 #ifdef NON_MATCHING
 
@@ -7756,9 +7756,9 @@ NONMATCH_FUNC void Player__Gimmick_2023944(Player *player, GameObjectTask *other
 	bl Player__InitGimmick
 	mov r0, r5
 	bl Player__InitState
-	ldr r1, =Player__State_2023A4C
+	ldr r1, =Player__State_DolphinRide
 	str r4, [r5, #0x6d8]
-	ldr r0, =Player__OnDefend_Regular4
+	ldr r0, =Player__OnDefend_DolphinRide
 	str r1, [r5, #0xf4]
 	str r0, [r5, #0x534]
 	ldr r1, [r5, #0x1c]
@@ -7817,7 +7817,7 @@ NONMATCH_FUNC void Player__Gimmick_2023944(Player *player, GameObjectTask *other
 #endif
 }
 
-NONMATCH_FUNC void Player__State_2023A4C(Player *work)
+NONMATCH_FUNC void Player__State_DolphinRide(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -7832,7 +7832,7 @@ NONMATCH_FUNC void Player__State_2023A4C(Player *work)
 	ldr r1, [r1, #0x1c]
 	tst r1, #0xf
 	beq _02023A98
-	bl Player__Func_2023FC8
+	bl Player__LeaveDolphinRide
 	ldr r0, [r5, #0x20]
 	mov r2, #0x3000
 	tst r0, #1
@@ -7840,7 +7840,7 @@ NONMATCH_FUNC void Player__State_2023A4C(Player *work)
 	rsbeq r1, r1, #0
 	mov r0, r5
 	rsb r2, r2, #0
-	bl Player__Action_HurtAlt
+	bl Player__Action_Knockback_NoHurt
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02023A98:
 	ldr r0, [r5, #0x24]
@@ -8128,13 +8128,13 @@ _02023E68:
 #endif
 }
 
-void Player__Func_2023EB4(Player *player)
+void Player__Action_FinalDolphinHoop(Player *player)
 {
-    if (StageTaskStateMatches(&player->objWork, Player__State_2023A4C))
-        SetTaskState(&player->objWork, Player__State_2023ED4);
+    if (StageTaskStateMatches(&player->objWork, Player__State_DolphinRide))
+        SetTaskState(&player->objWork, Player__State_ExitDolphinRide);
 }
 
-NONMATCH_FUNC void Player__State_2023ED4(Player *work)
+NONMATCH_FUNC void Player__State_ExitDolphinRide(Player *work)
 {
 #ifdef NON_MATCHING
 
@@ -8148,7 +8148,7 @@ NONMATCH_FUNC void Player__State_2023ED4(Player *work)
 	ldr r1, [r5, #0x1c]
 	tst r1, #4
 	beq _02023F1C
-	bl Player__Func_2023FC8
+	bl Player__LeaveDolphinRide
 	ldr r0, [r4, #0x20]
 	mov r2, #0x3000
 	tst r0, #1
@@ -8156,14 +8156,14 @@ NONMATCH_FUNC void Player__State_2023ED4(Player *work)
 	rsbeq r1, r1, #0
 	mov r0, r4
 	rsb r2, r2, #0
-	bl Player__Action_HurtAlt
+	bl Player__Action_Knockback_NoHurt
 	ldmia sp!, {r3, r4, r5, pc}
 _02023F1C:
 	ldr r0, [r4, #0x5d8]
 	tst r0, #0x4000000
 	bne _02023F58
 	mov r0, r4
-	bl Player__Func_2023FC8
+	bl Player__LeaveDolphinRide
 	mov r1, #0
 	mov r0, r4
 	sub r2, r1, #0x8000
@@ -8210,7 +8210,7 @@ _02023FA0:
 #endif
 }
 
-void Player__Func_2023FC8(Player *player)
+void Player__LeaveDolphinRide(Player *player)
 {
     player->gimmickObj = NULL;
 
@@ -8225,15 +8225,15 @@ void Player__Func_2023FC8(Player *player)
     ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_Regular);
 }
 
-void Player__OnDefend_Regular4(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void Player__OnDefend_DolphinRide(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     Player *player = (Player *)rect2->parent;
 
-    Player__Func_2023FC8(player);
+    Player__LeaveDolphinRide(player);
     Player__OnDefend_Regular(rect1, rect2);
 }
 
-NONMATCH_FUNC void Player__Func_2024054(Player *player, GameObjectTask *other)
+NONMATCH_FUNC void Player__Action_DolphinHoop(Player *player, GameObjectTask *hoop)
 {
 #ifdef NON_MATCHING
 
@@ -8243,7 +8243,7 @@ NONMATCH_FUNC void Player__Func_2024054(Player *player, GameObjectTask *other)
 	mov r7, r0
 	mov r6, r1
 	ldr r3, [r7, #0xf4]
-	ldr r2, =Player__State_2023A4C
+	ldr r2, =Player__State_DolphinRide
 	ldr r4, [r6, #0x340]
 	cmp r3, r2
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
@@ -8262,7 +8262,7 @@ NONMATCH_FUNC void Player__Func_2024054(Player *player, GameObjectTask *other)
 	bl StarCombo__FinishTrickCombo
 	mov r0, r7
 	mov r1, r6
-	bl Player__Func_2023EB4
+	bl Player__Action_FinalDolphinHoop
 	b _02024184
 _020240B8:
 	mov r2, #0xa0

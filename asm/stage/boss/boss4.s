@@ -9285,7 +9285,7 @@ _021732B8:
 	ldr r0, [r0, #0]
 	mov r1, r4
 	sub r2, r2, r5
-	bl Player__Action_HurtAlt
+	bl Player__Action_Knockback_NoHurt
 	ldr r0, _0217332C // =gPlayer
 	ldr r1, [r0, #0]
 	ldr r0, [r1, #0x48]
