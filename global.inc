@@ -763,8 +763,8 @@
 .public Player__Action_PlaneSwitchSpring
 .public Player__State_PlaneSwitchSpring
 .public Player__Func_202374C
-.public Player__Func_202379C
-.public Player__State_2023858
+.public Player__Action_EnterSlingshot
+.public Player__State_Slingshot
 .public Player__Action_RideDolphin
 .public Player__State_DolphinRide
 .public Player__Action_FinalDolphinHoop

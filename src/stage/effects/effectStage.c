@@ -1509,16 +1509,16 @@ NONMATCH_FUNC void EffectMedal__State_202D514(EffectMedal *work)
             }
             else
             {
-                work->objWork.scale.x = mtLerpEx((s16)work->objWork.userTimer, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), 1);
+                work->objWork.scale.x = mtLerpEx(work->objWork.userTimer, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), 1);
                 work->objWork.scale.y = work->objWork.scale.x;
 
                 if (work->objWork.userTimer <= FLOAT_TO_FX32(0.5))
                 {
-                    work->objWork.velocity.y = mtLerpEx((s16)(2 * work->objWork.userTimer), -FLOAT_TO_FX32(7.0), FLOAT_TO_FX32(0.0), 0);
+                    work->objWork.velocity.y = mtLerpEx(2 * work->objWork.userTimer, -FLOAT_TO_FX32(7.0), FLOAT_TO_FX32(0.0), 0);
                 }
                 else
                 {
-                    work->objWork.velocity.y = mtLerpEx((s16)(2 * (work->objWork.userTimer - FLOAT_TO_FX32(0.5))), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(7.0), 0);
+                    work->objWork.velocity.y = mtLerpEx(2 * (work->objWork.userTimer - FLOAT_TO_FX32(0.5)), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(7.0), 0);
                 }
             }
             break;

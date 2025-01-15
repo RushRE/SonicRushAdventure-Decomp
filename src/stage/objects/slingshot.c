@@ -7,17 +7,6 @@
 #include <stage/effects/slingDust.h>
 
 // --------------------
-// ENUMS
-// --------------------
-
-enum SlingshotFlags
-{
-    SLINGSHOT_FLAG_NONE,
-
-    SLINGSHOT_FLAG_ROCK_LAUNCHED = (1 << 0),
-};
-
-// --------------------
 // FUNCTION DECLS
 // --------------------
 
@@ -244,7 +233,7 @@ void Slingshot_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     slingshot->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
 
     slingshot->gameWork.parent = &player->objWork;
-    Player__Func_202379C(player, &slingshot->gameWork);
+    Player__Action_EnterSlingshot(player, &slingshot->gameWork);
     slingshot->anglePercent = FLOAT_TO_FX32(0.3125);
     SetTaskState(&slingshot->gameWork.objWork, Slingshot_State_Activated);
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_CATAPULT);

@@ -216,7 +216,7 @@ RUSH_INLINE void mtSwapU16(u16 *a, u16 *b)
     *a ^= *b;
 }
 
-RUSH_INLINE fx32 mtLerp(fx32 percent, fx32 start, fx32 target)
+RUSH_INLINE fx32 mtLerp(s16 percent, fx32 start, fx32 target)
 {
     s32 loopCount = 1;
     do
@@ -227,7 +227,7 @@ RUSH_INLINE fx32 mtLerp(fx32 percent, fx32 start, fx32 target)
     return start;
 }
 
-RUSH_INLINE fx32 mtLerpEx(fx32 percent, fx32 start, fx32 target, s32 loopCount)
+RUSH_INLINE fx32 mtLerpEx(s16 percent, fx32 start, fx32 target, s32 loopCount)
 {
     do
     {
@@ -237,7 +237,7 @@ RUSH_INLINE fx32 mtLerpEx(fx32 percent, fx32 start, fx32 target, s32 loopCount)
     return start;
 }
 
-RUSH_INLINE fx32 mtLerpEx2(fx32 percent, fx32 start, fx32 target, s32 loopCount)
+RUSH_INLINE fx32 mtLerpEx2(s16 percent, fx32 start, fx32 target, s32 loopCount)
 {
     do
     {

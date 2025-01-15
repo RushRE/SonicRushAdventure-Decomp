@@ -50,6 +50,7 @@
 #include <stage/objects/jumpbox.h>
 #include <stage/objects/hoverCrystal.h>
 #include <stage/objects/diveStand.h>
+#include <stage/objects/slingshot.h>
 
 // --------------------
 // TEMP
@@ -6922,8 +6923,8 @@ NONMATCH_FUNC void Player__State_JumpBox(Player *work)
             }
             else
             {
-                work->objWork.position.x = mtLerp((s16)work->gimmickValue3, work->gimmickValue1, gimmickObj->objWork.position.x + xOffset);
-                work->objWork.position.y = mtLerpEx((s16)work->gimmickValue3, work->gimmickValue2, gimmickObj->objWork.position.y - FLOAT_TO_FX32(62.0), 2);
+                work->objWork.position.x = mtLerp(work->gimmickValue3, work->gimmickValue1, gimmickObj->objWork.position.x + xOffset);
+                work->objWork.position.y = mtLerpEx(work->gimmickValue3, work->gimmickValue2, gimmickObj->objWork.position.y - FLOAT_TO_FX32(62.0), 2);
             }
 
             break;
@@ -7646,15 +7647,15 @@ void Player__Func_202374C(Player *player)
         player->gimmickFlag &= ~PLAYER_GIMMICK_20000000;
         player->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
 
-        if (player->objWork.position.z != 0)
+        if (player->objWork.position.z != FLOAT_TO_FX32(0.0))
             player->blazeHoverTimer = 0;
     }
 }
 
-void Player__Func_202379C(Player *player, GameObjectTask *other)
+void Player__Action_EnterSlingshot(Player *player, GameObjectTask *other)
 {
     Player__Action_FollowParent(player, other, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0));
-    SetTaskState(&player->objWork, Player__State_2023858);
+    SetTaskState(&player->objWork, Player__State_Slingshot);
 
     player->playerFlag |= PLAYER_FLAG_FINISHED_TRICK_COMBO;
     player->objWork.userFlag |= PLAYER_CHILDFLAG_CAN_JUMP | PLAYER_CHILDFLAG_FOLLOW_PREV_POS | PLAYER_CHILDFLAG_FORCE_LAUNCH_ACTION;
@@ -7673,541 +7674,301 @@ void Player__Func_202379C(Player *player, GameObjectTask *other)
     player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 }
 
-NONMATCH_FUNC void Player__State_2023858(Player *work)
+void Player__State_Slingshot(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *slingshot = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r0
-	ldr r4, [r7, #0x6d8]
-	mov r1, #0
-	mov r5, r1
-	mov r6, r1
-	cmp r4, #0
-	beq _020238E4
-	ldr r0, [r4, #0x24]
-	tst r0, #1
-	bne _020238E4
-	add r0, r7, #0x700
-	ldrh r0, [r0, #0x22]
-	tst r0, #3
-	beq _020238E4
-	ldrh r0, [r4, #0x34]
-	ldr r5, [r4, #0x98]
-	ldr r6, [r4, #0x9c]
-	cmp r0, #0x8000
-	movhi r0, r1
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, asr #4
-	mov r0, r0, lsl #1
-	add r1, r0, #1
-	ldr r0, =FX_SinCosTable_
-	mov r1, r1, lsl #1
-	ldrsh r0, [r0, r1]
-	smull r1, r0, r5, r0
-	adds r1, r1, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	sub r6, r6, r1, asr #1
-	sub r5, r5, r1
-_020238E4:
-	mov r0, r7
-	bl Player__State_FollowParent
-	cmp r5, #0
-	cmpeq r6, #0
-	beq _02023918
-	str r5, [r7, #0x98]
-	str r6, [r7, #0x9c]
-	add r0, r7, #0x500
-	mov r1, #0x40
-	strh r1, [r0, #0xfa]
-	ldr r0, [r7, #0x5d8]
-	orr r0, r0, #1
-	str r0, [r7, #0x5d8]
-_02023918:
-	ldr r1, [r7, #0xf4]
-	ldr r0, =Player__State_2023858
-	cmp r1, r0
-	cmpne r4, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	mov r0, r7
-	mov r1, r4
-	bl Player__Action_AllowTrickCombos
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    fx32 velX;
+    fx32 velY;
+    u32 angle;
 
-// clang-format on
-#endif
+    velX = FLOAT_TO_FX32(0.0);
+    velY = FLOAT_TO_FX32(0.0);
+
+    if (slingshot != NULL && (slingshot->objWork.userFlag & SLINGSHOT_FLAG_ROCK_LAUNCHED) == 0 && (work->inputKeyPress & (PAD_BUTTON_B | PAD_BUTTON_A)) != 0)
+    {
+        velX = slingshot->objWork.velocity.x;
+        velY = slingshot->objWork.velocity.y;
+
+        angle = slingshot->objWork.dir.z;
+        if (angle > FLOAT_DEG_TO_IDX(180.0))
+            angle = FLOAT_DEG_TO_IDX(0.0);
+
+        fx32 force = MultiplyFX(velX, CosFX(angle));
+        velY -= (force >> 1);
+        velX -= force;
+    }
+
+    Player__State_FollowParent(work);
+
+    if (velX != FLOAT_TO_FX32(0.0) || velY != FLOAT_TO_FX32(0.0))
+    {
+        work->objWork.velocity.x  = velX;
+        work->objWork.velocity.y  = velY;
+        work->overSpeedLimitTimer = 64;
+        work->playerFlag |= PLAYER_FLAG_USER_FLAG;
+    }
+
+    if (!StageTaskStateMatches(&work->objWork, Player__State_Slingshot) && slingshot != NULL)
+        Player__Action_AllowTrickCombos(work, slingshot);
 }
 
-NONMATCH_FUNC void Player__Action_RideDolphin(Player *player, GameObjectTask *dolphin)
+void Player__Action_RideDolphin(Player *player, GameObjectTask *dolphin)
 {
-#ifdef NON_MATCHING
+    Player__InitGimmick(player, FALSE);
+    Player__InitState(player);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r1
-	mov r5, r0
-	mov r1, #0
-	bl Player__InitGimmick
-	mov r0, r5
-	bl Player__InitState
-	ldr r1, =Player__State_DolphinRide
-	str r4, [r5, #0x6d8]
-	ldr r0, =Player__OnDefend_DolphinRide
-	str r1, [r5, #0xf4]
-	str r0, [r5, #0x534]
-	ldr r1, [r5, #0x1c]
-	ldr r0, =0xFFFF7F7F
-	orr r1, r1, #0x110
-	and r0, r1, r0
-	str r0, [r5, #0x1c]
-	ldr r1, [r5, #0x20]
-	mov r0, r5
-	bic r2, r1, #1
-	str r2, [r5, #0x20]
-	ldr r1, [r4, #0x20]
-	and r1, r1, #1
-	orr r1, r2, r1
-	str r1, [r5, #0x20]
-	bl Player__Action_StopBoost
-	mov r0, r5
-	bl Player__Action_StopSuperBoost
-	ldr r0, [r5, #0x5dc]
-	mov r2, #0
-	orr r0, r0, #0x10
-	str r0, [r5, #0x5dc]
-	ldr r0, [r5, #0x5d8]
-	orr r0, r0, #0x2000
-	orr r0, r0, #0x100000
-	str r0, [r5, #0x5d8]
-	ldr r0, [r5, #0x20]
-	tst r0, #1
-	movne r1, #0x70
-	add r0, r5, #0x600
-	mvneq r1, #0x6f
-	strh r1, [r0, #0xdc]
-	add r1, r5, #0x600
-	strh r2, [r1, #0xde]
-	mov r0, r5
-	mov r1, #0x38
-	bl Player__ChangeAction
-	ldr r1, [r5, #0x20]
-	add r0, r4, #0x44
-	orr r1, r1, #4
-	bic r1, r1, #0x200
-	str r1, [r5, #0x20]
-	add r4, r5, #0x44
-	ldmia r0, {r0, r1, r2}
-	stmia r4, {r0, r1, r2}
-	mov r3, #0
-	strh r3, [r5, #0x34]
-	strh r3, [r5, #0x32]
-	strh r3, [r5, #0x30]
-	str r3, [r5, #0xc8]
-	str r3, [r5, #0x9c]
-	str r3, [r5, #0x98]
-	ldmia sp!, {r3, r4, r5, pc}
+    player->gimmickObj = dolphin;
+    SetTaskState(&player->objWork, Player__State_DolphinRide);
+    ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_DolphinRide);
 
-// clang-format on
-#endif
+    player->objWork.moveFlag |= STAGE_TASK_FLAG_DISABLE_OBJ_2D_RELEASE | STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
+    player->objWork.moveFlag &= ~(STAGE_TASK_FLAG_DISABLE_STATE | STAGE_TASK_FLAG_ALLOCATED_SPRITE_PALETTE);
+
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+    player->objWork.displayFlag |= dolphin->objWork.displayFlag & DISPLAY_FLAG_FLIP_X;
+    Player__Action_StopBoost(player);
+    Player__Action_StopSuperBoost(player);
+    player->gimmickFlag |= PLAYER_GIMMICK_10;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_2000;
+
+    if ((player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+        player->gimmickCamOffsetX = 112;
+    else
+        player->gimmickCamOffsetX = -112;
+
+    player->gimmickCamOffsetY = 0;
+    Player__ChangeAction(player, PLAYER_ACTION_DOLPHIN_RIDE);
+    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
+
+    player->objWork.position = dolphin->objWork.position;
+
+    player->objWork.dir.x = player->objWork.dir.y = player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+
+    player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
+    player->objWork.velocity.x = player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
 }
 
-NONMATCH_FUNC void Player__State_DolphinRide(Player *work)
+void Player__State_DolphinRide(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *dolphin = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	mov r5, r0
-	ldr r1, [r5, #0x6d8]
-	mov r4, #0
-	cmp r1, #0
-	beq _02023A98
-	ldr r1, [r1, #0x1c]
-	tst r1, #0xf
-	beq _02023A98
-	bl Player__LeaveDolphinRide
-	ldr r0, [r5, #0x20]
-	mov r2, #0x3000
-	tst r0, #1
-	mov r1, #0x2000
-	rsbeq r1, r1, #0
-	mov r0, r5
-	rsb r2, r2, #0
-	bl Player__Action_Knockback_NoHurt
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-_02023A98:
-	ldr r0, [r5, #0x24]
-	tst r0, #1
-	beq _02023C3C
-	ldr r0, [r5, #0x2c]
-	add r0, r0, #0x80
-	str r0, [r5, #0x2c]
-	cmp r0, #0x800
-	bge _02023B24
-	ldr r6, [r5, #0x6f0]
-	ldr r1, [r5, #0x6f4]
-	mov r0, r0, lsl #0x11
-	sub r1, r1, r6
-	mov r3, r0, asr #0x10
-	add r9, r6, r1, asr #1
-	mov r2, r3, asr #0x1f
-	mov r1, #1
-	mov r8, #0
-	mov r7, #0x800
-_02023AE0:
-	sub r10, r9, r6
-	umull r0, ip, r10, r3
-	mla ip, r10, r2, ip
-	mov r9, r10, asr #0x1f
-	adds r0, r0, r7
-	mla ip, r9, r3, ip
-	adc r9, ip, r8
-	mov r0, r0, lsr #0xc
-	orr r0, r0, r9, lsl #20
-	cmp r1, #0
-	add r9, r6, r0
-	sub r1, r1, #1
-	bne _02023AE0
-	ldr r0, [r5, #0x4c]
-	sub r0, r9, r0
-	str r0, [r5, #0xa0]
-	b _02023C00
-_02023B24:
-	cmp r0, #0x1000
-	bge _02023B9C
-	sub r0, r0, #0x800
-	mov r0, r0, lsl #0x11
-	mov r9, r0, asr #0x10
-	ldr r10, [r5, #0x6f4]
-	ldr r1, [r5, #0x6f0]
-	mov r8, r9, asr #0x1f
-	sub r0, r10, r1
-	add r6, r1, r0, asr #1
-	mov r7, #1
-	mov r1, #0
-	mov r0, #0x800
-_02023B58:
-	sub r3, r10, r6
-	umull r2, ip, r3, r9
-	adds r2, r2, r0
-	mov lr, r2, lsr #0xc
-	mla ip, r3, r8, ip
-	mov r2, r3, asr #0x1f
-	mla ip, r2, r9, ip
-	adc r2, ip, r1
-	orr lr, lr, r2, lsl #20
-	cmp r7, #0
-	add r6, r6, lr
-	sub r7, r7, #1
-	bne _02023B58
-	ldr r0, [r5, #0x4c]
-	sub r0, r6, r0
-	str r0, [r5, #0xa0]
-	b _02023C00
-_02023B9C:
-	ldr r2, [r5, #0x6f4]
-	ldr r0, [r5, #0x6f0]
-	mov r1, #1
-	sub r0, r2, r0
-	mov r0, r0, asr #1
-	mov r6, #0
-	mov r3, #0x800
-_02023BB8:
-	sub r8, r2, r0
-	mov r7, r8, asr #0x1f
-	mov r7, r7, lsl #0xc
-	adds r9, r3, r8, lsl #12
-	orr r7, r7, r8, lsr #20
-	adc r7, r7, r6
-	mov r8, r9, lsr #0xc
-	orr r8, r8, r7, lsl #20
-	cmp r1, #0
-	add r0, r0, r8
-	sub r1, r1, #1
-	bne _02023BB8
-	ldr r1, [r5, #0x4c]
-	sub r0, r0, r1
-	str r0, [r5, #0xa0]
-	ldr r0, [r5, #0x24]
-	bic r0, r0, #1
-	str r0, [r5, #0x24]
-_02023C00:
-	ldr r3, [r5, #0x4c]
-	ldr r0, [r5, #0x94]
-	ldr r2, [r5, #0x44]
-	ldr r1, [r5, #0x8c]
-	sub r0, r3, r0
-	sub r1, r2, r1
-	bl FX_Atan2Idx
-	strh r0, [r5, #0x32]
-	ldr r0, [r5, #0x20]
-	tst r0, #1
-	beq _02023DE8
-	ldrh r0, [r5, #0x32]
-	add r0, r0, #0x8000
-	strh r0, [r5, #0x32]
-	b _02023DE8
-_02023C3C:
-	mov r1, #0
-	strh r1, [r5, #0x32]
-	str r1, [r5, #0xa0]
-	ldr r0, [r5, #0x20]
-	tst r0, #1
-	beq _02023C6C
-	mov r0, #0x200
-	sub r11, r1, #0x200
-	mov r7, #0x20
-	mov r6, #0x10
-	str r0, [sp]
-	b _02023C80
-_02023C6C:
-	mov r6, #0x20
-	sub r0, r6, #0x220
-	str r0, [sp]
-	mov r11, #0x200
-	mov r7, #0x10
-_02023C80:
-	ldr r0, [r5, #0xc8]
-	add r1, r5, #0x700
-	cmp r0, #0
-	ldrh r4, [r1, #0x20]
-	rsblt r1, r0, #0
-	movge r1, r0
-	cmp r1, #0x4000
-	bge _02023CB0
-	mov r1, r11
-	mov r2, #0x4000
-	bl ObjSpdUpSet
-	str r0, [r5, #0xc8]
-_02023CB0:
-	tst r4, r7
-	beq _02023CE4
-	ldr r0, [r5, #0xc8]
-	cmp r0, #0
-	rsblt r1, r0, #0
-	movge r1, r0
-	cmp r1, #0x6000
-	bge _02023DB0
-	mov r1, r11
-	mov r2, #0x6000
-	bl ObjSpdUpSet
-	str r0, [r5, #0xc8]
-	b _02023DB0
-_02023CE4:
-	tst r4, r6
-	beq _02023D50
-	cmp r11, #0
-	ble _02023D1C
-	ldr r0, [r5, #0xc8]
-	cmp r0, #0x2000
-	ble _02023DB0
-	mov r1, #0x400
-	bl ObjSpdDownSet
-	str r0, [r5, #0xc8]
-	cmp r0, #0x2000
-	movlt r0, #0x2000
-	strlt r0, [r5, #0xc8]
-	b _02023DB0
-_02023D1C:
-	mov r1, #0x2000
-	ldr r0, [r5, #0xc8]
-	rsb r1, r1, #0
-	cmp r0, r1
-	bge _02023DB0
-	mov r1, #0x400
-	bl ObjSpdDownSet
-	mov r1, #0x2000
-	rsb r1, r1, #0
-	str r0, [r5, #0xc8]
-	cmp r0, r1
-	strgt r1, [r5, #0xc8]
-	b _02023DB0
-_02023D50:
-	cmp r11, #0
-	ble _02023D80
-	ldr r0, [r5, #0xc8]
-	cmp r0, #0x4000
-	ble _02023DB0
-	mov r1, #0x400
-	bl ObjSpdDownSet
-	str r0, [r5, #0xc8]
-	cmp r0, #0x4000
-	movlt r0, #0x4000
-	strlt r0, [r5, #0xc8]
-	b _02023DB0
-_02023D80:
-	mov r1, #0x4000
-	ldr r0, [r5, #0xc8]
-	rsb r1, r1, #0
-	cmp r0, r1
-	bge _02023DB0
-	mov r1, #0x400
-	bl ObjSpdDownSet
-	mov r1, #0x4000
-	rsb r1, r1, #0
-	str r0, [r5, #0xc8]
-	cmp r0, r1
-	strgt r1, [r5, #0xc8]
-_02023DB0:
-	ldr r0, [r5, #0x4c]
-	cmp r0, #0
-	beq _02023DE8
-	ldrb r0, [r5, #0x6c8]
-	cmp r0, #0
-	bne _02023DE8
-	ldr r0, [r5, #0x24]
-	mov r1, #0
-	orr r0, r0, #1
-	str r0, [r5, #0x24]
-	str r1, [r5, #0x2c]
-	ldr r0, [r5, #0x4c]
-	str r0, [r5, #0x6f0]
-	str r1, [r5, #0x6f4]
-_02023DE8:
-	ldrb r2, [r5, #0x5d3]
-	mov r0, #0x70
-	ldr r1, =mapCamera+0x0000006E
-	smulbb r0, r2, r0
-	ldrh r0, [r1, r0]
-	ldr r1, [r5, #0x48]
-	cmp r0, r1, asr #12
-	movge r0, #0
-	strgeh r0, [r5, #0x34]
-	bge _02023E2C
-	tst r4, #0x40
-	beq _02023E2C
-	ldrsh r0, [r5, #0x34]
-	ldr r1, [sp]
-	mov r2, #0x1800
-	bl ObjSpdUpSet
-	strh r0, [r5, #0x34]
-_02023E2C:
-	tst r4, #0x80
-	beq _02023E4C
-	ldrsh r0, [r5, #0x34]
-	mov r1, r11
-	mov r2, #0x1800
-	bl ObjSpdUpSet
-	strh r0, [r5, #0x34]
-	b _02023E68
-_02023E4C:
-	tst r4, #0x40
-	bne _02023E68
-	ldrh r0, [r5, #0x34]
-	mov r1, #0
-	mov r2, #0x200
-	bl ObjRoopMove16
-	strh r0, [r5, #0x34]
-_02023E68:
-	ldr r0, [r5, #0x5d8]
-	tst r0, #0x4000000
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, =playerGameStatus
-	ldr r0, [r0, #0xc]
-	tst r0, #7
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r0, [r5, #0x20]
-	mov r2, #0x2000
-	tst r0, #1
-	mov r1, #0x6000
-	rsbne r1, r1, #0
-	mov r0, r5
-	rsb r2, r2, #0
-	mov r3, #1
-	bl EffectWaterGush__Create
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    u16 btnDown = PAD_INPUT_NONE_MASK;
+    u16 btnForward;
+    u16 btnBackward;
+    fx32 step;
+    fx32 stepForward;
 
-// clang-format on
-#endif
+    if (dolphin != NULL && (dolphin->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY) != 0)
+    {
+        Player__LeaveDolphinRide(work);
+
+        fx32 velX;
+        if ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
+            velX = -FLOAT_TO_FX32(2.0);
+        else
+            velX = FLOAT_TO_FX32(2.0);
+
+        Player__Action_Knockback_NoHurt(work, velX, -FLOAT_TO_FX32(3.0));
+    }
+    else
+    {
+        if ((work->objWork.userFlag & 1) != 0)
+        {
+            work->objWork.userTimer += FLOAT_TO_FX32(0.03125);
+            if (work->objWork.userTimer < FLOAT_TO_FX32(0.5))
+            {
+                work->objWork.velocity.z = mtLerpEx2(2 * work->objWork.userTimer, work->gimmickValue1, work->gimmickValue1 + ((work->gimmickValue2 - work->gimmickValue1) >> 1), 1)
+                                           - work->objWork.position.z;
+            }
+            else if (work->objWork.userTimer < FLOAT_TO_FX32(1.0))
+            {
+                work->objWork.velocity.z =
+                    mtLerp(2 * (work->objWork.userTimer - FLOAT_TO_FX32(0.5)), work->gimmickValue1 + ((work->gimmickValue2 - work->gimmickValue1) >> 1), work->gimmickValue2)
+                    - work->objWork.position.z;
+            }
+            else
+            {
+                work->objWork.velocity.z = mtLerp(FLOAT_TO_FX32(1.0), (work->gimmickValue2 - work->gimmickValue1) >> 1, work->gimmickValue2) - work->objWork.position.z;
+                work->objWork.userFlag &= ~1;
+            }
+
+            work->objWork.dir.y = FX_Atan2Idx(work->objWork.position.z - work->objWork.prevPosition.z, work->objWork.position.x - work->objWork.prevPosition.x);
+            if ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+                work->objWork.dir.y += FLOAT_DEG_TO_IDX(180.0);
+        }
+        else
+        {
+            work->objWork.dir.y      = FLOAT_DEG_TO_IDX(0.0);
+            work->objWork.velocity.z = FLOAT_TO_FX32(0.0);
+
+            if ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+            {
+                stepForward = -FLOAT_TO_FX32(0.125);
+                btnForward  = PAD_KEY_LEFT;
+                btnBackward = PAD_KEY_RIGHT;
+                step        = FLOAT_TO_FX32(0.125);
+            }
+            else
+            {
+                btnBackward = PAD_KEY_LEFT;
+                step        = -FLOAT_TO_FX32(0.125);
+                stepForward = FLOAT_TO_FX32(0.125);
+                btnForward  = PAD_KEY_RIGHT;
+            }
+
+            btnDown = work->inputKeyDown;
+
+			// default behaviour - accelerate towards default speed
+            if (MATH_ABS(work->objWork.groundVel) < FLOAT_TO_FX32(4.0))
+                work->objWork.groundVel = ObjSpdUpSet(work->objWork.groundVel, stepForward, FLOAT_TO_FX32(4.0));
+
+            if ((btnDown & btnForward) != 0)
+            {
+				// holding forward behaviour - accelerate towards top speed
+                if (MATH_ABS(work->objWork.groundVel) < FLOAT_TO_FX32(6.0))
+                    work->objWork.groundVel = ObjSpdUpSet(work->objWork.groundVel, stepForward, FLOAT_TO_FX32(6.0));
+            }
+            else if ((btnDown & btnBackward) != 0)
+            {
+				// holding backwward behaviour - deccelerate towards slow speed
+                if (stepForward > 0)
+                {
+                    if (work->objWork.groundVel > FLOAT_TO_FX32(2.0))
+                    {
+                        work->objWork.groundVel = ObjSpdDownSet(work->objWork.groundVel, FLOAT_TO_FX32(0.25));
+                        if (work->objWork.groundVel < FLOAT_TO_FX32(2.0))
+                            work->objWork.groundVel = FLOAT_TO_FX32(2.0);
+                    }
+                }
+                else
+                {
+                    if (work->objWork.groundVel < -FLOAT_TO_FX32(2.0))
+                    {
+                        work->objWork.groundVel = ObjSpdDownSet(work->objWork.groundVel, FLOAT_TO_FX32(0.25));
+                        if (work->objWork.groundVel > -FLOAT_TO_FX32(2.0))
+                            work->objWork.groundVel = -FLOAT_TO_FX32(2.0);
+                    }
+                }
+            }
+            else
+            {
+                if (stepForward > 0)
+                {
+                    if (work->objWork.groundVel > FLOAT_TO_FX32(4.0))
+                    {
+                        work->objWork.groundVel = ObjSpdDownSet(work->objWork.groundVel, FLOAT_TO_FX32(0.25));
+                        if (work->objWork.groundVel < FLOAT_TO_FX32(4.0))
+                            work->objWork.groundVel = FLOAT_TO_FX32(4.0);
+                    }
+                }
+                else
+                {
+                    if (work->objWork.groundVel < -FLOAT_TO_FX32(4.0))
+                    {
+                        work->objWork.groundVel = ObjSpdDownSet(work->objWork.groundVel, FLOAT_TO_FX32(0.25));
+                        if (work->objWork.groundVel > -FLOAT_TO_FX32(4.0))
+                            work->objWork.groundVel = -FLOAT_TO_FX32(4.0);
+                    }
+                }
+            }
+
+            if (work->objWork.position.z != FLOAT_TO_FX32(0.0) && work->starComboCount == 0)
+            {
+                work->objWork.userFlag |= 1;
+                work->objWork.userTimer = 0;
+                work->gimmickValue1     = work->objWork.position.z;
+                work->gimmickValue2     = FLOAT_TO_FX32(0.0);
+            }
+        }
+
+        if (FX32_TO_WHOLE(work->objWork.position.y) <= mapCamera.camera[work->cameraID].waterLevel)
+        {
+            work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+        }
+        else
+        {
+            if ((btnDown & PAD_KEY_UP) != 0)
+                work->objWork.dir.z = ObjSpdUpSet((s16)work->objWork.dir.z, step, FLOAT_TO_FX32(1.5));
+        }
+
+        if ((btnDown & PAD_KEY_DOWN) != 0)
+        {
+            work->objWork.dir.z = ObjSpdUpSet((s16)work->objWork.dir.z, stepForward, FLOAT_TO_FX32(1.5));
+        }
+        else if ((btnDown & PAD_KEY_UP) == 0)
+        {
+            work->objWork.dir.z = ObjRoopMove16(work->objWork.dir.z, 0, 0x200);
+        }
+
+        if ((work->playerFlag & PLAYER_FLAG_IN_WATER) == 0 && (playerGameStatus.stageTimer & 7) == 0)
+        {
+            fx32 velX;
+            if ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+                velX = -FLOAT_TO_FX32(6.0);
+            else
+                velX = FLOAT_TO_FX32(6.0);
+
+            EffectWaterGush__Create(&work->objWork, velX, -FLOAT_TO_FX32(2.0), 1);
+        }
+    }
 }
 
-void Player__Action_FinalDolphinHoop(Player *player)
+void Player__Action_FinalDolphinHoop(Player *player, GameObjectTask *hoop)
 {
     if (StageTaskStateMatches(&player->objWork, Player__State_DolphinRide))
         SetTaskState(&player->objWork, Player__State_ExitDolphinRide);
 }
 
-NONMATCH_FUNC void Player__State_ExitDolphinRide(Player *work)
+void Player__State_ExitDolphinRide(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *dolphin = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r5, [r4, #0x6d8]
-	cmp r5, #0
-	beq _02023F1C
-	ldr r1, [r5, #0x1c]
-	tst r1, #4
-	beq _02023F1C
-	bl Player__LeaveDolphinRide
-	ldr r0, [r4, #0x20]
-	mov r2, #0x3000
-	tst r0, #1
-	mov r1, #0x2000
-	rsbeq r1, r1, #0
-	mov r0, r4
-	rsb r2, r2, #0
-	bl Player__Action_Knockback_NoHurt
-	ldmia sp!, {r3, r4, r5, pc}
-_02023F1C:
-	ldr r0, [r4, #0x5d8]
-	tst r0, #0x4000000
-	bne _02023F58
-	mov r0, r4
-	bl Player__LeaveDolphinRide
-	mov r1, #0
-	mov r0, r4
-	sub r2, r1, #0x8000
-	bl Player__Action_GimmickLaunch
-	cmp r5, #0
-	ldmeqia sp!, {r3, r4, r5, pc}
-	mov r0, r4
-	mov r1, r5
-	bl Player__Action_AllowTrickCombos
-	ldmia sp!, {r3, r4, r5, pc}
-_02023F58:
-	ldr r0, [r4, #0x20]
-	mov r1, #0x400
-	tst r0, #1
-	ldrh r0, [r4, #0x34]
-	beq _02023F8C
-	rsb r1, r1, #0
-	cmp r0, #0x8000
-	mov r5, #0x300
-	bls _02023FA0
-	add r0, r5, #0x300
-	mov r0, r0, lsl #0x10
-	mov r5, r0, asr #0x10
-	b _02023FA0
-_02023F8C:
-	sub r5, r1, #0x700
-	cmp r0, #0x8000
-	sublo r0, r5, #0x300
-	movlo r0, r0, lsl #0x10
-	movlo r5, r0, asr #0x10
-_02023FA0:
-	ldr r0, [r4, #0xc8]
-	mov r2, #0xa000
-	bl ObjSpdUpSet
-	str r0, [r4, #0xc8]
-	ldrsh r0, [r4, #0x34]
-	mov r1, r5
-	mov r2, #0x4000
-	bl ObjSpdUpSet
-	strh r0, [r4, #0x34]
-	ldmia sp!, {r3, r4, r5, pc}
+    if (dolphin != NULL && (dolphin->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL) != 0)
+    {
+        Player__LeaveDolphinRide(work);
 
-// clang-format on
-#endif
+        fx32 velX;
+        if ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
+            velX = -FLOAT_TO_FX32(2.0);
+        else
+            velX = FLOAT_TO_FX32(2.0);
+        Player__Action_Knockback_NoHurt(work, velX, -FLOAT_TO_FX32(3.0));
+    }
+    else if ((work->playerFlag & PLAYER_FLAG_IN_WATER) == 0)
+    {
+        Player__LeaveDolphinRide(work);
+        Player__Action_GimmickLaunch(work, FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(8.0));
+
+        if (dolphin != NULL)
+            Player__Action_AllowTrickCombos(work, dolphin);
+    }
+    else
+    {
+        fx32 accel;
+        s16 angleAccel;
+
+        if ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+        {
+            accel      = -FLOAT_TO_FX32(0.25);
+            angleAccel = FLOAT_DEG_TO_IDX(4.21875);
+
+            if (work->objWork.dir.z > FLOAT_DEG_TO_IDX(180.0))
+                angleAccel += FLOAT_DEG_TO_IDX(4.21875);
+        }
+        else
+        {
+            accel      = FLOAT_TO_FX32(0.25);
+            angleAccel = -FLOAT_DEG_TO_IDX(4.21875);
+
+            if (work->objWork.dir.z < FLOAT_DEG_TO_IDX(180.0))
+                angleAccel -= FLOAT_DEG_TO_IDX(4.21875);
+        }
+
+        work->objWork.groundVel = ObjSpdUpSet(work->objWork.groundVel, accel, FLOAT_TO_FX32(10.0));
+        work->objWork.dir.z     = ObjSpdUpSet((s16)work->objWork.dir.z, angleAccel, FLOAT_DEG_TO_IDX(90.0));
+    }
 }
 
 void Player__LeaveDolphinRide(Player *player)
@@ -8233,104 +7994,64 @@ void Player__OnDefend_DolphinRide(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     Player__OnDefend_Regular(rect1, rect2);
 }
 
-NONMATCH_FUNC void Player__Action_DolphinHoop(Player *player, GameObjectTask *hoop)
+void Player__Action_DolphinHoop(Player *player, GameObjectTask *hoop)
 {
-#ifdef NON_MATCHING
+    MapObject *mapObject = hoop->mapObject;
+    if (StageTaskStateMatches(&player->objWork, Player__State_DolphinRide) && (player->objWork.userFlag & PLAYER_FLAG_USER_FLAG) == 0)
+    {
+        Player__GiveScore(player, PLAYER_SCOREBONUS_TRICK);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	mov r7, r0
-	mov r6, r1
-	ldr r3, [r7, #0xf4]
-	ldr r2, =Player__State_DolphinRide
-	ldr r4, [r6, #0x340]
-	cmp r3, r2
-	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r1, [r7, #0x24]
-	tst r1, #1
-	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	mov r1, #0xc8
-	bl Player__GiveScore
-	ldrh r0, [r4, #2]
-	ldrb r1, [r7, #0x6c9]
-	cmp r0, #0xdd
-	bne _020240B8
-	mov r2, #0x140
-	mov r0, r7
-	mov r5, r2, asr r1
-	bl StarCombo__FinishTrickCombo
-	mov r0, r7
-	mov r1, r6
-	bl Player__Action_FinalDolphinHoop
-	b _02024184
-_020240B8:
-	mov r2, #0xa0
-	mov r0, r7
-	mov r5, r2, asr r1
-	bl StarCombo__PerformTrick
-	ldrh r0, [r4, #2]
-	cmp r0, #0xd8
-	blo _02024154
-	cmp r0, #0xdb
-	bhi _02024154
-	ldr r0, [r7, #0x24]
-	mov r1, #0
-	orr r0, r0, #1
-	str r0, [r7, #0x24]
-	str r1, [r7, #0x2c]
-	ldrh r0, [r4, #2]
-	sub r0, r0, #0xd8
-	cmp r0, #3
-	addls pc, pc, r0, lsl #2
-	b _02024184
-_02024104: // jump table
-	b _02024114 // case 0
-	b _02024134 // case 1
-	b _02024124 // case 2
-	b _02024144 // case 3
-_02024114:
-	str r1, [r7, #0x6f0]
-	mov r0, #0x5a000
-	str r0, [r7, #0x6f4]
-	b _02024184
-_02024124:
-	str r1, [r7, #0x6f0]
-	sub r0, r1, #0x5a000
-	str r0, [r7, #0x6f4]
-	b _02024184
-_02024134:
-	mov r0, #0x5a000
-	str r0, [r7, #0x6f0]
-	str r1, [r7, #0x6f4]
-	b _02024184
-_02024144:
-	sub r0, r1, #0x5a000
-	str r0, [r7, #0x6f0]
-	str r1, [r7, #0x6f4]
-	b _02024184
-_02024154:
-	ldr r0, [r7, #0x20]
-	mov r1, #0x5000
-	tst r0, #1
-	ldr r0, [r7, #0xc8]
-	mov r2, #0x8000
-	beq _0202417C
-	rsb r1, r1, #0
-	bl ObjSpdUpSet
-	str r0, [r7, #0xc8]
-	b _02024184
-_0202417C:
-	bl ObjSpdUpSet
-	str r0, [r7, #0xc8]
-_02024184:
-	mov r0, r7
-	mov r1, r5
-	bl Player__GiveTension
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+        s32 tension;
+        if (mapObject->id == MAPOBJECT_221)
+        {
+            tension = PLAYER_TENSION_TRICKFINISH >> player->tensionPenalty;
+            StarCombo__FinishTrickCombo(player, player->tensionPenalty);
+            Player__Action_FinalDolphinHoop(player, hoop);
+        }
+        else
+        {
+            tension = PLAYER_TENSION_TRICK >> player->tensionPenalty;
+            StarCombo__PerformTrick(player);
 
-// clang-format on
-#endif
+            if (mapObject->id >= MAPOBJECT_216 && mapObject->id <= MAPOBJECT_219)
+            {
+                player->objWork.userFlag |= PLAYER_FLAG_USER_FLAG;
+                player->objWork.userTimer = 0;
+
+                switch (mapObject->id)
+                {
+                    case MAPOBJECT_216:
+                        player->gimmickValue1 = FLOAT_TO_FX32(0.0);
+                        player->gimmickValue2 = FLOAT_TO_FX32(90.0);
+                        break;
+
+                    case MAPOBJECT_218:
+                        player->gimmickValue1 = FLOAT_TO_FX32(0.0);
+                        player->gimmickValue2 = -FLOAT_TO_FX32(90.0);
+                        break;
+
+                    case MAPOBJECT_217:
+                        player->gimmickValue1 = FLOAT_TO_FX32(90.0);
+                        player->gimmickValue2 = FLOAT_TO_FX32(0.0);
+                        break;
+
+                    case MAPOBJECT_219:
+                        player->gimmickValue1 = -FLOAT_TO_FX32(90.0);
+                        player->gimmickValue2 = FLOAT_TO_FX32(0.0);
+                        break;
+                }
+            }
+            else
+            {
+                if ((player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+                    player->objWork.groundVel = ObjSpdUpSet(player->objWork.groundVel, -FLOAT_TO_FX32(5.0), FLOAT_TO_FX32(8.0));
+                else
+                    player->objWork.groundVel = ObjSpdUpSet(player->objWork.groundVel, FLOAT_TO_FX32(5.0), FLOAT_TO_FX32(8.0));
+            }
+        }
+
+        Player__GiveTension(player, tension);
+    }
 }
 
 void Player__Action_HoverCrystal(Player *player, GameObjectTask *other, fx32 left, fx32 y, fx32 right)

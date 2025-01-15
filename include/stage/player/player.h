@@ -249,7 +249,7 @@ enum PlayerAction_
     PLAYER_ACTION_START_02,
     PLAYER_ACTION_START_03,
     PLAYER_ACTION_TRAMPOLINE,
-    PLAYER_ACTION_38,
+    PLAYER_ACTION_DOLPHIN_RIDE,
     PLAYER_ACTION_HOVER_CRYSTAL,
     PLAYER_ACTION_BALLOON_RIDE,
     PLAYER_ACTION_WATERGUN_01,
@@ -851,11 +851,11 @@ void Player__State_JumpBoxPlaneSwitchLaunch(Player *work);
 void Player__Action_PlaneSwitchSpring(Player *player, fx32 velX, fx32 velY);
 void Player__State_PlaneSwitchSpring(Player *work);
 void Player__Func_202374C(Player *player);
-void Player__Func_202379C(Player *player, GameObjectTask *other);
-void Player__State_2023858(Player *work);
+void Player__Action_EnterSlingshot(Player *player, GameObjectTask *other);
+void Player__State_Slingshot(Player *work);
 void Player__Action_RideDolphin(Player *player, GameObjectTask *dolphin);
 void Player__State_DolphinRide(Player *work);
-void Player__Action_FinalDolphinHoop(Player *player);
+void Player__Action_FinalDolphinHoop(Player *player, GameObjectTask *hoop);
 void Player__State_ExitDolphinRide(Player *work);
 void Player__LeaveDolphinRide(Player *player);
 void Player__OnDefend_DolphinRide(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);

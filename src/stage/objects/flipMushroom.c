@@ -274,7 +274,7 @@ void FlipMushroom_State_Used(FlipMushroom *work)
         }
     }
 
-    fx32 offset = mtLerp((s16)work->percent, 0, work->targetOffset);
+    fx32 offset = mtLerp(work->percent, FLOAT_TO_FX32(0.0), work->targetOffset);
 
     work->gameWork.objWork.offset.y = offset;
 

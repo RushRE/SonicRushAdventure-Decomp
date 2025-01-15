@@ -4,6 +4,17 @@
 #include <stage/gameObject.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum SlingshotFlags
+{
+    SLINGSHOT_FLAG_NONE,
+
+    SLINGSHOT_FLAG_ROCK_LAUNCHED = (1 << 0),
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
