@@ -55,6 +55,7 @@
 #include <stage/objects/dolphin.h>
 #include <stage/objects/bungee.h>
 #include <stage/objects/springRope.h>
+#include <stage/objects/balloon.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -112,7 +113,6 @@ NOT_DECOMPILED GameObjectTask *CannonField__Create(MapObject *mapObject, fx32 x,
 NOT_DECOMPILED GameObjectTask *Cannon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CannonRing__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *AnchorRope__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *BalloonSpawner__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *WaterGun__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *WaterGrindTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss5MapChunk__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -174,7 +174,6 @@ NOT_DECOMPILED GameObjectTask *TruckSpike3D__Create(MapObject *mapObject, fx32 x
 NOT_DECOMPILED GameObjectTask *TruckLava3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *PirateShipCannonBall__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *CannonPath__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Balloon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 
 NOT_DECOMPILED EventManagerStaticVars EventManager__sVars;
 
@@ -754,7 +753,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_226] = (CreateObjectFunc)CreateFireFloor,
     [MAPOBJECT_227] = (CreateObjectFunc)CreateFireFloor,
     [MAPOBJECT_228] = (CreateObjectFunc)CreateHoverCrystal,
-    [MAPOBJECT_229] = (CreateObjectFunc)BalloonSpawner__Create,
+    [MAPOBJECT_229] = (CreateObjectFunc)CreateBalloonSpawner,
     [MAPOBJECT_230] = (CreateObjectFunc)CreateFlagChange,
     [MAPOBJECT_231] = (CreateObjectFunc)CreateCrumblingFloor,
     [MAPOBJECT_232] = (CreateObjectFunc)CreateCrumblingFloor,
@@ -865,7 +864,7 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_335] = (CreateObjectFunc)CreateSpring,
     [MAPOBJECT_336] = (CreateObjectFunc)CreateSpringRopeSpring,
     [MAPOBJECT_337] = (CreateObjectFunc)CreateSpringRopeBase,
-    [MAPOBJECT_338] = (CreateObjectFunc)Balloon__Create,
+    [MAPOBJECT_338] = (CreateObjectFunc)CreateBalloon,
     [MAPOBJECT_339] = (CreateObjectFunc)CreateAnglerShot,
     [MAPOBJECT_340] = (CreateObjectFunc)CreateGhostBomb,
     [MAPOBJECT_341] = (CreateObjectFunc)CreateSnowballShot,

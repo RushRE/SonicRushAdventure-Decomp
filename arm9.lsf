@@ -525,7 +525,7 @@ Overlay ZoneAct
     Object asm/stage/objects/dolphin_vars.o
     Object src/stage/objects/fireFloor.o
     Object src/stage/objects/hoverCrystal.o
-    Object asm/stage/objects/balloon.o
+    Object src/stage/objects/balloon.o
     Object src/stage/objects/crumblingFloor.o
     Object asm/stage/objects/waterGun.o
     Object src/stage/objects/missionFlag.o
