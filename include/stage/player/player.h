@@ -866,9 +866,9 @@ void Player__Action_BalloonRide(Player *player, GameObjectTask *other, s32 a3);
 void Player__State_BalloonRide(Player *work);
 void Player__Action_WaterGun(Player *player, GameObjectTask *other);
 void Player__State_WaterGun(Player *work);
-void Player__Action_Bungee(Player *player, GameObjectTask *other, u32 a3, u32 a4);
+void Player__Action_Bungee(Player *player, GameObjectTask *bungee, u32 a3, u32 a4);
 void Player__State_Bungee(Player *work);
-void Player__Action_SpringRope(Player *player, GameObjectTask *other, s32 timer);
+void Player__Action_SpringRope(Player *player, GameObjectTask *springRope, s32 timer);
 void Player__State_SpringRope(Player *work);
 
 // --------------------

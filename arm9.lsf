@@ -530,10 +530,8 @@ Overlay ZoneAct
     Object asm/stage/objects/waterGun.o
     Object src/stage/objects/missionFlag.o
     Object src/stage/objects/medal.o
-    Object asm/stage/objects/bungee.o
-    Object asm/stage/objects/springRope.o
-    Object asm/stage/objects/springRopeSpring.o
-    Object asm/stage/objects/springRopeBase.o
+    Object src/stage/objects/bungee.o
+    Object src/stage/objects/springRope.o
     Object src/stage/objects/ringButton.o
     Object src/stage/objects/ringButtonSfxManager.o
     Object src/stage/core/ringBattleManager.o

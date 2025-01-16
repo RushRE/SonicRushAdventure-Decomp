@@ -8382,7 +8382,7 @@ _020248C0:
 #endif
 }
 
-NONMATCH_FUNC void Player__Action_Bungee(Player *player, GameObjectTask *other, u32 a3, u32 a4)
+NONMATCH_FUNC void Player__Action_Bungee(Player *player, GameObjectTask *bungee, u32 a3, u32 a4)
 {
 #ifdef NON_MATCHING
 
@@ -8659,10 +8659,10 @@ _02024C74:
 #endif
 }
 
-void Player__Action_SpringRope(Player *player, GameObjectTask *other, s32 timer)
+void Player__Action_SpringRope(Player *player, GameObjectTask *springRope, s32 timer)
 {
     Player__InitState(player);
-    player->gimmickObj = other;
+    player->gimmickObj = springRope;
 
     Player__ChangeAction(player, PLAYER_ACTION_ANCHOR_ROPE);
     player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
