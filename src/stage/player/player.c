@@ -3735,7 +3735,7 @@ void Player__DrawAfterImages(void)
     {
         if (CheckIsPlayer1(work) && work->invincibleTimer == 0)
         {
-            if (((s32)reg_GX_VCOUNT < 60 || (work->playerFlag & PLAYER_FLAG_SHIELD_REGULAR) != 0 || (GetSystemFrameCounter() & 3) == 0)
+            if ((GX_GetVCount() < 60 || (work->playerFlag & PLAYER_FLAG_SHIELD_REGULAR) != 0 || (GetSystemFrameCounter() & 3) == 0)
                 && (work->trickFinishHorizFreezeTimer != 0
                     || (StageTaskStateMatches(&work->objWork, Player__State_HomingAttack) || (work->playerFlag & PLAYER_FLAG_BOOST) != 0)
                            && (work->playerFlag & PLAYER_FLAG_SUPERBOOST) == 0))

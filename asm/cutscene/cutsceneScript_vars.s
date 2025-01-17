@@ -284,6 +284,6 @@ CutsceneScript__BitwiseCommands: // 0x0215B544
     .word CutsceneScript__BitwiseCommand_LogicalNot
 	.word CutsceneScript__BitwiseCommand_ShiftL
     .word CutsceneScript__BitwiseCommand_ShiftR
-	.word CutsceneScript__BitwiseCommand_Func_215600C
-    .word CutsceneScript__BitwiseCommand_Func_2156078
+	.word CutsceneScript__BitwiseCommand_RotateL
+    .word CutsceneScript__BitwiseCommand_RotateR
 	

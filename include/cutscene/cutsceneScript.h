@@ -339,8 +339,8 @@ CutsceneScriptResult CutsceneScript__BitwiseCommand_BitwiseNot(CutsceneScript *w
 CutsceneScriptResult CutsceneScript__BitwiseCommand_LogicalNot(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command);
 CutsceneScriptResult CutsceneScript__BitwiseCommand_ShiftL(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command);
 CutsceneScriptResult CutsceneScript__BitwiseCommand_ShiftR(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command);
-CutsceneScriptResult CutsceneScript__BitwiseCommand_Func_215600C(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command);
-CutsceneScriptResult CutsceneScript__BitwiseCommand_Func_2156078(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command);
+CutsceneScriptResult CutsceneScript__BitwiseCommand_RotateL(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command);
+CutsceneScriptResult CutsceneScript__BitwiseCommand_RotateR(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command);
 CutsceneScriptResult CutsceneScript__ComparisonCommand_Equal(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command);
 CutsceneScriptResult CutsceneScript__ComparisonCommand_NotEqual(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command);
 CutsceneScriptResult CutsceneScript__ComparisonCommand_Less(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command);
@@ -365,7 +365,7 @@ CutsceneScriptResult CutsceneScript__StackCommand_Load(CutsceneScript *work, Scr
 CutsceneScriptResult CutsceneScript__StackCommand_Store(CutsceneScript *work, ScriptThread *thread, ScriptCommand *command);
 
 // Misc
-void *CutsceneScript__GetFadeManager(CutsceneSystemManager *work);
+CutsceneFadeManager *CutsceneScript__GetFadeManager(CutsceneSystemManager *work);
 void CutsceneScript__InitFadeManager(CutsceneSystemManager *work);
 void CutsceneSystemManager__Release(CutsceneSystemManager *work);
 
@@ -373,14 +373,14 @@ void CutsceneSystemManager__Release(CutsceneSystemManager *work);
 void CutsceneFileSystemManager__Init(CutsceneSystemManager *work, u32 count);
 void *CutsceneFileSystemManager__GetArchive(CutsceneSystemManager *work, s32 id);
 BOOL CutsceneFileSystemManager__Func_21569A4(CutsceneSystemManager *work, s32 id);
-void CutsceneFileSystemManager__Func_21569CC(void);
-void CutsceneFileSystemManager__Func_21569E4(void);
-void CutsceneFileSystemManager__Func_21569FC(void);
-void CutsceneFileSystemManager__LoadArchive(void);
-void CutsceneFileSystemManager__ReleaseArchive(void);
-void CutsceneFileSystemManager__Func_2156B08(void);
-void CutsceneFileSystemManager__Func_2156BEC(void);
-void CutsceneFileSystemManager__Func_2156C88(void);
+void CutsceneFileSystemManager__Func_21569CC(CutsceneSystemManager *work, s32 a2);
+BOOL CutsceneFileSystemManager__Func_21569E4(CutsceneSystemManager *work);
+void CutsceneFileSystemManager__Func_21569FC(CutsceneSystemManager *work, s32 a2);
+void CutsceneFileSystemManager__LoadArchive(CutsceneSystemManager *work, s32 id, const char *name);
+void CutsceneFileSystemManager__ReleaseArchive(CutsceneSystemManager *work, s32 id);
+s32 CutsceneFileSystemManager__Func_2156B08(CutsceneSystemManager *work, const char *path, s32 fileID);
+void CutsceneFileSystemManager__Func_2156BEC(CutsceneSystemManager *work, s32 a2);
+s32 CutsceneFileSystemManager__Func_2156C88(CutsceneSystemManager *work, s32 id, const char *path, s32 fileID);
 
 // SpriteButton manager
 void CutsceneSpriteButtonManager__Init(CutsceneSystemManager *work, u32 count);
@@ -388,8 +388,8 @@ void CutsceneSpriteButtonManager__Func_2156E2C(void);
 AnimatorSprite *CutsceneSpriteButtonManager__GetAnimator(CutsceneSystemManager *work, s32 id);
 void CutsceneSpriteButtonManager__Func_2156E54(void);
 void CutsceneSpriteButtonManager__Func_2156E70(void);
-void CutsceneSpriteButtonManager__LoadSprite2(void);
-void CutsceneSpriteButtonManager__LoadSprite(void);
+s32 CutsceneSpriteButtonManager__LoadSprite2(CutsceneSystemManager *work, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow);
+s32 CutsceneSpriteButtonManager__LoadSprite(CutsceneSystemManager *work, s32 a2, const char *path, s32 fileID, BOOL useEngineB, u16 animID, u16 paletteRow);
 void CutsceneSpriteButtonManager__Func_215707C(void);
 void CutsceneSpriteButtonManager__Func_21570F4(void);
 void CutsceneSpriteButtonManager__Func_2157128(void);
@@ -397,23 +397,23 @@ void CutsceneSpriteButtonManager__Func_2157128(void);
 // Background manager
 void CutsceneBackgroundManager__Init(CutsceneSystemManager *work);
 Background *CutsceneBackgroundManager__GetBackground(CutsceneSystemManager *work, s32 id);
-void CutsceneBackgroundManager__Func_2157174(void);
-void CutsceneBackgroundManager__Func_215718C(void);
-void CutsceneBackgroundManager__Func_21571A4(void);
-void CutsceneBackgroundManager__LoadBackground(void);
-void CutsceneBackgroundManager__Func_2157430(void);
+void *CutsceneBackgroundManager__Func_2157174(CutsceneSystemManager *work, s32 id);
+void *CutsceneBackgroundManager__Func_215718C(CutsceneSystemManager *work, s32 id1, s32 id2);
+s32 CutsceneBackgroundManager__Func_21571A4(CutsceneSystemManager *work);
+s32 CutsceneBackgroundManager__LoadBackground(CutsceneSystemManager *work, const char *path, s32 fileID, BOOL useEngineB, u8 bgID);
+void CutsceneBackgroundManager__Func_2157430(CutsceneSystemManager *work, s32 id);
 
 // Model manager
 void CutsceneModelManager__Init(CutsceneSystemManager *work, u32 count);
-void CutsceneModelManager__Func_2157460(void);
+s32 CutsceneModelManager__Func_2157460(CutsceneSystemManager *work);
 AnimatorMDL *CutsceneModelManager__GetModel(CutsceneSystemManager *work, s32 id);
-s32 CutsceneModelManager__TryLoadModel(CutsceneSystemManager *work, CutsceneScript *cutscene);
-void CutsceneModelManager__LoadModel(void);
-s32 CutsceneModelManager__LoadModelAnimation(CutsceneSystemManager *work, CutsceneScript *cutscene);
-void CutsceneModelManager__Func_2157738(void);
-void CutsceneModelManager__Func_215793C(void);
-void CutsceneModelManager__LoadDrawState(void);
-void CutsceneModelManager__Func_2157A0C(void);
+s32 CutsceneModelManager__TryLoadModel(CutsceneSystemManager *work, const char *path, s32 fileID, s32 id);
+s32 CutsceneModelManager__LoadModel(CutsceneSystemManager *work, s32 a2, const char *path, s32 fileID, s32 id);
+s32 CutsceneModelManager__LoadModelAnimation(CutsceneSystemManager *work, s32 a2, s32 type, const char *path1, s32 fileID1, s32 animID, const char *path2, s32 fileID2);
+void CutsceneModelManager__Func_2157738(CutsceneSystemManager *work, s32 a2, s32 a3, s32 a4);
+void CutsceneModelManager__Func_215793C(CutsceneSystemManager *work);
+void CutsceneModelManager__LoadDrawState(CutsceneSystemManager *work, void *memory);
+void CutsceneModelManager__Func_2157A0C(CutsceneSystemManager *work, s32 id);
 
 // Audio manager
 void CutsceneAudioManager__Init(CutsceneSystemManager *work, u32 count);
@@ -482,8 +482,8 @@ void CutsceneTextManager__Process(CutsceneSystemManager *work);
 // Unknown
 void CutsceneUnknown__Func_2158A6C(void);
 void CutsceneUnknown__Func_2158D3C(void);
-void CutsceneUnknown__Func_215902C(void);
-void CutsceneUnknown__Func_2159188(void);
+void CutsceneUnknown__Func_215902C(GXVRamOBJ bank, u16 bankOffset);
+void CutsceneUnknown__Func_2159188(GXVRamSubOBJ bank, u16 bankOffset);
 u32 CutsceneUnknown__GetBankID(s32 a1);
 
 // FadeManager
