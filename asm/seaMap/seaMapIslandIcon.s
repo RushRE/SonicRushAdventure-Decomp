@@ -182,7 +182,7 @@ SeaMapIslandIcon__Main1: // 0x0204860C
 _0204864C:
 	add r0, sp, #0x1c
 	add r1, sp, #0x20
-	bl SailSeaMapView__GetPosition
+	bl SailSeaMapView_GetPosition
 	ldr r0, [r4, #8]
 	bl SeaMapEventManager__GetObjectType
 	cmp r0, #2

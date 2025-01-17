@@ -700,7 +700,7 @@ Overlay Sail
     Object src/sail/sailInputPrompts.o
     Object src/sail/sailDemoPlayer.o
     Object src/sail/sailExitEvent.o
-    Object asm/sail/sailSeaMapView.o
+    Object src/seaMap/sailSeaMapView.o
 }
 
 # Overlay07/Cutscene => Cutscenes

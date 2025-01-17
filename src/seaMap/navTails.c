@@ -7,16 +7,11 @@
 #include <game/graphics/background.h>
 #include <game/graphics/drawReqTask.h>
 #include <game/save/saveGame.h>
+#include <seaMap/seaMapEventManager.h>
 
 // resources
 #include <resources/bb/nv.h>
 #include <resources/bb/nv/nav_assets.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED BOOL SeaMapEventManager__CheckFeatureUnlocked(s32 id);
 
 // --------------------
 // STRUCTS

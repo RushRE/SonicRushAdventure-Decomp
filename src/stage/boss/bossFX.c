@@ -593,7 +593,7 @@ BossFX3D *BossFX__CreateCondorExplode1(BossFX3DFlags flags, fx32 x, fx32 y, fx32
     BossFX3D *effect = BossFX3D__Create(sizeof(BossFX3D), NULL, "bsef6_f_exp01",
                                         B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM, flags, 0, x, y, z, NULL);
     effect->objWork.flag |= DISPLAY_FLAG_NO_DRAW;
-    MTX_RotX33(&effect->aniModel.ani.work.matrix33, SinFX(0x1550), CosFX(0x1550));
+    MTX_RotX33(&effect->aniModel.ani.work.matrix33, SinFX(FLOAT_DEG_TO_IDX(29.970703125)), CosFX(FLOAT_DEG_TO_IDX(29.970703125)));
 
     return effect;
 }

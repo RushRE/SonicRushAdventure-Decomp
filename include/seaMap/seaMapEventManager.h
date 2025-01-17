@@ -22,6 +22,27 @@ typedef BOOL (*SeaMapObjViewCheck)(CHEVObject *mapObject, fx32 x, fx32 y, BOOL f
 // ENUMS
 // --------------------
 
+enum SeaMapObjectIDs
+{
+    SEAMAPOBJECT_0,
+    SEAMAPOBJECT_1,
+    SEAMAPOBJECT_2,
+    SEAMAPOBJECT_3,
+    SEAMAPOBJECT_4,
+    SEAMAPOBJECT_5,
+    SEAMAPOBJECT_6,
+    SEAMAPOBJECT_7,
+    SEAMAPOBJECT_8,
+    SEAMAPOBJECT_9,
+    SEAMAPOBJECT_10,
+    SEAMAPOBJECT_11,
+    SEAMAPOBJECT_12,
+    SEAMAPOBJECT_13,
+    SEAMAPOBJECT_14,
+
+    SEAMAPOBJECT_COUNT,
+};
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -70,7 +91,7 @@ typedef struct SeaMapEventManager_
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED Task *SeaMapEventManager__Singleton;
+extern Task *SeaMapEventManager__Singleton;
 
 // --------------------
 // FUNCTIONS
@@ -79,7 +100,7 @@ NOT_DECOMPILED Task *SeaMapEventManager__Singleton;
 NOT_DECOMPILED BOOL SeaMapEventManager__CheckFeatureUnlocked(u32 id);
 NOT_DECOMPILED void SeaMapEventManager__Create(void);
 NOT_DECOMPILED void SeaMapEventManager__Destroy(void);
-NOT_DECOMPILED SeaMapObject *SeaMapEventManager__CreateObject(s32 type, u16 x, u16 y, u8 flags, HitboxRect *box, u16 unlockID);
+NOT_DECOMPILED SeaMapObject *SeaMapEventManager__CreateObject(s32 type, s16 x, s16 y, u8 flags, HitboxRect *box, u16 unlockID);
 NOT_DECOMPILED SeaMapEventManager *SeaMapEventManager__GetWork2(void);
 NOT_DECOMPILED void SeaMapEventManager__Func_2046A78(void);
 NOT_DECOMPILED void SeaMapEventManager__Func_2046A94(void *a1);

@@ -6548,7 +6548,8 @@ _0215EF84:
 
 NONMATCH_FUNC void SailPlayer__BoatRenderCallback(NNSG3dRS *rs)
 {
-    // https://decomp.me/scratch/07oaH -> 93.54%
+    // https://decomp.me/scratch/zlugs -> 99.03%
+	// register mismatch near 'MTX_RotX33'
 #ifdef NON_MATCHING
     static const NNSG3dResName nameL = { "screw_l" };
     static const NNSG3dResName nameR = { "screw_r" };
@@ -6556,12 +6557,14 @@ NONMATCH_FUNC void SailPlayer__BoatRenderCallback(NNSG3dRS *rs)
     u32 idxScrewL = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &nameL);
     u32 idxScrewR = NNS_G3dGetResDictIdxByName(&rs->pRenderObj->resMdl->nodeInfo.dict, &nameR);
 
-    if (idxScrewL == NNS_G3dRSGetCurrentNodeDescID(rs) || idxScrewR == NNS_G3dRSGetCurrentNodeDescID(rs))
+    NNSG3dRS *rs_copy;
+    if ((idxScrewL == NNS_G3dRSGetCurrentNodeDescID(rs_copy = rs)) || (idxScrewR == NNS_G3dRSGetCurrentNodeDescID(rs)))
     {
-        SailPlayer *worker = GetStageTaskWorker(SailManager__GetWork()->sailPlayer, SailPlayer);
+        StageTask *work = SailManager__GetWork()->sailPlayer;
+        SailPlayer *worker = GetStageTaskWorker(work, SailPlayer);
 
+        fx32 posScale = rs->posScale;
         fx32 invPosScale = rs->invPosScale;
-        fx32 posScale    = rs->posScale;
 
         NNS_G3dGeScale(posScale, posScale, posScale);
 

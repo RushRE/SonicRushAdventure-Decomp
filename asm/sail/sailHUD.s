@@ -3367,7 +3367,7 @@ _0217130C:
 	bl CheckSailExitEventHasMap
 	cmp r0, #0
 	beq _0217132C
-	bl SailSeaMapView__Func_218B56C
+	bl DestroySailSeaMapView
 _0217132C:
 	mov r4, #0
 _02171330:

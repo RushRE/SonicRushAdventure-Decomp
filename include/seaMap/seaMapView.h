@@ -104,7 +104,7 @@ NOT_DECOMPILED BOOL SeaMapView__IsButtonActive(SeaMapView *work, s32 id);
 NOT_DECOMPILED BOOL SeaMapView__IsTouchAreaActive(SeaMapView *work, s32 id);
 NOT_DECOMPILED void SeaMapView__EnableTouchArea(SeaMapView *work, s32 id, BOOL enabled);
 NOT_DECOMPILED void SeaMapView__EnableButton(SeaMapView *work, s32 id, BOOL enabled);
-NOT_DECOMPILED void SeaMapView__EnableMultipleButtons(SeaMapView *work, u32 *states);
+NOT_DECOMPILED void SeaMapView__EnableMultipleButtons(SeaMapView *work, const u32 *states);
 NOT_DECOMPILED void SeaMapView__SetButtonMode(SeaMapView *work, s32 mode);
 NOT_DECOMPILED void SeaMapView__ProcessButtons(SeaMapView *work);
 NOT_DECOMPILED void SeaMapView__SetZoomLevel(SeaMapView *work, s32 level);

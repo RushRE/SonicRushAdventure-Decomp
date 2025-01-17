@@ -15,6 +15,7 @@
 #include <game/file/fsRequest.h>
 #include <sail/sailDemoPlayer.h>
 #include <sail/sailAssetLoader.h>
+#include <seaMap/sailSeaMapView.h>
 
 // --------------------
 // TEMP
@@ -26,7 +27,6 @@ NOT_DECOMPILED void SailRampTrick__Create(void);
 NOT_DECOMPILED void SailTraining__Create(void);
 NOT_DECOMPILED void SailJetBoatCloud__CreateUnknown(void);
 NOT_DECOMPILED void SailCloud__Create(s32 type);
-NOT_DECOMPILED void SailSeaMapView__Create(ShipType ship);
 NOT_DECOMPILED void SailChallengeHUD__Create(void);
 
 // --------------------
@@ -142,7 +142,7 @@ void InitSailingSysEvent(void)
     if ((!state->sailVsJohnny && state->missionType == MISSION_TYPE_0) && state->seaMapNodeList.nodes.numObjects != 0)
     {
         GXS_SetVisiblePlane(GX_PLANEMASK_ALL);
-        SailSeaMapView__Create(state->sailShipType);
+        CreateSailSeaMapView(state->sailShipType);
     }
 
     SailManager *manager = SailManager__Create();

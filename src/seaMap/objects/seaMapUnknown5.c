@@ -3,12 +3,7 @@
 #include <seaMap/seaMapUnknown204A9E4.h>
 #include <game/graphics/renderCore.h>
 #include <game/save/saveGame.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void SailSeaMapView__GetPosition(fx32 *x, fx32 *y);
+#include <seaMap/sailSeaMapView.h>
 
 // --------------------
 // FUNCTION DECLS
@@ -57,7 +52,7 @@ void SeaMapUnknown5_Main(void)
         fx32 y, x;
 
         SeaMapEventManager__GetViewRect(&mapObject->box, mapObject->position.x, mapObject->position.y, &viewRect);
-        SailSeaMapView__GetPosition(&x, &y);
+        SailSeaMapView_GetPosition(&x, &y);
 
         if (SeaMapEventManager__PointInViewRect(viewRect.left, viewRect.top, viewRect.right, viewRect.bottom, x, y))
             SeaMapUnknown204A9E4__RunCallbacks(6, mapObject, 0);
