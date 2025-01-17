@@ -390,7 +390,7 @@ _0218A288:
 	ldr r0, [r4, #0x18]
 	tst r0, #2
 	bne _0218A2A4
-	bl SailStylusPromptHUD__Create
+	bl CreateSailStylusPrompt
 	ldr r0, [r4, #0x18]
 	orr r0, r0, #2
 	str r0, [r4, #0x18]
@@ -578,7 +578,7 @@ _0218A530:
 	ldr r0, [r4, #0x18]
 	tst r0, #2
 	bne _0218A54C
-	bl SailStylusPromptHUD2__Create
+	bl CreateSailStylusPrompt2
 	ldr r0, [r4, #0x18]
 	orr r0, r0, #2
 	str r0, [r4, #0x18]

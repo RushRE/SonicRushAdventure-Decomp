@@ -152,7 +152,8 @@ typedef struct SailPlayer_
     u32 dword1D4;
     u16 field_1D8;
     u16 field_1DA;
-    s32 field_1DC;
+    s16 field_1DC;
+    u16 field_1DE;
     u16 boostCooldownTimer;
     s16 trickFinishTimer;
     s16 field_1E4;

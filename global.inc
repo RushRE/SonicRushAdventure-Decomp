@@ -15444,10 +15444,10 @@
 .public CreateSailButtonPrompts
 .public CreateSailButtonPromptIcon
 .public SailButtonPromptIcon_State_Active
-.public SailStylusPromptHUD__Create
-.public SailStylusPromptHUD__State_218AC90
-.public SailStylusPromptHUD2__Create
-.public SailStylusPromptHUD2__State_218AED0
+.public CreateSailStylusPrompt
+.public SailStylusPrompt_State_Active
+.public CreateSailStylusPrompt2
+.public SailStylusPrompt2_State_Active
 .public CreateSailDemoPlayer
 .public SailDemoPlayer_State_Playback
 .public CheckAnyTouchForSailDemoPlayer

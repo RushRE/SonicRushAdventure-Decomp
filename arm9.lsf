@@ -697,9 +697,7 @@ Overlay Sail
     Object src/sail/sailRival.o
     Object asm/sail/sailJetRaceHUD.o
     Object asm/sail/sailTraining.o
-    Object src/sail/sailButtonPrompt.o
-    Object asm/sail/sailStylusPrompt.o
-    Object asm/sail/sailStylusPrompt2.o
+    Object src/sail/sailInputPrompts.o
     Object src/sail/sailDemoPlayer.o
     Object src/sail/sailExitEvent.o
     Object asm/sail/sailSeaMapView.o
