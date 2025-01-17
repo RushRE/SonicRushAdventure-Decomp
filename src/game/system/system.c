@@ -68,7 +68,7 @@ void InitSystems(void)
     G3X_AlphaTest(FALSE, 0);
     G3X_AlphaBlend(TRUE);
     G3X_EdgeMarking(FALSE);
-    MI_CpuClear16((void *)REG_EDGE_COLOR_0_L_ADDR, 16);
+    MI_CpuClear16(&reg_G3X_EDGE_COLOR_0_L, 16);
 
     G3X_SetClearColor(GX_RGB_888(0x00, 0x00, 0x00), GX_COLOR_FROM_888(0x00), 0x7FFF, 0, FALSE);
     G3_ViewPort(0, 0, HW_LCD_WIDTH - 1, HW_LCD_HEIGHT - 1);

@@ -1,6 +1,7 @@
 #include <sail/sailManager.h>
 #include <sail/unknown2153770.h>
 #include <sail/sailPlayer.h>
+#include <sail/sailGraphics.h>
 #include <game/graphics/drawFadeTask.h>
 #include <game/graphics/mappingsQueue.h>
 #include <game/audio/audioSystem.h>
@@ -17,8 +18,6 @@
 // TEMP
 // --------------------
 
-NOT_DECOMPILED void SailGraphics__SetupDisplay(void);
-NOT_DECOMPILED void SailGraphics__SetupLights(void);
 NOT_DECOMPILED void SailHUDInitEvent__Create(void);
 NOT_DECOMPILED void SailObject__Func_2166D88(void);
 NOT_DECOMPILED void SailRampTrick__Create(void);
