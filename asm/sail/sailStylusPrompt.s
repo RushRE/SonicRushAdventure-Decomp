@@ -60,7 +60,7 @@ _0218AC00:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0218AC80: .word 0x00001010
-_0218AC84: .word aBbSbBb_1
+_0218AC84: .word 0x0218D7DC // aBbSbBb_1
 _0218AC88: .word 0x0000FFFF
 _0218AC8C: .word SailStylusPromptHUD__State_218AC90
 	arm_func_end SailStylusPromptHUD__Create

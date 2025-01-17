@@ -7,6 +7,9 @@
 #include <game/object/objectManager.h>
 #include <sail/sailExitEvent.h>
 
+// resources
+#include <resources/bb/gm_demoplay.h>
+
 // --------------------
 // TEMP
 // --------------------
@@ -50,7 +53,7 @@ void CreateSailDemoPlayer(void)
 
     state->curDemoID = state->unknownDemoID;
 
-    work = CreateStageTaskSimpleEx(2, TASK_GROUP(4));
+    work = CreateStageTaskSimpleEx(TASK_PRIORITY_UPDATE_LIST_START + 2, TASK_GROUP(4));
     StageTask__SetType(work, 2);
 
     work->flag |= STAGE_TASK_FLAG_DISABLE_VIEWCHECK_EVENT;
@@ -58,13 +61,13 @@ void CreateSailDemoPlayer(void)
     work->moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->state = SailDemoPlayer_State_Playback;
 
-    if (GetObjectDataWork(81)->fileData == NULL)
+    if (GetObjectDataWork(OBJDATAWORK_81)->fileData == NULL)
     {
-        void *memory                    = ReadFileFromBundle("/bb/gm_demoplay.bb", GetGameLanguage(), BINARYBUNDLE_AUTO_ALLOC_HEAD);
-        GetObjectDataWork(81)->fileData = memory;
+        void *memory                    = ReadFileFromBundle("/bb/gm_demoplay.bb", BUNDLE_GM_DEMOPLAY_FILE_RESOURCES_BB_GM_DEMOPLAY_JPN_BAC + GetGameLanguage(), BINARYBUNDLE_AUTO_ALLOC_HEAD);
+        GetObjectDataWork(OBJDATAWORK_81)->fileData = memory;
     }
 
-    ObjObjectAction2dBACLoad(work, NULL, NULL, GetObjectDataWork(81), NULL, OBJ_DATA_GFX_AUTO);
+    ObjObjectAction2dBACLoad(work, NULL, NULL, GetObjectDataWork(OBJDATAWORK_81), NULL, OBJ_DATA_GFX_AUTO);
     ObjActionAllocSpritePalette(work, 0, 1055);
     StageTask__SetAnimatorPriority(work, 0);
 

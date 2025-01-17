@@ -422,7 +422,7 @@ _0218A2F8:
 	ldr r0, [r4, #0x18]
 	tst r0, #1
 	bne _0218A314
-	bl CreateSailButtonPrompt
+	bl CreateSailButtonPrompts
 	ldr r0, [r4, #0x18]
 	orr r0, r0, #1
 	str r0, [r4, #0x18]
@@ -898,24 +898,6 @@ _0218A9CC:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	arm_func_end SailTraining__State_Submarine
-
-	arm_func_start CreateSailButtonPrompt
-CreateSailButtonPrompt: // 0x0218A9D4
-	stmdb sp!, {r3, lr}
-	mov r0, #8
-	mov r1, #0x60000
-	bl SailButtonPromptHUD__Create
-	mov r0, #9
-	mov r1, #0xa0000
-	bl SailButtonPromptHUD__Create
-	mov r0, #0xb
-	mov r1, #0x88000
-	bl SailButtonPromptHUD__Create
-	mov r0, #0xc
-	mov r1, #0xb8000
-	bl SailButtonPromptHUD__Create
-	ldmia sp!, {r3, pc}
-	arm_func_end CreateSailButtonPrompt
 
 	.rodata
 

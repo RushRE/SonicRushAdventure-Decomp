@@ -15441,9 +15441,9 @@
 .public SailTraining__State_Boat
 .public SailTraining__State_Hover
 .public SailTraining__State_Submarine
-.public CreateSailButtonPrompt
-.public SailButtonPromptHUD__Create
-.public SailButtonPromptHUD__State_218AAFC
+.public CreateSailButtonPrompts
+.public CreateSailButtonPromptIcon
+.public SailButtonPromptIcon_State_Active
 .public SailStylusPromptHUD__Create
 .public SailStylusPromptHUD__State_218AC90
 .public SailStylusPromptHUD2__Create

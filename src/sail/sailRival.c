@@ -19,7 +19,7 @@ SailRival *CreateSailRival(SailPlayer *parent, SailRivalControllerHeader *contro
     if (path == NULL && controller == NULL)
         taskFlags |= TASK_FLAG_DISABLE_DESTROY;
 
-    Task *task = TaskCreate(SailRival_Main, SailRival_Destructor, taskFlags, 0, 1, TASK_GROUP(0), SailRival);
+    Task *task = TaskCreate(SailRival_Main, SailRival_Destructor, taskFlags, 0, TASK_PRIORITY_UPDATE_LIST_START + 1, TASK_GROUP(0), SailRival);
     if (task == HeapNull)
         return NULL;
 
