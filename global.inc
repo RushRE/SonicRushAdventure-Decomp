@@ -14693,10 +14693,10 @@
 .public SailUnknown2153770__Create
 .public SailUnknown2153770__Destructor
 .public SailUnknown2153770__Main
-.public SailAssetLoader__LoadSprite3D
-.public SailAssetLoader__ReleaseSprite3D
-.public SailAssetLoader__Create
-.public SailAssetLoader__Destructor
+.public LoadSailSprite3DAsset
+.public ReleaseSailSprite3DAsset
+.public InitSailAssets
+.public SailAssetLoader_Destructor
 .public SailGraphics__SetupDisplay
 .public SailGraphics__SetupLights
 .public SailAudio__PlaySpatialSequence

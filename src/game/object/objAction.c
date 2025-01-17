@@ -280,7 +280,7 @@ void ObjObjectAction3dBACLoad(StageTask *work, OBS_ACTION3D_BAC_WORK *obj_2d, co
             paletteRef = VRAMSystem__AllocPalette(paletteSize, FALSE);
         }
 
-        AnimatorSprite3D__Init(&obj_2d->ani, 0, resource, 0, ANIMATOR_FLAG_NONE, textureRef, paletteRef);
+        AnimatorSprite3D__Init(&obj_2d->ani, ANIMATOR_FLAG_NONE, resource, 0, ANIMATOR_FLAG_NONE, textureRef, paletteRef);
     }
 }
 

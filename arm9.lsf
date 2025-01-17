@@ -675,7 +675,7 @@ Overlay Sail
 {
     After arm9
     Object src/sail/sailManager.o
-    Object asm/sail/sailAssetLoader.o
+    Object src/sail/sailAssetLoader.o
     Object src/sail/sailGraphics.o
     Object src/sail/sailAudio.o
     Object asm/sail/sailEventManager.o

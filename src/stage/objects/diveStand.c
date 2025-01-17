@@ -45,7 +45,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
     for (s32 i = 0; i < 1; i++)
     {
         VRAMPixelKey pixelKey = ObjActionAllocTexture(GetObjectGraphicsRef(i + OBJDATAWORK_169), Sprite__GetTextureSizeFromAnim(work->sprDiveStand3D, i));
-        AnimatorSprite3D__Init(&work->aniDiveStand[i], 0, work->sprDiveStand3D, i, ANIMATOR_FLAG_NONE, pixelKey, paletteKey);
+        AnimatorSprite3D__Init(&work->aniDiveStand[i], ANIMATOR_FLAG_NONE, work->sprDiveStand3D, i, ANIMATOR_FLAG_NONE, pixelKey, paletteKey);
         AnimatorSprite3D__ProcessAnimationFast(&work->aniDiveStand[i]);
     }
     work->gameWork.objWork.flag |= STAGE_TASK_FLAG_400000;

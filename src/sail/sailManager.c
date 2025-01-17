@@ -14,6 +14,7 @@
 #include <game/input/replayRecorder.h>
 #include <game/file/fsRequest.h>
 #include <sail/sailDemoPlayer.h>
+#include <sail/sailAssetLoader.h>
 
 // --------------------
 // TEMP
@@ -27,7 +28,6 @@ NOT_DECOMPILED void SailJetBoatCloud__CreateUnknown(void);
 NOT_DECOMPILED void SailCloud__Create(s32 type);
 NOT_DECOMPILED void SailSeaMapView__Create(ShipType ship);
 NOT_DECOMPILED void SailChallengeHUD__Create(void);
-NOT_DECOMPILED void SailAssetLoader__Create(void);
 
 // --------------------
 // VARIABLES
@@ -257,7 +257,7 @@ SailManager *SailManager__Create(void)
     FSRequestArchive(archiveForShip[work->shipType], &work->archive, TRUE);
 
     work->camera = SailCamera__Create();
-    SailAssetLoader__Create();
+    InitSailAssets();
 
     if ((work->flags & SAILMANAGER_FLAG_400) != 0 || work->isRivalRace && work->shipType == SHIP_JET)
         SailChallengeHUD__Create();

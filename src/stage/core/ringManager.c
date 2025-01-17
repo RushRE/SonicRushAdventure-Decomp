@@ -115,7 +115,8 @@ RingManager *CreateRingManager(void)
         void *spriteFile = ObjDataLoad(NULL, "/ac_itm_ring3d.bac", gameArchiveCommon);
 
         AnimatorSprite3D *ani = &ringManagerWork->aniRing3D;
-        AnimatorSprite3D__Init(ani, 0, spriteFile, RING_ANI_RING, ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK,
+        AnimatorSprite3D__Init(ani, ANIMATOR_FLAG_NONE, spriteFile, RING_ANI_RING,
+                               ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK,
                                VRAMSystem__AllocTexture(128, FALSE), VRAMSystem__AllocPalette(16, FALSE));
         ani->work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
         ani->work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
@@ -124,7 +125,7 @@ RingManager *CreateRingManager(void)
         ani->animatorSprite.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
 
         ani = &ringManagerWork->aniRingSparkle3D;
-        AnimatorSprite3D__Init(ani, 0, spriteFile, RING_ANI_SPARKLE,
+        AnimatorSprite3D__Init(ani, ANIMATOR_FLAG_NONE, spriteFile, RING_ANI_SPARKLE,
                                ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_UNCOMPRESSED_PALETTES | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS,
                                VRAMSystem__AllocTexture(768, FALSE), VRAMSystem__AllocPalette(16, FALSE));
         ani->work.matrixOpIDs[0] = MATRIX_OP_SET_CAMERA_ROT_33;
@@ -1129,7 +1130,7 @@ void RingManager_DrawRing_BossCircular(Ring *ring)
     work->aniRing3D.work.translation.y = -ring->position.y;
 
     BossHelpers__Arena__GetDrawPosition(ring->position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
-                                     &work->aniRing3D.work.translation.x, &work->aniRing3D.work.translation.z);
+                                        &work->aniRing3D.work.translation.x, &work->aniRing3D.work.translation.z);
 
     AnimatorSprite3D__Draw(&work->aniRing3D);
 }
@@ -1165,7 +1166,7 @@ void RingManager_DrawSparkle_BossCircular(Ring *ring)
     work->aniRingSparkle3D.work.translation.y = -ring->position.y;
 
     BossHelpers__Arena__GetDrawPosition(ring->position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
-                                     &work->aniRingSparkle3D.work.translation.x, &work->aniRingSparkle3D.work.translation.z);
+                                        &work->aniRingSparkle3D.work.translation.x, &work->aniRingSparkle3D.work.translation.z);
 
     AnimatorSprite3D__Draw(&work->aniRingSparkle3D);
 }
