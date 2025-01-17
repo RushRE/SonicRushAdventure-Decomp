@@ -3364,7 +3364,7 @@ _0217130C:
 	bl SetPadReplayState
 	mov r0, #5
 	bl SetTouchReplayState
-	bl SailExitEvent__Func_218B400
+	bl CheckSailExitEventHasMap
 	cmp r0, #0
 	beq _0217132C
 	bl SailSeaMapView__Func_218B56C

@@ -15451,9 +15451,9 @@
 .public SailDemoPlayer__Create
 .public SailDemoPlayer__State_Playback
 .public SailDemoPlayer__TouchCallback
-.public SailExitEvent__Create
-.public SailExitEvent__Main
-.public SailExitEvent__Func_218B400
+.public CreateSailExitEvent
+.public SailExitEvent_Main
+.public CheckSailExitEventHasMap
 .public SailSeaMapView__Create
 .public SailSeaMapView__Func_218B56C
 .public SailSeaMapView__GetPosition

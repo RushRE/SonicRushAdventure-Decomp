@@ -190,7 +190,7 @@ _0218B2AC:
 	ldr r0, [r5, #0x24]
 	orr r0, r0, #1
 	str r0, [r5, #0x24]
-	bl SailExitEvent__Create
+	bl CreateSailExitEvent
 _0218B2D0:
 	ldrh r1, [r4, #0x6a]
 	ldr r0, _0218B324 // =0x0218C914
@@ -206,7 +206,7 @@ _0218B2D0:
 	ldr r0, [r5, #0x24]
 	orr r0, r0, #1
 	str r0, [r5, #0x24]
-	bl SailExitEvent__Create
+	bl CreateSailExitEvent
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0218B310: .word gameState

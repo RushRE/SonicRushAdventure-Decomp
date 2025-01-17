@@ -13,7 +13,19 @@ SeaMapCourseChangeView__02134174: // 0x02134174
 
 .public SeaMapView__sVars
 SeaMapView__sVars: // 0x02134178
-    .space 0x10
+    .space 0x04
+
+.public seaMapViewMode
+seaMapViewMode: // 0x02134178
+    .space 0x04
+
+.public seaMapViewUnknown1
+seaMapViewUnknown1: // 0x02134178
+    .space 0x04
+
+.public seaMapViewUnknown2
+seaMapViewUnknown2: // 0x02134178
+    .space 0x04
 
 	.text
     

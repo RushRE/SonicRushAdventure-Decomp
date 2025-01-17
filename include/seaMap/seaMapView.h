@@ -54,13 +54,24 @@ typedef struct SeaMapView_
     s32 field_7B0;
 } SeaMapView;
 
+// TEMP
+// will be split into separate variables when seaMapView is properly decompiled!
 typedef struct SeaMapViewStaticVars_
 {
     Task *singleton;
     u32 mode;
-    u32 field_8;
-    u32 field_C;
+    u32 unknown1;
+    u32 unknown2;
 } SeaMapViewStaticVars;
+
+// --------------------
+// VARIABLES
+// --------------------
+
+extern SeaMapViewStaticVars SeaMapView__sVars;
+extern u32 seaMapViewMode;
+extern u32 seaMapViewUnknown1;
+extern u32 seaMapViewUnknown2;
 
 // --------------------
 // FUNCTIONS

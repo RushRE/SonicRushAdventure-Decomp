@@ -701,7 +701,7 @@ Overlay Sail
     Object asm/sail/sailStylusPrompt.o
     Object asm/sail/sailStylusPrompt2.o
     Object asm/sail/sailDemoPlayer.o
-    Object asm/sail/sailExitEvent.o
+    Object src/sail/sailExitEvent.o
     Object asm/sail/sailSeaMapView.o
 }
 
