@@ -15448,9 +15448,9 @@
 .public SailStylusPromptHUD__State_218AC90
 .public SailStylusPromptHUD2__Create
 .public SailStylusPromptHUD2__State_218AED0
-.public SailDemoPlayer__Create
-.public SailDemoPlayer__State_Playback
-.public SailDemoPlayer__TouchCallback
+.public CreateSailDemoPlayer
+.public SailDemoPlayer_State_Playback
+.public CheckAnyTouchForSailDemoPlayer
 .public CreateSailExitEvent
 .public SailExitEvent_Main
 .public CheckSailExitEventHasMap

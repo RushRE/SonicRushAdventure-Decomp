@@ -254,6 +254,7 @@ typedef struct GameState_
     u16 titleDemoID;
     u16 curDemoID;
     u16 nextDemoID;
+    u16 unknownDemoID;
     MissionType missionType;
     s32 missionTimeLimit;
     u32 missionQuota;

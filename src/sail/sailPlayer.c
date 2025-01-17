@@ -8,12 +8,11 @@
 #include <game/object/objectManager.h>
 #include <game/audio/audioSystem.h>
 #include <game/input/replayRecorder.h>
+#include <sail/sailDemoPlayer.h>
 
 // --------------------
 // TEMP
 // --------------------
-
-NOT_DECOMPILED void SailDemoPlayer__TouchCallback(void);
 
 NOT_DECOMPILED void SailRetireEvent__CreateFailText(void);
 NOT_DECOMPILED void SailRetireEvent__CreateFadeOut(void);
@@ -6534,7 +6533,7 @@ _0215EF34:
 	mov r0, r0, lsl #0x10
 	tst r1, r0, lsr #16
 	bne _0215EF84
-	bl SailDemoPlayer__TouchCallback
+	bl CheckAnyTouchForSailDemoPlayer
 	cmp r0, #0
 	addeq sp, sp, #0xc
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}

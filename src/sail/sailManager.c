@@ -13,6 +13,7 @@
 #include <game/system/sysEvent.h>
 #include <game/input/replayRecorder.h>
 #include <game/file/fsRequest.h>
+#include <sail/sailDemoPlayer.h>
 
 // --------------------
 // TEMP
@@ -26,7 +27,6 @@ NOT_DECOMPILED void SailJetBoatCloud__CreateUnknown(void);
 NOT_DECOMPILED void SailCloud__Create(s32 type);
 NOT_DECOMPILED void SailSeaMapView__Create(ShipType ship);
 NOT_DECOMPILED void SailChallengeHUD__Create(void);
-NOT_DECOMPILED void SailDemoPlayer__Create(void);
 NOT_DECOMPILED void SailAssetLoader__Create(void);
 
 // --------------------
@@ -85,7 +85,7 @@ void InitSailingSysEvent(void)
 
     StartSamplingTouchInput(4);
     if ((state->sailUnknownFlags & 1) != 0)
-        SailDemoPlayer__Create();
+        CreateSailDemoPlayer();
 
     ReleaseAudioSystem();
     SetMusicVolume(AUDIOMANAGER_VOLUME_MAX);

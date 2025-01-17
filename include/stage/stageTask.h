@@ -358,6 +358,7 @@ fx32 StageTask__DecrementBySpeed(fx32 value);
 #define CreateStageTaskEx(taskMain, taskDestructor, flags, pauseLevel, priority, group, name) TaskCreate(taskMain, taskDestructor, flags, pauseLevel, priority, group, name)
 
 #define CreateStageTaskSimple() CreateStageTask_()
+#define CreateStageTaskSimpleEx(priority, group) CreateStageTaskEx_(priority, group)
 
 RUSH_INLINE BOOL CheckStageTaskType(StageTask *work, StageObjTypes type)
 {
