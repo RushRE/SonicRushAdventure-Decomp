@@ -17,7 +17,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-extern char** environ;
+extern char **environ;
 #endif
 
 #include <iostream>
@@ -45,12 +45,12 @@ static char rootDir[0x100];
 // FUNCTIONS
 // --------------------
 
-static inline cJSON* GetJSONObject(cJSON* in, const char* name)
+static inline cJSON *GetJSONObject(cJSON *in, const char *name)
 {
     return cJSON_GetObjectItemCaseSensitive(in, name);
 }
 
-static inline bool GetJSONBool(cJSON* in)
+static inline bool GetJSONBool(cJSON *in)
 {
     if (!cJSON_IsBool(in))
         return false;
@@ -58,7 +58,7 @@ static inline bool GetJSONBool(cJSON* in)
     return cJSON_IsTrue(in);
 }
 
-static inline int GetJSONInt(cJSON* in)
+static inline int GetJSONInt(cJSON *in)
 {
     if (!cJSON_IsNumber(in))
         return 0;
@@ -66,7 +66,7 @@ static inline int GetJSONInt(cJSON* in)
     return in->valueint;
 }
 
-static inline char* GetJSONString(cJSON* in)
+static inline char *GetJSONString(cJSON *in)
 {
     if (!cJSON_IsString(in))
         return NULL;
@@ -74,7 +74,7 @@ static inline char* GetJSONString(cJSON* in)
     return in->valuestring;
 }
 
-std::time_t GetFileWriteTime(char* filePath)
+std::time_t GetFileWriteTime(char *filePath)
 {
 #if defined(_WIN32)
     const std::filesystem::path filename = filePath;
@@ -92,13 +92,13 @@ std::time_t GetFileWriteTime(char* filePath)
 #endif
 }
 
-static inline size_t GetHash(const char* path)
+static inline size_t GetHash(const char *path)
 {
     std::hash<std::string> hasher;
     return hasher(path);
 }
 
-static inline bool CheckHash(std::vector<size_t>& hashList, size_t hash)
+static inline bool CheckHash(std::vector<size_t> &hashList, size_t hash)
 {
     for (size_t i = 0; i < hashList.size(); i++)
     {
@@ -111,20 +111,20 @@ static inline bool CheckHash(std::vector<size_t>& hashList, size_t hash)
     return false;
 }
 
-bool PackArchiveEx(char* inputPath, char* inputDir, std::vector<size_t>& hashList, std::unordered_map<size_t, FileState>& modifiedMap)
+bool PackArchiveEx(char *inputPath, char *inputDir, std::vector<size_t> &hashList, std::unordered_map<size_t, FileState> &modifiedMap)
 {
     unsigned int fileLength;
-    unsigned char* jsonString = ReadWholeFile(inputPath, &fileLength);
+    unsigned char *jsonString = ReadWholeFile(inputPath, &fileLength);
 
-    cJSON* json = cJSON_Parse((const char*)jsonString);
+    cJSON *json = cJSON_Parse((const char *)jsonString);
 
     if (json == NULL)
     {
-        const char* errorPtr = cJSON_GetErrorPtr();
+        const char *errorPtr = cJSON_GetErrorPtr();
         FATAL_ERROR("Error in line \"%s\"\n", errorPtr);
     }
 
-    size_t hash = GetHash(inputPath);
+    size_t hash     = GetHash(inputPath);
     FileState state = {};
 
     state.modifiedTime = GetFileWriteTime(inputPath);
@@ -144,9 +144,9 @@ bool PackArchiveEx(char* inputPath, char* inputDir, std::vector<size_t>& hashLis
         state.needsPack = true;
     }
 
-    cJSON* files = GetJSONObject(json, "files");
+    cJSON *files = GetJSONObject(json, "files");
 
-    cJSON* file = NULL;
+    cJSON *file = NULL;
     cJSON_ArrayForEach(file, files)
     {
         if (cJSON_IsObject(file) == false)
@@ -154,19 +154,19 @@ bool PackArchiveEx(char* inputPath, char* inputDir, std::vector<size_t>& hashLis
             continue;
         }
 
-        char* fileName = GetJSONString(GetJSONObject(file, "sourcePath"));
-        const char* ext = GetFileExtension(fileName);
-        char* fileDir = GetFileDirectory(fileName);
+        char *fileName  = GetJSONString(GetJSONObject(file, "sourcePath"));
+        const char *ext = GetFileExtension(fileName);
+        char *fileDir   = GetFileDirectory(fileName);
 
         if (ext != NULL)
         {
             if (strcmp(ext, "bb") == 0 || strcmp(ext, "narc") == 0)
             {
-                const size_t listDirSize = strlen(fileName) + 1;
+                const size_t listDirSize  = strlen(fileName) + 1;
                 const size_t listPathSize = strlen(fileName) + 8;
 
-                char* listDir = (char*)malloc(listDirSize);
-                char* listPath = (char*)malloc(listPathSize);
+                char *listDir  = (char *)malloc(listDirSize);
+                char *listPath = (char *)malloc(listPathSize);
 
                 snprintf(listDir, listDirSize, "%s", fileName);
                 listDir[strlen(fileName) - strlen(ext) - 1] = 0; // trim extension
@@ -188,7 +188,7 @@ bool PackArchiveEx(char* inputPath, char* inputDir, std::vector<size_t>& hashLis
 
             if (true)
             {
-                size_t fileHash = GetHash(fileName);
+                size_t fileHash     = GetHash(fileName);
                 FileState fileState = {};
 
                 fileState.modifiedTime = GetFileWriteTime(fileName);
@@ -223,7 +223,7 @@ bool PackArchiveEx(char* inputPath, char* inputDir, std::vector<size_t>& hashLis
     }
 
     // pack archive
-    const char* ext = GetFileExtension(inputPath);
+    const char *ext = GetFileExtension(inputPath);
 
     if (ext != NULL)
     {
@@ -235,31 +235,38 @@ bool PackArchiveEx(char* inputPath, char* inputDir, std::vector<size_t>& hashLis
             if (!CheckHash(hashList, hash) && state.needsPack)
             {
                 // printf("Working for: %s\n", inputPath);
+                bool isValid = false;
 
                 if (strcmp(ext, "bblst") == 0)
                 {
                     PackBundle(inputPath, rootDir, inputDir);
+                    isValid = true;
                 }
                 else if (strcmp(ext, "arclst") == 0)
                 {
                     PackArchive(inputPath, rootDir, inputDir);
+                    isValid = true;
                 }
                 else if (strcmp(ext, "pckf") == 0)
                 {
                     PackFile(inputPath, rootDir, inputDir);
+                    isValid = true;
                 }
 
-                hashList.push_back(hash);
+                if (isValid)
+                {
+                    hashList.push_back(hash);
 
-                if (modifiedMap.count(hash))
-                {
-                    // file is old, we need to update it!
-                    modifiedMap[hash] = state;
-                }
-                else
-                {
-                    // file is new, we need to add it!
-                    modifiedMap.emplace(hash, state);
+                    if (modifiedMap.count(hash))
+                    {
+                        // file is old, we need to update it!
+                        modifiedMap[hash] = state;
+                    }
+                    else
+                    {
+                        // file is new, we need to add it!
+                        modifiedMap.emplace(hash, state);
+                    }
                 }
             }
             else
@@ -275,12 +282,12 @@ bool PackArchiveEx(char* inputPath, char* inputDir, std::vector<size_t>& hashLis
     return state.needsPack;
 }
 
-void PackDirectory(const char* directoryPath, std::vector<size_t>& hashList, std::unordered_map<size_t, FileState>& modifiedMap)
+void PackDirectory(const char *directoryPath, std::vector<size_t> &hashList, std::unordered_map<size_t, FileState> &modifiedMap)
 {
     for (std::filesystem::recursive_directory_iterator i(directoryPath), end; i != end; i++)
     {
         std::string pathStr = i->path().string();
-        char* path = (char*)pathStr.c_str();
+        char *path          = (char *)pathStr.c_str();
 
         if (is_directory(i->path()))
         {
@@ -288,8 +295,8 @@ void PackDirectory(const char* directoryPath, std::vector<size_t>& hashList, std
         }
         else
         {
-            const char* ext = GetFileExtension(path);
-            char* fileDir = GetFileDirectory(path);
+            const char *ext = GetFileExtension(path);
+            char *fileDir   = GetFileDirectory(path);
 
             if (ext != NULL)
             {
@@ -304,11 +311,11 @@ void PackDirectory(const char* directoryPath, std::vector<size_t>& hashList, std
     }
 }
 
-void LoadModifiedMap(std::unordered_map<size_t, FileState>& modifiedMap)
+void LoadModifiedMap(std::unordered_map<size_t, FileState> &modifiedMap)
 {
     modifiedMap.clear();
 
-    FILE* file = fopen(".archivepack", "rb");
+    FILE *file = fopen(".archivepack", "rb");
     if (file != NULL)
     {
         size_t count = 0;
@@ -330,11 +337,11 @@ void LoadModifiedMap(std::unordered_map<size_t, FileState>& modifiedMap)
     }
 }
 
-void SaveModifiedMap(std::unordered_map<size_t, FileState>& modifiedMap)
+void SaveModifiedMap(std::unordered_map<size_t, FileState> &modifiedMap)
 {
     if (modifiedMap.size() > 0)
     {
-        FILE* file = fopen(".archivepack", "wb");
+        FILE *file = fopen(".archivepack", "wb");
         if (file != NULL)
         {
             size_t count = modifiedMap.size();
@@ -351,7 +358,7 @@ void SaveModifiedMap(std::unordered_map<size_t, FileState>& modifiedMap)
     }
 }
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     std::unordered_map<size_t, FileState> modifiedMap;
     std::vector<size_t> hashList;
@@ -362,7 +369,7 @@ int main(int argc, char** argv)
     // load modified state
     LoadModifiedMap(modifiedMap);
 
-    char* inputDir = argv[1];
+    char *inputDir = argv[1];
 
 #if defined(_WIN32)
     GetCurrentDirectoryA(sizeof(rootDir), rootDir);
@@ -380,7 +387,7 @@ int main(int argc, char** argv)
     }
 #endif
     rootDir[strlen(rootDir) + 1] = 0;
-    rootDir[strlen(rootDir)] = '/';
+    rootDir[strlen(rootDir)]     = '/';
 
     PackDirectory(inputDir, hashList, modifiedMap);
 

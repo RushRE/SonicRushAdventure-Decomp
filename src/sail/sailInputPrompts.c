@@ -74,7 +74,7 @@ void CreateSailButtonPromptIcon(u16 anim, fx32 posX)
 
     if (GetObjectDataWork(OBJDATAWORK_74)->fileData == NULL)
     {
-        void *memory                                = ReadFileFromBundle("bb/sb.bb", BUNDLE_SB_FILE_RESOURCES_BB_SB_FILE_25_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
+        void *memory                                = ReadFileFromBundle("bb/sb.bb", BUNDLE_SB_FILE_RESOURCES_BB_SB_SB_BUTTON_PROMPT_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
         GetObjectDataWork(OBJDATAWORK_74)->fileData = memory;
     }
 
@@ -136,7 +136,7 @@ void CreateSailStylusPrompt(void)
     // NOTE: should this be using 'OBJDATAWORK_74'? would it not make more sense to use 'OBJDATAWORK_75'?
     if (GetObjectDataWork(OBJDATAWORK_74)->fileData == NULL)
     {
-        void *memory                                = ReadFileFromBundle("bb/sb.bb", BUNDLE_SB_FILE_RESOURCES_BB_SB_FILE_26_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
+        void *memory                                = ReadFileFromBundle("bb/sb.bb", BUNDLE_SB_FILE_RESOURCES_BB_SB_SB_STYLUS_PROMPT_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
         GetObjectDataWork(OBJDATAWORK_75)->fileData = memory;
     }
 
@@ -219,7 +219,7 @@ void CreateSailStylusPrompt2(void)
     // NOTE: should this be using 'OBJDATAWORK_74'? would it not make more sense to use 'OBJDATAWORK_75'?
     if (GetObjectDataWork(OBJDATAWORK_74)->fileData == NULL)
     {
-        void *memory                                = ReadFileFromBundle("bb/sb.bb", BUNDLE_SB_FILE_RESOURCES_BB_SB_FILE_26_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
+        void *memory                                = ReadFileFromBundle("bb/sb.bb", BUNDLE_SB_FILE_RESOURCES_BB_SB_SB_STYLUS_PROMPT_BAC, BINARYBUNDLE_AUTO_ALLOC_HEAD);
         GetObjectDataWork(OBJDATAWORK_75)->fileData = memory;
     }
 
