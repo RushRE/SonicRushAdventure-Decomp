@@ -15407,9 +15407,9 @@
 .public SailHoverEnemyHover__Func_2187134
 .public SailHoverEnemyHover__Func_2187CC0
 .public SailHoverEnemyHover__State_2187CD8
-.public SailRival__Create
-.public SailRival__Destructor
-.public SailRival__Main
+.public CreateSailRival
+.public SailRival_Destructor
+.public SailRival_Main
 .public SailChallengeHUD__Create
 .public SailJetRaceGoalHUD__Create
 .public SailJetRaceProgressMarkerHUD__Create

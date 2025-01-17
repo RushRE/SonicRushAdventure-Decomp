@@ -42,7 +42,7 @@ typedef struct SailRivalControllerEntry_
 {
     u32 position;
     SailRivalAction type;
-    u32 touchOnX;
+    s16 touchOnX;
 } SailRivalControllerEntry;
 
 typedef struct SailRivalControllerHeader_
@@ -58,7 +58,6 @@ typedef struct SailRival_
     s32 entryID;
     s32 actions;
     s16 disablePrevPosTimer;
-    u16 field_16;
     SailRivalControllerHeader *file;
     struct SailPlayer_ *parent;
     s16 touchPosX;
@@ -72,9 +71,6 @@ typedef struct SailRival_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED SailRival *SailRival__Create(struct SailPlayer_ *parent, SailRivalControllerHeader *controller, const char *path);
-
-NOT_DECOMPILED void SailRival__Destructor(Task *task);
-NOT_DECOMPILED void SailRival__Main(void);
+SailRival *CreateSailRival(struct SailPlayer_ *parent, SailRivalControllerHeader *controller, const char *path);
 
 #endif // !RUSH2_SAILRIVALCONTROLLER_H

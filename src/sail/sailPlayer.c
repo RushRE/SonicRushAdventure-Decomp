@@ -354,7 +354,7 @@ StageTask *SailPlayer__Create(u16 shipType, BOOL isRival)
         rivalControlPath[11] += manager->rivalRaceID - 10 * digit;
         rivalControlPath[10] += digit;
 
-        worker->sailRival = SailRival__Create(worker, NULL, rivalControlPath);
+        worker->sailRival = CreateSailRival(worker, NULL, rivalControlPath);
 
         ObjRect__SetGroupFlags(work->colliderList[0], 2, 1);
         ObjRect__SetGroupFlags(work->colliderList[1], 2, 1);

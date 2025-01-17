@@ -694,7 +694,7 @@ Overlay Sail
     Object asm/sail/sailSailerObjects.o
     Object asm/sail/sailSubObjects.o
     Object asm/sail/sailHoverObjects.o
-    Object asm/sail/sailRival.o
+    Object src/sail/sailRival.o
     Object asm/sail/sailJetRaceHUD.o
     Object asm/sail/sailTraining.o
     Object asm/sail/sailButtonPrompt.o
