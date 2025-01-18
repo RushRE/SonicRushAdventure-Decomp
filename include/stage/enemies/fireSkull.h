@@ -1,5 +1,5 @@
-#ifndef RUSH2_FIRESKULL_H
-#define RUSH2_FIRESKULL_H
+#ifndef RUSH_FIRESKULL_H
+#define RUSH_FIRESKULL_H
 
 #include <stage/gameObject.h>
 
@@ -18,4 +18,4 @@ typedef struct EnemyFireSkull_
 
 EnemyFireSkull *CreateFireSkull(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_FIRESKULL_H
+#endif // RUSH_FIRESKULL_H

@@ -470,11 +470,11 @@ void LoadCreditsBackgrounds(Credits *work, CreditsAssetType type)
     work->screens[0].background.work.flags |= BACKGROUND_FLAG_DISABLE_PALETTE | BACKGROUND_FLAG_DISABLE_PIXELS;
 
     u8 fileID;
-#if defined(RUSH2_EUROPE)
+#if defined(RUSH_EUROPE)
     fileID = ARCHIVE_DMSR_LZ7_FILE_STUFF_01_EU_BBG;
-#elif defined(RUSH2_USA)
+#elif defined(RUSH_USA)
     fileID = ARCHIVE_DMSR_LZ7_FILE_STUFF_01_ENG_BBG;
-#elif defined(RUSH2_JAPAN)
+#elif defined(RUSH_JAPAN)
     fileID = ARCHIVE_DMSR_LZ7_FILE_STUFF_01_JPN_BBG;
 #endif
     
@@ -488,11 +488,11 @@ void LoadCreditsBackgrounds(Credits *work, CreditsAssetType type)
     DrawBackgroundDS(bgScreen1);
     work->screens[1].background.work.flags |= BACKGROUND_FLAG_DISABLE_PALETTE | BACKGROUND_FLAG_DISABLE_PIXELS;
 
-#if defined(RUSH2_EUROPE)
+#if defined(RUSH_EUROPE)
     fileID = ARCHIVE_DMSR_LZ7_FILE_STUFF_02_EU_BBG;
-#elif defined(RUSH2_USA)
+#elif defined(RUSH_USA)
     fileID = ARCHIVE_DMSR_LZ7_FILE_STUFF_02_ENG_BBG;
-#elif defined(RUSH2_JAPAN)
+#elif defined(RUSH_JAPAN)
     fileID = ARCHIVE_DMSR_LZ7_FILE_STUFF_02_JPN_BBG;
 #endif
     

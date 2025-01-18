@@ -1,6 +1,6 @@
 
-#ifndef RUSH2_OAMSYSTEM_H
-#define RUSH2_OAMSYSTEM_H
+#ifndef RUSH_OAMSYSTEM_H
+#define RUSH_OAMSYSTEM_H
 
 #include <global.h>
 
@@ -56,4 +56,4 @@ GXOamAttr *OAMSystem__GetList2(BOOL useEngineB);
 GXOamAttr *OAMSystem__GetList3(BOOL useEngineB);
 u32 OAMSystem__GetListMap(BOOL useEngineB, u32 order);
 
-#endif // RUSH2_OAMSYSTEM_H
+#endif // RUSH_OAMSYSTEM_H

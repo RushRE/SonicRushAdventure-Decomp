@@ -1,5 +1,5 @@
-#ifndef RUSH2_STAGECLEAREX_H
-#define RUSH2_STAGECLEAREX_H
+#ifndef RUSH_STAGECLEAREX_H
+#define RUSH_STAGECLEAREX_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -94,4 +94,4 @@ void CreateStageClearEx(void);
 
 void LoadAssetsForStageClearEx(void *archive, ...);
 
-#endif // RUSH2_STAGECLEAREX_H
+#endif // RUSH_STAGECLEAREX_H

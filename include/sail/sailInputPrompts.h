@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILBUTTONPROMPT_H
-#define RUSH2_SAILBUTTONPROMPT_H
+#ifndef RUSH_SAILBUTTONPROMPT_H
+#define RUSH_SAILBUTTONPROMPT_H
 
 #include <stage/stageTask.h>
 
@@ -11,4 +11,4 @@ void CreateSailButtonPrompts(void);
 void CreateSailStylusPrompt(void);
 void CreateSailStylusPrompt2(void);
 
-#endif // !RUSH2_SAILBUTTONPROMPT_H
+#endif // !RUSH_SAILBUTTONPROMPT_H

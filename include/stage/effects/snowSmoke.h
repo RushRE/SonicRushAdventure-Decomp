@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_SNOWSMOKE_H
-#define RUSH2_EFFECT_SNOWSMOKE_H
+#ifndef RUSH_EFFECT_SNOWSMOKE_H
+#define RUSH_EFFECT_SNOWSMOKE_H
 
 #include <stage/effectTask.h>
 
@@ -22,4 +22,4 @@ EffectSnowSmoke *CreateSmallEffectSnowSmokeForPlayer(Player *player);
 EffectSnowSmoke *CreateLargeEffectSnowSmokeForPlayer(Player *player);
 EffectSnowSmoke *CreateEffectSnowSmoke(Player *parent, fx32 offsetX, fx32 offsetY, s32 animID);
 
-#endif // RUSH2_EFFECT_SNOWSMOKE_H
+#endif // RUSH_EFFECT_SNOWSMOKE_H

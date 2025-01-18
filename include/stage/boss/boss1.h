@@ -1,5 +1,5 @@
-#ifndef RUSH2_BOSS1_H
-#define RUSH2_BOSS1_H
+#ifndef RUSH_BOSS1_H
+#define RUSH_BOSS1_H
 
 #include <stage/gameObject.h>
 #include <game/graphics/paletteAnimation.h>
@@ -294,4 +294,4 @@ struct Boss1_
 Boss1Stage *Boss1Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 Boss1 *Boss1__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 
-#endif // RUSH2_BOSS1_H
+#endif // RUSH_BOSS1_H

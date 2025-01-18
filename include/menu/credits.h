@@ -1,5 +1,5 @@
-#ifndef RUSH2_CREDITS_H
-#define RUSH2_CREDITS_H
+#ifndef RUSH_CREDITS_H
+#define RUSH_CREDITS_H
 
 #include <game/system/task.h>
 #include <game/text/fontWindow.h>
@@ -87,4 +87,4 @@ typedef struct WandRoom_
 
 void InitCreditsEvent(void);
 
-#endif // RUSH2_CREDITS_H
+#endif // RUSH_CREDITS_H

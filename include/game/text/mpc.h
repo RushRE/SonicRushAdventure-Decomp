@@ -1,6 +1,6 @@
 
-#ifndef RUSH2_MPCFILE_H
-#define RUSH2_MPCFILE_H
+#ifndef RUSH_MPCFILE_H
+#define RUSH_MPCFILE_H
 
 #include <global.h>
 
@@ -41,4 +41,4 @@ NOT_DECOMPILED s32 MPC__GetSpecialCharacter(MPCHeader *mpc, u16 character);
 NOT_DECOMPILED u16 MPC__GetCharacter(u32 *charData, s32 charID, s32 charSize);
 NOT_DECOMPILED void MPC__GetCharacters(u32 *charData, s32 charID, s32 charSize, s32 textLen, u16 *text);
 
-#endif // RUSH2_MPCFILE_H
+#endif // RUSH_MPCFILE_H

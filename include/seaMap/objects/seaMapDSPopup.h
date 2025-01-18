@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPDSPOPUP_H
-#define RUSH2_SEAMAPDSPOPUP_H
+#ifndef RUSH_SEAMAPDSPOPUP_H
+#define RUSH_SEAMAPDSPOPUP_H
 
 #include <seaMap/seaMapEventManager.h>
 #include <game/graphics/sprite.h>
@@ -21,4 +21,4 @@ typedef struct SeaMapDSPopup_
 
 SeaMapObject *CreateSeaMapDSPopup(CHEVObjectType *objectType, CHEVObject *mapObject);
 
-#endif // RUSH2_SEAMAPDSPOPUP_H
+#endif // RUSH_SEAMAPDSPOPUP_H

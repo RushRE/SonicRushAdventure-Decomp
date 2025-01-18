@@ -1,5 +1,5 @@
-#ifndef RUSH2_PLAYER_H
-#define RUSH2_PLAYER_H
+#ifndef RUSH_PLAYER_H
+#define RUSH_PLAYER_H
 
 #include <stage/stageTask.h>
 #include <game/audio/audioSystem.h>
@@ -902,4 +902,4 @@ RUSH_INLINE void ReleasePlayerSfx(Player *player, u32 seqPlayerID)
     ReleaseStageSfx(&player->seqPlayers[seqPlayerID]);
 }
 
-#endif // RUSH2_PLAYER_H
+#endif // RUSH_PLAYER_H

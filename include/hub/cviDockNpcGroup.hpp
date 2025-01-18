@@ -1,5 +1,5 @@
-#ifndef RUSH2_CVIDOCKNPCGROUP_HPP
-#define RUSH2_CVIDOCKNPCGROUP_HPP
+#ifndef RUSH_CVIDOCKNPCGROUP_HPP
+#define RUSH_CVIDOCKNPCGROUP_HPP
 
 #include <hub/vi3dArrow.hpp>
 #include <hub/cviDockNpc.hpp>
@@ -64,4 +64,4 @@ public:
     static void Func_216879C(s32 param);
 };
 
-#endif // RUSH2_CVIDOCKNPCGROUP_HPP
+#endif // RUSH_CVIDOCKNPCGROUP_HPP

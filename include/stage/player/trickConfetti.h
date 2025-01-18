@@ -1,5 +1,5 @@
-#ifndef RUSH2_TRICK_CONFETTI_H
-#define RUSH2_TRICK_CONFETTI_H
+#ifndef RUSH_TRICK_CONFETTI_H
+#define RUSH_TRICK_CONFETTI_H
 
 #include <stage/stageTask.h>
 
@@ -45,4 +45,4 @@ void TrickConfetti__Main(void);
 TrickConfettiParticle *TrickConfetti__RemoveLastParticle(TrickConfetti *work);
 void TrickConfetti__AddParticle(TrickConfetti *work, TrickConfettiParticle *particle);
 
-#endif // RUSH2_TRICK_CONFETTI_H
+#endif // RUSH_TRICK_CONFETTI_H

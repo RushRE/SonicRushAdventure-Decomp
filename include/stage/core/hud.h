@@ -1,5 +1,5 @@
-#ifndef RUSH2_HUD_H
-#define RUSH2_HUD_H
+#ifndef RUSH_HUD_H
+#define RUSH_HUD_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -309,4 +309,4 @@ void CreateConnectionStatusHUD(BOOL useDWC);
 void CreateTargetIndicatorHUD(StageTask *parent);
 void CreateRaceProgressHUD(s32 characterID);
 
-#endif // RUSH2_HUD_H
+#endif // RUSH_HUD_H

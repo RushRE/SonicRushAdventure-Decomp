@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_BATTLEATTACK_H
-#define RUSH2_EFFECT_BATTLEATTACK_H
+#ifndef RUSH_EFFECT_BATTLEATTACK_H
+#define RUSH_EFFECT_BATTLEATTACK_H
 
 #include <stage/effectTask.h>
 
@@ -38,4 +38,4 @@ void EffectBattleAttack_State_Confusion(EffectBattleAttack *work);
 void EffectBattleAttack_State_TensionGain(EffectBattleAttack *work);
 void EffectBattleAttack_State_TensionDrain(EffectBattleAttack *work);
 
-#endif // RUSH2_EFFECT_BATTLEATTACK_H
+#endif // RUSH_EFFECT_BATTLEATTACK_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_CRUMBLINGFLOOR_H
-#define RUSH2_CRUMBLINGFLOOR_H
+#ifndef RUSH_CRUMBLINGFLOOR_H
+#define RUSH_CRUMBLINGFLOOR_H
 
 #include <stage/gameObject.h>
 
@@ -18,4 +18,4 @@ typedef struct CrumblingFloor_
 
 CrumblingFloor *CreateCrumblingFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_CRUMBLINGFLOOR_H
+#endif // RUSH_CRUMBLINGFLOOR_H

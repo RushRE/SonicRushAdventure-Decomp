@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPSPARKLES_H
-#define RUSH2_SEAMAPSPARKLES_H
+#ifndef RUSH_SEAMAPSPARKLES_H
+#define RUSH_SEAMAPSPARKLES_H
 
 #include <seaMap/seaMapEventManager.h>
 #include <game/graphics/sprite.h>
@@ -42,4 +42,4 @@ NOT_DECOMPILED SeaMapObject *SeaMapSparkles__Create(CHEVObjectType *objectType, 
 NOT_DECOMPILED void SeaMapSparkles__Main(void);
 NOT_DECOMPILED void SeaMapSparkles__Destructor(Task *task);
 
-#endif // RUSH2_SEAMAPSPARKLES_H
+#endif // RUSH_SEAMAPSPARKLES_H

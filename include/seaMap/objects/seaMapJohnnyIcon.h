@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPMJOHNNYICON_H
-#define RUSH2_SEAMAPMJOHNNYICON_H
+#ifndef RUSH_SEAMAPMJOHNNYICON_H
+#define RUSH_SEAMAPMJOHNNYICON_H
 
 #include <seaMap/seaMapEventManager.h>
 
@@ -25,4 +25,4 @@ SeaMapObject *CreateSeaMapJohnnyIcon(CHEVObjectType *objectType, CHEVObject *map
 // View Check
 BOOL SeaMapJohnnyIcon_ViewCheck(CHEVObject *mapObject, fx32 x, fx32 y, BOOL flag);
 
-#endif // RUSH2_SEAMAPMJOHNNYICON_H
+#endif // RUSH_SEAMAPMJOHNNYICON_H

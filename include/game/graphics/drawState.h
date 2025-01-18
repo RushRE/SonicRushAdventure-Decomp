@@ -1,5 +1,5 @@
-#ifndef RUSH2_BSD_H
-#define RUSH2_BSD_H
+#ifndef RUSH_BSD_H
+#define RUSH_BSD_H
 
 #include <global.h>
 #include <game/graphics/drawReqTask.h>
@@ -134,4 +134,4 @@ BOOL GetDrawStateCameraProjection(DrawState *state, Camera3D *camera);
 void GetDrawStateCameraView(DrawState *state, Camera3D *camera);
 void GetDrawStateLight(DrawState *state, DirLight *light, GXLightId id);
 
-#endif // RUSH2_BSD_H
+#endif // RUSH_BSD_H

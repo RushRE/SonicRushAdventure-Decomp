@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPMANAGER_H
-#define RUSH2_SEAMAPMANAGER_H
+#ifndef RUSH_SEAMAPMANAGER_H
+#define RUSH_SEAMAPMANAGER_H
 
 #include <global.h>
 #include <game/system/task.h>
@@ -214,4 +214,4 @@ NOT_DECOMPILED void SeaMapManagerNodeList__Func_2046240(SeaMapManagerNodeList *l
 NOT_DECOMPILED void SeaMapManagerNodeList__Func_204634C(SeaMapManagerNodeList *list, u32 count);
 NOT_DECOMPILED void SeaMapManagerNodeList__Func_204652C(SeaMapManagerNodeList *list, u32 count);
 
-#endif // RUSH2_SEAMAPMANAGER_H
+#endif // RUSH_SEAMAPMANAGER_H

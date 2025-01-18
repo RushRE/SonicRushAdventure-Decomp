@@ -1,5 +1,5 @@
-#ifndef RUSH2_CUTSCENESCRIPT_H
-#define RUSH2_CUTSCENESCRIPT_H
+#ifndef RUSH_CUTSCENESCRIPT_H
+#define RUSH_CUTSCENESCRIPT_H
 
 #include <game/system/task.h>
 #include <game/cutscene/script.h>
@@ -564,4 +564,4 @@ RUSH_INLINE s32 *GetScriptParam2(ScriptCommand *command)
     return &command2->param2;
 }
 
-#endif // RUSH2_CUTSCENESCRIPT_H
+#endif // RUSH_CUTSCENESCRIPT_H

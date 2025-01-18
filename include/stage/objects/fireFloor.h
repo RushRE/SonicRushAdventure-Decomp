@@ -1,5 +1,5 @@
-#ifndef RUSH2_FIREFLOOR_H
-#define RUSH2_FIREFLOOR_H
+#ifndef RUSH_FIREFLOOR_H
+#define RUSH_FIREFLOOR_H
 
 #include <stage/gameObject.h>
 
@@ -18,4 +18,4 @@ typedef struct FireFloor_
 
 FireFloor *CreateFireFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_FIREFLOOR_H
+#endif // RUSH_FIREFLOOR_H

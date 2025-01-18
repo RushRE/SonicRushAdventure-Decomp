@@ -1,5 +1,5 @@
-#ifndef RUSH2_MAP_FAR_SYS_H
-#define RUSH2_MAP_FAR_SYS_H
+#ifndef RUSH_MAP_FAR_SYS_H
+#define RUSH_MAP_FAR_SYS_H
 
 #include <global.h>
 #include <game/system/task.h>
@@ -46,4 +46,4 @@ void MapFarSys__DoFarScrollY(void);
 void MapFarSys__ProcessScroll(void);
 void MapFarSys__Func_200D144(void);
 
-#endif // RUSH2_MAP_FAR_SYS_H
+#endif // RUSH_MAP_FAR_SYS_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_PLAYERTRAIL_H
-#define RUSH2_EFFECT_PLAYERTRAIL_H
+#ifndef RUSH_EFFECT_PLAYERTRAIL_H
+#define RUSH_EFFECT_PLAYERTRAIL_H
 
 #include <stage/effectTask.h>
 
@@ -48,4 +48,4 @@ void RecordPlayerTrailBuffer(TrailEffect *trail, Player *player, fx32 height);
 void HandlePlayerTrailOffset(EffectPlayerTrail *work);
 void EffectPlayerTrail_Draw(void);
 
-#endif // RUSH2_EFFECT_PLAYERTRAIL_H
+#endif // RUSH_EFFECT_PLAYERTRAIL_H

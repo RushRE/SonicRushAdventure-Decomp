@@ -1,5 +1,5 @@
-#ifndef RUSH2_GLOBAL_H
-#define RUSH2_GLOBAL_H
+#ifndef RUSH_GLOBAL_H
+#define RUSH_GLOBAL_H
 
 #include <nitro.h>
 #include <nitro/code32.h>
@@ -42,4 +42,4 @@ typedef u16 char16; // typedef u16 as char16 for readability
 
 #include <config.h>
 
-#endif // RUSH2_GLOBAL_H
+#endif // RUSH_GLOBAL_H

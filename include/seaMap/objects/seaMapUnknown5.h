@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPUNKNOWN5_H
-#define RUSH2_SEAMAPUNKNOWN5_H
+#ifndef RUSH_SEAMAPUNKNOWN5_H
+#define RUSH_SEAMAPUNKNOWN5_H
 
 #include <seaMap/seaMapEventManager.h>
 
@@ -21,4 +21,4 @@ SeaMapObject *CreateSeaMapUnknown5(CHEVObjectType *objectType, CHEVObject *mapOb
 // View Check
 BOOL SeaMapUnknown5_ViewCheck(CHEVObject *mapObject, fx32 x, fx32 y, BOOL flag);
 
-#endif // RUSH2_SEAMAPUNKNOWN5_H
+#endif // RUSH_SEAMAPUNKNOWN5_H

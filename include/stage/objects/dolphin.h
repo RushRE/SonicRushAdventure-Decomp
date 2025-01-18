@@ -1,5 +1,5 @@
-#ifndef RUSH2_DOLPHIN_H
-#define RUSH2_DOLPHIN_H
+#ifndef RUSH_DOLPHIN_H
+#define RUSH_DOLPHIN_H
 
 #include <stage/gameObject.h>
 
@@ -27,4 +27,4 @@ typedef struct DolphinHoop_
 Dolphin *CreateDolphin(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_DOLPHIN_H
+#endif // RUSH_DOLPHIN_H

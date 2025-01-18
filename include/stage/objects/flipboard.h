@@ -1,5 +1,5 @@
-#ifndef RUSH2_FLIPBOARD_H
-#define RUSH2_FLIPBOARD_H
+#ifndef RUSH_FLIPBOARD_H
+#define RUSH_FLIPBOARD_H
 
 #include <stage/gameObject.h>
 
@@ -19,4 +19,4 @@ typedef struct Flipboard_
 
 Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_FLIPBOARD_H
+#endif // RUSH_FLIPBOARD_H

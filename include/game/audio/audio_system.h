@@ -1,5 +1,5 @@
-#ifndef RUSH2_SND_SYS_H
-#define RUSH2_SND_SYS_H
+#ifndef RUSH_SND_SYS_H
+#define RUSH_SND_SYS_H
 
 // Sound Archive: Sequences
 enum SND_SYS_SEQ
@@ -742,4 +742,4 @@ enum SND_SYS_STREAMS
 	SND_SYS_STRM_TITLE,
 };
 
-#endif // !RUSH2_SND_SYS_H
+#endif // !RUSH_SND_SYS_H

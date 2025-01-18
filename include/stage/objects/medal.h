@@ -1,5 +1,5 @@
-#ifndef RUSH2_MEDAL_H
-#define RUSH2_MEDAL_H
+#ifndef RUSH_MEDAL_H
+#define RUSH_MEDAL_H
 
 #include <stage/gameObject.h>
 
@@ -25,4 +25,4 @@ typedef struct Medal_
 
 Medal *CreateMedal(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_MEDAL_H
+#endif // RUSH_MEDAL_H

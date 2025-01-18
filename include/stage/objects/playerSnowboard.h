@@ -1,5 +1,5 @@
-#ifndef RUSH2_PLAYERSNOWBOARD_H
-#define RUSH2_PLAYERSNOWBOARD_H
+#ifndef RUSH_PLAYERSNOWBOARD_H
+#define RUSH_PLAYERSNOWBOARD_H
 
 #include <stage/gameObject.h>
 
@@ -63,4 +63,4 @@ PlayerSnowboard *SpawnLostPlayerSnowboard(fx32 type);
 void DestroyPlayerSnowboard(void);
 void ChangePlayerSnowboardAction(Player *player, PlayerSnowboardAction action);
 
-#endif // RUSH2_PLAYERSNOWBOARD_H
+#endif // RUSH_PLAYERSNOWBOARD_H

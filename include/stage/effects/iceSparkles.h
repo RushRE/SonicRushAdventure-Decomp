@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_ICE_SPARKLES_H
-#define RUSH2_EFFECT_ICE_SPARKLES_H
+#ifndef RUSH_EFFECT_ICE_SPARKLES_H
+#define RUSH_EFFECT_ICE_SPARKLES_H
 
 #include <stage/effectTask.h>
 
@@ -20,4 +20,4 @@ typedef struct EffectIceSparkles_
 
 EffectIceSparkles *EffectIceSparkles__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, s32 type);
 
-#endif // RUSH2_EFFECT_ICE_SPARKLES_H
+#endif // RUSH_EFFECT_ICE_SPARKLES_H

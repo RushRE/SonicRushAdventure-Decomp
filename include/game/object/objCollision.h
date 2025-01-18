@@ -1,5 +1,5 @@
-#ifndef RUSH2_OBJ_COLLISION_H
-#define RUSH2_OBJ_COLLISION_H
+#ifndef RUSH_OBJ_COLLISION_H
+#define RUSH_OBJ_COLLISION_H
 
 #include <global.h>
 #include <game/object/objData.h>
@@ -184,4 +184,4 @@ s32 objCollisionDiffObject(StageTaskCollisionObj *work, OBS_COL_CHK_DATA *colWor
 s32 objGetColDataX(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjCollisionFlags flags, u16 *pDir, u32 *pAttr);
 s32 objGetColDataY(StageTaskCollisionObj *work, fx32 lPosX, fx32 lPosY, ObjCollisionFlags flags, u16 *pDir, u32 *pAttr);
 
-#endif // RUSH2_OBJ_COLLISION_H
+#endif // RUSH_OBJ_COLLISION_H

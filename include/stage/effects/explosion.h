@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_EXPLOSION_H
-#define RUSH2_EFFECT_EXPLOSION_H
+#ifndef RUSH_EFFECT_EXPLOSION_H
+#define RUSH_EFFECT_EXPLOSION_H
 
 #include <stage/effectTask.h>
 
@@ -48,4 +48,4 @@ EffectExplosion *CreateEffectExplosion(StageTask *parent, fx32 velX, fx32 velY, 
 EffectHarmfulExplosion *CreateEffectHarmfulExplosion(StageTask *parent, fx32 velX, fx32 velY, s16 left, s16 top, s16 right, s16 bottom, u16 targetFrame, ExplosionType type);
 void EffectHarmfulExplosion_State_Active(EffectHarmfulExplosion *work);
 
-#endif // RUSH2_EFFECT_EXPLOSION_H
+#endif // RUSH_EFFECT_EXPLOSION_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_TASK_H
-#define RUSH2_EFFECT_TASK_H
+#ifndef RUSH_EFFECT_TASK_H
+#define RUSH_EFFECT_TASK_H
 
 #include <stage/stageTask.h>
 #include <stage/player/player.h>
@@ -110,4 +110,4 @@ void EffectTask_State_DestroyAfterTime(StageTask *work);
 void EffectTask_State_MoveTowardsZeroX(StageTask *work);
 void EffectTask_State_TrackParent(StageTask *work);
 
-#endif // RUSH2_EFFECT_TASK_H
+#endif // RUSH_EFFECT_TASK_H

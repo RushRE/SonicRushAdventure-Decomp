@@ -1,5 +1,5 @@
-#ifndef RUSH2_FLIPMUSHROOM_H
-#define RUSH2_FLIPMUSHROOM_H
+#ifndef RUSH_FLIPMUSHROOM_H
+#define RUSH_FLIPMUSHROOM_H
 
 #include <stage/gameObject.h>
 
@@ -23,4 +23,4 @@ typedef struct FlipMushroom_
 
 FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_FLIPMUSHROOM_H
+#endif // RUSH_FLIPMUSHROOM_H

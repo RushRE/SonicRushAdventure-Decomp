@@ -1,5 +1,5 @@
-#ifndef RUSH2_BOSSPLAYERHELPERS_H
-#define RUSH2_BOSSPLAYERHELPERS_H
+#ifndef RUSH_BOSSPLAYERHELPERS_H
+#define RUSH_BOSSPLAYERHELPERS_H
 
 #include <stage/stageTask.h>
 #include <stage/player/player.h>
@@ -26,4 +26,4 @@ void BossPlayerHelpers_OnLandGround_Boss6(Player *player);
 BOOL BossPlayerHelpers_CheckPlayerRidingObj(Player *player);
 void BossPlayerHelpers_State_Ground_Boss6(Player *player);
 
-#endif // RUSH2_BOSSPLAYERHELPERS_H
+#endif // RUSH_BOSSPLAYERHELPERS_H

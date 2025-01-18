@@ -1,5 +1,5 @@
-#ifndef RUSH2_DASHPANEL_H
-#define RUSH2_DASHPANEL_H
+#ifndef RUSH_DASHPANEL_H
+#define RUSH_DASHPANEL_H
 
 #include <stage/gameObject.h>
 
@@ -29,4 +29,4 @@ typedef struct DashPanel_
 
 DashPanel *CreateDashPanel(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_DASHPANEL_H
+#endif // RUSH_DASHPANEL_H

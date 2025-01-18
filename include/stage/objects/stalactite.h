@@ -1,5 +1,5 @@
-#ifndef RUSH2_STALACTITE_H
-#define RUSH2_STALACTITE_H
+#ifndef RUSH_STALACTITE_H
+#define RUSH_STALACTITE_H
 
 #include <stage/gameObject.h>
 
@@ -51,4 +51,4 @@ typedef struct Stalactite_
 Stalactite *CreateStalactite(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 FallingStalactite *CreateFallingStalactite(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_STALACTITE_H
+#endif // RUSH_STALACTITE_H

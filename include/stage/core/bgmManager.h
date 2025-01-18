@@ -1,5 +1,5 @@
-#ifndef RUSH2_STAGEBGM_MANAGER_H
-#define RUSH2_STAGEBGM_MANAGER_H
+#ifndef RUSH_STAGEBGM_MANAGER_H
+#define RUSH_STAGEBGM_MANAGER_H
 
 #include <game/system/task.h>
 
@@ -61,4 +61,4 @@ void FadeStageBGMToTargetVolume(s32 volume, s32 duration, BOOL isInWater);
 // ManagedSfx
 void CreateManagedSfx(s32 seqArcNo, s32 soundID, ManagedSfxFlags flags, struct StageTask_ *parent, s32 duration, s32 delay);
 
-#endif // RUSH2_STAGEBGM_MANAGER_H
+#endif // RUSH_STAGEBGM_MANAGER_H

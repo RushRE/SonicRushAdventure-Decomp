@@ -1,5 +1,5 @@
-#ifndef RUSH2_CPPHELPERS_HPP
-#define RUSH2_CPPHELPERS_HPP
+#ifndef RUSH_CPPHELPERS_HPP
+#define RUSH_CPPHELPERS_HPP
 
 #include <global.h>
 
@@ -71,4 +71,4 @@ void CPPHelpers__VEC_Multiply(VecFx32 *lhs, fx32 value);
 }
 #endif
 
-#endif // RUSH2_CPPHELPERS_HPP
+#endif // RUSH_CPPHELPERS_HPP

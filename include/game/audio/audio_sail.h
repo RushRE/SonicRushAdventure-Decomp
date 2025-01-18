@@ -1,5 +1,5 @@
-#ifndef RUSH2_SND_SAIL_H
-#define RUSH2_SND_SAIL_H
+#ifndef RUSH_SND_SAIL_H
+#define RUSH_SND_SAIL_H
 
 // Sound Archive: Sequences
 enum SND_SAIL_SEQ
@@ -171,4 +171,4 @@ enum SND_SAIL_SEQ_PLAYER
 	SND_SAIL_SEQPLAYER_PLAYER_5,
 };
 
-#endif // !RUSH2_SND_SAIL_H
+#endif // !RUSH_SND_SAIL_H

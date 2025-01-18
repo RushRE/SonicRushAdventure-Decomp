@@ -1,5 +1,5 @@
-#ifndef RUSH2_SPATIALAUDIO_H
-#define RUSH2_SPATIALAUDIO_H
+#ifndef RUSH_SPATIALAUDIO_H
+#define RUSH_SPATIALAUDIO_H
 
 #include <global.h>
 
@@ -19,4 +19,4 @@ void ProcessSpatialVoiceClip(NNSSndHandle *handle, VecFx32 *position);
 void EnableSpatialVolume(void);
 void DisableSpatialVolume(void);
 
-#endif // RUSH2_SPATIALAUDIO_H
+#endif // RUSH_SPATIALAUDIO_H

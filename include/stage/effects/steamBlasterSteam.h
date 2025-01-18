@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_STEAM_BLASTER_STEAM_H
-#define RUSH2_EFFECT_STEAM_BLASTER_STEAM_H
+#ifndef RUSH_EFFECT_STEAM_BLASTER_STEAM_H
+#define RUSH_EFFECT_STEAM_BLASTER_STEAM_H
 
 #include <stage/effectTask.h>
 
@@ -21,4 +21,4 @@ typedef struct EffectSteamBlasterSteam_
 EffectSteamBlasterSteam *CreateEffectSteamBlasterSteam(StageTask *parent, fx32 offsetX, fx32 offsetY, u32 timer);
 void EffectSteamBlasterSteam_State_Active(EffectSteamBlasterSteam *work);
 
-#endif // RUSH2_EFFECT_STEAM_BLASTER_STEAM_H
+#endif // RUSH_EFFECT_STEAM_BLASTER_STEAM_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_WIRELESSHANDLER_H
-#define RUSH2_WIRELESSHANDLER_H
+#ifndef RUSH_WIRELESSHANDLER_H
+#define RUSH_WIRELESSHANDLER_H
 
 #include <global.h>
 #include <game/system/task.h>
@@ -93,4 +93,4 @@ NOT_DECOMPILED u32 WH_GetConnectBitmap(void);
 
 NOT_DECOMPILED WMLinkLevel WirelessManager__GetLinkLevel(void);
 
-#endif // RUSH2_WIRELESSHANDLER_H
+#endif // RUSH_WIRELESSHANDLER_H

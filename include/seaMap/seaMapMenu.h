@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPMENU_H
-#define RUSH2_SEAMAPMENU_H
+#ifndef RUSH_SEAMAPMENU_H
+#define RUSH_SEAMAPMENU_H
 
 #include <seaMap/seaMapView.h>
 
@@ -54,4 +54,4 @@ NOT_DECOMPILED void SeaMapMenu__State_2040734(SeaMapMenu *work);
 NOT_DECOMPILED void SeaMapMenu__State_Close(SeaMapMenu *work);
 NOT_DECOMPILED void SeaMapMenu__State_FadeOut(SeaMapMenu *work);
 
-#endif // RUSH2_SEAMAPMENU_H
+#endif // RUSH_SEAMAPMENU_H

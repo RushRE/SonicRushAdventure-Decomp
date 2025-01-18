@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPCHARTCOURSEVIEW_H
-#define RUSH2_SEAMAPCHARTCOURSEVIEW_H
+#ifndef RUSH_SEAMAPCHARTCOURSEVIEW_H
+#define RUSH_SEAMAPCHARTCOURSEVIEW_H
 
 #include <seaMap/seaMapView.h>
 #include <seaMap/objects/seaMapStylusIcon.h>
@@ -195,4 +195,4 @@ NOT_DECOMPILED void SeaMapChartCourseView__State_2043180(SeaMapChartCourseView *
 NOT_DECOMPILED void SeaMapChartCourseView__State_20431B0(SeaMapChartCourseView *work);
 NOT_DECOMPILED void SeaMapChartCourseView__State_20431D4(SeaMapChartCourseView *work);
 
-#endif // RUSH2_SEAMAPCHARTCOURSEVIEW_H
+#endif // RUSH_SEAMAPCHARTCOURSEVIEW_H

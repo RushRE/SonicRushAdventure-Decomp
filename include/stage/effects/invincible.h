@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_INVINCIBLE_H
-#define RUSH2_EFFECT_INVINCIBLE_H
+#ifndef RUSH_EFFECT_INVINCIBLE_H
+#define RUSH_EFFECT_INVINCIBLE_H
 
 #include <stage/effectTask.h>
 
@@ -19,4 +19,4 @@ typedef struct EffectInvincible_
 void CreateEffectInvincible(Player *parent);
 void EffectInvincible_State_Active(EffectInvincible *work);
 
-#endif // RUSH2_EFFECT_INVINCIBLE_H
+#endif // RUSH_EFFECT_INVINCIBLE_H

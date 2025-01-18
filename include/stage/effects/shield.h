@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_SHIELD_H
-#define RUSH2_EFFECT_SHIELD_H
+#ifndef RUSH_EFFECT_SHIELD_H
+#define RUSH_EFFECT_SHIELD_H
 
 #include <stage/effectTask.h>
 
@@ -33,4 +33,4 @@ void CreateEffectMagnetShieldForPlayer(Player *player);
 EffectShield *CreateEffectMagnetShield(Player *parent);
 void EffectMagnetShield_State_Active(EffectShield *work);
 
-#endif // RUSH2_EFFECT_SHIELD_H
+#endif // RUSH_EFFECT_SHIELD_H

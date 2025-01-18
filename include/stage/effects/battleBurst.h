@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_BATTLE_BURST_H
-#define RUSH2_EFFECT_BATTLE_BURST_H
+#ifndef RUSH_EFFECT_BATTLE_BURST_H
+#define RUSH_EFFECT_BATTLE_BURST_H
 
 #include <stage/effectTask.h>
 
@@ -20,4 +20,4 @@ typedef struct EffectBattleBurst_
 
 EffectBattleBurst *CreateEffectBattleBurst(fx32 x, fx32 y);
 
-#endif // RUSH2_EFFECT_BATTLE_BURST_H
+#endif // RUSH_EFFECT_BATTLE_BURST_H

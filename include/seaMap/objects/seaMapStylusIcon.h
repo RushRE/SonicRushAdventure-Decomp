@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPSTYLUSICON_H
-#define RUSH2_SEAMAPSTYLUSICON_H
+#ifndef RUSH_SEAMAPSTYLUSICON_H
+#define RUSH_SEAMAPSTYLUSICON_H
 
 #include <seaMap/seaMapEventManager.h>
 #include <game/graphics/sprite.h>
@@ -26,4 +26,4 @@ typedef struct SeaMapStylusIcon_
 
 SeaMapObject *CreateSeaMapStylusIcon(CHEVObjectType *objectType, CHEVObject *mapObject);
 
-#endif // RUSH2_SEAMAPSTYLUSICON_H
+#endif // RUSH_SEAMAPSTYLUSICON_H

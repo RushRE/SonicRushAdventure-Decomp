@@ -1,5 +1,5 @@
-#ifndef RUSH2_SPRINGBOARD_H
-#define RUSH2_SPRINGBOARD_H
+#ifndef RUSH_SPRINGBOARD_H
+#define RUSH_SPRINGBOARD_H
 
 #include <stage/gameObject.h>
 
@@ -18,4 +18,4 @@ typedef struct Springboard_
 
 Springboard *CreateSpringboard(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_SPRINGBOARD_H
+#endif // RUSH_SPRINGBOARD_H

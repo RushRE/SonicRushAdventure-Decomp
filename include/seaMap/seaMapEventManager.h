@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPEVENTMANAGER_H
-#define RUSH2_SEAMAPEVENTMANAGER_H
+#ifndef RUSH_SEAMAPEVENTMANAGER_H
+#define RUSH_SEAMAPEVENTMANAGER_H
 
 #include <global.h>
 #include <game/system/task.h>
@@ -137,4 +137,4 @@ NOT_DECOMPILED BOOL SeaMapEventManager__PointInViewRect(s32 left, s32 top, s32 r
 NOT_DECOMPILED BOOL SeaMapEventManager__ViewRectCheck(CHEVObject *object, fx32 x, fx32 y);
 NOT_DECOMPILED BOOL SeaMapEventManager__ViewRectCheck2(CHEVObject *mapObject, fx32 x, fx32 y);
 
-#endif // RUSH2_SEAMAPEVENTMANAGER_H
+#endif // RUSH_SEAMAPEVENTMANAGER_H

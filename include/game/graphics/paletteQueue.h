@@ -1,5 +1,5 @@
-#ifndef RUSH2_PALETTE_QUEUE_H
-#define RUSH2_PALETTE_QUEUE_H
+#ifndef RUSH_PALETTE_QUEUE_H
+#define RUSH_PALETTE_QUEUE_H
 
 #include <game/system/queue.h>
 
@@ -40,4 +40,4 @@ void BrightenColors(GXRgb *srcColors, GXRgb *dstColors, u16 colorCount, u8 brigh
 void DarkenColors(GXRgb *srcColors, GXRgb *dstColors, u16 colorCount, u8 brightness);
 void LerpColors(GXRgb *startColors, GXRgb *targetColors, GXRgb *dstColors, u16 colorCount, u8 speed);
 
-#endif // RUSH2_PALETTE_QUEUE_H
+#endif // RUSH_PALETTE_QUEUE_H

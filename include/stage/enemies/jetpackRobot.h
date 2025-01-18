@@ -1,5 +1,5 @@
-#ifndef RUSH2_JETPACKROBOT_H
-#define RUSH2_JETPACKROBOT_H
+#ifndef RUSH_JETPACKROBOT_H
+#define RUSH_JETPACKROBOT_H
 
 #include <stage/gameObject.h>
 
@@ -57,4 +57,4 @@ typedef struct EnemyJetpackRobot_
 
 EnemyJetpackRobot *CreateJetpackRobot(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_JETPACKROBOT_H
+#endif // RUSH_JETPACKROBOT_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_UNKNOWN204BE48_H
-#define RUSH2_UNKNOWN204BE48_H
+#ifndef RUSH_UNKNOWN204BE48_H
+#define RUSH_UNKNOWN204BE48_H
 
 #include <global.h>
 
@@ -51,4 +51,4 @@ NOT_DECOMPILED void Task__Unknown204BE48__Main(void);
 NOT_DECOMPILED void Task__Unknown204BE48__Destructor(Task *task);
 NOT_DECOMPILED s32 Task__Unknown204BE48__GetPercent(int percent, int a2);
 
-#endif // RUSH2_UNKNOWN204BE48_H
+#endif // RUSH_UNKNOWN204BE48_H

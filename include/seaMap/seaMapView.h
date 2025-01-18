@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPVIEW_H
-#define RUSH2_SEAMAPVIEW_H
+#ifndef RUSH_SEAMAPVIEW_H
+#define RUSH_SEAMAPVIEW_H
 
 #include <global.h>
 #include <game/system/task.h>
@@ -143,4 +143,4 @@ NOT_DECOMPILED s32 SeaMapView__Func_203FC7C(SeaMapView *work, u16 a2, u16 a3);
 NOT_DECOMPILED void SeaMapView__Func_203FE44(SeaMapView *work);
 NOT_DECOMPILED void SeaMapView__Func_203FE80(SeaMapView *work);
 
-#endif // RUSH2_SEAMAPVIEW_H
+#endif // RUSH_SEAMAPVIEW_H

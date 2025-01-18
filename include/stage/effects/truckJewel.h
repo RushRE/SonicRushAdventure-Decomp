@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_TRUCK_JEWEL_H
-#define RUSH2_EFFECT_TRUCK_JEWEL_H
+#ifndef RUSH_EFFECT_TRUCK_JEWEL_H
+#define RUSH_EFFECT_TRUCK_JEWEL_H
 
 #include <stage/effectTask.h>
 
@@ -23,4 +23,4 @@ EffectTruckJewel *EffectTruckJewel__Create(StageTask *parent, fx32 velX, fx32 ve
 void EffectTruckJewel__State_202C06C(EffectTruckJewel *work);
 void EffectTruckJewel__Draw(void);
 
-#endif // RUSH2_EFFECT_TRUCK_JEWEL_H
+#endif // RUSH_EFFECT_TRUCK_JEWEL_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_TOUCH_FIELD_H
-#define RUSH2_TOUCH_FIELD_H
+#ifndef RUSH_TOUCH_FIELD_H
+#define RUSH_TOUCH_FIELD_H
 
 #include <global.h>
 #include <game/input/touchInput.h>
@@ -184,4 +184,4 @@ BOOL TouchField__PointInRect(TouchArea *area);
 BOOL TouchField__PointInCircle(TouchArea *area);
 BOOL TouchField__PointInAnimator(TouchArea *area);
 
-#endif // RUSH2_TOUCH_FIELD_H
+#endif // RUSH_TOUCH_FIELD_H

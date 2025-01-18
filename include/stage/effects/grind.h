@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_GRIND_H
-#define RUSH2_EFFECT_GRIND_H
+#ifndef RUSH_EFFECT_GRIND_H
+#define RUSH_EFFECT_GRIND_H
 
 #include <stage/effectTask.h>
 
@@ -26,4 +26,4 @@ void EffectGrindSpark_State_FollowParent(EffectGrind *work);
 // WaterGrind
 EffectGrind *CreateEffectWaterGrindSpark(Player *parent, fx32 velX, fx32 velY);
 
-#endif // RUSH2_EFFECT_GRIND_H
+#endif // RUSH_EFFECT_GRIND_H

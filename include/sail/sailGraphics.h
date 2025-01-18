@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILGRAPHICS_H
-#define RUSH2_SAILGRAPHICS_H
+#ifndef RUSH_SAILGRAPHICS_H
+#define RUSH_SAILGRAPHICS_H
 
 #include <global.h>
 
@@ -10,4 +10,4 @@
 void SailGraphics__SetupDisplay(void);
 void SailGraphics__SetupLights(void);
 
-#endif // !RUSH2_SAILGRAPHICS_H
+#endif // !RUSH_SAILGRAPHICS_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAVEINITMESSAGE_H
-#define RUSH2_SAVEINITMESSAGE_H
+#ifndef RUSH_SAVEINITMESSAGE_H
+#define RUSH_SAVEINITMESSAGE_H
 
 #include <game/save/saveInitManager.h>
 #include <game/graphics/sprite.h>
@@ -40,4 +40,4 @@ typedef struct SaveInitMessage_
 
 void CreateSaveInitMessage(SaveInitManager *parent, GameInitMessageTypes type);
 
-#endif // RUSH2_SAVEINITMESSAGE_H
+#endif // RUSH_SAVEINITMESSAGE_H

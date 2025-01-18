@@ -1,5 +1,5 @@
-#ifndef RUSH2_SCRIPT_H
-#define RUSH2_SCRIPT_H
+#ifndef RUSH_SCRIPT_H
+#define RUSH_SCRIPT_H
 
 #include <global.h>
 
@@ -132,4 +132,4 @@ u32 GetScriptStartParam(u32 cutsceneID);
 u32 GetScriptCanSkipFlagIn(void);
 u32 GetScriptCanSkipFlagOut(void);
 
-#endif // RUSH2_SCRIPT_H
+#endif // RUSH_SCRIPT_H

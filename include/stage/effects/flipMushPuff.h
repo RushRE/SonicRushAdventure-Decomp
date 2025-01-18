@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_FLIP_MUSH_PUFF_H
-#define RUSH2_EFFECT_FLIP_MUSH_PUFF_H
+#ifndef RUSH_EFFECT_FLIP_MUSH_PUFF_H
+#define RUSH_EFFECT_FLIP_MUSH_PUFF_H
 
 #include <stage/effectTask.h>
 
@@ -33,4 +33,4 @@ typedef struct EffectFlipMushPuff_
 
 EffectFlipMushPuff *EffectFlipMushPuff__Create(fx32 x, fx32 y, fx32 velX, fx32 velY);
 
-#endif // RUSH2_EFFECT_FLIP_MUSH_PUFF_H
+#endif // RUSH_EFFECT_FLIP_MUSH_PUFF_H

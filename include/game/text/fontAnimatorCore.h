@@ -1,6 +1,6 @@
 
-#ifndef RUSH2_FONTANIMATORCORE_H
-#define RUSH2_FONTANIMATORCORE_H
+#ifndef RUSH_FONTANIMATORCORE_H
+#define RUSH_FONTANIMATORCORE_H
 
 #include <global.h>
 
@@ -24,4 +24,4 @@ NOT_DECOMPILED void FontAnimatorCore__Init(void);
 NOT_DECOMPILED void FontAnimatorCore__LoadFont(void);
 NOT_DECOMPILED void FontAnimatorCore__Release(void);
 
-#endif // RUSH2_FONTANIMATORCORE_H
+#endif // RUSH_FONTANIMATORCORE_H

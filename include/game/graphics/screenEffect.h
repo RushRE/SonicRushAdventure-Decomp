@@ -1,5 +1,5 @@
-#ifndef RUSH2_SCREENEFFECT_H
-#define RUSH2_SCREENEFFECT_H
+#ifndef RUSH_SCREENEFFECT_H
+#define RUSH_SCREENEFFECT_H
 
 #include <game/system/task.h>
 
@@ -28,4 +28,4 @@ typedef struct ScreenEffect_
 
 void CreateScreenEffect(const ScreenEffectEvent *controller);
 
-#endif // RUSH2_SCREENEFFECT_H
+#endif // RUSH_SCREENEFFECT_H

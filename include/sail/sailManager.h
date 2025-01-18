@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILMANAGER_H
-#define RUSH2_SAILMANAGER_H
+#ifndef RUSH_SAILMANAGER_H
+#define RUSH_SAILMANAGER_H
 
 #include <game/system/task.h>
 #include <game/game/gameState.h>
@@ -160,4 +160,4 @@ SailManager *SailManager__Create(void);
 void SailManager__Destructor(Task *task);
 void SailManager__Main(void);
 
-#endif // !RUSH2_SAILMANAGER_H
+#endif // !RUSH_SAILMANAGER_H

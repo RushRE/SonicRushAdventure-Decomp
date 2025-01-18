@@ -1,5 +1,5 @@
-#ifndef RUSH2_SKYMOON_H
-#define RUSH2_SKYMOON_H
+#ifndef RUSH_SKYMOON_H
+#define RUSH_SKYMOON_H
 
 #include <stage/gameObject.h>
 
@@ -29,4 +29,4 @@ typedef struct EnemySkymoonLaser_
 EnemySkymoon *CreateSkymoon(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 EnemySkymoonLaser *CreateSkymoonLaser(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_SKYMOON_H
+#endif // RUSH_SKYMOON_H

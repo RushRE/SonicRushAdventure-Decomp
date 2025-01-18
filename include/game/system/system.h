@@ -1,5 +1,5 @@
-#ifndef RUSH2_SYSTEM_H
-#define RUSH2_SYSTEM_H
+#ifndef RUSH_SYSTEM_H
+#define RUSH_SYSTEM_H
 
 #include <global.h>
 
@@ -13,4 +13,4 @@ void ResetRenderAffine(void);
 u32 GetSystemFrameCounter(void);
 void UnknownSystemHandler(void);
 
-#endif // RUSH2_SYSTEM_H
+#endif // RUSH_SYSTEM_H

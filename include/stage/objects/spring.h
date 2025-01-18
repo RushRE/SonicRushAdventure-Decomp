@@ -1,5 +1,5 @@
-#ifndef RUSH2_SPRING_H
-#define RUSH2_SPRING_H
+#ifndef RUSH_SPRING_H
+#define RUSH_SPRING_H
 
 #include <stage/gameObject.h>
 
@@ -18,4 +18,4 @@ typedef struct Spring_
 
 Spring *CreateSpring(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_SPRING_H
+#endif // RUSH_SPRING_H

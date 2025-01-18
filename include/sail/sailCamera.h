@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILCAMERA_H
-#define RUSH2_SAILCAMERA_H
+#ifndef RUSH_SAILCAMERA_H
+#define RUSH_SAILCAMERA_H
 
 #include <stage/stageTask.h>
 
@@ -33,4 +33,4 @@ NOT_DECOMPILED void SailCamera__Main(void);
 NOT_DECOMPILED void SailCamera__State_JetHover(SailCamera *work);
 NOT_DECOMPILED void SailCamera__State_Boat(SailCamera *work);
 
-#endif // !RUSH2_SAILCAMERA_H
+#endif // !RUSH_SAILCAMERA_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_ITEMBOX_H
-#define RUSH2_ITEMBOX_H
+#ifndef RUSH_ITEMBOX_H
+#define RUSH_ITEMBOX_H
 
 #include <stage/gameObject.h>
 
@@ -27,4 +27,4 @@ ItemBox *CreateItemBox(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 void BreakItemBox(ItemBox *work, Player *player, s32 type);
 void CreateItemBoxReward(s32 type);
 
-#endif // RUSH2_ITEMBOX_H
+#endif // RUSH_ITEMBOX_H

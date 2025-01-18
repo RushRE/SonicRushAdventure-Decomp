@@ -1,6 +1,6 @@
 
-#ifndef RUSH2_FONTWINDOW_H
-#define RUSH2_FONTWINDOW_H
+#ifndef RUSH_FONTWINDOW_H
+#define RUSH_FONTWINDOW_H
 
 #include <game/text/fontFile.h>
 #include <game/text/fontDMAControl.h>
@@ -41,4 +41,4 @@ NOT_DECOMPILED void *FontWindow__GetFileFromArchive(FontWindow *work, u32 archiv
 NOT_DECOMPILED void *FontWindow__GetMWBackground(FontWindow *work, u32 fileID);
 NOT_DECOMPILED void *FontWindow__GetMWPaletteAnimation(FontWindow *this, u32 id);
 
-#endif // RUSH2_FONTWINDOW_H
+#endif // RUSH_FONTWINDOW_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_ANIMATORSPRITE_H
-#define RUSH2_ANIMATORSPRITE_H
+#ifndef RUSH_ANIMATORSPRITE_H
+#define RUSH_ANIMATORSPRITE_H
 
 #include <global.h>
 #include <game/graphics/paletteQueue.h>
@@ -592,4 +592,4 @@ RUSH_INLINE void Animator3D__Release(Animator3D *animator)
     }
 }
 
-#endif // RUSH2_ANIMATORSPRITE_H
+#endif // RUSH_ANIMATORSPRITE_H

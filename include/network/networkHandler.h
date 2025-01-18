@@ -1,5 +1,5 @@
-#ifndef RUSH2_NETWORKHANDLER_H
-#define RUSH2_NETWORKHANDLER_H
+#ifndef RUSH_NETWORKHANDLER_H
+#define RUSH_NETWORKHANDLER_H
 
 #include <global.h>
 #include <game/system/task.h>
@@ -203,4 +203,4 @@ s32 GetLeaderboardsRankOrder(void);
 u32 GetLeaderboardsRankCount(void);
 DWCRnkData *GetLeaderboardsRankData(s32 id);
 
-#endif // RUSH2_NETWORKHANDLER_H
+#endif // RUSH_NETWORKHANDLER_H

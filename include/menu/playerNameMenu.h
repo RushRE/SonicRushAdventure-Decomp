@@ -1,5 +1,5 @@
-#ifndef RUSH2_PLAYERNAMEMENU_H
-#define RUSH2_PLAYERNAMEMENU_H
+#ifndef RUSH_PLAYERNAMEMENU_H
+#define RUSH_PLAYERNAMEMENU_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -25,4 +25,4 @@ typedef struct PlayerNameMenu_
 
 void CreatePlayerNameMenu(void);
 
-#endif // RUSH2_PLAYERNAMEMENU_H
+#endif // RUSH_PLAYERNAMEMENU_H

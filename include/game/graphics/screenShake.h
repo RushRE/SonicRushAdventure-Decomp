@@ -1,5 +1,5 @@
-#ifndef RUSH2_SCREENSHAKE_H
-#define RUSH2_SCREENSHAKE_H
+#ifndef RUSH_SCREENSHAKE_H
+#define RUSH_SCREENSHAKE_H
 
 #include <game/system/task.h>
 
@@ -65,4 +65,4 @@ ScreenShake *ShakeScreenEx(s32 lifetime, s32 rotSpeed, s32 lifetimeDrain);
 s32 GetScreenShakeOffsetX(void);
 s32 GetScreenShakeOffsetY(void);
 
-#endif // RUSH2_SCREENSHAKE_H
+#endif // RUSH_SCREENSHAKE_H

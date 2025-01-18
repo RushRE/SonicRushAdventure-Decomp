@@ -1,5 +1,5 @@
-#ifndef RUSH2_MAP_SYS_H
-#define RUSH2_MAP_SYS_H
+#ifndef RUSH_MAP_SYS_H
+#define RUSH_MAP_SYS_H
 
 #include <global.h>
 #include <game/math/mtMath.h>
@@ -1027,4 +1027,4 @@ void MapSys__CamLook_LookDownIdle(MapSys *work);
 void MapSys__CamLook_Reset(MapSys *work);
 void MapSys__HandleCameraScreenSwap(void);
 
-#endif // RUSH2_MAP_SYS_H
+#endif // RUSH_MAP_SYS_H

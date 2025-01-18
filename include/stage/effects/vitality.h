@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_VITALITY_H
-#define RUSH2_EFFECT_VITALITY_H
+#ifndef RUSH_EFFECT_VITALITY_H
+#define RUSH_EFFECT_VITALITY_H
 
 #include <stage/effectTask.h>
 
@@ -20,4 +20,4 @@ typedef struct EffectVitality_
 
 EffectVitality *CreateEffectVitality(StageTask *parent, fx32 velX, fx32 velY, u8 health);
 
-#endif // RUSH2_EFFECT_VITALITY_H
+#endif // RUSH_EFFECT_VITALITY_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_HOVER_CRYSTAL_SPARKLE_H
-#define RUSH2_EFFECT_HOVER_CRYSTAL_SPARKLE_H
+#ifndef RUSH_EFFECT_HOVER_CRYSTAL_SPARKLE_H
+#define RUSH_EFFECT_HOVER_CRYSTAL_SPARKLE_H
 
 #include <stage/effectTask.h>
 
@@ -40,4 +40,4 @@ void EffectHoverCrystalSparkle__Destructor(Task *task);
 void EffectHoverCrystalSparkle__State_202CFB8(EffectHoverCrystalSparkle *work);
 void EffectHoverCrystalSparkle__Draw(void);
 
-#endif // RUSH2_EFFECT_HOVER_CRYSTAL_SPARKLE_H
+#endif // RUSH_EFFECT_HOVER_CRYSTAL_SPARKLE_H

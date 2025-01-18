@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILRINGMANAGER_H
-#define RUSH2_SAILRINGMANAGER_H
+#ifndef RUSH_SAILRINGMANAGER_H
+#define RUSH_SAILRINGMANAGER_H
 
 #include <stage/stageTask.h>
 
@@ -47,4 +47,4 @@ NOT_DECOMPILED void SailRingManager_GivePlayerRing(SailRing *ring, StageTask *pl
 NOT_DECOMPILED void SailRingManager_DrawRings(SailRingManager *work);
 NOT_DECOMPILED void SailRingManager_Func_21571C4(SailRingManager *work);
 
-#endif // !RUSH2_SAILRINGMANAGER_H
+#endif // !RUSH_SAILRINGMANAGER_H

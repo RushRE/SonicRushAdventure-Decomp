@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_PIPE_FLOW_SEED_H
-#define RUSH2_EFFECT_PIPE_FLOW_SEED_H
+#ifndef RUSH_EFFECT_PIPE_FLOW_SEED_H
+#define RUSH_EFFECT_PIPE_FLOW_SEED_H
 
 #include <stage/effectTask.h>
 
@@ -21,4 +21,4 @@ typedef struct EffectPipeFlowSeed_
 EffectPipeFlowSeed *EffectPipeFlowSeed__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type);
 void EffectPipeFlowSeed__State_202ADFC(EffectPipeFlowSeed *work);
 
-#endif // RUSH2_EFFECT_PIPE_FLOW_SEED_H
+#endif // RUSH_EFFECT_PIPE_FLOW_SEED_H

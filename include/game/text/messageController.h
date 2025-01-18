@@ -1,6 +1,6 @@
 
-#ifndef RUSH2_MESSAGECONTROLLER_H
-#define RUSH2_MESSAGECONTROLLER_H
+#ifndef RUSH_MESSAGECONTROLLER_H
+#define RUSH_MESSAGECONTROLLER_H
 
 #include <game/text/fontField9C.h>
 
@@ -97,4 +97,4 @@ NOT_DECOMPILED void MessageController__ValidateUnknown(void);
 NOT_DECOMPILED void MessageController__RunCallback(void);
 NOT_DECOMPILED void MessageController__DrawCharacter(void);
 
-#endif // RUSH2_MESSAGECONTROLLER_H
+#endif // RUSH_MESSAGECONTROLLER_H

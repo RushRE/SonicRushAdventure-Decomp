@@ -1,5 +1,5 @@
-#ifndef RUSH2_AKUTIL_H
-#define RUSH2_AKUTIL_H
+#ifndef RUSH_AKUTIL_H
+#define RUSH_AKUTIL_H
 
 #include <global.h>
 
@@ -22,4 +22,4 @@
 // NOTE: Assumes 'frame' is calculated at 60FPS!!!
 void AkUtilFrameToTime(u32 frame, u16 *min, u16 *sec, u16 *msec);
 
-#endif // RUSH2_AKUTIL_H
+#endif // RUSH_AKUTIL_H

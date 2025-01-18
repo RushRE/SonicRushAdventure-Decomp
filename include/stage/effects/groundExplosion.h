@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_GROUND_EXPLOSION_H
-#define RUSH2_EFFECT_GROUND_EXPLOSION_H
+#ifndef RUSH_EFFECT_GROUND_EXPLOSION_H
+#define RUSH_EFFECT_GROUND_EXPLOSION_H
 
 #include <stage/effectTask.h>
 
@@ -20,4 +20,4 @@ typedef struct EffectGroundExplosion_
 
 EffectGroundExplosion *CreateEffectGroundExplosion(StageTask *parent, fx32 velX, fx32 velY);
 
-#endif // RUSH2_EFFECT_GROUND_EXPLOSION_H
+#endif // RUSH_EFFECT_GROUND_EXPLOSION_H

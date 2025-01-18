@@ -6,11 +6,11 @@
 // CONSTANTS
 // --------------------
 
-#define RUSH2_DWC_PRODUCTID  11073
-#define RUSH2_DWC_GAME_NAME  "sonicrushads"
-#define RUSH2_DWC_SECRET_KEY "so70kL"
+#define RUSH_DWC_PRODUCTID  11073
+#define RUSH_DWC_GAME_NAME  "sonicrushads"
+#define RUSH_DWC_SECRET_KEY "so70kL"
 
-#define RUSH2_RANKING_INITDATA "GJAUDfkWhyXycROchNeD0002662d00006beb00000004123f138fsonicrushads"
+#define RUSH_RANKING_INITDATA "GJAUDfkWhyXycROchNeD0002662d00006beb00000004123f138fsonicrushads"
 
 #define MATCHHANDLER_BUFFER_SIZE 0x800
 
@@ -231,7 +231,7 @@ void CreateMatchManager(DWCUserData *userData, DWCAccFriendData *friendList, u16
     work->friendCount = friendCount;
     work->status      = MATCHMANAGER_STATUS_IDLE;
 
-    DWC_InitFriendsMatch(&dwcFriendsMatchControl.control, work->userData, RUSH2_DWC_PRODUCTID, RUSH2_DWC_GAME_NAME, RUSH2_DWC_SECRET_KEY, MATCHHANDLER_BUFFER_SIZE,
+    DWC_InitFriendsMatch(&dwcFriendsMatchControl.control, work->userData, RUSH_DWC_PRODUCTID, RUSH_DWC_GAME_NAME, RUSH_DWC_SECRET_KEY, MATCHHANDLER_BUFFER_SIZE,
                          MATCHHANDLER_BUFFER_SIZE, work->friendList, work->friendCount);
 
     if (!DWC_LoginAsync(name, NULL, MatchLoginCallback, work))
@@ -458,7 +458,7 @@ BOOL CreateLeaderboardsManager(DWCUserData *profile)
     work->profile = profile;
     work->getMode = (DWCRnkGetMode)-1;
 
-    switch (DWC_RnkInitialize(RUSH2_RANKING_INITDATA, profile))
+    switch (DWC_RnkInitialize(RUSH_RANKING_INITDATA, profile))
     {
         case DWC_RNK_IN_ERROR:
         case DWC_RNK_ERROR_INVALID_PARAMETER:

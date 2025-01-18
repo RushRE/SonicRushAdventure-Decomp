@@ -1,5 +1,5 @@
-#ifndef RUSH2_THREAD_H
-#define RUSH2_THREAD_H
+#ifndef RUSH_THREAD_H
+#define RUSH_THREAD_H
 
 #include <global.h>
 
@@ -38,4 +38,4 @@ void JoinThreadWorker(Thread *thread);
 void DestroyThreadWorker(Thread *thread);
 void ReleaseThreadWorker(Thread *thread);
 
-#endif // RUSH2_THREAD_H
+#endif // RUSH_THREAD_H

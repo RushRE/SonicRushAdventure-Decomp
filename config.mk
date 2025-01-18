@@ -8,7 +8,7 @@ shortname     := sra
 TITLE_NAME    := SONICRUSHADV
 GAME_CODE     := A3Y
 else
-	ifeq ($(GAME_VERSION),RUSH2_CONTEST)
+	ifeq ($(GAME_VERSION),RUSH_CONTEST)
 buildname     := rush2.contest
 shortname     := r2vs
 TITLE_NAME    := NINTENDO    
@@ -16,7 +16,7 @@ GAME_CODE     := NTR
 	endif
 endif
 
-ifeq ($(GAME_VERSION),RUSH2_CONTEST)
+ifeq ($(GAME_VERSION),RUSH_CONTEST)
 buildname := $(buildname)
 GAME_CODE := $(GAME_CODE)J
 else
@@ -49,14 +49,10 @@ BUILD_DIR         := $(ROOT_DIR)build/$(buildname)
 ELFNAME           := arm9
 ROM_PADDING		  := TRUE
 
-GF_DEFINES  := -D$(GAME_VERSION) -DRUSH2_$(GAME_REVISION) -DRUSH2_$(GAME_REGION)
+GF_DEFINES  := -D$(GAME_VERSION) -DRUSH_$(GAME_REVISION) -DRUSH_$(GAME_REGION)
 
-ifeq ($(GAME_VERSION),RUSH2_CONTEST)
+ifeq ($(GAME_VERSION),RUSH_CONTEST)
 GF_DEFINES  += -DRUSH_CONTEST
-endif
-
-ifeq ($(NO_GF_ASSERT),)
-GF_DEFINES  += -DRUSH_KEEP_ASSERTS
 endif
 
 GLB_DEFINES := -DSDK_CODE_ARM

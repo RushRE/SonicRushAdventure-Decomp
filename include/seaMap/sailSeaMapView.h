@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILSEAMAPVIEW_H
-#define RUSH2_SAILSEAMAPVIEW_H
+#ifndef RUSH_SAILSEAMAPVIEW_H
+#define RUSH_SAILSEAMAPVIEW_H
 
 #include <seaMap/seaMapView.h>
 #include <seaMap/objects/seaMapBoatIcon.h>
@@ -29,4 +29,4 @@ SailSeaMapView *SailSeaMapView_GetWork(void);
 fx32 SailSeaMapView_GetVoyageCompetionPercent(void);
 s32 SailSeaMapView_GetNodesFromPercent(s32 progress, u16 *nodeX, u16 *nodeY, SeaMapManagerNode **prevNodePtr, SeaMapManagerNode **nextNodePtr);
 
-#endif // !RUSH2_SAILSEAMAPVIEW_H
+#endif // !RUSH_SAILSEAMAPVIEW_H

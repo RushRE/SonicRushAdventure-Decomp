@@ -1,5 +1,5 @@
-#ifndef RUSH2_SNOWBALL_H
-#define RUSH2_SNOWBALL_H
+#ifndef RUSH_SNOWBALL_H
+#define RUSH_SNOWBALL_H
 
 #include <stage/gameObject.h>
 
@@ -34,4 +34,4 @@ typedef struct EnemySnowballShot_
 EnemySnowball *CreateSnowball(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 EnemySnowballShot *CreateSnowballShot(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_SNOWBALL_H
+#endif // RUSH_SNOWBALL_H

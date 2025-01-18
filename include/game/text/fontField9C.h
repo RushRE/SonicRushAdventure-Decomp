@@ -1,6 +1,6 @@
 
-#ifndef RUSH2_FONTFIELD9C_H
-#define RUSH2_FONTFIELD9C_H
+#ifndef RUSH_FONTFIELD9C_H
+#define RUSH_FONTFIELD9C_H
 
 #include <global.h>
 
@@ -24,4 +24,4 @@ NOT_DECOMPILED void FontField_9C__Init(FontField_9C *work);
 NOT_DECOMPILED void FontField_9C__Func_2059670(void);
 NOT_DECOMPILED BOOL FontField_9C__IsInvalid(FontField_9C *work);
 
-#endif // RUSH2_FONTFIELD9C_H
+#endif // RUSH_FONTFIELD9C_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPCORALCAVEICON_H
-#define RUSH2_SEAMAPCORALCAVEICON_H
+#ifndef RUSH_SEAMAPCORALCAVEICON_H
+#define RUSH_SEAMAPCORALCAVEICON_H
 
 #include <seaMap/seaMapEventManager.h>
 #include <game/graphics/sprite.h>
@@ -25,4 +25,4 @@ typedef struct SeaMapCoralCaveIcon_
 
 SeaMapObject *CreateSeaMapCoralCaveIcon(CHEVObjectType *objectType, CHEVObject *mapObject);
 
-#endif // RUSH2_SEAMAPCORALCAVEICON_H
+#endif // RUSH_SEAMAPCORALCAVEICON_H

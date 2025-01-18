@@ -1,5 +1,5 @@
-#ifndef RUSH2_BANKUNKNOWN_H
-#define RUSH2_BANKUNKNOWN_H
+#ifndef RUSH_BANKUNKNOWN_H
+#define RUSH_BANKUNKNOWN_H
 
 #include <global.h>
 
@@ -33,4 +33,4 @@ typedef u8 BankUnknownBank;
 
 BankUnknownBank BankUnknown__GetBankID(u32 bank);
 
-#endif // RUSH2_BANKUNKNOWN_H
+#endif // RUSH_BANKUNKNOWN_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_OBJECT_MANAGER_H
-#define RUSH2_OBJECT_MANAGER_H
+#ifndef RUSH_OBJECT_MANAGER_H
+#define RUSH_OBJECT_MANAGER_H
 
 #include <game/object/objData.h>
 #include <game/graphics/drawReqTask.h>
@@ -301,4 +301,4 @@ void SetObjCameraPosition(fx32 x1, fx32 y1, fx32 x2, fx32 y2);
 #define GetObjectTextureRef(id)  ((OBS_TEXTURE_REF *)GetObjectFileWork(id))
 #define GetObjectGraphicsRef(id) ((OBS_GFX_REF *)GetObjectFileWork(id))
 
-#endif // RUSH2_OBJECT_MANAGER_H
+#endif // RUSH_OBJECT_MANAGER_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_FONTANIMATOR_H
-#define RUSH2_FONTANIMATOR_H
+#ifndef RUSH_FONTANIMATOR_H
+#define RUSH_FONTANIMATOR_H
 
 #include <game/text/fontAnimatorCore.h>
 #include <game/text/messageController.h>
@@ -121,4 +121,4 @@ NOT_DECOMPILED void FontAnimator__MessageCallback(void);
 NOT_DECOMPILED void FontAnimator__AddUnknown(void);
 NOT_DECOMPILED void FontAnimator__RemoveUnknown(void);
 
-#endif // RUSH2_FONTANIMATOR_H
+#endif // RUSH_FONTANIMATOR_H

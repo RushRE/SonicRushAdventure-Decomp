@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_STEAM_H
-#define RUSH2_EFFECT_STEAM_H
+#ifndef RUSH_EFFECT_STEAM_H
+#define RUSH_EFFECT_STEAM_H
 
 #include <stage/effectTask.h>
 
@@ -21,4 +21,4 @@ typedef struct EffectSteam_
 EffectSteam *EffectSteamDust__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 velY);
 EffectSteam *EffectSteamEffect__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 velY, s32 timer);
 
-#endif // RUSH2_EFFECT_STEAM_H
+#endif // RUSH_EFFECT_STEAM_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_SYSEVENT_H
-#define RUSH2_SYSEVENT_H
+#ifndef RUSH_SYSEVENT_H
+#define RUSH_SYSEVENT_H
 
 #include <global.h>
 #include <game/system/task.h>
@@ -161,4 +161,4 @@ RUSH_INLINE EventID GetReqSysEvent(void)
     return GetSysEventList()->requestedEventID;
 }
 
-#endif // RUSH2_SYSEVENT_H
+#endif // RUSH_SYSEVENT_H

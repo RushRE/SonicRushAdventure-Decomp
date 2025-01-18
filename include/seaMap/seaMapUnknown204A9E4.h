@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPUNKNOWN204A9E4_H
-#define RUSH2_SEAMAPUNKNOWN204A9E4_H
+#ifndef RUSH_SEAMAPUNKNOWN204A9E4_H
+#define RUSH_SEAMAPUNKNOWN204A9E4_H
 
 #include <seaMap/seaMapEventManager.h>
 
@@ -37,4 +37,4 @@ NOT_DECOMPILED void SeaMapUnknown204A9E4__RemoveObject(SeaMapUnknown204A9E4Objec
 NOT_DECOMPILED void SeaMapUnknown204A9E4__RunCallbacks(s32 a1, CHEVObject *a2, s32 a3);
 NOT_DECOMPILED void SeaMapUnknown204A9E4__InitList(void);
 
-#endif // RUSH2_SEAMAPUNKNOWN204A9E4_H
+#endif // RUSH_SEAMAPUNKNOWN204A9E4_H

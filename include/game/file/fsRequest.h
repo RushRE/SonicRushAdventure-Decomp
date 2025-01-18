@@ -1,5 +1,5 @@
-#ifndef RUSH2_FSREQUEST_H
-#define RUSH2_FSREQUEST_H
+#ifndef RUSH_FSREQUEST_H
+#define RUSH_FSREQUEST_H
 
 #include <global.h>
 #include <game/system/allocator.h>
@@ -92,4 +92,4 @@ RUSH_INLINE void FSRequestArchive(const char *path, void **memory, BOOL fromTail
     HeapFree(HEAP_USER, compressedData);
 }
 
-#endif // RUSH2_FSREQUEST_H
+#endif // RUSH_FSREQUEST_H

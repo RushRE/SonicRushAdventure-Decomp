@@ -1,5 +1,5 @@
-#ifndef RUSH2_TITLESCREEN_H
-#define RUSH2_TITLESCREEN_H
+#ifndef RUSH_TITLESCREEN_H
+#define RUSH_TITLESCREEN_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -99,4 +99,4 @@ typedef struct TitleScreenPressStart_
 
 void InitTitleScreen(void);
 
-#endif // RUSH2_TITLESCREEN_H
+#endif // RUSH_TITLESCREEN_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_OBJ_ACTION_H
-#define RUSH2_OBJ_ACTION_H
+#ifndef RUSH_OBJ_ACTION_H
+#define RUSH_OBJ_ACTION_H
 
 #include <game/graphics/sprite.h>
 #include <game/object/objData.h>
@@ -90,4 +90,4 @@ RUSH_INLINE void ObjAction3dESEffectSetScale(OBS_ACTION3D_ES_WORK *esWork, fx32 
     esWork->ani.work.scale.z = scaleZ;
 }
 
-#endif // RUSH2_OBJ_ACTION_H
+#endif // RUSH_OBJ_ACTION_H

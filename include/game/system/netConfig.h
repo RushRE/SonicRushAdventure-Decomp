@@ -1,5 +1,5 @@
-#ifndef RUSH2_NETCONFIG_H
-#define RUSH2_NETCONFIG_H
+#ifndef RUSH_NETCONFIG_H
+#define RUSH_NETCONFIG_H
 
 #include <global.h>
 
@@ -9,4 +9,4 @@
 
 void RunNetConfig(void);
 
-#endif // RUSH2_NETCONFIG_H
+#endif // RUSH_NETCONFIG_H

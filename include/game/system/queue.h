@@ -1,5 +1,5 @@
-#ifndef RUSH2_QUEUE_H
-#define RUSH2_QUEUE_H
+#ifndef RUSH_QUEUE_H
+#define RUSH_QUEUE_H
 
 #include <global.h>
 
@@ -46,4 +46,4 @@ void InitQueueSystem(void);
 QueueEntry *AllocQueueEntry(void);
 void FreeQueueEntry(QueueEntry *entry);
 
-#endif // RUSH2_QUEUE_H
+#endif // RUSH_QUEUE_H

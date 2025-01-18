@@ -1,5 +1,5 @@
-#ifndef RUSH2_RINGBATTLEMANAGER_H
-#define RUSH2_RINGBATTLEMANAGER_H
+#ifndef RUSH_RINGBATTLEMANAGER_H
+#define RUSH_RINGBATTLEMANAGER_H
 
 #include <stage/gameObject.h>
 #include <stage/objects/ringButton.h>
@@ -41,4 +41,4 @@ void AddItemBoxToRingBattleManager(ItemBox *itemBox);
 void RingBattleManager_OnButtonActivated(RingButton *button);
 GameObjectTask *CreateRingBattleManagerObject(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_RINGBATTLEMANAGER_H
+#endif // RUSH_RINGBATTLEMANAGER_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_DELETESAVEDATAMENU_H
-#define RUSH2_DELETESAVEDATAMENU_H
+#ifndef RUSH_DELETESAVEDATAMENU_H
+#define RUSH_DELETESAVEDATAMENU_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -52,4 +52,4 @@ typedef struct DeleteSaveDataMenu_
 
 void CreateDeleteSaveDataMenu(void);
 
-#endif // RUSH2_DELETESAVEDATAMENU_H
+#endif // RUSH_DELETESAVEDATAMENU_H

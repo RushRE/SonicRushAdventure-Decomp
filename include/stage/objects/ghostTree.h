@@ -1,5 +1,5 @@
-#ifndef RUSH2_GHOSTTREE_H
-#define RUSH2_GHOSTTREE_H
+#ifndef RUSH_GHOSTTREE_H
+#define RUSH_GHOSTTREE_H
 
 #include <stage/gameObject.h>
 
@@ -19,4 +19,4 @@ typedef struct GhostTree_
 
 GhostTree *CreateGhostTree(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_GHOSTTREE_H
+#endif // RUSH_GHOSTTREE_H

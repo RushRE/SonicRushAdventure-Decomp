@@ -1,5 +1,5 @@
-#ifndef RUSH2_STAGESTART_H
-#define RUSH2_STAGESTART_H
+#ifndef RUSH_STAGESTART_H
+#define RUSH_STAGESTART_H
 
 #include <game/system/task.h>
 
@@ -18,4 +18,4 @@ typedef struct StageStart_
 
 void CreateStageStart(void);
 
-#endif // RUSH2_STAGESTART_H
+#endif // RUSH_STAGESTART_H

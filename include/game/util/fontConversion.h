@@ -1,5 +1,5 @@
-#ifndef RUSH2_FONT_CONVERSION_H
-#define RUSH2_FONT_CONVERSION_H
+#ifndef RUSH_FONT_CONVERSION_H
+#define RUSH_FONT_CONVERSION_H
 
 #include <global.h>
 
@@ -9,4 +9,4 @@
 
 s32 GetFontCharacterFromUTF(u32 character);
 
-#endif // RUSH2_FONT_CONVERSION_H
+#endif // RUSH_FONT_CONVERSION_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_ANGLER_H
-#define RUSH2_ANGLER_H
+#ifndef RUSH_ANGLER_H
+#define RUSH_ANGLER_H
 
 #include <stage/gameObject.h>
 
@@ -44,4 +44,4 @@ typedef struct EnemyAnglerShot_
 EnemyAngler *CreateAngler(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 EnemyAnglerShot *CreateAnglerShot(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_ANGLER_H
+#endif // RUSH_ANGLER_H

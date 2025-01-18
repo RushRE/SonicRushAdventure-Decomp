@@ -1,5 +1,5 @@
-#ifndef RUSH2_TASK_H
-#define RUSH2_TASK_H
+#ifndef RUSH_TASK_H
+#define RUSH_TASK_H
 
 #include <global.h>
 #include <game/system/allocator.h>
@@ -159,4 +159,4 @@ void StartTaskPause(u8 priority);
 void EndTaskPause(void);
 BOOL CheckTaskPaused(u8 *priority);
 
-#endif // RUSH2_TASK_H
+#endif // RUSH_TASK_H

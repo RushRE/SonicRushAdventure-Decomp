@@ -1,6 +1,6 @@
 
-#ifndef RUSH2_FONTWINDOWMWCONTROL_H
-#define RUSH2_FONTWINDOWMWCONTROL_H
+#ifndef RUSH_FONTWINDOWMWCONTROL_H
+#define RUSH_FONTWINDOWMWCONTROL_H
 
 #include <game/text/fontAnimatorCore.h>
 #include <game/graphics/paletteAnimation.h>
@@ -74,4 +74,4 @@ NOT_DECOMPILED void FontWindowMWControl__Func_205B2E0(void);
 NOT_DECOMPILED void FontWindowMWControl__Func_205B37C(void);
 NOT_DECOMPILED void FontWindowMWControl__SetSprite(void);
 
-#endif // RUSH2_FONTWINDOWMWCONTROL_H
+#endif // RUSH_FONTWINDOWMWCONTROL_H

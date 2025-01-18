@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_BOOST_H
-#define RUSH2_EFFECT_BOOST_H
+#ifndef RUSH_EFFECT_BOOST_H
+#define RUSH_EFFECT_BOOST_H
 
 #include <stage/effectTask.h>
 
@@ -41,4 +41,4 @@ EffectBoost *CreateEffectBoost(Player *parent, fx32 velX, fx32 velY, s32 charact
 void EffectBoost_Draw_Super(void);
 void EffectBoost_State_Aura(EffectBoost *work);
 
-#endif // RUSH2_EFFECT_BOOST_H
+#endif // RUSH_EFFECT_BOOST_H

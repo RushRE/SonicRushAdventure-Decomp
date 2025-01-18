@@ -1,5 +1,5 @@
-#ifndef RUSH2_WATERRUNTRIGGER_H
-#define RUSH2_WATERRUNTRIGGER_H
+#ifndef RUSH_WATERRUNTRIGGER_H
+#define RUSH_WATERRUNTRIGGER_H
 
 #include <stage/gameObject.h>
 
@@ -18,4 +18,4 @@ typedef struct WaterRunTrigger_
 
 WaterRunTrigger *CreateWaterRunTrigger(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_WATERRUNTRIGGER_H
+#endif // RUSH_WATERRUNTRIGGER_H

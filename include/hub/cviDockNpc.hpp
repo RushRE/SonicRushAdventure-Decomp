@@ -1,5 +1,5 @@
-#ifndef RUSH2_CVIDOCKNPC_HPP
-#define RUSH2_CVIDOCKNPC_HPP
+#ifndef RUSH_CVIDOCKNPC_HPP
+#define RUSH_CVIDOCKNPC_HPP
 
 #include <hub/vi3dArrow.hpp>
 #include <hub/cviDockNpc.hpp>
@@ -44,4 +44,4 @@ public:
 }
 #endif
 
-#endif // RUSH2_CVIDOCKNPC_HPP
+#endif // RUSH_CVIDOCKNPC_HPP

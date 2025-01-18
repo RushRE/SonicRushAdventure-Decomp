@@ -1,6 +1,6 @@
 
-#ifndef RUSH2_FONTWINDOWANIMATOR_H
-#define RUSH2_FONTWINDOWANIMATOR_H
+#ifndef RUSH_FONTWINDOWANIMATOR_H
+#define RUSH_FONTWINDOWANIMATOR_H
 
 #include <game/text/fontAnimatorCore.h>
 #include <game/text/fontWindow.h>
@@ -73,4 +73,4 @@ NOT_DECOMPILED void FontWindowAnimator__Func_205A180(FontWindowAnimator *work);
 NOT_DECOMPILED void FontWindowAnimator__Func_205A2A4(FontWindowAnimator *work);
 NOT_DECOMPILED void FontWindowAnimator__Func_205A2D4(FontWindowAnimator *work);
 
-#endif // RUSH2_FONTWINDOWANIMATOR_H
+#endif // RUSH_FONTWINDOWANIMATOR_H

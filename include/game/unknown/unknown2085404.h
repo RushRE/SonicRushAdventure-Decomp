@@ -1,5 +1,5 @@
-#ifndef RUSH2_UNKNOWN2085404_H
-#define RUSH2_UNKNOWN2085404_H
+#ifndef RUSH_UNKNOWN2085404_H
+#define RUSH_UNKNOWN2085404_H
 
 #include <global.h>
 
@@ -58,4 +58,4 @@ extern struct Unknown2085404Manager unknown2085404Manager;
 
 void InitUnknown2085404System(void);
 
-#endif // RUSH2_UNKNOWN2085404_H
+#endif // RUSH_UNKNOWN2085404_H

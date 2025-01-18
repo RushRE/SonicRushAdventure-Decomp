@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILEVENTMANAGER_H
-#define RUSH2_SAILEVENTMANAGER_H
+#ifndef RUSH_SAILEVENTMANAGER_H
+#define RUSH_SAILEVENTMANAGER_H
 
 #include <stage/stageTask.h>
 
@@ -88,4 +88,4 @@ NOT_DECOMPILED void SailEventManager__Main(void);
 NOT_DECOMPILED SailEventManagerObject *SailEventManager__AllocateStageObject(void);
 NOT_DECOMPILED SailEventManagerObject *SailEventManager__AllocateTempObject(void);
 
-#endif // !RUSH2_SAILEVENTMANAGER_H
+#endif // !RUSH_SAILEVENTMANAGER_H

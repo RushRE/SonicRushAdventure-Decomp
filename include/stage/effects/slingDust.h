@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_SLING_DUST_H
-#define RUSH2_EFFECT_SLING_DUST_H
+#ifndef RUSH_EFFECT_SLING_DUST_H
+#define RUSH_EFFECT_SLING_DUST_H
 
 #include <stage/effectTask.h>
 
@@ -20,4 +20,4 @@ typedef struct EffectSlingDust_
 
 EffectSlingDust *EffectSlingDust__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u8 type);
 
-#endif // RUSH2_EFFECT_SLING_DUST_H
+#endif // RUSH_EFFECT_SLING_DUST_H

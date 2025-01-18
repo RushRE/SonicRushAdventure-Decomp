@@ -1,5 +1,5 @@
-#ifndef RUSH2_AUDIOSYSTEM_H
-#define RUSH2_AUDIOSYSTEM_H
+#ifndef RUSH_AUDIOSYSTEM_H
+#define RUSH_AUDIOSYSTEM_H
 
 #include <global.h>
 
@@ -111,4 +111,4 @@ RUSH_INLINE void ReleaseStageSfx(NNSSndHandle *handle)
     NNS_SndHandleReleaseSeq(handle);
 }
 
-#endif // RUSH2_AUDIOSYSTEM_H
+#endif // RUSH_AUDIOSYSTEM_H

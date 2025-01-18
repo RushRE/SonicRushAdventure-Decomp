@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_WATER_EXPLOSION_H
-#define RUSH2_EFFECT_WATER_EXPLOSION_H
+#ifndef RUSH_EFFECT_WATER_EXPLOSION_H
+#define RUSH_EFFECT_WATER_EXPLOSION_H
 
 #include <stage/effectTask.h>
 
@@ -33,4 +33,4 @@ typedef struct EffectWaterExplosion_
 
 EffectWaterExplosion *CreateEffectWaterExplosion(StageTask *parent, fx32 velX, fx32 velY, WaterExplosionType type);
 
-#endif // RUSH2_EFFECT_WATER_EXPLOSION_H
+#endif // RUSH_EFFECT_WATER_EXPLOSION_H

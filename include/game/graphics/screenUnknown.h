@@ -1,5 +1,5 @@
-#ifndef RUSH2_SCREENUNKNOWN_H
-#define RUSH2_SCREENUNKNOWN_H
+#ifndef RUSH_SCREENUNKNOWN_H
+#define RUSH_SCREENUNKNOWN_H
 
 #include <game/system/task.h>
 
@@ -30,4 +30,4 @@ typedef struct ScreenUnknown_
 
 void ReleaseScreenUnknown(u16 paletteRow);
 
-#endif // RUSH2_SCREENUNKNOWN_H
+#endif // RUSH_SCREENUNKNOWN_H

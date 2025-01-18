@@ -1,5 +1,5 @@
-#ifndef RUSH2_DIVESTAND_H
-#define RUSH2_DIVESTAND_H
+#ifndef RUSH_DIVESTAND_H
+#define RUSH_DIVESTAND_H
 
 #include <stage/gameObject.h>
 
@@ -34,4 +34,4 @@ void DiveStand__Draw(void);
 void DiveStand__OnDefend_216AB68(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void DiveStand__OnDefend_216AC14(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
-#endif // RUSH2_DIVESTAND_H
+#endif // RUSH_DIVESTAND_H

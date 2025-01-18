@@ -1,5 +1,5 @@
-#ifndef RUSH2_WATERSURFACE_H
-#define RUSH2_WATERSURFACE_H
+#ifndef RUSH_WATERSURFACE_H
+#define RUSH_WATERSURFACE_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -56,4 +56,4 @@ void InitWaterSurface(void);
 void ReleaseWaterSurface(void);
 void ProcessWaterSurface(void);
 
-#endif // RUSH2_WATERSURFACE_H
+#endif // RUSH_WATERSURFACE_H

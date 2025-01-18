@@ -71,7 +71,7 @@ arm9: $(SBIN) $(ELF)
 arm9_lz: $(SBIN_LZ)
 arm7: ; @$(MAKE) -C sub
 
-ifeq ($(GAME_VERSION),RUSH2_CONTEST)
+ifeq ($(GAME_VERSION),RUSH_CONTEST)
 ROMSPEC        := rom.contest.rsf
 else
 ROMSPEC        := rom.rsf
@@ -115,7 +115,7 @@ $(WORK_DIR)/include/global.h: $(FX_CONST_H) ;
 rush2:          ; @$(MAKE) GAME_VERSION=RUSH2 COMPARE=1
 clean_rush2:    ; @$(MAKE) GAME_VERSION=RUSH2 clean
 
-rush2_contest:          ; @$(MAKE) GAME_VERSION=RUSH2_CONTEST
-clean_rush2_contest:    ; @$(MAKE) GAME_VERSION=RUSH2_CONTEST clean
+rush2_contest:          ; @$(MAKE) GAME_VERSION=RUSH_CONTEST
+clean_rush2_contest:    ; @$(MAKE) GAME_VERSION=RUSH_CONTEST clean
 
 .PHONY: rush2 clean_rush2 debug_rush2 rush2_contest clean_rush2_contest rush2_child clean_rush2_child

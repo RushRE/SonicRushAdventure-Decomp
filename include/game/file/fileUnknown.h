@@ -1,5 +1,5 @@
-#ifndef RUSH2_FILEUNKNOWN_H
-#define RUSH2_FILEUNKNOWN_H
+#ifndef RUSH_FILEUNKNOWN_H
+#define RUSH_FILEUNKNOWN_H
 
 #include <global.h>
 #include <game/system/allocator.h>
@@ -23,4 +23,4 @@ void *ArchiveFileUnknown__GetFileFromMemArchive(void *archive, u16 id, void *mem
 void *FileUnknown__GetAOUFile(void *archive, u16 id);
 size_t FileUnknown__GetAOUFileSize(void *archive, u16 id);
 
-#endif // RUSH2_FILEUNKNOWN_H
+#endif // RUSH_FILEUNKNOWN_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_OBJPACKET_H
-#define RUSH2_OBJPACKET_H
+#ifndef RUSH_OBJPACKET_H
+#define RUSH_OBJPACKET_H
 
 #include <global.h>
 
@@ -64,4 +64,4 @@ void *ObjPacket__GetRecievedPacketData(s32 type, s32 id);
 ObjRecievePacket *ObjPacket__GetRecievedPacket(s32 type, s32 id);
 u32 ObjPacket__GetPacketSize(ObjPacketHeader *header);
 
-#endif // RUSH2_OBJPACKET_H
+#endif // RUSH_OBJPACKET_H

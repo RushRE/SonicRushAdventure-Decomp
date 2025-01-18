@@ -1,5 +1,5 @@
-#ifndef RUSH2_TOUCH_INPUT_H
-#define RUSH2_TOUCH_INPUT_H
+#ifndef RUSH_TOUCH_INPUT_H
+#define RUSH_TOUCH_INPUT_H
 
 #include <global.h>
 
@@ -118,4 +118,4 @@ RUSH_INLINE BOOL TouchInput__IsTouchPull(TouchInputState *state)
     return TOUCH_HAS_PULL(state->flags);
 }
 
-#endif // RUSH2_TOUCH_INPUT_H
+#endif // RUSH_TOUCH_INPUT_H

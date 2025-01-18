@@ -1,5 +1,5 @@
-#ifndef RUSH2_TITLECARD_H
-#define RUSH2_TITLECARD_H
+#ifndef RUSH_TITLECARD_H
+#define RUSH_TITLECARD_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -135,4 +135,4 @@ void TitleCard__State_AwaitFurtherContinue(TitleCard *work);
 void TitleCard__State_BeginShowGoText(TitleCard *work);
 void TitleCard__State_ShowGoText(TitleCard *work);
 
-#endif // RUSH2_TITLECARD_H
+#endif // RUSH_TITLECARD_H

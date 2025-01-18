@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_ENEMY_DEBRIS_H
-#define RUSH2_EFFECT_ENEMY_DEBRIS_H
+#ifndef RUSH_EFFECT_ENEMY_DEBRIS_H
+#define RUSH_EFFECT_ENEMY_DEBRIS_H
 
 #include <stage/effectTask.h>
 
@@ -41,4 +41,4 @@ typedef struct EffectEnemyDebris_
 EffectEnemyDebris *CreateEffectEnemyDebris(StageTask *parent, fx32 offsetX, fx32 offsetY, fx32 velX, fx32 velY, EnemyDebrisType type);
 void EffectEnemyDebris_State_Active(EffectEnemyDebris *work);
 
-#endif // RUSH2_EFFECT_ENEMY_DEBRIS_H
+#endif // RUSH_EFFECT_ENEMY_DEBRIS_H

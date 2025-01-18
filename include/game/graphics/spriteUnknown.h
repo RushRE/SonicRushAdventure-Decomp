@@ -1,5 +1,5 @@
-#ifndef RUSH2_SPRITEUNKNOWN_H
-#define RUSH2_SPRITEUNKNOWN_H
+#ifndef RUSH_SPRITEUNKNOWN_H
+#define RUSH_SPRITEUNKNOWN_H
 
 #include <game/system/task.h>
 
@@ -22,4 +22,4 @@ NOT_DECOMPILED void SpriteUnknown__Func_204C860(void);
 NOT_DECOMPILED void SpriteUnknown__Func_204C90C(AnimatorSprite *animator, void *fileData, u16 animID, AnimatorFlags flags, BOOL useEngineB, u32 gfxSize, u8 paletteRow,
                                                 u8 oamPriority, u8 oamOrder);
 
-#endif // RUSH2_SPRITEUNKNOWN_H
+#endif // RUSH_SPRITEUNKNOWN_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_DASHRING_H
-#define RUSH2_DASHRING_H
+#ifndef RUSH_DASHRING_H
+#define RUSH_DASHRING_H
 
 #include <stage/gameObject.h>
 
@@ -46,4 +46,4 @@ typedef struct DashRing_
 DashRing *CreateDashRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 DashRing *CreateDashRingRainbow(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_DASHRING_H
+#endif // RUSH_DASHRING_H

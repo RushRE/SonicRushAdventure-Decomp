@@ -1,5 +1,5 @@
-#ifndef RUSH2_SPLASH_SCREEN_H
-#define RUSH2_SPLASH_SCREEN_H
+#ifndef RUSH_SPLASH_SCREEN_H
+#define RUSH_SPLASH_SCREEN_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -27,4 +27,4 @@ typedef struct SplashScreen_
 
 void CreateSplashScreen(void);
 
-#endif // RUSH2_SPLASH_SCREEN_H
+#endif // RUSH_SPLASH_SCREEN_H

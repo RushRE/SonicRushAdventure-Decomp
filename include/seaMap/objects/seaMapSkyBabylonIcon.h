@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPSKYBABYLONICON_H
-#define RUSH2_SEAMAPSKYBABYLONICON_H
+#ifndef RUSH_SEAMAPSKYBABYLONICON_H
+#define RUSH_SEAMAPSKYBABYLONICON_H
 
 #include <seaMap/seaMapEventManager.h>
 #include <game/graphics/sprite.h>
@@ -26,4 +26,4 @@ SeaMapObject *CreateSeaMapSkyBabylonIcon(CHEVObjectType *objectType, CHEVObject 
 // States
 void SeaMapSkyBabylonIcon_State_BeginAppear(SeaMapSkyBabylonIcon *work);
 
-#endif // RUSH2_SEAMAPSKYBABYLONICON_H
+#endif // RUSH_SEAMAPSKYBABYLONICON_H

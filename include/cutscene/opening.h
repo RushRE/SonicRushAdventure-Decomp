@@ -1,5 +1,5 @@
-#ifndef RUSH2_OPENING_H
-#define RUSH2_OPENING_H
+#ifndef RUSH_OPENING_H
+#define RUSH_OPENING_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -175,4 +175,4 @@ typedef struct OpeningBlazeNameSprite_
 
 void CreateOpening(void);
 
-#endif // RUSH2_OPENING_H
+#endif // RUSH_OPENING_H

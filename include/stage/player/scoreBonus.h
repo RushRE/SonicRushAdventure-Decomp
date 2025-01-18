@@ -1,5 +1,5 @@
-#ifndef RUSH2_SCORE_BONUS_H
-#define RUSH2_SCORE_BONUS_H
+#ifndef RUSH_SCORE_BONUS_H
+#define RUSH_SCORE_BONUS_H
 
 #include <stage/player/starCombo.h>
 
@@ -34,4 +34,4 @@ ScoreBonus *ScoreBonus__Create(void);
 void ScoreBonus__Main(void);
 void ScoreBonus__Destructor(Task *task);
 
-#endif // RUSH2_SCORE_BONUS_H
+#endif // RUSH_SCORE_BONUS_H

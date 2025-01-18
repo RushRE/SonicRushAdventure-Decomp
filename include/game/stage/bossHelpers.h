@@ -1,5 +1,5 @@
-#ifndef RUSH2_BOSSHELPERS_H
-#define RUSH2_BOSSHELPERS_H
+#ifndef RUSH_BOSSHELPERS_H
+#define RUSH_BOSSHELPERS_H
 
 #include <global.h>
 #include <game/graphics/paletteAnimation.h>
@@ -67,4 +67,4 @@ NOT_DECOMPILED void BossHelpers__RevertModifiedLights(BossLight *config);
 
 NOT_DECOMPILED u32 BossHelpers__FindJointByName(NNSG3dResMdl *resMdl, char *jointName);
 
-#endif // ! RUSH2_BOSSHELPERS_H
+#endif // ! RUSH_BOSSHELPERS_H

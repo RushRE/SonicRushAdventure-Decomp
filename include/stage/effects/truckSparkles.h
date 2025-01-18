@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_TRUCK_SPARKLES_H
-#define RUSH2_EFFECT_TRUCK_SPARKLES_H
+#ifndef RUSH_EFFECT_TRUCK_SPARKLES_H
+#define RUSH_EFFECT_TRUCK_SPARKLES_H
 
 #include <stage/effectTask.h>
 
@@ -36,4 +36,4 @@ void EffectTruckSparkles__State_202B86C(EffectTruckSparkles *work);
 void EffectTruckSparkles__State_202BA48(EffectTruckSparkles *work);
 void EffectTruckSparkles__Draw(void);
 
-#endif // RUSH2_EFFECT_TRUCK_SPARKLES_H
+#endif // RUSH_EFFECT_TRUCK_SPARKLES_H

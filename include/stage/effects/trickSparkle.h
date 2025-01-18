@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_TRICKSPARKLE_H
-#define RUSH2_EFFECT_TRICKSPARKLE_H
+#ifndef RUSH_EFFECT_TRICKSPARKLE_H
+#define RUSH_EFFECT_TRICKSPARKLE_H
 
 #include <stage/effectTask.h>
 
@@ -21,4 +21,4 @@ typedef struct EffectTrickSparkle_
 EffectTrickSparkle *CreateEffectTrickSparkleForPlayer(Player *player);
 EffectTrickSparkle *CreateEffectTrickSparkle(Player *parent, fx32 offsetX, fx32 offsetY);
 
-#endif // RUSH2_EFFECT_TRICKSPARKLE_H
+#endif // RUSH_EFFECT_TRICKSPARKLE_H

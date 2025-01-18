@@ -1,5 +1,5 @@
-#ifndef RUSH2_SPIKES_H
-#define RUSH2_SPIKES_H
+#ifndef RUSH_SPIKES_H
+#define RUSH_SPIKES_H
 
 #include <stage/gameObject.h>
 
@@ -19,4 +19,4 @@ typedef struct Spikes_
 Spikes *CreateSpikes(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 Spikes *CreateSpikes2(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_SPIKES_H
+#endif // RUSH_SPIKES_H

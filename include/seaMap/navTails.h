@@ -1,5 +1,5 @@
-#ifndef RUSH2_NAVTAILS_H
-#define RUSH2_NAVTAILS_H
+#ifndef RUSH_NAVTAILS_H
+#define RUSH_NAVTAILS_H
 
 #include <global.h>
 #include <game/system/task.h>
@@ -133,4 +133,4 @@ void NavTailsSpeak(u16 msgSequence, u16 duration);
 u16 CheckNavTailsSpeaking(void);
 BOOL CheckNavTailsLastDialog(void);
 
-#endif // RUSH2_NAVTAILS_H
+#endif // RUSH_NAVTAILS_H

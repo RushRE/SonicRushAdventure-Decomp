@@ -1,5 +1,5 @@
-#ifndef RUSH2_FALLINGANCHOR_H
-#define RUSH2_FALLINGANCHOR_H
+#ifndef RUSH_FALLINGANCHOR_H
+#define RUSH_FALLINGANCHOR_H
 
 #include <stage/gameObject.h>
 
@@ -20,4 +20,4 @@ typedef struct FallingAnchor_
 
 FallingAnchor *CreateFallingAnchor(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_FALLINGANCHOR_H
+#endif // RUSH_FALLINGANCHOR_H

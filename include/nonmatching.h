@@ -1,5 +1,5 @@
-#ifndef RUSH2_NONMATCHING_H
-#define RUSH2_NONMATCHING_H
+#ifndef RUSH_NONMATCHING_H
+#define RUSH_NONMATCHING_H
 
 #ifdef NON_MATCHING
 #define NONMATCH_FUNC
@@ -37,4 +37,4 @@
 #define FORCE_INCLUDE_ARRAY(type, name, arraySize, value)
 #endif
 
-#endif // ! RUSH2_NONMATCHING_H
+#endif // ! RUSH_NONMATCHING_H

@@ -463,10 +463,10 @@ void WriteBundleEnum(const char *name, char *inputDir, unsigned int fileCount, F
             nameBufferPtr++;
         }
 
-        snprintf(buffer, sizeof(buffer), "#ifndef RUSH2_BUNDLE_%s_H\n", nameBuffer);
+        snprintf(buffer, sizeof(buffer), "#ifndef RUSH_BUNDLE_%s_H\n", nameBuffer);
         fputs(buffer, bundle);
 
-        snprintf(buffer, sizeof(buffer), "#define RUSH2_BUNDLE_%s_H\n\n", nameBuffer);
+        snprintf(buffer, sizeof(buffer), "#define RUSH_BUNDLE_%s_H\n\n", nameBuffer);
         fputs(buffer, bundle);
 
         snprintf(buffer, sizeof(buffer), "enum FileList_Bundle%s\n", nameBuffer);
@@ -498,7 +498,7 @@ void WriteBundleEnum(const char *name, char *inputDir, unsigned int fileCount, F
         snprintf(buffer, sizeof(buffer), "};\n\n");
         fputs(buffer, bundle);
 
-        snprintf(buffer, sizeof(buffer), "#endif // RUSH2_BUNDLE_%s_H\n", nameBuffer);
+        snprintf(buffer, sizeof(buffer), "#endif // RUSH_BUNDLE_%s_H\n", nameBuffer);
         fputs(buffer, bundle);
 
         fclose(bundle);
@@ -958,10 +958,10 @@ void WriteArchiveEnum(const char *name, char *inputDir, unsigned int fileCount, 
             nameBufferPtr++;
         }
 
-        snprintf(buffer, sizeof(buffer), "#ifndef RUSH2_ARCHIVE_%s_H\n", nameBuffer);
+        snprintf(buffer, sizeof(buffer), "#ifndef RUSH_ARCHIVE_%s_H\n", nameBuffer);
         fputs(buffer, bundle);
 
-        snprintf(buffer, sizeof(buffer), "#define RUSH2_ARCHIVE_%s_H\n\n", nameBuffer);
+        snprintf(buffer, sizeof(buffer), "#define RUSH_ARCHIVE_%s_H\n\n", nameBuffer);
         fputs(buffer, bundle);
 
         snprintf(buffer, sizeof(buffer), "enum FileList_Archive%s\n", nameBuffer);
@@ -993,7 +993,7 @@ void WriteArchiveEnum(const char *name, char *inputDir, unsigned int fileCount, 
         snprintf(buffer, sizeof(buffer), "};\n\n");
         fputs(buffer, bundle);
 
-        snprintf(buffer, sizeof(buffer), "#endif // RUSH2_ARCHIVE_%s_H\n", nameBuffer);
+        snprintf(buffer, sizeof(buffer), "#endif // RUSH_ARCHIVE_%s_H\n", nameBuffer);
         fputs(buffer, bundle);
 
         fclose(bundle);

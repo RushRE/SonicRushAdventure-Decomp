@@ -1,5 +1,5 @@
-#ifndef RUSH2_STAGE_TASK_H
-#define RUSH2_STAGE_TASK_H
+#ifndef RUSH_STAGE_TASK_H
+#define RUSH_STAGE_TASK_H
 
 #include <global.h>
 #include <game/system/task.h>
@@ -369,4 +369,4 @@ RUSH_INLINE BOOL CheckStageTaskType(StageTask *work, StageObjTypes type)
 #define CheckStageTaskRideObj(stageTask, rideWork)     ((stageTask)->rideObj == (rideWork))
 #define CheckStageTaskParentObj(stageTask, parentWork) ((stageTask)->parentObj == (parentWork))
 
-#endif // RUSH2_STAGE_TASK_H
+#endif // RUSH_STAGE_TASK_H

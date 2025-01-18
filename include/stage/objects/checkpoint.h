@@ -1,5 +1,5 @@
-#ifndef RUSH2_CHECKPOINT_H
-#define RUSH2_CHECKPOINT_H
+#ifndef RUSH_CHECKPOINT_H
+#define RUSH_CHECKPOINT_H
 
 #include <stage/gameObject.h>
 
@@ -35,4 +35,4 @@ typedef struct Checkpoint_
 
 Checkpoint *CreateCheckpoint(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_CHECKPOINT_H
+#endif // RUSH_CHECKPOINT_H

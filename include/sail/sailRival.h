@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILRIVALCONTROLLER_H
-#define RUSH2_SAILRIVALCONTROLLER_H
+#ifndef RUSH_SAILRIVALCONTROLLER_H
+#define RUSH_SAILRIVALCONTROLLER_H
 
 #include <stage/stageTask.h>
 
@@ -73,4 +73,4 @@ typedef struct SailRival_
 
 SailRival *CreateSailRival(struct SailPlayer_ *parent, SailRivalControllerHeader *controller, const char *path);
 
-#endif // !RUSH2_SAILRIVALCONTROLLER_H
+#endif // !RUSH_SAILRIVALCONTROLLER_H

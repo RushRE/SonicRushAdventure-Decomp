@@ -1,5 +1,5 @@
-#ifndef RUSH2_PLATFORM_H
-#define RUSH2_PLATFORM_H
+#ifndef RUSH_PLATFORM_H
+#define RUSH_PLATFORM_H
 
 #include <stage/gameObject.h>
 
@@ -32,4 +32,4 @@ void Platform__Action_Collapse(Platform *work);
 void Platform__State_Collapse(Platform2 *work);
 void Platform__Draw_Collapse(void);
 
-#endif // RUSH2_PLATFORM_H
+#endif // RUSH_PLATFORM_H

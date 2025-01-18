@@ -1,5 +1,5 @@
-#ifndef RUSH2_DECORATIONSYS_H
-#define RUSH2_DECORATIONSYS_H
+#ifndef RUSH_DECORATIONSYS_H
+#define RUSH_DECORATIONSYS_H
 
 #include <game/system/task.h>
 #include <game/stage/mapSys.h>
@@ -137,4 +137,4 @@ void DecorationSys__InitFunc_2154D2C(StageDecoration *work);
 void DecorationSys__Destructor_2154E20(StageDecoration *work);
 void DecorationSys__SetAnimation(StageDecoration *work, u16 anim);
 
-#endif // RUSH2_DECORATIONSYS_H
+#endif // RUSH_DECORATIONSYS_H

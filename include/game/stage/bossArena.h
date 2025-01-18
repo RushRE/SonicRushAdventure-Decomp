@@ -1,5 +1,5 @@
-#ifndef RUSH2_BOSSARENA_H
-#define RUSH2_BOSSARENA_H
+#ifndef RUSH_BOSSARENA_H
+#define RUSH_BOSSARENA_H
 
 #include <global.h>
 #include <game/graphics/sprite.h>
@@ -185,4 +185,4 @@ NOT_DECOMPILED void BossArena__CallFunction1(BossArena *work, BossArenaCamera *c
 NOT_DECOMPILED void BossArena__FuncTable1_203A860(BossArena *work, BossArenaCamera *camera);
 NOT_DECOMPILED void BossArena__FuncTable1_203A8AC(BossArena *work, BossArenaCamera *camera);
 
-#endif // ! RUSH2_BOSSARENA_H
+#endif // ! RUSH_BOSSARENA_H

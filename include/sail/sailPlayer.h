@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILPLAYER_H
-#define RUSH2_SAILPLAYER_H
+#ifndef RUSH_SAILPLAYER_H
+#define RUSH_SAILPLAYER_H
 
 #include <stage/stageTask.h>
 #include <game/object/objDraw.h>
@@ -273,4 +273,4 @@ void SailPlayer__Last_Default(void);
 void SailPlayer__BoatRenderCallback(NNSG3dRS *rs);
 void SailPlayer__Func_215F154(StageTask *work);
 
-#endif // !RUSH2_SAILPLAYER_H
+#endif // !RUSH_SAILPLAYER_H

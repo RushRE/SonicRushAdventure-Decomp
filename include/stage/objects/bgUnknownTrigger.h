@@ -1,5 +1,5 @@
-#ifndef RUSH2_BGUNKNOWNTRIGGER_H
-#define RUSH2_BGUNKNOWNTRIGGER_H
+#ifndef RUSH_BGUNKNOWNTRIGGER_H
+#define RUSH_BGUNKNOWNTRIGGER_H
 
 #include <stage/gameObject.h>
 #include <game/stage/mapSys.h>
@@ -20,4 +20,4 @@ typedef struct BGUnknownTrigger_
 
 BGUnknownTrigger *CreateBGUnknownTrigger(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_BGUNKNOWNTRIGGER_H
+#endif // RUSH_BGUNKNOWNTRIGGER_H

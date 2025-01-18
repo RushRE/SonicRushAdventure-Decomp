@@ -1,5 +1,5 @@
-#ifndef RUSH2_GOALCHEST_H
-#define RUSH2_GOALCHEST_H
+#ifndef RUSH_GOALCHEST_H
+#define RUSH_GOALCHEST_H
 
 #include <stage/gameObject.h>
 
@@ -20,4 +20,4 @@ typedef struct GoalChest_
 
 GoalChest *CreateGoalChest(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_GOALCHEST_H
+#endif // RUSH_GOALCHEST_H

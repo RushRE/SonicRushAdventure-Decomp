@@ -1,5 +1,5 @@
-#ifndef RUSH2_OBJ_H
-#define RUSH2_OBJ_H
+#ifndef RUSH_OBJ_H
+#define RUSH_OBJ_H
 
 #include <stage/stageTask.h>
 
@@ -46,4 +46,4 @@ s32 ObjRoopDiff16(u32 dir1, u32 dir2);                  // distance between 2 di
 BOOL ObjTouchCheck(StageTask *work, OBS_RECT_WORK *rect);
 BOOL ObjTouchCheckPush(StageTask *work, OBS_RECT_WORK *rect);
 
-#endif // RUSH2_OBJ_H
+#endif // RUSH_OBJ_H

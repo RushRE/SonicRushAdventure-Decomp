@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPCOLLISION_H
-#define RUSH2_SEAMAPCOLLISION_H
+#ifndef RUSH_SEAMAPCOLLISION_H
+#define RUSH_SEAMAPCOLLISION_H
 
 #include <global.h>
 #include <game/system/task.h>
@@ -30,4 +30,4 @@ NOT_DECOMPILED s32 SeaMapCollision__CollideFunc_3(void);
 NOT_DECOMPILED s32 SeaMapCollision__CollideFunc_4(void);
 NOT_DECOMPILED s32 SeaMapCollision__CollideFunc_5(void);
 
-#endif // RUSH2_SEAMAPCOLLISION_H
+#endif // RUSH_SEAMAPCOLLISION_H

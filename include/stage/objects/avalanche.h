@@ -1,5 +1,5 @@
-#ifndef RUSH2_AVALANCHE_H
-#define RUSH2_AVALANCHE_H
+#ifndef RUSH_AVALANCHE_H
+#define RUSH_AVALANCHE_H
 
 #include <stage/gameObject.h>
 
@@ -24,4 +24,4 @@ typedef struct AvalancheTree_
 Avalanche *CreateAvalanche(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 AvalancheTree *CreateAvalancheTree(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_AVALANCHE_H
+#endif // RUSH_AVALANCHE_H

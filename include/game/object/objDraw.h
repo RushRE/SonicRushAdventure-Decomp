@@ -1,5 +1,5 @@
-#ifndef RUSH2_OBJ_DRAW_H
-#define RUSH2_OBJ_DRAW_H
+#ifndef RUSH_OBJ_DRAW_H
+#define RUSH_OBJ_DRAW_H
 
 #include <global.h>
 
@@ -58,4 +58,4 @@ GXRgb *ObjDraw__GetHWPaletteRow(u8 id);
 void ObjDraw__ChangeColors(GXRgb *colorDst, GXRgb *colorSrc1, GXRgb *colorSrc2, s32 count, u16 tint);
 void ObjDraw__TintColorArray(GXRgb *colorDst, GXRgb *colorSrc, s16 iR, s16 iG, s16 iB, s16 count);
 
-#endif // RUSH2_OBJ_DRAW_H
+#endif // RUSH_OBJ_DRAW_H

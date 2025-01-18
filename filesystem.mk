@@ -416,7 +416,7 @@ NITROFS_FILES := \
 	resources/dwc/utility.bin \
 
 # contest rom contains no files (they are read from the parent rom)
-ifeq ($(GAME_VERSION),RUSH2_CONTEST)
+ifeq ($(GAME_VERSION),RUSH_CONTEST)
 SOURCE_FILES := 
 NITROFS_FILES := 
 endif

@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILHUD_H
-#define RUSH2_SAILHUD_H
+#ifndef RUSH_SAILHUD_H
+#define RUSH_SAILHUD_H
 
 #include <stage/stageTask.h>
 
@@ -697,4 +697,4 @@ NOT_DECOMPILED void SailHUD__Func_2177C10(SailHUD *a1, u32 a2, u16 a3, s16 a4, u
 NOT_DECOMPILED void SailHUD__Func_2177E0C(SailHUD *a1, u16 a2, u16 a3, s32 a4);
 NOT_DECOMPILED void SailHUD__Func_2177F08(SailHUD *a1, u16 a2, u16 a3, s32 a4);
 
-#endif // !RUSH2_SAILHUD_H
+#endif // !RUSH_SAILHUD_H

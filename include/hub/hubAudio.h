@@ -1,5 +1,5 @@
-#ifndef RUSH2_HUBAUDIO_H
-#define RUSH2_HUBAUDIO_H
+#ifndef RUSH_HUBAUDIO_H
+#define RUSH_HUBAUDIO_H
 
 #include <game/system/task.h>
 
@@ -41,4 +41,4 @@ RUSH_INLINE void StopHubBGM(void)
     FadeOutHubBGM(0);
 }
 
-#endif // RUSH2_HUBAUDIO_H
+#endif // RUSH_HUBAUDIO_H

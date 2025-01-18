@@ -1,5 +1,5 @@
-#ifndef RUSH2_DEMOPLAYER_H
-#define RUSH2_DEMOPLAYER_H
+#ifndef RUSH_DEMOPLAYER_H
+#define RUSH_DEMOPLAYER_H
 
 #include <stage/stageTask.h>
 
@@ -67,4 +67,4 @@ BOOL HasDemoSpawnPos(void);
 void CreateDemoPlayer(void);
 DemoState GetDemoState(void);
 
-#endif // RUSH2_DEMOPLAYER_H
+#endif // RUSH_DEMOPLAYER_H

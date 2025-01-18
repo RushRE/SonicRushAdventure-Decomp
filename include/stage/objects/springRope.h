@@ -1,5 +1,5 @@
-#ifndef RUSH2_SPRINGROPE_H
-#define RUSH2_SPRINGROPE_H
+#ifndef RUSH_SPRINGROPE_H
+#define RUSH_SPRINGROPE_H
 
 #include <stage/gameObject.h>
 
@@ -31,4 +31,4 @@ SpringRope *CreateSpringRope(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 SpringRopeSpring *CreateSpringRopeSpring(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 SpringRopeBase *CreateSpringRopeBase(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_SPRINGROPE_H
+#endif // RUSH_SPRINGROPE_H

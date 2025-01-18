@@ -1,5 +1,5 @@
-#ifndef RUSH2_MISSIONFLAG_H
-#define RUSH2_MISSIONFLAG_H
+#ifndef RUSH_MISSIONFLAG_H
+#define RUSH_MISSIONFLAG_H
 
 #include <stage/gameObject.h>
 
@@ -22,4 +22,4 @@ typedef struct MissionFlag_
 
 MissionFlag *CreateMissionFlag(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_MISSIONFLAG_H
+#endif // RUSH_MISSIONFLAG_H

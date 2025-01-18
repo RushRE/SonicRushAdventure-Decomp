@@ -67,7 +67,7 @@ NONMATCH_FUNC void SaveGame__SaveClearCallback_Common(SaveGame *save, SaveBlockF
 
         if (ownerInfo.nickNameLength == 0)
         {
-#ifdef RUSH2_JAPAN
+#ifdef RUSH_JAPAN
             SaveGame__SetPlayerName(&save->system.name, L"SONIC", 4);
 #else
             SaveGame__SetPlayerName(&save->system.name, L"SONIC", 5);
@@ -176,7 +176,7 @@ _0205EB88:
 	ldr r1, =aSonic
 	mov r0, r5
     
-#if defined(RUSH2_JAPAN)
+#if defined(RUSH_JAPAN)
 	mov r2, #4
 #else
     mov r2, #5

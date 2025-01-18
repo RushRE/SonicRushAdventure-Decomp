@@ -1,5 +1,5 @@
-#ifndef RUSH2_TUTORIAL_H
-#define RUSH2_TUTORIAL_H
+#ifndef RUSH_TUTORIAL_H
+#define RUSH_TUTORIAL_H
 
 #include <stage/gameObject.h>
 #include <game/text/fontAnimator.h>
@@ -62,4 +62,4 @@ TutorialCheckpoint *CreateTutorialCheckpoint(MapObject *mapObject, fx32 x, fx32 
 void SetTutorialEnemyDestroy(void);
 BOOL CheckTutorialInactive(void);
 
-#endif // RUSH2_TUTORIAL_H
+#endif // RUSH_TUTORIAL_H

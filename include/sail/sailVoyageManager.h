@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILVOYAGEMANAGER_H
-#define RUSH2_SAILVOYAGEMANAGER_H
+#ifndef RUSH_SAILVOYAGEMANAGER_H
+#define RUSH_SAILVOYAGEMANAGER_H
 
 #include <game/system/task.h>
 
@@ -120,4 +120,4 @@ NONMATCH_FUNC void SailVoyageManager__Func_215868C(s32 *a1, s32 *a2, s32 *a3, s3
 NONMATCH_FUNC void SailVoyageManager__Func_2158854(SailVoyageSegment *segment, s32 a2);
 NONMATCH_FUNC void SailVoyageManager__Func_2158888(SailVoyageSegment *segment, int a2, fx32 *a3, fx32 *a4);
 
-#endif // !RUSH2_SAILVOYAGEMANAGER_H
+#endif // !RUSH_SAILVOYAGEMANAGER_H

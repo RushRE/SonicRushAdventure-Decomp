@@ -1,5 +1,5 @@
-#ifndef RUSH2_DEMO_SYSTEM_H
-#define RUSH2_DEMO_SYSTEM_H
+#ifndef RUSH_DEMO_SYSTEM_H
+#define RUSH_DEMO_SYSTEM_H
 
 #include <global.h>
 
@@ -9,4 +9,4 @@
 
 void InitDemoEvent(void);
 
-#endif // RUSH2_DEMO_SYSTEM_H
+#endif // RUSH_DEMO_SYSTEM_H

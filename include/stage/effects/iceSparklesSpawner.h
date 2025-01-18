@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_ICE_SPARKLES_SPAWNER_H
-#define RUSH2_EFFECT_ICE_SPARKLES_SPAWNER_H
+#ifndef RUSH_EFFECT_ICE_SPARKLES_SPAWNER_H
+#define RUSH_EFFECT_ICE_SPARKLES_SPAWNER_H
 
 #include <stage/effectTask.h>
 
@@ -19,4 +19,4 @@ typedef struct EffectIceSparklesSpawner_
 void EffectIceSparklesSpawner__Create(StageTask *parent);
 void EffectIceSparklesSpawner__State_202D19C(EffectIceSparklesSpawner *work);
 
-#endif // RUSH2_EFFECT_ICE_SPARKLES_SPAWNER_H
+#endif // RUSH_EFFECT_ICE_SPARKLES_SPAWNER_H

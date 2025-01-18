@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAVEGAME_H
-#define RUSH2_SAVEGAME_H
+#ifndef RUSH_SAVEGAME_H
+#define RUSH_SAVEGAME_H
 
 #include <global.h>
 #include <game/game/gameState.h>
@@ -538,4 +538,4 @@ u16 SaveGame__SetVikingCupScoreRecord(struct SaveVikingCupRecord *records, u32 s
 u16 SaveGame__SetVikingCupTimeRecord(struct SaveVikingCupRecord *records, u32 time);
 BOOL SaveGame__CheckStageAllowDifficulties(u32 stageID);
 
-#endif // RUSH2_SAVEGAME_H
+#endif // RUSH_SAVEGAME_H

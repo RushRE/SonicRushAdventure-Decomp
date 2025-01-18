@@ -1,5 +1,5 @@
-#ifndef RUSH2_ALLOCATOR_H
-#define RUSH2_ALLOCATOR_H
+#ifndef RUSH_ALLOCATOR_H
+#define RUSH_ALLOCATOR_H
 
 #include <global.h>
 
@@ -88,4 +88,4 @@ void _FreeHEAP_DTCM(void *memory);
 }
 #endif
 
-#endif // RUSH2_ALLOCATOR_H
+#endif // RUSH_ALLOCATOR_H

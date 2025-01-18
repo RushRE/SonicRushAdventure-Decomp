@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILAUDIO_H
-#define RUSH2_SAILAUDIO_H
+#ifndef RUSH_SAILAUDIO_H
+#define RUSH_SAILAUDIO_H
 
 #include <global.h>
 #include <game/audio/audioSystem.h>
@@ -23,4 +23,4 @@ RUSH_INLINE void SailAudio__StopSequence(s32 id)
     NNS_SndPlayerStopSeqBySeqArcIdx(SND_SAIL_SEQARC_ARC_VOYAGE_SE, id, 0);
 }
 
-#endif // !RUSH2_SAILAUDIO_H
+#endif // !RUSH_SAILAUDIO_H

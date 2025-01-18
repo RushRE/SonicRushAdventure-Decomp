@@ -1,5 +1,5 @@
-#ifndef RUSH2_STARTPLATFORM_H
-#define RUSH2_STARTPLATFORM_H
+#ifndef RUSH_STARTPLATFORM_H
+#define RUSH_STARTPLATFORM_H
 
 #include <stage/gameObject.h>
 
@@ -62,4 +62,4 @@ typedef struct StartPlatform_
 
 StartPlatform *CreateStartPlatform(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_STARTPLATFORM_H
+#endif // RUSH_STARTPLATFORM_H

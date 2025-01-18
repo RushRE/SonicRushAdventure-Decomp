@@ -1,5 +1,5 @@
-#ifndef RUSH2_MTMATH_H
-#define RUSH2_MTMATH_H
+#ifndef RUSH_MTMATH_H
+#define RUSH_MTMATH_H
 
 #include <global.h>
 
@@ -273,4 +273,4 @@ SDK_INLINE void VEC2_Fx16Set(Vec2Fx16 *a, fx16 x, fx16 y)
 }
 #endif
 
-#endif // RUSH2_MTMATH_H
+#endif // RUSH_MTMATH_H

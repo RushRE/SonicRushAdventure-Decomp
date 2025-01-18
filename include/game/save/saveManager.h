@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAVEMANAGER_H
-#define RUSH2_SAVEMANAGER_H
+#ifndef RUSH_SAVEMANAGER_H
+#define RUSH_SAVEMANAGER_H
 
 #include <game/system/task.h>
 #include <game/system/threadWorker.h>
@@ -87,4 +87,4 @@ void CreateCreateSaveWorker(SaveGameCreateManager *work, s32 prio);
 BOOL AwaitCreateSaveCompletion(SaveGameCreateManager *work);
 BOOL GetCreateSaveSuccess(SaveGameCreateManager *work);
 
-#endif // RUSH2_SAVEMANAGER_H
+#endif // RUSH_SAVEMANAGER_H

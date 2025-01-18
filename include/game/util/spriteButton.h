@@ -1,5 +1,5 @@
-#ifndef RUSH2_SPRITE_BUTTON_H
-#define RUSH2_SPRITE_BUTTON_H
+#ifndef RUSH_SPRITE_BUTTON_H
+#define RUSH_SPRITE_BUTTON_H
 
 #include <game/system/task.h>
 #include <game/input/touchField.h>
@@ -89,4 +89,4 @@ size_t GetSpriteButtonSpriteAllocSize(void *spriteFile, u16 animID);
 void SetSpriteButtonState(SpriteButtonAnimator *button, SpriteButtonState state);
 SpriteButton *GetSpriteButtonWork(void);
 
-#endif // RUSH2_SPRITE_BUTTON_H
+#endif // RUSH_SPRITE_BUTTON_H

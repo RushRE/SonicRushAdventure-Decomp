@@ -1,5 +1,5 @@
-#ifndef RUSH2_AKMATH_H
-#define RUSH2_AKMATH_H
+#ifndef RUSH_AKMATH_H
+#define RUSH_AKMATH_H
 
 #include <global.h>
 
@@ -12,4 +12,4 @@ NOT_DECOMPILED void AkMath__Func_2002C98(s32 radiusX, s32 radiusY, fx32 *x, fx32
 NOT_DECOMPILED s32 AkMath__Func_2002D28(s32 angle, s32 targetAngle, s32 percent);
 NOT_DECOMPILED void AkMath__BlendColors(u16 *colorPtr, u16 inputColor1, u16 inputColor2, s32 id, s32 count);
 
-#endif // RUSH2_AKMATH_H
+#endif // RUSH_AKMATH_H

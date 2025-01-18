@@ -1,5 +1,5 @@
-#ifndef RUSH2_DRAWREQTASK_H
-#define RUSH2_DRAWREQTASK_H
+#ifndef RUSH_DRAWREQTASK_H
+#define RUSH_DRAWREQTASK_H
 
 #include <game/system/task.h>
 #include <game/graphics/renderCore.h>
@@ -110,4 +110,4 @@ void Camera3D__VBlankCallback(void);
 void Camera3D__InitMode1(void);
 void Camera3D__InitMode2(void);
 
-#endif // RUSH2_DRAWREQTASK_H
+#endif // RUSH_DRAWREQTASK_H

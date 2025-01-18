@@ -1,5 +1,5 @@
-#ifndef RUSH2_BOSSFX_H
-#define RUSH2_BOSSFX_H
+#ifndef RUSH_BOSSFX_H
+#define RUSH_BOSSFX_H
 
 #include <stage/stageTask.h>
 
@@ -149,4 +149,4 @@ BossFX2D *BossFX2D__Create(size_t size, BossFX2DState state, const char *path, u
 void BossFX2D__State_Active(BossFX2D *work);
 void BossFX2D__Destructor(Task *task);
 
-#endif // RUSH2_BOSSFX_H
+#endif // RUSH_BOSSFX_H

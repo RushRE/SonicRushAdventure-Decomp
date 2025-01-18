@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILSEA_H
-#define RUSH2_SAILSEA_H
+#ifndef RUSH_SAILSEA_H
+#define RUSH_SAILSEA_H
 
 #include <stage/stageTask.h>
 
@@ -91,4 +91,4 @@ NOT_DECOMPILED void SailSea__Func_21603E8(VecFx32 *a1, VecFx32 *a2, VecFx32 *a3,
 NOT_DECOMPILED fx32 SailSea__GetSurfacePosition(VecFx32 *position);
 NOT_DECOMPILED GXRgb SailSea__Func_2160534(s32 a1);
 
-#endif // !RUSH2_SAILSEA_H
+#endif // !RUSH_SAILSEA_H

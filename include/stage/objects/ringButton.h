@@ -1,5 +1,5 @@
-#ifndef RUSH2_RINGBUTTON_H
-#define RUSH2_RINGBUTTON_H
+#ifndef RUSH_RINGBUTTON_H
+#define RUSH_RINGBUTTON_H
 
 #include <stage/gameObject.h>
 
@@ -27,4 +27,4 @@ typedef struct RingButton_
 
 RingButton *CreateRingButton(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_RINGBUTTON_H
+#endif // RUSH_RINGBUTTON_H

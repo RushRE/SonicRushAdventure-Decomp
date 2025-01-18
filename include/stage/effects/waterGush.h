@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_WATERGUSH_H
-#define RUSH2_EFFECT_WATERGUSH_H
+#ifndef RUSH_EFFECT_WATERGUSH_H
+#define RUSH_EFFECT_WATERGUSH_H
 
 #include <stage/effectTask.h>
 #include <stage/effects/waterCommon.h>
@@ -21,4 +21,4 @@ typedef struct EffectWaterGush_
 
 EffectWaterGush *EffectWaterGush__Create(StageTask *parent, fx32 velX, fx32 velY, s32 type);
 
-#endif // RUSH2_EFFECT_WATERGUSH_H
+#endif // RUSH_EFFECT_WATERGUSH_H

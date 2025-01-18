@@ -1,5 +1,5 @@
-#ifndef RUSH2_SPRINGCRYSTAL_H
-#define RUSH2_SPRINGCRYSTAL_H
+#ifndef RUSH_SPRINGCRYSTAL_H
+#define RUSH_SPRINGCRYSTAL_H
 
 #include <stage/gameObject.h>
 
@@ -18,4 +18,4 @@ typedef struct SpringCrystal_
 
 SpringCrystal *CreateSpringCrystal(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_SPRINGCRYSTAL_H
+#endif // RUSH_SPRINGCRYSTAL_H

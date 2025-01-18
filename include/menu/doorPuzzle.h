@@ -1,5 +1,5 @@
-#ifndef RUSH2_DOORPUZZLE_H
-#define RUSH2_DOORPUZZLE_H
+#ifndef RUSH_DOORPUZZLE_H
+#define RUSH_DOORPUZZLE_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -142,4 +142,4 @@ struct DoorPuzzle_
 
 void InitDoorPuzzle(void);
 
-#endif // RUSH2_DOORPUZZLE_H
+#endif // RUSH_DOORPUZZLE_H

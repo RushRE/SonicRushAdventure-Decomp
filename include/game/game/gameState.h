@@ -1,5 +1,5 @@
-#ifndef RUSH2_GAMESTATE_H
-#define RUSH2_GAMESTATE_H
+#ifndef RUSH_GAMESTATE_H
+#define RUSH_GAMESTATE_H
 
 #include <global.h>
 #include <game/math/mtMath.h>
@@ -368,4 +368,4 @@ RUSH_INLINE BOOL gmCheckVsBattleFlag(void)
 }
 #endif
 
-#endif // RUSH2_GAMESTATE_H
+#endif // RUSH_GAMESTATE_H

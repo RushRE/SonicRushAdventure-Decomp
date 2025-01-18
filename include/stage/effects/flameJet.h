@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_FLAMEJET_H
-#define RUSH2_EFFECT_FLAMEJET_H
+#ifndef RUSH_EFFECT_FLAMEJET_H
+#define RUSH_EFFECT_FLAMEJET_H
 
 #include <stage/effectTask.h>
 
@@ -35,4 +35,4 @@ EffectFlameJet3D *CreateEffectFlameJet3D(Player *player, fx32 velX, fx32 velY);
 EffectFlameJet3D *CreateEffectFlameJet3DForPlayer(Player *player, fx32 velX, fx32 velY);
 void EffectFlameJet3D_State_Active3D(EffectFlameJet3D *work);
 
-#endif // RUSH2_EFFECT_FLAMEJET_H
+#endif // RUSH_EFFECT_FLAMEJET_H

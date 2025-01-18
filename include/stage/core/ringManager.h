@@ -1,5 +1,5 @@
-#ifndef RUSH2_RINGMANAGER_H
-#define RUSH2_RINGMANAGER_H
+#ifndef RUSH_RINGMANAGER_H
+#define RUSH_RINGMANAGER_H
 
 #include <stage/stageTask.h>
 #include <game/stage/mapSys.h>
@@ -111,4 +111,4 @@ void SetStageRingScale(fx32 scale);
 fx32 GetStageRingScale(void);
 void HandleRingMagnetEffect(Player *player);
 
-#endif // RUSH2_RINGMANAGER_H
+#endif // RUSH_RINGMANAGER_H

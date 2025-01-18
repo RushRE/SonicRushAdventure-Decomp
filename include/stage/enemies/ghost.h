@@ -1,5 +1,5 @@
-#ifndef RUSH2_GHOST_H
-#define RUSH2_GHOST_H
+#ifndef RUSH_GHOST_H
+#define RUSH_GHOST_H
 
 #include <stage/gameObject.h>
 
@@ -49,4 +49,4 @@ typedef struct EnemyGhostBomb_
 EnemyGhost *CreateGhost(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 EnemyGhostBomb *CreateGhostBomb(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_GHOST_H
+#endif // RUSH_GHOST_H

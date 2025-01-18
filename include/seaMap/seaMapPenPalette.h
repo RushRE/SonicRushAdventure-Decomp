@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPPENPALETTE_H
-#define RUSH2_SEAMAPPENPALETTE_H
+#ifndef RUSH_SEAMAPPENPALETTE_H
+#define RUSH_SEAMAPPENPALETTE_H
 
 #include <seaMap/seaMapView.h>
 
@@ -35,4 +35,4 @@ NOT_DECOMPILED void SeaMapPenPalette__SetMode(Task *task, u32 mode);
 NOT_DECOMPILED void SeaMapPenPalette__Main(void);
 NOT_DECOMPILED void SeaMapPenPalette__Destructor(Task *task);
 
-#endif // RUSH2_SEAMAPPENPALETTE_H
+#endif // RUSH_SEAMAPPENPALETTE_H

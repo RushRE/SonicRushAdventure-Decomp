@@ -1,5 +1,5 @@
-#ifndef RUSH2_EMERALDCOLLECTEDSCREEN_H
-#define RUSH2_EMERALDCOLLECTEDSCREEN_H
+#ifndef RUSH_EMERALDCOLLECTEDSCREEN_H
+#define RUSH_EMERALDCOLLECTEDSCREEN_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -110,4 +110,4 @@ typedef struct EmeraldCollectedScreen_
 
 void CreateEmeraldCollectedScreen(void);
 
-#endif // RUSH2_EMERALDCOLLECTEDSCREEN_H
+#endif // RUSH_EMERALDCOLLECTEDSCREEN_H

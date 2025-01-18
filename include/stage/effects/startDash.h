@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_START_DASH_H
-#define RUSH2_EFFECT_START_DASH_H
+#ifndef RUSH_EFFECT_START_DASH_H
+#define RUSH_EFFECT_START_DASH_H
 
 #include <stage/effectTask.h>
 
@@ -18,4 +18,4 @@ typedef struct EffectStartDash_
 
 EffectStartDash *EffectStartDash__Create(StageTask *parent);
 
-#endif // RUSH2_EFFECT_START_DASH_H
+#endif // RUSH_EFFECT_START_DASH_H

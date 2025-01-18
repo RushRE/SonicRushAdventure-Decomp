@@ -1,5 +1,5 @@
-#ifndef RUSH2_DIVEBAT_H
-#define RUSH2_DIVEBAT_H
+#ifndef RUSH_DIVEBAT_H
+#define RUSH_DIVEBAT_H
 
 #include <stage/gameObject.h>
 
@@ -27,4 +27,4 @@ typedef struct EnemyDiveBat_
 
 EnemyDiveBat *CreateDiveBat(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_DIVEBAT_H
+#endif // RUSH_DIVEBAT_H

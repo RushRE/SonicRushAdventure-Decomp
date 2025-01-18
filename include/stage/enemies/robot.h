@@ -1,5 +1,5 @@
-#ifndef RUSH2_ROBOT_H
-#define RUSH2_ROBOT_H
+#ifndef RUSH_ROBOT_H
+#define RUSH_ROBOT_H
 
 #include <stage/gameObject.h>
 
@@ -101,4 +101,4 @@ typedef struct EnemyRobot_
 
 EnemyRobot *CreateRobot(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_ROBOT_H
+#endif // RUSH_ROBOT_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_DRAWFADETASK_H
-#define RUSH2_DRAWFADETASK_H
+#ifndef RUSH_DRAWFADETASK_H
+#define RUSH_DRAWFADETASK_H
 
 #include <game/system/task.h>
 
@@ -44,4 +44,4 @@ DrawFadeTask *CreateDrawFadeTask(DrawFadeTaskFlags flags, fx32 fadeSpeed);
 void DestroyDrawFadeTask(void);
 BOOL IsDrawFadeTaskFinished(void);
 
-#endif // RUSH2_DRAWFADETASK_H
+#endif // RUSH_DRAWFADETASK_H

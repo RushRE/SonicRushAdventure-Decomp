@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPISLANDDRAWICON_H
-#define RUSH2_SEAMAPISLANDDRAWICON_H
+#ifndef RUSH_SEAMAPISLANDDRAWICON_H
+#define RUSH_SEAMAPISLANDDRAWICON_H
 
 #include <seaMap/seaMapEventManager.h>
 #include <game/util/spriteButton.h>
@@ -34,4 +34,4 @@ NOT_DECOMPILED void SeaMapIslandDrawIcon__RectCheck1(Vec2Fx16 *pos, HitboxRect *
 NOT_DECOMPILED void SeaMapIslandDrawIcon__RectCheck2(Vec2Fx16 *pos, HitboxRect *rect);
 NOT_DECOMPILED void SeaMapIslandDrawIcon__CreateSparkles(CHEVObject *mapObject);
 
-#endif // RUSH2_SEAMAPISLANDDRAWICON_H
+#endif // RUSH_SEAMAPISLANDDRAWICON_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_BREAKABLEWALL_H
-#define RUSH2_BREAKABLEWALL_H
+#ifndef RUSH_BREAKABLEWALL_H
+#define RUSH_BREAKABLEWALL_H
 
 #include <stage/gameObject.h>
 
@@ -25,4 +25,4 @@ void BreakableWall__OnDefend_2160A88(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 void BreakableWall__State_Broken(BreakableWall *work);
 void BreakableWall__Draw_Broken(void);
 
-#endif // RUSH2_BREAKABLEWALL_H
+#endif // RUSH_BREAKABLEWALL_H

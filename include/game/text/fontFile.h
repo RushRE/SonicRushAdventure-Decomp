@@ -1,6 +1,6 @@
 
-#ifndef RUSH2_FONTFILE_H
-#define RUSH2_FONTFILE_H
+#ifndef RUSH_FONTFILE_H
+#define RUSH_FONTFILE_H
 
 #include <global.h>
 #include <game/graphics/unknown2056570.h>
@@ -88,4 +88,4 @@ NOT_DECOMPILED void FontFile__GetTextHeight(FontFile *work, s32 height, u16 *tex
 NOT_DECOMPILED void FontFile__GetLineLength(FontFile *work, s32 height, u16 *text);
 NOT_DECOMPILED void FontFile__GetTextWidth(FontFile *work, s32 height, u16 *text);
 
-#endif // RUSH2_FONTFILE_H
+#endif // RUSH_FONTFILE_H

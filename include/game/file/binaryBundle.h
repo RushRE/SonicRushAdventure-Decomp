@@ -1,5 +1,5 @@
-#ifndef RUSH2_BINARYBUNDLE_H
-#define RUSH2_BINARYBUNDLE_H
+#ifndef RUSH_BINARYBUNDLE_H
+#define RUSH_BINARYBUNDLE_H
 
 #include <global.h>
 #include <game/system/allocator.h>
@@ -56,4 +56,4 @@ RUSH_INLINE void GetCompressedFileFromBundle(const char *bundlePath, u16 fileID,
     HeapFree(HEAP_USER, compressedData);
 }
 
-#endif // RUSH2_BINARYBUNDLE_H
+#endif // RUSH_BINARYBUNDLE_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_ICICLE_H
-#define RUSH2_ICICLE_H
+#ifndef RUSH_ICICLE_H
+#define RUSH_ICICLE_H
 
 #include <stage/gameObject.h>
 
@@ -19,4 +19,4 @@ typedef struct Icicle_
 
 Icicle *CreateIcicle(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_ICICLE_H
+#endif // RUSH_ICICLE_H

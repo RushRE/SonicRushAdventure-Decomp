@@ -1,5 +1,5 @@
-#ifndef RUSH2_BALLOON_H
-#define RUSH2_BALLOON_H
+#ifndef RUSH_BALLOON_H
+#define RUSH_BALLOON_H
 
 #include <stage/gameObject.h>
 
@@ -37,4 +37,4 @@ typedef struct BalloonSpawner_
 BalloonSpawner *CreateBalloonSpawner(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_BALLOON_H
+#endif // RUSH_BALLOON_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_WATERSPLASH_H
-#define RUSH2_EFFECT_WATERSPLASH_H
+#ifndef RUSH_EFFECT_WATERSPLASH_H
+#define RUSH_EFFECT_WATERSPLASH_H
 
 #include <stage/effectTask.h>
 #include <stage/effects/waterCommon.h>
@@ -23,4 +23,4 @@ EffectWaterSplash *CreateEffectWaterSplash(StageTask *parent, fx32 offsetX, fx32
 
 EffectWaterSplash *CreateEffectWaterSplashForPlayer(Player *player);
 
-#endif // RUSH2_EFFECT_WATERSPLASH_H
+#endif // RUSH_EFFECT_WATERSPLASH_H

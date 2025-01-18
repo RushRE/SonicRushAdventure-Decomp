@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_FLAMEDUST_H
-#define RUSH2_EFFECT_FLAMEDUST_H
+#ifndef RUSH_EFFECT_FLAMEDUST_H
+#define RUSH_EFFECT_FLAMEDUST_H
 
 #include <stage/effectTask.h>
 
@@ -39,4 +39,4 @@ EffectFlameDust *CreateEffectFlameDustForPlayerBlaze(Player *player);
 EffectFlameDust *CreateEffectFlameDust(Player *player, fx32 velX, fx32 velY, EffectFlameDustType type);
 void EffectFlameDust_State_Type2(EffectFlameDust *work);
 
-#endif // RUSH2_EFFECT_FLAMEDUST_H
+#endif // RUSH_EFFECT_FLAMEDUST_H

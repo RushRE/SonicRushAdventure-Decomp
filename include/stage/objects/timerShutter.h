@@ -1,5 +1,5 @@
-#ifndef RUSH2_TIMER_SHUTTER_H
-#define RUSH2_TIMER_SHUTTER_H
+#ifndef RUSH_TIMER_SHUTTER_H
+#define RUSH_TIMER_SHUTTER_H
 
 #include <stage/gameObject.h>
 
@@ -28,4 +28,4 @@ typedef struct TimerShutterWater_
 TimerShutter *CreateTimerShutter(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 TimerShutterWater *CreateTimerShutterWater(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_TIMER_SHUTTER_H
+#endif // RUSH_TIMER_SHUTTER_H

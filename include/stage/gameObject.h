@@ -1,5 +1,5 @@
-#ifndef RUSH2_GAMEOBJECT_H
-#define RUSH2_GAMEOBJECT_H
+#ifndef RUSH_GAMEOBJECT_H
+#define RUSH_GAMEOBJECT_H
 
 #include <stage/stageTask.h>
 #include <stage/player/player.h>
@@ -117,4 +117,4 @@ void GameObject__Func_20282A8(VecFx32 *inputPos, VecFx32 *outputPos, MtxFx44 *mt
 #define SpawnStageObjectFlags(id, x, y, type, flags) (type *)GameObject__SpawnObject(id, x, y, flags, 0, 0, 0, 0, 0)
 #define SpawnStageObjectEx(id, x, y, type, flags, left, top, width, height, param) (type *)GameObject__SpawnObject(id, x, y, flags, left, top, width, height, param)
 
-#endif // RUSH2_GAMEOBJECT_H
+#endif // RUSH_GAMEOBJECT_H

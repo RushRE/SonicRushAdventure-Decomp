@@ -1,5 +1,5 @@
-#ifndef RUSH2_STAR_COMBO_H
-#define RUSH2_STAR_COMBO_H
+#ifndef RUSH_STAR_COMBO_H
+#define RUSH_STAR_COMBO_H
 
 #include <stage/player/player.h>
 
@@ -127,4 +127,4 @@ void StarCombo__StateStar_ComboFailFall(StarCombo *work, s32 id);
 // INLINE FUNCTIONS
 // --------------------
 
-#endif // RUSH2_STAR_COMBO_H
+#endif // RUSH_STAR_COMBO_H

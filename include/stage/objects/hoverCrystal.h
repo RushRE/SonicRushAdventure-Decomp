@@ -1,5 +1,5 @@
-#ifndef RUSH2_HOVERCRYSTAL_H
-#define RUSH2_HOVERCRYSTAL_H
+#ifndef RUSH_HOVERCRYSTAL_H
+#define RUSH_HOVERCRYSTAL_H
 
 #include <stage/gameObject.h>
 
@@ -29,4 +29,4 @@ typedef struct HoverCrystal_
 
 HoverCrystal *CreateHoverCrystal(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_HOVERCRYSTAL_H
+#endif // RUSH_HOVERCRYSTAL_H

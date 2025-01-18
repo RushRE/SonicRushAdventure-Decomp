@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILDEMOPLAYER_H
-#define RUSH2_SAILDEMOPLAYER_H
+#ifndef RUSH_SAILDEMOPLAYER_H
+#define RUSH_SAILDEMOPLAYER_H
 
 #include <stage/stageTask.h>
 
@@ -11,4 +11,4 @@ void CreateSailDemoPlayer(void);
 
 BOOL CheckAnyTouchForSailDemoPlayer(void);
 
-#endif // !RUSH2_SAILDEMOPLAYER_H
+#endif // !RUSH_SAILDEMOPLAYER_H

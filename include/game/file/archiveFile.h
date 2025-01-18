@@ -1,5 +1,5 @@
-#ifndef RUSH2_ARCHIVEFILE_H
-#define RUSH2_ARCHIVEFILE_H
+#ifndef RUSH_ARCHIVEFILE_H
+#define RUSH_ARCHIVEFILE_H
 
 #include <global.h>
 #include <game/system/threadWorker.h>
@@ -60,4 +60,4 @@ void ArchiveFile__ThreadFunc(ArchiveFile *file);
 void ArchiveFile__InitAsync(ArchiveFile *file, const char *path, u32 id, void *outputPtr, ArchiveFileFlags flags);
 void ArchiveFile__LoadFiles(void *archive, va_list args);
 
-#endif // RUSH2_ARCHIVEFILE_H
+#endif // RUSH_ARCHIVEFILE_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_PAD_INPUT_H
-#define RUSH2_PAD_INPUT_H
+#ifndef RUSH_PAD_INPUT_H
+#define RUSH_PAD_INPUT_H
 
 #include <global.h>
 
@@ -78,4 +78,4 @@ RUSH_INLINE BOOL CheckPadButtonDown(u16 buttonMask)
     return (GetPadButtonMask() & buttonMask) != 0;
 }
 
-#endif // RUSH2_PAD_INPUT_H
+#endif // RUSH_PAD_INPUT_H

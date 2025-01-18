@@ -1,5 +1,5 @@
-#ifndef RUSH2_VRAMSYSTEM_H
-#define RUSH2_VRAMSYSTEM_H
+#ifndef RUSH_VRAMSYSTEM_H
+#define RUSH_VRAMSYSTEM_H
 
 #include <global.h>
 
@@ -172,4 +172,4 @@ VRAMPixelKey VRAMSystem__AllocTexFunc_4x4Comp(size_t size, s32 id);
 VRAMPixelKey VRAMSystem__AllocTexFunc_Normal(size_t size, s32 id);
 VRAMPaletteKey VRAMSystem__AllocPalFunc(size_t size, s32 id, u16 *palettePtr, u32 paletteSize, u32 shift);
 
-#endif // RUSH2_VRAMSYSTEM_H
+#endif // RUSH_VRAMSYSTEM_H

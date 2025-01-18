@@ -1,5 +1,5 @@
-#ifndef RUSH2_REPLAYRECORDER_H
-#define RUSH2_REPLAYRECORDER_H
+#ifndef RUSH_REPLAYRECORDER_H
+#define RUSH_REPLAYRECORDER_H
 
 #include <global.h>
 #include <game/system/task.h>
@@ -141,4 +141,4 @@ void CreateReplayRecorderPadEx(ReplayRecorderType type, PadInputState *inputStat
 void CreateReplayRecorderTouch(ReplayRecorderType type, TouchInputState *inputState, const char *path, KeyDataTouch *keyDataFile, s32 keyDataFileSize);
 void CreateReplayRecorderTouchEx(ReplayRecorderType type, TouchInputState *inputState, const char *path, KeyDataTouch *keyDataFile, s32 keyDataFileSize, u8 pauseLevel, u16 priority);
 
-#endif // RUSH2_REPLAYRECORDER_H
+#endif // RUSH_REPLAYRECORDER_H

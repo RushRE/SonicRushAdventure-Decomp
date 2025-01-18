@@ -1,5 +1,5 @@
-#ifndef RUSH2_MIC_INPUT_H
-#define RUSH2_MIC_INPUT_H
+#ifndef RUSH_MIC_INPUT_H
+#define RUSH_MIC_INPUT_H
 
 #include <global.h>
 
@@ -70,4 +70,4 @@ void InitMicInputSystem(void);
 void UpdateMicInput(void);
 BOOL IsMicInputEnabled(void);
 
-#endif // RUSH2_MIC_INPUT_H
+#endif // RUSH_MIC_INPUT_H

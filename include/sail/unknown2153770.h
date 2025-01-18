@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILUNKNOWN2153770_H
-#define RUSH2_SAILUNKNOWN2153770_H
+#ifndef RUSH_SAILUNKNOWN2153770_H
+#define RUSH_SAILUNKNOWN2153770_H
 
 #include <stage/stageTask.h>
 
@@ -21,4 +21,4 @@ SailUnknown2153770 *SailUnknown2153770__Create(void);
 void SailUnknown2153770__Destructor(Task *task);
 void SailUnknown2153770__Main(void);
 
-#endif // !RUSH2_SAILUNKNOWN2153770_H
+#endif // !RUSH_SAILUNKNOWN2153770_H

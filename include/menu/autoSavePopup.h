@@ -1,5 +1,5 @@
-#ifndef RUSH2_AUTOSAVEPOPUP_H
-#define RUSH2_AUTOSAVEPOPUP_H
+#ifndef RUSH_AUTOSAVEPOPUP_H
+#define RUSH_AUTOSAVEPOPUP_H
 
 #include <game/system/task.h>
 #include <game/text/fontWindow.h>
@@ -24,4 +24,4 @@ typedef struct AutoSavePopup_
 
 void CreateAutoSavePopup(void);
 
-#endif // RUSH2_AUTOSAVEPOPUP_H
+#endif // RUSH_AUTOSAVEPOPUP_H

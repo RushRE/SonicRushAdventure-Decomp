@@ -1,5 +1,5 @@
-#ifndef RUSH2_EX_H
-#define RUSH2_EX_H
+#ifndef RUSH_EX_H
+#define RUSH_EX_H
 
 #include <global.h>
 
@@ -9,4 +9,4 @@
 
 void InitExBossEvent(void);
 
-#endif // RUSH2_EX_H
+#endif // RUSH_EX_H

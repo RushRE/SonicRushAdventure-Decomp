@@ -1,5 +1,5 @@
-#ifndef RUSH2_FLOATINGFOUNTAIN_H
-#define RUSH2_FLOATINGFOUNTAIN_H
+#ifndef RUSH_FLOATINGFOUNTAIN_H
+#define RUSH_FLOATINGFOUNTAIN_H
 
 #include <stage/gameObject.h>
 
@@ -19,4 +19,4 @@ typedef struct FloatingFountain_
 
 FloatingFountain *CreateFloatingFountain(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_FLOATINGFOUNTAIN_H
+#endif // RUSH_FLOATINGFOUNTAIN_H

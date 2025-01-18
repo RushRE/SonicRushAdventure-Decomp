@@ -1,5 +1,5 @@
-#ifndef RUSH2_EXTASK_H
-#define RUSH2_EXTASK_H
+#ifndef RUSH_EXTASK_H
+#define RUSH_EXTASK_H
 
 #include <game/system/task.h>
 
@@ -82,4 +82,4 @@ void ExTask_State_Destroy(void);
 // Setters
 void EnableExTaskNoUpdate(BOOL enabled);
 
-#endif // RUSH2_EXTASK_H
+#endif // RUSH_EXTASK_H

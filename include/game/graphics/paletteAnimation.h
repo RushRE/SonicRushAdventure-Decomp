@@ -1,5 +1,5 @@
-#ifndef RUSH2_PALETTEANIMATION_H
-#define RUSH2_PALETTEANIMATION_H
+#ifndef RUSH_PALETTEANIMATION_H
+#define RUSH_PALETTEANIMATION_H
 
 #include <global.h>
 #include <game/graphics/paletteQueue.h>
@@ -63,4 +63,4 @@ void SetPaletteAnimationSpeed(PaletteAnimator *animator, fx32 speed);
 void SetPaletteAnimationTarget(PaletteAnimator *animator, PaletteMode paletteMode, VRAMPaletteKey dstPalettePtr);
 BOOL CheckPaletteAnimationLooped(PaletteAnimator *animator);
 
-#endif // RUSH2_PALETTEANIMATION_H
+#endif // RUSH_PALETTEANIMATION_H

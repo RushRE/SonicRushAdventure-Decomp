@@ -1,5 +1,5 @@
-#ifndef RUSH2_PAUSEMENU_H
-#define RUSH2_PAUSEMENU_H
+#ifndef RUSH_PAUSEMENU_H
+#define RUSH_PAUSEMENU_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -74,4 +74,4 @@ typedef struct PauseMenu_
 
 void TryOpenPauseMenu(void);
 
-#endif // RUSH2_PAUSEMENU_H
+#endif // RUSH_PAUSEMENU_H

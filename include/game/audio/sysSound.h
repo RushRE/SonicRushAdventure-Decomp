@@ -1,5 +1,5 @@
-#ifndef RUSH2_SYSSOUND_H
-#define RUSH2_SYSSOUND_H
+#ifndef RUSH_SYSSOUND_H
+#define RUSH_SYSSOUND_H
 
 #include <global.h>
 #include <game/audio/audioSystem.h>
@@ -82,4 +82,4 @@ void PlaySysStream(s32 strmNo, BOOL alwaysPlay);
 void StopSysStream(void);
 void FadeSysStream(s32 fadeFrame);
 
-#endif // RUSH2_SYSSOUND_H
+#endif // RUSH_SYSSOUND_H

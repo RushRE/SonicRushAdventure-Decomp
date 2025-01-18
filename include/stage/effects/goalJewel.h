@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_GOAL_JEWEL_H
-#define RUSH2_EFFECT_GOAL_JEWEL_H
+#ifndef RUSH_EFFECT_GOAL_JEWEL_H
+#define RUSH_EFFECT_GOAL_JEWEL_H
 
 #include <stage/effectTask.h>
 
@@ -20,4 +20,4 @@ typedef struct EffectGoalJewel_
 
 EffectGoalJewel *EffectGoalJewel__Create(u16 type, fx32 x, fx32 y, fx32 velX, fx32 velY);
 
-#endif // RUSH2_EFFECT_GOAL_JEWEL_H
+#endif // RUSH_EFFECT_GOAL_JEWEL_H

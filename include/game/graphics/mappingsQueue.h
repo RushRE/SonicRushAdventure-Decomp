@@ -1,5 +1,5 @@
-#ifndef RUSH2_MAPPINGS_QUEUE_H
-#define RUSH2_MAPPINGS_QUEUE_H
+#ifndef RUSH_MAPPINGS_QUEUE_H
+#define RUSH_MAPPINGS_QUEUE_H
 
 #include <game/system/queue.h>
 
@@ -56,4 +56,4 @@ void Mappings__ReadMappings(void *srcMappingsPtr, fx32 x, fx32 y, s32 width, s32
                             u16 displayWidth, u16 displayHeight);
 void Mappings__ClearQueue(void);
 
-#endif // RUSH2_MAPPINGS_QUEUE_H
+#endif // RUSH_MAPPINGS_QUEUE_H

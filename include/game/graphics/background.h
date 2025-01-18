@@ -1,5 +1,5 @@
-#ifndef RUSH2_BACKGROUND_H
-#define RUSH2_BACKGROUND_H
+#ifndef RUSH_BACKGROUND_H
+#define RUSH_BACKGROUND_H
 
 #include <global.h>
 #include <game/graphics/paletteQueue.h>
@@ -133,4 +133,4 @@ void *GetBackgroundPalette(void *fileData);
 void *GetBackgroundPixels(void *fileData);
 void *GetBackgroundMappings(void *fileData);
 
-#endif // RUSH2_BACKGROUND_H
+#endif // RUSH_BACKGROUND_H

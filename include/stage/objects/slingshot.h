@@ -1,5 +1,5 @@
-#ifndef RUSH2_SLINGSHOT_H
-#define RUSH2_SLINGSHOT_H
+#ifndef RUSH_SLINGSHOT_H
+#define RUSH_SLINGSHOT_H
 
 #include <stage/gameObject.h>
 
@@ -39,4 +39,4 @@ typedef struct SlingshotRock_
 Slingshot *CreateSlingshot(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 SlingshotRock *CreateSlingshotRock(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_SLINGSHOT_H
+#endif // RUSH_SLINGSHOT_H

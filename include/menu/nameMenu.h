@@ -1,5 +1,5 @@
-#ifndef RUSH2_NAMEMENU_H
-#define RUSH2_NAMEMENU_H
+#ifndef RUSH_NAMEMENU_H
+#define RUSH_NAMEMENU_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -126,4 +126,4 @@ char16 NameMenu__Func_2160DF8(char16 character);
 char16 NameMenu__Func_2160E14(char16 character);
 u16 NameMenu__GetNameLength(SavePlayerName *name, s32 maxLength);
 
-#endif // RUSH2_NAMEMENU_H
+#endif // RUSH_NAMEMENU_H

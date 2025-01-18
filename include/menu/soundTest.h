@@ -1,5 +1,5 @@
-#ifndef RUSH2_SOUNDTEST_H
-#define RUSH2_SOUNDTEST_H
+#ifndef RUSH_SOUNDTEST_H
+#define RUSH_SOUNDTEST_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -168,4 +168,4 @@ typedef struct SoundTest_
 
 void CreateSoundTest(void);
 
-#endif // RUSH2_SOUNDTEST_H
+#endif // RUSH_SOUNDTEST_H

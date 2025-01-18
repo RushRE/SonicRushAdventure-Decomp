@@ -1,5 +1,5 @@
-#ifndef RUSH2_SNOWFLAKEHEAD_H
-#define RUSH2_SNOWFLAKEHEAD_H
+#ifndef RUSH_SNOWFLAKEHEAD_H
+#define RUSH_SNOWFLAKEHEAD_H
 
 #include <stage/gameObject.h>
 
@@ -38,4 +38,4 @@ typedef struct EnemySnowflakeHead_
 
 EnemySnowflakeHead *CreateSnowflakeHead(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_SNOWFLAKEHEAD_H
+#endif // RUSH_SNOWFLAKEHEAD_H

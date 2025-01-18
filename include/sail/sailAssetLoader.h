@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAILASSETLOADER_H
-#define RUSH2_SAILASSETLOADER_H
+#ifndef RUSH_SAILASSETLOADER_H
+#define RUSH_SAILASSETLOADER_H
 
 #include <game/system/task.h>
 
@@ -9,4 +9,4 @@
 
 void InitSailAssets(void);
 
-#endif // !RUSH2_SAILASSETLOADER_H
+#endif // !RUSH_SAILASSETLOADER_H

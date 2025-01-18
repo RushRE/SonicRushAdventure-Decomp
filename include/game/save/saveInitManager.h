@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAVEINITMANAGER_H
-#define RUSH2_SAVEINITMANAGER_H
+#ifndef RUSH_SAVEINITMANAGER_H
+#define RUSH_SAVEINITMANAGER_H
 
 #include <game/save/saveManager.h>
 
@@ -32,4 +32,4 @@ typedef struct SaveInitManager_
 
 void CreateSaveInitManager(void);
 
-#endif // RUSH2_SAVEINITMANAGER_H
+#endif // RUSH_SAVEINITMANAGER_H

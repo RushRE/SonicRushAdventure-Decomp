@@ -1,5 +1,5 @@
-#ifndef RUSH2_EVENT_MANAGER_H
-#define RUSH2_EVENT_MANAGER_H
+#ifndef RUSH_EVENT_MANAGER_H
+#define RUSH_EVENT_MANAGER_H
 
 #include <global.h>
 #include <game/stage/mapSys.h>
@@ -92,4 +92,4 @@ void EventManager__CreateStageObjects(EventManager *evtMgr, s32 blockX, s32 bloc
 void EventManager__CreateRingObjects(EventManager *evtMgr, s32 blockX, s32 blockY, ViewRect *r_on, ViewRect *r_off, u8 flags);
 void EventManager__CreateDecorObjects(EventManager *evtMgr, s32 blockX, s32 blockY, ViewRect *r_on, ViewRect *r_off, u8 flags);
 
-#endif // RUSH2_EVENT_MANAGER_H
+#endif // RUSH_EVENT_MANAGER_H

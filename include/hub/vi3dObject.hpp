@@ -1,5 +1,5 @@
-#ifndef RUSH2_VI3DOBJECT_HPP
-#define RUSH2_VI3DOBJECT_HPP
+#ifndef RUSH_VI3DOBJECT_HPP
+#define RUSH_VI3DOBJECT_HPP
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -44,4 +44,4 @@ public:
 // FUNCTIONS
 // --------------------
 
-#endif // RUSH2_VI3DOBJECT_HPP
+#endif // RUSH_VI3DOBJECT_HPP

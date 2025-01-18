@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_WATERBUBBLE_H
-#define RUSH2_EFFECT_WATERBUBBLE_H
+#ifndef RUSH_EFFECT_WATERBUBBLE_H
+#define RUSH_EFFECT_WATERBUBBLE_H
 
 #include <stage/effectTask.h>
 #include <stage/effects/waterCommon.h>
@@ -24,4 +24,4 @@ void EffectWaterBubble__State_202A198(EffectWaterBubble *work);
 
 void CreateEffectWaterBubbleForPlayer(Player *player, fx32 x, fx32 y, u16 duration);
 
-#endif // RUSH2_EFFECT_WATERBUBBLE_H
+#endif // RUSH_EFFECT_WATERBUBBLE_H

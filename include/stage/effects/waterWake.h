@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_WATERWAKE_H
-#define RUSH2_EFFECT_WATERWAKE_H
+#ifndef RUSH_EFFECT_WATERWAKE_H
+#define RUSH_EFFECT_WATERWAKE_H
 
 #include <stage/effectTask.h>
 #include <stage/effects/waterCommon.h>
@@ -24,4 +24,4 @@ EffectWaterWake *CreateEffectWaterWake(StageTask *parent, fx32 offsetX, fx32 pos
 EffectWaterWake *CreateEffectWaterWakeForPlayer(Player *player);
 EffectWaterWake *CreateEffectWaterWakeForPlayer2(Player *player);
 
-#endif // RUSH2_EFFECT_WATERWAKE_H
+#endif // RUSH_EFFECT_WATERWAKE_H

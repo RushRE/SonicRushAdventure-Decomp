@@ -1,5 +1,5 @@
-#ifndef RUSH2_SEAMAPTARGETFLAGICON_H
-#define RUSH2_SEAMAPTARGETFLAGICON_H
+#ifndef RUSH_SEAMAPTARGETFLAGICON_H
+#define RUSH_SEAMAPTARGETFLAGICON_H
 
 #include <seaMap/seaMapEventManager.h>
 
@@ -18,4 +18,4 @@ typedef struct SeaMapTargetFlagIcon_
 
 SeaMapObject *CreateSeaMapTargetFlagIcon(CHEVObjectType *objectType, CHEVObject *mapObject);
 
-#endif // RUSH2_SEAMAPTARGETFLAGICON_H
+#endif // RUSH_SEAMAPTARGETFLAGICON_H

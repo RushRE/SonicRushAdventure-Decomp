@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_PIRATE_SHIP_H
-#define RUSH2_EFFECT_PIRATE_SHIP_H
+#ifndef RUSH_EFFECT_PIRATE_SHIP_H
+#define RUSH_EFFECT_PIRATE_SHIP_H
 
 #include <stage/effectTask.h>
 
@@ -20,4 +20,4 @@ typedef struct EffectPirateShipCannonBlast_
 
 EffectPirateShipCannonBlast *PirateShipCannonBlast__Create(StageTask *parent, fx32 velX, fx32 velY);
 
-#endif // RUSH2_EFFECT_PIRATE_SHIP_H
+#endif // RUSH_EFFECT_PIRATE_SHIP_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_PIXELS_QUEUE_H
-#define RUSH2_PIXELS_QUEUE_H
+#ifndef RUSH_PIXELS_QUEUE_H
+#define RUSH_PIXELS_QUEUE_H
 
 #include <game/system/queue.h>
 
@@ -45,4 +45,4 @@ void QueueCompressedBackgroundPixels(void *pixels, u16 x, u16 y, u16 width, Pixe
 void LoadCompressedBackgroundPixels(void *pixels, u16 x, u16 y, u16 width, PixelMode mode, void *vramPixels, u16 bgPlaceX, u16 bgPlaceY, u16 displayWidth, u16 displayHeight);
 void ClearPixelsQueue(void);
 
-#endif // RUSH2_PIXELS_QUEUE_H
+#endif // RUSH_PIXELS_QUEUE_H

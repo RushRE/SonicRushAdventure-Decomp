@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_BRAKEDUST_H
-#define RUSH2_EFFECT_BRAKEDUST_H
+#ifndef RUSH_EFFECT_BRAKEDUST_H
+#define RUSH_EFFECT_BRAKEDUST_H
 
 #include <stage/effectTask.h>
 
@@ -33,4 +33,4 @@ EffectBrakeDust *CreateEffectBrakeDust(Player *parent, fx32 velX, fx32 velY);
 EffectBrakeDust3D *CreateEffectBrakeDust3D(Player *parent, fx32 velX, fx32 velY);
 EffectBrakeDust3D *CreateEffectBrakeDust3DForPlayer(Player *parent, fx32 velX, fx32 velY);
 
-#endif // RUSH2_EFFECT_BRAKEDUST_H
+#endif // RUSH_EFFECT_BRAKEDUST_H

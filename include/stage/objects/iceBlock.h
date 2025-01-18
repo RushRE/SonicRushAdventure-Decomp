@@ -1,5 +1,5 @@
-#ifndef RUSH2_ICEBLOCK_H
-#define RUSH2_ICEBLOCK_H
+#ifndef RUSH_ICEBLOCK_H
+#define RUSH_ICEBLOCK_H
 
 #include <stage/gameObject.h>
 
@@ -18,4 +18,4 @@ typedef struct IceBlock_
 
 IceBlock *CreateIceBlock(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_ICEBLOCK_H
+#endif // RUSH_ICEBLOCK_H

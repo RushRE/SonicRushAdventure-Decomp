@@ -1,5 +1,5 @@
-#ifndef RUSH2_JUMPBOX_H
-#define RUSH2_JUMPBOX_H
+#ifndef RUSH_JUMPBOX_H
+#define RUSH_JUMPBOX_H
 
 #include <stage/gameObject.h>
 
@@ -38,4 +38,4 @@ typedef struct PlaneSwitchSpring_
 JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 PlaneSwitchSpring *CreatePlaneSwitchSpring(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_JUMPBOX_H
+#endif // RUSH_JUMPBOX_H

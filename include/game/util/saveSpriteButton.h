@@ -1,5 +1,5 @@
-#ifndef RUSH2_SAVE_SPRITE_BUTTON_H
-#define RUSH2_SAVE_SPRITE_BUTTON_H
+#ifndef RUSH_SAVE_SPRITE_BUTTON_H
+#define RUSH_SAVE_SPRITE_BUTTON_H
 
 #include <game/system/task.h>
 #include <game/input/touchField.h>
@@ -91,4 +91,4 @@ NOT_DECOMPILED void SaveSpriteButton__State2_206569C(SaveSpriteButton *work);
 NOT_DECOMPILED void SaveSpriteButton__Func_20656D4(SaveSpriteButton *work);
 NOT_DECOMPILED void SaveSpriteButton__Func_20656E8(SaveSpriteButton *work);
 
-#endif // RUSH2_SAVE_SPRITE_BUTTON_H
+#endif // RUSH_SAVE_SPRITE_BUTTON_H

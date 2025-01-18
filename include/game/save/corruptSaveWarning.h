@@ -1,5 +1,5 @@
-#ifndef RUSH2_CORRUPTSAVEWARNING_H
-#define RUSH2_CORRUPTSAVEWARNING_H
+#ifndef RUSH_CORRUPTSAVEWARNING_H
+#define RUSH_CORRUPTSAVEWARNING_H
 
 #include <game/system/task.h>
 #include <game/graphics/sprite.h>
@@ -26,4 +26,4 @@ typedef struct CorruptSaveWarning_
 
 void CreateCorruptSaveWarning(void);
 
-#endif // RUSH2_CORRUPTSAVEWARNING_H
+#endif // RUSH_CORRUPTSAVEWARNING_H

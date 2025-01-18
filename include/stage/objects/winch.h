@@ -1,5 +1,5 @@
-#ifndef RUSH2_WINCH_H
-#define RUSH2_WINCH_H
+#ifndef RUSH_WINCH_H
+#define RUSH_WINCH_H
 
 #include <stage/gameObject.h>
 
@@ -27,4 +27,4 @@ typedef struct Winch_
 
 Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_WINCH_H
+#endif // RUSH_WINCH_H

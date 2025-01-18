@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_ICE_BLOCK_DEBRIS_H
-#define RUSH2_EFFECT_ICE_BLOCK_DEBRIS_H
+#ifndef RUSH_EFFECT_ICE_BLOCK_DEBRIS_H
+#define RUSH_EFFECT_ICE_BLOCK_DEBRIS_H
 
 #include <stage/effectTask.h>
 
@@ -20,4 +20,4 @@ typedef struct EffectIceBlockDebris_
 
 EffectIceBlockDebris *EffectIceBlockDebris__Create(u8 type, fx32 x, fx32 y, fx32 velX, fx32 velY);
 
-#endif // RUSH2_EFFECT_ICE_BLOCK_DEBRIS_H
+#endif // RUSH_EFFECT_ICE_BLOCK_DEBRIS_H

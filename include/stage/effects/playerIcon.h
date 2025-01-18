@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_PLAYERICON_H
-#define RUSH2_EFFECT_PLAYERICON_H
+#ifndef RUSH_EFFECT_PLAYERICON_H
+#define RUSH_EFFECT_PLAYERICON_H
 
 #include <stage/effectTask.h>
 
@@ -21,4 +21,4 @@ typedef struct EffectPlayerIcon_
 EffectPlayerIcon *CreateEffectPlayerIcon(Player *parent);
 void EffectPlayerIcon_State_TrackParent(EffectPlayerIcon *work);
 
-#endif // RUSH2_EFFECT_PLAYERICON_H
+#endif // RUSH_EFFECT_PLAYERICON_H

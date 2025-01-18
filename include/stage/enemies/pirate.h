@@ -1,5 +1,5 @@
-#ifndef RUSH2_PIRATE_H
-#define RUSH2_PIRATE_H
+#ifndef RUSH_PIRATE_H
+#define RUSH_PIRATE_H
 
 #include <stage/gameObject.h>
 
@@ -128,4 +128,4 @@ EnemySkeletonPirateBone *CreateSkeletonPirateBone(MapObject *mapObject, fx32 x, 
 EnemyHoverBomberPirateBomb *CreateHoverBomberPirateBomb(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 EnemyHoverGunnerPirateShot *CreateHoverGunnerPirateShot(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_PIRATE_H
+#endif // RUSH_PIRATE_H

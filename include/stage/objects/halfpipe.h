@@ -1,5 +1,5 @@
-#ifndef RUSH2_HALFPIPE_H
-#define RUSH2_HALFPIPE_H
+#ifndef RUSH_HALFPIPE_H
+#define RUSH_HALFPIPE_H
 
 #include <stage/gameObject.h>
 
@@ -18,4 +18,4 @@ typedef struct Halfpipe_
 
 Halfpipe *CreateHalfpipe(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_HALFPIPE_H
+#endif // RUSH_HALFPIPE_H

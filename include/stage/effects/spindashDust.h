@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_SPINDASHDUST_H
-#define RUSH2_EFFECT_SPINDASHDUST_H
+#ifndef RUSH_EFFECT_SPINDASHDUST_H
+#define RUSH_EFFECT_SPINDASHDUST_H
 
 #include <stage/effectTask.h>
 
@@ -48,4 +48,4 @@ EffectSpindashDust3D *CreateEffectSpindashDust3DForBossArena(Player *player, fx3
 void EffectSpindashDust3D_State_SmallDust(EffectSpindashDust3D *work);
 void EffectSpindashDust3D_State_BigDust(EffectSpindashDust3D *work);
 
-#endif // RUSH2_EFFECT_SPINDASHDUST_H
+#endif // RUSH_EFFECT_SPINDASHDUST_H

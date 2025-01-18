@@ -1,5 +1,5 @@
-#ifndef RUSH2_UNKNOWN2056570_H
-#define RUSH2_UNKNOWN2056570_H
+#ifndef RUSH_UNKNOWN2056570_H
+#define RUSH_UNKNOWN2056570_H
 
 #include <game/system/task.h>
 
@@ -48,4 +48,4 @@ NOT_DECOMPILED void Unknown2056570__Func_2056A94(Unknown2056570 *work);
 NOT_DECOMPILED void Unknown2056570__Func_2056B8C(Unknown2056570 *work);
 NOT_DECOMPILED void Unknown2056570__Func_2056C18(Unknown2056570 *work);
 
-#endif // RUSH2_UNKNOWN2056570_H
+#endif // RUSH_UNKNOWN2056570_H

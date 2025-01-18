@@ -1,5 +1,5 @@
-#ifndef RUSH2_RENDERCORE_H
-#define RUSH2_RENDERCORE_H
+#ifndef RUSH_RENDERCORE_H
+#define RUSH_RENDERCORE_H
 
 #include <global.h>
 #include <game/math/mtMath.h>
@@ -293,4 +293,4 @@ RUSH_INLINE OSLanguage GetGameLanguage(void)
     }
 }
 
-#endif // RUSH2_RENDERCORE_H
+#endif // RUSH_RENDERCORE_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_OBJ_BLOCK_H
-#define RUSH2_OBJ_BLOCK_H
+#ifndef RUSH_OBJ_BLOCK_H
+#define RUSH_OBJ_BLOCK_H
 
 #include <global.h>
 #include <game/object/objCollision.h>
@@ -40,4 +40,4 @@ NOT_DECOMPILED s32 objBlockColEmpty(OBS_COL_CHK_DATA *work);
 NOT_DECOMPILED s32 objBlockColBlockFill(OBS_COL_CHK_DATA *work);
 NOT_DECOMPILED s32 objBlockColBlockFillThrough(OBS_COL_CHK_DATA *work);
 
-#endif // RUSH2_OBJ_BLOCK_H
+#endif // RUSH_OBJ_BLOCK_H

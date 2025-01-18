@@ -1,5 +1,5 @@
-#ifndef RUSH2_RINGBUTTONSFXMANAGER_H
-#define RUSH2_RINGBUTTONSFXMANAGER_H
+#ifndef RUSH_RINGBUTTONSFXMANAGER_H
+#define RUSH_RINGBUTTONSFXMANAGER_H
 
 #include <stage/gameObject.h>
 
@@ -27,4 +27,4 @@ extern s32 RingButtonSfxManager__timerTable[32];
 
 void RingButtonSfxManager__Create(s16 type, BOOL allocSndHandle);
 
-#endif // RUSH2_RINGBUTTONSFXMANAGER_H
+#endif // RUSH_RINGBUTTONSFXMANAGER_H

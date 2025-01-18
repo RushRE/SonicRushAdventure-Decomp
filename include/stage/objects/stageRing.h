@@ -1,5 +1,5 @@
-#ifndef RUSH2_STAGERING_H
-#define RUSH2_STAGERING_H
+#ifndef RUSH_STAGERING_H
+#define RUSH_STAGERING_H
 
 #include <stage/gameObject.h>
 
@@ -9,4 +9,4 @@
 
 GameObjectTask *CreateStageRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_STAGERING_H
+#endif // RUSH_STAGERING_H

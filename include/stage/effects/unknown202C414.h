@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_UNKNOWN202C414_H
-#define RUSH2_EFFECT_UNKNOWN202C414_H
+#ifndef RUSH_EFFECT_UNKNOWN202C414_H
+#define RUSH_EFFECT_UNKNOWN202C414_H
 
 #include <stage/effectTask.h>
 
@@ -41,4 +41,4 @@ void EffectUnknown202C414__Destructor(Task *task);
 void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *work);
 void EffectUnknown202C414__Draw(void);
 
-#endif // RUSH2_EFFECT_UNKNOWN202C414_H
+#endif // RUSH_EFFECT_UNKNOWN202C414_H

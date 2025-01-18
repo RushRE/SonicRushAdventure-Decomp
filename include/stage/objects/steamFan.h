@@ -1,5 +1,5 @@
-#ifndef RUSH2_STEAMFAN_H
-#define RUSH2_STEAMFAN_H
+#ifndef RUSH_STEAMFAN_H
+#define RUSH_STEAMFAN_H
 
 #include <stage/gameObject.h>
 
@@ -21,4 +21,4 @@ typedef struct SteamFan_
 
 SteamFan *CreateSteamFan(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_STEAMFAN_H
+#endif // RUSH_STEAMFAN_H

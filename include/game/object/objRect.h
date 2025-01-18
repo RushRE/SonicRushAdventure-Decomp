@@ -1,5 +1,5 @@
-#ifndef RUSH2_OBJ_RECT_H
-#define RUSH2_OBJ_RECT_H
+#ifndef RUSH_OBJ_RECT_H
+#define RUSH_OBJ_RECT_H
 
 #include <global.h>
 
@@ -123,4 +123,4 @@ s32 ObjRect__CenterY(OBS_RECT_WORK *work);
 fx32 ObjRect__HitCenterX(OBS_RECT_WORK *work, OBS_RECT_WORK *attacker);
 fx32 ObjRect__HitCenterY(OBS_RECT_WORK *work, OBS_RECT_WORK *attacker);
 
-#endif // RUSH2_OBJ_RECT_H
+#endif // RUSH_OBJ_RECT_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_BUNGEE_H
-#define RUSH2_BUNGEE_H
+#ifndef RUSH_BUNGEE_H
+#define RUSH_BUNGEE_H
 
 #include <stage/gameObject.h>
 
@@ -18,4 +18,4 @@ typedef struct Bungee_
 
 Bungee *CreateBungee(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_BUNGEE_H
+#endif // RUSH_BUNGEE_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_VIMESSAGECONTROLLER_H
-#define RUSH2_VIMESSAGECONTROLLER_H
+#ifndef RUSH_VIMESSAGECONTROLLER_H
+#define RUSH_VIMESSAGECONTROLLER_H
 
 #include <global.h>
 
@@ -18,4 +18,4 @@ typedef struct ViMessageController_
 // FUNCTIONS
 // --------------------
 
-#endif // RUSH2_VIMESSAGECONTROLLER_H
+#endif // RUSH_VIMESSAGECONTROLLER_H

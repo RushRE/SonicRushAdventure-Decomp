@@ -1,5 +1,5 @@
-#ifndef RUSH2_CARDBACKUP_H
-#define RUSH2_CARDBACKUP_H
+#ifndef RUSH_CARDBACKUP_H
+#define RUSH_CARDBACKUP_H
 
 #include <global.h>
 
@@ -12,4 +12,4 @@ BOOL InitCardBackupSize(void);
 BOOL ReadFromCardBackup(void *src, void *dst, size_t size);
 BOOL WriteToCardBackup(void *dst, void *src, size_t size);
 
-#endif // RUSH2_CARDBACKUP_H
+#endif // RUSH_CARDBACKUP_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_CRAB_H
-#define RUSH2_CRAB_H
+#ifndef RUSH_CRAB_H
+#define RUSH_CRAB_H
 
 #include <stage/gameObject.h>
 
@@ -26,4 +26,4 @@ typedef struct EnemyCrab_
 
 EnemyCrab *CreateCrab(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
-#endif // RUSH2_CRAB_H
+#endif // RUSH_CRAB_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_MEDAL_H
-#define RUSH2_EFFECT_MEDAL_H
+#ifndef RUSH_EFFECT_MEDAL_H
+#define RUSH_EFFECT_MEDAL_H
 
 #include <stage/effectTask.h>
 #include <game/graphics/paletteAnimation.h>
@@ -25,4 +25,4 @@ EffectMedal *EffectMedal__Create(StageTask *parent);
 void EffectMedal__Destructor(Task *task);
 void EffectMedal__State_202D514(EffectMedal *work);
 
-#endif // RUSH2_EFFECT_MEDAL_H
+#endif // RUSH_EFFECT_MEDAL_H

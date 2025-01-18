@@ -1,5 +1,5 @@
-#ifndef RUSH2_VI3DARROW_HPP
-#define RUSH2_VI3DARROW_HPP
+#ifndef RUSH_VI3DARROW_HPP
+#define RUSH_VI3DARROW_HPP
 
 #include <hub/vi3dObject.hpp>
 
@@ -36,4 +36,4 @@ NOT_DECOMPILED void Vi3dArrow__Func_2168358(Vi3dArrow *work);
 }
 #endif
 
-#endif // RUSH2_VI3DARROW_HPP
+#endif // RUSH_VI3DARROW_HPP

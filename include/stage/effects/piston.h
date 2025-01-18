@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_PISTON_H
-#define RUSH2_EFFECT_PISTON_H
+#ifndef RUSH_EFFECT_PISTON_H
+#define RUSH_EFFECT_PISTON_H
 
 #include <stage/effectTask.h>
 
@@ -18,4 +18,4 @@ typedef struct EffectPiston_
 
 EffectPiston *EffectPiston__Create(VecFx32 *position, VecU16 *dir);
 
-#endif // RUSH2_EFFECT_PISTON_H
+#endif // RUSH_EFFECT_PISTON_H

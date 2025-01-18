@@ -1,5 +1,5 @@
-#ifndef RUSH2_SND_ZONE_H
-#define RUSH2_SND_ZONE_H
+#ifndef RUSH_SND_ZONE_H
+#define RUSH_SND_ZONE_H
 
 // Sound Archive: Sequences
 enum SND_ZONE_SEQ
@@ -391,4 +391,4 @@ enum SND_ZONE_SEQ_PLAYER
 	SND_ZONE_SEQPLAYER_PLAYER_V,
 };
 
-#endif // !RUSH2_SND_ZONE_H
+#endif // !RUSH_SND_ZONE_H

@@ -1,5 +1,5 @@
-#ifndef RUSH2_BUNDLEFILEUNKNOWN_H
-#define RUSH2_BUNDLEFILEUNKNOWN_H
+#ifndef RUSH_BUNDLEFILEUNKNOWN_H
+#define RUSH_BUNDLEFILEUNKNOWN_H
 
 #include <global.h>
 #include <game/system/allocator.h>
@@ -19,4 +19,4 @@
 void *BundleFileUnknown__LoadFile(const char *path, void *memory);
 void *BundleFileUnknown__LoadFileFromBundle(const char *bundlePath, u16 id, void *memory);
 
-#endif // RUSH2_BUNDLEFILEUNKNOWN_H
+#endif // RUSH_BUNDLEFILEUNKNOWN_H

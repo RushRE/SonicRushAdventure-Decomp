@@ -1,5 +1,5 @@
-#ifndef RUSH2_EFFECT_STEAM_BLASTER_SMOKE_H
-#define RUSH2_EFFECT_STEAM_BLASTER_SMOKE_H
+#ifndef RUSH_EFFECT_STEAM_BLASTER_SMOKE_H
+#define RUSH_EFFECT_STEAM_BLASTER_SMOKE_H
 
 #include <stage/effectTask.h>
 
@@ -21,4 +21,4 @@ typedef struct EffectSteamBlasterSmoke_
 EffectSteamBlasterSmoke *CreateEffectSteamBlasterSmoke(StageTask *parent);
 void EffectSteamBlasterSmoke_State_Active(EffectSteamBlasterSmoke *work);
 
-#endif // RUSH2_EFFECT_STEAM_BLASTER_SMOKE_H
+#endif // RUSH_EFFECT_STEAM_BLASTER_SMOKE_H

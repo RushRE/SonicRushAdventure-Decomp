@@ -1,5 +1,5 @@
-#ifndef RUSH2_OBJ_DATA_H
-#define RUSH2_OBJ_DATA_H
+#ifndef RUSH_OBJ_DATA_H
+#define RUSH_OBJ_DATA_H
 
 #include <global.h>
 #include <game/graphics/vramSystem.h>
@@ -90,4 +90,4 @@ RUSH_INLINE BOOL CheckDataUsesArchive(OBS_DATA_WORK *work)
     return (work->referenceCount & OBJDATA_FLAG_USES_ARCHIVE) != 0;
 }
 
-#endif // RUSH2_OBJ_DATA_H
+#endif // RUSH_OBJ_DATA_H

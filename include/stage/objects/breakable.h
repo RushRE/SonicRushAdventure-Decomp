@@ -1,5 +1,5 @@
-#ifndef RUSH2_BREAKABLE_H
-#define RUSH2_BREAKABLE_H
+#ifndef RUSH_BREAKABLE_H
+#define RUSH_BREAKABLE_H
 
 #include <stage/gameObject.h>
 
@@ -21,4 +21,4 @@ void Breakable__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void Breakable__Destructor(Task *task);
 void Breakable__State_Tutorial(Breakable *work);
 
-#endif // RUSH2_BREAKABLE_H
+#endif // RUSH_BREAKABLE_H

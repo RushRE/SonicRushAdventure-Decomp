@@ -1,5 +1,5 @@
-#ifndef RUSH2_EXSYSTASK_H
-#define RUSH2_EXSYSTASK_H
+#ifndef RUSH_EXSYSTASK_H
+#define RUSH_EXSYSTASK_H
 
 #include <ex/exTask.h>
 
@@ -68,4 +68,4 @@ typedef struct ExSysTask_
 
 NOT_DECOMPILED ExSysTaskStatus *exSysTask__GetStatus(void);
 
-#endif // RUSH2_EXSYSTASK_H
+#endif // RUSH_EXSYSTASK_H
