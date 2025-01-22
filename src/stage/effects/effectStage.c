@@ -25,7 +25,7 @@
 #include <stage/effects/startDash.h>
 #include <stage/effects/breakableObjDebris.h>
 #include <stage/effects/goalJewel.h>
-#include <stage/effects/flipMushPuff.h>
+#include <stage/effects/bouncyMushroomPuff.h>
 #include <stage/effects/pipeFlowPetal.h>
 #include <stage/effects/pipeFlowSeed.h>
 #include <stage/effects/steam.h>

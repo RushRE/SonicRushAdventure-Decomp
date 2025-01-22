@@ -464,9 +464,9 @@ typedef struct Player_
 {
     StageTask objWork;
 
-    OBS_ACTION3D_NN_WORK obj_3dWork;
-    OBS_ACTION3D_NN_WORK tailAnimator;
-    OBS_ACTION2D_BAC_WORK animatorSprite;
+    OBS_ACTION3D_NN_WORK aniPlayerModel;
+    OBS_ACTION3D_NN_WORK aniTailModel;
+    OBS_ACTION2D_BAC_WORK aniPlayerSprite;
     OBS_RECT_WORK colliders[3];
     CharacterID characterID;
     PlayerControlID controlID;
@@ -767,10 +767,10 @@ void Player__Func_201D684(Player *player, s32 a2, s32 a3, s32 a4);
 void Player__State_201D748(Player *work);
 void Player__Func_201D7BC(Player *player, s32 a2);
 void Player__State_201D874(Player *work);
-void Player__Gimmick_Grind3Line(Player *player);
-void Player__State_Grind3Line(Player *work);
-void Player__HandleRideGrind3Line(Player *player);
-void Player__OnDefend_Grind3Line(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void Player__Gimmick_TripleGrindRail(Player *player);
+void Player__State_TripleGrindRail(Player *work);
+void Player__HandleRideTripleGrindRail(Player *player);
+void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void Player__Func_201DD24(Player *player);
 void Player__State_201DE24(Player *work);
 void Player__Gimmick_WaterRun(Player *player);

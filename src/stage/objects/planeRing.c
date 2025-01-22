@@ -1,4 +1,4 @@
-#include <stage/objects/stageRing.h>
+#include <stage/objects/planeRing.h>
 #include <stage/core/ringManager.h>
 
 // --------------------
@@ -11,10 +11,11 @@
 // FUNCTIONS
 // --------------------
 
-GameObjectTask *CreateStageRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+GameObjectTask *CreatePlaneRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
     Ring *ring = CreateStageRing3D((MapRing *)mapObject, x, y, FX32_FROM_WHOLE(mapObjectParam_zPos));
 
+    // Create a ring for use in the fg/bg segments in sky babylon
     if (ring != NULL)
     {
         fx32 zScale;

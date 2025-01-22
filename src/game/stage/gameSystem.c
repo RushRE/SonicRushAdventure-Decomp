@@ -1807,11 +1807,11 @@ NONMATCH_FUNC void CreateGameSystem(void)
             {
                 playerList[id] = Player__Create(state->characterID[id + 1], ObjPacket__GetAIDIndex(p));
 
-                Animator3D__Process(&playerList[id]->obj_3dWork.ani.work);
+                Animator3D__Process(&playerList[id]->aniPlayerModel.ani.work);
 
                 if ((playerList[id]->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
                 {
-                    Animator3D__Process(&playerList[id]->tailAnimator.work);
+                    Animator3D__Process(&playerList[id]->aniTailModel.work);
                 }
 
                 id++;

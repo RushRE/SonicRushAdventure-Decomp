@@ -1,5 +1,5 @@
-#ifndef RUSH_EFFECT_FLIP_MUSH_PUFF_H
-#define RUSH_EFFECT_FLIP_MUSH_PUFF_H
+#ifndef RUSH_EFFECT_BOUNCYMUSHROOM_PUFF_H
+#define RUSH_EFFECT_BOUNCYMUSHROOM_PUFF_H
 
 #include <stage/effectTask.h>
 
@@ -7,7 +7,7 @@
 // ENUMS
 // --------------------
 
-enum FlipMushroomAnimIDs
+enum BouncyMushroomAnimIDs
 {
     FLIPMUSHROOM_ANI_MUSHROOM,
     FLIPMUSHROOM_ANI_STEM_V,
@@ -20,17 +20,17 @@ enum FlipMushroomAnimIDs
 // STRUCTS
 // --------------------
 
-typedef struct EffectFlipMushPuff_
+typedef struct EffectBouncyMushroomPuff_
 {
     StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK ani;
-} EffectFlipMushPuff;
+} EffectBouncyMushroomPuff;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-EffectFlipMushPuff *EffectFlipMushPuff__Create(fx32 x, fx32 y, fx32 velX, fx32 velY);
+EffectBouncyMushroomPuff *EffectBouncyMushroomPuff__Create(fx32 x, fx32 y, fx32 velX, fx32 velY);
 
-#endif // RUSH_EFFECT_FLIP_MUSH_PUFF_H
+#endif // RUSH_EFFECT_BOUNCYMUSHROOM_PUFF_H

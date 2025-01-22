@@ -17,7 +17,7 @@
 #include <stage/objects/dashRing.h>
 #include <stage/objects/spikes.h>
 #include <stage/objects/spring.h>
-#include <stage/objects/stageRing.h>
+#include <stage/objects/planeRing.h>
 #include <stage/objects/missionFlag.h>
 #include <stage/objects/medal.h>
 #include <stage/objects/flagChange.h>
@@ -33,14 +33,14 @@
 #include <stage/objects/flipboard.h>
 #include <stage/objects/iceBlock.h>
 #include <stage/objects/halfpipe.h>
-#include <stage/objects/fireFloor.h>
+#include <stage/objects/fireHazard.h>
 #include <stage/objects/hoverCrystal.h>
 #include <stage/objects/crumblingFloor.h>
-#include <stage/objects/breakable.h>
+#include <stage/objects/breakableObject.h>
 #include <stage/objects/breakableWall.h>
 #include <stage/objects/platform.h>
 #include <stage/objects/diveStand.h>
-#include <stage/objects/flipMushroom.h>
+#include <stage/objects/bouncyMushroom.h>
 #include <stage/objects/springCrystal.h>
 #include <stage/objects/steamFan.h>
 #include <stage/objects/winch.h>
@@ -57,6 +57,22 @@
 #include <stage/objects/springRope.h>
 #include <stage/objects/balloon.h>
 #include <stage/objects/corkscrewPath.h>
+#include <stage/objects/rotatingHanger.h>
+#include <stage/objects/swingRope.h>
+#include <stage/objects/tripleGrindRail.h>
+#include <stage/objects/pipe.h>
+#include <stage/objects/popSteam.h>
+#include <stage/objects/dreamWing.h>
+#include <stage/objects/largePiston.h>
+#include <stage/objects/cameraBoundsTrigger.h>
+#include <stage/objects/rotateCrane.h>
+#include <stage/objects/truck.h>
+#include <stage/objects/anchorRope.h>
+#include <stage/objects/barrel.h>
+#include <stage/objects/trampoline.h>
+#include <stage/objects/pirateShip.h>
+#include <stage/objects/cannon.h>
+#include <stage/objects/waterGun.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -74,106 +90,17 @@
 
 // Bosses
 #include <stage/boss/boss1.h>
+#include <stage/boss/boss2.h>
+#include <stage/boss/boss3.h>
+#include <stage/boss/boss4.h>
+#include <stage/boss/boss5.h>
+#include <stage/boss/boss6.h>
+#include <stage/boss/boss7.h>
+#include <stage/boss/bossF.h>
 
 // --------------------
 // TEMP
 // --------------------
-
-// Objects that aren't decompiled yet
-NOT_DECOMPILED GameObjectTask *BossFStage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss7Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss6Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss4Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss3Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss2Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *RotatingHanger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PipeFlow__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *RopeTar__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Grind3LineSpring__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Grind3Line__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Grind3LineSpikeBall__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PipeSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *DreamWing__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *DreamWingPart__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *CameraBoundsTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *VRotateCrane__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Truck3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *TruckBarrier__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Truck3DTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *AnchorRope__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Barrel__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Trampoline3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PirateShip__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *CannonField__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Cannon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *CannonRing__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *AnchorRope__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *WaterGun__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *WaterCreateGrindTrigger(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5MapChunk__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5Icicle2__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5FreezeArea__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5Unknown2174578__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5Unknown2174200__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5Core__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5Unknown21748C4__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5EnemyFish__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5LifeSupport__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5Shutter__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5Battery__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss2__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss2Arm__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss2Drop__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss2Ball__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss2Bomb__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss2Wave__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss4__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss4Core__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss4Ship__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss4Pulley__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss4FireColumn__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss4FireBall__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5Sea__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5Missile__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *CreateBoss5Icicle(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5PlayerFreezeEffect__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss5EnemyFish2__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss6__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss6Platform__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss6EnemyA__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss6EnemyB__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss6Missile__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss6Ring__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss3__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss3Arm__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss3SplatInk__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss3DimInk__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss3InkSmoke__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss3ScreenSplatInk__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss7Whisker__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss7Rocket__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss7Unknown__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss7Johnny__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *Boss7Saw__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *BossF__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *BossFArm__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *BossFBodyCannon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *BossFShipCannon__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *BossFMissileGreen__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *BossFMissileRed__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *RingTruck3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *ItemBoxTruck3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *TruckBomb3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *TruckSpike3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *TruckLava3D__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *PirateShipCannonBall__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *CannonPath__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 
 NOT_DECOMPILED EventManagerStaticVars EventManager__sVars;
 
@@ -605,9 +532,9 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_78]  = (CreateObjectFunc)CreateSpikes,
     [MAPOBJECT_79]  = (CreateObjectFunc)CreateSpikes,
     [MAPOBJECT_80]  = (CreateObjectFunc)CreateSpikes,
-    [MAPOBJECT_81]  = (CreateObjectFunc)CreateFlipMushroom,
-    [MAPOBJECT_82]  = (CreateObjectFunc)CreateFlipMushroom,
-    [MAPOBJECT_83]  = (CreateObjectFunc)CreateFlipMushroom,
+    [MAPOBJECT_81]  = (CreateObjectFunc)CreateBouncyMushroom,
+    [MAPOBJECT_82]  = (CreateObjectFunc)CreateBouncyMushroom,
+    [MAPOBJECT_83]  = (CreateObjectFunc)CreateBouncyMushroom,
     [MAPOBJECT_84]  = (CreateObjectFunc)PopSteam__Create,
     [MAPOBJECT_85]  = (CreateObjectFunc)PopSteam__Create,
     [MAPOBJECT_86]  = (CreateObjectFunc)PopSteam__Create,
@@ -635,19 +562,19 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_108] = (CreateObjectFunc)CreateDashRing,
     [MAPOBJECT_109] = (CreateObjectFunc)CreateDashRing,
     [MAPOBJECT_110] = (CreateObjectFunc)CreateCheckpoint,
-    [MAPOBJECT_111] = (CreateObjectFunc)Breakable__Create,
+    [MAPOBJECT_111] = (CreateObjectFunc)BreakableObject__Create,
     [MAPOBJECT_112] = (CreateObjectFunc)RotatingHanger__Create,
     [MAPOBJECT_113] = (CreateObjectFunc)CreateGoalChest,
     [MAPOBJECT_114] = (CreateObjectFunc)CreatePlayerSpawn,
     [MAPOBJECT_115] = (CreateObjectFunc)PipeFlow__Create,
     [MAPOBJECT_116] = (CreateObjectFunc)PipeFlow__Create,
     [MAPOBJECT_117] = (CreateObjectFunc)PipeFlow__Create,
-    [MAPOBJECT_118] = (CreateObjectFunc)RopeTar__Create,
+    [MAPOBJECT_118] = (CreateObjectFunc)SwingRope__Create,
     [MAPOBJECT_119] = (CreateObjectFunc)BreakableWall__Create,
-    [MAPOBJECT_120] = (CreateObjectFunc)Grind3LineSpring__Create,
-    [MAPOBJECT_121] = (CreateObjectFunc)Grind3Line__Create,
-    [MAPOBJECT_122] = (CreateObjectFunc)Grind3LineSpikeBall__Create,
-    [MAPOBJECT_123] = (CreateObjectFunc)Grind3LineSpikeBall__Create,
+    [MAPOBJECT_120] = (CreateObjectFunc)TripleGrindRailSpring__Create,
+    [MAPOBJECT_121] = (CreateObjectFunc)TripleGrindRail__Create,
+    [MAPOBJECT_122] = (CreateObjectFunc)TripleGrindRailEntity__Create,
+    [MAPOBJECT_123] = (CreateObjectFunc)TripleGrindRailEntity__Create,
     [MAPOBJECT_124] = (CreateObjectFunc)BreakableWall__Create,
     [MAPOBJECT_125] = (CreateObjectFunc)CreateWaterLevelTrigger,
     [MAPOBJECT_126] = (CreateObjectFunc)CreateWaterRunTrigger,
@@ -690,17 +617,17 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_163] = (CreateObjectFunc)CreateSpringCrystal,
     [MAPOBJECT_164] = (CreateObjectFunc)CreateSpringCrystal,
     [MAPOBJECT_165] = (CreateObjectFunc)CreateSpringCrystal,
-    [MAPOBJECT_166] = (CreateObjectFunc)VRotateCrane__Create,
-    [MAPOBJECT_167] = (CreateObjectFunc)VRotateCrane__Create,
-    [MAPOBJECT_168] = (CreateObjectFunc)VRotateCrane__Create,
-    [MAPOBJECT_169] = (CreateObjectFunc)VRotateCrane__Create,
+    [MAPOBJECT_166] = (CreateObjectFunc)RotateCrane__Create,
+    [MAPOBJECT_167] = (CreateObjectFunc)RotateCrane__Create,
+    [MAPOBJECT_168] = (CreateObjectFunc)RotateCrane__Create,
+    [MAPOBJECT_169] = (CreateObjectFunc)RotateCrane__Create,
     [MAPOBJECT_170] = (CreateObjectFunc)CreateWinch,
     [MAPOBJECT_171] = (CreateObjectFunc)LargePiston__Create,
     [MAPOBJECT_172] = (CreateObjectFunc)LargePiston__Create,
-    [MAPOBJECT_173] = (CreateObjectFunc)Truck3D__Create,
+    [MAPOBJECT_173] = (CreateObjectFunc)Truck__Create,
     [MAPOBJECT_174] = (CreateObjectFunc)TruckBarrier__Create,
     [MAPOBJECT_175] = (CreateObjectFunc)CreateFlagChange,
-    [MAPOBJECT_176] = (CreateObjectFunc)CreateStageRing,
+    [MAPOBJECT_176] = (CreateObjectFunc)CreatePlaneRing,
     [MAPOBJECT_177] = (CreateObjectFunc)CreateFlagChange,
     [MAPOBJECT_178] = (CreateObjectFunc)Truck3DTrigger__Create,
     [MAPOBJECT_179] = (CreateObjectFunc)Truck3DTrigger__Create,
@@ -723,15 +650,15 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_196] = (CreateObjectFunc)CreateAvalancheTree,
     [MAPOBJECT_197] = (CreateObjectFunc)AnchorRope__Create,
     [MAPOBJECT_198] = (CreateObjectFunc)Barrel__Create,
-    [MAPOBJECT_199] = (CreateObjectFunc)Trampoline3D__Create,
-    [MAPOBJECT_200] = (CreateObjectFunc)Trampoline3D__Create,
+    [MAPOBJECT_199] = (CreateObjectFunc)Trampoline__Create,
+    [MAPOBJECT_200] = (CreateObjectFunc)Trampoline__Create,
     [MAPOBJECT_201] = (CreateObjectFunc)PirateShip__Create,
     [MAPOBJECT_202] = (CreateObjectFunc)CannonField__Create,
     [MAPOBJECT_203] = (CreateObjectFunc)Cannon__Create,
     [MAPOBJECT_204] = (CreateObjectFunc)CannonRing__Create,
     [MAPOBJECT_205] = (CreateObjectFunc)CreateTutorial,
     [MAPOBJECT_206] = (CreateObjectFunc)CreateTutorialCheckpoint,
-    [MAPOBJECT_207] = (CreateObjectFunc)Breakable__Create,
+    [MAPOBJECT_207] = (CreateObjectFunc)BreakableObject__Create,
     [MAPOBJECT_208] = (CreateObjectFunc)AnchorRope__Create,
     [MAPOBJECT_209] = (CreateObjectFunc)CreateJumpBox,
     [MAPOBJECT_210] = (CreateObjectFunc)CreateTimerShutter,
@@ -748,10 +675,10 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_221] = (CreateObjectFunc)CreateDolphinHoop,
     [MAPOBJECT_222] = (CreateObjectFunc)CreateDolphinHoop,
     [MAPOBJECT_223] = (CreateObjectFunc)CreateDolphinHoop,
-    [MAPOBJECT_224] = (CreateObjectFunc)CreateFireFloor,
-    [MAPOBJECT_225] = (CreateObjectFunc)CreateFireFloor,
-    [MAPOBJECT_226] = (CreateObjectFunc)CreateFireFloor,
-    [MAPOBJECT_227] = (CreateObjectFunc)CreateFireFloor,
+    [MAPOBJECT_224] = (CreateObjectFunc)CreateFireHazard,
+    [MAPOBJECT_225] = (CreateObjectFunc)CreateFireHazard,
+    [MAPOBJECT_226] = (CreateObjectFunc)CreateFireHazard,
+    [MAPOBJECT_227] = (CreateObjectFunc)CreateFireHazard,
     [MAPOBJECT_228] = (CreateObjectFunc)CreateHoverCrystal,
     [MAPOBJECT_229] = (CreateObjectFunc)CreateBalloonSpawner,
     [MAPOBJECT_230] = (CreateObjectFunc)CreateFlagChange,
@@ -760,22 +687,22 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_233] = (CreateObjectFunc)CreateCrumblingFloor,
     [MAPOBJECT_234] = (CreateObjectFunc)WaterGun__Create,
     [MAPOBJECT_235] = (CreateObjectFunc)WaterGun__Create,
-    [MAPOBJECT_236] = (CreateObjectFunc)WaterCreateGrindTrigger,
-    [MAPOBJECT_237] = (CreateObjectFunc)WaterCreateGrindTrigger,
-    [MAPOBJECT_238] = (CreateObjectFunc)WaterCreateGrindTrigger,
-    [MAPOBJECT_239] = (CreateObjectFunc)WaterCreateGrindTrigger,
+    [MAPOBJECT_236] = (CreateObjectFunc)WaterGrindTrigger__Create,
+    [MAPOBJECT_237] = (CreateObjectFunc)WaterGrindTrigger__Create,
+    [MAPOBJECT_238] = (CreateObjectFunc)WaterGrindTrigger__Create,
+    [MAPOBJECT_239] = (CreateObjectFunc)WaterGrindTrigger__Create,
     [MAPOBJECT_240] = (CreateObjectFunc)CreateJumpBox,
     [MAPOBJECT_241] = (CreateObjectFunc)CreateFlagChange,
     [MAPOBJECT_242] = (CreateObjectFunc)CreatePlaneSwitchSpring,
     [MAPOBJECT_243] = (CreateObjectFunc)CreatePlaneSwitchSpring,
     [MAPOBJECT_244] = (CreateObjectFunc)CreatePlaneSwitchSpring,
     [MAPOBJECT_245] = (CreateObjectFunc)CreatePlaneSwitchSpring,
-    [MAPOBJECT_246] = (CreateObjectFunc)WaterCreateGrindTrigger,
-    [MAPOBJECT_247] = (CreateObjectFunc)WaterCreateGrindTrigger,
-    [MAPOBJECT_248] = (CreateObjectFunc)WaterCreateGrindTrigger,
-    [MAPOBJECT_249] = (CreateObjectFunc)WaterCreateGrindTrigger,
-    [MAPOBJECT_250] = (CreateObjectFunc)WaterCreateGrindTrigger,
-    [MAPOBJECT_251] = (CreateObjectFunc)WaterCreateGrindTrigger,
+    [MAPOBJECT_246] = (CreateObjectFunc)WaterGrindTrigger__Create,
+    [MAPOBJECT_247] = (CreateObjectFunc)WaterGrindTrigger__Create,
+    [MAPOBJECT_248] = (CreateObjectFunc)WaterGrindTrigger__Create,
+    [MAPOBJECT_249] = (CreateObjectFunc)WaterGrindTrigger__Create,
+    [MAPOBJECT_250] = (CreateObjectFunc)WaterGrindTrigger__Create,
+    [MAPOBJECT_251] = (CreateObjectFunc)WaterGrindTrigger__Create,
     [MAPOBJECT_252] = (CreateObjectFunc)CreateMissionFlag,
     [MAPOBJECT_253] = (CreateObjectFunc)CreateMedal,
     [MAPOBJECT_254] = (CreateObjectFunc)CreateBungee,
@@ -848,8 +775,8 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_319] = (CreateObjectFunc)CreateStartPlatform,
     [MAPOBJECT_320] = (CreateObjectFunc)CreatePlayerSnowboard,
     [MAPOBJECT_321] = (CreateObjectFunc)CreateFallingStalactite,
-    [MAPOBJECT_322] = (CreateObjectFunc)RingTruck3D__Create,
-    [MAPOBJECT_323] = (CreateObjectFunc)ItemBoxTruck3D__Create,
+    [MAPOBJECT_322] = (CreateObjectFunc)Truck3DRing__Create,
+    [MAPOBJECT_323] = (CreateObjectFunc)Truck3DItemBox__Create,
     [MAPOBJECT_324] = (CreateObjectFunc)TruckBomb3D__Create,
     [MAPOBJECT_325] = (CreateObjectFunc)TruckSpike3D__Create,
     [MAPOBJECT_326] = (CreateObjectFunc)TruckLava3D__Create,

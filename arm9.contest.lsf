@@ -94,15 +94,14 @@ Static arm9
     Object src/stage/objects/springboard.o
     Object src/stage/objects/spikes.o
     Object asm/stage/objects/spikes_vars.o
-    Object src/stage/objects/breakable.o
+    Object src/stage/objects/breakableObject.o
     Object src/stage/objects/breakableWall.o
     Object asm/stage/objects/grindTrigger.o
     Object asm/stage/objects/pipeSteam.o
     Object asm/stage/objects/rotatingHanger.o
     Object asm/stage/objects/ropeTar.o
-    Object src/stage/objects/flipMushroom.o
-    Object asm/stage/objects/flipMushroom_vars.o
-    Object asm/stage/objects/grind3Line.o
+    Object src/stage/objects/bouncyMushroom.o
+    Object asm/stage/objects/tripleGrindRail.o
     Object src/stage/objects/waterLevelTrigger.o
     Object src/stage/objects/waterRunTrigger.o
     Object asm/stage/objects/goalChest_vars.o
@@ -147,7 +146,7 @@ Static arm9
     Object asm/stage/objects/floatingFountain.o
     Object asm/stage/objects/fallingAnchor.o
     Object asm/stage/objects/dolphin.o
-    Object src/stage/objects/fireFloor.o
+    Object src/stage/objects/.o
     Object src/stage/objects/hoverCrystal.o
     Object asm/stage/objects/balloon.o
     Object src/stage/objects/crumblingFloor.o

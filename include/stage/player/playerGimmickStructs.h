@@ -6,7 +6,7 @@ struct
 struct
 {
     s32 rail;
-} grind3Line;
+} tripleGrindRail;
 
 struct
 {

@@ -468,14 +468,14 @@ Overlay ZoneAct
     Object src/stage/objects/springboard.o
     Object src/stage/objects/spikes.o
     Object asm/stage/objects/spikes_vars.o
-    Object src/stage/objects/breakable.o
+    Object src/stage/objects/breakableObject.o
     Object src/stage/objects/breakableWall.o
     Object src/stage/objects/corkscrewPath.o
     Object asm/stage/objects/pipeSteam.o
     Object asm/stage/objects/rotatingHanger.o
-    Object asm/stage/objects/ropeTar.o
-    Object src/stage/objects/flipMushroom.o
-    Object asm/stage/objects/grind3Line.o
+    Object asm/stage/objects/swingRope.o
+    Object src/stage/objects/bouncyMushroom.o
+    Object asm/stage/objects/tripleGrindRail.o
     Object src/stage/objects/waterLevelTrigger.o
     Object src/stage/objects/waterRunTrigger.o
     Object asm/stage/objects/goalChest_vars.o
@@ -497,11 +497,11 @@ Overlay ZoneAct
     Object src/stage/objects/bgUnknownTrigger.o
     Object src/stage/objects/stalactite.o
     Object src/stage/objects/springCrystal.o
-    Object asm/stage/objects/vRotateCrane.o
+    Object asm/stage/objects/rotateCrane.o
     Object asm/stage/objects/winch_vars.o
     Object src/stage/objects/winch.o
     Object asm/stage/objects/truck.o
-    Object src/stage/objects/stageRing.o
+    Object src/stage/objects/planeRing.o
     Object src/stage/objects/itemBox.o
     Object src/stage/objects/checkpoint.o
     Object src/stage/objects/platform.o
@@ -509,10 +509,9 @@ Overlay ZoneAct
     Object asm/stage/objects/anchorRope.o
     Object asm/stage/objects/barrel.o
     Object src/stage/objects/startPlatform.o
-    Object asm/stage/objects/trampoline3D.o
+    Object asm/stage/objects/trampoline.o
     Object asm/stage/objects/pirateShip.o
     Object asm/stage/objects/cannon.o
-    Object asm/stage/objects/cannonRing.o
     Object src/stage/objects/tutorial.o
     Object src/stage/objects/jumpbox.o
     Object src/stage/objects/slingshot.o
@@ -523,7 +522,7 @@ Overlay ZoneAct
     Object src/stage/objects/fallingAnchor.o
     Object src/stage/objects/dolphin.o
     Object asm/stage/objects/dolphin_vars.o
-    Object src/stage/objects/fireFloor.o
+    Object src/stage/objects/fireHazard.o
     Object src/stage/objects/hoverCrystal.o
     Object src/stage/objects/balloon.o
     Object src/stage/objects/crumblingFloor.o

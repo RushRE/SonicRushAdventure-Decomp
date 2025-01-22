@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start Truck3D__Create
-Truck3D__Create: // 0x0216EAC4
+	arm_func_start Truck__Create
+Truck__Create: // 0x0216EAC4
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x6c
 	ldr r3, _0216F2A0 // =0x000010F6
@@ -17,7 +17,7 @@ Truck3D__Create: // 0x0216EAC4
 	str r0, [sp, #4]
 	ldr r7, _0216F2A4 // =0x00003F84
 	ldr r0, _0216F2A8 // =StageTask_Main
-	ldr r1, _0216F2AC // =Truck3D__Destructor
+	ldr r1, _0216F2AC // =Truck__Destructor
 	mov r3, r2
 	str r7, [sp, #8]
 	bl TaskCreate_
@@ -267,7 +267,7 @@ _0216EC80:
 	bl InitPaletteAnimator
 	mov r10, #0xc
 	mov r8, #0
-	ldr r9, _0216F2D4 // =Truck3D__stru_218866C
+	ldr r9, _0216F2D4 // =Truck__stru_218866C
 	add r7, sp, #0x24
 	mov r4, r10
 	mov r5, r10
@@ -343,7 +343,7 @@ _0216EFA4:
 	mov r1, #3
 	bl G3C_Begin
 	mov r8, #0
-	ldr r6, _0216F2D4 // =Truck3D__stru_218866C
+	ldr r6, _0216F2D4 // =Truck__stru_218866C
 	add r5, sp, #0x24
 	b _0216F0CC
 _0216F004:
@@ -455,7 +455,7 @@ _0216F0E4:
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r11, #0x270]
-	ldr r0, _0216F2E4 // =Truck3D__OnDefend_21712A4
+	ldr r0, _0216F2E4 // =Truck__OnDefend_21712A4
 	orr r1, r1, #0x400
 	str r1, [r11, #0x270]
 	str r0, [r11, #0x27c]
@@ -485,7 +485,7 @@ _0216F0E4:
 	mov r2, #0x200
 	str r2, [r11, #0xd0]
 	mov r1, #0xb000
-	ldr r0, _0216F2EC // =Truck3D__State_2170D44
+	ldr r0, _0216F2EC // =Truck__State_2170D44
 	str r1, [r11, #0xd4]
 	str r0, [r11, #0xf4]
 	sub r0, r2, #0x280
@@ -522,7 +522,7 @@ _0216F284:
 _0216F2A0: .word 0x000010F6
 _0216F2A4: .word 0x00003F84
 _0216F2A8: .word StageTask_Main
-_0216F2AC: .word Truck3D__Destructor
+_0216F2AC: .word Truck__Destructor
 _0216F2B0: .word 0x048200C0
 _0216F2B4: .word gameArchiveStage
 _0216F2B8: .word aActAcGmkTruckB_0
@@ -532,20 +532,20 @@ _0216F2C4: .word aActAcItmRing3d_0
 _0216F2C8: .word 0x00000844
 _0216F2CC: .word aActAcGmkTruckC
 _0216F2D0: .word aBpaGmkTruckCan
-_0216F2D4: .word Truck3D__stru_218866C
+_0216F2D4: .word Truck__stru_218866C
 _0216F2D8: .word 0x00000201
 _0216F2DC: .word 0x0000FFFF
 _0216F2E0: .word 0x0000FFEF
-_0216F2E4: .word Truck3D__OnDefend_21712A4
+_0216F2E4: .word Truck__OnDefend_21712A4
 _0216F2E8: .word StageTask__DefaultDiffData
-_0216F2EC: .word Truck3D__State_2170D44
+_0216F2EC: .word Truck__State_2170D44
 _0216F2F0: .word Truck__TruckJewelTypeTable
 _0216F2F4: .word Truck__TruckJewelFlagTable
 _0216F2F8: .word Truck__TruckJewelPositionTable
-	arm_func_end Truck3D__Create
+	arm_func_end Truck__Create
 
-	arm_func_start Truck3D__Func_216F2FC
-Truck3D__Func_216F2FC: // 0x0216F2FC
+	arm_func_start Truck__Func_216F2FC
+Truck__Func_216F2FC: // 0x0216F2FC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r1
@@ -568,7 +568,7 @@ Truck3D__Func_216F2FC: // 0x0216F2FC
 	orr r0, r0, #0x100
 	str r0, [r4, #0x2f4]
 	ldr r2, [r4, #0xbc]
-	ldr r0, _0216F3C0 // =Truck3D__State_2170E10
+	ldr r0, _0216F3C0 // =Truck__State_2170E10
 	str r2, [r4, #0x98]
 	str r2, [r4, #0xc8]
 	str r0, [r4, #0xf4]
@@ -596,8 +596,8 @@ Truck3D__Func_216F2FC: // 0x0216F2FC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216F3C0: .word Truck3D__State_2170E10
-	arm_func_end Truck3D__Func_216F2FC
+_0216F3C0: .word Truck__State_2170E10
+	arm_func_end Truck__Func_216F2FC
 
 	arm_func_start TruckBarrier__Create
 TruckBarrier__Create: // 0x0216F3C4
@@ -714,8 +714,8 @@ _0216F574: .word 0x0000FFFF
 _0216F578: .word StageTask__DefaultDiffData
 	arm_func_end TruckBarrier__Create
 
-	arm_func_start Truck3D__Action_Enter3D
-Truck3D__Action_Enter3D: // 0x0216F57C
+	arm_func_start Truck__Action_Enter3D
+Truck__Action_Enter3D: // 0x0216F57C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x340]
@@ -723,7 +723,7 @@ Truck3D__Action_Enter3D: // 0x0216F57C
 	cmp r0, #0xad
 	ldmneia sp!, {r4, pc}
 	ldr r1, [r4, #0xf4]
-	ldr r0, _0216F610 // =Truck3D__State_2171064
+	ldr r0, _0216F610 // =Truck__State_2171064
 	cmp r1, r0
 	ldmeqia sp!, {r4, pc}
 	ldr r0, [r4, #0x354]
@@ -733,7 +733,7 @@ Truck3D__Action_Enter3D: // 0x0216F57C
 	bic r0, r0, #8
 	str r0, [r4, #0x354]
 	ldr r1, [r4, #0x18]
-	ldr r0, _0216F614 // =Truck3D__State_2171368
+	ldr r0, _0216F614 // =Truck__State_2171368
 	bic r2, r1, #1
 	str r2, [r4, #0x18]
 	mov r1, #0
@@ -754,10 +754,10 @@ Truck3D__Action_Enter3D: // 0x0216F57C
 	strh r1, [r0, #0x1e]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216F610: .word Truck3D__State_2171064
-_0216F614: .word Truck3D__State_2171368
+_0216F610: .word Truck__State_2171064
+_0216F614: .word Truck__State_2171368
 _0216F618: .word 0x00002EA4
-	arm_func_end Truck3D__Action_Enter3D
+	arm_func_end Truck__Action_Enter3D
 
 	arm_func_start Truck3DTrigger__Create
 Truck3DTrigger__Create: // 0x0216F61C
@@ -832,7 +832,7 @@ _0216F6E4:
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _0216F75C // =Object58__OnDefend_2173030
+	ldr r1, _0216F75C // =Truck3DTrigger__OnDefend_2173030
 	mov r0, r4
 	str r1, [r4, #0x23c]
 	ldr r1, [r4, #0x230]
@@ -844,11 +844,11 @@ _0216F6E4:
 _0216F750: .word StageTask_Main
 _0216F754: .word GameObject__Destructor
 _0216F758: .word 0x0000FFFE
-_0216F75C: .word Object58__OnDefend_2173030
+_0216F75C: .word Truck3DTrigger__OnDefend_2173030
 	arm_func_end Truck3DTrigger__Create
 
-	arm_func_start Truck3D__Func_216F760
-Truck3D__Func_216F760: // 0x0216F760
+	arm_func_start Truck__Func_216F760
+Truck__Func_216F760: // 0x0216F760
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x3c
 	mov r10, r0
@@ -1125,10 +1125,10 @@ _0216FB28:
 _0216FB60: .word gameState
 _0216FB64: .word _021895C0
 _0216FB68: .word 0x00000142
-	arm_func_end Truck3D__Func_216F760
+	arm_func_end Truck__Func_216F760
 
-	arm_func_start Truck3D__Func_216FB6C
-Truck3D__Func_216FB6C: // 0x0216FB6C
+	arm_func_start Truck__Func_216FB6C
+Truck__Func_216FB6C: // 0x0216FB6C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r4, #0
 	add r7, r0, #0xc
@@ -1161,10 +1161,10 @@ _0216FBC8:
 	add r7, r7, #0x24
 	blt _0216FB84
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end Truck3D__Func_216FB6C
+	arm_func_end Truck__Func_216FB6C
 
-	arm_func_start RingTruck3D__Create
-RingTruck3D__Create: // 0x0216FBDC
+	arm_func_start Truck3DRing__Create
+Truck3DRing__Create: // 0x0216FBDC
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -1201,7 +1201,7 @@ RingTruck3D__Create: // 0x0216FBDC
 	bl GameObject__InitFromObject
 	mov r3, #4
 	ldr r0, [r4, #0x1c]
-	ldr r1, _0216FD00 // =RingTruck3D__Draw_216FD0C
+	ldr r1, _0216FD00 // =Truck3DRing__Draw_216FD0C
 	orr r0, r0, #0x2100
 	str r0, [r4, #0x1c]
 	ldr r2, [r4, #0x18]
@@ -1228,7 +1228,7 @@ RingTruck3D__Create: // 0x0216FBDC
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x230]
-	ldr r0, _0216FD08 // =RingTruck3D__OnDefend_216FDE8
+	ldr r0, _0216FD08 // =Truck3DRing__OnDefend_216FDE8
 	orr r1, r1, #0x400
 	str r1, [r4, #0x230]
 	str r0, [r4, #0x23c]
@@ -1239,13 +1239,13 @@ RingTruck3D__Create: // 0x0216FBDC
 _0216FCF4: .word 0x00000474
 _0216FCF8: .word StageTask_Main
 _0216FCFC: .word GameObject__Destructor
-_0216FD00: .word RingTruck3D__Draw_216FD0C
+_0216FD00: .word Truck3DRing__Draw_216FD0C
 _0216FD04: .word 0x0000FFFE
-_0216FD08: .word RingTruck3D__OnDefend_216FDE8
-	arm_func_end RingTruck3D__Create
+_0216FD08: .word Truck3DRing__OnDefend_216FDE8
+	arm_func_end Truck3DRing__Create
 
-	arm_func_start RingTruck3D__Draw_216FD0C
-RingTruck3D__Draw_216FD0C: // 0x0216FD0C
+	arm_func_start Truck3DRing__Draw_216FD0C
+Truck3DRing__Draw_216FD0C: // 0x0216FD0C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	bl GetCurrentTaskWork_
@@ -1303,10 +1303,10 @@ _0216FD9C:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _0216FDE4: .word 0x00001104
-	arm_func_end RingTruck3D__Draw_216FD0C
+	arm_func_end Truck3DRing__Draw_216FD0C
 
-	arm_func_start RingTruck3D__OnDefend_216FDE8
-RingTruck3D__OnDefend_216FDE8: // 0x0216FDE8
+	arm_func_start Truck3DRing__OnDefend_216FDE8
+Truck3DRing__OnDefend_216FDE8: // 0x0216FDE8
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -1327,10 +1327,10 @@ RingTruck3D__OnDefend_216FDE8: // 0x0216FDE8
 	str r1, [r4, #0x354]
 	str r0, [r4, #0x234]
 	ldmia sp!, {r4, pc}
-	arm_func_end RingTruck3D__OnDefend_216FDE8
+	arm_func_end Truck3DRing__OnDefend_216FDE8
 	
-	arm_func_start ItemBoxTruck3D__Create
-ItemBoxTruck3D__Create: // 0x0216FE38
+	arm_func_start Truck3DItemBox__Create
+Truck3DItemBox__Create: // 0x0216FE38
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -1343,7 +1343,7 @@ ItemBoxTruck3D__Create: // 0x0216FE38
 	str r0, [sp, #4]
 	ldr r5, _02170074 // =0x00000578
 	ldr r0, _02170078 // =StageTask_Main
-	ldr r1, _0217007C // =ItemBoxTruck3D__Destructor
+	ldr r1, _0217007C // =Truck3DItemBox__Destructor
 	mov r3, r2
 	str r5, [sp, #8]
 	bl TaskCreate_
@@ -1444,7 +1444,7 @@ ItemBoxTruck3D__Create: // 0x0216FE38
 	mov r3, #4
 	orr r1, r1, #0x10
 	str r1, [r6, #0x4cc]
-	ldr r0, _02170088 // =ItemBoxTruck3D__Draw
+	ldr r0, _02170088 // =Truck3DItemBox__Draw
 	sub r1, r3, #0x11
 	str r0, [r5, #0xfc]
 	str r5, [r5, #0x234]
@@ -1465,11 +1465,11 @@ ItemBoxTruck3D__Create: // 0x0216FE38
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r5, #0x230]
-	ldr r0, _02170090 // =ItemBoxTruck3D__OnDefend_21701EC
+	ldr r0, _02170090 // =Truck3DItemBox__OnDefend_21701EC
 	orr r1, r1, #0x400
 	str r1, [r5, #0x230]
 	str r0, [r5, #0x23c]
-	ldr r1, _02170094 // =ItemBoxTruck3D__State_21700D4
+	ldr r1, _02170094 // =Truck3DItemBox__State_21700D4
 	mov r0, r5
 	str r1, [r5, #0xf4]
 	add sp, sp, #0xc
@@ -1477,17 +1477,17 @@ ItemBoxTruck3D__Create: // 0x0216FE38
 	.align 2, 0
 _02170074: .word 0x00000578
 _02170078: .word StageTask_Main
-_0217007C: .word ItemBoxTruck3D__Destructor
+_0217007C: .word Truck3DItemBox__Destructor
 _02170080: .word gameArchiveStage
 _02170084: .word aActAcItmBox3dB
-_02170088: .word ItemBoxTruck3D__Draw
+_02170088: .word Truck3DItemBox__Draw
 _0217008C: .word 0x0000FFFE
-_02170090: .word ItemBoxTruck3D__OnDefend_21701EC
-_02170094: .word ItemBoxTruck3D__State_21700D4
-	arm_func_end ItemBoxTruck3D__Create
+_02170090: .word Truck3DItemBox__OnDefend_21701EC
+_02170094: .word Truck3DItemBox__State_21700D4
+	arm_func_end Truck3DItemBox__Create
 
-	arm_func_start ItemBoxTruck3D__Destructor
-ItemBoxTruck3D__Destructor: // 0x02170098
+	arm_func_start Truck3DItemBox__Destructor
+Truck3DItemBox__Destructor: // 0x02170098
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -1503,10 +1503,10 @@ ItemBoxTruck3D__Destructor: // 0x02170098
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ItemBoxTruck3D__Destructor
+	arm_func_end Truck3DItemBox__Destructor
 
-	arm_func_start ItemBoxTruck3D__State_21700D4
-ItemBoxTruck3D__State_21700D4: // 0x021700D4
+	arm_func_start Truck3DItemBox__State_21700D4
+Truck3DItemBox__State_21700D4: // 0x021700D4
 	ldr r1, [r0, #0x28]
 	ldr r2, _02170114 // =FX_SinCosTable_
 	add r3, r1, #0x400
@@ -1525,10 +1525,10 @@ ItemBoxTruck3D__State_21700D4: // 0x021700D4
 	bx lr
 	.align 2, 0
 _02170114: .word FX_SinCosTable_
-	arm_func_end ItemBoxTruck3D__State_21700D4
+	arm_func_end Truck3DItemBox__State_21700D4
 
-	arm_func_start ItemBoxTruck3D__Draw
-ItemBoxTruck3D__Draw: // 0x02170118
+	arm_func_start Truck3DItemBox__Draw
+Truck3DItemBox__Draw: // 0x02170118
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x20
 	bl GetCurrentTaskWork_
@@ -1582,10 +1582,10 @@ ItemBoxTruck3D__Draw: // 0x02170118
 	bl StageTask__Draw3DEx
 	add sp, sp, #0x20
 	ldmia sp!, {r4, pc}
-	arm_func_end ItemBoxTruck3D__Draw
+	arm_func_end Truck3DItemBox__Draw
 
-	arm_func_start ItemBoxTruck3D__OnDefend_21701EC
-ItemBoxTruck3D__OnDefend_21701EC: // 0x021701EC
+	arm_func_start Truck3DItemBox__OnDefend_21701EC
+Truck3DItemBox__OnDefend_21701EC: // 0x021701EC
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -1627,7 +1627,7 @@ ItemBoxTruck3D__OnDefend_21701EC: // 0x021701EC
 	str r0, [r4, #0x18]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ItemBoxTruck3D__OnDefend_21701EC
+	arm_func_end Truck3DItemBox__OnDefend_21701EC
 
 	arm_func_start TruckBomb3D__Create
 TruckBomb3D__Create: // 0x02170290
@@ -2316,8 +2316,8 @@ _02170C94: .word NNS_G3dGlb+0x000000BC
 _02170C98: .word NNS_G3dGlb
 	arm_func_end TruckLava3D__Draw_2170B24
 
-	arm_func_start Truck3D__Destructor
-Truck3D__Destructor: // 0x02170C9C
+	arm_func_start Truck__Destructor
+Truck__Destructor: // 0x02170C9C
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -2361,10 +2361,10 @@ _02170CCC:
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end Truck3D__Destructor
+	arm_func_end Truck__Destructor
 
-	arm_func_start Truck3D__State_2170D44
-Truck3D__State_2170D44: // 0x02170D44
+	arm_func_start Truck__State_2170D44
+Truck__State_2170D44: // 0x02170D44
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2418,21 +2418,21 @@ _02170DD8:
 	strlt r0, [r4, #0xb0]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end Truck3D__State_2170D44
+	arm_func_end Truck__State_2170D44
 
-	arm_func_start Truck3D__State_2170E10
-Truck3D__State_2170E10: // 0x02170E10
+	arm_func_start Truck__State_2170E10
+Truck__State_2170E10: // 0x02170E10
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r4, r0
-	bl Truck3D__Func_21711D8
+	bl Truck__Func_21711D8
 	ldr r2, [r4, #0x1c]
 	tst r2, #1
 	bne _02170EC4
 	orr r1, r2, #0x10
 	orr r1, r1, #0x8000
 	str r1, [r4, #0x1c]
-	ldr r0, _0217105C // =Truck3D__State_2171064
+	ldr r0, _0217105C // =Truck__State_2171064
 	ldr r3, _02171060 // =FX_SinCosTable_
 	str r0, [r4, #0xf4]
 	ldrh r0, [r4, #0x34]
@@ -2487,7 +2487,7 @@ _02170EC4:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	orr r1, r2, #0x10
 	orr r1, r1, #0x8000
-	ldr r0, _0217105C // =Truck3D__State_2171064
+	ldr r0, _0217105C // =Truck__State_2171064
 	str r1, [r4, #0x1c]
 	str r0, [r4, #0xf4]
 	ldrh r1, [r4, #0x34]
@@ -2571,16 +2571,16 @@ _02170EC4:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
-_0217105C: .word Truck3D__State_2171064
+_0217105C: .word Truck__State_2171064
 _02171060: .word FX_SinCosTable_
-	arm_func_end Truck3D__State_2170E10
+	arm_func_end Truck__State_2170E10
 
-	arm_func_start Truck3D__State_2171064
-Truck3D__State_2171064: // 0x02171064
+	arm_func_start Truck__State_2171064
+Truck__State_2171064: // 0x02171064
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
-	bl Truck3D__Func_21711D8
+	bl Truck__Func_21711D8
 	ldrh r0, [r4, #0x34]
 	mov r1, #0
 	mov r2, #0x200
@@ -2619,7 +2619,7 @@ _021710E0:
 	addeq sp, sp, #8
 	ldmeqia sp!, {r4, pc}
 	ldr r0, _021711CC // =0xFFFF7FEF
-	ldr r1, _021711D0 // =Truck3D__State_2170E10
+	ldr r1, _021711D0 // =Truck__State_2170E10
 	and r0, r2, r0
 	str r0, [r4, #0x1c]
 	str r1, [r4, #0xf4]
@@ -2670,12 +2670,12 @@ _021710E0:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021711CC: .word 0xFFFF7FEF
-_021711D0: .word Truck3D__State_2170E10
+_021711D0: .word Truck__State_2170E10
 _021711D4: .word FX_SinCosTable_
-	arm_func_end Truck3D__State_2171064
+	arm_func_end Truck__State_2171064
 
-	arm_func_start Truck3D__Func_21711D8
-Truck3D__Func_21711D8: // 0x021711D8
+	arm_func_start Truck__Func_21711D8
+Truck__Func_21711D8: // 0x021711D8
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldr r6, [r4, #0xc8]
@@ -2721,10 +2721,10 @@ _02171264:
 	movlt r0, #0x6000
 	strlt r0, [r4, #0x98]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end Truck3D__Func_21711D8
+	arm_func_end Truck__Func_21711D8
 
-	arm_func_start Truck3D__State_2171280
-Truck3D__State_2171280: // 0x02171280
+	arm_func_start Truck__State_2171280
+Truck__State_2171280: // 0x02171280
 	ldrh r1, [r0, #0x34]
 	add r1, r1, #0x800
 	strh r1, [r0, #0x34]
@@ -2734,10 +2734,10 @@ Truck3D__State_2171280: // 0x02171280
 	orrhs r1, r1, #4
 	strhs r1, [r0, #0x18]
 	bx lr
-	arm_func_end Truck3D__State_2171280
+	arm_func_end Truck__State_2171280
 
-	arm_func_start Truck3D__OnDefend_21712A4
-Truck3D__OnDefend_21712A4: // 0x021712A4
+	arm_func_start Truck__OnDefend_21712A4
+Truck__OnDefend_21712A4: // 0x021712A4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -2773,7 +2773,7 @@ Truck3D__OnDefend_21712A4: // 0x021712A4
 	mov r1, r4
 	bl Player__Action_TruckLaunch
 _0217132C:
-	ldr r0, _02171364 // =Truck3D__State_2171280
+	ldr r0, _02171364 // =Truck__State_2171280
 	mov r1, #0
 	str r0, [r4, #0xf4]
 	ldr r0, [r4, #0x138]
@@ -2788,11 +2788,11 @@ _0217132C:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02171364: .word Truck3D__State_2171280
-	arm_func_end Truck3D__OnDefend_21712A4
+_02171364: .word Truck__State_2171280
+	arm_func_end Truck__OnDefend_21712A4
 
-	arm_func_start Truck3D__State_2171368
-Truck3D__State_2171368: // 0x02171368
+	arm_func_start Truck__State_2171368
+Truck__State_2171368: // 0x02171368
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x28
 	mov r4, r0
@@ -2970,7 +2970,7 @@ _021715D8:
 	ldr r0, [r4, #0x20]
 	mov r2, #0
 	orr r1, r0, #0x40
-	ldr r0, _0217171C // =Truck3D__Draw_21724F4
+	ldr r0, _0217171C // =Truck__Draw_21724F4
 	str r1, [r4, #0x20]
 	str r0, [r4, #0xfc]
 	ldr r1, [r4, #0xe80]
@@ -3029,7 +3029,7 @@ _021716CC:
 	addgt sp, sp, #0x28
 	str r0, [r4, #0x2c]
 	ldmgtia sp!, {r3, r4, r5, pc}
-	ldr r1, _02171720 // =Truck3D__State_2171724
+	ldr r1, _02171720 // =Truck__State_2171724
 	mov r0, #0x64
 	str r1, [r4, #0xf4]
 	mov r1, #0
@@ -3045,12 +3045,12 @@ _02171710:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02171718: .word 0x04000358
-_0217171C: .word Truck3D__Draw_21724F4
-_02171720: .word Truck3D__State_2171724
-	arm_func_end Truck3D__State_2171368
+_0217171C: .word Truck__Draw_21724F4
+_02171720: .word Truck__State_2171724
+	arm_func_end Truck__State_2171368
 
-	arm_func_start Truck3D__State_2171724
-Truck3D__State_2171724: // 0x02171724
+	arm_func_start Truck__State_2171724
+Truck__State_2171724: // 0x02171724
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -3190,7 +3190,7 @@ _02171878:
 	smlabb r4, r2, r0, r1
 	mov r0, r4
 	strb r3, [r4, #0xae]
-	bl Truck3D__Func_216FB6C
+	bl Truck__Func_216FB6C
 	add r1, r5, #0x3d00
 	ldrsh r3, [r1, #4]
 	add r0, r5, #0x284
@@ -3261,13 +3261,13 @@ _021719D8:
 	and r1, r1, #0xff
 	and r1, r3, r1
 	strb r1, [r6, #0xae]
-	bl Truck3D__Func_216FB6C
+	bl Truck__Func_216FB6C
 	add r0, r5, #0x3d00
 	ldrsh r1, [r0, #0x36]
 	ldrsh r0, [r0, #4]
 	cmp r1, r0
 	bne _02171AC8
-	ldr r1, _02171F88 // =Truck3D__State_2171F98
+	ldr r1, _02171F88 // =Truck__State_2171F98
 	add r0, r5, #0x3000
 	str r1, [r5, #0xf4]
 	mov r1, #0
@@ -3471,7 +3471,7 @@ _02171D2C:
 	add r6, r0, #0xc00
 	mov r1, r7
 	add r0, r6, r9
-	bl Truck3D__Func_2173304
+	bl Truck__Func_2173304
 	add r0, r5, #0x3d00
 	ldrsh r1, [r0, #0x36]
 	mvn r0, #0
@@ -3498,7 +3498,7 @@ _02171D2C:
 _02171DCC:
 	mov r0, r5
 	add r1, r6, r9
-	bl Truck3D__Func_216F760
+	bl Truck__Func_216F760
 _02171DD8:
 	ldrsb r1, [r7, #0xb0]
 	mvn r0, #0
@@ -3618,14 +3618,14 @@ _02171F70:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _02171F84: .word g_obj
-_02171F88: .word Truck3D__State_2171F98
+_02171F88: .word Truck__State_2171F98
 _02171F8C: .word 0xFFF40EAD
 _02171F90: .word 0x000BF153
 _02171F94: .word FX_SinCosTable_
-	arm_func_end Truck3D__State_2171724
+	arm_func_end Truck__State_2171724
 
-	arm_func_start Truck3D__State_2171F98
-Truck3D__State_2171F98: // 0x02171F98
+	arm_func_start Truck__State_2171F98
+Truck__State_2171F98: // 0x02171F98
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -3938,7 +3938,7 @@ _02172420:
 	orr r1, r1, #1
 	str r1, [r4, #0x18]
 	ldr r1, [r4, #0x354]
-	ldr r2, _021724F0 // =Truck3D__State_2170E10
+	ldr r2, _021724F0 // =Truck__State_2170E10
 	bic r1, r1, #2
 	str r1, [r4, #0x354]
 	ldr ip, [r4, #0x1c]
@@ -3981,11 +3981,11 @@ _021724E0: .word 0x00005DC0
 _021724E4: .word FX_SinCosTable_
 _021724E8: .word 0x000BF153
 _021724EC: .word 0x00003FFF
-_021724F0: .word Truck3D__State_2170E10
-	arm_func_end Truck3D__State_2171F98
+_021724F0: .word Truck__State_2170E10
+	arm_func_end Truck__State_2171F98
 
-	arm_func_start Truck3D__Draw_21724F4
-Truck3D__Draw_21724F4: // 0x021724F4
+	arm_func_start Truck__Draw_21724F4
+Truck__Draw_21724F4: // 0x021724F4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x150
 	bl GetCurrentTaskWork_
@@ -4028,7 +4028,7 @@ _02172550:
 	bne _021725A0
 	ldr r0, [sp, #0x5c]
 	ldr r1, [r0, #0xf4]
-	ldr r0, _02173018 // =Truck3D__State_2171F98
+	ldr r0, _02173018 // =Truck__State_2171F98
 	cmp r1, r0
 	bne _0217263C
 _021725A0:
@@ -4720,16 +4720,16 @@ _02172F0C:
 _0217300C: .word 0x00012100
 _02173010: .word g_obj
 _02173014: .word 0x00003FFF
-_02173018: .word Truck3D__State_2171F98
+_02173018: .word Truck__State_2171F98
 _0217301C: .word FX_SinCosTable_
 _02173020: .word 0x000BF153
 _02173024: .word 0xFFF40EAD
 _02173028: .word NNS_G3dGlb+0x000000BC
 _0217302C: .word NNS_G3dGlb
-	arm_func_end Truck3D__Draw_21724F4
+	arm_func_end Truck__Draw_21724F4
 
-	arm_func_start Object58__OnDefend_2173030
-Object58__OnDefend_2173030: // 0x02173030
+	arm_func_start Truck3DTrigger__OnDefend_2173030
+Truck3DTrigger__OnDefend_2173030: // 0x02173030
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	ldr r4, [r1, #0x1c]
@@ -4769,19 +4769,19 @@ _021730A8:
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp]
-	bl Truck3D__Func_217322C
+	bl Truck__Func_217322C
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp]
-	bl Truck3D__Func_217322C
+	bl Truck__Func_217322C
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1
 	str r1, [sp]
 	mov r3, r1
-	bl Truck3D__Func_217322C
+	bl Truck__Func_217322C
 	mov r0, #1
 	strb r0, [r6, #0xf33]
 	ldr r0, [r6, #0xe80]
@@ -4796,7 +4796,7 @@ _021730A8:
 	strb r1, [r6, #0xf32]
 	add r1, r6, #0x284
 	add r1, r1, #0xc00
-	bl Truck3D__Func_2173304
+	bl Truck__Func_2173304
 	mov r1, #1
 	strb r1, [r6, #0xf34]
 	add r0, r6, #0x1000
@@ -4805,7 +4805,7 @@ _021730A8:
 	add r0, r0, #0x1800
 	add r1, r6, #0x54
 	add r1, r1, #0x1400
-	bl Truck3D__Func_2173304
+	bl Truck__Func_2173304
 	mov r2, #1
 	add r0, r6, #0x1000
 	add r1, r6, #0x3000
@@ -4825,13 +4825,13 @@ _02173184:
 	mov r3, r2
 	mov r1, #1
 	str r2, [sp]
-	bl Truck3D__Func_217322C
+	bl Truck__Func_217322C
 	mov r1, #0
 	mov r0, r6
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp]
-	bl Truck3D__Func_217322C
+	bl Truck__Func_217322C
 	b _021731F0
 _021731C4:
 	cmp r0, #0xb7
@@ -4841,21 +4841,21 @@ _021731C4:
 	mov r2, r1
 	mov r3, r1
 	str r1, [sp]
-	bl Truck3D__Func_217322C
+	bl Truck__Func_217322C
 _021731E4:
 	ldr r1, [r4, #0x340]
 	mov r0, r6
-	bl Truck3D__Func_2173204
+	bl Truck__Func_2173204
 _021731F0:
 	ldr r0, [r4, #0x18]
 	orr r0, r0, #2
 	str r0, [r4, #0x18]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, pc}
-	arm_func_end Object58__OnDefend_2173030
+	arm_func_end Truck3DTrigger__OnDefend_2173030
 
-	arm_func_start Truck3D__Func_2173204
-Truck3D__Func_2173204: // 0x02173204
+	arm_func_start Truck__Func_2173204
+Truck__Func_2173204: // 0x02173204
 	stmdb sp!, {r3, lr}
 	ldrb r2, [r1, #8]
 	str r2, [sp]
@@ -4864,12 +4864,12 @@ Truck3D__Func_2173204: // 0x02173204
 	ldrb r3, [r1, #7]
 	sub r1, ip, #0xb4
 	and r1, r1, #0xff
-	bl Truck3D__Func_217322C
+	bl Truck__Func_217322C
 	ldmia sp!, {r3, pc}
-	arm_func_end Truck3D__Func_2173204
+	arm_func_end Truck__Func_2173204
 
-	arm_func_start Truck3D__Func_217322C
-Truck3D__Func_217322C: // 0x0217322C
+	arm_func_start Truck__Func_217322C
+Truck__Func_217322C: // 0x0217322C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	add r4, r0, #0x3d00
 	ldrsh r9, [r4, #6]
@@ -4925,10 +4925,10 @@ _021732E4:
 	cmp r4, #3
 	blt _021732E4
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	arm_func_end Truck3D__Func_217322C
+	arm_func_end Truck__Func_217322C
 
-	arm_func_start Truck3D__Func_2173304
-Truck3D__Func_2173304: // 0x02173304
+	arm_func_start Truck__Func_2173304
+Truck__Func_2173304: // 0x02173304
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x88
 	ldr r2, _02173E74 // =Truck__byte_21885A4
@@ -5699,7 +5699,7 @@ _02173E88: .word 0x3C6EF35F
 _02173E8C: .word 0xFFFFFAAB
 _02173E90: .word 0x00003556
 _02173E94: .word 0x000EF153
-	arm_func_end Truck3D__Func_2173304
+	arm_func_end Truck__Func_2173304
 
 	.rodata
 	
@@ -5740,8 +5740,8 @@ Truck__TruckJewelPositionTable: // 0x0218860C
 	.word -0xC000,  -0x19000, -0x8000
 	.word -0xE000,  -0xD000,  -0xA000
 
-.public Truck3D__stru_218866C
-Truck3D__stru_218866C: // 0x0218866C
+.public Truck__stru_218866C
+Truck__stru_218866C: // 0x0218866C
 	.word -0x258000, 0x4000,  0x64000,  -0x1E000, 0x4000,  0x64000
 	.word -0x258000, 0x4000, -0x32000,  -0x1E000, 0x4000, -0x32000
 	.word -0x258000, 0x4000, -0x384000, -0x14000, 0x4000, -0x3C000

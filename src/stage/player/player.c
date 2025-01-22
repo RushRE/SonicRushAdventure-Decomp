@@ -307,25 +307,25 @@ Player *Player__Create(CharacterID characterID, u16 aidIndex)
     SetTaskLastFunc(&work->objWork, Player__Last_Default);
     work->objWork.displayFlag |= DISPLAY_FLAG_800;
 
-    ObjAction3dNNModelLoad(&work->objWork, &work->obj_3dWork, playerModelPath[characterID], 1, &playerWork[characterID], NULL);
+    ObjAction3dNNModelLoad(&work->objWork, &work->aniPlayerModel, playerModelPath[characterID], 1, &playerWork[characterID], NULL);
 
-    u16 oldNodeCount = work->obj_3dWork.ani.renderObj.resMdl->info.numNode;
+    u16 oldNodeCount = work->aniPlayerModel.ani.renderObj.resMdl->info.numNode;
     AnimatorMDL__SetResource(&work->objWork.obj_3d->ani, work->objWork.obj_3d->resources[B3D_RESOURCE_MODEL], 0, FALSE, FALSE);
-    if (oldNodeCount > work->obj_3dWork.ani.renderObj.resMdl->info.numNode)
+    if (oldNodeCount > work->aniPlayerModel.ani.renderObj.resMdl->info.numNode)
         idx = 1;
 
     work->objWork.displayFlag |= DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
-    VEC_Set(&work->obj_3dWork.ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
-    work->obj_3dWork.ani.work.translation2.y = -FLOAT_TO_FX32(16.0);
-    work->obj_3dWork.ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
-    work->obj_3dWork.ani.work.matrixOpIDs[1] = MATRIX_OP_IDENTITY;
-    work->obj_3dWork.ani.work.matrixOpIDs[2] = MATRIX_OP_LOAD_MTX43_TRANSLATE_SCALE_VEC;
+    VEC_Set(&work->aniPlayerModel.ani.work.scale, FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3), FLOAT_TO_FX32(3.3));
+    work->aniPlayerModel.ani.work.translation2.y = -FLOAT_TO_FX32(16.0);
+    work->aniPlayerModel.ani.work.matrixOpIDs[0] = MATRIX_OP_FLUSH_VP;
+    work->aniPlayerModel.ani.work.matrixOpIDs[1] = MATRIX_OP_IDENTITY;
+    work->aniPlayerModel.ani.work.matrixOpIDs[2] = MATRIX_OP_LOAD_MTX43_TRANSLATE_SCALE_VEC;
 
-    ObjAction3dNNMotionLoad(&work->objWork, &work->obj_3dWork, "plycom.nsbca", &animationWork, NULL);
-    work->obj_3dWork.ani.renderObj.recJntAnm = work->obj_3dWork.ani.jntAnimResult =
-        NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->obj_3dWork.resources[B3D_RESOURCE_MODEL]), idx));
-    work->obj_3dWork.ani.renderObj.recMatAnm = work->obj_3dWork.ani.matAnimResult =
-        NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->obj_3dWork.resources[B3D_RESOURCE_MODEL]), idx));
+    ObjAction3dNNMotionLoad(&work->objWork, &work->aniPlayerModel, "plycom.nsbca", &animationWork, NULL);
+    work->aniPlayerModel.ani.renderObj.recJntAnm = work->aniPlayerModel.ani.jntAnimResult =
+        NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniPlayerModel.resources[B3D_RESOURCE_MODEL]), idx));
+    work->aniPlayerModel.ani.renderObj.recMatAnm = work->aniPlayerModel.ani.matAnimResult =
+        NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniPlayerModel.resources[B3D_RESOURCE_MODEL]), idx));
 
     switch (characterID)
     {
@@ -334,26 +334,26 @@ Player *Player__Create(CharacterID characterID, u16 aidIndex)
             break;
 
         case CHARACTER_BLAZE:
-            AnimatorMDL__Init(&work->tailAnimator.ani, ANIMATOR_FLAG_NONE);
+            AnimatorMDL__Init(&work->aniTailModel.ani, ANIMATOR_FLAG_NONE);
 
             NNSG3dResFileHeader *resource                    = ObjDataLoad(&playerWork[characterID], playerModelPath[characterID], NULL);
-            work->tailAnimator.resources[B3D_RESOURCE_MODEL] = resource;
-            work->tailAnimator.file[B3D_RESOURCE_MODEL]      = &playerWork[characterID];
+            work->aniTailModel.resources[B3D_RESOURCE_MODEL] = resource;
+            work->aniTailModel.file[B3D_RESOURCE_MODEL]      = &playerWork[characterID];
 
-            AnimatorMDL__SetResource(&work->tailAnimator.ani, resource, 2, FALSE, FALSE);
-            work->tailAnimator.ani.work.scale.x = work->tailAnimator.ani.work.scale.y = work->tailAnimator.ani.work.scale.z = FLOAT_TO_FX32(3.3);
-            work->tailAnimator.ani.work.translation2.y                                                                      = -FLOAT_TO_FX32(16.0);
-            work->tailAnimator.ani.work.matrixOpIDs[0]                                                                      = MATRIX_OP_FLUSH_VP;
-            work->tailAnimator.ani.work.matrixOpIDs[1]                                                                      = MATRIX_OP_IDENTITY;
-            work->tailAnimator.ani.work.matrixOpIDs[2]                                                                      = MATRIX_OP_LOAD_MTX43_TRANSLATE_SCALE_VEC;
+            AnimatorMDL__SetResource(&work->aniTailModel.ani, resource, 2, FALSE, FALSE);
+            work->aniTailModel.ani.work.scale.x = work->aniTailModel.ani.work.scale.y = work->aniTailModel.ani.work.scale.z = FLOAT_TO_FX32(3.3);
+            work->aniTailModel.ani.work.translation2.y                                                                      = -FLOAT_TO_FX32(16.0);
+            work->aniTailModel.ani.work.matrixOpIDs[0]                                                                      = MATRIX_OP_FLUSH_VP;
+            work->aniTailModel.ani.work.matrixOpIDs[1]                                                                      = MATRIX_OP_IDENTITY;
+            work->aniTailModel.ani.work.matrixOpIDs[2]                                                                      = MATRIX_OP_LOAD_MTX43_TRANSLATE_SCALE_VEC;
 
-            work->tailAnimator.resources[B3D_RESOURCE_JOINT_ANIM] = ObjDataLoad(&animationWork, "plycom.nsbca", NULL);
-            work->tailAnimator.file[B3D_RESOURCE_JOINT_ANIM]      = &animationWork;
+            work->aniTailModel.resources[B3D_RESOURCE_JOINT_ANIM] = ObjDataLoad(&animationWork, "plycom.nsbca", NULL);
+            work->aniTailModel.file[B3D_RESOURCE_JOINT_ANIM]      = &animationWork;
 
-            work->tailAnimator.ani.renderObj.recJntAnm = work->tailAnimator.ani.jntAnimResult =
-                NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->tailAnimator.resources[B3D_RESOURCE_MODEL]), idx));
-            work->tailAnimator.ani.renderObj.recMatAnm = work->tailAnimator.ani.matAnimResult =
-                NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->tailAnimator.resources[B3D_RESOURCE_MODEL]), idx));
+            work->aniTailModel.ani.renderObj.recJntAnm = work->aniTailModel.ani.jntAnimResult =
+                NNS_G3dAllocRecBufferJnt(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniTailModel.resources[B3D_RESOURCE_MODEL]), idx));
+            work->aniTailModel.ani.renderObj.recMatAnm = work->aniTailModel.ani.matAnimResult =
+                NNS_G3dAllocRecBufferMat(&heapSystemAllocator, NNS_G3dGetMdlByIdx(NNS_G3dGetMdlSet(work->aniTailModel.resources[B3D_RESOURCE_MODEL]), idx));
             break;
     }
 
@@ -365,9 +365,9 @@ Player *Player__Create(CharacterID characterID, u16 aidIndex)
 
     ObjDraw__PaletteTex__Init(playerWork[characterID].fileData, &work->paletteTex);
 
-    ObjObjectAction2dBACLoad(&work->objWork, &work->animatorSprite, "/act/ac_ply.bac", &spriteWork, NULL, OBJ_DATA_GFX_NONE);
-    work->animatorSprite.ani.work.oamOrder = SPRITE_ORDER_13;
-    work->animatorSprite.ani.screensToDraw |= (SCREEN_DRAW_A | SCREEN_DRAW_3 | SCREEN_DRAW_4);
+    ObjObjectAction2dBACLoad(&work->objWork, &work->aniPlayerSprite, "/act/ac_ply.bac", &spriteWork, NULL, OBJ_DATA_GFX_NONE);
+    work->aniPlayerSprite.ani.work.oamOrder = SPRITE_ORDER_13;
+    work->aniPlayerSprite.ani.screensToDraw |= (SCREEN_DRAW_A | SCREEN_DRAW_3 | SCREEN_DRAW_4);
 
     work->onLandGround     = Player__OnLandGround;
     work->actionGroundMove = Player__OnGroundMove;
@@ -964,7 +964,7 @@ void Player__GiveHyperTrickEffect(Player *player)
         player->objWork.obj_2d->ani.work.animAdvance = player->objWork.obj_3d->ani.speedMultiplier;
 
         if (playerTailAnimForAction[player->characterID])
-            player->tailAnimator.ani.speedMultiplier = player->objWork.obj_3d->ani.speedMultiplier;
+            player->aniTailModel.ani.speedMultiplier = player->objWork.obj_3d->ani.speedMultiplier;
     }
 
     player->hyperTrickTimer = PLAYER_HYPERTRICK_DURATION;
@@ -1026,15 +1026,15 @@ void Player__ChangeAction(Player *player, PlayerAction action)
     {
         if (playerModelIndexForAction[characterID][lastAction] != playerModelIndexForAction[characterID][action])
         {
-            struct NNSG3dJntAnmResult_ *recJntAnm = player->obj_3dWork.ani.renderObj.recJntAnm;
-            struct NNSG3dMatAnmResult_ *recMatAnm = player->obj_3dWork.ani.renderObj.recMatAnm;
+            struct NNSG3dJntAnmResult_ *recJntAnm = player->aniPlayerModel.ani.renderObj.recJntAnm;
+            struct NNSG3dMatAnmResult_ *recMatAnm = player->aniPlayerModel.ani.renderObj.recMatAnm;
 
             AnimatorMDL__SetResource(&player->objWork.obj_3d->ani, player->objWork.obj_3d->resources[B3D_RESOURCE_MODEL], playerModelIndexForAction[characterID][action], FALSE,
                                      FALSE);
             player->objWork.displayFlag &= ~DISPLAY_FLAG_400;
 
-            player->obj_3dWork.ani.renderObj.recJntAnm = recJntAnm;
-            player->obj_3dWork.ani.renderObj.recMatAnm = recMatAnm;
+            player->aniPlayerModel.ani.renderObj.recJntAnm = recJntAnm;
+            player->aniPlayerModel.ani.renderObj.recMatAnm = recMatAnm;
             player->playerFlag |= PLAYER_FLAG_80000000;
         }
 
@@ -1059,16 +1059,16 @@ void Player__ChangeAction(Player *player, PlayerAction action)
             player->playerFlag |= PLAYER_FLAG_TAIL_IS_ACTIVE;
 
             if (action < PLAYER_ACTION_START_SNOWBOARD || action > PLAYER_ACTION_HURT_SNOWBOARD)
-                AnimatorMDL__SetAnimation(&player->tailAnimator.ani, B3D_RESOURCE_MODEL, player->tailAnimator.resources[B3D_RESOURCE_JOINT_ANIM], playerTailAnimForAction[characterID][action], NULL);
+                AnimatorMDL__SetAnimation(&player->aniTailModel.ani, B3D_RESOURCE_MODEL, player->aniTailModel.resources[B3D_RESOURCE_JOINT_ANIM], playerTailAnimForAction[characterID][action], NULL);
             else
-                AnimatorMDL__SetAnimation(&player->tailAnimator.ani, B3D_RESOURCE_MODEL, player->snowboardAnims, playerTailAnimForAction[characterID][action], NULL);
+                AnimatorMDL__SetAnimation(&player->aniTailModel.ani, B3D_RESOURCE_MODEL, player->snowboardAnims, playerTailAnimForAction[characterID][action], NULL);
 
             if (CheckIsPlayer1(player) && (player->objWork.displayFlag & DISPLAY_FLAG_400) != 0)
-                player->tailAnimator.ani.animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
+                player->aniTailModel.ani.animFlags[B3D_ANIM_JOINT_ANIM] |= ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
             else
-                player->tailAnimator.ani.animFlags[B3D_ANIM_JOINT_ANIM] &= ~ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
+                player->aniTailModel.ani.animFlags[B3D_ANIM_JOINT_ANIM] &= ~ANIMATORMDL_FLAG_BLEND_ANIMATIONS;
 
-            player->tailAnimator.ani.speedMultiplier = animSpeed;
+            player->aniTailModel.ani.speedMultiplier = animSpeed;
         }
         else
         {
@@ -1091,7 +1091,7 @@ void Player__SetAnimFrame(Player *player, fx32 frame)
     NNS_G3dAnmObjSetFrame(player->objWork.obj_3d->ani.currentAnimObj[B3D_ANIM_JOINT_ANIM], frame);
 
     if ((player->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
-        NNS_G3dAnmObjSetFrame(player->tailAnimator.ani.currentAnimObj[B3D_ANIM_JOINT_ANIM], frame);
+        NNS_G3dAnmObjSetFrame(player->aniTailModel.ani.currentAnimObj[B3D_ANIM_JOINT_ANIM], frame);
 }
 
 void Player__SetAnimSpeedFromVelocity(Player *player, fx32 velocity)
@@ -1122,7 +1122,7 @@ void Player__SetAnimSpeedFromVelocity(Player *player, fx32 velocity)
         player->objWork.obj_3d->ani.speedMultiplier = animSpeed;
 
     if ((player->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
-        player->tailAnimator.ani.speedMultiplier = animSpeed;
+        player->aniTailModel.ani.speedMultiplier = animSpeed;
 }
 
 void Player__UseDashPanel(Player *player, fx32 velX, fx32 velY)
@@ -2769,9 +2769,9 @@ void Player__Destructor(Task *task)
             break;
 
         case CHARACTER_BLAZE:
-            AnimatorMDL__Release(&work->tailAnimator.ani);
-            ObjDataRelease(work->tailAnimator.file[B3D_RESOURCE_MODEL]);
-            ObjDataRelease(work->tailAnimator.file[B3D_RESOURCE_JOINT_ANIM]);
+            AnimatorMDL__Release(&work->aniTailModel.ani);
+            ObjDataRelease(work->aniTailModel.file[B3D_RESOURCE_MODEL]);
+            ObjDataRelease(work->aniTailModel.file[B3D_RESOURCE_JOINT_ANIM]);
             break;
     }
 
@@ -3528,7 +3528,7 @@ void Player__In_Default(void)
                 work->objWork.obj_2d->ani.work.animAdvance = work->objWork.obj_3d->ani.speedMultiplier;
 
                 if (playerTailAnimForAction[work->characterID] != NULL)
-                    work->tailAnimator.ani.speedMultiplier = FLOAT_TO_FX32(1.0);
+                    work->aniTailModel.ani.speedMultiplier = FLOAT_TO_FX32(1.0);
             }
             else
             {
@@ -3711,7 +3711,7 @@ void Player__Draw(void)
     StageTask__Draw3D(&work->objWork, &work->objWork.obj_3d->ani.work);
 
     if ((work->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
-        StageTask__Draw3D(&work->objWork, &work->tailAnimator.ani.work);
+        StageTask__Draw3D(&work->objWork, &work->aniTailModel.ani.work);
 
     if ((work->playerFlag & PLAYER_FLAG_IN_WATER) != 0 && !IsBossStage())
         InitStageLightConfig();
@@ -3770,7 +3770,7 @@ void Player__DrawAfterImages(void)
                         if (MATH_ABS(work->objWork.position.x - work->afterImagePos[0].x) >= FLOAT_TO_FX32(2.0)
                             || MATH_ABS(work->objWork.position.y - work->afterImagePos[0].y) >= FLOAT_TO_FX32(2.0))
                         {
-                            StageTask__Draw3DEx(&work->obj_3dWork.ani.work, &work->afterImagePos[0], &work->objWork.dir, &work->objWork.scale, &work->objWork.displayFlag, NULL,
+                            StageTask__Draw3DEx(&work->aniPlayerModel.ani.work, &work->afterImagePos[0], &work->objWork.dir, &work->objWork.scale, &work->objWork.displayFlag, NULL,
                                                 NULL, NULL);
                         }
                     }
@@ -3779,7 +3779,7 @@ void Player__DrawAfterImages(void)
                         if (MATH_ABS(work->objWork.position.x - work->afterImagePos[1].x) >= FLOAT_TO_FX32(2.0)
                             || MATH_ABS(work->objWork.position.y - work->afterImagePos[1].y) >= FLOAT_TO_FX32(2.0))
                         {
-                            StageTask__Draw3DEx(&work->obj_3dWork.ani.work, &work->afterImagePos[1], &work->objWork.dir, &work->objWork.scale, &work->objWork.displayFlag, NULL,
+                            StageTask__Draw3DEx(&work->aniPlayerModel.ani.work, &work->afterImagePos[1], &work->objWork.dir, &work->objWork.scale, &work->objWork.displayFlag, NULL,
                                                 NULL, NULL);
                         }
                     }
@@ -3789,7 +3789,7 @@ void Player__DrawAfterImages(void)
                     if (MATH_ABS(work->objWork.position.x - work->objWork.prevPosition.x) >= FLOAT_TO_FX32(2.0)
                         || MATH_ABS(work->objWork.position.y - work->objWork.prevPosition.y) >= FLOAT_TO_FX32(2.0))
                     {
-                        StageTask__Draw3DEx(&work->obj_3dWork.ani.work, &work->objWork.prevPosition, &work->objWork.dir, &work->objWork.scale, &work->objWork.displayFlag, NULL,
+                        StageTask__Draw3DEx(&work->aniPlayerModel.ani.work, &work->objWork.prevPosition, &work->objWork.dir, &work->objWork.scale, &work->objWork.displayFlag, NULL,
                                             NULL, NULL);
                     }
                 }
@@ -7006,7 +7006,7 @@ void Player__ReceivePacket(Player *player)
         player->objWork.obj_3d->ani.speedMultiplier  = playerPacket->animAdvance2D << 9;
 
         if (playerTailAnimForAction[player->characterID] != 0)
-            player->tailAnimator.ani.speedMultiplier = playerPacket->animAdvance2D << 9;
+            player->aniTailModel.ani.speedMultiplier = playerPacket->animAdvance2D << 9;
 
         player->objWork.displayFlag &= DISPLAY_FLAG_NO_ANIMATE_CB;
         player->objWork.displayFlag |= playerPacket->displayFlag & ~(DISPLAY_FLAG_NO_ANIMATE_CB | DISPLAY_FLAG_NO_DRAW_EVENT);
@@ -7035,13 +7035,13 @@ void Player__ReceivePacket(Player *player)
         {
             player->objWork.obj_3d->ani.work.flags &= ~ANIMATOR_FLAG_DISABLE_DRAW;
             if ((player->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
-                player->tailAnimator.ani.work.flags &= ~ANIMATOR_FLAG_DISABLE_DRAW;
+                player->aniTailModel.ani.work.flags &= ~ANIMATOR_FLAG_DISABLE_DRAW;
         }
         else
         {
             player->objWork.obj_3d->ani.work.flags |= ANIMATOR_FLAG_DISABLE_DRAW;
             if ((player->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
-                player->tailAnimator.ani.work.flags |= ANIMATOR_FLAG_DISABLE_DRAW;
+                player->aniTailModel.ani.work.flags |= ANIMATOR_FLAG_DISABLE_DRAW;
         }
     }
 }
@@ -7090,7 +7090,7 @@ void Player__SendPacket(Player *player)
     ObjSendPacket *packetWork = ObjPacket__SendPacket(packet, GAMEPACKET_PLAYER, 2, sizeof(*packet));
     packetWork->header.param  = playerGameStatus.field_88[PLAYER_CONTROL_P1];
 
-    if ((StageTaskStateMatches(&player->objWork, Player__State_Grind3Line) || StageTaskStateMatches(&player->objWork, Player__State_201D874)
+    if ((StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRail) || StageTaskStateMatches(&player->objWork, Player__State_201D874)
          || StageTaskStateMatches(&player->objWork, Player__State_201DE24))
         || (StageTaskStateMatches(&player->objWork, Player__State_201D748) && player->objWork.scale.x != FLOAT_TO_FX32(1.0)))
     {
@@ -7144,13 +7144,13 @@ void Player__ReadGhostFrame(Player *player)
         {
             player->objWork.obj_3d->ani.work.flags &= ~ANIMATOR_FLAG_DISABLE_DRAW;
             if ((player->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
-                player->tailAnimator.ani.work.flags &= ~ANIMATOR_FLAG_DISABLE_DRAW;
+                player->aniTailModel.ani.work.flags &= ~ANIMATOR_FLAG_DISABLE_DRAW;
         }
         else
         {
             player->objWork.obj_3d->ani.work.flags |= ANIMATOR_FLAG_DISABLE_DRAW;
             if ((player->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
-                player->tailAnimator.ani.work.flags |= ANIMATOR_FLAG_DISABLE_DRAW;
+                player->aniTailModel.ani.work.flags |= ANIMATOR_FLAG_DISABLE_DRAW;
         }
 
         if ((playerGameStatus.stageTimer >> 2) >= PLAYER_REPLAY_MAX_TIME || (playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) == 0)

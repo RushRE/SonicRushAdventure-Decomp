@@ -59,7 +59,7 @@
 
 // TODO: SOME OF THESE FUNC SIGNATURES AREN'T RIGHT... decompile them
 NOT_DECOMPILED void CannonPath__GetOffsetZ(void);
-NOT_DECOMPILED void Grind3LineRingLoss__Create(Player *player);
+NOT_DECOMPILED void TripleGrindRailRingLoss__Create(Player *player);
 
 NOT_DECOMPILED void _s32_div_f(void);
 
@@ -2267,7 +2267,7 @@ NONMATCH_FUNC void Player__State_201D874(Player *work)
 #endif
 }
 
-void Player__Gimmick_Grind3Line(Player *player)
+void Player__Gimmick_TripleGrindRail(Player *player)
 {
     player->playerFlag |= PLAYER_FLAG_2000;
     player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_RESET_FLOW | STAGE_TASK_MOVE_FLAG_DISABLE_MAP_COLLISIONS;
@@ -2281,20 +2281,20 @@ void Player__Gimmick_Grind3Line(Player *player)
     player->objWork.gravityStrength = FLOAT_TO_FX32(0.328125);
     Player__Action_StopBoost(player);
 
-    SetTaskState(&player->objWork, Player__State_Grind3Line);
-    ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_Grind3Line);
-    player->gimmick.grind3Line.rail = 1;
+    SetTaskState(&player->objWork, Player__State_TripleGrindRail);
+    ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_TripleGrindRail);
+    player->gimmick.tripleGrindRail.rail = 1;
 
     StopPlayerSfx(player, PLAYER_SEQPLAYER_GRIND);
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_GRIND, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GRIND);
 }
 
-void Player__State_Grind3Line(Player *work)
+void Player__State_TripleGrindRail(Player *work)
 {
-    Player__HandleRideGrind3Line(work);
+    Player__HandleRideTripleGrindRail(work);
 }
 
-void Player__HandleRideGrind3Line(Player *player)
+void Player__HandleRideTripleGrindRail(Player *player)
 {
     if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0)
     {
@@ -2310,21 +2310,21 @@ void Player__HandleRideGrind3Line(Player *player)
         {
             if ((player->inputKeyDown & PAD_KEY_LEFT) != 0)
             {
-                if (player->gimmick.grind3Line.rail < 2)
+                if (player->gimmick.tripleGrindRail.rail < 2)
                 {
                     // hopping left one rail!
                     jumped = TRUE;
-                    player->gimmick.grind3Line.rail++;
+                    player->gimmick.tripleGrindRail.rail++;
                     velX = -FLOAT_TO_FX32(2.9697265625);
                 }
             }
             else if ((player->inputKeyDown & PAD_KEY_RIGHT) != 0)
             {
-                if (player->gimmick.grind3Line.rail > 0)
+                if (player->gimmick.tripleGrindRail.rail > 0)
                 {
                     // hopping right one rail!
                     jumped = TRUE;
-                    player->gimmick.grind3Line.rail--;
+                    player->gimmick.tripleGrindRail.rail--;
                     velX = FLOAT_TO_FX32(2.9697265625);
                 }
             }
@@ -2378,7 +2378,7 @@ void Player__HandleRideGrind3Line(Player *player)
     }
 }
 
-void Player__OnDefend_Grind3Line(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void Player__OnDefend_TripleGrindRail(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     Player *player = (Player *)rect2->parent;
 
@@ -2396,7 +2396,7 @@ void Player__OnDefend_Grind3Line(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         if (player->rings != 0)
         {
             PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_RINGLOST);
-            Grind3LineRingLoss__Create(player);
+            TripleGrindRailRingLoss__Create(player);
         }
 
         Player__Action_Die(player);
@@ -2412,7 +2412,7 @@ void Player__OnDefend_Grind3Line(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if ((player->playerFlag & PLAYER_FLAG_SHIELD_REGULAR) == 0)
     {
         PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_RINGLOST);
-        Grind3LineRingLoss__Create(player);
+        TripleGrindRailRingLoss__Create(player);
     }
 
     player->playerFlag &= ~(PLAYER_FLAG_SHIELD_MAGNET | PLAYER_FLAG_SHIELD_REGULAR);

@@ -152,8 +152,8 @@ _02183C5C: .word 0x0000FFFF
 _02183C60: .word aDfGmkWaterGrai
 	arm_func_end WaterGun__Create
 
-	arm_func_start WaterCreateGrindTrigger
-WaterCreateGrindTrigger: // 0x02183C64
+	arm_func_start WaterGrindTrigger__Create
+WaterGrindTrigger__Create: // 0x02183C64
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	ldr r3, _02183DE0 // =0x00001801
@@ -259,7 +259,7 @@ _02183DEC: .word 0x0000FFFE
 _02183DF0: .word WaterGrindTrigger__OnDefend
 _02183DF4: .word WaterGrindTrigger__State_218477C
 _02183DF8: .word WaterGrindTrigger__Draw
-	arm_func_end WaterCreateGrindTrigger
+	arm_func_end WaterGrindTrigger__Create
 
 	arm_func_start WaterGun__Destructor
 WaterGun__Destructor: // 0x02183DFC

@@ -1,4 +1,4 @@
-#include <stage/objects/breakable.h>
+#include <stage/objects/breakableObject.h>
 #include <stage/effects/breakableObjDebris.h>
 #include <game/game/gameState.h>
 #include <game/stage/gameSystem.h>
@@ -16,13 +16,13 @@ static u16 activeCount;
 // FUNCTIONS
 // --------------------
 
-Breakable *Breakable__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+BreakableObject *BreakableObject__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), Breakable);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), BreakableObject);
     if (task == HeapNull)
         return NULL;
 
-    Breakable *work = TaskGetWork(task, Breakable);
+    BreakableObject *work = TaskGetWork(task, BreakableObject);
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
@@ -35,7 +35,7 @@ Breakable *Breakable__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     ObjRect__SetAttackStat(work->gameWork.colliders, 0, 0);
     ObjRect__SetDefenceStat(work->gameWork.colliders, 1, 0);
 
-    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Breakable__OnDefend);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[0], BreakableObject__OnDefend);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.collisionObj           = 0;
     work->gameWork.collisionObject.work.parent    = &work->gameWork.objWork;
@@ -56,7 +56,7 @@ Breakable *Breakable__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         work->gameWork.collisionObject.work.ofst_y = -32;
 
         activeCount++;
-        SetTaskDestructorEvent(task, Breakable__Destructor);
+        SetTaskDestructorEvent(task, BreakableObject__Destructor);
     }
     else
     {
@@ -69,15 +69,15 @@ Breakable *Breakable__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     StageTask__SetAnimation(&work->gameWork.objWork, 0);
 
     if (gameState.stageID == STAGE_TUTORIAL)
-        SetTaskState(&work->gameWork.objWork, Breakable__State_Tutorial);
+        SetTaskState(&work->gameWork.objWork, BreakableObject__State_Tutorial);
 
     return work;
 }
 
-void Breakable__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void BreakableObject__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-    Breakable *breakable = (Breakable *)rect2->parent;
-    Player *player       = (Player *)rect1->parent;
+    BreakableObject *breakable = (BreakableObject *)rect2->parent;
+    Player *player             = (Player *)rect1->parent;
 
     if (breakable == NULL || player == NULL)
         return;
@@ -126,7 +126,7 @@ void Breakable__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         brokeInstance = TRUE;
 }
 
-void Breakable__Destructor(Task *task)
+void BreakableObject__Destructor(Task *task)
 {
     if (activeCount != 0)
         activeCount--;
@@ -137,7 +137,7 @@ void Breakable__Destructor(Task *task)
     GameObject__Destructor(task);
 }
 
-NONMATCH_FUNC void Breakable__State_Tutorial(Breakable *work)
+NONMATCH_FUNC void BreakableObject__State_Tutorial(BreakableObject *work)
 {
     // https://decomp.me/scratch/7nK2A -> 89.72%
 #ifdef NON_MATCHING

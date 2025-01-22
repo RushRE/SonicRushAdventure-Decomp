@@ -3,13 +3,13 @@
 
 	.bss
 	
-Grind3Line__Singleton: // 0x0218A378
+TripleGrindRail__Singleton: // 0x0218A378
 	.space 0x04 // Task*
 	
 	.text
 
-	arm_func_start Grind3LineSpring__Create
-Grind3LineSpring__Create: // 0x0216350C
+	arm_func_start TripleGrindRailSpring__Create
+TripleGrindRailSpring__Create: // 0x0216350C
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -74,8 +74,8 @@ Grind3LineSpring__Create: // 0x0216350C
 	ldr r1, _02163660 // =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02163664 // =Grind3LineSpring__OnDefend_2163F9C
-	ldr r2, _02163668 // =Grind3LineSpring__State_2163F64
+	ldr r0, _02163664 // =TripleGrindRailSpring__OnDefend
+	ldr r2, _02163668 // =TripleGrindRailSpring__State_Active
 	str r0, [r4, #0x23c]
 	ldr r1, [r4, #0x230]
 	mov r0, r4
@@ -97,12 +97,12 @@ _02163654: .word gameArchiveStage
 _02163658: .word 0x0000FFFF
 _0216365C: .word aActAcGmkGrd3lS
 _02163660: .word 0x0000FFFE
-_02163664: .word Grind3LineSpring__OnDefend_2163F9C
-_02163668: .word Grind3LineSpring__State_2163F64
-	arm_func_end Grind3LineSpring__Create
+_02163664: .word TripleGrindRailSpring__OnDefend
+_02163668: .word TripleGrindRailSpring__State_Active
+	arm_func_end TripleGrindRailSpring__Create
 
-	arm_func_start Grind3Line__Create
-Grind3Line__Create: // 0x0216366C
+	arm_func_start TripleGrindRail__Create
+TripleGrindRail__Create: // 0x0216366C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -115,7 +115,7 @@ Grind3Line__Create: // 0x0216366C
 	str r0, [sp, #4]
 	ldr r7, _02163A6C // =0x0000117C
 	ldr r0, _02163A70 // =StageTask_Main
-	ldr r1, _02163A74 // =Grind3Line__Destructor
+	ldr r1, _02163A74 // =TripleGrindRail__Destructor
 	mov r3, r2
 	str r7, [sp, #8]
 	bl TaskCreate_
@@ -132,7 +132,7 @@ Grind3Line__Create: // 0x0216366C
 	mov r1, #0
 	mov r7, r0
 	bl MI_CpuFill8
-	ldr r2, _02163A78 // =Grind3Line__Singleton
+	ldr r2, _02163A78 // =TripleGrindRail__Singleton
 	mov r0, r7
 	str r7, [r2]
 	mov r1, r6
@@ -353,7 +353,7 @@ _021638D0:
 	ldr r1, _02163AA4 // =0x00000102
 	add r0, r7, #0x200
 	strh r1, [r0, #0x4c]
-	ldr r0, _02163AA8 // =Grind3Line__OnDefend_21649AC
+	ldr r0, _02163AA8 // =TripleGrindRail__OnDefend_StartTrigger
 	str r7, [r7, #0x234]
 	str r0, [r7, #0x23c]
 	ldr r1, [r7, #0x230]
@@ -368,8 +368,8 @@ _021638D0:
 	.align 2, 0
 _02163A6C: .word 0x0000117C
 _02163A70: .word StageTask_Main
-_02163A74: .word Grind3Line__Destructor
-_02163A78: .word Grind3Line__Singleton
+_02163A74: .word TripleGrindRail__Destructor
+_02163A78: .word TripleGrindRail__Singleton
 _02163A7C: .word aModGmkGrd3line
 _02163A80: .word gameArchiveStage
 _02163A84: .word aModGmkGrd3line_0
@@ -381,14 +381,14 @@ _02163A98: .word 0x00000844
 _02163A9C: .word StageTask__DefaultDiffData
 _02163AA0: .word 0x0000FFFE
 _02163AA4: .word 0x00000102
-_02163AA8: .word Grind3Line__OnDefend_21649AC
-	arm_func_end Grind3Line__Create
+_02163AA8: .word TripleGrindRail__OnDefend_StartTrigger
+	arm_func_end TripleGrindRail__Create
 
-	arm_func_start Grind3LineSpikeBall__Create
-Grind3LineSpikeBall__Create: // 0x02163AAC
+	arm_func_start TripleGrindRailEntity__Create
+TripleGrindRailEntity__Create: // 0x02163AAC
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
-	ldr r3, _02163D4C // =Grind3Line__Singleton
+	ldr r3, _02163D4C // =TripleGrindRail__Singleton
 	mov r7, r0
 	ldr r3, [r3, #0]
 	mov r6, r1
@@ -509,7 +509,7 @@ _02163C3C:
 	str r0, [r4, #0x40]
 	b _02163D14
 _02163C88:
-	ldr r0, _02163D4C // =Grind3Line__Singleton
+	ldr r0, _02163D4C // =TripleGrindRail__Singleton
 	add r1, r4, #0x364
 	ldr r0, [r0, #0]
 	mov r2, #0x104
@@ -536,7 +536,7 @@ _02163C88:
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x230]
-	ldr r0, _02163D74 // =Grind3LineSpikeBall__OnDefend_2164CB4
+	ldr r0, _02163D74 // =TripleGrindRailEntity__OnDefend
 	orr r1, r1, #0x400
 	str r1, [r4, #0x230]
 	str r0, [r4, #0x23c]
@@ -546,7 +546,7 @@ _02163C88:
 	str r0, [r4, #0x40]
 _02163D14:
 	ldr r0, [r4, #0x18]
-	ldr r1, _02163D78 // =Grind3LineSpikeBall__State_2164A40
+	ldr r1, _02163D78 // =TripleGrindRailEntity__State_Inactive
 	orr r0, r0, #0x10
 	str r0, [r4, #0x18]
 	ldr r2, [r4, #0x1c]
@@ -560,7 +560,7 @@ _02163D14:
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
 	.align 2, 0
-_02163D4C: .word Grind3Line__Singleton
+_02163D4C: .word TripleGrindRail__Singleton
 _02163D50: .word 0x0000117C
 _02163D54: .word StageTask_Main
 _02163D58: .word GameObject__Destructor
@@ -570,15 +570,15 @@ _02163D64: .word gameArchiveStage
 _02163D68: .word aActAcGmkBallSi
 _02163D6C: .word 0x0000FFFF
 _02163D70: .word 0x0000FFFE
-_02163D74: .word Grind3LineSpikeBall__OnDefend_2164CB4
-_02163D78: .word Grind3LineSpikeBall__State_2164A40
-	arm_func_end Grind3LineSpikeBall__Create
+_02163D74: .word TripleGrindRailEntity__OnDefend
+_02163D78: .word TripleGrindRailEntity__State_Inactive
+	arm_func_end TripleGrindRailEntity__Create
 
-	arm_func_start Grind3LineRingLoss__Create
-Grind3LineRingLoss__Create: // 0x02163D7C
+	arm_func_start TripleGrindRailRingLoss__Create
+TripleGrindRailRingLoss__Create: // 0x02163D7C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
-	ldr r1, _02163F44 // =Grind3Line__Singleton
+	ldr r1, _02163F44 // =TripleGrindRail__Singleton
 	mov r8, r0
 	ldr r0, [r1, #0]
 	ldr r4, _02163F48 // =0x00000488
@@ -682,11 +682,11 @@ _02163EF4:
 	blt _02163E88
 _02163F14:
 	ldr r0, [r5, #0x18]
-	ldr r1, _02163F5C // =Grind3LineRingLoss__Draw_2164E10
+	ldr r1, _02163F5C // =TripleGrindRailRingLoss__Draw
 	orr r0, r0, #0x10
 	str r0, [r5, #0x18]
 	ldr r2, [r5, #0x1c]
-	ldr r0, _02163F60 // =Grind3LineRingLoss__State_2164D08
+	ldr r0, _02163F60 // =TripleGrindRailRingLoss__State_Active
 	orr r2, r2, #0x2100
 	str r2, [r5, #0x1c]
 	str r1, [r5, #0xfc]
@@ -694,18 +694,18 @@ _02163F14:
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02163F44: .word Grind3Line__Singleton
+_02163F44: .word TripleGrindRail__Singleton
 _02163F48: .word 0x00000488
 _02163F4C: .word StageTask_Main
 _02163F50: .word GameObject__Destructor
 _02163F54: .word ringManagerWork
 _02163F58: .word FX_SinCosTable_
-_02163F5C: .word Grind3LineRingLoss__Draw_2164E10
-_02163F60: .word Grind3LineRingLoss__State_2164D08
-	arm_func_end Grind3LineRingLoss__Create
+_02163F5C: .word TripleGrindRailRingLoss__Draw
+_02163F60: .word TripleGrindRailRingLoss__State_Active
+	arm_func_end TripleGrindRailRingLoss__Create
 
-	arm_func_start Grind3LineSpring__State_2163F64
-Grind3LineSpring__State_2163F64: // 0x02163F64
+	arm_func_start TripleGrindRailSpring__State_Active
+TripleGrindRailSpring__State_Active: // 0x02163F64
 	stmdb sp!, {r3, lr}
 	add r1, r0, #0x100
 	ldrh r1, [r1, #0x74]
@@ -720,10 +720,10 @@ Grind3LineSpring__State_2163F64: // 0x02163F64
 	str r2, [r0, #0x230]
 	bl StageTask__SetAnimation
 	ldmia sp!, {r3, pc}
-	arm_func_end Grind3LineSpring__State_2163F64
+	arm_func_end TripleGrindRailSpring__State_Active
 
-	arm_func_start Grind3LineSpring__OnDefend_2163F9C
-Grind3LineSpring__OnDefend_2163F9C: // 0x02163F9C
+	arm_func_start TripleGrindRailSpring__OnDefend
+TripleGrindRailSpring__OnDefend: // 0x02163F9C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -772,13 +772,13 @@ _02163FFC:
 _02164048: .word 0xB60B60B7
 _0216404C: .word 0xFFFEEEF0
 _02164050: .word 0x00000611
-	arm_func_end Grind3LineSpring__OnDefend_2163F9C
+	arm_func_end TripleGrindRailSpring__OnDefend
 
-	arm_func_start Grind3Line__Destructor
-Grind3Line__Destructor: // 0x02164054
+	arm_func_start TripleGrindRail__Destructor
+TripleGrindRail__Destructor: // 0x02164054
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, #0
-	ldr r5, _021640D4 // =Grind3Line__Singleton
+	ldr r5, _021640D4 // =TripleGrindRail__Singleton
 	mov r4, r0
 	mov r7, r6
 _02164068:
@@ -790,16 +790,16 @@ _02164068:
 	cmp r6, #7
 	add r7, r7, #0x104
 	blt _02164068
-	ldr r0, _021640D4 // =Grind3Line__Singleton
+	ldr r0, _021640D4 // =TripleGrindRail__Singleton
 	ldr r0, [r0, #0]
 	add r0, r0, #0x3fc
 	add r0, r0, #0x800
 	bl AnimatorSprite3D__Release
-	ldr r0, _021640D4 // =Grind3Line__Singleton
+	ldr r0, _021640D4 // =TripleGrindRail__Singleton
 	ldr r0, [r0, #0]
 	add r0, r0, #0xd00
 	bl AnimatorSprite3D__Release
-	ldr r2, _021640D4 // =Grind3Line__Singleton
+	ldr r2, _021640D4 // =TripleGrindRail__Singleton
 	mov r3, #0
 	ldr r1, _021640D8 // =g_obj
 	mov r0, #0x1000
@@ -810,12 +810,12 @@ _02164068:
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_021640D4: .word Grind3Line__Singleton
+_021640D4: .word TripleGrindRail__Singleton
 _021640D8: .word g_obj
-	arm_func_end Grind3Line__Destructor
+	arm_func_end TripleGrindRail__Destructor
 
-	arm_func_start Grind3Line__State_21640DC
-Grind3Line__State_21640DC: // 0x021640DC
+	arm_func_start TripleGrindRail__State_21640DC
+TripleGrindRail__State_21640DC: // 0x021640DC
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _021641D0 // =0x00141BB2
 	mov r5, r0
@@ -862,7 +862,7 @@ _02164164:
 	beq _0216419C
 _02164180:
 	mov r1, #0
-	ldr r0, _021641D8 // =Grind3Line__State_216497C
+	ldr r0, _021641D8 // =TripleGrindRail__State_216497C
 	str r1, [r5, #0x35c]
 	str r0, [r5, #0xf4]
 	mov r0, #0x258
@@ -873,9 +873,9 @@ _0216419C:
 	tst r0, #1
 	ldmeqia sp!, {r3, r4, r5, pc}
 	mov r0, r4
-	bl Player__Gimmick_Grind3Line
+	bl Player__Gimmick_TripleGrindRail
 	ldr r1, [r4, #0x5dc]
-	ldr r0, _021641DC // =Grind3Line__State_21641E0
+	ldr r0, _021641DC // =TripleGrindRail__State_21641E0
 	orr r1, r1, #0x600
 	str r1, [r4, #0x5dc]
 	str r0, [r5, #0xf4]
@@ -885,12 +885,12 @@ _0216419C:
 	.align 2, 0
 _021641D0: .word 0x00141BB2
 _021641D4: .word FX_SinCosTable_
-_021641D8: .word Grind3Line__State_216497C
-_021641DC: .word Grind3Line__State_21641E0
-	arm_func_end Grind3Line__State_21640DC
+_021641D8: .word TripleGrindRail__State_216497C
+_021641DC: .word TripleGrindRail__State_21641E0
+	arm_func_end TripleGrindRail__State_21640DC
 
-	arm_func_start Grind3Line__State_21641E0
-Grind3Line__State_21641E0: // 0x021641E0
+	arm_func_start TripleGrindRail__State_21641E0
+TripleGrindRail__State_21641E0: // 0x021641E0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x50
 	ldr r1, _0216479C // =0x00141BB2
@@ -905,7 +905,7 @@ Grind3Line__State_21641E0: // 0x021641E0
 	beq _02164230
 _02164210:
 	mov r1, #0
-	ldr r0, _021647A0 // =Grind3Line__State_216497C
+	ldr r0, _021647A0 // =TripleGrindRail__State_216497C
 	str r1, [r6, #0x35c]
 	str r0, [r6, #0xf4]
 	mov r0, #0x258
@@ -927,7 +927,7 @@ _02164230:
 	str r1, [r0, #0x14]
 	str r1, [r6, #0x47c]
 	ldr r1, [r6, #0xe04]
-	ldr r0, _021647A8 // =Grind3Line__State_216492C
+	ldr r0, _021647A8 // =TripleGrindRail__State_216492C
 	orr r1, r1, #2
 	str r1, [r6, #0xe04]
 	add sp, sp, #0x50
@@ -1018,7 +1018,7 @@ _0216433C:
 	add r0, r6, #0x4e0
 	str r0, [sp, #0x10]
 	ldr r0, [sp, #0x14]
-	ldr r7, _021647BC // =Grind3Line__Singleton
+	ldr r7, _021647BC // =TripleGrindRail__Singleton
 	rsb r0, r0, #0
 	add r4, r4, #0xc00
 	mvn r11, #0
@@ -1124,7 +1124,7 @@ _02164514:
 	mvn r0, #0
 	cmp r11, r0
 	beq _021645A4
-	ldr r1, _021647BC // =Grind3Line__Singleton
+	ldr r1, _021647BC // =TripleGrindRail__Singleton
 	add r0, r6, #0x218
 	ldr r3, [r1, #0]
 	add r2, r0, #0xc00
@@ -1133,7 +1133,7 @@ _02164514:
 	mov r1, #0xc
 	mla r0, r11, r1, r2
 	rsb r4, r3, #0x100
-	bl Grind3Line__Func_21647D8
+	bl TripleGrindRail__CreateLeafParticle
 	mov r0, r4, asr #5
 	add r1, r0, r4, asr #3
 	cmp r1, #3
@@ -1162,7 +1162,7 @@ _021645D4:
 	cmp r0, #0x100000
 	moveq r8, r7
 	beq _021646D4
-	ldr r0, _021647BC // =Grind3Line__Singleton
+	ldr r0, _021647BC // =TripleGrindRail__Singleton
 	ldrh r1, [r5, #8]
 	ldr r0, [r0, #0]
 	add r0, r0, #0xe00
@@ -1184,7 +1184,7 @@ _02164620:
 	add r0, r4, r0, lsl #2
 	ldrsh r3, [r0, #2]
 	ldr r2, [r5, #0]
-	ldr r0, _021647BC // =Grind3Line__Singleton
+	ldr r0, _021647BC // =TripleGrindRail__Singleton
 	smull r11, r10, r3, r2
 	adds r3, r11, #0x800
 	ldr r1, [r0, #0]
@@ -1244,7 +1244,7 @@ _021646D4:
 	cmp r8, r0
 	addeq sp, sp, #0x50
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r1, _021647BC // =Grind3Line__Singleton
+	ldr r1, _021647BC // =TripleGrindRail__Singleton
 	add r0, r6, #0x11c
 	ldr r3, [r1, #0]
 	add r2, r0, #0x1000
@@ -1253,7 +1253,7 @@ _021646D4:
 	mov r1, #0xc
 	mla r0, r8, r1, r2
 	rsb r4, r3, #0x100
-	bl Grind3Line__Func_21648CC
+	bl TripleGrindRail__CreateMushroomParticle
 	cmp r4, #0x14
 	movlt r4, #0x14
 	blt _02164760
@@ -1277,24 +1277,24 @@ _02164760:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216479C: .word 0x00141BB2
-_021647A0: .word Grind3Line__State_216497C
+_021647A0: .word TripleGrindRail__State_216497C
 _021647A4: .word g_obj
-_021647A8: .word Grind3Line__State_216492C
+_021647A8: .word TripleGrindRail__State_216492C
 _021647AC: .word 0xFFFE0200
 _021647B0: .word mapCamera
 _021647B4: .word 0x88888889
 _021647B8: .word _021884D4
-_021647BC: .word Grind3Line__Singleton
+_021647BC: .word TripleGrindRail__Singleton
 _021647C0: .word 0x00006AAC
 _021647C4: .word FX_SinCosTable_
 _021647C8: .word _021884E0
 _021647CC: .word _mt_math_rand
 _021647D0: .word 0x00196225
 _021647D4: .word 0x3C6EF35F
-	arm_func_end Grind3Line__State_21641E0
+	arm_func_end TripleGrindRail__State_21641E0
 
-	arm_func_start Grind3Line__Func_21647D8
-Grind3Line__Func_21647D8: // 0x021647D8
+	arm_func_start TripleGrindRail__CreateLeafParticle
+TripleGrindRail__CreateLeafParticle: // 0x021647D8
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x10
 	ldr r5, _021648AC // =_021884EC
@@ -1358,10 +1358,10 @@ _021648BC: .word 0x000001FF
 _021648C0: .word 0x000034CC
 _021648C4: .word 0x00141BB2
 _021648C8: .word 0x0000D554
-	arm_func_end Grind3Line__Func_21647D8
+	arm_func_end TripleGrindRail__CreateLeafParticle
 
-	arm_func_start Grind3Line__Func_21648CC
-Grind3Line__Func_21648CC: // 0x021648CC
+	arm_func_start TripleGrindRail__CreateMushroomParticle
+TripleGrindRail__CreateMushroomParticle: // 0x021648CC
 	stmdb sp!, {r3, lr}
 	ldr r3, _02164918 // =_mt_math_rand
 	ldr r1, _0216491C // =0x00196225
@@ -1387,10 +1387,10 @@ _0216491C: .word 0x00196225
 _02164920: .word 0x3C6EF35F
 _02164924: .word 0x001CF9F6
 _02164928: .word 0x0000D8E2
-	arm_func_end Grind3Line__Func_21648CC
+	arm_func_end TripleGrindRail__CreateMushroomParticle
 
-	arm_func_start Grind3Line__State_216492C
-Grind3Line__State_216492C: // 0x0216492C
+	arm_func_start TripleGrindRail__State_216492C
+TripleGrindRail__State_216492C: // 0x0216492C
 	ldr r1, [r0, #0x35c]
 	ldr r1, [r1, #0x2c]
 	cmp r1, #0
@@ -1403,7 +1403,7 @@ Grind3Line__State_216492C: // 0x0216492C
 	ldr r1, [r1, #0x28]
 	cmp r1, #0
 	bxeq lr
-	ldr r1, _02164978 // =Grind3Line__State_216497C
+	ldr r1, _02164978 // =TripleGrindRail__State_216497C
 	str r1, [r0, #0xf4]
 	ldr r1, [r0, #0x35c]
 	ldr r1, [r1, #0x28]
@@ -1411,11 +1411,11 @@ Grind3Line__State_216492C: // 0x0216492C
 	bx lr
 	.align 2, 0
 _02164974: .word 0x00141BB2
-_02164978: .word Grind3Line__State_216497C
-	arm_func_end Grind3Line__State_216492C
+_02164978: .word TripleGrindRail__State_216497C
+	arm_func_end TripleGrindRail__State_216492C
 
-	arm_func_start Grind3Line__State_216497C
-Grind3Line__State_216497C: // 0x0216497C
+	arm_func_start TripleGrindRail__State_216497C
+TripleGrindRail__State_216497C: // 0x0216497C
 	ldr r1, [r0, #0x28]
 	subs r1, r1, #1
 	str r1, [r0, #0x28]
@@ -1429,10 +1429,10 @@ Grind3Line__State_216497C: // 0x0216497C
 	bx lr
 	.align 2, 0
 _021649A8: .word 0x00141BB2
-	arm_func_end Grind3Line__State_216497C
+	arm_func_end TripleGrindRail__State_216497C
 
-	arm_func_start Grind3Line__OnDefend_21649AC
-Grind3Line__OnDefend_21649AC: // 0x021649AC
+	arm_func_start TripleGrindRail__OnDefend_StartTrigger
+TripleGrindRail__OnDefend_StartTrigger: // 0x021649AC
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -1457,7 +1457,7 @@ Grind3Line__OnDefend_21649AC: // 0x021649AC
 	bl Player__Func_201D7BC
 	mov r0, #0x2000
 	bl SetStageRingScale
-	ldr r1, _02164A3C // =Grind3Line__State_21640DC
+	ldr r1, _02164A3C // =TripleGrindRail__State_21640DC
 	mov r0, #0x3000
 	str r1, [r4, #0xf4]
 	strh r0, [r4, #0x30]
@@ -1470,13 +1470,13 @@ Grind3Line__OnDefend_21649AC: // 0x021649AC
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02164A38: .word Player__State_201D748
-_02164A3C: .word Grind3Line__State_21640DC
-	arm_func_end Grind3Line__OnDefend_21649AC
+_02164A3C: .word TripleGrindRail__State_21640DC
+	arm_func_end TripleGrindRail__OnDefend_StartTrigger
 
-	arm_func_start Grind3LineSpikeBall__State_2164A40
-Grind3LineSpikeBall__State_2164A40: // 0x02164A40
+	arm_func_start TripleGrindRailEntity__State_Inactive
+TripleGrindRailEntity__State_Inactive: // 0x02164A40
 	stmdb sp!, {r4, lr}
-	ldr r1, _02164AC4 // =Grind3Line__Singleton
+	ldr r1, _02164AC4 // =TripleGrindRail__Singleton
 	mov r4, r0
 	ldr r2, [r1, #0]
 	cmp r2, #0
@@ -1499,28 +1499,28 @@ _02164A74:
 	add r1, r4, #0x400
 	strh r2, [r1, #0x7c]
 	ldr r2, [r4, #0x20]
-	ldr r1, _02164ACC // =Grind3LineSpikeBall__State_2164AD4
+	ldr r1, _02164ACC // =TripleGrindRailEntity__State_Active
 	bic r2, r2, #0x20
 	str r2, [r4, #0x20]
 	str r1, [r4, #0xf4]
-	bl Grind3LineSpikeBall__State_2164AD4
+	bl TripleGrindRailEntity__State_Active
 	ldr r0, [r4, #0x340]
 	ldrh r0, [r0, #2]
 	cmp r0, #0x7b
-	ldreq r0, _02164AD0 // =Grind3LineSpikeBall__Draw_2164C00
+	ldreq r0, _02164AD0 // =TripleGrindRailEntity__Draw
 	streq r0, [r4, #0xfc]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02164AC4: .word Grind3Line__Singleton
+_02164AC4: .word TripleGrindRail__Singleton
 _02164AC8: .word 0x0000CE38
-_02164ACC: .word Grind3LineSpikeBall__State_2164AD4
-_02164AD0: .word Grind3LineSpikeBall__Draw_2164C00
-	arm_func_end Grind3LineSpikeBall__State_2164A40
+_02164ACC: .word TripleGrindRailEntity__State_Active
+_02164AD0: .word TripleGrindRailEntity__Draw
+	arm_func_end TripleGrindRailEntity__State_Inactive
 
-	arm_func_start Grind3LineSpikeBall__State_2164AD4
-Grind3LineSpikeBall__State_2164AD4: // 0x02164AD4
+	arm_func_start TripleGrindRailEntity__State_Active
+TripleGrindRailEntity__State_Active: // 0x02164AD4
 	stmdb sp!, {r4, lr}
-	ldr r3, _02164BEC // =Grind3Line__Singleton
+	ldr r3, _02164BEC // =TripleGrindRail__Singleton
 	ldr r4, [r3, #0]
 	cmp r4, #0
 	ldrne r1, _02164BF0 // =g_obj
@@ -1562,7 +1562,7 @@ _02164B48:
 _02164B68:
 	add r2, r0, #0x400
 	ldrh r3, [r2, #0x7c]
-	ldr r1, _02164BEC // =Grind3Line__Singleton
+	ldr r1, _02164BEC // =TripleGrindRail__Singleton
 	ldr lr, _02164BF8 // =FX_SinCosTable_
 	mov r3, r3, asr #4
 	mov r3, r3, lsl #1
@@ -1594,15 +1594,15 @@ _02164B68:
 	str r2, [r0, #0x4c]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02164BEC: .word Grind3Line__Singleton
+_02164BEC: .word TripleGrindRail__Singleton
 _02164BF0: .word g_obj
 _02164BF4: .word 0x000071C8
 _02164BF8: .word FX_SinCosTable_
 _02164BFC: .word 0x00141BB2
-	arm_func_end Grind3LineSpikeBall__State_2164AD4
+	arm_func_end TripleGrindRailEntity__State_Active
 
-	arm_func_start Grind3LineSpikeBall__Draw_2164C00
-Grind3LineSpikeBall__Draw_2164C00: // 0x02164C00
+	arm_func_start TripleGrindRailEntity__Draw
+TripleGrindRailEntity__Draw: // 0x02164C00
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	bl GetCurrentTaskWork_
@@ -1638,7 +1638,7 @@ _02164C70:
 	str r0, [sp]
 	str r2, [sp, #4]
 	str r2, [sp, #8]
-	ldr r0, _02164CB0 // =Grind3Line__Singleton
+	ldr r0, _02164CB0 // =TripleGrindRail__Singleton
 	str r2, [sp, #0xc]
 	ldr r0, [r0, #0]
 	add r1, r4, #0x44
@@ -1649,11 +1649,11 @@ _02164C70:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _02164CAC: .word 0x00001104
-_02164CB0: .word Grind3Line__Singleton
-	arm_func_end Grind3LineSpikeBall__Draw_2164C00
+_02164CB0: .word TripleGrindRail__Singleton
+	arm_func_end TripleGrindRailEntity__Draw
 
-	arm_func_start Grind3LineSpikeBall__OnDefend_2164CB4
-Grind3LineSpikeBall__OnDefend_2164CB4: // 0x02164CB4
+	arm_func_start TripleGrindRailEntity__OnDefend
+TripleGrindRailEntity__OnDefend: // 0x02164CB4
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -1675,13 +1675,13 @@ Grind3LineSpikeBall__OnDefend_2164CB4: // 0x02164CB4
 	str r1, [r4, #0x354]
 	str r0, [r4, #0x234]
 	ldmia sp!, {r4, pc}
-	arm_func_end Grind3LineSpikeBall__OnDefend_2164CB4
+	arm_func_end TripleGrindRailEntity__OnDefend
 
-	arm_func_start Grind3LineRingLoss__State_2164D08
-Grind3LineRingLoss__State_2164D08: // 0x02164D08
+	arm_func_start TripleGrindRailRingLoss__State_Active
+TripleGrindRailRingLoss__State_Active: // 0x02164D08
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
-	ldr r1, _02164E04 // =Grind3Line__Singleton
+	ldr r1, _02164E04 // =TripleGrindRail__Singleton
 	mov r10, r0
 	ldr r1, [r1, #0]
 	ldr r6, [r10, #0x168]
@@ -1747,13 +1747,13 @@ _02164DEC:
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02164E04: .word Grind3Line__Singleton
+_02164E04: .word TripleGrindRail__Singleton
 _02164E08: .word g_obj
 _02164E0C: .word 0x02118D5C
-	arm_func_end Grind3LineRingLoss__State_2164D08
+	arm_func_end TripleGrindRailRingLoss__State_Active
 
-	arm_func_start Grind3LineRingLoss__Draw_2164E10
-Grind3LineRingLoss__Draw_2164E10: // 0x02164E10
+	arm_func_start TripleGrindRailRingLoss__Draw
+TripleGrindRailRingLoss__Draw: // 0x02164E10
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x20
 	bl GetCurrentTaskWork_
@@ -1770,7 +1770,7 @@ Grind3LineRingLoss__Draw_2164E10: // 0x02164E10
 	addle sp, sp, #0x20
 	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	add r10, r4, #0x16c
-	ldr r4, _02164EA4 // =Grind3Line__Singleton
+	ldr r4, _02164EA4 // =TripleGrindRail__Singleton
 	add r6, sp, #0x10
 	mov r5, r8
 _02164E5C:
@@ -1793,8 +1793,8 @@ _02164E5C:
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02164EA0: .word 0x00001104
-_02164EA4: .word Grind3Line__Singleton
-	arm_func_end Grind3LineRingLoss__Draw_2164E10
+_02164EA4: .word TripleGrindRail__Singleton
+	arm_func_end TripleGrindRailRingLoss__Draw
 
 	.rodata
 

@@ -1,5 +1,5 @@
-#include <stage/objects/flipMushroom.h>
-#include <stage/effects/flipMushPuff.h>
+#include <stage/objects/bouncyMushroom.h>
+#include <stage/effects/bouncyMushroomPuff.h>
 #include <game/game/gameState.h>
 #include <game/stage/gameSystem.h>
 #include <game/object/objectManager.h>
@@ -8,14 +8,14 @@
 // ENUMS
 // --------------------
 
-enum FlipMushroomObjectFlags
+enum BouncyMushroomObjectFlags
 {
     FLIPMUSHROOM_OBJFLAG_NONE,
 
     FLIPMUSHROOM_OBJFLAG_ALT_PALETTE = 1 << 0,
 };
 
-enum FlipMushroomTypes
+enum BouncyMushroomTypes
 {
     FLIPMUSHROOM_TYPE_U,  // straight upwards
     FLIPMUSHROOM_TYPE_UL, // up-left
@@ -28,7 +28,7 @@ enum FlipMushroomTypes
 // STRUCTS
 // --------------------
 
-struct FlipMushroomUnknown
+struct BouncyMushroomUnknown
 {
     fx32 x;
     fx32 y;
@@ -81,7 +81,7 @@ static const HitboxRect hitboxTable[FLIPMUSHROOM_TYPE_COUNT][4] ={
 	},
 };
 
-static const struct FlipMushroomUnknown puffParticleConfig[FLIPMUSHROOM_TYPE_COUNT] =
+static const struct BouncyMushroomUnknown puffParticleConfig[FLIPMUSHROOM_TYPE_COUNT] =
 {
 	[FLIPMUSHROOM_TYPE_U] = {
     	.x = -0x54000,
@@ -130,7 +130,7 @@ static const char *_MATCHING_FIX_02 = "/df/gmk_flipmush_ur.df";
 static const char *_MATCHING_FIX_01 = "/df/gmk_flipmush_ul.df";
 #endif
 
-static const char *flipMushCollisionList[FLIPMUSHROOM_TYPE_COUNT] = {
+static const char *bounceMushCollisionList[FLIPMUSHROOM_TYPE_COUNT] = {
     [FLIPMUSHROOM_TYPE_U]  = "/df/gmk_flipmush_u.df",
     [FLIPMUSHROOM_TYPE_UL] = "/df/gmk_flipmush_ul.df",
     [FLIPMUSHROOM_TYPE_UR] = "/df/gmk_flipmush_ur.df",
@@ -140,18 +140,18 @@ static const char *flipMushCollisionList[FLIPMUSHROOM_TYPE_COUNT] = {
 // FUNCTION DECLS
 // --------------------
 
-static void FlipMushroom_State_Idle(FlipMushroom *work);
-static void FlipMushroom_Action_Bounce(FlipMushroom *work);
-static void FlipMushroom_State_Used(FlipMushroom *work);
-static void FlipMushroom_Draw(void);
-static void FlipMushroom_Collide(void);
-static void FlipMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+static void BouncyMushroom_State_Idle(BouncyMushroom *work);
+static void BouncyMushroom_Action_Bounce(BouncyMushroom *work);
+static void BouncyMushroom_State_Used(BouncyMushroom *work);
+static void BouncyMushroom_Draw(void);
+static void BouncyMushroom_Collide(void);
+static void BouncyMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+BouncyMushroom *CreateBouncyMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
     s32 i;
     AnimatorFlags aniFlags;
@@ -159,11 +159,11 @@ FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 type
 
     u32 mushroomType = mapObject->id - MAPOBJECT_81;
 
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), FlipMushroom);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), BouncyMushroom);
     if (task == HeapNull)
         return NULL;
 
-    FlipMushroom *work = TaskGetWork(task, FlipMushroom);
+    BouncyMushroom *work = TaskGetWork(task, BouncyMushroom);
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
@@ -189,7 +189,7 @@ FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 type
             break;
     }
 
-    ObjObjectCollisionDifSet(&work->gameWork.objWork, flipMushCollisionList[mushroomType], GetObjectDataWork(mushroomType + OBJDATAWORK_173), gameArchiveStage);
+    ObjObjectCollisionDifSet(&work->gameWork.objWork, bounceMushCollisionList[mushroomType], GetObjectDataWork(mushroomType + OBJDATAWORK_173), gameArchiveStage);
     work->gameWork.collisionObject.work.parent = &work->gameWork.objWork;
     work->gameWork.collisionObject.work.width  = collisionSizeTable[mushroomType].x;
     work->gameWork.collisionObject.work.height = collisionSizeTable[mushroomType].y;
@@ -217,7 +217,7 @@ FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 type
                           hitboxTable[mushroomType][i].bottom);
         ObjRect__SetGroupFlags(&work->colliders[i], 2, 1);
         work->colliders[i].parent = &work->gameWork.objWork;
-        ObjRect__SetOnDefend(&work->colliders[i], FlipMushroom_OnDefend);
+        ObjRect__SetOnDefend(&work->colliders[i], BouncyMushroom_OnDefend);
         work->colliders[i].flag |= OBS_RECT_WORK_FLAG_400;
     }
 
@@ -225,28 +225,28 @@ FlipMushroom *CreateFlipMushroom(MapObject *mapObject, fx32 x, fx32 y, fx32 type
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
     work->gameWork.objWork.displayFlag |= displayFlag | DISPLAY_FLAG_PAUSED;
 
-    SetTaskState(&work->gameWork.objWork, FlipMushroom_State_Idle);
-    SetTaskOutFunc(&work->gameWork.objWork, FlipMushroom_Draw);
-    SetTaskCollideFunc(&work->gameWork.objWork, FlipMushroom_Collide);
+    SetTaskState(&work->gameWork.objWork, BouncyMushroom_State_Idle);
+    SetTaskOutFunc(&work->gameWork.objWork, BouncyMushroom_Draw);
+    SetTaskCollideFunc(&work->gameWork.objWork, BouncyMushroom_Collide);
 
     return work;
 }
 
-void FlipMushroom_State_Idle(FlipMushroom *work)
+void BouncyMushroom_State_Idle(BouncyMushroom *work)
 {
     // Do nothing
 }
 
-void FlipMushroom_Action_Bounce(FlipMushroom *work)
+void BouncyMushroom_Action_Bounce(BouncyMushroom *work)
 {
-    SetTaskState(&work->gameWork.objWork, FlipMushroom_State_Used);
+    SetTaskState(&work->gameWork.objWork, BouncyMushroom_State_Used);
 
     work->percent      = FLOAT_TO_FX32(0.0);
     work->lerpSpeed    = FLOAT_TO_FX32(0.2);
     work->targetOffset = FLOAT_TO_FX32(16.0);
 }
 
-void FlipMushroom_State_Used(FlipMushroom *work)
+void BouncyMushroom_State_Used(BouncyMushroom *work)
 {
     work->percent += work->lerpSpeed;
 
@@ -267,7 +267,7 @@ void FlipMushroom_State_Used(FlipMushroom *work)
             work->targetOffset >>= 1;
             if (work->targetOffset < FLOAT_TO_FX32(1.0))
             {
-                SetTaskState(&work->gameWork.objWork, FlipMushroom_State_Idle);
+                SetTaskState(&work->gameWork.objWork, BouncyMushroom_State_Idle);
                 work->gameWork.objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
                 return;
             }
@@ -288,16 +288,16 @@ void FlipMushroom_State_Used(FlipMushroom *work)
     }
 }
 
-void FlipMushroom_Draw(void)
+void BouncyMushroom_Draw(void)
 {
-    FlipMushroom *work = TaskGetWorkCurrent(FlipMushroom);
+    BouncyMushroom *work = TaskGetWorkCurrent(BouncyMushroom);
 
     StageTask__Draw2D(&work->gameWork.objWork, &work->gameWork.objWork.obj_2d->ani);
 }
 
-void FlipMushroom_Collide(void)
+void BouncyMushroom_Collide(void)
 {
-    FlipMushroom *work = TaskGetWorkCurrent(FlipMushroom);
+    BouncyMushroom *work = TaskGetWorkCurrent(BouncyMushroom);
 
     OBS_RECT_WORK *colliderList = work->colliders;
     if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0 && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0)
@@ -317,11 +317,11 @@ void FlipMushroom_Collide(void)
     }
 }
 
-NONMATCH_FUNC void FlipMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+NONMATCH_FUNC void BouncyMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
     // https://decomp.me/scratch/pWlO7 -> 73.70%
 #ifdef NON_MATCHING
-    FlipMushroom *mushroom = (FlipMushroom *)rect2->parent;
+    BouncyMushroom *mushroom = (BouncyMushroom *)rect2->parent;
     Player *player         = (Player *)rect1->parent;
 
     if (mushroom == NULL || player == NULL)
@@ -331,7 +331,7 @@ NONMATCH_FUNC void FlipMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *re
         return;
 
     mushroom->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
-    FlipMushroom_Action_Bounce(mushroom);
+    BouncyMushroom_Action_Bounce(mushroom);
 
     MapObject *mapObject = mushroom->gameWork.mapObject;
     fx32 bounceX         = FLOAT_TO_FX32(5.5);
@@ -360,7 +360,7 @@ NONMATCH_FUNC void FlipMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *re
     for (s32 i = 0; i < 5; i++)
     {
         u16 rand = mtMathRand();
-        EffectFlipMushPuff__Create(spawnX + FX32_FROM_WHOLE((field_20 & rand) - (field_20 >> 1)), spawnY + FX32_FROM_WHOLE((field_22 & rand) - (field_22 >> 1)), velX, velY);
+        EffectBouncyMushroomPuff__Create(spawnX + FX32_FROM_WHOLE((field_20 & rand) - (field_20 >> 1)), spawnY + FX32_FROM_WHOLE((field_22 & rand) - (field_22 >> 1)), velX, velY);
 
         spawnX += puffParticleConfig[type].field_8;
         velX += puffParticleConfig[type].field_18;
@@ -386,7 +386,7 @@ NONMATCH_FUNC void FlipMushroom_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *re
 	orr r1, r0, #2
 	mov r0, r6
 	str r1, [r6, #0x18]
-	bl FlipMushroom_Action_Bounce
+	bl BouncyMushroom_Action_Bounce
 	ldrh r0, [r5, #2]
 	mov r1, #0x5800
 	cmp r0, #0x51
@@ -459,7 +459,7 @@ _0216345C:
 	sub r0, r0, r9, asr #1
 	add r0, r5, r0, lsl #12
 	mov r3, r8
-	bl EffectFlipMushPuff__Create
+	bl EffectBouncyMushroomPuff__Create
 	ldr r0, [sp, #4]
 	add r4, r4, #1
 	add r5, r5, r0

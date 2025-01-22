@@ -4612,7 +4612,7 @@ void DecorationSys__State_2154520(StageDecoration *work)
     }
 }
 
-void DecorationSys__CreateGrind3LineLeaf(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 anim)
+void DecorationSys__CreateTripleGrindRailLeaf(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 anim)
 {
     EffectGrind3Leaf *work = CreateEffect(EffectGrind3Leaf, 0);
     if (work == NULL)
@@ -4763,7 +4763,7 @@ NONMATCH_FUNC void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_REC
                         fx32 velY = 0;
                         for (s32 i = 0; i < count; i++)
                         {
-                            DecorationSys__CreateGrind3LineLeaf(leafX + FLOAT_TO_FX32(8.0) - (mtMathRand() & 0xFFFF), leafY + FLOAT_TO_FX32(4.0) - (mtMathRand() & 0x7FFF),
+                            DecorationSys__CreateTripleGrindRailLeaf(leafX + FLOAT_TO_FX32(8.0) - (mtMathRand() & 0xFFFF), leafY + FLOAT_TO_FX32(4.0) - (mtMathRand() & 0x7FFF),
                                                                 FLOAT_TO_FX32(2.0) - (mtMathRand() & 0x3FFF), FLOAT_TO_FX32(1.0) - (mtMathRand() & 0x1FFF) + velY, animTable[i]);
 
                             leafX += moveX;
@@ -4917,7 +4917,7 @@ _02154A34:
 	and r0, r4, r0, lsr #16
 	rsb r0, r0, r4, lsr #1
 	add r0, r7, r0
-	bl DecorationSys__CreateGrind3LineLeaf
+	bl DecorationSys__CreateTripleGrindRailLeaf
 	ldr r0, [sp, #0x10]
 	add r9, r9, #1
 	add r7, r7, r0

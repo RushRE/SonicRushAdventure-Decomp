@@ -24,7 +24,7 @@
 #include <stage/effects/startDash.h>
 #include <stage/effects/breakableObjDebris.h>
 #include <stage/effects/goalJewel.h>
-#include <stage/effects/flipMushPuff.h>
+#include <stage/effects/bouncyMushroomPuff.h>
 #include <stage/effects/pipeFlowPetal.h>
 #include <stage/effects/pipeFlowSeed.h>
 #include <stage/effects/steam.h>
@@ -1274,9 +1274,9 @@ EffectGoalJewel *EffectGoalJewel__Create(u16 type, fx32 x, fx32 y, fx32 velX, fx
 }
 
 // EffectFlipMush
-EffectFlipMushPuff *EffectFlipMushPuff__Create(fx32 x, fx32 y, fx32 velX, fx32 velY)
+EffectBouncyMushroomPuff *EffectBouncyMushroomPuff__Create(fx32 x, fx32 y, fx32 velX, fx32 velY)
 {
-    EffectFlipMushPuff *work = CreateEffect(EffectFlipMushPuff, NULL);
+    EffectBouncyMushroomPuff *work = CreateEffect(EffectBouncyMushroomPuff, NULL);
     if (work == NULL)
         return NULL;
 

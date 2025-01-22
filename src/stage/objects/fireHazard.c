@@ -1,4 +1,4 @@
-#include <stage/objects/fireFloor.h>
+#include <stage/objects/fireHazard.h>
 #include <game/game/gameState.h>
 #include <game/stage/gameSystem.h>
 #include <game/object/objectManager.h>
@@ -7,7 +7,7 @@
 // ENUMS
 // --------------------
 
-enum FireFloorAnimID
+enum FireHazardAnimID
 {
     FIREFLOOR_ANI_ACTIVE_V,
     FIREFLOOR_ANI_FLAREUP_V,
@@ -20,21 +20,21 @@ enum FireFloorAnimID
 // FUNCTION DECLS
 // --------------------
 
-static void FireFloor_State_Active(FireFloor *work);
-static void FireFloor_OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-static void FireFloor_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+static void FireHazard_State_Active(FireHazard *work);
+static void FireHazard_OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+static void FireHazard_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-FireFloor *CreateFireFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+FireHazard *CreateFireHazard(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), FireFloor);
+    Task *task = CreateStageTask(GameObject__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), FireHazard);
     if (task == HeapNull)
         return NULL;
 
-    FireFloor *work = TaskGetWork(task, FireFloor);
+    FireHazard *work = TaskGetWork(task, FireHazard);
     TaskInitWork8(work);
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
@@ -60,13 +60,13 @@ FireFloor *CreateFireFloor(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-    ObjRect__SetOnAttack(&work->gameWork.colliders[1], FireFloor_OnHit);
-    SetTaskState(&work->gameWork.objWork, FireFloor_State_Active);
+    ObjRect__SetOnAttack(&work->gameWork.colliders[1], FireHazard_OnHit);
+    SetTaskState(&work->gameWork.objWork, FireHazard_State_Active);
 
     return work;
 }
 
-void FireFloor_State_Active(FireFloor *work)
+void FireHazard_State_Active(FireHazard *work)
 {
     if ((work->gameWork.objWork.displayFlag & DISPLAY_FLAG_DID_FINISH) != 0)
     {
@@ -123,7 +123,7 @@ void FireFloor_State_Active(FireFloor *work)
 
         ObjRect__SetAttackStat(&work->gameWork.colliders[1], 0, 0);
         ObjRect__SetDefenceStat(&work->gameWork.colliders[1], ~1, 0);
-        ObjRect__SetOnDefend(&work->gameWork.colliders[1], FireFloor_OnDefend);
+        ObjRect__SetOnDefend(&work->gameWork.colliders[1], FireHazard_OnDefend);
         work->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_400;
     }
     else
@@ -138,7 +138,7 @@ void FireFloor_State_Active(FireFloor *work)
         work->gameWork.colliders[1].hitPower = 0x40;
         work->gameWork.colliders[1].defFlag  = -1;
         work->gameWork.colliders[1].defPower = 0xFF;
-        ObjRect__SetOnDefend(&work->gameWork.colliders[1], FireFloor_OnHit);
+        ObjRect__SetOnDefend(&work->gameWork.colliders[1], FireHazard_OnHit);
         work->gameWork.colliders[1].flag &= ~OBS_RECT_WORK_FLAG_400;
     }
 
@@ -150,33 +150,33 @@ void FireFloor_State_Active(FireFloor *work)
     }
 }
 
-void FireFloor_OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void FireHazard_OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-    FireFloor *fireFloor = (FireFloor *)rect1->parent;
-    Player *player       = (Player *)rect2->parent;
+    FireHazard *fire = (FireHazard *)rect1->parent;
+    Player *player   = (Player *)rect2->parent;
 
-    if (fireFloor == NULL || player == NULL)
+    if (fire == NULL || player == NULL)
         return;
 
     if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
         return;
 
-    if (fireFloor->gameWork.objWork.obj_2d->ani.work.animID == FIREFLOOR_ANI_ACTIVE_V)
+    if (fire->gameWork.objWork.obj_2d->ani.work.animID == FIREFLOOR_ANI_ACTIVE_V)
     {
-        StageTask__SetAnimation(&fireFloor->gameWork.objWork, FIREFLOOR_ANI_FLAREUP_V);
+        StageTask__SetAnimation(&fire->gameWork.objWork, FIREFLOOR_ANI_FLAREUP_V);
     }
-    else if (fireFloor->gameWork.objWork.obj_2d->ani.work.animID == FIREFLOOR_ANI_ACTIVE_H)
+    else if (fire->gameWork.objWork.obj_2d->ani.work.animID == FIREFLOOR_ANI_ACTIVE_H)
     {
-        StageTask__SetAnimation(&fireFloor->gameWork.objWork, FIREFLOOR_ANI_FLAREUP_H);
+        StageTask__SetAnimation(&fire->gameWork.objWork, FIREFLOOR_ANI_FLAREUP_H);
     }
 }
 
-void FireFloor_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void FireHazard_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-    FireFloor *fireFloor = (FireFloor *)rect2->parent;
-    Player *player       = (Player *)rect1->parent;
+    FireHazard *fire = (FireHazard *)rect2->parent;
+    Player *player   = (Player *)rect1->parent;
 
-    if (fireFloor == NULL || player == NULL)
+    if (fire == NULL || player == NULL)
         return;
 
     if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
@@ -185,5 +185,5 @@ void FireFloor_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     if (player->objWork.move.x == 0 && player->objWork.move.y == 0)
         ObjRect__FuncNoHit(rect1, rect2);
     else
-        fireFloor->gameWork.objWork.userTimer = 5;
+        fire->gameWork.objWork.userTimer = 5;
 }

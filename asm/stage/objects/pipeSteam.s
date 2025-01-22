@@ -738,8 +738,8 @@ _02161B5C: .word 0x02188F40
 _02161B60: .word 0x02188F68
 	arm_func_end PipeFlow__OnDefend_216188C
 
-	arm_func_start PipeSteam___2161B64
-PipeSteam___2161B64: // 0x02161B64
+	arm_func_start PipeSteam__State_2161B64
+PipeSteam__State_2161B64: // 0x02161B64
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -761,7 +761,7 @@ _02161BA4:
 	mov r0, #0
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	arm_func_end PipeSteam___2161B64
+	arm_func_end PipeSteam__State_2161B64
 
 	arm_func_start PipeSteam__State_2161BB0
 PipeSteam__State_2161BB0: // 0x02161BB0
@@ -920,12 +920,12 @@ PipeSteam__OnDefend_2161DA0: // 0x02161DA0
 	ldmneia sp!, {r4, pc}
 	bl PipeFlow__OnDefend_216174C
 	mov r1, #8
-	ldr r0, _02161DDC // =PipeSteam___2161B64
+	ldr r0, _02161DDC // =PipeSteam__State_2161B64
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02161DDC: .word PipeSteam___2161B64
+_02161DDC: .word PipeSteam__State_2161B64
 	arm_func_end PipeSteam__OnDefend_2161DA0
 
 	arm_func_start PipeSteam__OnDefend_2161DE0

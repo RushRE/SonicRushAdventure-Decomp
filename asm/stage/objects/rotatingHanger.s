@@ -72,7 +72,7 @@ RotatingHanger__Create: // 0x02161E64
 	ldr r1, _02161FC4 // =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02161FC8 // =RotatingHanger__OnDefend_2162138
+	ldr r1, _02161FC8 // =RotatingHanger__OnDefend
 	mov r0, r4
 	str r1, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
@@ -83,7 +83,7 @@ RotatingHanger__Create: // 0x02161E64
 	orr r2, r2, #0x2100
 	str r2, [r4, #0x1c]
 	bl StageTask__SetAnimation
-	ldr r1, _02161FCC // =RotatingHanger__State_2161FD0
+	ldr r1, _02161FCC // =RotatingHanger__State_Active
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
@@ -95,12 +95,12 @@ _02161FB8: .word gameArchiveStage
 _02161FBC: .word 0x0000FFFF
 _02161FC0: .word aActAcGmkRotHan
 _02161FC4: .word 0x0000FFFE
-_02161FC8: .word RotatingHanger__OnDefend_2162138
-_02161FCC: .word RotatingHanger__State_2161FD0
+_02161FC8: .word RotatingHanger__OnDefend
+_02161FCC: .word RotatingHanger__State_Active
 	arm_func_end RotatingHanger__Create
 
-	arm_func_start RotatingHanger__State_2161FD0
-RotatingHanger__State_2161FD0: // 0x02161FD0
+	arm_func_start RotatingHanger__State_Active
+RotatingHanger__State_Active: // 0x02161FD0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x35c]
@@ -200,10 +200,10 @@ _02162120:
 	str r0, [r4, #0x2c]
 	strh r0, [r4, #0x34]
 	ldmia sp!, {r4, pc}
-	arm_func_end RotatingHanger__State_2161FD0
+	arm_func_end RotatingHanger__State_Active
 
-	arm_func_start RotatingHanger__OnDefend_2162138
-RotatingHanger__OnDefend_2162138: // 0x02162138
+	arm_func_start RotatingHanger__OnDefend
+RotatingHanger__OnDefend: // 0x02162138
 	stmdb sp!, {r3, lr}
 	ldr r1, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -229,7 +229,7 @@ RotatingHanger__OnDefend_2162138: // 0x02162138
 	rsb r2, r2, #0
 	bl Player__Gimmick_201CDDC
 	ldmia sp!, {r3, pc}
-	arm_func_end RotatingHanger__OnDefend_2162138
+	arm_func_end RotatingHanger__OnDefend
 
 	.data
 	

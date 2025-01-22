@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start RopeTar__Create
-RopeTar__Create: // 0x0216219C
+	arm_func_start SwingRope__Create
+SwingRope__Create: // 0x0216219C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x2c
 	ldr r3, _02162490 // =0x000010F6
@@ -17,7 +17,7 @@ RopeTar__Create: // 0x0216219C
 	str r0, [sp, #4]
 	ldr r5, _02162494 // =0x00000954
 	ldr r0, _02162498 // =StageTask_Main
-	ldr r1, _0216249C // =RopeTar__Destructor
+	ldr r1, _0216249C // =SwingRope__Destructor
 	mov r3, r2
 	str r5, [sp, #8]
 	bl TaskCreate_
@@ -160,7 +160,7 @@ _0216225C:
 	add r0, r5, #0x4b0
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _021624BC // =RopeTar__Func_21628A4
+	ldr r0, _021624BC // =SwingRope__OnDefend
 	str r5, [r5, #0x4cc]
 	str r0, [r5, #0x4d4]
 	ldr r0, [r5, #0x4c8]
@@ -193,7 +193,7 @@ _02162464:
 	ldr r1, [r5, #0x20]
 	orr r1, r1, #0x100
 	str r1, [r5, #0x20]
-	bl RopeTar__Action_Init
+	bl SwingRope__Action_Init
 	mov r0, r5
 	add sp, sp, #0x2c
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
@@ -201,7 +201,7 @@ _02162464:
 _02162490: .word 0x000010F6
 _02162494: .word 0x00000954
 _02162498: .word StageTask_Main
-_0216249C: .word RopeTar__Destructor
+_0216249C: .word SwingRope__Destructor
 _021624A0: .word playerGameStatus
 _021624A4: .word 0x6C16C16D
 _021624A8: .word gameArchiveStage
@@ -209,11 +209,11 @@ _021624AC: .word aActAcGmkRopeTa
 _021624B0: .word 0x05000200
 _021624B4: .word 0x00000102
 _021624B8: .word 0x0000FFFE
-_021624BC: .word RopeTar__Func_21628A4
-	arm_func_end RopeTar__Create
+_021624BC: .word SwingRope__OnDefend
+	arm_func_end SwingRope__Create
 
-	arm_func_start RopeTar__Destructor
-RopeTar__Destructor: // 0x021624C0
+	arm_func_start SwingRope__Destructor
+SwingRope__Destructor: // 0x021624C0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -228,25 +228,25 @@ RopeTar__Destructor: // 0x021624C0
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end RopeTar__Destructor
+	arm_func_end SwingRope__Destructor
 
-	arm_func_start RopeTar__Action_Init
-RopeTar__Action_Init: // 0x021624F8
-	ldr r1, _02162514 // =RopeTar__State_2162520
-	ldr r2, _02162518 // =RopeTar__Draw_2162700
+	arm_func_start SwingRope__Action_Init
+SwingRope__Action_Init: // 0x021624F8
+	ldr r1, _02162514 // =SwingRope__State_2162520
+	ldr r2, _02162518 // =SwingRope__Draw
 	str r1, [r0, #0xf4]
-	ldr r1, _0216251C // =RopeTar__Collide_21627A4
+	ldr r1, _0216251C // =SwingRope__Collide
 	str r2, [r0, #0xfc]
 	str r1, [r0, #0x108]
 	bx lr
 	.align 2, 0
-_02162514: .word RopeTar__State_2162520
-_02162518: .word RopeTar__Draw_2162700
-_0216251C: .word RopeTar__Collide_21627A4
-	arm_func_end RopeTar__Action_Init
+_02162514: .word SwingRope__State_2162520
+_02162518: .word SwingRope__Draw
+_0216251C: .word SwingRope__Collide
+	arm_func_end SwingRope__Action_Init
 
-	arm_func_start RopeTar__State_2162520
-RopeTar__State_2162520: // 0x02162520
+	arm_func_start SwingRope__State_2162520
+SwingRope__State_2162520: // 0x02162520
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x400
@@ -263,7 +263,7 @@ RopeTar__State_2162520: // 0x02162520
 	mov r0, r4
 	smulbb r1, r3, r1
 	strh r1, [r2, #0x18]
-	bl RopeTar__Func_216299C
+	bl SwingRope__HandleNodePositions
 	ldr r0, [r4, #0x35c]
 	cmp r0, #0
 	beq _021626DC
@@ -371,10 +371,10 @@ _021626DC:
 	biceq r0, r0, #2
 	streq r0, [r4, #0x18]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end RopeTar__State_2162520
+	arm_func_end SwingRope__State_2162520
 
-	arm_func_start RopeTar__Draw_2162700
-RopeTar__Draw_2162700: // 0x02162700
+	arm_func_start SwingRope__Draw
+SwingRope__Draw: // 0x02162700
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x18
 	bl GetCurrentTaskWork_
@@ -417,10 +417,10 @@ _02162740:
 	blt _02162740
 	add sp, sp, #0x18
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	arm_func_end RopeTar__Draw_2162700
+	arm_func_end SwingRope__Draw
 
-	arm_func_start RopeTar__Collide_21627A4
-RopeTar__Collide_21627A4: // 0x021627A4
+	arm_func_start SwingRope__Collide
+SwingRope__Collide: // 0x021627A4
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
@@ -488,10 +488,10 @@ _02162864:
 	.align 2, 0
 _0216289C: .word gPlayer
 _021628A0: .word g_obj
-	arm_func_end RopeTar__Collide_21627A4
+	arm_func_end SwingRope__Collide
 
-	arm_func_start RopeTar__Func_21628A4
-RopeTar__Func_21628A4: // 0x021628A4
+	arm_func_start SwingRope__OnDefend
+SwingRope__OnDefend: // 0x021628A4
 	stmdb sp!, {r4, lr}
 	ldr r2, [r1, #0x1c]
 	ldr r4, [r0, #0x1c]
@@ -556,10 +556,10 @@ _02162968:
 	orr r0, r0, #4
 	str r0, [r4, #0x20]
 	ldmia sp!, {r4, pc}
-	arm_func_end RopeTar__Func_21628A4
+	arm_func_end SwingRope__OnDefend
 
-	arm_func_start RopeTar__Func_216299C
-RopeTar__Func_216299C: // 0x0216299C
+	arm_func_start SwingRope__HandleNodePositions
+SwingRope__HandleNodePositions: // 0x0216299C
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
@@ -864,7 +864,7 @@ _02162E10: .word 0x00001555
 _02162E14: .word 0xFFFFEAAA
 _02162E18: .word 0x00006AAA
 _02162E1C: .word FX_SinCosTable_
-	arm_func_end RopeTar__Func_216299C
+	arm_func_end SwingRope__HandleNodePositions
 
 	.data
 	

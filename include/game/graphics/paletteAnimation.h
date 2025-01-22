@@ -33,7 +33,7 @@ typedef u16 AnimatorBPASysFlags;
 // STRUCTS
 // --------------------
 
-typedef struct AnimatorBPA_
+typedef struct PaletteAnimator_
 {
     AnimatorBPAFlags userFlags;
     AnimatorBPASysFlags sysFlags;

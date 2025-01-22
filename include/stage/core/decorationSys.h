@@ -123,7 +123,7 @@ void DecorationSys__InitFunc_2154478(StageDecoration *work);
 void DecorationSys__OnDefend_21544D0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
 void DecorationSys__InitFunc_2154510(StageDecoration *work);
 void DecorationSys__State_2154520(StageDecoration *work);
-void DecorationSys__CreateGrind3LineLeaf(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 anim);
+void DecorationSys__CreateTripleGrindRailLeaf(fx32 x, fx32 y, fx32 velX, fx32 velY, u32 anim);
 void DecorationSys__State_215475C(StageDecoration *work);
 void DecorationSys__CreateUnknown21547D4(MapDecor *mapDecor, fx32 x, fx32 y, s32 type);
 void DecorationSys__State_21548A8(StageDecoration *work);
