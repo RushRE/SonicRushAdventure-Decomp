@@ -519,7 +519,6 @@ Overlay ZoneAct
     Object asm/stage/objects/barrel_vars.o
     Object src/stage/objects/barrel.o
     Object src/stage/objects/startPlatform.o
-    Object asm/stage/objects/trampoline_vars.o
     Object src/stage/objects/trampoline.o
     Object asm/stage/objects/pirateShip_vars.o
     Object src/stage/objects/pirateShip.o

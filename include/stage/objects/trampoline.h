@@ -42,15 +42,6 @@ typedef struct Trampoline_
 // FUNCTIONS
 // --------------------
 
-Trampoline *Trampoline__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-
-void Trampoline__Destructor(Task *task);
-void Trampoline__State_2179664(Trampoline *work);
-void Trampoline__Func_217991C(Trampoline *work);
-void Trampoline__Func_2179998(Trampoline *work);
-void Trampoline__Draw(void);
-void Trampoline__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-void Trampoline__Func_2179FD0(u8 id);
-void Trampoline__Func_2179FF8(u8 id);
+Trampoline *CreateTrampoline(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
 #endif // RUSH_TRAMPOLINE_H

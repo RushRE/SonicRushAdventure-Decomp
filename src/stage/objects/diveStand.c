@@ -33,7 +33,7 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
-    work->drawList   = HeapAllocHead(HEAP_SYSTEM, DIVESTAND_DLLIST_SIZE);
+    work->drawData   = HeapAllocHead(HEAP_SYSTEM, DIVESTAND_DLLIST_SIZE);
     work->dword70C = 4096;
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
@@ -62,17 +62,17 @@ NONMATCH_FUNC DiveStand *DiveStand__Create(MapObject *mapObject, fx32 x, fx32 y,
     work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
     work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
 
-    G3_BeginMakeDL(&work->dlInfo, work->drawList, DIVESTAND_DLLIST_SIZE);
-    G3C_PolygonAttr(&work->dlInfo, GX_LIGHTID_0, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, GX_COLOR_FROM_888(0xFF), 0);
-    G3C_TexPlttBase(&work->dlInfo, VRAMKEY_TO_KEY(work->aniDiveStand[0].animatorSprite.vramPalette) & 0x1FFFF, GX_TEXFMT_PLTT16);
-    G3C_TexImageParam(&work->dlInfo, GX_TEXFMT_PLTT16, GX_TEXGEN_TEXCOORD, GX_TEXSIZE_S8, GX_TEXSIZE_T8, GX_TEXREPEAT_S, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS,
+    G3_BeginMakeDL(&work->drawList, work->drawData, DIVESTAND_DLLIST_SIZE);
+    G3C_PolygonAttr(&work->drawList, GX_LIGHTID_0, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, GX_COLOR_FROM_888(0xFF), 0);
+    G3C_TexPlttBase(&work->drawList, VRAMKEY_TO_KEY(work->aniDiveStand[0].animatorSprite.vramPalette) & 0x1FFFF, GX_TEXFMT_PLTT16);
+    G3C_TexImageParam(&work->drawList, GX_TEXFMT_PLTT16, GX_TEXGEN_TEXCOORD, GX_TEXSIZE_S8, GX_TEXSIZE_T8, GX_TEXREPEAT_S, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS,
                       VRAMKEY_TO_KEY(work->aniDiveStand[0].animatorSprite.vramPixels) & 0x7FFFF);
-    G3C_MtxMode(&work->dlInfo, GX_MTXMODE_TEXTURE);
+    G3C_MtxMode(&work->drawList, GX_MTXMODE_TEXTURE);
 
     MtxFx43 mtx;
     MTX_Identity43(&mtx);
-    G3C_LoadMtx43(&work->dlInfo, &mtx);
-    G3C_MtxMode(&work->dlInfo, GX_MTXMODE_POSITION);
+    G3C_LoadMtx43(&work->drawList, &mtx);
+    G3C_MtxMode(&work->drawList, GX_MTXMODE_POSITION);
 
     work->gameWork.colliders[0].parent = &work->gameWork.objWork;
     if (mapObject->id == MAPOBJECT_143)
@@ -396,7 +396,7 @@ void DiveStand__Destructor(Task *task)
 {
     DiveStand *work = TaskGetWork(task, DiveStand);
 
-    HeapFree(HEAP_SYSTEM, work->drawList);
+    HeapFree(HEAP_SYSTEM, work->drawData);
 
     OBS_TEXTURE_REF *ref = GetObjectTextureRef(OBJDATAWORK_172);
     ref->texture.referenceCount--;
@@ -1315,7 +1315,7 @@ void DiveStand__Draw(void)
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
     NNS_G3dGlbFlush();
 
-    info = work->dlInfo;
+    info = work->drawList;
     G3C_Begin(&info, GX_BEGIN_QUAD_STRIP);
 
     fx32 texS;
@@ -1339,9 +1339,9 @@ void DiveStand__Draw(void)
     }
     G3C_End(&info);
     G3_EndMakeDL(&info);
-    DC_FlushRange(work->drawList, 0x400);
+    DC_FlushRange(work->drawData, 0x400);
 
-    NNS_G3dGeSendDL(work->drawList, G3_GetDLSize(&info));
+    NNS_G3dGeSendDL(work->drawData, G3_GetDLSize(&info));
 
     s32 i;
     if ((work->gameWork.flags & 0xF) == 0)

@@ -12,8 +12,8 @@ typedef struct DiveStand_
     GameObjectTask gameWork;
     void *sprDiveStand3D;
     AnimatorSprite3D aniDiveStand[1];
-    GXDLInfo dlInfo;
-    void *drawList;
+    GXDLInfo drawList;
+    void *drawData;
     VecFx32 vertices[25][2];
     u16 angles[24];
     s32 dword70C;

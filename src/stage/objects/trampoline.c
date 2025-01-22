@@ -1,444 +1,243 @@
 #include <stage/objects/trampoline.h>
 #include <game/object/objectManager.h>
 #include <game/stage/gameSystem.h>
+#include <game/game/gameState.h>
+
+// --------------------
+// MAPOBJECT PARAMS
+// --------------------
+
+#define mapObjectParam_width mapObject->width
+#define mapObjectParam_id    mapObject->height
+
+// --------------------
+// ENUMS
+// --------------------
+
+enum TrampolineObjectFlags
+{
+    TRAMPOLINE_OBJFLAG_NONE,
+
+    TRAMPOLINE_OBJFLAG_TYPE_MASK = 1 << 0,
+
+    TRAMPOLINE_OBJFLAG_DOWNWARDS_SLOPE = 1 << 7,
+};
+
+enum TrampolineType
+{
+    TRAMPOLINE_TYPE_FLAT,
+    TRAMPOLINE_TYPE_SLANTED,
+
+    TRAMPOLINE_TYPE_COUNT,
+};
+
+enum TrampolineAnimIDs
+{
+    TRAMPOLINE_ANI_BASE,
+    TRAMPOLINE_ANI_FLAT,
+    TRAMPOLINE_ANI_SLOPE_UPWARDS,
+    TRAMPOLINE_ANI_SLOPE_DOWNWARDS,
+};
 
 // --------------------
 // VARIABLES
 // --------------------
 
-NOT_DECOMPILED void *Trampoline3D__dword_218A390;
-NOT_DECOMPILED void *Trampoline__word_218874C;
-NOT_DECOMPILED void *Trampoline__elevationTable;
+static u32 allocatedSlots;
 
-NOT_DECOMPILED void *aActAcGmkTrampo;
+static s8 elevationForType[TRAMPOLINE_TYPE_COUNT] = { [TRAMPOLINE_TYPE_FLAT] = 0, [TRAMPOLINE_TYPE_SLANTED] = -2 };
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+static void Trampoline_Destructor(Task *task);
+static void Trampoline_State_Active(Trampoline *work);
+static void Trampoline_InitNodeList(Trampoline *work);
+static void Trampoline_CalculateNodeDeform(Trampoline *work);
+static void Trampoline_Draw(void);
+static void Trampoline_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+static BOOL Trampoline_AllocateSlot(u8 id);
+static void Trampoline_ReleaseSlot(u8 id);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC Trampoline *Trampoline__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+Trampoline *CreateTrampoline(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    if (!Trampoline_AllocateSlot(mapObjectParam_id))
+        return NULL;
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0x4c
-	mov r7, r0
-	ldrb r0, [r7, #9]
-	mov r6, r1
-	mov r5, r2
-	bl Trampoline__Func_2179FD0
-	cmp r0, #0
-	addeq sp, sp, #0x4c
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	ldr r0, =0x000010F6
-	mov r2, #0
-	str r0, [sp]
-	mov r0, #2
-	str r0, [sp, #4]
-	ldr r4, =0x000005E4
-	ldr r0, =StageTask_Main
-	ldr r1, =Trampoline__Destructor
-	mov r3, r2
-	str r4, [sp, #8]
-	bl TaskCreate_
-	mov r4, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r4, r0
-	addeq sp, sp, #0x4c
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	mov r0, r4
-	bl GetTaskWork_
-	ldr r2, =0x000005E4
-	mov r4, r0
-	mov r1, #0
-	bl MI_CpuFill8
-	mov r0, r4
-	mov r1, r7
-	mov r2, r6
-	mov r3, r5
-	bl GameObject__InitFromObject
-	ldrh r1, [r7, #4]
-	add r0, r4, #0x500
-	and r1, r1, #1
-	strh r1, [r0, #0xcc]
-	ldrb r0, [r7, #8]
-	mov r0, r0, lsl #0x10
-	str r0, [r4, #0x5c4]
-	cmp r0, #0x200000
-	movgt r0, #0x200000
-	strgt r0, [r4, #0x5c4]
-	bgt _02179100
-	cmp r0, #0x40000
-	movlt r0, #0x40000
-	strlt r0, [r4, #0x5c4]
-_02179100:
-	add r0, r4, #0x500
-	ldrh r2, [r0, #0xcc]
-	ldr r1, =Trampoline__elevationTable
-	ldr r0, [r4, #0x5c4]
-	ldrsb r1, [r1, r2]
-	mov r0, r0, asr #3
-	mul r0, r1, r0
-	str r0, [r4, #0x5c8]
-	ldrh r0, [r7, #4]
-	tst r0, #0x80
-	ldrne r0, [r4, #0x5c8]
-	rsbne r0, r0, #0
-	strne r0, [r4, #0x5c8]
-	mov r0, #0x400
-	bl _AllocHeadHEAP_SYSTEM
-	str r0, [r4, #0x47c]
-	ldr r1, [r4, #0x1c]
-	ldr r0, =Trampoline__word_218874C
-	orr r1, r1, #0x2100
-	str r1, [r4, #0x1c]
-	ldrh r3, [r0, #0]
-	ldrh r2, [r0, #2]
-	ldrh r1, [r0, #4]
-	mov r0, #0x5f
-	strh r3, [sp, #0x14]
-	strh r2, [sp, #0x16]
-	strh r1, [sp, #0x18]
-	bl GetObjectFileWork
-	ldr r2, =gameArchiveStage
-	ldr r1, =aActAcGmkTrampo
-	ldr r2, [r2, #0]
-	bl ObjDataLoad
-	mov r8, r0
-	mov r0, #0x61
-	bl GetObjectFileWork
-	mov r5, r0
-	mov r0, r8
-	mov r1, #0
-	bl Sprite__GetPaletteSizeFromAnim
-	mov r1, r0
-	mov r0, r5
-	bl ObjActionAllocPalette
-	mov r6, r0
-	mov r0, #0x60
-	bl GetObjectFileWork
-	mov r5, r0
-	mov r0, r8
-	mov r1, #0
-	bl Sprite__GetTextureSizeFromAnim
-	mov r1, r0
-	mov r0, r5
-	bl ObjActionAllocTexture
-	mov r1, #0
-	str r1, [sp]
-	stmib sp, {r0, r6}
-	mov r2, r8
-	add r0, r4, #0x364
-	mov r3, r1
-	bl AnimatorSprite3D__Init
-	mov r1, #0
-	add r0, r4, #0x364
-	mov r2, r1
-	bl AnimatorSprite3D__ProcessAnimation
-	add r0, r4, #0x500
-	ldrh r0, [r0, #0xcc]
-	cmp r0, #0
-	moveq r5, #0
-	beq _02179220
-	ldrh r0, [r7, #4]
-	tst r0, #0x80
-	movne r5, #2
-	moveq r5, #1
-_02179220:
-	ldr r1, [r4, #0x18]
-	mov r0, #0x5f
-	orr r1, r1, #0x400000
-	str r1, [r4, #0x18]
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1, #0]
-	ldr r2, =aActAcGmkTrampo
-	str r1, [sp]
-	mov r6, #0
-	mov r0, r4
-	add r1, r4, #0x168
-	str r6, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, r5, lsl #1
-	add r0, r0, #0x62
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r3, r5, lsl #1
-	add r1, sp, #0x14
-	ldrh r1, [r1, r3]
-	mov r0, r4
-	bl ObjObjectActionAllocSprite
-	bl GetCurrentZoneID
-	add r5, r5, #1
-	cmp r0, #5
-	mov r1, r5, lsl #0x10
-	bne _021792A8
-	mov r0, r4
-	mov r1, r1, lsr #0x10
-	mov r2, #0x61
-	bl ObjActionAllocSpritePalette
-	b _021792B8
-_021792A8:
-	mov r0, r4
-	mov r1, r1, lsr #0x10
-	mov r2, #0x59
-	bl ObjActionAllocSpritePalette
-_021792B8:
-	mov r0, r4
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r4
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	mov r1, r5, lsl #0x10
-	mov r0, r4
-	mov r1, r1, lsr #0x10
-	bl StageTask__SetAnimation
-	ldr r1, [r4, #0x1a4]
-	add r0, r4, #0x168
-	orr r1, r1, #0x30
-	str r1, [r4, #0x1a4]
-	mov r1, #0
-	mov r2, r1
-	bl AnimatorSpriteDS__ProcessAnimation
-	ldr r1, [r4, #0x1a4]
-	add r0, r4, #0x68
-	orr r1, r1, #8
-	str r1, [r4, #0x1a4]
-	ldr r1, [r4, #0x20]
-	add r0, r0, #0x400
-	orr r1, r1, #0x1000
-	str r1, [r4, #0x20]
-	ldr r1, [r4, #0x47c]
-	mov r2, #0x400
-	bl G3_BeginMakeDL
-	mov r1, #0
-	str r1, [sp]
-	mov r0, #0x1f
-	stmib sp, {r0, r1}
-	add r0, r4, #0x68
-	add r0, r0, #0x400
-	mov r2, r1
-	mov r3, #3
-	bl G3C_PolygonAttr
-	add r0, r4, #0x68
-	ldr r3, [r4, #0x440]
-	ldr r1, =0x0001FFFF
-	add r0, r0, #0x400
-	mov r2, #3
-	and r1, r3, r1
-	bl G3C_TexPlttBase
-	mov r3, #0
-	mov r2, #1
-	str r3, [sp]
-	stmib sp, {r2, r3}
-	str r2, [sp, #0xc]
-	ldr r1, [r4, #0x438]
-	rsb r0, r2, #0x80000
-	and r0, r1, r0
-	str r0, [sp, #0x10]
-	add r0, r4, #0x68
-	add r0, r0, #0x400
-	mov r1, #3
-	bl G3C_TexImageParam
-	add r0, r4, #0x68
-	add r0, r0, #0x400
-	mov r1, #3
-	bl G3C_MtxMode
-	add r0, sp, #0x1c
-	bl MTX_Identity43_
-	add r0, r4, #0x68
-	add r0, r0, #0x400
-	add r1, sp, #0x1c
-	bl G3C_LoadMtx43
-	add r0, r4, #0x68
-	add r0, r0, #0x400
-	mov r1, #1
-	bl G3C_MtxMode
-	add r0, r4, #0x1b8
-	add r1, r4, #0x44
-	add r3, r0, #0x400
-	ldmia r1, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	ldrh r0, [r7, #2]
-	cmp r0, #0xc8
-	bne _02179414
-	ldr r1, [r3, #0]
-	ldr r0, [r4, #0x5c4]
-	sub r0, r1, r0
-	str r0, [r3]
-	ldr r1, [r4, #0x5bc]
-	ldr r0, [r4, #0x5c8]
-	sub r0, r1, r0
-	str r0, [r4, #0x5bc]
-_02179414:
-	mov r3, #0
-	str r3, [r4, #0x480]
-	str r3, [r4, #0x484]
-	str r3, [r4, #0x48c]
-	sub r0, r3, #0x8000
-	str r0, [r4, #0x490]
-	ldr r0, [r4, #0x5c4]
-	sub r1, r3, #0x8000
-	str r0, [r4, #0x588]
-	ldr r2, [r4, #0x5c8]
-	mov r0, r4
-	rsb r2, r2, #0
-	str r2, [r4, #0x58c]
-	str r3, [r4, #0x590]
-	ldr r2, [r4, #0x5c4]
-	str r2, [r4, #0x594]
-	ldr r2, [r4, #0x5c8]
-	sub r1, r1, r2
-	str r1, [r4, #0x598]
-	str r3, [r4, #0x59c]
-	bl Trampoline__Func_217991C
-	ldrh r2, [r7, #4]
-	ldr r3, [r4, #0x5b8]
-	ldr r0, [r4, #0x44]
-	tst r2, #0x80
-	sub r0, r3, r0
-	mov r0, r0, lsl #4
-	ldr r1, [r4, #0x5c4]
-	mov r0, r0, asr #0x10
-	add r1, r0, r1, asr #12
-	mov r1, r1, lsl #0x10
-	mov r1, r1, asr #0x10
-	ldr r5, [r4, #0x5bc]
-	ldr r2, [r4, #0x48]
-	beq _021794C0
-	sub r2, r5, r2
-	mov r2, r2, lsl #4
-	ldr r3, [r4, #0x5c8]
-	mov r7, r2, asr #0x10
-	add r2, r7, r3, asr #12
-	mov r2, r2, lsl #0x10
-	mov r5, r2, asr #0x10
-	b _021794DC
-_021794C0:
-	sub r2, r5, r2
-	mov r2, r2, lsl #4
-	ldr r3, [r4, #0x5c8]
-	mov r5, r2, asr #0x10
-	add r2, r5, r3, asr #12
-	mov r2, r2, lsl #0x10
-	mov r7, r2, asr #0x10
-_021794DC:
-	add r6, r5, #0x18
-	sub r5, r0, #0x10
-	add r3, r1, #0x10
-	sub r2, r7, #0x18
-	mov r1, r5, lsl #0x10
-	mov r0, r6, lsl #0x10
-	mov r2, r2, lsl #0x10
-	mov r3, r3, lsl #0x10
-	mov r5, r0, asr #0x10
-	str r4, [r4, #0x234]
-	add r0, r4, #0x218
-	mov r1, r1, asr #0x10
-	mov r2, r2, asr #0x10
-	mov r3, r3, asr #0x10
-	str r5, [sp]
-	bl ObjRect__SetBox2D
-	mov r1, #0
-	mov r2, r1
-	add r0, r4, #0x218
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r4, #0x218
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r0, =Trampoline__OnDefend
-	str r0, [r4, #0x23c]
-	ldr r0, [r4, #0x230]
-	orr r0, r0, #0x80
-	str r0, [r4, #0x230]
-	ldr r0, [r4, #0x5c4]
-	ldrsh r1, [r4, #0xc]
-	mov r0, r0, asr #0xc
-	add r0, r0, #0x56
-	mov r0, r0, lsl #0x10
-	cmp r1, r0, asr #16
-	mov r0, r0, asr #0x10
-	strlth r0, [r4, #0xc]
-	ldr r0, =Trampoline__Draw
-	ldr r1, =Trampoline__State_2179664
-	str r0, [r4, #0xfc]
-	mov r0, r4
-	str r1, [r4, #0xf4]
-	add sp, sp, #0x4c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
+    Task *task = CreateStageTask(Trampoline_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), Trampoline);
+    if (task == HeapNull)
+        return NULL;
 
-// clang-format on
-#endif
+    Trampoline *work = TaskGetWork(task, Trampoline);
+    TaskInitWork8(work);
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    work->type        = mapObject->flags & TRAMPOLINE_OBJFLAG_TYPE_MASK;
+    work->targetPos.x = FX32_FROM_WHOLE(mapObjectParam_width << 4);
+
+    if (work->targetPos.x > FLOAT_TO_FX32(512.0))
+    {
+        work->targetPos.x = FLOAT_TO_FX32(512.0);
+    }
+    else if (work->targetPos.x < FLOAT_TO_FX32(64.0))
+    {
+        work->targetPos.x = FLOAT_TO_FX32(64.0);
+    }
+
+    work->targetPos.y = elevationForType[work->type] * (work->targetPos.x >> 3);
+
+    if ((mapObject->flags & TRAMPOLINE_OBJFLAG_DOWNWARDS_SLOPE) != 0)
+        work->targetPos.y = -work->targetPos.y;
+
+    work->drawData = HeapAllocHead(HEAP_SYSTEM, 0x400);
+
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+
+    u16 anims[] = { TRAMPOLINE_ANI_FLAT, TRAMPOLINE_ANI_SLOPE_UPWARDS, TRAMPOLINE_ANI_SLOPE_UPWARDS };
+
+    void *sprTrampoline = ObjDataLoad(GetObjectDataWork(OBJDATAWORK_95), "/act/ac_gmk_trampoline3d.bac", gameArchiveStage);
+
+    VRAMPaletteKey vramPalette = ObjActionAllocPalette(GetObjectGraphicsRef(OBJDATAWORK_97), Sprite__GetPaletteSizeFromAnim(sprTrampoline, TRAMPOLINE_ANI_BASE));
+    VRAMPixelKey vramPixels    = ObjActionAllocTexture(GetObjectGraphicsRef(OBJDATAWORK_96), Sprite__GetTextureSizeFromAnim(sprTrampoline, TRAMPOLINE_ANI_BASE));
+    AnimatorSprite3D__Init(&work->aniTrampoline, ANIMATOR_FLAG_NONE, sprTrampoline, TRAMPOLINE_ANI_BASE, ANIMATOR_FLAG_NONE, vramPixels, vramPalette);
+    AnimatorSprite3D__ProcessAnimationFast(&work->aniTrampoline);
+
+    u16 anim;
+    if (work->type == 0)
+    {
+        anim = TRAMPOLINE_ANI_FLAT - 1;
+    }
+    else
+    {
+        if ((mapObject->flags & TRAMPOLINE_OBJFLAG_DOWNWARDS_SLOPE) != 0)
+            anim = TRAMPOLINE_ANI_SLOPE_DOWNWARDS - 1;
+        else
+            anim = TRAMPOLINE_ANI_SLOPE_UPWARDS - 1;
+    }
+
+    work->gameWork.objWork.flag |= STAGE_TASK_FLAG_400000;
+
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_trampoline3d.bac", GetObjectDataWork(OBJDATAWORK_95), gameArchiveStage,
+                             OBJ_DATA_GFX_NONE);
+    ObjObjectActionAllocSprite(&work->gameWork.objWork, anims[anim], GetObjectSpriteRef(2 * anim + OBJDATAWORK_98));
+
+    if (GetCurrentZoneID() == ZONE_SKY_BABYLON)
+        ObjActionAllocSpritePalette(&work->gameWork.objWork, anim + TRAMPOLINE_ANI_FLAT, 97);
+    else
+        ObjActionAllocSpritePalette(&work->gameWork.objWork, anim + TRAMPOLINE_ANI_FLAT, 89);
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+    StageTask__SetAnimation(&work->gameWork.objWork, anim + TRAMPOLINE_ANI_FLAT);
+    work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PIXELS | ANIMATOR_FLAG_DISABLE_PALETTES;
+    AnimatorSpriteDS__ProcessAnimationFast(&work->gameWork.animator.ani);
+    work->gameWork.animator.ani.work.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_ANIMATE_CB;
+
+    G3_BeginMakeDL(&work->drawList, work->drawData, 0x400);
+    G3C_PolygonAttr(&work->drawList, GX_LIGHTID_0, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, GX_COLOR_FROM_888(0xFF), 0);
+    G3C_TexPlttBase(&work->drawList, VRAMKEY_TO_KEY(work->aniTrampoline.animatorSprite.vramPalette) & 0x1FFFF, GX_TEXFMT_PLTT16);
+    G3C_TexImageParam(&work->drawList, GX_TEXFMT_PLTT16, GX_TEXGEN_TEXCOORD, GX_TEXSIZE_S8, GX_TEXSIZE_T8, GX_TEXREPEAT_S, GX_TEXFLIP_NONE, GX_TEXPLTTCOLOR0_TRNS,
+                      VRAMKEY_TO_KEY(work->aniTrampoline.animatorSprite.vramPixels) & 0x7FFFF);
+
+    G3C_MtxMode(&work->drawList, GX_MTXMODE_TEXTURE);
+    MtxFx43 mtx;
+    MTX_Identity43(&mtx);
+    G3C_LoadMtx43(&work->drawList, &mtx);
+    G3C_MtxMode(&work->drawList, GX_MTXMODE_POSITION);
+
+    work->position = work->gameWork.objWork.position;
+
+    if (mapObject->id == MAPOBJECT_200)
+    {
+        work->position.x -= work->targetPos.x;
+        work->position.y -= work->targetPos.y;
+    }
+
+    work->nodePositionList[0].start.x = FLOAT_TO_FX32(0.0);
+    work->nodePositionList[0].start.y = FLOAT_TO_FX32(0.0);
+    work->nodePositionList[0].end.x   = FLOAT_TO_FX32(0.0);
+    work->nodePositionList[0].end.y   = -FLOAT_TO_FX32(8.0);
+
+    work->nodePositionList[11].start.x = work->targetPos.x;
+    work->nodePositionList[11].start.y = -work->targetPos.y;
+    work->nodePositionList[11].start.z = FLOAT_TO_FX32(0.0);
+
+    work->nodePositionList[11].end.x = work->targetPos.x;
+    work->nodePositionList[11].end.y = -FLOAT_TO_FX32(8.0) - work->targetPos.y;
+    work->nodePositionList[11].end.z = FLOAT_TO_FX32(0.0);
+
+    Trampoline_InitNodeList(work);
+
+    s16 left  = FX32_TO_WHOLE(work->position.x - work->gameWork.objWork.position.x);
+    s16 right = left + FX32_TO_WHOLE(work->targetPos.x);
+
+    s16 top;
+    s16 bottom;
+    if ((mapObject->flags & TRAMPOLINE_OBJFLAG_DOWNWARDS_SLOPE) != 0)
+    {
+        top    = FX32_TO_WHOLE(work->position.y - work->gameWork.objWork.position.y);
+        bottom = top + FX32_TO_WHOLE(work->targetPos.y);
+    }
+    else
+    {
+        bottom = FX32_TO_WHOLE(work->position.y - work->gameWork.objWork.position.y);
+        top    = bottom + FX32_TO_WHOLE(work->targetPos.y);
+    }
+    work->gameWork.colliders[0].parent = &work->gameWork.objWork;
+    ObjRect__SetBox2D(&work->gameWork.colliders[0].rect, left - 16, top - 24, right + 16, bottom + 24);
+    ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
+    ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
+    ObjRect__SetOnDefend(&work->gameWork.colliders[0], Trampoline_OnDefend);
+    work->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_80;
+
+    if (work->gameWork.objWork.viewOutOffset < (s16)(FX32_TO_WHOLE(work->targetPos.x) + 86))
+        work->gameWork.objWork.viewOutOffset = (s16)(FX32_TO_WHOLE(work->targetPos.x) + 86);
+
+    SetTaskOutFunc(&work->gameWork.objWork, Trampoline_Draw);
+    SetTaskState(&work->gameWork.objWork, Trampoline_State_Active);
+
+    return work;
 }
 
-NONMATCH_FUNC void Trampoline__Destructor(Task *task)
+void Trampoline_Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    Trampoline *work = TaskGetWork(task, Trampoline);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	bl GetTaskWork_
-	mov r5, r0
-	ldr r0, [r5, #0x340]
-	ldrb r0, [r0, #9]
-	bl Trampoline__Func_2179FF8
-	ldr r0, [r5, #0x47c]
-	bl _FreeHEAP_SYSTEM
-	mov r0, #0x61
-	bl GetObjectFileWork
-	mov r5, r0
-	ldrh r0, [r5, #4]
-	sub r0, r0, #1
-	strh r0, [r5, #4]
-	ldrh r0, [r5, #4]
-	cmp r0, #0
-	bne _02179618
-	ldr r0, [r5, #0]
-	bl VRAMSystem__FreePalette
-	mov r0, #0
-	str r0, [r5]
-_02179618:
-	mov r0, #0x60
-	bl GetObjectFileWork
-	mov r5, r0
-	ldrh r0, [r5, #4]
-	sub r0, r0, #1
-	strh r0, [r5, #4]
-	ldrh r0, [r5, #4]
-	cmp r0, #0
-	bne _0217964C
-	ldr r0, [r5, #0]
-	bl VRAMSystem__FreeTexture
-	mov r0, #0
-	str r0, [r5]
-_0217964C:
-	mov r0, #0x5f
-	bl GetObjectFileWork
-	bl ObjDataRelease
-	mov r0, r4
-	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, pc}
+    Trampoline_ReleaseSlot(work->gameWork.mapObjectParam_id);
+    HeapFree(HEAP_SYSTEM, work->drawData);
 
-// clang-format on
-#endif
+    OBS_DATA_WORK *paletteWork = GetObjectDataWork(OBJDATAWORK_97);
+    paletteWork->referenceCount--;
+    if (paletteWork->referenceCount == 0)
+    {
+        VRAMSystem__FreePalette(VRAMKEY_TO_ADDR(paletteWork->fileData));
+        paletteWork->fileData = NULL;
+    }
+
+    OBS_DATA_WORK *textureWork = GetObjectFileWork(OBJDATAWORK_96);
+    textureWork->referenceCount--;
+    if (textureWork->referenceCount == 0)
+    {
+        VRAMSystem__FreeTexture(VRAMKEY_TO_ADDR(textureWork->fileData));
+        textureWork->fileData = NULL;
+    }
+
+    ObjDataRelease(GetObjectDataWork(OBJDATAWORK_95));
+
+    GameObject__Destructor(task);
 }
 
-NONMATCH_FUNC void Trampoline__State_2179664(Trampoline *work)
+NONMATCH_FUNC void Trampoline_State_Active(Trampoline *work)
 {
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xc
 	mov r3, r0
@@ -613,11 +412,11 @@ _021798F8:
 	cmp r0, #0
 	mov r0, r3
 	beq _02179910
-	bl Trampoline__Func_2179998
+	bl Trampoline_CalculateNodeDeform
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 _02179910:
-	bl Trampoline__Func_217991C
+	bl Trampoline_InitNodeList
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 
@@ -625,55 +424,72 @@ _02179910:
 #endif
 }
 
-NONMATCH_FUNC void Trampoline__Func_217991C(Trampoline *work)
+void Trampoline_InitNodeList(Trampoline *work)
 {
-#ifdef NON_MATCHING
+    s32 i;
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	ldr r0, [r5, #0x5c4]
-	mov r1, #0xb
-	bl FX_DivS32
-	ldr r1, [r5, #0x5c8]
-	mov r4, r0
-	rsb r0, r1, #0
-	mov r1, #0xb
-	bl FX_DivS32
-	add r1, r5, #0x98
-	add ip, r5, #0x480
-	add r3, r1, #0x400
-	mov r2, #1
-_02179954:
-	ldr r1, [ip]
-	add r2, r2, #1
-	add r1, r1, r4
-	str r1, [r3]
-	ldr r1, [ip, #4]
-	mov ip, r3
-	add r1, r1, r0
-	str r1, [r3, #4]
-	ldr r1, [r3, #0]
-	cmp r2, #0xb
-	str r1, [r3, #0xc]
-	ldr r1, [r3, #4]
-	sub r1, r1, #0x8000
-	str r1, [r3, #0x10]
-	add r3, r3, #0x18
-	blt _02179954
-	ldmia sp!, {r3, r4, r5, pc}
+    TrampolineNode *next;
+    TrampolineNode *node;
 
-// clang-format on
-#endif
+    fx32 stepX = FX_DivS32(work->targetPos.x, 11);
+    fx32 stepY = FX_DivS32(-work->targetPos.y, 11);
+
+    node = &work->nodePositionList[0];
+    next = &work->nodePositionList[1];
+
+    for (i = 1; i < TRAMPOLINE_NODE_MAX - 1; i++)
+    {
+        next->start.x = node->start.x + stepX;
+        next->start.y = node->start.y + stepY;
+        next->end.x   = next->start.x;
+        next->end.y   = next->start.y - FLOAT_TO_FX32(8.0);
+
+        node = next;
+        next++;
+    }
 }
 
-NONMATCH_FUNC void Trampoline__Func_2179998(Trampoline *work)
+NONMATCH_FUNC void Trampoline_CalculateNodeDeform(Trampoline *work)
 {
+    // https://decomp.me/scratch/WcK74 -> 91.12%
 #ifdef NON_MATCHING
+    s32 targetY = -work->targetPos.y;
 
+    s32 v2 = targetY >> 1;
+    s32 v3 = -(work->field_5D4 + v2);
+
+    s32 offsetX  = work->targetPos.x >> 2;
+    s32 offsetY2 = v2 >> 1;
+
+    s32 nextOffsetX  = offsetX - (work->targetPos.x >> 1);
+    s32 offsetY1     = v3 >> 1;
+    s32 nextOffsetY2 = v2 - (v2 >> 1);
+    s32 nextOffsetY1 = v3 - (v3 >> 1);
+
+    for (s32 i = 0; i < 5; i++)
+    {
+        work->nodePositionList[i + 1].start.x = work->nodePositionList[i + 0].start.x + offsetX;
+        work->nodePositionList[i + 1].start.y = work->nodePositionList[i + 0].start.y + offsetY1 + offsetY2;
+
+        work->nodePositionList[i + 1].end.x = work->nodePositionList[i + 1].start.x;
+        work->nodePositionList[i + 1].end.y = work->nodePositionList[i + 1].start.y - FLOAT_TO_FX32(8.0);
+
+        work->nodePositionList[10 - i].start.x = work->nodePositionList[11 - i].start.x - offsetX;
+        work->nodePositionList[10 - i].start.y = work->nodePositionList[11 - i].start.y - offsetY2 + offsetY1;
+
+        work->nodePositionList[10 - i].end.x = work->nodePositionList[10 - i].start.x;
+        work->nodePositionList[10 - i].end.y = work->nodePositionList[10 - i].start.y - FLOAT_TO_FX32(8.0);
+
+        offsetX  = nextOffsetX >> 1;
+        offsetY2 = nextOffsetY2 >> 1;
+        offsetY1 = nextOffsetY1 >> 1;
+
+        nextOffsetX -= offsetX;
+        nextOffsetY2 -= offsetY2;
+        nextOffsetY1 -= offsetY1;
+    }
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r2, [r0, #0x5c8]
 	ldr r1, [r0, #0x5d4]
@@ -738,205 +554,147 @@ _021799E0:
 #endif
 }
 
-NONMATCH_FUNC void Trampoline__Draw(void)
+void Trampoline_Draw(void)
 {
-#ifdef NON_MATCHING
+    Trampoline *work = TaskGetWorkCurrent(Trampoline);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0xac
-	bl GetCurrentTaskWork_
-	mov r3, #0x1000
-	ldr r1, =g_obj
-	mov r6, r0
-	ldr r2, [r1, #0]
-	str r3, [sp, #0x4c]
-	str r3, [sp, #0x50]
-	str r3, [sp, #0x54]
-	cmp r2, #0x1000
-	beq _02179AC8
-	smull r1, r0, r2, r3
-	adds r1, r1, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [sp, #0x4c]
-_02179AC8:
-	ldr r0, =g_obj
-	ldr r2, [r0, #4]
-	cmp r2, #0x1000
-	beq _02179AF4
-	ldr r0, [sp, #0x50]
-	smull r1, r0, r2, r0
-	adds r1, r1, #0x800
-	adc r0, r0, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	str r1, [sp, #0x50]
-_02179AF4:
-	ldr r2, [sp, #0x4c]
-	ldr r1, [sp, #0x50]
-	mov r3, r2, lsl #7
-	mov r2, r1, lsl #7
-	ldr r0, [sp, #0x54]
-	str r3, [sp, #0x4c]
-	mov r1, r0, lsl #7
-	add r0, sp, #0x1c
-	str r2, [sp, #0x50]
-	str r1, [sp, #0x54]
-	bl MTX_Identity33_
-	add r0, r6, #0x1b8
-	add r1, sp, #0x40
-	add r2, sp, #0x58
-	add r0, r0, #0x400
-	mov r3, #0
-	bl GameObject__Func_20282A8
-	add r0, sp, #0x4c
-	bl NNS_G3dGlbSetBaseScale
-	ldr r1, =NNS_G3dGlb+0x000000BC
-	add r0, sp, #0x1c
-	bl MI_Copy36B
-	ldr r1, =NNS_G3dGlb
-	add r0, sp, #0x40
-	ldr r2, [r1, #0xfc]
-	bic r2, r2, #0xa4
-	str r2, [r1, #0xfc]
-	bl NNS_G3dGlbSetBaseTrans
-	mov r2, #1
-	mov r0, #0x10
-	add r1, sp, #0xc
-	str r2, [sp, #0xc]
-	bl NNS_G3dGeBufferOP_N
-	bl NNS_G3dGlbFlushP
-	add r0, r6, #0x68
-	add r7, r0, #0x400
-	add r5, sp, #0x98
-	ldmia r7!, {r0, r1, r2, r3}
-	mov r4, r5
-	stmia r5!, {r0, r1, r2, r3}
-	ldr r1, [r7, #0]
-	mov r0, r4
-	str r1, [r5]
-	mov r1, #3
-	bl G3C_Begin
-	ldr r1, =0x00007FFF
-	mov r0, r4
-	mov r8, #0
-	bl G3C_Color
-	mov r5, r4
-	ldr r9, [r6, #0x480]
-	add r10, r6, #0x480
-	mov r7, r8
-	mov r4, r8
-	mov r11, #0x8000
-_02179BD0:
-	ldr r3, [r10, #0]
-	mov r0, r5
-	sub r1, r3, r9
-	add r8, r8, r1
-	mov r1, r8
-	mov r2, r4
-	mov r9, r3
-	bl G3C_TexCoord
-	ldmia r10, {r1, r2, r3}
-	mov r1, r1, lsl #9
-	mov r2, r2, lsl #9
-	mov r3, r3, lsl #9
-	mov r0, r5
-	mov r1, r1, asr #0x10
-	mov r2, r2, asr #0x10
-	mov r3, r3, asr #0x10
-	bl G3C_Vtx
-	mov r0, r5
-	mov r1, r8
-	mov r2, r11
-	bl G3C_TexCoord
-	ldr r1, [r10, #0xc]
-	ldr r2, [r10, #0x10]
-	ldr r3, [r10, #0x14]
-	mov r1, r1, lsl #9
-	mov r2, r2, lsl #9
-	mov r3, r3, lsl #9
-	mov r0, r5
-	mov r1, r1, asr #0x10
-	mov r2, r2, asr #0x10
-	mov r3, r3, asr #0x10
-	bl G3C_Vtx
-	add r7, r7, #1
-	add r10, r10, #0x18
-	cmp r7, #0xc
-	blt _02179BD0
-	add r0, sp, #0x98
-	bl G3C_End
-	add r0, sp, #0x98
-	bl G3_EndMakeDL
-	ldr r0, [r6, #0x47c]
-	mov r1, #0x400
-	bl DC_FlushRange
-	ldr r1, [sp, #0x98]
-	tst r1, #3
-	ldrne r0, [sp, #0xa0]
-	ldrne r1, [sp, #0x9c]
-	ldreq r0, [sp, #0xa0]
-	sub r1, r1, r0
-	ldr r0, [r6, #0x47c]
-	bl NNS_G3dGeSendDL
-	add r0, r6, #0x1b8
-	add r0, r0, #0x400
-	add r3, sp, #0x10
-	ldmia r0, {r0, r1, r2}
-	stmia r3, {r0, r1, r2}
-	add r0, r6, #0x500
-	ldr r1, [r6, #0x340]
-	ldrh r3, [r0, #0xcc]
-	ldrh r0, [r1, #4]
-	ldr r2, =Trampoline__elevationTable
-	mov r8, #0
-	ldrsb r1, [r2, r3]
-	tst r0, #0x80
-	ldr r0, [r6, #0x5c4]
-	mov r9, r1, lsl #0xd
-	mov r0, r0, asr #0x10
-	rsbne r9, r9, #0
-	cmp r0, #0
-	addle sp, sp, #0xac
-	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	add r7, r6, #0x20
-	mov r5, r8
-	add r4, sp, #0x10
-_02179CF8:
-	str r7, [sp]
-	str r5, [sp, #4]
-	mov r1, r4
-	mov r2, r5
-	mov r3, r5
-	str r5, [sp, #8]
-	add r0, r6, #0x168
-	bl StageTask__Draw2DEx
-	ldr r1, [sp, #0x10]
-	ldr r0, [sp, #0x14]
-	add r1, r1, #0x10000
-	add r0, r0, r9
-	str r1, [sp, #0x10]
-	str r0, [sp, #0x14]
-	ldr r0, [r6, #0x5c4]
-	add r8, r8, #1
-	cmp r8, r0, asr #16
-	blt _02179CF8
-	add sp, sp, #0xac
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
+    GXDLInfo info;
 
-// clang-format on
-#endif
+    MtxFx44 mtx;
+    VecFx32 scale;
+    VecFx32 outputPos;
+    MtxFx33 matRot;
+
+    VEC_Set(&scale, FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(1.0));
+
+    if (g_obj.scale.x != FLOAT_TO_FX32(1.0))
+        scale.x = MultiplyFX(g_obj.scale.x, scale.x);
+
+    if (g_obj.scale.y != FLOAT_TO_FX32(1.0))
+        scale.y = MultiplyFX(g_obj.scale.y, scale.y);
+
+    scale.x <<= 7;
+    scale.y <<= 7;
+    scale.z <<= 7;
+
+    MTX_Identity33(&matRot);
+    GameObject__Func_20282A8(&work->position, &outputPos, &mtx, FALSE);
+    NNS_G3dGlbSetBaseScale(&scale);
+    NNS_G3dGlbSetBaseRot(&matRot);
+    NNS_G3dGlbSetBaseTrans(&outputPos);
+    NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
+    NNS_G3dGlbFlush();
+
+    info = work->drawList;
+    G3C_Begin(&info, GX_BEGIN_QUAD_STRIP);
+
+    s32 i             = 0;
+    fx32 texS         = 0;
+    fx32 lastStartPos = 0;
+    G3C_Color(&info, GX_RGB_888(0xFF, 0xFF, 0xFF));
+
+    lastStartPos         = work->nodePositionList[0].start.x;
+    TrampolineNode *node = work->nodePositionList;
+    for (i = 0; i < TRAMPOLINE_NODE_MAX; i++)
+    {
+        texS += node->start.x - lastStartPos;
+        lastStartPos = node->start.x;
+
+        G3C_TexCoord(&info, texS, FLOAT_TO_FX32(0.0));
+        G3C_Vtx(&info, node->start.x >> 7, node->start.y >> 7, node->start.z >> 7);
+
+        G3C_TexCoord(&info, texS, FLOAT_TO_FX32(8.0));
+        G3C_Vtx(&info, node->end.x >> 7, node->end.y >> 7, node->end.z >> 7);
+
+        node++;
+    }
+    G3C_End(&info);
+    G3_EndMakeDL(&info);
+    DC_FlushRange(work->drawData, 0x400);
+
+    NNS_G3dGeSendDL(work->drawData, G3_GetDLSize(&info));
+
+    VecFx32 position;
+    position = work->position;
+
+    s32 n;
+    fx32 stepY = FLOAT_TO_FX32(2.0) * elevationForType[work->type];
+    if ((work->gameWork.mapObject->flags & TRAMPOLINE_OBJFLAG_DOWNWARDS_SLOPE) != 0)
+        stepY = -FLOAT_TO_FX32(2.0) * elevationForType[work->type];
+
+    for (n = 0; n < work->targetPos.x >> 16; n++)
+    {
+        StageTask__Draw2DEx(&work->gameWork.animator.ani, &position, NULL, NULL, &work->gameWork.objWork.displayFlag, NULL, NULL);
+        position.x += FLOAT_TO_FX32(16.0);
+        position.y += stepY;
+    }
 }
 
-NONMATCH_FUNC void Trampoline__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+NONMATCH_FUNC void Trampoline_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
 #ifdef NON_MATCHING
+    Trampoline *trampoline = (Trampoline *)rect2->parent;
+    Player *player         = (Player *)rect1->parent;
 
+    if (trampoline == NULL || player == NULL)
+        return;
+
+    if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
+        return;
+
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) != 0 && player->objWork.velocity.y >= 0 && player->gimmickObj == NULL)
+    {
+        fx32 playerX     = player->objWork.position.x;
+        fx32 playerY     = player->objWork.position.y;
+        fx32 playerMoveX = player->objWork.prevPosition.x - playerX;
+        fx32 playerMoveY = player->objWork.prevPosition.y - playerY;
+        BOOL canBounce   = FALSE;
+
+        if (trampoline->type == 0
+            || trampoline->type == 1
+                   && ((trampoline->gameWork.mapObject->flags & TRAMPOLINE_OBJFLAG_DOWNWARDS_SLOPE) != 0 && playerMoveX >= 0
+                       || (trampoline->gameWork.mapObject->flags & TRAMPOLINE_OBJFLAG_DOWNWARDS_SLOPE) == 0 && playerMoveX <= 0))
+        {
+            playerMoveX *= 16;
+            playerMoveY *= 16;
+        }
+        fx32 targetX = -trampoline->targetPos.y;
+        fx32 targetY = -trampoline->targetPos.x;
+
+        fx32 magnitude = MultiplyFX(playerMoveX, targetX) - MultiplyFX(playerMoveY, targetY);
+        if (magnitude != 0)
+        {
+            fx32 distanceY = trampoline->position.y - (playerY + FLOAT_TO_FX32(12.0));
+            fx32 distanceX = trampoline->position.x - playerX;
+
+            fx32 targetPos   = MultiplyFX(distanceX, targetX) - MultiplyFX(distanceY, targetY);
+            fx32 distancePos = MultiplyFX(distanceX, playerMoveY) - MultiplyFX(distanceY, playerMoveX);
+
+            if (magnitude < 0)
+            {
+                magnitude   = -magnitude;
+                targetPos   = -targetPos;
+                distancePos = -distancePos;
+            }
+
+            if (targetPos >= 0 && magnitude >= targetPos && distancePos >= 0 && magnitude >= distancePos)
+                canBounce = TRUE;
+        }
+
+        if (canBounce)
+        {
+            trampoline->gameWork.parent = &player->objWork;
+            Player__Gimmick_2021E9C(player, &trampoline->gameWork);
+            trampoline->gameWork.colliders[0].parent = NULL;
+            trampoline->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
+            trampoline->playerBouncePos = player->objWork.position.y;
+            return;
+        }
+    }
+
+    ObjRect__FuncNoHit(rect1, rect2);
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	ldr r5, [r1, #0x1c]
@@ -1106,40 +864,17 @@ _02179FC4:
 #endif
 }
 
-NONMATCH_FUNC void Trampoline__Func_2179FD0(u8 id)
+BOOL Trampoline_AllocateSlot(u8 id)
 {
-#ifdef NON_MATCHING
+    if ((allocatedSlots & (1 << id)) != 0)
+        return FALSE;
 
-#else
-// clang-format off
-	ldr r1, =Trampoline3D__dword_218A390
-	mov r3, #1
-	ldr r2, [r1, #0]
-	tst r2, r3, lsl r0
-	movne r0, #0
-	orreq r2, r2, r3, lsl r0
-	moveq r0, r3
-	streq r2, [r1]
-	bx lr
+    allocatedSlots |= (1 << id);
 
-// clang-format on
-#endif
+    return TRUE;
 }
 
-NONMATCH_FUNC void Trampoline__Func_2179FF8(u8 id)
+void Trampoline_ReleaseSlot(u8 id)
 {
-#ifdef NON_MATCHING
-
-#else
-// clang-format off
-	ldr r1, =Trampoline3D__dword_218A390
-	mov r2, #1
-	mvn r0, r2, lsl r0
-	ldr r2, [r1, #0]
-	and r0, r2, r0
-	str r0, [r1]
-	bx lr
-
-// clang-format on
-#endif
+    allocatedSlots &= ~(1 << id);
 }
