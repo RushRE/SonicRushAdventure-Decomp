@@ -10,7 +10,7 @@
 // ENUMS
 // --------------------
 
-enum GhostTreeObjectFlags
+enum GhostTreeFlags
 {
     GHOSTTREE_FLAG_NONE,
 

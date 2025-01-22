@@ -674,8 +674,8 @@
 .public Player__Gimmick_201C80C
 .public Player__State_201C938
 .public Player__Func_201CBD0
-.public Player__Gimmick_201CDDC
-.public Player__Func_201CF94
+.public Player__Action_RotatingHanger
+.public Player__State_RotatingHanger
 .public Player__Gimmick_201D314
 .public Player__State_201D3E0
 .public Player__Action_MushroomBounce

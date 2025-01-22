@@ -1474,133 +1474,161 @@ void Player__Func_201CBD0(Player *player, fx32 velocity, BOOL flag, u32 type)
     }
 }
 
-NONMATCH_FUNC void Player__Gimmick_201CDDC(Player *player, u32 a2, s32 a3, s32 a4)
+void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 launchForce, BOOL launchUpwards)
 {
-#ifdef NON_MATCHING
+    if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES) != 0)
+    {
+        player->objWork.groundVel = MATH_ABS(player->objWork.velocity.x) + MATH_ABS(player->objWork.velocity.y);
+    }
+    else
+    {
+        player->objWork.groundVel = MATH_ABS(player->objWork.groundVel) + MATH_ABS(player->objWork.velocity.x) + MATH_ABS(player->objWork.velocity.y);
+    }
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	sub sp, sp, #8
-	mov r7, r0
-	ldr r0, [r7, #0x1c]
-	mov r6, r1
-	mov r5, r2
-	mov r4, r3
-	tst r0, #0x8000
-	beq _0201CE20
-	ldr r0, [r7, #0x9c]
-	ldr r1, [r7, #0x98]
-	cmp r0, #0
-	rsblt r0, r0, #0
-	cmp r1, #0
-	rsblt r1, r1, #0
-	add r0, r1, r0
-	b _0201CE4C
-_0201CE20:
-	ldr r0, [r7, #0x98]
-	ldr r1, [r7, #0xc8]
-	cmp r0, #0
-	rsblt r0, r0, #0
-	cmp r1, #0
-	rsblt r1, r1, #0
-	ldr r2, [r7, #0x9c]
-	add r0, r1, r0
-	cmp r2, #0
-	rsblt r2, r2, #0
-	add r0, r2, r0
-_0201CE4C:
-	str r0, [r7, #0xc8]
-	ldr r0, [r7, #0xc8]
-	cmp r0, #0x6000
-	movlt r0, #0x6000
-	strlt r0, [r7, #0xc8]
-	blt _0201CE70
-	cmp r0, #0x7800
-	movgt r0, #0x7800
-	strgt r0, [r7, #0xc8]
-_0201CE70:
-	ldr r0, [r7, #0xc8]
-	mov r1, #0
-	mov r0, r0, asr #4
-	str r0, [r7, #0xc8]
-	str r1, [r7, #0x98]
-	mov r0, r7
-	str r1, [r7, #0x9c]
-	bl Player__InitPhysics
-	mov r0, r7
-	mov r1, #0
-	bl Player__InitGimmick
-	str r6, [r7, #0x6d8]
-	ldr r1, [r7, #0xc8]
-	mov r0, r7
-	str r1, [r7, #0x6f4]
-	mov r1, #0x25
-	bl Player__ChangeAction
-	ldr r1, [r7, #0x12c]
-	mov r0, #0
-	str r0, [r1, #0x118]
-	ldr r1, [r7, #0x20]
-	cmp r4, #0
-	orr r1, r1, #4
-	str r1, [r7, #0x20]
-	ldr r1, [r7, #0x1c]
-	bic r1, r1, #0xd0
-	orr r1, r1, #0xa100
-	str r1, [r7, #0x1c]
-	ldr r1, [r7, #0x18]
-	orr r1, r1, #2
-	str r1, [r7, #0x18]
-	ldr r1, [r7, #0x5d8]
-	orr r1, r1, #0x2000
-	orr r1, r1, #0x100000
-	str r1, [r7, #0x5d8]
-	ldr r1, [r7, #0x5dc]
-	orr r1, r1, #0x38
-	str r1, [r7, #0x5dc]
-	ldr r1, [r7, #0x20]
-	bic r1, r1, #1
-	str r1, [r7, #0x20]
-	strh r0, [r7, #0x30]
-	moveq r0, #0x8000
-	streqh r0, [r7, #0x32]
-	ldr r3, [r6, #0x48]
-	ldr r0, [r7, #0x48]
-	ldr r2, [r6, #0x44]
-	ldr r1, [r7, #0x44]
-	sub r0, r3, r0
-	sub r1, r2, r1
-	bl FX_Atan2Idx
-	mov r2, #0
-	strh r2, [r7, #0x34]
-	str r0, [r7, #0x6f8]
-	str r2, [r7, #0x28]
-	mov r6, #0x49
-	sub r1, r6, #0x4a
-	str r2, [r7, #0x2c]
-	add r0, r7, #0x600
-	strh r2, [r0, #0xde]
-	add r4, r7, #0x254
-	str r5, [r7, #0x6f0]
-	str r2, [sp]
-	mov r2, r1
-	mov r3, r1
-	add r0, r4, #0x400
-	str r6, [sp, #4]
-	bl PlaySfxEx
-	ldr r0, =Player__Func_201CF94
-	str r0, [r7, #0xf4]
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    if (player->objWork.groundVel < FLOAT_TO_FX32(6.0))
+    {
+        player->objWork.groundVel = FLOAT_TO_FX32(6.0);
+    }
+    else if (player->objWork.groundVel > FLOAT_TO_FX32(7.5))
+    {
+        player->objWork.groundVel = FLOAT_TO_FX32(7.5);
+    }
 
-// clang-format on
-#endif
+    // player->objWork.groundVel = MTM_MATH_CLIP(player->objWork.groundVel, FLOAT_TO_FX32(6.0), FLOAT_TO_FX32(7.5));
+    player->objWork.groundVel >>= 4;
+
+    player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
+    player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
+    Player__InitPhysics(player);
+    Player__InitGimmick(player, FALSE);
+    player->gimmickObj     = hanger;
+    player->gimmick.value2 = player->objWork.groundVel;
+    Player__ChangeAction(player, PLAYER_ACTION_HANG_ROT);
+    player->objWork.obj_3d->ani.speedMultiplier = FLOAT_TO_FX32(0.0);
+    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+
+    player->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES | STAGE_TASK_MOVE_FLAG_IN_AIR);
+    player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    player->objWork.flag |= STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING;
+    player->playerFlag |= PLAYER_FLAG_2000;
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+    player->gimmickFlag |= PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10 | PLAYER_GIMMICK_8;
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
+
+    player->objWork.dir.x = FLOAT_DEG_TO_IDX(0.0);
+    if (!launchUpwards)
+        player->objWork.dir.y = FLOAT_DEG_TO_IDX(180.0);
+
+    u16 angle = FX_Atan2Idx(hanger->objWork.position.y - player->objWork.position.y, hanger->objWork.position.x - player->objWork.position.x);
+
+    player->objWork.dir.z     = FLOAT_DEG_TO_IDX(0.0);
+    player->gimmick.value3    = angle;
+    player->objWork.userWork  = 0;
+    player->objWork.userTimer = 0;
+    player->gimmickCamOffsetY = 0;
+    player->gimmick.value1    = launchForce;
+    PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GIMMICK);
+
+    SetTaskState(&player->objWork, Player__State_RotatingHanger);
 }
 
-NONMATCH_FUNC void Player__Func_201CF94(Player *player)
+NONMATCH_FUNC void Player__State_RotatingHanger(Player *work)
 {
+	// https://decomp.me/scratch/CFcqm -> 94.49%
 #ifdef NON_MATCHING
+    if (work->gimmickObj != NULL)
+    {
+        s32 spinDir;
+        BOOL flag;
+        if (work->objWork.dir.y != FLOAT_DEG_TO_IDX(0.0))
+        {
+            u16 angle = work->gimmick.value3;
 
+            flag = FALSE;
+            if (angle > FLOAT_DEG_TO_IDX(90.0) && angle <= FLOAT_DEG_TO_IDX(270.0))
+                flag = TRUE;
+
+            spinDir = 1;
+        }
+        else
+        {
+            u16 angle = work->gimmick.value3;
+
+            flag = TRUE;
+            if (angle > FLOAT_DEG_TO_IDX(90.0) && angle <= FLOAT_DEG_TO_IDX(270.0))
+                flag = FALSE;
+
+            spinDir = -1;
+        }
+
+        if (flag)
+        {
+            work->objWork.groundVel = ObjSpdUpSet(work->objWork.groundVel, work->gimmick.value2 >> 5, work->gimmick.value2);
+        }
+        else
+        {
+            work->objWork.groundVel = ObjSpdDownSet(work->objWork.groundVel, work->gimmick.value2 >> 5);
+
+            if (work->objWork.groundVel < work->gimmick.value2 >> 1)
+                work->objWork.groundVel = work->gimmick.value2 >> 1;
+        }
+
+        u16 prevAngle        = work->gimmick.value3;
+        work->gimmick.value3 = (u16)(work->gimmick.value3 + spinDir * work->objWork.groundVel);
+        if (work->objWork.dir.y && prevAngle < FLOAT_DEG_TO_IDX(180.0) && work->gimmick.value3 >= FLOAT_DEG_TO_IDX(180.0)
+            || !work->objWork.dir.y && prevAngle < FLOAT_DEG_TO_IDX(180.0) && work->gimmick.value3 > FLOAT_DEG_TO_IDX(180.0))
+        {
+            PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TURN_RING);
+        }
+
+        u16 angle;
+        if (work->objWork.dir.y != FLOAT_DEG_TO_IDX(0.0))
+        {
+            angle = work->gimmick.value3;
+            angle += FLOAT_DEG_TO_IDX(270.0);
+        }
+        else
+        {
+            angle = -work->gimmick.value3;
+            angle += FLOAT_DEG_TO_IDX(90.0);
+        }
+        Player__SetAnimFrame(work, (FLOAT_TO_FX32(80.0) * (angle >> 8)) >> 8);
+
+        work->objWork.prevPosition.x = work->objWork.position.x;
+        work->objWork.prevPosition.y = work->objWork.position.y;
+        work->objWork.position.x     = work->gimmickObj->objWork.position.x + MultiplyFX(work->gimmick.value1, CosFX((s32)(u16)work->gimmick.value3));
+        work->objWork.position.y     = work->gimmickObj->objWork.position.y + MultiplyFX(work->gimmick.value1, SinFX((s32)(u16)work->gimmick.value3));
+        work->objWork.move.x         = work->objWork.position.x - work->objWork.prevPosition.x;
+        work->objWork.move.y         = work->objWork.position.y - work->objWork.prevPosition.y;
+    }
+
+    if (work->gimmickObj == NULL || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
+    {
+        s32 offset = FLOAT_DEG_TO_IDX(45.0);
+        if (work->objWork.dir.y == FLOAT_DEG_TO_IDX(0.0))
+            offset = -offset;
+        u16 angle = (u16)work->gimmick.value3 + FLOAT_DEG_TO_IDX(180.0) + offset;
+
+        StopPlayerSfx(work, PLAYER_SEQPLAYER_COMMON);
+
+        fx32 force              = work->gimmick.value2;
+        work->objWork.groundVel = 0;
+        work->objWork.dir.y     = 0;
+        work->objWork.dir.z     = 0;
+        work->gimmickObj        = NULL;
+        work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY | STAGE_TASK_MOVE_FLAG_USE_SLOPE_FORCES;
+        work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_4000 | STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT);
+
+        force *= 16;
+        fx32 velX = MultiplyFX(force, CosFX(angle));
+        fx32 velY = MultiplyFX(force, SinFX(angle));
+        work->objWork.flag &= ~STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+        work->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+        work->gimmickFlag &= ~(PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10 | PLAYER_GIMMICK_8);
+        Player__Gimmick_201B418(work, velX, velY, TRUE);
+        work->objWork.userTimer = 5;
+        work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
+    }
 #else
     // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}

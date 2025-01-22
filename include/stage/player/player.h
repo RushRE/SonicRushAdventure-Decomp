@@ -758,8 +758,8 @@ void Player__HandleCorkscrewPathV(Player *player, s32 a2, s32 a3, s32 a4, s32 a5
 void Player__Gimmick_201C80C(Player *player, GameObjectTask *other, s32 value1, s32 timer);
 void Player__State_201C938(Player *work);
 void Player__Func_201CBD0(Player *player, fx32 velocity, BOOL flag, u32 type);
-void Player__Gimmick_201CDDC(Player *player, u32 a2, s32 a3, s32 a4);
-void Player__Func_201CF94(Player *player);
+void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 launchForce, BOOL launchUpwards);
+void Player__State_RotatingHanger(Player *work);
 void Player__Gimmick_201D314(Player *player, GameObjectTask *other, s32 value1, s32 value2);
 void Player__State_201D3E0(Player *work);
 void Player__Action_MushroomBounce(Player *player, fx32 velX, fx32 velY, s32 timer);
