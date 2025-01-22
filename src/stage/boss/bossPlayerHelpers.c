@@ -323,7 +323,7 @@ void BossPlayerHelpers_OnLandGround_Boss6(Player *player)
 
         if ((player->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
         {
-            player->tailAnimator.work.matrix33 = player->obj_3dWork.ani.work.matrix33;
+            player->tailAnimator.ani.work.matrix33 = player->obj_3dWork.ani.work.matrix33;
         }
     }
 
@@ -382,7 +382,7 @@ void BossPlayerHelpers_State_Ground_Boss6(Player *work)
                 work->objWork.obj_3d->ani.speedMultiplier = animSpeed;
 
             if ((work->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
-                work->tailAnimator.speedMultiplier = animSpeed;
+                work->tailAnimator.ani.speedMultiplier = animSpeed;
         }
     }
 }

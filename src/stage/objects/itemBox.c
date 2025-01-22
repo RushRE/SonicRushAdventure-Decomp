@@ -412,7 +412,7 @@ void ItemBox_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         }
     }
 
-    if (player->field_694 != 0)
+    if (player->itemBoxDisableTimer != 0)
     {
         ObjRect__FuncNoHit(rect1, rect2);
     }

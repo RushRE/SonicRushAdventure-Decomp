@@ -465,21 +465,7 @@ typedef struct Player_
     StageTask objWork;
 
     OBS_ACTION3D_NN_WORK obj_3dWork;
-    AnimatorMDL tailAnimator;
-    NNSG3dResFileHeader *blzTailModel;
-    NNSG3dResFileHeader *blzTailAnims;
-    u32 field_430;
-    u32 field_434;
-    u32 field_438;
-    u32 field_43C;
-    OBS_DATA_WORK *blzTailModelWork;
-    OBS_DATA_WORK *blzTailAnimsWork;
-    u32 field_448;
-    u32 field_44C;
-    u32 field_450;
-    u32 field_454;
-    u32 field_458;
-    u32 field_45C;
+    OBS_ACTION3D_NN_WORK tailAnimator;
     OBS_ACTION2D_BAC_WORK animatorSprite;
     OBS_RECT_WORK colliders[3];
     CharacterID characterID;
@@ -498,7 +484,7 @@ typedef struct Player_
     void (*actionRButtonAir)(struct Player_ *player);
     s16 tension;
     s16 overSpeedLimitTimer;
-    s32 no_spddown_timer;
+    s32 noSpdDownTimer;
     fx32 acceleration;
     fx32 topSpeed;
     fx32 deceleration;
@@ -532,13 +518,13 @@ typedef struct Player_
     s16 comboTensionTimer;
     s16 comboTensionMultiplier;
     u16 pressureTimer;
-    s16 field_68E;
+    s16 unknownTimer;
     s16 confusionTimer;
     s16 slomoTimer;
-    s16 field_694;
+    s16 itemBoxDisableTimer;
     s16 waterTimer;
     s16 inputLock;
-    u16 field_69A;
+    u16 _unused_69A;
     s16 hyperTrickTimer;
     s16 afterImageTimer;
     s16 trickFinishHorizFreezeTimer;
@@ -548,7 +534,7 @@ typedef struct Player_
     u8 superBoostCooldownTimer;
     u8 cameraScrollDelay;
     Vec2Fx32 cameraOffset;
-    Vec2Fx32 field_6B4;
+    Vec2Fx32 _unused_6B4;
     u32 cameraJumpPosY;
     StarCombo *starComboManager;
     ScoreBonus *scoreBonus;
@@ -569,10 +555,21 @@ typedef struct Player_
     s16 gimmickMapLimitTop;
     s16 gimmickMapLimitRight;
     s16 gimmickMapLimitBottom;
-    s32 gimmickValue1;
-    s32 gimmickValue2;
-    s32 gimmickValue3;
-    s32 gimmickValue4;
+
+    union
+    {
+        // Common values
+        struct
+        {
+            s32 value1;
+            s32 value2;
+            s32 value3;
+            s32 value4;
+        };
+
+// split off gimmick structs into their own file, for the sake of this file's readability
+#include <stage/player/playerGimmickStructs.h>
+    } gimmick;
 
     NNSG3dResFileHeader *snowboardAnims;
     s16 clingWeight;
@@ -595,8 +592,7 @@ typedef struct Player_
     } keyMap;
     u32 stageTimerStore;
     struct PlayerSendPacket sendPacketList[PLAYER_PACKET_QUEUE_SIZE];
-    fx32 field24Store;
-    fx32 userWorkStore;
+    Vec2Fx32 cameraDispPosStore;
     s16 sendPacketID;
 } Player;
 

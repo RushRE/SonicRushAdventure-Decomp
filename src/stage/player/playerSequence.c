@@ -237,14 +237,14 @@ void Player__Action_FollowParent(Player *player, GameObjectTask *other, fx32 off
         player->objWork.userFlag = PLAYER_CHILDFLAG_NONE;
         player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
-        player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
-        player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
-        player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
-        player->objWork.userWork   = 0;
-        player->objWork.userTimer  = 0;
-        player->gimmickValue1      = offsetX;
-        player->gimmickValue2      = offsetY;
-        player->gimmickValue3      = offsetZ;
+        player->objWork.velocity.x            = FLOAT_TO_FX32(0.0);
+        player->objWork.velocity.y            = FLOAT_TO_FX32(0.0);
+        player->objWork.groundVel             = FLOAT_TO_FX32(0.0);
+        player->objWork.userWork              = 0;
+        player->objWork.userTimer             = 0;
+        player->gimmick.followParent.offset.x = offsetX;
+        player->gimmick.followParent.offset.y = offsetY;
+        player->gimmick.followParent.offset.z = offsetZ;
 
         SetTaskState(&player->objWork, Player__State_FollowParent);
     }
@@ -295,7 +295,7 @@ void Player__State_FollowParent(Player *work)
             }
 
             VecFx32 offset;
-            VEC_Set(&offset, work->gimmickValue1, work->gimmickValue2, work->gimmickValue3);
+            VEC_Set(&offset, work->gimmick.followParent.offset.x, work->gimmick.followParent.offset.y, work->gimmick.followParent.offset.z);
             MTX_MultVec33(&offset, &matDirection, &offset);
 
             if ((work->objWork.userFlag & PLAYER_CHILDFLAG_FOLLOW_PREV_POS) != 0)
@@ -310,14 +310,14 @@ void Player__State_FollowParent(Player *work)
         }
         else if ((work->objWork.userFlag & PLAYER_CHILDFLAG_FOLLOW_PREV_POS) != 0)
         {
-            work->objWork.position.x = gimmickObj->objWork.prevPosition.x + work->gimmickValue1;
-            work->objWork.position.y = gimmickObj->objWork.prevPosition.y + work->gimmickValue2;
+            work->objWork.position.x = gimmickObj->objWork.prevPosition.x + work->gimmick.followParent.offset.x;
+            work->objWork.position.y = gimmickObj->objWork.prevPosition.y + work->gimmick.followParent.offset.y;
             work->objWork.position.z = gimmickObj->objWork.prevPosition.z;
         }
         else
         {
-            work->objWork.position.x = gimmickObj->objWork.position.x + work->gimmickValue1;
-            work->objWork.position.y = gimmickObj->objWork.position.y + work->gimmickValue2;
+            work->objWork.position.x = gimmickObj->objWork.position.x + work->gimmick.followParent.offset.x;
+            work->objWork.position.y = gimmickObj->objWork.position.y + work->gimmick.followParent.offset.y;
             work->objWork.position.z = gimmickObj->objWork.position.z;
         }
 
@@ -555,34 +555,34 @@ void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
         player->playerFlag &= ~(PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
 
-        player->gimmickValue1     = x;
-        player->gimmickValue2     = y;
-        player->gimmickValue3     = pathType;
-        player->gimmickValue4     = type;
-        player->objWork.userWork  = flags & CORKSCREWPATH_OBJFLAG_FLAG_MASK;
-        player->objWork.userTimer = 0;
+        player->gimmick.corkscrewPath.x        = x;
+        player->gimmick.corkscrewPath.y        = y;
+        player->gimmick.corkscrewPath.pathType = pathType;
+        player->gimmick.corkscrewPath.type     = type;
+        player->objWork.userWork               = flags & CORKSCREWPATH_OBJFLAG_FLAG_MASK;
+        player->objWork.userTimer              = 0;
 
         if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
         {
-            if (player->gimmickValue1 > player->objWork.position.x)
+            if (player->gimmick.corkscrewPath.x > player->objWork.position.x)
             {
-                player->objWork.userTimer = player->gimmickValue1 - player->objWork.position.x;
+                player->objWork.userTimer = player->gimmick.corkscrewPath.x - player->objWork.position.x;
             }
         }
         else
         {
-            if (player->gimmickValue1 < player->objWork.position.x)
+            if (player->gimmick.corkscrewPath.x < player->objWork.position.x)
             {
-                player->objWork.userTimer = player->objWork.position.x - player->gimmickValue1;
+                player->objWork.userTimer = player->objWork.position.x - player->gimmick.corkscrewPath.x;
             }
         }
 
-        player->gimmickValue2 -= FX32_FROM_WHOLE(player->objWork.hitboxRect.bottom);
+        player->gimmick.corkscrewPath.y -= FX32_FROM_WHOLE(player->objWork.hitboxRect.bottom);
 
-        if (player->gimmickValue3 == CORKSCREWPATH_TYPE_VERTICAL)
+        if (player->gimmick.corkscrewPath.pathType == CORKSCREWPATH_TYPE_VERTICAL)
         {
             if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_2) == 0)
-                player->gimmickValue2 -= FLOAT_TO_FX32(4.0);
+                player->gimmick.corkscrewPath.y -= FLOAT_TO_FX32(4.0);
         }
         else
         {
@@ -596,7 +596,7 @@ void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16
 
 void Player__State_CorkscrewPath(Player *work)
 {
-    if (work->gimmickValue3 != CORKSCREWPATH_TYPE_2)
+    if (work->gimmick.corkscrewPath.pathType != CORKSCREWPATH_TYPE_2)
     {
         if (MATH_ABS(work->objWork.groundVel) < work->spdThresholdJog && Player__HandleFallOffSurface(work))
         {
@@ -609,7 +609,7 @@ void Player__State_CorkscrewPath(Player *work)
 
     if ((work->inputKeyPress & PAD_BUTTON_A) != 0 && work->actionJump != NULL)
     {
-        if (work->gimmickValue3 == CORKSCREWPATH_TYPE_2)
+        if (work->gimmick.corkscrewPath.pathType == CORKSCREWPATH_TYPE_2)
             work->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
 
         work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
@@ -632,7 +632,7 @@ void Player__State_CorkscrewPath(Player *work)
             work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
             work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
-            if (work->gimmickValue3 == CORKSCREWPATH_TYPE_VERTICAL && ((work->objWork.userWork >> 2) & 1) == 0)
+            if (work->gimmick.corkscrewPath.pathType == CORKSCREWPATH_TYPE_VERTICAL && ((work->objWork.userWork >> 2) & 1) == 0)
             {
                 work->objWork.groundVel = -work->objWork.groundVel;
                 work->objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
@@ -641,7 +641,7 @@ void Player__State_CorkscrewPath(Player *work)
             work->objWork.velocity.x = work->objWork.groundVel;
             Player__Action_LandOnGround(work, 0);
 
-            if (work->gimmickValue3 == CORKSCREWPATH_TYPE_2)
+            if (work->gimmick.corkscrewPath.pathType == CORKSCREWPATH_TYPE_2)
                 Player__Action_Grind(work);
             else
                 work->onLandGround(work);
@@ -650,7 +650,7 @@ void Player__State_CorkscrewPath(Player *work)
         }
     }
 
-    if (work->gimmickValue3 != CORKSCREWPATH_TYPE_2)
+    if (work->gimmick.corkscrewPath.pathType != CORKSCREWPATH_TYPE_2)
     {
         if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
         {
@@ -661,7 +661,7 @@ void Player__State_CorkscrewPath(Player *work)
         Player__HandleGroundMovement(work);
     }
 
-    switch (work->gimmickValue3)
+    switch (work->gimmick.corkscrewPath.pathType)
     {
         case CORKSCREWPATH_TYPE_HORIZONTAL:
         default:
@@ -669,7 +669,7 @@ void Player__State_CorkscrewPath(Player *work)
             break;
 
         case CORKSCREWPATH_TYPE_VERTICAL:
-            if (work->gimmickValue4 == 0)
+            if (work->gimmick.corkscrewPath.type == 0)
                 Player__HandleCorkscrewPathV(work, 0x21E520, 84, 128, 0x83F00, 128, 32);
             else
                 Player__HandleCorkscrewPathV(work, 0x13C030, 40, 192, 327680, 64, 50);
@@ -727,14 +727,14 @@ NONMATCH_FUNC void Player__HandleCorkscrewPathH(Player *player, s32 a2, s32 a3, 
 
     if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
     {
-        player->objWork.position.x = player->gimmickValue1 - ((v11 * a3) << 12) - a3 * v13;
+        player->objWork.position.x = player->gimmick.x - ((v11 * a3) << 12) - a3 * v13;
     }
     else
     {
-        player->objWork.position.x = player->gimmickValue1 + ((v11 * a3) << 12) + a3 * v13;
+        player->objWork.position.x = player->gimmick.x + ((v11 * a3) << 12) + a3 * v13;
     }
 
-    player->objWork.position.y = player->gimmickValue2 + (v18 << 12) - cos * v18;
+    player->objWork.position.y = player->gimmick.y + (v18 << 12) - cos * v18;
 
     player->objWork.move.x = player->objWork.position.x - player->objWork.prevPosition.x;
     player->objWork.move.y = player->objWork.position.y - player->objWork.prevPosition.y;
@@ -1193,9 +1193,9 @@ void Player__Gimmick_201C80C(Player *player, GameObjectTask *other, s32 value1, 
         player->objWork.dir.z         = FLOAT_DEG_TO_IDX(0.0);
         player->objWork.userWork      = 0;
         player->objWork.userTimer     = timer;
-        player->gimmickValue1         = value1;
-        player->gimmickValue2         = player->objWork.position.x;
-        player->gimmickValue3         = player->objWork.position.y;
+        player->gimmick.value1        = value1;
+        player->gimmick.value2        = player->objWork.position.x;
+        player->gimmick.value3        = player->objWork.position.y;
         player->colliders[0].defPower = PLAYER_DEFPOWER_INVINCIBLE;
         player->blinkTimer            = 0;
         player->objWork.displayFlag &= ~DISPLAY_FLAG_NO_DRAW;
@@ -1861,8 +1861,8 @@ void Player__Gimmick_201D314(Player *player, GameObjectTask *other, s32 value1, 
         player->objWork.dir.z      = other->objWork.dir.z;
         player->objWork.userWork   = 0;
         player->objWork.userTimer  = 0;
-        player->gimmickValue1      = value1;
-        player->gimmickValue2      = value2;
+        player->gimmick.value1     = value1;
+        player->gimmick.value2     = value2;
 
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GIMMICK);
 
@@ -2283,7 +2283,7 @@ void Player__Gimmick_Grind3Line(Player *player)
 
     SetTaskState(&player->objWork, Player__State_Grind3Line);
     ObjRect__SetOnDefend(&player->colliders[0], Player__OnDefend_Grind3Line);
-    player->gimmickValue1 = 1;
+    player->gimmick.grind3Line.rail = 1;
 
     StopPlayerSfx(player, PLAYER_SEQPLAYER_GRIND);
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_GRIND, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GRIND);
@@ -2310,21 +2310,21 @@ void Player__HandleRideGrind3Line(Player *player)
         {
             if ((player->inputKeyDown & PAD_KEY_LEFT) != 0)
             {
-                if (player->gimmickValue1 < 2)
+                if (player->gimmick.grind3Line.rail < 2)
                 {
                     // hopping left one rail!
                     jumped = TRUE;
-                    player->gimmickValue1++;
+                    player->gimmick.grind3Line.rail++;
                     velX = -FLOAT_TO_FX32(2.9697265625);
                 }
             }
             else if ((player->inputKeyDown & PAD_KEY_RIGHT) != 0)
             {
-                if (player->gimmickValue1 > 0)
+                if (player->gimmick.grind3Line.rail > 0)
                 {
                     // hopping right one rail!
                     jumped = TRUE;
-                    player->gimmickValue1--;
+                    player->gimmick.grind3Line.rail--;
                     velX = FLOAT_TO_FX32(2.9697265625);
                 }
             }
@@ -2902,9 +2902,9 @@ void Player__Action_SteamFan(Player *player, GameObjectTask *other, s32 fanRadiu
 
         player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
 
-        player->gimmickValue1 = FX_Sqrt(SquaredFX(player->gimmickObj->objWork.position.x - player->objWork.position.x)
-                                        + SquaredFX(player->gimmickObj->objWork.position.y - player->objWork.position.y));
-        player->gimmickValue2 = fanRadius;
+        player->gimmick.steamFan.radius      = FX_Sqrt(SquaredFX(player->gimmickObj->objWork.position.x - player->objWork.position.x)
+                                                       + SquaredFX(player->gimmickObj->objWork.position.y - player->objWork.position.y));
+        player->gimmick.steamFan.launchForce = fanRadius;
     }
 }
 
@@ -2925,8 +2925,8 @@ void Player__State_SteamFan(Player *work)
         {
             u16 angle = FX_Atan2Idx(work->objWork.position.y - work->gimmickObj->objWork.position.y, work->objWork.position.x - work->gimmickObj->objWork.position.x);
 
-            work->objWork.velocity.x = MultiplyFX(CosFX((s32)angle), work->gimmickValue2);
-            work->objWork.velocity.y = MultiplyFX(SinFX((s32)angle), work->gimmickValue2);
+            work->objWork.velocity.x = MultiplyFX(CosFX((s32)angle), work->gimmick.steamFan.launchForce);
+            work->objWork.velocity.y = MultiplyFX(SinFX((s32)angle), work->gimmick.steamFan.launchForce);
 
             if (work->objWork.velocity.x >= FLOAT_TO_FX32(0.0))
                 work->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
@@ -2944,26 +2944,26 @@ void Player__State_SteamFan(Player *work)
         fx32 radius;
         if (work->objWork.groundVel != FLOAT_TO_FX32(0.0))
         {
-            work->gimmickValue1 = ObjSpdDownSet(work->gimmickValue1, work->objWork.groundVel);
-            radius              = work->gimmickValue1;
+            work->gimmick.steamFan.radius = ObjSpdDownSet(work->gimmick.steamFan.radius, work->objWork.groundVel);
+            radius                        = work->gimmick.steamFan.radius;
 
             work->objWork.groundVel -= (work->objWork.groundVel >> 3);
-            if (work->objWork.groundVel < FLOAT_TO_FX32(0.125) || !work->gimmickValue1)
+            if (work->objWork.groundVel < FLOAT_TO_FX32(0.125) || !work->gimmick.steamFan.radius)
                 work->objWork.groundVel = FLOAT_TO_FX32(0.0);
         }
         else
         {
-            if (work->gimmickValue1 > FLOAT_TO_FX32(40.0))
+            if (work->gimmick.steamFan.radius > FLOAT_TO_FX32(40.0))
             {
-                radius                   = MATH_MAX(work->gimmickValue1 - work->objWork.velocity.x, FLOAT_TO_FX32(40.0));
-                work->gimmickValue1      = radius;
-                work->objWork.velocity.x = ObjSpdUpSet(work->objWork.velocity.x, FLOAT_TO_FX32(0.25), FLOAT_TO_FX32(2.0));
+                radius                        = MATH_MAX(work->gimmick.steamFan.radius - work->objWork.velocity.x, FLOAT_TO_FX32(40.0));
+                work->gimmick.steamFan.radius = radius;
+                work->objWork.velocity.x      = ObjSpdUpSet(work->objWork.velocity.x, FLOAT_TO_FX32(0.25), FLOAT_TO_FX32(2.0));
             }
-            else if (work->gimmickValue1 < FLOAT_TO_FX32(40.0))
+            else if (work->gimmick.steamFan.radius < FLOAT_TO_FX32(40.0))
             {
-                radius                   = MATH_MIN(work->gimmickValue1 + work->objWork.velocity.x, FLOAT_TO_FX32(40.0));
-                work->gimmickValue1      = radius;
-                work->objWork.velocity.x = ObjSpdUpSet(work->objWork.velocity.x, FLOAT_TO_FX32(0.0625), FLOAT_TO_FX32(2.5));
+                radius                        = MATH_MIN(work->gimmick.steamFan.radius + work->objWork.velocity.x, FLOAT_TO_FX32(40.0));
+                work->gimmick.steamFan.radius = radius;
+                work->objWork.velocity.x      = ObjSpdUpSet(work->objWork.velocity.x, FLOAT_TO_FX32(0.0625), FLOAT_TO_FX32(2.5));
             }
             else
             {
@@ -3025,10 +3025,10 @@ void Player__Action_PopSteam(Player *player, GameObjectTask *other, fx32 velX, f
         }
 
         ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
-        player->gimmickValue1 = speedThreshold;
-        player->gimmickValue2 = other->objWork.position.x;
-        player->gimmickValue3 = other->objWork.position.y;
-        player->gimmickValue4 = allowTricks;
+        player->gimmick.popSteam.threshold   = speedThreshold;
+        player->gimmick.popSteam.x           = other->objWork.position.x;
+        player->gimmick.popSteam.y           = other->objWork.position.y;
+        player->gimmick.popSteam.allowTricks = allowTricks;
 
         velX = MATH_ABS(velX);
         velY = MATH_ABS(velY);
@@ -3052,17 +3052,16 @@ void Player__State_PopSteam(Player *work)
     }
     else
     {
-        fx32 x = MATH_ABS(work->objWork.position.x - work->gimmickValue2);
-        fx32 y = MATH_ABS(work->objWork.position.y - work->gimmickValue3);
-        if (work->gimmickValue1 * FX32_TO_WHOLE(work->gimmickValue1) <= x * FX32_TO_WHOLE(x) + y * FX32_TO_WHOLE(y))
+        fx32 x = MATH_ABS(work->objWork.position.x - work->gimmick.popSteam.x);
+        fx32 y = MATH_ABS(work->objWork.position.y - work->gimmick.popSteam.y);
+        if (work->gimmick.popSteam.threshold * FX32_TO_WHOLE(work->gimmick.popSteam.threshold) <= x * FX32_TO_WHOLE(x) + y * FX32_TO_WHOLE(y))
         {
-            work->gimmickValue3 = 0;
-            work->gimmickValue2 = 0;
-            work->gimmickValue1 = 0;
+            work->gimmick.popSteam.x = work->gimmick.popSteam.y = 0;
+            work->gimmick.popSteam.threshold                    = 0;
             work->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
             work->playerFlag |= PLAYER_FLAG_USER_FLAG;
 
-            if (work->gimmickValue4 != 0)
+            if (work->gimmick.popSteam.allowTricks != 0)
                 work->playerFlag |= PLAYER_FLAG_ALLOW_TRICKS;
 
             work->objWork.userTimer  = 0;
@@ -3096,22 +3095,22 @@ void Player__Action_DreamWing(Player *player, GameObjectTask *other, fx32 velX, 
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR;
 
-        player->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
-        player->gimmickValue4 = player->objWork.groundVel;
+        player->objWork.dir.z               = FLOAT_DEG_TO_IDX(0.0);
+        player->gimmick.dreamWing.startVelX = player->objWork.groundVel;
 
         player->objWork.velocity.x = velX;
         player->objWork.velocity.y = velY;
         player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
 
-        player->gimmickValue1 = -velY;
+        player->gimmick.dreamWing.topSpeedY = -velY;
         if (velY <= FLOAT_TO_FX32(0.0))
-            player->gimmickValue1 = FLOAT_TO_FX32(2.0);
+            player->gimmick.dreamWing.topSpeedY = FLOAT_TO_FX32(2.0);
 
-        player->objWork.position.x = other->objWork.position.x;
-        player->objWork.position.y = other->objWork.position.y + FLOAT_TO_FX32(16.0);
-        player->gimmickValue2      = burstDelay;
-        player->gimmickValue3      = 0;
-        player->objWork.userFlag   = 0;
+        player->objWork.position.x           = other->objWork.position.x;
+        player->objWork.position.y           = other->objWork.position.y + FLOAT_TO_FX32(16.0);
+        player->gimmick.dreamWing.burstTimer = burstDelay;
+        player->gimmick.dreamWing.timer2     = 0;
+        player->objWork.userFlag             = 0;
 
         if ((other->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
             player->objWork.displayFlag |= DISPLAY_FLAG_FLIP_X;
@@ -3132,7 +3131,7 @@ void Player__State_DreamWing(Player *work)
     {
         work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS);
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
-        work->objWork.groundVel = work->gimmickValue4;
+        work->objWork.groundVel = work->gimmick.dreamWing.startVelX;
         Player__Action_Launch(work);
         return;
     }
@@ -3148,7 +3147,7 @@ void Player__State_DreamWing(Player *work)
     {
         if ((work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
         {
-            work->objWork.groundVel = work->gimmickValue4;
+            work->objWork.groundVel = work->gimmick.dreamWing.startVelX;
             Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
             work->onLandGround(work);
             work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS);
@@ -3161,7 +3160,7 @@ void Player__State_DreamWing(Player *work)
             || (work->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_CEILING) != 0 && work->objWork.move.y <= -FLOAT_TO_FX32(1.0)
             || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
         {
-            work->objWork.groundVel = work->gimmickValue4;
+            work->objWork.groundVel = work->gimmick.dreamWing.startVelX;
             Player__Action_Launch(work);
             work->objWork.moveFlag &= ~(STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_OBJ_COLLISIONS);
             work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
@@ -3173,19 +3172,19 @@ void Player__State_DreamWing(Player *work)
     if ((work->inputKeyPress & PAD_KEY_UP) != 0)
         work->objWork.userWork++;
 
-    if (work->gimmickValue2 != 0)
+    if (work->gimmick.dreamWing.burstTimer != 0)
     {
-        work->gimmickValue2--;
-        if (work->gimmickValue2 == 0)
+        work->gimmick.dreamWing.burstTimer--;
+        if (work->gimmick.dreamWing.burstTimer == 0)
             work->objWork.userFlag |= 1;
     }
     else if ((work->objWork.userFlag & 1) != 0)
     {
         work->objWork.velocity.y += FLOAT_TO_FX32(0.1640625);
-        if (work->objWork.velocity.y >= work->gimmickValue1)
+        if (work->objWork.velocity.y >= work->gimmick.dreamWing.topSpeedY)
         {
             work->objWork.userFlag &= ~1;
-            work->objWork.velocity.y = work->gimmickValue1;
+            work->objWork.velocity.y = work->gimmick.dreamWing.topSpeedY;
         }
     }
 
@@ -3193,16 +3192,16 @@ void Player__State_DreamWing(Player *work)
     {
         work->objWork.userWork++;
         work->objWork.userFlag |= 2;
-        work->gimmickValue3      = 15;
-        work->objWork.velocity.y = -FLOAT_TO_FX32(5.0);
+        work->gimmick.dreamWing.timer2 = 15;
+        work->objWork.velocity.y       = -FLOAT_TO_FX32(5.0);
         work->objWork.userFlag &= ~1;
-        work->gimmickValue2 = 15;
+        work->gimmick.dreamWing.burstTimer = 15;
     }
 
-    if (work->gimmickValue3 != 0)
+    if (work->gimmick.dreamWing.timer2 != 0)
     {
-        work->gimmickValue3--;
-        if (work->gimmickValue3 == 0)
+        work->gimmick.dreamWing.timer2--;
+        if (work->gimmick.dreamWing.timer2 == 0)
             work->objWork.userFlag &= ~2;
     }
 }
@@ -3509,24 +3508,24 @@ void Player__Action_IcicleGrab(Player *player, GameObjectTask *other, s32 width)
 
         ObjRect__SetAttackStat(&player->colliders[1], 0, 0);
 
-        player->gimmickValue1 = width;
-        fx32 icicleY          = other->objWork.position.y - FLOAT_TO_FX32(256.0);
+        player->gimmick.icicleGrab.width = width;
+        fx32 icicleY                     = other->objWork.position.y - FLOAT_TO_FX32(256.0);
 
         fx32 size;
         if (player->objWork.position.y > icicleY)
-            size = FX_Div(68 * (player->gimmickValue1 - (player->objWork.position.y - icicleY)), player->gimmickValue1);
+            size = FX_Div(68 * (player->gimmick.icicleGrab.width - (player->objWork.position.y - icicleY)), player->gimmick.icicleGrab.width);
         else
             size = FLOAT_TO_FX32(68.0);
 
         if (player->objWork.position.x <= other->objWork.position.x)
         {
-            player->objWork.position.x = other->objWork.position.x - (size >> 1);
-            player->gimmickValue2      = FLOAT_DEG_TO_IDX(0.0);
+            player->objWork.position.x       = other->objWork.position.x - (size >> 1);
+            player->gimmick.icicleGrab.angle = FLOAT_DEG_TO_IDX(0.0);
         }
         else
         {
-            player->objWork.position.x = other->objWork.position.x + (size >> 1);
-            player->gimmickValue2      = FLOAT_DEG_TO_IDX(180.0);
+            player->objWork.position.x       = other->objWork.position.x + (size >> 1);
+            player->gimmick.icicleGrab.angle = FLOAT_DEG_TO_IDX(180.0);
         }
 
         player->objWork.position.z = 0;
@@ -3575,7 +3574,7 @@ void Player__State_IcicleGrab(Player *work)
 
     fx32 size;
     if (work->objWork.position.y > icicleY)
-        size = FX_Div(68 * (work->gimmickValue1 - (work->objWork.position.y - icicleY)), work->gimmickValue1);
+        size = FX_Div(68 * (work->gimmick.icicleGrab.width - (work->objWork.position.y - icicleY)), work->gimmick.icicleGrab.width);
     else
         size = FLOAT_TO_FX32(68.0);
 
@@ -3593,8 +3592,8 @@ void Player__State_IcicleGrab(Player *work)
     }
     else
     {
-        work->gimmickValue2 += MultiplyFX(-64, (FLOAT_TO_FX32(68.0) - size)) - 128;
-        work->objWork.dir.y = work->gimmickValue2;
+        work->gimmick.icicleGrab.angle += MultiplyFX(-64, (FLOAT_TO_FX32(68.0) - size)) - 128;
+        work->objWork.dir.y = work->gimmick.icicleGrab.angle;
 
         fx32 radius              = size >> 1;
         work->objWork.position.x = icicle->objWork.position.x + MultiplyFX(radius, CosFX((s32)(u16)(s32)(work->objWork.dir.y + FLOAT_DEG_TO_IDX(180.0))));
@@ -3691,7 +3690,7 @@ void Player__State_IceSlide(Player *player)
                 player->objWork.velocity.x = FLOAT_TO_FX32(2.0);
         }
 
-        player->gimmickValue1 = FLOAT_TO_FX32(0.625);
+        player->gimmick.iceSlide.spinSpeed = FLOAT_TO_FX32(0.625);
         Player__ChangeAction(player, PLAYER_ACTION_JUMPFALL);
         player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
         SetTaskState(&player->objWork, Player__State_IceSlideLaunch);
@@ -3765,11 +3764,11 @@ void Player__State_IceSlideLaunch(Player *work)
         }
         else
         {
-            work->gimmickValue1 -= FLOAT_DEG_TO_IDX(0.087890625);
-            if (work->gimmickValue1 < FLOAT_DEG_TO_IDX(5.625))
-                work->gimmickValue1 = FLOAT_DEG_TO_IDX(5.625);
+            work->gimmick.iceSlide.spinSpeed -= FLOAT_DEG_TO_IDX(0.087890625);
+            if (work->gimmick.iceSlide.spinSpeed < FLOAT_DEG_TO_IDX(5.625))
+                work->gimmick.iceSlide.spinSpeed = FLOAT_DEG_TO_IDX(5.625);
 
-            fx32 spinSpeed = MultiplyFX(work->gimmickValue1, g_obj.speed);
+            fx32 spinSpeed = MultiplyFX(work->gimmick.iceSlide.spinSpeed, g_obj.speed);
             if ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
                 work->objWork.dir.z += (u16)spinSpeed;
             else
@@ -5734,9 +5733,9 @@ void Player__Gimmick_2021E9C(Player *player, GameObjectTask *other)
         if (velY < FLOAT_TO_FX32(6.0))
             velY = FLOAT_TO_FX32(6.0);
 
-        player->gimmickValue1      = velX;
-        player->gimmickValue2      = -velY;
-        player->objWork.velocity.x = 0;
+        player->gimmick.value1     = velX;
+        player->gimmick.value2     = -velY;
+        player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
         player->objWork.velocity.y = velY;
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_SLOPE_ANGLES | STAGE_TASK_MOVE_FLAG_IN_AIR;
         player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
@@ -6056,7 +6055,7 @@ NONMATCH_FUNC void Player__Func_20223F8(Player *player)
     GameObjectTask *gimmick = player->gimmickObj;
     if (gimmick != NULL)
     {
-        player->objWork.position.x = ObjDiffSet(player->objWork.position.x, gimmick->objWork.position.x, player->gimmickValue1, 1, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(0.5));
+        player->objWork.position.x = ObjDiffSet(player->objWork.position.x, gimmick->objWork.position.x, player->gimmick.value1, 1, FLOAT_TO_FX32(4.0), FLOAT_TO_FX32(0.5));
         if (player->objWork.position.x == gimmick->objWork.position.x)
         {
             SetTaskState(&player->objWork, Player__State_20222E4);
@@ -6730,9 +6729,9 @@ void Player__Gimmick_JumpBox(Player *player, GameObjectTask *other, CharacterID 
     player->objWork.dir.z    = FLOAT_DEG_TO_IDX(0.0);
     player->objWork.userWork = JUMPBOX_STATE_CLIMBING;
 
-    player->gimmickValue3 = 0;
-    player->gimmickValue1 = player->objWork.position.x;
-    player->gimmickValue2 = player->objWork.position.y;
+    player->gimmick.jumpBox.progress = FLOAT_TO_FX32(0.0);
+    player->gimmick.jumpBox.startX   = player->objWork.position.x;
+    player->gimmick.jumpBox.startY   = player->objWork.position.y;
 
     SetTaskState(&player->objWork, Player__State_JumpBox);
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_JUMP);
@@ -6770,9 +6769,9 @@ NONMATCH_FUNC void Player__State_JumpBox(Player *work)
                 xOffset = FLOAT_TO_FX32(2.0);
 
             work->objWork.userTimer -= FLOAT_TO_FX32(0.625);
-            work->gimmickValue3 += FLOAT_TO_FX32(0.125);
+            work->gimmick.jumpBox.progress += FLOAT_TO_FX32(0.125);
 
-            if (work->gimmickValue3 >= FLOAT_TO_FX32(1.0))
+            if (work->gimmick.jumpBox.progress >= FLOAT_TO_FX32(1.0))
             {
                 work->objWork.userWork++;
                 work->objWork.position.x = gimmickObj->objWork.position.x;
@@ -6781,8 +6780,8 @@ NONMATCH_FUNC void Player__State_JumpBox(Player *work)
             }
             else
             {
-                work->objWork.position.x = mtLerp(work->gimmickValue3, work->gimmickValue1, gimmickObj->objWork.position.x + xOffset);
-                work->objWork.position.y = mtLerpEx(work->gimmickValue3, work->gimmickValue2, gimmickObj->objWork.position.y - FLOAT_TO_FX32(62.0), 2);
+                work->objWork.position.x = mtLerp(work->gimmick.jumpBox.progress, work->gimmick.jumpBox.startX, gimmickObj->objWork.position.x + xOffset);
+                work->objWork.position.y = mtLerpEx(work->gimmick.jumpBox.progress, work->gimmick.jumpBox.startY, gimmickObj->objWork.position.y - FLOAT_TO_FX32(62.0), 2);
             }
 
             break;
@@ -6794,7 +6793,7 @@ NONMATCH_FUNC void Player__State_JumpBox(Player *work)
             if (work->objWork.userTimer <= FLOAT_TO_FX32(1.0))
             {
                 work->objWork.userWork++;
-                work->gimmickValue4 = -FLOAT_TO_FX32(1.208251953125);
+                work->gimmick.jumpBox.animSpeed = -FLOAT_TO_FX32(1.208251953125);
                 break;
             }
 
@@ -6873,8 +6872,8 @@ NONMATCH_FUNC void Player__State_JumpBox(Player *work)
             // reached the other side of the jumpbox... its over
             // player is vaulting over the other side of the jumpbox here
         case JUMPBOX_STATE_VAULTED:
-            work->objWork.userTimer += work->gimmickValue4;
-            work->gimmickValue4 -= FLOAT_TO_FX32(0.0625);
+            work->objWork.userTimer += work->gimmick.jumpBox.animSpeed;
+            work->gimmick.jumpBox.animSpeed -= FLOAT_TO_FX32(0.0625);
 
             if (work->objWork.userTimer < 0)
             {
@@ -6894,8 +6893,8 @@ NONMATCH_FUNC void Player__State_JumpBox(Player *work)
             // finishing up...
             // player is letting go of the jump bpx here
         case JUMPBOX_STATE_EXIT:
-            work->objWork.userTimer += work->gimmickValue4;
-            work->gimmickValue4 -= FLOAT_TO_FX32(0.0625);
+            work->objWork.userTimer += work->gimmick.jumpBox.animSpeed;
+            work->gimmick.jumpBox.animSpeed -= FLOAT_TO_FX32(0.0625);
 
             if ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
                 work->objWork.velocity.x = ObjSpdUpSet(work->objWork.velocity.x, -FLOAT_TO_FX32(0.25), FLOAT_TO_FX32(2.0));
@@ -7637,18 +7636,22 @@ void Player__State_DolphinRide(Player *work)
             work->objWork.userTimer += FLOAT_TO_FX32(0.03125);
             if (work->objWork.userTimer < FLOAT_TO_FX32(0.5))
             {
-                work->objWork.velocity.z = mtLerpEx2(2 * work->objWork.userTimer, work->gimmickValue1, work->gimmickValue1 + ((work->gimmickValue2 - work->gimmickValue1) >> 1), 1)
+                work->objWork.velocity.z = mtLerpEx2(2 * work->objWork.userTimer, work->gimmick.dolphinRide.startZ,
+                                                     work->gimmick.dolphinRide.startZ + ((work->gimmick.dolphinRide.targetZ - work->gimmick.dolphinRide.startZ) >> 1), 1)
                                            - work->objWork.position.z;
             }
             else if (work->objWork.userTimer < FLOAT_TO_FX32(1.0))
             {
                 work->objWork.velocity.z =
-                    mtLerp(2 * (work->objWork.userTimer - FLOAT_TO_FX32(0.5)), work->gimmickValue1 + ((work->gimmickValue2 - work->gimmickValue1) >> 1), work->gimmickValue2)
+                    mtLerp(2 * (work->objWork.userTimer - FLOAT_TO_FX32(0.5)),
+                           work->gimmick.dolphinRide.startZ + ((work->gimmick.dolphinRide.targetZ - work->gimmick.dolphinRide.startZ) >> 1), work->gimmick.dolphinRide.targetZ)
                     - work->objWork.position.z;
             }
             else
             {
-                work->objWork.velocity.z = mtLerp(FLOAT_TO_FX32(1.0), (work->gimmickValue2 - work->gimmickValue1) >> 1, work->gimmickValue2) - work->objWork.position.z;
+                work->objWork.velocity.z =
+                    mtLerp(FLOAT_TO_FX32(1.0), (work->gimmick.dolphinRide.targetZ - work->gimmick.dolphinRide.startZ) >> 1, work->gimmick.dolphinRide.targetZ)
+                    - work->objWork.position.z;
                 work->objWork.userFlag &= ~1;
             }
 
@@ -7735,9 +7738,9 @@ void Player__State_DolphinRide(Player *work)
             if (work->objWork.position.z != FLOAT_TO_FX32(0.0) && work->starComboCount == 0)
             {
                 work->objWork.userFlag |= 1;
-                work->objWork.userTimer = 0;
-                work->gimmickValue1     = work->objWork.position.z;
-                work->gimmickValue2     = FLOAT_TO_FX32(0.0);
+                work->objWork.userTimer           = 0;
+                work->gimmick.dolphinRide.startZ  = work->objWork.position.z;
+                work->gimmick.dolphinRide.targetZ = FLOAT_TO_FX32(0.0);
             }
         }
 
@@ -7879,23 +7882,23 @@ void Player__Action_DolphinHoop(Player *player, GameObjectTask *hoop)
                 switch (mapObject->id)
                 {
                     case MAPOBJECT_216:
-                        player->gimmickValue1 = FLOAT_TO_FX32(0.0);
-                        player->gimmickValue2 = FLOAT_TO_FX32(90.0);
+                        player->gimmick.dolphinRide.startZ  = FLOAT_TO_FX32(0.0);
+                        player->gimmick.dolphinRide.targetZ = FLOAT_TO_FX32(90.0);
                         break;
 
                     case MAPOBJECT_218:
-                        player->gimmickValue1 = FLOAT_TO_FX32(0.0);
-                        player->gimmickValue2 = -FLOAT_TO_FX32(90.0);
+                        player->gimmick.dolphinRide.startZ  = FLOAT_TO_FX32(0.0);
+                        player->gimmick.dolphinRide.targetZ = -FLOAT_TO_FX32(90.0);
                         break;
 
                     case MAPOBJECT_217:
-                        player->gimmickValue1 = FLOAT_TO_FX32(90.0);
-                        player->gimmickValue2 = FLOAT_TO_FX32(0.0);
+                        player->gimmick.dolphinRide.startZ  = FLOAT_TO_FX32(90.0);
+                        player->gimmick.dolphinRide.targetZ = FLOAT_TO_FX32(0.0);
                         break;
 
                     case MAPOBJECT_219:
-                        player->gimmickValue1 = -FLOAT_TO_FX32(90.0);
-                        player->gimmickValue2 = FLOAT_TO_FX32(0.0);
+                        player->gimmick.dolphinRide.startZ  = -FLOAT_TO_FX32(90.0);
+                        player->gimmick.dolphinRide.targetZ = FLOAT_TO_FX32(0.0);
                         break;
                 }
             }
@@ -7916,13 +7919,13 @@ void Player__Action_HoverCrystal(Player *player, GameObjectTask *other, fx32 lef
 {
     if (StageTaskStateMatches(&player->objWork, Player__State_HoverCrystal))
     {
-        player->gimmickValue1 = left - FLOAT_TO_FX32(1.0);
+        player->gimmick.hoverCrystal.boundsL = left - FLOAT_TO_FX32(1.0);
 
-        if (y < player->gimmickValue2 || player->gimmickValue2 == 0)
-            player->gimmickValue2 = y;
+        if (y < player->gimmick.hoverCrystal.targetY || player->gimmick.hoverCrystal.targetY == FLOAT_TO_FX32(0.0))
+            player->gimmick.hoverCrystal.targetY = y;
 
-        player->gimmickValue3 = right + FLOAT_TO_FX32(1.0);
-        player->gimmickObj    = other;
+        player->gimmick.hoverCrystal.boundsR = right + FLOAT_TO_FX32(1.0);
+        player->gimmickObj                   = other;
     }
     else
     {
@@ -7936,7 +7939,7 @@ void Player__Action_HoverCrystal(Player *player, GameObjectTask *other, fx32 lef
             if ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR) != 0)
                 player->objWork.velocity.x = player->objWork.groundVel;
 
-            fx32 weight = other->mapObject->flags & HOVERCRYSTAL_OBJFLAG_WEIGHT_MASK;
+            s32 weight = other->mapObject->flags & HOVERCRYSTAL_OBJFLAG_WEIGHT_MASK;
             if (weight != 0)
             {
                 player->objWork.velocity.x >>= weight;
@@ -7950,10 +7953,10 @@ void Player__Action_HoverCrystal(Player *player, GameObjectTask *other, fx32 lef
             player->objWork.userFlag = 0;
 
             player->gimmickFlag |= PLAYER_GIMMICK_GRABBED;
-            player->gimmickObj    = other;
-            player->gimmickValue1 = left - FLOAT_TO_FX32(1.0);
-            player->gimmickValue2 = y;
-            player->gimmickValue3 = right + FLOAT_TO_FX32(1.0);
+            player->gimmickObj                   = other;
+            player->gimmick.hoverCrystal.boundsL = left - FLOAT_TO_FX32(1.0);
+            player->gimmick.hoverCrystal.targetY = y;
+            player->gimmick.hoverCrystal.boundsR = right + FLOAT_TO_FX32(1.0);
 
             SetTaskState(&player->objWork, Player__State_HoverCrystal);
 
@@ -7968,8 +7971,8 @@ void Player__State_HoverCrystal(Player *work)
 
     if (work->gimmickObj != NULL)
     {
-        if ((work->objWork.position.y > work->gimmickValue2 && (work->objWork.displayFlag & DISPLAY_FLAG_FLIP_Y) == 0)
-            || (work->objWork.position.y < work->gimmickValue2 && (work->objWork.displayFlag & DISPLAY_FLAG_FLIP_Y) != 0))
+        if ((work->objWork.position.y > work->gimmick.hoverCrystal.targetY && (work->objWork.displayFlag & DISPLAY_FLAG_FLIP_Y) == 0)
+            || (work->objWork.position.y < work->gimmick.hoverCrystal.targetY && (work->objWork.displayFlag & DISPLAY_FLAG_FLIP_Y) != 0))
         {
             work->objWork.velocity.y = ObjSpdUpSet(work->objWork.velocity.y, -FLOAT_TO_FX32(0.1953125), FLOAT_TO_FX32(4.5));
             work->objWork.userFlag |= 1;
@@ -7991,13 +7994,13 @@ void Player__State_HoverCrystal(Player *work)
             }
         }
 
-        if (work->objWork.position.x <= work->gimmickValue1 || work->objWork.position.x >= work->gimmickValue3)
+        if (work->objWork.position.x <= work->gimmick.hoverCrystal.boundsL || work->objWork.position.x >= work->gimmick.hoverCrystal.boundsR)
             work->gimmickObj = NULL;
     }
 
     if (work->gimmickObj != NULL)
     {
-        work->gimmickValue2 = 0;
+        work->gimmick.hoverCrystal.targetY = FLOAT_TO_FX32(0.0);
     }
     else
     {
@@ -8033,7 +8036,7 @@ void Player__Action_BalloonRide(Player *player, GameObjectTask *balloon, fx32 fl
     player->gimmickFlag |= PLAYER_GIMMICK_4000000;
     player->gimmickCamGimmickCenterOffsetY = 64;
     player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
-    player->gimmickValue1 = floatSpeed;
+    player->gimmick.balloonRide.floatSpeed = floatSpeed;
 
     SetTaskState(&player->objWork, Player__State_BalloonRide);
     Player__Action_StopBoost(player);
@@ -8068,7 +8071,7 @@ void Player__State_BalloonRide(Player *work)
     }
     else
     {
-        work->objWork.velocity.y = ObjSpdUpSet(work->objWork.velocity.y, -FLOAT_TO_FX32(0.0625), work->gimmickValue1);
+        work->objWork.velocity.y = ObjSpdUpSet(work->objWork.velocity.y, -FLOAT_TO_FX32(0.0625), work->gimmick.balloonRide.floatSpeed);
 
         if ((work->inputKeyDown & (PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0)
         {
@@ -8222,15 +8225,15 @@ void Player__Action_Bungee(Player *player, GameObjectTask *bungee, fx32 startX, 
 
     if (player->objWork.dir.z == FLOAT_DEG_TO_IDX(90.0) || player->objWork.dir.z == FLOAT_DEG_TO_IDX(270.0))
     {
-        player->gimmickValue1      = FLOAT_TO_FX32(0.0);
-        player->gimmickValue2      = -player->objWork.velocity.y >> 4;
-        player->objWork.velocity.x = FLOAT_TO_FX32(0.0);
-        player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
+        player->gimmick.bungee.accelX = FLOAT_TO_FX32(0.0);
+        player->gimmick.bungee.accelY = -player->objWork.velocity.y >> 4;
+        player->objWork.velocity.x    = FLOAT_TO_FX32(0.0);
+        player->objWork.groundVel     = FLOAT_TO_FX32(0.0);
     }
     else
     {
-        player->gimmickValue1 = -player->objWork.velocity.x >> 4;
-        player->gimmickValue2 = -player->objWork.velocity.y >> 4;
+        player->gimmick.bungee.accelX = -player->objWork.velocity.x >> 4;
+        player->gimmick.bungee.accelY = -player->objWork.velocity.y >> 4;
     }
 
     if (groundVel < 0)
@@ -8238,10 +8241,10 @@ void Player__Action_Bungee(Player *player, GameObjectTask *bungee, fx32 startX, 
     else
         player->objWork.dir.z += FLOAT_DEG_TO_IDX(90.0);
 
-    player->gimmickValue3     = startX;
-    player->gimmickValue4     = startY;
-    player->objWork.userTimer = 0;
-    player->objWork.userFlag  = 0;
+    player->gimmick.bungee.startX = startX;
+    player->gimmick.bungee.startY = startY;
+    player->objWork.userTimer     = 0;
+    player->objWork.userFlag      = 0;
 
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BUNGY_ROPE);
 }
@@ -8253,8 +8256,8 @@ void Player__State_Bungee(Player *work)
         case 0:
             if (work->gimmickObj != NULL)
             {
-                fx32 y = FX32_TO_WHOLE(work->gimmickValue4 - work->objWork.position.y);
-                fx32 x = FX32_TO_WHOLE(work->gimmickValue3 - work->objWork.position.x);
+                fx32 y = FX32_TO_WHOLE(work->gimmick.bungee.startY - work->objWork.position.y);
+                fx32 x = FX32_TO_WHOLE(work->gimmick.bungee.startX - work->objWork.position.x);
                 if (x * x + y * y > work->objWork.userWork)
                 {
                     work->objWork.userTimer  = 8;
@@ -8293,8 +8296,8 @@ void Player__State_Bungee(Player *work)
         case 2:
             work->objWork.userWork--;
 
-            work->objWork.velocity.x += work->gimmickValue1;
-            work->objWork.velocity.y += work->gimmickValue2;
+            work->objWork.velocity.x += work->gimmick.bungee.accelX;
+            work->objWork.velocity.y += work->gimmick.bungee.accelY;
 
             if (work->objWork.userWork == 0)
             {
@@ -8342,11 +8345,11 @@ void Player__Action_SpringRope(Player *player, GameObjectTask *springRope, s32 t
     player->gimmickCamOffsetX = player->gimmickCamOffsetY = 0;
     player->objWork.velocity.x = player->objWork.velocity.y = player->objWork.velocity.z = FLOAT_TO_FX32(0.0);
 
-    player->objWork.groundVel = FLOAT_TO_FX32(0.375);
-    player->objWork.dir.z     = FLOAT_DEG_TO_IDX(0.0);
-    player->objWork.userWork  = FLOAT_DEG_TO_IDX(337.5);
-    player->gimmickValue2     = 0;
-    player->objWork.userTimer = timer;
+    player->objWork.groundVel        = FLOAT_TO_FX32(0.375);
+    player->objWork.dir.z            = FLOAT_DEG_TO_IDX(0.0);
+    player->objWork.userWork         = FLOAT_DEG_TO_IDX(337.5);
+    player->gimmick.springRope.angle = 0;
+    player->objWork.userTimer        = timer;
 
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPRING);
 }
@@ -8371,8 +8374,8 @@ void Player__State_SpringRope(Player *work)
         u16 lastDir = work->objWork.dir.y;
 
         work->objWork.groundVel = ObjSpdUpSet(work->objWork.groundVel, FLOAT_TO_FX32(0.0234375), FLOAT_TO_FX32(2.5));
-        work->gimmickValue2     = work->gimmickValue2 - 6 * work->objWork.groundVel;
-        work->objWork.dir.y     = work->gimmickValue2 >> 4;
+        work->gimmick.springRope.angle -= 6 * work->objWork.groundVel;
+        work->objWork.dir.y = work->gimmick.springRope.angle >> 4;
 
         if (work->objWork.dir.y > lastDir)
             PlayPlayerSfx(work, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_MAKIKOMI);
