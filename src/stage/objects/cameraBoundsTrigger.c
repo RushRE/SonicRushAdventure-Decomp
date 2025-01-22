@@ -1,10 +1,21 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/objects/cameraBoundsTrigger.h>
+#include <game/object/objectManager.h>
+#include <game/stage/gameSystem.h>
 
-	arm_func_start CameraBoundsTrigger__Create
-CameraBoundsTrigger__Create: // 0x02168644
+// --------------------
+// VARIABLES
+// --------------------
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC CameraBoundsTrigger *CameraBoundsTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -16,8 +27,8 @@ CameraBoundsTrigger__Create: // 0x02168644
 	mov r5, #2
 	str r5, [sp, #4]
 	mov r5, #0x39c
-	ldr r0, _021687B0 // =StageTask_Main
-	ldr r1, _021687B4 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r5, [sp, #8]
 	bl TaskCreate_
@@ -40,7 +51,7 @@ CameraBoundsTrigger__Create: // 0x02168644
 	mov r3, r6
 	bl GameObject__InitFromObject
 	ldr r1, [r5, #0x1c]
-	ldr r0, _021687B8 // =mapCamera
+	ldr r0, =mapCamera
 	orr r1, r1, #0x2100
 	str r1, [r5, #0x1c]
 	ldr r1, [r5, #0x20]
@@ -57,8 +68,8 @@ _02168704:
 	cmp r2, #0
 	mov r1, #0
 	ble _0216879C
-	ldr r3, _021687B8 // =mapCamera
-	ldr r0, _021687BC // =CameraBoundsTrigger__CameraState_ApplyBounds
+	ldr r3, =mapCamera
+	ldr r0, =CameraBoundsTrigger__CameraState_ApplyBounds
 	add ip, r5, #0x364
 _0216871C:
 	ldrsb r6, [r3, #0x46]
@@ -94,21 +105,22 @@ _0216871C:
 	add ip, ip, #0x1c
 	blt _0216871C
 _0216879C:
-	ldr r1, _021687C0 // =CameraBoundsTrigger__State_Active
+	ldr r1, =CameraBoundsTrigger__State_Active
 	mov r0, r5
 	str r1, [r5, #0xf4]
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_021687B0: .word StageTask_Main
-_021687B4: .word GameObject__Destructor
-_021687B8: .word mapCamera
-_021687BC: .word CameraBoundsTrigger__CameraState_ApplyBounds
-_021687C0: .word CameraBoundsTrigger__State_Active
-	arm_func_end CameraBoundsTrigger__Create
 
-	arm_func_start CameraBoundsTrigger__State_Active
-CameraBoundsTrigger__State_Active: // 0x021687C4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CameraBoundsTrigger__State_Active(CameraBoundsTrigger *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r2, [r4, #0x378]
@@ -124,16 +136,23 @@ _021687E0:
 	mov r1, #1
 	blx r2
 	ldmia sp!, {r4, pc}
-	arm_func_end CameraBoundsTrigger__State_Active
 
-	arm_func_start CameraBoundsTrigger__CameraState_ApplyBounds
-CameraBoundsTrigger__CameraState_ApplyBounds: // 0x021687FC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CameraBoundsTrigger__CameraState_ApplyBounds(CameraBoundsTrigger *work, s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r2, #0x1c
 	mul lr, r1, r2
 	add r4, r0, #0x364
 	ldr r3, [r4, lr]
-	ldr ip, _02168944 // =mapCamera
+	ldr ip, =mapCamera
 	mov r0, #0x70
 	mla r2, r1, r0, ip
 	tst r3, #1
@@ -163,7 +182,7 @@ _02168860:
 	ldrsb r1, [r2, #0x69]
 	cmp r1, #0
 	bne _021688A8
-	ldr r1, _02168944 // =mapCamera
+	ldr r1, =mapCamera
 	ldr r1, [r1, #0x134]
 	str r1, [r2, #0x5c]
 	ldr r1, [r2, #0]
@@ -182,7 +201,7 @@ _021688A8:
 	ldrsb r1, [r2, #0x6a]
 	cmp r1, #0
 	bne _021688F0
-	ldr r1, _02168944 // =mapCamera
+	ldr r1, =mapCamera
 	ldr r1, [r1, #0x138]
 	str r1, [r2, #0x60]
 	ldr r1, [r2, #0]
@@ -201,7 +220,7 @@ _021688F0:
 	ldrsb r1, [r2, #0x6b]
 	cmp r1, #0
 	bne _02168938
-	ldr r1, _02168944 // =mapCamera
+	ldr r1, =mapCamera
 	ldr r1, [r1, #0x13c]
 	str r1, [r2, #0x64]
 	ldr r1, [r2, #0]
@@ -211,16 +230,20 @@ _021688F0:
 	bic r1, r1, #8
 	str r1, [r0]
 _02168938:
-	ldr r1, _02168948 // =CameraBoundsTrigger__CameraState_Idle
+	ldr r1, =CameraBoundsTrigger__CameraState_Idle
 	str r1, [r0, #0x14]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02168944: .word mapCamera
-_02168948: .word CameraBoundsTrigger__CameraState_Idle
-	arm_func_end CameraBoundsTrigger__CameraState_ApplyBounds
 
-	arm_func_start CameraBoundsTrigger__CameraState_Idle
-CameraBoundsTrigger__CameraState_Idle: // 0x0216894C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CameraBoundsTrigger__CameraState_Idle(CameraBoundsTrigger *work, s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -231,13 +254,20 @@ CameraBoundsTrigger__CameraState_Idle: // 0x0216894C
 	mov r1, r4
 	bl CameraBoundsTrigger__Func_2168974
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end CameraBoundsTrigger__CameraState_Idle
 
-	arm_func_start CameraBoundsTrigger__Func_2168974
-CameraBoundsTrigger__Func_2168974: // 0x02168974
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CameraBoundsTrigger__Func_2168974(CameraBoundsTrigger *work, s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r3, [r0, #0x340]
-	ldr lr, _02168B90 // =mapCamera
+	ldr lr, =mapCamera
 	mov r2, #0x70
 	ldrh ip, [r3, #4]
 	add r4, r0, #0x364
@@ -267,7 +297,7 @@ _021689C0:
 	orr r1, r1, #4
 	str r1, [r0]
 _021689EC:
-	ldr r1, _02168B90 // =mapCamera
+	ldr r1, =mapCamera
 	ldr r1, [r1, #0xe0]
 	tst r1, #1
 	beq _02168B2C
@@ -379,16 +409,20 @@ _02168B58:
 	orr r1, r1, #8
 	str r1, [r0]
 _02168B84:
-	ldr r1, _02168B94 // =CameraBoundsTrigger__UnknownState_2168B98
+	ldr r1, =CameraBoundsTrigger__UnknownState_2168B98
 	str r1, [r0, #0x14]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02168B90: .word mapCamera
-_02168B94: .word CameraBoundsTrigger__UnknownState_2168B98
-	arm_func_end CameraBoundsTrigger__Func_2168974
 
-	arm_func_start CameraBoundsTrigger__UnknownState_2168B98
-CameraBoundsTrigger__UnknownState_2168B98: // 0x02168B98
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CameraBoundsTrigger__UnknownState_2168B98(CameraBoundsTrigger *work, s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
@@ -399,10 +433,17 @@ CameraBoundsTrigger__UnknownState_2168B98: // 0x02168B98
 	mov r1, r4
 	bl CameraBoundsTrigger__CameraState_ApplyBounds
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end CameraBoundsTrigger__UnknownState_2168B98
 
-	arm_func_start CameraBoundsTrigger__Func_2168BC0
-CameraBoundsTrigger__Func_2168BC0: // 0x02168BC0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void CameraBoundsTrigger__Func_2168BC0(CameraBoundsTrigger *work, s32 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r2, #0x1c
 	mla r3, r1, r2, r0
@@ -413,7 +454,7 @@ CameraBoundsTrigger__Func_2168BC0: // 0x02168BC0
 	cmp r4, r1
 	mov r3, #0
 	beq _02168C70
-	ldr r1, _02168C78 // =gPlayerList
+	ldr r1, =gPlayerList
 	ldrsb ip, [r2, #6]
 	ldr r1, [r1, r4, lsl #2]
 	ldr r4, [r0, #0x44]
@@ -452,6 +493,7 @@ _02168C6C:
 _02168C70:
 	mov r0, r3
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02168C78: .word gPlayerList
-	arm_func_end CameraBoundsTrigger__Func_2168BC0
+
+// clang-format on
+#endif
+}

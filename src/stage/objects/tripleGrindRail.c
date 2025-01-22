@@ -1,15 +1,38 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <stage/objects/tripleGrindRail.h>
+#include <game/object/objectManager.h>
+#include <game/stage/gameSystem.h>
+#include <game/stage/mapFarSys.h>
+#include <stage/core/ringManager.h>
 
-	.bss
-	
-TripleGrindRail__Singleton: // 0x0218A378
-	.space 0x04 // Task*
-	
-	.text
+// --------------------
+// VARIABLES
+// --------------------
 
-	arm_func_start TripleGrindRailSpring__Create
-TripleGrindRailSpring__Create: // 0x0216350C
+extern RingManager *ringManagerWork;
+
+static Task *TripleGrindRail__Singleton;
+
+NOT_DECOMPILED void *TripleGrindRail__stru_21884D4;
+NOT_DECOMPILED void *TripleGrindRail__stru_21884E0;
+NOT_DECOMPILED void *TripleGrindRail__word_21884EC;
+
+NOT_DECOMPILED void *aActAcGmkGrd3lS;
+NOT_DECOMPILED void *aModGmkGrd3line;
+NOT_DECOMPILED void *aModGmkGrd3line_0;
+NOT_DECOMPILED void *aActAcEffGrd3lL_0;
+NOT_DECOMPILED void *aActAcItmRing3d;
+NOT_DECOMPILED void *aActAcGmkBallSi;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC TripleGrindRailSpring *TripleGrindRailSpring__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -21,8 +44,8 @@ TripleGrindRailSpring__Create: // 0x0216350C
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _0216364C // =StageTask_Main
-	ldr r1, _02163650 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -47,14 +70,14 @@ TripleGrindRailSpring__Create: // 0x0216350C
 	mov r0, #0xb0
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02163654 // =gameArchiveStage
-	ldr r1, _02163658 // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _0216365C // =aActAcGmkGrd3lS
+	ldr r2, =aActAcGmkGrd3lS
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
 	mov r1, #0
@@ -71,11 +94,11 @@ TripleGrindRailSpring__Create: // 0x0216350C
 	mov r2, r1
 	bl ObjRect__SetAttackStat
 	add r0, r4, #0x218
-	ldr r1, _02163660 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02163664 // =TripleGrindRailSpring__OnDefend
-	ldr r2, _02163668 // =TripleGrindRailSpring__State_Active
+	ldr r0, =TripleGrindRailSpring__OnDefend
+	ldr r2, =TripleGrindRailSpring__State_Active
 	str r0, [r4, #0x23c]
 	ldr r1, [r4, #0x230]
 	mov r0, r4
@@ -90,19 +113,17 @@ TripleGrindRailSpring__Create: // 0x0216350C
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216364C: .word StageTask_Main
-_02163650: .word GameObject__Destructor
-_02163654: .word gameArchiveStage
-_02163658: .word 0x0000FFFF
-_0216365C: .word aActAcGmkGrd3lS
-_02163660: .word 0x0000FFFE
-_02163664: .word TripleGrindRailSpring__OnDefend
-_02163668: .word TripleGrindRailSpring__State_Active
-	arm_func_end TripleGrindRailSpring__Create
 
-	arm_func_start TripleGrindRail__Create
-TripleGrindRail__Create: // 0x0216366C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC TripleGrindRail *TripleGrindRail__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -113,9 +134,9 @@ TripleGrindRail__Create: // 0x0216366C
 	mov r0, #2
 	mov r2, #0
 	str r0, [sp, #4]
-	ldr r7, _02163A6C // =0x0000117C
-	ldr r0, _02163A70 // =StageTask_Main
-	ldr r1, _02163A74 // =TripleGrindRail__Destructor
+	ldr r7, =0x0000117C
+	ldr r0, =StageTask_Main
+	ldr r1, =TripleGrindRail__Destructor
 	mov r3, r2
 	str r7, [sp, #8]
 	bl TaskCreate_
@@ -128,11 +149,11 @@ TripleGrindRail__Create: // 0x0216366C
 	ldmeqia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r7
 	bl GetTaskWork_
-	ldr r2, _02163A6C // =0x0000117C
+	ldr r2, =0x0000117C
 	mov r1, #0
 	mov r7, r0
 	bl MI_CpuFill8
-	ldr r2, _02163A78 // =TripleGrindRail__Singleton
+	ldr r2, =TripleGrindRail__Singleton
 	mov r0, r7
 	str r7, [r2]
 	mov r1, r6
@@ -141,7 +162,7 @@ TripleGrindRail__Create: // 0x0216366C
 	bl GameObject__InitFromObject
 	ldrsb r0, [r6, #6]
 	mov r3, #0
-	ldr r2, _02163A7C // =aModGmkGrd3line
+	ldr r2, =aModGmkGrd3line
 	cmp r0, #8
 	movlt r0, #8
 	sub r0, r0, #4
@@ -157,14 +178,14 @@ TripleGrindRail__Create: // 0x0216366C
 	add r1, r7, #0x364
 	orr r0, r0, #1
 	str r0, [r7, #0xe04]
-	ldr r0, _02163A80 // =gameArchiveStage
+	ldr r0, =gameArchiveStage
 	str r3, [sp]
 	ldr r4, [r0, #0]
 	mov r0, r7
 	str r4, [sp, #4]
 	bl ObjAction3dNNModelLoad
-	ldr r0, _02163A80 // =gameArchiveStage
-	ldr r2, _02163A84 // =aModGmkGrd3line_0
+	ldr r0, =gameArchiveStage
+	ldr r2, =aModGmkGrd3line_0
 	ldr r4, [r0, #0]
 	mov r0, r7
 	add r1, r7, #0x364
@@ -183,17 +204,17 @@ TripleGrindRail__Create: // 0x0216366C
 	str r1, [r7, #0x20]
 	str r0, [r7, #0x47c]
 	ldr r2, [r7, #0x20]
-	ldr r1, _02163A88 // =0x000034CC
+	ldr r1, =0x000034CC
 	orr r2, r2, #0x100
 	str r2, [r7, #0x20]
 	str r1, [r7, #0x37c]
 	str r1, [r7, #0x380]
 	str r1, [r7, #0x384]
-	ldr r2, _02163A8C // =0x00141BB2
-	ldr r1, _02163A90 // =aActAcEffGrd3lL_0
+	ldr r2, =0x00141BB2
+	ldr r1, =aActAcEffGrd3lL_0
 	str r2, [r7, #0x50]
 	ldr r3, [r7, #0x20]
-	ldr r2, _02163A80 // =gameArchiveStage
+	ldr r2, =gameArchiveStage
 	orr r3, r3, #0x20
 	str r3, [r7, #0x20]
 	ldr r2, [r2, #0]
@@ -264,8 +285,8 @@ _021638C0:
 _021638D0:
 	cmp r8, #8
 	blt _021638C0
-	ldr r0, _02163A80 // =gameArchiveStage
-	ldr r1, _02163A94 // =aActAcItmRing3d
+	ldr r0, =gameArchiveStage
+	ldr r1, =aActAcItmRing3d
 	ldr r2, [r0, #0]
 	mov r0, #0
 	bl ObjDataLoad
@@ -278,7 +299,7 @@ _021638D0:
 	mov r0, #0x10
 	mov r1, #0
 	bl VRAMSystem__AllocPalette
-	ldr r2, _02163A98 // =0x00000844
+	ldr r2, =0x00000844
 	mov r1, #0
 	stmia sp, {r2, r6}
 	str r0, [sp, #8]
@@ -324,7 +345,7 @@ _021638D0:
 	mov r1, #0
 	orr r0, r0, #0x18
 	str r0, [r7, #0xdcc]
-	ldr r0, _02163A9C // =StageTask__DefaultDiffData
+	ldr r0, =StageTask__DefaultDiffData
 	str r1, [r7, #0x13c]
 	str r0, [r7, #0x2fc]
 	mov r2, #0x200
@@ -339,7 +360,7 @@ _021638D0:
 	add r0, r7, #0x218
 	strh r1, [r3, #0xf2]
 	bl ObjRect__SetAttackStat
-	ldr r1, _02163AA0 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r7, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
@@ -350,10 +371,10 @@ _021638D0:
 	mov r3, #0x80
 	str r4, [sp]
 	bl ObjRect__SetBox2D
-	ldr r1, _02163AA4 // =0x00000102
+	ldr r1, =0x00000102
 	add r0, r7, #0x200
 	strh r1, [r0, #0x4c]
-	ldr r0, _02163AA8 // =TripleGrindRail__OnDefend_StartTrigger
+	ldr r0, =TripleGrindRail__OnDefend_StartTrigger
 	str r7, [r7, #0x234]
 	str r0, [r7, #0x23c]
 	ldr r1, [r7, #0x230]
@@ -365,30 +386,20 @@ _021638D0:
 	str r1, [r7, #0x1c]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02163A6C: .word 0x0000117C
-_02163A70: .word StageTask_Main
-_02163A74: .word TripleGrindRail__Destructor
-_02163A78: .word TripleGrindRail__Singleton
-_02163A7C: .word aModGmkGrd3line
-_02163A80: .word gameArchiveStage
-_02163A84: .word aModGmkGrd3line_0
-_02163A88: .word 0x000034CC
-_02163A8C: .word 0x00141BB2
-_02163A90: .word aActAcEffGrd3lL_0
-_02163A94: .word aActAcItmRing3d
-_02163A98: .word 0x00000844
-_02163A9C: .word StageTask__DefaultDiffData
-_02163AA0: .word 0x0000FFFE
-_02163AA4: .word 0x00000102
-_02163AA8: .word TripleGrindRail__OnDefend_StartTrigger
-	arm_func_end TripleGrindRail__Create
 
-	arm_func_start TripleGrindRailEntity__Create
-TripleGrindRailEntity__Create: // 0x02163AAC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC TripleGrindRailEntity *TripleGrindRailEntity__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
-	ldr r3, _02163D4C // =TripleGrindRail__Singleton
+	ldr r3, =TripleGrindRail__Singleton
 	mov r7, r0
 	ldr r3, [r3, #0]
 	mov r6, r1
@@ -412,9 +423,9 @@ TripleGrindRailEntity__Create: // 0x02163AAC
 	mov r0, #2
 	mov r2, #0
 	str r0, [sp, #4]
-	ldr r4, _02163D50 // =0x0000117C
-	ldr r0, _02163D54 // =StageTask_Main
-	ldr r1, _02163D58 // =GameObject__Destructor
+	ldr r4, =0x0000117C
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -443,8 +454,8 @@ TripleGrindRailEntity__Create: // 0x02163AAC
 	cmp r2, #2
 	movgt r2, #2
 _02163B8C:
-	ldr r0, _02163D5C // =0x00059184
-	ldr r1, _02163D60 // =0x000E8A2E
+	ldr r0, =0x00059184
+	ldr r1, =0x000E8A2E
 	mla r0, r2, r0, r1
 	str r0, [r4, #0x478]
 	ldrh r0, [r7, #2]
@@ -458,8 +469,8 @@ _02163BB0:
 	mov r3, #0
 	str r3, [sp]
 	str r0, [sp, #4]
-	ldr r0, _02163D64 // =gameArchiveStage
-	ldr r2, _02163D68 // =aActAcGmkBallSi
+	ldr r0, =gameArchiveStage
+	ldr r2, =aActAcGmkBallSi
 	ldr r5, [r0, #0]
 	mov r0, r4
 	add r1, r4, #0x364
@@ -493,7 +504,7 @@ _02163C3C:
 	mov r1, #2
 	mov r2, #0x40
 	bl ObjRect__SetAttackStat
-	ldr r1, _02163D6C // =0x0000FFFF
+	ldr r1, =0x0000FFFF
 	add r0, r4, #0x218
 	mov r2, #0xff
 	bl ObjRect__SetDefenceStat
@@ -509,7 +520,7 @@ _02163C3C:
 	str r0, [r4, #0x40]
 	b _02163D14
 _02163C88:
-	ldr r0, _02163D4C // =TripleGrindRail__Singleton
+	ldr r0, =TripleGrindRail__Singleton
 	add r1, r4, #0x364
 	ldr r0, [r0, #0]
 	mov r2, #0x104
@@ -531,12 +542,12 @@ _02163C88:
 	mov r2, r1
 	add r0, r4, #0x218
 	bl ObjRect__SetAttackStat
-	ldr r1, _02163D70 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x230]
-	ldr r0, _02163D74 // =TripleGrindRailEntity__OnDefend
+	ldr r0, =TripleGrindRailEntity__OnDefend
 	orr r1, r1, #0x400
 	str r1, [r4, #0x230]
 	str r0, [r4, #0x23c]
@@ -546,7 +557,7 @@ _02163C88:
 	str r0, [r4, #0x40]
 _02163D14:
 	ldr r0, [r4, #0x18]
-	ldr r1, _02163D78 // =TripleGrindRailEntity__State_Inactive
+	ldr r1, =TripleGrindRailEntity__State_Inactive
 	orr r0, r0, #0x10
 	str r0, [r4, #0x18]
 	ldr r2, [r4, #0x1c]
@@ -559,29 +570,23 @@ _02163D14:
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02163D4C: .word TripleGrindRail__Singleton
-_02163D50: .word 0x0000117C
-_02163D54: .word StageTask_Main
-_02163D58: .word GameObject__Destructor
-_02163D5C: .word 0x00059184
-_02163D60: .word 0x000E8A2E
-_02163D64: .word gameArchiveStage
-_02163D68: .word aActAcGmkBallSi
-_02163D6C: .word 0x0000FFFF
-_02163D70: .word 0x0000FFFE
-_02163D74: .word TripleGrindRailEntity__OnDefend
-_02163D78: .word TripleGrindRailEntity__State_Inactive
-	arm_func_end TripleGrindRailEntity__Create
 
-	arm_func_start TripleGrindRailRingLoss__Create
-TripleGrindRailRingLoss__Create: // 0x02163D7C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRailRingLoss__Create(Player *player)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
-	ldr r1, _02163F44 // =TripleGrindRail__Singleton
+	ldr r1, =TripleGrindRail__Singleton
 	mov r8, r0
 	ldr r0, [r1, #0]
-	ldr r4, _02163F48 // =0x00000488
+	ldr r4, =0x00000488
 	cmp r0, #0
 	addeq sp, sp, #0x18
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -595,8 +600,8 @@ TripleGrindRailRingLoss__Create: // 0x02163D7C
 	mov r5, #2
 	str r5, [sp, #4]
 	add r5, r4, #0x1e4
-	ldr r0, _02163F4C // =StageTask_Main
-	ldr r1, _02163F50 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r5, [sp, #8]
 	bl TaskCreate_
@@ -630,7 +635,7 @@ TripleGrindRailRingLoss__Create: // 0x02163D7C
 	add r0, r8, #0x44
 	ldmia r0, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
-	ldr r0, _02163F54 // =ringManagerWork
+	ldr r0, =ringManagerWork
 	ldrb r1, [r8, #0x5d1]
 	ldr r0, [r0, #0]
 	cmp r10, #0
@@ -642,7 +647,7 @@ TripleGrindRailRingLoss__Create: // 0x02163D7C
 	add r4, r4, r1, lsl #8
 	mov r11, #0
 	ble _02163F14
-	ldr r3, _02163F58 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 _02163E88:
 	ldmia ip, {r0, r1, r2}
 	stmia lr, {r0, r1, r2}
@@ -682,30 +687,28 @@ _02163EF4:
 	blt _02163E88
 _02163F14:
 	ldr r0, [r5, #0x18]
-	ldr r1, _02163F5C // =TripleGrindRailRingLoss__Draw
+	ldr r1, =TripleGrindRailRingLoss__Draw
 	orr r0, r0, #0x10
 	str r0, [r5, #0x18]
 	ldr r2, [r5, #0x1c]
-	ldr r0, _02163F60 // =TripleGrindRailRingLoss__State_Active
+	ldr r0, =TripleGrindRailRingLoss__State_Active
 	orr r2, r2, #0x2100
 	str r2, [r5, #0x1c]
 	str r1, [r5, #0xfc]
 	str r0, [r5, #0xf4]
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02163F44: .word TripleGrindRail__Singleton
-_02163F48: .word 0x00000488
-_02163F4C: .word StageTask_Main
-_02163F50: .word GameObject__Destructor
-_02163F54: .word ringManagerWork
-_02163F58: .word FX_SinCosTable_
-_02163F5C: .word TripleGrindRailRingLoss__Draw
-_02163F60: .word TripleGrindRailRingLoss__State_Active
-	arm_func_end TripleGrindRailRingLoss__Create
 
-	arm_func_start TripleGrindRailSpring__State_Active
-TripleGrindRailSpring__State_Active: // 0x02163F64
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRailSpring__State_Active(TripleGrindRailSpring *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	add r1, r0, #0x100
 	ldrh r1, [r1, #0x74]
@@ -720,10 +723,17 @@ TripleGrindRailSpring__State_Active: // 0x02163F64
 	str r2, [r0, #0x230]
 	bl StageTask__SetAnimation
 	ldmia sp!, {r3, pc}
-	arm_func_end TripleGrindRailSpring__State_Active
 
-	arm_func_start TripleGrindRailSpring__OnDefend
-TripleGrindRailSpring__OnDefend: // 0x02163F9C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRailSpring__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -749,36 +759,39 @@ TripleGrindRailSpring__OnDefend: // 0x02163F9C
 	cmp ip, #0x40
 	movgt ip, #0x40
 _02163FFC:
-	ldr r1, _02164048 // =0xB60B60B7
+	ldr r1, =0xB60B60B7
 	mov r3, ip, lsl #0xf
 	smull r0, r2, r1, r3
 	add r2, r2, ip, lsl #15
 	mov ip, r3, lsr #0x1f
-	ldr r3, _0216404C // =0xFFFEEEF0
+	ldr r3, =0xFFFEEEF0
 	mov r0, r5
 	mov r1, r4
 	add r2, ip, r2, asr #6
 	bl Player__Func_201D684
 	add r0, r5, #0x500
 	mov r1, #0x5a
-	ldr r2, _02164050 // =0x00000611
+	ldr r2, =0x00000611
 	strh r1, [r0, #0xfa]
 	mov r0, r5
 	mov r1, r4
 	str r2, [r5, #0xd8]
 	bl Player__Action_AllowTrickCombos
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02164048: .word 0xB60B60B7
-_0216404C: .word 0xFFFEEEF0
-_02164050: .word 0x00000611
-	arm_func_end TripleGrindRailSpring__OnDefend
 
-	arm_func_start TripleGrindRail__Destructor
-TripleGrindRail__Destructor: // 0x02164054
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRail__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, #0
-	ldr r5, _021640D4 // =TripleGrindRail__Singleton
+	ldr r5, =TripleGrindRail__Singleton
 	mov r4, r0
 	mov r7, r6
 _02164068:
@@ -790,18 +803,18 @@ _02164068:
 	cmp r6, #7
 	add r7, r7, #0x104
 	blt _02164068
-	ldr r0, _021640D4 // =TripleGrindRail__Singleton
+	ldr r0, =TripleGrindRail__Singleton
 	ldr r0, [r0, #0]
 	add r0, r0, #0x3fc
 	add r0, r0, #0x800
 	bl AnimatorSprite3D__Release
-	ldr r0, _021640D4 // =TripleGrindRail__Singleton
+	ldr r0, =TripleGrindRail__Singleton
 	ldr r0, [r0, #0]
 	add r0, r0, #0xd00
 	bl AnimatorSprite3D__Release
-	ldr r2, _021640D4 // =TripleGrindRail__Singleton
+	ldr r2, =TripleGrindRail__Singleton
 	mov r3, #0
-	ldr r1, _021640D8 // =g_obj
+	ldr r1, =g_obj
 	mov r0, #0x1000
 	str r3, [r2]
 	str r3, [r1, #0x14]
@@ -809,15 +822,19 @@ _02164068:
 	mov r0, r4
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_021640D4: .word TripleGrindRail__Singleton
-_021640D8: .word g_obj
-	arm_func_end TripleGrindRail__Destructor
 
-	arm_func_start TripleGrindRail__State_21640DC
-TripleGrindRail__State_21640DC: // 0x021640DC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRail__State_21640DC(TripleGrindRail *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, _021641D0 // =0x00141BB2
+	ldr r1, =0x00141BB2
 	mov r5, r0
 	str r1, [r5, #0x50]
 	ldrh r0, [r5, #0x30]
@@ -837,7 +854,7 @@ _0216411C:
 	add r0, r5, #0x388
 	bl MTX_Identity33_
 	ldrh r1, [r5, #0x30]
-	ldr r3, _021641D4 // =FX_SinCosTable_
+	ldr r3, =FX_SinCosTable_
 	add r0, r5, #0x388
 	rsb r1, r1, #0
 	mov r1, r1, lsl #0x10
@@ -862,7 +879,7 @@ _02164164:
 	beq _0216419C
 _02164180:
 	mov r1, #0
-	ldr r0, _021641D8 // =TripleGrindRail__State_216497C
+	ldr r0, =TripleGrindRail__State_216497C
 	str r1, [r5, #0x35c]
 	str r0, [r5, #0xf4]
 	mov r0, #0x258
@@ -875,25 +892,27 @@ _0216419C:
 	mov r0, r4
 	bl Player__Gimmick_TripleGrindRail
 	ldr r1, [r4, #0x5dc]
-	ldr r0, _021641DC // =TripleGrindRail__State_21641E0
+	ldr r0, =TripleGrindRail__State_21641E0
 	orr r1, r1, #0x600
 	str r1, [r4, #0x5dc]
 	str r0, [r5, #0xf4]
 	mov r0, #0x400
 	str r0, [r5, #0xe0c]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021641D0: .word 0x00141BB2
-_021641D4: .word FX_SinCosTable_
-_021641D8: .word TripleGrindRail__State_216497C
-_021641DC: .word TripleGrindRail__State_21641E0
-	arm_func_end TripleGrindRail__State_21640DC
 
-	arm_func_start TripleGrindRail__State_21641E0
-TripleGrindRail__State_21641E0: // 0x021641E0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRail__State_21641E0(TripleGrindRail *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x50
-	ldr r1, _0216479C // =0x00141BB2
+	ldr r1, =0x00141BB2
 	mov r6, r0
 	str r1, [r6, #0x50]
 	ldr r4, [r6, #0x35c]
@@ -905,7 +924,7 @@ TripleGrindRail__State_21641E0: // 0x021641E0
 	beq _02164230
 _02164210:
 	mov r1, #0
-	ldr r0, _021647A0 // =TripleGrindRail__State_216497C
+	ldr r0, =TripleGrindRail__State_216497C
 	str r1, [r6, #0x35c]
 	str r0, [r6, #0xf4]
 	mov r0, #0x258
@@ -920,14 +939,14 @@ _02164230:
 	mov r0, r4
 	bl Player__Func_201DD24
 	ldr r1, [r4, #0x5dc]
-	ldr r0, _021647A4 // =g_obj
+	ldr r0, =g_obj
 	bic r1, r1, #0x600
 	str r1, [r4, #0x5dc]
 	mov r1, #0
 	str r1, [r0, #0x14]
 	str r1, [r6, #0x47c]
 	ldr r1, [r6, #0xe04]
-	ldr r0, _021647A8 // =TripleGrindRail__State_216492C
+	ldr r0, =TripleGrindRail__State_216492C
 	orr r1, r1, #2
 	str r1, [r6, #0xe04]
 	add sp, sp, #0x50
@@ -945,7 +964,7 @@ _02164280:
 	str r0, [r4, #0x5d8]
 	b _021642C0
 _021642A8:
-	ldr r0, _021647AC // =0xFFFE0200
+	ldr r0, =0xFFFE0200
 	add r0, r1, r0
 	cmp r0, r2
 	ldrle r0, [r6, #0xe04]
@@ -963,10 +982,10 @@ _021642C0:
 	mul r2, r1, r0
 	mov r0, r2, asr #0xb
 	add r0, r2, r0, lsr #20
-	ldr r1, _021647A4 // =g_obj
+	ldr r1, =g_obj
 	mov r0, r0, asr #0xc
 	str r0, [r1, #0x14]
-	ldr r0, _021647B0 // =mapCamera
+	ldr r0, =mapCamera
 	ldr r2, [r6, #0xe0c]
 	ldr r0, [r0, #0xe0]
 	mov r1, r2, lsl #1
@@ -986,7 +1005,7 @@ _02164330:
 	bl MapFarSys__AdvanceScrollSpeed
 _0216433C:
 	ldr r0, [r6, #0xe0c]
-	ldr r2, _021647B4 // =0x88888889
+	ldr r2, =0x88888889
 	mov r1, r0, lsl #0xc
 	mov r0, r1, asr #0xb
 	add r0, r1, r0, lsr #20
@@ -1006,7 +1025,7 @@ _0216433C:
 	add r0, r4, #0x800
 	strh r5, [r3, #0x14]
 	bl AnimatorSprite3D__ProcessAnimation
-	ldr r0, _021647B8 // =_021884D4
+	ldr r0, =TripleGrindRail__stru_21884D4
 	add r4, r6, #0x218
 	mov r5, #0x1100
 	str r5, [sp, #0x1c]
@@ -1018,7 +1037,7 @@ _0216433C:
 	add r0, r6, #0x4e0
 	str r0, [sp, #0x10]
 	ldr r0, [sp, #0x14]
-	ldr r7, _021647BC // =TripleGrindRail__Singleton
+	ldr r7, =TripleGrindRail__Singleton
 	rsb r0, r0, #0
 	add r4, r4, #0xc00
 	mvn r11, #0
@@ -1037,7 +1056,7 @@ _021643D8:
 	sub r0, r1, r0
 	strh r0, [r4, #8]
 	ldrh r1, [r4, #8]
-	ldr r0, _021647C0 // =0x00006AAC
+	ldr r0, =0x00006AAC
 	cmp r1, r0
 	bls _02164424
 	ldr r0, [r4, #4]
@@ -1067,7 +1086,7 @@ _02164434:
 	ldr r0, [sp, #0x10]
 	mov r10, r10, asr #4
 	add r0, r0, r8, lsl #2
-	ldr r8, _021647C4 // =FX_SinCosTable_
+	ldr r8, =FX_SinCosTable_
 	ldr r9, [r7, #0]
 	add r8, r8, r10, lsl #2
 	ldrsh r10, [r8, #2]
@@ -1079,7 +1098,7 @@ _02164434:
 	mov ip, lr, lsr #0xc
 	orr ip, ip, r10, lsl #20
 	add r10, r8, ip
-	ldr r8, _0216479C // =0x00141BB2
+	ldr r8, =0x00141BB2
 	add r8, r10, r8
 	str r8, [sp, #0x44]
 	ldr r8, [r9, #0x48]
@@ -1090,7 +1109,7 @@ _02164434:
 	ldr r9, [r4, #0]
 	mov r8, r8, asr #4
 	mov r10, r8, lsl #2
-	ldr r8, _021647C4 // =FX_SinCosTable_
+	ldr r8, =FX_SinCosTable_
 	ldrsh r8, [r8, r10]
 	smull r10, r9, r8, r9
 	adds r10, r10, #0x800
@@ -1124,7 +1143,7 @@ _02164514:
 	mvn r0, #0
 	cmp r11, r0
 	beq _021645A4
-	ldr r1, _021647BC // =TripleGrindRail__Singleton
+	ldr r1, =TripleGrindRail__Singleton
 	add r0, r6, #0x218
 	ldr r3, [r1, #0]
 	add r2, r0, #0xc00
@@ -1145,7 +1164,7 @@ _0216459C:
 	add r0, r6, #0xe00
 	strh r1, [r0, #0x16]
 _021645A4:
-	ldr r0, _021647C8 // =_021884E0
+	ldr r0, =TripleGrindRail__stru_21884E0
 	add r3, sp, #0x20
 	ldmia r0, {r0, r1, r2}
 	mov r5, #0x1100
@@ -1153,7 +1172,7 @@ _021645A4:
 	str r5, [sp, #0x18]
 	add r5, r4, #0x1000
 	stmia r3, {r0, r1, r2}
-	ldr r4, _021647C4 // =FX_SinCosTable_
+	ldr r4, =FX_SinCosTable_
 	mvn r8, #0
 	mov r7, #0
 	add r9, r6, #0x2f8
@@ -1162,7 +1181,7 @@ _021645D4:
 	cmp r0, #0x100000
 	moveq r8, r7
 	beq _021646D4
-	ldr r0, _021647BC // =TripleGrindRail__Singleton
+	ldr r0, =TripleGrindRail__Singleton
 	ldrh r1, [r5, #8]
 	ldr r0, [r0, #0]
 	add r0, r0, #0xe00
@@ -1170,7 +1189,7 @@ _021645D4:
 	sub r0, r1, r0
 	strh r0, [r5, #8]
 	ldrh r1, [r5, #8]
-	ldr r0, _021647C0 // =0x00006AAC
+	ldr r0, =0x00006AAC
 	cmp r1, r0
 	bhi _02164620
 	mov r0, #0x100000
@@ -1184,7 +1203,7 @@ _02164620:
 	add r0, r4, r0, lsl #2
 	ldrsh r3, [r0, #2]
 	ldr r2, [r5, #0]
-	ldr r0, _021647BC // =TripleGrindRail__Singleton
+	ldr r0, =TripleGrindRail__Singleton
 	smull r11, r10, r3, r2
 	adds r3, r11, #0x800
 	ldr r1, [r0, #0]
@@ -1193,7 +1212,7 @@ _02164620:
 	ldr r0, [r1, #0x44]
 	orr r3, r3, r2, lsl #20
 	add r2, r0, r3
-	ldr r0, _0216479C // =0x00141BB2
+	ldr r0, =0x00141BB2
 	add r3, sp, #0x20
 	add r0, r2, r0
 	str r0, [sp, #0x2c]
@@ -1244,7 +1263,7 @@ _021646D4:
 	cmp r8, r0
 	addeq sp, sp, #0x50
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r1, _021647BC // =TripleGrindRail__Singleton
+	ldr r1, =TripleGrindRail__Singleton
 	add r0, r6, #0x11c
 	ldr r3, [r1, #0]
 	add r2, r0, #0x1000
@@ -1260,10 +1279,10 @@ _021646D4:
 	cmp r4, #0xa5
 	movgt r4, #0xa5
 _02164760:
-	ldr r3, _021647CC // =_mt_math_rand
-	ldr r0, _021647D0 // =0x00196225
+	ldr r3, =_mt_math_rand
+	ldr r0, =0x00196225
 	ldr r5, [r3, #0]
-	ldr r1, _021647D4 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	add r2, r6, #0x1100
 	mla r1, r5, r0, r1
 	mov r0, r1, lsr #0x10
@@ -1275,29 +1294,20 @@ _02164760:
 	strh r0, [r2, #0x18]
 	add sp, sp, #0x50
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0216479C: .word 0x00141BB2
-_021647A0: .word TripleGrindRail__State_216497C
-_021647A4: .word g_obj
-_021647A8: .word TripleGrindRail__State_216492C
-_021647AC: .word 0xFFFE0200
-_021647B0: .word mapCamera
-_021647B4: .word 0x88888889
-_021647B8: .word _021884D4
-_021647BC: .word TripleGrindRail__Singleton
-_021647C0: .word 0x00006AAC
-_021647C4: .word FX_SinCosTable_
-_021647C8: .word _021884E0
-_021647CC: .word _mt_math_rand
-_021647D0: .word 0x00196225
-_021647D4: .word 0x3C6EF35F
-	arm_func_end TripleGrindRail__State_21641E0
 
-	arm_func_start TripleGrindRail__CreateLeafParticle
-TripleGrindRail__CreateLeafParticle: // 0x021647D8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRail__CreateLeafParticle(TripleGrindRailParticle *particle)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x10
-	ldr r5, _021648AC // =_021884EC
+	ldr r5, =TripleGrindRail__word_21884EC
 	add r4, sp, #0
 	mov r3, #4
 _021647EC:
@@ -1309,11 +1319,11 @@ _021647EC:
 	add r4, r4, #4
 	subs r3, r3, #1
 	bne _021647EC
-	ldr lr, _021648B0 // =_mt_math_rand
-	ldr r3, _021648B4 // =0x00196225
+	ldr lr, =_mt_math_rand
+	ldr r3, =0x00196225
 	ldr r1, [lr]
-	ldr ip, _021648B8 // =0x3C6EF35F
-	ldr r2, _021648BC // =0x000001FF
+	ldr ip, =0x3C6EF35F
+	ldr r2, =0x000001FF
 	mla r4, r1, r3, ip
 	mov r1, r4, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -1323,18 +1333,18 @@ _021647EC:
 	mov r1, r1, lsl #0xc
 	str r1, [r0, #4]
 	ldr r1, [lr]
-	ldr r2, _021648C0 // =0x000034CC
+	ldr r2, =0x000034CC
 	mla r5, r1, r3, ip
 	mov r1, r5, lsr #0x10
 	mov r1, r1, lsl #0x10
 	mov r1, r1, lsr #0x10
 	and r4, r1, #0x3f
-	ldr r1, _021648C4 // =0x00141BB2
+	ldr r1, =0x00141BB2
 	sub r4, r4, #0x1f
 	mla r2, r4, r2, r1
 	str r5, [lr]
 	str r2, [r0]
-	ldr r1, _021648C8 // =0x0000D554
+	ldr r1, =0x0000D554
 	add r2, sp, #0
 	strh r1, [r0, #8]
 	ldr r1, [lr]
@@ -1349,25 +1359,23 @@ _021647EC:
 	strh r1, [r0, #0xa]
 	add sp, sp, #0x10
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021648AC: .word _021884EC
-_021648B0: .word _mt_math_rand
-_021648B4: .word 0x00196225
-_021648B8: .word 0x3C6EF35F
-_021648BC: .word 0x000001FF
-_021648C0: .word 0x000034CC
-_021648C4: .word 0x00141BB2
-_021648C8: .word 0x0000D554
-	arm_func_end TripleGrindRail__CreateLeafParticle
 
-	arm_func_start TripleGrindRail__CreateMushroomParticle
-TripleGrindRail__CreateMushroomParticle: // 0x021648CC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRail__CreateMushroomParticle(TripleGrindRailParticle *particle)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
-	ldr r3, _02164918 // =_mt_math_rand
-	ldr r1, _0216491C // =0x00196225
+	ldr r3, =_mt_math_rand
+	ldr r1, =0x00196225
 	ldr lr, [r3]
-	ldr r2, _02164920 // =0x3C6EF35F
-	ldr ip, _02164924 // =0x001CF9F6
+	ldr r2, =0x3C6EF35F
+	ldr ip, =0x001CF9F6
 	mla r2, lr, r1, r2
 	mov r1, r2, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -1377,25 +1385,25 @@ TripleGrindRail__CreateMushroomParticle: // 0x021648CC
 	str r2, [r3]
 	mov r1, r1, lsl #0xc
 	str r1, [r0, #4]
-	ldr r1, _02164928 // =0x0000D8E2
+	ldr r1, =0x0000D8E2
 	str ip, [r0]
 	strh r1, [r0, #8]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02164918: .word _mt_math_rand
-_0216491C: .word 0x00196225
-_02164920: .word 0x3C6EF35F
-_02164924: .word 0x001CF9F6
-_02164928: .word 0x0000D8E2
-	arm_func_end TripleGrindRail__CreateMushroomParticle
 
-	arm_func_start TripleGrindRail__State_216492C
-TripleGrindRail__State_216492C: // 0x0216492C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRail__State_216492C(TripleGrindRail *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r1, [r0, #0x35c]
 	ldr r1, [r1, #0x2c]
 	cmp r1, #0
 	strne r1, [r0, #0xe10]
-	ldr r1, _02164974 // =0x00141BB2
+	ldr r1, =0x00141BB2
 	str r1, [r0, #0x50]
 	ldr r1, [r0, #0xe10]
 	str r1, [r0, #0x58]
@@ -1403,36 +1411,44 @@ TripleGrindRail__State_216492C: // 0x0216492C
 	ldr r1, [r1, #0x28]
 	cmp r1, #0
 	bxeq lr
-	ldr r1, _02164978 // =TripleGrindRail__State_216497C
+	ldr r1, =TripleGrindRail__State_216497C
 	str r1, [r0, #0xf4]
 	ldr r1, [r0, #0x35c]
 	ldr r1, [r1, #0x28]
 	str r1, [r0, #0x28]
 	bx lr
-	.align 2, 0
-_02164974: .word 0x00141BB2
-_02164978: .word TripleGrindRail__State_216497C
-	arm_func_end TripleGrindRail__State_216492C
 
-	arm_func_start TripleGrindRail__State_216497C
-TripleGrindRail__State_216497C: // 0x0216497C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRail__State_216497C(TripleGrindRail *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r1, [r0, #0x28]
 	subs r1, r1, #1
 	str r1, [r0, #0x28]
 	ldreq r1, [r0, #0x18]
 	orreq r1, r1, #4
 	streq r1, [r0, #0x18]
-	ldr r1, _021649A8 // =0x00141BB2
+	ldr r1, =0x00141BB2
 	str r1, [r0, #0x50]
 	ldr r1, [r0, #0xe10]
 	str r1, [r0, #0x58]
 	bx lr
-	.align 2, 0
-_021649A8: .word 0x00141BB2
-	arm_func_end TripleGrindRail__State_216497C
 
-	arm_func_start TripleGrindRail__OnDefend_StartTrigger
-TripleGrindRail__OnDefend_StartTrigger: // 0x021649AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRail__OnDefend_StartTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -1443,7 +1459,7 @@ TripleGrindRail__OnDefend_StartTrigger: // 0x021649AC
 	cmp r1, #1
 	ldmneia sp!, {r4, pc}
 	ldr r2, [r0, #0xf4]
-	ldr r1, _02164A38 // =Player__State_201D748
+	ldr r1, =Player__State_201D748
 	cmp r2, r1
 	ldmneia sp!, {r4, pc}
 	ldr r2, [r4, #0xe04]
@@ -1457,7 +1473,7 @@ TripleGrindRail__OnDefend_StartTrigger: // 0x021649AC
 	bl Player__Func_201D7BC
 	mov r0, #0x2000
 	bl SetStageRingScale
-	ldr r1, _02164A3C // =TripleGrindRail__State_21640DC
+	ldr r1, =TripleGrindRail__State_21640DC
 	mov r0, #0x3000
 	str r1, [r4, #0xf4]
 	strh r0, [r4, #0x30]
@@ -1468,15 +1484,19 @@ TripleGrindRail__OnDefend_StartTrigger: // 0x021649AC
 	str r0, [r4, #0x47c]
 	str r4, [r4, #0x2d8]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02164A38: .word Player__State_201D748
-_02164A3C: .word TripleGrindRail__State_21640DC
-	arm_func_end TripleGrindRail__OnDefend_StartTrigger
 
-	arm_func_start TripleGrindRailEntity__State_Inactive
-TripleGrindRailEntity__State_Inactive: // 0x02164A40
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRailEntity__State_Inactive(TripleGrindRailEntity *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r1, _02164AC4 // =TripleGrindRail__Singleton
+	ldr r1, =TripleGrindRail__Singleton
 	mov r4, r0
 	ldr r2, [r1, #0]
 	cmp r2, #0
@@ -1495,11 +1515,11 @@ _02164A74:
 	add r1, r1, #0xa0000
 	cmp r2, r1
 	ldmgtia sp!, {r4, pc}
-	ldr r2, _02164AC8 // =0x0000CE38
+	ldr r2, =0x0000CE38
 	add r1, r4, #0x400
 	strh r2, [r1, #0x7c]
 	ldr r2, [r4, #0x20]
-	ldr r1, _02164ACC // =TripleGrindRailEntity__State_Active
+	ldr r1, =TripleGrindRailEntity__State_Active
 	bic r2, r2, #0x20
 	str r2, [r4, #0x20]
 	str r1, [r4, #0xf4]
@@ -1507,23 +1527,25 @@ _02164A74:
 	ldr r0, [r4, #0x340]
 	ldrh r0, [r0, #2]
 	cmp r0, #0x7b
-	ldreq r0, _02164AD0 // =TripleGrindRailEntity__Draw
+	ldreq r0, =TripleGrindRailEntity__Draw
 	streq r0, [r4, #0xfc]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02164AC4: .word TripleGrindRail__Singleton
-_02164AC8: .word 0x0000CE38
-_02164ACC: .word TripleGrindRailEntity__State_Active
-_02164AD0: .word TripleGrindRailEntity__Draw
-	arm_func_end TripleGrindRailEntity__State_Inactive
 
-	arm_func_start TripleGrindRailEntity__State_Active
-TripleGrindRailEntity__State_Active: // 0x02164AD4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRailEntity__State_Active(TripleGrindRailEntity *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
-	ldr r3, _02164BEC // =TripleGrindRail__Singleton
+	ldr r3, =TripleGrindRail__Singleton
 	ldr r4, [r3, #0]
 	cmp r4, #0
-	ldrne r1, _02164BF0 // =g_obj
+	ldrne r1, =g_obj
 	ldrne r1, [r1, #0x14]
 	cmpne r1, #0
 	beq _02164B00
@@ -1540,7 +1562,7 @@ _02164B10:
 	add r1, r4, #0xe00
 	ldrh ip, [r2, #0x7c]
 	ldrh r4, [r1, #0x14]
-	ldr r1, _02164BF4 // =0x000071C8
+	ldr r1, =0x000071C8
 	sub r4, ip, r4
 	strh r4, [r2, #0x7c]
 	ldrh r2, [r2, #0x7c]
@@ -1562,8 +1584,8 @@ _02164B48:
 _02164B68:
 	add r2, r0, #0x400
 	ldrh r3, [r2, #0x7c]
-	ldr r1, _02164BEC // =TripleGrindRail__Singleton
-	ldr lr, _02164BF8 // =FX_SinCosTable_
+	ldr r1, =TripleGrindRail__Singleton
+	ldr lr, =FX_SinCosTable_
 	mov r3, r3, asr #4
 	mov r3, r3, lsl #1
 	add r3, r3, #1
@@ -1577,7 +1599,7 @@ _02164B68:
 	mov r3, r3, lsr #0xc
 	ldr ip, [r4, #0x44]
 	orr r3, r3, r1, lsl #20
-	ldr r1, _02164BFC // =0x00141BB2
+	ldr r1, =0x00141BB2
 	add r3, ip, r3
 	add r1, r3, r1
 	str r1, [r0, #0x44]
@@ -1593,16 +1615,17 @@ _02164B68:
 	orr r2, r2, r1, lsl #20
 	str r2, [r0, #0x4c]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02164BEC: .word TripleGrindRail__Singleton
-_02164BF0: .word g_obj
-_02164BF4: .word 0x000071C8
-_02164BF8: .word FX_SinCosTable_
-_02164BFC: .word 0x00141BB2
-	arm_func_end TripleGrindRailEntity__State_Active
 
-	arm_func_start TripleGrindRailEntity__Draw
-TripleGrindRailEntity__Draw: // 0x02164C00
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRailEntity__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x14
 	bl GetCurrentTaskWork_
@@ -1632,13 +1655,13 @@ TripleGrindRailEntity__Draw: // 0x02164C00
 	str r0, [r4, #0x18]
 	ldmia sp!, {r3, r4, pc}
 _02164C70:
-	ldr r1, _02164CAC // =0x00001104
+	ldr r1, =0x00001104
 	add r3, r4, #0x38
 	str r1, [sp, #0x10]
 	str r0, [sp]
 	str r2, [sp, #4]
 	str r2, [sp, #8]
-	ldr r0, _02164CB0 // =TripleGrindRail__Singleton
+	ldr r0, =TripleGrindRail__Singleton
 	str r2, [sp, #0xc]
 	ldr r0, [r0, #0]
 	add r1, r4, #0x44
@@ -1647,13 +1670,17 @@ _02164C70:
 	bl StageTask__Draw3DEx
 	add sp, sp, #0x14
 	ldmia sp!, {r3, r4, pc}
-	.align 2, 0
-_02164CAC: .word 0x00001104
-_02164CB0: .word TripleGrindRail__Singleton
-	arm_func_end TripleGrindRailEntity__Draw
 
-	arm_func_start TripleGrindRailEntity__OnDefend
-TripleGrindRailEntity__OnDefend: // 0x02164CB4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRailEntity__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -1675,18 +1702,25 @@ TripleGrindRailEntity__OnDefend: // 0x02164CB4
 	str r1, [r4, #0x354]
 	str r0, [r4, #0x234]
 	ldmia sp!, {r4, pc}
-	arm_func_end TripleGrindRailEntity__OnDefend
 
-	arm_func_start TripleGrindRailRingLoss__State_Active
-TripleGrindRailRingLoss__State_Active: // 0x02164D08
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRailRingLoss__State_Active(TripleGrindRailRingLoss *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
-	ldr r1, _02164E04 // =TripleGrindRail__Singleton
+	ldr r1, =TripleGrindRail__Singleton
 	mov r10, r0
 	ldr r1, [r1, #0]
 	ldr r6, [r10, #0x168]
 	cmp r1, #0
-	ldrne r0, _02164E08 // =g_obj
+	ldrne r0, =g_obj
 	mov r11, #1
 	ldrne r0, [r0, #0x14]
 	cmpne r0, #0
@@ -1715,7 +1749,7 @@ _02164D78:
 	mov r2, #0x20
 	add r0, r1, r0
 	str r0, [r7]
-	ldr r0, _02164E0C // =0x02118D5C
+	ldr r0, =0x02118D5C
 	ldr r1, [r9, #0]
 	ldrsh r0, [r0, #0]
 	ldr r3, [r7, #4]
@@ -1746,14 +1780,17 @@ _02164DEC:
 	strne r0, [r10, #0x18]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02164E04: .word TripleGrindRail__Singleton
-_02164E08: .word g_obj
-_02164E0C: .word 0x02118D5C
-	arm_func_end TripleGrindRailRingLoss__State_Active
 
-	arm_func_start TripleGrindRailRingLoss__Draw
-TripleGrindRailRingLoss__Draw: // 0x02164E10
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void TripleGrindRailRingLoss__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x20
 	bl GetCurrentTaskWork_
@@ -1761,7 +1798,7 @@ TripleGrindRailRingLoss__Draw: // 0x02164E10
 	add r0, r4, #0x38
 	add r7, sp, #0x14
 	ldmia r0, {r0, r1, r2}
-	ldr r3, _02164EA0 // =0x00001104
+	ldr r3, =0x00001104
 	stmia r7, {r0, r1, r2}
 	str r3, [sp, #0x10]
 	ldr r9, [r4, #0x168]
@@ -1770,7 +1807,7 @@ TripleGrindRailRingLoss__Draw: // 0x02164E10
 	addle sp, sp, #0x20
 	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	add r10, r4, #0x16c
-	ldr r4, _02164EA4 // =TripleGrindRail__Singleton
+	ldr r4, =TripleGrindRail__Singleton
 	add r6, sp, #0x10
 	mov r5, r8
 _02164E5C:
@@ -1791,44 +1828,7 @@ _02164E5C:
 	blt _02164E5C
 	add sp, sp, #0x20
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	.align 2, 0
-_02164EA0: .word 0x00001104
-_02164EA4: .word TripleGrindRail__Singleton
-	arm_func_end TripleGrindRailRingLoss__Draw
 
-	.rodata
-
-_021884D4: // 0x021884D4
-    .word 0x1800, 0x1800, 0x1800
-	
-_021884E0: // 0x021884E0
-    .word 0x1000, 0x1000, 0x1000
-	
-_021884EC: // 0x021884EC
-    .hword 0, 1, 2, 3, 4, 5, 0, 2
-
-	.data
-	
-aActAcGmkGrd3lS: // 0x0218905C
-	.asciz "/act/ac_gmk_grd3l_spring.bac"
-	.align 4
-	
-aModGmkGrd3line: // 0x0218907C
-	.asciz "/mod/gmk_grd_3line.nsbmd"
-	.align 4
-	
-aModGmkGrd3line_0: // 0x02189098
-	.asciz "/mod/gmk_grd_3line.nsbta"
-	.align 4
-	
-aActAcEffGrd3lL_0: // 0x021890B4
-	.asciz "/act/ac_eff_grd3l_leaf3d.bac"
-	.align 4
-	
-aActAcItmRing3d: // 0x021890D4
-	.asciz "/act/ac_itm_ring3d.bac"
-	.align 4
-	
-aActAcGmkBallSi: // 0x021890EC
-	.asciz "/act/ac_gmk_ball_siron3d.bac"
-	.align 4
+// clang-format on
+#endif
+}

@@ -1,10 +1,28 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/objects/popSteam.h>
+#include <game/object/objectManager.h>
+#include <game/stage/gameSystem.h>
+#include <game/audio/spatialAudio.h>
+#include <game/graphics/screenShake.h>
+#include <stage/effects/steam.h>
 
-	arm_func_start PopSteam__Create
-PopSteam__Create: // 0x02166380
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED void *PopSteam__offsetTable;
+	
+NOT_DECOMPILED void *aActAcGmkPopSte;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC PopSteam *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x20
 	mov r3, #0x1800
@@ -14,10 +32,10 @@ PopSteam__Create: // 0x02166380
 	mov r0, #2
 	mov r6, #0
 	str r0, [sp, #4]
-	ldr r4, _0216687C // =0x00000428
+	ldr r4, =0x00000428
 	mov r7, r2
-	ldr r0, _02166880 // =StageTask_Main
-	ldr r1, _02166884 // =PopSteam__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =PopSteam__Destructor
 	mov r2, r6
 	mov r3, r6
 	str r4, [sp, #8]
@@ -31,7 +49,7 @@ PopSteam__Create: // 0x02166380
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r4
 	bl GetTaskWork_
-	ldr r2, _0216687C // =0x00000428
+	ldr r2, =0x00000428
 	mov r4, r0
 	mov r1, r6
 	bl MI_CpuFill8
@@ -79,10 +97,10 @@ _02166454:
 	streq r0, [r4, #0x20]
 	mov r0, #0xaa
 	bl GetObjectFileWork
-	ldr r1, _02166888 // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r1, [r1, #0]
-	ldr r2, _0216688C // =aActAcGmkPopSte
+	ldr r2, =aActAcGmkPopSte
 	str r1, [sp]
 	mov r7, #0
 	mov r0, r4
@@ -118,11 +136,11 @@ _02166454:
 	mov r0, #0xaa
 	add r7, r4, #0x364
 	bl GetObjectFileWork
-	ldr r1, _02166888 // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r8, [r1, #0]
-	ldr r1, _0216688C // =aActAcGmkPopSte
-	ldr r2, _02166890 // =0x0000FFFF
+	ldr r1, =aActAcGmkPopSte
+	ldr r2, =0x0000FFFF
 	mov r0, r7
 	str r8, [sp]
 	bl ObjAction2dBACLoad
@@ -142,13 +160,13 @@ _02166454:
 	ldr r0, [r4, #0x128]
 	mov r1, #0
 	ldrh r2, [r0, #0x50]
-	ldr r0, _02166894 // =StageTask__DefaultDiffData
+	ldr r0, =StageTask__DefaultDiffData
 	mov r6, #0x20
 	strh r2, [r7, #0x90]
 	strh r2, [r7, #0x92]
 	ldrh r3, [r7, #0x90]
 	add r2, r4, #0x300
-	ldr r8, _02166898 // =_021884FC
+	ldr r8, =PopSteam__offsetTable
 	strh r3, [r7, #0x50]
 	str r1, [r4, #0x13c]
 	str r4, [r4, #0x2d8]
@@ -171,7 +189,7 @@ _02166454:
 	mov r1, #1
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216689C // =PopSteam__OnDefend_2166C34
+	ldr r0, =PopSteam__OnDefend_2166C34
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x354]
 	orr r0, r0, #1
@@ -228,11 +246,11 @@ _021666D8:
 	mov r2, r1
 	add r0, r4, #0x258
 	bl ObjRect__SetAttackStat
-	ldr r1, _021668A0 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _021668A4 // =PopSteam__OnDefend_2166B6C
+	ldr r1, =PopSteam__OnDefend_2166B6C
 	mov r0, #0x30000
 	str r1, [r4, #0x27c]
 	ldr r1, [r4, #0x270]
@@ -330,31 +348,24 @@ _02166810:
 _02166858:
 	cmp r5, #0
 	bgt _02166810
-	ldr r0, _021668A8 // =PopSteam__Draw
-	ldr r1, _021668AC // =PopSteam__State_21668F8
+	ldr r0, =PopSteam__Draw
+	ldr r1, =PopSteam__State_21668F8
 	str r0, [r4, #0xfc]
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0x20
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0216687C: .word 0x00000428
-_02166880: .word StageTask_Main
-_02166884: .word PopSteam__Destructor
-_02166888: .word gameArchiveStage
-_0216688C: .word aActAcGmkPopSte
-_02166890: .word 0x0000FFFF
-_02166894: .word StageTask__DefaultDiffData
-_02166898: .word _021884FC
-_0216689C: .word PopSteam__OnDefend_2166C34
-_021668A0: .word 0x0000FFFE
-_021668A4: .word PopSteam__OnDefend_2166B6C
-_021668A8: .word PopSteam__Draw
-_021668AC: .word PopSteam__State_21668F8
-	arm_func_end PopSteam__Create
 
-	arm_func_start PopSteam__Destructor
-PopSteam__Destructor: // 0x021668B0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void PopSteam__Destructor(Task *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -374,10 +385,17 @@ _021668E0:
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end PopSteam__Destructor
 
-	arm_func_start PopSteam__State_21668F8
-PopSteam__State_21668F8: // 0x021668F8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void PopSteam__State_21668F8(PopSteam *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #8
 	mov r9, r0
@@ -448,7 +466,7 @@ _021669F0:
 	tst r0, #2
 	addeq sp, sp, #8
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	ldr r4, _02166B5C // =0x0000FFFF
+	ldr r4, =0x0000FFFF
 	mov r8, #0
 	bl GetObjSpeed
 	ldr r1, [r9, #0x41c]
@@ -472,11 +490,11 @@ _02166A48:
 	cmp r1, r0
 	blt _02166A90
 	mov r4, r8
-	ldr r2, _02166B60 // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	str r4, [r9, #0x424]
 	ldr r3, [r2, #0]
-	ldr r0, _02166B64 // =0x00196225
-	ldr r1, _02166B68 // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	mla r1, r3, r0, r1
 	mov r0, r1, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -486,7 +504,7 @@ _02166A48:
 	str r1, [r2]
 	mov r8, r0, lsl #0xc
 _02166A90:
-	ldr r0, _02166B5C // =0x0000FFFF
+	ldr r0, =0x0000FFFF
 	cmp r4, r0
 	beq _02166B48
 	ldr r0, [r9, #0x340]
@@ -544,15 +562,17 @@ _02166B48:
 	bl ProcessSpatialSfx
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_02166B5C: .word 0x0000FFFF
-_02166B60: .word _mt_math_rand
-_02166B64: .word 0x00196225
-_02166B68: .word 0x3C6EF35F
-	arm_func_end PopSteam__State_21668F8
 
-	arm_func_start PopSteam__OnDefend_2166B6C
-PopSteam__OnDefend_2166B6C: // 0x02166B6C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void PopSteam__OnDefend_2166B6C(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -609,10 +629,17 @@ _02166BF4:
 	str r0, [r4, #0x2c]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end PopSteam__OnDefend_2166B6C
 
-	arm_func_start PopSteam__OnDefend_2166C34
-PopSteam__OnDefend_2166C34: // 0x02166C34
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void PopSteam__OnDefend_2166C34(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #8
 	ldr r4, [r1, #0x1c]
@@ -752,10 +779,17 @@ _02166D60:
 	bl ProcessSpatialSfx
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end PopSteam__OnDefend_2166C34
 
-	arm_func_start PopSteam__Draw
-PopSteam__Draw: // 0x02166E40
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void PopSteam__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -772,15 +806,7 @@ PopSteam__Draw: // 0x02166E40
 	bl StageTask__Draw2D
 	str r5, [r4, #0x20]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end PopSteam__Draw
 
-	.rodata
-
-_021884FC: // 0x021884FC
-    .word 0xFFE4FFF0, 0xFFE4FFF0, 0xFFF0FFFC, 0xFFF0FFFC
-
-	.data
-	
-aActAcGmkPopSte: // 0x02189188
-	.asciz "/act/ac_gmk_pop_steam.bac"
-	.align 4
+// clang-format on
+#endif
+}

@@ -1,13 +1,28 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/objects/swingRope.h>
+#include <game/object/objectManager.h>
+#include <game/stage/gameSystem.h>
 
-	arm_func_start SwingRope__Create
-SwingRope__Create: // 0x0216219C
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED void *aActAcGmkRopeTa;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NOT_DECOMPILED void _s32_div_f(void);
+
+NONMATCH_FUNC SwingRope *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x2c
-	ldr r3, _02162490 // =0x000010F6
+	ldr r3, =0x000010F6
 	mov r7, r0
 	str r3, [sp]
 	mov r0, #2
@@ -15,9 +30,9 @@ SwingRope__Create: // 0x0216219C
 	mov r4, r2
 	mov r2, #0
 	str r0, [sp, #4]
-	ldr r5, _02162494 // =0x00000954
-	ldr r0, _02162498 // =StageTask_Main
-	ldr r1, _0216249C // =SwingRope__Destructor
+	ldr r5, =0x00000954
+	ldr r0, =StageTask_Main
+	ldr r1, =SwingRope__Destructor
 	mov r3, r2
 	str r5, [sp, #8]
 	bl TaskCreate_
@@ -30,7 +45,7 @@ SwingRope__Create: // 0x0216219C
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	mov r0, r5
 	bl GetTaskWork_
-	ldr r2, _02162494 // =0x00000954
+	ldr r2, =0x00000954
 	mov r5, r0
 	mov r1, #0
 	bl MI_CpuFill8
@@ -44,12 +59,12 @@ SwingRope__Create: // 0x0216219C
 	strh r1, [r0, #0x14]
 	ldrh r0, [r7, #4]
 	tst r0, #1
-	ldreq r1, _021624A0 // =playerGameStatus
-	ldr r0, _021624A4 // =0x6C16C16D
+	ldreq r1, =playerGameStatus
+	ldr r0, =0x6C16C16D
 	ldreq r3, [r1, #0xc]
 	moveq r2, #0xb4
 	beq _0216225C
-	ldr r1, _021624A0 // =playerGameStatus
+	ldr r1, =playerGameStatus
 	mov r2, #0xb4
 	ldr r1, [r1, #0xc]
 	add r3, r1, #0x5a
@@ -69,10 +84,10 @@ _0216225C:
 	mov r0, #0xa1
 	strh r2, [r1, #0x18]
 	bl GetObjectFileWork
-	ldr r1, _021624A8 // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r1, [r1, #0]
-	ldr r2, _021624AC // =aActAcGmkRopeTa
+	ldr r2, =aActAcGmkRopeTa
 	str r1, [sp]
 	mov r4, #0
 	mov r0, r5
@@ -115,7 +130,7 @@ _0216225C:
 	str r1, [sp]
 	mov r3, #0
 	stmib sp, {r3, r6}
-	ldr r2, _021624B0 // =0x05000200
+	ldr r2, =0x05000200
 	str r3, [sp, #0xc]
 	str r2, [sp, #0x10]
 	str r3, [sp, #0x14]
@@ -136,7 +151,7 @@ _0216225C:
 	ldr r0, [r5, #0x128]
 	mov r6, #0x10
 	ldrh r0, [r0, #0x50]
-	ldr r3, _021624B4 // =0x00000102
+	ldr r3, =0x00000102
 	mov r2, #4
 	strh r0, [r4, #0x90]
 	strh r0, [r4, #0x92]
@@ -156,11 +171,11 @@ _0216225C:
 	mov r2, r1
 	add r0, r5, #0x4b0
 	bl ObjRect__SetAttackStat
-	ldr r1, _021624B8 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r5, #0x4b0
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _021624BC // =SwingRope__OnDefend
+	ldr r0, =SwingRope__OnDefend
 	str r5, [r5, #0x4cc]
 	str r0, [r5, #0x4d4]
 	ldr r0, [r5, #0x4c8]
@@ -197,23 +212,17 @@ _02162464:
 	mov r0, r5
 	add sp, sp, #0x2c
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_02162490: .word 0x000010F6
-_02162494: .word 0x00000954
-_02162498: .word StageTask_Main
-_0216249C: .word SwingRope__Destructor
-_021624A0: .word playerGameStatus
-_021624A4: .word 0x6C16C16D
-_021624A8: .word gameArchiveStage
-_021624AC: .word aActAcGmkRopeTa
-_021624B0: .word 0x05000200
-_021624B4: .word 0x00000102
-_021624B8: .word 0x0000FFFE
-_021624BC: .word SwingRope__OnDefend
-	arm_func_end SwingRope__Create
 
-	arm_func_start SwingRope__Destructor
-SwingRope__Destructor: // 0x021624C0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SwingRope__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -228,25 +237,35 @@ SwingRope__Destructor: // 0x021624C0
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SwingRope__Destructor
 
-	arm_func_start SwingRope__Action_Init
-SwingRope__Action_Init: // 0x021624F8
-	ldr r1, _02162514 // =SwingRope__State_2162520
-	ldr r2, _02162518 // =SwingRope__Draw
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SwingRope__Action_Init(SwingRope *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr r1, =SwingRope__State_2162520
+	ldr r2, =SwingRope__Draw
 	str r1, [r0, #0xf4]
-	ldr r1, _0216251C // =SwingRope__Collide
+	ldr r1, =SwingRope__Collide
 	str r2, [r0, #0xfc]
 	str r1, [r0, #0x108]
 	bx lr
-	.align 2, 0
-_02162514: .word SwingRope__State_2162520
-_02162518: .word SwingRope__Draw
-_0216251C: .word SwingRope__Collide
-	arm_func_end SwingRope__Action_Init
 
-	arm_func_start SwingRope__State_2162520
-SwingRope__State_2162520: // 0x02162520
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SwingRope__State_2162520(SwingRope *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x400
@@ -371,10 +390,17 @@ _021626DC:
 	biceq r0, r0, #2
 	streq r0, [r4, #0x18]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end SwingRope__State_2162520
 
-	arm_func_start SwingRope__Draw
-SwingRope__Draw: // 0x02162700
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SwingRope__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0x18
 	bl GetCurrentTaskWork_
@@ -417,22 +443,29 @@ _02162740:
 	blt _02162740
 	add sp, sp, #0x18
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	arm_func_end SwingRope__Draw
 
-	arm_func_start SwingRope__Collide
-SwingRope__Collide: // 0x021627A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SwingRope__Collide(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
 	add r0, r5, #0x400
 	ldr r2, [r5, #0x18]
 	ldrsh r7, [r0, #0x14]
-	ldr r1, _0216289C // =gPlayer
+	ldr r1, =gPlayer
 	add r6, r5, #0x4b0
 	tst r2, #0xc
 	ldr r0, [r1, #0]
 	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r1, _021628A0 // =g_obj
+	ldr r1, =g_obj
 	ldr r1, [r1, #0x28]
 	tst r1, #0x40
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
@@ -485,13 +518,17 @@ _02162864:
 	add r6, r6, #0x40
 	blt _02162864
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216289C: .word gPlayer
-_021628A0: .word g_obj
-	arm_func_end SwingRope__Collide
 
-	arm_func_start SwingRope__OnDefend
-SwingRope__OnDefend: // 0x021628A4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SwingRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r2, [r1, #0x1c]
 	ldr r4, [r0, #0x1c]
@@ -556,10 +593,17 @@ _02162968:
 	orr r0, r0, #4
 	str r0, [r4, #0x20]
 	ldmia sp!, {r4, pc}
-	arm_func_end SwingRope__OnDefend
 
-	arm_func_start SwingRope__HandleNodePositions
-SwingRope__HandleNodePositions: // 0x0216299C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SwingRope__HandleNodePositions(SwingRope *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
@@ -575,7 +619,7 @@ SwingRope__HandleNodePositions: // 0x0216299C
 	cmp r5, #0x1000
 	str r0, [sp, #8]
 	bge _02162A8C
-	ldr r2, _02162E04 // =0xFFFF9556
+	ldr r2, =0xFFFF9556
 	mov r1, r5, asr #0x1f
 	mov r0, #1
 	mov r7, #0x4000
@@ -599,7 +643,7 @@ _021629F0:
 	mov r0, r7, lsl #0x10
 	mov r7, #0
 	mov r11, r0, lsr #0x10
-	ldr r2, _02162E08 // =0xFFFFEAAB
+	ldr r2, =0xFFFFEAAB
 	mov r0, #3
 	mov r6, r7
 	mov r3, #0x800
@@ -628,7 +672,7 @@ _02162A8C:
 	sub r0, r5, #0x1000
 	mov r0, r0, lsl #0x10
 	mov r5, r0, asr #0x10
-	ldr r2, _02162E0C // =0x00001556
+	ldr r2, =0x00001556
 	mov r3, r5, asr #0x1f
 	mov r1, #1
 	mov r0, #0x4000
@@ -650,7 +694,7 @@ _02162AB8:
 	bne _02162AB8
 	mov r0, r0, lsl #0x10
 	mov r1, #0
-	ldr r6, _02162E10 // =0x00001555
+	ldr r6, =0x00001555
 	mov r11, r0, lsr #0x10
 	mov r2, #3
 	mov r8, r1
@@ -680,7 +724,7 @@ _02162B50:
 	sub r0, r5, #0x2000
 	mov r0, r0, lsl #0x10
 	mov r2, r0, asr #0x10
-	ldr r3, _02162E14 // =0xFFFFEAAA
+	ldr r3, =0xFFFFEAAA
 	mov r1, r2, asr #0x1f
 	mov r0, #1
 	mov r7, #0x4000
@@ -704,7 +748,7 @@ _02162B7C:
 	mov r0, r7, lsl #0x10
 	mov r7, #0
 	mov r11, r0, lsr #0x10
-	ldr r3, _02162E08 // =0xFFFFEAAB
+	ldr r3, =0xFFFFEAAB
 	mov r0, #3
 	mov r6, r7
 	mov r5, #0x800
@@ -732,7 +776,7 @@ _02162C1C:
 	sub r0, r5, #0x3000
 	mov r0, r0, lsl #0x10
 	mov r5, r0, asr #0x10
-	ldr r2, _02162E18 // =0x00006AAA
+	ldr r2, =0x00006AAA
 	mov r3, r5, asr #0x1f
 	mov r1, #1
 	mov r0, #0x4000
@@ -754,7 +798,7 @@ _02162C40:
 	bne _02162C40
 	mov r0, r0, lsl #0x10
 	mov r1, #0
-	ldr r6, _02162E10 // =0x00001555
+	ldr r6, =0x00001555
 	mov r11, r0, lsr #0x10
 	mov r2, #3
 	mov r8, r1
@@ -778,7 +822,7 @@ _02162C90:
 	str r0, [sp, #4]
 _02162CD0:
 	ldr r0, [sp, #4]
-	ldr r2, _02162E1C // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	cmp r0, #0x8000
 	mov r0, r11, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -835,7 +879,7 @@ _02162D4C:
 	mov r2, r0, lsl #1
 	add r1, r4, r5, lsl #3
 	strh r3, [r6, #0x30]
-	ldr r0, _02162E1C // =FX_SinCosTable_
+	ldr r0, =FX_SinCosTable_
 	ldr r7, [r1, #0x418]
 	add r3, r0, r2, lsl #1
 	ldrsh r6, [r3, #2]
@@ -856,18 +900,7 @@ _02162D4C:
 	blt _02162D38
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02162E04: .word 0xFFFF9556
-_02162E08: .word 0xFFFFEAAB
-_02162E0C: .word 0x00001556
-_02162E10: .word 0x00001555
-_02162E14: .word 0xFFFFEAAA
-_02162E18: .word 0x00006AAA
-_02162E1C: .word FX_SinCosTable_
-	arm_func_end SwingRope__HandleNodePositions
 
-	.data
-	
-aActAcGmkRopeTa: // 0x02188FD0
-	.asciz "/act/ac_gmk_rope_tar.bac"
-	.align 4
+// clang-format on
+#endif
+}

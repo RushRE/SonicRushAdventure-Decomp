@@ -1,10 +1,38 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/objects/pipe.h>
+#include <game/object/objectManager.h>
+#include <game/stage/gameSystem.h>
+#include <stage/effects/pipeFlowSeed.h>
+#include <stage/effects/pipeFlowPetal.h>
+#include <stage/effects/steam.h>
 
-	arm_func_start PipeFlow__Create
-PipeFlow__Create: // 0x021610CC
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED void *SteamPipe__dword_2188390;
+NOT_DECOMPILED void *SteamPipe__dword_2188398;
+NOT_DECOMPILED void *FlowerPipe__dword_21883A0;
+NOT_DECOMPILED void *FlowerPipe__dword_21883A8;
+NOT_DECOMPILED void *SteamPipe__stru_21883B0;
+
+NOT_DECOMPILED void *FlowerPipe__dword_2188F2C;
+NOT_DECOMPILED void *FlowerPipe__dword_2188F40;
+NOT_DECOMPILED void *FlowerPipe__dword_2188F54;
+NOT_DECOMPILED void *FlowerPipe__dword_2188F68;
+
+NOT_DECOMPILED void *aActAcGmkPipeFl_0;
+NOT_DECOMPILED void *aActAcGmkPipeSt;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC FlowerPipe *FlowerPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -16,8 +44,8 @@ PipeFlow__Create: // 0x021610CC
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _021613F4 // =StageTask_Main
-	ldr r1, _021613F8 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -42,14 +70,14 @@ PipeFlow__Create: // 0x021610CC
 	mov r0, #0x9f
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _021613FC // =gameArchiveStage
-	ldr r1, _02161400 // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _02161404 // =aActAcGmkPipeFl_0
+	ldr r2, =aActAcGmkPipeFl_0
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
 	mov r1, #0x17
@@ -62,7 +90,7 @@ PipeFlow__Create: // 0x021610CC
 	mov r2, r1
 	bl ObjRect__SetAttackStat
 	add r0, r4, #0x218
-	ldr r1, _02161408 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r0, [r4, #0x230]
@@ -79,11 +107,11 @@ PipeFlow__Create: // 0x021610CC
 	mov r2, r1
 	bl ObjRect__SetAttackStat
 	add r0, r4, #0x298
-	ldr r1, _02161408 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x2b0]
-	ldr r0, _0216140C // =PipeFlow__OnDefend_216188C
+	ldr r0, =FlowerPipe__OnDefend_216188C
 	orr r1, r1, #0x400
 	str r1, [r4, #0x2b0]
 	str r0, [r4, #0x2bc]
@@ -92,11 +120,11 @@ PipeFlow__Create: // 0x021610CC
 	mov r2, r1
 	bl ObjRect__SetAttackStat
 	add r0, r4, #0x258
-	ldr r1, _02161408 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x270]
-	ldr r0, _02161410 // =PipeFlow__OnDefend_2161854
+	ldr r0, =FlowerPipe__OnDefend_2161854
 	orr r1, r1, #0x400
 	str r1, [r4, #0x270]
 	str r0, [r4, #0x27c]
@@ -108,12 +136,12 @@ PipeFlow__Create: // 0x021610CC
 	cmp r0, #0x75
 	beq _02161330
 _02161264:
-	ldr r0, _02161414 // =PipeFlow__OnDefend_216174C
+	ldr r0, =FlowerPipe__OnDefend_216174C
 	mov r2, #0x58
 	str r0, [r4, #0x23c]
 	mov r5, #0
 	str r5, [r4, #0x13c]
-	ldr r0, _02161418 // =StageTask__DefaultDiffData
+	ldr r0, =StageTask__DefaultDiffData
 	str r4, [r4, #0x2d8]
 	str r0, [r4, #0x2fc]
 	add r0, r4, #0x300
@@ -130,12 +158,12 @@ _02161264:
 	mov r6, #9
 	b _021613B0
 _021612B8:
-	ldr r0, _0216141C // =PipeSteam__OnDefend_21617B0
+	ldr r0, =SteamPipe__OnDefend_21617B0
 	mov r2, #0x18
 	str r0, [r4, #0x23c]
 	mov r3, #0
 	str r3, [r4, #0x13c]
-	ldr r0, _02161418 // =StageTask__DefaultDiffData
+	ldr r0, =StageTask__DefaultDiffData
 	str r4, [r4, #0x2d8]
 	str r0, [r4, #0x2fc]
 	add r0, r4, #0x300
@@ -161,12 +189,12 @@ _021612B8:
 	str r4, [r4, #0x2b4]
 	b _021613B0
 _02161330:
-	ldr r0, _0216141C // =PipeSteam__OnDefend_21617B0
+	ldr r0, =SteamPipe__OnDefend_21617B0
 	mov r3, #0x58
 	str r0, [r4, #0x23c]
 	mov r0, #0
 	str r0, [r4, #0x13c]
-	ldr r0, _02161418 // =StageTask__DefaultDiffData
+	ldr r0, =StageTask__DefaultDiffData
 	str r4, [r4, #0x2d8]
 	str r0, [r4, #0x2fc]
 	add r0, r4, #0x300
@@ -206,28 +234,22 @@ _021613B0:
 	mov r0, r4
 	mov r1, r5
 	bl StageTask__SetAnimation
-	ldr r1, _02161420 // =PipeSteam__State_2161728
+	ldr r1, =SteamPipe__State_2161728
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_021613F4: .word StageTask_Main
-_021613F8: .word GameObject__Destructor
-_021613FC: .word gameArchiveStage
-_02161400: .word 0x0000FFFF
-_02161404: .word aActAcGmkPipeFl_0
-_02161408: .word 0x0000FFFE
-_0216140C: .word PipeFlow__OnDefend_216188C
-_02161410: .word PipeFlow__OnDefend_2161854
-_02161414: .word PipeFlow__OnDefend_216174C
-_02161418: .word StageTask__DefaultDiffData
-_0216141C: .word PipeSteam__OnDefend_21617B0
-_02161420: .word PipeSteam__State_2161728
-	arm_func_end PipeFlow__Create
 
-	arm_func_start PipeSteam__Create
-PipeSteam__Create: // 0x02161424
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC SteamPipe *SteamPipe__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -239,8 +261,8 @@ PipeSteam__Create: // 0x02161424
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _021616F8 // =StageTask_Main
-	ldr r1, _021616FC // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -265,14 +287,14 @@ PipeSteam__Create: // 0x02161424
 	mov r0, #0x9f
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02161700 // =gameArchiveStage
-	ldr r1, _02161704 // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _02161708 // =aActAcGmkPipeSt
+	ldr r2, =aActAcGmkPipeSt
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
 	mov r1, #0x17
@@ -285,7 +307,7 @@ PipeSteam__Create: // 0x02161424
 	mov r2, r1
 	bl ObjRect__SetAttackStat
 	add r0, r4, #0x218
-	ldr r1, _0216170C // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x230]
@@ -298,7 +320,7 @@ PipeSteam__Create: // 0x02161424
 	blo _021615A8
 	cmp r0, #0x82
 	bhi _021615A8
-	ldr r0, _02161710 // =PipeSteam__OnDefend_2161DA0
+	ldr r0, =SteamPipe__OnDefend_2161DA0
 	str r0, [r4, #0x23c]
 	ldrh r0, [r8, #2]
 	sub r0, r0, #0x7f
@@ -328,7 +350,7 @@ _0216158C:
 _02161598:
 	mov r5, #1
 _0216159C:
-	ldr r0, _02161714 // =PipeSteam__State_2161728
+	ldr r0, =SteamPipe__State_2161728
 	str r0, [r4, #0xf4]
 	b _0216166C
 _021615A8:
@@ -337,7 +359,7 @@ _021615A8:
 	blo _0216166C
 	cmp r0, #0x86
 	bhi _0216166C
-	ldr r0, _02161718 // =PipeSteam__OnDefend_21617B0
+	ldr r0, =SteamPipe__OnDefend_21617B0
 	mov r3, #2
 	str r0, [r4, #0x23c]
 	sub r1, r3, #4
@@ -350,12 +372,12 @@ _021615A8:
 	mov r2, r1
 	add r0, r4, #0x258
 	bl ObjRect__SetAttackStat
-	ldr r1, _0216170C // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x258
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
 	ldr r1, [r4, #0x270]
-	ldr r0, _0216171C // =PipeSteam__OnDefend_2161DE0
+	ldr r0, =SteamPipe__OnDefend_2161DE0
 	orr r1, r1, #0x400
 	str r1, [r4, #0x270]
 	str r0, [r4, #0x27c]
@@ -389,11 +411,11 @@ _02161668:
 _0216166C:
 	mov r1, #0
 	str r1, [r4, #0x13c]
-	ldr r0, _02161720 // =StageTask__DefaultDiffData
+	ldr r0, =StageTask__DefaultDiffData
 	str r4, [r4, #0x2d8]
 	str r0, [r4, #0x2fc]
 	ldrh r0, [r8, #2]
-	ldr r6, _02161724 // =PipeSteam__stru_21883B0
+	ldr r6, =SteamPipe__stru_21883B0
 	add r3, r4, #0x300
 	sub r2, r0, #0x7f
 	mov r0, r2, lsl #3
@@ -422,23 +444,16 @@ _0216166C:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_021616F8: .word StageTask_Main
-_021616FC: .word GameObject__Destructor
-_02161700: .word gameArchiveStage
-_02161704: .word 0x0000FFFF
-_02161708: .word aActAcGmkPipeSt
-_0216170C: .word 0x0000FFFE
-_02161710: .word PipeSteam__OnDefend_2161DA0
-_02161714: .word PipeSteam__State_2161728
-_02161718: .word PipeSteam__OnDefend_21617B0
-_0216171C: .word PipeSteam__OnDefend_2161DE0
-_02161720: .word StageTask__DefaultDiffData
-_02161724: .word PipeSteam__stru_21883B0
-	arm_func_end PipeSteam__Create
 
-	arm_func_start PipeSteam__State_2161728
-PipeSteam__State_2161728: // 0x02161728
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SteamPipe__State_2161728(SteamPipe *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r1, [r0, #0x2c]
 	cmp r1, #0
 	bxeq lr
@@ -448,10 +463,17 @@ PipeSteam__State_2161728: // 0x02161728
 	biceq r1, r1, #2
 	streq r1, [r0, #0x18]
 	bx lr
-	arm_func_end PipeSteam__State_2161728
 
-	arm_func_start PipeFlow__OnDefend_216174C
-PipeFlow__OnDefend_216174C: // 0x0216174C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void FlowerPipe__OnDefend_216174C(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -469,19 +491,24 @@ PipeFlow__OnDefend_216174C: // 0x0216174C
 	orr r2, r2, #2
 	str r2, [r1, #0x18]
 	ldr ip, [r1, #0x24]
-	ldr r3, _021617AC // =PipeFlow__dword_21883A0
+	ldr r3, =FlowerPipe__dword_21883A0
 	add r2, lr, #0x8000
 	mov r2, r2, lsl #0x10
 	ldr r3, [r3, ip, lsl #2]
 	mov r2, r2, lsr #0x10
 	bl Player__Gimmick_201C80C
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021617AC: .word PipeFlow__dword_21883A0
-	arm_func_end PipeFlow__OnDefend_216174C
 
-	arm_func_start PipeSteam__OnDefend_21617B0
-PipeSteam__OnDefend_21617B0: // 0x021617B0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SteamPipe__OnDefend_21617B0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -501,10 +528,10 @@ PipeSteam__OnDefend_21617B0: // 0x021617B0
 	mov r2, #0
 	ldrsb ip, [r0, #6]
 	ldr lr, [r4, #0x24]
-	ldr r0, _0216184C // =PipeSteam__dword_2188390
+	ldr r0, =SteamPipe__dword_2188390
 	cmp ip, #0
 	ldr r1, [r0, lr, lsl #2]
-	ldrgt r0, _02161850 // =PipeSteam__dword_2188398
+	ldrgt r0, =SteamPipe__dword_2188398
 	mov r3, r2
 	ldrgt r0, [r0, lr, lsl #2]
 	mlagt r1, ip, r0, r1
@@ -522,13 +549,16 @@ _02161834:
 	mov r1, r4
 	bl Player__Action_AllowTrickCombos
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216184C: .word PipeSteam__dword_2188390
-_02161850: .word PipeSteam__dword_2188398
-	arm_func_end PipeSteam__OnDefend_21617B0
 
-	arm_func_start PipeFlow__OnDefend_2161854
-PipeFlow__OnDefend_2161854: // 0x02161854
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void FlowerPipe__OnDefend_2161854(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r1, [r1, #0x1c]
 	ldr r2, [r0, #0x1c]
 	cmp r1, #0
@@ -538,16 +568,21 @@ PipeFlow__OnDefend_2161854: // 0x02161854
 	cmp r0, #1
 	bxne lr
 	ldr r1, [r1, #0x24]
-	ldr r0, _02161888 // =PipeFlow__dword_21883A8
+	ldr r0, =FlowerPipe__dword_21883A8
 	ldr r0, [r0, r1, lsl #2]
 	str r0, [r2, #8]
 	bx lr
-	.align 2, 0
-_02161888: .word PipeFlow__dword_21883A8
-	arm_func_end PipeFlow__OnDefend_2161854
 
-	arm_func_start PipeFlow__OnDefend_216188C
-PipeFlow__OnDefend_216188C: // 0x0216188C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void FlowerPipe__OnDefend_216188C(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r2, [r1, #0x1c]
 	ldr r1, [r0, #0x1c]
@@ -570,18 +605,18 @@ PipeFlow__OnDefend_216188C: // 0x0216188C
 	ldr r6, [r2, #0x44]
 	ldr r7, [r2, #0x48]
 	bne _02161A14
-	ldr r8, _02161B48 // =0x02188F54
-	ldr r9, _02161B4C // =_02188F2C
-	ldr r11, _02161B50 // =_mt_math_rand
+	ldr r8, =FlowerPipe__dword_2188F54
+	ldr r9, =FlowerPipe__dword_2188F2C
+	ldr r11, =_mt_math_rand
 	mov r4, r5
 _021618F4:
 	ldr r3, [r11, #0]
-	ldr r2, _02161B54 // =0x00196225
-	ldr r0, _02161B58 // =0x3C6EF35F
+	ldr r2, =0x00196225
+	ldr r0, =0x3C6EF35F
 	mov r1, r7
 	mla r0, r3, r2, r0
 	mov r3, r2
-	ldr r2, _02161B58 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mla r2, r0, r3, r2
 	str r2, [r11]
 	str r5, [sp]
@@ -601,7 +636,7 @@ _021618F4:
 	sub r0, r0, #1
 	add r3, r3, r0, lsl #11
 	add r0, r6, r10
-	bl EffectPipeFlowPetal__Create
+	bl EffectFlowerPipePetal__Create
 	eor r0, r5, #1
 	add r4, r4, #1
 	mov r0, r0, lsl #0x10
@@ -611,16 +646,16 @@ _021618F4:
 	blt _021618F4
 	mov r10, #0
 	mov r4, #0x4000
-	ldr r8, _02161B50 // =_mt_math_rand
-	ldr r11, _02161B58 // =0x3C6EF35F
+	ldr r8, =_mt_math_rand
+	ldr r11, =0x3C6EF35F
 	sub r9, r10, #0x2400
 	rsb r4, r4, #0
 _02161994:
 	ldr r2, [r8, #0]
-	ldr r0, _02161B54 // =0x00196225
+	ldr r0, =0x00196225
 	mov r1, r7
 	mla r0, r2, r0, r11
-	ldr r2, _02161B54 // =0x00196225
+	ldr r2, =0x00196225
 	mov r3, r0, lsr #0x10
 	mla r2, r0, r2, r11
 	str r2, [r8]
@@ -637,7 +672,7 @@ _02161994:
 	add r0, r6, r9
 	mov r2, r2, lsl #0xc
 	sub r3, r4, r3, lsr #18
-	bl EffectPipeFlowSeed__Create
+	bl EffectFlowerPipeSeed__Create
 	add r0, r5, #1
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10
@@ -649,18 +684,18 @@ _02161994:
 	blt _02161994
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _02161A14:
-	ldr r4, _02161B5C // =0x02188F40
-	ldr r8, _02161B60 // =0x02188F68
-	ldr r11, _02161B50 // =_mt_math_rand
+	ldr r4, =FlowerPipe__dword_2188F40
+	ldr r8, =FlowerPipe__dword_2188F68
+	ldr r11, =_mt_math_rand
 	mov r9, r5
 _02161A24:
 	ldr r3, [r11, #0]
-	ldr r2, _02161B54 // =0x00196225
-	ldr r1, _02161B58 // =0x3C6EF35F
+	ldr r2, =0x00196225
+	ldr r1, =0x3C6EF35F
 	mov r0, r6
 	mla r1, r3, r2, r1
 	mov r3, r2
-	ldr r2, _02161B58 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mla r2, r1, r3, r2
 	str r2, [r11]
 	str r5, [sp]
@@ -680,7 +715,7 @@ _02161A24:
 	sub r1, r1, #1
 	add r3, r3, r1, lsl #11
 	add r1, r7, r10
-	bl EffectPipeFlowPetal__Create
+	bl EffectFlowerPipePetal__Create
 	eor r0, r5, #1
 	add r9, r9, #1
 	mov r0, r0, lsl #0x10
@@ -690,16 +725,16 @@ _02161A24:
 	blt _02161A24
 	mov r10, #0
 	mov r4, #0x3000
-	ldr r8, _02161B50 // =_mt_math_rand
-	ldr r11, _02161B58 // =0x3C6EF35F
+	ldr r8, =_mt_math_rand
+	ldr r11, =0x3C6EF35F
 	sub r9, r10, #0x2400
 	rsb r4, r4, #0
 _02161AC4:
 	ldr r2, [r8, #0]
-	ldr r0, _02161B54 // =0x00196225
+	ldr r0, =0x00196225
 	mov r1, r7
 	mla r0, r2, r0, r11
-	ldr r2, _02161B54 // =0x00196225
+	ldr r2, =0x00196225
 	mla r2, r0, r2, r11
 	str r2, [r8]
 	str r5, [sp]
@@ -717,7 +752,7 @@ _02161AC4:
 	add r0, r6, r9
 	add r2, r2, #0x3000
 	sub r3, r4, r3, lsr #18
-	bl EffectPipeFlowSeed__Create
+	bl EffectFlowerPipeSeed__Create
 	add r0, r5, #1
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10
@@ -728,18 +763,17 @@ _02161AC4:
 	add r9, r9, #0x800
 	blt _02161AC4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02161B48: .word 0x02188F54
-_02161B4C: .word _02188F2C
-_02161B50: .word _mt_math_rand
-_02161B54: .word 0x00196225
-_02161B58: .word 0x3C6EF35F
-_02161B5C: .word 0x02188F40
-_02161B60: .word 0x02188F68
-	arm_func_end PipeFlow__OnDefend_216188C
 
-	arm_func_start PipeSteam__State_2161B64
-PipeSteam__State_2161B64: // 0x02161B64
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SteamPipe__State_2161B64(SteamPipe *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x2c]
@@ -761,10 +795,17 @@ _02161BA4:
 	mov r0, #0
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	arm_func_end PipeSteam__State_2161B64
 
-	arm_func_start PipeSteam__State_2161BB0
-PipeSteam__State_2161BB0: // 0x02161BB0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SteamPipe__State_2161BB0(SteamPipe *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x2c]
@@ -793,7 +834,7 @@ _02161BF4:
 	mov r1, #6
 	mov r2, #0x22
 	bl ObjActionAllocSpritePalette
-	ldr r0, _02161D1C // =PipeSteam__State_2161D20
+	ldr r0, =SteamPipe__State_2161D20
 	str r0, [r5, #0xf4]
 	ldr r0, [r5, #0x340]
 	ldr r4, [r5, #0x44]
@@ -864,12 +905,16 @@ _02161C90:
 	mov r0, #1
 	bl EffectSteamDust__Create
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_02161D1C: .word PipeSteam__State_2161D20
-	arm_func_end PipeSteam__State_2161BB0
 
-	arm_func_start PipeSteam__State_2161D20
-PipeSteam__State_2161D20: // 0x02161D20
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SteamPipe__State_2161D20(SteamPipe *work){
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	ldr r1, [r0, #0x20]
 	tst r1, #8
 	bxeq lr
@@ -905,10 +950,17 @@ _02161D8C:
 	sub r1, r1, #7
 	strh r1, [r0, #0xf2]
 	bx lr
-	arm_func_end PipeSteam__State_2161D20
 
-	arm_func_start PipeSteam__OnDefend_2161DA0
-PipeSteam__OnDefend_2161DA0: // 0x02161DA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SteamPipe__OnDefend_2161DA0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r2, [r0, #0x1c]
@@ -918,18 +970,23 @@ PipeSteam__OnDefend_2161DA0: // 0x02161DA0
 	ldrh r2, [r2, #0]
 	cmp r2, #1
 	ldmneia sp!, {r4, pc}
-	bl PipeFlow__OnDefend_216174C
+	bl FlowerPipe__OnDefend_216174C
 	mov r1, #8
-	ldr r0, _02161DDC // =PipeSteam__State_2161B64
+	ldr r0, =SteamPipe__State_2161B64
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02161DDC: .word PipeSteam__State_2161B64
-	arm_func_end PipeSteam__OnDefend_2161DA0
 
-	arm_func_start PipeSteam__OnDefend_2161DE0
-PipeSteam__OnDefend_2161DE0: // 0x02161DE0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void SteamPipe__OnDefend_2161DE0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -940,7 +997,7 @@ PipeSteam__OnDefend_2161DE0: // 0x02161DE0
 	cmp r0, #1
 	ldmneia sp!, {r3, r4, r5, pc}
 	ldr r1, [r4, #0x24]
-	ldr r0, _02161E5C // =PipeFlow__dword_21883A8
+	ldr r0, =FlowerPipe__dword_21883A8
 	ldr r0, [r0, r1, lsl #2]
 	str r0, [r5, #8]
 	ldr r0, [r4, #0x128]
@@ -956,61 +1013,14 @@ _02161E34:
 	bl StageTask__SetAnimation
 _02161E3C:
 	ldr r1, [r4, #0x20]
-	ldr r0, _02161E60 // =PipeSteam__State_2161BB0
+	ldr r0, =SteamPipe__State_2161BB0
 	orr r1, r1, #4
 	str r1, [r4, #0x20]
 	ldr r1, [r5, #8]
 	str r1, [r4, #0x2c]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02161E5C: .word PipeFlow__dword_21883A8
-_02161E60: .word PipeSteam__State_2161BB0
-	arm_func_end PipeSteam__OnDefend_2161DE0
-	
-	.rodata
 
-.public PipeSteam__dword_2188390
-PipeSteam__dword_2188390: // 0x02188390
-    .word 0xA000, 0xA000      
-	
-.public PipeSteam__dword_2188398
-PipeSteam__dword_2188398: // PipeSteam__dword_2188398
-    .word 0x800, 0x800        
-	
-.public PipeFlow__dword_21883A0
-PipeFlow__dword_21883A0: // PipeFlow__dword_21883A0
-    .word 0, 0                
-	
-.public PipeFlow__dword_21883A8
-PipeFlow__dword_21883A8: // PipeFlow__dword_21883A8
-    .word 0x10000, 0x20000    
-	
-.public PipeSteam__stru_21883B0
-PipeSteam__stru_21883B0: // PipeSteam__stru_21883B0
-    .hword 24, 48, -24, -24
-	.hword 48, 24, -24, 0
-	.hword 24, 48, -24, -24
-	.hword 48, 24, -24, 0
-	.hword 40, 48, -24, -24
-	.hword 48, 40, -24, -16
-	.hword 40, 48, -24, -24
-	.hword 48, 40, -24, -16
-
-	.data
-	
-_02188F2C:
-	.byte 0x00, 0xA8, 0xFF, 0xFF
-	.byte 0x00, 0xA0, 0xFF, 0xFF, 0x00, 0x98, 0xFF, 0xFF, 0x00, 0xA0, 0xFF, 0xFF, 0x00, 0xA8, 0xFF, 0xFF
-	.byte 0x00, 0x50, 0x00, 0x00, 0x00, 0x58, 0x00, 0x00, 0x00, 0x60, 0x00, 0x00, 0x00, 0x68, 0x00, 0x00
-	.byte 0x00, 0x70, 0x00, 0x00, 0x00, 0xD0, 0xFF, 0xFF, 0x00, 0xD8, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x28, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0xA0, 0xFF, 0xFF, 0x00, 0x90, 0xFF, 0xFF
-	.byte 0x00, 0xA0, 0xFF, 0xFF, 0x00, 0x90, 0xFF, 0xFF, 0x00, 0xA0, 0xFF, 0xFF
-
-aActAcGmkPipeFl_0: // 0x02188F7C
-	.asciz "/act/ac_gmk_pipe_flw.bac"
-	.align 4
-	
-aActAcGmkPipeSt: // 0x02188F98
-	.asciz "/act/ac_gmk_pipe_steam.bac"
-	.align 4
+// clang-format on
+#endif
+}

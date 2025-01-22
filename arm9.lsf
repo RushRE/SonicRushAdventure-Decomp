@@ -471,20 +471,27 @@ Overlay ZoneAct
     Object src/stage/objects/breakableObject.o
     Object src/stage/objects/breakableWall.o
     Object src/stage/objects/corkscrewPath.o
-    Object asm/stage/objects/pipeSteam.o
-    Object asm/stage/objects/rotatingHanger.o
-    Object asm/stage/objects/swingRope.o
+    Object asm/stage/objects/pipe_vars.o
+    Object src/stage/objects/pipe.o
+    Object asm/stage/objects/rotatingHanger_vars.o
+    Object src/stage/objects/rotatingHanger.o
+    Object asm/stage/objects/swingRope_vars.o
+    Object src/stage/objects/swingRope.o
     Object src/stage/objects/bouncyMushroom.o
-    Object asm/stage/objects/tripleGrindRail.o
+    Object asm/stage/objects/tripleGrindRail_vars.o
+    Object src/stage/objects/tripleGrindRail.o
     Object src/stage/objects/waterLevelTrigger.o
     Object src/stage/objects/waterRunTrigger.o
     Object asm/stage/objects/goalChest_vars.o
     Object src/stage/objects/goalChest.o
     Object src/stage/objects/steamFan.o
-    Object asm/stage/objects/popSteam.o
-    Object asm/stage/objects/dreamWing.o
-    Object asm/stage/objects/largePiston.o
-    Object asm/stage/objects/cameraBoundsTrigger.o
+    Object asm/stage/objects/popSteam_vars.o
+    Object src/stage/objects/popSteam.o
+    Object asm/stage/objects/dreamWing_vars.o
+    Object src/stage/objects/dreamWing.o
+    Object asm/stage/objects/largePiston_vars.o
+    Object src/stage/objects/largePiston.o
+    Object src/stage/objects/cameraBoundsTrigger.o
     Object src/stage/objects/icicle.o
     Object src/stage/objects/playerSnowboard.o
     Object asm/stage/objects/flipBoard_vars.o
@@ -497,21 +504,28 @@ Overlay ZoneAct
     Object src/stage/objects/bgUnknownTrigger.o
     Object src/stage/objects/stalactite.o
     Object src/stage/objects/springCrystal.o
-    Object asm/stage/objects/rotateCrane.o
+    Object asm/stage/objects/rotateCrane_vars.o
+    Object src/stage/objects/rotateCrane.o
     Object asm/stage/objects/winch_vars.o
     Object src/stage/objects/winch.o
-    Object asm/stage/objects/truck.o
+    Object asm/stage/objects/truck_vars.o
+    Object src/stage/objects/truck.o
     Object src/stage/objects/planeRing.o
     Object src/stage/objects/itemBox.o
     Object src/stage/objects/checkpoint.o
     Object src/stage/objects/platform.o
     Object src/stage/objects/avalanche.o
-    Object asm/stage/objects/anchorRope.o
-    Object asm/stage/objects/barrel.o
+    Object asm/stage/objects/anchorRope_vars.o
+    Object src/stage/objects/anchorRope.o
+    Object asm/stage/objects/barrel_vars.o
+    Object src/stage/objects/barrel.o
     Object src/stage/objects/startPlatform.o
-    Object asm/stage/objects/trampoline.o
-    Object asm/stage/objects/pirateShip.o
-    Object asm/stage/objects/cannon.o
+    Object asm/stage/objects/trampoline_vars.o
+    Object src/stage/objects/trampoline.o
+    Object asm/stage/objects/pirateShip_vars.o
+    Object src/stage/objects/pirateShip.o
+    Object asm/stage/objects/cannon_vars.o
+    Object src/stage/objects/cannon.o
     Object src/stage/objects/tutorial.o
     Object src/stage/objects/jumpbox.o
     Object src/stage/objects/slingshot.o
@@ -526,7 +540,8 @@ Overlay ZoneAct
     Object src/stage/objects/hoverCrystal.o
     Object src/stage/objects/balloon.o
     Object src/stage/objects/crumblingFloor.o
-    Object asm/stage/objects/waterGun.o
+    Object asm/stage/objects/waterGun_vars.o
+    Object src/stage/objects/waterGun.o
     Object src/stage/objects/missionFlag.o
     Object src/stage/objects/medal.o
     Object src/stage/objects/bungee.o

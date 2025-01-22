@@ -1,13 +1,28 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/objects/rotateCrane.h>
+#include <game/object/objectManager.h>
+#include <game/object/obj.h>
+#include <game/stage/gameSystem.h>
 
-	arm_func_start RotateCrane__Create
-RotateCrane__Create: // 0x0216D5A4
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED void *aActAcGmkVrotCr;
+NOT_DECOMPILED void *aModGmkVrotCran;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC RotateCrane *RotateCrane__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
-	ldr r3, _0216D8E4 // =0x000010F6
+	ldr r3, =0x000010F6
 	mov r7, r0
 	str r3, [sp]
 	mov r0, #2
@@ -15,9 +30,9 @@ RotateCrane__Create: // 0x0216D5A4
 	mov r5, r2
 	mov r2, #0
 	str r0, [sp, #4]
-	ldr r4, _0216D8E8 // =0x00000634
-	ldr r0, _0216D8EC // =StageTask_Main
-	ldr r1, _0216D8F0 // =RotateCrane__Destructor
+	ldr r4, =0x00000634
+	ldr r0, =StageTask_Main
+	ldr r1, =RotateCrane__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -30,7 +45,7 @@ RotateCrane__Create: // 0x0216D5A4
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
 	mov r0, r4
 	bl GetTaskWork_
-	ldr r2, _0216D8E8 // =0x00000634
+	ldr r2, =0x00000634
 	mov r4, r0
 	mov r1, #0
 	bl MI_CpuFill8
@@ -48,14 +63,14 @@ RotateCrane__Create: // 0x0216D5A4
 	str r1, [r4, #0x20]
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _0216D8F4 // =gameArchiveStage
+	ldr r0, =gameArchiveStage
 	mov r1, #0
 	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _0216D8F8 // =aActAcGmkVrotCr
+	ldr r2, =aActAcGmkVrotCr
 	bl ObjObjectAction2dBACLoad
 	mov r0, #0xaf
 	bl GetObjectFileWork
@@ -79,15 +94,15 @@ RotateCrane__Create: // 0x0216D5A4
 	mov r0, #0xae
 	bl GetObjectFileWork
 	str r0, [sp]
-	ldr r1, _0216D8F4 // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x364
 	str r2, [sp, #4]
-	ldr r2, _0216D8FC // =aModGmkVrotCran
+	ldr r2, =aModGmkVrotCran
 	mov r3, #0
 	bl ObjAction3dNNModelLoad
-	ldr r0, _0216D900 // =0x000034CC
+	ldr r0, =0x000034CC
 	add r5, r4, #0x4e0
 	str r0, [r4, #0x37c]
 	str r0, [r4, #0x380]
@@ -95,8 +110,8 @@ RotateCrane__Create: // 0x0216D5A4
 	mov r0, #0xad
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _0216D8F4 // =gameArchiveStage
-	ldr r1, _0216D8F8 // =aActAcGmkVrotCr
+	ldr r0, =gameArchiveStage
+	ldr r1, =aActAcGmkVrotCr
 	ldr r6, [r0, #0]
 	mov r0, r5
 	mov r2, #0
@@ -162,15 +177,15 @@ _0216D800:
 	mov r2, r1
 	add r0, r4, #0x218
 	bl ObjRect__SetAttackStat
-	ldr r1, _0216D904 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0216D908 // =RotateCrane__OnDefend
+	ldr r0, =RotateCrane__OnDefend
 	mov r1, #0
 	str r0, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
-	ldr r5, _0216D90C // =StageTask__DefaultDiffData
+	ldr r5, =StageTask__DefaultDiffData
 	orr r2, r2, #0x400
 	str r2, [r4, #0x230]
 	str r1, [r4, #0x13c]
@@ -209,31 +224,24 @@ _0216D800:
 	moveq r0, #0x8000
 	streqh r0, [r4, #0x30]
 _0216D8C8:
-	ldr r0, _0216D910 // =RotateCrane__Draw
-	ldr r1, _0216D914 // =RotateCrane__Collide
+	ldr r0, =RotateCrane__Draw
+	ldr r1, =RotateCrane__Collide
 	str r0, [r4, #0xfc]
 	mov r0, r4
 	str r1, [r4, #0x108]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_0216D8E4: .word 0x000010F6
-_0216D8E8: .word 0x00000634
-_0216D8EC: .word StageTask_Main
-_0216D8F0: .word RotateCrane__Destructor
-_0216D8F4: .word gameArchiveStage
-_0216D8F8: .word aActAcGmkVrotCr
-_0216D8FC: .word aModGmkVrotCran
-_0216D900: .word 0x000034CC
-_0216D904: .word 0x0000FFFE
-_0216D908: .word RotateCrane__OnDefend
-_0216D90C: .word StageTask__DefaultDiffData
-_0216D910: .word RotateCrane__Draw
-_0216D914: .word RotateCrane__Collide
-	arm_func_end RotateCrane__Create
 
-	arm_func_start RotateCrane__Destructor
-RotateCrane__Destructor: // 0x0216D918
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void RotateCrane__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -256,10 +264,17 @@ RotateCrane__Destructor: // 0x0216D918
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end RotateCrane__Destructor
 
-	arm_func_start RotateCrane__State_216D970
-RotateCrane__State_216D970: // 0x0216D970
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void RotateCrane__State_216D970(RotateCrane *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x340]
@@ -290,26 +305,31 @@ RotateCrane__State_216D970: // 0x0216D970
 	strneh r2, [r5, #0x34]
 	cmp r2, r4
 	ldmneia sp!, {r3, r4, r5, pc}
-	ldr r1, _0216DA04 // =RotateCrane__State_216DA08
+	ldr r1, =RotateCrane__State_216DA08
 	mov r0, #0
 	str r1, [r5, #0xf4]
 	str r0, [r5, #0x2c]
 	ldrh r0, [r5, #0x34]
 	str r0, [r5, #0x28]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0216DA04: .word RotateCrane__State_216DA08
-	arm_func_end RotateCrane__State_216D970
 
-	arm_func_start RotateCrane__State_216DA08
-RotateCrane__State_216DA08: // 0x0216DA08
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void RotateCrane__State_216DA08(RotateCrane *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r1, [r0, #0x2c]
 	add r1, r1, #0x44
 	str r1, [r0, #0x2c]
 	cmp r1, #0x1000
 	ble _0216DA68
-	ldr r1, _0216DD48 // =RotateCrane__State_216DD4C
+	ldr r1, =RotateCrane__State_216DD4C
 	mov r4, #0
 	str r1, [r0, #0xf4]
 	str r4, [r0, #0x2c]
@@ -528,12 +548,17 @@ _0216DD38:
 	strh r2, [r0, #0x32]
 	strh r1, [r0, #0x34]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0216DD48: .word RotateCrane__State_216DD4C
-	arm_func_end RotateCrane__State_216DA08
 
-	arm_func_start RotateCrane__State_216DD4C
-RotateCrane__State_216DD4C: // 0x0216DD4C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void RotateCrane__State_216DD4C(RotateCrane *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -634,10 +659,17 @@ _0216DEA4:
 	strh r1, [r4, #0x34]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end RotateCrane__State_216DD4C
 
-	arm_func_start RotateCrane__Draw
-RotateCrane__Draw: // 0x0216DED8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void RotateCrane__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	bl GetCurrentTaskWork_
@@ -673,10 +705,17 @@ _0216DF38:
 	bl StageTask__Draw2DEx
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
-	arm_func_end RotateCrane__Draw
 
-	arm_func_start RotateCrane__Collide
-RotateCrane__Collide: // 0x0216DF60
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void RotateCrane__Collide(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -713,10 +752,17 @@ _0216DFC8:
 	add r0, r0, #0x400
 	bl ObjCollisionObjectRegist
 	ldmia sp!, {r4, pc}
-	arm_func_end RotateCrane__Collide
 
-	arm_func_start RotateCrane__OnDefend
-RotateCrane__OnDefend: // 0x0216DFE4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void RotateCrane__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -735,7 +781,7 @@ RotateCrane__OnDefend: // 0x0216DFE4
 	str ip, [r1, #0x24]
 	str ip, [r1, #0x2c]
 	ldr r3, [r1, #0x20]
-	ldr r2, _0216E0C4 // =RotateCrane__State_216D970
+	ldr r2, =RotateCrane__State_216D970
 	bic r3, r3, #0x200
 	str r3, [r1, #0x20]
 	str ip, [r1, #0x2d8]
@@ -776,16 +822,7 @@ _0216E0B8:
 	str r2, [r1, #0x28]
 	bl Player__Action_CraneGrab
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0216E0C4: .word RotateCrane__State_216D970
-	arm_func_end RotateCrane__OnDefend
 
-	.data
-	
-aActAcGmkVrotCr: // 0x02189570
-	.asciz "/act/ac_gmk_vrot_crane.bac"
-	.align 4
-	
-aModGmkVrotCran: // 0x0218958C
-	.asciz "/mod/gmk_vrot_crane.nsbmd"
-	.align 4
+// clang-format on
+#endif
+}

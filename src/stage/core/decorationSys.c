@@ -57,7 +57,7 @@ enum DecorationAssets
     DECOR_ASSET_Mo,
     DECOR_ASSET_GstTree,
     DECOR_ASSET_Cloud,
-    DECOR_ASSET_PipeSteam,
+    DECOR_ASSET_SteamPipe,
     DECOR_ASSET_Decopipe,
     DECOR_ASSET_Chimney,
     DECOR_ASSET_Coral,
@@ -157,7 +157,7 @@ static const struct DecorAsset decorAssets[DECOR_ASSET_COUNT] = {
     [DECOR_ASSET_Mo]           = { .path = "/act/ac_dec_mo.bac", .fileID = 11 },
     [DECOR_ASSET_GstTree]      = { .path = "/act/ac_dec_gst_tree.bac", .fileID = 12 },
     [DECOR_ASSET_Cloud]        = { .path = "/act/ac_dec_cloud.bac", .fileID = 13 },
-    [DECOR_ASSET_PipeSteam]    = { .path = "/act/ac_dec_pipe_steam.bac", .fileID = 0 },
+    [DECOR_ASSET_SteamPipe]    = { .path = "/act/ac_dec_pipe_steam.bac", .fileID = 0 },
     [DECOR_ASSET_Decopipe]     = { .path = "/act/ac_dec_decopipe.bac", .fileID = 1 },
     [DECOR_ASSET_Chimney]      = { .path = "/act/ac_dec_chimney.bac", .fileID = 2 },
     [DECOR_ASSET_Coral]        = { .path = "/act/ac_dec_coral.bac", .fileID = 0 },
@@ -1191,7 +1191,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 0,
                        .type       = 0 },
 
-    [MAPDECOR_112] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_112] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 0,
                        .animID2    = 0,
@@ -1200,7 +1200,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 0,
                        .type       = 0 },
 
-    [MAPDECOR_113] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_113] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 1,
                        .animID2    = 1,
@@ -1209,7 +1209,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 1,
                        .type       = 0 },
 
-    [MAPDECOR_114] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_114] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 2,
                        .animID2    = 2,
@@ -1218,7 +1218,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 2,
                        .type       = 0 },
 
-    [MAPDECOR_115] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_115] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 3,
                        .animID2    = 3,
@@ -1227,7 +1227,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 3,
                        .type       = 0 },
 
-    [MAPDECOR_116] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_116] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 4,
                        .animID2    = 4,
@@ -1236,7 +1236,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 4,
                        .type       = 0 },
 
-    [MAPDECOR_117] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_117] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 5,
                        .animID2    = 5,
@@ -1245,7 +1245,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 5,
                        .type       = 0 },
 
-    [MAPDECOR_118] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_118] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 6,
                        .animID2    = 6,
@@ -1254,7 +1254,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 6,
                        .type       = 0 },
 
-    [MAPDECOR_119] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_119] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 7,
                        .animID2    = 7,
@@ -1263,7 +1263,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 7,
                        .type       = 0 },
 
-    [MAPDECOR_120] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_120] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 8,
                        .animID2    = 8,
@@ -1272,7 +1272,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 8,
                        .type       = 0 },
 
-    [MAPDECOR_121] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_121] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 9,
                        .animID2    = 9,
@@ -1281,7 +1281,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 9,
                        .type       = 0 },
 
-    [MAPDECOR_122] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_122] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 10,
                        .animID2    = 10,
@@ -1290,7 +1290,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 0xA,
                        .type       = 0 },
 
-    [MAPDECOR_123] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_123] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 11,
                        .animID2    = 11,
@@ -1299,7 +1299,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 0xB,
                        .type       = 0 },
 
-    [MAPDECOR_124] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_124] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 12,
                        .animID2    = 12,
@@ -1308,7 +1308,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 0xC,
                        .type       = 0 },
 
-    [MAPDECOR_125] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_125] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 13,
                        .animID2    = 13,
@@ -1317,7 +1317,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 0xD,
                        .type       = 0 },
 
-    [MAPDECOR_126] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_126] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 14,
                        .animID2    = 14,
@@ -1326,7 +1326,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 0xE,
                        .type       = 0 },
 
-    [MAPDECOR_127] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_127] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 15,
                        .animID2    = 15,
@@ -2550,7 +2550,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 0x34,
                        .type       = 2 },
 
-    [MAPDECOR_263] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_263] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 0,
                        .animID2    = 0,
@@ -2559,7 +2559,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 0,
                        .type       = 0 },
 
-    [MAPDECOR_264] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_264] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 1,
                        .animID2    = 1,
@@ -2568,7 +2568,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 1,
                        .type       = 0 },
 
-    [MAPDECOR_265] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_265] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 2,
                        .animID2    = 2,
@@ -2577,7 +2577,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 2,
                        .type       = 0 },
 
-    [MAPDECOR_266] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_266] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 3,
                        .animID2    = 3,
@@ -2586,7 +2586,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 3,
                        .type       = 0 },
 
-    [MAPDECOR_267] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_267] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 4,
                        .animID2    = 4,
@@ -2595,7 +2595,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 4,
                        .type       = 0 },
 
-    [MAPDECOR_268] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_268] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 5,
                        .animID2    = 5,
@@ -2604,7 +2604,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 5,
                        .type       = 0 },
 
-    [MAPDECOR_269] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_269] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 6,
                        .animID2    = 6,
@@ -2613,7 +2613,7 @@ static const struct DecorConfig decorInfo[MAPDECOR_COUNT] = {
                        .spriteID   = 6,
                        .type       = 0 },
 
-    [MAPDECOR_270] = { .assetID    = DECOR_ASSET_PipeSteam,
+    [MAPDECOR_270] = { .assetID    = DECOR_ASSET_SteamPipe,
                        .flags      = DECOR_FLAG_FLIP_X | DECOR_FLAG_LOW_PRIORITY,
                        .animID     = 7,
                        .animID2    = 7,

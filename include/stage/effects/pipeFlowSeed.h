@@ -7,18 +7,18 @@
 // STRUCTS
 // --------------------
 
-typedef struct EffectPipeFlowSeed_
+typedef struct EffectFlowerPipeSeed_
 {
     StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK ani;
-} EffectPipeFlowSeed;
+} EffectFlowerPipeSeed;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-EffectPipeFlowSeed *EffectPipeFlowSeed__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type);
-void EffectPipeFlowSeed__State_202ADFC(EffectPipeFlowSeed *work);
+EffectFlowerPipeSeed *EffectFlowerPipeSeed__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type);
+void EffectFlowerPipeSeed__State_202ADFC(EffectFlowerPipeSeed *work);
 
 #endif // RUSH_EFFECT_PIPE_FLOW_SEED_H

@@ -1,10 +1,24 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/objects/rotatingHanger.h>
+#include <game/object/objectManager.h>
+#include <game/object/obj.h>
+#include <game/stage/gameSystem.h>
 
-	arm_func_start RotatingHanger__Create
-RotatingHanger__Create: // 0x02161E64
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED void *aActAcGmkRotHan;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC RotatingHanger *RotatingHanger__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -16,8 +30,8 @@ RotatingHanger__Create: // 0x02161E64
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _02161FB0 // =StageTask_Main
-	ldr r1, _02161FB4 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -42,14 +56,14 @@ RotatingHanger__Create: // 0x02161E64
 	mov r0, #0xa0
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02161FB8 // =gameArchiveStage
-	ldr r1, _02161FBC // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _02161FC0 // =aActAcGmkRotHan
+	ldr r2, =aActAcGmkRotHan
 	bl ObjObjectAction2dBACLoad
 	ldr r1, [r4, #0x1a4]
 	mov r0, r4
@@ -69,10 +83,10 @@ RotatingHanger__Create: // 0x02161E64
 	mov r2, r1
 	bl ObjRect__SetAttackStat
 	add r0, r4, #0x218
-	ldr r1, _02161FC4 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02161FC8 // =RotatingHanger__OnDefend
+	ldr r1, =RotatingHanger__OnDefend
 	mov r0, r4
 	str r1, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
@@ -83,24 +97,22 @@ RotatingHanger__Create: // 0x02161E64
 	orr r2, r2, #0x2100
 	str r2, [r4, #0x1c]
 	bl StageTask__SetAnimation
-	ldr r1, _02161FCC // =RotatingHanger__State_Active
+	ldr r1, =RotatingHanger__State_Active
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02161FB0: .word StageTask_Main
-_02161FB4: .word GameObject__Destructor
-_02161FB8: .word gameArchiveStage
-_02161FBC: .word 0x0000FFFF
-_02161FC0: .word aActAcGmkRotHan
-_02161FC4: .word 0x0000FFFE
-_02161FC8: .word RotatingHanger__OnDefend
-_02161FCC: .word RotatingHanger__State_Active
-	arm_func_end RotatingHanger__Create
 
-	arm_func_start RotatingHanger__State_Active
-RotatingHanger__State_Active: // 0x02161FD0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void RotatingHanger__State_Active(RotatingHanger *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x35c]
@@ -200,10 +212,17 @@ _02162120:
 	str r0, [r4, #0x2c]
 	strh r0, [r4, #0x34]
 	ldmia sp!, {r4, pc}
-	arm_func_end RotatingHanger__State_Active
 
-	arm_func_start RotatingHanger__OnDefend
-RotatingHanger__OnDefend: // 0x02162138
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void RotatingHanger__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -229,10 +248,7 @@ RotatingHanger__OnDefend: // 0x02162138
 	rsb r2, r2, #0
 	bl Player__Gimmick_201CDDC
 	ldmia sp!, {r3, pc}
-	arm_func_end RotatingHanger__OnDefend
 
-	.data
-	
-aActAcGmkRotHan: // 0x02188FB4
-	.asciz "/act/ac_gmk_rot_hanger.bac"
-	.align 4
+// clang-format on
+#endif
+}

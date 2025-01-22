@@ -1,10 +1,28 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/objects/largePiston.h>
+#include <game/object/objectManager.h>
+#include <game/stage/gameSystem.h>
+#include <stage/effects/piston.h>
 
-	arm_func_start LargePiston__Create
-LargePiston__Create: // 0x02167630
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED void *LargePiston__unknown2Table;
+NOT_DECOMPILED void *LargePiston__unknownTable;
+
+NOT_DECOMPILED void *aModGmkLPistonN;
+NOT_DECOMPILED void *aActAcGmkLPisto;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC LargePiston *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x48
 	mov r7, r0
@@ -23,10 +41,10 @@ _0216765C:
 	mov r5, r9, lsl #5
 	mov r2, #0
 	str r0, [sp, #4]
-	ldr r4, _02167C64 // =0x00000588
+	ldr r4, =0x00000588
 	add r8, r5, #0xa0
-	ldr r0, _02167C68 // =StageTask_Main
-	ldr r1, _02167C6C // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	mov r6, r8, lsl #0xb
@@ -40,7 +58,7 @@ _0216765C:
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	mov r0, r4
 	bl GetTaskWork_
-	ldr r2, _02167C64 // =0x00000588
+	ldr r2, =0x00000588
 	mov r4, r0
 	mov r1, #0
 	bl MI_CpuFill8
@@ -55,12 +73,12 @@ _0216765C:
 	str r1, [r4, #0x1c]
 	bl GetObjectFileWork
 	str r0, [sp]
-	ldr r1, _02167C70 // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r0, r4
 	ldr r2, [r1, #0]
 	add r1, r4, #0x364
 	str r2, [sp, #4]
-	ldr r2, _02167C74 // =aModGmkLPistonN
+	ldr r2, =aModGmkLPistonN
 	mov r3, #0
 	bl ObjAction3dNNModelLoad
 	ldr r0, [r4, #0x20]
@@ -75,10 +93,10 @@ _0216765C:
 	bhi _021677E0
 	mov r0, #0xbc
 	bl GetObjectFileWork
-	ldr r1, _02167C70 // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r1, [r1, #0]
-	ldr r2, _02167C78 // =aActAcGmkLPisto
+	ldr r2, =aActAcGmkLPisto
 	mov r0, r4
 	str r1, [sp]
 	mov r1, #0
@@ -128,11 +146,11 @@ _021677E0:
 	mov r2, r1
 	add r0, r4, #0x218
 	bl ObjRect__SetAttackStat
-	ldr r1, _02167C7C // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02167C80 // =LargePiston__OnDefend_2168194
+	ldr r1, =LargePiston__OnDefend_2168194
 	add r0, r4, #0x258
 	str r1, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
@@ -143,10 +161,10 @@ _021677E0:
 	mov r2, r1
 	bl ObjRect__SetAttackStat
 	add r0, r4, #0x258
-	ldr r1, _02167C7C // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _02167C84 // =LargePiston__OnDefend_2168300
+	ldr r1, =LargePiston__OnDefend_2168300
 	add r0, r4, #0x298
 	str r1, [r4, #0x27c]
 	ldr r2, [r4, #0x270]
@@ -157,10 +175,10 @@ _021677E0:
 	mov r2, r1
 	bl ObjRect__SetAttackStat
 	add r0, r4, #0x298
-	ldr r1, _02167C7C // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02167C88 // =LargePiston__OnDefend_21683F0
+	ldr r0, =LargePiston__OnDefend_21683F0
 	str r0, [r4, #0x2bc]
 	ldr r0, [r4, #0x2b0]
 	orr r0, r0, #0x400
@@ -273,18 +291,18 @@ _021679BC:
 _02167A40:
 	mov r0, #0x60
 	mul r0, r5, r0
-	ldr r1, _02167C8C // =LargePiston__Draw
-	ldr r3, _02167C90 // =0x021891E4
+	ldr r1, =LargePiston__Draw
+	ldr r3, =LargePiston__unknownTable
 	str r1, [r4, #0xfc]
-	ldr r9, _02167C94 // =LargePiston__State_2167CBC
+	ldr r9, =LargePiston__State_2167CBC
 	add r1, r4, #0x11c
 	str r9, [r4, #0xf4]
 	add r11, r3, r0
-	ldr r10, _02167C98 // =0x021891F0
+	ldr r10, =0x021891F0
 	add lr, r1, #0x400
 	add r1, r10, r0
-	ldr ip, _02167C9C // =0x02189214
-	ldr r9, _02167CA0 // =0x021891FC
+	ldr ip, =0x02189214
+	ldr r9, =0x021891FC
 	str r1, [sp, #0x14]
 	add r1, r9, r0
 	add ip, ip, r0
@@ -292,7 +310,7 @@ _02167A40:
 	str r1, [sp, #0x18]
 	add r1, r3, #0x400
 	str r1, [sp, #0x1c]
-	ldr r1, _02167CA4 // =0x02189208
+	ldr r1, =0x02189208
 	add r2, r4, #0x128
 	add r1, r1, r0
 	str r1, [sp, #0x20]
@@ -303,7 +321,7 @@ _02167A40:
 	add r1, r4, #0x14c
 	add r1, r1, #0x400
 	str r1, [sp, #0x28]
-	ldr r1, _02167CA8 // =0x02189220
+	ldr r1, =0x02189220
 	str ip, [sp, #0xc]
 	add ip, r2, #0x400
 	add r1, r1, r0
@@ -312,25 +330,25 @@ _02167A40:
 	str r1, [sp, #0x2c]
 	add r1, r2, #0x400
 	str r1, [sp, #0x30]
-	ldr r1, _02167CAC // =0x0218922C
+	ldr r1, =0x0218922C
 	add r2, r4, #0x164
 	add r1, r1, r0
 	str r1, [sp, #0x34]
 	add r1, r2, #0x400
-	ldr r2, _02167CB0 // =0x02189238
+	ldr r2, =0x02189238
 	str r1, [sp, #0x38]
 	add r0, r2, r0
 	str r0, [sp, #0x3c]
 	mov r0, #0xc
 	mul r3, r5, r0
-	ldr r0, _02167CB4 // =_021891C0
+	ldr r0, =LargePiston__unknown2Table
 	add r1, r4, #0x570
 	add r8, r8, #0x400
 	str r1, [sp, #0x40]
 	add r10, r0, r3
 	ldmia r11, {r0, r1, r2}
 	stmia r8, {r0, r1, r2}
-	ldr r0, _02167CB8 // =0x021891C6
+	ldr r0, =0x021891C6
 	ldr r5, [sp, #0x10]
 	add r0, r0, r3
 	str r0, [sp, #0x44]
@@ -367,14 +385,14 @@ _02167A40:
 	ldr r5, [sp, #0x40]
 	ldmia r0, {r0, r1, r2}
 	stmia r5, {r0, r1, r2}
-	ldr r0, _02167CB4 // =_021891C0
+	ldr r0, =LargePiston__unknown2Table
 	ldrh r1, [r0, r3]
 	ldrh r0, [r10, #2]
 	strh r1, [r9, #0x7c]
 	strh r0, [r9, #0x7e]
 	ldrh r0, [r10, #4]
 	strh r0, [r9, #0x80]
-	ldr r0, _02167CB8 // =0x021891C6
+	ldr r0, =0x021891C6
 	ldrh r1, [r0, r3]
 	ldr r0, [sp, #0x44]
 	ldrh r0, [r0, #2]
@@ -410,33 +428,17 @@ _02167C58:
 	mov r0, r4
 	add sp, sp, #0x48
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02167C64: .word 0x00000588
-_02167C68: .word StageTask_Main
-_02167C6C: .word GameObject__Destructor
-_02167C70: .word gameArchiveStage
-_02167C74: .word aModGmkLPistonN
-_02167C78: .word aActAcGmkLPisto
-_02167C7C: .word 0x0000FFFE
-_02167C80: .word LargePiston__OnDefend_2168194
-_02167C84: .word LargePiston__OnDefend_2168300
-_02167C88: .word LargePiston__OnDefend_21683F0
-_02167C8C: .word LargePiston__Draw
-_02167C90: .word 0x021891E4
-_02167C94: .word LargePiston__State_2167CBC
-_02167C98: .word 0x021891F0
-_02167C9C: .word 0x02189214
-_02167CA0: .word 0x021891FC
-_02167CA4: .word 0x02189208
-_02167CA8: .word 0x02189220
-_02167CAC: .word 0x0218922C
-_02167CB0: .word 0x02189238
-_02167CB4: .word _021891C0
-_02167CB8: .word 0x021891C6
-	arm_func_end LargePiston__Create
 
-	arm_func_start LargePiston__State_2167CBC
-LargePiston__State_2167CBC: // 0x02167CBC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void LargePiston__State_2167CBC(LargePiston *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r1, [r4, #0x510]
@@ -450,10 +452,17 @@ _02167CD4:
 	mov r0, r4
 	blx r1
 	ldmia sp!, {r4, pc}
-	arm_func_end LargePiston__State_2167CBC
 
-	arm_func_start LargePiston__State1_2167CEC
-LargePiston__State1_2167CEC: // 0x02167CEC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void LargePiston__State1_2167CEC(LargePiston *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x500
@@ -469,15 +478,15 @@ _02167D08: // jump table
 _02167D18:
 	ldr r0, [r4, #0x28]
 	bl StageTask__DecrementBySpeed
-	ldr r1, _02167F18 // =playerGameStatus
+	ldr r1, =playerGameStatus
 	str r0, [r4, #0x28]
 	ldr r0, [r1, #0xc]
 	tst r0, #1
 	beq _02167D90
-	ldr r3, _02167F1C // =_mt_math_rand
-	ldr r1, _02167F20 // =0x00196225
+	ldr r3, =_mt_math_rand
+	ldr r1, =0x00196225
 	ldr r0, [r3, #0]
-	ldr r2, _02167F24 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mla ip, r0, r1, r2
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -535,14 +544,14 @@ _02167DB0:
 	str r1, [r4, #0x28]
 	ldmia sp!, {r4, pc}
 _02167E1C:
-	ldr r0, _02167F18 // =playerGameStatus
+	ldr r0, =playerGameStatus
 	ldr r0, [r0, #0xc]
 	tst r0, #1
 	beq _02167E88
-	ldr r3, _02167F1C // =_mt_math_rand
-	ldr r1, _02167F20 // =0x00196225
+	ldr r3, =_mt_math_rand
+	ldr r1, =0x00196225
 	ldr r0, [r3, #0]
-	ldr r2, _02167F24 // =0x3C6EF35F
+	ldr r2, =0x3C6EF35F
 	mla ip, r0, r1, r2
 	mov r0, ip, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -600,15 +609,17 @@ _02167EB8:
 	ldr r0, [r4, #0x554]
 	str r0, [r4, #0x4e8]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02167F18: .word playerGameStatus
-_02167F1C: .word _mt_math_rand
-_02167F20: .word 0x00196225
-_02167F24: .word 0x3C6EF35F
-	arm_func_end LargePiston__State1_2167CEC
 
-	arm_func_start LargePiston__State2_2167F28
-LargePiston__State2_2167F28: // 0x02167F28
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void LargePiston__State2_2167F28(LargePiston *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {lr}
 	sub sp, sp, #0xc
 	mov r2, r0
@@ -686,14 +697,14 @@ _02167FBC:
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
 _0216804C:
-	ldr r0, _02168184 // =playerGameStatus
+	ldr r0, =playerGameStatus
 	ldr r0, [r0, #0xc]
 	tst r0, #1
 	beq _021680B8
-	ldr ip, _02168188 // =_mt_math_rand
-	ldr r1, _0216818C // =0x00196225
+	ldr ip, =_mt_math_rand
+	ldr r1, =0x00196225
 	ldr r0, [ip]
-	ldr r3, _02168190 // =0x3C6EF35F
+	ldr r3, =0x3C6EF35F
 	mla lr, r0, r1, r3
 	mov r0, lr, lsr #0x10
 	mov r0, r0, lsl #0x10
@@ -768,15 +779,17 @@ _0216815C:
 	str r0, [r2, #0x4f4]
 	add sp, sp, #0xc
 	ldmia sp!, {pc}
-	.align 2, 0
-_02168184: .word playerGameStatus
-_02168188: .word _mt_math_rand
-_0216818C: .word 0x00196225
-_02168190: .word 0x3C6EF35F
-	arm_func_end LargePiston__State2_2167F28
 
-	arm_func_start LargePiston__OnDefend_2168194
-LargePiston__OnDefend_2168194: // 0x02168194
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void LargePiston__OnDefend_2168194(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x14
 	ldr r4, [r1, #0x1c]
@@ -833,7 +846,7 @@ _0216822C:
 	add r3, r4, #0x4e0
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
-	ldr r0, _021682FC // =LargePiston__State1_2167CEC
+	ldr r0, =LargePiston__State1_2167CEC
 	add r1, r4, #0x82
 	str r0, [r4, #0x510]
 	ldr r2, [r4, #0x44]
@@ -870,12 +883,17 @@ _0216822C:
 	bl PlaySfxEx
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, pc}
-	.align 2, 0
-_021682FC: .word LargePiston__State1_2167CEC
-	arm_func_end LargePiston__OnDefend_2168194
 
-	arm_func_start LargePiston__OnDefend_2168300
-LargePiston__OnDefend_2168300: // 0x02168300
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void LargePiston__OnDefend_2168300(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
 	ldr r1, [r1, #0x1c]
@@ -899,7 +917,7 @@ _0216832C:
 	addne sp, sp, #8
 	ldmneia sp!, {r3, pc}
 	ldr r3, [r0, #0xf4]
-	ldr r2, _021683EC // =Player__State_LargePiston1
+	ldr r2, =Player__State_LargePiston1
 	cmp r3, r2
 	addne sp, sp, #8
 	ldmneia sp!, {r3, pc}
@@ -938,12 +956,17 @@ _021683BC:
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_021683EC: .word Player__State_LargePiston1
-	arm_func_end LargePiston__OnDefend_2168300
 
-	arm_func_start LargePiston__OnDefend_21683F0
-LargePiston__OnDefend_21683F0: // 0x021683F0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void LargePiston__OnDefend_21683F0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r3, [r1, #0x1c]
 	ldr r1, [r0, #0x1c]
 	cmp r3, #0
@@ -955,7 +978,7 @@ LargePiston__OnDefend_21683F0: // 0x021683F0
 	cmpeq r0, #0
 	bxne lr
 	ldr r1, [r1, #0xf4]
-	ldr r0, _02168464 // =Player__State_LargePiston1
+	ldr r0, =Player__State_LargePiston1
 	cmp r1, r0
 	ldreq r0, [r3, #0x514]
 	cmpeq r0, #0
@@ -970,16 +993,20 @@ LargePiston__OnDefend_21683F0: // 0x021683F0
 	add ip, r2, #0x400
 	ldmia r0, {r0, r1, r2}
 	stmia ip, {r0, r1, r2}
-	ldr r0, _02168468 // =LargePiston__State2_2167F28
+	ldr r0, =LargePiston__State2_2167F28
 	str r0, [r3, #0x514]
 	bx lr
-	.align 2, 0
-_02168464: .word Player__State_LargePiston1
-_02168468: .word LargePiston__State2_2167F28
-	arm_func_end LargePiston__OnDefend_21683F0
 
-	arm_func_start LargePiston__Draw
-LargePiston__Draw: // 0x0216846C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void LargePiston__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #0x20
 	bl GetCurrentTaskWork_
@@ -1022,7 +1049,7 @@ _021684B8:
 	add r0, r1, r0
 	add r0, r2, r0
 	str r0, [sp, #0x1c]
-	ldr r1, _0216863C // =0x00003A13
+	ldr r1, =0x00003A13
 	add r2, r4, #0x82
 	str r1, [r4, #0x37c]
 	str r1, [r4, #0x380]
@@ -1080,7 +1107,7 @@ _0216858C:
 	add r0, r1, r0
 	add r0, r2, r0
 	str r0, [sp, #0x1c]
-	ldr r1, _02168640 // =0x00002A3C
+	ldr r1, =0x00002A3C
 	add r2, r4, #0x17c
 	str r1, [r4, #0x37c]
 	str r1, [r4, #0x380]
@@ -1098,40 +1125,7 @@ _0216858C:
 	bl StageTask__Draw3DEx
 	add sp, sp, #0x20
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216863C: .word 0x00003A13
-_02168640: .word 0x00002A3C
-	arm_func_end LargePiston__Draw
 
-	.data
-	
-_021891C0:
-	.byte 0x00, 0x40, 0x00, 0x98, 0x00, 0x00, 0x00, 0x40, 0x00, 0xE0, 0x00, 0x00, 0x00, 0x50, 0x00, 0xA0
-	.byte 0x00, 0x00, 0x00, 0x18, 0x00, 0x05, 0xE2, 0x58, 0x00, 0x18, 0x00, 0x0D, 0x00, 0xA0, 0x00, 0x50
-	.byte 0x00, 0x60, 0x00, 0x00, 0x00, 0x00, 0xF0, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00
-	.byte 0x00, 0x00, 0xFA, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x07, 0x00, 0x00, 0x40, 0x01, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x68, 0xFF, 0xFF, 0x00, 0x60, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0x4C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF
-	.byte 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x40, 0x00, 0x00
-	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0xF0, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00
-	.byte 0x00, 0xE0, 0xFF, 0xFF, 0x00, 0x00, 0xCE, 0xFF, 0x00, 0x80, 0x0C, 0x00, 0x00, 0x00, 0x0C, 0x00
-	.byte 0x00, 0x20, 0xF4, 0xFF, 0x00, 0x80, 0xFD, 0xFF, 0x00, 0x40, 0x07, 0x00, 0x00, 0xC4, 0x04, 0x00
-	.byte 0x00, 0x20, 0xFE, 0xFF, 0x00, 0x68, 0xFF, 0xFF, 0x00, 0x30, 0xFC, 0xFF, 0x00, 0x00, 0x00, 0x00
-	.byte 0x99, 0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF
-	.byte 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x01, 0x00, 0x00, 0xC0, 0xFF, 0xFF
-	.byte 0x00, 0xC0, 0xFF, 0xFF, 0x00, 0x80, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0xE0, 0xFF, 0xFF, 0x00, 0x00, 0x32, 0x00, 0x00, 0x80, 0x0C, 0x00, 0x00, 0x00, 0x0C, 0x00
-	.byte 0x00, 0xE0, 0x0B, 0x00, 0x00, 0x80, 0xFD, 0xFF, 0x00, 0x40, 0x07, 0x00, 0x00, 0x3C, 0xFB, 0xFF
-	.byte 0x00, 0x20, 0xFE, 0xFF, 0x00, 0x68, 0xFF, 0xFF, 0x00, 0xD0, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00
-	.byte 0x99, 0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF
-	.byte 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x01, 0x00, 0x00, 0x40, 0x00, 0x00
-	.byte 0x00, 0xC0, 0xFF, 0xFF, 0x00, 0x80, 0x00, 0x00, 0x00, 0xF0, 0xFF, 0xFF, 0x00, 0x10, 0x00, 0x00
-	.byte 0x00, 0xE0, 0xFF, 0xFF
-
-aModGmkLPistonN: // 0x02189304
-	.asciz "/mod/gmk_l_piston.nsbmd"
-	.align 4
-
-aActAcGmkLPisto: // 0x0218931C
-	.asciz "/act/ac_gmk_l_piston.bac"
-	.align 4
+// clang-format on
+#endif
+}

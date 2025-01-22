@@ -22,6 +22,7 @@ typedef struct RotateCrane_
 
 RotateCrane *RotateCrane__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
+void RotateCrane__Destructor(Task *task);
 void RotateCrane__State_216D970(RotateCrane *work);
 void RotateCrane__State_216DA08(RotateCrane *work);
 void RotateCrane__State_216DD4C(RotateCrane *work);

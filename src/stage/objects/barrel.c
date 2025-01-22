@@ -1,13 +1,31 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/objects/barrel.h>
+#include <game/object/objectManager.h>
+#include <game/object/obj.h>
+#include <game/stage/gameSystem.h>
+#include <game/audio/spatialAudio.h>
+#include <stage/effects/battleBurst.h>
 
-	arm_func_start Barrel__Create
-Barrel__Create: // 0x02177488
+// --------------------
+// VARIABLES
+// --------------------
+
+static const s8 offsetTable[] = { 0, 2, 2, -2, -2, -2, 0, -2, 2, 2, -2, 0, 2, 0, -2, -2 };
+
+NOT_DECOMPILED void *aActAcGmkBarrel;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC Barrel *Barrel__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
-	ldr r3, _0217777C // =0x000010F6
+	ldr r3, =0x000010F6
 	mov r7, r0
 	str r3, [sp]
 	mov r0, #2
@@ -15,9 +33,9 @@ Barrel__Create: // 0x02177488
 	mov r5, r2
 	mov r2, #0
 	str r0, [sp, #4]
-	ldr r4, _02177780 // =0x000004BC
-	ldr r0, _02177784 // =StageTask_Main
-	ldr r1, _02177788 // =Barrel__Destructor
+	ldr r4, =0x000004BC
+	ldr r0, =StageTask_Main
+	ldr r1, =Barrel__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -30,7 +48,7 @@ Barrel__Create: // 0x02177488
 	ldmeqia sp!, {r4, r5, r6, r7, pc}
 	mov r0, r4
 	bl GetTaskWork_
-	ldr r2, _02177780 // =0x000004BC
+	ldr r2, =0x000004BC
 	mov r4, r0
 	mov r1, #0
 	bl MI_CpuFill8
@@ -57,12 +75,12 @@ _02177534:
 	orr r1, r1, #0x2100
 	str r1, [r4, #0x1c]
 	bl GetObjectFileWork
-	ldr r1, _0217778C // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r0, [r1, #0]
-	ldr r5, _02177790 // =0x0000FFFF
+	ldr r5, =0x0000FFFF
 	str r0, [sp]
-	ldr r2, _02177794 // =aActAcGmkBarrel
+	ldr r2, =aActAcGmkBarrel
 	mov r0, r4
 	add r1, r4, #0x168
 	str r5, [sp, #4]
@@ -83,10 +101,10 @@ _02177534:
 	mov r0, #0xa1
 	add r5, r4, #0x364
 	bl GetObjectFileWork
-	ldr r1, _0217778C // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r2, [r1, #0]
-	ldr r1, _02177794 // =aActAcGmkBarrel
+	ldr r1, =aActAcGmkBarrel
 	str r2, [sp]
 	mov r0, r5
 	mov r2, #1
@@ -109,10 +127,10 @@ _02177534:
 	add r5, r0, #0x400
 	mov r0, #0xa1
 	bl GetObjectFileWork
-	ldr r1, _0217778C // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r2, [r1, #0]
-	ldr r1, _02177794 // =aActAcGmkBarrel
+	ldr r1, =aActAcGmkBarrel
 	str r2, [sp]
 	mov r0, r5
 	mov r2, #2
@@ -131,7 +149,7 @@ _02177534:
 	mov r0, r5
 	mov r1, #1
 	bl StageTask__SetOAMPriority
-	ldr r0, _02177798 // =Barrel__Draw
+	ldr r0, =Barrel__Draw
 	mvn r1, #0x3f
 	str r0, [r4, #0xfc]
 	ldr r2, [r4, #0x4b0]
@@ -150,10 +168,10 @@ _02177534:
 	mov r2, r1
 	bl ObjRect__SetAttackStat
 	add r0, r4, #0x218
-	ldr r1, _0217779C // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _021777A0 // =Barrel__OnDefend_2178178
+	ldr r0, =Barrel__OnDefend_2178178
 	mov r1, #0x38
 	str r0, [r4, #0x23c]
 	ldr r2, [r4, #0x230]
@@ -170,10 +188,10 @@ _02177534:
 	mov r2, r1
 	bl ObjRect__SetAttackStat
 	add r0, r4, #0x258
-	ldr r1, _0217779C // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _021777A4 // =Barrel__OnDefend_21781A8
+	ldr r1, =Barrel__OnDefend_21781A8
 	mov r0, r4
 	str r1, [r4, #0x27c]
 	ldr r1, [r4, #0x270]
@@ -195,22 +213,17 @@ _02177534:
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_0217777C: .word 0x000010F6
-_02177780: .word 0x000004BC
-_02177784: .word StageTask_Main
-_02177788: .word Barrel__Destructor
-_0217778C: .word gameArchiveStage
-_02177790: .word 0x0000FFFF
-_02177794: .word aActAcGmkBarrel
-_02177798: .word Barrel__Draw
-_0217779C: .word 0x0000FFFE
-_021777A0: .word Barrel__OnDefend_2178178
-_021777A4: .word Barrel__OnDefend_21781A8
-	arm_func_end Barrel__Create
 
-	arm_func_start Barrel__Destructor
-Barrel__Destructor: // 0x021777A8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Barrel__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	bl GetTaskWork_
@@ -230,10 +243,17 @@ Barrel__Destructor: // 0x021777A8
 	mov r0, r5
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end Barrel__Destructor
 
-	arm_func_start Barrel__Func_21777F4
-Barrel__Func_21777F4: // 0x021777F4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Barrel__Func_21777F4(Barrel *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #8
@@ -244,12 +264,12 @@ Barrel__Func_21777F4: // 0x021777F4
 	mov r1, #6
 	bl StageTask__SetAnimation
 	ldr r0, [r4, #0x20]
-	ldr r2, _02177884 // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	orr r0, r0, #0x10
 	str r0, [r4, #0x20]
 	ldr ip, [r2]
-	ldr r0, _02177888 // =0x00196225
-	ldr r1, _0217788C // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	mov r3, #0
 	mla r1, ip, r0, r1
 	mov r0, r1, lsr #0x10
@@ -261,7 +281,7 @@ Barrel__Func_21777F4: // 0x021777F4
 	str r0, [r4, #0x2c]
 	str r4, [r4, #0x234]
 	ldr r1, [r4, #0x230]
-	ldr r0, _02177890 // =Barrel__State_2177894
+	ldr r0, =Barrel__State_2177894
 	bic r1, r1, #0x800
 	str r1, [r4, #0x230]
 	str r3, [r4, #0x274]
@@ -270,15 +290,17 @@ Barrel__Func_21777F4: // 0x021777F4
 	str r1, [r4, #0x270]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02177884: .word _mt_math_rand
-_02177888: .word 0x00196225
-_0217788C: .word 0x3C6EF35F
-_02177890: .word Barrel__State_2177894
-	arm_func_end Barrel__Func_21777F4
 
-	arm_func_start Barrel__State_2177894
-Barrel__State_2177894: // 0x02177894
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Barrel__State_2177894(Barrel *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	add r1, r0, #0x400
 	ldrh r1, [r1, #0x14]
@@ -293,12 +315,12 @@ Barrel__State_2177894: // 0x02177894
 	cmp r1, #0
 	ldmgtia sp!, {r3, pc}
 	ldr r1, [r0, #0x20]
-	ldr r3, _02177988 // =_mt_math_rand
+	ldr r3, =_mt_math_rand
 	bic r1, r1, #0x10
 	str r1, [r0, #0x20]
 	ldr ip, [r3]
-	ldr r1, _0217798C // =0x00196225
-	ldr r2, _02177990 // =0x3C6EF35F
+	ldr r1, =0x00196225
+	ldr r2, =0x3C6EF35F
 	mla r2, ip, r1, r2
 	mov r1, r2, lsr #0x10
 	mov r1, r1, lsl #0x10
@@ -311,16 +333,16 @@ _02177904:
 	tst r1, #8
 	ldmeqia sp!, {r3, pc}
 	ldr r2, [r0, #0x2c]
-	ldr r1, _02177994 // =playerGameStatus
+	ldr r1, =playerGameStatus
 	sub r2, r2, #1
 	str r2, [r0, #0x2c]
 	ldr r3, [r1, #0xc]
-	ldr r2, _02177998 // =_02188730
+	ldr r2, =offsetTable
 	mov r3, r3, lsr #1
 	mov r3, r3, lsl #0x1d
 	mov r3, r3, lsr #0x1c
 	ldrsb r3, [r2, r3]
-	ldr r2, _0217799C // =0x02188731
+	ldr r2, =0x02188731
 	str r3, [r0, #0x50]
 	ldr r1, [r1, #0xc]
 	mov r1, r1, lsr #1
@@ -342,17 +364,17 @@ _02177974:
 	ldmeqia sp!, {r3, pc}
 	bl Barrel__Func_21777F4
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02177988: .word _mt_math_rand
-_0217798C: .word 0x00196225
-_02177990: .word 0x3C6EF35F
-_02177994: .word playerGameStatus
-_02177998: .word _02188730
-_0217799C: .word 0x02188731
-	arm_func_end Barrel__State_2177894
 
-	arm_func_start Barrel__Func_21779A0
-Barrel__Func_21779A0: // 0x021779A0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Barrel__Func_21779A0(Barrel *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -368,16 +390,21 @@ Barrel__Func_21779A0: // 0x021779A0
 	mov r1, #0
 	str r1, [r4, #0x28]
 	str r1, [r4, #0x4b4]
-	ldr r0, _021779EC // =Barrel__State_21779F0
+	ldr r0, =Barrel__State_21779F0
 	str r1, [r4, #0x24]
 	str r0, [r4, #0xf4]
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021779EC: .word Barrel__State_21779F0
-	arm_func_end Barrel__Func_21779A0
 
-	arm_func_start Barrel__State_21779F0
-Barrel__State_21779F0: // 0x021779F0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Barrel__State_21779F0(Barrel *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -454,10 +481,17 @@ _02177AB8:
 	str r0, [r4, #0x94]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end Barrel__State_21779F0
 
-	arm_func_start Barrel__Func_2177B14
-Barrel__Func_2177B14: // 0x02177B14
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Barrel__Func_2177B14(Barrel *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -467,7 +501,7 @@ Barrel__Func_2177B14: // 0x02177B14
 	orr r2, r2, #0x800
 	str r2, [r4, #0x270]
 	bl StageTask__SetAnimation
-	ldr r0, _02177B60 // =Barrel__State_2177B64
+	ldr r0, =Barrel__State_2177B64
 	mov r1, #0
 	str r0, [r4, #0xf4]
 	str r1, [r4, #0x28]
@@ -477,12 +511,17 @@ Barrel__Func_2177B14: // 0x02177B14
 	ldr r0, [r4, #0x138]
 	bl NNS_SndPlayerStopSeq
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02177B60: .word Barrel__State_2177B64
-	arm_func_end Barrel__Func_2177B14
 
-	arm_func_start Barrel__State_2177B64
-Barrel__State_2177B64: // 0x02177B64
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Barrel__State_2177B64(Barrel *work)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -591,10 +630,10 @@ _02177CE4:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02177CF4:
-	ldr r0, _02177FDC // =playerGameStatus
-	ldr r2, _02177FE0 // =_02188730
+	ldr r0, =playerGameStatus
+	ldr r2, =offsetTable
 	ldr r3, [r0, #0xc]
-	ldr r1, _02177FE4 // =0x02188731
+	ldr r1, =0x02188731
 	mov r3, r3, lsr #1
 	mov r3, r3, lsl #0x1d
 	mov r3, r3, lsr #0x1c
@@ -661,12 +700,12 @@ _02177DC4:
 	strh r1, [r0, #0xb8]
 _02177DF4:
 	ldr r0, [r4, #0x354]
-	ldr r2, _02177FE8 // =_mt_math_rand
+	ldr r2, =_mt_math_rand
 	orr r0, r0, #1
 	str r0, [r4, #0x354]
 	ldr r3, [r2, #0]
-	ldr r0, _02177FEC // =0x00196225
-	ldr r1, _02177FF0 // =0x3C6EF35F
+	ldr r0, =0x00196225
+	ldr r1, =0x3C6EF35F
 	mla ip, r3, r0, r1
 	mla r0, ip, r0, r1
 	str r0, [r2]
@@ -687,10 +726,10 @@ _02177DF4:
 	add r0, ip, r3, lsl #12
 	add r1, r2, r1, lsl #12
 	bl CreateEffectBattleBurst
-	ldr r3, _02177FE8 // =_mt_math_rand
-	ldr r0, _02177FEC // =0x00196225
+	ldr r3, =_mt_math_rand
+	ldr r0, =0x00196225
 	ldr r2, [r3, #0]
-	ldr r1, _02177FF0 // =0x3C6EF35F
+	ldr r1, =0x3C6EF35F
 	mla ip, r2, r0, r1
 	mov r2, ip, lsr #0x10
 	mov r2, r2, lsl #0x10
@@ -788,17 +827,17 @@ _02177FB0:
 	str r0, [r4, #0x94]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02177FDC: .word playerGameStatus
-_02177FE0: .word _02188730
-_02177FE4: .word 0x02188731
-_02177FE8: .word _mt_math_rand
-_02177FEC: .word 0x00196225
-_02177FF0: .word 0x3C6EF35F
-	arm_func_end Barrel__State_2177B64
 
-	arm_func_start Barrel__Draw
-Barrel__Draw: // 0x02177FF4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Barrel__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
@@ -901,10 +940,17 @@ _0217813C:
 	bne _0217813C
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	arm_func_end Barrel__Draw
 
-	arm_func_start Barrel__OnDefend_2178178
-Barrel__OnDefend_2178178: // 0x02178178
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Barrel__OnDefend_2178178(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	ldr r1, [r1, #0x1c]
 	ldr r0, [r0, #0x1c]
@@ -917,10 +963,17 @@ Barrel__OnDefend_2178178: // 0x02178178
 	mov r0, r1
 	bl Barrel__Func_21779A0
 	ldmia sp!, {r3, pc}
-	arm_func_end Barrel__OnDefend_2178178
 
-	arm_func_start Barrel__OnDefend_21781A8
-Barrel__OnDefend_21781A8: // 0x021781A8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Barrel__OnDefend_21781A8(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -943,15 +996,7 @@ Barrel__OnDefend_21781A8: // 0x021781A8
 	str r2, [r4, #0x354]
 	bl Player__Func_2021CE8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end Barrel__OnDefend_21781A8
 
-	.rodata
-
-_02188730: // 0x02188730
-    .word 0xFE020200, 0xFE00FEFE, 0xFE0202, 0xFEFE0002
-
-	.data
-	
-aActAcGmkBarrel: // 0x02189828
-	.asciz "/act/ac_gmk_barrel.bac"
-	.align 4
+// clang-format on
+#endif
+}

@@ -1,15 +1,27 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <stage/objects/trampoline.h>
+#include <game/object/objectManager.h>
+#include <game/stage/gameSystem.h>
 
-	.bss
-	
-_0218A390: // 0x0218A390
-	.space 0x04
-	
-	.text
+// --------------------
+// VARIABLES
+// --------------------
 
-	arm_func_start Trampoline__Create
-Trampoline__Create: // 0x02179028
+NOT_DECOMPILED void *Trampoline3D__dword_218A390;
+NOT_DECOMPILED void *Trampoline__word_218874C;
+NOT_DECOMPILED void *Trampoline__elevationTable;
+
+NOT_DECOMPILED void *aActAcGmkTrampo;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC Trampoline *Trampoline__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x4c
 	mov r7, r0
@@ -21,14 +33,14 @@ Trampoline__Create: // 0x02179028
 	addeq sp, sp, #0x4c
 	moveq r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	ldr r0, _0217958C // =0x000010F6
+	ldr r0, =0x000010F6
 	mov r2, #0
 	str r0, [sp]
 	mov r0, #2
 	str r0, [sp, #4]
-	ldr r4, _02179590 // =0x000005E4
-	ldr r0, _02179594 // =StageTask_Main
-	ldr r1, _02179598 // =Trampoline__Destructor
+	ldr r4, =0x000005E4
+	ldr r0, =StageTask_Main
+	ldr r1, =Trampoline__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -41,7 +53,7 @@ Trampoline__Create: // 0x02179028
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	mov r0, r4
 	bl GetTaskWork_
-	ldr r2, _02179590 // =0x000005E4
+	ldr r2, =0x000005E4
 	mov r4, r0
 	mov r1, #0
 	bl MI_CpuFill8
@@ -67,7 +79,7 @@ Trampoline__Create: // 0x02179028
 _02179100:
 	add r0, r4, #0x500
 	ldrh r2, [r0, #0xcc]
-	ldr r1, _0217959C // =_021898E0
+	ldr r1, =Trampoline__elevationTable
 	ldr r0, [r4, #0x5c4]
 	ldrsb r1, [r1, r2]
 	mov r0, r0, asr #3
@@ -82,7 +94,7 @@ _02179100:
 	bl _AllocHeadHEAP_SYSTEM
 	str r0, [r4, #0x47c]
 	ldr r1, [r4, #0x1c]
-	ldr r0, _021795A0 // =_0218874C
+	ldr r0, =Trampoline__word_218874C
 	orr r1, r1, #0x2100
 	str r1, [r4, #0x1c]
 	ldrh r3, [r0, #0]
@@ -93,8 +105,8 @@ _02179100:
 	strh r2, [sp, #0x16]
 	strh r1, [sp, #0x18]
 	bl GetObjectFileWork
-	ldr r2, _021795A4 // =gameArchiveStage
-	ldr r1, _021795A8 // =aActAcGmkTrampo
+	ldr r2, =gameArchiveStage
+	ldr r1, =aActAcGmkTrampo
 	ldr r2, [r2, #0]
 	bl ObjDataLoad
 	mov r8, r0
@@ -143,10 +155,10 @@ _02179220:
 	orr r1, r1, #0x400000
 	str r1, [r4, #0x18]
 	bl GetObjectFileWork
-	ldr r1, _021795A4 // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r1, [r1, #0]
-	ldr r2, _021795A8 // =aActAcGmkTrampo
+	ldr r2, =aActAcGmkTrampo
 	str r1, [sp]
 	mov r6, #0
 	mov r0, r4
@@ -217,7 +229,7 @@ _021792B8:
 	bl G3C_PolygonAttr
 	add r0, r4, #0x68
 	ldr r3, [r4, #0x440]
-	ldr r1, _021795AC // =0x0001FFFF
+	ldr r1, =0x0001FFFF
 	add r0, r0, #0x400
 	mov r2, #3
 	and r1, r3, r1
@@ -338,11 +350,11 @@ _021794DC:
 	mov r2, r1
 	add r0, r4, #0x218
 	bl ObjRect__SetAttackStat
-	ldr r1, _021795B0 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _021795B4 // =Trampoline__OnDefend
+	ldr r0, =Trampoline__OnDefend
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
 	orr r0, r0, #0x80
@@ -355,31 +367,24 @@ _021794DC:
 	cmp r1, r0, asr #16
 	mov r0, r0, asr #0x10
 	strlth r0, [r4, #0xc]
-	ldr r0, _021795B8 // =Trampoline__Draw
-	ldr r1, _021795BC // =Trampoline__State_2179664
+	ldr r0, =Trampoline__Draw
+	ldr r1, =Trampoline__State_2179664
 	str r0, [r4, #0xfc]
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0x4c
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_0217958C: .word 0x000010F6
-_02179590: .word 0x000005E4
-_02179594: .word StageTask_Main
-_02179598: .word Trampoline__Destructor
-_0217959C: .word _021898E0
-_021795A0: .word _0218874C
-_021795A4: .word gameArchiveStage
-_021795A8: .word aActAcGmkTrampo
-_021795AC: .word 0x0001FFFF
-_021795B0: .word 0x0000FFFE
-_021795B4: .word Trampoline__OnDefend
-_021795B8: .word Trampoline__Draw
-_021795BC: .word Trampoline__State_2179664
-	arm_func_end Trampoline__Create
 
-	arm_func_start Trampoline__Destructor
-Trampoline__Destructor: // 0x021795C0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Trampoline__Destructor(Task *task)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	bl GetTaskWork_
@@ -423,10 +428,17 @@ _0217964C:
 	mov r0, r4
 	bl GameObject__Destructor
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end Trampoline__Destructor
 
-	arm_func_start Trampoline__State_2179664
-Trampoline__State_2179664: // 0x02179664
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Trampoline__State_2179664(Trampoline *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #0xc
 	mov r3, r0
@@ -608,10 +620,17 @@ _02179910:
 	bl Trampoline__Func_217991C
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	arm_func_end Trampoline__State_2179664
 
-	arm_func_start Trampoline__Func_217991C
-Trampoline__Func_217991C: // 0x0217991C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Trampoline__Func_217991C(Trampoline *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x5c4]
@@ -644,10 +663,17 @@ _02179954:
 	add r3, r3, #0x18
 	blt _02179954
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end Trampoline__Func_217991C
 
-	arm_func_start Trampoline__Func_2179998
-Trampoline__Func_2179998: // 0x02179998
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Trampoline__Func_2179998(Trampoline *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	ldr r2, [r0, #0x5c8]
 	ldr r1, [r0, #0x5d4]
@@ -707,15 +733,22 @@ _021799E0:
 	cmp r5, #5
 	blt _021799E0
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end Trampoline__Func_2179998
 
-	arm_func_start Trampoline__Draw
-Trampoline__Draw: // 0x02179A80
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Trampoline__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xac
 	bl GetCurrentTaskWork_
 	mov r3, #0x1000
-	ldr r1, _02179D48 // =g_obj
+	ldr r1, =g_obj
 	mov r6, r0
 	ldr r2, [r1, #0]
 	str r3, [sp, #0x4c]
@@ -730,7 +763,7 @@ Trampoline__Draw: // 0x02179A80
 	orr r1, r1, r0, lsl #20
 	str r1, [sp, #0x4c]
 _02179AC8:
-	ldr r0, _02179D48 // =g_obj
+	ldr r0, =g_obj
 	ldr r2, [r0, #4]
 	cmp r2, #0x1000
 	beq _02179AF4
@@ -761,10 +794,10 @@ _02179AF4:
 	bl GameObject__Func_20282A8
 	add r0, sp, #0x4c
 	bl NNS_G3dGlbSetBaseScale
-	ldr r1, _02179D4C // =NNS_G3dGlb+0x000000BC
+	ldr r1, =NNS_G3dGlb+0x000000BC
 	add r0, sp, #0x1c
 	bl MI_Copy36B
-	ldr r1, _02179D50 // =NNS_G3dGlb
+	ldr r1, =NNS_G3dGlb
 	add r0, sp, #0x40
 	ldr r2, [r1, #0xfc]
 	bic r2, r2, #0xa4
@@ -787,7 +820,7 @@ _02179AF4:
 	str r1, [r5]
 	mov r1, #3
 	bl G3C_Begin
-	ldr r1, _02179D54 // =0x00007FFF
+	ldr r1, =0x00007FFF
 	mov r0, r4
 	mov r8, #0
 	bl G3C_Color
@@ -858,7 +891,7 @@ _02179BD0:
 	ldr r1, [r6, #0x340]
 	ldrh r3, [r0, #0xcc]
 	ldrh r0, [r1, #4]
-	ldr r2, _02179D58 // =_021898E0
+	ldr r2, =Trampoline__elevationTable
 	mov r8, #0
 	ldrsb r1, [r2, r3]
 	tst r0, #0x80
@@ -893,16 +926,17 @@ _02179CF8:
 	blt _02179CF8
 	add sp, sp, #0xac
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_02179D48: .word g_obj
-_02179D4C: .word NNS_G3dGlb+0x000000BC
-_02179D50: .word NNS_G3dGlb
-_02179D54: .word 0x00007FFF
-_02179D58: .word _021898E0
-	arm_func_end Trampoline__Draw
 
-	arm_func_start Trampoline__OnDefend
-Trampoline__OnDefend: // 0x02179D5C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Trampoline__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x24
 	ldr r5, [r1, #0x1c]
@@ -1067,11 +1101,18 @@ _02179FC4:
 	bl ObjRect__FuncNoHit
 	add sp, sp, #0x24
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end Trampoline__OnDefend
 
-	arm_func_start Trampoline__Func_2179FD0
-Trampoline__Func_2179FD0: // 0x02179FD0
-	ldr r1, _02179FF4 // =_0218A390
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Trampoline__Func_2179FD0(u8 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr r1, =Trampoline3D__dword_218A390
 	mov r3, #1
 	ldr r2, [r1, #0]
 	tst r2, r3, lsl r0
@@ -1080,34 +1121,25 @@ Trampoline__Func_2179FD0: // 0x02179FD0
 	moveq r0, r3
 	streq r2, [r1]
 	bx lr
-	.align 2, 0
-_02179FF4: .word _0218A390
-	arm_func_end Trampoline__Func_2179FD0
 
-	arm_func_start Trampoline__Func_2179FF8
-Trampoline__Func_2179FF8: // 0x02179FF8
-	ldr r1, _0217A014 // =_0218A390
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void Trampoline__Func_2179FF8(u8 id)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr r1, =Trampoline3D__dword_218A390
 	mov r2, #1
 	mvn r0, r2, lsl r0
 	ldr r2, [r1, #0]
 	and r0, r2, r0
 	str r0, [r1]
 	bx lr
-	.align 2, 0
-_0217A014: .word _0218A390
-	arm_func_end Trampoline__Func_2179FF8
 
-	.rodata
-
-_0218874C: // 0x0218874C
-    .hword 1, 2, 2
-	.align 4
-
-	.data
-	
-_021898E0:
-	.byte 0x00, 0xFE, 0x00, 0x00
-
-aActAcGmkTrampo: // 0x021898E4
-	.asciz "/act/ac_gmk_trampoline3d.bac"
-	.align 4
+// clang-format on
+#endif
+}

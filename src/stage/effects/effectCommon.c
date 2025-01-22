@@ -1301,10 +1301,10 @@ EffectBouncyMushroomPuff *EffectBouncyMushroomPuff__Create(fx32 x, fx32 y, fx32 
     return work;
 }
 
-// EffectPipeFlowPetal
-EffectPipeFlowPetal *EffectPipeFlowPetal__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type)
+// EffectFlowerPipePetal
+EffectFlowerPipePetal *EffectFlowerPipePetal__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type)
 {
-    EffectPipeFlowPetal *work = CreateEffect(EffectPipeFlowPetal, NULL);
+    EffectFlowerPipePetal *work = CreateEffect(EffectFlowerPipePetal, NULL);
     if (work == NULL)
         return NULL;
 
@@ -1336,12 +1336,12 @@ EffectPipeFlowPetal *EffectPipeFlowPetal__Create(fx32 x, fx32 y, fx32 velX, fx32
     work->objWork.gravityStrength  = FLOAT_TO_FX32(0.0625);
     work->objWork.terminalVelocity = FLOAT_TO_FX32(3.0);
 
-    SetTaskState(&work->objWork, EffectPipeFlowPetal__State_202AC78);
+    SetTaskState(&work->objWork, EffectFlowerPipePetal__State_202AC78);
 
     return work;
 }
 
-void EffectPipeFlowPetal__State_202AC78(EffectPipeFlowPetal *work)
+void EffectFlowerPipePetal__State_202AC78(EffectFlowerPipePetal *work)
 {
     if (work->objWork.velocity.y > FLOAT_TO_FX32(1.0))
     {
@@ -1356,10 +1356,10 @@ void EffectPipeFlowPetal__State_202AC78(EffectPipeFlowPetal *work)
     }
 }
 
-// EffectPipeFlowSeed
-EffectPipeFlowSeed *EffectPipeFlowSeed__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type)
+// EffectFlowerPipeSeed
+EffectFlowerPipeSeed *EffectFlowerPipeSeed__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type)
 {
-    EffectPipeFlowSeed *work = CreateEffect(EffectPipeFlowSeed, NULL);
+    EffectFlowerPipeSeed *work = CreateEffect(EffectFlowerPipeSeed, NULL);
     if (work == NULL)
         return NULL;
 
@@ -1390,12 +1390,12 @@ EffectPipeFlowSeed *EffectPipeFlowSeed__Create(fx32 x, fx32 y, fx32 velX, fx32 v
     work->objWork.gravityStrength  = FLOAT_TO_FX32(0.0625);
     work->objWork.terminalVelocity = FLOAT_TO_FX32(2.5);
 
-    SetTaskState(&work->objWork, EffectPipeFlowSeed__State_202ADFC);
+    SetTaskState(&work->objWork, EffectFlowerPipeSeed__State_202ADFC);
 
     return work;
 }
 
-void EffectPipeFlowSeed__State_202ADFC(EffectPipeFlowSeed *work)
+void EffectFlowerPipeSeed__State_202ADFC(EffectFlowerPipeSeed *work)
 {
     if (work->objWork.velocity.y > FLOAT_TO_FX32(1.0))
     {

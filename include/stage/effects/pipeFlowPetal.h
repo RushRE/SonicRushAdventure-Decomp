@@ -7,18 +7,18 @@
 // STRUCTS
 // --------------------
 
-typedef struct EffectPipeFlowPetal_
+typedef struct EffectFlowerPipePetal_
 {
     StageTask objWork;
     
     OBS_ACTION2D_BAC_WORK ani;
-} EffectPipeFlowPetal;
+} EffectFlowerPipePetal;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-EffectPipeFlowPetal *EffectPipeFlowPetal__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type);
-void EffectPipeFlowPetal__State_202AC78(EffectPipeFlowPetal *work);
+EffectFlowerPipePetal *EffectFlowerPipePetal__Create(fx32 x, fx32 y, fx32 velX, fx32 velY, u16 type);
+void EffectFlowerPipePetal__State_202AC78(EffectFlowerPipePetal *work);
 
 #endif // RUSH_EFFECT_PIPE_FLOW_PETAL_H

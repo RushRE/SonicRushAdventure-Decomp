@@ -1,10 +1,24 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/objects/dreamWing.h>
+#include <game/object/objectManager.h>
+#include <game/stage/gameSystem.h>
+#include <stage/effects/steam.h>
 
-	arm_func_start DreamWing__Create
-DreamWing__Create: // 0x02166E80
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED void *aActAcGmkDreamW;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC DreamWing *DreamWing__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -16,8 +30,8 @@ DreamWing__Create: // 0x02166E80
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x36c
-	ldr r0, _02166FE0 // =StageTask_Main
-	ldr r1, _02166FE4 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -48,13 +62,13 @@ DreamWing__Create: // 0x02166E80
 	str r1, [r4, #0x20]
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _02166FE8 // =gameArchiveStage
-	ldr r1, _02166FEC // =0x0000FFFF
+	ldr r0, =gameArchiveStage
+	ldr r1, =0x0000FFFF
 	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
-	ldr r2, _02166FF0 // =aActAcGmkDreamW
+	ldr r2, =aActAcGmkDreamW
 	add r1, r4, #0x168
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
@@ -79,11 +93,11 @@ DreamWing__Create: // 0x02166E80
 	strne r0, [r4, #0x20]
 	add r0, r4, #0x218
 	bl ObjRect__SetAttackStat
-	ldr r1, _02166FF4 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	add r0, r4, #0x218
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r0, _02166FF8 // =DreamWing__OnDefend
+	ldr r0, =DreamWing__OnDefend
 	str r0, [r4, #0x23c]
 	ldr r0, [r4, #0x230]
 	orr r0, r0, #0x400
@@ -93,18 +107,17 @@ DreamWing__Create: // 0x02166E80
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_02166FE0: .word StageTask_Main
-_02166FE4: .word GameObject__Destructor
-_02166FE8: .word gameArchiveStage
-_02166FEC: .word 0x0000FFFF
-_02166FF0: .word aActAcGmkDreamW
-_02166FF4: .word 0x0000FFFE
-_02166FF8: .word DreamWing__OnDefend
-	arm_func_end DreamWing__Create
 
-	arm_func_start DreamWingPart__Create
-DreamWingPart__Create: // 0x02166FFC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC DreamWingPart *DreamWingPart__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -116,8 +129,8 @@ DreamWingPart__Create: // 0x02166FFC
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _021671B4 // =StageTask_Main
-	ldr r1, _021671B8 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -157,10 +170,10 @@ DreamWingPart__Create: // 0x02166FFC
 	strhi r0, [r4, #0x28]
 	mov r0, #0xb8
 	bl GetObjectFileWork
-	ldr r1, _021671BC // =gameArchiveStage
+	ldr r1, =gameArchiveStage
 	mov r3, r0
 	ldr r1, [r1, #0]
-	ldr r2, _021671C0 // =aActAcGmkDreamW
+	ldr r2, =aActAcGmkDreamW
 	str r1, [sp]
 	mov r5, #0
 	mov r0, r4
@@ -189,7 +202,7 @@ DreamWingPart__Create: // 0x02166FFC
 	mov r0, r5
 	str r0, [r4, #0x13c]
 	mov r1, #0x10
-	ldr r0, _021671C4 // =StageTask__DefaultDiffData
+	ldr r0, =StageTask__DefaultDiffData
 	str r4, [r4, #0x2d8]
 	str r0, [r4, #0x2fc]
 	add r0, r4, #0x300
@@ -210,22 +223,22 @@ DreamWingPart__Create: // 0x02166FFC
 	ldrnesh r0, [r1, #0xf0]
 	subne r0, r0, #8
 	strneh r0, [r1, #0xf0]
-	ldr r1, _021671C8 // =DreamWingPart__Draw
+	ldr r1, =DreamWingPart__Draw
 	mov r0, r4
 	str r1, [r4, #0xfc]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_021671B4: .word StageTask_Main
-_021671B8: .word GameObject__Destructor
-_021671BC: .word gameArchiveStage
-_021671C0: .word aActAcGmkDreamW
-_021671C4: .word StageTask__DefaultDiffData
-_021671C8: .word DreamWingPart__Draw
-	arm_func_end DreamWingPart__Create
 
-	arm_func_start DreamWing__State_21671CC
-DreamWing__State_21671CC: // 0x021671CC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void DreamWing__State_21671CC(DreamWing *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -368,10 +381,17 @@ _021673D4:
 	streq r0, [r5, #0xf4]
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end DreamWing__State_21671CC
 
-	arm_func_start DreamWing__OnDefend
-DreamWing__OnDefend: // 0x021673F0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void DreamWing__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r4, [r1, #0x1c]
 	ldr r5, [r0, #0x1c]
@@ -459,7 +479,7 @@ _02167514:
 	mov r0, r0, asr #4
 	mov ip, r0, lsl #1
 	add r0, ip, #1
-	ldr r2, _021675AC // =FX_SinCosTable_
+	ldr r2, =FX_SinCosTable_
 	mov r3, r0, lsl #1
 	mov r0, ip, lsl #1
 	ldrsh r3, [r2, r3]
@@ -479,7 +499,7 @@ _02167514:
 	mov r1, #1
 	str r2, [r4, #0x9c]
 	bl StageTask__SetAnimation
-	ldr r1, _021675B0 // =DreamWing__State_21671CC
+	ldr r1, =DreamWing__State_21671CC
 	mov r0, r5
 	str r1, [r4, #0xf4]
 	ldr r2, [r4, #0x340]
@@ -492,13 +512,17 @@ _02167514:
 	ldr r3, [r4, #0x9c]
 	bl Player__Action_DreamWing
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_021675AC: .word FX_SinCosTable_
-_021675B0: .word DreamWing__State_21671CC
-	arm_func_end DreamWing__OnDefend
 
-	arm_func_start DreamWingPart__Draw
-DreamWingPart__Draw: // 0x021675B4
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void DreamWingPart__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #0x18
 	bl GetCurrentTaskWork_
@@ -531,10 +555,7 @@ _021675F0:
 	bgt _021675F0
 	add sp, sp, #0x18
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end DreamWingPart__Draw
-	
-	.data
 
-aActAcGmkDreamW: // 0x021891A4
-	.asciz "/act/ac_gmk_dream_wing.bac"
-	.align 4
+// clang-format on
+#endif
+}

@@ -1,10 +1,30 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
-	
-	.text
+#include <stage/objects/pirateShip.h>
+#include <game/object/objectManager.h>
+#include <game/object/obj.h>
+#include <game/stage/gameSystem.h>
+#include <stage/effects/pirateShipCannonBlast.h>
+#include <stage/effects/explosion.h>
+#include <stage/effects/groundExplosion.h>
 
-	arm_func_start PirateShip__Create
-PirateShip__Create: // 0x0217A018
+// --------------------
+// VARIABLES
+// --------------------
+
+NOT_DECOMPILED void *PirateShip__byte_2189904;
+NOT_DECOMPILED void *PirateShip__word_2189924;
+NOT_DECOMPILED void *PirateShip__byte_2189944;
+NOT_DECOMPILED void *aActAcGmkPirate_0;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NONMATCH_FUNC PirateShip *PirateShip__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -16,8 +36,8 @@ PirateShip__Create: // 0x0217A018
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x378
-	ldr r0, _0217A1A4 // =StageTask_Main
-	ldr r1, _0217A1A8 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -48,14 +68,14 @@ PirateShip__Create: // 0x0217A018
 	str r1, [r4, #0x20]
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _0217A1AC // =gameArchiveStage
+	ldr r0, =gameArchiveStage
 	mov r1, #0x77
 	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _0217A1B0 // =aActAcGmkPirate_0
+	ldr r2, =aActAcGmkPirate_0
 	bl ObjObjectAction2dBACLoad
 	mov r0, r4
 	mov r1, #0
@@ -82,10 +102,10 @@ PirateShip__Create: // 0x0217A018
 	mov r2, r1
 	bl ObjRect__SetAttackStat
 	add r0, r4, #0x218
-	ldr r1, _0217A1B4 // =0x0000FFFE
+	ldr r1, =0x0000FFFE
 	mov r2, #0
 	bl ObjRect__SetDefenceStat
-	ldr r1, _0217A1B8 // =PirateShip__OnDefend_217A7E0
+	ldr r1, =PirateShip__OnDefend_217A7E0
 	mov r0, #0x64
 	str r1, [r4, #0x23c]
 	ldr r1, [r4, #0x230]
@@ -104,17 +124,17 @@ PirateShip__Create: // 0x0217A018
 	mov r0, r4
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_0217A1A4: .word StageTask_Main
-_0217A1A8: .word GameObject__Destructor
-_0217A1AC: .word gameArchiveStage
-_0217A1B0: .word aActAcGmkPirate_0
-_0217A1B4: .word 0x0000FFFE
-_0217A1B8: .word PirateShip__OnDefend_217A7E0
-	arm_func_end PirateShip__Create
 
-	arm_func_start PirateShipCannonBall__Create
-PirateShipCannonBall__Create: // 0x0217A1BC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC PirateShipCannonBall *PirateShipCannonBall__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0xc
 	mov r3, #0x1800
@@ -126,8 +146,8 @@ PirateShipCannonBall__Create: // 0x0217A1BC
 	mov r4, #2
 	str r4, [sp, #4]
 	mov r4, #0x364
-	ldr r0, _0217A340 // =StageTask_Main
-	ldr r1, _0217A344 // =GameObject__Destructor
+	ldr r0, =StageTask_Main
+	ldr r1, =GameObject__Destructor
 	mov r3, r2
 	str r4, [sp, #8]
 	bl TaskCreate_
@@ -155,14 +175,14 @@ PirateShipCannonBall__Create: // 0x0217A1BC
 	str r1, [r4, #0x1c]
 	bl GetObjectFileWork
 	mov r3, r0
-	ldr r0, _0217A348 // =gameArchiveStage
+	ldr r0, =gameArchiveStage
 	mov r1, #0
 	ldr r2, [r0, #0]
 	mov r0, r4
 	str r2, [sp]
 	str r1, [sp, #4]
 	add r1, r4, #0x168
-	ldr r2, _0217A34C // =aActAcGmkPirate_0
+	ldr r2, =aActAcGmkPirate_0
 	bl ObjObjectAction2dBACLoad
 	mov r0, #0xa3
 	bl GetObjectFileWork
@@ -187,7 +207,7 @@ PirateShipCannonBall__Create: // 0x0217A1BC
 	mov r1, #1
 	mov r2, #0x41
 	bl ObjRect__SetDefenceStat
-	ldr r0, _0217A350 // =PirateShipCannonBall__OnHit
+	ldr r0, =PirateShipCannonBall__OnHit
 	mov r1, #0xd
 	str r0, [r4, #0x278]
 	ldr r2, [r4, #0x270]
@@ -207,22 +227,22 @@ PirateShipCannonBall__Create: // 0x0217A1BC
 	mov r0, #0x200
 	str r0, [r4, #0x38]
 	str r0, [r4, #0x3c]
-	ldr r1, _0217A354 // =PirateShipCannonBall__State_217A90C
+	ldr r1, =PirateShipCannonBall__State_217A90C
 	mov r0, r4
 	str r1, [r4, #0xf4]
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, pc}
-	.align 2, 0
-_0217A340: .word StageTask_Main
-_0217A344: .word GameObject__Destructor
-_0217A348: .word gameArchiveStage
-_0217A34C: .word aActAcGmkPirate_0
-_0217A350: .word PirateShipCannonBall__OnHit
-_0217A354: .word PirateShipCannonBall__State_217A90C
-	arm_func_end PirateShipCannonBall__Create
 
-	arm_func_start PirateShip__State_217A358
-PirateShip__State_217A358: // 0x0217A358
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void PirateShip__State_217A358(PirateShip *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	ldr r4, [r6, #0x35c]
@@ -239,7 +259,7 @@ PirateShip__State_217A358: // 0x0217A358
 	ble _0217A3A8
 _0217A390:
 	ldr r1, [r6, #0x370]
-	ldr r0, _0217A434 // =PirateShip__State_217A714
+	ldr r0, =PirateShip__State_217A714
 	add r1, r1, r5
 	str r1, [r6, #0x370]
 	str r0, [r6, #0xf4]
@@ -247,7 +267,7 @@ _0217A390:
 _0217A3A8:
 	ldrb r2, [r4, #0x5d3]
 	mov r0, #0x70
-	ldr r1, _0217A438 // =mapCamera+0x00000004
+	ldr r1, =mapCamera+0x00000004
 	smulbb r0, r2, r0
 	ldr r0, [r1, r0]
 	ldr r1, [r6, #0x44]
@@ -261,10 +281,10 @@ _0217A3A8:
 	mov r1, #0
 	add r0, r2, r0
 	str r0, [r6, #0x98]
-	ldr r0, _0217A43C // =playerGameStatus
+	ldr r0, =playerGameStatus
 	str r1, [r6, #0x2c]
 	ldr r1, [r0, #0xc]
-	ldr r0, _0217A440 // =PirateShip__State_217A444
+	ldr r0, =PirateShip__State_217A444
 	and r1, r1, #0xf
 	str r1, [r6, #0x28]
 	str r0, [r6, #0xf4]
@@ -281,15 +301,17 @@ _0217A408:
 	add r0, r5, r0
 	str r0, [r6, #0x98]
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0217A434: .word PirateShip__State_217A714
-_0217A438: .word mapCamera+0x00000004
-_0217A43C: .word playerGameStatus
-_0217A440: .word PirateShip__State_217A444
-	arm_func_end PirateShip__State_217A358
 
-	arm_func_start PirateShip__State_217A444
-PirateShip__State_217A444: // 0x0217A444
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void PirateShip__State_217A444(PirateShip *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x14
 	mov r9, r0
@@ -306,7 +328,7 @@ PirateShip__State_217A444: // 0x0217A444
 	ble _0217A498
 _0217A47C:
 	ldr r1, [r9, #0x370]
-	ldr r0, _0217A6F8 // =PirateShip__State_217A714
+	ldr r0, =PirateShip__State_217A714
 	add r1, r1, r5
 	str r1, [r9, #0x370]
 	add sp, sp, #0x14
@@ -315,7 +337,7 @@ _0217A47C:
 _0217A498:
 	ldrb r2, [r4, #0x5d3]
 	mov r1, #0x70
-	ldr r0, _0217A6FC // =mapCamera+0x00000004
+	ldr r0, =mapCamera+0x00000004
 	smulbb r2, r2, r1
 	ldr r0, [r0, r2]
 	ldr r3, [r9, #0x44]
@@ -407,14 +429,14 @@ _0217A5CC:
 	str r0, [r9, #0x2c]
 	ldmgtia sp!, {r4, r5, r6, r7, r8, r9, pc}
 	ldr r0, [r9, #0x28]
-	ldr r1, _0217A700 // =_02189904
+	ldr r1, =PirateShip__byte_2189904
 	mov r0, r0, lsl #0x1d
 	mov r2, r0, lsr #0x1b
-	ldr r0, _0217A704 // =0x02189906
+	ldr r0, =0x02189906
 	ldrsh r7, [r1, r2]
 	ldrsh r6, [r0, r2]
 	mov r3, #0
-	ldr r0, _0217A708 // =0x00000147
+	ldr r0, =0x00000147
 	str r3, [sp]
 	str r3, [sp, #4]
 	str r3, [sp, #8]
@@ -440,7 +462,7 @@ _0217A5CC:
 	sub r0, r1, r0
 	beq _0217A68C
 	ldr r2, [r9, #0x28]
-	ldr r1, _0217A70C // =0x02189944
+	ldr r1, =PirateShip__byte_2189944
 	mov r2, r2, lsl #0x1c
 	mov r2, r2, lsr #0x1b
 	ldrsh r1, [r1, r2]
@@ -464,7 +486,7 @@ _0217A6A0:
 	mov r3, r1
 	bl PlaySfxEx
 	ldr r1, [r9, #0x28]
-	ldr r0, _0217A710 // =0x02189924
+	ldr r0, =PirateShip__word_2189924
 	mov r1, r1, lsl #1
 	ldrsh r0, [r0, r1]
 	str r0, [r9, #0x2c]
@@ -474,18 +496,17 @@ _0217A6A0:
 	str r0, [r9, #0x28]
 	add sp, sp, #0x14
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, pc}
-	.align 2, 0
-_0217A6F8: .word PirateShip__State_217A714
-_0217A6FC: .word mapCamera+0x00000004
-_0217A700: .word _02189904
-_0217A704: .word 0x02189906
-_0217A708: .word 0x00000147
-_0217A70C: .word 0x02189944
-_0217A710: .word 0x02189924
-	arm_func_end PirateShip__State_217A444
 
-	arm_func_start PirateShip__State_217A714
-PirateShip__State_217A714: // 0x0217A714
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void PirateShip__State_217A714(PirateShip *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	ldr r5, [r4, #0x35c]
@@ -496,7 +517,7 @@ PirateShip__State_217A714: // 0x0217A714
 	ldr r1, [r4, #0x36c]
 	cmp r2, r1
 	bgt _0217A74C
-	ldr r1, _0217A7D8 // =PirateShip__State_217A358
+	ldr r1, =PirateShip__State_217A358
 	str r1, [r4, #0xf4]
 	bl PirateShip__State_217A358
 	ldmia sp!, {r3, r4, r5, pc}
@@ -509,7 +530,7 @@ _0217A74C:
 	str r0, [r4, #0x98]
 	ldrb r2, [r5, #0x5d3]
 	mov r0, #0x70
-	ldr r1, _0217A7DC // =mapCamera+0x00000004
+	ldr r1, =mapCamera+0x00000004
 	smulbb r0, r2, r0
 	ldr r1, [r1, r0]
 	ldr r0, [r4, #0x44]
@@ -536,13 +557,17 @@ _0217A74C:
 	str r0, [r4, #0x44]
 	str r1, [r4, #0xf4]
 	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_0217A7D8: .word PirateShip__State_217A358
-_0217A7DC: .word mapCamera+0x00000004
-	arm_func_end PirateShip__State_217A714
 
-	arm_func_start PirateShip__OnDefend_217A7E0
-PirateShip__OnDefend_217A7E0: // 0x0217A7E0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void PirateShip__OnDefend_217A7E0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r6, r1
 	mov r7, r0
@@ -581,14 +606,14 @@ _0217A82C:
 	str ip, [r4, #0x354]
 	str r2, [r4, #0x234]
 	ldr ip, [r4, #0x230]
-	ldr r2, _0217A8B8 // =mapCamera+0x00000004
+	ldr r2, =mapCamera+0x00000004
 	orr ip, ip, #0x800
 	str ip, [r4, #0x230]
 	str r5, [r4, #0x35c]
 	str r3, [r4, #0x98]
 	str r1, [r4, #0x370]
 	ldr r3, [r4, #0x44]
-	ldr r1, _0217A8BC // =PirateShip__State_217A358
+	ldr r1, =PirateShip__State_217A358
 	str r3, [r4, #0x364]
 	ldrb r3, [r5, #0x5d3]
 	smulbb r0, r3, r0
@@ -598,19 +623,23 @@ _0217A82C:
 	str r0, [r4, #0x8c]
 	str r1, [r4, #0xf4]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	.align 2, 0
-_0217A8B8: .word mapCamera+0x00000004
-_0217A8BC: .word PirateShip__State_217A358
-	arm_func_end PirateShip__OnDefend_217A7E0
 
-	arm_func_start PirateShip__GetPlayerVelocity
-PirateShip__GetPlayerVelocity: // 0x0217A8C0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC fx32 PirateShip__GetPlayerVelocity(Player *player)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	ldr r1, [r0, #0x1c]
 	tst r1, #0x8000
 	ldrne r0, [r0, #0x98]
 	bxne lr
 	ldrh r2, [r0, #0x34]
-	ldr r1, _0217A908 // =FX_SinCosTable_
+	ldr r1, =FX_SinCosTable_
 	ldr r3, [r0, #0xc8]
 	mov r0, r2, asr #4
 	mov r0, r0, lsl #1
@@ -623,12 +652,17 @@ PirateShip__GetPlayerVelocity: // 0x0217A8C0
 	mov r0, r2, lsr #0xc
 	orr r0, r0, r1, lsl #20
 	bx lr
-	.align 2, 0
-_0217A908: .word FX_SinCosTable_
-	arm_func_end PirateShip__GetPlayerVelocity
 
-	arm_func_start PirateShipCannonBall__State_217A90C
-PirateShipCannonBall__State_217A90C: // 0x0217A90C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void PirateShipCannonBall__State_217A90C(PirateShipCannonBall *work)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -676,10 +710,17 @@ PirateShipCannonBall__State_217A90C: // 0x0217A90C
 	bl PlaySfxEx
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	arm_func_end PirateShipCannonBall__State_217A90C
 
-	arm_func_start PirateShipCannonBall__OnHit
-PirateShipCannonBall__OnHit: // 0x0217A9C8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void PirateShipCannonBall__OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	ldr r4, [r0, #0x1c]
 	ldr r0, [r1, #0x1c]
@@ -698,19 +739,8 @@ PirateShipCannonBall__OnHit: // 0x0217A9C8
 	orr r0, r0, #8
 	str r0, [r4, #0x18]
 	ldmia sp!, {r4, pc}
-	arm_func_end PirateShipCannonBall__OnHit
 
-	.data
-	
-_02189904:
-	.byte 0x00, 0x00, 0xD7, 0xFF, 0xDB, 0xFF, 0xDE, 0xFF, 0xEB, 0xFF, 0xDA, 0xFF
-	.byte 0x27, 0x00, 0xDE, 0xFF, 0x00, 0x00, 0xD7, 0xFF, 0xDB, 0xFF, 0xDE, 0xFF, 0x16, 0x00, 0xD9, 0xFF
-	.byte 0x27, 0x00, 0xDE, 0xFF, 0x19, 0x00, 0x0F, 0x00, 0x14, 0x00, 0x0F, 0x00, 0x19, 0x00, 0x05, 0x00
-	.byte 0x0A, 0x00, 0x14, 0x00, 0x05, 0x00, 0x0F, 0x00, 0x19, 0x00, 0x14, 0x00, 0x0A, 0x00, 0x19, 0x00
-	.byte 0x14, 0x00, 0x0F, 0x00, 0x38, 0x00, 0xA8, 0xFF, 0x6C, 0x00, 0xC8, 0xFF, 0x48, 0x00, 0xB4, 0xFF
-	.byte 0x40, 0x00, 0xC0, 0xFF, 0x50, 0x00, 0xB0, 0xFF, 0x60, 0x00, 0xB8, 0xFF, 0x30, 0x00, 0xC4, 0xFF
-	.byte 0x58, 0x00, 0xD0, 0xFF
+// clang-format on
+#endif
+}
 
-aActAcGmkPirate_0: // 0x02189964
-	.asciz "/act/ac_gmk_pirate_ship.bac"
-	.align 4

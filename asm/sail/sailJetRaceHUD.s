@@ -284,13 +284,13 @@ SailJetRaceProgressIconHUD__Create: // 0x02188410
 	mov r0, r4
 	mov r1, r5
 	bl ObjActionAllocSpritePalette
-	b _021884D4
+	b TripleGrindRail__stru_21884D4
 _021884C4:
 	ldr r2, _0218854C // =0x00000802
 	mov r0, r4
 	mov r1, r5
 	bl ObjActionAllocSpritePalette
-_021884D4:
+TripleGrindRail__stru_21884D4:
 	mov r0, r4
 	mov r1, r5
 	bl StageTask__SetAnimation
@@ -1970,7 +1970,7 @@ _02189C24:
 	bl ObjDrawGetPaletteForID
 	b _02189C64
 _02189C5C:
-	ldr r0, _02189D28 // =0x0000040A
+	ldr r0, WaterGrindRail__byte_2189D28 // =0x0000040A
 	bl ObjDrawGetPaletteForID
 _02189C64:
 	mov r8, r0
@@ -2025,7 +2025,7 @@ _02189CC8:
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
-_02189D28: .word 0x0000040A
+WaterGrindRail__byte_2189D28: .word 0x0000040A
 	arm_func_end SailJetRaceCheckpointIconHUD__State_2189BB0
 
 	.data
