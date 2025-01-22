@@ -666,11 +666,11 @@
 .public Player__Action_DashRing
 .public Player__Gimmick_201BAC0
 .public Player__Action_SpringboardLaunch
-.public Player__Func_201BD9C
-.public Player__Gimmick_201BDC0
-.public Player__State_201BF3C
-.public Player__Func_201C1EC
-.public Player__Func_201C384
+.public Player__CheckOnCorkscrewPath
+.public Player__Action_CorkscrewPath
+.public Player__State_CorkscrewPath
+.public Player__HandleCorkscrewPathH
+.public Player__HandleCorkscrewPathV
 .public Player__Gimmick_201C80C
 .public Player__State_201C938
 .public Player__Func_201CBD0
@@ -8477,8 +8477,8 @@
 .public BreakableWall__OnDefend_2160A88
 .public BreakableWall__State_Broken
 .public BreakableWall__Draw_Broken
-.public GrindTrigger__Create
-.public GrindTrigger__OnDefend_2160FB8
+.public CreateCorkscrewPath
+.public CorkscrewPath_OnDefend
 .public PipeFlow__Create
 .public PipeSteam__Create
 .public PipeSteam__State_2161728
@@ -8923,7 +8923,7 @@
 .public CreateCrumblingFloor
 .public CrumblingFloor_State_Active
 .public WaterGun__Create
-.public WaterGrindTrigger__Create
+.public WaterCreateGrindTrigger
 .public WaterGun__Destructor
 .public WaterGun__State_2183EC4
 .public WaterGun__State_21840B4

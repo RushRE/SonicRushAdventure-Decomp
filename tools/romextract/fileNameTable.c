@@ -122,6 +122,9 @@ const char* GetConvertedFileName(char* filePath)
 
     for (uint32_t i = 0; i < fileNameTableSize; i++)
     {
+        if (fileNameTable[i].inputName == NULL)
+            continue; // error checking
+
         if (strcmp(filePath, fileNameTable[i].inputName) == 0)
         {
             return fileNameTable[i].outputName;

@@ -336,13 +336,27 @@ void ExtractArchiveHeaderless(char* path, uint8_t* archiveData, uint8_t compress
 
 				if (true)
 				{
+					bool enableDecompress = true;
+
+					// disable compression on palettes for now
+					if (strcmp(GetFileExtension(name), "nbfp") == 0)
+					{
+						enableDecompress = false;
+					}
+
 					size_t uncompressedSize;
-					uint8_t* uncompressedData = TryDecompress(fileData, size, &fileList[listFileID].compression, &uncompressedSize);
+					uint8_t* uncompressedData = NULL;
+
+					if (enableDecompress)
+					{
+						uncompressedData = TryDecompress(fileData, size, &fileList[listFileID].compression, &uncompressedSize);
+					}
 
 					if (uncompressedData == NULL)
 					{
 						uncompressedData = fileData;
 						uncompressedSize = size;
+						fileList[listFileID].compression = 0xFF;
 
 						fileData = NULL;
 					}
@@ -579,13 +593,27 @@ void ExtractArchive(char* path, uint8_t* archiveData, uint8_t compression, bool 
 
 				if (true)
 				{
+					bool enableDecompress = true;
+
+					// disable compression on palettes for now
+					if (strcmp(GetFileExtension(name), "nbfp") == 0)
+					{
+						enableDecompress = false;
+					}
+
 					size_t uncompressedSize;
-					uint8_t* uncompressedData = TryDecompress(fileData, size, &fileList[listFileID].compression, &uncompressedSize);
+					uint8_t* uncompressedData = NULL;
+
+					if (enableDecompress)
+					{
+						uncompressedData = TryDecompress(fileData, size, &fileList[listFileID].compression, &uncompressedSize);
+					}
 
 					if (uncompressedData == NULL)
 					{
 						uncompressedData = fileData;
 						uncompressedSize = size;
+						fileList[listFileID].compression = 0xFF;
 
 						fileData = NULL;
 					}
@@ -742,6 +770,7 @@ void ExtractBundle(char* path, uint8_t* bundleData)
 		{
 			uncompressedData = fileData;
 			uncompressedSize = bundle->files[f].size;
+			fileList[f].compression = 0xFF;
 
 			fileData = NULL;
 		}

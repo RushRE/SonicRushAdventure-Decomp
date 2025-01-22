@@ -56,6 +56,7 @@
 #include <stage/objects/bungee.h>
 #include <stage/objects/springRope.h>
 #include <stage/objects/balloon.h>
+#include <stage/objects/corkscrewPath.h>
 
 // Enemies
 #include <stage/enemies/robot.h>
@@ -88,7 +89,6 @@ NOT_DECOMPILED GameObjectTask *Boss3Stage__Create(MapObject *mapObject, fx32 x, 
 NOT_DECOMPILED GameObjectTask *Boss2Stage__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *PopSteam__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *LargePiston__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *GrindTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *RotatingHanger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *PipeFlow__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *RopeTar__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -114,7 +114,7 @@ NOT_DECOMPILED GameObjectTask *Cannon__Create(MapObject *mapObject, fx32 x, fx32
 NOT_DECOMPILED GameObjectTask *CannonRing__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *AnchorRope__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *WaterGun__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
-NOT_DECOMPILED GameObjectTask *WaterGrindTrigger__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
+NOT_DECOMPILED GameObjectTask *WaterCreateGrindTrigger(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss5MapChunk__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss5Icicle2__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
 NOT_DECOMPILED GameObjectTask *Boss5FreezeArea__Create(MapObject *mapObject, fx32 x, fx32 y, s32 type);
@@ -628,8 +628,8 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_101] = (CreateObjectFunc)CreateDashRingRainbow,
     [MAPOBJECT_102] = (CreateObjectFunc)CreateDashRingRainbow,
     [MAPOBJECT_103] = (CreateObjectFunc)CreateSpringboard,
-    [MAPOBJECT_104] = (CreateObjectFunc)GrindTrigger__Create,
-    [MAPOBJECT_105] = (CreateObjectFunc)GrindTrigger__Create,
+    [MAPOBJECT_104] = (CreateObjectFunc)CreateCorkscrewPath,
+    [MAPOBJECT_105] = (CreateObjectFunc)CreateCorkscrewPath,
     [MAPOBJECT_106] = (CreateObjectFunc)CreateDashRing,
     [MAPOBJECT_107] = (CreateObjectFunc)CreateDashRing,
     [MAPOBJECT_108] = (CreateObjectFunc)CreateDashRing,
@@ -760,22 +760,22 @@ const CreateObjectFunc stageObjectSpawnList[MAPOBJECT_COUNT] = {
     [MAPOBJECT_233] = (CreateObjectFunc)CreateCrumblingFloor,
     [MAPOBJECT_234] = (CreateObjectFunc)WaterGun__Create,
     [MAPOBJECT_235] = (CreateObjectFunc)WaterGun__Create,
-    [MAPOBJECT_236] = (CreateObjectFunc)WaterGrindTrigger__Create,
-    [MAPOBJECT_237] = (CreateObjectFunc)WaterGrindTrigger__Create,
-    [MAPOBJECT_238] = (CreateObjectFunc)WaterGrindTrigger__Create,
-    [MAPOBJECT_239] = (CreateObjectFunc)WaterGrindTrigger__Create,
+    [MAPOBJECT_236] = (CreateObjectFunc)WaterCreateGrindTrigger,
+    [MAPOBJECT_237] = (CreateObjectFunc)WaterCreateGrindTrigger,
+    [MAPOBJECT_238] = (CreateObjectFunc)WaterCreateGrindTrigger,
+    [MAPOBJECT_239] = (CreateObjectFunc)WaterCreateGrindTrigger,
     [MAPOBJECT_240] = (CreateObjectFunc)CreateJumpBox,
     [MAPOBJECT_241] = (CreateObjectFunc)CreateFlagChange,
     [MAPOBJECT_242] = (CreateObjectFunc)CreatePlaneSwitchSpring,
     [MAPOBJECT_243] = (CreateObjectFunc)CreatePlaneSwitchSpring,
     [MAPOBJECT_244] = (CreateObjectFunc)CreatePlaneSwitchSpring,
     [MAPOBJECT_245] = (CreateObjectFunc)CreatePlaneSwitchSpring,
-    [MAPOBJECT_246] = (CreateObjectFunc)WaterGrindTrigger__Create,
-    [MAPOBJECT_247] = (CreateObjectFunc)WaterGrindTrigger__Create,
-    [MAPOBJECT_248] = (CreateObjectFunc)WaterGrindTrigger__Create,
-    [MAPOBJECT_249] = (CreateObjectFunc)WaterGrindTrigger__Create,
-    [MAPOBJECT_250] = (CreateObjectFunc)WaterGrindTrigger__Create,
-    [MAPOBJECT_251] = (CreateObjectFunc)WaterGrindTrigger__Create,
+    [MAPOBJECT_246] = (CreateObjectFunc)WaterCreateGrindTrigger,
+    [MAPOBJECT_247] = (CreateObjectFunc)WaterCreateGrindTrigger,
+    [MAPOBJECT_248] = (CreateObjectFunc)WaterCreateGrindTrigger,
+    [MAPOBJECT_249] = (CreateObjectFunc)WaterCreateGrindTrigger,
+    [MAPOBJECT_250] = (CreateObjectFunc)WaterCreateGrindTrigger,
+    [MAPOBJECT_251] = (CreateObjectFunc)WaterCreateGrindTrigger,
     [MAPOBJECT_252] = (CreateObjectFunc)CreateMissionFlag,
     [MAPOBJECT_253] = (CreateObjectFunc)CreateMedal,
     [MAPOBJECT_254] = (CreateObjectFunc)CreateBungee,

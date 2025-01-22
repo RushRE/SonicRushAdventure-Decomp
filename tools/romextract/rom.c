@@ -269,9 +269,14 @@ static void ExtractROMFile(char *path, FILE *romFile, uint32_t offset, uint32_t 
         fseek(romFile, romAddr, SEEK_SET);
     }
 
-    uint8_t compression;
+    uint8_t compression = 0xFF;
     size_t uncompressedSize;
-    uint8_t *uncompressedData = TryDecompress(fileData, size, &compression, &uncompressedSize);
+    uint8_t* uncompressedData = NULL;
+
+    if (size > 0)
+    {
+        uncompressedData = TryDecompress(fileData, size, &compression, &uncompressedSize);
+    }
 
     if (uncompressedData == NULL)
     {

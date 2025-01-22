@@ -6347,7 +6347,7 @@ void Player__HandleSuperBoost(Player *player)
             (StageTaskStateMatches(&player->objWork, Player__State_Air) == FALSE || (player->playerFlag & PLAYER_FLAG_ALLOW_TRICKS) == 0) && // ...and isn't in the air
             !IsBossStage() &&                                                                                                                // ...and the stage isn't a boss
             (player->playerFlag & PLAYER_FLAG_DISABLE_TENSION_DRAIN) == 0 &&                                                                 // ...and we CAN drain tension
-            ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 || Player__Func_201BD9C(player)) &&                               // ...and we're not in the air
+            ((player->objWork.moveFlag & STAGE_TASK_MOVE_FLAG_IN_AIR) == 0 || Player__CheckOnCorkscrewPath(player)) &&                               // ...and we're not in the air
             player->superBoostCooldownTimer == 0)                                                                                            // ...and we don't have a cooldown
         {
             if ((player->playerFlag & PLAYER_FLAG_DEATH) == 0 && player->tension >= PLAYER_SUPERBOOST_MINIMUM && (player->playerFlag & PLAYER_FLAG_SUPERBOOST) == 0)

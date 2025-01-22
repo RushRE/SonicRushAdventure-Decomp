@@ -51,6 +51,7 @@
 #include <stage/objects/hoverCrystal.h>
 #include <stage/objects/diveStand.h>
 #include <stage/objects/slingshot.h>
+#include <stage/objects/corkscrewPath.h>
 
 // --------------------
 // TEMP
@@ -516,316 +517,173 @@ void Player__Action_SpringboardLaunch(Player *player, fx32 velX, fx32 velY)
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_JUMP_STAND);
 }
 
-u16 Player__Func_201BD9C(Player *player)
+u16 Player__CheckOnCorkscrewPath(Player *player)
 {
-    if (StageTaskStateMatches(&player->objWork, Player__State_201BF3C))
+    if (StageTaskStateMatches(&player->objWork, Player__State_CorkscrewPath))
         return TRUE;
     else
         return FALSE;
 }
 
-NONMATCH_FUNC void Player__Gimmick_201BDC0(Player *player, s32 a2, s32 a3, s32 a4, u16 a5)
+void Player__Action_CorkscrewPath(Player *player, fx32 x, fx32 y, s32 flags, u16 type)
 {
-#ifdef NON_MATCHING
+    if (!Player__CheckOnCorkscrewPath(player))
+    {
+        u8 prevGrindID  = player->grindID;
+        player->grindID = PLAYER_GRIND_NONE;
+        Player__InitGimmick(player, FALSE);
+        player->grindID = prevGrindID;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	mov r8, r0
-	mov r7, r1
-	mov r6, r2
-	mov r5, r3
-	bl Player__Func_201BD9C
-	cmp r0, #0
-	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	ldrb r4, [r8, #0x710]
-	mov r1, #0
-	mov r0, r8
-	strb r1, [r8, #0x710]
-	bl Player__InitGimmick
-	strb r4, [r8, #0x710]
-	ldr r0, [r8, #0x5dc]
-	mov r4, r5, asr #0xc
-	tst r0, #0x800
-	bne _0201BE28
-	cmp r4, #2
-	addne r0, r8, #0x500
-	ldrnesh r0, [r0, #0xd4]
-	cmpne r0, #0x5c
-	beq _0201BE54
-	mov r0, r8
-	bl Player__HandleStartWalkAnimation
-	b _0201BE54
-_0201BE28:
-	cmp r4, #2
-	addne r0, r8, #0x500
-	ldrnesh r0, [r0, #0xd4]
-	cmpne r0, #0x41
-	beq _0201BE54
-	mov r0, r8
-	mov r1, #0x41
-	bl Player__ChangeAction
-	mov r0, r8
-	mov r1, #3
-	bl ChangePlayerSnowboardAction
-_0201BE54:
-	ldr r1, [r8, #0x20]
-	ldr r0, =0x00000FFF
-	orr r1, r1, #4
-	str r1, [r8, #0x20]
-	ldr r2, [r8, #0x1c]
-	ldrh r1, [sp, #0x18]
-	orr r2, r2, #0x10
-	orr r2, r2, #0x2000
-	str r2, [r8, #0x1c]
-	ldr r2, [r8, #0x5d8]
-	and r0, r5, r0
-	bic r2, r2, #3
-	str r2, [r8, #0x5d8]
-	str r7, [r8, #0x6f0]
-	str r6, [r8, #0x6f4]
-	str r4, [r8, #0x6f8]
-	str r1, [r8, #0x6fc]
-	str r0, [r8, #0x28]
-	mov r0, #0
-	str r0, [r8, #0x2c]
-	ldr r0, [r8, #0x28]
-	ldr r1, [r8, #0x44]
-	tst r0, #1
-	ldr r0, [r8, #0x6f0]
-	beq _0201BEC8
-	cmp r0, r1
-	subgt r0, r0, r1
-	strgt r0, [r8, #0x2c]
-	b _0201BED4
-_0201BEC8:
-	cmp r0, r1
-	sublt r0, r1, r0
-	strlt r0, [r8, #0x2c]
-_0201BED4:
-	ldrsh r1, [r8, #0xf2]
-	ldr r2, [r8, #0x6f4]
-	add r0, r8, #0x2f4
-	sub r1, r2, r1, lsl #12
-	str r1, [r8, #0x6f4]
-	ldr r1, [r8, #0x6f8]
-	cmp r1, #1
-	bne _0201BF10
-	ldr r1, [r8, #0x28]
-	tst r1, #2
-	bne _0201BF1C
-	ldr r1, [r0, #0x400]
-	sub r1, r1, #0x4000
-	str r1, [r0, #0x400]
-	b _0201BF1C
-_0201BF10:
-	ldr r0, [r8, #0x28]
-	orr r0, r0, #2
-	str r0, [r8, #0x28]
-_0201BF1C:
-	ldr r1, =Player__State_201BF3C
-	add r0, r8, #0x500
-	str r1, [r8, #0xf4]
-	mov r1, #0x10
-	strh r1, [r0, #0xd6]
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
+        s32 pathType = (flags >> CORKSCREWPATH_OBJFLAG_TYPE_SHIFT);
+        if ((player->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
+        {
+            if (pathType != CORKSCREWPATH_TYPE_2 && player->actionState != PLAYER_ACTION_ROLL)
+            {
+                Player__HandleStartWalkAnimation(player);
+            }
+        }
+        else
+        {
+            if (pathType != CORKSCREWPATH_TYPE_2 && player->actionState != PLAYER_ACTION_WALK_SNOWBOARD)
+            {
+                Player__ChangeAction(player, PLAYER_ACTION_WALK_SNOWBOARD);
+                ChangePlayerSnowboardAction(player, PLAYERSNOWBOARD_ACTION_WALK);
+            }
+        }
 
-// clang-format on
-#endif
+        player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
+        player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
+        player->playerFlag &= ~(PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
+
+        player->gimmickValue1     = x;
+        player->gimmickValue2     = y;
+        player->gimmickValue3     = pathType;
+        player->gimmickValue4     = type;
+        player->objWork.userWork  = flags & CORKSCREWPATH_OBJFLAG_FLAG_MASK;
+        player->objWork.userTimer = 0;
+
+        if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
+        {
+            if (player->gimmickValue1 > player->objWork.position.x)
+            {
+                player->objWork.userTimer = player->gimmickValue1 - player->objWork.position.x;
+            }
+        }
+        else
+        {
+            if (player->gimmickValue1 < player->objWork.position.x)
+            {
+                player->objWork.userTimer = player->objWork.position.x - player->gimmickValue1;
+            }
+        }
+
+        player->gimmickValue2 -= FX32_FROM_WHOLE(player->objWork.hitboxRect.bottom);
+
+        if (player->gimmickValue3 == CORKSCREWPATH_TYPE_VERTICAL)
+        {
+            if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_2) == 0)
+                player->gimmickValue2 -= FLOAT_TO_FX32(4.0);
+        }
+        else
+        {
+            player->objWork.userWork |= CORKSCREWPATH_OBJFLAG_2;
+        }
+
+        SetTaskState(&player->objWork, Player__State_CorkscrewPath);
+        player->trickCooldownTimer = 16;
+    }
 }
 
-NONMATCH_FUNC void Player__State_201BF3C(Player *work)
+void Player__State_CorkscrewPath(Player *work)
 {
-#ifdef NON_MATCHING
+    if (work->gimmickValue3 != CORKSCREWPATH_TYPE_2)
+    {
+        if (MATH_ABS(work->objWork.groundVel) < work->spdThresholdJog && Player__HandleFallOffSurface(work))
+        {
+            work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+            work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+            Player__Action_Launch(work);
+            return;
+        }
+    }
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #0xc
-	mov r4, r0
-	ldr r0, [r4, #0x6f8]
-	cmp r0, #2
-	beq _0201BFA8
-	ldr r1, [r4, #0xc8]
-	ldr r0, [r4, #0x644]
-	cmp r1, #0
-	rsblt r1, r1, #0
-	cmp r1, r0
-	bge _0201BFA8
-	mov r0, r4
-	bl Player__HandleFallOffSurface
-	cmp r0, #0
-	beq _0201BFA8
-	mov r0, #0
-	strh r0, [r4, #0x34]
-	strh r0, [r4, #0x32]
-	strh r0, [r4, #0x30]
-	ldr r1, [r4, #0x1c]
-	mov r0, r4
-	bic r1, r1, #0x2000
-	str r1, [r4, #0x1c]
-	bl Player__Action_Launch
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-_0201BFA8:
-	add r0, r4, #0x700
-	ldrh r0, [r0, #0x22]
-	tst r0, #1
-	ldrne r0, [r4, #0x5f0]
-	cmpne r0, #0
-	beq _0201C004
-	ldr r0, [r4, #0x6f8]
-	cmp r0, #2
-	ldreq r0, [r4, #0x18]
-	orreq r0, r0, #1
-	streq r0, [r4, #0x18]
-	mov r0, #0
-	strh r0, [r4, #0x34]
-	strh r0, [r4, #0x32]
-	strh r0, [r4, #0x30]
-	ldr r1, [r4, #0x1c]
-	mov r0, r4
-	bic r1, r1, #0x2000
-	str r1, [r4, #0x1c]
-	ldr r1, [r4, #0x5f0]
-	blx r1
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-_0201C004:
-	add r0, r4, #0x500
-	ldrsh r1, [r0, #0xd6]
-	cmp r1, #0
-	subne r1, r1, #1
-	strneh r1, [r0, #0xd6]
-	bne _0201C0D0
-	ldr r0, [r4, #0x28]
-	tst r0, #2
-	ldrne r0, [r4, #0x1c]
-	bicne r0, r0, #0x10
-	strne r0, [r4, #0x1c]
-	ldr r0, [r4, #0x1c]
-	tst r0, #0xd
-	beq _0201C0D0
-	mov r0, #0
-	strh r0, [r4, #0x34]
-	strh r0, [r4, #0x32]
-	strh r0, [r4, #0x30]
-	ldr r0, [r4, #0x1c]
-	bic r0, r0, #0x2000
-	str r0, [r4, #0x1c]
-	ldr r0, [r4, #0x6f8]
-	cmp r0, #1
-	bne _0201C08C
-	ldr r0, [r4, #0x28]
-	mov r0, r0, lsr #2
-	tst r0, #1
-	bne _0201C08C
-	ldr r0, [r4, #0xc8]
-	rsb r0, r0, #0
-	str r0, [r4, #0xc8]
-	ldr r0, [r4, #0x20]
-	eor r0, r0, #1
-	str r0, [r4, #0x20]
-_0201C08C:
-	ldr r1, [r4, #0xc8]
-	mov r0, r4
-	str r1, [r4, #0x98]
-	mov r1, #0
-	bl Player__Action_LandOnGround
-	ldr r0, [r4, #0x6f8]
-	cmp r0, #2
-	bne _0201C0BC
-	mov r0, r4
-	bl Player__Action_Grind
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-_0201C0BC:
-	ldr r1, [r4, #0x5e4]
-	mov r0, r4
-	blx r1
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-_0201C0D0:
-	ldr r0, [r4, #0x6f8]
-	cmp r0, #2
-	beq _0201C114
-	ldr r0, [r4, #0x5dc]
-	tst r0, #0x800
-	bne _0201C10C
-	ldr r1, [r4, #0xc8]
-	mov r0, r4
-	bl Player__SetAnimSpeedFromVelocity
-	add r0, r4, #0x500
-	ldrsh r0, [r0, #0xd4]
-	cmp r0, #0x5c
-	beq _0201C10C
-	mov r0, r4
-	bl Player__HandleActiveWalkAnimation
-_0201C10C:
-	mov r0, r4
-	bl Player__HandleGroundMovement
-_0201C114:
-	ldr r0, [r4, #0x6f8]
-	cmp r0, #0
-	beq _0201C130
-	cmp r0, #1
-	beq _0201C14C
-	cmp r0, #2
-	beq _0201C1BC
-_0201C130:
-	ldr r1, =0x001759D0
-	mov r0, r4
-	mov r2, #0x120
-	mov r3, #0x26
-	bl Player__Func_201C1EC
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-_0201C14C:
-	ldr r0, [r4, #0x6fc]
-	cmp r0, #0
-	bne _0201C188
-	ldr r0, =0x00083F00
-	mov r3, #0x80
-	str r0, [sp]
-	mov r0, r4
-	ldr r1, =0x0021E520
-	str r3, [sp, #4]
-	mov r4, #0x20
-	mov r2, #0x54
-	str r4, [sp, #8]
-	bl Player__Func_201C384
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-_0201C188:
-	mov r0, #0x50000
-	str r0, [sp]
-	mov r2, #0x40
-	mov r0, r4
-	str r2, [sp, #4]
-	mov r4, #0x32
-	ldr r1, =0x0013C030
-	mov r2, #0x28
-	mov r3, #0xc0
-	str r4, [sp, #8]
-	bl Player__Func_201C384
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
-_0201C1BC:
-	ldr r1, =0x0013D9D0
-	mov r0, r4
-	mov r2, #0x100
-	mov r3, #0x1e
-	bl Player__Func_201C1EC
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, pc}
+    if ((work->inputKeyPress & PAD_BUTTON_A) != 0 && work->actionJump != NULL)
+    {
+        if (work->gimmickValue3 == CORKSCREWPATH_TYPE_2)
+            work->objWork.flag |= STAGE_TASK_FLAG_ON_PLANE_B;
 
-// clang-format on
-#endif
+        work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+        work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+        work->actionJump(work);
+        return;
+    }
+
+    if (work->trickCooldownTimer != 0)
+    {
+        work->trickCooldownTimer--;
+    }
+    else
+    {
+        if ((work->objWork.userWork & CORKSCREWPATH_OBJFLAG_2) != 0)
+            work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_IN_AIR;
+
+        if ((work->objWork.moveFlag & (STAGE_TASK_MOVE_FLAG_TOUCHING_RWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_LWALL | STAGE_TASK_MOVE_FLAG_TOUCHING_FLOOR)) != 0)
+        {
+            work->objWork.dir.x = work->objWork.dir.y = work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+
+            work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+            if (work->gimmickValue3 == CORKSCREWPATH_TYPE_VERTICAL && ((work->objWork.userWork >> 2) & 1) == 0)
+            {
+                work->objWork.groundVel = -work->objWork.groundVel;
+                work->objWork.displayFlag ^= DISPLAY_FLAG_FLIP_X;
+            }
+
+            work->objWork.velocity.x = work->objWork.groundVel;
+            Player__Action_LandOnGround(work, 0);
+
+            if (work->gimmickValue3 == CORKSCREWPATH_TYPE_2)
+                Player__Action_Grind(work);
+            else
+                work->onLandGround(work);
+
+            return;
+        }
+    }
+
+    if (work->gimmickValue3 != CORKSCREWPATH_TYPE_2)
+    {
+        if ((work->gimmickFlag & PLAYER_GIMMICK_SNOWBOARD) == 0)
+        {
+            Player__SetAnimSpeedFromVelocity(work, work->objWork.groundVel);
+            if (work->actionState != PLAYER_ACTION_ROLL)
+                Player__HandleActiveWalkAnimation(work);
+        }
+        Player__HandleGroundMovement(work);
+    }
+
+    switch (work->gimmickValue3)
+    {
+        case CORKSCREWPATH_TYPE_HORIZONTAL:
+        default:
+            Player__HandleCorkscrewPathH(work, 0x1759D0, 288, 38);
+            break;
+
+        case CORKSCREWPATH_TYPE_VERTICAL:
+            if (work->gimmickValue4 == 0)
+                Player__HandleCorkscrewPathV(work, 0x21E520, 84, 128, 0x83F00, 128, 32);
+            else
+                Player__HandleCorkscrewPathV(work, 0x13C030, 40, 192, 327680, 64, 50);
+            break;
+
+        case CORKSCREWPATH_TYPE_2:
+            Player__HandleCorkscrewPathH(work, 0x13D9D0, 256, 30);
+            break;
+    }
 }
 
-NONMATCH_FUNC void Player__Func_201C1EC(Player *player, s32 a2, s32 a3, s16 a4)
+NONMATCH_FUNC void Player__HandleCorkscrewPathH(Player *player, s32 a2, s32 a3, s16 a4)
 {
-    // https://decomp.me/scratch/OYbFe -> 71.08%
+    // https://decomp.me/scratch/VhMz7 -> 71.08%
 #ifdef NON_MATCHING
     player->objWork.userTimer += MATH_ABS(player->objWork.groundVel);
 
@@ -835,39 +693,39 @@ NONMATCH_FUNC void Player__Func_201C1EC(Player *player, s32 a2, s32 a3, s16 a4)
     u16 dirX = (v12 << 4);
 
     player->objWork.dir.x = dirX;
-    if ((player->objWork.userWork & 1) != 0)
+    if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
         player->objWork.dir.x = -player->objWork.dir.x;
 
-    if (player->objWork.dir.x < 0x4000)
+    if (player->objWork.dir.x < FLOAT_DEG_TO_IDX(90.0))
     {
         player->objWork.dir.z = player->objWork.dir.x;
     }
-    else if (player->objWork.dir.x < 0x8000)
+    else if (player->objWork.dir.x < FLOAT_DEG_TO_IDX(180.0))
     {
-        player->objWork.dir.z = 0x8000 - player->objWork.dir.x;
+        player->objWork.dir.z = FLOAT_DEG_TO_IDX(180.0) - player->objWork.dir.x;
     }
     else
     {
-        if (player->objWork.dir.x < 0xC000)
-            player->objWork.dir.z = player->objWork.dir.x - 0x8000;
+        if (player->objWork.dir.x < FLOAT_DEG_TO_IDX(270.0))
+            player->objWork.dir.z = player->objWork.dir.x - FLOAT_DEG_TO_IDX(180.0);
         else
-            player->objWork.dir.z = 0x10000 - player->objWork.dir.x;
+            player->objWork.dir.z = FLOAT_DEG_TO_IDX(360.0) - player->objWork.dir.x;
     }
 
     player->objWork.dir.z = player->objWork.dir.z >> 1;
-    if (player->objWork.dir.x < 0x8000)
+    if (player->objWork.dir.x < FLOAT_DEG_TO_IDX(180.0))
         player->objWork.dir.z = -player->objWork.dir.z;
     player->objWork.dir.x = -player->objWork.dir.x;
 
     fx32 cos = CosFX(dirX);
     s16 v18  = (a4 - player->objWork.hitboxRect.bottom);
-    if ((player->objWork.userWork & 2) != 0)
+    if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_2) != 0)
         v18 = -v18;
 
     player->objWork.prevPosition.x = player->objWork.position.x;
     player->objWork.prevPosition.y = player->objWork.position.y;
 
-    if ((player->objWork.userWork & 1) != 0)
+    if ((player->objWork.userWork & CORKSCREWPATH_OBJFLAG_RIGHT_TRIGGER) != 0)
     {
         player->objWork.position.x = player->gimmickValue1 - ((v11 * a3) << 12) - a3 * v13;
     }
@@ -990,7 +848,7 @@ _0201C344:
 #endif
 }
 
-NONMATCH_FUNC void Player__Func_201C384(Player *player, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7)
+NONMATCH_FUNC void Player__HandleCorkscrewPathV(Player *player, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7)
 {
 #ifdef NON_MATCHING
 
@@ -1329,10 +1187,10 @@ void Player__Gimmick_201C80C(Player *player, GameObjectTask *other, s32 value1, 
         player->playerFlag &= ~PLAYER_FLAG_USER_FLAG;
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
         player->gimmickFlag |= PLAYER_GIMMICK_GRABBED;
-        player->objWork.groundVel     = 0;
-        player->objWork.velocity.x    = 0;
-        player->objWork.velocity.y    = 0;
-        player->objWork.dir.z         = 0;
+        player->objWork.groundVel     = FLOAT_TO_FX32(0.0);
+        player->objWork.velocity.x    = FLOAT_TO_FX32(0.0);
+        player->objWork.velocity.y    = FLOAT_TO_FX32(0.0);
+        player->objWork.dir.z         = FLOAT_DEG_TO_IDX(0.0);
         player->objWork.userWork      = 0;
         player->objWork.userTimer     = timer;
         player->gimmickValue1         = value1;
@@ -8379,7 +8237,7 @@ void Player__Action_Bungee(Player *player, GameObjectTask *bungee, fx32 startX, 
         player->objWork.dir.z -= FLOAT_DEG_TO_IDX(90.0);
     else
         player->objWork.dir.z += FLOAT_DEG_TO_IDX(90.0);
-		
+
     player->gimmickValue3     = startX;
     player->gimmickValue4     = startY;
     player->objWork.userTimer = 0;

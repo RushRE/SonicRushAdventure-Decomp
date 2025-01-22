@@ -470,7 +470,7 @@ Overlay ZoneAct
     Object asm/stage/objects/spikes_vars.o
     Object src/stage/objects/breakable.o
     Object src/stage/objects/breakableWall.o
-    Object asm/stage/objects/grindTrigger.o
+    Object src/stage/objects/corkscrewPath.o
     Object asm/stage/objects/pipeSteam.o
     Object asm/stage/objects/rotatingHanger.o
     Object asm/stage/objects/ropeTar.o
