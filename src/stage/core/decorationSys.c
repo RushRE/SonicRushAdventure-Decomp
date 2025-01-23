@@ -4764,7 +4764,8 @@ NONMATCH_FUNC void DecorationSys__OnDefend_21548D4(OBS_RECT_WORK *rect1, OBS_REC
                         for (s32 i = 0; i < count; i++)
                         {
                             DecorationSys__CreateTripleGrindRailLeaf(leafX + FLOAT_TO_FX32(8.0) - (mtMathRand() & 0xFFFF), leafY + FLOAT_TO_FX32(4.0) - (mtMathRand() & 0x7FFF),
-                                                                FLOAT_TO_FX32(2.0) - (mtMathRand() & 0x3FFF), FLOAT_TO_FX32(1.0) - (mtMathRand() & 0x1FFF) + velY, animTable[i]);
+                                                                     FLOAT_TO_FX32(2.0) - (mtMathRand() & 0x3FFF), FLOAT_TO_FX32(1.0) - (mtMathRand() & 0x1FFF) + velY,
+                                                                     animTable[i]);
 
                             leafX += moveX;
                             velY -= FLOAT_TO_FX32(0.25);
@@ -5032,7 +5033,7 @@ void DecorationSys__Func_2154C30(s32 id)
         decorUnknownList[id].timer--;
         if (decorUnknownList[id].timer == 0)
         {
-            decorUnknownList[id].lastDecor->objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME;
+            QueueDestroyStageTask(&decorUnknownList[id].lastDecor->objWork);
             decorUnknownList[id].lastDecor = NULL;
             decorUnknownList[id].lastType  = MAPDECOR_0;
         }

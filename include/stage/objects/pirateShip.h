@@ -4,6 +4,17 @@
 #include <stage/gameObject.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum PirateShipAnimIDs
+{
+    PIRATESHIP_ANI_SHIP,
+    PIRATESHIP_ANI_SHOOT_EXPLOSION,
+    PIRATESHIP_ANI_CANNONBALL,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
@@ -14,7 +25,7 @@ typedef struct PirateShip_
     fx32 startPos;
     fx32 endPos;
     fx32 speed;
-    fx32 field_374;
+    fx32 unused;
 } PirateShip;
 
 typedef struct PirateShipCannonBall_
@@ -26,15 +37,7 @@ typedef struct PirateShipCannonBall_
 // FUNCTIONS
 // --------------------
 
-PirateShip *PirateShip__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-PirateShipCannonBall *PirateShipCannonBall__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
-
-void PirateShip__State_217A358(PirateShip *work);
-void PirateShip__State_217A444(PirateShip *work);
-void PirateShip__State_217A714(PirateShip *work);
-void PirateShip__OnDefend_217A7E0(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
-fx32 PirateShip__GetPlayerVelocity(Player *player);
-void PirateShipCannonBall__State_217A90C(PirateShipCannonBall *work);
-void PirateShipCannonBall__OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+PirateShip *CreatePirateShip(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
+PirateShipCannonBall *CreatePirateShipCannonBall(MapObject *mapObject, fx32 x, fx32 y, fx32 type);
 
 #endif // RUSH_PIRATE_SHIP_H

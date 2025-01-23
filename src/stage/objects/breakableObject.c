@@ -107,7 +107,8 @@ void BreakableObject__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     }
 
     ShakeScreen(SCREENSHAKE_C_SHORT);
-    breakable->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+    QueueDestroyStageTask(&breakable->gameWork.objWork);
+    breakable->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     breakable->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
     breakable->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
     breakable->gameWork.colliders[1].flag |= OBS_RECT_WORK_FLAG_800;

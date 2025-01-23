@@ -341,7 +341,7 @@ void Avalanche_OnDefend_EndTrigger(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     if (avalanche2->gameWork.mapObject->id == MAPOBJECT_195)
     {
-        avalanche->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME;
+        QueueDestroyStageTask(&avalanche->gameWork.objWork);
 
         ShakeScreen(SCREENSHAKE_STOP);
         ShakeScreen(SCREENSHAKE_C_LONG);

@@ -17,11 +17,11 @@ enum IceBlockObjectFlags
 
 enum IceBlockAnimID
 {
-	ICEBLOCK_ANI_BLOCK,
-	ICEBLOCK_ANI_DEBRIS_1,
-	ICEBLOCK_ANI_DEBRIS_2,
-	ICEBLOCK_ANI_DEBRIS_3,
-	ICEBLOCK_ANI_DEBRIS_4,
+    ICEBLOCK_ANI_BLOCK,
+    ICEBLOCK_ANI_DEBRIS_1,
+    ICEBLOCK_ANI_DEBRIS_2,
+    ICEBLOCK_ANI_DEBRIS_3,
+    ICEBLOCK_ANI_DEBRIS_4,
 };
 
 // --------------------
@@ -51,7 +51,8 @@ IceBlock *CreateIceBlock(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
 
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
-    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_ice_block.bac", GetObjectFileWork(OBJDATAWORK_175), gameArchiveStage, OBJ_DATA_GFX_NONE);
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_ice_block.bac", GetObjectFileWork(OBJDATAWORK_175), gameArchiveStage,
+                             OBJ_DATA_GFX_NONE);
     ObjObjectActionAllocSprite(&work->gameWork.objWork, 8, GetObjectSpriteRef(OBJDATAWORK_176));
     ObjActionAllocSpritePalette(&work->gameWork.objWork, ICEBLOCK_ANI_BLOCK, 35);
     StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_22);
@@ -104,7 +105,7 @@ void IceBlock_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             break;
     }
 
-    iceBlock->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME;
+    QueueDestroyStageTask(&iceBlock->gameWork.objWork);
     iceBlock->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
     iceBlock->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
     iceBlock->gameWork.collisionObject.work.flag |= STAGE_TASK_OBJCOLLISION_FLAG_100;

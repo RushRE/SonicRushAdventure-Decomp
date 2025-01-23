@@ -45,8 +45,9 @@ typedef struct GameObjectTask_ GameObjectTask;
 #define SetTaskLastFunc(work, func)       (work)->ppLast = (func)
 #define SetTaskViewCheckFunc(work, func)  (work)->ppViewCheck = (func)
 
-#define DestroyStageTask(work)     (work)->flag |= STAGE_TASK_FLAG_DESTROYED
-#define IsStageTaskDestroyed(work) ((work)->flag & STAGE_TASK_FLAG_DESTROYED) != 0
+#define DestroyStageTask(work)      (work)->flag |= STAGE_TASK_FLAG_DESTROYED
+#define QueueDestroyStageTask(work) (work)->flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME
+#define IsStageTaskDestroyed(work)  ((work)->flag & STAGE_TASK_FLAG_DESTROYED) != 0
 
 #define StageTaskStateMatches(work, func) ((work)->state == (StageTaskState)(func))
 
@@ -357,7 +358,7 @@ fx32 StageTask__DecrementBySpeed(fx32 value);
 #define CreateStageTask(taskDestructor, flags, pauseLevel, priority, group, name)             TaskCreate(StageTask_Main, taskDestructor, flags, pauseLevel, priority, group, name)
 #define CreateStageTaskEx(taskMain, taskDestructor, flags, pauseLevel, priority, group, name) TaskCreate(taskMain, taskDestructor, flags, pauseLevel, priority, group, name)
 
-#define CreateStageTaskSimple() CreateStageTask_()
+#define CreateStageTaskSimple()                  CreateStageTask_()
 #define CreateStageTaskSimpleEx(priority, group) CreateStageTaskEx_(priority, group)
 
 RUSH_INLINE BOOL CheckStageTaskType(StageTask *work, StageObjTypes type)

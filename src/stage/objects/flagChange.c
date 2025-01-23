@@ -221,7 +221,8 @@ void FlagChange_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
             }
             playerGameStatus.speedBonusCount++;
 
-            flagChange->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+            QueueDestroyStageTask(&flagChange->gameWork.objWork);
+            flagChange->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             flagChange->gameWork.colliders[0].flag |= OBS_RECT_WORK_FLAG_800;
             flagChange->gameWork.flags |= GAMEOBJECT_FLAG_ALLOW_RESPAWN;
             break;

@@ -221,23 +221,31 @@ void CreateEffectWaterBubbleForPlayer(Player *player, fx32 x, fx32 y, u16 durati
     switch (type)
     {
         case 0:
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), WATERBUBBLE_ANI_TINY_BUBBLE, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), WATERBUBBLE_ANI_TINY_BUBBLE,
+                                      duration);
             break;
 
         case 1:
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(4.0), player->objWork.position.y + y + FLOAT_TO_FX32(8.0), WATERBUBBLE_ANI_SMALL_BUBBLE, duration);
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(1.0), player->objWork.position.y + y - FLOAT_TO_FX32(3.0), WATERBUBBLE_ANI_SMALL_BUBBLE, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(4.0), player->objWork.position.y + y + FLOAT_TO_FX32(8.0), WATERBUBBLE_ANI_SMALL_BUBBLE,
+                                      duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(1.0), player->objWork.position.y + y - FLOAT_TO_FX32(3.0), WATERBUBBLE_ANI_SMALL_BUBBLE,
+                                      duration);
             break;
 
         case 2:
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), WATERBUBBLE_ANI_TINY_BUBBLE, duration);
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(2.0), player->objWork.position.y + y + FLOAT_TO_FX32(6.0), WATERBUBBLE_ANI_SMALL_BUBBLE, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), WATERBUBBLE_ANI_TINY_BUBBLE,
+                                      duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(2.0), player->objWork.position.y + y + FLOAT_TO_FX32(6.0), WATERBUBBLE_ANI_SMALL_BUBBLE,
+                                      duration);
             break;
 
         case 3:
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), WATERBUBBLE_ANI_TINY_BUBBLE, duration);
-            EffectWaterBubble__Create(player->objWork.position.x + x - FLOAT_TO_FX32(2.0), player->objWork.position.y + y + FLOAT_TO_FX32(6.0), WATERBUBBLE_ANI_SMALL_BUBBLE, duration);
-            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(4.0), player->objWork.position.y + y + FLOAT_TO_FX32(9.0), WATERBUBBLE_ANI_SMALL_BUBBLE, duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(0.0), player->objWork.position.y + y + FLOAT_TO_FX32(0.0), WATERBUBBLE_ANI_TINY_BUBBLE,
+                                      duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x - FLOAT_TO_FX32(2.0), player->objWork.position.y + y + FLOAT_TO_FX32(6.0), WATERBUBBLE_ANI_SMALL_BUBBLE,
+                                      duration);
+            EffectWaterBubble__Create(player->objWork.position.x + x + FLOAT_TO_FX32(4.0), player->objWork.position.y + y + FLOAT_TO_FX32(9.0), WATERBUBBLE_ANI_SMALL_BUBBLE,
+                                      duration);
             break;
     }
 }
@@ -400,7 +408,7 @@ NONMATCH_FUNC EffectBrakeDust3D *CreateEffectBrakeDust3DForPlayer(Player *parent
         work->animator.ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
 
         u16 angle = -BossHelpers__Arena__GetDrawPosition(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight,
-                                                      mapCamera.camControl.bossArenaRadius, &work->objWork.position.x, &work->objWork.position.z);
+                                                         mapCamera.camControl.bossArenaRadius, &work->objWork.position.x, &work->objWork.position.z);
 
         fx32 vel                 = work->objWork.velocity.x;
         work->objWork.velocity.x = MultiplyFX(CosFX((s32)angle), vel);
@@ -655,7 +663,7 @@ EffectSpindashDust3D *CreateEffectSpindashDust3DForBossArena(Player *player, fx3
         work->animator.ani.work.matrixOpIDs[1] = MATRIX_OP_FLUSH_P_CAMERA3D;
 
         BossHelpers__Arena__GetDrawPosition(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
-                                         &work->objWork.position.x, &work->objWork.position.z);
+                                            &work->objWork.position.x, &work->objWork.position.z);
     }
 
     return work;
@@ -1132,7 +1140,7 @@ EffectFlameJet3D *CreateEffectFlameJet3DForPlayer(Player *player, fx32 velX, fx3
     if (work)
     {
         BossHelpers__Arena__GetDrawPosition(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
-                                         &work->objWork.position.x, &work->objWork.position.z);
+                                            &work->objWork.position.x, &work->objWork.position.z);
 
         SetTaskState(&work->objWork, EffectFlameJet3D_State_Active3D);
     }
@@ -1144,7 +1152,7 @@ void EffectFlameJet3D_State_Active3D(EffectFlameJet3D *work)
     EffectFlameJet_State_Active((EffectFlameJet *)work);
 
     BossHelpers__Arena__GetDrawPosition(work->objWork.position.x, mapCamera.camControl.bossArenaLeft, mapCamera.camControl.bossArenaRight, mapCamera.camControl.bossArenaRadius,
-                                     &work->objWork.position.x, &work->objWork.position.z);
+                                        &work->objWork.position.x, &work->objWork.position.z);
 }
 
 // ===========
@@ -1872,31 +1880,28 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
     VecFx16 offset;
     Player *player;
     TrailEffect *curNode;
-    
-    work = TaskGetWorkCurrent(EffectPlayerTrail);
+
+    work   = TaskGetWorkCurrent(EffectPlayerTrail);
     player = (Player *)work->objWork.parentObj;
 
     if ((work->objWork.displayFlag & DISPLAY_FLAG_NO_DRAW) == 0 && work->nodeCount && (player->objWork.objType != 1 || (player->gimmickFlag & PLAYER_GIMMICK_GRABBED) == 0))
     {
         MapSys__Func_20090D0(&mapCamera.camera[0], work->trailListStart->start.x, work->trailListStart->start.y, &offset.x, &offset.y);
         offset.z = 0;
-        
+
         NNS_G3dGeMtxMode(GX_MTXMODE_POSITION_VECTOR);
 
         offset2.x = g_obj.offset[0] + FX32_TO_WHOLE(work->objWork.offset.x) - offset.x;
         offset2.y = g_obj.offset[1] + FX32_TO_WHOLE(work->objWork.offset.y) - offset.y;
-        
+
         VEC_Set(&baseScale, FLOAT_TO_FX32(4096.0), FLOAT_TO_FX32(4096.0), FLOAT_TO_FX32(4096.0));
-        
-        static MtxFx33 baseRot = {
-            FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), 
-            FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0), 
-            FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0) 
-        };
+
+        static MtxFx33 baseRot = { FLOAT_TO_FX32(1.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0),
+                                   FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(1.0) };
 
         VEC_Set(&baseTranslation, FX32_FROM_WHOLE(offset.x), FX32_FROM_WHOLE(-offset.y), FX32_FROM_WHOLE(offset.z));
         baseTranslation.z += FLOAT_TO_FX32(1.0);
-        
+
         NNS_G3dGlbSetBaseScale(&baseScale);
         NNS_G3dGlbSetBaseRot(&baseRot);
         NNS_G3dGlbSetBaseTrans(&baseTranslation);
@@ -1909,7 +1914,7 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
 
         GXRgb inputColor0 = work->trailStartColor;
         GXRgb inputColor1 = work->trailEndColor;
-        
+
         s32 nodeCount = work->nodeCount;
         for (n = 0; n < nodeCount; n++)
         {
@@ -1938,7 +1943,7 @@ NONMATCH_FUNC void EffectPlayerTrail_Draw(void)
             }
 
             NNS_G3dGePolygonAttr(GX_LIGHTMASK_NONE, GX_POLYGONMODE_MODULATE, GX_CULL_NONE, 0, alpha & 0x1F, GX_POLYGON_ATTR_MISC_NONE);
-            
+
             VEC_Set(&vertices[0], curNode->start.x, curNode->start.y, curNode->start.z);
             VEC_Set(&vertices[1], curNode->end.x, curNode->end.y, curNode->end.z);
             VEC_Set(&vertices[2], nextNode->start.x, nextNode->start.y, nextNode->start.z);
@@ -2222,7 +2227,7 @@ EffectShield *CreateEffectRegularShield(Player *parent)
     s32 i;
     EffectShield *work = CreateEffect(EffectShield, parent);
 
-    // no 'if (work == NULL)' check here...?
+    // no 'if (work == HeapNull)' check here...?
 
     OBS_DATA_WORK *fileWork = GetObjectFileWork(OBJDATAWORK_149);
     for (i = 0; i < 6; i++)
@@ -2245,6 +2250,13 @@ EffectShield *CreateEffectRegularShield(Player *parent)
     return work;
 }
 
+RUSH_INLINE void EffectRegularShield__RotateMtx(MtxFx33 *mtx, MtxFx33 *matTemp, u16 angle)
+{
+    MTX_RotY33(mtx, SinFX((s32)angle), CosFX((s32)angle));
+    MTX_RotZ33(matTemp, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
+    MTX_Concat33(mtx, matTemp, mtx);
+}
+
 NONMATCH_FUNC void EffectRegularShield_State_Active(EffectShield *work)
 {
     // https://decomp.me/scratch/4sCXT -> 94.51%
@@ -2252,8 +2264,6 @@ NONMATCH_FUNC void EffectRegularShield_State_Active(EffectShield *work)
     Player *player = (Player *)work->objWork.parentObj;
     if (player != NULL)
     {
-        MtxFx33 matTemp;
-
         work->objWork.position = player->objWork.position;
 
         work->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
@@ -2264,14 +2274,9 @@ NONMATCH_FUNC void EffectRegularShield_State_Active(EffectShield *work)
         else
             work->esWork[4].flags &= ~0x80;
 
-        MtxFx33 *mtx = &work->objWork.obj_3des->ani.work.matrix33;
-        MTX_RotY33(mtx, SinFX((s32)work->field_79C), CosFX((s32)work->field_79C));
-        MTX_RotZ33(&matTemp, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
-        MTX_Concat33(mtx, &matTemp, mtx);
-
-        MTX_RotY33(&work->esWork[3].ani.work.matrix33, SinFX((s32)(u16)-work->field_79E), CosFX((s32)(u16)-work->field_79E));
-        MTX_RotZ33(&matTemp, SinFX(FLOAT_DEG_TO_IDX(337.5)), CosFX(FLOAT_DEG_TO_IDX(337.5)));
-        MTX_Concat33(&work->esWork[3].ani.work.matrix33, &matTemp, &work->esWork[3].ani.work.matrix33);
+        MtxFx33 matTemp;
+        EffectRegularShield__RotateMtx(&work->objWork.obj_3des->ani.work.matrix33, &matTemp, work->field_79C);
+        EffectRegularShield__RotateMtx(&work->esWork[3].ani.work.matrix33, &matTemp, -work->field_79E);
 
         if ((player->playerFlag & PLAYER_FLAG_SHIELD_REGULAR) == 0 || (player->playerFlag & PLAYER_FLAG_SHIELD_MAGNET) != 0)
             DestroyStageTask(&work->objWork);

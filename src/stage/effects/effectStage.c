@@ -81,6 +81,7 @@
 #include <game/graphics/paletteAnimation.h>
 #include <game/audio/spatialAudio.h>
 #include <stage/objects/jumpbox.h>
+#include <stage/objects/pirateShip.h>
 
 // --------------------
 // TEMP
@@ -329,10 +330,10 @@ EffectPirateShipCannonBlast *PirateShipCannonBlast__Create(StageTask *parent, fx
         return NULL;
 
     ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_pirate_ship.bac", GetObjectDataWork(OBJDATAWORK_162), gameArchiveStage, 8);
-    ObjActionAllocSpritePalette(&work->objWork, 0, 83);
+    ObjActionAllocSpritePalette(&work->objWork, PIRATESHIP_ANI_SHIP, 83);
     StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
     StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_3);
-    StageTask__SetAnimation(&work->objWork, 1);
+    StageTask__SetAnimation(&work->objWork, PIRATESHIP_ANI_SHOOT_EXPLOSION);
 
     work->objWork.velocity.x = velX;
     work->objWork.velocity.y = velY;
@@ -406,8 +407,10 @@ NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *wor
     // https://decomp.me/scratch/fpt9F -> 99.03%
     // minor register issues
 #ifdef NON_MATCHING
+    EffectUnknown202C414Entry *entry;
     s32 id;
     BOOL isActive = FALSE;
+    s32 i;
 
     if (work->objWork.parentObj != NULL && (work->objWork.parentObj->flag & STAGE_TASK_FLAG_DESTROYED) == 0 && work->objWork.parentObj->userFlag)
         work->objWork.userFlag = TRUE;
@@ -418,10 +421,9 @@ NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *wor
     work->objWork.userTimer--;
     if (work->objWork.userTimer <= 0 && !work->objWork.userFlag)
     {
-        id = 0;
-        for (; id < EFFECTUNKNOWN202C414_LIST_SIZE; id++)
+        for (id = 0; id < EFFECTUNKNOWN202C414_LIST_SIZE; id++)
         {
-            EffectUnknown202C414Entry *entry = &work->list[id];
+            entry = &work->list[id];
 
             if (entry->active)
                 continue;
@@ -444,9 +446,9 @@ NONMATCH_FUNC void EffectUnknown202C414__State_202C5F8(EffectUnknown202C414 *wor
         }
     }
 
-    for (s32 i = 0; i < EFFECTUNKNOWN202C414_LIST_SIZE; i++)
+    for (i = 0; i < EFFECTUNKNOWN202C414_LIST_SIZE; i++)
     {
-        EffectUnknown202C414Entry *entry = &work->list[i];
+        entry = &work->list[i];
 
         if (!entry->active)
             continue;
@@ -604,11 +606,13 @@ _0202C798:
 #endif
 }
 
-NONMATCH_FUNC void EffectUnknown202C414__Draw(void)
+RUSH_INLINE u16 EffectUnknown202C414_GetAngle2(EffectUnknown202C414Entry *work)
 {
-    // https://decomp.me/scratch/2LqfC -> 90.19%
-    // small mismatch near NNS_G3dGeScale
-#ifdef NON_MATCHING
+    return work->angle2;
+}
+
+void EffectUnknown202C414__Draw(void)
+{
     EffectUnknown202C414 *work = TaskGetWorkCurrent(EffectUnknown202C414);
 
     VecFx32 inputPos;
@@ -648,7 +652,7 @@ NONMATCH_FUNC void EffectUnknown202C414__Draw(void)
             MTX_RotY33(&matTemp, SinFX(entry->angle1), CosFX(entry->angle1));
             MTX_Concat33(&matRotation, &matTemp, &matRotation);
 
-            MTX_RotZ33(&matTemp, SinFX(entry->angle2), CosFX(entry->angle2));
+            MTX_RotZ33(&matTemp, SinFX(EffectUnknown202C414_GetAngle2(entry)), CosFX(EffectUnknown202C414_GetAngle2(entry)));
             MTX_Concat33(&matRotation, &matTemp, &matRotation);
 
             NNS_G3dGeMultMtx33(&matRotation);
@@ -664,163 +668,6 @@ NONMATCH_FUNC void EffectUnknown202C414__Draw(void)
         i++;
         entry++;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	sub sp, sp, #0x8c
-	bl GetCurrentTaskWork_
-	ldr r3, =0x000D3300
-	ldr r2, =FX_SinCosTable_+0x00000400
-	mov r8, r0
-	ldrsh r1, [r2, #0]
-	ldrsh r2, [r2, #2]
-	add r0, sp, #0x50
-	str r3, [sp, #0x74]
-	str r3, [sp, #0x78]
-	str r3, [sp, #0x7c]
-	bl MTX_RotX33_
-	ldr r2, =FX_SinCosTable_+0x00003C00
-	add r0, sp, #0x2c
-	ldrsh r1, [r2, #0]
-	ldrsh r2, [r2, #2]
-	bl MTX_RotY33_
-	add r0, sp, #0x50
-	add r1, sp, #0x2c
-	mov r2, r0
-	bl MTX_Concat33
-	ldr r2, =FX_SinCosTable_
-	add r0, sp, #0x2c
-	ldrsh r1, [r2, #0]
-	ldrsh r2, [r2, #2]
-	bl MTX_RotZ33_
-	add r0, sp, #0x50
-	add r1, sp, #0x2c
-	mov r2, r0
-	bl MTX_Concat33
-	ldr r1, [r8, #0x44]
-	add r0, sp, #0x80
-	add r1, r1, #0x18000
-	str r1, [sp, #0x80]
-	ldr r2, [r8, #0x48]
-	add r1, sp, #0x20
-	sub r2, r2, #0x18000
-	str r2, [sp, #0x84]
-	ldr r3, [r8, #0x4c]
-	mov r2, #0
-	str r3, [sp, #0x88]
-	mov r3, r2
-	bl GameObject__Func_20282A8
-	add r0, sp, #0x74
-	bl NNS_G3dGlbSetBaseScale
-	ldr r1, =NNS_G3dGlb+0x000000BC
-	add r0, sp, #0x50
-	bl MI_Copy36B
-	ldr r1, =NNS_G3dGlb
-	add r0, sp, #0x20
-	ldr r2, [r1, #0xfc]
-	bic r2, r2, #0xa4
-	str r2, [r1, #0xfc]
-	bl NNS_G3dGlbSetBaseTrans
-	mov r2, #1
-	mov r0, #0x10
-	add r1, sp, #4
-	str r2, [sp, #4]
-	bl NNS_G3dGeBufferOP_N
-	bl NNS_G3dGlbFlushP
-	ldr r6, =FX_SinCosTable_
-	add r9, r8, #0x180
-	mov r10, #0
-	mov r11, #0x11
-	add r7, sp, #0x50
-	add r5, sp, #0x2c
-	mov r4, #0x1000
-_0202C8E4:
-	ldrh r0, [r9, #0]
-	cmp r0, #0
-	beq _0202CA18
-	mov r1, #0
-	mov r0, r11
-	mov r2, r1
-	bl NNS_G3dGeBufferOP_N
-	ldrh r1, [r9, #2]
-	mov r0, r7
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	mov r1, r2, lsl #1
-	add r2, r6, r2, lsl #1
-	ldrsh r1, [r6, r1]
-	ldrsh r2, [r2, #2]
-	bl MTX_RotX33_
-	ldrh r1, [r9, #4]
-	mov r0, r5
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	mov r1, r2, lsl #1
-	add r2, r6, r2, lsl #1
-	ldrsh r1, [r6, r1]
-	ldrsh r2, [r2, #2]
-	bl MTX_RotY33_
-	mov r0, r7
-	mov r1, r5
-	mov r2, r7
-	bl MTX_Concat33
-	ldrh r1, [r9, #6]
-	mov r0, r5
-	mov r1, r1, asr #4
-	mov r2, r1, lsl #1
-	mov r1, r2, lsl #1
-	add r2, r6, r2, lsl #1
-	ldrsh r1, [r6, r1]
-	ldrsh r2, [r2, #2]
-	bl MTX_RotZ33_
-	mov r0, r7
-	mov r1, r5
-	mov r2, r7
-	bl MTX_Concat33
-	mov r0, #0x1a
-	mov r1, r7
-	mov r2, #9
-	bl NNS_G3dGeBufferOP_N
-	ldr r3, [r9, #0x10]
-	ldr r2, [r9, #0xc]
-	ldr r1, [r9, #8]
-	mov r0, #0x1c
-	str r1, [sp, #0x14]
-	str r2, [sp, #0x18]
-	str r3, [sp, #0x1c]
-	add r1, sp, #0x14
-	mov r2, #3
-	bl NNS_G3dGeBufferOP_N
-	ldr r0, [r9, #0x14]
-	add r1, sp, #8
-	str r0, [sp, #0x10]
-	str r4, [sp, #8]
-	str r4, [sp, #0xc]
-	mov r0, #0x1b
-	mov r2, #3
-	bl NNS_G3dGeBufferOP_N
-	ldr r1, [r8, #0x168]
-	ldr r0, [r8, #0x170]
-	tst r1, #3
-	ldrne r1, [r8, #0x16c]
-	sub r1, r1, r0
-	ldr r0, [r8, #0x17c]
-	bl NNS_G3dGeSendDL
-	mov r0, #1
-	str r0, [sp]
-	mov r0, #0x12
-	add r1, sp, #0
-	mov r2, #1
-	bl NNS_G3dGeBufferOP_N
-_0202CA18:
-	add r10, r10, #1
-	cmp r10, #0x20
-	add r9, r9, #0x18
-	blt _0202C8E4
-	add sp, sp, #0x8c
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
-// clang-format on
-#endif
 }
 
 // EffectSlingDust
@@ -918,7 +765,7 @@ NONMATCH_FUNC EffectHoverCrystalSparkle *EffectHoverCrystalSparkle__Create(fx32 
 
         SetTaskDestructorEvent(EffectTask__sVars.lastCreatedTask, EffectHoverCrystalSparkle__Destructor);
         work->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
-        EffectTask__sVars.airEffectSingleton = &work->objWork;
+        EffectTask__sVars.airEffectSingleton = (StageTask *)work;
 
         ObjObjectAction2dBACLoad(&work->objWork, &work->ani, "/act/ac_gmk_air_ef.bac", GetObjectDataWork(OBJDATAWORK_174), gameArchiveStage, OBJ_DATA_GFX_NONE);
         ObjObjectActionAllocSprite(&work->objWork, 10, GetObjectSpriteRef(OBJDATAWORK_175));
@@ -926,6 +773,7 @@ NONMATCH_FUNC EffectHoverCrystalSparkle *EffectHoverCrystalSparkle__Create(fx32 
         StageTask__SetAnimation(&work->objWork, 0);
         StageTask__SetAnimatorOAMOrder(&work->objWork, SPRITE_ORDER_12);
         StageTask__SetAnimatorPriority(&work->objWork, SPRITE_PRIORITY_0);
+
         work->objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_UNCOMPRESSED_PIXELS;
         AnimatorSpriteDS__ProcessAnimationFast(&work->objWork.obj_2d->ani);
         work->objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
@@ -934,14 +782,15 @@ NONMATCH_FUNC EffectHoverCrystalSparkle *EffectHoverCrystalSparkle__Create(fx32 
         SetTaskOutFunc(&work->objWork, EffectHoverCrystalSparkle__Draw);
     }
 
-    struct EffectHoverCrystalParticle *particle = &work->list[(work->listStartSlot + work->listCount) & 0x1F];
-    particle->position.x                     = x;
-    particle->position.y                     = y;
-    particle->velocity.x                     = velX;
-    particle->velocity.y                     = velY;
-    particle->acceleration.x                 = accX;
-    particle->acceleration.y                 = accY;
-    particle->timer                          = 0;
+    u8 id                                       = (work->listStartSlot + work->listCount) & 0x1F;
+    struct EffectHoverCrystalParticle *particle = &work->list[id];
+    particle->position.x                        = x;
+    particle->position.y                        = y;
+    particle->velocity.x                        = velX;
+    particle->velocity.y                        = velY;
+    particle->acceleration.x                    = accX;
+    particle->acceleration.y                    = accY;
+    particle->timer                             = 0;
 
     work->listCount++;
 
@@ -1454,10 +1303,8 @@ void EffectMedal__Destructor(Task *task)
     StageTask_Destructor(task);
 }
 
-NONMATCH_FUNC void EffectMedal__State_202D514(EffectMedal *work)
+void EffectMedal__State_202D514(EffectMedal *work)
 {
-    // https://decomp.me/scratch/YWcKZ -> 93.98%
-#ifdef NON_MATCHING
     if ((work->objWork.flag & STAGE_TASK_FLAG_ON_PLANE_B) != 0)
     {
         u32 flagsA             = mapCamera.camera[0].flags;
@@ -1518,7 +1365,7 @@ NONMATCH_FUNC void EffectMedal__State_202D514(EffectMedal *work)
                 }
                 else
                 {
-                    work->objWork.velocity.y = mtLerpEx(2 * (work->objWork.userTimer - FLOAT_TO_FX32(0.5)), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(7.0), 0);
+                    work->objWork.velocity.y = mtLerpEx2(2 * (work->objWork.userTimer - FLOAT_TO_FX32(0.5)), FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(7.0), 0);
                 }
             }
             break;
@@ -1531,219 +1378,13 @@ NONMATCH_FUNC void EffectMedal__State_202D514(EffectMedal *work)
     {
         if ((work->sparkleTimer & 0xF) == 0)
         {
-            fx32 offsetY = FX32_FROM_WHOLE((15 - (mtMathRand() & 0x1E)));
-            fx32 offsetX = FX32_FROM_WHOLE((15 - (mtMathRand() & 0x1E)));
+            fx32 offsetY = FX32_FROM_WHOLE((15 - (ObjDispRand() & 30)));
+            fx32 offsetX = FX32_FROM_WHOLE((15 - (ObjDispRand() & 30)));
             EffectRingSparkle__Create(work->objWork.position.x + offsetX, work->objWork.position.y + offsetY, 0, 0, 0, 0);
         }
 
         work->sparkleTimer++;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r0, [r4, #0x18]
-	tst r0, #1
-	beq _0202D600
-	ldr r1, =mapCamera
-	add r0, r4, #0x218
-	ldr r7, [r1, #0]
-	ldr r5, [r1, #0x70]
-	mov r6, #0
-	bl AnimatePalette
-	add r0, r4, #0x218
-	bl CheckPaletteAnimationIsValid
-	cmp r0, #0
-	beq _0202D600
-	tst r7, #0x1000000
-	beq _0202D564
-	tst r7, #0x2000000
-	beq _0202D590
-_0202D564:
-	ldr r1, [r4, #0x128]
-	add r0, r4, #0x218
-	ldrh r2, [r1, #0x90]
-	mov r1, #0
-	mov r2, r2, lsl #5
-	add r2, r2, #0x200
-	add r2, r2, #0x5000000
-	bl SetPaletteAnimationTarget
-	add r0, r4, #0x218
-	bl DrawAnimatedPalette
-	b _0202D594
-_0202D590:
-	mov r6, #1
-_0202D594:
-	tst r5, #0x1000000
-	beq _0202D5A4
-	tst r5, #0x2000000
-	beq _0202D5D0
-_0202D5A4:
-	ldr r1, [r4, #0x128]
-	add r0, r4, #0x218
-	ldrh r2, [r1, #0x90]
-	mov r1, #0
-	mov r2, r2, lsl #5
-	add r2, r2, #0x600
-	add r2, r2, #0x5000000
-	bl SetPaletteAnimationTarget
-	add r0, r4, #0x218
-	bl DrawAnimatedPalette
-	b _0202D5D4
-_0202D5D0:
-	mov r6, #1
-_0202D5D4:
-	cmp r6, #0
-	beq _0202D600
-	ldr r0, [r4, #0x128]
-	ldr r3, =objDrawPalette2
-	ldrh r2, [r0, #0x90]
-	add r0, r4, #0x218
-	mov r1, #0
-	add r2, r3, r2, lsl #5
-	bl SetPaletteAnimationTarget
-	add r0, r4, #0x218
-	bl DrawAnimatedPalette
-_0202D600:
-	ldr r0, [r4, #0x28]
-	cmp r0, #0
-	beq _0202D614
-	cmp r0, #1
-	b _0202D764
-_0202D614:
-	ldr r0, [r4, #0x2c]
-	add r0, r0, #0x44
-	str r0, [r4, #0x2c]
-	cmp r0, #0x1000
-	ble _0202D658
-	ldr r1, [r4, #0x28]
-	mov r0, #0x1000
-	add r1, r1, #1
-	str r1, [r4, #0x28]
-	ldr r1, [r4, #0x18]
-	orr r1, r1, #1
-	str r1, [r4, #0x18]
-	str r0, [r4, #0x3c]
-	str r0, [r4, #0x38]
-	mov r0, #0
-	str r0, [r4, #0x9c]
-	b _0202D764
-_0202D658:
-	mov r0, r0, lsl #0x10
-	mov r3, r0, asr #0x10
-	mov r0, #0
-	mov r2, r3, asr #0x1f
-	mov r1, #1
-	mov r6, r0
-	mov r5, #0x800
-_0202D674:
-	rsb r7, r0, #0x1000
-	umull ip, r8, r7, r3
-	mla r8, r7, r2, r8
-	mov r7, r7, asr #0x1f
-	mla r8, r7, r3, r8
-	adds ip, ip, r5
-	adc r7, r8, r6
-	mov r8, ip, lsr #0xc
-	orr r8, r8, r7, lsl #20
-	cmp r1, #0
-	add r0, r0, r8
-	sub r1, r1, #1
-	bne _0202D674
-	str r0, [r4, #0x38]
-	str r0, [r4, #0x3c]
-	ldr r0, [r4, #0x2c]
-	cmp r0, #0x800
-	bgt _0202D714
-	mov r0, r0, lsl #0x11
-	mov r3, r0, asr #0x10
-	mov r1, #0
-	sub r0, r1, #0x7000
-	mov r2, r3, asr #0x1f
-	mov r6, r1
-	mov r5, #0x800
-_0202D6D8:
-	rsb ip, r0, #0
-	umull r7, lr, ip, r3
-	mla lr, ip, r2, lr
-	mov ip, ip, asr #0x1f
-	adds r8, r7, r5
-	mla lr, ip, r3, lr
-	adc r7, lr, r6
-	mov r8, r8, lsr #0xc
-	orr r8, r8, r7, lsl #20
-	cmp r1, #0
-	add r0, r0, r8
-	sub r1, r1, #1
-	bne _0202D6D8
-	str r0, [r4, #0x9c]
-	b _0202D764
-_0202D714:
-	sub r0, r0, #0x800
-	mov r0, r0, lsl #0x11
-	mov ip, r0, asr #0x10
-	mov r7, #0
-	mov r8, ip, asr #0x1f
-	mov r6, #0x7000
-	mov r1, r7
-	mov r0, #0x800
-_0202D734:
-	umull r5, r3, r6, ip
-	mla r3, r6, r8, r3
-	mov r2, r6, asr #0x1f
-	adds r5, r5, r0
-	mla r3, r2, ip, r3
-	adc r2, r3, r1
-	mov r6, r5, lsr #0xc
-	cmp r7, #0
-	orr r6, r6, r2, lsl #20
-	sub r7, r7, #1
-	bne _0202D734
-	str r6, [r4, #0x9c]
-_0202D764:
-	ldr r0, [r4, #0x38]
-	cmp r0, #0x100
-	addle sp, sp, #8
-	ldmleia sp!, {r4, r5, r6, r7, r8, pc}
-	ldr r0, [r4, #0x238]
-	tst r0, #0xf
-	bne _0202D7EC
-	ldr r5, =_obj_disp_rand
-	mov r2, #0
-	ldr r6, [r5, #0]
-	ldr r0, =0x00196225
-	ldr r1, =0x3C6EF35F
-	mov r3, r2
-	mla ip, r6, r0, r1
-	mla r0, ip, r0, r1
-	str r0, [r5]
-	str r2, [sp]
-	str r2, [sp, #4]
-	ldr r0, [r5, #0]
-	mov r5, ip, lsr #0x10
-	mov r1, r0, lsr #0x10
-	mov r0, r5, lsl #0x10
-	mov r1, r1, lsl #0x10
-	mov r5, r0, lsr #0x10
-	mov r0, r1, lsr #0x10
-	and r1, r0, #0x1e
-	and r0, r5, #0x1e
-	ldr ip, [r4, #0x44]
-	rsb r6, r1, #0xf
-	ldr r5, [r4, #0x48]
-	rsb r1, r0, #0xf
-	add r0, ip, r6, lsl #12
-	add r1, r5, r1, lsl #12
-	bl EffectRingSparkle__Create
-_0202D7EC:
-	ldr r0, [r4, #0x238]
-	add r0, r0, #1
-	str r0, [r4, #0x238]
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-// clang-format on
-#endif
 }
 
 // EffectRingSparkle
@@ -1886,7 +1527,7 @@ void EffectRingSparkle__Destructor(Task *task)
 
 NONMATCH_FUNC EffectButtonPrompt *EffectButtonPrompt__Create(StageTask *parent, s32 type)
 {
-	// will match when "/ac_fix_key_little.bac" is decompiled
+    // will match when "/ac_fix_key_little.bac" is decompiled
 #ifdef NON_MATCHING
 
     EffectButtonPrompt *work = CreateEffect(EffectButtonPrompt, parent);

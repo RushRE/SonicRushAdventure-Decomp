@@ -308,7 +308,7 @@ void CreateItemBoxReward(s32 type)
     else
     {
         itemBoxRewardTask = CreateStageTask(ItemBoxReward_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(2), ItemBoxReward);
-        
+
         nullValue = HeapNull;
         if (itemBoxRewardTask == nullValue)
             return;
@@ -428,7 +428,8 @@ void ItemBox_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         }
         else
         {
-            itemBox->gameWork.objWork.flag |= STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+            QueueDestroyStageTask(&itemBox->gameWork.objWork);
+            itemBox->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             itemBox->gameWork.flags |= 0x10000;
         }
 
