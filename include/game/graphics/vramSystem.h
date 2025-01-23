@@ -8,11 +8,11 @@
 // --------------------
 
 // so we can type these without needing casts every single time
-#define VRAM_BG_PLTT    ((VRAMPaletteKey)HW_BG_PLTT)
-#define VRAM_DB_BG_PLTT ((VRAMPaletteKey)HW_DB_BG_PLTT)
+#define VRAM_BG_PLTT    ((VRAMPaletteKey)VRAMKEY_TO_ADDR(HW_BG_PLTT))
+#define VRAM_DB_BG_PLTT ((VRAMPaletteKey)VRAMKEY_TO_ADDR(HW_DB_BG_PLTT))
 
-#define VRAM_OBJ_PLTT    ((VRAMPaletteKey)HW_OBJ_PLTT)
-#define VRAM_DB_OBJ_PLTT ((VRAMPaletteKey)HW_DB_OBJ_PLTT)
+#define VRAM_OBJ_PLTT    ((VRAMPaletteKey)VRAMKEY_TO_ADDR(HW_OBJ_PLTT))
+#define VRAM_DB_OBJ_PLTT ((VRAMPaletteKey)VRAMKEY_TO_ADDR(HW_DB_OBJ_PLTT))
 
 #define VRAM_BG    ((void *)HW_BG_VRAM)
 #define VRAM_DB_BG ((void *)HW_DB_BG_VRAM)

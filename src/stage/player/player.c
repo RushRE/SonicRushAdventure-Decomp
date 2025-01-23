@@ -7090,9 +7090,9 @@ void Player__SendPacket(Player *player)
     ObjSendPacket *packetWork = ObjPacket__SendPacket(packet, GAMEPACKET_PLAYER, 2, sizeof(*packet));
     packetWork->header.param  = playerGameStatus.field_88[PLAYER_CONTROL_P1];
 
-    if ((StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRail) || StageTaskStateMatches(&player->objWork, Player__State_201D874)
+    if ((StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRail) || StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRailEndSpring)
          || StageTaskStateMatches(&player->objWork, Player__State_201DE24))
-        || (StageTaskStateMatches(&player->objWork, Player__State_201D748) && player->objWork.scale.x != FLOAT_TO_FX32(1.0)))
+        || (StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRailStartSpring) && player->objWork.scale.x != FLOAT_TO_FX32(1.0)))
     {
         packet->displayFlag |= DISPLAY_FLAG_NO_DRAW;
     }

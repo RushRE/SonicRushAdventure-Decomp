@@ -768,7 +768,7 @@ _02163FFC:
 	mov r0, r5
 	mov r1, r4
 	add r2, ip, r2, asr #6
-	bl Player__Func_201D684
+	bl Player__Action_TripleGrindRailStartSpring
 	add r0, r5, #0x500
 	mov r1, #0x5a
 	ldr r2, =0x00000611
@@ -1459,7 +1459,7 @@ NONMATCH_FUNC void TripleGrindRail__OnDefend_StartTrigger(OBS_RECT_WORK *rect1, 
 	cmp r1, #1
 	ldmneia sp!, {r4, pc}
 	ldr r2, [r0, #0xf4]
-	ldr r1, =Player__State_201D748
+	ldr r1, =Player__State_TripleGrindRailStartSpring
 	cmp r2, r1
 	ldmneia sp!, {r4, pc}
 	ldr r2, [r4, #0xe04]
@@ -1470,7 +1470,7 @@ NONMATCH_FUNC void TripleGrindRail__OnDefend_StartTrigger(OBS_RECT_WORK *rect1, 
 	bic r2, r2, #4
 	str r2, [r4, #0x230]
 	str r0, [r4, #0x35c]
-	bl Player__Func_201D7BC
+	bl Player__Action_TripleGrindRailEndSpring
 	mov r0, #0x2000
 	bl SetStageRingScale
 	ldr r1, =TripleGrindRail__State_21640DC

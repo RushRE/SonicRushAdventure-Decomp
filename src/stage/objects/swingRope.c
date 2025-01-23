@@ -3,261 +3,103 @@
 #include <game/stage/gameSystem.h>
 
 // --------------------
-// VARIABLES
+// FUNCTION DECLS
 // --------------------
 
-NOT_DECOMPILED void *aActAcGmkRopeTa;
+void SwingRope__Destructor(Task *task);
+void SwingRope__Action_Init(SwingRope *work);
+void SwingRope__State_2162520(SwingRope *work);
+void SwingRope__Draw(void);
+void SwingRope__Collide(void);
+void SwingRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2);
+void SwingRope__HandleNodePositions(SwingRope *work);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
+// TEMP
 NOT_DECOMPILED void _s32_div_f(void);
 
-NONMATCH_FUNC SwingRope *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
+void *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 {
-#ifdef NON_MATCHING
+    s32 i;
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #0x2c
-	ldr r3, =0x000010F6
-	mov r7, r0
-	str r3, [sp]
-	mov r0, #2
-	mov r6, r1
-	mov r4, r2
-	mov r2, #0
-	str r0, [sp, #4]
-	ldr r5, =0x00000954
-	ldr r0, =StageTask_Main
-	ldr r1, =SwingRope__Destructor
-	mov r3, r2
-	str r5, [sp, #8]
-	bl TaskCreate_
-	mov r5, r0
-	mov r0, #0
-	bl OS_GetArenaLo
-	cmp r5, r0
-	addeq sp, sp, #0x2c
-	moveq r0, #0
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	mov r0, r5
-	bl GetTaskWork_
-	ldr r2, =0x00000954
-	mov r5, r0
-	mov r1, #0
-	bl MI_CpuFill8
-	mov r0, r5
-	mov r1, r7
-	mov r2, r6
-	mov r3, r4
-	bl GameObject__InitFromObject
-	add r0, r5, #0x400
-	mov r1, #0xc
-	strh r1, [r0, #0x14]
-	ldrh r0, [r7, #4]
-	tst r0, #1
-	ldreq r1, =playerGameStatus
-	ldr r0, =0x6C16C16D
-	ldreq r3, [r1, #0xc]
-	moveq r2, #0xb4
-	beq _0216225C
-	ldr r1, =playerGameStatus
-	mov r2, #0xb4
-	ldr r1, [r1, #0xc]
-	add r3, r1, #0x5a
-_0216225C:
-	umull r0, r1, r3, r0
-	sub r0, r3, r1
-	add r1, r1, r0, lsr #1
-	mov r1, r1, lsr #7
-	umull r0, r1, r2, r1
-	sub r1, r3, r0
-	mov r0, r1, lsl #0x10
-	mov r3, r0, asr #0x10
-	mov r0, #0x5b
-	add r1, r5, #0x400
-	smulbb r2, r3, r0
-	strh r3, [r1, #0x16]
-	mov r0, #0xa1
-	strh r2, [r1, #0x18]
-	bl GetObjectFileWork
-	ldr r1, =gameArchiveStage
-	mov r3, r0
-	ldr r1, [r1, #0]
-	ldr r2, =aActAcGmkRopeTa
-	str r1, [sp]
-	mov r4, #0
-	mov r0, r5
-	add r1, r5, #0x168
-	str r4, [sp, #4]
-	bl ObjObjectAction2dBACLoad
-	mov r0, #0xa2
-	bl GetObjectFileWork
-	mov r2, r0
-	mov r0, r5
-	mov r1, #8
-	bl ObjObjectActionAllocSprite
-	mov r0, r5
-	mov r1, r4
-	bl StageTask__SetAnimation
-	mov r0, r5
-	mov r1, r4
-	mov r2, #0xb
-	bl ObjActionAllocSpritePalette
-	mov r0, r5
-	mov r1, #0x17
-	bl StageTask__SetAnimatorOAMOrder
-	mov r0, r5
-	mov r1, #2
-	bl StageTask__SetAnimatorPriority
-	add r4, r5, #0x364
-	mov r0, #0xa4
-	bl GetObjectFileWork
-	str r0, [r4, #0xa8]
-	mov r1, #0
-	mov r2, #1
-	bl ObjActionAllocSprite
-	mov r6, r0
-	ldr r0, [r4, #0xa8]
-	mov r1, #1
-	add r0, r0, #8
-	mov r2, r1
-	bl ObjActionAllocSprite
-	mov r1, #0x810
-	str r1, [sp]
-	mov r3, #0
-	stmib sp, {r3, r6}
-	ldr r2, =0x05000200
-	str r3, [sp, #0xc]
-	str r2, [sp, #0x10]
-	str r3, [sp, #0x14]
-	str r0, [sp, #0x18]
-	add r2, r2, #0x400
-	str r3, [sp, #0x1c]
-	str r2, [sp, #0x20]
-	mov r1, #2
-	str r1, [sp, #0x24]
-	mov r0, #0x17
-	str r0, [sp, #0x28]
-	ldr r1, [r5, #0x128]
-	mov r0, r4
-	ldr r1, [r1, #0xa4]
-	mov r2, #1
-	ldr r1, [r1, #0]
-	bl AnimatorSpriteDS__Init
-	ldr r0, [r5, #0x128]
-	mov r6, #0x10
-	ldrh r0, [r0, #0x50]
-	ldr r3, =0x00000102
-	mov r2, #4
-	strh r0, [r4, #0x90]
-	strh r0, [r4, #0x92]
-	ldrh r7, [r4, #0x90]
-	add r0, r5, #0x400
-	sub r1, r6, #0x14
-	strh r7, [r4, #0x50]
-	strh r3, [r0, #0xe4]
-	str r2, [sp]
-	str r2, [sp, #4]
-	mov r2, r1
-	add r0, r5, #0x4b0
-	sub r3, r6, #0x20
-	str r6, [sp, #8]
-	bl ObjRect__SetBox3D
-	mov r1, #0
-	mov r2, r1
-	add r0, r5, #0x4b0
-	bl ObjRect__SetAttackStat
-	ldr r1, =0x0000FFFE
-	add r0, r5, #0x4b0
-	mov r2, #0
-	bl ObjRect__SetDefenceStat
-	ldr r0, =SwingRope__OnDefend
-	str r5, [r5, #0x4cc]
-	str r0, [r5, #0x4d4]
-	ldr r0, [r5, #0x4c8]
-	add r7, r5, #0x400
-	orr r0, r0, #0x400
-	str r0, [r5, #0x4c8]
-	ldrsh r0, [r7, #0x14]
-	add r6, r5, #0x4f0
-	mov r4, #1
-	cmp r0, #1
-	ble _02162464
-	mov r8, #0x40
-_02162438:
-	mov r1, r6
-	mov r2, r8
-	add r0, r5, #0x4b0
-	bl MI_CpuCopy8
-	add r0, r4, #0x10
-	strh r0, [r6, #0xa]
-	ldrsh r0, [r7, #0x14]
-	add r4, r4, #1
-	add r6, r6, #0x40
-	cmp r4, r0
-	blt _02162438
-_02162464:
-	ldr r1, [r5, #0x1c]
-	mov r0, r5
-	orr r1, r1, #0x2100
-	str r1, [r5, #0x1c]
-	ldr r1, [r5, #0x20]
-	orr r1, r1, #0x100
-	str r1, [r5, #0x20]
-	bl SwingRope__Action_Init
-	mov r0, r5
-	add sp, sp, #0x2c
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
+    Task *task = CreateStageTask(SwingRope__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), SwingRope);
+    if (task == HeapNull)
+        return NULL;
 
-// clang-format on
-#endif
+    SwingRope *work = TaskGetWork(task, SwingRope);
+    TaskInitWork8(work);
+    GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
+
+    work->nodeCount = SWINGROPE_NODE_COUNT;
+
+    s16 timer;
+    if ((mapObject->flags & 1) != 0)
+        timer = (playerGameStatus.stageTimer + 90) % 180;
+    else
+        timer = playerGameStatus.stageTimer % 180;
+
+    work->word416 = timer;
+    work->word418 = 91 * timer;
+
+    ObjObjectAction2dBACLoad(&work->gameWork.objWork, &work->gameWork.animator, "/act/ac_gmk_rope_tar.bac", GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage,
+                             OBJ_DATA_GFX_NONE);
+    ObjObjectActionAllocSprite(&work->gameWork.objWork, 8, GetObjectSpriteRef(OBJDATAWORK_162));
+    StageTask__SetAnimation(&work->gameWork.objWork, 0);
+    ObjActionAllocSpritePalette(&work->gameWork.objWork, 0, 11);
+    StageTask__SetAnimatorOAMOrder(&work->gameWork.objWork, SPRITE_ORDER_23);
+    StageTask__SetAnimatorPriority(&work->gameWork.objWork, SPRITE_PRIORITY_2);
+
+    OBS_ACTION2D_BAC_WORK *aniNode = &work->aniNode;
+    aniNode->spriteRef             = GetObjectSpriteRef(OBJDATAWORK_164);
+    AnimatorSpriteDS__Init(
+        &aniNode->ani, work->gameWork.objWork.obj_2d->fileWork->fileData, 1, SCREEN_DRAW_NONE, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_PALETTES,
+        PIXEL_MODE_SPRITE, ObjActionAllocSprite(&aniNode->spriteRef->engineRef[0], GRAPHICS_ENGINE_A, 1), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
+        ObjActionAllocSprite(&aniNode->spriteRef->engineRef[1], GRAPHICS_ENGINE_B, 1), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_2, SPRITE_ORDER_23);
+    aniNode->ani.cParam[1].palette = aniNode->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.palette;
+    aniNode->ani.work.palette                                       = aniNode->ani.cParam[0].palette;
+
+    ObjRect__SetGroupFlags(&work->colliders[0], 2, 1);
+    ObjRect__SetBox3D(&work->colliders[0].rect, -4, -4, -16, 4, 4, 16);
+    ObjRect__SetAttackStat(&work->colliders[0], 0, 0);
+    ObjRect__SetDefenceStat(&work->colliders[0], ~1, 0);
+    work->colliders[0].parent = &work->gameWork.objWork;
+    ObjRect__SetOnDefend(&work->colliders[0], SwingRope__OnDefend);
+    work->colliders[0].flag |= OBS_RECT_WORK_FLAG_400;
+
+    OBS_RECT_WORK *collider = &work->colliders[1];
+    for (i = 1; i < work->nodeCount; i++)
+    {
+        MI_CpuCopy8(&work->colliders[0], collider, sizeof(work->colliders[0]));
+        collider->rect.front = 16 + i;
+        collider++;
+    }
+
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;
+    work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+    work->gameWork.objWork.displayFlag |= DISPLAY_FLAG_DISABLE_ROTATION;
+    SwingRope__Action_Init(work);
+
+    return work;
 }
 
-NONMATCH_FUNC void SwingRope__Destructor(Task *task)
+void SwingRope__Destructor(Task *task)
 {
-#ifdef NON_MATCHING
+    SwingRope *work = TaskGetWork(task, SwingRope);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r5, r0
-	bl GetTaskWork_
-	mov r4, r0
-	ldr r0, [r4, #0x40c]
-	mov r1, #0
-	bl ObjActionReleaseSprite
-	ldr r0, [r4, #0x40c]
-	mov r1, #1
-	add r0, r0, #8
-	bl ObjActionReleaseSprite
-	mov r0, r5
-	bl GameObject__Destructor
-	ldmia sp!, {r3, r4, r5, pc}
+    ObjActionReleaseSprite(&work->aniNode.spriteRef->engineRef[0], GRAPHICS_ENGINE_A);
+    ObjActionReleaseSprite(&work->aniNode.spriteRef->engineRef[1], GRAPHICS_ENGINE_B);
 
-// clang-format on
-#endif
+    GameObject__Destructor(task);
 }
 
-NONMATCH_FUNC void SwingRope__Action_Init(SwingRope *work)
+void SwingRope__Action_Init(SwingRope *work)
 {
-#ifdef NON_MATCHING
-
-#else
-// clang-format off
-	ldr r1, =SwingRope__State_2162520
-	ldr r2, =SwingRope__Draw
-	str r1, [r0, #0xf4]
-	ldr r1, =SwingRope__Collide
-	str r2, [r0, #0xfc]
-	str r1, [r0, #0x108]
-	bx lr
-
-// clang-format on
-#endif
+    SetTaskState(&work->gameWork.objWork, SwingRope__State_2162520);
+    SetTaskOutFunc(&work->gameWork.objWork, SwingRope__Draw);
+    SetTaskCollideFunc(&work->gameWork.objWork, SwingRope__Collide);
 }
 
 NONMATCH_FUNC void SwingRope__State_2162520(SwingRope *work)
@@ -265,7 +107,7 @@ NONMATCH_FUNC void SwingRope__State_2162520(SwingRope *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	add r0, r4, #0x400
@@ -395,207 +237,101 @@ _021626DC:
 #endif
 }
 
-NONMATCH_FUNC void SwingRope__Draw(void)
+void SwingRope__Draw(void)
 {
-#ifdef NON_MATCHING
+    s32 i;
 
-#else
-// clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #0x18
-	bl GetCurrentTaskWork_
-	mov r9, r0
-	ldr r1, [r9, #0x128]
-	bl StageTask__Draw2D
-	add r10, r9, #0x400
-	ldrsh r0, [r10, #0x14]
-	mov r8, #0
-	cmp r0, #0
-	addle sp, sp, #0x18
-	ldmleia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
-	add r7, r9, #0x44
-	add r5, r9, #0x20
-	add r6, sp, #0xc
-	mov r4, r8
-_02162740:
-	ldmia r7, {r0, r1, r2}
-	stmia r6, {r0, r1, r2}
-	add r1, r9, r8, lsl #3
-	ldr r3, [sp, #0xc]
-	ldr r0, [r1, #0x420]
-	ldr r2, [sp, #0x10]
-	add r0, r3, r0
-	str r0, [sp, #0xc]
-	ldr r0, [r1, #0x424]
-	mov r1, r6
-	add r0, r2, r0
-	str r0, [sp, #0x10]
-	str r5, [sp]
-	str r4, [sp, #4]
-	mov r2, r4
-	mov r3, r4
-	str r4, [sp, #8]
-	add r0, r9, #0x364
-	bl StageTask__Draw2DEx
-	ldrsh r0, [r10, #0x14]
-	add r8, r8, #1
-	cmp r8, r0
-	blt _02162740
-	add sp, sp, #0x18
-	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
+    SwingRope *work = TaskGetWorkCurrent(SwingRope);
 
-// clang-format on
-#endif
+    StageTask__Draw2D(&work->gameWork.objWork, &work->gameWork.objWork.obj_2d->ani);
+
+    for (i = 0; i < work->nodeCount; i++)
+    {
+        VecFx32 position = work->gameWork.objWork.position;
+
+        position.x += work->nodePositions[i].x;
+        position.y += work->nodePositions[i].y;
+        StageTask__Draw2DEx(&work->aniNode.ani, &position, NULL, NULL, &work->gameWork.objWork.displayFlag, NULL, NULL);
+    }
 }
 
-NONMATCH_FUNC void SwingRope__Collide(void)
+void SwingRope__Collide(void)
 {
-#ifdef NON_MATCHING
+    s32 i;
+    SwingRope *work = TaskGetWorkCurrent(SwingRope);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, lr}
-	bl GetCurrentTaskWork_
-	mov r5, r0
-	add r0, r5, #0x400
-	ldr r2, [r5, #0x18]
-	ldrsh r7, [r0, #0x14]
-	ldr r1, =gPlayer
-	add r6, r5, #0x4b0
-	tst r2, #0xc
-	ldr r0, [r1, #0]
-	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r1, =g_obj
-	ldr r1, [r1, #0x28]
-	tst r1, #0x40
-	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	tst r2, #2
-	ldmneia sp!, {r3, r4, r5, r6, r7, pc}
-	sub r1, r7, #1
-	add r2, r5, r1, lsl #3
-	ldr r2, [r2, #0x420]
-	ldr r3, [r5, #0x44]
-	cmp r2, #0
-	addlt r2, r3, r2
-	sublt r4, r2, #0x20000
-	addlt r3, r3, #0x20000
-	blt _02162818
-	add r2, r3, r2
-	sub r4, r3, #0x20000
-	add r3, r2, #0x20000
-_02162818:
-	ldr r2, [r0, #0x44]
-	cmp r2, r4
-	cmpge r3, r2
-	ldmltia sp!, {r3, r4, r5, r6, r7, pc}
-	ldr r3, [r5, #0x48]
-	ldr r2, [r0, #0x48]
-	sub r0, r3, #0x20000
-	cmp r2, r0
-	ldmltia sp!, {r3, r4, r5, r6, r7, pc}
-	add r0, r5, r1, lsl #3
-	ldr r0, [r0, #0x424]
-	add r0, r3, r0
-	add r0, r0, #0x20000
-	cmp r0, r2
-	ldmltia sp!, {r3, r4, r5, r6, r7, pc}
-	mov r4, #0
-	cmp r7, #0
-	cmpgt r7, #0
-	ldmleia sp!, {r3, r4, r5, r6, r7, pc}
-_02162864:
-	add r2, r5, r4, lsl #3
-	ldr r1, [r2, #0x420]
-	mov r0, r6
-	mov r1, r1, asr #0xc
-	str r1, [r6, #0xc]
-	ldr r1, [r2, #0x424]
-	mov r1, r1, asr #0xc
-	str r1, [r6, #0x10]
-	bl ObjRect__Register
-	add r4, r4, #1
-	cmp r4, r7
-	add r6, r6, #0x40
-	blt _02162864
-	ldmia sp!, {r3, r4, r5, r6, r7, pc}
+    OBS_RECT_WORK *colliders = work->colliders;
+    s16 nodeCount            = work->nodeCount;
 
-// clang-format on
-#endif
+    Player *player = gPlayer;
+
+    if ((work->gameWork.objWork.flag & (STAGE_TASK_FLAG_DESTROY_NEXT_FRAME | STAGE_TASK_FLAG_DESTROYED)) == 0 && (g_obj.flag & OBJECTMANAGER_FLAG_40) != 0
+        && (work->gameWork.objWork.flag & STAGE_TASK_FLAG_NO_OBJ_COLLISION) == 0)
+    {
+        s32 lastNode   = nodeCount - 1;
+        fx32 lastNodeX = work->nodePositions[lastNode].x;
+
+        fx32 left;
+        fx32 right;
+        if (lastNodeX >= 0)
+        {
+            left  = work->gameWork.objWork.position.x - FLOAT_TO_FX32(32.0);
+            right = work->gameWork.objWork.position.x + lastNodeX + FLOAT_TO_FX32(32.0);
+        }
+        else
+        {
+            left  = work->gameWork.objWork.position.x + lastNodeX - FLOAT_TO_FX32(32.0);
+            right = work->gameWork.objWork.position.x + FLOAT_TO_FX32(32.0);
+        }
+
+        if (player->objWork.position.x >= left && right >= player->objWork.position.x)
+        {
+            if (player->objWork.position.y >= work->gameWork.objWork.position.y - FLOAT_TO_FX32(32.0)
+                && work->gameWork.objWork.position.y + work->nodePositions[lastNode].y + FLOAT_TO_FX32(32.0) >= player->objWork.position.y)
+            {
+                i = 0;
+                if (nodeCount > 0)
+                {
+                    for (; i < nodeCount; i++)
+                    {
+                        colliders->rect.pos.x = FX32_TO_WHOLE(work->nodePositions[i].x);
+                        colliders->rect.pos.y = FX32_TO_WHOLE(work->nodePositions[i].y);
+                        ObjRect__Register(colliders);
+                        colliders++;
+                    }
+                }
+            }
+        }
+    }
 }
 
-NONMATCH_FUNC void SwingRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
+void SwingRope__OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 {
-#ifdef NON_MATCHING
+    SwingRope *swingRope = (SwingRope *)rect2->parent;
+    Player *player       = (Player *)rect1->parent;
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r2, [r1, #0x1c]
-	ldr r4, [r0, #0x1c]
-	cmp r2, #0
-	cmpne r4, #0
-	ldmeqia sp!, {r4, pc}
-	ldrh r0, [r4, #0]
-	cmp r0, #1
-	ldmneia sp!, {r4, pc}
-	str r4, [r2, #0x35c]
-	ldr r3, [r2, #0x18]
-	add r0, r2, #0x400
-	orr r3, r3, #2
-	str r3, [r2, #0x18]
-	ldrsh r1, [r1, #0xa]
-	sub r1, r1, #0x10
-	strh r1, [r0, #0x1a]
-	ldrh r1, [r0, #0x1a]
-	mov r1, r1, lsl #1
-	strh r1, [r0, #0x1c]
-	ldrh r1, [r0, #0x1a]
-	ldr r3, [r2, #0x44]
-	add r1, r2, r1, lsl #3
-	ldr r1, [r1, #0x420]
-	add r1, r3, r1
-	str r1, [r2, #0x8c]
-	ldrh r1, [r0, #0x1a]
-	ldr r3, [r2, #0x48]
-	add r1, r2, r1, lsl #3
-	ldr r1, [r1, #0x424]
-	add r1, r3, r1
-	str r1, [r2, #0x90]
-	ldrh r1, [r0, #0x1a]
-	add r1, r2, r1, lsl #1
-	add r1, r1, #0x900
-	ldrh r1, [r1, #0x30]
-	strh r1, [r2, #0x34]
-	ldrh r0, [r0, #0x1a]
-	ldr r1, [r4, #0x20]
-	tst r1, #1
-	add r0, r2, r0, lsl #1
-	beq _0216295C
-	add r0, r0, #0x900
-	ldrh r0, [r0, #0x30]
-	sub r0, r0, #0x4000
-	b _02162968
-_0216295C:
-	add r0, r0, #0x900
-	ldrh r0, [r0, #0x30]
-	add r0, r0, #0x4000
-_02162968:
-	strh r0, [r2, #0x34]
-	mov r1, r2
-	mov r0, r4
-	mov r2, #0
-	mov r3, #0x4000
-	bl Player__Gimmick_201D314
-	mov r0, r4
-	mov r1, #0x27
-	bl Player__ChangeAction
-	ldr r0, [r4, #0x20]
-	orr r0, r0, #4
-	str r0, [r4, #0x20]
-	ldmia sp!, {r4, pc}
+    if (swingRope == NULL || player == NULL)
+        return;
 
-// clang-format on
-#endif
+    if (player->objWork.objType != STAGE_OBJ_TYPE_PLAYER)
+        return;
+
+    swingRope->gameWork.parent = &player->objWork;
+    swingRope->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
+    swingRope->field_41A                       = rect2->rect.front - 16;
+    swingRope->field_41C                       = 2 * swingRope->field_41A;
+    swingRope->gameWork.objWork.prevPosition.x = swingRope->gameWork.objWork.position.x + swingRope->nodePositions[swingRope->field_41A].x;
+    swingRope->gameWork.objWork.prevPosition.y = swingRope->gameWork.objWork.position.y + swingRope->nodePositions[swingRope->field_41A].y;
+    swingRope->gameWork.objWork.dir.z          = swingRope->nodeAngle[swingRope->field_41A];
+
+    if ((player->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) != 0)
+        swingRope->gameWork.objWork.dir.z = swingRope->nodeAngle[swingRope->field_41A] - FLOAT_DEG_TO_IDX(90.0);
+    else
+        swingRope->gameWork.objWork.dir.z = swingRope->nodeAngle[swingRope->field_41A] + FLOAT_DEG_TO_IDX(90.0);
+
+    Player__Action_SwingRope(player, &swingRope->gameWork, FLOAT_TO_FX32(0.0), FLOAT_DEG_TO_IDX(90.0));
+    Player__ChangeAction(player, PLAYER_ACTION_ROPE_SWING);
+    player->objWork.displayFlag |= DISPLAY_FLAG_DISABLE_LOOPING;
 }
 
 NONMATCH_FUNC void SwingRope__HandleNodePositions(SwingRope *work)
@@ -603,7 +339,7 @@ NONMATCH_FUNC void SwingRope__HandleNodePositions(SwingRope *work)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0xc
 	mov r4, r0

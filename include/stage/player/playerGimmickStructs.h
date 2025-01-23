@@ -5,8 +5,20 @@ struct
 
 struct
 {
+    s32 radius;
+    s32 angleOffset;
+} swingRope;
+
+struct
+{
     s32 rail;
 } tripleGrindRail;
+
+struct
+{
+    fx32 angleSpeed;
+    fx32 scaleSpeed;
+} tripleGrindRailSpring;
 
 struct
 {

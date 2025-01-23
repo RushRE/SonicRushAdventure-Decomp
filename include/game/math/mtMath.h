@@ -111,6 +111,20 @@ RUSH_INLINE s32 ClampS32(s32 x, s32 low, s32 high)
     return result;
 }
 
+RUSH_INLINE void ClampSingleS32(s32 *value, s32 clampVal)
+{
+    if (*value >= 0)
+    {
+        if (*value > clampVal)
+            *value = clampVal;
+    }
+    else 
+    {
+        if (*value < -clampVal)
+            *value = -clampVal;
+    }
+}
+
 RUSH_INLINE s32 MTM_MATH_CLIP(s32 a, s32 low, s32 high)
 {
     if (a < low)

@@ -474,7 +474,6 @@ Overlay ZoneAct
     Object asm/stage/objects/pipe_vars.o
     Object src/stage/objects/pipe.o
     Object src/stage/objects/rotatingHanger.o
-    Object asm/stage/objects/swingRope_vars.o
     Object src/stage/objects/swingRope.o
     Object src/stage/objects/bouncyMushroom.o
     Object asm/stage/objects/tripleGrindRail_vars.o

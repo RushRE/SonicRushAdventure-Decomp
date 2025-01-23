@@ -1534,7 +1534,7 @@ void Player__Action_RotatingHanger(Player *player, GameObjectTask *hanger, fx32 
 
 NONMATCH_FUNC void Player__State_RotatingHanger(Player *work)
 {
-	// https://decomp.me/scratch/CFcqm -> 94.49%
+    // https://decomp.me/scratch/CFcqm -> 94.49%
 #ifdef NON_MATCHING
     if (work->gimmickObj != NULL)
     {
@@ -1871,168 +1871,87 @@ _0201D204:
 #endif
 }
 
-void Player__Gimmick_201D314(Player *player, GameObjectTask *other, s32 value1, s32 value2)
+void Player__Action_SwingRope(Player *player, GameObjectTask *swingRope, s32 radius, s32 angleOffset)
 {
-    if (player->gimmickObj != other)
+    if (player->gimmickObj != swingRope)
     {
         Player__InitPhysics(player);
         Player__InitGimmick(player, 0);
-        player->gimmickObj = other;
+        player->gimmickObj = swingRope;
         player->objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_IN_AIR;
         player->playerFlag &= ~(PLAYER_FLAG_DISABLE_TRICK_FINISHER | PLAYER_FLAG_FINISHED_TRICK_COMBO | PLAYER_FLAG_ALLOW_TRICKS | PLAYER_FLAG_USER_FLAG);
         player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN | PLAYER_FLAG_2000;
         player->gimmickFlag |= PLAYER_GIMMICK_20;
-        player->gimmickCamOffsetY  = -58;
-        player->objWork.velocity.x = 0;
-        player->objWork.velocity.y = 0;
-        player->objWork.groundVel  = 0;
-        player->objWork.dir.z      = other->objWork.dir.z;
-        player->objWork.userWork   = 0;
-        player->objWork.userTimer  = 0;
-        player->gimmick.value1     = value1;
-        player->gimmick.value2     = value2;
+        player->gimmickCamOffsetY             = -58;
+        player->objWork.velocity.x            = 0;
+        player->objWork.velocity.y            = 0;
+        player->objWork.groundVel             = 0;
+        player->objWork.dir.z                 = swingRope->objWork.dir.z;
+        player->objWork.userWork              = 0;
+        player->objWork.userTimer             = 0;
+        player->gimmick.swingRope.radius      = radius;
+        player->gimmick.swingRope.angleOffset = angleOffset;
 
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_GIMMICK);
 
-        SetTaskState(&player->objWork, Player__State_201D3E0);
+        SetTaskState(&player->objWork, Player__State_SwingRope);
     }
 }
 
-NONMATCH_FUNC void Player__State_201D3E0(Player *work)
+void Player__State_SwingRope(Player *work)
 {
-#ifdef NON_MATCHING
+    GameObjectTask *swingRope = work->gimmickObj;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r2, [r4, #0x6d8]
-	cmp r2, #0
-	beq _0201D514
-	ldr r0, [r4, #0x44]
-	ldr r1, =FX_SinCosTable_
-	str r0, [r4, #0x8c]
-	ldr r0, [r4, #0x48]
-	str r0, [r4, #0x90]
-	ldr r0, [r4, #0x4c]
-	str r0, [r4, #0x94]
-	ldrh r0, [r2, #0x34]
-	strh r0, [r4, #0x34]
-	ldr r0, [r4, #0x20]
-	tst r0, #1
-	ldreqh r0, [r4, #0x34]
-	addeq r0, r0, #0x8000
-	streqh r0, [r4, #0x34]
-	ldrh r3, [r4, #0x34]
-	ldr r0, [r4, #0x6f4]
-	ldr lr, [r2, #0x8c]
-	add r0, r3, r0
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, lsl #0x10
-	mov r0, r0, lsr #0x10
-	mov r0, r0, asr #4
-	mov r0, r0, lsl #1
-	add r0, r0, #1
-	mov r0, r0, lsl #1
-	ldrsh r0, [r1, r0]
-	ldr r3, [r4, #0x6f0]
-	smull ip, r0, r3, r0
-	adds r3, ip, #0x800
-	adc r0, r0, #0
-	mov r3, r3, lsr #0xc
-	orr r3, r3, r0, lsl #20
-	add r0, lr, r3
-	str r0, [r4, #0x44]
-	ldrh ip, [r4, #0x34]
-	ldr r3, [r4, #0x6f4]
-	ldr r0, [r4, #0x6f0]
-	add r3, ip, r3
-	mov r3, r3, lsl #0x10
-	mov r3, r3, lsr #0x10
-	mov r3, r3, lsl #0x10
-	mov r3, r3, lsr #0x10
-	mov r3, r3, asr #4
-	mov r3, r3, lsl #2
-	ldrsh r1, [r1, r3]
-	ldr ip, [r2, #0x90]
-	smull r3, r1, r0, r1
-	adds r3, r3, #0x800
-	adc r0, r1, #0
-	mov r1, r3, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	add r0, ip, r1
-	str r0, [r4, #0x48]
-	ldr r0, [r2, #0x94]
-	str r0, [r4, #0x4c]
-	ldr r1, [r4, #0x44]
-	ldr r0, [r4, #0x8c]
-	sub r0, r1, r0
-	str r0, [r4, #0xbc]
-	ldr r1, [r4, #0x48]
-	ldr r0, [r4, #0x90]
-	sub r0, r1, r0
-	str r0, [r4, #0xc0]
-	ldr r1, [r4, #0x4c]
-	ldr r0, [r4, #0x94]
-	sub r0, r1, r0
-	str r0, [r4, #0xc4]
-	ldr r0, [r4, #0xbc]
-	str r0, [r4, #0xc8]
-	ldr r0, [r4, #0xc0]
-	str r0, [r4, #0x9c]
-_0201D514:
-	ldr r0, [r4, #0x6d8]
-	cmp r0, #0
-	beq _0201D530
-	add r0, r4, #0x700
-	ldrh r0, [r0, #0x22]
-	tst r0, #3
-	ldmeqia sp!, {r4, pc}
-_0201D530:
-	mov r1, #0
-	str r1, [r4, #0x6d8]
-	ldr r2, [r4, #0x5dc]
-	add r0, r4, #0x600
-	bic r2, r2, #0x20
-	str r2, [r4, #0x5dc]
-	strh r1, [r0, #0xde]
-	ldr r3, [r4, #0x5d8]
-	ldr r0, =0xFFEFDFFF
-	add r2, r4, #0x700
-	and r0, r3, r0
-	str r0, [r4, #0x5d8]
-	ldr r0, [r4, #0x1c]
-	bic r0, r0, #0x2000
-	str r0, [r4, #0x1c]
-	strh r1, [r4, #0x34]
-	ldr r0, [r4, #0xc8]
-	mov r0, r0, asr #1
-	str r0, [r4, #0xc8]
-	ldrh r0, [r2, #0x22]
-	tst r0, #3
-	beq _0201D598
-	ldr r1, [r4, #0x5f0]
-	mov r0, r4
-	blx r1
-	ldmia sp!, {r4, pc}
-_0201D598:
-	mov r0, r4
-	bl Player__Action_LandOnGround
-	ldr r1, [r4, #0x5e4]
-	mov r0, r4
-	blx r1
-	ldmia sp!, {r4, pc}
+    if (swingRope != NULL)
+    {
+        work->objWork.prevPosition.x = work->objWork.position.x;
+        work->objWork.prevPosition.y = work->objWork.position.y;
+        work->objWork.prevPosition.z = work->objWork.position.z;
 
-// clang-format on
-#endif
+        work->objWork.dir.z = swingRope->objWork.dir.z;
+        if ((work->objWork.displayFlag & DISPLAY_FLAG_FLIP_X) == 0)
+            work->objWork.dir.z += FLOAT_DEG_TO_IDX(180.0);
+
+        work->objWork.position.x =
+            swingRope->objWork.prevPosition.x + MultiplyFX(work->gimmick.swingRope.radius, CosFX((s32)(u16)(work->objWork.dir.z + work->gimmick.swingRope.angleOffset)));
+        work->objWork.position.y =
+            swingRope->objWork.prevPosition.y + MultiplyFX(work->gimmick.swingRope.radius, SinFX((s32)(u16)(work->objWork.dir.z + work->gimmick.swingRope.angleOffset)));
+        work->objWork.position.z = swingRope->objWork.prevPosition.z;
+
+        work->objWork.move.x = work->objWork.position.x - work->objWork.prevPosition.x;
+        work->objWork.move.y = work->objWork.position.y - work->objWork.prevPosition.y;
+        work->objWork.move.z = work->objWork.position.z - work->objWork.prevPosition.z;
+
+        work->objWork.groundVel  = work->objWork.move.x;
+        work->objWork.velocity.y = work->objWork.move.y;
+    }
+
+    if (work->gimmickObj == NULL || (work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
+    {
+        work->gimmickObj = NULL;
+        work->gimmickFlag &= ~PLAYER_GIMMICK_20;
+        work->gimmickCamOffsetY = 0;
+        work->playerFlag &= ~(PLAYER_FLAG_2000 | PLAYER_FLAG_DISABLE_TENSION_DRAIN);
+        work->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT;
+        work->objWork.dir.z = FLOAT_DEG_TO_IDX(0.0);
+        work->objWork.groundVel >>= 1;
+
+        if ((work->inputKeyPress & PLAYER_INPUT_JUMP) != 0)
+        {
+            work->actionJump(work);
+        }
+        else
+        {
+            Player__Action_LandOnGround(work, FLOAT_DEG_TO_IDX(0.0));
+            work->onLandGround(work);
+        }
+    }
 }
 
-NONMATCH_FUNC void Player__Action_MushroomBounce(Player *player, fx32 velX, fx32 velY, s32 timer)
+void Player__Action_MushroomBounce(Player *player, fx32 velX, fx32 velY, s32 timer)
 {
-#ifdef NON_MATCHING
-    player->objWork.groundVel  = MTM_MATH_CLIP(player->objWork.groundVel, -player->spdThresholdDash, player->spdThresholdDash);
-    player->objWork.velocity.x = MTM_MATH_CLIP(player->objWork.groundVel, -player->spdThresholdDash, player->spdThresholdDash);
+    ClampSingleS32(&player->objWork.groundVel, player->spdThresholdDash);
+    ClampSingleS32(&player->objWork.velocity.x, player->spdThresholdDash);
 
     Player__Action_GimmickLaunch(player, velX, velY);
     player->objWork.moveFlag &= ~STAGE_TASK_MOVE_FLAG_HAS_GRAVITY;
@@ -2041,258 +1960,83 @@ NONMATCH_FUNC void Player__Action_MushroomBounce(Player *player, fx32 velX, fx32
     Player__ChangeAction(player, PLAYER_ACTION_MUSHROOM_BOUNCE);
     StopPlayerSfx(player, PLAYER_SEQPLAYER_COMMON);
     PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_MUSHROOM);
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	sub sp, sp, #8
-	mov r5, r0
-	ldr ip, [r5, #0xc8]
-	mov r4, r3
-	cmp ip, #0
-	ldr r0, [r5, #0x64c]
-	blt _0201D5E4
-	cmp ip, r0
-	strgt r0, [r5, #0xc8]
-	b _0201D5F0
-_0201D5E4:
-	rsb r0, r0, #0
-	cmp ip, r0
-	strlt r0, [r5, #0xc8]
-_0201D5F0:
-	ldr r3, [r5, #0x98]
-	ldr r0, [r5, #0x64c]
-	cmp r3, #0
-	blt _0201D60C
-	cmp r3, r0
-	strgt r0, [r5, #0x98]
-	b _0201D618
-_0201D60C:
-	rsb r0, r0, #0
-	cmp r3, r0
-	strlt r0, [r5, #0x98]
-_0201D618:
-	mov r0, r5
-	bl Player__Action_GimmickLaunch
-	ldr r0, [r5, #0x1c]
-	add r1, r4, r4, lsl #1
-	bic r2, r0, #0x80
-	mov r0, r5
-	str r2, [r5, #0x1c]
-	add r2, r1, #1
-	mov r1, #0x26
-	str r2, [r5, #0x2c]
-	bl Player__ChangeAction
-	add r0, r5, #0x254
-	add r0, r0, #0x400
-	mov r1, #0
-	bl NNS_SndPlayerStopSeq
-	mov r1, #0x4c
-	add r0, r5, #0x254
-	add r0, r0, #0x400
-	mov r2, #0
-	str r2, [sp]
-	str r1, [sp, #4]
-	sub r1, r1, #0x4d
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r3, r4, r5, pc}
-
-// clang-format on
-#endif
 }
 
-NONMATCH_FUNC void Player__Func_201D684(Player *player, s32 a2, s32 a3, s32 a4)
+void Player__Action_TripleGrindRailStartSpring(Player *player, GameObjectTask *tripleGrindRailSpring, fx32 velX, fx32 velY)
 {
-#ifdef NON_MATCHING
+    player->objWork.displayFlag &= ~DISPLAY_FLAG_FLIP_X;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	mov r4, r0
-	ldr r1, [r4, #0x20]
-	mov ip, #0
-	bic r1, r1, #1
-	str r1, [r4, #0x20]
-	str ip, [r4, #0xc8]
-	mov r1, r2
-	str ip, [r4, #0x9c]
-	mov r2, r3
-	str ip, [r4, #0x98]
-	bl Player__Action_GimmickLaunch
-	add r0, r4, #0x700
-	ldrh r3, [r0, #0x20]
-	ldr r2, =Player__State_201D748
-	add r1, r4, #0x600
-	and r3, r3, #3
-	strh r3, [r0, #0x20]
-	str r2, [r4, #0xf4]
-	ldr r2, [r4, #0x5d8]
-	mov r0, #0
-	orr r2, r2, #8
-	orr r2, r2, #0x80000
-	str r2, [r4, #0x5d8]
-	strh r0, [r1, #0x92]
-	ldr r0, [r4, #0x5dc]
-	mov r1, #0x1e
-	orr r0, r0, #0x2000000
-	str r0, [r4, #0x5dc]
-	mov r0, r4
-	str r1, [r4, #0x6f4]
-	bl Player__Action_StopSuperBoost
-	ldr r0, [r4, #0x5d8]
-	mov r2, #0x3c
-	orr r0, r0, #0x100000
-	str r0, [r4, #0x5d8]
-	mov r3, #0
-	add r0, r4, #0x254
-	str r3, [sp]
-	sub r1, r2, #0x3d
-	str r2, [sp, #4]
-	add r0, r0, #0x400
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    player->objWork.groundVel  = FLOAT_TO_FX32(0.0);
+    player->objWork.velocity.x = player->objWork.velocity.y = FLOAT_TO_FX32(0.0);
+    Player__Action_GimmickLaunch(player, velX, velY);
 
-// clang-format on
-#endif
+    player->inputKeyDown &= PLAYER_INPUT_JUMP;
+    SetTaskState(&player->objWork, Player__State_TripleGrindRailStartSpring);
+
+    player->playerFlag |= PLAYER_FLAG_SLOWMO | PLAYER_FLAG_DISABLE_TRICK_FINISHER;
+    player->slomoTimer = 0;
+    player->gimmickFlag |= PLAYER_GIMMICK_2000000;
+    player->gimmick.tripleGrindRailSpring.scaleSpeed = 30;
+    Player__Action_StopSuperBoost(player);
+    player->playerFlag |= PLAYER_FLAG_DISABLE_TENSION_DRAIN;
+    PlayPlayerSfx(player, PLAYER_SEQPLAYER_COMMON, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SPRING);
 }
 
-NONMATCH_FUNC void Player__State_201D748(Player *work)
+void Player__State_TripleGrindRailStartSpring(Player *work)
 {
-#ifdef NON_MATCHING
+    work->inputKeyDown &= PLAYER_INPUT_JUMP;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	add r1, r4, #0x700
-	ldrh r2, [r1, #0x20]
-	and r2, r2, #3
-	strh r2, [r1, #0x20]
-	bl Player__State_Air
-	ldr r1, [r4, #0x38]
-	ldr r0, [r4, #0x6f4]
-	add r0, r1, r0
-	str r0, [r4, #0x38]
-	cmp r0, #0x2800
-	movgt r0, #0x2800
-	strgt r0, [r4, #0x38]
-	ldr r1, [r4, #0x38]
-	ldr r0, =Player__State_201D748
-	str r1, [r4, #0x40]
-	str r1, [r4, #0x3c]
-	ldr r1, [r4, #0xf4]
-	cmp r1, r0
-	ldmeqia sp!, {r4, pc}
-	ldr r0, [r4, #0x5dc]
-	bic r0, r0, #0x2000000
-	str r0, [r4, #0x5dc]
-	ldr r0, [r4, #0x5d8]
-	bic r0, r0, #0x80000
-	str r0, [r4, #0x5d8]
-	ldmia sp!, {r4, pc}
+    Player__State_Air(work);
 
-// clang-format on
-#endif
+    work->objWork.scale.x += work->gimmick.tripleGrindRailSpring.scaleSpeed;
+    if (work->objWork.scale.x > FLOAT_TO_FX32(2.5))
+        work->objWork.scale.x = FLOAT_TO_FX32(2.5);
+
+    work->objWork.scale.y = work->objWork.scale.z = work->objWork.scale.x;
+
+    if (!StageTaskStateMatches(&work->objWork, Player__State_TripleGrindRailStartSpring))
+    {
+        work->gimmickFlag &= ~PLAYER_GIMMICK_2000000;
+        work->playerFlag &= ~PLAYER_FLAG_SLOWMO;
+    }
 }
 
-NONMATCH_FUNC void Player__Func_201D7BC(Player *player, s32 a2)
+void Player__Action_TripleGrindRailEndSpring(Player *player, GameObjectTask *tripleGrindRail)
 {
-#ifdef NON_MATCHING
+    if (player->gimmickObj != tripleGrindRail && StageTaskStateMatches(&player->objWork, Player__State_TripleGrindRailStartSpring))
+    {
+        player->starComboCount = 0;
+        player->gimmickFlag &= ~PLAYER_GIMMICK_ALLOW_TRICK_COMBO;
+        player->gimmickObj = tripleGrindRail;
+        player->objWork.displayFlag &= ~DISPLAY_FLAG_APPLY_CAMERA_CONFIG;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	mov r4, r0
-	ldr r0, [r4, #0x6d8]
-	cmp r0, r1
-	ldmeqia sp!, {r3, r4, r5, pc}
-	ldr r2, [r4, #0xf4]
-	ldr r0, =Player__State_201D748
-	cmp r2, r0
-	ldmneia sp!, {r3, r4, r5, pc}
-	mov r0, #0
-	strb r0, [r4, #0x6c8]
-	ldr r0, [r4, #0x5dc]
-	bic r0, r0, #0x1000000
-	str r0, [r4, #0x5dc]
-	str r1, [r4, #0x6d8]
-	ldr r0, [r4, #0x20]
-	bic r0, r0, #0x200
-	str r0, [r4, #0x20]
-	ldr r2, [r1, #0x44]
-	ldr r0, [r4, #0x44]
-	ldr r1, [r4, #0x98]
-	sub r0, r2, r0
-	bl FX_DivS32
-	mov r5, r0
-	mov r1, r5
-	mov r0, #0x4000
-	bl FX_DivS32
-	str r0, [r4, #0x6f0]
-	ldr r0, [r4, #0x5dc]
-	mov r1, r5
-	orr r0, r0, #0x2000000
-	str r0, [r4, #0x5dc]
-	mov r0, #0x1800
-	bl FX_DivS32
-	str r0, [r4, #0x6f4]
-	ldr r1, [r4, #0x5dc]
-	add r0, r4, #0x600
-	orr r1, r1, #0x30
-	str r1, [r4, #0x5dc]
-	mov r2, #0x50
-	ldr r1, =Player__State_201D874
-	strh r2, [r0, #0xde]
-	str r1, [r4, #0xf4]
-	ldmia sp!, {r3, r4, r5, pc}
+        fx32 moveX                                       = FX_DivS32(tripleGrindRail->objWork.position.x - player->objWork.position.x, player->objWork.velocity.x);
+        player->gimmick.tripleGrindRailSpring.angleSpeed = FX_DivS32(FLOAT_TO_FX32(4.0), moveX);
+        player->gimmickFlag |= PLAYER_GIMMICK_2000000;
+        player->gimmick.tripleGrindRailSpring.scaleSpeed = FX_DivS32(FLOAT_TO_FX32(1.5), moveX);
+        player->gimmickFlag |= PLAYER_GIMMICK_20 | PLAYER_GIMMICK_10;
+        player->gimmickCamOffsetY = 80;
 
-// clang-format on
-#endif
+        SetTaskState(&player->objWork, Player__State_TripleGrindRailEndSpring);
+    }
 }
 
-NONMATCH_FUNC void Player__State_201D874(Player *work)
+void Player__State_TripleGrindRailEndSpring(Player *work)
 {
-#ifdef NON_MATCHING
+    if (work->gimmickObj != NULL)
+    {
+        work->inputKeyDown &= PLAYER_INPUT_JUMP;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	mov r4, r0
-	ldr r1, [r4, #0x6d8]
-	cmp r1, #0
-	ldmeqia sp!, {r4, pc}
-	add r1, r4, #0x700
-	ldrh r2, [r1, #0x20]
-	and r2, r2, #3
-	strh r2, [r1, #0x20]
-	bl Player__State_Air
-	ldr r1, [r4, #0x6f0]
-	ldrh r0, [r4, #0x32]
-	mov r1, r1, lsl #0x10
-	mov r2, r1, asr #0x10
-	mov r1, #0xc000
-	bl ObjRoopMove16
-	strh r0, [r4, #0x32]
-	ldr r1, [r4, #0x38]
-	ldr r0, [r4, #0x6f4]
-	add r0, r1, r0
-	str r0, [r4, #0x38]
-	cmp r0, #0x2800
-	movgt r0, #0x2800
-	strgt r0, [r4, #0x38]
-	ldr r0, [r4, #0x38]
-	str r0, [r4, #0x40]
-	str r0, [r4, #0x3c]
-	ldmia sp!, {r4, pc}
+        Player__State_Air(work);
 
-// clang-format on
-#endif
+        work->objWork.dir.y = ObjRoopMove16(work->objWork.dir.y, FLOAT_DEG_TO_IDX(270.0), (s16)work->gimmick.tripleGrindRailSpring.angleSpeed);
+
+        work->objWork.scale.x += work->gimmick.tripleGrindRailSpring.scaleSpeed;
+        if (work->objWork.scale.x > FLOAT_TO_FX32(2.5))
+            work->objWork.scale.x = FLOAT_TO_FX32(2.5);
+
+        work->objWork.scale.y = work->objWork.scale.z = work->objWork.scale.x;
+    }
 }
 
 void Player__Gimmick_TripleGrindRail(Player *player)
