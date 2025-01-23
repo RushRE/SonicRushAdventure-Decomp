@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import re
 import os
+import argparse
 
 @dataclass
 class Address:
@@ -93,11 +94,18 @@ def ParseCFiles(includeLib = True):
                         if value[i].name == labelName:
                             overlays[key][i].decompiled = False
 
-def PrintProgress():
+def PrintProgress(includeLib:bool = False, version:str = "eu"):
     # calculate config
-    version = "eu"
-    includeLib = False # don't include libraries for now, just focus on the actual game logic!
-    
+
+    print("===================================================")
+    print("Parsing binary rush2.{0}.nds".format(version))
+    if includeLib:
+        print("Including library functions in total percentage.")
+    else:
+        print("Excluding library functions in total percentage.")
+    print("===================================================")
+    print()
+
     ReadXMAP("build/rush2.{0}/arm9.elf.xMAP".format(version))
         
     ParseAsmFiles(includeLib=includeLib)
@@ -131,4 +139,17 @@ def PrintProgress():
     percent = (allSrcCount / allTotalCount) * 100
     print("Total: {0}/{1} => {2}%".format(allSrcCount, allTotalCount, "{:.2f}".format(percent)))
 
-PrintProgress()
+
+if __name__ == '__main__':
+    # Handle argument parsing
+    parser = argparse.ArgumentParser(description='Sonic Rush Adventure decompilation progress calculator tool')
+    parser.add_argument('--incLibraries', action='store_true', help='Determines whether or not external libraries should be included in the percentages')
+    parser.add_argument('--romVersion', type=str, help='Determines what binary to read. Defaults to Europe ("eu") rom.')
+    args = parser.parse_args()
+
+    romVersion = args.romVersion
+    if romVersion == None:
+        romVersion = "eu"
+
+    # Calculate & print progress
+    PrintProgress(includeLib=args.incLibraries, version=romVersion)
