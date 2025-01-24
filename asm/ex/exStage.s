@@ -189,9 +189,9 @@ exStageTask__Main: // 0x02172858
 	bl ovl09_217261C
 	add r0, r4, #0x398
 	mov r1, #0xa000
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x398
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	mov r0, #0x28000
 	rsb r0, r0, #0
 	str r0, [r4, #0x360]

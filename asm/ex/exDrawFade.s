@@ -328,7 +328,7 @@ ovl09_2160AD4: // 0x02160AD4
 	rsb r6, r6, ip, lsr #16
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	cmp r5, #0x14
 	bge _02160B70
 	cmp r5, #0

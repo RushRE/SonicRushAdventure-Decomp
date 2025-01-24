@@ -66,6 +66,36 @@ typedef struct ExSysTask_
 // FUNCTIONS
 // --------------------
 
+NOT_DECOMPILED void ovl09_21729EC(void);
+NOT_DECOMPILED void ovl09_2172A18(void);
+NOT_DECOMPILED void ovl09_2172A28(void);
+NOT_DECOMPILED void ovl09_2172A38(void);
+NOT_DECOMPILED void ovl09_2172A50(void);
 NOT_DECOMPILED ExSysTaskStatus *exSysTask__GetStatus(void);
+NOT_DECOMPILED BOOL ovl09_2172AE0(void);
+NOT_DECOMPILED void exSysTask__Main(void);
+NOT_DECOMPILED void exSysTask__Func8(void);
+NOT_DECOMPILED void exSysTask__Destructor(void);
+NOT_DECOMPILED void ovl09_2172D30(void);
+NOT_DECOMPILED void ovl09_2172D6C(void);
+NOT_DECOMPILED void ovl09_2172D98(void);
+NOT_DECOMPILED void ovl09_2172E48(void);
+NOT_DECOMPILED void ovl09_2172E7C(void);
+NOT_DECOMPILED void ovl09_2172EF8(void);
+NOT_DECOMPILED void ovl09_2172F30(void);
+NOT_DECOMPILED void ovl09_2172FA4(void);
+NOT_DECOMPILED void ovl09_2173000(void);
+NOT_DECOMPILED void ovl09_2173074(void);
+NOT_DECOMPILED void ovl09_21730D0(void);
+NOT_DECOMPILED void ovl09_2173158(void);
+NOT_DECOMPILED void ovl09_21731DC(void);
+NOT_DECOMPILED void ovl09_217323C(void);
+NOT_DECOMPILED void ovl09_21732E4(void);
+NOT_DECOMPILED void ovl09_2173338(void);
+NOT_DECOMPILED void exSysTask__Create(void);
+NOT_DECOMPILED void ovl09_21733D4(void);
+NOT_DECOMPILED void ovl09_2173424(void);
+NOT_DECOMPILED void ovl09_2173438(void);
+NOT_DECOMPILED void ovl09_2173500(void);
 
 #endif // RUSH_EXSYSTASK_H

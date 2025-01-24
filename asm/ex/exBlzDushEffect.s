@@ -608,7 +608,7 @@ exBlzDushEffectTask__Main: // 0x02153D1C
 	bl ovl09_21535EC
 	add r0, r4, #0x390
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x390
 	bl ovl09_21641F0
 	bl GetExTaskCurrent

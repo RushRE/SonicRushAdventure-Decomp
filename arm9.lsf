@@ -752,8 +752,8 @@ Overlay ExBoss
     Object asm/ex/exBossEffectHoming.o
     Object asm/ex/exBossEffectShot.o
     Object asm/ex/exBossEffectFire.o
-    Object asm/ex/exBossFireBlue.o
-    Object asm/ex/exBossFireRed.o
+    Object asm/ex/exBossFire_vars.o
+    Object src/ex/exBossFire.o
     Object asm/ex/exBossHomingLaser.o
     Object asm/ex/exBossLineMissile.o
     Object asm/ex/exBossMeteBomb.o

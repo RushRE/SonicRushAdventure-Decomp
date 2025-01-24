@@ -239,7 +239,7 @@ exBossMagmeWaveTask__Main: // 0x021605FC
 	bl ovl09_21602D4
 	add r0, r4, #0x3a0
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x3a0
 	bl ovl09_21641F0
 	ldr r1, [r4, #0x10]

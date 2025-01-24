@@ -453,7 +453,7 @@ exBossEffectHitTask__Main: // 0x02155F04
 	bl ovl09_2155C28
 	add r0, r4, #0x390
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x390
 	bl ovl09_21641F0
 	ldr r1, [r4, #0x4e0]

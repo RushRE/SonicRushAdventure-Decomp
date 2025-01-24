@@ -325,9 +325,9 @@ exBossMagmaAttackTask__Main: // 0x0215FE9C
 	bl ovl09_215FB1C
 	add r0, r4, #0x3a0
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x3a0
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldr r0, [r4, #0x10]
 	mov r1, #0
 	ldr r2, [r0, #0x3ec]
@@ -433,7 +433,7 @@ ovl09_215FFFC: // 0x0215FFFC
 	mov r1, #1
 	bl ovl09_215FD60
 	add r0, r4, #0x3a0
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	mov r0, #0x3000
 	ldr lr, _02160080 // =_mt_math_rand
 	str r0, [r4, #8]

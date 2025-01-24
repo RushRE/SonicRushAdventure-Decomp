@@ -276,12 +276,12 @@ exBossMeteLockOnTask__Main: // 0x0215C9B0
 	bl ovl09_215C614
 	add r0, r4, #0x39c
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x10
 	mov r1, #1
 	bl ovl09_215C874
 	add r0, r4, #0x39c
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldr r0, [r4, #0x4ec]
 	mov r2, #0x41000
 	ldr r0, [r0, #0x3bc]

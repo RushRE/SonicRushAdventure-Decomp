@@ -17440,12 +17440,12 @@
 .public ovl09_21589B8
 .public ovl09_2158B64
 .public exBossFireBlueTask__Create
-.public ovl09_2158CE4
+.public exBossFireRedTask__LoadAssets
 .public ovl09_2158F84
 .public exBossFireRedTask__Main
 .public exBossFireRedTask__Func8
 .public exBossFireRedTask__Destructor
-.public ovl09_2159140
+.public exBossFireRedTask__Main_2159140
 .public ovl09_215938C
 .public ovl09_21593AC
 .public ovl09_21594B0
@@ -17715,9 +17715,9 @@
 .public ovl09_2164174
 .public ovl09_21641AC
 .public ovl09_21641C8
-.public ovl09_21641E8
+.public exDrawReqTask__SetConfigPriority
 .public ovl09_21641F0
-.public ovl09_2164218
+.public exDrawReqTask__Func_2164218
 .public ovl09_2164238
 .public ovl09_2164260
 .public ovl09_216426C

@@ -192,10 +192,10 @@ exBossMeteMeteoTask__Main: // 0x0215D360
 	add r0, r4, #0x14
 	add r0, r0, #0x400
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x14
 	add r0, r0, #0x400
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldr r1, [r4, #0x564]
 	ldr r0, _0215D4D4 // =0x000435A1
 	ldr r1, [r1, #0x3ec]

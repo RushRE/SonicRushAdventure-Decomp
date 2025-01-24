@@ -510,9 +510,9 @@ exBossHomingLaserTask__Main: // 0x02159E24
 	bl ovl09_2159CEC
 	add r0, r4, #0x194
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x194
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl GetCurrentTask
 	ldr r1, _02159F5C // =exBossHomingLaserTask__ActiveInstanceCount
 	ldr r3, _02159F60 // =0x021740A4
@@ -544,7 +544,7 @@ exBossHomingLaserTask__Main: // 0x02159E24
 	bl ovl09_216241C
 	ldr r1, _02159F68 // =0x0000A7FF
 	add r0, r4, #0x550
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r0, #1
 	strh r0, [r4, #4]
 	ldr r2, _02159F6C // =_mt_math_rand

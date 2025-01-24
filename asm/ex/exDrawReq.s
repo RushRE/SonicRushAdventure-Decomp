@@ -330,11 +330,11 @@ ovl09_21641C8: // 0x021641C8
 _021641E4: .word 0x0217644C
 	arm_func_end ovl09_21641C8
 
-	arm_func_start ovl09_21641E8
-ovl09_21641E8: // 0x021641E8
+	arm_func_start exDrawReqTask__SetConfigPriority
+exDrawReqTask__SetConfigPriority: // 0x021641E8
 	strh r1, [r0, #4]
 	bx lr
-	arm_func_end ovl09_21641E8
+	arm_func_end exDrawReqTask__SetConfigPriority
 
 	arm_func_start ovl09_21641F0
 ovl09_21641F0: // 0x021641F0
@@ -350,8 +350,8 @@ ovl09_21641F0: // 0x021641F0
 	bx lr
 	arm_func_end ovl09_21641F0
 
-	arm_func_start ovl09_2164218
-ovl09_2164218: // 0x02164218
+	arm_func_start exDrawReqTask__Func_2164218
+exDrawReqTask__Func_2164218: // 0x02164218
 	ldrb r1, [r0, #1]
 	orr r3, r1, #4
 	bic r2, r3, #2
@@ -360,7 +360,7 @@ ovl09_2164218: // 0x02164218
 	bic r1, r1, #0x10
 	strb r1, [r0, #1]
 	bx lr
-	arm_func_end ovl09_2164218
+	arm_func_end exDrawReqTask__Func_2164218
 
 	arm_func_start ovl09_2164238
 ovl09_2164238: // 0x02164238

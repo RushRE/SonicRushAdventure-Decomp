@@ -178,7 +178,7 @@ exEffectBarrierTask__Main: // 0x02164F5C
 	bl ovl09_2164E1C
 	add r0, r4, #0x158
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x158
 	bl ovl09_21641F0
 	ldrsh r0, [r4, #0]

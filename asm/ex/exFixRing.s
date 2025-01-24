@@ -19,7 +19,7 @@ exFixRingTask__Main: // 0x021697E0
 	bl ovl09_2168EA4
 	add r0, r7, #0x90
 	mov r1, #0xe000
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r0, #0
 	strh r0, [r7, #0x78]
 	strh r0, [r7, #0x7a]
@@ -49,7 +49,7 @@ _0216985C:
 	bl ovl09_2168EA4
 	ldr r1, _021699B0 // =0x0000E001
 	add r0, r5, r9
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r1, r10, #0x100
 	mov r0, #0
 	strh r0, [r1]
@@ -88,7 +88,7 @@ _021698F0:
 	bl ovl09_2168EA4
 	ldr r1, _021699B0 // =0x0000E001
 	add r0, r5, r8
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r1, r9, #0x600
 	mov r0, #0
 	strh r0, [r1, #0x50]
@@ -99,7 +99,7 @@ _021698F0:
 	strb r1, [r4, r8]
 	bl ovl09_2161B80
 	add r0, r5, r8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	add r0, r10, #1
 	mov r0, r0, lsl #0x10
 	mov r10, r0, lsr #0x10

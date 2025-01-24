@@ -80,7 +80,7 @@ _0216D98C:
 	bl ovl09_2168EA4
 	add r0, r7, #0x98
 	mov r1, #0xe000
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mvn r0, #0x23
 	strh r0, [r7, #0x80]
 	mov r1, #0x3c
@@ -88,7 +88,7 @@ _0216D98C:
 	strh r1, [r7, #0x82]
 	bl ovl09_2161B80
 	add r0, r7, #0x98
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldrb r0, [r7, #0x9a]
 	add r1, r7, #0x32
 	mov r8, #0
@@ -126,7 +126,7 @@ _0216DA20:
 	bl ovl09_2168EA4
 	add r0, r5, r9
 	mov r1, #0xe000
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r1, r10, #0x100
 	strh r4, [r1, #8]
 	mov r0, #0x48
@@ -156,7 +156,7 @@ _0216DA20:
 	ldr r0, [sp, #0x10]
 	mov r1, #0xe000
 	add r0, r0, r9
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r1, r10, #0x200
 	strh r4, [r1, #0x18]
 	mov r0, #0x58

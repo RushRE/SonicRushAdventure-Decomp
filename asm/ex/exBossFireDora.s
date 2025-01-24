@@ -200,7 +200,7 @@ exBossFireDoraTask__Main: // 0x02154F60
 	bl ovl09_2154D8C
 	add r0, r4, #0x3c4
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x3c4
 	bl ovl09_21641F0
 	add r0, r4, #0x114
@@ -209,7 +209,7 @@ exBossFireDoraTask__Main: // 0x02154F60
 	add r0, r4, #0x264
 	add r0, r0, #0x400
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x264
 	add r0, r0, #0x400
 	bl ovl09_21641F0
@@ -245,7 +245,7 @@ exBossFireDoraTask__Main: // 0x02154F60
 	add r0, r4, #0x224
 	ldr r1, _02155114 // =0x0000A7FF
 	add r0, r0, #0x800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r2, _02155118 // =_mt_math_rand
 	ldr r0, _0215511C // =0x00196225
 	ldr r3, [r2, #0]
@@ -796,7 +796,7 @@ ovl09_21557A0: // 0x021557A0
 	bl ovl09_2154D44
 	add r0, r4, #0x264
 	add r0, r0, #0x400
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
 	ldr r1, _021557FC // =ovl09_2155800
 	str r1, [r0]

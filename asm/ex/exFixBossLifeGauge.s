@@ -21,7 +21,7 @@ exFixBossLifeGaugeTask__Main: // 0x0216A13C
 	bl ovl09_2168EA4
 	add r0, r5, #0x94
 	mov r1, #0xe000
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r0, #0x39
 	strh r0, [r5, #0x7c]
 	mov r0, #0xb0
@@ -39,7 +39,7 @@ exFixBossLifeGaugeTask__Main: // 0x0216A13C
 	bl ovl09_2168EA4
 	add r0, r5, #0x11c
 	mov r1, #0xe000
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r1, #0x38
 	add r0, r5, #0x100
 	strh r1, [r0, #4]
@@ -59,7 +59,7 @@ exFixBossLifeGaugeTask__Main: // 0x0216A13C
 	bl ovl09_2168EA4
 	add r0, r5, #0x1a4
 	mov r1, #0xe000
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r1, #0xf8
 	add r0, r5, #0x100
 	strh r1, [r0, #0x8c]
@@ -90,7 +90,7 @@ _0216A26C:
 	bl ovl09_2168EA4
 	ldr r1, _0216A344 // =0x0000DFFF
 	mov r0, r9
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r1, r7, #0x200
 	mov r0, #0
 	strh r0, [r1, #0x14]

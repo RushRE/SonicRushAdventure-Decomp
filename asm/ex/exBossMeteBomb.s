@@ -205,7 +205,7 @@ ovl09_215BF48: // 0x0215BF48
 	mov r1, #0
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	mov r0, #0x3c
 	strh r0, [r4, #0x58]
 	bl GetExTaskCurrent
@@ -503,7 +503,7 @@ exBossMeteBombTask__Main: // 0x0215C34C
 	bl ovl09_215C00C
 	add r0, r4, #0x3c0
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x3c0
 	bl ovl09_21641F0
 	ldr r1, [r4, #4]

@@ -25,7 +25,7 @@ exFixTimeTask__Main: // 0x02168F78
 	ldr r0, [r5, #0]
 	mov r1, #0xe000
 	add r0, r0, #0x98
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r5, #0]
 	mov r1, #0
 	strh r1, [r0, #0x80]
@@ -69,7 +69,7 @@ _02169030:
 	mov r1, #0xe000
 	add r0, r0, #0x120
 	add r0, r0, r6
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r5, #0]
 	mov r1, #0
 	add r0, r0, r6
@@ -94,7 +94,7 @@ _02169030:
 	add r0, r0, #0x120
 	beq _021690DC
 	add r0, r0, r4
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	b _021690E4
 _021690DC:
 	add r0, r0, r4
@@ -120,7 +120,7 @@ _021690E4:
 	mov r1, #0xe000
 	add r0, r0, #0x230
 	add r0, r0, r6
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r5, #0]
 	mov r1, #0
 	add r0, r0, r6
@@ -145,7 +145,7 @@ _021690E4:
 	add r0, r0, #0x230
 	beq _021691A0
 	add r0, r0, r4
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	b _021691A8
 _021691A0:
 	add r0, r0, r4
@@ -197,7 +197,7 @@ _0216920C:
 	add r0, r0, #0x340
 	add r0, r0, r6
 	add r0, r0, r8
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r5, #0]
 	add r0, r6, r0
 	add r0, r8, r0
@@ -226,7 +226,7 @@ _0216920C:
 	beq _021692D0
 	add r0, r0, r6
 	add r0, r0, r7
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	b _021692DC
 _021692D0:
 	add r0, r0, r6

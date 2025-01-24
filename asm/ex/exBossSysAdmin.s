@@ -100,7 +100,7 @@ ovl09_215DCE4: // 0x0215DCE4
 	strh r2, [r4, #0x56]
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl exBossMeteLockOnTask__Create
 	bl GetExTaskCurrent
 	ldr r1, _0215DD28 // =ovl09_215DD2C
@@ -317,9 +317,9 @@ exBossSysAdminTask__Main: // 0x0215DF3C
 	bl ovl09_2154030
 	add r0, r5, #0x3f8
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r5, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	mov r7, #0
 	add r8, r5, #0x1d0
 	mov r6, r7
@@ -572,7 +572,7 @@ ovl09_215E298: // 0x0215E298
 	mov r1, #0
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl ovl09_215EF00
 	bl GetExTaskCurrent
 	ldr r1, _0215E2D0 // =ovl09_215E2D4
@@ -686,7 +686,7 @@ ovl09_215E420: // 0x0215E420
 	mov r1, #0
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
 	ldr r1, _0215E454 // =ovl09_215E458
 	str r1, [r0]
@@ -789,7 +789,7 @@ ovl09_215E580: // 0x0215E580
 	mov r1, #0
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
 	ldr r1, _0215E5B4 // =ovl09_215E5B8
 	str r1, [r0]
@@ -867,7 +867,7 @@ ovl09_215E688: // 0x0215E688
 	mov r1, #0
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl ovl09_215EF00
 	bl GetExTaskCurrent
 	ldr r1, _0215E6C0 // =ovl09_215E6C4
@@ -974,7 +974,7 @@ ovl09_215E7FC: // 0x0215E7FC
 	mov r1, #0
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
 	ldr r1, _0215E830 // =ovl09_215E834
 	str r1, [r0]
@@ -1095,7 +1095,7 @@ ovl09_215E99C: // 0x0215E99C
 	mov r1, #0
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
 	ldr r1, _0215E9D0 // =ovl09_215E9D4
 	str r1, [r0]
@@ -1173,7 +1173,7 @@ ovl09_215EAA4: // 0x0215EAA4
 	mov r1, #0
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl ovl09_215EF00
 	bl GetExTaskCurrent
 	ldr r1, _0215EADC // =ovl09_215EAE0
@@ -1280,7 +1280,7 @@ ovl09_215EC18: // 0x0215EC18
 	mov r1, #0
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
 	ldr r1, _0215EC4C // =ovl09_215EC50
 	str r1, [r0]
@@ -1419,7 +1419,7 @@ ovl09_215EDF8: // 0x0215EDF8
 	mov r1, #0
 	bl ovl09_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
 	ldr r1, _0215EE2C // =ovl09_215EE30
 	str r1, [r0]

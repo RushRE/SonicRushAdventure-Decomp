@@ -103,7 +103,7 @@ exPlayerAdminTask__Main: // 0x0216E570
 	ldr r0, [r4, #8]
 	mov r1, #0xa800
 	add r0, r0, #0x390
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r1, #0x5a000
 	rsb r1, r1, #0
 	ldr r0, [r4, #8]
@@ -115,14 +115,14 @@ exPlayerAdminTask__Main: // 0x0216E570
 	bl ovl09_21724F4
 	add r0, r4, #0x168
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
 	bl ovl09_2153178
 	ldr r0, [r4, #0xc]
 	mov r1, #0xa800
 	add r0, r0, #0x390
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r1, #0x5a000
 	rsb r1, r1, #0
 	ldr r0, [r4, #0xc]
@@ -135,7 +135,7 @@ exPlayerAdminTask__Main: // 0x0216E570
 	add r0, r4, #8
 	add r0, r0, #0x400
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r1, [r4, #4]
 	ldrb r0, [r1, #0x6a]
 	bic r0, r0, #1
@@ -150,7 +150,7 @@ exPlayerAdminTask__Main: // 0x0216E570
 	add r0, r4, #0x3c8
 	add r0, r0, #0x400
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r4, #4]
 	mov r1, #0
 	strh r1, [r0, #0x40]
@@ -325,14 +325,14 @@ ovl09_216E7F4: // 0x0216E7F4
 	bl ovl09_2171930
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldr r1, [r4, #0xc]
 	add r0, r1, #4
 	ldrh r1, [r1, #2]
 	bl ovl09_2153334
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	add r0, r4, #0x118
 	add r0, r0, #0x800
 	ldr r1, [r4, #0x14]
@@ -342,7 +342,7 @@ ovl09_216E7F4: // 0x0216E7F4
 	add r0, r4, #0x384
 	add r0, r0, #0x800
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	bl GetExTaskCurrent
 	ldr r1, _0216E8EC // =ovl09_216E8F0
 	str r1, [r0]
@@ -1100,14 +1100,14 @@ _0216F304:
 	bl ovl09_2171930
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldr r0, [r4, #0xc]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
 	bl ovl09_2153334
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
 	ldr r1, _0216F3A0 // =ovl09_216E70C
 	str r1, [r0]
@@ -1170,7 +1170,7 @@ ovl09_216F3A4: // 0x0216F3A4
 	ldr r0, [r4, #8]
 	mov r1, #0xa800
 	add r0, r0, #0x390
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r1, #0
 	ldr r0, [r4, #8]
 	strh r1, [r0, #2]
@@ -1183,7 +1183,7 @@ ovl09_216F3A4: // 0x0216F3A4
 	ldr r0, [r4, #0xc]
 	mov r1, #0xa800
 	add r0, r0, #0x390
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r0, #0
 	ldr r1, [r4, #0xc]
 	strh r0, [r1, #2]
@@ -1270,14 +1270,14 @@ ovl09_216F5A4: // 0x0216F5A4
 	bl ovl09_2171B5C
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldr r0, [r4, #0xc]
 	mov r1, #1
 	add r0, r0, #4
 	bl ovl09_2153560
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldr r0, [r4, #4]
 	mov r1, #0x5a
 	strh r1, [r0, #0x42]
@@ -1506,14 +1506,14 @@ ovl09_216F8D4: // 0x0216F8D4
 	bl ovl09_2171930
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldr r1, [r4, #0xc]
 	add r0, r1, #4
 	ldrh r1, [r1, #2]
 	bl ovl09_2153334
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	mov r2, #0x3c000
 	ldr r0, [r4, #0x10]
 	mov r1, #0x32000
@@ -1536,7 +1536,7 @@ ovl09_216F8D4: // 0x0216F8D4
 	add r0, r4, #0x3c8
 	add r0, r0, #0x400
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	bl GetExTaskCurrent
 	ldr r1, _0216F98C // =ovl09_216F990
 	str r1, [r0]
@@ -1884,7 +1884,7 @@ ovl09_216FDD4: // 0x0216FDD4
 	bl ovl09_2171930
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldmia sp!, {r4, pc}
 	arm_func_end ovl09_216FDD4
 
@@ -1931,7 +1931,7 @@ ovl09_216FE6C: // 0x0216FE6C
 	bl ovl09_2153334
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
 	ldr r1, _0216FEA8 // =ovl09_216FEAC
 	str r1, [r0]
@@ -2293,7 +2293,7 @@ ovl09_2170320: // 0x02170320
 	bl ovl09_2153334
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldmia sp!, {r4, pc}
 	arm_func_end ovl09_2170320
 
@@ -2999,14 +2999,14 @@ _02170D10:
 	bl ovl09_2171930
 	ldr r0, [r5, #8]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldr r0, [r5, #0xc]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
 	bl ovl09_2153334
 	ldr r0, [r5, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 _02170D68:
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #3]

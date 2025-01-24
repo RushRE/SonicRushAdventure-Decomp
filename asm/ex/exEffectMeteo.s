@@ -753,7 +753,7 @@ _02167A98:
 	add r0, r4, #0x3a8
 	mov r1, #0xa800
 	str r2, [r4]
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x3a8
 	bl ovl09_21641F0
 	add r0, r4, #0xf8
@@ -774,7 +774,7 @@ _02167AE4:
 	add r0, r0, #0x800
 	mov r1, #0xa800
 	str r2, [r4]
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x84
 	add r0, r0, #0x800
 	bl ovl09_21641F0

@@ -90,7 +90,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #8]
 	mov r1, #0xe000
 	add r0, r0, #0x80
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r4, #8]
 	mov r1, #0
 	strh r1, [r0, #0x68]
@@ -112,7 +112,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0xc]
 	mov r1, #0xe000
 	add r0, r0, #0x80
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r1, #0
 	ldr r0, [r4, #0xc]
 	strh r1, [r0, #0x68]
@@ -134,7 +134,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x10]
 	ldr r1, _0216CCBC // =0x0000E001
 	add r0, r0, #0x80
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r4, #0x10]
 	mov r1, #0x80
 	strh r1, [r0, #0x68]
@@ -157,7 +157,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x14]
 	mov r1, #0xe000
 	add r0, r0, #0x80
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r4, #0x14]
 	mov r1, #0
 	strh r1, [r0, #0x68]
@@ -179,7 +179,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x18]
 	mov r1, #0xe000
 	add r0, r0, #0x80
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r1, #0
 	ldr r0, [r4, #0x18]
 	strh r1, [r0, #0x68]
@@ -201,7 +201,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x1c]
 	mov r1, #0xe000
 	add r0, r0, #0x80
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r1, #0
 	ldr r0, [r4, #0x1c]
 	strh r1, [r0, #0x68]
@@ -223,7 +223,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x20]
 	mov r1, #0xe000
 	add r0, r0, #0x80
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r4, #0x20]
 	mov r1, #0
 	strh r1, [r0, #0x68]
@@ -245,7 +245,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x24]
 	mov r1, #0xe000
 	add r0, r0, #0x80
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r4, #0x24]
 	mov r1, #0
 	strh r1, [r0, #0x68]
@@ -267,7 +267,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x28]
 	mov r1, #0xe000
 	add r0, r0, #0x80
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r1, #0
 	ldr r0, [r4, #0x28]
 	strh r1, [r0, #0x68]
@@ -945,7 +945,7 @@ ovl09_216D564: // 0x0216D564
 	ldr r0, [r4, #0x2c]
 	mov r1, #0xe000
 	add r0, r0, #0x80
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r2, #0x80
 	ldr r0, [r4, #0x2c]
 	mov r1, #0x60
@@ -972,7 +972,7 @@ ovl09_216D564: // 0x0216D564
 	ldr r0, [r4, #0x30]
 	mov r1, #0xe000
 	add r0, r0, #0x80
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r2, #0x80
 	ldr r0, [r4, #0x30]
 	mov r1, #0x60

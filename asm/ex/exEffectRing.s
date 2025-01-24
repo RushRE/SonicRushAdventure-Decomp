@@ -233,9 +233,9 @@ exEffectRingTask__Create: // 0x02168600
 	add r0, r4, #0x160
 	mov r1, #0xa800
 	str r2, [r4, #0xc]
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x160
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldr r1, [sp, #0x28]
 	ldr r0, [sp, #0x34]
 	str r1, [r4, #0x13c]

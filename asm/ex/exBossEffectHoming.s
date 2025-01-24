@@ -508,7 +508,7 @@ exBossEffectHomingTask__Main: // 0x021571B0
 	bl ovl09_2156D80
 	add r0, r4, #0x390
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x390
 	bl ovl09_21641F0
 	mov r2, #1
@@ -619,7 +619,7 @@ ovl09_2157320: // 0x02157320
 	mov r1, #1
 	bl ovl09_2157024
 	add r0, r4, #0x390
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
 	ldr r1, _02157354 // =ovl09_2157358
 	str r1, [r0]

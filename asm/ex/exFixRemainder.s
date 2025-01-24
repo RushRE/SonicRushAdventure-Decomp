@@ -19,7 +19,7 @@ exFixRemainderTask__Main: // 0x02169DBC
 	bl ovl09_2168EA4
 	add r0, r7, #0x88
 	mov r1, #0xe000
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r0, #0
 	strh r0, [r7, #0x70]
 	strh r0, [r7, #0x72]
@@ -36,7 +36,7 @@ exFixRemainderTask__Main: // 0x02169DBC
 	bl ovl09_2168EA4
 	ldr r1, _02169F14 // =0x0000E001
 	add r0, r7, #0x110
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r0, #0
 	strh r0, [r7, #0xf8]
 	strh r0, [r7, #0xfa]
@@ -65,7 +65,7 @@ _02169E74:
 	bl ovl09_2168EA4
 	ldr r1, _02169F14 // =0x0000E001
 	add r0, r5, r9
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r1, r10, #0x100
 	mov r0, #0
 	strh r0, [r1, #0x80]

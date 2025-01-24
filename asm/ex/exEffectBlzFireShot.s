@@ -15,7 +15,7 @@ exEffectBlzFireShotTask__Main: // 0x02166EB0
 	bl ovl09_2165EC8
 	add r0, r4, #0x390
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x390
 	bl ovl09_21641F0
 	bl GetExTaskCurrent

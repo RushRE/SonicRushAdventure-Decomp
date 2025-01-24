@@ -78,7 +78,7 @@ _0216C5E8:
 	bl ovl09_2168EA4
 	ldr r1, _0216C6D8 // =0x0000E002
 	add r0, r5, r9
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r0, #0
 	strh r0, [r10, #0xf8]
 	strh r0, [r10, #0xfa]
@@ -102,7 +102,7 @@ _0216C5E8:
 	bl ovl09_2168EA4
 	ldr r1, _0216C6DC // =0x0000E001
 	add r0, r7, #0x88
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	mov r0, #0
 	strh r0, [r7, #0x70]
 	strh r0, [r7, #0x72]

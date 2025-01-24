@@ -506,9 +506,9 @@ exBossLineNeedleTask__Main: // 0x0215ACC4
 	bl ovl09_215AA34
 	add r0, r4, #0x3b0
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x3b0
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	mov r5, #0x48
 	ldr r1, _0215AE48 // =0x021740C8
 	mov ip, #0
@@ -1069,9 +1069,9 @@ exBossLineMissileTask__Main: // 0x0215B480
 	bl ovl09_215B1F4
 	add r0, r4, #0x3b8
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x3b8
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	mov r6, #0x48
 	ldr r1, _0215B604 // =0x021740C8
 	mov ip, #0

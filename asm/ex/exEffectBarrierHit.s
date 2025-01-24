@@ -236,7 +236,7 @@ exEffectBarrierHitTask__Main: // 0x02164C70
 	bl ovl09_2164950
 	add r0, r4, #0x39c
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x39c
 	bl ovl09_21641F0
 	bl GetExTaskCurrent

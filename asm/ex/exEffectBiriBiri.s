@@ -141,9 +141,9 @@ exEffectBiriBiriTask__Main: // 0x02164710
 	bl ovl09_21645D4
 	add r0, r4, #0x15c
 	mov r1, #0xa800
-	bl ovl09_21641E8
+	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x15c
-	bl ovl09_2164218
+	bl exDrawReqTask__Func_2164218
 	ldr r0, [r4, #0]
 	str r0, [r4, #0x138]
 	ldr r0, [r4, #4]
