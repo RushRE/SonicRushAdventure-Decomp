@@ -11,7 +11,7 @@ exFixTimeTask__Main: // 0x02168F78
 	bl GetCurrentTask
 	ldr r1, _02169388 // =0x021766A8
 	str r0, [r1, #0xc]
-	bl exTimeGamePlayTask__Create
+	bl CreateExTimeGameplay
 	ldr r1, _0216938C // =0x021766BC
 	mov r0, #0x12
 	str r1, [r5]
@@ -298,22 +298,22 @@ exFixTimeTask__Destructor: // 0x021693AC
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exFixTimeTask__Func_2173C78
+	bl DestroyExTimeGameplay
 	ldr r0, [r4, #0]
 	add r0, r0, #0x18
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0]
 	add r0, r0, #0xa0
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0]
 	add r0, r0, #0x128
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0]
 	add r0, r0, #0x1b0
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0]
 	add r0, r0, #0x238
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	mov r5, #0
 	mov r7, #0x88
 _02169400:
@@ -321,11 +321,11 @@ _02169400:
 	ldr r0, [r4, #0]
 	add r0, r0, #0x2c0
 	add r0, r0, r6
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0]
 	add r0, r0, #0x810
 	add r0, r0, r6
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r5, #1
 	mov r0, r0, lsl #0x10
 	mov r5, r0, lsr #0x10

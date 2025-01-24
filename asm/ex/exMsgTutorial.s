@@ -150,11 +150,11 @@ exMsgTutorialTask__Destructor: // 0x0216C70C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x90
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r4, #0x118
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r4, #8
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, _0216C740 // =0x021775B8
 	mov r1, #0
 	str r1, [r0, #4]

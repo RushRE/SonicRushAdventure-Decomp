@@ -68,7 +68,7 @@ typedef struct ExSysTask_
 
 NOT_DECOMPILED void exStageTask__Destroy(void);
 NOT_DECOMPILED void exSysTask__GetSingleton(void);
-NOT_DECOMPILED void exSysTask__GetLifeCount(void);
+NOT_DECOMPILED s32 exSysTask__GetLifeCount(void);
 NOT_DECOMPILED void exSysTask__Func_2172A38(void);
 NOT_DECOMPILED void exSysTask__InitStatus(void);
 NOT_DECOMPILED ExSysTaskStatus *exSysTask__GetStatus(void);

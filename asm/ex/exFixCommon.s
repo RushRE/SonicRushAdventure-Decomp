@@ -57,11 +57,11 @@ _02168F60: .word VRAMSystem__VRAM_PALETTE_OBJ
 _02168F64: .word 0x00000804
 	arm_func_end exFixAdminTask__LoadSprite
 
-	arm_func_start exFixAdminTask__Func_2168F68
-exFixAdminTask__Func_2168F68: // 0x02168F68
+	arm_func_start exFixAdminTask__ReleaseSprite
+exFixAdminTask__ReleaseSprite: // 0x02168F68
 	ldr ip, _02168F74 // =AnimatorSprite__Release
 	add r0, r0, #4
 	bx ip
 	.align 2, 0
 _02168F74: .word AnimatorSprite__Release
-	arm_func_end exFixAdminTask__Func_2168F68
+	arm_func_end exFixAdminTask__ReleaseSprite

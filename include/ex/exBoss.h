@@ -49,7 +49,7 @@ typedef struct exBossSysAdminTask_
     s16 field_64;
     s16 field_66;
     s32 field_68;
-    EX_ACTION_NN_WORK field_6C;
+    EX_ACTION_NN_WORK aniBoss;
     u32 field_548;
     TaskMain field_54C;
 } exBossSysAdminTask;

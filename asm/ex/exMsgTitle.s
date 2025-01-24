@@ -314,7 +314,7 @@ exMsgTitleTask__Destructor: // 0x0216CCD0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x30]
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, _0216CCF0 // =exMsgTitleTask__TaskSingleton
 	mov r1, #0
 	str r1, [r0]
@@ -917,23 +917,23 @@ exMsgTitleTask__Func_216D564: // 0x0216D564
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #8]
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0x10]
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0xc]
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0x14]
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0x18]
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0x1c]
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0x20]
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0x24]
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	ldr r0, [r4, #0x28]
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	mov r2, #0x4a
 	ldr r0, [r4, #0x2c]
 	mov r1, #7
@@ -1063,7 +1063,7 @@ exMsgTitleTask__Func_216D760: // 0x0216D760
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x2c]
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	bl exSysTask__GetStatus
 	mov r1, #4
 	strb r1, [r0, #3]

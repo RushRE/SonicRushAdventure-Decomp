@@ -143,7 +143,7 @@ exFixRingTask__Destructor: // 0x021699C8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r4, #0x1e8
 	add r6, r4, #0x98
 	mov r7, #0
@@ -152,9 +152,9 @@ exFixRingTask__Destructor: // 0x021699C8
 _021699F0:
 	mul r8, r7, r4
 	add r0, r6, r8
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r5, r8
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10

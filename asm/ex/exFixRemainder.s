@@ -112,15 +112,15 @@ exFixRemainderTask__Destructor: // 0x02169F2C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #8
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r4, #0x90
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r5, r4, #0x118
 	mov r6, #0
 	mov r4, #0x88
 _02169F54:
 	mla r0, r6, r4, r5
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
 	mov r6, r0, lsr #0x10

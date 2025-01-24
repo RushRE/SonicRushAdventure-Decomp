@@ -1377,7 +1377,7 @@ exPlayerAdminTask__Func_216F704: // 0x0216F704
 	ldrb r0, [r0, #2]
 	cmp r0, #1
 	bne _0216F738
-	bl exTimeGamePlayTask__IsTimeOver
+	bl CheckExTimeGameplayIsTimeOver
 	cmp r0, #0
 	beq _0216F738
 	bl exPlayerAdminTask__Action_Die
@@ -3190,10 +3190,10 @@ exPlayerAdminTask__HandleControl: // 0x02170FD0
 	ldrb r0, [r0, #2]
 	cmp r0, #1
 	bne _0217101C
-	bl exTimeGamePlayTask__IsTimeOver
+	bl CheckExTimeGameplayIsTimeOver
 	cmp r0, #0
 	beq _0217101C
-	bl exTimeGamePlayTask__ResetTimeOverFlag
+	bl ResetExTimeGameplayTimeOverFlag
 	bl exPlayerAdminTask__Action_Die
 	ldmia sp!, {r4, pc}
 _0217101C:

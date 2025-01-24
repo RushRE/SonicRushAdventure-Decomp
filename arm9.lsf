@@ -795,6 +795,7 @@ Overlay ExBoss
     Object asm/ex/exStage.o
     Object asm/ex/exSys.o
     Object src/ex/exTask.o
-    Object asm/ex/exTimeGameplay.o
-    Object asm/game/ex/exSave.o
+    Object src/ex/exTimeGameplay.o
+    Object asm/ex/exTimeGameplay_vars.o
+    Object src/ex/exSave.o
 }

@@ -15647,8 +15647,8 @@ _0210A870:
 	mvn r0, #0
 	bx lr
 
-	arm_func_start _ll_ufrom_f_r
-_ll_ufrom_f_r: // 0x0210A878
+	arm_func_start _ll_ufrom_f
+_ll_ufrom_f: // 0x0210A878
 	tst r0, #0x80000000
 	bne _0210A8BC
 	mov r2, #0xbe
@@ -15678,7 +15678,7 @@ _0210A8D4:
 	mvn r1, #0
 	mvn r0, #0
 	bx lr
-	arm_func_end _ll_ufrom_f_r
+	arm_func_end _ll_ufrom_f
 
 	.public _fflt
 	.type _fflt, @function

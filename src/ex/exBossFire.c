@@ -178,9 +178,9 @@ void ExBossFireBlue_Main_Init(void)
     exDrawReqTask__SetConfigPriority(&work->animator.config, 0xA800);
     exDrawReqTask__Func_2164218(&work->animator.config);
 
-    work->animator.model.translation.x = work->parent->field_6C.model.field_364.x;
-    work->animator.model.translation.y = work->parent->field_6C.model.field_364.y;
-    work->animator.model.translation.z = work->parent->field_6C.model.field_364.z;
+    work->animator.model.translation.x = work->parent->aniBoss.model.field_364.x;
+    work->animator.model.translation.y = work->parent->aniBoss.model.field_364.y;
+    work->animator.model.translation.z = work->parent->aniBoss.model.field_364.z;
 
     work->targetPos.x = work->parent->field_48;
     work->targetPos.y = work->parent->field_4C;
@@ -533,9 +533,9 @@ void ExBossFireRed_Main_Init(void)
     exDrawReqTask__Func_2164218(&work->animator.config);
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_FIREBALL);
 
-    work->animator.model.translation.x = work->parent->field_6C.model.field_364.x;
-    work->animator.model.translation.y = work->parent->field_6C.model.field_364.y;
-    work->animator.model.translation.z = work->parent->field_6C.model.field_364.z;
+    work->animator.model.translation.x = work->parent->aniBoss.model.field_364.x;
+    work->animator.model.translation.y = work->parent->aniBoss.model.field_364.y;
+    work->animator.model.translation.z = work->parent->aniBoss.model.field_364.z;
 
     work->targetPos.x = work->parent->field_48;
     work->targetPos.y = work->parent->field_4C;

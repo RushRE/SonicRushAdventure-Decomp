@@ -155,17 +155,17 @@ exFixBossLifeGaugeTask__Destructor: // 0x0216A358
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x14
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r4, #0x9c
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r4, #0x124
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r5, r4, #0x1ac
 	mov r6, #0
 	mov r4, #0x88
 _0216A388:
 	mla r0, r6, r4, r5
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
 	mov r6, r0, lsr #0x10

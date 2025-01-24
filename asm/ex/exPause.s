@@ -217,7 +217,7 @@ exPauseTask__Destructor: // 0x0216DBA0
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x18
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	mov r7, #0
 	add r6, r4, #0xa0
 	add r5, r4, #0x1b0
@@ -225,9 +225,9 @@ exPauseTask__Destructor: // 0x0216DBA0
 _0216DBC4:
 	mul r8, r7, r4
 	add r0, r6, r8
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r5, r8
-	bl exFixAdminTask__Func_2168F68
+	bl exFixAdminTask__ReleaseSprite
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10

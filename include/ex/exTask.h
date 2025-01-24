@@ -98,9 +98,9 @@ RUSH_INLINE void SetCurrentExTaskMainEvent(ExTaskMain main)
     GetExTaskCurrent()->main = main;
 }
 
-RUSH_INLINE void DestroyExTask(ExTask *task)
+RUSH_INLINE void DestroyExTask(Task *task)
 {
-    SetExTaskMainEvent(task, ExTask_State_Destroy);
+    SetExTaskMainEvent(GetExTask(task), ExTask_State_Destroy);
 }
 
 RUSH_INLINE void DestroyCurrentExTask(void)

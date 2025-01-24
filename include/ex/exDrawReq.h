@@ -15,22 +15,6 @@
 // STRUCTS
 // --------------------
 
-typedef struct exPlayerUnknown2161BC0_
-{
-    u16 animID;
-    u16 field_2;
-    AnimatorMDL animator;
-    PaletteAnimator paletteAnimator[15];
-    NNSG3dAnmObj *field_328;
-    u16 field_32C;
-    VecU16 angle;
-    VecFx32 translation;
-    VecFx32 translation3;
-    VecFx32 scale;
-    VecFx32 translation2;
-    VecFx32 field_364;
-} exPlayerUnknown2161BC0;
-
 typedef struct exDrawReqTaskConfig_
 {
     u8 field_0;
@@ -50,13 +34,88 @@ typedef struct exDrawFadeUnknown_
     u16 field_A2;
 } exDrawFadeUnknown;
 
+typedef struct ExGraphicsSprite3D_
+{
+    u16 anim;
+    u16 field_2;
+    AnimatorSprite3D animator;
+    VecU16 angle;
+    VecFx32 translation;
+    VecFx32 scale;
+    VecFx32 translation2;
+    exDrawReqTaskConfig config;
+} ExGraphicsSprite3D;
+
+typedef struct ExGraphicsModel_
+{
+    u16 animID;
+    u16 field_2;
+    AnimatorMDL animator;
+    PaletteAnimator paletteAnimator[15];
+    NNSG3dAnmObj *field_328;
+    u16 field_32C;
+    VecU16 angle;
+    VecFx32 translation;
+    VecFx32 translation3;
+    VecFx32 scale;
+    VecFx32 translation2;
+    VecFx32 field_364;
+} ExGraphicsModel;
+
+typedef struct ExGraphicsTrail_
+{
+    u16 field_0;
+    u16 field_2;
+    u16 angle;
+    u16 field_22;
+    VecFx32 position[30];
+    GXRgb color[30];
+    s32 alpha[30];
+    VecFx32 translation;
+    VecFx32 field_24C;
+    s32 field_258;
+    s32 field_25C;
+    s32 field_260;
+    u16 type;
+    u16 field_266;
+    s32 id;
+} ExGraphicsTrail;
+
+typedef struct EX_ACTION_BAC2D_WORK_
+{
+    u16 anim;
+    u16 paletteRow;
+    AnimatorSprite animator;
+    Vec2Fx16 pos;
+    Vec2Fx32 scale;
+    u16 rotation;
+    s32 field_78;
+    s32 field_7C;
+    exDrawReqTaskConfig config;
+} EX_ACTION_BAC2D_WORK;
+
+typedef struct EX_ACTION_BAC3D_WORK_
+{
+    exHitCheck hitChecker;
+    ExGraphicsSprite3D sprite;
+    exDrawFadeUnknown field_158[2];
+} EX_ACTION_BAC3D_WORK;
+
 typedef struct EX_ACTION_NN_WORK_
 {
     exHitCheck hitChecker;
-    exPlayerUnknown2161BC0 model;
+    ExGraphicsModel model;
     exDrawReqTaskConfig config;
     exDrawFadeUnknown field_394[2];
 } EX_ACTION_NN_WORK;
+
+typedef struct EX_ACTION_TRAIL_WORK_
+{
+    exHitCheck hitChecker;
+    ExGraphicsTrail trail;
+    exDrawReqTaskConfig config;
+    exDrawFadeUnknown field_274[2];
+} EX_ACTION_TRAIL_WORK;
 
 // --------------------
 // VARIABLES
