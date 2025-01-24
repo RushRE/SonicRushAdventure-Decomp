@@ -580,6 +580,16 @@ _021581B8: .word exBossEffectFireTask__Destructor
 _021581BC: .word exBossEffectFireTask__Func8
 	arm_func_end exBossEffectFireTask__Create
 
+	arm_func_start exBossFireBlueTask__BossFunc_21581C0
+exBossFireBlueTask__BossFunc_21581C0: // 0x021581C0
+	ldr r0, _021581D0 // =0x02175FC4
+	mov r1, #0
+	str r1, [r0, #0x20]
+	bx lr
+	.align 2, 0
+_021581D0: .word 0x02175FC4
+	arm_func_end exBossFireBlueTask__BossFunc_21581C0
+
 	.data
 	
 aExbosseffectfi: // 0x02174054

@@ -26,6 +26,8 @@ typedef struct ExTask_ ExTask;
 
 typedef void (*ExTaskMain)(void);
 typedef void (*ExTaskDestructor)(void);
+typedef void (*ExTaskUnknownFunc)(void);
+typedef void (*ExTaskDelayCallback)(void);
 
 // --------------------
 // ENUMS
@@ -46,9 +48,9 @@ struct ExTask_
 {
     ExTaskMain main;
     s32 field_4;
-    void (*func8)(void);
+    ExTaskUnknownFunc func8;
     ExTaskDestructor dtor;
-    void (*delayCallback)(void);
+    ExTaskDelayCallback delayCallback;
     s32 field_14;
     u16 priority;
     TaskGroup group;
@@ -81,5 +83,44 @@ void ExTask_State_Destroy(void);
 
 // Setters
 void EnableExTaskNoUpdate(BOOL enabled);
+
+// --------------------
+// INLINE FUNCTIONS
+// --------------------
+
+RUSH_INLINE void SetExTaskMainEvent(ExTask *task, ExTaskMain main)
+{
+    task->main = main;
+}
+
+RUSH_INLINE void SetCurrentExTaskMainEvent(ExTaskMain main)
+{
+    GetExTaskCurrent()->main = main;
+}
+
+RUSH_INLINE void DestroyExTask(ExTask *task)
+{
+    SetExTaskMainEvent(task, ExTask_State_Destroy);
+}
+
+RUSH_INLINE void DestroyCurrentExTask(void)
+{
+    SetCurrentExTaskMainEvent(ExTask_State_Destroy);
+}
+
+RUSH_INLINE void SetExTaskUnknownEvent(Task *task, ExTaskUnknownFunc event)
+{
+    GetExTask(task)->func8 = event;
+}
+
+RUSH_INLINE void RunExTaskUnknownEvent(ExTask *task)
+{
+    task->func8();
+}
+
+RUSH_INLINE void RunCurrentExTaskUnknownEvent(void)
+{
+    GetExTaskCurrent()->func8();
+}
 
 #endif // RUSH_EXTASK_H

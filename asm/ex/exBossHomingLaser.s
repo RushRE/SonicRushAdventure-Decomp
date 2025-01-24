@@ -3,17 +3,21 @@
 	
 	.bss
 
+.public exBossHomingLaserTask__ActiveInstanceCount
 exBossHomingLaserTask__ActiveInstanceCount: // 0x0217617C
     .space 0x02
 
+.public exBossHomingLaserTask__ActiveInstanceCount
 exBossHomingLaserTask__unk_217617E: // 0x0217617E
     .space 0x02
 
 	.align 4
 
+.public exBossHomingLaserTask__TaskSingleton
 exBossHomingLaserTask__TaskSingleton: // 0x02176180
     .space 0x04
 	
+.public exBossHomingLaserTask__FileTable
 exBossHomingLaserTask__FileTable: // 0x02176184
     .space 0x04
 
@@ -227,10 +231,10 @@ ExBossSysAdminTask__Func_2159A50: // 0x02159A50
 	str ip, [r2]
 	adds r0, r1, r0, ror #31
 	beq _02159AB0
-	bl exBossFireRedTask__Create
+	bl CreateExBossFireRed
 	b _02159AB4
 _02159AB0:
-	bl exBossFireBlueTask__Create
+	bl CreateExBossFireBlue
 _02159AB4:
 	bl GetExTaskCurrent
 	ldr r1, _02159AD4 // =ExBossSysAdminTask__Main_2159AD8

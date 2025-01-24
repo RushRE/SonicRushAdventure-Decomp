@@ -56,4 +56,21 @@ RUSH_INLINE void GetCompressedFileFromBundle(const char *bundlePath, u16 fileID,
     HeapFree(HEAP_USER, compressedData);
 }
 
+RUSH_INLINE void GetCompressedFileFromBundleEx(const char *bundlePath, u16 fileID, void **memory, u32 *fileSize, BOOL fromTail)
+{
+    void *compressedData = ReadFileFromBundle(bundlePath, fileID, fromTail ? BINARYBUNDLE_AUTO_ALLOC_TAIL : BINARYBUNDLE_AUTO_ALLOC_HEAD);
+
+    (*fileSize) = MI_GetUncompressedSize(compressedData);
+    if (fromTail)
+    {
+        (*memory) = (NNSiFndArchiveHeader *)HeapAllocHead(HEAP_USER, (*fileSize));
+    }
+    else
+    {
+        (*memory) = (NNSiFndArchiveHeader *)HeapAllocTail(HEAP_USER, (*fileSize));
+    }
+    RenderCore_CPUCopyCompressed(compressedData, (*memory));
+    HeapFree(HEAP_USER, compressedData);
+}
+
 #endif // RUSH_BINARYBUNDLE_H

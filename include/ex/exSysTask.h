@@ -93,7 +93,7 @@ NOT_DECOMPILED void exSysTask__Main_217323C(void);
 NOT_DECOMPILED void exSysTask__Main_21732E4(void);
 NOT_DECOMPILED void exSysTask__Main_2173338(void);
 NOT_DECOMPILED void exSysTask__Create(void);
-NOT_DECOMPILED void exSysTask__LoadExFile(void);
+NOT_DECOMPILED void *exSysTask__LoadExFile(u16 id);
 NOT_DECOMPILED void exSysTask__GetSingleton_Unknown1(void);
 NOT_DECOMPILED void exSysTask__LoadAssets(void);
 NOT_DECOMPILED void exSysTask__SetupDisplay(void);
