@@ -11,6 +11,7 @@
 #include <game/save/saveGame.h>
 #include <game/util/spriteButton.h>
 #include <game/graphics/drawFadeTask.h>
+#include <game/util/advancePrompt.h>
 
 // resources
 #include <resources/narc/dmpz_lz7.h>
@@ -553,7 +554,7 @@ void DoorPuzzleDialogue_Create(DoorPuzzle *parent)
     }
 
     void *sprNextPrompt = FileUnknown__GetAOUFile(parent->archiveCutscene, ARCHIVE_TKDM_LZ7_FILE_FIX_NEXT_BAC);
-    AnimatorSprite__Init(&work->aniNextPrompt, sprNextPrompt, 0, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
+    AnimatorSprite__Init(&work->aniNextPrompt, sprNextPrompt, ADVANCEPROMPT_ANI_DISABLED, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(sprNextPrompt)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
     work->aniNextPrompt.palette = PALETTE_ROW_0;
     work->aniNextPrompt.pos.x   = 224;
@@ -947,14 +948,14 @@ void EnableDoorPuzzleDialogueNextPrompt(DoorPuzzleDialogue *work)
 {
     work->flags |= DOORPUZZLEDIALOGUE_FLAG_NEXT_PROMPT_ENABLED;
 
-    AnimatorSprite__SetAnimation(&work->aniNextPrompt, 2);
+    AnimatorSprite__SetAnimation(&work->aniNextPrompt, ADVANCEPROMPT_ANI_PROMPTING);
 }
 
 void DisableDoorPuzzleDialogueNextPrompt(DoorPuzzleDialogue *work)
 {
     work->flags &= ~DOORPUZZLEDIALOGUE_FLAG_NEXT_PROMPT_ENABLED;
 
-    AnimatorSprite__SetAnimation(&work->aniNextPrompt, 0);
+    AnimatorSprite__SetAnimation(&work->aniNextPrompt, ADVANCEPROMPT_ANI_DISABLED);
 }
 
 void InitDoorPuzzleDialogueText(DoorPuzzleDialogue *work)

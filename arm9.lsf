@@ -585,38 +585,38 @@ Overlay Boss2
 Overlay Menus1
 {
     After arm9
-    Object asm/menu/mainMenu_thumb.o
-    Object asm/menu/mainMenu_arm.o
-    Object asm/menu/stageClear.o
-    Object asm/menu/vsStageClear.o
-    Object asm/menu/stageSelectMenu.o
-    Object asm/menu/characterSelectMenu.o
-    Object asm/menu/vsStageSelectMenu.o
-    Object asm/menu/vsCharacterSelectMenu.o
-    Object asm/menu/vsState.o
-    Object asm/menu/vsLobbyMenu.o
-    Object asm/menu/friendCodeMenu.o
-    Object asm/menu/vsMenu_thumb_0.o
-    Object asm/menu/vsMenu_arm.o
-    Object asm/menu/vsMenu_thumb_1.o
-    Object asm/menu/stageSelectUnknown.o
-    Object asm/menu/vsConnectionMenuUnknown.o
-    Object asm/menu/vsConnectionMenu.o
-    Object asm/menu/timeAttackMenu.o
-    Object asm/menu/timeAttackRankList.o
-    Object asm/seaMap/seaMapUnknownMenu.o
-    Object asm/seaMap/seaMapCutscene.o
-    Object asm/seaMap/seaMapTraining.o
-    Object asm/menu/vsFriendsListMenu.o
-    Object asm/menu/vsRegisterFriendCodeMenu.o
-    Object asm/menu/vsRecordsMenu.o
-    Object asm/menu/networkErrorMenu.o
-    Object asm/menu/leaderboardWorker.o
-    Object asm/menu/timeAttackLeaderboardsMenu.o
-    Object asm/menu/timeAttackRecordsMenu.o
-    Object asm/menu/vikingCupMenu.o
+    Object asm/menu/mainMenu_thumb.o                # thumb code
+    Object asm/menu/mainMenu_arm.o                  # arm code
+    Object asm/menu/stageClear.o                    # thumb code
+    Object asm/menu/vsStageClear.o                  # thumb code
+    Object asm/menu/stageSelectMenu.o               # thumb code
+    Object asm/menu/characterSelectMenu.o           # thumb code
+    Object asm/menu/vsStageSelectMenu.o             # thumb code
+    Object asm/menu/vsCharacterSelectMenu.o         # thumb code
+    Object asm/menu/vsState.o                       # thumb code
+    Object asm/menu/vsLobbyMenu.o                   # thumb code
+    Object asm/menu/friendCodeMenu.o                # thumb code
+    Object asm/menu/vsMenu_thumb_0.o                # thumb code
+    Object asm/menu/vsMenu_arm.o                    # arm code
+    Object asm/menu/vsMenu_thumb_1.o                # thumb code
+    Object asm/menu/stageSelectUnknown.o            # thumb code
+    Object asm/menu/vsConnectionMenuUnknown.o       # thumb code
+    Object asm/menu/vsConnectionMenu.o              # thumb code
+    Object asm/menu/timeAttackMenu.o                # thumb code
+    Object asm/menu/timeAttackRankList.o            # thumb code
+    Object asm/seaMap/seaMapUnknownMenu.o           # arm code
+    Object asm/seaMap/seaMapCutscene.o              # arm code
+    Object asm/seaMap/seaMapTraining.o              # arm code
+    Object asm/menu/vsFriendsListMenu.o             # arm code
+    Object asm/menu/vsRegisterFriendCodeMenu.o      # arm code
+    Object asm/menu/vsRecordsMenu.o                 # arm code
+    Object src/menu/networkErrorMenu.o
+    Object asm/menu/leaderboardWorker.o             # arm code
+    Object asm/menu/timeAttackLeaderboardsMenu.o    # arm code
+    Object asm/menu/timeAttackRecordsMenu.o         # thumb code
+    Object asm/menu/vikingCupMenu.o                 # arm code
     Object src/menu/connectionStatusIcon.o
-    Object asm/menu/menuHelpers.o
+    Object asm/menu/menuHelpers.o                   # arm code
 }
 
 # Overlay04/Menus2 => Menus and UI (specifics)

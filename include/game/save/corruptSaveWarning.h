@@ -25,5 +25,6 @@ typedef struct CorruptSaveWarning_
 // --------------------
 
 void CreateCorruptSaveWarning(void);
+void SetupDisplayForCorruptSaveWarning(void);
 
 #endif // RUSH_CORRUPTSAVEWARNING_H

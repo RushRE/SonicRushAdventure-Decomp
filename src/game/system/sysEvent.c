@@ -24,6 +24,7 @@
 #include <menu/soundTest.h>
 #include <menu/credits.h>
 #include <seaMap/seaMapCourseChangeView.h>
+#include <menu/networkErrorMenu.h>
 
 // --------------------
 // TEMP
@@ -35,7 +36,6 @@ NOT_DECOMPILED void StageClear__Create(void);
 NOT_DECOMPILED void VSStageClear__Create(void);
 NOT_DECOMPILED void VSMenu__Create(void);
 NOT_DECOMPILED void VSLobbyMenu__Create(void);
-NOT_DECOMPILED void InitNetworkErrorMenu(void);
 NOT_DECOMPILED void HubControl__ReturnToHub(void);
 NOT_DECOMPILED void MainMenu__Create(void);
 NOT_DECOMPILED void SeaMapUnknown__Create(void);

@@ -10,6 +10,7 @@
 #include <game/system/sysEvent.h>
 #include <game/object/objectManager.h>
 #include <game/file/fileUnknown.h>
+#include <game/util/advancePrompt.h>
 
 // --------------------
 // MAPOBJECT PARAMS
@@ -106,13 +107,6 @@ enum TutorialSections
     TUTORIAL_SECTION_INTRO_RETRY,
 
     TUTORIAL_SECTION_COUNT,
-};
-
-enum AdvancePromptAnims
-{
-    ADVANCEPROMPT_ANI_DISABLED,
-    ADVANCEPROMPT_ANI_HELD,
-    ADVANCEPROMPT_ANI_PROMPTING,
 };
 
 enum TutorialCharacterAnims

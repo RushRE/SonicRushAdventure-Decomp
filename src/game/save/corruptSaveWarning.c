@@ -16,10 +16,9 @@
 // FUNCTION DECLS
 // --------------------
 
-void SetupDisplayForCorruptSaveWarning(void);
-void CorruptSaveWarning_Destructor(Task *task);
-void CorruptSaveWarning_Main_Corrupted(void);
-void CorruptSaveWarning_Main_CantReadSave(void);
+static void CorruptSaveWarning_Destructor(Task *task);
+static void CorruptSaveWarning_Main_Corrupted(void);
+static void CorruptSaveWarning_Main_CantReadSave(void);
 
 // --------------------
 // FUNCTIONS
