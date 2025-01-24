@@ -3,22 +3,22 @@
 	
 	.text
 
-	arm_func_start ovl09_216E3F4
-ovl09_216E3F4: // 0x0216E3F4
+	arm_func_start exPlayerAdminTask__GetUnknown2
+exPlayerAdminTask__GetUnknown2: // 0x0216E3F4
 	ldr r0, _0216E3FC // =0x02177BAC
 	bx lr
 	.align 2, 0
 _0216E3FC: .word 0x02177BAC
-	arm_func_end ovl09_216E3F4
+	arm_func_end exPlayerAdminTask__GetUnknown2
 
-	arm_func_start ovl09_216E400
-ovl09_216E400: // 0x0216E400
+	arm_func_start exPlayerScreenMoveTask__SetFollowX
+exPlayerScreenMoveTask__SetFollowX: // 0x0216E400
 	ldr r1, _0216E40C // =0x02177BA0
 	str r0, [r1]
 	bx lr
 	.align 2, 0
 _0216E40C: .word 0x02177BA0
-	arm_func_end ovl09_216E400
+	arm_func_end exPlayerScreenMoveTask__SetFollowX
 
 	arm_func_start exPlayerScreenMoveTask__Main
 exPlayerScreenMoveTask__Main: // 0x0216E410
@@ -28,9 +28,9 @@ exPlayerScreenMoveTask__Main: // 0x0216E410
 	bl GetCurrentTask
 	ldr r1, _0216E448 // =0x02177BA0
 	str r0, [r1, #8]
-	bl ovl09_2161698
+	bl exDrawFadeTask__GetUnknownA
 	str r0, [r4, #4]
-	bl ovl09_21616A4
+	bl exDrawFadeTask__GetUnknownB
 	str r0, [r4, #8]
 	bl GetExTaskCurrent
 	ldr r1, _0216E44C // =exPlayerScreenMoveTask__Main_216E478

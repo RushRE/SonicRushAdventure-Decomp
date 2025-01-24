@@ -60,7 +60,7 @@ exEffectMeteoAdminTask__Main: // 0x02167B48
 	bl GetCurrentTask
 	ldr r1, _02167BB8 // =exEffectMeteoTask__ActiveInstanceCount
 	str r0, [r1, #0xc]
-	bl ovl09_2167F04
+	bl exEffectMeteoAdminTask__Func_2167F04
 	mov r0, #0
 	strh r0, [r4, #2]
 	strh r0, [r4, #4]
@@ -79,21 +79,21 @@ exEffectMeteoAdminTask__Main: // 0x02167B48
 	ldrh r0, [r0, r1]
 	strh r0, [r4, #6]
 	bl GetExTaskCurrent
-	ldr r1, _02167BC4 // =ovl09_2167C0C
+	ldr r1, _02167BC4 // =exEffectMeteoAdminTask__Main_Active
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02167BB8: .word exEffectMeteoTask__ActiveInstanceCount
 _02167BBC: .word _021745AC
 _02167BC0: .word _021745A8
-_02167BC4: .word ovl09_2167C0C
+_02167BC4: .word exEffectMeteoAdminTask__Main_Active
 	arm_func_end exEffectMeteoAdminTask__Main
 
 	arm_func_start exEffectMeteoAdminTask__Func8
 exEffectMeteoAdminTask__Func8: // 0x02167BC8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -116,8 +116,8 @@ exEffectMeteoAdminTask__Destructor: // 0x02167BF0
 _02167C08: .word exEffectMeteoTask__ActiveInstanceCount
 	arm_func_end exEffectMeteoAdminTask__Destructor
 
-	arm_func_start ovl09_2167C0C
-ovl09_2167C0C: // 0x02167C0C
+	arm_func_start exEffectMeteoAdminTask__Main_Active
+exEffectMeteoAdminTask__Main_Active: // 0x02167C0C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x20
 	bl GetExTaskWorkCurrent_
@@ -312,7 +312,7 @@ _02167EB0:
 	ldmia r0, {r0, r1, r2}
 	stmia r3, {r0, r1, r2}
 _02167EE4:
-	bl ovl09_2167F04
+	bl exEffectMeteoAdminTask__Func_2167F04
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -321,10 +321,10 @@ _02167EE4:
 	.align 2, 0
 _02167EFC: .word 0x45800000
 _02167F00: .word _021745AC
-	arm_func_end ovl09_2167C0C
+	arm_func_end exEffectMeteoAdminTask__Main_Active
 
-	arm_func_start ovl09_2167F04
-ovl09_2167F04: // 0x02167F04
+	arm_func_start exEffectMeteoAdminTask__Func_2167F04
+exEffectMeteoAdminTask__Func_2167F04: // 0x02167F04
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -387,7 +387,7 @@ _02167FCC:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02167FD4: .word ExTask_State_Destroy
-	arm_func_end ovl09_2167F04
+	arm_func_end exEffectMeteoAdminTask__Func_2167F04
 
 	arm_func_start exEffectMeteoAdminTask__Create
 exEffectMeteoAdminTask__Create: // 0x02167FD8
@@ -421,8 +421,8 @@ _0216803C: .word exEffectMeteoAdminTask__Destructor
 _02168040: .word exEffectMeteoAdminTask__Func8
 	arm_func_end exEffectMeteoAdminTask__Create
 
-	arm_func_start ovl09_2168044
-ovl09_2168044: // 0x02168044
+	arm_func_start exEffectMeteoAdminTask__Destroy_2168044
+exEffectMeteoAdminTask__Destroy_2168044: // 0x02168044
 	stmdb sp!, {r3, lr}
 	ldr r0, _02168068 // =exEffectMeteoTask__ActiveInstanceCount
 	ldr r0, [r0, #0xc]
@@ -435,7 +435,7 @@ ovl09_2168044: // 0x02168044
 	.align 2, 0
 _02168068: .word exEffectMeteoTask__ActiveInstanceCount
 _0216806C: .word ExTask_State_Destroy
-	arm_func_end ovl09_2168044
+	arm_func_end exEffectMeteoAdminTask__Destroy_2168044
 
 	.data
 

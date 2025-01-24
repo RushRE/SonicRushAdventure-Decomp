@@ -34,7 +34,7 @@ exEffectRingAdminTask__Main: // 0x021686F0
 	ldr r1, _02168764 // =exEffectRingTask__ActiveInstanceCount
 	str r0, [r1, #0xc]
 	bl exEffectLoopRingTask__Create
-	bl ovl09_2168C98
+	bl exEffectRingAdminTask__InitValues
 	mov r0, #0
 	strh r0, [r4, #2]
 	strh r0, [r4, #4]
@@ -53,21 +53,21 @@ exEffectRingAdminTask__Main: // 0x021686F0
 	ldrh r0, [r0, r1]
 	strh r0, [r4, #6]
 	bl GetExTaskCurrent
-	ldr r1, _02168770 // =ovl09_21687B8
+	ldr r1, _02168770 // =exEffectRingAdminTask__Main_Active
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02168764: .word exEffectRingTask__ActiveInstanceCount
 _02168768: .word exEffectRingAdmin__UnknownTable
 _0216876C: .word 0x021746FA
-_02168770: .word ovl09_21687B8
+_02168770: .word exEffectRingAdminTask__Main_Active
 	arm_func_end exEffectRingAdminTask__Main
 
 	arm_func_start exEffectRingAdminTask__Func8
 exEffectRingAdminTask__Func8: // 0x02168774
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -90,8 +90,8 @@ exEffectRingAdminTask__Destructor: // 0x0216879C
 _021687B4: .word exEffectRingTask__ActiveInstanceCount
 	arm_func_end exEffectRingAdminTask__Destructor
 
-	arm_func_start ovl09_21687B8
-ovl09_21687B8: // 0x021687B8
+	arm_func_start exEffectRingAdminTask__Main_Active
+exEffectRingAdminTask__Main_Active: // 0x021687B8
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x20
 	bl GetExTaskWorkCurrent_
@@ -415,7 +415,7 @@ _02168C2C:
 	ldrh r0, [r0, r1]
 	strh r0, [r4, #6]
 _02168C74:
-	bl ovl09_2168C98
+	bl exEffectRingAdminTask__InitValues
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -425,10 +425,10 @@ _02168C74:
 _02168C8C: .word 0x45800000
 _02168C90: .word exEffectRingAdmin__UnknownTable
 _02168C94: .word 0x021746FA
-	arm_func_end ovl09_21687B8
+	arm_func_end exEffectRingAdminTask__Main_Active
 
-	arm_func_start ovl09_2168C98
-ovl09_2168C98: // 0x02168C98
+	arm_func_start exEffectRingAdminTask__InitValues
+exEffectRingAdminTask__InitValues: // 0x02168C98
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -538,7 +538,7 @@ _02168DF0:
 _02168DF8: .word exEffectRingAdmin__UnknownTable2
 _02168DFC: .word exEffectRingAdmin__UnknownTable
 _02168E00: .word 0x021746FA
-	arm_func_end ovl09_2168C98
+	arm_func_end exEffectRingAdminTask__InitValues
 
 	arm_func_start exEffectRingAdminTask__Create
 exEffectRingAdminTask__Create: // 0x02168E04
@@ -574,8 +574,8 @@ _02168E70: .word exEffectRingAdminTask__Destructor
 _02168E74: .word exEffectRingAdminTask__Func8
 	arm_func_end exEffectRingAdminTask__Create
 
-	arm_func_start ovl09_2168E78
-ovl09_2168E78: // 0x02168E78
+	arm_func_start exEffectRingAdminTask__Destroy
+exEffectRingAdminTask__Destroy: // 0x02168E78
 	stmdb sp!, {r3, lr}
 	ldr r0, _02168E9C // =exEffectRingTask__ActiveInstanceCount
 	ldr r0, [r0, #0xc]
@@ -588,7 +588,7 @@ ovl09_2168E78: // 0x02168E78
 	.align 2, 0
 _02168E9C: .word exEffectRingTask__ActiveInstanceCount
 _02168EA0: .word ExTask_State_Destroy
-	arm_func_end ovl09_2168E78
+	arm_func_end exEffectRingAdminTask__Destroy
 
 	.data
 	

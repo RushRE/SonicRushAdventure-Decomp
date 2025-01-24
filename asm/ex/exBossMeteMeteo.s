@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start ovl09_215D0EC
-ovl09_215D0EC: // 0x0215D0EC
+	arm_func_start exBossMeteMeteoTask__Func_215D0EC
+exBossMeteMeteoTask__Func_215D0EC: // 0x0215D0EC
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215D2D8 // =0x021761CC
 	mov r4, r0
@@ -34,7 +34,7 @@ ovl09_215D0EC: // 0x0215D0EC
 	ldmloia sp!, {r3, r4, r5, pc}
 _0215D158:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _0215D2D8 // =0x021761CC
 	ldrsh r0, [r0, #4]
 	cmp r0, #0
@@ -57,7 +57,7 @@ _0215D158:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x3b
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0215D2D8 // =0x021761CC
 	mov r2, #0
 	str r0, [r1, #8]
@@ -136,10 +136,10 @@ _0215D260:
 _0215D2D8: .word 0x021761CC
 _0215D2DC: .word aExtraExBb_5
 _0215D2E0: .word 0x00003FFC
-	arm_func_end ovl09_215D0EC
+	arm_func_end exBossMeteMeteoTask__Func_215D0EC
 
-	arm_func_start ovl09_215D2E4
-ovl09_215D2E4: // 0x0215D2E4
+	arm_func_start exBossMeteMeteoTask__Destroy_215D2E4
+exBossMeteMeteoTask__Destroy_215D2E4: // 0x0215D2E4
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215D35C // =0x021761CC
 	mov r4, r0
@@ -176,7 +176,7 @@ _0215D340:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215D35C: .word 0x021761CC
-	arm_func_end ovl09_215D2E4
+	arm_func_end exBossMeteMeteoTask__Destroy_215D2E4
 
 	arm_func_start exBossMeteMeteoTask__Main
 exBossMeteMeteoTask__Main: // 0x0215D360
@@ -188,7 +188,7 @@ exBossMeteMeteoTask__Main: // 0x0215D360
 	ldr r1, _0215D4D0 // =0x021761CC
 	str r0, [r1, #0x18]
 	add r0, r4, #0x88
-	bl ovl09_215D0EC
+	bl exBossMeteMeteoTask__Func_215D0EC
 	add r0, r4, #0x14
 	add r0, r0, #0x400
 	mov r1, #0xa800
@@ -224,7 +224,7 @@ exBossMeteMeteoTask__Main: // 0x0215D360
 	str r5, [r4, #0x50]
 	str lr, [r4, #0x54]
 	str ip, [sp]
-	bl ovl09_2152FB0
+	bl exPlayerHelpers__Func_2152FB0
 	mov r1, #1
 	strh r1, [r4, #0x28]
 	ldr r5, _0215D4DC // =_mt_math_rand
@@ -268,7 +268,7 @@ exBossMeteMeteoTask__Main: // 0x0215D360
 	mov r0, #0
 	str r0, [r4, #0x3c]
 	bl GetExTaskCurrent
-	ldr r1, _0215D4EC // =ovl09_215D544
+	ldr r1, _0215D4EC // =exBossMeteMeteoTask__Func_215D544
 	str r1, [r0]
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
@@ -280,14 +280,14 @@ _0215D4DC: .word _mt_math_rand
 _0215D4E0: .word 0x00196225
 _0215D4E4: .word 0x3C6EF35F
 _0215D4E8: .word 0x55555556
-_0215D4EC: .word ovl09_215D544
+_0215D4EC: .word exBossMeteMeteoTask__Func_215D544
 	arm_func_end exBossMeteMeteoTask__Main
 
 	arm_func_start exBossMeteMeteoTask__Func8
 exBossMeteMeteoTask__Func8: // 0x0215D4F0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -305,7 +305,7 @@ exBossMeteMeteoTask__Destructor: // 0x0215D518
 	mov r1, #1
 	str r1, [r0, #0x3c]
 	add r0, r0, #0x88
-	bl ovl09_215D2E4
+	bl exBossMeteMeteoTask__Destroy_215D2E4
 	ldr r0, _0215D540 // =0x021761CC
 	mov r1, #0
 	str r1, [r0, #0x18]
@@ -314,13 +314,13 @@ exBossMeteMeteoTask__Destructor: // 0x0215D518
 _0215D540: .word 0x021761CC
 	arm_func_end exBossMeteMeteoTask__Destructor
 
-	arm_func_start ovl09_215D544
-ovl09_215D544: // 0x0215D544
+	arm_func_start exBossMeteMeteoTask__Func_215D544
+exBossMeteMeteoTask__Func_215D544: // 0x0215D544
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x88
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldrb r0, [r4, #0x8e]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -328,23 +328,23 @@ ovl09_215D544: // 0x0215D544
 	ldrb r0, [r4, #0x88]
 	cmp r0, #2
 	bne _0215D57C
-	bl ovl09_215D794
+	bl exBossMeteMeteoTask__Func_215D794
 	ldmia sp!, {r4, pc}
 _0215D57C:
 	add r0, r4, #0x168
 	add r0, r0, #0x400
 	add r1, r4, #0x3d8
 	mov r2, #1
-	bl ovl09_21530FC
+	bl exPlayerHelpers__Func_21530FC
 	cmp r0, #0
 	beq _0215D5AC
 	ldr r0, [r4, #0x3e0]
 	cmp r0, #0x3c000
 	bgt _0215D5AC
-	bl ovl09_215D660
+	bl exBossMeteMeteoTask__Func_215D660
 	ldmia sp!, {r4, pc}
 _0215D5AC:
-	bl ovl09_2154C28
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215D5D0
 	add r0, r4, #0x3d8
@@ -356,12 +356,12 @@ _0215D5AC:
 _0215D5D0:
 	ldr r0, [r4, #0x57c]
 	ldr r1, [r4, #0x578]
-	bl ovl09_2152E28
+	bl exPlayerHelpers__Func_2152E28
 	add r1, r4, #0x300
 	strh r0, [r1, #0xd2]
 	ldr r0, [r4, #0x574]
 	ldr r1, [r4, #0x578]
-	bl ovl09_2152E28
+	bl exPlayerHelpers__Func_2152E28
 	add r1, r4, #0x300
 	strh r0, [r1, #0xd6]
 	bl Camera3D__UseEngineA
@@ -371,7 +371,7 @@ _0215D5D0:
 	add r1, r4, #0x28
 	add r2, r4, #0x2e
 	mov r3, #0
-	bl ovl09_2152D28
+	bl exPlayerHelpers__Func_2152D28
 _0215D618:
 	add r1, r4, #0x300
 	ldrh ip, [r1, #0xd2]
@@ -385,17 +385,17 @@ _0215D618:
 	bic r2, r3, #0xf0
 	orr r2, r2, #0xa0
 	strb r2, [r4, #0x414]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215D65C: .word ExTask_State_Destroy
-	arm_func_end ovl09_215D544
+	arm_func_end exBossMeteMeteoTask__Func_215D544
 
-	arm_func_start ovl09_215D660
-ovl09_215D660: // 0x0215D660
+	arm_func_start exBossMeteMeteoTask__Func_215D660
+exBossMeteMeteoTask__Func_215D660: // 0x0215D660
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r1, _0215D6A0 // =0x021761CC
@@ -408,23 +408,23 @@ ovl09_215D660: // 0x0215D660
 	str r3, [r0, #0x3e0]
 	strh r2, [r0]
 	bl GetExTaskCurrent
-	ldr r1, _0215D6A4 // =ovl09_215D6A8
+	ldr r1, _0215D6A4 // =exBossMeteMeteoTask__Func_215D6A8
 	str r1, [r0]
-	bl ovl09_215D6A8
+	bl exBossMeteMeteoTask__Func_215D6A8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215D6A0: .word 0x021761CC
-_0215D6A4: .word ovl09_215D6A8
-	arm_func_end ovl09_215D660
+_0215D6A4: .word exBossMeteMeteoTask__Func_215D6A8
+	arm_func_end exBossMeteMeteoTask__Func_215D660
 
-	arm_func_start ovl09_215D6A8
-ovl09_215D6A8: // 0x0215D6A8
+	arm_func_start exBossMeteMeteoTask__Func_215D6A8
+exBossMeteMeteoTask__Func_215D6A8: // 0x0215D6A8
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x88
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldrb r0, [r4, #0x8e]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -432,11 +432,11 @@ ovl09_215D6A8: // 0x0215D6A8
 	ldrb r0, [r4, #0x88]
 	cmp r0, #2
 	bne _0215D6E8
-	bl ovl09_215D794
+	bl exBossMeteMeteoTask__Func_215D794
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _0215D6E8:
-	bl ovl09_2154C28
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215D710
 	add r0, r4, #0x3d8
@@ -472,9 +472,9 @@ _0215D754:
 	orr r2, r2, #0xa0
 	add r1, r1, #0x400
 	strb r2, [r4, #0x414]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x88
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	ldrsh r0, [r4, #0]
 	sub r0, r0, #1
 	strh r0, [r4]
@@ -482,10 +482,10 @@ _0215D754:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215D790: .word ExTask_State_Destroy
-	arm_func_end ovl09_215D6A8
+	arm_func_end exBossMeteMeteoTask__Func_215D6A8
 
-	arm_func_start ovl09_215D794
-ovl09_215D794: // 0x0215D794
+	arm_func_start exBossMeteMeteoTask__Func_215D794
+exBossMeteMeteoTask__Func_215D794: // 0x0215D794
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -569,22 +569,22 @@ _0215D8AC:
 	mov r0, #1
 	str r0, [r4, #0x3c]
 	bl GetExTaskCurrent
-	ldr r1, _0215D8E4 // =ovl09_215D8E8
+	ldr r1, _0215D8E4 // =exBossMeteMeteoTask__Func_215D8E8
 	str r1, [r0]
-	bl ovl09_215D8E8
+	bl exBossMeteMeteoTask__Func_215D8E8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215D8E0: .word 0x00001FFE
-_0215D8E4: .word ovl09_215D8E8
-	arm_func_end ovl09_215D794
+_0215D8E4: .word exBossMeteMeteoTask__Func_215D8E8
+	arm_func_end exBossMeteMeteoTask__Func_215D794
 
-	arm_func_start ovl09_215D8E8
-ovl09_215D8E8: // 0x0215D8E8
+	arm_func_start exBossMeteMeteoTask__Func_215D8E8
+exBossMeteMeteoTask__Func_215D8E8: // 0x0215D8E8
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x88
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r2, [r4, #0x3dc]
 	ldr r1, [r4, #0x1c]
 	add r0, r4, #0xd2
@@ -598,7 +598,7 @@ ovl09_215D8E8: // 0x0215D8E8
 	strb r2, [r4, #0x414]
 	add r2, r4, #0x2e
 	mov r3, #1
-	bl ovl09_2152D28
+	bl exPlayerHelpers__Func_2152D28
 	ldr r1, [r4, #0x3d8]
 	cmp r1, #0x5a000
 	bge _0215D95C
@@ -618,17 +618,17 @@ _0215D96C:
 	add r1, r4, #0x14
 	add r0, r4, #0x88
 	add r1, r1, #0x400
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldrb r0, [r4, #0x8e]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
 	ldmneia sp!, {r4, pc}
 	add r0, r4, #0x88
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215D998: .word ExTask_State_Destroy
-	arm_func_end ovl09_215D8E8
+	arm_func_end exBossMeteMeteoTask__Func_215D8E8
 
 	arm_func_start exBossMeteMeteoTask__Create
 exBossMeteMeteoTask__Create: // 0x0215D99C

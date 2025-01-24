@@ -3,18 +3,18 @@
 	
 	.text
 
-	arm_func_start ovl09_2164310
-ovl09_2164310: // 0x02164310
+	arm_func_start exEffectBigBombTask__Func_2164310
+exEffectBigBombTask__Func_2164310: // 0x02164310
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
-	bl ovl09_21636BC
+	bl exDrawReqTask__InitSprite3D
 	ldr r0, _0216440C // =0x02176464
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _02164340
 	mov r0, #0
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0216440C // =0x02176464
 	str r0, [r1, #0x14]
 _02164340:
@@ -71,10 +71,10 @@ _02164340:
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _0216440C: .word 0x02176464
-	arm_func_end ovl09_2164310
+	arm_func_end exEffectBigBombTask__Func_2164310
 
-	arm_func_start ovl09_2164410
-ovl09_2164410: // 0x02164410
+	arm_func_start exEffectBigBombTask__Destroy_2164410
+exEffectBigBombTask__Destroy_2164410: // 0x02164410
 	stmdb sp!, {r3, lr}
 	add r0, r0, #0x20
 	bl AnimatorSprite3D__Release
@@ -85,7 +85,7 @@ ovl09_2164410: // 0x02164410
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02164430: .word 0x02176464
-	arm_func_end ovl09_2164410
+	arm_func_end exEffectBigBombTask__Destroy_2164410
 
 	arm_func_start exEffectBigBombTask__Main
 exEffectBigBombTask__Main: // 0x02164434
@@ -96,12 +96,12 @@ exEffectBigBombTask__Main: // 0x02164434
 	ldr r1, _02164494 // =0x02176464
 	str r0, [r1, #0x10]
 	add r0, r4, #0xc
-	bl ovl09_2164310
+	bl exEffectBigBombTask__Func_2164310
 	add r0, r4, #0x15c
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x15c
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, [r4, #0]
 	str r0, [r4, #0x138]
 	ldr r0, [r4, #4]
@@ -109,20 +109,20 @@ exEffectBigBombTask__Main: // 0x02164434
 	ldr r0, [r4, #8]
 	str r0, [r4, #0x140]
 	bl GetExTaskCurrent
-	ldr r1, _02164498 // =ovl09_21644E8
+	ldr r1, _02164498 // =exEffectBigBombTask__Func_21644E8
 	str r1, [r0]
-	bl ovl09_21644E8
+	bl exEffectBigBombTask__Func_21644E8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02164494: .word 0x02176464
-_02164498: .word ovl09_21644E8
+_02164498: .word exEffectBigBombTask__Func_21644E8
 	arm_func_end exEffectBigBombTask__Main
 
 	arm_func_start exEffectBigBombTask__Func8
 exEffectBigBombTask__Func8: // 0x0216449C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -138,7 +138,7 @@ exEffectBigBombTask__Destructor: // 0x021644C4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #0xc
-	bl ovl09_2164410
+	bl exEffectBigBombTask__Destroy_2164410
 	ldr r0, _021644E4 // =0x02176464
 	mov r1, #0
 	str r1, [r0, #0x10]
@@ -147,15 +147,15 @@ exEffectBigBombTask__Destructor: // 0x021644C4
 _021644E4: .word 0x02176464
 	arm_func_end exEffectBigBombTask__Destructor
 
-	arm_func_start ovl09_21644E8
-ovl09_21644E8: // 0x021644E8
+	arm_func_start exEffectBigBombTask__Func_21644E8
+exEffectBigBombTask__Func_21644E8: // 0x021644E8
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0xc
-	bl ovl09_2163ADC
+	bl exDrawReqTask__Sprite3D__Animate
 	add r0, r4, #0xc
-	bl ovl09_2163BF4
+	bl exDrawReqTask__Sprite3D__IsAnimFinished
 	cmp r0, #0
 	beq _0216451C
 	bl GetExTaskCurrent
@@ -165,14 +165,14 @@ ovl09_21644E8: // 0x021644E8
 _0216451C:
 	add r0, r4, #0xc
 	add r1, r4, #0x15c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02164538: .word ExTask_State_Destroy
-	arm_func_end ovl09_21644E8
+	arm_func_end exEffectBigBombTask__Func_21644E8
 
 	arm_func_start exEffectBigBombTask__Create
 exEffectBigBombTask__Create: // 0x0216453C

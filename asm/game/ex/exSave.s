@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start ovl09_2173CC8
-ovl09_2173CC8: // 0x02173CC8
+	arm_func_start exSysTask__EndStage
+exSysTask__EndStage: // 0x02173CC8
 	stmdb sp!, {r3, lr}
 	cmp r0, #8
 	addls pc, pc, r0, lsl #2
@@ -43,7 +43,7 @@ _02173CFC:
 	mla r3, r2, r0, r3
 	mul r0, r3, r0
 	str r0, [r1, #0xc]
-	bl ovl09_2172A28
+	bl exSysTask__GetLifeCount
 	ldr r1, _02173E0C // =saveGame
 	mov r2, r0, lsl #0x19
 	ldr r3, [r1, #0x1c0]
@@ -56,7 +56,7 @@ _02173CFC:
 	bl RequestSysEventChange
 	b _02173E00
 _02173D88:
-	bl ovl09_2172A28
+	bl exSysTask__GetLifeCount
 	ldr r1, _02173E0C // =saveGame
 	mov r2, r0, lsl #0x19
 	ldr r3, [r1, #0x1c0]
@@ -79,7 +79,7 @@ _02173DB0:
 	bl RequestSysEventChange
 	b _02173E00
 _02173DDC:
-	bl ovl09_2172A28
+	bl exSysTask__GetLifeCount
 	ldr r1, _02173E0C // =saveGame
 	mov r2, r0, lsl #0x19
 	ldr r3, [r1, #0x1c0]
@@ -95,4 +95,4 @@ _02173E00:
 _02173E08: .word playerGameStatus
 _02173E0C: .word saveGame
 _02173E10: .word gameState
-	arm_func_end ovl09_2173CC8
+	arm_func_end exSysTask__EndStage

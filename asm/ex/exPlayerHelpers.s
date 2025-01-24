@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start ovl09_2152960
-ovl09_2152960: // 0x02152960
+	arm_func_start exPlayerHelpers__Func_2152960
+exPlayerHelpers__Func_2152960: // 0x02152960
 	cmp r0, #0
 	moveq r0, #0
 	bxeq lr
@@ -30,10 +30,10 @@ ovl09_2152960: // 0x02152960
 	str r1, [r0, #0x2c]
 	mov r0, #1
 	bx lr
-	arm_func_end ovl09_2152960
+	arm_func_end exPlayerHelpers__Func_2152960
 
-	arm_func_start ovl09_21529C4
-ovl09_21529C4: // 0x021529C4
+	arm_func_start exPlayerHelpers__Func_21529C4
+exPlayerHelpers__Func_21529C4: // 0x021529C4
 	stmdb sp!, {r3, r4, r5, lr}
 	cmp r0, #0
 	rsblt r0, r0, #0
@@ -95,10 +95,10 @@ _02152A6C:
 	mov r1, #0x6000
 	bl FX_Div
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl09_21529C4
+	arm_func_end exPlayerHelpers__Func_21529C4
 
-	arm_func_start ovl09_2152AB4
-ovl09_2152AB4: // 0x02152AB4
+	arm_func_start exPlayerHelpers__Func_2152AB4
+exPlayerHelpers__Func_2152AB4: // 0x02152AB4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r10, r0
 	ldrsh r1, [r10, #0x14]
@@ -153,7 +153,7 @@ _02152B68:
 	cmp r7, r0
 	movgt r8, r0
 	sub r0, r11, r9
-	bl ovl09_21529C4
+	bl exPlayerHelpers__Func_21529C4
 	mov r1, #0xc
 	mul r3, r8, r1
 	ldr r8, [r10, #0]
@@ -200,10 +200,10 @@ _02152BD4:
 	ldr r1, [r10, #0x10]
 	str r1, [r10, #0x2c]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	arm_func_end ovl09_2152AB4
+	arm_func_end exPlayerHelpers__Func_2152AB4
 
-	arm_func_start ovl09_2152C3C
-ovl09_2152C3C: // 0x02152C3C
+	arm_func_start exPlayerHelpers__SetAnimationInternal
+exPlayerHelpers__SetAnimationInternal: // 0x02152C3C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	ldrh r2, [sp, #0x10]
@@ -236,10 +236,10 @@ _02152CA0:
 	blo _02152C80
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end ovl09_2152C3C
+	arm_func_end exPlayerHelpers__SetAnimationInternal
 
-	arm_func_start ovl09_2152CB4
-ovl09_2152CB4: // 0x02152CB4
+	arm_func_start exPlayerHelpers__Func_2152CB4
+exPlayerHelpers__Func_2152CB4: // 0x02152CB4
 	stmdb sp!, {lr}
 	sub sp, sp, #0x3c
 	ldr r0, _02152D1C // =_02173E14
@@ -270,10 +270,10 @@ ovl09_2152CB4: // 0x02152CB4
 _02152D1C: .word _02173E14
 _02152D20: .word NNS_G3dGlb+0x000000BC
 _02152D24: .word NNS_G3dGlb
-	arm_func_end ovl09_2152CB4
+	arm_func_end exPlayerHelpers__Func_2152CB4
 
-	arm_func_start ovl09_2152D28
-ovl09_2152D28: // 0x02152D28
+	arm_func_start exPlayerHelpers__Func_2152D28
+exPlayerHelpers__Func_2152D28: // 0x02152D28
 	cmp r3, #0
 	beq _02152D44
 	cmp r3, #1
@@ -347,10 +347,10 @@ _02152E0C:
 	sub r1, r3, r1
 	strh r1, [r0, #4]
 	bx lr
-	arm_func_end ovl09_2152D28
+	arm_func_end exPlayerHelpers__Func_2152D28
 
-	arm_func_start ovl09_2152E28
-ovl09_2152E28: // 0x02152E28
+	arm_func_start exPlayerHelpers__Func_2152E28
+exPlayerHelpers__Func_2152E28: // 0x02152E28
 	stmdb sp!, {r3, lr}
 	bl FX_Atan2
 	bl _f_itof
@@ -384,7 +384,7 @@ _02152E98: .word 0x43340000
 _02152E9C: .word 0x40490E56
 _02152EA0: .word 0x43B40000
 _02152EA4: .word 0xB60B60B7
-	arm_func_end ovl09_2152E28
+	arm_func_end exPlayerHelpers__Func_2152E28
 
 	arm_func_start ovl09_2152EA8
 ovl09_2152EA8: // 0x02152EA8
@@ -399,7 +399,7 @@ ovl09_2152EA8: // 0x02152EA8
 	mov r2, ip, lsl #0x10
 	mov r5, r3
 	mov r4, r2, asr #0x10
-	bl ovl09_2152E28
+	bl exPlayerHelpers__Func_2152E28
 	ldr r3, _02152FAC // =0xB40B40B5
 	ldrsh r1, [r5, #0]
 	smull r2, ip, r3, r0
@@ -461,8 +461,8 @@ _02152FA4:
 _02152FAC: .word 0xB40B40B5
 	arm_func_end ovl09_2152EA8
 
-	arm_func_start ovl09_2152FB0
-ovl09_2152FB0: // 0x02152FB0
+	arm_func_start exPlayerHelpers__Func_2152FB0
+exPlayerHelpers__Func_2152FB0: // 0x02152FB0
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r3
 	mov r7, r0
@@ -552,10 +552,10 @@ _021530EC:
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _021530F8: .word 0x45800000
-	arm_func_end ovl09_2152FB0
+	arm_func_end exPlayerHelpers__Func_2152FB0
 
-	arm_func_start ovl09_21530FC
-ovl09_21530FC: // 0x021530FC
+	arm_func_start exPlayerHelpers__Func_21530FC
+exPlayerHelpers__Func_21530FC: // 0x021530FC
 	stmdb sp!, {r3, lr}
 	cmp r2, #0
 	ldreq r2, [r0, #8]
@@ -588,15 +588,15 @@ _02153130:
 	movle r0, #1
 	movgt r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_21530FC
+	arm_func_end exPlayerHelpers__Func_21530FC
 
-	arm_func_start ovl09_2153178
-ovl09_2153178: // 0x02153178
+	arm_func_start exPlayerHelpers__LoadBurningBlazeAssets
+exPlayerHelpers__LoadBurningBlazeAssets: // 0x02153178
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02153324 // =ov09_02175F00
 	mov r4, r0
 	str r4, [r1, #0x34]
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _02153324 // =ov09_02175F00
 	ldrsh r0, [r0, #2]
 	cmp r0, #0
@@ -617,7 +617,7 @@ ovl09_2153178: // 0x02153178
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #3
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02153324 // =ov09_02175F00
 	str r0, [r1, #0x38]
 	ldr r0, [r1, #0x30]
@@ -707,24 +707,24 @@ _02153324: .word ov09_02175F00
 _02153328: .word aExtraExBb
 _0215332C: .word 0x0000BFF4
 _02153330: .word 0x00007FF8
-	arm_func_end ovl09_2153178
+	arm_func_end exPlayerHelpers__LoadBurningBlazeAssets
 
-	arm_func_start ovl09_2153334
-ovl09_2153334: // 0x02153334
+	arm_func_start exPlayerHelpers__SetBurningBlazeAnimation
+exPlayerHelpers__SetBurningBlazeAnimation: // 0x02153334
 	stmdb sp!, {r3, lr}
 	ldr r2, _02153354 // =ov09_02175F00
 	str r1, [sp]
 	ldr r1, [r2, #0x30]
 	ldr r3, [r2, #0x38]
 	mov r2, #0
-	bl ovl09_2152C3C
+	bl exPlayerHelpers__SetAnimationInternal
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02153354: .word ov09_02175F00
-	arm_func_end ovl09_2153334
+	arm_func_end exPlayerHelpers__SetBurningBlazeAnimation
 
-	arm_func_start ovl09_2153358
-ovl09_2153358: // 0x02153358
+	arm_func_start exPlayerHelpers__ReleaseBurningBlazeAssets
+exPlayerHelpers__ReleaseBurningBlazeAssets: // 0x02153358
 	stmdb sp!, {r4, lr}
 	ldr r1, _021533BC // =ov09_02175F00
 	mov r4, r0
@@ -754,24 +754,24 @@ _0215339C:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021533BC: .word ov09_02175F00
-	arm_func_end ovl09_2153358
+	arm_func_end exPlayerHelpers__ReleaseBurningBlazeAssets
 
-	arm_func_start ovl09_21533C0
-ovl09_21533C0: // 0x021533C0
+	arm_func_start exPlayerHelpers__GetBlazeAssets
+exPlayerHelpers__GetBlazeAssets: // 0x021533C0
 	ldr r0, _021533CC // =ov09_02175F00
 	ldr r0, [r0, #0x34]
 	bx lr
 	.align 2, 0
 _021533CC: .word ov09_02175F00
-	arm_func_end ovl09_21533C0
+	arm_func_end exPlayerHelpers__GetBlazeAssets
 
-	arm_func_start ovl09_21533D0
-ovl09_21533D0: // 0x021533D0
+	arm_func_start exPlayerHelpers__LoadBlazeAssets
+exPlayerHelpers__LoadBlazeAssets: // 0x021533D0
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02153550 // =ov09_02175F00
 	mov r4, r0
 	str r4, [r1, #8]
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _02153550 // =ov09_02175F00
 	ldrsh r0, [r0, #4]
 	cmp r0, #0
@@ -792,7 +792,7 @@ ovl09_21533D0: // 0x021533D0
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #5
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02153550 // =ov09_02175F00
 	str r0, [r1, #0x28]
 	ldr r0, [r1, #0x2c]
@@ -871,21 +871,21 @@ _02153550: .word ov09_02175F00
 _02153554: .word aExtraExBb
 _02153558: .word 0x0000BFF4
 _0215355C: .word 0x00007FF8
-	arm_func_end ovl09_21533D0
+	arm_func_end exPlayerHelpers__LoadBlazeAssets
 
-	arm_func_start ovl09_2153560
-ovl09_2153560: // 0x02153560
+	arm_func_start exPlayerHelpers__SetBlazeAnimation
+exPlayerHelpers__SetBlazeAnimation: // 0x02153560
 	stmdb sp!, {r3, lr}
 	ldr r2, _02153580 // =ov09_02175F00
 	str r1, [sp]
 	ldr r1, [r2, #0x2c]
 	ldr r3, [r2, #0x28]
 	mov r2, #0
-	bl ovl09_2152C3C
+	bl exPlayerHelpers__SetAnimationInternal
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02153580: .word ov09_02175F00
-	arm_func_end ovl09_2153560
+	arm_func_end exPlayerHelpers__SetBlazeAnimation
 	
 	.rodata
 

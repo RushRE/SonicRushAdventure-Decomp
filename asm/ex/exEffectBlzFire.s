@@ -67,19 +67,19 @@ exEffectBlzFireShotTask__FileTable: // 0x02176540
 	
 	.text
 
-	arm_func_start ovl09_2165AE4
-ovl09_2165AE4: // 0x02165AE4
+	arm_func_start exEffectBlzFireTask__LoadFireAssets
+exEffectBlzFireTask__LoadFireAssets: // 0x02165AE4
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	mov r5, r0
 	mov r4, r1
-	bl ovl09_21636BC
+	bl exDrawReqTask__InitSprite3D
 	ldr r0, _02165BE8 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	ldrsh r0, [r0, #2]
 	cmp r0, #0
 	bne _02165B18
 	mov r0, #0
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02165BE8 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	str r0, [r1, #8]
 _02165B18:
@@ -138,10 +138,10 @@ _02165B18:
 	.align 2, 0
 _02165BE8: .word exExEffectBlzFireTaMeTask__ActiveInstanceCount
 _02165BEC: .word 0x00007FF8
-	arm_func_end ovl09_2165AE4
+	arm_func_end exEffectBlzFireTask__LoadFireAssets
 
-	arm_func_start ovl09_2165BF0
-ovl09_2165BF0: // 0x02165BF0
+	arm_func_start exEffectBlzFireTask__ReleaseFireAssets
+exEffectBlzFireTask__ReleaseFireAssets: // 0x02165BF0
 	stmdb sp!, {r3, lr}
 	add r0, r0, #0x20
 	bl AnimatorSprite3D__Release
@@ -152,10 +152,10 @@ ovl09_2165BF0: // 0x02165BF0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02165C10: .word exExEffectBlzFireTaMeTask__ActiveInstanceCount
-	arm_func_end ovl09_2165BF0
+	arm_func_end exEffectBlzFireTask__ReleaseFireAssets
 
-	arm_func_start ovl09_2165C14
-ovl09_2165C14: // 0x02165C14
+	arm_func_start exExEffectBlzFireTaMeTask__LoadFireTaMeAssets
+exExEffectBlzFireTaMeTask__LoadFireTaMeAssets: // 0x02165C14
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02165E28 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r4, r0
@@ -185,7 +185,7 @@ ovl09_2165C14: // 0x02165C14
 	ldmloia sp!, {r3, r4, r5, pc}
 _02165C80:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _02165E28 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -208,11 +208,11 @@ _02165C80:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x33
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02165E28 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	str r0, [r1, #0x40]
 	mov r0, #0x34
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02165E28 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	str r0, [r1, #0x44]
 	ldr r0, [r1, #0x24]
@@ -298,10 +298,10 @@ _02165E28: .word exExEffectBlzFireTaMeTask__ActiveInstanceCount
 _02165E2C: .word aExtraExBb_8
 _02165E30: .word 0x0000BFF4
 _02165E34: .word 0x00007FF8
-	arm_func_end ovl09_2165C14
+	arm_func_end exExEffectBlzFireTaMeTask__LoadFireTaMeAssets
 
-	arm_func_start ovl09_2165E38
-ovl09_2165E38: // 0x02165E38
+	arm_func_start exExEffectBlzFireTaMeTask__ReleaseFireTaMeAssets
+exExEffectBlzFireTaMeTask__ReleaseFireTaMeAssets: // 0x02165E38
 	stmdb sp!, {r4, lr}
 	ldr r1, _02165EC4 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r4, r0
@@ -344,10 +344,10 @@ _02165EA8:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02165EC4: .word exExEffectBlzFireTaMeTask__ActiveInstanceCount
-	arm_func_end ovl09_2165E38
+	arm_func_end exExEffectBlzFireTaMeTask__ReleaseFireTaMeAssets
 
-	arm_func_start ovl09_2165EC8
-ovl09_2165EC8: // 0x02165EC8
+	arm_func_start exEffectBlzFireTask__LoadFireShotAssets
+exEffectBlzFireTask__LoadFireShotAssets: // 0x02165EC8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
 	ldr r1, _0216616C // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
@@ -381,7 +381,7 @@ ovl09_2165EC8: // 0x02165EC8
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 _02165F44:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _0216616C // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	ldrsh r0, [r0, #4]
 	cmp r0, #0
@@ -404,25 +404,25 @@ _02165F44:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x38
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0216616C // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r2, #4
 	str r0, [r1, #0x58]
 	mov r0, #0x35
 	str r2, [r1, #0x48]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0216616C // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r2, #0
 	str r0, [r1, #0x5c]
 	mov r0, #0x36
 	str r2, [r1, #0x4c]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0216616C // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r2, #1
 	str r0, [r1, #0x60]
 	mov r0, #0x37
 	str r2, [r1, #0x50]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0216616C // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r2, #2
 	str r0, [r1, #0x64]
@@ -529,10 +529,10 @@ _02166174: .word exEffectBlzFireShotTask__AnimTable
 _02166178: .word exEffectBlzFireShotTask__FileTable
 _0216617C: .word 0x0000BFF4
 _02166180: .word 0x00007FF8
-	arm_func_end ovl09_2165EC8
+	arm_func_end exEffectBlzFireTask__LoadFireShotAssets
 
-	arm_func_start ovl09_2166184
-ovl09_2166184: // 0x02166184
+	arm_func_start exEffectBlzFireTask__ReleaseFireShotAssets
+exEffectBlzFireTask__ReleaseFireShotAssets: // 0x02166184
 	stmdb sp!, {r4, lr}
 	ldr r1, _02166238 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r4, r0
@@ -587,7 +587,7 @@ _0216621C:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02166238: .word exExEffectBlzFireTaMeTask__ActiveInstanceCount
-	arm_func_end ovl09_2166184
+	arm_func_end exEffectBlzFireTask__ReleaseFireShotAssets
 
 	arm_func_start exEffectBlzFireTask__Main
 exEffectBlzFireTask__Main: // 0x0216623C
@@ -599,7 +599,7 @@ exEffectBlzFireTask__Main: // 0x0216623C
 	mov r1, #9
 	str r0, [r2, #0xc]
 	add r0, r4, #0x10
-	bl ovl09_2165AE4
+	bl exEffectBlzFireTask__LoadFireAssets
 	add r0, r4, #0x160
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
@@ -608,20 +608,20 @@ exEffectBlzFireTask__Main: // 0x0216623C
 	mov r0, #0
 	str r0, [r4]
 	bl GetExTaskCurrent
-	ldr r1, _02166294 // =ovl09_21662E4
+	ldr r1, _02166294 // =exEffectBlzFireTask__Main_Active
 	str r1, [r0]
-	bl ovl09_21662E4
+	bl exEffectBlzFireTask__Main_Active
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02166290: .word exExEffectBlzFireTaMeTask__ActiveInstanceCount
-_02166294: .word ovl09_21662E4
+_02166294: .word exEffectBlzFireTask__Main_Active
 	arm_func_end exEffectBlzFireTask__Main
 
 	arm_func_start exEffectBlzFireTask__Func8
 exEffectBlzFireTask__Func8: // 0x02166298
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -637,7 +637,7 @@ exEffectBlzFireTask__Destructor: // 0x021662C0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #0x10
-	bl ovl09_2165BF0
+	bl exEffectBlzFireTask__ReleaseFireAssets
 	ldr r0, _021662E0 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0xc]
@@ -646,15 +646,15 @@ exEffectBlzFireTask__Destructor: // 0x021662C0
 _021662E0: .word exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	arm_func_end exEffectBlzFireTask__Destructor
 
-	arm_func_start ovl09_21662E4
-ovl09_21662E4: // 0x021662E4
+	arm_func_start exEffectBlzFireTask__Main_Active
+exEffectBlzFireTask__Main_Active: // 0x021662E4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x2b0]
 	ldrh r0, [r0, #0x1c]
 	cmp r0, #9
 	bne _02166304
-	bl ovl09_2166338
+	bl exEffectBlzFireTask__HandleMovement
 	ldmia sp!, {r3, pc}
 _02166304:
 	cmp r0, #6
@@ -672,10 +672,10 @@ _02166324:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02166334: .word ExTask_State_Destroy
-	arm_func_end ovl09_21662E4
+	arm_func_end exEffectBlzFireTask__Main_Active
 
-	arm_func_start ovl09_2166338
-ovl09_2166338: // 0x02166338
+	arm_func_start exEffectBlzFireTask__HandleMovement
+exEffectBlzFireTask__HandleMovement: // 0x02166338
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -1134,24 +1134,24 @@ _02166968:
 	str r1, [r4, #0x14c]
 	str r0, [r4, #8]
 	bl GetExTaskCurrent
-	ldr r1, _021669D0 // =ovl09_21669D4
+	ldr r1, _021669D0 // =exEffectBlzFireTask__Main_21669D4
 	str r1, [r0]
-	bl ovl09_21669D4
+	bl exEffectBlzFireTask__Main_21669D4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021669C8: .word _021744C0
 _021669CC: .word 0x45800000
-_021669D0: .word ovl09_21669D4
-	arm_func_end ovl09_2166338
+_021669D0: .word exEffectBlzFireTask__Main_21669D4
+	arm_func_end exEffectBlzFireTask__HandleMovement
 
-	arm_func_start ovl09_21669D4
-ovl09_21669D4: // 0x021669D4
+	arm_func_start exEffectBlzFireTask__Main_21669D4
+exEffectBlzFireTask__Main_21669D4: // 0x021669D4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl ovl09_2163ADC
+	bl exDrawReqTask__Sprite3D__Animate
 	ldr r1, [r4, #0x140]
 	ldr r0, [r4, #8]
 	add r0, r1, r0
@@ -1192,9 +1192,9 @@ _02166A64:
 _02166A78:
 	add r0, r4, #0x10
 	add r1, r4, #0x160
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x10
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1202,7 +1202,7 @@ _02166A78:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02166AA0: .word ExTask_State_Destroy
-	arm_func_end ovl09_21669D4
+	arm_func_end exEffectBlzFireTask__Main_21669D4
 
 	arm_func_start exEffectBlzFireTask__Create
 exEffectBlzFireTask__Create: // 0x02166AA4
@@ -1254,7 +1254,7 @@ exExEffectBlzFireTaMeTask__Main: // 0x02166B30
 	ldr r1, _02166BB0 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	str r0, [r1, #0x1c]
 	add r0, r4, #8
-	bl ovl09_2165C14
+	bl exExEffectBlzFireTaMeTask__LoadFireTaMeAssets
 	add r0, r4, #0x394
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
@@ -1274,20 +1274,20 @@ exExEffectBlzFireTaMeTask__Main: // 0x02166B30
 	mov r3, r1
 	bl PlaySfxEx
 	bl GetExTaskCurrent
-	ldr r1, _02166BB4 // =ovl09_2166C1C
+	ldr r1, _02166BB4 // =exExEffectBlzFireTaMeTask__Main_Active
 	str r1, [r0]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02166BB0: .word exExEffectBlzFireTaMeTask__ActiveInstanceCount
-_02166BB4: .word ovl09_2166C1C
+_02166BB4: .word exExEffectBlzFireTaMeTask__Main_Active
 	arm_func_end exExEffectBlzFireTaMeTask__Main
 
 	arm_func_start exExEffectBlzFireTaMeTask__Func8
 exExEffectBlzFireTaMeTask__Func8: // 0x02166BB8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -1309,7 +1309,7 @@ exExEffectBlzFireTaMeTask__Destructor: // 0x02166BE0
 	ldr r0, [r4, #4]
 	bl FreeSndHandle
 	add r0, r4, #8
-	bl ovl09_2165E38
+	bl exExEffectBlzFireTaMeTask__ReleaseFireTaMeAssets
 	ldr r0, _02166C18 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x1c]
@@ -1318,13 +1318,13 @@ exExEffectBlzFireTaMeTask__Destructor: // 0x02166BE0
 _02166C18: .word exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	arm_func_end exExEffectBlzFireTaMeTask__Destructor
 
-	arm_func_start ovl09_2166C1C
-ovl09_2166C1C: // 0x02166C1C
+	arm_func_start exExEffectBlzFireTaMeTask__Main_Active
+exExEffectBlzFireTaMeTask__Main_Active: // 0x02166C1C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #8
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r0, [r4, #0x4e4]
 	ldrh r0, [r0, #0x1c]
 	add r0, r0, #0xfa
@@ -1449,7 +1449,7 @@ _02166D90:
 _02166DF4:
 	add r0, r4, #8
 	add r1, r4, #0x394
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -1459,7 +1459,7 @@ _02166E10: .word _021744C0
 _02166E14: .word 0x45800000
 _02166E18: .word 0x42F00000
 _02166E1C: .word ExTask_State_Destroy
-	arm_func_end ovl09_2166C1C
+	arm_func_end exExEffectBlzFireTaMeTask__Main_Active
 
 	arm_func_start exExEffectBlzFireTaMeTask__Create
 exExEffectBlzFireTaMeTask__Create: // 0x02166E20

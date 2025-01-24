@@ -16,7 +16,7 @@ exFixRingTask__Main: // 0x021697E0
 	mov r1, #1
 	add r0, r7, #0x10
 	strh r1, [r7, #0x12]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	add r0, r7, #0x90
 	mov r1, #0xe000
 	bl exDrawReqTask__SetConfigPriority
@@ -27,9 +27,9 @@ exFixRingTask__Main: // 0x021697E0
 	add r0, r7, #0x10
 	orr r1, r1, #0x20
 	strb r1, [r7, #0x92]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	add r0, r7, #0x90
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	add r0, r7, #0x1a
 	ldr r11, _021699AC // =0x02175CC8
 	mov r8, #0
@@ -46,7 +46,7 @@ _0216985C:
 	strh r1, [r10, #0x98]
 	mov r1, #2
 	strh r1, [r10, #0x9a]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r1, _021699B0 // =0x0000E001
 	add r0, r5, r9
 	bl exDrawReqTask__SetConfigPriority
@@ -58,9 +58,9 @@ _0216985C:
 	add r0, r6, r9
 	orr r1, r1, #0x20
 	strb r1, [r4, r9]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	add r0, r5, r9
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
 	mov r8, r0, lsr #0x10
@@ -85,7 +85,7 @@ _021698F0:
 	mov r1, #2
 	add r0, r6, r8
 	strh r1, [r2, #0xea]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r1, _021699B0 // =0x0000E001
 	add r0, r5, r8
 	bl exDrawReqTask__SetConfigPriority
@@ -97,7 +97,7 @@ _021698F0:
 	add r0, r6, r8
 	orr r1, r1, #0x20
 	strb r1, [r4, r8]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	add r0, r5, r8
 	bl exDrawReqTask__Func_2164218
 	add r0, r10, #1
@@ -118,7 +118,7 @@ _021698F0:
 	mov r0, #0x3c
 	strh r0, [r7]
 	bl GetExTaskCurrent
-	ldr r1, _021699B8 // =ovl09_2169A2C
+	ldr r1, _021699B8 // =exFixRingTask__Main_Active
 	str r1, [r0]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
@@ -126,7 +126,7 @@ _021699A8: .word 0x021766A8
 _021699AC: .word 0x02175CC8
 _021699B0: .word 0x0000E001
 _021699B4: .word 0x02175CA0
-_021699B8: .word ovl09_2169A2C
+_021699B8: .word exFixRingTask__Main_Active
 	arm_func_end exFixRingTask__Main
 
 	arm_func_start exFixRingTask__Func8
@@ -143,7 +143,7 @@ exFixRingTask__Destructor: // 0x021699C8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	add r0, r4, #0x1e8
 	add r6, r4, #0x98
 	mov r7, #0
@@ -152,9 +152,9 @@ exFixRingTask__Destructor: // 0x021699C8
 _021699F0:
 	mul r8, r7, r4
 	add r0, r6, r8
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	add r0, r5, r8
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
@@ -168,18 +168,18 @@ _021699F0:
 _02169A28: .word 0x021766A8
 	arm_func_end exFixRingTask__Destructor
 
-	arm_func_start ovl09_2169A2C
-ovl09_2169A2C: // 0x02169A2C
+	arm_func_start exFixRingTask__Main_Active
+exFixRingTask__Main_Active: // 0x02169A2C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl exSysTask__GetStatus
 	mov r5, r0
 	add r0, r4, #0x10
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	add r0, r4, #0x10
 	add r1, r4, #0x90
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
@@ -250,7 +250,7 @@ _02169AD4:
 	add r8, r0, #0x400
 _02169B5C:
 	mov r0, r8
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	add r0, r9, #1
 	mov r0, r0, lsl #0x10
 	mov r9, r0, asr #0x10
@@ -271,7 +271,7 @@ _02169B5C:
 	add r0, r0, r1
 	add r1, r3, r1
 	strh r7, [r2, #0x52]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	mov r0, #0x88
 	mul r7, r5, r0
 	add r2, r4, r7
@@ -286,7 +286,7 @@ _02169B5C:
 	ldrsh r3, [r4, #8]
 	add r1, r1, r7
 	strh r3, [r2, #0x52]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	mov r0, #0x88
 	mul r5, r6, r0
 	add r2, r4, r5
@@ -301,13 +301,13 @@ _02169B5C:
 	ldrsh r3, [r4, #0xc]
 	add r1, r1, r5
 	strh r3, [r2, #0x52]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	b _02169CF4
 _02169C34:
 	add r8, r4, #0x98
 _02169C38:
 	mov r0, r8
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	add r0, r9, #1
 	mov r0, r0, lsl #0x10
 	mov r9, r0, asr #0x10
@@ -326,7 +326,7 @@ _02169C38:
 	add r0, r0, r8
 	add r1, r1, r8
 	strh r3, [r2, #2]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	mov r0, #0x88
 	mul r7, r5, r0
 	add r2, r4, r7
@@ -339,7 +339,7 @@ _02169C38:
 	ldrsh r3, [r4, #8]
 	add r1, r1, r7
 	strh r3, [r2, #2]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	mov r0, #0x88
 	mul r5, r6, r0
 	add r2, r4, r5
@@ -352,7 +352,7 @@ _02169C38:
 	ldrsh r3, [r4, #0xc]
 	add r1, r1, r5
 	strh r3, [r2, #2]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _02169CF4:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
@@ -362,7 +362,7 @@ _02169CF4:
 _02169D04: .word 0x66666667
 _02169D08: .word 0x51EB851F
 _02169D0C: .word 0x10624DD3
-	arm_func_end ovl09_2169A2C
+	arm_func_end exFixRingTask__Main_Active
 
 	arm_func_start exFixRingTask__Create
 exFixRingTask__Create: // 0x02169D10
@@ -401,8 +401,8 @@ _02169D88: .word 0x00001801
 _02169D8C: .word exFixRingTask__Func8
 	arm_func_end exFixRingTask__Create
 
-	arm_func_start ovl09_2169D90
-ovl09_2169D90: // 0x02169D90
+	arm_func_start exFixRingTask__Destroy
+exFixRingTask__Destroy: // 0x02169D90
 	stmdb sp!, {r3, lr}
 	ldr r0, _02169DB4 // =0x021766A8
 	ldr r0, [r0, #0x10]
@@ -415,4 +415,4 @@ ovl09_2169D90: // 0x02169D90
 	.align 2, 0
 _02169DB4: .word 0x021766A8
 _02169DB8: .word ExTask_State_Destroy
-	arm_func_end ovl09_2169D90
+	arm_func_end exFixRingTask__Destroy

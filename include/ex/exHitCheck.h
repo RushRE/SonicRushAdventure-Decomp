@@ -40,22 +40,22 @@ typedef struct exHitCheck_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void ovl09_216AD9C(void);
-NOT_DECOMPILED void ovl09_216ADBC(void);
-NOT_DECOMPILED void ovl09_216ADD8(void);
-NOT_DECOMPILED void ovl09_216ADF4(void);
-NOT_DECOMPILED void ovl09_216AE08(void);
-NOT_DECOMPILED void ovl09_216AE78(void);
-NOT_DECOMPILED void ovl09_216B264(void);
-NOT_DECOMPILED void ovl09_216B36C(void);
-NOT_DECOMPILED void ovl09_216B370(void);
-NOT_DECOMPILED void ovl09_216B374(void);
-NOT_DECOMPILED void ovl09_216B3B0(void);
-NOT_DECOMPILED void ovl09_216B3E4(void);
+NOT_DECOMPILED void exHitCheckTask__Func_216AD9C(void);
+NOT_DECOMPILED void exHitCheckTask__Func_216ADBC(void);
+NOT_DECOMPILED void exHitCheckTask__Func_216ADD8(void);
+NOT_DECOMPILED void exHitCheckTask__InitHitChecker(void);
+NOT_DECOMPILED void exHitCheckTask__CheckBoxOverlap(void);
+NOT_DECOMPILED void exHitCheckTask__AddHitCheck(void);
+NOT_DECOMPILED void exHitCheckTask__CheckArenaBounds(void);
+NOT_DECOMPILED void exHitCheckTask__Func_216B36C(void);
+NOT_DECOMPILED void exHitCheckTask__Func_216B370(void);
+NOT_DECOMPILED void exHitCheckTask__ArenaCheckForModel(void);
+NOT_DECOMPILED void exHitCheckTask__DoArenaBoundsCheck(void);
+NOT_DECOMPILED void exHitCheckTask__DoHitChecks(void);
 NOT_DECOMPILED void exHitCheckTask__Main(void);
 NOT_DECOMPILED void exHitCheckTask__Func8(void);
 NOT_DECOMPILED void exHitCheckTask__Destructor(void);
-NOT_DECOMPILED void ovl09_216C4A4(void);
+NOT_DECOMPILED void exHitCheckTask__Main_Active(void);
 NOT_DECOMPILED void exHitCheckTask__Create(void);
 
 #endif // RUSH_EXHITCHECK_H

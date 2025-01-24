@@ -99,7 +99,7 @@ exPlayerAdminTask__Main: // 0x0216E570
 	bl exPlayerScreenMoveTask__Create
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl ovl09_217176C
+	bl exPlayerAdminTask__LoadSuperSonicAssets
 	ldr r0, [r4, #8]
 	mov r1, #0xa800
 	add r0, r0, #0x390
@@ -112,13 +112,13 @@ exPlayerAdminTask__Main: // 0x0216E570
 	ldr r1, [r4, #8]
 	add r0, r4, #0x18
 	strh r2, [r1, #2]
-	bl ovl09_21724F4
+	bl exSonDushEffectTask__LoadSonicSprite
 	add r0, r4, #0x168
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl ovl09_2153178
+	bl exPlayerHelpers__LoadBurningBlazeAssets
 	ldr r0, [r4, #0xc]
 	mov r1, #0xa800
 	add r0, r0, #0x390
@@ -131,7 +131,7 @@ exPlayerAdminTask__Main: // 0x0216E570
 	ldr r1, [r4, #0xc]
 	add r0, r4, #0x2b8
 	strh r2, [r1, #2]
-	bl ovl09_2153F08
+	bl exBlzDushEffectTask__LoadBlazeSprite
 	add r0, r4, #8
 	add r0, r0, #0x400
 	mov r1, #0xa800
@@ -140,13 +140,13 @@ exPlayerAdminTask__Main: // 0x0216E570
 	ldrb r0, [r1, #0x6a]
 	bic r0, r0, #1
 	strb r0, [r1, #0x6a]
-	bl ovl09_21705D8
+	bl exPlayerAdminTask__Func_21705D8
 	add r0, r4, #0x15c
 	add r0, r0, #0x400
 	ldr r1, [r4, #0x10]
 	mov r2, #1
 	add r1, r1, #0x350
-	bl ovl09_216241C
+	bl exDrawReqTask__InitTrail
 	add r0, r4, #0x3c8
 	add r0, r0, #0x400
 	mov r1, #0xa800
@@ -178,20 +178,20 @@ exPlayerAdminTask__Destructor: // 0x0216E694
 	mov r4, r0
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl ovl09_2171954
+	bl exPlayerAdminTask__Func_2171954
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl ovl09_2171B80
+	bl exPlayerAdminTask__Func_2171B80
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl ovl09_2153358
+	bl exPlayerHelpers__ReleaseBurningBlazeAssets
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl ovl09_2153584
+	bl exBlzDushEffectTask__Destroy_2153584
 	add r0, r4, #0x18
-	bl ovl09_21725F8
+	bl exSonDushEffectTask__Func_21725F8
 	add r0, r4, #0x2b8
-	bl ovl09_215400C
+	bl exBlzDushEffectTask__Func_215400C
 	ldr r0, _0216E704 // =exPlayerScreenMoveTask__dword_2177BA0
 	ldr r0, [r0, #8]
 	bl GetExTask
@@ -206,93 +206,93 @@ _0216E704: .word exPlayerScreenMoveTask__dword_2177BA0
 _0216E708: .word ExTask_State_Destroy
 	arm_func_end exPlayerAdminTask__Destructor
 
-	arm_func_start ovl09_216E70C
-ovl09_216E70C: // 0x0216E70C
+	arm_func_start exPlayerAdminTask__Main_216E70C
+exPlayerAdminTask__Main_216E70C: // 0x0216E70C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2171624
-	bl ovl09_217035C
+	bl exPlayerAdminTask__Func_2171624
+	bl exPlayerAdminTask__Func_217035C
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
-	bl ovl09_2170518
+	bl exPlayerAdminTask__Func_2170518
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_216E70C
+	arm_func_end exPlayerAdminTask__Main_216E70C
 
 	arm_func_start exPlayerAdminTask__Main_216E744
 exPlayerAdminTask__Main_216E744: // 0x0216E744
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r2, [r4, #0x10]
 	mov r0, #0x14000
 	ldr r1, [r2, #0x354]
 	rsb r0, r0, #0
 	cmp r1, r0
 	blt _0216E774
-	bl ovl09_216E790
+	bl exPlayerAdminTask__Func_216E790
 	ldmia sp!, {r4, pc}
 _0216E774:
 	add r0, r1, #0x1000
 	str r0, [r2, #0x354]
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	arm_func_end exPlayerAdminTask__Main_216E744
 
-	arm_func_start ovl09_216E790
-ovl09_216E790: // 0x0216E790
+	arm_func_start exPlayerAdminTask__Func_216E790
+exPlayerAdminTask__Func_216E790: // 0x0216E790
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl exMsgTitleTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _0216E7B0 // =ovl09_216E7B4
+	ldr r1, _0216E7B0 // =exPlayerAdminTask__Main_216E7B4
 	str r1, [r0]
-	bl ovl09_216E7B4
+	bl exPlayerAdminTask__Main_216E7B4
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216E7B0: .word ovl09_216E7B4
-	arm_func_end ovl09_216E790
+_0216E7B0: .word exPlayerAdminTask__Main_216E7B4
+	arm_func_end exPlayerAdminTask__Func_216E790
 
-	arm_func_start ovl09_216E7B4
-ovl09_216E7B4: // 0x0216E7B4
+	arm_func_start exPlayerAdminTask__Main_216E7B4
+exPlayerAdminTask__Main_216E7B4: // 0x0216E7B4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #4
 	bne _0216E7DC
 	bl GetExTaskCurrent
-	ldr r1, _0216E7F0 // =ovl09_216E70C
+	ldr r1, _0216E7F0 // =exPlayerAdminTask__Main_216E70C
 	str r1, [r0]
 _0216E7DC:
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216E7F0: .word ovl09_216E70C
-	arm_func_end ovl09_216E7B4
+_0216E7F0: .word exPlayerAdminTask__Main_216E70C
+	arm_func_end exPlayerAdminTask__Main_216E7B4
 
-	arm_func_start ovl09_216E7F4
-ovl09_216E7F4: // 0x0216E7F4
+	arm_func_start exPlayerAdminTask__Func_216E7F4
+exPlayerAdminTask__Func_216E7F4: // 0x0216E7F4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r1, [r4, #4]
 	mov r0, #0
 	strh r0, [r1, #0x3c]
-	bl ovl09_2164288
+	bl exDrawReqTask__Func_2164288
 	ldr r2, [r4, #4]
 	mov r1, #7
 	ldrb r0, [r2, #0x6b]
@@ -300,11 +300,11 @@ ovl09_216E7F4: // 0x0216E7F4
 	strb r0, [r2, #0x6b]
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 	ldr r0, [r4, #0xc]
 	mov r1, #7
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 	ldr r0, [r4, #4]
 	mov r2, #0
 	strh r2, [r0, #0x44]
@@ -322,14 +322,14 @@ ovl09_216E7F4: // 0x0216E7F4
 	ldr r1, [r4, #8]
 	add r0, r1, #4
 	ldrh r1, [r1, #2]
-	bl ovl09_2171930
+	bl exPlayerAdminTask__SetSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
 	ldr r1, [r4, #0xc]
 	add r0, r1, #4
 	ldrh r1, [r1, #2]
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -338,27 +338,27 @@ ovl09_216E7F4: // 0x0216E7F4
 	ldr r1, [r4, #0x14]
 	mov r2, #1
 	add r1, r1, #0x350
-	bl ovl09_216241C
+	bl exDrawReqTask__InitTrail
 	add r0, r4, #0x384
 	add r0, r0, #0x800
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	bl GetExTaskCurrent
-	ldr r1, _0216E8EC // =ovl09_216E8F0
+	ldr r1, _0216E8EC // =exPlayerAdminTask__Func_216E8F0
 	str r1, [r0]
-	bl ovl09_216E8F0
+	bl exPlayerAdminTask__Func_216E8F0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216E8EC: .word ovl09_216E8F0
-	arm_func_end ovl09_216E7F4
+_0216E8EC: .word exPlayerAdminTask__Func_216E8F0
+	arm_func_end exPlayerAdminTask__Func_216E7F4
 
-	arm_func_start ovl09_216E8F0
-ovl09_216E8F0: // 0x0216E8F0
+	arm_func_start exPlayerAdminTask__Func_216E8F0
+exPlayerAdminTask__Func_216E8F0: // 0x0216E8F0
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr lr, [r4, #4]
 	ldr r3, [r4, #0x10]
 	ldr r0, _0216EA60 // =0x00007FF8
@@ -372,10 +372,10 @@ ovl09_216E8F0: // 0x0216E8F0
 	add r3, lr, #0x68
 	sub r1, ip, r1
 	bl ovl09_2152EA8
-	arm_func_end ovl09_216E8F0
+	arm_func_end exPlayerAdminTask__Func_216E8F0
 
-	arm_func_start ovl09_216E938
-ovl09_216E938: // 0x0216E938
+	arm_func_start exPlayerAdminTask__Func_216E938
+exPlayerAdminTask__Func_216E938: // 0x0216E938
 	ldr r0, [r4, #4]
 	ldr ip, _0216EA64 // =FX_SinCosTable_
 	ldrh r2, [r0, #0x64]
@@ -433,7 +433,7 @@ ovl09_216E938: // 0x0216E938
 	sub r0, r3, #0x2000
 	cmp r2, r0
 	ble _0216EA28
-	bl ovl09_216EA68
+	bl exPlayerAdminTask__Func_216EA68
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 _0216EA28:
@@ -444,8 +444,8 @@ _0216EA28:
 	add r1, r1, #0x350
 	mov r3, r2, lsr #0x1f
 	mov r2, #0
-	bl ovl09_2162FDC
-	bl ovl09_216EFD4
+	bl exDrawReqTask__Trail__HandleTrail
+	bl exPlayerAdminTask__Func_216EFD4
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -454,10 +454,10 @@ _0216EA28:
 	.align 2, 0
 _0216EA60: .word 0x00007FF8
 _0216EA64: .word FX_SinCosTable_
-	arm_func_end ovl09_216E938
+	arm_func_end exPlayerAdminTask__Func_216E938
 
-	arm_func_start ovl09_216EA68
-ovl09_216EA68: // 0x0216EA68
+	arm_func_start exPlayerAdminTask__Func_216EA68
+exPlayerAdminTask__Func_216EA68: // 0x0216EA68
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #4]
@@ -468,23 +468,23 @@ ovl09_216EA68: // 0x0216EA68
 	cmp r0, #0xb
 	bne _0216EA94
 	mov r0, #0
-	bl ovl09_2154C38
+	bl exBossHelpers__Func_2154C38
 _0216EA94:
 	bl GetExTaskCurrent
-	ldr r1, _0216EAA8 // =ovl09_216EAAC
+	ldr r1, _0216EAA8 // =exPlayerAdminTask__Func_216EAAC
 	str r1, [r0]
-	bl ovl09_216EAAC
+	bl exPlayerAdminTask__Func_216EAAC
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216EAA8: .word ovl09_216EAAC
-	arm_func_end ovl09_216EA68
+_0216EAA8: .word exPlayerAdminTask__Func_216EAAC
+	arm_func_end exPlayerAdminTask__Func_216EA68
 
-	arm_func_start ovl09_216EAAC
-ovl09_216EAAC: // 0x0216EAAC
+	arm_func_start exPlayerAdminTask__Func_216EAAC
+exPlayerAdminTask__Func_216EAAC: // 0x0216EAAC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
@@ -495,7 +495,7 @@ ovl09_216EAAC: // 0x0216EAAC
 	strh r0, [r2, #0x60]
 	cmp r1, #0
 	bgt _0216EAEC
-	bl ovl09_216EB28
+	bl exPlayerAdminTask__Func_216EB28
 	ldmia sp!, {r4, pc}
 _0216EAEC:
 	ldr r0, [r4, #4]
@@ -507,16 +507,16 @@ _0216EAEC:
 	add r1, r3, #0x350
 	mov r3, r2, lsr #0x1f
 	mov r2, #0
-	bl ovl09_2162FDC
-	bl ovl09_216EFD4
+	bl exDrawReqTask__Trail__HandleTrail
+	bl exPlayerAdminTask__Func_216EFD4
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_216EAAC
+	arm_func_end exPlayerAdminTask__Func_216EAAC
 
-	arm_func_start ovl09_216EB28
-ovl09_216EB28: // 0x0216EB28
+	arm_func_start exPlayerAdminTask__Func_216EB28
+exPlayerAdminTask__Func_216EB28: // 0x0216EB28
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -527,7 +527,7 @@ ovl09_216EB28: // 0x0216EB28
 	ldr r0, [r4, #0x10]
 	mov r1, #0x5000
 	str r1, [r0, #0x354]
-	bl ovl09_2172A18
+	bl exSysTask__GetSingleton
 	ldr r1, [r0, #4]
 	add r1, r1, #0x1000
 	str r1, [r0, #4]
@@ -612,28 +612,28 @@ _0216EC58:
 	str r4, [sp]
 	bl exDrawFadeTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _0216ECA8 // =ovl09_216ECAC
+	ldr r1, _0216ECA8 // =exPlayerAdminTask__Func_216ECAC
 	str r1, [r0]
-	bl ovl09_216ECAC
+	bl exPlayerAdminTask__Func_216ECAC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216ECA8: .word ovl09_216ECAC
-	arm_func_end ovl09_216EB28
+_0216ECA8: .word exPlayerAdminTask__Func_216ECAC
+	arm_func_end exPlayerAdminTask__Func_216EB28
 
-	arm_func_start ovl09_216ECAC
-ovl09_216ECAC: // 0x0216ECAC
+	arm_func_start exPlayerAdminTask__Func_216ECAC
+exPlayerAdminTask__Func_216ECAC: // 0x0216ECAC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r2, [r4, #4]
 	ldrsh r1, [r2, #0x60]
 	sub r0, r1, #1
 	strh r0, [r2, #0x60]
 	cmp r1, #0
 	bgt _0216ECDC
-	bl ovl09_216ED94
+	bl exPlayerAdminTask__Func_216ED94
 	ldmia sp!, {r4, pc}
 _0216ECDC:
 	ldr r0, [r4, #4]
@@ -647,59 +647,59 @@ _0216ECDC:
 	add r0, r0, #0x400
 	add r1, r1, #0x350
 	mov r3, #0
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	ldr r1, [r4, #0x14]
 	add r0, r4, #0x118
 	add r0, r0, #0x800
 	add r1, r1, #0x350
 	mov r2, #2
 	mov r3, #1
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	add r0, r4, #0x118
 	add r1, r4, #0x384
 	add r0, r0, #0x800
 	add r1, r1, #0x800
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	b _0216ED80
 _0216ED40:
 	add r0, r0, #0x400
 	add r1, r1, #0x350
 	mov r3, #1
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	ldr r1, [r4, #0x14]
 	add r0, r4, #0x118
 	add r0, r0, #0x800
 	add r1, r1, #0x350
 	mov r2, #2
 	mov r3, #0
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	add r0, r4, #0x118
 	add r1, r4, #0x384
 	add r0, r0, #0x800
 	add r1, r1, #0x800
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _0216ED80:
-	bl ovl09_216EFD4
+	bl exPlayerAdminTask__Func_216EFD4
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_216ECAC
+	arm_func_end exPlayerAdminTask__Func_216ECAC
 
-	arm_func_start ovl09_216ED94
-ovl09_216ED94: // 0x0216ED94
+	arm_func_start exPlayerAdminTask__Func_216ED94
+exPlayerAdminTask__Func_216ED94: // 0x0216ED94
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r0, #0
-	bl ovl09_2154C38
+	bl exBossHelpers__Func_2154C38
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	bne _0216EDC8
 	bl GetExTaskCurrent
-	ldr r1, _0216EDEC // =ovl09_216EDF4
+	ldr r1, _0216EDEC // =exPlayerAdminTask__Func_216EDF4
 	str r1, [r0]
-	bl ovl09_216EDF4
+	bl exPlayerAdminTask__Func_216EDF4
 	ldmia sp!, {r3, pc}
 _0216EDC8:
 	bl exSysTask__GetStatus
@@ -707,29 +707,29 @@ _0216EDC8:
 	cmp r0, #9
 	ldmneia sp!, {r3, pc}
 	bl GetExTaskCurrent
-	ldr r1, _0216EDF0 // =ovl09_216EEE4
+	ldr r1, _0216EDF0 // =exPlayerAdminTask__Func_216EEE4
 	str r1, [r0]
-	bl ovl09_216EEE4
+	bl exPlayerAdminTask__Func_216EEE4
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216EDEC: .word ovl09_216EDF4
-_0216EDF0: .word ovl09_216EEE4
-	arm_func_end ovl09_216ED94
+_0216EDEC: .word exPlayerAdminTask__Func_216EDF4
+_0216EDF0: .word exPlayerAdminTask__Func_216EEE4
+	arm_func_end exPlayerAdminTask__Func_216ED94
 
-	arm_func_start ovl09_216EDF4
-ovl09_216EDF4: // 0x0216EDF4
+	arm_func_start exPlayerAdminTask__Func_216EDF4
+exPlayerAdminTask__Func_216EDF4: // 0x0216EDF4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #8
 	bne _0216EE28
 	bl GetExTaskCurrent
-	ldr r1, _0216EEE0 // =ovl09_216E70C
+	ldr r1, _0216EEE0 // =exPlayerAdminTask__Main_216E70C
 	str r1, [r0]
-	bl ovl09_216EFD4
+	bl exPlayerAdminTask__Func_216EFD4
 	ldmia sp!, {r4, pc}
 _0216EE28:
 	ldr r0, [r4, #4]
@@ -743,61 +743,61 @@ _0216EE28:
 	add r0, r0, #0x400
 	add r1, r1, #0x350
 	mov r3, #0
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	ldr r1, [r4, #0x14]
 	add r0, r4, #0x118
 	add r0, r0, #0x800
 	add r1, r1, #0x350
 	mov r2, #2
 	mov r3, #1
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	add r0, r4, #0x118
 	add r1, r4, #0x384
 	add r0, r0, #0x800
 	add r1, r1, #0x800
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	b _0216EECC
 _0216EE8C:
 	add r0, r0, #0x400
 	add r1, r1, #0x350
 	mov r3, #1
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	ldr r1, [r4, #0x14]
 	add r0, r4, #0x118
 	add r0, r0, #0x800
 	add r1, r1, #0x350
 	mov r2, #2
 	mov r3, #0
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	add r0, r4, #0x118
 	add r1, r4, #0x384
 	add r0, r0, #0x800
 	add r1, r1, #0x800
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _0216EECC:
-	bl ovl09_216EFD4
+	bl exPlayerAdminTask__Func_216EFD4
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216EEE0: .word ovl09_216E70C
-	arm_func_end ovl09_216EDF4
+_0216EEE0: .word exPlayerAdminTask__Main_216E70C
+	arm_func_end exPlayerAdminTask__Func_216EDF4
 
-	arm_func_start ovl09_216EEE4
-ovl09_216EEE4: // 0x0216EEE4
+	arm_func_start exPlayerAdminTask__Func_216EEE4
+exPlayerAdminTask__Func_216EEE4: // 0x0216EEE4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xa
 	bne _0216EF18
 	bl GetExTaskCurrent
-	ldr r1, _0216EFD0 // =ovl09_216E70C
+	ldr r1, _0216EFD0 // =exPlayerAdminTask__Main_216E70C
 	str r1, [r0]
-	bl ovl09_216EFD4
+	bl exPlayerAdminTask__Func_216EFD4
 	ldmia sp!, {r4, pc}
 _0216EF18:
 	ldr r0, [r4, #4]
@@ -811,49 +811,49 @@ _0216EF18:
 	add r0, r0, #0x400
 	add r1, r1, #0x350
 	mov r3, #0
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	ldr r1, [r4, #0x14]
 	add r0, r4, #0x118
 	add r0, r0, #0x800
 	add r1, r1, #0x350
 	mov r2, #2
 	mov r3, #1
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	add r0, r4, #0x118
 	add r1, r4, #0x384
 	add r0, r0, #0x800
 	add r1, r1, #0x800
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	b _0216EFBC
 _0216EF7C:
 	add r0, r0, #0x400
 	add r1, r1, #0x350
 	mov r3, #1
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	ldr r1, [r4, #0x14]
 	add r0, r4, #0x118
 	add r0, r0, #0x800
 	add r1, r1, #0x350
 	mov r2, #2
 	mov r3, #0
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	add r0, r4, #0x118
 	add r1, r4, #0x384
 	add r0, r0, #0x800
 	add r1, r1, #0x800
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _0216EFBC:
-	bl ovl09_216EFD4
+	bl exPlayerAdminTask__Func_216EFD4
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216EFD0: .word ovl09_216E70C
-	arm_func_end ovl09_216EEE4
+_0216EFD0: .word exPlayerAdminTask__Main_216E70C
+	arm_func_end exPlayerAdminTask__Func_216EEE4
 
-	arm_func_start ovl09_216EFD4
-ovl09_216EFD4: // 0x0216EFD4
+	arm_func_start exPlayerAdminTask__Func_216EFD4
+exPlayerAdminTask__Func_216EFD4: // 0x0216EFD4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -874,7 +874,7 @@ ovl09_216EFD4: // 0x0216EFD4
 _0216F018:
 	ldr r0, [r4, #0x10]
 	add r1, r0, #0x38c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r1, [r4, #0x10]
 	ldr r0, [r4, #4]
 	add r1, r1, #0x350
@@ -953,27 +953,27 @@ _0216F0C8:
 _0216F14C:
 	ldr r0, [r4, #0x14]
 	add r1, r0, #0x38c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x15c
 	add r1, r4, #0x3c8
 	add r0, r0, #0x400
 	add r1, r1, #0x400
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x10]
 	add r0, r0, #0x350
-	bl ovl09_216E400
+	bl exPlayerScreenMoveTask__SetFollowX
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216F17C: .word 0x00007F49
 _0216F180: .word 0x000080B6
-	arm_func_end ovl09_216EFD4
+	arm_func_end exPlayerAdminTask__Func_216EFD4
 
-	arm_func_start ovl09_216F184
-ovl09_216F184: // 0x0216F184
+	arm_func_start exPlayerAdminTask__Func_216F184
+exPlayerAdminTask__Func_216F184: // 0x0216F184
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r2, [r4, #4]
 	mov r1, #7
 	ldrb r0, [r2, #0x6b]
@@ -981,11 +981,11 @@ ovl09_216F184: // 0x0216F184
 	strb r0, [r2, #0x6b]
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 	ldr r0, [r4, #0xc]
 	mov r1, #7
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 	ldr r0, [r4, #4]
 	mov r2, #0
 	strh r2, [r0, #0x44]
@@ -999,17 +999,17 @@ ovl09_216F184: // 0x0216F184
 	strh r2, [r0, #0x20]
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl ovl09_2171930
+	bl exPlayerAdminTask__SetSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, [r4, #0xc]
 	mov r1, #5
 	add r0, r0, #4
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r1, #0x78
 	ldr r0, [r4, #4]
 	strh r1, [r0, #0x3c]
@@ -1017,16 +1017,16 @@ ovl09_216F184: // 0x0216F184
 	add r0, r0, #0x350
 	bl exEffectBiriBiriTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _0216F250 // =ovl09_216F254
+	ldr r1, _0216F250 // =exPlayerAdminTask__Func_216F254
 	str r1, [r0]
-	bl ovl09_216F254
+	bl exPlayerAdminTask__Func_216F254
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216F250: .word ovl09_216F254
-	arm_func_end ovl09_216F184
+_0216F250: .word exPlayerAdminTask__Func_216F254
+	arm_func_end exPlayerAdminTask__Func_216F184
 
-	arm_func_start ovl09_216F254
-ovl09_216F254: // 0x0216F254
+	arm_func_start exPlayerAdminTask__Func_216F254
+exPlayerAdminTask__Func_216F254: // 0x0216F254
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r1, [r0, #0x10]
@@ -1034,26 +1034,26 @@ ovl09_216F254: // 0x0216F254
 	bic r0, r0, #4
 	strb r0, [r1, #6]
 	bl GetExTaskCurrent
-	ldr r1, _0216F280 // =ovl09_216F284
+	ldr r1, _0216F280 // =exPlayerAdminTask__Func_216F284
 	str r1, [r0]
-	bl ovl09_216F284
+	bl exPlayerAdminTask__Func_216F284
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216F280: .word ovl09_216F284
-	arm_func_end ovl09_216F254
+_0216F280: .word exPlayerAdminTask__Func_216F284
+	arm_func_end exPlayerAdminTask__Func_216F254
 
-	arm_func_start ovl09_216F284
-ovl09_216F284: // 0x0216F284
+	arm_func_start exPlayerAdminTask__Func_216F284
+exPlayerAdminTask__Func_216F284: // 0x0216F284
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_21642BC
+	bl exDrawReqTask__Func_21642BC
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_21642BC
+	bl exDrawReqTask__Func_21642BC
 	ldr r1, [r4, #8]
 	ldrb r0, [r1, #0x390]
 	bic r0, r0, #0xf0
@@ -1064,7 +1064,7 @@ ovl09_216F284: // 0x0216F284
 	bic r0, r0, #0xf0
 	orr r0, r0, #0x50
 	strb r0, [r1, #0x390]
-	bl ovl09_217035C
+	bl exPlayerAdminTask__Func_217035C
 	cmp r0, #0
 	beq _0216F304
 	ldr r1, [r4, #8]
@@ -1097,41 +1097,41 @@ _0216F304:
 	ldr r0, [r4, #8]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl ovl09_2171930
+	bl exPlayerAdminTask__SetSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
 	ldr r0, [r4, #0xc]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
-	ldr r1, _0216F3A0 // =ovl09_216E70C
+	ldr r1, _0216F3A0 // =exPlayerAdminTask__Main_216E70C
 	str r1, [r0]
 _0216F38C:
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216F3A0: .word ovl09_216E70C
-	arm_func_end ovl09_216F284
+_0216F3A0: .word exPlayerAdminTask__Main_216E70C
+	arm_func_end exPlayerAdminTask__Func_216F284
 
-	arm_func_start ovl09_216F3A4
-ovl09_216F3A4: // 0x0216F3A4
+	arm_func_start exPlayerAdminTask__Action_Die
+exPlayerAdminTask__Action_Die: // 0x0216F3A4
 	stmdb sp!, {r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2172A18
+	bl exSysTask__GetSingleton
 	mov r1, #0
 	str r1, [r0, #4]
 	mov r0, r1
-	bl ovl09_2164288
+	bl exDrawReqTask__Func_2164288
 	ldr r2, [r4, #0x10]
 	mov r1, #0
 	ldrb r0, [r2, #0x38c]
@@ -1163,10 +1163,10 @@ ovl09_216F3A4: // 0x0216F3A4
 	ldr r8, [r1, #0x350]
 	ldr r9, [r1, #0x354]
 	ldr r10, [r1, #0x358]
-	bl ovl09_2171954
+	bl exPlayerAdminTask__Func_2171954
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl ovl09_21719CC
+	bl exPlayerAdminTask__LoadSonicAssets
 	ldr r0, [r4, #8]
 	mov r1, #0xa800
 	add r0, r0, #0x390
@@ -1176,10 +1176,10 @@ ovl09_216F3A4: // 0x0216F3A4
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl ovl09_2153358
+	bl exPlayerHelpers__ReleaseBurningBlazeAssets
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl ovl09_21533D0
+	bl exPlayerHelpers__LoadBlazeAssets
 	ldr r0, [r4, #0xc]
 	mov r1, #0xa800
 	add r0, r0, #0x390
@@ -1209,21 +1209,21 @@ ovl09_216F3A4: // 0x0216F3A4
 	stmia sp, {r0, r5}
 	bl PlaySfxEx
 	bl GetExTaskCurrent
-	ldr r1, _0216F510 // =ovl09_216F514
+	ldr r1, _0216F510 // =exPlayerAdminTask__Func_216F514
 	str r1, [r0]
-	bl ovl09_216F514
+	bl exPlayerAdminTask__Func_216F514
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
-_0216F510: .word ovl09_216F514
-	arm_func_end ovl09_216F3A4
+_0216F510: .word exPlayerAdminTask__Func_216F514
+	arm_func_end exPlayerAdminTask__Action_Die
 
-	arm_func_start ovl09_216F514
-ovl09_216F514: // 0x0216F514
+	arm_func_start exPlayerAdminTask__Func_216F514
+exPlayerAdminTask__Func_216F514: // 0x0216F514
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r1, [r4, #4]
 	ldr r0, [r1, #0x1c]
 	sub r0, r0, #0x800
@@ -1242,39 +1242,39 @@ ovl09_216F514: // 0x0216F514
 	str r0, [r2, #0x358]
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0216F580
-	bl ovl09_216F5A4
+	bl exPlayerAdminTask__Func_216F5A4
 	ldmia sp!, {r4, pc}
 _0216F580:
 	ldr r1, [r4, #4]
 	ldrb r0, [r1, #0x6b]
 	orr r0, r0, #4
 	strb r0, [r1, #0x6b]
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_216F514
+	arm_func_end exPlayerAdminTask__Func_216F514
 
-	arm_func_start ovl09_216F5A4
-ovl09_216F5A4: // 0x0216F5A4
+	arm_func_start exPlayerAdminTask__Func_216F5A4
+exPlayerAdminTask__Func_216F5A4: // 0x0216F5A4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #8]
 	mov r1, #1
 	add r0, r0, #4
-	bl ovl09_2171B5C
+	bl exPlayerAdminTask__SetSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
 	ldr r0, [r4, #0xc]
 	mov r1, #1
 	add r0, r0, #4
-	bl ovl09_2153560
+	bl exPlayerHelpers__SetBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -1282,20 +1282,20 @@ ovl09_216F5A4: // 0x0216F5A4
 	mov r1, #0x5a
 	strh r1, [r0, #0x42]
 	bl GetExTaskCurrent
-	ldr r1, _0216F608 // =ovl09_216F60C
+	ldr r1, _0216F608 // =exPlayerAdminTask__Func_216F60C
 	str r1, [r0]
-	bl ovl09_216F60C
+	bl exPlayerAdminTask__Func_216F60C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216F608: .word ovl09_216F60C
-	arm_func_end ovl09_216F5A4
+_0216F608: .word exPlayerAdminTask__Func_216F60C
+	arm_func_end exPlayerAdminTask__Func_216F5A4
 
-	arm_func_start ovl09_216F60C
-ovl09_216F60C: // 0x0216F60C
+	arm_func_start exPlayerAdminTask__Func_216F60C
+exPlayerAdminTask__Func_216F60C: // 0x0216F60C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r0, [r4, #0x10]
 	ldr r0, [r0, #0x358]
 	cmp r0, #0
@@ -1306,7 +1306,7 @@ ovl09_216F60C: // 0x0216F60C
 	strh r0, [r2, #0x42]
 	cmp r1, #0
 	bgt _0216F68C
-	bl ovl09_216F6B0
+	bl exPlayerAdminTask__Func_216F6B0
 	ldmia sp!, {r4, pc}
 _0216F64C:
 	ldr r1, [r4, #4]
@@ -1330,31 +1330,31 @@ _0216F68C:
 	ldrb r0, [r1, #0x6b]
 	orr r0, r0, #4
 	strb r0, [r1, #0x6b]
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_216F60C
+	arm_func_end exPlayerAdminTask__Func_216F60C
 
-	arm_func_start ovl09_216F6B0
-ovl09_216F6B0: // 0x0216F6B0
+	arm_func_start exPlayerAdminTask__Func_216F6B0
+exPlayerAdminTask__Func_216F6B0: // 0x0216F6B0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl exSysTask__GetStatus
 	mov r1, #6
 	strb r1, [r0, #1]
 	bl GetExTaskCurrent
-	ldr r1, _0216F6D8 // =ovl09_216F6DC
+	ldr r1, _0216F6D8 // =exPlayerAdminTask__Func_216F6DC
 	str r1, [r0]
-	bl ovl09_216F6DC
+	bl exPlayerAdminTask__Func_216F6DC
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216F6D8: .word ovl09_216F6DC
-	arm_func_end ovl09_216F6B0
+_0216F6D8: .word exPlayerAdminTask__Func_216F6DC
+	arm_func_end exPlayerAdminTask__Func_216F6B0
 
-	arm_func_start ovl09_216F6DC
-ovl09_216F6DC: // 0x0216F6DC
+	arm_func_start exPlayerAdminTask__Func_216F6DC
+exPlayerAdminTask__Func_216F6DC: // 0x0216F6DC
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r1, [r0, #4]
@@ -1365,22 +1365,22 @@ ovl09_216F6DC: // 0x0216F6DC
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_216F6DC
+	arm_func_end exPlayerAdminTask__Func_216F6DC
 
-	arm_func_start ovl09_216F704
-ovl09_216F704: // 0x0216F704
+	arm_func_start exPlayerAdminTask__Func_216F704
+exPlayerAdminTask__Func_216F704: // 0x0216F704
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #2]
 	cmp r0, #1
 	bne _0216F738
-	bl ovl09_2173CA4
+	bl exTimeGamePlayTask__IsTimeOver
 	cmp r0, #0
 	beq _0216F738
-	bl ovl09_216F3A4
+	bl exPlayerAdminTask__Action_Die
 	ldmia sp!, {r4, pc}
 _0216F738:
 	ldr r0, [r4, #4]
@@ -1397,11 +1397,11 @@ _0216F738:
 	strb r0, [r2, #0x6b]
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 	ldr r0, [r4, #0xc]
 	mov r1, #7
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 	ldr r0, [r4, #4]
 	mov ip, #0
 	strh ip, [r0, #0x44]
@@ -1425,33 +1425,33 @@ _0216F738:
 	str r2, [r0, #0x38]
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl ovl09_2171930
+	bl exPlayerAdminTask__SetSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, [r4, #0xc]
 	mov r1, #4
 	add r0, r0, #4
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _0216F820 // =ovl09_216F824
+	ldr r1, _0216F820 // =exPlayerAdminTask__Func_216F824
 	str r1, [r0]
-	bl ovl09_216F824
+	bl exPlayerAdminTask__Func_216F824
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216F820: .word ovl09_216F824
-	arm_func_end ovl09_216F704
+_0216F820: .word exPlayerAdminTask__Func_216F824
+	arm_func_end exPlayerAdminTask__Func_216F704
 
-	arm_func_start ovl09_216F824
-ovl09_216F824: // 0x0216F824
+	arm_func_start exPlayerAdminTask__Func_216F824
+exPlayerAdminTask__Func_216F824: // 0x0216F824
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	mov r5, #0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r1, [r4, #4]
 	ldr r0, [r1, #0x34]
 	sub r0, r0, #0x100
@@ -1469,48 +1469,48 @@ ovl09_216F824: // 0x0216F824
 	str r0, [r2, #0x354]
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	addne r0, r5, #1
 	andne r5, r0, #0xff
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	addne r0, r5, #1
 	andne r5, r0, #0xff
 	cmp r5, #2
 	bne _0216F8B4
-	bl ovl09_216F8D4
+	bl exPlayerAdminTask__Func_216F8D4
 	ldmia sp!, {r3, r4, r5, pc}
 _0216F8B4:
 	ldr r0, [r4, #4]
 	mov r1, #0x78
 	strh r1, [r0, #0x3e]
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end ovl09_216F824
+	arm_func_end exPlayerAdminTask__Func_216F824
 
-	arm_func_start ovl09_216F8D4
-ovl09_216F8D4: // 0x0216F8D4
+	arm_func_start exPlayerAdminTask__Func_216F8D4
+exPlayerAdminTask__Func_216F8D4: // 0x0216F8D4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r0, [r4, #8]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl ovl09_2171930
+	bl exPlayerAdminTask__SetSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
 	ldr r1, [r4, #0xc]
 	add r0, r1, #4
 	ldrh r1, [r1, #2]
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -1532,35 +1532,35 @@ ovl09_216F8D4: // 0x0216F8D4
 	strh r3, [r1, #0x3e]
 	ldr r1, [r4, #0x10]
 	add r1, r1, #0x350
-	bl ovl09_216241C
+	bl exDrawReqTask__InitTrail
 	add r0, r4, #0x3c8
 	add r0, r0, #0x400
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	bl GetExTaskCurrent
-	ldr r1, _0216F98C // =ovl09_216F990
+	ldr r1, _0216F98C // =exPlayerAdminTask__Func_216F990
 	str r1, [r0]
-	bl ovl09_216F990
+	bl exPlayerAdminTask__Func_216F990
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216F98C: .word ovl09_216F990
-	arm_func_end ovl09_216F8D4
+_0216F98C: .word exPlayerAdminTask__Func_216F990
+	arm_func_end exPlayerAdminTask__Func_216F8D4
 
-	arm_func_start ovl09_216F990
-ovl09_216F990: // 0x0216F990
+	arm_func_start exPlayerAdminTask__Func_216F990
+exPlayerAdminTask__Func_216F990: // 0x0216F990
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r0, [r4, #4]
 	ldrsh r0, [r0, #0x3e]
 	cmp r0, #0
 	bgt _0216F9C8
-	bl ovl09_216FA14
+	bl exPlayerAdminTask__Func_216FA14
 	bl GetExTaskCurrent
-	ldr r1, _0216FA10 // =ovl09_216E70C
+	ldr r1, _0216FA10 // =exPlayerAdminTask__Main_216E70C
 	str r1, [r0]
-	bl ovl09_216E70C
+	bl exPlayerAdminTask__Main_216E70C
 	ldmia sp!, {r4, pc}
 _0216F9C8:
 	ldr r1, [r4, #0x10]
@@ -1571,23 +1571,23 @@ _0216F9C8:
 	ldrb r0, [r1, #6]
 	bic r0, r0, #2
 	strb r0, [r1, #6]
-	bl ovl09_2170518
+	bl exPlayerAdminTask__Func_2170518
 	cmp r0, #0
 	beq _0216F9FC
-	bl ovl09_216FA14
+	bl exPlayerAdminTask__Func_216FA14
 	ldmia sp!, {r4, pc}
 _0216F9FC:
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216FA10: .word ovl09_216E70C
-	arm_func_end ovl09_216F990
+_0216FA10: .word exPlayerAdminTask__Main_216E70C
+	arm_func_end exPlayerAdminTask__Func_216F990
 
-	arm_func_start ovl09_216FA14
-ovl09_216FA14: // 0x0216FA14
+	arm_func_start exPlayerAdminTask__Func_216FA14
+exPlayerAdminTask__Func_216FA14: // 0x0216FA14
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r2, [r0, #0x10]
@@ -1607,10 +1607,10 @@ ovl09_216FA14: // 0x0216FA14
 	bic r0, r0, #4
 	strb r0, [r1, #0x38c]
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_216FA14
+	arm_func_end exPlayerAdminTask__Func_216FA14
 
-	arm_func_start ovl09_216FA60
-ovl09_216FA60: // 0x0216FA60
+	arm_func_start exPlayerAdminTask__Action_CreateBarrier
+exPlayerAdminTask__Action_CreateBarrier: // 0x0216FA60
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r3, [r0, #4]
@@ -1625,25 +1625,25 @@ ovl09_216FA60: // 0x0216FA60
 	add r0, r0, #4
 	bl exExEffectSonicBarrierTaMeTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _0216FAA8 // =ovl09_216FAAC
+	ldr r1, _0216FAA8 // =exPlayerAdminTask__Func_216FAAC
 	str r1, [r0]
-	bl ovl09_216FAAC
+	bl exPlayerAdminTask__Func_216FAAC
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216FAA8: .word ovl09_216FAAC
-	arm_func_end ovl09_216FA60
+_0216FAA8: .word exPlayerAdminTask__Func_216FAAC
+	arm_func_end exPlayerAdminTask__Action_CreateBarrier
 
-	arm_func_start ovl09_216FAAC
-ovl09_216FAAC: // 0x0216FAAC
+	arm_func_start exPlayerAdminTask__Func_216FAAC
+exPlayerAdminTask__Func_216FAAC: // 0x0216FAAC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
-	bl ovl09_217035C
+	bl exPlayerAdminTask__Func_2171624
+	bl exPlayerAdminTask__Func_217035C
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
-	bl ovl09_2170664
-	bl ovl09_2170CC4
+	bl exPlayerAdminTask__HandleMovement
+	bl exPlayerAdminTask__Func_2170CC4
 	ldr r2, [r4, #4]
 	ldrb r0, [r2, #0x6a]
 	mov r0, r0, lsl #0x1f
@@ -1678,12 +1678,12 @@ _0216FAFC:
 	beq _0216FB5C
 	mov r1, #4
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 	b _0216FB68
 _0216FB5C:
 	mov r1, #7
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 _0216FB68:
 	ldr r0, [r4, #4]
 	mov r1, #0x78
@@ -1698,7 +1698,7 @@ _0216FB74:
 	ldr r0, [r4, #8]
 	mov r1, #7
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 	ldr r0, [r4, #4]
 	ldrsh r0, [r0, #0x44]
 	cmp r0, #0x78
@@ -1737,17 +1737,17 @@ _0216FC0C:
 	moveq r1, #7
 	streqh r1, [r0, #0xc]
 _0216FC24:
-	bl ovl09_216FC38
+	bl exPlayerAdminTask__Func_216FC38
 	ldmia sp!, {r4, pc}
 _0216FC2C:
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216FC34: .word padInput
-	arm_func_end ovl09_216FAAC
+	arm_func_end exPlayerAdminTask__Func_216FAAC
 
-	arm_func_start ovl09_216FC38
-ovl09_216FC38: // 0x0216FC38
+	arm_func_start exPlayerAdminTask__Func_216FC38
+exPlayerAdminTask__Func_216FC38: // 0x0216FC38
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -1767,129 +1767,129 @@ ovl09_216FC38: // 0x0216FC38
 	ldr r0, [r4, #8]
 	mov r1, #8
 	add r0, r0, #4
-	bl ovl09_2171930
+	bl exPlayerAdminTask__SetSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, [r4, #8]
 	mov r1, #0x2000
 	str r1, [r0, #0x13c]
 	bl GetExTaskCurrent
-	ldr r1, _0216FCB8 // =ovl09_216FCBC
+	ldr r1, _0216FCB8 // =exPlayerAdminTask__Func_216FCBC
 	str r1, [r0]
-	bl ovl09_216FCBC
+	bl exPlayerAdminTask__Func_216FCBC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216FCB8: .word ovl09_216FCBC
-	arm_func_end ovl09_216FC38
+_0216FCB8: .word exPlayerAdminTask__Func_216FCBC
+	arm_func_end exPlayerAdminTask__Func_216FC38
 
-	arm_func_start ovl09_216FCBC
-ovl09_216FCBC: // 0x0216FCBC
+	arm_func_start exPlayerAdminTask__Func_216FCBC
+exPlayerAdminTask__Func_216FCBC: // 0x0216FCBC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0216FCF4
 	ldr r0, [r4, #8]
 	mov r1, #0x1000
 	str r1, [r0, #0x13c]
-	bl ovl09_216FD10
+	bl exPlayerAdminTask__Func_216FD10
 	ldmia sp!, {r4, pc}
 _0216FCF4:
-	bl ovl09_217035C
+	bl exPlayerAdminTask__Func_217035C
 	cmp r0, #0
 	bne _0216FD08
-	bl ovl09_2170664
-	bl ovl09_2170CC4
+	bl exPlayerAdminTask__HandleMovement
+	bl exPlayerAdminTask__Func_2170CC4
 _0216FD08:
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_216FCBC
+	arm_func_end exPlayerAdminTask__Func_216FCBC
 
-	arm_func_start ovl09_216FD10
-ovl09_216FD10: // 0x0216FD10
+	arm_func_start exPlayerAdminTask__Func_216FD10
+exPlayerAdminTask__Func_216FD10: // 0x0216FD10
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #8]
 	mov r1, #9
 	add r0, r0, #4
-	bl ovl09_2171930
+	bl exPlayerAdminTask__SetSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r1, [r4, #4]
 	ldrb r0, [r1, #0x6b]
 	bic r0, r0, #1
 	strb r0, [r1, #0x6b]
 	bl GetExTaskCurrent
-	ldr r1, _0216FD5C // =ovl09_216FD60
+	ldr r1, _0216FD5C // =exPlayerAdminTask__Func_216FD60
 	str r1, [r0]
-	bl ovl09_216FD60
+	bl exPlayerAdminTask__Func_216FD60
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216FD5C: .word ovl09_216FD60
-	arm_func_end ovl09_216FD10
+_0216FD5C: .word exPlayerAdminTask__Func_216FD60
+	arm_func_end exPlayerAdminTask__Func_216FD10
 
-	arm_func_start ovl09_216FD60
-ovl09_216FD60: // 0x0216FD60
+	arm_func_start exPlayerAdminTask__Func_216FD60
+exPlayerAdminTask__Func_216FD60: // 0x0216FD60
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
-	bl ovl09_2170B78
-	bl ovl09_2170548
+	bl exPlayerAdminTask__Func_2171624
+	bl exPlayerAdminTask__HandlePlayerSwap
+	bl exPlayerAdminTask__Func_2170548
 	cmp r0, #0
 	beq _0216FD88
-	bl ovl09_216FDD4
+	bl exPlayerAdminTask__Func_216FDD4
 	ldmia sp!, {r4, pc}
 _0216FD88:
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0216FDB4
-	bl ovl09_216FDD4
+	bl exPlayerAdminTask__Func_216FDD4
 	bl GetExTaskCurrent
-	ldr r1, _0216FDD0 // =ovl09_216E70C
+	ldr r1, _0216FDD0 // =exPlayerAdminTask__Main_216E70C
 	str r1, [r0]
-	bl ovl09_216E70C
+	bl exPlayerAdminTask__Main_216E70C
 	ldmia sp!, {r4, pc}
 _0216FDB4:
-	bl ovl09_217035C
+	bl exPlayerAdminTask__Func_217035C
 	cmp r0, #0
 	bne _0216FDC8
-	bl ovl09_2170664
-	bl ovl09_2170CC4
+	bl exPlayerAdminTask__HandleMovement
+	bl exPlayerAdminTask__Func_2170CC4
 _0216FDC8:
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216FDD0: .word ovl09_216E70C
-	arm_func_end ovl09_216FD60
+_0216FDD0: .word exPlayerAdminTask__Main_216E70C
+	arm_func_end exPlayerAdminTask__Func_216FD60
 
-	arm_func_start ovl09_216FDD4
-ovl09_216FDD4: // 0x0216FDD4
+	arm_func_start exPlayerAdminTask__Func_216FDD4
+exPlayerAdminTask__Func_216FDD4: // 0x0216FDD4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #8]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl ovl09_2171930
+	bl exPlayerAdminTask__SetSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_216FDD4
+	arm_func_end exPlayerAdminTask__Func_216FDD4
 
-	arm_func_start ovl09_216FE00
-ovl09_216FE00: // 0x0216FE00
+	arm_func_start exPlayerAdminTask__Action_ShootFireball
+exPlayerAdminTask__Action_ShootFireball: // 0x0216FE00
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -1901,10 +1901,10 @@ ovl09_216FE00: // 0x0216FE00
 	strb r0, [r2, #0x6b]
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
 	bl exExEffectBlzFireTaMeTask__Create
@@ -1912,46 +1912,46 @@ ovl09_216FE00: // 0x0216FE00
 	add r0, r0, #4
 	bl exEffectBlzFireTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _0216FE68 // =ovl09_216FE6C
+	ldr r1, _0216FE68 // =exPlayerAdminTask__Func_216FE6C
 	str r1, [r0]
-	bl ovl09_216FE6C
+	bl exPlayerAdminTask__Func_216FE6C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216FE68: .word ovl09_216FE6C
-	arm_func_end ovl09_216FE00
+_0216FE68: .word exPlayerAdminTask__Func_216FE6C
+	arm_func_end exPlayerAdminTask__Action_ShootFireball
 
-	arm_func_start ovl09_216FE6C
-ovl09_216FE6C: // 0x0216FE6C
+	arm_func_start exPlayerAdminTask__Func_216FE6C
+exPlayerAdminTask__Func_216FE6C: // 0x0216FE6C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #0xc]
 	mov r1, #7
 	add r0, r0, #4
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
-	ldr r1, _0216FEA8 // =ovl09_216FEAC
+	ldr r1, _0216FEA8 // =exPlayerAdminTask__Func_216FEAC
 	str r1, [r0]
-	bl ovl09_216FEAC
+	bl exPlayerAdminTask__Func_216FEAC
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216FEA8: .word ovl09_216FEAC
-	arm_func_end ovl09_216FE6C
+_0216FEA8: .word exPlayerAdminTask__Func_216FEAC
+	arm_func_end exPlayerAdminTask__Func_216FE6C
 
-	arm_func_start ovl09_216FEAC
-ovl09_216FEAC: // 0x0216FEAC
+	arm_func_start exPlayerAdminTask__Func_216FEAC
+exPlayerAdminTask__Func_216FEAC: // 0x0216FEAC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
-	bl ovl09_217035C
+	bl exPlayerAdminTask__Func_2171624
+	bl exPlayerAdminTask__Func_217035C
 	cmp r0, #0
 	ldmneia sp!, {r4, pc}
-	bl ovl09_2170664
-	bl ovl09_2170CC4
+	bl exPlayerAdminTask__HandleMovement
+	bl exPlayerAdminTask__Func_2170CC4
 	ldr r2, [r4, #4]
 	ldrb r0, [r2, #0x6a]
 	mov r0, r0, lsl #0x1f
@@ -1987,12 +1987,12 @@ _0216FF00:
 	beq _0216FF60
 	mov r1, #4
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 	b _0216FF6C
 _0216FF60:
 	mov r1, #7
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 _0216FF6C:
 	ldr r0, [r4, #4]
 	mov r1, #0x78
@@ -2007,7 +2007,7 @@ _0216FF78:
 	ldr r0, [r4, #0xc]
 	mov r1, #7
 	add r0, r0, #0x390
-	bl ovl09_21642F0
+	bl exDrawReqTask__Func_21642F0
 	ldr r0, [r4, #4]
 	ldrsh r0, [r0, #0x46]
 	cmp r0, #0x50
@@ -2067,17 +2067,17 @@ _0217005C:
 	moveq r1, #7
 	streqh r1, [r0, #0xc]
 _02170074:
-	bl ovl09_2170088
+	bl exPlayerAdminTask__Func_2170088
 	ldmia sp!, {r4, pc}
 _0217007C:
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02170084: .word padInput
-	arm_func_end ovl09_216FEAC
+	arm_func_end exPlayerAdminTask__Func_216FEAC
 
-	arm_func_start ovl09_2170088
-ovl09_2170088: // 0x02170088
+	arm_func_start exPlayerAdminTask__Func_2170088
+exPlayerAdminTask__Func_2170088: // 0x02170088
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -2087,26 +2087,26 @@ ovl09_2170088: // 0x02170088
 	ldr r0, [r4, #0xc]
 	mov r1, #8
 	add r0, r0, #4
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _021700D0 // =ovl09_21700D4
+	ldr r1, _021700D0 // =exPlayerAdminTask__Func_21700D4
 	str r1, [r0]
-	bl ovl09_21700D4
+	bl exPlayerAdminTask__Func_21700D4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021700D0: .word ovl09_21700D4
-	arm_func_end ovl09_2170088
+_021700D0: .word exPlayerAdminTask__Func_21700D4
+	arm_func_end exPlayerAdminTask__Func_2170088
 
-	arm_func_start ovl09_21700D4
-ovl09_21700D4: // 0x021700D4
+	arm_func_start exPlayerAdminTask__Func_21700D4
+exPlayerAdminTask__Func_21700D4: // 0x021700D4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r0, [r4, #0xc]
 	ldr r0, [r0, #0x348]
 	ldr r0, [r0, #0]
@@ -2187,99 +2187,99 @@ _02170200:
 	add r0, r0, #4
 	bl exEffectBlzFireShotTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _02170238 // =ovl09_217023C
+	ldr r1, _02170238 // =exPlayerAdminTask__Func_217023C
 	str r1, [r0]
 _02170218:
-	bl ovl09_217035C
+	bl exPlayerAdminTask__Func_217035C
 	cmp r0, #0
 	bne _0217022C
-	bl ovl09_2170664
-	bl ovl09_2170CC4
+	bl exPlayerAdminTask__HandleMovement
+	bl exPlayerAdminTask__Func_2170CC4
 _0217022C:
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02170238: .word ovl09_217023C
-	arm_func_end ovl09_21700D4
+_02170238: .word exPlayerAdminTask__Func_217023C
+	arm_func_end exPlayerAdminTask__Func_21700D4
 
-	arm_func_start ovl09_217023C
-ovl09_217023C: // 0x0217023C
+	arm_func_start exPlayerAdminTask__Func_217023C
+exPlayerAdminTask__Func_217023C: // 0x0217023C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02170268
-	bl ovl09_2170284
+	bl exPlayerAdminTask__Func_2170284
 	ldmia sp!, {r4, pc}
 _02170268:
-	bl ovl09_217035C
+	bl exPlayerAdminTask__Func_217035C
 	cmp r0, #0
 	bne _0217027C
-	bl ovl09_2170664
-	bl ovl09_2170CC4
+	bl exPlayerAdminTask__HandleMovement
+	bl exPlayerAdminTask__Func_2170CC4
 _0217027C:
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_217023C
+	arm_func_end exPlayerAdminTask__Func_217023C
 
-	arm_func_start ovl09_2170284
-ovl09_2170284: // 0x02170284
+	arm_func_start exPlayerAdminTask__Func_2170284
+exPlayerAdminTask__Func_2170284: // 0x02170284
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #0xc]
 	mov r1, #9
 	add r0, r0, #4
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _021702C0 // =ovl09_21702C4
+	ldr r1, _021702C0 // =exPlayerAdminTask__Func_21702C4
 	str r1, [r0]
-	bl ovl09_21702C4
+	bl exPlayerAdminTask__Func_21702C4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021702C0: .word ovl09_21702C4
-	arm_func_end ovl09_2170284
+_021702C0: .word exPlayerAdminTask__Func_21702C4
+	arm_func_end exPlayerAdminTask__Func_2170284
 
-	arm_func_start ovl09_21702C4
-ovl09_21702C4: // 0x021702C4
+	arm_func_start exPlayerAdminTask__Func_21702C4
+exPlayerAdminTask__Func_21702C4: // 0x021702C4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2171624
+	bl exPlayerAdminTask__Func_2171624
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02170300
-	bl ovl09_2170320
+	bl exPlayerAdminTask__Func_2170320
 	bl GetExTaskCurrent
-	ldr r1, _0217031C // =ovl09_216E70C
+	ldr r1, _0217031C // =exPlayerAdminTask__Main_216E70C
 	str r1, [r0]
-	bl ovl09_216E70C
+	bl exPlayerAdminTask__Main_216E70C
 	ldmia sp!, {r4, pc}
 _02170300:
-	bl ovl09_217035C
+	bl exPlayerAdminTask__Func_217035C
 	cmp r0, #0
 	bne _02170314
-	bl ovl09_2170664
-	bl ovl09_2170CC4
+	bl exPlayerAdminTask__HandleMovement
+	bl exPlayerAdminTask__Func_2170CC4
 _02170314:
-	bl ovl09_2170FD0
+	bl exPlayerAdminTask__HandleControl
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0217031C: .word ovl09_216E70C
-	arm_func_end ovl09_21702C4
+_0217031C: .word exPlayerAdminTask__Main_216E70C
+	arm_func_end exPlayerAdminTask__Func_21702C4
 
-	arm_func_start ovl09_2170320
-ovl09_2170320: // 0x02170320
+	arm_func_start exPlayerAdminTask__Func_2170320
+exPlayerAdminTask__Func_2170320: // 0x02170320
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -2290,15 +2290,15 @@ ovl09_2170320: // 0x02170320
 	ldr r0, [r4, #0xc]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_2170320
+	arm_func_end exPlayerAdminTask__Func_2170320
 
-	arm_func_start ovl09_217035C
-ovl09_217035C: // 0x0217035C
+	arm_func_start exPlayerAdminTask__Func_217035C
+exPlayerAdminTask__Func_217035C: // 0x0217035C
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -2331,7 +2331,7 @@ _021703BC:
 	stmia sp, {r0, ip}
 	bl PlayVoiceClipEx
 _021703D4:
-	bl ovl09_216F704
+	bl exPlayerAdminTask__Func_216F704
 	add sp, sp, #8
 	mov r0, #1
 	ldmia sp!, {r3, pc}
@@ -2362,7 +2362,7 @@ _0217042C:
 	stmia sp, {r0, ip}
 	bl PlayVoiceClipEx
 _02170444:
-	bl ovl09_216F184
+	bl exPlayerAdminTask__Func_216F184
 	add sp, sp, #8
 	mov r0, #1
 	ldmia sp!, {r3, pc}
@@ -2387,7 +2387,7 @@ _02170454:
 	mov r3, r1
 	stmia sp, {r0, ip}
 	bl PlayVoiceClipEx
-	bl ovl09_216F704
+	bl exPlayerAdminTask__Func_216F704
 	add sp, sp, #8
 	mov r0, #1
 	ldmia sp!, {r3, pc}
@@ -2402,7 +2402,7 @@ _021704B4:
 	mov r3, r1
 	stmia sp, {r0, ip}
 	bl PlayVoiceClipEx
-	bl ovl09_216F184
+	bl exPlayerAdminTask__Func_216F184
 	add sp, sp, #8
 	mov r0, #1
 	ldmia sp!, {r3, pc}
@@ -2419,10 +2419,10 @@ _0217050C:
 	mov r0, #0
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_217035C
+	arm_func_end exPlayerAdminTask__Func_217035C
 
-	arm_func_start ovl09_2170518
-ovl09_2170518: // 0x02170518
+	arm_func_start exPlayerAdminTask__Func_2170518
+exPlayerAdminTask__Func_2170518: // 0x02170518
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl exSysTask__GetStatus
@@ -2430,15 +2430,15 @@ ovl09_2170518: // 0x02170518
 	cmp r0, #0xb
 	moveq r0, #0
 	ldmeqia sp!, {r3, pc}
-	bl ovl09_2170664
-	bl ovl09_2170CC4
-	bl ovl09_2170B78
-	bl ovl09_2170548
+	bl exPlayerAdminTask__HandleMovement
+	bl exPlayerAdminTask__Func_2170CC4
+	bl exPlayerAdminTask__HandlePlayerSwap
+	bl exPlayerAdminTask__Func_2170548
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_2170518
+	arm_func_end exPlayerAdminTask__Func_2170518
 
-	arm_func_start ovl09_2170548
-ovl09_2170548: // 0x02170548
+	arm_func_start exPlayerAdminTask__Func_2170548
+exPlayerAdminTask__Func_2170548: // 0x02170548
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -2459,7 +2459,7 @@ ovl09_2170548: // 0x02170548
 	tst r0, #0x800
 	beq _021705A0
 _02170594:
-	bl ovl09_216FA60
+	bl exPlayerAdminTask__Action_CreateBarrier
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 _021705A0:
@@ -2472,7 +2472,7 @@ _021705A0:
 	tst r0, #0x800
 	beq _021705CC
 _021705C0:
-	bl ovl09_216FE00
+	bl exPlayerAdminTask__Action_ShootFireball
 	mov r0, #1
 	ldmia sp!, {r4, pc}
 _021705CC:
@@ -2480,10 +2480,10 @@ _021705CC:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021705D4: .word padInput
-	arm_func_end ovl09_2170548
+	arm_func_end exPlayerAdminTask__Func_2170548
 
-	arm_func_start ovl09_21705D8
-ovl09_21705D8: // 0x021705D8
+	arm_func_start exPlayerAdminTask__Func_21705D8
+exPlayerAdminTask__Func_21705D8: // 0x021705D8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r1, [r0, #4]
@@ -2519,12 +2519,12 @@ _02170640:
 	mov r2, #3
 	strb r2, [r1]
 	ldr r0, [r0, #0x558]
-	bl ovl09_2163ADC
+	bl exDrawReqTask__Sprite3D__Animate
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_21705D8
+	arm_func_end exPlayerAdminTask__Func_21705D8
 
-	arm_func_start ovl09_2170664
-ovl09_2170664: // 0x02170664
+	arm_func_start exPlayerAdminTask__HandleMovement
+exPlayerAdminTask__HandleMovement: // 0x02170664
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -2805,17 +2805,17 @@ _02170A78:
 	ldr r0, [r5, #8]
 	mov r1, #3
 	add r0, r0, #4
-	bl ovl09_2171930
+	bl exPlayerAdminTask__SetSuperSonicAnimation
 	ldr r0, [r5, #8]
 	add r0, r0, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, [r5, #0xc]
 	mov r1, #3
 	add r0, r0, #4
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r5, #0xc]
 	add r0, r0, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 _02170AB8:
@@ -2871,10 +2871,10 @@ _02170B68: .word 0x00007F49
 _02170B6C: .word 0x000080B6
 _02170B70: .word FX_SinCosTable_+0x800
 _02170B74: .word 0x45800000
-	arm_func_end ovl09_2170664
+	arm_func_end exPlayerAdminTask__HandleMovement
 
-	arm_func_start ovl09_2170B78
-ovl09_2170B78: // 0x02170B78
+	arm_func_start exPlayerAdminTask__HandlePlayerSwap
+exPlayerAdminTask__HandlePlayerSwap: // 0x02170B78
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -2956,15 +2956,15 @@ _02170C74:
 	ldr r1, [r1, #0x358]
 	str r1, [r0, #0x358]
 _02170CB4:
-	bl ovl09_21705D8
+	bl exPlayerAdminTask__Func_21705D8
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02170CC0: .word padInput
-	arm_func_end ovl09_2170B78
+	arm_func_end exPlayerAdminTask__HandlePlayerSwap
 
-	arm_func_start ovl09_2170CC4
-ovl09_2170CC4: // 0x02170CC4
+	arm_func_start exPlayerAdminTask__Func_2170CC4
+exPlayerAdminTask__Func_2170CC4: // 0x02170CC4
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	bl GetExTaskWorkCurrent_
 	mov r5, r0
@@ -2996,14 +2996,14 @@ _02170D10:
 	ldr r0, [r5, #8]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl ovl09_2171930
+	bl exPlayerAdminTask__SetSuperSonicAnimation
 	ldr r0, [r5, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
 	ldr r0, [r5, #0xc]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl ovl09_2153334
+	bl exPlayerHelpers__SetBurningBlazeAnimation
 	ldr r0, [r5, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -3173,10 +3173,10 @@ _02170FA4:
 _02170FC4: .word 0x02175E34
 _02170FC8: .word FX_SinCosTable_+0x800
 _02170FCC: .word 0x45800000
-	arm_func_end ovl09_2170CC4
+	arm_func_end exPlayerAdminTask__Func_2170CC4
 
-	arm_func_start ovl09_2170FD0
-ovl09_2170FD0: // 0x02170FD0
+	arm_func_start exPlayerAdminTask__HandleControl
+exPlayerAdminTask__HandleControl: // 0x02170FD0
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -3190,18 +3190,18 @@ ovl09_2170FD0: // 0x02170FD0
 	ldrb r0, [r0, #2]
 	cmp r0, #1
 	bne _0217101C
-	bl ovl09_2173CA4
+	bl exTimeGamePlayTask__IsTimeOver
 	cmp r0, #0
 	beq _0217101C
-	bl ovl09_2173CB4
-	bl ovl09_216F3A4
+	bl exTimeGamePlayTask__ResetTimeOverFlag
+	bl exPlayerAdminTask__Action_Die
 	ldmia sp!, {r4, pc}
 _0217101C:
 	bl exSysTask__GetStatus
 	ldrh r0, [r0, #6]
 	cmp r0, #0
 	bne _02171034
-	bl ovl09_216F3A4
+	bl exPlayerAdminTask__Action_Die
 	ldmia sp!, {r4, pc}
 _02171034:
 	ldr r2, [r4, #4]
@@ -3257,16 +3257,16 @@ _021710D4:
 	strb r0, [r2, #0x38c]
 	ldr r0, [r4, #4]
 	strh r1, [r0, #0x3e]
-	bl ovl09_2154C28
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _02171118
 	bl GetExTaskCurrent
-	ldr r1, _021715EC // =ovl09_216E7F4
+	ldr r1, _021715EC // =exPlayerAdminTask__Func_216E7F4
 	str r1, [r0]
 _02171118:
 	ldr r0, [r4, #0x10]
 	add r1, r0, #0x38c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r1, [r4, #0x10]
 	ldr r0, [r4, #4]
 	add r1, r1, #0x350
@@ -3510,12 +3510,12 @@ _02171484:
 	beq _021714DC
 	ldr r0, [r4, #0x558]
 	add r1, r0, #0x150
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	b _021714E8
 _021714DC:
 	ldr r0, [r4, #0x14]
 	add r1, r0, #0x38c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _021714E8:
 	ldr r1, [r4, #4]
 	ldrb r2, [r1, #0x6a]
@@ -3537,7 +3537,7 @@ _021714E8:
 	mov r3, r2, lsr #0x1f
 	add r0, r0, #0x400
 	mov r2, #1
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	b _0217155C
 _02171540:
 	add r0, r4, #0x15c
@@ -3546,13 +3546,13 @@ _02171540:
 	mov r3, r2, lsr #0x1f
 	add r0, r0, #0x400
 	mov r2, #3
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 _0217155C:
 	add r0, r4, #0x15c
 	add r1, r4, #0x3c8
 	add r0, r0, #0x400
 	add r1, r1, #0x400
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	b _021715DC
 _02171574:
 	cmp r0, #0
@@ -3564,7 +3564,7 @@ _02171574:
 	add r0, r0, #0x400
 	add r1, r1, #0x350
 	mov r2, #0
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 	b _021715B8
 _021715A0:
 	mov r2, r2, lsl #0x1f
@@ -3572,26 +3572,26 @@ _021715A0:
 	add r0, r0, #0x400
 	add r1, r1, #0x350
 	mov r2, #2
-	bl ovl09_2162FDC
+	bl exDrawReqTask__Trail__HandleTrail
 _021715B8:
 	add r0, r4, #0x15c
 	add r1, r4, #0x3c8
 	add r0, r0, #0x400
 	add r1, r1, #0x400
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	b _021715DC
 _021715D0:
 	ldr r0, [r4, #0x14]
 	add r1, r0, #0x38c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _021715DC:
 	ldr r0, [r4, #0x10]
 	add r0, r0, #0x350
-	bl ovl09_216E400
+	bl exPlayerScreenMoveTask__SetFollowX
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021715EC: .word ovl09_216E7F4
-	arm_func_end ovl09_2170FD0
+_021715EC: .word exPlayerAdminTask__Func_216E7F4
+	arm_func_end exPlayerAdminTask__HandleControl
 
 	arm_func_start exPlayerAdminTask__DelayCallback
 exPlayerAdminTask__DelayCallback: // 0x021715F0
@@ -3600,29 +3600,29 @@ exPlayerAdminTask__DelayCallback: // 0x021715F0
 	mov r4, r0
 	ldr r0, [r4, #0x10]
 	add r1, r0, #0x38c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x558]
 	add r1, r0, #0x150
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	arm_func_end exPlayerAdminTask__DelayCallback
 
-	arm_func_start ovl09_2171624
-ovl09_2171624: // 0x02171624
+	arm_func_start exPlayerAdminTask__Func_2171624
+exPlayerAdminTask__Func_2171624: // 0x02171624
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #0x10]
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r0, [r4, #0x14]
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r0, [r4, #0x558]
-	bl ovl09_2163ADC
+	bl exDrawReqTask__Sprite3D__Animate
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_2171624
+	arm_func_end exPlayerAdminTask__Func_2171624
 
 	arm_func_start exPlayerAdminTask__Create
 exPlayerAdminTask__Create: // 0x0217164C
@@ -3686,8 +3686,8 @@ _02171728: .word exPlayerAdminTask__Unknown_2177C18
 _0217172C: .word exPlayerAdminTask__Unknown_2177BAC
 	arm_func_end exPlayerAdminTask__Create
 
-	arm_func_start ovl09_2171730
-ovl09_2171730: // 0x02171730
+	arm_func_start exPlayerAdminTask__Destroy_2171730
+exPlayerAdminTask__Destroy_2171730: // 0x02171730
 	stmdb sp!, {r3, lr}
 	ldr r0, _02171754 // =exPlayerScreenMoveTask__dword_2177BA0
 	ldr r0, [r0, #4]
@@ -3700,24 +3700,24 @@ ovl09_2171730: // 0x02171730
 	.align 2, 0
 _02171754: .word exPlayerScreenMoveTask__dword_2177BA0
 _02171758: .word ExTask_State_Destroy
-	arm_func_end ovl09_2171730
+	arm_func_end exPlayerAdminTask__Destroy_2171730
 
-	arm_func_start ovl09_217175C
-ovl09_217175C: // 0x0217175C
+	arm_func_start exPlayerAdminTask__Func_217175C
+exPlayerAdminTask__Func_217175C: // 0x0217175C
 	ldr r0, _02171768 // =exPlayerScreenMoveTask__dword_2177BA0
 	ldr r0, [r0, #0x10]
 	bx lr
 	.align 2, 0
 _02171768: .word exPlayerScreenMoveTask__dword_2177BA0
-	arm_func_end ovl09_217175C
+	arm_func_end exPlayerAdminTask__Func_217175C
 
-	arm_func_start ovl09_217176C
-ovl09_217176C: // 0x0217176C
+	arm_func_start exPlayerAdminTask__LoadSuperSonicAssets
+exPlayerAdminTask__LoadSuperSonicAssets: // 0x0217176C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02171920 // =exPlayerAdminTask__word_21785D8
 	mov r4, r0
 	str r4, [r1, #0x34]
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _02171920 // =exPlayerAdminTask__word_21785D8
 	ldrsh r0, [r0, #2]
 	cmp r0, #0
@@ -3738,7 +3738,7 @@ ovl09_217176C: // 0x0217176C
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #2
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02171920 // =exPlayerAdminTask__word_21785D8
 	str r0, [r1, #0x38]
 	ldr r0, [r1, #0x30]
@@ -3830,24 +3830,24 @@ _02171920: .word exPlayerAdminTask__word_21785D8
 _02171924: .word aExtraExBb_10
 _02171928: .word 0x0000BFF4
 _0217192C: .word 0x00007FF8
-	arm_func_end ovl09_217176C
+	arm_func_end exPlayerAdminTask__LoadSuperSonicAssets
 
-	arm_func_start ovl09_2171930
-ovl09_2171930: // 0x02171930
+	arm_func_start exPlayerAdminTask__SetSuperSonicAnimation
+exPlayerAdminTask__SetSuperSonicAnimation: // 0x02171930
 	stmdb sp!, {r3, lr}
 	ldr r2, _02171950 // =exPlayerAdminTask__word_21785D8
 	str r1, [sp]
 	ldr r1, [r2, #0x30]
 	ldr r3, [r2, #0x38]
 	mov r2, #0
-	bl ovl09_2152C3C
+	bl exPlayerHelpers__SetAnimationInternal
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02171950: .word exPlayerAdminTask__word_21785D8
-	arm_func_end ovl09_2171930
+	arm_func_end exPlayerAdminTask__SetSuperSonicAnimation
 
-	arm_func_start ovl09_2171954
-ovl09_2171954: // 0x02171954
+	arm_func_start exPlayerAdminTask__Func_2171954
+exPlayerAdminTask__Func_2171954: // 0x02171954
 	stmdb sp!, {r4, lr}
 	ldr r1, _021719B8 // =exPlayerAdminTask__word_21785D8
 	mov r4, r0
@@ -3877,24 +3877,24 @@ _02171998:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021719B8: .word exPlayerAdminTask__word_21785D8
-	arm_func_end ovl09_2171954
+	arm_func_end exPlayerAdminTask__Func_2171954
 
-	arm_func_start ovl09_21719BC
-ovl09_21719BC: // 0x021719BC
+	arm_func_start exPlayerAdminTask__GetSonicAssets
+exPlayerAdminTask__GetSonicAssets: // 0x021719BC
 	ldr r0, _021719C8 // =exPlayerAdminTask__word_21785D8
 	ldr r0, [r0, #0x34]
 	bx lr
 	.align 2, 0
 _021719C8: .word exPlayerAdminTask__word_21785D8
-	arm_func_end ovl09_21719BC
+	arm_func_end exPlayerAdminTask__GetSonicAssets
 
-	arm_func_start ovl09_21719CC
-ovl09_21719CC: // 0x021719CC
+	arm_func_start exPlayerAdminTask__LoadSonicAssets
+exPlayerAdminTask__LoadSonicAssets: // 0x021719CC
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02171B4C // =exPlayerAdminTask__word_21785D8
 	mov r4, r0
 	str r4, [r1, #8]
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _02171B4C // =exPlayerAdminTask__word_21785D8
 	ldrsh r0, [r0, #4]
 	cmp r0, #0
@@ -3915,7 +3915,7 @@ ovl09_21719CC: // 0x021719CC
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #4
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02171B4C // =exPlayerAdminTask__word_21785D8
 	str r0, [r1, #0x28]
 	ldr r0, [r1, #0x2c]
@@ -3994,24 +3994,24 @@ _02171B4C: .word exPlayerAdminTask__word_21785D8
 _02171B50: .word aExtraExBb_10
 _02171B54: .word 0x0000BFF4
 _02171B58: .word 0x00007FF8
-	arm_func_end ovl09_21719CC
+	arm_func_end exPlayerAdminTask__LoadSonicAssets
 
-	arm_func_start ovl09_2171B5C
-ovl09_2171B5C: // 0x02171B5C
+	arm_func_start exPlayerAdminTask__SetSonicAnimation
+exPlayerAdminTask__SetSonicAnimation: // 0x02171B5C
 	stmdb sp!, {r3, lr}
 	ldr r2, _02171B7C // =exPlayerAdminTask__word_21785D8
 	str r1, [sp]
 	ldr r1, [r2, #0x2c]
 	ldr r3, [r2, #0x28]
 	mov r2, #0
-	bl ovl09_2152C3C
+	bl exPlayerHelpers__SetAnimationInternal
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02171B7C: .word exPlayerAdminTask__word_21785D8
-	arm_func_end ovl09_2171B5C
+	arm_func_end exPlayerAdminTask__SetSonicAnimation
 
-	arm_func_start ovl09_2171B80
-ovl09_2171B80: // 0x02171B80
+	arm_func_start exPlayerAdminTask__Func_2171B80
+exPlayerAdminTask__Func_2171B80: // 0x02171B80
 	stmdb sp!, {r4, lr}
 	ldr r1, _02171BE4 // =exPlayerAdminTask__word_21785D8
 	mov r4, r0
@@ -4041,4 +4041,4 @@ _02171BC4:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02171BE4: .word exPlayerAdminTask__word_21785D8
-	arm_func_end ovl09_2171B80
+	arm_func_end exPlayerAdminTask__Func_2171B80

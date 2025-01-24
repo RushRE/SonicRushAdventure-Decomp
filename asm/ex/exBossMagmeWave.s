@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start ovl09_21602D4
-ovl09_21602D4: // 0x021602D4
+	arm_func_start exBossMagmeWaveTask__Main_21602D4
+exBossMagmeWaveTask__Main_21602D4: // 0x021602D4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
 	ldr r1, _02160530 // =0x02176284
@@ -38,7 +38,7 @@ ovl09_21602D4: // 0x021602D4
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 _02160350:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _02160530 // =0x02176284
 	ldrsh r0, [r0, #2]
 	cmp r0, #0
@@ -61,25 +61,25 @@ _02160350:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x2f
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02160530 // =0x02176284
 	mov r2, #0
 	str r0, [r1, #0x44]
 	mov r0, #0x30
 	str r2, [r1, #0x54]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02160530 // =0x02176284
 	mov r2, #1
 	str r0, [r1, #0x48]
 	mov r0, #0x31
 	str r2, [r1, #0x58]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02160530 // =0x02176284
 	mov r2, #3
 	str r0, [r1, #0x4c]
 	mov r0, #0x32
 	str r2, [r1, #0x5c]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02160530 // =0x02176284
 	mov r2, #4
 	str r0, [r1, #0x50]
@@ -167,10 +167,10 @@ _02160534: .word aExtraExBb_6
 _02160538: .word 0x021762D8
 _0216053C: .word 0x021762C8
 _02160540: .word 0x00003FFC
-	arm_func_end ovl09_21602D4
+	arm_func_end exBossMagmeWaveTask__Main_21602D4
 
-	arm_func_start ovl09_2160544
-ovl09_2160544: // 0x02160544
+	arm_func_start exBossMagmeWaveTask__Func_2160544
+exBossMagmeWaveTask__Func_2160544: // 0x02160544
 	stmdb sp!, {r4, lr}
 	ldr r1, _021605F8 // =0x02176284
 	mov r4, r0
@@ -225,7 +225,7 @@ _021605DC:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021605F8: .word 0x02176284
-	arm_func_end ovl09_2160544
+	arm_func_end exBossMagmeWaveTask__Func_2160544
 
 	arm_func_start exBossMagmeWaveTask__Main
 exBossMagmeWaveTask__Main: // 0x021605FC
@@ -236,12 +236,12 @@ exBossMagmeWaveTask__Main: // 0x021605FC
 	ldr r1, _02160660 // =0x02176284
 	str r0, [r1, #8]
 	add r0, r4, #0x14
-	bl ovl09_21602D4
+	bl exBossMagmeWaveTask__Main_21602D4
 	add r0, r4, #0x3a0
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x3a0
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r1, [r4, #0x10]
 	mov r0, #0
 	ldr r1, [r1, #0x3ec]
@@ -251,19 +251,19 @@ exBossMagmeWaveTask__Main: // 0x021605FC
 	str r1, [r4, #0x368]
 	str r0, [r4, #0x36c]
 	bl GetExTaskCurrent
-	ldr r1, _02160664 // =ovl09_21606B4
+	ldr r1, _02160664 // =exBossMagmeWaveTask__Main_21606B4
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02160660: .word 0x02176284
-_02160664: .word ovl09_21606B4
+_02160664: .word exBossMagmeWaveTask__Main_21606B4
 	arm_func_end exBossMagmeWaveTask__Main
 
 	arm_func_start exBossMagmeWaveTask__Func8
 exBossMagmeWaveTask__Func8: // 0x02160668
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -279,7 +279,7 @@ exBossMagmeWaveTask__Destructor: // 0x02160690
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #0x14
-	bl ovl09_2160544
+	bl exBossMagmeWaveTask__Func_2160544
 	ldr r0, _021606B0 // =0x02176284
 	mov r1, #0
 	str r1, [r0, #8]
@@ -288,15 +288,15 @@ exBossMagmeWaveTask__Destructor: // 0x02160690
 _021606B0: .word 0x02176284
 	arm_func_end exBossMagmeWaveTask__Destructor
 
-	arm_func_start ovl09_21606B4
-ovl09_21606B4: // 0x021606B4
+	arm_func_start exBossMagmeWaveTask__Main_21606B4
+exBossMagmeWaveTask__Main_21606B4: // 0x021606B4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x14
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0x14
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _021606E8
 	bl GetExTaskCurrent
@@ -306,14 +306,14 @@ ovl09_21606B4: // 0x021606B4
 _021606E8:
 	add r0, r4, #0x14
 	add r1, r4, #0x3a0
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02160704: .word ExTask_State_Destroy
-	arm_func_end ovl09_21606B4
+	arm_func_end exBossMagmeWaveTask__Main_21606B4
 
 	arm_func_start exBossMagmeWaveTask__Create
 exBossMagmeWaveTask__Create: // 0x02160708

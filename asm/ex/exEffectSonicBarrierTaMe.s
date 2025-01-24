@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start ovl09_21654D4
-ovl09_21654D4: // 0x021654D4
+	arm_func_start exExEffectSonicBarrierTaMeTask__Func_21654D4
+exExEffectSonicBarrierTaMeTask__Func_21654D4: // 0x021654D4
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _021656E8 // =0x02176484
 	mov r4, r0
@@ -34,7 +34,7 @@ ovl09_21654D4: // 0x021654D4
 	ldmloia sp!, {r3, r4, r5, pc}
 _02165540:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _021656E8 // =0x02176484
 	ldrsh r0, [r0, #4]
 	cmp r0, #0
@@ -57,11 +57,11 @@ _02165540:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x4f
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _021656E8 // =0x02176484
 	str r0, [r1, #0x44]
 	mov r0, #0x50
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _021656E8 // =0x02176484
 	str r0, [r1, #0x48]
 	ldr r0, [r1, #0x18]
@@ -147,10 +147,10 @@ _021656E8: .word 0x02176484
 _021656EC: .word aExtraExBb_7
 _021656F0: .word 0x0000BFF4
 _021656F4: .word 0x00007FF8
-	arm_func_end ovl09_21654D4
+	arm_func_end exExEffectSonicBarrierTaMeTask__Func_21654D4
 
-	arm_func_start ovl09_21656F8
-ovl09_21656F8: // 0x021656F8
+	arm_func_start exExEffectSonicBarrierTaMeTask__Destroy_21656F8
+exExEffectSonicBarrierTaMeTask__Destroy_21656F8: // 0x021656F8
 	stmdb sp!, {r4, lr}
 	ldr r1, _02165784 // =0x02176484
 	mov r4, r0
@@ -193,7 +193,7 @@ _02165768:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02165784: .word 0x02176484
-	arm_func_end ovl09_21656F8
+	arm_func_end exExEffectSonicBarrierTaMeTask__Destroy_21656F8
 
 	arm_func_start exExEffectSonicBarrierTaMeTask__Main
 exExEffectSonicBarrierTaMeTask__Main: // 0x02165788
@@ -205,7 +205,7 @@ exExEffectSonicBarrierTaMeTask__Main: // 0x02165788
 	ldr r1, _02165808 // =0x02176484
 	str r0, [r1, #0x34]
 	add r0, r4, #8
-	bl ovl09_21654D4
+	bl exExEffectSonicBarrierTaMeTask__Func_21654D4
 	add r0, r4, #0x394
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
@@ -225,20 +225,20 @@ exExEffectSonicBarrierTaMeTask__Main: // 0x02165788
 	mov r3, r1
 	bl PlaySfxEx
 	bl GetExTaskCurrent
-	ldr r1, _0216580C // =ovl09_2165874
+	ldr r1, _0216580C // =exExEffectSonicBarrierTaMeTask__Main_2165874
 	str r1, [r0]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02165808: .word 0x02176484
-_0216580C: .word ovl09_2165874
+_0216580C: .word exExEffectSonicBarrierTaMeTask__Main_2165874
 	arm_func_end exExEffectSonicBarrierTaMeTask__Main
 
 	arm_func_start exExEffectSonicBarrierTaMeTask__Func8
 exExEffectSonicBarrierTaMeTask__Func8: // 0x02165810
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -260,7 +260,7 @@ exExEffectSonicBarrierTaMeTask__Destructor: // 0x02165838
 	ldr r0, [r4, #4]
 	bl FreeSndHandle
 	add r0, r4, #8
-	bl ovl09_21656F8
+	bl exExEffectSonicBarrierTaMeTask__Destroy_21656F8
 	ldr r0, _02165870 // =0x02176484
 	mov r1, #0
 	str r1, [r0, #0x34]
@@ -269,14 +269,14 @@ exExEffectSonicBarrierTaMeTask__Destructor: // 0x02165838
 _02165870: .word 0x02176484
 	arm_func_end exExEffectSonicBarrierTaMeTask__Destructor
 
-	arm_func_start ovl09_2165874
-ovl09_2165874: // 0x02165874
+	arm_func_start exExEffectSonicBarrierTaMeTask__Main_2165874
+exExEffectSonicBarrierTaMeTask__Main_2165874: // 0x02165874
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #8
-	bl ovl09_2162164
-	bl ovl09_216E3F4
+	bl exDrawReqTask__Model__Animate
+	bl exPlayerAdminTask__GetUnknown2
 	ldrsh r0, [r0, #0x44]
 	cmp r0, #0
 	beq _021659DC
@@ -391,7 +391,7 @@ _021659EC:
 	str r2, [r4, #0x374]
 	ldr r2, [r4, #0]
 	str r2, [r4, #0x378]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -401,7 +401,7 @@ _02165A44: .word 0x0217441C
 _02165A48: .word 0x45800000
 _02165A4C: .word 0x42F00000
 _02165A50: .word ExTask_State_Destroy
-	arm_func_end ovl09_2165874
+	arm_func_end exExEffectSonicBarrierTaMeTask__Main_2165874
 
 	arm_func_start exExEffectSonicBarrierTaMeTask__Create
 exExEffectSonicBarrierTaMeTask__Create: // 0x02165A54

@@ -61,8 +61,8 @@ exBossMagmeWaveTask__AnimationTable: // 0x021762D8
 	
 	.text
 
-	arm_func_start ovl09_215FB1C
-ovl09_215FB1C: // 0x0215FB1C
+	arm_func_start exBossMagmaAttackTask__Func_215FB1C
+exBossMagmaAttackTask__Func_215FB1C: // 0x0215FB1C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
 	ldr r1, _0215FD4C // =exBossMagmaAttackTask__ActiveInstanceCount
@@ -96,7 +96,7 @@ ovl09_215FB1C: // 0x0215FB1C
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 _0215FB98:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _0215FD4C // =exBossMagmaAttackTask__ActiveInstanceCount
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -119,13 +119,13 @@ _0215FB98:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x2d
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0215FD4C // =exBossMagmaAttackTask__ActiveInstanceCount
 	mov r2, #0
 	str r0, [r1, #0x3c]
 	mov r0, #0x2e
 	str r2, [r1, #0x34]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0215FD4C // =exBossMagmaAttackTask__ActiveInstanceCount
 	mov r2, #3
 	str r0, [r1, #0x40]
@@ -214,10 +214,10 @@ _0215FD50: .word aExtraExBb_6
 _0215FD54: .word exBossMagmaAttackTask__AnimTable
 _0215FD58: .word exBossMagmaAttackTask__FileTable
 _0215FD5C: .word 0x00003FFC
-	arm_func_end ovl09_215FB1C
+	arm_func_end exBossMagmaAttackTask__Func_215FB1C
 
-	arm_func_start ovl09_215FD60
-ovl09_215FD60: // 0x0215FD60
+	arm_func_start exBossMagmaAttackTask__Func_215FD60
+exBossMagmaAttackTask__Func_215FD60: // 0x0215FD60
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r9, #0
 	ldr r7, _0215FE00 // =exBossMagmaAttackTask__AnimTable
@@ -265,10 +265,10 @@ _0215FDF0:
 _0215FE00: .word exBossMagmaAttackTask__AnimTable
 _0215FE04: .word exBossMagmaAttackTask__FileTable
 _0215FE08: .word exBossMagmaAttackTask__ActiveInstanceCount
-	arm_func_end ovl09_215FD60
+	arm_func_end exBossMagmaAttackTask__Func_215FD60
 
-	arm_func_start ovl09_215FE0C
-ovl09_215FE0C: // 0x0215FE0C
+	arm_func_start exBossMagmaAttackTask__Destroy_215FE0C
+exBossMagmaAttackTask__Destroy_215FE0C: // 0x0215FE0C
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215FE98 // =exBossMagmaAttackTask__ActiveInstanceCount
 	mov r4, r0
@@ -311,7 +311,7 @@ _0215FE7C:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215FE98: .word exBossMagmaAttackTask__ActiveInstanceCount
-	arm_func_end ovl09_215FE0C
+	arm_func_end exBossMagmaAttackTask__Destroy_215FE0C
 
 	arm_func_start exBossMagmaAttackTask__Main
 exBossMagmaAttackTask__Main: // 0x0215FE9C
@@ -322,7 +322,7 @@ exBossMagmaAttackTask__Main: // 0x0215FE9C
 	ldr r1, _0215FF08 // =exBossMagmaAttackTask__ActiveInstanceCount
 	str r0, [r1, #0xc]
 	add r0, r4, #0x14
-	bl ovl09_215FB1C
+	bl exBossMagmaAttackTask__Func_215FB1C
 	add r0, r4, #0x3a0
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
@@ -339,19 +339,19 @@ exBossMagmaAttackTask__Main: // 0x0215FE9C
 	str r1, [r4, #0x36c]
 	str r0, [r4, #8]
 	bl GetExTaskCurrent
-	ldr r1, _0215FF0C // =ovl09_215FF5C
+	ldr r1, _0215FF0C // =exBossMagmaAttackTask__Main_215FF5C
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215FF08: .word exBossMagmaAttackTask__ActiveInstanceCount
-_0215FF0C: .word ovl09_215FF5C
+_0215FF0C: .word exBossMagmaAttackTask__Main_215FF5C
 	arm_func_end exBossMagmaAttackTask__Main
 
 	arm_func_start exBossMagmaAttackTask__Func8
 exBossMagmaAttackTask__Func8: // 0x0215FF10
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -367,7 +367,7 @@ exBossMagmaAttackTask__Destructor: // 0x0215FF38
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #0x14
-	bl ovl09_215FE0C
+	bl exBossMagmaAttackTask__Destroy_215FE0C
 	ldr r0, _0215FF58 // =exBossMagmaAttackTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0xc]
@@ -376,18 +376,18 @@ exBossMagmaAttackTask__Destructor: // 0x0215FF38
 _0215FF58: .word exBossMagmaAttackTask__ActiveInstanceCount
 	arm_func_end exBossMagmaAttackTask__Destructor
 
-	arm_func_start ovl09_215FF5C
-ovl09_215FF5C: // 0x0215FF5C
+	arm_func_start exBossMagmaAttackTask__Main_215FF5C
+exBossMagmaAttackTask__Main_215FF5C: // 0x0215FF5C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x14
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0x14
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215FF88
-	bl ovl09_215FFFC
+	bl exBossMagmaAttackTask__Func_215FFFC
 	ldmia sp!, {r4, pc}
 _0215FF88:
 	ldr r1, [r4, #0x368]
@@ -415,23 +415,23 @@ _0215FFCC:
 _0215FFDC:
 	add r0, r4, #0x14
 	add r1, r4, #0x3a0
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215FFF8: .word ExTask_State_Destroy
-	arm_func_end ovl09_215FF5C
+	arm_func_end exBossMagmaAttackTask__Main_215FF5C
 
-	arm_func_start ovl09_215FFFC
-ovl09_215FFFC: // 0x0215FFFC
+	arm_func_start exBossMagmaAttackTask__Func_215FFFC
+exBossMagmaAttackTask__Func_215FFFC: // 0x0215FFFC
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x14
 	mov r1, #1
-	bl ovl09_215FD60
+	bl exBossMagmaAttackTask__Func_215FD60
 	add r0, r4, #0x3a0
 	bl exDrawReqTask__Func_2164218
 	mov r0, #0x3000
@@ -455,25 +455,25 @@ ovl09_215FFFC: // 0x0215FFFC
 	add r0, r5, #5
 	strh r0, [r4]
 	bl GetExTaskCurrent
-	ldr r1, _02160090 // =ovl09_2160094
+	ldr r1, _02160090 // =exBossMagmaAttackTask__Main_2160094
 	str r1, [r0]
-	bl ovl09_2160094
+	bl exBossMagmaAttackTask__Main_2160094
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02160080: .word _mt_math_rand
 _02160084: .word 0x00196225
 _02160088: .word 0x3C6EF35F
 _0216008C: .word 0x66666667
-_02160090: .word ovl09_2160094
-	arm_func_end ovl09_215FFFC
+_02160090: .word exBossMagmaAttackTask__Main_2160094
+	arm_func_end exBossMagmaAttackTask__Func_215FFFC
 
-	arm_func_start ovl09_2160094
-ovl09_2160094: // 0x02160094
+	arm_func_start exBossMagmaAttackTask__Main_2160094
+exBossMagmaAttackTask__Main_2160094: // 0x02160094
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x14
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r1, [r4, #0x368]
 	ldr r0, [r4, #8]
 	sub r0, r1, r0
@@ -484,12 +484,12 @@ ovl09_2160094: // 0x02160094
 	mov r1, #0
 	add r0, r4, #0x3a0
 	strh r1, [r4]
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	add r0, r4, #0x14
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _021600F4
-	bl ovl09_2160160
+	bl exBossMagmaAttackTask__Func_2160160
 	ldmia sp!, {r4, pc}
 _021600EC:
 	sub r0, r0, #1
@@ -516,53 +516,53 @@ _02160128:
 _02160138:
 	add r0, r4, #0x14
 	add r1, r4, #0x3a0
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x14
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216015C: .word ExTask_State_Destroy
-	arm_func_end ovl09_2160094
+	arm_func_end exBossMagmaAttackTask__Main_2160094
 
-	arm_func_start ovl09_2160160
-ovl09_2160160: // 0x02160160
+	arm_func_start exBossMagmaAttackTask__Func_2160160
+exBossMagmaAttackTask__Func_2160160: // 0x02160160
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x14
 	mov r1, #2
-	bl ovl09_215FD60
+	bl exBossMagmaAttackTask__Func_215FD60
 	add r0, r4, #0x3a0
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	add r0, r4, #0x3a0
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r0, #0x3000
 	str r0, [r4, #8]
 	bl GetExTaskCurrent
-	ldr r1, _021601A4 // =ovl09_21601A8
+	ldr r1, _021601A4 // =exBossMagmaAttackTask__Main_21601A8
 	str r1, [r0]
-	bl ovl09_21601A8
+	bl exBossMagmaAttackTask__Main_21601A8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021601A4: .word ovl09_21601A8
-	arm_func_end ovl09_2160160
+_021601A4: .word exBossMagmaAttackTask__Main_21601A8
+	arm_func_end exBossMagmaAttackTask__Func_2160160
 
-	arm_func_start ovl09_21601A8
-ovl09_21601A8: // 0x021601A8
+	arm_func_start exBossMagmaAttackTask__Main_21601A8
+exBossMagmaAttackTask__Main_21601A8: // 0x021601A8
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x14
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r2, [r4, #0x368]
 	ldr r1, [r4, #8]
 	add r0, r4, #0x14
 	sub r1, r2, r1
 	str r1, [r4, #0x368]
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _021601EC
 	bl GetExTaskCurrent
@@ -591,14 +591,14 @@ _02160220:
 _02160230:
 	add r0, r4, #0x14
 	add r1, r4, #0x3a0
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216024C: .word ExTask_State_Destroy
-	arm_func_end ovl09_21601A8
+	arm_func_end exBossMagmaAttackTask__Main_21601A8
 
 	arm_func_start exBossMagmaAttackTask__Create
 exBossMagmaAttackTask__Create: // 0x02160250

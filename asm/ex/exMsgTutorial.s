@@ -54,7 +54,7 @@ exMsgTutorialTask__Main: // 0x0216C5A8
 	str r0, [r1, #4]
 	bl exMsgTutorialTask__GetLanguage
 	strh r0, [r7, #4]
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	str r0, [r7, #0x1a0]
 	add r0, r7, #0x12
 	ldr r11, _0216C6D4 // =_02175D98
@@ -75,7 +75,7 @@ _0216C5E8:
 	strh r1, [r10, #0x90]
 	mov r1, #3
 	strh r1, [r10, #0x92]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r1, _0216C6D8 // =0x0000E002
 	add r0, r5, r9
 	bl exDrawReqTask__SetConfigPriority
@@ -86,9 +86,9 @@ _0216C5E8:
 	add r0, r6, r9
 	orr r1, r1, #0x20
 	strb r1, [r4, r9]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	add r0, r5, r9
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	add r0, r8, #1
 	mov r0, r0, lsl #0x10
 	mov r8, r0, lsr #0x10
@@ -99,7 +99,7 @@ _0216C5E8:
 	mov r1, #3
 	add r0, r7, #8
 	strh r1, [r7, #0xa]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r1, _0216C6DC // =0x0000E001
 	add r0, r7, #0x88
 	bl exDrawReqTask__SetConfigPriority
@@ -110,15 +110,15 @@ _0216C5E8:
 	add r0, r7, #8
 	orr r1, r1, #0x20
 	strb r1, [r7, #0x8a]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	add r0, r7, #0x88
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r0, #5
 	str r0, [r7, #0x80]
 	mov r0, #0x80
 	strh r0, [r7]
 	bl GetExTaskCurrent
-	ldr r1, _0216C6E0 // =ovl09_216C744
+	ldr r1, _0216C6E0 // =exMsgTutorialTask__Main_Active
 	str r1, [r0]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
@@ -126,14 +126,14 @@ _0216C6D0: .word 0x021775B8
 _0216C6D4: .word _02175D98
 _0216C6D8: .word 0x0000E002
 _0216C6DC: .word 0x0000E001
-_0216C6E0: .word ovl09_216C744
+_0216C6E0: .word exMsgTutorialTask__Main_Active
 	arm_func_end exMsgTutorialTask__Main
 
 	arm_func_start exMsgTutorialTask__Func8
 exMsgTutorialTask__Func8: // 0x0216C6E4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -150,11 +150,11 @@ exMsgTutorialTask__Destructor: // 0x0216C70C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x90
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	add r0, r4, #0x118
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	add r0, r4, #8
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	ldr r0, _0216C740 // =0x021775B8
 	mov r1, #0
 	str r1, [r0, #4]
@@ -163,8 +163,8 @@ exMsgTutorialTask__Destructor: // 0x0216C70C
 _0216C740: .word 0x021775B8
 	arm_func_end exMsgTutorialTask__Destructor
 
-	arm_func_start ovl09_216C744
-ovl09_216C744: // 0x0216C744
+	arm_func_start exMsgTutorialTask__Main_Active
+exMsgTutorialTask__Main_Active: // 0x0216C744
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	bl GetExTaskWorkCurrent_
 	mov r8, r0
@@ -177,9 +177,9 @@ ovl09_216C744: // 0x0216C744
 	movne r4, #1
 	mov r0, #0x88
 	mla r0, r4, r0, r1
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	add r0, r8, #8
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldrh r1, [r8, #4]
 	ldr r2, _0216C840 // =_02175DB0
 	mov r0, #0xc
@@ -202,13 +202,13 @@ ovl09_216C744: // 0x0216C744
 	add r0, r4, r7
 	strh r1, [r6, r7]
 	add r1, r5, r7
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldrsh r2, [r6, r7]
 	add r0, r4, r7
 	add r1, r5, r7
 	sub r2, r2, r9
 	strh r2, [r6, r7]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldrsh r2, [r6, r7]
 	add r0, r4, r7
 	add r1, r5, r7
@@ -217,20 +217,20 @@ ovl09_216C744: // 0x0216C744
 	ldrsh r2, [r6, r7]
 	add r2, r2, r9
 	strh r2, [r6, r7]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldrsh r2, [r6, r7]
 	add r0, r8, #8
 	add r1, r8, #0x88
 	sub r2, r2, r9
 	strh r2, [r6, r7]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
 _0216C840: .word _02175DB0
-	arm_func_end ovl09_216C744
+	arm_func_end exMsgTutorialTask__Main_Active
 
 	arm_func_start exMsgTutorialTask__Create
 exMsgTutorialTask__Create: // 0x0216C844
@@ -267,8 +267,8 @@ _0216C8B4: .word exMsgTutorialTask__Destructor
 _0216C8B8: .word exMsgTutorialTask__Func8
 	arm_func_end exMsgTutorialTask__Create
 
-	arm_func_start ovl09_216C8BC
-ovl09_216C8BC: // 0x0216C8BC
+	arm_func_start exMsgTutorialTask__Destroy
+exMsgTutorialTask__Destroy: // 0x0216C8BC
 	stmdb sp!, {r3, lr}
 	ldr r0, _0216C8E0 // =0x021775B8
 	ldr r0, [r0, #4]
@@ -281,7 +281,7 @@ ovl09_216C8BC: // 0x0216C8BC
 	.align 2, 0
 _0216C8E0: .word 0x021775B8
 _0216C8E4: .word ExTask_State_Destroy
-	arm_func_end ovl09_216C8BC
+	arm_func_end exMsgTutorialTask__Destroy
 
 	.data
 	

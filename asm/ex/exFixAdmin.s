@@ -32,12 +32,12 @@ exFixAdminTask__Main: // 0x0216A8E4
 	ldr r1, _0216A90C // =exFixRemainderTask__TaskSingleton
 	str r0, [r1, #8]
 	bl GetExTaskCurrent
-	ldr r1, _0216A910 // =ovl09_216A94C
+	ldr r1, _0216A910 // =exFixAdminTask__Main_WaitForCommonHUD
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216A90C: .word exFixRemainderTask__TaskSingleton
-_0216A910: .word ovl09_216A94C
+_0216A910: .word exFixAdminTask__Main_WaitForCommonHUD
 	arm_func_end exFixAdminTask__Main
 
 	arm_func_start exFixAdminTask__Func8
@@ -52,10 +52,10 @@ _0216A91C: .word GetExTaskWorkCurrent_
 exFixAdminTask__Destructor: // 0x0216A920
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_216A110
-	bl ovl09_2169D90
-	bl ovl09_21697B4
-	bl ovl09_216A8B8
+	bl exFixRemainderTask__Destroy
+	bl exFixRingTask__Destroy
+	bl exFixTimeTask__Destroy
+	bl exFixBossLifeGaugeTask__Destroy
 	ldr r0, _0216A948 // =exFixRemainderTask__TaskSingleton
 	mov r1, #0
 	str r1, [r0, #8]
@@ -64,74 +64,74 @@ exFixAdminTask__Destructor: // 0x0216A920
 _0216A948: .word exFixRemainderTask__TaskSingleton
 	arm_func_end exFixAdminTask__Destructor
 
-	arm_func_start ovl09_216A94C
-ovl09_216A94C: // 0x0216A94C
+	arm_func_start exFixAdminTask__Main_WaitForCommonHUD
+exFixAdminTask__Main_WaitForCommonHUD: // 0x0216A94C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #4
 	bne _0216A96C
-	bl ovl09_216A97C
+	bl exFixAdminTask__Action_CreateCommonHUD
 	ldmia sp!, {r3, pc}
 _0216A96C:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_216A94C
+	arm_func_end exFixAdminTask__Main_WaitForCommonHUD
 
-	arm_func_start ovl09_216A97C
-ovl09_216A97C: // 0x0216A97C
+	arm_func_start exFixAdminTask__Action_CreateCommonHUD
+exFixAdminTask__Action_CreateCommonHUD: // 0x0216A97C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl exFixTimeTask__Create
 	bl exFixRingTask__Create
 	bl exMsgTutorialTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _0216A9A4 // =ovl09_216A9A8
+	ldr r1, _0216A9A4 // =exFixAdminTask__Main_WaitForBossHUD
 	str r1, [r0]
-	bl ovl09_216A9A8
+	bl exFixAdminTask__Main_WaitForBossHUD
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216A9A4: .word ovl09_216A9A8
-	arm_func_end ovl09_216A97C
+_0216A9A4: .word exFixAdminTask__Main_WaitForBossHUD
+	arm_func_end exFixAdminTask__Action_CreateCommonHUD
 
-	arm_func_start ovl09_216A9A8
-ovl09_216A9A8: // 0x0216A9A8
+	arm_func_start exFixAdminTask__Main_WaitForBossHUD
+exFixAdminTask__Main_WaitForBossHUD: // 0x0216A9A8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #4
 	ldmlsia sp!, {r3, pc}
-	bl ovl09_216A9C8
+	bl exFixAdminTask__Action_CreateBossHUD
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_216A9A8
+	arm_func_end exFixAdminTask__Main_WaitForBossHUD
 
-	arm_func_start ovl09_216A9C8
-ovl09_216A9C8: // 0x0216A9C8
+	arm_func_start exFixAdminTask__Action_CreateBossHUD
+exFixAdminTask__Action_CreateBossHUD: // 0x0216A9C8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_216C8BC
+	bl exMsgTutorialTask__Destroy
 	bl exFixRemainderTask__Create
 	bl exFixBossLifeGaugeTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _0216A9F0 // =ovl09_216A9F4
+	ldr r1, _0216A9F0 // =exFixAdminTask__Main_Idle
 	str r1, [r0]
-	bl ovl09_216A9F4
+	bl exFixAdminTask__Main_Idle
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216A9F0: .word ovl09_216A9F4
-	arm_func_end ovl09_216A9C8
+_0216A9F0: .word exFixAdminTask__Main_Idle
+	arm_func_end exFixAdminTask__Action_CreateBossHUD
 
-	arm_func_start ovl09_216A9F4
-ovl09_216A9F4: // 0x0216A9F4
+	arm_func_start exFixAdminTask__Main_Idle
+exFixAdminTask__Main_Idle: // 0x0216A9F4
 	ldr ip, _0216A9FC // =GetExTaskWorkCurrent_
 	bx ip
 	.align 2, 0
 _0216A9FC: .word GetExTaskWorkCurrent_
-	arm_func_end ovl09_216A9F4
+	arm_func_end exFixAdminTask__Main_Idle
 
 	arm_func_start exFixAdminTask__Create
 exFixAdminTask__Create: // 0x0216AA00
@@ -168,8 +168,8 @@ _0216AA70: .word exFixAdminTask__Destructor
 _0216AA74: .word exFixAdminTask__Func8
 	arm_func_end exFixAdminTask__Create
 
-	arm_func_start ovl09_216AA78
-ovl09_216AA78: // 0x0216AA78
+	arm_func_start exFixAdminTask__Destroy
+exFixAdminTask__Destroy: // 0x0216AA78
 	stmdb sp!, {r3, lr}
 	ldr r0, _0216AA9C // =exFixRemainderTask__TaskSingleton
 	ldr r0, [r0, #8]
@@ -182,7 +182,7 @@ ovl09_216AA78: // 0x0216AA78
 	.align 2, 0
 _0216AA9C: .word exFixRemainderTask__TaskSingleton
 _0216AAA0: .word ExTask_State_Destroy
-	arm_func_end ovl09_216AA78
+	arm_func_end exFixAdminTask__Destroy
 
 	.data
 	

@@ -86,7 +86,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	mov r1, #4
 	strh r1, [r0, #2]
 	ldr r0, [r4, #8]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [r4, #8]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -97,10 +97,10 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #8]
 	strh r1, [r0, #0x6a]
 	ldr r0, [r4, #8]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r0, [r4, #8]
 	add r0, r0, #0x80
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, [r4, #0xc]
 	mov r1, #0x4b
 	strh r1, [r0]
@@ -108,7 +108,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	mov r1, #6
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0xc]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [r4, #0xc]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -119,10 +119,10 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0xc]
 	strh r1, [r0, #0x6a]
 	ldr r0, [r4, #0xc]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x80
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r2, #0x42
 	ldr r0, [r4, #0x10]
 	mov r1, #5
@@ -130,7 +130,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x10]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x10]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [r4, #0x10]
 	ldr r1, _0216CCBC // =0x0000E001
 	add r0, r0, #0x80
@@ -142,10 +142,10 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	mov r1, #0x60
 	strh r1, [r0, #0x6a]
 	ldr r0, [r4, #0x10]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r0, [r4, #0x10]
 	add r0, r0, #0x80
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, [r4, #0x14]
 	mov r1, #0x43
 	strh r1, [r0]
@@ -153,7 +153,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	mov r1, #6
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x14]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [r4, #0x14]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -164,10 +164,10 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x14]
 	strh r1, [r0, #0x6a]
 	ldr r0, [r4, #0x14]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r0, [r4, #0x14]
 	add r0, r0, #0x80
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, [r4, #0x18]
 	mov r1, #0x44
 	strh r1, [r0]
@@ -175,7 +175,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	mov r1, #6
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x18]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [r4, #0x18]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -186,10 +186,10 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x18]
 	strh r1, [r0, #0x6a]
 	ldr r0, [r4, #0x18]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r0, [r4, #0x18]
 	add r0, r0, #0x80
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r2, #0x45
 	ldr r0, [r4, #0x1c]
 	mov r1, #6
@@ -197,7 +197,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x1c]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x1c]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [r4, #0x1c]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -208,10 +208,10 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x1c]
 	strh r1, [r0, #0x6a]
 	ldr r0, [r4, #0x1c]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r0, [r4, #0x1c]
 	add r0, r0, #0x80
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r2, #0x46
 	ldr r0, [r4, #0x20]
 	mov r1, #6
@@ -219,7 +219,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x20]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x20]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [r4, #0x20]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -230,10 +230,10 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x20]
 	strh r1, [r0, #0x6a]
 	ldr r0, [r4, #0x20]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r0, [r4, #0x20]
 	add r0, r0, #0x80
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, [r4, #0x24]
 	mov r1, #0x47
 	strh r1, [r0]
@@ -241,7 +241,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	mov r1, #6
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x24]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [r4, #0x24]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -252,10 +252,10 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x24]
 	strh r1, [r0, #0x6a]
 	ldr r0, [r4, #0x24]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r0, [r4, #0x24]
 	add r0, r0, #0x80
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r2, #0x48
 	ldr r0, [r4, #0x28]
 	mov r1, #6
@@ -263,7 +263,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x28]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x28]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [r4, #0x28]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -274,14 +274,14 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x28]
 	strh r1, [r0, #0x6a]
 	ldr r0, [r4, #0x28]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r0, [r4, #0x28]
 	add r0, r0, #0x80
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r0, #0x1e
 	strh r0, [r4]
 	bl GetExTaskCurrent
-	ldr r1, _0216CCC0 // =ovl09_216CCF4
+	ldr r1, _0216CCC0 // =exMsgTitleTask__Main_216CCF4
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
@@ -298,7 +298,7 @@ _0216CCB0: .word exMsgTitleTask__byte_21778F0
 _0216CCB4: .word exMsgTitleTask__byte_2177758
 _0216CCB8: .word exMsgTitleTask__byte_2177868
 _0216CCBC: .word 0x0000E001
-_0216CCC0: .word ovl09_216CCF4
+_0216CCC0: .word exMsgTitleTask__Main_216CCF4
 	arm_func_end exMsgTitleTask__Main
 
 	arm_func_start exMsgTitleTask__Func8
@@ -314,7 +314,7 @@ exMsgTitleTask__Destructor: // 0x0216CCD0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x30]
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	ldr r0, _0216CCF0 // =exMsgTitleTask__TaskSingleton
 	mov r1, #0
 	str r1, [r0]
@@ -323,8 +323,8 @@ exMsgTitleTask__Destructor: // 0x0216CCD0
 _0216CCF0: .word exMsgTitleTask__TaskSingleton
 	arm_func_end exMsgTitleTask__Destructor
 
-	arm_func_start ovl09_216CCF4
-ovl09_216CCF4: // 0x0216CCF4
+	arm_func_start exMsgTitleTask__Main_216CCF4
+exMsgTitleTask__Main_216CCF4: // 0x0216CCF4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r2, [r0, #0]
@@ -332,17 +332,17 @@ ovl09_216CCF4: // 0x0216CCF4
 	strh r1, [r0]
 	cmp r2, #0
 	bgt _0216CD18
-	bl ovl09_216CD28
+	bl exMsgTitleTask__Func_216CD28
 	ldmia sp!, {r3, pc}
 _0216CD18:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_216CCF4
+	arm_func_end exMsgTitleTask__Main_216CCF4
 
-	arm_func_start ovl09_216CD28
-ovl09_216CD28: // 0x0216CD28
+	arm_func_start exMsgTitleTask__Func_216CD28
+exMsgTitleTask__Func_216CD28: // 0x0216CD28
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -376,25 +376,25 @@ ovl09_216CD28: // 0x0216CD28
 	mov r0, #0
 	strh r0, [r4, #2]
 	bl GetExTaskCurrent
-	ldr r1, _0216CDC4 // =ovl09_216CDC8
+	ldr r1, _0216CDC4 // =exMsgTitleTask__Main_216CDC8
 	str r1, [r0]
-	bl ovl09_216CDC8
+	bl exMsgTitleTask__Main_216CDC8
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0216CDC0: .word 0x00001CCD
-_0216CDC4: .word ovl09_216CDC8
-	arm_func_end ovl09_216CD28
+_0216CDC4: .word exMsgTitleTask__Main_216CDC8
+	arm_func_end exMsgTitleTask__Func_216CD28
 
-	arm_func_start ovl09_216CDC8
-ovl09_216CDC8: // 0x0216CDC8
+	arm_func_start exMsgTitleTask__Main_216CDC8
+exMsgTitleTask__Main_216CDC8: // 0x0216CDC8
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #8]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x10]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, _0216CF8C // =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #1
@@ -408,7 +408,7 @@ ovl09_216CDC8: // 0x0216CDC8
 	tst r0, #8
 	beq _0216CE1C
 _0216CE14:
-	bl ovl09_216D564
+	bl exMsgTitleTask__Func_216D564
 	ldmia sp!, {r3, r4, r5, pc}
 _0216CE1C:
 	ldr r1, [r4, #8]
@@ -492,15 +492,15 @@ _0216CE6C:
 	ldrsh r0, [r4, #2]
 	cmp r0, #0x1000
 	blt _0216CF64
-	bl ovl09_216CF94
+	bl exMsgTitleTask__Func_216CF94
 	ldmia sp!, {r3, r4, r5, pc}
 _0216CF64:
 	ldr r0, [r4, #8]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x10]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -508,10 +508,10 @@ _0216CF64:
 	.align 2, 0
 _0216CF8C: .word padInput
 _0216CF90: .word 0xFFFFF334
-	arm_func_end ovl09_216CDC8
+	arm_func_end exMsgTitleTask__Main_216CDC8
 
-	arm_func_start ovl09_216CF94
-ovl09_216CF94: // 0x0216CF94
+	arm_func_start exMsgTitleTask__Func_216CF94
+exMsgTitleTask__Func_216CF94: // 0x0216CF94
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -648,39 +648,39 @@ ovl09_216CF94: // 0x0216CF94
 	orr r0, r0, #0x20
 	strb r0, [r1, #0x82]
 	bl GetExTaskCurrent
-	ldr r1, _0216D1CC // =ovl09_216D1D0
+	ldr r1, _0216D1CC // =exMsgTitleTask__Func_216D1D0
 	str r1, [r0]
-	bl ovl09_216D1D0
+	bl exMsgTitleTask__Func_216D1D0
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216D1C8: .word 0x00000113
-_0216D1CC: .word ovl09_216D1D0
-	arm_func_end ovl09_216CF94
+_0216D1CC: .word exMsgTitleTask__Func_216D1D0
+	arm_func_end exMsgTitleTask__Func_216CF94
 
-	arm_func_start ovl09_216D1D0
-ovl09_216D1D0: // 0x0216D1D0
+	arm_func_start exMsgTitleTask__Func_216D1D0
+exMsgTitleTask__Func_216D1D0: // 0x0216D1D0
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #8]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x10]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0xc]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x14]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x18]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x1c]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x20]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x24]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x28]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, _0216D2FC // =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #1
@@ -694,14 +694,14 @@ ovl09_216D1D0: // 0x0216D1D0
 	tst r0, #8
 	beq _0216D25C
 _0216D254:
-	bl ovl09_216D564
+	bl exMsgTitleTask__Func_216D564
 	ldmia sp!, {r4, pc}
 _0216D25C:
 	ldr r0, [r4, #0x28]
-	bl ovl09_2161B94
+	bl exDrawReqTask__Sprite2D__IsAnimFinished
 	cmp r0, #0
 	beq _0216D274
-	bl ovl09_216D300
+	bl exMsgTitleTask__Func_216D300
 	ldmia sp!, {r4, pc}
 _0216D274:
 	bl exMsgTutorialTask__GetLanguage
@@ -709,57 +709,57 @@ _0216D274:
 	bne _0216D28C
 	ldr r0, [r4, #0xc]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _0216D28C:
 	ldr r0, [r4, #0x14]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x18]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x1c]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x20]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x24]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x28]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #8]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x10]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216D2FC: .word padInput
-	arm_func_end ovl09_216D1D0
+	arm_func_end exMsgTitleTask__Func_216D1D0
 
-	arm_func_start ovl09_216D300
-ovl09_216D300: // 0x0216D300
+	arm_func_start exMsgTitleTask__Func_216D300
+exMsgTitleTask__Func_216D300: // 0x0216D300
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0
 	strh r1, [r0, #4]
 	bl GetExTaskCurrent
-	ldr r1, _0216D324 // =ovl09_216D328
+	ldr r1, _0216D324 // =exMsgTitleTask__Func_216D328
 	str r1, [r0]
-	bl ovl09_216D328
+	bl exMsgTitleTask__Func_216D328
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216D324: .word ovl09_216D328
-	arm_func_end ovl09_216D300
+_0216D324: .word exMsgTitleTask__Func_216D328
+	arm_func_end exMsgTitleTask__Func_216D300
 
-	arm_func_start ovl09_216D328
-ovl09_216D328: // 0x0216D328
+	arm_func_start exMsgTitleTask__Func_216D328
+exMsgTitleTask__Func_216D328: // 0x0216D328
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r1, _0216D55C // =padInput
@@ -776,27 +776,27 @@ ovl09_216D328: // 0x0216D328
 	tst r0, #8
 	beq _0216D36C
 _0216D364:
-	bl ovl09_216D564
+	bl exMsgTitleTask__Func_216D564
 	ldmia sp!, {r4, r5, r6, pc}
 _0216D36C:
 	ldr r0, [r4, #8]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x10]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0xc]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x14]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x18]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x1c]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x20]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x24]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x28]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldrsh r1, [r4, #4]
 	mov r0, #0x100000
 	rsb r0, r0, #0
@@ -868,7 +868,7 @@ _0216D3DC:
 	ldrsh r0, [r4, #4]
 	cmp r0, #0x1000
 	blt _0216D4D4
-	bl ovl09_216D564
+	bl exMsgTitleTask__Func_216D564
 	ldmia sp!, {r4, r5, r6, pc}
 _0216D4D4:
 	bl exMsgTutorialTask__GetLanguage
@@ -876,32 +876,32 @@ _0216D4D4:
 	bne _0216D4EC
 	ldr r0, [r4, #0xc]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _0216D4EC:
 	ldr r0, [r4, #0x14]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x18]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x1c]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x20]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x24]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x28]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #8]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x10]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -909,31 +909,31 @@ _0216D4EC:
 	.align 2, 0
 _0216D55C: .word padInput
 _0216D560: .word 0x45800000
-	arm_func_end ovl09_216D328
+	arm_func_end exMsgTitleTask__Func_216D328
 
-	arm_func_start ovl09_216D564
-ovl09_216D564: // 0x0216D564
+	arm_func_start exMsgTitleTask__Func_216D564
+exMsgTitleTask__Func_216D564: // 0x0216D564
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #8]
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	ldr r0, [r4, #0x10]
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	ldr r0, [r4, #0xc]
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	ldr r0, [r4, #0x14]
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	ldr r0, [r4, #0x18]
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	ldr r0, [r4, #0x1c]
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	ldr r0, [r4, #0x20]
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	ldr r0, [r4, #0x24]
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	ldr r0, [r4, #0x28]
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	mov r2, #0x4a
 	ldr r0, [r4, #0x2c]
 	mov r1, #7
@@ -941,7 +941,7 @@ ovl09_216D564: // 0x0216D564
 	ldr r0, [r4, #0x2c]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x2c]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [r4, #0x2c]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -953,14 +953,14 @@ ovl09_216D564: // 0x0216D564
 	ldr r0, [r4, #0x2c]
 	strh r1, [r0, #0x6a]
 	ldr r0, [r4, #0x2c]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r1, [r4, #0x2c]
 	ldrb r0, [r1, #0x82]
 	orr r0, r0, #0x20
 	strb r0, [r1, #0x82]
 	ldr r0, [r4, #0x2c]
 	add r0, r0, #0x80
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r2, #0x49
 	ldr r0, [r4, #0x30]
 	mov r1, #7
@@ -968,7 +968,7 @@ ovl09_216D564: // 0x0216D564
 	ldr r0, [r4, #0x30]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x30]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [r4, #0x30]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -980,65 +980,65 @@ ovl09_216D564: // 0x0216D564
 	ldr r0, [r4, #0x30]
 	strh r1, [r0, #0x6a]
 	ldr r0, [r4, #0x30]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r1, [r4, #0x30]
 	ldrb r0, [r1, #0x82]
 	orr r0, r0, #0x20
 	strb r0, [r1, #0x82]
 	ldr r0, [r4, #0x30]
 	add r0, r0, #0x80
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r0, #0x2d
 	strh r0, [r4]
 	bl GetExTaskCurrent
-	ldr r1, _0216D6AC // =ovl09_216D6B0
+	ldr r1, _0216D6AC // =exMsgTitleTask__Func_216D6B0
 	str r1, [r0]
-	bl ovl09_216D6B0
+	bl exMsgTitleTask__Func_216D6B0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216D6AC: .word ovl09_216D6B0
-	arm_func_end ovl09_216D564
+_0216D6AC: .word exMsgTitleTask__Func_216D6B0
+	arm_func_end exMsgTitleTask__Func_216D564
 
-	arm_func_start ovl09_216D6B0
-ovl09_216D6B0: // 0x0216D6B0
+	arm_func_start exMsgTitleTask__Func_216D6B0
+exMsgTitleTask__Func_216D6B0: // 0x0216D6B0
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #0x2c]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x2c]
-	bl ovl09_2161B94
+	bl exDrawReqTask__Sprite2D__IsAnimFinished
 	cmp r0, #0
 	beq _0216D6DC
-	bl ovl09_216D6F8
+	bl exMsgTitleTask__Func_216D6F8
 	ldmia sp!, {r4, pc}
 _0216D6DC:
 	ldr r0, [r4, #0x2c]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_216D6B0
+	arm_func_end exMsgTitleTask__Func_216D6B0
 
-	arm_func_start ovl09_216D6F8
-ovl09_216D6F8: // 0x0216D6F8
+	arm_func_start exMsgTitleTask__Func_216D6F8
+exMsgTitleTask__Func_216D6F8: // 0x0216D6F8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0
 	strh r1, [r0]
 	bl GetExTaskCurrent
-	ldr r1, _0216D71C // =ovl09_216D720
+	ldr r1, _0216D71C // =exMsgTitleTask__Func_216D720
 	str r1, [r0]
-	bl ovl09_216D720
+	bl exMsgTitleTask__Func_216D720
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216D71C: .word ovl09_216D720
-	arm_func_end ovl09_216D6F8
+_0216D71C: .word exMsgTitleTask__Func_216D720
+	arm_func_end exMsgTitleTask__Func_216D6F8
 
-	arm_func_start ovl09_216D720
-ovl09_216D720: // 0x0216D720
+	arm_func_start exMsgTitleTask__Func_216D720
+exMsgTitleTask__Func_216D720: // 0x0216D720
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r2, [r0, #0]
@@ -1046,76 +1046,76 @@ ovl09_216D720: // 0x0216D720
 	strh r1, [r0]
 	cmp r2, #0
 	bgt _0216D744
-	bl ovl09_216D760
+	bl exMsgTitleTask__Func_216D760
 	ldmia sp!, {r3, pc}
 _0216D744:
 	ldr r0, [r0, #0x2c]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_216D720
+	arm_func_end exMsgTitleTask__Func_216D720
 
-	arm_func_start ovl09_216D760
-ovl09_216D760: // 0x0216D760
+	arm_func_start exMsgTitleTask__Func_216D760
+exMsgTitleTask__Func_216D760: // 0x0216D760
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x2c]
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	bl exSysTask__GetStatus
 	mov r1, #4
 	strb r1, [r0, #3]
 	bl GetExTaskCurrent
-	ldr r1, _0216D790 // =ovl09_216D794
+	ldr r1, _0216D790 // =exMsgTitleTask__Func_216D794
 	str r1, [r0]
-	bl ovl09_216D794
+	bl exMsgTitleTask__Func_216D794
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216D790: .word ovl09_216D794
-	arm_func_end ovl09_216D760
+_0216D790: .word exMsgTitleTask__Func_216D794
+	arm_func_end exMsgTitleTask__Func_216D760
 
-	arm_func_start ovl09_216D794
-ovl09_216D794: // 0x0216D794
+	arm_func_start exMsgTitleTask__Func_216D794
+exMsgTitleTask__Func_216D794: // 0x0216D794
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #0x30]
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldr r0, [r4, #0x30]
-	bl ovl09_2161B94
+	bl exDrawReqTask__Sprite2D__IsAnimFinished
 	cmp r0, #0
 	beq _0216D7C0
-	bl ovl09_216D7DC
+	bl exMsgTitleTask__Func_216D7DC
 	ldmia sp!, {r4, pc}
 _0216D7C0:
 	ldr r0, [r4, #0x30]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_216D794
+	arm_func_end exMsgTitleTask__Func_216D794
 
-	arm_func_start ovl09_216D7DC
-ovl09_216D7DC: // 0x0216D7DC
+	arm_func_start exMsgTitleTask__Func_216D7DC
+exMsgTitleTask__Func_216D7DC: // 0x0216D7DC
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0x78
 	strh r1, [r0]
 	bl GetExTaskCurrent
-	ldr r1, _0216D800 // =ovl09_216D804
+	ldr r1, _0216D800 // =exMsgTitleTask__Func_216D804
 	str r1, [r0]
-	bl ovl09_216D804
+	bl exMsgTitleTask__Func_216D804
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216D800: .word ovl09_216D804
-	arm_func_end ovl09_216D7DC
+_0216D800: .word exMsgTitleTask__Func_216D804
+	arm_func_end exMsgTitleTask__Func_216D7DC
 
-	arm_func_start ovl09_216D804
-ovl09_216D804: // 0x0216D804
+	arm_func_start exMsgTitleTask__Func_216D804
+exMsgTitleTask__Func_216D804: // 0x0216D804
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r2, [r0, #0]
@@ -1130,14 +1130,14 @@ ovl09_216D804: // 0x0216D804
 _0216D830:
 	ldr r0, [r0, #0x30]
 	add r1, r0, #0x80
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216D84C: .word ExTask_State_Destroy
-	arm_func_end ovl09_216D804
+	arm_func_end exMsgTitleTask__Func_216D804
 
 	arm_func_start exMsgTitleTask__Create
 exMsgTitleTask__Create: // 0x0216D850
@@ -1174,14 +1174,14 @@ _0216D8C0: .word exMsgTitleTask__Destructor
 _0216D8C4: .word exMsgTitleTask__Func8
 	arm_func_end exMsgTitleTask__Create
 
-	arm_func_start ovl09_216D8C8
-ovl09_216D8C8: // 0x0216D8C8
+	arm_func_start exMsgTitleTask__GetTask
+exMsgTitleTask__GetTask: // 0x0216D8C8
 	ldr r0, _0216D8D4 // =exMsgTitleTask__TaskSingleton
 	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _0216D8D4: .word exMsgTitleTask__TaskSingleton
-	arm_func_end ovl09_216D8C8
+	arm_func_end exMsgTitleTask__GetTask
 
 	.data
 	

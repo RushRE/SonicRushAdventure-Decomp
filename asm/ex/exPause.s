@@ -77,7 +77,7 @@ _0216D98C:
 	mov r1, #8
 	strh r2, [r7, #0x18]
 	strh r1, [r7, #0x1a]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	add r0, r7, #0x98
 	mov r1, #0xe000
 	bl exDrawReqTask__SetConfigPriority
@@ -86,7 +86,7 @@ _0216D98C:
 	mov r1, #0x3c
 	add r0, r7, #0x18
 	strh r1, [r7, #0x82]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	add r0, r7, #0x98
 	bl exDrawReqTask__Func_2164218
 	ldrb r0, [r7, #0x9a]
@@ -123,7 +123,7 @@ _0216DA20:
 	strh r1, [r10, #0xa0]
 	mov r1, #8
 	strh r1, [r10, #0xa2]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	add r0, r5, r9
 	mov r1, #0xe000
 	bl exDrawReqTask__SetConfigPriority
@@ -132,9 +132,9 @@ _0216DA20:
 	mov r0, #0x48
 	strh r0, [r1, #0xa]
 	add r0, r6, r9
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	add r0, r5, r9
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r1, _0216DB8C // =0x02175E10
 	ldr r0, [sp, #8]
 	add r2, r10, #0x100
@@ -152,7 +152,7 @@ _0216DA20:
 	strh r1, [r2, #0xb0]
 	mov r1, #8
 	strh r1, [r2, #0xb2]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r0, [sp, #0x10]
 	mov r1, #0xe000
 	add r0, r0, r9
@@ -163,10 +163,10 @@ _0216DA20:
 	strh r0, [r1, #0x1a]
 	ldr r0, [sp, #0xc]
 	add r0, r0, r9
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r0, [sp, #0x10]
 	add r0, r0, r9
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, [sp, #0x14]
 	ldrb r2, [r0, r9]
 	add r0, r8, #1
@@ -191,7 +191,7 @@ _0216DA20:
 	strh r0, [r7, #0x12]
 	strh r0, [r7, #6]
 	bl GetExTaskCurrent
-	ldr r1, _0216DB90 // =ovl09_216DC00
+	ldr r1, _0216DB90 // =exPauseTask__Main_EnterButtons
 	str r1, [r0]
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -200,7 +200,7 @@ _0216DB80: .word exPauseTask__word_2177B98
 _0216DB84: .word _02175DEC
 _0216DB88: .word 0x02175DF8
 _0216DB8C: .word 0x02175E10
-_0216DB90: .word ovl09_216DC00
+_0216DB90: .word exPauseTask__Main_EnterButtons
 	arm_func_end exPauseTask__Main
 
 	arm_func_start exPauseTask__Func8
@@ -217,7 +217,7 @@ exPauseTask__Destructor: // 0x0216DBA0
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x18
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	mov r7, #0
 	add r6, r4, #0xa0
 	add r5, r4, #0x1b0
@@ -225,9 +225,9 @@ exPauseTask__Destructor: // 0x0216DBA0
 _0216DBC4:
 	mul r8, r7, r4
 	add r0, r6, r8
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	add r0, r5, r8
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10
@@ -241,8 +241,8 @@ _0216DBC4:
 _0216DBFC: .word exPauseTask__word_2177B98
 	arm_func_end exPauseTask__Destructor
 
-	arm_func_start ovl09_216DC00
-ovl09_216DC00: // 0x0216DC00
+	arm_func_start exPauseTask__Main_EnterButtons
+exPauseTask__Main_EnterButtons: // 0x0216DC00
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -376,7 +376,7 @@ _0216DDD8:
 	ldrsh r0, [r4, #0x12]
 	cmp r0, #0x1000
 	blt _0216DE04
-	bl ovl09_216DF00
+	bl exPauseTask__Action_Ready
 	ldmia sp!, {r4, r5, r6, pc}
 _0216DE04:
 	add r0, r0, #0x800
@@ -440,17 +440,17 @@ _0216DEE0:
 	add r0, r0, #1
 	strh r0, [r4, #6]
 _0216DEE8:
-	bl ovl09_216E270
+	bl exPauseTask__Draw
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0216DEFC: .word 0x45800000
-	arm_func_end ovl09_216DC00
+	arm_func_end exPauseTask__Main_EnterButtons
 
-	arm_func_start ovl09_216DF00
-ovl09_216DF00: // 0x0216DF00
+	arm_func_start exPauseTask__Action_Ready
+exPauseTask__Action_Ready: // 0x0216DF00
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0x80
@@ -470,16 +470,16 @@ _0216DF1C:
 	cmp r3, #2
 	blo _0216DF1C
 	bl GetExTaskCurrent
-	ldr r1, _0216DF58 // =ovl09_216DF5C
+	ldr r1, _0216DF58 // =exPauseTask__Main_Selecting
 	str r1, [r0]
-	bl ovl09_216DF5C
+	bl exPauseTask__Main_Selecting
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216DF58: .word ovl09_216DF5C
-	arm_func_end ovl09_216DF00
+_0216DF58: .word exPauseTask__Main_Selecting
+	arm_func_end exPauseTask__Action_Ready
 
-	arm_func_start ovl09_216DF5C
-ovl09_216DF5C: // 0x0216DF5C
+	arm_func_start exPauseTask__Main_Selecting
+exPauseTask__Main_Selecting: // 0x0216DF5C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -527,7 +527,7 @@ _0216DFE4:
 	mov r3, r1
 	stmia sp, {r0, ip}
 	bl PlaySfxEx
-	bl ovl09_216E078
+	bl exPauseTask__Action_Select
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _0216E01C:
@@ -544,11 +544,11 @@ _0216E01C:
 	mov r3, r1
 	stmia sp, {r0, ip}
 	bl PlaySfxEx
-	bl ovl09_216E078
+	bl exPauseTask__Action_Select
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _0216E05C:
-	bl ovl09_216E270
+	bl exPauseTask__Draw
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -556,10 +556,10 @@ _0216E05C:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216E074: .word padInput
-	arm_func_end ovl09_216DF5C
+	arm_func_end exPauseTask__Main_Selecting
 
-	arm_func_start ovl09_216E078
-ovl09_216E078: // 0x0216E078
+	arm_func_start exPauseTask__Action_Select
+exPauseTask__Action_Select: // 0x0216E078
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0
@@ -568,16 +568,16 @@ ovl09_216E078: // 0x0216E078
 	mov r1, #0x10
 	strh r1, [r0, #6]
 	bl GetExTaskCurrent
-	ldr r1, _0216E0A8 // =ovl09_216E0AC
+	ldr r1, _0216E0A8 // =exPauseTask__Main_SelectionMade
 	str r1, [r0]
-	bl ovl09_216E0AC
+	bl exPauseTask__Main_SelectionMade
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216E0A8: .word ovl09_216E0AC
-	arm_func_end ovl09_216E078
+_0216E0A8: .word exPauseTask__Main_SelectionMade
+	arm_func_end exPauseTask__Action_Select
 
-	arm_func_start ovl09_216E0AC
-ovl09_216E0AC: // 0x0216E0AC
+	arm_func_start exPauseTask__Main_SelectionMade
+exPauseTask__Main_SelectionMade: // 0x0216E0AC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -588,9 +588,9 @@ ovl09_216E0AC: // 0x0216E0AC
 	cmp r0, #0x1000
 	blt _0216E0E4
 	bl GetExTaskCurrent
-	ldr r1, _0216E1E0 // =ovl09_216E1E8
+	ldr r1, _0216E1E0 // =exPauseTask__Main_Exit
 	str r1, [r0]
-	bl ovl09_216E1E8
+	bl exPauseTask__Main_Exit
 	ldmia sp!, {r4, pc}
 _0216E0E4:
 	add r0, r0, #0x200
@@ -625,9 +625,9 @@ _0216E144:
 	cmp r0, #0x1000
 	blt _0216E170
 	bl GetExTaskCurrent
-	ldr r1, _0216E1E0 // =ovl09_216E1E8
+	ldr r1, _0216E1E0 // =exPauseTask__Main_Exit
 	str r1, [r0]
-	bl ovl09_216E1E8
+	bl exPauseTask__Main_Exit
 	ldmia sp!, {r4, pc}
 _0216E170:
 	add r0, r0, #0x200
@@ -654,18 +654,18 @@ _0216E170:
 	add r1, r1, #0x100
 	strh r0, [r1, #8]
 _0216E1CC:
-	bl ovl09_216E270
+	bl exPauseTask__Draw
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216E1E0: .word ovl09_216E1E8
+_0216E1E0: .word exPauseTask__Main_Exit
 _0216E1E4: .word 0x45800000
-	arm_func_end ovl09_216E0AC
+	arm_func_end exPauseTask__Main_SelectionMade
 
-	arm_func_start ovl09_216E1E8
-ovl09_216E1E8: // 0x0216E1E8
+	arm_func_start exPauseTask__Main_Exit
+exPauseTask__Main_Exit: // 0x0216E1E8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r1, [r0, #6]
@@ -696,7 +696,7 @@ _0216E248:
 	mov r1, #1
 	strh r1, [r0]
 _0216E254:
-	bl ovl09_216E270
+	bl exPauseTask__Draw
 	bl GetExTaskCurrent
 	ldr r1, _0216E26C // =ExTask_State_Destroy
 	str r1, [r0]
@@ -704,25 +704,25 @@ _0216E254:
 	.align 2, 0
 _0216E268: .word exPauseTask__word_2177B98
 _0216E26C: .word ExTask_State_Destroy
-	arm_func_end ovl09_216E1E8
+	arm_func_end exPauseTask__Main_Exit
 
-	arm_func_start ovl09_216E270
-ovl09_216E270: // 0x0216E270
+	arm_func_start exPauseTask__Draw
+exPauseTask__Draw: // 0x0216E270
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x18
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldrh r1, [r4, #2]
 	add r2, r4, #0xa0
 	mov r0, #0x88
 	mla r0, r1, r0, r2
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldrh r1, [r4, #4]
 	add r2, r4, #0x1b0
 	mov r0, #0x88
 	mla r0, r1, r0, r2
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldrsh r0, [r4, #0x80]
 	mov r1, #0x88
 	strh r0, [r4, #0x24]
@@ -766,7 +766,7 @@ ovl09_216E270: // 0x0216E270
 	mla r0, r1, r0, r2
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_216E270
+	arm_func_end exPauseTask__Draw
 
 	arm_func_start exPauseTask__Create
 exPauseTask__Create: // 0x0216E358
@@ -808,14 +808,14 @@ _0216E3DC: .word exPauseTask__Func8
 _0216E3E0: .word exPauseTask__word_2177B98
 	arm_func_end exPauseTask__Create
 
-	arm_func_start ovl09_216E3E4
-ovl09_216E3E4: // 0x0216E3E4
+	arm_func_start exPauseTask__GetSelectedAction
+exPauseTask__GetSelectedAction: // 0x0216E3E4
 	ldr r0, _0216E3F0 // =exPauseTask__word_2177B98
 	ldrh r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _0216E3F0: .word exPauseTask__word_2177B98
-	arm_func_end ovl09_216E3E4
+	arm_func_end exPauseTask__GetSelectedAction
 
 	.data
 	

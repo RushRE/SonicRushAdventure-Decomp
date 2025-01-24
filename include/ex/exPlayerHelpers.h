@@ -19,21 +19,21 @@
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void ovl09_2152960(void);
-NOT_DECOMPILED void ovl09_21529C4(void);
-NOT_DECOMPILED void ovl09_2152AB4(void);
-NOT_DECOMPILED void ovl09_2152C3C(void);
-NOT_DECOMPILED void ovl09_2152CB4(void);
-NOT_DECOMPILED void ovl09_2152D28(void);
-NOT_DECOMPILED void ovl09_2152E28(void);
+NOT_DECOMPILED void exPlayerHelpers__Func_2152960(void);
+NOT_DECOMPILED void exPlayerHelpers__Func_21529C4(void);
+NOT_DECOMPILED void exPlayerHelpers__Func_2152AB4(void);
+NOT_DECOMPILED void exPlayerHelpers__SetAnimationInternal(void);
+NOT_DECOMPILED void exPlayerHelpers__Func_2152CB4(void);
+NOT_DECOMPILED void exPlayerHelpers__Func_2152D28(void);
+NOT_DECOMPILED void exPlayerHelpers__Func_2152E28(void);
 NOT_DECOMPILED void ovl09_2152EA8(void);
-NOT_DECOMPILED void ovl09_2152FB0(void);
-NOT_DECOMPILED void ovl09_21530FC(void);
-NOT_DECOMPILED void ovl09_2153178(void);
-NOT_DECOMPILED void ovl09_2153334(void);
-NOT_DECOMPILED void ovl09_2153358(void);
-NOT_DECOMPILED void ovl09_21533C0(void);
-NOT_DECOMPILED void ovl09_21533D0(void);
-NOT_DECOMPILED void ovl09_2153560(void);
+NOT_DECOMPILED void exPlayerHelpers__Func_2152FB0(void);
+NOT_DECOMPILED void exPlayerHelpers__Func_21530FC(void);
+NOT_DECOMPILED void exPlayerHelpers__LoadBurningBlazeAssets(void);
+NOT_DECOMPILED void exPlayerHelpers__SetBurningBlazeAnimation(void);
+NOT_DECOMPILED void exPlayerHelpers__ReleaseBurningBlazeAssets(void);
+NOT_DECOMPILED void exPlayerHelpers__GetBlazeAssets(void);
+NOT_DECOMPILED void exPlayerHelpers__LoadBlazeAssets(void);
+NOT_DECOMPILED void exPlayerHelpers__SetBlazeAnimation(void);
 
 #endif // RUSH_EXPLAYERHELPERS_H

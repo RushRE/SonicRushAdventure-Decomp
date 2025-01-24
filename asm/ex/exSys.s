@@ -45,26 +45,26 @@ exSysTask__dword_2178660: // 0x02178660
 	
 	.text
 
-	arm_func_start ovl09_2172A18
-ovl09_2172A18: // 0x02172A18
+	arm_func_start exSysTask__GetSingleton
+exSysTask__GetSingleton: // 0x02172A18
 	ldr r0, _02172A24 // =0x0217862C
 	ldr r0, [r0, #4]
 	bx lr
 	.align 2, 0
 _02172A24: .word 0x0217862C
-	arm_func_end ovl09_2172A18
+	arm_func_end exSysTask__GetSingleton
 
-	arm_func_start ovl09_2172A28
-ovl09_2172A28: // 0x02172A28
+	arm_func_start exSysTask__GetLifeCount
+exSysTask__GetLifeCount: // 0x02172A28
 	ldr r0, _02172A34 // =exSysTask__Value_2178644
 	ldrb r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02172A34: .word exSysTask__Value_2178644
-	arm_func_end ovl09_2172A28
+	arm_func_end exSysTask__GetLifeCount
 
-	arm_func_start ovl09_2172A38
-ovl09_2172A38: // 0x02172A38
+	arm_func_start exSysTask__Func_2172A38
+exSysTask__Func_2172A38: // 0x02172A38
 	ldr r0, _02172A4C // =exSysTask__Value_2178644
 	ldrb r1, [r0, #0]
 	sub r1, r1, #1
@@ -72,10 +72,10 @@ ovl09_2172A38: // 0x02172A38
 	bx lr
 	.align 2, 0
 _02172A4C: .word exSysTask__Value_2178644
-	arm_func_end ovl09_2172A38
+	arm_func_end exSysTask__Func_2172A38
 
-	arm_func_start ovl09_2172A50
-ovl09_2172A50: // 0x02172A50
+	arm_func_start exSysTask__InitStatus
+exSysTask__InitStatus: // 0x02172A50
 	stmdb sp!, {r3, lr}
 	ldr r0, _02172AC8 // =saveGame
 	ldr r1, _02172ACC // =exSysTask__Value_2178644
@@ -98,7 +98,7 @@ ovl09_2172A50: // 0x02172A50
 	ldr r0, _02172ACC // =exSysTask__Value_2178644
 	moveq r1, #2
 	strb r1, [r0, #0x16]
-	bl ovl09_2172A28
+	bl exSysTask__GetLifeCount
 	ldr r2, _02172ACC // =exSysTask__Value_2178644
 	mov r1, #0
 	strb r0, [r2, #0x18]
@@ -110,7 +110,7 @@ ovl09_2172A50: // 0x02172A50
 _02172AC8: .word saveGame
 _02172ACC: .word exSysTask__Value_2178644
 _02172AD0: .word exSysTask__dword_2178660
-	arm_func_end ovl09_2172A50
+	arm_func_end exSysTask__InitStatus
 
 	arm_func_start exSysTask__GetStatus
 exSysTask__GetStatus: // 0x02172AD4
@@ -120,14 +120,14 @@ exSysTask__GetStatus: // 0x02172AD4
 _02172ADC: .word exSysTask__Flag_2178658
 	arm_func_end exSysTask__GetStatus
 
-	arm_func_start ovl09_2172AE0
-ovl09_2172AE0: // 0x02172AE0
+	arm_func_start exSysTask__GetFlag_2178650
+exSysTask__GetFlag_2178650: // 0x02172AE0
 	ldr r0, _02172AEC // =exSysTask__Value_2178644
 	ldr r0, [r0, #0xc]
 	bx lr
 	.align 2, 0
 _02172AEC: .word exSysTask__Value_2178644
-	arm_func_end ovl09_2172AE0
+	arm_func_end exSysTask__GetFlag_2178650
 
 	arm_func_start exSysTask__Main
 exSysTask__Main: // 0x02172AF0
@@ -145,9 +145,9 @@ exSysTask__Main: // 0x02172AF0
 	ldr r1, _02172CD0 // =exSysTask__Value_2178644
 	str r0, [r1, #8]
 	mov r0, r4
-	bl ovl09_2173438
+	bl exSysTask__LoadAssets
 	mov r0, r4
-	bl ovl09_2173500
+	bl exSysTask__SetupDisplay
 	bl Camera3D__Create
 	bl Camera3D__GetWork
 	mov r4, r0
@@ -220,10 +220,10 @@ exSysTask__Main: // 0x02172AF0
 	mov r2, #1
 	str r4, [sp, #4]
 	bl RenderCore_SetBlendBrightnessExt
-	bl ovl09_2172A50
+	bl exSysTask__InitStatus
 	mov r0, #1
 	mov r1, r0
-	bl ovl09_21615A4
+	bl exDrawFadeUnknown__Func_21615A4
 	bl exDrawReqTask__Create
 	bl exHitCheckTask__Create
 	bl exGameSystemTask__Create
@@ -246,14 +246,14 @@ exSysTask__Main: // 0x02172AF0
 	mov r3, r1
 	bl exDrawFadeTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _02172CD4 // =ovl09_2172D30
+	ldr r1, _02172CD4 // =exSysTask__Main_2172D30
 	str r1, [r0]
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02172CCC: .word saveGame
 _02172CD0: .word exSysTask__Value_2178644
-_02172CD4: .word ovl09_2172D30
+_02172CD4: .word exSysTask__Main_2172D30
 	arm_func_end exSysTask__Main
 
 	arm_func_start exSysTask__Func8
@@ -269,8 +269,8 @@ exSysTask__Destructor: // 0x02172CE4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_216AA78
-	bl ovl09_216AD70
+	bl exFixAdminTask__Destroy
+	bl exGameSystemTask__Destroy
 	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
 	ldr r0, [r4, #4]
@@ -288,8 +288,8 @@ exSysTask__Destructor: // 0x02172CE4
 _02172D2C: .word exSysTask__Value_2178644
 	arm_func_end exSysTask__Destructor
 
-	arm_func_start ovl09_2172D30
-ovl09_2172D30: // 0x02172D30
+	arm_func_start exSysTask__Main_2172D30
+exSysTask__Main_2172D30: // 0x02172D30
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl exSysTask__GetStatus
@@ -299,33 +299,33 @@ ovl09_2172D30: // 0x02172D30
 	bl exSysTask__GetStatus
 	mov r1, #4
 	strb r1, [r0, #3]
-	bl ovl09_2172D6C
+	bl exSysTask__Func_2172D6C
 	ldmia sp!, {r3, pc}
 _02172D5C:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_2172D30
+	arm_func_end exSysTask__Main_2172D30
 
-	arm_func_start ovl09_2172D6C
-ovl09_2172D6C: // 0x02172D6C
+	arm_func_start exSysTask__Func_2172D6C
+exSysTask__Func_2172D6C: // 0x02172D6C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl GetExTaskCurrent
-	ldr r1, _02172D94 // =ovl09_2172D98
+	ldr r1, _02172D94 // =exSysTask__Main_2172D98
 	str r1, [r0]
-	bl ovl09_2172D98
+	bl exSysTask__Main_2172D98
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02172D94: .word ovl09_2172D98
-	arm_func_end ovl09_2172D6C
+_02172D94: .word exSysTask__Main_2172D98
+	arm_func_end exSysTask__Func_2172D6C
 
-	arm_func_start ovl09_2172D98
-ovl09_2172D98: // 0x02172D98
+	arm_func_start exSysTask__Main_2172D98
+exSysTask__Main_2172D98: // 0x02172D98
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl exSysTask__GetStatus
@@ -340,14 +340,14 @@ ovl09_2172D98: // 0x02172D98
 	ldrb r0, [r0, #3]
 	cmp r0, #9
 	beq _02172DF4
-	bl ovl09_216D8C8
+	bl exMsgTitleTask__GetTask
 	cmp r0, #0
 	bne _02172DF4
 	ldr r0, _02172E44 // =padInput
 	ldrh r0, [r0, #4]
 	tst r0, #8
 	beq _02172DF4
-	bl ovl09_2172E48
+	bl exSysTask__Action_Pause
 	ldmia sp!, {r3, pc}
 _02172DF4:
 	bl exSysTask__GetStatus
@@ -357,60 +357,60 @@ _02172DF4:
 	bl exSysTask__GetStatus
 	mov r1, #0xb
 	strb r1, [r0, #3]
-	bl ovl09_21730D0
+	bl exSysTask__Func_21730D0
 	ldmia sp!, {r3, pc}
 _02172E18:
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #1]
 	cmp r0, #2
 	bne _02172E30
-	bl ovl09_2173000
+	bl exSysTask__Func_2173000
 	ldmia sp!, {r3, pc}
 _02172E30:
-	bl ovl09_216ADD8
+	bl exHitCheckTask__Func_216ADD8
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02172E44: .word padInput
-	arm_func_end ovl09_2172D98
+	arm_func_end exSysTask__Main_2172D98
 
-	arm_func_start ovl09_2172E48
-ovl09_2172E48: // 0x02172E48
+	arm_func_start exSysTask__Action_Pause
+exSysTask__Action_Pause: // 0x02172E48
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r0, #1
-	bl ovl09_216AD9C
+	bl exHitCheckTask__Func_216AD9C
 	bl exSysTask__GetStatus
 	mov r1, #4
 	strb r1, [r0, #1]
 	bl exPauseTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _02172E78 // =ovl09_2172E7C
+	ldr r1, _02172E78 // =exSysTask__Main_IsPaused
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02172E78: .word ovl09_2172E7C
-	arm_func_end ovl09_2172E48
+_02172E78: .word exSysTask__Main_IsPaused
+	arm_func_end exSysTask__Action_Pause
 
-	arm_func_start ovl09_2172E7C
-ovl09_2172E7C: // 0x02172E7C
+	arm_func_start exSysTask__Main_IsPaused
+exSysTask__Main_IsPaused: // 0x02172E7C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_216E3E4
+	bl exPauseTask__GetSelectedAction
 	cmp r0, #1
 	bne _02172EB0
 	bl exSysTask__GetStatus
 	mov r1, #1
 	strb r1, [r0, #1]
 	bl GetExTaskCurrent
-	ldr r1, _02172EF0 // =ovl09_2172D6C
+	ldr r1, _02172EF0 // =exSysTask__Func_2172D6C
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _02172EB0:
-	bl ovl09_216E3E4
+	bl exPauseTask__GetSelectedAction
 	cmp r0, #2
 	bne _02172EE0
 	mov r0, #0xa
@@ -419,7 +419,7 @@ _02172EB0:
 	mov r1, #0xb
 	strb r1, [r0, #3]
 	bl GetExTaskCurrent
-	ldr r1, _02172EF4 // =ovl09_2172EF8
+	ldr r1, _02172EF4 // =exSysTask__Main_2172EF8
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _02172EE0:
@@ -428,12 +428,12 @@ _02172EE0:
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02172EF0: .word ovl09_2172D6C
-_02172EF4: .word ovl09_2172EF8
-	arm_func_end ovl09_2172E7C
+_02172EF0: .word exSysTask__Func_2172D6C
+_02172EF4: .word exSysTask__Main_2172EF8
+	arm_func_end exSysTask__Main_IsPaused
 
-	arm_func_start ovl09_2172EF8
-ovl09_2172EF8: // 0x02172EF8
+	arm_func_start exSysTask__Main_2172EF8
+exSysTask__Main_2172EF8: // 0x02172EF8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r2, [r0, #0xc]
@@ -441,18 +441,18 @@ ovl09_2172EF8: // 0x02172EF8
 	strh r1, [r0, #0xc]
 	cmp r2, #0
 	bgt _02172F1C
-	bl ovl09_2172F30
+	bl exSysTask__Func_2172F30
 	ldmia sp!, {r3, pc}
 _02172F1C:
-	bl ovl09_216ADD8
+	bl exHitCheckTask__Func_216ADD8
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_2172EF8
+	arm_func_end exSysTask__Main_2172EF8
 
-	arm_func_start ovl09_2172F30
-ovl09_2172F30: // 0x02172F30
+	arm_func_start exSysTask__Func_2172F30
+exSysTask__Func_2172F30: // 0x02172F30
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	bl GetExTaskWorkCurrent_
@@ -477,16 +477,16 @@ ovl09_2172F30: // 0x02172F30
 	mov r0, #0x40
 	strh r0, [r4, #0xc]
 	bl GetExTaskCurrent
-	ldr r1, _02172FA0 // =ovl09_2172FA4
+	ldr r1, _02172FA0 // =exSysTask__Main_2172FA4
 	str r1, [r0]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_02172FA0: .word ovl09_2172FA4
-	arm_func_end ovl09_2172F30
+_02172FA0: .word exSysTask__Main_2172FA4
+	arm_func_end exSysTask__Func_2172F30
 
-	arm_func_start ovl09_2172FA4
-ovl09_2172FA4: // 0x02172FA4
+	arm_func_start exSysTask__Main_2172FA4
+exSysTask__Main_2172FA4: // 0x02172FA4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r2, [r0, #0xc]
@@ -500,9 +500,9 @@ ovl09_2172FA4: // 0x02172FA4
 	mov r1, #5
 	strh r1, [r0, #0xc]
 	bl GetExTaskCurrent
-	ldr r1, _02172FFC // =ovl09_21732E4
+	ldr r1, _02172FFC // =exSysTask__Main_21732E4
 	str r1, [r0]
-	bl ovl09_21732E4
+	bl exSysTask__Main_21732E4
 	ldmia sp!, {r3, pc}
 _02172FE8:
 	bl GetExTaskCurrent
@@ -511,11 +511,11 @@ _02172FE8:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02172FF8: .word exSysTask__Value_2178644
-_02172FFC: .word ovl09_21732E4
-	arm_func_end ovl09_2172FA4
+_02172FFC: .word exSysTask__Main_21732E4
+	arm_func_end exSysTask__Main_2172FA4
 
-	arm_func_start ovl09_2173000
-ovl09_2173000: // 0x02173000
+	arm_func_start exSysTask__Func_2173000
+exSysTask__Func_2173000: // 0x02173000
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	bl GetExTaskWorkCurrent_
@@ -540,16 +540,16 @@ ovl09_2173000: // 0x02173000
 	mov r0, #0x40
 	strh r0, [r4, #0xc]
 	bl GetExTaskCurrent
-	ldr r1, _02173070 // =ovl09_2173074
+	ldr r1, _02173070 // =exSysTask__Main_2173074
 	str r1, [r0]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_02173070: .word ovl09_2173074
-	arm_func_end ovl09_2173000
+_02173070: .word exSysTask__Main_2173074
+	arm_func_end exSysTask__Func_2173000
 
-	arm_func_start ovl09_2173074
-ovl09_2173074: // 0x02173074
+	arm_func_start exSysTask__Main_2173074
+exSysTask__Main_2173074: // 0x02173074
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r2, [r0, #0xc]
@@ -563,9 +563,9 @@ ovl09_2173074: // 0x02173074
 	mov r1, #5
 	strh r1, [r0, #0xc]
 	bl GetExTaskCurrent
-	ldr r1, _021730CC // =ovl09_21732E4
+	ldr r1, _021730CC // =exSysTask__Main_21732E4
 	str r1, [r0]
-	bl ovl09_21732E4
+	bl exSysTask__Main_21732E4
 	ldmia sp!, {r3, pc}
 _021730B8:
 	bl GetExTaskCurrent
@@ -574,16 +574,16 @@ _021730B8:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021730C8: .word exSysTask__Value_2178644
-_021730CC: .word ovl09_21732E4
-	arm_func_end ovl09_2173074
+_021730CC: .word exSysTask__Main_21732E4
+	arm_func_end exSysTask__Main_2173074
 
-	arm_func_start ovl09_21730D0
-ovl09_21730D0: // 0x021730D0
+	arm_func_start exSysTask__Func_21730D0
+exSysTask__Func_21730D0: // 0x021730D0
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_2172A28
+	bl exSysTask__GetLifeCount
 	cmp r0, #0
 	bne _021730FC
 	bl exSysTask__GetStatus
@@ -591,7 +591,7 @@ ovl09_21730D0: // 0x021730D0
 	strb r1, [r0, #1]
 	b _02173100
 _021730FC:
-	bl ovl09_2172A38
+	bl exSysTask__Func_2172A38
 _02173100:
 	mov r0, #0
 	mov ip, #1
@@ -610,16 +610,16 @@ _02173100:
 	mov r0, #0x40
 	strh r0, [r4, #0xc]
 	bl GetExTaskCurrent
-	ldr r1, _02173154 // =ovl09_2173158
+	ldr r1, _02173154 // =exSysTask__Main_2173158
 	str r1, [r0]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_02173154: .word ovl09_2173158
-	arm_func_end ovl09_21730D0
+_02173154: .word exSysTask__Main_2173158
+	arm_func_end exSysTask__Func_21730D0
 
-	arm_func_start ovl09_2173158
-ovl09_2173158: // 0x02173158
+	arm_func_start exSysTask__Main_2173158
+exSysTask__Main_2173158: // 0x02173158
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -638,13 +638,13 @@ ovl09_2173158: // 0x02173158
 	strh r0, [r4, #0xc]
 	bne _021731B0
 	bl GetExTaskCurrent
-	ldr r1, _021731D4 // =ovl09_21732E4
+	ldr r1, _021731D4 // =exSysTask__Main_21732E4
 	str r1, [r0]
-	bl ovl09_21732E4
+	bl exSysTask__Main_21732E4
 	ldmia sp!, {r4, pc}
 _021731B0:
 	bl GetExTaskCurrent
-	ldr r1, _021731D8 // =ovl09_21731DC
+	ldr r1, _021731D8 // =exSysTask__Main_21731DC
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _021731C0:
@@ -654,12 +654,12 @@ _021731C0:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021731D0: .word exSysTask__Value_2178644
-_021731D4: .word ovl09_21732E4
-_021731D8: .word ovl09_21731DC
-	arm_func_end ovl09_2173158
+_021731D4: .word exSysTask__Main_21732E4
+_021731D8: .word exSysTask__Main_21731DC
+	arm_func_end exSysTask__Main_2173158
 
-	arm_func_start ovl09_21731DC
-ovl09_21731DC: // 0x021731DC
+	arm_func_start exSysTask__Main_21731DC
+exSysTask__Main_21731DC: // 0x021731DC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -668,15 +668,15 @@ ovl09_21731DC: // 0x021731DC
 	strh r0, [r4, #0xc]
 	cmp r1, #0
 	bgt _02173224
-	bl ovl09_216AA78
-	bl ovl09_216AD70
+	bl exFixAdminTask__Destroy
+	bl exGameSystemTask__Destroy
 	ldr r0, _02173234 // =exSysTask__Value_2178644
 	mov r1, #0
 	str r1, [r0, #0xc]
 	mov r0, #0xf
 	strh r0, [r4, #0xc]
 	bl GetExTaskCurrent
-	ldr r1, _02173238 // =ovl09_217323C
+	ldr r1, _02173238 // =exSysTask__Main_217323C
 	str r1, [r0]
 _02173224:
 	bl GetExTaskCurrent
@@ -685,11 +685,11 @@ _02173224:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02173234: .word exSysTask__Value_2178644
-_02173238: .word ovl09_217323C
-	arm_func_end ovl09_21731DC
+_02173238: .word exSysTask__Main_217323C
+	arm_func_end exSysTask__Main_21731DC
 
-	arm_func_start ovl09_217323C
-ovl09_217323C: // 0x0217323C
+	arm_func_start exSysTask__Main_217323C
+exSysTask__Main_217323C: // 0x0217323C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r2, [r0, #0xc]
@@ -700,7 +700,7 @@ ovl09_217323C: // 0x0217323C
 	ldr r0, _021732DC // =exSysTask__Value_2178644
 	mov r1, #0
 	str r1, [r0, #0x10]
-	bl ovl09_2172A50
+	bl exSysTask__InitStatus
 	bl exDrawReqTask__Create
 	bl exHitCheckTask__Create
 	bl exGameSystemTask__Create
@@ -723,7 +723,7 @@ ovl09_217323C: // 0x0217323C
 	mov r1, #3
 	strb r1, [r0, #3]
 	bl GetExTaskCurrent
-	ldr r1, _021732E0 // =ovl09_2172D30
+	ldr r1, _021732E0 // =exSysTask__Main_2172D30
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
 _021732CC:
@@ -733,11 +733,11 @@ _021732CC:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021732DC: .word exSysTask__Value_2178644
-_021732E0: .word ovl09_2172D30
-	arm_func_end ovl09_217323C
+_021732E0: .word exSysTask__Main_2172D30
+	arm_func_end exSysTask__Main_217323C
 
-	arm_func_start ovl09_21732E4
-ovl09_21732E4: // 0x021732E4
+	arm_func_start exSysTask__Main_21732E4
+exSysTask__Main_21732E4: // 0x021732E4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r2, [r0, #0xc]
@@ -745,13 +745,13 @@ ovl09_21732E4: // 0x021732E4
 	strh r1, [r0, #0xc]
 	cmp r2, #0
 	ldmgtia sp!, {r3, pc}
-	bl ovl09_216AA78
-	bl ovl09_216AD70
+	bl exFixAdminTask__Destroy
+	bl exGameSystemTask__Destroy
 	ldr r0, _02173330 // =exSysTask__Value_2178644
 	mov r1, #1
 	str r1, [r0, #0x10]
 	bl GetExTaskCurrent
-	ldr r1, _02173334 // =ovl09_2173338
+	ldr r1, _02173334 // =exSysTask__Main_2173338
 	str r1, [r0]
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
@@ -759,20 +759,20 @@ ovl09_21732E4: // 0x021732E4
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02173330: .word exSysTask__Value_2178644
-_02173334: .word ovl09_2173338
-	arm_func_end ovl09_21732E4
+_02173334: .word exSysTask__Main_2173338
+	arm_func_end exSysTask__Main_21732E4
 
-	arm_func_start ovl09_2173338
-ovl09_2173338: // 0x02173338
+	arm_func_start exSysTask__Main_2173338
+exSysTask__Main_2173338: // 0x02173338
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl CloseTaskSystem
 	bl Camera3D__Destroy
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #1]
-	bl ovl09_2173CC8
+	bl exSysTask__EndStage
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_2173338
+	arm_func_end exSysTask__Main_2173338
 
 	arm_func_start exSysTask__Create
 exSysTask__Create: // 0x02173358
@@ -810,8 +810,8 @@ _021733CC: .word exSysTask__Value_2178644
 _021733D0: .word exSysTask__Func8
 	arm_func_end exSysTask__Create
 
-	arm_func_start ovl09_21733D4
-ovl09_21733D4: // 0x021733D4
+	arm_func_start exSysTask__LoadExFile
+exSysTask__LoadExFile: // 0x021733D4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x68
 	ldr r1, _0217341C // =exSysTask__Value_2178644
@@ -833,20 +833,20 @@ ovl09_21733D4: // 0x021733D4
 	.align 2, 0
 _0217341C: .word exSysTask__Value_2178644
 _02173420: .word aEx
-	arm_func_end ovl09_21733D4
+	arm_func_end exSysTask__LoadExFile
 
-	arm_func_start ovl09_2173424
-ovl09_2173424: // 0x02173424
+	arm_func_start exSysTask__GetSingleton_Unknown1
+exSysTask__GetSingleton_Unknown1: // 0x02173424
 	ldr r0, _02173434 // =exSysTask__Value_2178644
 	ldr r0, [r0, #4]
 	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02173434: .word exSysTask__Value_2178644
-	arm_func_end ovl09_2173424
+	arm_func_end exSysTask__GetSingleton_Unknown1
 
-	arm_func_start ovl09_2173438
-ovl09_2173438: // 0x02173438
+	arm_func_start exSysTask__LoadAssets
+exSysTask__LoadAssets: // 0x02173438
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r1, #0
@@ -901,10 +901,10 @@ _021734F0: .word aExtraExBb_12
 _021734F4: .word audioManagerSndHeap
 _021734F8: .word 0x00057800
 _021734FC: .word aExtraSoundData
-	arm_func_end ovl09_2173438
+	arm_func_end exSysTask__LoadAssets
 
-	arm_func_start ovl09_2173500
-ovl09_2173500: // 0x02173500
+	arm_func_start exSysTask__SetupDisplay
+exSysTask__SetupDisplay: // 0x02173500
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
 	mov r5, #0
@@ -1001,7 +1001,7 @@ _0217366C: .word 0x04000304
 _02173670: .word 0xFFFFFDF1
 _02173674: .word 0xBFFF0000
 _02173678: .word 0x001FFFF8
-	arm_func_end ovl09_2173500
+	arm_func_end exSysTask__SetupDisplay
 
 	.data
 

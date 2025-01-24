@@ -54,8 +54,8 @@ exBossFireDoraTask__FileTable2: // 0x02175FC0
 	
 	.text
 
-	arm_func_start ovl09_2154D8C
-ovl09_2154D8C: // 0x02154D8C
+	arm_func_start exBossFireDoraTask__Func_2154D8C
+exBossFireDoraTask__Func_2154D8C: // 0x02154D8C
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _02154EEC // =exBossFireDoraTask__ActiveInstanceCount
 	mov r4, r0
@@ -85,7 +85,7 @@ ovl09_2154D8C: // 0x02154D8C
 	ldmloia sp!, {r3, r4, r5, pc}
 _02154DF8:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _02154EEC // =exBossFireDoraTask__ActiveInstanceCount
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -150,10 +150,10 @@ _02154E60:
 _02154EEC: .word exBossFireDoraTask__ActiveInstanceCount
 _02154EF0: .word aExtraExBb_1
 _02154EF4: .word 0x00003FFC
-	arm_func_end ovl09_2154D8C
+	arm_func_end exBossFireDoraTask__Func_2154D8C
 
-	arm_func_start ovl09_2154EF8
-ovl09_2154EF8: // 0x02154EF8
+	arm_func_start exBossFireDoraTask__Destroy_2154EF8
+exBossFireDoraTask__Destroy_2154EF8: // 0x02154EF8
 	stmdb sp!, {r4, lr}
 	ldr r1, _02154F5C // =exBossFireDoraTask__ActiveInstanceCount
 	mov r4, r0
@@ -184,7 +184,7 @@ _02154F40:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02154F5C: .word exBossFireDoraTask__ActiveInstanceCount
-	arm_func_end ovl09_2154EF8
+	arm_func_end exBossFireDoraTask__Destroy_2154EF8
 
 	arm_func_start exBossFireDoraTask__Main
 exBossFireDoraTask__Main: // 0x02154F60
@@ -192,27 +192,27 @@ exBossFireDoraTask__Main: // 0x02154F60
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_217175C
+	bl exPlayerAdminTask__Func_217175C
 	bl GetCurrentTask
 	ldr r1, _02155108 // =exBossFireDoraTask__ActiveInstanceCount
 	str r0, [r1, #0x18]
 	add r0, r4, #0x38
-	bl ovl09_2154D8C
+	bl exBossFireDoraTask__Func_2154D8C
 	add r0, r4, #0x3c4
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x3c4
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	add r0, r4, #0x114
 	add r0, r0, #0x400
-	bl ovl09_2154C48
+	bl exBossFireDoraTask__Func_2154C48
 	add r0, r4, #0x264
 	add r0, r0, #0x400
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x264
 	add r0, r0, #0x400
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r1, [r4, #0x7b4]
 	mov r0, #0x3c000
 	ldr r2, [r1, #0x3ec]
@@ -241,7 +241,7 @@ exBossFireDoraTask__Main: // 0x02154F60
 	mov r2, #2
 	strh r3, [r4, #0x22]
 	strh lr, [r4, #4]
-	bl ovl09_216241C
+	bl exDrawReqTask__InitTrail
 	add r0, r4, #0x224
 	ldr r1, _02155114 // =0x0000A7FF
 	add r0, r0, #0x800
@@ -291,7 +291,7 @@ _021550D8:
 	stmia sp, {r0, r4}
 	bl PlaySfxEx
 	bl GetExTaskCurrent
-	ldr r1, _02155128 // =ovl09_2155188
+	ldr r1, _02155128 // =exBossFireDoraTask__Func_2155188
 	str r1, [r0]
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
@@ -304,14 +304,14 @@ _02155118: .word _mt_math_rand
 _0215511C: .word 0x00196225
 _02155120: .word 0x3C6EF35F
 _02155124: .word 0x51EB851F
-_02155128: .word ovl09_2155188
+_02155128: .word exBossFireDoraTask__Func_2155188
 	arm_func_end exBossFireDoraTask__Main
 
 	arm_func_start exBossFireDoraTask__Func8
 exBossFireDoraTask__Func8: // 0x0215512C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -328,10 +328,10 @@ exBossFireDoraTask__Destructor: // 0x02155154
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x38
-	bl ovl09_2154EF8
+	bl exBossFireDoraTask__Destroy_2154EF8
 	add r0, r4, #0x114
 	add r0, r0, #0x400
-	bl ovl09_2154D58
+	bl exBossFireDoraTask__Func_2154D58
 	ldr r0, _02155184 // =exBossFireDoraTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x18]
@@ -340,15 +340,15 @@ exBossFireDoraTask__Destructor: // 0x02155154
 _02155184: .word exBossFireDoraTask__ActiveInstanceCount
 	arm_func_end exBossFireDoraTask__Destructor
 
-	arm_func_start ovl09_2155188
-ovl09_2155188: // 0x02155188
+	arm_func_start exBossFireDoraTask__Func_2155188
+exBossFireDoraTask__Func_2155188: // 0x02155188
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_217175C
+	bl exPlayerAdminTask__Func_217175C
 	mov r5, r0
 	add r0, r4, #0x38
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldrb r0, [r4, #0x3e]
 	mov r1, r0, lsl #0x1f
 	movs r1, r1, lsr #0x1f
@@ -358,7 +358,7 @@ ovl09_2155188: // 0x02155188
 	ldrb r0, [r4, #0x38]
 	cmp r0, #2
 	bne _021551D0
-	bl ovl09_2155450
+	bl exBossFireDoraTask__Func_2155450
 	ldmia sp!, {r3, r4, r5, pc}
 _021551D0:
 	ldrsh r1, [r4, #0x42]
@@ -368,7 +368,7 @@ _021551D0:
 	ldrsh r0, [r4, #0x42]
 	cmp r0, #0
 	bgt _021551F4
-	bl ovl09_21556EC
+	bl exBossFireDoraTask__Func_21556EC
 	ldmia sp!, {r3, r4, r5, pc}
 _021551F4:
 	mov r0, #0
@@ -378,13 +378,13 @@ _02155200:
 	mov r0, r0, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	beq _02155214
-	bl ovl09_21556EC
+	bl exBossFireDoraTask__Func_21556EC
 	ldmia sp!, {r3, r4, r5, pc}
 _02155214:
-	bl ovl09_2154C28
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _02155228
-	bl ovl09_21556EC
+	bl exBossFireDoraTask__Func_21556EC
 	ldmia sp!, {r3, r4, r5, pc}
 _02155228:
 	ldrsh r1, [r4, #2]
@@ -392,7 +392,7 @@ _02155228:
 	strh r0, [r4, #2]
 	cmp r1, #0
 	bgt _02155244
-	bl ovl09_21556EC
+	bl exBossFireDoraTask__Func_21556EC
 	ldmia sp!, {r3, r4, r5, pc}
 _02155244:
 	ldr r0, [r4, #0x28]
@@ -474,7 +474,7 @@ _021552FC:
 	add r0, r0, #0x400
 	add r1, r4, #0x388
 	strh r3, [r2, #0xd8]
-	bl ovl09_2162CC8
+	bl exDrawReqTask__Trail__HandleTrail3
 _0215536C:
 	ldr r1, _02155448 // =0x0000BFF4
 	add r0, r4, #0x300
@@ -520,12 +520,12 @@ _0215536C:
 	ldr r2, [r4, #0xc]
 	sub r2, r3, r2
 	str r2, [r4, #0x38c]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x38
 	add r1, r4, #0x3c4
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x38
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -534,10 +534,10 @@ _0215536C:
 _02155444: .word 0x45800000
 _02155448: .word 0x0000BFF4
 _0215544C: .word FX_SinCosTable_
-	arm_func_end ovl09_2155188
+	arm_func_end exBossFireDoraTask__Func_2155188
 
-	arm_func_start ovl09_2155450
-ovl09_2155450: // 0x02155450
+	arm_func_start exBossFireDoraTask__Func_2155450
+exBossFireDoraTask__Func_2155450: // 0x02155450
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -639,9 +639,9 @@ _02155570:
 	movne r0, #1
 	str r0, [r4, #0x34]
 	bl GetExTaskCurrent
-	ldr r1, _021555F8 // =ovl09_21555FC
+	ldr r1, _021555F8 // =exBossFireDoraTask__Func_21555FC
 	str r1, [r0]
-	bl ovl09_21555FC
+	bl exBossFireDoraTask__Func_21555FC
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021555E4: .word 0x00003FFC
@@ -649,11 +649,11 @@ _021555E8: .word 0x00001554
 _021555EC: .word _mt_math_rand
 _021555F0: .word 0x00196225
 _021555F4: .word 0x3C6EF35F
-_021555F8: .word ovl09_21555FC
-	arm_func_end ovl09_2155450
+_021555F8: .word exBossFireDoraTask__Func_21555FC
+	arm_func_end exBossFireDoraTask__Func_2155450
 
-	arm_func_start ovl09_21555FC
-ovl09_21555FC: // 0x021555FC
+	arm_func_start exBossFireDoraTask__Func_21555FC
+exBossFireDoraTask__Func_21555FC: // 0x021555FC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -711,19 +711,19 @@ _021556B4:
 _021556C4:
 	add r0, r4, #0x38
 	add r1, r4, #0x3c4
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x38
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021556E8: .word ExTask_State_Destroy
-	arm_func_end ovl09_21555FC
+	arm_func_end exBossFireDoraTask__Func_21555FC
 
-	arm_func_start ovl09_21556EC
-ovl09_21556EC: // 0x021556EC
+	arm_func_start exBossFireDoraTask__Func_21556EC
+exBossFireDoraTask__Func_21556EC: // 0x021556EC
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -741,44 +741,44 @@ ovl09_21556EC: // 0x021556EC
 	stmia sp, {r0, ip}
 	bl PlaySfxEx
 	bl GetExTaskCurrent
-	ldr r1, _02155744 // =ovl09_2155748
+	ldr r1, _02155744 // =exBossFireDoraTask__Func_2155748
 	str r1, [r0]
-	bl ovl09_2155748
+	bl exBossFireDoraTask__Func_2155748
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02155744: .word ovl09_2155748
-	arm_func_end ovl09_21556EC
+_02155744: .word exBossFireDoraTask__Func_2155748
+	arm_func_end exBossFireDoraTask__Func_21556EC
 
-	arm_func_start ovl09_2155748
-ovl09_2155748: // 0x02155748
+	arm_func_start exBossFireDoraTask__Func_2155748
+exBossFireDoraTask__Func_2155748: // 0x02155748
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x114
 	add r0, r0, #0x400
-	bl ovl09_2163ADC
+	bl exDrawReqTask__Sprite3D__Animate
 	add r0, r4, #0x114
 	add r0, r0, #0x400
-	bl ovl09_2163BF4
+	bl exDrawReqTask__Sprite3D__IsAnimFinished
 	cmp r0, #0
 	beq _0215577C
-	bl ovl09_21557A0
+	bl exBossFireDoraTask__Func_21557A0
 	ldmia sp!, {r4, pc}
 _0215577C:
 	add r0, r4, #0x114
 	add r1, r4, #0x264
 	add r0, r0, #0x400
 	add r1, r1, #0x400
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_2155748
+	arm_func_end exBossFireDoraTask__Func_2155748
 
-	arm_func_start ovl09_21557A0
-ovl09_21557A0: // 0x021557A0
+	arm_func_start exBossFireDoraTask__Func_21557A0
+exBossFireDoraTask__Func_21557A0: // 0x021557A0
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -793,27 +793,27 @@ ovl09_21557A0: // 0x021557A0
 	str r1, [r4, #0x648]
 	mov r1, #6
 	strh r2, [r4, #2]
-	bl ovl09_2154D44
+	bl exBossFireDoraTask__Func_2154D44
 	add r0, r4, #0x264
 	add r0, r0, #0x400
 	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
-	ldr r1, _021557FC // =ovl09_2155800
+	ldr r1, _021557FC // =exBossFireDoraTask__Func_2155800
 	str r1, [r0]
-	bl ovl09_2155800
+	bl exBossFireDoraTask__Func_2155800
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021557FC: .word ovl09_2155800
-	arm_func_end ovl09_21557A0
+_021557FC: .word exBossFireDoraTask__Func_2155800
+	arm_func_end exBossFireDoraTask__Func_21557A0
 
-	arm_func_start ovl09_2155800
-ovl09_2155800: // 0x02155800
+	arm_func_start exBossFireDoraTask__Func_2155800
+exBossFireDoraTask__Func_2155800: // 0x02155800
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x114
 	add r0, r0, #0x400
-	bl ovl09_2163ADC
+	bl exDrawReqTask__Sprite3D__Animate
 	ldrsh r0, [r4, #2]
 	cmp r0, #0
 	bgt _02155860
@@ -841,14 +841,14 @@ _02155868:
 	add r1, r4, #0x264
 	add r0, r0, #0x400
 	add r1, r1, #0x400
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215588C: .word ExTask_State_Destroy
-	arm_func_end ovl09_2155800
+	arm_func_end exBossFireDoraTask__Func_2155800
 
 	arm_func_start exBossFireDoraTask__Create
 exBossFireDoraTask__Create: // 0x02155890

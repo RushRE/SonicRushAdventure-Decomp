@@ -35,15 +35,15 @@ typedef struct exBossFireRedTask_
 // --------------------
 
 void exBossFireRedTask__LoadAssets(EX_ACTION_NN_WORK *work);
-void ovl09_2158F84(EX_ACTION_NN_WORK *work);
+void exBossFireRedTask__ReleaseAssets(EX_ACTION_NN_WORK *work);
 void exBossFireRedTask__Main(void);
 void exBossFireRedTask__Func8(void);
 void exBossFireRedTask__Destructor(void);
 void exBossFireRedTask__Main_2159140(void);
 void ovl09_215938C(void);
-void ovl09_21593AC(void);
-void ovl09_21594B0(void);
-void ovl09_215965C(void);
+void exBossFireRedTask__Func_21593AC(void);
+void exBossFireRedTask__Func_21594B0(void);
+void exBossFireRedTask__Main_215965C(void);
 s32 exBossFireRedTask__Create(void);
 
 #endif // RUSH_EXBOSSFIRERED_H

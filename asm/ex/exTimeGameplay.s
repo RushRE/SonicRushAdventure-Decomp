@@ -285,24 +285,24 @@ _02173C9C: .word exTimeGamePlayTask__dword_2178674
 _02173CA0: .word ExTask_State_Destroy
 	arm_func_end exFixTimeTask__Func_2173C78
 
-	arm_func_start ovl09_2173CA4
-ovl09_2173CA4: // 0x02173CA4
+	arm_func_start exTimeGamePlayTask__IsTimeOver
+exTimeGamePlayTask__IsTimeOver: // 0x02173CA4
 	ldr r0, _02173CB0 // =exTimeGamePlayTask__dword_2178674
 	ldr r0, [r0, #0]
 	bx lr
 	.align 2, 0
 _02173CB0: .word exTimeGamePlayTask__dword_2178674
-	arm_func_end ovl09_2173CA4
+	arm_func_end exTimeGamePlayTask__IsTimeOver
 
-	arm_func_start ovl09_2173CB4
-ovl09_2173CB4: // 0x02173CB4
+	arm_func_start exTimeGamePlayTask__ResetTimeOverFlag
+exTimeGamePlayTask__ResetTimeOverFlag: // 0x02173CB4
 	ldr r0, _02173CC4 // =exTimeGamePlayTask__dword_2178674
 	mov r1, #0
 	str r1, [r0]
 	bx lr
 	.align 2, 0
 _02173CC4: .word exTimeGamePlayTask__dword_2178674
-	arm_func_end ovl09_2173CB4
+	arm_func_end exTimeGamePlayTask__ResetTimeOverFlag
 
 	.data
 	

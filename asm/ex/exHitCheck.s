@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start ovl09_216AD9C
-ovl09_216AD9C: // 0x0216AD9C
+	arm_func_start exHitCheckTask__Func_216AD9C
+exHitCheckTask__Func_216AD9C: // 0x0216AD9C
 	cmp r0, #0
 	bxle lr
 	ldr r1, _0216ADB8 // =0x02177420
@@ -14,10 +14,10 @@ ovl09_216AD9C: // 0x0216AD9C
 	bx lr
 	.align 2, 0
 _0216ADB8: .word 0x02177420
-	arm_func_end ovl09_216AD9C
+	arm_func_end exHitCheckTask__Func_216AD9C
 
-	arm_func_start ovl09_216ADBC
-ovl09_216ADBC: // 0x0216ADBC
+	arm_func_start exHitCheckTask__Func_216ADBC
+exHitCheckTask__Func_216ADBC: // 0x0216ADBC
 	ldr r0, _0216ADD4 // =0x02177420
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -26,10 +26,10 @@ ovl09_216ADBC: // 0x0216ADBC
 	bx lr
 	.align 2, 0
 _0216ADD4: .word 0x02177420
-	arm_func_end ovl09_216ADBC
+	arm_func_end exHitCheckTask__Func_216ADBC
 
-	arm_func_start ovl09_216ADD8
-ovl09_216ADD8: // 0x0216ADD8
+	arm_func_start exHitCheckTask__Func_216ADD8
+exHitCheckTask__Func_216ADD8: // 0x0216ADD8
 	ldr r0, _0216ADF0 // =0x02177420
 	ldrsh r1, [r0, #0]
 	cmp r1, #0
@@ -38,20 +38,20 @@ ovl09_216ADD8: // 0x0216ADD8
 	bx lr
 	.align 2, 0
 _0216ADF0: .word 0x02177420
-	arm_func_end ovl09_216ADD8
+	arm_func_end exHitCheckTask__Func_216ADD8
 
-	arm_func_start ovl09_216ADF4
-ovl09_216ADF4: // 0x0216ADF4
+	arm_func_start exHitCheckTask__InitHitChecker
+exHitCheckTask__InitHitChecker: // 0x0216ADF4
 	ldr ip, _0216AE04 // =MI_CpuFill8
 	mov r1, #0
 	mov r2, #0x1c
 	bx ip
 	.align 2, 0
 _0216AE04: .word MI_CpuFill8
-	arm_func_end ovl09_216ADF4
+	arm_func_end exHitCheckTask__InitHitChecker
 
-	arm_func_start ovl09_216AE08
-ovl09_216AE08: // 0x0216AE08
+	arm_func_start exHitCheckTask__CheckBoxOverlap
+exHitCheckTask__CheckBoxOverlap: // 0x0216AE08
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r4, [r0, #0xc]
 	ldr r2, [r1, #0xc]
@@ -81,17 +81,17 @@ ovl09_216AE08: // 0x0216AE08
 _0216AE70:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end ovl09_216AE08
+	arm_func_end exHitCheckTask__CheckBoxOverlap
 
-	arm_func_start ovl09_216AE78
-ovl09_216AE78: // 0x0216AE78
+	arm_func_start exHitCheckTask__AddHitCheck
+exHitCheckTask__AddHitCheck: // 0x0216AE78
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	movne r0, #0
 	ldmneia sp!, {r4, r5, r6, pc}
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6b]
 	mov r0, r0, lsl #0x1d
 	mov r0, r0, lsr #0x1f
@@ -356,10 +356,10 @@ _0216B254: .word 0x0217742C
 _0216B258: .word 0x02177468
 _0216B25C: .word 0x02177440
 _0216B260: .word 0x02177490
-	arm_func_end ovl09_216AE78
+	arm_func_end exHitCheckTask__AddHitCheck
 
-	arm_func_start ovl09_216B264
-ovl09_216B264: // 0x0216B264
+	arm_func_start exHitCheckTask__CheckArenaBounds
+exHitCheckTask__CheckArenaBounds: // 0x0216B264
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl exSysTask__GetStatus
@@ -429,20 +429,20 @@ _0216B33C:
 	orr r0, r0, #0x40
 	strb r0, [r4, #6]
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_216B264
+	arm_func_end exHitCheckTask__CheckArenaBounds
 
-	arm_func_start ovl09_216B36C
-ovl09_216B36C: // 0x0216B36C
+	arm_func_start exHitCheckTask__Func_216B36C
+exHitCheckTask__Func_216B36C: // 0x0216B36C
 	bx lr
-	arm_func_end ovl09_216B36C
+	arm_func_end exHitCheckTask__Func_216B36C
 
-	arm_func_start ovl09_216B370
-ovl09_216B370: // 0x0216B370
+	arm_func_start exHitCheckTask__Func_216B370
+exHitCheckTask__Func_216B370: // 0x0216B370
 	bx lr
-	arm_func_end ovl09_216B370
+	arm_func_end exHitCheckTask__Func_216B370
 
-	arm_func_start ovl09_216B374
-ovl09_216B374: // 0x0216B374
+	arm_func_start exHitCheckTask__ArenaCheckForModel
+exHitCheckTask__ArenaCheckForModel: // 0x0216B374
 	stmdb sp!, {r3, lr}
 	ldrb r1, [r0, #0]
 	add r1, r1, #0xfe
@@ -457,41 +457,41 @@ ovl09_216B374: // 0x0216B374
 	movs r1, r1, lsr #0x1f
 	ldmeqia sp!, {r3, pc}
 _0216B3A8:
-	bl ovl09_216B264
+	bl exHitCheckTask__CheckArenaBounds
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_216B374
+	arm_func_end exHitCheckTask__ArenaCheckForModel
 
-	arm_func_start ovl09_216B3B0
-ovl09_216B3B0: // 0x0216B3B0
+	arm_func_start exHitCheckTask__DoArenaBoundsCheck
+exHitCheckTask__DoArenaBoundsCheck: // 0x0216B3B0
 	stmdb sp!, {r3, lr}
 	cmp r1, #2
 	bne _0216B3C4
-	bl ovl09_216B36C
+	bl exHitCheckTask__Func_216B36C
 	ldmia sp!, {r3, pc}
 _0216B3C4:
 	cmp r1, #1
 	bne _0216B3D4
-	bl ovl09_216B374
+	bl exHitCheckTask__ArenaCheckForModel
 	ldmia sp!, {r3, pc}
 _0216B3D4:
 	cmp r1, #3
 	ldmneia sp!, {r3, pc}
-	bl ovl09_216B370
+	bl exHitCheckTask__Func_216B370
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_216B3B0
+	arm_func_end exHitCheckTask__DoArenaBoundsCheck
 
-	arm_func_start ovl09_216B3E4
-ovl09_216B3E4: // 0x0216B3E4
+	arm_func_start exHitCheckTask__DoHitChecks
+exHitCheckTask__DoHitChecks: // 0x0216B3E4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
-	bl ovl09_21719BC
+	bl exPlayerAdminTask__GetSonicAssets
 	mov r7, r0
-	bl ovl09_21533C0
+	bl exPlayerHelpers__GetBlazeAssets
 	mov r8, r0
-	bl ovl09_215441C
-	bl ovl09_2172AE0
+	bl exBossHelpers__GetBossAssets
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6b]
 	mov r0, r0, lsl #0x1d
 	mov r0, r0, lsr #0x1f
@@ -538,7 +538,7 @@ _0216B4A4:
 _0216B4AC:
 	add r0, r7, #0xc
 	add r1, r1, #0xc
-	bl ovl09_216AE08
+	bl exHitCheckTask__CheckBoxOverlap
 	cmp r0, #0
 	beq _0216B510
 	ldr r0, [r4, r5, lsl #2]
@@ -597,7 +597,7 @@ _0216B57C:
 _0216B584:
 	add r0, r8, #0xc
 	add r1, r1, #0xc
-	bl ovl09_216AE08
+	bl exHitCheckTask__CheckBoxOverlap
 	cmp r0, #0
 	beq _0216B5E8
 	ldr r0, [r4, r5, lsl #2]
@@ -670,7 +670,7 @@ _0216B688:
 	ldr r1, [r5, r10, lsl #2]
 	add r0, r0, #0xc
 	add r1, r1, #0xc
-	bl ovl09_216AE08
+	bl exHitCheckTask__CheckBoxOverlap
 	cmp r0, #0
 	beq _0216B908
 	ldr r1, [r5, r10, lsl #2]
@@ -885,7 +885,7 @@ _0216B9A8:
 	ldr r1, [r4, r6, lsl #2]
 	add r0, r0, #0xc
 	add r1, r1, #0xc
-	bl ovl09_216AE08
+	bl exHitCheckTask__CheckBoxOverlap
 	cmp r0, #0
 	beq _0216BA54
 	ldr r0, [r4, r6, lsl #2]
@@ -975,7 +975,7 @@ _0216BAF4:
 	ldr r1, [r4, r6, lsl #2]
 	add r0, r0, #0xc
 	add r1, r1, #0xc
-	bl ovl09_216AE08
+	bl exHitCheckTask__CheckBoxOverlap
 	cmp r0, #0
 	beq _0216BC08
 	ldr r0, [r4, r6, lsl #2]
@@ -1087,7 +1087,7 @@ _0216BC8C:
 _0216BC94:
 	add r0, r7, #0xc
 	add r1, r1, #0xc
-	bl ovl09_216AE08
+	bl exHitCheckTask__CheckBoxOverlap
 	cmp r0, #0
 	beq _0216C000
 	ldr r2, [r4, r5, lsl #2]
@@ -1099,7 +1099,7 @@ _0216BC94:
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1f
 	bne _0216C000
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrsh r0, [r0, #0x20]
 	cmp r0, #0
 	ble _0216BCF0
@@ -1236,7 +1236,7 @@ _0216BEB4:
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1f
 	bne _0216C000
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrsh r0, [r0, #0x20]
 	ldr r1, [r4, r5, lsl #2]
 	cmp r0, #0
@@ -1356,7 +1356,7 @@ _0216C078:
 _0216C080:
 	add r0, r8, #0xc
 	add r1, r1, #0xc
-	bl ovl09_216AE08
+	bl exHitCheckTask__CheckBoxOverlap
 	cmp r0, #0
 	beq _0216C378
 	ldr r2, [r5, r6, lsl #2]
@@ -1572,7 +1572,7 @@ _0216C3A4: .word 0x021774B8
 _0216C3A8: .word 0x0217742C
 _0216C3AC: .word 0x02177468
 _0216C3B0: .word 0x02177440
-	arm_func_end ovl09_216B3E4
+	arm_func_end exHitCheckTask__DoHitChecks
 
 	arm_func_start exHitCheckTask__Main
 exHitCheckTask__Main: // 0x0216C3B4
@@ -1586,12 +1586,12 @@ exHitCheckTask__Main: // 0x0216C3B4
 	strh r1, [r0, #8]
 	strh r1, [r0, #2]
 	bl GetExTaskCurrent
-	ldr r1, _0216C3EC // =ovl09_216C4A4
+	ldr r1, _0216C3EC // =exHitCheckTask__Main_Active
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216C3E8: .word 0x02177420
-_0216C3EC: .word ovl09_216C4A4
+_0216C3EC: .word exHitCheckTask__Main_Active
 	arm_func_end exHitCheckTask__Main
 
 	arm_func_start exHitCheckTask__Func8
@@ -1612,7 +1612,7 @@ exHitCheckTask__Func8: // 0x0216C3F0
 	strh r1, [r0, #6]
 	strh r1, [r0, #8]
 	strh r1, [r0, #2]
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -1649,16 +1649,16 @@ _0216C49C: .word _02175D74
 _0216C4A0: .word 0x02177420
 	arm_func_end exHitCheckTask__Destructor
 
-	arm_func_start ovl09_216C4A4
-ovl09_216C4A4: // 0x0216C4A4
+	arm_func_start exHitCheckTask__Main_Active
+exHitCheckTask__Main_Active: // 0x0216C4A4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_216B3E4
+	bl exHitCheckTask__DoHitChecks
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_216C4A4
+	arm_func_end exHitCheckTask__Main_Active
 
 	arm_func_start exHitCheckTask__Create
 exHitCheckTask__Create: // 0x0216C4C0

@@ -19,21 +19,21 @@ exEffectRingTask__Main: // 0x021683AC
 	str r1, [r0]
 _021683DC:
 	bl GetExTaskCurrent
-	ldr r1, _021683F8 // =ovl09_2168448
+	ldr r1, _021683F8 // =exEffectRingTask__Main_Ring
 	str r1, [r0]
-	bl ovl09_2168448
+	bl exEffectRingTask__Main_Ring
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021683F0: .word 0x02176590
 _021683F4: .word ExTask_State_Destroy
-_021683F8: .word ovl09_2168448
+_021683F8: .word exEffectRingTask__Main_Ring
 	arm_func_end exEffectRingTask__Main
 
 	arm_func_start exEffectRingTask__Func8
 exEffectRingTask__Func8: // 0x021683FC
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -49,7 +49,7 @@ exEffectRingTask__Destructor: // 0x02168424
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #0x10
-	bl ovl09_2168190
+	bl exEffectLoopRingTask__Destroy_2168190
 	ldr r0, _02168444 // =0x02176590
 	mov r1, #0
 	str r1, [r0, #8]
@@ -58,8 +58,8 @@ exEffectRingTask__Destructor: // 0x02168424
 _02168444: .word 0x02176590
 	arm_func_end exEffectRingTask__Destructor
 
-	arm_func_start ovl09_2168448
-ovl09_2168448: // 0x02168448
+	arm_func_start exEffectRingTask__Main_Ring
+exEffectRingTask__Main_Ring: // 0x02168448
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -71,7 +71,7 @@ ovl09_2168448: // 0x02168448
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
 	beq _0216847C
-	bl ovl09_21684DC
+	bl exEffectRingTask__Action_Collect
 	ldmia sp!, {r4, pc}
 _0216847C:
 	ldr r1, [r4, #0x13c]
@@ -92,19 +92,19 @@ _021684A4:
 _021684B4:
 	add r0, r4, #0x10
 	add r1, r4, #0x160
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x10
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021684D8: .word ExTask_State_Destroy
-	arm_func_end ovl09_2168448
+	arm_func_end exEffectRingTask__Main_Ring
 
-	arm_func_start ovl09_21684DC
-ovl09_21684DC: // 0x021684DC
+	arm_func_start exEffectRingTask__Action_Collect
+exEffectRingTask__Action_Collect: // 0x021684DC
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -128,22 +128,22 @@ ovl09_21684DC: // 0x021684DC
 	mov r1, #8
 	bic r2, r2, #1
 	strb r2, [r4, #0x16]
-	bl ovl09_216810C
+	bl exEffectLoopRingTask__SetRingAnim
 	add r0, r4, #0x160
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _02168560 // =ovl09_2168564
+	ldr r1, _02168560 // =exEffectRingTask__Main_Sparkle
 	str r1, [r0]
-	bl ovl09_2168564
+	bl exEffectRingTask__Main_Sparkle
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0216855C: .word 0x000003E7
-_02168560: .word ovl09_2168564
-	arm_func_end ovl09_21684DC
+_02168560: .word exEffectRingTask__Main_Sparkle
+	arm_func_end exEffectRingTask__Action_Collect
 
-	arm_func_start ovl09_2168564
-ovl09_2168564: // 0x02168564
+	arm_func_start exEffectRingTask__Main_Sparkle
+exEffectRingTask__Main_Sparkle: // 0x02168564
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -177,17 +177,17 @@ _021685C8:
 	ldmia sp!, {r4, pc}
 _021685D8:
 	add r0, r4, #0x10
-	bl ovl09_2163ADC
+	bl exDrawReqTask__Sprite3D__Animate
 	add r0, r4, #0x10
 	add r1, r4, #0x160
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021685FC: .word ExTask_State_Destroy
-	arm_func_end ovl09_2168564
+	arm_func_end exEffectRingTask__Main_Sparkle
 
 	arm_func_start exEffectRingTask__Create
 exEffectRingTask__Create: // 0x02168600
@@ -220,7 +220,7 @@ exEffectRingTask__Create: // 0x02168600
 	ldr r1, _021686EC // =exEffectRingTask__Func8
 	str r1, [r0, #8]
 	add r0, r4, #0x10
-	bl ovl09_2168070
+	bl exEffectLoopRingTask__InitRingSprite
 	cmp r0, #0
 	moveq r0, #0
 	streq r0, [r4, #0xc]

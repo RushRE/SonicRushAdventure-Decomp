@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start ovl09_215C614
-ovl09_215C614: // 0x0215C614
+	arm_func_start exBossMeteLockOnTask__Func_215C614
+exBossMeteLockOnTask__Func_215C614: // 0x0215C614
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
 	ldr r1, _0215C85C // =0x021761CC
@@ -38,7 +38,7 @@ ovl09_215C614: // 0x0215C614
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 _0215C690:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _0215C85C // =0x021761CC
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -61,13 +61,13 @@ _0215C690:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x40
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0215C85C // =0x021761CC
 	mov r2, #0
 	str r0, [r1, #0x68]
 	mov r0, #0x42
 	str r2, [r1, #0x5c]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0215C85C // =0x021761CC
 	mov r2, #3
 	str r0, [r1, #0x6c]
@@ -163,10 +163,10 @@ _0215C864: .word 0x02176228
 _0215C868: .word 0x02176234
 _0215C86C: .word 0x0000BFF4
 _0215C870: .word 0x00007FF8
-	arm_func_end ovl09_215C614
+	arm_func_end exBossMeteLockOnTask__Func_215C614
 
-	arm_func_start ovl09_215C874
-ovl09_215C874: // 0x0215C874
+	arm_func_start exBossMeteLockOnTask__Func_215C874
+exBossMeteLockOnTask__Func_215C874: // 0x0215C874
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	mov r9, #0
 	ldr r7, _0215C914 // =0x02176228
@@ -214,10 +214,10 @@ _0215C904:
 _0215C914: .word 0x02176228
 _0215C918: .word 0x02176234
 _0215C91C: .word 0x021761CC
-	arm_func_end ovl09_215C874
+	arm_func_end exBossMeteLockOnTask__Func_215C874
 
-	arm_func_start ovl09_215C920
-ovl09_215C920: // 0x0215C920
+	arm_func_start exBossMeteLockOnTask__Destroy_215C920
+exBossMeteLockOnTask__Destroy_215C920: // 0x0215C920
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215C9AC // =0x021761CC
 	mov r4, r0
@@ -260,7 +260,7 @@ _0215C990:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215C9AC: .word 0x021761CC
-	arm_func_end ovl09_215C920
+	arm_func_end exBossMeteLockOnTask__Destroy_215C920
 
 	arm_func_start exBossMeteLockOnTask__Main
 exBossMeteLockOnTask__Main: // 0x0215C9B0
@@ -273,13 +273,13 @@ exBossMeteLockOnTask__Main: // 0x0215C9B0
 	str r0, [r1, #0x34]
 	add r0, r4, #0x10
 	str r2, [r4, #4]
-	bl ovl09_215C614
+	bl exBossMeteLockOnTask__Func_215C614
 	add r0, r4, #0x39c
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x10
 	mov r1, #1
-	bl ovl09_215C874
+	bl exBossMeteLockOnTask__Func_215C874
 	add r0, r4, #0x39c
 	bl exDrawReqTask__Func_2164218
 	ldr r0, [r4, #0x4ec]
@@ -297,19 +297,19 @@ exBossMeteLockOnTask__Main: // 0x0215C9B0
 	str r1, [r4, #0x380]
 	strh r0, [r4, #8]
 	bl GetExTaskCurrent
-	ldr r1, _0215CA44 // =ovl09_215CA94
+	ldr r1, _0215CA44 // =exBossMeteLockOnTask__Func_215CA94
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215CA40: .word 0x021761CC
-_0215CA44: .word ovl09_215CA94
+_0215CA44: .word exBossMeteLockOnTask__Func_215CA94
 	arm_func_end exBossMeteLockOnTask__Main
 
 	arm_func_start exBossMeteLockOnTask__Func8
 exBossMeteLockOnTask__Func8: // 0x0215CA48
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -325,7 +325,7 @@ exBossMeteLockOnTask__Destructor: // 0x0215CA70
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #0x10
-	bl ovl09_215C920
+	bl exBossMeteLockOnTask__Destroy_215C920
 	ldr r0, _0215CA90 // =0x021761CC
 	mov r1, #0
 	str r1, [r0, #0x34]
@@ -334,23 +334,23 @@ exBossMeteLockOnTask__Destructor: // 0x0215CA70
 _0215CA90: .word 0x021761CC
 	arm_func_end exBossMeteLockOnTask__Destructor
 
-	arm_func_start ovl09_215CA94
-ovl09_215CA94: // 0x0215CA94
+	arm_func_start exBossMeteLockOnTask__Func_215CA94
+exBossMeteLockOnTask__Func_215CA94: // 0x0215CA94
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl ovl09_2162164
-	bl ovl09_2154C28
+	bl exDrawReqTask__Model__Animate
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215CABC
-	bl ovl09_215CFB4
+	bl exBossMeteLockOnTask__Func_215CFB4
 	ldmia sp!, {r4, pc}
 _0215CABC:
-	bl ovl09_217175C
+	bl exPlayerAdminTask__Func_217175C
 	ldr r0, [r0, #0]
 	str r0, [r4, #0x360]
-	bl ovl09_217175C
+	bl exPlayerAdminTask__Func_217175C
 	ldr r1, [r0, #4]
 	ldr r0, _0215CBD8 // =0x021761CC
 	str r1, [r4, #0x364]
@@ -406,41 +406,41 @@ _0215CABC:
 	str r0, [r4, #0x380]
 	strh r2, [r4, #8]
 	bl GetExTaskCurrent
-	ldr r2, _0215CBDC // =ovl09_215CBE0
+	ldr r2, _0215CBDC // =exBossMeteLockOnTask__Func_215CBE0
 	add r1, r4, #0x39c
 	str r2, [r0]
 	add r0, r4, #0x10
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _0215CBBC:
 	add r0, r4, #0x10
 	add r1, r4, #0x39c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215CBD8: .word 0x021761CC
-_0215CBDC: .word ovl09_215CBE0
-	arm_func_end ovl09_215CA94
+_0215CBDC: .word exBossMeteLockOnTask__Func_215CBE0
+	arm_func_end exBossMeteLockOnTask__Func_215CA94
 
-	arm_func_start ovl09_215CBE0
-ovl09_215CBE0: // 0x0215CBE0
+	arm_func_start exBossMeteLockOnTask__Func_215CBE0
+exBossMeteLockOnTask__Func_215CBE0: // 0x0215CBE0
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl ovl09_2162164
-	bl ovl09_2154C28
+	bl exDrawReqTask__Model__Animate
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215CC08
-	bl ovl09_215CFB4
+	bl exBossMeteLockOnTask__Func_215CFB4
 	ldmia sp!, {r4, pc}
 _0215CC08:
-	bl ovl09_217175C
+	bl exPlayerAdminTask__Func_217175C
 	ldr r0, [r0, #0]
 	str r0, [r4, #0x360]
-	bl ovl09_217175C
+	bl exPlayerAdminTask__Func_217175C
 	ldr r1, [r0, #4]
 	ldr r0, _0215CD00 // =0x021761CC
 	str r1, [r4, #0x364]
@@ -490,22 +490,22 @@ _0215CC08:
 	ldrsh r0, [r4, #8]
 	cmp r0, #0x1000
 	blt _0215CCE4
-	bl ovl09_215CD04
+	bl exBossMeteLockOnTask__Func_215CD04
 	ldmia sp!, {r4, pc}
 _0215CCE4:
 	add r0, r4, #0x10
 	add r1, r4, #0x39c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215CD00: .word 0x021761CC
-	arm_func_end ovl09_215CBE0
+	arm_func_end exBossMeteLockOnTask__Func_215CBE0
 
-	arm_func_start ovl09_215CD04
-ovl09_215CD04: // 0x0215CD04
+	arm_func_start exBossMeteLockOnTask__Func_215CD04
+exBossMeteLockOnTask__Func_215CD04: // 0x0215CD04
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0x1000
@@ -515,31 +515,31 @@ ovl09_215CD04: // 0x0215CD04
 	mov r1, #0xa
 	strh r1, [r0]
 	bl GetExTaskCurrent
-	ldr r1, _0215CD38 // =ovl09_215CD3C
+	ldr r1, _0215CD38 // =exBossMeteLockOnTask__Func_215CD3C
 	str r1, [r0]
-	bl ovl09_215CD3C
+	bl exBossMeteLockOnTask__Func_215CD3C
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215CD38: .word ovl09_215CD3C
-	arm_func_end ovl09_215CD04
+_0215CD38: .word exBossMeteLockOnTask__Func_215CD3C
+	arm_func_end exBossMeteLockOnTask__Func_215CD04
 
-	arm_func_start ovl09_215CD3C
-ovl09_215CD3C: // 0x0215CD3C
+	arm_func_start exBossMeteLockOnTask__Func_215CD3C
+exBossMeteLockOnTask__Func_215CD3C: // 0x0215CD3C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl ovl09_2162164
-	bl ovl09_2154C28
+	bl exDrawReqTask__Model__Animate
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215CD64
-	bl ovl09_215CFB4
+	bl exBossMeteLockOnTask__Func_215CFB4
 	ldmia sp!, {r4, pc}
 _0215CD64:
 	ldrsh r0, [r4, #0]
 	cmp r0, #0
 	ble _0215CDF8
-	bl ovl09_217175C
+	bl exPlayerAdminTask__Func_217175C
 	ldr r1, [r0, #0]
 	ldr lr, [r4, #0x360]
 	ldr r0, _0215CED4 // =0x00000666
@@ -555,7 +555,7 @@ _0215CD64:
 	orr r1, r1, r0, lsl #20
 	add r0, lr, r1
 	str r0, [r4, #0x360]
-	bl ovl09_217175C
+	bl exPlayerAdminTask__Func_217175C
 	ldr r1, [r0, #4]
 	ldr lr, [r4, #0x364]
 	ldr r0, _0215CED4 // =0x00000666
@@ -579,7 +579,7 @@ _0215CDF8:
 	cmp r1, r0
 	movlt r0, #0xa
 	blt _0215CE9C
-	bl ovl09_217175C
+	bl exPlayerAdminTask__Func_217175C
 	ldr r0, [r0, #0]
 	ldr lr, [r4, #0x360]
 	mov r1, #0
@@ -595,7 +595,7 @@ _0215CDF8:
 	orr r1, r1, r0, lsl #20
 	add r0, lr, r1
 	str r0, [r4, #0x360]
-	bl ovl09_217175C
+	bl exPlayerAdminTask__Func_217175C
 	ldr r0, [r0, #4]
 	ldr lr, [r4, #0x364]
 	mov r1, #0
@@ -621,31 +621,31 @@ _0215CE9C:
 	ldrsh r0, [r0, #0x56]
 	cmp r0, #0xa
 	bgt _0215CEB8
-	bl ovl09_215CED8
+	bl exBossMeteLockOnTask__Func_215CED8
 	ldmia sp!, {r4, pc}
 _0215CEB8:
 	add r0, r4, #0x10
 	add r1, r4, #0x39c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215CED4: .word 0x00000666
-	arm_func_end ovl09_215CD3C
+	arm_func_end exBossMeteLockOnTask__Func_215CD3C
 
-	arm_func_start ovl09_215CED8
-ovl09_215CED8: // 0x0215CED8
+	arm_func_start exBossMeteLockOnTask__Func_215CED8
+exBossMeteLockOnTask__Func_215CED8: // 0x0215CED8
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
 	mov r1, #2
 	ldr r5, [r4, #0xc4]
-	bl ovl09_215C874
+	bl exBossMeteLockOnTask__Func_215C874
 	add r0, r4, #0x39c
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r1, [r4, #0x360]
 	ldr r2, _0215CF38 // =0x021761CC
 	mov r0, r5
@@ -657,17 +657,17 @@ ovl09_215CED8: // 0x0215CED8
 	str r3, [r2, #0x7c]
 	bl NNS_G3dMdlSetMdlDiffAll
 	bl GetExTaskCurrent
-	ldr r1, _0215CF3C // =ovl09_215CF40
+	ldr r1, _0215CF3C // =exBossMeteLockOnTask__Func_215CF40
 	str r1, [r0]
-	bl ovl09_215CF40
+	bl exBossMeteLockOnTask__Func_215CF40
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0215CF38: .word 0x021761CC
-_0215CF3C: .word ovl09_215CF40
-	arm_func_end ovl09_215CED8
+_0215CF3C: .word exBossMeteLockOnTask__Func_215CF40
+	arm_func_end exBossMeteLockOnTask__Func_215CED8
 
-	arm_func_start ovl09_215CF40
-ovl09_215CF40: // 0x0215CF40
+	arm_func_start exBossMeteLockOnTask__Func_215CF40
+exBossMeteLockOnTask__Func_215CF40: // 0x0215CF40
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -676,68 +676,68 @@ ovl09_215CF40: // 0x0215CF40
 	cmp r0, #0xa000
 	bge _0215CF68
 	add r0, r4, #0x10
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	b _0215CF70
 _0215CF68:
 	add r0, r4, #0x39c
-	bl ovl09_2164238
+	bl exDrawReqTask__Func_2164238
 _0215CF70:
 	ldr r0, [r4, #4]
 	cmp r0, #0
 	beq _0215CF84
-	bl ovl09_215CFB4
+	bl exBossMeteLockOnTask__Func_215CFB4
 	ldmia sp!, {r4, pc}
 _0215CF84:
-	bl ovl09_2154C28
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215CF98
-	bl ovl09_215CFB4
+	bl exBossMeteLockOnTask__Func_215CFB4
 	ldmia sp!, {r4, pc}
 _0215CF98:
 	add r0, r4, #0x10
 	add r1, r4, #0x39c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_215CF40
+	arm_func_end exBossMeteLockOnTask__Func_215CF40
 
-	arm_func_start ovl09_215CFB4
-ovl09_215CFB4: // 0x0215CFB4
+	arm_func_start exBossMeteLockOnTask__Func_215CFB4
+exBossMeteLockOnTask__Func_215CFB4: // 0x0215CFB4
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
 	ldr r5, [r4, #0xc4]
 	mov r1, #3
-	bl ovl09_215C874
+	bl exBossMeteLockOnTask__Func_215C874
 	add r0, r4, #0x39c
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r0, r5
 	mov r1, #0x7c00
 	bl NNS_G3dMdlSetMdlDiffAll
 	bl GetExTaskCurrent
-	ldr r1, _0215D004 // =ovl09_215D008
+	ldr r1, _0215D004 // =exBossMeteLockOnTask__Func_215D008
 	str r1, [r0]
-	bl ovl09_215D008
+	bl exBossMeteLockOnTask__Func_215D008
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215D004: .word ovl09_215D008
-	arm_func_end ovl09_215CFB4
+_0215D004: .word exBossMeteLockOnTask__Func_215D008
+	arm_func_end exBossMeteLockOnTask__Func_215CFB4
 
-	arm_func_start ovl09_215D008
-ovl09_215D008: // 0x0215D008
+	arm_func_start exBossMeteLockOnTask__Func_215D008
+exBossMeteLockOnTask__Func_215D008: // 0x0215D008
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0x10
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215D03C
 	bl GetExTaskCurrent
@@ -747,14 +747,14 @@ ovl09_215D008: // 0x0215D008
 _0215D03C:
 	add r0, r4, #0x10
 	add r1, r4, #0x39c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215D058: .word ExTask_State_Destroy
-	arm_func_end ovl09_215D008
+	arm_func_end exBossMeteLockOnTask__Func_215D008
 
 	arm_func_start exBossMeteLockOnTask__Create
 exBossMeteLockOnTask__Create: // 0x0215D05C

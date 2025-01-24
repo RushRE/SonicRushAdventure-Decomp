@@ -108,20 +108,20 @@ exBossMeteAdminTask__Main: // 0x0215DA30
 	ldr r1, _0215DA58 // =exBossMeteLockOnTask__ActiveInstanceCount
 	str r0, [r1, #0x38]
 	bl GetExTaskCurrent
-	ldr r1, _0215DA5C // =ovl09_215DAA4
+	ldr r1, _0215DA5C // =exBossMeteAdminTask__Func_215DAA4
 	str r1, [r0]
-	bl ovl09_215DAA4
+	bl exBossMeteAdminTask__Func_215DAA4
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215DA58: .word exBossMeteLockOnTask__ActiveInstanceCount
-_0215DA5C: .word ovl09_215DAA4
+_0215DA5C: .word exBossMeteAdminTask__Func_215DAA4
 	arm_func_end exBossMeteAdminTask__Main
 
 	arm_func_start exBossMeteAdminTask__Func8
 exBossMeteAdminTask__Func8: // 0x0215DA60
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -144,66 +144,66 @@ exBossMeteAdminTask__Destructor: // 0x0215DA88
 _0215DAA0: .word exBossMeteLockOnTask__ActiveInstanceCount
 	arm_func_end exBossMeteAdminTask__Destructor
 
-	arm_func_start ovl09_215DAA4
-ovl09_215DAA4: // 0x0215DAA4
+	arm_func_start exBossMeteAdminTask__Func_215DAA4
+exBossMeteAdminTask__Func_215DAA4: // 0x0215DAA4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	beq _0215DAC0
-	bl ovl09_215DAD0
+	bl exBossMeteAdminTask__Func_215DAD0
 	ldmia sp!, {r3, pc}
 _0215DAC0:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_215DAA4
+	arm_func_end exBossMeteAdminTask__Func_215DAA4
 
-	arm_func_start ovl09_215DAD0
-ovl09_215DAD0: // 0x0215DAD0
+	arm_func_start exBossMeteAdminTask__Func_215DAD0
+exBossMeteAdminTask__Func_215DAD0: // 0x0215DAD0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl GetExTaskCurrent
-	ldr r1, _0215DAEC // =ovl09_215DAF0
+	ldr r1, _0215DAEC // =exBossMeteAdminTask__Func_215DAF0
 	str r1, [r0]
-	bl ovl09_215DAF0
+	bl exBossMeteAdminTask__Func_215DAF0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215DAEC: .word ovl09_215DAF0
-	arm_func_end ovl09_215DAD0
+_0215DAEC: .word exBossMeteAdminTask__Func_215DAF0
+	arm_func_end exBossMeteAdminTask__Func_215DAD0
 
-	arm_func_start ovl09_215DAF0
-ovl09_215DAF0: // 0x0215DAF0
+	arm_func_start exBossMeteAdminTask__Func_215DAF0
+exBossMeteAdminTask__Func_215DAF0: // 0x0215DAF0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _0215DB0C
-	bl ovl09_215DB1C
+	bl exBossMeteAdminTask__Func_215DB1C
 	ldmia sp!, {r3, pc}
 _0215DB0C:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_215DAF0
+	arm_func_end exBossMeteAdminTask__Func_215DAF0
 
-	arm_func_start ovl09_215DB1C
-ovl09_215DB1C: // 0x0215DB1C
+	arm_func_start exBossMeteAdminTask__Func_215DB1C
+exBossMeteAdminTask__Func_215DB1C: // 0x0215DB1C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl GetExTaskCurrent
-	ldr r1, _0215DB38 // =ovl09_215DB3C
+	ldr r1, _0215DB38 // =exBossMeteAdminTask__Func_215DB3C
 	str r1, [r0]
-	bl ovl09_215DB3C
+	bl exBossMeteAdminTask__Func_215DB3C
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215DB38: .word ovl09_215DB3C
-	arm_func_end ovl09_215DB1C
+_0215DB38: .word exBossMeteAdminTask__Func_215DB3C
+	arm_func_end exBossMeteAdminTask__Func_215DB1C
 
-	arm_func_start ovl09_215DB3C
-ovl09_215DB3C: // 0x0215DB3C
+	arm_func_start exBossMeteAdminTask__Func_215DB3C
+exBossMeteAdminTask__Func_215DB3C: // 0x0215DB3C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldmia r0, {r1, r2}
@@ -222,7 +222,7 @@ _0215DB68:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215DB78: .word ExTask_State_Destroy
-	arm_func_end ovl09_215DB3C
+	arm_func_end exBossMeteAdminTask__Func_215DB3C
 
 	arm_func_start exBossMeteAdminTask__Create
 exBossMeteAdminTask__Create: // 0x0215DB7C

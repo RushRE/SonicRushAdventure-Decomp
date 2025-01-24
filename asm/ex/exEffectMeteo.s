@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start ovl09_2167054
-ovl09_2167054: // 0x02167054
+	arm_func_start exEffectMeteoTask__LoadMeteoAssets
+exEffectMeteoTask__LoadMeteoAssets: // 0x02167054
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _021671C0 // =0x02176550
 	mov r4, r0
@@ -34,7 +34,7 @@ ovl09_2167054: // 0x02167054
 	ldmloia sp!, {r3, r4, r5, pc}
 _021670C0:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _021671C0 // =0x02176550
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -103,10 +103,10 @@ _021671C0: .word 0x02176550
 _021671C4: .word aExtraExBb_9
 _021671C8: .word 0x0000BFF4
 _021671CC: .word 0x00007FF8
-	arm_func_end ovl09_2167054
+	arm_func_end exEffectMeteoTask__LoadMeteoAssets
 
-	arm_func_start ovl09_21671D0
-ovl09_21671D0: // 0x021671D0
+	arm_func_start exEffectMeteoTask__ReleaseMeteoAssets
+exEffectMeteoTask__ReleaseMeteoAssets: // 0x021671D0
 	stmdb sp!, {r4, lr}
 	ldr r1, _02167234 // =0x02176550
 	mov r4, r0
@@ -137,10 +137,10 @@ _02167218:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02167234: .word 0x02176550
-	arm_func_end ovl09_21671D0
+	arm_func_end exEffectMeteoTask__ReleaseMeteoAssets
 
-	arm_func_start ovl09_2167238
-ovl09_2167238: // 0x02167238
+	arm_func_start exEffectMeteoTask__LoadBrokenMeteoAssets
+exEffectMeteoTask__LoadBrokenMeteoAssets: // 0x02167238
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0216745C // =0x02176550
 	mov r4, r0
@@ -170,7 +170,7 @@ ovl09_2167238: // 0x02167238
 	ldmloia sp!, {r3, r4, r5, pc}
 _021672A4:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _0216745C // =0x02176550
 	ldrsh r0, [r0, #2]
 	cmp r0, #0
@@ -193,13 +193,13 @@ _021672A4:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x23
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0216745C // =0x02176550
 	mov r2, #0
 	str r0, [r1, #0x38]
 	mov r0, #0x24
 	str r2, [r1, #0x30]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0216745C // =0x02176550
 	mov r2, #4
 	str r0, [r1, #0x3c]
@@ -287,10 +287,10 @@ _0216745C: .word 0x02176550
 _02167460: .word aExtraExBb_9
 _02167464: .word 0x0000BFF4
 _02167468: .word 0x00007FF8
-	arm_func_end ovl09_2167238
+	arm_func_end exEffectMeteoTask__LoadBrokenMeteoAssets
 
-	arm_func_start ovl09_216746C
-ovl09_216746C: // 0x0216746C
+	arm_func_start exEffectMeteoTask__ReleaseBrokenMeteoAssets
+exEffectMeteoTask__ReleaseBrokenMeteoAssets: // 0x0216746C
 	stmdb sp!, {r4, lr}
 	ldr r1, _021674F8 // =0x02176550
 	mov r4, r0
@@ -333,7 +333,7 @@ _021674DC:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021674F8: .word 0x02176550
-	arm_func_end ovl09_216746C
+	arm_func_end exEffectMeteoTask__ReleaseBrokenMeteoAssets
 
 	arm_func_start exEffectMeteoTask__Main
 exEffectMeteoTask__Main: // 0x021674FC
@@ -419,7 +419,7 @@ _02167520:
 	rsb r5, r2, r1, lsr #16
 	strh r5, [r0, #0x1a]
 	bl GetExTaskCurrent
-	ldr r1, _02167660 // =ovl09_21676B0
+	ldr r1, _02167660 // =exEffectMeteoTask__Main_Moving
 	str r1, [r0]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
@@ -428,14 +428,14 @@ _02167650: .word _mt_math_rand
 _02167654: .word 0x00196225
 _02167658: .word 0x3C6EF35F
 _0216765C: .word 0x55555556
-_02167660: .word ovl09_21676B0
+_02167660: .word exEffectMeteoTask__Main_Moving
 	arm_func_end exEffectMeteoTask__Main
 
 	arm_func_start exEffectMeteoTask__Func8
 exEffectMeteoTask__Func8: // 0x02167664
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -452,38 +452,38 @@ exEffectMeteoTask__Destructor: // 0x0216768C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x1c
-	bl ovl09_21671D0
+	bl exEffectMeteoTask__ReleaseMeteoAssets
 	add r0, r4, #0xf8
 	add r0, r0, #0x400
-	bl ovl09_216746C
+	bl exEffectMeteoTask__ReleaseBrokenMeteoAssets
 	ldmia sp!, {r4, pc}
 	arm_func_end exEffectMeteoTask__Destructor
 
-	arm_func_start ovl09_21676B0
-ovl09_21676B0: // 0x021676B0
+	arm_func_start exEffectMeteoTask__Main_Moving
+exEffectMeteoTask__Main_Moving: // 0x021676B0
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x1c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0x66
 	add r0, r0, #0x300
 	add r1, r4, #0x10
 	add r2, r4, #0x16
 	mov r3, #0
-	bl ovl09_2152D28
+	bl exPlayerHelpers__Func_2152D28
 	add r0, r4, #0x66
 	add r0, r0, #0x300
 	add r1, r4, #0x10
 	add r2, r4, #0x16
 	mov r3, #1
-	bl ovl09_2152D28
+	bl exPlayerHelpers__Func_2152D28
 	add r0, r4, #0x66
 	add r0, r0, #0x300
 	add r1, r4, #0x10
 	add r2, r4, #0x16
 	mov r3, #2
-	bl ovl09_2152D28
+	bl exPlayerHelpers__Func_2152D28
 	ldr r1, [r4, #0x370]
 	ldr r0, [r4, #8]
 	sub r0, r1, r0
@@ -514,30 +514,30 @@ _02167754:
 	mov r0, r1, lsl #0x1e
 	movs r0, r0, lsr #0x1f
 	beq _02167784
-	bl ovl09_21677BC
+	bl exEffectMeteoTask__Action_Shatter
 	ldmia sp!, {r4, pc}
 _02167784:
-	bl ovl09_2167864
+	bl exEffectMeteoTask__Action_Reflect
 	ldmia sp!, {r4, pc}
 _0216778C:
-	bl ovl09_21677BC
+	bl exEffectMeteoTask__Action_Shatter
 	ldmia sp!, {r4, pc}
 _02167794:
 	add r0, r4, #0x1c
 	add r1, r4, #0x3a8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x1c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021677B8: .word ExTask_State_Destroy
-	arm_func_end ovl09_21676B0
+	arm_func_end exEffectMeteoTask__Main_Moving
 
-	arm_func_start ovl09_21677BC
-ovl09_21677BC: // 0x021677BC
+	arm_func_start exEffectMeteoTask__Action_Shatter
+exEffectMeteoTask__Action_Shatter: // 0x021677BC
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrb r1, [r0, #0x22]
@@ -550,25 +550,25 @@ ovl09_21677BC: // 0x021677BC
 	ldr r1, [r0, #0x374]
 	str r1, [r0, #0x850]
 	bl GetExTaskCurrent
-	ldr r1, _021677FC // =ovl09_2167800
+	ldr r1, _021677FC // =exEffectMeteoTask__Main_Shatter
 	str r1, [r0]
-	bl ovl09_2167800
+	bl exEffectMeteoTask__Main_Shatter
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_021677FC: .word ovl09_2167800
-	arm_func_end ovl09_21677BC
+_021677FC: .word exEffectMeteoTask__Main_Shatter
+	arm_func_end exEffectMeteoTask__Action_Shatter
 
-	arm_func_start ovl09_2167800
-ovl09_2167800: // 0x02167800
+	arm_func_start exEffectMeteoTask__Main_Shatter
+exEffectMeteoTask__Main_Shatter: // 0x02167800
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0xf8
 	add r0, r0, #0x400
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0xf8
 	add r0, r0, #0x400
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0216783C
 	bl GetExTaskCurrent
@@ -580,17 +580,17 @@ _0216783C:
 	add r1, r4, #0x84
 	add r0, r0, #0x400
 	add r1, r1, #0x800
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02167860: .word ExTask_State_Destroy
-	arm_func_end ovl09_2167800
+	arm_func_end exEffectMeteoTask__Main_Shatter
 
-	arm_func_start ovl09_2167864
-ovl09_2167864: // 0x02167864
+	arm_func_start exEffectMeteoTask__Action_Reflect
+exEffectMeteoTask__Action_Reflect: // 0x02167864
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -661,21 +661,21 @@ _0216793C:
 	str r1, [r4, #8]
 _02167968:
 	bl GetExTaskCurrent
-	ldr r1, _0216797C // =ovl09_2167980
+	ldr r1, _0216797C // =exEffectMeteoTask__Main_Reflect
 	str r1, [r0]
-	bl ovl09_2167980
+	bl exEffectMeteoTask__Main_Reflect
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0216797C: .word ovl09_2167980
-	arm_func_end ovl09_2167864
+_0216797C: .word exEffectMeteoTask__Main_Reflect
+	arm_func_end exEffectMeteoTask__Action_Reflect
 
-	arm_func_start ovl09_2167980
-ovl09_2167980: // 0x02167980
+	arm_func_start exEffectMeteoTask__Main_Reflect
+exEffectMeteoTask__Main_Reflect: // 0x02167980
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x1c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r1, [r4, #0x370]
 	ldr r0, [r4, #8]
 	add r0, r1, r0
@@ -698,14 +698,14 @@ _021679CC:
 _021679DC:
 	add r0, r4, #0x1c
 	add r1, r4, #0x3a8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021679F8: .word ExTask_State_Destroy
-	arm_func_end ovl09_2167980
+	arm_func_end exEffectMeteoTask__Main_Reflect
 
 	arm_func_start exEffectMeteoTask__Create
 exEffectMeteoTask__Create: // 0x021679FC
@@ -738,7 +738,7 @@ exEffectMeteoTask__Create: // 0x021679FC
 	ldr r1, _02167B44 // =exEffectMeteoTask__Func8
 	str r1, [r0, #8]
 	add r0, r4, #0x1c
-	bl ovl09_2167054
+	bl exEffectMeteoTask__LoadMeteoAssets
 	cmp r0, #0
 	bne _02167A98
 	mov r0, #0
@@ -755,10 +755,10 @@ _02167A98:
 	str r2, [r4]
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x3a8
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	add r0, r4, #0xf8
 	add r0, r0, #0x400
-	bl ovl09_2167238
+	bl exEffectMeteoTask__LoadBrokenMeteoAssets
 	cmp r0, #0
 	bne _02167AE4
 	mov r0, #0
@@ -777,7 +777,7 @@ _02167AE4:
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x84
 	add r0, r0, #0x800
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r1, [sp, #0x28]
 	ldr r0, [sp, #0x34]
 	str r1, [r4, #0x36c]

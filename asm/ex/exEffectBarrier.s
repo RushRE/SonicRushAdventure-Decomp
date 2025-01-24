@@ -70,18 +70,18 @@ exEffectBarrierHitTask__FileTable: // 0x021764DC
 
 	.text
 
-	arm_func_start ovl09_2164E1C
-ovl09_2164E1C: // 0x02164E1C
+	arm_func_start exEffectBarrierTask__Func_2164E1C
+exEffectBarrierTask__Func_2164E1C: // 0x02164E1C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
-	bl ovl09_21636BC
+	bl exDrawReqTask__InitSprite3D
 	ldr r0, _02164F20 // =exEffectBarrierHitTask__ActiveInstanceCount
 	ldrsh r0, [r0, #2]
 	cmp r0, #0
 	bne _02164E4C
 	mov r0, #0
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02164F20 // =exEffectBarrierHitTask__ActiveInstanceCount
 	str r0, [r1, #0x30]
 _02164E4C:
@@ -140,20 +140,20 @@ _02164E4C:
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _02164F20: .word exEffectBarrierHitTask__ActiveInstanceCount
-	arm_func_end ovl09_2164E1C
+	arm_func_end exEffectBarrierTask__Func_2164E1C
 
-	arm_func_start ovl09_2164F24
-ovl09_2164F24: // 0x02164F24
+	arm_func_start exEffectBarrierTask__Func_2164F24
+exEffectBarrierTask__Func_2164F24: // 0x02164F24
 	ldr ip, _02164F34 // =AnimatorSprite__SetAnimation
 	strh r1, [r0, #0x1c]
 	add r0, r0, #0xb0
 	bx ip
 	.align 2, 0
 _02164F34: .word AnimatorSprite__SetAnimation
-	arm_func_end ovl09_2164F24
+	arm_func_end exEffectBarrierTask__Func_2164F24
 
-	arm_func_start ovl09_2164F38
-ovl09_2164F38: // 0x02164F38
+	arm_func_start exEffectBarrierTask__Destroy_2164F38
+exEffectBarrierTask__Destroy_2164F38: // 0x02164F38
 	stmdb sp!, {r3, lr}
 	add r0, r0, #0x20
 	bl AnimatorSprite3D__Release
@@ -164,7 +164,7 @@ ovl09_2164F38: // 0x02164F38
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _02164F58: .word exEffectBarrierHitTask__ActiveInstanceCount
-	arm_func_end ovl09_2164F38
+	arm_func_end exEffectBarrierTask__Destroy_2164F38
 
 	arm_func_start exEffectBarrierTask__Main
 exEffectBarrierTask__Main: // 0x02164F5C
@@ -175,12 +175,12 @@ exEffectBarrierTask__Main: // 0x02164F5C
 	ldr r1, _02165020 // =exEffectBarrierHitTask__ActiveInstanceCount
 	str r0, [r1, #0x28]
 	add r0, r4, #8
-	bl ovl09_2164E1C
+	bl exEffectBarrierTask__Func_2164E1C
 	add r0, r4, #0x158
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x158
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldrsh r0, [r4, #0]
 	strh r0, [r4, #0x10]
 	bl exSysTask__GetStatus
@@ -216,19 +216,19 @@ _02165008:
 	mov r0, #0
 	strh r0, [r4, #2]
 	bl GetExTaskCurrent
-	ldr r1, _02165024 // =ovl09_2165074
+	ldr r1, _02165024 // =exEffectBarrierTask__Main_2165074
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02165020: .word exEffectBarrierHitTask__ActiveInstanceCount
-_02165024: .word ovl09_2165074
+_02165024: .word exEffectBarrierTask__Main_2165074
 	arm_func_end exEffectBarrierTask__Main
 
 	arm_func_start exEffectBarrierTask__Func8
 exEffectBarrierTask__Func8: // 0x02165028
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -244,7 +244,7 @@ exEffectBarrierTask__Destructor: // 0x02165050
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #8
-	bl ovl09_2164F38
+	bl exEffectBarrierTask__Destroy_2164F38
 	ldr r0, _02165070 // =exEffectBarrierHitTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x28]
@@ -253,16 +253,16 @@ exEffectBarrierTask__Destructor: // 0x02165050
 _02165070: .word exEffectBarrierHitTask__ActiveInstanceCount
 	arm_func_end exEffectBarrierTask__Destructor
 
-	arm_func_start ovl09_2165074
-ovl09_2165074: // 0x02165074
+	arm_func_start exEffectBarrierTask__Main_2165074
+exEffectBarrierTask__Main_2165074: // 0x02165074
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #8
 	mov r1, #1
-	bl ovl09_2164F24
+	bl exEffectBarrierTask__Func_2164F24
 	add r0, r4, #0x158
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r0, _021650CC // =exEffectBarrierHitTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0xc]
@@ -273,33 +273,33 @@ ovl09_2165074: // 0x02165074
 	ldr r0, [r0, #0x354]
 	str r0, [r4, #0x138]
 	bl GetExTaskCurrent
-	ldr r1, _021650D0 // =ovl09_21650D4
+	ldr r1, _021650D0 // =exEffectBarrierTask__Main_21650D4
 	str r1, [r0]
-	bl ovl09_21650D4
+	bl exEffectBarrierTask__Main_21650D4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021650CC: .word exEffectBarrierHitTask__ActiveInstanceCount
-_021650D0: .word ovl09_21650D4
-	arm_func_end ovl09_2165074
+_021650D0: .word exEffectBarrierTask__Main_21650D4
+	arm_func_end exEffectBarrierTask__Main_2165074
 
-	arm_func_start ovl09_21650D4
-ovl09_21650D4: // 0x021650D4
+	arm_func_start exEffectBarrierTask__Main_21650D4
+exEffectBarrierTask__Main_21650D4: // 0x021650D4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #8
-	bl ovl09_2163ADC
+	bl exDrawReqTask__Sprite3D__Animate
 	ldrb r0, [r4, #0xe]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
 	beq _02165108
 	add r0, r4, #0x134
 	bl exEffectBarrierHitTask__Create
-	bl ovl09_2165150
+	bl exEffectBarrierTask__Func_2165150
 	ldmia sp!, {r4, pc}
 _02165108:
 	add r0, r4, #8
-	bl ovl09_2163BF4
+	bl exDrawReqTask__Sprite3D__IsAnimFinished
 	cmp r0, #0
 	beq _02165128
 	bl GetExTaskCurrent
@@ -309,19 +309,19 @@ _02165108:
 _02165128:
 	add r0, r4, #8
 	add r1, r4, #0x158
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #8
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216514C: .word ExTask_State_Destroy
-	arm_func_end ovl09_21650D4
+	arm_func_end exEffectBarrierTask__Main_21650D4
 
-	arm_func_start ovl09_2165150
-ovl09_2165150: // 0x02165150
+	arm_func_start exEffectBarrierTask__Func_2165150
+exEffectBarrierTask__Func_2165150: // 0x02165150
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -423,26 +423,26 @@ _021652B0:
 _021652CC:
 	add r0, r4, #8
 	mov r1, #2
-	bl ovl09_2164F24
+	bl exEffectBarrierTask__Func_2164F24
 	add r0, r4, #0x158
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _021652F8 // =ovl09_21652FC
+	ldr r1, _021652F8 // =exEffectBarrierTask__Main_21652FC
 	str r1, [r0]
-	bl ovl09_21652FC
+	bl exEffectBarrierTask__Main_21652FC
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021652F8: .word ovl09_21652FC
-	arm_func_end ovl09_2165150
+_021652F8: .word exEffectBarrierTask__Main_21652FC
+	arm_func_end exEffectBarrierTask__Func_2165150
 
-	arm_func_start ovl09_21652FC
-ovl09_21652FC: // 0x021652FC
+	arm_func_start exEffectBarrierTask__Main_21652FC
+exEffectBarrierTask__Main_21652FC: // 0x021652FC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #8
-	bl ovl09_2163ADC
+	bl exDrawReqTask__Sprite3D__Animate
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
@@ -452,9 +452,9 @@ ovl09_21652FC: // 0x021652FC
 	cmp r0, #0x12
 	bne _02165370
 	add r0, r1, #0x38c
-	bl ovl09_21642BC
+	bl exDrawReqTask__Func_21642BC
 	add r0, r4, #0x158
-	bl ovl09_21642BC
+	bl exDrawReqTask__Func_21642BC
 	b _02165370
 _02165344:
 	bl exSysTask__GetStatus
@@ -465,12 +465,12 @@ _02165344:
 	cmpeq r0, #0x15
 	bne _02165370
 	add r0, r1, #0x38c
-	bl ovl09_21642BC
+	bl exDrawReqTask__Func_21642BC
 	add r0, r4, #0x158
-	bl ovl09_21642BC
+	bl exDrawReqTask__Func_21642BC
 _02165370:
 	add r0, r4, #8
-	bl ovl09_2163BF4
+	bl exDrawReqTask__Sprite3D__IsAnimFinished
 	cmp r0, #0
 	beq _021653AC
 	ldr r1, [r4, #0x2a8]
@@ -487,14 +487,14 @@ _02165370:
 _021653AC:
 	add r0, r4, #8
 	add r1, r4, #0x158
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021653C8: .word ExTask_State_Destroy
-	arm_func_end ovl09_21652FC
+	arm_func_end exEffectBarrierTask__Main_21652FC
 
 	arm_func_start exEffectBarrierTask__DelayCallback
 exEffectBarrierTask__DelayCallback: // 0x021653CC
@@ -503,12 +503,12 @@ exEffectBarrierTask__DelayCallback: // 0x021653CC
 	mov r4, r0
 	ldr r0, [r4, #0x2a8]
 	add r0, r0, #0x38c
-	bl ovl09_21642BC
+	bl exDrawReqTask__Func_21642BC
 	add r0, r4, #0x158
-	bl ovl09_21642BC
+	bl exDrawReqTask__Func_21642BC
 	add r0, r4, #8
 	add r1, r4, #0x158
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0

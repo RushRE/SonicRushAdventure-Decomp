@@ -3,8 +3,8 @@
 	
 	.text
 
-	arm_func_start ovl09_2164950
-ovl09_2164950: // 0x02164950
+	arm_func_start exEffectBarrierHitTask__Func_2164950
+exEffectBarrierHitTask__Func_2164950: // 0x02164950
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
 	ldr r1, _02164BB4 // =0x02176484
@@ -38,7 +38,7 @@ ovl09_2164950: // 0x02164950
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 _021649CC:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _02164BB4 // =0x02176484
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -61,19 +61,19 @@ _021649CC:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x20
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02164BB4 // =0x02176484
 	mov r2, #0
 	str r0, [r1, #0x58]
 	mov r0, #0x21
 	str r2, [r1, #0x4c]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02164BB4 // =0x02176484
 	mov r2, #1
 	str r0, [r1, #0x5c]
 	mov r0, #0x22
 	str r2, [r1, #0x50]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02164BB4 // =0x02176484
 	mov r2, #4
 	str r0, [r1, #0x60]
@@ -170,10 +170,10 @@ _02164BBC: .word 0x021764D0
 _02164BC0: .word 0x021764DC
 _02164BC4: .word 0x0000BFF4
 _02164BC8: .word 0x00007FF8
-	arm_func_end ovl09_2164950
+	arm_func_end exEffectBarrierHitTask__Func_2164950
 
-	arm_func_start ovl09_2164BCC
-ovl09_2164BCC: // 0x02164BCC
+	arm_func_start exEffectBarrierHitTask__Destroy_2164BCC
+exEffectBarrierHitTask__Destroy_2164BCC: // 0x02164BCC
 	stmdb sp!, {r4, lr}
 	ldr r1, _02164C6C // =0x02176484
 	mov r4, r0
@@ -222,7 +222,7 @@ _02164C50:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02164C6C: .word 0x02176484
-	arm_func_end ovl09_2164BCC
+	arm_func_end exEffectBarrierHitTask__Destroy_2164BCC
 
 	arm_func_start exEffectBarrierHitTask__Main
 exEffectBarrierHitTask__Main: // 0x02164C70
@@ -233,26 +233,26 @@ exEffectBarrierHitTask__Main: // 0x02164C70
 	ldr r1, _02164CB4 // =0x02176484
 	str r0, [r1, #0x24]
 	add r0, r4, #0x10
-	bl ovl09_2164950
+	bl exEffectBarrierHitTask__Func_2164950
 	add r0, r4, #0x39c
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x39c
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _02164CB8 // =ovl09_2164D08
+	ldr r1, _02164CB8 // =exEffectBarrierHitTask__Main_2164D08
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02164CB4: .word 0x02176484
-_02164CB8: .word ovl09_2164D08
+_02164CB8: .word exEffectBarrierHitTask__Main_2164D08
 	arm_func_end exEffectBarrierHitTask__Main
 
 	arm_func_start exEffectBarrierHitTask__Func8
 exEffectBarrierHitTask__Func8: // 0x02164CBC
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -268,7 +268,7 @@ exEffectBarrierHitTask__Destructor: // 0x02164CE4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #0x10
-	bl ovl09_2164BCC
+	bl exEffectBarrierHitTask__Destroy_2164BCC
 	ldr r0, _02164D04 // =0x02176484
 	mov r1, #0
 	str r1, [r0, #0x24]
@@ -277,13 +277,13 @@ exEffectBarrierHitTask__Destructor: // 0x02164CE4
 _02164D04: .word 0x02176484
 	arm_func_end exEffectBarrierHitTask__Destructor
 
-	arm_func_start ovl09_2164D08
-ovl09_2164D08: // 0x02164D08
+	arm_func_start exEffectBarrierHitTask__Main_2164D08
+exEffectBarrierHitTask__Main_2164D08: // 0x02164D08
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x10
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r1, [r4, #4]
 	add r0, r4, #0x10
 	str r1, [r4, #0x360]
@@ -291,7 +291,7 @@ ovl09_2164D08: // 0x02164D08
 	str r1, [r4, #0x364]
 	ldr r1, [r4, #0xc]
 	str r1, [r4, #0x368]
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02164D54
 	bl GetExTaskCurrent
@@ -301,14 +301,14 @@ ovl09_2164D08: // 0x02164D08
 _02164D54:
 	add r0, r4, #0x10
 	add r1, r4, #0x39c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02164D70: .word ExTask_State_Destroy
-	arm_func_end ovl09_2164D08
+	arm_func_end exEffectBarrierHitTask__Main_2164D08
 
 	arm_func_start exEffectBarrierHitTask__Create
 exEffectBarrierHitTask__Create: // 0x02164D74

@@ -61,17 +61,17 @@ exBossLineMissileTask__unk_21761C8: // 0x021761C8
 
 	.text
 
-	arm_func_start ovl09_215A708
-ovl09_215A708: // 0x0215A708
+	arm_func_start exBossLineNeedleTask__BossMain_215A708
+exBossLineNeedleTask__BossMain_215A708: // 0x0215A708
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #9
-	bl ovl09_2154370
+	bl exBossHelpers__Func_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl exBossEffectHomingTask__Create
 	mov r0, #0
 	str r0, [sp]
@@ -82,23 +82,23 @@ ovl09_215A708: // 0x0215A708
 	mov r3, r1
 	bl PlayVoiceClipEx
 	bl GetExTaskCurrent
-	ldr r1, _0215A768 // =ovl09_215A76C
+	ldr r1, _0215A768 // =ExBossSysAdminTask__Main_215A76C
 	str r1, [r0]
-	bl ovl09_215A76C
+	bl ExBossSysAdminTask__Main_215A76C
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215A768: .word ovl09_215A76C
-	arm_func_end ovl09_215A708
+_0215A768: .word ExBossSysAdminTask__Main_215A76C
+	arm_func_end exBossLineNeedleTask__BossMain_215A708
 
-	arm_func_start ovl09_215A76C
-ovl09_215A76C: // 0x0215A76C
+	arm_func_start ExBossSysAdminTask__Main_215A76C
+ExBossSysAdminTask__Main_215A76C: // 0x0215A76C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r0, [r4, #0x3b0]
 	ldr r0, [r0, #0]
 	cmp r0, #0x1e000
@@ -111,78 +111,78 @@ ovl09_215A76C: // 0x0215A76C
 	stmia sp, {r0, ip}
 	bl PlaySfxEx
 	bl GetExTaskCurrent
-	ldr r1, _0215A7F0 // =ovl09_215A7F4
+	ldr r1, _0215A7F0 // =ExBossSysAdminTask__Main_215A7F4
 	str r1, [r0]
-	bl ovl09_215A7F4
+	bl ExBossSysAdminTask__Main_215A7F4
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _0215A7C8:
 	add r0, r4, #0x6c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215A7F0: .word ovl09_215A7F4
-	arm_func_end ovl09_215A76C
+_0215A7F0: .word ExBossSysAdminTask__Main_215A7F4
+	arm_func_end ExBossSysAdminTask__Main_215A76C
 
-	arm_func_start ovl09_215A7F4
-ovl09_215A7F4: // 0x0215A7F4
+	arm_func_start ExBossSysAdminTask__Main_215A7F4
+ExBossSysAdminTask__Main_215A7F4: // 0x0215A7F4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0x6c
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215A820
-	bl ovl09_215A844
+	bl ExBossSysAdminTask__Func_215A844
 	ldmia sp!, {r4, pc}
 _0215A820:
 	add r0, r4, #0x6c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_215A7F4
+	arm_func_end ExBossSysAdminTask__Main_215A7F4
 
-	arm_func_start ovl09_215A844
-ovl09_215A844: // 0x0215A844
+	arm_func_start ExBossSysAdminTask__Func_215A844
+ExBossSysAdminTask__Func_215A844: // 0x0215A844
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0xa
-	bl ovl09_2154370
+	bl exBossHelpers__Func_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _0215A878 // =ovl09_215A87C
+	ldr r1, _0215A878 // =ExBossSysAdminTask__Main_215A87C
 	str r1, [r0]
-	bl ovl09_215A87C
+	bl ExBossSysAdminTask__Main_215A87C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215A878: .word ovl09_215A87C
-	arm_func_end ovl09_215A844
+_0215A878: .word ExBossSysAdminTask__Main_215A87C
+	arm_func_end ExBossSysAdminTask__Func_215A844
 
-	arm_func_start ovl09_215A87C
-ovl09_215A87C: // 0x0215A87C
+	arm_func_start ExBossSysAdminTask__Main_215A87C
+ExBossSysAdminTask__Main_215A87C: // 0x0215A87C
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r0, [r4, #0x3b0]
 	ldr r0, [r0, #0]
 	cmp r0, #0xa000
@@ -205,115 +205,115 @@ _0215A8A8:
 	stmia sp, {r0, ip}
 	bl PlaySfxEx
 	bl GetExTaskCurrent
-	ldr r1, _0215A940 // =ovl09_215A944
+	ldr r1, _0215A940 // =ExBossSysAdminTask__Func_215A944
 	str r1, [r0]
-	bl ovl09_215A944
+	bl ExBossSysAdminTask__Func_215A944
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 _0215A8FC:
 	add r0, r4, #0x6c
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215A918
-	bl ovl09_215A994
+	bl ExBossSysAdminTask__Func_215A994
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 _0215A918:
 	add r0, r4, #0x6c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	add sp, sp, #8
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0215A940: .word ovl09_215A944
-	arm_func_end ovl09_215A87C
+_0215A940: .word ExBossSysAdminTask__Func_215A944
+	arm_func_end ExBossSysAdminTask__Main_215A87C
 
-	arm_func_start ovl09_215A944
-ovl09_215A944: // 0x0215A944
+	arm_func_start ExBossSysAdminTask__Func_215A944
+ExBossSysAdminTask__Func_215A944: // 0x0215A944
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0x6c
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215A970
-	bl ovl09_215A994
+	bl ExBossSysAdminTask__Func_215A994
 	ldmia sp!, {r4, pc}
 _0215A970:
 	add r0, r4, #0x6c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_215A944
+	arm_func_end ExBossSysAdminTask__Func_215A944
 
-	arm_func_start ovl09_215A994
-ovl09_215A994: // 0x0215A994
+	arm_func_start ExBossSysAdminTask__Func_215A994
+ExBossSysAdminTask__Func_215A994: // 0x0215A994
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl ovl09_215753C
+	bl exBossEffectShotTask__Func_215753C
 	add r0, r4, #0x6c
 	mov r1, #0xb
-	bl ovl09_2154370
+	bl exBossHelpers__Func_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _0215A9CC // =ovl09_215A9D0
+	ldr r1, _0215A9CC // =ExBossSysAdminTask__Main_215A9D0
 	str r1, [r0]
-	bl ovl09_215A9D0
+	bl ExBossSysAdminTask__Main_215A9D0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215A9CC: .word ovl09_215A9D0
-	arm_func_end ovl09_215A994
+_0215A9CC: .word ExBossSysAdminTask__Main_215A9D0
+	arm_func_end ExBossSysAdminTask__Func_215A994
 
-	arm_func_start ovl09_215A9D0
-ovl09_215A9D0: // 0x0215A9D0
+	arm_func_start ExBossSysAdminTask__Main_215A9D0
+ExBossSysAdminTask__Main_215A9D0: // 0x0215A9D0
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0x6c
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215A9FC
-	bl ovl09_215AA20
+	bl ExBossSysAdminTask__Func_215AA20
 	ldmia sp!, {r4, pc}
 _0215A9FC:
 	add r0, r4, #0x6c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_215A9D0
+	arm_func_end ExBossSysAdminTask__Main_215A9D0
 
-	arm_func_start ovl09_215AA20
-ovl09_215AA20: // 0x0215AA20
+	arm_func_start ExBossSysAdminTask__Func_215AA20
+ExBossSysAdminTask__Func_215AA20: // 0x0215AA20
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x548]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_215AA20
+	arm_func_end ExBossSysAdminTask__Func_215AA20
 
-	arm_func_start ovl09_215AA34
-ovl09_215AA34: // 0x0215AA34
+	arm_func_start exBossLineNeedleTask__Func_215AA34
+exBossLineNeedleTask__Func_215AA34: // 0x0215AA34
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215AC3C // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r4, r0
@@ -343,7 +343,7 @@ ovl09_215AA34: // 0x0215AA34
 	ldmloia sp!, {r3, r4, r5, pc}
 _0215AAA0:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _0215AC3C // =exBossLineNeedleTask__ActiveInstanceCount
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
@@ -366,7 +366,7 @@ _0215AAA0:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x44
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0215AC3C // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r2, #2
 	str r0, [r1, #0x3c]
@@ -452,10 +452,10 @@ _0215ABB4:
 _0215AC3C: .word exBossLineNeedleTask__ActiveInstanceCount
 _0215AC40: .word aExtraExBb_4
 _0215AC44: .word 0x00003FFC
-	arm_func_end ovl09_215AA34
+	arm_func_end exBossLineNeedleTask__Func_215AA34
 
-	arm_func_start ovl09_215AC48
-ovl09_215AC48: // 0x0215AC48
+	arm_func_start exBossLineNeedleTask__Func_215AC48
+exBossLineNeedleTask__Func_215AC48: // 0x0215AC48
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215ACC0 // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r4, r0
@@ -492,7 +492,7 @@ _0215ACA4:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215ACC0: .word exBossLineNeedleTask__ActiveInstanceCount
-	arm_func_end ovl09_215AC48
+	arm_func_end exBossLineNeedleTask__Func_215AC48
 
 	arm_func_start exBossLineNeedleTask__Main
 exBossLineNeedleTask__Main: // 0x0215ACC4
@@ -503,7 +503,7 @@ exBossLineNeedleTask__Main: // 0x0215ACC4
 	ldr r1, _0215AE44 // =exBossLineNeedleTask__ActiveInstanceCount
 	str r0, [r1, #0x24]
 	add r0, r4, #0x24
-	bl ovl09_215AA34
+	bl exBossLineNeedleTask__Func_215AA34
 	add r0, r4, #0x3b0
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
@@ -575,7 +575,7 @@ _0215AD10:
 	add r0, r4, #0x500
 	add r1, r4, #0x530
 	mov r2, #6
-	bl ovl09_2152960
+	bl exPlayerHelpers__Func_2152960
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
@@ -591,7 +591,7 @@ _0215AE2C:
 	mov r0, #3
 	strh r0, [r4, #0x1c]
 	bl GetExTaskCurrent
-	ldr r1, _0215AE5C // =ovl09_215AEAC
+	ldr r1, _0215AE5C // =exBossLineNeedleTask__Main_215AEAC
 	str r1, [r0]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
@@ -601,14 +601,14 @@ _0215AE4C: .word _mt_math_rand
 _0215AE50: .word 0x00196225
 _0215AE54: .word 0x3C6EF35F
 _0215AE58: .word 0x88888889
-_0215AE5C: .word ovl09_215AEAC
+_0215AE5C: .word exBossLineNeedleTask__Main_215AEAC
 	arm_func_end exBossLineNeedleTask__Main
 
 	arm_func_start exBossLineNeedleTask__Func8
 exBossLineNeedleTask__Func8: // 0x0215AE60
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -624,7 +624,7 @@ exBossLineNeedleTask__Destructor: // 0x0215AE88
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #0x24
-	bl ovl09_215AC48
+	bl exBossLineNeedleTask__Func_215AC48
 	ldr r0, _0215AEA8 // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #0x24]
@@ -633,13 +633,13 @@ exBossLineNeedleTask__Destructor: // 0x0215AE88
 _0215AEA8: .word exBossLineNeedleTask__ActiveInstanceCount
 	arm_func_end exBossLineNeedleTask__Destructor
 
-	arm_func_start ovl09_215AEAC
-ovl09_215AEAC: // 0x0215AEAC
+	arm_func_start exBossLineNeedleTask__Main_215AEAC
+exBossLineNeedleTask__Main_215AEAC: // 0x0215AEAC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x24
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldrb r0, [r4, #0x2a]
 	mov r1, r0, lsl #0x1f
 	movs r1, r1, lsr #0x1f
@@ -680,7 +680,7 @@ _0215AF34:
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _0215AF50:
-	bl ovl09_2154C28
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215AF74
 	add r0, r4, #0x374
@@ -691,10 +691,10 @@ _0215AF50:
 	ldmia sp!, {r4, pc}
 _0215AF74:
 	add r0, r4, #0x500
-	bl ovl09_2152AB4
+	bl exPlayerHelpers__Func_2152AB4
 	cmp r0, #0
 	beq _0215AF8C
-	bl ovl09_215AFE4
+	bl exBossLineMissileTask__Func_215AFE4
 	ldmia sp!, {r4, pc}
 _0215AF8C:
 	ldr r1, [r4, #0x508]
@@ -711,37 +711,37 @@ _0215AF8C:
 	str r2, [r4, #8]
 	ldr r2, [r4, #0x520]
 	str r2, [r4, #0xc]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x24
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215AFE0: .word ExTask_State_Destroy
-	arm_func_end ovl09_215AEAC
+	arm_func_end exBossLineNeedleTask__Main_215AEAC
 
-	arm_func_start ovl09_215AFE4
-ovl09_215AFE4: // 0x0215AFE4
+	arm_func_start exBossLineMissileTask__Func_215AFE4
+exBossLineMissileTask__Func_215AFE4: // 0x0215AFE4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl GetExTaskCurrent
-	ldr r1, _0215B000 // =ovl09_215B004
+	ldr r1, _0215B000 // =exBossLineMissileTask__Func_215B004
 	str r1, [r0]
-	bl ovl09_215B004
+	bl exBossLineMissileTask__Func_215B004
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215B000: .word ovl09_215B004
-	arm_func_end ovl09_215AFE4
+_0215B000: .word exBossLineMissileTask__Func_215B004
+	arm_func_end exBossLineMissileTask__Func_215AFE4
 
-	arm_func_start ovl09_215B004
-ovl09_215B004: // 0x0215B004
+	arm_func_start exBossLineMissileTask__Func_215B004
+exBossLineMissileTask__Func_215B004: // 0x0215B004
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x24
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldrb r0, [r4, #0x2a]
 	mov r1, r0, lsl #0x1f
 	movs r1, r1, lsr #0x1f
@@ -782,7 +782,7 @@ _0215B08C:
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _0215B0A8:
-	bl ovl09_2154C28
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215B0CC
 	add r0, r4, #0x374
@@ -824,16 +824,16 @@ _0215B12C:
 _0215B13C:
 	add r0, r4, #0x24
 	add r1, r4, #0x3b0
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x24
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215B160: .word ExTask_State_Destroy
-	arm_func_end ovl09_215B004
+	arm_func_end exBossLineMissileTask__Func_215B004
 
 	arm_func_start exBossLineNeedleTask__Create
 exBossLineNeedleTask__Create: // 0x0215B164
@@ -876,8 +876,8 @@ _0215B1EC: .word exBossLineNeedleTask__Main
 _0215B1F0: .word exBossLineNeedleTask__Func8
 	arm_func_end exBossLineNeedleTask__Create
 
-	arm_func_start ovl09_215B1F4
-ovl09_215B1F4: // 0x0215B1F4
+	arm_func_start exBossLineMissileTask__Func_215B1F4
+exBossLineMissileTask__Func_215B1F4: // 0x0215B1F4
 	stmdb sp!, {r3, r4, r5, lr}
 	ldr r1, _0215B3F8 // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r4, r0
@@ -907,7 +907,7 @@ ovl09_215B1F4: // 0x0215B1F4
 	ldmloia sp!, {r3, r4, r5, pc}
 _0215B260:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _0215B3F8 // =exBossLineNeedleTask__ActiveInstanceCount
 	ldrsh r0, [r0, #2]
 	cmp r0, #0
@@ -930,7 +930,7 @@ _0215B260:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x43
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _0215B3F8 // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r2, #2
 	str r0, [r1, #4]
@@ -1015,10 +1015,10 @@ _0215B374:
 _0215B3F8: .word exBossLineNeedleTask__ActiveInstanceCount
 _0215B3FC: .word aExtraExBb_4
 _0215B400: .word 0x00003FFC
-	arm_func_end ovl09_215B1F4
+	arm_func_end exBossLineMissileTask__Func_215B1F4
 
-	arm_func_start ovl09_215B404
-ovl09_215B404: // 0x0215B404
+	arm_func_start exBossLineMissileTask__Func_215B404
+exBossLineMissileTask__Func_215B404: // 0x0215B404
 	stmdb sp!, {r4, lr}
 	ldr r1, _0215B47C // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r4, r0
@@ -1055,7 +1055,7 @@ _0215B460:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215B47C: .word exBossLineNeedleTask__ActiveInstanceCount
-	arm_func_end ovl09_215B404
+	arm_func_end exBossLineMissileTask__Func_215B404
 
 	arm_func_start exBossLineMissileTask__Main
 exBossLineMissileTask__Main: // 0x0215B480
@@ -1066,7 +1066,7 @@ exBossLineMissileTask__Main: // 0x0215B480
 	ldr r1, _0215B600 // =exBossLineNeedleTask__ActiveInstanceCount
 	str r0, [r1, #8]
 	add r0, r4, #0x2c
-	bl ovl09_215B1F4
+	bl exBossLineMissileTask__Func_215B1F4
 	add r0, r4, #0x3b8
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
@@ -1140,7 +1140,7 @@ _0215B4CC:
 	mov r3, r2, asr #0x10
 	add r1, ip, #0x400
 	mov r2, #6
-	bl ovl09_2152960
+	bl exPlayerHelpers__Func_2152960
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
@@ -1154,7 +1154,7 @@ _0215B4CC:
 	streqh r0, [r4, #0x36]
 _0215B5F0:
 	bl GetExTaskCurrent
-	ldr r1, _0215B618 // =ovl09_215B668
+	ldr r1, _0215B618 // =exBossLineMissileTask__Main_215B668
 	str r1, [r0]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
 	.align 2, 0
@@ -1164,14 +1164,14 @@ _0215B608: .word 0x3C6EF35F
 _0215B60C: .word 0x88888889
 _0215B610: .word _mt_math_rand
 _0215B614: .word 0x00196225
-_0215B618: .word ovl09_215B668
+_0215B618: .word exBossLineMissileTask__Main_215B668
 	arm_func_end exBossLineMissileTask__Main
 
 	arm_func_start exBossLineMissileTask__Func8
 exBossLineMissileTask__Func8: // 0x0215B61C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -1187,7 +1187,7 @@ exBossLineMissileTask__Destructor: // 0x0215B644
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #0x2c
-	bl ovl09_215B404
+	bl exBossLineMissileTask__Func_215B404
 	ldr r0, _0215B664 // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r1, #0
 	str r1, [r0, #8]
@@ -1196,13 +1196,13 @@ exBossLineMissileTask__Destructor: // 0x0215B644
 _0215B664: .word exBossLineNeedleTask__ActiveInstanceCount
 	arm_func_end exBossLineMissileTask__Destructor
 
-	arm_func_start ovl09_215B668
-ovl09_215B668: // 0x0215B668
+	arm_func_start exBossLineMissileTask__Main_215B668
+exBossLineMissileTask__Main_215B668: // 0x0215B668
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x2c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldrb r1, [r4, #0x32]
 	mov r0, r1, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -1210,7 +1210,7 @@ ovl09_215B668: // 0x0215B668
 	ldrb r0, [r4, #0x2c]
 	cmp r0, #2
 	bne _0215B6A0
-	bl ovl09_215B998
+	bl exBossLineMissileTask__Func_215B998
 	ldmia sp!, {r4, pc}
 _0215B6A0:
 	mov r0, r1, lsl #0x1e
@@ -1251,7 +1251,7 @@ _0215B704:
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _0215B728:
-	bl ovl09_2154C28
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215B74C
 	add r0, r4, #0x37c
@@ -1263,10 +1263,10 @@ _0215B728:
 _0215B74C:
 	add r0, r4, #0x108
 	add r0, r0, #0x400
-	bl ovl09_2152AB4
+	bl exPlayerHelpers__Func_2152AB4
 	cmp r0, #0
 	beq _0215B768
-	bl ovl09_215B7C0
+	bl exBossLineMissileTask__Func_215B7C0
 	ldmia sp!, {r4, pc}
 _0215B768:
 	ldr r1, [r4, #0x510]
@@ -1283,19 +1283,19 @@ _0215B768:
 	str r2, [r4, #8]
 	ldr r2, [r4, #0x528]
 	str r2, [r4, #0xc]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x2c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215B7BC: .word ExTask_State_Destroy
-	arm_func_end ovl09_215B668
+	arm_func_end exBossLineMissileTask__Main_215B668
 
-	arm_func_start ovl09_215B7C0
-ovl09_215B7C0: // 0x0215B7C0
+	arm_func_start exBossLineMissileTask__Func_215B7C0
+exBossLineMissileTask__Func_215B7C0: // 0x0215B7C0
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -1307,22 +1307,22 @@ ovl09_215B7C0: // 0x0215B7C0
 	stmia sp, {r0, ip}
 	bl PlaySfxEx
 	bl GetExTaskCurrent
-	ldr r1, _0215B800 // =ovl09_215B804
+	ldr r1, _0215B800 // =exBossLineMissileTask__Func_215B804
 	str r1, [r0]
-	bl ovl09_215B804
+	bl exBossLineMissileTask__Func_215B804
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215B800: .word ovl09_215B804
-	arm_func_end ovl09_215B7C0
+_0215B800: .word exBossLineMissileTask__Func_215B804
+	arm_func_end exBossLineMissileTask__Func_215B7C0
 
-	arm_func_start ovl09_215B804
-ovl09_215B804: // 0x0215B804
+	arm_func_start exBossLineMissileTask__Func_215B804
+exBossLineMissileTask__Func_215B804: // 0x0215B804
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x2c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldrb r1, [r4, #0x32]
 	mov r0, r1, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -1330,7 +1330,7 @@ ovl09_215B804: // 0x0215B804
 	ldrb r0, [r4, #0x2c]
 	cmp r0, #2
 	bne _0215B83C
-	bl ovl09_215B998
+	bl exBossLineMissileTask__Func_215B998
 	ldmia sp!, {r4, pc}
 _0215B83C:
 	mov r0, r1, lsl #0x1e
@@ -1371,7 +1371,7 @@ _0215B8A0:
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 _0215B8C4:
-	bl ovl09_2154C28
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	bne _0215B8E8
 	add r0, r4, #0x37c
@@ -1420,19 +1420,19 @@ _0215B960:
 _0215B970:
 	add r0, r4, #0x2c
 	add r1, r4, #0x3b8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x2c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215B994: .word ExTask_State_Destroy
-	arm_func_end ovl09_215B804
+	arm_func_end exBossLineMissileTask__Func_215B804
 
-	arm_func_start ovl09_215B998
-ovl09_215B998: // 0x0215B998
+	arm_func_start exBossLineMissileTask__Func_215B998
+exBossLineMissileTask__Func_215B998: // 0x0215B998
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -1535,9 +1535,9 @@ _0215BAA0:
 	movne r0, #1
 	str r0, [r4, #0x24]
 	bl GetExTaskCurrent
-	ldr r1, _0215BB44 // =ovl09_215BB48
+	ldr r1, _0215BB44 // =exBossLineMissileTask__Func_215BB48
 	str r1, [r0]
-	bl ovl09_215BB48
+	bl exBossLineMissileTask__Func_215BB48
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215BB30: .word 0x0000BFF4
@@ -1545,16 +1545,16 @@ _0215BB34: .word 0x00001554
 _0215BB38: .word _mt_math_rand
 _0215BB3C: .word 0x00196225
 _0215BB40: .word 0x3C6EF35F
-_0215BB44: .word ovl09_215BB48
-	arm_func_end ovl09_215B998
+_0215BB44: .word exBossLineMissileTask__Func_215BB48
+	arm_func_end exBossLineMissileTask__Func_215B998
 
-	arm_func_start ovl09_215BB48
-ovl09_215BB48: // 0x0215BB48
+	arm_func_start exBossLineMissileTask__Func_215BB48
+exBossLineMissileTask__Func_215BB48: // 0x0215BB48
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x2c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldrb r0, [r4, #0x32]
 	mov r1, r0, lsl #0x1f
 	movs r1, r1, lsr #0x1f
@@ -1609,16 +1609,16 @@ _0215BC08:
 _0215BC18:
 	add r0, r4, #0x2c
 	add r1, r4, #0x3b8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r4, #0x2c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215BC3C: .word ExTask_State_Destroy
-	arm_func_end ovl09_215BB48
+	arm_func_end exBossLineMissileTask__Func_215BB48
 
 	arm_func_start exBossLineMissileTask__Create
 exBossLineMissileTask__Create: // 0x0215BC40

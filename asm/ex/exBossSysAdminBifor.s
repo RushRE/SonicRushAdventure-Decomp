@@ -13,19 +13,19 @@ exBossSysAdminBiforTask__Main: // 0x0215F050
 	ldr r1, _0215F080 // =0x0217626C
 	str r0, [r1, #8]
 	bl GetExTaskCurrent
-	ldr r1, _0215F084 // =ovl09_215F0C8
+	ldr r1, _0215F084 // =exBossSysAdminBiforTask__Main_215F0C8
 	str r1, [r0]
-	bl ovl09_215F0C8
+	bl exBossSysAdminBiforTask__Main_215F0C8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215F080: .word 0x0217626C
-_0215F084: .word ovl09_215F0C8
+_0215F084: .word exBossSysAdminBiforTask__Main_215F0C8
 	arm_func_end exBossSysAdminBiforTask__Main
 
 	arm_func_start exBossSysAdminBiforTask__Func8
 exBossSysAdminBiforTask__Func8: // 0x0215F088
 	stmdb sp!, {r3, lr}
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -48,8 +48,8 @@ exBossSysAdminBiforTask__Destructor: // 0x0215F0AC
 _0215F0C4: .word 0x0217626C
 	arm_func_end exBossSysAdminBiforTask__Destructor
 
-	arm_func_start ovl09_215F0C8
-ovl09_215F0C8: // 0x0215F0C8
+	arm_func_start exBossSysAdminBiforTask__Main_215F0C8
+exBossSysAdminBiforTask__Main_215F0C8: // 0x0215F0C8
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #8
 	ldr r0, _0215F7AC // =0x0217626C
@@ -271,7 +271,7 @@ _0215F3B4:
 	bic r0, r0, #0x80
 	strb r0, [r4, #1]
 	bl GetExTaskCurrent
-	ldr r1, _0215F7BC // =ovl09_215F7CC
+	ldr r1, _0215F7BC // =exBossSysAdminBiforTask__Main_215F7CC
 	add sp, sp, #8
 	str r1, [r0]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -336,7 +336,7 @@ _0215F4A8:
 	bic r0, r0, #0x80
 	strb r0, [r4, #1]
 	bl GetExTaskCurrent
-	ldr r1, _0215F7BC // =ovl09_215F7CC
+	ldr r1, _0215F7BC // =exBossSysAdminBiforTask__Main_215F7CC
 	add sp, sp, #8
 	str r1, [r0]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -374,7 +374,7 @@ _0215F530:
 	bic r0, r0, #0x80
 	strb r0, [r4, #1]
 	bl GetExTaskCurrent
-	ldr r1, _0215F7BC // =ovl09_215F7CC
+	ldr r1, _0215F7BC // =exBossSysAdminBiforTask__Main_215F7CC
 	add sp, sp, #8
 	str r1, [r0]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
@@ -450,7 +450,7 @@ _0215F64C:
 	bic r0, r0, #1
 	strb r0, [r4, #2]
 	bl GetExTaskCurrent
-	ldr r1, _0215F7BC // =ovl09_215F7CC
+	ldr r1, _0215F7BC // =exBossSysAdminBiforTask__Main_215F7CC
 	str r1, [r0]
 	b _0215F728
 _0215F6C0:
@@ -524,14 +524,14 @@ _0215F7AC: .word 0x0217626C
 _0215F7B0: .word 0x0217431C
 _0215F7B4: .word 0x00000105
 _0215F7B8: .word 0x00000106
-_0215F7BC: .word ovl09_215F7CC
+_0215F7BC: .word exBossSysAdminBiforTask__Main_215F7CC
 _0215F7C0: .word _mt_math_rand
 _0215F7C4: .word 0x00196225
 _0215F7C8: .word 0x3C6EF35F
-	arm_func_end ovl09_215F0C8
+	arm_func_end exBossSysAdminBiforTask__Main_215F0C8
 
-	arm_func_start ovl09_215F7CC
-ovl09_215F7CC: // 0x0215F7CC
+	arm_func_start exBossSysAdminBiforTask__Main_215F7CC
+exBossSysAdminBiforTask__Main_215F7CC: // 0x0215F7CC
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215F808 // =0x0217626C
 	ldr r0, [r0, #0xc]
@@ -541,7 +541,7 @@ ovl09_215F7CC: // 0x0215F7CC
 	movs r0, r0, lsr #0x1f
 	beq _0215F7F8
 	bl GetExTaskCurrent
-	ldr r1, _0215F80C // =ovl09_215F0C8
+	ldr r1, _0215F80C // =exBossSysAdminBiforTask__Main_215F0C8
 	str r1, [r0]
 _0215F7F8:
 	bl GetExTaskCurrent
@@ -550,8 +550,8 @@ _0215F7F8:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215F808: .word 0x0217626C
-_0215F80C: .word ovl09_215F0C8
-	arm_func_end ovl09_215F7CC
+_0215F80C: .word exBossSysAdminBiforTask__Main_215F0C8
+	arm_func_end exBossSysAdminBiforTask__Main_215F7CC
     
 	arm_func_start exBossSysAdminBiforTask__Create
 exBossSysAdminBiforTask__Create: // 0x0215F810
@@ -589,8 +589,8 @@ _0215F884: .word 0x000037FF
 _0215F888: .word exBossSysAdminBiforTask__Func8
 	arm_func_end exBossSysAdminBiforTask__Create
 
-	arm_func_start ovl09_215F88C
-ovl09_215F88C: // 0x0215F88C
+	arm_func_start ExBossSysAdminTask__Func_215F88C
+ExBossSysAdminTask__Func_215F88C: // 0x0215F88C
 	stmdb sp!, {r4, lr}
 	ldr r0, _0215F9FC // =0x0217626C
 	ldr r0, [r0, #0xc]
@@ -670,8 +670,8 @@ _0215F970:
 	cmp r0, #0x5a000
 	addlt r0, r0, #0x400
 	strlt r0, [r4, #0x3c0]
-	bl ovl09_215FA10
-	bl ovl09_215FA98
+	bl ExBossSysAdminTask__Func_215FA10
+	bl ExBossSysAdminTask__Func_215FA98
 	ldr r1, [r4, #0x3bc]
 	ldr r0, _0215FA0C // =0xFFFFFE66
 	str r1, [r4, #0x48]
@@ -683,7 +683,7 @@ _0215F970:
 	ldr r0, [r4, #0x3bc]
 	sub r1, r1, r3
 	sub r0, r2, r0
-	bl ovl09_2152E28
+	bl exPlayerHelpers__Func_2152E28
 	add r1, r4, #0x300
 	strh r0, [r1, #0xb8]
 	ldmia sp!, {r4, pc}
@@ -693,10 +693,10 @@ _0215FA00: .word _mt_math_rand
 _0215FA04: .word 0x00196225
 _0215FA08: .word 0x3C6EF35F
 _0215FA0C: .word 0xFFFFFE66
-	arm_func_end ovl09_215F88C
+	arm_func_end ExBossSysAdminTask__Func_215F88C
 
-	arm_func_start ovl09_215FA10
-ovl09_215FA10: // 0x0215FA10
+	arm_func_start ExBossSysAdminTask__Func_215FA10
+ExBossSysAdminTask__Func_215FA10: // 0x0215FA10
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215FA94 // =0x0217626C
 	ldr r0, [r0, #0xc]
@@ -733,10 +733,10 @@ _0215FA60:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215FA94: .word 0x0217626C
-	arm_func_end ovl09_215FA10
+	arm_func_end ExBossSysAdminTask__Func_215FA10
 
-	arm_func_start ovl09_215FA98
-ovl09_215FA98: // 0x0215FA98
+	arm_func_start ExBossSysAdminTask__Func_215FA98
+ExBossSysAdminTask__Func_215FA98: // 0x0215FA98
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215FB18 // =0x0217626C
 	ldr r0, [r0, #0xc]
@@ -772,4 +772,4 @@ _0215FAE0:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215FB18: .word 0x0217626C
-	arm_func_end ovl09_215FA98
+	arm_func_end ExBossSysAdminTask__Func_215FA98

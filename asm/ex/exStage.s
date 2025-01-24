@@ -17,11 +17,11 @@ exStageTask__FileTable: // 0x02178638
 	
 	.text
 
-	arm_func_start ovl09_217261C
-ovl09_217261C: // 0x0217261C
+	arm_func_start exStageTask__LoadAssets
+exStageTask__LoadAssets: // 0x0217261C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r0
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _021727C8 // =aExtraExBb_11
 	mov r1, #7
 	mov r2, #0
@@ -38,15 +38,15 @@ ovl09_217261C: // 0x0217261C
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #6
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _021727CC // =exStageTask__dword_217862C
 	str r0, [r1, #0xc]
 	mov r0, #8
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _021727CC // =exStageTask__dword_217862C
 	str r0, [r1, #0x10]
 	mov r0, #7
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _021727CC // =exStageTask__dword_217862C
 	str r0, [r1, #0x14]
 	ldr r0, [r1, #0]
@@ -132,10 +132,10 @@ _02172780:
 _021727C8: .word aExtraExBb_11
 _021727CC: .word exStageTask__dword_217862C
 _021727D0: .word 0x00003FFC
-	arm_func_end ovl09_217261C
+	arm_func_end exStageTask__LoadAssets
 
-	arm_func_start ovl09_21727D4
-ovl09_21727D4: // 0x021727D4
+	arm_func_start exStageTask__ReleaseAssets
+exStageTask__ReleaseAssets: // 0x021727D4
 	stmdb sp!, {r4, lr}
 	ldr r1, _02172854 // =exStageTask__dword_217862C
 	mov r4, r0
@@ -175,7 +175,7 @@ _02172848:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02172854: .word exStageTask__dword_217862C
-	arm_func_end ovl09_21727D4
+	arm_func_end exStageTask__ReleaseAssets
 
 	arm_func_start exStageTask__Main
 exStageTask__Main: // 0x02172858
@@ -186,7 +186,7 @@ exStageTask__Main: // 0x02172858
 	ldr r1, _021728C4 // =exStageTask__dword_217862C
 	str r0, [r1, #8]
 	add r0, r4, #0xc
-	bl ovl09_217261C
+	bl exStageTask__LoadAssets
 	add r0, r4, #0x398
 	mov r1, #0xa000
 	bl exDrawReqTask__SetConfigPriority
@@ -203,12 +203,12 @@ exStageTask__Main: // 0x02172858
 	str r1, [r4, #8]
 	str r4, [r0, #4]
 	bl GetExTaskCurrent
-	ldr r1, _021728C8 // =ovl09_21728FC
+	ldr r1, _021728C8 // =exStageTask__Main_Scrolling
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021728C4: .word exStageTask__dword_217862C
-_021728C8: .word ovl09_21728FC
+_021728C8: .word exStageTask__Main_Scrolling
 	arm_func_end exStageTask__Main
 
 	arm_func_start exStageTask__Func8
@@ -224,7 +224,7 @@ exStageTask__Destructor: // 0x021728D8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #0xc
-	bl ovl09_21727D4
+	bl exStageTask__ReleaseAssets
 	ldr r0, _021728F8 // =exStageTask__dword_217862C
 	mov r1, #0
 	str r1, [r0, #8]
@@ -233,8 +233,8 @@ exStageTask__Destructor: // 0x021728D8
 _021728F8: .word exStageTask__dword_217862C
 	arm_func_end exStageTask__Destructor
 
-	arm_func_start ovl09_21728FC
-ovl09_21728FC: // 0x021728FC
+	arm_func_start exStageTask__Main_Scrolling
+exStageTask__Main_Scrolling: // 0x021728FC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -248,10 +248,10 @@ ovl09_21728FC: // 0x021728FC
 	addle r0, r0, #0x1f4000
 	strle r0, [r4, #0x360]
 	add r0, r4, #0xc
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0xc
 	add r1, r4, #0x398
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl Camera3D__UseEngineA
 	ldr r1, [r4, #0x360]
 	add r0, r4, #0xc
@@ -259,7 +259,7 @@ ovl09_21728FC: // 0x021728FC
 	add r1, r1, #0x1c0000
 	str r1, [r4, #0x360]
 	add r1, r4, #0x398
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	ldr r0, [r4, #0x360]
 	sub r0, r0, #0x33800
 	sub r0, r0, #0x1c0000
@@ -268,7 +268,7 @@ ovl09_21728FC: // 0x021728FC
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_21728FC
+	arm_func_end exStageTask__Main_Scrolling
 
 	arm_func_start exStageTask__CreateEx
 exStageTask__CreateEx: // 0x02172980
@@ -302,8 +302,8 @@ _021729E4: .word exStageTask__Destructor
 _021729E8: .word exStageTask__Func8
 	arm_func_end exStageTask__CreateEx
 
-	arm_func_start ovl09_21729EC
-ovl09_21729EC: // 0x021729EC
+	arm_func_start exStageTask__Destroy
+exStageTask__Destroy: // 0x021729EC
 	stmdb sp!, {r3, lr}
 	ldr r0, _02172A10 // =exStageTask__dword_217862C
 	ldr r0, [r0, #8]
@@ -316,7 +316,7 @@ ovl09_21729EC: // 0x021729EC
 	.align 2, 0
 _02172A10: .word exStageTask__dword_217862C
 _02172A14: .word ExTask_State_Destroy
-	arm_func_end ovl09_21729EC
+	arm_func_end exStageTask__Destroy
 
 	.data
 

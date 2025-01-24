@@ -11,14 +11,14 @@ exFixBossLifeGaugeTask__Main: // 0x0216A13C
 	bl GetCurrentTask
 	ldr r1, _0216A340 // =0x021766A8
 	str r0, [r1, #4]
-	bl ovl09_215DF0C
+	bl ExBossSysAdminTask__Func_215DF0C
 	str r0, [r5]
 	mov r0, #0x1e
 	strh r0, [r5, #0x14]
 	mov r1, #9
 	add r0, r5, #0x14
 	strh r1, [r5, #0x16]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	add r0, r5, #0x94
 	mov r1, #0xe000
 	bl exDrawReqTask__SetConfigPriority
@@ -30,13 +30,13 @@ exFixBossLifeGaugeTask__Main: // 0x0216A13C
 	add r0, r5, #0x14
 	orr r1, r1, #0x20
 	strb r1, [r5, #0x96]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	mov r0, #0x14
 	strh r0, [r5, #0x9c]
 	mov r0, #9
 	strh r0, [r5, #0x9e]
 	add r0, r5, #0x9c
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	add r0, r5, #0x11c
 	mov r1, #0xe000
 	bl exDrawReqTask__SetConfigPriority
@@ -49,14 +49,14 @@ exFixBossLifeGaugeTask__Main: // 0x0216A13C
 	add r0, r5, #0x9c
 	orr r1, r1, #0x20
 	strb r1, [r5, #0x11e]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	mov r1, #0x14
 	add r0, r5, #0x100
 	strh r1, [r0, #0x24]
 	mov r1, #9
 	strh r1, [r0, #0x26]
 	add r0, r5, #0x124
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	add r0, r5, #0x1a4
 	mov r1, #0xe000
 	bl exDrawReqTask__SetConfigPriority
@@ -69,7 +69,7 @@ exFixBossLifeGaugeTask__Main: // 0x0216A13C
 	add r0, r5, #0x124
 	orr r1, r1, #0x20
 	strb r1, [r5, #0x1a6]
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	ldr r0, [r5, #0x164]
 	mov r6, #0
 	orr r0, r0, #0x80
@@ -87,7 +87,7 @@ _0216A26C:
 	strh r0, [r1, #0xac]
 	mov r0, r8
 	strh r11, [r1, #0xae]
-	bl ovl09_2168EA4
+	bl exFixAdminTask__LoadSprite
 	ldr r1, _0216A344 // =0x0000DFFF
 	mov r0, r9
 	bl exDrawReqTask__SetConfigPriority
@@ -100,7 +100,7 @@ _0216A26C:
 	ldrb r1, [r10, #0]
 	orr r1, r1, #0x20
 	strb r1, [r10], #0x88
-	bl ovl09_2161B80
+	bl exDrawReqTask__Sprite2D__Func_2161B80
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
 	mov r6, r0, asr #0x10
@@ -132,13 +132,13 @@ _0216A26C:
 	strh r0, [r5, #0xa]
 	strh r1, [r5, #0xc]
 	bl GetExTaskCurrent
-	ldr r1, _0216A348 // =ovl09_216A3B8
+	ldr r1, _0216A348 // =exFixBossLifeGaugeTask__Main_Active
 	str r1, [r0]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216A340: .word 0x021766A8
 _0216A344: .word 0x0000DFFF
-_0216A348: .word ovl09_216A3B8
+_0216A348: .word exFixBossLifeGaugeTask__Main_Active
 	arm_func_end exFixBossLifeGaugeTask__Main
 
 	arm_func_start exFixBossLifeGaugeTask__Func8
@@ -155,17 +155,17 @@ exFixBossLifeGaugeTask__Destructor: // 0x0216A358
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x14
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	add r0, r4, #0x9c
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	add r0, r4, #0x124
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	add r5, r4, #0x1ac
 	mov r6, #0
 	mov r4, #0x88
 _0216A388:
 	mla r0, r6, r4, r5
-	bl ovl09_2168F68
+	bl exFixAdminTask__Func_2168F68
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
 	mov r6, r0, lsr #0x10
@@ -179,18 +179,18 @@ _0216A388:
 _0216A3B4: .word 0x021766A8
 	arm_func_end exFixBossLifeGaugeTask__Destructor
 
-	arm_func_start ovl09_216A3B8
-ovl09_216A3B8: // 0x0216A3B8
+	arm_func_start exFixBossLifeGaugeTask__Main_Active
+exFixBossLifeGaugeTask__Main_Active: // 0x0216A3B8
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetExTaskWorkCurrent_
 	mov r8, r0
 	bl exSysTask__GetStatus
 	add r0, r8, #0x14
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	add r0, r8, #0x9c
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	add r0, r8, #0x124
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	bl exSysTask__GetStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
@@ -241,9 +241,9 @@ _0216A468:
 	bl _f_itof
 	str r0, [r8, #0x10]
 	bl GetExTaskCurrent
-	ldr r1, _0216A620 // =ovl09_216A624
+	ldr r1, _0216A620 // =exFixBossLifeGaugeTask__Main_216A624
 	str r1, [r0]
-	bl ovl09_216A624
+	bl exFixBossLifeGaugeTask__Main_216A624
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216A4B0:
 	mov r0, r1, asr #2
@@ -266,7 +266,7 @@ _0216A4D8:
 	str r0, [sp]
 _0216A4F4:
 	mov r0, r4
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	add r0, r5, #1
 	mov r0, r0, lsl #0x10
 	mov r5, r0, asr #0x10
@@ -293,7 +293,7 @@ _0216A53C:
 	add r2, r1, r9, lsl #3
 	add r1, r8, #0x22c
 	strh r2, [r5, #0x14]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	mov r0, r9, lsl #0x10
 	mov r9, r0, asr #0x10
 	b _0216A58C
@@ -304,7 +304,7 @@ _0216A570:
 	add r2, r2, r1, lsl #3
 	add r1, r7, #0x400
 	strh r2, [r11, #0x54]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _0216A58C:
 	ldrsh r1, [r8, #4]
 	add r0, r10, #1
@@ -330,44 +330,44 @@ _0216A5A4:
 	add r0, r3, r6
 	add r1, r1, r6
 	strh r4, [r2, #0x14]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _0216A5EC:
 	add r0, r8, #0x14
 	add r1, r8, #0x94
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r8, #0x9c
 	add r1, r8, #0x11c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r8, #0x124
 	add r1, r8, #0x1a4
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0216A620: .word ovl09_216A624
-	arm_func_end ovl09_216A3B8
+_0216A620: .word exFixBossLifeGaugeTask__Main_216A624
+	arm_func_end exFixBossLifeGaugeTask__Main_Active
 
-	arm_func_start ovl09_216A624
-ovl09_216A624: // 0x0216A624
+	arm_func_start exFixBossLifeGaugeTask__Main_216A624
+exFixBossLifeGaugeTask__Main_216A624: // 0x0216A624
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl GetExTaskWorkCurrent_
 	mov r8, r0
 	bl exSysTask__GetStatus
 	add r0, r8, #0x14
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	add r0, r8, #0x9c
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	add r0, r8, #0x124
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	ldrsh r0, [r8, #0xc]
 	cmp r0, #0
 	bne _0216A66C
 	bl GetExTaskCurrent
-	ldr r1, _0216A834 // =ovl09_216A3B8
+	ldr r1, _0216A834 // =exFixBossLifeGaugeTask__Main_Active
 	str r1, [r0]
-	bl ovl09_216A3B8
+	bl exFixBossLifeGaugeTask__Main_Active
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 _0216A66C:
 	ldr r0, [r8, #0x10]
@@ -413,7 +413,7 @@ _0216A6EC:
 	str r0, [sp]
 _0216A708:
 	mov r0, r4
-	bl ovl09_2161908
+	bl exDrawReqTask__Sprite2D__Animate
 	add r0, r5, #1
 	mov r0, r0, lsl #0x10
 	mov r5, r0, asr #0x10
@@ -440,7 +440,7 @@ _0216A750:
 	add r2, r1, r9, lsl #3
 	add r1, r8, #0x22c
 	strh r2, [r5, #0x14]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	mov r0, r9, lsl #0x10
 	mov r9, r0, asr #0x10
 	b _0216A7A0
@@ -451,7 +451,7 @@ _0216A784:
 	add r2, r2, r1, lsl #3
 	add r1, r7, #0x400
 	strh r2, [r11, #0x54]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _0216A7A0:
 	ldrsh r1, [r8, #4]
 	add r0, r10, #1
@@ -477,25 +477,25 @@ _0216A7B8:
 	add r0, r3, r6
 	add r1, r1, r6
 	strh r4, [r2, #0x14]
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 _0216A800:
 	add r0, r8, #0x14
 	add r1, r8, #0x94
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r8, #0x9c
 	add r1, r8, #0x11c
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	add r0, r8, #0x124
 	add r1, r8, #0x1a4
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0216A834: .word ovl09_216A3B8
+_0216A834: .word exFixBossLifeGaugeTask__Main_Active
 _0216A838: .word 0x3F666666
-	arm_func_end ovl09_216A624
+	arm_func_end exFixBossLifeGaugeTask__Main_216A624
 
 	arm_func_start exFixBossLifeGaugeTask__Create
 exFixBossLifeGaugeTask__Create: // 0x0216A83C
@@ -533,8 +533,8 @@ _0216A8B0: .word exFixBossLifeGaugeTask__Destructor
 _0216A8B4: .word exFixBossLifeGaugeTask__Func8
 	arm_func_end exFixBossLifeGaugeTask__Create
 
-	arm_func_start ovl09_216A8B8
-ovl09_216A8B8: // 0x0216A8B8
+	arm_func_start exFixBossLifeGaugeTask__Destroy
+exFixBossLifeGaugeTask__Destroy: // 0x0216A8B8
 	stmdb sp!, {r3, lr}
 	ldr r0, _0216A8DC // =0x021766A8
 	ldr r0, [r0, #4]
@@ -547,4 +547,4 @@ ovl09_216A8B8: // 0x0216A8B8
 	.align 2, 0
 _0216A8DC: .word 0x021766A8
 _0216A8E0: .word ExTask_State_Destroy
-	arm_func_end ovl09_216A8B8
+	arm_func_end exFixBossLifeGaugeTask__Destroy

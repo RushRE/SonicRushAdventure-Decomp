@@ -3,62 +3,62 @@
 	
 	.text
 
-	arm_func_start ovl09_215592C
-ovl09_215592C: // 0x0215592C
+	arm_func_start exBossEffectHitTask__BossMain_215592C
+exBossEffectHitTask__BossMain_215592C: // 0x0215592C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl exBossEffectFireTask__Create
 	add r0, r4, #0x6c
 	mov r1, #0xc
-	bl ovl09_2154370
+	bl exBossHelpers__Func_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _02155964 // =ovl09_2155968
+	ldr r1, _02155964 // =exBossEffectHitTask__BossMain_2155968
 	str r1, [r0]
-	bl ovl09_2155968
+	bl exBossEffectHitTask__BossMain_2155968
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155964: .word ovl09_2155968
-	arm_func_end ovl09_215592C
+_02155964: .word exBossEffectHitTask__BossMain_2155968
+	arm_func_end exBossEffectHitTask__BossMain_215592C
 
-	arm_func_start ovl09_2155968
-ovl09_2155968: // 0x02155968
+	arm_func_start exBossEffectHitTask__BossMain_2155968
+exBossEffectHitTask__BossMain_2155968: // 0x02155968
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0x6c
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02155994
-	bl ovl09_21559B8
+	bl exBossEffectHitTask__BossFunc_21559B8
 	ldmia sp!, {r4, pc}
 _02155994:
 	add r0, r4, #0x6c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_2155968
+	arm_func_end exBossEffectHitTask__BossMain_2155968
 
-	arm_func_start ovl09_21559B8
-ovl09_21559B8: // 0x021559B8
+	arm_func_start exBossEffectHitTask__BossFunc_21559B8
+exBossEffectHitTask__BossFunc_21559B8: // 0x021559B8
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0xd
-	bl ovl09_2154370
+	bl exBossHelpers__Func_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	mov r2, #0xc9
 	sub r1, r2, #0xca
 	mov r0, #0
@@ -66,24 +66,24 @@ ovl09_21559B8: // 0x021559B8
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	bl ovl09_21581C0
+	bl exBossFireBlueTask__BossFunc_21581C0
 	bl GetExTaskCurrent
-	ldr r1, _02155A14 // =ovl09_2155A18
+	ldr r1, _02155A14 // =exBossEffectHitTask__BossMain_2155A18
 	str r1, [r0]
-	bl ovl09_2155A18
+	bl exBossEffectHitTask__BossMain_2155A18
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155A14: .word ovl09_2155A18
-	arm_func_end ovl09_21559B8
+_02155A14: .word exBossEffectHitTask__BossMain_2155A18
+	arm_func_end exBossEffectHitTask__BossFunc_21559B8
 
-	arm_func_start ovl09_2155A18
-ovl09_2155A18: // 0x02155A18
+	arm_func_start exBossEffectHitTask__BossMain_2155A18
+exBossEffectHitTask__BossMain_2155A18: // 0x02155A18
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r0, [r4, #0x3b0]
 	ldr r0, [r0, #0]
 	cmp r0, #0xf000
@@ -131,23 +131,23 @@ _02155AB0:
 	mov r0, #0
 	strh r0, [r4, #0x66]
 	bl GetExTaskCurrent
-	ldr r1, _02155B38 // =ovl09_2155B3C
+	ldr r1, _02155B38 // =exBossEffectHitTask__Func_2155B3C
 	str r1, [r0]
-	bl ovl09_2155B3C
+	bl exBossEffectHitTask__Func_2155B3C
 	ldmia sp!, {r3, r4, r5, pc}
 _02155AEC:
 	add r0, r4, #0x6c
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02155B04
-	bl ovl09_2155B8C
+	bl exBossEffectHitTask__Func_2155B8C
 	ldmia sp!, {r3, r4, r5, pc}
 _02155B04:
 	add r0, r4, #0x6c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
@@ -157,89 +157,89 @@ _02155B28: .word _mt_math_rand
 _02155B2C: .word 0x00196225
 _02155B30: .word 0x3C6EF35F
 _02155B34: .word 0x51EB851F
-_02155B38: .word ovl09_2155B3C
-	arm_func_end ovl09_2155A18
+_02155B38: .word exBossEffectHitTask__Func_2155B3C
+	arm_func_end exBossEffectHitTask__BossMain_2155A18
 
-	arm_func_start ovl09_2155B3C
-ovl09_2155B3C: // 0x02155B3C
+	arm_func_start exBossEffectHitTask__Func_2155B3C
+exBossEffectHitTask__Func_2155B3C: // 0x02155B3C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0x6c
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02155B68
-	bl ovl09_2155B8C
+	bl exBossEffectHitTask__Func_2155B8C
 	ldmia sp!, {r4, pc}
 _02155B68:
 	add r0, r4, #0x6c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_2155B3C
+	arm_func_end exBossEffectHitTask__Func_2155B3C
 
-	arm_func_start ovl09_2155B8C
-ovl09_2155B8C: // 0x02155B8C
+	arm_func_start exBossEffectHitTask__Func_2155B8C
+exBossEffectHitTask__Func_2155B8C: // 0x02155B8C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0xe
-	bl ovl09_2154370
+	bl exBossHelpers__Func_2154370
 	add r0, r4, #0x3f8
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _02155BC0 // =ovl09_2155BC4
+	ldr r1, _02155BC0 // =exBossEffectHitTask__Func_2155BC4
 	str r1, [r0]
-	bl ovl09_2155BC4
+	bl exBossEffectHitTask__Func_2155BC4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155BC0: .word ovl09_2155BC4
-	arm_func_end ovl09_2155B8C
+_02155BC0: .word exBossEffectHitTask__Func_2155BC4
+	arm_func_end exBossEffectHitTask__Func_2155B8C
 
-	arm_func_start ovl09_2155BC4
-ovl09_2155BC4: // 0x02155BC4
+	arm_func_start exBossEffectHitTask__Func_2155BC4
+exBossEffectHitTask__Func_2155BC4: // 0x02155BC4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	add r0, r4, #0x6c
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02155BF0
-	bl ovl09_2155C14
+	bl exBossEffectHitTask__Func_2155C14
 	ldmia sp!, {r4, pc}
 _02155BF0:
 	add r0, r4, #0x6c
-	bl ovl09_216AE78
+	bl exHitCheckTask__AddHitCheck
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_2155BC4
+	arm_func_end exBossEffectHitTask__Func_2155BC4
 
-	arm_func_start ovl09_2155C14
-ovl09_2155C14: // 0x02155C14
+	arm_func_start exBossEffectHitTask__Func_2155C14
+exBossEffectHitTask__Func_2155C14: // 0x02155C14
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x548]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ovl09_2155C14
+	arm_func_end exBossEffectHitTask__Func_2155C14
 
-	arm_func_start ovl09_2155C28
-ovl09_2155C28: // 0x02155C28
+	arm_func_start exBossEffectHitTask__Func_2155C28
+exBossEffectHitTask__Func_2155C28: // 0x02155C28
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
 	ldr r1, _02155E5C // =0x02175FC4
@@ -273,7 +273,7 @@ ovl09_2155C28: // 0x02155C28
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 _02155CA4:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _02155E5C // =0x02175FC4
 	ldrsh r0, [r0, #6]
 	cmp r0, #0
@@ -296,13 +296,13 @@ _02155CA4:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x57
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02155E5C // =0x02175FC4
 	mov r2, #0
 	str r0, [r1, #0xbc]
 	mov r0, #0x58
 	str r2, [r1, #0xdc]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02155E5C // =0x02175FC4
 	mov r2, #3
 	str r0, [r1, #0xc0]
@@ -393,10 +393,10 @@ _02155E64: .word 0x021760A0
 _02155E68: .word 0x02176080
 _02155E6C: .word 0x0000BFF4
 _02155E70: .word 0x00007FF8
-	arm_func_end ovl09_2155C28
+	arm_func_end exBossEffectHitTask__Func_2155C28
 
-	arm_func_start ovl09_2155E74
-ovl09_2155E74: // 0x02155E74
+	arm_func_start exBossEffectHitTask__Destroy_2155E74
+exBossEffectHitTask__Destroy_2155E74: // 0x02155E74
 	stmdb sp!, {r4, lr}
 	ldr r1, _02155F00 // =0x02175FC4
 	mov r4, r0
@@ -439,7 +439,7 @@ _02155EE4:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02155F00: .word 0x02175FC4
-	arm_func_end ovl09_2155E74
+	arm_func_end exBossEffectHitTask__Destroy_2155E74
 
 	arm_func_start exBossEffectHitTask__Main
 exBossEffectHitTask__Main: // 0x02155F04
@@ -450,12 +450,12 @@ exBossEffectHitTask__Main: // 0x02155F04
 	ldr r1, _02155F78 // =0x02175FC4
 	str r0, [r1, #0x9c]
 	add r0, r4, #4
-	bl ovl09_2155C28
+	bl exBossEffectHitTask__Func_2155C28
 	add r0, r4, #0x390
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r1, [r4, #0x4e0]
 	ldr r0, _02155F78 // =0x02175FC4
 	ldr r2, [r1, #0x3c8]
@@ -469,26 +469,26 @@ exBossEffectHitTask__Main: // 0x02155F04
 	str r2, [r4, #0x35c]
 	str r1, [r0, #0x18]
 	bl GetExTaskCurrent
-	ldr r1, _02155F7C // =ovl09_2155FE4
+	ldr r1, _02155F7C // =exBossEffectHitTask__Main_2155FE4
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02155F78: .word 0x02175FC4
-_02155F7C: .word ovl09_2155FE4
+_02155F7C: .word exBossEffectHitTask__Main_2155FE4
 	arm_func_end exBossEffectHitTask__Main
 
 	arm_func_start exBossEffectHitTask__Func8
 exBossEffectHitTask__Func8: // 0x02155F80
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	beq _02155FA0
 	bl GetExTaskCurrent
 	ldr r1, _02155FBC // =ExTask_State_Destroy
 	str r1, [r0]
 _02155FA0:
-	bl ovl09_2154C28
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	ldmneia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -504,7 +504,7 @@ exBossEffectHitTask__Destructor: // 0x02155FC0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #4
-	bl ovl09_2155E74
+	bl exBossEffectHitTask__Destroy_2155E74
 	ldr r0, _02155FE0 // =0x02175FC4
 	mov r1, #0
 	str r1, [r0, #0x9c]
@@ -513,14 +513,14 @@ exBossEffectHitTask__Destructor: // 0x02155FC0
 _02155FE0: .word 0x02175FC4
 	arm_func_end exBossEffectHitTask__Destructor
 
-	arm_func_start ovl09_2155FE4
-ovl09_2155FE4: // 0x02155FE4
+	arm_func_start exBossEffectHitTask__Main_2155FE4
+exBossEffectHitTask__Main_2155FE4: // 0x02155FE4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #4
-	bl ovl09_2162164
-	bl ovl09_215F014
+	bl exDrawReqTask__Model__Animate
+	bl ExBossSysAdminTask__GetSingleton
 	cmp r0, #0
 	bne _02156014
 	bl GetExTaskCurrent
@@ -529,7 +529,7 @@ ovl09_2155FE4: // 0x02155FE4
 	ldmia sp!, {r4, pc}
 _02156014:
 	add r0, r4, #4
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02156034
 	bl GetExTaskCurrent
@@ -539,14 +539,14 @@ _02156014:
 _02156034:
 	add r0, r4, #4
 	add r1, r4, #0x390
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02156050: .word ExTask_State_Destroy
-	arm_func_end ovl09_2155FE4
+	arm_func_end exBossEffectHitTask__Main_2155FE4
 
 	arm_func_start exBossEffectHitTask__Create
 exBossEffectHitTask__Create: // 0x02156054
@@ -570,7 +570,7 @@ exBossEffectHitTask__Create: // 0x02156054
 	mov r4, r0
 	mov r1, #0
 	bl MI_CpuFill8
-	bl ovl09_215F014
+	bl ExBossSysAdminTask__GetSingleton
 	bl GetExTaskWork_
 	str r0, [r4, #0x4e0]
 	mov r0, r5

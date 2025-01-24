@@ -40,26 +40,26 @@ exDrawReqTask__Main: // 0x02163E28
 	bl _AllocHeadHEAP_USER
 	ldr r1, _02163E6C // =exDrawReqTask__word_217644C
 	str r0, [r1, #0xc]
-	bl ovl09_21641C8
+	bl exDrawReqTask__Func_21641C8
 	ldr r0, [r4, #4]
-	bl ovl09_2164174
-	bl ovl09_216426C
+	bl exDrawReqTask__InitUnknown2
+	bl exDrawReqTask__InitUnknown3
 	bl GetExTaskCurrent
-	ldr r1, _02163E70 // =ovl09_2163EC4
+	ldr r1, _02163E70 // =exDrawReqTask__Main_Process
 	str r1, [r0]
-	bl ovl09_2163EC4
+	bl exDrawReqTask__Main_Process
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02163E68: .word 0x00076200
 _02163E6C: .word exDrawReqTask__word_217644C
-_02163E70: .word ovl09_2163EC4
+_02163E70: .word exDrawReqTask__Main_Process
 	arm_func_end exDrawReqTask__Main
 
 	arm_func_start exDrawReqTask__Func8
 exDrawReqTask__Func8: // 0x02163E74
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -85,8 +85,8 @@ exDrawReqTask__Destructor: // 0x02163E9C
 _02163EC0: .word exDrawReqTask__word_217644C
 	arm_func_end exDrawReqTask__Destructor
 
-	arm_func_start ovl09_2163EC4
-ovl09_2163EC4: // 0x02163EC4
+	arm_func_start exDrawReqTask__Main_Process
+exDrawReqTask__Main_Process: // 0x02163EC4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r1, _02163FB4 // =exDrawReqTask__word_217644C
@@ -109,27 +109,27 @@ _02163EE4:
 	bne _02163F20
 	add r0, r1, #0x38c
 	add r0, r0, #0x400
-	bl ovl09_2161B1C
+	bl exDrawReqTask__Sprite2D__ProcessRequest
 	b _02163F60
 _02163F20:
 	cmp r0, #1
 	bne _02163F34
 	add r0, r1, #0x10
-	bl ovl09_21623C4
+	bl exDrawReqTask__Model__ProcessRequest
 	b _02163F60
 _02163F34:
 	cmp r0, #3
 	bne _02163F4C
 	add r0, r1, #0xec
 	add r0, r0, #0x400
-	bl ovl09_2163BC0
+	bl exDrawReqTask__Sprite3D__ProcessRequest
 	b _02163F60
 _02163F4C:
 	cmp r0, #4
 	bne _02163F60
 	add r0, r1, #0x14
 	add r0, r0, #0x800
-	bl ovl09_2163238
+	bl exDrawReqTask__Trail__ProcessRequest
 _02163F60:
 	ldr r0, [r4, #4]
 	ldr r1, [r0, #8]
@@ -137,7 +137,7 @@ _02163F60:
 	cmp r1, #0
 	bne _02163EE4
 _02163F74:
-	bl ovl09_216ADBC
+	bl exHitCheckTask__Func_216ADBC
 	cmp r0, #0
 	beq _02163F8C
 	mov r0, #1
@@ -147,9 +147,9 @@ _02163F8C:
 	mov r0, #0
 	bl EnableExTaskNoUpdate
 	ldr r0, [r4, #4]
-	bl ovl09_2164174
-	bl ovl09_21641C8
-	bl ovl09_2152CB4
+	bl exDrawReqTask__InitUnknown2
+	bl exDrawReqTask__Func_21641C8
+	bl exPlayerHelpers__Func_2152CB4
 _02163FA4:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
@@ -157,7 +157,7 @@ _02163FA4:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02163FB4: .word exDrawReqTask__word_217644C
-	arm_func_end ovl09_2163EC4
+	arm_func_end exDrawReqTask__Main_Process
 
 	arm_func_start exDrawReqTask__Create
 exDrawReqTask__Create: // 0x02163FB8
@@ -195,12 +195,12 @@ _0216402C: .word 0x0000EFFE
 _02164030: .word exDrawReqTask__Func8
 	arm_func_end exDrawReqTask__Create
 
-	arm_func_start ovl09_2164034
-ovl09_2164034: // 0x02164034
+	arm_func_start exDrawReqTask__AddRequest
+exDrawReqTask__AddRequest: // 0x02164034
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r0
 	mov r7, r1
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
 	ldr r0, _02164168 // =0x0217644C
@@ -216,7 +216,7 @@ ovl09_2164034: // 0x02164034
 	ldrh r1, [r6, #4]
 	mov r0, r8
 	ldr r5, _0216416C // =0x02176454
-	bl ovl09_216B3B0
+	bl exHitCheckTask__DoArenaBoundsCheck
 	ldrh r0, [r6, #4]
 	cmp r0, #2
 	bne _021640A8
@@ -284,10 +284,10 @@ _0216414C:
 _02164168: .word 0x0217644C
 _0216416C: .word 0x02176454
 _02164170: .word 0x000004DC
-	arm_func_end ovl09_2164034
+	arm_func_end exDrawReqTask__AddRequest
 
-	arm_func_start ovl09_2164174
-ovl09_2164174: // 0x02164174
+	arm_func_start exDrawReqTask__InitUnknown2
+exDrawReqTask__InitUnknown2: // 0x02164174
 	stmdb sp!, {r4, r5, r6, lr}
 	ldr r5, _021641A8 // =0x0217644C
 	mov r6, #0
@@ -295,7 +295,7 @@ ovl09_2164174: // 0x02164174
 _02164184:
 	ldr r0, [r5, #0xc]
 	mla r0, r6, r4, r0
-	bl ovl09_21641AC
+	bl exDrawReqTask__InitRequest
 	add r0, r6, #1
 	mov r0, r0, lsl #0x10
 	mov r6, r0, lsr #0x10
@@ -304,10 +304,10 @@ _02164184:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _021641A8: .word 0x0217644C
-	arm_func_end ovl09_2164174
+	arm_func_end exDrawReqTask__InitUnknown2
 
-	arm_func_start ovl09_21641AC
-ovl09_21641AC: // 0x021641AC
+	arm_func_start exDrawReqTask__InitRequest
+exDrawReqTask__InitRequest: // 0x021641AC
 	mov r1, #0
 	strh r1, [r0]
 	strh r1, [r0, #2]
@@ -315,10 +315,10 @@ ovl09_21641AC: // 0x021641AC
 	str r1, [r0, #8]
 	str r1, [r0, #0xc]
 	bx lr
-	arm_func_end ovl09_21641AC
+	arm_func_end exDrawReqTask__InitRequest
 
-	arm_func_start ovl09_21641C8
-ovl09_21641C8: // 0x021641C8
+	arm_func_start exDrawReqTask__Func_21641C8
+exDrawReqTask__Func_21641C8: // 0x021641C8
 	ldr r0, _021641E4 // =0x0217644C
 	mov r1, #0
 	ldr r2, [r0, #0xc]
@@ -328,7 +328,7 @@ ovl09_21641C8: // 0x021641C8
 	bx lr
 	.align 2, 0
 _021641E4: .word 0x0217644C
-	arm_func_end ovl09_21641C8
+	arm_func_end exDrawReqTask__Func_21641C8
 
 	arm_func_start exDrawReqTask__SetConfigPriority
 exDrawReqTask__SetConfigPriority: // 0x021641E8
@@ -336,8 +336,8 @@ exDrawReqTask__SetConfigPriority: // 0x021641E8
 	bx lr
 	arm_func_end exDrawReqTask__SetConfigPriority
 
-	arm_func_start ovl09_21641F0
-ovl09_21641F0: // 0x021641F0
+	arm_func_start exDrawReqTask__Func_21641F0
+exDrawReqTask__Func_21641F0: // 0x021641F0
 	ldrb r1, [r0, #1]
 	orr r2, r1, #4
 	bic r3, r2, #2
@@ -348,7 +348,7 @@ ovl09_21641F0: // 0x021641F0
 	bic r1, r1, #0x10
 	strb r1, [r0, #1]
 	bx lr
-	arm_func_end ovl09_21641F0
+	arm_func_end exDrawReqTask__Func_21641F0
 
 	arm_func_start exDrawReqTask__Func_2164218
 exDrawReqTask__Func_2164218: // 0x02164218
@@ -362,8 +362,8 @@ exDrawReqTask__Func_2164218: // 0x02164218
 	bx lr
 	arm_func_end exDrawReqTask__Func_2164218
 
-	arm_func_start ovl09_2164238
-ovl09_2164238: // 0x02164238
+	arm_func_start exDrawReqTask__Func_2164238
+exDrawReqTask__Func_2164238: // 0x02164238
 	ldrb r1, [r0, #1]
 	bic r2, r1, #4
 	and r1, r2, #0xff
@@ -374,18 +374,18 @@ ovl09_2164238: // 0x02164238
 	bic r1, r1, #0x10
 	strb r1, [r0, #1]
 	bx lr
-	arm_func_end ovl09_2164238
+	arm_func_end exDrawReqTask__Func_2164238
 
-	arm_func_start ovl09_2164260
-ovl09_2164260: // 0x02164260
+	arm_func_start exDrawReqTask__Func_2164260
+exDrawReqTask__Func_2164260: // 0x02164260
 	ldr r0, _02164268 // =0x0217645C
 	bx lr
 	.align 2, 0
 _02164268: .word 0x0217645C
-	arm_func_end ovl09_2164260
+	arm_func_end exDrawReqTask__Func_2164260
 
-	arm_func_start ovl09_216426C
-ovl09_216426C: // 0x0216426C
+	arm_func_start exDrawReqTask__InitUnknown3
+exDrawReqTask__InitUnknown3: // 0x0216426C
 	ldr ip, _02164280 // =MI_CpuFill8
 	ldr r0, _02164284 // =0x0217645C
 	mov r1, #0
@@ -394,16 +394,16 @@ ovl09_216426C: // 0x0216426C
 	.align 2, 0
 _02164280: .word MI_CpuFill8
 _02164284: .word 0x0217645C
-	arm_func_end ovl09_216426C
+	arm_func_end exDrawReqTask__InitUnknown3
 
-	arm_func_start ovl09_2164288
-ovl09_2164288: // 0x02164288
+	arm_func_start exDrawReqTask__Func_2164288
+exDrawReqTask__Func_2164288: // 0x02164288
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	cmp r4, #0xf
 	movhi r0, #0
 	ldmhiia sp!, {r4, pc}
-	bl ovl09_2164260
+	bl exDrawReqTask__Func_2164260
 	ldrb r2, [r0, #0]
 	mov r1, r4, lsl #0x1c
 	bic r2, r2, #0xf0
@@ -411,10 +411,10 @@ ovl09_2164288: // 0x02164288
 	strb r1, [r0]
 	mov r0, #1
 	ldmia sp!, {r4, pc}
-	arm_func_end ovl09_2164288
+	arm_func_end exDrawReqTask__Func_2164288
 
-	arm_func_start ovl09_21642BC
-ovl09_21642BC: // 0x021642BC
+	arm_func_start exDrawReqTask__Func_21642BC
+exDrawReqTask__Func_21642BC: // 0x021642BC
 	ldrb r2, [r0, #0]
 	mov r1, r2, lsl #0x18
 	movs r1, r1, lsr #0x1c
@@ -428,10 +428,10 @@ ovl09_21642BC: // 0x021642BC
 	strb r1, [r0]
 	mov r0, #0
 	bx lr
-	arm_func_end ovl09_21642BC
+	arm_func_end exDrawReqTask__Func_21642BC
 
-	arm_func_start ovl09_21642F0
-ovl09_21642F0: // 0x021642F0
+	arm_func_start exDrawReqTask__Func_21642F0
+exDrawReqTask__Func_21642F0: // 0x021642F0
 	cmp r1, #7
 	bxhi lr
 	ldrb r2, [r0, #2]
@@ -440,7 +440,7 @@ ovl09_21642F0: // 0x021642F0
 	orr r1, r2, r1, lsr #27
 	strb r1, [r0, #2]
 	bx lr
-	arm_func_end ovl09_21642F0
+	arm_func_end exDrawReqTask__Func_21642F0
 
 	.data
 	

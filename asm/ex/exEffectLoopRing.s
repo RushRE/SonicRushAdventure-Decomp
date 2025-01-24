@@ -3,11 +3,11 @@
 	
 	.text
 
-	arm_func_start ovl09_2168070
-ovl09_2168070: // 0x02168070
+	arm_func_start exEffectLoopRingTask__InitRingSprite
+exEffectLoopRingTask__InitRingSprite: // 0x02168070
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ovl09_21636BC
+	bl exDrawReqTask__InitSprite3D
 	ldr r0, _02168104 // =0x021765A4
 	add r1, r4, #0x20
 	mov r2, #0x104
@@ -45,10 +45,10 @@ ovl09_2168070: // 0x02168070
 	.align 2, 0
 _02168104: .word 0x021765A4
 _02168108: .word 0x02176590
-	arm_func_end ovl09_2168070
+	arm_func_end exEffectLoopRingTask__InitRingSprite
 
-	arm_func_start ovl09_216810C
-ovl09_216810C: // 0x0216810C
+	arm_func_start exEffectLoopRingTask__SetRingAnim
+exEffectLoopRingTask__SetRingAnim: // 0x0216810C
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
 	mov r6, r0
@@ -83,10 +83,10 @@ ovl09_216810C: // 0x0216810C
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
 _0216818C: .word 0x02176590
-	arm_func_end ovl09_216810C
+	arm_func_end exEffectLoopRingTask__SetRingAnim
 
-	arm_func_start ovl09_2168190
-ovl09_2168190: // 0x02168190
+	arm_func_start exEffectLoopRingTask__Destroy_2168190
+exEffectLoopRingTask__Destroy_2168190: // 0x02168190
 	stmdb sp!, {r3, lr}
 	ldrh r1, [r0, #0x1c]
 	cmp r1, #8
@@ -101,7 +101,7 @@ _021681A8:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021681BC: .word 0x02176590
-	arm_func_end ovl09_2168190
+	arm_func_end exEffectLoopRingTask__Destroy_2168190
 
 	arm_func_start exEffectLoopRingTask__Main
 exEffectLoopRingTask__Main: // 0x021681C0
@@ -110,7 +110,7 @@ exEffectLoopRingTask__Main: // 0x021681C0
 	bl GetExTaskWorkCurrent_
 	mov r6, #0
 	mov r0, r6
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02168298 // =0x02176590
 	str r0, [r1, #0x10]
 	bl VRAMSystem__GetPaletteUnknown
@@ -155,21 +155,21 @@ exEffectLoopRingTask__Main: // 0x021681C0
 	ldr r1, _02168298 // =0x02176590
 	str r0, [r1, #4]
 	bl GetExTaskCurrent
-	ldr r1, _021682A0 // =ovl09_21682F4
+	ldr r1, _021682A0 // =exEffectLoopRingTask__Main_Animate
 	str r1, [r0]
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
 _02168298: .word 0x02176590
 _0216829C: .word 0x021765A4
-_021682A0: .word ovl09_21682F4
+_021682A0: .word exEffectLoopRingTask__Main_Animate
 	arm_func_end exEffectLoopRingTask__Main
 
 	arm_func_start exEffectLoopRingTask__Func8
 exEffectLoopRingTask__Func8: // 0x021682A4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -195,8 +195,8 @@ _021682EC: .word 0x021765A4
 _021682F0: .word 0x02176590
 	arm_func_end exEffectLoopRingTask__Destructor
 
-	arm_func_start ovl09_21682F4
-ovl09_21682F4: // 0x021682F4
+	arm_func_start exEffectLoopRingTask__Main_Animate
+exEffectLoopRingTask__Main_Animate: // 0x021682F4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, _0216832C // =0x02176590
@@ -215,7 +215,7 @@ _0216831C:
 	.align 2, 0
 _0216832C: .word 0x02176590
 _02168330: .word 0x021765A4
-	arm_func_end ovl09_21682F4
+	arm_func_end exEffectLoopRingTask__Main_Animate
 
 	arm_func_start exEffectLoopRingTask__Create
 exEffectLoopRingTask__Create: // 0x02168334

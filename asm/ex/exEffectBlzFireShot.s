@@ -12,26 +12,26 @@ exEffectBlzFireShotTask__Main: // 0x02166EB0
 	ldr r1, _02166EF4 // =0x021764E8
 	str r0, [r1, #0x3c]
 	add r0, r4, #4
-	bl ovl09_2165EC8
+	bl exEffectBlzFireTask__LoadFireShotAssets
 	add r0, r4, #0x390
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _02166EF8 // =ovl09_2166F48
+	ldr r1, _02166EF8 // =exEffectBlzFireShotTask__Main_Charge
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02166EF4: .word 0x021764E8
-_02166EF8: .word ovl09_2166F48
+_02166EF8: .word exEffectBlzFireShotTask__Main_Charge
 	arm_func_end exEffectBlzFireShotTask__Main
 
 	arm_func_start exEffectBlzFireShotTask__Func8
 exEffectBlzFireShotTask__Func8: // 0x02166EFC
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -47,7 +47,7 @@ exEffectBlzFireShotTask__Destructor: // 0x02166F24
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #4
-	bl ovl09_2166184
+	bl exEffectBlzFireTask__ReleaseFireShotAssets
 	ldr r0, _02166F44 // =0x021764E8
 	mov r1, #0
 	str r1, [r0, #0x3c]
@@ -56,13 +56,13 @@ exEffectBlzFireShotTask__Destructor: // 0x02166F24
 _02166F44: .word 0x021764E8
 	arm_func_end exEffectBlzFireShotTask__Destructor
 
-	arm_func_start ovl09_2166F48
-ovl09_2166F48: // 0x02166F48
+	arm_func_start exEffectBlzFireShotTask__Main_Charge
+exEffectBlzFireShotTask__Main_Charge: // 0x02166F48
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #4
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r1, [r4, #0x4e0]
 	add r0, r4, #4
 	ldr r1, [r1, #0x350]
@@ -74,7 +74,7 @@ ovl09_2166F48: // 0x02166F48
 	ldr r1, [r4, #0x4e0]
 	ldr r1, [r1, #0x358]
 	str r1, [r4, #0x35c]
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02166FA4
 	bl GetExTaskCurrent
@@ -84,14 +84,14 @@ ovl09_2166F48: // 0x02166F48
 _02166FA4:
 	add r0, r4, #4
 	add r1, r4, #0x390
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02166FC0: .word ExTask_State_Destroy
-	arm_func_end ovl09_2166F48
+	arm_func_end exEffectBlzFireShotTask__Main_Charge
 
 	arm_func_start exEffectBlzFireShotTask__Create
 exEffectBlzFireShotTask__Create: // 0x02166FC4

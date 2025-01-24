@@ -70,8 +70,8 @@ exBlzDushEffectTask__FileTable2: // 0x02175F48
 	
 	.text
 
-	arm_func_start ovl09_2153584
-ovl09_2153584: // 0x02153584
+	arm_func_start exBlzDushEffectTask__Destroy_2153584
+exBlzDushEffectTask__Destroy_2153584: // 0x02153584
 	stmdb sp!, {r4, lr}
 	ldr r1, _021535E8 // =ov09_02175F00
 	mov r4, r0
@@ -101,10 +101,10 @@ _021535C8:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021535E8: .word ov09_02175F00
-	arm_func_end ovl09_2153584
+	arm_func_end exBlzDushEffectTask__Destroy_2153584
 
-	arm_func_start ovl09_21535EC
-ovl09_21535EC: // 0x021535EC
+	arm_func_start exBlzDushEffectTask__Func_21535EC
+exBlzDushEffectTask__Func_21535EC: // 0x021535EC
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
 	ldr r1, _02153C4C // =ov09_02175F00
@@ -138,7 +138,7 @@ ovl09_21535EC: // 0x021535EC
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 _02153668:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _02153C4C // =ov09_02175F00
 	ldrsh r0, [r0, #6]
 	cmp r0, #0
@@ -161,19 +161,19 @@ _02153668:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x48
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02153C4C // =ov09_02175F00
 	mov r2, #0
 	str r0, [r1, #0x48]
 	mov r0, #0x49
 	str r2, [r1, #0x3c]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02153C4C // =ov09_02175F00
 	mov r2, #1
 	str r0, [r1, #0x4c]
 	mov r0, #0x4a
 	str r2, [r1, #0x40]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02153C4C // =ov09_02175F00
 	mov r2, #4
 	str r0, [r1, #0x50]
@@ -236,25 +236,25 @@ _021537C0:
 	str r0, [r4, #0x368]
 	str r0, [r4, #0x36c]
 	str r0, [r4, #0x370]
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1c
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	beq _02153844
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1e
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	beq _02153844
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1b
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	beq _02153844
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1d
 	mov r0, r0, lsr #0x1f
@@ -279,22 +279,22 @@ _02153874:
 	strh r1, [r0, #0x4a]
 	b _02153BF4
 _02153884:
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1c
 	movs r0, r0, lsr #0x1f
 	bne _021538E8
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1f
 	bne _021538E8
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	bne _021538E8
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1d
 	mov r0, r0, lsr #0x1f
@@ -305,23 +305,23 @@ _02153884:
 	strh r1, [r0, #0x4a]
 	b _02153BF4
 _021538E8:
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1c
 	movs r0, r0, lsr #0x1f
 	bne _02153958
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1e
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _02153958
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	bne _02153958
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1d
 	mov r0, r0, lsr #0x1f
@@ -334,23 +334,23 @@ _021538E8:
 	strh r1, [r0, #0x4c]
 	b _02153BF4
 _02153958:
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1c
 	movs r0, r0, lsr #0x1f
 	bne _021539C4
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1e
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _021539C4
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	bne _021539C4
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1d
 	movs r0, r0, lsr #0x1f
@@ -362,24 +362,24 @@ _02153958:
 	strh r1, [r0, #0x4c]
 	b _02153BF4
 _021539C4:
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1c
 	movs r0, r0, lsr #0x1f
 	bne _02153A34
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1e
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _02153A34
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1b
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _02153A34
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1d
 	movs r0, r0, lsr #0x1f
@@ -391,23 +391,23 @@ _021539C4:
 	strh r1, [r0, #0x4c]
 	b _02153BF4
 _02153A34:
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1c
 	movs r0, r0, lsr #0x1f
 	bne _02153AA0
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1f
 	bne _02153AA0
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1b
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _02153AA0
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1d
 	movs r0, r0, lsr #0x1f
@@ -419,24 +419,24 @@ _02153A34:
 	strh r1, [r0, #0x4c]
 	b _02153BF4
 _02153AA0:
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1c
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _02153B10
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1f
 	bne _02153B10
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1b
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _02153B10
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1d
 	movs r0, r0, lsr #0x1f
@@ -448,23 +448,23 @@ _02153AA0:
 	strh r1, [r0, #0x4c]
 	b _02153BF4
 _02153B10:
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1c
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _02153B78
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1f
 	bne _02153B78
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	bne _02153B78
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1d
 	movs r0, r0, lsr #0x1f
@@ -475,23 +475,23 @@ _02153B10:
 	strh r1, [r0, #0x4c]
 	b _02153BF4
 _02153B78:
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1c
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	bne _02153BF4
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1f
 	bne _02153BF4
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1b
 	movs r0, r0, lsr #0x1f
 	bne _02153BF4
-	bl ovl09_216E3F4
+	bl exPlayerAdminTask__GetUnknown2
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1d
 	mov r0, r0, lsr #0x1f
@@ -541,10 +541,10 @@ _02153C64: .word 0x00003FFC
 _02153C68: .word 0x00007FF8
 _02153C6C: .word 0x00009FF6
 _02153C70: .word 0x0000DFF2
-	arm_func_end ovl09_21535EC
+	arm_func_end exBlzDushEffectTask__Func_21535EC
 
-	arm_func_start ovl09_2153C74
-ovl09_2153C74: // 0x02153C74
+	arm_func_start exBlzDushEffectTask__Func_2153C74
+exBlzDushEffectTask__Func_2153C74: // 0x02153C74
 	stmdb sp!, {r4, lr}
 	ldr r1, _02153D18 // =ov09_02175F00
 	mov r4, r0
@@ -594,7 +594,7 @@ _02153CF8:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02153D18: .word ov09_02175F00
-	arm_func_end ovl09_2153C74
+	arm_func_end exBlzDushEffectTask__Func_2153C74
 
 	arm_func_start exBlzDushEffectTask__Main
 exBlzDushEffectTask__Main: // 0x02153D1C
@@ -605,26 +605,26 @@ exBlzDushEffectTask__Main: // 0x02153D1C
 	ldr r1, _02153D60 // =ov09_02175F00
 	str r0, [r1, #0x18]
 	add r0, r4, #4
-	bl ovl09_21535EC
+	bl exBlzDushEffectTask__Func_21535EC
 	add r0, r4, #0x390
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _02153D64 // =ovl09_2153DB4
+	ldr r1, _02153D64 // =exBlzDushEffectTask__Main_2153DB4
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02153D60: .word ov09_02175F00
-_02153D64: .word ovl09_2153DB4
+_02153D64: .word exBlzDushEffectTask__Main_2153DB4
 	arm_func_end exBlzDushEffectTask__Main
 
 	arm_func_start exBlzDushEffectTask__Func8
 exBlzDushEffectTask__Func8: // 0x02153D68
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -640,7 +640,7 @@ exBlzDushEffectTask__Destructor: // 0x02153D90
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #4
-	bl ovl09_2153C74
+	bl exBlzDushEffectTask__Func_2153C74
 	ldr r0, _02153DB0 // =ov09_02175F00
 	mov r1, #0
 	str r1, [r0, #0x18]
@@ -649,13 +649,13 @@ exBlzDushEffectTask__Destructor: // 0x02153D90
 _02153DB0: .word ov09_02175F00
 	arm_func_end exBlzDushEffectTask__Destructor
 
-	arm_func_start ovl09_2153DB4
-ovl09_2153DB4: // 0x02153DB4
+	arm_func_start exBlzDushEffectTask__Main_2153DB4
+exBlzDushEffectTask__Main_2153DB4: // 0x02153DB4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #4
-	bl ovl09_2162164
+	bl exDrawReqTask__Model__Animate
 	ldr r1, [r4, #0x4e0]
 	add r0, r4, #4
 	ldr r1, [r1, #0x350]
@@ -666,7 +666,7 @@ ovl09_2153DB4: // 0x02153DB4
 	ldr r1, [r4, #0x4e0]
 	ldr r1, [r1, #0x358]
 	str r1, [r4, #0x35c]
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02153E0C
 	bl GetExTaskCurrent
@@ -676,14 +676,14 @@ ovl09_2153DB4: // 0x02153DB4
 _02153E0C:
 	add r0, r4, #4
 	add r1, r4, #0x390
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02153E28: .word ExTask_State_Destroy
-	arm_func_end ovl09_2153DB4
+	arm_func_end exBlzDushEffectTask__Main_2153DB4
 
 	arm_func_start exBlzDushEffectTask__Create
 exBlzDushEffectTask__Create: // 0x02153E2C
@@ -694,7 +694,7 @@ exBlzDushEffectTask__Create: // 0x02153E2C
 	ldr r0, [r1, #0x18]
 	cmp r0, #0
 	beq _02153E4C
-	bl ovl09_2153EDC
+	bl exBlzDushEffectTask__Func_2153EDC
 _02153E4C:
 	cmp r4, #0
 	addeq sp, sp, #0x10
@@ -735,8 +735,8 @@ _02153ED4: .word exBlzDushEffectTask__Main
 _02153ED8: .word exBlzDushEffectTask__Func8
 	arm_func_end exBlzDushEffectTask__Create
 
-	arm_func_start ovl09_2153EDC
-ovl09_2153EDC: // 0x02153EDC
+	arm_func_start exBlzDushEffectTask__Func_2153EDC
+exBlzDushEffectTask__Func_2153EDC: // 0x02153EDC
 	stmdb sp!, {r3, lr}
 	ldr r0, _02153F00 // =ov09_02175F00
 	ldr r0, [r0, #0x18]
@@ -749,20 +749,20 @@ ovl09_2153EDC: // 0x02153EDC
 	.align 2, 0
 _02153F00: .word ov09_02175F00
 _02153F04: .word ExTask_State_Destroy
-	arm_func_end ovl09_2153EDC
+	arm_func_end exBlzDushEffectTask__Func_2153EDC
 
-	arm_func_start ovl09_2153F08
-ovl09_2153F08: // 0x02153F08
+	arm_func_start exBlzDushEffectTask__LoadBlazeSprite
+exBlzDushEffectTask__LoadBlazeSprite: // 0x02153F08
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	mov r4, r0
-	bl ovl09_21636BC
+	bl exDrawReqTask__InitSprite3D
 	ldr r0, _02154004 // =ov09_02175F00
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	bne _02153F38
 	mov r0, #0
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02154004 // =ov09_02175F00
 	str r0, [r1, #0x24]
 _02153F38:
@@ -820,10 +820,10 @@ _02153F38:
 	.align 2, 0
 _02154004: .word ov09_02175F00
 _02154008: .word 0x00000333
-	arm_func_end ovl09_2153F08
+	arm_func_end exBlzDushEffectTask__LoadBlazeSprite
 
-	arm_func_start ovl09_215400C
-ovl09_215400C: // 0x0215400C
+	arm_func_start exBlzDushEffectTask__Func_215400C
+exBlzDushEffectTask__Func_215400C: // 0x0215400C
 	stmdb sp!, {r3, lr}
 	add r0, r0, #0x20
 	bl AnimatorSprite3D__Release
@@ -834,7 +834,7 @@ ovl09_215400C: // 0x0215400C
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0215402C: .word ov09_02175F00
-	arm_func_end ovl09_215400C
+	arm_func_end exBlzDushEffectTask__Func_215400C
 	
 	.data
 

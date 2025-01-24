@@ -3,18 +3,18 @@
 	
 	.text
 
-	arm_func_start ovl09_215753C
-ovl09_215753C: // 0x0215753C
+	arm_func_start exBossEffectShotTask__Func_215753C
+exBossEffectShotTask__Func_215753C: // 0x0215753C
 	ldr r0, _0215754C // =0x02175FC4
 	mov r1, #0
 	str r1, [r0, #0x60]
 	bx lr
 	.align 2, 0
 _0215754C: .word 0x02175FC4
-	arm_func_end ovl09_215753C
+	arm_func_end exBossEffectShotTask__Func_215753C
 
-	arm_func_start ovl09_2157550
-ovl09_2157550: // 0x02157550
+	arm_func_start exBossEffectShotTask__Func_2157550
+exBossEffectShotTask__Func_2157550: // 0x02157550
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
 	ldr r1, _02157784 // =0x02175FC4
@@ -48,7 +48,7 @@ ovl09_2157550: // 0x02157550
 	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
 _021575CC:
 	mov r0, r4
-	bl ovl09_2161CB0
+	bl exDrawReqTask__InitModel
 	ldr r0, _02157784 // =0x02175FC4
 	ldrsh r0, [r0, #4]
 	cmp r0, #0
@@ -71,13 +71,13 @@ _021575CC:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x39
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02157784 // =0x02175FC4
 	mov r2, #0
 	str r0, [r1, #0xcc]
 	mov r0, #0x3a
 	str r2, [r1, #0xc4]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	ldr r1, _02157784 // =0x02175FC4
 	mov r2, #4
 	str r0, [r1, #0xd0]
@@ -168,10 +168,10 @@ _0215778C: .word 0x02176088
 _02157790: .word 0x02176090
 _02157794: .word 0x0000BFF4
 _02157798: .word 0x00007FF8
-	arm_func_end ovl09_2157550
+	arm_func_end exBossEffectShotTask__Func_2157550
 
-	arm_func_start ovl09_215779C
-ovl09_215779C: // 0x0215779C
+	arm_func_start exBossEffectShotTask__Func_215779C
+exBossEffectShotTask__Func_215779C: // 0x0215779C
 	stmdb sp!, {r4, lr}
 	ldr r1, _02157828 // =0x02175FC4
 	mov r4, r0
@@ -214,7 +214,7 @@ _0215780C:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02157828: .word 0x02175FC4
-	arm_func_end ovl09_215779C
+	arm_func_end exBossEffectShotTask__Func_215779C
 
 	arm_func_start exBossEffectShotTask__Main
 exBossEffectShotTask__Main: // 0x0215782C
@@ -225,12 +225,12 @@ exBossEffectShotTask__Main: // 0x0215782C
 	ldr r1, _021578A0 // =0x02175FC4
 	str r0, [r1, #0x44]
 	add r0, r4, #4
-	bl ovl09_2157550
+	bl exBossEffectShotTask__Func_2157550
 	add r0, r4, #0x390
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
 	add r0, r4, #0x390
-	bl ovl09_21641F0
+	bl exDrawReqTask__Func_21641F0
 	ldr r1, [r4, #0x4e0]
 	ldr r0, _021578A0 // =0x02175FC4
 	ldr r2, [r1, #0x3ec]
@@ -244,26 +244,26 @@ exBossEffectShotTask__Main: // 0x0215782C
 	str r2, [r4, #0x35c]
 	str r1, [r0, #0x40]
 	bl GetExTaskCurrent
-	ldr r1, _021578A4 // =ovl09_215790C
+	ldr r1, _021578A4 // =exBossEffectShotTask__Func_215790C
 	str r1, [r0]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021578A0: .word 0x02175FC4
-_021578A4: .word ovl09_215790C
+_021578A4: .word exBossEffectShotTask__Func_215790C
 	arm_func_end exBossEffectShotTask__Main
 
 	arm_func_start exBossEffectShotTask__Func8
 exBossEffectShotTask__Func8: // 0x021578A8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ovl09_2172AE0
+	bl exSysTask__GetFlag_2178650
 	cmp r0, #0
 	beq _021578C8
 	bl GetExTaskCurrent
 	ldr r1, _021578E4 // =ExTask_State_Destroy
 	str r1, [r0]
 _021578C8:
-	bl ovl09_2154C28
+	bl exBossHelpers__Func_2154C28
 	cmp r0, #1
 	ldmneia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -279,7 +279,7 @@ exBossEffectShotTask__Destructor: // 0x021578E8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	add r0, r0, #4
-	bl ovl09_215779C
+	bl exBossEffectShotTask__Func_215779C
 	ldr r0, _02157908 // =0x02175FC4
 	mov r1, #0
 	str r1, [r0, #0x44]
@@ -288,14 +288,14 @@ exBossEffectShotTask__Destructor: // 0x021578E8
 _02157908: .word 0x02175FC4
 	arm_func_end exBossEffectShotTask__Destructor
 
-	arm_func_start ovl09_215790C
-ovl09_215790C: // 0x0215790C
+	arm_func_start exBossEffectShotTask__Func_215790C
+exBossEffectShotTask__Func_215790C: // 0x0215790C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #4
-	bl ovl09_2162164
-	bl ovl09_215F014
+	bl exDrawReqTask__Model__Animate
+	bl ExBossSysAdminTask__GetSingleton
 	cmp r0, #0
 	bne _0215793C
 	bl GetExTaskCurrent
@@ -304,7 +304,7 @@ ovl09_215790C: // 0x0215790C
 	ldmia sp!, {r4, pc}
 _0215793C:
 	add r0, r4, #4
-	bl ovl09_21623F8
+	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215795C
 	bl GetExTaskCurrent
@@ -314,14 +314,14 @@ _0215793C:
 _0215795C:
 	add r0, r4, #4
 	add r1, r4, #0x390
-	bl ovl09_2164034
+	bl exDrawReqTask__AddRequest
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02157978: .word ExTask_State_Destroy
-	arm_func_end ovl09_215790C
+	arm_func_end exBossEffectShotTask__Func_215790C
 
 	arm_func_start exBossEffectShotTask__Create
 exBossEffectShotTask__Create: // 0x0215797C

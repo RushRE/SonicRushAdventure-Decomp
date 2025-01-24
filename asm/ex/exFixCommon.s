@@ -3,17 +3,17 @@
 	
 	.text
 
-	arm_func_start ovl09_2168EA4
-ovl09_2168EA4: // 0x02168EA4
+	arm_func_start exFixAdminTask__LoadSprite
+exFixAdminTask__LoadSprite: // 0x02168EA4
 	stmdb sp!, {r4, r5, r6, r7, lr}
 	sub sp, sp, #0x1c
 	mov r5, r0
 	ldrh r7, [r5, #0]
 	ldrh r4, [r5, #2]
-	bl ovl09_2161768
+	bl exDrawReqTask__InitSprite2D
 	mov r0, #0
 	strh r7, [r5]
-	bl ovl09_21733D4
+	bl exSysTask__LoadExFile
 	mov r1, r7
 	mov r6, r0
 	bl Sprite__GetSpriteSize2FromAnim
@@ -55,13 +55,13 @@ ovl09_2168EA4: // 0x02168EA4
 	.align 2, 0
 _02168F60: .word VRAMSystem__VRAM_PALETTE_OBJ
 _02168F64: .word 0x00000804
-	arm_func_end ovl09_2168EA4
+	arm_func_end exFixAdminTask__LoadSprite
 
-	arm_func_start ovl09_2168F68
-ovl09_2168F68: // 0x02168F68
+	arm_func_start exFixAdminTask__Func_2168F68
+exFixAdminTask__Func_2168F68: // 0x02168F68
 	ldr ip, _02168F74 // =AnimatorSprite__Release
 	add r0, r0, #4
 	bx ip
 	.align 2, 0
 _02168F74: .word AnimatorSprite__Release
-	arm_func_end ovl09_2168F68
+	arm_func_end exFixAdminTask__Func_2168F68
