@@ -86,7 +86,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	mov r1, #4
 	strh r1, [r0, #2]
 	ldr r0, [r4, #8]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [r4, #8]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -108,7 +108,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	mov r1, #6
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0xc]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [r4, #0xc]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -130,7 +130,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x10]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x10]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [r4, #0x10]
 	ldr r1, _0216CCBC // =0x0000E001
 	add r0, r0, #0x80
@@ -153,7 +153,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	mov r1, #6
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x14]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [r4, #0x14]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -175,7 +175,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	mov r1, #6
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x18]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [r4, #0x18]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -197,7 +197,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x1c]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x1c]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [r4, #0x1c]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -219,7 +219,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x20]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x20]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [r4, #0x20]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -241,7 +241,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	mov r1, #6
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x24]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [r4, #0x24]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -263,7 +263,7 @@ exMsgTitleTask__Main: // 0x0216C8E8
 	ldr r0, [r4, #0x28]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x28]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [r4, #0x28]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -314,7 +314,7 @@ exMsgTitleTask__Destructor: // 0x0216CCD0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x30]
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	ldr r0, _0216CCF0 // =exMsgTitleTask__TaskSingleton
 	mov r1, #0
 	str r1, [r0]
@@ -917,23 +917,23 @@ exMsgTitleTask__Func_216D564: // 0x0216D564
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	ldr r0, [r4, #8]
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	ldr r0, [r4, #0x10]
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	ldr r0, [r4, #0xc]
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	ldr r0, [r4, #0x14]
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	ldr r0, [r4, #0x18]
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	ldr r0, [r4, #0x1c]
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	ldr r0, [r4, #0x20]
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	ldr r0, [r4, #0x24]
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	ldr r0, [r4, #0x28]
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	mov r2, #0x4a
 	ldr r0, [r4, #0x2c]
 	mov r1, #7
@@ -941,7 +941,7 @@ exMsgTitleTask__Func_216D564: // 0x0216D564
 	ldr r0, [r4, #0x2c]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x2c]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [r4, #0x2c]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -968,7 +968,7 @@ exMsgTitleTask__Func_216D564: // 0x0216D564
 	ldr r0, [r4, #0x30]
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0x30]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [r4, #0x30]
 	mov r1, #0xe000
 	add r0, r0, #0x80
@@ -1063,7 +1063,7 @@ exMsgTitleTask__Func_216D760: // 0x0216D760
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x2c]
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	bl exSysTask__GetStatus
 	mov r1, #4
 	strb r1, [r0, #3]

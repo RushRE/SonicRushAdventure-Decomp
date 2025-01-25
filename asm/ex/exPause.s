@@ -77,7 +77,7 @@ _0216D98C:
 	mov r1, #8
 	strh r2, [r7, #0x18]
 	strh r1, [r7, #0x1a]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	add r0, r7, #0x98
 	mov r1, #0xe000
 	bl exDrawReqTask__SetConfigPriority
@@ -123,7 +123,7 @@ _0216DA20:
 	strh r1, [r10, #0xa0]
 	mov r1, #8
 	strh r1, [r10, #0xa2]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	add r0, r5, r9
 	mov r1, #0xe000
 	bl exDrawReqTask__SetConfigPriority
@@ -152,7 +152,7 @@ _0216DA20:
 	strh r1, [r2, #0xb0]
 	mov r1, #8
 	strh r1, [r2, #0xb2]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r0, [sp, #0x10]
 	mov r1, #0xe000
 	add r0, r0, r9
@@ -217,7 +217,7 @@ exPauseTask__Destructor: // 0x0216DBA0
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x18
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	mov r7, #0
 	add r6, r4, #0xa0
 	add r5, r4, #0x1b0
@@ -225,9 +225,9 @@ exPauseTask__Destructor: // 0x0216DBA0
 _0216DBC4:
 	mul r8, r7, r4
 	add r0, r6, r8
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	add r0, r5, r8
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	add r0, r7, #1
 	mov r0, r0, lsl #0x10
 	mov r7, r0, lsr #0x10

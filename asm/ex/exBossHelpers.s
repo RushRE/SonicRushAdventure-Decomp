@@ -515,24 +515,24 @@ exBossHelpers__Func_21546CC: // 0x021546CC
 	add r0, r4, #0x6c
 	bl exDrawReqTask__Model__Animate
 	bl ExBossSysAdminTask__Func_215F88C
-	bl ExBossSysAdminTask__Func_215DF0C
+	bl ExBossSysAdminTask__GetBossWork
 	ldrsh r2, [r0, #0x64]
 	ldr r1, _02154754 // =0x55555556
 	smull r0, r3, r1, r2
 	add r3, r3, r2, lsr #31
 	mov r5, r3, lsl #0x11
 	mov r6, r5, asr #0x10
-	bl ExBossSysAdminTask__Func_215DF0C
+	bl ExBossSysAdminTask__GetBossWork
 	ldrsh r0, [r0, #0x62]
 	cmp r0, r5, asr #16
 	bge _02154724
-	bl ExBossSysAdminTask__Func_215DF0C
+	bl ExBossSysAdminTask__GetBossWork
 	ldrsh r1, [r0, #0x62]
 	add r1, r1, #1
 	strh r1, [r0, #0x62]
 	b _02154744
 _02154724:
-	bl ExBossSysAdminTask__Func_215DF0C
+	bl ExBossSysAdminTask__GetBossWork
 	add r1, r6, #1
 	strh r1, [r0, #0x62]
 	ldr r0, [r4, #0x3c0]
@@ -665,24 +665,24 @@ exBossHelpers__Func_2154898: // 0x02154898
 	add r0, r4, #0x6c
 	bl exDrawReqTask__Model__Animate
 	bl ExBossSysAdminTask__Func_215F88C
-	bl ExBossSysAdminTask__Func_215DF0C
+	bl ExBossSysAdminTask__GetBossWork
 	ldrsh r2, [r0, #0x64]
 	ldr r1, _02154920 // =0x55555556
 	smull r0, r3, r1, r2
 	add r3, r3, r2, lsr #31
 	mov r5, r3, lsl #0x10
 	mov r6, r5, asr #0x10
-	bl ExBossSysAdminTask__Func_215DF0C
+	bl ExBossSysAdminTask__GetBossWork
 	ldrsh r0, [r0, #0x62]
 	cmp r0, r5, asr #16
 	bge _021548F0
-	bl ExBossSysAdminTask__Func_215DF0C
+	bl ExBossSysAdminTask__GetBossWork
 	ldrsh r1, [r0, #0x62]
 	add r1, r1, #1
 	strh r1, [r0, #0x62]
 	b _02154910
 _021548F0:
-	bl ExBossSysAdminTask__Func_215DF0C
+	bl ExBossSysAdminTask__GetBossWork
 	add r1, r6, #1
 	strh r1, [r0, #0x62]
 	ldr r0, [r4, #0x3c0]

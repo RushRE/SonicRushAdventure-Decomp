@@ -777,12 +777,7 @@ Overlay ExBoss
     Object asm/ex/exEffectLoopRing.o
     Object asm/ex/exEffectRing.o
     Object asm/ex/exEffectRingAdmin.o
-    Object asm/ex/exFixCommon.o
-    Object asm/ex/exFixTime.o
-    Object asm/ex/exFixRing.o
-    Object asm/ex/exFixRemainder.o
-    Object asm/ex/exFixBossLifeGauge.o
-    Object asm/ex/exFixAdmin.o
+    Object src/ex/exHUD.o
     Object asm/ex/exGameSystem.o
     Object asm/ex/exHitCheck.o
     Object src/ex/ex.o
@@ -796,6 +791,5 @@ Overlay ExBoss
     Object asm/ex/exSys.o
     Object src/ex/exTask.o
     Object src/ex/exTimeGameplay.o
-    Object asm/ex/exTimeGameplay_vars.o
     Object src/ex/exSave.o
 }

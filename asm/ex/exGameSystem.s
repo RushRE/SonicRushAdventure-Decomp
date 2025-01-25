@@ -1,5 +1,11 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
+
+	.bss
+	
+.public exGameSystemTask__singleton
+exGameSystemTask__singleton: // 0x0217741C
+	.space 0x04
 	
 	.text
 
@@ -10,7 +16,7 @@ exGameSystemTask__Main: // 0x0216AAA4
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl GetCurrentTask
-	ldr r2, _0216AB14 // =0x0217741C
+	ldr r2, _0216AB14 // =exGameSystemTask__singleton
 	mov r1, #0
 	str r0, [r2]
 	mov r0, r4
@@ -34,7 +40,7 @@ exGameSystemTask__Main: // 0x0216AAA4
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_0216AB14: .word 0x0217741C
+_0216AB14: .word exGameSystemTask__singleton
 _0216AB18: .word exGameSystemTask__Main_216AB78
 	arm_func_end exGameSystemTask__Main
 
@@ -62,12 +68,12 @@ exGameSystemTask__Destructor: // 0x0216AB48
 	bl exPlayerAdminTask__Destroy_2171730
 	bl exStageTask__Destroy
 	bl exEffectMeteoAdminTask__Destroy_2168044
-	ldr r0, _0216AB74 // =0x0217741C
+	ldr r0, _0216AB74 // =exGameSystemTask__singleton
 	mov r1, #0
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216AB74: .word 0x0217741C
+_0216AB74: .word exGameSystemTask__singleton
 	arm_func_end exGameSystemTask__Destructor
 
 	arm_func_start exGameSystemTask__Main_216AB78
@@ -248,7 +254,7 @@ _0216AD6C: .word exGameSystemTask__Func8
 	arm_func_start exGameSystemTask__Destroy
 exGameSystemTask__Destroy: // 0x0216AD70
 	stmdb sp!, {r3, lr}
-	ldr r0, _0216AD94 // =0x0217741C
+	ldr r0, _0216AD94 // =exGameSystemTask__singleton
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
@@ -257,7 +263,7 @@ exGameSystemTask__Destroy: // 0x0216AD70
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216AD94: .word 0x0217741C
+_0216AD94: .word exGameSystemTask__singleton
 _0216AD98: .word ExTask_State_Destroy
 	arm_func_end exGameSystemTask__Destroy
 

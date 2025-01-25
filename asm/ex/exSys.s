@@ -227,7 +227,7 @@ exSysTask__Main: // 0x02172AF0
 	bl exDrawReqTask__Create
 	bl exHitCheckTask__Create
 	bl exGameSystemTask__Create
-	bl exFixAdminTask__Create
+	bl CreateExHUD
 	bl exSysTask__GetStatus
 	mov r1, #3
 	strb r1, [r0, #3]
@@ -269,7 +269,7 @@ exSysTask__Destructor: // 0x02172CE4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exFixAdminTask__Destroy
+	bl DestroyExHUD
 	bl exGameSystemTask__Destroy
 	ldr r0, [r4, #0]
 	bl _FreeHEAP_USER
@@ -668,7 +668,7 @@ exSysTask__Main_21731DC: // 0x021731DC
 	strh r0, [r4, #0xc]
 	cmp r1, #0
 	bgt _02173224
-	bl exFixAdminTask__Destroy
+	bl DestroyExHUD
 	bl exGameSystemTask__Destroy
 	ldr r0, _02173234 // =exSysTask__Value_2178644
 	mov r1, #0
@@ -704,7 +704,7 @@ exSysTask__Main_217323C: // 0x0217323C
 	bl exDrawReqTask__Create
 	bl exHitCheckTask__Create
 	bl exGameSystemTask__Create
-	bl exFixAdminTask__Create
+	bl CreateExHUD
 	mov r0, #1
 	mov r1, #0
 	str r0, [sp]
@@ -745,7 +745,7 @@ exSysTask__Main_21732E4: // 0x021732E4
 	strh r1, [r0, #0xc]
 	cmp r2, #0
 	ldmgtia sp!, {r3, pc}
-	bl exFixAdminTask__Destroy
+	bl DestroyExHUD
 	bl exGameSystemTask__Destroy
 	ldr r0, _02173330 // =exSysTask__Value_2178644
 	mov r1, #1

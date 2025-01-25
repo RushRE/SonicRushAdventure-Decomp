@@ -18,12 +18,30 @@
 typedef struct exDrawReqTaskConfig_
 {
     u8 field_0;
-    u8 flags;
-    u8 field_2;
+    struct
+    {
+        u8 value_1 : 1;
+        u8 value_2 : 1;
+        u8 value_4 : 1;
+        u8 value_8 : 1;
+        u8 value_10 : 1;
+        u8 value_20 : 1;
+        u8 value_40 : 1;
+        u8 value_80 : 1;
+    } flags;
+    struct
+    {
+        u8 value_1 : 1;
+        u8 value_2 : 1;
+        u8 value_4 : 1;
+        u8 value_8 : 1;
+        u8 value_10 : 1;
+        u8 value_20 : 1;
+        u8 value_40 : 1;
+        u8 value_80 : 1;
+    } field_2;
     u8 field_3;
     u16 priority;
-    u8 __padding1;
-    u8 __padding2;
 } exDrawReqTaskConfig;
 
 typedef struct exDrawFadeUnknown_
@@ -154,19 +172,19 @@ NOT_DECOMPILED void exDrawFadeUnknown__Func_21615A4(void);
 NOT_DECOMPILED void exDrawFadeTask__GetUnknownA(void);
 NOT_DECOMPILED void exDrawFadeTask__GetUnknownB(void);
 NOT_DECOMPILED void exDrawReqTask__EntryUnknown2__GetLightConfig(void);
-NOT_DECOMPILED void exDrawReqTask__InitSprite2DWorker(void);
-NOT_DECOMPILED void exDrawReqTask__InitSprite2DConfig(void);
-NOT_DECOMPILED void exDrawReqTask__InitSprite2D(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite2D__HandleTransform(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite2D__HandleUnknown(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite2D__Animate(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite2D__HandleOamPriority(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite2D__Draw(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite2D__ProcessRequest(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite2D__Func_2161B44(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite2D__Func_2161B6C(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite2D__Func_2161B80(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite2D__IsAnimFinished(void);
+NOT_DECOMPILED void exDrawReqTask__InitSprite2DWorker(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__InitSprite2DConfig(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__InitSprite2D(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite2D__HandleTransform(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite2D__HandleUnknown(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite2D__Animate(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite2D__HandleOamPriority(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite2D__Draw(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite2D__ProcessRequest(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite2D__Func_2161B44(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite2D__Func_2161B6C(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite2D__Func_2161B80(EX_ACTION_BAC2D_WORK *work);
+NOT_DECOMPILED BOOL exDrawReqTask__Sprite2D__IsAnimFinished(EX_ACTION_BAC2D_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Model__InitWorker(void);
 NOT_DECOMPILED void exDrawReqTask__Model__InitConfig(void);
 NOT_DECOMPILED void exDrawReqTask__InitModel(EX_ACTION_NN_WORK *work);
@@ -206,18 +224,18 @@ NOT_DECOMPILED void exDrawReqTask__Func8(void);
 NOT_DECOMPILED void exDrawReqTask__Destructor(void);
 NOT_DECOMPILED void exDrawReqTask__Main_Process(void);
 NOT_DECOMPILED void exDrawReqTask__Create(void);
-NOT_DECOMPILED void exDrawReqTask__AddRequest(exHitCheck *work, exDrawReqTaskConfig *config);
+NOT_DECOMPILED void exDrawReqTask__AddRequest(void *work, exDrawReqTaskConfig *config);
 NOT_DECOMPILED void exDrawReqTask__InitUnknown2(void);
 NOT_DECOMPILED void exDrawReqTask__InitRequest(void);
 NOT_DECOMPILED void exDrawReqTask__Func_21641C8(void);
 NOT_DECOMPILED void exDrawReqTask__SetConfigPriority(exDrawReqTaskConfig *work, u16 priority);
-NOT_DECOMPILED void exDrawReqTask__Func_21641F0(void);
+NOT_DECOMPILED void exDrawReqTask__Func_21641F0(exDrawReqTaskConfig *config);
 NOT_DECOMPILED void exDrawReqTask__Func_2164218(exDrawReqTaskConfig *config);
-NOT_DECOMPILED void exDrawReqTask__Func_2164238(void);
-NOT_DECOMPILED void exDrawReqTask__Func_2164260(void);
-NOT_DECOMPILED void exDrawReqTask__InitUnknown3(void);
-NOT_DECOMPILED void exDrawReqTask__Func_2164288(void);
-NOT_DECOMPILED void exDrawReqTask__Func_21642BC(void);
-NOT_DECOMPILED void exDrawReqTask__Func_21642F0(void);
+NOT_DECOMPILED void exDrawReqTask__Func_2164238(exDrawReqTaskConfig *config);
+NOT_DECOMPILED void exDrawReqTask__Func_2164260(exDrawReqTaskConfig *config);
+NOT_DECOMPILED void exDrawReqTask__InitUnknown3(exDrawReqTaskConfig *config);
+NOT_DECOMPILED void exDrawReqTask__Func_2164288(exDrawReqTaskConfig *config);
+NOT_DECOMPILED void exDrawReqTask__Func_21642BC(exDrawReqTaskConfig *config);
+NOT_DECOMPILED void exDrawReqTask__Func_21642F0(exDrawReqTaskConfig *config);
 
 #endif // RUSH_EXDRAWREQ_H

@@ -267,14 +267,14 @@ ExBossSysAdminTask__Func_215DEF8: // 0x0215DEF8
 	ldmia sp!, {r3, pc}
 	arm_func_end ExBossSysAdminTask__Func_215DEF8
 
-	arm_func_start ExBossSysAdminTask__Func_215DF0C
-ExBossSysAdminTask__Func_215DF0C: // 0x0215DF0C
+	arm_func_start ExBossSysAdminTask__GetBossWork
+ExBossSysAdminTask__GetBossWork: // 0x0215DF0C
 	ldr r0, _0215DF18 // =exBossSysAdminTask__dword_217626C
 	ldr r0, [r0, #0x14]
 	bx lr
 	.align 2, 0
 _0215DF18: .word exBossSysAdminTask__dword_217626C
-	arm_func_end ExBossSysAdminTask__Func_215DF0C
+	arm_func_end ExBossSysAdminTask__GetBossWork
 
 	arm_func_start ExBossSysAdminTask__Func_215DF1C
 ExBossSysAdminTask__Func_215DF1C: // 0x0215DF1C
@@ -500,7 +500,7 @@ ExBossSysAdminTask__Func_215E1B0: // 0x0215E1B0
 	bl exSysTask__GetStatus
 	mov r1, #5
 	strb r1, [r0, #3]
-	bl ExBossSysAdminTask__Func_215DF0C
+	bl ExBossSysAdminTask__GetBossWork
 	mov r1, #0
 	strh r1, [r0, #0x62]
 	bl GetExTaskCurrent
@@ -526,13 +526,13 @@ ExBossSysAdminTask__Main_215E1E8: // 0x0215E1E8
 	bge _0215E22C
 	add r1, r1, #1
 	strh r1, [r0]
-	bl ExBossSysAdminTask__Func_215DF0C
+	bl ExBossSysAdminTask__GetBossWork
 	ldr r1, _0215E290 // =exBossSysAdminTask__dword_217626C
 	ldrsh r1, [r1, #0]
 	strh r1, [r0, #0x62]
 	b _0215E274
 _0215E22C:
-	bl ExBossSysAdminTask__Func_215DF0C
+	bl ExBossSysAdminTask__GetBossWork
 	mov r1, #0xb0
 	strh r1, [r0, #0x62]
 	ldr r0, [r4, #0x3c0]

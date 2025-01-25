@@ -24,4 +24,3 @@ BOOL CheckExTimeGameplayIsTimeOver(void);
 void ResetExTimeGameplayTimeOverFlag(void);
 
 #endif // RUSH_EXTIMEGAMEPLAY_H
-

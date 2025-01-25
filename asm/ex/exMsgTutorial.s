@@ -75,7 +75,7 @@ _0216C5E8:
 	strh r1, [r10, #0x90]
 	mov r1, #3
 	strh r1, [r10, #0x92]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r1, _0216C6D8 // =0x0000E002
 	add r0, r5, r9
 	bl exDrawReqTask__SetConfigPriority
@@ -99,7 +99,7 @@ _0216C5E8:
 	mov r1, #3
 	add r0, r7, #8
 	strh r1, [r7, #0xa]
-	bl exFixAdminTask__LoadSprite
+	bl SetupExHUDSprite
 	ldr r1, _0216C6DC // =0x0000E001
 	add r0, r7, #0x88
 	bl exDrawReqTask__SetConfigPriority
@@ -150,11 +150,11 @@ exMsgTutorialTask__Destructor: // 0x0216C70C
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x90
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	add r0, r4, #0x118
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	add r0, r4, #8
-	bl exFixAdminTask__ReleaseSprite
+	bl ReleaseExHUDSprite
 	ldr r0, _0216C740 // =0x021775B8
 	mov r1, #0
 	str r1, [r0, #4]

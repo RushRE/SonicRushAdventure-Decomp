@@ -95,7 +95,7 @@ void ExTimeGameplay_Main_Active(void)
                     }
                     else
                     {
-                        if (work->time->minutes == 9 && work->time->tenSeconds >= 4u)
+                        if (work->time->minutes == 9 && work->time->tenSeconds >= 4)
                         {
                             if ((work->time->seconds % 2) == 0 || work->time->seconds == 10)
                                 PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_COUNTDOWN);

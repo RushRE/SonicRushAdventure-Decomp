@@ -1,5 +1,11 @@
 	.include "asm/macros.inc"
 	.include "global.inc"
+
+	.bss
+	
+.public exHitCheckTask__unk_2177420
+exHitCheckTask__unk_2177420: // 0x02177420
+	.space 0x70
 	
 	.text
 
@@ -7,37 +13,37 @@
 exHitCheckTask__Func_216AD9C: // 0x0216AD9C
 	cmp r0, #0
 	bxle lr
-	ldr r1, _0216ADB8 // =0x02177420
+	ldr r1, _0216ADB8 // =exHitCheckTask__unk_2177420
 	ldrsh r2, [r1, #0]
 	cmp r2, #0
 	strleh r0, [r1]
 	bx lr
 	.align 2, 0
-_0216ADB8: .word 0x02177420
+_0216ADB8: .word exHitCheckTask__unk_2177420
 	arm_func_end exHitCheckTask__Func_216AD9C
 
 	arm_func_start exHitCheckTask__Func_216ADBC
 exHitCheckTask__Func_216ADBC: // 0x0216ADBC
-	ldr r0, _0216ADD4 // =0x02177420
+	ldr r0, _0216ADD4 // =exHitCheckTask__unk_2177420
 	ldrsh r0, [r0, #0]
 	cmp r0, #0
 	movgt r0, #1
 	movle r0, #0
 	bx lr
 	.align 2, 0
-_0216ADD4: .word 0x02177420
+_0216ADD4: .word exHitCheckTask__unk_2177420
 	arm_func_end exHitCheckTask__Func_216ADBC
 
 	arm_func_start exHitCheckTask__Func_216ADD8
 exHitCheckTask__Func_216ADD8: // 0x0216ADD8
-	ldr r0, _0216ADF0 // =0x02177420
+	ldr r0, _0216ADF0 // =exHitCheckTask__unk_2177420
 	ldrsh r1, [r0, #0]
 	cmp r1, #0
 	subgt r1, r1, #1
 	strgth r1, [r0]
 	bx lr
 	.align 2, 0
-_0216ADF0: .word 0x02177420
+_0216ADF0: .word exHitCheckTask__unk_2177420
 	arm_func_end exHitCheckTask__Func_216ADD8
 
 	arm_func_start exHitCheckTask__InitHitChecker
@@ -124,7 +130,7 @@ _0216AEE0:
 	ldr r0, [r0, #0x10]
 	cmp r0, #0
 	beq _0216AF2C
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldr r2, _0216B250 // =0x021774B8
 	ldrh r3, [r0, #4]
 	add r1, r3, #1
@@ -138,31 +144,31 @@ _0216AF34:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 _0216AF3C:
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldrh r1, [r0, #4]
 	cmp r1, #0x40
 	ldrhs r0, _0216B248 // =_02175D74
 	movhs r2, #0
 	strhs r2, [r0, #0x10]
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldrh r2, [r0, #8]
 	cmp r2, #0xa
 	ldrhs r0, _0216B248 // =_02175D74
 	movhs r3, #0
 	strhs r3, [r0, #0xc]
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldrh r3, [r0, #0xa]
 	cmp r3, #5
 	ldrhs r0, _0216B248 // =_02175D74
 	movhs r5, #0
 	strhs r5, [r0]
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldrh ip, [r0, #6]
 	cmp ip, #0xa
 	ldrhs r0, _0216B248 // =_02175D74
 	movhs r5, #0
 	strhs r5, [r0, #8]
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldrh lr, [r0, #2]
 	cmp lr, #0xa
 	ldrhs r0, _0216B248 // =_02175D74
@@ -212,7 +218,7 @@ _0216B050:
 	ldr r0, [r0, #0x10]
 	cmp r0, #0
 	beq _0216B07C
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldr r6, _0216B250 // =0x021774B8
 	ldrh r5, [r0, #4]
 	str r4, [r6, r1, lsl #2]
@@ -235,7 +241,7 @@ _0216B084:
 	ldr r0, [r0, #0x10]
 	cmp r0, #0
 	beq _0216B0D0
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldr r5, _0216B250 // =0x021774B8
 	ldrh r6, [r0, #4]
 	add r1, r6, #1
@@ -258,7 +264,7 @@ _0216B0D8:
 	ldr r0, [r0, #0]
 	cmp r0, #0
 	beq _0216B124
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldr r2, _0216B254 // =0x0217742C
 	ldrh r1, [r0, #0xa]
 	str r4, [r2, r3, lsl #2]
@@ -278,7 +284,7 @@ _0216B12C:
 	ldr r0, [r0, #8]
 	cmp r0, #0
 	beq _0216B16C
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldr r2, _0216B258 // =0x02177468
 	ldrh r1, [r0, #6]
 	str r4, [r2, ip, lsl #2]
@@ -297,7 +303,7 @@ _0216B174:
 	ldr r0, [r0, #4]
 	cmp r0, #0
 	beq _0216B1B0
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldr r2, _0216B25C // =0x02177440
 	ldrh r1, [r0, #2]
 	str r4, [r2, lr, lsl #2]
@@ -312,7 +318,7 @@ _0216B1B8:
 	ldr r0, [r0, #0xc]
 	cmp r0, #0
 	beq _0216B1E4
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldr r3, _0216B260 // =0x02177490
 	ldrh r1, [r0, #8]
 	str r4, [r3, r2, lsl #2]
@@ -335,7 +341,7 @@ _0216B1EC:
 	ldr r0, [r0, #0x10]
 	cmp r0, #0
 	beq _0216B238
-	ldr r0, _0216B24C // =0x02177420
+	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
 	ldr r2, _0216B250 // =0x021774B8
 	ldrh r3, [r0, #4]
 	add r1, r3, #1
@@ -350,7 +356,7 @@ _0216B240:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0216B248: .word _02175D74
-_0216B24C: .word 0x02177420
+_0216B24C: .word exHitCheckTask__unk_2177420
 _0216B250: .word 0x021774B8
 _0216B254: .word 0x0217742C
 _0216B258: .word 0x02177468
@@ -513,7 +519,7 @@ _0216B450:
 	ldrb r0, [r7, #0]
 	cmp r0, #2
 	bne _0216B528
-	ldr r6, _0216C3A0 // =0x02177420
+	ldr r6, _0216C3A0 // =exHitCheckTask__unk_2177420
 	mov r5, #0
 	ldrh r0, [r6, #4]
 	cmp r0, #0
@@ -572,7 +578,7 @@ _0216B528:
 	ldrb r0, [r8, #0]
 	cmp r0, #2
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	ldr r6, _0216C3A0 // =0x02177420
+	ldr r6, _0216C3A0 // =exHitCheckTask__unk_2177420
 	mov r5, #0
 	ldrh r0, [r6, #4]
 	cmp r0, #0
@@ -631,7 +637,7 @@ _0216B5E8:
 _0216B604:
 	cmp r7, #0
 	cmpne r8, #0
-	ldrne r1, _0216C3A0 // =0x02177420
+	ldrne r1, _0216C3A0 // =exHitCheckTask__unk_2177420
 	ldrneh r0, [r1, #4]
 	cmpne r0, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
@@ -835,7 +841,7 @@ _0216B8CC:
 	ldrsh r1, [r1, #8]
 	strh r1, [r0, #8]
 _0216B908:
-	ldr r0, _0216C3A0 // =0x02177420
+	ldr r0, _0216C3A0 // =exHitCheckTask__unk_2177420
 	ldrh r1, [r0, #0xa]
 	add r0, r9, #1
 	mov r0, r0, lsl #0x10
@@ -843,7 +849,7 @@ _0216B908:
 	mov r9, r0, lsr #0x10
 	bhi _0216B688
 _0216B924:
-	ldr r0, _0216C3A0 // =0x02177420
+	ldr r0, _0216C3A0 // =exHitCheckTask__unk_2177420
 	add r2, r10, #1
 	ldrh r0, [r0, #4]
 	mov r2, r2, lsl #0x10
@@ -851,7 +857,7 @@ _0216B924:
 	cmp r0, r2, lsr #16
 	bhi _0216B634
 _0216B940:
-	ldr r1, _0216C3A0 // =0x02177420
+	ldr r1, _0216C3A0 // =exHitCheckTask__unk_2177420
 	ldrh r1, [r1, #6]
 	cmp r1, #0
 	beq _0216BA88
@@ -879,7 +885,7 @@ _0216B984:
 	bls _0216BA6C
 	ldr r5, _0216C3AC // =0x02177468
 	ldr r4, _0216C3A4 // =0x021774B8
-	ldr r10, _0216C3A0 // =0x02177420
+	ldr r10, _0216C3A0 // =exHitCheckTask__unk_2177420
 _0216B9A8:
 	ldr r0, [r5, r9, lsl #2]
 	ldr r1, [r4, r6, lsl #2]
@@ -932,7 +938,7 @@ _0216BA54:
 	mov r9, r0, lsr #0x10
 	bhi _0216B9A8
 _0216BA6C:
-	ldr r0, _0216C3A0 // =0x02177420
+	ldr r0, _0216C3A0 // =exHitCheckTask__unk_2177420
 	add r2, r6, #1
 	ldrh r0, [r0, #4]
 	mov r2, r2, lsl #0x10
@@ -940,7 +946,7 @@ _0216BA6C:
 	cmp r0, r2, lsr #16
 	bhi _0216B95C
 _0216BA88:
-	ldr r1, _0216C3A0 // =0x02177420
+	ldr r1, _0216C3A0 // =exHitCheckTask__unk_2177420
 	ldrh r1, [r1, #2]
 	cmp r1, #0
 	beq _0216BC3C
@@ -969,7 +975,7 @@ _0216BACC:
 	bls _0216BC20
 	ldr r4, _0216C3A4 // =0x021774B8
 	ldr r5, _0216C3B0 // =0x02177440
-	ldr r10, _0216C3A0 // =0x02177420
+	ldr r10, _0216C3A0 // =exHitCheckTask__unk_2177420
 _0216BAF4:
 	ldr r0, [r5, r9, lsl #2]
 	ldr r1, [r4, r6, lsl #2]
@@ -1052,7 +1058,7 @@ _0216BC08:
 	mov r9, r0, lsr #0x10
 	bhi _0216BAF4
 _0216BC20:
-	ldr r0, _0216C3A0 // =0x02177420
+	ldr r0, _0216C3A0 // =exHitCheckTask__unk_2177420
 	add r2, r6, #1
 	ldrh r0, [r0, #4]
 	mov r2, r2, lsl #0x10
@@ -1067,7 +1073,7 @@ _0216BC3C:
 	mov r5, #0
 	bls _0216C018
 	ldr r4, _0216C3A4 // =0x021774B8
-	ldr r6, _0216C3A0 // =0x02177420
+	ldr r6, _0216C3A0 // =exHitCheckTask__unk_2177420
 _0216BC5C:
 	ldr r1, [r4, r5, lsl #2]
 	ldrb r0, [r1, #6]
@@ -1331,7 +1337,7 @@ _0216C018:
 	ldrb r0, [r8, #0]
 	cmp r0, #2
 	bne _0216C390
-	ldr r4, _0216C3A0 // =0x02177420
+	ldr r4, _0216C3A0 // =exHitCheckTask__unk_2177420
 	mov r6, #0
 	ldrh r0, [r4, #4]
 	cmp r0, #0
@@ -1567,7 +1573,7 @@ _0216C390:
 	strb r0, [r8, #6]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_0216C3A0: .word 0x02177420
+_0216C3A0: .word exHitCheckTask__unk_2177420
 _0216C3A4: .word 0x021774B8
 _0216C3A8: .word 0x0217742C
 _0216C3AC: .word 0x02177468
@@ -1578,7 +1584,7 @@ _0216C3B0: .word 0x02177440
 exHitCheckTask__Main: // 0x0216C3B4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	ldr r0, _0216C3E8 // =0x02177420
+	ldr r0, _0216C3E8 // =exHitCheckTask__unk_2177420
 	mov r1, #0
 	strh r1, [r0, #4]
 	strh r1, [r0, #0xa]
@@ -1590,7 +1596,7 @@ exHitCheckTask__Main: // 0x0216C3B4
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0216C3E8: .word 0x02177420
+_0216C3E8: .word exHitCheckTask__unk_2177420
 _0216C3EC: .word exHitCheckTask__Main_Active
 	arm_func_end exHitCheckTask__Main
 
@@ -1605,7 +1611,7 @@ exHitCheckTask__Func8: // 0x0216C3F0
 	str r2, [r1, #8]
 	str r2, [r1, #0xc]
 	str r2, [r1, #4]
-	ldr r0, _0216C450 // =0x02177420
+	ldr r0, _0216C450 // =exHitCheckTask__unk_2177420
 	mov r1, #0
 	strh r1, [r0, #4]
 	strh r1, [r0, #0xa]
@@ -1621,7 +1627,7 @@ exHitCheckTask__Func8: // 0x0216C3F0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216C44C: .word _02175D74
-_0216C450: .word 0x02177420
+_0216C450: .word exHitCheckTask__unk_2177420
 _0216C454: .word ExTask_State_Destroy
 	arm_func_end exHitCheckTask__Func8
 
@@ -1635,7 +1641,7 @@ exHitCheckTask__Destructor: // 0x0216C458
 	str r2, [r1]
 	str r2, [r1, #8]
 	str r2, [r1, #0xc]
-	ldr r0, _0216C4A0 // =0x02177420
+	ldr r0, _0216C4A0 // =exHitCheckTask__unk_2177420
 	str r2, [r1, #4]
 	mov r1, #0
 	strh r1, [r0, #4]
@@ -1646,7 +1652,7 @@ exHitCheckTask__Destructor: // 0x0216C458
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216C49C: .word _02175D74
-_0216C4A0: .word 0x02177420
+_0216C4A0: .word exHitCheckTask__unk_2177420
 	arm_func_end exHitCheckTask__Destructor
 
 	arm_func_start exHitCheckTask__Main_Active
