@@ -1,8 +1,8 @@
 #ifndef RUSH_EXTIMEGAMEPLAY_H
 #define RUSH_EXTIMEGAMEPLAY_H
 
-#include <ex/exTask.h>
-#include <ex/exSysTask.h>
+#include <ex/system/exTask.h>
+#include <ex/system/exSystem.h>
 
 // --------------------
 // STRUCTS

@@ -1,11 +1,11 @@
 #ifndef RUSH_EXDRAWREQ_H
 #define RUSH_EXDRAWREQ_H
 
-#include <ex/exTask.h>
+#include <ex/system/exTask.h>
 #include <game/graphics/sprite.h>
 #include <game/graphics/paletteAnimation.h>
 #include <game/graphics/drawReqTask.h>
-#include <ex/exHitCheck.h>
+#include <ex/system/exHitCheck.h>
 
 // --------------------
 // ENUMS
@@ -17,7 +17,17 @@
 
 typedef struct exDrawReqTaskConfig_
 {
-    u8 field_0;
+    struct
+    {
+        u8 value_1 : 1;
+        u8 value_2 : 1;
+        u8 value_4 : 1;
+        u8 value_8 : 1;
+        u8 value_10 : 1;
+        u8 value_20 : 1;
+        u8 value_40 : 1;
+        u8 value_80 : 1;
+    } field_0;
     struct
     {
         u8 value_1 : 1;
@@ -40,7 +50,6 @@ typedef struct exDrawReqTaskConfig_
         u8 value_40 : 1;
         u8 value_80 : 1;
     } field_2;
-    u8 field_3;
     u16 priority;
 } exDrawReqTaskConfig;
 
@@ -52,6 +61,18 @@ typedef struct exDrawFadeUnknown_
     u16 field_A2;
 } exDrawFadeUnknown;
 
+typedef struct ExGraphicsSprite2D_
+{
+    u16 anim;
+    u16 paletteRow;
+    AnimatorSprite animator;
+    Vec2Fx16 pos;
+    Vec2Fx32 scale;
+    u16 rotation;
+    s32 field_78;
+    s32 field_7C;
+} ExGraphicsSprite2D;
+
 typedef struct ExGraphicsSprite3D_
 {
     u16 anim;
@@ -61,7 +82,6 @@ typedef struct ExGraphicsSprite3D_
     VecFx32 translation;
     VecFx32 scale;
     VecFx32 translation2;
-    exDrawReqTaskConfig config;
 } ExGraphicsSprite3D;
 
 typedef struct ExGraphicsModel_
@@ -101,14 +121,7 @@ typedef struct ExGraphicsTrail_
 
 typedef struct EX_ACTION_BAC2D_WORK_
 {
-    u16 anim;
-    u16 paletteRow;
-    AnimatorSprite animator;
-    Vec2Fx16 pos;
-    Vec2Fx32 scale;
-    u16 rotation;
-    s32 field_78;
-    s32 field_7C;
+    ExGraphicsSprite2D sprite;
     exDrawReqTaskConfig config;
 } EX_ACTION_BAC2D_WORK;
 
@@ -116,6 +129,7 @@ typedef struct EX_ACTION_BAC3D_WORK_
 {
     exHitCheck hitChecker;
     ExGraphicsSprite3D sprite;
+    exDrawReqTaskConfig config;
     exDrawFadeUnknown field_158[2];
 } EX_ACTION_BAC3D_WORK;
 

@@ -1,7 +1,7 @@
 #ifndef RUSH_EXHITCHECK_H
 #define RUSH_EXHITCHECK_H
 
-#include <ex/exTask.h>
+#include <ex/system/exTask.h>
 
 // --------------------
 // ENUMS
@@ -19,11 +19,51 @@ typedef struct exHitCheckTaskUnknown_
 
 typedef struct exHitCheck_
 {
-    u8 field_0;
-    u8 flags;
-    u8 field_2;
-    u8 field_3;
-    u8 field_4;
+    u8 type;
+    struct
+    {
+        u8 value_1 : 1;
+        u8 value_2 : 1;
+        u8 value_4 : 1;
+        u8 value_8 : 1;
+        u8 value_10 : 1;
+        u8 value_20 : 1;
+        u8 value_40 : 1;
+        u8 value_80 : 1;
+    } flags;
+    struct
+    {
+        u8 value_1 : 1;
+        u8 value_2 : 1;
+        u8 value_4 : 1;
+        u8 value_8 : 1;
+        u8 value_10 : 1;
+        u8 value_20 : 1;
+        u8 value_40 : 1;
+        u8 value_80 : 1;
+    } field_2;
+    struct
+    {
+        u8 value_1 : 1;
+        u8 value_2 : 1;
+        u8 value_4 : 1;
+        u8 value_8 : 1;
+        u8 value_10 : 1;
+        u8 value_20 : 1;
+        u8 value_40 : 1;
+        u8 value_80 : 1;
+    } field_3;
+    struct
+    {
+        u8 value_1 : 1;
+        u8 value_2 : 1;
+        u8 value_4 : 1;
+        u8 value_8 : 1;
+        u8 value_10 : 1;
+        u8 value_20 : 1;
+        u8 value_40 : 1;
+        u8 value_80 : 1;
+    } field_4;
     u8 field_5;
     struct
     {
@@ -36,7 +76,17 @@ typedef struct exHitCheck_
         u8 value_40 : 1;
         u8 value_80 : 1;
     } hitFlags;
-    u8 field_7;
+    struct
+    {
+        u8 value_1 : 1;
+        u8 value_2 : 1;
+        u8 value_4 : 1;
+        u8 value_8 : 1;
+        u8 value_10 : 1;
+        u8 value_20 : 1;
+        u8 value_40 : 1;
+        u8 value_80 : 1;
+    } field_7;
     s16 field_8;
     s16 field_A;
     exHitCheckTaskUnknown box;

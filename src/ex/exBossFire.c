@@ -1,7 +1,7 @@
-#include <ex/exBossFireRed.h>
-#include <ex/exBossFireBlue.h>
-#include <ex/exPlayerHelpers.h>
-#include <ex/exSysTask.h>
+#include <ex/boss/exBossFireRed.h>
+#include <ex/boss/exBossFireBlue.h>
+#include <ex/player/exPlayerHelpers.h>
+#include <ex/system/exSystem.h>
 #include <game/audio/audioSystem.h>
 #include <game/file/binaryBundle.h>
 
@@ -124,17 +124,17 @@ BOOL LoadExBossFireBlueAssets(EX_ACTION_NN_WORK *work)
         if (((1 << r) & (B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_MAT_ANIM)) != 0)
             work->model.animator.animFlags[r] |= ANIMATORMDL_FLAG_CAN_LOOP;
     }
-    work->model.translation.z = FLOAT_TO_FX32(0.0);
-    work->model.scale.x       = FLOAT_TO_FX32(1.0);
-    work->model.scale.y       = FLOAT_TO_FX32(1.0);
-    work->model.scale.z       = FLOAT_TO_FX32(1.0);
-    work->model.angle.x       = FLOAT_DEG_TO_IDX(89.98);
-    work->hitChecker.field_0  = 1;
-    work->hitChecker.field_2 |= 4;
-    work->hitChecker.box.size.x   = FLOAT_TO_FX32(4.0);
-    work->hitChecker.box.size.y   = FLOAT_TO_FX32(4.0);
-    work->hitChecker.box.size.z   = FLOAT_TO_FX32(4.0);
-    work->hitChecker.box.position = &work->model.translation;
+    work->model.translation.z        = FLOAT_TO_FX32(0.0);
+    work->model.scale.x              = FLOAT_TO_FX32(1.0);
+    work->model.scale.y              = FLOAT_TO_FX32(1.0);
+    work->model.scale.z              = FLOAT_TO_FX32(1.0);
+    work->model.angle.x              = FLOAT_DEG_TO_IDX(89.98);
+    work->hitChecker.type            = 1;
+    work->hitChecker.field_2.value_4 = TRUE;
+    work->hitChecker.box.size.x      = FLOAT_TO_FX32(4.0);
+    work->hitChecker.box.size.y      = FLOAT_TO_FX32(4.0);
+    work->hitChecker.box.size.z      = FLOAT_TO_FX32(4.0);
+    work->hitChecker.box.position    = &work->model.translation;
 
     fireballBlueInstanceCount++;
 
@@ -215,7 +215,7 @@ void ExBossFireBlue_Main_MoveFast(void)
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
-        if (work->animator.hitChecker.field_0 == 2)
+        if (work->animator.hitChecker.type == 2)
         {
             ExBossFireBlue_Action_Repelled();
             return;
@@ -288,7 +288,7 @@ void ExBossFireBlue_Main_MoveSlow(void)
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
-        if (work->animator.hitChecker.field_0 == 2)
+        if (work->animator.hitChecker.type == 2)
         {
             ExBossFireBlue_Action_Repelled();
             return;
@@ -328,10 +328,10 @@ void ExBossFireBlue_Action_Repelled(void)
     exBossFireBlueTask *work = ExTaskGetWorkCurrent(exBossFireBlueTask);
 
     work->animator.hitChecker.hitFlags.value_1 = FALSE;
-    work->animator.hitChecker.field_4 |= 2;
+    work->animator.hitChecker.field_4.value_2 = TRUE;
     work->velocity.x = 0;
 
-    if (exSysTask__GetStatus()->difficulty == 1)
+    if (exSysTask__GetStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
         if (work->animator.hitChecker.field_8 == 6)
         {
@@ -342,7 +342,7 @@ void ExBossFireBlue_Action_Repelled(void)
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(6.0), work->velocity.y);
         }
     }
-    else if (exSysTask__GetStatus()->difficulty == 2)
+    else if (exSysTask__GetStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
     {
         if (work->animator.hitChecker.field_8 == 7)
         {
@@ -478,17 +478,17 @@ BOOL LoadExBossFireRedAssets(EX_ACTION_NN_WORK *work)
         if (((1 << r) & (B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_TEX_ANIM | B3D_ANIM_FLAG_PAT_ANIM | B3D_ANIM_FLAG_MAT_ANIM)) != 0)
             work->model.animator.animFlags[r] |= ANIMATORMDL_FLAG_CAN_LOOP;
     }
-    work->model.translation.z = FLOAT_TO_FX32(0.0);
-    work->model.scale.x       = FLOAT_TO_FX32(1.0);
-    work->model.scale.y       = FLOAT_TO_FX32(1.0);
-    work->model.scale.z       = FLOAT_TO_FX32(1.0);
-    work->model.angle.x       = FLOAT_DEG_TO_IDX(89.98);
-    work->hitChecker.field_0  = 1;
-    work->hitChecker.field_2 |= 2;
-    work->hitChecker.box.size.x   = FLOAT_TO_FX32(4.0);
-    work->hitChecker.box.size.y   = FLOAT_TO_FX32(4.0);
-    work->hitChecker.box.size.z   = FLOAT_TO_FX32(4.0);
-    work->hitChecker.box.position = &work->model.translation;
+    work->model.translation.z        = FLOAT_TO_FX32(0.0);
+    work->model.scale.x              = FLOAT_TO_FX32(1.0);
+    work->model.scale.y              = FLOAT_TO_FX32(1.0);
+    work->model.scale.z              = FLOAT_TO_FX32(1.0);
+    work->model.angle.x              = FLOAT_DEG_TO_IDX(89.98);
+    work->hitChecker.type            = 1;
+    work->hitChecker.field_2.value_2 = TRUE;
+    work->hitChecker.box.size.x      = FLOAT_TO_FX32(4.0);
+    work->hitChecker.box.size.y      = FLOAT_TO_FX32(4.0);
+    work->hitChecker.box.size.z      = FLOAT_TO_FX32(4.0);
+    work->hitChecker.box.position    = &work->model.translation;
 
     fireballRedInstanceCount++;
 
@@ -568,7 +568,7 @@ void ExBossFireRed_Main_MoveFast(void)
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
-        if (work->animator.hitChecker.field_0 == 2)
+        if (work->animator.hitChecker.type == 2)
         {
             ExBossFireRed_Action_Repelled();
             return;
@@ -639,7 +639,7 @@ void ExBossFireRed_Main_MoveSlow(void)
 
     if (work->animator.hitChecker.hitFlags.value_1)
     {
-        if (work->animator.hitChecker.field_0 == 2)
+        if (work->animator.hitChecker.type == 2)
         {
             ExBossFireRed_Action_Repelled();
             return;
@@ -677,10 +677,10 @@ void ExBossFireRed_Action_Repelled(void)
     exBossFireRedTask *work = ExTaskGetWorkCurrent(exBossFireRedTask);
 
     work->animator.hitChecker.hitFlags.value_1 = FALSE;
-    work->animator.hitChecker.field_4 |= 2;
+    work->animator.hitChecker.field_4.value_2 = TRUE;
     work->velocity.x = 0;
 
-    if (exSysTask__GetStatus()->difficulty == 1)
+    if (exSysTask__GetStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
         if (work->animator.hitChecker.field_8 == 6)
         {
@@ -691,7 +691,7 @@ void ExBossFireRed_Action_Repelled(void)
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(6.0), work->velocity.y);
         }
     }
-    else if (exSysTask__GetStatus()->difficulty == 2)
+    else if (exSysTask__GetStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
     {
         if (work->animator.hitChecker.field_8 == 7)
         {

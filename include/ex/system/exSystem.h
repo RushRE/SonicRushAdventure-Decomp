@@ -1,7 +1,7 @@
-#ifndef RUSH_EXSYSTASK_H
-#define RUSH_EXSYSTASK_H
+#ifndef RUSH_EXSYSTEM_H
+#define RUSH_EXSYSTEM_H
 
-#include <ex/exTask.h>
+#include <ex/system/exTask.h>
 
 // --------------------
 // ENUMS
@@ -23,6 +23,14 @@ enum ExSysTaskState_
     EXSYSTASK_STATE_11,
 };
 typedef u8 ExSysTaskState;
+
+enum ExSysDifficulty_
+{
+    EXSYS_DIFFICULTY_NONE,
+    EXSYS_DIFFICULTY_NORMAL,
+    EXSYS_DIFFICULTY_EASY,
+};
+typedef u8 ExSysDifficulty;
 
 enum ExSysTaskActComAnimIDs
 {
@@ -163,7 +171,7 @@ typedef struct ExSysTaskTime_
 
 typedef struct ExSysTaskStatus_
 {
-    u8 difficulty;
+    ExSysDifficulty difficulty;
     u8 finishMode;
     u8 timeLimitMode;
     ExSysTaskState state;
@@ -221,4 +229,4 @@ NOT_DECOMPILED void exSysTask__GetSingleton_Unknown1(void);
 NOT_DECOMPILED void exSysTask__LoadAssets(void);
 NOT_DECOMPILED void exSysTask__SetupDisplay(void);
 
-#endif // RUSH_EXSYSTASK_H
+#endif // RUSH_EXSYSTEM_H

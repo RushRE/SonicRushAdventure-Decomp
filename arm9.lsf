@@ -774,9 +774,8 @@ Overlay ExBoss
     Object asm/ex/exEffectBlzFireShot.o
     Object asm/ex/exEffectMeteo.o
     Object asm/ex/exEffectMeteoAdmin.o
-    Object asm/ex/exEffectLoopRing.o
-    Object asm/ex/exEffectRing.o
-    Object asm/ex/exEffectRingAdmin.o
+    Object asm/ex/exEffectRing_vars.o
+    Object src/ex/exRingManager.o
     Object src/ex/exHUD.o
     Object asm/ex/exGameSystem.o
     Object asm/ex/exHitCheck.o

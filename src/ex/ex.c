@@ -1,10 +1,5 @@
 #include <ex/ex.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void exSysTask__Create(void);
+#include <ex/system/exSystem.h>
 
 // --------------------
 // FUNCTIONS

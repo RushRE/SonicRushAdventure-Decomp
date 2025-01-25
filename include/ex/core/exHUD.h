@@ -1,9 +1,9 @@
 #ifndef RUSH_EXHUD_H
 #define RUSH_EXHUD_H
 
-#include <ex/exTask.h>
-#include <ex/exDrawReq.h>
-#include <ex/exBoss.h>
+#include <ex/system/exTask.h>
+#include <ex/system/exDrawReq.h>
+#include <ex/boss/exBoss.h>
 
 // --------------------
 // STRUCTS
