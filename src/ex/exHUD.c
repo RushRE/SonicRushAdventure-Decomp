@@ -16,20 +16,26 @@ static Task *exHUDLifeTaskSingleton;
 static Task *exHUDAdminTaskSingleton;
 static struct exFixTimeTaskWorker exHUDTimeWorker;
 
-static u16 exHUDTimeDigits1[10] = { EX_ACTCOM_ANI_31, EX_ACTCOM_ANI_32, EX_ACTCOM_ANI_33, EX_ACTCOM_ANI_34, EX_ACTCOM_ANI_35,
-                                    EX_ACTCOM_ANI_36, EX_ACTCOM_ANI_37, EX_ACTCOM_ANI_38, EX_ACTCOM_ANI_39, EX_ACTCOM_ANI_40 };
+static u16 exHUDTimeDigits1[10] = { EX_ACTCOM_ANI_COMMON_DIGIT_0, EX_ACTCOM_ANI_COMMON_DIGIT_1, EX_ACTCOM_ANI_COMMON_DIGIT_2, EX_ACTCOM_ANI_COMMON_DIGIT_3,
+                                    EX_ACTCOM_ANI_COMMON_DIGIT_4, EX_ACTCOM_ANI_COMMON_DIGIT_5, EX_ACTCOM_ANI_COMMON_DIGIT_6, EX_ACTCOM_ANI_COMMON_DIGIT_7,
+                                    EX_ACTCOM_ANI_COMMON_DIGIT_8, EX_ACTCOM_ANI_COMMON_DIGIT_9 };
 
-static u16 exHUDLifeDigits[10] = { EX_ACTCOM_ANI_55, EX_ACTCOM_ANI_56, EX_ACTCOM_ANI_57, EX_ACTCOM_ANI_58, EX_ACTCOM_ANI_59,
-                                   EX_ACTCOM_ANI_60, EX_ACTCOM_ANI_61, EX_ACTCOM_ANI_62, EX_ACTCOM_ANI_63, EX_ACTCOM_ANI_64 };
+static u16 exHUDLifeDigits[10] = { EX_ACTCOM_ANI_LIFE_DIGIT_0, EX_ACTCOM_ANI_LIFE_DIGIT_1, EX_ACTCOM_ANI_LIFE_DIGIT_2, EX_ACTCOM_ANI_LIFE_DIGIT_3, EX_ACTCOM_ANI_LIFE_DIGIT_4,
+                                   EX_ACTCOM_ANI_LIFE_DIGIT_5, EX_ACTCOM_ANI_LIFE_DIGIT_6, EX_ACTCOM_ANI_LIFE_DIGIT_7, EX_ACTCOM_ANI_LIFE_DIGIT_8, EX_ACTCOM_ANI_LIFE_DIGIT_9 };
 
-static u16 exHUDRingDigits1[10] = { EX_ACTCOM_ANI_31, EX_ACTCOM_ANI_32, EX_ACTCOM_ANI_33, EX_ACTCOM_ANI_34, EX_ACTCOM_ANI_35,
-                                    EX_ACTCOM_ANI_36, EX_ACTCOM_ANI_37, EX_ACTCOM_ANI_38, EX_ACTCOM_ANI_39, EX_ACTCOM_ANI_40 };
+static u16 exHUDRingDigits1[10] = { EX_ACTCOM_ANI_COMMON_DIGIT_0, EX_ACTCOM_ANI_COMMON_DIGIT_1, EX_ACTCOM_ANI_COMMON_DIGIT_2, EX_ACTCOM_ANI_COMMON_DIGIT_3,
+                                    EX_ACTCOM_ANI_COMMON_DIGIT_4, EX_ACTCOM_ANI_COMMON_DIGIT_5, EX_ACTCOM_ANI_COMMON_DIGIT_6, EX_ACTCOM_ANI_COMMON_DIGIT_7,
+                                    EX_ACTCOM_ANI_COMMON_DIGIT_8, EX_ACTCOM_ANI_COMMON_DIGIT_9 };
 
-static u16 exHUDTimeDigits2[10] = { EX_ACTCOM_ANI_43, EX_ACTCOM_ANI_44, EX_ACTCOM_ANI_45, EX_ACTCOM_ANI_46, EX_ACTCOM_ANI_47,
-                                    EX_ACTCOM_ANI_48, EX_ACTCOM_ANI_49, EX_ACTCOM_ANI_50, EX_ACTCOM_ANI_51, EX_ACTCOM_ANI_52 };
+static u16 exHUDTimeDigits2[10] = {
+    EX_ACTCOM_ANI_ALERT_DIGIT_0, EX_ACTCOM_ANI_ALERT_DIGIT_1, EX_ACTCOM_ANI_ALERT_DIGIT_2, EX_ACTCOM_ANI_ALERT_DIGIT_3, EX_ACTCOM_ANI_ALERT_DIGIT_4,
+    EX_ACTCOM_ANI_ALERT_DIGIT_5, EX_ACTCOM_ANI_ALERT_DIGIT_6, EX_ACTCOM_ANI_ALERT_DIGIT_7, EX_ACTCOM_ANI_ALERT_DIGIT_8, EX_ACTCOM_ANI_ALERT_DIGIT_9
+};
 
-static u16 exHUDRingDigits2[10] = { EX_ACTCOM_ANI_43, EX_ACTCOM_ANI_44, EX_ACTCOM_ANI_45, EX_ACTCOM_ANI_46, EX_ACTCOM_ANI_47,
-                                    EX_ACTCOM_ANI_48, EX_ACTCOM_ANI_49, EX_ACTCOM_ANI_50, EX_ACTCOM_ANI_51, EX_ACTCOM_ANI_52 };
+static u16 exHUDRingDigits2[10] = {
+    EX_ACTCOM_ANI_ALERT_DIGIT_0, EX_ACTCOM_ANI_ALERT_DIGIT_1, EX_ACTCOM_ANI_ALERT_DIGIT_2, EX_ACTCOM_ANI_ALERT_DIGIT_3, EX_ACTCOM_ANI_ALERT_DIGIT_4,
+    EX_ACTCOM_ANI_ALERT_DIGIT_5, EX_ACTCOM_ANI_ALERT_DIGIT_6, EX_ACTCOM_ANI_ALERT_DIGIT_7, EX_ACTCOM_ANI_ALERT_DIGIT_8, EX_ACTCOM_ANI_ALERT_DIGIT_9
+};
 
 // --------------------
 // TEMP
@@ -125,7 +131,7 @@ void ExTimeHUD_Main_Init(void)
     CreateExTimeGameplay();
     work->worker = &exHUDTimeWorker;
 
-    work->worker->aniTimeText.anim       = EX_ACTCOM_ANI_18;
+    work->worker->aniTimeText.anim       = EX_ACTCOM_ANI_TIME_TEXT;
     work->worker->aniTimeText.paletteRow = PALETTE_ROW_2;
     SetupExHUDSprite(&work->worker->aniTimeText);
     exDrawReqTask__SetConfigPriority(&work->worker->aniTimeText.config, 0xE000);
@@ -139,11 +145,11 @@ void ExTimeHUD_Main_Init(void)
     {
         if (i)
         {
-            work->worker->aniComma1[i].anim = EX_ACTCOM_ANI_53;
+            work->worker->aniComma1[i].anim = EX_ACTCOM_ANI_ALERT_COMMA_1;
         }
         else
         {
-            work->worker->aniComma1[i].anim = EX_ACTCOM_ANI_41;
+            work->worker->aniComma1[i].anim = EX_ACTCOM_ANI_COMMA_1;
         }
 
         work->worker->aniComma1[i].paletteRow = PALETTE_ROW_2;
@@ -160,9 +166,9 @@ void ExTimeHUD_Main_Init(void)
             exDrawReqTask__Func_21641F0(&work->worker->aniComma1[i].config);
 
         if (i)
-            work->worker->aniComma2[i].anim = EX_ACTCOM_ANI_54;
+            work->worker->aniComma2[i].anim = EX_ACTCOM_ANI_ALERT_COMMA_2;
         else
-            work->worker->aniComma2[i].anim = EX_ACTCOM_ANI_42;
+            work->worker->aniComma2[i].anim = EX_ACTCOM_ANI_COMMA_2;
 
         work->worker->aniComma2[i].paletteRow = PALETTE_ROW_2;
         SetupExHUDSprite(&work->worker->aniComma2[i]);
@@ -320,7 +326,7 @@ void ExRingCountHUD_Main_Init(void)
 
     exHUDRingTaskSingleton = GetCurrentTask();
 
-    work->aniRingBackdrop.anim       = EX_ACTCOM_ANI_17;
+    work->aniRingBackdrop.anim       = EX_ACTCOM_ANI_RINGS_BACKDROP;
     work->aniRingBackdrop.paletteRow = PALETTE_ROW_1;
     SetupExHUDSprite(&work->aniRingBackdrop);
     exDrawReqTask__SetConfigPriority(&work->aniRingBackdrop.config, 0xE000);
@@ -681,7 +687,7 @@ void ExLifeCountHUD_Main_Init(void)
 
     exHUDLifeTaskSingleton = GetCurrentTask();
 
-    work->aniPlayerIcon.anim       = EX_ACTCOM_ANI_16;
+    work->aniPlayerIcon.anim       = EX_ACTCOM_ANI_LIVES_BACKDROP;
     work->aniPlayerIcon.paletteRow = PALETTE_ROW_0;
     SetupExHUDSprite(&work->aniPlayerIcon);
     exDrawReqTask__SetConfigPriority(&work->aniPlayerIcon.config, 0xE000);
@@ -690,7 +696,7 @@ void ExLifeCountHUD_Main_Init(void)
     work->aniPlayerIcon.config.field_2.value_20 = TRUE;
     exDrawReqTask__Sprite2D__Func_2161B80(&work->aniPlayerIcon);
 
-    work->aniX.anim       = EX_ACTCOM_ANI_19;
+    work->aniX.anim       = EX_ACTCOM_ANI_LIVES_X;
     work->aniX.paletteRow = PALETTE_ROW_2;
     SetupExHUDSprite(&work->aniX);
     exDrawReqTask__SetConfigPriority(&work->aniX.config, 0xE001);
@@ -794,7 +800,7 @@ void ExBossLifeGaugeHUD_Main(void)
     exHUDBossGaugeTaskSingleton = GetCurrentTask();
 
     work->boss                   = ExBossSysAdminTask__GetBossWork();
-    work->aniBossName.anim       = EX_ACTCOM_ANI_30;
+    work->aniBossName.anim       = EX_ACTCOM_ANI_BOSSGAUGE_NAME;
     work->aniBossName.paletteRow = PALETTE_ROW_9;
     SetupExHUDSprite(&work->aniBossName);
     exDrawReqTask__SetConfigPriority(&work->aniBossName.config, 0xE000);
@@ -803,7 +809,7 @@ void ExBossLifeGaugeHUD_Main(void)
     work->aniBossName.config.field_2.value_20 = TRUE;
     exDrawReqTask__Sprite2D__Func_2161B80(&work->aniBossName);
 
-    work->aniCapL.anim       = EX_ACTCOM_ANI_20;
+    work->aniCapL.anim       = EX_ACTCOM_ANI_BOSSGAUGE_EDGE;
     work->aniCapL.paletteRow = PALETTE_ROW_9;
     SetupExHUDSprite(&work->aniCapL);
     exDrawReqTask__SetConfigPriority(&work->aniCapL.config, 0xE000);
@@ -812,7 +818,7 @@ void ExBossLifeGaugeHUD_Main(void)
     work->aniCapL.config.field_2.value_20 = TRUE;
     exDrawReqTask__Sprite2D__Func_2161B80(&work->aniCapL);
 
-    work->aniCapR.anim       = EX_ACTCOM_ANI_20;
+    work->aniCapR.anim       = EX_ACTCOM_ANI_BOSSGAUGE_EDGE;
     work->aniCapR.paletteRow = PALETTE_ROW_9;
     SetupExHUDSprite(&work->aniCapR);
     exDrawReqTask__SetConfigPriority(&work->aniCapR.config, 0xE000);
@@ -824,7 +830,7 @@ void ExBossLifeGaugeHUD_Main(void)
 
     for (s16 i = 0; i < 9; i++)
     {
-        work->aniLifeGauge[i].anim       = i + EX_ACTCOM_ANI_21;
+        work->aniLifeGauge[i].anim       = i + EX_ACTCOM_ANI_BOSSGAUGE_BAR_0;
         work->aniLifeGauge[i].paletteRow = PALETTE_ROW_9;
         SetupExHUDSprite(&work->aniLifeGauge[i]);
         exDrawReqTask__SetConfigPriority(&work->aniLifeGauge[i].config, 0xDFFF);

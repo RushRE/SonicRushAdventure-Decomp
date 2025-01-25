@@ -404,7 +404,7 @@ void ItemBox_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
         if (CheckIsPlayer1(player) == FALSE)
         {
             PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ITEM_BREAK);
-            CreateEffectExplosion(&itemBox->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), EXPLOSION_ITEMBOX);
+            CreateEffectExplosion(&itemBox->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), EXPLOSION_SMALL);
             itemBox->gameWork.objWork.flag |= STAGE_TASK_FLAG_NO_OBJ_COLLISION;
             itemBox->gameWork.objWork.displayFlag |= DISPLAY_FLAG_NO_DRAW;
 
@@ -419,7 +419,7 @@ void ItemBox_OnDefend(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
     else
     {
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_ITEM_BREAK);
-        CreateEffectExplosion(&itemBox->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), EXPLOSION_ITEMBOX);
+        CreateEffectExplosion(&itemBox->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), EXPLOSION_SMALL);
 
         if (gmCheckRingBattle())
         {

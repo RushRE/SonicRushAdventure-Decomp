@@ -319,6 +319,6 @@ void EnemySnowballShot_State_Moving(EnemySnowballShot *work)
     if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY) != 0)
     {
         DestroyStageTask(&work->gameWork.objWork);
-        CreateEffectExplosion(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), EXPLOSION_ITEMBOX);
+        CreateEffectExplosion(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), EXPLOSION_SMALL);
     }
 }

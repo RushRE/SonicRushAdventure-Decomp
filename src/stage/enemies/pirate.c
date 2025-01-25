@@ -1186,7 +1186,7 @@ void EnemyBazookaPirateShot_State_Active(EnemyBazookaPirateShot *work)
     {
         work->gameWork.objWork.flag |= DISPLAY_FLAG_DISABLE_LOOPING;
 
-        CreateEffectHarmfulExplosion(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_ITEMBOX);
+        CreateEffectHarmfulExplosion(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_SMALL);
 
         PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOMB);
         ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
@@ -1469,7 +1469,7 @@ void EnemyBombPirateBomb_State_Explode(EnemyBombPirateBomb *work)
     {
         DestroyStageTask(&work->gameWork.objWork);
 
-        CreateEffectHarmfulExplosion(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_ITEMBOX);
+        CreateEffectHarmfulExplosion(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_SMALL);
         PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOMB);
         ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
     }
@@ -1546,7 +1546,7 @@ void EnemyHoverGunnerPirateShot_State_Active(EnemyHoverGunnerPirateShot *work)
     {
         DestroyStageTask(&work->gameWork.objWork);
 
-        CreateEffectHarmfulExplosion(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_ITEMBOX);
+        CreateEffectHarmfulExplosion(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_SMALL);
         PlayHandleStageSfx(work->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOMB);
         ProcessSpatialSfx(work->gameWork.objWork.sequencePlayerPtr, &work->gameWork.objWork.position);
     }
@@ -1559,7 +1559,7 @@ void EnemyBazookaPirateShot_OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     DestroyStageTask(&shot->gameWork.objWork);
 
-    CreateEffectHarmfulExplosion(&shot->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_ITEMBOX);
+    CreateEffectHarmfulExplosion(&shot->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_SMALL);
 
     PlayHandleStageSfx(shot->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOMB);
     ProcessSpatialSfx(shot->gameWork.objWork.sequencePlayerPtr, &shot->gameWork.objWork.position);
@@ -1572,7 +1572,7 @@ void EnemyBombPirateBomb_OnHit(OBS_RECT_WORK *rect1, OBS_RECT_WORK *rect2)
 
     DestroyStageTask(&bomb->gameWork.objWork);
 
-    CreateEffectHarmfulExplosion(&bomb->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_ITEMBOX);
+    CreateEffectHarmfulExplosion(&bomb->gameWork.objWork, FLOAT_TO_FX32(0.0), FLOAT_TO_FX32(0.0), -17, -20, 14, 11, 7, EXPLOSION_SMALL);
 
     PlayHandleStageSfx(bomb->gameWork.objWork.sequencePlayerPtr, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_BOMB);
     ProcessSpatialSfx(bomb->gameWork.objWork.sequencePlayerPtr, &bomb->gameWork.objWork.position);

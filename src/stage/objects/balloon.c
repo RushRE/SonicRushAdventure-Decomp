@@ -271,7 +271,7 @@ void Balloon_State_FloatAway(Balloon *work)
 
 void Balloon_Pop(Balloon *work)
 {
-    CreateEffectExplosion(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(68.0), EXPLOSION_ITEMBOX);
+    CreateEffectExplosion(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(68.0), EXPLOSION_SMALL);
     CreateEffectEnemyDebris(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(68.0), -FLOAT_TO_FX32(2.0), -FLOAT_TO_FX32(4.0), 9);
     CreateEffectEnemyDebris(&work->gameWork.objWork, FLOAT_TO_FX32(0.0), -FLOAT_TO_FX32(68.0), FLOAT_TO_FX32(2.0), -FLOAT_TO_FX32(4.0), 9);
 

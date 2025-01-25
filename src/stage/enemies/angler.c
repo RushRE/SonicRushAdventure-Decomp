@@ -351,7 +351,7 @@ void EnemyAnglerShot_State_Moving(EnemyAnglerShot *work)
     if ((work->gameWork.objWork.moveFlag & STAGE_TASK_MOVE_FLAG_TOUCHING_ANY) != 0)
     {
         DestroyStageTask(&work->gameWork.objWork);
-        CreateEffectExplosion(&work->gameWork.objWork, 0, 0, EXPLOSION_ITEMBOX);
+        CreateEffectExplosion(&work->gameWork.objWork, 0, 0, EXPLOSION_SMALL);
     }
 }
 
