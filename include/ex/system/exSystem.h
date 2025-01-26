@@ -159,7 +159,7 @@ enum ExSysTaskActComAnimIDs
 // STRUCTS
 // --------------------
 
-typedef struct ExSysTaskTime_
+typedef struct exSysTaskTime_
 {
     u16 field_0;
     u16 minutes;
@@ -167,9 +167,9 @@ typedef struct ExSysTaskTime_
     u16 seconds;
     u16 frameCounter;
     u16 centiseconds;
-} ExSysTaskTime;
+} exSysTaskTime;
 
-typedef struct ExSysTaskStatus_
+typedef struct exSysTaskStatus_
 {
     ExSysDifficulty difficulty;
     u8 finishMode;
@@ -177,56 +177,30 @@ typedef struct ExSysTaskStatus_
     ExSysTaskState state;
     u8 lives;
     u16 rings;
-    ExSysTaskTime time;
-} ExSysTaskStatus;
+    exSysTaskTime time;
+} exSysTaskStatus;
 
-typedef struct ExSysTask_
+typedef struct exSysTask_
 {
-    u32 field_0;
-    void *archive;
-    u32 field_8;
+    void *drawState;
+    void *archiveCommon;
+    void *sndArc;
     s16 timer;
     u16 field_10;
-} ExSysTask;
-
-// --------------------
-// VARIABLES
-// --------------------
+} exSysTask;
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void exStageTask__Destroy(void);
-NOT_DECOMPILED void exSysTask__GetSingleton(void);
-NOT_DECOMPILED s32 exSysTask__GetLifeCount(void);
-NOT_DECOMPILED void exSysTask__Func_2172A38(void);
-NOT_DECOMPILED void exSysTask__InitStatus(void);
-NOT_DECOMPILED ExSysTaskStatus *exSysTask__GetStatus(void);
-NOT_DECOMPILED BOOL exSysTask__GetFlag_2178650(void);
-NOT_DECOMPILED void exSysTask__Main(void);
-NOT_DECOMPILED void exSysTask__Func8(void);
-NOT_DECOMPILED void exSysTask__Destructor(void);
-NOT_DECOMPILED void exSysTask__Main_2172D30(void);
-NOT_DECOMPILED void exSysTask__Func_2172D6C(void);
-NOT_DECOMPILED void exSysTask__Main_2172D98(void);
-NOT_DECOMPILED void exSysTask__Action_Pause(void);
-NOT_DECOMPILED void exSysTask__Main_IsPaused(void);
-NOT_DECOMPILED void exSysTask__Main_2172EF8(void);
-NOT_DECOMPILED void exSysTask__Func_2172F30(void);
-NOT_DECOMPILED void exSysTask__Main_2172FA4(void);
-NOT_DECOMPILED void exSysTask__Func_2173000(void);
-NOT_DECOMPILED void exSysTask__Main_2173074(void);
-NOT_DECOMPILED void exSysTask__Func_21730D0(void);
-NOT_DECOMPILED void exSysTask__Main_2173158(void);
-NOT_DECOMPILED void exSysTask__Main_21731DC(void);
-NOT_DECOMPILED void exSysTask__Main_217323C(void);
-NOT_DECOMPILED void exSysTask__Main_21732E4(void);
-NOT_DECOMPILED void exSysTask__Main_2173338(void);
-NOT_DECOMPILED void exSysTask__Create(void);
-NOT_DECOMPILED void *exSysTask__LoadExFile(u16 id);
-NOT_DECOMPILED void exSysTask__GetSingleton_Unknown1(void);
-NOT_DECOMPILED void exSysTask__LoadAssets(void);
-NOT_DECOMPILED void exSysTask__SetupDisplay(void);
+s32 GetExSystemLifeCount(void);
+void LoseExSystemLife(void);
+void InitExSystemStatus(void);
+exSysTaskStatus *GetExSystemStatus(void);
+BOOL GetExSystemFlag_2178650(void);
+
+void CreateExSystem(void);
+void *LoadExSystemFile(u16 id);
+void *GetExSystemDrawState(void);
 
 #endif // RUSH_EXSYSTEM_H

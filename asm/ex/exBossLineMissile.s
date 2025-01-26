@@ -366,7 +366,7 @@ _0215AAA0:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x44
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215AC3C // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r2, #2
 	str r0, [r1, #0x3c]
@@ -576,13 +576,13 @@ _0215AD10:
 	add r1, r4, #0x530
 	mov r2, #6
 	bl exPlayerHelpers__Func_2152960
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	moveq r0, #9
 	streqh r0, [r4, #0x2e]
 	beq _0215AE2C
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	moveq r0, #0xc
@@ -608,7 +608,7 @@ _0215AE5C: .word exBossLineNeedleTask__Main_215AEAC
 exBossLineNeedleTask__Func8: // 0x0215AE60
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -930,7 +930,7 @@ _0215B260:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x43
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215B3F8 // =exBossLineNeedleTask__ActiveInstanceCount
 	mov r2, #2
 	str r0, [r1, #4]
@@ -1141,13 +1141,13 @@ _0215B4CC:
 	add r1, ip, #0x400
 	mov r2, #6
 	bl exPlayerHelpers__Func_2152960
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	moveq r0, #9
 	streqh r0, [r4, #0x36]
 	beq _0215B5F0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	moveq r0, #0xc
@@ -1171,7 +1171,7 @@ _0215B618: .word exBossLineMissileTask__Main_215B668
 exBossLineMissileTask__Func8: // 0x0215B61C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -1444,7 +1444,7 @@ exBossLineMissileTask__Func_215B998: // 0x0215B998
 	orr r1, r1, #2
 	strb r1, [r4, #0x30]
 	str r0, [r4, #4]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0215BA34
@@ -1474,7 +1474,7 @@ _0215BA0C:
 	str r1, [r4, #8]
 	b _0215BAA0
 _0215BA34:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _0215BAA0

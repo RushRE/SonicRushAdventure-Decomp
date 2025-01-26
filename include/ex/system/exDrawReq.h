@@ -182,7 +182,7 @@ NOT_DECOMPILED void exDrawFadeUnknown__Func_2161314(void);
 NOT_DECOMPILED void exDrawFadeUnknown__Func_21613A8(void);
 NOT_DECOMPILED void exDrawFadeUnknown__Func_216143C(void);
 NOT_DECOMPILED void exDrawFadeUnknown__Func_21614EC(void);
-NOT_DECOMPILED void exDrawFadeUnknown__Func_21615A4(void);
+NOT_DECOMPILED void exDrawFadeUnknown__Func_21615A4(s32 a1, s32 a2);
 NOT_DECOMPILED void exDrawFadeTask__GetUnknownA(void);
 NOT_DECOMPILED void exDrawFadeTask__GetUnknownB(void);
 NOT_DECOMPILED void exDrawReqTask__EntryUnknown2__GetLightConfig(void);
@@ -228,11 +228,9 @@ NOT_DECOMPILED void exDrawReqTask__Sprite3D__Animate(void);
 NOT_DECOMPILED void exDrawReqTask__Sprite3D__Draw(void);
 NOT_DECOMPILED void exDrawReqTask__Sprite3D__ProcessRequest(void);
 NOT_DECOMPILED void exDrawReqTask__Sprite3D__IsAnimFinished(void);
-NOT_DECOMPILED void exDrawFadeTask__Main(void);
-NOT_DECOMPILED void exDrawFadeTask__Func8(void);
-NOT_DECOMPILED void exDrawFadeTask__Destructor(void);
-NOT_DECOMPILED void exDrawFadeTask__Main_2163C48(void);
-NOT_DECOMPILED void exDrawFadeTask__Create(void);
+
+
+
 NOT_DECOMPILED void exDrawReqTask__Main(void);
 NOT_DECOMPILED void exDrawReqTask__Func8(void);
 NOT_DECOMPILED void exDrawReqTask__Destructor(void);

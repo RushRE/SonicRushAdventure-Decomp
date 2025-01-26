@@ -93,7 +93,7 @@ _02167BC4: .word exEffectMeteoAdminTask__Main_Active
 exEffectMeteoAdminTask__Func8: // 0x02167BC8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -122,7 +122,7 @@ exEffectMeteoAdminTask__Main_Active: // 0x02167C0C
 	sub sp, sp, #0x20
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	addeq sp, sp, #0x20
@@ -329,11 +329,11 @@ exEffectMeteoAdminTask__Func_2167F04: // 0x02167F04
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	mov r5, #0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02167F78
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xa
 	addls pc, pc, r0, lsl #2
@@ -358,7 +358,7 @@ _02167F68:
 	str r1, [r0]
 	b _02167FCC
 _02167F78:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xa
 	addls pc, pc, r0, lsl #2

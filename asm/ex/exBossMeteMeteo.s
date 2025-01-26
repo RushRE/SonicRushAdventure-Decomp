@@ -57,7 +57,7 @@ _0215D158:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x3b
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215D2D8 // =0x021761CC
 	mov r2, #0
 	str r0, [r1, #8]
@@ -287,7 +287,7 @@ _0215D4EC: .word exBossMeteMeteoTask__Func_215D544
 exBossMeteMeteoTask__Func8: // 0x0215D4F0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -497,7 +497,7 @@ exBossMeteMeteoTask__Func_215D794: // 0x0215D794
 	orr r1, r1, #2
 	strb r1, [r4, #0x8c]
 	str r0, [r4, #0x1c]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0215D838
@@ -529,7 +529,7 @@ _0215D808:
 	str r1, [r4, #0x1c]
 	b _0215D8AC
 _0215D838:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _0215D8AC

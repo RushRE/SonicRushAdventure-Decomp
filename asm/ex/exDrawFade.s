@@ -846,28 +846,28 @@ _02161234:
 	strh r0, [r4, #6]
 	b _021612BC
 _02161240:
-	bl exSysTask__GetSingleton_Unknown1
+	bl GetExSystemDrawState
 	mov r1, r4
 	mov r2, #0
 	bl GetDrawStateLight
 	mov r1, r4
 	mov r0, #0
 	bl Camera3D__SetLight
-	bl exSysTask__GetSingleton_Unknown1
+	bl GetExSystemDrawState
 	mov r1, r4
 	mov r2, #1
 	bl GetDrawStateLight
 	mov r0, #1
 	mov r1, r4
 	bl Camera3D__SetLight
-	bl exSysTask__GetSingleton_Unknown1
+	bl GetExSystemDrawState
 	mov r1, r4
 	mov r2, #2
 	bl GetDrawStateLight
 	mov r0, #2
 	mov r1, r4
 	bl Camera3D__SetLight
-	bl exSysTask__GetSingleton_Unknown1
+	bl GetExSystemDrawState
 	mov r1, r4
 	mov r2, #3
 	bl GetDrawStateLight

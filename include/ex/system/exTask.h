@@ -62,12 +62,6 @@ struct ExTask_
 };
 
 // --------------------
-// VARIABLES
-// --------------------
-
-extern struct ExTaskStaticVars ExTask__sVars;
-
-// --------------------
 // FUNCTIONS
 // --------------------
 

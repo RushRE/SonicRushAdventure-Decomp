@@ -617,7 +617,7 @@ exPlayerHelpers__LoadBurningBlazeAssets: // 0x02153178
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #3
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02153324 // =ov09_02175F00
 	str r0, [r1, #0x38]
 	ldr r0, [r1, #0x30]
@@ -792,7 +792,7 @@ exPlayerHelpers__LoadBlazeAssets: // 0x021533D0
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #5
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02153550 // =ov09_02175F00
 	str r0, [r1, #0x28]
 	ldr r0, [r1, #0x2c]

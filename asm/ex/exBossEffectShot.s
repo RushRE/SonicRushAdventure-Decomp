@@ -71,13 +71,13 @@ _021575CC:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x39
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02157784 // =0x02175FC4
 	mov r2, #0
 	str r0, [r1, #0xcc]
 	mov r0, #0x3a
 	str r2, [r1, #0xc4]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02157784 // =0x02175FC4
 	mov r2, #4
 	str r0, [r1, #0xd0]
@@ -256,7 +256,7 @@ _021578A4: .word exBossEffectShotTask__Func_215790C
 exBossEffectShotTask__Func8: // 0x021578A8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	beq _021578C8
 	bl GetExTaskCurrent

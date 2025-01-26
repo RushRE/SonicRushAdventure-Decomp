@@ -25,7 +25,7 @@ _0215F084: .word exBossSysAdminBiforTask__Main_215F0C8
 	arm_func_start exBossSysAdminBiforTask__Func8
 exBossSysAdminBiforTask__Func8: // 0x0215F088
 	stmdb sp!, {r3, lr}
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -211,7 +211,7 @@ _0215F2E8:
 	ldrsh r0, [r4, #0x62]
 	cmp r0, #8
 	bgt _0215F5A8
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #6
 	bne _0215F424
@@ -254,7 +254,7 @@ _0215F3B4:
 	str r0, [r4, #4]
 	mov r0, #8
 	strh r0, [r4, #0x62]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	mov r2, #7
 	strb r2, [r0, #3]
 	ldr r1, _0215F7B0 // =0x0217431C
@@ -276,7 +276,7 @@ _0215F3B4:
 	str r1, [r0]
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0215F424:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #8
 	bne _0215F518
@@ -319,7 +319,7 @@ _0215F4A8:
 	str r0, [r4, #4]
 	mov r0, #8
 	strh r0, [r4, #0x62]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	mov r2, #9
 	strb r2, [r0, #3]
 	ldr r1, _0215F7B0 // =0x0217431C
@@ -359,7 +359,7 @@ _0215F530:
 	blt _0215F530
 	mov r0, #0
 	strh r0, [r4, #0x62]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	mov r2, #0xb
 	strb r2, [r0, #3]
 	ldr r1, _0215F7B0 // =0x0217431C

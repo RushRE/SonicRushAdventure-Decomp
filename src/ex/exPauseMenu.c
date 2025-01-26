@@ -1,26 +1,42 @@
-	.include "asm/macros.inc"
-	.include "global.inc"
+#include <ex/core/exPauseMenu.h>
+#include <ex/core/exHUD.h>
+#include <game/audio/audioSystem.h>
+#include <game/input/padInput.h>
 
-	.bss
+// --------------------
+// VARIABLES
+// --------------------
 
-exPauseTask__word_2177B98: // 0x02177B98
-    .space 0x02
-
-	.align 4
+NOT_DECOMPILED void *exPauseTask__word_2177B98;
+NOT_DECOMPILED void *exPauseTask__TaskSingleton;
 	
-exPauseTask__TaskSingleton: // 0x02177B9C
-    .space 0x04
-	
-	.text
+NOT_DECOMPILED u16 exPauseTask__02175DEC[6];
+NOT_DECOMPILED u16 exPauseTask__02175DF8[2][6];
+NOT_DECOMPILED u16 exPauseTask__02175E10[2][6];
 
-	arm_func_start exPauseTask__Main
-exPauseTask__Main: // 0x0216D8D8
+NOT_DECOMPILED void *aExpausetask;
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+NOT_DECOMPILED void _f_ftoi(void);
+NOT_DECOMPILED void _f_itof(void);
+NOT_DECOMPILED void _fdiv(void);
+
+// ExPauseMenu
+NONMATCH_FUNC void exPauseTask__Main(void)          
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x18
 	bl GetExTaskWorkCurrent_
 	mov r7, r0
 	bl GetCurrentTask
-	ldr r2, _0216DB80 // =exPauseTask__word_2177B98
+	ldr r2, =exPauseTask__word_2177B98
 	mov r4, #0x2c
 	str r0, [r2, #4]
 	sub r1, r4, #0x2d
@@ -70,7 +86,7 @@ _0216D984:
 	strh r0, [r7]
 _0216D98C:
 	ldrh r2, [r7, #0]
-	ldr r1, _0216DB84 // =_02175DEC
+	ldr r1, =exPauseTask__02175DEC
 	add r0, r7, #0x18
 	mov r2, r2, lsl #1
 	ldrh r2, [r1, r2]
@@ -113,7 +129,7 @@ _0216DA20:
 	mov r0, #0x88
 	mul r9, r8, r0
 	ldrh r2, [r7, #0]
-	ldr r1, _0216DB88 // =0x02175DF8
+	ldr r1, =exPauseTask__02175DF8
 	ldr r0, [sp, #8]
 	mov r2, r2, lsl #1
 	add r1, r1, r0
@@ -135,7 +151,7 @@ _0216DA20:
 	bl exDrawReqTask__Sprite2D__Func_2161B80
 	add r0, r5, r9
 	bl exDrawReqTask__Func_21641F0
-	ldr r1, _0216DB8C // =0x02175E10
+	ldr r1, =exPauseTask__02175E10
 	ldr r0, [sp, #8]
 	add r2, r10, #0x100
 	add r3, r1, r0
@@ -191,28 +207,34 @@ _0216DA20:
 	strh r0, [r7, #0x12]
 	strh r0, [r7, #6]
 	bl GetExTaskCurrent
-	ldr r1, _0216DB90 // =exPauseTask__Main_EnterButtons
+	ldr r1, =exPauseTask__Main_EnterButtons
 	str r1, [r0]
 	add sp, sp, #0x18
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	.align 2, 0
-_0216DB80: .word exPauseTask__word_2177B98
-_0216DB84: .word _02175DEC
-_0216DB88: .word 0x02175DF8
-_0216DB8C: .word 0x02175E10
-_0216DB90: .word exPauseTask__Main_EnterButtons
-	arm_func_end exPauseTask__Main
 
-	arm_func_start exPauseTask__Func8
-exPauseTask__Func8: // 0x0216DB94
-	ldr ip, _0216DB9C // =GetExTaskWorkCurrent_
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exPauseTask__Func8(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr ip, =GetExTaskWorkCurrent_
 	bx ip
-	.align 2, 0
-_0216DB9C: .word GetExTaskWorkCurrent_
-	arm_func_end exPauseTask__Func8
 
-	arm_func_start exPauseTask__Destructor
-exPauseTask__Destructor: // 0x0216DBA0
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exPauseTask__Destructor(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -233,16 +255,21 @@ _0216DBC4:
 	mov r7, r0, lsr #0x10
 	cmp r7, #2
 	blo _0216DBC4
-	ldr r0, _0216DBFC // =exPauseTask__word_2177B98
+	ldr r0, =exPauseTask__word_2177B98
 	mov r1, #0
 	str r1, [r0, #4]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	.align 2, 0
-_0216DBFC: .word exPauseTask__word_2177B98
-	arm_func_end exPauseTask__Destructor
 
-	arm_func_start exPauseTask__Main_EnterButtons
-exPauseTask__Main_EnterButtons: // 0x0216DC00
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exPauseTask__Main_EnterButtons(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -267,7 +294,7 @@ exPauseTask__Main_EnterButtons: // 0x0216DC00
 	orr r1, r1, r0, lsl #20
 	add r0, r1, #0x84000
 	bl _f_itof
-	ldr r1, _0216DEFC // =0x45800000
+	ldr r1, =0x45800000
 	bl _fdiv
 	bl _f_ftoi
 	strh r0, [r4, #0x80]
@@ -296,7 +323,7 @@ _0216DC94:
 	sub r1, r1, #1
 	bne _0216DC94
 	bl _f_itof
-	ldr r1, _0216DEFC // =0x45800000
+	ldr r1, =0x45800000
 	bl _fdiv
 	bl _f_ftoi
 	strh r0, [r4, #0x80]
@@ -325,7 +352,7 @@ _0216DCDC:
 	orr r1, r1, r0, lsl #20
 	add r0, r1, #0x84000
 	bl _f_itof
-	ldr r1, _0216DEFC // =0x45800000
+	ldr r1, =0x45800000
 	bl _fdiv
 	bl _f_ftoi
 	ldrh r2, [r4, #2]
@@ -358,7 +385,7 @@ _0216DD80:
 	sub r1, r1, #1
 	bne _0216DD80
 	bl _f_itof
-	ldr r1, _0216DEFC // =0x45800000
+	ldr r1, =0x45800000
 	bl _fdiv
 	bl _f_ftoi
 	ldrh r2, [r4, #2]
@@ -394,7 +421,7 @@ _0216DE04:
 	orr r1, r1, r0, lsl #20
 	add r0, r1, #0x84000
 	bl _f_itof
-	ldr r1, _0216DEFC // =0x45800000
+	ldr r1, =0x45800000
 	bl _fdiv
 	bl _f_ftoi
 	ldrh r2, [r4, #4]
@@ -427,7 +454,7 @@ _0216DE84:
 	sub r1, r1, #1
 	bne _0216DE84
 	bl _f_itof
-	ldr r1, _0216DEFC // =0x45800000
+	ldr r1, =0x45800000
 	bl _fdiv
 	bl _f_ftoi
 	ldrh r2, [r4, #4]
@@ -445,12 +472,17 @@ _0216DEE8:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, r5, r6, pc}
-	.align 2, 0
-_0216DEFC: .word 0x45800000
-	arm_func_end exPauseTask__Main_EnterButtons
 
-	arm_func_start exPauseTask__Action_Ready
-exPauseTask__Action_Ready: // 0x0216DF00
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exPauseTask__Action_Ready(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0x80
@@ -470,20 +502,25 @@ _0216DF1C:
 	cmp r3, #2
 	blo _0216DF1C
 	bl GetExTaskCurrent
-	ldr r1, _0216DF58 // =exPauseTask__Main_Selecting
+	ldr r1, =exPauseTask__Main_Selecting
 	str r1, [r0]
 	bl exPauseTask__Main_Selecting
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0216DF58: .word exPauseTask__Main_Selecting
-	arm_func_end exPauseTask__Action_Ready
 
-	arm_func_start exPauseTask__Main_Selecting
-exPauseTask__Main_Selecting: // 0x0216DF5C
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exPauseTask__Main_Selecting(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
-	ldr r1, _0216E074 // =padInput
+	ldr r1, =padInput
 	mov r4, r0
 	ldrh r0, [r1, #4]
 	tst r0, #0x40
@@ -554,12 +591,17 @@ _0216E05C:
 	blx r0
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216E074: .word padInput
-	arm_func_end exPauseTask__Main_Selecting
 
-	arm_func_start exPauseTask__Action_Select
-exPauseTask__Action_Select: // 0x0216E078
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exPauseTask__Action_Select(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0
@@ -568,16 +610,21 @@ exPauseTask__Action_Select: // 0x0216E078
 	mov r1, #0x10
 	strh r1, [r0, #6]
 	bl GetExTaskCurrent
-	ldr r1, _0216E0A8 // =exPauseTask__Main_SelectionMade
+	ldr r1, =exPauseTask__Main_SelectionMade
 	str r1, [r0]
 	bl exPauseTask__Main_SelectionMade
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0216E0A8: .word exPauseTask__Main_SelectionMade
-	arm_func_end exPauseTask__Action_Select
 
-	arm_func_start exPauseTask__Main_SelectionMade
-exPauseTask__Main_SelectionMade: // 0x0216E0AC
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exPauseTask__Main_SelectionMade(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -588,7 +635,7 @@ exPauseTask__Main_SelectionMade: // 0x0216E0AC
 	cmp r0, #0x1000
 	blt _0216E0E4
 	bl GetExTaskCurrent
-	ldr r1, _0216E1E0 // =exPauseTask__Main_Exit
+	ldr r1, =exPauseTask__Main_Exit
 	str r1, [r0]
 	bl exPauseTask__Main_Exit
 	ldmia sp!, {r4, pc}
@@ -608,7 +655,7 @@ _0216E0E4:
 	orr r1, r1, r0, lsl #20
 	add r0, r1, #0x80000
 	bl _f_itof
-	ldr r1, _0216E1E4 // =0x45800000
+	ldr r1, =0x45800000
 	bl _fdiv
 	bl _f_ftoi
 	ldrh r2, [r4, #4]
@@ -625,7 +672,7 @@ _0216E144:
 	cmp r0, #0x1000
 	blt _0216E170
 	bl GetExTaskCurrent
-	ldr r1, _0216E1E0 // =exPauseTask__Main_Exit
+	ldr r1, =exPauseTask__Main_Exit
 	str r1, [r0]
 	bl exPauseTask__Main_Exit
 	ldmia sp!, {r4, pc}
@@ -645,7 +692,7 @@ _0216E170:
 	orr r1, r1, r0, lsl #20
 	add r0, r1, #0x80000
 	bl _f_itof
-	ldr r1, _0216E1E4 // =0x45800000
+	ldr r1, =0x45800000
 	bl _fdiv
 	bl _f_ftoi
 	ldrh r2, [r4, #2]
@@ -659,13 +706,17 @@ _0216E1CC:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216E1E0: .word exPauseTask__Main_Exit
-_0216E1E4: .word 0x45800000
-	arm_func_end exPauseTask__Main_SelectionMade
 
-	arm_func_start exPauseTask__Main_Exit
-exPauseTask__Main_Exit: // 0x0216E1E8
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exPauseTask__Main_Exit(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r1, [r0, #6]
@@ -679,7 +730,7 @@ exPauseTask__Main_Exit: // 0x0216E1E8
 	ldrh r1, [r0, #2]
 	cmp r1, #0
 	beq _0216E22C
-	ldr r0, _0216E268 // =exPauseTask__word_2177B98
+	ldr r0, =exPauseTask__word_2177B98
 	mov r1, #1
 	strh r1, [r0]
 	b _0216E254
@@ -687,27 +738,31 @@ _0216E22C:
 	ldrh r0, [r0, #4]
 	cmp r0, #0
 	beq _0216E254
-	ldr r0, _0216E268 // =exPauseTask__word_2177B98
+	ldr r0, =exPauseTask__word_2177B98
 	mov r1, #2
 	strh r1, [r0]
 	b _0216E254
 _0216E248:
-	ldr r0, _0216E268 // =exPauseTask__word_2177B98
+	ldr r0, =exPauseTask__word_2177B98
 	mov r1, #1
 	strh r1, [r0]
 _0216E254:
 	bl exPauseTask__Draw
 	bl GetExTaskCurrent
-	ldr r1, _0216E26C // =ExTask_State_Destroy
+	ldr r1, =ExTask_State_Destroy
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
-	.align 2, 0
-_0216E268: .word exPauseTask__word_2177B98
-_0216E26C: .word ExTask_State_Destroy
-	arm_func_end exPauseTask__Main_Exit
 
-	arm_func_start exPauseTask__Draw
-exPauseTask__Draw: // 0x0216E270
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exPauseTask__Draw(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -766,21 +821,28 @@ exPauseTask__Draw: // 0x0216E270
 	mla r0, r1, r0, r2
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r4, pc}
-	arm_func_end exPauseTask__Draw
 
-	arm_func_start exPauseTask__Create
-exPauseTask__Create: // 0x0216E358
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exPauseTask__Create(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x10
 	mov r0, #0
 	str r0, [sp]
 	mov r1, #0x2c0
 	mov r4, #1
-	ldr r0, _0216E3D0 // =aExpausetask
+	ldr r0, =aExpausetask
 	str r1, [sp, #4]
 	str r0, [sp, #8]
-	ldr r0, _0216E3D4 // =exPauseTask__Main
-	ldr r1, _0216E3D8 // =exPauseTask__Destructor
+	ldr r0, =exPauseTask__Main
+	ldr r1, =exPauseTask__Destructor
 	rsb r2, r4, #0xf000
 	mov r3, #3
 	str r4, [sp, #0xc]
@@ -792,36 +854,29 @@ exPauseTask__Create: // 0x0216E358
 	bl MI_CpuFill8
 	mov r0, r4
 	bl GetExTask
-	ldr r2, _0216E3DC // =exPauseTask__Func8
-	ldr r1, _0216E3E0 // =exPauseTask__word_2177B98
+	ldr r2, =exPauseTask__Func8
+	ldr r1, =exPauseTask__word_2177B98
 	str r2, [r0, #8]
 	mov r0, #0
 	strh r0, [r1]
 	mov r0, #1
 	add sp, sp, #0x10
 	ldmia sp!, {r4, pc}
-	.align 2, 0
-_0216E3D0: .word aExpausetask
-_0216E3D4: .word exPauseTask__Main
-_0216E3D8: .word exPauseTask__Destructor
-_0216E3DC: .word exPauseTask__Func8
-_0216E3E0: .word exPauseTask__word_2177B98
-	arm_func_end exPauseTask__Create
 
-	arm_func_start exPauseTask__GetSelectedAction
-exPauseTask__GetSelectedAction: // 0x0216E3E4
-	ldr r0, _0216E3F0 // =exPauseTask__word_2177B98
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC u16 exPauseTask__GetSelectedAction(void)
+{
+#ifdef NON_MATCHING
+
+#else
+// clang-format off
+	ldr r0, =exPauseTask__word_2177B98
 	ldrh r0, [r0, #0]
 	bx lr
-	.align 2, 0
-_0216E3F0: .word exPauseTask__word_2177B98
-	arm_func_end exPauseTask__GetSelectedAction
 
-	.data
-	
-_02175DEC:
-	.hword 0x59, 0x5E, 0x63, 0x68, 0x6D, 0x72, 0x5A, 0x5F, 0x64, 0x69, 0x6E, 0x73, 0x5B, 0x60, 0x65, 0x6A, 0x6F, 0x74
-    .hword 0x5C, 0x61, 0x66, 0x6B, 0x70, 0x75, 0x5D, 0x62, 0x67, 0x6C, 0x71, 0x76
-
-aExpausetask: // 0x02175E28
-	.asciz "exPauseTask"
+// clang-format on
+#endif
+}

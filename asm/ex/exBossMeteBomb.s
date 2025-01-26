@@ -318,25 +318,25 @@ _0215C088:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x3c
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215C278 // =0x021761CC
 	mov r2, #0
 	str r0, [r1, #0x90]
 	mov r0, #0x3d
 	str r2, [r1, #0x80]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215C278 // =0x021761CC
 	mov r2, #1
 	str r0, [r1, #0x94]
 	mov r0, #0x3e
 	str r2, [r1, #0x84]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215C278 // =0x021761CC
 	mov r2, #3
 	str r0, [r1, #0x98]
 	mov r0, #0x3f
 	str r2, [r1, #0x88]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215C278 // =0x021761CC
 	mov r2, #4
 	str r0, [r1, #0x9c]
@@ -575,7 +575,7 @@ _0215C478: .word exBossMeteBombTask__Main_215C4C8
 exBossMeteBombTask__Func8: // 0x0215C47C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

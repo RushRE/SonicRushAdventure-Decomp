@@ -533,7 +533,7 @@ void DoorPuzzleDialogue_Create(DoorPuzzle *parent)
         work->aniCharPortrait[i].pos.y = -70;
     }
 
-    GetCompressedFileFromBundle("/bb/tkdm_cutin.bb", BUNDLE_TKDM_CUTIN_FILE_RESOURCES_BB_TKDM_CUTIN_CUTIN_BAC, &parent->sprCutin, FALSE);
+    GetCompressedFileFromBundle("/bb/tkdm_cutin.bb", BUNDLE_TKDM_CUTIN_FILE_RESOURCES_BB_TKDM_CUTIN_CUTIN_BAC, &parent->sprCutin, FALSE, TRUE);
 
     s32 c = 0;
     for (; c < DOORPUZZLE_STONE_KEY_COUNT; c++)

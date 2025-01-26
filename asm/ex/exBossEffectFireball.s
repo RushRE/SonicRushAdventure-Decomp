@@ -61,25 +61,25 @@ _02156624:
 	mov r0, r4
 	bl _FreeHEAP_USER
 	mov r0, #0x51
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02156838 // =0x02175FC4
 	mov r2, #0
 	str r0, [r1, #0x124]
 	mov r0, #0x52
 	str r2, [r1, #0x104]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02156838 // =0x02175FC4
 	mov r2, #1
 	str r0, [r1, #0x128]
 	mov r0, #0x53
 	str r2, [r1, #0x108]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02156838 // =0x02175FC4
 	mov r2, #3
 	str r0, [r1, #0x12c]
 	mov r0, #0x54
 	str r2, [r1, #0x10c]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02156838 // =0x02175FC4
 	mov r2, #2
 	str r0, [r1, #0x130]
@@ -344,7 +344,7 @@ _02156A5C: .word exBossEffectFireBallTask__Func_2156AC4
 exBossEffectFireBallTask__Func8: // 0x02156A60
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	beq _02156A80
 	bl GetExTaskCurrent

@@ -47,6 +47,6 @@ NOT_DECOMPILED void exMsgTitleTask__Func_216D794(void);
 NOT_DECOMPILED void exMsgTitleTask__Func_216D7DC(void);
 NOT_DECOMPILED void exMsgTitleTask__Func_216D804(void);
 NOT_DECOMPILED void exMsgTitleTask__Create(void);
-NOT_DECOMPILED void exMsgTitleTask__GetTask(void);
+NOT_DECOMPILED Task *exMsgTitleTask__GetTask(void);
 
 #endif // RUSH_EXTITLECARD_H

@@ -97,7 +97,7 @@ void SetupExHUDSprite(EX_ACTION_BAC2D_WORK *work)
     exDrawReqTask__InitSprite2D(work);
     work->sprite.anim = prevAnim;
 
-    void *spriteFile = exSysTask__LoadExFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
+    void *spriteFile = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
     AnimatorSprite__Init(&work->sprite.animator, spriteFile, prevAnim, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_A,
                          PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize2FromAnim(spriteFile, prevAnim)), PALETTE_MODE_SPRITE,
                          VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[GRAPHICS_ENGINE_A]), SPRITE_PRIORITY_1, SPRITE_ORDER_0);
@@ -242,14 +242,14 @@ void ExTimeHUD_Destructor(void)
 
 void ExTimeHUD_Main_Active(void)
 {
-    ExSysTaskStatus *status;
+    exSysTaskStatus *status;
     exFixTimeTask *work;
     u16 i;
     u16 mode;
 
     work = ExTaskGetWorkCurrent(exFixTimeTask);
 
-    status = exSysTask__GetStatus();
+    status = GetExSystemStatus();
 
     mode = work->worker->isWarning;
     if (status->time.minutes >= 9)
@@ -395,19 +395,19 @@ NONMATCH_FUNC void ExRingCountHUD_Main_Active(void)
 #ifdef NON_MATCHING
     exFixRingTask *work = ExTaskGetWorkCurrent(exFixRingTask);
 
-    ExSysTaskStatus *status = exSysTask__GetStatus();
+    exSysTaskStatus *status = GetExSystemStatus();
 
     exDrawReqTask__Sprite2D__Animate(&work->aniRingBackdrop);
     exDrawReqTask__AddRequest(&work->aniRingBackdrop, &work->aniRingBackdrop.config);
 
-    if (exSysTask__GetStatus()->state != EXSYSTASK_STATE_11 && exSysTask__GetStatus()->state != EXSYSTASK_STATE_7 && exSysTask__GetStatus()->state != EXSYSTASK_STATE_9)
+    if (GetExSystemStatus()->state != EXSYSTASK_STATE_11 && GetExSystemStatus()->state != EXSYSTASK_STATE_7 && GetExSystemStatus()->state != EXSYSTASK_STATE_9)
     {
         if (status->rings != 0)
         {
             if (work->ringLossTimer-- < 0)
             {
                 work->ringLossTimer = 60;
-                if (exSysTask__GetStatus()->state != EXSYSTASK_STATE_11)
+                if (GetExSystemStatus()->state != EXSYSTASK_STATE_11)
                     status->rings--;
             }
         }
@@ -466,22 +466,22 @@ NONMATCH_FUNC void ExRingCountHUD_Main_Active(void)
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	mov r5, r0
 	add r0, r4, #0x10
 	bl exDrawReqTask__Sprite2D__Animate
 	add r0, r4, #0x10
 	add r1, r4, #0x90
 	bl exDrawReqTask__AddRequest
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	beq _02169AD4
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	beq _02169AD4
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #9
 	beq _02169AD4
@@ -495,7 +495,7 @@ NONMATCH_FUNC void ExRingCountHUD_Main_Active(void)
 	bge _02169AD4
 	mov r0, #0x3c
 	strh r0, [r4]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	beq _02169AD4
@@ -742,7 +742,7 @@ void ExLifeCountHUD_Main_Active(void)
 {
     exFixRemainderTask *work = ExTaskGetWorkCurrent(exFixRemainderTask);
 
-    ExSysTaskStatus *status = exSysTask__GetStatus();
+    exSysTaskStatus *status = GetExSystemStatus();
 
     s32 lifeDigit2 = status->lives % 10;
     s32 lifeDigit1 = (status->lives % 100 - lifeDigit2) / 10;
@@ -870,15 +870,15 @@ void ExBossLifeGaugeHUD_Main_HealthIdle(void)
 
     exFixBossLifeGaugeTask *work = ExTaskGetWorkCurrent(exFixBossLifeGaugeTask);
 
-    ExSysTaskStatus *status = exSysTask__GetStatus();
+    exSysTaskStatus *status = GetExSystemStatus();
     UNUSED(status);
 
     exDrawReqTask__Sprite2D__Animate(&work->aniBossName);
     exDrawReqTask__Sprite2D__Animate(&work->aniCapL);
     exDrawReqTask__Sprite2D__Animate(&work->aniCapR);
 
-    if (exSysTask__GetStatus()->state == EXSYSTASK_STATE_11 || exSysTask__GetStatus()->state == EXSYSTASK_STATE_7 || exSysTask__GetStatus()->state == EXSYSTASK_STATE_9
-        || exSysTask__GetStatus()->state == EXSYSTASK_STATE_5)
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_11 || GetExSystemStatus()->state == EXSYSTASK_STATE_7 || GetExSystemStatus()->state == EXSYSTASK_STATE_9
+        || GetExSystemStatus()->state == EXSYSTASK_STATE_5)
     {
         work->healthChange       = 0;
         work->health             = work->boss->field_62;
@@ -947,7 +947,7 @@ void ExBossLifeGaugeHUD_Main_HealthChanging(void)
 
     exFixBossLifeGaugeTask *work = ExTaskGetWorkCurrent(exFixBossLifeGaugeTask);
 
-    ExSysTaskStatus *status = exSysTask__GetStatus();
+    exSysTaskStatus *status = GetExSystemStatus();
     UNUSED(status);
 
     exDrawReqTask__Sprite2D__Animate(&work->aniBossName);
@@ -1036,7 +1036,7 @@ void ExHUD_Main_Init(void)
     exFixAdminTask *work = ExTaskGetWorkCurrent(exFixAdminTask);
     UNUSED(work);
 
-    ExSysTaskStatus *status = exSysTask__GetStatus();
+    exSysTaskStatus *status = GetExSystemStatus();
     UNUSED(status);
 
     exHUDAdminTaskSingleton = GetCurrentTask();
@@ -1068,7 +1068,7 @@ void ExHUD_Main_WaitForCommonHUD(void)
     exFixAdminTask *work = ExTaskGetWorkCurrent(exFixAdminTask);
     UNUSED(work);
 
-    if (exSysTask__GetStatus()->state == EXSYSTASK_STATE_4)
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_4)
     {
         ExHUD_Action_CreateCommonHUD();
     }
@@ -1096,7 +1096,7 @@ void ExHUD_Main_WaitForBossHUD(void)
     exFixAdminTask *work = ExTaskGetWorkCurrent(exFixAdminTask);
     UNUSED(work);
 
-    if (exSysTask__GetStatus()->state > EXSYSTASK_STATE_4)
+    if (GetExSystemStatus()->state > EXSYSTASK_STATE_4)
         ExHUD_Action_CreateBossHUD();
 }
 

@@ -48,7 +48,7 @@ void ExTask_Main_AlwaysUpdate(void)
     currentExTask  = GetCurrentTask();
     ExTask *task = ExTaskGetTaskInternal(currentExTask);
 
-    if (exSysTask__GetStatus()->state == EXSYSTASK_STATE_11)
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_11)
     {
         padInput.btnDown        = PAD_INPUT_NONE_MASK;
         padInput.btnPress       = PAD_INPUT_NONE_MASK;
@@ -70,7 +70,7 @@ void ExTask_Destructor_AlwaysUpdate(Task *task)
 
 void ExTask_Main_Regular(void)
 {
-    if (exSysTask__GetStatus()->state == EXSYSTASK_STATE_11)
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_11)
     {
         padInput.btnDown        = PAD_INPUT_NONE_MASK;
         padInput.btnPress       = PAD_INPUT_NONE_MASK;

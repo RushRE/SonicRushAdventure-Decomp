@@ -119,13 +119,13 @@ _0215FB98:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x2d
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215FD4C // =exBossMagmaAttackTask__ActiveInstanceCount
 	mov r2, #0
 	str r0, [r1, #0x3c]
 	mov r0, #0x2e
 	str r2, [r1, #0x34]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215FD4C // =exBossMagmaAttackTask__ActiveInstanceCount
 	mov r2, #3
 	str r0, [r1, #0x40]
@@ -351,7 +351,7 @@ _0215FF0C: .word exBossMagmaAttackTask__Main_215FF5C
 exBossMagmaAttackTask__Func8: // 0x0215FF10
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

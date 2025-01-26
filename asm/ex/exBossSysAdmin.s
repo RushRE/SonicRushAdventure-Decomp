@@ -366,7 +366,7 @@ _0215E030: .word ExBossSysAdminTask__Main_215E084
 exBossSysAdminTask__Func8: // 0x0215E034
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -399,7 +399,7 @@ ExBossSysAdminTask__Main_215E084: // 0x0215E084
 	mov r4, r0
 	add r0, r4, #0x6c
 	bl exDrawReqTask__Model__Animate
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #4
 	bne _0215E0B0
@@ -497,7 +497,7 @@ _0215E1A0:
 ExBossSysAdminTask__Func_215E1B0: // 0x0215E1B0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	mov r1, #5
 	strb r1, [r0, #3]
 	bl ExBossSysAdminTask__GetBossWork
@@ -541,7 +541,7 @@ _0215E22C:
 	ldr r0, _0215E290 // =exBossSysAdminTask__dword_217626C
 	mov r1, #0
 	strh r1, [r0]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	mov r1, #6
 	strb r1, [r0, #3]
 	bl ExBossSysAdminTask__Func_215EF00

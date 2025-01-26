@@ -418,7 +418,7 @@ exBossHomingLaserTask__Func_2159CEC: // 0x02159CEC
 	cmp r0, #0
 	bne _02159D1C
 	mov r0, #0
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02159DEC // =exBossHomingLaserTask__ActiveInstanceCount
 	str r0, [r1, #8]
 _02159D1C:
@@ -597,7 +597,7 @@ _02159F7C: .word exBossHomingLaserTask__Main_2159FE4
 exBossHomingLaserTask__Func8: // 0x02159F80
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

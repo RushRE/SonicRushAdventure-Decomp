@@ -271,13 +271,13 @@ exBossFireDoraTask__Main: // 0x02154F60
 	mov r0, #0x3f800000
 	bl _fadd
 	str r0, [r4, #0x28]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	moveq r0, #9
 	streqh r0, [r4, #0x42]
 	beq _021550D8
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	moveq r0, #0xc
@@ -311,7 +311,7 @@ _02155128: .word exBossFireDoraTask__Func_2155188
 exBossFireDoraTask__Func8: // 0x0215512C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -551,7 +551,7 @@ exBossFireDoraTask__Func_2155450: // 0x02155450
 	strb r2, [r4, #0x3c]
 	str r1, [r4, #8]
 	str r0, [r4, #0xc]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _021554FC
@@ -583,7 +583,7 @@ _021554CC:
 	str r1, [r4, #0xc]
 	b _02155570
 _021554FC:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02155570

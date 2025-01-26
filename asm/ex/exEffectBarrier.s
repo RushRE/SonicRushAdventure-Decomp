@@ -81,7 +81,7 @@ exEffectBarrierTask__Func_2164E1C: // 0x02164E1C
 	cmp r0, #0
 	bne _02164E4C
 	mov r0, #0
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02164F20 // =exEffectBarrierHitTask__ActiveInstanceCount
 	str r0, [r1, #0x30]
 _02164E4C:
@@ -183,7 +183,7 @@ exEffectBarrierTask__Main: // 0x02164F5C
 	bl exDrawReqTask__Func_21641F0
 	ldrsh r0, [r4, #0]
 	strh r0, [r4, #0x10]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02164FD4
@@ -199,7 +199,7 @@ exEffectBarrierTask__Main: // 0x02164F5C
 	str r0, [r4, #0x18]
 	b _02165008
 _02164FD4:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	ldreq r0, [r4, #0x2a8]
@@ -228,7 +228,7 @@ _02165024: .word exEffectBarrierTask__Main_2165074
 exEffectBarrierTask__Func8: // 0x02165028
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -326,7 +326,7 @@ exEffectBarrierTask__Func_2165150: // 0x02165150
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02165218
@@ -374,7 +374,7 @@ _021651F8:
 	bl PlaySfxEx
 	b _021652CC
 _02165218:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _021652CC
@@ -443,7 +443,7 @@ exEffectBarrierTask__Main_21652FC: // 0x021652FC
 	mov r4, r0
 	add r0, r4, #8
 	bl exDrawReqTask__Sprite3D__Animate
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02165344
@@ -457,7 +457,7 @@ exEffectBarrierTask__Main_21652FC: // 0x021652FC
 	bl exDrawReqTask__Func_21642BC
 	b _02165370
 _02165344:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	ldreq r1, [r4, #0x2a8]

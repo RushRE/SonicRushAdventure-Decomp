@@ -31,7 +31,7 @@ exBossHelpers__Func_2154030: // 0x02154030
 	mov r0, r4
 	bl _FreeHEAP_USER
 	mov r0, #1
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #8]
 	ldr r0, [r1, #4]
@@ -95,63 +95,63 @@ _0215417C:
 	cmp r3, #5
 	blo _0215415C
 	mov r0, #9
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x10]
 	mov r0, #0xa
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x14]
 	mov r0, #0xb
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x18]
 	mov r0, #0xc
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x1c]
 	mov r0, #0xd
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x20]
 	mov r0, #0xe
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x24]
 	mov r0, #0xf
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x28]
 	mov r0, #0x10
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x2c]
 	mov r0, #0x11
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x30]
 	mov r0, #0x12
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x34]
 	mov r0, #0x13
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x38]
 	mov r0, #0x14
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x3c]
 	mov r0, #0x15
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x40]
 	mov r0, #0x16
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154358 // =0x02175F54
 	str r0, [r1, #0x44]
 	mov r0, #0x17
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r4, _02154358 // =0x02175F54
 	mov r8, #0
 	ldr r7, _02154364 // =_02173F4C
@@ -559,7 +559,7 @@ exBossHelpers__Func_2154758: // 0x02154758
 	and r0, r1, #0xff
 	bic r0, r0, #2
 	strb r0, [r4, #0x72]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	mov r1, #8
 	strb r1, [r0, #3]
 	ldrb r0, [r4, #2]
@@ -709,7 +709,7 @@ exBossHelpers__Func_2154924: // 0x02154924
 	and r0, r1, #0xff
 	bic r0, r0, #2
 	strb r0, [r4, #0x72]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	mov r1, #0xa
 	strb r1, [r0, #3]
 	ldrb r0, [r4, #2]
@@ -904,7 +904,7 @@ _02154B7C:
 exBossHelpers__Func_2154B8C: // 0x02154B8C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	mov r1, #2
 	strb r1, [r0, #1]
 	bl GetExTaskCurrent
@@ -979,7 +979,7 @@ exBossFireDoraTask__Func_2154C48: // 0x02154C48
 	cmp r0, #0
 	bne _02154C78
 	mov r0, #0
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154D40 // =0x02175F54
 	str r0, [r1, #0x1c]
 _02154C78:

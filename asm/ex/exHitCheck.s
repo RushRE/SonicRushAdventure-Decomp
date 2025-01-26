@@ -6,6 +6,10 @@
 .public exHitCheckTask__unk_2177420
 exHitCheckTask__unk_2177420: // 0x02177420
 	.space 0x70
+
+.public exHitCheckTask__dword_2177490
+exHitCheckTask__dword_2177490: // 0x02177490
+    .space 0x128
 	
 	.text
 
@@ -93,7 +97,7 @@ _0216AE70:
 exHitCheckTask__AddHitCheck: // 0x0216AE78
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	movne r0, #0
 	ldmneia sp!, {r4, r5, r6, pc}
@@ -104,16 +108,16 @@ exHitCheckTask__AddHitCheck: // 0x0216AE78
 	cmp r0, #1
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	moveq r0, #0
 	ldmeqia sp!, {r4, r5, r6, pc}
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	beq _0216AEE0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #9
 	bne _0216AF3C
@@ -319,7 +323,7 @@ _0216B1B8:
 	cmp r0, #0
 	beq _0216B1E4
 	ldr r0, _0216B24C // =exHitCheckTask__unk_2177420
-	ldr r3, _0216B260 // =0x02177490
+	ldr r3, _0216B260 // =exHitCheckTask__dword_2177490
 	ldrh r1, [r0, #8]
 	str r4, [r3, r2, lsl #2]
 	add r1, r1, #1
@@ -361,14 +365,14 @@ _0216B250: .word 0x021774B8
 _0216B254: .word 0x0217742C
 _0216B258: .word 0x02177468
 _0216B25C: .word 0x02177440
-_0216B260: .word 0x02177490
+_0216B260: .word exHitCheckTask__dword_2177490
 	arm_func_end exHitCheckTask__AddHitCheck
 
 	arm_func_start exHitCheckTask__CheckArenaBounds
 exHitCheckTask__CheckArenaBounds: // 0x0216B264
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #4
 	ldmloia sp!, {r4, pc}
@@ -494,7 +498,7 @@ exHitCheckTask__DoHitChecks: // 0x0216B3E4
 	bl exPlayerHelpers__GetBlazeAssets
 	mov r8, r0
 	bl exBossHelpers__GetBossAssets
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	bl exPlayerAdminTask__GetUnknown2
@@ -503,15 +507,15 @@ exHitCheckTask__DoHitChecks: // 0x0216B3E4
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	beq _0216B450
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #9
 	bne _0216B604
@@ -684,7 +688,7 @@ _0216B688:
 	mov r0, r0, lsl #0x18
 	movs r0, r0, lsr #0x1f
 	beq _0216B774
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0216B718
@@ -709,7 +713,7 @@ _0216B688:
 	strh r1, [r0, #8]
 	b _0216B908
 _0216B718:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	ldreq r1, [r6, r9, lsl #2]
@@ -1618,7 +1622,7 @@ exHitCheckTask__Func8: // 0x0216C3F0
 	strh r1, [r0, #6]
 	strh r1, [r0, #8]
 	strh r1, [r0, #2]
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

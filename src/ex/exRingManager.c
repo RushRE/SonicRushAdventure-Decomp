@@ -174,7 +174,7 @@ NONMATCH_FUNC void exEffectLoopRingTask__Main(void)
 	bl GetExTaskWorkCurrent_
 	mov r6, #0
 	mov r0, r6
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, =0x02176590
 	str r0, [r1, #0x10]
 	bl VRAMSystem__GetPaletteUnknown
@@ -236,7 +236,7 @@ NONMATCH_FUNC void exEffectLoopRingTask__Func8(void)
 // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -368,7 +368,7 @@ NONMATCH_FUNC void exEffectRingTask__Func8(void)
 // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -459,7 +459,7 @@ NONMATCH_FUNC void exEffectRingTask__Action_Collect(void)
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	mov r5, r0
 	mov r3, #0x27
 	mov r0, #0
@@ -660,7 +660,7 @@ NONMATCH_FUNC void exEffectRingAdminTask__Func8(void)
 // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -699,7 +699,7 @@ NONMATCH_FUNC void exEffectRingAdminTask__Main_Active(void)
 	sub sp, sp, #0x20
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	addeq sp, sp, #0x20
@@ -1039,11 +1039,11 @@ NONMATCH_FUNC void exEffectRingAdminTask__InitValues(void)
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	mov r5, #1
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02168D20
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xa
 	addls pc, pc, r0, lsl #2
@@ -1077,11 +1077,11 @@ _02168D18:
 	mov r5, #5
 	b _02168D9C
 _02168D20:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02168D9C
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xa
 	addls pc, pc, r0, lsl #2

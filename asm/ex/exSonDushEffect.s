@@ -61,19 +61,19 @@ _02171C64:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x45
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02172248 // =0x021785D8
 	mov r2, #0
 	str r0, [r1, #0x48]
 	mov r0, #0x46
 	str r2, [r1, #0x3c]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02172248 // =0x021785D8
 	mov r2, #1
 	str r0, [r1, #0x4c]
 	mov r0, #0x47
 	str r2, [r1, #0x40]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02172248 // =0x021785D8
 	mov r2, #4
 	str r0, [r1, #0x50]
@@ -161,15 +161,15 @@ _02171DBC:
 	cmp r0, #1
 	bne _021721E4
 _02171E40:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	beq _02171E70
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	beq _02171E70
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #9
 	bne _02171E80
@@ -524,7 +524,7 @@ _02172360: .word exSonDushEffectTask__Main_Active
 exSonDushEffectTask__Func8: // 0x02172364
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -658,7 +658,7 @@ exSonDushEffectTask__LoadSonicSprite: // 0x021724F4
 	cmp r0, #0
 	bne _02172524
 	mov r0, #0
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _021725F0 // =0x021785D8
 	str r0, [r1, #0x24]
 _02172524:

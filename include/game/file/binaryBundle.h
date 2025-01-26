@@ -41,33 +41,33 @@ void *ReadFileFromBundle(const char *path, u16 id, void *memory);
 // INLINE FUNCTIONS
 // --------------------
 
-RUSH_INLINE void GetCompressedFileFromBundle(const char *bundlePath, u16 fileID, void **memory, BOOL fromTail)
+RUSH_INLINE void GetCompressedFileFromBundle(const char *bundlePath, u16 fileID, void **memory, BOOL loadFromTail, BOOL allocFromTail)
 {
-    void *compressedData = ReadFileFromBundle(bundlePath, fileID, fromTail ? BINARYBUNDLE_AUTO_ALLOC_TAIL : BINARYBUNDLE_AUTO_ALLOC_HEAD);
-    if (fromTail)
+    void *compressedData = ReadFileFromBundle(bundlePath, fileID, loadFromTail ? BINARYBUNDLE_AUTO_ALLOC_TAIL : BINARYBUNDLE_AUTO_ALLOC_HEAD);
+    if (allocFromTail)
     {
-        (*memory) = (NNSiFndArchiveHeader *)HeapAllocHead(HEAP_USER, MI_GetUncompressedSize(compressedData));
+        (*memory) = (NNSiFndArchiveHeader *)HeapAllocTail(HEAP_USER, MI_GetUncompressedSize(compressedData));
     }
     else
     {
-        (*memory) = (NNSiFndArchiveHeader *)HeapAllocTail(HEAP_USER, MI_GetUncompressedSize(compressedData));
+        (*memory) = (NNSiFndArchiveHeader *)HeapAllocHead(HEAP_USER, MI_GetUncompressedSize(compressedData));
     }
     RenderCore_CPUCopyCompressed(compressedData, (*memory));
     HeapFree(HEAP_USER, compressedData);
 }
 
-RUSH_INLINE void GetCompressedFileFromBundleEx(const char *bundlePath, u16 fileID, void **memory, u32 *fileSize, BOOL fromTail)
+RUSH_INLINE void GetCompressedFileFromBundleEx(const char *bundlePath, u16 fileID, void **memory, u32 *fileSize, BOOL loadFromTail, BOOL allocFromTail)
 {
-    void *compressedData = ReadFileFromBundle(bundlePath, fileID, fromTail ? BINARYBUNDLE_AUTO_ALLOC_TAIL : BINARYBUNDLE_AUTO_ALLOC_HEAD);
+    void *compressedData = ReadFileFromBundle(bundlePath, fileID, loadFromTail ? BINARYBUNDLE_AUTO_ALLOC_TAIL : BINARYBUNDLE_AUTO_ALLOC_HEAD);
 
     (*fileSize) = MI_GetUncompressedSize(compressedData);
-    if (fromTail)
+    if (allocFromTail)
     {
-        (*memory) = (NNSiFndArchiveHeader *)HeapAllocHead(HEAP_USER, (*fileSize));
+        (*memory) = (NNSiFndArchiveHeader *)HeapAllocTail(HEAP_USER, (*fileSize));
     }
     else
     {
-        (*memory) = (NNSiFndArchiveHeader *)HeapAllocTail(HEAP_USER, (*fileSize));
+        (*memory) = (NNSiFndArchiveHeader *)HeapAllocHead(HEAP_USER, (*fileSize));
     }
     RenderCore_CPUCopyCompressed(compressedData, (*memory));
     HeapFree(HEAP_USER, compressedData);

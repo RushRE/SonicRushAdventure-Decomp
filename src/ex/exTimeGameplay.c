@@ -28,7 +28,7 @@ void ExTimeGameplay_Main_Init(void)
     exTimeGamePlayTask *work = ExTaskGetWorkCurrent(exTimeGamePlayTask);
 
     taskSingleton      = GetCurrentTask();
-    work->time         = &exSysTask__GetStatus()->time;
+    work->time         = &GetExSystemStatus()->time;
     work->frameCounter = 0;
 
     SetCurrentExTaskMainEvent(ExTimeGameplay_Main_Active);
@@ -55,9 +55,9 @@ void ExTimeGameplay_Main_Active(void)
 
     isTimeOver = FALSE;
 
-    if (exSysTask__GetStatus()->state != EXSYSTASK_STATE_11 && exSysTask__GetStatus()->state != EXSYSTASK_STATE_7 && exSysTask__GetStatus()->state != EXSYSTASK_STATE_9)
+    if (GetExSystemStatus()->state != EXSYSTASK_STATE_11 && GetExSystemStatus()->state != EXSYSTASK_STATE_7 && GetExSystemStatus()->state != EXSYSTASK_STATE_9)
     {
-        if (exSysTask__GetStatus()->state >= EXSYSTASK_STATE_4)
+        if (GetExSystemStatus()->state >= EXSYSTASK_STATE_4)
         {
             work->frameCounter += 1666.0f;
             work->time->centiseconds = work->frameCounter / 1000;

@@ -79,7 +79,7 @@ exEffectBlzFireTask__LoadFireAssets: // 0x02165AE4
 	cmp r0, #0
 	bne _02165B18
 	mov r0, #0
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02165BE8 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	str r0, [r1, #8]
 _02165B18:
@@ -208,11 +208,11 @@ _02165C80:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x33
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02165E28 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	str r0, [r1, #0x40]
 	mov r0, #0x34
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02165E28 // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	str r0, [r1, #0x44]
 	ldr r0, [r1, #0x24]
@@ -404,25 +404,25 @@ _02165F44:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x38
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0216616C // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r2, #4
 	str r0, [r1, #0x58]
 	mov r0, #0x35
 	str r2, [r1, #0x48]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0216616C // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r2, #0
 	str r0, [r1, #0x5c]
 	mov r0, #0x36
 	str r2, [r1, #0x4c]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0216616C // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r2, #1
 	str r0, [r1, #0x60]
 	mov r0, #0x37
 	str r2, [r1, #0x50]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0216616C // =exExEffectBlzFireTaMeTask__ActiveInstanceCount
 	mov r2, #2
 	str r0, [r1, #0x64]
@@ -621,7 +621,7 @@ _02166294: .word exEffectBlzFireTask__Main_Active
 exEffectBlzFireTask__Func8: // 0x02166298
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -679,7 +679,7 @@ exEffectBlzFireTask__HandleMovement: // 0x02166338
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02166658
@@ -897,7 +897,7 @@ _0216664C:
 	str r0, [r4, #0x20]
 	b _02166968
 _02166658:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02166968
@@ -1287,7 +1287,7 @@ _02166BB4: .word exExEffectBlzFireTaMeTask__Main_Active
 exExEffectBlzFireTaMeTask__Func8: // 0x02166BB8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

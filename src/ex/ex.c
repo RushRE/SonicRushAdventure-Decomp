@@ -7,5 +7,5 @@
 
 void InitExBossEvent(void)
 {
-    exSysTask__Create();
+    CreateExSystem();
 }

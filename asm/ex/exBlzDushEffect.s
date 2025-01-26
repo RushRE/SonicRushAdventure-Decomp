@@ -161,19 +161,19 @@ _02153668:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x48
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02153C4C // =ov09_02175F00
 	mov r2, #0
 	str r0, [r1, #0x48]
 	mov r0, #0x49
 	str r2, [r1, #0x3c]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02153C4C // =ov09_02175F00
 	mov r2, #1
 	str r0, [r1, #0x4c]
 	mov r0, #0x4a
 	str r2, [r1, #0x40]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02153C4C // =ov09_02175F00
 	mov r2, #4
 	str r0, [r1, #0x50]
@@ -261,15 +261,15 @@ _021537C0:
 	cmp r0, #1
 	bne _02153BE8
 _02153844:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	beq _02153874
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	beq _02153874
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #9
 	bne _02153884
@@ -624,7 +624,7 @@ _02153D64: .word exBlzDushEffectTask__Main_2153DB4
 exBlzDushEffectTask__Func8: // 0x02153D68
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -762,7 +762,7 @@ exBlzDushEffectTask__LoadBlazeSprite: // 0x02153F08
 	cmp r0, #0
 	bne _02153F38
 	mov r0, #0
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02154004 // =ov09_02175F00
 	str r0, [r1, #0x24]
 _02153F38:

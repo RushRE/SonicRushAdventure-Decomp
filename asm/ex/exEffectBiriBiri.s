@@ -45,7 +45,7 @@ exEffectBiriBiriTask__Func_21645D4: // 0x021645D4
 	cmp r0, #0
 	bne _02164604
 	mov r0, #0
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _021646D0 // =exEffectBigBombTask__ActiveInstanceCount
 	str r0, [r1, #8]
 _02164604:
@@ -165,7 +165,7 @@ _02164778: .word exEffectBiriBiriTask__Main_21647C8
 exEffectBiriBiriTask__Func8: // 0x0216477C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

@@ -57,11 +57,11 @@ _02165540:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x4f
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _021656E8 // =0x02176484
 	str r0, [r1, #0x44]
 	mov r0, #0x50
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _021656E8 // =0x02176484
 	str r0, [r1, #0x48]
 	ldr r0, [r1, #0x18]
@@ -238,7 +238,7 @@ _0216580C: .word exExEffectSonicBarrierTaMeTask__Main_2165874
 exExEffectSonicBarrierTaMeTask__Func8: // 0x02165810
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

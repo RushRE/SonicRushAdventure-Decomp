@@ -14,17 +14,17 @@ void exSysTask__EndStage(s32 mode)
     {
         case 2:
         case 3:
-            playerGameStatus.ringBonus  = exSysTask__GetStatus()->rings;
-            playerGameStatus.stageTimer = exSysTask__GetStatus()->time.seconds;
-            playerGameStatus.stageTimer += 10 * exSysTask__GetStatus()->time.tenSeconds;
-            playerGameStatus.stageTimer = 60 * (playerGameStatus.stageTimer + 60 * exSysTask__GetStatus()->time.minutes);
-            saveGame.stage.status.lives = exSysTask__GetLifeCount();
+            playerGameStatus.ringBonus  = GetExSystemStatus()->rings;
+            playerGameStatus.stageTimer = GetExSystemStatus()->time.seconds;
+            playerGameStatus.stageTimer += 10 * GetExSystemStatus()->time.tenSeconds;
+            playerGameStatus.stageTimer = 60 * (playerGameStatus.stageTimer + 60 * GetExSystemStatus()->time.minutes);
+            saveGame.stage.status.lives = GetExSystemLifeCount();
             SaveGame__SetUnknown1(9);
             RequestSysEventChange(0); // SYSEVENT_TITLE
             break;
 
         case 5:
-            saveGame.stage.status.lives = exSysTask__GetLifeCount();
+            saveGame.stage.status.lives = GetExSystemLifeCount();
             RequestSysEventChange(1); // SYSEVENT_LOAD_STAGE
             break;
 
@@ -35,7 +35,7 @@ void exSysTask__EndStage(s32 mode)
             break;
 
         default:
-            saveGame.stage.status.lives = exSysTask__GetLifeCount();
+            saveGame.stage.status.lives = GetExSystemLifeCount();
             RequestSysEventChange(1); // SYSEVENT_LOAD_STAGE
             break;
     }

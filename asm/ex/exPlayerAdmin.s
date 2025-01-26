@@ -267,7 +267,7 @@ exPlayerAdminTask__Main_216E7B4: // 0x0216E7B4
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl exPlayerAdminTask__Func_2171624
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #4
 	bne _0216E7DC
@@ -463,7 +463,7 @@ exPlayerAdminTask__Func_216EA68: // 0x0216EA68
 	ldr r0, [r0, #4]
 	mov r1, #0x78
 	strh r1, [r0, #0x60]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	bne _0216EA94
@@ -485,7 +485,7 @@ exPlayerAdminTask__Func_216EAAC: // 0x0216EAAC
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl exPlayerAdminTask__Func_2171624
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	beq _0216EAEC
@@ -527,7 +527,7 @@ exPlayerAdminTask__Func_216EB28: // 0x0216EB28
 	ldr r0, [r4, #0x10]
 	mov r1, #0x5000
 	str r1, [r0, #0x354]
-	bl exSysTask__GetSingleton
+	bl GetExStageSingleton
 	ldr r1, [r0, #4]
 	add r1, r1, #0x1000
 	str r1, [r0, #4]
@@ -581,7 +581,7 @@ _0216EBC8:
 	mov r3, r1
 	bl PlaySfxEx
 _0216EC20:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	bne _0216EC40
@@ -590,7 +590,7 @@ _0216EC20:
 	strh r1, [r0, #0x60]
 	b _0216EC58
 _0216EC40:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #9
 	ldreq r0, [r4, #4]
@@ -692,7 +692,7 @@ exPlayerAdminTask__Func_216ED94: // 0x0216ED94
 	bl GetExTaskWorkCurrent_
 	mov r0, #0
 	bl exBossHelpers__Func_2154C38
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #7
 	bne _0216EDC8
@@ -702,7 +702,7 @@ exPlayerAdminTask__Func_216ED94: // 0x0216ED94
 	bl exPlayerAdminTask__Func_216EDF4
 	ldmia sp!, {r3, pc}
 _0216EDC8:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #9
 	ldmneia sp!, {r3, pc}
@@ -722,7 +722,7 @@ exPlayerAdminTask__Func_216EDF4: // 0x0216EDF4
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl exPlayerAdminTask__Func_2171624
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #8
 	bne _0216EE28
@@ -790,7 +790,7 @@ exPlayerAdminTask__Func_216EEE4: // 0x0216EEE4
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl exPlayerAdminTask__Func_2171624
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xa
 	bne _0216EF18
@@ -1127,7 +1127,7 @@ exPlayerAdminTask__Action_Die: // 0x0216F3A4
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exSysTask__GetSingleton
+	bl GetExStageSingleton
 	mov r1, #0
 	str r1, [r0, #4]
 	mov r0, r1
@@ -1341,7 +1341,7 @@ _0216F68C:
 exPlayerAdminTask__Func_216F6B0: // 0x0216F6B0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	mov r1, #6
 	strb r1, [r0, #1]
 	bl GetExTaskCurrent
@@ -1373,7 +1373,7 @@ exPlayerAdminTask__Func_216F704: // 0x0216F704
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl exPlayerAdminTask__Func_2171624
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #2]
 	cmp r0, #1
 	bne _0216F738
@@ -1703,7 +1703,7 @@ _0216FB74:
 	ldrsh r0, [r0, #0x44]
 	cmp r0, #0x78
 	bne _0216FBEC
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0216FBCC
@@ -1712,7 +1712,7 @@ _0216FB74:
 	strh r1, [r0, #0xc]
 	b _0216FC24
 _0216FBCC:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _0216FC24
@@ -1721,7 +1721,7 @@ _0216FBCC:
 	strh r1, [r0, #0xc]
 	b _0216FC24
 _0216FBEC:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0216FC0C
@@ -1730,7 +1730,7 @@ _0216FBEC:
 	strh r1, [r0, #0xc]
 	b _0216FC24
 _0216FC0C:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	ldreq r0, [r4, #8]
@@ -2012,7 +2012,7 @@ _0216FF78:
 	ldrsh r0, [r0, #0x46]
 	cmp r0, #0x50
 	ble _0216FFF0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0216FFD0
@@ -2021,7 +2021,7 @@ _0216FF78:
 	strh r1, [r0, #0xc]
 	b _02170074
 _0216FFD0:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02170074
@@ -2033,7 +2033,7 @@ _0216FFF0:
 	bgt _02170074
 	cmp r0, #0x28
 	bgt _0217003C
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0217001C
@@ -2042,7 +2042,7 @@ _0216FFF0:
 	strh r1, [r0, #0xc]
 	b _02170074
 _0217001C:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02170074
@@ -2051,7 +2051,7 @@ _0217001C:
 	strh r1, [r0, #0xc]
 	b _02170074
 _0217003C:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _0217005C
@@ -2060,7 +2060,7 @@ _0217003C:
 	strh r1, [r0, #0xc]
 	b _02170074
 _0217005C:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	ldreq r0, [r4, #0xc]
@@ -2112,7 +2112,7 @@ exPlayerAdminTask__Func_21700D4: // 0x021700D4
 	ldr r0, [r0, #0]
 	cmp r0, #0x5000
 	blt _02170218
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _02170180
@@ -2148,7 +2148,7 @@ _02170164:
 	bl PlaySfxEx
 	b _02170200
 _02170180:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02170200
@@ -2425,7 +2425,7 @@ _0217050C:
 exPlayerAdminTask__Func_2170518: // 0x02170518
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	moveq r0, #0
@@ -2442,7 +2442,7 @@ exPlayerAdminTask__Func_2170548: // 0x02170548
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	moveq r0, #0
@@ -2530,7 +2530,7 @@ exPlayerAdminTask__HandleMovement: // 0x02170664
 	bl GetExTaskWorkCurrent_
 	mov r5, r0
 	ldr r4, [r5, #0x10]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	addeq sp, sp, #8
@@ -2884,7 +2884,7 @@ exPlayerAdminTask__HandlePlayerSwap: // 0x02170B78
 	cmp r0, #0
 	addgt sp, sp, #8
 	ldmgtia sp!, {r4, pc}
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	addeq sp, sp, #8
@@ -3008,7 +3008,7 @@ _02170D10:
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
 _02170D68:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #3]
 	cmp r0, #0xb
 	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
@@ -3186,7 +3186,7 @@ exPlayerAdminTask__HandleControl: // 0x02170FD0
 	mov r0, r0, lsr #0x1f
 	cmp r0, #1
 	beq _02171034
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #2]
 	cmp r0, #1
 	bne _0217101C
@@ -3197,7 +3197,7 @@ exPlayerAdminTask__HandleControl: // 0x02170FD0
 	bl exPlayerAdminTask__Action_Die
 	ldmia sp!, {r4, pc}
 _0217101C:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrh r0, [r0, #6]
 	cmp r0, #0
 	bne _02171034
@@ -3738,7 +3738,7 @@ exPlayerAdminTask__LoadSuperSonicAssets: // 0x0217176C
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #2
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02171920 // =exPlayerAdminTask__word_21785D8
 	str r0, [r1, #0x38]
 	ldr r0, [r1, #0x30]
@@ -3915,7 +3915,7 @@ exPlayerAdminTask__LoadSonicAssets: // 0x021719CC
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #4
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02171B4C // =exPlayerAdminTask__word_21785D8
 	str r0, [r1, #0x28]
 	ldr r0, [r1, #0x2c]

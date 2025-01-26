@@ -100,7 +100,7 @@ typedef struct exHitCheck_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void exHitCheckTask__Func_216AD9C(void);
+NOT_DECOMPILED void exHitCheckTask__Func_216AD9C(s32 a1);
 NOT_DECOMPILED void exHitCheckTask__Func_216ADBC(void);
 NOT_DECOMPILED void exHitCheckTask__Func_216ADD8(void);
 NOT_DECOMPILED void exHitCheckTask__InitHitChecker(void);

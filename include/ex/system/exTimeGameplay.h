@@ -11,7 +11,7 @@
 typedef struct exTimeGamePlayTask_
 {
   u64 frameCounter;
-  ExSysTaskTime *time;
+  exSysTaskTime *time;
 } exTimeGamePlayTask;
 
 // --------------------

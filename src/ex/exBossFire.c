@@ -87,18 +87,18 @@ BOOL LoadExBossFireBlueAssets(EX_ACTION_NN_WORK *work)
     exDrawReqTask__InitModel(work);
     if (fireballBlueInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FIRE2_NSBMD, &fireballBlueModelResource, &fireballBlueModelFileSize, TRUE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FIRE2_NSBMD, &fireballBlueModelResource, &fireballBlueModelFileSize, TRUE, FALSE);
 
-        fireballBlueAnimResource[0] = exSysTask__LoadExFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBMA);
+        fireballBlueAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBMA);
         fireballBlueAnimType[0]     = B3D_ANIM_MAT_ANIM;
 
-        fireballBlueAnimResource[1] = exSysTask__LoadExFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBVA);
+        fireballBlueAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBVA);
         fireballBlueAnimType[1]     = B3D_ANIM_VIS_ANIM;
 
-        fireballBlueAnimResource[2] = exSysTask__LoadExFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBTA);
+        fireballBlueAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBTA);
         fireballBlueAnimType[2]     = B3D_ANIM_TEX_ANIM;
 
-        fireballBlueAnimResource[3] = exSysTask__LoadExFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBTP);
+        fireballBlueAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE2_NSBTP);
         fireballBlueAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
         Asset3DSetup__Create(fireballBlueModelResource);
@@ -195,7 +195,7 @@ void ExBossFireBlue_TaskUnknown(void)
 {
     exBossFireBlueTask *work = ExTaskGetWorkCurrent(exBossFireBlueTask);
 
-    if (exSysTask__GetFlag_2178650())
+    if (GetExSystemFlag_2178650())
         DestroyCurrentExTask();
 }
 
@@ -331,7 +331,7 @@ void ExBossFireBlue_Action_Repelled(void)
     work->animator.hitChecker.field_4.value_2 = TRUE;
     work->velocity.x = 0;
 
-    if (exSysTask__GetStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
+    if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
         if (work->animator.hitChecker.field_8 == 6)
         {
@@ -342,7 +342,7 @@ void ExBossFireBlue_Action_Repelled(void)
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(6.0), work->velocity.y);
         }
     }
-    else if (exSysTask__GetStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
+    else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
     {
         if (work->animator.hitChecker.field_8 == 7)
         {
@@ -441,18 +441,18 @@ BOOL LoadExBossFireRedAssets(EX_ACTION_NN_WORK *work)
     exDrawReqTask__InitModel(work);
     if (fireballRedInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FIRE1_NSBMD, &fireballRedModelResource, &fireballRedModelFileSize, TRUE);
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_FIRE1_NSBMD, &fireballRedModelResource, &fireballRedModelFileSize, TRUE, FALSE);
 
-        fireballRedAnimResource[0] = exSysTask__LoadExFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBMA);
+        fireballRedAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBMA);
         fireballRedAnimType[0]     = B3D_ANIM_MAT_ANIM;
 
-        fireballRedAnimResource[1] = exSysTask__LoadExFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBVA);
+        fireballRedAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBVA);
         fireballRedAnimType[1]     = B3D_ANIM_VIS_ANIM;
 
-        fireballRedAnimResource[2] = exSysTask__LoadExFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBTA);
+        fireballRedAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBTA);
         fireballRedAnimType[2]     = B3D_ANIM_TEX_ANIM;
 
-        fireballRedAnimResource[3] = exSysTask__LoadExFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBTP);
+        fireballRedAnimResource[3] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_FIRE1_NSBTP);
         fireballRedAnimType[3]     = B3D_ANIM_PAT_ANIM;
 
         Asset3DSetup__Create(fireballRedModelResource);
@@ -548,7 +548,7 @@ void ExBossFireRed_TaskUnknown(void)
 {
     exBossFireRedTask *work = ExTaskGetWorkCurrent(exBossFireRedTask);
 
-    if (exSysTask__GetFlag_2178650())
+    if (GetExSystemFlag_2178650())
         DestroyCurrentExTask();
 }
 
@@ -680,7 +680,7 @@ void ExBossFireRed_Action_Repelled(void)
     work->animator.hitChecker.field_4.value_2 = TRUE;
     work->velocity.x = 0;
 
-    if (exSysTask__GetStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
+    if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
         if (work->animator.hitChecker.field_8 == 6)
         {
@@ -691,7 +691,7 @@ void ExBossFireRed_Action_Repelled(void)
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(6.0), work->velocity.y);
         }
     }
-    else if (exSysTask__GetStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
+    else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
     {
         if (work->animator.hitChecker.field_8 == 7)
         {

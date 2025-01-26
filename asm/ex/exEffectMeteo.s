@@ -193,13 +193,13 @@ _021672A4:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x23
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0216745C // =0x02176550
 	mov r2, #0
 	str r0, [r1, #0x38]
 	mov r0, #0x24
 	str r2, [r1, #0x30]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0216745C // =0x02176550
 	mov r2, #4
 	str r0, [r1, #0x3c]
@@ -435,7 +435,7 @@ _02167660: .word exEffectMeteoTask__Main_Moving
 exEffectMeteoTask__Func8: // 0x02167664
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -597,7 +597,7 @@ exEffectMeteoTask__Action_Reflect: // 0x02167864
 	ldrb r0, [r4, #0x22]
 	bic r0, r0, #1
 	strb r0, [r4, #0x22]
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #1
 	bne _021678F4
@@ -629,7 +629,7 @@ _021678C4:
 	str r1, [r4, #8]
 	b _02167968
 _021678F4:
-	bl exSysTask__GetStatus
+	bl GetExSystemStatus
 	ldrb r0, [r0, #0]
 	cmp r0, #2
 	bne _02167968

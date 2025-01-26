@@ -14,7 +14,7 @@ exEffectBigBombTask__Func_2164310: // 0x02164310
 	cmp r0, #0
 	bne _02164340
 	mov r0, #0
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0216440C // =0x02176464
 	str r0, [r1, #0x14]
 _02164340:
@@ -122,7 +122,7 @@ _02164498: .word exEffectBigBombTask__Func_21644E8
 exEffectBigBombTask__Func8: // 0x0216449C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

@@ -19,13 +19,8 @@ typedef struct exStageTask_
 // --------------------
 
 // ExStage
-NOT_DECOMPILED void exStageTask__LoadAssets(void);
-NOT_DECOMPILED void exStageTask__ReleaseAssets(void);
-NOT_DECOMPILED void exStageTask__Main(void);
-NOT_DECOMPILED void exStageTask__Func8(void);
-NOT_DECOMPILED void exStageTask__Destructor(void);
-NOT_DECOMPILED void exStageTask__Main_Scrolling(void);
-NOT_DECOMPILED void exStageTask__CreateEx(void);
-NOT_DECOMPILED void exStageTask__Destroy(void);
+void CreateExStage(void);
+void DestroyExStage(void);
+exStageTask *GetExStageSingleton(void);
 
 #endif // RUSH_EXSTAGE_H

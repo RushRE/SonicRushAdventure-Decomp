@@ -296,13 +296,13 @@ _02155CA4:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x57
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02155E5C // =0x02175FC4
 	mov r2, #0
 	str r0, [r1, #0xbc]
 	mov r0, #0x58
 	str r2, [r1, #0xdc]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02155E5C // =0x02175FC4
 	mov r2, #3
 	str r0, [r1, #0xc0]
@@ -481,7 +481,7 @@ _02155F7C: .word exBossEffectHitTask__Main_2155FE4
 exBossEffectHitTask__Func8: // 0x02155F80
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	beq _02155FA0
 	bl GetExTaskCurrent

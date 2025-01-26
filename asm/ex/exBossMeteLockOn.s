@@ -61,13 +61,13 @@ _0215C690:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x40
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215C85C // =0x021761CC
 	mov r2, #0
 	str r0, [r1, #0x68]
 	mov r0, #0x42
 	str r2, [r1, #0x5c]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215C85C // =0x021761CC
 	mov r2, #3
 	str r0, [r1, #0x6c]
@@ -309,7 +309,7 @@ _0215CA44: .word exBossMeteLockOnTask__Func_215CA94
 exBossMeteLockOnTask__Func8: // 0x0215CA48
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

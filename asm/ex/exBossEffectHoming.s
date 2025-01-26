@@ -255,25 +255,25 @@ _02156DFC:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x29
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215700C // =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #0
 	str r0, [r1, #0xe4]
 	mov r0, #0x2a
 	str r2, [r1, #0x134]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215700C // =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #1
 	str r0, [r1, #0xe8]
 	mov r0, #0x2b
 	str r2, [r1, #0x138]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215700C // =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #3
 	str r0, [r1, #0xec]
 	mov r0, #0x2c
 	str r2, [r1, #0x13c]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _0215700C // =exBossEffectHomingTask__ActiveInstanceCount
 	mov r2, #2
 	str r0, [r1, #0xf0]
@@ -536,7 +536,7 @@ _0215722C: .word exBossEffectHomingTask__Func_2157294
 exBossEffectHomingTask__Func8: // 0x02157230
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	beq _02157250
 	bl GetExTaskCurrent

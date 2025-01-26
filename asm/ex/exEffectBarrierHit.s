@@ -61,19 +61,19 @@ _021649CC:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x20
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02164BB4 // =0x02176484
 	mov r2, #0
 	str r0, [r1, #0x58]
 	mov r0, #0x21
 	str r2, [r1, #0x4c]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02164BB4 // =0x02176484
 	mov r2, #1
 	str r0, [r1, #0x5c]
 	mov r0, #0x22
 	str r2, [r1, #0x50]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02164BB4 // =0x02176484
 	mov r2, #4
 	str r0, [r1, #0x60]
@@ -252,7 +252,7 @@ _02164CB8: .word exEffectBarrierHitTask__Main_2164D08
 exEffectBarrierHitTask__Func8: // 0x02164CBC
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

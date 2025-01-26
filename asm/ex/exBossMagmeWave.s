@@ -61,25 +61,25 @@ _02160350:
 	mov r0, r5
 	bl _FreeHEAP_USER
 	mov r0, #0x2f
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02160530 // =0x02176284
 	mov r2, #0
 	str r0, [r1, #0x44]
 	mov r0, #0x30
 	str r2, [r1, #0x54]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02160530 // =0x02176284
 	mov r2, #1
 	str r0, [r1, #0x48]
 	mov r0, #0x31
 	str r2, [r1, #0x58]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02160530 // =0x02176284
 	mov r2, #3
 	str r0, [r1, #0x4c]
 	mov r0, #0x32
 	str r2, [r1, #0x5c]
-	bl exSysTask__LoadExFile
+	bl LoadExSystemFile
 	ldr r1, _02160530 // =0x02176284
 	mov r2, #4
 	str r0, [r1, #0x50]
@@ -263,7 +263,7 @@ _02160664: .word exBossMagmeWaveTask__Main_21606B4
 exBossMagmeWaveTask__Func8: // 0x02160668
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exSysTask__GetFlag_2178650
+	bl GetExSystemFlag_2178650
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

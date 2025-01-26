@@ -23,7 +23,7 @@ typedef struct exMsgTutorialTask_
 // FUNCTIONS
 // --------------------
 
-// ExTitleCard
+// ExTutorialMessage
 NOT_DECOMPILED void exMsgTutorialTask__GetLanguage(void);
 NOT_DECOMPILED void exMsgTutorialTask__Main(void);
 NOT_DECOMPILED void exMsgTutorialTask__Func8(void);

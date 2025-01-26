@@ -52,7 +52,7 @@ void CreateSaveInitMessage(SaveInitManager *parent, GameInitMessageTypes type)
 
     FSRequestArchive("/narc/dmbl_lz7.narc", &work->dmblArchive, FALSE);
     work->fontPtr = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
-    GetCompressedFileFromBundle("/bb/dmwf_lang.bb", BUNDLE_DMWF_LANG_FILE_RESOURCES_BB_DMWF_LANG_CMN_NARC, &work->dmwfLangArchive, FALSE);
+    GetCompressedFileFromBundle("/bb/dmwf_lang.bb", BUNDLE_DMWF_LANG_FILE_RESOURCES_BB_DMWF_LANG_CMN_NARC, &work->dmwfLangArchive, FALSE, TRUE);
 
     FontWindow__Init(&work->fontWindow);
     FontWindow__LoadFromMemory(&work->fontWindow, work->fontPtr, 1);

@@ -840,7 +840,7 @@ void LoadNavTailsAssets(NavTailsAssets *assets)
 
     MI_CpuClear16(assets, sizeof(*assets));
 
-    GetCompressedFileFromBundle("bb/nv.bb", BUNDLE_NV_FILE_RESOURCES_BB_NV_NAV_ASSETS_NARC, &assets->archiveNv, TRUE);
+    GetCompressedFileFromBundle("bb/nv.bb", BUNDLE_NV_FILE_RESOURCES_BB_NV_NAV_ASSETS_NARC, &assets->archiveNv, TRUE, FALSE);
     NNS_FndMountArchive(&arc, "nv", assets->archiveNv);
 
     assets->sprNav = NNS_FndGetArchiveFileByIndex(&arc, ARCHIVE_NAV_ASSETS_FILE_NV_BAC);
