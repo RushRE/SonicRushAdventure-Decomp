@@ -777,7 +777,6 @@ Overlay ExBoss
     Object asm/ex/exEffectRing_vars.o
     Object src/ex/exRingManager.o
     Object src/ex/exHUD.o
-    Object asm/ex/exGameSystem_vars.o
     Object src/ex/exGameSystem.o
     Object asm/ex/exHitCheck.o
     Object src/ex/ex.o

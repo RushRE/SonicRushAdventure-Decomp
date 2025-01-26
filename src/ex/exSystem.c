@@ -191,7 +191,7 @@ void ExSystem_Main_Init(void)
     exDrawFadeUnknown__Func_21615A4(1, 1);
     exDrawReqTask__Create();
     exHitCheckTask__Create();
-    exGameSystemTask__Create();
+    CreateExGameSystem();
     CreateExHUD();
     GetExSystemStatus()->state = EXSYSTASK_STATE_3;
     exDrawFadeTask__Create(-16, 0, 32, 0, 1);
@@ -211,7 +211,7 @@ void ExSystem_Destructor(void)
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
     DestroyExHUD();
-    exGameSystemTask__Destroy();
+    DestroyExGameSystem();
     HeapFree(HEAP_USER, work->drawState);
     HeapFree(HEAP_USER, work->archiveCommon);
     NNS_SndStopSoundAll();
@@ -438,7 +438,7 @@ void ExSystem_Main_21731DC(void)
     if (work->timer-- <= 0)
     {
         DestroyExHUD();
-        exGameSystemTask__Destroy();
+        DestroyExGameSystem();
         exSysTask__sVars.exSysTask__Flag_2178650 = FALSE;
         work->timer                              = 15;
 
@@ -459,7 +459,7 @@ void ExSystem_Main_217323C(void)
         InitExSystemStatus();
         exDrawReqTask__Create();
         exHitCheckTask__Create();
-        exGameSystemTask__Create();
+        CreateExGameSystem();
         CreateExHUD();
 
         exDrawFadeTask__Create(-16, 0, 32, 0, 1);
@@ -481,7 +481,7 @@ void ExSystem_Main_21732E4(void)
     if (work->timer-- <= 0)
     {
         DestroyExHUD();
-        exGameSystemTask__Destroy();
+        DestroyExGameSystem();
         exSysTask__sVars.exSysTask__Flag_2178654 = TRUE;
         SetCurrentExTaskMainEvent(ExSystem_Main_2173338);
 

@@ -1,5 +1,4 @@
 #include <ex/system/exGameSystem.h>
-#include <ex/system/exSystem.h>
 #include <ex/system/exStage.h>
 #include <ex/boss/exBoss.h>
 #include <ex/player/exPlayer.h>
@@ -9,10 +8,8 @@
 // --------------------
 // VARIABLES
 // --------------------
-	
-NOT_DECOMPILED void *exGameSystemTask__singleton;
-	
-NOT_DECOMPILED void *aExgamesystemta;
+
+static Task *exGameSystemTaskSingleton;
 
 // --------------------
 // TEMP
@@ -22,341 +19,196 @@ NOT_DECOMPILED void exEffectMeteoAdminTask__Create(void);
 NOT_DECOMPILED void exEffectMeteoAdminTask__Destroy_2168044(void);
 
 // --------------------
+// FUNCTION DECLS
+// --------------------
+
+// ExGameSystem
+static void ExGameSystem_Main_Init(void);
+static void ExGameSystem_TaskUnknown(void);
+static void ExGameSystem_Destructor(void);
+static void ExGameSystem_Action_WaitForState4(void);
+static void ExGameSystem_Action_WaitForBossTrigger(void);
+static void ExGameSystem_Main_WaitForBossTrigger(void);
+static void ExGameSystem_Action_CreateStageObjects(void);
+static void ExGameSystem_Main_CreatedStageObjects(void);
+static void ExGameSystem_Action_StopSpawningMeteors(void);
+static void ExGameSystem_Main_StoppedSpawningMeteors(void);
+static void ExGameSystem_Main_GoIdle(void);
+static void ExGameSystem_Main_Idle(void);
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
 // ExGameSystem
-NONMATCH_FUNC void exGameSystemTask__Main(void)
+void ExGameSystem_Main_Init(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, r4, lr}
-	sub sp, sp, #4
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	bl GetCurrentTask
-	ldr r2, =exGameSystemTask__singleton
-	mov r1, #0
-	str r0, [r2]
-	mov r0, r4
-	mov r2, #0x10
-	bl MI_CpuFill8
-	bl GetExSystemStatus
-	str r0, [r4, #0xc]
-	bl CreateExStage
-	bl exPlayerAdminTask__Create
-	bl exBossSysAdminTask__Create
-	mov r0, #0x16
-	str r0, [sp]
-	mov r0, #0
-	sub r1, r0, #1
-	mov r2, r1
-	mov r3, r1
-	bl PlayTrack
-	bl GetExTaskCurrent
-	ldr r1, =exGameSystemTask__Main_216AB78
-	str r1, [r0]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, pc}
+    exGameSystemTaskSingleton = GetCurrentTask();
+    TaskInitWork8(work);
 
-// clang-format on
-#endif
+    work->status = GetExSystemStatus();
+
+    CreateExStage();
+    exPlayerAdminTask__Create();
+    exBossSysAdminTask__Create();
+
+    PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_ZONE_SEQ_SEQ_BOSSE);
+
+    SetCurrentExTaskMainEvent(ExGameSystem_Action_WaitForState4);
 }
 
-NONMATCH_FUNC void exGameSystemTask__Func8(void)
+void ExGameSystem_TaskUnknown(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	ldrh r1, [r0, #2]
-	add r1, r1, #1
-	strh r1, [r0, #2]
-	ldrh r1, [r0, #2]
-	cmp r1, #0
-	ldreqh r1, [r0, #0]
-	addeq r1, r1, #1
-	streqh r1, [r0]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    work->field_2++;
+    if (work->field_2 == 0)
+        work->field_0++;
 }
 
-NONMATCH_FUNC void exGameSystemTask__Destructor(void)
+void ExGameSystem_Destructor(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
+    UNUSED(work);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	bl exEffectRingAdminTask__Destroy
-	bl ExBossSysAdminTask__Destroy
-	bl exPlayerAdminTask__Destroy_2171730
-	bl DestroyExStage
-	bl exEffectMeteoAdminTask__Destroy_2168044
-	ldr r0, =exGameSystemTask__singleton
-	mov r1, #0
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
+    exEffectRingAdminTask__Destroy();
+    ExBossSysAdminTask__Destroy();
+    exPlayerAdminTask__Destroy_2171730();
+    DestroyExStage();
+    exEffectMeteoAdminTask__Destroy_2168044();
 
-// clang-format on
-#endif
+    exGameSystemTaskSingleton = NULL;
 }
 
-NONMATCH_FUNC void exGameSystemTask__Main_216AB78(void)
+void ExGameSystem_Action_WaitForState4(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
+    UNUSED(work);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	bl GetExSystemStatus
-	ldrb r0, [r0, #3]
-	cmp r0, #4
-	bne _0216AB98
-	bl exGameSystemTask__Action_216ABA8
-	ldmia sp!, {r3, pc}
-_0216AB98:
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_4)
+    {
+        ExGameSystem_Action_WaitForBossTrigger();
+    }
+    else
+    {
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exGameSystemTask__Action_216ABA8(void)
+void ExGameSystem_Action_WaitForBossTrigger(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
+    UNUSED(work);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	bl GetExTaskCurrent
-	ldr r1, =exGameSystemTask__Main_216ABD4
-	str r1, [r0]
-	bl exGameSystemTask__Main_216ABD4
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r3, pc}
+    SetCurrentExTaskMainEvent(ExGameSystem_Main_WaitForBossTrigger);
+    ExGameSystem_Main_WaitForBossTrigger();
 
-// clang-format on
-#endif
+    RunCurrentExTaskUnknownEvent();
 }
 
-NONMATCH_FUNC void exGameSystemTask__Main_216ABD4(void)
+void ExGameSystem_Main_WaitForBossTrigger(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
+    UNUSED(work);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	bl ExBossSysAdminTask__Func_215DF1C
-	cmp r0, #0
-	bne _0216ABF0
-	bl exGameSystemTask__Action_216AC00
-	ldmia sp!, {r3, pc}
-_0216ABF0:
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (!ExBossSysAdminTask__Func_215DF1C())
+    {
+        ExGameSystem_Action_CreateStageObjects();
+    }
+    else
+    {
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exGameSystemTask__Action_216AC00(void)
+void ExGameSystem_Action_CreateStageObjects(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	bl exEffectMeteoAdminTask__Create
-	bl exEffectRingAdminTask__Create
-	mov r0, #0x384
-	strh r0, [r4, #4]
-	bl GetExTaskCurrent
-	ldr r1, =exGameSystemTask__Main_216AC34
-	str r1, [r0]
-	bl exGameSystemTask__Main_216AC34
-	ldmia sp!, {r4, pc}
+    exEffectMeteoAdminTask__Create();
+    exEffectRingAdminTask__Create();
 
-// clang-format on
-#endif
+    work->timer = SECONDS_TO_FRAMES(15.0);
+
+    SetCurrentExTaskMainEvent(ExGameSystem_Main_CreatedStageObjects);
+    ExGameSystem_Main_CreatedStageObjects();
 }
 
-NONMATCH_FUNC void exGameSystemTask__Main_216AC34(void)
+void ExGameSystem_Main_CreatedStageObjects(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	ldrh r2, [r0, #4]
-	sub r1, r2, #1
-	strh r1, [r0, #4]
-	cmp r2, #0
-	bne _0216AC58
-	bl exGameSystemTask__Action_216AC68
-	ldmia sp!, {r3, pc}
-_0216AC58:
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (work->timer-- == 0)
+    {
+        ExGameSystem_Action_StopSpawningMeteors();
+    }
+    else
+    {
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exGameSystemTask__Action_216AC68(void)
+void ExGameSystem_Action_StopSpawningMeteors(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	bl exEffectMeteoAdminTask__Destroy_2168044
-	mov r1, #0
-	mov r0, #1
-	strh r1, [r4, #4]
-	bl ExBossSysAdminTask__Func_215DF2C
-	bl GetExTaskCurrent
-	ldr r1, =exGameSystemTask__Main_216ACA0
-	str r1, [r0]
-	bl exGameSystemTask__Main_216ACA0
-	ldmia sp!, {r4, pc}
+    exEffectMeteoAdminTask__Destroy_2168044();
 
-// clang-format on
-#endif
+    work->timer = 0;
+
+    ExBossSysAdminTask__Func_215DF2C(1, 0);
+
+    SetCurrentExTaskMainEvent(ExGameSystem_Main_StoppedSpawningMeteors);
+    ExGameSystem_Main_StoppedSpawningMeteors();
 }
 
-NONMATCH_FUNC void exGameSystemTask__Main_216ACA0(void)
+void ExGameSystem_Main_StoppedSpawningMeteors(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
+    UNUSED(work);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	bl GetExSystemStatus
-	ldrb r0, [r0, #3]
-	cmp r0, #0xa
-	bne _0216ACC0
-	bl exGameSystemTask__Action_216ACD0
-	ldmia sp!, {r3, pc}
-_0216ACC0:
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_10)
+    {
+        ExGameSystem_Main_GoIdle();
+    }
+    else
+    {
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exGameSystemTask__Action_216ACD0(void)
+void ExGameSystem_Main_GoIdle(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
+    UNUSED(work);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	bl GetExTaskCurrent
-	ldr r1, =exGameSystemTask__Main_216ACF0
-	str r1, [r0]
-	bl exGameSystemTask__Main_216ACF0
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    SetCurrentExTaskMainEvent(ExGameSystem_Main_Idle);
+    ExGameSystem_Main_Idle();
 }
 
-NONMATCH_FUNC void exGameSystemTask__Main_216ACF0(void)
+void ExGameSystem_Main_Idle(void)
 {
-#ifdef NON_MATCHING
+    exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
+    UNUSED(work);
 
-#else
-// clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    RunCurrentExTaskUnknownEvent();
 }
 
-NONMATCH_FUNC void exGameSystemTask__Create(void)
+void CreateExGameSystem(void)
 {
-#ifdef NON_MATCHING
+    Task *task =
+        ExTaskCreate(ExGameSystem_Main_Init, ExGameSystem_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x1000, TASK_GROUP(1), 0, EXTASK_TYPE_REGULAR, exGameSystemTask);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x10
-	mov r4, #0
-	str r4, [sp]
-	mov r1, #0x10
-	ldr r0, =aExgamesystemta
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	ldr r0, =exGameSystemTask__Main
-	ldr r1, =exGameSystemTask__Destructor
-	mov r2, #0x1000
-	mov r3, #1
-	str r4, [sp, #0xc]
-	bl ExTaskCreate_
-	mov r4, r0
-	bl GetExTaskWork_
-	mov r0, r4
-	bl GetExTask
-	ldr r1, =exGameSystemTask__Func8
-	str r1, [r0, #8]
-	add sp, sp, #0x10
-	ldmia sp!, {r4, pc}
+    exGameSystemTask *work = ExTaskGetWork(task, exGameSystemTask);
+    UNUSED(work);
 
-// clang-format on
-#endif
+    SetExTaskUnknownEvent(task, ExGameSystem_TaskUnknown);
 }
 
-NONMATCH_FUNC void exGameSystemTask__Destroy(void)
+void DestroyExGameSystem(void)
 {
-#ifdef NON_MATCHING
-
-#else
-// clang-format off
-	stmdb sp!, {r3, lr}
-	ldr r0, =exGameSystemTask__singleton
-	ldr r0, [r0, #0]
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	bl GetExTask
-	ldr r1, =ExTask_State_Destroy
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (exGameSystemTaskSingleton != NULL)
+        DestroyExTask(exGameSystemTaskSingleton);
 }
