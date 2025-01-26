@@ -3,6 +3,7 @@
 #include <ex/boss/exBoss.h>
 #include <ex/player/exPlayer.h>
 #include <ex/core/exRingManager.h>
+#include <ex/core/exMeteorManager.h>
 #include <game/audio/audioSystem.h>
 
 // --------------------
@@ -12,13 +13,6 @@
 static Task *exGameSystemTaskSingleton;
 
 // --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void exEffectMeteoAdminTask__Create(void);
-NOT_DECOMPILED void exEffectMeteoAdminTask__Destroy_2168044(void);
-
-// --------------------
 // FUNCTION DECLS
 // --------------------
 
@@ -26,7 +20,7 @@ NOT_DECOMPILED void exEffectMeteoAdminTask__Destroy_2168044(void);
 static void ExGameSystem_Main_Init(void);
 static void ExGameSystem_TaskUnknown(void);
 static void ExGameSystem_Destructor(void);
-static void ExGameSystem_Action_WaitForState4(void);
+static void ExGameSystem_Main_WaitForState4(void);
 static void ExGameSystem_Action_WaitForBossTrigger(void);
 static void ExGameSystem_Main_WaitForBossTrigger(void);
 static void ExGameSystem_Action_CreateStageObjects(void);
@@ -56,7 +50,7 @@ void ExGameSystem_Main_Init(void)
 
     PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_ZONE_SEQ_SEQ_BOSSE);
 
-    SetCurrentExTaskMainEvent(ExGameSystem_Action_WaitForState4);
+    SetCurrentExTaskMainEvent(ExGameSystem_Main_WaitForState4);
 }
 
 void ExGameSystem_TaskUnknown(void)
@@ -82,7 +76,7 @@ void ExGameSystem_Destructor(void)
     exGameSystemTaskSingleton = NULL;
 }
 
-void ExGameSystem_Action_WaitForState4(void)
+void ExGameSystem_Main_WaitForState4(void)
 {
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
     UNUSED(work);

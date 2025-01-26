@@ -780,10 +780,8 @@ Overlay ExBoss
     Object src/ex/exGameSystem.o
     Object asm/ex/exHitCheck.o
     Object src/ex/ex.o
-    Object asm/ex/exMsgTutorial_vars.o
-    Object src/ex/exTutorialMessage.o
-    Object asm/ex/exMsgTitle_vars.o
     Object src/ex/exTitleCard.o
+    Object asm/ex/exMsgTitle_vars.o
     Object asm/ex/exPause_vars.o
     Object src/ex/exPauseMenu.o
     Object asm/ex/exPlayerScreenMove.o

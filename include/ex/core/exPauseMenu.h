@@ -39,7 +39,7 @@ void exPauseTask__Action_Select(void);
 void exPauseTask__Main_SelectionMade(void);
 void exPauseTask__Main_Exit(void);
 void exPauseTask__Draw(void);
-void exPauseTask__Create(void);
+BOOL exPauseTask__Create(void);
 u16 exPauseTask__GetSelectedAction(void);
 
 #endif // RUSH_EXPAUSEMENU_H

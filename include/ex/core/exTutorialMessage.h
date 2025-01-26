@@ -11,12 +11,12 @@
 
 typedef struct exMsgTutorialTask_
 {
-    u16 timer;
-    u16 field_2;
+    s16 scrollPos;
+    u16 unused;
     u16 language;
     EX_ACTION_BAC2D_WORK aniBorder;
-    EX_ACTION_BAC2D_WORK aniMessage[2];
-    exPlayerAdminTaskWorker *field_1A0;
+    EX_ACTION_BAC2D_WORK aniMessage[EXPLAYER_CHARACTER_COUNT];
+    exPlayerAdminTaskWorker *playerWorker;
 } exMsgTutorialTask;
 
 // --------------------
@@ -24,12 +24,7 @@ typedef struct exMsgTutorialTask_
 // --------------------
 
 // ExTutorialMessage
-NOT_DECOMPILED void exMsgTutorialTask__GetLanguage(void);
-NOT_DECOMPILED void exMsgTutorialTask__Main(void);
-NOT_DECOMPILED void exMsgTutorialTask__Func8(void);
-NOT_DECOMPILED void exMsgTutorialTask__Destructor(void);
-NOT_DECOMPILED void exMsgTutorialTask__Main_Active(void);
-NOT_DECOMPILED void exMsgTutorialTask__Create(void);
-NOT_DECOMPILED void exMsgTutorialTask__Destroy(void);
+BOOL CreateExTutorialMessage(void);
+void DestroyExTutorialMessage(void);
 
 #endif // RUSH_EXTUTORIALMESSAGE_H

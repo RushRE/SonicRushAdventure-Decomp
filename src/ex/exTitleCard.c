@@ -1,6 +1,6 @@
 #include <ex/core/exTitleCard.h>
-#include <ex/core/exHUD.h>
 #include <ex/core/exTutorialMessage.h>
+#include <ex/core/exHUD.h>
 #include <ex/system/exSystem.h>
 #include <game/audio/audioSystem.h>
 #include <game/input/padInput.h>
@@ -8,8 +8,27 @@
 // --------------------
 // VARIABLES
 // --------------------
-	
-NOT_DECOMPILED void *exMsgTitleTask__TaskSingleton;
+
+struct TEMP_STATIC_VARS
+{
+    void *exMsgTitleTask__TaskSingleton;
+    void *exMsgTutorialTask__TaskSingleton;
+    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21775C0;
+    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177648;
+    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21776D0;
+    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177758;
+    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21777E0;
+    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177868;
+    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21778F0;
+    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177978;
+    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177A00;
+    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177A88;
+    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177B10;
+};
+
+NOT_DECOMPILED struct TEMP_STATIC_VARS exMsgTitleTask__sVars;
+
+// NOT_DECOMPILED void *exMsgTitleTask__TaskSingleton;
 NOT_DECOMPILED void *exMsgTutorialTask__TaskSingleton;
 NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21775C0;
 NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177648;
@@ -22,16 +41,210 @@ NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177978;
 NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177A00;
 NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177A88;
 NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177B10;
-	
-NOT_DECOMPILED void *aExmsgtitletask;
+
+static u16 exTutorialMessageTextAnims[EXPLAYER_CHARACTER_COUNT][OS_LANGUAGE_CODE_MAX] = {
+    [EXPLAYER_CHARACTER_SONIC] = { [OS_LANGUAGE_JAPANESE] = EX_ACTCOM_ANI_TUTORIAL_TEXT_SONIC_JPN,
+                                   [OS_LANGUAGE_ENGLISH]  = EX_ACTCOM_ANI_TUTORIAL_TEXT_SONIC_ENG,
+                                   [OS_LANGUAGE_FRENCH]   = EX_ACTCOM_ANI_TUTORIAL_TEXT_SONIC_FRA,
+                                   [OS_LANGUAGE_GERMAN]   = EX_ACTCOM_ANI_TUTORIAL_TEXT_SONIC_DEU,
+                                   [OS_LANGUAGE_ITALIAN]  = EX_ACTCOM_ANI_TUTORIAL_TEXT_SONIC_ITA,
+                                   [OS_LANGUAGE_SPANISH]  = EX_ACTCOM_ANI_TUTORIAL_TEXT_SONIC_SPA },
+
+    [EXPLAYER_CHARACTER_BLAZE] = { [OS_LANGUAGE_JAPANESE] = EX_ACTCOM_ANI_TUTORIAL_TEXT_BLAZE_JPN,
+                                   [OS_LANGUAGE_ENGLISH]  = EX_ACTCOM_ANI_TUTORIAL_TEXT_BLAZE_ENG,
+                                   [OS_LANGUAGE_FRENCH]   = EX_ACTCOM_ANI_TUTORIAL_TEXT_BLAZE_FRA,
+                                   [OS_LANGUAGE_GERMAN]   = EX_ACTCOM_ANI_TUTORIAL_TEXT_BLAZE_DEU,
+                                   [OS_LANGUAGE_ITALIAN]  = EX_ACTCOM_ANI_TUTORIAL_TEXT_BLAZE_ITA,
+                                   [OS_LANGUAGE_SPANISH]  = EX_ACTCOM_ANI_TUTORIAL_TEXT_BLAZE_SPA },
+};
+
+static u16 exTutorialMessageTextScrollLimit[EXPLAYER_CHARACTER_COUNT][OS_LANGUAGE_CODE_MAX] = {
+    [EXPLAYER_CHARACTER_SONIC] = { [OS_LANGUAGE_JAPANESE] = 392,
+                                   [OS_LANGUAGE_ENGLISH]  = 488,
+                                   [OS_LANGUAGE_FRENCH]   = 472,
+                                   [OS_LANGUAGE_GERMAN]   = 496,
+                                   [OS_LANGUAGE_ITALIAN]  = 432,
+                                   [OS_LANGUAGE_SPANISH]  = 432 },
+
+    [EXPLAYER_CHARACTER_BLAZE] = { [OS_LANGUAGE_JAPANESE] = 376,
+                                   [OS_LANGUAGE_ENGLISH]  = 368,
+                                   [OS_LANGUAGE_FRENCH]   = 392,
+                                   [OS_LANGUAGE_GERMAN]   = 352,
+                                   [OS_LANGUAGE_ITALIAN]  = 400,
+                                   [OS_LANGUAGE_SPANISH]  = 384 },
+};
 
 // --------------------
-// FUNCTIONS
+// TEMP
 // --------------------
 
 NOT_DECOMPILED void _f_ftoi(void);
 NOT_DECOMPILED void _f_itof(void);
 NOT_DECOMPILED void _fdiv(void);
+
+// --------------------
+// FUNCTION DECLS
+// --------------------
+
+// ExTutorialMessage
+static u16 GetExTutorialMessageLanguage(void);
+static void ExTutorialMessage_Main_Init(void);
+static void ExTutorialMessage_TaskUnknown(void);
+static void ExTutorialMessage_Destructor(void);
+static void ExTutorialMessage_Main_Active(void);
+
+// --------------------
+// FUNCTIONS
+// --------------------
+
+// ExTutorialMessage
+u16 GetExTutorialMessageLanguage(void)
+{
+    s32 id = 0;
+    switch (*RenderCore_GetLanguagePtr())
+    {
+        case OS_LANGUAGE_JAPANESE:
+            id = 0;
+            break;
+
+        case OS_LANGUAGE_ENGLISH:
+            id = 1;
+            break;
+
+        case OS_LANGUAGE_FRENCH:
+            id = 2;
+            break;
+
+        case OS_LANGUAGE_GERMAN:
+            id = 3;
+            break;
+
+        case OS_LANGUAGE_ITALIAN:
+            id = 4;
+            break;
+
+        case OS_LANGUAGE_SPANISH:
+            id = 5;
+            break;
+
+        default:
+            id = 1;
+            break;
+    }
+
+    return id;
+}
+
+void ExTutorialMessage_Main_Init(void)
+{
+    exMsgTutorialTask *work = ExTaskGetWorkCurrent(exMsgTutorialTask);
+
+    exMsgTitleTask__sVars.exMsgTutorialTask__TaskSingleton = GetCurrentTask();
+
+    work->language     = GetExTutorialMessageLanguage();
+    work->playerWorker = exPlayerAdminTask__GetUnknown2();
+
+    for (u16 i = 0; i < EXPLAYER_CHARACTER_COUNT; i++)
+    {
+        work->aniMessage[i].sprite.anim       = exTutorialMessageTextAnims[i][work->language];
+        work->aniMessage[i].sprite.paletteRow = PALETTE_ROW_3;
+        SetupExHUDSprite(&work->aniMessage[i]);
+        exDrawReqTask__SetConfigPriority(&work->aniMessage[i].config, 0xE002);
+        work->aniMessage[i].sprite.pos.x            = 0;
+        work->aniMessage[i].sprite.pos.y            = 0;
+        work->aniMessage[i].config.field_2.value_20 = TRUE;
+        exDrawReqTask__Sprite2D__Func_2161B80(&work->aniMessage[i]);
+        exDrawReqTask__Func_21641F0(&work->aniMessage[i].config);
+    }
+
+    work->aniBorder.sprite.anim       = EX_ACTCOM_ANI_TUTORIAL_TEXT_BACKDROP;
+    work->aniBorder.sprite.paletteRow = PALETTE_ROW_3;
+    SetupExHUDSprite(&work->aniBorder);
+    exDrawReqTask__SetConfigPriority(&work->aniBorder.config, 0xE001);
+    work->aniBorder.sprite.pos.x            = 0;
+    work->aniBorder.sprite.pos.y            = 0;
+    work->aniBorder.config.field_2.value_20 = TRUE;
+    exDrawReqTask__Sprite2D__Func_2161B80(&work->aniBorder);
+    exDrawReqTask__Func_21641F0(&work->aniBorder.config);
+    work->aniBorder.sprite.field_78 = 5;
+
+    work->scrollPos = 128;
+
+    SetCurrentExTaskMainEvent(ExTutorialMessage_Main_Active);
+}
+
+void ExTutorialMessage_TaskUnknown(void)
+{
+    exMsgTutorialTask *work = ExTaskGetWorkCurrent(exMsgTutorialTask);
+    UNUSED(work);
+
+    if (GetExSystemFlag_2178650())
+        DestroyCurrentExTask();
+}
+
+void ExTutorialMessage_Destructor(void)
+{
+    exMsgTutorialTask *work = ExTaskGetWorkCurrent(exMsgTutorialTask);
+
+    ReleaseExHUDSprite(&work->aniMessage[EXPLAYER_CHARACTER_SONIC]);
+    ReleaseExHUDSprite(&work->aniMessage[EXPLAYER_CHARACTER_BLAZE]);
+    ReleaseExHUDSprite(&work->aniBorder);
+
+    exMsgTitleTask__sVars.exMsgTutorialTask__TaskSingleton = NULL;
+}
+
+void ExTutorialMessage_Main_Active(void)
+{
+    exMsgTutorialTask *work = ExTaskGetWorkCurrent(exMsgTutorialTask);
+
+    u8 character = EXPLAYER_CHARACTER_SONIC;
+    if (work->playerWorker->activeCharacter.value_1)
+        character = EXPLAYER_CHARACTER_BLAZE;
+
+    exDrawReqTask__Sprite2D__Animate(&work->aniMessage[character]);
+    exDrawReqTask__Sprite2D__Animate(&work->aniBorder);
+
+    s32 scrollLimit = exTutorialMessageTextScrollLimit[character][work->language];
+
+    if (work->scrollPos <= -(scrollLimit - 128))
+        work->scrollPos = 128;
+    else
+        work->scrollPos--;
+
+    work->aniMessage[character].sprite.pos.x = work->scrollPos;
+    exDrawReqTask__AddRequest(&work->aniMessage[character], &work->aniMessage[character].config);
+
+    work->aniMessage[character].sprite.pos.x -= scrollLimit;
+    exDrawReqTask__AddRequest(&work->aniMessage[character], &work->aniMessage[character].config);
+    work->aniMessage[character].sprite.pos.x += scrollLimit;
+
+    work->aniMessage[character].sprite.pos.x += scrollLimit;
+    exDrawReqTask__AddRequest(&work->aniMessage[character], &work->aniMessage[character].config);
+    work->aniMessage[character].sprite.pos.x -= scrollLimit;
+
+    exDrawReqTask__AddRequest(&work->aniBorder, &work->aniBorder.config);
+
+    RunCurrentExTaskUnknownEvent();
+}
+
+BOOL CreateExTutorialMessage(void)
+{
+    Task *task =
+        ExTaskCreate(ExTutorialMessage_Main_Init, ExTutorialMessage_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(3), 0, EXTASK_TYPE_REGULAR, exMsgTutorialTask);
+
+    exMsgTutorialTask *work = ExTaskGetWork(task, exMsgTutorialTask);
+    TaskInitWork8(work);
+
+    SetExTaskUnknownEvent(task, ExTutorialMessage_TaskUnknown);
+
+    return TRUE;
+}
+
+void DestroyExTutorialMessage(void)
+{
+    if (exMsgTitleTask__sVars.exMsgTutorialTask__TaskSingleton != NULL)
+        DestroyExTask(exMsgTitleTask__sVars.exMsgTutorialTask__TaskSingleton);
+}
 
 // ExTitleCard
 NONMATCH_FUNC void exMsgTitleTask__Main(void)
@@ -39,12 +252,12 @@ NONMATCH_FUNC void exMsgTitleTask__Main(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl GetCurrentTask
-	ldr r1, =exMsgTitleTask__TaskSingleton
+	ldr r1, =exMsgTitleTask__sVars
 	ldr r2, =exMsgTitleTask__byte_2177B10
 	str r0, [r1]
 	ldr r1, =exMsgTitleTask__byte_2177A88
@@ -278,12 +491,11 @@ NONMATCH_FUNC void exMsgTitleTask__Main(void)
 #endif
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func8(void)
-{
+NONMATCH_FUNC void exMsgTitleTask__Func8(void){
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	ldr ip, =GetExTaskWorkCurrent_
 	bx ip
 
@@ -296,12 +508,12 @@ NONMATCH_FUNC void exMsgTitleTask__Destructor(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x30]
 	bl ReleaseExHUDSprite
-	ldr r0, =exMsgTitleTask__TaskSingleton
+	ldr r0, =exMsgTitleTask__sVars
 	mov r1, #0
 	str r1, [r0]
 	ldmia sp!, {r3, pc}
@@ -315,7 +527,7 @@ NONMATCH_FUNC void exMsgTitleTask__Main_216CCF4(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r2, [r0, #0]
@@ -340,7 +552,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216CD28(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -389,7 +601,7 @@ NONMATCH_FUNC void exMsgTitleTask__Main_216CDC8(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -517,7 +729,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216CF94(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -669,7 +881,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216D1D0(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -714,7 +926,7 @@ _0216D25C:
 	bl exMsgTitleTask__Func_216D300
 	ldmia sp!, {r4, pc}
 _0216D274:
-	bl exMsgTutorialTask__GetLanguage
+	bl GetExTutorialMessageLanguage
 	cmp r0, #0
 	bne _0216D28C
 	ldr r0, [r4, #0xc]
@@ -759,7 +971,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216D300(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0
@@ -779,7 +991,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216D328(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r1, =padInput
@@ -891,7 +1103,7 @@ _0216D3DC:
 	bl exMsgTitleTask__Func_216D564
 	ldmia sp!, {r4, r5, r6, pc}
 _0216D4D4:
-	bl exMsgTutorialTask__GetLanguage
+	bl GetExTutorialMessageLanguage
 	cmp r0, #0
 	bne _0216D4EC
 	ldr r0, [r4, #0xc]
@@ -936,7 +1148,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216D564(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -1029,7 +1241,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216D6B0(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -1059,7 +1271,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216D6F8(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0
@@ -1079,7 +1291,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216D720(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r2, [r0, #0]
@@ -1107,7 +1319,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216D760(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x2c]
@@ -1130,7 +1342,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216D794(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -1160,7 +1372,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216D7DC(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0x78
@@ -1180,7 +1392,7 @@ NONMATCH_FUNC void exMsgTitleTask__Func_216D804(void)
 #ifdef NON_MATCHING
 
 #else
-// clang-format off
+    // clang-format off
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldrsh r2, [r0, #0]
@@ -1205,53 +1417,19 @@ _0216D830:
 #endif
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Create(void)
+BOOL exMsgTitleTask__Create(void)
 {
-#ifdef NON_MATCHING
+    Task *task = ExTaskCreate(exMsgTitleTask__Main, exMsgTitleTask__Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(3), 0, EXTASK_TYPE_REGULAR, exMsgTitleTask);
 
-#else
-// clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #0x10
-	mov r4, #0
-	str r4, [sp]
-	mov r1, #0x34
-	ldr r0, =aExmsgtitletask
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	ldr r0, =exMsgTitleTask__Main
-	ldr r1, =exMsgTitleTask__Destructor
-	mov r2, #0x1800
-	mov r3, #3
-	str r4, [sp, #0xc]
-	bl ExTaskCreate_
-	mov r4, r0
-	bl GetExTaskWork_
-	mov r1, #0
-	mov r2, #0x34
-	bl MI_CpuFill8
-	mov r0, r4
-	bl GetExTask
-	ldr r1, =exMsgTitleTask__Func8
-	str r1, [r0, #8]
-	mov r0, #1
-	add sp, sp, #0x10
-	ldmia sp!, {r4, pc}
+    exMsgTitleTask *work = ExTaskGetWork(task, exMsgTitleTask);
+    TaskInitWork8(work);
 
-// clang-format on
-#endif
+    SetExTaskUnknownEvent(task, exMsgTitleTask__Func8);
+
+    return TRUE;
 }
 
-NONMATCH_FUNC Task *exMsgTitleTask__GetTask(void)
+Task *exMsgTitleTask__GetTask(void)
 {
-#ifdef NON_MATCHING
-
-#else
-// clang-format off
-	ldr r0, =exMsgTitleTask__TaskSingleton
-	ldr r0, [r0, #0]
-	bx lr
-
-// clang-format on
-#endif
+    return exMsgTitleTask__sVars.exMsgTitleTask__TaskSingleton;
 }

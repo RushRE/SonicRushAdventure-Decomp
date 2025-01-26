@@ -17852,7 +17852,7 @@
 .public ExLifeCountHUD_Main_Active
 .public CreateExLifeCountHUD
 .public DestroyExLifeCountHUD
-.public ExBossLifeGaugeHUD_Main
+.public ExBossLifeGaugeHUD_Main_Init
 .public ExBossLifeGaugeHUD_TaskUnknown
 .public ExBossLifeGaugeHUD_Destructor
 .public ExBossLifeGaugeHUD_Main_HealthIdle
@@ -17872,7 +17872,7 @@
 .public ExGameSystem_Main_Init
 .public ExGameSystem_TaskUnknown
 .public ExGameSystem_Destructor
-.public ExGameSystem_Action_WaitForState4
+.public ExGameSystem_Main_WaitForState4
 .public ExGameSystem_Action_WaitForBossTrigger
 .public ExGameSystem_Main_WaitForBossTrigger
 .public ExGameSystem_Action_CreateStageObjects
@@ -17901,13 +17901,13 @@
 .public exHitCheckTask__Main_Active
 .public exHitCheckTask__Create
 .public InitExBossEvent
-.public exMsgTutorialTask__GetLanguage
-.public exMsgTutorialTask__Main
-.public exMsgTutorialTask__Func8
-.public exMsgTutorialTask__Destructor
-.public exMsgTutorialTask__Main_Active
-.public exMsgTutorialTask__Create
-.public exMsgTutorialTask__Destroy
+.public GetExTutorialMessageLanguage
+.public ExTutorialMessage_Main_Init
+.public ExTutorialMessage_TaskUnknown
+.public ExTutorialMessage_Destructor
+.public ExTutorialMessage_Main_Active
+.public CreateExTutorialMessage
+.public DestroyExTutorialMessage
 .public exMsgTitleTask__Main
 .public exMsgTitleTask__Func8
 .public exMsgTitleTask__Destructor
@@ -18084,7 +18084,7 @@
 .public DestroyExTimeGameplay
 .public CheckExTimeGameplayIsTimeOver
 .public ResetExTimeGameplayTimeOverFlag
-.public exSysTask__EndStage
+.public EndExBossStage
 .public aChest
 .public aExtraExBb
 .public aExblzdusheffec

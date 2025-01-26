@@ -7,6 +7,6 @@
 // FUNCTIONS
 // --------------------
 
-void exSysTask__EndStage(s32 mode);
+void EndExBossStage(s32 mode);
 
 #endif // RUSH_EXSAVE_H

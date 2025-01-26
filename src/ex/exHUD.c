@@ -68,7 +68,7 @@ static BOOL CreateExLifeCountHUD(void);
 static void DestroyExLifeCountHUD(void);
 
 // ExBossLifeGaugeHUD
-static void ExBossLifeGaugeHUD_Main(void);
+static void ExBossLifeGaugeHUD_Main_Init(void);
 static void ExBossLifeGaugeHUD_TaskUnknown(void);
 static void ExBossLifeGaugeHUD_Destructor(void);
 static void ExBossLifeGaugeHUD_Main_HealthIdle(void);
@@ -786,7 +786,7 @@ void DestroyExLifeCountHUD(void)
         DestroyExTask(exHUDLifeTaskSingleton);
 }
 
-void ExBossLifeGaugeHUD_Main(void)
+void ExBossLifeGaugeHUD_Main_Init(void)
 {
     exFixBossLifeGaugeTask *work = ExTaskGetWorkCurrent(exFixBossLifeGaugeTask);
 
@@ -1014,7 +1014,7 @@ void ExBossLifeGaugeHUD_Main_HealthChanging(void)
 
 BOOL CreateExBossLifeGaugeHUD(void)
 {
-    Task *task = ExTaskCreate(ExBossLifeGaugeHUD_Main, ExBossLifeGaugeHUD_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(3), 0, EXTASK_TYPE_REGULAR,
+    Task *task = ExTaskCreate(ExBossLifeGaugeHUD_Main_Init, ExBossLifeGaugeHUD_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(3), 0, EXTASK_TYPE_REGULAR,
                               exFixBossLifeGaugeTask);
 
     exFixBossLifeGaugeTask *work = ExTaskGetWork(task, exFixBossLifeGaugeTask);
@@ -1085,7 +1085,7 @@ void ExHUD_Action_CreateCommonHUD(void)
 
     CreateExTimeHUD();
     CreateExRingCountHUD();
-    exMsgTutorialTask__Create();
+    CreateExTutorialMessage();
 
     SetCurrentExTaskMainEvent(ExHUD_Main_WaitForBossHUD);
     ExHUD_Main_WaitForBossHUD();
@@ -1105,7 +1105,7 @@ void ExHUD_Action_CreateBossHUD(void)
     exFixAdminTask *work = ExTaskGetWorkCurrent(exFixAdminTask);
     UNUSED(work);
 
-    exMsgTutorialTask__Destroy();
+    DestroyExTutorialMessage();
     CreateExLifeCountHUD();
     CreateExBossLifeGaugeHUD();
 

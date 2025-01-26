@@ -8,6 +8,14 @@
 // ENUMS
 // --------------------
 
+enum ExPlayerCharacter
+{
+    EXPLAYER_CHARACTER_SONIC,
+    EXPLAYER_CHARACTER_BLAZE,
+    
+    EXPLAYER_CHARACTER_COUNT,
+};
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -101,7 +109,17 @@ typedef struct exPlayerAdminTaskWorker_
     u8 field_67;
     u8 field_68;
     u8 field_69;
-    u8 activeCharacter;
+    struct
+    {
+        u8 value_1 : 1;
+        u8 value_2 : 1;
+        u8 value_4 : 1;
+        u8 value_8 : 1;
+        u8 value_10 : 1;
+        u8 value_20 : 1;
+        u8 value_40 : 1;
+        u8 value_80 : 1;
+    } activeCharacter;
     u8 field_6B;
 } exPlayerAdminTaskWorker;
 
@@ -125,7 +143,7 @@ typedef struct exPlayerAdminTask_
 // --------------------
 
 // ExPlayer helpers
-NOT_DECOMPILED void exPlayerAdminTask__GetUnknown2(void);
+NOT_DECOMPILED exPlayerAdminTaskWorker *exPlayerAdminTask__GetUnknown2(void);
 
 // ExPlayerScreenMover
 NOT_DECOMPILED void exPlayerScreenMoveTask__SetFollowX(void);

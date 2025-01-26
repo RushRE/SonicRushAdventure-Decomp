@@ -3,8 +3,8 @@
 
 	.bss
 
-.public exPauseTask__word_2177B98
-exPauseTask__word_2177B98: // 0x02177B98
+.public exPauseTask__sVars
+exPauseTask__sVars: // 0x02177B98
     .space 0x02
 
 	.align 4
@@ -28,6 +28,3 @@ exPauseTask__02175DF8:
 exPauseTask__02175E10:
 	.hword 92, 97, 102, 107, 112, 117
 	.hword 93, 98, 103, 108, 113, 118
-
-aExpausetask: // 0x02175E28
-	.asciz "exPauseTask"

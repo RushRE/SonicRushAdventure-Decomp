@@ -8,7 +8,7 @@
 // FUNCTIONS
 // --------------------
 
-void exSysTask__EndStage(s32 mode)
+void EndExBossStage(s32 mode)
 {
     switch (mode)
     {

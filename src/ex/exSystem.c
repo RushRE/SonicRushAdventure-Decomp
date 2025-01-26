@@ -496,7 +496,7 @@ void ExSystem_Main_2173338(void)
 
     CloseTaskSystem();
     Camera3D__Destroy();
-    exSysTask__EndStage(GetExSystemStatus()->finishMode);
+    EndExBossStage(GetExSystemStatus()->finishMode);
 }
 
 void CreateExSystem(void)

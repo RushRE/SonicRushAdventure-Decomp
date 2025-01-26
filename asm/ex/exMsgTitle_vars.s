@@ -3,8 +3,9 @@
 	
 	.bss
 	
-.public exMsgTitleTask__TaskSingleton
-exMsgTitleTask__TaskSingleton: // 0x021775B8
+// .public exMsgTitleTask__TaskSingleton
+.public exMsgTitleTask__sVars
+exMsgTitleTask__sVars: // 0x021775B8
     .space 0x04
 	
 .public exMsgTutorialTask__TaskSingleton
@@ -54,8 +55,3 @@ exMsgTitleTask__byte_2177A88: // 0x02177A88
 .public exMsgTitleTask__byte_2177B10
 exMsgTitleTask__byte_2177B10: // 0x02177B10
 	.space 0x88
-
-	.data
-	
-aExmsgtitletask: // 0x02175DDC
-	.asciz "exMsgTitleTask"
