@@ -17,10 +17,9 @@
 
 typedef struct exDrawReqTaskConfig_
 {
-    struct
+    union
     {
-        u8 value_1 : 1;
-        u8 value_2 : 1;
+        u8 value_1 : 2;
         u8 value_4 : 1;
         u8 value_8 : 1;
         u8 value_10 : 1;
@@ -199,37 +198,35 @@ NOT_DECOMPILED void exDrawReqTask__Sprite2D__Func_2161B44(EX_ACTION_BAC2D_WORK *
 NOT_DECOMPILED void exDrawReqTask__Sprite2D__Func_2161B6C(EX_ACTION_BAC2D_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Sprite2D__Func_2161B80(EX_ACTION_BAC2D_WORK *work);
 NOT_DECOMPILED BOOL exDrawReqTask__Sprite2D__IsAnimFinished(EX_ACTION_BAC2D_WORK *work);
-NOT_DECOMPILED void exDrawReqTask__Model__InitWorker(void);
-NOT_DECOMPILED void exDrawReqTask__Model__InitConfig(void);
+NOT_DECOMPILED void exDrawReqTask__Model__InitWorker(EX_ACTION_NN_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Model__InitConfig(EX_ACTION_NN_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__InitModel(EX_ACTION_NN_WORK *work);
-NOT_DECOMPILED void exDrawReqTask__Model__HandleTransform(void);
-NOT_DECOMPILED void exDrawReqTask__Model__HandlePriority(void);
-NOT_DECOMPILED void exDrawReqTask__Model__HandleUnknown(void);
+NOT_DECOMPILED void exDrawReqTask__Model__HandleTransform(EX_ACTION_NN_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Model__HandlePriority(EX_ACTION_NN_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Model__HandleUnknown(EX_ACTION_NN_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Model__Animate(EX_ACTION_NN_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Model__Draw(EX_ACTION_NN_WORK *work);
-NOT_DECOMPILED void exDrawReqTask__Model__HandleLighting(void);
-NOT_DECOMPILED void exDrawReqTask__Model__ProcessRequest(void);
-NOT_DECOMPILED void exDrawReqTask__Model__IsAnimFinished(void);
-NOT_DECOMPILED void exDrawReqTask__InitTrail(void);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail6(void);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail5(void);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail4(void);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail3(void);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail2(void);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail(void);
-NOT_DECOMPILED void exDrawReqTask__Trail__ProcessRequest(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite3D__InitWorker(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite3D__InitConfig(void);
-NOT_DECOMPILED void exDrawReqTask__InitSprite3D(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite3D__HandleTransform(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite3D__HandlePriority(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite3D__HandleUnknown(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite3D__Animate(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite3D__Draw(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite3D__ProcessRequest(void);
-NOT_DECOMPILED void exDrawReqTask__Sprite3D__IsAnimFinished(void);
-
-
+NOT_DECOMPILED void exDrawReqTask__Model__HandleLighting(EX_ACTION_NN_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Model__ProcessRequest(EX_ACTION_NN_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Model__IsAnimFinished(EX_ACTION_NN_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__InitTrail(EX_ACTION_TRAIL_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail6(EX_ACTION_TRAIL_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail5(EX_ACTION_TRAIL_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail4(EX_ACTION_TRAIL_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail3(EX_ACTION_TRAIL_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail2(EX_ACTION_TRAIL_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail(EX_ACTION_TRAIL_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Trail__ProcessRequest(EX_ACTION_TRAIL_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite3D__InitWorker(EX_ACTION_BAC3D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite3D__InitConfig(EX_ACTION_BAC3D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__InitSprite3D(EX_ACTION_BAC3D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite3D__HandleTransform(EX_ACTION_BAC3D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite3D__HandlePriority(EX_ACTION_BAC3D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite3D__HandleUnknown(EX_ACTION_BAC3D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite3D__Animate(EX_ACTION_BAC3D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite3D__Draw(EX_ACTION_BAC3D_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__Sprite3D__ProcessRequest(EX_ACTION_BAC3D_WORK *work);
+NOT_DECOMPILED BOOL exDrawReqTask__Sprite3D__IsAnimFinished(EX_ACTION_BAC3D_WORK *work);
 
 NOT_DECOMPILED void exDrawReqTask__Main(void);
 NOT_DECOMPILED void exDrawReqTask__Func8(void);

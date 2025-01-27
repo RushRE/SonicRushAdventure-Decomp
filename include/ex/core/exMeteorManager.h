@@ -39,29 +39,29 @@ typedef struct exEffectMeteoAdminTask_
 // --------------------
 
 // ExMeteorManager helpers
-NOT_DECOMPILED void exEffectMeteoTask__LoadMeteoAssets(EX_ACTION_NN_WORK *work);
-NOT_DECOMPILED void exEffectMeteoTask__ReleaseMeteoAssets(EX_ACTION_NN_WORK *work);
-NOT_DECOMPILED void exEffectMeteoTask__LoadBrokenMeteoAssets(EX_ACTION_NN_WORK *work);
-NOT_DECOMPILED void exEffectMeteoTask__ReleaseBrokenMeteoAssets(EX_ACTION_NN_WORK *work);
+void exEffectMeteoTask__LoadMeteoAssets(EX_ACTION_NN_WORK *work);
+void exEffectMeteoTask__ReleaseMeteoAssets(EX_ACTION_NN_WORK *work);
+void exEffectMeteoTask__LoadBrokenMeteoAssets(EX_ACTION_NN_WORK *work);
+void exEffectMeteoTask__ReleaseBrokenMeteoAssets(EX_ACTION_NN_WORK *work);
 
 // ExMeteor
-NOT_DECOMPILED void exEffectMeteoTask__Main(void);
-NOT_DECOMPILED void exEffectMeteoTask__Func8(void);
-NOT_DECOMPILED void exEffectMeteoTask__Destructor(void);
-NOT_DECOMPILED void exEffectMeteoTask__Main_Moving(void);
-NOT_DECOMPILED void exEffectMeteoTask__Action_Shatter(void);
-NOT_DECOMPILED void exEffectMeteoTask__Main_Shatter(void);
-NOT_DECOMPILED void exEffectMeteoTask__Action_Reflect(void);
-NOT_DECOMPILED void exEffectMeteoTask__Main_Reflect(void);
-NOT_DECOMPILED void exEffectMeteoTask__Create(void);
+void exEffectMeteoTask__Main(void);
+void exEffectMeteoTask__Func8(void);
+void exEffectMeteoTask__Destructor(void);
+void exEffectMeteoTask__Main_Moving(void);
+void exEffectMeteoTask__Action_Shatter(void);
+void exEffectMeteoTask__Main_Shatter(void);
+void exEffectMeteoTask__Action_Reflect(void);
+void exEffectMeteoTask__Main_Reflect(void);
+void exEffectMeteoTask__Create(VecFx32 position, VecFx32 velocity);
 
 // ExMeteorManager
-NOT_DECOMPILED void exEffectMeteoAdminTask__Main(void);
-NOT_DECOMPILED void exEffectMeteoAdminTask__Func8(void);
-NOT_DECOMPILED void exEffectMeteoAdminTask__Destructor(void);
-NOT_DECOMPILED void exEffectMeteoAdminTask__Main_Active(void);
-NOT_DECOMPILED void exEffectMeteoAdminTask__Func_2167F04(void);
-NOT_DECOMPILED void exEffectMeteoAdminTask__Create(void);
-NOT_DECOMPILED void exEffectMeteoAdminTask__Destroy(void);
+void exEffectMeteoAdminTask__Main(void);
+void exEffectMeteoAdminTask__Func8(void);
+void exEffectMeteoAdminTask__Destructor(void);
+void exEffectMeteoAdminTask__Main_Active(void);
+void exEffectMeteoAdminTask__Func_2167F04(void);
+void exEffectMeteoAdminTask__Create(void);
+void exEffectMeteoAdminTask__Destroy(void);
 
 #endif // RUSH_EXMETEORMANAGER_H

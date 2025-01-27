@@ -67,7 +67,7 @@ void ExGameSystem_Destructor(void)
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
     UNUSED(work);
 
-    exEffectRingAdminTask__Destroy();
+    DestroyExRingManager();
     ExBossSysAdminTask__Destroy();
     exPlayerAdminTask__Destroy();
     DestroyExStage();
@@ -122,7 +122,7 @@ void ExGameSystem_Action_CreateStageObjects(void)
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
     exEffectMeteoAdminTask__Create();
-    exEffectRingAdminTask__Create();
+    CreateExRingManager();
 
     work->timer = SECONDS_TO_FRAMES(15.0);
 
