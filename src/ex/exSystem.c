@@ -285,7 +285,7 @@ void ExSystem_Action_Pause(void)
 
     exHitCheckTask__Func_216AD9C(1);
     GetExSystemStatus()->finishMode = 4;
-    exPauseTask__Create();
+    CreateExPauseMenu();
     SetCurrentExTaskMainEvent(ExSystem_Main_IsPaused);
 }
 
@@ -293,12 +293,12 @@ void ExSystem_Main_IsPaused(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
-    if (exPauseTask__GetSelectedAction() == 1)
+    if (GetExPauseMenuSelectedAction() == EXPAUSEMENU_ACTION_CONTINUE)
     {
         GetExSystemStatus()->finishMode = 1;
         SetCurrentExTaskMainEvent(ExSystem_Action_2172D6C);
     }
-    else if (exPauseTask__GetSelectedAction() == 2)
+    else if (GetExPauseMenuSelectedAction() == EXPAUSEMENU_ACTION_BACK)
     {
         work->timer                   = 10;
         GetExSystemStatus()->state = EXSYSTASK_STATE_11;

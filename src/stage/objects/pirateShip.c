@@ -373,7 +373,7 @@ void PirateShip_State_Active(PirateShip *work)
         return;
     }
 
-    fx32 targetPos = mapCamera.camera[player->cameraID].disp_pos.x + FLOAT_TO_FX32(HW_LCD_WIDTH / 2);
+    fx32 targetPos = mapCamera.camera[player->cameraID].disp_pos.x + FLOAT_TO_FX32(HW_LCD_CENTER_X);
     fx32 shipPos   = work->gameWork.objWork.position.x;
 
     if (targetPos + FLOAT_TO_FX32(32.0) < shipPos)

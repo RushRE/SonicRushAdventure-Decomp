@@ -5438,7 +5438,7 @@ void SailPlayer__HandleSubmarineControl(StageTask *work)
             VecFx32 lineStart, lineEnd;
             VecFx32 lineDir;
 
-            NNS_G3dScrPosToWorldLine(HW_LCD_WIDTH / 2, HW_LCD_HEIGHT / 2, &lineStart, &lineEnd);
+            NNS_G3dScrPosToWorldLine(HW_LCD_CENTER_X, HW_LCD_CENTER_Y, &lineStart, &lineEnd);
             VEC_Subtract(&lineEnd, &lineStart, &lineDir);
             VEC_Normalize(&lineDir, &lineDir);
 
@@ -5562,7 +5562,7 @@ void SailPlayer__ReadInputs(StageTask *work)
             case 2:
                 worker->touchOn.x  = worker->sailRival->touchPosX;
                 worker->touchPos.x = worker->touchOn.x;
-                worker->seaPos.x   = 160 * ((worker->sailRival->touchPosX - (HW_LCD_WIDTH / 2)) >> 1); // touchPos.x ranges from 0-256, with 128 being "0"
+                worker->seaPos.x   = 160 * ((worker->sailRival->touchPosX - HW_LCD_CENTER_X) >> 1); // touchPos.x ranges from 0-256, with 128 being "0"
 
                 if ((manager->flags & SAILMANAGER_FLAG_1) != 0)
                 {

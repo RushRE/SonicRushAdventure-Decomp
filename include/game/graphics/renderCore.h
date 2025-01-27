@@ -16,6 +16,9 @@
 
 #define RENDERCORE_RESETPARAM_FLAG 0x80000000
 
+#define HW_LCD_CENTER_X (HW_LCD_WIDTH / 2)
+#define HW_LCD_CENTER_Y (HW_LCD_HEIGHT / 2)
+
 // --------------------
 // ENUMS
 // --------------------

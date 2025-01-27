@@ -76,7 +76,7 @@ BOOL CreatePauseMenu(void)
 
     u32 language = GetGameLanguage();
 
-    Task *task = TaskCreate(PauseMenu_Main_Appear, PauseMenu_Destructor, TASK_FLAG_NONE, 3, 0x7100u, TASK_GROUP(4) | TASK_GROUP(2), PauseMenu);
+    Task *task = TaskCreate(PauseMenu_Main_Appear, PauseMenu_Destructor, TASK_FLAG_NONE, 3, TASK_PRIORITY_UPDATE_LIST_START + 0x7100, TASK_GROUP(6), PauseMenu);
     if (task == HeapNull)
         return FALSE;
 
@@ -120,10 +120,10 @@ BOOL CreatePauseMenu(void)
         else
             aniID = textAnim;
 
-        AnimatorSpriteDS__Init(&work->animators[i], spriteFile, (u16)aniID, 2, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(0, size),
-                               PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
+        AnimatorSpriteDS__Init(&work->animators[i], spriteFile, aniID, SCREEN_DRAW_B, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(0, size),
+                               PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, NULL, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
 
-        work->animators[i].cParam[0].palette = work->animators[i].cParam[1].palette = work->animators[i].work.palette = 2;
+        work->animators[i].cParam[0].palette = work->animators[i].cParam[1].palette = work->animators[i].work.palette = PALETTE_ROW_2;
 
         AnimatorSpriteDS__ProcessAnimationFast(&work->animators[i]);
 
