@@ -421,8 +421,8 @@ _0216803C: .word exEffectMeteoAdminTask__Destructor
 _02168040: .word exEffectMeteoAdminTask__Func8
 	arm_func_end exEffectMeteoAdminTask__Create
 
-	arm_func_start exEffectMeteoAdminTask__Destroy_2168044
-exEffectMeteoAdminTask__Destroy_2168044: // 0x02168044
+	arm_func_start exEffectMeteoAdminTask__Destroy
+exEffectMeteoAdminTask__Destroy: // 0x02168044
 	stmdb sp!, {r3, lr}
 	ldr r0, _02168068 // =exEffectMeteoTask__ActiveInstanceCount
 	ldr r0, [r0, #0xc]
@@ -435,7 +435,7 @@ exEffectMeteoAdminTask__Destroy_2168044: // 0x02168044
 	.align 2, 0
 _02168068: .word exEffectMeteoTask__ActiveInstanceCount
 _0216806C: .word ExTask_State_Destroy
-	arm_func_end exEffectMeteoAdminTask__Destroy_2168044
+	arm_func_end exEffectMeteoAdminTask__Destroy
 
 	.data
 

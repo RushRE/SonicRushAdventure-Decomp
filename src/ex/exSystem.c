@@ -228,7 +228,7 @@ void ExSystem_Main_2172D30(void)
 
     if (GetExSystemStatus()->state != EXSYSTASK_STATE_3)
     {
-        GetExSystemStatus()->state = EXSYSTASK_STATE_4;
+        GetExSystemStatus()->state = EXSYSTASK_STATE_TITLECARD_DONE;
         ExSystem_Action_2172D6C();
     }
     else
@@ -254,7 +254,7 @@ void ExSystem_Main_2172D98(void)
     UNUSED(work);
 
     if (GetExSystemStatus()->state != EXSYSTASK_STATE_11 && GetExSystemStatus()->state != EXSYSTASK_STATE_7 && GetExSystemStatus()->state != EXSYSTASK_STATE_9
-        && exMsgTitleTask__GetTask() == NULL && (padInput.btnPress & PAD_BUTTON_START) != 0)
+        && GetExTitleCardTaskSingleton() == NULL && (padInput.btnPress & PAD_BUTTON_START) != 0)
     {
         ExSystem_Action_Pause();
     }

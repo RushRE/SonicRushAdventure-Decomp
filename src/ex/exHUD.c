@@ -1068,7 +1068,7 @@ void ExHUD_Main_WaitForCommonHUD(void)
     exFixAdminTask *work = ExTaskGetWorkCurrent(exFixAdminTask);
     UNUSED(work);
 
-    if (GetExSystemStatus()->state == EXSYSTASK_STATE_4)
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_TITLECARD_DONE)
     {
         ExHUD_Action_CreateCommonHUD();
     }
@@ -1096,7 +1096,7 @@ void ExHUD_Main_WaitForBossHUD(void)
     exFixAdminTask *work = ExTaskGetWorkCurrent(exFixAdminTask);
     UNUSED(work);
 
-    if (GetExSystemStatus()->state > EXSYSTASK_STATE_4)
+    if (GetExSystemStatus()->state > EXSYSTASK_STATE_TITLECARD_DONE)
         ExHUD_Action_CreateBossHUD();
 }
 

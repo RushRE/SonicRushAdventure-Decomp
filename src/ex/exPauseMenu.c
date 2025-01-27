@@ -86,31 +86,31 @@ void ExPauseMenu_Main_Init(void)
     switch (*RenderCore_GetLanguagePtr())
     {
         case OS_LANGUAGE_JAPANESE:
-            work->language = 0;
+            work->language = OS_LANGUAGE_JAPANESE;
             break;
 
         case OS_LANGUAGE_ENGLISH:
-            work->language = 1;
+            work->language = OS_LANGUAGE_ENGLISH;
             break;
 
         case OS_LANGUAGE_FRENCH:
-            work->language = 2;
+            work->language = OS_LANGUAGE_FRENCH;
             break;
 
         case OS_LANGUAGE_GERMAN:
-            work->language = 3;
+            work->language = OS_LANGUAGE_GERMAN;
             break;
 
         case OS_LANGUAGE_ITALIAN:
-            work->language = 4;
+            work->language = OS_LANGUAGE_ITALIAN;
             break;
 
         case OS_LANGUAGE_SPANISH:
-            work->language = 5;
+            work->language = OS_LANGUAGE_SPANISH;
             break;
 
         default:
-            work->language = 1;
+            work->language = OS_LANGUAGE_ENGLISH;
             break;
     }
 

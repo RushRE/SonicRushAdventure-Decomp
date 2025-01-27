@@ -252,7 +252,7 @@ _0216E774:
 exPlayerAdminTask__Func_216E790: // 0x0216E790
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl exMsgTitleTask__Create
+	bl CreateExTitleCard
 	bl GetExTaskCurrent
 	ldr r1, _0216E7B0 // =exPlayerAdminTask__Main_216E7B4
 	str r1, [r0]
@@ -3686,8 +3686,8 @@ _02171728: .word exPlayerAdminTask__Unknown_2177C18
 _0217172C: .word exPlayerAdminTask__Unknown_2177BAC
 	arm_func_end exPlayerAdminTask__Create
 
-	arm_func_start exPlayerAdminTask__Destroy_2171730
-exPlayerAdminTask__Destroy_2171730: // 0x02171730
+	arm_func_start exPlayerAdminTask__Destroy
+exPlayerAdminTask__Destroy: // 0x02171730
 	stmdb sp!, {r3, lr}
 	ldr r0, _02171754 // =exPlayerScreenMoveTask__dword_2177BA0
 	ldr r0, [r0, #4]
@@ -3700,7 +3700,7 @@ exPlayerAdminTask__Destroy_2171730: // 0x02171730
 	.align 2, 0
 _02171754: .word exPlayerScreenMoveTask__dword_2177BA0
 _02171758: .word ExTask_State_Destroy
-	arm_func_end exPlayerAdminTask__Destroy_2171730
+	arm_func_end exPlayerAdminTask__Destroy
 
 	arm_func_start exPlayerAdminTask__Func_217175C
 exPlayerAdminTask__Func_217175C: // 0x0217175C

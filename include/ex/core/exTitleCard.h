@@ -5,20 +5,34 @@
 #include <ex/system/exDrawReq.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum ExTitleCardZoneLetterIDs
+{
+    EXTITLECARD_ZONELETTER_E,
+    EXTITLECARD_ZONELETTER_X,
+    EXTITLECARD_ZONELETTER_T,
+    EXTITLECARD_ZONELETTER_R,
+    EXTITLECARD_ZONELETTER_A,
+
+    EXTITLECARD_ZONELETTER_COUNT,
+};
+
+// --------------------
 // STRUCTS
 // --------------------
 
 typedef struct exMsgTitleTask_
 {
     s16 timer;
-    s16 percent;
-    s16 percent2;
-    s16 field_6;
+    s16 nameplaceEnterPercent;
+    s16 nameplaceExitPercent;
     EX_ACTION_BAC2D_WORK *aniBackdrop;
     EX_ACTION_BAC2D_WORK *aniZoneNameTextJP;
     EX_ACTION_BAC2D_WORK *aniZoneIcon;
     EX_ACTION_BAC2D_WORK *aniActBanner;
-    EX_ACTION_BAC2D_WORK *aniZoneLetter[5];
+    EX_ACTION_BAC2D_WORK *aniZoneLetter[EXTITLECARD_ZONELETTER_COUNT];
     EX_ACTION_BAC2D_WORK *aniReadyText;
     EX_ACTION_BAC2D_WORK *aniGoText;
 } exMsgTitleTask;
@@ -27,26 +41,7 @@ typedef struct exMsgTitleTask_
 // FUNCTIONS
 // --------------------
 
-// ExTitleCard
-void exMsgTitleTask__Main(void);
-void exMsgTitleTask__Func8(void);
-void exMsgTitleTask__Destructor(void);
-void exMsgTitleTask__Main_216CCF4(void);
-void exMsgTitleTask__Func_216CD28(void);
-void exMsgTitleTask__Main_216CDC8(void);
-void exMsgTitleTask__Func_216CF94(void);
-void exMsgTitleTask__Func_216D1D0(void);
-void exMsgTitleTask__Func_216D300(void);
-void exMsgTitleTask__Func_216D328(void);
-void exMsgTitleTask__Func_216D564(void);
-void exMsgTitleTask__Func_216D6B0(void);
-void exMsgTitleTask__Func_216D6F8(void);
-void exMsgTitleTask__Func_216D720(void);
-void exMsgTitleTask__Func_216D760(void);
-void exMsgTitleTask__Func_216D794(void);
-void exMsgTitleTask__Func_216D7DC(void);
-void exMsgTitleTask__Func_216D804(void);
-BOOL exMsgTitleTask__Create(void);
-Task *exMsgTitleTask__GetTask(void);
+BOOL CreateExTitleCard(void);
+Task *GetExTitleCardTaskSingleton(void);
 
 #endif // RUSH_EXTITLECARD_H

@@ -213,7 +213,7 @@ NOT_DECOMPILED void exPlayerAdminTask__HandleControl(void);
 NOT_DECOMPILED void exPlayerAdminTask__DelayCallback(void);
 NOT_DECOMPILED void exPlayerAdminTask__Func_2171624(void);
 NOT_DECOMPILED void exPlayerAdminTask__Create(void);
-NOT_DECOMPILED void exPlayerAdminTask__Destroy_2171730(void);
+NOT_DECOMPILED void exPlayerAdminTask__Destroy(void);
 NOT_DECOMPILED void exPlayerAdminTask__Func_217175C(void);
 NOT_DECOMPILED void exPlayerAdminTask__LoadSuperSonicAssets(void);
 NOT_DECOMPILED void exPlayerAdminTask__SetSuperSonicAnimation(void);

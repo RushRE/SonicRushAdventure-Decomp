@@ -9,38 +9,20 @@
 // VARIABLES
 // --------------------
 
-struct TEMP_STATIC_VARS
-{
-    void *exMsgTitleTask__TaskSingleton;
-    void *exMsgTutorialTask__TaskSingleton;
-    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21775C0;
-    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177648;
-    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21776D0;
-    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177758;
-    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21777E0;
-    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177868;
-    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21778F0;
-    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177978;
-    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177A00;
-    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177A88;
-    EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177B10;
-};
+static Task *exTitleCardTaskSingleton;
+static Task *exTutorialMessageTaskSingleton;
 
-NOT_DECOMPILED struct TEMP_STATIC_VARS exMsgTitleTask__sVars;
-
-// NOT_DECOMPILED void *exMsgTitleTask__TaskSingleton;
-NOT_DECOMPILED void *exMsgTutorialTask__TaskSingleton;
-NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21775C0;
-NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177648;
-NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21776D0;
-NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177758;
-NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21777E0;
-NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177868;
-NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_21778F0;
-NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177978;
-NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177A00;
-NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177A88;
-NOT_DECOMPILED EX_ACTION_BAC2D_WORK exMsgTitleTask__byte_2177B10;
+static EX_ACTION_BAC2D_WORK exTitleCardAniZoneIcon;
+static EX_ACTION_BAC2D_WORK exTitleCardAniBackdrop;
+static EX_ACTION_BAC2D_WORK exTitleCardAniZoneLetter_E;
+static EX_ACTION_BAC2D_WORK exTitleCardAniZoneLetter_X;
+static EX_ACTION_BAC2D_WORK exTitleCardAniZoneLetter_T;
+static EX_ACTION_BAC2D_WORK exTitleCardAniZoneNameTextJP;
+static EX_ACTION_BAC2D_WORK exTitleCardAniActBanner;
+static EX_ACTION_BAC2D_WORK exTitleCardAniReadyText;
+static EX_ACTION_BAC2D_WORK exTitleCardAniGoText;
+static EX_ACTION_BAC2D_WORK exTitleCardAniZoneLetter_A;
+static EX_ACTION_BAC2D_WORK exTitleCardAniZoneLetter_R;
 
 static u16 exTutorialMessageTextAnims[EXPLAYER_CHARACTER_COUNT][OS_LANGUAGE_CODE_MAX] = {
     [EXPLAYER_CHARACTER_SONIC] = { [OS_LANGUAGE_JAPANESE] = EX_ACTCOM_ANI_TUTORIAL_TEXT_SONIC_JPN,
@@ -75,14 +57,6 @@ static u16 exTutorialMessageTextScrollLimit[EXPLAYER_CHARACTER_COUNT][OS_LANGUAG
 };
 
 // --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void _f_ftoi(void);
-NOT_DECOMPILED void _f_itof(void);
-NOT_DECOMPILED void _fdiv(void);
-
-// --------------------
 // FUNCTION DECLS
 // --------------------
 
@@ -93,6 +67,26 @@ static void ExTutorialMessage_TaskUnknown(void);
 static void ExTutorialMessage_Destructor(void);
 static void ExTutorialMessage_Main_Active(void);
 
+// ExTitleCard
+static void ExTitleCard_Main_Init(void);
+static void ExTitleCard_Main_TaskUnknown(void);
+static void ExTitleCard_Destructor(void);
+static void ExTitleCard_Main_IntroDelay(void);
+static void ExTitleCard_Action_InitZoneIcon(void);
+static void ExTitleCard_Main_EnterZoneIcon(void);
+static void ExTitleCard_Action_InitZoneActText(void);
+static void ExTitleCard_Main_ShowZoneActText(void);
+static void ExTitleCard_Action_ExitNameplate(void);
+static void ExTitleCard_Main_ExitNameplate(void);
+static void ExTitleCard_Action_ShowReadyText(void);
+static void ExTitleCard_Main_ShowReadyText(void);
+static void ExTitleCard_Action_StartShowingGoText(void);
+static void ExTitleCard_Main_StartShowingGoText(void);
+static void ExTitleCard_Action_ShowGoText(void);
+static void ExTitleCard_Main_ShowGoText(void);
+static void ExTitleCard_Action_StartOutro(void);
+static void ExTitleCard_Main_OutroDelay(void);
+
 // --------------------
 // FUNCTIONS
 // --------------------
@@ -100,35 +94,35 @@ static void ExTutorialMessage_Main_Active(void);
 // ExTutorialMessage
 u16 GetExTutorialMessageLanguage(void)
 {
-    s32 id = 0;
+    s32 id;
     switch (*RenderCore_GetLanguagePtr())
     {
         case OS_LANGUAGE_JAPANESE:
-            id = 0;
+            id = OS_LANGUAGE_JAPANESE;
             break;
 
         case OS_LANGUAGE_ENGLISH:
-            id = 1;
+            id = OS_LANGUAGE_ENGLISH;
             break;
 
         case OS_LANGUAGE_FRENCH:
-            id = 2;
+            id = OS_LANGUAGE_FRENCH;
             break;
 
         case OS_LANGUAGE_GERMAN:
-            id = 3;
+            id = OS_LANGUAGE_GERMAN;
             break;
 
         case OS_LANGUAGE_ITALIAN:
-            id = 4;
+            id = OS_LANGUAGE_ITALIAN;
             break;
 
         case OS_LANGUAGE_SPANISH:
-            id = 5;
+            id = OS_LANGUAGE_SPANISH;
             break;
 
         default:
-            id = 1;
+            id = OS_LANGUAGE_ENGLISH;
             break;
     }
 
@@ -139,7 +133,7 @@ void ExTutorialMessage_Main_Init(void)
 {
     exMsgTutorialTask *work = ExTaskGetWorkCurrent(exMsgTutorialTask);
 
-    exMsgTitleTask__sVars.exMsgTutorialTask__TaskSingleton = GetCurrentTask();
+    exTutorialMessageTaskSingleton = GetCurrentTask();
 
     work->language     = GetExTutorialMessageLanguage();
     work->playerWorker = exPlayerAdminTask__GetUnknown2();
@@ -168,7 +162,7 @@ void ExTutorialMessage_Main_Init(void)
     exDrawReqTask__Func_21641F0(&work->aniBorder.config);
     work->aniBorder.sprite.field_78 = 5;
 
-    work->scrollPos = 128;
+    work->scrollPos = HW_LCD_CENTER_X;
 
     SetCurrentExTaskMainEvent(ExTutorialMessage_Main_Active);
 }
@@ -190,7 +184,7 @@ void ExTutorialMessage_Destructor(void)
     ReleaseExHUDSprite(&work->aniMessage[EXPLAYER_CHARACTER_BLAZE]);
     ReleaseExHUDSprite(&work->aniBorder);
 
-    exMsgTitleTask__sVars.exMsgTutorialTask__TaskSingleton = NULL;
+    exTutorialMessageTaskSingleton = NULL;
 }
 
 void ExTutorialMessage_Main_Active(void)
@@ -206,8 +200,8 @@ void ExTutorialMessage_Main_Active(void)
 
     s32 scrollLimit = exTutorialMessageTextScrollLimit[character][work->language];
 
-    if (work->scrollPos <= -(scrollLimit - 128))
-        work->scrollPos = 128;
+    if (work->scrollPos <= -(scrollLimit - HW_LCD_CENTER_X))
+        work->scrollPos = HW_LCD_CENTER_X;
     else
         work->scrollPos--;
 
@@ -242,1194 +236,518 @@ BOOL CreateExTutorialMessage(void)
 
 void DestroyExTutorialMessage(void)
 {
-    if (exMsgTitleTask__sVars.exMsgTutorialTask__TaskSingleton != NULL)
-        DestroyExTask(exMsgTitleTask__sVars.exMsgTutorialTask__TaskSingleton);
+    if (exTutorialMessageTaskSingleton != NULL)
+        DestroyExTask(exTutorialMessageTaskSingleton);
 }
 
 // ExTitleCard
-NONMATCH_FUNC void exMsgTitleTask__Main(void)
+void ExTitleCard_Main_Init(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	bl GetCurrentTask
-	ldr r1, =exMsgTitleTask__sVars
-	ldr r2, =exMsgTitleTask__byte_2177B10
-	str r0, [r1]
-	ldr r1, =exMsgTitleTask__byte_2177A88
-	str r2, [r4, #8]
-	ldr r0, =exMsgTitleTask__byte_21776D0
-	str r1, [r4, #0xc]
-	ldr r1, =exMsgTitleTask__byte_2177A00
-	str r0, [r4, #0x10]
-	ldr r0, =exMsgTitleTask__byte_21777E0
-	str r1, [r4, #0x14]
-	ldr r1, =exMsgTitleTask__byte_21775C0
-	str r0, [r4, #0x18]
-	ldr r0, =exMsgTitleTask__byte_2177648
-	str r1, [r4, #0x1c]
-	ldr r1, =exMsgTitleTask__byte_2177978
-	str r0, [r4, #0x20]
-	ldr r0, =exMsgTitleTask__byte_21778F0
-	str r1, [r4, #0x24]
-	ldr r1, =exMsgTitleTask__byte_2177758
-	str r0, [r4, #0x28]
-	ldr r0, =exMsgTitleTask__byte_2177868
-	str r1, [r4, #0x2c]
-	str r0, [r4, #0x30]
-	ldr r0, [r4, #8]
-	mov r1, #0x41
-	strh r1, [r0]
-	ldr r0, [r4, #8]
-	mov r1, #4
-	strh r1, [r0, #2]
-	ldr r0, [r4, #8]
-	bl SetupExHUDSprite
-	ldr r0, [r4, #8]
-	mov r1, #0xe000
-	add r0, r0, #0x80
-	bl exDrawReqTask__SetConfigPriority
-	ldr r0, [r4, #8]
-	mov r1, #0
-	strh r1, [r0, #0x68]
-	ldr r0, [r4, #8]
-	strh r1, [r0, #0x6a]
-	ldr r0, [r4, #8]
-	bl exDrawReqTask__Sprite2D__Func_2161B80
-	ldr r0, [r4, #8]
-	add r0, r0, #0x80
-	bl exDrawReqTask__Func_21641F0
-	ldr r0, [r4, #0xc]
-	mov r1, #0x4b
-	strh r1, [r0]
-	ldr r0, [r4, #0xc]
-	mov r1, #6
-	strh r1, [r0, #2]
-	ldr r0, [r4, #0xc]
-	bl SetupExHUDSprite
-	ldr r0, [r4, #0xc]
-	mov r1, #0xe000
-	add r0, r0, #0x80
-	bl exDrawReqTask__SetConfigPriority
-	mov r1, #0
-	ldr r0, [r4, #0xc]
-	strh r1, [r0, #0x68]
-	ldr r0, [r4, #0xc]
-	strh r1, [r0, #0x6a]
-	ldr r0, [r4, #0xc]
-	bl exDrawReqTask__Sprite2D__Func_2161B80
-	ldr r0, [r4, #0xc]
-	add r0, r0, #0x80
-	bl exDrawReqTask__Func_21641F0
-	mov r2, #0x42
-	ldr r0, [r4, #0x10]
-	mov r1, #5
-	strh r2, [r0]
-	ldr r0, [r4, #0x10]
-	strh r1, [r0, #2]
-	ldr r0, [r4, #0x10]
-	bl SetupExHUDSprite
-	ldr r0, [r4, #0x10]
-	ldr r1, =0x0000E001
-	add r0, r0, #0x80
-	bl exDrawReqTask__SetConfigPriority
-	ldr r0, [r4, #0x10]
-	mov r1, #0x80
-	strh r1, [r0, #0x68]
-	ldr r0, [r4, #0x10]
-	mov r1, #0x60
-	strh r1, [r0, #0x6a]
-	ldr r0, [r4, #0x10]
-	bl exDrawReqTask__Sprite2D__Func_2161B80
-	ldr r0, [r4, #0x10]
-	add r0, r0, #0x80
-	bl exDrawReqTask__Func_21641F0
-	ldr r0, [r4, #0x14]
-	mov r1, #0x43
-	strh r1, [r0]
-	ldr r0, [r4, #0x14]
-	mov r1, #6
-	strh r1, [r0, #2]
-	ldr r0, [r4, #0x14]
-	bl SetupExHUDSprite
-	ldr r0, [r4, #0x14]
-	mov r1, #0xe000
-	add r0, r0, #0x80
-	bl exDrawReqTask__SetConfigPriority
-	ldr r0, [r4, #0x14]
-	mov r1, #0
-	strh r1, [r0, #0x68]
-	ldr r0, [r4, #0x14]
-	strh r1, [r0, #0x6a]
-	ldr r0, [r4, #0x14]
-	bl exDrawReqTask__Sprite2D__Func_2161B80
-	ldr r0, [r4, #0x14]
-	add r0, r0, #0x80
-	bl exDrawReqTask__Func_21641F0
-	ldr r0, [r4, #0x18]
-	mov r1, #0x44
-	strh r1, [r0]
-	ldr r0, [r4, #0x18]
-	mov r1, #6
-	strh r1, [r0, #2]
-	ldr r0, [r4, #0x18]
-	bl SetupExHUDSprite
-	ldr r0, [r4, #0x18]
-	mov r1, #0xe000
-	add r0, r0, #0x80
-	bl exDrawReqTask__SetConfigPriority
-	mov r1, #0
-	ldr r0, [r4, #0x18]
-	strh r1, [r0, #0x68]
-	ldr r0, [r4, #0x18]
-	strh r1, [r0, #0x6a]
-	ldr r0, [r4, #0x18]
-	bl exDrawReqTask__Sprite2D__Func_2161B80
-	ldr r0, [r4, #0x18]
-	add r0, r0, #0x80
-	bl exDrawReqTask__Func_21641F0
-	mov r2, #0x45
-	ldr r0, [r4, #0x1c]
-	mov r1, #6
-	strh r2, [r0]
-	ldr r0, [r4, #0x1c]
-	strh r1, [r0, #2]
-	ldr r0, [r4, #0x1c]
-	bl SetupExHUDSprite
-	ldr r0, [r4, #0x1c]
-	mov r1, #0xe000
-	add r0, r0, #0x80
-	bl exDrawReqTask__SetConfigPriority
-	mov r1, #0
-	ldr r0, [r4, #0x1c]
-	strh r1, [r0, #0x68]
-	ldr r0, [r4, #0x1c]
-	strh r1, [r0, #0x6a]
-	ldr r0, [r4, #0x1c]
-	bl exDrawReqTask__Sprite2D__Func_2161B80
-	ldr r0, [r4, #0x1c]
-	add r0, r0, #0x80
-	bl exDrawReqTask__Func_21641F0
-	mov r2, #0x46
-	ldr r0, [r4, #0x20]
-	mov r1, #6
-	strh r2, [r0]
-	ldr r0, [r4, #0x20]
-	strh r1, [r0, #2]
-	ldr r0, [r4, #0x20]
-	bl SetupExHUDSprite
-	ldr r0, [r4, #0x20]
-	mov r1, #0xe000
-	add r0, r0, #0x80
-	bl exDrawReqTask__SetConfigPriority
-	ldr r0, [r4, #0x20]
-	mov r1, #0
-	strh r1, [r0, #0x68]
-	ldr r0, [r4, #0x20]
-	strh r1, [r0, #0x6a]
-	ldr r0, [r4, #0x20]
-	bl exDrawReqTask__Sprite2D__Func_2161B80
-	ldr r0, [r4, #0x20]
-	add r0, r0, #0x80
-	bl exDrawReqTask__Func_21641F0
-	ldr r0, [r4, #0x24]
-	mov r1, #0x47
-	strh r1, [r0]
-	ldr r0, [r4, #0x24]
-	mov r1, #6
-	strh r1, [r0, #2]
-	ldr r0, [r4, #0x24]
-	bl SetupExHUDSprite
-	ldr r0, [r4, #0x24]
-	mov r1, #0xe000
-	add r0, r0, #0x80
-	bl exDrawReqTask__SetConfigPriority
-	ldr r0, [r4, #0x24]
-	mov r1, #0
-	strh r1, [r0, #0x68]
-	ldr r0, [r4, #0x24]
-	strh r1, [r0, #0x6a]
-	ldr r0, [r4, #0x24]
-	bl exDrawReqTask__Sprite2D__Func_2161B80
-	ldr r0, [r4, #0x24]
-	add r0, r0, #0x80
-	bl exDrawReqTask__Func_21641F0
-	mov r2, #0x48
-	ldr r0, [r4, #0x28]
-	mov r1, #6
-	strh r2, [r0]
-	ldr r0, [r4, #0x28]
-	strh r1, [r0, #2]
-	ldr r0, [r4, #0x28]
-	bl SetupExHUDSprite
-	ldr r0, [r4, #0x28]
-	mov r1, #0xe000
-	add r0, r0, #0x80
-	bl exDrawReqTask__SetConfigPriority
-	mov r1, #0
-	ldr r0, [r4, #0x28]
-	strh r1, [r0, #0x68]
-	ldr r0, [r4, #0x28]
-	strh r1, [r0, #0x6a]
-	ldr r0, [r4, #0x28]
-	bl exDrawReqTask__Sprite2D__Func_2161B80
-	ldr r0, [r4, #0x28]
-	add r0, r0, #0x80
-	bl exDrawReqTask__Func_21641F0
-	mov r0, #0x1e
-	strh r0, [r4]
-	bl GetExTaskCurrent
-	ldr r1, =exMsgTitleTask__Main_216CCF4
-	str r1, [r0]
-	ldmia sp!, {r4, pc}
+    exTitleCardTaskSingleton = GetCurrentTask();
 
-// clang-format on
-#endif
+    work->aniBackdrop                             = &exTitleCardAniBackdrop;
+    work->aniZoneNameTextJP                       = &exTitleCardAniZoneNameTextJP;
+    work->aniZoneIcon                             = &exTitleCardAniZoneIcon;
+    work->aniActBanner                            = &exTitleCardAniActBanner;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E] = &exTitleCardAniZoneLetter_E;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X] = &exTitleCardAniZoneLetter_X;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T] = &exTitleCardAniZoneLetter_T;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R] = &exTitleCardAniZoneLetter_R;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A] = &exTitleCardAniZoneLetter_A;
+    work->aniReadyText                            = &exTitleCardAniReadyText;
+    work->aniGoText                               = &exTitleCardAniGoText;
+
+    work->aniBackdrop->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_BACKDROP;
+    work->aniBackdrop->sprite.paletteRow = PALETTE_ROW_4;
+    SetupExHUDSprite(work->aniBackdrop);
+    exDrawReqTask__SetConfigPriority(&work->aniBackdrop->config, 0xE000);
+    work->aniBackdrop->sprite.pos.x = 0;
+    work->aniBackdrop->sprite.pos.y = 0;
+    exDrawReqTask__Sprite2D__Func_2161B80(work->aniBackdrop);
+    exDrawReqTask__Func_21641F0(&work->aniBackdrop->config);
+
+    work->aniZoneNameTextJP->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_ZONE_NAME_TEXT_JP;
+    work->aniZoneNameTextJP->sprite.paletteRow = PALETTE_ROW_6;
+    SetupExHUDSprite(work->aniZoneNameTextJP);
+    exDrawReqTask__SetConfigPriority(&work->aniZoneNameTextJP->config, 0xE000);
+    work->aniZoneNameTextJP->sprite.pos.x = 0;
+    work->aniZoneNameTextJP->sprite.pos.y = 0;
+    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneNameTextJP);
+    exDrawReqTask__Func_21641F0(&work->aniZoneNameTextJP->config);
+
+    work->aniZoneIcon->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_ICON;
+    work->aniZoneIcon->sprite.paletteRow = PALETTE_ROW_5;
+    SetupExHUDSprite(work->aniZoneIcon);
+    exDrawReqTask__SetConfigPriority(&work->aniZoneIcon->config, 0xE001);
+    work->aniZoneIcon->sprite.pos.x = HW_LCD_CENTER_X;
+    work->aniZoneIcon->sprite.pos.y = 96;
+
+    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneIcon);
+    exDrawReqTask__Func_21641F0(&work->aniZoneIcon->config);
+    work->aniActBanner->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_ACT_BANNER;
+    work->aniActBanner->sprite.paletteRow = PALETTE_ROW_6;
+    SetupExHUDSprite(work->aniActBanner);
+    exDrawReqTask__SetConfigPriority(&work->aniActBanner->config, 0xE000);
+    work->aniActBanner->sprite.pos.x = 0;
+    work->aniActBanner->sprite.pos.y = 0;
+
+    exDrawReqTask__Sprite2D__Func_2161B80(work->aniActBanner);
+    exDrawReqTask__Func_21641F0(&work->aniActBanner->config);
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_LETTER_E;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.paletteRow = PALETTE_ROW_6;
+    SetupExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
+    exDrawReqTask__SetConfigPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config, 0xE000);
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.pos.x = 0;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.pos.y = 0;
+    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
+    exDrawReqTask__Func_21641F0(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config);
+
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_LETTER_X;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.paletteRow = PALETTE_ROW_6;
+    SetupExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
+    exDrawReqTask__SetConfigPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config, 0xE000);
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.pos.x = 0;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.pos.y = 0;
+    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
+    exDrawReqTask__Func_21641F0(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config);
+
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_LETTER_T;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.paletteRow = PALETTE_ROW_6;
+    SetupExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
+    exDrawReqTask__SetConfigPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config, 0xE000);
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.pos.x = 0;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.pos.y = 0;
+    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
+    exDrawReqTask__Func_21641F0(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config);
+
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_LETTER_R;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.paletteRow = PALETTE_ROW_6;
+    SetupExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
+    exDrawReqTask__SetConfigPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config, 0xE000);
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.pos.x = 0;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.pos.y = 0;
+    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
+    exDrawReqTask__Func_21641F0(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config);
+
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_LETTER_A;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.paletteRow = PALETTE_ROW_6;
+    SetupExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
+    exDrawReqTask__SetConfigPriority(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config, 0xE000);
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.pos.x = 0;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.pos.y = 0;
+    exDrawReqTask__Sprite2D__Func_2161B80(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
+    exDrawReqTask__Func_21641F0(&work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config);
+
+    work->timer = 30;
+
+    SetCurrentExTaskMainEvent(ExTitleCard_Main_IntroDelay);
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func8(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =GetExTaskWorkCurrent_
-	bx ip
-
-// clang-format on
-#endif
+void ExTitleCard_Main_TaskUnknown(void)
+{
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
+    UNUSED(work);
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Destructor(void)
+void ExTitleCard_Destructor(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	ldr r0, [r0, #0x30]
-	bl ReleaseExHUDSprite
-	ldr r0, =exMsgTitleTask__sVars
-	mov r1, #0
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
+    ReleaseExHUDSprite(work->aniGoText);
 
-// clang-format on
-#endif
+    exTitleCardTaskSingleton = NULL;
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Main_216CCF4(void)
+void ExTitleCard_Main_IntroDelay(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	ldrsh r2, [r0, #0]
-	sub r1, r2, #1
-	strh r1, [r0]
-	cmp r2, #0
-	bgt _0216CD18
-	bl exMsgTitleTask__Func_216CD28
-	ldmia sp!, {r3, pc}
-_0216CD18:
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (work->timer-- <= 0)
+    {
+        ExTitleCard_Action_InitZoneIcon();
+    }
+    else
+    {
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216CD28(void)
+void ExTitleCard_Action_InitZoneIcon(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #8
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	mov lr, #0x80
-	ldr r0, [r4, #8]
-	sub r6, lr, #0xe0
-	strh lr, [r0, #0x68]
-	ldr r0, [r4, #8]
-	ldr ip, =0x00001CCD
-	strh r6, [r0, #0x6a]
-	ldr r1, [r4, #8]
-	mov r0, #0
-	str ip, [r1, #0x6c]
-	ldr r2, [r4, #8]
-	sub r1, r0, #1
-	str ip, [r2, #0x70]
-	ldr r3, [r4, #0x10]
-	mov r2, r1
-	strh lr, [r3, #0x68]
-	ldr r5, [r4, #0x10]
-	add lr, lr, #0x92
-	strh r6, [r5, #0x6a]
-	ldr r5, [r4, #0x10]
-	mov r3, r1
-	str ip, [r5, #0x6c]
-	ldr r5, [r4, #0x10]
-	str ip, [r5, #0x70]
-	stmia sp, {r0, lr}
-	bl PlaySfxEx
-	mov r0, #0
-	strh r0, [r4, #2]
-	bl GetExTaskCurrent
-	ldr r1, =exMsgTitleTask__Main_216CDC8
-	str r1, [r0]
-	bl exMsgTitleTask__Main_216CDC8
-	add sp, sp, #8
-	ldmia sp!, {r4, r5, r6, pc}
+    work->aniBackdrop->sprite.pos.x   = HW_LCD_CENTER_X;
+    work->aniBackdrop->sprite.pos.y   = -96;
+    work->aniBackdrop->sprite.scale.x = FLOAT_TO_FX32(1.80005); // NOTE: this value is a single (FX32) unit above the clean value of '1.8' used below. So this might be a typo?
+    work->aniBackdrop->sprite.scale.y = FLOAT_TO_FX32(1.80005); // NOTE: this value is a single (FX32) unit above the clean value of '1.8' used below. So this might be a typo?
 
-// clang-format on
-#endif
+    work->aniZoneIcon->sprite.pos.x   = HW_LCD_CENTER_X;
+    work->aniZoneIcon->sprite.pos.y   = -96;
+    work->aniZoneIcon->sprite.scale.x = FLOAT_TO_FX32(1.80005); // NOTE: this value is a single (FX32) unit above the clean value of '1.8' used below. So this might be a typo?
+    work->aniZoneIcon->sprite.scale.y = FLOAT_TO_FX32(1.80005); // NOTE: this value is a single (FX32) unit above the clean value of '1.8' used below. So this might be a typo?
+
+    PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_TITLE);
+
+    work->nameplaceEnterPercent = FLOAT_TO_FX32(0.0);
+
+    SetCurrentExTaskMainEvent(ExTitleCard_Main_EnterZoneIcon);
+    ExTitleCard_Main_EnterZoneIcon();
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Main_216CDC8(void)
+void ExTitleCard_Main_EnterZoneIcon(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	ldr r0, [r4, #8]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x10]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, =padInput
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	bne _0216CE14
-	tst r0, #2
-	bne _0216CE14
-	tst r0, #0x400
-	bne _0216CE14
-	tst r0, #0x800
-	bne _0216CE14
-	tst r0, #8
-	beq _0216CE1C
-_0216CE14:
-	bl exMsgTitleTask__Func_216D564
-	ldmia sp!, {r3, r4, r5, pc}
-_0216CE1C:
-	ldr r1, [r4, #8]
-	ldrh r0, [r1, #0x74]
-	add r0, r0, #0x11
-	add r0, r0, #0x1100
-	strh r0, [r1, #0x74]
-	ldr r1, [r4, #0x10]
-	ldrh r0, [r1, #0x74]
-	add r0, r0, #0x11
-	add r0, r0, #0x1100
-	strh r0, [r1, #0x74]
-	ldr r1, [r4, #8]
-	ldrsh r0, [r1, #0x6a]
-	cmp r0, #0x50
-	bge _0216CE6C
-	add r0, r0, #4
-	strh r0, [r1, #0x6a]
-	ldr r1, [r4, #0x10]
-	ldrsh r0, [r1, #0x6a]
-	add r0, r0, #4
-	strh r0, [r1, #0x6a]
-_0216CE6C:
-	ldrsh r0, [r4, #2]
-	ldr r1, =0xFFFFF334
-	mvn r2, #0
-	add r0, r0, #0x5b
-	strh r0, [r4, #2]
-	ldrsh r0, [r4, #2]
-	ldr r3, [r4, #8]
-	umull ip, r5, r0, r1
-	mla r5, r0, r2, r5
-	mov r0, r0, asr #0x1f
-	adds ip, ip, #0x800
-	mla r5, r0, r1, r5
-	adc r0, r5, #0
-	mov r5, ip, lsr #0xc
-	orr r5, r5, r0, lsl #20
-	add r0, r5, #0xcc
-	add r0, r0, #0x1c00
-	str r0, [r3, #0x6c]
-	ldrsh r0, [r4, #2]
-	ldr r3, [r4, #8]
-	umull ip, r5, r0, r1
-	adds ip, ip, #0x800
-	mla r5, r0, r2, r5
-	mov r0, r0, asr #0x1f
-	mla r5, r0, r1, r5
-	adc r0, r5, #0
-	mov r5, ip, lsr #0xc
-	orr r5, r5, r0, lsl #20
-	add r0, r5, #0xcc
-	add r0, r0, #0x1c00
-	str r0, [r3, #0x70]
-	ldrsh r0, [r4, #2]
-	ldr r3, [r4, #0x10]
-	umull ip, r5, r0, r1
-	adds ip, ip, #0x800
-	mla r5, r0, r2, r5
-	mov r0, r0, asr #0x1f
-	mla r5, r0, r1, r5
-	adc r0, r5, #0
-	mov r5, ip, lsr #0xc
-	orr r5, r5, r0, lsl #20
-	add r0, r5, #0xcc
-	add r0, r0, #0x1c00
-	str r0, [r3, #0x6c]
-	ldrsh ip, [r4, #2]
-	ldr r3, [r4, #0x10]
-	mov r0, ip, asr #0x1f
-	umull r5, lr, ip, r1
-	mla lr, ip, r2, lr
-	mla lr, r0, r1, lr
-	adds r1, r5, #0x800
-	adc r0, lr, #0
-	mov r1, r1, lsr #0xc
-	orr r1, r1, r0, lsl #20
-	add r0, r1, #0xcc
-	add r0, r0, #0x1c00
-	str r0, [r3, #0x70]
-	ldrsh r0, [r4, #2]
-	cmp r0, #0x1000
-	blt _0216CF64
-	bl exMsgTitleTask__Func_216CF94
-	ldmia sp!, {r3, r4, r5, pc}
-_0216CF64:
-	ldr r0, [r4, #8]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x10]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r3, r4, r5, pc}
+    exDrawReqTask__Sprite2D__Animate(work->aniBackdrop);
+    exDrawReqTask__Sprite2D__Animate(work->aniZoneIcon);
 
-// clang-format on
-#endif
+    if ((padInput.btnPress & PAD_BUTTON_A) != 0 || (padInput.btnPress & PAD_BUTTON_B) != 0 || (padInput.btnPress & PAD_BUTTON_X) != 0 || (padInput.btnPress & PAD_BUTTON_Y) != 0
+        || (padInput.btnPress & PAD_BUTTON_START) != 0)
+    {
+        ExTitleCard_Action_ShowReadyText();
+    }
+    else
+    {
+        work->aniBackdrop->sprite.rotation += FLOAT_DEG_TO_IDX(24.0);
+        work->aniZoneIcon->sprite.rotation += FLOAT_DEG_TO_IDX(24.0);
+
+        if (work->aniBackdrop->sprite.pos.y < 80)
+        {
+            work->aniBackdrop->sprite.pos.y += 4;
+            work->aniZoneIcon->sprite.pos.y += 4;
+        }
+
+        work->nameplaceEnterPercent += FLOAT_TO_FX32(1.0 / 45.0);
+
+        work->aniBackdrop->sprite.scale.x = MultiplyFX(-FLOAT_TO_FX32(0.8), work->nameplaceEnterPercent) + FLOAT_TO_FX32(1.8);
+        work->aniBackdrop->sprite.scale.y = MultiplyFX(-FLOAT_TO_FX32(0.8), work->nameplaceEnterPercent) + FLOAT_TO_FX32(1.8);
+        work->aniZoneIcon->sprite.scale.x = MultiplyFX(-FLOAT_TO_FX32(0.8), work->nameplaceEnterPercent) + FLOAT_TO_FX32(1.8);
+        work->aniZoneIcon->sprite.scale.y = MultiplyFX(-FLOAT_TO_FX32(0.8), work->nameplaceEnterPercent) + FLOAT_TO_FX32(1.8);
+
+        if (work->nameplaceEnterPercent >= FLOAT_TO_FX32(1.0))
+        {
+            ExTitleCard_Action_InitZoneActText();
+        }
+        else
+        {
+            exDrawReqTask__AddRequest(work->aniBackdrop, &work->aniBackdrop->config);
+            exDrawReqTask__AddRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
+
+            RunCurrentExTaskUnknownEvent();
+        }
+    }
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216CF94(void)
+void ExTitleCard_Action_InitZoneActText(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	bl GetExTaskWorkCurrent_
-	ldr ip, =0x00000113
-	mov r4, r0
-	sub r1, ip, #0x114
-	mov r0, #0
-	stmia sp, {r0, ip}
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	ldr r0, [r4, #8]
-	mov ip, #0x80
-	strh ip, [r0, #0x68]
-	ldr r0, [r4, #8]
-	mov r3, #0x50
-	strh r3, [r0, #0x6a]
-	ldr r0, [r4, #8]
-	mov r2, #0x1000
-	str r2, [r0, #0x6c]
-	ldr r0, [r4, #8]
-	str r2, [r0, #0x70]
-	ldr r1, [r4, #8]
-	ldrb r0, [r1, #0x82]
-	orr r0, r0, #0x20
-	strb r0, [r1, #0x82]
-	ldr r0, [r4, #0x10]
-	strh ip, [r0, #0x68]
-	ldr r0, [r4, #0x10]
-	strh r3, [r0, #0x6a]
-	ldr r0, [r4, #0x10]
-	str r2, [r0, #0x6c]
-	ldr r0, [r4, #0x10]
-	str r2, [r0, #0x70]
-	ldr r1, [r4, #0x10]
-	ldrb r0, [r1, #0x82]
-	orr r0, r0, #0x20
-	strb r0, [r1, #0x82]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0xc]
-	ldrsh r1, [r1, #0x68]
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0xc]
-	ldrsh r1, [r1, #0x6a]
-	sub r1, r1, #0x30
-	strh r1, [r0, #0x6a]
-	ldr r1, [r4, #0xc]
-	ldrb r0, [r1, #0x82]
-	orr r0, r0, #0x20
-	strb r0, [r1, #0x82]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x14]
-	ldrsh r1, [r1, #0x68]
-	add r1, r1, #0x20
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x14]
-	ldrsh r1, [r1, #0x6a]
-	add r1, r1, #0x1c
-	strh r1, [r0, #0x6a]
-	ldr r1, [r4, #0x14]
-	ldrb r0, [r1, #0x82]
-	orr r0, r0, #0x20
-	strb r0, [r1, #0x82]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x18]
-	ldrsh r1, [r1, #0x68]
-	sub r1, r1, #0x4c
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x18]
-	ldrsh r1, [r1, #0x6a]
-	add r1, r1, #0x33
-	strh r1, [r0, #0x6a]
-	ldr r1, [r4, #0x18]
-	ldrb r0, [r1, #0x82]
-	orr r0, r0, #0x20
-	strb r0, [r1, #0x82]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x1c]
-	ldrsh r1, [r1, #0x68]
-	sub r1, r1, #0x34
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x1c]
-	ldrsh r1, [r1, #0x6a]
-	add r1, r1, #0x33
-	strh r1, [r0, #0x6a]
-	ldr r1, [r4, #0x1c]
-	ldrb r0, [r1, #0x82]
-	orr r0, r0, #0x20
-	strb r0, [r1, #0x82]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x20]
-	ldrsh r1, [r1, #0x68]
-	sub r1, r1, #0x1c
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x20]
-	ldrsh r1, [r1, #0x6a]
-	add r1, r1, #0x33
-	strh r1, [r0, #0x6a]
-	ldr r1, [r4, #0x20]
-	ldrb r0, [r1, #0x82]
-	orr r0, r0, #0x20
-	strb r0, [r1, #0x82]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x24]
-	ldrsh r1, [r1, #0x68]
-	sub r1, r1, #4
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x24]
-	ldrsh r1, [r1, #0x6a]
-	add r1, r1, #0x33
-	strh r1, [r0, #0x6a]
-	ldr r1, [r4, #0x24]
-	ldrb r0, [r1, #0x82]
-	orr r0, r0, #0x20
-	strb r0, [r1, #0x82]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x28]
-	ldrsh r1, [r1, #0x68]
-	add r1, r1, #0x14
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x28]
-	ldrsh r1, [r1, #0x6a]
-	add r1, r1, #0x33
-	strh r1, [r0, #0x6a]
-	ldr r1, [r4, #0x28]
-	ldrb r0, [r1, #0x82]
-	orr r0, r0, #0x20
-	strb r0, [r1, #0x82]
-	bl GetExTaskCurrent
-	ldr r1, =exMsgTitleTask__Func_216D1D0
-	str r1, [r0]
-	bl exMsgTitleTask__Func_216D1D0
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_SONIC);
 
-// clang-format on
-#endif
+    work->aniBackdrop->sprite.pos.x            = HW_LCD_CENTER_X;
+    work->aniBackdrop->sprite.pos.y            = 80;
+    work->aniBackdrop->sprite.scale.x          = FLOAT_TO_FX32(1.0);
+    work->aniBackdrop->sprite.scale.y          = FLOAT_TO_FX32(1.0);
+    work->aniBackdrop->config.field_2.value_20 = TRUE;
+
+    work->aniZoneIcon->sprite.pos.x            = HW_LCD_CENTER_X;
+    work->aniZoneIcon->sprite.pos.y            = 80;
+    work->aniZoneIcon->sprite.scale.x          = FLOAT_TO_FX32(1.0);
+    work->aniZoneIcon->sprite.scale.y          = FLOAT_TO_FX32(1.0);
+    work->aniZoneIcon->config.field_2.value_20 = TRUE;
+
+    work->aniZoneNameTextJP->sprite.pos.x            = work->aniBackdrop->sprite.pos.x;
+    work->aniZoneNameTextJP->sprite.pos.y            = work->aniBackdrop->sprite.pos.y - 48;
+    work->aniZoneNameTextJP->config.field_2.value_20 = TRUE;
+
+    work->aniActBanner->sprite.pos.x            = work->aniBackdrop->sprite.pos.x + 32;
+    work->aniActBanner->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 28;
+    work->aniActBanner->config.field_2.value_20 = TRUE;
+
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.pos.x            = work->aniBackdrop->sprite.pos.x - 76;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 51;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config.field_2.value_20 = TRUE;
+
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.pos.x            = work->aniBackdrop->sprite.pos.x - 52;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 51;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config.field_2.value_20 = TRUE;
+
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.pos.x            = work->aniBackdrop->sprite.pos.x - 28;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 51;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config.field_2.value_20 = TRUE;
+
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.pos.x            = work->aniBackdrop->sprite.pos.x - 4;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 51;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config.field_2.value_20 = TRUE;
+
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.pos.x            = work->aniBackdrop->sprite.pos.x + 20;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.pos.y            = work->aniBackdrop->sprite.pos.y + 51;
+    work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config.field_2.value_20 = TRUE;
+
+    SetCurrentExTaskMainEvent(ExTitleCard_Main_ShowZoneActText);
+    ExTitleCard_Main_ShowZoneActText();
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216D1D0(void)
+void ExTitleCard_Main_ShowZoneActText(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	ldr r0, [r4, #8]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x10]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0xc]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x14]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x18]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x1c]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x20]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x24]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x28]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, =padInput
-	ldrh r0, [r0, #4]
-	tst r0, #1
-	bne _0216D254
-	tst r0, #2
-	bne _0216D254
-	tst r0, #0x400
-	bne _0216D254
-	tst r0, #0x800
-	bne _0216D254
-	tst r0, #8
-	beq _0216D25C
-_0216D254:
-	bl exMsgTitleTask__Func_216D564
-	ldmia sp!, {r4, pc}
-_0216D25C:
-	ldr r0, [r4, #0x28]
-	bl exDrawReqTask__Sprite2D__IsAnimFinished
-	cmp r0, #0
-	beq _0216D274
-	bl exMsgTitleTask__Func_216D300
-	ldmia sp!, {r4, pc}
-_0216D274:
-	bl GetExTutorialMessageLanguage
-	cmp r0, #0
-	bne _0216D28C
-	ldr r0, [r4, #0xc]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-_0216D28C:
-	ldr r0, [r4, #0x14]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x18]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x1c]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x20]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x24]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x28]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #8]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x10]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
+    exDrawReqTask__Sprite2D__Animate(work->aniBackdrop);
+    exDrawReqTask__Sprite2D__Animate(work->aniZoneIcon);
+    exDrawReqTask__Sprite2D__Animate(work->aniZoneNameTextJP);
+    exDrawReqTask__Sprite2D__Animate(work->aniActBanner);
+    exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
+    exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
+    exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
+    exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
+    exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
 
-// clang-format on
-#endif
+    if ((padInput.btnPress & PAD_BUTTON_A) != 0 || (padInput.btnPress & PAD_BUTTON_B) != 0 || (padInput.btnPress & PAD_BUTTON_X) != 0 || (padInput.btnPress & PAD_BUTTON_Y) != 0
+        || (padInput.btnPress & PAD_BUTTON_START) != 0)
+    {
+        ExTitleCard_Action_ShowReadyText();
+    }
+    else if (exDrawReqTask__Sprite2D__IsAnimFinished(work->aniZoneLetter[EXTITLECARD_ZONELETTER_COUNT - 1]))
+    {
+        ExTitleCard_Action_ExitNameplate();
+    }
+    else
+    {
+        if (GetExTutorialMessageLanguage() == OS_LANGUAGE_JAPANESE)
+            exDrawReqTask__AddRequest(work->aniZoneNameTextJP, &work->aniZoneNameTextJP->config);
+
+        exDrawReqTask__AddRequest(work->aniActBanner, &work->aniActBanner->config);
+        exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config);
+        exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config);
+        exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config);
+        exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config);
+        exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config);
+        exDrawReqTask__AddRequest(work->aniBackdrop, &work->aniBackdrop->config);
+        exDrawReqTask__AddRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
+
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216D300(void)
+void ExTitleCard_Action_ExitNameplate(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	mov r1, #0
-	strh r1, [r0, #4]
-	bl GetExTaskCurrent
-	ldr r1, =exMsgTitleTask__Func_216D328
-	str r1, [r0]
-	bl exMsgTitleTask__Func_216D328
-	ldmia sp!, {r3, pc}
+    work->nameplaceExitPercent = FLOAT_TO_FX32(0.0);
 
-// clang-format on
-#endif
+    SetCurrentExTaskMainEvent(ExTitleCard_Main_ExitNameplate);
+    ExTitleCard_Main_ExitNameplate();
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216D328(void)
+void ExTitleCard_Main_ExitNameplate(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	bl GetExTaskWorkCurrent_
-	ldr r1, =padInput
-	mov r4, r0
-	ldrh r0, [r1, #4]
-	tst r0, #1
-	bne _0216D364
-	tst r0, #2
-	bne _0216D364
-	tst r0, #0x400
-	bne _0216D364
-	tst r0, #0x800
-	bne _0216D364
-	tst r0, #8
-	beq _0216D36C
-_0216D364:
-	bl exMsgTitleTask__Func_216D564
-	ldmia sp!, {r4, r5, r6, pc}
-_0216D36C:
-	ldr r0, [r4, #8]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x10]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0xc]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x14]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x18]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x1c]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x20]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x24]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x28]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldrsh r1, [r4, #4]
-	mov r0, #0x100000
-	rsb r0, r0, #0
-	add r1, r1, #0x66
-	strh r1, [r4, #4]
-	ldrsh r3, [r4, #4]
-	mov r1, #2
-	mov lr, #0
-	mov r2, r3, asr #0x1f
-	mov ip, #0x800
-_0216D3DC:
-	sub r0, r0, #0x80000
-	umull r6, r5, r0, r3
-	mla r5, r0, r2, r5
-	mov r0, r0, asr #0x1f
-	mla r5, r0, r3, r5
-	adds r6, r6, ip
-	adc r0, r5, lr
-	mov r5, r6, lsr #0xc
-	orr r5, r5, r0, lsl #20
-	cmp r1, #0
-	add r0, r5, #0x80000
-	sub r1, r1, #1
-	bne _0216D3DC
-	bl _f_itof
-	ldr r1, =0x45800000
-	bl _fdiv
-	bl _f_ftoi
-	ldr r1, [r4, #8]
-	strh r0, [r1, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x10]
-	ldrsh r1, [r1, #0x68]
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0xc]
-	ldrsh r1, [r1, #0x68]
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x14]
-	ldrsh r1, [r1, #0x68]
-	add r1, r1, #0x20
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x18]
-	ldrsh r1, [r1, #0x68]
-	sub r1, r1, #0x4c
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x1c]
-	ldrsh r1, [r1, #0x68]
-	sub r1, r1, #0x34
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x20]
-	ldrsh r1, [r1, #0x68]
-	sub r1, r1, #0x1c
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x24]
-	ldrsh r1, [r1, #0x68]
-	sub r1, r1, #4
-	strh r1, [r0, #0x68]
-	ldr r1, [r4, #8]
-	ldr r0, [r4, #0x28]
-	ldrsh r1, [r1, #0x68]
-	add r1, r1, #0x14
-	strh r1, [r0, #0x68]
-	ldrsh r0, [r4, #4]
-	cmp r0, #0x1000
-	blt _0216D4D4
-	bl exMsgTitleTask__Func_216D564
-	ldmia sp!, {r4, r5, r6, pc}
-_0216D4D4:
-	bl GetExTutorialMessageLanguage
-	cmp r0, #0
-	bne _0216D4EC
-	ldr r0, [r4, #0xc]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-_0216D4EC:
-	ldr r0, [r4, #0x14]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x18]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x1c]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x20]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x24]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x28]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #8]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	ldr r0, [r4, #0x10]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, r5, r6, pc}
+    if ((padInput.btnPress & PAD_BUTTON_A) != 0 || (padInput.btnPress & PAD_BUTTON_B) != 0 || (padInput.btnPress & PAD_BUTTON_X) != 0 || (padInput.btnPress & PAD_BUTTON_Y) != 0
+        || (padInput.btnPress & PAD_BUTTON_START) != 0)
+    {
+        ExTitleCard_Action_ShowReadyText();
+    }
+    else
+    {
+        exDrawReqTask__Sprite2D__Animate(work->aniBackdrop);
+        exDrawReqTask__Sprite2D__Animate(work->aniZoneIcon);
+        exDrawReqTask__Sprite2D__Animate(work->aniZoneNameTextJP);
+        exDrawReqTask__Sprite2D__Animate(work->aniActBanner);
+        exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
+        exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
+        exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
+        exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
+        exDrawReqTask__Sprite2D__Animate(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
 
-// clang-format on
-#endif
+        work->nameplaceExitPercent += FLOAT_TO_FX32(1.0 / 40.0);
+
+        work->aniBackdrop->sprite.pos.x       = mtLerpEx2(work->nameplaceExitPercent, FLOAT_TO_FX32(HW_LCD_CENTER_X), -FLOAT_TO_FX32(HW_LCD_WIDTH), 2) / (float)FLOAT_TO_FX32(1.0);
+        work->aniZoneIcon->sprite.pos.x       = work->aniBackdrop->sprite.pos.x;
+        work->aniZoneNameTextJP->sprite.pos.x = work->aniBackdrop->sprite.pos.x;
+        work->aniActBanner->sprite.pos.x      = work->aniBackdrop->sprite.pos.x + 32;
+        work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->sprite.pos.x = work->aniBackdrop->sprite.pos.x - 76;
+        work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->sprite.pos.x = work->aniBackdrop->sprite.pos.x - 52;
+        work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->sprite.pos.x = work->aniBackdrop->sprite.pos.x - 28;
+        work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->sprite.pos.x = work->aniBackdrop->sprite.pos.x - 4;
+        work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->sprite.pos.x = work->aniBackdrop->sprite.pos.x + 20;
+
+        if (work->nameplaceExitPercent >= FLOAT_TO_FX32(1.0))
+        {
+            ExTitleCard_Action_ShowReadyText();
+        }
+        else
+        {
+            if (GetExTutorialMessageLanguage() == OS_LANGUAGE_JAPANESE)
+                exDrawReqTask__AddRequest(work->aniZoneNameTextJP, &work->aniZoneNameTextJP->config);
+
+            exDrawReqTask__AddRequest(work->aniActBanner, &work->aniActBanner->config);
+            exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]->config);
+            exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]->config);
+            exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]->config);
+            exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]->config);
+            exDrawReqTask__AddRequest(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A], &work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]->config);
+            exDrawReqTask__AddRequest(work->aniBackdrop, &work->aniBackdrop->config);
+            exDrawReqTask__AddRequest(work->aniZoneIcon, &work->aniZoneIcon->config);
+
+            RunCurrentExTaskUnknownEvent();
+        }
+    }
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216D564(void)
+void ExTitleCard_Action_ShowReadyText(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	ldr r0, [r4, #8]
-	bl ReleaseExHUDSprite
-	ldr r0, [r4, #0x10]
-	bl ReleaseExHUDSprite
-	ldr r0, [r4, #0xc]
-	bl ReleaseExHUDSprite
-	ldr r0, [r4, #0x14]
-	bl ReleaseExHUDSprite
-	ldr r0, [r4, #0x18]
-	bl ReleaseExHUDSprite
-	ldr r0, [r4, #0x1c]
-	bl ReleaseExHUDSprite
-	ldr r0, [r4, #0x20]
-	bl ReleaseExHUDSprite
-	ldr r0, [r4, #0x24]
-	bl ReleaseExHUDSprite
-	ldr r0, [r4, #0x28]
-	bl ReleaseExHUDSprite
-	mov r2, #0x4a
-	ldr r0, [r4, #0x2c]
-	mov r1, #7
-	strh r2, [r0]
-	ldr r0, [r4, #0x2c]
-	strh r1, [r0, #2]
-	ldr r0, [r4, #0x2c]
-	bl SetupExHUDSprite
-	ldr r0, [r4, #0x2c]
-	mov r1, #0xe000
-	add r0, r0, #0x80
-	bl exDrawReqTask__SetConfigPriority
-	mov r2, #0x80
-	ldr r0, [r4, #0x2c]
-	mov r1, #0x60
-	strh r2, [r0, #0x68]
-	ldr r0, [r4, #0x2c]
-	strh r1, [r0, #0x6a]
-	ldr r0, [r4, #0x2c]
-	bl exDrawReqTask__Sprite2D__Func_2161B80
-	ldr r1, [r4, #0x2c]
-	ldrb r0, [r1, #0x82]
-	orr r0, r0, #0x20
-	strb r0, [r1, #0x82]
-	ldr r0, [r4, #0x2c]
-	add r0, r0, #0x80
-	bl exDrawReqTask__Func_21641F0
-	mov r2, #0x49
-	ldr r0, [r4, #0x30]
-	mov r1, #7
-	strh r2, [r0]
-	ldr r0, [r4, #0x30]
-	strh r1, [r0, #2]
-	ldr r0, [r4, #0x30]
-	bl SetupExHUDSprite
-	ldr r0, [r4, #0x30]
-	mov r1, #0xe000
-	add r0, r0, #0x80
-	bl exDrawReqTask__SetConfigPriority
-	mov r2, #0x80
-	ldr r0, [r4, #0x30]
-	mov r1, #0x60
-	strh r2, [r0, #0x68]
-	ldr r0, [r4, #0x30]
-	strh r1, [r0, #0x6a]
-	ldr r0, [r4, #0x30]
-	bl exDrawReqTask__Sprite2D__Func_2161B80
-	ldr r1, [r4, #0x30]
-	ldrb r0, [r1, #0x82]
-	orr r0, r0, #0x20
-	strb r0, [r1, #0x82]
-	ldr r0, [r4, #0x30]
-	add r0, r0, #0x80
-	bl exDrawReqTask__Func_21641F0
-	mov r0, #0x2d
-	strh r0, [r4]
-	bl GetExTaskCurrent
-	ldr r1, =exMsgTitleTask__Func_216D6B0
-	str r1, [r0]
-	bl exMsgTitleTask__Func_216D6B0
-	ldmia sp!, {r4, pc}
+    ReleaseExHUDSprite(work->aniBackdrop);
+    ReleaseExHUDSprite(work->aniZoneIcon);
+    ReleaseExHUDSprite(work->aniZoneNameTextJP);
+    ReleaseExHUDSprite(work->aniActBanner);
+    ReleaseExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_E]);
+    ReleaseExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_X]);
+    ReleaseExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_T]);
+    ReleaseExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_R]);
+    ReleaseExHUDSprite(work->aniZoneLetter[EXTITLECARD_ZONELETTER_A]);
 
-// clang-format on
-#endif
+    work->aniReadyText->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_READY_TEXT;
+    work->aniReadyText->sprite.paletteRow = PALETTE_ROW_7;
+    SetupExHUDSprite(work->aniReadyText);
+    exDrawReqTask__SetConfigPriority(&work->aniReadyText->config, 0xE000);
+    work->aniReadyText->sprite.pos.x = HW_LCD_CENTER_X;
+    work->aniReadyText->sprite.pos.y = 96;
+    exDrawReqTask__Sprite2D__Func_2161B80(work->aniReadyText);
+    work->aniReadyText->config.field_2.value_20 = TRUE;
+    exDrawReqTask__Func_21641F0(&work->aniReadyText->config);
+
+    work->aniGoText->sprite.anim       = EX_ACTCOM_ANI_TITLECARD_GO_TEXT;
+    work->aniGoText->sprite.paletteRow = PALETTE_ROW_7;
+    SetupExHUDSprite(work->aniGoText);
+    exDrawReqTask__SetConfigPriority(&work->aniGoText->config, 0xE000);
+    work->aniGoText->sprite.pos.x = HW_LCD_CENTER_X;
+    work->aniGoText->sprite.pos.y = 96;
+    exDrawReqTask__Sprite2D__Func_2161B80(work->aniGoText);
+    work->aniGoText->config.field_2.value_20 = TRUE;
+    exDrawReqTask__Func_21641F0(&work->aniGoText->config);
+
+    work->timer = 45;
+
+    SetCurrentExTaskMainEvent(ExTitleCard_Main_ShowReadyText);
+    ExTitleCard_Main_ShowReadyText();
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216D6B0(void)
+void ExTitleCard_Main_ShowReadyText(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	ldr r0, [r4, #0x2c]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x2c]
-	bl exDrawReqTask__Sprite2D__IsAnimFinished
-	cmp r0, #0
-	beq _0216D6DC
-	bl exMsgTitleTask__Func_216D6F8
-	ldmia sp!, {r4, pc}
-_0216D6DC:
-	ldr r0, [r4, #0x2c]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
+    exDrawReqTask__Sprite2D__Animate(work->aniReadyText);
 
-// clang-format on
-#endif
+    if (exDrawReqTask__Sprite2D__IsAnimFinished(work->aniReadyText))
+    {
+        ExTitleCard_Action_StartShowingGoText();
+    }
+    else
+    {
+        exDrawReqTask__AddRequest(work->aniReadyText, &work->aniReadyText->config);
+
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216D6F8(void)
+void ExTitleCard_Action_StartShowingGoText(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	mov r1, #0
-	strh r1, [r0]
-	bl GetExTaskCurrent
-	ldr r1, =exMsgTitleTask__Func_216D720
-	str r1, [r0]
-	bl exMsgTitleTask__Func_216D720
-	ldmia sp!, {r3, pc}
+    work->timer = 0;
 
-// clang-format on
-#endif
+    SetCurrentExTaskMainEvent(ExTitleCard_Main_StartShowingGoText);
+    ExTitleCard_Main_StartShowingGoText();
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216D720(void)
+void ExTitleCard_Main_StartShowingGoText(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	ldrsh r2, [r0, #0]
-	sub r1, r2, #1
-	strh r1, [r0]
-	cmp r2, #0
-	bgt _0216D744
-	bl exMsgTitleTask__Func_216D760
-	ldmia sp!, {r3, pc}
-_0216D744:
-	ldr r0, [r0, #0x2c]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r3, pc}
+    if (work->timer-- <= 0)
+    {
+        ExTitleCard_Action_ShowGoText();
+    }
+    else
+    {
+        exDrawReqTask__AddRequest(work->aniReadyText, &work->aniReadyText->config);
 
-// clang-format on
-#endif
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216D760(void)
+void ExTitleCard_Action_ShowGoText(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	ldr r0, [r0, #0x2c]
-	bl ReleaseExHUDSprite
-	bl GetExSystemStatus
-	mov r1, #4
-	strb r1, [r0, #3]
-	bl GetExTaskCurrent
-	ldr r1, =exMsgTitleTask__Func_216D794
-	str r1, [r0]
-	bl exMsgTitleTask__Func_216D794
-	ldmia sp!, {r3, pc}
+    ReleaseExHUDSprite(work->aniReadyText);
 
-// clang-format on
-#endif
+    GetExSystemStatus()->state = EXSYSTASK_STATE_TITLECARD_DONE;
+
+    SetCurrentExTaskMainEvent(ExTitleCard_Main_ShowGoText);
+    ExTitleCard_Main_ShowGoText();
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216D794(void)
+void ExTitleCard_Main_ShowGoText(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	ldr r0, [r4, #0x30]
-	bl exDrawReqTask__Sprite2D__Animate
-	ldr r0, [r4, #0x30]
-	bl exDrawReqTask__Sprite2D__IsAnimFinished
-	cmp r0, #0
-	beq _0216D7C0
-	bl exMsgTitleTask__Func_216D7DC
-	ldmia sp!, {r4, pc}
-_0216D7C0:
-	ldr r0, [r4, #0x30]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
-
-// clang-format on
-#endif
+    exDrawReqTask__Sprite2D__Animate(work->aniGoText);
+    if (exDrawReqTask__Sprite2D__IsAnimFinished(work->aniGoText))
+    {
+        ExTitleCard_Action_StartOutro();
+    }
+    else
+    {
+        exDrawReqTask__AddRequest(work->aniGoText, &work->aniGoText->config);
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216D7DC(void)
+void ExTitleCard_Action_StartOutro(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	mov r1, #0x78
-	strh r1, [r0]
-	bl GetExTaskCurrent
-	ldr r1, =exMsgTitleTask__Func_216D804
-	str r1, [r0]
-	bl exMsgTitleTask__Func_216D804
-	ldmia sp!, {r3, pc}
+    work->timer = 120;
 
-// clang-format on
-#endif
+    SetCurrentExTaskMainEvent(ExTitleCard_Main_OutroDelay);
+    ExTitleCard_Main_OutroDelay();
 }
 
-NONMATCH_FUNC void exMsgTitleTask__Func_216D804(void)
+void ExTitleCard_Main_OutroDelay(void)
 {
-#ifdef NON_MATCHING
+    exMsgTitleTask *work = ExTaskGetWorkCurrent(exMsgTitleTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	ldrsh r2, [r0, #0]
-	sub r1, r2, #1
-	strh r1, [r0]
-	cmp r2, #0
-	bgt _0216D830
-	bl GetExTaskCurrent
-	ldr r1, =ExTask_State_Destroy
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
-_0216D830:
-	ldr r0, [r0, #0x30]
-	add r1, r0, #0x80
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r3, pc}
+    if (work->timer-- <= 0)
+    {
+        GetExTaskCurrent()->main = ExTask_State_Destroy;
+    }
+    else
+    {
+        exDrawReqTask__AddRequest(work->aniGoText, &work->aniGoText->config);
 
-// clang-format on
-#endif
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-BOOL exMsgTitleTask__Create(void)
+BOOL CreateExTitleCard(void)
 {
-    Task *task = ExTaskCreate(exMsgTitleTask__Main, exMsgTitleTask__Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(3), 0, EXTASK_TYPE_REGULAR, exMsgTitleTask);
+    Task *task = ExTaskCreate(ExTitleCard_Main_Init, ExTitleCard_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x1800, TASK_GROUP(3), 0, EXTASK_TYPE_REGULAR, exMsgTitleTask);
 
     exMsgTitleTask *work = ExTaskGetWork(task, exMsgTitleTask);
     TaskInitWork8(work);
 
-    SetExTaskUnknownEvent(task, exMsgTitleTask__Func8);
+    SetExTaskUnknownEvent(task, ExTitleCard_Main_TaskUnknown);
 
     return TRUE;
 }
 
-Task *exMsgTitleTask__GetTask(void)
+Task *GetExTitleCardTaskSingleton(void)
 {
-    return exMsgTitleTask__sVars.exMsgTitleTask__TaskSingleton;
+    return exTitleCardTaskSingleton;
 }

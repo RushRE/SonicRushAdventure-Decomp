@@ -48,33 +48,33 @@ typedef struct exEffectRingAdminTask_
 // --------------------
 
 // ExRingManager helpers
-NOT_DECOMPILED void exEffectLoopRingTask__InitRingSprite(EX_ACTION_BAC3D_WORK *work);
-NOT_DECOMPILED void exEffectLoopRingTask__SetRingAnim(EX_ACTION_BAC3D_WORK *work, u16 anim);
+void exEffectLoopRingTask__InitRingSprite(EX_ACTION_BAC3D_WORK *work);
+void exEffectLoopRingTask__SetRingAnim(EX_ACTION_BAC3D_WORK *work, u16 anim);
 
 // ExRingField
-NOT_DECOMPILED void exEffectLoopRingTask__Destroy_2168190(void);
-NOT_DECOMPILED void exEffectLoopRingTask__Main(void);
-NOT_DECOMPILED void exEffectLoopRingTask__Func8(void);
-NOT_DECOMPILED void exEffectLoopRingTask__Destructor(void);
-NOT_DECOMPILED void exEffectLoopRingTask__Main_Animate(void);
-NOT_DECOMPILED void exEffectLoopRingTask__Create(void);
+void exEffectLoopRingTask__Destroy_2168190(void);
+void exEffectLoopRingTask__Main(void);
+void exEffectLoopRingTask__Func8(void);
+void exEffectLoopRingTask__Destructor(void);
+void exEffectLoopRingTask__Main_Animate(void);
+void exEffectLoopRingTask__Create(void);
 
 // ExRing
-NOT_DECOMPILED void exEffectRingTask__Main(void);
-NOT_DECOMPILED void exEffectRingTask__Func8(void);
-NOT_DECOMPILED void exEffectRingTask__Destructor(void);
-NOT_DECOMPILED void exEffectRingTask__Main_Ring(void);
-NOT_DECOMPILED void exEffectRingTask__Action_Collect(void);
-NOT_DECOMPILED void exEffectRingTask__Main_Sparkle(void);
-NOT_DECOMPILED BOOL exEffectRingTask__Create(fx32 x, fx32 y, fx32 z, fx32 velX, fx32 velY, fx32 velZ);
+void exEffectRingTask__Main(void);
+void exEffectRingTask__Func8(void);
+void exEffectRingTask__Destructor(void);
+void exEffectRingTask__Main_Ring(void);
+void exEffectRingTask__Action_Collect(void);
+void exEffectRingTask__Main_Sparkle(void);
+BOOL exEffectRingTask__Create(fx32 x, fx32 y, fx32 z, fx32 velX, fx32 velY, fx32 velZ);
 
 // ExRingManager
-NOT_DECOMPILED void exEffectRingAdminTask__Main(void);
-NOT_DECOMPILED void exEffectRingAdminTask__Func8(void);
-NOT_DECOMPILED void exEffectRingAdminTask__Destructor(void);
-NOT_DECOMPILED void exEffectRingAdminTask__Main_Active(void);
-NOT_DECOMPILED void exEffectRingAdminTask__InitValues(void);
-NOT_DECOMPILED void exEffectRingAdminTask__Create(void);
-NOT_DECOMPILED void exEffectRingAdminTask__Destroy(void);
+void exEffectRingAdminTask__Main(void);
+void exEffectRingAdminTask__Func8(void);
+void exEffectRingAdminTask__Destructor(void);
+void exEffectRingAdminTask__Main_Active(void);
+void exEffectRingAdminTask__InitValues(void);
+void exEffectRingAdminTask__Create(void);
+void exEffectRingAdminTask__Destroy(void);
 
 #endif // RUSH_EXRINGMANAGER_H

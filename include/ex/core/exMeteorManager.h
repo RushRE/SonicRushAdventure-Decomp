@@ -62,6 +62,6 @@ NOT_DECOMPILED void exEffectMeteoAdminTask__Destructor(void);
 NOT_DECOMPILED void exEffectMeteoAdminTask__Main_Active(void);
 NOT_DECOMPILED void exEffectMeteoAdminTask__Func_2167F04(void);
 NOT_DECOMPILED void exEffectMeteoAdminTask__Create(void);
-NOT_DECOMPILED void exEffectMeteoAdminTask__Destroy_2168044(void);
+NOT_DECOMPILED void exEffectMeteoAdminTask__Destroy(void);
 
 #endif // RUSH_EXMETEORMANAGER_H

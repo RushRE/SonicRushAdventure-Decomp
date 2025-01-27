@@ -20,7 +20,7 @@ static Task *exGameSystemTaskSingleton;
 static void ExGameSystem_Main_Init(void);
 static void ExGameSystem_TaskUnknown(void);
 static void ExGameSystem_Destructor(void);
-static void ExGameSystem_Main_WaitForState4(void);
+static void ExGameSystem_Main_WaitForTitleCardDone(void);
 static void ExGameSystem_Action_WaitForBossTrigger(void);
 static void ExGameSystem_Main_WaitForBossTrigger(void);
 static void ExGameSystem_Action_CreateStageObjects(void);
@@ -50,7 +50,7 @@ void ExGameSystem_Main_Init(void)
 
     PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_ZONE_SEQ_SEQ_BOSSE);
 
-    SetCurrentExTaskMainEvent(ExGameSystem_Main_WaitForState4);
+    SetCurrentExTaskMainEvent(ExGameSystem_Main_WaitForTitleCardDone);
 }
 
 void ExGameSystem_TaskUnknown(void)
@@ -69,19 +69,19 @@ void ExGameSystem_Destructor(void)
 
     exEffectRingAdminTask__Destroy();
     ExBossSysAdminTask__Destroy();
-    exPlayerAdminTask__Destroy_2171730();
+    exPlayerAdminTask__Destroy();
     DestroyExStage();
-    exEffectMeteoAdminTask__Destroy_2168044();
+    exEffectMeteoAdminTask__Destroy();
 
     exGameSystemTaskSingleton = NULL;
 }
 
-void ExGameSystem_Main_WaitForState4(void)
+void ExGameSystem_Main_WaitForTitleCardDone(void)
 {
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
     UNUSED(work);
 
-    if (GetExSystemStatus()->state == EXSYSTASK_STATE_4)
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_TITLECARD_DONE)
     {
         ExGameSystem_Action_WaitForBossTrigger();
     }
@@ -148,7 +148,7 @@ void ExGameSystem_Action_StopSpawningMeteors(void)
 {
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
-    exEffectMeteoAdminTask__Destroy_2168044();
+    exEffectMeteoAdminTask__Destroy();
 
     work->timer = 0;
 

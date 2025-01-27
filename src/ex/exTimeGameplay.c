@@ -57,7 +57,7 @@ void ExTimeGameplay_Main_Active(void)
 
     if (GetExSystemStatus()->state != EXSYSTASK_STATE_11 && GetExSystemStatus()->state != EXSYSTASK_STATE_7 && GetExSystemStatus()->state != EXSYSTASK_STATE_9)
     {
-        if (GetExSystemStatus()->state >= EXSYSTASK_STATE_4)
+        if (GetExSystemStatus()->state >= EXSYSTASK_STATE_TITLECARD_DONE)
         {
             work->frameCounter += 1666.0f;
             work->time->centiseconds = work->frameCounter / 1000;
