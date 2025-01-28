@@ -54,7 +54,7 @@ typedef struct exFixBossLifeGaugeTask_
 
 typedef struct exFixRingTask_
 {
-    u16 ringLossTimer;
+    s16 ringLossTimer;
     Vec2Fx16 digit1Pos;
     Vec2Fx16 digit2Pos;
     Vec2Fx16 digit3Pos;

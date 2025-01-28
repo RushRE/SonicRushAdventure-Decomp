@@ -331,7 +331,7 @@ void ExRingCountHUD_Main_Init(void)
     exDrawReqTask__Func_21641F0(&work->aniRingBackdrop.config);
 
     u16 i;
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < ARRAY_COUNT(work->aniNumbers); i++)
     {
         work->aniNumbers[i].sprite.anim       = exHUDRingDigits1[i];
         work->aniNumbers[i].sprite.paletteRow = EX_ACTCOM_ANI_2;
@@ -344,7 +344,7 @@ void ExRingCountHUD_Main_Init(void)
         exDrawReqTask__Func_21641F0(&work->aniNumbers[i].config);
     }
 
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < ARRAY_COUNT(work->aniNumbersWarning); i++)
     {
         work->aniNumbersWarning[i].sprite.anim       = exHUDRingDigits2[i];
         work->aniNumbersWarning[i].sprite.paletteRow = PALETTE_ROW_2;
@@ -363,7 +363,7 @@ void ExRingCountHUD_Main_Init(void)
     work->digit2Pos.y   = 16;
     work->digit3Pos.x   = 43;
     work->digit3Pos.y   = 16;
-    work->ringLossTimer = 60;
+    work->ringLossTimer = SECONDS_TO_FRAMES(1.0);
 
     SetCurrentExTaskMainEvent(ExRingCountHUD_Main_Active);
 }
@@ -392,25 +392,25 @@ void ExRingCountHUD_Main_Active(void)
 {
     exFixRingTask *work = ExTaskGetWorkCurrent(exFixRingTask);
 
-    ExSysTaskStatus *status = exSysTask__GetStatus();
+    exSysTaskStatus *status = GetExSystemStatus();
 
     exDrawReqTask__Sprite2D__Animate(&work->aniRingBackdrop);
     exDrawReqTask__AddRequest(&work->aniRingBackdrop, &work->aniRingBackdrop.config);
 
-    if (exSysTask__GetStatus()->state != EXSYSTASK_STATE_11 && exSysTask__GetStatus()->state != EXSYSTASK_STATE_7 && exSysTask__GetStatus()->state != EXSYSTASK_STATE_9)
+    if (GetExSystemStatus()->state != EXSYSTASK_STATE_11 && GetExSystemStatus()->state != EXSYSTASK_STATE_7 && GetExSystemStatus()->state != EXSYSTASK_STATE_9)
     {
         if (status->rings != 0)
         {
             if (work->ringLossTimer-- < 0)
             {
-                work->ringLossTimer = 60;
-                if (exSysTask__GetStatus()->state != EXSYSTASK_STATE_11)
+                work->ringLossTimer = SECONDS_TO_FRAMES(1.0);
+                if (GetExSystemStatus()->state != EXSYSTASK_STATE_11)
                     status->rings--;
             }
         }
         else
         {
-            work->ringLossTimer = 60;
+            work->ringLossTimer = SECONDS_TO_FRAMES(1.0);
         }
     }
 
@@ -424,40 +424,40 @@ void ExRingCountHUD_Main_Active(void)
 
     if (digit1 == 0 && digit2 == 0)
     {
-        for (s16 i = 0; i < 10u; i++)
+        for (s16 i = 0; i < (u32)ARRAY_COUNT(work->aniNumbersWarning); i++)
         {
             exDrawReqTask__Sprite2D__Animate(&work->aniNumbersWarning[i]);
         }
 
-        work->aniNumbersWarning[digit1].pos.x = work->digit1Pos.x;
-        work->aniNumbersWarning[digit1].pos.y = work->digit1Pos.y;
+        work->aniNumbersWarning[digit1].sprite.pos.x = work->digit1Pos.x;
+        work->aniNumbersWarning[digit1].sprite.pos.y = work->digit1Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbersWarning[digit1], &work->aniNumbersWarning[digit1].config);
 
-        work->aniNumbersWarning[digit2].pos.x = work->digit2Pos.x;
-        work->aniNumbersWarning[digit2].pos.y = work->digit2Pos.y;
+        work->aniNumbersWarning[digit2].sprite.pos.x = work->digit2Pos.x;
+        work->aniNumbersWarning[digit2].sprite.pos.y = work->digit2Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbersWarning[digit2], &work->aniNumbersWarning[digit2].config);
 
-        work->aniNumbersWarning[digit3].pos.x = work->digit3Pos.x;
-        work->aniNumbersWarning[digit3].pos.y = work->digit3Pos.y;
+        work->aniNumbersWarning[digit3].sprite.pos.x = work->digit3Pos.x;
+        work->aniNumbersWarning[digit3].sprite.pos.y = work->digit3Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbersWarning[digit3], &work->aniNumbersWarning[digit3].config);
     }
     else
     {
-        for (s16 i = 0; i < 10u; i++)
+        for (s16 i = 0; i < (u32)ARRAY_COUNT(work->aniNumbers); i++)
         {
             exDrawReqTask__Sprite2D__Animate(&work->aniNumbers[i]);
         }
 
-        work->aniNumbers[digit1].pos.x = work->digit1Pos.x;
-        work->aniNumbers[digit1].pos.y = work->digit1Pos.y;
+        work->aniNumbers[digit1].sprite.pos.x = work->digit1Pos.x;
+        work->aniNumbers[digit1].sprite.pos.y = work->digit1Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbers[digit1], &work->aniNumbers[digit1].config);
 
-        work->aniNumbers[digit2].pos.x = work->digit2Pos.x;
-        work->aniNumbers[digit2].pos.y = work->digit2Pos.y;
+        work->aniNumbers[digit2].sprite.pos.x = work->digit2Pos.x;
+        work->aniNumbers[digit2].sprite.pos.y = work->digit2Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbers[digit2], &work->aniNumbers[digit2].config);
 
-        work->aniNumbers[digit3].pos.x = work->digit3Pos.x;
-        work->aniNumbers[digit3].pos.y = work->digit3Pos.y;
+        work->aniNumbers[digit3].sprite.pos.x = work->digit3Pos.x;
+        work->aniNumbers[digit3].sprite.pos.y = work->digit3Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbers[digit3], &work->aniNumbers[digit3].config);
     }
 
@@ -506,7 +506,7 @@ void ExLifeCountHUD_Main_Init(void)
     work->aniX.config.field_2.value_20 = TRUE;
     exDrawReqTask__Sprite2D__Func_2161B80(&work->aniX);
 
-    for (u16 i = 0; i < 10; i++)
+    for (u16 i = 0; i < ARRAY_COUNT(work->aniNumbers); i++)
     {
         work->aniNumbers[i].sprite.anim       = exHUDLifeDigits[i];
         work->aniNumbers[i].sprite.paletteRow = PALETTE_ROW_2;
@@ -538,7 +538,7 @@ void ExLifeCountHUD_Destructor(void)
 
     ReleaseExHUDSprite(&work->aniPlayerIcon);
     ReleaseExHUDSprite(&work->aniX);
-    for (u16 i = 0; i < 10; i++)
+    for (u16 i = 0; i < ARRAY_COUNT(work->aniNumbers); i++)
     {
         ReleaseExHUDSprite(&work->aniNumbers[i]);
     }
@@ -629,7 +629,7 @@ void ExBossLifeGaugeHUD_Main_Init(void)
     exDrawReqTask__Sprite2D__Func_2161B80(&work->aniCapR);
     work->aniCapR.sprite.animator.flags |= ANIMATOR_FLAG_FLIP_X;
 
-    for (s16 i = 0; i < 9; i++)
+    for (s16 i = 0; i < (s32)ARRAY_COUNT(work->aniLifeGauge); i++)
     {
         work->aniLifeGauge[i].sprite.anim       = i + EX_ACTCOM_ANI_BOSSGAUGE_BAR_0;
         work->aniLifeGauge[i].sprite.paletteRow = PALETTE_ROW_9;
@@ -663,7 +663,7 @@ void ExBossLifeGaugeHUD_Destructor(void)
     ReleaseExHUDSprite(&work->aniBossName);
     ReleaseExHUDSprite(&work->aniCapL);
     ReleaseExHUDSprite(&work->aniCapR);
-    for (u16 i = 0; i < 9; i++)
+    for (u16 i = 0; i < (s32)ARRAY_COUNT(work->aniLifeGauge); i++)
     {
         ReleaseExHUDSprite(&work->aniLifeGauge[i]);
     }
@@ -713,7 +713,7 @@ void ExBossLifeGaugeHUD_Main_HealthIdle(void)
     }
 
     s16 remainLifeAnim = 8 - work->healthSegmentPos;
-    for (i = 0; i < 9; i++)
+    for (i = 0; i < (s32)ARRAY_COUNT(work->aniLifeGauge); i++)
     {
         exDrawReqTask__Sprite2D__Animate(&work->aniLifeGauge[i]);
     }
@@ -784,7 +784,7 @@ void ExBossLifeGaugeHUD_Main_HealthChanging(void)
         }
 
         s16 remainLifeAnim = 8 - work->healthSegmentPos;
-        for (i = 0; i < 9; i++)
+        for (i = 0; i < (s32)ARRAY_COUNT(work->aniLifeGauge); i++)
         {
             exDrawReqTask__Sprite2D__Animate(&work->aniLifeGauge[i]);
         }

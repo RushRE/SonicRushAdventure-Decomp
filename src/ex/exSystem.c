@@ -542,9 +542,6 @@ void LoadExSystemAssets(exSysTask *work)
         case MI_COMPRESSION_RL:
         case MI_COMPRESSION_DIFF:
             break;
-
-        default:
-            break;
     }
 
     work->sndArc = NNS_SndHeapAlloc(audioManagerSndHeap, 0x57800, NULL, 0, 0);
