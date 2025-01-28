@@ -71,7 +71,7 @@ void ExGameSystem_Destructor(void)
     ExBossSysAdminTask__Destroy();
     exPlayerAdminTask__Destroy();
     DestroyExStage();
-    exEffectMeteoAdminTask__Destroy();
+    DestroyExMeteorManager();
 
     exGameSystemTaskSingleton = NULL;
 }
@@ -121,7 +121,7 @@ void ExGameSystem_Action_CreateStageObjects(void)
 {
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
-    exEffectMeteoAdminTask__Create();
+    CreateExMeteorManager();
     CreateExRingManager();
 
     work->timer = SECONDS_TO_FRAMES(15.0);
@@ -148,7 +148,7 @@ void ExGameSystem_Action_StopSpawningMeteors(void)
 {
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
-    exEffectMeteoAdminTask__Destroy();
+    DestroyExMeteorManager();
 
     work->timer = 0;
 

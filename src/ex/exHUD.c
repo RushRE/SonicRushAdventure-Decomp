@@ -388,26 +388,23 @@ void ExRingCountHUD_Destructor(void)
     exHUDRingTaskSingleton = NULL;
 }
 
-NONMATCH_FUNC void ExRingCountHUD_Main_Active(void)
+void ExRingCountHUD_Main_Active(void)
 {
-    // https://decomp.me/scratch/0a5N6 -> 88.08%
-    // issues near `status->rings % 10` calculations
-#ifdef NON_MATCHING
     exFixRingTask *work = ExTaskGetWorkCurrent(exFixRingTask);
 
-    exSysTaskStatus *status = GetExSystemStatus();
+    ExSysTaskStatus *status = exSysTask__GetStatus();
 
     exDrawReqTask__Sprite2D__Animate(&work->aniRingBackdrop);
     exDrawReqTask__AddRequest(&work->aniRingBackdrop, &work->aniRingBackdrop.config);
 
-    if (GetExSystemStatus()->state != EXSYSTASK_STATE_11 && GetExSystemStatus()->state != EXSYSTASK_STATE_7 && GetExSystemStatus()->state != EXSYSTASK_STATE_9)
+    if (exSysTask__GetStatus()->state != EXSYSTASK_STATE_11 && exSysTask__GetStatus()->state != EXSYSTASK_STATE_7 && exSysTask__GetStatus()->state != EXSYSTASK_STATE_9)
     {
         if (status->rings != 0)
         {
             if (work->ringLossTimer-- < 0)
             {
                 work->ringLossTimer = 60;
-                if (GetExSystemStatus()->state != EXSYSTASK_STATE_11)
+                if (exSysTask__GetStatus()->state != EXSYSTASK_STATE_11)
                     status->rings--;
             }
         }
@@ -417,9 +414,13 @@ NONMATCH_FUNC void ExRingCountHUD_Main_Active(void)
         }
     }
 
-    s32 digit3 = status->rings % 10;
-    s32 digit2 = (s32)(-100 * (status->rings / 100) - -10 * (status->rings / 10)) / 10;
-    s32 digit1 = (s32)(-1000 * (status->rings / 1000) - (-10 * (status->rings / 10) + digit2)) / 100;
+    s32 digit1;
+    s32 digit2;
+    s32 digit3;
+
+    digit3 = status->rings % 10;
+    digit2 = (status->rings % 100 - digit3) / 10;
+    digit1 = (status->rings % 1000 - (digit3 + digit2)) / 100;
 
     if (digit1 == 0 && digit2 == 0)
     {
@@ -428,16 +429,16 @@ NONMATCH_FUNC void ExRingCountHUD_Main_Active(void)
             exDrawReqTask__Sprite2D__Animate(&work->aniNumbersWarning[i]);
         }
 
-        work->aniNumbersWarning[digit1].sprite.pos.x = work->digit1Pos.x;
-        work->aniNumbersWarning[digit1].sprite.pos.y = work->digit1Pos.y;
+        work->aniNumbersWarning[digit1].pos.x = work->digit1Pos.x;
+        work->aniNumbersWarning[digit1].pos.y = work->digit1Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbersWarning[digit1], &work->aniNumbersWarning[digit1].config);
 
-        work->aniNumbersWarning[digit2].sprite.pos.x = work->digit2Pos.x;
-        work->aniNumbersWarning[digit2].sprite.pos.y = work->digit2Pos.y;
+        work->aniNumbersWarning[digit2].pos.x = work->digit2Pos.x;
+        work->aniNumbersWarning[digit2].pos.y = work->digit2Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbersWarning[digit2], &work->aniNumbersWarning[digit2].config);
 
-        work->aniNumbersWarning[digit3].sprite.pos.x = work->digit3Pos.x;
-        work->aniNumbersWarning[digit3].sprite.pos.y = work->digit3Pos.y;
+        work->aniNumbersWarning[digit3].pos.x = work->digit3Pos.x;
+        work->aniNumbersWarning[digit3].pos.y = work->digit3Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbersWarning[digit3], &work->aniNumbersWarning[digit3].config);
     }
     else
@@ -447,213 +448,20 @@ NONMATCH_FUNC void ExRingCountHUD_Main_Active(void)
             exDrawReqTask__Sprite2D__Animate(&work->aniNumbers[i]);
         }
 
-        work->aniNumbers[digit1].sprite.pos.x = work->digit1Pos.x;
-        work->aniNumbers[digit1].sprite.pos.y = work->digit1Pos.y;
+        work->aniNumbers[digit1].pos.x = work->digit1Pos.x;
+        work->aniNumbers[digit1].pos.y = work->digit1Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbers[digit1], &work->aniNumbers[digit1].config);
 
-        work->aniNumbers[digit2].sprite.pos.x = work->digit2Pos.x;
-        work->aniNumbers[digit2].sprite.pos.y = work->digit2Pos.y;
+        work->aniNumbers[digit2].pos.x = work->digit2Pos.x;
+        work->aniNumbers[digit2].pos.y = work->digit2Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbers[digit2], &work->aniNumbers[digit2].config);
 
-        work->aniNumbers[digit3].sprite.pos.x = work->digit3Pos.x;
-        work->aniNumbers[digit3].sprite.pos.y = work->digit3Pos.y;
+        work->aniNumbers[digit3].pos.x = work->digit3Pos.x;
+        work->aniNumbers[digit3].pos.y = work->digit3Pos.y;
         exDrawReqTask__AddRequest(&work->aniNumbers[digit3], &work->aniNumbers[digit3].config);
     }
 
     RunCurrentExTaskUnknownEvent();
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	bl GetExSystemStatus
-	mov r5, r0
-	add r0, r4, #0x10
-	bl exDrawReqTask__Sprite2D__Animate
-	add r0, r4, #0x10
-	add r1, r4, #0x90
-	bl exDrawReqTask__AddRequest
-	bl GetExSystemStatus
-	ldrb r0, [r0, #3]
-	cmp r0, #0xb
-	beq _02169AD4
-	bl GetExSystemStatus
-	ldrb r0, [r0, #3]
-	cmp r0, #7
-	beq _02169AD4
-	bl GetExSystemStatus
-	ldrb r0, [r0, #3]
-	cmp r0, #9
-	beq _02169AD4
-	ldrh r0, [r5, #6]
-	cmp r0, #0
-	beq _02169ACC
-	ldrsh r1, [r4, #0]
-	sub r0, r1, #1
-	strh r0, [r4]
-	cmp r1, #0
-	bge _02169AD4
-	mov r0, #0x3c
-	strh r0, [r4]
-	bl GetExSystemStatus
-	ldrb r0, [r0, #3]
-	cmp r0, #0xb
-	beq _02169AD4
-	ldrh r0, [r5, #6]
-	sub r0, r0, #1
-	strh r0, [r5, #6]
-	b _02169AD4
-_02169ACC:
-	mov r0, #0x3c
-	strh r0, [r4]
-_02169AD4:
-	ldrh ip, [r5, #6]
-	ldr r0, =0x66666667
-	ldr r2, =0x51EB851F
-	smull r3, r6, r0, ip
-	smull r3, r5, r2, ip
-	mov r1, ip, lsr #0x1f
-	ldr r8, =0x10624DD3
-	add r6, r1, r6, asr #2
-	mov r7, #0xa
-	smull r6, r3, r7, r6
-	smull r7, r3, r8, ip
-	add r5, r1, r5, asr #5
-	mov r8, #0x64
-	smull r5, r7, r8, r5
-	add r3, r1, r3, asr #6
-	mov r8, #0x3e8
-	sub r6, ip, r6
-	sub r5, ip, r5
-	smull r7, r1, r8, r3
-	sub r3, r5, r6
-	mov r1, r3, lsr #0x1f
-	smull r3, r5, r0, r3
-	add r5, r1, r5, asr #2
-	sub r3, ip, r7
-	add r0, r6, r5
-	sub r1, r3, r0
-	smull r0, r7, r2, r1
-	mov r0, r1, lsr #0x1f
-	adds r7, r0, r7, asr #5
-	cmpeq r5, #0
-	mov r9, #0
-	bne _02169C34
-	add r0, r4, #0x1e8
-	add r8, r0, #0x400
-_02169B5C:
-	mov r0, r8
-	bl exDrawReqTask__Sprite2D__Animate
-	add r0, r9, #1
-	mov r0, r0, lsl #0x10
-	mov r9, r0, asr #0x10
-	cmp r9, #0xa
-	add r8, r8, #0x88
-	blo _02169B5C
-	mov r0, #0x88
-	mul r1, r7, r0
-	add r0, r4, r1
-	ldrsh r3, [r4, #2]
-	add r2, r0, #0x600
-	add r0, r4, #0x1e8
-	strh r3, [r2, #0x50]
-	add r3, r4, #0x268
-	ldrsh r7, [r4, #4]
-	add r0, r0, #0x400
-	add r3, r3, #0x400
-	add r0, r0, r1
-	add r1, r3, r1
-	strh r7, [r2, #0x52]
-	bl exDrawReqTask__AddRequest
-	mov r0, #0x88
-	mul r7, r5, r0
-	add r2, r4, r7
-	add r0, r4, #0x1e8
-	add r1, r4, #0x268
-	add r0, r0, #0x400
-	add r1, r1, #0x400
-	ldrsh r3, [r4, #6]
-	add r2, r2, #0x600
-	add r0, r0, r7
-	strh r3, [r2, #0x50]
-	ldrsh r3, [r4, #8]
-	add r1, r1, r7
-	strh r3, [r2, #0x52]
-	bl exDrawReqTask__AddRequest
-	mov r0, #0x88
-	mul r5, r6, r0
-	add r2, r4, r5
-	add r0, r4, #0x1e8
-	add r1, r4, #0x268
-	add r0, r0, #0x400
-	add r1, r1, #0x400
-	ldrsh r3, [r4, #0xa]
-	add r2, r2, #0x600
-	add r0, r0, r5
-	strh r3, [r2, #0x50]
-	ldrsh r3, [r4, #0xc]
-	add r1, r1, r5
-	strh r3, [r2, #0x52]
-	bl exDrawReqTask__AddRequest
-	b _02169CF4
-_02169C34:
-	add r8, r4, #0x98
-_02169C38:
-	mov r0, r8
-	bl exDrawReqTask__Sprite2D__Animate
-	add r0, r9, #1
-	mov r0, r0, lsl #0x10
-	mov r9, r0, asr #0x10
-	cmp r9, #0xa
-	add r8, r8, #0x88
-	blo _02169C38
-	mov r0, #0x88
-	mul r8, r7, r0
-	add r0, r4, r8
-	ldrsh r1, [r4, #2]
-	add r2, r0, #0x100
-	add r0, r4, #0x98
-	strh r1, [r2]
-	ldrsh r3, [r4, #4]
-	add r1, r4, #0x118
-	add r0, r0, r8
-	add r1, r1, r8
-	strh r3, [r2, #2]
-	bl exDrawReqTask__AddRequest
-	mov r0, #0x88
-	mul r7, r5, r0
-	add r2, r4, r7
-	add r0, r4, #0x98
-	add r1, r4, #0x118
-	ldrsh r3, [r4, #6]
-	add r2, r2, #0x100
-	add r0, r0, r7
-	strh r3, [r2]
-	ldrsh r3, [r4, #8]
-	add r1, r1, r7
-	strh r3, [r2, #2]
-	bl exDrawReqTask__AddRequest
-	mov r0, #0x88
-	mul r5, r6, r0
-	add r2, r4, r5
-	add r0, r4, #0x98
-	add r1, r4, #0x118
-	ldrsh r3, [r4, #0xa]
-	add r2, r2, #0x100
-	add r0, r0, r5
-	strh r3, [r2]
-	ldrsh r3, [r4, #0xc]
-	add r1, r1, r5
-	strh r3, [r2, #2]
-	bl exDrawReqTask__AddRequest
-_02169CF4:
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, pc}
-
-// clang-format on
-#endif
 }
 
 BOOL CreateExRingCountHUD(void)

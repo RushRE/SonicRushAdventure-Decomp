@@ -7,6 +7,33 @@
 #include <resources/extra/ex/ex_com.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum ExRingConfigFlags
+{
+    EXRINGCONFIG_SPAWN_NONE = 0x00,
+
+    EXRINGCONFIG_SPAWN_L8 = 1 << 0,
+    EXRINGCONFIG_SPAWN_L7 = 1 << 1,
+    EXRINGCONFIG_SPAWN_L6 = 1 << 2,
+    EXRINGCONFIG_SPAWN_L5 = 1 << 3,
+    EXRINGCONFIG_SPAWN_L4 = 1 << 4,
+    EXRINGCONFIG_SPAWN_L3 = 1 << 5,
+    EXRINGCONFIG_SPAWN_L2 = 1 << 6,
+    EXRINGCONFIG_SPAWN_L1 = 1 << 7,
+
+    EXRINGCONFIG_SPAWN_R1 = 1 << 8,
+    EXRINGCONFIG_SPAWN_R2 = 1 << 9,
+    EXRINGCONFIG_SPAWN_R3 = 1 << 10,
+    EXRINGCONFIG_SPAWN_R4 = 1 << 11,
+    EXRINGCONFIG_SPAWN_R5 = 1 << 12,
+    EXRINGCONFIG_SPAWN_R6 = 1 << 13,
+    EXRINGCONFIG_SPAWN_R7 = 1 << 14,
+    EXRINGCONFIG_SPAWN_R8 = 1 << 15,
+};
+
+// --------------------
 // VARIABLES
 // --------------------
 
@@ -20,49 +47,49 @@ static AnimatorSprite3D exRingAnimator;
 static struct exRingConfig exRingSpawnTable2_Normal[] = {
     {
         .spawnDelay     = 120,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = SECONDS_TO_FRAMES(60.0),
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 };
@@ -70,49 +97,49 @@ static struct exRingConfig exRingSpawnTable2_Normal[] = {
 static struct exRingConfig exRingSpawnTable4_Normal[] = {
     {
         .spawnDelay     = 120,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = SECONDS_TO_FRAMES(60.0),
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 };
@@ -120,67 +147,67 @@ static struct exRingConfig exRingSpawnTable4_Normal[] = {
 static struct exRingConfig exRingSpawnTable2_Easy[] = {
     {
         .spawnDelay     = 80,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = SECONDS_TO_FRAMES(60.0),
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 };
@@ -188,67 +215,67 @@ static struct exRingConfig exRingSpawnTable2_Easy[] = {
 static struct exRingConfig exRingSpawnTable4_Easy[] = {
     {
         .spawnDelay     = 80,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = SECONDS_TO_FRAMES(60.0),
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 };
@@ -256,277 +283,277 @@ static struct exRingConfig exRingSpawnTable4_Easy[] = {
 static struct exRingConfig exRingSpawnTable3_Easy[] = {
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 270,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 240,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 360,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 };
@@ -534,277 +561,277 @@ static struct exRingConfig exRingSpawnTable3_Easy[] = {
 static struct exRingConfig exRingSpawnTable1_Normal[] = {
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 270,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 240,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 360,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 };
@@ -812,277 +839,277 @@ static struct exRingConfig exRingSpawnTable1_Normal[] = {
 static struct exRingConfig exRingSpawnTable3_Normal[] = {
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 270,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 240,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 360,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 };
@@ -1090,277 +1117,277 @@ static struct exRingConfig exRingSpawnTable3_Normal[] = {
 static struct exRingConfig exRingSpawnTable5_Normal[] = {
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 270,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 240,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 360,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 };
@@ -1368,277 +1395,277 @@ static struct exRingConfig exRingSpawnTable5_Normal[] = {
 static struct exRingConfig exRingSpawnTable5_Easy[] = {
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 270,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 240,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 360,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 };
@@ -1646,277 +1673,277 @@ static struct exRingConfig exRingSpawnTable5_Easy[] = {
 static struct exRingConfig exRingSpawnTable1_Easy[] = {
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 270,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7 | EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 240,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 360,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L2,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R7 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 300,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L5,
     },
 
     {
         .spawnDelay     = 330,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 };
@@ -1924,409 +1951,409 @@ static struct exRingConfig exRingSpawnTable1_Easy[] = {
 static struct exRingConfig exRingSpawnTable0_Easy[] = {
     {
         .spawnDelay     = 0,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1 | EXRINGCONFIG_SPAWN_R1,
     },
 
     {
         .spawnDelay     = 120,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L8 | EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L8 | EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L8 | EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R2,
     },
 
     {
         .spawnDelay     = 15,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R3 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R3 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4 | EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4 | EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4 | EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = SECONDS_TO_FRAMES(60.0),
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 };
@@ -2334,409 +2361,409 @@ static struct exRingConfig exRingSpawnTable0_Easy[] = {
 static struct exRingConfig exRingSpawnTable0_Normal[] = {
     {
         .spawnDelay     = 0,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L3,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L1,
     },
 
     {
         .spawnDelay     = 120,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R5,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L6,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L8 | EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L8 | EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L8 | EXRINGCONFIG_SPAWN_L7,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R2,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R2,
     },
 
     {
         .spawnDelay     = 15,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 60,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R3,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R3 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R3 | EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 30,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R8,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_R4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = 5,
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_L4,
     },
 
     {
         .spawnDelay     = SECONDS_TO_FRAMES(60.0),
-        .velocity        = 1.0f,
+        .velocity       = 1.0f,
         .spawnPos.field = EXRINGCONFIG_SPAWN_NONE,
     },
 };
@@ -3024,20 +3051,17 @@ BOOL CreateExRing(VecFx32 position, VecFx32 velocity)
         work->active = FALSE;
         return TRUE;
     }
-    else
-    {
-        work->active = TRUE;
-        exDrawReqTask__SetConfigPriority(&work->aniRing.config, 0xA800);
-        exDrawReqTask__Func_2164218(&work->aniRing.config);
-        work->aniRing.sprite.translation.x = position.x;
-        work->aniRing.sprite.translation.y = position.y;
-        work->velocity.x                   = velocity.x;
-        work->velocity.y                   = velocity.y;
-        work->velocity.z                   = velocity.z;
-        return TRUE;
-    }
 
-    return FALSE;
+    work->active = TRUE;
+    exDrawReqTask__SetConfigPriority(&work->aniRing.config, 0xA800);
+    exDrawReqTask__Func_2164218(&work->aniRing.config);
+    work->aniRing.sprite.translation.x = position.x;
+    work->aniRing.sprite.translation.y = position.y;
+    work->velocity.x                   = velocity.x;
+    work->velocity.y                   = velocity.y;
+    work->velocity.z                   = velocity.z;
+
+    return TRUE;
 }
 
 // ExRingManager

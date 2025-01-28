@@ -208,7 +208,7 @@ NOT_DECOMPILED void exDrawReqTask__Model__Animate(EX_ACTION_NN_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Model__Draw(EX_ACTION_NN_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Model__HandleLighting(EX_ACTION_NN_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Model__ProcessRequest(EX_ACTION_NN_WORK *work);
-NOT_DECOMPILED void exDrawReqTask__Model__IsAnimFinished(EX_ACTION_NN_WORK *work);
+NOT_DECOMPILED BOOL exDrawReqTask__Model__IsAnimFinished(EX_ACTION_NN_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__InitTrail(EX_ACTION_TRAIL_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail6(EX_ACTION_TRAIL_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail5(EX_ACTION_TRAIL_WORK *work);
