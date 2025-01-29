@@ -600,7 +600,7 @@ void ExBossLifeGaugeHUD_Main_Init(void)
 
     exHUDBossGaugeTaskSingleton = GetCurrentTask();
 
-    work->boss                          = ExBossSysAdminTask__GetBossWork();
+    work->boss                          = exBossSysAdminTask__GetBossWork();
     work->aniBossName.sprite.anim       = EX_ACTCOM_ANI_BOSSGAUGE_NAME;
     work->aniBossName.sprite.paletteRow = PALETTE_ROW_9;
     SetupExHUDSprite(&work->aniBossName);

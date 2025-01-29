@@ -1,5 +1,12 @@
 #include <ex/boss/exBossFireRed.h>
 #include <ex/boss/exBossFireBlue.h>
+#include <ex/boss/exBossFireAttack.h>
+#include <ex/boss/exBossHelpers.h>
+#include <ex/boss/exBossFireDragon.h>
+#include <ex/boss/exBossHomingLaser.h>
+#include <ex/effects/exBossFireballEffect.h>
+#include <ex/effects/exBossFireballShotEffect.h>
+#include <ex/effects/exBossHomingEffect.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <ex/system/exSystem.h>
 #include <game/audio/audioSystem.h>
@@ -29,8 +36,8 @@ static u32 fireballBlueTextureFileSize;
 static u32 fireballBlueModelFileSize;
 static void *fireballRedAnimResource[4];
 static void *fireballBlueAnimResource[4];
-static u32 fireballBlueAnimType[4];
-static u32 fireballRedAnimType[4];
+static B3DAnimationTypes fireballBlueAnimType[4];
+static B3DAnimationTypes fireballRedAnimType[4];
 
 // force linkage of variables with no apparent references
 FORCE_INCLUDE_VARIABLE_BSS(fireballRedUnused)
@@ -328,8 +335,8 @@ void ExBossFireBlue_Action_Repelled(void)
     exBossFireBlueTask *work = ExTaskGetWorkCurrent(exBossFireBlueTask);
 
     work->animator.hitChecker.hitFlags.value_1 = FALSE;
-    work->animator.hitChecker.field_4.value_2 = TRUE;
-    work->velocity.x = 0;
+    work->animator.hitChecker.field_4.value_2  = TRUE;
+    work->velocity.x                           = 0;
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
@@ -677,8 +684,8 @@ void ExBossFireRed_Action_Repelled(void)
     exBossFireRedTask *work = ExTaskGetWorkCurrent(exBossFireRedTask);
 
     work->animator.hitChecker.hitFlags.value_1 = FALSE;
-    work->animator.hitChecker.field_4.value_2 = TRUE;
-    work->velocity.x = 0;
+    work->animator.hitChecker.field_4.value_2  = TRUE;
+    work->velocity.x                           = 0;
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
@@ -769,4 +776,393 @@ BOOL CreateExBossFireRed(void)
     SetExTaskUnknownEvent(task, ExBossFireRed_TaskUnknown);
 
     return TRUE;
+}
+
+// ExBoss
+void exBossSysAdminTask__Action_StartFire0(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    exBossEffectFireBallTask__Create();
+
+    PlayStageVoiceClip(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_E_KURAE);
+
+    exBossHelpers__SetAnimation(&work->aniBoss, bse_body_fire0);
+    exDrawReqTask__Func_21641F0(&work->aniBoss.config);
+
+    SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_StartFire0);
+    exBossSysAdminTask__Main_StartFire0();
+}
+
+void exBossSysAdminTask__Main_StartFire0(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    exDrawReqTask__Model__Animate(&work->aniBoss);
+
+    if (work->aniBoss.model.field_328->frame >= FLOAT_TO_FX32(15.0))
+    {
+        PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_PREPARE);
+
+        SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_FinishFire0);
+        exBossSysAdminTask__Main_FinishFire0();
+    }
+    else
+    {
+        exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+
+        RunCurrentExTaskUnknownEvent();
+    }
+}
+
+void exBossSysAdminTask__Main_FinishFire0(void)
+{
+    exBossSysAdminTask *work = ExTaskGetWorkCurrent(exBossSysAdminTask);
+
+    exDrawReqTask__Model__Animate(&work->aniBoss);
+
+    if (exDrawReqTask__Model__IsAnimFinished(&work->aniBoss))
+    {
+        exBossSysAdminTask__Action_StartFire1();
+    }
+    else
+    {
+        exHitCheckTask__AddHitCheck(&work->aniBoss.hitChecker);
+        exDrawReqTask__AddRequest(&work->aniBoss, &work->aniBoss.config);
+
+        RunCurrentExTaskUnknownEvent();
+    }
+}
+
+NONMATCH_FUNC void exBossSysAdminTask__Action_StartFire1(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	mov r1, #5
+	bl exBossHelpers__SetAnimation
+	add r0, r4, #0x3f8
+	bl exDrawReqTask__Func_21641F0
+	bl exBossEffectHomingTask__Func_2156D6C
+	mov r0, #0
+	strh r0, [r4, #0x44]
+	bl GetExTaskCurrent
+	ldr r1, =exBossSysAdminTask__Main_Fire1
+	str r1, [r0]
+	bl exBossSysAdminTask__Main_Fire1
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exBossSysAdminTask__Main_Fire1(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	bl exPlayerAdminTask__Func_217175C
+	ldr r1, [r0, #0]
+	ldr ip, [r4, #0x48]
+	ldr r0, =0x0000019A
+	sub r2, r1, ip
+	umull r5, r3, r2, r0
+	mov r1, #0
+	mla r3, r2, r1, r3
+	mov r1, r2, asr #0x1f
+	mla r3, r1, r0, r3
+	adds r5, r5, #0x800
+	adc r0, r3, #0
+	mov r1, r5, lsr #0xc
+	orr r1, r1, r0, lsl #20
+	add r0, ip, r1
+	str r0, [r4, #0x48]
+	bl exPlayerAdminTask__Func_217175C
+	ldr r0, [r0, #4]
+	ldr r5, [r4, #0x4c]
+	mov r1, #0
+	sub r3, r0, r5
+	ldr r0, =0x0000019A
+	mov r2, r3, asr #0x1f
+	umull lr, ip, r3, r0
+	mla ip, r3, r1, ip
+	adds r1, lr, #0x800
+	mla ip, r2, r0, ip
+	adc r0, ip, #0
+	mov r1, r1, lsr #0xc
+	orr r1, r1, r0, lsl #20
+	add r3, r5, r1
+	str r3, [r4, #0x4c]
+	ldr r1, [r4, #0x3c0]
+	ldr r2, [r4, #0x48]
+	ldr r0, [r4, #0x3bc]
+	sub r1, r1, r3
+	sub r0, r2, r0
+	bl exPlayerHelpers__Func_2152E28
+	add r1, r4, #0x300
+	strh r0, [r1, #0xb8]
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__IsAnimFinished
+	cmp r0, #0
+	beq _02159A28
+	bl exBossSysAdminTask__Action_StartFire2
+	ldmia sp!, {r3, r4, r5, pc}
+_02159A28:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl GetExTaskCurrent
+	ldr r0, [r0, #8]
+	blx r0
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exBossSysAdminTask__Action_StartFire2(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	mov r1, #6
+	bl exBossHelpers__SetAnimation
+	add r0, r4, #0x3f8
+	bl exDrawReqTask__Func_21641F0
+	bl exBossEffectFireBallShotTask__Create
+	ldr r2, =_mt_math_rand
+	ldr r0, =0x00196225
+	ldr r3, [r2, #0]
+	ldr r1, =0x3C6EF35F
+	mla ip, r3, r0, r1
+	mov r0, ip, lsr #0x10
+	mov r0, r0, lsl #0x10
+	mov r0, r0, lsr #0x10
+	mov r1, r0, lsr #0x1f
+	rsb r0, r1, r0, lsl #31
+	str ip, [r2]
+	adds r0, r1, r0, ror #31
+	beq _02159AB0
+	bl CreateExBossFireRed
+	b _02159AB4
+_02159AB0:
+	bl CreateExBossFireBlue
+_02159AB4:
+	bl GetExTaskCurrent
+	ldr r1, =exBossSysAdminTask__Main_Fire2
+	str r1, [r0]
+	bl exBossSysAdminTask__Main_Fire2
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exBossSysAdminTask__Main_Fire2(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, r4, r5, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	bl exPlayerAdminTask__Func_217175C
+	ldr r1, [r0, #0]
+	ldr ip, [r4, #0x48]
+	ldr r0, =0x0000019A
+	sub r2, r1, ip
+	umull r5, r3, r2, r0
+	mov r1, #0
+	mla r3, r2, r1, r3
+	mov r1, r2, asr #0x1f
+	mla r3, r1, r0, r3
+	adds r5, r5, #0x800
+	adc r0, r3, #0
+	mov r1, r5, lsr #0xc
+	orr r1, r1, r0, lsl #20
+	add r0, ip, r1
+	str r0, [r4, #0x48]
+	bl exPlayerAdminTask__Func_217175C
+	ldr r0, [r0, #4]
+	ldr r5, [r4, #0x4c]
+	mov r1, #0
+	sub r3, r0, r5
+	ldr r0, =0x0000019A
+	mov r2, r3, asr #0x1f
+	umull lr, ip, r3, r0
+	mla ip, r3, r1, ip
+	adds r1, lr, #0x800
+	mla ip, r2, r0, ip
+	adc r0, ip, #0
+	mov r1, r1, lsr #0xc
+	orr r1, r1, r0, lsl #20
+	add r3, r5, r1
+	str r3, [r4, #0x4c]
+	ldr r1, [r4, #0x3c0]
+	ldr r2, [r4, #0x48]
+	ldr r0, [r4, #0x3bc]
+	sub r1, r1, r3
+	sub r0, r2, r0
+	bl exPlayerHelpers__Func_2152E28
+	add r1, r4, #0x300
+	strh r0, [r1, #0xb8]
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__IsAnimFinished
+	cmp r0, #0
+	beq _02159BA4
+	bl exBossSysAdminTask__HandleFireShoot
+	ldmia sp!, {r3, r4, r5, pc}
+_02159BA4:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl GetExTaskCurrent
+	ldr r0, [r0, #8]
+	blx r0
+	ldmia sp!, {r3, r4, r5, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exBossSysAdminTask__HandleFireShoot(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	bl exBossFireDoraTask__AnyActive
+	cmp r0, #0
+	bne _02159C10
+	bl exBossHomingLaserTask__Func_2159E14
+	cmp r0, #0
+	bne _02159C10
+	ldrsh r0, [r4, #0x44]
+	add r0, r0, #1
+	strh r0, [r4, #0x44]
+	ldrsh r0, [r4, #0x44]
+	cmp r0, #5
+	bge _02159C30
+	bl exBossSysAdminTask__Action_StartFire2
+	ldmia sp!, {r4, pc}
+_02159C10:
+	ldrsh r0, [r4, #0x44]
+	add r0, r0, #1
+	strh r0, [r4, #0x44]
+	ldrsh r0, [r4, #0x44]
+	cmp r0, #3
+	bge _02159C30
+	bl exBossSysAdminTask__Action_StartFire2
+	ldmia sp!, {r4, pc}
+_02159C30:
+	bl exBossEffectFireBallTask__Func_2156594
+	mov r0, #0
+	strh r0, [r4, #0x44]
+	bl exBossSysAdminTask__Action_StartFire4
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exBossSysAdminTask__Action_StartFire4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r2, r4, #0x300
+	mov r3, #0
+	add r0, r4, #0x6c
+	mov r1, #8
+	strh r3, [r2, #0xb8]
+	bl exBossHelpers__SetAnimation
+	add r0, r4, #0x3f8
+	bl exDrawReqTask__Func_21641F0
+	bl GetExTaskCurrent
+	ldr r1, =exBossSysAdminTask__Main_Fire4
+	str r1, [r0]
+	bl exBossSysAdminTask__Main_Fire4
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exBossSysAdminTask__Main_Fire4(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__IsAnimFinished
+	cmp r0, #0
+	beq _02159CB4
+	bl exBossSysAdminTask__Action_FinishFireballAttack
+	ldmia sp!, {r4, pc}
+_02159CB4:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl GetExTaskCurrent
+	ldr r0, [r0, #8]
+	blx r0
+	ldmia sp!, {r4, pc}
+
+// clang-format on
+#endif
+}
+
+NONMATCH_FUNC void exBossSysAdminTask__Action_FinishFireballAttack(void)
+{
+#ifdef NON_MATCHING
+
+#else
+    // clang-format off
+	stmdb sp!, {r3, lr}
+	bl GetExTaskWorkCurrent_
+	ldr r0, [r0, #0x548]
+	blx r0
+	ldmia sp!, {r3, pc}
+
+// clang-format on
+#endif
 }

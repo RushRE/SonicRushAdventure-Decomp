@@ -381,7 +381,7 @@ exBossEffectFireTask__Func_2157F18: // 0x02157F18
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl ExBossSysAdminTask__GetSingleton
+	bl exBossSysAdminTask__GetSingleton
 	cmp r0, #0
 	bne _02157F48
 	bl GetExTaskCurrent
@@ -442,7 +442,7 @@ exBossEffectFireTask__Func_2157FDC: // 0x02157FDC
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl ExBossSysAdminTask__GetSingleton
+	bl exBossSysAdminTask__GetSingleton
 	cmp r0, #0
 	bne _0215800C
 	bl GetExTaskCurrent
@@ -504,7 +504,7 @@ exBossEffectFireTask__Func_21580A4: // 0x021580A4
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl ExBossSysAdminTask__GetSingleton
+	bl exBossSysAdminTask__GetSingleton
 	cmp r0, #0
 	bne _021580D4
 	bl GetExTaskCurrent
@@ -580,15 +580,15 @@ _021581B8: .word exBossEffectFireTask__Destructor
 _021581BC: .word exBossEffectFireTask__Func8
 	arm_func_end exBossEffectFireTask__Create
 
-	arm_func_start exBossFireBlueTask__BossFunc_21581C0
-exBossFireBlueTask__BossFunc_21581C0: // 0x021581C0
+	arm_func_start exBossEffectFireTask__Func_21581C0
+exBossEffectFireTask__Func_21581C0: // 0x021581C0
 	ldr r0, _021581D0 // =0x02175FC4
 	mov r1, #0
 	str r1, [r0, #0x20]
 	bx lr
 	.align 2, 0
 _021581D0: .word 0x02175FC4
-	arm_func_end exBossFireBlueTask__BossFunc_21581C0
+	arm_func_end exBossEffectFireTask__Func_21581C0
 
 	.data
 	

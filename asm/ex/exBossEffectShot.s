@@ -295,7 +295,7 @@ exBossEffectShotTask__Func_215790C: // 0x0215790C
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl ExBossSysAdminTask__GetSingleton
+	bl exBossSysAdminTask__GetSingleton
 	cmp r0, #0
 	bne _0215793C
 	bl GetExTaskCurrent

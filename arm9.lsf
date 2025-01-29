@@ -743,7 +743,7 @@ Overlay ExBoss
 {
     After arm9
     Object asm/ex/exPlayerHelpers.o
-    Object asm/ex/exBlzDushEffect.o
+    Object src/ex/exBlazeDashEffect.o
     Object asm/ex/exBossHelpers.o
     Object asm/ex/exBossFireDora.o
     Object asm/ex/exBossEffectHit.o

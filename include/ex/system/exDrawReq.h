@@ -156,23 +156,6 @@ typedef struct EX_ACTION_TRAIL_WORK_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void exDrawFadeTask__BossMain_216078C(void);
-NOT_DECOMPILED void sub_21607EC(void);
-NOT_DECOMPILED void sub_216083C(void);
-NOT_DECOMPILED void sub_2160874(void);
-NOT_DECOMPILED void sub_21608C4(void);
-NOT_DECOMPILED void sub_2160904(void);
-NOT_DECOMPILED void sub_21609D8(void);
-NOT_DECOMPILED void sub_2160A84(void);
-NOT_DECOMPILED void sub_2160AD4(void);
-NOT_DECOMPILED void sub_2160CBC(void);
-NOT_DECOMPILED void sub_2160DD8(void);
-NOT_DECOMPILED void sub_2160E04(void);
-NOT_DECOMPILED void sub_2160E28(void);
-NOT_DECOMPILED void sub_2160E50(void);
-NOT_DECOMPILED void sub_2160E78(void);
-NOT_DECOMPILED void sub_2160EB0(void);
-NOT_DECOMPILED void sub_2160F8C(void);
 NOT_DECOMPILED void exDrawFadeUnknown__Init(void);
 NOT_DECOMPILED void exDrawReqTask__EntryUnknown2__InitLight(void);
 NOT_DECOMPILED void exDrawFadeUnknown__Func_21610F0(void);

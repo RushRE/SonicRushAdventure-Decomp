@@ -38,15 +38,15 @@ exDrawFadeTask__word_21763A0: // 0x021763A0
 
 	.text
 
-	arm_func_start exDrawFadeTask__BossMain_216078C
-exDrawFadeTask__BossMain_216078C: // 0x0216078C
+	arm_func_start exBossSysAdminTask__Action_StartWave0
+exBossSysAdminTask__Action_StartWave0: // 0x0216078C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0xf
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	mov r0, #0
@@ -58,17 +58,17 @@ exDrawFadeTask__BossMain_216078C: // 0x0216078C
 	mov r3, r1
 	bl PlayVoiceClipEx
 	bl GetExTaskCurrent
-	ldr r1, _021607E8 // =sub_21607EC
+	ldr r1, _021607E8 // =exBossSysAdminTask__Main_Wave0
 	str r1, [r0]
-	bl sub_21607EC
+	bl exBossSysAdminTask__Main_Wave0
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021607E8: .word sub_21607EC
-	arm_func_end exDrawFadeTask__BossMain_216078C
+_021607E8: .word exBossSysAdminTask__Main_Wave0
+	arm_func_end exBossSysAdminTask__Action_StartWave0
 
-	arm_func_start sub_21607EC
-sub_21607EC: // 0x021607EC
+	arm_func_start exBossSysAdminTask__Main_Wave0
+exBossSysAdminTask__Main_Wave0: // 0x021607EC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -78,7 +78,7 @@ sub_21607EC: // 0x021607EC
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02160818
-	bl sub_216083C
+	bl exBossSysAdminTask__Action_StartWave1
 	ldmia sp!, {r4, pc}
 _02160818:
 	add r0, r4, #0x6c
@@ -90,29 +90,29 @@ _02160818:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_21607EC
+	arm_func_end exBossSysAdminTask__Main_Wave0
 
-	arm_func_start sub_216083C
-sub_216083C: // 0x0216083C
+	arm_func_start exBossSysAdminTask__Action_StartWave1
+exBossSysAdminTask__Action_StartWave1: // 0x0216083C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0x10
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _02160870 // =sub_2160874
+	ldr r1, _02160870 // =exBossSysAdminTask__Main_Wave1
 	str r1, [r0]
-	bl sub_2160874
+	bl exBossSysAdminTask__Main_Wave1
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02160870: .word sub_2160874
-	arm_func_end sub_216083C
+_02160870: .word exBossSysAdminTask__Main_Wave1
+	arm_func_end exBossSysAdminTask__Action_StartWave1
 
-	arm_func_start sub_2160874
-sub_2160874: // 0x02160874
+	arm_func_start exBossSysAdminTask__Main_Wave1
+exBossSysAdminTask__Main_Wave1: // 0x02160874
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -122,7 +122,7 @@ sub_2160874: // 0x02160874
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _021608A0
-	bl sub_21608C4
+	bl exBossSysAdminTask__Action_StartWave2
 	ldmia sp!, {r4, pc}
 _021608A0:
 	add r0, r4, #0x6c
@@ -134,31 +134,31 @@ _021608A0:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_2160874
+	arm_func_end exBossSysAdminTask__Main_Wave1
 
-	arm_func_start sub_21608C4
-sub_21608C4: // 0x021608C4
+	arm_func_start exBossSysAdminTask__Action_StartWave2
+exBossSysAdminTask__Action_StartWave2: // 0x021608C4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0x11
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	mov r0, #0
 	str r0, [r4, #0x30]
 	bl GetExTaskCurrent
-	ldr r1, _02160900 // =sub_2160904
+	ldr r1, _02160900 // =exBossSysAdminTask__Main_StartWave2
 	str r1, [r0]
-	bl sub_2160904
+	bl exBossSysAdminTask__Main_StartWave2
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02160900: .word sub_2160904
-	arm_func_end sub_21608C4
+_02160900: .word exBossSysAdminTask__Main_StartWave2
+	arm_func_end exBossSysAdminTask__Action_StartWave2
 
-	arm_func_start sub_2160904
-sub_2160904: // 0x02160904
+	arm_func_start exBossSysAdminTask__Main_StartWave2
+exBossSysAdminTask__Main_StartWave2: // 0x02160904
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -190,9 +190,9 @@ _0216094C:
 	stmia sp, {r0, r4}
 	bl PlaySfxEx
 	bl GetExTaskCurrent
-	ldr r1, _021609D4 // =sub_21609D8
+	ldr r1, _021609D4 // =exBossSysAdminTask__Main_ProcessWave2
 	str r1, [r0]
-	bl sub_21609D8
+	bl exBossSysAdminTask__Main_ProcessWave2
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02160990:
@@ -200,7 +200,7 @@ _02160990:
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _021609AC
-	bl sub_2160AD4
+	bl exBossSysAdminTask__Action_StartWave3
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _021609AC:
@@ -215,11 +215,11 @@ _021609AC:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_021609D4: .word sub_21609D8
-	arm_func_end sub_2160904
+_021609D4: .word exBossSysAdminTask__Main_ProcessWave2
+	arm_func_end exBossSysAdminTask__Main_StartWave2
 
-	arm_func_start sub_21609D8
-sub_21609D8: // 0x021609D8
+	arm_func_start exBossSysAdminTask__Main_ProcessWave2
+exBossSysAdminTask__Main_ProcessWave2: // 0x021609D8
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -244,16 +244,16 @@ _02160A1C:
 	blt _02160A44
 	bl exBossMagmeWaveTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _02160A80 // =sub_2160A84
+	ldr r1, _02160A80 // =exBossSysAdminTask__Main_FinishWave2
 	str r1, [r0]
-	bl sub_2160A84
+	bl exBossSysAdminTask__Main_FinishWave2
 	ldmia sp!, {r4, pc}
 _02160A44:
 	add r0, r4, #0x6c
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02160A5C
-	bl sub_2160AD4
+	bl exBossSysAdminTask__Action_StartWave3
 	ldmia sp!, {r4, pc}
 _02160A5C:
 	add r0, r4, #0x6c
@@ -266,11 +266,11 @@ _02160A5C:
 	blx r0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02160A80: .word sub_2160A84
-	arm_func_end sub_21609D8
+_02160A80: .word exBossSysAdminTask__Main_FinishWave2
+	arm_func_end exBossSysAdminTask__Main_ProcessWave2
 
-	arm_func_start sub_2160A84
-sub_2160A84: // 0x02160A84
+	arm_func_start exBossSysAdminTask__Main_FinishWave2
+exBossSysAdminTask__Main_FinishWave2: // 0x02160A84
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -280,7 +280,7 @@ sub_2160A84: // 0x02160A84
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02160AB0
-	bl sub_2160AD4
+	bl exBossSysAdminTask__Action_StartWave3
 	ldmia sp!, {r4, pc}
 _02160AB0:
 	add r0, r4, #0x6c
@@ -292,10 +292,10 @@ _02160AB0:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end sub_2160A84
+	arm_func_end exBossSysAdminTask__Main_FinishWave2
 
-	arm_func_start sub_2160AD4
-sub_2160AD4: // 0x02160AD4
+	arm_func_start exBossSysAdminTask__Action_StartWave3
+exBossSysAdminTask__Action_StartWave3: // 0x02160AD4
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r1, _02160CA8 // =_mt_math_rand
@@ -326,7 +326,7 @@ sub_2160AD4: // 0x02160AD4
 	mov r1, #0x12
 	rsb r5, r5, r3, lsr #16
 	rsb r6, r6, ip, lsr #16
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
 	cmp r5, #0x14
@@ -415,20 +415,20 @@ _02160C0C:
 	moveq r0, #1
 	str r0, [r4, #0x10]
 	bl GetExTaskCurrent
-	ldr r1, _02160CB8 // =sub_2160CBC
+	ldr r1, _02160CB8 // =exBossSysAdminTask__Main_Wave3
 	str r1, [r0]
-	bl sub_2160CBC
+	bl exBossSysAdminTask__Main_Wave3
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _02160CA8: .word _mt_math_rand
 _02160CAC: .word 0x00196225
 _02160CB0: .word 0x3C6EF35F
 _02160CB4: .word 0x51EB851F
-_02160CB8: .word sub_2160CBC
-	arm_func_end sub_2160AD4
+_02160CB8: .word exBossSysAdminTask__Main_Wave3
+	arm_func_end exBossSysAdminTask__Action_StartWave3
 
-	arm_func_start sub_2160CBC
-sub_2160CBC: // 0x02160CBC
+	arm_func_start exBossSysAdminTask__Main_Wave3
+exBossSysAdminTask__Main_Wave3: // 0x02160CBC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -438,18 +438,18 @@ sub_2160CBC: // 0x02160CBC
 	ldr r0, [r4, #0x10]
 	cmp r0, #0
 	beq _02160CE8
-	bl sub_2160E28
+	bl exBossSysAdminTask__WaveMoveL
 	b _02160CEC
 _02160CE8:
-	bl sub_2160E50
+	bl exBossSysAdminTask__WaveMoveR
 _02160CEC:
 	ldr r0, [r4, #0xc]
 	cmp r0, #0
 	beq _02160D00
-	bl sub_2160DD8
+	bl exBossSysAdminTask__WaveAngleMoveL
 	b _02160D04
 _02160D00:
-	bl sub_2160E04
+	bl exBossSysAdminTask__WaveAngleMoveR
 _02160D04:
 	ldr r3, [r4, #0x48]
 	ldr r0, [r4, #0x3bc]
@@ -471,7 +471,7 @@ _02160D04:
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02160DAC
-	bl sub_2160E78
+	bl exBossSysAdminTask__Action_StartWave4
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _02160D60:
@@ -507,10 +507,10 @@ _02160DAC:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02160DD4: .word 0x2AAAAAAB
-	arm_func_end sub_2160CBC
+	arm_func_end exBossSysAdminTask__Main_Wave3
 
-	arm_func_start sub_2160DD8
-sub_2160DD8: // 0x02160DD8
+	arm_func_start exBossSysAdminTask__WaveAngleMoveL
+exBossSysAdminTask__WaveAngleMoveL: // 0x02160DD8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r1, #0x5a000
@@ -522,10 +522,10 @@ sub_2160DD8: // 0x02160DD8
 	subgt r1, r2, #0x4000
 	strgt r1, [r0, #0x48]
 	ldmia sp!, {r3, pc}
-	arm_func_end sub_2160DD8
+	arm_func_end exBossSysAdminTask__WaveAngleMoveL
 
-	arm_func_start sub_2160E04
-sub_2160E04: // 0x02160E04
+	arm_func_start exBossSysAdminTask__WaveAngleMoveR
+exBossSysAdminTask__WaveAngleMoveR: // 0x02160E04
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r1, [r0, #0x48]
@@ -535,10 +535,10 @@ sub_2160E04: // 0x02160E04
 	addlt r1, r1, #0x4000
 	strlt r1, [r0, #0x48]
 	ldmia sp!, {r3, pc}
-	arm_func_end sub_2160E04
+	arm_func_end exBossSysAdminTask__WaveAngleMoveR
 
-	arm_func_start sub_2160E28
-sub_2160E28: // 0x02160E28
+	arm_func_start exBossSysAdminTask__WaveMoveL
+exBossSysAdminTask__WaveMoveL: // 0x02160E28
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r2, [r0, #0x3bc]
@@ -549,10 +549,10 @@ sub_2160E28: // 0x02160E28
 	subgt r1, r2, #0x800
 	strgt r1, [r0, #0x3bc]
 	ldmia sp!, {r3, pc}
-	arm_func_end sub_2160E28
+	arm_func_end exBossSysAdminTask__WaveMoveL
 
-	arm_func_start sub_2160E50
-sub_2160E50: // 0x02160E50
+	arm_func_start exBossSysAdminTask__WaveMoveR
+exBossSysAdminTask__WaveMoveR: // 0x02160E50
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r2, [r0, #0x3bc]
@@ -563,29 +563,29 @@ sub_2160E50: // 0x02160E50
 	addlt r1, r2, #0x800
 	strlt r1, [r0, #0x3bc]
 	ldmia sp!, {r3, pc}
-	arm_func_end sub_2160E50
+	arm_func_end exBossSysAdminTask__WaveMoveR
 
-	arm_func_start sub_2160E78
-sub_2160E78: // 0x02160E78
+	arm_func_start exBossSysAdminTask__Action_StartWave4
+exBossSysAdminTask__Action_StartWave4: // 0x02160E78
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0x13
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _02160EAC // =sub_2160EB0
+	ldr r1, _02160EAC // =exBossSysAdminTask__Main_Wave4
 	str r1, [r0]
-	bl sub_2160EB0
+	bl exBossSysAdminTask__Main_Wave4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02160EAC: .word sub_2160EB0
-	arm_func_end sub_2160E78
+_02160EAC: .word exBossSysAdminTask__Main_Wave4
+	arm_func_end exBossSysAdminTask__Action_StartWave4
 
-	arm_func_start sub_2160EB0
-sub_2160EB0: // 0x02160EB0
+	arm_func_start exBossSysAdminTask__Main_Wave4
+exBossSysAdminTask__Main_Wave4: // 0x02160EB0
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -629,7 +629,7 @@ sub_2160EB0: // 0x02160EB0
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02160F64
-	bl sub_2160F8C
+	bl exBossSysAdminTask__Main_FinishWaveAttack
 	ldmia sp!, {r4, pc}
 _02160F64:
 	add r0, r4, #0x6c
@@ -643,16 +643,16 @@ _02160F64:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _02160F88: .word 0x0000019A
-	arm_func_end sub_2160EB0
+	arm_func_end exBossSysAdminTask__Main_Wave4
 
-	arm_func_start sub_2160F8C
-sub_2160F8C: // 0x02160F8C
+	arm_func_start exBossSysAdminTask__Main_FinishWaveAttack
+exBossSysAdminTask__Main_FinishWaveAttack: // 0x02160F8C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x548]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end sub_2160F8C
+	arm_func_end exBossSysAdminTask__Main_FinishWaveAttack
 
 	arm_func_start exDrawFadeUnknown__Init
 exDrawFadeUnknown__Init: // 0x02160FA0

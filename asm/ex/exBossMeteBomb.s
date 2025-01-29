@@ -3,15 +3,15 @@
 	
 	.text
 
-	arm_func_start exBossMeteBombTask__BossMain_215BCCC
-exBossMeteBombTask__BossMain_215BCCC: // 0x0215BCCC
+	arm_func_start exBossSysAdminTask__Action_StartLine0
+exBossSysAdminTask__Action_StartLine0: // 0x0215BCCC
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0x14
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	mov r0, #0
@@ -23,17 +23,17 @@ exBossMeteBombTask__BossMain_215BCCC: // 0x0215BCCC
 	mov r3, r1
 	bl PlayVoiceClipEx
 	bl GetExTaskCurrent
-	ldr r1, _0215BD28 // =ExBossSysAdminTask__Main_215BD2C
+	ldr r1, _0215BD28 // =exBossSysAdminTask__Main_Line0
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215BD2C
+	bl exBossSysAdminTask__Main_Line0
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215BD28: .word ExBossSysAdminTask__Main_215BD2C
-	arm_func_end exBossMeteBombTask__BossMain_215BCCC
+_0215BD28: .word exBossSysAdminTask__Main_Line0
+	arm_func_end exBossSysAdminTask__Action_StartLine0
 
-	arm_func_start ExBossSysAdminTask__Main_215BD2C
-ExBossSysAdminTask__Main_215BD2C: // 0x0215BD2C
+	arm_func_start exBossSysAdminTask__Main_Line0
+exBossSysAdminTask__Main_Line0: // 0x0215BD2C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -43,7 +43,7 @@ ExBossSysAdminTask__Main_215BD2C: // 0x0215BD2C
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215BD58
-	bl ExBossSysAdminTask__Func_215BD7C
+	bl exBossSysAdminTask__Action_StartLine1
 	ldmia sp!, {r4, pc}
 _0215BD58:
 	add r0, r4, #0x6c
@@ -55,17 +55,17 @@ _0215BD58:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ExBossSysAdminTask__Main_215BD2C
+	arm_func_end exBossSysAdminTask__Main_Line0
 
-	arm_func_start ExBossSysAdminTask__Func_215BD7C
-ExBossSysAdminTask__Func_215BD7C: // 0x0215BD7C
+	arm_func_start exBossSysAdminTask__Action_StartLine1
+exBossSysAdminTask__Action_StartLine1: // 0x0215BD7C
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r5, r0
 	add r0, r5, #0x6c
 	mov r1, #0x15
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r5, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	mov r1, #0xcb
@@ -104,20 +104,20 @@ _0215BE04:
 	mov r0, #0
 	strh r0, [r5, #0x66]
 	bl GetExTaskCurrent
-	ldr r1, _0215BE44 // =ExBossSysAdminTask__Main_215BE48
+	ldr r1, _0215BE44 // =exBossSysAdminTask__Main_Line1
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215BE48
+	bl exBossSysAdminTask__Main_Line1
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _0215BE38: .word _mt_math_rand
 _0215BE3C: .word 0x00196225
 _0215BE40: .word 0x3C6EF35F
-_0215BE44: .word ExBossSysAdminTask__Main_215BE48
-	arm_func_end ExBossSysAdminTask__Func_215BD7C
+_0215BE44: .word exBossSysAdminTask__Main_Line1
+	arm_func_end exBossSysAdminTask__Action_StartLine1
 
-	arm_func_start ExBossSysAdminTask__Main_215BE48
-ExBossSysAdminTask__Main_215BE48: // 0x0215BE48
+	arm_func_start exBossSysAdminTask__Main_Line1
+exBossSysAdminTask__Main_Line1: // 0x0215BE48
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -127,7 +127,7 @@ ExBossSysAdminTask__Main_215BE48: // 0x0215BE48
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215BE74
-	bl ExBossSysAdminTask__Func_215BE98
+	bl exBossSysAdminTask__Action_StartLine2
 	ldmia sp!, {r4, pc}
 _0215BE74:
 	add r0, r4, #0x6c
@@ -139,29 +139,29 @@ _0215BE74:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ExBossSysAdminTask__Main_215BE48
+	arm_func_end exBossSysAdminTask__Main_Line1
 
-	arm_func_start ExBossSysAdminTask__Func_215BE98
-ExBossSysAdminTask__Func_215BE98: // 0x0215BE98
+	arm_func_start exBossSysAdminTask__Action_StartLine2
+exBossSysAdminTask__Action_StartLine2: // 0x0215BE98
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0x16
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _0215BECC // =ExBossSysAdminTask__Main_215BED0
+	ldr r1, _0215BECC // =exBossSysAdminTask__Main_Line2
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215BED0
+	bl exBossSysAdminTask__Main_Line2
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215BECC: .word ExBossSysAdminTask__Main_215BED0
-	arm_func_end ExBossSysAdminTask__Func_215BE98
+_0215BECC: .word exBossSysAdminTask__Main_Line2
+	arm_func_end exBossSysAdminTask__Action_StartLine2
 
-	arm_func_start ExBossSysAdminTask__Main_215BED0
-ExBossSysAdminTask__Main_215BED0: // 0x0215BED0
+	arm_func_start exBossSysAdminTask__Main_Line2
+exBossSysAdminTask__Main_Line2: // 0x0215BED0
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -177,12 +177,12 @@ ExBossSysAdminTask__Main_215BED0: // 0x0215BED0
 	ldrsh r0, [r4, #0x44]
 	cmp r0, #3
 	bge _0215BF14
-	bl ExBossSysAdminTask__Func_215BF48
+	bl exBossSysAdminTask__Action_FinishLineAttack
 	ldmia sp!, {r4, pc}
 _0215BF14:
 	mov r0, #0
 	strh r0, [r4, #0x44]
-	bl ExBossSysAdminTask__Func_215BFF8
+	bl exBossSysAdminTask__Func_215BFF8
 	ldmia sp!, {r4, pc}
 _0215BF24:
 	add r0, r4, #0x6c
@@ -194,37 +194,37 @@ _0215BF24:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ExBossSysAdminTask__Main_215BED0
+	arm_func_end exBossSysAdminTask__Main_Line2
 
-	arm_func_start ExBossSysAdminTask__Func_215BF48
-ExBossSysAdminTask__Func_215BF48: // 0x0215BF48
+	arm_func_start exBossSysAdminTask__Action_FinishLineAttack
+exBossSysAdminTask__Action_FinishLineAttack: // 0x0215BF48
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
 	mov r0, #0x3c
 	strh r0, [r4, #0x58]
 	bl GetExTaskCurrent
-	ldr r1, _0215BF84 // =ExBossSysAdminTask__Main_215BF88
+	ldr r1, _0215BF84 // =exBossSysAdminTask__Main_FinishLineAttack
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215BF88
+	bl exBossSysAdminTask__Main_FinishLineAttack
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215BF84: .word ExBossSysAdminTask__Main_215BF88
-	arm_func_end ExBossSysAdminTask__Func_215BF48
+_0215BF84: .word exBossSysAdminTask__Main_FinishLineAttack
+	arm_func_end exBossSysAdminTask__Action_FinishLineAttack
 
-	arm_func_start ExBossSysAdminTask__Main_215BF88
-ExBossSysAdminTask__Main_215BF88: // 0x0215BF88
+	arm_func_start exBossSysAdminTask__Main_FinishLineAttack
+exBossSysAdminTask__Main_FinishLineAttack: // 0x0215BF88
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	bl exDrawReqTask__Model__Animate
-	bl ExBossSysAdminTask__Func_215F88C
+	bl exBossSysAdminTask__MoveRandom
 	ldrsh r0, [r4, #0x58]
 	cmp r0, #0
 	bgt _0215BFCC
@@ -234,7 +234,7 @@ ExBossSysAdminTask__Main_215BF88: // 0x0215BF88
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215BFD4
-	bl exBossMeteBombTask__BossMain_215BCCC
+	bl exBossSysAdminTask__Action_StartLine0
 	ldmia sp!, {r4, pc}
 _0215BFCC:
 	sub r0, r0, #1
@@ -249,16 +249,16 @@ _0215BFD4:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ExBossSysAdminTask__Main_215BF88
+	arm_func_end exBossSysAdminTask__Main_FinishLineAttack
 
-	arm_func_start ExBossSysAdminTask__Func_215BFF8
-ExBossSysAdminTask__Func_215BFF8: // 0x0215BFF8
+	arm_func_start exBossSysAdminTask__Func_215BFF8
+exBossSysAdminTask__Func_215BFF8: // 0x0215BFF8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x548]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ExBossSysAdminTask__Func_215BFF8
+	arm_func_end exBossSysAdminTask__Func_215BFF8
 
 	arm_func_start exBossMeteBombTask__Func_215C00C
 exBossMeteBombTask__Func_215C00C: // 0x0215C00C

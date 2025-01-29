@@ -495,7 +495,7 @@ exHitCheckTask__DoHitChecks: // 0x0216B3E4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	bl exPlayerAdminTask__GetSonicAssets
 	mov r7, r0
-	bl exPlayerHelpers__GetBlazeAssets
+	bl GetExBurningBlazeWorker
 	mov r8, r0
 	bl exBossHelpers__GetBossAssets
 	bl GetExSystemFlag_2178650

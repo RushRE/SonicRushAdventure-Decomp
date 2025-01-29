@@ -17290,50 +17290,52 @@
 .public ovl09_2152EA8
 .public exPlayerHelpers__Func_2152FB0
 .public exPlayerHelpers__Func_21530FC
-.public exPlayerHelpers__LoadBurningBlazeAssets
-.public exPlayerHelpers__SetBurningBlazeAnimation
-.public exPlayerHelpers__ReleaseBurningBlazeAssets
-.public exPlayerHelpers__GetBlazeAssets
-.public exPlayerHelpers__LoadBlazeAssets
-.public exPlayerHelpers__SetBlazeAnimation
-.public exBlzDushEffectTask__Destroy_2153584
-.public exBlzDushEffectTask__Func_21535EC
-.public exBlzDushEffectTask__Func_2153C74
-.public exBlzDushEffectTask__Main
-.public exBlzDushEffectTask__Func8
-.public exBlzDushEffectTask__Destructor
-.public exBlzDushEffectTask__Main_2153DB4
-.public exBlzDushEffectTask__Create
-.public exBlzDushEffectTask__Func_2153EDC
-.public exBlzDushEffectTask__LoadBlazeSprite
-.public exBlzDushEffectTask__Func_215400C
-.public exBossHelpers__Func_2154030
-.public exBossHelpers__Func_2154370
+
+.public LoadExBurningBlazeModel
+.public SetExBurningBlazeAnimation
+.public ReleaseExBurningBlazeModel
+.public GetExBurningBlazeWorker
+.public LoadExRegularBlazeModel
+.public SetExRegularBlazeAnimation
+.public ReleaseExRegularBlazeModel
+.public LoadExBlazeDashEffectAssets
+.public ReleaseExBlazeDashEffectAssets
+.public ExBlazeDashEffect_Main_Init
+.public ExBlazeDashEffect_TaskUnknown
+.public ExBlazeDashEffect_Destructor
+.public ExBlazeDashEffect_Main_Active
+.public CreateExBlazeDashEffect
+.public DestroyExBlazeDashEffect
+.public LoadExBurningBlazeSprite
+.public ReleaseExBurningBlazeSprite
+
+.public exBossHelpers__LoadAssets
+.public exBossHelpers__SetAnimation
 .public exBossHelpers__Func_2154390
 .public exBossHelpers__GetBossAssets
-.public exBossHelpers__Func_215442C
-.public exBossHelpers__Func_21544DC
-.public ovl09_2154514
-.public exBossHelpers__Func_2154550
-.public exBossHelpers__Func_2154588
-.public exBossHelpers__Func_21545C4
-.public exBossHelpers__Func_21545EC
-.public exBossHelpers__Func_215462C
+.public exBossHelpers__BossRenderCallback
+.public exBossSysAdminTask__Action_StartDmg0
+.public exBossSysAdminTask__Main_Dmg0
+.public exBossSysAdminTask__Action_StartDmg1
+.public exBossSysAdminTask__Main_Dmg1
+.public exBossSysAdminTask__Action_FinishDmg
+.public exBossSysAdminTask__Action_StartBDmg0
+.public exBossSysAdminTask__Main_BDmg0
 .public exBossHelpers__Func_2154668
 .public exBossHelpers__Func_2154690
 .public exBossHelpers__Func_21546AC
 .public exBossHelpers__Func_21546CC
 .public exBossHelpers__Func_2154758
-.public exBossHelpers__Func_215479C
-.public exBossHelpers__Func_21547DC
+.public exBossSysAdminTask__Action_StartBDmg1_Last
+.public exBossSysAdminTask__Main_BDmg1_Last
 .public exBossHelpers__Func_2154818
 .public exBossHelpers__Func_215485C
 .public exBossHelpers__Func_2154878
 .public exBossHelpers__Func_2154898
 .public exBossHelpers__Func_2154924
-.public exBossHelpers__Func_2154968
-.public exBossHelpers__Func_21549A8
-.public exBossHelpers__Func_21549E4
+.public exBossSysAdminTask__Action_StartBDmg1_First
+.public exBossSysAdminTask__Main_BDmg1_First
+.public exBossHelpers__Action_21549E4
 .public exBossHelpers__Func_2154A04
 .public exBossHelpers__Func_2154A20
 .public exBossHelpers__Func_2154A48
@@ -17343,10 +17345,11 @@
 .public exBossHelpers__Func_2154BB8
 .public exBossHelpers__Func_2154C28
 .public exBossHelpers__Func_2154C38
+
 .public exBossFireDoraTask__Func_2154C48
 .public exBossFireDoraTask__Func_2154D44
 .public exBossFireDoraTask__Func_2154D58
-.public exBossFireDoraTask__Func_2154D7C
+.public exBossFireDoraTask__AnyActive
 .public exBossFireDoraTask__Func_2154D8C
 .public exBossFireDoraTask__Destroy_2154EF8
 .public exBossFireDoraTask__Main
@@ -17360,21 +17363,23 @@
 .public exBossFireDoraTask__Func_21557A0
 .public exBossFireDoraTask__Func_2155800
 .public exBossFireDoraTask__Create
-.public exBossEffectHitTask__BossMain_215592C
-.public exBossEffectHitTask__BossMain_2155968
-.public exBossEffectHitTask__BossFunc_21559B8
-.public exBossEffectHitTask__BossMain_2155A18
-.public exBossEffectHitTask__Func_2155B3C
-.public exBossEffectHitTask__Func_2155B8C
-.public exBossEffectHitTask__Func_2155BC4
-.public exBossEffectHitTask__Func_2155C14
-.public exBossEffectHitTask__Func_2155C28
+.public exBossSysAdminTask__Action_StartDora0
+.public exBossSysAdminTask__Main_Dora0
+.public exBossSysAdminTask__Action_StartDora1
+.public exBossSysAdminTask__Main_Dora1
+.public exBossSysAdminTask__Main_FinishDora1
+.public exBossSysAdminTask__Action_StartDora2
+.public exBossSysAdminTask__Main_Dora2
+.public exBossSysAdminTask__Action_FinishDragonAttack
+
+.public exBossEffectHitTask__LoadAssets
 .public exBossEffectHitTask__Destroy_2155E74
 .public exBossEffectHitTask__Main
 .public exBossEffectHitTask__Func8
 .public exBossEffectHitTask__Destructor
 .public exBossEffectHitTask__Main_2155FE4
 .public exBossEffectHitTask__Create
+
 .public exBossEffectFireBallShotTask__Func_21560E0
 .public exBossEffectFireBallShotTask__Func_215632C
 .public exBossEffectFireBallShotTask__Main
@@ -17382,6 +17387,7 @@
 .public exBossEffectFireBallShotTask__Destructor
 .public exBossEffectFireBallShotTask__Func_215649C
 .public exBossEffectFireBallShotTask__Create
+
 .public exBossEffectFireBallTask__Func_2156594
 .public exBossEffectFireBallTask__Func_21565A8
 .public exBossEffectFireBallTask__Func_2156850
@@ -17395,6 +17401,7 @@
 .public exBossEffectFireBallTask__Func_2156C18
 .public exBossEffectFireBallTask__Func_2156C50
 .public exBossEffectFireBallTask__Create
+
 .public exBossEffectHomingTask__Func_2156D6C
 .public exBossEffectHomingTask__Func_2156D80
 .public exBossEffectHomingTask__Func_2157024
@@ -17408,6 +17415,7 @@
 .public exBossEffectHomingTask__Func_21573E8
 .public exBossEffectHomingTask__Func_2157420
 .public exBossEffectHomingTask__Create
+
 .public exBossEffectShotTask__Func_215753C
 .public exBossEffectShotTask__Func_2157550
 .public exBossEffectShotTask__Func_215779C
@@ -17416,6 +17424,7 @@
 .public exBossEffectShotTask__Destructor
 .public exBossEffectShotTask__Func_215790C
 .public exBossEffectShotTask__Create
+
 .public exBossEffectFireTask__Func_2157A04
 .public exBossEffectFireTask__Func_2157CA8
 .public exBossEffectFireTask__Func_2157D7C
@@ -17428,7 +17437,8 @@
 .public exBossEffectFireTask__Func_215806C
 .public exBossEffectFireTask__Func_21580A4
 .public exBossEffectFireTask__Create
-.public exBossFireBlueTask__BossFunc_21581C0
+.public exBossEffectFireTask__Func_21581C0
+
 .public LoadExBossFireBlueAssets
 .public ReleaseExBossFireBlueAssets
 .public ExBossFireBlue_Main_Init
@@ -17451,17 +17461,18 @@
 .public ExBossFireRed_Action_Repelled
 .public ExBossFireRed_Main_Repelled
 .public CreateExBossFireRed
-.public exBossHomingLaserTask__BossMain_21597DC
-.public ExBossSysAdminTask__Main_2159840
-.public ExBossSysAdminTask__Main_21598C8
-.public ExBossSysAdminTask__Func_2159918
-.public ExBossSysAdminTask__Main_215995C
-.public ExBossSysAdminTask__Func_2159A50
-.public ExBossSysAdminTask__Main_2159AD8
-.public ExBossSysAdminTask__Func_2159BCC
-.public ExBossSysAdminTask__Func_2159C44
-.public ExBossSysAdminTask__Main_2159C88
-.public ExBossSysAdminTask__Func_2159CD8
+.public exBossSysAdminTask__Action_StartFire0
+.public exBossSysAdminTask__Main_StartFire0
+.public exBossSysAdminTask__Main_FinishFire0
+.public exBossSysAdminTask__Action_StartFire1
+.public exBossSysAdminTask__Main_Fire1
+.public exBossSysAdminTask__Action_StartFire2
+.public exBossSysAdminTask__Main_Fire2
+.public exBossSysAdminTask__HandleFireShoot
+.public exBossSysAdminTask__Action_StartFire4
+.public exBossSysAdminTask__Main_Fire4
+.public exBossSysAdminTask__Action_FinishFireballAttack
+
 .public exBossHomingLaserTask__Func_2159CEC
 .public exBossHomingLaserTask__Func_2159DF0
 .public exBossHomingLaserTask__Func_2159E14
@@ -17474,15 +17485,16 @@
 .public exBossHomingLaserTask__Func_215A388
 .public exBossHomingLaserTask__Func_215A434
 .public exBossHomingLaserTask__Create
-.public exBossLineNeedleTask__BossMain_215A708
-.public ExBossSysAdminTask__Main_215A76C
-.public ExBossSysAdminTask__Main_215A7F4
-.public ExBossSysAdminTask__Func_215A844
-.public ExBossSysAdminTask__Main_215A87C
-.public ExBossSysAdminTask__Func_215A944
-.public ExBossSysAdminTask__Func_215A994
-.public ExBossSysAdminTask__Main_215A9D0
-.public ExBossSysAdminTask__Func_215AA20
+.public exBossSysAdminTask__Action_StartHomi0
+.public exBossSysAdminTask__Main_StartHomi0
+.public exBossSysAdminTask__Main_FinishHomi0
+.public exBossSysAdminTask__Action_StartHomi1
+.public exBossSysAdminTask__Main_StartHomi1
+.public exBossSysAdminTask__Main_FinishHomi1
+.public exBossSysAdminTask__Action_StartHomi2
+.public exBossSysAdminTask__Main_StartHomi2
+.public exBossSysAdminTask__Action_FinishHomingAttack
+
 .public exBossLineNeedleTask__Func_215AA34
 .public exBossLineNeedleTask__Func_215AC48
 .public exBossLineNeedleTask__Main
@@ -17503,15 +17515,16 @@
 .public exBossLineMissileTask__Func_215B998
 .public exBossLineMissileTask__Func_215BB48
 .public exBossLineMissileTask__Create
-.public exBossMeteBombTask__BossMain_215BCCC
-.public ExBossSysAdminTask__Main_215BD2C
-.public ExBossSysAdminTask__Func_215BD7C
-.public ExBossSysAdminTask__Main_215BE48
-.public ExBossSysAdminTask__Func_215BE98
-.public ExBossSysAdminTask__Main_215BED0
-.public ExBossSysAdminTask__Func_215BF48
-.public ExBossSysAdminTask__Main_215BF88
-.public ExBossSysAdminTask__Func_215BFF8
+.public exBossSysAdminTask__Action_StartLine0
+.public exBossSysAdminTask__Main_Line0
+.public exBossSysAdminTask__Action_StartLine1
+.public exBossSysAdminTask__Main_Line1
+.public exBossSysAdminTask__Action_StartLine2
+.public exBossSysAdminTask__Main_Line2
+.public exBossSysAdminTask__Action_FinishLineAttack
+.public exBossSysAdminTask__Main_FinishLineAttack
+.public exBossSysAdminTask__Func_215BFF8
+
 .public exBossMeteBombTask__Func_215C00C
 .public exBossMeteBombTask__Func_215C294
 .public exBossMeteBombTask__Main
@@ -17554,62 +17567,64 @@
 .public exBossMeteAdminTask__Func_215DB1C
 .public exBossMeteAdminTask__Func_215DB3C
 .public exBossMeteAdminTask__Create
-.public ExBossSysAdminTask__Func_215DC14
-.public ExBossSysAdminTask__BossMain_215DC2C
-.public ExBossSysAdminTask__Func_215DC9C
-.public ExBossSysAdminTask__Func_215DCE4
-.public ExBossSysAdminTask__Func_215DD2C
-.public ExBossSysAdminTask__Func_215DD78
-.public ExBossSysAdminTask__Func_215DDC0
-.public ExBossSysAdminTask__Func_215DE40
-.public ExBossSysAdminTask__Func_215DE88
-.public ExBossSysAdminTask__Func_215DEB0
-.public ExBossSysAdminTask__Func_215DEF8
-.public ExBossSysAdminTask__GetBossWork
-.public ExBossSysAdminTask__Func_215DF1C
-.public ExBossSysAdminTask__Func_215DF2C
-.public exBossSysAdminTask__Main
+.public exBossSysAdminTask__RunTaskUnknownEvent
+.public exBossSysAdminTask__Action_StartMete0
+.public exBossSysAdminTask__Func_215DC9C
+.public exBossSysAdminTask__Func_215DCE4
+.public exBossSysAdminTask__Func_215DD2C
+.public exBossSysAdminTask__Func_215DD78
+.public exBossSysAdminTask__Func_215DDC0
+.public exBossSysAdminTask__Func_215DE40
+.public exBossSysAdminTask__Func_215DE88
+.public exBossSysAdminTask__Func_215DEB0
+.public exBossSysAdminTask__Action_FinishMeteorAttack
+
+.public exBossSysAdminTask__GetBossWork
+.public exBossSysAdminTask__Func_215DF1C
+.public exBossSysAdminTask__Func_215DF2C
+.public exBossSysAdminTask__Main_Init
 .public exBossSysAdminTask__Func8
 .public exBossSysAdminTask__Destructor
-.public ExBossSysAdminTask__Main_215E084
-.public ExBossSysAdminTask__Func_215E0CC
-.public ExBossSysAdminTask__Main_215E0EC
-.public ExBossSysAdminTask__Func_215E15C
-.public ExBossSysAdminTask__Main_215E184
-.public ExBossSysAdminTask__Func_215E1B0
-.public ExBossSysAdminTask__Main_215E1E8
-.public ExBossSysAdminTask__BossMain_215E298
-.public ExBossSysAdminTask__Main_215E2D4
-.public ExBossSysAdminTask__BossMain_215E420
-.public ExBossSysAdminTask__Main_215E458
-.public ExBossSysAdminTask__BossMain_215E580
-.public ExBossSysAdminTask__Func_215E5B8
-.public ExBossSysAdminTask__BossMain_215E688
-.public ExBossSysAdminTask__Func_215E6C4
-.public ExBossSysAdminTask__BossMain_215E7FC
-.public ExBossSysAdminTask__Func_215E834
-.public ExBossSysAdminTask__Main_215E99C
-.public ExBossSysAdminTask__Func_215E9D4
-.public ExBossSysAdminTask__BossMain_215EAA4
-.public ExBossSysAdminTask__Func_215EAE0
-.public ExBossSysAdminTask__Main_215EC18
-.public ExBossSysAdminTask__Func_215EC50
-.public ExBossSysAdminTask__BossMain_215EDF8
-.public ExBossSysAdminTask__Func_215EE30
-.public ExBossSysAdminTask__Func_215EF00
-.public ExBossSysAdminTask__Func_215EF98
+.public exBossSysAdminTask__Main_WaitForTitleCard
+.public exBossSysAdminTask__Action_InitialFlee
+.public exBossSysAdminTask__Main_InitialFlee
+.public exBossSysAdminTask__Action_WaitForFlag215DF1C
+.public exBossSysAdminTask__Main_WaitForFlag215DF1C
+.public exBossSysAdminTask__Action_RegenerateHealth
+.public exBossSysAdminTask__Main_RegenerateHealth
+.public exBossSysAdminTask__Action_DragonAttackIdle
+.public exBossSysAdminTask__Main_DragonAttackIdle
+.public exBossSysAdminTask__Action_StartFw0_3
+.public exBossSysAdminTask__Main_StartFw0_3
+.public exBossSysAdminTask__Action_StartFw0_4
+.public exBossSysAdminTask__Main_StartFw0_4
+.public exBossSysAdminTask__Action_StartFw0_5
+.public exBossSysAdminTask__Main_StartFw0_5
+.public exBossSysAdminTask__Action_StartFw0_6
+.public exBossSysAdminTask__Main_StartFw0_6
+.public exBossSysAdminTask__Action_StartFw0_7
+.public exBossSysAdminTask__Main_StartFw0_7
+.public exBossSysAdminTask__Action_StartFw0_8
+.public exBossSysAdminTask__Main_StartFw0_8
+.public exBossSysAdminTask__Action_StartFw0_9
+.public exBossSysAdminTask__Main_StartFw0_9
+.public exBossSysAdminTask__Action_StartFw0_10
+.public exBossSysAdminTask__Main_StartFw0_10
+.public exBossSysAdminTask__SetNextTimer
+.public exBossSysAdminTask__Main_Blank
 .public exBossSysAdminTask__Create
-.public ExBossSysAdminTask__GetSingleton
-.public ExBossSysAdminTask__Destroy
-.public exBossSysAdminBiforTask__Main
+.public exBossSysAdminTask__GetSingleton
+.public exBossSysAdminTask__Destroy
+.public exBossSysAdminBiforTask__Main_Init
 .public exBossSysAdminBiforTask__Func8
 .public exBossSysAdminBiforTask__Destructor
-.public exBossSysAdminBiforTask__Main_215F0C8
-.public exBossSysAdminBiforTask__Main_215F7CC
+.public exBossSysAdminBiforTask__Main_PickNextAttack
+.public exBossSysAdminBiforTask__Main_WaitForAttack
 .public exBossSysAdminBiforTask__Create
-.public ExBossSysAdminTask__Func_215F88C
-.public ExBossSysAdminTask__Func_215FA10
-.public ExBossSysAdminTask__Func_215FA98
+.public exBossSysAdminTask__MoveRandom
+.public exBossSysAdminTask__MoveL
+.public exBossSysAdminTask__MoveR
+
 .public exBossMagmaAttackTask__Func_215FB1C
 .public exBossMagmaAttackTask__Func_215FD60
 .public exBossMagmaAttackTask__Destroy_215FE0C
@@ -17629,23 +17644,24 @@
 .public exBossMagmeWaveTask__Destructor
 .public exBossMagmeWaveTask__Main_21606B4
 .public exBossMagmeWaveTask__Create
-.public exDrawFadeTask__BossMain_216078C
-.public sub_21607EC
-.public sub_216083C
-.public sub_2160874
-.public sub_21608C4
-.public sub_2160904
-.public sub_21609D8
-.public sub_2160A84
-.public sub_2160AD4
-.public sub_2160CBC
-.public sub_2160DD8
-.public sub_2160E04
-.public sub_2160E28
-.public sub_2160E50
-.public sub_2160E78
-.public sub_2160EB0
-.public sub_2160F8C
+.public exBossSysAdminTask__Action_StartWave0
+.public exBossSysAdminTask__Main_Wave0
+.public exBossSysAdminTask__Action_StartWave1
+.public exBossSysAdminTask__Main_Wave1
+.public exBossSysAdminTask__Action_StartWave2
+.public exBossSysAdminTask__Main_StartWave2
+.public exBossSysAdminTask__Main_ProcessWave2
+.public exBossSysAdminTask__Main_FinishWave2
+.public exBossSysAdminTask__Action_StartWave3
+.public exBossSysAdminTask__Main_Wave3
+.public exBossSysAdminTask__WaveAngleMoveL
+.public exBossSysAdminTask__WaveAngleMoveR
+.public exBossSysAdminTask__WaveMoveL
+.public exBossSysAdminTask__WaveMoveR
+.public exBossSysAdminTask__Action_StartWave4
+.public exBossSysAdminTask__Main_Wave4
+.public exBossSysAdminTask__Main_FinishWaveAttack
+
 .public exDrawFadeUnknown__Init
 .public exDrawReqTask__EntryUnknown2__InitLight
 .public exDrawFadeUnknown__Func_21610F0
@@ -17724,6 +17740,7 @@
 .public exDrawReqTask__Func_2164288
 .public exDrawReqTask__Func_21642BC
 .public exDrawReqTask__Func_21642F0
+
 .public exEffectBigBombTask__Func_2164310
 .public exEffectBigBombTask__Destroy_2164410
 .public exEffectBigBombTask__Main
@@ -17731,6 +17748,7 @@
 .public exEffectBigBombTask__Destructor
 .public exEffectBigBombTask__Func_21644E8
 .public exEffectBigBombTask__Create
+
 .public exEffectBiriBiriTask__Func_21645D4
 .public exEffectBiriBiriTask__Func_21646D8
 .public exEffectBiriBiriTask__Destroy_21646EC
@@ -17741,6 +17759,7 @@
 .public exEffectBiriBiriTask__Func_2164810
 .public exEffectBiriBiriTask__Main_2164848
 .public exEffectBiriBiriTask__Create
+
 .public exEffectBarrierHitTask__Func_2164950
 .public exEffectBarrierHitTask__Destroy_2164BCC
 .public exEffectBarrierHitTask__Main
@@ -17748,6 +17767,7 @@
 .public exEffectBarrierHitTask__Destructor
 .public exEffectBarrierHitTask__Main_2164D08
 .public exEffectBarrierHitTask__Create
+
 .public exEffectBarrierTask__Func_2164E1C
 .public exEffectBarrierTask__Func_2164F24
 .public exEffectBarrierTask__Destroy_2164F38
@@ -17760,6 +17780,7 @@
 .public exEffectBarrierTask__Main_21652FC
 .public exEffectBarrierTask__DelayCallback
 .public exEffectBarrierTask__Create
+
 .public exExEffectSonicBarrierTaMeTask__Func_21654D4
 .public exExEffectSonicBarrierTaMeTask__Destroy_21656F8
 .public exExEffectSonicBarrierTaMeTask__Main
@@ -17767,6 +17788,7 @@
 .public exExEffectSonicBarrierTaMeTask__Destructor
 .public exExEffectSonicBarrierTaMeTask__Main_2165874
 .public exExEffectSonicBarrierTaMeTask__Create
+
 .public exEffectBlzFireTask__LoadFireAssets
 .public exEffectBlzFireTask__ReleaseFireAssets
 .public exExEffectBlzFireTaMeTask__LoadFireTaMeAssets
@@ -17780,16 +17802,19 @@
 .public exEffectBlzFireTask__HandleMovement
 .public exEffectBlzFireTask__Main_21669D4
 .public exEffectBlzFireTask__Create
+
 .public exExEffectBlzFireTaMeTask__Main
 .public exExEffectBlzFireTaMeTask__Func8
 .public exExEffectBlzFireTaMeTask__Destructor
 .public exExEffectBlzFireTaMeTask__Main_Active
 .public exExEffectBlzFireTaMeTask__Create
+
 .public exEffectBlzFireShotTask__Main
 .public exEffectBlzFireShotTask__Func8
 .public exEffectBlzFireShotTask__Destructor
 .public exEffectBlzFireShotTask__Main_Charge
 .public exEffectBlzFireShotTask__Create
+
 .public LoadExMeteorAssets
 .public ReleaseExMeteorAssets
 .public LoadExBrokenMeteorAssets
@@ -18008,6 +18033,7 @@
 .public exPlayerAdminTask__Create
 .public exPlayerAdminTask__Destroy
 .public exPlayerAdminTask__Func_217175C
+
 .public exPlayerAdminTask__LoadSuperSonicAssets
 .public exPlayerAdminTask__SetSuperSonicAnimation
 .public exPlayerAdminTask__Func_2171954
@@ -18025,6 +18051,7 @@
 .public exSonDushEffectTask__Destroy
 .public exSonDushEffectTask__LoadSonicSprite
 .public exSonDushEffectTask__Func_21725F8
+
 .public LoadExStageAssets
 .public ReleaseExStageAssets
 .public ExStage_Main_Init

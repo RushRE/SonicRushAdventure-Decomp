@@ -8,6 +8,38 @@
 // ENUMS
 // --------------------
 
+enum ExBossAnimIDs_
+{
+    bse_body_fw0,
+    bse_body_mete0,
+    bse_body_mete1,
+    bse_body_mete2,
+    bse_body_fire0,
+    bse_body_fire1,
+    bse_body_fire2,
+    bse_body_fire3,
+    bse_body_fire4,
+    bse_body_homi0,
+    bse_body_homi1,
+    bse_body_homi2,
+    bse_body_dora0,
+    bse_body_dora1,
+    bse_body_dora2,
+    bse_body_wave0,
+    bse_body_wave1,
+    bse_body_wave2,
+    bse_body_wave3,
+    bse_body_wave4,
+    bse_body_line0,
+    bse_body_line1,
+    bse_body_line2,
+    bse_body_dmg0,
+    bse_body_dmg1,
+    bse_body_bdmg0,
+    bse_body_bdmg1,
+};
+typedef u16 ExBossAnimIDs;
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -58,61 +90,61 @@ typedef struct exBossSysAdminTask_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215DC14(void);
-NOT_DECOMPILED void ExBossSysAdminTask__BossMain_215DC2C(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215DC9C(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215DCE4(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215DD2C(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215DD78(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215DDC0(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215DE40(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215DE88(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215DEB0(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215DEF8(void);
-NOT_DECOMPILED exBossSysAdminTask *ExBossSysAdminTask__GetBossWork(void);
-NOT_DECOMPILED BOOL ExBossSysAdminTask__Func_215DF1C(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215DF2C(s32 a1, s32 a2);
-NOT_DECOMPILED void exBossSysAdminTask__Main(void);
+NOT_DECOMPILED void exBossSysAdminTask__RunTaskUnknownEvent(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_StartMete0(void);
+NOT_DECOMPILED void exBossSysAdminTask__Func_215DC9C(void);
+NOT_DECOMPILED void exBossSysAdminTask__Func_215DCE4(void);
+NOT_DECOMPILED void exBossSysAdminTask__Func_215DD2C(void);
+NOT_DECOMPILED void exBossSysAdminTask__Func_215DD78(void);
+NOT_DECOMPILED void exBossSysAdminTask__Func_215DDC0(void);
+NOT_DECOMPILED void exBossSysAdminTask__Func_215DE40(void);
+NOT_DECOMPILED void exBossSysAdminTask__Func_215DE88(void);
+NOT_DECOMPILED void exBossSysAdminTask__Func_215DEB0(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_FinishMeteorAttack(void);
+NOT_DECOMPILED exBossSysAdminTask *exBossSysAdminTask__GetBossWork(void);
+NOT_DECOMPILED BOOL exBossSysAdminTask__Func_215DF1C(void);
+NOT_DECOMPILED void exBossSysAdminTask__Func_215DF2C(s32 a1, s32 a2);
+NOT_DECOMPILED void exBossSysAdminTask__Main_Init(void);
 NOT_DECOMPILED void exBossSysAdminTask__Func8(void);
 NOT_DECOMPILED void exBossSysAdminTask__Destructor(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Main_215E084(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215E0CC(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Main_215E0EC(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215E15C(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Main_215E184(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215E1B0(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Main_215E1E8(void);
-NOT_DECOMPILED void ExBossSysAdminTask__BossMain_215E298(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Main_215E2D4(void);
-NOT_DECOMPILED void ExBossSysAdminTask__BossMain_215E420(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Main_215E458(void);
-NOT_DECOMPILED void ExBossSysAdminTask__BossMain_215E580(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215E5B8(void);
-NOT_DECOMPILED void ExBossSysAdminTask__BossMain_215E688(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215E6C4(void);
-NOT_DECOMPILED void ExBossSysAdminTask__BossMain_215E7FC(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215E834(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Main_215E99C(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215E9D4(void);
-NOT_DECOMPILED void ExBossSysAdminTask__BossMain_215EAA4(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215EAE0(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Main_215EC18(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215EC50(void);
-NOT_DECOMPILED void ExBossSysAdminTask__BossMain_215EDF8(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215EE30(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215EF00(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215EF98(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_WaitForTitleCard(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_InitialFlee(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_InitialFlee(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_WaitForFlag215DF1C(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_WaitForFlag215DF1C(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_RegenerateHealth(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_RegenerateHealth(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_DragonAttackIdle(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_DragonAttackIdle(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_StartFw0_3(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_StartFw0_3(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_StartFw0_4(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_StartFw0_4(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_StartFw0_5(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_StartFw0_5(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_StartFw0_6(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_StartFw0_6(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_StartFw0_7(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_StartFw0_7(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_StartFw0_8(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_StartFw0_8(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_StartFw0_9(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_StartFw0_9(void);
+NOT_DECOMPILED void exBossSysAdminTask__Action_StartFw0_10(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_StartFw0_10(void);
+NOT_DECOMPILED void exBossSysAdminTask__SetNextTimer(void);
+NOT_DECOMPILED void exBossSysAdminTask__Main_Blank(void);
 NOT_DECOMPILED void exBossSysAdminTask__Create(void);
-NOT_DECOMPILED void ExBossSysAdminTask__GetSingleton(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Destroy(void);
-NOT_DECOMPILED void exBossSysAdminBiforTask__Main(void);
+NOT_DECOMPILED void exBossSysAdminTask__GetSingleton(void);
+NOT_DECOMPILED void exBossSysAdminTask__Destroy(void);
+NOT_DECOMPILED void exBossSysAdminBiforTask__Main_Init(void);
 NOT_DECOMPILED void exBossSysAdminBiforTask__Func8(void);
 NOT_DECOMPILED void exBossSysAdminBiforTask__Destructor(void);
-NOT_DECOMPILED void exBossSysAdminBiforTask__Main_215F0C8(void);
-NOT_DECOMPILED void exBossSysAdminBiforTask__Main_215F7CC(void);
+NOT_DECOMPILED void exBossSysAdminBiforTask__Main_PickNextAttack(void);
+NOT_DECOMPILED void exBossSysAdminBiforTask__Main_WaitForAttack(void);
 NOT_DECOMPILED void exBossSysAdminBiforTask__Create(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215F88C(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215FA10(void);
-NOT_DECOMPILED void ExBossSysAdminTask__Func_215FA98(void);
+NOT_DECOMPILED void exBossSysAdminTask__MoveRandom(void);
+NOT_DECOMPILED void exBossSysAdminTask__MoveL(void);
+NOT_DECOMPILED void exBossSysAdminTask__MoveR(void);
 
 #endif // RUSH_EXBOSS_H

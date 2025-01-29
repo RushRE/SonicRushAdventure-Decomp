@@ -64,7 +64,17 @@ typedef struct exHitCheck_
         u8 value_40 : 1;
         u8 value_80 : 1;
     } field_4;
-    u8 field_5;
+    struct
+    {
+        u8 value_1 : 1;
+        u8 value_2 : 1;
+        u8 value_4 : 1;
+        u8 value_8 : 1;
+        u8 value_10 : 1;
+        u8 value_20 : 1;
+        u8 value_40 : 1;
+        u8 value_80 : 1;
+    } field_5;
     struct
     {
         u8 value_1 : 1;

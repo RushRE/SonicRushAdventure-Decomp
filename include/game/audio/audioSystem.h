@@ -111,4 +111,39 @@ RUSH_INLINE void ReleaseStageSfx(NNSSndHandle *handle)
     NNS_SndHandleReleaseSeq(handle);
 }
 
+RUSH_INLINE void PlayStageVoiceClip(enum SND_ZONE_SEQARC_GAME_SE sfxID)
+{
+    PlayVoiceClipEx(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_ZONE_SEQARC_GAME_SE, sfxID);
+}
+
+RUSH_INLINE void PlayHandleStageVoiceClip(NNSSndHandle *handle, enum SND_ZONE_SEQARC_GAME_SE sfxID)
+{
+    PlayVoiceClipEx(handle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_ZONE_SEQARC_GAME_SE, sfxID);
+}
+
+RUSH_INLINE void PlaySystemVoiceClip(u32 arcID, u32 sfxID)
+{
+    PlayVoiceClipEx(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, arcID, sfxID);
+}
+
+RUSH_INLINE void PlayHandleSystemVoiceClip(NNSSndHandle *handle, u32 arcID, u32 sfxID)
+{
+    PlayVoiceClipEx(handle, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, arcID, sfxID);
+}
+
+RUSH_INLINE void StopStageVoiceClip(NNSSndHandle *handle)
+{
+    NNS_SndPlayerStopSeq(handle, 0);
+}
+
+RUSH_INLINE void FadeOutStageVoiceClip(NNSSndHandle *handle, u32 frames)
+{
+    NNS_SndPlayerStopSeq(handle, frames);
+}
+
+RUSH_INLINE void ReleaseStageVoiceClip(NNSSndHandle *handle)
+{
+    NNS_SndHandleReleaseSeq(handle);
+}
+
 #endif // RUSH_AUDIOSYSTEM_H

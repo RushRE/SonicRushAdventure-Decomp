@@ -3,28 +3,28 @@
 	
 	.text
 
-	arm_func_start exBossEffectHitTask__BossMain_215592C
-exBossEffectHitTask__BossMain_215592C: // 0x0215592C
+	arm_func_start exBossSysAdminTask__Action_StartDora0
+exBossSysAdminTask__Action_StartDora0: // 0x0215592C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	bl exBossEffectFireTask__Create
 	add r0, r4, #0x6c
 	mov r1, #0xc
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _02155964 // =exBossEffectHitTask__BossMain_2155968
+	ldr r1, _02155964 // =exBossSysAdminTask__Main_Dora0
 	str r1, [r0]
-	bl exBossEffectHitTask__BossMain_2155968
+	bl exBossSysAdminTask__Main_Dora0
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155964: .word exBossEffectHitTask__BossMain_2155968
-	arm_func_end exBossEffectHitTask__BossMain_215592C
+_02155964: .word exBossSysAdminTask__Main_Dora0
+	arm_func_end exBossSysAdminTask__Action_StartDora0
 
-	arm_func_start exBossEffectHitTask__BossMain_2155968
-exBossEffectHitTask__BossMain_2155968: // 0x02155968
+	arm_func_start exBossSysAdminTask__Main_Dora0
+exBossSysAdminTask__Main_Dora0: // 0x02155968
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -34,7 +34,7 @@ exBossEffectHitTask__BossMain_2155968: // 0x02155968
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02155994
-	bl exBossEffectHitTask__BossFunc_21559B8
+	bl exBossSysAdminTask__Action_StartDora1
 	ldmia sp!, {r4, pc}
 _02155994:
 	add r0, r4, #0x6c
@@ -46,17 +46,17 @@ _02155994:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end exBossEffectHitTask__BossMain_2155968
+	arm_func_end exBossSysAdminTask__Main_Dora0
 
-	arm_func_start exBossEffectHitTask__BossFunc_21559B8
-exBossEffectHitTask__BossFunc_21559B8: // 0x021559B8
+	arm_func_start exBossSysAdminTask__Action_StartDora1
+exBossSysAdminTask__Action_StartDora1: // 0x021559B8
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0xd
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	mov r2, #0xc9
@@ -66,19 +66,19 @@ exBossEffectHitTask__BossFunc_21559B8: // 0x021559B8
 	mov r2, r1
 	mov r3, r1
 	bl PlaySfxEx
-	bl exBossFireBlueTask__BossFunc_21581C0
+	bl exBossEffectFireTask__Func_21581C0
 	bl GetExTaskCurrent
-	ldr r1, _02155A14 // =exBossEffectHitTask__BossMain_2155A18
+	ldr r1, _02155A14 // =exBossSysAdminTask__Main_Dora1
 	str r1, [r0]
-	bl exBossEffectHitTask__BossMain_2155A18
+	bl exBossSysAdminTask__Main_Dora1
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155A14: .word exBossEffectHitTask__BossMain_2155A18
-	arm_func_end exBossEffectHitTask__BossFunc_21559B8
+_02155A14: .word exBossSysAdminTask__Main_Dora1
+	arm_func_end exBossSysAdminTask__Action_StartDora1
 
-	arm_func_start exBossEffectHitTask__BossMain_2155A18
-exBossEffectHitTask__BossMain_2155A18: // 0x02155A18
+	arm_func_start exBossSysAdminTask__Main_Dora1
+exBossSysAdminTask__Main_Dora1: // 0x02155A18
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -131,16 +131,16 @@ _02155AB0:
 	mov r0, #0
 	strh r0, [r4, #0x66]
 	bl GetExTaskCurrent
-	ldr r1, _02155B38 // =exBossEffectHitTask__Func_2155B3C
+	ldr r1, _02155B38 // =exBossSysAdminTask__Main_FinishDora1
 	str r1, [r0]
-	bl exBossEffectHitTask__Func_2155B3C
+	bl exBossSysAdminTask__Main_FinishDora1
 	ldmia sp!, {r3, r4, r5, pc}
 _02155AEC:
 	add r0, r4, #0x6c
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02155B04
-	bl exBossEffectHitTask__Func_2155B8C
+	bl exBossSysAdminTask__Action_StartDora2
 	ldmia sp!, {r3, r4, r5, pc}
 _02155B04:
 	add r0, r4, #0x6c
@@ -157,11 +157,11 @@ _02155B28: .word _mt_math_rand
 _02155B2C: .word 0x00196225
 _02155B30: .word 0x3C6EF35F
 _02155B34: .word 0x51EB851F
-_02155B38: .word exBossEffectHitTask__Func_2155B3C
-	arm_func_end exBossEffectHitTask__BossMain_2155A18
+_02155B38: .word exBossSysAdminTask__Main_FinishDora1
+	arm_func_end exBossSysAdminTask__Main_Dora1
 
-	arm_func_start exBossEffectHitTask__Func_2155B3C
-exBossEffectHitTask__Func_2155B3C: // 0x02155B3C
+	arm_func_start exBossSysAdminTask__Main_FinishDora1
+exBossSysAdminTask__Main_FinishDora1: // 0x02155B3C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -171,7 +171,7 @@ exBossEffectHitTask__Func_2155B3C: // 0x02155B3C
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02155B68
-	bl exBossEffectHitTask__Func_2155B8C
+	bl exBossSysAdminTask__Action_StartDora2
 	ldmia sp!, {r4, pc}
 _02155B68:
 	add r0, r4, #0x6c
@@ -183,29 +183,29 @@ _02155B68:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end exBossEffectHitTask__Func_2155B3C
+	arm_func_end exBossSysAdminTask__Main_FinishDora1
 
-	arm_func_start exBossEffectHitTask__Func_2155B8C
-exBossEffectHitTask__Func_2155B8C: // 0x02155B8C
+	arm_func_start exBossSysAdminTask__Action_StartDora2
+exBossSysAdminTask__Action_StartDora2: // 0x02155B8C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0xe
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _02155BC0 // =exBossEffectHitTask__Func_2155BC4
+	ldr r1, _02155BC0 // =exBossSysAdminTask__Main_Dora2
 	str r1, [r0]
-	bl exBossEffectHitTask__Func_2155BC4
+	bl exBossSysAdminTask__Main_Dora2
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02155BC0: .word exBossEffectHitTask__Func_2155BC4
-	arm_func_end exBossEffectHitTask__Func_2155B8C
+_02155BC0: .word exBossSysAdminTask__Main_Dora2
+	arm_func_end exBossSysAdminTask__Action_StartDora2
 
-	arm_func_start exBossEffectHitTask__Func_2155BC4
-exBossEffectHitTask__Func_2155BC4: // 0x02155BC4
+	arm_func_start exBossSysAdminTask__Main_Dora2
+exBossSysAdminTask__Main_Dora2: // 0x02155BC4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -215,7 +215,7 @@ exBossEffectHitTask__Func_2155BC4: // 0x02155BC4
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _02155BF0
-	bl exBossEffectHitTask__Func_2155C14
+	bl exBossSysAdminTask__Action_FinishDragonAttack
 	ldmia sp!, {r4, pc}
 _02155BF0:
 	add r0, r4, #0x6c
@@ -227,19 +227,19 @@ _02155BF0:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end exBossEffectHitTask__Func_2155BC4
+	arm_func_end exBossSysAdminTask__Main_Dora2
 
-	arm_func_start exBossEffectHitTask__Func_2155C14
-exBossEffectHitTask__Func_2155C14: // 0x02155C14
+	arm_func_start exBossSysAdminTask__Action_FinishDragonAttack
+exBossSysAdminTask__Action_FinishDragonAttack: // 0x02155C14
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x548]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end exBossEffectHitTask__Func_2155C14
+	arm_func_end exBossSysAdminTask__Action_FinishDragonAttack
 
-	arm_func_start exBossEffectHitTask__Func_2155C28
-exBossEffectHitTask__Func_2155C28: // 0x02155C28
+	arm_func_start exBossEffectHitTask__LoadAssets
+exBossEffectHitTask__LoadAssets: // 0x02155C28
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
 	ldr r1, _02155E5C // =0x02175FC4
@@ -393,7 +393,7 @@ _02155E64: .word 0x021760A0
 _02155E68: .word 0x02176080
 _02155E6C: .word 0x0000BFF4
 _02155E70: .word 0x00007FF8
-	arm_func_end exBossEffectHitTask__Func_2155C28
+	arm_func_end exBossEffectHitTask__LoadAssets
 
 	arm_func_start exBossEffectHitTask__Destroy_2155E74
 exBossEffectHitTask__Destroy_2155E74: // 0x02155E74
@@ -450,7 +450,7 @@ exBossEffectHitTask__Main: // 0x02155F04
 	ldr r1, _02155F78 // =0x02175FC4
 	str r0, [r1, #0x9c]
 	add r0, r4, #4
-	bl exBossEffectHitTask__Func_2155C28
+	bl exBossEffectHitTask__LoadAssets
 	add r0, r4, #0x390
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
@@ -520,7 +520,7 @@ exBossEffectHitTask__Main_2155FE4: // 0x02155FE4
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl ExBossSysAdminTask__GetSingleton
+	bl exBossSysAdminTask__GetSingleton
 	cmp r0, #0
 	bne _02156014
 	bl GetExTaskCurrent
@@ -570,7 +570,7 @@ exBossEffectHitTask__Create: // 0x02156054
 	mov r4, r0
 	mov r1, #0
 	bl MI_CpuFill8
-	bl ExBossSysAdminTask__GetSingleton
+	bl exBossSysAdminTask__GetSingleton
 	bl GetExTaskWork_
 	str r0, [r4, #0x4e0]
 	mov r0, r5

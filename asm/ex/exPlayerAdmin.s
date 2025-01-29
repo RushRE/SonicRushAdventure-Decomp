@@ -118,7 +118,7 @@ exPlayerAdminTask__Main: // 0x0216E570
 	bl exDrawReqTask__SetConfigPriority
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl exPlayerHelpers__LoadBurningBlazeAssets
+	bl LoadExBurningBlazeModel
 	ldr r0, [r4, #0xc]
 	mov r1, #0xa800
 	add r0, r0, #0x390
@@ -131,7 +131,7 @@ exPlayerAdminTask__Main: // 0x0216E570
 	ldr r1, [r4, #0xc]
 	add r0, r4, #0x2b8
 	strh r2, [r1, #2]
-	bl exBlzDushEffectTask__LoadBlazeSprite
+	bl LoadExBurningBlazeSprite
 	add r0, r4, #8
 	add r0, r0, #0x400
 	mov r1, #0xa800
@@ -184,14 +184,14 @@ exPlayerAdminTask__Destructor: // 0x0216E694
 	bl exPlayerAdminTask__Func_2171B80
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl exPlayerHelpers__ReleaseBurningBlazeAssets
+	bl ReleaseExBurningBlazeModel
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl exBlzDushEffectTask__Destroy_2153584
+	bl ReleaseExRegularBlazeModel
 	add r0, r4, #0x18
 	bl exSonDushEffectTask__Func_21725F8
 	add r0, r4, #0x2b8
-	bl exBlzDushEffectTask__Func_215400C
+	bl ReleaseExBurningBlazeSprite
 	ldr r0, _0216E704 // =exPlayerScreenMoveTask__dword_2177BA0
 	ldr r0, [r0, #8]
 	bl GetExTask
@@ -329,7 +329,7 @@ exPlayerAdminTask__Func_216E7F4: // 0x0216E7F4
 	ldr r1, [r4, #0xc]
 	add r0, r1, #4
 	ldrh r1, [r1, #2]
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -541,7 +541,7 @@ exPlayerAdminTask__Func_216EB28: // 0x0216EB28
 	bl exSonDushEffectTask__Create
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl exBlzDushEffectTask__Create
+	bl CreateExBlazeDashEffect
 	mov ip, #0xd
 	sub r1, ip, #0xe
 	mov r0, #0
@@ -565,7 +565,7 @@ _0216EBC8:
 	bl exSonDushEffectTask__Create
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl exBlzDushEffectTask__Create
+	bl CreateExBlazeDashEffect
 	mov ip, #0xd
 	sub r1, ip, #0xe
 	mov r0, #0
@@ -1006,7 +1006,7 @@ exPlayerAdminTask__Func_216F184: // 0x0216F184
 	ldr r0, [r4, #0xc]
 	mov r1, #5
 	add r0, r0, #4
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_21641F0
@@ -1104,7 +1104,7 @@ _0216F304:
 	ldr r0, [r4, #0xc]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -1176,10 +1176,10 @@ exPlayerAdminTask__Action_Die: // 0x0216F3A4
 	strh r1, [r0, #2]
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl exPlayerHelpers__ReleaseBurningBlazeAssets
+	bl ReleaseExBurningBlazeModel
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl exPlayerHelpers__LoadBlazeAssets
+	bl LoadExRegularBlazeModel
 	ldr r0, [r4, #0xc]
 	mov r1, #0xa800
 	add r0, r0, #0x390
@@ -1274,7 +1274,7 @@ exPlayerAdminTask__Func_216F5A4: // 0x0216F5A4
 	ldr r0, [r4, #0xc]
 	mov r1, #1
 	add r0, r0, #4
-	bl exPlayerHelpers__SetBlazeAnimation
+	bl SetExRegularBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -1432,7 +1432,7 @@ _0216F738:
 	ldr r0, [r4, #0xc]
 	mov r1, #4
 	add r0, r0, #4
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_21641F0
@@ -1510,7 +1510,7 @@ exPlayerAdminTask__Func_216F8D4: // 0x0216F8D4
 	ldr r1, [r4, #0xc]
 	add r0, r1, #4
 	ldrh r1, [r1, #2]
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -1901,7 +1901,7 @@ exPlayerAdminTask__Action_ShootFireball: // 0x0216FE00
 	strb r0, [r2, #0x6b]
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_21641F0
@@ -1928,7 +1928,7 @@ exPlayerAdminTask__Func_216FE6C: // 0x0216FE6C
 	ldr r0, [r4, #0xc]
 	mov r1, #7
 	add r0, r0, #4
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -2087,7 +2087,7 @@ exPlayerAdminTask__Func_2170088: // 0x02170088
 	ldr r0, [r4, #0xc]
 	mov r1, #8
 	add r0, r0, #4
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_21641F0
@@ -2235,7 +2235,7 @@ exPlayerAdminTask__Func_2170284: // 0x02170284
 	ldr r0, [r4, #0xc]
 	mov r1, #9
 	add r0, r0, #4
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_21641F0
@@ -2290,7 +2290,7 @@ exPlayerAdminTask__Func_2170320: // 0x02170320
 	ldr r0, [r4, #0xc]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r4, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -2800,7 +2800,7 @@ _02170A40:
 	strh r1, [r0, #0x20]
 	ldr r0, [r5, #0xc]
 	add r0, r0, #4
-	bl exBlzDushEffectTask__Create
+	bl CreateExBlazeDashEffect
 _02170A78:
 	ldr r0, [r5, #8]
 	mov r1, #3
@@ -2812,7 +2812,7 @@ _02170A78:
 	ldr r0, [r5, #0xc]
 	mov r1, #3
 	add r0, r0, #4
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r5, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_21641F0
@@ -3003,7 +3003,7 @@ _02170D10:
 	ldr r0, [r5, #0xc]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl exPlayerHelpers__SetBurningBlazeAnimation
+	bl SetExBurningBlazeAnimation
 	ldr r0, [r5, #0xc]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218

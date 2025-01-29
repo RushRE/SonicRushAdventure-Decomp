@@ -383,7 +383,7 @@ exBossEffectFireBallTask__Func_2156AC4: // 0x02156AC4
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl ExBossSysAdminTask__GetSingleton
+	bl exBossSysAdminTask__GetSingleton
 	cmp r0, #0
 	bne _02156AF4
 	bl GetExTaskCurrent
@@ -444,7 +444,7 @@ exBossEffectFireBallTask__Func_2156B88: // 0x02156B88
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl ExBossSysAdminTask__GetSingleton
+	bl exBossSysAdminTask__GetSingleton
 	cmp r0, #0
 	bne _02156BB8
 	bl GetExTaskCurrent
@@ -506,7 +506,7 @@ exBossEffectFireBallTask__Func_2156C50: // 0x02156C50
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl ExBossSysAdminTask__GetSingleton
+	bl exBossSysAdminTask__GetSingleton
 	cmp r0, #0
 	bne _02156C80
 	bl GetExTaskCurrent

@@ -23,25 +23,25 @@ exBossSysAdminTask__unk_2176280: // 0x02176280
 	
 	.text
 
-	arm_func_start ExBossSysAdminTask__Func_215DC14
-ExBossSysAdminTask__Func_215DC14: // 0x0215DC14
+	arm_func_start exBossSysAdminTask__RunTaskUnknownEvent
+exBossSysAdminTask__RunTaskUnknownEvent: // 0x0215DC14
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ExBossSysAdminTask__Func_215DC14
+	arm_func_end exBossSysAdminTask__RunTaskUnknownEvent
 
-	arm_func_start ExBossSysAdminTask__BossMain_215DC2C
-ExBossSysAdminTask__BossMain_215DC2C: // 0x0215DC2C
+	arm_func_start exBossSysAdminTask__Action_StartMete0
+exBossSysAdminTask__Action_StartMete0: // 0x0215DC2C
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #1
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	bl exBossEffectFireTask__Create
@@ -55,19 +55,19 @@ ExBossSysAdminTask__BossMain_215DC2C: // 0x0215DC2C
 	bl PlayVoiceClipEx
 	bl exBossMeteAdminTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _0215DC98 // =ExBossSysAdminTask__Func_215DC9C
+	ldr r1, _0215DC98 // =exBossSysAdminTask__Func_215DC9C
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215DC9C
-	bl ExBossSysAdminTask__Func_215DC14
+	bl exBossSysAdminTask__Func_215DC9C
+	bl exBossSysAdminTask__RunTaskUnknownEvent
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215DC94: .word 0x00000103
-_0215DC98: .word ExBossSysAdminTask__Func_215DC9C
-	arm_func_end ExBossSysAdminTask__BossMain_215DC2C
+_0215DC98: .word exBossSysAdminTask__Func_215DC9C
+	arm_func_end exBossSysAdminTask__Action_StartMete0
 
-	arm_func_start ExBossSysAdminTask__Func_215DC9C
-ExBossSysAdminTask__Func_215DC9C: // 0x0215DC9C
+	arm_func_start exBossSysAdminTask__Func_215DC9C
+exBossSysAdminTask__Func_215DC9C: // 0x0215DC9C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -77,7 +77,7 @@ ExBossSysAdminTask__Func_215DC9C: // 0x0215DC9C
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215DCC8
-	bl ExBossSysAdminTask__Func_215DCE4
+	bl exBossSysAdminTask__Func_215DCE4
 	ldmia sp!, {r4, pc}
 _0215DCC8:
 	add r0, r4, #0x6c
@@ -85,12 +85,12 @@ _0215DCC8:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
-	bl ExBossSysAdminTask__Func_215DC14
+	bl exBossSysAdminTask__RunTaskUnknownEvent
 	ldmia sp!, {r4, pc}
-	arm_func_end ExBossSysAdminTask__Func_215DC9C
+	arm_func_end exBossSysAdminTask__Func_215DC9C
 
-	arm_func_start ExBossSysAdminTask__Func_215DCE4
-ExBossSysAdminTask__Func_215DCE4: // 0x0215DCE4
+	arm_func_start exBossSysAdminTask__Func_215DCE4
+exBossSysAdminTask__Func_215DCE4: // 0x0215DCE4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -98,22 +98,22 @@ ExBossSysAdminTask__Func_215DCE4: // 0x0215DCE4
 	add r0, r4, #0x6c
 	mov r1, #2
 	strh r2, [r4, #0x56]
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
 	bl exBossMeteLockOnTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _0215DD28 // =ExBossSysAdminTask__Func_215DD2C
+	ldr r1, _0215DD28 // =exBossSysAdminTask__Func_215DD2C
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215DD2C
-	bl ExBossSysAdminTask__Func_215DC14
+	bl exBossSysAdminTask__Func_215DD2C
+	bl exBossSysAdminTask__RunTaskUnknownEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215DD28: .word ExBossSysAdminTask__Func_215DD2C
-	arm_func_end ExBossSysAdminTask__Func_215DCE4
+_0215DD28: .word exBossSysAdminTask__Func_215DD2C
+	arm_func_end exBossSysAdminTask__Func_215DCE4
 
-	arm_func_start ExBossSysAdminTask__Func_215DD2C
-ExBossSysAdminTask__Func_215DD2C: // 0x0215DD2C
+	arm_func_start exBossSysAdminTask__Func_215DD2C
+exBossSysAdminTask__Func_215DD2C: // 0x0215DD2C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -124,7 +124,7 @@ ExBossSysAdminTask__Func_215DD2C: // 0x0215DD2C
 	strh r0, [r4, #0x56]
 	cmp r1, #0
 	bge _0215DD5C
-	bl ExBossSysAdminTask__Func_215DD78
+	bl exBossSysAdminTask__Func_215DD78
 	ldmia sp!, {r4, pc}
 _0215DD5C:
 	add r0, r4, #0x6c
@@ -132,35 +132,35 @@ _0215DD5C:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
-	bl ExBossSysAdminTask__Func_215DC14
+	bl exBossSysAdminTask__RunTaskUnknownEvent
 	ldmia sp!, {r4, pc}
-	arm_func_end ExBossSysAdminTask__Func_215DD2C
+	arm_func_end exBossSysAdminTask__Func_215DD2C
 
-	arm_func_start ExBossSysAdminTask__Func_215DD78
-ExBossSysAdminTask__Func_215DD78: // 0x0215DD78
+	arm_func_start exBossSysAdminTask__Func_215DD78
+exBossSysAdminTask__Func_215DD78: // 0x0215DD78
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	mov r0, #0
 	strh r0, [r4, #0x56]
-	bl exBossFireBlueTask__BossFunc_21581C0
+	bl exBossEffectFireTask__Func_21581C0
 	add r0, r4, #0x6c
 	mov r1, #3
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_21641F0
 	bl GetExTaskCurrent
-	ldr r1, _0215DDBC // =ExBossSysAdminTask__Func_215DDC0
+	ldr r1, _0215DDBC // =exBossSysAdminTask__Func_215DDC0
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215DDC0
-	bl ExBossSysAdminTask__Func_215DC14
+	bl exBossSysAdminTask__Func_215DDC0
+	bl exBossSysAdminTask__RunTaskUnknownEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215DDBC: .word ExBossSysAdminTask__Func_215DDC0
-	arm_func_end ExBossSysAdminTask__Func_215DD78
+_0215DDBC: .word exBossSysAdminTask__Func_215DDC0
+	arm_func_end exBossSysAdminTask__Func_215DD78
 
-	arm_func_start ExBossSysAdminTask__Func_215DDC0
-ExBossSysAdminTask__Func_215DDC0: // 0x0215DDC0
+	arm_func_start exBossSysAdminTask__Func_215DDC0
+exBossSysAdminTask__Func_215DDC0: // 0x0215DDC0
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
@@ -179,9 +179,9 @@ ExBossSysAdminTask__Func_215DDC0: // 0x0215DDC0
 	stmia sp, {r0, ip}
 	bl PlaySfxEx
 	bl GetExTaskCurrent
-	ldr r1, _0215DE3C // =ExBossSysAdminTask__Func_215DE40
+	ldr r1, _0215DE3C // =exBossSysAdminTask__Func_215DE40
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215DE40
+	bl exBossSysAdminTask__Func_215DE40
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 _0215DE1C:
@@ -190,15 +190,15 @@ _0215DE1C:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
-	bl ExBossSysAdminTask__Func_215DC14
+	bl exBossSysAdminTask__RunTaskUnknownEvent
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215DE3C: .word ExBossSysAdminTask__Func_215DE40
-	arm_func_end ExBossSysAdminTask__Func_215DDC0
+_0215DE3C: .word exBossSysAdminTask__Func_215DE40
+	arm_func_end exBossSysAdminTask__Func_215DDC0
 
-	arm_func_start ExBossSysAdminTask__Func_215DE40
-ExBossSysAdminTask__Func_215DE40: // 0x0215DE40
+	arm_func_start exBossSysAdminTask__Func_215DE40
+exBossSysAdminTask__Func_215DE40: // 0x0215DE40
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -208,7 +208,7 @@ ExBossSysAdminTask__Func_215DE40: // 0x0215DE40
 	ldr r0, [r0, #0]
 	cmp r0, #0x23000
 	bne _0215DE6C
-	bl ExBossSysAdminTask__Func_215DE88
+	bl exBossSysAdminTask__Func_215DE88
 	ldmia sp!, {r4, pc}
 _0215DE6C:
 	add r0, r4, #0x6c
@@ -216,27 +216,27 @@ _0215DE6C:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
-	bl ExBossSysAdminTask__Func_215DC14
+	bl exBossSysAdminTask__RunTaskUnknownEvent
 	ldmia sp!, {r4, pc}
-	arm_func_end ExBossSysAdminTask__Func_215DE40
+	arm_func_end exBossSysAdminTask__Func_215DE40
 
-	arm_func_start ExBossSysAdminTask__Func_215DE88
-ExBossSysAdminTask__Func_215DE88: // 0x0215DE88
+	arm_func_start exBossSysAdminTask__Func_215DE88
+exBossSysAdminTask__Func_215DE88: // 0x0215DE88
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl exBossMeteMeteoTask__Create
 	bl GetExTaskCurrent
-	ldr r1, _0215DEAC // =ExBossSysAdminTask__Func_215DEB0
+	ldr r1, _0215DEAC // =exBossSysAdminTask__Func_215DEB0
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215DEB0
-	bl ExBossSysAdminTask__Func_215DC14
+	bl exBossSysAdminTask__Func_215DEB0
+	bl exBossSysAdminTask__RunTaskUnknownEvent
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215DEAC: .word ExBossSysAdminTask__Func_215DEB0
-	arm_func_end ExBossSysAdminTask__Func_215DE88
+_0215DEAC: .word exBossSysAdminTask__Func_215DEB0
+	arm_func_end exBossSysAdminTask__Func_215DE88
 
-	arm_func_start ExBossSysAdminTask__Func_215DEB0
-ExBossSysAdminTask__Func_215DEB0: // 0x0215DEB0
+	arm_func_start exBossSysAdminTask__Func_215DEB0
+exBossSysAdminTask__Func_215DEB0: // 0x0215DEB0
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -246,7 +246,7 @@ ExBossSysAdminTask__Func_215DEB0: // 0x0215DEB0
 	bl exDrawReqTask__Model__IsAnimFinished
 	cmp r0, #0
 	beq _0215DEDC
-	bl ExBossSysAdminTask__Func_215DEF8
+	bl exBossSysAdminTask__Action_FinishMeteorAttack
 	ldmia sp!, {r4, pc}
 _0215DEDC:
 	add r0, r4, #0x6c
@@ -254,48 +254,48 @@ _0215DEDC:
 	add r0, r4, #0x6c
 	add r1, r4, #0x3f8
 	bl exDrawReqTask__AddRequest
-	bl ExBossSysAdminTask__Func_215DC14
+	bl exBossSysAdminTask__RunTaskUnknownEvent
 	ldmia sp!, {r4, pc}
-	arm_func_end ExBossSysAdminTask__Func_215DEB0
+	arm_func_end exBossSysAdminTask__Func_215DEB0
 
-	arm_func_start ExBossSysAdminTask__Func_215DEF8
-ExBossSysAdminTask__Func_215DEF8: // 0x0215DEF8
+	arm_func_start exBossSysAdminTask__Action_FinishMeteorAttack
+exBossSysAdminTask__Action_FinishMeteorAttack: // 0x0215DEF8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	ldr r0, [r0, #0x548]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ExBossSysAdminTask__Func_215DEF8
+	arm_func_end exBossSysAdminTask__Action_FinishMeteorAttack
 
-	arm_func_start ExBossSysAdminTask__GetBossWork
-ExBossSysAdminTask__GetBossWork: // 0x0215DF0C
+	arm_func_start exBossSysAdminTask__GetBossWork
+exBossSysAdminTask__GetBossWork: // 0x0215DF0C
 	ldr r0, _0215DF18 // =exBossSysAdminTask__dword_217626C
 	ldr r0, [r0, #0x14]
 	bx lr
 	.align 2, 0
 _0215DF18: .word exBossSysAdminTask__dword_217626C
-	arm_func_end ExBossSysAdminTask__GetBossWork
+	arm_func_end exBossSysAdminTask__GetBossWork
 
-	arm_func_start ExBossSysAdminTask__Func_215DF1C
-ExBossSysAdminTask__Func_215DF1C: // 0x0215DF1C
+	arm_func_start exBossSysAdminTask__Func_215DF1C
+exBossSysAdminTask__Func_215DF1C: // 0x0215DF1C
 	ldr r0, _0215DF28 // =exBossSysAdminTask__dword_217626C
 	ldr r0, [r0, #4]
 	bx lr
 	.align 2, 0
 _0215DF28: .word exBossSysAdminTask__dword_217626C
-	arm_func_end ExBossSysAdminTask__Func_215DF1C
+	arm_func_end exBossSysAdminTask__Func_215DF1C
 
-	arm_func_start ExBossSysAdminTask__Func_215DF2C
-ExBossSysAdminTask__Func_215DF2C: // 0x0215DF2C
+	arm_func_start exBossSysAdminTask__Func_215DF2C
+exBossSysAdminTask__Func_215DF2C: // 0x0215DF2C
 	ldr r1, _0215DF38 // =exBossSysAdminTask__dword_217626C
 	str r0, [r1, #4]
 	bx lr
 	.align 2, 0
 _0215DF38: .word exBossSysAdminTask__dword_217626C
-	arm_func_end ExBossSysAdminTask__Func_215DF2C
+	arm_func_end exBossSysAdminTask__Func_215DF2C
 
-	arm_func_start exBossSysAdminTask__Main
-exBossSysAdminTask__Main: // 0x0215DF3C
+	arm_func_start exBossSysAdminTask__Main_Init
+exBossSysAdminTask__Main_Init: // 0x0215DF3C
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	bl GetExTaskWorkCurrent_
 	mov r5, r0
@@ -306,7 +306,7 @@ exBossSysAdminTask__Main: // 0x0215DF3C
 	str r5, [r1, #0x14]
 	mov r0, #1
 	strh r2, [r5, #0x64]
-	bl ExBossSysAdminTask__Func_215DF2C
+	bl exBossSysAdminTask__Func_215DF2C
 	bl exBossSysAdminBiforTask__Create
 	ldr r1, _0215E02C // =0x0217431C
 	add r0, r5, #0x6c
@@ -314,7 +314,7 @@ exBossSysAdminTask__Main: // 0x0215DF3C
 	str r2, [r5, #0x54c]
 	ldr r1, [r1, #0]
 	str r1, [r5, #0x548]
-	bl exBossHelpers__Func_2154030
+	bl exBossHelpers__LoadAssets
 	add r0, r5, #0x3f8
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
@@ -353,14 +353,14 @@ _0215DFAC:
 	strh r4, [r5, #0x54]
 	str r0, [r5, #4]
 	bl GetExTaskCurrent
-	ldr r1, _0215E030 // =ExBossSysAdminTask__Main_215E084
+	ldr r1, _0215E030 // =exBossSysAdminTask__Main_WaitForTitleCard
 	str r1, [r0]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _0215E028: .word exBossSysAdminTask__dword_217626C
 _0215E02C: .word 0x0217431C
-_0215E030: .word ExBossSysAdminTask__Main_215E084
-	arm_func_end exBossSysAdminTask__Main
+_0215E030: .word exBossSysAdminTask__Main_WaitForTitleCard
+	arm_func_end exBossSysAdminTask__Main_Init
 
 	arm_func_start exBossSysAdminTask__Func8
 exBossSysAdminTask__Func8: // 0x0215E034
@@ -370,12 +370,12 @@ exBossSysAdminTask__Func8: // 0x0215E034
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
-	ldr r1, _0215E05C // =ExBossSysAdminTask__Func_215EF98
+	ldr r1, _0215E05C // =exBossSysAdminTask__Main_Blank
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215EF98
+	bl exBossSysAdminTask__Main_Blank
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215E05C: .word ExBossSysAdminTask__Func_215EF98
+_0215E05C: .word exBossSysAdminTask__Main_Blank
 	arm_func_end exBossSysAdminTask__Func8
 
 	arm_func_start exBossSysAdminTask__Destructor
@@ -392,8 +392,8 @@ exBossSysAdminTask__Destructor: // 0x0215E060
 _0215E080: .word exBossSysAdminTask__dword_217626C
 	arm_func_end exBossSysAdminTask__Destructor
 
-	arm_func_start ExBossSysAdminTask__Main_215E084
-ExBossSysAdminTask__Main_215E084: // 0x0215E084
+	arm_func_start exBossSysAdminTask__Main_WaitForTitleCard
+exBossSysAdminTask__Main_WaitForTitleCard: // 0x0215E084
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -403,7 +403,7 @@ ExBossSysAdminTask__Main_215E084: // 0x0215E084
 	ldrb r0, [r0, #3]
 	cmp r0, #4
 	bne _0215E0B0
-	bl ExBossSysAdminTask__Func_215E0CC
+	bl exBossSysAdminTask__Action_InitialFlee
 	ldmia sp!, {r4, pc}
 _0215E0B0:
 	add r0, r4, #0x6c
@@ -413,23 +413,23 @@ _0215E0B0:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ExBossSysAdminTask__Main_215E084
+	arm_func_end exBossSysAdminTask__Main_WaitForTitleCard
 
-	arm_func_start ExBossSysAdminTask__Func_215E0CC
-ExBossSysAdminTask__Func_215E0CC: // 0x0215E0CC
+	arm_func_start exBossSysAdminTask__Action_InitialFlee
+exBossSysAdminTask__Action_InitialFlee: // 0x0215E0CC
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl GetExTaskCurrent
-	ldr r1, _0215E0E8 // =ExBossSysAdminTask__Main_215E0EC
+	ldr r1, _0215E0E8 // =exBossSysAdminTask__Main_InitialFlee
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215E0EC
+	bl exBossSysAdminTask__Main_InitialFlee
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215E0E8: .word ExBossSysAdminTask__Main_215E0EC
-	arm_func_end ExBossSysAdminTask__Func_215E0CC
+_0215E0E8: .word exBossSysAdminTask__Main_InitialFlee
+	arm_func_end exBossSysAdminTask__Action_InitialFlee
 
-	arm_func_start ExBossSysAdminTask__Main_215E0EC
-ExBossSysAdminTask__Main_215E0EC: // 0x0215E0EC
+	arm_func_start exBossSysAdminTask__Main_InitialFlee
+exBossSysAdminTask__Main_InitialFlee: // 0x0215E0EC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -450,7 +450,7 @@ ExBossSysAdminTask__Main_215E0EC: // 0x0215E0EC
 	cmp r0, #0xc8000
 	blt _0215E140
 _0215E138:
-	bl ExBossSysAdminTask__Func_215E15C
+	bl exBossSysAdminTask__Action_WaitForFlag215DF1C
 	ldmia sp!, {r4, pc}
 _0215E140:
 	add r0, r4, #0x6c
@@ -460,79 +460,79 @@ _0215E140:
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r4, pc}
-	arm_func_end ExBossSysAdminTask__Main_215E0EC
+	arm_func_end exBossSysAdminTask__Main_InitialFlee
 
-	arm_func_start ExBossSysAdminTask__Func_215E15C
-ExBossSysAdminTask__Func_215E15C: // 0x0215E15C
+	arm_func_start exBossSysAdminTask__Action_WaitForFlag215DF1C
+exBossSysAdminTask__Action_WaitForFlag215DF1C: // 0x0215E15C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	mov r0, #0
-	bl ExBossSysAdminTask__Func_215DF2C
+	bl exBossSysAdminTask__Func_215DF2C
 	bl GetExTaskCurrent
-	ldr r1, _0215E180 // =ExBossSysAdminTask__Main_215E184
+	ldr r1, _0215E180 // =exBossSysAdminTask__Main_WaitForFlag215DF1C
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215E184
+	bl exBossSysAdminTask__Main_WaitForFlag215DF1C
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215E180: .word ExBossSysAdminTask__Main_215E184
-	arm_func_end ExBossSysAdminTask__Func_215E15C
+_0215E180: .word exBossSysAdminTask__Main_WaitForFlag215DF1C
+	arm_func_end exBossSysAdminTask__Action_WaitForFlag215DF1C
 
-	arm_func_start ExBossSysAdminTask__Main_215E184
-ExBossSysAdminTask__Main_215E184: // 0x0215E184
+	arm_func_start exBossSysAdminTask__Main_WaitForFlag215DF1C
+exBossSysAdminTask__Main_WaitForFlag215DF1C: // 0x0215E184
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl ExBossSysAdminTask__Func_215DF1C
+	bl exBossSysAdminTask__Func_215DF1C
 	cmp r0, #0
 	beq _0215E1A0
-	bl ExBossSysAdminTask__Func_215E1B0
+	bl exBossSysAdminTask__Action_RegenerateHealth
 	ldmia sp!, {r3, pc}
 _0215E1A0:
 	bl GetExTaskCurrent
 	ldr r0, [r0, #8]
 	blx r0
 	ldmia sp!, {r3, pc}
-	arm_func_end ExBossSysAdminTask__Main_215E184
+	arm_func_end exBossSysAdminTask__Main_WaitForFlag215DF1C
 
-	arm_func_start ExBossSysAdminTask__Func_215E1B0
-ExBossSysAdminTask__Func_215E1B0: // 0x0215E1B0
+	arm_func_start exBossSysAdminTask__Action_RegenerateHealth
+exBossSysAdminTask__Action_RegenerateHealth: // 0x0215E1B0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
 	bl GetExSystemStatus
 	mov r1, #5
 	strb r1, [r0, #3]
-	bl ExBossSysAdminTask__GetBossWork
+	bl exBossSysAdminTask__GetBossWork
 	mov r1, #0
 	strh r1, [r0, #0x62]
 	bl GetExTaskCurrent
-	ldr r1, _0215E1E4 // =ExBossSysAdminTask__Main_215E1E8
+	ldr r1, _0215E1E4 // =exBossSysAdminTask__Main_RegenerateHealth
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215E1E8
+	bl exBossSysAdminTask__Main_RegenerateHealth
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0215E1E4: .word ExBossSysAdminTask__Main_215E1E8
-	arm_func_end ExBossSysAdminTask__Func_215E1B0
+_0215E1E4: .word exBossSysAdminTask__Main_RegenerateHealth
+	arm_func_end exBossSysAdminTask__Action_RegenerateHealth
 
-	arm_func_start ExBossSysAdminTask__Main_215E1E8
-ExBossSysAdminTask__Main_215E1E8: // 0x0215E1E8
+	arm_func_start exBossSysAdminTask__Main_RegenerateHealth
+exBossSysAdminTask__Main_RegenerateHealth: // 0x0215E1E8
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	bl exDrawReqTask__Model__Animate
-	bl ExBossSysAdminTask__Func_215F88C
+	bl exBossSysAdminTask__MoveRandom
 	ldr r0, _0215E290 // =exBossSysAdminTask__dword_217626C
 	ldrsh r1, [r0, #0]
 	cmp r1, #0xaf
 	bge _0215E22C
 	add r1, r1, #1
 	strh r1, [r0]
-	bl ExBossSysAdminTask__GetBossWork
+	bl exBossSysAdminTask__GetBossWork
 	ldr r1, _0215E290 // =exBossSysAdminTask__dword_217626C
 	ldrsh r1, [r1, #0]
 	strh r1, [r0, #0x62]
 	b _0215E274
 _0215E22C:
-	bl ExBossSysAdminTask__GetBossWork
+	bl exBossSysAdminTask__GetBossWork
 	mov r1, #0xb0
 	strh r1, [r0, #0x62]
 	ldr r0, [r4, #0x3c0]
@@ -544,11 +544,11 @@ _0215E22C:
 	bl GetExSystemStatus
 	mov r1, #6
 	strb r1, [r0, #3]
-	bl ExBossSysAdminTask__Func_215EF00
+	bl exBossSysAdminTask__SetNextTimer
 	bl GetExTaskCurrent
-	ldr r1, _0215E294 // =ExBossSysAdminTask__Main_215E2D4
+	ldr r1, _0215E294 // =exBossSysAdminTask__Main_DragonAttackIdle
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215E2D4
+	bl exBossSysAdminTask__Main_DragonAttackIdle
 	ldmia sp!, {r4, pc}
 _0215E274:
 	add r0, r4, #0x6c
@@ -560,31 +560,31 @@ _0215E274:
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215E290: .word exBossSysAdminTask__dword_217626C
-_0215E294: .word ExBossSysAdminTask__Main_215E2D4
-	arm_func_end ExBossSysAdminTask__Main_215E1E8
+_0215E294: .word exBossSysAdminTask__Main_DragonAttackIdle
+	arm_func_end exBossSysAdminTask__Main_RegenerateHealth
 
-	arm_func_start ExBossSysAdminTask__BossMain_215E298
-ExBossSysAdminTask__BossMain_215E298: // 0x0215E298
+	arm_func_start exBossSysAdminTask__Action_DragonAttackIdle
+exBossSysAdminTask__Action_DragonAttackIdle: // 0x0215E298
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
-	bl ExBossSysAdminTask__Func_215EF00
+	bl exBossSysAdminTask__SetNextTimer
 	bl GetExTaskCurrent
-	ldr r1, _0215E2D0 // =ExBossSysAdminTask__Main_215E2D4
+	ldr r1, _0215E2D0 // =exBossSysAdminTask__Main_DragonAttackIdle
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215E2D4
+	bl exBossSysAdminTask__Main_DragonAttackIdle
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215E2D0: .word ExBossSysAdminTask__Main_215E2D4
-	arm_func_end ExBossSysAdminTask__BossMain_215E298
+_0215E2D0: .word exBossSysAdminTask__Main_DragonAttackIdle
+	arm_func_end exBossSysAdminTask__Action_DragonAttackIdle
 
-	arm_func_start ExBossSysAdminTask__Main_215E2D4
-ExBossSysAdminTask__Main_215E2D4: // 0x0215E2D4
+	arm_func_start exBossSysAdminTask__Main_DragonAttackIdle
+exBossSysAdminTask__Main_DragonAttackIdle: // 0x0215E2D4
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -593,11 +593,11 @@ ExBossSysAdminTask__Main_215E2D4: // 0x0215E2D4
 	ldrb r0, [r4, #1]
 	orr r0, r0, #0x80
 	strb r0, [r4, #1]
-	bl ExBossSysAdminTask__Func_215F88C
+	bl exBossSysAdminTask__MoveRandom
 	ldrsh r0, [r4, #0x5e]
 	cmp r0, #0
 	bgt _0215E3DC
-	bl exBossFireDoraTask__Func_2154D7C
+	bl exBossFireDoraTask__AnyActive
 	cmp r0, #0
 	bne _0215E3C8
 	ldr r1, _0215E408 // =_mt_math_rand
@@ -632,9 +632,9 @@ ExBossSysAdminTask__Main_215E2D4: // 0x0215E2D4
 	b _0215E3E4
 _0215E388:
 	bl GetExTaskCurrent
-	ldr r1, _0215E41C // =ExBossSysAdminTask__Main_215E458
+	ldr r1, _0215E41C // =exBossSysAdminTask__Main_StartFw0_3
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215E458
+	bl exBossSysAdminTask__Main_StartFw0_3
 	ldmia sp!, {r4, r5, r6, pc}
 _0215E39C:
 	cmp r5, #0x32
@@ -645,15 +645,15 @@ _0215E39C:
 	b _0215E3E4
 _0215E3B4:
 	bl GetExTaskCurrent
-	ldr r1, _0215E41C // =ExBossSysAdminTask__Main_215E458
+	ldr r1, _0215E41C // =exBossSysAdminTask__Main_StartFw0_3
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215E458
+	bl exBossSysAdminTask__Main_StartFw0_3
 	ldmia sp!, {r4, r5, r6, pc}
 _0215E3C8:
 	bl GetExTaskCurrent
-	ldr r1, _0215E41C // =ExBossSysAdminTask__Main_215E458
+	ldr r1, _0215E41C // =exBossSysAdminTask__Main_StartFw0_3
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215E458
+	bl exBossSysAdminTask__Main_StartFw0_3
 	ldmia sp!, {r4, r5, r6, pc}
 _0215E3DC:
 	sub r0, r0, #1
@@ -674,30 +674,30 @@ _0215E40C: .word 0x0217431C
 _0215E410: .word 0x00196225
 _0215E414: .word 0x3C6EF35F
 _0215E418: .word 0x51EB851F
-_0215E41C: .word ExBossSysAdminTask__Main_215E458
-	arm_func_end ExBossSysAdminTask__Main_215E2D4
+_0215E41C: .word exBossSysAdminTask__Main_StartFw0_3
+	arm_func_end exBossSysAdminTask__Main_DragonAttackIdle
 
-	arm_func_start ExBossSysAdminTask__BossMain_215E420
-ExBossSysAdminTask__BossMain_215E420: // 0x0215E420
+	arm_func_start exBossSysAdminTask__Action_StartFw0_3
+exBossSysAdminTask__Action_StartFw0_3: // 0x0215E420
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
-	ldr r1, _0215E454 // =ExBossSysAdminTask__Main_215E458
+	ldr r1, _0215E454 // =exBossSysAdminTask__Main_StartFw0_3
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215E458
+	bl exBossSysAdminTask__Main_StartFw0_3
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215E454: .word ExBossSysAdminTask__Main_215E458
-	arm_func_end ExBossSysAdminTask__BossMain_215E420
+_0215E454: .word exBossSysAdminTask__Main_StartFw0_3
+	arm_func_end exBossSysAdminTask__Action_StartFw0_3
 
-	arm_func_start ExBossSysAdminTask__Main_215E458
-ExBossSysAdminTask__Main_215E458: // 0x0215E458
+	arm_func_start exBossSysAdminTask__Main_StartFw0_3
+exBossSysAdminTask__Main_StartFw0_3: // 0x0215E458
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -706,7 +706,7 @@ ExBossSysAdminTask__Main_215E458: // 0x0215E458
 	ldrb r0, [r4, #1]
 	orr r0, r0, #0x80
 	strb r0, [r4, #1]
-	bl ExBossSysAdminTask__Func_215F88C
+	bl exBossSysAdminTask__MoveRandom
 	ldrsh r0, [r4, #0x5e]
 	cmp r0, #0
 	bgt _0215E540
@@ -778,29 +778,29 @@ _0215E570: .word 0x0217431C
 _0215E574: .word 0x00196225
 _0215E578: .word 0x3C6EF35F
 _0215E57C: .word 0x51EB851F
-	arm_func_end ExBossSysAdminTask__Main_215E458
+	arm_func_end exBossSysAdminTask__Main_StartFw0_3
 
-	arm_func_start ExBossSysAdminTask__BossMain_215E580
-ExBossSysAdminTask__BossMain_215E580: // 0x0215E580
+	arm_func_start exBossSysAdminTask__Action_StartFw0_4
+exBossSysAdminTask__Action_StartFw0_4: // 0x0215E580
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
-	ldr r1, _0215E5B4 // =ExBossSysAdminTask__Func_215E5B8
+	ldr r1, _0215E5B4 // =exBossSysAdminTask__Main_StartFw0_4
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215E5B8
+	bl exBossSysAdminTask__Main_StartFw0_4
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215E5B4: .word ExBossSysAdminTask__Func_215E5B8
-	arm_func_end ExBossSysAdminTask__BossMain_215E580
+_0215E5B4: .word exBossSysAdminTask__Main_StartFw0_4
+	arm_func_end exBossSysAdminTask__Action_StartFw0_4
 
-	arm_func_start ExBossSysAdminTask__Func_215E5B8
-ExBossSysAdminTask__Func_215E5B8: // 0x0215E5B8
+	arm_func_start exBossSysAdminTask__Main_StartFw0_4
+exBossSysAdminTask__Main_StartFw0_4: // 0x0215E5B8
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -809,7 +809,7 @@ ExBossSysAdminTask__Func_215E5B8: // 0x0215E5B8
 	ldrb r0, [r4, #1]
 	orr r0, r0, #0x80
 	strb r0, [r4, #1]
-	bl ExBossSysAdminTask__Func_215F88C
+	bl exBossSysAdminTask__MoveRandom
 	ldrsh r0, [r4, #0x5e]
 	cmp r0, #0
 	bgt _0215E648
@@ -828,15 +828,15 @@ ExBossSysAdminTask__Func_215E5B8: // 0x0215E5B8
 	movs r0, r0, lsr #0x1f
 	bne _0215E634
 	bl GetExTaskCurrent
-	ldr r1, _0215E684 // =ExBossSysAdminTask__Main_215E2D4
+	ldr r1, _0215E684 // =exBossSysAdminTask__Main_DragonAttackIdle
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215E2D4
+	bl exBossSysAdminTask__Main_DragonAttackIdle
 	ldmia sp!, {r4, pc}
 _0215E634:
 	bl GetExTaskCurrent
-	ldr r1, _0215E684 // =ExBossSysAdminTask__Main_215E2D4
+	ldr r1, _0215E684 // =exBossSysAdminTask__Main_DragonAttackIdle
 	str r1, [r0]
-	bl ExBossSysAdminTask__Main_215E2D4
+	bl exBossSysAdminTask__Main_DragonAttackIdle
 	ldmia sp!, {r4, pc}
 _0215E648:
 	sub r2, r0, #1
@@ -855,31 +855,31 @@ _0215E674: .word _mt_math_rand
 _0215E678: .word 0x0217431C
 _0215E67C: .word 0x00196225
 _0215E680: .word 0x3C6EF35F
-_0215E684: .word ExBossSysAdminTask__Main_215E2D4
-	arm_func_end ExBossSysAdminTask__Func_215E5B8
+_0215E684: .word exBossSysAdminTask__Main_DragonAttackIdle
+	arm_func_end exBossSysAdminTask__Main_StartFw0_4
 
-	arm_func_start ExBossSysAdminTask__BossMain_215E688
-ExBossSysAdminTask__BossMain_215E688: // 0x0215E688
+	arm_func_start exBossSysAdminTask__Action_StartFw0_5
+exBossSysAdminTask__Action_StartFw0_5: // 0x0215E688
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
-	bl ExBossSysAdminTask__Func_215EF00
+	bl exBossSysAdminTask__SetNextTimer
 	bl GetExTaskCurrent
-	ldr r1, _0215E6C0 // =ExBossSysAdminTask__Func_215E6C4
+	ldr r1, _0215E6C0 // =exBossSysAdminTask__Main_StartFw0_5
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215E6C4
+	bl exBossSysAdminTask__Main_StartFw0_5
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215E6C0: .word ExBossSysAdminTask__Func_215E6C4
-	arm_func_end ExBossSysAdminTask__BossMain_215E688
+_0215E6C0: .word exBossSysAdminTask__Main_StartFw0_5
+	arm_func_end exBossSysAdminTask__Action_StartFw0_5
 
-	arm_func_start ExBossSysAdminTask__Func_215E6C4
-ExBossSysAdminTask__Func_215E6C4: // 0x0215E6C4
+	arm_func_start exBossSysAdminTask__Main_StartFw0_5
+exBossSysAdminTask__Main_StartFw0_5: // 0x0215E6C4
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -888,11 +888,11 @@ ExBossSysAdminTask__Func_215E6C4: // 0x0215E6C4
 	ldrb r0, [r4, #1]
 	orr r0, r0, #0x80
 	strb r0, [r4, #1]
-	bl ExBossSysAdminTask__Func_215F88C
+	bl exBossSysAdminTask__MoveRandom
 	ldrsh r0, [r4, #0x5e]
 	cmp r0, #0
 	bgt _0215E7B8
-	bl exBossFireDoraTask__Func_2154D7C
+	bl exBossFireDoraTask__AnyActive
 	cmp r0, #0
 	bne _0215E7A4
 	bl exBossHomingLaserTask__Func_2159E14
@@ -939,9 +939,9 @@ _0215E788:
 	b _0215E7C0
 _0215E7A4:
 	bl GetExTaskCurrent
-	ldr r1, _0215E7F8 // =ExBossSysAdminTask__Func_215E834
+	ldr r1, _0215E7F8 // =exBossSysAdminTask__Main_StartFw0_6
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215E834
+	bl exBossSysAdminTask__Main_StartFw0_6
 	ldmia sp!, {r4, r5, r6, pc}
 _0215E7B8:
 	sub r0, r0, #1
@@ -962,30 +962,30 @@ _0215E7E8: .word 0x0217431C
 _0215E7EC: .word 0x00196225
 _0215E7F0: .word 0x3C6EF35F
 _0215E7F4: .word 0x51EB851F
-_0215E7F8: .word ExBossSysAdminTask__Func_215E834
-	arm_func_end ExBossSysAdminTask__Func_215E6C4
+_0215E7F8: .word exBossSysAdminTask__Main_StartFw0_6
+	arm_func_end exBossSysAdminTask__Main_StartFw0_5
 
-	arm_func_start ExBossSysAdminTask__BossMain_215E7FC
-ExBossSysAdminTask__BossMain_215E7FC: // 0x0215E7FC
+	arm_func_start exBossSysAdminTask__Action_StartFw0_6
+exBossSysAdminTask__Action_StartFw0_6: // 0x0215E7FC
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
-	ldr r1, _0215E830 // =ExBossSysAdminTask__Func_215E834
+	ldr r1, _0215E830 // =exBossSysAdminTask__Main_StartFw0_6
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215E834
+	bl exBossSysAdminTask__Main_StartFw0_6
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215E830: .word ExBossSysAdminTask__Func_215E834
-	arm_func_end ExBossSysAdminTask__BossMain_215E7FC
+_0215E830: .word exBossSysAdminTask__Main_StartFw0_6
+	arm_func_end exBossSysAdminTask__Action_StartFw0_6
 
-	arm_func_start ExBossSysAdminTask__Func_215E834
-ExBossSysAdminTask__Func_215E834: // 0x0215E834
+	arm_func_start exBossSysAdminTask__Main_StartFw0_6
+exBossSysAdminTask__Main_StartFw0_6: // 0x0215E834
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -994,7 +994,7 @@ ExBossSysAdminTask__Func_215E834: // 0x0215E834
 	ldrb r0, [r4, #1]
 	orr r0, r0, #0x80
 	strb r0, [r4, #1]
-	bl ExBossSysAdminTask__Func_215F88C
+	bl exBossSysAdminTask__MoveRandom
 	ldrsh r0, [r4, #0x5e]
 	cmp r0, #0
 	bgt _0215E95C
@@ -1084,29 +1084,29 @@ _0215E98C: .word 0x0217431C
 _0215E990: .word 0x00196225
 _0215E994: .word 0x3C6EF35F
 _0215E998: .word 0x51EB851F
-	arm_func_end ExBossSysAdminTask__Func_215E834
+	arm_func_end exBossSysAdminTask__Main_StartFw0_6
 
-	arm_func_start ExBossSysAdminTask__Main_215E99C
-ExBossSysAdminTask__Main_215E99C: // 0x0215E99C
+	arm_func_start exBossSysAdminTask__Action_StartFw0_7
+exBossSysAdminTask__Action_StartFw0_7: // 0x0215E99C
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
-	ldr r1, _0215E9D0 // =ExBossSysAdminTask__Func_215E9D4
+	ldr r1, _0215E9D0 // =exBossSysAdminTask__Main_StartFw0_7
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215E9D4
+	bl exBossSysAdminTask__Main_StartFw0_7
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215E9D0: .word ExBossSysAdminTask__Func_215E9D4
-	arm_func_end ExBossSysAdminTask__Main_215E99C
+_0215E9D0: .word exBossSysAdminTask__Main_StartFw0_7
+	arm_func_end exBossSysAdminTask__Action_StartFw0_7
 
-	arm_func_start ExBossSysAdminTask__Func_215E9D4
-ExBossSysAdminTask__Func_215E9D4: // 0x0215E9D4
+	arm_func_start exBossSysAdminTask__Main_StartFw0_7
+exBossSysAdminTask__Main_StartFw0_7: // 0x0215E9D4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -1115,7 +1115,7 @@ ExBossSysAdminTask__Func_215E9D4: // 0x0215E9D4
 	ldrb r0, [r4, #1]
 	orr r0, r0, #0x80
 	strb r0, [r4, #1]
-	bl ExBossSysAdminTask__Func_215F88C
+	bl exBossSysAdminTask__MoveRandom
 	ldrsh r0, [r4, #0x5e]
 	cmp r0, #0
 	bgt _0215EA64
@@ -1134,15 +1134,15 @@ ExBossSysAdminTask__Func_215E9D4: // 0x0215E9D4
 	movs r0, r0, lsr #0x1f
 	bne _0215EA50
 	bl GetExTaskCurrent
-	ldr r1, _0215EAA0 // =ExBossSysAdminTask__Func_215E6C4
+	ldr r1, _0215EAA0 // =exBossSysAdminTask__Main_StartFw0_5
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215E6C4
+	bl exBossSysAdminTask__Main_StartFw0_5
 	ldmia sp!, {r4, pc}
 _0215EA50:
 	bl GetExTaskCurrent
-	ldr r1, _0215EAA0 // =ExBossSysAdminTask__Func_215E6C4
+	ldr r1, _0215EAA0 // =exBossSysAdminTask__Main_StartFw0_5
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215E6C4
+	bl exBossSysAdminTask__Main_StartFw0_5
 	ldmia sp!, {r4, pc}
 _0215EA64:
 	sub r2, r0, #1
@@ -1161,31 +1161,31 @@ _0215EA90: .word _mt_math_rand
 _0215EA94: .word 0x0217431C
 _0215EA98: .word 0x00196225
 _0215EA9C: .word 0x3C6EF35F
-_0215EAA0: .word ExBossSysAdminTask__Func_215E6C4
-	arm_func_end ExBossSysAdminTask__Func_215E9D4
+_0215EAA0: .word exBossSysAdminTask__Main_StartFw0_5
+	arm_func_end exBossSysAdminTask__Main_StartFw0_7
 
-	arm_func_start ExBossSysAdminTask__BossMain_215EAA4
-ExBossSysAdminTask__BossMain_215EAA4: // 0x0215EAA4
+	arm_func_start exBossSysAdminTask__Action_StartFw0_8
+exBossSysAdminTask__Action_StartFw0_8: // 0x0215EAA4
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
-	bl ExBossSysAdminTask__Func_215EF00
+	bl exBossSysAdminTask__SetNextTimer
 	bl GetExTaskCurrent
-	ldr r1, _0215EADC // =ExBossSysAdminTask__Func_215EAE0
+	ldr r1, _0215EADC // =exBossSysAdminTask__Main_StartFw0_8
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215EAE0
+	bl exBossSysAdminTask__Main_StartFw0_8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215EADC: .word ExBossSysAdminTask__Func_215EAE0
-	arm_func_end ExBossSysAdminTask__BossMain_215EAA4
+_0215EADC: .word exBossSysAdminTask__Main_StartFw0_8
+	arm_func_end exBossSysAdminTask__Action_StartFw0_8
 
-	arm_func_start ExBossSysAdminTask__Func_215EAE0
-ExBossSysAdminTask__Func_215EAE0: // 0x0215EAE0
+	arm_func_start exBossSysAdminTask__Main_StartFw0_8
+exBossSysAdminTask__Main_StartFw0_8: // 0x0215EAE0
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -1194,11 +1194,11 @@ ExBossSysAdminTask__Func_215EAE0: // 0x0215EAE0
 	ldrb r0, [r4, #1]
 	orr r0, r0, #0x80
 	strb r0, [r4, #1]
-	bl ExBossSysAdminTask__Func_215F88C
+	bl exBossSysAdminTask__MoveRandom
 	ldrsh r0, [r4, #0x5e]
 	cmp r0, #0
 	bgt _0215EBD4
-	bl exBossFireDoraTask__Func_2154D7C
+	bl exBossFireDoraTask__AnyActive
 	cmp r0, #0
 	bne _0215EBC0
 	bl exBossHomingLaserTask__Func_2159E14
@@ -1245,9 +1245,9 @@ _0215EBA4:
 	b _0215EBDC
 _0215EBC0:
 	bl GetExTaskCurrent
-	ldr r1, _0215EC14 // =ExBossSysAdminTask__Func_215EC50
+	ldr r1, _0215EC14 // =exBossSysAdminTask__Main_StartFw0_9
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215EC50
+	bl exBossSysAdminTask__Main_StartFw0_9
 	ldmia sp!, {r4, r5, r6, pc}
 _0215EBD4:
 	sub r0, r0, #1
@@ -1268,30 +1268,30 @@ _0215EC04: .word 0x0217431C
 _0215EC08: .word 0x00196225
 _0215EC0C: .word 0x3C6EF35F
 _0215EC10: .word 0x51EB851F
-_0215EC14: .word ExBossSysAdminTask__Func_215EC50
-	arm_func_end ExBossSysAdminTask__Func_215EAE0
+_0215EC14: .word exBossSysAdminTask__Main_StartFw0_9
+	arm_func_end exBossSysAdminTask__Main_StartFw0_8
 
-	arm_func_start ExBossSysAdminTask__Main_215EC18
-ExBossSysAdminTask__Main_215EC18: // 0x0215EC18
+	arm_func_start exBossSysAdminTask__Action_StartFw0_9
+exBossSysAdminTask__Action_StartFw0_9: // 0x0215EC18
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
-	ldr r1, _0215EC4C // =ExBossSysAdminTask__Func_215EC50
+	ldr r1, _0215EC4C // =exBossSysAdminTask__Main_StartFw0_9
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215EC50
+	bl exBossSysAdminTask__Main_StartFw0_9
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215EC4C: .word ExBossSysAdminTask__Func_215EC50
-	arm_func_end ExBossSysAdminTask__Main_215EC18
+_0215EC4C: .word exBossSysAdminTask__Main_StartFw0_9
+	arm_func_end exBossSysAdminTask__Action_StartFw0_9
 
-	arm_func_start ExBossSysAdminTask__Func_215EC50
-ExBossSysAdminTask__Func_215EC50: // 0x0215EC50
+	arm_func_start exBossSysAdminTask__Main_StartFw0_9
+exBossSysAdminTask__Main_StartFw0_9: // 0x0215EC50
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -1300,7 +1300,7 @@ ExBossSysAdminTask__Func_215EC50: // 0x0215EC50
 	ldrb r0, [r4, #1]
 	orr r0, r0, #0x80
 	strb r0, [r4, #1]
-	bl ExBossSysAdminTask__Func_215F88C
+	bl exBossSysAdminTask__MoveRandom
 	ldrsh r0, [r4, #0x5e]
 	cmp r0, #0
 	bgt _0215EDB8
@@ -1408,29 +1408,29 @@ _0215EDE8: .word 0x0217431C
 _0215EDEC: .word 0x00196225
 _0215EDF0: .word 0x3C6EF35F
 _0215EDF4: .word 0x51EB851F
-	arm_func_end ExBossSysAdminTask__Func_215EC50
+	arm_func_end exBossSysAdminTask__Main_StartFw0_9
 
-	arm_func_start ExBossSysAdminTask__BossMain_215EDF8
-ExBossSysAdminTask__BossMain_215EDF8: // 0x0215EDF8
+	arm_func_start exBossSysAdminTask__Action_StartFw0_10
+exBossSysAdminTask__Action_StartFw0_10: // 0x0215EDF8
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
 	add r0, r4, #0x6c
 	mov r1, #0
-	bl exBossHelpers__Func_2154370
+	bl exBossHelpers__SetAnimation
 	add r0, r4, #0x3f8
 	bl exDrawReqTask__Func_2164218
 	bl GetExTaskCurrent
-	ldr r1, _0215EE2C // =ExBossSysAdminTask__Func_215EE30
+	ldr r1, _0215EE2C // =exBossSysAdminTask__Main_StartFw0_10
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215EE30
+	bl exBossSysAdminTask__Main_StartFw0_10
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0215EE2C: .word ExBossSysAdminTask__Func_215EE30
-	arm_func_end ExBossSysAdminTask__BossMain_215EDF8
+_0215EE2C: .word exBossSysAdminTask__Main_StartFw0_10
+	arm_func_end exBossSysAdminTask__Action_StartFw0_10
 
-	arm_func_start ExBossSysAdminTask__Func_215EE30
-ExBossSysAdminTask__Func_215EE30: // 0x0215EE30
+	arm_func_start exBossSysAdminTask__Main_StartFw0_10
+exBossSysAdminTask__Main_StartFw0_10: // 0x0215EE30
 	stmdb sp!, {r4, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
@@ -1439,7 +1439,7 @@ ExBossSysAdminTask__Func_215EE30: // 0x0215EE30
 	ldrb r0, [r4, #1]
 	orr r0, r0, #0x80
 	strb r0, [r4, #1]
-	bl ExBossSysAdminTask__Func_215F88C
+	bl exBossSysAdminTask__MoveRandom
 	ldrsh r0, [r4, #0x5e]
 	cmp r0, #0
 	bgt _0215EEC0
@@ -1458,15 +1458,15 @@ ExBossSysAdminTask__Func_215EE30: // 0x0215EE30
 	movs r0, r0, lsr #0x1f
 	bne _0215EEAC
 	bl GetExTaskCurrent
-	ldr r1, _0215EEFC // =ExBossSysAdminTask__Func_215EAE0
+	ldr r1, _0215EEFC // =exBossSysAdminTask__Main_StartFw0_8
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215EAE0
+	bl exBossSysAdminTask__Main_StartFw0_8
 	ldmia sp!, {r4, pc}
 _0215EEAC:
 	bl GetExTaskCurrent
-	ldr r1, _0215EEFC // =ExBossSysAdminTask__Func_215EAE0
+	ldr r1, _0215EEFC // =exBossSysAdminTask__Main_StartFw0_8
 	str r1, [r0]
-	bl ExBossSysAdminTask__Func_215EAE0
+	bl exBossSysAdminTask__Main_StartFw0_8
 	ldmia sp!, {r4, pc}
 _0215EEC0:
 	sub r2, r0, #1
@@ -1485,11 +1485,11 @@ _0215EEEC: .word _mt_math_rand
 _0215EEF0: .word 0x0217431C
 _0215EEF4: .word 0x00196225
 _0215EEF8: .word 0x3C6EF35F
-_0215EEFC: .word ExBossSysAdminTask__Func_215EAE0
-	arm_func_end ExBossSysAdminTask__Func_215EE30
+_0215EEFC: .word exBossSysAdminTask__Main_StartFw0_8
+	arm_func_end exBossSysAdminTask__Main_StartFw0_10
 
-	arm_func_start ExBossSysAdminTask__Func_215EF00
-ExBossSysAdminTask__Func_215EF00: // 0x0215EF00
+	arm_func_start exBossSysAdminTask__SetNextTimer
+exBossSysAdminTask__SetNextTimer: // 0x0215EF00
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	ldr lr, _0215EF88 // =_mt_math_rand
@@ -1529,12 +1529,12 @@ _0215EF88: .word _mt_math_rand
 _0215EF8C: .word 0x00196225
 _0215EF90: .word 0x3C6EF35F
 _0215EF94: .word 0x51EB851F
-	arm_func_end ExBossSysAdminTask__Func_215EF00
+	arm_func_end exBossSysAdminTask__SetNextTimer
 
-	arm_func_start ExBossSysAdminTask__Func_215EF98
-ExBossSysAdminTask__Func_215EF98: // 0x0215EF98
+	arm_func_start exBossSysAdminTask__Main_Blank
+exBossSysAdminTask__Main_Blank: // 0x0215EF98
 	bx lr
-	arm_func_end ExBossSysAdminTask__Func_215EF98
+	arm_func_end exBossSysAdminTask__Main_Blank
 
 	arm_func_start exBossSysAdminTask__Create
 exBossSysAdminTask__Create: // 0x0215EF9C
@@ -1546,7 +1546,7 @@ exBossSysAdminTask__Create: // 0x0215EF9C
 	ldr r0, _0215F004 // =aExbosssysadmin_0
 	str r1, [sp, #4]
 	str r0, [sp, #8]
-	ldr r0, _0215F008 // =exBossSysAdminTask__Main
+	ldr r0, _0215F008 // =exBossSysAdminTask__Main_Init
 	ldr r1, _0215F00C // =exBossSysAdminTask__Destructor
 	mov r2, #0x3800
 	mov r3, #5
@@ -1566,22 +1566,22 @@ exBossSysAdminTask__Create: // 0x0215EF9C
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215F004: .word aExbosssysadmin_0
-_0215F008: .word exBossSysAdminTask__Main
+_0215F008: .word exBossSysAdminTask__Main_Init
 _0215F00C: .word exBossSysAdminTask__Destructor
 _0215F010: .word exBossSysAdminTask__Func8
 	arm_func_end exBossSysAdminTask__Create
 
-	arm_func_start ExBossSysAdminTask__GetSingleton
-ExBossSysAdminTask__GetSingleton: // 0x0215F014
+	arm_func_start exBossSysAdminTask__GetSingleton
+exBossSysAdminTask__GetSingleton: // 0x0215F014
 	ldr r0, _0215F020 // =exBossSysAdminTask__dword_217626C
 	ldr r0, [r0, #0xc]
 	bx lr
 	.align 2, 0
 _0215F020: .word exBossSysAdminTask__dword_217626C
-	arm_func_end ExBossSysAdminTask__GetSingleton
+	arm_func_end exBossSysAdminTask__GetSingleton
 
-	arm_func_start ExBossSysAdminTask__Destroy
-ExBossSysAdminTask__Destroy: // 0x0215F024
+	arm_func_start exBossSysAdminTask__Destroy
+exBossSysAdminTask__Destroy: // 0x0215F024
 	stmdb sp!, {r3, lr}
 	ldr r0, _0215F048 // =exBossSysAdminTask__dword_217626C
 	ldr r0, [r0, #0xc]
@@ -1594,30 +1594,30 @@ ExBossSysAdminTask__Destroy: // 0x0215F024
 	.align 2, 0
 _0215F048: .word exBossSysAdminTask__dword_217626C
 _0215F04C: .word ExTask_State_Destroy
-	arm_func_end ExBossSysAdminTask__Destroy
+	arm_func_end exBossSysAdminTask__Destroy
 
 	.data
 
 _0217431C:
-	.word ExBossSysAdminTask__BossMain_215E298
-	.word ExBossSysAdminTask__BossMain_215E420
-	.word ExBossSysAdminTask__BossMain_215E580
-	.word ExBossSysAdminTask__BossMain_215E688
-	.word ExBossSysAdminTask__BossMain_215E7FC
-	.word ExBossSysAdminTask__Main_215E99C
-	.word ExBossSysAdminTask__BossMain_215EAA4
-	.word ExBossSysAdminTask__Main_215EC18
-	.word ExBossSysAdminTask__BossMain_215EDF8
-	.word ExBossSysAdminTask__BossMain_215DC2C
-	.word exBossHomingLaserTask__BossMain_21597DC
-	.word exBossLineNeedleTask__BossMain_215A708
-	.word exBossEffectHitTask__BossMain_215592C
-	.word exDrawFadeTask__BossMain_216078C
-	.word exBossMeteBombTask__BossMain_215BCCC
-	.word exBossHelpers__Func_21544DC
-	.word exBossHelpers__Func_21545EC
-	.word exBossHelpers__Func_215479C
-	.word exBossHelpers__Func_2154968
+	.word exBossSysAdminTask__Action_DragonAttackIdle
+	.word exBossSysAdminTask__Action_StartFw0_3
+	.word exBossSysAdminTask__Action_StartFw0_4
+	.word exBossSysAdminTask__Action_StartFw0_5
+	.word exBossSysAdminTask__Action_StartFw0_6
+	.word exBossSysAdminTask__Action_StartFw0_7
+	.word exBossSysAdminTask__Action_StartFw0_8
+	.word exBossSysAdminTask__Action_StartFw0_9
+	.word exBossSysAdminTask__Action_StartFw0_10
+	.word exBossSysAdminTask__Action_StartMete0
+	.word exBossSysAdminTask__Action_StartFire0
+	.word exBossSysAdminTask__Action_StartHomi0
+	.word exBossSysAdminTask__Action_StartDora0
+	.word exBossSysAdminTask__Action_StartWave0
+	.word exBossSysAdminTask__Action_StartLine0
+	.word exBossSysAdminTask__Action_StartDmg0
+	.word exBossSysAdminTask__Action_StartBDmg0
+	.word exBossSysAdminTask__Action_StartBDmg1_Last
+	.word exBossSysAdminTask__Action_StartBDmg1_First
 
 aExbosssysadmin_0: // 0x02174368
 	.asciz "exBossSysAdminTask"
