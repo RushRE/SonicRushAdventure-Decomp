@@ -215,12 +215,5 @@ NOT_DECOMPILED void exPlayerAdminTask__Func_2171624(void);
 NOT_DECOMPILED void exPlayerAdminTask__Create(void);
 NOT_DECOMPILED void exPlayerAdminTask__Destroy(void);
 NOT_DECOMPILED void exPlayerAdminTask__Func_217175C(void);
-NOT_DECOMPILED void exPlayerAdminTask__LoadSuperSonicAssets(void);
-NOT_DECOMPILED void exPlayerAdminTask__SetSuperSonicAnimation(void);
-NOT_DECOMPILED void exPlayerAdminTask__Func_2171954(void);
-NOT_DECOMPILED void exPlayerAdminTask__GetSonicAssets(void);
-NOT_DECOMPILED void exPlayerAdminTask__LoadSonicAssets(void);
-NOT_DECOMPILED void exPlayerAdminTask__SetSonicAnimation(void);
-NOT_DECOMPILED void exPlayerAdminTask__Func_2171B80(void);
 
 #endif // RUSH_EXPLAYER_H

@@ -26,65 +26,6 @@ exPlayerAdminTask__Unknown_21780F8: // 0x021780F8
 	.space 0x4E0
 
 	.align 4
-	
-exPlayerAdminTask__word_21785D8: // 0x021785D8
-    .space 0x02
-	
-exPlayerAdminTask__word_21785DA: // 0x021785DA
-    .space 0x02
-	
-exPlayerAdminTask__word_21785DC: // 0x021785DC
-    .space 0x02
-	
-exSonDushEffectTask__ActiveInstanceCount: // 0x021785DE
-    .space 0x02
-
-	.align 4
-
-exPlayerAdminTask__dword_21785E0: // 0x021785E0
-    .space 0x04
-	
-exSonDushEffectTask__dword_21785E4: // 0x021785E4
-    .space 0x04
-	
-exSonDushEffectTask__unk_21785E8: // 0x021785E8
-    .space 0x04
-	
-exSonDushEffectTask__dword_21785EC: // 0x021785EC
-    .space 0x04
-	
-exSonDushEffectTask__TaskSingleton: // 0x021785F0
-    .space 0x04
-	
-exSonDushEffectTask__unk_21785F4: // 0x021785F4
-    .space 0x04
-	
-exSonDushEffectTask__unk_21785F8: // 0x021785F8
-    .space 0x04
-	
-exSonDushEffectTask__dword_21785FC: // 0x021785FC
-    .space 0x04
-	
-exPlayerAdminTask__FileTable: // 0x02178600
-    .space 0x04
-	
-exPlayerAdminTask__dword_2178604: // 0x02178604
-    .space 0x04
-	
-exPlayerAdminTask__dword_2178608: // 0x02178608
-    .space 0x04
-	
-exPlayerAdminTask__dword_217860C: // 0x0217860C
-    .space 0x04
-	
-exPlayerAdminTask__dword_2178610: // 0x02178610
-    .space 0x04
-	
-exSonDushEffectTask__AnimTable: // 0x02178614
-    .space 0x04 * 3
-	
-exSonDushEffectTask__FileTable: // 0x02178620
-    .space 0x04 * 3
 
 	.text
 
@@ -99,7 +40,7 @@ exPlayerAdminTask__Main: // 0x0216E570
 	bl exPlayerScreenMoveTask__Create
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl exPlayerAdminTask__LoadSuperSonicAssets
+	bl LoadExSuperSonicModel
 	ldr r0, [r4, #8]
 	mov r1, #0xa800
 	add r0, r0, #0x390
@@ -112,7 +53,7 @@ exPlayerAdminTask__Main: // 0x0216E570
 	ldr r1, [r4, #8]
 	add r0, r4, #0x18
 	strh r2, [r1, #2]
-	bl exSonDushEffectTask__LoadSonicSprite
+	bl LoadExSuperSonicSprite
 	add r0, r4, #0x168
 	mov r1, #0xa800
 	bl exDrawReqTask__SetConfigPriority
@@ -178,10 +119,10 @@ exPlayerAdminTask__Destructor: // 0x0216E694
 	mov r4, r0
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl exPlayerAdminTask__Func_2171954
+	bl ReleaseExSuperSonicModel
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl exPlayerAdminTask__Func_2171B80
+	bl ReleaseExRegularSonicModel
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
 	bl ReleaseExBurningBlazeModel
@@ -189,7 +130,7 @@ exPlayerAdminTask__Destructor: // 0x0216E694
 	add r0, r0, #4
 	bl ReleaseExRegularBlazeModel
 	add r0, r4, #0x18
-	bl exSonDushEffectTask__Func_21725F8
+	bl ReleaseExSuperSonicSprite
 	add r0, r4, #0x2b8
 	bl ReleaseExBurningBlazeSprite
 	ldr r0, _0216E704 // =exPlayerScreenMoveTask__dword_2177BA0
@@ -322,7 +263,7 @@ exPlayerAdminTask__Func_216E7F4: // 0x0216E7F4
 	ldr r1, [r4, #8]
 	add r0, r1, #4
 	ldrh r1, [r1, #2]
-	bl exPlayerAdminTask__SetSuperSonicAnimation
+	bl SetExSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -538,7 +479,7 @@ exPlayerAdminTask__Func_216EB28: // 0x0216EB28
 	bne _0216EBC8
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl exSonDushEffectTask__Create
+	bl CreateExSonicDashEffect
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
 	bl CreateExBlazeDashEffect
@@ -562,7 +503,7 @@ _0216EBC8:
 	bne _0216EC20
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl exSonDushEffectTask__Create
+	bl CreateExSonicDashEffect
 	ldr r0, [r4, #0xc]
 	add r0, r0, #4
 	bl CreateExBlazeDashEffect
@@ -999,7 +940,7 @@ exPlayerAdminTask__Func_216F184: // 0x0216F184
 	strh r2, [r0, #0x20]
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl exPlayerAdminTask__SetSuperSonicAnimation
+	bl SetExSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_21641F0
@@ -1097,7 +1038,7 @@ _0216F304:
 	ldr r0, [r4, #8]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl exPlayerAdminTask__SetSuperSonicAnimation
+	bl SetExSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -1163,10 +1104,10 @@ exPlayerAdminTask__Action_Die: // 0x0216F3A4
 	ldr r8, [r1, #0x350]
 	ldr r9, [r1, #0x354]
 	ldr r10, [r1, #0x358]
-	bl exPlayerAdminTask__Func_2171954
+	bl ReleaseExSuperSonicModel
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl exPlayerAdminTask__LoadSonicAssets
+	bl LoadExRegularSonicModel
 	ldr r0, [r4, #8]
 	mov r1, #0xa800
 	add r0, r0, #0x390
@@ -1267,7 +1208,7 @@ exPlayerAdminTask__Func_216F5A4: // 0x0216F5A4
 	ldr r0, [r4, #8]
 	mov r1, #1
 	add r0, r0, #4
-	bl exPlayerAdminTask__SetSonicAnimation
+	bl SetExRegularSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -1425,7 +1366,7 @@ _0216F738:
 	str r2, [r0, #0x38]
 	ldr r0, [r4, #8]
 	add r0, r0, #4
-	bl exPlayerAdminTask__SetSuperSonicAnimation
+	bl SetExSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_21641F0
@@ -1503,7 +1444,7 @@ exPlayerAdminTask__Func_216F8D4: // 0x0216F8D4
 	ldr r0, [r4, #8]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl exPlayerAdminTask__SetSuperSonicAnimation
+	bl SetExSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -1767,7 +1708,7 @@ exPlayerAdminTask__Func_216FC38: // 0x0216FC38
 	ldr r0, [r4, #8]
 	mov r1, #8
 	add r0, r0, #4
-	bl exPlayerAdminTask__SetSuperSonicAnimation
+	bl SetExSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_21641F0
@@ -1819,7 +1760,7 @@ exPlayerAdminTask__Func_216FD10: // 0x0216FD10
 	ldr r0, [r4, #8]
 	mov r1, #9
 	add r0, r0, #4
-	bl exPlayerAdminTask__SetSuperSonicAnimation
+	bl SetExSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_21641F0
@@ -1881,7 +1822,7 @@ exPlayerAdminTask__Func_216FDD4: // 0x0216FDD4
 	ldr r0, [r4, #8]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl exPlayerAdminTask__SetSuperSonicAnimation
+	bl SetExSuperSonicAnimation
 	ldr r0, [r4, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -2784,7 +2725,7 @@ _021709D8:
 	strh r1, [r0, #0x20]
 	ldr r0, [r5, #8]
 	add r0, r0, #4
-	bl exSonDushEffectTask__Create
+	bl CreateExSonicDashEffect
 	b _02170A78
 _02170A40:
 	cmp r1, #1
@@ -2805,7 +2746,7 @@ _02170A78:
 	ldr r0, [r5, #8]
 	mov r1, #3
 	add r0, r0, #4
-	bl exPlayerAdminTask__SetSuperSonicAnimation
+	bl SetExSuperSonicAnimation
 	ldr r0, [r5, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_21641F0
@@ -2975,7 +2916,7 @@ exPlayerAdminTask__Func_2170CC4: // 0x02170CC4
 	strh r0, [r2, #0x20]
 	cmp r1, #0
 	bgt _02170D10
-	ldr r0, _02170FC4 // =0x02175E34
+	ldr r0, _02170FC4 // =exPlayerAdminTask__02175E34
 	mov r1, #2
 	strh r1, [r0]
 	mov r1, #1
@@ -2996,7 +2937,7 @@ _02170D10:
 	ldr r0, [r5, #8]
 	ldrh r1, [r0, #2]
 	add r0, r0, #4
-	bl exPlayerAdminTask__SetSuperSonicAnimation
+	bl SetExSuperSonicAnimation
 	ldr r0, [r5, #8]
 	add r0, r0, #0x390
 	bl exDrawReqTask__Func_2164218
@@ -3161,7 +3102,7 @@ _02170F7C:
 	add r0, r1, r0
 	str r0, [r4, #0x354]
 _02170FA4:
-	ldr r0, _02170FC4 // =0x02175E34
+	ldr r0, _02170FC4 // =exPlayerAdminTask__02175E34
 	ldrsh r2, [r0, #0]
 	sub r1, r2, #1
 	strh r1, [r0]
@@ -3170,7 +3111,7 @@ _02170FA4:
 	strleh r1, [r0]
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
-_02170FC4: .word 0x02175E34
+_02170FC4: .word exPlayerAdminTask__02175E34
 _02170FC8: .word FX_SinCosTable_+0x800
 _02170FCC: .word 0x45800000
 	arm_func_end exPlayerAdminTask__Func_2170CC4
@@ -3711,334 +3652,18 @@ exPlayerAdminTask__Func_217175C: // 0x0217175C
 _02171768: .word exPlayerScreenMoveTask__dword_2177BA0
 	arm_func_end exPlayerAdminTask__Func_217175C
 
-	arm_func_start exPlayerAdminTask__LoadSuperSonicAssets
-exPlayerAdminTask__LoadSuperSonicAssets: // 0x0217176C
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, _02171920 // =exPlayerAdminTask__word_21785D8
-	mov r4, r0
-	str r4, [r1, #0x34]
-	bl exDrawReqTask__InitModel
-	ldr r0, _02171920 // =exPlayerAdminTask__word_21785D8
-	ldrsh r0, [r0, #2]
-	cmp r0, #0
-	bne _02171814
-	mov r1, #3
-	ldr r0, _02171924 // =aExtraExBb_10
-	sub r2, r1, #4
-	bl ReadFileFromBundle
-	mov r5, r0
-	ldr r0, [r5, #0]
-	mov r0, r0, lsr #8
-	bl _AllocHeadHEAP_USER
-	mov r1, r0
-	ldr r2, _02171920 // =exPlayerAdminTask__word_21785D8
-	mov r0, r5
-	str r1, [r2, #0x30]
-	bl RenderCore_CPUCopyCompressed
-	mov r0, r5
-	bl _FreeHEAP_USER
-	mov r0, #2
-	bl LoadExSystemFile
-	ldr r1, _02171920 // =exPlayerAdminTask__word_21785D8
-	str r0, [r1, #0x38]
-	ldr r0, [r1, #0x30]
-	bl NNS_G3dResDefaultSetup
-	ldr r0, _02171920 // =exPlayerAdminTask__word_21785D8
-	ldr r5, [r0, #0x30]
-	mov r0, r5
-	bl Asset3DSetup__GetTexSize
-	bl _AllocHeadHEAP_USER
-	mov r1, r0
-	ldr r2, _02171920 // =exPlayerAdminTask__word_21785D8
-	mov r0, r5
-	str r1, [r2, #0x30]
-	bl Asset3DSetup__GetTexture
-	mov r0, r5
-	bl _FreeHEAP_USER
-_02171814:
-	add r0, r4, #0x20
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r3, #1
-	ldr r0, _02171920 // =exPlayerAdminTask__word_21785D8
-	str r3, [sp]
-	ldr r1, [r0, #0x30]
-	add r0, r4, #0x20
-	mov r2, #0
-	bl AnimatorMDL__SetResource
-	mov r1, #0
-	ldr r0, _02171920 // =exPlayerAdminTask__word_21785D8
-	str r1, [sp]
-	ldr r2, [r0, #0x38]
-	mov r3, r1
-	add r0, r4, #0x20
-	bl AnimatorMDL__SetAnimation
-	add r0, r4, #0x300
-	mov r3, #0
-	strh r3, [r0, #0x48]
-	ldr r0, [r4, #0x104]
-	mov r2, #1
-	str r0, [r4, #0x344]
-_02171870:
-	mov r0, r2, lsl r3
-	tst r0, #1
-	beq _02171890
-	add r0, r4, r3, lsl #1
-	add r0, r0, #0x100
-	ldrh r1, [r0, #0x2c]
-	orr r1, r1, #2
-	strh r1, [r0, #0x2c]
-_02171890:
-	add r3, r3, #1
-	cmp r3, #5
-	blo _02171870
-	mov r3, #0
-	strh r3, [r4, #0x1c]
-	mov r0, #0x3c000
-	str r0, [r4, #0x358]
-	mov r0, #0x1000
-	str r0, [r4, #0x368]
-	str r0, [r4, #0x36c]
-	ldr r2, _02171928 // =0x0000BFF4
-	str r0, [r4, #0x370]
-	add r0, r4, #0x300
-	ldr r1, _0217192C // =0x00007FF8
-	strh r2, [r0, #0x4a]
-	strh r1, [r0, #0x4e]
-	mov r0, #2
-	strb r0, [r4]
-	ldrb r2, [r4, #3]
-	mov r1, #0x2000
-	add r0, r4, #0x350
-	orr r2, r2, #8
-	strb r2, [r4, #3]
-	str r1, [r4, #0xc]
-	str r1, [r4, #0x10]
-	str r3, [r4, #0x14]
-	str r0, [r4, #0x18]
-	ldrb r1, [r4, #0x38c]
-	ldr r0, _02171920 // =exPlayerAdminTask__word_21785D8
-	bic r1, r1, #3
-	orr r1, r1, #1
-	strb r1, [r4, #0x38c]
-	ldrsh r1, [r0, #2]
-	add r1, r1, #1
-	strh r1, [r0, #2]
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02171920: .word exPlayerAdminTask__word_21785D8
-_02171924: .word aExtraExBb_10
-_02171928: .word 0x0000BFF4
-_0217192C: .word 0x00007FF8
-	arm_func_end exPlayerAdminTask__LoadSuperSonicAssets
+	.data
 
-	arm_func_start exPlayerAdminTask__SetSuperSonicAnimation
-exPlayerAdminTask__SetSuperSonicAnimation: // 0x02171930
-	stmdb sp!, {r3, lr}
-	ldr r2, _02171950 // =exPlayerAdminTask__word_21785D8
-	str r1, [sp]
-	ldr r1, [r2, #0x30]
-	ldr r3, [r2, #0x38]
-	mov r2, #0
-	bl exPlayerHelpers__SetAnimationInternal
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02171950: .word exPlayerAdminTask__word_21785D8
-	arm_func_end exPlayerAdminTask__SetSuperSonicAnimation
+exPlayerAdminTask__02175E34:
+	.hword 2, 0
 
-	arm_func_start exPlayerAdminTask__Func_2171954
-exPlayerAdminTask__Func_2171954: // 0x02171954
-	stmdb sp!, {r4, lr}
-	ldr r1, _021719B8 // =exPlayerAdminTask__word_21785D8
-	mov r4, r0
-	ldrsh r0, [r1, #2]
-	cmp r0, #1
-	bne _02171998
-	ldr r0, [r1, #0x30]
-	cmp r0, #0
-	beq _0217197C
-	bl NNS_G3dResDefaultRelease
-_0217197C:
-	ldr r1, _021719B8 // =exPlayerAdminTask__word_21785D8
-	ldr r0, [r1, #0x30]
-	cmp r0, #0
-	moveq r0, #0
-	streq r0, [r1, #0x30]
-	beq _02171998
-	bl _FreeHEAP_USER
-_02171998:
-	add r0, r4, #0x20
-	bl AnimatorMDL__Release
-	ldr r0, _021719B8 // =exPlayerAdminTask__word_21785D8
-	ldrsh r1, [r0, #2]
-	cmp r1, #0
-	subgt r1, r1, #1
-	strgth r1, [r0, #2]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_021719B8: .word exPlayerAdminTask__word_21785D8
-	arm_func_end exPlayerAdminTask__Func_2171954
+exPlayerAdminTask__02175E38:
+	.word 1
 
-	arm_func_start exPlayerAdminTask__GetSonicAssets
-exPlayerAdminTask__GetSonicAssets: // 0x021719BC
-	ldr r0, _021719C8 // =exPlayerAdminTask__word_21785D8
-	ldr r0, [r0, #0x34]
-	bx lr
-	.align 2, 0
-_021719C8: .word exPlayerAdminTask__word_21785D8
-	arm_func_end exPlayerAdminTask__GetSonicAssets
-
-	arm_func_start exPlayerAdminTask__LoadSonicAssets
-exPlayerAdminTask__LoadSonicAssets: // 0x021719CC
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, _02171B4C // =exPlayerAdminTask__word_21785D8
-	mov r4, r0
-	str r4, [r1, #8]
-	bl exDrawReqTask__InitModel
-	ldr r0, _02171B4C // =exPlayerAdminTask__word_21785D8
-	ldrsh r0, [r0, #4]
-	cmp r0, #0
-	bne _02171A44
-	mov r1, #5
-	ldr r0, _02171B50 // =aExtraExBb_10
-	sub r2, r1, #6
-	bl ReadFileFromBundle
-	mov r5, r0
-	ldr r0, [r5, #0]
-	mov r0, r0, lsr #8
-	bl _AllocHeadHEAP_USER
-	mov r1, r0
-	ldr r2, _02171B4C // =exPlayerAdminTask__word_21785D8
-	mov r0, r5
-	str r1, [r2, #0x2c]
-	bl RenderCore_CPUCopyCompressed
-	mov r0, r5
-	bl _FreeHEAP_USER
-	mov r0, #4
-	bl LoadExSystemFile
-	ldr r1, _02171B4C // =exPlayerAdminTask__word_21785D8
-	str r0, [r1, #0x28]
-	ldr r0, [r1, #0x2c]
-	bl Asset3DSetup__Create
-_02171A44:
-	add r0, r4, #0x20
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r3, #1
-	ldr r0, _02171B4C // =exPlayerAdminTask__word_21785D8
-	str r3, [sp]
-	ldr r1, [r0, #0x2c]
-	add r0, r4, #0x20
-	mov r2, #0
-	bl AnimatorMDL__SetResource
-	mov r1, #0
-	ldr r0, _02171B4C // =exPlayerAdminTask__word_21785D8
-	str r1, [sp]
-	ldr r2, [r0, #0x28]
-	mov r3, r1
-	add r0, r4, #0x20
-	bl AnimatorMDL__SetAnimation
-	add r0, r4, #0x300
-	mov r3, #0
-	strh r3, [r0, #0x48]
-	ldr r0, [r4, #0x104]
-	mov r2, #1
-	str r0, [r4, #0x344]
-_02171AA0:
-	mov r0, r2, lsl r3
-	tst r0, #1
-	beq _02171AC0
-	add r0, r4, r3, lsl #1
-	add r0, r0, #0x100
-	ldrh r1, [r0, #0x2c]
-	orr r1, r1, #2
-	strh r1, [r0, #0x2c]
-_02171AC0:
-	add r3, r3, #1
-	cmp r3, #5
-	blo _02171AA0
-	mov r3, #0
-	strh r3, [r4, #0x1c]
-	mov r0, #0x3c000
-	str r0, [r4, #0x358]
-	mov r0, #0x1000
-	str r0, [r4, #0x368]
-	str r0, [r4, #0x36c]
-	ldr r2, _02171B54 // =0x0000BFF4
-	str r0, [r4, #0x370]
-	add r0, r4, #0x300
-	ldr r1, _02171B58 // =0x00007FF8
-	strh r2, [r0, #0x4a]
-	strh r1, [r0, #0x4e]
-	mov r0, #2
-	strb r0, [r4]
-	ldrb r2, [r4, #3]
-	add r1, r4, #0x350
-	ldr r0, _02171B4C // =exPlayerAdminTask__word_21785D8
-	orr r2, r2, #0x10
-	strb r2, [r4, #3]
-	str r3, [r4, #0xc]
-	str r3, [r4, #0x10]
-	str r3, [r4, #0x14]
-	str r1, [r4, #0x18]
-	ldrb r1, [r4, #0x38c]
-	bic r1, r1, #3
-	orr r1, r1, #1
-	strb r1, [r4, #0x38c]
-	ldrsh r1, [r0, #4]
-	add r1, r1, #1
-	strh r1, [r0, #4]
-	ldmia sp!, {r3, r4, r5, pc}
-	.align 2, 0
-_02171B4C: .word exPlayerAdminTask__word_21785D8
-_02171B50: .word aExtraExBb_10
-_02171B54: .word 0x0000BFF4
-_02171B58: .word 0x00007FF8
-	arm_func_end exPlayerAdminTask__LoadSonicAssets
-
-	arm_func_start exPlayerAdminTask__SetSonicAnimation
-exPlayerAdminTask__SetSonicAnimation: // 0x02171B5C
-	stmdb sp!, {r3, lr}
-	ldr r2, _02171B7C // =exPlayerAdminTask__word_21785D8
-	str r1, [sp]
-	ldr r1, [r2, #0x2c]
-	ldr r3, [r2, #0x28]
-	mov r2, #0
-	bl exPlayerHelpers__SetAnimationInternal
-	ldmia sp!, {r3, pc}
-	.align 2, 0
-_02171B7C: .word exPlayerAdminTask__word_21785D8
-	arm_func_end exPlayerAdminTask__SetSonicAnimation
-
-	arm_func_start exPlayerAdminTask__Func_2171B80
-exPlayerAdminTask__Func_2171B80: // 0x02171B80
-	stmdb sp!, {r4, lr}
-	ldr r1, _02171BE4 // =exPlayerAdminTask__word_21785D8
-	mov r4, r0
-	ldrsh r0, [r1, #4]
-	cmp r0, #1
-	bne _02171BC4
-	ldr r0, [r1, #0x2c]
-	cmp r0, #0
-	beq _02171BA8
-	bl NNS_G3dResDefaultRelease
-_02171BA8:
-	ldr r1, _02171BE4 // =exPlayerAdminTask__word_21785D8
-	ldr r0, [r1, #0x2c]
-	cmp r0, #0
-	moveq r0, #0
-	streq r0, [r1, #0x2c]
-	beq _02171BC4
-	bl _FreeHEAP_USER
-_02171BC4:
-	add r0, r4, #0x20
-	bl AnimatorMDL__Release
-	ldr r0, _02171BE4 // =exPlayerAdminTask__word_21785D8
-	ldrsh r1, [r0, #4]
-	cmp r1, #0
-	subgt r1, r1, #1
-	strgth r1, [r0, #4]
-	ldmia sp!, {r4, pc}
-	.align 2, 0
-_02171BE4: .word exPlayerAdminTask__word_21785D8
-	arm_func_end exPlayerAdminTask__Func_2171B80
+aExplayerscreen: // 0x02175E3C
+	.asciz "exPlayerScreenMoveTask"
+	.align 4
+	
+aExplayeradmint: // 0x02175E54
+	.asciz "exPlayerAdminTask"
+	.align 4

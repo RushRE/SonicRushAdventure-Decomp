@@ -11,7 +11,7 @@ typedef struct exBlzDushEffectTask_
 {
     s32 unused;
     EX_ACTION_NN_WORK aniDash;
-    exPlayerAdminTask *parent;
+    EX_ACTION_NN_WORK *parent;
 } exBlzDushEffectTask;
 
 // --------------------
@@ -28,7 +28,7 @@ void SetExRegularBlazeAnimation(EX_ACTION_NN_WORK *work, u16 anim);
 void ReleaseExRegularBlazeModel(EX_ACTION_NN_WORK *work);
 
 // ExBlazeDashEffect
-BOOL CreateExBlazeDashEffect(exPlayerAdminTask *parent);
+BOOL CreateExBlazeDashEffect(EX_ACTION_NN_WORK *parent);
 void DestroyExBlazeDashEffect(void);
 
 // ExBlazeSprite

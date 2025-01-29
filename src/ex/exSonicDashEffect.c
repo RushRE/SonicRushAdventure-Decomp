@@ -1,4 +1,4 @@
-#include <ex/effects/exBlazeDashEffect.h>
+#include <ex/effects/exSonicDashEffect.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <ex/system/exSystem.h>
 #include <game/file/binaryBundle.h>
@@ -11,66 +11,68 @@
 // VARIABLES
 // --------------------
 
-static s16 exRegularBlazeInstanceCount;
-static s16 exBurningBlazeInstanceCount;
-static s16 exBlazeDashEffectInstanceCount;
-static s16 exBurningBlazeSpriteInstanceCount;
-static void *exBlazeDashEffectTaskSingleton;
-static u32 exBlazeDashEffectTextureFileSize;
-static u32 exBlazeDashEffectModelFileSize;
-static void *exBurningBlazeJointAniResource;
-static void *exBlazeDashEffectUnused;
-static void *exBlazeDashEffectModelResource;
-static void *exBlazeDashEffectLastSpawnedWorker;
-static void *exRegularBlazeLastSpawnedWorker;
-static void *exBurningBlazeSpriteResource;
-static void *exRegularBlazeJointAniResource;
-static void *exRegularBlazeModelResource;
-static void *exBurningBlazeLastSpawnedWorker;
-static void *exBurningBlazeModelResource;
-static void *exBlazeDashEffectAnimResource[3];
-static B3DAnimationTypes exBlazeDashEffectAnimType[3];
+static s16 exRegularSonicInstanceCount;
+static s16 exSuperSonicInstanceCount;
+static s16 exSonicDashEffectInstanceCount;
+static s16 exSuperSonicSpriteInstanceCount;
+static void *exSonicDashEffectTaskSingleton;
+static u32 exSonicDashEffectTextureFileSize;
+static u32 exSonicDashEffectModelFileSize;
+static void *superSonicJointAniResource;
+static void *exSonicDashEffectUnused;
+static void *exSonicDashEffectModelResource;
+static void *exSonicDashEffectLastSpawnedWorker;
+static void *exRegularSonicLastSpawnedWorker;
+static void *exSuperSonicSpriteResource;
+static void *exRegularSonicJointAniResource;
+static void *exRegularSonicModelResource;
+static void *exSuperSonicLastSpawnedWorker;
+static void *exSuperSonicModelResource;
+static void *exSonicDashEffectAnimResource[3];
+static u32 exSonicDashEffectAnimType[3];
 
 // force linkage of variables with no apparent references
-FORCE_INCLUDE_VARIABLE_BSS(exBlazeDashEffectUnused)
+FORCE_INCLUDE_VARIABLE_BSS(exSonicDashEffectUnused)
 
 // --------------------
 // FUNCTION DECLS
 // --------------------
 
-static BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work);
-static void ReleaseExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work);
-static void ExBlazeDashEffect_Main_Init(void);
-static void ExBlazeDashEffect_TaskUnknown(void);
-static void ExBlazeDashEffect_Destructor(void);
-static void ExBlazeDashEffect_Main_Active(void);
+// ExSonicDashEffect
+static BOOL LoadExSonicDashEffectAssets(EX_ACTION_NN_WORK *work);
+static void ReleaseExSonicDashEffectAssets(EX_ACTION_NN_WORK *work);
+static void ExSonicDashEffect_Main_Init(void);
+static void ExSonicDashEffect_TaskUnknown(void);
+static void ExSonicDashEffect_Destructor(void);
+static void ExSonicDashEffect_Main_Active(void);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-void LoadExBurningBlazeModel(EX_ACTION_NN_WORK *work)
+// ExSonic
+void LoadExSuperSonicModel(EX_ACTION_NN_WORK *work)
 {
-    exBurningBlazeLastSpawnedWorker = work;
+    exSuperSonicLastSpawnedWorker = work;
 
     exDrawReqTask__InitModel(work);
 
-    if (exBurningBlazeInstanceCount == 0)
+    if (exSuperSonicInstanceCount == 0)
     {
-        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_BLZ_NSBMD, &exBurningBlazeModelResource, TRUE, FALSE);
+        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_SON_NSBMD, &exSuperSonicModelResource, TRUE, FALSE);
 
-        exBurningBlazeJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_BLZ_NSBCA);
-        NNS_G3dResDefaultSetup(exBurningBlazeModelResource);
+        superSonicJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_SON_NSBCA);
+        NNS_G3dResDefaultSetup(exSuperSonicModelResource);
 
-        void *oldMemory             = exBurningBlazeModelResource;
-        exBurningBlazeModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup__GetTexSize(exBurningBlazeModelResource));
-        Asset3DSetup__GetTexture(oldMemory, exBurningBlazeModelResource);
+        void *oldMemory           = exSuperSonicModelResource;
+        exSuperSonicModelResource = HeapAllocHead(HEAP_USER, Asset3DSetup__GetTexSize(exSuperSonicModelResource));
+        Asset3DSetup__GetTexture(oldMemory, exSuperSonicModelResource);
         HeapFree(HEAP_USER, oldMemory);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBurningBlazeModelResource, 0, TRUE, TRUE);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exBurningBlazeJointAniResource, 0, NULL);
+    AnimatorMDL__SetResource(&work->model.animator, exSuperSonicModelResource, 0, TRUE, TRUE);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, superSonicJointAniResource, 0, NULL);
 
     work->model.field_32C = 0;
     work->model.field_328 = work->model.animator.currentAnimObj[0];
@@ -81,6 +83,7 @@ void LoadExBurningBlazeModel(EX_ACTION_NN_WORK *work)
             work->model.animator.animFlags[r] |= ANIMATORMDL_FLAG_CAN_LOOP;
     }
 
+    work->model.animID        = 0;
     work->model.translation.z = FLOAT_TO_FX32(60.0);
 
     work->model.scale.x = FLOAT_TO_FX32(1.0);
@@ -90,64 +93,64 @@ void LoadExBurningBlazeModel(EX_ACTION_NN_WORK *work)
     work->model.angle.x = -FLOAT_DEG_TO_IDX(90.066);
     work->model.angle.z = FLOAT_DEG_TO_IDX(179.96);
 
-    work->hitChecker.type             = 2;
-    work->hitChecker.field_3.value_20 = TRUE;
-    work->hitChecker.box.size.x       = FLOAT_TO_FX32(2.0);
-    work->hitChecker.box.size.y       = FLOAT_TO_FX32(2.0);
-    work->hitChecker.box.size.z       = FLOAT_TO_FX32(2.0);
-    work->hitChecker.box.position     = &work->model.translation;
+    work->hitChecker.type            = 2;
+    work->hitChecker.field_3.value_8 = TRUE;
+    work->hitChecker.box.size.x      = FLOAT_TO_FX32(2.0);
+    work->hitChecker.box.size.y      = FLOAT_TO_FX32(2.0);
+    work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position    = &work->model.translation;
 
     work->config.field_0.value_1 = 1;
 
-    exBurningBlazeInstanceCount++;
+    exSuperSonicInstanceCount++;
 }
 
-void SetExBurningBlazeAnimation(EX_ACTION_NN_WORK *work, u16 anim)
+void SetExSuperSonicAnimation(EX_ACTION_NN_WORK *work, u16 anim)
 {
-    exPlayerHelpers__SetAnimationInternal(work, exBurningBlazeModelResource, NULL, exBurningBlazeJointAniResource, anim);
+    exPlayerHelpers__SetAnimationInternal(work, exSuperSonicModelResource, NULL, superSonicJointAniResource, anim);
 }
 
-void ReleaseExBurningBlazeModel(EX_ACTION_NN_WORK *work)
+void ReleaseExSuperSonicModel(EX_ACTION_NN_WORK *work)
 {
-    if (exBurningBlazeInstanceCount == 1)
+    if (exSuperSonicInstanceCount == 1)
     {
-        if (exBurningBlazeModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBurningBlazeModelResource);
+        if (exSuperSonicModelResource != NULL)
+            NNS_G3dResDefaultRelease(exSuperSonicModelResource);
 
-        if (exBurningBlazeModelResource != NULL)
-            HeapFree(HEAP_USER, exBurningBlazeModelResource);
+        if (exSuperSonicModelResource != NULL)
+            HeapFree(HEAP_USER, exSuperSonicModelResource);
         else
-            exBurningBlazeModelResource = NULL;
+            exSuperSonicModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    if (exBurningBlazeInstanceCount > 0)
-        exBurningBlazeInstanceCount--;
+    if (exSuperSonicInstanceCount > 0)
+        exSuperSonicInstanceCount--;
 }
 
-EX_ACTION_NN_WORK *GetExBurningBlazeWorker(void)
+EX_ACTION_NN_WORK *GetExSuperSonicWorker(void)
 {
-    return exBurningBlazeLastSpawnedWorker;
+    return exSuperSonicLastSpawnedWorker;
 }
 
-void LoadExRegularBlazeModel(EX_ACTION_NN_WORK *work)
+void LoadExRegularSonicModel(EX_ACTION_NN_WORK *work)
 {
-    exRegularBlazeLastSpawnedWorker = work;
+    exRegularSonicLastSpawnedWorker = work;
 
     exDrawReqTask__InitModel(work);
 
-    if (exRegularBlazeInstanceCount == 0)
+    if (exRegularSonicInstanceCount == 0)
     {
-        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_NBLZ_NSBMD, &exRegularBlazeModelResource, TRUE, FALSE);
+        GetCompressedFileFromBundle("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_NSON_NSBMD, &exRegularSonicModelResource, TRUE, FALSE);
 
-        exRegularBlazeJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_NBLZ_NSBCA);
-        Asset3DSetup__Create(exRegularBlazeModelResource);
+        exRegularSonicJointAniResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_NSON_NSBCA);
+        Asset3DSetup__Create(exRegularSonicModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exRegularBlazeModelResource, 0, TRUE, TRUE);
-    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exRegularBlazeJointAniResource, 0, NULL);
+    AnimatorMDL__SetResource(&work->model.animator, exRegularSonicModelResource, 0, TRUE, TRUE);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exRegularSonicJointAniResource, 0, NULL);
 
     work->model.field_32C = 0;
     work->model.field_328 = work->model.animator.currentAnimObj[0];
@@ -167,7 +170,7 @@ void LoadExRegularBlazeModel(EX_ACTION_NN_WORK *work)
     work->model.angle.z       = FLOAT_DEG_TO_IDX(179.96);
 
     work->hitChecker.type             = 2;
-    work->hitChecker.field_3.value_40 = TRUE;
+    work->hitChecker.field_3.value_10 = TRUE;
     work->hitChecker.box.size.x       = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.y       = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.size.z       = FLOAT_TO_FX32(0.0);
@@ -175,79 +178,80 @@ void LoadExRegularBlazeModel(EX_ACTION_NN_WORK *work)
 
     work->config.field_0.value_1 = 1;
 
-    exRegularBlazeInstanceCount++;
+    exRegularSonicInstanceCount++;
 }
 
-void SetExRegularBlazeAnimation(EX_ACTION_NN_WORK *work, u16 anim)
+void SetExRegularSonicAnimation(EX_ACTION_NN_WORK *work, u16 anim)
 {
-    exPlayerHelpers__SetAnimationInternal(work, exRegularBlazeModelResource, NULL, exRegularBlazeJointAniResource, anim);
+    exPlayerHelpers__SetAnimationInternal(work, exRegularSonicModelResource, NULL, exRegularSonicJointAniResource, anim);
 }
 
-void ReleaseExRegularBlazeModel(EX_ACTION_NN_WORK *work)
+void ReleaseExRegularSonicModel(EX_ACTION_NN_WORK *work)
 {
-    if (exRegularBlazeInstanceCount == 1)
+    if (exRegularSonicInstanceCount == 1)
     {
-        if (exRegularBlazeModelResource != NULL)
-            NNS_G3dResDefaultRelease(exRegularBlazeModelResource);
+        if (exRegularSonicModelResource != NULL)
+            NNS_G3dResDefaultRelease(exRegularSonicModelResource);
 
-        if (exRegularBlazeModelResource != NULL)
-            HeapFree(HEAP_USER, exRegularBlazeModelResource);
+        if (exRegularSonicModelResource != NULL)
+            HeapFree(HEAP_USER, exRegularSonicModelResource);
         else
-            exRegularBlazeModelResource = NULL;
+            exRegularSonicModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    if (exRegularBlazeInstanceCount > 0)
-        exRegularBlazeInstanceCount--;
+    if (exRegularSonicInstanceCount > 0)
+        exRegularSonicInstanceCount--;
 }
 
-BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
+// ExSonicDashEffect
+BOOL LoadExSonicDashEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    exBlazeDashEffectLastSpawnedWorker = work;
+    exSonicDashEffectLastSpawnedWorker = work;
 
-    if (exBlazeDashEffectModelFileSize != 0 && exBlazeDashEffectTextureFileSize != 0)
+    if (exSonicDashEffectModelFileSize != 0 && exSonicDashEffectTextureFileSize != 0)
     {
-        if (GetHeapTotalSize(HEAP_USER) < exBlazeDashEffectModelFileSize)
+        if (GetHeapTotalSize(HEAP_USER) < exSonicDashEffectModelFileSize)
             return FALSE;
 
-        if (VRAMSystem__GetTextureUnknown() < exBlazeDashEffectTextureFileSize)
+        if (VRAMSystem__GetTextureUnknown() < exSonicDashEffectTextureFileSize)
             return FALSE;
 
-        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exBlazeDashEffectModelFileSize)
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exSonicDashEffectModelFileSize)
             return FALSE;
     }
 
     exDrawReqTask__InitModel(work);
 
-    if (exBlazeDashEffectInstanceCount == 0)
+    if (exSonicDashEffectInstanceCount == 0)
     {
-        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_BDASH_NSBMD, &exBlazeDashEffectModelResource, &exBlazeDashEffectModelFileSize, TRUE,
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SDASH_NSBMD, &exSonicDashEffectModelResource, &exSonicDashEffectModelFileSize, TRUE,
                                       FALSE);
 
-        exBlazeDashEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BDASH_NSBCA);
-        exBlazeDashEffectAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+        exSonicDashEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SDASH_NSBCA);
+        exSonicDashEffectAnimType[0]     = B3D_ANIM_JOINT_ANIM;
 
-        exBlazeDashEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BDASH_NSBMA);
-        exBlazeDashEffectAnimType[1]     = B3D_ANIM_MAT_ANIM;
+        exSonicDashEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SDASH_NSBMA);
+        exSonicDashEffectAnimType[1]     = B3D_ANIM_MAT_ANIM;
 
-        exBlazeDashEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_BDASH_NSBVA);
-        exBlazeDashEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
+        exSonicDashEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SDASH_NSBVA);
+        exSonicDashEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
 
-        Asset3DSetup__Create(exBlazeDashEffectModelResource);
+        Asset3DSetup__Create(exSonicDashEffectModelResource);
     }
 
     AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
-    AnimatorMDL__SetResource(&work->model.animator, exBlazeDashEffectModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetResource(&work->model.animator, exSonicDashEffectModelResource, 0, FALSE, FALSE);
 
     u16 i = 0;
     for (; i < 3; i++)
     {
-        AnimatorMDL__SetAnimation(&work->model.animator, exBlazeDashEffectAnimType[i], exBlazeDashEffectAnimResource[i], 0, NULL);
+        AnimatorMDL__SetAnimation(&work->model.animator, exSonicDashEffectAnimType[i], exSonicDashEffectAnimResource[i], 0, NULL);
     }
 
-    work->model.field_32C = exBlazeDashEffectAnimType[1];
-    work->model.field_328 = work->model.animator.currentAnimObj[exBlazeDashEffectAnimType[1]];
+    work->model.field_32C = exSonicDashEffectAnimType[1];
+    work->model.field_328 = work->model.animator.currentAnimObj[exSonicDashEffectAnimType[1]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -330,72 +334,72 @@ BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
 
     work->config.field_0.value_1 = 1;
 
-    exBlazeDashEffectInstanceCount++;
+    exSonicDashEffectInstanceCount++;
 
     return TRUE;
 }
 
-void ReleaseExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
+void ReleaseExSonicDashEffectAssets(EX_ACTION_NN_WORK *work)
 {
-    if (exBlazeDashEffectInstanceCount <= 1)
+    if (exSonicDashEffectInstanceCount <= 1)
     {
-        if (exBlazeDashEffectModelResource != NULL)
-            NNS_G3dResDefaultRelease(exBlazeDashEffectModelResource);
+        if (exSonicDashEffectModelResource != NULL)
+            NNS_G3dResDefaultRelease(exSonicDashEffectModelResource);
 
-        if (exBlazeDashEffectAnimResource[0] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeDashEffectAnimResource[0]);
+        if (exSonicDashEffectAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(exSonicDashEffectAnimResource[0]);
 
-        if (exBlazeDashEffectAnimResource[1] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeDashEffectAnimResource[1]);
+        if (exSonicDashEffectAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(exSonicDashEffectAnimResource[1]);
 
-        if (exBlazeDashEffectAnimResource[2] != NULL)
-            NNS_G3dResDefaultRelease(exBlazeDashEffectAnimResource[2]);
+        if (exSonicDashEffectAnimResource[2] != NULL)
+            NNS_G3dResDefaultRelease(exSonicDashEffectAnimResource[2]);
 
-        if (exBlazeDashEffectModelResource != NULL)
-            HeapFree(HEAP_USER, exBlazeDashEffectModelResource);
-        exBlazeDashEffectModelResource = NULL;
+        if (exSonicDashEffectModelResource != NULL)
+            HeapFree(HEAP_USER, exSonicDashEffectModelResource);
+        exSonicDashEffectModelResource = NULL;
     }
 
     AnimatorMDL__Release(&work->model.animator);
 
-    if (exBlazeDashEffectInstanceCount > 0)
-        exBlazeDashEffectInstanceCount--;
+    if (exSonicDashEffectInstanceCount > 0)
+        exSonicDashEffectInstanceCount--;
 }
 
-void ExBlazeDashEffect_Main_Init(void)
+void ExSonicDashEffect_Main_Init(void)
 {
-    exBlzDushEffectTask *work = ExTaskGetWorkCurrent(exBlzDushEffectTask);
+    exSonDushEffectTask *work = ExTaskGetWorkCurrent(exSonDushEffectTask);
 
-    exBlazeDashEffectTaskSingleton = GetCurrentTask();
+    exSonicDashEffectTaskSingleton = GetCurrentTask();
 
-    LoadExBlazeDashEffectAssets(&work->aniDash);
+    LoadExSonicDashEffectAssets(&work->aniDash);
     exDrawReqTask__SetConfigPriority(&work->aniDash.config, 0xA800);
     exDrawReqTask__Func_21641F0(&work->aniDash.config);
 
-    SetCurrentExTaskMainEvent(ExBlazeDashEffect_Main_Active);
+    SetCurrentExTaskMainEvent(ExSonicDashEffect_Main_Active);
 }
 
-void ExBlazeDashEffect_TaskUnknown(void)
+void ExSonicDashEffect_TaskUnknown(void)
 {
-    exBlzDushEffectTask *work = ExTaskGetWorkCurrent(exBlzDushEffectTask);
+    exSonDushEffectTask *work = ExTaskGetWorkCurrent(exSonDushEffectTask);
     UNUSED(work);
 
     if (GetExSystemFlag_2178650())
         DestroyCurrentExTask();
 }
 
-void ExBlazeDashEffect_Destructor(void)
+void ExSonicDashEffect_Destructor(void)
 {
-    exBlzDushEffectTask *work = ExTaskGetWorkCurrent(exBlzDushEffectTask);
+    exSonDushEffectTask *work = ExTaskGetWorkCurrent(exSonDushEffectTask);
 
-    ReleaseExBlazeDashEffectAssets(&work->aniDash);
+    ReleaseExSonicDashEffectAssets(&work->aniDash);
 
-    exBlazeDashEffectTaskSingleton = NULL;
+    exSonicDashEffectTaskSingleton = NULL;
 }
 
-void ExBlazeDashEffect_Main_Active(void)
+void ExSonicDashEffect_Main_Active(void)
 {
-    exBlzDushEffectTask *work = ExTaskGetWorkCurrent(exBlzDushEffectTask);
+    exSonDushEffectTask *work = ExTaskGetWorkCurrent(exSonDushEffectTask);
 
     exDrawReqTask__Model__Animate(&work->aniDash);
 
@@ -415,43 +419,41 @@ void ExBlazeDashEffect_Main_Active(void)
     }
 }
 
-BOOL CreateExBlazeDashEffect(EX_ACTION_NN_WORK *parent)
+BOOL CreateExSonicDashEffect(EX_ACTION_NN_WORK *parent)
 {
-    if (exBlazeDashEffectTaskSingleton != NULL)
-        DestroyExBlazeDashEffect();
+    if (exSonicDashEffectTaskSingleton != NULL)
+        DestroyExSonicDashEffect();
 
-    if (parent == NULL)
-        return FALSE;
+    Task *task = ExTaskCreate(ExSonicDashEffect_Main_Init, ExSonicDashEffect_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR,
+                              exSonDushEffectTask);
 
-    Task *task = ExTaskCreate(ExBlazeDashEffect_Main_Init, ExBlazeDashEffect_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR,
-                              exBlzDushEffectTask);
-
-    exBlzDushEffectTask *work = ExTaskGetWork(task, exBlzDushEffectTask);
+    exSonDushEffectTask *work = ExTaskGetWork(task, exSonDushEffectTask);
     TaskInitWork8(work);
 
     work->parent = parent;
 
-    SetExTaskUnknownEvent(task, ExBlazeDashEffect_TaskUnknown);
+    SetExTaskUnknownEvent(task, ExSonicDashEffect_TaskUnknown);
 
     return TRUE;
 }
 
-void DestroyExBlazeDashEffect(void)
+void DestroyExSonicDashEffect(void)
 {
-    if (exBlazeDashEffectTaskSingleton != NULL)
-        DestroyExTask(exBlazeDashEffectTaskSingleton);
+    if (exSonicDashEffectTaskSingleton != NULL)
+        DestroyExTask(exSonicDashEffectTaskSingleton);
 }
 
-void LoadExBurningBlazeSprite(EX_ACTION_BAC3D_WORK *work)
+// ExSonicSprite
+void LoadExSuperSonicSprite(EX_ACTION_BAC3D_WORK *work)
 {
     exDrawReqTask__InitSprite3D(work);
 
-    if (exBurningBlazeSpriteInstanceCount == 0)
-        exBurningBlazeSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
+    if (exSuperSonicSpriteInstanceCount == 0)
+        exSuperSonicSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
 
-    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exBurningBlazeSpriteResource, 1), FALSE);
-    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exBurningBlazeSpriteResource, 1), FALSE);
-    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exBurningBlazeSpriteResource, EX_ACTCOM_ANI_BURNINGBLAZE, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
+    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exSuperSonicSpriteResource, 1), FALSE);
+    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exSuperSonicSpriteResource, 1), FALSE);
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exSuperSonicSpriteResource, EX_ACTCOM_ANI_SUPERSONIC, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels,
                            vramPalette);
     work->sprite.animator.polygonAttr |= (1 << REG_G3_POLYGON_ATTR_XL_SHIFT);
 
@@ -469,12 +471,12 @@ void LoadExBurningBlazeSprite(EX_ACTION_BAC3D_WORK *work)
     work->hitChecker.box.size.z   = FLOAT_TO_FX32(0.0);
     work->hitChecker.box.position = &work->sprite.translation;
 
-    exBurningBlazeSpriteInstanceCount++;
+    exSuperSonicSpriteInstanceCount++;
 }
 
-void ReleaseExBurningBlazeSprite(EX_ACTION_BAC3D_WORK *work)
+void ReleaseExSuperSonicSprite(EX_ACTION_BAC3D_WORK *work)
 {
     AnimatorSprite3D__Release(&work->sprite.animator);
 
-    exBurningBlazeSpriteInstanceCount--;
+    exSuperSonicSpriteInstanceCount--;
 }

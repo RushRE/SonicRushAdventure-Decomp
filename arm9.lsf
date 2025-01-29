@@ -782,7 +782,7 @@ Overlay ExBoss
     Object src/ex/exPauseMenu.o
     Object asm/ex/exPlayerScreenMove.o
     Object asm/ex/exPlayerAdmin.o
-    Object asm/ex/exSonDushEffect.o
+    Object src/ex/exSonicDashEffect.o
     Object src/ex/exStage.o
     Object asm/ex/exSys_vars.o
     Object src/ex/exSystem.o
