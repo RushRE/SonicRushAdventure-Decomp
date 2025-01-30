@@ -344,7 +344,7 @@ _02156A5C: .word exBossEffectFireBallTask__Func_2156AC4
 exBossEffectFireBallTask__Func8: // 0x02156A60
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	beq _02156A80
 	bl GetExTaskCurrent

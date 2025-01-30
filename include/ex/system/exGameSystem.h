@@ -11,11 +11,10 @@
 
 typedef struct exGameSystemTask_
 {
-    u16 field_0;
-    u16 field_2;
+    u16 unknownCount;
+    u16 unknownCounter;
     u16 timer;
-    u16 field_6;
-    s32 field_8;
+    s32 unknown;
     exSysTaskStatus *status;
 } exGameSystemTask;
 

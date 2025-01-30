@@ -26,42 +26,42 @@ _02067154: // jump table
 	b _020671E4 // case 7
 _02067174:
 	ldr r3, _02067370 // =_AllocHeadHEAP_SYSTEM
-	ldr r2, _02067374 // =whConfig+0x00000020
+	ldr r2, _02067374 // =whConfig_whAllocFunc
 	str r3, [r2]
 	b _020671F0
 _02067184:
 	ldr r3, _02067378 // =_AllocTailHEAP_SYSTEM
-	ldr r2, _02067374 // =whConfig+0x00000020
+	ldr r2, _02067374 // =whConfig_whAllocFunc
 	str r3, [r2]
 	b _020671F0
 _02067194:
 	ldr r3, _0206737C // =_AllocHeadHEAP_USER
-	ldr r2, _02067374 // =whConfig+0x00000020
+	ldr r2, _02067374 // =whConfig_whAllocFunc
 	str r3, [r2]
 	b _020671F0
 _020671A4:
 	ldr r3, _02067380 // =_AllocTailHEAP_USER
-	ldr r2, _02067374 // =whConfig+0x00000020
+	ldr r2, _02067374 // =whConfig_whAllocFunc
 	str r3, [r2]
 	b _020671F0
 _020671B4:
 	ldr r3, _02067384 // =_AllocHeadHEAP_ITCM
-	ldr r2, _02067374 // =whConfig+0x00000020
+	ldr r2, _02067374 // =whConfig_whAllocFunc
 	str r3, [r2]
 	b _020671F0
 _020671C4:
 	ldr r3, _02067388 // =_AllocTailHEAP_ITCM
-	ldr r2, _02067374 // =whConfig+0x00000020
+	ldr r2, _02067374 // =whConfig_whAllocFunc
 	str r3, [r2]
 	b _020671F0
 _020671D4:
 	ldr r3, _0206738C // =_AllocHeadHEAP_DTCM
-	ldr r2, _02067374 // =whConfig+0x00000020
+	ldr r2, _02067374 // =whConfig_whAllocFunc
 	str r3, [r2]
 	b _020671F0
 _020671E4:
 	ldr r3, _02067390 // =_AllocTailHEAP_DTCM
-	ldr r2, _02067374 // =whConfig+0x00000020
+	ldr r2, _02067374 // =whConfig_whAllocFunc
 	str r3, [r2]
 _020671F0:
 	cmp r0, #7
@@ -78,22 +78,22 @@ _020671FC: // jump table
 	b _0206724C // case 7
 _0206721C:
 	ldr r2, _02067394 // =_FreeHEAP_SYSTEM
-	ldr r0, _02067398 // =whConfig+0x00000040
+	ldr r0, _02067398 // =whConfig_whFreeFunc
 	str r2, [r0]
 	b _02067258
 _0206722C:
 	ldr r2, _0206739C // =_FreeHEAP_USER
-	ldr r0, _02067398 // =whConfig+0x00000040
+	ldr r0, _02067398 // =whConfig_whFreeFunc
 	str r2, [r0]
 	b _02067258
 _0206723C:
 	ldr r2, _020673A0 // =_FreeHEAP_ITCM
-	ldr r0, _02067398 // =whConfig+0x00000040
+	ldr r0, _02067398 // =whConfig_whFreeFunc
 	str r2, [r0]
 	b _02067258
 _0206724C:
 	ldr r2, _020673A4 // =_FreeHEAP_DTCM
-	ldr r0, _02067398 // =whConfig+0x00000040
+	ldr r0, _02067398 // =whConfig_whFreeFunc
 	str r2, [r0]
 _02067258:
 	cmp r1, #7
@@ -183,7 +183,7 @@ _0206735C:
 	.align 2, 0
 _0206736C: .word WirelessManager__sVars
 _02067370: .word _AllocHeadHEAP_SYSTEM
-_02067374: .word whConfig+0x00000020
+_02067374: .word whConfig_whAllocFunc
 _02067378: .word _AllocTailHEAP_SYSTEM
 _0206737C: .word _AllocHeadHEAP_USER
 _02067380: .word _AllocTailHEAP_USER
@@ -192,7 +192,7 @@ _02067388: .word _AllocTailHEAP_ITCM
 _0206738C: .word _AllocHeadHEAP_DTCM
 _02067390: .word _AllocTailHEAP_DTCM
 _02067394: .word _FreeHEAP_SYSTEM
-_02067398: .word whConfig+0x00000040
+_02067398: .word whConfig_whFreeFunc
 _0206739C: .word _FreeHEAP_USER
 _020673A0: .word _FreeHEAP_ITCM
 _020673A4: .word _FreeHEAP_DTCM
@@ -1598,8 +1598,8 @@ _02068588:
 	mov r8, #0
 	ldr r5, _020685F4 // =WirelessManager__sendBufferQueue
 	mov r4, r8
-	ldr r7, _020685F8 // =whConfig+0x0000000C
-	ldr r6, _020685FC // =whConfig+0x00000010
+	ldr r7, _020685F8 // =whConfig_wmMinDataSize
+	ldr r6, _020685FC // =whConfig_wmMaxChildCount
 	b _020685D8
 _020685A0:
 	mov r0, r8
@@ -1628,8 +1628,8 @@ _020685D8:
 _020685EC: .word WirelessManager__sendBuffer
 _020685F0: .word WirelessManager__sVars
 _020685F4: .word WirelessManager__sendBufferQueue
-_020685F8: .word whConfig+0x0000000C
-_020685FC: .word whConfig+0x00000010
+_020685F8: .word whConfig_wmMinDataSize
+_020685FC: .word whConfig_wmMaxChildCount
 	arm_func_end Task__Unknown2068430__Main
 
 	arm_func_start Task__Unknown2068430__Destructor
@@ -3380,7 +3380,7 @@ _02069BDC: .word 0x0211A5C4
 	arm_func_start WH_ChangeSysState
 WH_ChangeSysState: // 0x02069BE0
 	stmdb sp!, {r4, lr}
-	ldr r1, _02069C34 // =whConfig
+	ldr r1, _02069C34 // =whConfig_sChannelBusyRatio
 	mov r4, r0
 	ldr r3, [r1, #0x44]
 	cmp r3, #0
@@ -3391,7 +3391,7 @@ WH_ChangeSysState: // 0x02069BE0
 	ldr r1, [r1, r2, lsl #2]
 	blx r3
 _02069C0C:
-	ldr r0, _02069C34 // =whConfig
+	ldr r0, _02069C34 // =whConfig_sChannelBusyRatio
 	str r4, [r0, #0x1c]
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
@@ -3402,7 +3402,7 @@ _02069C0C:
 	blx r2
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02069C34: .word whConfig
+_02069C34: .word whConfig_sChannelBusyRatio
 _02069C38: .word WH__sStateNames
 _02069C3C: .word aS
 _02069C40: .word 0x0211A5D0
@@ -3410,14 +3410,14 @@ _02069C40: .word 0x0211A5D0
 
 	arm_func_start WH_SetError
 WH_SetError: // 0x02069C44
-	ldr r1, _02069C5C // =whConfig
+	ldr r1, _02069C5C // =whConfig_sChannelBusyRatio
 	ldr r2, [r1, #0x1c]
 	sub r2, r2, #9
 	cmp r2, #1
 	strhi r0, [r1, #0x4c]
 	bx lr
 	.align 2, 0
-_02069C5C: .word whConfig
+_02069C5C: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_SetError
 
 	arm_func_start WH_Alloc
@@ -3425,21 +3425,21 @@ WH_Alloc: // 0x02069C60
 	stmdb sp!, {r3, lr}
 	cmp r2, #0
 	bne _02069C84
-	ldr r0, _02069C9C // =whConfig
+	ldr r0, _02069C9C // =whConfig_sChannelBusyRatio
 	add r2, r1, #3
 	ldr r1, [r0, #0x20]
 	bic r0, r2, #3
 	blx r1
 	ldmia sp!, {r3, pc}
 _02069C84:
-	ldr r1, _02069C9C // =whConfig
+	ldr r1, _02069C9C // =whConfig_sChannelBusyRatio
 	mov r0, r2
 	ldr r1, [r1, #0x40]
 	blx r1
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02069C9C: .word whConfig
+_02069C9C: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_Alloc
 
 	arm_func_start WH_Free
@@ -3451,7 +3451,7 @@ WH_Free: // 0x02069CA0
 	ldrh r0, [r0, #4]
 	cmp r0, #0xa
 	ldmneia sp!, {r3, pc}
-	ldr r0, _02069CDC // =whConfig
+	ldr r0, _02069CDC // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _02069CD4
@@ -3461,7 +3461,7 @@ _02069CD4:
 	bl WFS_Start
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02069CDC: .word whConfig
+_02069CDC: .word whConfig_sChannelBusyRatio
 _02069CE0: .word aWhCallbackforw
 	arm_func_end WH_Free
 
@@ -3497,7 +3497,7 @@ WH_StateOutSetParentParam: // 0x02069D24
 	bl WH_ChangeSysState
 	ldmia sp!, {r3, pc}
 _02069D44:
-	ldr r0, _02069D84 // =whConfig
+	ldr r0, _02069D84 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x30]
 	cmp r0, #0
 	beq _02069D6C
@@ -3515,7 +3515,7 @@ _02069D6C:
 	bl WH_ChangeSysState
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02069D84: .word whConfig
+_02069D84: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_StateOutSetParentParam
 
 	arm_func_start WH_StateInSetParentWEPKey
@@ -3523,7 +3523,7 @@ WH_StateInSetParentWEPKey: // 0x02069D88
 	stmdb sp!, {r3, lr}
 	mov r0, #3
 	bl WH_ChangeSysState
-	ldr r1, _02069DD8 // =whConfig
+	ldr r1, _02069DD8 // =whConfig_sChannelBusyRatio
 	ldr r0, _02069DDC // =sWEPKey
 	ldr r2, [r1, #0x30]
 	ldr r1, _02069DE0 // =sParentParam
@@ -3541,7 +3541,7 @@ WH_StateInSetParentWEPKey: // 0x02069D88
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02069DD8: .word whConfig
+_02069DD8: .word whConfig_sChannelBusyRatio
 _02069DDC: .word sWEPKey
 _02069DE0: .word sParentParam
 _02069DE4: .word WH_StateOutSetParentWEPKey
@@ -3569,7 +3569,7 @@ _02069E08:
 	arm_func_start WH_StateInStartParent
 WH_StateInStartParent: // 0x02069E20
 	stmdb sp!, {r3, lr}
-	ldr r0, _02069E70 // =whConfig
+	ldr r0, _02069E70 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x1c]
 	sub r0, r0, #4
 	cmp r0, #2
@@ -3583,14 +3583,14 @@ WH_StateInStartParent: // 0x02069E20
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 _02069E58:
-	ldr r1, _02069E70 // =whConfig
+	ldr r1, _02069E70 // =whConfig_sChannelBusyRatio
 	mov r0, #0
 	strh r0, [r1, #8]
 	mov r0, #1
 	strh r0, [r1, #2]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02069E70: .word whConfig
+_02069E70: .word whConfig_sChannelBusyRatio
 _02069E74: .word WH_StateOutStartParent
 	arm_func_end WH_StateInStartParent
 
@@ -3632,14 +3632,14 @@ _02069EEC:
 	beq _02069FBC
 	b _02069FF0
 _02069EF8:
-	ldr r0, _0206A010 // =whConfig
+	ldr r0, _0206A010 // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	beq _02069F10
 	ldr r0, _0206A014 // =aStartparentNew
 	blx r2
 _02069F10:
-	ldr r0, _0206A010 // =whConfig
+	ldr r0, _0206A010 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x50]
 	cmp r1, #0
 	beq _02069F54
@@ -3657,7 +3657,7 @@ _02069F10:
 	bl WH_ChangeSysState
 	ldmia sp!, {r3, r4, r5, pc}
 _02069F54:
-	ldr r0, _0206A010 // =whConfig
+	ldr r0, _0206A010 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x2c]
 	sub r0, r0, #6
 	cmp r0, #1
@@ -3665,20 +3665,20 @@ _02069F54:
 	mov r0, r4
 	bl WH_Free
 _02069F70:
-	ldr r0, _0206A010 // =whConfig
+	ldr r0, _0206A010 // =whConfig_sChannelBusyRatio
 	ldrh r1, [r0, #2]
 	orr r1, r1, r5, lsr #16
 	strh r1, [r0, #2]
 	ldmia sp!, {r3, r4, r5, pc}
 _02069F84:
-	ldr r0, _0206A010 // =whConfig
+	ldr r0, _0206A010 // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	beq _02069F9C
 	ldr r0, _0206A018 // =aStartparentChi
 	blx r2
 _02069F9C:
-	ldr r1, _0206A010 // =whConfig
+	ldr r1, _0206A010 // =whConfig_sChannelBusyRatio
 	mvn r2, r5, lsr #16
 	ldrh r3, [r1, #2]
 	mov r0, r4
@@ -3687,7 +3687,7 @@ _02069F9C:
 	bl WH_Free
 	ldmia sp!, {r3, r4, r5, pc}
 _02069FBC:
-	ldr r0, _0206A010 // =whConfig
+	ldr r0, _0206A010 // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
@@ -3702,7 +3702,7 @@ _02069FD8:
 	bl WH_ChangeSysState
 	ldmia sp!, {r3, r4, r5, pc}
 _02069FF0:
-	ldr r0, _0206A010 // =whConfig
+	ldr r0, _0206A010 // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	ldmeqia sp!, {r3, r4, r5, pc}
@@ -3711,7 +3711,7 @@ _02069FF0:
 	blx r2
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0206A010: .word whConfig
+_0206A010: .word whConfig_sChannelBusyRatio
 _0206A014: .word aStartparentNew
 _0206A018: .word aStartparentChi
 _0206A01C: .word aStartparentChi_0
@@ -3722,7 +3722,7 @@ _0206A020: .word aUnknownIndicat
 WH_StateInStartParentMP: // 0x0206A024
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
-	ldr r0, _0206A0C0 // =whConfig
+	ldr r0, _0206A0C0 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x1c]
 	cmp r0, #4
 	cmpne r0, #6
@@ -3732,8 +3732,8 @@ WH_StateInStartParentMP: // 0x0206A024
 	ldmeqia sp!, {r3, pc}
 	mov r0, #4
 	bl WH_ChangeSysState
-	ldr r0, _0206A0C0 // =whConfig
-	ldr r1, _0206A0C0 // =whConfig
+	ldr r0, _0206A0C0 // =whConfig_sChannelBusyRatio
+	ldr r1, _0206A0C0 // =whConfig_sChannelBusyRatio
 	ldrh r0, [r0, #0xb6]
 	ldr r3, [r1, #0x48]
 	cmp r0, #0
@@ -3760,7 +3760,7 @@ WH_StateInStartParentMP: // 0x0206A024
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206A0C0: .word whConfig
+_0206A0C0: .word whConfig_sChannelBusyRatio
 _0206A0C4: .word WH_StateOutStartParentMP
 _0206A0C8: .word sRecvBuffer
 _0206A0CC: .word sSendBuffer
@@ -3789,7 +3789,7 @@ _0206A108: // jump table
 	b _0206A1F4 // case 2
 	b _0206A1F4 // case 3
 _0206A118:
-	ldr r2, _0206A214 // =whConfig
+	ldr r2, _0206A214 // =whConfig_sChannelBusyRatio
 	ldr r1, [r2, #0x2c]
 	cmp r1, #2
 	bne _0206A170
@@ -3799,7 +3799,7 @@ _0206A118:
 	bl WH_StateInStartParentKeyShare
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
-	ldr r0, _0206A214 // =whConfig
+	ldr r0, _0206A214 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206A158
@@ -3852,7 +3852,7 @@ _0206A1E8:
 	bl WH_ChangeSysState
 	ldmia sp!, {r3, pc}
 _0206A1F4:
-	ldr r1, _0206A214 // =whConfig
+	ldr r1, _0206A214 // =whConfig_sChannelBusyRatio
 	ldr r2, [r1, #0x44]
 	cmp r2, #0
 	ldmeqia sp!, {r3, pc}
@@ -3861,7 +3861,7 @@ _0206A1F4:
 	blx r2
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206A214: .word whConfig
+_0206A214: .word whConfig_sChannelBusyRatio
 _0206A218: .word aWhStateinstart
 _0206A21C: .word WMDataSharingInfo
 _0206A220: .word aUnknownIndicat
@@ -3899,7 +3899,7 @@ _0206A278:
 	bl WH_StateInEndParentMP
 	cmp r0, #0
 	bne _0206A2A8
-	ldr r0, _0206A2B4 // =whConfig
+	ldr r0, _0206A2B4 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206A29C
@@ -3914,7 +3914,7 @@ _0206A2A8:
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0206A2B0: .word sWMKeySetBuf
-_0206A2B4: .word whConfig
+_0206A2B4: .word whConfig_sChannelBusyRatio
 _0206A2B8: .word aWhStateinendpa
 	arm_func_end WH_StateInEndParentKeyShare
 
@@ -3948,7 +3948,7 @@ _0206A308:
 	bl WH_StateInEndParent
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
-	ldr r0, _0206A334 // =whConfig
+	ldr r0, _0206A334 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206A32C
@@ -3958,7 +3958,7 @@ _0206A32C:
 	bl WH_Reset
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206A334: .word whConfig
+_0206A334: .word whConfig_sChannelBusyRatio
 _0206A338: .word aWhStateinendpa_0
 	arm_func_end WH_StateOutEndParentMP
 
@@ -4000,7 +4000,7 @@ WH_ChildConnectAuto: // 0x0206A388
 	mov r4, r3
 	cmp r6, #7
 	bne _0206A410
-	ldr r0, _0206A518 // =whConfig
+	ldr r0, _0206A518 // =whConfig_sChannelBusyRatio
 	ldrh r1, [r0, #6]
 	ldrh r0, [r0, #0x14]
 	add r1, r1, #0x23
@@ -4009,7 +4009,7 @@ WH_ChildConnectAuto: // 0x0206A388
 	bic r0, r0, #0x1f
 	cmp r1, r0
 	movle r1, r0
-	ldr r0, _0206A518 // =whConfig
+	ldr r0, _0206A518 // =whConfig_sChannelBusyRatio
 	str r1, [r0, #0x48]
 	ldrh r2, [r0, #0x14]
 	ldrh r1, [r0, #0x10]
@@ -4024,11 +4024,11 @@ WH_ChildConnectAuto: // 0x0206A388
 	cmp r1, r0, lsl #1
 	mov r0, r0, lsl #1
 	movle r1, r0
-	ldr r0, _0206A518 // =whConfig
+	ldr r0, _0206A518 // =whConfig_sChannelBusyRatio
 	str r1, [r0, #0x34]
 	b _0206A440
 _0206A410:
-	ldr r0, _0206A518 // =whConfig
+	ldr r0, _0206A518 // =whConfig_sChannelBusyRatio
 	ldrh r1, [r0, #0x10]
 	ldrh r2, [r0, #0xc]
 	add r1, r1, #1
@@ -4041,7 +4041,7 @@ _0206A410:
 	bic r1, r1, #0x1f
 	str r1, [r0, #0x48]
 _0206A440:
-	ldr r0, _0206A518 // =whConfig
+	ldr r0, _0206A518 // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	beq _0206A45C
@@ -4049,7 +4049,7 @@ _0206A440:
 	ldr r0, _0206A51C // =aRecvBufferSize
 	blx r2
 _0206A45C:
-	ldr r0, _0206A518 // =whConfig
+	ldr r0, _0206A518 // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	beq _0206A478
@@ -4063,7 +4063,7 @@ _0206A478:
 	mov r3, #1
 	strh r3, [r0, #0x16]
 	ldrh r2, [r5, #4]
-	ldr r0, _0206A518 // =whConfig
+	ldr r0, _0206A518 // =whConfig_sChannelBusyRatio
 	mov r1, #0
 	strh r2, [r0, #0x8c]
 	ldrh r2, [r5, #2]
@@ -4100,7 +4100,7 @@ _0206A4F8:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
-_0206A518: .word whConfig
+_0206A518: .word whConfig_sChannelBusyRatio
 _0206A51C: .word aRecvBufferSize
 _0206A520: .word aSendBufferSize
 _0206A524: .word sBssDesc+0x00000020
@@ -4111,7 +4111,7 @@ _0206A52C: .word WH_Alloc
 	arm_func_start WH_StartScan
 WH_StartScan: // 0x0206A530
 	stmdb sp!, {r4, r5, r6, lr}
-	ldr r3, _0206A5B0 // =whConfig
+	ldr r3, _0206A5B0 // =whConfig_sChannelBusyRatio
 	mov r5, r0
 	ldr r0, [r3, #0x1c]
 	mov r4, r1
@@ -4123,7 +4123,7 @@ WH_StartScan: // 0x0206A530
 _0206A558:
 	mov r0, #2
 	bl WH_ChangeSysState
-	ldr r0, _0206A5B0 // =whConfig
+	ldr r0, _0206A5B0 // =whConfig_sChannelBusyRatio
 	mov r1, #0
 	str r5, [r0, #0x28]
 	strh r6, [r0, #4]
@@ -4144,13 +4144,13 @@ _0206A558:
 	mov r0, #0
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
-_0206A5B0: .word whConfig
+_0206A5B0: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_StartScan
 
 	arm_func_start WH_StateInStartScan
 WH_StateInStartScan: // 0x0206A5B4
 	stmdb sp!, {r3, lr}
-	ldr r0, _0206A684 // =whConfig
+	ldr r0, _0206A684 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x1c]
 	cmp r0, #2
 	beq _0206A5D0
@@ -4172,7 +4172,7 @@ _0206A5EC:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 _0206A604:
-	ldr r1, _0206A684 // =whConfig
+	ldr r1, _0206A684 // =whConfig_sChannelBusyRatio
 	ldrh r2, [r1, #4]
 	cmp r2, #0
 	bne _0206A648
@@ -4194,7 +4194,7 @@ _0206A648:
 	strh r2, [r1, #0x84]
 _0206A64C:
 	bl WM_GetDispersionScanPeriod
-	ldr r2, _0206A684 // =whConfig
+	ldr r2, _0206A684 // =whConfig_sChannelBusyRatio
 	ldr r3, _0206A688 // =sBssDesc
 	strh r0, [r2, #0x86]
 	ldr r0, _0206A68C // =WH_StateOutStartScan
@@ -4208,7 +4208,7 @@ _0206A64C:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206A684: .word whConfig
+_0206A684: .word whConfig_sChannelBusyRatio
 _0206A688: .word sBssDesc
 _0206A68C: .word WH_StateOutStartScan
 _0206A690: .word sScanParam
@@ -4228,7 +4228,7 @@ WH_StateOutStartScan: // 0x0206A694
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
 _0206A6C0:
-	ldr ip, _0206A8B0 // =whConfig
+	ldr ip, _0206A8B0 // =whConfig_sChannelBusyRatio
 	ldr r0, [ip, #0x1c]
 	cmp r0, #2
 	beq _0206A6F8
@@ -4270,7 +4270,7 @@ _0206A754:
 	ldr r0, _0206A8B8 // =sBssDesc
 	mov r1, #0xc0
 	bl DC_InvalidateRange
-	ldr r0, _0206A8B0 // =whConfig
+	ldr r0, _0206A8B0 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x38]
 	cmp r0, #0
 	beq _0206A7B8
@@ -4278,14 +4278,14 @@ _0206A754:
 	bl CHT_IsPictochatParent
 	cmp r0, #0
 	beq _0206A7B8
-	ldr r0, _0206A8B0 // =whConfig
+	ldr r0, _0206A8B0 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206A798
 	ldr r0, _0206A8BC // =aPictochatParen
 	blx r1
 _0206A798:
-	ldr r0, _0206A8B0 // =whConfig
+	ldr r0, _0206A8B0 // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x28]
 	cmp r2, #0
 	beq _0206A890
@@ -4304,13 +4304,13 @@ _0206A7B8:
 _0206A7D4:
 	cmp r1, #0
 	beq _0206A7F0
-	ldr r0, _0206A8B0 // =whConfig
+	ldr r0, _0206A8B0 // =whConfig_sChannelBusyRatio
 	ldr r2, [r4, #0x3c]
 	ldr r1, [r0, #0xa8]
 	cmp r2, r1
 	beq _0206A80C
 _0206A7F0:
-	ldr r0, _0206A8B0 // =whConfig
+	ldr r0, _0206A8B0 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206A890
@@ -4334,7 +4334,7 @@ _0206A834:
 	ldr r0, _0206A8C8 // =aParentFind
 	blx r1
 _0206A844:
-	ldr r0, _0206A8B0 // =whConfig
+	ldr r0, _0206A8B0 // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x28]
 	cmp r2, #0
 	beq _0206A860
@@ -4342,7 +4342,7 @@ _0206A844:
 	mov r1, r4
 	blx r2
 _0206A860:
-	ldr r0, _0206A8B0 // =whConfig
+	ldr r0, _0206A8B0 // =whConfig_sChannelBusyRatio
 	ldrh r0, [r0, #0x12]
 	cmp r0, #0
 	beq _0206A890
@@ -4364,7 +4364,7 @@ _0206A890:
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_0206A8B0: .word whConfig
+_0206A8B0: .word whConfig_sChannelBusyRatio
 _0206A8B4: .word aWhStateoutstar
 _0206A8B8: .word sBssDesc
 _0206A8BC: .word aPictochatParen
@@ -4376,7 +4376,7 @@ _0206A8C8: .word aParentFind
 	arm_func_start WH_EndScan
 WH_EndScan: // 0x0206A8CC
 	stmdb sp!, {r3, lr}
-	ldr r1, _0206A8FC // =whConfig
+	ldr r1, _0206A8FC // =whConfig_sChannelBusyRatio
 	ldr r0, [r1, #0x1c]
 	cmp r0, #2
 	movne r0, #0
@@ -4388,7 +4388,7 @@ WH_EndScan: // 0x0206A8CC
 	mov r0, #1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206A8FC: .word whConfig
+_0206A8FC: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_EndScan
 
 	arm_func_start WH_StateInEndScan
@@ -4417,7 +4417,7 @@ WH_StateOutEndScan: // 0x0206A928
 _0206A940:
 	mov r0, #1
 	bl WH_ChangeSysState
-	ldr r0, _0206A9AC // =whConfig
+	ldr r0, _0206A9AC // =whConfig_sChannelBusyRatio
 	ldrh r1, [r0, #0x12]
 	cmp r1, #0
 	ldmeqia sp!, {r3, pc}
@@ -4434,7 +4434,7 @@ _0206A97C:
 	bl WH_StateInStartChild
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
-	ldr r0, _0206A9AC // =whConfig
+	ldr r0, _0206A9AC // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206A9A0
@@ -4445,7 +4445,7 @@ _0206A9A0:
 	bl WH_ChangeSysState
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206A9AC: .word whConfig
+_0206A9AC: .word whConfig_sChannelBusyRatio
 _0206A9B0: .word aWhStateoutends
 	arm_func_end WH_StateOutEndScan
 
@@ -4454,7 +4454,7 @@ WH_StateInSetChildWEPKey: // 0x0206A9B4
 	stmdb sp!, {r3, lr}
 	mov r0, #3
 	bl WH_ChangeSysState
-	ldr r1, _0206AA04 // =whConfig
+	ldr r1, _0206AA04 // =whConfig_sChannelBusyRatio
 	ldr r0, _0206AA08 // =sWEPKey
 	ldr r2, [r1, #0x18]
 	ldr r1, _0206AA0C // =sBssDesc
@@ -4472,7 +4472,7 @@ WH_StateInSetChildWEPKey: // 0x0206A9B4
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206AA04: .word whConfig
+_0206AA04: .word whConfig_sChannelBusyRatio
 _0206AA08: .word sWEPKey
 _0206AA0C: .word sBssDesc
 _0206AA10: .word WH_StateOutSetChildWEPKey
@@ -4492,7 +4492,7 @@ _0206AA34:
 	bl WH_StateInStartChild
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
-	ldr r0, _0206AA64 // =whConfig
+	ldr r0, _0206AA64 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206AA58
@@ -4503,20 +4503,20 @@ _0206AA58:
 	bl WH_ChangeSysState
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206AA64: .word whConfig
+_0206AA64: .word whConfig_sChannelBusyRatio
 _0206AA68: .word aWhStateoutsetc
 	arm_func_end WH_StateOutSetChildWEPKey
 
 	arm_func_start WH_StateInStartChild
 WH_StateInStartChild: // 0x0206AA6C
 	stmdb sp!, {r3, lr}
-	ldr r0, _0206AAFC // =whConfig
+	ldr r0, _0206AAFC // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x1c]
 	cmp r0, #4
 	cmpne r0, #6
 	cmpne r0, #5
 	bne _0206AAA8
-	ldr r0, _0206AAFC // =whConfig
+	ldr r0, _0206AAFC // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206AAA0
@@ -4528,7 +4528,7 @@ _0206AAA0:
 _0206AAA8:
 	mov r0, #3
 	bl WH_ChangeSysState
-	ldr r0, _0206AAFC // =whConfig
+	ldr r0, _0206AAFC // =whConfig_sChannelBusyRatio
 	ldr r1, _0206AB04 // =sBssDesc
 	ldr r0, [r0, #0x18]
 	ldr r2, _0206AB08 // =sConnectionSsid
@@ -4548,7 +4548,7 @@ _0206AAA8:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206AAFC: .word whConfig
+_0206AAFC: .word whConfig_sChannelBusyRatio
 _0206AB00: .word aWhStateinstart_0
 _0206AB04: .word sBssDesc
 _0206AB08: .word sConnectionSsid
@@ -4591,7 +4591,7 @@ _0206AB74:
 	ldmeqia sp!, {r4, pc}
 	cmp r0, #7
 	bne _0206ABE8
-	ldr r0, _0206AC90 // =whConfig
+	ldr r0, _0206AC90 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206ABA0
@@ -4603,7 +4603,7 @@ _0206ABA0:
 	bl WH_StateInStartChildMP
 	cmp r0, #0
 	bne _0206ABD8
-	ldr r0, _0206AC90 // =whConfig
+	ldr r0, _0206AC90 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206ABCC
@@ -4615,7 +4615,7 @@ _0206ABCC:
 	ldmia sp!, {r4, pc}
 _0206ABD8:
 	ldrh r1, [r4, #0xa]
-	ldr r0, _0206AC90 // =whConfig
+	ldr r0, _0206AC90 // =whConfig_sChannelBusyRatio
 	strh r1, [r0, #8]
 	ldmia sp!, {r4, pc}
 _0206ABE8:
@@ -4623,13 +4623,13 @@ _0206ABE8:
 	ldmeqia sp!, {r4, pc}
 	cmp r0, #9
 	bne _0206AC38
-	ldr r0, _0206AC90 // =whConfig
+	ldr r0, _0206AC90 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x2c]
 	cmp r0, #7
 	bne _0206AC0C
 	bl WFS_End
 _0206AC0C:
-	ldr r0, _0206AC90 // =whConfig
+	ldr r0, _0206AC90 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206AC24
@@ -4644,19 +4644,19 @@ _0206AC24:
 _0206AC38:
 	cmp r0, #0x1a
 	bne _0206AC58
-	ldr r0, _0206AC90 // =whConfig
+	ldr r0, _0206AC90 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x2c]
 	cmp r0, #7
 	ldmneia sp!, {r4, pc}
 	bl WFS_End
 	ldmia sp!, {r4, pc}
 _0206AC58:
-	ldr r1, _0206AC90 // =whConfig
+	ldr r1, _0206AC90 // =whConfig_sChannelBusyRatio
 	ldr r1, [r1, #0x44]
 	cmp r1, #0
 	beq _0206AC84
 	bl WH_GetWMStateCodeName
-	ldr r3, _0206AC90 // =whConfig
+	ldr r3, _0206AC90 // =whConfig_sChannelBusyRatio
 	mov r2, r0
 	ldrh r1, [r4, #8]
 	ldr r3, [r3, #0x44]
@@ -4667,7 +4667,7 @@ _0206AC84:
 	bl WH_ChangeSysState
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0206AC90: .word whConfig
+_0206AC90: .word whConfig_sChannelBusyRatio
 _0206AC94: .word aConnectToParen
 _0206AC98: .word aWhStateinstart_1
 _0206AC9C: .word aDisconnectedFr
@@ -4678,7 +4678,7 @@ _0206ACA0: .word aUnknownStateDS
 WH_StateInStartChildMP: // 0x0206ACA4
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #8
-	ldr r2, _0206AD00 // =whConfig
+	ldr r2, _0206AD00 // =whConfig_sChannelBusyRatio
 	mov r3, #1
 	ldr r1, [r2, #0x48]
 	ldr r0, _0206AD04 // =WH_StateOutStartChildMP
@@ -4700,7 +4700,7 @@ WH_StateInStartChildMP: // 0x0206ACA4
 	add sp, sp, #8
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206AD00: .word whConfig
+_0206AD00: .word whConfig_sChannelBusyRatio
 _0206AD04: .word WH_StateOutStartChildMP
 _0206AD08: .word sRecvBuffer
 _0206AD0C: .word sSendBuffer
@@ -4733,7 +4733,7 @@ _0206AD58: // jump table
 	ldmia sp!, {r3, pc} // case 2
 	ldmia sp!, {r3, pc} // case 3
 _0206AD68:
-	ldr r2, _0206AE60 // =whConfig
+	ldr r2, _0206AE60 // =whConfig_sChannelBusyRatio
 	ldr r1, [r2, #0x2c]
 	cmp r1, #3
 	bne _0206ADB8
@@ -4745,7 +4745,7 @@ _0206AD68:
 	bl WH_StateInStartChildKeyShare
 	cmp r0, #0
 	ldmneia sp!, {r3, pc}
-	ldr r0, _0206AE60 // =whConfig
+	ldr r0, _0206AE60 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206ADB0
@@ -4775,7 +4775,7 @@ _0206ADB8:
 	bl WH_Finalize
 	ldmia sp!, {r3, pc}
 _0206AE04:
-	ldr r0, _0206AE60 // =whConfig
+	ldr r0, _0206AE60 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206AE1C
@@ -4794,7 +4794,7 @@ _0206AE34:
 	bl WH_ChangeSysState
 	ldmia sp!, {r3, pc}
 _0206AE40:
-	ldr r1, _0206AE60 // =whConfig
+	ldr r1, _0206AE60 // =whConfig_sChannelBusyRatio
 	ldr r2, [r1, #0x44]
 	cmp r2, #0
 	ldmeqia sp!, {r3, pc}
@@ -4803,7 +4803,7 @@ _0206AE40:
 	blx r2
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206AE60: .word whConfig
+_0206AE60: .word whConfig_sChannelBusyRatio
 _0206AE64: .word aWhStateinstart_2
 _0206AE68: .word WMDataSharingInfo
 _0206AE6C: .word aWhStateoutstar_0
@@ -4813,7 +4813,7 @@ _0206AE70: .word aUnknownIndicat
 	arm_func_start WH_StateInStartChildKeyShare
 WH_StateInStartChildKeyShare: // 0x0206AE74
 	stmdb sp!, {r3, lr}
-	ldr r0, _0206AEC4 // =whConfig
+	ldr r0, _0206AEC4 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x1c]
 	cmp r0, #6
 	moveq r0, #1
@@ -4833,14 +4833,14 @@ WH_StateInStartChildKeyShare: // 0x0206AE74
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206AEC4: .word whConfig
+_0206AEC4: .word whConfig_sChannelBusyRatio
 _0206AEC8: .word sWMKeySetBuf
 	arm_func_end WH_StateInStartChildKeyShare
 
 	arm_func_start WH_StateInEndChildKeyShare
 WH_StateInEndChildKeyShare: // 0x0206AECC
 	stmdb sp!, {r3, lr}
-	ldr r0, _0206AF1C // =whConfig
+	ldr r0, _0206AF1C // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x1c]
 	cmp r0, #6
 	movne r0, #0
@@ -4861,7 +4861,7 @@ _0206AF08:
 	movne r0, #1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206AF1C: .word whConfig
+_0206AF1C: .word whConfig_sChannelBusyRatio
 _0206AF20: .word sWMKeySetBuf
 	arm_func_end WH_StateInEndChildKeyShare
 
@@ -4963,7 +4963,7 @@ WH_StateOutReset: // 0x0206B014
 	bl WH_SetError
 	ldmia sp!, {r4, pc}
 _0206B03C:
-	ldr r1, _0206B060 // =whConfig
+	ldr r1, _0206B060 // =whConfig_sChannelBusyRatio
 	ldr r1, [r1, #0x2c]
 	sub r1, r1, #6
 	cmp r1, #1
@@ -4974,14 +4974,14 @@ _0206B054:
 	bl WH_ChangeSysState
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0206B060: .word whConfig
+_0206B060: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_StateOutReset
 
 	arm_func_start WH_StateInSetMPData
 WH_StateInSetMPData: // 0x0206B064
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
-	ldr r3, _0206B0FC // =whConfig
+	ldr r3, _0206B0FC // =whConfig_sChannelBusyRatio
 	mov r6, r0
 	mov r5, r1
 	ldr r1, [r3, #0x48]
@@ -5001,12 +5001,12 @@ WH_StateInSetMPData: // 0x0206B064
 	bl WM_SetMPDataToPort
 	cmp r0, #2
 	beq _0206B0F0
-	ldr r1, _0206B0FC // =whConfig
+	ldr r1, _0206B0FC // =whConfig_sChannelBusyRatio
 	ldr r1, [r1, #0x44]
 	cmp r1, #0
 	beq _0206B0E4
 	bl WH_GetWMErrCodeName
-	ldr r2, _0206B0FC // =whConfig
+	ldr r2, _0206B0FC // =whConfig_sChannelBusyRatio
 	mov r1, r0
 	ldr r2, [r2, #0x44]
 	ldr r0, _0206B10C // =aWhStateinsetmp
@@ -5020,7 +5020,7 @@ _0206B0F0:
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
-_0206B0FC: .word whConfig
+_0206B0FC: .word whConfig_sChannelBusyRatio
 _0206B100: .word sSendBuffer
 _0206B104: .word 0x0000FFFF
 _0206B108: .word WH_StateOutSetMPData
@@ -5046,7 +5046,7 @@ _0206B130:
 	movne r0, #0
 	blx r1
 _0206B14C:
-	ldr r0, _0206B16C // =whConfig
+	ldr r0, _0206B16C // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x2c]
 	sub r0, r0, #6
 	cmp r0, #1
@@ -5055,7 +5055,7 @@ _0206B14C:
 	bl WH_Free
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0206B16C: .word whConfig
+_0206B16C: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_StateOutSetMPData
 
 	arm_func_start WH_PortReceiveCallback
@@ -5068,7 +5068,7 @@ WH_PortReceiveCallback: // 0x0206B170
 	bl WH_SetError
 	ldmia sp!, {r3, pc}
 _0206B18C:
-	ldr r0, _0206B1D8 // =whConfig
+	ldr r0, _0206B1D8 // =whConfig_sChannelBusyRatio
 	ldr r3, [r0, #0x24]
 	cmp r3, #0
 	ldmeqia sp!, {r3, pc}
@@ -5089,7 +5089,7 @@ _0206B1BC:
 	blx r3
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206B1D8: .word whConfig
+_0206B1D8: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_PortReceiveCallback
 
 	arm_func_start WH_StateOutEnd
@@ -5109,11 +5109,11 @@ _0206B1F8:
 
 	arm_func_start WH_SetGgid
 WH_SetGgid: // 0x0206B204
-	ldr r1, _0206B210 // =whConfig
+	ldr r1, _0206B210 // =whConfig_sChannelBusyRatio
 	str r0, [r1, #0xa8]
 	bx lr
 	.align 2, 0
-_0206B210: .word whConfig
+_0206B210: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_SetGgid
 
 	arm_func_start WH_SetSsid
@@ -5137,67 +5137,67 @@ _0206B248: .word sConnectionSsid
 
 	arm_func_start WH_SetUserGameInfo
 WH_SetUserGameInfo: // 0x0206B24C
-	ldr r2, _0206B25C // =whConfig
+	ldr r2, _0206B25C // =whConfig_sChannelBusyRatio
 	str r0, [r2, #0xa0]
 	strh r1, [r2, #0xa4]
 	bx lr
 	.align 2, 0
-_0206B25C: .word whConfig
+_0206B25C: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_SetUserGameInfo
 
 	arm_func_start WH_SetMaxChildCount
 WH_SetMaxChildCount: // 0x0206B260
-	ldr r1, _0206B26C // =whConfig
+	ldr r1, _0206B26C // =whConfig_sChannelBusyRatio
 	strh r0, [r1, #0x10]
 	bx lr
 	.align 2, 0
-_0206B26C: .word whConfig
+_0206B26C: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_SetMaxChildCount
 
 	arm_func_start WH_SetMinDataSize
 WH_SetMinDataSize: // 0x0206B270
-	ldr r1, _0206B27C // =whConfig
+	ldr r1, _0206B27C // =whConfig_sChannelBusyRatio
 	strh r0, [r1, #0xc]
 	bx lr
 	.align 2, 0
-_0206B27C: .word whConfig
+_0206B27C: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_SetMinDataSize
 
 	arm_func_start WH_SetMaxParentChildSize
 WH_SetMaxParentChildSize: // 0x0206B280
-	ldr r2, _0206B290 // =whConfig
+	ldr r2, _0206B290 // =whConfig_sChannelBusyRatio
 	strh r0, [r2, #6]
 	strh r1, [r2, #0x14]
 	bx lr
 	.align 2, 0
-_0206B290: .word whConfig
+_0206B290: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_SetMaxParentChildSize
 
 	arm_func_start WH_GetConnectBitmap
 WH_GetConnectBitmap: // 0x0206B294
-	ldr r0, _0206B2A0 // =whConfig
+	ldr r0, _0206B2A0 // =whConfig_sChannelBusyRatio
 	ldrh r0, [r0, #2]
 	bx lr
 	.align 2, 0
-_0206B2A0: .word whConfig
+_0206B2A0: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_GetConnectBitmap
 
 	arm_func_start WH_GetSystemState
 WH_GetSystemState: // 0x0206B2A4
-	ldr r0, _0206B2B0 // =whConfig
+	ldr r0, _0206B2B0 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x1c]
 	bx lr
 	.align 2, 0
-_0206B2B0: .word whConfig
+_0206B2B0: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_GetSystemState
 
 	arm_func_start WH_GetErrorCode
 WH_GetErrorCode: // 0x0206B2B4
-	ldr r0, _0206B2C0 // =whConfig
+	ldr r0, _0206B2C0 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x4c]
 	bx lr
 	.align 2, 0
-_0206B2C0: .word whConfig
+_0206B2C0: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_GetErrorCode
 
 	arm_func_start WH_StartMeasureChannel
@@ -5217,7 +5217,7 @@ WH_StartMeasureChannel: // 0x0206B2C4
 	add r1, r2, r1
 	mul r0, r1, r0
 	add r0, r0, #0x39
-	ldr r1, _0206B380 // =whConfig
+	ldr r1, _0206B380 // =whConfig_sChannelBusyRatio
 	add r0, r0, #0x3000
 	str r0, [r1, #0x3c]
 	mov r0, #0
@@ -5251,7 +5251,7 @@ _0206B350:
 	.align 2, 0
 _0206B378: .word 0x027FFC3C
 _0206B37C: .word 0x00010DCD
-_0206B380: .word whConfig
+_0206B380: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_StartMeasureChannel
 
 	arm_func_start WH_StateInMeasureChannel
@@ -5314,7 +5314,7 @@ WH_StateOutMeasureChannel: // 0x0206B420
 	bl WH_ChangeSysState
 	ldmia sp!, {r4, pc}
 _0206B444:
-	ldr r0, _0206B4E4 // =whConfig
+	ldr r0, _0206B4E4 // =whConfig_sChannelBusyRatio
 	ldr r3, [r0, #0x44]
 	cmp r3, #0
 	beq _0206B464
@@ -5323,7 +5323,7 @@ _0206B444:
 	ldr r0, _0206B4E8 // =aChannelDBratio
 	blx r3
 _0206B464:
-	ldr r0, _0206B4E4 // =whConfig
+	ldr r0, _0206B4E4 // =whConfig_sChannelBusyRatio
 	ldrh r3, [r4, #0xa]
 	ldrh r1, [r0, #0]
 	ldrh ip, [r4, #8]
@@ -5359,7 +5359,7 @@ _0206B4D0:
 	bl WH_ChangeSysState
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0206B4E4: .word whConfig
+_0206B4E4: .word whConfig_sChannelBusyRatio
 _0206B4E8: .word aChannelDBratio
 	arm_func_end WH_StateOutMeasureChannel
 
@@ -5378,7 +5378,7 @@ WHi_MeasureChannel: // 0x0206B4EC
 	arm_func_start WH_GetMeasureChannel
 WH_GetMeasureChannel: // 0x0206B50C
 	stmdb sp!, {r3, lr}
-	ldr r0, _0206B564 // =whConfig
+	ldr r0, _0206B564 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x1c]
 	cmp r0, #7
 	beq _0206B524
@@ -5386,10 +5386,10 @@ WH_GetMeasureChannel: // 0x0206B50C
 _0206B524:
 	mov r0, #1
 	bl WH_ChangeSysState
-	ldr r0, _0206B564 // =whConfig
+	ldr r0, _0206B564 // =whConfig_sChannelBusyRatio
 	ldrh r0, [r0, #0xe]
 	bl WHi_SelectChannel
-	ldr r1, _0206B564 // =whConfig
+	ldr r1, _0206B564 // =whConfig_sChannelBusyRatio
 	strh r0, [r1, #0xa]
 	ldr r2, [r1, #0x44]
 	cmp r2, #0
@@ -5398,11 +5398,11 @@ _0206B524:
 	ldr r0, _0206B568 // =aDecidedChannel
 	blx r2
 _0206B558:
-	ldr r0, _0206B564 // =whConfig
+	ldr r0, _0206B564 // =whConfig_sChannelBusyRatio
 	ldrh r0, [r0, #0xa]
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206B564: .word whConfig
+_0206B564: .word whConfig_sChannelBusyRatio
 _0206B568: .word aDecidedChannel
 	arm_func_end WH_GetMeasureChannel
 
@@ -5431,7 +5431,7 @@ _0206B5A0:
 	cmp r1, #1
 	movls r0, r3
 	ldmlsia sp!, {r3, pc}
-	ldr ip, _0206B640 // =whConfig
+	ldr ip, _0206B640 // =whConfig_sChannelBusyRatio
 	ldr r3, _0206B644 // =0x00010DCD
 	ldr lr, [ip, #0x3c]
 	mov r2, #0
@@ -5467,14 +5467,14 @@ _0206B61C:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206B640: .word whConfig
+_0206B640: .word whConfig_sChannelBusyRatio
 _0206B644: .word 0x00010DCD
 	arm_func_end WHi_SelectChannel
 
 	arm_func_start WH_Initialize
 WH_Initialize: // 0x0206B648
 	stmdb sp!, {r3, lr}
-	ldr r3, _0206B6D0 // =whConfig
+	ldr r3, _0206B6D0 // =whConfig_sChannelBusyRatio
 	mov r1, #0
 	str r1, [r3, #0x34]
 	str r1, [r3, #0x48]
@@ -5488,7 +5488,7 @@ WH_Initialize: // 0x0206B648
 	mov r2, #0x18
 	strh r1, [r3, #0xa4]
 	bl MI_CpuFill8
-	ldr r3, _0206B6D0 // =whConfig
+	ldr r3, _0206B6D0 // =whConfig_sChannelBusyRatio
 	mov r1, #0
 	ldr r0, _0206B6D8 // =WMDataSharingInfo
 	mov r2, #0x820
@@ -5508,7 +5508,7 @@ WH_Initialize: // 0x0206B648
 	movne r0, #1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206B6D0: .word whConfig
+_0206B6D0: .word whConfig_sChannelBusyRatio
 _0206B6D4: .word sConnectionSsid
 _0206B6D8: .word WMDataSharingInfo
 _0206B6DC: .word sDataSet
@@ -5584,7 +5584,7 @@ _0206B794: .word WH_IndicateHandler
 WH_ParentConnect: // 0x0206B798
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0xc
-	ldr r3, _0206B9EC // =whConfig
+	ldr r3, _0206B9EC // =whConfig_sChannelBusyRatio
 	mov r6, r0
 	ldr r0, [r3, #0x1c]
 	mov r5, r1
@@ -5596,7 +5596,7 @@ WH_ParentConnect: // 0x0206B798
 _0206B7C4:
 	cmp r6, #6
 	bne _0206B838
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	ldrh r1, [r0, #6]
 	ldrh r0, [r0, #0x14]
 	add r1, r1, #0x23
@@ -5605,7 +5605,7 @@ _0206B7C4:
 	bic r0, r0, #0x1f
 	cmp r1, r0
 	movle r1, r0
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	str r1, [r0, #0x48]
 	ldrh r2, [r0, #0x14]
 	ldrh r1, [r0, #0x10]
@@ -5620,11 +5620,11 @@ _0206B7C4:
 	cmp r1, r0, lsl #1
 	mov r0, r0, lsl #1
 	movle r1, r0
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	str r1, [r0, #0x34]
 	b _0206B870
 _0206B838:
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	ldrh r2, [r0, #0xc]
 	ldrh r1, [r0, #0x10]
 	add r3, r2, #0xe
@@ -5639,7 +5639,7 @@ _0206B838:
 	bic r1, r1, #0x1f
 	str r1, [r0, #0x48]
 _0206B870:
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	beq _0206B88C
@@ -5647,7 +5647,7 @@ _0206B870:
 	ldr r0, _0206B9F0 // =aRecvBufferSize
 	blx r2
 _0206B88C:
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	beq _0206B8A8
@@ -5655,15 +5655,15 @@ _0206B88C:
 	ldr r0, _0206B9F4 // =aSendBufferSize
 	blx r2
 _0206B8A8:
-	ldr r1, _0206B9EC // =whConfig
+	ldr r1, _0206B9EC // =whConfig_sChannelBusyRatio
 	mov r0, #3
 	str r6, [r1, #0x2c]
 	bl WH_ChangeSysState
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	strh r5, [r0, #0xac]
 	strh r4, [r0, #0xd2]
 	bl WM_GetDispersionBeaconPeriod
-	ldr r1, _0206B9EC // =whConfig
+	ldr r1, _0206B9EC // =whConfig_sChannelBusyRatio
 	cmp r6, #6
 	strh r0, [r1, #0xb8]
 	bne _0206B8EC
@@ -5681,13 +5681,13 @@ _0206B8EC:
 	strh r0, [r1, #0xd4]
 	strh r2, [r1, #0xd6]
 _0206B908:
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	cmp r6, #6
 	ldrh r1, [r0, #0x10]
 	moveq r2, #1
 	movne r2, #0
 	strh r1, [r0, #0xb0]
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	mov r1, #0
 	strh r2, [r0, #0xb6]
 	strh r1, [r0, #0xb2]
@@ -5695,7 +5695,7 @@ _0206B908:
 	strh r2, [r0, #0xae]
 	cmp r6, #2
 	movne r2, r1
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	cmp r6, #6
 	strh r2, [r0, #0xb4]
 	addls pc, pc, r6, lsl #2
@@ -5715,7 +5715,7 @@ _0206B970:
 	ldr r0, _0206B9F8 // =aWfsInitparentC
 	blx r1
 _0206B984:
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	mov r1, #0
 	ldrh r0, [r0, #6]
 	ldr r2, _0206B9FC // =WH_Alloc
@@ -5733,7 +5733,7 @@ _0206B9B8:
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
 _0206B9C4:
-	ldr r0, _0206B9EC // =whConfig
+	ldr r0, _0206B9EC // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	beq _0206B9E0
@@ -5745,7 +5745,7 @@ _0206B9E0:
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
-_0206B9EC: .word whConfig
+_0206B9EC: .word whConfig_sChannelBusyRatio
 _0206B9F0: .word aRecvBufferSize
 _0206B9F4: .word aSendBufferSize
 _0206B9F8: .word aWfsInitparentC
@@ -5756,7 +5756,7 @@ _0206BA00: .word aUnknownConnect
 	arm_func_start WH_ChildConnect
 WH_ChildConnect: // 0x0206BA04
 	stmdb sp!, {r3, r4, r5, lr}
-	ldr r2, _0206BBD8 // =whConfig
+	ldr r2, _0206BBD8 // =whConfig_sChannelBusyRatio
 	mov r5, r0
 	ldr r0, [r2, #0x1c]
 	mov r4, r1
@@ -5767,7 +5767,7 @@ WH_ChildConnect: // 0x0206BA04
 _0206BA28:
 	cmp r5, #7
 	bne _0206BA9C
-	ldr r0, _0206BBD8 // =whConfig
+	ldr r0, _0206BBD8 // =whConfig_sChannelBusyRatio
 	ldrh r1, [r0, #6]
 	ldrh r0, [r0, #0x14]
 	add r1, r1, #0x23
@@ -5776,7 +5776,7 @@ _0206BA28:
 	bic r0, r0, #0x1f
 	cmp r1, r0
 	movle r1, r0
-	ldr r0, _0206BBD8 // =whConfig
+	ldr r0, _0206BBD8 // =whConfig_sChannelBusyRatio
 	str r1, [r0, #0x48]
 	ldrh r2, [r0, #0x14]
 	ldrh r1, [r0, #0x10]
@@ -5791,11 +5791,11 @@ _0206BA28:
 	cmp r1, r0, lsl #1
 	mov r0, r0, lsl #1
 	movle r1, r0
-	ldr r0, _0206BBD8 // =whConfig
+	ldr r0, _0206BBD8 // =whConfig_sChannelBusyRatio
 	str r1, [r0, #0x34]
 	b _0206BACC
 _0206BA9C:
-	ldr r0, _0206BBD8 // =whConfig
+	ldr r0, _0206BBD8 // =whConfig_sChannelBusyRatio
 	ldrh r1, [r0, #0x10]
 	ldrh r2, [r0, #0xc]
 	add r1, r1, #1
@@ -5808,7 +5808,7 @@ _0206BA9C:
 	bic r1, r1, #0x1f
 	str r1, [r0, #0x48]
 _0206BACC:
-	ldr r0, _0206BBD8 // =whConfig
+	ldr r0, _0206BBD8 // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	beq _0206BAE8
@@ -5816,7 +5816,7 @@ _0206BACC:
 	ldr r0, _0206BBDC // =aRecvBufferSize
 	blx r2
 _0206BAE8:
-	ldr r0, _0206BBD8 // =whConfig
+	ldr r0, _0206BBD8 // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	beq _0206BB04
@@ -5824,7 +5824,7 @@ _0206BAE8:
 	ldr r0, _0206BBE0 // =aSendBufferSize
 	blx r2
 _0206BB04:
-	ldr r1, _0206BBD8 // =whConfig
+	ldr r1, _0206BBD8 // =whConfig_sChannelBusyRatio
 	mov r0, #3
 	str r5, [r1, #0x2c]
 	bl WH_ChangeSysState
@@ -5841,7 +5841,7 @@ _0206BB20: // jump table
 	b _0206BBB4 // case 6
 	b _0206BB40 // case 7
 _0206BB40:
-	ldr r0, _0206BBD8 // =whConfig
+	ldr r0, _0206BBD8 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206BB58
@@ -5864,7 +5864,7 @@ _0206BB74:
 	mov r1, #0xc0
 	bl DC_FlushRange
 	bl DC_WaitWriteBufferEmpty
-	ldr r0, _0206BBD8 // =whConfig
+	ldr r0, _0206BBD8 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x18]
 	cmp r0, #0
 	beq _0206BBAC
@@ -5874,7 +5874,7 @@ _0206BBAC:
 	bl WH_StateInStartChild
 	ldmia sp!, {r3, r4, r5, pc}
 _0206BBB4:
-	ldr r0, _0206BBD8 // =whConfig
+	ldr r0, _0206BBD8 // =whConfig_sChannelBusyRatio
 	ldr r2, [r0, #0x44]
 	cmp r2, #0
 	beq _0206BBD0
@@ -5885,7 +5885,7 @@ _0206BBD0:
 	mov r0, #0
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_0206BBD8: .word whConfig
+_0206BBD8: .word whConfig_sChannelBusyRatio
 _0206BBDC: .word aRecvBufferSize
 _0206BBE0: .word aSendBufferSize
 _0206BBE4: .word aWfsInitchildCa
@@ -5896,17 +5896,17 @@ _0206BBF0: .word aUnknownConnect
 
 	arm_func_start WH_SetJudgeAcceptFunc
 WH_SetJudgeAcceptFunc: // 0x0206BBF4
-	ldr r1, _0206BC00 // =whConfig
+	ldr r1, _0206BC00 // =whConfig_sChannelBusyRatio
 	str r0, [r1, #0x50]
 	bx lr
 	.align 2, 0
-_0206BC00: .word whConfig
+_0206BC00: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_SetJudgeAcceptFunc
 
 	arm_func_start WH_SetReceiver
 WH_SetReceiver: // 0x0206BC04
 	stmdb sp!, {r3, lr}
-	ldr r2, _0206BC4C // =whConfig
+	ldr r2, _0206BC4C // =whConfig_sChannelBusyRatio
 	ldr r1, _0206BC50 // =WH_PortReceiveCallback
 	str r0, [r2, #0x24]
 	mov r0, #0xe
@@ -5916,7 +5916,7 @@ WH_SetReceiver: // 0x0206BC04
 	ldmeqia sp!, {r3, pc}
 	mov r0, #9
 	bl WH_ChangeSysState
-	ldr r0, _0206BC4C // =whConfig
+	ldr r0, _0206BC4C // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	ldmeqia sp!, {r3, pc}
@@ -5924,7 +5924,7 @@ WH_SetReceiver: // 0x0206BC04
 	blx r1
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206BC4C: .word whConfig
+_0206BC4C: .word whConfig_sChannelBusyRatio
 _0206BC50: .word WH_PortReceiveCallback
 _0206BC54: .word aWmNotInitializ
 	arm_func_end WH_SetReceiver
@@ -5963,7 +5963,7 @@ WH_StepDS: // 0x0206BC84
 	ldmeqia sp!, {r4, pc}
 	cmp r4, #5
 	bne _0206BCD8
-	ldr r0, _0206BCF8 // =whConfig
+	ldr r0, _0206BCF8 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x44]
 	cmp r1, #0
 	beq _0206BCC8
@@ -5984,7 +5984,7 @@ _0206BCD8:
 	.align 2, 0
 _0206BCF0: .word WMDataSharingInfo
 _0206BCF4: .word sDataSet
-_0206BCF8: .word whConfig
+_0206BCF8: .word whConfig_sChannelBusyRatio
 _0206BCFC: .word aWhStepdatashar
 	arm_func_end WH_StepDS
 
@@ -5992,7 +5992,7 @@ _0206BCFC: .word aWhStepdatashar
 WH_Reset: // 0x0206BD00
 	stmdb sp!, {r3, lr}
 	bl WFS_End
-	ldr r0, _0206BD44 // =whConfig
+	ldr r0, _0206BD44 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x1c]
 	cmp r0, #5
 	bne _0206BD2C
@@ -6009,14 +6009,14 @@ _0206BD2C:
 	bl WH_ChangeSysState
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206BD44: .word whConfig
+_0206BD44: .word whConfig_sChannelBusyRatio
 _0206BD48: .word WMDataSharingInfo
 	arm_func_end WH_Reset
 
 	arm_func_start WH_Finalize
 WH_Finalize: // 0x0206BD4C
 	stmdb sp!, {r3, lr}
-	ldr r0, _0206BE90 // =whConfig
+	ldr r0, _0206BE90 // =whConfig_sChannelBusyRatio
 	ldr r1, [r0, #0x1c]
 	cmp r1, #1
 	bne _0206BD78
@@ -6033,7 +6033,7 @@ _0206BD78:
 	ldr r0, _0206BE98 // =aWhFinalizeStat
 	blx r2
 _0206BD8C:
-	ldr r0, _0206BE90 // =whConfig
+	ldr r0, _0206BE90 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x1c]
 	cmp r0, #2
 	bne _0206BDB0
@@ -6053,7 +6053,7 @@ _0206BDB0:
 	ldmia sp!, {r3, pc}
 _0206BDD0:
 	bl WH_ChangeSysState
-	ldr r0, _0206BE90 // =whConfig
+	ldr r0, _0206BE90 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x2c]
 	cmp r0, #7
 	addls pc, pc, r0, lsl #2
@@ -6110,7 +6110,7 @@ _0206BE7C:
 	bl WH_Reset
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206BE90: .word whConfig
+_0206BE90: .word whConfig_sChannelBusyRatio
 _0206BE94: .word aAlreadyWhSysst
 _0206BE98: .word aWhFinalizeStat
 _0206BE9C: .word WMDataSharingInfo
@@ -6119,7 +6119,7 @@ _0206BE9C: .word WMDataSharingInfo
 	arm_func_start WH_End
 WH_End: // 0x0206BEA0
 	stmdb sp!, {r3, lr}
-	ldr r0, _0206BEE4 // =whConfig
+	ldr r0, _0206BEE4 // =whConfig_sChannelBusyRatio
 	ldr r0, [r0, #0x1c]
 	cmp r0, #1
 	beq _0206BEB8
@@ -6137,17 +6137,17 @@ _0206BEB8:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_0206BEE4: .word whConfig
+_0206BEE4: .word whConfig_sChannelBusyRatio
 _0206BEE8: .word WH_StateOutEnd
 	arm_func_end WH_End
 
 	arm_func_start WH_GetCurrentAid
 WH_GetCurrentAid: // 0x0206BEEC
-	ldr r0, _0206BEF8 // =whConfig
+	ldr r0, _0206BEF8 // =whConfig_sChannelBusyRatio
 	ldrh r0, [r0, #8]
 	bx lr
 	.align 2, 0
-_0206BEF8: .word whConfig
+_0206BEF8: .word whConfig_sChannelBusyRatio
 	arm_func_end WH_GetCurrentAid
 
 	arm_func_start WFSi_ReadRomCallback

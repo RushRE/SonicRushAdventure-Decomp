@@ -481,7 +481,7 @@ _02155F7C: .word exBossEffectHitTask__Main_2155FE4
 exBossEffectHitTask__Func8: // 0x02155F80
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	beq _02155FA0
 	bl GetExTaskCurrent

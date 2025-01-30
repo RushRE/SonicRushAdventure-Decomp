@@ -122,7 +122,7 @@ _02164498: .word exEffectBigBombTask__Func_21644E8
 exEffectBigBombTask__Func8: // 0x0216449C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

@@ -11,14 +11,14 @@
 
 typedef struct exBossFireRedTask_
 {
-  s32 field_0;
-  VecFx32 velocity;
-  VecFx32 targetPos;
-  s32 field_1C;
-  u16 spinSpeed;
-  s32 spinDirection;
-  exBossSysAdminTask *parent;
-  EX_ACTION_NN_WORK animator;
+    s32 unused1;
+    VecFx32 velocity;
+    VecFx32 targetPos;
+    s32 unused2;
+    u16 spinSpeed;
+    s32 spinDirection;
+    exBossSysAdminTask *parent;
+    EX_ACTION_NN_WORK animator;
 } exBossFireRedTask;
 
 // --------------------

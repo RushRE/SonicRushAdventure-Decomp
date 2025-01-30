@@ -575,7 +575,7 @@ _0215C478: .word exBossMeteBombTask__Main_215C4C8
 exBossMeteBombTask__Func8: // 0x0215C47C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

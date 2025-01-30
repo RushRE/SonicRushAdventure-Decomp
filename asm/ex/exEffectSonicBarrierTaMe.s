@@ -238,7 +238,7 @@ _0216580C: .word exExEffectSonicBarrierTaMeTask__Main_2165874
 exExEffectSonicBarrierTaMeTask__Func8: // 0x02165810
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -276,7 +276,7 @@ exExEffectSonicBarrierTaMeTask__Main_2165874: // 0x02165874
 	mov r4, r0
 	add r0, r4, #8
 	bl exDrawReqTask__Model__Animate
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrsh r0, [r0, #0x44]
 	cmp r0, #0
 	beq _021659DC

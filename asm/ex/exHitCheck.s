@@ -97,11 +97,11 @@ _0216AE70:
 exHitCheckTask__AddHitCheck: // 0x0216AE78
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	movne r0, #0
 	ldmneia sp!, {r4, r5, r6, pc}
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrb r0, [r0, #0x6b]
 	mov r0, r0, lsl #0x1d
 	mov r0, r0, lsr #0x1f
@@ -498,10 +498,10 @@ exHitCheckTask__DoHitChecks: // 0x0216B3E4
 	bl GetExBurningBlazeWorker
 	mov r8, r0
 	bl exBossHelpers__GetBossAssets
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrb r0, [r0, #0x6b]
 	mov r0, r0, lsl #0x1d
 	mov r0, r0, lsr #0x1f
@@ -1109,7 +1109,7 @@ _0216BC94:
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1f
 	bne _0216C000
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrsh r0, [r0, #0x20]
 	cmp r0, #0
 	ble _0216BCF0
@@ -1246,7 +1246,7 @@ _0216BEB4:
 	mov r0, r0, lsl #0x1e
 	movs r0, r0, lsr #0x1f
 	bne _0216C000
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrsh r0, [r0, #0x20]
 	ldr r1, [r4, r5, lsl #2]
 	cmp r0, #0
@@ -1622,7 +1622,7 @@ exHitCheckTask__Func8: // 0x0216C3F0
 	strh r1, [r0, #6]
 	strh r1, [r0, #8]
 	strh r1, [r0, #2]
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

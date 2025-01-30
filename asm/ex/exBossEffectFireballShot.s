@@ -246,7 +246,7 @@ _02156434: .word exBossEffectFireBallShotTask__Func_215649C
 exBossEffectFireBallShotTask__Func8: // 0x02156438
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	beq _02156458
 	bl GetExTaskCurrent

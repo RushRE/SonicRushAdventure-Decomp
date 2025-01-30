@@ -2894,7 +2894,7 @@ void ExLoopRing_TaskUnknown(void)
     exEffectLoopRingTask *work = ExTaskGetWorkCurrent(exEffectLoopRingTask);
     UNUSED(work);
 
-    if (GetExSystemFlag_2178650())
+    if (CheckExStageFinished())
         DestroyCurrentExTask();
 }
 
@@ -2954,7 +2954,7 @@ void ExRing_TaskUnknown(void)
     exEffectRingTask *work = ExTaskGetWorkCurrent(exEffectRingTask);
     UNUSED(work);
 
-    if (GetExSystemFlag_2178650())
+    if (CheckExStageFinished())
         DestroyCurrentExTask();
 }
 
@@ -3088,7 +3088,7 @@ void ExRingManager_TaskUnknown(void)
     exEffectRingAdminTask *work = ExTaskGetWorkCurrent(exEffectRingAdminTask);
     UNUSED(work);
 
-    if (GetExSystemFlag_2178650())
+    if (CheckExStageFinished())
         DestroyCurrentExTask();
 }
 
@@ -3104,7 +3104,7 @@ void ExRingManager_Main_Active(void)
 {
     exEffectRingAdminTask *work = ExTaskGetWorkCurrent(exEffectRingAdminTask);
 
-    if (GetExSystemStatus()->state != EXSYSTASK_STATE_11)
+    if (GetExSystemStatus()->state != EXSYSTASK_STATE_STAGE_FINISHED)
     {
         if (work->spawnConfig.spawnDelay-- < 0)
         {
@@ -3255,29 +3255,29 @@ void ConfigureExRingManagerSpawning(void)
     {
         switch (GetExSystemStatus()->state)
         {
-            case EXSYSTASK_STATE_1:
+            case EXSYSTASK_STATE_STARTED:
             case EXSYSTASK_STATE_2:
-            case EXSYSTASK_STATE_TITLECARD_DONE:
+            case EXSYSTASK_STATE_BOSS_ACTIVE:
                 tableID = 0;
                 break;
 
-            case EXSYSTASK_STATE_6:
+            case EXSYSTASK_STATE_BOSS_FLEE_DONE:
                 tableID = 1;
                 break;
 
-            case EXSYSTASK_STATE_7:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED:
                 tableID = 2;
                 break;
 
-            case EXSYSTASK_STATE_8:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE2_DONE:
                 tableID = 3;
                 break;
 
-            case EXSYSTASK_STATE_9:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED:
                 tableID = 4;
                 break;
 
-            case EXSYSTASK_STATE_10:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE3_DONE:
                 tableID = 5;
                 break;
         }
@@ -3286,29 +3286,29 @@ void ConfigureExRingManagerSpawning(void)
     {
         switch (GetExSystemStatus()->state)
         {
-            case EXSYSTASK_STATE_1:
+            case EXSYSTASK_STATE_STARTED:
             case EXSYSTASK_STATE_2:
-            case EXSYSTASK_STATE_TITLECARD_DONE:
+            case EXSYSTASK_STATE_BOSS_ACTIVE:
                 tableID = 6;
                 break;
 
-            case EXSYSTASK_STATE_6:
+            case EXSYSTASK_STATE_BOSS_FLEE_DONE:
                 tableID = 7;
                 break;
 
-            case EXSYSTASK_STATE_7:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED:
                 tableID = 8;
                 break;
 
-            case EXSYSTASK_STATE_8:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE2_DONE:
                 tableID = 9;
                 break;
 
-            case EXSYSTASK_STATE_9:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED:
                 tableID = 10;
                 break;
 
-            case EXSYSTASK_STATE_10:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE3_DONE:
                 tableID = 11;
                 break;
         }

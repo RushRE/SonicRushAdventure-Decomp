@@ -19,12 +19,12 @@ NOT_DECOMPILED void exEffectBlzFireTask__Destructor(void);
 NOT_DECOMPILED void exEffectBlzFireTask__Main_Active(void);
 NOT_DECOMPILED void exEffectBlzFireTask__HandleMovement(void);
 NOT_DECOMPILED void exEffectBlzFireTask__Main_21669D4(void);
-NOT_DECOMPILED void exEffectBlzFireTask__Create(void);
+NOT_DECOMPILED void exEffectBlzFireTask__Create(EX_ACTION_NN_WORK *parent);
 
 NOT_DECOMPILED void exExEffectBlzFireTaMeTask__Main(void);
 NOT_DECOMPILED void exExEffectBlzFireTaMeTask__Func8(void);
 NOT_DECOMPILED void exExEffectBlzFireTaMeTask__Destructor(void);
 NOT_DECOMPILED void exExEffectBlzFireTaMeTask__Main_Active(void);
-NOT_DECOMPILED void exExEffectBlzFireTaMeTask__Create(void);
+NOT_DECOMPILED void exExEffectBlzFireTaMeTask__Create(EX_ACTION_NN_WORK *parent);
 
 #endif // RUSH_EXBLAZEFIREBALL_H

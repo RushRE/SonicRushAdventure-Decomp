@@ -18,7 +18,7 @@ NOT_DECOMPILED void exEffectBarrierTask__Main_21650D4(void);
 NOT_DECOMPILED void exEffectBarrierTask__Func_2165150(void);
 NOT_DECOMPILED void exEffectBarrierTask__Main_21652FC(void);
 NOT_DECOMPILED void exEffectBarrierTask__DelayCallback(void);
-NOT_DECOMPILED void exEffectBarrierTask__Create(void);
+NOT_DECOMPILED void exEffectBarrierTask__Create(EX_ACTION_NN_WORK *work);
 
 NOT_DECOMPILED void exExEffectSonicBarrierTaMeTask__Func_21654D4(void);
 NOT_DECOMPILED void exExEffectSonicBarrierTaMeTask__Destroy_21656F8(void);
@@ -26,6 +26,6 @@ NOT_DECOMPILED void exExEffectSonicBarrierTaMeTask__Main(void);
 NOT_DECOMPILED void exExEffectSonicBarrierTaMeTask__Func8(void);
 NOT_DECOMPILED void exExEffectSonicBarrierTaMeTask__Destructor(void);
 NOT_DECOMPILED void exExEffectSonicBarrierTaMeTask__Main_2165874(void);
-NOT_DECOMPILED void exExEffectSonicBarrierTaMeTask__Create(void);
+NOT_DECOMPILED void exExEffectSonicBarrierTaMeTask__Create(EX_ACTION_NN_WORK *work);
 
 #endif // RUSH_EXBARRIER_H

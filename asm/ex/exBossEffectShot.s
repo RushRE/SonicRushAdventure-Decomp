@@ -256,7 +256,7 @@ _021578A4: .word exBossEffectShotTask__Func_215790C
 exBossEffectShotTask__Func8: // 0x021578A8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	beq _021578C8
 	bl GetExTaskCurrent

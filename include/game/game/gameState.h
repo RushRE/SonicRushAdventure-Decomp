@@ -295,7 +295,7 @@ extern GameState gameState;
 // --------------------
 
 void ChangeEventForStageStart(void);
-void ChangeEventForStageFinish(BOOL flag);
+void ChangeEventForStageFinish(BOOL willRestartStage);
 void ChangeEventForPauseMenuAction(BOOL isRestart);
 void ResetGameState(void);
 void ExitStageClearSysEvent(void);

@@ -78,7 +78,7 @@ void ChangeEventForStageStart(void)
     }
 }
 
-void ChangeEventForStageFinish(BOOL flag)
+void ChangeEventForStageFinish(BOOL willRestartStage)
 {
     GameState *state = GetGameState();
 
@@ -88,7 +88,7 @@ void ChangeEventForStageFinish(BOOL flag)
         case GAMEMODE_STORY:
             if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_PLAYER_DIED) != 0)
             {
-                if (flag == FALSE)
+                if (willRestartStage == FALSE)
                 {
                     nextEvent               = 3; // SYSEVENT_UPDATE_PROGRESS
                     gameState.talk.field_DC = 7;

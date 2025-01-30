@@ -16,6 +16,6 @@ NOT_DECOMPILED void exEffectBiriBiriTask__Destructor(void);
 NOT_DECOMPILED void exEffectBiriBiriTask__Main_21647C8(void);
 NOT_DECOMPILED void exEffectBiriBiriTask__Func_2164810(void);
 NOT_DECOMPILED void exEffectBiriBiriTask__Main_2164848(void);
-NOT_DECOMPILED void exEffectBiriBiriTask__Create(void);
+NOT_DECOMPILED BOOL exEffectBiriBiriTask__Create(VecFx32 *targetPos);
 
 #endif // RUSH_EXSHOCKEFFECT_H

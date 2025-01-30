@@ -4,9 +4,27 @@
 #include <global.h>
 
 // --------------------
+// ENUMS
+// --------------------
+
+enum ExFinishMode_
+{
+    EXFINISHMODE_NONE,
+    EXFINISHMODE_RUNNING,
+    EXFINISHMODE_BOSS_DEFEATED,
+    EXFINISHMODE_STAGE_CLEARED,
+    EXFINISHMODE_PAUSED,
+    EXFINISHMODE_USER_QUIT,
+    EXFINISHMODE_PLAYER_DEATH,
+    EXFINISHMODE_7,
+    EXFINISHMODE_GAME_OVER,
+};
+typedef u8 ExFinishMode;
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
-void EndExBossStage(s32 mode);
+void EndExBossStage(ExFinishMode mode);
 
 #endif // RUSH_EXSAVE_H

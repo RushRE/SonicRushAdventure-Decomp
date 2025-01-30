@@ -55,9 +55,9 @@ void ExTimeGameplay_Main_Active(void)
 
     isTimeOver = FALSE;
 
-    if (GetExSystemStatus()->state != EXSYSTASK_STATE_11 && GetExSystemStatus()->state != EXSYSTASK_STATE_7 && GetExSystemStatus()->state != EXSYSTASK_STATE_9)
+    if (GetExSystemStatus()->state != EXSYSTASK_STATE_STAGE_FINISHED && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED)
     {
-        if (GetExSystemStatus()->state >= EXSYSTASK_STATE_TITLECARD_DONE)
+        if (GetExSystemStatus()->state >= EXSYSTASK_STATE_BOSS_ACTIVE)
         {
             work->frameCounter += 1666.0f;
             work->time->centiseconds = work->frameCounter / 1000;

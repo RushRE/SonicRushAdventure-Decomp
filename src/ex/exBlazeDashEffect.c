@@ -260,57 +260,57 @@ BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
     work->model.scale.y       = FLOAT_TO_FX32(1.0);
     work->model.scale.z       = FLOAT_TO_FX32(1.0);
 
-    if (exPlayerAdminTask__GetUnknown2()->activeCharacter.value_8 == TRUE || exPlayerAdminTask__GetUnknown2()->activeCharacter.value_2 == TRUE
-        || exPlayerAdminTask__GetUnknown2()->activeCharacter.value_10 == TRUE || exPlayerAdminTask__GetUnknown2()->activeCharacter.value_4 == TRUE)
+    if (GetExPlayerWorker()->playerFlags.btnLeft == TRUE || GetExPlayerWorker()->playerFlags.btnRight == TRUE || GetExPlayerWorker()->playerFlags.btnDown == TRUE
+        || GetExPlayerWorker()->playerFlags.btnUp == TRUE)
     {
-        if (GetExSystemStatus()->state == EXSYSTASK_STATE_11 || GetExSystemStatus()->state == EXSYSTASK_STATE_7 || GetExSystemStatus()->state == EXSYSTASK_STATE_9)
+        if (GetExSystemStatus()->state == EXSYSTASK_STATE_STAGE_FINISHED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED)
         {
             work->model.angle.x = -FLOAT_DEG_TO_IDX(90.066);
         }
-        else if (!exPlayerAdminTask__GetUnknown2()->activeCharacter.value_8 && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_2
-                 && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_10 && exPlayerAdminTask__GetUnknown2()->activeCharacter.value_4 == TRUE)
+        else if (!GetExPlayerWorker()->playerFlags.btnLeft && !GetExPlayerWorker()->playerFlags.btnRight && !GetExPlayerWorker()->playerFlags.btnDown
+                 && GetExPlayerWorker()->playerFlags.btnUp == TRUE)
         {
             work->model.angle.x = -FLOAT_DEG_TO_IDX(90.066);
         }
-        else if (!exPlayerAdminTask__GetUnknown2()->activeCharacter.value_8 && exPlayerAdminTask__GetUnknown2()->activeCharacter.value_2 == TRUE
-                 && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_10 && exPlayerAdminTask__GetUnknown2()->activeCharacter.value_4 == TRUE)
+        else if (!GetExPlayerWorker()->playerFlags.btnLeft && GetExPlayerWorker()->playerFlags.btnRight == TRUE && !GetExPlayerWorker()->playerFlags.btnDown
+                 && GetExPlayerWorker()->playerFlags.btnUp == TRUE)
         {
             work->model.angle.x = -FLOAT_DEG_TO_IDX(90.066);
             work->model.angle.y = FLOAT_DEG_TO_IDX(44.99);
         }
-        else if (!exPlayerAdminTask__GetUnknown2()->activeCharacter.value_8 && exPlayerAdminTask__GetUnknown2()->activeCharacter.value_2 == TRUE
-                 && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_10 && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_4)
+        else if (!GetExPlayerWorker()->playerFlags.btnLeft && GetExPlayerWorker()->playerFlags.btnRight == TRUE && !GetExPlayerWorker()->playerFlags.btnDown
+                 && !GetExPlayerWorker()->playerFlags.btnUp)
         {
             work->model.angle.x = -FLOAT_DEG_TO_IDX(90.066);
             work->model.angle.y = FLOAT_DEG_TO_IDX(89.98);
         }
-        else if (!exPlayerAdminTask__GetUnknown2()->activeCharacter.value_8 && exPlayerAdminTask__GetUnknown2()->activeCharacter.value_2 == TRUE
-                 && exPlayerAdminTask__GetUnknown2()->activeCharacter.value_10 == TRUE && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_4)
+        else if (!GetExPlayerWorker()->playerFlags.btnLeft && GetExPlayerWorker()->playerFlags.btnRight == TRUE && GetExPlayerWorker()->playerFlags.btnDown == TRUE
+                 && !GetExPlayerWorker()->playerFlags.btnUp)
 
         {
             work->model.angle.x = -FLOAT_DEG_TO_IDX(90.066);
             work->model.angle.y = FLOAT_DEG_TO_IDX(134.97);
         }
-        else if (!exPlayerAdminTask__GetUnknown2()->activeCharacter.value_8 && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_2
-                 && exPlayerAdminTask__GetUnknown2()->activeCharacter.value_10 == TRUE && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_4)
+        else if (!GetExPlayerWorker()->playerFlags.btnLeft && !GetExPlayerWorker()->playerFlags.btnRight && GetExPlayerWorker()->playerFlags.btnDown == TRUE
+                 && !GetExPlayerWorker()->playerFlags.btnUp)
         {
             work->model.angle.x = -FLOAT_DEG_TO_IDX(90.066);
             work->model.angle.y = FLOAT_DEG_TO_IDX(179.96);
         }
-        else if (exPlayerAdminTask__GetUnknown2()->activeCharacter.value_8 == TRUE && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_2
-                 && exPlayerAdminTask__GetUnknown2()->activeCharacter.value_10 == TRUE && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_4)
+        else if (GetExPlayerWorker()->playerFlags.btnLeft == TRUE && !GetExPlayerWorker()->playerFlags.btnRight && GetExPlayerWorker()->playerFlags.btnDown == TRUE
+                 && !GetExPlayerWorker()->playerFlags.btnUp)
         {
             work->model.angle.x = -FLOAT_DEG_TO_IDX(90.066);
             work->model.angle.y = -FLOAT_DEG_TO_IDX(135.055);
         }
-        else if (exPlayerAdminTask__GetUnknown2()->activeCharacter.value_8 == TRUE && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_2
-                 && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_10 && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_4)
+        else if (GetExPlayerWorker()->playerFlags.btnLeft == TRUE && !GetExPlayerWorker()->playerFlags.btnRight && !GetExPlayerWorker()->playerFlags.btnDown
+                 && !GetExPlayerWorker()->playerFlags.btnUp)
         {
             work->model.angle.x = -FLOAT_DEG_TO_IDX(90.066);
             work->model.angle.y = -FLOAT_DEG_TO_IDX(90.066);
         }
-        else if (exPlayerAdminTask__GetUnknown2()->activeCharacter.value_8 == TRUE && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_2
-                 && !exPlayerAdminTask__GetUnknown2()->activeCharacter.value_10 && exPlayerAdminTask__GetUnknown2()->activeCharacter.value_4 == TRUE)
+        else if (GetExPlayerWorker()->playerFlags.btnLeft == TRUE && !GetExPlayerWorker()->playerFlags.btnRight && !GetExPlayerWorker()->playerFlags.btnDown
+                 && GetExPlayerWorker()->playerFlags.btnUp == TRUE)
         {
             work->model.angle.x = -FLOAT_DEG_TO_IDX(90.066);
             work->model.angle.y = -FLOAT_DEG_TO_IDX(45.077);
@@ -380,7 +380,7 @@ void ExBlazeDashEffect_TaskUnknown(void)
     exBlzDushEffectTask *work = ExTaskGetWorkCurrent(exBlzDushEffectTask);
     UNUSED(work);
 
-    if (GetExSystemFlag_2178650())
+    if (CheckExStageFinished())
         DestroyCurrentExTask();
 }
 

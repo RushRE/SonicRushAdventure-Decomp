@@ -608,7 +608,7 @@ _0215AE5C: .word exBossLineNeedleTask__Main_215AEAC
 exBossLineNeedleTask__Func8: // 0x0215AE60
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -1171,7 +1171,7 @@ _0215B618: .word exBossLineMissileTask__Main_215B668
 exBossLineMissileTask__Func8: // 0x0215B61C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

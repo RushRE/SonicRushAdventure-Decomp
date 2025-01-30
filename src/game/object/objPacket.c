@@ -23,6 +23,16 @@ struct ObjPacketManager
     void *(*getSendBuffer)(void);
 };
 
+typedef struct ObjPacketHeader2_
+{
+    struct
+    {
+        u8 flag1;
+        u8 flag2;
+    };
+    u16 param;
+} ObjPacketHeader2;
+
 // --------------------
 // VARIABLES
 // --------------------
@@ -164,67 +174,23 @@ ObjSendPacket *ObjPacket__SendPacket(void *packet, u16 type, u16 priority, u16 d
     return NULL;
 }
 
-NONMATCH_FUNC void ObjPacket__Func_2074BB4(void)
+void ObjPacket__Func_2074BB4(void)
 {
-    // https://decomp.me/scratch/gFTBk -> 99.34%
-    // 'wmMaxChildCount' is gotten by address, not by offset, does 'whConfig' exist?
-#ifdef NON_MATCHING
     ObjPacketHeader2 *packetPtr = (ObjPacketHeader2 *)objPacketManager.getRecieveBuffer(0);
-    if (packetPtr->priority == 0xFF)
+    if (packetPtr->flag2 == 0xFF)
         return;
 
-    for (u16 c = 0; c < whConfig.wmMaxChildCount + 1; c++)
+    for (u16 c = 0; c < whConfig_wmMaxChildCount + 1; c++)
     {
         packetPtr = (ObjPacketHeader2 *)objPacketManager.getRecieveBuffer(c);
-        if (packetPtr->type != 85)
+        if (packetPtr->flag1 != 85)
             break;
 
-        if (packetPtr->priority != 0xFF)
-            objPacketAIDList[c] = packetPtr->priority;
+        if (packetPtr->flag2 != 0xFF)
+            objPacketAIDList[c] = packetPtr->flag2;
 
-        packetPtr->priority = 0xFF;
+        packetPtr->flag2 = 0xFF;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, r7, r8, lr}
-	ldr r1, =objPacketManager
-	mov r0, #0
-	ldr r1, [r1, #8]
-	blx r1
-	ldrb r0, [r0, #1]
-	cmp r0, #0xff
-	ldmeqia sp!, {r4, r5, r6, r7, r8, pc}
-	ldr r8, =whConfig+0x00000010
-	mov r6, #0
-	ldrh r0, [r8, #0]
-	add r0, r0, #1
-	cmp r0, #0
-	ldmleia sp!, {r4, r5, r6, r7, r8, pc}
-	ldr r5, =objPacketAIDList
-	ldr r7, =objPacketManager
-	mov r4, #0xff
-_02074BF8:
-	ldr r1, [r7, #8]
-	mov r0, r6
-	blx r1
-	ldrb r1, [r0, #0]
-	cmp r1, #0x55
-	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
-	ldrb r1, [r0, #1]
-	cmp r1, #0xff
-	strneb r1, [r5, r6]
-	strb r4, [r0, #1]
-	ldrh r1, [r8, #0]
-	add r0, r6, #1
-	mov r0, r0, lsl #0x10
-	add r1, r1, #1
-	cmp r1, r0, lsr #16
-	mov r6, r0, lsr #0x10
-	bgt _02074BF8
-	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-
-// clang-format on
-#endif
 }
 
 NONMATCH_FUNC BOOL ObjPacket__FillSendDataBuffer(void)
@@ -340,7 +306,8 @@ void *ObjPacket__GetRecievedPacketData(s32 type, s32 id)
     return packet->data;
 }
 
-NONMATCH_FUNC ObjRecievePacket *ObjPacket__GetRecievedPacket(s32 type, s32 id){
+NONMATCH_FUNC ObjRecievePacket *ObjPacket__GetRecievedPacket(s32 type, s32 id)
+{
 #ifdef NON_MATCHING
 
 #else

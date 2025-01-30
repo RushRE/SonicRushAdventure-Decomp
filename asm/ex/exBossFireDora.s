@@ -192,7 +192,7 @@ exBossFireDoraTask__Main: // 0x02154F60
 	sub sp, sp, #8
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	bl GetCurrentTask
 	ldr r1, _02155108 // =exBossFireDoraTask__ActiveInstanceCount
 	str r0, [r1, #0x18]
@@ -311,7 +311,7 @@ _02155128: .word exBossFireDoraTask__Func_2155188
 exBossFireDoraTask__Func8: // 0x0215512C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -345,7 +345,7 @@ exBossFireDoraTask__Func_2155188: // 0x02155188
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	mov r5, r0
 	add r0, r4, #0x38
 	bl exDrawReqTask__Model__Animate

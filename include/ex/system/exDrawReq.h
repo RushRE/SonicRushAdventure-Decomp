@@ -19,13 +19,18 @@ typedef struct exDrawReqTaskConfig_
 {
     union
     {
-        u8 value_1 : 2;
-        u8 value_4 : 1;
-        u8 value_8 : 1;
-        u8 value_10 : 1;
-        u8 value_20 : 1;
-        u8 value_40 : 1;
-        u8 value_80 : 1;
+        struct
+        {
+            u8 value_1 : 2;
+            u8 value_4 : 1;
+            u8 value_8 : 1;
+            u8 value_10 : 1;
+            u8 value_20 : 1;
+            u8 value_40 : 1;
+            u8 value_80 : 1;
+        };
+
+        u8 field;
     } field_0;
     struct
     {
@@ -165,8 +170,8 @@ NOT_DECOMPILED void exDrawFadeUnknown__Func_21613A8(void);
 NOT_DECOMPILED void exDrawFadeUnknown__Func_216143C(void);
 NOT_DECOMPILED void exDrawFadeUnknown__Func_21614EC(void);
 NOT_DECOMPILED void exDrawFadeUnknown__Func_21615A4(s32 a1, s32 a2);
-NOT_DECOMPILED void exDrawFadeTask__GetUnknownA(void);
-NOT_DECOMPILED void exDrawFadeTask__GetUnknownB(void);
+NOT_DECOMPILED exDrawFadeUnknown *exDrawFadeTask__GetUnknownA(void);
+NOT_DECOMPILED exDrawFadeUnknown *exDrawFadeTask__GetUnknownB(void);
 NOT_DECOMPILED void exDrawReqTask__EntryUnknown2__GetLightConfig(void);
 NOT_DECOMPILED void exDrawReqTask__InitSprite2DWorker(EX_ACTION_BAC2D_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__InitSprite2DConfig(EX_ACTION_BAC2D_WORK *work);
@@ -192,13 +197,13 @@ NOT_DECOMPILED void exDrawReqTask__Model__Draw(EX_ACTION_NN_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Model__HandleLighting(EX_ACTION_NN_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Model__ProcessRequest(EX_ACTION_NN_WORK *work);
 NOT_DECOMPILED BOOL exDrawReqTask__Model__IsAnimFinished(EX_ACTION_NN_WORK *work);
-NOT_DECOMPILED void exDrawReqTask__InitTrail(EX_ACTION_TRAIL_WORK *work);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail6(EX_ACTION_TRAIL_WORK *work);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail5(EX_ACTION_TRAIL_WORK *work);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail4(EX_ACTION_TRAIL_WORK *work);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail3(EX_ACTION_TRAIL_WORK *work);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail2(EX_ACTION_TRAIL_WORK *work);
-NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail(EX_ACTION_TRAIL_WORK *work);
+NOT_DECOMPILED void exDrawReqTask__InitTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *position, u16 type);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail6(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail5(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos, s32 a3);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail4(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail3(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail2(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos);
+NOT_DECOMPILED void exDrawReqTask__Trail__HandleTrail(EX_ACTION_TRAIL_WORK *work, VecFx32 *pos, u32 type, u32 color);
 NOT_DECOMPILED void exDrawReqTask__Trail__ProcessRequest(EX_ACTION_TRAIL_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Sprite3D__InitWorker(EX_ACTION_BAC3D_WORK *work);
 NOT_DECOMPILED void exDrawReqTask__Sprite3D__InitConfig(EX_ACTION_BAC3D_WORK *work);
@@ -228,6 +233,6 @@ NOT_DECOMPILED void exDrawReqTask__Func_2164260(exDrawReqTaskConfig *config);
 NOT_DECOMPILED void exDrawReqTask__InitUnknown3(exDrawReqTaskConfig *config);
 NOT_DECOMPILED void exDrawReqTask__Func_2164288(exDrawReqTaskConfig *config);
 NOT_DECOMPILED void exDrawReqTask__Func_21642BC(exDrawReqTaskConfig *config);
-NOT_DECOMPILED void exDrawReqTask__Func_21642F0(exDrawReqTaskConfig *config);
+NOT_DECOMPILED void exDrawReqTask__Func_21642F0(exDrawReqTaskConfig *config, s32 a2);
 
 #endif // RUSH_EXDRAWREQ_H

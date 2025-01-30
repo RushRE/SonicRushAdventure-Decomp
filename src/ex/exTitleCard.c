@@ -136,7 +136,7 @@ void ExTutorialMessage_Main_Init(void)
     exTutorialMessageTaskSingleton = GetCurrentTask();
 
     work->language     = GetExTutorialMessageLanguage();
-    work->playerWorker = exPlayerAdminTask__GetUnknown2();
+    work->playerWorker = GetExPlayerWorker();
 
     for (u16 i = 0; i < EXPLAYER_CHARACTER_COUNT; i++)
     {
@@ -172,7 +172,7 @@ void ExTutorialMessage_TaskUnknown(void)
     exMsgTutorialTask *work = ExTaskGetWorkCurrent(exMsgTutorialTask);
     UNUSED(work);
 
-    if (GetExSystemFlag_2178650())
+    if (CheckExStageFinished())
         DestroyCurrentExTask();
 }
 
@@ -192,7 +192,7 @@ void ExTutorialMessage_Main_Active(void)
     exMsgTutorialTask *work = ExTaskGetWorkCurrent(exMsgTutorialTask);
 
     u8 character = EXPLAYER_CHARACTER_SONIC;
-    if (work->playerWorker->activeCharacter.value_1)
+    if (work->playerWorker->playerFlags.characterID != EXPLAYER_CHARACTER_SONIC)
         character = EXPLAYER_CHARACTER_BLAZE;
 
     exDrawReqTask__Sprite2D__Animate(&work->aniMessage[character]);
@@ -687,7 +687,7 @@ void ExTitleCard_Action_ShowGoText(void)
 
     ReleaseExHUDSprite(work->aniReadyText);
 
-    GetExSystemStatus()->state = EXSYSTASK_STATE_TITLECARD_DONE;
+    GetExSystemStatus()->state = EXSYSTASK_STATE_BOSS_ACTIVE;
 
     SetCurrentExTaskMainEvent(ExTitleCard_Main_ShowGoText);
     ExTitleCard_Main_ShowGoText();

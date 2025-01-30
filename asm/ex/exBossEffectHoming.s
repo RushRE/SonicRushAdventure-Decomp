@@ -536,7 +536,7 @@ _0215722C: .word exBossEffectHomingTask__Func_2157294
 exBossEffectHomingTask__Func8: // 0x02157230
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	beq _02157250
 	bl GetExTaskCurrent

@@ -24,7 +24,8 @@ typedef u16 char16; // typedef u16 as char16 for readability
 // TODO: probably put these in a neater place
 #define ARRAY_COUNT(array) (sizeof(array) / sizeof((array)[0]))
 
-#define FLOAT_TO_FX32(n) ((fx32)((n) * 0x1000))
+#define FLOAT_TO_FX32(n)     ((fx32)((n) * FX32_ONE))
+#define FX32_TO_FLOAT(value) ((value) / (float)FLOAT_TO_FX32(1.0))
 
 #define SECONDS_TO_FRAMES(n) ((fx32)((n) * 60))
 

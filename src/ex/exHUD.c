@@ -397,14 +397,15 @@ void ExRingCountHUD_Main_Active(void)
     exDrawReqTask__Sprite2D__Animate(&work->aniRingBackdrop);
     exDrawReqTask__AddRequest(&work->aniRingBackdrop, &work->aniRingBackdrop.config);
 
-    if (GetExSystemStatus()->state != EXSYSTASK_STATE_11 && GetExSystemStatus()->state != EXSYSTASK_STATE_7 && GetExSystemStatus()->state != EXSYSTASK_STATE_9)
+    if (GetExSystemStatus()->state != EXSYSTASK_STATE_STAGE_FINISHED && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED
+        && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED)
     {
         if (status->rings != 0)
         {
             if (work->ringLossTimer-- < 0)
             {
                 work->ringLossTimer = SECONDS_TO_FRAMES(1.0);
-                if (GetExSystemStatus()->state != EXSYSTASK_STATE_11)
+                if (GetExSystemStatus()->state != EXSYSTASK_STATE_STAGE_FINISHED)
                     status->rings--;
             }
         }
@@ -642,8 +643,8 @@ void ExBossLifeGaugeHUD_Main_Init(void)
     }
 
     work->boss->field_64    = -16 - work->aniCapL.sprite.pos.x + work->aniCapR.sprite.pos.x;
-    work->boss->field_62    = work->boss->field_64;
-    work->totalSegmentCount = work->boss->field_62 / 8;
+    work->boss->health      = work->boss->field_64;
+    work->totalSegmentCount = work->boss->health / 8;
     work->health            = work->boss->field_64;
     work->healthChange      = 0;
 
@@ -685,22 +686,22 @@ void ExBossLifeGaugeHUD_Main_HealthIdle(void)
     exDrawReqTask__Sprite2D__Animate(&work->aniCapL);
     exDrawReqTask__Sprite2D__Animate(&work->aniCapR);
 
-    if (GetExSystemStatus()->state == EXSYSTASK_STATE_11 || GetExSystemStatus()->state == EXSYSTASK_STATE_7 || GetExSystemStatus()->state == EXSYSTASK_STATE_9
-        || GetExSystemStatus()->state == EXSYSTASK_STATE_5)
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_STAGE_FINISHED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED
+        || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_FLEE_STARTED)
     {
         work->healthChange       = 0;
-        work->health             = work->boss->field_62;
-        work->healthSegmentCount = work->boss->field_62 / 8;
-        work->healthSegmentPos   = work->boss->field_62 % 8;
+        work->health             = work->boss->health;
+        work->healthSegmentCount = work->boss->health / 8;
+        work->healthSegmentPos   = work->boss->health % 8;
     }
     else
     {
-        s16 curHealth  = work->boss->field_62;
+        s16 curHealth  = work->boss->health;
         s16 prevHealth = work->health;
         if (prevHealth != curHealth)
         {
             work->healthChange  = prevHealth - curHealth;
-            work->health        = work->boss->field_62;
+            work->health        = work->boss->health;
             work->healthChangeF = work->healthChange;
 
             SetCurrentExTaskMainEvent(ExBossLifeGaugeHUD_Main_HealthChanging);
@@ -708,8 +709,8 @@ void ExBossLifeGaugeHUD_Main_HealthIdle(void)
             return;
         }
 
-        work->healthSegmentCount = work->boss->field_62 / 8;
-        work->healthSegmentPos   = work->boss->field_62 % 8;
+        work->healthSegmentCount = work->boss->health / 8;
+        work->healthSegmentPos   = work->boss->health % 8;
     }
 
     s16 remainLifeAnim = 8 - work->healthSegmentPos;
@@ -774,13 +775,13 @@ void ExBossLifeGaugeHUD_Main_HealthChanging(void)
         if (work->healthChange > 0)
         {
             work->healthChange       = work->healthChangeF;
-            work->healthSegmentCount = (work->boss->field_62 + work->healthChange) / 8;
-            work->healthSegmentPos   = (work->boss->field_62 + work->healthChange) % 8;
+            work->healthSegmentCount = (work->boss->health + work->healthChange) / 8;
+            work->healthSegmentPos   = (work->boss->health + work->healthChange) % 8;
         }
         else
         {
             work->healthChange = 0;
-            work->health       = work->boss->field_62;
+            work->health       = work->boss->health;
         }
 
         s16 remainLifeAnim = 8 - work->healthSegmentPos;
@@ -876,7 +877,7 @@ void ExHUD_Main_WaitForCommonHUD(void)
     exFixAdminTask *work = ExTaskGetWorkCurrent(exFixAdminTask);
     UNUSED(work);
 
-    if (GetExSystemStatus()->state == EXSYSTASK_STATE_TITLECARD_DONE)
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_ACTIVE)
     {
         ExHUD_Action_CreateCommonHUD();
     }
@@ -904,7 +905,7 @@ void ExHUD_Main_WaitForBossHUD(void)
     exFixAdminTask *work = ExTaskGetWorkCurrent(exFixAdminTask);
     UNUSED(work);
 
-    if (GetExSystemStatus()->state > EXSYSTASK_STATE_TITLECARD_DONE)
+    if (GetExSystemStatus()->state > EXSYSTASK_STATE_BOSS_ACTIVE)
         ExHUD_Action_CreateBossHUD();
 }
 

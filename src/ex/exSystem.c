@@ -30,21 +30,21 @@ struct TEMP_STATIC_VARS
     exSysTask *exSysTask__Singleton;
     Task *exSysTask__TaskSingleton;
 
-    BOOL exSysTask__Flag_2178650;
-    BOOL exSysTask__Flag_2178654;
+    BOOL exStageFinished;
+    BOOL exStageWillExit;
     exSysTaskStatus exSysTaskStatus;
 };
 
 NOT_DECOMPILED struct TEMP_STATIC_VARS exSysTask__sVars;
 
-// NOT_DECOMPILED void * exSysTask__sVars;
+// NOT_DECOMPILED u8 exSysTask__lives;
 
-// NOT_DECOMPILED void * exSysTask__Singleton;
-// NOT_DECOMPILED void * exSysTask__TaskSingleton;
+// NOT_DECOMPILED exSysTask *exSysTask__Singleton;
+// NOT_DECOMPILED Task *exSysTask__TaskSingleton;
 
-// NOT_DECOMPILED BOOL exSysTask__Flag_2178650;
-// NOT_DECOMPILED BOOL exSysTask__Flag_2178654;
-// NOT_DECOMPILED exSysTaskStatus exSysTask__Flag_2178658;
+// NOT_DECOMPILED BOOL exStageFinished;
+// NOT_DECOMPILED BOOL exStageWillExit;
+// NOT_DECOMPILED exSysTaskStatus exSysTaskStatus;
 
 // --------------------
 // FUNCTION DECLS
@@ -53,22 +53,22 @@ NOT_DECOMPILED struct TEMP_STATIC_VARS exSysTask__sVars;
 static void ExSystem_Main_Init(void);
 static void ExSystem_TaskUnknown(void);
 static void ExSystem_Destructor(void);
-static void ExSystem_Main_2172D30(void);
-static void ExSystem_Action_2172D6C(void);
-static void ExSystem_Main_2172D98(void);
+static void ExSystem_Main_WaitForStageStarted(void);
+static void ExSystem_Action_Resume(void);
+static void ExSystem_Main_Active(void);
 static void ExSystem_Action_Pause(void);
-static void ExSystem_Main_IsPaused(void);
-static void ExSystem_Main_2172EF8(void);
-static void ExSystem_Action_2172F30(void);
-static void ExSystem_Main_2172FA4(void);
-static void ExSystem_Action_2173000(void);
-static void ExSystem_Main_2173074(void);
-static void ExSystem_Action_21730D0(void);
-static void ExSystem_Main_2173158(void);
-static void ExSystem_Main_21731DC(void);
-static void ExSystem_Main_217323C(void);
-static void ExSystem_Main_21732E4(void);
-static void ExSystem_Main_2173338(void);
+static void ExSystem_Main_WaitingForPauseMenu(void);
+static void ExSystem_Main_ExitSelected(void);
+static void ExSystem_Action_BeginExitFadeOut(void);
+static void ExSystem_Main_ExitFadeOut(void);
+static void ExSystem_Action_StageCleared(void);
+static void ExSystem_Main_StageCleared(void);
+static void ExSystem_Action_BeginDeathFadeOut(void);
+static void ExSystem_Main_DeathFadeOut(void);
+static void ExSystem_Main_StageRestartDelay(void);
+static void ExSystem_Main_DoStageRestart(void);
+static void ExSystem_Main_DoStageExit(void);
+static void ExSystem_Main_EndStage(void);
 
 static void LoadExSystemAssets(exSysTask *work);
 static void SetupExSystemDisplay(exSysTask *work);
@@ -89,21 +89,13 @@ void LoseExSystemLife(void)
 
 NONMATCH_FUNC void InitExSystemStatus(void)
 {
-    // https://decomp.me/scratch/BA0pP -> 76.21%
+    // https://decomp.me/scratch/BA0pP -> 68.79%
 #ifdef NON_MATCHING
-    exSysTask__sVars.exSysTaskStatus.finishMode = 1;
-    exSysTask__sVars.exSysTaskStatus.state      = EXSYSTASK_STATE_1;
-    exSysTask__sVars.exSysTaskStatus.rings      = 50;
-
-    if (saveGame.stage.status.difficulty == DIFFICULTY_EASY)
-        exSysTask__sVars.exSysTaskStatus.difficulty = EXSYS_DIFFICULTY_EASY;
-    else
-        exSysTask__sVars.exSysTaskStatus.difficulty = EXSYS_DIFFICULTY_NORMAL;
-
-    if (saveGame.stage.status.timeLimit != 0)
-        exSysTask__sVars.exSysTaskStatus.timeLimitMode = 1;
-    else
-        exSysTask__sVars.exSysTaskStatus.timeLimitMode = 2;
+    exSysTask__sVars.exSysTaskStatus.finishMode    = EXFINISHMODE_RUNNING;
+    exSysTask__sVars.exSysTaskStatus.state         = EXSYSTASK_STATE_STARTED;
+    exSysTask__sVars.exSysTaskStatus.rings         = 50;
+    exSysTask__sVars.exSysTaskStatus.difficulty    = saveGame.stage.status.difficulty != DIFFICULTY_EASY ? EXSYS_DIFFICULTY_NORMAL : EXSYS_DIFFICULTY_EASY;
+    exSysTask__sVars.exSysTaskStatus.timeLimitMode = saveGame.stage.status.timeLimit != FALSE ? EXSYS_TIMELIMIT_ON : EXSYS_TIMELIMIT_OFF;
 
     exSysTask__sVars.exSysTaskStatus.lives = GetExSystemLifeCount();
     MI_CpuClear8(&exSysTask__sVars.exSysTaskStatus.time, sizeof(exSysTask__sVars.exSysTaskStatus.time));
@@ -149,9 +141,9 @@ exSysTaskStatus *GetExSystemStatus(void)
     return &exSysTask__sVars.exSysTaskStatus;
 }
 
-BOOL GetExSystemFlag_2178650(void)
+BOOL CheckExStageFinished(void)
 {
-    return exSysTask__sVars.exSysTask__Flag_2178650;
+    return exSysTask__sVars.exStageFinished;
 }
 
 void ExSystem_Main_Init(void)
@@ -193,11 +185,13 @@ void ExSystem_Main_Init(void)
     exHitCheckTask__Create();
     CreateExGameSystem();
     CreateExHUD();
-    GetExSystemStatus()->state = EXSYSTASK_STATE_3;
+
+    GetExSystemStatus()->state = EXSYSTASK_STATE_INTRO;
+
     exDrawFadeTask__Create(-16, 0, 32, 0, 1);
     exDrawFadeTask__Create(-16, 0, 32, 0, 2);
 
-    SetCurrentExTaskMainEvent(ExSystem_Main_2172D30);
+    SetCurrentExTaskMainEvent(ExSystem_Main_WaitForStageStarted);
 }
 
 void ExSystem_TaskUnknown(void)
@@ -222,14 +216,14 @@ void ExSystem_Destructor(void)
     exSysTask__sVars.exSysTask__Singleton     = NULL;
 }
 
-void ExSystem_Main_2172D30(void)
+void ExSystem_Main_WaitForStageStarted(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
-    if (GetExSystemStatus()->state != EXSYSTASK_STATE_3)
+    if (GetExSystemStatus()->state != EXSYSTASK_STATE_INTRO)
     {
-        GetExSystemStatus()->state = EXSYSTASK_STATE_TITLECARD_DONE;
-        ExSystem_Action_2172D6C();
+        GetExSystemStatus()->state = EXSYSTASK_STATE_BOSS_ACTIVE;
+        ExSystem_Action_Resume();
     }
     else
     {
@@ -237,37 +231,37 @@ void ExSystem_Main_2172D30(void)
     }
 }
 
-void ExSystem_Action_2172D6C(void)
+void ExSystem_Action_Resume(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
     UNUSED(work);
 
-    SetCurrentExTaskMainEvent(ExSystem_Main_2172D98);
-    ExSystem_Main_2172D98();
+    SetCurrentExTaskMainEvent(ExSystem_Main_Active);
+    ExSystem_Main_Active();
 
     RunCurrentExTaskUnknownEvent();
 }
 
-void ExSystem_Main_2172D98(void)
+void ExSystem_Main_Active(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
     UNUSED(work);
 
-    if (GetExSystemStatus()->state != EXSYSTASK_STATE_11 && GetExSystemStatus()->state != EXSYSTASK_STATE_7 && GetExSystemStatus()->state != EXSYSTASK_STATE_9
-        && GetExTitleCardTaskSingleton() == NULL && (padInput.btnPress & PAD_BUTTON_START) != 0)
+    if (GetExSystemStatus()->state != EXSYSTASK_STATE_STAGE_FINISHED && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED
+        && GetExSystemStatus()->state != EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED && GetExTitleCardTaskSingleton() == NULL && (padInput.btnPress & PAD_BUTTON_START) != 0)
     {
         ExSystem_Action_Pause();
     }
     else
     {
-        if (GetExSystemStatus()->finishMode == 6)
+        if (GetExSystemStatus()->finishMode == EXFINISHMODE_PLAYER_DEATH)
         {
-            GetExSystemStatus()->state = EXSYSTASK_STATE_11;
-            ExSystem_Action_21730D0();
+            GetExSystemStatus()->state = EXSYSTASK_STATE_STAGE_FINISHED;
+            ExSystem_Action_BeginDeathFadeOut();
         }
-        else if (GetExSystemStatus()->finishMode == 2)
+        else if (GetExSystemStatus()->finishMode == EXFINISHMODE_BOSS_DEFEATED)
         {
-            ExSystem_Action_2173000();
+            ExSystem_Action_StageCleared();
         }
         else
         {
@@ -284,25 +278,25 @@ void ExSystem_Action_Pause(void)
     UNUSED(work);
 
     exHitCheckTask__Func_216AD9C(1);
-    GetExSystemStatus()->finishMode = 4;
+    GetExSystemStatus()->finishMode = EXFINISHMODE_PAUSED;
     CreateExPauseMenu();
-    SetCurrentExTaskMainEvent(ExSystem_Main_IsPaused);
+    SetCurrentExTaskMainEvent(ExSystem_Main_WaitingForPauseMenu);
 }
 
-void ExSystem_Main_IsPaused(void)
+void ExSystem_Main_WaitingForPauseMenu(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
     if (GetExPauseMenuSelectedAction() == EXPAUSEMENU_ACTION_CONTINUE)
     {
-        GetExSystemStatus()->finishMode = 1;
-        SetCurrentExTaskMainEvent(ExSystem_Action_2172D6C);
+        GetExSystemStatus()->finishMode = EXFINISHMODE_RUNNING;
+        SetCurrentExTaskMainEvent(ExSystem_Action_Resume);
     }
     else if (GetExPauseMenuSelectedAction() == EXPAUSEMENU_ACTION_BACK)
     {
-        work->timer                   = 10;
-        GetExSystemStatus()->state = EXSYSTASK_STATE_11;
-        SetCurrentExTaskMainEvent(ExSystem_Main_2172EF8);
+        work->timer                = 10;
+        GetExSystemStatus()->state = EXSYSTASK_STATE_STAGE_FINISHED;
+        SetCurrentExTaskMainEvent(ExSystem_Main_ExitSelected);
     }
     else
     {
@@ -310,13 +304,13 @@ void ExSystem_Main_IsPaused(void)
     }
 }
 
-void ExSystem_Main_2172EF8(void)
+void ExSystem_Main_ExitSelected(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
     if (work->timer-- <= 0)
     {
-        ExSystem_Action_2172F30();
+        ExSystem_Action_BeginExitFadeOut();
     }
     else
     {
@@ -326,30 +320,30 @@ void ExSystem_Main_2172EF8(void)
     }
 }
 
-void ExSystem_Action_2172F30(void)
+void ExSystem_Action_BeginExitFadeOut(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
-    GetExSystemStatus()->finishMode = 5;
+    GetExSystemStatus()->finishMode = EXFINISHMODE_USER_QUIT;
     exDrawFadeTask__Create(0, -16, 64, 0, 1);
     exDrawFadeTask__Create(0, -16, 64, 0, 2);
 
     work->timer = 64;
 
-    SetCurrentExTaskMainEvent(ExSystem_Main_2172FA4);
+    SetCurrentExTaskMainEvent(ExSystem_Main_ExitFadeOut);
 }
 
-void ExSystem_Main_2172FA4(void)
+void ExSystem_Main_ExitFadeOut(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
     if (work->timer-- <= 0)
     {
-        exSysTask__sVars.exSysTask__Flag_2178650 = TRUE;
-        work->timer                              = 5;
+        exSysTask__sVars.exStageFinished = TRUE;
+        work->timer                      = 5;
 
-        SetCurrentExTaskMainEvent(ExSystem_Main_21732E4);
-        ExSystem_Main_21732E4();
+        SetCurrentExTaskMainEvent(ExSystem_Main_DoStageExit);
+        ExSystem_Main_DoStageExit();
     }
     else
     {
@@ -357,30 +351,30 @@ void ExSystem_Main_2172FA4(void)
     }
 }
 
-void ExSystem_Action_2173000(void)
+void ExSystem_Action_StageCleared(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
-    GetExSystemStatus()->finishMode = 3;
+    GetExSystemStatus()->finishMode = EXFINISHMODE_STAGE_CLEARED;
     exDrawFadeTask__Create(0, -16, 64, 0, 1);
     exDrawFadeTask__Create(0, -16, 64, 0, 2);
 
     work->timer = 64;
 
-    SetCurrentExTaskMainEvent(ExSystem_Main_2173074);
+    SetCurrentExTaskMainEvent(ExSystem_Main_StageCleared);
 }
 
-void ExSystem_Main_2173074(void)
+void ExSystem_Main_StageCleared(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
     if (work->timer-- <= 0)
     {
-        exSysTask__sVars.exSysTask__Flag_2178650 = 1;
-        work->timer                              = 5;
+        exSysTask__sVars.exStageFinished = TRUE;
+        work->timer                      = 5;
 
-        SetCurrentExTaskMainEvent(ExSystem_Main_21732E4);
-        ExSystem_Main_21732E4();
+        SetCurrentExTaskMainEvent(ExSystem_Main_DoStageExit);
+        ExSystem_Main_DoStageExit();
     }
     else
     {
@@ -388,12 +382,12 @@ void ExSystem_Main_2173074(void)
     }
 }
 
-void ExSystem_Action_21730D0(void)
+void ExSystem_Action_BeginDeathFadeOut(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
     if (GetExSystemLifeCount() == 0)
-        GetExSystemStatus()->finishMode = 8;
+        GetExSystemStatus()->finishMode = EXFINISHMODE_GAME_OVER;
     else
         LoseExSystemLife();
 
@@ -402,27 +396,27 @@ void ExSystem_Action_21730D0(void)
 
     work->timer = 64;
 
-    SetCurrentExTaskMainEvent(ExSystem_Main_2173158);
+    SetCurrentExTaskMainEvent(ExSystem_Main_DeathFadeOut);
 }
 
-void ExSystem_Main_2173158(void)
+void ExSystem_Main_DeathFadeOut(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
     if (work->timer-- <= 0)
     {
-        exSysTask__sVars.exSysTask__Flag_2178650 = TRUE;
+        exSysTask__sVars.exStageFinished = TRUE;
 
-        if (GetExSystemStatus()->finishMode == 8)
+        if (GetExSystemStatus()->finishMode == EXFINISHMODE_GAME_OVER)
         {
             work->timer = 5;
-            SetCurrentExTaskMainEvent(ExSystem_Main_21732E4);
-            ExSystem_Main_21732E4();
+            SetCurrentExTaskMainEvent(ExSystem_Main_DoStageExit);
+            ExSystem_Main_DoStageExit();
         }
         else
         {
             work->timer = 5;
-            SetCurrentExTaskMainEvent(ExSystem_Main_21731DC);
+            SetCurrentExTaskMainEvent(ExSystem_Main_StageRestartDelay);
         }
     }
     else
@@ -431,7 +425,7 @@ void ExSystem_Main_2173158(void)
     }
 }
 
-void ExSystem_Main_21731DC(void)
+void ExSystem_Main_StageRestartDelay(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
@@ -439,22 +433,22 @@ void ExSystem_Main_21731DC(void)
     {
         DestroyExHUD();
         DestroyExGameSystem();
-        exSysTask__sVars.exSysTask__Flag_2178650 = FALSE;
-        work->timer                              = 15;
+        exSysTask__sVars.exStageFinished = FALSE;
+        work->timer                      = 15;
 
-        SetCurrentExTaskMainEvent(ExSystem_Main_217323C);
+        SetCurrentExTaskMainEvent(ExSystem_Main_DoStageRestart);
     }
 
     RunCurrentExTaskUnknownEvent();
 }
 
-void ExSystem_Main_217323C(void)
+void ExSystem_Main_DoStageRestart(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
     if (work->timer-- <= 0)
     {
-        exSysTask__sVars.exSysTask__Flag_2178654 = FALSE;
+        exSysTask__sVars.exStageWillExit = FALSE;
 
         InitExSystemStatus();
         exDrawReqTask__Create();
@@ -464,9 +458,9 @@ void ExSystem_Main_217323C(void)
 
         exDrawFadeTask__Create(-16, 0, 32, 0, 1);
         exDrawFadeTask__Create(-16, 0, 32, 0, 2);
-        GetExSystemStatus()->state = EXSYSTASK_STATE_3;
+        GetExSystemStatus()->state = EXSYSTASK_STATE_INTRO;
 
-        SetCurrentExTaskMainEvent(ExSystem_Main_2172D30);
+        SetCurrentExTaskMainEvent(ExSystem_Main_WaitForStageStarted);
     }
     else
     {
@@ -474,7 +468,7 @@ void ExSystem_Main_217323C(void)
     }
 }
 
-void ExSystem_Main_21732E4(void)
+void ExSystem_Main_DoStageExit(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
 
@@ -482,14 +476,14 @@ void ExSystem_Main_21732E4(void)
     {
         DestroyExHUD();
         DestroyExGameSystem();
-        exSysTask__sVars.exSysTask__Flag_2178654 = TRUE;
-        SetCurrentExTaskMainEvent(ExSystem_Main_2173338);
+        exSysTask__sVars.exStageWillExit = TRUE;
+        SetCurrentExTaskMainEvent(ExSystem_Main_EndStage);
 
         RunCurrentExTaskUnknownEvent();
     }
 }
 
-void ExSystem_Main_2173338(void)
+void ExSystem_Main_EndStage(void)
 {
     exSysTask *work = ExTaskGetWorkCurrent(exSysTask);
     UNUSED(work);
@@ -551,7 +545,7 @@ void LoadExSystemAssets(exSysTask *work)
 
 NONMATCH_FUNC void SetupExSystemDisplay(exSysTask *work)
 {
-	// https://decomp.me/scratch/CHkye -> 84.26%
+    // https://decomp.me/scratch/CHkye -> 84.26%
 #ifdef NON_MATCHING
     VRAMSystem__Reset();
     VRAMSystem__SetupOBJBank(GX_VRAM_OBJ_64_E, GX_OBJVRAMMODE_CHAR_1D_64K, GX_OBJVRAMMODE_BMP_1D_128K, 0, 0x400);
@@ -570,7 +564,7 @@ NONMATCH_FUNC void SetupExSystemDisplay(exSysTask *work)
     G2_SetBG1Priority(1);
     G2_SetBG2Priority(2);
     G2_SetBG3Priority(3);
-    
+
     GX_SetVisiblePlane(GX_PLANEMASK_BG0 | GX_PLANEMASK_OBJ);
     RenderCore_DisableBlending(&renderCoreGFXControlA.blendManager);
     renderCoreGFXControlA.windowManager.visible = 0;

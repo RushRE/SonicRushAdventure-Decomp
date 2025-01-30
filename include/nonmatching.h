@@ -41,7 +41,7 @@
     }
 #else
 #define FORCE_INCLUDE_VARIABLE(type, name, value)
-#define FORCE_INCLUDE_VARIABLE_BSS(type, name, value)
+#define FORCE_INCLUDE_VARIABLE_BSS(name)
 #define FORCE_INCLUDE_ARRAY(type, name, arraySize, value)
 #endif
 

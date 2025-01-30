@@ -287,7 +287,7 @@ _0215D4EC: .word exBossMeteMeteoTask__Func_215D544
 exBossMeteMeteoTask__Func8: // 0x0215D4F0
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

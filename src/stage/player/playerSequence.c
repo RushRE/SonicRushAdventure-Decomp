@@ -3572,11 +3572,11 @@ void Player__State_IceSlideLaunch(Player *work)
     }
 }
 
-void Player__Action_EnableSnowboard(Player *player, s32 a2)
+void Player__Action_EnableSnowboard(Player *player, s32 type)
 {
     player->gimmickFlag |= PLAYER_GIMMICK_SNOWBOARD;
 
-    switch (a2)
+    switch (type)
     {
         case 0:
             Player__Action_Launch(player);

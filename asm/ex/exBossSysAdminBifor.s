@@ -25,7 +25,7 @@ _0215F084: .word exBossSysAdminBiforTask__Main_PickNextAttack
 	arm_func_start exBossSysAdminBiforTask__Func8
 exBossSysAdminBiforTask__Func8: // 0x0215F088
 	stmdb sp!, {r3, lr}
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

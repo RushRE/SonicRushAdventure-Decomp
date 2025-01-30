@@ -47,11 +47,11 @@ typedef u32 ExTaskType;
 struct ExTask_
 {
     ExTaskMain main;
-    s32 field_4;
-    ExTaskUnknownFunc func8;
+    s32 unused1;
+    ExTaskUnknownFunc unknownCallback;
     ExTaskDestructor dtor;
     ExTaskDelayCallback delayCallback;
-    s32 field_14;
+    s32 unused2;
     u16 priority;
     TaskGroup group;
     s16 timer;
@@ -104,17 +104,32 @@ RUSH_INLINE void DestroyCurrentExTask(void)
 
 RUSH_INLINE void SetExTaskUnknownEvent(Task *task, ExTaskUnknownFunc event)
 {
-    GetExTask(task)->func8 = event;
+    GetExTask(task)->unknownCallback = event;
 }
 
 RUSH_INLINE void RunExTaskUnknownEvent(ExTask *task)
 {
-    task->func8();
+    task->unknownCallback();
 }
 
 RUSH_INLINE void RunCurrentExTaskUnknownEvent(void)
 {
-    GetExTaskCurrent()->func8();
+    GetExTaskCurrent()->unknownCallback();
+}
+
+RUSH_INLINE void SetExTaskDelayEvent(Task *task, ExTaskDelayCallback event)
+{
+    GetExTask(task)->delayCallback = event;
+}
+
+RUSH_INLINE void RunExTaskDelayEvent(ExTask *task)
+{
+    task->delayCallback();
+}
+
+RUSH_INLINE void RunCurrentExTaskDelayEvent(void)
+{
+    GetExTaskCurrent()->delayCallback();
 }
 
 #endif // RUSH_EXTASK_H

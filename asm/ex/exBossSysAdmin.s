@@ -366,7 +366,7 @@ _0215E030: .word exBossSysAdminTask__Main_WaitForTitleCard
 exBossSysAdminTask__Func8: // 0x0215E034
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -619,7 +619,7 @@ exBossSysAdminTask__Main_DragonAttackIdle: // 0x0215E2D4
 	str r2, [r1]
 	str r0, [r4, #0x548]
 	rsb r5, r5, r3, lsr #16
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -729,7 +729,7 @@ exBossSysAdminTask__Main_StartFw0_3: // 0x0215E458
 	str r2, [r1]
 	str r0, [r4, #0x548]
 	rsb r5, r5, r3, lsr #16
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -822,7 +822,7 @@ exBossSysAdminTask__Main_StartFw0_4: // 0x0215E5B8
 	mla r0, ip, r0, r1
 	str r0, [r3]
 	str r2, [r4, #0x548]
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -895,7 +895,7 @@ exBossSysAdminTask__Main_StartFw0_5: // 0x0215E6C4
 	bl exBossFireDoraTask__AnyActive
 	cmp r0, #0
 	bne _0215E7A4
-	bl exBossHomingLaserTask__Func_2159E14
+	bl exBossHomingLaserTask__AnyActive
 	cmp r0, #0
 	bne _0215E7A4
 	ldr r1, _0215E7E4 // =_mt_math_rand
@@ -917,7 +917,7 @@ exBossSysAdminTask__Main_StartFw0_5: // 0x0215E6C4
 	str r2, [r1]
 	str r0, [r4, #0x548]
 	rsb r5, r5, r3, lsr #16
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -1017,7 +1017,7 @@ exBossSysAdminTask__Main_StartFw0_6: // 0x0215E834
 	str r2, [r1]
 	str r0, [r4, #0x548]
 	rsb r5, r5, r3, lsr #16
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -1128,7 +1128,7 @@ exBossSysAdminTask__Main_StartFw0_7: // 0x0215E9D4
 	mla r0, ip, r0, r1
 	str r0, [r3]
 	str r2, [r4, #0x548]
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -1201,7 +1201,7 @@ exBossSysAdminTask__Main_StartFw0_8: // 0x0215EAE0
 	bl exBossFireDoraTask__AnyActive
 	cmp r0, #0
 	bne _0215EBC0
-	bl exBossHomingLaserTask__Func_2159E14
+	bl exBossHomingLaserTask__AnyActive
 	cmp r0, #0
 	bne _0215EBC0
 	ldr r1, _0215EC00 // =_mt_math_rand
@@ -1223,7 +1223,7 @@ exBossSysAdminTask__Main_StartFw0_8: // 0x0215EAE0
 	str r2, [r1]
 	str r0, [r4, #0x548]
 	rsb r5, r5, r3, lsr #16
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -1323,7 +1323,7 @@ exBossSysAdminTask__Main_StartFw0_9: // 0x0215EC50
 	str r2, [r1]
 	str r0, [r4, #0x548]
 	rsb r5, r5, r3, lsr #16
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f
@@ -1452,7 +1452,7 @@ exBossSysAdminTask__Main_StartFw0_10: // 0x0215EE30
 	mla r0, ip, r0, r1
 	str r0, [r3]
 	str r2, [r4, #0x548]
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrb r0, [r0, #0x6a]
 	mov r0, r0, lsl #0x1f
 	movs r0, r0, lsr #0x1f

@@ -45,7 +45,7 @@ void ExGameSystem_Main_Init(void)
     work->status = GetExSystemStatus();
 
     CreateExStage();
-    exPlayerAdminTask__Create();
+    CreateExPlayer();
     exBossSysAdminTask__Create();
 
     PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_ZONE_SEQ_SEQ_BOSSE);
@@ -57,9 +57,9 @@ void ExGameSystem_TaskUnknown(void)
 {
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
 
-    work->field_2++;
-    if (work->field_2 == 0)
-        work->field_0++;
+    work->unknownCounter++;
+    if (work->unknownCounter == 0)
+        work->unknownCount++;
 }
 
 void ExGameSystem_Destructor(void)
@@ -69,7 +69,7 @@ void ExGameSystem_Destructor(void)
 
     DestroyExRingManager();
     exBossSysAdminTask__Destroy();
-    exPlayerAdminTask__Destroy();
+    DestroyExPlayer();
     DestroyExStage();
     DestroyExMeteorManager();
 
@@ -81,7 +81,7 @@ void ExGameSystem_Main_WaitForTitleCardDone(void)
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
     UNUSED(work);
 
-    if (GetExSystemStatus()->state == EXSYSTASK_STATE_TITLECARD_DONE)
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_ACTIVE)
     {
         ExGameSystem_Action_WaitForBossTrigger();
     }
@@ -163,7 +163,7 @@ void ExGameSystem_Main_StoppedSpawningMeteors(void)
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
     UNUSED(work);
 
-    if (GetExSystemStatus()->state == EXSYSTASK_STATE_10)
+    if (GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE3_DONE)
     {
         ExGameSystem_Main_GoIdle();
     }

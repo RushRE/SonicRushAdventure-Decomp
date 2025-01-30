@@ -9,7 +9,7 @@
 
 NOT_DECOMPILED void exBossHomingLaserTask__Func_2159CEC(void);
 NOT_DECOMPILED void exBossHomingLaserTask__Func_2159DF0(void);
-NOT_DECOMPILED void exBossHomingLaserTask__Func_2159E14(void);
+NOT_DECOMPILED BOOL exBossHomingLaserTask__AnyActive(void);
 NOT_DECOMPILED void exBossHomingLaserTask__Main(void);
 NOT_DECOMPILED void exBossHomingLaserTask__Func8(void);
 NOT_DECOMPILED void exBossHomingLaserTask__Destructor(void);

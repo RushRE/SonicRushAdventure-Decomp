@@ -59,7 +59,7 @@ _02163E70: .word exDrawReqTask__Main_Process
 exDrawReqTask__Func8: // 0x02163E74
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -200,7 +200,7 @@ exDrawReqTask__AddRequest: // 0x02164034
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r8, r0
 	mov r7, r1
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmneia sp!, {r4, r5, r6, r7, r8, pc}
 	ldr r0, _02164168 // =0x0217644C

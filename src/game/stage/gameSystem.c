@@ -93,7 +93,7 @@ static void ReplayViewer_Main(void);
 
 typedef struct GameOfflineSysTask_
 {
-    u32 field_0;
+    BOOL forceActivatePauseMenu;
 } GameOfflineSysTask;
 
 // --------------------
@@ -1607,7 +1607,7 @@ void InitPlayerStatus(void)
         state->gameFlag &= ~(GAME_FLAG_PLAYER_RESPAWNED | GAME_FLAG_REPLAY_GHOST_ACTIVE | GAME_FLAG_100 | GAME_FLAG_HAS_TIME_OVER | GAME_FLAG_PLAYER_RESTARTED);
         state->vsBattleResult = 0;
         if (state->gameMode == GAMEMODE_DEMO)
-            playerGameStatus.lives = 2;
+            playerGameStatus.lives = PLAYER_STARTING_LIVES;
         else
             playerGameStatus.lives = saveGame.stage.status.lives;
     }
@@ -1699,17 +1699,16 @@ void LoadGameMissionArchive(void)
         gameArchiveMission = FSRequestFileSync("/narc/gm_mission.narc", FSREQ_AUTO_ALLOC_HEAD);
 }
 
-NONMATCH_FUNC void CreateGameSystem(void)
+void CreateGameSystem(void)
 {
-    // https://decomp.me/scratch/bq1cz -> 98.16%
-    // func should match when all other funcs are done, assuming Player__Create's 'characterID' param is a u32 or s32 type! (https://decomp.me/scratch/yxIlf)
-#ifdef NON_MATCHING
     Player **playerList;
     GameState *state = GetGameState();
 
-    playerGameStatus.gameOnlineSysTask = TaskCreateNoWork(GameOnlineSystem_Main, NULL, TASK_FLAG_NONE, 0, 0x1000, TASK_GROUP(3), "GameOnlineSysTask");
+    playerGameStatus.gameOnlineSysTask =
+        TaskCreateNoWork(GameOnlineSystem_Main, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x1000, TASK_GROUP(3), "GameOnlineSysTask");
 
-    playerGameStatus.gameOfflineSysTask = TaskCreate(GameOfflineSystem_Main, NULL, TASK_FLAG_NONE, 0, 0x8000, TASK_GROUP(3), GameOfflineSysTask);
+    playerGameStatus.gameOfflineSysTask = TaskCreate(GameOfflineSystem_Main, NULL, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x8000, TASK_GROUP(3), GameOfflineSysTask);
+    
     GameOfflineSysTask *work            = TaskGetWork(playerGameStatus.gameOfflineSysTask, GameOfflineSysTask);
     TaskInitWork16(work);
 
@@ -1725,7 +1724,7 @@ NONMATCH_FUNC void CreateGameSystem(void)
         }
         else
         {
-            playerGameStatus.flags = 0;
+            playerGameStatus.flags = PLAYERGAMESTATUS_FLAG_NONE;
         }
 
         playerGameStatus.stageTimer          = 0;
@@ -1734,13 +1733,11 @@ NONMATCH_FUNC void CreateGameSystem(void)
         playerGameStatus.speedBonusCount     = 0;
         playerGameStatus.ringBonus           = 0;
         playerGameStatus.field_20            = 0;
-        playerGameStatus.lives               = 1;
+        playerGameStatus.lives               = PLAYER_TIMEATTACK_LIVES;
         playerGameStatus.recallCheckpointID  = 0;
         playerGameStatus.recallTime          = 0;
-        playerGameStatus.playerLapCounter[1] = 0;
-        playerGameStatus.playerLapCounter[0] = 0;
-        playerGameStatus.playerTargetLaps[1] = 0;
-        playerGameStatus.playerTargetLaps[0] = 0;
+        playerGameStatus.playerLapCounter[0] = playerGameStatus.playerLapCounter[1] = 0;
+        playerGameStatus.playerTargetLaps[0] = playerGameStatus.playerTargetLaps[1] = 0;
     }
     else
     {
@@ -1755,7 +1752,7 @@ NONMATCH_FUNC void CreateGameSystem(void)
     if ((gameState.gameFlag & GAME_FLAG_ONLINE_ACTIVE) != 0)
         ObjPacket__Init(0, OBJPACKET_MODE_WIFI, 0x108);
     else
-        ObjPacket__Init(0, OBJPACKET_MODE_WIRELESS, whConfig.wmMinDataSize);
+        ObjPacket__Init(0, OBJPACKET_MODE_WIRELESS, whConfig_wmMinDataSize);
 
     AllocObjectFileWork(objDataSizeForZone[GetCurrentZoneID()]);
 
@@ -1799,8 +1796,8 @@ NONMATCH_FUNC void CreateGameSystem(void)
         gPlayer        = player;
         gPlayerList[0] = player;
 
-        u16 id = 1;
-        playerList = TEMP_PLACEMENT.gPlayerList;
+        s16 id     = 1;
+        playerList = gPlayerList;
         for (s32 p = 0; p < 2; p++)
         {
             if (p != aid)
@@ -1811,7 +1808,7 @@ NONMATCH_FUNC void CreateGameSystem(void)
 
                 if ((playerList[id]->playerFlag & PLAYER_FLAG_TAIL_IS_ACTIVE) != 0)
                 {
-                    Animator3D__Process(&playerList[id]->aniTailModel.work);
+                    Animator3D__Process(&playerList[id]->aniTailModel.ani.work);
                 }
 
                 id++;
@@ -1829,7 +1826,7 @@ NONMATCH_FUNC void CreateGameSystem(void)
 
         state->gameFlag &= ~GAME_FLAG_REPLAY_GHOST_ACTIVE;
 
-        if ((state->gameMode == GAMEMODE_TIMEATTACK && state->replayStageID == state->stageID) && state->replayStageTimer && (state->gameFlag & GAME_FLAG_REPLAY_STARTED) == 0
+        if ((state->gameMode == GAMEMODE_TIMEATTACK && state->replayStageID == state->stageID) && state->replayStageTimer != 0 && (state->gameFlag & GAME_FLAG_REPLAY_STARTED) == 0
             && !IsBossStage())
         {
             state->gameFlag |= GAME_FLAG_REPLAY_GHOST_ACTIVE;
@@ -1847,7 +1844,7 @@ NONMATCH_FUNC void CreateGameSystem(void)
 
     CreateRingManager();
     CreateHUD(IsBossStage() == FALSE);
-    SetHUDVisible(1);
+    SetHUDVisible(TRUE);
 
     if (gmCheckRaceStage())
         CreateLapTimeHUD();
@@ -1859,405 +1856,24 @@ NONMATCH_FUNC void CreateGameSystem(void)
         DecorationSys__Create();
 
     BossArena__Create(IsBossStage() ? 3 : 0, 0x10A0);
-
     g_obj.cameraConfig = BossArena__GetCameraConfig2(BossArena__GetCamera(0));
+
     playerGameStatus.flags &= ~PLAYERGAMESTATUS_FLAG_PLAYER_DIED;
+
     InitStageBlendControl();
+
     InitStageBGM();
-    StartStageBGM(0);
+    StartStageBGM(FALSE);
 
     if ((state->gameFlag & GAME_FLAG_40) != 0)
         state->gameFlag &= ~GAME_FLAG_40;
 
-    if ((state->gameFlag & GAME_FLAG_IS_VS_BATTLE) != 0 && !playerGameStatus.sendPacketList)
+    if ((state->gameFlag & GAME_FLAG_IS_VS_BATTLE) != 0 && playerGameStatus.sendPacketList == NULL)
     {
         playerGameStatus.sendPacketList = HeapAllocHead(HEAP_USER, GAMESYSTEM_SENDPACKET_LIST_SIZE * sizeof(GameObjectSendPacket));
         MI_CpuClear8(playerGameStatus.sendPacketList, GAMESYSTEM_SENDPACKET_LIST_SIZE * sizeof(GameObjectSendPacket));
         playerGameStatus.sendPacketCount = 0;
     }
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
-	sub sp, sp, #0xc
-	mov r0, #0x1000
-	str r0, [sp]
-	mov r1, #0
-	mov r0, #3
-	str r0, [sp, #4]
-	ldr r0, =GameOnlineSystem_Main
-	mov r2, r1
-	mov r3, r1
-	str r1, [sp, #8]
-	ldr r7, =gameState
-	bl TaskCreate_
-	ldr r2, =mainMemProcessor
-	mov r3, #0x8000
-	str r0, [r2, #0x48]
-	mov r1, #0
-	str r3, [sp]
-	mov r4, #3
-	str r4, [sp, #4]
-	mov r4, #4
-	ldr r0, =GameOfflineSystem_Main
-	mov r2, r1
-	mov r3, r1
-	str r4, [sp, #8]
-	bl TaskCreate_
-	ldr r1, =mainMemProcessor
-	str r0, [r1, #0x4c]
-	bl GetTaskWork_
-	mov r1, r0
-	mov r0, #0
-	mov r2, r4
-	bl MIi_CpuClear16
-	mov r0, r7
-	ldr r0, [r0, #0x10]
-	tst r0, #0x20
-	bne _02003F10
-	ldr r0, [r7, #0x10]
-	tst r0, #2
-	ldrne r0, =mainMemProcessor
-	ldrne r1, [r0, #0x6c]
-	strne r1, [r0, #0x50]
-_02003F10:
-	ldr r0, [r7, #0x14]
-	cmp r0, #2
-	bne _02003F8C
-	ldr r0, [r7, #0x10]
-	tst r0, #0x1000
-	ldreq r0, =mainMemProcessor
-	moveq r1, #0
-	streq r1, [r0, #0x44]
-	beq _02003F48
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	and r1, r1, #0x80
-	str r1, [r0, #0x44]
-	bl CreateReplayViewer
-_02003F48:
-	ldr r0, =mainMemProcessor
-	mov r2, #0
-	str r2, [r0, #0x50]
-	str r2, [r0, #0x54]
-	str r2, [r0, #0x58]
-	str r2, [r0, #0x5c]
-	str r2, [r0, #0x60]
-	str r2, [r0, #0x64]
-	mov r1, #1
-	strb r1, [r0, #0x68]
-	strb r2, [r0, #0x69]
-	str r2, [r0, #0x6c]
-	str r2, [r0, #0xf0]
-	str r2, [r0, #0xec]
-	str r2, [r0, #0xf8]
-	str r2, [r0, #0xf4]
-	b _02003FA8
-_02003F8C:
-	ldr r0, =gameState
-	ldr r1, [r0, #0x14]
-	cmp r1, #1
-	ldreq r0, [r0, #0x20]
-	cmpeq r0, #1
-	bne _02003FA8
-	bl CreateRingBattleManager
-_02003FA8:
-	bl InitStageLightConfig
-	bl InitStageEdgeConfig
-	bl CreateObjectManager
-	ldr r0, =gameState
-	ldr r0, [r0, #0x10]
-	tst r0, #0x400
-	mov r0, #0
-	beq _02003FD8
-	mov r1, #1
-	mov r2, #0x108
-	bl ObjPacket__Init
-	b _02003FE8
-_02003FD8:
-	ldr r1, =whConfig+0x0000000C
-	ldrh r2, [r1, #0]
-	mov r1, r0
-	bl ObjPacket__Init
-_02003FE8:
-	bl GetCurrentZoneID
-	ldr r1, =objDataSizeForZone
-	ldr r0, [r1, r0, lsl #2]
-	bl AllocObjectFileWork
-	ldr r0, =g_obj
-	mov r1, #0x68
-	str r1, [r0, #0x28]
-	mov r1, #0x80
-	str r1, [r0, #0x1c]
-	mov r1, #1
-	strh r1, [r0, #0x5e]
-	bl IsBossStage
-	cmp r0, #0
-	beq _02004030
-	ldr r0, =g_obj
-	ldr r1, [r0, #0x28]
-	orr r1, r1, #0x80000
-	str r1, [r0, #0x28]
-_02004030:
-	mov r0, #3
-	mov r1, #0x10
-	bl ObjDrawSetManagedRows
-	bl EventManager__Create
-	bl EventManager__CreateEventEnforce
-	bl MapSys__Create
-	bl InitStageCollision
-	bl IsBossStage
-	cmp r0, #0
-	beq _0200406C
-	ldr r0, =g_obj
-	ldr r1, [r0, #0x28]
-	orr r1, r1, #0x200
-	bic r1, r1, #8
-	str r1, [r0, #0x28]
-_0200406C:
-	ldr r1, =gPlayerList
-	mov r0, #0
-	mov r2, #8
-	bl MIi_CpuClear16
-	ldr r0, [r7, #0x10]
-	tst r0, #0x20
-	beq _02004214
-	tst r0, #0x400
-	beq _020040A0
-	mov r0, #1
-	bl CreateConnectionStatusHUD
-	bl DWC_GetMyAID
-	b _020040AC
-_020040A0:
-	mov r0, #0
-	bl CreateConnectionStatusHUD
-	bl WH_GetCurrentAid
-_020040AC:
-	mov r9, r0
-	mov r0, r9
-	bl ObjPacket__GetAIDIndex
-	mov r1, r0
-	ldr r0, [r7, #4]
-	bl Player__Create
-	mov r8, #0
-	ldr r1, =mainMemProcessor
-	ldr r6, =gPlayerList
-	str r0, [r1, #0xc]
-	str r0, [r1, #0x10]
-	mov r10, #1
-	mov r5, r8
-	mov r4, r8
-_020040E4:
-	cmp r8, r9
-	beq _020041B8
-	mov r0, r8, lsl #0x10
-	mov r0, r0, lsr #0x10
-	bl ObjPacket__GetAIDIndex
-	add r2, r7, r10, lsl #2
-	mov r1, r0
-	ldr r0, [r2, #8]
-	bl Player__Create
-	str r0, [r6, r10, lsl #2]
-	ldr r1, [r0, #0x168]
-	cmp r1, #1
-	beq _0200412C
-	cmp r1, #2
-	beq _02004138
-	cmp r1, #3
-	beq _02004144
-	b _02004154
-_0200412C:
-	add r0, r0, #0x168
-	bl AnimatorMDL__ProcessAnimation
-	b _02004154
-_02004138:
-	add r0, r0, #0x168
-	bl AnimatorShape3D__ProcessAnimation
-	b _02004154
-_02004144:
-	mov r1, r5
-	mov r2, r5
-	add r0, r0, #0x168
-	bl AnimatorSprite3D__ProcessAnimation
-_02004154:
-	ldr r3, [r6, r10, lsl #2]
-	ldr r0, [r3, #0x5d8]
-	tst r0, #0x200
-	beq _020041AC
-	ldr r0, [r3, #0x2e4]
-	cmp r0, #1
-	beq _02004184
-	cmp r0, #2
-	beq _02004190
-	cmp r0, #3
-	beq _0200419C
-	b _020041AC
-_02004184:
-	add r0, r3, #0x2e4
-	bl AnimatorMDL__ProcessAnimation
-	b _020041AC
-_02004190:
-	add r0, r3, #0x2e4
-	bl AnimatorShape3D__ProcessAnimation
-	b _020041AC
-_0200419C:
-	mov r1, r4
-	mov r2, r4
-	add r0, r3, #0x2e4
-	bl AnimatorSprite3D__ProcessAnimation
-_020041AC:
-	add r0, r10, #1
-	mov r0, r0, lsl #0x10
-	mov r10, r0, asr #0x10
-_020041B8:
-	add r8, r8, #1
-	cmp r8, #2
-	blt _020040E4
-	ldr r0, =mainMemProcessor
-	ldr r0, [r0, #0x14]
-	bl CreateTargetIndicatorHUD
-	ldr r0, =gameState
-	mov r1, #0
-	ldrh r0, [r0, #0x28]
-	cmp r0, #0x2b
-	blo _020041EC
-	cmp r0, #0x2d
-	movls r1, #1
-_020041EC:
-	cmp r1, #0
-	ldreq r0, =gameState
-	ldreq r0, [r0, #0x20]
-	cmpeq r0, #0
-	bne _02004290
-	ldr r0, =mainMemProcessor
-	ldr r0, [r0, #0xc]
-	ldrb r0, [r0, #0x5d0]
-	bl CreateRaceProgressHUD
-	b _02004290
-_02004214:
-	ldr r0, [r7, #4]
-	mov r1, #0
-	bl Player__Create
-	ldr r1, =mainMemProcessor
-	str r0, [r1, #0xc]
-	str r0, [r1, #0x10]
-	ldr r1, [r7, #0x10]
-	ldr r0, [r7, #0x14]
-	bic r2, r1, #0x80
-	cmp r0, #2
-	ldreqh r1, [r7, #0x58]
-	ldreqh r0, [r7, #0x28]
-	str r2, [r7, #0x10]
-	cmpeq r1, r0
-	bne _02004290
-	ldr r0, [r7, #0x4c]
-	cmp r0, #0
-	beq _02004290
-	tst r2, #0x1000
-	bne _02004290
-	bl IsBossStage
-	cmp r0, #0
-	bne _02004290
-	ldr r1, [r7, #0x10]
-	ldr r0, [r7, #0x48]
-	orr r2, r1, #0x80
-	mov r1, #1
-	str r2, [r7, #0x10]
-	bl Player__Create
-	ldr r1, =mainMemProcessor
-	str r0, [r1, #0x14]
-_02004290:
-	bl IsSnowboardActive
-	cmp r0, #0
-	beq _020042B4
-	mov r0, #0
-	bl SpawnLostPlayerSnowboard
-	ldr r0, =mainMemProcessor
-	mov r1, #1
-	ldr r0, [r0, #0xc]
-	bl Player__Action_EnableSnowboard
-_020042B4:
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0xc]
-	ldr r0, [r1, #0x5d8]
-	orr r0, r0, #0x200000
-	str r0, [r1, #0x5d8]
-	bl CreateRingManager
-	bl IsBossStage
-	cmp r0, #0
-	moveq r0, #1
-	movne r0, #0
-	bl CreateHUD
-	mov r0, #1
-	bl SetHUDVisible
-	ldr r0, =gameState
-	mov r1, #0
-	ldrh r0, [r0, #0x28]
-	cmp r0, #0x2b
-	blo _02004304
-	cmp r0, #0x2d
-	movls r1, #1
-_02004304:
-	cmp r1, #0
-	beq _02004310
-	bl CreateLapTimeHUD
-_02004310:
-	bl IsBossStage
-	cmp r0, #0
-	bne _02004320
-	bl StarCombo__SpawnConfetti
-_02004320:
-	bl IsBossStage
-	cmp r0, #0
-	bne _02004330
-	bl DecorationSys__Create
-_02004330:
-	bl IsBossStage
-	cmp r0, #0
-	movne r0, #3
-	ldr r1, =0x000010A0
-	moveq r0, #0
-	bl BossArena__Create
-	mov r0, #0
-	bl BossArena__GetCamera
-	bl BossArena__GetCameraConfig2
-	ldr r2, =g_obj
-	ldr r1, =mainMemProcessor
-	str r0, [r2, #0x3c]
-	ldr r0, [r1, #0x44]
-	bic r0, r0, #2
-	str r0, [r1, #0x44]
-	bl InitStageBlendControl
-	bl InitStageBGM
-	mov r0, #0
-	bl StartStageBGM
-	ldr r0, [r7, #0x10]
-	tst r0, #0x40
-	bicne r0, r0, #0x40
-	strne r0, [r7, #0x10]
-	ldr r0, [r7, #0x10]
-	tst r0, #0x20
-	addeq sp, sp, #0xc
-	ldmeqia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	ldr r0, =mainMemProcessor
-	ldr r0, [r0, #0xe4]
-	cmp r0, #0
-	addne sp, sp, #0xc
-	ldmneia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-	mov r0, #0x40
-	bl _AllocHeadHEAP_USER
-	ldr r3, =mainMemProcessor
-	mov r1, #0
-	mov r2, #0x40
-	str r0, [r3, #0xe4]
-	bl MI_CpuFill8
-	ldr r0, =mainMemProcessor
-	mov r1, #0
-	str r1, [r0, #0xe8]
-	add sp, sp, #0xc
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
-
-// clang-format on
-#endif
 }
 
 void CreateGameSystemEx(void)
@@ -2276,7 +1892,7 @@ void CreateGameSystemEx(void)
 
 void ShutdownGameSystemTasks(void)
 {
-    for (u8 i = TASK_GROUP(1); i < 6; i++)
+    for (u8 i = TASK_GROUP(1); i < TASK_GROUP(6); i++)
     {
         DestroyTaskGroup(i);
     }
@@ -2432,12 +2048,11 @@ void GameOnlineSystem_Main(void)
     }
 }
 
-NONMATCH_FUNC void GameOfflineSystem_Main(void)
+void GameOfflineSystem_Main(void)
 {
-    // https://decomp.me/scratch/UuCp5 -> 98.14%
-#ifdef NON_MATCHING
     GameState *state         = GetGameState();
     GameOfflineSysTask *work = TaskGetWorkCurrent(GameOfflineSysTask);
+
     UpdateTensionGaugeHUD(gPlayer->tension >> 4, FALSE);
 
     if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_FREEZE_TIME) != 0)
@@ -2510,6 +2125,7 @@ NONMATCH_FUNC void GameOfflineSystem_Main(void)
         }
 
         state->gameFlag &= ~(GAME_FLAG_PLAYER_RESPAWNED | GAME_FLAG_PLAYER_RESTARTED);
+
         if (state->gameMode == GAMEMODE_VS_BATTLE)
         {
             if (state->vsBattleType == VSBATTLE_RINGS)
@@ -2616,10 +2232,10 @@ NONMATCH_FUNC void GameOfflineSystem_Main(void)
 
     if ((playerGameStatus.flags & PLAYERGAMESTATUS_FLAG_PLAYER_DIED) != 0)
     {
-        BOOL flag;
+        BOOL willRestartStage;
         if (state->gameMode == GAMEMODE_TIMEATTACK || state->gameMode == GAMEMODE_MISSION || state->gameMode == GAMEMODE_DEMO || playerGameStatus.lives == 0)
         {
-            flag = FALSE;
+            willRestartStage = FALSE;
             state->gameFlag &= ~(GAME_FLAG_PLAYER_RESPAWNED | GAME_FLAG_PLAYER_RESTARTED);
             ReleaseGameSystem();
             FlushGameSystem(GAMEDATA_LOADPROC_ALL);
@@ -2627,12 +2243,12 @@ NONMATCH_FUNC void GameOfflineSystem_Main(void)
             switch (state->gameMode)
             {
                 case GAMEMODE_STORY:
-                    saveGame.stage.status.lives = 2;
+                    saveGame.stage.status.lives = PLAYER_STARTING_LIVES;
                     break;
 
                 default:
                     if (state->gameMode == GAMEMODE_DEMO)
-                        SetPadReplayState(5);
+                        SetPadReplayState(REPLAY_MODE_FORCE_QUIT);
                     break;
             }
         }
@@ -2642,452 +2258,39 @@ NONMATCH_FUNC void GameOfflineSystem_Main(void)
             saveGame.stage.status.lives = playerGameStatus.lives;
             playerGameStatus.flags &= ~PLAYERGAMESTATUS_FLAG_FREEZE_TIME;
             state->gameFlag |= GAME_FLAG_PLAYER_RESPAWNED;
-            flag = TRUE;
+            willRestartStage = TRUE;
             ReleaseGameSystem();
         }
 
-        ChangeEventForStageFinish(flag);
+        ChangeEventForStageFinish(willRestartStage);
         NextSysEvent();
         playerGameStatus.flags &= ~PLAYERGAMESTATUS_FLAG_PLAYER_DIED;
     }
     else
     {
-        if ((padInput.btnPress & PAD_BUTTON_START) != 0 || work->field_0 != 0)
+        if ((padInput.btnPress & PAD_BUTTON_START) != 0 || work->forceActivatePauseMenu)
         {
-            work->field_0 = 1;
+            // buffer pause menu activation if the start button is pressed and the menu doesn't open
+            work->forceActivatePauseMenu = TRUE;
+
             if (IsBossStage())
             {
-                GraphicsEngine engine = Camera3D__UseEngineA() ? GRAPHICS_ENGINE_A : GRAPHICS_ENGINE_B;
+                GraphicsEngine engine    = Camera3D__UseEngineA() ? GRAPHICS_ENGINE_A : GRAPHICS_ENGINE_B;
+                GraphicsEngine hudEngine = GetHUDActiveScreen();
 
-                if (GetHUDActiveScreen() == engine)
+                if (hudEngine == engine)
                 {
-                    work->field_0 = 0;
+                    work->forceActivatePauseMenu = FALSE;
                     TryOpenPauseMenu(); // spawns pause menu
                 }
             }
             else
             {
-                work->field_0 = 0;
+                work->forceActivatePauseMenu = FALSE;
                 TryOpenPauseMenu();
             }
         }
     }
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	ldr r4, =gameState
-	bl GetCurrentTaskWork_
-	ldr r1, =mainMemProcessor
-	mov r5, r0
-	ldr r0, [r1, #0xc]
-	mov r1, #0
-	add r0, r0, #0x500
-	ldrsh r0, [r0, #0xf8]
-	mov r0, r0, asr #4
-	bl UpdateTensionGaugeHUD
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	tst r1, #1
-	ldrne r1, [r0, #0x50]
-	addne r1, r1, #1
-	strne r1, [r0, #0x50]
-	ldr r0, =g_obj
-	ldr r0, [r0, #0x28]
-	tst r0, #0x200
-	bne _020048F0
-	bl GetScreenShakeOffsetX
-	mov r6, r0
-	bl GetScreenShakeOffsetY
-	mov r1, r6, lsl #4
-	mov r2, r0, lsl #4
-	mov r0, r1, asr #0x10
-	mov r1, r2, asr #0x10
-	bl SetObjOffset
-	bl GetScreenShakeOffsetX
-	mov r1, r0, asr #0xc
-	ldr r0, =mapCamera
-	rsb r1, r1, #0
-	strh r1, [r0, #0x1c]
-	bl GetScreenShakeOffsetY
-	mov r1, r0, asr #0xc
-	ldr r0, =mapCamera
-	rsb r1, r1, #0
-	strh r1, [r0, #0x1e]
-	ldrsh r1, [r0, #0x1c]
-	strh r1, [r0, #0x8c]
-	ldrsh r1, [r0, #0x1e]
-	strh r1, [r0, #0x8e]
-_020048F0:
-	ldr r0, [r4, #0x10]
-	tst r0, #0x20
-	beq _02004A24
-	bl GameObject__ProcessRecievedPackets_Unknown
-	bl GetSystemFrameCounter
-	tst r0, #0x3f
-	bne _0200493C
-	mov r0, #0
-	mov r3, r0
-	mov r1, #4
-	mov r2, #1
-	bl ObjPacket__SendPacket
-	cmp r0, #0
-	beq _0200493C
-	ldr r1, =mainMemProcessor
-	ldr r1, [r1, #0xc]
-	add r1, r1, #0x600
-	ldrsh r1, [r1, #0x7e]
-	strh r1, [r0, #2]
-_0200493C:
-	ldr r0, [r4, #0x10]
-	tst r0, #0x400
-	bne _0200495C
-	bl ObjPacket__FillSendDataBuffer
-	ldr r0, =mainMemProcessor
-	mov r1, #0
-	str r1, [r0, #0xe8]
-	b _02004A0C
-_0200495C:
-	ldr r0, =mainMemProcessor
-	mov r1, #4
-	ldrh r0, [r0, #0xcc]
-	bic r0, r0, #0x80000000
-	bl FX_ModS32
-	cmp r0, #3
-	bne _02004A0C
-	bl ObjPacket__FillSendDataBuffer
-	ldr r1, =mainMemProcessor
-	mov r6, r0
-	ldr r0, [r1, #0x44]
-	tst r0, #8
-	beq _020049BC
-	bl DWC_GetAIDBitmap
-	mov r1, #0x108
-	mov r2, #0
-	bl SetDataTransferConfig
-	cmp r6, #0
-	bne _020049CC
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	bic r1, r1, #8
-	str r1, [r0, #0x44]
-	b _020049CC
-_020049BC:
-	bl DWC_GetAIDBitmap
-	mov r1, #0x108
-	mov r2, #1
-	bl SetDataTransferConfig
-_020049CC:
-	mov r0, #0
-	mov r1, #3
-	mov r2, r1
-	mov r3, r0
-	bl ObjPacket__SendPacket
-	cmp r0, #0
-	beq _02004A00
-	ldr r2, =mainMemProcessor
-	ldr r1, =0x00007FFF
-	ldrh r2, [r2, #0xcc]
-	add r2, r2, #1
-	and r1, r2, r1
-	strh r1, [r0, #2]
-_02004A00:
-	ldr r0, =mainMemProcessor
-	mov r1, #0
-	str r1, [r0, #0xe8]
-_02004A0C:
-	ldr r1, =mainMemProcessor
-	ldr r0, =0x00007FFF
-	ldrh r2, [r1, #0xcc]
-	add r2, r2, #1
-	and r0, r2, r0
-	strh r0, [r1, #0xcc]
-_02004A24:
-	ldr r2, =mainMemProcessor
-	ldr r0, [r2, #0x44]
-	tst r0, #4
-	beq _02004CF0
-	ldr r1, [r4, #0x14]
-	cmp r1, #1
-	bne _02004A6C
-	tst r0, #0x40
-	bne _02004A6C
-	ldrh r3, [r2, #0xd4]
-	ldr r1, =0x000005DC
-	add r3, r3, #1
-	strh r3, [r2, #0xd4]
-	ldrh r3, [r2, #0xd4]
-	cmp r3, r1
-	orrhs r0, r0, #0x100
-	strhs r0, [r2, #0x44]
-	ldmia sp!, {r4, r5, r6, pc}
-_02004A6C:
-	ldr r2, [r4, #0x10]
-	ldr r0, =0xFFFFF7FD
-	ldr r1, [r4, #0x14]
-	and r0, r2, r0
-	str r0, [r4, #0x10]
-	cmp r1, #1
-	bne _02004AF4
-	ldr r0, [r4, #0x20]
-	cmp r0, #1
-	bne _02004AC4
-	ldr r0, =mainMemProcessor
-	ldrsh r1, [r0, #0xe0]
-	ldrsh r0, [r0, #0xdc]
-	cmp r0, r1
-	movgt r0, #1
-	strgt r0, [r4, #0x1c]
-	bgt _02004CA0
-	movlt r0, #2
-	strlt r0, [r4, #0x1c]
-	movge r0, #3
-	strge r0, [r4, #0x1c]
-	b _02004CA0
-_02004AC4:
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0xe0]
-	ldr r0, [r0, #0xdc]
-	cmp r0, r1
-	movlo r0, #1
-	strlo r0, [r4, #0x1c]
-	blo _02004CA0
-	movhi r0, #2
-	strhi r0, [r4, #0x1c]
-	movls r0, #3
-	strls r0, [r4, #0x1c]
-	b _02004CA0
-_02004AF4:
-	cmp r1, #2
-	bne _02004C24
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x5c]
-	cmp r1, #0
-	beq _02004B1C
-	ldr r0, [r0, #0x58]
-	bl FX_DivS32
-	ldr r1, =mainMemProcessor
-	str r0, [r1, #0x58]
-_02004B1C:
-	ldr r1, =mainMemProcessor
-	ldr r0, [r1, #0xc]
-	add r0, r0, #0x600
-	ldrsh r0, [r0, #0x7e]
-	str r0, [r1, #0x60]
-	ldr r0, [r4, #0x10]
-	tst r0, #0x1000
-	bne _02004BB0
-	ldr r3, [r4, #0x4c]
-	cmp r3, #0
-	beq _02004B84
-	ldrh r2, [r4, #0x58]
-	ldrh r0, [r4, #0x28]
-	cmp r2, r0
-	bne _02004B84
-	ldr r5, [r1, #0x50]
-	cmp r3, r5
-	bls _02004BB0
-	ldr r3, [r4, #4]
-	ldr r0, [r4, #0x54]
-	ldr r1, [r4, #0x50]
-	ldr r2, =0x00003138
-	str r3, [r4, #0x48]
-	str r5, [r4, #0x4c]
-	bl MIi_CpuCopy16
-	b _02004BB0
-_02004B84:
-	ldr r0, =mainMemProcessor
-	ldrh r5, [r4, #0x28]
-	ldr ip, [r4, #4]
-	ldr r3, [r0, #0x50]
-	ldr r0, [r4, #0x54]
-	ldr r1, [r4, #0x50]
-	ldr r2, =0x00003138
-	str ip, [r4, #0x48]
-	strh r5, [r4, #0x58]
-	str r3, [r4, #0x4c]
-	bl MIi_CpuCopy16
-_02004BB0:
-	bl GetPadReplayState
-	cmp r0, #3
-	bne _02004BDC
-	ldr r0, =mainMemProcessor
-	ldrh r1, [r4, #0x28]
-	ldr r2, [r4, #4]
-	ldr r0, [r0, #0x50]
-	str r2, [r4, #0x5c]
-	strh r1, [r4, #0x5a]
-	str r0, [r4, #0x64]
-	b _02004C18
-_02004BDC:
-	bl GetPadReplayState
-	cmp r0, #2
-	bne _02004C18
-	ldr r0, =mainMemProcessor
-	ldr r1, [r4, #0x64]
-	ldr r0, [r0, #0x50]
-	cmp r0, r1
-	beq _02004C0C
-	ldr r0, =gameState
-	ldr r1, [r0, #0x10]
-	orr r1, r1, #0x2000
-	str r1, [r0, #0x10]
-_02004C0C:
-	ldr r1, [r4, #0x64]
-	ldr r0, =mainMemProcessor
-	str r1, [r0, #0x50]
-_02004C18:
-	mov r0, #5
-	bl SetPadReplayState
-	b _02004CA0
-_02004C24:
-	cmp r1, #3
-	bne _02004C3C
-	ldr r0, =gameState
-	mov r1, #1
-	str r1, [r0, #0x7c]
-	b _02004CA0
-_02004C3C:
-	cmp r1, #4
-	bne _02004C50
-	mov r0, #5
-	bl SetPadReplayState
-	b _02004CA0
-_02004C50:
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x5c]
-	cmp r1, #0
-	beq _02004C70
-	ldr r0, [r0, #0x58]
-	bl FX_DivS32
-	ldr r1, =mainMemProcessor
-	str r0, [r1, #0x58]
-_02004C70:
-	ldr r2, =mainMemProcessor
-	ldr r1, =saveGame
-	ldr r0, [r2, #0xc]
-	add r0, r0, #0x600
-	ldrsh r0, [r0, #0x7e]
-	str r0, [r2, #0x60]
-	ldrb r0, [r2, #0x68]
-	ldr r2, [r1, #0x1c0]
-	bic r2, r2, #0x3f8
-	mov r0, r0, lsl #0x19
-	orr r0, r2, r0, lsr #22
-	str r0, [r1, #0x1c0]
-_02004CA0:
-	mov r0, #0
-	bl ChangeEventForStageFinish
-	bl ReleaseGameSystem
-	ldr r0, [r4, #0x14]
-	cmp r0, #4
-	beq _02004CD4
-	ldr r0, =gameState
-	ldr r1, [r0, #0x14]
-	cmp r1, #2
-	ldreq r0, [r0, #0x10]
-	andeq r0, r0, #0x3000
-	cmpeq r0, #0x3000
-	bne _02004CE0
-_02004CD4:
-	mov r0, #3
-	bl FlushGameSystem
-	b _02004CE8
-_02004CE0:
-	mov r0, #2
-	bl FlushGameSystem
-_02004CE8:
-	bl NextSysEvent
-	ldmia sp!, {r4, r5, r6, pc}
-_02004CF0:
-	tst r0, #2
-	beq _02004DCC
-	ldr r1, [r4, #0x14]
-	cmp r1, #2
-	cmpne r1, #3
-	cmpne r1, #4
-	ldrneb r3, [r2, #0x68]
-	cmpne r3, #0
-	bne _02004D6C
-	ldr r1, [r4, #0x10]
-	ldr r0, =0xFFFFF7FD
-	mov r5, #0
-	and r0, r1, r0
-	str r0, [r4, #0x10]
-	bl ReleaseGameSystem
-	mov r0, #3
-	bl FlushGameSystem
-	ldr r0, [r4, #0x14]
-	cmp r0, #0
-	bne _02004D58
-	ldr r0, =saveGame
-	ldr r1, [r0, #0x1c0]
-	bic r1, r1, #0x3f8
-	orr r1, r1, #0x10
-	str r1, [r0, #0x1c0]
-	b _02004DAC
-_02004D58:
-	cmp r0, #4
-	bne _02004DAC
-	mov r0, #5
-	bl SetPadReplayState
-	b _02004DAC
-_02004D6C:
-	ldr r1, =saveGame
-	sub lr, r3, #1
-	ldr ip, [r1, #0x1c0]
-	and r5, lr, #0xff
-	ldr r3, [r4, #0x10]
-	bic ip, ip, #0x3f8
-	mov r5, r5, lsl #0x19
-	orr r5, ip, r5, lsr #22
-	orr r3, r3, #2
-	strb lr, [r2, #0x68]
-	bic r0, r0, #1
-	str r5, [r1, #0x1c0]
-	str r0, [r2, #0x44]
-	str r3, [r4, #0x10]
-	mov r5, #1
-	bl ReleaseGameSystem
-_02004DAC:
-	mov r0, r5
-	bl ChangeEventForStageFinish
-	bl NextSysEvent
-	ldr r0, =mainMemProcessor
-	ldr r1, [r0, #0x44]
-	bic r1, r1, #2
-	str r1, [r0, #0x44]
-	ldmia sp!, {r4, r5, r6, pc}
-_02004DCC:
-	ldr r0, =padInput
-	ldrh r0, [r0, #4]
-	tst r0, #8
-	ldreq r0, [r5, #0]
-	cmpeq r0, #0
-	ldmeqia sp!, {r4, r5, r6, pc}
-	mov r0, #1
-	str r0, [r5]
-	bl IsBossStage
-	cmp r0, #0
-	beq _02004E24
-	bl Camera3D__UseEngineA
-	cmp r0, #0
-	movne r4, #0
-	moveq r4, #1
-	bl GetHUDActiveScreen
-	cmp r0, r4
-	ldmneia sp!, {r4, r5, r6, pc}
-	mov r0, #0
-	str r0, [r5]
-	bl TryOpenPauseMenu
-	ldmia sp!, {r4, r5, r6, pc}
-_02004E24:
-	mov r0, #0
-	str r0, [r5]
-	bl TryOpenPauseMenu
-	ldmia sp!, {r4, r5, r6, pc}
-
-// clang-format on
-#endif
 }
 
 BOOL IsBossStage(void)
@@ -3140,7 +2343,7 @@ BOOL IsSnowboardStage(void)
 
 BOOL IsSnowboardActive(void)
 {
-    if ((gameState.stageID == STAGE_Z51 && gPlayer->objWork.position.x < FLOAT_TO_FX32(26300)) || gameState.stageID == STAGE_HIDDEN_ISLAND_12)
+    if ((gameState.stageID == STAGE_Z51 && gPlayer->objWork.position.x < FLOAT_TO_FX32(26300.0)) || gameState.stageID == STAGE_HIDDEN_ISLAND_12)
     {
         return TRUE;
     }
@@ -3301,7 +2504,7 @@ void HandleNetworkError(void)
         if (DWC_UpdateConnection() || (errorType != DWC_ETYPE_NO_ERROR && errorType != DWC_ETYPE_LIGHT && errorType != DWC_ETYPE_SHOW_ERROR && errorType != DWC_ETYPE_SHUTDOWN_FM))
         {
             DestroyMatchManager();
-            DestroyINetManager(0);
+            DestroyINetManager(FALSE);
             RenderCore_SetNextFoldMode(FOLD_TOGGLE_SLEEP);
             RenderCore_DisableSoftReset(FALSE);
         }
@@ -3324,7 +2527,7 @@ void HandleNetworkError(void)
 
 void CreateReplayViewer(void)
 {
-    TaskCreateNoWork(ReplayViewer_Main, 0, TASK_FLAG_NONE, 0, 0xFFF, TASK_GROUP(3), "ReplayViewer");
+    TaskCreateNoWork(ReplayViewer_Main, 0, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0xFFF, TASK_GROUP(3), "ReplayViewer");
     gameState.gameFlag &= ~GAME_FLAG_REPLAY_FINISHED;
 }
 

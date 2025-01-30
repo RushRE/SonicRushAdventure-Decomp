@@ -12,6 +12,7 @@
 #include <game/graphics/paletteQueue.h>
 #include <game/stage/gameSystem.h>
 #include <game/stage/mapSys.h>
+#include <stage/core/decorationSys.h>
 #include <game/stage/eventManager.h>
 #include <game/system/sysEvent.h>
 #include <stage/core/bgmManager.h>
@@ -46,12 +47,6 @@
 #include <stage/effects/drownAlert.h>
 #include <stage/effects/playerIcon.h>
 #include <stage/effects/battleAttack.h>
-
-// --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void DecorationSys__Release(void);
 
 // --------------------
 // VARIABLES
@@ -261,7 +256,7 @@ void ReleasePlayerAssets(void)
 }
 
 // Admin Tasks
-Player *Player__Create(CharacterID characterID, u16 aidIndex)
+Player *Player__Create(u32 characterID, u16 aidIndex)
 {
     Task *task;
     Player *work;
@@ -307,7 +302,7 @@ Player *Player__Create(CharacterID characterID, u16 aidIndex)
     SetTaskLastFunc(&work->objWork, Player__Last_Default);
     work->objWork.displayFlag |= DISPLAY_FLAG_800;
 
-    ObjAction3dNNModelLoad(&work->objWork, &work->aniPlayerModel, playerModelPath[characterID], 1, &playerWork[characterID], NULL);
+    ObjAction3dNNModelLoad(&work->objWork, &work->aniPlayerModel, playerModelPath[characterID], 1, &playerWork[(s32)characterID], NULL);
 
     u16 oldNodeCount = work->aniPlayerModel.ani.renderObj.resMdl->info.numNode;
     AnimatorMDL__SetResource(&work->objWork.obj_3d->ani, work->objWork.obj_3d->resources[B3D_RESOURCE_MODEL], 0, FALSE, FALSE);

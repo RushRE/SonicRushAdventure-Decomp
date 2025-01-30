@@ -228,7 +228,7 @@ _02165024: .word exEffectBarrierTask__Main_2165074
 exEffectBarrierTask__Func8: // 0x02165028
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

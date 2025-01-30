@@ -38,41 +38,39 @@ typedef u32 WFSState;
 // STRUCTS
 // --------------------
 
-typedef struct WHConfig_
-{
-    u16 sChannelBusyRatio;
-    u16 sConnectBitmap;
-    u16 sChannelIndex;
-    u16 wmMaxParentSize;
-    u16 sMyAid;
-    u16 sChannel;
-    u16 wmMinDataSize;
-    u16 sChannelBitmap;
-    u16 wmMaxChildCount;
-    u16 sAutoConnectFlag;
-    u16 wmMaxChildSize;
-    u32 dword_2136418;
-    WHSysState sSysState;
-    void *(*whAllocFunc)(u32 size);
-    void *sReceiverFunc;
-    u32 sScanCallback;
-    u32 sConnectMode;
-    u32 sParentWEPKeyGenerator;
-    u32 sRecvBufferSize;
-    u32 sPictoCatchFlag;
-    u32 sRand;
-    void (*whFreeFunc)(void *mem);
-    void (*wh_trace)(char *, ...);
-    u32 sSendBufferSize;
-    WMErrCode sErrCode;
-    void *sJudgeAcceptFunc;
-} WHConfig;
-
 // --------------------
 // VARIABLES
 // --------------------
 
-extern WHConfig whConfig;
+NOT_DECOMPILED u16 whConfig_sChannelBusyRatio;
+NOT_DECOMPILED u16 whConfig_sConnectBitmap;
+NOT_DECOMPILED u16 whConfig_sChannelIndex;
+NOT_DECOMPILED u16 whConfig_wmMaxParentSize;
+NOT_DECOMPILED u16 whConfig_sMyAid;
+NOT_DECOMPILED u16 whConfig_sChannel;
+NOT_DECOMPILED u16 whConfig_wmMinDataSize;
+NOT_DECOMPILED u16 whConfig_sChannelBitmap;
+NOT_DECOMPILED u16 whConfig_wmMaxChildCount;
+NOT_DECOMPILED u16 whConfig_sAutoConnectFlag;
+NOT_DECOMPILED u16 whConfig_wmMaxChildSize;
+NOT_DECOMPILED u32 whConfig_dword_2136418;
+NOT_DECOMPILED WHSysState whConfig_sSysState;
+NOT_DECOMPILED void *(*whConfig_whAllocFunc)(u32 size);
+NOT_DECOMPILED void *whConfig_sReceiverFunc;
+NOT_DECOMPILED u32 whConfig_sScanCallback;
+NOT_DECOMPILED u32 whConfig_sConnectMode;
+NOT_DECOMPILED u32 whConfig_sParentWEPKeyGenerator;
+NOT_DECOMPILED u32 whConfig_sRecvBufferSize;
+NOT_DECOMPILED u32 whConfig_sPictoCatchFlag;
+NOT_DECOMPILED u32 whConfig_sRand;
+NOT_DECOMPILED void (*whConfig_whFreeFunc)(void *mem);
+NOT_DECOMPILED void (*whConfig_wh_trace)(char *, ...);
+NOT_DECOMPILED u32 whConfig_sSendBufferSize;
+NOT_DECOMPILED WMErrCode whConfig_sErrCode;
+NOT_DECOMPILED void *whConfig_sJudgeAcceptFunc;
+NOT_DECOMPILED u32 whConfig_dword_2136454;
+NOT_DECOMPILED u32 whConfig_dword_2136458;
+NOT_DECOMPILED u32 whConfig_dword_213645C;
 
 // --------------------
 // FUNCTIONS

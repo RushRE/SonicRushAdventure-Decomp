@@ -23,7 +23,9 @@ typedef struct ScoreBonus_ ScoreBonus;
 #define PLAYER_MAX_RINGS       (999)
 #define PLAYER_MAX_TOTAL_RINGS (9999)
 
-#define PLAYER_MAX_LIVES (99)
+#define PLAYER_STARTING_LIVES   (2) // 3 lives
+#define PLAYER_TIMEATTACK_LIVES (1) // 1 life
+#define PLAYER_MAX_LIVES        (99)
 
 #define PLAYER_MAX_SCORE (99999999)
 
@@ -611,7 +613,7 @@ void LoadPlayerAssets(void);
 void ReleasePlayerAssets(void);
 
 // Admin Tasks
-Player *Player__Create(CharacterID characterID, u16 aidIndex);
+Player *Player__Create(u32 characterID, u16 aidIndex);
 void Player__Gimmick_200EE68(Player *work);
 void Player__InitState(Player *player);
 void Player__SaveStartingPosition(fx32 x, fx32 y, fx32 z);
@@ -790,7 +792,7 @@ void Player__State_IcicleGrab(Player *work);
 void Player__Action_IceSlide(Player *player, s32 _unused);
 void Player__State_IceSlide(Player *player);
 void Player__State_IceSlideLaunch(Player *work);
-void Player__Action_EnableSnowboard(Player *player, s32 a2);
+void Player__Action_EnableSnowboard(Player *player, s32 type);
 void Player__Action_LoseSnowboard(Player *player);
 void Player__Action_Flipboard(Player *player, fx32 velX, fx32 velY);
 void Player__Action_DiveStandStood(Player *player, GameObjectTask *other);

@@ -66,24 +66,23 @@ typedef struct exBossSysAdminTask_
     s32 field_38;
     s32 field_3C;
     s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
+    s16 timer2;
+    s16 field_46;
+    VecFx32 field_48;
     s16 field_54;
     s16 field_56;
     u16 field_58;
     u16 field_5A;
     s16 field_5C;
-    s16 field_5E;
+    s16 timer;
     s16 field_60;
-    s16 field_62;
+    s16 health;
     s16 field_64;
     s16 field_66;
     s32 field_68;
     EX_ACTION_NN_WORK aniBoss;
-    u32 field_548;
-    TaskMain field_54C;
+    void (*nextAttackState)(void);
+    TaskMain state1;
 } exBossSysAdminTask;
 
 // --------------------

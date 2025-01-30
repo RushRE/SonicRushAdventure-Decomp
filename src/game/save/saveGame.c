@@ -378,7 +378,7 @@ void SaveGame__SaveClearCallback_Stage(SaveGame *save, SaveBlockFlags blockFlags
 
     save->stage.status.difficulty = DIFFICULTY_EASY;
     save->stage.status.timeLimit  = FALSE;
-    save->stage.status.lives      = 2;
+    save->stage.status.lives      = PLAYER_STARTING_LIVES;
 }
 
 void SaveGame__UpdateProgress(void)

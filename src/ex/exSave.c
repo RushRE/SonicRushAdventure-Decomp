@@ -8,12 +8,12 @@
 // FUNCTIONS
 // --------------------
 
-void EndExBossStage(s32 mode)
+void EndExBossStage(ExFinishMode mode)
 {
     switch (mode)
     {
-        case 2:
-        case 3:
+        case EXFINISHMODE_BOSS_DEFEATED:
+        case EXFINISHMODE_STAGE_CLEARED:
             playerGameStatus.ringBonus  = GetExSystemStatus()->rings;
             playerGameStatus.stageTimer = GetExSystemStatus()->time.seconds;
             playerGameStatus.stageTimer += 10 * GetExSystemStatus()->time.tenSeconds;
@@ -23,13 +23,13 @@ void EndExBossStage(s32 mode)
             RequestSysEventChange(0); // SYSEVENT_TITLE
             break;
 
-        case 5:
+        case EXFINISHMODE_USER_QUIT:
             saveGame.stage.status.lives = GetExSystemLifeCount();
             RequestSysEventChange(1); // SYSEVENT_LOAD_STAGE
             break;
 
-        case 8:
-            saveGame.stage.status.lives = 2;
+        case EXFINISHMODE_GAME_OVER:
+            saveGame.stage.status.lives = PLAYER_STARTING_LIVES;
             gameState.talk.field_DC     = 6;
             RequestSysEventChange(1); // SYSEVENT_LOAD_STAGE
             break;

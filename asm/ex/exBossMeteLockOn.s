@@ -309,7 +309,7 @@ _0215CA44: .word exBossMeteLockOnTask__Func_215CA94
 exBossMeteLockOnTask__Func8: // 0x0215CA48
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -347,10 +347,10 @@ exBossMeteLockOnTask__Func_215CA94: // 0x0215CA94
 	bl exBossMeteLockOnTask__Func_215CFB4
 	ldmia sp!, {r4, pc}
 _0215CABC:
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	ldr r0, [r0, #0]
 	str r0, [r4, #0x360]
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	ldr r1, [r0, #4]
 	ldr r0, _0215CBD8 // =0x021761CC
 	str r1, [r4, #0x364]
@@ -437,10 +437,10 @@ exBossMeteLockOnTask__Func_215CBE0: // 0x0215CBE0
 	bl exBossMeteLockOnTask__Func_215CFB4
 	ldmia sp!, {r4, pc}
 _0215CC08:
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	ldr r0, [r0, #0]
 	str r0, [r4, #0x360]
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	ldr r1, [r0, #4]
 	ldr r0, _0215CD00 // =0x021761CC
 	str r1, [r4, #0x364]
@@ -539,7 +539,7 @@ _0215CD64:
 	ldrsh r0, [r4, #0]
 	cmp r0, #0
 	ble _0215CDF8
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	ldr r1, [r0, #0]
 	ldr lr, [r4, #0x360]
 	ldr r0, _0215CED4 // =0x00000666
@@ -555,7 +555,7 @@ _0215CD64:
 	orr r1, r1, r0, lsl #20
 	add r0, lr, r1
 	str r0, [r4, #0x360]
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	ldr r1, [r0, #4]
 	ldr lr, [r4, #0x364]
 	ldr r0, _0215CED4 // =0x00000666
@@ -579,7 +579,7 @@ _0215CDF8:
 	cmp r1, r0
 	movlt r0, #0xa
 	blt _0215CE9C
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	ldr r0, [r0, #0]
 	ldr lr, [r4, #0x360]
 	mov r1, #0
@@ -595,7 +595,7 @@ _0215CDF8:
 	orr r1, r1, r0, lsl #20
 	add r0, lr, r1
 	str r0, [r4, #0x360]
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	ldr r0, [r0, #4]
 	ldr lr, [r4, #0x364]
 	mov r1, #0

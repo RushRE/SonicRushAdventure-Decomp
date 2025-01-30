@@ -165,7 +165,7 @@ _02164778: .word exEffectBiriBiriTask__Main_21647C8
 exEffectBiriBiriTask__Func8: // 0x0216477C
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -197,7 +197,7 @@ exEffectBiriBiriTask__Main_21647C8: // 0x021647C8
 	mov r4, r0
 	add r0, r4, #0xc
 	bl exDrawReqTask__Sprite3D__Animate
-	bl exPlayerAdminTask__GetUnknown2
+	bl GetExPlayerWorker
 	ldrsh r0, [r0, #0x3c]
 	cmp r0, #0
 	bgt _021647F4

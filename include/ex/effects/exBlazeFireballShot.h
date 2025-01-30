@@ -11,6 +11,6 @@ NOT_DECOMPILED void exEffectBlzFireShotTask__Main(void);
 NOT_DECOMPILED void exEffectBlzFireShotTask__Func8(void);
 NOT_DECOMPILED void exEffectBlzFireShotTask__Destructor(void);
 NOT_DECOMPILED void exEffectBlzFireShotTask__Main_Charge(void);
-NOT_DECOMPILED void exEffectBlzFireShotTask__Create(void);
+NOT_DECOMPILED void exEffectBlzFireShotTask__Create(EX_ACTION_NN_WORK *parent);
 
 #endif // RUSH_EXBLAZEFIREBALLSHOT_H

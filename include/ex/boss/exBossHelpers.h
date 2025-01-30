@@ -53,7 +53,7 @@ NOT_DECOMPILED void exBossHelpers__Func_2154AD0(void);
 NOT_DECOMPILED void exBossHelpers__Func_2154AF8(void);
 NOT_DECOMPILED void exBossHelpers__Func_2154B8C(void);
 NOT_DECOMPILED void exBossHelpers__Func_2154BB8(void);
-NOT_DECOMPILED void exBossHelpers__Func_2154C28(void);
-NOT_DECOMPILED void exBossHelpers__Func_2154C38(void);
+NOT_DECOMPILED BOOL exBossHelpers__Func_2154C28(void);
+NOT_DECOMPILED void exBossHelpers__Func_2154C38(BOOL a1);
 
 #endif // RUSH_EXBOSSHELPERS_H

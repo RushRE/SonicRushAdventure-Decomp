@@ -31,10 +31,124 @@ WirelessManager__sendBuffer: // 0x02135FC0
 word_21361C0: // 0x021361C0
 	.space 144 * 0x04
 
-.public whConfig
-whConfig: // 0x02136400
-	.space 0x60 // WHConfig
-	
+.public whConfig_sChannelBusyRatio
+whConfig_sChannelBusyRatio: // 0x02136400
+	.space 0x02
+
+.public whConfig_sConnectBitmap
+whConfig_sConnectBitmap: // 0x02136402
+	.space 0x02
+
+.public whConfig_sChannelIndex
+whConfig_sChannelIndex: // 0x02136404
+	.space 0x02
+
+.public whConfig_wmMaxParentSize
+whConfig_wmMaxParentSize: // 0x02136406
+	.space 0x02
+
+.public whConfig_sMyAid
+whConfig_sMyAid: // 0x02136408
+	.space 0x02
+
+.public whConfig_sChannel
+whConfig_sChannel: // 0x0213640A
+	.space 0x02
+
+.public whConfig_wmMinDataSize
+whConfig_wmMinDataSize: // 0x0213640C
+	.space 0x02
+
+.public whConfig_sChannelBitmap
+whConfig_sChannelBitmap: // 0x0213640E
+	.space 0x02
+
+.public whConfig_wmMaxChildCount
+whConfig_wmMaxChildCount: // 0x02136410
+	.space 0x02
+
+.public whConfig_sAutoConnectFlag
+whConfig_sAutoConnectFlag: // 0x02136412
+	.space 0x02
+
+.public whConfig_wmMaxChildSize
+whConfig_wmMaxChildSize: // 0x02136414
+	.space 0x02
+	.align 4
+
+.public whConfig_dword_2136418
+whConfig_dword_2136418: // 0x02136418
+	.space 0x04
+
+.public whConfig_sSysState
+whConfig_sSysState: // 0x0213641C
+	.space 0x04
+
+.public whConfig_whAllocFunc
+whConfig_whAllocFunc: // 0x02136420
+	.space 0x04
+
+.public whConfig_sReceiverFunc
+whConfig_sReceiverFunc: // 0x02136424
+	.space 0x04
+
+.public whConfig_sScanCallback
+whConfig_sScanCallback: // 0x02136428
+	.space 0x04
+
+.public whConfig_sConnectMode
+whConfig_sConnectMode: // 0x0213642C
+	.space 0x04
+
+.public whConfig_sParentWEPKeyGenerator
+whConfig_sParentWEPKeyGenerator: // 0x02136430
+	.space 0x04
+
+.public whConfig_sRecvBufferSize
+whConfig_sRecvBufferSize: // 0x02136434
+	.space 0x04
+
+.public whConfig_sPictoCatchFlag
+whConfig_sPictoCatchFlag: // 0x02136438
+	.space 0x04
+
+.public whConfig_sRand
+whConfig_sRand: // 0x0213643C
+	.space 0x04
+
+.public whConfig_whFreeFunc
+whConfig_whFreeFunc: // 0x02136440
+	.space 0x04
+
+.public whConfig_wh_trace
+whConfig_wh_trace: // 0x02136444
+	.space 0x04
+
+.public whConfig_sSendBufferSize
+whConfig_sSendBufferSize: // 0x02136448
+	.space 0x04
+
+.public whConfig_sErrCode
+whConfig_sErrCode: // 0x0213644C
+	.space 0x04
+
+.public whConfig_sJudgeAcceptFunc
+whConfig_sJudgeAcceptFunc: // 0x02136450
+	.space 0x04
+
+.public whConfig_dword_2136454
+whConfig_dword_2136454: // 0x02136454
+	.space 0x04
+
+.public whConfig_dword_2136458
+whConfig_dword_2136458: // 0x02136458
+	.space 0x04
+
+.public whConfig_dword_213645C
+whConfig_dword_213645C: // 0x0213645C
+	.space 0x04
+
+
 .public sWEPKey
 sWEPKey: // 0x02136460
 	.space 16 * 0x02

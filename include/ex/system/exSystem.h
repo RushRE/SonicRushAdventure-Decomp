@@ -9,18 +9,18 @@
 
 enum ExSysTaskState_
 {
-    EXSYSTASK_STATE_0,
-    EXSYSTASK_STATE_1,
+    EXSYSTASK_STATE_NONE,
+    EXSYSTASK_STATE_STARTED,
     EXSYSTASK_STATE_2,
-    EXSYSTASK_STATE_3,
-    EXSYSTASK_STATE_TITLECARD_DONE,
-    EXSYSTASK_STATE_5,
-    EXSYSTASK_STATE_6,
-    EXSYSTASK_STATE_7,
-    EXSYSTASK_STATE_8,
-    EXSYSTASK_STATE_9,
-    EXSYSTASK_STATE_10,
-    EXSYSTASK_STATE_11,
+    EXSYSTASK_STATE_INTRO,
+    EXSYSTASK_STATE_BOSS_ACTIVE,
+    EXSYSTASK_STATE_BOSS_FLEE_STARTED,
+    EXSYSTASK_STATE_BOSS_FLEE_DONE,
+    EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED,
+    EXSYSTASK_STATE_BOSS_HEAL_PHASE2_DONE,
+    EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED,
+    EXSYSTASK_STATE_BOSS_HEAL_PHASE3_DONE,
+    EXSYSTASK_STATE_STAGE_FINISHED,
 };
 typedef u8 ExSysTaskState;
 
@@ -31,6 +31,14 @@ enum ExSysDifficulty_
     EXSYS_DIFFICULTY_EASY,
 };
 typedef u8 ExSysDifficulty;
+
+enum ExSysTimeLimit_
+{
+    EXSYS_TIMELIMIT_NONE,
+    EXSYS_TIMELIMIT_ON,
+    EXSYS_TIMELIMIT_OFF,
+};
+typedef u8 ExSysTimeLimit;
 
 enum ExSysTaskActComAnimIDs
 {
@@ -161,7 +169,7 @@ enum ExSysTaskActComAnimIDs
 
 typedef struct exSysTaskTime_
 {
-    u16 field_0;
+    u16 unused;
     u16 minutes;
     u16 tenSeconds;
     u16 seconds;
@@ -173,7 +181,7 @@ typedef struct exSysTaskStatus_
 {
     ExSysDifficulty difficulty;
     u8 finishMode;
-    u8 timeLimitMode;
+    ExSysTimeLimit timeLimitMode;
     ExSysTaskState state;
     u8 lives;
     u16 rings;
@@ -186,7 +194,6 @@ typedef struct exSysTask_
     void *archiveCommon;
     void *sndArc;
     s16 timer;
-    u16 field_10;
 } exSysTask;
 
 // --------------------
@@ -197,7 +204,7 @@ s32 GetExSystemLifeCount(void);
 void LoseExSystemLife(void);
 void InitExSystemStatus(void);
 exSysTaskStatus *GetExSystemStatus(void);
-BOOL GetExSystemFlag_2178650(void);
+BOOL CheckExStageFinished(void);
 
 void CreateExSystem(void);
 void *LoadExSystemFile(u16 id);

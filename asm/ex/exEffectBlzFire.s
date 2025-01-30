@@ -621,7 +621,7 @@ _02166294: .word exEffectBlzFireTask__Main_Active
 exEffectBlzFireTask__Func8: // 0x02166298
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -1287,7 +1287,7 @@ _02166BB4: .word exExEffectBlzFireTaMeTask__Main_Active
 exExEffectBlzFireTaMeTask__Func8: // 0x02166BB8
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent

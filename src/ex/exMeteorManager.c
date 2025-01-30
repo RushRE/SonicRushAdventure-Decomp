@@ -402,7 +402,7 @@ void ExMeteor_TaskUnknown(void)
 {
     exEffectMeteoTask *work = ExTaskGetWorkCurrent(exEffectMeteoTask);
 
-    if (GetExSystemFlag_2178650())
+    if (CheckExStageFinished())
         DestroyCurrentExTask();
 }
 
@@ -603,7 +603,7 @@ void ExMeteorManager_TaskUnknown(void)
     exEffectMeteoAdminTask *work = ExTaskGetWorkCurrent(exEffectMeteoAdminTask);
     UNUSED(work);
 
-    if (GetExSystemFlag_2178650())
+    if (CheckExStageFinished())
         DestroyCurrentExTask();
 }
 
@@ -619,7 +619,7 @@ void ExMeteorManager_Main_Active(void)
 {
     exEffectMeteoAdminTask *work = ExTaskGetWorkCurrent(exEffectMeteoAdminTask);
 
-    if (GetExSystemStatus()->state != EXSYSTASK_STATE_11)
+    if (GetExSystemStatus()->state != EXSYSTASK_STATE_STAGE_FINISHED)
     {
         if (work->spawnConfig.spawnDelay-- < 0)
         {
@@ -720,15 +720,15 @@ void ConfigureExMeteorManagerSpawning(void)
     {
         switch (GetExSystemStatus()->state)
         {
-            case EXSYSTASK_STATE_1:
+            case EXSYSTASK_STATE_STARTED:
             case EXSYSTASK_STATE_2:
-            case EXSYSTASK_STATE_TITLECARD_DONE:
+            case EXSYSTASK_STATE_BOSS_ACTIVE:
                 tableID = 0;
                 break;
 
-            case EXSYSTASK_STATE_6:
-            case EXSYSTASK_STATE_8:
-            case EXSYSTASK_STATE_10:
+            case EXSYSTASK_STATE_BOSS_FLEE_DONE:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE2_DONE:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE3_DONE:
                 DestroyCurrentExTask();
                 break;
         }
@@ -737,15 +737,15 @@ void ConfigureExMeteorManagerSpawning(void)
     {
         switch (GetExSystemStatus()->state)
         {
-            case EXSYSTASK_STATE_1:
+            case EXSYSTASK_STATE_STARTED:
             case EXSYSTASK_STATE_2:
-            case EXSYSTASK_STATE_TITLECARD_DONE:
+            case EXSYSTASK_STATE_BOSS_ACTIVE:
                 tableID = 1;
                 break;
 
-            case EXSYSTASK_STATE_6:
-            case EXSYSTASK_STATE_8:
-            case EXSYSTASK_STATE_10:
+            case EXSYSTASK_STATE_BOSS_FLEE_DONE:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE2_DONE:
+            case EXSYSTASK_STATE_BOSS_HEAL_PHASE3_DONE:
                 DestroyCurrentExTask();
                 break;
         }

@@ -108,14 +108,14 @@ exBossHomingLaserTask__Func_2159DF0: // 0x02159DF0
 _02159E10: .word exBossHomingLaserTask__ActiveInstanceCount
 	arm_func_end exBossHomingLaserTask__Func_2159DF0
 
-	arm_func_start exBossHomingLaserTask__Func_2159E14
-exBossHomingLaserTask__Func_2159E14: // 0x02159E14
+	arm_func_start exBossHomingLaserTask__AnyActive
+exBossHomingLaserTask__AnyActive: // 0x02159E14
 	ldr r0, _02159E20 // =exBossHomingLaserTask__ActiveInstanceCount
 	ldrsh r0, [r0, #2]
 	bx lr
 	.align 2, 0
 _02159E20: .word exBossHomingLaserTask__ActiveInstanceCount
-	arm_func_end exBossHomingLaserTask__Func_2159E14
+	arm_func_end exBossHomingLaserTask__AnyActive
 
 	arm_func_start exBossHomingLaserTask__Main
 exBossHomingLaserTask__Main: // 0x02159E24
@@ -213,7 +213,7 @@ _02159F7C: .word exBossHomingLaserTask__Main_2159FE4
 exBossHomingLaserTask__Func8: // 0x02159F80
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
@@ -249,7 +249,7 @@ exBossHomingLaserTask__Main_2159FE4: // 0x02159FE4
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	mov r5, r0
 	add r0, r4, #0x44
 	bl exDrawReqTask__Sprite3D__Animate
@@ -373,11 +373,11 @@ _0215A128:
 	bl exBossHomingLaserTask__Func_215A388
 	ldmia sp!, {r3, r4, r5, pc}
 _0215A1C0:
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	ldr r0, [r0, #4]
 	cmp r0, #0xf000
 	blt _0215A1F0
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	ldr r0, [r0, #4]
 	ldr r1, [r4, #0x30]
 	add r0, r0, #0x1000
@@ -457,7 +457,7 @@ exBossHomingLaserTask__Func_215A2CC: // 0x0215A2CC
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r5, r0
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	mov r4, r0
 	add r0, r5, #0x44
 	bl exDrawReqTask__Sprite3D__Animate
@@ -559,7 +559,7 @@ exBossHomingLaserTask__Func_215A434: // 0x0215A434
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetExTaskWorkCurrent_
 	mov r4, r0
-	bl exPlayerAdminTask__Func_217175C
+	bl GetExPlayerPosition
 	mov r5, r0
 	ldr r0, [r4, #0x28]
 	mov r1, #0

@@ -261,6 +261,11 @@ RUSH_INLINE fx32 mtLerpEx2(s16 percent, fx32 start, fx32 target, s32 loopCount)
     return target;
 }
 
+RUSH_INLINE fx32 mtMoveTowards(fx32 speed, fx32 current, fx32 target)
+{
+    return MultiplyFX(speed, target - current);
+}
+
 RUSH_INLINE void VEC_SetSingle(VecFx32 *vec, fx32 value)
 {
     vec->x = vec->y = vec->z = value;

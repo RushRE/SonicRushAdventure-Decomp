@@ -263,7 +263,7 @@ _02160664: .word exBossMagmeWaveTask__Main_21606B4
 exBossMagmeWaveTask__Func8: // 0x02160668
 	stmdb sp!, {r3, lr}
 	bl GetExTaskWorkCurrent_
-	bl GetExSystemFlag_2178650
+	bl CheckExStageFinished
 	cmp r0, #0
 	ldmeqia sp!, {r3, pc}
 	bl GetExTaskCurrent
