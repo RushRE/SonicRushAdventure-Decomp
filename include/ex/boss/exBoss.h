@@ -109,6 +109,7 @@ typedef struct exBossSysAdminTask_
     s16 moveDuration;
     s16 health;
     s16 maxHealth;
+    s16 field_66;
     s32 field_68;
     EX_ACTION_NN_WORK aniBoss;
     void (*nextAttackState)(void);

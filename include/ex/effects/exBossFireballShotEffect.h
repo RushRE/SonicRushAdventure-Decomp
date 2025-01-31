@@ -4,16 +4,28 @@
 #include <ex/boss/exBoss.h>
 
 // --------------------
+// STRUCTS
+// --------------------
+
+typedef struct exEffectBlzFireShotTask_
+{
+    s32 unused;
+    EX_ACTION_NN_WORK aniShot;
+    EX_ACTION_NN_WORK *parent;
+    Task *parentTask;
+} exEffectBlzFireShotTask;
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void exBossEffectFireBallShotTask__Func_21560E0(void);
-NOT_DECOMPILED void exBossEffectFireBallShotTask__Func_215632C(void);
-NOT_DECOMPILED void exBossEffectFireBallShotTask__Main(void);
-NOT_DECOMPILED void exBossEffectFireBallShotTask__Func8(void);
-NOT_DECOMPILED void exBossEffectFireBallShotTask__Destructor(void);
-NOT_DECOMPILED void exBossEffectFireBallShotTask__Func_215649C(void);
-NOT_DECOMPILED void exBossEffectFireBallShotTask__Create(void);
+void exBossEffectFireBallShotTask__Func_21560E0(void);
+void exBossEffectFireBallShotTask__Func_215632C(void);
+void exBossEffectFireBallShotTask__Main(void);
+void exBossEffectFireBallShotTask__Func8(void);
+void exBossEffectFireBallShotTask__Destructor(void);
+void exBossEffectFireBallShotTask__Func_215649C(void);
+void exBossEffectFireBallShotTask__Create(void);
 
 #endif // RUSH_EXBOSSFIREBALLSHOTEFFECT_H
 

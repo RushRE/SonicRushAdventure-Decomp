@@ -755,6 +755,257 @@ _0215A700: .word exBossHomingLaserTask__Main
 _0215A704: .word exBossHomingLaserTask__Func8
 	arm_func_end exBossHomingLaserTask__Create
 
+	arm_func_start exBossSysAdminTask__Action_StartHomi0
+exBossSysAdminTask__Action_StartHomi0: // 0x0215A708
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #8
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	mov r1, #9
+	bl exBossHelpers__SetAnimation
+	add r0, r4, #0x3f8
+	bl exDrawReqTask__Func_21641F0
+	bl exBossEffectHomingTask__Create
+	mov r0, #0
+	str r0, [sp]
+	mov r1, #0x104
+	str r1, [sp, #4]
+	sub r1, r0, #1
+	mov r2, r1
+	mov r3, r1
+	bl PlayVoiceClipEx
+	bl GetExTaskCurrent
+	ldr r1, _0215A768 // =exBossSysAdminTask__Main_StartHomi0
+	str r1, [r0]
+	bl exBossSysAdminTask__Main_StartHomi0
+	add sp, sp, #8
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_0215A768: .word exBossSysAdminTask__Main_StartHomi0
+	arm_func_end exBossSysAdminTask__Action_StartHomi0
+
+	arm_func_start exBossSysAdminTask__Main_StartHomi0
+exBossSysAdminTask__Main_StartHomi0: // 0x0215A76C
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #8
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	ldr r0, [r4, #0x3b0]
+	ldr r0, [r0, #0]
+	cmp r0, #0x1e000
+	blt _0215A7C8
+	mov ip, #0xc9
+	sub r1, ip, #0xca
+	mov r0, #0
+	mov r2, r1
+	mov r3, r1
+	stmia sp, {r0, ip}
+	bl PlaySfxEx
+	bl GetExTaskCurrent
+	ldr r1, _0215A7F0 // =exBossSysAdminTask__Main_FinishHomi0
+	str r1, [r0]
+	bl exBossSysAdminTask__Main_FinishHomi0
+	add sp, sp, #8
+	ldmia sp!, {r4, pc}
+_0215A7C8:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl GetExTaskCurrent
+	ldr r0, [r0, #8]
+	blx r0
+	add sp, sp, #8
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_0215A7F0: .word exBossSysAdminTask__Main_FinishHomi0
+	arm_func_end exBossSysAdminTask__Main_StartHomi0
+
+	arm_func_start exBossSysAdminTask__Main_FinishHomi0
+exBossSysAdminTask__Main_FinishHomi0: // 0x0215A7F4
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__IsAnimFinished
+	cmp r0, #0
+	beq _0215A820
+	bl exBossSysAdminTask__Action_StartHomi1
+	ldmia sp!, {r4, pc}
+_0215A820:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl GetExTaskCurrent
+	ldr r0, [r0, #8]
+	blx r0
+	ldmia sp!, {r4, pc}
+	arm_func_end exBossSysAdminTask__Main_FinishHomi0
+
+	arm_func_start exBossSysAdminTask__Action_StartHomi1
+exBossSysAdminTask__Action_StartHomi1: // 0x0215A844
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	mov r1, #0xa
+	bl exBossHelpers__SetAnimation
+	add r0, r4, #0x3f8
+	bl exDrawReqTask__Func_21641F0
+	bl GetExTaskCurrent
+	ldr r1, _0215A878 // =exBossSysAdminTask__Main_StartHomi1
+	str r1, [r0]
+	bl exBossSysAdminTask__Main_StartHomi1
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_0215A878: .word exBossSysAdminTask__Main_StartHomi1
+	arm_func_end exBossSysAdminTask__Action_StartHomi1
+
+	arm_func_start exBossSysAdminTask__Main_StartHomi1
+exBossSysAdminTask__Main_StartHomi1: // 0x0215A87C
+	stmdb sp!, {r3, r4, r5, lr}
+	sub sp, sp, #8
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	ldr r0, [r4, #0x3b0]
+	ldr r0, [r0, #0]
+	cmp r0, #0xa000
+	blt _0215A8FC
+	mov r5, #0
+_0215A8A8:
+	strh r5, [r4, #0x66]
+	bl exBossHomingLaserTask__Create
+	add r0, r5, #1
+	mov r0, r0, lsl #0x10
+	mov r5, r0, lsr #0x10
+	cmp r5, #6
+	blo _0215A8A8
+	mov ip, #0xc5
+	sub r1, ip, #0xc6
+	mov r0, #0
+	strh r0, [r4, #0x66]
+	mov r2, r1
+	mov r3, r1
+	stmia sp, {r0, ip}
+	bl PlaySfxEx
+	bl GetExTaskCurrent
+	ldr r1, _0215A940 // =exBossSysAdminTask__Main_FinishHomi1
+	str r1, [r0]
+	bl exBossSysAdminTask__Main_FinishHomi1
+	add sp, sp, #8
+	ldmia sp!, {r3, r4, r5, pc}
+_0215A8FC:
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__IsAnimFinished
+	cmp r0, #0
+	beq _0215A918
+	bl exBossSysAdminTask__Action_StartHomi2
+	add sp, sp, #8
+	ldmia sp!, {r3, r4, r5, pc}
+_0215A918:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl GetExTaskCurrent
+	ldr r0, [r0, #8]
+	blx r0
+	add sp, sp, #8
+	ldmia sp!, {r3, r4, r5, pc}
+	.align 2, 0
+_0215A940: .word exBossSysAdminTask__Main_FinishHomi1
+	arm_func_end exBossSysAdminTask__Main_StartHomi1
+
+	arm_func_start exBossSysAdminTask__Main_FinishHomi1
+exBossSysAdminTask__Main_FinishHomi1: // 0x0215A944
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__IsAnimFinished
+	cmp r0, #0
+	beq _0215A970
+	bl exBossSysAdminTask__Action_StartHomi2
+	ldmia sp!, {r4, pc}
+_0215A970:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl GetExTaskCurrent
+	ldr r0, [r0, #8]
+	blx r0
+	ldmia sp!, {r4, pc}
+	arm_func_end exBossSysAdminTask__Main_FinishHomi1
+
+	arm_func_start exBossSysAdminTask__Action_StartHomi2
+exBossSysAdminTask__Action_StartHomi2: // 0x0215A994
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	bl exBossEffectShotTask__Func_215753C
+	add r0, r4, #0x6c
+	mov r1, #0xb
+	bl exBossHelpers__SetAnimation
+	add r0, r4, #0x3f8
+	bl exDrawReqTask__Func_21641F0
+	bl GetExTaskCurrent
+	ldr r1, _0215A9CC // =exBossSysAdminTask__Main_StartHomi2
+	str r1, [r0]
+	bl exBossSysAdminTask__Main_StartHomi2
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_0215A9CC: .word exBossSysAdminTask__Main_StartHomi2
+	arm_func_end exBossSysAdminTask__Action_StartHomi2
+
+	arm_func_start exBossSysAdminTask__Main_StartHomi2
+exBossSysAdminTask__Main_StartHomi2: // 0x0215A9D0
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__IsAnimFinished
+	cmp r0, #0
+	beq _0215A9FC
+	bl exBossSysAdminTask__Action_FinishHomingAttack
+	ldmia sp!, {r4, pc}
+_0215A9FC:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl GetExTaskCurrent
+	ldr r0, [r0, #8]
+	blx r0
+	ldmia sp!, {r4, pc}
+	arm_func_end exBossSysAdminTask__Main_StartHomi2
+
+	arm_func_start exBossSysAdminTask__Action_FinishHomingAttack
+exBossSysAdminTask__Action_FinishHomingAttack: // 0x0215AA20
+	stmdb sp!, {r3, lr}
+	bl GetExTaskWorkCurrent_
+	ldr r0, [r0, #0x548]
+	blx r0
+	ldmia sp!, {r3, pc}
+	arm_func_end exBossSysAdminTask__Action_FinishHomingAttack
+
 	.data
 	
 _021740A4:

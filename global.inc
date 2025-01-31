@@ -17769,24 +17769,24 @@
 .public exDrawReqTask__Func_21642BC
 .public exDrawReqTask__Func_21642F0
 
-.public exEffectBigBombTask__Func_2164310
-.public exEffectBigBombTask__Destroy_2164410
-.public exEffectBigBombTask__Main
-.public exEffectBigBombTask__Func8
-.public exEffectBigBombTask__Destructor
-.public exEffectBigBombTask__Func_21644E8
-.public exEffectBigBombTask__Create
+.public LoadExExplosionSprite
+.public ReleaseExExplosionSprite
+.public ExExplosion_Main_Init
+.public ExExplosion_TaskUnknown
+.public ExExplosion_Destructor
+.public ExExplosion_Main_Active
+.public CreateExExplosion
 
-.public exEffectBiriBiriTask__Func_21645D4
-.public exEffectBiriBiriTask__Func_21646D8
-.public exEffectBiriBiriTask__Destroy_21646EC
-.public exEffectBiriBiriTask__Main
-.public exEffectBiriBiriTask__Func8
-.public exEffectBiriBiriTask__Destructor
-.public exEffectBiriBiriTask__Main_21647C8
-.public exEffectBiriBiriTask__Func_2164810
-.public exEffectBiriBiriTask__Main_2164848
-.public exEffectBiriBiriTask__Create
+.public LoadExShockEffectSprite
+.public SetExShockEffectAnimation
+.public ReleaseExShockEffectSprite
+.public ExShockEffect_Main_Init
+.public ExShockEffect_TaskUnknown
+.public ExShockEffect_Destructor
+.public ExShockEffect_Main_ShockAnimate
+.public ExShockEffect_Action_ShockFinish
+.public ExShockEffect_Main_ShockFinish
+.public CreateExShockEffect
 
 .public exEffectBarrierHitTask__Func_2164950
 .public exEffectBarrierHitTask__Destroy_2164BCC
@@ -17808,7 +17808,6 @@
 .public exEffectBarrierTask__Main_21652FC
 .public exEffectBarrierTask__DelayCallback
 .public exEffectBarrierTask__Create
-
 .public exExEffectSonicBarrierTaMeTask__Func_21654D4
 .public exExEffectSonicBarrierTaMeTask__Destroy_21656F8
 .public exExEffectSonicBarrierTaMeTask__Main
@@ -17830,13 +17829,11 @@
 .public exEffectBlzFireTask__HandleMovement
 .public exEffectBlzFireTask__Main_21669D4
 .public exEffectBlzFireTask__Create
-
 .public exExEffectBlzFireTaMeTask__Main
 .public exExEffectBlzFireTaMeTask__Func8
 .public exExEffectBlzFireTaMeTask__Destructor
 .public exExEffectBlzFireTaMeTask__Main_Active
 .public exExEffectBlzFireTaMeTask__Create
-
 .public exEffectBlzFireShotTask__Main
 .public exEffectBlzFireShotTask__Func8
 .public exEffectBlzFireShotTask__Destructor

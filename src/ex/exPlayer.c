@@ -614,7 +614,7 @@ void ExPlayer_Action_ShockStun(void)
     exDrawReqTask__Func_21641F0(&work->aniBlaze->manager.config);
 
     work->worker->shockStunDuration = SECONDS_TO_FRAMES(2.0);
-    exEffectBiriBiriTask__Create(&work->activeModelMain->model.translation);
+    CreateExShockEffect(&work->activeModelMain->model.translation);
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_InitShockStun);
     ExPlayer_Main_InitShockStun();

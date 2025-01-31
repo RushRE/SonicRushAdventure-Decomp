@@ -98,6 +98,7 @@ typedef struct exHitCheck_
         u8 value_80 : 1;
     } field_7;
     s16 power;
+    s16 field_A;
     exHitCheckTaskUnknown box;
 } exHitCheck;
 

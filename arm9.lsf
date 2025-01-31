@@ -744,33 +744,23 @@ Overlay ExBoss
     After arm9
     Object asm/ex/exPlayerHelpers.o
     Object src/ex/exBlazeDashEffect.o
-    Object asm/ex/exBossHelpers.o
-    Object asm/ex/exBossFireDora.o
-    Object asm/ex/exBossEffectHit.o
-    Object asm/ex/exBossEffectFireballShot.o
-    Object asm/ex/exBossEffectFireball.o
-    Object asm/ex/exBossEffectHoming.o
-    Object asm/ex/exBossEffectShot.o
-    Object asm/ex/exBossEffectFire.o
+    Object asm/ex/exBossCommon.o
+    Object asm/ex/exBossFireDragon.o
+    Object asm/ex/exEffectBoss_vars.o
+    Object src/ex/exEffectBoss.o
     Object src/ex/exBossFire.o
     Object asm/ex/exBossHomingLaser.o
     Object asm/ex/exBossLineMissile.o
-    Object asm/ex/exBossMeteBomb.o
-    Object asm/ex/exBossMeteLockOn.o
-    Object asm/ex/exBossMeteMeteo.o
-    Object asm/ex/exBossMeteAdmin.o
+    Object asm/ex/exBossMeteor.o
     Object src/ex/exBoss.o
-    Object asm/ex/exBossMagmaAttack.o
-    Object asm/ex/exBossMagmeWave.o
+    Object asm/ex/exBossMagmaWave.o
     Object asm/ex/exDrawFade.o
     Object asm/ex/exDrawReq.o
-    Object asm/ex/exEffectBigBomb.o
-    Object asm/ex/exEffectBiriBiri.o
-    Object asm/ex/exEffectBarrierHit.o
-    Object asm/ex/exEffectBarrier.o
-    Object asm/ex/exEffectSonicBarrierTaMe.o
-    Object asm/ex/exEffectBlzFire.o
-    Object asm/ex/exEffectBlzFireShot.o
+    Object src/ex/exEffectCommon.o
+    Object asm/ex/exEffectSonic_vars.o
+    Object src/ex/exEffectSonic.o
+    Object asm/ex/exEffectBlaze_vars.o
+    Object src/ex/exEffectBlaze.o
     Object src/ex/exMeteorManager.o
     Object src/ex/exRingManager.o
     Object src/ex/exHUD.o

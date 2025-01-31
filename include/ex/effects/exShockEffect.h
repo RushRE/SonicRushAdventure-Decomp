@@ -4,18 +4,19 @@
 #include <ex/boss/exBoss.h>
 
 // --------------------
+// STRUCTS
+// --------------------
+
+typedef struct exEffectBiriBiriTask_
+{
+    VecFx32 targetPos;
+    EX_ACTION_BAC3D_WORK aniShockEffect;
+} exEffectBiriBiriTask;
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void exEffectBiriBiriTask__Func_21645D4(void);
-NOT_DECOMPILED void exEffectBiriBiriTask__Func_21646D8(void);
-NOT_DECOMPILED void exEffectBiriBiriTask__Destroy_21646EC(void);
-NOT_DECOMPILED void exEffectBiriBiriTask__Main(void);
-NOT_DECOMPILED void exEffectBiriBiriTask__Func8(void);
-NOT_DECOMPILED void exEffectBiriBiriTask__Destructor(void);
-NOT_DECOMPILED void exEffectBiriBiriTask__Main_21647C8(void);
-NOT_DECOMPILED void exEffectBiriBiriTask__Func_2164810(void);
-NOT_DECOMPILED void exEffectBiriBiriTask__Main_2164848(void);
-NOT_DECOMPILED BOOL exEffectBiriBiriTask__Create(VecFx32 *targetPos);
+BOOL CreateExShockEffect(VecFx32 *targetPos);
 
 #endif // RUSH_EXSHOCKEFFECT_H
