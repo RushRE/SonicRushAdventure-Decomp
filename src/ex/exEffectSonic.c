@@ -1,5 +1,4 @@
-#include <ex/effects/exBarrier.h>
-#include <ex/effects/exBarrierHitEffect.h>
+#include <ex/effects/exSonicBarrier.h>
 #include <ex/player/exPlayer.h>
 #include <ex/system/exSystem.h>
 #include <game/audio/audioSystem.h>
@@ -13,1472 +12,716 @@
 // VARIABLES
 // --------------------
 
-struct TEMP_STATIC_VARS
-{
-    s16 exEffectBarrierHitTask__ActiveInstanceCount;
-    s16 exEffectBarrierTask__ActiveInstanceCount;
-    s16 exExEffectSonicBarrierTaMeTask__ActiveInstanceCount;
+static s16 exSonicBarrierHitEffectInstanceCount;
+static s16 exSonicBarrierEffectSpriteInstanceCount;
+static s16 exSonicBarrierChargingEffectInstanceCount;
 
-    void *exExEffectSonicBarrierTaMeTask__dword_217648C;
-    void *exEffectBarrierTask__unk_2176490;
-    void *exEffectBarrierTask__unk_2176494;
-    void *exEffectBarrierHitTask__unk_2176498;
-    void *exExEffectSonicBarrierTaMeTask__dword_217649C;
-    void *exEffectBarrierHitTask__dword_21764A0;
-    void *exExEffectSonicBarrierTaMeTask__unk_21764A4;
-    void *exEffectBarrierHitTask__TaskSingleton;
-    void *exEffectBarrierTask__TaskSingleton;
-    void *exExEffectSonicBarrierTaMeTask__unk_21764B0;
-    void *exEffectBarrierTask__dword_21764B4;
-    void *exExEffectSonicBarrierTaMeTask__TaskSingleton;
-    void *exEffectBarrierHitTask__unk_21764BC;
-    void *exEffectBarrierHitTask__unk_21764C0;
-    void *exEffectBarrierHitTask__unk_21764C4;
-    void *exExEffectSonicBarrierTaMeTask__FileTable[2];
-    void *exEffectBarrierHitTask__AnimTable[3];
-    void *exEffectBarrierHitTask__FileTable[3];
-};
+static void *exSonicBarrierChargingEffectModelResource;
+static u32 exSonicBarrierChargingEffectTextureFileSize;
+static u32 exSonicBarrierChargingEffectModelFileSize;
+static void *exSonicBarrierEffectUnused;
+static u32 exSonicBarrierHitEffectTextureFileSize;
+static void *exSonicBarrierHitEffectUnused;
+static void *exSonicBarrierHitEffectModelResource;
+static void *exSonicBarrierHitEffectLastSpawnedWorker;
+static BOOL disableExSonicBarrierEffectSpawning;
+static Task *exSonicBarrierEffectTaskSingleton;
+static void *exSonicBarrierChargingEffectLastSpawnedWorker;
+static void *exSonicBarrierEffectSpriteResource;
+static Task *exSonicBarrierChargingEffectTaskSingleton;
+static Task *exSonicBarrierHitEffectTaskSingleton;
+static u32 exSonicBarrierHitEffectModelFileSize;
+static void *exSonicBarrierChargingEffectAnimResource[2];
+static void *exSonicBarrierHitEffectAnimResource[3];
+static u32 exSonicBarrierHitEffectAnimType[3];
 
-NOT_DECOMPILED s16 exEffectBarrierHitTask__ActiveInstanceCount;
-NOT_DECOMPILED s16 exEffectBarrierTask__ActiveInstanceCount;
-NOT_DECOMPILED s16 exExEffectSonicBarrierTaMeTask__ActiveInstanceCount;
+// force linkage of variables with no apparent references
+FORCE_INCLUDE_VARIABLE_BSS(exSonicBarrierEffectUnused)
+FORCE_INCLUDE_VARIABLE_BSS(exSonicBarrierHitEffectUnused)
 
-NOT_DECOMPILED void *exExEffectSonicBarrierTaMeTask__dword_217648C;
-NOT_DECOMPILED void *exEffectBarrierTask__unk_2176490;
-NOT_DECOMPILED void *exEffectBarrierTask__unk_2176494;
-NOT_DECOMPILED void *exEffectBarrierHitTask__unk_2176498;
-NOT_DECOMPILED void *exExEffectSonicBarrierTaMeTask__dword_217649C;
-NOT_DECOMPILED void *exEffectBarrierHitTask__dword_21764A0;
-NOT_DECOMPILED void *exExEffectSonicBarrierTaMeTask__unk_21764A4;
-NOT_DECOMPILED void *exEffectBarrierHitTask__TaskSingleton;
-NOT_DECOMPILED void *exEffectBarrierTask__TaskSingleton;
-NOT_DECOMPILED void *exExEffectSonicBarrierTaMeTask__unk_21764B0;
-NOT_DECOMPILED void *exEffectBarrierTask__dword_21764B4;
-NOT_DECOMPILED void *exExEffectSonicBarrierTaMeTask__TaskSingleton;
-NOT_DECOMPILED void *exEffectBarrierHitTask__unk_21764BC;
-NOT_DECOMPILED void *exEffectBarrierHitTask__unk_21764C0;
-NOT_DECOMPILED void *exEffectBarrierHitTask__unk_21764C4;
-NOT_DECOMPILED void *exExEffectSonicBarrierTaMeTask__FileTable[2];
-NOT_DECOMPILED void *exEffectBarrierHitTask__AnimTable[3];
-NOT_DECOMPILED void *exEffectBarrierHitTask__FileTable[3];
-
-NOT_DECOMPILED float _0217441C[];
-
-NOT_DECOMPILED void *aExtraExBb_7;
-NOT_DECOMPILED void *aExeffectbarrie;
-NOT_DECOMPILED void *aExeffectbarrie_0;
-NOT_DECOMPILED void *aExexeffectsoni;
+// not sure what type this array really is, it seems too strange to _just_ be an array...
+static float exSonicBarrierChargingEffectScaleTable[] = { 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, 0.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, 0.0f, 0.0f, 0.0f };
 
 // --------------------
-// TEMP
+// FUNCTION DECLS
 // --------------------
 
-NOT_DECOMPILED void _f_ftoi(void);
-NOT_DECOMPILED void _fdiv(void);
-NOT_DECOMPILED void _f_sub(void);
-NOT_DECOMPILED void _fadd(void);
-NOT_DECOMPILED void _f_mul(void);
-NOT_DECOMPILED void _fgr(void);
+// ExSonicBarrierHitEffect
+static BOOL LoadExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work);
+static void ReleaseExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work);
+static void ExSonicBarrierHitEffect_Main_Init(void);
+static void ExSonicBarrierHitEffect_TaskUnknown(void);
+static void ExSonicBarrierHitEffect_Destructor(void);
+static void ExSonicBarrierHitEffect_Main_Active(void);
+
+// ExSonicBarrierEffect
+static void LoadExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work);
+static void SetExSonicBarrierEffectAnimation(EX_ACTION_BAC3D_WORK *work, u16 anim);
+static void ReleaseExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work);
+static void ExSonicBarrierEffect_Main_Init(void);
+static void ExSonicBarrierEffect_TaskUnknown(void);
+static void ExSonicBarrierEffect_Destructor(void);
+static void ExSonicBarrierEffect_Main_InitBarrierActive(void);
+static void ExSonicBarrierEffect_Main_BarrierActive(void);
+static void ExSonicBarrierEffect_Main_InitBarrierHit(void);
+static void ExSonicBarrierEffect_Main_BarrierHit(void);
+static void ExSonicBarrierEffect_DelayCallback(void);
+
+// ExSonicBarrierChargingEffect
+static BOOL LoadExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work);
+static void ReleaseExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work);
+static void ExSonicBarrierChargingEffect_Main_Init(void);
+static void ExSonicBarrierChargingEffect_TaskUnknown(void);
+static void ExSonicBarrierChargingEffect_Destructor(void);
+static void ExSonicBarrierChargingEffect_Main_Active(void);
 
 // --------------------
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC void exEffectBarrierHitTask__Func_2164950(void)
+BOOL LoadExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work)
 {
-#ifdef NON_MATCHING
+    exSonicBarrierHitEffectLastSpawnedWorker = work;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
-	sub sp, sp, #4
-	ldr r1, =0x02176484
-	mov r4, r0
-	str r4, [r1, #0x14]
-	ldr r0, [r1, #0x3c]
-	cmp r0, #0
-	ldrne r0, [r1, #0x38]
-	cmpne r0, #0
-	beq _021649CC
-	bl _GetHeapTotalSizeHEAP_USER
-	ldr r1, =0x02176484
-	ldr r1, [r1, #0x3c]
-	cmp r0, r1
-	addlo sp, sp, #4
-	movlo r0, #0
-	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	bl VRAMSystem__GetTextureUnknown
-	ldr r1, =0x02176484
-	ldr r1, [r1, #0x38]
-	cmp r0, r1
-	addlo sp, sp, #4
-	movlo r0, #0
-	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
-	bl _GetHeapUnallocatedSizeHEAP_SYSTEM
-	ldr r1, =0x02176484
-	ldr r1, [r1, #0x3c]
-	cmp r0, r1
-	addlo sp, sp, #4
-	movlo r0, #0
-	ldmloia sp!, {r3, r4, r5, r6, r7, r8, pc}
-_021649CC:
-	mov r0, r4
-	bl exDrawReqTask__InitModel
-	ldr r0, =0x02176484
-	ldrsh r0, [r0, #0]
-	cmp r0, #0
-	bne _02164A78
-	mov r1, #0xa
-	ldr r0, =aExtraExBb_7
-	sub r2, r1, #0xb
-	bl ReadFileFromBundle
-	mov r5, r0
-	ldr r0, [r5, #0]
-	ldr r1, =0x02176484
-	mov r0, r0, lsr #8
-	str r0, [r1, #0x3c]
-	bl _AllocHeadHEAP_USER
-	mov r1, r0
-	ldr r2, =0x02176484
-	mov r0, r5
-	str r1, [r2, #0x1c]
-	bl RenderCore_CPUCopyCompressed
-	mov r0, r5
-	bl _FreeHEAP_USER
-	mov r0, #0x20
-	bl LoadExSystemFile
-	ldr r1, =0x02176484
-	mov r2, #0
-	str r0, [r1, #0x58]
-	mov r0, #0x21
-	str r2, [r1, #0x4c]
-	bl LoadExSystemFile
-	ldr r1, =0x02176484
-	mov r2, #1
-	str r0, [r1, #0x5c]
-	mov r0, #0x22
-	str r2, [r1, #0x50]
-	bl LoadExSystemFile
-	ldr r1, =0x02176484
-	mov r2, #4
-	str r0, [r1, #0x60]
-	str r2, [r1, #0x54]
-	ldr r0, [r1, #0x1c]
-	bl Asset3DSetup__Create
-_02164A78:
-	add r0, r4, #0x20
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r2, #0
-	ldr r0, =0x02176484
-	str r2, [sp]
-	ldr r1, [r0, #0x1c]
-	mov r3, r2
-	add r0, r4, #0x20
-	bl AnimatorMDL__SetResource
-	mov r8, #0
-	ldr r6, =0x021764D0
-	ldr r5, =0x021764DC
-	mov r7, r8
-_02164AB0:
-	str r7, [sp]
-	ldr r1, [r6, r8, lsl #2]
-	ldr r2, [r5, r8, lsl #2]
-	mov r3, r7
-	add r0, r4, #0x20
-	bl AnimatorMDL__SetAnimation
-	add r0, r8, #1
-	mov r0, r0, lsl #0x10
-	mov r8, r0, lsr #0x10
-	cmp r8, #3
-	blo _02164AB0
-	ldr r1, =0x02176484
-	add r0, r4, #0x300
-	ldr r2, [r1, #0x50]
-	mov r3, #0
-	strh r2, [r0, #0x48]
-	ldr r0, [r1, #0x50]
-	mov r2, #1
-	add r0, r4, r0, lsl #2
-	ldr r0, [r0, #0x104]
-	str r0, [r4, #0x344]
-_02164B04:
-	mov r0, r2, lsl r3
-	tst r0, #0x13
-	beq _02164B24
-	add r0, r4, r3, lsl #1
-	add r0, r0, #0x100
-	ldrh r1, [r0, #0x2c]
-	orr r1, r1, #2
-	strh r1, [r0, #0x2c]
-_02164B24:
-	add r3, r3, #1
-	cmp r3, #5
-	blo _02164B04
-	mov r0, #0x3c000
-	str r0, [r4, #0x358]
-	mov r0, #0x1000
-	str r0, [r4, #0x368]
-	str r0, [r4, #0x36c]
-	ldr r2, =0x0000BFF4
-	str r0, [r4, #0x370]
-	add r0, r4, #0x300
-	ldr r1, =0x00007FF8
-	strh r2, [r0, #0x4a]
-	strh r1, [r0, #0x4e]
-	mov r3, #0
-	strb r3, [r4]
-	ldrb r2, [r4, #5]
-	add r0, r4, #0x350
-	ldr r1, =0x02176484
-	bic r2, r2, #1
-	orr r2, r2, #1
-	strb r2, [r4, #5]
-	str r3, [r4, #0xc]
-	str r3, [r4, #0x10]
-	str r3, [r4, #0x14]
-	str r0, [r4, #0x18]
-	ldrb r2, [r4, #0x38c]
-	mov r0, #1
-	bic r2, r2, #3
-	orr r2, r2, #1
-	strb r2, [r4, #0x38c]
-	ldrsh r2, [r1, #0]
-	add r2, r2, #1
-	strh r2, [r1]
-	add sp, sp, #4
-	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
+    if (exSonicBarrierHitEffectModelFileSize != 0 && exSonicBarrierHitEffectTextureFileSize != 0)
+    {
+        if (GetHeapTotalSize(HEAP_USER) < exSonicBarrierHitEffectModelFileSize)
+            return FALSE;
 
-// clang-format on
-#endif
+        if (VRAMSystem__GetTextureUnknown() < exSonicBarrierHitEffectTextureFileSize)
+            return FALSE;
+
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exSonicBarrierHitEffectModelFileSize)
+            return FALSE;
+    }
+
+    exDrawReqTask__InitModel(work);
+
+    if (exSonicBarrierHitEffectInstanceCount == 0)
+    {
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_HIT0_NSBMD, &exSonicBarrierHitEffectModelResource,
+                                      &exSonicBarrierHitEffectModelFileSize, TRUE, FALSE);
+
+        exSonicBarrierHitEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HIT0_NSBCA);
+        exSonicBarrierHitEffectAnimType[0]     = B3D_ANIM_JOINT_ANIM;
+
+        exSonicBarrierHitEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HIT0_NSBMA);
+        exSonicBarrierHitEffectAnimType[1]     = B3D_ANIM_MAT_ANIM;
+
+        exSonicBarrierHitEffectAnimResource[2] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_HIT0_NSBVA);
+        exSonicBarrierHitEffectAnimType[2]     = B3D_ANIM_VIS_ANIM;
+
+        Asset3DSetup__Create(exSonicBarrierHitEffectModelResource);
+    }
+
+    AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(&work->model.animator, exSonicBarrierHitEffectModelResource, 0, FALSE, FALSE);
+
+    u16 i = 0;
+    for (; i < 3; i++)
+    {
+        AnimatorMDL__SetAnimation(&work->model.animator, exSonicBarrierHitEffectAnimType[i], exSonicBarrierHitEffectAnimResource[i], 0, NULL);
+    }
+
+    work->model.field_32C = exSonicBarrierHitEffectAnimType[1];
+    work->model.field_328 = work->model.animator.currentAnimObj[exSonicBarrierHitEffectAnimType[1]];
+
+    for (u32 r = 0; r < B3D_ANIM_MAX; r++)
+    {
+        if (((1 << r) & (B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_MAT_ANIM | B3D_ANIM_FLAG_JOINT_ANIM)) != 0)
+            work->model.animator.animFlags[r] |= ANIMATORMDL_FLAG_CAN_LOOP;
+    }
+
+    work->model.translation.z = FLOAT_TO_FX32(60.0);
+    work->model.scale.x       = FLOAT_TO_FX32(1.0);
+    work->model.scale.y       = FLOAT_TO_FX32(1.0);
+    work->model.scale.z       = FLOAT_TO_FX32(1.0);
+    work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
+    work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
+
+    work->hitChecker.type            = 0;
+    work->hitChecker.field_5.value_1 = TRUE;
+    work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position    = &work->model.translation;
+
+    work->config.field_0.value_1 = 1;
+
+    exSonicBarrierHitEffectInstanceCount++;
+
+    return TRUE;
 }
 
-NONMATCH_FUNC void exEffectBarrierHitTask__Destroy_2164BCC(void)
+void ReleaseExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work)
 {
-#ifdef NON_MATCHING
+    if (exSonicBarrierHitEffectInstanceCount <= 1)
+    {
+        if (exSonicBarrierHitEffectModelResource != NULL)
+            NNS_G3dResDefaultRelease(exSonicBarrierHitEffectModelResource);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, =0x02176484
-	mov r4, r0
-	ldrsh r0, [r1, #0]
-	cmp r0, #1
-	bgt _02164C50
-	ldr r0, [r1, #0x1c]
-	cmp r0, #0
-	beq _02164BF4
-	bl NNS_G3dResDefaultRelease
-_02164BF4:
-	ldr r0, =0x02176484
-	ldr r0, [r0, #0x58]
-	cmp r0, #0
-	beq _02164C08
-	bl NNS_G3dResDefaultRelease
-_02164C08:
-	ldr r0, =0x02176484
-	ldr r0, [r0, #0x5c]
-	cmp r0, #0
-	beq _02164C1C
-	bl NNS_G3dResDefaultRelease
-_02164C1C:
-	ldr r0, =0x02176484
-	ldr r0, [r0, #0x60]
-	cmp r0, #0
-	beq _02164C30
-	bl NNS_G3dResDefaultRelease
-_02164C30:
-	ldr r0, =0x02176484
-	ldr r0, [r0, #0x1c]
-	cmp r0, #0
-	beq _02164C44
-	bl _FreeHEAP_USER
-_02164C44:
-	ldr r0, =0x02176484
-	mov r1, #0
-	str r1, [r0, #0x1c]
-_02164C50:
-	add r0, r4, #0x20
-	bl AnimatorMDL__Release
-	ldr r0, =0x02176484
-	ldrsh r1, [r0, #0]
-	sub r1, r1, #1
-	strh r1, [r0]
-	ldmia sp!, {r4, pc}
+        if (exSonicBarrierHitEffectAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(exSonicBarrierHitEffectAnimResource[0]);
 
-// clang-format on
-#endif
+        if (exSonicBarrierHitEffectAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(exSonicBarrierHitEffectAnimResource[1]);
+
+        if (exSonicBarrierHitEffectAnimResource[2] != NULL)
+            NNS_G3dResDefaultRelease(exSonicBarrierHitEffectAnimResource[2]);
+
+        if (exSonicBarrierHitEffectModelResource != NULL)
+            HeapFree(HEAP_USER, exSonicBarrierHitEffectModelResource);
+        exSonicBarrierHitEffectModelResource = NULL;
+    }
+
+    AnimatorMDL__Release(&work->model.animator);
+
+    exSonicBarrierHitEffectInstanceCount--;
 }
 
-NONMATCH_FUNC void exEffectBarrierHitTask__Main(void)
+void ExSonicBarrierHitEffect_Main_Init(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierHitTask *work = ExTaskGetWorkCurrent(exEffectBarrierHitTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	bl GetCurrentTask
-	ldr r1, =0x02176484
-	str r0, [r1, #0x24]
-	add r0, r4, #0x10
-	bl exEffectBarrierHitTask__Func_2164950
-	add r0, r4, #0x39c
-	mov r1, #0xa800
-	bl exDrawReqTask__SetConfigPriority
-	add r0, r4, #0x39c
-	bl exDrawReqTask__Func_21641F0
-	bl GetExTaskCurrent
-	ldr r1, =exEffectBarrierHitTask__Main_2164D08
-	str r1, [r0]
-	ldmia sp!, {r4, pc}
+    exSonicBarrierHitEffectTaskSingleton = GetCurrentTask();
 
-// clang-format on
-#endif
+    LoadExSonicBarrierHitEffectAssets(&work->aniBarrier);
+    exDrawReqTask__SetConfigPriority(&work->aniBarrier.config, 0xA800);
+    exDrawReqTask__Func_21641F0(&work->aniBarrier.config);
+
+    SetCurrentExTaskMainEvent(ExSonicBarrierHitEffect_Main_Active);
 }
 
-NONMATCH_FUNC void exEffectBarrierHitTask__Func8(void)
+void ExSonicBarrierHitEffect_TaskUnknown(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierHitTask *work = ExTaskGetWorkCurrent(exEffectBarrierHitTask);
+    UNUSED(work);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	bl CheckExStageFinished
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	bl GetExTaskCurrent
-	ldr r1, =ExTask_State_Destroy
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (CheckExStageFinished())
+        DestroyCurrentExTask();
 }
 
-NONMATCH_FUNC void exEffectBarrierHitTask__Destructor(void)
+void ExSonicBarrierHitEffect_Destructor(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierHitTask *work = ExTaskGetWorkCurrent(exEffectBarrierHitTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	add r0, r0, #0x10
-	bl exEffectBarrierHitTask__Destroy_2164BCC
-	ldr r0, =0x02176484
-	mov r1, #0
-	str r1, [r0, #0x24]
-	ldmia sp!, {r3, pc}
+    ReleaseExSonicBarrierHitEffectAssets(&work->aniBarrier);
 
-// clang-format on
-#endif
+    exSonicBarrierHitEffectTaskSingleton = NULL;
 }
 
-NONMATCH_FUNC void exEffectBarrierHitTask__Main_2164D08(void)
+void ExSonicBarrierHitEffect_Main_Active(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierHitTask *work = ExTaskGetWorkCurrent(exEffectBarrierHitTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #0x10
-	bl exDrawReqTask__Model__Animate
-	ldr r1, [r4, #4]
-	add r0, r4, #0x10
-	str r1, [r4, #0x360]
-	ldr r1, [r4, #8]
-	str r1, [r4, #0x364]
-	ldr r1, [r4, #0xc]
-	str r1, [r4, #0x368]
-	bl exDrawReqTask__Model__IsAnimFinished
-	cmp r0, #0
-	beq _02164D54
-	bl GetExTaskCurrent
-	ldr r1, =ExTask_State_Destroy
-	str r1, [r0]
-	ldmia sp!, {r4, pc}
-_02164D54:
-	add r0, r4, #0x10
-	add r1, r4, #0x39c
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
+    exDrawReqTask__Model__Animate(&work->aniBarrier);
 
-// clang-format on
-#endif
+    work->aniBarrier.model.translation.x = work->targetPos.x;
+    work->aniBarrier.model.translation.y = work->targetPos.y;
+    work->aniBarrier.model.translation.z = work->targetPos.z;
+
+    if (exDrawReqTask__Model__IsAnimFinished(&work->aniBarrier))
+    {
+        DestroyCurrentExTask();
+    }
+    else
+    {
+        exDrawReqTask__AddRequest(&work->aniBarrier, &work->aniBarrier.config);
+
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exEffectBarrierHitTask__Create(void)
+BOOL CreateExSonicBarrierHitEffect(VecFx32 *targetPos)
 {
-#ifdef NON_MATCHING
+    if (targetPos == NULL)
+        return FALSE;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #0x10
-	movs r4, r0
-	addeq sp, sp, #0x10
-	moveq r0, #0
-	ldmeqia sp!, {r4, r5, r6, pc}
-	mov r5, #0
-	ldr r1, =0x000004EC
-	str r5, [sp]
-	str r1, [sp, #4]
-	ldr r0, =aExeffectbarrie
-	ldr r1, =exEffectBarrierHitTask__Destructor
-	str r0, [sp, #8]
-	ldr r0, =exEffectBarrierHitTask__Main
-	mov r2, #0x2000
-	mov r3, #5
-	str r5, [sp, #0xc]
-	bl ExTaskCreate_
-	mov r6, r0
-	bl GetExTaskWork_
-	mov r1, r5
-	ldr r2, =0x000004EC
-	mov r5, r0
-	bl MI_CpuFill8
-	ldr r1, [r4, #0]
-	mov r0, r6
-	str r1, [r5, #4]
-	ldr r1, [r4, #4]
-	str r1, [r5, #8]
-	ldr r1, [r4, #8]
-	str r1, [r5, #0xc]
-	bl GetExTask
-	ldr r1, =exEffectBarrierHitTask__Func8
-	str r1, [r0, #8]
-	mov r0, #1
-	add sp, sp, #0x10
-	ldmia sp!, {r4, r5, r6, pc}
+    Task *task = ExTaskCreate(ExSonicBarrierHitEffect_Main_Init, ExSonicBarrierHitEffect_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(5), 0,
+                              EXTASK_TYPE_REGULAR, exEffectBarrierHitTask);
 
-// clang-format on
-#endif
+    exEffectBarrierHitTask *work = ExTaskGetWork(task, exEffectBarrierHitTask);
+    TaskInitWork8(work);
+
+    work->targetPos.x = targetPos->x;
+    work->targetPos.y = targetPos->y;
+    work->targetPos.z = targetPos->z;
+
+    SetExTaskUnknownEvent(task, ExSonicBarrierHitEffect_TaskUnknown);
+
+    return TRUE;
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__Func_2164E1C(void)
+void LoadExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work)
 {
-#ifdef NON_MATCHING
+    exDrawReqTask__InitSprite3D(work);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, lr}
-	sub sp, sp, #0xc
-	mov r4, r0
-	bl exDrawReqTask__InitSprite3D
-	ldr r0, =exEffectBarrierHitTask__ActiveInstanceCount
-	ldrsh r0, [r0, #2]
-	cmp r0, #0
-	bne _02164E4C
-	mov r0, #0
-	bl LoadExSystemFile
-	ldr r1, =exEffectBarrierHitTask__ActiveInstanceCount
-	str r0, [r1, #0x30]
-_02164E4C:
-	ldr r0, =exEffectBarrierHitTask__ActiveInstanceCount
-	mov r1, #1
-	ldr r0, [r0, #0x30]
-	bl Sprite__GetTextureSizeFromAnim
-	mov r1, #0
-	bl VRAMSystem__AllocTexture
-	ldr r1, =exEffectBarrierHitTask__ActiveInstanceCount
-	mov r5, r0
-	ldr r0, [r1, #0x30]
-	mov r1, #1
-	bl Sprite__GetPaletteSizeFromAnim
-	mov r1, #0
-	bl VRAMSystem__AllocPalette
-	mov r1, #4
-	stmia sp, {r1, r5}
-	str r0, [sp, #8]
-	ldr r2, =exEffectBarrierHitTask__ActiveInstanceCount
-	mov r1, #0
-	ldr r2, [r2, #0x30]
-	add r0, r4, #0x20
-	mov r3, r1
-	bl AnimatorSprite3D__Init
-	ldr r1, [r4, #0x114]
-	mov r0, #2
-	orr r1, r1, #0x800
-	str r1, [r4, #0x114]
-	strb r0, [r4]
-	ldrb r2, [r4, #3]
-	mov r1, #0x46000
-	mov r0, #0x500
-	orr r2, r2, #0x80
-	strb r2, [r4, #3]
-	str r1, [r4, #0x134]
-	str r0, [r4, #0x138]
-	str r0, [r4, #0x13c]
-	mov r0, #0x1000
-	str r0, [r4, #0x140]
-	ldrb r2, [r4, #0x150]
-	mov r1, #0x6400
-	add r0, r4, #0x12c
-	bic r2, r2, #3
-	orr r2, r2, #1
-	strb r2, [r4, #0x150]
-	str r1, [r4, #0xc]
-	str r1, [r4, #0x10]
-	str r1, [r4, #0x14]
-	str r0, [r4, #0x18]
-	ldr r0, =exEffectBarrierHitTask__ActiveInstanceCount
-	ldrsh r1, [r0, #2]
-	add r1, r1, #1
-	strh r1, [r0, #2]
-	add sp, sp, #0xc
-	ldmia sp!, {r4, r5, pc}
+    if (exSonicBarrierEffectSpriteInstanceCount == 0)
+        exSonicBarrierEffectSpriteResource = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_ACT_BAC);
 
-// clang-format on
-#endif
+    VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exSonicBarrierEffectSpriteResource, 1), FALSE);
+    VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exSonicBarrierEffectSpriteResource, 1), FALSE);
+
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exSonicBarrierEffectSpriteResource, EX_ACTCOM_ANI_SONIC_BARRIER_SHIELD, ANIMATOR_FLAG_DISABLE_LOOPING,
+                           vramPixels, vramPalette);
+    work->sprite.animator.polygonAttr |= (1 << REG_G3_POLYGON_ATTR_XL_SHIFT);
+
+    work->hitChecker.type             = 2;
+    work->hitChecker.field_3.value_80 = TRUE;
+
+    work->sprite.translation.z = FLOAT_TO_FX32(70.0);
+    work->sprite.scale.x       = FLOAT_TO_FX32(0.3125);
+    work->sprite.scale.y       = FLOAT_TO_FX32(0.3125);
+    work->sprite.scale.z       = FLOAT_TO_FX32(1.0);
+
+    work->config.field_0.value_1 = TRUE;
+
+    work->hitChecker.box.size.x   = FLOAT_TO_FX32(6.25);
+    work->hitChecker.box.size.y   = FLOAT_TO_FX32(6.25);
+    work->hitChecker.box.size.z   = FLOAT_TO_FX32(6.25);
+    work->hitChecker.box.position = &work->sprite.translation;
+
+    exSonicBarrierEffectSpriteInstanceCount++;
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__Func_2164F24(void){
-#ifdef NON_MATCHING
-
-#else
-    // clang-format off
-	ldr ip, =AnimatorSprite__SetAnimation
-	strh r1, [r0, #0x1c]
-	add r0, r0, #0xb0
-	bx ip
-
-// clang-format on
-#endif
+void SetExSonicBarrierEffectAnimation(EX_ACTION_BAC3D_WORK *work, u16 anim)
+{
+    work->sprite.anim = anim;
+    AnimatorSprite__SetAnimation(&work->sprite.animator.animatorSprite, anim);
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__Destroy_2164F38(void)
+void ReleaseExSonicBarrierEffectAssets(EX_ACTION_BAC3D_WORK *work)
 {
-#ifdef NON_MATCHING
+    AnimatorSprite3D__Release(&work->sprite.animator);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	add r0, r0, #0x20
-	bl AnimatorSprite3D__Release
-	ldr r0, =exEffectBarrierHitTask__ActiveInstanceCount
-	ldrsh r1, [r0, #2]
-	sub r1, r1, #1
-	strh r1, [r0, #2]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    exSonicBarrierEffectSpriteInstanceCount--;
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__Main(void)
+void ExSonicBarrierEffect_Main_Init(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	bl GetCurrentTask
-	ldr r1, =exEffectBarrierHitTask__ActiveInstanceCount
-	str r0, [r1, #0x28]
-	add r0, r4, #8
-	bl exEffectBarrierTask__Func_2164E1C
-	add r0, r4, #0x158
-	mov r1, #0xa800
-	bl exDrawReqTask__SetConfigPriority
-	add r0, r4, #0x158
-	bl exDrawReqTask__Func_21641F0
-	ldrsh r0, [r4, #0]
-	strh r0, [r4, #0x10]
-	bl GetExSystemStatus
-	ldrb r0, [r0, #0]
-	cmp r0, #1
-	bne _02164FD4
-	ldr r0, [r4, #0x2a8]
-	ldrsh r0, [r0, #8]
-	cmp r0, #0x12
-	bne _02165008
-	mov r0, #0x780
-	str r0, [r4, #0x140]
-	str r0, [r4, #0x144]
-	mov r0, #0x9600
-	str r0, [r4, #0x14]
-	str r0, [r4, #0x18]
-	b _02165008
-_02164FD4:
-	bl GetExSystemStatus
-	ldrb r0, [r0, #0]
-	cmp r0, #2
-	ldreq r0, [r4, #0x2a8]
-	ldreqsh r0, [r0, #8]
-	cmpeq r0, #0x15
-	bne _02165008
-	mov r0, #0x780
-	str r0, [r4, #0x140]
-	str r0, [r4, #0x144]
-	mov r0, #0x9600
-	str r0, [r4, #0x14]
-	str r0, [r4, #0x18]
-_02165008:
-	mov r0, #0
-	strh r0, [r4, #2]
-	bl GetExTaskCurrent
-	ldr r1, =exEffectBarrierTask__Main_2165074
-	str r1, [r0]
-	ldmia sp!, {r4, pc}
+    exSonicBarrierEffectTaskSingleton = GetCurrentTask();
 
-// clang-format on
-#endif
+    LoadExSonicBarrierEffectAssets(&work->aniBarrier);
+    exDrawReqTask__SetConfigPriority(&work->aniBarrier.config, 0xA800);
+    exDrawReqTask__Func_21641F0(&work->aniBarrier.config);
+
+    work->aniBarrier.hitChecker.power = work->power;
+
+    if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
+    {
+        if (work->parent->hitChecker.power == EXPLAYER_BARRIER_CHARGED_POWER_NORMAL)
+        {
+            work->aniBarrier.sprite.scale.x        = FLOAT_TO_FX32(0.46875);
+            work->aniBarrier.sprite.scale.y        = FLOAT_TO_FX32(0.46875);
+            work->aniBarrier.hitChecker.box.size.x = FLOAT_TO_FX32(9.375);
+            work->aniBarrier.hitChecker.box.size.y = FLOAT_TO_FX32(9.375);
+        }
+    }
+    else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
+    {
+        if (work->parent->hitChecker.power == EXPLAYER_BARRIER_CHARGED_POWER_EASY)
+        {
+            work->aniBarrier.sprite.scale.x        = FLOAT_TO_FX32(0.46875);
+            work->aniBarrier.sprite.scale.y        = FLOAT_TO_FX32(0.46875);
+            work->aniBarrier.hitChecker.box.size.x = FLOAT_TO_FX32(9.375);
+            work->aniBarrier.hitChecker.box.size.y = FLOAT_TO_FX32(9.375);
+        }
+    }
+
+    work->field_2 = 0;
+
+    SetCurrentExTaskMainEvent(ExSonicBarrierEffect_Main_InitBarrierActive);
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__Func8(void)
+void ExSonicBarrierEffect_TaskUnknown(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
+    UNUSED(work);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	bl CheckExStageFinished
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	bl GetExTaskCurrent
-	ldr r1, =ExTask_State_Destroy
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (CheckExStageFinished())
+        DestroyCurrentExTask();
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__Destructor(void)
+void ExSonicBarrierEffect_Destructor(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	add r0, r0, #8
-	bl exEffectBarrierTask__Destroy_2164F38
-	ldr r0, =exEffectBarrierHitTask__ActiveInstanceCount
-	mov r1, #0
-	str r1, [r0, #0x28]
-	ldmia sp!, {r3, pc}
+    ReleaseExSonicBarrierEffectAssets(&work->aniBarrier);
 
-// clang-format on
-#endif
+    exSonicBarrierEffectTaskSingleton = NULL;
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__Main_2165074(void)
+void ExSonicBarrierEffect_Main_InitBarrierActive(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #8
-	mov r1, #1
-	bl exEffectBarrierTask__Func_2164F24
-	add r0, r4, #0x158
-	bl exDrawReqTask__Func_21641F0
-	ldr r0, =exEffectBarrierHitTask__ActiveInstanceCount
-	mov r1, #0
-	str r1, [r0, #0xc]
-	ldr r0, [r4, #0x2a8]
-	ldr r0, [r0, #0x350]
-	str r0, [r4, #0x134]
-	ldr r0, [r4, #0x2a8]
-	ldr r0, [r0, #0x354]
-	str r0, [r4, #0x138]
-	bl GetExTaskCurrent
-	ldr r1, =exEffectBarrierTask__Main_21650D4
-	str r1, [r0]
-	bl exEffectBarrierTask__Main_21650D4
-	ldmia sp!, {r4, pc}
+    SetExSonicBarrierEffectAnimation(&work->aniBarrier, EX_ACTCOM_ANI_SONIC_BARRIER_ACTIVE);
+    exDrawReqTask__Func_21641F0(&work->aniBarrier.config);
 
-// clang-format on
-#endif
+    disableExSonicBarrierEffectSpawning = FALSE;
+
+    work->aniBarrier.sprite.translation.x = work->parent->model.translation.x;
+    work->aniBarrier.sprite.translation.y = work->parent->model.translation.y;
+
+    SetCurrentExTaskMainEvent(ExSonicBarrierEffect_Main_BarrierActive);
+    ExSonicBarrierEffect_Main_BarrierActive();
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__Main_21650D4(void)
+void ExSonicBarrierEffect_Main_BarrierActive(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #8
-	bl exDrawReqTask__Sprite3D__Animate
-	ldrb r0, [r4, #0xe]
-	mov r0, r0, lsl #0x1f
-	movs r0, r0, lsr #0x1f
-	beq _02165108
-	add r0, r4, #0x134
-	bl exEffectBarrierHitTask__Create
-	bl exEffectBarrierTask__Func_2165150
-	ldmia sp!, {r4, pc}
-_02165108:
-	add r0, r4, #8
-	bl exDrawReqTask__Sprite3D__IsAnimFinished
-	cmp r0, #0
-	beq _02165128
-	bl GetExTaskCurrent
-	ldr r1, =ExTask_State_Destroy
-	str r1, [r0]
-	ldmia sp!, {r4, pc}
-_02165128:
-	add r0, r4, #8
-	add r1, r4, #0x158
-	bl exDrawReqTask__AddRequest
-	add r0, r4, #8
-	bl exHitCheckTask__AddHitCheck
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
+    exDrawReqTask__Sprite3D__Animate(&work->aniBarrier);
 
-// clang-format on
-#endif
+    if (work->aniBarrier.hitChecker.hitFlags.value_1)
+    {
+        CreateExSonicBarrierHitEffect(&work->aniBarrier.sprite.translation);
+        ExSonicBarrierEffect_Main_InitBarrierHit();
+    }
+    else if (exDrawReqTask__Sprite3D__IsAnimFinished(&work->aniBarrier))
+    {
+        DestroyCurrentExTask();
+    }
+    else
+    {
+        exDrawReqTask__AddRequest(&work->aniBarrier, &work->aniBarrier.config);
+        exHitCheckTask__AddHitCheck(&work->aniBarrier.hitChecker);
+
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__Func_2165150(void)
+void ExSonicBarrierEffect_Main_InitBarrierHit(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	bl GetExSystemStatus
-	ldrb r0, [r0, #0]
-	cmp r0, #1
-	bne _02165218
-	ldr r0, [r4, #0x2a8]
-	ldrsh r0, [r0, #8]
-	cmp r0, #0x12
-	bne _021651F8
-	mov r0, #0x680
-	str r0, [r4, #0x140]
-	str r0, [r4, #0x144]
-	mov r0, #0x8200
-	str r0, [r4, #0x14]
-	str r0, [r4, #0x18]
-	bl GetExTaskCurrent
-	mov r1, #5
-	strh r1, [r0, #0x1c]
-	ldr r0, [r4, #0x2ac]
-	bl GetExTask
-	mov r1, #5
-	strh r1, [r0, #0x1c]
-	ldr r3, [r4, #0x2a8]
-	mov ip, #0x10
-	ldrb r2, [r3, #0x38c]
-	sub r1, ip, #0x11
-	mov r0, #0
-	bic r2, r2, #0xf0
-	orr r2, r2, #0x50
-	strb r2, [r3, #0x38c]
-	ldrb lr, [r4, #0x158]
-	mov r2, r1
-	mov r3, r1
-	bic lr, lr, #0xf0
-	orr lr, lr, #0x50
-	strb lr, [r4, #0x158]
-	stmia sp, {r0, ip}
-	bl PlaySfxEx
-	b _021652CC
-_021651F8:
-	mov ip, #0xf
-	sub r1, ip, #0x10
-	mov r0, #0
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, ip}
-	bl PlaySfxEx
-	b _021652CC
-_02165218:
-	bl GetExSystemStatus
-	ldrb r0, [r0, #0]
-	cmp r0, #2
-	bne _021652CC
-	ldr r0, [r4, #0x2a8]
-	ldrsh r0, [r0, #8]
-	cmp r0, #0x15
-	bne _021652B0
-	mov r0, #0x680
-	str r0, [r4, #0x140]
-	str r0, [r4, #0x144]
-	mov r0, #0x8200
-	str r0, [r4, #0x14]
-	str r0, [r4, #0x18]
-	bl GetExTaskCurrent
-	mov r1, #5
-	strh r1, [r0, #0x1c]
-	ldr r0, [r4, #0x2ac]
-	bl GetExTask
-	mov r1, #5
-	strh r1, [r0, #0x1c]
-	ldr r3, [r4, #0x2a8]
-	mov ip, #0x10
-	ldrb r2, [r3, #0x38c]
-	sub r1, ip, #0x11
-	mov r0, #0
-	bic r2, r2, #0xf0
-	orr r2, r2, #0x50
-	strb r2, [r3, #0x38c]
-	ldrb lr, [r4, #0x158]
-	mov r2, r1
-	mov r3, r1
-	bic lr, lr, #0xf0
-	orr lr, lr, #0x50
-	strb lr, [r4, #0x158]
-	stmia sp, {r0, ip}
-	bl PlaySfxEx
-	b _021652CC
-_021652B0:
-	mov ip, #0xf
-	sub r1, ip, #0x10
-	mov r0, #0
-	mov r2, r1
-	mov r3, r1
-	stmia sp, {r0, ip}
-	bl PlaySfxEx
-_021652CC:
-	add r0, r4, #8
-	mov r1, #2
-	bl exEffectBarrierTask__Func_2164F24
-	add r0, r4, #0x158
-	bl exDrawReqTask__Func_21641F0
-	bl GetExTaskCurrent
-	ldr r1, =exEffectBarrierTask__Main_21652FC
-	str r1, [r0]
-	bl exEffectBarrierTask__Main_21652FC
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
+    {
+        if (work->parent->hitChecker.power == EXPLAYER_BARRIER_CHARGED_POWER_NORMAL)
+        {
+            work->aniBarrier.sprite.scale.x        = FLOAT_TO_FX32(0.40625);
+            work->aniBarrier.sprite.scale.y        = FLOAT_TO_FX32(0.40625);
+            work->aniBarrier.hitChecker.box.size.x = FLOAT_TO_FX32(8.125);
+            work->aniBarrier.hitChecker.box.size.y = FLOAT_TO_FX32(8.125);
 
-// clang-format on
-#endif
+            SetCurrentExTaskTimer(5);
+            SetExTaskTimer(work->parentTask, 5);
+
+            work->parent->config.field_0.field    = work->parent->config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80) | (0x10 | 0x40);
+            work->aniBarrier.config.field_0.field = work->aniBarrier.config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80) | (0x10 | 0x40);
+
+            PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_RETURN_L);
+        }
+        else
+        {
+            PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_RETURN_S);
+        }
+    }
+    else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
+    {
+        if (work->parent->hitChecker.power == EXPLAYER_BARRIER_CHARGED_POWER_EASY)
+        {
+            work->aniBarrier.sprite.scale.x        = FLOAT_TO_FX32(0.40625);
+            work->aniBarrier.sprite.scale.y        = FLOAT_TO_FX32(0.40625);
+            work->aniBarrier.hitChecker.box.size.x = FLOAT_TO_FX32(8.125);
+            work->aniBarrier.hitChecker.box.size.y = FLOAT_TO_FX32(8.125);
+
+            SetCurrentExTaskTimer(5);
+            SetExTaskTimer(work->parentTask, 5);
+
+            work->parent->config.field_0.field    = work->parent->config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80) | (0x10 | 0x40);
+            work->aniBarrier.config.field_0.field = work->aniBarrier.config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80) | (0x10 | 0x40);
+
+            PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_RETURN_L);
+        }
+        else
+        {
+            PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_RETURN_S);
+        }
+    }
+
+    SetExSonicBarrierEffectAnimation(&work->aniBarrier, EX_ACTCOM_ANI_SONIC_BARRIER_HIT);
+    exDrawReqTask__Func_21641F0(&work->aniBarrier.config);
+
+    SetCurrentExTaskMainEvent(ExSonicBarrierEffect_Main_BarrierHit);
+    ExSonicBarrierEffect_Main_BarrierHit();
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__Main_21652FC(void)
+void ExSonicBarrierEffect_Main_BarrierHit(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #8
-	bl exDrawReqTask__Sprite3D__Animate
-	bl GetExSystemStatus
-	ldrb r0, [r0, #0]
-	cmp r0, #1
-	bne _02165344
-	ldr r1, [r4, #0x2a8]
-	ldrsh r0, [r1, #8]
-	cmp r0, #0x12
-	bne _02165370
-	add r0, r1, #0x38c
-	bl exDrawReqTask__Func_21642BC
-	add r0, r4, #0x158
-	bl exDrawReqTask__Func_21642BC
-	b _02165370
-_02165344:
-	bl GetExSystemStatus
-	ldrb r0, [r0, #0]
-	cmp r0, #2
-	ldreq r1, [r4, #0x2a8]
-	ldreqsh r0, [r1, #8]
-	cmpeq r0, #0x15
-	bne _02165370
-	add r0, r1, #0x38c
-	bl exDrawReqTask__Func_21642BC
-	add r0, r4, #0x158
-	bl exDrawReqTask__Func_21642BC
-_02165370:
-	add r0, r4, #8
-	bl exDrawReqTask__Sprite3D__IsAnimFinished
-	cmp r0, #0
-	beq _021653AC
-	ldr r1, [r4, #0x2a8]
-	ldrb r0, [r1, #0x38c]
-	bic r0, r0, #0xf0
-	strb r0, [r1, #0x38c]
-	ldrb r0, [r4, #0x158]
-	bic r0, r0, #0xf0
-	strb r0, [r4, #0x158]
-	bl GetExTaskCurrent
-	ldr r1, =ExTask_State_Destroy
-	str r1, [r0]
-	ldmia sp!, {r4, pc}
-_021653AC:
-	add r0, r4, #8
-	add r1, r4, #0x158
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
+    exDrawReqTask__Sprite3D__Animate(&work->aniBarrier);
 
-// clang-format on
-#endif
+    if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
+    {
+        if (work->parent->hitChecker.power == EXPLAYER_BARRIER_CHARGED_POWER_NORMAL)
+        {
+            exDrawReqTask__Func_21642BC(&work->parent->config);
+            exDrawReqTask__Func_21642BC(&work->aniBarrier.config);
+        }
+    }
+    else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
+    {
+        if (work->parent->hitChecker.power == EXPLAYER_BARRIER_CHARGED_POWER_EASY)
+        {
+            exDrawReqTask__Func_21642BC(&work->parent->config);
+            exDrawReqTask__Func_21642BC(&work->aniBarrier.config);
+        }
+    }
+
+    if (exDrawReqTask__Sprite3D__IsAnimFinished(&work->aniBarrier))
+    {
+        work->parent->config.field_0.field    = work->parent->config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80);
+        work->aniBarrier.config.field_0.field = work->aniBarrier.config.field_0.field & ~(0x10 | 0x20 | 0x40 | 0x80);
+
+        DestroyCurrentExTask();
+    }
+    else
+    {
+        exDrawReqTask__AddRequest(&work->aniBarrier, &work->aniBarrier.config);
+
+        RunCurrentExTaskUnknownEvent();
+    }
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__DelayCallback(void)
+void ExSonicBarrierEffect_DelayCallback(void)
 {
-#ifdef NON_MATCHING
+    exEffectBarrierTask *work = ExTaskGetWorkCurrent(exEffectBarrierTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	ldr r0, [r4, #0x2a8]
-	add r0, r0, #0x38c
-	bl exDrawReqTask__Func_21642BC
-	add r0, r4, #0x158
-	bl exDrawReqTask__Func_21642BC
-	add r0, r4, #8
-	add r1, r4, #0x158
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
+    exDrawReqTask__Func_21642BC(&work->parent->config);
+    exDrawReqTask__Func_21642BC(&work->aniBarrier.config);
+    exDrawReqTask__AddRequest(&work->aniBarrier, &work->aniBarrier.config);
 
-// clang-format on
-#endif
+    RunCurrentExTaskUnknownEvent();
 }
 
-NONMATCH_FUNC void exEffectBarrierTask__Create(EX_ACTION_NN_WORK *work)
+void CreateExSonicBarrierEffect(EX_ACTION_NN_WORK *parent)
 {
-#ifdef NON_MATCHING
+    if (disableExSonicBarrierEffectSpawning)
+        return;
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #0x10
-	ldr r1, =exEffectBarrierHitTask__ActiveInstanceCount
-	mov r5, r0
-	ldr r0, [r1, #0xc]
-	cmp r0, #0
-	addne sp, sp, #0x10
-	ldmneia sp!, {r4, r5, r6, pc}
-	mov r4, #0
-	str r4, [sp]
-	mov r1, #0x2b0
-	ldr r0, =aExeffectbarrie_0
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	ldr r0, =exEffectBarrierTask__Main
-	ldr r1, =exEffectBarrierTask__Destructor
-	mov r2, #0x2000
-	mov r3, #5
-	str r4, [sp, #0xc]
-	bl ExTaskCreate_
-	ldr r1, =exEffectBarrierHitTask__ActiveInstanceCount
-	mov r2, #1
-	mov r4, r0
-	str r2, [r1, #0xc]
-	bl GetExTaskWork_
-	mov r6, r0
-	mov r1, #0
-	mov r2, #0x2b0
-	bl MI_CpuFill8
-	str r5, [r6, #0x2a8]
-	bl GetCurrentTask
-	str r0, [r6, #0x2ac]
-	ldr r1, [r6, #0x2a8]
-	mov r0, r4
-	ldrsh r1, [r1, #8]
-	strh r1, [r6]
-	bl GetExTask
-	ldr r1, =exEffectBarrierTask__Func8
-	str r1, [r0, #8]
-	mov r0, r4
-	bl GetExTask
-	ldr r1, =exEffectBarrierTask__DelayCallback
-	str r1, [r0, #0x10]
-	add sp, sp, #0x10
-	ldmia sp!, {r4, r5, r6, pc}
+    Task *task = ExTaskCreate(ExSonicBarrierEffect_Main_Init, ExSonicBarrierEffect_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(5), 0, EXTASK_TYPE_REGULAR,
+                              exEffectBarrierTask);
 
-// clang-format on
-#endif
+    disableExSonicBarrierEffectSpawning = TRUE;
+
+    exEffectBarrierTask *work = ExTaskGetWork(task, exEffectBarrierTask);
+    TaskInitWork8(work);
+
+    work->parent     = parent;
+    work->parentTask = GetCurrentTask();
+    work->power      = work->parent->hitChecker.power;
+
+    SetExTaskUnknownEvent(task, ExSonicBarrierEffect_TaskUnknown);
+    SetExTaskDelayEvent(task, ExSonicBarrierEffect_DelayCallback);
 }
 
-NONMATCH_FUNC void exExEffectSonicBarrierTaMeTask__Func_21654D4(void)
+BOOL LoadExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work)
 {
-#ifdef NON_MATCHING
+    exSonicBarrierChargingEffectLastSpawnedWorker = work;
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, r4, r5, lr}
-	ldr r1, =0x02176484
-	mov r4, r0
-	str r4, [r1, #0x2c]
-	ldr r0, [r1, #8]
-	cmp r0, #0
-	ldrne r0, [r1, #0x20]
-	cmpne r0, #0
-	beq _02165540
-	bl _GetHeapTotalSizeHEAP_USER
-	ldr r1, =0x02176484
-	ldr r1, [r1, #8]
-	cmp r0, r1
-	movlo r0, #0
-	ldmloia sp!, {r3, r4, r5, pc}
-	bl VRAMSystem__GetTextureUnknown
-	ldr r1, =0x02176484
-	ldr r1, [r1, #0x20]
-	cmp r0, r1
-	movlo r0, #0
-	ldmloia sp!, {r3, r4, r5, pc}
-	bl _GetHeapUnallocatedSizeHEAP_SYSTEM
-	ldr r1, =0x02176484
-	ldr r1, [r1, #8]
-	cmp r0, r1
-	movlo r0, #0
-	ldmloia sp!, {r3, r4, r5, pc}
-_02165540:
-	mov r0, r4
-	bl exDrawReqTask__InitModel
-	ldr r0, =0x02176484
-	ldrsh r0, [r0, #4]
-	cmp r0, #0
-	bne _021655C4
-	mov r1, #0x1e
-	ldr r0, =aExtraExBb_7
-	sub r2, r1, #0x1f
-	bl ReadFileFromBundle
-	mov r5, r0
-	ldr r0, [r5, #0]
-	ldr r1, =0x02176484
-	mov r0, r0, lsr #8
-	str r0, [r1, #8]
-	bl _AllocHeadHEAP_USER
-	mov r1, r0
-	ldr r2, =0x02176484
-	mov r0, r5
-	str r1, [r2, #0x18]
-	bl RenderCore_CPUCopyCompressed
-	mov r0, r5
-	bl _FreeHEAP_USER
-	mov r0, #0x4f
-	bl LoadExSystemFile
-	ldr r1, =0x02176484
-	str r0, [r1, #0x44]
-	mov r0, #0x50
-	bl LoadExSystemFile
-	ldr r1, =0x02176484
-	str r0, [r1, #0x48]
-	ldr r0, [r1, #0x18]
-	bl Asset3DSetup__Create
-_021655C4:
-	add r0, r4, #0x20
-	mov r1, #0
-	bl AnimatorMDL__Init
-	mov r2, #0
-	ldr r0, =0x02176484
-	str r2, [sp]
-	ldr r1, [r0, #0x18]
-	mov r3, r2
-	add r0, r4, #0x20
-	bl AnimatorMDL__SetResource
-	mov r1, #0
-	ldr r0, =0x02176484
-	str r1, [sp]
-	ldr r2, [r0, #0x44]
-	mov r3, r1
-	add r0, r4, #0x20
-	bl AnimatorMDL__SetAnimation
-	mov r3, #0
-	ldr r2, =0x02176484
-	str r3, [sp]
-	ldr r2, [r2, #0x48]
-	add r0, r4, #0x20
-	mov r1, #4
-	bl AnimatorMDL__SetAnimation
-	add r0, r4, #0x300
-	mov r3, #0
-	strh r3, [r0, #0x48]
-	ldr r0, [r4, #0x104]
-	mov r2, #1
-	str r0, [r4, #0x344]
-_0216563C:
-	mov r0, r2, lsl r3
-	tst r0, #0x11
-	beq _0216565C
-	add r0, r4, r3, lsl #1
-	add r0, r0, #0x100
-	ldrh r1, [r0, #0x2c]
-	orr r1, r1, #2
-	strh r1, [r0, #0x2c]
-_0216565C:
-	add r3, r3, #1
-	cmp r3, #5
-	blo _0216563C
-	mov r0, #0x46000
-	str r0, [r4, #0x358]
-	mov r0, #0x1000
-	str r0, [r4, #0x368]
-	str r0, [r4, #0x36c]
-	ldr r2, =0x0000BFF4
-	str r0, [r4, #0x370]
-	add r0, r4, #0x300
-	ldr r1, =0x00007FF8
-	strh r2, [r0, #0x4a]
-	strh r1, [r0, #0x4e]
-	mov r3, #0
-	strb r3, [r4]
-	ldrb r2, [r4, #5]
-	add r0, r4, #0x350
-	ldr r1, =0x02176484
-	bic r2, r2, #1
-	orr r2, r2, #1
-	strb r2, [r4, #5]
-	str r3, [r4, #0xc]
-	str r3, [r4, #0x10]
-	str r3, [r4, #0x14]
-	str r0, [r4, #0x18]
-	ldrb r2, [r4, #0x38c]
-	mov r0, #1
-	bic r2, r2, #3
-	orr r2, r2, #1
-	strb r2, [r4, #0x38c]
-	ldrsh r2, [r1, #4]
-	add r2, r2, #1
-	strh r2, [r1, #4]
-	ldmia sp!, {r3, r4, r5, pc}
+    if (exSonicBarrierChargingEffectModelFileSize != 0 && exSonicBarrierChargingEffectTextureFileSize != 0)
+    {
+        if (GetHeapTotalSize(HEAP_USER) < exSonicBarrierChargingEffectModelFileSize)
+            return FALSE;
 
-// clang-format on
-#endif
+        if (VRAMSystem__GetTextureUnknown() < exSonicBarrierChargingEffectTextureFileSize)
+            return FALSE;
+
+        if (GetHeapUnallocatedSize(HEAP_SYSTEM) < exSonicBarrierChargingEffectModelFileSize)
+            return FALSE;
+    }
+
+    exDrawReqTask__InitModel(work);
+
+    if (exSonicBarrierChargingEffectInstanceCount == 0)
+    {
+        GetCompressedFileFromBundleEx("/extra/ex.bb", BUNDLE_EX_FILE_RESOURCES_EXTRA_EX_EX_EFFE_SONSA_NSBMD, &exSonicBarrierChargingEffectModelResource,
+                                      &exSonicBarrierChargingEffectModelFileSize, TRUE, FALSE);
+
+        exSonicBarrierChargingEffectAnimResource[0] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SONSA_NSBCA);
+        exSonicBarrierChargingEffectAnimResource[1] = LoadExSystemFile(ARCHIVE_EX_COM_FILE_EX_EFFE_SONSA_NSBVA);
+        Asset3DSetup__Create(exSonicBarrierChargingEffectModelResource);
+    }
+
+    AnimatorMDL__Init(&work->model.animator, ANIMATOR_FLAG_NONE);
+    AnimatorMDL__SetResource(&work->model.animator, exSonicBarrierChargingEffectModelResource, 0, FALSE, FALSE);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exSonicBarrierChargingEffectAnimResource[0], 0, NULL);
+    AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_VIS_ANIM, exSonicBarrierChargingEffectAnimResource[1], 0, NULL);
+
+    work->model.field_32C = 0;
+    work->model.field_328 = work->model.animator.currentAnimObj[0];
+
+    for (u32 r = 0; r < B3D_ANIM_MAX; r++)
+    {
+        if (((1 << r) & (B3D_ANIM_FLAG_VIS_ANIM | B3D_ANIM_FLAG_JOINT_ANIM)) != 0)
+            work->model.animator.animFlags[r] |= ANIMATORMDL_FLAG_CAN_LOOP;
+    }
+
+    work->model.translation.z = FLOAT_TO_FX32(70.0);
+    work->model.scale.x       = FLOAT_TO_FX32(1.0);
+    work->model.scale.y       = FLOAT_TO_FX32(1.0);
+    work->model.scale.z       = FLOAT_TO_FX32(1.0);
+    work->model.angle.x       = -FLOAT_DEG_TO_IDX(90.066);
+    work->model.angle.z       = FLOAT_DEG_TO_IDX(179.9561);
+
+    work->hitChecker.type            = 0;
+    work->hitChecker.field_5.value_1 = TRUE;
+    work->hitChecker.box.size.x      = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.y      = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.size.z      = FLOAT_TO_FX32(0.0);
+    work->hitChecker.box.position    = &work->model.translation;
+
+    work->config.field_0.value_1 = 1;
+
+    exSonicBarrierChargingEffectInstanceCount++;
+
+    return TRUE;
 }
 
-NONMATCH_FUNC void exExEffectSonicBarrierTaMeTask__Destroy_21656F8(void)
+void ReleaseExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work)
 {
-#ifdef NON_MATCHING
+    if (exSonicBarrierChargingEffectInstanceCount <= 1)
+    {
+        if (exSonicBarrierChargingEffectModelResource != NULL)
+            NNS_G3dResDefaultRelease(exSonicBarrierChargingEffectModelResource);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	ldr r1, =0x02176484
-	mov r4, r0
-	ldrsh r0, [r1, #4]
-	cmp r0, #1
-	bgt _02165768
-	ldr r0, [r1, #0x18]
-	cmp r0, #0
-	beq _02165720
-	bl NNS_G3dResDefaultRelease
-_02165720:
-	ldr r0, =0x02176484
-	ldr r0, [r0, #0x44]
-	cmp r0, #0
-	beq _02165734
-	bl NNS_G3dResDefaultRelease
-_02165734:
-	ldr r0, =0x02176484
-	ldr r0, [r0, #0x48]
-	cmp r0, #0
-	beq _02165748
-	bl NNS_G3dResDefaultRelease
-_02165748:
-	ldr r0, =0x02176484
-	ldr r0, [r0, #0x18]
-	cmp r0, #0
-	beq _0216575C
-	bl _FreeHEAP_USER
-_0216575C:
-	ldr r0, =0x02176484
-	mov r1, #0
-	str r1, [r0, #0x18]
-_02165768:
-	add r0, r4, #0x20
-	bl AnimatorMDL__Release
-	ldr r0, =0x02176484
-	ldrsh r1, [r0, #4]
-	sub r1, r1, #1
-	strh r1, [r0, #4]
-	ldmia sp!, {r4, pc}
+        if (exSonicBarrierChargingEffectAnimResource[0] != NULL)
+            NNS_G3dResDefaultRelease(exSonicBarrierChargingEffectAnimResource[0]);
 
-// clang-format on
-#endif
+        if (exSonicBarrierChargingEffectAnimResource[1] != NULL)
+            NNS_G3dResDefaultRelease(exSonicBarrierChargingEffectAnimResource[1]);
+
+        if (exSonicBarrierChargingEffectModelResource != NULL)
+            HeapFree(HEAP_USER, exSonicBarrierChargingEffectModelResource);
+        exSonicBarrierChargingEffectModelResource = NULL;
+    }
+
+    AnimatorMDL__Release(&work->model.animator);
+
+    exSonicBarrierChargingEffectInstanceCount--;
 }
 
-NONMATCH_FUNC void exExEffectSonicBarrierTaMeTask__Main(void)
+void ExSonicBarrierChargingEffect_Main_Init(void)
 {
-#ifdef NON_MATCHING
+    exExEffectSonicBarrierTaMeTask *work = ExTaskGetWorkCurrent(exExEffectSonicBarrierTaMeTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	sub sp, sp, #8
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	bl GetCurrentTask
-	ldr r1, =0x02176484
-	str r0, [r1, #0x34]
-	add r0, r4, #8
-	bl exExEffectSonicBarrierTaMeTask__Func_21654D4
-	add r0, r4, #0x394
-	mov r1, #0xa800
-	bl exDrawReqTask__SetConfigPriority
-	add r0, r4, #0x394
-	bl exDrawReqTask__Func_2164218
-	mov r0, #0x1000
-	str r0, [r4]
-	bl AllocSndHandle
-	str r0, [r4, #4]
-	mov r0, #0
-	str r0, [sp]
-	mov r1, #0x20
-	str r1, [sp, #4]
-	ldr r0, [r4, #4]
-	sub r1, r1, #0x21
-	mov r2, r1
-	mov r3, r1
-	bl PlaySfxEx
-	bl GetExTaskCurrent
-	ldr r1, =exExEffectSonicBarrierTaMeTask__Main_2165874
-	str r1, [r0]
-	add sp, sp, #8
-	ldmia sp!, {r4, pc}
+    exSonicBarrierChargingEffectTaskSingleton = GetCurrentTask();
 
-// clang-format on
-#endif
+    LoadExSonicBarrierChargingEffectAssets(&work->aniTaMe);
+    exDrawReqTask__SetConfigPriority(&work->aniTaMe.config, 0xA800);
+    exDrawReqTask__Func_2164218(&work->aniTaMe.config);
+
+    work->scale     = FLOAT_TO_FX32(1.0);
+    work->sndHandle = AllocSndHandle();
+
+    PlayHandleStageSfx(work->sndHandle, SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_BULLET);
+
+    SetCurrentExTaskMainEvent(ExSonicBarrierChargingEffect_Main_Active);
 }
 
-NONMATCH_FUNC void exExEffectSonicBarrierTaMeTask__Func8(void)
+void ExSonicBarrierChargingEffect_TaskUnknown(void)
 {
-#ifdef NON_MATCHING
+    exExEffectSonicBarrierTaMeTask *work = ExTaskGetWorkCurrent(exExEffectSonicBarrierTaMeTask);
+    UNUSED(work);
 
-#else
-    // clang-format off
-	stmdb sp!, {r3, lr}
-	bl GetExTaskWorkCurrent_
-	bl CheckExStageFinished
-	cmp r0, #0
-	ldmeqia sp!, {r3, pc}
-	bl GetExTaskCurrent
-	ldr r1, =ExTask_State_Destroy
-	str r1, [r0]
-	ldmia sp!, {r3, pc}
-
-// clang-format on
-#endif
+    if (CheckExStageFinished())
+        DestroyCurrentExTask();
 }
 
-NONMATCH_FUNC void exExEffectSonicBarrierTaMeTask__Destructor(void)
+void ExSonicBarrierChargingEffect_Destructor(void)
 {
-#ifdef NON_MATCHING
+    exExEffectSonicBarrierTaMeTask *work = ExTaskGetWorkCurrent(exExEffectSonicBarrierTaMeTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	ldr r0, [r4, #4]
-	mov r1, #0
-	bl NNS_SndPlayerStopSeq
-	ldr r0, [r4, #4]
-	bl FreeSndHandle
-	add r0, r4, #8
-	bl exExEffectSonicBarrierTaMeTask__Destroy_21656F8
-	ldr r0, =0x02176484
-	mov r1, #0
-	str r1, [r0, #0x34]
-	ldmia sp!, {r4, pc}
+    StopStageSfx(work->sndHandle);
+    FreeSndHandle(work->sndHandle);
 
-// clang-format on
-#endif
+    ReleaseExSonicBarrierChargingEffectAssets(&work->aniTaMe);
+
+    exSonicBarrierChargingEffectTaskSingleton = NULL;
 }
 
-NONMATCH_FUNC void exExEffectSonicBarrierTaMeTask__Main_2165874(void)
+void ExSonicBarrierChargingEffect_Main_Active(void)
 {
-#ifdef NON_MATCHING
+    exExEffectSonicBarrierTaMeTask *work = ExTaskGetWorkCurrent(exExEffectSonicBarrierTaMeTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, lr}
-	bl GetExTaskWorkCurrent_
-	mov r4, r0
-	add r0, r4, #8
-	bl exDrawReqTask__Model__Animate
-	bl GetExPlayerWorker
-	ldrsh r0, [r0, #0x44]
-	cmp r0, #0
-	beq _021659DC
-	ldr r0, =_0217441C
-	mov r1, #0
-	ldr r0, [r0, #0x30]
-	bl _fgr
-	ldr r0, =0x45800000
-	bls _021658CC
-	ldr r1, =_0217441C
-	ldr r1, [r1, #0x30]
-	bl _f_mul
-	mov r1, r0
-	mov r0, #0x3f000000
-	bl _fadd
-	b _021658E0
-_021658CC:
-	ldr r1, =_0217441C
-	ldr r1, [r1, #0x30]
-	bl _f_mul
-	mov r1, #0x3f000000
-	bl _f_sub
-_021658E0:
-	bl _f_ftoi
-	ldr r1, [r4, #0]
-	cmp r1, r0
-	blt _02165944
-	ldr r0, =_0217441C
-	mov r1, #0
-	ldr r0, [r0, #0x30]
-	bl _fgr
-	ldr r0, =0x45800000
-	bls _02165924
-	ldr r1, =_0217441C
-	ldr r1, [r1, #0x30]
-	bl _f_mul
-	mov r1, r0
-	mov r0, #0x3f000000
-	bl _fadd
-	b _02165938
-_02165924:
-	ldr r1, =_0217441C
-	ldr r1, [r1, #0x30]
-	bl _f_mul
-	mov r1, #0x3f000000
-	bl _f_sub
-_02165938:
-	bl _f_ftoi
-	str r0, [r4]
-	b _021659EC
-_02165944:
-	ldr r1, =_0217441C
-	ldr r0, [r1, #0x30]
-	ldr r1, [r1, #0]
-	bl _f_sub
-	ldr r1, =0x42F00000
-	bl _fdiv
-	mov r1, #0
-	bl _fgr
-	bls _0216599C
-	ldr r1, =_0217441C
-	ldr r0, [r1, #0x30]
-	ldr r1, [r1, #0]
-	bl _f_sub
-	ldr r1, =0x42F00000
-	bl _fdiv
-	mov r1, r0
-	ldr r0, =0x45800000
-	bl _f_mul
-	mov r1, r0
-	mov r0, #0x3f000000
-	bl _fadd
-	b _021659C8
-_0216599C:
-	ldr r1, =_0217441C
-	ldr r0, [r1, #0x30]
-	ldr r1, [r1, #0]
-	bl _f_sub
-	ldr r1, =0x42F00000
-	bl _fdiv
-	mov r1, r0
-	ldr r0, =0x45800000
-	bl _f_mul
-	mov r1, #0x3f000000
-	bl _f_sub
-_021659C8:
-	bl _f_ftoi
-	ldr r1, [r4, #0]
-	add r0, r1, r0
-	str r0, [r4]
-	b _021659EC
-_021659DC:
-	bl GetExTaskCurrent
-	ldr r1, =ExTask_State_Destroy
-	str r1, [r0]
-	ldmia sp!, {r4, pc}
-_021659EC:
-	ldr r1, [r4, #0x4e4]
-	add r0, r4, #8
-	ldr r2, [r1, #0x350]
-	add r1, r4, #0x394
-	str r2, [r4, #0x358]
-	ldr r2, [r4, #0x4e4]
-	ldr r2, [r2, #0x354]
-	str r2, [r4, #0x35c]
-	ldr r2, [r4, #0x4e4]
-	ldr r2, [r2, #0x358]
-	str r2, [r4, #0x360]
-	ldr r2, [r4, #0]
-	str r2, [r4, #0x370]
-	ldr r2, [r4, #0]
-	str r2, [r4, #0x374]
-	ldr r2, [r4, #0]
-	str r2, [r4, #0x378]
-	bl exDrawReqTask__AddRequest
-	bl GetExTaskCurrent
-	ldr r0, [r0, #8]
-	blx r0
-	ldmia sp!, {r4, pc}
+    exDrawReqTask__Model__Animate(&work->aniTaMe);
 
-// clang-format on
-#endif
+    if (GetExPlayerWorker()->barrierChargeTimer != 0)
+    {
+        float maxScale;
+        if (exSonicBarrierChargingEffectScaleTable[12] > 0.0f)
+        {
+            maxScale = ((float)FLOAT_TO_FX32(1.0) * exSonicBarrierChargingEffectScaleTable[12]) + 0.5f;
+        }
+        else
+        {
+            maxScale = ((float)FLOAT_TO_FX32(1.0) * exSonicBarrierChargingEffectScaleTable[12]) - 0.5f;
+        }
+
+        if (work->scale >= (fx32)maxScale)
+        {
+            float scale;
+
+            if (exSonicBarrierChargingEffectScaleTable[12] > 0.0f)
+            {
+                scale = ((float)FLOAT_TO_FX32(1.0) * exSonicBarrierChargingEffectScaleTable[12]) + 0.5f;
+            }
+            else
+            {
+                scale = ((float)FLOAT_TO_FX32(1.0) * exSonicBarrierChargingEffectScaleTable[12]) - 0.5f;
+            }
+
+            work->scale = scale;
+        }
+        else
+        {
+            float scale;
+            if (((exSonicBarrierChargingEffectScaleTable[12] - exSonicBarrierChargingEffectScaleTable[0]) / 120.0f) > 0.0f)
+            {
+                scale = ((float)FLOAT_TO_FX32(1.0) * ((exSonicBarrierChargingEffectScaleTable[12] - exSonicBarrierChargingEffectScaleTable[0]) / 120.0f)) + 0.5f;
+            }
+            else
+            {
+                scale = ((float)FLOAT_TO_FX32(1.0) * ((exSonicBarrierChargingEffectScaleTable[12] - exSonicBarrierChargingEffectScaleTable[0]) / 120.0f)) - 0.5f;
+            }
+            work->scale += (fx32)scale;
+        }
+    }
+    else
+    {
+        DestroyCurrentExTask();
+        return;
+    }
+
+    work->aniTaMe.model.translation.x = work->parent->model.translation.x;
+    work->aniTaMe.model.translation.y = work->parent->model.translation.y;
+    work->aniTaMe.model.translation.z = work->parent->model.translation.z;
+
+    work->aniTaMe.model.scale.x = work->scale;
+    work->aniTaMe.model.scale.y = work->scale;
+    work->aniTaMe.model.scale.z = work->scale;
+
+    exDrawReqTask__AddRequest(&work->aniTaMe, &work->aniTaMe.config);
+
+    RunCurrentExTaskUnknownEvent();
 }
 
-NONMATCH_FUNC void exExEffectSonicBarrierTaMeTask__Create(EX_ACTION_NN_WORK *work)
+BOOL CreateExSonicBarrierChargingEffect(EX_ACTION_NN_WORK *parent)
 {
-#ifdef NON_MATCHING
+    Task *task = ExTaskCreate(ExSonicBarrierChargingEffect_Main_Init, ExSonicBarrierChargingEffect_Destructor, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(5), 0,
+                              EXTASK_TYPE_REGULAR, exExEffectSonicBarrierTaMeTask);
 
-#else
-    // clang-format off
-	stmdb sp!, {r4, r5, r6, lr}
-	sub sp, sp, #0x10
-	mov r4, #0
-	ldr r1, =0x000004EC
-	str r4, [sp]
-	mov r6, r0
-	ldr r0, =aExexeffectsoni
-	str r1, [sp, #4]
-	str r0, [sp, #8]
-	ldr r0, =exExEffectSonicBarrierTaMeTask__Main
-	ldr r1, =exExEffectSonicBarrierTaMeTask__Destructor
-	mov r2, #0x2000
-	mov r3, #5
-	str r4, [sp, #0xc]
-	bl ExTaskCreate_
-	mov r5, r0
-	bl GetExTaskWork_
-	ldr r2, =0x000004EC
-	mov r4, r0
-	mov r1, #0
-	bl MI_CpuFill8
-	str r6, [r4, #0x4e4]
-	bl GetCurrentTask
-	str r0, [r4, #0x4e8]
-	mov r0, r5
-	bl GetExTask
-	ldr r1, =exExEffectSonicBarrierTaMeTask__Func8
-	str r1, [r0, #8]
-	mov r0, #1
-	add sp, sp, #0x10
-	ldmia sp!, {r4, r5, r6, pc}
+    exExEffectSonicBarrierTaMeTask *work = ExTaskGetWork(task, exExEffectSonicBarrierTaMeTask);
+    TaskInitWork8(work);
 
-// clang-format on
-#endif
+    work->parent     = parent;
+    work->parentTask = GetCurrentTask();
+
+    SetExTaskUnknownEvent(task, ExSonicBarrierChargingEffect_TaskUnknown);
+
+    return TRUE;
 }

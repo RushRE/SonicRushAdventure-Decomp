@@ -11,7 +11,7 @@
 // MACROS
 // --------------------
 
-#define ExTaskCreate(taskMain, taskDestructor, priority, group, pauseLevel, taskType, workType)                                                                                  \
+#define ExTaskCreate(taskMain, taskDestructor, priority, group, pauseLevel, taskType, workType)                                                                                    \
     ExTaskCreate_(taskMain, taskDestructor, priority, group, pauseLevel, sizeof(workType), #workType, taskType)
 #define ExTaskGetWork(task, type)  ((type *)GetExTaskWork_(task))
 #define ExTaskGetWorkCurrent(type) ((type *)GetExTaskWorkCurrent_())
@@ -122,14 +122,14 @@ RUSH_INLINE void SetExTaskDelayEvent(Task *task, ExTaskDelayCallback event)
     GetExTask(task)->delayCallback = event;
 }
 
-RUSH_INLINE void RunExTaskDelayEvent(ExTask *task)
+RUSH_INLINE void SetExTaskTimer(Task *task, s16 timer)
 {
-    task->delayCallback();
+    GetExTask(task)->timer = timer;
 }
 
-RUSH_INLINE void RunCurrentExTaskDelayEvent(void)
+RUSH_INLINE void SetCurrentExTaskTimer(s16 timer)
 {
-    GetExTaskCurrent()->delayCallback();
+    GetExTaskCurrent()->timer = timer;
 }
 
 #endif // RUSH_EXTASK_H

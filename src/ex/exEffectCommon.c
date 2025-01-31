@@ -176,7 +176,7 @@ void LoadExShockEffectSprite(EX_ACTION_BAC3D_WORK *work)
     VRAMPixelKey vramPixels    = VRAMSystem__AllocTexture(Sprite__GetTextureSizeFromAnim(exShockEffectSpriteResource, 1), FALSE);
     VRAMPaletteKey vramPalette = VRAMSystem__AllocPalette(Sprite__GetPaletteSizeFromAnim(exShockEffectSpriteResource, 1), FALSE);
 
-    AnimatorSprite3D__Init(&work->sprite.animator, 0, exShockEffectSpriteResource, EX_ACTCOM_ANI_SHOCK_EFFECT, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels, vramPalette);
+    AnimatorSprite3D__Init(&work->sprite.animator, ANIMATOR_FLAG_NONE, exShockEffectSpriteResource, EX_ACTCOM_ANI_SHOCK_EFFECT, ANIMATOR_FLAG_DISABLE_LOOPING, vramPixels, vramPalette);
     work->sprite.animator.polygonAttr |= (1 << REG_G3_POLYGON_ATTR_XL_SHIFT);
 
     work->hitChecker.type            = 0;

@@ -2,9 +2,8 @@
 #include <ex/player/exPlayerHelpers.h>
 #include <ex/effects/exSonicDashEffect.h>
 #include <ex/effects/exBlazeDashEffect.h>
-#include <ex/effects/exBarrier.h>
+#include <ex/effects/exSonicBarrier.h>
 #include <ex/effects/exBlazeFireball.h>
-#include <ex/effects/exBlazeFireballShot.h>
 #include <ex/effects/exShockEffect.h>
 #include <ex/system/exSystem.h>
 #include <ex/system/exStage.h>
@@ -945,7 +944,7 @@ void ExPlayer_Action_StartSonicBarrier(void)
 
     work->worker->moveFlags.disableDash = TRUE;
     work->worker->barrierChargeTimer    = 1;
-    exExEffectSonicBarrierTaMeTask__Create(&work->aniSonic->manager);
+    CreateExSonicBarrierChargingEffect(&work->aniSonic->manager);
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_StartSonicBarrier);
     ExPlayer_Main_StartSonicBarrier();
@@ -1026,7 +1025,7 @@ void ExPlayer_Action_SonicBarrierEnd(void)
     work->worker->barrierChargeTimer = 0;
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_EFFECT);
-    exEffectBarrierTask__Create(&work->aniSonic->manager);
+    CreateExSonicBarrierEffect(&work->aniSonic->manager);
 
     SetExSuperSonicAnimation(&work->aniSonic->manager, ex_son_br_03);
     exDrawReqTask__Func_21641F0(&work->aniSonic->manager.config);

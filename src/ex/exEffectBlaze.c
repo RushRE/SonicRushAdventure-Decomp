@@ -1,5 +1,4 @@
 #include <ex/effects/exBlazeFireball.h>
-#include <ex/effects/exBlazeFireballShot.h>
 #include <ex/system/exSystem.h>
 #include <game/audio/audioSystem.h>
 #include <game/file/binaryBundle.h>
@@ -82,7 +81,7 @@ NOT_DECOMPILED void _fgr(void);
 // FUNCTIONS
 // --------------------
 
-NONMATCH_FUNC void exEffectBlzFireTask__LoadFireAssets(void)
+NONMATCH_FUNC void exEffectBlzFireTask__LoadFireAssets(EX_ACTION_BAC3D_WORK *work, u16 anim)
 {
 #ifdef NON_MATCHING
 
@@ -159,7 +158,7 @@ _02165B18:
 #endif
 }
 
-NONMATCH_FUNC void exEffectBlzFireTask__ReleaseFireAssets(void)
+NONMATCH_FUNC void exEffectBlzFireTask__ReleaseFireAssets(EX_ACTION_BAC3D_WORK *work)
 {
 #ifdef NON_MATCHING
 
@@ -178,7 +177,7 @@ NONMATCH_FUNC void exEffectBlzFireTask__ReleaseFireAssets(void)
 #endif
 }
 
-NONMATCH_FUNC void exExEffectBlzFireTaMeTask__LoadFireTaMeAssets(void)
+NONMATCH_FUNC void exExEffectBlzFireTaMeTask__LoadFireTaMeAssets(EX_ACTION_NN_WORK *work)
 {
 #ifdef NON_MATCHING
 
@@ -326,7 +325,7 @@ _02165D9C:
 #endif
 }
 
-NONMATCH_FUNC void exExEffectBlzFireTaMeTask__ReleaseFireTaMeAssets(void)
+NONMATCH_FUNC void exExEffectBlzFireTaMeTask__ReleaseFireTaMeAssets(EX_ACTION_NN_WORK *work)
 {
 #ifdef NON_MATCHING
 
@@ -377,7 +376,7 @@ _02165EA8:
 #endif
 }
 
-NONMATCH_FUNC void exEffectBlzFireTask__LoadFireShotAssets(void)
+NONMATCH_FUNC void exEffectBlzFireTask__LoadFireShotAssets(EX_ACTION_NN_WORK *work)
 {
 #ifdef NON_MATCHING
 
@@ -562,7 +561,7 @@ _021660DC:
 #endif
 }
 
-NONMATCH_FUNC void exEffectBlzFireTask__ReleaseFireShotAssets(void)
+NONMATCH_FUNC void exEffectBlzFireTask__ReleaseFireShotAssets(EX_ACTION_NN_WORK *work)
 {
 #ifdef NON_MATCHING
 
@@ -1267,7 +1266,7 @@ _02166A78:
 #endif
 }
 
-NONMATCH_FUNC void exEffectBlzFireTask__Create(EX_ACTION_NN_WORK *parent)
+NONMATCH_FUNC BOOL exEffectBlzFireTask__Create(EX_ACTION_NN_WORK *parent)
 {
 #ifdef NON_MATCHING
 
@@ -1542,7 +1541,7 @@ _02166DF4:
 #endif
 }
 
-NONMATCH_FUNC void exExEffectBlzFireTaMeTask__Create(EX_ACTION_NN_WORK *parent)
+NONMATCH_FUNC BOOL exExEffectBlzFireTaMeTask__Create(EX_ACTION_NN_WORK *parent)
 {
 #ifdef NON_MATCHING
 
@@ -1693,7 +1692,7 @@ _02166FA4:
 #endif
 }
 
-NONMATCH_FUNC void exEffectBlzFireShotTask__Create(EX_ACTION_NN_WORK *parent)
+NONMATCH_FUNC BOOL exEffectBlzFireShotTask__Create(EX_ACTION_NN_WORK *parent)
 {
 #ifdef NON_MATCHING
 

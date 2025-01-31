@@ -334,7 +334,7 @@ void ExRingCountHUD_Main_Init(void)
     for (i = 0; i < ARRAY_COUNT(work->aniNumbers); i++)
     {
         work->aniNumbers[i].sprite.anim       = exHUDRingDigits1[i];
-        work->aniNumbers[i].sprite.paletteRow = EX_ACTCOM_ANI_2;
+        work->aniNumbers[i].sprite.paletteRow = EX_ACTCOM_ANI_SONIC_BARRIER_HIT;
         SetupExHUDSprite(&work->aniNumbers[i]);
         exDrawReqTask__SetConfigPriority(&work->aniNumbers[i].config, 0xE001);
         work->aniNumbers[i].sprite.pos.x            = 0;
