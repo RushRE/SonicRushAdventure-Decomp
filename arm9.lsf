@@ -759,8 +759,7 @@ Overlay ExBoss
     Object asm/ex/exBossMeteLockOn.o
     Object asm/ex/exBossMeteMeteo.o
     Object asm/ex/exBossMeteAdmin.o
-    Object asm/ex/exBossSysAdmin.o
-    Object asm/ex/exBossSysAdminBifor.o
+    Object src/ex/exBoss.o
     Object asm/ex/exBossMagmaAttack.o
     Object asm/ex/exBossMagmeWave.o
     Object asm/ex/exDrawFade.o

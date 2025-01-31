@@ -966,7 +966,7 @@ void ExPlayer_Main_StartSonicBarrier(void)
         {
             if (((padInput.btnDown & PAD_BUTTON_X) != 0 || (padInput.btnDown & PAD_BUTTON_Y) != 0))
             {
-                if (work->worker->barrierChargeTimer++ >= 120)
+                if (work->worker->barrierChargeTimer++ >= SECONDS_TO_FRAMES(2.0))
                 {
                     if (!Camera3D__UseEngineA())
                     {
@@ -979,7 +979,7 @@ void ExPlayer_Main_StartSonicBarrier(void)
                             exDrawReqTask__Func_21642F0(&work->aniSonic->manager.config, 7);
                     }
 
-                    work->worker->barrierChargeTimer = 120;
+                    work->worker->barrierChargeTimer = SECONDS_TO_FRAMES(2.0);
                 }
             }
 
@@ -987,26 +987,26 @@ void ExPlayer_Main_StartSonicBarrier(void)
             {
                 exDrawReqTask__Func_21642F0(&work->aniSonic->manager.config, 7);
 
-                if (work->worker->barrierChargeTimer == 120)
+                if (work->worker->barrierChargeTimer == SECONDS_TO_FRAMES(2.0))
                 {
                     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
                     {
-                        work->aniSonic->manager.hitChecker.field_8 = 18;
+                        work->aniSonic->manager.hitChecker.power = EXPLAYER_BARRIER_CHARGED_POWER_NORMAL;
                     }
                     else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
                     {
-                        work->aniSonic->manager.hitChecker.field_8 = 21;
+                        work->aniSonic->manager.hitChecker.power = EXPLAYER_BARRIER_CHARGED_POWER_EASY;
                     }
                 }
                 else
                 {
                     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
                     {
-                        work->aniSonic->manager.hitChecker.field_8 = 6;
+                        work->aniSonic->manager.hitChecker.power = EXPLAYER_BARRIER_REGULAR_POWER_NORMAL;
                     }
                     else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
                     {
-                        work->aniSonic->manager.hitChecker.field_8 = 7;
+                        work->aniSonic->manager.hitChecker.power = EXPLAYER_BARRIER_REGULAR_POWER_EASY;
                     }
                 }
 
@@ -1148,7 +1148,7 @@ void ExPlayer_Main_ChargeBlazeFireball(void)
         {
             if (((padInput.btnDown & PAD_BUTTON_X) != 0 || (padInput.btnDown & PAD_BUTTON_Y) != 0))
             {
-                if (work->worker->fireballChargeTimer++ >= 120)
+                if (work->worker->fireballChargeTimer++ >= SECONDS_TO_FRAMES(2.0))
                 {
                     if (!Camera3D__UseEngineA())
                     {
@@ -1161,7 +1161,7 @@ void ExPlayer_Main_ChargeBlazeFireball(void)
                             exDrawReqTask__Func_21642F0(&work->aniBlaze->manager.config, 7);
                     }
 
-                    work->worker->fireballChargeTimer = 120;
+                    work->worker->fireballChargeTimer = SECONDS_TO_FRAMES(2.0);
                 }
             }
 
@@ -1173,11 +1173,11 @@ void ExPlayer_Main_ChargeBlazeFireball(void)
                 {
                     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
                     {
-                        work->aniBlaze->manager.hitChecker.field_8 = 15;
+                        work->aniBlaze->manager.hitChecker.power = EXPLAYER_FIREBALL_CHARGED_POWER_NORMAL;
                     }
                     else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
                     {
-                        work->aniBlaze->manager.hitChecker.field_8 = 16;
+                        work->aniBlaze->manager.hitChecker.power = EXPLAYER_FIREBALL_CHARGED_POWER_EASY;
                     }
                 }
                 else if (work->worker->fireballChargeTimer <= 80)
@@ -1186,22 +1186,22 @@ void ExPlayer_Main_ChargeBlazeFireball(void)
                     {
                         if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
                         {
-                            work->aniBlaze->manager.hitChecker.field_8 = 3;
+                            work->aniBlaze->manager.hitChecker.power = EXPLAYER_FIREBALL_WEAK_POWER_NORMAL;
                         }
                         else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
                         {
-                            work->aniBlaze->manager.hitChecker.field_8 = 4;
+                            work->aniBlaze->manager.hitChecker.power = EXPLAYER_FIREBALL_WEAK_POWER_EASY;
                         }
                     }
                     else
                     {
                         if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
                         {
-                            work->aniBlaze->manager.hitChecker.field_8 = 6;
+                            work->aniBlaze->manager.hitChecker.power = EXPLAYER_FIREBALL_REGULAR_POWER_NORMAL;
                         }
                         else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
                         {
-                            work->aniBlaze->manager.hitChecker.field_8 = 7;
+                            work->aniBlaze->manager.hitChecker.power = EXPLAYER_FIREBALL_REGULAR_POWER_EASY;
                         }
                     }
                 }
@@ -1237,11 +1237,11 @@ void ExPlayer_Main_ShootBlazeFireball(void)
     {
         if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
         {
-            if (work->aniBlaze->manager.hitChecker.field_8 == 15)
+            if (work->aniBlaze->manager.hitChecker.power == EXPLAYER_FIREBALL_CHARGED_POWER_NORMAL)
             {
                 PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_MAX);
             }
-            else if (work->aniBlaze->manager.hitChecker.field_8 == 6)
+            else if (work->aniBlaze->manager.hitChecker.power == EXPLAYER_FIREBALL_REGULAR_POWER_NORMAL)
             {
                 PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_SAVED);
             }
@@ -1252,11 +1252,11 @@ void ExPlayer_Main_ShootBlazeFireball(void)
         }
         else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
         {
-            if (work->aniBlaze->manager.hitChecker.field_8 == 16)
+            if (work->aniBlaze->manager.hitChecker.power == EXPLAYER_FIREBALL_CHARGED_POWER_EASY)
             {
                 PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_MAX);
             }
-            else if (work->aniBlaze->manager.hitChecker.field_8 == 7)
+            else if (work->aniBlaze->manager.hitChecker.power == EXPLAYER_FIREBALL_REGULAR_POWER_EASY)
             {
                 PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_SAVED);
             }

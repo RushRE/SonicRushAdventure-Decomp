@@ -1,5 +1,5 @@
-#ifndef RUSH_EXBOSSHOMINGLASERATTACK_H
-#define RUSH_EXBOSSHOMINGLASERATTACK_H
+#ifndef RUSH_EXBOSSHOMINGLASER_H
+#define RUSH_EXBOSSHOMINGLASER_H
 
 #include <ex/boss/exBoss.h>
 
@@ -20,5 +20,5 @@ NOT_DECOMPILED void exBossHomingLaserTask__Func_215A388(void);
 NOT_DECOMPILED void exBossHomingLaserTask__Func_215A434(void);
 NOT_DECOMPILED void exBossHomingLaserTask__Create(void);
 
-#endif // RUSH_EXBOSSHOMINGLASERATTACK_H
+#endif // RUSH_EXBOSSHOMINGLASER_H
 

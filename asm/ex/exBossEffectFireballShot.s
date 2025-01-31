@@ -285,7 +285,7 @@ exBossEffectFireBallShotTask__Func_215649C: // 0x0215649C
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl exBossSysAdminTask__GetSingleton
+	bl GetExBossTask
 	cmp r0, #0
 	bne _021564CC
 	bl GetExTaskCurrent

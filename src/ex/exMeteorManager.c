@@ -496,7 +496,7 @@ void ExMeteor_Action_Reflect(void)
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
-        if (work->aniMeteor.hitChecker.field_8 == 6)
+        if (work->aniMeteor.hitChecker.power == 6)
         {
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(4.0), work->velocity.y);
         }
@@ -507,7 +507,7 @@ void ExMeteor_Action_Reflect(void)
     }
     else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
     {
-        if (work->aniMeteor.hitChecker.field_8 == 7)
+        if (work->aniMeteor.hitChecker.power == 7)
         {
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(4.0), work->velocity.y);
         }

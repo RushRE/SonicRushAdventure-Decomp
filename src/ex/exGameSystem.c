@@ -46,7 +46,7 @@ void ExGameSystem_Main_Init(void)
 
     CreateExStage();
     CreateExPlayer();
-    exBossSysAdminTask__Create();
+    CreateExBoss();
 
     PlayTrack(NULL, AUDIOMANAGER_PLAYERNO_AUTO, AUDIOMANAGER_BANKNO_AUTO, AUDIOMANAGER_PLAYERPRIO_AUTO, SND_ZONE_SEQ_SEQ_BOSSE);
 
@@ -68,7 +68,7 @@ void ExGameSystem_Destructor(void)
     UNUSED(work);
 
     DestroyExRingManager();
-    exBossSysAdminTask__Destroy();
+    DestroyExBoss();
     DestroyExPlayer();
     DestroyExStage();
     DestroyExMeteorManager();
@@ -107,7 +107,7 @@ void ExGameSystem_Main_WaitForBossTrigger(void)
     exGameSystemTask *work = ExTaskGetWorkCurrent(exGameSystemTask);
     UNUSED(work);
 
-    if (!exBossSysAdminTask__Func_215DF1C())
+    if (!GetExBossFightStarted())
     {
         ExGameSystem_Action_CreateStageObjects();
     }
@@ -152,7 +152,7 @@ void ExGameSystem_Action_StopSpawningMeteors(void)
 
     work->timer = 0;
 
-    exBossSysAdminTask__Func_215DF2C(1, 0);
+    SetExBossFightStarted(TRUE);
 
     SetCurrentExTaskMainEvent(ExGameSystem_Main_StoppedSpawningMeteors);
     ExGameSystem_Main_StoppedSpawningMeteors();

@@ -189,8 +189,8 @@ void ExBossFireBlue_Main_Init(void)
     work->animator.model.translation.y = work->parent->aniBoss.model.field_364.y;
     work->animator.model.translation.z = work->parent->aniBoss.model.field_364.z;
 
-    work->targetPos.x = work->parent->field_48.x;
-    work->targetPos.y = work->parent->field_48.y;
+    work->targetPos.x = work->parent->targetPos.x;
+    work->targetPos.y = work->parent->targetPos.y;
     work->targetPos.z = FLOAT_TO_FX32(60.0);
 
     PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_FIREBALL);
@@ -340,7 +340,7 @@ void ExBossFireBlue_Action_Repelled(void)
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
-        if (work->animator.hitChecker.field_8 == 6)
+        if (work->animator.hitChecker.power == 6)
         {
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(4.0), work->velocity.y);
         }
@@ -351,7 +351,7 @@ void ExBossFireBlue_Action_Repelled(void)
     }
     else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
     {
-        if (work->animator.hitChecker.field_8 == 7)
+        if (work->animator.hitChecker.power == 7)
         {
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(4.0), work->velocity.y);
         }
@@ -544,8 +544,8 @@ void ExBossFireRed_Main_Init(void)
     work->animator.model.translation.y = work->parent->aniBoss.model.field_364.y;
     work->animator.model.translation.z = work->parent->aniBoss.model.field_364.z;
 
-    work->targetPos.x = work->parent->field_48.x;
-    work->targetPos.y = work->parent->field_48.y;
+    work->targetPos.x = work->parent->targetPos.x;
+    work->targetPos.y = work->parent->targetPos.y;
     work->targetPos.z = FLOAT_TO_FX32(60.0);
 
     SetCurrentExTaskMainEvent(ExBossFireRed_Main_MoveFast);
@@ -689,7 +689,7 @@ void ExBossFireRed_Action_Repelled(void)
 
     if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
     {
-        if (work->animator.hitChecker.field_8 == 6)
+        if (work->animator.hitChecker.power == 6)
         {
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(4.0), work->velocity.y);
         }
@@ -700,7 +700,7 @@ void ExBossFireRed_Action_Repelled(void)
     }
     else if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_EASY)
     {
-        if (work->animator.hitChecker.field_8 == 7)
+        if (work->animator.hitChecker.power == 7)
         {
             work->velocity.y = MultiplyFX(FLOAT_TO_FX32(4.0), work->velocity.y);
         }
@@ -843,7 +843,7 @@ void exBossSysAdminTask__Action_StartFire1(void)
     exDrawReqTask__Func_21641F0(&work->aniBoss.config);
 
     exBossEffectHomingTask__Func_2156D6C();
-    work->timer2 = 0;
+    work->fireballShootTimer = 0;
 
     SetCurrentExTaskMainEvent(exBossSysAdminTask__Main_Fire1);
     exBossSysAdminTask__Main_Fire1();
@@ -855,10 +855,10 @@ void exBossSysAdminTask__Main_Fire1(void)
 
     exDrawReqTask__Model__Animate(&work->aniBoss);
 
-    work->field_48.x += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->field_48.x, GetExPlayerPosition()->x);
-    work->field_48.y += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->field_48.y, GetExPlayerPosition()->y);
-    
-    work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->field_48.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->field_48.y);
+    work->targetPos.x += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.x, GetExPlayerPosition()->x);
+    work->targetPos.y += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.y, GetExPlayerPosition()->y);
+
+    work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
 
     if (exDrawReqTask__Model__IsAnimFinished(&work->aniBoss))
     {
@@ -897,10 +897,10 @@ void exBossSysAdminTask__Main_Fire2(void)
 
     exDrawReqTask__Model__Animate(&work->aniBoss);
 
-    work->field_48.x += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->field_48.x, GetExPlayerPosition()->x);
-    work->field_48.y += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->field_48.y, GetExPlayerPosition()->y);
+    work->targetPos.x += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.x, GetExPlayerPosition()->x);
+    work->targetPos.y += mtMoveTowards(FLOAT_TO_FX32(0.1001), work->targetPos.y, GetExPlayerPosition()->y);
 
-    work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->field_48.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->field_48.y);
+    work->aniBoss.model.angle.y = exPlayerHelpers__Func_2152E28(work->targetPos.x - work->aniBoss.model.translation.x, work->aniBoss.model.translation.y - work->targetPos.y);
 
     if (exDrawReqTask__Model__IsAnimFinished(&work->aniBoss))
     {
@@ -921,8 +921,8 @@ void exBossSysAdminTask__HandleFireShoot(void)
 
     if (!exBossFireDoraTask__AnyActive() && !exBossHomingLaserTask__AnyActive())
     {
-        work->timer2++;
-        if (work->timer2 < 5)
+        work->fireballShootTimer++;
+        if (work->fireballShootTimer < 5)
         {
             exBossSysAdminTask__Action_StartFire2();
             return;
@@ -930,8 +930,8 @@ void exBossSysAdminTask__HandleFireShoot(void)
     }
     else
     {
-        work->timer2++;
-        if (work->timer2 < 3)
+        work->fireballShootTimer++;
+        if (work->fireballShootTimer < 3)
         {
             exBossSysAdminTask__Action_StartFire2();
             return;
@@ -939,7 +939,7 @@ void exBossSysAdminTask__HandleFireShoot(void)
     }
 
     exBossEffectFireBallTask__Func_2156594();
-    work->timer2 = 0;
+    work->fireballShootTimer = 0;
     exBossSysAdminTask__Action_StartFire4();
 }
 

@@ -601,7 +601,7 @@ void ExBossLifeGaugeHUD_Main_Init(void)
 
     exHUDBossGaugeTaskSingleton = GetCurrentTask();
 
-    work->boss                          = exBossSysAdminTask__GetBossWork();
+    work->boss                          = GetExBossWork();
     work->aniBossName.sprite.anim       = EX_ACTCOM_ANI_BOSSGAUGE_NAME;
     work->aniBossName.sprite.paletteRow = PALETTE_ROW_9;
     SetupExHUDSprite(&work->aniBossName);
@@ -624,7 +624,7 @@ void ExBossLifeGaugeHUD_Main_Init(void)
     work->aniCapR.sprite.paletteRow = PALETTE_ROW_9;
     SetupExHUDSprite(&work->aniCapR);
     exDrawReqTask__SetConfigPriority(&work->aniCapR.config, 0xE000);
-    work->aniCapR.sprite.pos.x            = 248;
+    work->aniCapR.sprite.pos.x            = HW_LCD_WIDTH - 8;
     work->aniCapR.sprite.pos.y            = 176;
     work->aniCapR.config.field_2.value_20 = TRUE;
     exDrawReqTask__Sprite2D__Func_2161B80(&work->aniCapR);
@@ -642,10 +642,10 @@ void ExBossLifeGaugeHUD_Main_Init(void)
         exDrawReqTask__Sprite2D__Func_2161B80(&work->aniLifeGauge[i]);
     }
 
-    work->boss->field_64    = -16 - work->aniCapL.sprite.pos.x + work->aniCapR.sprite.pos.x;
-    work->boss->health      = work->boss->field_64;
+    work->boss->maxHealth   = -16 - work->aniCapL.sprite.pos.x + work->aniCapR.sprite.pos.x; // 176 by default, NOTE: if the resolution ever changes, this would break!
+    work->boss->health      = work->boss->maxHealth;
     work->totalSegmentCount = work->boss->health / 8;
-    work->health            = work->boss->field_64;
+    work->health            = work->boss->maxHealth;
     work->healthChange      = 0;
 
     SetCurrentExTaskMainEvent(ExBossLifeGaugeHUD_Main_HealthIdle);

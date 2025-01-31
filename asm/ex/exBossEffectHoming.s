@@ -575,7 +575,7 @@ exBossEffectHomingTask__Func_2157294: // 0x02157294
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl exBossSysAdminTask__GetSingleton
+	bl GetExBossTask
 	cmp r0, #0
 	bne _021572C4
 	bl GetExTaskCurrent
@@ -636,7 +636,7 @@ exBossEffectHomingTask__Func_2157358: // 0x02157358
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl exBossSysAdminTask__GetSingleton
+	bl GetExBossTask
 	cmp r0, #0
 	bne _02157388
 	bl GetExTaskCurrent
@@ -698,7 +698,7 @@ exBossEffectHomingTask__Func_2157420: // 0x02157420
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl exBossSysAdminTask__GetSingleton
+	bl GetExBossTask
 	cmp r0, #0
 	bne _02157450
 	bl GetExTaskCurrent

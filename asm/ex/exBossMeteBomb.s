@@ -224,7 +224,7 @@ exBossSysAdminTask__Main_FinishLineAttack: // 0x0215BF88
 	mov r4, r0
 	add r0, r4, #0x6c
 	bl exDrawReqTask__Model__Animate
-	bl exBossSysAdminTask__MoveRandom
+	bl HandleExBossMovement
 	ldrsh r0, [r4, #0x58]
 	cmp r0, #0
 	bgt _0215BFCC

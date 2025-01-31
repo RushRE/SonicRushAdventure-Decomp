@@ -520,7 +520,7 @@ exBossEffectHitTask__Main_2155FE4: // 0x02155FE4
 	mov r4, r0
 	add r0, r4, #4
 	bl exDrawReqTask__Model__Animate
-	bl exBossSysAdminTask__GetSingleton
+	bl GetExBossTask
 	cmp r0, #0
 	bne _02156014
 	bl GetExTaskCurrent
@@ -570,7 +570,7 @@ exBossEffectHitTask__Create: // 0x02156054
 	mov r4, r0
 	mov r1, #0
 	bl MI_CpuFill8
-	bl exBossSysAdminTask__GetSingleton
+	bl GetExBossTask
 	bl GetExTaskWork_
 	str r0, [r4, #0x4e0]
 	mov r0, r5

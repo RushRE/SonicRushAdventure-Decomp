@@ -267,6 +267,250 @@ _0215DC0C: .word exBossMeteAdminTask__Main
 _0215DC10: .word exBossMeteAdminTask__Func8
 	arm_func_end exBossMeteAdminTask__Create
 
+	arm_func_start exBossSysAdminTask__RunTaskUnknownEvent
+exBossSysAdminTask__RunTaskUnknownEvent: // 0x0215DC14
+	stmdb sp!, {r3, lr}
+	bl GetExTaskWorkCurrent_
+	bl GetExTaskCurrent
+	ldr r0, [r0, #8]
+	blx r0
+	ldmia sp!, {r3, pc}
+	arm_func_end exBossSysAdminTask__RunTaskUnknownEvent
+
+	arm_func_start exBossSysAdminTask__Action_StartMete0
+exBossSysAdminTask__Action_StartMete0: // 0x0215DC2C
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #8
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	mov r1, #1
+	bl exBossHelpers__SetAnimation
+	add r0, r4, #0x3f8
+	bl exDrawReqTask__Func_21641F0
+	bl exBossEffectFireTask__Create
+	mov r0, #0
+	str r0, [sp]
+	ldr r1, _0215DC94 // =0x00000103
+	str r1, [sp, #4]
+	sub r1, r1, #0x104
+	mov r2, r1
+	mov r3, r1
+	bl PlayVoiceClipEx
+	bl exBossMeteAdminTask__Create
+	bl GetExTaskCurrent
+	ldr r1, _0215DC98 // =exBossSysAdminTask__Func_215DC9C
+	str r1, [r0]
+	bl exBossSysAdminTask__Func_215DC9C
+	bl exBossSysAdminTask__RunTaskUnknownEvent
+	add sp, sp, #8
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_0215DC94: .word 0x00000103
+_0215DC98: .word exBossSysAdminTask__Func_215DC9C
+	arm_func_end exBossSysAdminTask__Action_StartMete0
+
+	arm_func_start exBossSysAdminTask__Func_215DC9C
+exBossSysAdminTask__Func_215DC9C: // 0x0215DC9C
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__IsAnimFinished
+	cmp r0, #0
+	beq _0215DCC8
+	bl exBossSysAdminTask__Func_215DCE4
+	ldmia sp!, {r4, pc}
+_0215DCC8:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl exBossSysAdminTask__RunTaskUnknownEvent
+	ldmia sp!, {r4, pc}
+	arm_func_end exBossSysAdminTask__Func_215DC9C
+
+	arm_func_start exBossSysAdminTask__Func_215DCE4
+exBossSysAdminTask__Func_215DCE4: // 0x0215DCE4
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	mov r2, #0xd2
+	add r0, r4, #0x6c
+	mov r1, #2
+	strh r2, [r4, #0x56]
+	bl exBossHelpers__SetAnimation
+	add r0, r4, #0x3f8
+	bl exDrawReqTask__Func_2164218
+	bl exBossMeteLockOnTask__Create
+	bl GetExTaskCurrent
+	ldr r1, _0215DD28 // =exBossSysAdminTask__Func_215DD2C
+	str r1, [r0]
+	bl exBossSysAdminTask__Func_215DD2C
+	bl exBossSysAdminTask__RunTaskUnknownEvent
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_0215DD28: .word exBossSysAdminTask__Func_215DD2C
+	arm_func_end exBossSysAdminTask__Func_215DCE4
+
+	arm_func_start exBossSysAdminTask__Func_215DD2C
+exBossSysAdminTask__Func_215DD2C: // 0x0215DD2C
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	ldrsh r1, [r4, #0x56]
+	sub r0, r1, #1
+	strh r0, [r4, #0x56]
+	cmp r1, #0
+	bge _0215DD5C
+	bl exBossSysAdminTask__Func_215DD78
+	ldmia sp!, {r4, pc}
+_0215DD5C:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl exBossSysAdminTask__RunTaskUnknownEvent
+	ldmia sp!, {r4, pc}
+	arm_func_end exBossSysAdminTask__Func_215DD2C
+
+	arm_func_start exBossSysAdminTask__Func_215DD78
+exBossSysAdminTask__Func_215DD78: // 0x0215DD78
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	mov r0, #0
+	strh r0, [r4, #0x56]
+	bl exBossEffectFireTask__Func_21581C0
+	add r0, r4, #0x6c
+	mov r1, #3
+	bl exBossHelpers__SetAnimation
+	add r0, r4, #0x3f8
+	bl exDrawReqTask__Func_21641F0
+	bl GetExTaskCurrent
+	ldr r1, _0215DDBC // =exBossSysAdminTask__Func_215DDC0
+	str r1, [r0]
+	bl exBossSysAdminTask__Func_215DDC0
+	bl exBossSysAdminTask__RunTaskUnknownEvent
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_0215DDBC: .word exBossSysAdminTask__Func_215DDC0
+	arm_func_end exBossSysAdminTask__Func_215DD78
+
+	arm_func_start exBossSysAdminTask__Func_215DDC0
+exBossSysAdminTask__Func_215DDC0: // 0x0215DDC0
+	stmdb sp!, {r4, lr}
+	sub sp, sp, #8
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	ldr r0, [r4, #0x3b0]
+	ldr r0, [r0, #0]
+	cmp r0, #0xf000
+	blt _0215DE1C
+	mov ip, #0xc9
+	sub r1, ip, #0xca
+	mov r0, #0
+	mov r2, r1
+	mov r3, r1
+	stmia sp, {r0, ip}
+	bl PlaySfxEx
+	bl GetExTaskCurrent
+	ldr r1, _0215DE3C // =exBossSysAdminTask__Func_215DE40
+	str r1, [r0]
+	bl exBossSysAdminTask__Func_215DE40
+	add sp, sp, #8
+	ldmia sp!, {r4, pc}
+_0215DE1C:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl exBossSysAdminTask__RunTaskUnknownEvent
+	add sp, sp, #8
+	ldmia sp!, {r4, pc}
+	.align 2, 0
+_0215DE3C: .word exBossSysAdminTask__Func_215DE40
+	arm_func_end exBossSysAdminTask__Func_215DDC0
+
+	arm_func_start exBossSysAdminTask__Func_215DE40
+exBossSysAdminTask__Func_215DE40: // 0x0215DE40
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	ldr r0, [r4, #0x3b0]
+	ldr r0, [r0, #0]
+	cmp r0, #0x23000
+	bne _0215DE6C
+	bl exBossSysAdminTask__Func_215DE88
+	ldmia sp!, {r4, pc}
+_0215DE6C:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl exBossSysAdminTask__RunTaskUnknownEvent
+	ldmia sp!, {r4, pc}
+	arm_func_end exBossSysAdminTask__Func_215DE40
+
+	arm_func_start exBossSysAdminTask__Func_215DE88
+exBossSysAdminTask__Func_215DE88: // 0x0215DE88
+	stmdb sp!, {r3, lr}
+	bl GetExTaskWorkCurrent_
+	bl exBossMeteMeteoTask__Create
+	bl GetExTaskCurrent
+	ldr r1, _0215DEAC // =exBossSysAdminTask__Func_215DEB0
+	str r1, [r0]
+	bl exBossSysAdminTask__Func_215DEB0
+	bl exBossSysAdminTask__RunTaskUnknownEvent
+	ldmia sp!, {r3, pc}
+	.align 2, 0
+_0215DEAC: .word exBossSysAdminTask__Func_215DEB0
+	arm_func_end exBossSysAdminTask__Func_215DE88
+
+	arm_func_start exBossSysAdminTask__Func_215DEB0
+exBossSysAdminTask__Func_215DEB0: // 0x0215DEB0
+	stmdb sp!, {r4, lr}
+	bl GetExTaskWorkCurrent_
+	mov r4, r0
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__Animate
+	add r0, r4, #0x6c
+	bl exDrawReqTask__Model__IsAnimFinished
+	cmp r0, #0
+	beq _0215DEDC
+	bl exBossSysAdminTask__Action_FinishMeteorAttack
+	ldmia sp!, {r4, pc}
+_0215DEDC:
+	add r0, r4, #0x6c
+	bl exHitCheckTask__AddHitCheck
+	add r0, r4, #0x6c
+	add r1, r4, #0x3f8
+	bl exDrawReqTask__AddRequest
+	bl exBossSysAdminTask__RunTaskUnknownEvent
+	ldmia sp!, {r4, pc}
+	arm_func_end exBossSysAdminTask__Func_215DEB0
+
+	arm_func_start exBossSysAdminTask__Action_FinishMeteorAttack
+exBossSysAdminTask__Action_FinishMeteorAttack: // 0x0215DEF8
+	stmdb sp!, {r3, lr}
+	bl GetExTaskWorkCurrent_
+	ldr r0, [r0, #0x548]
+	blx r0
+	ldmia sp!, {r3, pc}
+	arm_func_end exBossSysAdminTask__Action_FinishMeteorAttack
+
 	.data
 
 aExbossmeteadmi: // 0x02174308
