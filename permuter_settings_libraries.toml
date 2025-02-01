@@ -1,0 +1,13 @@
+# Optional configuration file for import.py. Put it in the root or in tools/
+# of the repo you are importing from.
+
+# build_system = "make"
+
+compiler_type = "mwcc"
+compiler_command = "tools/mwccarm/1.2/sp4/mwccarm.exe -O4,p -sym on -enum int -lang c99 -Cpp_exceptions off -gccext,on -proc arm946e -msgstyle gcc -gccinc -I./include -I./include/library -I. -I./tools/cw/include/MSL_C -I./tools/cw/include/MSL_Extras -I./lib/include -I./lib/include/dwc/gs -interworking -inline on,noauto -char signed -W all -W pedantic -W noimpl_signedunsigned -W noimplicitconv -W nounusedarg -W nomissingreturn -W error -gccdep -MD"
+assembler_command = "tools/mwccarm/1.2/sp4/mwasmarm.exe -proc arm5te -g -gccinc -I. -I./include -I./asm/include -I./lib/asm/ARM9/include -I./lib/NitroDWC/asm/ARM9/include -I./lib/NitroSDK/asm/ARM9/include -I./lib/syscall/asm/include -I./lib/include -DSDK_ASM"
+
+[preserve_macros]
+"g[DS]P.*" = "void"
+"gDma.*" = "void"
+"_SHIFTL" = "unsigned int"

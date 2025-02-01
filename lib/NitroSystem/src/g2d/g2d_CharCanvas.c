@@ -519,9 +519,6 @@ static void DrawGlyphLine(const NNSG2dCharCanvas *pCC, const NNSG2dFont *pFont, 
 
 static void DrawGlyph1D(const NNSG2dCharCanvas *pCC, const NNSG2dFont *pFont, int x, int y, int cl, const NNSG2dGlyph *pGlyph)
 {
-    // https://decomp.me/scratch/WA3rB -> 97.77%
-    // r5 & r6 need to be swapped
-    
     int ofs_x_base;
     int ofs_x;
     int ofs_y;
@@ -533,15 +530,17 @@ static void DrawGlyph1D(const NNSG2dCharCanvas *pCC, const NNSG2dFont *pFont, in
     u8 charHeight;
     int charSize;
     u16 *mapTable;
+    const NNSG2dCharCanvas **ppCC;
 
-    charSize = GetCharacterSize(pCC);
     mapTable = (u16 *)(pCC->param);
+    charSize = GetCharacterSize(pCC);
 
     {
         int chara_x_num;
         int chara_y_num;
-        const unsigned int areaWidth         = (unsigned int)pCC->areaWidth;
-        const unsigned int areaHeight        = (unsigned int)pCC->areaHeight;
+        
+        unsigned int areaWidth         = (unsigned int)pCC->areaWidth;
+        unsigned int areaHeight        = (unsigned int)pCC->areaHeight;
         const NNSG2dCharWidths *const pWidth = pGlyph->pWidths;
 
         u32 chara_x_begin;
@@ -549,7 +548,7 @@ static void DrawGlyph1D(const NNSG2dCharCanvas *pCC, const NNSG2dFont *pFont, in
         u32 chara_y_begin;
         u32 chara_y_last;
 
-        glyphWidth = pWidth->glyphWidth;
+        glyphWidth = pGlyph->pWidths->glyphWidth;
         charHeight = NNS_G2dFontGetCellHeight(pFont);
 
         if (glyphWidth <= 0)
@@ -594,6 +593,9 @@ static void DrawGlyph1D(const NNSG2dCharCanvas *pCC, const NNSG2dFont *pFont, in
         ofs_y_end  = ofs_y - CHARACTER_HEIGHT * chara_y_num;
     }
 
+    // isn't used, just needs to exist
+    ppCC = &pCC;
+
     {
         LC_INFO i;
         u8 *const pCharBase = pCC->charBase;
@@ -610,21 +612,21 @@ static void DrawGlyph1D(const NNSG2dCharCanvas *pCC, const NNSG2dFont *pFont, in
         p.packed = pCC->param;
 
         {
-            const u32 areaWidth       = (u32)pCC->areaWidth;
-            const u32 areaHeight      = (u32)pCC->areaHeight;
-            const u32 baseWidthShift  = p.baseWidthShift;
-            const u32 baseHeightShift = p.baseHeightShift;
+            const u32 areaWidth         = (u32)pCC->areaWidth;
+            const u32 areaHeight        = (u32)pCC->areaHeight;
+            const u32 baseWidthShift    = p.baseWidthShift;
+            const u32 baseHeightShift   = p.baseHeightShift;
 
-            for (; ofs_y > ofs_y_end; ofs_y -= CHARACTER_HEIGHT)
+            for( ; ofs_y > ofs_y_end; ofs_y -= CHARACTER_HEIGHT )
             {
                 i.ofs_y = ofs_y;
-                cx      = cx_base;
-                for (ofs_x = ofs_x_base; ofs_x > ofs_x_end; ofs_x -= CHARACTER_WIDTH)
+                cx = cx_base;
+                for( ofs_x = ofs_x_base; ofs_x > ofs_x_end; ofs_x -= CHARACTER_WIDTH )
                 {
                     const unsigned int iChar = GetCharIndex1D((u32)cx, (u32)cy, areaWidth, areaHeight, baseWidthShift, baseHeightShift);
 
                     i.ofs_x = ofs_x;
-                    i.dst   = pCharBase + iChar * charSize;
+                    i.dst = pCharBase + iChar * charSize;
 
                     LetterChar(&i);
                     cx++;

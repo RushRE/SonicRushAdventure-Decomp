@@ -305,7 +305,7 @@ Static arm9
     Object lib/NitroSystem/src/gfd/gfd_PlttVramMan.o
     Object lib/NitroSystem/src/g2d/load/g2d_Load.o
     Object lib/NitroSystem/src/g2d/g2d_Font.o
-    Object lib/NitroSystem/asm/g2d/g2d_CharCanvas.o # DrawGlyph1D doesn't match, and for the sake of keeping things shiftable the asm file will be used instead
+    Object lib/NitroSystem/src/g2d/g2d_CharCanvas.o
     Object lib/NitroSystem/src/g2d/g2d_TextCanvas.o
     Object lib/NitroSystem/src/g2d/load/g2d_NFT_load.o
     Object lib/NitroSystem/src/g2d/internal/g2di_BitReader.o
