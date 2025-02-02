@@ -1,5 +1,6 @@
 #include <ex/core/exRingManager.h>
 #include <ex/system/exSystem.h>
+#include <ex/system/exMath.h>
 #include <game/audio/audioSystem.h>
 
 // Resources
@@ -3117,15 +3118,9 @@ void ExRingManager_Main_Active(void)
             ringVel.x = FLOAT_TO_FX32(0.0);
 
             float ringY;
-            if (work->spawnConfig.velocity > 0.0f)
-            {
-                ringY = ((float)FLOAT_TO_FX32(1.0) * work->spawnConfig.velocity) + 0.5f;
-            }
-            else
-            {
-                ringY = ((float)FLOAT_TO_FX32(1.0) * work->spawnConfig.velocity) - 0.5f;
-            }
+            MULTIPLY_FLOAT_FX(ringY, work->spawnConfig.velocity)
             ringVel.y = ringY;
+
             ringVel.z = FLOAT_TO_FX32(0.0);
 
             if (work->spawnConfig.spawnPos.useColumnL8)

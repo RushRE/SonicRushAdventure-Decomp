@@ -758,7 +758,6 @@ Overlay ExBoss
     Object asm/ex/exDrawReq.o
     Object src/ex/exEffectCommon.o
     Object src/ex/exEffectSonic.o
-    Object asm/ex/exEffectBlaze_vars.o
     Object src/ex/exEffectBlaze.o
     Object src/ex/exMeteorManager.o
     Object src/ex/exRingManager.o

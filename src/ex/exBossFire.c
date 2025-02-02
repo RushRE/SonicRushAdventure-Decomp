@@ -123,8 +123,8 @@ BOOL LoadExBossFireBlueAssets(EX_ACTION_NN_WORK *work)
 
     AnimatorMDL__SetAnimation(animator, fireballBlueAnimType[i], fireballBlueAnimResource[i], 0, NNS_G3dGetTex(fireballBlueModelResource));
 
-    work->model.field_32C = fireballBlueAnimType[0];
-    work->model.field_328 = work->model.animator.currentAnimObj[fireballBlueAnimType[0]];
+    work->model.primaryAnimType     = fireballBlueAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[fireballBlueAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -477,8 +477,8 @@ BOOL LoadExBossFireRedAssets(EX_ACTION_NN_WORK *work)
 
     AnimatorMDL__SetAnimation(animator, fireballRedAnimType[i], fireballRedAnimResource[i], 0, NNS_G3dGetTex(fireballRedModelResource));
 
-    work->model.field_32C = fireballRedAnimType[0];
-    work->model.field_328 = work->model.animator.currentAnimObj[fireballRedAnimType[0]];
+    work->model.primaryAnimType     = fireballRedAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[fireballRedAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -800,7 +800,7 @@ void exBossSysAdminTask__Main_StartFire0(void)
 
     exDrawReqTask__Model__Animate(&work->aniBoss);
 
-    if (work->aniBoss.model.field_328->frame >= FLOAT_TO_FX32(15.0))
+    if (work->aniBoss.model.primaryAnimResource->frame >= FLOAT_TO_FX32(15.0))
     {
         PlayStageSfx(SND_ZONE_SEQARC_GAME_SE_SEQ_SE_EX_PREPARE);
 

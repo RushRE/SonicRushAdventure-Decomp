@@ -91,11 +91,10 @@ typedef struct ExGraphicsSprite3D_
 typedef struct ExGraphicsModel_
 {
     u16 animID;
-    u16 field_2;
     AnimatorMDL animator;
     PaletteAnimator paletteAnimator[15];
-    NNSG3dAnmObj *field_328;
-    u16 field_32C;
+    NNSG3dAnmObj *primaryAnimResource;
+    u16 primaryAnimType;
     VecU16 angle;
     VecFx32 translation;
     VecFx32 translation3;

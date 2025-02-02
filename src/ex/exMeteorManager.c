@@ -1,5 +1,6 @@
 #include <ex/core/exMeteorManager.h>
 #include <ex/system/exSystem.h>
+#include <ex/system/exMath.h>
 #include <ex/player/exPlayerHelpers.h>
 #include <game/file/binaryBundle.h>
 
@@ -324,8 +325,8 @@ BOOL LoadExBrokenMeteorAssets(EX_ACTION_NN_WORK *work)
     AnimatorMDL__SetAnimation(&work->model.animator, exBrokenMeteorAnimType[0], exBrokenMeteorAnimResource[0], 0, NULL);
     AnimatorMDL__SetAnimation(&work->model.animator, exBrokenMeteorAnimType[1], exBrokenMeteorAnimResource[1], 0, NULL);
 
-    work->model.field_32C = exBrokenMeteorAnimType[0];
-    work->model.field_328 = work->model.animator.currentAnimObj[exBrokenMeteorAnimType[0]];
+    work->model.primaryAnimType     = exBrokenMeteorAnimType[0];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBrokenMeteorAnimType[0]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -632,15 +633,9 @@ void ExMeteorManager_Main_Active(void)
             meteorVel.x = FLOAT_TO_FX32(0.0);
 
             float meteorY;
-            if (work->spawnConfig.velocity > 0.0f)
-            {
-                meteorY = ((float)FLOAT_TO_FX32(1.0) * work->spawnConfig.velocity) + 0.5f;
-            }
-            else
-            {
-                meteorY = ((float)FLOAT_TO_FX32(1.0) * work->spawnConfig.velocity) - 0.5f;
-            }
+            MULTIPLY_FLOAT_FX(meteorY, work->spawnConfig.velocity)
             meteorVel.y = meteorY;
+            
             meteorVel.z = FLOAT_TO_FX32(0.0);
 
             if (work->spawnConfig.spawnPos.useColumnL4)

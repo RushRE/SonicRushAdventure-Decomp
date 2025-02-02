@@ -1,12 +1,23 @@
 #include <ex/effects/exSonicBarrier.h>
 #include <ex/player/exPlayer.h>
 #include <ex/system/exSystem.h>
+#include <ex/system/exMath.h>
 #include <game/audio/audioSystem.h>
 #include <game/file/binaryBundle.h>
 
 // Resources
 #include <resources/extra/ex.h>
 #include <resources/extra/ex/ex_com.h>
+
+// --------------------
+// STRUCTS
+// --------------------
+
+struct ExBarrierChargingEffectConfig
+{
+    VecFloat scale;
+    VecFloat size;
+};
 
 // --------------------
 // VARIABLES
@@ -39,8 +50,11 @@ static u32 exSonicBarrierHitEffectAnimType[3];
 FORCE_INCLUDE_VARIABLE_BSS(exSonicBarrierEffectUnused)
 FORCE_INCLUDE_VARIABLE_BSS(exSonicBarrierHitEffectUnused)
 
-// not sure what type this array really is, it seems too strange to _just_ be an array...
-static float exSonicBarrierChargingEffectScaleTable[] = { 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, 0.0f, 0.0f, 0.0f, 2.5f, 2.5f, 2.5f, 0.0f, 0.0f, 0.0f };
+static struct ExBarrierChargingEffectConfig exSonicBarrierChargingEffectConfig[] = {
+    [0] = { .scale = { 1.0f, 1.0f, 1.0f }, .size = { 0.0f, 0.0f, 0.0f } },
+    [1] = { .scale = { 2.5f, 2.5f, 2.5f }, .size = { 0.0f, 0.0f, 0.0f } },
+    [2] = { .scale = { 2.5f, 2.5f, 2.5f }, .size = { 0.0f, 0.0f, 0.0f } },
+};
 
 // --------------------
 // FUNCTION DECLS
@@ -123,8 +137,8 @@ BOOL LoadExSonicBarrierHitEffectAssets(EX_ACTION_NN_WORK *work)
         AnimatorMDL__SetAnimation(&work->model.animator, exSonicBarrierHitEffectAnimType[i], exSonicBarrierHitEffectAnimResource[i], 0, NULL);
     }
 
-    work->model.field_32C = exSonicBarrierHitEffectAnimType[1];
-    work->model.field_328 = work->model.animator.currentAnimObj[exSonicBarrierHitEffectAnimType[1]];
+    work->model.primaryAnimType     = exSonicBarrierHitEffectAnimType[1];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exSonicBarrierHitEffectAnimType[1]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -552,8 +566,8 @@ BOOL LoadExSonicBarrierChargingEffectAssets(EX_ACTION_NN_WORK *work)
     AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exSonicBarrierChargingEffectAnimResource[0], 0, NULL);
     AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_VIS_ANIM, exSonicBarrierChargingEffectAnimResource[1], 0, NULL);
 
-    work->model.field_32C = 0;
-    work->model.field_328 = work->model.animator.currentAnimObj[0];
+    work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[B3D_ANIM_JOINT_ANIM];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -653,42 +667,19 @@ void ExSonicBarrierChargingEffect_Main_Active(void)
     if (GetExPlayerWorker()->barrierChargeTimer != 0)
     {
         float maxScale;
-        if (exSonicBarrierChargingEffectScaleTable[12] > 0.0f)
-        {
-            maxScale = ((float)FLOAT_TO_FX32(1.0) * exSonicBarrierChargingEffectScaleTable[12]) + 0.5f;
-        }
-        else
-        {
-            maxScale = ((float)FLOAT_TO_FX32(1.0) * exSonicBarrierChargingEffectScaleTable[12]) - 0.5f;
-        }
+        MULTIPLY_FLOAT_FX(maxScale, exSonicBarrierChargingEffectConfig[2].scale.x)
 
         if (work->scale >= (fx32)maxScale)
         {
-            float scale;
-
-            if (exSonicBarrierChargingEffectScaleTable[12] > 0.0f)
-            {
-                scale = ((float)FLOAT_TO_FX32(1.0) * exSonicBarrierChargingEffectScaleTable[12]) + 0.5f;
-            }
-            else
-            {
-                scale = ((float)FLOAT_TO_FX32(1.0) * exSonicBarrierChargingEffectScaleTable[12]) - 0.5f;
-            }
-
-            work->scale = scale;
+            float scaleF;
+            MULTIPLY_FLOAT_FX(scaleF, exSonicBarrierChargingEffectConfig[2].scale.x)
+            work->scale = scaleF;
         }
         else
         {
-            float scale;
-            if (((exSonicBarrierChargingEffectScaleTable[12] - exSonicBarrierChargingEffectScaleTable[0]) / 120.0f) > 0.0f)
-            {
-                scale = ((float)FLOAT_TO_FX32(1.0) * ((exSonicBarrierChargingEffectScaleTable[12] - exSonicBarrierChargingEffectScaleTable[0]) / 120.0f)) + 0.5f;
-            }
-            else
-            {
-                scale = ((float)FLOAT_TO_FX32(1.0) * ((exSonicBarrierChargingEffectScaleTable[12] - exSonicBarrierChargingEffectScaleTable[0]) / 120.0f)) - 0.5f;
-            }
-            work->scale += (fx32)scale;
+            float scaleF;
+            MULTIPLY_FLOAT_FX(scaleF, (exSonicBarrierChargingEffectConfig[2].scale.x - exSonicBarrierChargingEffectConfig[0].scale.x) / 120.0f)
+            work->scale += (fx32)scaleF;
         }
     }
     else

@@ -8,6 +8,7 @@
 #include <ex/system/exSystem.h>
 #include <ex/system/exStage.h>
 #include <ex/system/exSave.h>
+#include <ex/system/exMath.h>
 #include <ex/system/exGameSystem.h>
 #include <ex/system/exTimeGameplay.h>
 #include <ex/system/exDrawFade.h>
@@ -1114,8 +1115,8 @@ void ExPlayer_Action_StartBlazeFireball(void)
     work->worker->moveFlags.disableDash = TRUE;
     SetExBurningBlazeAnimation(&work->aniBlaze->manager, ex_blz_fb_01);
     exDrawReqTask__Func_21641F0(&work->aniBlaze->manager.config);
-    exExEffectBlzFireTaMeTask__Create(&work->aniBlaze->manager);
-    exEffectBlzFireTask__Create(&work->aniBlaze->manager);
+    CreateExBlazeFireballChargingEffect(&work->aniBlaze->manager);
+    CreateExBlazeFireballEffect(&work->aniBlaze->manager);
 
     SetCurrentExTaskMainEvent(ExPlayer_Main_StartBlazeFireball);
     ExPlayer_Main_StartBlazeFireball();
@@ -1232,7 +1233,7 @@ void ExPlayer_Main_ShootBlazeFireball(void)
 
     ProcessExPlayerAnimations();
 
-    if (work->aniBlaze->manager.model.field_328->frame >= FLOAT_TO_FX32(5.0))
+    if (work->aniBlaze->manager.model.primaryAnimResource->frame >= FLOAT_TO_FX32(5.0))
     {
         if (GetExSystemStatus()->difficulty == EXSYS_DIFFICULTY_NORMAL)
         {
@@ -1265,7 +1266,7 @@ void ExPlayer_Main_ShootBlazeFireball(void)
             }
         }
 
-        exEffectBlzFireShotTask__Create(&work->aniBlaze->manager);
+        CreateExBlazeFireballShotEffect(&work->aniBlaze->manager);
 
         SetCurrentExTaskMainEvent(ExPlayer_Main_EndBlazeFireball);
     }
@@ -1556,26 +1557,12 @@ void ExPlayer_HandleMovement(void)
             {
                 fx32 velX = work->worker->velocity.x;
                 float speedX;
-                if (FX32_TO_FLOAT(CosFX(FLOAT_DEG_TO_IDX(45.0))) > 0.0f)
-                {
-                    speedX = ((float)FLOAT_TO_FX32(1.0) * FX32_TO_FLOAT(CosFX(FLOAT_DEG_TO_IDX(45.0)))) + 0.5f;
-                }
-                else
-                {
-                    speedX = ((float)FLOAT_TO_FX32(1.0) * FX32_TO_FLOAT(CosFX(FLOAT_DEG_TO_IDX(45.0)))) - 0.5f;
-                }
+                MULTIPLY_FLOAT_FX(speedX, FX32_TO_FLOAT(CosFX(FLOAT_DEG_TO_IDX(45.0))))
                 work->worker->velocity.x = MultiplyFX(speedX, velX);
 
                 fx32 velY = work->worker->velocity.y;
                 float speedY;
-                if (FX32_TO_FLOAT(SinFX(FLOAT_DEG_TO_IDX(45.0))) > 0.0f)
-                {
-                    speedY = ((float)FLOAT_TO_FX32(1.0) * FX32_TO_FLOAT(SinFX(FLOAT_DEG_TO_IDX(45.0)))) + 0.5f;
-                }
-                else
-                {
-                    speedY = ((float)FLOAT_TO_FX32(1.0) * FX32_TO_FLOAT(SinFX(FLOAT_DEG_TO_IDX(45.0)))) - 0.5f;
-                }
+                MULTIPLY_FLOAT_FX(speedY, FX32_TO_FLOAT(SinFX(FLOAT_DEG_TO_IDX(45.0))))
                 work->worker->velocity.y = MultiplyFX(speedY, velY);
             }
 
@@ -1691,26 +1678,12 @@ void ExPlayer_HandleDash(void)
             {
                 fx32 velX = work->worker->velocity.x;
                 float speedX;
-                if (FX32_TO_FLOAT(CosFX(FLOAT_DEG_TO_IDX(45.0))) > 0.0f)
-                {
-                    speedX = ((float)FLOAT_TO_FX32(1.0) * FX32_TO_FLOAT(CosFX(FLOAT_DEG_TO_IDX(45.0)))) + 0.5f;
-                }
-                else
-                {
-                    speedX = ((float)FLOAT_TO_FX32(1.0) * FX32_TO_FLOAT(CosFX(FLOAT_DEG_TO_IDX(45.0)))) - 0.5f;
-                }
+                MULTIPLY_FLOAT_FX(speedX, FX32_TO_FLOAT(CosFX(FLOAT_DEG_TO_IDX(45.0))))
                 work->worker->velocity.x = MultiplyFX(speedX, velX);
 
                 fx32 velY = work->worker->velocity.y;
                 float speedY;
-                if (FX32_TO_FLOAT(SinFX(FLOAT_DEG_TO_IDX(45.0))) > 0.0f)
-                {
-                    speedY = ((float)FLOAT_TO_FX32(1.0) * FX32_TO_FLOAT(SinFX(FLOAT_DEG_TO_IDX(45.0)))) + 0.5f;
-                }
-                else
-                {
-                    speedY = ((float)FLOAT_TO_FX32(1.0) * FX32_TO_FLOAT(SinFX(FLOAT_DEG_TO_IDX(45.0)))) - 0.5f;
-                }
+                MULTIPLY_FLOAT_FX(speedY, FX32_TO_FLOAT(SinFX(FLOAT_DEG_TO_IDX(45.0))))
                 work->worker->velocity.y = MultiplyFX(speedY, velY);
             }
 

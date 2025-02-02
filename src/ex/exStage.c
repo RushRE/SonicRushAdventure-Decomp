@@ -54,8 +54,8 @@ void LoadExStageAssets(EX_ACTION_NN_WORK *work)
     AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_TEX_ANIM, exStageModelAnimations[1], 0, NULL);
     AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_MAT_ANIM, exStageModelAnimations[2], 0, NULL);
 
-    work->model.field_32C = 0;
-    work->model.field_328 = work->model.animator.currentAnimObj[0];
+    work->model.primaryAnimType = B3D_ANIM_JOINT_ANIM;
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[B3D_ANIM_JOINT_ANIM];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {

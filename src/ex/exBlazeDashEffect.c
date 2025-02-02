@@ -72,8 +72,8 @@ void LoadExBurningBlazeModel(EX_ACTION_NN_WORK *work)
     AnimatorMDL__SetResource(&work->model.animator, exBurningBlazeModelResource, 0, TRUE, TRUE);
     AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exBurningBlazeJointAniResource, 0, NULL);
 
-    work->model.field_32C = 0;
-    work->model.field_328 = work->model.animator.currentAnimObj[0];
+    work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[B3D_ANIM_JOINT_ANIM];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -149,8 +149,8 @@ void LoadExRegularBlazeModel(EX_ACTION_NN_WORK *work)
     AnimatorMDL__SetResource(&work->model.animator, exRegularBlazeModelResource, 0, TRUE, TRUE);
     AnimatorMDL__SetAnimation(&work->model.animator, B3D_ANIM_JOINT_ANIM, exRegularBlazeJointAniResource, 0, NULL);
 
-    work->model.field_32C = 0;
-    work->model.field_328 = work->model.animator.currentAnimObj[0];
+    work->model.primaryAnimType     = B3D_ANIM_JOINT_ANIM;
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[B3D_ANIM_JOINT_ANIM];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -246,8 +246,8 @@ BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
         AnimatorMDL__SetAnimation(&work->model.animator, exBlazeDashEffectAnimType[i], exBlazeDashEffectAnimResource[i], 0, NULL);
     }
 
-    work->model.field_32C = exBlazeDashEffectAnimType[1];
-    work->model.field_328 = work->model.animator.currentAnimObj[exBlazeDashEffectAnimType[1]];
+    work->model.primaryAnimType     = exBlazeDashEffectAnimType[1];
+    work->model.primaryAnimResource = work->model.animator.currentAnimObj[exBlazeDashEffectAnimType[1]];
 
     for (u32 r = 0; r < B3D_ANIM_MAX; r++)
     {
@@ -263,7 +263,8 @@ BOOL LoadExBlazeDashEffectAssets(EX_ACTION_NN_WORK *work)
     if (GetExPlayerWorker()->playerFlags.btnLeft == TRUE || GetExPlayerWorker()->playerFlags.btnRight == TRUE || GetExPlayerWorker()->playerFlags.btnDown == TRUE
         || GetExPlayerWorker()->playerFlags.btnUp == TRUE)
     {
-        if (GetExSystemStatus()->state == EXSYSTASK_STATE_STAGE_FINISHED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED)
+        if (GetExSystemStatus()->state == EXSYSTASK_STATE_STAGE_FINISHED || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE2_STARTED
+            || GetExSystemStatus()->state == EXSYSTASK_STATE_BOSS_HEAL_PHASE3_STARTED)
         {
             work->model.angle.x = -FLOAT_DEG_TO_IDX(90.066);
         }
