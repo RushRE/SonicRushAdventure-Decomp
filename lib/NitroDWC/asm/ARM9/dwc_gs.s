@@ -2158,7 +2158,7 @@ sub_20A0C0C: // 0x020A0C0C
 	mov r2, r0
 	cmp r3, #0
 	beq _020A0C44
-	ldr r1, _020A0C4C // =_0211704C
+	ldr r1, _020A0C4C // =__lower_mapC
 _020A0C20:
 	cmp r3, #0
 	blt _020A0C34
@@ -2174,7 +2174,7 @@ _020A0C44:
 	mov r0, r2
 	bx lr
 	.align 2, 0
-_020A0C4C: .word _0211704C
+_020A0C4C: .word __lower_mapC
 	arm_func_end sub_20A0C0C
 
 	arm_func_start sub_20A0C50
@@ -5674,7 +5674,7 @@ _020A3B38:
 	cmp r0, #0
 	beq _020A3CA4
 	add r4, r0, #9
-	ldr r1, _020A3E88 // =_0211714C
+	ldr r1, _020A3E88 // =__ctype_mapC
 	mov r2, #0
 	b _020A3B8C
 _020A3B88:
@@ -5696,7 +5696,7 @@ _020A3BB4:
 	cmp r0, #0
 	bne _020A3B88
 	mov r3, r4
-	ldr r1, _020A3E88 // =_0211714C
+	ldr r1, _020A3E88 // =__ctype_mapC
 	mov r2, #0
 	b _020A3BD0
 _020A3BCC:
@@ -5891,7 +5891,7 @@ _020A3E78: .word 0x0211CD74
 _020A3E7C: .word 0x0211CD7C
 _020A3E80: .word 0x51EB851F
 _020A3E84: .word aLocation
-_020A3E88: .word _0211714C
+_020A3E88: .word __ctype_mapC
 _020A3E8C: .word aHttpSDS
 _020A3E90: .word aContentLength_1
 _020A3E94: .word a2147483647
@@ -6337,7 +6337,7 @@ _020A4478:
 	bl sscanf
 	mov r3, #0
 	mov ip, #1
-	ldr r2, _020A4580 // =_0211714C
+	ldr r2, _020A4580 // =__ctype_mapC
 	b _020A44B8
 _020A44AC:
 	ldr r1, [sp, #0x14]
@@ -6399,7 +6399,7 @@ _020A4570: .word 0x0000024E
 _020A4574: .word aConnectionRecv
 _020A4578: .word 0x0000024F
 _020A457C: .word aHttpDDDN
-_020A4580: .word _0211714C
+_020A4580: .word __ctype_mapC
 	arm_func_end sub_20A4434
 
 	arm_func_start sub_20A4584
@@ -12934,7 +12934,7 @@ _020AA0D4:
 	blt _020AA0F0
 	cmp r1, #0x80
 	bge _020AA0F0
-	ldr r0, _020AA500 // =_021170CC
+	ldr r0, _020AA500 // =__upper_mapC
 	ldrb r1, [r0, r1]
 _020AA0F0:
 	mov r0, r1, lsl #0x18
@@ -13221,7 +13221,7 @@ _020AA4F0: .word aHomepage
 _020AA4F4: .word aZipcode
 _020AA4F8: .word aInvalidCountry
 _020AA4FC: .word aCountrycode
-_020AA500: .word _021170CC
+_020AA500: .word __upper_mapC
 _020AA504: .word 0x0211DB94
 _020AA508: .word 0x0211DB98
 _020AA50C: .word 0x0211DB9C
@@ -25326,7 +25326,7 @@ _020B4AAC:
 	add r3, r4, #1
 	cmp r0, #0
 	beq _020B4B04
-	ldr r1, _020B4B9C // =_0211714C
+	ldr r1, _020B4B9C // =__ctype_mapC
 	mov r2, #0
 _020B4AC4:
 	cmp r0, #0
@@ -25392,7 +25392,7 @@ _020B4B78:
 	.align 2, 0
 _020B4B94: .word aLenGti2StackHo
 _020B4B98: .word aGt2utilityC
-_020B4B9C: .word _0211714C
+_020B4B9C: .word __ctype_mapC
 _020B4BA0: .word 0x0000FFFF
 	arm_func_end sub_20B4A1C
 
@@ -29463,7 +29463,7 @@ sub_20B81E8: // 0x020B81E8
 	mov ip, #0
 	cmp lr, #0
 	beq _020B822C
-	ldr r3, _020B8240 // =_0211704C
+	ldr r3, _020B8240 // =__lower_mapC
 	ldr r2, _020B8244 // =0x9CCF9319
 _020B8208:
 	cmp lr, #0
@@ -29483,7 +29483,7 @@ _020B822C:
 	add sp, sp, #4
 	ldmia sp!, {pc}
 	.align 2, 0
-_020B8240: .word _0211704C
+_020B8240: .word __lower_mapC
 _020B8244: .word 0x9CCF9319
 	arm_func_end sub_20B81E8
 
@@ -29843,7 +29843,7 @@ _020B869C:
 	mov r1, #0
 	b _020B86B4
 _020B86A4:
-	ldr r1, _020B86D0 // =_0211714C
+	ldr r1, _020B86D0 // =__ctype_mapC
 	mov r2, r2, lsl #1
 	ldrh r1, [r1, r2]
 	and r1, r1, #8
@@ -29858,7 +29858,7 @@ _020B86C4:
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _020B86CC: .word 0x0211F07C
-_020B86D0: .word _0211714C
+_020B86D0: .word __ctype_mapC
 	arm_func_end SBServerGetIntValueA
 
 	arm_func_start SBServerGetStringValueA
@@ -32795,7 +32795,7 @@ sub_20BAE54: // 0x020BAE54
 	mov ip, #0
 	cmp lr, #0
 	beq _020BAE98
-	ldr r3, _020BAEAC // =_0211704C
+	ldr r3, _020BAEAC // =__lower_mapC
 	ldr r2, _020BAEB0 // =0x9CCF9319
 _020BAE74:
 	cmp lr, #0
@@ -32815,7 +32815,7 @@ _020BAE98:
 	add sp, sp, #4
 	ldmia sp!, {pc}
 	.align 2, 0
-_020BAEAC: .word _0211704C
+_020BAEAC: .word __lower_mapC
 _020BAEB0: .word 0x9CCF9319
 	arm_func_end sub_20BAE54
 

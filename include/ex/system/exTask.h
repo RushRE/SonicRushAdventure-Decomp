@@ -22,7 +22,7 @@
 // TYPEDEFS
 // --------------------
 
-typedef struct ExTask_ ExTask;
+struct ExTask_;
 
 typedef void (*ExTaskMain)(void);
 typedef void (*ExTaskDestructor)(void);
@@ -44,7 +44,7 @@ typedef u32 ExTaskType;
 // STRUCTS
 // --------------------
 
-struct ExTask_
+typedef struct ExTask_
 {
     ExTaskMain main;
     s32 unused1;
@@ -59,7 +59,7 @@ struct ExTask_
 #ifdef RUSH_DEBUG
     const char *name;
 #endif
-};
+} ExTask;
 
 // --------------------
 // FUNCTIONS

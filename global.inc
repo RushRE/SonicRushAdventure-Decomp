@@ -6851,9 +6851,9 @@
 .public fsi_default_command
 .public fsi_def_digest_key
 .public _02117000
-.public _0211704C
-.public _021170CC
-.public _0211714C
+.public __lower_mapC
+.public __upper_mapC
+.public __ctype_mapC
 .public _0211724C
 .public _0211725C
 .public aNan_3
@@ -8239,7 +8239,7 @@
 .public _02152548
 .public _02152590
 .public _021525F0
-.public _02152920
+.public errno
 .public _02152924
 .public __global_destructor_chain
 .public DecorationSys__Create
@@ -18117,7 +18117,7 @@
 .public ExTask_Main_AlwaysUpdate
 .public ExTask_Destructor_AlwaysUpdate
 .public ExTask_Main_Regular
-.public ExTask_Destructor1_Regular
+.public ExTask_Destructor_Regular
 .public ExTaskCreate_
 .public GetExTaskCurrent
 .public GetExTaskWorkCurrent_

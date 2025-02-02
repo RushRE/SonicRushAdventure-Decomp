@@ -12,7 +12,7 @@
 #define RENDERCORE_BRIGHTNESS_WHITE   (16)
 #define RENDERCORE_BRIGHTNESS_BLACK   (-16)
 
-#define PM_LCD_INVALID ((PMLCDTarget)-1)
+#define PM_LCD_INVALID ((PMLCDTarget) - 1)
 
 #define RENDERCORE_RESETPARAM_FLAG 0x80000000
 
@@ -295,5 +295,30 @@ RUSH_INLINE OSLanguage GetGameLanguage(void)
             return DEFAULT_LANGUAGE;
     }
 }
+
+// --------------------
+// DEBUG FUNCTIONS
+// --------------------
+
+#ifdef GDB_DEBUGGING
+// describes a single overlay entry, which GDB can inspect to determine which overlays are loaded.
+typedef struct
+{
+    unsigned long vma;
+    unsigned long size;
+    FSOverlayID id;
+    unsigned long mapped;
+} struct_overlayTable;
+
+// this is set based on the current number of overlays, other projects might need more!
+#define MAX_OVERLAYS 16
+
+// externs required for GDB to access overlay state
+extern unsigned long _novlys;
+extern struct_overlayTable _ovly_table[MAX_OVERLAYS];
+
+// event callback which GDB will hook and use to refresh overlay state
+static void _ovly_debug_event(void);
+#endif // GDB_DEBUGGING
 
 #endif // RUSH_RENDERCORE_H

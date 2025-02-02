@@ -61,8 +61,8 @@ _02152590: // 0x02152590
 _021525F0: // 0x021525F0
 	.space 0x330
 	
-.public _02152920
-_02152920: // 0x02152920
+.public errno
+errno: // 0x02152920
 	.space 0x04
 	
 .public _02152924
@@ -1093,7 +1093,7 @@ _ftell: // 0x020FE230
 	cmp r1, #0
 	beq _020FE270
 _020FE25C:
-	ldr r0, _020FE2A8 // =_02152920
+	ldr r0, _020FE2A8 // =errno
 	mov r1, #0x28
 	str r1, [r0]
 	sub r0, r1, #0x29
@@ -1114,7 +1114,7 @@ _020FE270:
 	subhs r0, r0, r1
 	bx lr
 	.align 2, 0
-_020FE2A8: .word _02152920
+_020FE2A8: .word errno
 	arm_func_end _ftell
 
 	arm_func_start ftell
@@ -1212,7 +1212,7 @@ _fseek: // 0x020FE3C8
 	ldreqb r1, [r5, #0xd]
 	cmpeq r1, #0
 	beq _020FE414
-	ldr r0, _020FE5AC // =_02152920
+	ldr r0, _020FE5AC // =errno
 	mov r1, #0x28
 	str r1, [r0]
 	sub r0, r1, #0x29
@@ -1232,7 +1232,7 @@ _020FE414:
 	mov r0, #1
 	strb r0, [r5, #0xd]
 	mov r2, #0
-	ldr r0, _020FE5AC // =_02152920
+	ldr r0, _020FE5AC // =errno
 	mov r1, #0x28
 	str r2, [r5, #0x28]
 	str r1, [r0]
@@ -1311,7 +1311,7 @@ _020FE524:
 	mov r0, #1
 	strb r0, [r5, #0xd]
 	mov r2, #0
-	ldr r0, _020FE5AC // =_02152920
+	ldr r0, _020FE5AC // =errno
 	mov r1, #0x28
 	str r2, [r5, #0x28]
 	str r1, [r0]
@@ -1331,7 +1331,7 @@ _020FE59C:
 	add sp, sp, #0x10
 	bx lr
 	.align 2, 0
-_020FE5AC: .word _02152920
+_020FE5AC: .word errno
 	arm_func_end _fseek
 
 	arm_func_start fseek
@@ -1818,7 +1818,7 @@ _020FEB88:
 	ldrsb r3, [ip, #1]!
 	b _020FEBE0
 _020FEB90:
-	ldr r4, _020FEFD4 // =_0211714C
+	ldr r4, _020FEFD4 // =__ctype_mapC
 	mov r5, #0
 	mov r0, #0xa
 	b _020FEBB4
@@ -1875,7 +1875,7 @@ _020FEC10:
 	strltb r0, [sp, #2]
 	b _020FECA4
 _020FEC54:
-	ldr r2, _020FEFD4 // =_0211714C
+	ldr r2, _020FEFD4 // =__ctype_mapC
 	mov r4, #0
 	mov r0, #0xa
 	b _020FEC78
@@ -2133,7 +2133,7 @@ _020FEFBC:
 	add sp, sp, #0x10
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
-_020FEFD4: .word _0211714C
+_020FEFD4: .word __ctype_mapC
 _020FEFD8: .word 0x000001FD
 	arm_func_end parse_format__printf
 
@@ -3007,7 +3007,7 @@ _020FFC08:
 	mov r1, #0
 	b _020FFC20
 _020FFC10:
-	ldr r1, _02100244 // =_0211714C
+	ldr r1, _02100244 // =__ctype_mapC
 	mov r2, r6, lsl #1
 	ldrh r1, [r1, r2]
 	and r1, r1, #0x200
@@ -3055,7 +3055,7 @@ _020FFCB4:
 	mov r1, #0
 	b _020FFCCC
 _020FFCBC:
-	ldr r1, _02100244 // =_0211714C
+	ldr r1, _02100244 // =__ctype_mapC
 	mov r2, r6, lsl #1
 	ldrh r1, [r1, r2]
 	and r1, r1, #0x200
@@ -3102,7 +3102,7 @@ _020FFD5C:
 	mov r1, #0
 	b _020FFD74
 _020FFD64:
-	ldr r1, _02100244 // =_0211714C
+	ldr r1, _02100244 // =__ctype_mapC
 	mov r2, r6, lsl #1
 	ldrh r1, [r1, r2]
 	and r1, r1, #0x200
@@ -3150,7 +3150,7 @@ _020FFE08:
 	mov r1, #0
 	b _020FFE20
 _020FFE10:
-	ldr r1, _02100244 // =_0211714C
+	ldr r1, _02100244 // =__ctype_mapC
 	mov r2, r6, lsl #1
 	ldrh r1, [r1, r2]
 	and r1, r1, #0x200
@@ -3451,7 +3451,7 @@ _0210022C:
 	bx lr
 	.align 2, 0
 _02100240: .word 0x000001FD
-_02100244: .word _0211714C
+_02100244: .word __ctype_mapC
 _02100248: .word _02132624
 _0210024C: .word 0x0213262C
 _02100250: .word 0x02132634
@@ -4396,7 +4396,7 @@ _02100F08:
 	mov r1, #0
 	b _02100F20
 _02100F10:
-	ldr r1, _02101370 // =_0211714C
+	ldr r1, _02101370 // =__ctype_mapC
 	mov r2, r0, lsl #1
 	ldrh r1, [r1, r2]
 	and r1, r1, #8
@@ -4404,7 +4404,7 @@ _02100F20:
 	cmp r1, #0
 	beq _02100FC0
 	mov r1, #0
-	ldr r3, _02101370 // =_0211714C
+	ldr r3, _02101370 // =__ctype_mapC
 	str r1, [sp, #4]
 	mov r4, r1
 	mov r1, #0xa
@@ -4719,7 +4719,7 @@ _02101344:
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0210136C: .word _0211724C
-_02101370: .word _0211714C
+_02101370: .word __ctype_mapC
 	arm_func_end parse_format__printf__scanf
 
 	arm_func_start __sformatter
@@ -4753,14 +4753,14 @@ _021013D0:
 	movne r0, #0
 	bne _021013EC
 	mov r1, r5, lsl #1
-	ldr r0, _021020C0 // =_0211714C
+	ldr r0, _021020C0 // =__ctype_mapC
 	ldrh r0, [r0, r1]
 	and r0, r0, #0x100
 _021013EC:
 	cmp r0, #0
 	beq _021014AC
 	mov r2, #0
-	ldr r1, _021020C0 // =_0211714C
+	ldr r1, _021020C0 // =__ctype_mapC
 	mov ip, r2
 	mov r3, #1
 _02101404:
@@ -4783,7 +4783,7 @@ _02101424:
 	ldr r0, [sp, #0x30]
 	cmp r0, #0
 	bne _02102078
-	ldr r5, _021020C0 // =_0211714C
+	ldr r5, _021020C0 // =__ctype_mapC
 	b _02101458
 _02101454:
 	add r4, r4, #1
@@ -5412,7 +5412,7 @@ _02101CC8:
 	ldr r0, [sp, #0x30]
 	cmp r0, #0
 	bne _02102078
-	ldr r5, _021020C0 // =_0211714C
+	ldr r5, _021020C0 // =__ctype_mapC
 	b _02101CE0
 _02101CDC:
 	add r4, r4, #1
@@ -5477,7 +5477,7 @@ _02101DA4:
 	mov r0, #0
 	b _02101DBC
 _02101DAC:
-	ldr r0, _021020C0 // =_0211714C
+	ldr r0, _021020C0 // =__ctype_mapC
 	mov r2, r1, lsl #1
 	ldrh r0, [r0, r2]
 	and r0, r0, #0x100
@@ -5703,7 +5703,7 @@ _021020B4:
 	add sp, sp, #0x88
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_021020C0: .word _0211714C
+_021020C0: .word __ctype_mapC
 _021020C4: .word 0x021323F4
 	arm_func_end __sformatter
 
@@ -6349,7 +6349,7 @@ _021028E0:
 	b _021028F8
 _021028E8:
 	mov r2, r1, lsl #1
-	ldr r0, _021036F4 // =_0211714C
+	ldr r0, _021036F4 // =__ctype_mapC
 	ldrh r0, [r0, r2]
 	and r0, r0, #0x100
 _021028F8:
@@ -6373,7 +6373,7 @@ _02102934:
 	mov r0, r1
 	b _02102944
 _0210293C:
-	ldr r0, _021036F8 // =_021170CC
+	ldr r0, _021036F8 // =__upper_mapC
 	ldrb r0, [r0, r1]
 _02102944:
 	cmp r0, #0x49
@@ -6441,7 +6441,7 @@ _02102A00:
 	bne _02102A00
 	ldrb r2, [r7, #0]
 	add r6, sp, #0x77
-	ldr r7, _021036F8 // =_021170CC
+	ldr r7, _021036F8 // =__upper_mapC
 	strb r2, [r0]
 	b _02102A54
 _02102A34:
@@ -6543,7 +6543,7 @@ _02102B7C:
 	mov r2, r1
 	b _02102B8C
 _02102B84:
-	ldr r0, _021036F8 // =_021170CC
+	ldr r0, _021036F8 // =__upper_mapC
 	ldrb r2, [r0, r1]
 _02102B8C:
 	ldrsb r0, [r7, #0]
@@ -6555,7 +6555,7 @@ _02102B98:
 	bhi _02102CAC
 	cmp r5, #4
 	bne _02102C50
-	ldr r7, _021036F4 // =_0211714C
+	ldr r7, _021036F4 // =__ctype_mapC
 	b _02102BD8
 _02102BB4:
 	add r0, sp, #0x56
@@ -6655,7 +6655,7 @@ _02102CEC:
 	b _02102D04
 _02102CF4:
 	mov r2, r1, lsl #1
-	ldr r0, _021036F4 // =_0211714C
+	ldr r0, _021036F4 // =__ctype_mapC
 	ldrh r0, [r0, r2]
 	and r0, r0, #8
 _02102D04:
@@ -6674,7 +6674,7 @@ _02102D04:
 	blt _02102D48
 	cmp r0, #0x80
 	bge _02102D48
-	ldr r2, _021036F8 // =_021170CC
+	ldr r2, _021036F8 // =__upper_mapC
 	ldrb r0, [r2, r0]
 _02102D48:
 	cmp r0, #0x58
@@ -6706,7 +6706,7 @@ _02102D9C:
 	b _02102DB4
 _02102DA4:
 	mov r2, r1, lsl #1
-	ldr r0, _021036F4 // =_0211714C
+	ldr r0, _021036F4 // =__ctype_mapC
 	ldrh r0, [r0, r2]
 	and r0, r0, #8
 _02102DB4:
@@ -6753,7 +6753,7 @@ _02102E40:
 	b _02102E58
 _02102E48:
 	mov r2, r1, lsl #1
-	ldr r0, _021036F4 // =_0211714C
+	ldr r0, _021036F4 // =__ctype_mapC
 	ldrh r0, [r0, r2]
 	and r0, r0, #8
 _02102E58:
@@ -6771,7 +6771,7 @@ _02102E78:
 	b _02102E90
 _02102E80:
 	mov r2, r1, lsl #1
-	ldr r0, _021036F4 // =_0211714C
+	ldr r0, _021036F4 // =__ctype_mapC
 	ldrh r0, [r0, r2]
 	and r0, r0, #8
 _02102E90:
@@ -6811,7 +6811,7 @@ _02102F04:
 	mov r0, r1
 	b _02102F14
 _02102F0C:
-	ldr r0, _021036F8 // =_021170CC
+	ldr r0, _021036F8 // =__upper_mapC
 	ldrb r0, [r0, r1]
 _02102F14:
 	cmp r0, #0x45
@@ -6859,7 +6859,7 @@ _02102FA4:
 	b _02102FBC
 _02102FAC:
 	mov r2, r1, lsl #1
-	ldr r0, _021036F4 // =_0211714C
+	ldr r0, _021036F4 // =__ctype_mapC
 	ldrh r0, [r0, r2]
 	and r0, r0, #8
 _02102FBC:
@@ -6898,7 +6898,7 @@ _0210302C:
 	b _02103044
 _02103034:
 	mov r2, r1, lsl #1
-	ldr r0, _021036F4 // =_0211714C
+	ldr r0, _021036F4 // =__ctype_mapC
 	ldrh r0, [r0, r2]
 	and r0, r0, #8
 _02103044:
@@ -6998,7 +6998,7 @@ _02103190:
 	b _021031A8
 _02103198:
 	mov r2, r1, lsl #1
-	ldr r0, _021036F4 // =_0211714C
+	ldr r0, _021036F4 // =__ctype_mapC
 	ldrh r0, [r0, r2]
 	and r0, r0, #0x400
 _021031A8:
@@ -7030,7 +7030,7 @@ _021031DC:
 	blt _0210321C
 	cmp r1, #0x80
 	bge _0210321C
-	ldr r2, _021036F8 // =_021170CC
+	ldr r2, _021036F8 // =__upper_mapC
 	ldrb r1, [r2, r1]
 _0210321C:
 	cmp r1, #0x41
@@ -7073,7 +7073,7 @@ _021032A0:
 	b _021032B8
 _021032A8:
 	mov r2, r1, lsl #1
-	ldr r0, _021036F4 // =_0211714C
+	ldr r0, _021036F4 // =__ctype_mapC
 	ldrh r0, [r0, r2]
 	and r0, r0, #0x400
 _021032B8:
@@ -7091,7 +7091,7 @@ _021032B8:
 	blt _021032F8
 	cmp r1, #0x80
 	bge _021032F8
-	ldr r2, _021036F8 // =_021170CC
+	ldr r2, _021036F8 // =__upper_mapC
 	ldrb r1, [r2, r1]
 _021032F8:
 	cmp r1, #0x41
@@ -7133,7 +7133,7 @@ _0210337C:
 	mov r0, r1
 	b _0210338C
 _02103384:
-	ldr r0, _021036F8 // =_021170CC
+	ldr r0, _021036F8 // =__upper_mapC
 	ldrb r0, [r0, r1]
 _0210338C:
 	cmp r0, #0x50
@@ -7177,7 +7177,7 @@ _02103410:
 	b _02103428
 _02103418:
 	mov r2, r1, lsl #1
-	ldr r0, _021036F4 // =_0211714C
+	ldr r0, _021036F4 // =__ctype_mapC
 	ldrh r0, [r0, r2]
 	and r0, r0, #8
 _02103428:
@@ -7216,7 +7216,7 @@ _02103498:
 	b _021034B0
 _021034A0:
 	mov r2, r1, lsl #1
-	ldr r0, _021036F4 // =_0211714C
+	ldr r0, _021036F4 // =__ctype_mapC
 	ldrh r0, [r0, r2]
 	and r0, r0, #8
 _021034B0:
@@ -7380,8 +7380,8 @@ _02103694:
 	.align 2, 0
 _021036EC: .word aFinity
 _021036F0: .word aNan_3
-_021036F4: .word _0211714C
-_021036F8: .word _021170CC
+_021036F4: .word __ctype_mapC
+_021036F8: .word __upper_mapC
 _021036FC: .word _021323F0
 _02103700: .word 0x00007FFF
 _02103704: .word 0x00000E2C
@@ -7596,7 +7596,7 @@ strtold: // 0x02103958
 	bl _dgeq
 	bls _02103A1C
 _02103A10:
-	ldr r0, _02103A34 // =_02152920
+	ldr r0, _02103A34 // =errno
 	mov r1, #0x22
 	str r1, [r0]
 _02103A1C:
@@ -7607,7 +7607,7 @@ _02103A1C:
 	.align 2, 0
 _02103A2C: .word __StringRead
 _02103A30: .word 0x7FEFFFFF
-_02103A34: .word _02152920
+_02103A34: .word errno
 	arm_func_end strtold
 
 	arm_func_start atof
@@ -7704,7 +7704,7 @@ _02103B60:
 	mov r0, #0
 	b _02103B78
 _02103B68:
-	ldr r0, _02103E28 // =_0211714C
+	ldr r0, _02103E28 // =__ctype_mapC
 	mov r1, r6, lsl #1
 	ldrh r0, [r0, r1]
 	and r0, r0, #0x100
@@ -7801,7 +7801,7 @@ _02103CAC:
 	mov r0, #0
 	b _02103CC4
 _02103CB4:
-	ldr r0, _02103E28 // =_0211714C
+	ldr r0, _02103E28 // =__ctype_mapC
 	mov r1, r6, lsl #1
 	ldrh r0, [r0, r1]
 	and r0, r0, #8
@@ -7825,7 +7825,7 @@ _02103CFC:
 	mov r0, #0
 	b _02103D14
 _02103D04:
-	ldr r0, _02103E28 // =_0211714C
+	ldr r0, _02103E28 // =__ctype_mapC
 	mov r1, r6, lsl #1
 	ldrh r0, [r0, r1]
 	and r0, r0, #1
@@ -7840,7 +7840,7 @@ _02103D2C:
 	mov r0, r6
 	b _02103D3C
 _02103D34:
-	ldr r0, _02103E2C // =_021170CC
+	ldr r0, _02103E2C // =__upper_mapC
 	ldrb r0, [r0, r6]
 _02103D3C:
 	sub r0, r0, #0x37
@@ -7856,7 +7856,7 @@ _02103D58:
 	blt _02103D70
 	cmp r6, #0x80
 	bge _02103D70
-	ldr r0, _02103E2C // =_021170CC
+	ldr r0, _02103E2C // =__upper_mapC
 	ldrb r6, [r0, r6]
 _02103D70:
 	sub r6, r6, #0x37
@@ -7911,8 +7911,8 @@ _02103E0C:
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02103E28: .word _0211714C
-_02103E2C: .word _021170CC
+_02103E28: .word __ctype_mapC
+_02103E2C: .word __upper_mapC
 	arm_func_end __strtoul
 
 	arm_func_start __strtoull
@@ -8005,7 +8005,7 @@ _02103F5C:
 	mov r0, #0
 	b _02103F74
 _02103F64:
-	ldr r0, _02104274 // =_0211714C
+	ldr r0, _02104274 // =__ctype_mapC
 	mov r1, r6, lsl #1
 	ldrh r0, [r0, r1]
 	and r0, r0, #0x100
@@ -8108,7 +8108,7 @@ _021040C0:
 	mov r0, #0
 	b _021040D8
 _021040C8:
-	ldr r0, _02104274 // =_0211714C
+	ldr r0, _02104274 // =__ctype_mapC
 	mov r1, r6, lsl #1
 	ldrh r0, [r0, r1]
 	and r0, r0, #8
@@ -8132,7 +8132,7 @@ _02104110:
 	mov r0, #0
 	b _02104128
 _02104118:
-	ldr r0, _02104274 // =_0211714C
+	ldr r0, _02104274 // =__ctype_mapC
 	mov r1, r6, lsl #1
 	ldrh r0, [r0, r1]
 	and r0, r0, #1
@@ -8147,7 +8147,7 @@ _02104140:
 	mov r0, r6
 	b _02104150
 _02104148:
-	ldr r0, _02104278 // =_021170CC
+	ldr r0, _02104278 // =__upper_mapC
 	ldrb r0, [r0, r6]
 _02104150:
 	sub r0, r0, #0x37
@@ -8163,7 +8163,7 @@ _0210416C:
 	blt _02104184
 	cmp r6, #0x80
 	bge _02104184
-	ldr r0, _02104278 // =_021170CC
+	ldr r0, _02104278 // =__upper_mapC
 	ldrb r6, [r0, r6]
 _02104184:
 	sub r6, r6, #0x37
@@ -8232,8 +8232,8 @@ _02104254:
 	add sp, sp, #0x1c
 	ldmia sp!, {r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
-_02104274: .word _0211714C
-_02104278: .word _021170CC
+_02104274: .word __ctype_mapC
+_02104278: .word __upper_mapC
 	arm_func_end __strtoull
 
 	arm_func_start strtoul
@@ -8263,7 +8263,7 @@ strtoul: // 0x0210427C
 	ldr r1, [sp, #0x14]
 	cmp r1, #0
 	beq _021042F8
-	ldr r0, _02104310 // =_02152920
+	ldr r0, _02104310 // =errno
 	mov r1, #0x22
 	str r1, [r0]
 	add sp, sp, #0x20
@@ -8277,7 +8277,7 @@ _021042F8:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0210430C: .word __StringRead
-_02104310: .word _02152920
+_02104310: .word errno
 	arm_func_end strtoul
 
 	arm_func_start strtol
@@ -8320,7 +8320,7 @@ _02104390:
 	bls _021043C4
 _021043A0:
 	ldr r0, [sp, #0x18]
-	ldr r1, _021043D8 // =_02152920
+	ldr r1, _021043D8 // =errno
 	mov r2, #0x22
 	cmp r0, #0
 	movne r0, #0x80000000
@@ -8335,7 +8335,7 @@ _021043C4:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _021043D4: .word __StringRead
-_021043D8: .word _02152920
+_021043D8: .word errno
 	arm_func_end strtol
 
 	arm_func_start atoi
@@ -10978,7 +10978,7 @@ _021067E4:
 	orrs r0, r7, r5
 	bne _0210681C
 	ldr r0, _02106A48 // =0x021323F4
-	ldr r1, _02106A4C // =_02152920
+	ldr r1, _02106A4C // =errno
 	ldr r0, [r0, #0]
 	mov r2, #0x21
 	str r2, [r1]
@@ -11133,7 +11133,7 @@ _02106A3C: .word 0x43400000
 _02106A40: .word 0xFFFFFC01
 _02106A44: .word 0x3FE00000
 _02106A48: .word 0x021323F4
-_02106A4C: .word _02152920
+_02106A4C: .word errno
 _02106A50: .word 0x41E00000
 _02106A54: .word 0x3FEFFFFF
 _02106A58: .word 0x3FD00000
@@ -13719,7 +13719,7 @@ scalbn: // 0x02108EA0
 	arm_func_start stricmp
 stricmp: // 0x02108ECC
 	stmdb sp!, {r3, lr}
-	ldr r3, _02108F30 // =_0211704C
+	ldr r3, _02108F30 // =__lower_mapC
 _02108ED4:
 	ldrb r2, [r0], #1
 	cmp r2, #0
@@ -13747,7 +13747,7 @@ _02108F08:
 	mov r0, #0
 	ldmia sp!, {r3, pc}
 	.align 2, 0
-_02108F30: .word _0211704C
+_02108F30: .word __lower_mapC
 	arm_func_end stricmp
 
 	arm_func_start strcasecmp
@@ -14535,7 +14535,7 @@ _02109988:
 _02109994:
 	ldr r2, _021099B4 // =0x7FF80000
 	orr r1, r1, r2
-	ldr r3, _021099B8 // =_02152920
+	ldr r3, _021099B8 // =errno
 	mov r4, #0x21
 	str r4, [r3]
 	ldmia sp!, {r4, r5, r6, lr}
@@ -14543,7 +14543,7 @@ _02109994:
 	.align 2, 0
 _021099B0: .word 0x7FF00000
 _021099B4: .word 0x7FF80000
-_021099B8: .word _02152920
+_021099B8: .word errno
 	arm_func_end _dsqrt
 
 	arm_func_start _drsb
@@ -17187,12 +17187,11 @@ byte_210BB94: // 0x0210BB94
 
 byte_210BB9C: // 0x0210BB9C
 	.byte 0, 0xFF, 5, 0x20, 0, 0, 0, 0
-	
 
 	.rodata
 
-.public _0211704C
-_0211704C: // 0x0211704C
+.public __lower_mapC
+__lower_mapC: // 0x0211704C
 	.byte 0x00, 0x01, 0x02, 0x03
 	.byte 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13
 	.byte 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23
@@ -17203,8 +17202,8 @@ _0211704C: // 0x0211704C
 	.byte 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F, 0x70, 0x71, 0x72, 0x73
 	.byte 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F
 	
-.public _021170CC
-_021170CC: // 0x021170CC
+.public __upper_mapC
+__upper_mapC: // 0x021170CC
 	.byte 0x00, 0x01, 0x02, 0x03
 	.byte 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13
 	.byte 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23
@@ -17215,8 +17214,8 @@ _021170CC: // 0x021170CC
 	.byte 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x53
 	.byte 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x7B, 0x7C, 0x7D, 0x7E, 0x7F, 
 	
-.public _0211714C
-_0211714C: // 0x0211714C
+.public __ctype_mapC
+__ctype_mapC: // 0x0211714C
 	.byte 0x04, 0x00, 0x04, 0x00
 	.byte 0x04, 0x00, 0x04, 0x00, 0x04, 0x00, 0x04, 0x00, 0x04, 0x00, 0x04, 0x00, 0x04, 0x00, 0x06, 0x01
 	.byte 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x01, 0x04, 0x00, 0x04, 0x00, 0x04, 0x00, 0x04, 0x00

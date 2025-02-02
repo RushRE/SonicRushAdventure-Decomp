@@ -56,17 +56,6 @@ static struct ExBlazeFireballEffectConfig exBlazeFireballChargingEffectConfig[] 
 };
 
 // --------------------
-// TEMP
-// --------------------
-
-NOT_DECOMPILED void _f_ftoi(void);
-NOT_DECOMPILED void _fdiv(void);
-NOT_DECOMPILED void _f_sub(void);
-NOT_DECOMPILED void _fadd(void);
-NOT_DECOMPILED void _f_mul(void);
-NOT_DECOMPILED void _fgr(void);
-
-// --------------------
 // FUNCTION DECLS
 // --------------------
 

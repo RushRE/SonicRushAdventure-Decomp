@@ -6,13 +6,11 @@ PROC_S         := arm5te
 PROC_LD        := v5te
 LCF_TEMPLATE   := ARM9-TS.lcf.template
 LIBS           := -Llib -lsyscall -nostdlib
-OPTFLAGS       := -O4,p
-DEBUGFLAGS     := 
+OPTFLAGS       := -O4,p -nodeadstrip
 
 # don't compare if we're adding extra debug stuff
 ifeq ($(DEBUG),1)
-OPTFLAGS       := -O0
-DEBUGFLAGS     := -g3
+OPTFLAGS       := -O1,p
 endif
 
 include config.mk
@@ -21,11 +19,6 @@ ALL_BUILDDIRS  := $(BUILD_DIR)/lib
 include common.mk
 
 include filesystem.mk
-
-$(ASM_OBJS): MWASFLAGS += -DPM_ASM
-
-$(BUILD_DIR)/asm/nitrocrypto.o:  MWCCVER := 1.2/sp2p3
-$(BUILD_DIR)/lib/msl/src/*.o:    EXCCFLAGS := -Cpp_exceptions on
 
 # Locate crt0.o
 CRT0_OBJ := lib/NitroSDK/src/init/ARM9/crt0.o

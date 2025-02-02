@@ -154,16 +154,21 @@ XMAP              := $(ELF).xMAP
 EXCCFLAGS         		:= -Cpp_exceptions off
 IPA_FLAG 		   		:= -ipa file
 
+INLINE_FLAG 			:= -inline on,noauto
+ifeq ($(DEBUG),1)
+INLINE_FLAG       := -inline off
+endif
+
+
 $(BUILD_DIR)/lib/NitroSDK/%.o: IPA_FLAG := 
 $(BUILD_DIR)/lib/NitroSystem/%.o: IPA_FLAG := 
 $(BUILD_DIR)/lib/NitroDWC/%.o: IPA_FLAG := 
 $(BUILD_DIR)/lib/NitroWiFi/%.o: IPA_FLAG := 
 
-MWCFLAGS           = $(DEFINES) $(OPTFLAGS) $(DEBUGFLAGS) -sym on -enum int -lang c99 $(EXCCFLAGS) -gccext,on -proc $(PROC) -msgstyle gcc -gccinc -i ./include -i ./include/library -I$(WORK_DIR) -I$(WORK_DIR)/tools/cw/include/MSL_C -I$(WORK_DIR)/tools/cw/include/MSL_Extras -I$(WORK_DIR)/lib/include -I$(WORK_DIR)/lib/include/dwc/gs $(IPA_FLAG) -interworking -inline on,noauto -char signed -W all -W pedantic -W noimpl_signedunsigned -W noimplicitconv -W nounusedarg -W nomissingreturn -W error
+MWCFLAGS           = $(DEFINES) $(OPTFLAGS) -sym on -enum int -lang c99 $(EXCCFLAGS) -gccext,on -proc $(PROC) -msgstyle gcc -gccinc -i ./include -i ./include/library -I$(WORK_DIR) -I$(WORK_DIR)/tools/cw/include/MSL_C -I$(WORK_DIR)/tools/cw/include/MSL_Extras -I$(WORK_DIR)/lib/include -I$(WORK_DIR)/lib/include/dwc/gs $(IPA_FLAG) -interworking $(INLINE_FLAG) -char signed -W all -W pedantic -W noimpl_signedunsigned -W noimplicitconv -W nounusedarg -W nomissingreturn -W error 
 
 MWASFLAGS          = $(DEFINES) -proc $(PROC_S) -g -gccinc -i . -i ./include -i $(WORK_DIR)/asm/include -i $(WORK_DIR)/lib/asm/$(BUILD_MODE)/include -i $(WORK_DIR)/lib/NitroDWC/asm/$(BUILD_MODE)/include -i $(WORK_DIR)/lib/NitroSDK/asm/$(BUILD_MODE)/include -i $(WORK_DIR)/lib/syscall/asm/include -I$(WORK_DIR)/lib/include -DSDK_ASM
 MWLDFLAGS         := -proc $(PROC) -sym on -nopic -nopid -interworking -map closure,unused -symtab sort -m _start -msgstyle gcc
-ARFLAGS           := rcS
 
 MW_COMPILE = $(WINE) $(MWCC) $(MWCFLAGS)
 MW_ASSEMBLE = $(WINE) $(MWAS) $(MWASFLAGS)

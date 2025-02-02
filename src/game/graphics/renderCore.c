@@ -58,6 +58,49 @@ RenderCoreGFXControl renderCoreGFXControlA;
 RenderCoreGFXControl *const VRAMSystem__GFXControl[2] = { &renderCoreGFXControlA, &renderCoreGFXControlB };
 
 // --------------------
+// GDB DEBUGGING
+// --------------------
+
+#ifdef GDB_DEBUGGING
+
+/* Added to support GDB overlay debugging. */
+unsigned long _novlys                         = MAX_OVERLAYS;
+struct_overlayTable _ovly_table[MAX_OVERLAYS] = {};
+
+// this does nothing, but needs to be defined for GDB to refresh overlay state automatically.
+static void _ovly_debug_event(void) {}
+
+// helper function to mark a specific overlay as unmapped.
+static void UnloadOverlayGDB(const FSOverlayID overlayID)
+{
+    _ovly_table[overlayID].mapped--;
+    _ovly_debug_event();
+}
+
+// helper function to mark a specific overlay as mapped, and provide its RAM address and size to GDB.
+static void LoadOverlayGDB(const FSOverlayID overlayID)
+{
+    FSOverlayInfo overlayInfo;
+
+    // 1. fetch overlay info to identify vma
+    FS_LoadOverlayInfo(&overlayInfo, MI_PROCESSOR_ARM9, overlayID);
+
+    // 2. add entry to _ovly_table
+    // note that this is a little hacky. the VMA is correct but the LMA is not exposed by the OverlayManager
+    // and the size field is not correct compared to what's stored in the NEF.
+    // the standard overlay manager in GDB bases comparisons on VMA and LMA, so it's not viable here.
+    // requires a custom GDB build which maps based on section ID and can override section size.
+    // see https://github.com/joshua-smith-12/binutils-gdb-nds
+    _ovly_table[overlayID].vma  = VOID_TO_INT(overlayInfo.header.ram_address);
+    _ovly_table[overlayID].id   = overlayID;
+    _ovly_table[overlayID].size = overlayInfo.header.ram_size;
+    _ovly_table[overlayID].mapped++;
+
+    _ovly_debug_event();
+}
+#endif // GDB_DEBUGGING
+
+// --------------------
 // FUNCTIONS
 // --------------------
 
@@ -744,7 +787,15 @@ void UpdateLoadedOverlays(OverlayControl *state)
         {
             FS_UnloadOverlay(MI_PROCESSOR_ARM9, state->prevID);
             state->flags &= ~OVERLAYCONTROL_FLAG_OVERLAY_LOADED;
+
+#ifdef GDB_DEBUGGING
+            UnloadOverlayGDB(state->prevID);
+#endif
         }
+
+#ifdef GDB_DEBUGGING
+        LoadOverlayGDB(state->nextID);
+#endif
 
         FS_LoadOverlay(MI_PROCESSOR_ARM9, state->nextID);
         state->prevID = state->nextID;

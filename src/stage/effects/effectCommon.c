@@ -131,7 +131,11 @@ StageTask *CreateEffectTask(size_t size, StageTask *parent)
     if (size < sizeof(StageTask))
         size = sizeof(StageTask);
 
-    Task *task                        = TaskCreate_(StageTask_Main, StageTask_Destructor, TASK_FLAG_NONE, 0, 0x1800, TASK_GROUP(2), size);
+#ifdef RUSH_DEBUG
+    Task *task = TaskCreate_(StageTask_Main, StageTask_Destructor, TASK_FLAG_NONE, 0, 0x1800, TASK_GROUP(2), size, "StageEffectTask");
+#else
+    Task *task = TaskCreate_(StageTask_Main, StageTask_Destructor, TASK_FLAG_NONE, 0, 0x1800, TASK_GROUP(2), size);
+#endif
     EffectTask__sVars.lastCreatedTask = task;
 
     if (task == HeapNull)

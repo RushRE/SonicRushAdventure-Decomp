@@ -33,10 +33,10 @@
 // TYPEDEFS
 // --------------------
 
-typedef struct Task_ Task;
+struct Task_;
 
 typedef void (*TaskMain)(void);
-typedef void (*TaskDestructor)(Task *task);
+typedef void (*TaskDestructor)(struct Task_ *task);
 
 // --------------------
 // ENUMS
@@ -90,10 +90,10 @@ typedef u16 TaskListFlags;
 // STRUCTS
 // --------------------
 
-struct Task_
+typedef struct Task_
 {
-    Task *prev;
-    Task *next;
+    struct Task_ *prev;
+    struct Task_ *next;
     TaskMain main;
     TaskDestructor dtor;
     void *workPtr;
@@ -107,7 +107,7 @@ struct Task_
     // exTask has this, and sonic 4 has this, so it's a likely they had this feature in debug builds as well
     const char* name;
 #endif
-};
+} Task;
 
 typedef struct TaskList_
 {

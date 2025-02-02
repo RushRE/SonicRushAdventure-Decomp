@@ -43,16 +43,20 @@ Platform *Platform__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     Task *task;
     Platform *work;
 
-    size_t structSize = sizeof(Platform);
+    size_t workSize = sizeof(Platform);
     if ((s32)mapObject->id == MAPOBJECT_190 || mapObject->id == MAPOBJECT_191)
-        structSize = sizeof(Platform2);
+        workSize = sizeof(Platform2);
 
-    task = TaskCreate_(StageTask_Main, Platform__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), structSize);
+#ifdef RUSH_DEBUG
+    task = TaskCreate_(StageTask_Main, Platform__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), workSize, "Platform");
+#else
+    task = TaskCreate_(StageTask_Main, Platform__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x10F6, TASK_GROUP(2), workSize);
+#endif
     if (task == HeapNull)
         return NULL;
 
     work = TaskGetWork(task, Platform);
-    MI_CpuFill8(work, 0, structSize);
+    MI_CpuFill8(work, 0, workSize);
 
     GameObject__InitFromObject(&work->gameWork, mapObject, x, y);
     work->gameWork.objWork.moveFlag |= STAGE_TASK_MOVE_FLAG_DISABLE_MOVE_EVENT | STAGE_TASK_MOVE_FLAG_DISABLE_COLLIDE_EVENT;

@@ -60,13 +60,15 @@ GLB_DEFINES := -DSDK_CODE_ARM
 ifeq ($(DEBUG),1)
 # add debug defines
 GF_DEFINES += -DRUSH_DEBUG
+GF_DEFINES += -DGDB_DEBUGGING
 GLB_DEFINES += -DSDK_DEBUG
 
 # padding not needed in debug mode!
 ROM_PADDING := FALSE
 else
-# SDK_FINALROM only needed if not in debug mode!
+# FINALROM only needed if not in debug mode!
 GLB_DEFINES += -DSDK_FINALROM
+GLB_DEFINES += -DNNS_FINALROM
 endif
 
 ifeq ($(BUILD_MODE),ARM7)
@@ -77,6 +79,7 @@ endif
 
 GLB_DEFINES += -D_NITRO
 GLB_DEFINES += -DSDK_TS
+GLB_DEFINES += -DSDK_CW
 
 DEFINES = $(GF_DEFINES) $(GLB_DEFINES)
 

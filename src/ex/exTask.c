@@ -33,7 +33,7 @@ static void ExTask_Main_AlwaysUpdate(void);
 static void ExTask_Destructor_AlwaysUpdate(Task *task);
 
 static void ExTask_Main_Regular(void);
-static void ExTask_Destructor1_Regular(Task *task);
+static void ExTask_Destructor_Regular(Task *task);
 
 // --------------------
 // FUNCTIONS
@@ -101,7 +101,7 @@ void ExTask_Main_Regular(void)
     task->delayCallback();
 }
 
-void ExTask_Destructor1_Regular(Task *task)
+void ExTask_Destructor_Regular(Task *task)
 {
     ExTask *work = ExTaskGetTaskInternal(task);
 
@@ -125,15 +125,27 @@ Task *ExTaskCreate_(ExTaskMain main, ExTaskDestructor destructor, u16 priority, 
     switch (type)
     {
         case EXTASK_TYPE_REGULAR:
-            task = TaskCreate_(ExTask_Main_Regular, ExTask_Destructor1_Regular, TASK_FLAG_NONE, pauseLevel, priority, group, memSize);
+#ifdef RUSH_DEBUG
+            task = TaskCreate_(ExTask_Main_Regular, ExTask_Destructor_Regular, TASK_FLAG_NONE, pauseLevel, priority, group, memSize, name);
+#else
+            task = TaskCreate_(ExTask_Main_Regular, ExTask_Destructor_Regular, TASK_FLAG_NONE, pauseLevel, priority, group, memSize);
+#endif
             break;
 
         case EXTASK_TYPE_ALWAYSUPDATE:
+#ifdef RUSH_DEBUG
+            task = TaskCreate_(ExTask_Main_Regular, ExTask_Destructor_AlwaysUpdate, TASK_FLAG_NONE, pauseLevel, priority, group, memSize, name);
+#else
             task = TaskCreate_(ExTask_Main_AlwaysUpdate, ExTask_Destructor_AlwaysUpdate, TASK_FLAG_NONE, pauseLevel, priority, group, memSize);
+#endif
             break;
 
         default:
-            task = TaskCreate_(ExTask_Main_Regular, ExTask_Destructor1_Regular, TASK_FLAG_NONE, pauseLevel, priority, group, memSize);
+#ifdef RUSH_DEBUG
+            task = TaskCreate_(ExTask_Main_Regular, ExTask_Destructor_Regular, TASK_FLAG_NONE, pauseLevel, priority, group, memSize, name);
+#else
+            task = TaskCreate_(ExTask_Main_Regular, ExTask_Destructor_Regular, TASK_FLAG_NONE, pauseLevel, priority, group, memSize);
+#endif
             break;
     }
 

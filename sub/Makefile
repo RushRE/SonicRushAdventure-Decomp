@@ -13,7 +13,6 @@ PROC_S       := arm4t
 PROC_LD      := v4t
 LCF_TEMPLATE := ARM7-TS.lcf.template
 OPTFLAGS     := -O4,s
-DEBUGFLAGS   := 
 
 ROOT_DIR        := ../
 BUILD_DIR       := build

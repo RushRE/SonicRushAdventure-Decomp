@@ -28,7 +28,7 @@ void ObjectManager_Destructor(Task *task);
 // VARIABLES
 // --------------------
 
-static struct Task_ *obj_ptcb;
+static Task *obj_ptcb;
 struct ObjectManager g_obj;
 
 s8 const StageTask__shakeOffsetTable[] = { 1, 1, -1, -1, 2, 2, -2, -2, 4, 4, -4, -4, -4, 4, 4, -4 };

@@ -405,6 +405,7 @@ Static arm9
 
     ## MSL ##
     Object lib/asm/ARM9/msl.o
+    Object lib/asm/ARM9/msl_debug.o # extra functions that we'll need to keep in for debug roms
     # TODO(?): use these libraries instead of asm if we can! should just about work, they just need a few link errors fixed!
     # Library ../../../tools/cw/lib/MSL_C_NITRO_Ai_LE.a
     # Library ../../../tools/cw/lib/MSL_Extras_NITRO_Ai_LE.a

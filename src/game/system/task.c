@@ -183,6 +183,10 @@ Task *TaskCreate_(TaskMain taskMain, TaskDestructor taskDestructor, TaskFlags fl
     task->prev->next = task;
     next->prev       = task;
 
+#ifdef RUSH_DEBUG
+    // printf("TASK: Created Task '%s' => (0x%X, 0x%X)\n", name, taskMain, taskDestructor);
+#endif
+
     return task;
 }
 

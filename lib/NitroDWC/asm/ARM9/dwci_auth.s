@@ -161,7 +161,7 @@ _020893B8:
 	ldr r0, _02089634 // =0x021438E8
 	mov r2, #0
 	ldr r1, [r0, #0]
-	ldr r0, _0208963C // =_02152920
+	ldr r0, _0208963C // =errno
 	str r2, [sp]
 	str r2, [r0]
 	add r0, r1, #0x1000
@@ -169,7 +169,7 @@ _020893B8:
 	ldr r1, _02089640 // =aHttpresult
 	bl DWC_Http_GetResult
 	bl atoi
-	ldr r1, _0208963C // =_02152920
+	ldr r1, _0208963C // =errno
 	ldr r1, [r1, #0]
 	cmp r1, #0x22
 	bne _02089414
@@ -324,7 +324,7 @@ _02089628:
 	.align 2, 0
 _02089634: .word 0x021438E8
 _02089638: .word _0211AEC4
-_0208963C: .word _02152920
+_0208963C: .word errno
 _02089640: .word aHttpresult
 _02089644: .word 0x00004E85
 _02089648: .word 0x000059D8
@@ -3166,7 +3166,7 @@ _0208BDF0:
 	bl DWC_Http_GetResult
 	bl atoi
 	mov r10, r0
-	ldr r0, _0208CB2C // =_02152920
+	ldr r0, _0208CB2C // =errno
 	ldr r0, [r0, #0]
 	cmp r0, #0x22
 	bne _0208BE20
@@ -3664,7 +3664,7 @@ _0208C51C:
 	bl DWC_Http_GetResult
 	bl atoi
 	mov r10, r0
-	ldr r0, _0208CB2C // =_02152920
+	ldr r0, _0208CB2C // =errno
 	ldr r0, [r0, #0]
 	cmp r0, #0x22
 	bne _0208C558
@@ -3716,7 +3716,7 @@ _0208C5B4:
 _0208C5E8:
 	add r0, sp, #0x64
 	bl atoi
-	ldr r1, _0208CB2C // =_02152920
+	ldr r1, _0208CB2C // =errno
 	ldr r1, [r1, #0]
 	cmp r1, #0x22
 	bne _0208C618
@@ -3884,7 +3884,7 @@ _0208C850:
 	strb r2, [r1, r0]
 	mov r0, r1
 	bl atoi
-	ldr r1, _0208CB2C // =_02152920
+	ldr r1, _0208CB2C // =errno
 	ldr r1, [r1, #0]
 	cmp r1, #0x22
 	bne _0208C88C
@@ -4078,7 +4078,7 @@ _0208CB1C: .word 0x0211B2FC
 _0208CB20: .word OSi_ThreadInfo
 _0208CB24: .word 0x00001B38
 _0208CB28: .word aHttpresult_1
-_0208CB2C: .word _02152920
+_0208CB2C: .word errno
 _0208CB30: .word 0x0000012E
 _0208CB34: .word 0x0214390C
 _0208CB38: .word 0x02143908
@@ -4420,7 +4420,7 @@ DWC_Auth_SetNasTimeDiff: // 0x0208CF24
 	mov r1, r6
 	bl strcpy
 	mov r2, #0
-	ldr r1, _0208D158 // =_02152920
+	ldr r1, _0208D158 // =errno
 	add r0, sp, #0x28
 	strb r2, [sp, #0x23]
 	strb r2, [sp, #0x27]
@@ -4430,7 +4430,7 @@ DWC_Auth_SetNasTimeDiff: // 0x0208CF24
 	strb r2, [sp, #0x35]
 	str r2, [r1]
 	bl atoi
-	ldr r1, _0208D158 // =_02152920
+	ldr r1, _0208D158 // =errno
 	str r0, [sp]
 	ldr r1, [r1, #0]
 	cmp r1, #0x22
@@ -4457,12 +4457,12 @@ _0208D064:
 	ldr r0, [sp, #4]
 	cmp r0, #0xc
 	bhi _0208D148
-	ldr r1, _0208D158 // =_02152920
+	ldr r1, _0208D158 // =errno
 	mov r2, #0
 	add r0, sp, #0x21
 	str r2, [r1]
 	bl atoi
-	ldr r1, _0208D158 // =_02152920
+	ldr r1, _0208D158 // =errno
 	str r0, [sp, #8]
 	ldr r0, [r1, #0]
 	cmp r0, #0x22
@@ -4471,7 +4471,7 @@ _0208D064:
 	add r0, sp, #0x2d
 	str r2, [r1]
 	bl atoi
-	ldr r1, _0208D158 // =_02152920
+	ldr r1, _0208D158 // =errno
 	str r0, [sp, #0x10]
 	ldr r0, [r1, #0]
 	cmp r0, #0x22
@@ -4480,7 +4480,7 @@ _0208D064:
 	add r0, sp, #0x30
 	str r2, [r1]
 	bl atoi
-	ldr r1, _0208D158 // =_02152920
+	ldr r1, _0208D158 // =errno
 	str r0, [sp, #0x14]
 	ldr r0, [r1, #0]
 	cmp r0, #0x22
@@ -4489,7 +4489,7 @@ _0208D064:
 	add r0, sp, #0x33
 	str r2, [r1]
 	bl atoi
-	ldr r1, _0208D158 // =_02152920
+	ldr r1, _0208D158 // =errno
 	str r0, [sp, #0x18]
 	ldr r0, [r1, #0]
 	cmp r0, #0x22
@@ -4517,7 +4517,7 @@ _0208D148:
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _0208D154: .word aFri03Mar200601
-_0208D158: .word _02152920
+_0208D158: .word errno
 _0208D15C: .word 0x0211B4E0
 _0208D160: .word 0x02143980
 _0208D164: .word 0x0214397C
