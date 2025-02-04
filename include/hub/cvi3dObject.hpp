@@ -13,6 +13,11 @@ class CVi3dObject
     void *vTable;
 
 public:
+
+    // --------------------
+    // VARIABLES
+    // --------------------
+    
     u32 flags;
     VecFx32 translation1;
     VecFx32 translation2;
@@ -38,6 +43,14 @@ public:
     void *resources[6];
     BOOL setJoint;
     BOOL setMaterial;
+
+    // --------------------
+    // MEMBER FUNCTIONS
+    // --------------------
+
+    // --------------------
+    // STATIC FUNCTIONS
+    // --------------------
 };
 
 // --------------------
@@ -48,6 +61,21 @@ public:
 extern "C"
 {
 #endif
+
+NOT_DECOMPILED void Vi3dObject__Constructor(void);
+NOT_DECOMPILED void Vi3dObject__VTableFunc_21675D4(void);
+NOT_DECOMPILED void Vi3dObject__VTableFunc_21675F4(void);
+NOT_DECOMPILED void Vi3dObject__Func_216761C(void);
+NOT_DECOMPILED void Vi3dObject__Func_216763C(void);
+NOT_DECOMPILED void Vi3dObject__Func_2167704(void);
+NOT_DECOMPILED void Vi3dObject__Func_21677C4(void);
+NOT_DECOMPILED void Vi3dObject__Func_2167900(void);
+NOT_DECOMPILED void Vi3dObject__Func_2167958(void);
+NOT_DECOMPILED void Vi3dObject__Func_21679B0(void);
+NOT_DECOMPILED void Vi3dObject__Func_2167A0C(void);
+NOT_DECOMPILED void Vi3dObject__Func_2167A80(void);
+NOT_DECOMPILED void Vi3dObject__ProcessAnimation(CVi3dObject *work);
+NOT_DECOMPILED void Vi3dObject__Draw(CVi3dObject *work);
 
 #ifdef __cplusplus
 }

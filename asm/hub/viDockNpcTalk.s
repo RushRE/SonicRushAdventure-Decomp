@@ -18,13 +18,13 @@ ViDockNpcTalk__Create: // 0x021687B8
 	ldr r4, _0216896C // =0x00001010
 	mov r7, r0
 	mov r2, #0
-	ldr r0, _02168970 // =Task__OV05Unknown216897C__Main
-	ldr r1, _02168974 // =Task__OV05Unknown216897C__Destructor
+	ldr r0, _02168970 // =ViDockNpcTalk__Main
+	ldr r1, _02168974 // =ViDockNpcTalk__Destructor
 	mov r3, r2
 	str r4, [sp]
 	mov r4, #0x10
 	str r4, [sp, #4]
-	bl Task__OV05Unknown216897C__CreateInternal
+	bl ViDockNpcTalk__CreateInternal
 	bl GetTaskWork_
 	mov r4, r0
 	strh r7, [r4]
@@ -130,13 +130,13 @@ _02168948:
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _0216896C: .word 0x00001010
-_02168970: .word Task__OV05Unknown216897C__Main
-_02168974: .word Task__OV05Unknown216897C__Destructor
+_02168970: .word ViDockNpcTalk__Main
+_02168974: .word ViDockNpcTalk__Destructor
 _02168978: .word 0x0000FFFF
 	arm_func_end ViDockNpcTalk__Create
 
-	arm_func_start Task__OV05Unknown216897C__CreateInternal
-Task__OV05Unknown216897C__CreateInternal: // 0x0216897C
+	arm_func_start ViDockNpcTalk__CreateInternal
+ViDockNpcTalk__CreateInternal: // 0x0216897C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	ldrh r4, [sp, #0x18]
@@ -160,19 +160,19 @@ _021689C0:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _021689CC: .word 0x000004BC
-	arm_func_end Task__OV05Unknown216897C__CreateInternal
+	arm_func_end ViDockNpcTalk__CreateInternal
 
-	arm_func_start Task__OV05Unknown216897C__Func_21689D0
-Task__OV05Unknown216897C__Func_21689D0: // 0x021689D0
+	arm_func_start ViDockNpcTalk__Func_21689D0
+ViDockNpcTalk__Func_21689D0: // 0x021689D0
 	stmdb sp!, {r3, lr}
 	add r0, r0, #4
 	bl ViEvtCmnTalk__Func_216D72C
 	bl _ZN10HubControl12Func_215A96CEv
 	ldmia sp!, {r3, pc}
-	arm_func_end Task__OV05Unknown216897C__Func_21689D0
+	arm_func_end ViDockNpcTalk__Func_21689D0
 
-	arm_func_start Task__OV05Unknown216897C__Main
-Task__OV05Unknown216897C__Main: // 0x021689E4
+	arm_func_start ViDockNpcTalk__Main
+ViDockNpcTalk__Main: // 0x021689E4
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
@@ -329,21 +329,21 @@ _02168BE0:
 _02168BE8:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}
-	arm_func_end Task__OV05Unknown216897C__Main
+	arm_func_end ViDockNpcTalk__Main
 
-	arm_func_start Task__OV05Unknown216897C__Destructor
-Task__OV05Unknown216897C__Destructor: // 0x02168BF0
+	arm_func_start ViDockNpcTalk__Destructor
+ViDockNpcTalk__Destructor: // 0x02168BF0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl GetTaskWork_
-	bl Task__OV05Unknown216897C__Func_21689D0
+	bl ViDockNpcTalk__Func_21689D0
 	mov r0, r4
-	bl Task__OV05Unknown216897C__Func_2168C0C
+	bl ViDockNpcTalk__Func_2168C0C
 	ldmia sp!, {r4, pc}
-	arm_func_end Task__OV05Unknown216897C__Destructor
+	arm_func_end ViDockNpcTalk__Destructor
 
-	arm_func_start Task__OV05Unknown216897C__Func_2168C0C
-Task__OV05Unknown216897C__Func_2168C0C: // 0x02168C0C
+	arm_func_start ViDockNpcTalk__Func_2168C0C
+ViDockNpcTalk__Func_2168C0C: // 0x02168C0C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x10]
@@ -357,4 +357,4 @@ _02168C30:
 	mov r0, #0
 	str r0, [r5, #0x10]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end Task__OV05Unknown216897C__Func_2168C0C
+	arm_func_end ViDockNpcTalk__Func_2168C0C

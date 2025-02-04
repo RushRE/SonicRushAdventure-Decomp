@@ -3,22 +3,22 @@
 
 	.text
 
-	arm_func_start NpcOptions__Create
-NpcOptions__Create: // 0x0216DD14
+	arm_func_start NpcUnknown__Create
+NpcUnknown__Create: // 0x0216DD14
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	ldr r4, _0216DD7C // =0x00001010
 	mov r2, #0
-	ldr r0, _0216DD80 // =NpcOptions__Main
-	ldr r1, _0216DD84 // =NpcOptions__Destructor
+	ldr r0, _0216DD80 // =NpcUnknown__Main
+	ldr r1, _0216DD84 // =NpcUnknown__Destructor
 	mov r3, r2
 	str r4, [sp]
 	mov r4, #0x10
 	str r4, [sp, #4]
-	bl NpcOptions__CreateInternal
+	bl NpcUnknown__CreateInternal
 	bl GetTaskWork_
 	mov r4, r0
-	bl NpcOptions__Func_216DDE0
+	bl NpcUnknown__Func_216DDE0
 	add r0, r4, #0xb8
 	add r0, r0, #0x400
 	mov r1, #0x400
@@ -26,20 +26,20 @@ NpcOptions__Create: // 0x0216DD14
 	add r0, r4, #0xb8
 	add r0, r0, #0x400
 	mov r2, r4
-	ldr r1, _0216DD88 // =NpcOptions__ThreadFunc
+	ldr r1, _0216DD88 // =NpcUnknown__ThreadFunc
 	mov r3, #0x14
 	bl CreateThreadWorker
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216DD7C: .word 0x00001010
-_0216DD80: .word NpcOptions__Main
-_0216DD84: .word NpcOptions__Destructor
-_0216DD88: .word NpcOptions__ThreadFunc
-	arm_func_end NpcOptions__Create
+_0216DD80: .word NpcUnknown__Main
+_0216DD84: .word NpcUnknown__Destructor
+_0216DD88: .word NpcUnknown__ThreadFunc
+	arm_func_end NpcUnknown__Create
 
-	arm_func_start NpcOptions__CreateInternal
-NpcOptions__CreateInternal: // 0x0216DD8C
+	arm_func_start NpcUnknown__CreateInternal
+NpcUnknown__CreateInternal: // 0x0216DD8C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0xc
 	ldrh r4, [sp, #0x18]
@@ -62,23 +62,23 @@ _0216DDCC:
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
 _0216DDD8: .word 0x00000584
-	arm_func_end NpcOptions__CreateInternal
+	arm_func_end NpcUnknown__CreateInternal
 
-	arm_func_start NpcOptions__ThreadFunc
-NpcOptions__ThreadFunc: // 0x0216DDDC
+	arm_func_start NpcUnknown__ThreadFunc
+NpcUnknown__ThreadFunc: // 0x0216DDDC
 	bx lr
-	arm_func_end NpcOptions__ThreadFunc
+	arm_func_end NpcUnknown__ThreadFunc
 
-	arm_func_start NpcOptions__Func_216DDE0
-NpcOptions__Func_216DDE0: // 0x0216DDE0
+	arm_func_start NpcUnknown__Func_216DDE0
+NpcUnknown__Func_216DDE0: // 0x0216DDE0
 	ldr ip, _0216DDE8 // =_ZN10HubControl12Func_215A888Ev
 	bx ip
 	.align 2, 0
 _0216DDE8: .word _ZN10HubControl12Func_215A888Ev
-	arm_func_end NpcOptions__Func_216DDE0
+	arm_func_end NpcUnknown__Func_216DDE0
 
-	arm_func_start NpcOptions__Func_216DDEC
-NpcOptions__Func_216DDEC: // 0x0216DDEC
+	arm_func_start NpcUnknown__Func_216DDEC
+NpcUnknown__Func_216DDEC: // 0x0216DDEC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0xb8
@@ -90,20 +90,20 @@ NpcOptions__Func_216DDEC: // 0x0216DDEC
 	mov r0, r4
 	bl ViEvtCmnTalk__Func_216D72C
 	mov r0, r4
-	bl NpcOptions__Func_216DE20
+	bl NpcUnknown__Func_216DE20
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Func_216DDEC
+	arm_func_end NpcUnknown__Func_216DDEC
 
-	arm_func_start NpcOptions__Func_216DE20
-NpcOptions__Func_216DE20: // 0x0216DE20
+	arm_func_start NpcUnknown__Func_216DE20
+NpcUnknown__Func_216DE20: // 0x0216DE20
 	ldr ip, _0216DE28 // =_ZN10HubControl12Func_215A96CEv
 	bx ip
 	.align 2, 0
 _0216DE28: .word _ZN10HubControl12Func_215A96CEv
-	arm_func_end NpcOptions__Func_216DE20
+	arm_func_end NpcUnknown__Func_216DE20
 
-	arm_func_start NpcOptions__Main
-NpcOptions__Main: // 0x0216DE2C
+	arm_func_start NpcUnknown__Main
+NpcUnknown__Main: // 0x0216DE2C
 	stmdb sp!, {r3, r4, r5, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
@@ -125,16 +125,16 @@ NpcOptions__Main: // 0x0216DE2C
 	mov r0, r5
 	mov r1, #0
 	bl ViEvtCmnTalk__Func_216D7D0
-	ldr r0, _0216DE90 // =NpcOptions__Main_216DE94
+	ldr r0, _0216DE90 // =NpcUnknown__Main_216DE94
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0216DE8C: .word 0x0000FFFF
-_0216DE90: .word NpcOptions__Main_216DE94
-	arm_func_end NpcOptions__Main
+_0216DE90: .word NpcUnknown__Main_216DE94
+	arm_func_end NpcUnknown__Main
 
-	arm_func_start NpcOptions__Main_216DE94
-NpcOptions__Main_216DE94: // 0x0216DE94
+	arm_func_start NpcUnknown__Main_216DE94
+NpcUnknown__Main_216DE94: // 0x0216DE94
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
@@ -164,7 +164,7 @@ _0216DEE0:
 _0216DEF8:
 	cmp r0, #1
 	bne _0216DF48
-	bl NpcOptions__Func_216E27C
+	bl NpcUnknown__Func_216E27C
 	cmp r0, #0
 	ldrneh r4, [r6, #4]
 	ldreqh r4, [r6, #6]
@@ -179,13 +179,13 @@ _0216DEF8:
 	mov r0, r5
 	mov r1, #0
 	bl ViEvtCmnTalk__Func_216D7D0
-	ldr r0, _0216DFD4 // =NpcOptions__Main_216DFE0
+	ldr r0, _0216DFD4 // =NpcUnknown__Main_216DFE0
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
 _0216DF48:
 	cmp r0, #2
 	bne _0216DF98
-	bl NpcOptions__Func_216E29C
+	bl NpcUnknown__Func_216E29C
 	cmp r0, #0
 	ldrneh r4, [r6, #8]
 	ldreqh r4, [r6, #0xa]
@@ -200,7 +200,7 @@ _0216DF48:
 	mov r0, r5
 	mov r1, #0
 	bl ViEvtCmnTalk__Func_216D7D0
-	ldr r0, _0216DFD8 // =NpcOptions__Main_216E0B8
+	ldr r0, _0216DFD8 // =NpcUnknown__Main_216E0B8
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
 _0216DF98:
@@ -215,18 +215,18 @@ _0216DF98:
 	mov r0, r5
 	mov r1, #0
 	bl ViEvtCmnTalk__Func_216D7D0
-	ldr r0, _0216DFDC // =NpcOptions__Main_216E190
+	ldr r0, _0216DFDC // =NpcUnknown__Main_216E190
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0216DFD0: .word 0x0000FFFF
-_0216DFD4: .word NpcOptions__Main_216DFE0
-_0216DFD8: .word NpcOptions__Main_216E0B8
-_0216DFDC: .word NpcOptions__Main_216E190
-	arm_func_end NpcOptions__Main_216DE94
+_0216DFD4: .word NpcUnknown__Main_216DFE0
+_0216DFD8: .word NpcUnknown__Main_216E0B8
+_0216DFDC: .word NpcUnknown__Main_216E190
+	arm_func_end NpcUnknown__Main_216DE94
 
-	arm_func_start NpcOptions__Main_216DFE0
-NpcOptions__Main_216DFE0: // 0x0216DFE0
+	arm_func_start NpcUnknown__Main_216DFE0
+NpcUnknown__Main_216DFE0: // 0x0216DFE0
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, #0
 	bl GetCurrentTaskWork_
@@ -249,13 +249,13 @@ NpcOptions__Main_216DFE0: // 0x0216DFE0
 	blo _0216E058
 	bne _0216E048
 	mov r0, #1
-	bl NpcOptions__Func_216E2BC
+	bl NpcUnknown__Func_216E2BC
 	cmp r0, #0
 	moveq r7, #1
 	b _0216E058
 _0216E048:
 	mov r0, r7
-	bl NpcOptions__Func_216E2BC
+	bl NpcUnknown__Func_216E2BC
 	cmp r0, #0
 	moveq r7, #1
 _0216E058:
@@ -279,16 +279,16 @@ _0216E078:
 	mov r0, r5
 	mov r1, #0
 	bl ViEvtCmnTalk__Func_216D7D0
-	ldr r0, _0216E0B4 // =NpcOptions__Main_216DE94
+	ldr r0, _0216E0B4 // =NpcUnknown__Main_216DE94
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0216E0B0: .word 0x0000FFFF
-_0216E0B4: .word NpcOptions__Main_216DE94
-	arm_func_end NpcOptions__Main_216DFE0
+_0216E0B4: .word NpcUnknown__Main_216DE94
+	arm_func_end NpcUnknown__Main_216DFE0
 
-	arm_func_start NpcOptions__Main_216E0B8
-NpcOptions__Main_216E0B8: // 0x0216E0B8
+	arm_func_start NpcUnknown__Main_216E0B8
+NpcUnknown__Main_216E0B8: // 0x0216E0B8
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, #0
 	bl GetCurrentTaskWork_
@@ -311,13 +311,13 @@ NpcOptions__Main_216E0B8: // 0x0216E0B8
 	blo _0216E130
 	bne _0216E120
 	mov r0, #1
-	bl NpcOptions__Func_216E2F8
+	bl NpcUnknown__Func_216E2F8
 	cmp r0, #0
 	moveq r7, #1
 	b _0216E130
 _0216E120:
 	mov r0, r7
-	bl NpcOptions__Func_216E2F8
+	bl NpcUnknown__Func_216E2F8
 	cmp r0, #0
 	moveq r7, #1
 _0216E130:
@@ -341,16 +341,16 @@ _0216E150:
 	mov r0, r5
 	mov r1, #0
 	bl ViEvtCmnTalk__Func_216D7D0
-	ldr r0, _0216E18C // =NpcOptions__Main_216DE94
+	ldr r0, _0216E18C // =NpcUnknown__Main_216DE94
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _0216E188: .word 0x0000FFFF
-_0216E18C: .word NpcOptions__Main_216DE94
-	arm_func_end NpcOptions__Main_216E0B8
+_0216E18C: .word NpcUnknown__Main_216DE94
+	arm_func_end NpcUnknown__Main_216E0B8
 
-	arm_func_start NpcOptions__Main_216E190
-NpcOptions__Main_216E190: // 0x0216E190
+	arm_func_start NpcUnknown__Main_216E190
+NpcUnknown__Main_216E190: // 0x0216E190
 	stmdb sp!, {r4, r5, r6, lr}
 	bl GetCurrentTaskWork_
 	mov r5, r0
@@ -387,27 +387,27 @@ _0216E1F0:
 	mov r0, r5
 	mov r1, #0
 	bl ViEvtCmnTalk__Func_216D7D0
-	ldr r0, _0216E22C // =NpcOptions__Main_216DE94
+	ldr r0, _0216E22C // =NpcUnknown__Main_216DE94
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
 	.align 2, 0
 _0216E228: .word 0x0000FFFF
-_0216E22C: .word NpcOptions__Main_216DE94
-	arm_func_end NpcOptions__Main_216E190
+_0216E22C: .word NpcUnknown__Main_216DE94
+	arm_func_end NpcUnknown__Main_216E190
 
-	arm_func_start NpcOptions__Destructor
-NpcOptions__Destructor: // 0x0216E230
+	arm_func_start NpcUnknown__Destructor
+NpcUnknown__Destructor: // 0x0216E230
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl GetTaskWork_
-	bl NpcOptions__Func_216DDEC
+	bl NpcUnknown__Func_216DDEC
 	mov r0, r4
-	bl NpcOptions__Func_216E24C
+	bl NpcUnknown__Func_216E24C
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Destructor
+	arm_func_end NpcUnknown__Destructor
 
-	arm_func_start NpcOptions__Func_216E24C
-NpcOptions__Func_216E24C: // 0x0216E24C
+	arm_func_start NpcUnknown__Func_216E24C
+NpcUnknown__Func_216E24C: // 0x0216E24C
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x10]
@@ -421,10 +421,10 @@ _0216E270:
 	mov r0, #0
 	str r0, [r5, #0x10]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end NpcOptions__Func_216E24C
+	arm_func_end NpcUnknown__Func_216E24C
 
-	arm_func_start NpcOptions__Func_216E27C
-NpcOptions__Func_216E27C: // 0x0216E27C
+	arm_func_start NpcUnknown__Func_216E27C
+NpcUnknown__Func_216E27C: // 0x0216E27C
 	ldr r0, _0216E298 // =saveGame
 	ldr r0, [r0, #0x1c0]
 	mov r0, r0, lsl #0x1e
@@ -434,10 +434,10 @@ NpcOptions__Func_216E27C: // 0x0216E27C
 	bx lr
 	.align 2, 0
 _0216E298: .word saveGame
-	arm_func_end NpcOptions__Func_216E27C
+	arm_func_end NpcUnknown__Func_216E27C
 
-	arm_func_start NpcOptions__Func_216E29C
-NpcOptions__Func_216E29C: // 0x0216E29C
+	arm_func_start NpcUnknown__Func_216E29C
+NpcUnknown__Func_216E29C: // 0x0216E29C
 	ldr r0, _0216E2B8 // =saveGame
 	ldr r0, [r0, #0x1c0]
 	mov r0, r0, lsl #0x1d
@@ -447,10 +447,10 @@ NpcOptions__Func_216E29C: // 0x0216E29C
 	bx lr
 	.align 2, 0
 _0216E2B8: .word saveGame
-	arm_func_end NpcOptions__Func_216E29C
+	arm_func_end NpcUnknown__Func_216E29C
 
-	arm_func_start NpcOptions__Func_216E2BC
-NpcOptions__Func_216E2BC: // 0x0216E2BC
+	arm_func_start NpcUnknown__Func_216E2BC
+NpcUnknown__Func_216E2BC: // 0x0216E2BC
 	cmp r0, #0
 	ldreq r0, _0216E2F0 // =saveGame
 	ldreq r1, [r0, #0x1c0]
@@ -468,10 +468,10 @@ _0216E2E0:
 	.align 2, 0
 _0216E2F0: .word saveGame
 _0216E2F4: .word TrySaveGameData
-	arm_func_end NpcOptions__Func_216E2BC
+	arm_func_end NpcUnknown__Func_216E2BC
 
-	arm_func_start NpcOptions__Func_216E2F8
-NpcOptions__Func_216E2F8: // 0x0216E2F8
+	arm_func_start NpcUnknown__Func_216E2F8
+NpcUnknown__Func_216E2F8: // 0x0216E2F8
 	cmp r0, #0
 	ldreq r0, _0216E328 // =saveGame
 	ldreq r1, [r0, #0x1c0]
@@ -488,10 +488,10 @@ _0216E318:
 	.align 2, 0
 _0216E328: .word saveGame
 _0216E32C: .word TrySaveGameData
-	arm_func_end NpcOptions__Func_216E2F8
+	arm_func_end NpcUnknown__Func_216E2F8
 
-	arm_func_start NpcOptions__Func_216E330
-NpcOptions__Func_216E330: // 0x0216E330
+	arm_func_start NpcUnknown__Func_216E330
+NpcUnknown__Func_216E330: // 0x0216E330
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -516,10 +516,10 @@ NpcOptions__Func_216E330: // 0x0216E330
 	mov r2, #0x200
 	bl MIi_CpuClear32
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Func_216E330
+	arm_func_end NpcUnknown__Func_216E330
 
-	arm_func_start NpcOptions__Func_216E390
-NpcOptions__Func_216E390: // 0x0216E390
+	arm_func_start NpcUnknown__Func_216E390
+NpcUnknown__Func_216E390: // 0x0216E390
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x40
 	ldr r9, [sp, #0x70]
@@ -527,7 +527,7 @@ NpcOptions__Func_216E390: // 0x0216E390
 	str r1, [sp, #0x28]
 	str r2, [sp, #0x2c]
 	str r3, [sp, #0x30]
-	bl NpcOptions__Func_216E8A4
+	bl NpcUnknown__Func_216E8A4
 	ldr r0, [sp, #0x28]
 	ldr r1, _0216E870 // =0x00300010
 	strh r0, [r10, #4]
@@ -770,7 +770,7 @@ _0216E670:
 _0216E748:
 	mov r0, r9, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl NpcOptions__Func_216ED74
+	bl NpcUnknown__Func_216ED74
 	cmp r0, #0
 	bne _0216E770
 	ldr r0, _0216E89C // =0x0000FFFF
@@ -781,7 +781,7 @@ _0216E748:
 _0216E770:
 	mov r0, r9, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl NpcOptions__Func_216ED98
+	bl NpcUnknown__Func_216ED98
 	mov r8, r0
 	mov r11, #0xa
 	cmp r8, #0x63
@@ -823,7 +823,7 @@ _0216E7FC:
 	cmp r9, #9
 	str r0, [sp, #0x38]
 	blt _0216E748
-	bl NpcOptions__Func_216EDBC
+	bl NpcUnknown__Func_216EDBC
 	mov r4, #0xa
 	ldr r1, _0216E8A0 // =0x000F423F
 	mov r5, r0
@@ -861,10 +861,10 @@ _0216E894: .word Sprite__GetSpriteSize2
 _0216E898: .word 0x05000600
 _0216E89C: .word 0x0000FFFF
 _0216E8A0: .word 0x000F423F
-	arm_func_end NpcOptions__Func_216E390
+	arm_func_end NpcUnknown__Func_216E390
 
-	arm_func_start NpcOptions__Func_216E8A4
-NpcOptions__Func_216E8A4: // 0x0216E8A4
+	arm_func_start NpcUnknown__Func_216E8A4
+NpcUnknown__Func_216E8A4: // 0x0216E8A4
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r6, r0
 	add r0, r6, #8
@@ -885,10 +885,10 @@ _0216E8C4:
 	mov r0, #0
 	str r0, [r6]
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end NpcOptions__Func_216E8A4
+	arm_func_end NpcUnknown__Func_216E8A4
 
-	arm_func_start NpcOptions__Func_216E8F0
-NpcOptions__Func_216E8F0: // 0x0216E8F0
+	arm_func_start NpcUnknown__Func_216E8F0
+NpcUnknown__Func_216E8F0: // 0x0216E8F0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x10
 	ldr r1, _0216EC40 // =ovl05_021731B4
@@ -1050,7 +1050,7 @@ _0216EB08:
 _0216EB4C:
 	mov r0, r7, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl NpcOptions__Func_216ED74
+	bl NpcUnknown__Func_216ED74
 	cmp r0, #0
 	bne _0216EB70
 	mov r0, r5
@@ -1117,10 +1117,10 @@ _0216EC40: .word ovl05_021731B4
 _0216EC44: .word 0x0000FFFF
 _0216EC48: .word 0x00003DEF
 _0216EC4C: .word 0x04001000
-	arm_func_end NpcOptions__Func_216E8F0
+	arm_func_end NpcUnknown__Func_216E8F0
 
-	arm_func_start NpcOptions__Func_216EC50
-NpcOptions__Func_216EC50: // 0x0216EC50
+	arm_func_start NpcUnknown__Func_216EC50
+NpcUnknown__Func_216EC50: // 0x0216EC50
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -1171,19 +1171,19 @@ _0216ECB4:
 	ldmia sp!, {r3, r4, r5, r6, pc}
 	.align 2, 0
 _0216ED0C: .word 0x04001000
-	arm_func_end NpcOptions__Func_216EC50
+	arm_func_end NpcUnknown__Func_216EC50
 
-	arm_func_start NpcOptions__Func_216ED10
-NpcOptions__Func_216ED10: // 0x0216ED10
+	arm_func_start NpcUnknown__Func_216ED10
+NpcUnknown__Func_216ED10: // 0x0216ED10
 	ldr r0, [r0, #0]
 	cmp r0, #3
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	arm_func_end NpcOptions__Func_216ED10
+	arm_func_end NpcUnknown__Func_216ED10
 
-	arm_func_start NpcOptions__Func_216ED24
-NpcOptions__Func_216ED24: // 0x0216ED24
+	arm_func_start NpcUnknown__Func_216ED24
+NpcUnknown__Func_216ED24: // 0x0216ED24
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
@@ -1199,19 +1199,19 @@ NpcOptions__Func_216ED24: // 0x0216ED24
 	str r0, [r4]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
-	arm_func_end NpcOptions__Func_216ED24
+	arm_func_end NpcUnknown__Func_216ED24
 
-	arm_func_start NpcOptions__Func_216ED60
-NpcOptions__Func_216ED60: // 0x0216ED60
+	arm_func_start NpcUnknown__Func_216ED60
+NpcUnknown__Func_216ED60: // 0x0216ED60
 	ldr r0, [r0, #0]
 	cmp r0, #1
 	moveq r0, #1
 	movne r0, #0
 	bx lr
-	arm_func_end NpcOptions__Func_216ED60
+	arm_func_end NpcUnknown__Func_216ED60
 
-	arm_func_start NpcOptions__Func_216ED74
-NpcOptions__Func_216ED74: // 0x0216ED74
+	arm_func_start NpcUnknown__Func_216ED74
+NpcUnknown__Func_216ED74: // 0x0216ED74
 	stmdb sp!, {r3, lr}
 	mov r1, r0
 	cmp r1, #9
@@ -1222,10 +1222,10 @@ NpcOptions__Func_216ED74: // 0x0216ED74
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216ED94: .word saveGame+0x00000028
-	arm_func_end NpcOptions__Func_216ED74
+	arm_func_end NpcUnknown__Func_216ED74
 
-	arm_func_start NpcOptions__Func_216ED98
-NpcOptions__Func_216ED98: // 0x0216ED98
+	arm_func_start NpcUnknown__Func_216ED98
+NpcUnknown__Func_216ED98: // 0x0216ED98
 	stmdb sp!, {r3, lr}
 	mov r1, r0
 	cmp r1, #9
@@ -1236,19 +1236,19 @@ NpcOptions__Func_216ED98: // 0x0216ED98
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _0216EDB8: .word saveGame+0x00000028
-	arm_func_end NpcOptions__Func_216ED98
+	arm_func_end NpcUnknown__Func_216ED98
 
-	arm_func_start NpcOptions__Func_216EDBC
-NpcOptions__Func_216EDBC: // 0x0216EDBC
+	arm_func_start NpcUnknown__Func_216EDBC
+NpcUnknown__Func_216EDBC: // 0x0216EDBC
 	ldr r0, _0216EDC8 // =saveGame
 	ldr r0, [r0, #0x1bc]
 	bx lr
 	.align 2, 0
 _0216EDC8: .word saveGame
-	arm_func_end NpcOptions__Func_216EDBC
+	arm_func_end NpcUnknown__Func_216EDBC
 
-	arm_func_start NpcOptions__Func_216EDCC
-NpcOptions__Func_216EDCC: // 0x0216EDCC
+	arm_func_start NpcUnknown__Func_216EDCC
+NpcUnknown__Func_216EDCC: // 0x0216EDCC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, r4
@@ -1260,10 +1260,10 @@ NpcOptions__Func_216EDCC: // 0x0216EDCC
 	add r0, r4, #0xb8
 	bl FontWindowMWControl__Init
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Func_216EDCC
+	arm_func_end NpcUnknown__Func_216EDCC
 
-	arm_func_start NpcOptions__Func_216EDF8
-NpcOptions__Func_216EDF8: // 0x0216EDF8
+	arm_func_start NpcUnknown__Func_216EDF8
+NpcUnknown__Func_216EDF8: // 0x0216EDF8
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r4, r1
 	ldr r1, [r4, #8]
@@ -1288,54 +1288,54 @@ NpcOptions__Func_216EDF8: // 0x0216EDF8
 	bl MIi_CpuCopy16
 	mov r0, r5
 	mov r1, r4
-	bl NpcOptions__Func_216F4B8
+	bl NpcUnknown__Func_216F4B8
 	mov r0, r5
 	mov r1, r4
-	bl NpcOptions__Func_216EFE4
+	bl NpcUnknown__Func_216EFE4
 	mov r0, r5
 	mov r1, r4
-	bl NpcOptions__Func_216F5F4
+	bl NpcUnknown__Func_216F5F4
 	mov r1, #0
 	str r1, [r5, #0x44]
 	str r1, [r5, #0x48]
-	ldr r0, _0216EE94 // =NpcOptions__Func_2170FF4
+	ldr r0, _0216EE94 // =NpcUnknown__Func_2170FF4
 	str r1, [r5, #0x4c]
 	str r0, [r5, #0x478]
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0216EE90: .word 0x0000FFFF
-_0216EE94: .word NpcOptions__Func_2170FF4
-	arm_func_end NpcOptions__Func_216EDF8
+_0216EE94: .word NpcUnknown__Func_2170FF4
+	arm_func_end NpcUnknown__Func_216EDF8
 
-	arm_func_start NpcOptions__Func_216EE98
-NpcOptions__Func_216EE98: // 0x0216EE98
+	arm_func_start NpcUnknown__Func_216EE98
+NpcUnknown__Func_216EE98: // 0x0216EE98
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl NpcOptions__Func_216F7DC
+	bl NpcUnknown__Func_216F7DC
 	mov r0, r4
-	bl NpcOptions__Func_216F6DC
+	bl NpcUnknown__Func_216F6DC
 	mov r0, r4
-	bl NpcOptions__Func_216F770
+	bl NpcUnknown__Func_216F770
 	mov r0, r4
-	bl NpcOptions__Func_216EDCC
+	bl NpcUnknown__Func_216EDCC
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Func_216EE98
+	arm_func_end NpcUnknown__Func_216EE98
 
-	arm_func_start NpcOptions__Func_216EEC0
-NpcOptions__Func_216EEC0: // 0x0216EEC0
+	arm_func_start NpcUnknown__Func_216EEC0
+NpcUnknown__Func_216EEC0: // 0x0216EEC0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r0, #1
 	mov r4, r2
-	bl NpcOptions__Func_2170FF8
+	bl NpcUnknown__Func_2170FF8
 	ldr r2, _0216EF48 // =0x0000FFFF
 	mov r0, r5
 	mov r1, #0
 	strh r2, [r5, #0xe]
-	bl NpcOptions__Func_21708D8
+	bl NpcUnknown__Func_21708D8
 	mov r0, r5
 	mov r1, #0
-	bl NpcOptions__Func_217092C
+	bl NpcUnknown__Func_217092C
 	mov r3, #0
 	add r0, r5, #0x54
 	mov r1, #1
@@ -1354,18 +1354,18 @@ NpcOptions__Func_216EEC0: // 0x0216EEC0
 _0216EF30:
 	bl FontWindowAnimator__Func_20599B4
 _0216EF34:
-	ldr r1, _0216EF4C // =NpcOptions__Func_2170A10
+	ldr r1, _0216EF4C // =NpcUnknown__Func_2170A10
 	mov r0, #4
 	str r1, [r5, #0x478]
 	bl PlayHubSfx
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0216EF48: .word 0x0000FFFF
-_0216EF4C: .word NpcOptions__Func_2170A10
-	arm_func_end NpcOptions__Func_216EEC0
+_0216EF4C: .word NpcUnknown__Func_2170A10
+	arm_func_end NpcUnknown__Func_216EEC0
 
-	arm_func_start NpcOptions__Func_216EF50
-NpcOptions__Func_216EF50: // 0x0216EF50
+	arm_func_start NpcUnknown__Func_216EF50
+NpcUnknown__Func_216EF50: // 0x0216EF50
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r4, [r5, #0x478]
@@ -1375,36 +1375,36 @@ NpcOptions__Func_216EF50: // 0x0216EF50
 _0216EF68:
 	str r4, [r5, #0x47c]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end NpcOptions__Func_216EF50
+	arm_func_end NpcUnknown__Func_216EF50
 
-	arm_func_start NpcOptions__Func_216EF70
-NpcOptions__Func_216EF70: // 0x0216EF70
+	arm_func_start NpcUnknown__Func_216EF70
+NpcUnknown__Func_216EF70: // 0x0216EF70
 	ldrh r0, [r0, #0xc]
 	bx lr
-	arm_func_end NpcOptions__Func_216EF70
+	arm_func_end NpcUnknown__Func_216EF70
 
-	arm_func_start NpcOptions__Func_216EF78
-NpcOptions__Func_216EF78: // 0x0216EF78
+	arm_func_start NpcUnknown__Func_216EF78
+NpcUnknown__Func_216EF78: // 0x0216EF78
 	ldr r0, [r0, #0x44]
 	bx lr
-	arm_func_end NpcOptions__Func_216EF78
+	arm_func_end NpcUnknown__Func_216EF78
 
-	arm_func_start NpcOptions__Func_216EF80
-NpcOptions__Func_216EF80: // 0x0216EF80
+	arm_func_start NpcUnknown__Func_216EF80
+NpcUnknown__Func_216EF80: // 0x0216EF80
 	ldr r0, [r0, #0x4c]
 	bx lr
-	arm_func_end NpcOptions__Func_216EF80
+	arm_func_end NpcUnknown__Func_216EF80
 
-	arm_func_start NpcOptions__Func_216EF88
-NpcOptions__Func_216EF88: // 0x0216EF88
+	arm_func_start NpcUnknown__Func_216EF88
+NpcUnknown__Func_216EF88: // 0x0216EF88
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl NpcOptions__Func_216EFC0
+	bl NpcUnknown__Func_216EFC0
 	cmp r0, #0
 	moveq r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, r4
-	bl NpcOptions__Func_216EFDC
+	bl NpcUnknown__Func_216EFDC
 	ldr r1, _0216EFBC // =0x0000FFFF
 	cmp r0, r1
 	movne r0, #1
@@ -1412,28 +1412,28 @@ NpcOptions__Func_216EF88: // 0x0216EF88
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216EFBC: .word 0x0000FFFF
-	arm_func_end NpcOptions__Func_216EF88
+	arm_func_end NpcUnknown__Func_216EF88
 
-	arm_func_start NpcOptions__Func_216EFC0
-NpcOptions__Func_216EFC0: // 0x0216EFC0
+	arm_func_start NpcUnknown__Func_216EFC0
+NpcUnknown__Func_216EFC0: // 0x0216EFC0
 	ldr r1, [r0, #0x478]
-	ldr r0, _0216EFD8 // =NpcOptions__Func_2170FF4
+	ldr r0, _0216EFD8 // =NpcUnknown__Func_2170FF4
 	cmp r1, r0
 	moveq r0, #1
 	movne r0, #0
 	bx lr
 	.align 2, 0
-_0216EFD8: .word NpcOptions__Func_2170FF4
-	arm_func_end NpcOptions__Func_216EFC0
+_0216EFD8: .word NpcUnknown__Func_2170FF4
+	arm_func_end NpcUnknown__Func_216EFC0
 
-	arm_func_start NpcOptions__Func_216EFDC
-NpcOptions__Func_216EFDC: // 0x0216EFDC
+	arm_func_start NpcUnknown__Func_216EFDC
+NpcUnknown__Func_216EFDC: // 0x0216EFDC
 	ldrh r0, [r0, #0xe]
 	bx lr
-	arm_func_end NpcOptions__Func_216EFDC
+	arm_func_end NpcUnknown__Func_216EFDC
 
-	arm_func_start NpcOptions__Func_216EFE4
-NpcOptions__Func_216EFE4: // 0x0216EFE4
+	arm_func_start NpcUnknown__Func_216EFE4
+NpcUnknown__Func_216EFE4: // 0x0216EFE4
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, lr}
 	sub sp, sp, #0x28
 	mov r9, r0
@@ -1651,7 +1651,7 @@ NpcOptions__Func_216EFE4: // 0x0216EFE4
 	mov r3, #0x20
 	bl MessageController__Setup
 	add r0, r9, #0x300
-	ldr r1, _0216F4B4 // =NpcOptions__Func_21705A0
+	ldr r1, _0216F4B4 // =NpcUnknown__Func_21705A0
 	mov r2, r9
 	bl MessageController__SetClearPixelCallback
 	ldrh r0, [r9, #8]
@@ -1740,7 +1740,7 @@ _0216F460:
 	cmp r1, r0
 	strhi r0, [r9, #0x388]
 	mov r0, r9
-	bl NpcOptions__Func_216F7E0
+	bl NpcUnknown__Func_216F7E0
 	mov r0, #0
 	str r0, [r9, #0x398]
 	add sp, sp, #0x28
@@ -1748,11 +1748,11 @@ _0216F460:
 	.align 2, 0
 _0216F4AC: .word 0x05000200
 _0216F4B0: .word 0x06001000
-_0216F4B4: .word NpcOptions__Func_21705A0
-	arm_func_end NpcOptions__Func_216EFE4
+_0216F4B4: .word NpcUnknown__Func_21705A0
+	arm_func_end NpcUnknown__Func_216EFE4
 
-	arm_func_start NpcOptions__Func_216F4B8
-NpcOptions__Func_216F4B8: // 0x0216F4B8
+	arm_func_start NpcUnknown__Func_216F4B8
+NpcUnknown__Func_216F4B8: // 0x0216F4B8
 	stmdb sp!, {r4, lr}
 	ldrh r1, [r1, #0x28]
 	mov r4, r0
@@ -1833,10 +1833,10 @@ _0216F5E4: .word 0x06008000
 _0216F5E8: .word 0x40404040
 _0216F5EC: .word 0x00004041
 _0216F5F0: .word 0x00004042
-	arm_func_end NpcOptions__Func_216F4B8
+	arm_func_end NpcUnknown__Func_216F4B8
 
-	arm_func_start NpcOptions__Func_216F5F4
-NpcOptions__Func_216F5F4: // 0x0216F5F4
+	arm_func_start NpcUnknown__Func_216F5F4
+NpcUnknown__Func_216F5F4: // 0x0216F5F4
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x18
 	mov r4, r0
@@ -1891,15 +1891,15 @@ NpcOptions__Func_216F5F4: // 0x0216F5F4
 	mov r1, #0
 	mov r0, r4
 	str r1, [r4, #0x474]
-	bl NpcOptions__Func_21706C0
+	bl NpcUnknown__Func_21706C0
 	add sp, sp, #0x18
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0216F6D8: .word TouchField__PointInRect
-	arm_func_end NpcOptions__Func_216F5F4
+	arm_func_end NpcUnknown__Func_216F5F4
 
-	arm_func_start NpcOptions__Func_216F6DC
-NpcOptions__Func_216F6DC: // 0x0216F6DC
+	arm_func_start NpcUnknown__Func_216F6DC
+NpcUnknown__Func_216F6DC: // 0x0216F6DC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x384]
@@ -1940,10 +1940,10 @@ _0216F72C:
 	add r0, r4, #0x54
 	bl FontWindowAnimator__Release
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Func_216F6DC
+	arm_func_end NpcUnknown__Func_216F6DC
 
-	arm_func_start NpcOptions__Func_216F770
-NpcOptions__Func_216F770: // 0x0216F770
+	arm_func_start NpcUnknown__Func_216F770
+NpcUnknown__Func_216F770: // 0x0216F770
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldr r0, [r4, #0x3a8]
@@ -1974,15 +1974,15 @@ _0216F7C0:
 	mov r0, #0
 	str r0, [r4, #0x39c]
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Func_216F770
+	arm_func_end NpcUnknown__Func_216F770
 
-	arm_func_start NpcOptions__Func_216F7DC
-NpcOptions__Func_216F7DC: // 0x0216F7DC
+	arm_func_start NpcUnknown__Func_216F7DC
+NpcUnknown__Func_216F7DC: // 0x0216F7DC
 	bx lr
-	arm_func_end NpcOptions__Func_216F7DC
+	arm_func_end NpcUnknown__Func_216F7DC
 
-	arm_func_start NpcOptions__Func_216F7E0
-NpcOptions__Func_216F7E0: // 0x0216F7E0
+	arm_func_start NpcUnknown__Func_216F7E0
+NpcUnknown__Func_216F7E0: // 0x0216F7E0
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	mov r9, #0
 	ldr r6, _0216F8F4 // =0x000003FF
@@ -2035,7 +2035,7 @@ _0216F828:
 	mov r0, r10
 	add r2, r10, #0x394
 	add r3, r3, #0x300
-	bl NpcOptions__Func_216FFD8
+	bl NpcUnknown__Func_216FFD8
 	add r4, r10, #0x300
 	ldrh r5, [r4, #0x94]
 	ldrh r0, [r4, #0x96]
@@ -2044,10 +2044,10 @@ _0216F828:
 _0216F8C0:
 	mov r0, r10
 	mov r1, r5
-	bl NpcOptions__Func_216F9AC
+	bl NpcUnknown__Func_216F9AC
 	mov r0, r10
 	mov r1, r5
-	bl NpcOptions__Func_21705A4
+	bl NpcUnknown__Func_21705A4
 	add r0, r5, #1
 	mov r0, r0, lsl #0x10
 	ldrh r1, [r4, #0x96]
@@ -2057,10 +2057,10 @@ _0216F8C0:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216F8F4: .word 0x000003FF
-	arm_func_end NpcOptions__Func_216F7E0
+	arm_func_end NpcUnknown__Func_216F7E0
 
-	arm_func_start NpcOptions__Func_216F8F8
-NpcOptions__Func_216F8F8: // 0x0216F8F8
+	arm_func_start NpcUnknown__Func_216F8F8
+NpcUnknown__Func_216F8F8: // 0x0216F8F8
 	stmdb sp!, {r4, r5, r6, lr}
 	sub sp, sp, #8
 	mov r5, r0
@@ -2107,10 +2107,10 @@ _0216F984:
 	bl BackgroundUnknown__Func_204CBF4
 	add sp, sp, #8
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end NpcOptions__Func_216F8F8
+	arm_func_end NpcUnknown__Func_216F8F8
 
-	arm_func_start NpcOptions__Func_216F9AC
-NpcOptions__Func_216F9AC: // 0x0216F9AC
+	arm_func_start NpcUnknown__Func_216F9AC
+NpcUnknown__Func_216F9AC: // 0x0216F9AC
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	mov r7, r0
 	ldr r0, [r7, #0x384]
@@ -2127,13 +2127,13 @@ NpcOptions__Func_216F9AC: // 0x0216F9AC
 	mov r2, r0, lsl #0x10
 	mov r0, r7
 	mov r2, r2, lsr #0x10
-	bl NpcOptions__Func_216F8F8
+	bl NpcUnknown__Func_216F8F8
 	mov r2, r4, lsl #0x10
 	ldrh r3, [r5, #4]
 	mov r0, r7
 	mov r1, r6
 	mov r2, r2, asr #0x10
-	bl NpcOptions__Func_216FA40
+	bl NpcUnknown__Func_216FA40
 	ldrb r0, [r5, #1]
 	mov r0, r0, lsl #4
 	add r0, r0, #8
@@ -2146,12 +2146,12 @@ NpcOptions__Func_216F9AC: // 0x0216F9AC
 	mov r0, r7
 	mov r1, r6
 	mov r2, r2, asr #0x10
-	bl NpcOptions__Func_216FA40
+	bl NpcUnknown__Func_216FA40
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
-	arm_func_end NpcOptions__Func_216F9AC
+	arm_func_end NpcUnknown__Func_216F9AC
 
-	arm_func_start NpcOptions__Func_216FA40
-NpcOptions__Func_216FA40: // 0x0216FA40
+	arm_func_start NpcUnknown__Func_216FA40
+NpcUnknown__Func_216FA40: // 0x0216FA40
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, lr}
 	sub sp, sp, #0x28
 	mov r10, r0
@@ -2353,10 +2353,10 @@ _0216FCE8:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, r11, pc}
 	.align 2, 0
 _0216FD30: .word 0x00000FFF
-	arm_func_end NpcOptions__Func_216FA40
+	arm_func_end NpcUnknown__Func_216FA40
 
-	arm_func_start NpcOptions__Func_216FD34
-NpcOptions__Func_216FD34: // 0x0216FD34
+	arm_func_start NpcUnknown__Func_216FD34
+NpcUnknown__Func_216FD34: // 0x0216FD34
 	mvn r3, #0
 	cmp r2, r3
 	ldreq r2, [r0, #0x388]
@@ -2382,10 +2382,10 @@ _0216FD80:
 	mov r0, r0, lsl #0x10
 	mov r0, r0, asr #0x10
 	bx lr
-	arm_func_end NpcOptions__Func_216FD34
+	arm_func_end NpcUnknown__Func_216FD34
 
-	arm_func_start NpcOptions__Func_216FD94
-NpcOptions__Func_216FD94: // 0x0216FD94
+	arm_func_start NpcUnknown__Func_216FD94
+NpcUnknown__Func_216FD94: // 0x0216FD94
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	cmp r1, #0
@@ -2460,17 +2460,17 @@ _0216FE88:
 	.align 2, 0
 _0216FE90: .word touchInput
 _0216FE94: .word 0x0000FFFF
-	arm_func_end NpcOptions__Func_216FD94
+	arm_func_end NpcUnknown__Func_216FD94
 
-	arm_func_start NpcOptions__Func_216FE98
-NpcOptions__Func_216FE98: // 0x0216FE98
+	arm_func_start NpcUnknown__Func_216FE98
+NpcUnknown__Func_216FE98: // 0x0216FE98
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, lr}
 	sub sp, sp, #4
 	add r2, sp, #2
 	add r3, sp, #0
 	mov r7, r0
 	mov r6, r1
-	bl NpcOptions__Func_216FFD8
+	bl NpcUnknown__Func_216FFD8
 	add r8, r7, #0x300
 	ldrh r0, [r8, #0x94]
 	ldrh r5, [sp, #2]
@@ -2484,11 +2484,11 @@ _0216FED8:
 	mov r1, r5, lsl #0x10
 	mov r0, r7
 	mov r1, r1, lsr #0x10
-	bl NpcOptions__Func_216F9AC
+	bl NpcUnknown__Func_216F9AC
 	mov r1, r5, lsl #0x10
 	mov r0, r7
 	mov r1, r1, lsr #0x10
-	bl NpcOptions__Func_21705A4
+	bl NpcUnknown__Func_21705A4
 	ldrh r0, [r8, #0x94]
 	add r5, r5, #1
 	cmp r5, r0
@@ -2509,11 +2509,11 @@ _0216FF34:
 	mov r1, r5, lsl #0x10
 	mov r0, r7
 	mov r1, r1, lsr #0x10
-	bl NpcOptions__Func_216F9AC
+	bl NpcUnknown__Func_216F9AC
 	mov r1, r5, lsl #0x10
 	mov r0, r7
 	mov r1, r1, lsr #0x10
-	bl NpcOptions__Func_21705A4
+	bl NpcUnknown__Func_21705A4
 	ldrh r0, [sp]
 	add r5, r5, #1
 	cmp r5, r0
@@ -2536,9 +2536,9 @@ _0216FF64:
 	bl QueueUncompressedPixels
 	mov r0, r7
 	mov r1, #1
-	bl NpcOptions__Func_217062C
+	bl NpcUnknown__Func_217062C
 	mov r0, r7
-	bl NpcOptions__Func_2170224
+	bl NpcUnknown__Func_2170224
 _0216FFB4:
 	sub r0, r6, #0x20
 	mov r0, r0, lsl #0x10
@@ -2550,10 +2550,10 @@ _0216FFB4:
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, pc}
 	.align 2, 0
 _0216FFD4: .word renderCoreGFXControlA
-	arm_func_end NpcOptions__Func_216FE98
+	arm_func_end NpcUnknown__Func_216FE98
 
-	arm_func_start NpcOptions__Func_216FFD8
-NpcOptions__Func_216FFD8: // 0x0216FFD8
+	arm_func_start NpcUnknown__Func_216FFD8
+NpcUnknown__Func_216FFD8: // 0x0216FFD8
 	stmdb sp!, {r3, r4, r5, lr}
 	ldrh r5, [r0, #8]
 	mov lr, #0
@@ -2598,10 +2598,10 @@ _02170060:
 	subhs r0, r4, #1
 	strhsh r0, [r3]
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end NpcOptions__Func_216FFD8
+	arm_func_end NpcUnknown__Func_216FFD8
 
-	arm_func_start NpcOptions__Func_2170074
-NpcOptions__Func_2170074: // 0x02170074
+	arm_func_start NpcUnknown__Func_2170074
+NpcUnknown__Func_2170074: // 0x02170074
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	sub sp, sp, #0x20
 	mov r4, r0
@@ -2716,10 +2716,10 @@ _02170214: .word FontAnimator__Palettes+0x00000008
 _02170218: .word 0x05000022
 _0217021C: .word 0x05000042
 _02170220: .word 0x050000A0
-	arm_func_end NpcOptions__Func_2170074
+	arm_func_end NpcUnknown__Func_2170074
 
-	arm_func_start NpcOptions__Func_2170224
-NpcOptions__Func_2170224: // 0x02170224
+	arm_func_start NpcUnknown__Func_2170224
+NpcUnknown__Func_2170224: // 0x02170224
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #0x20
 	mov r4, r0
@@ -2741,10 +2741,10 @@ NpcOptions__Func_2170224: // 0x02170224
 	bl Mappings__ReadMappingsCompressed
 	add sp, sp, #0x20
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Func_2170224
+	arm_func_end NpcUnknown__Func_2170224
 
-	arm_func_start NpcOptions__Func_2170278
-NpcOptions__Func_2170278: // 0x02170278
+	arm_func_start NpcUnknown__Func_2170278
+NpcUnknown__Func_2170278: // 0x02170278
 	stmdb sp!, {r3, lr}
 	ldr r0, _021702B0 // =0x03FF03FF
 	mov r1, #0x6000000
@@ -2763,10 +2763,10 @@ NpcOptions__Func_2170278: // 0x02170278
 _021702B0: .word 0x03FF03FF
 _021702B4: .word 0x06007FE0
 _021702B8: .word renderCoreGFXControlA
-	arm_func_end NpcOptions__Func_2170278
+	arm_func_end NpcUnknown__Func_2170278
 
-	arm_func_start NpcOptions__Func_21702BC
-NpcOptions__Func_21702BC: // 0x021702BC
+	arm_func_start NpcUnknown__Func_21702BC
+NpcUnknown__Func_21702BC: // 0x021702BC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #0
@@ -2776,10 +2776,10 @@ NpcOptions__Func_21702BC: // 0x021702BC
 	add r0, r4, #0x10c
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Func_21702BC
+	arm_func_end NpcUnknown__Func_21702BC
 
-	arm_func_start NpcOptions__Func_21702E0
-NpcOptions__Func_21702E0: // 0x021702E0
+	arm_func_start NpcUnknown__Func_21702E0
+NpcUnknown__Func_21702E0: // 0x021702E0
 	stmdb sp!, {r4, r5, r6, lr}
 	mov r4, r0
 	ldrh r3, [r4, #0xa]
@@ -2820,10 +2820,10 @@ _02170344:
 	add r0, r4, #0xb8
 	bl FontWindowMWControl__CallWindowFunc2
 	ldmia sp!, {r4, r5, r6, pc}
-	arm_func_end NpcOptions__Func_21702E0
+	arm_func_end NpcUnknown__Func_21702E0
 
-	arm_func_start NpcOptions__Func_2170378
-NpcOptions__Func_2170378: // 0x02170378
+	arm_func_start NpcUnknown__Func_2170378
+NpcUnknown__Func_2170378: // 0x02170378
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	cmp r1, #0
@@ -2839,10 +2839,10 @@ _021703A0:
 	add r0, r4, #0xb8
 	bl FontWindowMWControl__ValidatePaletteAnim
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Func_2170378
+	arm_func_end NpcUnknown__Func_2170378
 
-	arm_func_start NpcOptions__Func_21703AC
-NpcOptions__Func_21703AC: // 0x021703AC
+	arm_func_start NpcUnknown__Func_21703AC
+NpcUnknown__Func_21703AC: // 0x021703AC
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	cmp r1, #0
@@ -2883,20 +2883,20 @@ _02170418:
 	add r0, r4, #0x29c
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Func_21703AC
+	arm_func_end NpcUnknown__Func_21703AC
 
-	arm_func_start NpcOptions__Func_2170448
-NpcOptions__Func_2170448: // 0x02170448
+	arm_func_start NpcUnknown__Func_2170448
+NpcUnknown__Func_2170448: // 0x02170448
 	ldr ip, _02170458 // =AnimatorSprite__SetAnimation
 	add r0, r0, #0x29c
 	mov r1, #1
 	bx ip
 	.align 2, 0
 _02170458: .word AnimatorSprite__SetAnimation
-	arm_func_end NpcOptions__Func_2170448
+	arm_func_end NpcUnknown__Func_2170448
 
-	arm_func_start NpcOptions__Func_217045C
-NpcOptions__Func_217045C: // 0x0217045C
+	arm_func_start NpcUnknown__Func_217045C
+NpcUnknown__Func_217045C: // 0x0217045C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	ldrh r0, [r4, #0xa]
@@ -2958,10 +2958,10 @@ _02170514:
 	add r0, r4, #0x1d4
 	bl AnimatorSprite__DrawFrame
 	ldmia sp!, {r4, pc}
-	arm_func_end NpcOptions__Func_217045C
+	arm_func_end NpcUnknown__Func_217045C
 
-	arm_func_start NpcOptions__Func_2170530
-NpcOptions__Func_2170530: // 0x02170530
+	arm_func_start NpcUnknown__Func_2170530
+NpcUnknown__Func_2170530: // 0x02170530
 	stmdb sp!, {r4, lr}
 	sub sp, sp, #8
 	mov r4, r0
@@ -2984,7 +2984,7 @@ _02170564:
 	add r0, r4, #0x238
 	bl AnimatorSprite__SetAnimation
 _0217057C:
-	ldr r1, _0217059C // =NpcOptions__Func_2170860
+	ldr r1, _0217059C // =NpcUnknown__Func_2170860
 	add r2, sp, #0
 	add r0, r4, #0x238
 	bl AnimatorSprite__ProcessAnimation
@@ -2993,16 +2993,16 @@ _0217057C:
 	add sp, sp, #8
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_0217059C: .word NpcOptions__Func_2170860
-	arm_func_end NpcOptions__Func_2170530
+_0217059C: .word NpcUnknown__Func_2170860
+	arm_func_end NpcUnknown__Func_2170530
 
-	arm_func_start NpcOptions__Func_21705A0
-NpcOptions__Func_21705A0: // 0x021705A0
+	arm_func_start NpcUnknown__Func_21705A0
+NpcUnknown__Func_21705A0: // 0x021705A0
 	bx lr
-	arm_func_end NpcOptions__Func_21705A0
+	arm_func_end NpcUnknown__Func_21705A0
 
-	arm_func_start NpcOptions__Func_21705A4
-NpcOptions__Func_21705A4: // 0x021705A4
+	arm_func_start NpcUnknown__Func_21705A4
+NpcUnknown__Func_21705A4: // 0x021705A4
 	stmdb sp!, {r4, r5, r6, r7, r8, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x384]
@@ -3038,10 +3038,10 @@ _02170600:
 	cmp r7, r8
 	blt _02170600
 	ldmia sp!, {r4, r5, r6, r7, r8, pc}
-	arm_func_end NpcOptions__Func_21705A4
+	arm_func_end NpcUnknown__Func_21705A4
 
-	arm_func_start NpcOptions__Func_217062C
-NpcOptions__Func_217062C: // 0x0217062C
+	arm_func_start NpcUnknown__Func_217062C
+NpcUnknown__Func_217062C: // 0x0217062C
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x20
 	mov r5, r0
@@ -3080,25 +3080,25 @@ _02170690:
 	bl Mappings__LoadUnknown
 	add sp, sp, #0x20
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end NpcOptions__Func_217062C
+	arm_func_end NpcUnknown__Func_217062C
 
-	arm_func_start NpcOptions__Func_21706C0
-NpcOptions__Func_21706C0: // 0x021706C0
+	arm_func_start NpcUnknown__Func_21706C0
+NpcUnknown__Func_21706C0: // 0x021706C0
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	mov r4, r1
-	bl NpcOptions__Func_21706EC
+	bl NpcUnknown__Func_21706EC
 	mov r0, r5
 	mov r1, r4
-	bl NpcOptions__Func_2170740
+	bl NpcUnknown__Func_2170740
 	mov r0, r5
 	mov r1, r4
-	bl NpcOptions__Func_2170794
+	bl NpcUnknown__Func_2170794
 	ldmia sp!, {r3, r4, r5, pc}
-	arm_func_end NpcOptions__Func_21706C0
+	arm_func_end NpcUnknown__Func_21706C0
 
-	arm_func_start NpcOptions__Func_21706EC
-NpcOptions__Func_21706EC: // 0x021706EC
+	arm_func_start NpcUnknown__Func_21706EC
+NpcUnknown__Func_21706EC: // 0x021706EC
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x46c]
@@ -3123,10 +3123,10 @@ _02170734:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _0217073C: .word 0x0000FFFF
-	arm_func_end NpcOptions__Func_21706EC
+	arm_func_end NpcUnknown__Func_21706EC
 
-	arm_func_start NpcOptions__Func_2170740
-NpcOptions__Func_2170740: // 0x02170740
+	arm_func_start NpcUnknown__Func_2170740
+NpcUnknown__Func_2170740: // 0x02170740
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x470]
@@ -3151,10 +3151,10 @@ _02170788:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _02170790: .word 0x0000FFFF
-	arm_func_end NpcOptions__Func_2170740
+	arm_func_end NpcUnknown__Func_2170740
 
-	arm_func_start NpcOptions__Func_2170794
-NpcOptions__Func_2170794: // 0x02170794
+	arm_func_start NpcUnknown__Func_2170794
+NpcUnknown__Func_2170794: // 0x02170794
 	stmdb sp!, {r3, r4, r5, lr}
 	mov r5, r0
 	ldr r0, [r5, #0x474]
@@ -3181,10 +3181,10 @@ _021707E4:
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
 _021707EC: .word 0x0000FFFF
-	arm_func_end NpcOptions__Func_2170794
+	arm_func_end NpcUnknown__Func_2170794
 
-	arm_func_start NpcOptions__Func_21707F0
-NpcOptions__Func_21707F0: // 0x021707F0
+	arm_func_start NpcUnknown__Func_21707F0
+NpcUnknown__Func_21707F0: // 0x021707F0
 	ldr r0, [r0, #0x3d8]
 	tst r0, #0x800
 	bne _02170808
@@ -3194,10 +3194,10 @@ NpcOptions__Func_21707F0: // 0x021707F0
 _02170808:
 	mov r0, #0
 	bx lr
-	arm_func_end NpcOptions__Func_21707F0
+	arm_func_end NpcUnknown__Func_21707F0
 
-	arm_func_start NpcOptions__Func_2170810
-NpcOptions__Func_2170810: // 0x02170810
+	arm_func_start NpcUnknown__Func_2170810
+NpcUnknown__Func_2170810: // 0x02170810
 	ldr r0, [r0, #0x410]
 	tst r0, #0x800
 	bne _02170828
@@ -3207,10 +3207,10 @@ NpcOptions__Func_2170810: // 0x02170810
 _02170828:
 	mov r0, #0
 	bx lr
-	arm_func_end NpcOptions__Func_2170810
+	arm_func_end NpcUnknown__Func_2170810
 
-	arm_func_start NpcOptions__Func_2170830
-NpcOptions__Func_2170830: // 0x02170830
+	arm_func_start NpcUnknown__Func_2170830
+NpcUnknown__Func_2170830: // 0x02170830
 	ldr r1, [r0, #0x474]
 	cmp r1, #0
 	moveq r0, #0
@@ -3223,10 +3223,10 @@ NpcOptions__Func_2170830: // 0x02170830
 	movne r0, #1
 	moveq r0, #0
 	bx lr
-	arm_func_end NpcOptions__Func_2170830
+	arm_func_end NpcUnknown__Func_2170830
 
-	arm_func_start NpcOptions__Func_2170860
-NpcOptions__Func_2170860: // 0x02170860
+	arm_func_start NpcUnknown__Func_2170860
+NpcUnknown__Func_2170860: // 0x02170860
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #0x10
 	ldrh r3, [r0, #0]
@@ -3257,10 +3257,10 @@ NpcOptions__Func_2170860: // 0x02170860
 	bl TouchField__SetHitbox
 	add sp, sp, #0x10
 	ldmia sp!, {r3, pc}
-	arm_func_end NpcOptions__Func_2170860
+	arm_func_end NpcUnknown__Func_2170860
 
-	arm_func_start NpcOptions__Func_21708D8
-NpcOptions__Func_21708D8: // 0x021708D8
+	arm_func_start NpcUnknown__Func_21708D8
+NpcUnknown__Func_21708D8: // 0x021708D8
 	cmp r1, #0
 	mov r2, #0x4000000
 	beq _02170908
@@ -3283,10 +3283,10 @@ _02170908:
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 	bx lr
-	arm_func_end NpcOptions__Func_21708D8
+	arm_func_end NpcUnknown__Func_21708D8
 
-	arm_func_start NpcOptions__Func_217092C
-NpcOptions__Func_217092C: // 0x0217092C
+	arm_func_start NpcUnknown__Func_217092C
+NpcUnknown__Func_217092C: // 0x0217092C
 	cmp r1, #0
 	mov r2, #0x4000000
 	beq _0217095C
@@ -3309,10 +3309,10 @@ _0217095C:
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 	bx lr
-	arm_func_end NpcOptions__Func_217092C
+	arm_func_end NpcUnknown__Func_217092C
 
-	arm_func_start NpcOptions__Func_2170980
-NpcOptions__Func_2170980: // 0x02170980
+	arm_func_start NpcUnknown__Func_2170980
+NpcUnknown__Func_2170980: // 0x02170980
 	cmp r1, #0
 	ldreq r0, _02170A0C // =renderCoreGFXControlA
 	moveq r1, #0
@@ -3350,14 +3350,14 @@ NpcOptions__Func_2170980: // 0x02170980
 	bx lr
 	.align 2, 0
 _02170A0C: .word renderCoreGFXControlA
-	arm_func_end NpcOptions__Func_2170980
+	arm_func_end NpcUnknown__Func_2170980
 
-	arm_func_start NpcOptions__Func_2170A10
-NpcOptions__Func_2170A10: // 0x02170A10
+	arm_func_start NpcUnknown__Func_2170A10
+NpcUnknown__Func_2170A10: // 0x02170A10
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r1, #1
-	bl NpcOptions__Func_21708D8
+	bl NpcUnknown__Func_21708D8
 	add r0, r4, #0x54
 	bl FontWindowAnimator__ProcessWindowAnim
 	add r0, r4, #0x54
@@ -3373,14 +3373,14 @@ NpcOptions__Func_2170A10: // 0x02170A10
 	mov r1, #1
 	mov r0, r4
 	str r1, [r4, #0x44]
-	bl NpcOptions__Func_2170980
+	bl NpcUnknown__Func_2170980
 	ldrh r1, [r4, #0x38]
 	add r0, r4, #0x10c
 	bl AnimatorSprite__SetAnimation
 	add r0, r4, #0xb8
 	bl FontWindowMWControl__ValidatePaletteAnim
 	mov r0, r4
-	bl NpcOptions__Func_2170448
+	bl NpcUnknown__Func_2170448
 	add r0, r4, #0x170
 	mov r1, #2
 	bl AnimatorSprite__SetAnimation
@@ -3392,26 +3392,26 @@ NpcOptions__Func_2170A10: // 0x02170A10
 	bl AnimatorSprite__SetAnimation
 	mov r0, r4
 	mov r1, #1
-	bl NpcOptions__Func_2170074
+	bl NpcUnknown__Func_2170074
 	mov r0, r4
 	mov r1, #1
-	bl NpcOptions__Func_217062C
+	bl NpcUnknown__Func_217062C
 	ldr r1, [r4, #0x388]
 	mov r0, r4
-	bl NpcOptions__Func_216FE98
+	bl NpcUnknown__Func_216FE98
 	mov r0, r4
 	mov r1, #1
-	bl NpcOptions__Func_217092C
+	bl NpcUnknown__Func_217092C
 	ldrh r0, [r4, #0xa]
 	cmp r0, #0
 	mov r0, r4
 	beq _02170AEC
 	mov r1, #1
-	bl NpcOptions__Func_21706EC
+	bl NpcUnknown__Func_21706EC
 	b _02170AF4
 _02170AEC:
 	mov r1, #0
-	bl NpcOptions__Func_21706EC
+	bl NpcUnknown__Func_21706EC
 _02170AF4:
 	ldrh r0, [r4, #8]
 	ldrh r1, [r4, #0xa]
@@ -3420,24 +3420,24 @@ _02170AF4:
 	mov r0, r4
 	bge _02170B18
 	mov r1, #1
-	bl NpcOptions__Func_2170740
+	bl NpcUnknown__Func_2170740
 	b _02170B20
 _02170B18:
 	mov r1, #0
-	bl NpcOptions__Func_2170740
+	bl NpcUnknown__Func_2170740
 _02170B20:
 	mov r0, r4
 	mov r1, #1
-	bl NpcOptions__Func_2170794
-	ldr r0, _02170B38 // =NpcOptions__Func_2170B3C
+	bl NpcUnknown__Func_2170794
+	ldr r0, _02170B38 // =NpcUnknown__Func_2170B3C
 	str r0, [r4, #0x478]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02170B38: .word NpcOptions__Func_2170B3C
-	arm_func_end NpcOptions__Func_2170A10
+_02170B38: .word NpcUnknown__Func_2170B3C
+	arm_func_end NpcUnknown__Func_2170A10
 
-	arm_func_start NpcOptions__Func_2170B3C
-NpcOptions__Func_2170B3C: // 0x02170B3C
+	arm_func_start NpcUnknown__Func_2170B3C
+NpcUnknown__Func_2170B3C: // 0x02170B3C
 	stmdb sp!, {r3, r4, r5, r6, r7, r8, r9, r10, lr}
 	sub sp, sp, #4
 	mov r6, #0
@@ -3459,25 +3459,25 @@ _02170B74:
 	str r1, [r10, #0x398]
 	bl TouchField__Process
 	mov r0, r10
-	bl NpcOptions__Func_21702BC
+	bl NpcUnknown__Func_21702BC
 	mov r0, r10
 	mov r1, #1
-	bl NpcOptions__Func_21702E0
+	bl NpcUnknown__Func_21702E0
 	mov r0, r10
 	mov r1, #0
-	bl NpcOptions__Func_21703AC
+	bl NpcUnknown__Func_21703AC
 	mov r0, r10
-	bl NpcOptions__Func_217045C
+	bl NpcUnknown__Func_217045C
 	mov r0, r10
-	bl NpcOptions__Func_2170530
+	bl NpcUnknown__Func_2170530
 	mov r0, r10
 	mov r1, #1
 	ldrh r4, [r10, #0xa]
-	bl NpcOptions__Func_216FD94
+	bl NpcUnknown__Func_216FD94
 	mov r5, r0
 	mov r0, r10
 	mov r1, #0
-	bl NpcOptions__Func_216FD94
+	bl NpcUnknown__Func_216FD94
 	mov r8, r0
 	ldr r0, _02170EB4 // =padInput
 	ldrh r0, [r0, #4]
@@ -3487,7 +3487,7 @@ _02170B74:
 	tst r0, #2
 	bne _02170C04
 	mov r0, r10
-	bl NpcOptions__Func_2170830
+	bl NpcUnknown__Func_2170830
 	cmp r0, #0
 	beq _02170C0C
 _02170C04:
@@ -3502,7 +3502,7 @@ _02170C0C:
 	bne _02170C34
 _02170C24:
 	mov r0, r10
-	bl NpcOptions__Func_21707F0
+	bl NpcUnknown__Func_21707F0
 	cmp r0, #0
 	beq _02170C54
 _02170C34:
@@ -3523,7 +3523,7 @@ _02170C54:
 	bne _02170C7C
 _02170C6C:
 	mov r0, r10
-	bl NpcOptions__Func_2170810
+	bl NpcUnknown__Func_2170810
 	cmp r0, #0
 	beq _02170CA4
 _02170C7C:
@@ -3553,7 +3553,7 @@ _02170CA4:
 	mov r0, r10
 	mov r1, r4
 	sub r2, r2, #0x10000
-	bl NpcOptions__Func_216FD34
+	bl NpcUnknown__Func_216FD34
 	cmp r0, #0
 	moveq r6, #1
 _02170CEC:
@@ -3575,14 +3575,14 @@ _02170D08:
 	strh r1, [r10, #0xe]
 	mov r1, #0
 	strh r2, [r10, #0x14]
-	bl NpcOptions__Func_21706C0
+	bl NpcUnknown__Func_21706C0
 	mov r0, #1
 	bl PlayHubSfx
 	mov r1, #0
 	mov r0, r10
 	str r1, [r10]
-	bl NpcOptions__Func_2170378
-	ldr r0, _02170EBC // =NpcOptions__Func_2170EC8
+	bl NpcUnknown__Func_2170378
+	ldr r0, _02170EBC // =NpcUnknown__Func_2170EC8
 	add sp, sp, #4
 	str r0, [r10, #0x478]
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
@@ -3594,10 +3594,10 @@ _02170D5C:
 	strh r2, [r10, #0xe]
 	mov r1, #0
 	strh r2, [r10, #0x14]
-	bl NpcOptions__Func_217092C
+	bl NpcUnknown__Func_217092C
 	mov r0, r10
 	mov r1, #0
-	bl NpcOptions__Func_2170980
+	bl NpcUnknown__Func_2170980
 	mov r3, #0
 	add r0, r10, #0x54
 	mov r1, #4
@@ -3612,10 +3612,10 @@ _02170D5C:
 	str r1, [r10, #0x44]
 	str r0, [r10, #0x4c]
 	mov r0, r10
-	bl NpcOptions__Func_21706C0
+	bl NpcUnknown__Func_21706C0
 	mov r0, #2
 	bl PlayHubSfx
-	ldr r0, _02170EC0 // =NpcOptions__Func_2170F6C
+	ldr r0, _02170EC0 // =NpcUnknown__Func_2170F6C
 	str r0, [r10, #0x478]
 	b _02170E54
 _02170DD8:
@@ -3624,15 +3624,15 @@ _02170DD8:
 	beq _02170E54
 	mov r0, r10
 	mov r1, #1
-	bl NpcOptions__Func_2170378
+	bl NpcUnknown__Func_2170378
 	mov r0, r10
-	bl NpcOptions__Func_2170448
+	bl NpcUnknown__Func_2170448
 	mov r0, #3
 	bl PlayHubSfx
 	mov r0, r10
 	mov r1, r4
 	mvn r2, #0
-	bl NpcOptions__Func_216FD34
+	bl NpcUnknown__Func_216FD34
 	cmp r0, #0
 	streqh r4, [r10, #0xa]
 	streqh r4, [r10, #0xc]
@@ -3645,9 +3645,9 @@ _02170DD8:
 	str r1, [r10, #0x38c]
 	mov r0, r10
 	str r1, [r10, #0x388]
-	bl NpcOptions__Func_216FE98
+	bl NpcUnknown__Func_216FE98
 	ldrh r1, [r10, #0xc]
-	ldr r0, _02170EC4 // =NpcOptions__Func_2170B3C
+	ldr r0, _02170EC4 // =NpcUnknown__Func_2170B3C
 	strh r1, [r10, #0xa]
 	str r0, [r10, #0x478]
 _02170E54:
@@ -3656,11 +3656,11 @@ _02170E54:
 	mov r0, r10
 	beq _02170E70
 	mov r1, #1
-	bl NpcOptions__Func_21706EC
+	bl NpcUnknown__Func_21706EC
 	b _02170E78
 _02170E70:
 	mov r1, #0
-	bl NpcOptions__Func_21706EC
+	bl NpcUnknown__Func_21706EC
 _02170E78:
 	ldrh r0, [r10, #8]
 	ldrh r1, [r10, #0xa]
@@ -3669,36 +3669,36 @@ _02170E78:
 	mov r0, r10
 	bge _02170EA0
 	mov r1, #1
-	bl NpcOptions__Func_2170740
+	bl NpcUnknown__Func_2170740
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 _02170EA0:
 	mov r1, #0
-	bl NpcOptions__Func_2170740
+	bl NpcUnknown__Func_2170740
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, r5, r6, r7, r8, r9, r10, pc}
 	.align 2, 0
 _02170EB0: .word touchInput
 _02170EB4: .word padInput
 _02170EB8: .word 0x0000FFFF
-_02170EBC: .word NpcOptions__Func_2170EC8
-_02170EC0: .word NpcOptions__Func_2170F6C
-_02170EC4: .word NpcOptions__Func_2170B3C
-	arm_func_end NpcOptions__Func_2170B3C
+_02170EBC: .word NpcUnknown__Func_2170EC8
+_02170EC0: .word NpcUnknown__Func_2170F6C
+_02170EC4: .word NpcUnknown__Func_2170B3C
+	arm_func_end NpcUnknown__Func_2170B3C
 
-	arm_func_start NpcOptions__Func_2170EC8
-NpcOptions__Func_2170EC8: // 0x02170EC8
+	arm_func_start NpcUnknown__Func_2170EC8
+NpcUnknown__Func_2170EC8: // 0x02170EC8
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	mov r4, r0
-	bl NpcOptions__Func_21702BC
+	bl NpcUnknown__Func_21702BC
 	mov r0, r4
 	mov r1, #0
-	bl NpcOptions__Func_21702E0
+	bl NpcUnknown__Func_21702E0
 	mov r0, r4
-	bl NpcOptions__Func_217045C
+	bl NpcUnknown__Func_217045C
 	mov r0, r4
-	bl NpcOptions__Func_2170530
+	bl NpcUnknown__Func_2170530
 	ldr r0, [r4, #0]
 	add r0, r0, #1
 	cmp r0, #0x10
@@ -3707,10 +3707,10 @@ NpcOptions__Func_2170EC8: // 0x02170EC8
 	ldmloia sp!, {r3, r4, pc}
 	mov r0, r4
 	mov r1, #0
-	bl NpcOptions__Func_217092C
+	bl NpcUnknown__Func_217092C
 	mov r0, r4
 	mov r1, #0
-	bl NpcOptions__Func_2170980
+	bl NpcUnknown__Func_2170980
 	mov r3, #0
 	add r0, r4, #0x54
 	mov r1, #4
@@ -3723,17 +3723,17 @@ NpcOptions__Func_2170EC8: // 0x02170EC8
 	str r1, [r4, #0x48]
 	mov r0, #0
 	str r0, [r4, #0x44]
-	ldr r0, _02170F68 // =NpcOptions__Func_2170F6C
+	ldr r0, _02170F68 // =NpcUnknown__Func_2170F6C
 	str r1, [r4, #0x4c]
 	str r0, [r4, #0x478]
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_02170F68: .word NpcOptions__Func_2170F6C
-	arm_func_end NpcOptions__Func_2170EC8
+_02170F68: .word NpcUnknown__Func_2170F6C
+	arm_func_end NpcUnknown__Func_2170EC8
 
-	arm_func_start NpcOptions__Func_2170F6C
-NpcOptions__Func_2170F6C: // 0x02170F6C
+	arm_func_start NpcUnknown__Func_2170F6C
+NpcUnknown__Func_2170F6C: // 0x02170F6C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x54
@@ -3748,18 +3748,18 @@ NpcOptions__Func_2170F6C: // 0x02170F6C
 	bl FontWindowAnimator__SetWindowClosed
 	mov r0, r4
 	mov r1, #0
-	bl NpcOptions__Func_21708D8
+	bl NpcUnknown__Func_21708D8
 	mov r0, r4
-	bl NpcOptions__Func_2170278
-	ldr r0, _02170FBC // =NpcOptions__Func_2170FC0
+	bl NpcUnknown__Func_2170278
+	ldr r0, _02170FBC // =NpcUnknown__Func_2170FC0
 	str r0, [r4, #0x478]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02170FBC: .word NpcOptions__Func_2170FC0
-	arm_func_end NpcOptions__Func_2170F6C
+_02170FBC: .word NpcUnknown__Func_2170FC0
+	arm_func_end NpcUnknown__Func_2170F6C
 
-	arm_func_start NpcOptions__Func_2170FC0
-NpcOptions__Func_2170FC0: // 0x02170FC0
+	arm_func_start NpcUnknown__Func_2170FC0
+NpcUnknown__Func_2170FC0: // 0x02170FC0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x54
@@ -3768,21 +3768,21 @@ NpcOptions__Func_2170FC0: // 0x02170FC0
 	str r0, [r4, #0x48]
 	str r0, [r4, #0x44]
 	str r0, [r4, #0x4c]
-	bl NpcOptions__Func_2170FF8
-	ldr r0, _02170FF0 // =NpcOptions__Func_2170FF4
+	bl NpcUnknown__Func_2170FF8
+	ldr r0, _02170FF0 // =NpcUnknown__Func_2170FF4
 	str r0, [r4, #0x478]
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02170FF0: .word NpcOptions__Func_2170FF4
-	arm_func_end NpcOptions__Func_2170FC0
+_02170FF0: .word NpcUnknown__Func_2170FF4
+	arm_func_end NpcUnknown__Func_2170FC0
 
-	arm_func_start NpcOptions__Func_2170FF4
-NpcOptions__Func_2170FF4: // 0x02170FF4
+	arm_func_start NpcUnknown__Func_2170FF4
+NpcUnknown__Func_2170FF4: // 0x02170FF4
 	bx lr
-	arm_func_end NpcOptions__Func_2170FF4
+	arm_func_end NpcUnknown__Func_2170FF4
 
-	arm_func_start NpcOptions__Func_2170FF8
-NpcOptions__Func_2170FF8: // 0x02170FF8
+	arm_func_start NpcUnknown__Func_2170FF8
+NpcUnknown__Func_2170FF8: // 0x02170FF8
 	stmdb sp!, {r3, lr}
 	sub sp, sp, #0x30
 	ldr lr, _02171090 // =NpcUnknown__keyRepeatInitialTime
@@ -3828,7 +3828,7 @@ _02171078:
 _02171090: .word NpcUnknown__keyRepeatInitialTime
 _02171094: .word NpcUnknown__keyRepeatRepeatTime
 _02171098: .word padInput
-	arm_func_end NpcOptions__Func_2170FF8
+	arm_func_end NpcUnknown__Func_2170FF8
 	
 	.rodata
 

@@ -3,27 +3,9 @@
 #include <game/util/cppHelpers.hpp>
 #include <game/game/gameState.h>
 
-// --------------------
-// TEMP
-// --------------------
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-NOT_DECOMPILED void ViDockNpc__Constructor(CViDockNpc *work);
-NOT_DECOMPILED void ViDockNpc__VTableFunc_2166BD8(CViDockNpc *work);
-NOT_DECOMPILED void Vi3dObject__ProcessAnimation(CVi3dObject *work);
-NOT_DECOMPILED void Vi3dObject__Draw(CVi3dObject *work);
-NOT_DECOMPILED BOOL ViDockNpc__Func_216710C(CViDockNpc *work, VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5);
-NOT_DECOMPILED BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *position, s32 a3, s32 a4, BOOL *flag);
-NOT_DECOMPILED BOOL ViDockNpc__Func_216737C(CViDockNpc *work, s32 a2);
-NOT_DECOMPILED void CreateViDockNpcTalk(s32 param);
-
-#ifdef __cplusplus
-}
-#endif
+#include <hub/cvi3dObject.hpp>
+#include <hub/cviDockNpc.hpp>
+#include <hub/cviDockNpcTalk.hpp>
 
 // --------------------
 // VARIABLES
@@ -250,7 +232,7 @@ void CViDockNpcGroup::SetSelection(s32 value)
 
 void CViDockNpcGroup::Func_2168764(s32 param)
 {
-    s32 talkParam;
+    u16 talkParam;
 
     if (gameState.missionFlag == FALSE)
     {

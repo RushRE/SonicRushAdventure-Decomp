@@ -13,8 +13,23 @@ class CVi3dArrow : public CVi3dObject
 {
 
 public:
+    // CVi3dArrow();
+    // virtual ~CVi3dArrow();
+
+    // --------------------
+    // VARIABLES
+    // --------------------
+
     void *materialAnimFile;
     void *modelFile;
+
+    // --------------------
+    // MEMBER FUNCTIONS
+    // --------------------
+
+    // --------------------
+    // STATIC FUNCTIONS
+    // --------------------
 };
 
 #endif

@@ -270,7 +270,7 @@ ViTalkPurchase__Func_2169B20: // 0x02169B20
 	mov r4, r0
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcOptions__Func_216E330
+	bl NpcUnknown__Func_216E330
 	mov r1, #3
 	add r0, r4, #0x1fc
 	mov r2, #0x3c0
@@ -282,7 +282,7 @@ ViTalkPurchase__Func_2169B20: // 0x02169B20
 	add r3, r2, #0x3f
 	mov r1, #2
 	str ip, [sp, #8]
-	bl NpcOptions__Func_216E390
+	bl NpcUnknown__Func_216E390
 	add sp, sp, #0xc
 	ldmia sp!, {r3, r4, pc}
 	arm_func_end ViTalkPurchase__Func_2169B20
@@ -338,12 +338,12 @@ _02169BFC: .word 0x0000FFFF
 
 	arm_func_start ViTalkPurchase__Func_2169C00
 ViTalkPurchase__Func_2169C00: // 0x02169C00
-	ldr ip, _02169C10 // =NpcOptions__Func_216E8A4
+	ldr ip, _02169C10 // =NpcUnknown__Func_216E8A4
 	add r0, r0, #0x1fc
 	add r0, r0, #0x400
 	bx ip
 	.align 2, 0
-_02169C10: .word NpcOptions__Func_216E8A4
+_02169C10: .word NpcUnknown__Func_216E8A4
 	arm_func_end ViTalkPurchase__Func_2169C00
 
 	arm_func_start ViTalkPurchase__Main
@@ -401,7 +401,7 @@ _02169C9C:
 	bl ViEvtCmnTalk__Func_216D8AC
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcOptions__Func_216EC50
+	bl NpcUnknown__Func_216EC50
 	ldr r0, _02169CEC // =ViTalkPurchase__Func_2169CF0
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, pc}
@@ -418,10 +418,10 @@ ViTalkPurchase__Func_2169CF0: // 0x02169CF0
 	mov r4, r0
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcOptions__Func_216E8F0
+	bl NpcUnknown__Func_216E8F0
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcOptions__Func_216ED10
+	bl NpcUnknown__Func_216ED10
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	ldr r0, [r4, #0x10]
@@ -448,7 +448,7 @@ ViTalkPurchase__Func_2169D4C: // 0x02169D4C
 	bl ViEvtCmnTalk__Func_216D81C
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcOptions__Func_216E8F0
+	bl NpcUnknown__Func_216E8F0
 	add r0, r4, #0x500
 	ldrh r1, [r0, #0xf8]
 	ldr r0, _02169E08 // =0x0000FFFF
@@ -487,7 +487,7 @@ _02169DE0:
 	ldmeqia sp!, {r4, pc}
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcOptions__Func_216ED24
+	bl NpcUnknown__Func_216ED24
 	ldr r0, _02169E0C // =ViTalkPurchase__Func_2169E10
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
@@ -503,10 +503,10 @@ ViTalkPurchase__Func_2169E10: // 0x02169E10
 	mov r4, r0
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcOptions__Func_216E8F0
+	bl NpcUnknown__Func_216E8F0
 	add r0, r4, #0x1fc
 	add r0, r0, #0x400
-	bl NpcOptions__Func_216ED60
+	bl NpcUnknown__Func_216ED60
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	ldr r0, _02169E48 // =ViTalkPurchase__Func_2169E4C

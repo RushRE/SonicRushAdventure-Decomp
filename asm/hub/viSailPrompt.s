@@ -3,16 +3,16 @@
 
 	.text
 
-	arm_func_start Task__OV05Unknown2168C48__Create
-Task__OV05Unknown2168C48__Create: // 0x02168C3C
-	ldr ip, _02168C44 // =Task__OV05Unknown2168C48__CreateInternal
+	arm_func_start ViSailPrompt__Create
+ViSailPrompt__Create: // 0x02168C3C
+	ldr ip, _02168C44 // =ViSailPrompt__CreateInternal
 	bx ip
 	.align 2, 0
-_02168C44: .word Task__OV05Unknown2168C48__CreateInternal
-	arm_func_end Task__OV05Unknown2168C48__Create
+_02168C44: .word ViSailPrompt__CreateInternal
+	arm_func_end ViSailPrompt__Create
 
-	arm_func_start Task__OV05Unknown2168C48__CreateInternal
-Task__OV05Unknown2168C48__CreateInternal: // 0x02168C48
+	arm_func_start ViSailPrompt__CreateInternal
+ViSailPrompt__CreateInternal: // 0x02168C48
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0xc
 	ldr r1, _02168CA8 // =0x00001010
@@ -20,8 +20,8 @@ Task__OV05Unknown2168C48__CreateInternal: // 0x02168C48
 	mov r2, #0
 	str r1, [sp]
 	mov r4, #0x10
-	ldr r0, _02168CAC // =Task__OV05Unknown2168C48__Main
-	ldr r1, _02168CB0 // =Task__OV05Unknown2168C48__Destructor
+	ldr r0, _02168CAC // =ViSailPrompt__Main
+	ldr r1, _02168CB0 // =ViSailPrompt__Destructor
 	mov r3, r2
 	str r4, [sp, #4]
 	mov r4, #0x1f4
@@ -32,38 +32,38 @@ Task__OV05Unknown2168C48__CreateInternal: // 0x02168C48
 	ldr r1, _02168CB4 // =0x0000FFFF
 	str r5, [r4]
 	strh r1, [r4, #8]
-	bl Task__OV05Unknown2168C48__Func_2168CB8
+	bl ViSailPrompt__Func_2168CB8
 	mov r0, r4
-	bl Task__OV05Unknown2168C48__Func_2168CD8
+	bl ViSailPrompt__Func_2168CD8
 	add sp, sp, #0xc
 	ldmia sp!, {r4, r5, pc}
 	.align 2, 0
 _02168CA8: .word 0x00001010
-_02168CAC: .word Task__OV05Unknown2168C48__Main
-_02168CB0: .word Task__OV05Unknown2168C48__Destructor
+_02168CAC: .word ViSailPrompt__Main
+_02168CB0: .word ViSailPrompt__Destructor
 _02168CB4: .word 0x0000FFFF
-	arm_func_end Task__OV05Unknown2168C48__CreateInternal
+	arm_func_end ViSailPrompt__CreateInternal
 
-	arm_func_start Task__OV05Unknown2168C48__Func_2168CB8
-Task__OV05Unknown2168C48__Func_2168CB8: // 0x02168CB8
+	arm_func_start ViSailPrompt__Func_2168CB8
+ViSailPrompt__Func_2168CB8: // 0x02168CB8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl _ZN10HubControl12Func_215A888Ev
 	mov r0, r4
-	bl Task__OV05Unknown2168C48__Func_216968C
+	bl ViSailPrompt__Func_216968C
 	mov r0, r4
-	bl Task__OV05Unknown2168C48__Func_21696AC
+	bl ViSailPrompt__Func_21696AC
 	ldmia sp!, {r4, pc}
-	arm_func_end Task__OV05Unknown2168C48__Func_2168CB8
+	arm_func_end ViSailPrompt__Func_2168CB8
 
-	arm_func_start Task__OV05Unknown2168C48__Func_2168CD8
-Task__OV05Unknown2168C48__Func_2168CD8: // 0x02168CD8
+	arm_func_start ViSailPrompt__Func_2168CD8
+ViSailPrompt__Func_2168CD8: // 0x02168CD8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #0
-	bl Task__OV05Unknown2168C48__Func_21695E4
+	bl ViSailPrompt__Func_21695E4
 	mov r0, #0
-	bl Task__OV05Unknown2168C48__Func_2169638
+	bl ViSailPrompt__Func_2169638
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__Init
 	add r0, r4, #0x10
@@ -77,28 +77,28 @@ Task__OV05Unknown2168C48__Func_2168CD8: // 0x02168CD8
 	bl _ZN10HubControl17GetFileFrom_ViMsgEv
 	str r0, [r4, #0x1f0]
 	ldmia sp!, {r4, pc}
-	arm_func_end Task__OV05Unknown2168C48__Func_2168CD8
+	arm_func_end ViSailPrompt__Func_2168CD8
 
-	arm_func_start Task__OV05Unknown2168C48__Func_2168D24
-Task__OV05Unknown2168C48__Func_2168D24: // 0x02168D24
+	arm_func_start ViSailPrompt__Func_2168D24
+ViSailPrompt__Func_2168D24: // 0x02168D24
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl Task__OV05Unknown2168C48__Func_2168D48
+	bl ViSailPrompt__Func_2168D48
 	mov r0, r4
-	bl Task__OV05Unknown2168C48__Func_2168D3C
+	bl ViSailPrompt__Func_2168D3C
 	ldmia sp!, {r4, pc}
-	arm_func_end Task__OV05Unknown2168C48__Func_2168D24
+	arm_func_end ViSailPrompt__Func_2168D24
 
-	arm_func_start Task__OV05Unknown2168C48__Func_2168D3C
-Task__OV05Unknown2168C48__Func_2168D3C: // 0x02168D3C
+	arm_func_start ViSailPrompt__Func_2168D3C
+ViSailPrompt__Func_2168D3C: // 0x02168D3C
 	ldr ip, _02168D44 // =_ZN10HubControl12Func_215A96CEv
 	bx ip
 	.align 2, 0
 _02168D44: .word _ZN10HubControl12Func_215A96CEv
-	arm_func_end Task__OV05Unknown2168C48__Func_2168D3C
+	arm_func_end ViSailPrompt__Func_2168D3C
 
-	arm_func_start Task__OV05Unknown2168C48__Func_2168D48
-Task__OV05Unknown2168C48__Func_2168D48: // 0x02168D48
+	arm_func_start ViSailPrompt__Func_2168D48
+ViSailPrompt__Func_2168D48: // 0x02168D48
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	add r0, r4, #0x18c
@@ -110,15 +110,15 @@ Task__OV05Unknown2168C48__Func_2168D48: // 0x02168D48
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__Release
 	ldmia sp!, {r4, pc}
-	arm_func_end Task__OV05Unknown2168C48__Func_2168D48
+	arm_func_end ViSailPrompt__Func_2168D48
 
-	arm_func_start Task__OV05Unknown2168C48__Main
-Task__OV05Unknown2168C48__Main: // 0x02168D74
+	arm_func_start ViSailPrompt__Main
+ViSailPrompt__Main: // 0x02168D74
 	stmdb sp!, {r3, r4, r5, lr}
 	sub sp, sp, #0x28
 	bl GetCurrentTaskWork_
 	mov r4, r0
-	bl Task__OV05Unknown2168C48__Func_21696D8
+	bl ViSailPrompt__Func_21696D8
 	cmp r0, #0
 	movne r5, #6
 	moveq r5, #8
@@ -158,24 +158,24 @@ Task__OV05Unknown2168C48__Main: // 0x02168D74
 	bl FontWindowAnimator__StartAnimating
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__Draw
-	ldr r0, _02168E3C // =Task__OV05Unknown2168C48__Func_2168E40
+	ldr r0, _02168E3C // =ViSailPrompt__Func_2168E40
 	bl SetCurrentTaskMainEvent
 	mov r0, #4
 	bl PlayHubSfx
 	add sp, sp, #0x28
 	ldmia sp!, {r3, r4, r5, pc}
 	.align 2, 0
-_02168E3C: .word Task__OV05Unknown2168C48__Func_2168E40
-	arm_func_end Task__OV05Unknown2168C48__Main
+_02168E3C: .word ViSailPrompt__Func_2168E40
+	arm_func_end ViSailPrompt__Main
 
-	arm_func_start Task__OV05Unknown2168C48__Func_2168E40
-Task__OV05Unknown2168C48__Func_2168E40: // 0x02168E40
+	arm_func_start ViSailPrompt__Func_2168E40
+ViSailPrompt__Func_2168E40: // 0x02168E40
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	mov r0, #1
-	bl Task__OV05Unknown2168C48__Func_21695E4
+	bl ViSailPrompt__Func_21695E4
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__Draw
 	add r0, r4, #0xd4
@@ -215,7 +215,7 @@ Task__OV05Unknown2168C48__Func_2168E40: // 0x02168E40
 	mov r1, r0
 	add r0, r4, #0x10
 	bl FontAnimator__LoadMPCFile
-	bl Task__OV05Unknown2168C48__Func_21696D8
+	bl ViSailPrompt__Func_21696D8
 	cmp r0, #0
 	add r0, r4, #0x10
 	beq _02168F10
@@ -234,22 +234,22 @@ _02168F18:
 	bl FontAnimator__ClearPixels
 	add r0, r4, #0x10
 	bl FontAnimator__Draw
-	ldr r0, _02168F48 // =Task__OV05Unknown2168C48__Func_2168F4C
+	ldr r0, _02168F48 // =ViSailPrompt__Func_2168F4C
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #0x1c
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_02168F48: .word Task__OV05Unknown2168C48__Func_2168F4C
-	arm_func_end Task__OV05Unknown2168C48__Func_2168E40
+_02168F48: .word ViSailPrompt__Func_2168F4C
+	arm_func_end ViSailPrompt__Func_2168E40
 
-	arm_func_start Task__OV05Unknown2168C48__Func_2168F4C
-Task__OV05Unknown2168C48__Func_2168F4C: // 0x02168F4C
+	arm_func_start ViSailPrompt__Func_2168F4C
+ViSailPrompt__Func_2168F4C: // 0x02168F4C
 	stmdb sp!, {r4, r5, lr}
 	sub sp, sp, #0x1c
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	mov r0, #1
-	bl Task__OV05Unknown2168C48__Func_2169638
+	bl ViSailPrompt__Func_2169638
 	add r0, r4, #0x10
 	mov r1, #1
 	bl FontAnimator__LoadCharacters
@@ -305,13 +305,13 @@ Task__OV05Unknown2168C48__Func_2168F4C: // 0x02168F4C
 	mov r1, #0
 	mov r2, r1
 	bl AnimatorSprite__ProcessAnimation
-	bl Task__OV05Unknown2168C48__Func_21696D8
+	bl ViSailPrompt__Func_21696D8
 	cmp r0, #0
 	bne _02169064
 	ldr r0, [r4, #0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl Task__OV05Unknown2168C48__Func_21696F0
+	bl ViSailPrompt__Func_21696F0
 	cmp r0, #0
 	bne _02169070
 _02169064:
@@ -322,7 +322,7 @@ _02169070:
 	ldr r0, [r4, #0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl Task__OV05Unknown2168C48__Func_2169754
+	bl ViSailPrompt__Func_2169754
 	bl SaveGame__Func_205BF78
 	cmp r0, #0
 	movne r0, #0
@@ -335,7 +335,7 @@ _02169098:
 	bl FontAnimator__GetDialogLineCount
 	strh r0, [r4, #6]
 	ldr r1, _021690C4 // =0x0000FFFF
-	ldr r0, _021690C8 // =Task__OV05Unknown2168C48__Func_21690CC
+	ldr r0, _021690C8 // =ViSailPrompt__Func_21690CC
 	strh r1, [r4, #8]
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #0x1c
@@ -343,11 +343,11 @@ _02169098:
 	.align 2, 0
 _021690C0: .word 0x05000200
 _021690C4: .word 0x0000FFFF
-_021690C8: .word Task__OV05Unknown2168C48__Func_21690CC
-	arm_func_end Task__OV05Unknown2168C48__Func_2168F4C
+_021690C8: .word ViSailPrompt__Func_21690CC
+	arm_func_end ViSailPrompt__Func_2168F4C
 
-	arm_func_start Task__OV05Unknown2168C48__Func_21690CC
-Task__OV05Unknown2168C48__Func_21690CC: // 0x021690CC
+	arm_func_start ViSailPrompt__Func_21690CC
+ViSailPrompt__Func_21690CC: // 0x021690CC
 	stmdb sp!, {r3, r4, r5, r6, r7, lr}
 	ldr r6, _02169330 // =0x0000FFFF
 	bl GetCurrentTaskWork_
@@ -392,7 +392,7 @@ _0216915C:
 	bne _021691BC
 	mov r0, r4
 	mov r1, #1
-	bl Task__OV05Unknown2168C48__Func_21694F0
+	bl ViSailPrompt__Func_21694F0
 	ldr r1, _02169330 // =0x0000FFFF
 	mov r6, r0
 	cmp r6, r1
@@ -403,7 +403,7 @@ _0216915C:
 	beq _021691BC
 	mov r0, r4
 	mov r1, #0
-	bl Task__OV05Unknown2168C48__Func_21694F0
+	bl ViSailPrompt__Func_21694F0
 	cmp r7, r0
 	ldreqh r0, [r4, #4]
 	cmpeq r7, r0
@@ -439,7 +439,7 @@ _02169208:
 	ldrh r0, [r0, #4]
 	tst r0, #2
 	beq _02169284
-	bl Task__OV05Unknown2168C48__Func_21696D8
+	bl ViSailPrompt__Func_21696D8
 	cmp r0, #0
 	ldrh r0, [r4, #4]
 	beq _0216925C
@@ -509,17 +509,17 @@ _02169308:
 	mov r1, #1
 	str r2, [r4, #0xc]
 	bl FontWindowMWControl__SetPaletteAnim
-	ldr r0, _02169338 // =Task__OV05Unknown2168C48__Func_216933C
+	ldr r0, _02169338 // =ViSailPrompt__Func_216933C
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _02169330: .word 0x0000FFFF
 _02169334: .word padInput
-_02169338: .word Task__OV05Unknown2168C48__Func_216933C
-	arm_func_end Task__OV05Unknown2168C48__Func_21690CC
+_02169338: .word ViSailPrompt__Func_216933C
+	arm_func_end ViSailPrompt__Func_21690CC
 
-	arm_func_start Task__OV05Unknown2168C48__Func_216933C
-Task__OV05Unknown2168C48__Func_216933C: // 0x0216933C
+	arm_func_start ViSailPrompt__Func_216933C
+ViSailPrompt__Func_216933C: // 0x0216933C
 	stmdb sp!, {r3, r4, lr}
 	sub sp, sp, #4
 	bl GetCurrentTaskWork_
@@ -543,7 +543,7 @@ Task__OV05Unknown2168C48__Func_216933C: // 0x0216933C
 	str r0, [r4, #0xc]
 	ldmloia sp!, {r3, r4, pc}
 	mov r0, #0
-	bl Task__OV05Unknown2168C48__Func_2169638
+	bl ViSailPrompt__Func_2169638
 	mov r3, #0
 	add r0, r4, #0xd4
 	mov r1, #4
@@ -552,21 +552,21 @@ Task__OV05Unknown2168C48__Func_216933C: // 0x0216933C
 	bl FontWindowAnimator__InitAnimation
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__StartAnimating
-	ldr r0, _021693CC // =Task__OV05Unknown2168C48__Func_21693D0
+	ldr r0, _021693CC // =ViSailPrompt__Func_21693D0
 	bl SetCurrentTaskMainEvent
 	add sp, sp, #4
 	ldmia sp!, {r3, r4, pc}
 	.align 2, 0
-_021693CC: .word Task__OV05Unknown2168C48__Func_21693D0
-	arm_func_end Task__OV05Unknown2168C48__Func_216933C
+_021693CC: .word ViSailPrompt__Func_21693D0
+	arm_func_end ViSailPrompt__Func_216933C
 
-	arm_func_start Task__OV05Unknown2168C48__Func_21693D0
-Task__OV05Unknown2168C48__Func_21693D0: // 0x021693D0
+	arm_func_start ViSailPrompt__Func_21693D0
+ViSailPrompt__Func_21693D0: // 0x021693D0
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	mov r0, #1
-	bl Task__OV05Unknown2168C48__Func_21695E4
+	bl ViSailPrompt__Func_21695E4
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__Draw
 	add r0, r4, #0xd4
@@ -576,24 +576,24 @@ Task__OV05Unknown2168C48__Func_21693D0: // 0x021693D0
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
 	mov r0, #0
-	bl Task__OV05Unknown2168C48__Func_21695E4
+	bl ViSailPrompt__Func_21695E4
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__SetWindowClosed
-	ldr r0, _02169420 // =Task__OV05Unknown2168C48__Func_2169424
+	ldr r0, _02169420 // =ViSailPrompt__Func_2169424
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 	.align 2, 0
-_02169420: .word Task__OV05Unknown2168C48__Func_2169424
-	arm_func_end Task__OV05Unknown2168C48__Func_21693D0
+_02169420: .word ViSailPrompt__Func_2169424
+	arm_func_end ViSailPrompt__Func_21693D0
 
-	arm_func_start Task__OV05Unknown2168C48__Func_2169424
-Task__OV05Unknown2168C48__Func_2169424: // 0x02169424
+	arm_func_start ViSailPrompt__Func_2169424
+ViSailPrompt__Func_2169424: // 0x02169424
 	stmdb sp!, {r4, lr}
 	bl GetCurrentTaskWork_
 	mov r4, r0
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__SetWindowOpen
-	bl Task__OV05Unknown2168C48__Func_21696D8
+	bl ViSailPrompt__Func_21696D8
 	cmp r0, #0
 	ldrh r0, [r4, #4]
 	beq _02169478
@@ -630,7 +630,7 @@ _021694A0:
 	ldr r0, [r4, #0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
-	bl Task__OV05Unknown2168C48__Func_2169754
+	bl ViSailPrompt__Func_2169754
 	bl SaveGame__Func_205BF5C
 	b _021694D8
 _021694C8:
@@ -641,18 +641,18 @@ _021694C8:
 _021694D8:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}
-	arm_func_end Task__OV05Unknown2168C48__Func_2169424
+	arm_func_end ViSailPrompt__Func_2169424
 
-	arm_func_start Task__OV05Unknown2168C48__Destructor
-Task__OV05Unknown2168C48__Destructor: // 0x021694E0
+	arm_func_start ViSailPrompt__Destructor
+ViSailPrompt__Destructor: // 0x021694E0
 	stmdb sp!, {r3, lr}
 	bl GetTaskWork_
-	bl Task__OV05Unknown2168C48__Func_2168D24
+	bl ViSailPrompt__Func_2168D24
 	ldmia sp!, {r3, pc}
-	arm_func_end Task__OV05Unknown2168C48__Destructor
+	arm_func_end ViSailPrompt__Destructor
 
-	arm_func_start Task__OV05Unknown2168C48__Func_21694F0
-Task__OV05Unknown2168C48__Func_21694F0: // 0x021694F0
+	arm_func_start ViSailPrompt__Func_21694F0
+ViSailPrompt__Func_21694F0: // 0x021694F0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	cmp r1, #0
@@ -724,10 +724,10 @@ _021695D4:
 	.align 2, 0
 _021695DC: .word touchInput
 _021695E0: .word 0x0000FFFF
-	arm_func_end Task__OV05Unknown2168C48__Func_21694F0
+	arm_func_end ViSailPrompt__Func_21694F0
 
-	arm_func_start Task__OV05Unknown2168C48__Func_21695E4
-Task__OV05Unknown2168C48__Func_21695E4: // 0x021695E4
+	arm_func_start ViSailPrompt__Func_21695E4
+ViSailPrompt__Func_21695E4: // 0x021695E4
 	cmp r0, #0
 	mov r2, #0x4000000
 	beq _02169614
@@ -750,10 +750,10 @@ _02169614:
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 	bx lr
-	arm_func_end Task__OV05Unknown2168C48__Func_21695E4
+	arm_func_end ViSailPrompt__Func_21695E4
 
-	arm_func_start Task__OV05Unknown2168C48__Func_2169638
-Task__OV05Unknown2168C48__Func_2169638: // 0x02169638
+	arm_func_start ViSailPrompt__Func_2169638
+ViSailPrompt__Func_2169638: // 0x02169638
 	cmp r0, #0
 	mov r2, #0x4000000
 	beq _02169668
@@ -776,10 +776,10 @@ _02169668:
 	orr r0, r1, r0, lsl #8
 	str r0, [r2]
 	bx lr
-	arm_func_end Task__OV05Unknown2168C48__Func_2169638
+	arm_func_end ViSailPrompt__Func_2169638
 
-	arm_func_start Task__OV05Unknown2168C48__Func_216968C
-Task__OV05Unknown2168C48__Func_216968C: // 0x0216968C
+	arm_func_start ViSailPrompt__Func_216968C
+ViSailPrompt__Func_216968C: // 0x0216968C
 	ldr ip, _021696A0 // =MIi_CpuClear32
 	ldr r0, _021696A4 // =0x03FF03FF
 	ldr r1, _021696A8 // =0x06000800
@@ -789,10 +789,10 @@ Task__OV05Unknown2168C48__Func_216968C: // 0x0216968C
 _021696A0: .word MIi_CpuClear32
 _021696A4: .word 0x03FF03FF
 _021696A8: .word 0x06000800
-	arm_func_end Task__OV05Unknown2168C48__Func_216968C
+	arm_func_end ViSailPrompt__Func_216968C
 
-	arm_func_start Task__OV05Unknown2168C48__Func_21696AC
-Task__OV05Unknown2168C48__Func_21696AC: // 0x021696AC
+	arm_func_start ViSailPrompt__Func_21696AC
+ViSailPrompt__Func_21696AC: // 0x021696AC
 	stmdb sp!, {r3, lr}
 	ldr r1, _021696D4 // =0x06007FE0
 	mov r0, #0
@@ -805,20 +805,20 @@ Task__OV05Unknown2168C48__Func_21696AC: // 0x021696AC
 	ldmia sp!, {r3, pc}
 	.align 2, 0
 _021696D4: .word 0x06007FE0
-	arm_func_end Task__OV05Unknown2168C48__Func_21696AC
+	arm_func_end ViSailPrompt__Func_21696AC
 
-	arm_func_start Task__OV05Unknown2168C48__Func_21696D8
-Task__OV05Unknown2168C48__Func_21696D8: // 0x021696D8
+	arm_func_start ViSailPrompt__Func_21696D8
+ViSailPrompt__Func_21696D8: // 0x021696D8
 	stmdb sp!, {r3, lr}
 	bl SaveGame__GetGameProgress
 	cmp r0, #3
 	movlt r0, #1
 	movge r0, #0
 	ldmia sp!, {r3, pc}
-	arm_func_end Task__OV05Unknown2168C48__Func_21696D8
+	arm_func_end ViSailPrompt__Func_21696D8
 
-	arm_func_start Task__OV05Unknown2168C48__Func_21696F0
-Task__OV05Unknown2168C48__Func_21696F0: // 0x021696F0
+	arm_func_start ViSailPrompt__Func_21696F0
+ViSailPrompt__Func_21696F0: // 0x021696F0
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	bl SaveGame__GetGameProgress
@@ -849,10 +849,10 @@ _02169740:
 _0216974C:
 	mov r0, #0
 	ldmia sp!, {r4, pc}
-	arm_func_end Task__OV05Unknown2168C48__Func_21696F0
+	arm_func_end ViSailPrompt__Func_21696F0
 
-	arm_func_start Task__OV05Unknown2168C48__Func_2169754
-Task__OV05Unknown2168C48__Func_2169754: // 0x02169754
+	arm_func_start ViSailPrompt__Func_2169754
+ViSailPrompt__Func_2169754: // 0x02169754
 	cmp r0, #5
 	addls pc, pc, r0, lsl #2
 	b _02169798
@@ -878,4 +878,4 @@ _02169790:
 _02169798:
 	mov r0, #0
 	bx lr
-	arm_func_end Task__OV05Unknown2168C48__Func_2169754
+	arm_func_end ViSailPrompt__Func_2169754

@@ -18,6 +18,8 @@
 #include <game/graphics/oamSystem.h>
 #include <menu/credits.h>
 #include <game/cutscene/script.h>
+#include <hub/npcCutsceneViewer.hpp>
+#include <hub/cviTalkPurchase.hpp>
 
 // resources
 #include <resources/narc/vi_act_lz7.h>
@@ -37,9 +39,6 @@
 
 extern "C"
 {
-
-NOT_DECOMPILED u16 NpcViking__Func_2171150(u16 a1);
-NOT_DECOMPILED void ViTalkPurchase__Func_216996C();
 
 NOT_DECOMPILED void MultibootManager__Func_2063C60(s32 a1);
 
@@ -124,7 +123,7 @@ extern "C" void InitHubSysEvent(void)
     {
         if (TalkHelpers__Func_2152F88() == 4)
         {
-            u16 value = NpcViking__Func_2171150(gameState.cutscene.cutsceneID);
+            u16 value = NpcCutsceneViewer__Func_2171150(gameState.cutscene.cutsceneID);
             if (value != 0 && !gameState.cutscene.canSkip)
             {
                 HubControl::Func_21572B8();

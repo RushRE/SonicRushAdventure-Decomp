@@ -48,6 +48,18 @@ extern "C"
 {
 #endif
 
+NOT_DECOMPILED void ViDockPlayer__Constructor(void);
+NOT_DECOMPILED void ViDockPlayer__VTableFunc_21665AC(void);
+NOT_DECOMPILED void ViDockPlayer__VTableFunc_21665D4(void);
+NOT_DECOMPILED void ViDockPlayer__LoadAssets(void);
+NOT_DECOMPILED void ViDockPlayer__Func_2166748(void);
+NOT_DECOMPILED void ViDockPlayer__Func_21667A0(void);
+NOT_DECOMPILED void ViDockPlayer__Func_21667A8(void);
+NOT_DECOMPILED void ViDockPlayer__Func_21667BC(void);
+NOT_DECOMPILED void ViDockPlayer__Func_21667D4(void);
+NOT_DECOMPILED void ViDockPlayer__Func_2166B80(void);
+NOT_DECOMPILED void ViDockPlayer__Func_2166B90(void);
+
 #ifdef __cplusplus
 }
 #endif
