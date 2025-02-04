@@ -412,8 +412,8 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     for (u16 i = 0; i < 6; i++, aniIcon++)
     {
         ObjAction2dBACLoad(aniIcon, "/act/ac_fix_tut_check.bac", 2, &sVars.textIconFile, sVars.archive);
-        aniIcon->work.palette      = ObjDrawAllocSpritePalette(sVars.textIconFile.fileData, i, iconAllocIDs[i]);
-        aniIcon->cParam[0].palette = aniIcon->cParam[1].palette = aniIcon->work.palette;
+        aniIcon->work.cParam.palette      = ObjDrawAllocSpritePalette(sVars.textIconFile.fileData, i, iconAllocIDs[i]);
+        aniIcon->cParam[0].palette = aniIcon->cParam[1].palette = aniIcon->work.cParam.palette;
 
         aniIcon->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
         StageTask__SetOAMOrder(&aniIcon->work, SPRITE_ORDER_1);
@@ -423,8 +423,8 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     AnimatorSpriteDS *aniNextPrompt = &work->aniNextPrompt;
     ObjAction2dBACLoad(aniNextPrompt, "/act/dmcmn_fix_next.bac", 4, &sVars.nextPromptFile, sVars.archive);
-    aniNextPrompt->work.palette      = ObjDrawAllocSpritePalette(sVars.nextPromptFile.fileData, 2, 127);
-    aniNextPrompt->cParam[0].palette = aniNextPrompt->cParam[1].palette = aniNextPrompt->work.palette;
+    aniNextPrompt->work.cParam.palette      = ObjDrawAllocSpritePalette(sVars.nextPromptFile.fileData, 2, 127);
+    aniNextPrompt->cParam[0].palette = aniNextPrompt->cParam[1].palette = aniNextPrompt->work.cParam.palette;
     aniNextPrompt->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING;
     StageTask__SetOAMOrder(&aniNextPrompt->work, SPRITE_ORDER_1);
     StageTask__SetOAMPriority(&aniNextPrompt->work, SPRITE_PRIORITY_0);
@@ -438,8 +438,8 @@ Tutorial *CreateTutorial(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     for (i = 0; i < 3; i++, aniKey++)
     {
         ObjAction2dBACLoad(aniKey, "/act/ac_fix_key.bac", buttonSpriteSizes[i], &sVars.buttonPromptFile, gameArchiveStage);
-        aniKey->work.palette      = ObjDrawAllocSpritePalette(sVars.buttonPromptFile.fileData, 0, 90);
-        aniKey->cParam[0].palette = aniKey->cParam[1].palette = aniKey->work.palette;
+        aniKey->work.cParam.palette      = ObjDrawAllocSpritePalette(sVars.buttonPromptFile.fileData, 0, 90);
+        aniKey->cParam[0].palette = aniKey->cParam[1].palette = aniKey->work.cParam.palette;
 
         aniKey->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING;
         aniKey->screensToDraw |= SCREEN_DRAW_B;
@@ -551,7 +551,7 @@ void Tutorial_Destructor(Task *task)
     aniIcon = work->aniObjectiveIcons;
     for (i = 0; i < 6; i++)
     {
-        ObjDrawReleaseSpritePalette(aniIcon->work.palette);
+        ObjDrawReleaseSpritePalette(aniIcon->work.cParam.palette);
         ObjAction2dBACRelease(&sVars.textIconFile, aniIcon);
 
         aniIcon++;

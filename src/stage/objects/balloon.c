@@ -77,8 +77,8 @@ Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     AnimatorSpriteDS *aniBalloon = &work->aniBalloon;
     ObjAction2dBACLoad(aniBalloon, "/act/ac_gmk_balloon.bac", 26, GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage);
     aniBalloon->work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
-    aniBalloon->work.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 0, 97);
-    aniBalloon->cParam[0].palette = aniBalloon->cParam[1].palette = aniBalloon->work.palette;
+    aniBalloon->work.cParam.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 0, 97);
+    aniBalloon->cParam[0].palette = aniBalloon->cParam[1].palette = aniBalloon->work.cParam.palette;
     aniBalloon->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     StageTask__SetOAMOrder(&aniBalloon->work, SPRITE_ORDER_23);
     StageTask__SetOAMPriority(&aniBalloon->work, SPRITE_PRIORITY_2);
@@ -86,8 +86,8 @@ Balloon *CreateBalloon(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     AnimatorSpriteDS *aniCrystal = &work->aniCrystal;
     ObjAction2dBACLoad(aniCrystal, "/act/ac_gmk_balloon.bac", 2, GetObjectDataWork(OBJDATAWORK_161), gameArchiveStage);
-    aniCrystal->work.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 1, 97);
-    aniCrystal->cParam[0].palette = aniCrystal->cParam[1].palette = aniCrystal->work.palette;
+    aniCrystal->work.cParam.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 1, 97);
+    aniCrystal->cParam[0].palette = aniCrystal->cParam[1].palette = aniCrystal->work.cParam.palette;
     aniCrystal->work.flags                                        = aniCrystal->work.flags | ANIMATOR_FLAG_DISABLE_PALETTES;
     StageTask__SetOAMOrder(&aniCrystal->work, SPRITE_ORDER_23);
     StageTask__SetOAMPriority(&aniCrystal->work, SPRITE_PRIORITY_2);
@@ -167,7 +167,7 @@ void Balloon_Destructor(Task *task)
 
     for (i = 0; i < 2; i++)
     {
-        ObjDrawReleaseSpritePalette(work->animators[i].work.palette);
+        ObjDrawReleaseSpritePalette(work->animators[i].work.cParam.palette);
         ObjAction2dBACRelease(GetObjectDataWork(OBJDATAWORK_161), &work->animators[i]);
     }
 

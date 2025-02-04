@@ -525,14 +525,14 @@ void TitleScreen_Main_Init(void)
     work->worldControl.touchSkipDelay = 5;
     PlaySysStream(SYSSOUND_GROUP_TITLE_2, TRUE);
 
-    Camera3DTask *camera                                      = Camera3D__GetWork();
-    camera->gfxControl[1].windowManager.registers.win0X1      = 0;
-    camera->gfxControl[1].windowManager.registers.win0X2      = 0;
-    camera->gfxControl[1].windowManager.registers.win0Y1      = 0;
-    camera->gfxControl[1].windowManager.registers.win0Y2      = 0;
-    camera->gfxControl[1].windowManager.registers.win0InPlane = GX_PLANEMASK_NONE;
-    camera->gfxControl[1].windowManager.registers.winOutPlane = 59;
-    camera->gfxControl[1].windowManager.visible               = TRUE;
+    Camera3DTask *camera                                            = Camera3D__GetWork();
+    camera->gfxControl[1].windowManager.registers.win0X1            = 0;
+    camera->gfxControl[1].windowManager.registers.win0X2            = 0;
+    camera->gfxControl[1].windowManager.registers.win0Y1            = 0;
+    camera->gfxControl[1].windowManager.registers.win0Y2            = 0;
+    camera->gfxControl[1].windowManager.registers.win0InPlane.value = GX_PLANEMASK_NONE;
+    camera->gfxControl[1].windowManager.registers.winOutPlane.value = GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ | GX_PLANEMASK_EFFECT;
+    camera->gfxControl[1].windowManager.visible                     = TRUE;
 
     SetCurrentTaskMainEvent(TitleScreen_Main_FadeIn);
 }
@@ -702,14 +702,14 @@ void CreateTitleScreenCopyrightIcon(TitleScreen *parent)
     void *spriteFile = FileUnknown__GetAOUFile(parent->archiveTitleScreen, ARCHIVE_DMTI_LZ7_FILE_C_SEGA_BAC);
     AnimatorSprite__Init(&work->aniCopyright, spriteFile, 0, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, 0, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2(spriteFile)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-    work->aniCopyright.palette = PALETTE_ROW_0;
-    work->aniCopyright.pos.x   = 0;
-    work->aniCopyright.pos.y   = 176;
+    work->aniCopyright.cParam.palette = PALETTE_ROW_0;
+    work->aniCopyright.pos.x          = 0;
+    work->aniCopyright.pos.y          = 176;
 
     spriteFile = FileUnknown__GetAOUFile(parent->archiveTitleScreen, ARCHIVE_DMTI_LZ7_FILE_TM_BAC);
     AnimatorSprite__Init(&work->aniTrademark, spriteFile, 0, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, 0, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2(spriteFile)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-    work->aniTrademark.palette = PALETTE_ROW_1;
+    work->aniTrademark.cParam.palette = PALETTE_ROW_1;
 
     if (GetGameLanguage() == OS_LANGUAGE_JAPANESE)
     {
@@ -801,9 +801,9 @@ void CreateTitleScreenPressStart(TitleScreen *parent)
     AnimatorSprite__Init(&work->aniButton, spriteFile, TITLESCREENPRESSSTART_ANI_WAITING, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, 0,
                          PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2(spriteFile)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0,
                          SPRITE_ORDER_0);
-    work->aniButton.palette = PALETTE_ROW_2;
-    work->aniButton.pos.x   = 128;
-    work->aniButton.pos.y   = 88;
+    work->aniButton.cParam.palette = PALETTE_ROW_2;
+    work->aniButton.pos.x          = 128;
+    work->aniButton.pos.y          = 88;
 
     parent->worldControl.flags &= ~TITLESCREEN_FLAG_CREATE_PRESS_START;
 }

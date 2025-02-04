@@ -3,9 +3,10 @@
 
 #include <global.h>
 
-// --------------------
-// CONSTANTS
-// --------------------
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 // --------------------
 // ENUMS
@@ -69,5 +70,9 @@ extern MicInputState micInput;
 void InitMicInputSystem(void);
 void UpdateMicInput(void);
 BOOL IsMicInputEnabled(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_MIC_INPUT_H

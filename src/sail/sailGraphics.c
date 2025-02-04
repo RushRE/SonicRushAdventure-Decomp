@@ -116,14 +116,14 @@ NONMATCH_FUNC void SailGraphics__SetupDisplay(void)
     GetVRAMTileConfig(TRUE, BACKGROUND_3, &mappingsModeB, &vram2BaseA, &vram2BaseBlock);
     MI_CpuClear16(vramOffsetB + ((vram2BaseA << 16) + (vram2BaseBlock << 11)), 0x800);
 
-    renderCoreGFXControlB.bgPosition[0].x = renderCoreGFXControlA.bgPosition[0].x = 0;
-    renderCoreGFXControlB.bgPosition[0].y = renderCoreGFXControlA.bgPosition[0].y = 0;
-    renderCoreGFXControlB.bgPosition[1].x = renderCoreGFXControlA.bgPosition[1].x = 0;
-    renderCoreGFXControlB.bgPosition[1].y = renderCoreGFXControlA.bgPosition[1].y = 0;
-    renderCoreGFXControlB.bgPosition[2].x = renderCoreGFXControlA.bgPosition[2].x = 0;
-    renderCoreGFXControlB.bgPosition[2].y = renderCoreGFXControlA.bgPosition[2].y = 0;
-    renderCoreGFXControlB.bgPosition[3].x = renderCoreGFXControlA.bgPosition[3].x = 0;
-    renderCoreGFXControlB.bgPosition[3].y = renderCoreGFXControlA.bgPosition[3].y = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_0].x = renderCoreGFXControlA.bgPosition[BACKGROUND_0].x = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_0].y = renderCoreGFXControlA.bgPosition[BACKGROUND_0].y = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_1].x = renderCoreGFXControlA.bgPosition[BACKGROUND_1].x = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_1].y = renderCoreGFXControlA.bgPosition[BACKGROUND_1].y = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_2].x = renderCoreGFXControlA.bgPosition[BACKGROUND_2].x = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_2].y = renderCoreGFXControlA.bgPosition[BACKGROUND_2].y = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_3].x = renderCoreGFXControlA.bgPosition[BACKGROUND_3].x = 0;
+    renderCoreGFXControlB.bgPosition[BACKGROUND_3].y = renderCoreGFXControlA.bgPosition[BACKGROUND_3].y = 0;
 #else
     // clang-format off
 	stmdb sp!, {r4, r5, lr}

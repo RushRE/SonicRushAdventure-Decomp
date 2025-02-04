@@ -4,6 +4,11 @@
 #include <global.h>
 #include <game/object/objCollision.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -30,14 +35,18 @@ typedef struct OBS_BLOCK_COLLISION_
 // FUNCTIONS
 // --------------------
 
-NOT_DECOMPILED void ObjSetBlockCollision(OBS_BLOCK_COLLISION *bCol);
-NOT_DECOMPILED s32 ObjBlockCollision(OBS_COL_CHK_DATA *work);
-NOT_DECOMPILED s32 objGetBlockColData(OBS_COL_CHK_DATA *work);
-NOT_DECOMPILED s32 objBlockColLimit(OBS_COL_CHK_DATA *work);
-NOT_DECOMPILED s32 objBlockCalcEmpty(OBS_COL_CHK_DATA *work);
-NOT_DECOMPILED s32 objBlockCalcFill(OBS_COL_CHK_DATA *work);
-NOT_DECOMPILED s32 objBlockColEmpty(OBS_COL_CHK_DATA *work);
-NOT_DECOMPILED s32 objBlockColBlockFill(OBS_COL_CHK_DATA *work);
-NOT_DECOMPILED s32 objBlockColBlockFillThrough(OBS_COL_CHK_DATA *work);
+void ObjSetBlockCollision(OBS_BLOCK_COLLISION *bCol);
+s32 ObjBlockCollision(OBS_COL_CHK_DATA *work);
+s32 objGetBlockColData(OBS_COL_CHK_DATA *work);
+s32 objBlockColLimit(OBS_COL_CHK_DATA *work);
+s32 objBlockCalcEmpty(OBS_COL_CHK_DATA *work);
+s32 objBlockCalcFill(OBS_COL_CHK_DATA *work);
+s32 objBlockColEmpty(OBS_COL_CHK_DATA *work);
+s32 objBlockColBlockFill(OBS_COL_CHK_DATA *work);
+s32 objBlockColBlockFillThrough(OBS_COL_CHK_DATA *work);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_OBJ_BLOCK_H

@@ -1,4 +1,5 @@
 #include <hub/cviDockNpcGroup.hpp>
+#include <hub/missionHelpers.h>
 #include <game/util/cppHelpers.hpp>
 #include <game/game/gameState.h>
 
@@ -13,14 +14,12 @@ extern "C"
 
 NOT_DECOMPILED void ViDockNpc__Constructor(CViDockNpc *work);
 NOT_DECOMPILED void ViDockNpc__VTableFunc_2166BD8(CViDockNpc *work);
-NOT_DECOMPILED void Vi3dObject__ProcessAnimation(Vi3dObject *work);
-NOT_DECOMPILED void Vi3dObject__Draw(Vi3dObject *work);
+NOT_DECOMPILED void Vi3dObject__ProcessAnimation(CVi3dObject *work);
+NOT_DECOMPILED void Vi3dObject__Draw(CVi3dObject *work);
 NOT_DECOMPILED BOOL ViDockNpc__Func_216710C(CViDockNpc *work, VecFx32 *a2, VecFx32 *a3, VecFx32 *a4, fx32 a5);
 NOT_DECOMPILED BOOL ViDockNpc__Func_2167244(CViDockNpc *work, VecFx32 *position, s32 a3, s32 a4, BOOL *flag);
 NOT_DECOMPILED BOOL ViDockNpc__Func_216737C(CViDockNpc *work, s32 a2);
 NOT_DECOMPILED void CreateViDockNpcTalk(s32 param);
-NOT_DECOMPILED void MissionHelpers__Func_2153E4C(s32 id);
-NOT_DECOMPILED s32 MissionHelpers__GetMissionID(void);
 
 #ifdef __cplusplus
 }
@@ -135,7 +134,7 @@ void CViDockNpcGroup::LoadAssets()
     Vi3dArrow__LoadAssets(&viArrow);
 }
 
-void CViDockNpcGroup::Func_216854C()
+void CViDockNpcGroup::Animate()
 {
     CViDockNpc *npc = npcListStart;
 
@@ -152,7 +151,7 @@ void CViDockNpcGroup::Func_216854C()
     Vi3dObject__ProcessAnimation(&viArrow);
 }
 
-void CViDockNpcGroup::Func_2168590(s32 a2)
+void CViDockNpcGroup::Draw(s32 a2)
 {
     CViDockNpc *npc = npcListStart;
 
@@ -222,29 +221,29 @@ CViDockNpc *CViDockNpcGroup::Func_2168674(VecFx32 *a2, s32 a3, s32 a4, BOOL *a5,
     return NULL;
 }
 
-void CViDockNpcGroup::Func_21686F8(s32 id, s32 param)
+void CViDockNpcGroup::RunAction(s32 id, s32 param)
 {
     ViDockNpcGroup__talkAction.action = 32;
 
     ViDockNpcGroup__talkActionTable[id](param);
 }
 
-u32 CViDockNpcGroup::Func_2168724(void)
+u32 CViDockNpcGroup::GetTalkAction(void)
 {
     return ViDockNpcGroup__talkAction.action;
 }
 
-s32 CViDockNpcGroup::Func_2168734(void)
+u32 CViDockNpcGroup::GetSelection(void)
 {
     return selection;
 }
 
-void CViDockNpcGroup::Func_2168744(u32 value)
+void CViDockNpcGroup::SetTalkAction(u32 value)
 {
     ViDockNpcGroup__talkAction.action = value;
 }
 
-void CViDockNpcGroup::Func_2168754(s32 value)
+void CViDockNpcGroup::SetSelection(s32 value)
 {
     selection = value;
 }

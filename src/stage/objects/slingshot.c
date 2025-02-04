@@ -45,8 +45,8 @@ Slingshot *CreateSlingshot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     AnimatorSpriteDS *aniMachine = &work->aniMachine;
     ObjAction2dBACLoad(&work->aniMachine, "/act/ac_gmk_sling.bac", 36, GetObjectDataWork(OBJDATAWORK_159), gameArchiveStage);
-    aniMachine->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
-    aniMachine->cParam[0].palette = aniMachine->cParam[1].palette = aniMachine->work.palette;
+    aniMachine->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniMachine->cParam[0].palette = aniMachine->cParam[1].palette = aniMachine->work.cParam.palette;
     aniMachine->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(&work->aniMachine, 1);
     StageTask__SetOAMOrder(&aniMachine->work, SPRITE_ORDER_23);
@@ -54,8 +54,8 @@ Slingshot *CreateSlingshot(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     AnimatorSpriteDS *aniCounterweight = &work->aniCounterweight;
     ObjAction2dBACLoad(aniCounterweight, "/act/ac_gmk_sling.bac", 20, GetObjectDataWork(OBJDATAWORK_159), gameArchiveStage);
-    aniCounterweight->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
-    aniCounterweight->cParam[0].palette = aniCounterweight->cParam[1].palette = aniCounterweight->work.palette;
+    aniCounterweight->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniCounterweight->cParam[0].palette = aniCounterweight->cParam[1].palette = aniCounterweight->work.cParam.palette;
     aniCounterweight->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(aniCounterweight, 2);
     StageTask__SetOAMOrder(&aniCounterweight->work, SPRITE_ORDER_23);

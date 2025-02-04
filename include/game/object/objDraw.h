@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -57,5 +62,9 @@ GXRgb *ObjDrawGetPaletteForID(u8 id);
 GXRgb *ObjDraw__GetHWPaletteRow(u8 id);
 void ObjDraw__ChangeColors(GXRgb *colorDst, GXRgb *colorSrc1, GXRgb *colorSrc2, s32 count, u16 tint);
 void ObjDraw__TintColorArray(GXRgb *colorDst, GXRgb *colorSrc, s16 iR, s16 iG, s16 iB, s16 count);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_OBJ_DRAW_H

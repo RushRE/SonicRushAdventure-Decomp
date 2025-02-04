@@ -5,6 +5,11 @@
 #include <game/text/fontFile.h>
 #include <game/text/fontDMAControl.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -39,6 +44,10 @@ NOT_DECOMPILED void *FontWindow__GetFont(FontWindow *result);
 NOT_DECOMPILED FontDMAControl *FontWindow__Func_20582AC(FontWindow *work);
 NOT_DECOMPILED void *FontWindow__GetFileFromArchive(FontWindow *work, u32 archiveID, u32 fileID);
 NOT_DECOMPILED void *FontWindow__GetMWBackground(FontWindow *work, u32 fileID);
-NOT_DECOMPILED void *FontWindow__GetMWPaletteAnimation(FontWindow *this, u32 id);
+NOT_DECOMPILED void *FontWindow__GetMWPaletteAnimation(FontWindow *work, u32 id);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_FONTWINDOW_H

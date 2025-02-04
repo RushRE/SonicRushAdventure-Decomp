@@ -3,6 +3,11 @@
 
 #include <game/system/queue.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -39,5 +44,9 @@ void ClearPaletteQueue(void);
 void BrightenColors(GXRgb *srcColors, GXRgb *dstColors, u16 colorCount, u8 brightness);
 void DarkenColors(GXRgb *srcColors, GXRgb *dstColors, u16 colorCount, u8 brightness);
 void LerpColors(GXRgb *startColors, GXRgb *targetColors, GXRgb *dstColors, u16 colorCount, u8 speed);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_PALETTE_QUEUE_H

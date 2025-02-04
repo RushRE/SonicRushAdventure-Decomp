@@ -5,6 +5,11 @@
 #include <game/system/allocator.h>
 #include <game/graphics/renderCore.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -91,5 +96,9 @@ RUSH_INLINE void FSRequestArchive(const char *path, void **memory, BOOL fromTail
     RenderCore_CPUCopyCompressed(compressedData, (*memory));
     HeapFree(HEAP_USER, compressedData);
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_FSREQUEST_H

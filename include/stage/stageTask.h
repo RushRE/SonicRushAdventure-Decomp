@@ -12,6 +12,11 @@
 #include <game/object/objCollision.h>
 #include <game/stage/mapSys.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // TYPES
 // --------------------
@@ -369,5 +374,9 @@ RUSH_INLINE BOOL CheckStageTaskType(StageTask *work, StageObjTypes type)
 #define CheckStageTaskTouchObj(stageTask, touchWork)   ((stageTask)->touchObj == (touchWork))
 #define CheckStageTaskRideObj(stageTask, rideWork)     ((stageTask)->rideObj == (rideWork))
 #define CheckStageTaskParentObj(stageTask, parentWork) ((stageTask)->parentObj == (parentWork))
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_STAGE_TASK_H

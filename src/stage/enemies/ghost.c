@@ -118,7 +118,7 @@ EnemyGhost *CreateGhost(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     work->aniMachine.ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.cParam[0].palette;
     work->aniMachine.ani.cParam[1].palette = work->gameWork.objWork.obj_2d->ani.cParam[1].palette;
-    work->aniMachine.ani.work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
+    work->aniMachine.ani.work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
     work->aniMachine.ani.work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
 
     EnemyGhost_Action_Move(work);

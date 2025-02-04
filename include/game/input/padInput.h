@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // TYPES
 // --------------------
@@ -77,5 +82,9 @@ RUSH_INLINE BOOL CheckPadButtonDown(u16 buttonMask)
 {
     return (GetPadButtonMask() & buttonMask) != 0;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_PAD_INPUT_H

@@ -779,7 +779,7 @@ void CreateWaterSurface(void)
                              PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(TRUE, 4), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_12);
 
         u16 paletteRow                               = ObjDrawAllocSpritePalette(dataWork, WATERBUBBLE_ANI_WATER_SURFACE, 33);
-        waterSurfaceWork->aniWaterSurface[0].palette = waterSurfaceWork->aniWaterSurface[1].palette = paletteRow;
+        waterSurfaceWork->aniWaterSurface[0].cParam.palette = waterSurfaceWork->aniWaterSurface[1].cParam.palette = paletteRow;
     }
 
     if ((waterSurfaceWork->flags & (WATERSURFACE_FLAG_HAS_SPRITE_UNDERWATER_PALETTE | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_1 | WATERSURFACE_FLAG_HAS_UNDERWATER_PALETTE_2))

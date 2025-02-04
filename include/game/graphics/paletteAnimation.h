@@ -5,6 +5,11 @@
 #include <game/graphics/paletteQueue.h>
 #include <game/graphics/vramSystem.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -62,5 +67,9 @@ void DrawAnimatedPalette(PaletteAnimator *animator);
 void SetPaletteAnimationSpeed(PaletteAnimator *animator, fx32 speed);
 void SetPaletteAnimationTarget(PaletteAnimator *animator, PaletteMode paletteMode, VRAMPaletteKey dstPalettePtr);
 BOOL CheckPaletteAnimationLooped(PaletteAnimator *animator);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_PALETTEANIMATION_H

@@ -385,7 +385,7 @@ void FadeSysTrack(s32 fadeFrame)
     sysSoundManager->seqNo = SYSSOUND_ID_NONE;
 }
 
-void SetSysTrackVolume(u8 volume)
+void SetSysTrackVolume(u16 volume)
 {
     if (sysSoundManager == NULL)
         return;

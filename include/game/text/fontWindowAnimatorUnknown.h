@@ -4,6 +4,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -41,5 +46,9 @@ typedef struct FontWindowAnimatorUnknown_
 // --------------------
 // FUNCTIONS
 // --------------------
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_FONTWINDOWANIMATORUNKNOWN_H

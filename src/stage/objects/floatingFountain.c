@@ -70,8 +70,8 @@ FloatingFountain *CreateFloatingFountain(MapObject *mapObject, fx32 x, fx32 y, f
 
     AnimatorSpriteDS *aniFountain = &work->aniFountain;
     ObjAction2dBACLoad(&work->aniFountain, "/act/ac_gmk_float_fountain.bac", 8, GetObjectDataWork(OBJDATAWORK_165), gameArchiveStage);
-    aniFountain->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
-    aniFountain->cParam[0].palette = aniFountain->cParam[1].palette = aniFountain->work.palette;
+    aniFountain->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniFountain->cParam[0].palette = aniFountain->cParam[1].palette = aniFountain->work.cParam.palette;
     aniFountain->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(&work->aniFountain, 2);
     StageTask__SetOAMOrder(&aniFountain->work, SPRITE_ORDER_22);

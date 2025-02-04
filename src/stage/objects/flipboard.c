@@ -58,7 +58,7 @@ NONMATCH_FUNC Flipboard *CreateFlipboard(MapObject *mapObject, fx32 x, fx32 y, f
 
     AnimatorSpriteDS *aniSnow = &work->aniSnow;
     ObjAction2dBACLoad(aniSnow, "/act/ac_gmk_flip_board.bac", 35, GetObjectFileWork(OBJDATAWORK_167), gameArchiveStage);
-    aniSnow->cParam[0].palette = aniSnow->cParam[1].palette = aniSnow->work.palette = work->gameWork.aniSnow.ani.work.palette;
+    aniSnow->cParam[0].palette = aniSnow->cParam[1].palette = aniSnow->work.cParam.palette = work->gameWork.aniSnow.ani.work.cParam.palette;
     AnimatorSpriteDS__SetAnimation(aniSnow, FLIPBOARD_ANI_SNOW);
     StageTask__SetOAMOrder(&aniSnow->work, SPRITE_ORDER_23);
     StageTask__SetOAMPriority(&aniSnow->work, SPRITE_PRIORITY_2);

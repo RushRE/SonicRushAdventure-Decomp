@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -32,5 +37,9 @@ typedef u8 BankUnknownBank;
 // --------------------
 
 BankUnknownBank BankUnknown__GetBankID(u32 bank);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_BANKUNKNOWN_H

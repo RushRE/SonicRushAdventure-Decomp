@@ -63,7 +63,7 @@ void CreateSailDemoPlayer(void)
 
     if (GetObjectDataWork(OBJDATAWORK_81)->fileData == NULL)
     {
-        void *memory                    = ReadFileFromBundle("/bb/gm_demoplay.bb", BUNDLE_GM_DEMOPLAY_FILE_RESOURCES_BB_GM_DEMOPLAY_JPN_BAC + GetGameLanguage(), BINARYBUNDLE_AUTO_ALLOC_HEAD);
+        void *memory                    = ReadFileFromBundle("/bb/gm_demoplay.bb", BUNDLE_GM_DEMOPLAY_FILE_RESOURCES_BB_GM_DEMOPLAY_GM_DEMOPLAY_JPN_BAC + GetGameLanguage(), BINARYBUNDLE_AUTO_ALLOC_HEAD);
         GetObjectDataWork(OBJDATAWORK_81)->fileData = memory;
     }
 

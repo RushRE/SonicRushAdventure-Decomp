@@ -665,30 +665,30 @@ void RenderCore_DisableWindowPlaneUpdate(BOOL enabled)
 
 void RenderCore_SetWnd0InsidePlane(WindowPlaneManager *window, /*GXWndPlaneMask*/ u32 plane, BOOL effect)
 {
-    window->registers.win0InPlane = plane;
+    window->registers.win0InPlane.value = plane;
     if (effect)
-        window->registers.win0InPlane |= 0x20; // enable effect flag
+        window->registers.win0InPlane.effect = TRUE;
 }
 
 void RenderCore_SetWnd1InsidePlane(WindowPlaneManager *window, /*GXWndPlaneMask*/ u32 plane, BOOL effect)
 {
-    window->registers.win1InPlane = plane;
+    window->registers.win1InPlane.value = plane;
     if (effect)
-        window->registers.win1InPlane |= 0x20; // enable effect flag
+        window->registers.win1InPlane.effect = TRUE;
 }
 
 void RenderCore_SetWndOutsidePlane(WindowPlaneManager *window, /*GXWndPlaneMask*/ u32 plane, BOOL effect)
 {
-    window->registers.winOutPlane = plane;
+    window->registers.winOutPlane.value = plane;
     if (effect)
-        window->registers.winOutPlane |= 0x20; // enable effect flag
+        window->registers.winOutPlane.effect = TRUE;
 }
 
 void RenderCore_SetWndOBJOutsidePlane(WindowPlaneManager *window, /*GXWndPlaneMask*/ u32 plane, BOOL effect)
 {
-    window->registers.winOBJOutPlane = plane;
+    window->registers.winOBJOutPlane.value = plane;
     if (effect)
-        window->registers.winOBJOutPlane |= 0x20; // enable effect flag
+        window->registers.winOBJOutPlane.effect = TRUE;
 }
 
 void RenderCore_SetWindow0Position(WindowPlaneManager *window, u32 x1, u32 y1, u32 x2, u32 y2)

@@ -412,7 +412,7 @@ ViMapBack__LoadAssets: // 0x021613A4
 	mov r2, r2, lsl #2
 	bl MIi_CpuClear32
 	mov r0, #0
-	bl HubControl__GetFileFrom_ViBG
+	bl _ZN10HubControl16GetFileFrom_ViBGEt
 	mov r3, #1
 	mov r1, r0
 	str r3, [sp]
@@ -426,7 +426,7 @@ ViMapBack__LoadAssets: // 0x021613A4
 	add r0, sp, #0x20
 	bl DrawBackground
 	mov r0, #0xc
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	ldr r8, _02161678 // =ViMapBack__OamOrderList
 	mov r4, r0
 	mov r10, r11

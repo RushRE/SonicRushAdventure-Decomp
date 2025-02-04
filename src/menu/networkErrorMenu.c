@@ -14,7 +14,7 @@
 
 // resources
 #include <resources/bb/dmwf_lang.h>
-#include <resources/bb/dmwf_lang/eng.h>
+#include <resources/bb/dmwf_lang/dmwf_lang_eng.h>
 #include <resources/narc/dmwf_error_lz7.h>
 
 // --------------------
@@ -97,12 +97,12 @@ void NetworkErrorMenu__Create(BOOL flag)
 
         work->fontFile = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
         work->archiveDmwfLang =
-            BundleFileUnknown__LoadFileFromBundle("/bb/dmwf_lang.bb", BUNDLE_DMWF_LANG_FILE_RESOURCES_BB_DMWF_LANG_JPN_NARC + GetGameLanguage(), BUNDLEFILEUNKNOWN_AUTO_ALLOC_HEAD);
+            BundleFileUnknown__LoadFileFromBundle("/bb/dmwf_lang.bb", BUNDLE_DMWF_LANG_FILE_RESOURCES_BB_DMWF_LANG_DMWF_LANG_JPN_NARC + GetGameLanguage(), BUNDLEFILEUNKNOWN_AUTO_ALLOC_HEAD);
 
         FontWindow__Init(&work->fontWindow);
         FontWindow__LoadFromMemory(&work->fontWindow, work->fontFile, TRUE);
 
-        void *mpc = FileUnknown__GetAOUFile(work->archiveDmwfLang, ARCHIVE_ENG_FILE_DMWF_LANG_MPC);
+        void *mpc = FileUnknown__GetAOUFile(work->archiveDmwfLang, ARCHIVE_DMWF_LANG_ENG_FILE_DMWF_LANG_MPC);
         u16 a4;
         u16 a5;
         u16 a6;
@@ -169,7 +169,7 @@ void NetworkErrorMenu__Create(BOOL flag)
         AnimatorSprite__Init(&work->aniNextPrompt, FileUnknown__GetAOUFile(work->archiveDmwfError, ARCHIVE_DMWF_ERROR_LZ7_FILE_DMCMN_FIX_NEXT_BAC), 0,
                              ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_B, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, 4), PALETTE_MODE_SPRITE,
                              VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-        work->aniNextPrompt.palette = PALETTE_ROW_1;
+        work->aniNextPrompt.cParam.palette = PALETTE_ROW_1;
         if (gameState.displayDWCErrorCode == FALSE)
         {
             work->aniNextPrompt.pos.x = 216;

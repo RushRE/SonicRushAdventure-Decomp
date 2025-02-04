@@ -5,6 +5,12 @@
 #include <game/game/gameState.h>
 #include <stage/player/player.h>
 
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -471,8 +477,8 @@ BOOL SaveGame__IsValidFriend(u16 id);
 u16 SaveGame__GetFriendCount(void);
 void SaveGame__AddFriendViaKey(u64 friendKey);
 u16 SaveGame__FindFriendViaKey(u64 friendKey);
-void SaveGame__AddFriend(DWCFriendData *friend);
-u16 SaveGame__GetFriendIndex(DWCFriendData *friend);
+void SaveGame__AddFriend(DWCFriendData *friendData);
+u16 SaveGame__GetFriendIndex(DWCFriendData *friendData);
 void SaveGame__DeleteFriend(s32 id);
 void SaveGame__MoveFriendToFront(u16 id);
 u16 SaveGame__GetFriendAddedYear(u16 id);
@@ -537,5 +543,9 @@ BOOL SaveGame__Func_206047C(s32 a1);
 u16 SaveGame__SetVikingCupScoreRecord(struct SaveVikingCupRecord *records, u32 score);
 u16 SaveGame__SetVikingCupTimeRecord(struct SaveVikingCupRecord *records, u32 time);
 BOOL SaveGame__CheckStageAllowDifficulties(u32 stageID);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_SAVEGAME_H

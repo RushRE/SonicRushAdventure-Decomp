@@ -3,6 +3,11 @@
 
 #include <game/system/task.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -43,5 +48,9 @@ typedef struct DrawFadeTask_
 DrawFadeTask *CreateDrawFadeTask(DrawFadeTaskFlags flags, fx32 fadeSpeed);
 void DestroyDrawFadeTask(void);
 BOOL IsDrawFadeTaskFinished(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_DRAWFADETASK_H

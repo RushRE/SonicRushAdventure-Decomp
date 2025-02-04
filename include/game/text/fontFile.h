@@ -5,6 +5,11 @@
 #include <global.h>
 #include <game/graphics/unknown2056570.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // TYPES
 // --------------------
@@ -87,5 +92,9 @@ NOT_DECOMPILED void FontFile__Func_20534F8(void);
 NOT_DECOMPILED void FontFile__GetTextHeight(FontFile *work, s32 height, u16 *text);
 NOT_DECOMPILED void FontFile__GetLineLength(FontFile *work, s32 height, u16 *text);
 NOT_DECOMPILED void FontFile__GetTextWidth(FontFile *work, s32 height, u16 *text);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_FONTFILE_H

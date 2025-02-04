@@ -71,10 +71,10 @@ NpcOptions__ThreadFunc: // 0x0216DDDC
 
 	arm_func_start NpcOptions__Func_216DDE0
 NpcOptions__Func_216DDE0: // 0x0216DDE0
-	ldr ip, _0216DDE8 // =ViHubAreaPreview__Func_215A888
+	ldr ip, _0216DDE8 // =_ZN10HubControl12Func_215A888Ev
 	bx ip
 	.align 2, 0
-_0216DDE8: .word ViHubAreaPreview__Func_215A888
+_0216DDE8: .word _ZN10HubControl12Func_215A888Ev
 	arm_func_end NpcOptions__Func_216DDE0
 
 	arm_func_start NpcOptions__Func_216DDEC
@@ -96,10 +96,10 @@ NpcOptions__Func_216DDEC: // 0x0216DDEC
 
 	arm_func_start NpcOptions__Func_216DE20
 NpcOptions__Func_216DE20: // 0x0216DE20
-	ldr ip, _0216DE28 // =ViHubAreaPreview__Func_215A96C
+	ldr ip, _0216DE28 // =_ZN10HubControl12Func_215A96CEv
 	bx ip
 	.align 2, 0
-_0216DE28: .word ViHubAreaPreview__Func_215A96C
+_0216DE28: .word _ZN10HubControl12Func_215A96CEv
 	arm_func_end NpcOptions__Func_216DE20
 
 	arm_func_start NpcOptions__Main
@@ -114,7 +114,7 @@ NpcOptions__Main: // 0x0216DE2C
 	ldmeqia sp!, {r3, r4, r5, pc}
 	bl DockHelpers__GetOptionsMessageInfo
 	mov r4, r0
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	ldrh r1, [r4, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -156,9 +156,9 @@ NpcOptions__Main_216DE94: // 0x0216DE94
 	bne _0216DEF8
 _0216DEE0:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, r5, r6, pc}
 _0216DEF8:
@@ -168,7 +168,7 @@ _0216DEF8:
 	cmp r0, #0
 	ldrneh r4, [r6, #4]
 	ldreqh r4, [r6, #6]
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -189,7 +189,7 @@ _0216DF48:
 	cmp r0, #0
 	ldrneh r4, [r6, #8]
 	ldreqh r4, [r6, #0xa]
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -204,7 +204,7 @@ _0216DF48:
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, r5, r6, pc}
 _0216DF98:
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -262,13 +262,13 @@ _0216E058:
 	cmp r7, #0
 	beq _0216E078
 	mov r0, #0x1e
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	bl DestroyCurrentTask
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0216E078:
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -324,13 +324,13 @@ _0216E130:
 	cmp r7, #0
 	beq _0216E150
 	mov r0, #0x1e
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	bl DestroyCurrentTask
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 _0216E150:
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -370,13 +370,13 @@ NpcOptions__Main_216E190: // 0x0216E190
 	cmpeq r0, #1
 	bne _0216E1F0
 	mov r0, #0xe
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, r5, r6, pc}
 _0216E1F0:
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	ldrh r1, [r6, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -568,7 +568,7 @@ _0216E42C:
 	str r0, [sp, #0x3c]
 _0216E438:
 	mov r0, #8
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	blx r11
 	add r0, r10, #0x104
 	mov r5, #0
@@ -611,7 +611,7 @@ _0216E4C8:
 	cmp r5, #9
 	blt _0216E458
 	mov r0, #2
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r4, r0
 	blx r11
 	mov r1, r0
@@ -637,7 +637,7 @@ _0216E4C8:
 	ldr r1, [sp, #0x34]
 	mov r0, #3
 	strh r1, [r10, #0xbc]
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	ldr r2, [sp, #0x3c]
 	mov r1, #0
 	mov r5, r0
@@ -668,7 +668,7 @@ _0216E4C8:
 	add r0, r0, #1
 	strh r0, [r4, #0x50]
 	mov r0, #0xa
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r7, r0
 	blx r11
 	mov r8, r0
@@ -737,7 +737,7 @@ _0216E670:
 	blt _0216E670
 	add r0, r10, #8
 	bl FontWindowAnimator__Init
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	ldr r1, [sp, #0x28]
 	mov r4, #1
 	and r3, r1, #0xff
@@ -1440,7 +1440,7 @@ NpcOptions__Func_216EFE4: // 0x0216EFE4
 	mov r8, r1
 	add r0, r9, #0x54
 	bl FontWindowAnimator__Init
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	ldrh r3, [r8, #0x26]
 	mov r2, #0
 	mov r1, r0
@@ -1465,7 +1465,7 @@ NpcOptions__Func_216EFE4: // 0x0216EFE4
 	bl FontWindowAnimator__Load1
 	add r0, r9, #0xb8
 	bl FontWindowMWControl__Init
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r1, r0
 	mov r0, #0x19
 	str r0, [sp]
@@ -2227,7 +2227,7 @@ _0216FB40:
 	cmp r0, #0
 	blt _0216FC8C
 	mov r0, #5
-	bl HubControl__GetFileFrom_ViBG
+	bl _ZN10HubControl16GetFileFrom_ViBGEt
 	bl GetBackgroundPixels
 	ldr r1, [sp, #0x1c]
 	ldrh r7, [r10, #0x12]
@@ -2653,7 +2653,7 @@ _02170104:
 	bl Mappings__LoadUnknown
 _0217012C:
 	mov r0, #5
-	bl HubControl__GetFileFrom_ViBG
+	bl _ZN10HubControl16GetFileFrom_ViBGEt
 	ldrh r1, [r4, #0x40]
 	mov r4, r0
 	ldr r3, _02170200 // =0x05000002

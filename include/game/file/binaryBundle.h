@@ -5,12 +5,17 @@
 #include <game/system/allocator.h>
 #include <game/graphics/renderCore.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
 
 #define BINARYBUNDLE_AUTO_ALLOC_HEAD ((void *)(size_t)0)
-#define BINARYBUNDLE_AUTO_ALLOC_TAIL ((void *)(size_t)-1)
+#define BINARYBUNDLE_AUTO_ALLOC_TAIL ((void *)(size_t) - 1)
 
 // --------------------
 // STRUCTS
@@ -72,5 +77,9 @@ RUSH_INLINE void GetCompressedFileFromBundleEx(const char *bundlePath, u16 fileI
     RenderCore_CPUCopyCompressed(compressedData, (*memory));
     HeapFree(HEAP_USER, compressedData);
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_BINARYBUNDLE_H

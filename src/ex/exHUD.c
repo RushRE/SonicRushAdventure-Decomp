@@ -101,7 +101,7 @@ void SetupExHUDSprite(EX_ACTION_BAC2D_WORK *work)
     AnimatorSprite__Init(&work->sprite.animator, spriteFile, prevAnim, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_LOOPING, GRAPHICS_ENGINE_A,
                          PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_A, Sprite__GetSpriteSize2FromAnim(spriteFile, prevAnim)), PALETTE_MODE_SPRITE,
                          VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[GRAPHICS_ENGINE_A]), SPRITE_PRIORITY_1, SPRITE_ORDER_0);
-    work->sprite.animator.palette = work->sprite.paletteRow = paletteRow;
+    work->sprite.animator.cParam.palette = work->sprite.paletteRow = paletteRow;
     work->sprite.pos.x                                      = 128;
     work->sprite.pos.y                                      = 96;
     work->sprite.rotation                                   = FLOAT_DEG_TO_IDX(0.0);

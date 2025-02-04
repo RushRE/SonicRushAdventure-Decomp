@@ -6140,10 +6140,10 @@ void Boss1__BossState_DestroyedShock(Boss1 *work)
     }
 
     // brighten the blending
-    if (camera3D->gfxControl[0].blendManager.brightness < RENDERCORE_BRIGHTNESS_WHITE && ++action->brightnessTimer > 2)
+    if (camera3D->gfxControl[0].blendManager.coefficient.value < RENDERCORE_BRIGHTNESS_WHITE && ++action->brightnessTimer > 2)
     {
         action->brightnessTimer = 0;
-        camera3D->gfxControl[0].blendManager.brightness++;
+        camera3D->gfxControl[0].blendManager.coefficient.value++;
     }
 
     // create explosion "shock" fx

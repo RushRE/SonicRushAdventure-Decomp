@@ -4,6 +4,11 @@
 #include <global.h>
 #include <game/system/task.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -160,5 +165,9 @@ RUSH_INLINE EventID GetReqSysEvent(void)
 {
     return GetSysEventList()->requestedEventID;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_SYSEVENT_H

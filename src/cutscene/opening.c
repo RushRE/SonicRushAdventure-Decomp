@@ -1255,7 +1255,7 @@ void CreateOpeningBorderSprite(Opening *parent)
     {
         AnimatorSprite__Init(&work->aniBorder[i], spriteFile, 0, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, FALSE, PIXEL_MODE_SPRITE,
                              VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2(spriteFile)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-        work->aniBorder[i].palette = 1;
+        work->aniBorder[i].cParam.palette = PALETTE_ROW_1;
         AnimatorSprite__ProcessAnimationFast(&work->aniBorder[i]);
     }
 

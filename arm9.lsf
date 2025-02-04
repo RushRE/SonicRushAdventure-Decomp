@@ -658,8 +658,9 @@ Overlay Hub
     Object src/menu/credits.o
     
     ## HUB/SOUTHERN ISLAND ##
-    Object asm/hub/hubControl.o
-    Object asm/hub/viHubAreaPreview.o
+    Object src/hub/hubControl.o 
+    Object src/hub/hubControl_2.o
+    Object src/hub/hubControl_vars.o #TODO: figure if these can be merged into one file
     Object asm/hub/viMap.o
     Object asm/hub/viDock.o
     Object asm/hub/hubHUD.o

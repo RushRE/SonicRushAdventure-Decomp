@@ -8,7 +8,7 @@
 // STRUCTS
 // --------------------
 
-class Vi3dObject
+class CVi3dObject
 {
     void *vTable;
 
@@ -43,5 +43,14 @@ public:
 // --------------------
 // FUNCTIONS
 // --------------------
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_VI3DOBJECT_HPP

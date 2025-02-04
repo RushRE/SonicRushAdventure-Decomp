@@ -8,7 +8,7 @@
 
 // resources
 #include <resources/bb/dmta_menu.h>
-#include <resources/bb/dmta_menu/eng.h>
+#include <resources/bb/dmta_menu/dmta_menu_eng.h>
 
 // --------------------
 // FUNCTION DECLS
@@ -70,8 +70,8 @@ void LoadAutoSavePopupAssets(AutoSavePopup *work)
 {
     work->fntAll = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
 
-    void *archive      = ReadFileFromBundle("bb/dmta_menu.bb", BUNDLE_DMTA_MENU_FILE_RESOURCES_BB_DMTA_MENU_JPN_NARC + GetGameLanguage(), BINARYBUNDLE_AUTO_ALLOC_TAIL);
-    work->mpcDmta_lang = ArchiveFileUnknown__GetFileFromMemArchive(archive, ARCHIVE_ENG_FILE_DMTA_LANG_MPC, FILEUNKNOWN_AUTO_ALLOC_HEAD);
+    void *archive      = ReadFileFromBundle("bb/dmta_menu.bb", BUNDLE_DMTA_MENU_FILE_RESOURCES_BB_DMTA_MENU_DMTA_MENU_JPN_NARC + GetGameLanguage(), BINARYBUNDLE_AUTO_ALLOC_TAIL);
+    work->mpcDmta_lang = ArchiveFileUnknown__GetFileFromMemArchive(archive, ARCHIVE_DMTA_MENU_ENG_FILE_DMTA_LANG_MPC, FILEUNKNOWN_AUTO_ALLOC_HEAD);
     HeapFree(HEAP_USER, archive);
 }
 

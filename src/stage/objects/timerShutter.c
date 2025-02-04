@@ -92,8 +92,8 @@ NONMATCH_FUNC TimerShutter *CreateTimerShutter(MapObject *mapObject, fx32 x, fx3
 
     AnimatorSpriteDS *aniShutter = &work->aniShutter;
     ObjAction2dBACLoad(aniShutter, "/act/ac_gmk_timer_shutter.bac", 17, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
-    aniShutter->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
-    aniShutter->cParam[0].palette = aniShutter->cParam[1].palette = aniShutter->work.palette;
+    aniShutter->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniShutter->cParam[0].palette = aniShutter->cParam[1].palette = aniShutter->work.cParam.palette;
 
     aniShutter->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(aniShutter, TIMERSHUTTER_ANI_PANEL_SAFE);
@@ -110,8 +110,8 @@ NONMATCH_FUNC TimerShutter *CreateTimerShutter(MapObject *mapObject, fx32 x, fx3
     for (s16 i = 0; i < 4; i++)
     {
         ObjAction2dBACLoad(aniTimeDigit, "/act/ac_gmk_timer_shutter.bac", 2, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
-        aniTimeDigit->work.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, timeAnims[i], 95);
-        aniTimeDigit->cParam[0].palette = aniTimeDigit->cParam[1].palette = aniTimeDigit->work.palette;
+        aniTimeDigit->work.cParam.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, timeAnims[i], 95);
+        aniTimeDigit->cParam[0].palette = aniTimeDigit->cParam[1].palette = aniTimeDigit->work.cParam.palette;
         aniTimeDigit->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
         AnimatorSpriteDS__SetAnimation(aniTimeDigit, timeAnims[i]);
         StageTask__SetOAMOrder(&aniTimeDigit->work, SPRITE_ORDER_23);
@@ -409,8 +409,8 @@ NONMATCH_FUNC TimerShutterWater *CreateTimerShutterWater(MapObject *mapObject, f
 
     AnimatorSpriteDS *aniWater = &work->aniWater;
     ObjAction2dBACLoad(aniWater, "/act/ac_gmk_timer_shutter.bac", 16, GetObjectDataWork(OBJDATAWORK_117), gameArchiveStage);
-    aniWater->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
-    aniWater->cParam[0].palette = aniWater->cParam[1].palette = aniWater->work.palette;
+    aniWater->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniWater->cParam[0].palette = aniWater->cParam[1].palette = aniWater->work.cParam.palette;
     aniWater->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(aniWater, TIMERSHUTTER_ANI_WATERSPLASH);
     StageTask__SetOAMOrder(&aniWater->work, SPRITE_ORDER_23);
@@ -572,7 +572,7 @@ void TimerShutter_Destructor(Task *task)
     AnimatorSpriteDS *aniTimeDigit = work->aniTimeDigits;
     for (i = 0; i < 4; i++)
     {
-        ObjDrawReleaseSpritePalette(aniTimeDigit->work.palette);
+        ObjDrawReleaseSpritePalette(aniTimeDigit->work.cParam.palette);
         ObjAction2dBACRelease(GetObjectDataWork(OBJDATAWORK_117), aniTimeDigit);
 
         aniTimeDigit++;

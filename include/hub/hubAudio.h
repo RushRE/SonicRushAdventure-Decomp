@@ -1,7 +1,12 @@
 #ifndef RUSH_HUBAUDIO_H
 #define RUSH_HUBAUDIO_H
 
-#include <game/system/task.h>
+#include <hub/hubControl.hpp>
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 enum HubSfxIDs_
 {
@@ -25,7 +30,7 @@ typedef u32 HubSfxIDs;
 void InitHubAudio(void);
 void ReleaseHubAudio(BOOL releaseAudio);
 void PlayHubBGM(void);
-void SetHubBGMVolume(u8 volume);
+void SetHubBGMVolume(u16 volume);
 void FadeOutHubBGM(s32 fadeFrame);
 void PlayHubItemJingle(void);
 void PlayHubDecorationJingle(void);
@@ -40,5 +45,9 @@ RUSH_INLINE void StopHubBGM(void)
 {
     FadeOutHubBGM(0);
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_HUBAUDIO_H

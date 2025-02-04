@@ -1,19 +1,13 @@
 #ifndef RUSH_CVIDOCKNPC_HPP
 #define RUSH_CVIDOCKNPC_HPP
 
-#include <hub/vi3dArrow.hpp>
-#include <hub/cviDockNpc.hpp>
-
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+#include <hub/cvi3dObject.hpp>
 
 // --------------------
 // STRUCTS
 // --------------------
 
-class CViDockNpc : public Vi3dObject
+class CViDockNpc : public CVi3dObject
 {
 
 public:
@@ -39,6 +33,11 @@ public:
 // --------------------
 // FUNCTIONS
 // --------------------
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 #ifdef __cplusplus
 }

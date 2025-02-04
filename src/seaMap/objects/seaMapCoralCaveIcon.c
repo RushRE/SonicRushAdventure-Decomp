@@ -49,7 +49,7 @@ SeaMapObject *CreateSeaMapCoralCaveIcon(CHEVObjectType *objectType, CHEVObject *
 
     work->aniIcon.pos.x   = mapObject->position.x;
     work->aniIcon.pos.y   = mapObject->position.y;
-    work->aniIcon.palette = objectType->palette;
+    work->aniIcon.cParam.palette = objectType->palette;
 
     SeaMapEventManager__SetObjectAsActive(&work->objWork);
 

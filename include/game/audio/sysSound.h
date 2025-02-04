@@ -4,6 +4,11 @@
 #include <global.h>
 #include <game/audio/audioSystem.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -67,7 +72,7 @@ void PlaySysTrack(s32 seqNo, BOOL alwaysPlay);
 void PlaySysVillageTrack(BOOL alwaysPlay);
 void StopSysTrack(void);
 void FadeSysTrack(s32 fadeFrame);
-void SetSysTrackVolume(u8 volume);
+void SetSysTrackVolume(u16 volume);
 
 // Sfx
 void PlaySysSfx(s32 seqNo);
@@ -81,5 +86,9 @@ void StopSysVoice(void);
 void PlaySysStream(s32 strmNo, BOOL alwaysPlay);
 void StopSysStream(void);
 void FadeSysStream(s32 fadeFrame);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_SYSSOUND_H

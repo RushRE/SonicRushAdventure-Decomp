@@ -4,6 +4,11 @@
 
 #include <game/text/fontField9C.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -96,5 +101,9 @@ NOT_DECOMPILED void MessageController__SetUnknown(void);
 NOT_DECOMPILED void MessageController__ValidateUnknown(void);
 NOT_DECOMPILED void MessageController__RunCallback(void);
 NOT_DECOMPILED void MessageController__DrawCharacter(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_MESSAGECONTROLLER_H

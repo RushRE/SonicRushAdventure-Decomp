@@ -48,7 +48,7 @@ _02168CB4: .word 0x0000FFFF
 Task__OV05Unknown2168C48__Func_2168CB8: // 0x02168CB8
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl ViHubAreaPreview__Func_215A888
+	bl _ZN10HubControl12Func_215A888Ev
 	mov r0, r4
 	bl Task__OV05Unknown2168C48__Func_216968C
 	mov r0, r4
@@ -74,7 +74,7 @@ Task__OV05Unknown2168C48__Func_2168CD8: // 0x02168CD8
 	add r1, r4, #0x18c
 	mov r2, #0x64
 	bl MIi_CpuClear16
-	bl HubControl__GetFileFrom_ViMsg
+	bl _ZN10HubControl17GetFileFrom_ViMsgEv
 	str r0, [r4, #0x1f0]
 	ldmia sp!, {r4, pc}
 	arm_func_end Task__OV05Unknown2168C48__Func_2168CD8
@@ -91,10 +91,10 @@ Task__OV05Unknown2168C48__Func_2168D24: // 0x02168D24
 
 	arm_func_start Task__OV05Unknown2168C48__Func_2168D3C
 Task__OV05Unknown2168C48__Func_2168D3C: // 0x02168D3C
-	ldr ip, _02168D44 // =ViHubAreaPreview__Func_215A96C
+	ldr ip, _02168D44 // =_ZN10HubControl12Func_215A96CEv
 	bx ip
 	.align 2, 0
-_02168D44: .word ViHubAreaPreview__Func_215A96C
+_02168D44: .word _ZN10HubControl12Func_215A96CEv
 	arm_func_end Task__OV05Unknown2168C48__Func_2168D3C
 
 	arm_func_start Task__OV05Unknown2168C48__Func_2168D48
@@ -122,7 +122,7 @@ Task__OV05Unknown2168C48__Main: // 0x02168D74
 	cmp r0, #0
 	movne r5, #6
 	moveq r5, #8
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov lr, #2
 	str lr, [sp]
 	mov r1, #4
@@ -187,7 +187,7 @@ Task__OV05Unknown2168C48__Func_2168E40: // 0x02168E40
 	ldmeqia sp!, {r3, r4, pc}
 	add r0, r4, #0xd4
 	bl FontWindowAnimator__SetWindowOpen
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r2, #1
 	mov r1, r0
 	str r2, [sp]
@@ -262,7 +262,7 @@ Task__OV05Unknown2168C48__Func_2168F4C: // 0x02168F4C
 	cmp r0, #0
 	addeq sp, sp, #0x1c
 	ldmeqia sp!, {r4, r5, pc}
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r1, #0xb0
 	str r1, [sp]
 	mov r2, #0x10
@@ -278,7 +278,7 @@ Task__OV05Unknown2168C48__Func_2168F4C: // 0x02168F4C
 	str r5, [sp, #0x14]
 	bl FontWindowMWControl__Load
 	mov r0, #0xb
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r1, #0
 	mov r5, r0
 	bl Sprite__GetSpriteSize1FromAnim
@@ -600,15 +600,15 @@ Task__OV05Unknown2168C48__Func_2169424: // 0x02169424
 	cmp r0, #0
 	bne _02169464
 	mov r0, #1
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	ldr r0, [r4, #0]
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _021694D8
 _02169464:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _021694D8
 _02169478:
 	cmp r0, #0
@@ -618,15 +618,15 @@ _02169478:
 	b _021694C8
 _0216948C:
 	mov r0, #1
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	ldr r0, [r4, #0]
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _021694D8
 _021694A0:
 	mov r0, #2
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	ldr r0, [r4, #0]
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	ldr r0, [r4, #0]
 	mov r0, r0, lsl #0x10
 	mov r0, r0, lsr #0x10
@@ -635,9 +635,9 @@ _021694A0:
 	b _021694D8
 _021694C8:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 _021694D8:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}

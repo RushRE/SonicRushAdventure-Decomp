@@ -4,6 +4,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -36,5 +41,9 @@ NOT_DECOMPILED void FontDMAControl__Func_2051EB4(FontDMAControl *work, int a2, i
 NOT_DECOMPILED void FontDMAControl__Func_2051F68(FontDMAControl *work, int a2, int a3, int a4, int a5, int a6, unsigned int a7, int a8, unsigned int a9, int a10);
 NOT_DECOMPILED void FontDMAControl__Func_20520B0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10);
 NOT_DECOMPILED void FontDMAControl__Func_2052174(u8 a1, int a2);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_FONTDMACONTROL_H

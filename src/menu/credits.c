@@ -402,38 +402,44 @@ void LoadCreditsBackgrounds(Credits *work, CreditsAssetType type)
 {
     BackgroundDS *bgScreen1;
     s32 screen1Height;
-    
+
     switch (type)
     {
         case CREDITS_ASSET_CREDITS:
             Background bgUpFrame1;
-            InitBackground(&bgUpFrame1, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_UP_FLAME_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+            InitBackground(&bgUpFrame1, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_UP_FLAME_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1,
+                           BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
             DrawBackground(&bgUpFrame1);
             break;
 
         case CREDITS_ASSET_CREDITS_EX:
             Background bgExtraCap;
-            InitBackground(&bgExtraCap, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_EXTRA_CAP_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_0, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+            InitBackground(&bgExtraCap, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_EXTRA_CAP_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_0,
+                           BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
             DrawBackground(&bgExtraCap);
 
             Background bgUpFrame2;
-            InitBackground(&bgUpFrame2, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_UP_FLAME_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+            InitBackground(&bgUpFrame2, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_UP_FLAME_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1,
+                           BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
             DrawBackground(&bgUpFrame2);
             break;
 
         case CREDITS_ASSET_FAKE_CREDITS:
             Background bgExtraEnd;
-            InitBackground(&bgExtraEnd, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_EXTRA_END_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+            InitBackground(&bgExtraEnd, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_EXTRA_END_BBG), BACKGROUND_FLAG_LOAD_ALL, FALSE, BACKGROUND_1,
+                           BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
             DrawBackground(&bgExtraEnd);
             break;
     }
 
     Background bgDownBase;
-    InitBackground(&bgDownBase, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_DOWN_BASE_BBG), BACKGROUND_FLAG_LOAD_ALL, TRUE, BACKGROUND_0, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+    InitBackground(&bgDownBase, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_DOWN_BASE_BBG), BACKGROUND_FLAG_LOAD_ALL, TRUE, BACKGROUND_0,
+                   BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&bgDownBase);
 
     Background bgSegaLogo;
-    InitBackground(&bgSegaLogo, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_LOGO_SEGA_BBG), BACKGROUND_FLAG_LOAD_ALL, TRUE, BACKGROUND_1, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+    InitBackground(&bgSegaLogo, FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_LOGO_SEGA_BBG), BACKGROUND_FLAG_LOAD_ALL, TRUE, BACKGROUND_1,
+                   BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackground(&bgSegaLogo);
 
     bgScreen1 = &work->screens[1].background;
@@ -465,7 +471,8 @@ void LoadCreditsBackgrounds(Credits *work, CreditsAssetType type)
     work->screens[0].height     = 8 * GetBackgroundHeight(bgFile);
     work->screens[0].stopBottom = work->screens[0].height - HW_LCD_HEIGHT;
     work->screens[0].stopTop    = work->screens[0].height - (HW_LCD_HEIGHT + BOTTOM_SCREEN_CAMERA_OFFSET);
-    InitBackgroundDS(&work->screens[0].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_2, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+    InitBackgroundDS(&work->screens[0].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_2, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH,
+                     BG_DISPLAY_SINGLE_HEIGHT);
     DrawBackgroundDS(&work->screens[0].background);
     work->screens[0].background.work.flags |= BACKGROUND_FLAG_DISABLE_PALETTE | BACKGROUND_FLAG_DISABLE_PIXELS;
 
@@ -477,10 +484,10 @@ void LoadCreditsBackgrounds(Credits *work, CreditsAssetType type)
 #elif defined(RUSH_JAPAN)
     fileID = ARCHIVE_DMSR_LZ7_FILE_STUFF_01_JPN_BBG;
 #endif
-    
+
     bgFile                      = FileUnknown__GetAOUFile(work->assets.dmsrArchive, fileID);
     work->screens[1].height     = 8 * GetBackgroundHeight(bgFile);
-    screen1Height = BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT;
+    screen1Height               = BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT;
     work->screens[1].scrollPos  = -BOTTOM_SCREEN_CAMERA_OFFSET;
     work->screens[1].stopBottom = work->screens[1].height - HW_LCD_HEIGHT;
     work->screens[1].stopTop    = work->screens[1].height - (HW_LCD_HEIGHT + BOTTOM_SCREEN_CAMERA_OFFSET);
@@ -495,20 +502,22 @@ void LoadCreditsBackgrounds(Credits *work, CreditsAssetType type)
 #elif defined(RUSH_JAPAN)
     fileID = ARCHIVE_DMSR_LZ7_FILE_STUFF_02_JPN_BBG;
 #endif
-    
+
     bgFile                      = FileUnknown__GetAOUFile(work->assets.dmsrArchive, fileID);
     work->screens[2].height     = 8 * GetBackgroundHeight(bgFile);
     work->screens[2].scrollPos  = -BOTTOM_SCREEN_CAMERA_OFFSET;
     work->screens[2].stopBottom = work->screens[2].height - HW_LCD_HEIGHT;
     work->screens[2].stopTop    = work->screens[2].height - (HW_LCD_HEIGHT + BOTTOM_SCREEN_CAMERA_OFFSET);
-    InitBackgroundDS(&work->screens[2].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_2, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+    InitBackgroundDS(&work->screens[2].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_2, BACKGROUND_2, BG_DISPLAY_FULL_WIDTH,
+                     BG_DISPLAY_SINGLE_HEIGHT);
 
     bgFile                      = FileUnknown__GetAOUFile(work->assets.dmsrArchive, ARCHIVE_DMSR_LZ7_FILE_STUFF_03_BBG);
     work->screens[3].height     = 8 * GetBackgroundHeight(bgFile);
     work->screens[3].scrollPos  = -BOTTOM_SCREEN_CAMERA_OFFSET;
     work->screens[3].stopBottom = work->screens[3].height - HW_LCD_HEIGHT;
     work->screens[3].stopTop    = work->screens[3].height - (HW_LCD_HEIGHT + BOTTOM_SCREEN_CAMERA_OFFSET);
-    InitBackgroundDS(&work->screens[3].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_3, BACKGROUND_3, BG_DISPLAY_FULL_WIDTH, BG_DISPLAY_SINGLE_HEIGHT);
+    InitBackgroundDS(&work->screens[3].background, bgFile, BACKGROUND_FLAG_ALIGN_EVEN_WIDTH | BACKGROUND_FLAG_ALIGN_EVEN_HEIGHT, BACKGROUND_3, BACKGROUND_3, BG_DISPLAY_FULL_WIDTH,
+                     BG_DISPLAY_SINGLE_HEIGHT);
 
     work->scrollSpeed = 1;
 }
@@ -562,7 +571,7 @@ void InitCreditsSprites(Credits *work)
     {
         AnimatorSprite__Init(aniThanks, sprThanks, i, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_DRAW, FALSE, PIXEL_MODE_SPRITE,
                              VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2(sprThanks)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-        work->aniThanksForPlaying[i].palette = PALETTE_ROW_1;
+        work->aniThanksForPlaying[i].cParam.palette = PALETTE_ROW_1;
 
         aniThanks++;
     }
@@ -793,35 +802,35 @@ void ProcessCreditsScroll(Credits *work, s32 id)
 
 void InitCreditsWindowPlanes(void)
 {
-    RenderCoreGFXControl *control                = VRAMSystem__GFXControl[0];
-    control->windowManager.registers.win0X1      = 0;
-    control->windowManager.registers.win0X2      = 0;
-    control->windowManager.registers.win0Y1      = 0;
-    control->windowManager.registers.win0Y2      = 0;
-    control->windowManager.registers.win0InPlane = 0;
-    control->windowManager.registers.winOutPlane = 0xFF;
-    control->windowManager.visible               = 1;
+    RenderCoreGFXControl *control                      = VRAMSystem__GFXControl[0];
+    control->windowManager.registers.win0X1            = 0;
+    control->windowManager.registers.win0X2            = 0;
+    control->windowManager.registers.win0Y1            = 0;
+    control->windowManager.registers.win0Y2            = 0;
+    control->windowManager.registers.win0InPlane.value = 0;
+    control->windowManager.registers.winOutPlane.value = 0xFF;
+    control->windowManager.visible                     = 1;
 
-    control                                      = VRAMSystem__GFXControl[1];
-    control->windowManager.registers.win0X1      = 0;
-    control->windowManager.registers.win0X2      = 0;
-    control->windowManager.registers.win0Y1      = 0;
-    control->windowManager.registers.win0Y2      = 0;
-    control->windowManager.registers.win0InPlane = 0;
-    control->windowManager.registers.winOutPlane = 0xFF;
-    control->windowManager.visible               = 1;
+    control                                            = VRAMSystem__GFXControl[1];
+    control->windowManager.registers.win0X1            = 0;
+    control->windowManager.registers.win0X2            = 0;
+    control->windowManager.registers.win0Y1            = 0;
+    control->windowManager.registers.win0Y2            = 0;
+    control->windowManager.registers.win0InPlane.value = 0;
+    control->windowManager.registers.winOutPlane.value = 0xFF;
+    control->windowManager.visible                     = 1;
 }
 
 void DisableCreditsWinOutPlane(BOOL useEngineB, u8 plane)
 {
     RenderCoreGFXControl *control = VRAMSystem__GFXControl[useEngineB];
 
-    control->windowManager.registers.win0X1      = 0;
-    control->windowManager.registers.win0X2      = 0;
-    control->windowManager.registers.win0Y1      = 0;
-    control->windowManager.registers.win0Y2      = 0;
-    control->windowManager.registers.win0InPlane = 0;
-    control->windowManager.registers.winOutPlane &= ~(1 << plane) & 0xFF;
+    control->windowManager.registers.win0X1            = 0;
+    control->windowManager.registers.win0X2            = 0;
+    control->windowManager.registers.win0Y1            = 0;
+    control->windowManager.registers.win0Y2            = 0;
+    control->windowManager.registers.win0InPlane.value = 0;
+    control->windowManager.registers.winOutPlane.value &= ~(1 << plane) & 0xFF;
     control->windowManager.visible = 1;
 }
 
@@ -829,12 +838,12 @@ void EnableCreditsWinOutPlane(BOOL useEngineB, u8 plane)
 {
     RenderCoreGFXControl *control = VRAMSystem__GFXControl[useEngineB];
 
-    control->windowManager.registers.win0X1      = 0;
-    control->windowManager.registers.win0X2      = 0;
-    control->windowManager.registers.win0Y1      = 0;
-    control->windowManager.registers.win0Y2      = 0;
-    control->windowManager.registers.win0InPlane = 0;
-    control->windowManager.registers.winOutPlane |= (1 << plane) & 0xFF;
+    control->windowManager.registers.win0X1            = 0;
+    control->windowManager.registers.win0X2            = 0;
+    control->windowManager.registers.win0Y1            = 0;
+    control->windowManager.registers.win0Y2            = 0;
+    control->windowManager.registers.win0InPlane.value = 0;
+    control->windowManager.registers.winOutPlane.value |= (1 << plane) & 0xFF;
     control->windowManager.visible = 1;
 }
 
@@ -1057,13 +1066,13 @@ void Credits_Main_DimWandRoom(void)
     if (work->bgBrightness >= FLOAT_TO_FX32(6.0))
     {
         work->bgBrightness                  = FLOAT_TO_FX32(6.0);
-        gfxControl->blendManager.brightness = FX32_TO_WHOLE(work->bgBrightness);
+        gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
         work->delay                         = 90;
         SetCurrentTaskMainEvent(Credits_Main_DimDelay);
     }
     else
     {
-        gfxControl->blendManager.brightness = FX32_TO_WHOLE(work->bgBrightness);
+        gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
     }
 }
 
@@ -1104,12 +1113,12 @@ void Credits_Main_ScrollText(void)
 
             if (work->bgBrightness > 0)
             {
-                gfxControl->blendManager.brightness = FX32_TO_WHOLE(work->bgBrightness);
+                gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
             }
             else
             {
                 work->bgBrightness                  = FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_DEFAULT);
-                gfxControl->blendManager.brightness = FX32_TO_WHOLE(work->bgBrightness);
+                gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
 
                 if (work->fadeDelay != 0)
                     work->fadeDelay--;
@@ -1340,13 +1349,13 @@ void CreditsEx_Main_DimBackground(void)
     if (work->bgBrightness >= FLOAT_TO_FX32(6.0))
     {
         work->bgBrightness                  = FLOAT_TO_FX32(6.0);
-        gfxControl->blendManager.brightness = FX32_TO_WHOLE(work->bgBrightness);
+        gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
         work->delay                         = 90;
         SetCurrentTaskMainEvent(CreditsEx_Main_DimDelay);
     }
     else
     {
-        gfxControl->blendManager.brightness = FX32_TO_WHOLE(work->bgBrightness);
+        gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
     }
 }
 
@@ -1387,12 +1396,12 @@ void CreditsEx_Main_ScrollText(void)
 
             if (work->bgBrightness > 0)
             {
-                gfxControl->blendManager.brightness = FX32_TO_WHOLE(work->bgBrightness);
+                gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
             }
             else
             {
                 work->bgBrightness                  = FLOAT_TO_FX32(RENDERCORE_BRIGHTNESS_DEFAULT);
-                gfxControl->blendManager.brightness = FX32_TO_WHOLE(work->bgBrightness);
+                gfxControl->blendManager.coefficient.value = FX32_TO_WHOLE(work->bgBrightness);
 
                 if (work->fadeDelay != 0)
                     work->fadeDelay--;
@@ -1551,8 +1560,8 @@ void CreateExStageCreditsNotification(void)
 {
     SetupDisplayForCredits(CREDITS_DISPLAY_CREDITS, TRUE);
 
-    Task *task =
-        TaskCreate(ExStageCreditsNotification_Main_Init, ExStageCreditsNotification_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(0), Credits);
+    Task *task = TaskCreate(ExStageCreditsNotification_Main_Init, ExStageCreditsNotification_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(0),
+                            Credits);
 
     Credits *work = TaskGetWork(task, Credits);
     TaskInitWork16(work);
@@ -1615,8 +1624,8 @@ void CreatePostGameMissionCreditsNotification(void)
 {
     SetupDisplayForCredits(CREDITS_DISPLAY_CREDITS, TRUE);
 
-    Task *task = TaskCreate(PostGameMissionCreditsNotification_Main_Init, PostGameMissionCreditsNotification__Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x2000,
-                            TASK_GROUP(0), Credits);
+    Task *task = TaskCreate(PostGameMissionCreditsNotification_Main_Init, PostGameMissionCreditsNotification__Destructor, TASK_FLAG_NONE, 0,
+                            TASK_PRIORITY_UPDATE_LIST_START + 0x2000, TASK_GROUP(0), Credits);
 
     Credits *work = TaskGetWork(task, Credits);
     TaskInitWork16(work);
@@ -1731,8 +1740,8 @@ void CreateCreditsNotification(Credits *parent, CreditsNotificationType type)
 {
     SetupDisplayForCredits(CREDITS_DISPLAY_CREDITS, TRUE);
 
-    Task *task =
-        TaskCreate(CreditsNotification_Main_InitWindowOpen, CreditsNotification_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(1), CreditsNotification);
+    Task *task = TaskCreate(CreditsNotification_Main_InitWindowOpen, CreditsNotification_Destructor, TASK_FLAG_NONE, 0, TASK_PRIORITY_UPDATE_LIST_START + 0x3000, TASK_GROUP(1),
+                            CreditsNotification);
 
     CreditsNotification *work = TaskGetWork(task, CreditsNotification);
     TaskInitWork16(work);
@@ -1742,7 +1751,7 @@ void CreateCreditsNotification(Credits *parent, CreditsNotificationType type)
     void *sprNext = FileUnknown__GetAOUFile(parent->assets.tkdmArchive, ARCHIVE_TKDM_LZ7_FILE_FIX_NEXT_BAC);
     AnimatorSprite__Init(&work->aniContinueButton, sprNext, 0, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2(sprNext)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-    work->aniContinueButton.palette = PALETTE_ROW_0;
+    work->aniContinueButton.cParam.palette = PALETTE_ROW_0;
     work->aniContinueButton.pos.x   = 224;
     work->aniContinueButton.pos.y   = 96;
 }
@@ -1904,7 +1913,7 @@ BOOL ProcessCreditsNotificationWindowAnimationAndClose(CreditsNotification *work
     FontWindowAnimator__ProcessWindowAnim(&work->fontWindowAnimator);
     FontWindowAnimator__Draw(&work->fontWindowAnimator);
     FontWindow__PrepareSwapBuffer(&work->fontWindow);
-    
+
     if (!FontWindowAnimator__IsFinishedAnimating(&work->fontWindowAnimator))
         return FALSE;
 

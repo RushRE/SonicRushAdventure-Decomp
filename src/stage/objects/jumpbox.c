@@ -91,8 +91,8 @@ JumpBox *CreateJumpBox(MapObject *mapObject, fx32 x, fx32 y, fx32 z)
 
     ani = &work->aniJumpBox;
     ObjAction2dBACLoad(ani, "/act/ac_gmk_jumpbox.bac", 16, GetObjectFileWork(OBJDATAWORK_89), gameArchiveStage);
-    ani->work.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 0, 3);
-    ani->cParam[0].palette = ani->cParam[1].palette = ani->work.palette;
+    ani->work.cParam.palette      = ObjDrawAllocSpritePalette(work->gameWork.animator.fileWork->fileData, 0, 3);
+    ani->cParam[0].palette = ani->cParam[1].palette = ani->work.cParam.palette;
     ani->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
 
     AnimatorSpriteDS__SetAnimation(ani, JUMPBOX_ANI_STAND);
@@ -174,7 +174,7 @@ PlaneSwitchSpring *CreatePlaneSwitchSpring(MapObject *mapObject, fx32 x, fx32 y,
 
     AnimatorSpriteDS *ani = &work->aniSpring;
     ObjAction2dBACLoad(ani, "/act/ac_gmk_spring_st6.bac", OBJ_DATA_GFX_AUTO, GetObjectFileWork(OBJDATAWORK_177), gameArchiveStage);
-    ani->cParam[0].palette = ani->cParam[1].palette = ani->work.palette = work->gameWork.objWork.obj_2d->ani.work.palette;
+    ani->cParam[0].palette = ani->cParam[1].palette = ani->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
 
     ani->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(&work->aniSpring, anim2);
@@ -194,7 +194,7 @@ void JumpBox_Destructor(Task *task)
 {
     JumpBox *work = TaskGetWork(task, JumpBox);
 
-    ObjDrawReleaseSpritePalette(work->aniJumpBox.work.palette);
+    ObjDrawReleaseSpritePalette(work->aniJumpBox.work.cParam.palette);
     ObjAction2dBACRelease(GetObjectFileWork(OBJDATAWORK_89), &work->aniJumpBox);
     GameObject__Destructor(task);
 }

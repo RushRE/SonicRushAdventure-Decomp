@@ -108,7 +108,7 @@ MissionFlag *CreateMissionFlag(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     for (d = 0; d < 2; d++)
     {
         ObjAction2dBACLoad(aniDigit, "/act/ac_gmk_flag.bac", 4, GetObjectDataWork(OBJDATAWORK_104), gameArchiveMission);
-        aniDigit->cParam[0].palette = aniDigit->cParam[1].palette = aniDigit->work.palette = work->gameWork.objWork.obj_2d->ani.work.palette;
+        aniDigit->cParam[0].palette = aniDigit->cParam[1].palette = aniDigit->work.cParam.palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
 
         aniDigit->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
         AnimatorSpriteDS__SetAnimation(aniDigit, digits[d] + MISSIONFLAG_ANI_NUM_0);

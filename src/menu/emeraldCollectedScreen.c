@@ -1131,7 +1131,7 @@ void HandleEmeraldCollectedScreenDrawing(EmeraldCollectedScreen *work)
         else
             aniEmerald = &process->aniCase;
 
-        aniEmerald->pos32 = *(u32 *)&config->pos;
+        *(u32 *)&aniEmerald->pos = *(u32 *)&config->pos;
         AnimatorSprite__DrawFrame(aniEmerald);
 
         config++;

@@ -428,9 +428,9 @@ _0215BEF8:
 	strh r3, [r0, #0xd2]
 	str r2, [r8, #0x7d8]
 	strh r1, [r0, #0xea]
-	bl ViHubAreaPreview__Func_215B03C
+	bl _ZN10HubControl12Func_215B03CEv
 	mov r0, #3
-	bl HubControl__GetFileFrom_ViBG
+	bl _ZN10HubControl16GetFileFrom_ViBGEt
 	add r2, r8, #0x338
 	mov r1, r0
 	add r0, r2, #0xc00
@@ -502,9 +502,9 @@ _0215C01C:
 	strh r3, [r0, #0xd2]
 	str r2, [r4, #0x7d8]
 	strh r1, [r0, #0xea]
-	bl ViHubAreaPreview__Func_215B03C
+	bl _ZN10HubControl12Func_215B03CEv
 	mov r0, #3
-	bl HubControl__GetFileFrom_ViBG
+	bl _ZN10HubControl16GetFileFrom_ViBGEt
 	add r2, r4, #0x338
 	mov r1, r0
 	add r0, r2, #0xc00
@@ -617,9 +617,9 @@ _0215C1B8:
 	strh r3, [r0, #0xd2]
 	str r2, [r8, #0x7d8]
 	strh r1, [r0, #0xea]
-	bl ViHubAreaPreview__Func_215B03C
+	bl _ZN10HubControl12Func_215B03CEv
 	mov r0, #3
-	bl HubControl__GetFileFrom_ViBG
+	bl _ZN10HubControl16GetFileFrom_ViBGEt
 	add r2, r8, #0x338
 	mov r1, r0
 	add r0, r2, #0xc00
@@ -934,7 +934,7 @@ ViMap__Func_215C638: // 0x0215C638
 	add r0, r5, #0x338
 	add r0, r0, #0xc00
 	bl TalkHelpers__Func_2153064
-	bl ViHubAreaPreview__Func_215B168
+	bl _ZN10HubControl12Func_215B168Ev
 	mov r2, #0
 	mov r1, #0x400
 _0215C668:
@@ -968,7 +968,7 @@ ViMap__Func_215C6AC: // 0x0215C6AC
 	add r0, r4, #0x338
 	add r0, r0, #0xc00
 	bl TalkHelpers__Func_2153064
-	bl ViHubAreaPreview__Func_215B168
+	bl _ZN10HubControl12Func_215B168Ev
 	mov r2, #0
 	mov r1, #0x400
 _0215C6D8:
@@ -1000,7 +1000,7 @@ _0215C6D8:
 	bl ViMapBack__Func_21620FC
 	b _0215C750
 _0215C744:
-	bl ViHubAreaPreview__Func_215B250
+	bl _ZN10HubControl12Func_215B250Ev
 	mov r0, r4
 	bl ViMap__Func_215D9EC
 _0215C750:
@@ -1025,7 +1025,7 @@ ViMap__Func_215C76C: // 0x0215C76C
 	add r0, r5, #0x338
 	add r0, r0, #0xc00
 	bl TalkHelpers__Func_2153064
-	bl ViHubAreaPreview__Func_215B168
+	bl _ZN10HubControl12Func_215B168Ev
 	mov r2, #0
 	mov r1, #0x400
 _0215C79C:
@@ -1067,7 +1067,7 @@ ViMap__Func_215C7E0: // 0x0215C7E0
 	bl TalkHelpers__Func_2153064
 	mov r0, r4
 	bl ViMap__Func_215DA68
-	bl ViHubAreaPreview__Func_215B3B4
+	bl _ZN10HubControl12Func_215B3B4Ev
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _0215C828: .word ViMap__TaskSingleton
@@ -1273,7 +1273,7 @@ ViMap__Func_215CA84: // 0x0215CA84
 	sub sp, sp, #0x20
 	str r0, [sp, #0x1c]
 	mov r0, #8
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r7, r0
 	ldr r0, [sp, #0x1c]
 	mov r8, #0
@@ -1310,7 +1310,7 @@ _0215CAB8:
 	cmp r8, #9
 	blt _0215CAB8
 	mov r0, #9
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r1, #0
 	mov r4, r0
 	bl Sprite__GetSpriteSize3FromAnim
@@ -1334,7 +1334,7 @@ _0215CAB8:
 	str r2, [sp, #0x18]
 	bl AnimatorSprite__Init
 	mov r0, #4
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r7, r0
 	bl Sprite__GetSpriteSize3
 	mov r9, r0
@@ -1935,7 +1935,7 @@ ViMap__Func_215D374: // 0x0215D374
 	mov r5, #0
 _0215D394:
 	mov r0, r5
-	bl ViHubAreaPreview__Func_215B498
+	bl _ZN10HubControl12Func_215B498El
 	cmp r0, #0
 	beq _0215D3D4
 	mov r0, r5, lsl #0x10
@@ -1957,7 +1957,7 @@ _0215D3D4:
 	mov r6, #0
 _0215D3E4:
 	mov r0, r6
-	bl ViHubAreaPreview__Func_215B6C4
+	bl _ZN10HubControl12Func_215B6C4El
 	cmp r0, #0
 	beq _0215D43C
 	mov r0, r6, lsl #0x10

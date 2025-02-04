@@ -181,14 +181,14 @@ void ObjDraw__TintSprite(void *fileData, u16 animID, u8 row, BOOL useEngineB)
                              SPRITE_PRIORITY_0, SPRITE_ORDER_0);
     }
 
-    animator.palette = row & 0xF;
+    animator.cParam.palette = row & 0xF;
     animator.flags |= ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;
     AnimatorSprite__ProcessAnimationFast(&animator);
 
     row &= 0xF;
     s32 c = row * 16;
 
-    MI_CpuCopy8(&((GXRgb *)animator.vramPalette)[16 * animator.palette], &objDrawPalette2[c], 0x10 * sizeof(GXRgb));
+    MI_CpuCopy8(&((GXRgb *)animator.vramPalette)[16 * animator.cParam.palette], &objDrawPalette2[c], 0x10 * sizeof(GXRgb));
 
     for (; c < ((row + 1) * 16); c++)
     {

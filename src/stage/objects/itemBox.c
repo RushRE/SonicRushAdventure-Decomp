@@ -165,9 +165,9 @@ ItemBox *CreateItemBox(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     AnimatorSpriteDS *ani = &work->aniContents;
     ObjAction2dBACLoad(ani, "/ac_itm_box.bac", 2, GetObjectDataWork(OBJDATAWORK_70), gameArchiveCommon);
-    ani->work.palette =
+    ani->work.cParam.palette =
         ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_70)->fileData, ITEMBOX_ANI_TYPE_START + mapObjectParam_Type, rewardDrawFlagTable[mapObjectParam_Type]);
-    ani->cParam[0].palette = ani->cParam[1].palette = ani->work.palette;
+    ani->cParam[0].palette = ani->cParam[1].palette = ani->work.cParam.palette;
     ani->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
 
     StageTask__SetOAMOrder(&ani->work, SPRITE_ORDER_24);
@@ -296,9 +296,9 @@ void CreateItemBoxReward(s32 type)
             value = rewardDrawFlagTable[type];
             if (rewardDrawFlagTable[aniWork->ani.work.animID - 1] != value)
             {
-                ObjDrawReleaseSpritePalette(aniWork->ani.work.palette);
-                aniWork->ani.work.palette      = ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_70)->fileData, id, value);
-                aniWork->ani.cParam[0].palette = aniWork->ani.cParam[1].palette = aniWork->ani.work.palette;
+                ObjDrawReleaseSpritePalette(aniWork->ani.work.cParam.palette);
+                aniWork->ani.work.cParam.palette      = ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_70)->fileData, id, value);
+                aniWork->ani.cParam[0].palette = aniWork->ani.cParam[1].palette = aniWork->ani.work.cParam.palette;
                 aniWork->ani.work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
             }
         }
@@ -342,7 +342,7 @@ void ItemBox_Destructor(Task *task)
 {
     ItemBox *work = TaskGetWork(task, ItemBox);
 
-    ObjDrawReleaseSpritePalette(work->aniContents.work.palette);
+    ObjDrawReleaseSpritePalette(work->aniContents.work.cParam.palette);
     ObjAction2dBACRelease(GetObjectFileWork(OBJDATAWORK_70), &work->aniContents);
     GameObject__Destructor(task);
 }
@@ -374,11 +374,11 @@ void ItemBox_State_RandomVS(ItemBox *work)
     {
         if (rewardDrawFlagTable[ani->work.animID - 1] != rewardDrawFlagTable[type])
         {
-            ObjDrawReleaseSpritePalette(ani->work.palette);
+            ObjDrawReleaseSpritePalette(ani->work.cParam.palette);
 
-            ani->work.palette =
+            ani->work.cParam.palette =
                 ObjDrawAllocSpritePalette(GetObjectDataWork(OBJDATAWORK_70)->fileData, ITEMBOX_ANI_TYPE_START + mapObjectParam_Type, rewardDrawFlagTable[mapObjectParam_Type]);
-            ani->cParam[0].palette = ani->cParam[1].palette = ani->work.palette;
+            ani->cParam[0].palette = ani->cParam[1].palette = ani->work.cParam.palette;
             ani->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
         }
         AnimatorSpriteDS__SetAnimation(ani, (u16)(ITEMBOX_ANI_TYPE_START + mapObjectParam_Type));

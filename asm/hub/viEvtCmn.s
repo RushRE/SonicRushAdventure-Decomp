@@ -63,7 +63,7 @@ ViEvtCmnMsg__Func_216B9D4: // 0x0216B9D4
 	mov r5, r1
 	bl ViEvtCmnMsg__Func_216BC08
 	str r5, [r4, #0xc]
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r3, #3
 	mov r1, r0
 	str r3, [sp]
@@ -82,7 +82,7 @@ ViEvtCmnMsg__Func_216B9D4: // 0x0216B9D4
 	bl FontAnimator__LoadFont1
 	add r0, r4, #0x20
 	bl FontAnimator__ClearPixels
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r3, #2
 	mov r1, r0
 	str r3, [sp]
@@ -120,7 +120,7 @@ ViEvtCmnMsg__Func_216B9D4: // 0x0216B9D4
 	mov r0, #8
 	str r0, [r4, #4]
 	str r0, [r4, #8]
-	bl HubControl__GetTKDMNameSprite
+	bl _ZN10HubControl17GetTKDMNameSpriteEv
 	str r0, [r4, #0x1b0]
 	bl Sprite__GetSpriteSize1
 	mov r1, r0
@@ -147,7 +147,7 @@ ViEvtCmnMsg__Func_216B9D4: // 0x0216B9D4
 	strh r0, [r1, #0x52]
 	mov r0, #6
 	strh r0, [r1, #0x98]
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	str r0, [r4, #0x21c]
 	bl Sprite__GetSpriteSize1
 	mov r1, r0
@@ -1021,7 +1021,7 @@ ViEvtCmnSelect__Func_216C5C0: // 0x0216C5C0
 	mov r5, r1
 	bl ViEvtCmnSelect__Func_216C70C
 	str r5, [r4, #0x10]
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r2, #0xb
 	mov r1, r0
 	str r2, [sp]
@@ -1050,7 +1050,7 @@ ViEvtCmnSelect__Func_216C5C0: // 0x0216C5C0
 	bl FontAnimator__LoadPaletteFunc
 	add r0, r4, #0x34
 	bl FontAnimator__LoadMappingsFunc
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r1, r0
 	mov r0, #8
 	str r0, [sp]
@@ -1065,7 +1065,7 @@ ViEvtCmnSelect__Func_216C5C0: // 0x0216C5C0
 	add r0, r4, #0x15c
 	bl FontWindowMWControl__Load
 	mov r0, #0xb
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r5, r0
 	mov r1, #0
 	bl Sprite__GetSpriteSize1FromAnim
@@ -1292,7 +1292,7 @@ ViEvtCmnSelect__Func_216C948: // 0x0216C948
 	ldr r0, [r7, #0x10]
 	bl MPC__Func_20538B0
 	strh r0, [r7, #0x1e]
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	bl FontWindow__GetFont
 	ldrh r1, [r7, #0x1e]
 	mov r6, #0
@@ -1345,7 +1345,7 @@ _0216C9E8:
 	ldrh r0, [r7, #0x1e]
 	mov r0, r0, lsl #1
 	strh r0, [r7, #0x32]
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov lr, #2
 	str lr, [sp]
 	ldrh r1, [r7, #0x24]
@@ -1869,7 +1869,7 @@ ViEvtCmnAnnounce__Func_216D088: // 0x0216D088
 	mov r5, r1
 	bl ViEvtCmnAnnounce__Func_216D194
 	str r5, [r4, #0xc]
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r2, #0xa
 	mov r1, r0
 	str r2, [sp]
@@ -1898,7 +1898,7 @@ ViEvtCmnAnnounce__Func_216D088: // 0x0216D088
 	bl FontAnimator__LoadPaletteFunc
 	add r0, r4, #0x24
 	bl FontAnimator__LoadMappingsFunc
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r1, r0
 	mov r3, #2
 	str r3, [sp]
@@ -2359,7 +2359,7 @@ _0216D6CC:
 	strh r0, [r4, #0xa]
 _0216D6E0:
 	strh r0, [r4, #0xc]
-	bl HubControl__GetFileFrom_ViMsg
+	bl _ZN10HubControl17GetFileFrom_ViMsgEv
 	mov r5, r0
 	add r0, r4, #0x18
 	bl viMessageController__GetMPCFile

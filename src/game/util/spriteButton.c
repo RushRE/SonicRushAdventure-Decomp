@@ -321,7 +321,7 @@ void SetSpriteButtonState(SpriteButtonAnimator *button, SpriteButtonState state)
     }
 
     AnimatorSprite__SetAnimation(&button->animator, anim);
-    button->animator.palette = button->paletteRow[state];
+    button->animator.cParam.palette = button->paletteRow[state];
 }
 
 SpriteButton *GetSpriteButtonWork(void)
@@ -378,7 +378,7 @@ void SpriteButton_Draw(SpriteButton *work)
             AnimatorSprite__ProcessAnimationFast(&button->animator);
             AnimatorSprite__DrawFrame(&button->animator);
             QueueUncompressedPalette(&work->config.paletteRow[3], PALETTE_MODE_BG, button->animator.paletteMode,
-                                  VRAMKEY_TO_KEY(&((u16 *)button->animator.vramPalette)[16 * button->animator.palette + 15]));
+                                  VRAMKEY_TO_KEY(&((u16 *)button->animator.vramPalette)[16 * button->animator.cParam.palette + PALETTE_ROW_15]));
         }
     }
 }

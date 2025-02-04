@@ -80,10 +80,10 @@ NpcMission__ThreadFunc: // 0x021716A8
 
 	arm_func_start NpcMission__Func_21716AC
 NpcMission__Func_21716AC: // 0x021716AC
-	ldr ip, _021716B4 // =ViHubAreaPreview__Func_215A888
+	ldr ip, _021716B4 // =_ZN10HubControl12Func_215A888Ev
 	bx ip
 	.align 2, 0
-_021716B4: .word ViHubAreaPreview__Func_215A888
+_021716B4: .word _ZN10HubControl12Func_215A888Ev
 	arm_func_end NpcMission__Func_21716AC
 
 	arm_func_start NpcMission__Func_21716B8
@@ -105,10 +105,10 @@ NpcMission__Func_21716B8: // 0x021716B8
 
 	arm_func_start NpcMission__Func_21716EC
 NpcMission__Func_21716EC: // 0x021716EC
-	ldr ip, _021716F4 // =ViHubAreaPreview__Func_215A96C
+	ldr ip, _021716F4 // =_ZN10HubControl12Func_215A96CEv
 	bx ip
 	.align 2, 0
-_021716F4: .word ViHubAreaPreview__Func_215A96C
+_021716F4: .word _ZN10HubControl12Func_215A96CEv
 	arm_func_end NpcMission__Func_21716EC
 
 	arm_func_start NpcMission__Main
@@ -125,7 +125,7 @@ NpcMission__Main: // 0x021716F8
 	cmp r0, #0
 	moveq r5, #1
 	movne r5, #0
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	mov r1, #0xe
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -163,20 +163,20 @@ NpcMission__Main_2171768: // 0x02171768
 	cmp r0, #0
 	bne _021717B4
 	mov r0, #0x1b
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	b _021717D0
 _021717B4:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
 	bl SaveGame__GsExit
 	b _021717D0
 _021717C8:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 _021717D0:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}
 	arm_func_end NpcMission__Main_2171768

@@ -87,7 +87,7 @@ void CreateSaveInitMessage(SaveInitManager *parent, GameInitMessageTypes type)
 
     AnimatorSprite__Init(&work->aniSprite, spriteFile, 0, ANIMATOR_FLAG_DISABLE_LOOPING, 0, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize2(spriteFile)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-    work->aniSprite.palette = 0;
+    work->aniSprite.cParam.palette = PALETTE_ROW_0;
     work->aniSprite.pos.x   = 128;
     work->aniSprite.pos.y   = 116;
 }

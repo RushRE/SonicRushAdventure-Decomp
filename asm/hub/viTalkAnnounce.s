@@ -20,7 +20,7 @@ ViTalkAnnounce__Create: // 0x0216B6C0
 	bl GetTaskWork_
 	mov r5, r0
 	strh r6, [r5]
-	bl ViHubAreaPreview__Func_215A888
+	bl _ZN10HubControl12Func_215A888Ev
 	ldr r0, _0216B79C // =0x03FF03FF
 	ldr r1, _0216B7A0 // =0x06000800
 	mov r2, #0x800
@@ -32,7 +32,7 @@ ViTalkAnnounce__Create: // 0x0216B6C0
 	ldrh r0, [r5, #0]
 	bl DockHelpers__GetAnnounceConfig
 	mov r4, r0
-	bl HubControl__GetFileFrom_ViMsg
+	bl _ZN10HubControl17GetFileFrom_ViMsgEv
 	ldrh r1, [r4, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -97,7 +97,7 @@ ViTalkAnnounce__Func_216B7F8: // 0x0216B7F8
 	stmdb sp!, {r3, lr}
 	add r0, r0, #4
 	bl ViEvtCmnAnnounce__Func_216D194
-	bl ViHubAreaPreview__Func_215A96C
+	bl _ZN10HubControl12Func_215A96CEv
 	ldmia sp!, {r3, pc}
 	arm_func_end ViTalkAnnounce__Func_216B7F8
 
@@ -116,23 +116,23 @@ ViTalkAnnounce__Main: // 0x0216B80C
 	cmp r0, #0
 	bne _0216B850
 	mov r0, #0x11
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _0216B87C
 _0216B850:
 	cmp r0, #0xc
 	bne _0216B86C
 	mov r0, #0x15
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0x1c
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _0216B87C
 _0216B86C:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 _0216B87C:
 	ldrh r0, [r4, #0]
 	cmp r0, #0x1d

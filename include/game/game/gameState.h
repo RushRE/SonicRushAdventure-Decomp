@@ -176,8 +176,6 @@ typedef u32 VSBattleType;
 
 struct GameSaveInfo
 {
-    s32 field_40;
-    s32 field_44;
     s32 unknown1;
     u16 unknown2;
     u16 flags;
@@ -219,6 +217,8 @@ struct GameTalkState
     u8 field_DF;
     struct GameTalkUnknown1 field_E0[1];
     struct GameTalkUnknown2 field_14[4];
+    s32 field_40;
+    s32 field_44;
 };
 
 typedef struct GameState_

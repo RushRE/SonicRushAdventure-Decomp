@@ -39,7 +39,7 @@ void TryOpenPauseMenu(void)
         if (gfxControl->brightness != 0)
             return;
 
-        if ((gfxControl->blendManager.blendControl.effect & BLENDTYPE_FADEIN) != 0 && gfxControl->blendManager.brightness != RENDERCORE_BRIGHTNESS_DEFAULT
+        if ((gfxControl->blendManager.blendControl.effect & BLENDTYPE_FADEIN) != 0 && gfxControl->blendManager.coefficient.value != RENDERCORE_BRIGHTNESS_DEFAULT
             && gfxControl->blendManager.blendControl.plane1_OBJ != FALSE)
             return;
     }
@@ -123,7 +123,7 @@ BOOL CreatePauseMenu(void)
         AnimatorSpriteDS__Init(&work->animators[i], spriteFile, aniID, SCREEN_DRAW_B, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(0, size),
                                PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, NULL, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
 
-        work->animators[i].cParam[0].palette = work->animators[i].cParam[1].palette = work->animators[i].work.palette = PALETTE_ROW_2;
+        work->animators[i].cParam[0].palette = work->animators[i].cParam[1].palette = work->animators[i].work.cParam.palette = PALETTE_ROW_2;
 
         AnimatorSpriteDS__ProcessAnimationFast(&work->animators[i]);
 

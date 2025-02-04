@@ -70,7 +70,7 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
     ObjAction2dBACLoad(aniHook, "/act/ac_gmk_winch.bac", 12, GetObjectDataWork(OBJDATAWORK_179), gameArchiveStage);
     aniHook->work.flags |= ANIMATOR_FLAG_ENABLE_SCALE;
     u16 palette                = ObjDrawAllocSpritePalette(aniHook->work.fileData, 1, 51);
-    aniHook->work.palette      = palette;
+    aniHook->work.cParam.palette      = palette;
     aniHook->cParam[0].palette = aniHook->cParam[1].palette = palette;
     AnimatorSpriteDS__SetAnimation(aniHook, WINCH_ANI_HOOK);
     StageTask__SetOAMOrder(&aniHook->work, SPRITE_ORDER_23);
@@ -78,8 +78,8 @@ NONMATCH_FUNC Winch *CreateWinch(MapObject *mapObject, fx32 x, fx32 y, fx32 type
 
     AnimatorSpriteDS *aniLine = &work->aniLine;
     ObjAction2dBACLoad(aniLine, "/act/ac_gmk_winch.bac", 1, GetObjectDataWork(OBJDATAWORK_179), gameArchiveStage);
-    aniLine->work.palette      = palette;
-    aniLine->cParam[0].palette = aniLine->cParam[1].palette = aniLine->work.palette;
+    aniLine->work.cParam.palette      = palette;
+    aniLine->cParam[0].palette = aniLine->cParam[1].palette = aniLine->work.cParam.palette;
     aniLine->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(aniLine, WINCH_ANI_LINE);
     StageTask__SetOAMOrder(&aniLine->work, SPRITE_ORDER_23);

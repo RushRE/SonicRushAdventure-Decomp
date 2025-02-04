@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -171,5 +176,9 @@ int VRAMSystem__FreePlttVram(NNSGfdPlttKey plttKey);
 VRAMPixelKey VRAMSystem__AllocTexFunc_4x4Comp(size_t size, s32 id);
 VRAMPixelKey VRAMSystem__AllocTexFunc_Normal(size_t size, s32 id);
 VRAMPaletteKey VRAMSystem__AllocPalFunc(size_t size, s32 id, u16 *palettePtr, u32 paletteSize, u32 shift);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_VRAMSYSTEM_H

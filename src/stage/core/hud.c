@@ -290,8 +290,8 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
     AnimatorSpriteDS__Init(userDigitsAnimator, spriteFile, HUD_ANI_5, 0, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS, PIXEL_MODE_SPRITE,
                            work->vramPixels[0][0], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, work->vramPixels[0][1], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
                            SPRITE_PRIORITY_0, SPRITE_ORDER_6);
-    userDigitsAnimator->cParam[0].palette = 0;
-    userDigitsAnimator->cParam[1].palette = 0;
+    userDigitsAnimator->cParam[0].palette = PALETTE_ROW_0;
+    userDigitsAnimator->cParam[1].palette = PALETTE_ROW_0;
     AnimatorSpriteDS__ProcessAnimationFast(userDigitsAnimator);
 
     // life count
@@ -304,8 +304,8 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
         AnimatorSpriteDS__Init(animator, spriteFile, HUD_ANI_15, 0, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS, PIXEL_MODE_SPRITE, work->vramPixels[10][0],
                                PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, work->vramPixels[10][1], PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0,
                                SPRITE_ORDER_6);
-        animator->cParam[0].palette = 0;
-        animator->cParam[1].palette = 0;
+        animator->cParam[0].palette = PALETTE_ROW_0;
+        animator->cParam[1].palette = PALETTE_ROW_0;
         AnimatorSpriteDS__ProcessAnimationFast(animator);
     }
 
@@ -341,8 +341,8 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
 
     AnimatorSpriteDS__Init(animator, spriteFile, lifeIconAnim2, screenFlags, 0, PIXEL_MODE_SPRITE, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, vramPixelsB,
                            PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
-    animator->cParam[0].palette = 0;
-    animator->cParam[1].palette = 0;
+    animator->cParam[0].palette = PALETTE_ROW_0;
+    animator->cParam[1].palette = PALETTE_ROW_0;
     AnimatorSpriteDS__ProcessAnimationFast(animator);
     animator->screensToDraw = SCREEN_DRAW_B;
 
@@ -367,8 +367,8 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
 
         AnimatorSpriteDS__Init(animator, spriteFile, HUD_ANI_0, screenFlags, 0, PIXEL_MODE_SPRITE, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, vramPixelsB,
                                PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
-        animator->cParam[0].palette = 2;
-        animator->cParam[1].palette = 2;
+        animator->cParam[0].palette = PALETTE_ROW_2;
+        animator->cParam[1].palette = PALETTE_ROW_2;
         AnimatorSpriteDS__ProcessAnimationFast(animator);
         animator->screensToDraw = SCREEN_DRAW_B;
     }
@@ -392,16 +392,16 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
         vramPixelsA = VRAMSystem__AllocSpriteVram(FALSE, spriteSize);
         AnimatorSpriteDS__Init(animator, contSpriteFile, playerBorderAniA, SCREEN_DRAW_B, ANIMATOR_FLAG_DISABLE_PALETTES, new_var, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
                                new_var, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
-        animator->cParam[0].palette = 0;
-        animator->cParam[1].palette = 0;
+        animator->cParam[0].palette = PALETTE_ROW_0;
+        animator->cParam[1].palette = PALETTE_ROW_0;
         AnimatorSpriteDS__ProcessAnimationFast(animator);
 
         AnimatorSpriteDS *playerBorderAnimatorB = GetHUDAnimator(work, HUD_ANIMATOR_PLAYER_BORDER2);
         vramPixelsB                             = VRAMSystem__AllocSpriteVram(TRUE, spriteSize);
         AnimatorSpriteDS__Init(playerBorderAnimatorB, contSpriteFile, playerBorderAniB, SCREEN_DRAW_A, ANIMATOR_FLAG_DISABLE_PALETTES, new_var, 0, PALETTE_MODE_SPRITE,
                                VRAM_OBJ_PLTT, new_var, vramPixelsB, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
-        playerBorderAnimatorB->cParam[0].palette = 0;
-        playerBorderAnimatorB->cParam[1].palette = 0;
+        playerBorderAnimatorB->cParam[0].palette = PALETTE_ROW_0;
+        playerBorderAnimatorB->cParam[1].palette = PALETTE_ROW_0;
         AnimatorSpriteDS__ProcessAnimationFast(playerBorderAnimatorB);
     }
 
@@ -426,8 +426,8 @@ NONMATCH_FUNC BOOL LoadHUDAssets(void)
 
         AnimatorSpriteDS__Init(animator, contSpriteFile, HUD_CONTANI_7, screenFlags, ANIMATOR_FLAG_DISABLE_PALETTES, new_var, vramPixelsA, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT,
                                new_var, vramPixelsB, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_6);
-        animator->cParam[0].palette = 1;
-        animator->cParam[1].palette = 1;
+        animator->cParam[0].palette = PALETTE_ROW_1;
+        animator->cParam[1].palette = PALETTE_ROW_1;
         AnimatorSpriteDS__ProcessAnimationFast(animator);
         animator->screensToDraw = SCREEN_DRAW_B;
     }
@@ -1231,8 +1231,8 @@ void CreateConnectionStatusHUD(BOOL useDWC)
         AnimatorSpriteDS__Init(ani, spriteFile, work->animID + animID, SCREEN_DRAW_A, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 2),
                                PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(TRUE, 2), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT,
                                SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-        ani->work.palette      = paletteRow;
-        ani->cParam[0].palette = ani->cParam[1].palette = ani->work.palette;
+        ani->work.cParam.palette      = paletteRow;
+        ani->cParam[0].palette = ani->cParam[1].palette = ani->work.cParam.palette;
 
         AnimatorSpriteDS__ProcessAnimationFast(ani);
 
@@ -1261,7 +1261,7 @@ void CreateTargetIndicatorHUD(StageTask *target)
 
     AnimatorSprite__Init(&work->animator, spriteFile, HUD_CONTANI_11, ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, 8), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-    work->animator.palette = 0;
+    work->animator.cParam.palette = PALETTE_ROW_0;
     work->target           = target;
 }
 
@@ -1293,9 +1293,9 @@ void CreateRaceProgressHUD(s32 characterID)
                              SPRITE_ORDER_1);
 
         if (i >= 3)
-            ani->palette = 0;
+            ani->cParam.palette = PALETTE_ROW_0;
         else
-            ani->palette = 1;
+            ani->cParam.palette = PALETTE_ROW_1;
 
         AnimatorSprite__ProcessAnimationFast(ani);
 
@@ -2626,7 +2626,7 @@ void LoadBossGaugeAssets(BossGaugeHUD *work)
 {
     AnimatorSprite__Init(&work->animator, work->spritePtr, 0, ANIMATOR_FLAG_DISABLE_PALETTES, 0, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0,
                          SPRITE_ORDER_1);
-    work->animator.palette = ObjDrawAllocSpritePalette(work->spritePtr, 0, 0x75);
+    work->animator.cParam.palette = ObjDrawAllocSpritePalette(work->spritePtr, 0, 0x75);
 
     for (s32 i = 0; i < 13; i++)
     {
@@ -3063,8 +3063,8 @@ void CreatePassFlagMissionHUD(void)
 
         AnimatorSpriteDS__Init(animator, spriteFile, i, SCREEN_DRAW_B, ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, spriteSize[i]),
                                PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0, PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-        animator->work.palette      = 0;
-        animator->cParam[0].palette = animator->cParam[1].palette = animator->work.palette;
+        animator->work.cParam.palette      = PALETTE_ROW_0;
+        animator->cParam[0].palette = animator->cParam[1].palette = animator->work.cParam.palette;
         AnimatorSpriteDS__ProcessAnimationFast(animator);
     }
 
@@ -3149,8 +3149,8 @@ void CreateCollectRingsMissionHUD(void)
     AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_RING_ICON, SCREEN_DRAW_B,
                            ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 2), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0,
                            PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-    work->animator.work.palette      = 2;
-    work->animator.cParam[0].palette = work->animator.cParam[1].palette = 2;
+    work->animator.work.cParam.palette      = PALETTE_ROW_2;
+    work->animator.cParam[0].palette = work->animator.cParam[1].palette = PALETTE_ROW_2;
     AnimatorSpriteDS__ProcessAnimationFast(&work->animator);
 
     work->animator.position[0].x = 88;
@@ -3209,8 +3209,8 @@ void CreateGenericQuotaMissionHUD(void)
     AnimatorSpriteDS__Init(&work->animator, ObjDataLoad(GetObjectFileWork(OBJDATAWORK_2), "/ac_fix_msn.bac", gameArchiveCommon), HUD_MSNANI_SLASH, SCREEN_DRAW_B,
                            ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 1), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, 0,
                            PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-    work->animator.work.palette      = 0;
-    work->animator.cParam[0].palette = work->animator.cParam[1].palette = 0;
+    work->animator.work.cParam.palette      = PALETTE_ROW_0;
+    work->animator.cParam[0].palette = work->animator.cParam[1].palette = PALETTE_ROW_0;
     AnimatorSpriteDS__ProcessAnimationFast(&work->animator);
 
     if (gmCheckGameMode(GAMEMODE_VS_BATTLE))
@@ -3334,7 +3334,7 @@ void CreateTimeAttackReplayHUD(void)
     void *spriteFile = ObjDataLoad(NULL, "/act/ac_fix_replay.bac", gameArchiveMission);
     AnimatorSprite__Init(&work->animator, spriteFile, 0, ANIMATOR_FLAG_DISABLE_LOOPING, engine, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(engine, 8), PALETTE_MODE_SPRITE,
                          VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-    work->animator.palette = 0;
+    work->animator.cParam.palette = PALETTE_ROW_0;
     work->animator.pos.x   = 240;
 }
 

@@ -67,7 +67,7 @@ _0216A264: .word 0x00000DE4
 ViTalkList__ThreadFunc: // 0x0216A268
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl HubControl__GetFileFrom_ViMsg
+	bl _ZN10HubControl17GetFileFrom_ViMsgEv
 	mov r1, #0xf
 	bl FileUnknown__GetAOUFile
 	str r0, [r4, #0x4b8]
@@ -95,8 +95,8 @@ ViTalkList__ThreadFunc: // 0x0216A268
 	arm_func_start ViTalkList__Func_216A2CC
 ViTalkList__Func_216A2CC: // 0x0216A2CC
 	stmdb sp!, {r3, lr}
-	bl ViHubAreaPreview__Func_215A888
-	bl ViHubAreaPreview__Func_215A9D8
+	bl _ZN10HubControl12Func_215A888Ev
+	bl _ZN10HubControl12Func_215A9D8Ev
 	mov r0, #0
 	mov r1, r0
 	bl ViTalkList__Func_216B61C
@@ -116,7 +116,7 @@ ViTalkList__LoadMissionSprites: // 0x0216A2E8
 	add r0, r7, #0x4e0
 	str r1, [r7, #0x4dc]
 	bl FontWindowAnimator__Init
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r3, #2
 	mov r1, r0
 	str r3, [sp]
@@ -139,7 +139,7 @@ ViTalkList__LoadMissionSprites: // 0x0216A2E8
 	add r0, r7, #0x144
 	add r0, r0, #0x400
 	bl FontAnimator__Init
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r3, #5
 	mov r1, r0
 	str r3, [sp]
@@ -191,22 +191,22 @@ ViTalkList__LoadMissionSprites: // 0x0216A2E8
 	add r0, r0, #0x400
 	bl Unknown2056570__Func_205683C
 	mov r0, #5
-	bl HubControl__GetFileFrom_ViBG
+	bl _ZN10HubControl16GetFileFrom_ViBGEt
 	bl GetBackgroundPalette
 	add r0, r0, #4
 	ldr r1, _0216A6D0 // =0x05000420
 	mov r2, #0x20
 	bl MIi_CpuCopy16
 	mov r0, #1
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r6, r0
 	mov r0, #0
-	bl HubControl__GetFileFrom_ViActLoc
+	bl _ZN10HubControl20GetFileFrom_ViActLocEt
 	mov r8, r0
 	mov r0, #0xd
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r5, r0
-	bl HubControl__GetTKDMNameSprite
+	bl _ZN10HubControl17GetTKDMNameSpriteEv
 	mov r4, r0
 	mov r0, r8
 	mov r1, #4
@@ -416,7 +416,7 @@ _0216A75C:
 	cmp r6, r0
 	blt _0216A714
 _0216A7A4:
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	str r0, [sp]
 	ldr r0, [r11, #0x4b8]
 	add r1, r11, #0x400
@@ -429,16 +429,16 @@ _0216A7A4:
 	strh r2, [sp, #0xc]
 	strh r0, [sp, #0xe]
 	strh r1, [sp, #0x22]
-	bl HubControl__GetFileFrom_ViActLoc
+	bl _ZN10HubControl20GetFileFrom_ViActLocEt
 	str r0, [sp, #0x10]
 	mov r0, #3
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	str r0, [sp, #0x14]
 	mov r0, #5
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	str r0, [sp, #0x18]
 	mov r0, #0xb
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r1, #0
 	mov r2, #5
 	strh r1, [sp, #0x24]
@@ -479,8 +479,8 @@ ViTalkList__Func_216A848: // 0x0216A848
 	arm_func_start ViTalkList__Func_216A87C
 ViTalkList__Func_216A87C: // 0x0216A87C
 	stmdb sp!, {r3, lr}
-	bl ViHubAreaPreview__Func_215A96C
-	bl ViHubAreaPreview__Func_215AB84
+	bl _ZN10HubControl12Func_215A96CEv
+	bl _ZN10HubControl12Func_215AB84Ev
 	mov r0, #0
 	mov r1, r0
 	bl ViTalkList__Func_216B61C
@@ -546,7 +546,7 @@ ViTalkList__Main: // 0x0216A93C
 	bl IsThreadWorkerFinished
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	mov r1, #0xc
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -704,7 +704,7 @@ ViTalkList__Main_216AB10: // 0x0216AB10
 	bl MissionHelpers__IsMissionBeaten
 	cmp r0, #0
 	beq _0216ABB0
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	mov r1, #1
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -714,7 +714,7 @@ ViTalkList__Main_216AB10: // 0x0216AB10
 	bl ViEvtCmnTalk__Func_216D680
 	b _0216ABD0
 _0216ABB0:
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	mov r1, #1
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -730,7 +730,7 @@ _0216ABD0:
 	bl SetCurrentTaskMainEvent
 	ldmia sp!, {r4, pc}
 _0216ABE8:
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	mov r1, #0xc
 	bl FileUnknown__GetAOUFile
 	mov r2, #1
@@ -749,7 +749,7 @@ _0216AC20:
 	bl ViTalkList__Func_216B3D4
 	cmp r0, #0
 	ldmeqia sp!, {r4, pc}
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	mov r1, #0xc
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -930,9 +930,9 @@ ViTalkList__Destructor: // 0x0216AE54
 	bl MissionHelpers__ResetMissionAttempted
 _0216AE88:
 	mov r0, #0xb
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0x63
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _0216AEF0
 _0216AE9C:
 	ldr r0, [r4, #0x4c0]
@@ -949,15 +949,15 @@ _0216AE9C:
 	bl MissionHelpers__ResetMissionAttempted
 _0216AECC:
 	mov r0, #9
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, r5
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _0216AEF0
 _0216AEE0:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 _0216AEF0:
 	mov r0, r4
 	bl ViTalkList__Func_216A848
@@ -1002,7 +1002,7 @@ ViTalkList__Func_216AF34: // 0x0216AF34
 	b _0216B008
 _0216AF70:
 	mov r0, #5
-	bl HubControl__GetFileFrom_ViBG
+	bl _ZN10HubControl16GetFileFrom_ViBGEt
 	bl GetBackgroundPixels
 	add r4, r8, #1
 	cmp r4, #0x64

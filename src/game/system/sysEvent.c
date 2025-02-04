@@ -25,6 +25,7 @@
 #include <menu/credits.h>
 #include <seaMap/seaMapCourseChangeView.h>
 #include <menu/networkErrorMenu.h>
+#include <hub/hubControl.hpp>
 
 // --------------------
 // TEMP
@@ -36,7 +37,6 @@ NOT_DECOMPILED void StageClear__Create(void);
 NOT_DECOMPILED void VSStageClear__Create(void);
 NOT_DECOMPILED void VSMenu__Create(void);
 NOT_DECOMPILED void VSLobbyMenu__Create(void);
-NOT_DECOMPILED void HubControl__ReturnToHub(void);
 NOT_DECOMPILED void MainMenu__Create(void);
 NOT_DECOMPILED void SeaMapUnknown__Create(void);
 NOT_DECOMPILED void SeaMapTraining__Create(void);
@@ -427,7 +427,7 @@ const struct SysEvent sysEventList[SYSEVENT_COUNT] = {
 
     // SYSEVENT_RETURN_TO_HUB
     {
-        .initFunc    = HubControl__ReturnToHub,
+        .initFunc    = InitHubSysEvent,
         .exitFunc    = NULL,
         .resetFunc   = NULL,
         .initSysFunc = NULL,

@@ -5,6 +5,11 @@
 #include <game/text/fontAnimatorCore.h>
 #include <game/graphics/paletteAnimation.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -73,5 +78,9 @@ NOT_DECOMPILED void FontWindowMWControl__Func_205B250(void);
 NOT_DECOMPILED void FontWindowMWControl__Func_205B2E0(void);
 NOT_DECOMPILED void FontWindowMWControl__Func_205B37C(void);
 NOT_DECOMPILED void FontWindowMWControl__SetSprite(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_FONTWINDOWMWCONTROL_H

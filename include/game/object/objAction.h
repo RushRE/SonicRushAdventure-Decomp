@@ -4,6 +4,11 @@
 #include <game/graphics/sprite.h>
 #include <game/object/objData.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -89,5 +94,9 @@ RUSH_INLINE void ObjAction3dESEffectSetScale(OBS_ACTION3D_ES_WORK *esWork, fx32 
     esWork->ani.work.scale.y = scaleY;
     esWork->ani.work.scale.z = scaleZ;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_OBJ_ACTION_H

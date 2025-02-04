@@ -516,19 +516,19 @@ void TitleCard__DestroyAnimators(TitleCard *work)
 
         for (i = 0; i < 2; i++)
         {
-            ObjDrawReleaseSpritePalette(work->aniNameplate[i].palette);
+            ObjDrawReleaseSpritePalette(work->aniNameplate[i].cParam.palette);
             AnimatorSprite__Release(&work->aniNameplate[i]);
         }
 
         for (i = 0; i < 2; i++)
         {
-            ObjDrawReleaseSpritePalette(work->aniActBanner[i].palette);
+            ObjDrawReleaseSpritePalette(work->aniActBanner[i].cParam.palette);
             AnimatorSprite__Release(&work->aniActBanner[i]);
         }
 
         for (i = 0; i < work->nameLetterCount; i++)
         {
-            ObjDrawReleaseSpritePalette(work->aniNameLetters[i].palette);
+            ObjDrawReleaseSpritePalette(work->aniNameLetters[i].cParam.palette);
             AnimatorSprite__Release(&work->aniNameLetters[i]);
         }
 
@@ -655,10 +655,10 @@ void TitleCard__DestroyReadyGoAnimators(TitleCard *work)
 {
     if ((work->flags & TITLECARD_FLAG_LOADED_READYGO_SPRITES) != 0)
     {
-        ObjDrawReleaseSpritePalette(work->aniReady.palette);
+        ObjDrawReleaseSpritePalette(work->aniReady.cParam.palette);
         AnimatorSprite__Release(&work->aniReady);
 
-        ObjDrawReleaseSpritePalette(work->aniGo.palette);
+        ObjDrawReleaseSpritePalette(work->aniGo.cParam.palette);
         AnimatorSprite__Release(&work->aniGo);
 
         work->flags &= ~TITLECARD_FLAG_LOADED_READYGO_SPRITES;

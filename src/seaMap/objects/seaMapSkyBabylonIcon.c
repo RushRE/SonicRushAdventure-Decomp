@@ -48,14 +48,14 @@ SeaMapObject *CreateSeaMapSkyBabylonIcon(CHEVObjectType *objectType, CHEVObject 
 
     work->aniIcon.pos.x   = mapObject->position.x;
     work->aniIcon.pos.y   = mapObject->position.y;
-    work->aniIcon.palette = objectType->palette;
+    work->aniIcon.cParam.palette = objectType->palette;
 
     // Init island shadow sprite
     AnimatorSprite__Init(&work->aniShadow, manager->assets.sprChCommon, 132, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK, manager->useEngineB, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(manager->useEngineB, Sprite__GetSpriteSize1FromAnim(manager->assets.sprChCommon, 132)), PALETTE_MODE_SPRITE,
                          VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[manager->useEngineB]), SPRITE_PRIORITY_0, SPRITE_ORDER_15);
 
-    work->aniShadow.palette = PALETTE_ROW_9;
+    work->aniShadow.cParam.palette = PALETTE_ROW_9;
 
     SeaMapEventManager__SetObjectAsActive(&work->objWork);
 

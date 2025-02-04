@@ -4,7 +4,13 @@
 #ifdef NON_MATCHING
 #define NONMATCH_FUNC
 #else
+
+#ifdef __cplusplus
+#define NONMATCH_FUNC extern "C" asm
+#else
 #define NONMATCH_FUNC asm
+#endif
+
 #endif
 
 // simple macro to visualize what "extern" instances are intended and what's temp

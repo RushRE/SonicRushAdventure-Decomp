@@ -145,15 +145,15 @@ RingManager *CreateRingManager(void)
         AnimatorSpriteDS__Init(ani, spriteFile, RING_ANI_RING, 0, ANIMATOR_FLAG_DISABLE_LOOPING | ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK,
                                PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 2), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
                                VRAMSystem__AllocSpriteVram(TRUE, 2), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_1, SPRITE_ORDER_11);
-        ani->cParam[0].palette = 2;
-        ani->cParam[1].palette = 2;
+        ani->cParam[0].palette = PALETTE_ROW_2;
+        ani->cParam[1].palette = PALETTE_ROW_2;
 
         ani = &ringManagerWork->aniRingSparkle;
         AnimatorSpriteDS__Init(ani, spriteFile, RING_ANI_SPARKLE, 0, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_UNCOMPRESSED_PIXELS | ANIMATOR_FLAG_DISABLE_PALETTES,
                                PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, 16), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
                                VRAMSystem__AllocSpriteVram(TRUE, 16), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_1, SPRITE_ORDER_11);
-        ani->cParam[0].palette = 2;
-        ani->cParam[1].palette = 2;
+        ani->cParam[0].palette = PALETTE_ROW_2;
+        ani->cParam[1].palette = PALETTE_ROW_2;
 
         AnimatorSpriteDS__ProcessAnimationFast(ani);
         ani->work.flags |= ANIMATOR_FLAG_USE_FRAME_REMAINDER | ANIMATOR_FLAG_DISABLE_PALETTES | ANIMATOR_FLAG_DISABLE_SPRITE_PARTS;

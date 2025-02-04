@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -45,5 +50,9 @@ typedef struct QueueEntry_
 void InitQueueSystem(void);
 QueueEntry *AllocQueueEntry(void);
 void FreeQueueEntry(QueueEntry *entry);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_QUEUE_H

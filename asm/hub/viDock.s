@@ -1089,7 +1089,7 @@ _0215E874:
 _0215E878:
 	cmp r0, #0
 	beq _0215E93C
-	bl HubControl__Func_2157178
+	bl _ZN10HubControl12Func_2157178Ev
 	cmp r0, #0
 	beq _0215E93C
 	add r0, sp, #0xc
@@ -1309,11 +1309,11 @@ _0215EB48:
 	ldr r0, [sp, #4]
 	add r5, r0, r4
 	mov r0, r5
-	bl ViHubAreaPreview__Func_215B850
+	bl _ZN10HubControl12Func_215B850El
 	cmp r0, #0
 	beq _0215EC1C
 	mov r0, r5
-	bl ViHubAreaPreview__Func_215B858
+	bl _ZN10HubControl12Func_215B858El
 	cmp r0, #0
 	beq _0215EC1C
 	mov r0, r5, lsl #0x10
@@ -1441,11 +1441,11 @@ ViDock__Func_215ED0C: // 0x0215ED0C
 	stmdb sp!, {r3, r4, r5, r6, lr}
 	sub sp, sp, #0x24
 	mov r4, r0
-	bl HubControl__GetFileFrom_ViMsg
+	bl _ZN10HubControl17GetFileFrom_ViMsgEv
 	mov r1, #0xd
 	bl FileUnknown__GetAOUFile
 	mov r5, r0
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r1, r0
 	mov r0, #0x13
 	str r0, [sp]
@@ -1499,7 +1499,7 @@ _0215EDEC:
 	add r0, r0, #0x1400
 	mov r1, #0
 	bl FontAnimator__LoadCharacters
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	mov r2, #0
 	mov r1, #2
 	stmia sp, {r1, r2, r5}
@@ -2251,7 +2251,7 @@ _0215F8A4:
 	add r2, r10, #0x130
 	mov r1, r0
 	add r0, r2, #0x1000
-	bl _ZN15CViDockNpcGroup12Func_2168590El
+	bl _ZN15CViDockNpcGroup4DrawEl
 _0215F8CC:
 	mov r2, #1
 	add r1, sp, #8
@@ -2428,7 +2428,7 @@ _0215FB20:
 	bl ViDockBack__Func_21649DC
 	add r0, r7, #0x130
 	add r0, r0, #0x1000
-	bl _ZN15CViDockNpcGroup12Func_216854CEv
+	bl _ZN15CViDockNpcGroup7AnimateEv
 	add r0, r7, #0xe00
 	bl CPPHelpers__Func_2085F9C
 	ldr r1, [r0, #0]
@@ -2522,7 +2522,7 @@ _0215FC84:
 _0215FC88:
 	cmp r0, #0
 	beq _0215FCE0
-	bl HubControl__Func_2157178
+	bl _ZN10HubControl12Func_2157178Ev
 	cmp r0, #0
 	beq _0215FCE0
 	ldr r0, _0215FD44 // =touchInput
@@ -2591,7 +2591,7 @@ ViDock__Func_215FD48: // 0x0215FD48
 	bl ViDockPlayer__Func_21667D4
 	add r0, r4, #0x130
 	add r0, r0, #0x1000
-	bl _ZN15CViDockNpcGroup12Func_216854CEv
+	bl _ZN15CViDockNpcGroup7AnimateEv
 _0215FD8C:
 	add r0, r4, #0xf8
 	bl ViDockBack__Func_21649DC

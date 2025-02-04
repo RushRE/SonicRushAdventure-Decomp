@@ -4,6 +4,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -55,5 +60,9 @@ GXOamAttr *OAMSystem__GetList1(BOOL useEngineB);
 GXOamAttr *OAMSystem__GetList2(BOOL useEngineB);
 GXOamAttr *OAMSystem__GetList3(BOOL useEngineB);
 u32 OAMSystem__GetListMap(BOOL useEngineB, u32 order);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_OAMSYSTEM_H

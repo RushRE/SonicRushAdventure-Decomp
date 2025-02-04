@@ -4,6 +4,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -40,5 +45,9 @@ NOT_DECOMPILED BOOL MPC__CheckRegularCharacter(MPCHeader *mpc, u16 character);
 NOT_DECOMPILED s32 MPC__GetSpecialCharacter(MPCHeader *mpc, u16 character);
 NOT_DECOMPILED u16 MPC__GetCharacter(u32 *charData, s32 charID, s32 charSize);
 NOT_DECOMPILED void MPC__GetCharacters(u32 *charData, s32 charID, s32 charSize, s32 textLen, u16 *text);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_MPCFILE_H

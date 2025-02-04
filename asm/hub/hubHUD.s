@@ -334,10 +334,10 @@ HubHUD__Func_216040C: // 0x0216040C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
 	mov r0, #1
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	str r0, [r4, #0x24c]
 	mov r0, #0
-	bl HubControl__GetFileFrom_ViActLoc
+	bl _ZN10HubControl20GetFileFrom_ViActLocEt
 	str r0, [r4, #0x250]
 	mov r0, r4
 	bl HubHUD__Func_2160450
@@ -606,7 +606,7 @@ HubHUD__Main: // 0x02160788
 	ldr r7, [r4, #0x224]
 	tst r7, #1
 	beq _02160804
-	bl HubControl__Func_2157178
+	bl _ZN10HubControl12Func_2157178Ev
 	cmp r0, #0
 	beq _021607F4
 	tst r7, #4
@@ -633,7 +633,7 @@ _02160804:
 	ldr r7, [r4, #0x228]
 	tst r7, #1
 	beq _02160868
-	bl HubControl__Func_2157178
+	bl _ZN10HubControl12Func_2157178Ev
 	cmp r0, #0
 	beq _02160854
 	tst r7, #4
@@ -679,7 +679,7 @@ _021608A4:
 	bl HubHUD__Func_2160C68
 	cmp r6, #0
 	ldmeqia sp!, {r3, r4, r5, r6, r7, pc}
-	bl HubControl__Func_2157154
+	bl _ZN10HubControl12Func_2157154Ev
 	ldmia sp!, {r3, r4, r5, r6, r7, pc}
 	.align 2, 0
 _021608D4: .word padInput
@@ -697,7 +697,7 @@ HubHUD__Main_21608DC: // 0x021608DC
 	mov r5, #0
 	tst r0, #2
 	moveq r5, #1
-	bl HubControl__Func_2157178
+	bl _ZN10HubControl12Func_2157178Ev
 	cmp r0, #0
 	beq _02160920
 	ldr r0, [r4, #0x224]
@@ -729,7 +729,7 @@ _02160920:
 	bl AnimatorSprite__SetAnimation
 	b _02160A68
 _02160978:
-	bl HubControl__Func_2157178
+	bl _ZN10HubControl12Func_2157178Ev
 	cmp r0, #0
 	beq _02160A60
 	ldr r0, [r4, #0x224]

@@ -3,6 +3,11 @@
 
 #include <game/system/queue.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -44,5 +49,9 @@ void QueueBackgroundPixels(void *pixels, s32 x, s32 y, s32 width, PixelMode mode
 void QueueCompressedBackgroundPixels(void *pixels, u16 x, u16 y, u16 width, PixelMode mode, void *vramPixels, u16 bgPlaceX, u16 bgPlaceY, u16 displayWidth, u16 displayHeight);
 void LoadCompressedBackgroundPixels(void *pixels, u16 x, u16 y, u16 width, PixelMode mode, void *vramPixels, u16 bgPlaceX, u16 bgPlaceY, u16 displayWidth, u16 displayHeight);
 void ClearPixelsQueue(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_PIXELS_QUEUE_H

@@ -76,7 +76,7 @@ ViMapIcon__Func_2163058: // 0x02163058
 	ldreq r4, _0216328C // =0x05000200
 	mov r0, #0
 	ldrne r4, _02163290 // =0x05000600
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r1, #0
 	str r0, [r6, #8]
 	bl Sprite__GetSpriteSize3FromAnim
@@ -422,7 +422,7 @@ _0216351C:
 _02163520:
 	cmp r0, #0
 	beq _02163534
-	bl HubControl__Func_2157178
+	bl _ZN10HubControl12Func_2157178Ev
 	cmp r0, #0
 	bne _0216353C
 _02163534:
@@ -568,7 +568,7 @@ ViMapIcon__Func_21636C8: // 0x021636C8
 	mov r5, #0
 _021636F0:
 	mov r0, r5
-	bl ViHubAreaPreview__Func_215B51C
+	bl _ZN10HubControl12Func_215B51CEl
 	cmp r0, #0
 	beq _02163720
 	add ip, r4, r5, lsl #3

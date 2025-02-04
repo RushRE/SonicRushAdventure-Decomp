@@ -8,6 +8,11 @@
 #include <game/graphics/background.h>
 #include <game/graphics/sprite.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -86,5 +91,9 @@ typedef struct WandRoom_
 // --------------------
 
 void InitCreditsEvent(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_CREDITS_H

@@ -3,6 +3,11 @@
 
 #include <game/system/queue.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // FUNCTIONS
 // --------------------
@@ -55,5 +60,9 @@ void Mappings__ReadMappings2(void *srcMappingsPtr, fx32 x, fx32 y, s32 width, s3
 void Mappings__ReadMappings(void *srcMappingsPtr, fx32 x, fx32 y, s32 width, s32 flag, MappingsMode mode, u16 screenBaseA, u16 screenBaseBlock, u16 offsetX, u16 offsetY,
                             u16 displayWidth, u16 displayHeight);
 void Mappings__ClearQueue(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_MAPPINGS_QUEUE_H

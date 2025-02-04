@@ -40,7 +40,7 @@ void PlayHubBGM(void)
     PlaySysVillageTrack(FALSE);
 }
 
-void SetHubBGMVolume(u8 volume)
+void SetHubBGMVolume(u16 volume)
 {
     SetSysTrackVolume(volume);
 }

@@ -4,6 +4,11 @@
 #include <global.h>
 #include <game/math/mtMath.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -75,6 +80,12 @@ typedef enum
     BLENDTYPE_FADEOUT
 } RenderCoreBlendType;
 
+// extra enum for when 'effect' value is needed for bitwise math
+enum
+{
+    GX_PLANEMASK_EFFECT = (1 << 5)
+};
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -123,10 +134,90 @@ typedef struct WindowPlaneManagerRegisters_
     u8 win1Y2;
     u8 win1Y1;
 
-    u8 win0InPlane;
-    u8 win1InPlane;
-    u8 winOutPlane;
-    u8 winOBJOutPlane;
+    union
+    {
+        struct
+        {
+            u8 plane_BG0 : 1;
+            u8 plane_BG1 : 1;
+            u8 plane_BG2 : 1;
+            u8 plane_BG3 : 1;
+            u8 plane_OBJ : 1;
+
+            u8 effect : 1; // See 'RenderCoreBlendType' for types
+        };
+
+        struct
+        {
+            u8 plane : 5;
+        };
+
+        u8 value;
+    } win0InPlane;
+
+    union
+    {
+        struct
+        {
+            u8 plane_BG0 : 1;
+            u8 plane_BG1 : 1;
+            u8 plane_BG2 : 1;
+            u8 plane_BG3 : 1;
+            u8 plane_OBJ : 1;
+
+            u8 effect : 1; // See 'RenderCoreBlendType' for types
+        };
+
+        struct
+        {
+            u8 plane : 5;
+        };
+
+        u8 value;
+    } win1InPlane;
+
+    union
+    {
+        struct
+        {
+            u8 plane_BG0 : 1;
+            u8 plane_BG1 : 1;
+            u8 plane_BG2 : 1;
+            u8 plane_BG3 : 1;
+            u8 plane_OBJ : 1;
+
+            u8 effect : 1; // See 'RenderCoreBlendType' for types
+        };
+
+        struct
+        {
+            u8 plane : 5;
+        };
+
+        u8 value;
+    } winOutPlane;
+
+    union
+    {
+        struct
+        {
+            u8 plane_BG0 : 1;
+            u8 plane_BG1 : 1;
+            u8 plane_BG2 : 1;
+            u8 plane_BG3 : 1;
+            u8 plane_OBJ : 1;
+
+            u8 effect : 1; // See 'RenderCoreBlendType' for types
+        };
+
+        struct
+        {
+            u8 plane : 5;
+        };
+
+        u8 value;
+    } winOBJOutPlane;
+
 } WindowPlaneManagerRegisters;
 
 typedef struct WindowPlaneManager_
@@ -182,7 +273,16 @@ typedef struct BlendController_
         u16 value;
     } blendAlpha;
 
-    u16 brightness;
+    union
+    {
+        struct
+        {
+            u16 value5 : 5;
+        };
+
+        u16 value;
+    } coefficient;
+
 } BlendController;
 
 typedef struct RenderAffineControl_
@@ -320,5 +420,9 @@ extern struct_overlayTable _ovly_table[MAX_OVERLAYS];
 // event callback which GDB will hook and use to refresh overlay state
 static void _ovly_debug_event(void);
 #endif // GDB_DEBUGGING
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_RENDERCORE_H

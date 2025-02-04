@@ -123,7 +123,7 @@ void LoadDeleteSaveDataMenuAssets(DeleteSaveDataMenu *work)
 {
     SetupDisplayForDeleteSaveDataMenu(work);
 
-    work->mpcDeleteSaveData = ReadFileFromBundle("bb/dm_save_del.bb", BUNDLE_DM_SAVE_DEL_FILE_RESOURCES_BB_DM_SAVE_DEL_JPN_MPC + GetGameLanguage(), BINARYBUNDLE_AUTO_ALLOC_HEAD);
+    work->mpcDeleteSaveData = ReadFileFromBundle("bb/dm_save_del.bb", BUNDLE_DM_SAVE_DEL_FILE_RESOURCES_BB_DM_SAVE_DEL_DM_SAVE_DEL_JPN_MPC + GetGameLanguage(), BINARYBUNDLE_AUTO_ALLOC_HEAD);
     work->fntAll            = FSRequestFileSync("fnt/font_all.fnt", FSREQ_AUTO_ALLOC_HEAD);
 
     FontWindow__Init(&work->fontWindow);
@@ -228,7 +228,7 @@ void InitDeleteSaveDataMenuSprites(DeleteSaveDataMenu *work)
     AnimatorSprite__Init(&work->aniCursor, sprCursor, 0, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3FromAnim(sprCursor, FALSE)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0,
                          SPRITE_ORDER_0);
-    work->aniCursor.palette = PALETTE_ROW_1;
+    work->aniCursor.cParam.palette = PALETTE_ROW_1;
 }
 
 void InitDeleteSaveDataMenuBackground(DeleteSaveDataMenu *work)

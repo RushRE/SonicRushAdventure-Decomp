@@ -4,6 +4,11 @@
 #include <game/system/task.h>
 #include <game/graphics/renderCore.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -109,5 +114,9 @@ void Camera3D__ProcessOAMList(void);
 void Camera3D__VBlankCallback(void);
 void Camera3D__InitMode1(void);
 void Camera3D__InitMode2(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_DRAWREQTASK_H

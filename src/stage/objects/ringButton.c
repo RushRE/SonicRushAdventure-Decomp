@@ -86,8 +86,8 @@ RingButton *CreateRingButton(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     aniBase->vramPixels[0]     = (void *)ObjActionAllocSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + OBJDATAWORK_109), FALSE, 2);
     aniBase->vramPixels[1]     = (void *)ObjActionAllocSprite((OBS_GFX_REF *)GetObjectFileWork(2 * buttonType + OBJDATAWORK_110), TRUE, 2);
-    aniBase->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
-    aniBase->cParam[0].palette = aniBase->cParam[1].palette = aniBase->work.palette;
+    aniBase->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniBase->cParam[0].palette = aniBase->cParam[1].palette = aniBase->work.cParam.palette;
 
     aniBase->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     StageTask__SetOAMOrder(&aniBase->work, SPRITE_ORDER_23);
@@ -449,7 +449,7 @@ void UpdateRingButtonPalette(RingButton *work, BOOL activated)
         }
 
         AnimatorSpriteDS *aniBase  = &work->aniBase;
-        aniBase->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
-        aniBase->cParam[0].palette = aniBase->cParam[1].palette = aniBase->work.palette;
+        aniBase->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+        aniBase->cParam[0].palette = aniBase->cParam[1].palette = aniBase->work.cParam.palette;
     }
 }

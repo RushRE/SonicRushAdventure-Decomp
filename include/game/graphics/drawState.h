@@ -1,8 +1,13 @@
-#ifndef RUSH_BSD_H
-#define RUSH_BSD_H
+#ifndef RUSH_DRAWSTATE_H
+#define RUSH_DRAWSTATE_H
 
 #include <global.h>
 #include <game/graphics/drawReqTask.h>
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 // --------------------
 // ENUMS
@@ -134,4 +139,8 @@ BOOL GetDrawStateCameraProjection(DrawState *state, Camera3D *camera);
 void GetDrawStateCameraView(DrawState *state, Camera3D *camera);
 void GetDrawStateLight(DrawState *state, DirLight *light, GXLightId id);
 
-#endif // RUSH_BSD_H
+#ifdef __cplusplus
+}
+#endif
+
+#endif // RUSH_DRAWSTATE_H

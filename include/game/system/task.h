@@ -5,6 +5,11 @@
 #include <game/system/allocator.h>
 #include <game/math/mtMath.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -158,5 +163,9 @@ void SetTaskPauseLevel(Task *task, u8 pauseLevel);
 void StartTaskPause(u8 priority);
 void EndTaskPause(void);
 BOOL CheckTaskPaused(u8 *priority);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_TASK_H

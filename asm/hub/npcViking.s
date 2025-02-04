@@ -85,7 +85,7 @@ _02171188: .word 0x0217320E
 NpcViking__ThreadFunc: // 0x0217118C
 	stmdb sp!, {r4, lr}
 	mov r4, r0
-	bl HubControl__GetFileFrom_ViMsg
+	bl _ZN10HubControl17GetFileFrom_ViMsgEv
 	mov r1, #0x11
 	bl FileUnknown__GetAOUFile
 	str r0, [r4, #0x48c]
@@ -101,10 +101,10 @@ NpcViking__ThreadFunc: // 0x0217118C
 
 	arm_func_start NpcViking__Func_21711C4
 NpcViking__Func_21711C4: // 0x021711C4
-	ldr ip, _021711CC // =ViHubAreaPreview__Func_215A888
+	ldr ip, _021711CC // =_ZN10HubControl12Func_215A888Ev
 	bx ip
 	.align 2, 0
-_021711CC: .word ViHubAreaPreview__Func_215A888
+_021711CC: .word _ZN10HubControl12Func_215A888Ev
 	arm_func_end NpcViking__Func_21711C4
 
 	arm_func_start NpcViking__Func_21711D0
@@ -149,7 +149,7 @@ _0217124C:
 	add r9, r9, #6
 	blt _02171214
 _02171264:
-	bl HubControl__GetField54
+	bl _ZN10HubControl10GetField54Ev
 	str r0, [sp]
 	ldr r1, [r10, #0x48c]
 	add r0, r10, #0x400
@@ -163,16 +163,16 @@ _02171264:
 	mov r1, #2
 	mov r0, #0
 	strh r1, [sp, #0x22]
-	bl HubControl__GetFileFrom_ViActLoc
+	bl _ZN10HubControl20GetFileFrom_ViActLocEt
 	str r0, [sp, #0x10]
 	mov r0, #3
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	str r0, [sp, #0x14]
 	mov r0, #5
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	str r0, [sp, #0x18]
 	mov r0, #0xb
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	str r0, [sp, #0x1c]
 	mov r0, #6
 	strh r0, [sp, #0x20]
@@ -208,10 +208,10 @@ NpcViking__Func_2171308: // 0x02171308
 
 	arm_func_start NpcViking__Func_217132C
 NpcViking__Func_217132C: // 0x0217132C
-	ldr ip, _02171334 // =ViHubAreaPreview__Func_215A96C
+	ldr ip, _02171334 // =_ZN10HubControl12Func_215A96CEv
 	bx ip
 	.align 2, 0
-_02171334: .word ViHubAreaPreview__Func_215A96C
+_02171334: .word _ZN10HubControl12Func_215A96CEv
 	arm_func_end NpcViking__Func_217132C
 
 	arm_func_start NpcViking__Func_2171338
@@ -316,15 +316,15 @@ _02171470:
 	cmp r4, r0
 	beq _02171494
 	mov r0, #0x14
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, r4
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	ldmia sp!, {r4, pc}
 _02171494:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	ldmia sp!, {r4, pc}
 	.align 2, 0
 _021714A8: .word NpcCutsceneViewer__entryList

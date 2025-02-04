@@ -757,7 +757,7 @@ void NameMenu__InitAnimator(AnimatorSprite *work, void *fileData, BOOL useEngine
 
     AnimatorSprite__Init(work, fileData, animID, flags, useEngineB, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(useEngineB, getSpriteSize(fileData, animID)),
                          PALETTE_MODE_SPRITE, vramPalette, oamPriority, oamOrder);
-    work->palette = paletteRow;
+    work->cParam.palette = paletteRow;
 }
 
 void NameMenu__InitFontWindow(NameMenuWorker *work)

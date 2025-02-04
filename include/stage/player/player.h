@@ -4,6 +4,11 @@
 #include <stage/stageTask.h>
 #include <game/audio/audioSystem.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // FORWARD DECLS
 // --------------------
@@ -899,5 +904,9 @@ RUSH_INLINE void ReleasePlayerSfx(Player *player, u32 seqPlayerID)
 {
     ReleaseStageSfx(&player->seqPlayers[seqPlayerID]);
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_PLAYER_H

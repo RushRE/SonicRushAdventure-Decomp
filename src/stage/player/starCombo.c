@@ -1208,8 +1208,8 @@ void TrickConfetti__Create(void)
                                    PIXEL_MODE_SPRITE, starComboVram[i + 2][0], PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, starComboVram[i + 2][1], PALETTE_MODE_SPRITE,
                                    VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_5);
 
-            work->animators[i].work.palette      = paletteRows[i];
-            work->animators[i].cParam[0].palette = work->animators[i].cParam[1].palette = work->animators[i].work.palette;
+            work->animators[i].work.cParam.palette      = paletteRows[i];
+            work->animators[i].cParam[0].palette = work->animators[i].cParam[1].palette = work->animators[i].work.cParam.palette;
         }
     }
 }

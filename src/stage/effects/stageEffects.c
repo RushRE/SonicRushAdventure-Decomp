@@ -3049,7 +3049,7 @@ EffectPlayerIcon *CreateEffectPlayerIcon(Player *parent)
 
     work->objWork.obj_2d->ani.vramPixels[1] = VRAMSystem__AllocSpriteVram(TRUE, 8);
     work->objWork.obj_2d->ani.screensToDraw |= SCREEN_DRAW_A;
-    work->animator.ani.work.palette      = 0;
+    work->animator.ani.work.cParam.palette      = PALETTE_ROW_0;
     work->animator.ani.cParam[0].palette = work->animator.ani.cParam[1].palette = 0;
     work->objWork.obj_2d->ani.work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
 

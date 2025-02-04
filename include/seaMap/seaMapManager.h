@@ -6,6 +6,11 @@
 #include <game/graphics/background.h>
 #include <game/input/touchField.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -213,5 +218,9 @@ NOT_DECOMPILED void SeaMapManagerNodeList__Func_2046154(s32 x1, s32 y1, s32 x2, 
 NOT_DECOMPILED void SeaMapManagerNodeList__Func_2046240(SeaMapManagerNodeList *list, u32 count);
 NOT_DECOMPILED void SeaMapManagerNodeList__Func_204634C(SeaMapManagerNodeList *list, u32 count);
 NOT_DECOMPILED void SeaMapManagerNodeList__Func_204652C(SeaMapManagerNodeList *list, u32 count);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_SEAMAPMANAGER_H

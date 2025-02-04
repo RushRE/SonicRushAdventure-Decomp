@@ -5,6 +5,11 @@
 #include <game/math/mtMath.h>
 #include <game/system/task.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -806,6 +811,9 @@ typedef struct MapObject_
     u8 width;
     u8 height;
 
+#ifdef __cplusplus
+    u8 param[2];
+#else
     union
     {
         u16 u16;
@@ -821,6 +829,7 @@ typedef struct MapObject_
         };
 
     } param;
+#endif
 } MapObject;
 
 typedef struct MapRing_
@@ -1026,5 +1035,9 @@ void MapSys__CamLook_LookingDown(MapSys *work);
 void MapSys__CamLook_LookDownIdle(MapSys *work);
 void MapSys__CamLook_Reset(MapSys *work);
 void MapSys__HandleCameraScreenSwap(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_MAP_SYS_H

@@ -6,6 +6,11 @@
 #include <game/text/fontWindow.h>
 #include <game/text/fontWindowAnimatorUnknown.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -72,5 +77,9 @@ NOT_DECOMPILED void FontWindowAnimator__Func_2059FE0(FontWindowAnimator *work);
 NOT_DECOMPILED void FontWindowAnimator__Func_205A180(FontWindowAnimator *work);
 NOT_DECOMPILED void FontWindowAnimator__Func_205A2A4(FontWindowAnimator *work);
 NOT_DECOMPILED void FontWindowAnimator__Func_205A2D4(FontWindowAnimator *work);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_FONTWINDOWANIMATOR_H

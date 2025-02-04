@@ -34,7 +34,7 @@ SeaMapObject *CreateSeaMapDSPopup(CHEVObjectType *objectType, CHEVObject *mapObj
 
     work->aniSprite.pos.x   = mapObject->position.x;
     work->aniSprite.pos.y   = mapObject->position.y;
-    work->aniSprite.palette = objectType->palette;
+    work->aniSprite.cParam.palette = objectType->palette;
     SeaMapEventManager__SetObjectAsActive(&work->objWork);
 
     return &work->objWork;

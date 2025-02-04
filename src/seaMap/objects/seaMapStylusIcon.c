@@ -57,7 +57,7 @@ SeaMapObject *CreateSeaMapStylusIcon(CHEVObjectType *objectType, CHEVObject *map
                          PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(manager->useEngineB, SeaMapStylusIcon_GetSpriteSize()), PALETTE_MODE_SPRITE,
                          VRAMKEY_TO_ADDR(VRAMSystem__VRAM_PALETTE_OBJ[manager->useEngineB]), SPRITE_PRIORITY_0, SPRITE_ORDER_1);
 
-    work->aniStylus.palette = PALETTE_ROW_14;
+    work->aniStylus.cParam.palette = PALETTE_ROW_14;
 
     SeaMapEventManager__SetObjectAsActive(&work->objWork);
 

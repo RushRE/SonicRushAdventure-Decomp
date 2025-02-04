@@ -289,8 +289,8 @@ NONMATCH_FUNC DolphinHoop *CreateDolphinHoop(MapObject *mapObject, fx32 x, fx32 
         AnimatorSpriteDS *aniRingBack = &work->aniRingBack;
         ObjAction2dBACLoad(aniRingBack, "/act/ac_gmk_dolphin_hoop.bac", OBJ_DATA_GFX_AUTO, GetObjectDataWork(OBJDATAWORK_171), gameArchiveStage);
 
-        aniRingBack->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
-        aniRingBack->cParam[0].palette = aniRingBack->cParam[1].palette = aniRingBack->work.palette;
+        aniRingBack->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+        aniRingBack->cParam[0].palette = aniRingBack->cParam[1].palette = aniRingBack->work.cParam.palette;
 
         aniRingBack->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
         AnimatorSpriteDS__SetAnimation(&work->aniRingBack, hoopAnimConfig[work->type][1]);

@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // FORWARD DECLS
 // --------------------
@@ -122,5 +127,9 @@ s32 ObjRect__CenterX(OBS_RECT_WORK *work);
 s32 ObjRect__CenterY(OBS_RECT_WORK *work);
 fx32 ObjRect__HitCenterX(OBS_RECT_WORK *work, OBS_RECT_WORK *attacker);
 fx32 ObjRect__HitCenterY(OBS_RECT_WORK *work, OBS_RECT_WORK *attacker);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_OBJ_RECT_H

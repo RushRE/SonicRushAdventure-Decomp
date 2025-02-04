@@ -5,6 +5,11 @@
 #include <game/system/allocator.h>
 #include <game/graphics/renderCore.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -22,5 +27,9 @@ void *ArchiveFileUnknown__GetFileFromMemArchive(void *archive, u16 id, void *mem
 
 void *FileUnknown__GetAOUFile(void *archive, u16 id);
 size_t FileUnknown__GetAOUFileSize(void *archive, u16 id);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_FILEUNKNOWN_H

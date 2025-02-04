@@ -5,6 +5,11 @@
 #include <game/input/touchInput.h>
 #include <game/graphics/sprite.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // TYPES
 // --------------------
@@ -183,5 +188,9 @@ void TouchField__Func_206EAC4(TouchArea *area1, TouchArea *area2);
 BOOL TouchField__PointInRect(TouchArea *area);
 BOOL TouchField__PointInCircle(TouchArea *area);
 BOOL TouchField__PointInAnimator(TouchArea *area);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_TOUCH_FIELD_H

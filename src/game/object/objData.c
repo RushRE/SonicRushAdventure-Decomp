@@ -269,7 +269,7 @@ void ObjActionAllocSpritePalette(StageTask *work, u16 animID, s16 flags)
 
     work->obj_2d->ani.cParam[0].palette = paletteRow;
     work->obj_2d->ani.cParam[1].palette = paletteRow;
-    work->obj_2d->ani.work.palette      = paletteRow;
+    work->obj_2d->ani.work.cParam.palette      = paletteRow;
 
     if ((flags & OBJDRAW_SPRITE_FLAG_USE_ENGINE_B) != 0)
         work->flag |= STAGE_TASK_FLAG_ALLOCATED_SPRITE_PALETTE;

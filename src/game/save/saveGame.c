@@ -205,15 +205,15 @@ void SaveGame__Func_205BC38(u32 type)
 {
     switch (type)
     {
-        case 0:
+        case SHIP_JET:
             SaveGame__SetGameProgress(SAVE_PROGRESS_10);
             break;
 
-        case 1:
+        case SHIP_BOAT:
             SaveGame__SetGameProgress(SAVE_PROGRESS_23);
             break;
 
-        case 2:
+        case SHIP_HOVER:
             SaveGame__SetGameProgress(SAVE_PROGRESS_27);
             break;
     }

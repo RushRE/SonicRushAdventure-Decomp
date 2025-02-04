@@ -4,6 +4,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // STRUCTS
 // --------------------
@@ -23,5 +28,9 @@ NOT_DECOMPILED void FontAnimatorCore__Func_20583F0(void);
 NOT_DECOMPILED void FontAnimatorCore__Init(void);
 NOT_DECOMPILED void FontAnimatorCore__LoadFont(void);
 NOT_DECOMPILED void FontAnimatorCore__Release(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_FONTANIMATORCORE_H

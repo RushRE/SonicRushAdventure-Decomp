@@ -6,6 +6,11 @@
 #include <game/input/padInput.h>
 #include <game/input/touchInput.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -140,5 +145,9 @@ void CreateReplayRecorderPadEx(ReplayRecorderType type, PadInputState *inputStat
 // ReplayRecorder (touch inputs)
 void CreateReplayRecorderTouch(ReplayRecorderType type, TouchInputState *inputState, const char *path, KeyDataTouch *keyDataFile, s32 keyDataFileSize);
 void CreateReplayRecorderTouchEx(ReplayRecorderType type, TouchInputState *inputState, const char *path, KeyDataTouch *keyDataFile, s32 keyDataFileSize, u8 pauseLevel, u16 priority);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_REPLAYRECORDER_H

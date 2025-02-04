@@ -4,6 +4,11 @@
 #include <global.h>
 #include <game/graphics/vramSystem.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // FORWARD DECLS
 // --------------------
@@ -89,5 +94,9 @@ RUSH_INLINE BOOL CheckDataUsesArchive(OBS_DATA_WORK *work)
 {
     return (work->referenceCount & OBJDATA_FLAG_USES_ARCHIVE) != 0;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_OBJ_DATA_H

@@ -104,8 +104,8 @@ Stalactite *CreateStalactite(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
 
     AnimatorSpriteDS *aniWeakPoint = &work->aniWeakPoint;
     ObjAction2dBACLoad(aniWeakPoint, "/act/ac_gmk_stalactite.bac", 56, GetObjectDataWork(OBJDATAWORK_159), gameArchiveStage);
-    aniWeakPoint->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
-    aniWeakPoint->cParam[0].palette = aniWeakPoint->cParam[1].palette = aniWeakPoint->work.palette;
+    aniWeakPoint->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniWeakPoint->cParam[0].palette = aniWeakPoint->cParam[1].palette = aniWeakPoint->work.cParam.palette;
     aniWeakPoint->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(aniWeakPoint, STALACTITE_ANI_1);
     StageTask__SetOAMOrder(&aniWeakPoint->work, SPRITE_ORDER_23);
@@ -127,8 +127,8 @@ Stalactite *CreateStalactite(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
     {
         ObjAction2dBACLoad(aniDebris, "/act/ac_gmk_stalactite.bac", 0, sprDebris, gameArchiveStage);
         ObjActionAllocSpriteDS(aniDebris, Sprite__GetSpriteSize2FromAnim(sprDebris->fileData, i + STALACTITE_ANI_4), GetObjectSpriteRef(id));
-        aniDebris->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
-        aniDebris->cParam[0].palette = aniDebris->cParam[1].palette = aniDebris->work.palette;
+        aniDebris->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+        aniDebris->cParam[0].palette = aniDebris->cParam[1].palette = aniDebris->work.cParam.palette;
         aniDebris->work.flags |= aniFlags;
         AnimatorSpriteDS__SetAnimation(aniDebris, i + STALACTITE_ANI_4);
         AnimatorSpriteDS__ProcessAnimationFast(aniDebris);

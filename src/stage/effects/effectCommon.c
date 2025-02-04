@@ -1657,7 +1657,7 @@ void EffectTruckSparkles__Create(StageTask *parent, u16 duration, s32 userWork, 
     u16 palette = ObjDrawAllocSpritePalette(aniSparkle2->work.fileData, 1, 58);
     for (i = 0; i < 3; i++)
     {
-        work->aniSparkles[i].cParam[0].palette = work->aniSparkles[i].cParam[1].palette = work->aniSparkles[i].work.palette = palette;
+        work->aniSparkles[i].cParam[0].palette = work->aniSparkles[i].cParam[1].palette = work->aniSparkles[i].work.cParam.palette = palette;
     }
 
     work->duration = duration;

@@ -4,6 +4,11 @@
 #include <game/text/fontAnimatorCore.h>
 #include <game/text/messageController.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // TYPES
 // --------------------
@@ -120,5 +125,9 @@ NOT_DECOMPILED void FontAnimator__DefaultMessageCallback(void);
 NOT_DECOMPILED void FontAnimator__MessageCallback(void);
 NOT_DECOMPILED void FontAnimator__AddUnknown(void);
 NOT_DECOMPILED void FontAnimator__RemoveUnknown(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_FONTANIMATOR_H

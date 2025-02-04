@@ -7,6 +7,11 @@
 #include <game/graphics/pixelsQueue.h>
 #include <game/math/mtMath.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -132,5 +137,9 @@ u16 GetBackgroundTileCount(void *fileData);
 void *GetBackgroundPalette(void *fileData);
 void *GetBackgroundPixels(void *fileData);
 void *GetBackgroundMappings(void *fileData);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_BACKGROUND_H

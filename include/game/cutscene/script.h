@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // ENUMS
 // --------------------
@@ -131,5 +136,9 @@ void *LoadCutsceneScript(u32 cutsceneID);
 u32 GetScriptStartParam(u32 cutsceneID);
 u32 GetScriptCanSkipFlagIn(void);
 u32 GetScriptCanSkipFlagOut(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_SCRIPT_H

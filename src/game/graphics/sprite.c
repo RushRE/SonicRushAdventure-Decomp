@@ -1589,12 +1589,12 @@ void AnimatorSpriteDS__ProcessFrame(AnimatorSpriteDS *animator)
 
     for (u32 i = 0; i < 2; i++)
     {
-        animatorSprite.useEngineB  = i;
-        animatorSprite.pixelMode   = animator->pixelMode[i];
-        animatorSprite.vramPixels  = animator->vramPixels[i];
-        animatorSprite.paletteMode = animator->paletteMode[i];
-        animatorSprite.vramPalette = animator->vramPalette[i];
-        animatorSprite.alpha       = animator->cParam[i].alpha;
+        animatorSprite.useEngineB     = i;
+        animatorSprite.pixelMode      = animator->pixelMode[i];
+        animatorSprite.vramPixels     = animator->vramPixels[i];
+        animatorSprite.paletteMode    = animator->paletteMode[i];
+        animatorSprite.vramPalette    = animator->vramPalette[i];
+        animatorSprite.cParam.palette = animator->cParam[i].palette;
         AnimatorSprite__ProcessFrame(&animatorSprite);
     }
 }
@@ -3154,7 +3154,7 @@ NONMATCH_FUNC void AnimatorSprite3D__Draw(AnimatorSprite3D *animator)
     NNS_G3dGeBufferOP_N(G3OP_POLYGON_ATTR, &animator->polygonAttr, G3OP_POLYGON_ATTR_NPARAMS);
     NNS_G3dGeColor(animator->color);
 
-    u32 paletteAddr = (VRAMKEY_TO_KEY(animator->animatorSprite.vramPalette) & 0x1FFFF) + (animator->animatorSprite.palette * (16 * sizeof(GXRgb)));
+    u32 paletteAddr = (VRAMKEY_TO_KEY(animator->animatorSprite.vramPalette) & 0x1FFFF) + (animator->animatorSprite.cParam.palette * (16 * sizeof(GXRgb)));
     NNS_G3dGeTexPlttBase(paletteAddr, Sprite__Tex3DFormatForBACFormat[format]);
 
     NNS_G3dGeMtxMode(GX_MTXMODE_POSITION);
@@ -3674,12 +3674,12 @@ BOOL Sprite__AnimateDS(AnimatorSpriteDS *animator, SpriteFrameCallback callback,
     {
         if ((animator->screensToDraw & (1 << i)) == 0)
         {
-            curAnimator->useEngineB  = i;
-            curAnimator->pixelMode   = animator->pixelMode[i];
-            curAnimator->vramPixels  = animator->vramPixels[i];
-            curAnimator->paletteMode = animator->paletteMode[i];
-            curAnimator->vramPalette = animator->vramPalette[i];
-            curAnimator->alpha       = animator->cParam[i].alpha;
+            curAnimator->useEngineB     = i;
+            curAnimator->pixelMode      = animator->pixelMode[i];
+            curAnimator->vramPixels     = animator->vramPixels[i];
+            curAnimator->paletteMode    = animator->paletteMode[i];
+            curAnimator->vramPalette    = animator->vramPalette[i];
+            curAnimator->cParam.palette = animator->cParam[i].palette;
 
             while ((frameGroupFuncList[GetAnimSequenceBlockFromAnimator(curAnimator)->blockID])(GetAnimSequenceBlockFromAnimator(curAnimator), curAnimator, callback, userData)
                    != FRAME_BREAK)

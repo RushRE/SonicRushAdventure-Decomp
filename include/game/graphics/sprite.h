@@ -7,6 +7,11 @@
 #include <game/graphics/vramSystem.h>
 #include <game/math/mtMath.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -323,11 +328,7 @@ struct AnimatorSprite_
 {
     Animator2DTypes type;
     u32 useEngineB;
-    union
-    {
-        Vec2Fx16 pos;
-        u32 pos32;
-    };
+    Vec2Fx16 pos;
     u16 animID;
     u16 animFrameIndex;
     u16 animFrameCount;
@@ -351,7 +352,7 @@ struct AnimatorSprite_
     {
         u16 palette;
         u16 alpha;
-    };
+    } cParam;
 
     u16 paletteOffset;
     u16 colorCount;
@@ -591,5 +592,10 @@ RUSH_INLINE void Animator3D__Release(Animator3D *animator)
             break;
     }
 }
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_ANIMATORSPRITE_H

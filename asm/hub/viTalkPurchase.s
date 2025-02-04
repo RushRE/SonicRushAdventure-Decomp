@@ -29,7 +29,7 @@ ViTalkPurchase__Create: // 0x021697A0
 	str r6, [r4, #0xc]
 	cmp r5, #0
 	bne _02169834
-	bl ViHubAreaPreview__Func_215B4E0
+	bl _ZN10HubControl12Func_215B4E0Ev
 	str r0, [r4]
 	cmp r0, #5
 	bge _0216981C
@@ -159,8 +159,8 @@ ViTalkPurchase__Func_2169980: // 0x02169980
 	arm_func_start ViTalkPurchase__Func_2169998
 ViTalkPurchase__Func_2169998: // 0x02169998
 	stmdb sp!, {r3, lr}
-	bl ViHubAreaPreview__Func_215A888
-	bl ViHubAreaPreview__Func_215AAB4
+	bl _ZN10HubControl12Func_215A888Ev
+	bl _ZN10HubControl12Func_215AAB4Ev
 	ldmia sp!, {r3, pc}
 	arm_func_end ViTalkPurchase__Func_2169998
 
@@ -170,7 +170,7 @@ ViTalkPurchase__Func_21699A8: // 0x021699A8
 	sub sp, sp, #0x1c
 	mov r4, r0
 	mov r0, #7
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r5, r0
 	bl Sprite__GetSpriteSize1
 	mov r1, r0
@@ -199,7 +199,7 @@ ViTalkPurchase__Func_21699A8: // 0x021699A8
 	add r0, r4, #0x500
 	strh r1, [r0, #0x1c]
 	mov r0, #9
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r5, r0
 	bl Sprite__GetSpriteSize1
 	mov r1, r0
@@ -226,7 +226,7 @@ ViTalkPurchase__Func_21699A8: // 0x021699A8
 	mov r1, #8
 	strh r1, [r0, #0x80]
 	mov r0, #3
-	bl HubControl__GetFileFrom_ViAct
+	bl _ZN10HubControl17GetFileFrom_ViActEt
 	mov r5, r0
 	mov r1, #1
 	bl Sprite__GetSpriteSize1FromAnim
@@ -311,8 +311,8 @@ ViTalkPurchase__Func_2169B70: // 0x02169B70
 	arm_func_start ViTalkPurchase__Func_2169BB4
 ViTalkPurchase__Func_2169BB4: // 0x02169BB4
 	stmdb sp!, {r3, lr}
-	bl ViHubAreaPreview__Func_215A96C
-	bl ViHubAreaPreview__Func_215AB84
+	bl _ZN10HubControl12Func_215A96CEv
+	bl _ZN10HubControl12Func_215AB84Ev
 	ldmia sp!, {r3, pc}
 	arm_func_end ViTalkPurchase__Func_2169BB4
 
@@ -387,7 +387,7 @@ _02169C94:
 	bl DockHelpers__Func_2152B2C
 	mov r5, r0
 _02169C9C:
-	bl HubControl__GetFileFrom_ViMsgCtrl
+	bl _ZN10HubControl21GetFileFrom_ViMsgCtrlEv
 	ldrh r1, [r5, #0]
 	bl FileUnknown__GetAOUFile
 	mov r1, r0
@@ -537,12 +537,12 @@ _02169E7C:
 	bl DockHelpers__GetInfoPurchaseCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #6
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	ldr r1, [r4, #4]
 	ldr r0, _02169FA0 // =ovl05_02173190
 	mov r1, r1, lsl #1
 	ldrh r0, [r0, r1]
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _02169F98
 _02169EB0:
 	ldr r0, [r4, #0]
@@ -551,9 +551,9 @@ _02169EB0:
 	bl DockHelpers__GetShipBuildCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #4
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	ldr r0, [r4, #0]
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _02169F98
 _02169ED8:
 	ldr r0, [r4, #8]
@@ -562,17 +562,17 @@ _02169ED8:
 	bl DockHelpers__GetShipUpgradeCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #0x1d
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	ldr r0, [r4, #8]
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _02169F98
 _02169F00:
 	bl DockHelpers__GetUnknownPurchaseCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #6
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #7
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _02169F98
 _02169F1C:
 	ldr r0, [r4, #8]
@@ -581,15 +581,15 @@ _02169F1C:
 	bl DockHelpers__GetShipUpgradeCost
 	bl ViTalkPurchase__Func_216A144
 	mov r0, #0x1d
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	ldr r0, [r4, #8]
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _02169F98
 _02169F44:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _02169F98
 _02169F58:
 	mov r0, #0
@@ -601,15 +601,15 @@ _02169F58:
 	bl SaveGame__UseRingsForPurchase
 _02169F74:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 	b _02169F98
 _02169F88:
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168744Em
+	bl _ZN15CViDockNpcGroup13SetTalkActionEm
 	mov r0, #0
-	bl _ZN15CViDockNpcGroup12Func_2168754El
+	bl _ZN15CViDockNpcGroup12SetSelectionEl
 _02169F98:
 	bl DestroyCurrentTask
 	ldmia sp!, {r4, pc}

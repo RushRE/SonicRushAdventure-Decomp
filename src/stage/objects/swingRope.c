@@ -58,8 +58,8 @@ void *SwingRope__Create(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
         &aniNode->ani, work->gameWork.objWork.obj_2d->fileWork->fileData, 1, SCREEN_DRAW_NONE, ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_PALETTES,
         PIXEL_MODE_SPRITE, ObjActionAllocSprite(&aniNode->spriteRef->engineRef[0], GRAPHICS_ENGINE_A, 1), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
         ObjActionAllocSprite(&aniNode->spriteRef->engineRef[1], GRAPHICS_ENGINE_B, 1), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_2, SPRITE_ORDER_23);
-    aniNode->ani.cParam[1].palette = aniNode->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.palette;
-    aniNode->ani.work.palette                                       = aniNode->ani.cParam[0].palette;
+    aniNode->ani.cParam[1].palette = aniNode->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniNode->ani.work.cParam.palette                                       = aniNode->ani.cParam[0].palette;
 
     ObjRect__SetGroupFlags(&work->colliders[0], 2, 1);
     ObjRect__SetBox3D(&work->colliders[0].rect, -4, -4, -16, 4, 4, 16);

@@ -1758,7 +1758,7 @@ void SetSoundTestSpriteAnimation(AnimatorSprite *animator, void *sprFile, u16 an
                          VRAMSystem__AllocSpriteVram(GRAPHICS_ENGINE_B, Sprite__GetSpriteSize3FromAnim(sprFile, anim)), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, oamPriority,
                          oamOrder);
 
-    animator->palette = paletteRow;
+    animator->cParam.palette = paletteRow;
 }
 
 BOOL CheckSoundTestTouchAreaHold(TouchArea *area)

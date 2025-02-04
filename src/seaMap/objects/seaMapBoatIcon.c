@@ -50,7 +50,7 @@ NONMATCH_FUNC SeaMapObject *CreateSeaMapBoatIcon(CHEVObjectType *objectType, CHE
 
     work->aniBoat.pos.x   = mapObject->position.x;
     work->aniBoat.pos.y   = mapObject->position.y;
-    work->aniBoat.palette = objectType->palette;
+    work->aniBoat.cParam.palette = objectType->palette;
 
     AnimatorSprite__ProcessAnimationFast(&work->aniBoat);
 

@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS
 // --------------------
@@ -145,5 +150,9 @@ RUSH_INLINE void ReleaseStageVoiceClip(NNSSndHandle *handle)
 {
     NNS_SndHandleReleaseSeq(handle);
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_AUDIOSYSTEM_H

@@ -71,7 +71,7 @@ void CreateCorruptSaveWarning(void)
     // Init sprites
     AnimatorSprite__Init(&work->aniButtonPrompt, FileUnknown__GetAOUFile(work->archive, ARCHIVE_DM_SAVE_ERROR_LZ7_FILE_DMCMN_FIX_NEXT_BAC), 2, ANIMATOR_FLAG_DISABLE_LOOPING, 1, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(TRUE, 4), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-    work->aniButtonPrompt.palette = 1;
+    work->aniButtonPrompt.cParam.palette = PALETTE_ROW_1;
     work->aniButtonPrompt.pos.x   = 216;
     work->aniButtonPrompt.pos.y   = 104;
     AnimatorSprite__ProcessAnimationFast(&work->aniButtonPrompt);

@@ -43,8 +43,8 @@ NONMATCH_FUNC FallingAnchor *CreateFallingAnchor(MapObject *mapObject, fx32 x, f
 
     AnimatorSpriteDS *aniChain = &work->aniChain;
     ObjAction2dBACLoad(&work->aniChain, "/act/ac_gmk_anchor_elv.bac", 31, GetObjectDataWork(OBJDATAWORK_166), gameArchiveStage);
-    aniChain->work.palette      = work->gameWork.objWork.obj_2d->ani.work.palette;
-    aniChain->cParam[0].palette = aniChain->cParam[1].palette = aniChain->work.palette;
+    aniChain->work.cParam.palette      = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    aniChain->cParam[0].palette = aniChain->cParam[1].palette = aniChain->work.cParam.palette;
     aniChain->work.flags |= ANIMATOR_FLAG_DISABLE_PALETTES;
     AnimatorSpriteDS__SetAnimation(&work->aniChain, 1);
     StageTask__SetOAMOrder(&aniChain->work, SPRITE_ORDER_23);

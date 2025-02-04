@@ -120,7 +120,7 @@ void CreateDemoPlayer(void)
     DemoPlayer *work = TaskGetWork(task, DemoPlayer);
     TaskInitWork16(work);
 
-    work->sprDemoPlay = ReadFileFromBundle("/bb/gm_demoplay.bb", BUNDLE_GM_DEMOPLAY_FILE_RESOURCES_BB_GM_DEMOPLAY_JPN_BAC + GetGameLanguage(), NULL);
+    work->sprDemoPlay = ReadFileFromBundle("/bb/gm_demoplay.bb", BUNDLE_GM_DEMOPLAY_FILE_RESOURCES_BB_GM_DEMOPLAY_GM_DEMOPLAY_JPN_BAC + GetGameLanguage(), NULL);
 
     AnimatorSpriteDS *animator = work->animators;
     for (u16 i = 0; i < DEMOPLAY_ANIMATOR_COUNT; i++, animator++)

@@ -3,6 +3,11 @@
 
 #include <global.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 // --------------------
 // CONSTANTS/MACROS
 // --------------------
@@ -117,5 +122,9 @@ RUSH_INLINE BOOL TouchInput__IsTouchPull(TouchInputState *state)
 {
     return TOUCH_HAS_PULL(state->flags);
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUSH_TOUCH_INPUT_H

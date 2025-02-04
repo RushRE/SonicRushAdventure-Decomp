@@ -106,8 +106,8 @@ DashRing *CreateDashRing(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
                            ObjActionAllocSprite(&animator->spriteRef->engineRef[0], FALSE, gfxSize), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE,
                            ObjActionAllocSprite(&animator->spriteRef->engineRef[1], TRUE, gfxSize), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, SPRITE_ORDER_2, SPRITE_ORDER_23);
 
-    animator->ani.cParam[1].palette = animator->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.palette;
-    animator->ani.work.palette                                        = animator->ani.cParam[0].palette;
+    animator->ani.cParam[1].palette = animator->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    animator->ani.work.cParam.palette                                        = animator->ani.cParam[0].palette;
 
     ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
     ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);
@@ -224,8 +224,8 @@ DashRing *CreateDashRingRainbow(MapObject *mapObject, fx32 x, fx32 y, fx32 type)
                            ANIMATOR_FLAG_DISABLE_SCREEN_BOUNDS_CHECK | ANIMATOR_FLAG_DISABLE_PALETTES, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, gfxSize),
                            PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(TRUE, gfxSize), PALETTE_MODE_SPRITE, VRAM_DB_OBJ_PLTT, 2, 23);
 
-    animator->ani.cParam[1].palette = animator->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.palette;
-    animator->ani.work.palette                                        = animator->ani.cParam[0].palette;
+    animator->ani.cParam[1].palette = animator->ani.cParam[0].palette = work->gameWork.objWork.obj_2d->ani.work.cParam.palette;
+    animator->ani.work.cParam.palette                                        = animator->ani.cParam[0].palette;
 
     ObjRect__SetAttackStat(&work->gameWork.colliders[0], 0, 0);
     ObjRect__SetDefenceStat(&work->gameWork.colliders[0], ~1, 0);

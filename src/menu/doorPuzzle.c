@@ -471,14 +471,14 @@ void CreateDoorPuzzleBGPillarFlame(DoorPuzzle *parent)
     void *sprFire = FileUnknown__GetAOUFile(parent->archiveDoorPuzzle, ARCHIVE_DMPZ_LZ7_FILE_FIRE_BAC);
     AnimatorSprite__Init(&work->aniFire1, sprFire, 0, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(sprFire)),
                          PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_2);
-    work->aniFire1.palette = PALETTE_ROW_1;
+    work->aniFire1.cParam.palette = PALETTE_ROW_1;
     work->aniFire1.pos.x   = 24;
     work->aniFire1.pos.y   = 16;
 
     sprFire = FileUnknown__GetAOUFile(parent->archiveDoorPuzzle, ARCHIVE_DMPZ_LZ7_FILE_FIRE_BAC);
     AnimatorSprite__Init(&work->aniFire2, sprFire, 1, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE, VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(sprFire)),
                          PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_2);
-    work->aniFire2.palette = PALETTE_ROW_2;
+    work->aniFire2.cParam.palette = PALETTE_ROW_2;
     work->aniFire2.pos.x   = 200;
     work->aniFire2.pos.y   = 16;
 }
@@ -540,14 +540,14 @@ void DoorPuzzleDialogue_Create(DoorPuzzle *parent)
     {
         AnimatorSprite__Init(&work->aniCutInIcon[c], parent->sprCutin, cutInAnimTable[c], ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                              VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(parent->sprCutin)), PALETTE_MODE_OBJ, NULL, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-        work->aniCutInIcon[c].palette = c + PALETTE_ROW_1;
+        work->aniCutInIcon[c].cParam.palette = c + PALETTE_ROW_1;
         work->aniCutInIcon[c].pos.x   = cutInPosTable[c].x;
         work->aniCutInIcon[c].pos.y   = cutInPosTable[c].y;
         AnimatorSprite__ProcessAnimationFast(&work->aniCutInIcon[c]);
 
         AnimatorSprite__Init(&work->aniCutInPanel[c], parent->sprCutin, 0, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                              VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(parent->sprCutin)), PALETTE_MODE_OBJ, NULL, SPRITE_PRIORITY_0, SPRITE_ORDER_1);
-        work->aniCutInPanel[c].palette = PALETTE_ROW_4;
+        work->aniCutInPanel[c].cParam.palette = PALETTE_ROW_4;
         work->aniCutInPanel[c].pos.x   = cutInPosTable[c].x;
         work->aniCutInPanel[c].pos.y   = cutInPosTable[c].y;
         AnimatorSprite__ProcessAnimationFast(&work->aniCutInPanel[c]);
@@ -556,7 +556,7 @@ void DoorPuzzleDialogue_Create(DoorPuzzle *parent)
     void *sprNextPrompt = FileUnknown__GetAOUFile(parent->archiveCutscene, ARCHIVE_TKDM_LZ7_FILE_FIX_NEXT_BAC);
     AnimatorSprite__Init(&work->aniNextPrompt, sprNextPrompt, ADVANCEPROMPT_ANI_DISABLED, ANIMATOR_FLAG_DISABLE_LOOPING, FALSE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(FALSE, Sprite__GetSpriteSize3(sprNextPrompt)), PALETTE_MODE_SPRITE, VRAM_OBJ_PLTT, SPRITE_PRIORITY_0, SPRITE_ORDER_0);
-    work->aniNextPrompt.palette = PALETTE_ROW_0;
+    work->aniNextPrompt.cParam.palette = PALETTE_ROW_0;
     work->aniNextPrompt.pos.x   = 224;
     work->aniNextPrompt.pos.y   = 160;
 }
@@ -1212,7 +1212,7 @@ void DoorPuzzleKeySys_InitKey(DoorPuzzleKeySys *work, s32 id, s16 x, s16 y)
     void *sprKey = FileUnknown__GetAOUFile(work->parent->archiveDoorPuzzle, ARCHIVE_DMPZ_LZ7_FILE_PANEL_BAC);
     AnimatorSprite__Init(&work->stoneKeys[id].aniSprite, sprKey, stoneKeyAnimTable[id], ANIMATOR_FLAG_DISABLE_LOOPING, TRUE, PIXEL_MODE_SPRITE,
                          VRAMSystem__AllocSpriteVram(TRUE, Sprite__GetSpriteSize3(sprKey)), PALETTE_MODE_SUB_OBJ, 0, SPRITE_PRIORITY_3, SPRITE_ORDER_1);
-    key->aniSprite.palette = id;
+    key->aniSprite.cParam.palette = id;
     key->aniSprite.pos.x   = key->pos.x;
     key->aniSprite.pos.y   = key->pos.y;
 
